@@ -16,6 +16,9 @@
 
 
 #include "pso/player/TUnk_804B6C24.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/object/switch/TSwitch.h"
+#include "pso/object/base/CollisionActorLookup.h"
 
 
 #pragma readonly_strings on
@@ -55,20 +58,16 @@ struct Obj_801575AC {
 };
 
 extern "C" {
-void *fn_80157CA8(void *arg0);
+void *init_6x91_subcommand(void *arg0);
 void TOAttackableCol__sub_80157310(void *_w0);
-u8 is_current_floor_switch_set(s32 id);
 u16 get_entity_id(void *);
-extern s32 tl_00;
 s32 obj_setFlags30(void *, int);
 s32 init_collision_body_parts(void *, void *, int);
-extern saddr tl_05;
 s32 get_current_floor(void);
 void TOAttackableCol__sub_80157C20(void* p, s32 v);
 s32 TOAttackableCol__sub_80157C28(void* p);
 s32 free_collision_body_parts(void *);
 int clear_player_status_flag__14TObjCollidableFlUl(void*, int, int);
-void *find_entity_by_id(u16 id);
 extern SetEntry_80157454 *quest_object_entries;
 
 void TOAttackableCol__sub_80157310(void * _w0) {  }
@@ -159,7 +158,7 @@ void handle_6x91_update_attackable_col_state(Msg_801575AC *msg) {
     }
 }
 
-int TOAttackableCol::send_state_change(u16 state) {
+void TOAttackableCol::send_state_change(u16 state) {
     Obj_801575AC *self = (Obj_801575AC *)this;
     Msg_801575AC msg;
     s16 id;
@@ -168,7 +167,7 @@ int TOAttackableCol::send_state_change(u16 state) {
     ((TObjCollidable *)self)->access_object_saved_state(&id, 0);
     parent = *(u8 * *)&this->set_entry;
     if (parent != NULL) {
-        fn_80157CA8(&msg);
+        init_6x91_subcommand(&msg);
         msg.room = this->entity_id;
         msg.id = id;
         msg.type = *(s16 *)(parent + 4);
@@ -244,7 +243,7 @@ f32 TOAttackableCol::apply_hit(saddr arg1) {
           var_r0 = (uaddr)new TQuestThread(quest_mission_manager, this->m_344);
           if (var_r0 != 0U)
           {
-            ((TObject *)var_r0)->set_parent((TObject *)tl_00);
+            ((TObject *)var_r0)->set_parent(tl_00);
           }
         }
         else
@@ -253,7 +252,7 @@ f32 TOAttackableCol::apply_hit(saddr arg1) {
           var_r0_2 = (uaddr)new TQuestThread(quest_area_manager, this->m_344);
           if (var_r0_2 != 0U)
           {
-            ((TObject *)var_r0_2)->set_parent((TObject *)tl_00);
+            ((TObject *)var_r0_2)->set_parent(tl_00);
           }
         }
       }
@@ -315,9 +314,9 @@ TOAttackableCol::~TOAttackableCol() {
 }
 
 
-TOAttackableCol::TOAttackableCol(saddr arg1) : TObjChara((TObject *)tl_05) {
+TOAttackableCol::TOAttackableCol(saddr set_data) : TObjChara(tl_05) {
     ((TObject *)this)->m_name = TOAttackableCol__name;
-    ((TOAttackableCol *)(((u8 *)this)))->apply_object_set_data((void *)arg1);
+    ((TOAttackableCol *)(((u8 *)this)))->apply_object_set_data((void *)set_data);
     ((TObjChara *)this)->calc_attach_pos();
     obj_setFlags30(((u8 *)this), 0x60000000);
     init_collision_body_parts(((u8 *)this), &TOAttackableCol__collision_parts, 1);
@@ -350,7 +349,7 @@ s32 TOAttackableCol__sub_80157C28(void* p) { return *(s32*)((char*)p + 0x33c); }
 void TOAttackableCol::bswap_state() { ((TLobby *)this)->bswap_header(); bswap_16((u16 *)((char*)this + 0xc)); bswap_16((u16 *)((char*)this + 0xe)); bswap_16((u16 *)((char*)this + 0x10)); }
 void TOAttackableCol::broadcast_state() { bswap_state(); send_subcommand((u8 *)this); }
 
-void *fn_80157CA8(void *barrier_energy01) {
+void *init_6x91_subcommand(void *barrier_energy01) {
     init_collision_subcommand_header(barrier_energy01);
     *(u16 *)((s8 *)barrier_energy01 + 0xC) = 0;
     *(u16 *)((s8 *)barrier_energy01 + 0xE) = 0;

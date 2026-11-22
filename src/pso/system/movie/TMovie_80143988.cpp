@@ -11,8 +11,6 @@
 #include "pso/player/TObjPlayer_80083B38.h"
 #include "pso/unk/text_80320358.h"
 
-extern "C" {
-
 // Packs a planar 4:2:0 frame into the YUYV external frame buffer, centred,
 // two lines per pass, one cache touch per four words.
 void pack_movie_frame(MovieFramePlanes *frame) {
@@ -167,13 +165,13 @@ void pack_movie_frame(MovieFramePlanes *frame) {
     }
 }
 
-}
 
 
 extern "C" {
 
 s32 DCStoreRangeNoSync(void *, s32);
 s32 DCFlushRangeNoSync(s32, s32);
+}
 
 GXRenderModeObj *TMovie__framebuffer_video_mode = &GXNtsc480Int;
 
@@ -223,8 +221,6 @@ void TMovie__sub_80143C94(int a0, int a1, int a2) {
 void TMovie::flush_and_reset() { TMovie::flush_cache(); TMovie__sub_80143CC8(); }
 
 void TMovie__sub_80143CC8(void) { VIWaitForRetrace(); }
-
-}
 
 void TMovie::calc_frame_buffer_size(saddr arg0, saddr arg1) {
     movie_frame_buffer_size = (void *)arg0;

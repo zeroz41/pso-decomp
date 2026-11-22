@@ -22,6 +22,12 @@ struct TPhotonYoulla;
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/render/MaterialAlphaCompare.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/effect/photon/TPhotonYoulla.h"
+#include "pso/unk/TLobby_802268F4.h"
+#include "pso/effect/photon/PhotonBlastSummon.h"
 struct Stack_801AD5D8 {
     s32 sp8;
     f32 spC;
@@ -110,15 +116,9 @@ extern "C" {
 u16 get_entity_id(void *);
 void *find_entity_by_id(u16 id);
 u8 *TPhotonMagicSquare__ct(u8 *arg0, saddr arg1, s32 arg2, saddr arg3, s32 arg4, f32 farg0);
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
+s32 rotate_matrix_y(int, int);
 }
 void queue_photon_blast_hit(u32 identity, s32 kind, s32 allow_duplicate, f32 scale);
-extern "C" {
-s32 rotate_matrix_y(int, int);
-void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
-void set_material_alpha_compare_reference(s32 reference);
-void set_chunk_material_override_pair(s32 arg0, s32 arg1);
-}
 extern NJS_ARGB saved_model_draw_color;
 extern NJS_ARGB model_material_color;
 extern s32 saved_model_render_flags;
@@ -129,11 +129,8 @@ extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 void spawn_photon_blast_opening_effects(s32 arg0, s32 arg1);
 extern "C" {
-void *__ct__13TUnk_804C3248Fv(void *arg0);
 void sub_801AD4A8__12TPhotonMyllaFv(void* a0);
 void TPhotonRainbow__ct(void *, void *, void *, s32);
-u8 *TPhotonYoulla__ct(TPhotonYoulla *arg0, u8 *arg1);
-void play_cue_stream_file(saddr name);
 const char *TPhotonMylla__class_name = "TPhotonMylla";
 
 static const YPkt_801AD970 photon_mylla_packet_template = { { 0.0f, 0.0f, 0.0f }, 0, 0, 0, 0, 0x4000000, 1.0f };

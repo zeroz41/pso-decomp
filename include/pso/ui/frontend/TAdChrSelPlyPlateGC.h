@@ -39,8 +39,10 @@ struct TAdChrSelPlyPlateGC : public TObject {
     s32 get_active_card_slot();
     void set_active_card_slot(s32 slot);
     void set_cursor_fields(s32 field_4f4, s32 field_4f0);
-    void init_slot_position(s32 position, s32 row, s32 column);
+    void init_slot_position(saddr position, s32 row, s32 column);
     void clear_slot_entries(s32 column);
+    int get_instance();
+    void set_select_mode(int mode);
 
     s32 unk_1c;
     s32 unk_20;
@@ -74,14 +76,16 @@ LAYOUT_ASSERT(TAdChrSelPlyPlateGC_size, sizeof(TAdChrSelPlyPlateGC) == 0x538);
 extern TAdChrSelPlyPlateGC *ad_chr_sel_ply_plate_instance;
 
 extern "C" {
-TAdChrSelPlyPlateGC *fn_802C6F20(TObject *parent, vec2f *pos);
-void TAdMultiPlyChrSelectGC__sub_802C50EC(TAdChrSelPlyPlateGC *plate);
-void TAdMultiPlyChrSelectGC__sub_802C522C(TAdChrSelPlyPlateGC *plate);
-s32 TAdMultiPlyChrSelectGC__sub_802C6558(void);
-s32 TAdMultiPlyChrSelectGC__sub_802C658C(s32 arg0);
-void TAdMultiPlyChrSelectGC__sub_802C65C0(s32 arg0);
-s32 TAdMultiPlyChrSelectGC__sub_802C6848(s32 arg0);
-saddr TAdMultiPlyChrSelectGC__sub_802C6920(void);
+TAdChrSelPlyPlateGC *TAdChrSelPlyPlateGC__create_singleton(TObject *parent, vec2f *pos);
+void TAdChrSelPlyPlateGC__draw_slot_tags_shifted(TAdChrSelPlyPlateGC *plate);
+void TAdChrSelPlyPlateGC__draw_slot_tags(TAdChrSelPlyPlateGC *plate);
+s32 TAdMultiPlyChrSelectGC__count_selected_slots(void);
+s32 TAdMultiPlyChrSelectGC__get_multiplayer_character_slot(s32 arg0);
+void TAdMultiPlyChrSelectGC__deselect_slot(s32 arg0);
+void TAdChrSelPlyPlateGC__show_selected_slot_tags(TAdChrSelPlyPlateGC *self);
+void TAdChrSelPlyPlateGC__add_slot_position(TAdChrSelPlyPlateGC *self, const void *src, s32 col);
+s32 TAdMultiPlyChrSelectGC__is_controller_connected(s32 arg0);
+saddr TAdMultiPlyChrSelectGC__get_last_selected_player(void);
 u32 get_multiplayer_controller_active_index(int param_1);
 }
 s32 is_multiplayer_character_slot_selected(s32 arg0);

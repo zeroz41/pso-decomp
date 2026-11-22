@@ -35,7 +35,7 @@ s32 TShopWindowBase::sub_8022397C() {
 }
 
 s32 TShopSequence::get_child_field1c() {
-    void *temp_r3 = *(void **)((s8 *)this + 0x24);
+    void *temp_r3 = this->player;
     if (temp_r3 != NULL) {
         return get_entity_id(temp_r3);
     }
@@ -44,11 +44,11 @@ s32 TShopSequence::get_child_field1c() {
 
 extern s32 lbl_805D55C0;
 
-bool TShopSequence::sub_802239EC() {
+s32 TShopWindowBase::sub_802239EC() {
     if (*(s32 *)((s8 *)((u8 *)&controller_input_state + (((TRaderMapCore *)(*(saddr *)((s8 *)((u8 *)this) + 0x24)))->get_map_id() * 0x50)) + 0x28) & 2) {
         return 1;
     }
-    return test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0;
+    return test_controller_flag_4c_color(&controller_input_state.keyboard, 2) ? 1 : 0;
 }
 
 s32 TShopWindowBase::sub_80223A48() {

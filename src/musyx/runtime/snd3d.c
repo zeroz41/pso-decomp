@@ -535,7 +535,6 @@ u32 AddStartingEmitter(Emitter_S3D *em, f32 vol, f32 xPan, f32 yPan, f32 zPan, f
 #pragma opt_common_subs on
 #pragma bool off
 void StartContinousEmitters(void) {
-    s32 synthFXStart(u16 fid, u8 vol, u8 pan, u8 studio, u32 itd);
     s32 i;
     StartList_S3D *sl;
     Emitter_S3D *em;
@@ -619,7 +618,6 @@ static inline void EmitterShutdown_S3D(Emitter_S3D *em) {
 }
 
 void s3dHandle(void) {
-    s32 synthFXStart(u16 fid, u8 vol, u8 pan, u8 studio, u32 itd);
     Emitter_S3D *em;
     Emitter_S3D *nem;
     f32 vol;

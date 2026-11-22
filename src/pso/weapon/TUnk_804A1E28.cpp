@@ -139,5 +139,5 @@ TItem *create_sorcerers_cane(u8 *item) {
 }
 
 // Sorcerer's Cane (inferred): both reset the cached owner TP.
-void TUnk_804A1E28::vfunc_57() { cached_tp = -1; }
-void TUnk_804A1E28::vfunc_58() { cached_tp = -1; }
+void TUnk_804A1E28::on_equipped() { cached_tp = -1; }
+void TUnk_804A1E28::on_unequipped() { cached_tp = -1; }

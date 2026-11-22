@@ -259,7 +259,7 @@ void TAdMultiChgGameModeGC::close_windows_and_cleanup() {
     TAdMultiChgGameModeGC::setup_mode_menu(this, 0);
     TAdMultiChgGameModeGC__sub_8036E19C((u8 *)this, 4);
     if ((u32) *(u32 *)((s8 *)this + 0x30) != 0U) {
-        ((TWindowMessage *)(*(uaddr *)((s8 *)this + 0x30)))->append_line(TAdMultiChgGameModeGC__sub_8036DE10((saddr)this, 3, (s32)(*(s32 *)((s8 *)this + 0x24))), 3);
+        ((TWindowMessage *)(*(uaddr *)((s8 *)this + 0x30)))->append_line(TAdMultiChgGameModeGC__sub_8036DE10((saddr)this, 3, (s32)this->prev_selection), 3);
     }
 }
 
@@ -300,7 +300,7 @@ void TAdMultiChgGameModeGC::close_windows_and_reopen() {
     TAdMultiChgGameModeGC::setup_mode_menu(this, 0);
     TAdMultiChgGameModeGC__sub_8036E19C((u8 *)this, 4);
     if ((u32) *(u32 *)((s8 *)this + 0x30) != 0U) {
-        ((TWindowMessage *)(*(uaddr *)((s8 *)this + 0x30)))->append_line(TAdMultiChgGameModeGC__sub_8036DE10((saddr)this, 1, (s32)(*(s32 *)((s8 *)this + 0x24))), 3);
+        ((TWindowMessage *)(*(uaddr *)((s8 *)this + 0x30)))->append_line(TAdMultiChgGameModeGC__sub_8036DE10((saddr)this, 1, (s32)this->prev_selection), 3);
     }
 }
 
@@ -326,7 +326,7 @@ void TAdMultiChgGameModeGC::close_window_30() {
 void close_window__21TAdMultiChgGameModeGCFPv(void* p) { if (*(unsigned int*)((char*)p + 0x34) != 0) { ((TWindowBase *)((void*)(*(void**)((char*)p + 0x34))))->close(); *(int*)((char*)p + 0x34) = 0; } }
 
 #define self ((Self_8036E2AC *)arg0)
-s32 TAdMultiChgGameModeGC::setup_mode_menu(void *arg0, s32 arg1) {
+void TAdMultiChgGameModeGC::setup_mode_menu(void *arg0, s32 arg1) {
     s32 a;
     s32 b;
     s32 c;
@@ -367,10 +367,10 @@ void TAdMultiChgGameModeGC::handle_menu_input() {
                     set_state(4);
                     return;
                 case 1:
-                    if ((s32) *(s32 *)((s8 *)((u8 *)this) + 0x24) == 0) {
-                        *(s32 *)((s8 *)((u8 *)this) + 0x24) = 1;
+                    if ((s32) this->prev_selection == 0) {
+                        this->prev_selection = 1;
                     } else {
-                        *(s32 *)((s8 *)((u8 *)this) + 0x24) = 0;
+                        this->prev_selection = 0;
                     }
                     set_state(0xA);
                     return;
@@ -401,7 +401,7 @@ void TAdMultiChgGameModeGC::sub_8036E51C() {
     TAdMultiChgGameModeGC::setup_mode_menu(this, 1);
     TAdMultiChgGameModeGC__sub_8036E19C((u8 *)this, 4);
     if ((u32) *(u32 *)((s8 *)this + 0x30) != 0U) {
-        ((TWindowMessage *)(*(uaddr *)((s8 *)this + 0x30)))->append_line((s32)((int) (TAdMultiChgGameModeGC__sub_8036DE10((saddr)this, 0, (s32)((s32)((int) (*(s32 *)((s8 *)this + 0x24))))))), 3);
+        ((TWindowMessage *)(*(uaddr *)((s8 *)this + 0x30)))->append_line((s32)((int) (TAdMultiChgGameModeGC__sub_8036DE10((saddr)this, 0, (s32)((s32)((int) this->prev_selection))))), 3);
     }
     create_back_objects();
 }
@@ -414,7 +414,7 @@ void TAdMultiChgGameModeGC::update_mode_selection() {
 void TAdMultiChgGameModeGC::load_system_on_mode_default() { if (handle_mode_selection() == 0) { load_system_file((saddr)((void*)0)); } }
 s32 TAdMultiChgGameModeGC::handle_mode_selection() {
     s32 temp_r4;
-    temp_r4 = *(s32 *)((s8 *)this + 0x20);
+    temp_r4 = this->selection;
     if (temp_r4 & 1) {
         set_state(9);
         return 1;

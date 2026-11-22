@@ -11,7 +11,7 @@ public:
     virtual void refresh_target();
     virtual void run_idle_action();
     virtual void run_death_reaction();
-    s32 update_target_near_flag();
+    void update_target_near_flag();
     void sub_800C4E08();
     virtual void run_hit_reaction();
     s32 test_elt_flag(s32, s32);
@@ -27,7 +27,7 @@ public:
     virtual void vfunc_89();
     virtual void beast_update_hurt();
     virtual void beast_update_dead();
-    virtual int beast_retire_corpse();
+    virtual void beast_retire_corpse();
     virtual void update_attack_trail();
     virtual void spawn_death_effect();
     virtual void play_alert_sound();

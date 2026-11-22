@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjLuker : public TObjBase {
-    TObjLuker(TObject *parent, void *arg2);
+    TObjLuker(TObject *parent, void *set_data);
     virtual ~TObjLuker();
     u8 unk_90[0x10];
     u32 m_a0;
@@ -24,7 +24,7 @@ struct TObjLuker : public TObjBase {
     void transfer_to_town();
     virtual void render();
     virtual void run_task();
-    static int get_stat_table_entry(int a0);
+    static const char *get_stat_table_entry(int a0);
 };
 
 LAYOUT_ASSERT(TObjLuker_size, sizeof(TObjLuker) == 0xBC);

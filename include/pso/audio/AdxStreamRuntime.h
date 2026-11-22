@@ -38,7 +38,7 @@ LAYOUT_ASSERT(AdxStreamPlayerFileOffset, offsetof(Ent_803C9608, f8) == 8);
 
 extern "C" {
 AdxStreamFile *ADXSTM_OpenFnameEx(const char *name, s32 arg);
-AdxStreamFile *TLobby__sub_803C8CDC(const char *name, s32 mode, s32 arg);
+AdxStreamFile *adxstm_open_fname_attr(const char *name, s32 mode, s32 arg);
 AdxStreamFile *adxstm_open_fname_range__6TLobbyFPviiii(const char *name, s32 mode, s32 off, s32 nsect, s32 arg);
 AdxStreamFile *adxstm_open_fname_range_ex_rt__6TLobbyFPviiii(const char *name, s32 mode, s32 off, s32 nsect, saddr arg);
 void TLobby__sub_803C5D00(u8 *arg0);
@@ -61,12 +61,12 @@ void TLobby__sub_803CB194(void *context);
 void TLobby__sub_803CB4A4(u8 *arg0);
 void TLobby__sub_803CB570(u8 *arg0, u8 *arg1, s16 *arg2);
 void setup_adx_file_systems(s32 *arg0);
-void TLobby__sub_803CB7F8(s32 context, const char *message, void *detail);
-void TLobby__sub_803CB81C(void);
-s32 TLobby__sub_803CB844(void);
-void TLobby__sub_803CBA18(AdxMessageCallback callback, s32 context);
-void TLobby__sub_803CBA38(void);
-void TLobby__sub_803CBB14(void);
+void fs_error_notify(s32 context, const char *message, void *detail);
+void exec_adx_server(void);
+s32 is_adxm_initialized(void);
+void adxm_set_error_callback(AdxMessageCallback callback, s32 context);
+void exec_vsync_servers(void);
+void vblank_thread_loop(void);
 s32 adx_get_data_start_offset(u16 *arg0, s32 arg1, s32 *arg2);
 }
 void append_music_stream_segment(u8 *arg0, s32 arg1, s32 arg2);
@@ -98,12 +98,12 @@ void TLobby__sub_803CB194(void *context);
 void TLobby__sub_803CB4A4(u8 *arg0);
 void TLobby__sub_803CB570(u8 *arg0, u8 *arg1, s16 *arg2);
 void setup_adx_file_systems(s32 *arg0);
-void TLobby__sub_803CB7F8(s32 context, const char *message, void *detail);
-void TLobby__sub_803CB81C(void);
-s32 TLobby__sub_803CB844(void);
-void TLobby__sub_803CBA18(AdxMessageCallback callback, s32 context);
-void TLobby__sub_803CBA38(void);
-void TLobby__sub_803CBB14(void);
+void fs_error_notify(s32 context, const char *message, void *detail);
+void exec_adx_server(void);
+s32 is_adxm_initialized(void);
+void adxm_set_error_callback(AdxMessageCallback callback, s32 context);
+void exec_vsync_servers(void);
+void vblank_thread_loop(void);
 s32 adx_get_data_start_offset(u16 *arg0, s32 arg1, s32 *arg2);
 void inl_803C9608(void);
 }

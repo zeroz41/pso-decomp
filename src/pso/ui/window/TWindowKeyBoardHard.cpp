@@ -659,10 +659,10 @@ void TWindowKeyBoardHard::render() {
 
 
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/WindowLayout.h"
 
 
 extern "C" {
-saddr get_window_layout_position(int);
 
 
 void TWindowKeyBoardHard::run_task() {
@@ -708,17 +708,17 @@ TWindowKeyBoardHard::TWindowKeyBoardHard(TWindowKeyBoardBase *control) : TWindow
 }
 
 
-void TWindowKeyBoardHard::set_bits_shift7(saddr arg0, s32 arg1) {
-    TWindowKeyBoardHard::set_card_window_flags((void *)arg0, (s32)(arg1 << 7), -0x81);
+void TWindowKeyBoardHard::set_bits_shift7(saddr client_id, s32 arg1) {
+    TWindowKeyBoardHard::set_card_window_flags((void *)client_id, (s32)(arg1 << 7), -0x81);
 }
-void TWindowKeyBoardHard::update_card_window_page_flags(saddr arg0, s32 arg1) {
-    TWindowKeyBoardHard::set_card_window_flags((void *)arg0, (s32)(arg1 << 6), -0x41);
+void TWindowKeyBoardHard::update_card_window_page_flags(saddr client_id, s32 arg1) {
+    TWindowKeyBoardHard::set_card_window_flags((void *)client_id, (s32)(arg1 << 6), -0x41);
 }
-void TWindowKeyBoardHard::clear_card_window_flag(saddr arg0, s32 arg1) {
-    TWindowKeyBoardHard::set_card_window_flags((void *)arg0, (s32)(arg1 << 4), -0x11);
+void TWindowKeyBoardHard::clear_card_window_flag(saddr client_id, s32 arg1) {
+    TWindowKeyBoardHard::set_card_window_flags((void *)client_id, (s32)(arg1 << 4), -0x11);
 }
-void TWindowKeyBoardHard::set_card_window_flag(saddr arg0, s32 arg1) {
-    TWindowKeyBoardHard::set_card_window_flags((void *)arg0, (s32)(arg1 << 5), -0x21);
+void TWindowKeyBoardHard::set_card_window_flag(saddr client_id, s32 arg1) {
+    TWindowKeyBoardHard::set_card_window_flags((void *)client_id, (s32)(arg1 << 5), -0x21);
 }
 int TWindowKeyBoardHard::sub_8026042C() { return (this->m_60 >> 6) & 0x1; }
 int TWindowKeyBoardHard::sub_80260438() { return (this->m_60 >> 10) & 0x1; }

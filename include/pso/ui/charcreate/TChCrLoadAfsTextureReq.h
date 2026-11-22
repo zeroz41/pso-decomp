@@ -35,7 +35,7 @@ struct TChCrLoadAfsTextureReq : public TObject {
     s32 state;
     GinjaTextureList *textures;
     s32 *m_34;
-    u32 buffers[8];
+    uaddr buffers[8];
     s32 count;
     s32 index;
     AdxfHandle *load_handle;

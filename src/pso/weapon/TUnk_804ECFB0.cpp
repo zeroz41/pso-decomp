@@ -31,13 +31,13 @@ void TUnk_804ECFB0::update_weapon() {
     pad_1f8 = pad_1f8 + 1;
 }
 
-void TUnk_804ECFB0::vfunc_58() {
+void TUnk_804ECFB0::on_unequipped() {
     owner_tp = -1;
     pad_1f8 = 0;
 }
 
 // Starts the freeze, confusion and paralysis curse timers (was dark_bridge_start_timers).
-void TUnk_804ECFB0::vfunc_57() {
+void TUnk_804ECFB0::on_equipped() {
     owner_tp = get_actor_tp(owner);
     pad_1f8 = 0;
     if (effect_objects != NULL) {
@@ -61,7 +61,7 @@ TItem *dark_bridge_create(u8 *item) {
     return NULL;
 }
 
-// This object's copy of the paralysis curse timer's constructor (vfunc_57
+// This object's copy of the paralysis curse timer's constructor (on_equipped
 // calls it first).
 TUnk_804A0568::TUnk_804A0568(TItemHeapObject *parent, u16 client, s32 period, f32 rate)
     : TItemTimerEvent(parent, client, period) {

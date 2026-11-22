@@ -232,8 +232,8 @@ s32 TObjPlayer::test_action_80000() {
 s32 TObjPlayer::test_action_40000() {
     return test_action_mask(0x40000);
 }
-void TLobby__sub_801F3314(saddr arg0) {
-    ((TObjPlayer *)arg0)->test_action_mask(0x10000);
+void TLobby__sub_801F3314(saddr player) {
+    ((TObjPlayer *)player)->test_action_mask(0x10000);
 }
 s32 TObjPlayer::test_action_8000() {
     return test_action_mask(0x8000);

@@ -29,11 +29,8 @@ extern const char *fe_obj_baiku_motion_names[1];
 
 
 void rotate_matrix_yxz(saddr matrix, s32 arg1, s32 arg2, s32 arg3);
-extern "C" {
 BmlResource *TMotorcycle__bml_resource;
 GinjaTextureList *TMotorcycle__texture_list;
-}
-extern "C" {
 extern const s32 lbl_80445DF4[];
 extern CollisionBody TMotorcycle__collision_parts[1];
 extern const char *motorcycle_class_name;
@@ -47,6 +44,7 @@ CollisionBody TMotorcycle__collision_parts[1] = {
 const s32 lbl_80445DF4[2] = { 1, 0 };
 __declspec(section ".sdata") const char *fe_obj_baiku_motion_names[1] = { NULL };
 const char *motorcycle_class_name = "TMotorcycle";
+
 
 extern saddr camera_ctrl_instance;
 
@@ -72,7 +70,7 @@ void TMotorcycle::render() {
     if ((TMainTask::get_render_pass() != 1) && (update_object_view_visibility(400.0f, 50.0f) != 0)) {
         set_draw_list_mask(3);
         if (TMotorcycle__texture_list != NULL) {
-            TObjFish::set_global_param(reinterpret_cast<s32>(TMotorcycle__texture_list));
+            TObjFish::set_global_param((saddr)TMotorcycle__texture_list);
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_yxz(0, (this->rotation_x), (this->rotation_y), (this->rotation_z));
@@ -93,7 +91,7 @@ extern "C" void *create_stage_motorcycle(void *placement) {
 void TMotorcycle::free_statics() {
     if (TMotorcycle__texture_list != NULL) {
         release_texture_list(TMotorcycle__texture_list);
-        TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<s32>(TMotorcycle__texture_list));
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)TMotorcycle__texture_list);
         TMotorcycle__texture_list = NULL;
     }
     if (TMotorcycle__bml_resource != NULL) {
@@ -124,5 +122,4 @@ TMotorcycle::TMotorcycle(TObject *parent, ObjectSetData *placement) : TObjMesBas
     init_collision_body_parts(this, TMotorcycle__collision_parts, 1);
     actorFlags |= 0x40000000;
     register_object_by_id();
-}
 }

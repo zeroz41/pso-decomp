@@ -4,6 +4,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 
 struct Stack_802878B8
 {
@@ -43,9 +44,6 @@ typedef struct UV_80287580 {
 
 extern "C" {
 u32 calc_text_width(char *s);
-void begin_screen_draw(s32 arg0);
-void draw_textured_quad_at_depth(f32 *q, f32 depth);
-void set_draw_texture_and_color(s32 idx, s32 arg1);
 const UV_80287580 window_tab_uv_table[4] = {{0.0f, 98.0f}, {0.0f, 125.0f}, {0.0f, 152.0f}, {80.0f, 98.0f}};
 extern s32 lbl_805D63F0;
 void draw_window_tab(Obj_80287580 *obj, f32 *pos, u8 idx, f32 width);
@@ -159,15 +157,13 @@ void TWindowSubStatusDisp::draw_entry_tab(void *arg1) {
 void TWindowSubStatusDisp__sub_802878B8(u8 *arg0, u8 *arg1) {
   Stack_802878B8 stack;
   f32 new_var;
-  f32 temp_f4;
   if (((s32) (*((s32 *) (((s8 *) arg1) + 0x30)))) >= 0)
   {
     if ((0.5f) && (0.5f))
     {
     }
     stack.sp8 = -(((0.5f) * (*((f32 *) (((s8 *) arg0) + 0x10)))) - (((0.5f) * ((1.6e+02f) + (*((f32 *) (((s8 *) arg0) + 0xC))))) + ((*((f32 *) (((s8 *) arg1) + 0))) + (*((f32 *) (((s8 *) arg0) + 4))))));
-    temp_f4 = *((f32 *) (((s8 *) arg1) + 4));
-    stack.spC = (4.0f) + (temp_f4 + (*((f32 *) (((s8 *) arg0) + 8))));
+    stack.spC = (4.0f) + (*((f32 *) (((s8 *) arg1) + 4)) + (*((f32 *) (((s8 *) arg0) + 8))));
     set_text_draw_params(reinterpret_cast<WindowDrawContext *>(arg1), 0, 1, (f32) ((-1.0f) / ((0.0598f) + (*((f32 *) (((s8 *) arg1) + 0x38))))), 100000.0f);
     new_var = *((f32 *) (((s8 *) arg0) + 0x1C));
     draw_window_text((&stack.sp8), (const char *)(*((saddr *) (((s8 *) arg0) + 0))), (*((s32 *) (((s8 *) arg0) + 0x14))), 1, (f32) new_var);
@@ -187,16 +183,16 @@ s32 TWindowSubStatusDisp::deleting_destructor(s32 arg0, s16 arg1) {
     return arg0;
 }
 
-u8 *init_heading_entry__20TWindowSubStatusDispFPvPvici(u8 *window_sub_status_disp, u8 *arg1, saddr arg2, s8 arg3, s32 arg4) {
+u8 *init_heading_entry__20TWindowSubStatusDispFPvPvici(u8 *window_sub_status_disp, u8 *arg1, saddr title, s8 arg3, s32 client_id) {
     *(f32 *)((s8 *)window_sub_status_disp + 4) = (f32) *(f32 *)((s8 *)arg1 + 0);
     *(f32 *)((s8 *)window_sub_status_disp + 8) = (f32) *(f32 *)((s8 *)arg1 + 4);
-    *(f32 *)((s8 *)window_sub_status_disp + 0x10) = (f32) calc_text_width((char *)(arg2));
+    *(f32 *)((s8 *)window_sub_status_disp + 0x10) = (f32) calc_text_width((char *)(title));
     *(f32 *)((s8 *)window_sub_status_disp + 0xC) = TWindowSubStatusDisp__sub_802877A4(*(f32 *)((s8 *)window_sub_status_disp + 0x10));
-    *(s32 *)((s8 *)window_sub_status_disp + 0) = arg2;
+    *(s32 *)((s8 *)window_sub_status_disp + 0) = title;
     *(s8 *)((s8 *)window_sub_status_disp + 0x19) = 0;
     *(f32 *)((s8 *)window_sub_status_disp + 0x1C) = (f32) (0.0f);
     ((TWindowSubStatusDisp *)window_sub_status_disp)->set_entry_state(arg3);
-    *(f32 *)((s8 *)window_sub_status_disp + 0x20) = TWindowSubStatusDisp::get_card_window_scale(arg4);
+    *(f32 *)((s8 *)window_sub_status_disp + 0x20) = TWindowSubStatusDisp::get_card_window_scale(client_id);
     if (*(f32 *)((s8 *)window_sub_status_disp + 0x20) <= (0.0f)) {
         *(f32 *)((s8 *)window_sub_status_disp + 0x1C) = (f32) (1e+05f);
     }

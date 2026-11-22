@@ -6,7 +6,7 @@
 // --- C functions defined in TUnk_804C2298.cpp ---
 extern "C" {
 void TAdDialingGC__sub_801A4C90(void);
-s32 TAdDialingGC__sub_801A4C9C(void);
+struct TAdDialingGC *TAdDialingGC__sub_801A4C9C(void);
 }
 // --- end of C functions
 

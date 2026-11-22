@@ -28,12 +28,12 @@ uaddr slot_entity_dispatcher_instance;
 void __ct__7TObjectFP7TObject(void *);
 Mgr_8036B424 *TLobby__sub_8036B424(Mgr_8036B424 *arg0, void * _w1);
 
-void TLobby::send_slot_entity_or_local(u16 arg0, s32 arg1) {
+void TLobby::send_slot_entity_or_local(u16 arg0, s32 buf) {
     if (((u32) slot_entity_dispatcher_instance != 0U) && (arg0 < 4U)) {
-        ((TLobby *)slot_entity_dispatcher_instance)->send_slot_entity(arg0, arg1);
+        ((TLobby *)slot_entity_dispatcher_instance)->send_slot_entity(arg0, buf);
         return;
     }
-    TLobby__sub_8036B1AC(arg1);
+    TLobby__sub_8036B1AC(buf);
 }
 
 void dispatch_by_index__6TLobbyFUsi(u16 arg0, s32 src) {
@@ -41,14 +41,14 @@ void dispatch_by_index__6TLobbyFUsi(u16 arg0, s32 src) {
         ((TLobby *)slot_entity_dispatcher_instance)->start_entry_timer(arg0, src);
     }
 }
-void TLobby::send_slot_entity(u16 arg1, saddr arg2) {
+void TLobby::send_slot_entity(u16 arg1, saddr buf) {
     uaddr temp_r6;
     temp_r6 = *(u32 *)((s8 *)this + 0x1C);
     if (temp_r6 != 0U) {
-        TLobby::copy_symbol_chat_entry((void *)arg2, (void *)(temp_r6 + (arg1 * 0x3C)));
+        TLobby::copy_symbol_chat_entry((void *)buf, (void *)(temp_r6 + (arg1 * 0x3C)));
         return;
     }
-    TLobby__sub_8036B1AC(arg2);
+    TLobby__sub_8036B1AC(buf);
 }
 void TLobby::start_entry_timer(u16 arg1, saddr src) {
     Obj_8036B2E8 *arg0 = (Obj_8036B2E8 *)this;

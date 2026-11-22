@@ -108,8 +108,8 @@ TWindowHelpItem::TWindowHelpItem(void *pos, u16 idx) : TWindowBase((u8 *)&window
     call_if_split_screen((uaddr)this, this->client_index);
 }
 
-s32 get_help_text_string(s32 arg0) {
-    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x18)) + (arg0 * 4));
+s32 get_help_text_string(s32 id) {
+    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x18)) + (id * 4));
 }
 
 s32 TWindowHelpItem__sub_80255DDC(void* p) { return *(s32*)((char*)p + 0x1c); }

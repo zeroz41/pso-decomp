@@ -10,6 +10,7 @@
 #include "pso/effect/TDuelEffectNumber.h"
 #include "pso/effect/TDuelEffectString.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 const char* TDuelEffectCtrl__class_name = "TDuelEffectCtrl";
 
@@ -66,7 +67,6 @@ void TDuelEffectCtrl::update_duel_start_countdown() {
     }
 }
 
-extern TObject* tl_clipout;
 
 void TDuelEffectCtrl::render() {}
 

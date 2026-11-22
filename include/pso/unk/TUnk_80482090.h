@@ -6,7 +6,7 @@
 // The 0x1C pieces TBoss2DeRolLe::run_task spawns from the breakup model in lbl_805D4B8C.
 class TUnk_80482090 : public TUnk_804820C0 {
 public:
-    TUnk_80482090(TObject *parent, u32 matrix);
+    TUnk_80482090(TObject *parent, uaddr matrix);
     virtual ~TUnk_80482090();
     virtual void render();
     virtual void run_task();

@@ -18,7 +18,7 @@ s32 set_flags_and_state(void *self);
 
 #include "pso/network/PppBuffer.h"
 
-void *build_avetcp_net_buffer(Conn_804004DC *c)
+void *build_avetcp_net_buffer(PppFsm *c)
 {
   PppChap *chap = c->opts;
   s32 tick;

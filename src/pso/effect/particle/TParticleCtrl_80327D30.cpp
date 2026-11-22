@@ -20,6 +20,9 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/MatrixOps.h"
 #pragma defer_codegen on
 
 struct Vtx_80327D30 { f32 x, y, z, u, v; u32 color; };
@@ -32,18 +35,15 @@ int GXSetNumIndStages(int);
 int GXSetTevDirect(int);
 extern s32 __vt__13TUnk_804ED5B0[];
 s32 __ct__7TObjectFP7TObject(void *, void *);
-extern saddr tl_05;
 s32 GXSetNumTexGens(int);
 s32 GXSetNumTevStages(int);
-s32 rotate_matrix_y(int, int);
-s32 rotate_matrix_x(int, int);
 s32 post_translate_matrix(void *);
 s32 emit_particle_strip_vertices(void *, int);
 extern u8 *camera_ctrl_instance;
 }
 
-u8 *construct_indirect_effect_task(u8 *arg0, s32 kind, s32 arg2, u8 *arg3) {
-    __ct__7TObjectFP7TObject(arg0, arg3);
+u8 *construct_indirect_effect_task(u8 *arg0, s32 kind, s32 arg2, u8 *parent) {
+    __ct__7TObjectFP7TObject(arg0, parent);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_804ED5B0;
     *(s8 *)&((TUnk_804ED5B0 *)arg0)->unk_1C = kind;
     ((TUnk_804ED5B0 *)arg0)->m_1d = arg2;
@@ -80,10 +80,10 @@ void reset_indirect_tev(s32 second_stage) {
     set_ginja_post_texgen_count(0);
 }
 
-u8 *create_telepipe_marker(u8 *arg0, saddr arg1, s8 arg2, s8 arg3, saddr arg4, s32 arg5, s32 arg6, f32 farg0, f32 farg1) {
+u8 *create_telepipe_marker(u8 *arg0, saddr arg1, s8 arg2, s8 arg3, saddr parent, s32 arg5, s32 arg6, f32 farg0, f32 farg1) {
     saddr temp_r3;
     saddr var_r0;
-    __ct__7TObjectFP7TObject((void *)arg0, (void *)arg4);
+    __ct__7TObjectFP7TObject((void *)arg0, (void *)parent);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_804ED598;
     *(f32 *)((s8 *)arg0 + 0x1C) = farg0;
     ((TUnk_804ED598 *)arg0)->m_20 = farg1;

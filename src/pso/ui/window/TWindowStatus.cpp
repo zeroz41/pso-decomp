@@ -16,6 +16,7 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/unk/text_80271400.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/ui/window/TWindowSubStatusDisp_8026F6DC.h"
 
 
 const char *TWindowStatus__name = "TWindowStatus";
@@ -35,7 +36,6 @@ s32 draw_textured_quad_at_depth(void *, f32);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
 extern s32 lbl_805D63F0;
 
-s16 obj_getS16_2BA(u8 *p);
 s32 draw_right_aligned_number(void *);
 void update_hp_tp_values__20TWindowSubStatusDispFPv(u8 *arg0);
 
@@ -45,12 +45,8 @@ void *TWindowStatus__ct(void *arg0, saddr layout_pos, void *arg2, const WindowDe
 void TWindowSimpleStatus__ct(void *, s32, void *, const WindowDescriptor *);
 saddr get_window_layout_position(s32);
 
-void update_lockon_window(u8 *arg0);
 }
 void update_status_help_item(saddr arg0);
-extern "C" {
-
-}
 void set_status_entry_target(void *arg0, s32 arg1);
 #pragma readonly_strings on
 
@@ -144,7 +140,7 @@ void update_hp_tp_values__20TWindowSubStatusDispFPv(u8 *window_sub_status_disp) 
     }
 }
 
-void TWindowStatus::draw_background(u8 *arg1) {
+void TWindowStatus::draw_background(u8 *ctx) {
     static const f32 pos[2] = {44.0f, 30.5f};
     Quad_802710C4 q;
     f32 w;
@@ -152,11 +148,11 @@ void TWindowStatus::draw_background(u8 *arg1) {
 
     {
         u8 *e = (u8 *)get_array_entry(0xE);
-        draw_photon_blast_gauge_ring((saddr)this, arg1, pos, *(s32 *)((s8 *)e + 0x20), 26.0f);
+        draw_photon_blast_gauge_ring((saddr)this, ctx, pos, *(s32 *)((s8 *)e + 0x20), 26.0f);
     }
     begin_screen_draw(1);
     TObjFish::set_global_param(lbl_805D63F0);
-    set_draw_texture_and_color(0xB, *(s32 *)((s8 *)arg1 + 0x34));
+    set_draw_texture_and_color(0xB, *(s32 *)((s8 *)ctx + 0x34));
     { f32 r = TWindowSubComCard__sub_80244784((TWindowSubComCard *)this);
     s = -1.0f / (0.0598f + this->draw_depth);
     q.x0 = -(69.0f * (w = 1.0f - r)); }
@@ -168,20 +164,20 @@ void TWindowStatus::draw_background(u8 *arg1) {
     q.u1 = 0.73046875f;
     q.v1 = 0.625f;
     draw_textured_quad_at_depth(&q, s);
-    q.x0 = *(f32 *)((s8 *)arg1 + 0);
-    q.y0 = *(f32 *)((s8 *)arg1 + 4);
+    q.x0 = *(f32 *)((s8 *)ctx + 0);
+    q.y0 = *(f32 *)((s8 *)ctx + 4);
     q.x1 = 228.0f + q.x0;
     q.y1 = 76.0f + q.y0;
     q.u0 = 0.0f;
     q.v0 = 0.0f;
     q.u1 = 0.890625f;
     q.v1 = 0.296875f;
-    ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)&q);
+    ((WindowDrawContext *)ctx)->transform_quad((TexturedQuad *)&q);
     draw_textured_quad_at_depth(&q, s);
     TWindowSubStatusDisp::get_player();
-    if (TWindowSubComCard__sub_80245558(arg1, arg1 + 0x10, arg1 + 0x18) != 0) {
+    if (TWindowSubComCard__sub_80245558(ctx, ctx + 0x10, ctx + 0x18) != 0) {
         TWindowSubComCard__sub_802454E4(0xB);
-        TWindowSubComCard__sub_80245320(&q, arg1);
+        TWindowSubComCard__sub_80245320(&q, ctx);
         TWindowSubComCard__sub_802452DC(0xB);
     }
 }
@@ -219,25 +215,25 @@ TWindowStatus::~TWindowStatus() {
 
 
 
-void *TWindowStatus__ct(void *window_status, saddr layout_pos, void *arg2, const WindowDescriptor *desc) {
-    TWindowSimpleStatus__ct(window_status, layout_pos, arg2, desc);
+void *TWindowStatus__ct(void *window_status, saddr layout_pos, void *client, const WindowDescriptor *desc) {
+    TWindowSimpleStatus__ct(window_status, layout_pos, client, desc);
     *(s32 **)((s8 *)window_status + 0x18) = __vt__13TWindowStatus;
     ((TWindowStatus *)window_status)->m_name = TWindowStatus__name;
     return window_status;
 }
 
-saddr create_status_window(saddr arg0) {
+saddr create_status_window(saddr client) {
     saddr window_layout_position;
     saddr window_status;
     saddr var_r0;
     window_layout_position = get_window_layout_position(0x1C);
     if (is_split_screen() != 0) {
-        return (saddr)((TWindowSimpleStatus *)window_layout_position)->create((void *)arg0);
+        return (saddr)((TWindowSimpleStatus *)window_layout_position)->create((void *)client);
     }
     window_status = (saddr)TObject::operator new(0x78);
     var_r0 = window_status;
     if (var_r0 != 0) {
-        var_r0 = (saddr)TWindowStatus__ct((void *)window_status, window_layout_position, (void *)arg0, &status_window_settings);
+        var_r0 = (saddr)TWindowStatus__ct((void *)window_status, window_layout_position, (void *)client, &status_window_settings);
     }
     return var_r0;
 }

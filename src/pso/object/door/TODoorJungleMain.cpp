@@ -41,10 +41,15 @@ struct AnimationMotion;
 #include "pso/unk/text_803D96A8.h"
 
 #include "pso/math/MatrixVector.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/unk/text_803D8F74.h"
 
 #include "pso/render/GinjaMaterial.h"
 
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/unk/TLobby_8001EF5C.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
 
 
 struct Ids_8029B428 {
@@ -86,7 +91,6 @@ void TLobby__sub_8029B2A4(void* p);
 void *TODoorJungleMain__create(void *arg0);
 
 
-extern void *tl_05;
 }
 s32 is_any_player_near(saddr arg0);
 
@@ -136,16 +140,11 @@ GinjaTextureList *door_jungle_main_gvm_texture;
 u8 * load_gvm_texture_file(saddr);
 extern "C" {
 
-AnimationMotion *get_bml_motion(BmlResource *, s32);
-
 u32 init_collision_body_parts(void *, saddr, s32);
 
 void *__ct__10TODoorBaseFP7TObject(void *a0);
 
 extern s32 __vt__16TODoorJungleMain[];
-
-
-s32 rotate_matrix_y(int, int);
 
 
 int post_translate_matrix(void *);
@@ -161,17 +160,10 @@ struct Door_8029B524 {
     s32 count;
 };
 
-struct Mtx_8029B640 { f32 m[12]; };
 
 extern "C" {
 
-extern s32 game_difficulty_selection;
-
 s32 minimap_render_gate(void *, u32, u16, s32, s32);
-
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-
-s32 matrix_mult_vec(void *, void *, void *);
 
 
 s32 release_texture_list(void*);
@@ -179,14 +171,14 @@ s32 release_texture_list(void*);
 void free_collision_body_parts(void *);
 
 
-u8 *TODoorJungleMain__ct(TODoorJungleMain *arg0, s32 arg1, saddr arg2) {
+u8 *TODoorJungleMain__ct(TODoorJungleMain *arg0, s32 arg1, saddr set_data) {
     struct CopyStack_8029B924 { u8 bytes[0x3C]; };
     CopyStack_8029B924 copy_storage_8029B924;
     saddr temp_r4;
     __ct__10TODoorBaseFP7TObject(arg0);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TODoorJungleMain;
     *(saddr *)((s8 *)arg0 + 0) = (saddr) TODoorJungleMain__name;
-    ((TODoorJungleMain *)(arg0))->apply_object_set_data((void *)arg2);
+    ((TODoorJungleMain *)(arg0))->apply_object_set_data((void *)set_data);
     arg0->motion = (AnimationMotion *)get_bml_motion(TODoorJungleMain__bml_resource, 0);
     arg0->animation_step = 1.0f;
     ((TODoorJungleMain *)arg0)->animation_end_frame = 0.0f;
@@ -194,7 +186,7 @@ u8 *TODoorJungleMain__ct(TODoorJungleMain *arg0, s32 arg1, saddr arg2) {
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
     arg0->view_range = 800.0f;
-    temp_r4 = arg2 - 4;
+    temp_r4 = set_data - 4;
     ((TODoorJungleMain *)arg0)->model_radius = 120.0f;
     arg0->m_d4 = 0;
     arg0->m_d8 = 0;
@@ -221,7 +213,7 @@ TODoorJungleMain::~TODoorJungleMain() {
 
 void TODoorJungleMain::run_task() {
     u8 *arg0 = (u8 *)this;
-    Mtx_8029B640 mtx;
+    GC_Mtx mtx;
     s32 flag;
     f32 t;
 
@@ -252,9 +244,9 @@ void TODoorJungleMain::run_task() {
                 Vec b = {-40.0f, 0.0f, 0.0f};
                 set_matrix_identity((u8 *)&mtx);
                 translate_matrix_vec3((u8 *)&mtx, (u8 *)&this->position);
-                rotate_matrix_y((int)&mtx, this->rotation_y);
-                matrix_mult_vec(&mtx, &a, &a);
-                matrix_mult_vec(&mtx, &b, &b);
+                rotate_matrix_y(mtx, this->rotation_y);
+                matrix_mult_vec(mtx, &a, &a);
+                matrix_mult_vec(mtx, &b, &b);
                 spawn_particle_effect_with_flags(&a, 0x229, 0x800);
                 spawn_particle_effect_with_flags(&b, 0x229, 0x800);
             }
@@ -305,7 +297,7 @@ void TODoorJungleMain::render() {
         TObjFish::set_global_param((saddr)door_jungle_main_gvm_texture);
         push_matrix();
         post_translate_matrix(self->xf);
-        rotate_matrix_y(0, self->f60);
+        rotate_matrix_y(NULL, self->f60);
         if (self->flags & 1) {
             draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)TODoorJungleMain__bml_resource, 3), self->fbc, self->fb4);
         } else {

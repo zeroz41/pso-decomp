@@ -249,7 +249,7 @@ void run_area_scene_cleanup(Obj_80515BA0 *transition) {
     var_r31->f8 = 0;
     var_r31->next_floor = 0;
 }
-extern "C" {
+
 
 void load_area_scene_and_init(u8 *arg0) {
     FloorMapSelection selection;
@@ -268,7 +268,6 @@ void load_area_scene_and_init(u8 *arg0) {
         return;
     }
     area_initializer_dispatch_table[*(s32 *)((s8 *)var_r31 + 4)].init();
-}
 }
 
 void promote_area_floor(Obj_80515BA0 *transition) {

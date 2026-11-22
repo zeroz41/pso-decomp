@@ -47,6 +47,7 @@
 #include "pso/ui/frontend/TAdEnterPPPPassGC.h"
 #include "pso/ui/frontend/TAdEnterPasswordGC.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
+#include "pso/ui/frontend/TAdEp3Exist.h"
 #include "pso/ui/frontend/TAdGameStartGC.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC_8023F4E4.h"
@@ -66,23 +67,22 @@
 #include "pso/ui/frontend/TAdSoniclogo.h"
 #include "pso/ui/frontend/TAdTimeSetGC.h"
 #include "pso/ui/frontend/TAdTitleTexGC.h"
+#include "pso/ui/frontend/TAdExNetConfirmGC.h"
+#include "pso/ui/frontend/TAdLicAgreementGC.h"
+#include "pso/ui/frontend/TAdTrialAgreementGC.h"
+#include "pso/ui/frontend/TAdTrialModemChkGC.h"
+#include "pso/ui/frontend/TAdVIConfigGC.h"
+#include "pso/ui/frontend/TAdSnAkPassConfirmGC.h"
+#include "pso/ui/frontend/TAdPsoPassSaveGC.h"
+#include "pso/ui/TUnk_804F3A20.h"
+#include "pso/ui/frontend/TAdStorySelectGC.h"
+#include "pso/ui/frontend/TAdMultiSelGameModeGC.h"
+#include "pso/ui/frontend/TAdSelectGameModeGC.h"
 
 extern "C" {
-void *TAdEp3Exist__ct(void *, TObject *);
-void *__ct__17TAdExNetConfirmGCFP7TObject(void *, TObject *);
-void *__ct__17TAdLicAgreementGCFP7TObject(void *, TObject *);
-void *__ct__13TUnk_804F3A20FP7TObject(void *, TObject *);
-void *__ct__16TAdPsoPassSaveGCFP7TObject(void *, TObject *);
 u8 *TAdSinglePlyChrSelectGC__ct(u8 *arg0, void *parent);
-void *__ct__20TAdSnAkPassConfirmGCFP7TObject(void *, TObject *);
-void *__ct__19TAdTrialAgreementGCFP7TObject(void *, TObject *);
-void *__ct__18TAdTrialModemChkGCFP7TObject(void *, TObject *);
-void *__ct__13TAdVIConfigGCFP7TObject(void *, TObject *);
 void *construct_title_scene__13TUnk_804EEF64Fv(void *, TObject *);
 void *__ct__12TLevelSelectFv(void *);
-void *__ct__16TAdStorySelectGCFv(void *, TObject *);
-void *__ct__21TAdMultiChgGameModeGCFv(void *, TObject *);
-void *__ct__21TAdMultiSelGameModeGCFv(void *, TObject *, s32);
 void TCameraCtrl__ct(void *, void *);
 s32 is_area_transfer_pending(void);
 void apply_phase_keyboard_mode(void);
@@ -353,18 +353,10 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
         game_mode_scene_instance = (TObject *)p;
         break;
     case 4:
-        p = TObject::operator new(0x24);
-        if (p != NULL) {
-            p = __ct__16TAdStorySelectGCFv(p, tl_01);
-        }
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = new TAdStorySelectGC(tl_01);
         break;
     case 5:
-        p = TObject::operator new(0x24);
-        if (p != NULL) {
-            p = __ct__19TAdSelectGameModeGCFv((u8 *)p, (void *)tl_01);
-        }
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = new TAdSelectGameModeGC(tl_01);
         break;
     case 6:
         game_mode_scene_instance = new TAdSinglePlyChrSelectGC(tl_01);
@@ -382,25 +374,13 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
         game_mode_scene_instance = new TAdMultiConfirmGC(tl_01);
         break;
     case 11:
-        p = TObject::operator new(0x30);
-        if (p != NULL) {
-            p = __ct__21TAdMultiChgGameModeGCFv(p, tl_01);
-        }
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = new TAdMultiChgGameModeGC(tl_01);
         break;
     case 12:
-        p = TObject::operator new(0x44);
-        if (p != NULL) {
-            p = __ct__21TAdMultiSelGameModeGCFv(p, tl_01, 0);
-        }
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = new TAdMultiSelGameModeGC(tl_01, 0);
         break;
     case 13:
-        p = TObject::operator new(0x44);
-        if (p != NULL) {
-            p = __ct__21TAdMultiSelGameModeGCFv(p, tl_01, 1);
-        }
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = new TAdMultiSelGameModeGC(tl_01, 1);
         break;
     case 14:
         game_mode_scene_instance = TAdMultiPlyChrSelectGC::get_or_create(tl_01, 1);
@@ -416,50 +396,26 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
         game_mode_scene_instance = new TAdEnterPasswordGC(tl_02);
         break;
     case 17:
-        p = TObject::operator new(0x3C);
-        if (p != NULL) {
-            p = __ct__17TAdLicAgreementGCFP7TObject(p, tl_01);
-        }
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = new TAdLicAgreementGC(tl_01);
         break;
     case 18:
-        p = TObject::operator new(0x4C);
-        if (p != NULL) {
-            p = __ct__13TAdVIConfigGCFP7TObject(p, tl_01);
-        }
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = new TAdVIConfigGC(tl_01);
         break;
     case 19:
         p = new TLogo(tl_01);
         game_mode_scene_instance = (TObject *)p;
         break;
     case 20:
-        p = TObject::operator new(0x4C);
-        if (p != NULL) {
-            p = __ct__20TAdSnAkPassConfirmGCFP7TObject(p, tl_01);
-        }
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = new TAdSnAkPassConfirmGC(tl_01);
         break;
     case 21:
-        p = TObject::operator new(0x30);
-        if (p != NULL) {
-            p = __ct__17TAdExNetConfirmGCFP7TObject(p, tl_01);
-        }
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = new TAdExNetConfirmGC(tl_01);
         break;
     case 22:
-        p = TObject::operator new(0x30);
-        if (p != NULL) {
-            p = __ct__18TAdTrialModemChkGCFP7TObject(p, tl_01);
-        }
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = new TAdTrialModemChkGC(tl_01);
         break;
     case 23:
-        p = TObject::operator new(0x3C);
-        if (p != NULL) {
-            p = __ct__19TAdTrialAgreementGCFP7TObject(p, tl_01);
-        }
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = new TAdTrialAgreementGC(tl_01);
         break;
     case 24:
         game_mode_scene_instance = TAdMultiPlyChrSelectGC::get_or_create(tl_01, 2);
@@ -468,25 +424,13 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
         game_mode_scene_instance = new TAdEnterPPPPassGC(tl_01);
         break;
     case 26:
-        p = TObject::operator new(0x48);
-        if (p != NULL) {
-            p = __ct__16TAdPsoPassSaveGCFP7TObject(p, tl_01);
-        }
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = new TAdPsoPassSaveGC(tl_01);
         break;
     case 27:
-        p = TObject::operator new(0x38);
-        if (p != NULL) {
-            p = __ct__13TUnk_804F3A20FP7TObject(p, tl_01);
-        }
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = new TUnk_804F3A20(tl_01);
         break;
     case 28:
-        p = TObject::operator new(0x38);
-        if (p != NULL) {
-            p = TAdEp3Exist__ct(p, tl_01);
-        }
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = new TAdEp3Exist(tl_01);
         break;
     case 1:
         p = TObject::operator new(0x28);

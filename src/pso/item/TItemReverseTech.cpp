@@ -33,6 +33,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/player/TObjPlayer_801A5AEC.h"
 
 
 struct TItemReverseTechBG_80119658 {
@@ -56,7 +57,6 @@ extern void *__vt__18TItemReverseTechBG[];
 }
 
 struct RecoveredGlobal_80119B28___vt__21TItemReverseTechPart2 { s32 value; u8 remaining[0x14]; };
-LAYOUT_ASSERT(RecoveredGlobal_80119B28___vt__21TItemReverseTechPart2_size, sizeof(RecoveredGlobal_80119B28___vt__21TItemReverseTechPart2) == 0x18);
 
 extern RecoveredGlobal_80119B28___vt__21TItemReverseTechPart2 __vt__21TItemReverseTechPart2;
 
@@ -68,7 +68,6 @@ void *TItemReverseTechPart1__instance;
 static const f32 lbl_805DAC08[1] = {0.0f};
 static const f32 lbl_805DAC0C[1] = {480.0f};
 
-extern "C" {
 
 struct Self_80119DA0 {
     u8 pad0[0x1C];
@@ -87,7 +86,6 @@ extern s32 destroy_and_flag__21TItemReverseTechPart2Fv[];
 extern s32 __vt__16TItemReverseTech[];
 const char *TItemReverseTech__name = "TItemReverseTech";
 
-}
 
 struct Ent_8011A270 { int name; int a; int b; };
 
@@ -101,23 +99,13 @@ struct TItemReverseTechSceneHook {
 };
 
 extern "C" {
-s32 TKeyBoardControl__sub_8000F92C();
-void request_main_phase(s32 arg0);
-s8 func_801A5E54__Fv();
-s32 prs_decompress_alloc(int, int, int);
-char *strncpy(char *, const char *, u32);
-void TKeyBoardControl__sub_8000F90C(s32);
-void set_queued_main_phase(s32);
-void set_active_camera_pose(u8 *arg0, u8 *arg1);
+s32 prs_decompress_alloc(int, void *, int);
 u8 *TCameraCtrl__ct(u8 *arg0, void *parent);
-void reset_controller_input_state();
 void set_copy_clear_color_argb(s32, s32, s32);
 void TItemReverseTech__sub_8011A54C(void* a0);
-void TItemReverseTech__sub_8011A55C(void);
-void TItemReverseTech__sub_8011A580(void);
-void TItemReverseTech__sub_8011A5A4(void);
-void reset__11TCameraCtrlFv(void);
-s32 free_texture_if_valid(u32 arg0);
+void activate_fast_rotation_code(void);
+void activate_reverse_rotation_code(void);
+void activate_uraending_code(void);
 }
 void process_async_file_reads(void);
 void update_sound_request_slots(void);
@@ -126,7 +114,7 @@ void init_map_lights(u8 *arg0);
 void set_screen_size(f32, f32);
 extern u8 default_scene_light_config[];
 TItemReverseTechSceneHook TItemReverseTech__cleanup_callback_table[7] = {
-    {TCameraCtrl::reset_view_state, reset__11TCameraCtrlFv},
+    {TCameraCtrl::reset_view_state, TCameraCtrl::reset},
     {TCameraCtrl::init_default_view, TCameraCtrl::reset_default_view},
     {TLobby::update_keyboard_menu, TLobby::free_keyboard_soft_resources},
     {TLobby::set_ending_callback, TLobby::free_ending_callback},
@@ -138,9 +126,9 @@ TItemReverseTechSceneHook TItemReverseTech__cleanup_callback_table[7] = {
 #pragma defer_codegen on
 
 
-void TItemReverseTech__sub_8011A5A4(void) {  }
-void TItemReverseTech__sub_8011A580(void) { TLobby::set_global_flags(1); }
-void TItemReverseTech__sub_8011A55C(void) { TLobby::set_global_flags(2); }
+void activate_uraending_code(void) {  }
+void activate_reverse_rotation_code(void) { TLobby::set_global_flags(1); }
+void activate_fast_rotation_code(void) { TLobby::set_global_flags(2); }
 
 void TItemReverseTech__sub_8011A54C(void* a0) { *(float*)((char*)a0 + 0x20) = 1.0f; *(float*)((char*)a0 + 0x24) = 1.0f; }
 
@@ -232,7 +220,7 @@ void TItemReverseTech::load_textures() {
     s32 i;
     Hdr_8011A270 *hdr;
     int file;
-    int buf;
+    void *buf;
     TItemReverseTech__name_buffer = (saddr)mem_alloc(0x1C);
     strncpy((char *)TItemReverseTech__name_buffer, name, 0x1B);
     e = (Ent_8011A270 *)mem_alloc(0xCC);
@@ -247,11 +235,11 @@ void TItemReverseTech::load_textures() {
     hdr->entries = TItemReverseTech__entry_table;
     file = (saddr)load_disc_file(name);
     if (file != 0) {
-        buf = (saddr)mem_alloc(0x200000);
-        if (buf != 0 && prs_decompress_alloc(file, buf, 0x200000) > 0) {
-            load_gvm_texture_archive((void *)buf, (GinjaTextureList *)TItemReverseTech__texture_archive);
+        buf = mem_alloc(0x200000);
+        if (buf != NULL && prs_decompress_alloc(file, buf, 0x200000) > 0) {
+            load_gvm_texture_archive(buf, (GinjaTextureList *)TItemReverseTech__texture_archive);
         }
-        mem_free((void *)buf);
+        mem_free(buf);
     }
     TAdSinglePlyChrSelectGC::safe_free(file);
 }
@@ -406,9 +394,9 @@ void TItemReverseTechPart2::destroy_and_flag() {
 const char *TItemReverseTechPart2__name = "TItemReverseTechPart2";
 
 
-u8 *__ct__21TItemReverseTechPart2Fv(u8 *object, saddr arg1, s32 arg2) {
+u8 *__ct__21TItemReverseTechPart2Fv(u8 *object, saddr parent, s32 arg2) {
     void *item_reverse_tech_bg;
-    __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
+    __ct__7TObjectFP7TObject((void *)object, (void *)parent);
     *(s32 **)((s8 *)object + 0x18) = &__vt__21TItemReverseTechPart2.value;
     TItemReverseTech__sub_8011A54C((object + 0x1C));
     TItemReverseTech__sub_8011A54C((object + 0x48));

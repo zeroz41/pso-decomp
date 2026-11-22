@@ -11,7 +11,7 @@ struct TODoorFourLightSpace : public TODoorBase {
     virtual void update_door_switch_state();
     virtual void vfunc_6(s16 *, s32);
     uaddr m_d4;
-    s32 draw_lights();
+    void draw_lights();
     virtual void render();
     u8 unk_D8[0x20];
 };

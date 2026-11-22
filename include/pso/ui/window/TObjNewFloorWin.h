@@ -6,7 +6,7 @@
 
 class TObjNewFloorWin : public TObject {
 public:
-    TObjNewFloorWin(TObject *arg1, void *arg2);
+    TObjNewFloorWin(TObject *object, void *arg2);
     virtual ~TObjNewFloorWin();
     virtual void run_task();
 public:

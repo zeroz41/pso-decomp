@@ -4,18 +4,15 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/effect/enemy/TEneParticleCtrl.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 // inferred: TEneParticleCtrl__collision_body, the one body the constructor registers.
 CollisionBody TEneParticleCtrl__collision_body = {{0.0f, 0.0f, 0.0f}, 20.0f, 0.0f, 0, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
 
 const char *TEneParticleCtrl__name = "TEneParticleCtrl";
 
-extern "C" {
-u16 get_entity_id(void *);
-TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
-s32 init_collision_body_parts(void *, void *, int);
-void free_collision_body_parts(void *);
-}
 
 void *TEneParticleCtrl::get_center() { return get_field_38_ptr(); }
 

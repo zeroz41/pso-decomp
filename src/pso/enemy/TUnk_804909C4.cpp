@@ -28,6 +28,9 @@
 #include "pso/render/MaterialColorFade.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
+#include "pso/enemy/darkgunner/DarkGunner.h"
+#include "pso/unk/text_800870BC.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
 struct VBase_18_4a35f9 { char pad[0x18]; };
 
@@ -65,16 +68,11 @@ struct Sub_800A3290 { u8 pad0[0x18]; u32 flags; };
 struct Obj_800A3290 { u8 pad0[0xA4]; Sub_800A3290 *sub; };
 
 extern "C" {
-void check_enemy_body_collisions(void *arg0);
 s32 obj_is_hit_receivable();
-s32 TObjPlayer__sub_800A3210(s32 i, s32 _w1, s32 _w2);
 s32 vec3_add_to(void *, void *);
-s32 free_collision_body_parts(void *);
-s32 init_collision_body_parts(void *, void *, int);
 s16 get_entity_id(void *, f32);
 s32 subtract_vector(void *, void *);
 f32 atan2_float(f32, f32);
-void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 u8 *csnVector(void *, Vec *, s32);
 extern void *tl_04;
 extern f32 player_scale_factor;
@@ -116,9 +114,9 @@ s32 TUnk_804909C4::sub_800A3290(u16 id) {
 }
 
 void TUnk_804909C4::run_task() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     s32 temp_r0;
-    VecCopy((Vec *)(arg0 + 0x44), (const Vec *)(arg0 + 0x38));
+    VecCopy((Vec *)(self + 0x44), (const Vec *)(self + 0x38));
     vec3_add_to((u8 *)&this->position, (u8 *)&this->unk_AC);
     {
         void *p = (void *) this->m_d0;
@@ -126,14 +124,14 @@ void TUnk_804909C4::run_task() {
             ((TParticleCtrl *)p)->set_position((u8 *)&this->position);
         }
     }
-    if (((TUnk_804909C4 *)arg0)->sub_800A3290(*(u16 *)((s8 *)arg0 + 0xC8)) != 0) {
-        ((TObject *)arg0)->queue_destruction();
+    if (((TUnk_804909C4 *)self)->sub_800A3290(*(u16 *)((s8 *)self + 0xC8)) != 0) {
+        ((TObject *)self)->queue_destruction();
         return;
     }
     temp_r0 = this->m_c4 - 1;
     this->m_c4 = temp_r0;
     if (temp_r0 <= 0) {
-        ((TObject *)arg0)->queue_destruction();
+        ((TObject *)self)->queue_destruction();
     }
 }
 

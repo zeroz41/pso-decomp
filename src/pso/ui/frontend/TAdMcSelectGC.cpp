@@ -5,6 +5,7 @@
 #include "pso/unk/text_8033F314.h"
 #include "pso/ui/frontend/TAdChrSelSlotGC.h"
 #include "pso/ui/frontend/TAdMcSelectGC.h"
+#include "pso/ui/frontend/TAdTitleGC.h"
 #include "pso/ui/frontend/TAdMcSelectCursorGC.h"
 #include "pso/ui/frontend/TAdMcSelectMcGC.h"
 
@@ -16,24 +17,6 @@ static const f32 lbl_804770F8[2] = { 95.0f, 118.0f };
 static const f32 lbl_80477100[2] = { 381.0f, 118.0f };
 const char *TAdMcSelectGC__class_name = "TAdMcSelectGC";
 void *TAdMcSelectGC__instance;
-
-struct Self_80329EC8 {
-    const char *f0;
-    u8 pad4[0x14];
-    void *vt;
-    s32 f1C;
-    u8 pad20[4];
-    s32 f24;
-    s32 f28;
-    s32 f2C;
-    void *f30;
-};
-
-extern "C" {
-void __ct__7TObjectFP7TObject(void *, void *);
-void *__ct__10TAdTitleGCFP7TObjectl(void *, void *, s32);
-void *__ct__15TAdChrSelSlotGCFP7TObject(void *, void *);
-void TAdMcSelectGC__sub_8032A180(void *, s32);
 
 void TAdMcSelectGC::render() {
     if (TMainTask::get_render_pass() == 1) { return;
@@ -48,14 +31,13 @@ void TAdMcSelectGC::update_state() {
 }
 
 s32 TAdMcSelectGC::get_selected_slot_index() {
-    s32 var_r0;
-    u8 *mc_count;
-    mc_count = (u8 *)(((saddr)TAdMcSelectGC::get_mc_count()));
-    var_r0 = 0;
-    if (mc_count != NULL) {
-        var_r0 = ((TAdMcSelectGC *)mc_count)->get_slot_index();
+    s32 index;
+    TAdMcSelectCursorGC *cursor = TAdMcSelectGC::get_mc_count();
+    index = 0;
+    if (cursor != NULL) {
+        index = cursor->get_slot_index();
     }
-    return var_r0;
+    return index;
 }
 
 void TAdMcSelectGC::select_if_mc_present() {
@@ -76,57 +58,48 @@ void TAdMcSelectGC::run_task() {
     }
 }
 
-}
 TAdMcSelectGC::~TAdMcSelectGC() {
     if (TAdMcSelectGC__instance != NULL) {
         TAdMcSelectGC__instance = NULL;
     }
 }
 
-#define self ((Self_80329EC8 *)this)
 TAdMcSelectGC::TAdMcSelectGC(TObject *parent) : TObject(parent) {
     TAdBackGC *back;
     TAdBackTxtGC *txt;
-    void *p;
+    TAdTitleGC *title;
+    TAdMcSelectMcGC *mc;
     s32 i;
     s32 j;
-    self->f0 = TAdMcSelectGC__class_name;
-    self->f28 = 0;
-    self->f1C = 0;
-    self->f24 = 0;
-    self->f2C = 0;
-    self->f30 = 0;
-    back = new TAdBackGC((TObject *)self);
-    txt = new TAdBackTxtGC((TObject *)self);
+    m_name = TAdMcSelectGC__class_name;
+    m_28 = 0;
+    m_1c = 0;
+    m_24 = 0;
+    m_2c = 0;
+    slot_gc = 0;
+    back = new TAdBackGC(this);
+    txt = new TAdBackTxtGC(this);
     back->set_depth(-160.0f);
     back->set_field_20(0);
     txt->set_depth(0.006666667f);
     txt->set_field_24(0);
-    p = TObject::operator new(0x138);
-    if (p != NULL) {
-        p = __ct__10TAdTitleGCFP7TObjectl(p, self, 0xD);
-    }
-    ((TAdMcSelectGC *)p)->set_field_134(0);
-    TAdMcSelectGC__sub_8032A180(create_draw_line_ctrl((TObject *)self, 0x16, 0.0f), 0);
-    TAdMcSelectGC__sub_8032A180(create_draw_line_ctrl((TObject *)self, 0x17, 0.0f), 0);
-    p = TObject::operator new(0x128);
-    if (p != NULL) {
-        p = __ct__15TAdChrSelSlotGCFP7TObject(p, self);
-    }
-    self->f30 = p;
-    ((TAdMcSelectGC *)(self->f30))->set_select_index(0);
-    ((TAdMcSelectGC *)(self->f30))->init_slot(0, (void *)lbl_804770F8);
-    ((TAdMcSelectGC *)(self->f30))->init_slot(1, (void *)lbl_80477100);
+    title = new TAdTitleGC(this, 0xD);
+    title->set_field_134(0);
+    create_draw_line_ctrl(this, 0x16, 0.0f)->sub_8032A180(0);
+    create_draw_line_ctrl(this, 0x17, 0.0f)->sub_8032A180(0);
+    slot_gc = new TAdChrSelSlotGC(this);
+    slot_gc->set_select_index(0);
+    slot_gc->init_slot(0, (void *)lbl_804770F8);
+    slot_gc->init_slot(1, (void *)lbl_80477100);
     for (i = 0; i < 2; i++) {
-        p = new TAdMcSelectMcGC((TObject *)self, i);
-        ((TAdMcSelectGC *)p)->set_field_0x1c(0);
+        mc = new TAdMcSelectMcGC(this, i);
+        mc->set_field_0x1c(0);
     }
-    ((TAdMcSelectGC *)(TAdMcSelectCursorGC::get_instance((saddr)self)))->set_field_13c(0);
+    ((TAdMcSelectCursorGC *)TAdMcSelectCursorGC::get_instance((saddr)this))->set_field_13c(0);
     for (j = 0; j < 2; j++) {
-        fn_8033F314((saddr)self, j);
+        fn_8033F314((saddr)this, j);
     }
 }
-#undef self
 
 
 void *TAdMcSelectGC::create(void *arg0) {
@@ -143,17 +116,16 @@ void TAdMcSelectCursorGC::sub_8032A140() { m_1c = 0; }
 extern TAdMcSelectCursorGC *TAdMcSelectCursorGC__instance;
 TAdMcSelectCursorGC *TAdMcSelectGC::get_mc_count() { return TAdMcSelectCursorGC__instance; }
 
-s32 TAdMcSelectGC::get_slot_index() { return *(s32 *)&this->_pad20; }
+s32 TAdMcSelectCursorGC::get_slot_index() { return m_20; }
 void TAdMcSelectCursorGC::sub_8032A15C() { m_1c = 1; }
-void TAdMcSelectGC::set_field_13c(s32 v) { *(s32*)((char*)this + 0x13c) = v; }
-void TAdMcSelectGC::set_field_0x1c(s32 v) { this->m_1c = v; }
-void TAdMcSelectGC::set_select_index(s32 v) { *(s32*)((char*)this + 0x124) = v; }
-void TAdMcSelectGC__sub_8032A180(void* p, s32 v) { *(s32*)((char*)p + 0x28) = v; }
+void TAdMcSelectCursorGC::set_field_13c(s32 v) { m_13c = v; }
+void TAdMcSelectMcGC::set_field_0x1c(s32 v) { pad_1c = v; }
+void TAdChrSelSlotGC::set_select_index(s32 v) { enabled = v; }
+void TAdDrawLineCtrl::sub_8032A180(s32 mode) { render_mode = mode; }
 
-void TAdMcSelectGC::set_field_134(s32 arg1) {
-    u8 *arg0 = (u8 *)this;
-    *(s32 *)((s8 *)arg0 + 0x134) = arg1;
-    TAdMcSelectGC__sub_8032A180((void*)((saddr) (*(saddr *)((s8 *)arg0 + 0x130))), arg1);
+void TAdTitleGC::set_field_134(s32 value) {
+    render_direct = value;
+    draw_line_ctrl->sub_8032A180(value);
 }
 
 void TAdBackTxtGC::set_field_24(s32 v) { m_24 = v; }

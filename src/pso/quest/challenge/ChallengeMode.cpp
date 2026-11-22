@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/CharacterSaveRecordLookup.h"
+#include "pso/ui/window/TObjCHTimeWin.h"
 #include "pso/object/TObjWarnChime.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/unk/text_80072230.h"
@@ -88,12 +89,11 @@ void TLobby__sub_800738F4(void *, s32);
 }
 void *create_obj_tag_challenge(void *arg0);
 extern saddr tl_07;
-void *create_ch_time_win(void *arg0);
 extern "C" {
-Info_800703D0 *TLobby__sub_800703D0(Info_800703D0 *dst, Info_800703D0 *src);
+Info_800703D0 *copy_challenge_info(Info_800703D0 *dst, Info_800703D0 *src);
 void *get_player_by_client_id(s32 i);
 extern void *challenge_mode_state[];
-void TLobby__sub_80070254(L_80070254 *arg0);
+void TChallenge__request_missing_challenge_records(L_80070254 *arg0);
 void render__10TChallengeFv(void);
 
 int is_quest_active(void);
@@ -105,7 +105,7 @@ extern "C" {
 void run_task__10TChallengeFv(TChallenge *);
 }
 struct Obj_80070774 { u8 pad0[0x18]; void *vt; };
-Obj_80070774 *TLobby__sub_80070774(Obj_80070774 *arg0, s16 arg1);
+Obj_80070774 *TChallenge__dt(Obj_80070774 *arg0, s16 arg1);
 extern "C" {
 extern u8 lbl_805D90D0[];
 }
@@ -363,7 +363,7 @@ void *challenge_mode_state[420] = {
 
 void TLobby::create_time_window(void * _w0) {
     TLobby::spawn_player_tombstones();
-    create_ch_time_win((void *)tl_07);
+    create_ch_time_win((TObject *)tl_07);
     ((TLobby *)tl_07)->create_new_floor_windows();
     if ((s32) *(s32 *)((s8 *)challenge_mode_state + 0x30) == 0) {
         TObjSoloPlayWin::create((TObject*)tl_07);
@@ -437,7 +437,7 @@ void TLobby::update_quest_challenge_state(void *arg0_) {
 }
 #undef arg0
 
-void TLobby__sub_80070170(void *arg0) {
+void TChallenge__refresh_challenge_windows(void *arg0) {
     s32 old;
     s32 v;
     switch (get_current_floor_area()) {
@@ -448,7 +448,7 @@ void TLobby__sub_80070170(void *arg0) {
         if (old != -1) {
             create_obj_tag_challenge((void *)tl_07);
             if (challenge_mode_state[8] == 0) {
-                create_ch_time_win((void *)tl_07);
+                create_ch_time_win((TObject *)tl_07);
             }
         }
         break;
@@ -469,7 +469,7 @@ void TLobby__sub_80070170(void *arg0) {
     }
 }
 
-void TLobby__sub_80070254(L_80070254 *arg0) {
+void TChallenge__request_missing_challenge_records(L_80070254 *arg0) {
     s32 found;
     s32 i;
     s32 *p;
@@ -503,17 +503,17 @@ void clear_four_slots__6TLobbyFv(void) {
     }
 }
 
-void TLobby__sub_80070358(void) {
+void restore_challenge_from_save(void) {
     s32 *temp_r31;
     TLobby::clear_four_slots();
     temp_r31 = (s32 *)((u8 *)(((u8 *)&challenge_mode_state + (local_client_id * 0x104))) + 0x270);
     if (get_character_save_record(0xFFFFU) != 0U) {
         *(s32 *)((s8 *)temp_r31 + 0) = 1;
-        TLobby__sub_800703D0((Info_800703D0 *)((void *)((void *) ((u8 *)temp_r31 + 4))), (Info_800703D0 *)((void *)((void *) (get_character_save_record(0xFFFFU) + 0x21C4))));
+        copy_challenge_info((Info_800703D0 *)((void *)((void *) ((u8 *)temp_r31 + 4))), (Info_800703D0 *)((void *)((void *) (get_character_save_record(0xFFFFU) + 0x21C4))));
     }
 }
 
-Info_800703D0 *TLobby__sub_800703D0(Info_800703D0 *dst, Info_800703D0 *src) {
+Info_800703D0 *copy_challenge_info(Info_800703D0 *dst, Info_800703D0 *src) {
     *dst = *src;
     return dst;
 }
@@ -537,7 +537,7 @@ s32 TLobby::destroy_on_phase_change() {
 }
 
 void TChallenge::render() {  }
-void TChallenge::update_active() { void *p = this; if (((TLobby *)p)->destroy_on_phase_change() == 0) { TLobby__sub_80070170(p); ((TLobby *)p)->update_battle_cleanup_flag(); } }
+void TChallenge::update_active() { void *p = this; if (((TLobby *)p)->destroy_on_phase_change() == 0) { TChallenge__refresh_challenge_windows(p); ((TLobby *)p)->update_battle_cleanup_flag(); } }
 void TChallenge::wait_for_quest() {
     u8 *arg0 = (u8 *)this;
     if (((s32)((TLobby *)arg0)->destroy_on_phase_change()) == 0) {
@@ -577,7 +577,7 @@ void TChallenge::run_task() {
     if (TAdPlayerLoadGC__sub_801E1510(self) == 1) {
         return;
     }
-    TLobby__sub_80070254((L_80070254 *)self);
+    TChallenge__request_missing_challenge_records((L_80070254 *)self);
     static Step_80070674 table[3] = {
         &TChallenge::initialize_windows,
         &TChallenge::wait_for_quest,
@@ -601,78 +601,77 @@ void *lbl_8048D0B0[22] = {
     (void *)0x0, (void *)0x0,
 };
 void *lbl_8048D108[6] = {
-    (void *)0x0, (void *)0x0, (void *)&TLobby__sub_80070774, (void *)&run_task__10TChallengeFv,
+    (void *)0x0, (void *)0x0, (void *)&TChallenge__dt, (void *)&run_task__10TChallengeFv,
     (void *)&render__10TChallengeFv, (void *)&render_shadows__7TObjectFv,
 };
 
 void __dt__7TObjectFv(void *, s32);
-extern s32 challenge_task;
 
-Obj_80070774 *TLobby__sub_80070774(Obj_80070774 *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        arg0->vt = lbl_8048D108;
+Obj_80070774 *TChallenge__dt(Obj_80070774 *object, s16 arg1) {
+    if (object != NULL) {
+        object->vt = lbl_8048D108;
         TObjTombstone::destroy();
-        ((void (*)(void *))clear_four_slots__6TLobbyFv)(arg0);
+        ((void (*)(void *))clear_four_slots__6TLobbyFv)(object);
         ((TLobby *)challenge_mode_state)->copy_challenge_settings((u8 *)challenge_settings_defaults);
         challenge_task = 0;
-        __dt__7TObjectFv(arg0, 0);
+        __dt__7TObjectFv(object, 0);
         if (arg1 > 0) {
-            TObject::operator delete(arg0);
+            TObject::operator delete(object);
         }
     }
-    return arg0;
+    return object;
 }
 
-void TLobby::copy_challenge_settings(u8 *arg1) {
+void TLobby::copy_challenge_settings(u8 *settings) {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r6;
     u8 *temp_r8;
-    *(s32 *)&this->m_name = (s32) *(s32 *)((s8 *)arg1 + 0);
-    *(f32 *)&this->m_flags = (f32) *(f32 *)((s8 *)arg1 + 4);
-    *(s32 *)&this->m_prev = (s32) *(s32 *)((s8 *)arg1 + 8);
-    *(s32 *)&this->m_next = (s32) *(s32 *)((s8 *)arg1 + 0xC);
-    *(s32 *)&this->m_up = (s32) *(s32 *)((s8 *)arg1 + 0x10);
-    *(s32 *)&this->m_down = (s32) *(s32 *)((s8 *)arg1 + 0x14);
-    *(s32 *)((s8 *)arg0 + 0x18) = (s32) *(s32 *)((s8 *)arg1 + 0x18);
-    *(s32 *)((s8 *)arg0 + 0x1C) = (s32) *(s32 *)((s8 *)arg1 + 0x1C);
-    *(s32 *)((s8 *)arg0 + 0x20) = (s32) *(s32 *)((s8 *)arg1 + 0x20);
-    *(s32 *)((s8 *)arg0 + 0x24) = (s32) *(s32 *)((s8 *)arg1 + 0x24);
-    *(s32 *)((s8 *)arg0 + 0x28) = (s32) *(s32 *)((s8 *)arg1 + 0x28);
-    *(s32 *)((s8 *)arg0 + 0x2C) = (s32) *(s32 *)((s8 *)arg1 + 0x2C);
-    *(s32 *)((s8 *)arg0 + 0x30) = (s32) *(s32 *)((s8 *)arg1 + 0x30);
-    *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)arg1 + 0x34);
-    *(ByteBlock_10 *)((saddr) arg0 + 0x38) = *(const ByteBlock_10 *)((saddr) arg1 + 0x38);
-    *(s32 *)((s8 *)arg0 + 0x48) = (s32) *(s32 *)((s8 *)arg1 + 0x48);
-    *(s32 *)((s8 *)arg0 + 0x4C) = (s32) *(s32 *)((s8 *)arg1 + 0x4C);
-    *(ByteBlock_8 *)((saddr) arg0 + 0x50) = *(const ByteBlock_8 *)((saddr) arg1 + 0x50);
+    *(s32 *)&this->m_name = (s32) *(s32 *)((s8 *)settings + 0);
+    *(f32 *)&this->m_flags = (f32) *(f32 *)((s8 *)settings + 4);
+    *(s32 *)&this->m_prev = (s32) *(s32 *)((s8 *)settings + 8);
+    *(s32 *)&this->m_next = (s32) *(s32 *)((s8 *)settings + 0xC);
+    *(s32 *)&this->m_up = (s32) *(s32 *)((s8 *)settings + 0x10);
+    *(s32 *)&this->m_down = (s32) *(s32 *)((s8 *)settings + 0x14);
+    *(s32 *)((s8 *)arg0 + 0x18) = (s32) *(s32 *)((s8 *)settings + 0x18);
+    *(s32 *)((s8 *)arg0 + 0x1C) = (s32) *(s32 *)((s8 *)settings + 0x1C);
+    *(s32 *)((s8 *)arg0 + 0x20) = (s32) *(s32 *)((s8 *)settings + 0x20);
+    *(s32 *)((s8 *)arg0 + 0x24) = (s32) *(s32 *)((s8 *)settings + 0x24);
+    *(s32 *)((s8 *)arg0 + 0x28) = (s32) *(s32 *)((s8 *)settings + 0x28);
+    *(s32 *)((s8 *)arg0 + 0x2C) = (s32) *(s32 *)((s8 *)settings + 0x2C);
+    *(s32 *)((s8 *)arg0 + 0x30) = (s32) *(s32 *)((s8 *)settings + 0x30);
+    *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)settings + 0x34);
+    *(ByteBlock_10 *)((saddr) arg0 + 0x38) = *(const ByteBlock_10 *)((saddr) settings + 0x38);
+    *(s32 *)((s8 *)arg0 + 0x48) = (s32) *(s32 *)((s8 *)settings + 0x48);
+    *(s32 *)((s8 *)arg0 + 0x4C) = (s32) *(s32 *)((s8 *)settings + 0x4C);
+    *(ByteBlock_8 *)((saddr) arg0 + 0x50) = *(const ByteBlock_8 *)((saddr) settings + 0x50);
     {
-        const ByteBlock_1C4 *src = (const ByteBlock_1C4 *)(arg1 + 0x58);
+        const ByteBlock_1C4 *src = (const ByteBlock_1C4 *)(settings + 0x58);
         ByteBlock_1C4 *dst = (ByteBlock_1C4 *)(arg0 + 0x58);
         *dst = *src;
     }
     temp_r8 = (arg0 + 0x218);
-    temp_r6 = (arg1 + 0x218);
+    temp_r6 = (settings + 0x218);
     *(ByteBlock_54 *)((saddr) temp_r8 + 4) = *(const ByteBlock_54 *)((saddr) temp_r6 + 4);
-    *(ByteBlock_410 *)((arg0 + 0x26C) + 4) = *(const ByteBlock_410 *)((arg1 + 0x26C) + 4);
-    *(ByteBlock_10 *)((saddr) arg0 + 0x680) = *(const ByteBlock_10 *)((saddr) arg1 + 0x680);
+    *(ByteBlock_410 *)((arg0 + 0x26C) + 4) = *(const ByteBlock_410 *)((settings + 0x26C) + 4);
+    *(ByteBlock_10 *)((saddr) arg0 + 0x680) = *(const ByteBlock_10 *)((saddr) settings + 0x680);
 }
 
 struct Obj_80070944 { s32 f0; u8 pad4[0x14]; void *vt; s32 f1C, f20, f24, f28, f2C; };
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 lbl_805D2850;
 
-Obj_80070944 *TChallenge__ct(Obj_80070944 *arg0, void *parent) {
-    __ct__7TObjectFP7TObject(arg0, parent);
-    arg0->vt = lbl_8048D108;
-    arg0->f0 = lbl_805D2850;
+Obj_80070944 *TChallenge__ct(Obj_80070944 *challenge_task, void *parent) {
+    __ct__7TObjectFP7TObject(challenge_task, parent);
+    challenge_task->vt = lbl_8048D108;
+    challenge_task->f0 = lbl_805D2850;
     ((TLobby *)challenge_mode_state)->copy_challenge_settings((u8 *)challenge_settings_defaults);
-    ((void (*)(void *))TLobby__sub_80070358)(arg0);
-    TLobby::send_challenge_records((uaddr)arg0);
-    arg0->f20 = 0;
-    arg0->f24 = 0;
-    arg0->f28 = 1;
-    arg0->f2C = 0;
-    arg0->f1C = 0;
-    return arg0;
+    ((void (*)(void *))restore_challenge_from_save)(challenge_task);
+    TLobby::send_challenge_records((uaddr)challenge_task);
+    challenge_task->f20 = 0;
+    challenge_task->f24 = 0;
+    challenge_task->f28 = 1;
+    challenge_task->f2C = 0;
+    challenge_task->f1C = 0;
+    return challenge_task;
 }
 }

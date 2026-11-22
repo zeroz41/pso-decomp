@@ -17,7 +17,7 @@ struct TShopDeleteItemWindow : public TShopWindowBase {
     void sub_80337E2C();
     virtual void vfunc_11();
     virtual void display_message(const char *text, s32 flags);
-    virtual void vfunc_6(s32 id, s32 flags);
+    virtual void display_shop_message(s32 id, s32 flags);
     u8 _pad1C[0x4];
     u32 m_20;
     TObjPlayer *m_24;
@@ -34,8 +34,8 @@ struct TShopDeleteItemWindow : public TShopWindowBase {
     s32 m_5c;  // quantity
     s32 m_60;  // cursor
     TShopWindowBase *m_64;  // owner
-    s32 destroy();
-    static s32 update_item_select(void *arg0);
+    void destroy();
+    static void update_item_select(void *arg0);
     void handle_number_input();
     void handle_confirm_dialog();
 };

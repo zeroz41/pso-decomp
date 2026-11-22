@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-void spawn_land_hit_effect(saddr arg0, uaddr arg1, uaddr arg2, uaddr arg3, s32 arg4);
+void spawn_land_hit_effect(saddr parent, uaddr arg1, uaddr arg2, uaddr arg3, s32 arg4);
 
 #endif

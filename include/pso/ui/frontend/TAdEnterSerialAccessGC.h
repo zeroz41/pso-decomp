@@ -5,6 +5,7 @@
 #include "pso/ui/frontend/TAdEnterBaseGC.h"
 
 class TAdSelectCurGC;
+class TWindowBase;
 
 struct TAdEnterSerialAccessGC : public TAdEnterBaseGC {
     virtual ~TAdEnterSerialAccessGC();
@@ -16,10 +17,10 @@ struct TAdEnterSerialAccessGC : public TAdEnterBaseGC {
     u32 m_44;
     u32 m_48;
     u32 m_4c;
-    u32 m_50;
+    TObject *m_50;
     TAdSelectCurGC *cursor;
-    u32 m_58;
-    u32 m_5c;
+    TWindowBase *m_58;
+    TWindowBase *m_5c;
     u32 m_60;
     u32 m_64;
     static void draw_screen(void *arg0, void *arg1);
@@ -28,8 +29,8 @@ struct TAdEnterSerialAccessGC : public TAdEnterBaseGC {
     void format_dashed_serial(u8 *src, u32 count, u32 *lens);
     static s32 *get_formatted_serial();
     static s32 parse_serial_value();
-    static char *convert_serial_hex_to_decimal(int arg0);
-    static char *hex_to_decimal_string(int arg0);
+    static char *convert_serial_hex_to_decimal(const char *serial);
+    static char *hex_to_decimal_string(const char *serial);
     static s32 open_message_window(void *arg0, void *arg1);
     static void init_state();
     static void *create_callback(void *arg0, void *arg1, void *arg2);
@@ -50,8 +51,8 @@ u8 *TAdEnterSerialAccessGC__ct(TAdEnterSerialAccessGC *arg0, TObject *parent);
 u8 *TAdEnterSerialAccessGC__sub_80321738(void);
 s32 *TAdEnterSerialAccessGC__sub_803217B8(void);
 s32 *TAdEnterSerialAccessGC__sub_80321874(void);
-void TAdEnterSerialAccessGC__sub_8032190C(saddr arg0);
-void TAdEnterSerialAccessGC__sub_8032195C(saddr arg0);
+void TAdEnterSerialAccessGC__sub_8032190C(const char *key);
+void TAdEnterSerialAccessGC__sub_8032195C(const char *serial);
 void TAdEnterSerialAccessGC__sub_80321B28(u8 *arg0, int arg1);
 void TAdEnterSerialAccessGC__sub_80321F18(void *p);
 void TAdEnterSerialAccessGC__sub_80321F3C(void *p);
@@ -68,8 +69,8 @@ u8 *TAdEnterSerialAccessGC__ct(TAdEnterSerialAccessGC *ad_enter_serial_access_gc
 u8 *TAdEnterSerialAccessGC__sub_80321738(void);
 s32 *TAdEnterSerialAccessGC__sub_803217B8(void);
 s32 *TAdEnterSerialAccessGC__sub_80321874(void);
-void TAdEnterSerialAccessGC__sub_8032190C(saddr arg0);
-void TAdEnterSerialAccessGC__sub_8032195C(saddr arg0);
+void TAdEnterSerialAccessGC__sub_8032190C(const char *key);
+void TAdEnterSerialAccessGC__sub_8032195C(const char *serial);
 void TAdEnterSerialAccessGC__sub_80321B28(u8 *ad_enter_serial_access_gc, int arg1);
 void TAdEnterSerialAccessGC__sub_80321F18(void *p);
 void TAdEnterSerialAccessGC__sub_80321F3C(void *p);

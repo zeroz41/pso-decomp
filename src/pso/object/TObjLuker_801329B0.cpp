@@ -28,7 +28,7 @@ void get_floor_destination_name(u32 arg0) {
     get_localized_text_entry(9, floor_destination_text_id_table[var_r3]);
 }
 
-int TObjLuker::get_stat_table_entry(int a0) {  return (int)luker_stat_entry_ptr_table[a0]; }
+const char *TObjLuker::get_stat_table_entry(int a0) { return luker_stat_entry_ptr_table[a0]; }
 s32 enemy_name_for_rt_index(s32 arg0) {
     s32 var_r3;
     var_r3 = arg0;

@@ -52,7 +52,7 @@ struct TWindowDD : public TObject
     void draw_transformed_primitive(s32 a1, u32 a2, s32 a3);
     void reset_entries(f32 z, s32 color);
     void set_quad_corners_scaled(f32 farg0, f32 farg1, f32 farg2);
-    static s32 apply_both_choices(s32 arg0, saddr arg1);
+    static s32 apply_both_choices(s32 arg0, saddr buttons);
     void set_clamped_page(s32 arg1);
     void handle_input();
     void set_clamped_selection(s32 arg1);
@@ -61,7 +61,7 @@ struct TWindowDD : public TObject
     void init();
     void set_value_f32(s32 arg1);
     void set_scale(s32 arg1, s32 arg2);
-    static s32 check_all_ready(s32 arg0);
+    static s32 check_all_ready(s32 floor);
     void update_com_card();
     int initialize_subwindow();
     void set_mode_2();
@@ -93,26 +93,26 @@ struct TWindowDD : public TObject
     void update_selected_id();
     static void build_player_word_lists();
     static void free_buffers();
-    static void open(saddr arg0, s32 arg1);
+    static void open(saddr src, s32 player);
     static u8 is_id_in_special_range(s16 id);
-    static s32 classify_id(s16 arg0);
+    static s32 classify_id(s16 id);
     static s32 get_player_battle_flag_state(u16 arg0);
-    void format_type6_message(saddr arg1, void *arg2);
+    void format_type6_message(saddr window_dd, void *pos);
     static s32 is_state_zero_unless_0x2C8(s32 arg0);
     void destroy_menu_entry(s32 arg1);
     void set_item_pos(s32 i);
     u8 *init_last_child();
-    s32 setup_entry(s16 arg1);
+    s32 setup_entry(s16 id);
     s32 get_current_child_index();
-    static void*get_entry(int a0, int a1);
+    static void *get_entry(void *window, int index);
     void init_entry_field_64(s32 arg1);
     static void refresh_sub(void* p, void* a1);
     static void apply_input(void* p, void* a1);
     static void update(void* p, void* a1);
     void update(saddr arg1);
     static void set_default_coords(int a0, void* a1);
-    static void init_layout(int a0, void* a1);
-    static void set_default_positions(int a0, void* a1);
+    static void init_layout(void *window, void *child);
+    static void set_default_positions(void *window, void *child);
     static void spawn_window();
     static void play_se();
     static void play_sound();
@@ -121,11 +121,11 @@ struct TWindowDD : public TObject
     s32 get_mode_code();
     void set_state();
     void close_all_windows();
-    static s32 can_append_chars(s32 arg0, s32 *arg1);
+    static s32 can_append_chars(s32 arg0, s32 *pos);
     static void format_message(void *src, void *dst, u16 player);
-    void append_prompt_newline(s32 *arg1);
-    static s32 clamp_range_5FA_682(s16 arg0);
-    static s32 clamp_range_2C9_552(s16 arg0);
+    void append_prompt_newline(s32 *pos);
+    static s32 clamp_range_5FA_682(s16 id);
+    static s32 clamp_range_2C9_552(s16 id);
     static void show_message_by_count(char *buf, s32 *pos);
     void maybe_scroll(void* a1);
     s32 count_chars_since_newline(s32 *len);
@@ -147,6 +147,10 @@ struct TWindowDD : public TObject
     static s32 lookup_item_category(s32 arg0);
     void handle_confirm_input();
     void update_selection_state();
+    static void update_draw(void *p);
+    static void enter_state_16(void *window_dd);
+    static void update_state(void *window_dd);
+    static s32 update_close_flag(void *window_dd);
 };
 
 #include <stddef.h>
@@ -161,12 +165,11 @@ void *__dt__11TWindowBaseFv(void *p, s16 flags);
 s32 TWindowDD__sub_80340820(void *p);
 void TWindowDD__sub_80340910(void *p);
 }
-s32 TWindowDD_check_input_mask(void *input_context, s32 arg1);
+s32 TWindowDD_check_input_mask(void *input_context, s32 mask);
 extern "C" {
 void *__dt__13TUnk_804EFBACFv(void *arg0, s16 arg1);
-void update_draw__9TWindowDDFPv(void *p);
 void measure_message_text_width_default(void *entry);
-s32 dispatch_by_window_mode(u8 *window_dd, u32 arg1, s32 arg2, s32 arg3);
+s32 dispatch_by_window_mode(u8 *window_dd, u32 arg1, s32 entry_id, s32 value_index);
 }
 
 // Upper bounds of the numeric word-select entries, indexed by TWindowDD::classify_id.

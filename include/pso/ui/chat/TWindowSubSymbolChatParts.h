@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/ui/window/TWindowAddition.h"
 
+struct TWindowSubStatusDisp;
+
 struct TWindowSubSymbolChatParts : public TWindowAddition {
     virtual ~TWindowSubSymbolChatParts();
     void sub_80284FB8();
@@ -23,7 +25,7 @@ struct TWindowSubSymbolChatParts : public TWindowAddition {
     u32 m_7c;
     u32 m_80;
     u8 _pad84[0x4];
-    uaddr m_88;
+    TWindowSubStatusDisp *m_88;
     u32 m_8c;
     void handle_cancel();
     void add_part();
@@ -34,15 +36,14 @@ LAYOUT_ASSERT(TWindowSubSymbolChatParts_size, sizeof(TWindowSubSymbolChatParts) 
 
 extern "C" {
 void fn_80284C04(u8 *arg0);
-void render__25TWindowSubSymbolChatPartsFv(u8 *arg0);
+void render__25TWindowSubSymbolChatPartsFv(u8 *window_sub_symbol_chat_parts);
 }
 void select_symbol_chat_slot(TWindowSubSymbolChatParts *parts);
 
 // --- C functions defined in TWindowSubSymbolChatParts.cpp ---
 extern "C" {
 void fn_80284C04(u8 *arg0);
-void sub_80284FB8__25TWindowSubSymbolChatPartsFv(void *arg0);
-void render__25TWindowSubSymbolChatPartsFv(u8 *arg0);
+void render__25TWindowSubSymbolChatPartsFv(u8 *window_sub_symbol_chat_parts);
 }
 void select_symbol_chat_slot(TWindowSubSymbolChatParts *parts);
 // --- end of C functions

@@ -8,9 +8,6 @@
 const char *TWindowMessageInfomation__name = "TWindowMessageInfomation";
 
 
-extern "C" {
-extern const char *TWindowMessageInfomation__name;
-
 void TWindowMessageInfomation::render() {
     s32 arg0 = (saddr)this;
     s8 *tmp = reinterpret_cast<s8 *>(get_draw_context());
@@ -20,11 +17,10 @@ void TWindowMessageInfomation::render() {
         reinterpret_cast<WindowDrawContext *>(tmp));
 }
 
-}
 TWindowMessageInfomation::~TWindowMessageInfomation() {
 
 }
 
-TWindowMessageInfomation::TWindowMessageInfomation(s32 arg1, s32 arg2) : TWindowMessage(arg1, 0x10U, arg2) {
+TWindowMessageInfomation::TWindowMessageInfomation(s32 parent, s32 client) : TWindowMessage(parent, 0x10U, client) {
     this->m_name = TWindowMessageInfomation__name;
 }

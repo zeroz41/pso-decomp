@@ -39,6 +39,8 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
+#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/window/WindowLayout.h"
 
 // The class name opens .rodata (0x8044F478), then the menu window positions
 // (0x8044F48C..0x8044F4A4) in this order, ahead of the strings of the functions.
@@ -49,8 +51,6 @@ const vec2f lbl_8044F49C = {470.0f, 80.0f};
 const vec2f lbl_8044F4A4 = {470.0f, 80.0f};
 
 extern "C" {
-u8 *get_window_layout_position(s32);
-s32 get_localized_text_entry(s32 arg0, s32 arg1);
 s32 forward_trade_action_default__16TObjCityMainWarpFPviii(s32, s32, s32, s32);
 s32 create_window_menu_default(s32, s32);
 }
@@ -423,32 +423,32 @@ void TWindowOptionCtrl::render() {  }
 
 extern "C" {
 saddr TWindowOptionCtrl::create_menu() {
-    saddr temp_r31;
+    saddr menu;
 
-    temp_r31 = create_window_menu_default((saddr)TWindowOptionCtrl::get_option_entry(0xCE), 9);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 0), 6, 3);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 1), 6, 7);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 2), 6, 5);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 3), 6, 9);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 4), 6, 0xB);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 5), 6, 0x10);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 6), 6, 0x19);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 7), 6, 0x1B);
-    ((TWindowMenu *)temp_r31)->update_layout_height(470.0f);
-    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(temp_r31));
-    return temp_r31;
+    menu = create_window_menu_default((saddr)TWindowOptionCtrl::get_option_entry(0xCE), 9);
+    forward_trade_action_default__16TObjCityMainWarpFPviii(menu, get_localized_text_entry(0xF, 0), 6, 3);
+    forward_trade_action_default__16TObjCityMainWarpFPviii(menu, get_localized_text_entry(0xF, 1), 6, 7);
+    forward_trade_action_default__16TObjCityMainWarpFPviii(menu, get_localized_text_entry(0xF, 2), 6, 5);
+    forward_trade_action_default__16TObjCityMainWarpFPviii(menu, get_localized_text_entry(0xF, 3), 6, 9);
+    forward_trade_action_default__16TObjCityMainWarpFPviii(menu, get_localized_text_entry(0xF, 4), 6, 0xB);
+    forward_trade_action_default__16TObjCityMainWarpFPviii(menu, get_localized_text_entry(0xF, 5), 6, 0x10);
+    forward_trade_action_default__16TObjCityMainWarpFPviii(menu, get_localized_text_entry(0xF, 6), 6, 0x19);
+    forward_trade_action_default__16TObjCityMainWarpFPviii(menu, get_localized_text_entry(0xF, 7), 6, 0x1B);
+    ((TWindowMenu *)menu)->update_layout_height(470.0f);
+    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(menu));
+    return menu;
 }
 
 saddr TWindowOptionCtrl::create_select_menu_window() {
-    saddr temp_r31;
-    temp_r31 = (saddr)create_check_box_window_for_local_client((const NJS_POINT2 *)TWindowOptionCtrl::get_option_entry(0xCF), &lbl_8044F48C);
-    TWindowOptionCtrl::add_menu_item(temp_r31, (get_localized_text_entry(0xF, 8)), 0);
-    TWindowOptionCtrl::add_menu_item(temp_r31, (get_localized_text_entry(0xF, 9)), 1);
-    TWindowOptionCtrl::add_menu_item(temp_r31, (get_localized_text_entry(0xF, 0xA)), 2);
-    TWindowOptionCtrl::add_menu_item(temp_r31, (get_localized_text_entry(0xF, 0xB)), 3);
-    TWindowOptionCtrl::add_menu_item(temp_r31, (get_localized_text_entry(0xF, 0xC)), 4);
-    ((TWindowSubStatusDisp *)temp_r31)->set_selected_index((s16)((s16) current_language));
-    return temp_r31;
+    saddr check_box_window;
+    check_box_window = (saddr)create_check_box_window_for_local_client((const NJS_POINT2 *)TWindowOptionCtrl::get_option_entry(0xCF), &lbl_8044F48C);
+    TWindowOptionCtrl::add_menu_item(check_box_window, (get_localized_text_entry(0xF, 8)), 0);
+    TWindowOptionCtrl::add_menu_item(check_box_window, (get_localized_text_entry(0xF, 9)), 1);
+    TWindowOptionCtrl::add_menu_item(check_box_window, (get_localized_text_entry(0xF, 0xA)), 2);
+    TWindowOptionCtrl::add_menu_item(check_box_window, (get_localized_text_entry(0xF, 0xB)), 3);
+    TWindowOptionCtrl::add_menu_item(check_box_window, (get_localized_text_entry(0xF, 0xC)), 4);
+    ((TWindowSubStatusDisp *)check_box_window)->set_selected_index((s16)((s16) current_language));
+    return check_box_window;
 }
 
 saddr TWindowOptionCtrl::create_list_window() {
@@ -476,32 +476,32 @@ saddr TWindowOptionCtrl::create_list_window() {
 }
 
 saddr TWindowOptionCtrl::create_sound_mode_menu() {
-    saddr temp_r31;
+    saddr check_box_window;
 
     saddr temp_r3_after_cba4 = (saddr)TWindowOptionCtrl::get_option_entry(0xCF);
-    temp_r31 = (saddr)create_check_box_window_for_local_client((const NJS_POINT2 *)temp_r3_after_cba4, &lbl_8044F494);
-    TWindowOptionCtrl::add_menu_item(temp_r31, get_localized_text_entry(0xF, 0xE), 0);
-    TWindowOptionCtrl::add_menu_item(temp_r31, get_localized_text_entry(0xF, 0xD), 1);
-    TWindowOptionCtrl::add_menu_item(temp_r31, get_localized_text_entry(0xF, 0xF), 2);
+    check_box_window = (saddr)create_check_box_window_for_local_client((const NJS_POINT2 *)temp_r3_after_cba4, &lbl_8044F494);
+    TWindowOptionCtrl::add_menu_item(check_box_window, get_localized_text_entry(0xF, 0xE), 0);
+    TWindowOptionCtrl::add_menu_item(check_box_window, get_localized_text_entry(0xF, 0xD), 1);
+    TWindowOptionCtrl::add_menu_item(check_box_window, get_localized_text_entry(0xF, 0xF), 2);
     switch (*(s16 *)((s8 *)this + 0x20)) {
     case 0:
-        ((TWindowSubStatusDisp *)temp_r31)->set_selected_index(0);
+        ((TWindowSubStatusDisp *)check_box_window)->set_selected_index(0);
         break;
     case 1:
-        ((TWindowSubStatusDisp *)temp_r31)->set_selected_index(1);
+        ((TWindowSubStatusDisp *)check_box_window)->set_selected_index(1);
         break;
     case 2:
-        ((TWindowSubStatusDisp *)temp_r31)->set_selected_index(2);
+        ((TWindowSubStatusDisp *)check_box_window)->set_selected_index(2);
         break;
     }
-    return temp_r31;
+    return check_box_window;
 }
 
 saddr TWindowOptionCtrl::create_sound_balance_window() {
-    s32 var_r31;
+    s32 sound_balance_window;
 
-    var_r31 = (saddr)new TWindowSoundBalance((saddr)TWindowOptionCtrl::get_option_entry(0xCF));
-    return var_r31;
+    sound_balance_window = (saddr)new TWindowSoundBalance((saddr)TWindowOptionCtrl::get_option_entry(0xCF));
+    return sound_balance_window;
 }
 
 saddr TWindowOptionCtrl::create_snap_shot_window() {
@@ -512,33 +512,33 @@ saddr TWindowOptionCtrl::create_snap_shot_window() {
 }
 
 saddr TWindowOptionCtrl::create_sub_menu_window() {
-    saddr temp_r31;
-    temp_r31 = create_window_menu_default((saddr)TWindowOptionCtrl::get_option_entry(0xCF), 3);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 0x1A), 6, 0x12);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 0x1B), 6, 0x14);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 0x1C), 6, 0x15);
-    ((TWindowMenu *)temp_r31)->update_layout_height(470.0f);
-    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(temp_r31));
-    return temp_r31;
+    saddr menu;
+    menu = create_window_menu_default((saddr)TWindowOptionCtrl::get_option_entry(0xCF), 3);
+    forward_trade_action_default__16TObjCityMainWarpFPviii(menu, get_localized_text_entry(0xF, 0x1A), 6, 0x12);
+    forward_trade_action_default__16TObjCityMainWarpFPviii(menu, get_localized_text_entry(0xF, 0x1B), 6, 0x14);
+    forward_trade_action_default__16TObjCityMainWarpFPviii(menu, get_localized_text_entry(0xF, 0x1C), 6, 0x15);
+    ((TWindowMenu *)menu)->update_layout_height(470.0f);
+    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(menu));
+    return menu;
 }
 
 saddr TWindowOptionCtrl::create_option_menu() {
-    saddr temp_r31;
+    saddr check_box_window;
 
-    temp_r31 = (saddr)create_check_box_window_for_local_client((const NJS_POINT2 *)TWindowOptionCtrl::get_option_entry(0xD0), &lbl_8044F49C);
-    TWindowOptionCtrl::add_menu_item(temp_r31, get_localized_text_entry(0xF, 0x10), 0);
-    TWindowOptionCtrl::add_menu_item(temp_r31, get_localized_text_entry(0xF, 0x11), 1);
-    TWindowOptionCtrl::add_menu_item(temp_r31, get_localized_text_entry(0xF, 0x12), 2);
-    ((TWindowSubStatusDisp *)temp_r31)->set_selected_index((s16) TWindowOptionCtrl::get_option_field_C());
-    return temp_r31;
+    check_box_window = (saddr)create_check_box_window_for_local_client((const NJS_POINT2 *)TWindowOptionCtrl::get_option_entry(0xD0), &lbl_8044F49C);
+    TWindowOptionCtrl::add_menu_item(check_box_window, get_localized_text_entry(0xF, 0x10), 0);
+    TWindowOptionCtrl::add_menu_item(check_box_window, get_localized_text_entry(0xF, 0x11), 1);
+    TWindowOptionCtrl::add_menu_item(check_box_window, get_localized_text_entry(0xF, 0x12), 2);
+    ((TWindowSubStatusDisp *)check_box_window)->set_selected_index((s16) TWindowOptionCtrl::get_option_field_C());
+    return check_box_window;
 }
 
 saddr TWindowOptionCtrl::open_yes_no_window(saddr arg0, s32 arg1, s32 arg2) {
-  saddr temp_r30;
-  temp_r30 = (saddr)TWindowMessageYesNo::create((void *)(arg0), (void *)(6), (void *)(arg0 * 0), 0);
-  open_yes_no_prompt_with_text((TChCrTagPlBack *)temp_r30, (s32)(get_localized_text_entry(0xF, arg1)), (saddr)(get_window_layout_position(arg2)), 470.0f);
-  set_menu_selected_index((TWindowSubComCard *)temp_r30, 1);
-  return temp_r30;
+  saddr window;
+  window = (saddr)TWindowMessageYesNo::create((void *)(arg0), 6, (void *)(arg0 * 0), 0);
+  ((TWindowMessageYesNo *)window)->open_yes_no_prompt_with_text((s32)(get_localized_text_entry(0xF, arg1)), (saddr)(get_window_layout_position(arg2)), 470.0f);
+  ((TWindowMessageYesNo *)window)->set_menu_selected_index(1);
+  return window;
 }
 
 saddr TWindowOptionCtrl::create_serial_info_window(const NJS_POINT2 *pos, s32 kind) {

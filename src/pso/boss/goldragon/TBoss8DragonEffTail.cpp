@@ -4,7 +4,6 @@
 #include "pso/boss/dragon/ObjBoss1CommonJResource.h"
 #include "pso/boss/dragon/TBoss1DragonColli.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
-#include "pso/enemy/dd/TObjEneDD_800BA754.h"
 #include "pso/system/vector.h"
 #include "pso/player/TUnk_804928CC.h"
 #include "pso/boss/goldragon/TBoss8DragonEffTail.h"
@@ -12,7 +11,6 @@
 #include "pso/enemy/dellbiter/TObjEneDellBiter.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/enemy/dd/TObjEneDD_800BB804.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/math/MatrixTransforms.h"
@@ -105,7 +103,7 @@ const char *TBoss8DragonEffTail__name = "TBoss8DragonEffTail";
 extern const P8_802FE494 lbl_80474BBC = { 3.0f, 1 };
 // The 17 collision bodies the constructor sets up: the first a radius-10 sphere, the rest copies of it.
 CollisionBody boss8_dragon_eff_tail_init_data[17] = { { { 0.0f, 0.0f, 0.0f }, 10.0f, 0.0f, 0, 0x8003 } };
-s32 boss8_eff_tail_bml_resource;
+BmlResource *boss8_eff_tail_bml_resource;
 uaddr dragon_tail_gvm_texture_handle;
 
 extern s32 __vt__19TBoss8DragonEffTail[];
@@ -113,7 +111,6 @@ extern "C" {
 EffTail_8002C06C *TBoss8DragonEffTail__ct(EffTail_8002C06C *arg0, saddr arg1, s32 arg2);
 void matrix_mult_vec(s32, void *, void *);
 s32 release_texture_list(void*);
-int fill_value_array(void*);
 
 void fn_802FE48C(void) {  }
 void TBoss8DragonEffTail::render() {  }
@@ -170,7 +167,7 @@ void TBoss8DragonEffTail::apply_hit_if_active(void *arg1_arg, f32 *) {
 
 void TBoss8DragonEffTail::enable() { this->m_bc = 1; get_state(); }
 void TBoss8DragonEffTail::disable() { this->m_bc = 0; get_state(); }
-int TBoss8DragonEffTail::get_state() { return fill_value_array(attack_history); }
+void TBoss8DragonEffTail::get_state() { fill_value_array(attack_history); }
 
 TBoss8DragonEffTail::~TBoss8DragonEffTail() {
     delete attack_history;
@@ -180,7 +177,6 @@ TBoss8DragonEffTail::~TBoss8DragonEffTail() {
 EffTail_8002C06C *TBoss8DragonEffTail__ct(EffTail_8002C06C *arg0, saddr arg1, s32 arg2) {
     void *data;
     s32 i;
-    void *p;
     __ct__13TUnk_804928CCFP7TObjectP8TObjBasePC13CollisionBodyl(arg0, (void *)0, (void *)arg1, (void *)boss8_dragon_eff_tail_init_data, 0x11);
     arg0->vtbl = ((s32 *)&__vt__19TBoss8DragonEffTail);
     data = boss8_dragon_eff_tail_init_data;
@@ -190,11 +186,7 @@ EffTail_8002C06C *TBoss8DragonEffTail__ct(EffTail_8002C06C *arg0, saddr arg1, s3
     }
     arg0->unkB0 = arg1;
     arg0->unkB4 = arg2;
-    p = ::operator new(0x10);
-    if (p != 0) {
-        p = __ct__17AreaAttackHistoryFl((u8 *)p, 4);
-    }
-    arg0->unkB8 = p;
+    arg0->unkB8 = new AreaAttackHistory(4);
     arg0->unkBC = 0;
     arg0->unkC0 = 0.0f;
     arg0->unkC4 = 0.0f;
@@ -209,13 +201,13 @@ void TBoss8DragonEffTail::free_statics() {
         TAdSinglePlyChrSelectGC::safe_free(dragon_tail_gvm_texture_handle);
         dragon_tail_gvm_texture_handle = 0U;
     }
-    delete (BmlResource *)boss8_eff_tail_bml_resource;
+    delete boss8_eff_tail_bml_resource;
     boss8_eff_tail_bml_resource = 0;
 }
 
-u8 *load_gvm_texture_file(saddr arg0);
+u8 *load_gvm_texture_file(saddr name);
 
 void TBoss8DragonEffTail::load_statics() {
-    boss8_eff_tail_bml_resource = (saddr)load_enemy_bml_resource((BmlResourceDescriptor *)&bm_obj_boss1_common_j_resource_descriptor);
+    boss8_eff_tail_bml_resource = load_enemy_bml_resource((BmlResourceDescriptor *)&bm_obj_boss1_common_j_resource_descriptor);
     dragon_tail_gvm_texture_handle = (saddr)load_gvm_texture_file((saddr)obj_boss1_common_j_texture_filename);
 }

@@ -15,34 +15,10 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
-struct VBase_18 { char pad[0x18]; };
-struct VObj_18 : VBase_18 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual saddr m8();
-};
-
 #include "pso/system/NinjaTypes.h"
 
 extern "C" {
 u8 *init_shop_judgment_window(void *p);
-struct VtBase8032C1C8_8032C188 { char pad[0x18]; };
-struct VtObj8032C1C8_8032C188 : VtBase8032C1C8_8032C188 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-};
 
 void copy_vec2__FPvPv(void *);
 
@@ -50,11 +26,10 @@ void copy_vec2__FPvPv(void *);
 const char *TAdYesNoBaseGC__class_name = "TAdYesNoBaseGC";
 
 s32 TAdYesNoBaseGC::sub_8032C0B4() {
-    u8 *arg0 = (u8 *)this;
-    saddr temp_r31;
-    temp_r31 = (saddr)create_message_window_for_size((NJS_POINT2 *)&this->unk_30, (NJS_POINT2 *)&this->unk_38);
-    ((TWindowMessage *)temp_r31)->append_line((saddr)((void *) (((VObj_18 *)(arg0))->m8())), (int)1);
-    return temp_r31;
+    saddr message_window;
+    message_window = (saddr)create_message_window_for_size((NJS_POINT2 *)&this->unk_30, (NJS_POINT2 *)&this->unk_38);
+    ((TWindowMessage *)message_window)->append_line(vfunc_10(), 1);
+    return message_window;
 }
 
 s32 TAdYesNoBaseGC::create_menu_window() {
@@ -122,10 +97,10 @@ void TAdYesNoBaseGC::vfunc_11() {
         }
         break;
     case 3:
-        ((VtObj8032C1C8_8032C188*)this)->m4();
+        vfunc_6();
         break;
     case 4:
-        ((VtObj8032C1C8_8032C188*)this)->m5();
+        vfunc_7();
         break;
     }
     if ((s32) this->m_20 != (s32) this->m_1c) {

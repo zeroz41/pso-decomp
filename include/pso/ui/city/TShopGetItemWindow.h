@@ -16,7 +16,7 @@ struct TShopGetItemWindow : public TShopWindowBase {
     virtual ~TShopGetItemWindow();
     virtual void vfunc_11();
     virtual void display_message(const char *text, s32 flags);
-    virtual void vfunc_6(s32 id, s32 flags);
+    virtual void display_shop_message(s32 id, s32 flags);
     u8 _pad1C[0x4];
     u32 m_20;
     TObjPlayer *m_24;
@@ -33,12 +33,11 @@ struct TShopGetItemWindow : public TShopWindowBase {
     TShopWindowBase *m_5c; // owning shop sequence (TCheckRoomSequence::open_get_item_window passes itself)
     void (*m_60)(TShopWindowBase *);  // called when the player leaves
     void (*m_64)(TShopWindowBase *);  // called when there is nothing to list
-    s32 close();
+    void close();
     void update_input_number();
-    s32 handle_withdraw_list_input();
+    void handle_withdraw_list_input();
     void rebuild_item_list();
     s16 get_cursor_index();
-    void calc_item_count(s32 *arg1);
     void handle_withdraw_confirm();
 };
 

@@ -11,6 +11,8 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/player/PlayerSlots.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 struct Hold_8036CF30 {
     u8 pad0[0x38];
@@ -32,10 +34,8 @@ struct Hold_8036CE20 {
 };
 
 extern "C" {
-void *get_player_by_client_id(int);
 void subtract_vector(Vec *, void *);
 extern u8 *camera_ctrl_instance;
-s32 is_split_screen(void);
 void run_task__17TObjEneHoldEffectFv(Hold_8036CE20 *o);
 
 #pragma push

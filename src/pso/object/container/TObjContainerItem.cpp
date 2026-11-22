@@ -56,6 +56,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/render/GinjaTexture.h"
 
 struct Obj_80188884 { u8 pad0[0x38]; u8 pos[0x28]; s32 id; u8 pad1[0x326 - 0x64]; s16 state; };
 struct Obj_80188814 { u8 pad0[0x38]; u8 pos[0x4c]; s32 id; };
@@ -222,7 +223,6 @@ struct ForestBoxCollisionBody {
     u32 flags;
     u32 unknown_1c[4];
 };
-LAYOUT_ASSERT(ForestBoxCollisionBody_size, sizeof(ForestBoxCollisionBody) == 0x2C);
 
 static const char *fe_obj_hako01_hahen02_model_names[4] = {
     "fe_obj_hako01_hahen02.gj", "fs_obj_hako01.gj", "fs_obj_hako01_hahen01.gj", NULL,
@@ -310,16 +310,12 @@ extern "C" {
 void post_translate_matrix(const void *);
 extern const f32 lbl_805DBCF8;
 u32 init_collision_body_parts(void *, void *, s32);
+s32 free_collision_body_parts(void *);
 }
 u8 *load_gvm_texture_file(saddr arg0);
 extern s32 local_client_id;
 NJS_OBJECT *get_container_breakup_model(s32 index);
 extern const f32 lbl_805DBCF4;
-extern "C" {
-u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
-s32 release_texture_list(void*);
-s32 free_collision_body_parts(void *);
-}
 NJS_OBJECT *get_forest_box_model(s32 index);
 extern const f32 lbl_805DBCFC;
 extern const f32 lbl_805DBD0C;

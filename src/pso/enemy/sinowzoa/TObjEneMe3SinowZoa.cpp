@@ -1,6 +1,7 @@
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/system/BmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
+#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/GroundContactSound.h"
 #include "pso/npc/NpcModelRegistry.h"
@@ -8,7 +9,6 @@
 #include "types.h"
 #include "pso/item/TItem.h"
 #include "pso/technique/TTecZarua.h"
-#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/vector.h"
@@ -51,7 +51,6 @@
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/unk/TLobby.h"
 #include "pso/render/NinjaUtil.h"
-#include "pso/enemy/dd/TObjEneDD_800BB804.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_801542CC.h"
@@ -64,6 +63,8 @@
 #include "pso/technique/TTecRaBarta.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/technique/TTecDeband.h"
+#include "pso/effect/particle/TParticleCtrl_800867E4.h"
+#include "pso/unk/text_803D853C.h"
 
 // load_resources fills these per kind (0 and 1) from TLobby::register_boss,
 // TLobby::dispatch_shared_handler_b, TLobby::register_object and
@@ -85,11 +86,9 @@ TUnk_8048FA00 * TObjEneMe3SinowZoa__breakup_model;
 
 void print_float_padded(s32 arg0, s32 prec, f32 val);
 void move_with_wall_slide(u8 *arg0);
-void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 farg0);
 
 extern "C" {
 void TObjEneMe3SinowZoa__sub_80316840(TObjEneMe3SinowZoa *self);
-void debug_printf_at(s32 id, const char *fmt, ...);
 s32 scale_matrix(int, f32, f32, f32);
 s32 post_translate_matrix(void *);
 s32 select_enemy_destination(void *, Vec, int);
@@ -97,34 +96,29 @@ s32 copy_position_if_valid__10TObjPlayerFii(void *, Vec);
 }
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
-s32 matrix_mult_vec(int, void *, void *);
-void TObjEneMe3SinowZoa__sub_80316C3C(TObjEneMe3SinowZoa *self, s32 arg1);
+void TObjEneMe3SinowZoa__sub_80316C3C(TObjEneMe3SinowZoa *self, s32 mode);
 u16 get_entity_id(int);
 s32 check_move_collision__18TObjEneMe3SinowZoaFPvPv(TObjEneMe3SinowZoa *self, const Vec *pos);
-u32 get_item_field_6__10TObjPlayerFPv(void *);
 f32 fabs_float(f32);
-void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
-void TObjEneDD__sub_800BA438(void *, void *);
 s32 TObjEneMe3SinowZoa__sub_800D72A4(TUnk_80494938 *fade);
 s32 TBoss3Volopt__sub_800D8D88(void *, f32);
 f32 * TBoss3Volopt__sub_800F059C(void *);
 void create__9TTecJelinFllll(void *, void *, void *, int);
-void TObjEneMe3SinowZoa__sub_803170F0(TObjEneMe3SinowZoa *self, s32 arg1);
-void TObjEneMe3SinowZoa__sub_80317254(TObjEneMe3SinowZoa *self, s32 arg1);
-void TObjEneMe3SinowZoa__sub_80317B50(TObjEneMe3SinowZoa *self, s32 arg1);
-void TObjEneMe3SinowZoa__sub_80317F90(TObjEneMe3SinowZoa *self, s32 arg1);
+void TObjEneMe3SinowZoa__sub_803170F0(TObjEneMe3SinowZoa *self, s32 mode);
+void TObjEneMe3SinowZoa__sub_80317254(TObjEneMe3SinowZoa *self, s32 mode);
+void TObjEneMe3SinowZoa__sub_80317B50(TObjEneMe3SinowZoa *self, s32 mode);
+void TObjEneMe3SinowZoa__sub_80317F90(TObjEneMe3SinowZoa *self, s32 mode);
 void TObjEneMe3SinowZoa__sub_803182F8(TObjEneMe3SinowZoa *self, s32);
 void TObjEneMe3SinowZoa__sub_80318564(TObjEneMe3SinowZoa *self, s32);
 void TObjEneMe3SinowZoa__sub_8031884C(TObjEneMe3SinowZoa *self, s32);
 void TObjEneMe3SinowZoa__sub_80318C0C(TObjEneMe3SinowZoa *self, s32);
 void TObjEneMe3SinowZoa__sub_80318F7C(TObjEneMe3SinowZoa *self, s32);
-void TObjEneMe3SinowZoa__sub_80319748(TObjEneMe3SinowZoa *self, s32 arg1);
-void TObjEneMe3SinowZoa__sub_80319B8C(TObjEneMe3SinowZoa *self, s32 arg1);
+void TObjEneMe3SinowZoa__sub_80319748(TObjEneMe3SinowZoa *self, s32 mode);
+void TObjEneMe3SinowZoa__sub_80319B8C(TObjEneMe3SinowZoa *self, s32 mode);
 }
 void compose_motion_node_matrix(void *arg0);
 extern "C" {
 f64 atan2_float(f32, f32);
-s32 enemy_validate_retained_target(u8 *arg0);
 BOOL is_split_screen(void);
 }
 
@@ -558,8 +552,8 @@ void TObjEneMe3SinowZoa::sub_8031A6A0() {
                     if (sub_8031A454() != 0) {
                         pl = current_target;
                         TItem *held;
-                        if (TObjPlayer::is_locally_controlled(pl) != 0 && (held = (TItem *)get_item_field_6__10TObjPlayerFPv(pl)) != 0) {
-                            TObjPlayer::send_6x26_unequip_item(pl, (void *)held->get_item_id());
+                        if (TObjPlayer::is_locally_controlled(pl) != 0 && (held = (TItem *)TObjPlayer::get_item_field_6(pl)) != 0) {
+                            TObjPlayer::send_6x26_unequip_item(pl, held->get_item_id());
                             ((TObjPlayer *)pl)->get_hand_joint_position((saddr)&unk_408);
                             spawn_particle_effect(&unk_408, 0x1D0);
                         }
@@ -638,7 +632,7 @@ s32 TObjEneMe3SinowZoa::is_outside_visible_range() {
     return r;
 }
 
-s32 TObjEneMe3SinowZoa::acquire_target(f32 arg1) { return select_and_apply_target(arg1); }
+s32 TObjEneMe3SinowZoa::acquire_target(f32 range) { return select_and_apply_target(range); }
 
 s32 TObjEneMe3SinowZoa::sub_8031A454() {
     u8 r = this->m_400 >= 1;
@@ -657,19 +651,19 @@ void TObjEneMe3SinowZoa::sub_8031A3D8() {
     this->m_3c8 = 0;
 }
 
-void cast_technique__18TObjEneMe3SinowZoaFPv(u8 *arg0) {
+void cast_technique__18TObjEneMe3SinowZoaFPv(u8 *self) {
     saddr lv;
-    lv = TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)arg0)->m_3c8]->m_18);
-    if (((TObjEneMe3SinowZoa *)arg0)->sub_8031A454() != 0) {
+    lv = TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)self)->m_3c8]->m_18);
+    if (((TObjEneMe3SinowZoa *)self)->sub_8031A454() != 0) {
         if (game_difficulty_selection == 3) {
-            TTecSifta::create((void *)arg0, arg0 + 0x38, (void *)(TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)arg0)->m_3c8]->m_18)));
-            TTecDeband::create(arg0, &((TObjEneMe3SinowZoa *)arg0)->position, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)arg0)->m_3c8]->m_18));
+            TTecSifta::create((void *)self, self + 0x38, (void *)(TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)self)->m_3c8]->m_18)));
+            TTecDeband::create(self, &((TObjEneMe3SinowZoa *)self)->position, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)self)->m_3c8]->m_18));
         } else {
-            TTecZarua::create_instance((saddr)arg0, (Vec *)(arg0 + 0x38), (Vec *)(arg0 + 0x38), TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)arg0)->m_3c8]->m_18));
-            create__9TTecJelinFllll(arg0, arg0 + 0x38, arg0 + 0x38, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)arg0)->m_3c8]->m_18));
+            TTecZarua::create_instance((saddr)self, (Vec *)(self + 0x38), (Vec *)(self + 0x38), TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)self)->m_3c8]->m_18));
+            create__9TTecJelinFllll(self, self + 0x38, self + 0x38, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)self)->m_3c8]->m_18));
         }
     } else {
-        TTecResta::create(arg0, &((TObjEneMe3SinowZoa *)arg0)->position, (void *)lv);
+        TTecResta::create(self, &((TObjEneMe3SinowZoa *)self)->position, (void *)lv);
     }
 }
 
@@ -786,10 +780,10 @@ void TObjEneMe3SinowZoa::action(s32 arg1) {
     }
 }
 
-void TObjEneMe3SinowZoa::sub_80319E74(s32 arg1) {
+void TObjEneMe3SinowZoa::sub_80319E74(s32 mode) {
     Vec v;
     f32 t;
-    switch (arg1) {
+    switch (mode) {
     case 4:
         this->requested_action = 2;
         this->set_field_378(0);
@@ -884,10 +878,10 @@ void TObjEneMe3SinowZoa::state_chase(s32 arg1) {
     }
 }
 
-void TObjEneMe3SinowZoa__sub_80319B8C(TObjEneMe3SinowZoa *self, s32 arg1) {
+void TObjEneMe3SinowZoa__sub_80319B8C(TObjEneMe3SinowZoa *self, s32 mode) {
     Vec v;
     f32 temp_f1;
-    switch (arg1) {
+    switch (mode) {
     case 4:
         self->requested_action = 0;
         self->set_field_378(0);
@@ -914,10 +908,10 @@ void TObjEneMe3SinowZoa__sub_80319B8C(TObjEneMe3SinowZoa *self, s32 arg1) {
 
 #pragma pop
 
-void TObjEneMe3SinowZoa::update_state_action(s32 arg1) {
+void TObjEneMe3SinowZoa::update_state_action(s32 mode) {
     // inferred: clears the green byte of the ARGB colour m_3f8
     static const u32 color_mask = 0xFFFF00FF;
-    switch (arg1) {
+    switch (mode) {
     case 4:
         this->requested_action = 0;
         set_field_378(5);
@@ -947,7 +941,7 @@ void TObjEneMe3SinowZoa::update_state_action(s32 arg1) {
                 this->m_438 = 0xFF;
             }
             this->m_3f8 = (this->m_438 << 24) | (this->m_3f8 & 0xFFFFFF);
-            if (enemy_validate_retained_target((u8 *)this) == 0) {
+            if (enemy_validate_retained_target(this) == 0) {
                 this->m_434 = 0;
                 this->m_3f8 = 0;
             }
@@ -964,12 +958,12 @@ void TObjEneMe3SinowZoa::update_state_action(s32 arg1) {
     }
 }
 
-void TObjEneMe3SinowZoa__sub_80319748(TObjEneMe3SinowZoa *self, s32 arg1) {
+void TObjEneMe3SinowZoa__sub_80319748(TObjEneMe3SinowZoa *self, s32 mode) {
     f32 temp_f1;
     f32 temp_f1_2;
     f32 node_height;
 
-    switch (arg1) {
+    switch (mode) {
     case 4:
         self->requested_action = 1;
         self->set_field_378(0xD);
@@ -1080,7 +1074,7 @@ void TObjEneMe3SinowZoa::state_chase_target(s32 arg1) {
                 this->turn_toward_target_direction(0x500);
                 this->update_ground_contact();
             } else {
-                enemy_turn_and_move_on_ground((u8 *)this, 0x500, this->m_440);
+                enemy_turn_and_move_on_ground(this, 0x500, this->m_440);
             }
             this->check_collisions();
         }
@@ -1088,8 +1082,8 @@ void TObjEneMe3SinowZoa::state_chase_target(s32 arg1) {
     }
 }
 
-void TObjEneMe3SinowZoa__sub_80318F7C(TObjEneMe3SinowZoa *self, s32 arg1) {
-    switch (arg1) {
+void TObjEneMe3SinowZoa__sub_80318F7C(TObjEneMe3SinowZoa *self, s32 mode) {
+    switch (mode) {
     case 4:
         self->requested_action = 6;
         self->set_field_378(6);
@@ -1153,7 +1147,7 @@ void TObjEneMe3SinowZoa__sub_80318F7C(TObjEneMe3SinowZoa *self, s32 arg1) {
                     v.x = self->destination_direction.x * d + v.x;
                     v.y += 20.0f;
                     v.z = self->destination_direction.z * d + v.z;
-                    if (csnVecterUnder((saddr)&v, 0x15) != 0) {
+                    if (csnVecterUnder(&v, 0x15) != 0) {
                         if (self->room == ((TScene *)(&v))->find_section_at_position()) {
                             if (self->m_3c0 != 0) {
                                 ((TObjEneMe3SinowZoa *)&self->fade)->set_field_10(TObjEneMe3SinowZoa__data_805DF30C);
@@ -1229,11 +1223,11 @@ void TObjEneMe3SinowZoa__sub_80318F7C(TObjEneMe3SinowZoa *self, s32 arg1) {
 
 #pragma pop
 
-void TObjEneMe3SinowZoa__sub_80318C0C(TObjEneMe3SinowZoa *self, s32 arg1) {
+void TObjEneMe3SinowZoa__sub_80318C0C(TObjEneMe3SinowZoa *self, s32 mode) {
     s32 var_r4;
     f32 temp_f1;
 
-    switch (arg1) {
+    switch (mode) {
     case 4:
         self->requested_action = 7;
         self->set_field_378(0xC);
@@ -1319,11 +1313,11 @@ void TObjEneMe3SinowZoa__sub_80318C0C(TObjEneMe3SinowZoa *self, s32 arg1) {
 }
 
 
-void TObjEneMe3SinowZoa__sub_8031884C(TObjEneMe3SinowZoa *self, s32 arg1) {
+void TObjEneMe3SinowZoa__sub_8031884C(TObjEneMe3SinowZoa *self, s32 mode) {
     s32 temp_r5;
     s32 zero;
 
-    switch (arg1) {
+    switch (mode) {
     case 4:
         self->requested_action = 3;
         self->set_field_378(6);
@@ -1405,8 +1399,8 @@ void TObjEneMe3SinowZoa__sub_8031884C(TObjEneMe3SinowZoa *self, s32 arg1) {
 }
 
 
-void TObjEneMe3SinowZoa__sub_80318564(TObjEneMe3SinowZoa *self, s32 arg1) {
-    switch (arg1) {
+void TObjEneMe3SinowZoa__sub_80318564(TObjEneMe3SinowZoa *self, s32 mode) {
+    switch (mode) {
     case 4:
         (self->requested_action) = 8;
         self->set_field_378(0xB);
@@ -1482,8 +1476,8 @@ void TObjEneMe3SinowZoa__sub_80318564(TObjEneMe3SinowZoa *self, s32 arg1) {
     }
 }
 
-void TObjEneMe3SinowZoa::handle_state_substate(s32 arg1) {
-    switch (arg1) {
+void TObjEneMe3SinowZoa::handle_state_substate(s32 mode) {
+    switch (mode) {
     case 4:
         this->requested_action = 9;
         set_field_378(0xD);
@@ -1510,8 +1504,8 @@ void TObjEneMe3SinowZoa::handle_state_substate(s32 arg1) {
     }
 }
 
-void TObjEneMe3SinowZoa__sub_803182F8(TObjEneMe3SinowZoa *self, s32 arg1) {
-    switch (arg1) {
+void TObjEneMe3SinowZoa__sub_803182F8(TObjEneMe3SinowZoa *self, s32 mode) {
+    switch (mode) {
     case 4:
         self->requested_action = 8;
         self->set_field_378(6);
@@ -1549,10 +1543,10 @@ void TObjEneMe3SinowZoa__sub_803182F8(TObjEneMe3SinowZoa *self, s32 arg1) {
     }
 }
 
-void TObjEneMe3SinowZoa::state_knockback(s32 arg1) {
+void TObjEneMe3SinowZoa::state_knockback(s32 mode) {
     Vec v;
     f32 len;
-    switch (arg1) {
+    switch (mode) {
     case 4:
         this->requested_action = 4;
         this->advance_animation();
@@ -1588,11 +1582,11 @@ void TObjEneMe3SinowZoa::state_knockback(s32 arg1) {
 #pragma push
 #pragma fp_contract on
 
-void TObjEneMe3SinowZoa__sub_80317F90(TObjEneMe3SinowZoa *self, s32 arg1) {
+void TObjEneMe3SinowZoa__sub_80317F90(TObjEneMe3SinowZoa *self, s32 mode) {
     Vec v;
     Vec p;
     self->m_3c0 = 0;
-    switch (arg1) {
+    switch (mode) {
     case 3:
     case 5:
         break;
@@ -1647,14 +1641,14 @@ void TObjEneMe3SinowZoa__sub_80317F90(TObjEneMe3SinowZoa *self, s32 arg1) {
 #pragma push
 #pragma fp_contract on
 
-void TObjEneMe3SinowZoa__sub_80317B50(TObjEneMe3SinowZoa *self, s32 arg1) {
+void TObjEneMe3SinowZoa__sub_80317B50(TObjEneMe3SinowZoa *self, s32 mode) {
     Vec v;
     Vec pos;
     Vec tmp;
     s32 d[3];
     s32 i;
 
-    switch (arg1) {
+    switch (mode) {
     case 4:
         self->requested_action = 0xC;
         self->set_field_378(0xC);
@@ -1934,8 +1928,8 @@ void TObjEneMe3SinowZoa::render_demo() {
     }
 }
 
-void TObjEneMe3SinowZoa__sub_80317254(TObjEneMe3SinowZoa *self, s32 arg1) {
-    switch (arg1) {
+void TObjEneMe3SinowZoa__sub_80317254(TObjEneMe3SinowZoa *self, s32 mode) {
+    switch (mode) {
     case 4:
         self->requested_action = 0xC;
         self->set_field_378(6);
@@ -1968,8 +1962,8 @@ void TObjEneMe3SinowZoa__sub_80317254(TObjEneMe3SinowZoa *self, s32 arg1) {
     }
 }
 
-void TObjEneMe3SinowZoa__sub_803170F0(TObjEneMe3SinowZoa *self, s32 arg1) {
-    switch (arg1) {
+void TObjEneMe3SinowZoa__sub_803170F0(TObjEneMe3SinowZoa *self, s32 mode) {
+    switch (mode) {
     case 4:
         self->requested_action = 0xB;
         self->set_field_378(6);
@@ -2020,11 +2014,11 @@ inline s32 seek_80316C3C(TObjEneMe3SinowZoa *self, Vec *diff) {
     return angle;
 }
 
-void TObjEneMe3SinowZoa__sub_80316C3C(TObjEneMe3SinowZoa *self, s32 arg1) {
+void TObjEneMe3SinowZoa__sub_80316C3C(TObjEneMe3SinowZoa *self, s32 mode) {
     s32 angle;
     Vec diff;
     Vec out;
-    switch (arg1) {
+    switch (mode) {
     case 5:
         break;
     case 4:
@@ -2101,7 +2095,7 @@ void TObjEneMe3SinowZoa__sub_80316C3C(TObjEneMe3SinowZoa *self, s32 arg1) {
                     if (game_difficulty_selection == 3) {
                         TTecRaBarta::create((void *)self, (void *)(&out), (void *)(&self->position), (void *)(TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[self->m_3c8]->m_24)));
                     } else {
-                        ((TTecGiBarta *)self)->create_ex(&out, (void *)self->rotation_y, (void *)(TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[self->m_3c8]->m_24)));
+                        TTecGiBarta::create_ex(self, &out, self->rotation_y, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[self->m_3c8]->m_24));
                     }
                 } else if (self->m_3cc & 0x100000) {
                     self->m_434 = 4;
@@ -2238,7 +2232,7 @@ s32 TObjEneMe3SinowZoa::check_floor_contact(const Vec *origin) {
             TObjEneGibbles__sub_800D8988(&this->position);
             p = spawn_particle_effect(&hit->contact[2].point, 0x49);
             if (p != 0) {
-                attach_particle_model((u8 *)p, (s32)(TParticleCtrl::get_particle_model(2)), (s32)(TParticleCtrl::get_instance()), 0, 1, TObjEneMe3SinowZoa__data_805DF2F4);
+                attach_particle_model((u8 *)p, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, TObjEneMe3SinowZoa__data_805DF2F4);
             }
             spawn_particle_effect(&hit->contact[2].point, 0xA4);
             return 1;
@@ -2247,7 +2241,7 @@ s32 TObjEneMe3SinowZoa::check_floor_contact(const Vec *origin) {
             TObjEneGibbles__sub_800D8988(&this->position);
             p = spawn_particle_effect(&hit->contact[3].point, 0x49);
             if (p != 0) {
-                attach_particle_model((u8 *)p, (s32)(TParticleCtrl::get_particle_model(2)), (s32)(TParticleCtrl::get_instance()), 0, 1, TObjEneMe3SinowZoa__data_805DF2F4);
+                attach_particle_model((u8 *)p, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, TObjEneMe3SinowZoa__data_805DF2F4);
             }
             spawn_particle_effect(&hit->contact[3].point, 0xA4);
             return 1;

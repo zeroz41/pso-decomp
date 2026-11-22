@@ -15,7 +15,7 @@
 
 const char *lbl_805D3198 = "TOTrap";
 
-extern "C" {
+
 extern s32 game_difficulty_selection;
 f32 TOTrap::scale_by_table_value(f32 farg0) {
     f32 scale[4] = {1.0f, 2.0f, 3.0f, 6.0f};
@@ -171,18 +171,14 @@ void TOTrap::run_task() {
     }
 }
 
-}
 
-#include "types.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
-#include "pso/object/trap/TOTrap.h"
-#include "pso/object/trap/TOMineTrap.h"
-#include "pso/player/TObjPlayer_80011014.h"
-#include "pso/render/render_util.h"
+
+
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/player/TObjPlayer.h"
+
 
 extern "C" {
 
@@ -209,7 +205,6 @@ void TOTrap::render() {
 }
 
 }
-
 
 
 TOTrap::~TOTrap() {}

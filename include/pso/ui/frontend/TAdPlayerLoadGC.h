@@ -65,6 +65,8 @@ public:
 public:
     static s32 request_card_find(s32 arg0, const char *arg1);
     static s32 get_card_file_info(int, void *, void *);
+    // Defined at the end of TAdChrSelASlotGC.cpp, its only user (the original's last function there).
+    s32 get_slot_index();
 
     u32 state;
     int mode; // 0, 1 or 2, given by the creator; from state 12 on, mode 1 also watches slot B

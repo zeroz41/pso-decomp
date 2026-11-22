@@ -1,4 +1,5 @@
 #include "pso/system/BmlAccessors.h"
+#include "pso/ui/frontend/TAdVIConfigGC.h"
 #include "pso/system/BmlResource.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/animation/ActorAnimationState.h"
@@ -70,6 +71,11 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/unk/TLobby_8030A6A8.h"
+#include "pso/network/client_id.h"
+#include "pso/object/warp/TObjLaboMapWarp_80185248.h"
 
 s32 get_story_flag(s32);
 
@@ -89,29 +95,13 @@ extern "C" {
 
 
 
-
-
-
-int is_quest_active(void);
-
-saddr get_localized_text_entry(s32, s32);
-
-void run_task__15TObjLaboMapWarpFv(TObjLaboMapWarp *warp);
-
-
 void unlock_main_warp_destination(s32 id);
 
 void clear_enabled_main_warps(void);
 
 
-
-
-
 s32 get_window_layout_position(s32);
 
-void * init__13TAdVIConfigGCFPC3Vecf(void *, void *, f32);
-
-s32 get_game_play_mode();
 
 s32 rotate_matrix_y(s32, s32);
 
@@ -119,15 +109,10 @@ s32 rotate_matrix_y(s32, s32);
 s32 post_translate_matrix(void *);
 
 
-
-
 extern void request_active_window_close();
 
-int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 
 extern s16 TLobby__data_805D5CE8;
-
-
 
 
 }
@@ -138,13 +123,10 @@ extern "C" {
 
 f32 xz_distance_squared(s32, s32);
 
-extern s32 local_client_id;
-
 
 extern s32 lbl_805D55C0;
 
 s32 *TObjCityMainWarp__sub_80186AF4(void);
-
 
 
 }
@@ -265,7 +247,7 @@ void TObjCityMainWarp::set_active_bit(s32 _w0) {
     }
 }
 
-void update_main_warp_visible_mask(s32 arg0) {
+void update_main_warp_visible_mask(s32 select_type) {
     s32 b;
     s32 c;
     s32 a;
@@ -296,7 +278,7 @@ void update_main_warp_visible_mask(s32 arg0) {
         }
         return;
     }
-    switch (arg0) {
+    switch (select_type) {
     case 0:
         TObjCityMainWarp::update_unlock_flags();
         break;
@@ -440,7 +422,7 @@ TObjCityMainWarp::TObjCityMainWarp(TObject *parent, void *set_data) : TObjAreaWa
     if (is_split_screen() == 1) {
         p = ::operator new(0x88);
         if (p != NULL) {
-            p = init__13TAdVIConfigGCFPC3Vecf(p, &position, 25.0f);
+            p = ((TAdVIConfigGC *)p)->init(&position, 25.0f);
         }
         vi_config = (TAdVIConfigGC *)p;
     } else {
@@ -507,9 +489,9 @@ void TObjCityMainWarp::open_confirm_window(s32 client_id) {
                 for (j = 0, k = 0; j < 17; j++) {
                     if (TObjCityMainWarp__visible_destination_mask & (1 << j)) {
                         if (get_game_play_mode() == 1) {
-                            forward_trade_action_default__16TObjCityMainWarpFPviii((void *)menu_window, (int)(TObjCityMainWarp__sub_80186AF4()), 0xE, (int)k);
+                            TObjCityMainWarp::forward_trade_action_default((void *)menu_window, (saddr)TObjCityMainWarp__sub_80186AF4(), 0xE, (int)k);
                         } else {
-                            forward_trade_action_default__16TObjCityMainWarpFPviii((void *)menu_window, get_localized_text_entry(9, city_warp_group9_text_table[j]), 0xE, k);
+                            TObjCityMainWarp::forward_trade_action_default((void *)menu_window, get_localized_text_entry(9, city_warp_group9_text_table[j]), 0xE, k);
                         }
                         k++;
                     }
@@ -518,9 +500,9 @@ void TObjCityMainWarp::open_confirm_window(s32 client_id) {
                 for (j2 = 0, k2 = 0; j2 < 17; j2++) {
                     if (TObjCityMainWarp__visible_destination_mask & (1 << j2)) {
                         if (get_game_play_mode() == 1) {
-                            forward_trade_action_default__16TObjCityMainWarpFPviii((void *)menu_window, (int)(TObjCityMainWarp__sub_80186AF4()), 0xE, (int)k2);
+                            TObjCityMainWarp::forward_trade_action_default((void *)menu_window, (saddr)TObjCityMainWarp__sub_80186AF4(), 0xE, (int)k2);
                         } else {
-                            forward_trade_action_default__16TObjCityMainWarpFPviii((void *)menu_window, get_localized_text_entry(9, city_warp_group9_text_table_b[j2]), 0xE, k2);
+                            TObjCityMainWarp::forward_trade_action_default((void *)menu_window, get_localized_text_entry(9, city_warp_group9_text_table_b[j2]), 0xE, k2);
                         }
                         k2++;
                     }
@@ -613,8 +595,8 @@ TObjCityAreaWarp::TObjCityAreaWarp(TObject *parent, void *set_data) : TObjAreaWa
 
 TObjCityAreaWarp::~TObjCityAreaWarp() {}
 
-void *TObjCityAreaWarp::create(void *arg0) {
-    return new TObjCityAreaWarp(tl_05, arg0);
+void *TObjCityAreaWarp::create(void *set_data) {
+    return new TObjCityAreaWarp(tl_05, set_data);
 }
 
 void TObjCityAreaWarp::open_confirm_window(s32 client_id) {
@@ -673,8 +655,8 @@ TObjCityMapWarp::TObjCityMapWarp(TObject *parent, void *set_data) : TObjMapWarp(
 
 TObjCityMapWarp::~TObjCityMapWarp() {}
 
-void *TObjCityMapWarp::create(void *arg0) {
-    return new TObjCityMapWarp(tl_05, arg0);
+void *TObjCityMapWarp::create(void *set_data) {
+    return new TObjCityMapWarp(tl_05, set_data);
 }
 
 void TObjCityMapWarp::open_confirm_window(s32 client_id) {
@@ -760,8 +742,8 @@ TObjLaboMapWarp::TObjLaboMapWarp(TObject *parent, void *set_data) : TObjMapWarp(
 
 TObjLaboMapWarp::~TObjLaboMapWarp() {}
 
-void *TObjLaboMapWarp::create(void *arg0) {
-    return new TObjLaboMapWarp(tl_05, arg0);
+void *TObjLaboMapWarp::create(void *set_data) {
+    return new TObjLaboMapWarp(tl_05, set_data);
 }
 
 void TObjLaboMapWarp::load_static_resource() {

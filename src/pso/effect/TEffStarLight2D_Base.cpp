@@ -11,8 +11,10 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/math/MatrixVector.h"
 
-extern TObject *tl_particle;
 void set_additive_blend();
 void set_default_alpha_blend();
 
@@ -63,10 +65,8 @@ struct Star_800855F8 {
 };
 
 extern "C" {
-void matrix_mult_vec(int, void *, void *);
 void __ct__7TObjectFP7TObject(void *, void *);
 void project_world_to_screen(int, void *, void *);
-f32 vector_length(void *);
 extern void *__vt__18TEffStarLightChild[];
 void run_task__15TEffStarLight2DFv(Star_800851B0 *self);
 void run_task__18TEffStarLightChildFv(Star_80085424 *self);

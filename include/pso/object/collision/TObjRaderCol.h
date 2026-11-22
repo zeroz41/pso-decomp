@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjRaderCol : public TObjBase {
-    TObjRaderCol(TObject *parent, void *arg2);
+    TObjRaderCol(TObject *parent, void *set_data);
     virtual ~TObjRaderCol();
     u8 unk_90[0x4];
     u32 m_94;

@@ -3,7 +3,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/network/protocol/protocol_types.h"
-#include "pso/unk/TLobby_800FD78C.h"
+
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TUnk_804CC9D4.h"
 #include "pso/unk/TLobby_801E43E4.h"
@@ -26,6 +26,16 @@
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowCtrl.h"
+#include "pso/map/CsnGroundQuery.h"
+#include "pso/unk/TLobby_80207644.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_801BFED4.h"
+#include "pso/network/client_id.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/math/MatrixVector.h"
 
 struct Stack_802340E4 {
     s32 sp8;
@@ -44,12 +54,6 @@ struct Player_80233E78 { u8 pad[0x838]; Vec pipe_pos; s32 pipe_heading; u8 arriv
 struct Rec_8023402C { u16 owner; s16 floor; s32 section; Vec pos; s32 heading; };
 
 struct Pkt_802341B0 { u8 hdr[4]; Rec_8023402C rec; };
-
-struct Hit_8023453C
-{
-  u8 pad[4];
-  void *pos;
-};
 
 struct P_802346F8 { s32 t; f32 v; };
 
@@ -72,7 +76,6 @@ void TTecLuker__sub_80235048(void* p);
 int TTecLuker__sub_80235054(void* p);
 int fn_80235078(void *arg0);
 uaddr get_player_by_client_id(s32);
-s32 play_sound_effect(int, void *, int, int);
 s32 obj_setFlags30(void *, int);
 s32 init_collision_body_parts(void *, void *, int);
 bool TTecLuker__sub_8023401C(u8 *arg0);
@@ -86,7 +89,6 @@ extern "C" {
 void TTecLuker__sub_80234F08(void);
 void reset_telepipe_record(O_802340A0 *o);
 void TTecLuker__sub_80234F48(void);
-s32 TObjPlayer__sub_801BFFA0(void *p);
 void set_state__9TTecLukerFl(void *p, s32 v);
 static const s32 telepipe_visual_template_table[12][3] = {
     { 177, 178, 176 },
@@ -124,27 +126,19 @@ const Vec *consume_telepipe_arrival(u16 slot, s32 *heading);
 s16 get_field_2__9TTecLukerFPv(void* p);
 s32 get_current_floor(void);
 void restore_floor_telepipes(void);
-f32 vector_length(void *);
 s32 telepipe_record_differs(Rec_8023402C *r, s16 floor, Vec *p, u16 unused);
 s32 get_entity_id(void *);
 s32 is_split_screen();
 u8 *find_entity_by_id(u16);
-extern s32 local_client_id;
 void handle_6x68_set_telepipe_state(Pkt_802341B0 *pkt);
-s32 matrix_mult_vec(int, void *, void *);
-s32 rotate_matrix_y(int, s32);
-}
-extern u8 identity_matrix[];
-extern "C" {
-s32 mark_area_change_pending();
 s32 send_6x21_inter_level_warp(void *, s32);
-s32 get_floor_map_terrain(s32);
 s32 play_persistent_sound(s32, void *, void *, s32, s32);
 f32 horizontal_distance_squared(void *, void *);
 extern saddr camera_ctrl_instance;
-Hit_8023453C *csnVecterUnder(void *, s32);
-TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *, s32, s32);
+s32 free_collision_body_parts(void *);
+s32 submit_cursor_candidate(void *, s32);
 }
+extern u8 identity_matrix[];
 void init_telepipe_packet_header(void* p);
 void create_quest_telepipe_for_client(u16 arg0);
 void write_telepipe_record(u8 *arg0, u16 arg1, s16 arg2, u8 *arg3, s32 arg4);
@@ -152,12 +146,6 @@ void start_placement_search(saddr arg0, saddr arg1, saddr arg2);
 s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range);
 void offset_point_toward_camera(u8 *arg0, u8 *arg1, f32 farg0);
 u8 *create_telepipe_marker(u8 *arg0, saddr arg1, s8 arg2, s8 arg3, saddr arg4, s32 arg5, s32 arg6, f32 farg0, f32 farg1);
-extern "C" {
-s32 free_collision_body_parts(void *);
-s32 submit_cursor_candidate(void *, s32);
-}
-
-
 int fn_80235078(void *arg0) {
     return (u8) (*(s32 *)((s8 *)arg0 + 0x0) == 2);
 }
@@ -421,8 +409,8 @@ void TTecLuker::setup_telepipe_field() {
     }
 }
 
-void TTecLuker::create(void *arg1, void *arg2, void *arg3) {
-    new TTecLuker((saddr)this, (Vec *)arg1, (Vec *)arg2, (saddr)arg3);
+void TTecLuker::create(void *pos, void *target, void *level) {
+    new TTecLuker((saddr)this, (Vec *)pos, (Vec *)target, (saddr)level);
 }
 
 void TTecLuker::vfunc_6(void *o_arg) {
@@ -440,7 +428,7 @@ TUnk_804CCA0C::TUnk_804CCA0C(Vec *at, u32 id, TObject *parent) : TObject(parent)
   Vec v;
   Vec v2;
   long long off;
-  Hit_8023453C *hit;
+  CsnHit *hit;
   void *p;
   const s32 *row;
   s32 i;
@@ -450,7 +438,7 @@ TUnk_804CCA0C::TUnk_804CCA0C(Vec *at, u32 id, TObject *parent) : TObject(parent)
   VecCopy(&ground_pos, &pos);
   if (hit != 0)
   {
-    VecCopy(&ground_pos, (const Vec *)hit->pos);
+    VecCopy(&ground_pos, &hit->contact->point);
   }
   row = telepipe_visual_template_table[id];
   off = id * 4;

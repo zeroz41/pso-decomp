@@ -39,15 +39,15 @@ void TWindowSubComCard::free_windows() {
     }
 }
 
-void update_label_positions__17TWindowSubComCardFPvPv(O_802A5628 *arg0, NJS_POINT2 *arg1) {
+void update_label_positions__17TWindowSubComCardFPvPv(O_802A5628 *dialog, NJS_POINT2 *arg1) {
     NJS_POINT2 v;
-    P_802A5628 *p = arg0->a;
+    P_802A5628 *p = dialog->a;
     if (p != NULL && (p->x != arg1->x || p->y != arg1->y)) {
         TWindowSubTradeMain__sub_802448E4(p, arg1);
     }
-    if (arg0->b != NULL) {
-        ((TChCrTagPlBack *)arg0)->get_position_offset(&v);
-        p = arg0->b;
+    if (dialog->b != NULL) {
+        ((TChCrTagPlBack *)dialog)->get_position_offset(&v);
+        p = dialog->b;
         if (p->x != v.x || p->y != v.y) {
             TWindowSubTradeMain__sub_802448E4(p, &v);
         }

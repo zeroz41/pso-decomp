@@ -22,9 +22,6 @@ s32 plist_texture_matches_filter;
 extern "C" {
 void count_model_strips_by_texture(void *ctx, Node_800F5A50 *node, void *arg);
 void collect_model_strips_by_texture(void *ctx, Node_800F5A50 *node, void *arg);
-extern s32 plist_texture_matches_filter;
-extern StripRef_800F591C *plist_strip_write_ptr;
-extern s16 *plist_strip_uv_write_ptr;
 
 void collect_model_strips_by_texture(void *ctx, Node_800F5A50 *node, void *arg) {
     do {

@@ -46,6 +46,8 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/camera/TCameraCtrl_801A6E60.h"
+#include "pso/ui/window/TWindowCtrl_8024A1A8.h"
+#include "pso/ui/window/TWindowCtrl_8024A054.h"
 const char *TWindowCtrlMain__name = "TWindowCtrlMain";
 const char *TWindowCtrlScreen__name = "TWindowCtrlScreen";
 const char *TWindowCtrlSub__name = "TWindowCtrlSub";
@@ -109,13 +111,10 @@ struct W_8024DCE8 : WBase_8024DCE8 {
 };
 extern "C" {
 u32 get_player_by_client_id(int);
-s32 TWindowCtrl__sub_8024A314();
 s32 bind_target__13TWindowLockOnFUs(void *, s32);
 u32 create_for_target__13TWindowLockOnFlUs(int, s32);
-s32 get_function_key_menu__16TKeyBoardControlFPv(void *arg0);
 s32 fn_8002AE08(void *p);
 u16 get_current_target_id__10TObjPlayerFv();
-s32 is_player_input_active(s32);
 extern Pad_8024DCE8 controller_input_state[];
 int TWindowMainMenu__sub_8024E3F4(void *p);
 void TWindowCtrl__sub_8024DAAC(void *arg0);
@@ -208,7 +207,7 @@ void TWindowCtrl::run_all_updates() { update_trade_window_visibility(); update_c
 
 void TWindowCtrl::update_trade_window_visibility() {
     u8 *arg0 = (u8 *)this;
-    if (((u32) this->m_30 != 0U) && (((TWindowCtrl *)((void *) this->m_30))->is_flag_2_set() == 0)) {
+    if ((this->m_30 != NULL) && (((TWindowCtrl *)((void *) this->m_30))->is_flag_2_set() == 0)) {
         if ((get_player_by_client_id(this->m_24) == 0U) || (((TWindowCtrl *)arg0)->is_visible() != 0) || (TWindowCtrl__sub_8024C7F8(this) != 0) || ((is_split_screen() != 0) && (get_active_menu() != 0))) {
             ((TWindowLockOn *)(this->m_30))->request_close();
             return;
@@ -219,10 +218,10 @@ void TWindowCtrl::update_trade_window_visibility() {
 
 void TWindowCtrl::update_child_window_visibility() {
     u8 *arg0 = (u8 *)this;
-    u32 temp_r31;
-    if (((u32) this->m_34 != 0U) && (((TWindowCtrl *)((void *) this->m_34))->is_flag_2_set() == 0)) {
-        temp_r31 = get_player_by_client_id(this->m_24);
-        if ((get_active_menu() != 0) || (((TWindowCtrl *)arg0)->is_visible() != 0) || (((TWindowCtrl *)arg0)->is_enabled() != 0) || (temp_r31 == 0U)) {
+    u32 player;
+    if ((this->m_34 != NULL) && (((TWindowCtrl *)((void *) this->m_34))->is_flag_2_set() == 0)) {
+        player = get_player_by_client_id(this->m_24);
+        if ((get_active_menu() != 0) || (((TWindowCtrl *)arg0)->is_visible() != 0) || (((TWindowCtrl *)arg0)->is_enabled() != 0) || (player == 0U)) {
             ((TWindowLockOn *)(this->m_34))->request_close();
             return;
         }
@@ -275,7 +274,7 @@ void TWindowCtrl::update_main_menu_request() {
     }
     {
         s32 idx = is_player_input_active(this->m_24);
-        key = ((s16 (*)(void *))get_function_key_menu__16TKeyBoardControlFPv)(this);
+        key = ((s16 (*)(void *))TKeyBoardControl::get_function_key_menu)(this);
         if (TWindowShortListCtrl__check_controller_button(controller_input_state[idx].btn, 0x108) == 0 && key == 0x1F) {
             return;
         }
@@ -313,10 +312,10 @@ void TWindowCtrl::show_active_window() {
         }
         window_request_show((void *)this->m_2c);
         if (get_active_menu() != 0) {
-            ((TWindowCtrl *)(this->m_2c))->set_position((void *)(get_window_layout_position(0x21)));
+            ((TWindowBase *)(this->m_2c))->set_position((f32 *)(get_window_layout_position(0x21)));
             return;
         }
-        ((TWindowCtrl *)(this->m_2c))->set_position((void *)(get_window_layout_position(0x20)));
+        ((TWindowBase *)(this->m_2c))->set_position((f32 *)(get_window_layout_position(0x20)));
     }
 }
 
@@ -362,7 +361,7 @@ void TWindowCtrl__sub_8024DAAC(void *arg0) {
     }
 }
 
-s32 get_function_key_menu__16TKeyBoardControlFPv(void *arg0) {
+s32 TKeyBoardControl::get_function_key_menu(void *arg0) {
     if (is_split_screen() != 0) {
         return 0x1F;
     }
@@ -767,23 +766,19 @@ void TWindowCtrlMain::set_field18(f32 value, s32 viewport_index) {
     get_window_control_state(viewport_index)->field18 = value;
 }
 
-f32 TWindowCtrlMain::get_position_z() {
-    s32 viewport_index = (saddr)this;
+f32 TWindowCtrlMain::get_position_z(s32 viewport_index) {
     return get_window_control_state(viewport_index)->field0C;
 }
 
-f32 TWindowCtrlMain::get_field10() {
-    s32 viewport_index = (saddr)this;
+f32 TWindowCtrlMain::get_field10(s32 viewport_index) {
     return get_window_control_state(viewport_index)->field10;
 }
 
-f32 TWindowCtrlMain::get_ctrl_field14() {
-    s32 viewport_index = (saddr)this;
+f32 TWindowCtrlMain::get_ctrl_field14(s32 viewport_index) {
     return get_window_control_state(viewport_index)->field14;
 }
 
-f32 TWindowCtrlMain::get_field_18() {
-    s32 viewport_index = (saddr)this;
+f32 TWindowCtrlMain::get_field_18(s32 viewport_index) {
     return get_window_control_state(viewport_index)->field18;
 }
 

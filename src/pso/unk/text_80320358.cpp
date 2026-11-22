@@ -67,12 +67,12 @@ void (*mwPlyGetInputSj_hook)();
 void (*mwPlyGetSfdHn_hook)();
 #pragma pop
 
-extern "C" {
+
 RelModuleBuffer *destroy_rel_module(RelModuleBuffer *module, s16 should_delete) {
     if (module != NULL) {
         OSModuleHeader *image = get_rel_module_image(module);
         if (image != NULL) {
-            ((void (*)())image->epilog)();
+            ((void (*)(void))(uaddr)image->epilog)();
         }
         if (module->image != NULL) {
             OSUnlink(&module->image->info);
@@ -112,7 +112,7 @@ RelModuleBuffer *load_rel_module(RelModuleBuffer *module, const char *filename) 
         OSLink(&module->image->info, module->bss);
         OSModuleHeader *image = get_rel_module_image(module);
         if (image != NULL) {
-            ((void (*)())image->prolog)();
+            ((void (*)(void))(uaddr)image->prolog)();
         }
     }
     return module;
@@ -121,5 +121,4 @@ RelModuleBuffer *load_rel_module(RelModuleBuffer *module, const char *filename) 
 
 OSModuleHeader *get_rel_module_image(RelModuleBuffer *module) {
     return module->image;
-}
 }

@@ -72,13 +72,14 @@ s32 NetUdpClose(s16 handle);
 s16 NetUdpConnect(s16 handle, NetworkAddress* remoteAddress, s32 port,
                   s32 eventCallback, u32 receiveCallback);
 s16 udp_open(void *src, s32 sport, void *dst, s32 dport, s32 eventCallback, NetUdpReceiveCallback callback);
+s32 TLobby__sub_80420D38(u16 src_port, u8 code);
 s16 NetUdpCreate(void);
 s16 NetUdpBind(s16 handle, NetworkAddress* localAddress, s32 port);
 u16 NetUdpAllocateEphemeralPort(void);
 s16 NetValidateLocalAddress(NetworkAddress* address);
 s16 compare_sockaddr(NetworkAddress *a, NetworkAddress *b);
 s32 reset_stack_module(void);
-s32 init_ucb_entries(void);
+s16 init_ucb_entries(void);
 #ifdef __cplusplus
 }
 #endif

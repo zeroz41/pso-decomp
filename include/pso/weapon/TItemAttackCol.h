@@ -42,7 +42,7 @@ struct TItemAttackCol : public TUnk_804E355C {
     TParticleCtrl *continuous_particle;
     static void add_to_active_list(void* a0);
     void shift_collision_bounds();
-    void move_with_collision(void *arg1);
+    void move_with_collision(void *to);
     virtual void render();
     virtual void run_task();
     static void create(TObject *parent, Desc_8011E5C4 *params);

@@ -78,11 +78,11 @@ void snapshot_player_trade_inventory(saddr arg0, s32 arg1) {
 
 void TLobby::update_both_halves() { TLobby__sub_802D2358(this); TLobby__sub_802D2358((char*)this + 0xf8); }
 
-void TLobby::clear_stale_entries(u8 *arg0) {
+void TLobby::clear_stale_entries(u8 *tail) {
     u8 *var_r29;
     s32 var_r28;
 
-    var_r29 = arg0;
+    var_r29 = tail;
     var_r28 = 0;
     do {
         if (((u32) (*(s32 *)((s8 *)var_r29 + 0) + 0x10000) != 0xFFFFU) && ((find_item_by_id(*(s32 *)((s8 *)var_r29 + 0)) == NULL) || ((s32) *(s32 *)((s8 *)var_r29 + 4) <= 0))) {

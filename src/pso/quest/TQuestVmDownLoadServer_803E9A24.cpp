@@ -685,7 +685,7 @@ QuestDownloadSegment *TQuestVmDownLoadServer__sub_803E9A74(s32 pos, s32 end, u8 
 }
 #pragma pop
 
-const QuestDownloadMatchToken *find_longest_match_entry__22TQuestVmDownLoadServerFPviPv(u8 *arg0, s32 arg1, s32 *arg2) {
+const QuestDownloadMatchToken *find_longest_match_entry__22TQuestVmDownLoadServerFPviPv(u8 *text, s32 remaining, s32 *arg2) {
     const u8 *s;
     u8 *a;
     s32 k;
@@ -693,15 +693,15 @@ const QuestDownloadMatchToken *find_longest_match_entry__22TQuestVmDownLoadServe
     const QuestDownloadMatchToken *p;
     s32 m;
     s32 best = 1;
-    u8 c = arg0[0];
+    u8 c = text[0];
     if (c < 0xA0) {
         *arg2 = 1;
         return NULL;
     }
     c -= 0xA0;
     for (p = &quest_download_lz_match_entry_table[quest_download_lz_match_index_table[c + 1]] - 1; p >= &quest_download_lz_match_entry_table[quest_download_lz_match_index_table[c]]; p--) {
-        a = arg0 + 1;
-        rem = arg1 - 1;
+        a = text + 1;
+        rem = remaining - 1;
         s = &quest_download_lz_match_strings[p->off];
         m = 1;
         k = *s++ - 1;
@@ -755,13 +755,13 @@ s32 TQuestVmDownLoadServer__sub_803E9F54(s32 arg0) {
     return r->x15;
 }
 
-QuestDownloadEntryNode *insert_quest_download_entry(QuestDownloadEntryNode *head, QuestDownloadEntryNode *arg1) {
+QuestDownloadEntryNode *insert_quest_download_entry(QuestDownloadEntryNode *head, QuestDownloadEntryNode *entry) {
     QuestDownloadEntryNode *cur;
     QuestDownloadEntryNode *prev;
-    s16 k = arg1->prefix.off;
+    s16 k = entry->prefix.off;
     if (head == NULL || head->prefix.off < k) {
-        arg1->next = head;
-        return arg1;
+        entry->next = head;
+        return entry;
     }
     cur = head->next;
     prev = head;
@@ -772,15 +772,15 @@ QuestDownloadEntryNode *insert_quest_download_entry(QuestDownloadEntryNode *head
         prev = cur;
         cur = cur->next;
     }
-    prev->next = arg1;
-    arg1->next = cur;
+    prev->next = entry;
+    entry->next = cur;
     return head;
 }
 
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-QuestDownloadEntryNode *TQuestVmDownLoadServer__sub_803E9FFC(s32 arg0, s32 end, const QuestDownloadItemNode *t) {
+QuestDownloadEntryNode *TQuestVmDownLoadServer__sub_803E9FFC(s32 start, s32 end, const QuestDownloadItemNode *t) {
     s32 off;
     QuestDownloadEntryNode *head;
     QuestDownloadEntryNode *tail;
@@ -791,7 +791,7 @@ QuestDownloadEntryNode *TQuestVmDownLoadServer__sub_803E9FFC(s32 arg0, s32 end, 
     off = t->off;
     head = NULL;
     tail = NULL;
-    pos = arg0 + off;
+    pos = start + off;
     s = TQuestVmDownLoadServer__sub_803E9A74(pos, end, t->a, t->b);
     if ((uaddr)s == 0xFFFFFFFFU) {
         return (QuestDownloadEntryNode *)-1;
@@ -914,7 +914,7 @@ s32 TQuestVmDownLoadServer__sub_803EA1A8(s32 start, s32 end) {
 }
 #pragma pop
 
-QuestDownloadItemNode *TQuestVmDownLoadServer::build_item_list(s32 arg0, Hdr_803EA384 *hdr_803_ea384) {
+QuestDownloadItemNode *TQuestVmDownLoadServer::build_item_list(s32 start, Hdr_803EA384 *hdr_803_ea384) {
     s16 id;
     s32 x4;
     s32 n;

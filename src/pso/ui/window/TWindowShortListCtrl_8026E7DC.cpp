@@ -29,16 +29,15 @@
 #include "pso/technique/TTecCtrl.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/hud/TMainCursor_8013DF5C.h"
+#include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
+#include "pso/ui/window/TWindowCtrl_8024A054.h"
+#include "pso/unk/text_801C53D4.h"
 
 
 extern "C" {
 s32 canSetMenuCursorAction(s32, s32, u8, u8);
-void TMainCursor__sub_8013DFC4(u8 *arg0);
-s32 fn_8002AE08(int);
-s32 is_player_input_active(s32 param_1);
-saddr get_character_save_record(u32 arg0);
 s32 try_send_6x27_use_item(void *arg0, s32 arg1);
-s32 decrement_clamped(s32 *arg0, s32 arg1);
 s32 try_equip_item__10TObjPlayerFii(u8 *, s32);
 void play_sound_effect(int, int, int, int);
 s32 TWindowCtrl__sub_8024A228(saddr);
@@ -68,8 +67,8 @@ void TWindowShortListCtrl::update_cursor_pos() {
 
 s16 TWindowShortListCtrl::get_cursor_pos() { return *(s16*)((char*)this + 0x78); }
 
-void TWindowShortListCtrl::set_card_window_flags(saddr arg0, s32 arg1) {
-    TWindowKeyBoardHard::set_card_window_flags((void *)arg0, (s32)(arg1 << 0x10), (s32)0xFFFCFFFF);
+void TWindowShortListCtrl::set_card_window_flags(saddr client_id, s32 page) {
+    TWindowKeyBoardHard::set_card_window_flags((void *)client_id, (s32)(page << 0x10), (s32)0xFFFCFFFF);
 }
 
 TWindowShortListCtrl::TWindowShortListCtrl(TObject *parent, s32 client_id) : TObject(parent) {
@@ -323,10 +322,10 @@ void TWindowShortListCtrl::run_task() {
 
 void TWindowShortListCtrl::render() {}
 
-void *TWindowShortListCtrl::create_window(s32 arg1, saddr arg2_arg) {
+void *TWindowShortListCtrl::create_window(s32 position, saddr arg2_arg) {
     void *window_menu;
 
-    window_menu = (void *)create_window_menu((saddr)(arg1), 0x13, client_id);
+    window_menu = (void *)create_window_menu((saddr)(position), 0x13, client_id);
     ((TWindowMenu *)window_menu)->set_flag70_bit10();
     ((TWindowSubComCardList *)window_menu)->open_tick = 0x01000000;
     ((TWindowSubComCardList *)window_menu)->set_flag70_bit100();
@@ -334,19 +333,19 @@ void *TWindowShortListCtrl::create_window(s32 arg1, saddr arg2_arg) {
     return window_menu;
 }
 
-void TWindowShortListCtrl::refresh_technique_rows(saddr arg1, void *arg2_arg) {
+void TWindowShortListCtrl::refresh_technique_rows(saddr tech_window, void *arg2_arg) {
     const NJS_POINT2 *pos = (const NJS_POINT2 *)arg2_arg;
     s32 i;
     s16 cur;
     s16 *order = (s16 *)(get_character_save_record(client_id) + 0x22C4);
-    cur = ((TWindowShortListCtrl *)arg1)->get_cursor_pos();
-    ((TWindowSubComCardList *)arg1)->reset_entries();
+    cur = ((TWindowShortListCtrl *)tech_window)->get_cursor_pos();
+    ((TWindowSubComCardList *)tech_window)->reset_entries();
     for (i = 0; i < 0x13; i++) {
-        TWindowSubTechnique::draw_technique_row(order[i], client_id, arg1);
+        TWindowSubTechnique::draw_technique_row(order[i], client_id, tech_window);
     }
-    ((TWindowSubComCardList *)arg1)->set_scroll_target(pos->x, pos->y);
-    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(arg1));
-    ((TWindowSubComCardList *)arg1)->set_selected_index(cur);
+    ((TWindowSubComCardList *)tech_window)->set_scroll_target(pos->x, pos->y);
+    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(tech_window));
+    ((TWindowSubComCardList *)tech_window)->set_selected_index(cur);
 }
 
 void TWindowShortListCtrl::cycle_list_page() {

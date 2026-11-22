@@ -12,10 +12,10 @@
 #include <stdio.h>
 #include <string.h>
 #include "pso/quest/TQuestListOnline.h"
+#include "pso/unk/TLobby_8030A6A8.h"
 #pragma readonly_strings on
 extern "C" {
 extern s32 local_client_id;
-s32 get_game_play_mode();
 saddr get_shop_text(s32 arg0);
 __declspec(section ".rodata") extern const char message_tag_error[];
 }

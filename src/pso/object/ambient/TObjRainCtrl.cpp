@@ -4,16 +4,14 @@
 
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 
 #pragma readonly_strings on
 
-extern "C" TObject *tl_particle;
 
-extern "C" {
 extern const char TObjRainCtrl__class_name_string[] = "TObjRainCtrl";
 const char *lbl_805D3428 = TObjRainCtrl__class_name_string;
-}
 
 void TObjRainCtrl::run_task() {
     if (--ticks_until_spawn < 0) {

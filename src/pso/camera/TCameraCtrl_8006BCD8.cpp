@@ -14,6 +14,8 @@
 #include "pso/system/scene/TScene.h"
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/render/render_util.h"
 
 #pragma push
 #pragma fp_contract on
@@ -24,7 +26,6 @@ void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
 extern f32 lbl_804FF5E8[];
 extern TCameraCtrl *camera_ctrl_instance;
 extern void* camera_controller_registry[];
-void* camera_controller_registry[];
 
 struct CameraMotionData;
 struct CameraPathMode { u32 field_00; u32 flags; };
@@ -43,12 +44,8 @@ LAYOUT_ASSERT(ScriptedCameraTargetOffset, offsetof(ScriptedCameraState, target_o
 LAYOUT_ASSERT(ScriptedCameraYawOffset, offsetof(ScriptedCameraState, angles) + offsetof(CameraAngles, yaw) == 0x88);
 LAYOUT_ASSERT(ScriptedCameraPlaybackOffset, offsetof(ScriptedCameraState, playback) == 0x98);
 extern "C" {
-f32 vector_length(const Vec*);
-void approach_vector_fixed_distance(const Vec*, const Vec*, Vec*, f32);
 
 u16 TCameraCtrl__sub_8006A5DC();
-s32 angle_difference_abs(s32, s32);
-s32 approach_angle_limited(s32, s32, s32);
 
 }
 
@@ -115,11 +112,11 @@ BOOL approach_camera_vector(Vec *current, Vec *target, f32 rate) {
     return TRUE;
 }
 
-s32 TCameraCtrl::clamp_distance(s32 arg0, s32 arg1, s32 arg2) {
-    if (angle_difference_abs(arg1, arg0) < (s32) (arg2 * 0x7F)) {
-        return arg1;
+s32 TCameraCtrl::clamp_distance(s32 yaw, s32 to, s32 arg2) {
+    if (angle_difference_abs(to, yaw) < (s32) (arg2 * 0x7F)) {
+        return to;
     }
-    return approach_angle_limited(arg0, arg1, arg2 * 0x7F);
+    return approach_angle_limited(yaw, to, arg2 * 0x7F);
 }
 
 void set_scripted_camera_pose(const Vec* position, const Vec* target, const CameraAngles* angles) {

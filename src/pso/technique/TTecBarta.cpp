@@ -3,6 +3,8 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/technique/TechniqueParams.h"
 #include "types.h"
+#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
+#include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/technique/TTecBarta.h"
 #include "pso/effect/TUnk_804CC148.h"
 #include "pso/effect/TUnk_804CCC68.h"
@@ -13,6 +15,11 @@
 #include "pso/technique/TTecAnti.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TLobby_80226070.h"
+#include "pso/effect/particle/TParticleCtrl_800867E4.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/unk/text_800871A0.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/object/base/CollisionActorLookup.h"
 
 struct HitInfo_8022B8F4 { s32 type; f32 power; };
 
@@ -77,12 +84,8 @@ struct Tec_8022BD74 {
 };
 
 extern "C" {
-void mem_free(void *p);
 u16 get_entity_id(void *);
 
-void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
-void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
-void *find_entity_by_id(u16 id);
 }
 
 const TechniqueEmitterSourceRow lbl_8044CC78[3] = {
@@ -110,13 +113,7 @@ const TechniqueEmitterSourceTable TTecBarta__emitter_bands[6] = {
 };
 const char *TTecBarta__class_name = "TTecBarta";
 void move_ground_technique_projectile(void *p);
-extern s32 technique_effect_bml;
-extern s32 lbl_805D63B0;
 extern "C" {
-s32 get_bml_motion(s32, s32);
-void *spawn_continuous_particle_with_direction(void *pos, void *dir, s32 id);
-TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
-void *mem_alloc(u32 size);
 s32 get_type__10TObjPlayerFPv(void *);
 List_8022BD74 *find_area_contact__13TUnk_804CC148Fl(Tec_8022BD74 *, void *);
 List_8022BD74 *collect_body_contacts_for_target__10TObjPlayerFl(Tec_8022BD74 *, void *);
@@ -187,7 +184,7 @@ void TTecBarta::create_particle_emitters() {
         if (self->emitters[i] != NULL) {
             row = &TTecBarta__emitter_bands[self->band].rows[i];
             if (row->flags & 0x20) {
-                attach_particle_model((u8 *)self->emitters[i], (s32)(get_bml_model((BmlResource *)technique_effect_bml, 0)), (s32)lbl_805D63B0, (s32)(get_bml_motion(technique_effect_bml, 0)), 0, 1.0f);
+                attach_particle_model((u8 *)self->emitters[i], get_bml_model(technique_effect_bml, 0), lbl_805D63B0, get_bml_motion(technique_effect_bml, 0), 0, 1.0f);
             } else {
                 ((TParticleCtrl *)(self->emitters[i]))->set_scale(row->scale, row->scale);
             }
@@ -217,12 +214,12 @@ void TTecBarta::init_parameters() {
   this->range = (f32) (*((f32 *) (((s8 *) arg0) + 0xD4)));
 }
 
-void TTecBarta::create(void *arg1, void *arg2, void *arg3) {
-    new TTecBarta((saddr)this, (u8 *)arg1, (u8 *)arg2, (saddr)arg3);
+void TTecBarta::create(void *source, void *origin, void *aim, s32 level) {
+    new TTecBarta((saddr)source, (u8 *)origin, (u8 *)aim, level);
 }
 
-void TTecBarta::create_ex(void *arg1, void *arg2, void *arg3) {
-    new TTecBarta((saddr)this, (Vec *)arg1, (saddr)arg2, (saddr)arg3);
+void TTecBarta::create_ex(void *source, void *origin, s32 angle, s32 level) {
+    new TTecBarta((saddr)source, (Vec *)origin, angle, level);
 }
 
 void TTecBarta::vfunc_8(void *target) {
@@ -280,7 +277,7 @@ void TTecBarta::run_task() {
     if (this->band == 5) {
         TechniqueParticleEmitter *e = (TechniqueParticleEmitter *)create_timed_particle_emitter(&this->position.x, 0x18A, 0x14, 1);
         if (e != NULL) {
-            attach_particle_model((u8 *)e, (s32)(get_bml_model((BmlResource *)technique_effect_bml, 5)), (s32)lbl_805D63B0, 0, 0, 1.0f);
+            attach_particle_model((u8 *)e, get_bml_model(technique_effect_bml, 5), lbl_805D63B0, 0, 0, 1.0f);
         }
     }
     move_ground_technique_projectile(this);

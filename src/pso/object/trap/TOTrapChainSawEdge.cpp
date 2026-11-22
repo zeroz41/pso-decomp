@@ -15,6 +15,7 @@
 #include "pso/system/task/TObject.h"
 
 #include "pso/object/trap/TOTrapChainSawEdge.h"
+#include "pso/render/ModelDrawContext.h"
 
 #include "pso/player/TObjPlayer.h"
 
@@ -25,6 +26,7 @@
 #include "pso/object/trap/TOTrapChainSaw.h"
 
 #include "pso/object/base/TObjMotion.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
 #include "pso/map/FloorArea.h"
 
@@ -33,10 +35,6 @@
 #include "pso/unk/text_803D853C.h"
 
 #include "pso/unk/text_803D96A8.h"
-
-
-
-
 
 
 #include "pso/object/base/TObjMapObject.h"
@@ -58,7 +56,6 @@ extern "C" {
 GinjaTextureList *fn_802C9924(s32 arg0);
 
 
-
 typedef struct P_802C86D4 {
     u8 pad0[2];
     u16 sA;
@@ -69,13 +66,6 @@ typedef struct P_802C86D4 {
     s8 b13;
 } P_802C86D4;
 
-struct RecoveredGlobal_802C8910_lbl_804E0CC0 {
-    s32 value;
-    u8 remaining[0xDC];
-};
-
-LAYOUT_ASSERT(RecoveredGlobal_802C8910_lbl_804E0CC0_size, sizeof(RecoveredGlobal_802C8910_lbl_804E0CC0) == 0xE0);
-
 
 struct Pair_802C80F0 { s32 v[2]; };
 
@@ -84,7 +74,6 @@ struct T_802C8F68 { s32 r[3][3]; };
 
 struct Copy_802C8E24 { u32 a; struct { u32 w[14]; } b; };
 
-struct Ent_802C8E24 { u8 b[0x58]; };
 
 struct Pair_802C8C60 { s32 v[2]; };
 
@@ -140,41 +129,18 @@ s8 get_current_floor(int);
 f32 fabs_float(f32);
 
 
-void free_collision_body_parts(void *);
-
-s32 init_collision_body_parts(void *, int, int);
-
-s32 play_persistent_sound(void *, void *, void *, int, int);
+s32 play_persistent_sound(s32, void *, void *, int, int);
 
 u8 is_current_floor_switch_set(s32 id);
 
 
-
-
 void TParticleCtrl__sub_802C8464(NJS_OBJECT *arg0);
-
-
-
-
-void update_state__17TOTrapChainSawKeyFv(u8 *arg0);
-
-
-
-
-
-
-void update_state__20TOTrapChainSawDamageFv(void *arg0);
 
 
 s32 get_area_table_value__17TOTrapChainSawKeyFii(TOTrapChainSaw *trap, s32 sound_index);
 
 void vfunc_14__14TOTrapChainSawFv(void);
 
-void update_state__14TOTrapChainSawFv(u8 *arg0);
-
-void * __dt__14TOTrapChainSawFv(void *arg0, s16 arg1);
-
-u8 * __ct__14TOTrapChainSawFP7TObjectPv(u8 *arg0, s32 arg1, s32 arg2);
 
 void TOTrapChainSawDamage__sub_802C9C00(u8 *arg0, s32 arg1);
 
@@ -183,9 +149,6 @@ void rotate_matrix_y(int, void *);
 
 void post_translate_matrix(void *);
 
-void set_model_node_callback(saddr arg0);
-
-void draw_ginja_model_with_motion(void *, void *, f32);
 
 NJS_OBJECT *seabed_suiso_linked_switch_counts[5];
 NJS_OBJECT *seabed_suiso_switch_counts[5];
@@ -194,7 +157,6 @@ extern s32 local_client_id;
 
 extern s32 game_difficulty_selection;
 
-extern void *tl_05;
 
 const char *chainsaw_ginja_model_filenames[6] = {
     "fe_obj_nokogiri_2m.gj", "fe_obj_nokogiri_4m.gj", "fe_obj_sekigai_light_moto.gj",
@@ -234,32 +196,19 @@ const s32 lbl_80471F70[2] = { 0, 1 };
 
 const s32 lbl_80471F78[2] = { 0, 1 };
 
-void *chain_saw_damage_collision_body_parts[44] = {
-    (void *)0xc0a00000, (void *)0x0, (void *)0x0, (void *)0x40400000,
-    (void *)0x0, (void *)0x0, (void *)0x10403, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0xc1400000,
-    (void *)0x0, (void *)0x0, (void *)0x40000000, (void *)0x41000000,
-    (void *)0x1, (void *)0x10503, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0xc0a00000, (void *)0x0,
-    (void *)0x0, (void *)0x40400000, (void *)0x0, (void *)0x0,
-    (void *)0x10403, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0xc1a00000, (void *)0x0, (void *)0x0,
-    (void *)0x40000000, (void *)0x41800000, (void *)0x1, (void *)0x10503,
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
+// Two collision bodies per variant, picked by the variant word at 0xF8.
+CollisionBody chain_saw_damage_collision_body_parts[2][2] = {
+    { { { -5.0f, 0.0f, 0.0f }, 3.0f, 0.0f, 0, 0x10403, { 0.0f, 0.0f, 0.0f }, 0.0f },
+      { { -12.0f, 0.0f, 0.0f }, 2.0f, 8.0f, 1, 0x10503, { 0.0f, 0.0f, 0.0f }, 0.0f }, },
+    { { { -5.0f, 0.0f, 0.0f }, 3.0f, 0.0f, 0, 0x10403, { 0.0f, 0.0f, 0.0f }, 0.0f },
+      { { -20.0f, 0.0f, 0.0f }, 2.0f, 16.0f, 1, 0x10503, { 0.0f, 0.0f, 0.0f }, 0.0f }, },
 };
 
-void *chain_saw_collision_body_part_table[44] = {
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x40400000,
-    (void *)0x0, (void *)0x0, (void *)0x10403, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0xc1200000,
-    (void *)0x0, (void *)0x0, (void *)0x40000000, (void *)0x41000000,
-    (void *)0x1, (void *)0x10503, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0x40400000, (void *)0x0, (void *)0x0,
-    (void *)0x10403, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0xc1a00000, (void *)0x0, (void *)0x0,
-    (void *)0x40000000, (void *)0x41900000, (void *)0x1, (void *)0x10503,
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
+CollisionBody chain_saw_collision_body_part_table[2][2] = {
+    { { { 0.0f, 0.0f, 0.0f }, 3.0f, 0.0f, 0, 0x10403, { 0.0f, 0.0f, 0.0f }, 0.0f },
+      { { -10.0f, 0.0f, 0.0f }, 2.0f, 8.0f, 1, 0x10503, { 0.0f, 0.0f, 0.0f }, 0.0f }, },
+    { { { 0.0f, 0.0f, 0.0f }, 3.0f, 0.0f, 0, 0x10403, { 0.0f, 0.0f, 0.0f }, 0.0f },
+      { { -20.0f, 0.0f, 0.0f }, 2.0f, 18.0f, 1, 0x10503, { 0.0f, 0.0f, 0.0f }, 0.0f }, },
 };
 
 static const f32 lbl_805DE620 = -1.0f;
@@ -271,6 +220,7 @@ extern "C" { BmlResource *lbl_805D6808; }
 #include "pso/render/NinjaUtil.h"
 
 #include "pso/object/seabed/TObjSeabedSuisoBrakable.h"
+#include "pso/system/task/TMainTask.h"
 
 void TOTrapChainSaw::vfunc_16() {  }
 
@@ -291,8 +241,8 @@ void TOTrapChainSaw::vfunc_27() {  }
 void TOTrapChainSaw::vfunc_26() {  }
 
 void TOTrapChainSaw::vfunc_18(TObjPlayer *) {  }
-extern "C" {
-int TOTrapChainSawEdge::check_player_contact() {  }
+
+void TOTrapChainSawEdge::check_player_contact() {  }
 
 void TOTrapChainSaw::load_shared_resource() {
     BmlResource *p;
@@ -420,11 +370,8 @@ void TOTrapChainSaw::run_task() {
     }
     *(s32 *)((s8 *)this + 0xF0) = 0;
 }
-}
-
 #pragma push
 #pragma opt_propagation off
-extern "C" {
 void TOTrapChainSaw::update_state() {
     u8 *arg0 = (u8 *)this;
     static Act_802C9600 tbl[2] = { &VObj_802C9600::m20, &VObj_802C9600::m21 };
@@ -436,10 +383,7 @@ void TOTrapChainSaw::update_state() {
         }
     }
 }
-}
-
 #pragma pop
-extern "C" {
 void TOTrapChainSaw::update_sweep() {
     if ((s32) *(saddr *)((s8 *)this + 0xF0) == 0) {
         if ((s32) yaw_offset == 0) {
@@ -488,7 +432,7 @@ void TOTrapChainSaw::update_extension() {
     }
 }
 
-int TOTrapChainSaw::check_player_contact() {
+void TOTrapChainSaw::check_player_contact() {
     s32 i;
     TObjPlayer *p;
     s32 t;
@@ -570,8 +514,6 @@ f32 TOTrapChainSaw::scale_by_level(f32 farg0) {
     F4_802C8FF8 t = TOTrapChainSaw__level_scale_table;
     return farg0 * t.v[game_difficulty_selection];
 }
-}
-
 #pragma push
 #pragma auto_inline off
 #pragma dont_inline off
@@ -579,7 +521,6 @@ f32 TOTrapChainSaw::scale_by_level(f32 farg0) {
 #pragma auto_inline off
 #pragma dont_inline off
 #pragma inline_depth(1)
-extern "C" {
 s32 get_area_table_value__17TOTrapChainSawKeyFii(TOTrapChainSaw *trap, s32 sound_index) {
     T_802C8F68 t = chainsaw_area_table_values;
     s32 *p = t.r[0];
@@ -593,21 +534,18 @@ s32 get_area_table_value__17TOTrapChainSawKeyFii(TOTrapChainSaw *trap, s32 sound
     }
     return p[sound_index];
 }
-}
-
 #define arg0 ((u8 *)this)
-extern "C" {
-TOTrapChainSawDamage::TOTrapChainSawDamage(TObject *parent, void *arg2) : TOTrapChainSaw(parent, arg2) {
+TOTrapChainSawDamage::TOTrapChainSawDamage(TObject *parent, void *set_data) : TOTrapChainSaw(parent, set_data) {
     void *o;
     *(saddr *)(((u8 *)arg0) + 0) = (saddr) TOTrapChainSawDamage_class_name;
     ((TOTrapChainSawDamage *)arg0)->decode_params();
     ((TOTrapChainSawDamage *)arg0)->vfunc_16();
-    ((s32 (*)(void *, void *, int))init_collision_body_parts)(arg0, &((Ent_802C8E24 *)chain_saw_damage_collision_body_parts)[*(s32 *)(((u8 *)arg0) + 0xF8)], 2);
+    init_collision_body_parts(this, chain_saw_damage_collision_body_parts[*(s32 *)(((u8 *)arg0) + 0xF8)], 2);
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
     *(f32 *)(((u8 *)arg0) + 0x3C) += (5.0f);
     {
-        Copy_802C8E24 c = *(Copy_802C8E24 *)arg2;
+        Copy_802C8E24 c = *(Copy_802C8E24 *)set_data;
         *(f32 *)((u8 *)&c + 0x10) += (1e+01f);
         o = new TOTrapChainSawEdge((TObject *)this, &c);
         *(void **)(((u8 *)arg0) + 0x104) = o;
@@ -616,17 +554,14 @@ TOTrapChainSawDamage::TOTrapChainSawDamage(TObject *parent, void *arg2) : TOTrap
         *(void **)(((u8 *)arg0) + 0x108) = o;
     }
 }
-}
-
 #undef arg0
-extern "C" {
 TOTrapChainSawDamage::~TOTrapChainSawDamage() {
     ((TObjCollidable *)this)->unregister_object_by_id();
     free_collision_body_parts(this);
 }
 
 void *TOTrapChainSawDamage::create() {
-    return new TOTrapChainSawDamage((TObject *)tl_05, this);
+    return new TOTrapChainSawDamage(tl_05, this);
 }
 
 void TOTrapChainSawDamage::decode_params() {
@@ -648,9 +583,6 @@ void TOTrapChainSawDamage::vfunc_16() {
     arg0->fB4 = (0.0f);
     arg0->fB8 = (1.0f);
 }
-}
-
-extern "C" {
 void TOTrapChainSawDamage::vfunc_18(TObjPlayer *player) {
     DirectAttackPayload attack;
     attack.kind = 0;
@@ -658,9 +590,6 @@ void TOTrapChainSawDamage::vfunc_18(TObjPlayer *player) {
     player->receive_direct_attack(this, attack, NULL, -1, -1);
     obj_setFlags30(player, 0x400);
 }
-}
-
-extern "C" {
 void TOTrapChainSawDamage::update_state() {
     TOTrapChainSaw::update_state();
     if ((s32) *(s32 *)((s8 *)this + 0xF0) == 1) {
@@ -669,10 +598,7 @@ void TOTrapChainSawDamage::update_state() {
     }
     set_indexed_flags(1, 0x100);
 }
-}
-
 #pragma pop
-extern "C" {
 void TOTrapChainSawDamage::vfunc_25() {
     TObjFish::set_global_param((saddr)(*(void **)((s8 *)this + 0x24)));
     push_matrix();
@@ -694,11 +620,8 @@ void TOTrapChainSawDamage::vfunc_14() {
 }
 
 void TOTrapChainSawDamage::vfunc_26() { *(s32*)((char*)this + 0x100) = 0; }
-}
-
 #pragma push
 #pragma fp_contract on
-extern "C" {
 void TOTrapChainSawDamage::vfunc_27() {
     *(s32 *)((s8 *)((u8 *)this) + 0x100) = (s32) (*(s32 *)((s8 *)((u8 *)this) + 0x100) + 1);
     void *p;
@@ -708,12 +631,9 @@ void TOTrapChainSawDamage::vfunc_27() {
     if (((s32) *(s32 *)((s8 *)((u8 *)this) + 0x100) == 0xA) && ((p = *(void **)((s8 *)((u8 *)this) + 0x108)) != NULL)) {
         TOTrapChainSawDamage__sub_802C9C00((u8 *)p, 1);
     }
-    ((s32 (*)(s32, void *, void *, int, int))play_persistent_sound)(get_area_table_value__17TOTrapChainSawKeyFii(this, 0), this, (void *) (((u8 *)this) + 0x38), 0, 0);
+    play_persistent_sound(get_area_table_value__17TOTrapChainSawKeyFii(this, 0), this, (u8 *)this + 0x38, 0, 0);
 }
-}
-
 #pragma pop
-extern "C" {
 void TOTrapChainSawDamage::vfunc_28() {
     if (*(void **)((s8 *)this + 0x104) != NULL) {
         ((TOTrapChainSawDamage *)(*(void **)((s8 *)this + 0x104)))->set_damage((saddr)(*(void **)((s8 *)this + 0xD4)));
@@ -722,29 +642,23 @@ void TOTrapChainSawDamage::vfunc_28() {
         ((TOTrapChainSawDamage *)(*(void **)((s8 *)this + 0x108)))->set_damage((saddr)(*(void **)((s8 *)this + 0xD4)));
     }
 }
-}
-
 #define arg0 ((u8 *)this)
-extern "C" {
 TOTrapChainSawKey::TOTrapChainSawKey(TObject *parent, void *set_data) : TOTrapChainSaw(parent, set_data) {
     *(saddr *)((s8 *)arg0 + 0) = (saddr) TOTrapChainSawKey__name;
     ((TOTrapChainSawKey *)(arg0))->decode_params();
     ((TOTrapChainSawKey *)(arg0))->vfunc_16();
-    init_collision_body_parts(arg0, (int) ((u8 *)(&((RecoveredGlobal_802C8910_lbl_804E0CC0 *)chain_saw_collision_body_part_table)->value) + (*(s32 *)((s8 *)arg0 + 0xF8) * 0x58)), 2);
+    init_collision_body_parts(this, chain_saw_collision_body_part_table[*(s32 *)((s8 *)arg0 + 0xF8)], 2);
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
 }
-}
-
 #undef arg0
-extern "C" {
 TOTrapChainSawKey::~TOTrapChainSawKey() {
     ((TObjCollidable *)this)->unregister_object_by_id();
     free_collision_body_parts(this);
 }
 
 void *TOTrapChainSawKey::create() {
-    return new TOTrapChainSawKey((TObject *)tl_05, this);
+    return new TOTrapChainSawKey(tl_05, this);
 }
 
 void TOTrapChainSawKey::decode_params() { TOTrapChainSaw::decode_params(); }
@@ -785,9 +699,9 @@ void TOTrapChainSawKey::update_state() {
     if (*(f32 *)((s8 *)arg0 + 0x104) > (f32) (u32) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x100)) + 4) - 1)) {
         *(f32 *)((s8 *)arg0 + 0x104) = 0.0f;
     }
-    play_persistent_sound((void *) (get_area_table_value__17TOTrapChainSawKeyFii(this, 2)), arg0, arg0 + 0x38, 0, 0);
+    play_persistent_sound(get_area_table_value__17TOTrapChainSawKeyFii(this, 2), arg0, arg0 + 0x38, 0, 0);
     if ((s32) *(s32 *)((s8 *)arg0 + 0xF0) == 1) {
-        play_persistent_sound((void *) (get_area_table_value__17TOTrapChainSawKeyFii(this, 1)), arg0, arg0 + 0x38, 0, 0);
+        play_persistent_sound(get_area_table_value__17TOTrapChainSawKeyFii(this, 1), arg0, arg0 + 0x38, 0, 0);
     }
 }
 
@@ -805,7 +719,7 @@ void TOTrapChainSawKey::vfunc_25() {
     push_matrix();
     rotate_matrix_y(0, *(void **)((s8 *)this + 0x60));
     rotate_matrix_y(0, *(void **)((s8 *)this + 0xD4));
-    set_model_node_callback((saddr)((s32 *)TParticleCtrl__sub_802C8464));
+    set_model_node_callback(TParticleCtrl__sub_802C8464);
     draw_ginja_motion(*(NJS_OBJECT **)((s8 *)this + 0xC8), *(NJS_MOTION **)((s8 *)this + 0xBC), *(f32 *)((s8 *)this + 0xB4));
     set_model_node_callback(0);
     if (*(s32 *)((s8 *)this + 0xF0) == 1) {
@@ -818,7 +732,7 @@ void TOTrapChainSawKey::vfunc_25() {
     TParticleCtrl::end_effect_render();
 }
 
-int TOTrapChainSawKey::check_player_contact() { if (*(int*)((char*)this + 0xf0) != 1) { TOTrapChainSaw::check_player_contact(); } }
+void TOTrapChainSawKey::check_player_contact() { if (*(int*)((char*)this + 0xf0) != 1) { TOTrapChainSaw::check_player_contact(); } }
 
 void TOTrapChainSawKey::vfunc_27() {  }
 
@@ -838,7 +752,6 @@ void TParticleCtrl__sub_802C8464(NJS_OBJECT *arg0) {
     }
     TParticleCtrl::end_effect_render();
 }
-}
 
 #define trap_chain_saw_edge ((u8 *)this)
 TOTrapChainSawEdge::TOTrapChainSawEdge(TObject *parent, void *set_data) : TOTrapChainSaw(parent, set_data) {
@@ -851,7 +764,7 @@ TOTrapChainSawEdge::TOTrapChainSawEdge(TObject *parent, void *set_data) : TOTrap
 
 #undef trap_chain_saw_edge
 TOTrapChainSawEdge::~TOTrapChainSawEdge() {}
-extern "C" {
+
 void TOTrapChainSawEdge::update_extension() {
     s32 temp_r4;
     s32 temp_r4_2;
@@ -922,5 +835,4 @@ void TOTrapChainSawEdge::vfunc_16() {
     *(saddr *)((s8 *)this + 0x24) = (saddr)fn_802C9924(0);
     *(f32 *)((s8 *)this + 0xB4) = (0.0f);
     *(f32 *)((s8 *)this + 0xB8) = (1.0f);
-}
 }

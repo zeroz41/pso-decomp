@@ -10,6 +10,7 @@
 #include "pso/item/TItemHeapObject.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 struct VBase_18_f15a7b { char pad[0x18]; };
 
@@ -89,9 +90,6 @@ struct VObj_18_f15a7b : VBase_18_f15a7b {
     virtual s32 m72(s32);
 };
 
-extern "C" {
-s32 obj_is_hit_receivable(u8 *arg0);
-}
 #pragma push
 #pragma fp_contract on
 void frozen_shooter_freeze_hit(int arg0, u8 *arg1) {
@@ -131,7 +129,7 @@ void TUnk_804A2960::emit_marker_effects() {
 }
 
 // Starts the freeze curse timer on the equip effect objects.
-void TUnk_804A2960::vfunc_57() {
+void TUnk_804A2960::on_equipped() {
     if (effect_objects != NULL) {
         new TUnk_804A05E8(effect_objects, get_owner_client(), 0xE10, 0.25f);
     }
@@ -159,7 +157,7 @@ TItem *frozen_shooter_create(u8 *item) {
     return NULL;
 }
 
-// This object's copy of the freeze curse timer's constructor (vfunc_57
+// This object's copy of the freeze curse timer's constructor (on_equipped
 // calls it first).
 TUnk_804A05E8::TUnk_804A05E8(TItemHeapObject *parent, u16 client, s32 period, f32 rate)
     : TItemTimerEvent(parent, client, period) {

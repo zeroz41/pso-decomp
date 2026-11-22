@@ -22,37 +22,33 @@
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/Language.h"
 #include "pso/system/task/TObject.h"
+#include "pso/network/client_id.h"
 
 #pragma readonly_strings on
 
-
 const char *TWindowSubComCardList__class_name = "TWindowSubComCardList";
 
-
 extern "C" {
-extern const char *TWindowSubComCardList__class_name;
-extern s32 local_client_id;
 s32 count_leading_active__17TWindowSubComCardFPvi(s32, s32);
-void render__21TWindowSubComCardListFv(TWindowSubComCardList *arg0);
 void __dl__7TObjectFPv(void *);
 void *__dt__11TWindowMenuFv(void *arg0, s16 arg1);
 
-void render__21TWindowSubComCardListFv(TWindowSubComCardList *arg0) {
-    saddr temp_r3;
+void TWindowSubComCardList::render() {
+    saddr ctx;
 
-    temp_r3 = reinterpret_cast<saddr>(arg0->get_draw_context());
-    ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
+    ctx = reinterpret_cast<saddr>(this->get_draw_context());
+    draw_window_frame((void *)ctx);
     draw_visible_window_entries(
-        reinterpret_cast<const void *>(arg0),
-        reinterpret_cast<const WindowLayoutEntries *>((u8 *)arg0 + 0x24),
-        reinterpret_cast<WindowDrawContext *>(temp_r3));
-    ((TWindowMenu *)arg0)->render_selected_entry(temp_r3);
-    arg0->draw_card_list_selection((u8 *)temp_r3);
-    if ((u32) arg0->m_88 != 0U) {
-        ((TWindowSubStatusDisp *)((void *)(arg0->m_88)))->forward_render((void *)(temp_r3));
+        this,
+        &this->entry_list,
+        reinterpret_cast<WindowDrawContext *>(ctx));
+    ((TWindowMenu *)this)->render_selected_entry(ctx);
+    this->draw_card_list_selection((u8 *)ctx);
+    if (this->m_88 != 0) {
+        this->m_88->forward_render((void *)(ctx));
     }
-    if ((u32) arg0->m_8c != 0U) {
-        draw_list_page_indicator(arg0->m_8c, reinterpret_cast<WindowDrawContext *>(temp_r3));
+    if (this->m_8c != 0) {
+        draw_list_page_indicator(this->m_8c, reinterpret_cast<WindowDrawContext *>(ctx));
     }
 }
 
@@ -68,7 +64,7 @@ TWindowSubComCardList::~TWindowSubComCardList() {
     delete_if_allocated(m_8c, 1);
 }
 
-TWindowSubComCardList::TWindowSubComCardList(void *arg1) : TWindowMenu(7, 4, (saddr)arg1) {
+TWindowSubComCardList::TWindowSubComCardList(void *parent) : TWindowMenu(7, 4, (saddr)parent) {
     s32 n;
     #define window_menu ((u8 *)this)
     *(s32 *)(window_menu + 0) = ((saddr)TWindowSubComCardList__class_name);
@@ -89,16 +85,16 @@ TWindowSubComCardList::TWindowSubComCardList(void *arg1) : TWindowMenu(7, 4, (sa
     #undef window_menu
 }
 
-TWindowSubComCardList::TWindowSubComCardList(void *arg1, s32 arg2, s32 arg3, s32 arg4) : TWindowMenu(7, 4, (saddr)arg1) {
+TWindowSubComCardList::TWindowSubComCardList(void *parent, s32 card_slot, s32 arg3, s32 arg4) : TWindowMenu(7, 4, (saddr)parent) {
     s32 n;
     #define window_menu ((u8 *)this)
     *(s32 *)(window_menu + 0) = ((saddr)TWindowSubComCardList__class_name);
-    n = TWindowSubStatusDisp::round_away_from_zero((f32)count_leading_active__17TWindowSubComCardFPvi(arg2, arg3) / 7.0f);
+    n = TWindowSubStatusDisp::round_away_from_zero((f32)count_leading_active__17TWindowSubComCardFPvi(card_slot, arg3) / 7.0f);
     if (n <= 0) {
         n = 1;
     }
     m_8c = new PageIndicator(0, (s8)n, local_client_id);
-    *(s32 *)(window_menu + 0x90) = arg2;
+    *(s32 *)(window_menu + 0x90) = card_slot;
     *(s32 *)(window_menu + 0x94) = 0;
     *(s32 *)(window_menu + 0x98) = arg3;
     *(s8 *)(window_menu + 0x9C) = arg4;

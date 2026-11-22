@@ -2,6 +2,7 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
+#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/unk/text_80086D50.h"
 #include "pso/technique/TTecFoie.h"
 #include "pso/technique/TechniqueParams.h"
@@ -14,11 +15,12 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/unk/TLobby_80226070.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/object/base/CollisionActorLookup.h"
 
 struct Tec_8022FB70 { u8 pad[0x20]; f32 pos[3]; u8 pad2c[0xC6 - 0x2C]; s16 band; };
 
 extern "C" {
-s32 play_sound_effect(s32 id, void *pos, s32 a, s32 b);
 void TTecFoie::play_foie_cast_sound() {
     Tec_8022FB70 *self = (Tec_8022FB70 *)this;
     s32 h;
@@ -121,9 +123,7 @@ struct Foie_8022FC94
 
 s32 clamp_nonnegative_int(s32 x);
 extern "C" {
-void mem_free(void *p);
 u16 get_entity_id(void *);
-void *find_entity_by_id(u16 id);
 // foie_emitter_parts_N (inferred, after TTecGiFoie's emitter_parts_N): the particle parts entry N of
 // TTecFoie__emitter_profile_table spawns; the scale of part 0x14 grows with the band.
 static const Binding_8022FC94 foie_emitter_parts_0[1] = {{0x14, 2, 1.0f}};
@@ -140,10 +140,8 @@ const TTecFoieData_80230144 TTecFoie__emitter_profile_table[6] = {
     {foie_emitter_parts_3, 2}, {foie_emitter_parts_4, 2}, {foie_emitter_parts_5, 4},
 };
 const char *TTecFoie__name = "TTecFoie";
-s32 attach_particle_model(int, int, int, int, int, f32);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, u16 e);
 void *spawn_continuous_particle_effect_with_flags(void *, s32, u16);
-extern s32 lbl_805D63B0;
 
 typedef struct RecoveredFields_8022FE84_arg0 RecoveredFields_8022FE84_arg0;
 typedef struct Angles_8022FC94 Angles_8022FC94;
@@ -185,7 +183,7 @@ void TTecFoie::create_particle_emitters() {
     {
       if (TTecFoie__emitter_profile_table[self->band].parts[i].flags & 0x20)
       {
-        attach_particle_model((saddr) self->emitters[i], TParticleCtrl::get_particle_model(0), lbl_805D63B0, 0, 1, 1.0f);
+        attach_particle_model((u8 *)self->emitters[i], TParticleCtrl::get_particle_model(0), lbl_805D63B0, 0, 1, 1.0f);
       }
       ((TParticleCtrl *)(self->emitters[i]))->set_scale(TTecFoie__emitter_profile_table[self->band].parts[i].scale, TTecFoie__emitter_profile_table[self->band].parts[i].scale);
     }
@@ -229,12 +227,12 @@ void TTecFoie::vfunc_8(void *target_arg) {
     queue_destruction();
 }
 
-void TTecFoie::create_ex(void *arg0, void *arg1, void *arg2, void *arg3) {
-    new TTecFoie((saddr)arg0, (u8 *)arg1, (u8 *)arg2, (saddr)arg3);
+void TTecFoie::create_ex(void *source, void *origin, void *aim, s32 level) {
+    new TTecFoie((saddr)source, (u8 *)origin, (u8 *)aim, level);
 }
 
-void TTecFoie::create(void *arg0, void *arg1, void *arg2, void *arg3) {
-    new TTecFoie((saddr)arg0, (Vec *)arg1, (saddr)arg2, (saddr)arg3);
+void TTecFoie::create(void *source, void *origin, s32 angle, s32 level) {
+    new TTecFoie((saddr)source, (Vec *)origin, angle, level);
 }
 TTecFoie::~TTecFoie() {
     for (u32 i = 0; i < TTecFoie__emitter_profile_table[band].count; ++i) {

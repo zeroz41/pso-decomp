@@ -203,15 +203,15 @@ s32 TWindowSubSymbolChatParts::calc_symbol_index() {
 
 #pragma push
 #pragma fp_contract on
-void TWindowSubSymbolChat::select_index_and_scroll(s32 arg1) {
+void TWindowSubSymbolChat::select_index_and_scroll(s32 symbol_index) {
     Win_80284D68 *arg0 = (Win_80284D68 *)this;
     NJS_POINT2 v;
 
-    if (arg1 >= arg0->count) {
-        arg1 = arg0->count - 1;
+    if (symbol_index >= arg0->count) {
+        symbol_index = arg0->count - 1;
     }
-    arg0->row = arg1 / 4;
-    arg0->col = arg1 % 4;
+    arg0->row = symbol_index / 4;
+    arg0->col = symbol_index % 4;
     arg0->pos.y = 16.0f + (40.0f * (f32)arg0->row + 9.0f);
     arg0->pos.y -= 81.0f;
     v.x = 0.0f;
@@ -238,7 +238,7 @@ void TWindowSubSymbolChatParts::add_part() {
     play_sound_effect(0x52D01, 0, 0, 0);
     **(s32 * *)&this->_pad84 = 1;
     this->m_70 = (u8) (this->m_70 | 1);
-    ((TWindowSubStatusDisp *)(*(saddr *)&this->m_88))->set_entry_state(2);
+    this->m_88->set_entry_state(2);
 }
 
 void TWindowSubSymbolChatParts::handle_add() {
@@ -248,7 +248,7 @@ void TWindowSubSymbolChatParts::handle_add() {
     }
     play_sound_effect(0x52D01, 0, 0, 0);
     this->m_70 = (u8) (this->m_70 | 1);
-    ((TWindowSubStatusDisp *)(*(saddr *)&this->m_88))->set_entry_state(2);
+    this->m_88->set_entry_state(2);
 }
 
 #pragma push
@@ -539,7 +539,7 @@ void render__25TWindowSubSymbolChatPartsFv(u8 *window_sub_symbol_chat_parts) {
     }
     draw_window_scrollbar(((TWindowSubSymbolChatParts *)window_sub_symbol_chat_parts)->m_8c, ctx, window_sub_symbol_chat_parts + 0x68);
     ((TWindowSubSymbolChatParts *)window_sub_symbol_chat_parts)->sub_80285274((u8 *)ctx);
-    ((TWindowSubStatusDisp *)((void *)(((TWindowSubSymbolChatParts *)window_sub_symbol_chat_parts)->m_88)))->forward_render((void *)(ctx));
+    ((TWindowSubSymbolChatParts *)window_sub_symbol_chat_parts)->m_88->forward_render((void *)(ctx));
 }
 
 void run_task__25TWindowSubSymbolChatPartsFv(Parts_80285B84 *arg0) {
@@ -574,11 +574,11 @@ TWindowSubSymbolChatParts::~TWindowSubSymbolChatParts() {
     TWindowSubStatusDisp::destroy_status_display((saddr)(*(void **)((s8 *)this + 0x88)), (s16)1);
 }
 
-Parts_80285D38 *TWindowSubSymbolChatParts__ct(Parts_80285D38 *arg0, void *arg1, s32 arg2, s32 arg3) {
+Parts_80285D38 *TWindowSubSymbolChatParts__ct(Parts_80285D38 *arg0, void *parent, s32 arg2, s32 arg3) {
     NJS_POINT2 v;
     void *p;
     void *q;
-    __ct__15TWindowAdditionFPUcsPUc(arg0, (u8 *)&symbol_chat_parts_window_layout, (s16)4, (u8 *)arg1);
+    __ct__15TWindowAdditionFPUcsPUc(arg0, (u8 *)&symbol_chat_parts_window_layout, (s16)4, (u8 *)parent);
     arg0->vt = __vt__25TWindowSubSymbolChatParts;
     arg0->f0 = (saddr)TWindowSubSymbolChatParts__name;
     arg0->f70 = 0;

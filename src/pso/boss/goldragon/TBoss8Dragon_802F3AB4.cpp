@@ -9,23 +9,22 @@
 
     extern void* boss8_dragon_leader_part;
 extern "C" {
-extern void *boss8_dragon_leader_part;
 
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 
 extern "C" {
-s32 setup_attack_slot__12TBoss8DragonFiUiiiPv(saddr arg0, uaddr arg1, s32 arg2, s32 arg3, u8 *arg4) {
+s32 setup_attack_slot__12TBoss8DragonFiUiiiPv(saddr self, uaddr arg1, s32 arg2, s32 arg3, u8 *dst) {
     if ((arg3 < 0) || (arg3 > 5)) {
         return 0;
     }
-    TBoss4DarkFalz__sub_8004B4F0(arg4, (void *)(arg0 + 0x1C));
-    *(s16 *)((s8 *)arg4 + 0) = TBoss8Dragon__sub_802F3C94((void *)arg0, (s32)arg3);
-    *(s16 *)((s8 *)arg4 + 2) = 0;
-    *(s16 *)((s8 *)arg4 + 6) = ((TBoss8Dragon *)arg0)->get_part_count_plus(arg3);
+    TBoss4DarkFalz__sub_8004B4F0(dst, (void *)(self + 0x1C));
+    *(s16 *)((s8 *)dst + 0) = TBoss8Dragon__sub_802F3C94((void *)self, (s32)arg3);
+    *(s16 *)((s8 *)dst + 2) = 0;
+    *(s16 *)((s8 *)dst + 6) = ((TBoss8Dragon *)self)->get_part_count_plus(arg3);
     if (arg1 != 0U) {
-        VecCopy((Vec *)(arg4 + 0x10), (const Vec *)(arg1));
+        VecCopy((Vec *)(dst + 0x10), (const Vec *)(arg1));
     }
-    *(s32 *)((s8 *)arg4 + 0x20) = arg2;
+    *(s32 *)((s8 *)dst + 0x20) = arg2;
     return 1;
 }
 }
@@ -48,9 +47,9 @@ TUnk_804E4BF0::TUnk_804E4BF0(TObject *object, void *arg1p) : TObject(object) {
 }
 
 
-void * TBoss8Dragon__sub_802F3C24(void *arg0, void *arg1) {
+void * TBoss8Dragon__sub_802F3C24(void *object, void *set_data) {
     void *o;
-    o = (void *)new TUnk_804E4BF0((TObject *)arg0, (void *)arg1);
+    o = (void *)new TUnk_804E4BF0((TObject *)object, (void *)set_data);
     return o;
 }
 
@@ -62,6 +61,6 @@ u16 TBoss8Dragon::get_part_count_plus(s32 arg1) {
     return (u16) (*(u16 *)((u8 *)this + 0x22) + arg1);
 }
 
-s32 TBoss8Dragon__sub_802F3C94(void *arg0, s32 arg1) {
-    return *(s16 *)((s8 *)arg0 + 0x1C) + arg1;
+s32 TBoss8Dragon__sub_802F3C94(void *self, s32 arg1) {
+    return *(s16 *)((s8 *)self + 0x1C) + arg1;
 }

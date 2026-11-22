@@ -5,8 +5,9 @@
 #include "pso/audio/AdxEncoder.h"
 #include "pso/audio/AdxHeader.h"
 
+#include <math.h>
+
 extern "C" {
-f64 cos(f64);
 
 s32 TLobby::parse_packet_header_len(s32 size, s16 *out) {
     AdxPacketHeader *p = (AdxPacketHeader *)this;

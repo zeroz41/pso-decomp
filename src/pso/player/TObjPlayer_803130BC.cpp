@@ -14,9 +14,9 @@ int TObjPlayer__sub_801AA64C(void* a0 = 0);
 
 void TObjPlayer::update_children() { { int n = TObjPlayer::get_max_children(this); int i; for (i = 0; i < n; i++) { TObjPlayer__sub_801AA64C((char*)this + 0x8 + i * 4); } } }
 
-s16 TObjPlayer__sub_80313114(u8 *arg0) {
+s16 TObjPlayer__sub_80313114(u8 *players) {
     s16 temp_r3;
-    temp_r3 = *(s16 *)((s8 *)arg0 + 2);
+    temp_r3 = *(s16 *)((s8 *)players + 2);
     if (((temp_r3 < 0) || (temp_r3 >= 6)) && (temp_r3 != -1)) {
         return 0;
     }

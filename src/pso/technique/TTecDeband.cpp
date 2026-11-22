@@ -10,7 +10,8 @@
 #include "pso/player/TObjPlayer.h"
 
 #include "pso/system/task/TObject.h"
-extern "C" void *__ct__16TargetCursorListFv(void *list);
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/player/TargetCursorList.h"
 
 #pragma readonly_strings on
 
@@ -70,8 +71,6 @@ struct Obj_8022F588 { u8 pad[0x1C]; u8 *source; u8 pad20[0x74 - 0x20]; f32 power
 
 extern "C" {
 saddr get_entity_id(int);
-extern const char *tec_deband_class_name_ptr;
-void *find_entity_by_id(u16 id);
 s32 deliver_technique_to_party_targets(void *);
 void run_task__10TTecDebandFv(Deband_8022F73C *self);
 s32 is_split_screen();
@@ -151,7 +150,7 @@ void run_task__10TTecDebandFv(Deband_8022F73C *self) {
 }
 
 #pragma opt_common_subs off
-TTecDeband::TTecDeband(void *owner, void *pos, void *arg3, saddr level) : TTecPlayerInfluence(owner, pos, level) {
+TTecDeband::TTecDeband(void *owner, void *pos, void *arg3, s32 level) : TTecPlayerInfluence(owner, pos, level) {
 #define arg0 ((u8 *)this)
     u32 temp_r3_2;
     u8 *temp_r3;
@@ -177,7 +176,7 @@ TTecDeband::TTecDeband(void *owner, void *pos, void *arg3, saddr level) : TTecPl
 }
 #pragma opt_common_subs reset
 
-TTecDeband::TTecDeband(void *owner, void *pos, saddr level) : TTecPlayerInfluence(owner, pos, level) {
+TTecDeband::TTecDeband(void *owner, void *pos, s32 level) : TTecPlayerInfluence(owner, pos, level) {
 #define arg0 this
     u32 temp_r3_2;
     u8 *temp_r3;

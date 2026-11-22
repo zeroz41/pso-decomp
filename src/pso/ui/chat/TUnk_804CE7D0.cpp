@@ -38,17 +38,17 @@ TUnk_804CE7D0::TUnk_804CE7D0(TObject *parent) : TObject(parent) {
     static const NJS_POINT2 lbl_8044EAC8 = {250.0f, 314.0f};
     static const NJS_POINT2 lbl_8044EAD0 = {168.0f, 120.0f};
     s32 i;
-    u8 *temp_r30;
+    u8 *text;
     u8 *symbol_chat_preset;
     preset_list = (TWindowSubComCardList *)(u8 *)(saddr)create_window_menu_default((saddr)(&preset_list_pos), 0xC);
     i = 0;
     do {
         symbol_chat_preset = (u8 *)(get_symbol_chat_preset(i));
-        temp_r30 = (u8 *)(((TWindowSubSymbolChat *)symbol_chat_preset)->get_symbol_chat_data());
+        text = (u8 *)(((TWindowSubSymbolChat *)symbol_chat_preset)->get_symbol_chat_data());
         if (is_symbol_chat_preset_in_use((u32 *)symbol_chat_preset) != 0) {
-            forward_trade_action_default__16TObjCityMainWarpFPviii(preset_list, (saddr) temp_r30, 0x66, i);
+            forward_trade_action_default__16TObjCityMainWarpFPviii(preset_list, (saddr) text, 0x66, i);
         } else {
-            add_gray_text_entry((TWindowSubTradeMain *)preset_list, (const char *)temp_r30, 0x46, (s32)i);
+            add_gray_text_entry((TWindowSubTradeMain *)preset_list, (const char *)text, 0x46, (s32)i);
         }
         i += 1;
     } while (i < 0xC);

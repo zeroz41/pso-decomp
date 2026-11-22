@@ -4,7 +4,6 @@
 #include "pso/unk/TLobby_801F3A24.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/unk/TLobby_80207DA8.h"
-#include "pso/unk/TLobby_8020A188.h"
 #include "pso/system/TGStream.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/unk/text_801F43A8.h"
@@ -33,19 +32,19 @@ struct Ent_801F3A80 {
 extern "C" {
 void convert_quest_object_rows(struct QuestObjRow_801F3AD8 *rows, u32 byte_size);
 extern s16 quest_floor_designations[];
-saddr TLobby__data_805D5EE0;
+u8 *TLobby__data_805D5EE0;
 
-void refresh_quest_list__6TLobbyFi(saddr arg0) {
-    saddr temp_r3;
+void TLobby::refresh_quest_list(const char *path) {
+    u8 *quest;
     s32 size;
 
-    size = get_resource_file_size((const char *)arg0);
+    size = get_resource_file_size(path);
     if (size >= 0) {
-        temp_r3 = (saddr)TQuestVmDownLoadServer::alloc(size);
-        if (temp_r3 != 0) {
-            read_disc_file((const char *)arg0, (void *)temp_r3);
-            TLobby::rebuild_all(temp_r3);
-            TAdSinglePlyChrSelectGC::safe_free(temp_r3);
+        quest = (u8 *)TQuestVmDownLoadServer::alloc(size);
+        if (quest != NULL) {
+            read_disc_file(path, quest);
+            TLobby::rebuild_all(quest);
+            TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<uaddr>(quest));
         }
     }
 }
@@ -110,10 +109,19 @@ void TLobby::handle_msg_type1_for_idle_slots() {
 
 }
 
-extern "C" {
+extern s16 TLobby__data_805D6134;
 
-    extern short TLobby__data_805D6134;
-void rebuild_all__6TLobbyFi(int a0) { TLobby__data_805D5EE0 = a0; TLobby::handle_msg_type1_for_idle_slots(); TLobby::init_sub_state(); TLobby__sub_8020A2AC(); TLobby::init_floor_encounter_sections(); TLobby::free_boss4rock(); TLobby::rebuild_entry(); TLobby::init_id_tables(); TLobby__data_805D6134 = 1; TLobby__data_805D5EE0 = 0; }
+void TLobby::rebuild_all(u8 *quest) {
+    TLobby__data_805D5EE0 = quest;
+    TLobby::handle_msg_type1_for_idle_slots();
+    TLobby::init_sub_state();
+    TLobby__sub_8020A2AC();
+    TLobby::init_floor_encounter_sections();
+    TLobby::free_boss4rock();
+    TLobby::rebuild_entry();
+    TLobby::init_id_tables();
+    TLobby__data_805D6134 = 1;
+    TLobby__data_805D5EE0 = NULL;
 }
 
 void set_quest_floor_designation_ex(s16 mode, s32 floor, s32 area, s32 layout, s32 entities) {
@@ -202,8 +210,7 @@ bool load_quest_encounter_section(s32 arg0) {
     s32 spC;
     s32 sp8;
     u8 *var_r31;
-    var_r31 = (u8 *)((*(u8 * *)&TLobby__data_805D5EE0));
-    if (var_r31 != NULL) {
+    if ((var_r31 = TLobby__data_805D5EE0) != NULL) {
 loop_1:
         sp14 = *(s32 *)((s8 *)var_r31 + 0);
         sp10 = *(s32 *)((s8 *)var_r31 + 4);
@@ -237,7 +244,7 @@ s32 TLobby::handle_msg_type2(s32 arg0) {
     u8 *lobby;
     u8 *var_r31;
 
-    if ((var_r31 = (u8 *)TLobby__data_805D5EE0) != NULL) {
+    if ((var_r31 = TLobby__data_805D5EE0) != NULL) {
 loop_1:
         sp14 = *(s32 *)((s8 *)var_r31 + 0);
         sp10 = *(s32 *)((s8 *)var_r31 + 4);
@@ -274,7 +281,7 @@ s32 TLobby::handle_msg_type1(s32 arg0) {
     u8 *rows;
     u8 *var_r31;
 
-    if ((var_r31 = (u8 *)TLobby__data_805D5EE0) != NULL) {
+    if ((var_r31 = TLobby__data_805D5EE0) != NULL) {
 loop_1:
         sp14 = *(s32 *)((s8 *)var_r31 + 0);
         sp10 = *(s32 *)((s8 *)var_r31 + 4);
@@ -316,21 +323,19 @@ void TLobby::setup_quest_list() {
     map_set_enemy_id_counter = 0;
     switch ((s32) evt2_random_enemies_mode) {
     case 1:
-        fn_801F43A8();
-        ((void (*)())open_session__6TLobbyFi)();
+        TLobby::open_session(fn_801F43A8());
         break;
     case 2:
-        update_and_reset__6TLobbyFi((s32)TQuestListOnline::get_quest_list_flag());
+        TLobby::update_and_reset(TQuestListOnline::get_quest_list_flag());
         break;
     case 3:
-        update_and_reset__6TLobbyFi((s32)TQuestListVM::get_quest_dat());
+        TLobby::update_and_reset(TQuestListVM::get_quest_dat());
         break;
     case 4:
-        rebuild_all__6TLobbyFi((s32)TQuestListOnline::get_quest_list_flag());
+        TLobby::rebuild_all(TQuestListOnline::get_quest_list_flag());
         break;
     case 5:
-        fn_801F43A8();
-        ((void (*)())refresh_quest_list__6TLobbyFi)();
+        TLobby::refresh_quest_list(fn_801F43A8());
         break;
     }
     advance_object_id_counter((u16) map_object_id_counter);
@@ -341,7 +346,14 @@ void TLobby::setup_quest_list() {
     TLobby::sum_floor_enemy_counts();
 }
 
-void update_and_reset__6TLobbyFi(int a0) { TLobby__data_805D5EE0 = a0; populate_quest_floor_sets(); TLobby::init_id_tables(); TLobby__data_805D6134 = 1; TLobby__data_805D5EE0 = 0; }
+}
+
+void TLobby::update_and_reset(u8 *quest) {
+    TLobby__data_805D5EE0 = quest;
+    populate_quest_floor_sets();
+    TLobby::init_id_tables();
+    TLobby__data_805D6134 = 1;
+    TLobby__data_805D5EE0 = NULL;
 }
 
 #include "pso/player/TObjPlayer.h"
@@ -351,22 +363,20 @@ struct B_801F4340 { s32 a; s16 b; u8 rest[6]; };
 
 extern B_801F4340* TLobby__data_805D6144;
 
-extern s16 TLobby__data_805D6134;
-
-void open_session__6TLobbyFi(saddr arg0) {
-    saddr t;
+void TLobby::open_session(const char *path) {
+    u8 *quest;
     s32 size;
 
-    size = get_resource_file_size((const char *)arg0);
+    size = get_resource_file_size(path);
     if (size >= 0) {
-        t = (TLobby__data_805D5EE0 = (saddr)TQuestVmDownLoadServer::alloc(size));
-        if (t != 0) {
-            read_disc_file((const char *)arg0, (void *)t);
+        quest = (TLobby__data_805D5EE0 = (u8 *)TQuestVmDownLoadServer::alloc(size));
+        if (quest != NULL) {
+            read_disc_file(path, quest);
             populate_quest_floor_sets();
             TLobby::init_id_tables();
             TLobby__data_805D6134 = 1;
-            TAdSinglePlyChrSelectGC::safe_free(TLobby__data_805D5EE0);
-            TLobby__data_805D5EE0 = 0;
+            TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<uaddr>(TLobby__data_805D5EE0));
+            TLobby__data_805D5EE0 = NULL;
         }
     }
 }

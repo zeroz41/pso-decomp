@@ -53,21 +53,13 @@ struct Fade_800F88D8 {
 extern "C" {
 
 void __ct__13TUnk_804999E8FP7TObject(void *, void *);
-void *__dt__13TUnk_804999E8Fv(void *, s16);
 void TCameraCtrl__sub_80068EF0(void);
 u32 prs_decompress_buffer(s32 arg0, s32 arg1);
-}
-extern "C" {
 void * TLobby__sub_800F8498(void *arg0, void *arg1, s32 arg2, s32 arg3, u8 arg4, u8 arg5, u8 arg6, u8 arg7);
 void __ct__7TObjectFP7TObject(void *);
 s32 TWindowCtrlMain__sub_8024CD5C(s32 viewport_index);
 u32 prs_decompress(int, int, int, int);
 
-struct RecoveredGlobal_lbl_80499988 { s32 value; u8 remaining[0x14]; };
-extern RecoveredGlobal_lbl_80499988 lbl_80499988;
-extern s32 lbl_804999A0[];
-extern s32 lbl_804999B8[];
-extern s32 lbl_804999D0[];
 extern s32 __vt__13TUnk_80499988[];
 extern s32 __vt__13TUnk_804999A0[];
 extern s32 __vt__13TUnk_804999B8[];
@@ -185,7 +177,7 @@ void TUnk_804999A0::run_task() {
         if (temp_r12 != NULL) {
             temp_r12();
         }
-        ((TObject *)arg0)->suspend_update();
+        this->suspend_update();
     }
     *(s8 *)((s8 *)arg0 + 0x23) = (s8) this->alpha;
     TWindowCtrlMain::set_value((s32)(*(s32 *)((s8 *)arg0 + 0x24)), this->m_20);

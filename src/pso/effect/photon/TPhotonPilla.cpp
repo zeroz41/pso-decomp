@@ -26,6 +26,11 @@
 #include "pso/map/FloorArea.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/effect/photon/TPhotonLaser.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/effect/photon/TPhotonMagicSquare_801ACE1C.h"
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/MatrixOps.h"
 
 typedef struct { f32 x; f32 y; f32 z; } Vec3;
 
@@ -47,7 +52,6 @@ struct Self_801ADDDC {
 
 extern "C" {
 s32 scroll_strip_uvs(void *, s16, int);
-s32 rotate_matrix_y(int, int);
 extern NJS_ARGB saved_model_draw_color;
 extern NJS_ARGB model_material_color;
 extern s32 saved_model_render_flags;
@@ -56,7 +60,6 @@ extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
-void vec3_add_to(void *, void *);
 const char *TPhotonPilla__class_name = "TPhotonPilla";
 void *pilla_photon_buffer_pair;
 extern const PhotonLaserParams photon_pilla_laser_packet = {
@@ -64,26 +67,23 @@ extern const PhotonLaserParams photon_pilla_laser_packet = {
 };
 extern void *photon_pilla_laser_offset_table[];
 
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-u8 *TPhotonMagicSquare__ct(u8 *arg0, saddr arg1, s32 arg2, saddr arg3, s32 arg4, f32 farg0);
-void *find_entity_by_id(u16 id);
 u32 get_entity_id();
 
 void TPhotonPilla::sub_801ADC7C() { this->m_180 = 0.0f; *(float*)((char*)this + 0x184) = 0.0f; this->m_188 = 0.0f; *(float*)((char*)this + 0x18c) = 0.0f; }
 
 void TPhotonPilla::apply_photon_blast_effects() {
-    s32 var_r31;
+    s32 index;
 
     TObjPlayer::init_all_slots();
     mark_enemy_body_contacts();
     if (*(s32 *)((s8 *)(*(void **)((s8 *)this + 0xA4)) + 0x18) & 0x100000) {
-        var_r31 = 0;
+        index = 0;
         do {
-            if (TObjPlayer::get_battle_param(var_r31) != 0U) {
+            if (TObjPlayer::get_battle_param(index) != 0U) {
                 queue_photon_blast_hit((u16) get_entity_id(), 2, 0, *(f32 *)((s8 *)this + 0x150));
             }
-            var_r31 += 1;
-        } while (var_r31 < 0x10);
+            index += 1;
+        } while (index < 0x10);
     }
 }
 
@@ -193,9 +193,6 @@ void *destroy__12TPhotonPillaFPvs(void *photon_pilla, s16 arg1) {
     return photon_pilla;
 }
 
-}
-
-extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
 void sub_801ADC7C__12TPhotonPillaFv(void *, u8);
 u8 *TPhotonRainbow__ct(void *, void *, void *, s32);

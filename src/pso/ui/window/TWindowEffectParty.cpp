@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/window/TWindowCtrl.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/window/TWindowEffectParty.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
@@ -10,19 +11,17 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/vector.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/ui/window/WindowLayout.h"
 
 
-struct Obj_8024FB80 { u8 pad[0x78]; void *arr[1]; };
 
 struct Pos_8024FAD8 { s32 a, b, c; };
 extern "C" {
 extern const f64 lbl_8044ECF0;
 void *__ct__18TWindowEffectPartyFP7TObjectScScPv(void *, void *, u16, u16, s32);
 extern s32 local_client_id;
-saddr get_window_layout_position(s32);
 f32 get_scale__15TWindowCtrlMainFv(s32);
-extern Obj_8024FB80 *TWindowCtrl__active_window;
-TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 extern const char *TWindowEffectParty__name;
 }
 
@@ -31,10 +30,10 @@ extern const char *TWindowEffectParty__name;
 #pragma fp_contract on
 void *TWindowCtrl__sub_8024FB80(s8 i) {
     if (TWindowCtrl__active_window == 0) return 0;
-    return TWindowCtrl__active_window->arr[i];
+    return TWindowCtrl__active_window->simple_status[i];
 }
 
-TWindowEffectParty::TWindowEffectParty(TObject *object, s8 arg2, s8 arg3, void *arg4) : TObject(object) {
+TWindowEffectParty::TWindowEffectParty(TObject *object, s8 arg2, s8 arg3, void *idx) : TObject(object) {
     Pos_8024FAD8 p;
     *(s32 *)this = ((saddr)TWindowEffectParty__name);
     *(s8 *)&this->m_1d = arg2;
@@ -42,7 +41,7 @@ TWindowEffectParty::TWindowEffectParty(TObject *object, s8 arg2, s8 arg3, void *
     *(s8 *)&this->m_1e = arg3;
     TWindowEffectParty::set_slot_position((saddr)this, (s32)(*(s8 *)&this->m_1e), (void *)(((u8 *)this) + 0x28));
     this->calc_effect_position(&p);
-    this->m_particle = spawn_continuous_particle_effect_with_flags((void *)&p, (saddr)arg4, (s32)(0xC0));
+    this->m_particle = spawn_continuous_particle_effect_with_flags((void *)&p, (saddr)idx, (s32)(0xC0));
     *(s8 *)&this->m_1c = 0;
 }
 
@@ -168,18 +167,18 @@ void TWindowEffectParty::calc_effect_position(void *arg1) {
 
 s32 TWindowEffectParty::step_toward_target(f32 farg0, f32 farg1) {
     u8 *arg0 = (u8 *)this;
-  f32 temp_f4;
+  f32 scr;
   f32 temp_f5;
   s32 temp_r31;
   temp_f5 = farg1 - (*((f32 *) (((s8 *) arg0) + 0x24)));
-  temp_f4 = *((f32 *) (((s8 *) arg0) + 0x20));
-  temp_f4 = farg0 - temp_f4;
-  if (((temp_f4 * temp_f4) + (temp_f5 * temp_f5)) < 25.0f)
+  scr = *((f32 *) (((s8 *) arg0) + 0x20));
+  scr = farg0 - scr;
+  if (((scr * scr) + (temp_f5 * temp_f5)) < 25.0f)
   {
     *((f32 *) (((s8 *) arg0) + 0x20)) = farg0;
  do { *((f32 *) (((s8 *) arg0) + 0x24)) = farg1; return 1; } while (0);
   }
-  temp_r31 = (s32) (lbl_8044ECF0 * atan2_float((f64) temp_f5, (f64) temp_f4));
+  temp_r31 = (s32) (lbl_8044ECF0 * atan2_float((f64) temp_f5, (f64) scr));
   *((f32 *) (((s8 *) arg0) + 0x20)) = (f32) ((5.0f * cos_table_lookup(temp_r31)) + (*((f32 *) (((s8 *) arg0) + 0x20))));
   *((f32 *) (((s8 *) arg0) + 0x24)) = (f32) ((5.0f * sin_table_lookup(temp_r31)) + (*((f32 *) (((s8 *) arg0) + 0x24))));
   return 0;

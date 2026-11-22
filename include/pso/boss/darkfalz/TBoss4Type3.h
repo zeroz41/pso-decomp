@@ -127,7 +127,7 @@ struct TBoss4Type3 : public TObjEnemy {
     void run_task();
 
     void calc_grid_index();
-    void turn_toward_player(s32 arg1);
+    void turn_toward_player(s32 id);
     static s32 get_random_scaled(void * _w0);
     s32 choose_attack_heading_sector();
     void interp_position_between_nodes();
@@ -135,7 +135,7 @@ struct TBoss4Type3 : public TObjEnemy {
     void send_packed_action(s32 arg1, s32 arg2, s32 arg3);
     void destroy_parts();
     void create_particle_emitters();
-    void set_action_from_table(s32 arg1);
+    void set_action_from_table(s32 action);
     void copy_pair(void* q);
     void set_anim_state(s32 arg1);
     void draw();
@@ -143,7 +143,7 @@ struct TBoss4Type3 : public TObjEnemy {
     s32 get_action_state();
     void get_defeat_params(u16 *a, u16 *b, u16 *out);
     static TObjDFYutai *create_yutai(TObject *parent, s32 kind, u16 player_id);
-    static f32 compute_wave_offset(f32 farg0);
+    static f32 compute_wave_offset(f32 wave);
     static s32 pick_random_target_player();
     static TObjDFHorming *create_horming(TObject *parent, const Vec *position, u16 target_id);
     void copy_positions_to_parts();

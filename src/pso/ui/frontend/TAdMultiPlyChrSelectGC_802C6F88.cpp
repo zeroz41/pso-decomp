@@ -12,7 +12,7 @@
 
 extern "C" {
 
-s32 TAdMultiPlyChrSelectGC::get_field_20() { return this->m_20; }
+s32 TAdMultiPlyChrSelectGC::get_field_20() { return state; }
 
 TAdMultiPlyChrSelectGC *TAdMultiPlyChrSelectGC::get_state() {  return TAdMultiPlyChrSelectGC__instance; }
 

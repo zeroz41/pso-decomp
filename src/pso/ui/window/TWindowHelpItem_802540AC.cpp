@@ -16,6 +16,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItemData.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/unk/text_80104FCC.h"
 
 
 #pragma inline_depth(1)
@@ -207,9 +208,7 @@ s8 lbl_805D6449;
 s8 lbl_805D644A;
 s8 lbl_805D644B;
 
-s32 check_equip_requirements(void *self, TItemData *p, s32 *out);
 void *get_player_by_client_id(s32 i);
-void *lookup_item_pmt_record(u8 *item);
 void TWindowHelpItem__vt9(HelpItem_80254F18 *self);
 void preview_unequip_stats__10TObjPlayerFv(s32, Stats_802541E0 *, s32);
 s32 preview_equip_stats__10TObjPlayerFv(u8 *arg0, s16 *out, u8 *incoming);
@@ -425,7 +424,7 @@ void *TWindowHelpItem__stat_comparison_callback[3] = {
     (void *)0x0, (void *)0xffffffff, (void *)&update_stat_comparison__15TWindowHelpItemFv,
 };
 void *lbl_804CF838[3] = {
-    (void *)0x0, (void *)0xffffffff, (void *)&update_stat_disp2__15TWindowHelpItemFPv,
+    (void *)0x0, (void *)0xffffffff, (void *)&TWindowHelpItem::update_stat_disp2,
 };
 void *lbl_804CF844[3] = {
     (void *)0x0, (void *)0xffffffff, (void *)&set_flag4_and_field1c__15TWindowHelpItemFl,
@@ -474,8 +473,8 @@ void TWindowHelpItem::update_stat_disp() {
     }
 }
 
-#define self ((HelpItem_802541E0 *)arg0)
-void TWindowHelpItem::update_resistance_rows(void *arg0) {
+#define self ((HelpItem_802541E0 *)window_base)
+void TWindowHelpItem::update_resistance_rows(void *window_base) {
     Stats_802541E0 st;
     saddr a;
     saddr b;
@@ -522,12 +521,12 @@ void TWindowHelpItem::update_resistance_rows(void *arg0) {
 }
 #undef self
 
-void TWindowHelpItem__vt7(saddr arg0) {
+void TWindowHelpItem__vt7(saddr window_base) {
     saddr temp_r31;
     saddr temp_r31_2;
-    TWindowHelpItem::update_resistance_rows((void *)arg0);
-    temp_r31 = reinterpret_cast<saddr>(((TWindowBase *)arg0)->get_array_entry(5));
-    temp_r31_2 = reinterpret_cast<saddr>(((TWindowBase *)arg0)->get_array_entry(6));
+    TWindowHelpItem::update_resistance_rows((void *)window_base);
+    temp_r31 = reinterpret_cast<saddr>(((TWindowBase *)window_base)->get_array_entry(5));
+    temp_r31_2 = reinterpret_cast<saddr>(((TWindowBase *)window_base)->get_array_entry(6));
     ((TWindowHelpItem *)temp_r31)->set_flag0_bit2();
     ((TWindowHelpItem *)temp_r31_2)->set_flag0_bit2();
 }
@@ -580,7 +579,7 @@ void set_percentage_rows__15TWindowHelpItemFPvPvi(void *self, Op_802544D8 *ops, 
         }
     }
 }
-void update_stat_disp2__15TWindowHelpItemFPv(void *window_base) {
+void TWindowHelpItem::update_stat_disp2(void *window_base) {
     s32 sp8;
     saddr temp_r31;
     saddr temp_r30;
@@ -588,10 +587,10 @@ void update_stat_disp2__15TWindowHelpItemFPv(void *window_base) {
     saddr temp_r28;
     saddr temp_r27;
     saddr player;
-    uaddr temp_r4;
+    uaddr item;
     player = (saddr)get_player_by_client_id(*(s16 *)((s8 *)window_base + 0x20));
-    if ((player != 0) && (temp_r31 = reinterpret_cast<saddr>(((TWindowBase *)window_base)->get_array_entry(0)), temp_r30 = reinterpret_cast<saddr>(((TWindowBase *)window_base)->get_array_entry(1)), temp_r29 = reinterpret_cast<saddr>(((TWindowBase *)window_base)->get_array_entry(2)), temp_r28 = reinterpret_cast<saddr>(((TWindowBase *)window_base)->get_array_entry(3)), temp_r27 = reinterpret_cast<saddr>(((TWindowBase *)window_base)->get_array_entry(4)), (temp_r4 = *(u32 *)((s8 *)window_base + 0x70), (temp_r4 == 0U) == 0))) {
-        if (check_equip_requirements((void *)player, (TItemData *)temp_r4, &sp8) != 0) {
+    if ((player != 0) && (temp_r31 = reinterpret_cast<saddr>(((TWindowBase *)window_base)->get_array_entry(0)), temp_r30 = reinterpret_cast<saddr>(((TWindowBase *)window_base)->get_array_entry(1)), temp_r29 = reinterpret_cast<saddr>(((TWindowBase *)window_base)->get_array_entry(2)), temp_r28 = reinterpret_cast<saddr>(((TWindowBase *)window_base)->get_array_entry(3)), temp_r27 = reinterpret_cast<saddr>(((TWindowBase *)window_base)->get_array_entry(4)), (item = *(u32 *)((s8 *)window_base + 0x70), (item == 0U) == 0))) {
+        if (check_equip_requirements((void *)player, (TItemData *)item, &sp8) != 0) {
             TWindowHelpItem::set_flag_0x10((u16 *)temp_r31, 1);
             TWindowHelpItem::set_flag_0x10((u16 *)temp_r30, 1);
             TWindowHelpItem::set_flag_0x10((u16 *)temp_r29, 1);

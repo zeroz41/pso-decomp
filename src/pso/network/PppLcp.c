@@ -3,6 +3,7 @@
 #include "types.h"
 #include "pso/network/TLobby_803FC178.h"
 #include "pso/network/TLobby_803FCF44.h"
+#include "pso/network/PppFsm.h"
 #include "pso/network/TLobby_804050DC.h"
 #include "pso/network/TLobby_8041112C.h"
 #include "pso/network/PppLcp.h"
@@ -30,7 +31,7 @@ u8 lobby_read_byte_buffer[1];
 u8 lcp_read_value_buffer[4];
 
 
-s32 wait_for_connection(Conn_804004DC *c) {
+s16 wait_for_connection(PppFsm *c) {
     NetThreadState *g;
     u8 *sub;
     sub = c->sub;
@@ -51,16 +52,16 @@ s32 wait_for_connection(Conn_804004DC *c) {
     return 0;
 }
 
-extern saddr TLobby__sub_8040172C(Conn_804004DC *c);
-extern s32 recv_lcp_config_reject(Conn_804004DC *fsm, PppHeader *msg, s32 src);
-extern s32 recv_lcp_config_nak(Conn_804004DC *fsm, PppHeader *msg, s32 src);
-s16 recv_lcp_config_request(Obj_803FF858 *fsm, PppHeader *msg, u32 src);
-s32 verify_lcp_config_ack(Obj_803FF858 *arg0, PppHeader *arg1, uaddr arg2);
+extern saddr TLobby__sub_8040172C(PppFsm *c);
+extern s32 recv_lcp_config_reject(PppFsm *fsm, PppHeader *msg, s32 src);
+extern s32 recv_lcp_config_nak(PppFsm *fsm, PppHeader *msg, s32 src);
+s16 recv_lcp_config_request(PppFsm *fsm, PppHeader *msg, u32 src);
+s32 verify_lcp_config_ack(PppFsm *fsm, PppHeader *msg, uaddr expected);
 
 void init_lcp_protocol(u8 *conn)
 {
-  LcpProto_8040059C *proto = &lbl_805C0400.proto;
-  Conn_804004DC *e = (Conn_804004DC *)(conn + 4);
+  PppFsmProtocol *proto = &lbl_805C0400.proto;
+  PppFsm *e = (PppFsm *)(conn + 4);
   LcpOpts *area = &lbl_805C0400.opts;
   const LcpVals *tbl = &lbl_8047FE50;
   proto->name = "Lcp";
@@ -96,7 +97,7 @@ void init_lcp_protocol(u8 *conn)
 extern s16 apply_lcp_config_to_sides(void *a0, void *a1) {
     s32 pad[2];
     s32 *pp;
-    Conn_804004DC *s = (Conn_804004DC *)a0;
+    PppFsm *s = (PppFsm *)a0;
     LcpConfig *msg = (LcpConfig *)a1;
     LcpSide *p;
     LcpSide *q;
@@ -183,7 +184,7 @@ void lcp_noop_callback(void) {
 
 }
 
-void setup_auth_after_lcp_negotiation(Conn_804004DC *c) {
+void setup_auth_after_lcp_negotiation(PppFsm *c) {
     LcpOpts *info = c->opts;
     St_8040098C *st;
     u32 now;
@@ -234,7 +235,7 @@ void start_ipcp_after_auth(O_80400ACC *o) {
 
 void reset_connection_slot(void *self) {
     s8 *temp_r31;
-    temp_r31 = (s8 *)((Conn_804004DC *)self)->sub;
+    temp_r31 = (s8 *)((PppFsm *)self)->sub;
     *temp_r31 = 4;
     TLobby__sub_803FD85C(temp_r31 + 0x6C);
     reset_connection_state((void *)(temp_r31 + 0x38));
@@ -245,13 +246,13 @@ void queue_command_81(void) {
 }
 
 void mark_lcp_starting(u8 *arg0) {
-    *((Conn_804004DC *)arg0)->sub = 1;
+    *((PppFsm *)arg0)->sub = 1;
 }
 
 void reset_lcp_options(void *self) {
     LcpOpts *s;
     s32 t;
-    s = ((Conn_804004DC *)self)->opts;
+    s = ((PppFsm *)self)->opts;
     if (s->local.want.mask & 0x20) {
         get_time_ms(&t);
         s->local.want.magic += t;
@@ -262,7 +263,7 @@ void reset_lcp_options(void *self) {
     s->remote.mask |= s->remote.want.mask;
 }
 
-extern s32 recv_lcp_config_reject(Conn_804004DC *fsm, PppHeader *msg, s32 src) {
+extern s32 recv_lcp_config_reject(PppFsm *fsm, PppHeader *msg, s32 src) {
     s16 last = 0;
     LcpOpts *o = fsm->opts;
     s32 left = msg->len;
@@ -298,7 +299,7 @@ extern s32 recv_lcp_config_reject(Conn_804004DC *fsm, PppHeader *msg, s32 src) {
 
 #pragma push
 #pragma opt_common_subs on
-extern s32 recv_lcp_config_nak(Conn_804004DC *fsm, PppHeader *msg, s32 src) {
+extern s32 recv_lcp_config_nak(PppFsm *fsm, PppHeader *msg, s32 src) {
     LcpOpts *opts = fsm->opts;
     LcpSide *local = &opts->local;
     s32 remaining = msg->len;
@@ -346,7 +347,7 @@ inline void loop_8040172C(uaddr *self, void *src, s16 mask) {
         i++;
     }
 }
-inline s32 read_80400F1C(uaddr *p) {
+inline s32 read_option_byte(uaddr *p) {
     if (ppp_buffer_read(p, lobby_read_byte_buffer, 1) != 1) {
         return -1;
     }
@@ -355,8 +356,8 @@ inline s32 read_80400F1C(uaddr *p) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline uaddr first2_80400F1C(Obj_803FF858 *fsm) {
-    LcpOpts *o = (LcpOpts *)fsm->p30;
+inline uaddr build_requested_options(PppFsm *fsm) {
+    LcpOpts *o = (LcpOpts *)fsm->opts;
     uaddr t = 0;
     t = (uaddr)init_net_buffer_entry(0);
     if (t == 0) {
@@ -365,21 +366,21 @@ inline uaddr first2_80400F1C(Obj_803FF858 *fsm) {
     loop_8040172C(&t, &o->local.got, o->local.got.mask);
     return t;
 }
-s32 verify_lcp_config_ack(Obj_803FF858 *fsm, PppHeader *msg_803_fa664, uaddr arg2) {
+s32 verify_lcp_config_ack(PppFsm *fsm, PppHeader *msg, uaddr expected) {
     s16 err;
     s16 a;
     s16 b;
     err = 0;
-    if (msg_803_fa664->id != fsm->b1) {
+    if (msg->id != fsm->id) {
         return -1;
     }
     {
-        uaddr cur = first2_80400F1C(fsm);
-        if (msg_803_fa664->len != get_field_4((void *)cur)) {
+        uaddr cur = build_requested_options(fsm);
+        if (msg->len != get_field_4((void *)cur)) {
             err = 1;
         } else {
-            while ((a = read_80400F1C(&cur)) != -1) {
-                b = read_80400F1C(&arg2);
+            while ((a = read_option_byte(&cur)) != -1) {
+                b = read_option_byte(&expected);
                 if (b == -1 || b != a) {
                     err = 1;
                     break;
@@ -407,7 +408,7 @@ inline void add_lcp_options(PppFrame **pbuf, s16 *vals, s16 mask) {
     }
 }
 
-s16 recv_lcp_config_request(Obj_803FF858 *fsm, PppHeader *msg, u32 src) {
+s16 recv_lcp_config_request(PppFsm *fsm, PppHeader *msg, u32 src) {
     LcpOpts *opts;
     s32 remaining;
     s16 status;
@@ -415,10 +416,9 @@ s16 recv_lcp_config_request(Obj_803FF858 *fsm, PppHeader *msg, u32 src) {
     PppFrame *reply;
     u8 hdr[2];
     s16 missing;
-    s32 ppp_fsm_send_packet(void *, u8, u8, void *); /* declared here with other parameter types; the definition is s32 (void *, int, int, void *) */
 
     status = 2;
-    opts = (LcpOpts *)fsm->p30;
+    opts = (LcpOpts *)fsm->opts;
     remaining = msg->len;
     reply = NULL;
     opts->remote.got.mask = 0;
@@ -453,9 +453,9 @@ s16 recv_lcp_config_request(Obj_803FF858 *fsm, PppHeader *msg, u32 src) {
     }
     missing = opts->remote.want.mask & ~opts->remote.got.mask;
     if (status == 3) {
-        if (fsm->b6 != 0) {
+        if (fsm->f6 != 0) {
             add_lcp_options(&reply, &opts->remote.got.mask, missing);
-            fsm->b6--;
+            fsm->f6--;
         } else {
             status = 4;
             ppp_fsm_send_packet(fsm, 4, msg->id, reply);
@@ -472,15 +472,15 @@ s16 recv_lcp_config_request(Obj_803FF858 *fsm, PppHeader *msg, u32 src) {
 #define rd16_804012E0(src) (ppp_buffer_read((void *)(src), lcp_read_value_buffer, 2) != 2 ? -1 : read_network_u16_be(lcp_read_value_buffer))
 #define rd32_804012E0(src) (ppp_buffer_read((void *)(src), lcp_read_value_buffer, 4) != 4 ? 0 : TLobby__sub_80402AFC(lcp_read_value_buffer))
 #define rd8_804012E0(src) (ppp_buffer_read((void *)(src), lobby_read_byte_buffer, 1) != 1 ? -1 : (s16)lobby_read_byte_buffer[0])
-s16 parse_lcp_option(saddr arg0, u8 *arg1, u8 *arg2, u8 *arg3, s16 arg4) {
+s16 parse_lcp_option(saddr arg0, u8 *opts, u8 *arg2, u8 *hdr, s16 arg4) {
     s16 len;
     s16 res;
     s32 t;
     s16 lim;
     LcpSide *side = (LcpSide *)arg2;
     res = 2;
-    len = arg3[1] - 2;
-    switch (arg3[0]) {
+    len = hdr[1] - 2;
+    switch (hdr[0]) {
     case 1:
         side->got.mru = rd16_804012E0(arg0);
         len -= 2;
@@ -525,7 +525,7 @@ s16 parse_lcp_option(saddr arg0, u8 *arg1, u8 *arg2, u8 *arg3, s16 arg4) {
                 side->got.auth_proto = 0xC023;
                 side->got.chap_alg = 0;
                 res = 3;
-                arg3[1] = 4;
+                hdr[1] = 4;
                 while (len > 0) {
                     len--;
                     if (rd8_804012E0(arg0) == -1) {
@@ -549,7 +549,7 @@ s16 parse_lcp_option(saddr arg0, u8 *arg1, u8 *arg2, u8 *arg3, s16 arg4) {
     case 5:
         side->got.magic = rd32_804012E0(arg0);
         len -= 4;
-        if (side->got.magic == 0 || ((LcpOpts *)arg1)->remote.got.magic == ((LcpOpts *)arg1)->local.got.magic) {
+        if (side->got.magic == 0 || ((LcpOpts *)opts)->remote.got.magic == ((LcpOpts *)opts)->local.got.magic) {
             get_time_ms(&t);
             res = 3;
             side->got.magic += t;
@@ -574,7 +574,7 @@ s16 parse_lcp_option(saddr arg0, u8 *arg1, u8 *arg2, u8 *arg3, s16 arg4) {
         res = 4;
         break;
     }
-    if (arg3[0] > 8 || !(side->mask & (1 << arg3[0]))) {
+    if (hdr[0] > 8 || !(side->mask & (1 << hdr[0]))) {
         res = 4;
     }
     if (len < 0) {
@@ -593,7 +593,7 @@ s16 parse_lcp_option(saddr arg0, u8 *arg1, u8 *arg2, u8 *arg3, s16 arg4) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-saddr TLobby__sub_8040172C(Conn_804004DC *c) {
+saddr TLobby__sub_8040172C(PppFsm *c) {
     uaddr obj;
     LcpOpts *s;
     s = c->opts;

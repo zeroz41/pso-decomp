@@ -47,6 +47,7 @@
 #include "pso/math/AngleUnits.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 
 #pragma defer_codegen on
 extern "C" {
@@ -56,7 +57,7 @@ void queue_destruction__7TObjectFv(void *arg0);
 BmlResource * TObjEneMe1Gee__resource_bundle;
 u8 * lbl_805D51B4;
 s32 TObjEneMe1Gee__render_node_index;
-s32 gee_camera_ctrl_step_ptr;
+Vec *gee_camera_ctrl_step_ptr;
 TUnk_8048FA00 * TObjEneMe1Gee__data_805D51C0;
 TUnk_8048FA00 * TObjEneMe1Gee__data_805D51C4;
 s32 gee_resource_bundle_ptr;
@@ -112,22 +113,14 @@ static saddr gee_object_handle_table[3];
 static TObjEneMe1GeeParams *gee_shared_handler_a_table[3];
 static f32 gee_camera_ctrl_vec[4];
 f32 atan2_float(f32 y, f32 x);
-void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
+void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 angle);
 s32 play_sound_effect(s32, u32, s16, s32);
 f32 subtract_vector(void *, void *);
-void TObjEneEpsilon__sub_800B92F8(u8 *arg0, s32 arg1, f32 farg0);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 void matrix_mult_vec(void *, Vec *, Vec *);
 s32 post_translate_matrix(void *);
 s16 get_entity_id(void *);
 s32 set_part_position__9TObjEneDDFPvPvi(void *, int, int);
-
-// One entry collect_enemy_target_candidates fills: an entity id and its horizontal squared distance
-// (TObjEneDD.cpp calls the same record Ent_800BB484).
-struct TargetCandidate {
-    u16 id;
-    f32 dist;
-};
 
 f32 newton_sqrtf(f32);
 
@@ -136,12 +129,9 @@ extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
-s32 collect_enemy_target_candidates(void *, TargetCandidate *, f32);
-s32 pack_debug_text_position(s32, s32);
 
 void TBoss3Volopt__sub_800D8D88(saddr);
 
-void TObjEneEpsilon__sub_800B92AC(u8 *arg0, s32 arg1, f32 farg0);
 extern void *tl_04;
 s32 is_split_screen();
 s32 TObjPlayer__sub_800F0928(s32);
@@ -404,11 +394,13 @@ void TObjEneMe1Gee::calc_position(Vec *out) {
 }
 #pragma pop
 u8 *TObjEneMe1Gee::move_xz_on_ground(u8 *dest) {
-    if (TObjEneDD::move_xz_on_ground(dest) == 0) {
+    u8 *ground = TObjEneDD::move_xz_on_ground(dest);
+    if (ground == NULL) {
         this->m_3c8 &= 0xFEFFFFFF;
-        return;
+    } else {
+        this->m_3c8 |= 0x01000000;
     }
-    this->m_3c8 |= 0x01000000;
+    return ground;
 }
 
 void TObjEneMe1Gee::sub_800CBF58(f32 farg0) {
@@ -788,8 +780,8 @@ void TObjEneMe1Gee::dispatch_action(u32 state, s32 mode) {
     }
 }
 
-void TObjEneMe1Gee::state_attack_loop(s32 arg1) {
-    switch (arg1) {
+void TObjEneMe1Gee::state_attack_loop(s32 mode) {
+    switch (mode) {
     case 4:
         this->requested_action = 0;
         set_field_378(3);
@@ -852,9 +844,9 @@ void TObjEneMe1Gee::state_move(s32 arg1) {
     }
 }
 
-void TObjEneMe1Gee::sub_800CAFD8(s32 arg1) {
+void TObjEneMe1Gee::sub_800CAFD8(s32 mode) {
     Vec pos;
-    switch (arg1) {
+    switch (mode) {
     case 4:
         this->requested_action = 0;
         this->set_field_378(3);
@@ -899,10 +891,10 @@ void TObjEneMe1Gee::sub_800CAFD8(s32 arg1) {
     }
 }
 
-void TObjEneMe1Gee::state_hover(s32 arg1) {
+void TObjEneMe1Gee::state_hover(s32 mode) {
     s32 temp_r3;
 
-    switch (arg1) {
+    switch (mode) {
     case 4:
         this->requested_action = 0;
         set_field_378(3);
@@ -1105,9 +1097,9 @@ void TObjEneMe1Gee::state_attack(s32 arg1) {
 #pragma fp_contract on
 #pragma opt_common_subs off
 #pragma pool_data off
-void TObjEneMe1Gee::sub_800CA454(s32 arg1) {
+void TObjEneMe1Gee::sub_800CA454(s32 mode) {
     Vec *dir = &this->m_454;
-    switch (arg1) {
+    switch (mode) {
     case 4:
         this->set_field_378(7);
         this->m_3c8 |= 0x10000;
@@ -1146,7 +1138,7 @@ void TObjEneMe1Gee::sub_800CA454(s32 arg1) {
                 this->m_434 = 2;
                 this->m_3c8 |= 0x40000;
             }
-            TObjEneEpsilon__sub_800B92F8((u8 *)this, 0x200, 0.5f);
+            TObjEneEpsilon__sub_800B92F8(this, 0x200, 0.5f);
             break;
         case 2:
             this->update_velocity();
@@ -1249,10 +1241,10 @@ void TObjEneMe1Gee::sub_800CA454(s32 arg1) {
 }
 #pragma push
 #pragma fp_contract on
-void TObjEneMe1Gee::sub_800C9DF8(s32 arg1) {
+void TObjEneMe1Gee::sub_800C9DF8(s32 mode) {
     f32 dist;
 
-    switch (arg1) {
+    switch (mode) {
     case 4:
         this->requested_action = 0;
         this->set_field_378(8);
@@ -1362,7 +1354,7 @@ void TObjEneMe1Gee::sub_800C9DF8(s32 arg1) {
                 if (this->destination_distance > 40.0f) {
                     this->m_434 = 1;
                 }
-                TObjEneEpsilon__sub_800B92AC((u8 *)this, 0x200, this->m_42c->m_0);
+                TObjEneEpsilon__sub_800B92AC(this, 0x200, this->m_42c->m_0);
             }
             break;
         case 3:
@@ -1422,9 +1414,9 @@ void TObjEneMe1Gee::sub_800C9DF8(s32 arg1) {
 #pragma pop
 #pragma push
 #pragma fp_contract on
-void TObjEneMe1Gee::sub_800C9A94(s32 arg1) {
+void TObjEneMe1Gee::sub_800C9A94(s32 mode) {
     Vec *dir = &this->m_454;
-    switch (arg1) {
+    switch (mode) {
     case 4:
         this->requested_action = 0;
         this->set_field_378(9);
@@ -1514,8 +1506,8 @@ void TObjEneMe1Gee::sub_800C9A94(s32 arg1) {
     }
 }
 #pragma pop
-void TObjEneMe1Gee::sub_800C9964(s32 arg1) {
-    switch (arg1) {
+void TObjEneMe1Gee::sub_800C9964(s32 mode) {
+    switch (mode) {
     case 4:
         this->requested_action = 0;
         this->set_field_378(0xA);
@@ -1621,8 +1613,8 @@ void TObjEneMe1Gee::sub_800C96B4(s32 mode) {
 }
 #pragma push
 #pragma opt_common_subs off
-void TObjEneMe1Gee::sub_800C9580(s32 arg1) {
-    switch (arg1) {
+void TObjEneMe1Gee::sub_800C9580(s32 mode) {
+    switch (mode) {
     case 4:
         this->requested_action = 0;
         this->set_field_378(0xC);
@@ -1648,9 +1640,9 @@ void TObjEneMe1Gee::sub_800C9580(s32 arg1) {
     }
 }
 #pragma pop
-void TObjEneMe1Gee::state_return_home(s32 arg1) {
+void TObjEneMe1Gee::state_return_home(s32 mode) {
 
-    switch (arg1) {
+    switch (mode) {
     case 4:
         set_field_378(0xF);
         this->m_3c8 &= 0xFFBFFFFF;
@@ -1759,18 +1751,18 @@ void TObjEneMe1Gee::state_orbit(s32 arg1) {
 }
 
 void TObjEneMe1Gee::advance_camera_ctrl_step(NJS_OBJECT *) {
-    s32 pos;
-    s32 temp_r4_2;
+    Vec *pos;
+    Vec *temp_r4_2;
     switch ((s32) TObjEneMe1Gee__render_node_index) {
     case 4:
         pos = gee_camera_ctrl_step_ptr;
-        gee_camera_ctrl_step_ptr = pos + 0xC;
-        forward_transform_to_view((const Vec *)gee_camera_ctrl_vec, (Vec *)pos);
+        gee_camera_ctrl_step_ptr = pos + 1;
+        forward_transform_to_view((const Vec *)gee_camera_ctrl_vec, pos);
         break;
     case 7:
         temp_r4_2 = gee_camera_ctrl_step_ptr;
-        gee_camera_ctrl_step_ptr = temp_r4_2 + 0xC;
-        forward_transform_to_view((const Vec *)gee_camera_ctrl_vec, (Vec *)temp_r4_2);
+        gee_camera_ctrl_step_ptr = temp_r4_2 + 1;
+        forward_transform_to_view((const Vec *)gee_camera_ctrl_vec, temp_r4_2);
         break;
     }
     TObjEneMe1Gee__render_node_index += 1;
@@ -1820,7 +1812,7 @@ void TObjEneMe1Gee::render() {
         if (var_r29 != 0) {
             if ((s16) this->mode != 0xB) {
                 TObjEneMe1Gee__render_node_index = 0;
-                gee_camera_ctrl_step_ptr = (s32)this->m_414;
+                gee_camera_ctrl_step_ptr = this->m_414;
                 set_chunk_model_node_callback(TObjEneMe1Gee::advance_camera_ctrl_step);
                 if (var_r30 == 1) {
                     set_motion_packed_rotation();
@@ -1835,7 +1827,7 @@ void TObjEneMe1Gee::render() {
             } else {
                 rotate_matrix_z(NULL, this->rotation_z);
                 TObjEneMe1Gee__render_node_index = -1;
-                gee_camera_ctrl_step_ptr = (s32)this->m_414;
+                gee_camera_ctrl_step_ptr = this->m_414;
                 set_chunk_model_node_callback(TObjEneMe1Gee::advance_camera_ctrl_step);
                 this->draw_with_alt_model(this->m_410);
                 set_chunk_model_node_callback(NULL);

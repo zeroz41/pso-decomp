@@ -22,6 +22,8 @@
 #include "pso/map/FloorArea.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/unk/text_803D8F74.h"
 
 __declspec(section ".data") const char *fs_obj_ex_doa01_model_names[2] = { "fs_obj_ex_doa01.gj", NULL };
 __declspec(section ".data") const char *fs_obj_ex_doa01_motion_names[2] = { "fs_obj_ex_doa01.njm", NULL };
@@ -33,7 +35,6 @@ saddr TObjDoaEx01__resource_bundle;
 u8 *TObjDoaEx01__alpha_model_node;
 u8 *TObjDoaEx01__alpha_model_sibling;
 
-struct O_8018DB94 { u8 pad[0xac]; s32 state; f32 pos; f32 max; f32 speed; };
 
 struct Obj_8018DA54 {
     u8 pad[0x38];
@@ -150,19 +151,6 @@ void TObjDoaEx01::update_closed() {
     }
 }
 
-}
-
-struct NjObj_8018DD0C {
-    u32 evalflags;
-    u32 model;
-    f32 pos[3];
-    s32 ang[3];
-    f32 scl[3];
-    NjObj_8018DD0C *child;
-    NjObj_8018DD0C *sibling;
-};
-
-extern "C" {
 s32 rotate_matrix_by_node_angles(void *, int);
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
@@ -171,11 +159,10 @@ extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 saddr get_bml_motion(saddr, s32);
 
-s32 rotate_matrix_y(s32, s32);
 s32 draw_ginja_model_with_motion(saddr, s32, f32);
 
-s32 TObjDoaEx01::draw_object_tree(saddr arg1) {
-    NjObj_8018DD0C *obj = (NjObj_8018DD0C *)arg1;
+void TObjDoaEx01::draw_object_tree(saddr arg1) {
+    NJS_OBJECT *obj = (NJS_OBJECT *)arg1;
     u32 flags = obj->evalflags;
     push_matrix();
     if (!(flags & 1)) {
@@ -193,12 +180,12 @@ s32 TObjDoaEx01::draw_object_tree(saddr arg1) {
             saved_model_render_flags = model_render_flags;
             model_render_flags = model_render_flags | 0x10;
             set_constant_material((const NJS_ARGB *)(((u8 *)this + 0xD4)));
-            draw_ginja_model((void *)(obj->model));
+            draw_ginja_model(obj->model);
             set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
             model_render_flags = saved_model_render_flags;
             TParticleCtrl::end_effect_render();
         } else {
-            draw_ginja_model((void *)(obj->model));
+            draw_ginja_model(obj->model);
         }
     }
     if (obj->child != 0) {
@@ -257,10 +244,6 @@ void TObjDoaEx01::render() {
     try_open();
 }
 
-}
-
-
-extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
 
 s32 free_collision_body_parts(void *);
@@ -272,11 +255,9 @@ TObjDoaEx01::~TObjDoaEx01() {
 }
 
 
-extern void *tl_05;
-
-TObjDoaEx01::TObjDoaEx01(saddr arg1, saddr arg2) : TODoorBase((TObject *)arg1) {
+TObjDoaEx01::TObjDoaEx01(saddr parent, saddr set_data) : TODoorBase((TObject *)parent) {
     *(saddr *)((s8 *)this + 0) = (saddr) TObjDoaEx01__name;
-    ((TObjDoaEx01 *)(((u8 *)this)))->apply_object_set_data((void *)arg2);
+    ((TObjDoaEx01 *)(((u8 *)this)))->apply_object_set_data((void *)set_data);
     ((TObjDoaEx01 *)(((u8 *)this)))->init_door_switch_binding();
     init_collision_body_parts(((u8 *)this), &TObjDoaEx01__collision_body_parts, 1);
     ((TObjCollidable *)this)->refresh_collision_body_centers();

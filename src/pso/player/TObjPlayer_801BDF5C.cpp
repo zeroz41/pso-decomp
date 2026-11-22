@@ -42,14 +42,14 @@ extern "C" {
 u8 * construct_player_instance__10TObjPlayerFlslPUc(void *, s32, s16, s32, void *);
 extern s32 tl_03;
 
-u8 *TObjPlayer::create_player_instance(s32 arg0, saddr arg1) {
+u8 *TObjPlayer::create_player_instance(s32 arg0, saddr player) {
     u8 *p;
     p = (u8 *)TObject::operator new(0xDB8);
     if (p != NULL) {
         p = ((u8 *(*)(void *, s32, u16, s32, s32))construct_player_instance__10TObjPlayerFlslPUc)(
-            p, tl_03, arg0, get_field_0_s32((void *)arg1), (saddr)((TObjPlayer *)arg1)->get_char_data());
+            p, tl_03, arg0, get_field_0_s32((void *)player), (saddr)((TObjPlayer *)player)->get_char_data());
     }
-    ((TLobby *)(p + 0xDAC))->copy_header_struct((void *)((TObjPlayer *)arg1)->get_sub_obj());
+    ((TLobby *)(p + 0xDAC))->copy_header_struct((void *)((TObjPlayer *)player)->get_sub_obj());
     ((Obj_801BDE60 *)p)->v6();
     return p;
 }
@@ -123,11 +123,15 @@ void __register_global_object(void *obj, void *dtor, void *chain);
 void *__construct_array(void *, void *, void *, u32, u32);
 void init_char_data__10TObjPlayerFv(void *);
 
+}
+
 u8 TObjPlayer__arrival_override_table[0xF0];
 u8 player_slot_table[0x30];
 u8 lobby_rule_settings[0x24];
 u8 lbl_8050EA64[0xC];
 u8 TObjPlayer__char_data_array[0x42C * 0xC];
+
+
 void __sinit_TObjPlayer_801BDF5C_cpp(void) {
     __construct_array(TObjPlayer__arrival_override_table, (void *)TObjPlayer__sub_801BFF80, NULL, 0x14, 0xC);
     ((TObjPlayer *)lobby_rule_settings)->reset_lobby_settings();
@@ -139,7 +143,6 @@ void TObjPlayer::destroy_char_data_array() {
     __destroy_arr(TObjPlayer__char_data_array, (void *)destroy_char_data__10TObjPlayerFis, 0x42c, 0xc);
 }
 
-}
 
 __declspec(section ".ctors") static void *const __sinit_TObjPlayer_801BDF5C_cpp_ref = (void *)__sinit_TObjPlayer_801BDF5C_cpp;
 
@@ -151,7 +154,7 @@ int add_photon_blast_chain_charge(void*);
 
 s32 destroy_char_data__10TObjPlayerFis(saddr arg0, s16 arg1) {
     if (arg0 != 0) {
-        __dt__12TPlyCharDataFv(arg0 + 0xC, -1);
+        ((TPlyCharData *)(arg0 + 0xC))->~TPlyCharData();
         if (arg1 > 0) {
             ::operator delete((void *)arg0);
         }
@@ -159,8 +162,8 @@ s32 destroy_char_data__10TObjPlayerFis(saddr arg0, s16 arg1) {
     return arg0;
 }
 
-void TObjPlayer::get_pos(s32 arg1) {
-    this->get_anim_node_position(0x3A, (Vec *)arg1);
+void TObjPlayer::get_pos(saddr out) {
+    this->get_anim_node_position(0x3A, (Vec *)out);
 }
 
 void TObjPlayer::spend_photon_blast_charge(f32 charge) { subtract_photon_blast_charge((char*)this + 0x4ac, charge); }
@@ -637,10 +640,10 @@ u8 TObjPlayer__sub_801BE8F4(O_801BE8F4 *self, s32 i, u32 mask) {
 }
 
 void* TObjPlayer__sub_801BE918(void* a0, int a1, void* a2, void* a3) { *(float*)((char*)a2 + 0x0) = *(float*)((char*)a0 + a1 * 8 + 0x6b0); *(float*)((char*)a3 + 0x0) = *(float*)((char*)a0 + a1 * 8 + 0x6b4); return (char*)a0 + a1 * 8; }
-s32 TObjPlayer::clamp_index_to_max(s32 arg0) {
+s32 TObjPlayer::clamp_index_to_max(s32 level) {
     s32 max_level;
 
-    max_level = arg0;
+    max_level = level;
     if (max_level < 0) {
         max_level = 0;
     } else if (max_level > TObjPlayer::get_max_level()) {
@@ -676,8 +679,8 @@ void TObjPlayer::set_position_history_entry(s32 arg1, f32 farg0, f32 farg1) {
 
 
 void TObjPlayer::set_action_flag_2() { this->m_334 |= 0x2; }
-void set_flag_400000(TObjPlayer *arg0) {
-    arg0->set_state_flags(0x400000);
+void set_flag_400000(TObjPlayer *player) {
+    player->set_state_flags(0x400000);
 }
 int TObjPlayer::check_flag_48() { return check_flag(48); }
 int TObjPlayer::is_status_locked() { return this->actorFlags & 0x10000; }

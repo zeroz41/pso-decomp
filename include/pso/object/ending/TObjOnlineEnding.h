@@ -41,7 +41,7 @@ struct TObjOnlineEnding : public TObjBase {
     static void*get_attack_entry(int a0);
     void close_window();
     void create_result_window();
-    static void *create(void *arg0);
+    static void *create(void *parent);
     f32 scene_frame;
     TWindowChallengeResult *result_window;
 };

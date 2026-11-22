@@ -138,28 +138,20 @@ struct Part_800890F4 {
 
 extern "C" {
 f32 vec_squared_length(u8 *arg0);
-s32 rotate_matrix_y(s32, s32);
 void project_world_to_screen(int, void *, void *);
 s32 post_translate_matrix(void *);
 void rotate_vector_by_current_matrix(void *, void *);
 s32 append_node_to_tail__13TParticleCtrlFPvPv(s32, void *);
-void draw_ginja_object(void *child);
-void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 extern u8 *camera_ctrl_instance;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 f32 vector_length(void *);
-void restore_saved_depth_alpha_state();
-f32 vec3_dot(void *, void *);
-void __ct__7TObjectFP7TObject(void *, void *);
 }
 void setup_particle_tev(s32 arg0);
 void load_projected_texture_matrix(f32 farg0);
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 extern void *__vt__13TParticleCtrl[];
 extern s32 TParticleCtrl__class_name_descriptor;
-extern void *tl_07;
-extern void *tl_clipout;
 extern const f32 TParticleCtrl__data_805D94E0;
 extern const f32 TParticleCtrl__data_805D94E4;
 
@@ -220,12 +212,17 @@ extern const f32 TParticleCtrl__data_805D94E4;
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/render/GinjaMaterial.h"
+#include "pso/render/ModelDrawContext.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/unk/text_803D853C.h"
 
-u8 *create_ballistic_particle(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, u16 arg4, s16 arg5) {
-    return (u8 *)new TUnk_8048E778(arg0, arg1, arg2, arg3, arg4, arg5);
+u8 *create_ballistic_particle(u8 *arg0, u8 *pos, u8 *dir, s32 parent, u16 flags, s16 target_id) {
+    return (u8 *)new TUnk_8048E778(arg0, pos, dir, parent, flags, target_id);
 }
-void *TParticleCtrl::create_random_spread(void *arg0, void *arg1, void *arg2) {
-    return new TUnk_8048E778(arg0, arg1, arg2);
+void *TParticleCtrl::create_random_spread(void *arg0, void *pos, void *parent) {
+    return new TUnk_8048E778(arg0, pos, parent);
 }
 void TUnk_8048E778::retire_ballistic_particle_if_done() {
     u8 *arg0 = (u8 *)this;
@@ -544,8 +541,8 @@ void TUnk_8048E778::render() {
 TUnk_8048E778::~TUnk_8048E778() {}
 #pragma push
 #pragma fp_contract on
-TUnk_8048E778::TUnk_8048E778(void *a1, void *a2, void *a3, saddr arg4, u16 arg5, s16 arg6)
-    : TUnk_8048E728((ParticleParam *)a1, (TObject *)arg4) {
+TUnk_8048E778::TUnk_8048E778(void *a1, void *a2, void *a3, saddr parent, u16 arg5, s16 arg6)
+    : TUnk_8048E728((ParticleParam *)a1, (TObject *)parent) {
     Fields0_800896E4 *p = (Fields0_800896E4 *)this;
     Fields1_800896E4 *d = (Fields1_800896E4 *)a1;
     Vec *pos = (Vec *)a2;

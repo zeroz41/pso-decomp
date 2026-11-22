@@ -5,13 +5,13 @@
 
 #pragma pool_data off
 
-void push_recent_id(s16 arg0) {
+void push_recent_id(s16 id) {
     s32 i;
-    if (arg0 != ws_recent_state.ids[0]) {
+    if (id != ws_recent_state.ids[0]) {
         for (i = 15; i > 0; i--) {
             ws_recent_state.ids[i] = ws_recent_state.ids[i - 1];
         }
-        ws_recent_state.ids[0] = arg0;
+        ws_recent_state.ids[0] = id;
     }
 }
 void clear_window_dd_nodes(void) {

@@ -27,7 +27,7 @@ struct TTecLuker : public TUnk_804CC148 {
     static void create_for_player(int arg0, saddr arg1);
     void init_fields(s16 arg1);
     void send_telepipe_packet();
-    void create(void *arg1, void *arg2, void *arg3);
+    void create(void *pos, void *target, void *level);
     void setup_telepipe_field();
     void send_swapped_telepipe_packet();
     void byteswap_telepipe_packet();

@@ -24,6 +24,7 @@
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/Language.h"
 #include "pso/system/task/TObject.h"
+#include "pso/weapon/WeaponSpecialSelection.h"
 
 
 struct Win_802758C8 {
@@ -58,9 +59,7 @@ struct Self_80275A8C {
 };
 
 extern "C" {
-u32 get_item_field_6__10TObjPlayerFPv(void *);
 s32 *get_shared_text_buffer(void);
-s32 weapon_has_extra_attack();
 void *get_player_by_client_id(s32 i);
 u8 get_cast_technique_level(void *, s16);
 void text_builder_append_int(s32);
@@ -91,11 +90,7 @@ void __ct__7TObjectFP7TObject(void *, void *);
 void *get_window_layout_position(s32);
 extern s32 __vt__13TUnk_804D1160[];
 extern const f32 lbl_8044F718[2] = {190.0f, 168.0f};
-}
-
 #define self ((Equip_80275CB0 *)arg0)
-
-extern "C" {
 void *TWindowSubEquip__sub_80275CB0(void *arg0, void *arg1, s32 arg2) {
     void *p;
     __ct__7TObjectFP7TObject(arg0, arg1);
@@ -202,8 +197,11 @@ void TUnk_804D1160::update_customize_help_text(void *ev_arg) {
     case 0:
         break;
     case 2:
-        if (ev->id == 2 && (get_item_field_6__10TObjPlayerFPv(pl) == 0 || weapon_has_extra_attack() != 1)) {
-            break;
+        if (ev->id == 2) {
+            TItem *weapon = TObjPlayer::get_item_field_6(pl);
+            if (weapon == NULL || weapon_has_extra_attack((TItemWeapon *)weapon) != 1) {
+                break;
+            }
         }
         get_help_text_string(ev->id + 0x13);
         text_builder_append();

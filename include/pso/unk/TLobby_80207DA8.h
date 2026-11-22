@@ -27,7 +27,7 @@ struct SetDestroyEventRecord;
 void create_empty_floor_event(SetDestroyEventRecord *event);
 void spawn_destroy_event(SetDestroyEventRecord *event);
 void dispatch_wave_event_action(u8 opcode);
-saddr get_floor_scene_table(s32 arg0);
+saddr get_floor_scene_table(s32 area);
 extern "C" {
 int link_matching_objects__6TLobbyFPv(void *p);
 }
@@ -54,9 +54,5 @@ extern "C" {
 int spawn_objects_at_pos__6TLobbyFPv(void *p);
 }
 void swap_object_row_endian(void *arg0);
-
-// lobby_slot_ptr_table: layout known from its uses only.
-struct LobbySlotPtrTable { s32 value; u8 remaining[0x44]; };
-extern LobbySlotPtrTable lobby_slot_ptr_table;
 
 #endif

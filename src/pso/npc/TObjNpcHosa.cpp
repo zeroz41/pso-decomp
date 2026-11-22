@@ -12,6 +12,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 #pragma readonly_strings on
 
@@ -22,46 +23,35 @@ BmlResourceDescriptor npc_hosa_resource_descriptor = { "bm_npc_hosa.bml", bm_npc
 
 const char *bm_npc_hosa_motion_names[1] = { NULL };
 const char *TObjNpcHosa__name = "TObjNpcHosa";
-uaddr TObjNpcHosa__static_model_resource;
-}
-
-extern "C" {
-
-
-
+BmlResource *TObjNpcHosa__static_model_resource;
 extern const char *TObjNpcHosa__name;
 
 void TObjNpcHosa::destroy_static_instance() {
-    if ((u32) TObjNpcHosa__static_model_resource != 0U) {
-        delete (BmlResource *)TObjNpcHosa__static_model_resource;
-        TObjNpcHosa__static_model_resource = 0U;
+    if (TObjNpcHosa__static_model_resource != NULL) {
+        delete TObjNpcHosa__static_model_resource;
+        TObjNpcHosa__static_model_resource = NULL;
     }
 }
 
 void TObjNpcHosa::load_static_resource() {
-    saddr temp_r3;
-    s32 var_r0;
-    var_r0 = (saddr)new BmlResource(1, &npc_hosa_resource_descriptor, 0, 0, NULL);
-    (*(s32 *)&TObjNpcHosa__static_model_resource) = var_r0;
+    TObjNpcHosa__static_model_resource = new BmlResource(1, &npc_hosa_resource_descriptor, 0, 0, NULL);
 }
 
 }
 TObjNpcHosa::~TObjNpcHosa() {}
 
 
-extern void *tl_04;
-
 TObjNpcHosa::TObjNpcHosa(TObject *parent, void *arg2) : TUnk_804A9F50(parent) {
     *(s32 *)((s8 *)this + 0) = (saddr) TObjNpcHosa__name;
     ((TObjNpcHosa *)this)->apply_set_data(arg2);
     ((TObjPlayer *)this)->init_position_vectors();
-    *(s32 *)((s8 *)this + 0x34) = (saddr)get_bml_model((BmlResource *)(int) ((*(s32 *)&TObjNpcHosa__static_model_resource)), 0);
-    ((TObjNpcHosa *)this)->texlist = (saddr)get_bml_texlist((BmlResource *)(int) ((*(s32 *)&TObjNpcHosa__static_model_resource)), 0);
+    model = get_bml_model(TObjNpcHosa__static_model_resource, 0);
+    texlist = (saddr)get_bml_texlist(TObjNpcHosa__static_model_resource, 0);
     ((TObjNpcBase *)this)->setup_common();
 }
 
 void *TObjNpcKenkyuW__create(void *set_data) {
-    TObjControl *control = new TObjControl((TObject *)tl_04);
+    TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcKenkyuW(control, set_data);
 }
 

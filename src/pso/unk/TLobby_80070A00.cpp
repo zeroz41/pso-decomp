@@ -1,6 +1,7 @@
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/ui/window/TObjDeadListWin.h"
 #include "pso/unk/TLobby.h"
+#include "pso/unk/text_8026A14C.h"
 #include "pso/object/TObjTombstone.h"
 
 #include "types.h"
@@ -20,8 +21,6 @@ struct ByteBlock_690 { u8 bytes[0x690]; };
 struct ChallengeSettingsDefaults { s32 value; u8 remaining[0x68C]; };
 extern ChallengeSettingsDefaults challenge_settings_defaults;
 extern s32 challenge_mode_state[];
-
-extern "C" {
 
 
 extern uaddr challenge_task;
@@ -48,7 +47,6 @@ void TLobby::copy_state_block() {
     *(ByteBlock_690 *)&challenge_mode_state = *(const ByteBlock_690 *)(&challenge_settings_defaults.value);
 }
 
-}
 
 __declspec(section ".ctors") static void *const __sinit_TLobby_80070A00_80070A00_cpp_ref = (void *)TLobby::copy_state_block;
 
@@ -82,8 +80,7 @@ s32 TLobby::is_flag_set() {
     return (u8) ((*(s32 *)&challenge_task) != 0);
 }
 
-    extern int chat_last_line_buffer;
-char *TLobby::get_unit_list() {  return (char *)chat_last_line_buffer; }
+char *TLobby::get_unit_list() { return chat_last_line_buffer; }
 LAYOUT_ASSERT(RecoveredGlobal_80070ACC_lbl_8048D208_size, sizeof(RecoveredGlobal_80070ACC_lbl_8048D208) == 0x18);
 s32 *TLobby__sub_80070ACC(void) {
     return &lbl_8048D208.value;
@@ -206,8 +203,6 @@ s32 TLobby__sub_8007119C(s32 arg0);
 s32 **TWindowSubStatusDisp__sub_8006F134(s32, s32);
 s32 TLobby__sub_800710D8(s32 arg0);
 s32 TLobby__sub_800712D8(s32 idx, s32 value, s32 arg);
-extern s32 challenge_time_limit_sentinel;
-extern s8 challenge_time_limit_initialized;
 void *fn_800733C4(void *parent);
 
 void TLobby::update_dead_list_win() {
@@ -279,10 +274,10 @@ s32 TLobby::get_max_challenge_time() {
     return best;
 }
 
-void TLobby__sub_80070EE4(saddr arg0) {
-    TLobby::check_challenge_time_range(arg0);
-    fabs_float((f32) (arg0 - *(s32 *)((s8 *)&challenge_mode_state + 0xC)));
-    ((TLobby *)arg0)->send_seed_state();
+void TLobby__sub_80070EE4(saddr clear_time) {
+    TLobby::check_challenge_time_range(clear_time);
+    fabs_float((f32) (clear_time - *(s32 *)((s8 *)&challenge_mode_state + 0xC)));
+    ((TLobby *)clear_time)->send_seed_state();
 }
 
 s32 TLobby__sub_80070F4C(void) {
@@ -440,9 +435,6 @@ s32 *TLobby__sub_800713C8(void) {
     decode_obfuscated_string__6TLobbyFPvi((void *)&lbl_804FF82C.value, (void *)(character_save_record + 0x229C), 0xC, character_save_record);
     return &lbl_804FF82C.value;
 }
-}
-
-extern "C" {
 #define challenge_mode_state (*(s8 (*)[1])challenge_mode_state)
 s32 add_entry__6TLobbyFiii(saddr arg0, saddr arg1, s32 arg2);
 
@@ -540,17 +532,17 @@ s32 TLobby::count_set_bits(u32 x) {
     }
     return n;
 }
-s32 TLobby::get_party_min_tier(s32 arg0) {
+s32 TLobby::get_party_min_tier(s32 slot) {
     s32 best;
     s32 i;
     s32 t;
-    best = TWindowSubStatusDisp::get_layout_id(arg0);
+    best = TWindowSubStatusDisp::get_layout_id(slot);
     for (i = 0; i < 4; i++) {
         if (get_player_by_client_id(i) != 0U) {
             if (((G_80071698 *)challenge_mode_state)->e[i].f0 == 0) {
                 return -1;
             }
-            t = TLobby__sub_80071B30(i, arg0);
+            t = TLobby__sub_80071B30(i, slot);
             if (best > t) {
                 best = t;
             }

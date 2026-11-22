@@ -10,15 +10,15 @@ class TWindowBase;
 struct TWindowMenu;
 
 struct TShopArmorListWindow : public TShopWindowBase {
-    TShopArmorListWindow(saddr parent, s32, s32);
+    TShopArmorListWindow(saddr parent, saddr sequence, s32 player);
     virtual ~TShopArmorListWindow();
     virtual void vfunc_11();
     virtual void display_message(const char *text, s32 flags);
-    virtual void vfunc_6(s32 id, s32 flags);
+    virtual void display_shop_message(s32 id, s32 flags);
     u8 _pad1C[0x4];
     u32 m_20;
     uaddr m_24;
-    u32 m_28;
+    TShopWindowBase *sequence;  // the shop sequence that opened it; messages go to it
     TWindowBase *item_list;   // 0x2C: create_item_list_window
     TWindowMenu *choice_menu;          // 0x30: create_window_menu / create_yes_no_window
     TWindowBase *help_window; // 0x34: a TWindowHelpItem
@@ -39,10 +39,10 @@ struct TShopArmorListWindow : public TShopWindowBase {
     u32 m_1f4;
     void update_selection(void *arg1);
     void handle_equip_offer();
-    s32 open_menu_window();
-    int advance_to_preparation_phase();
-    s32 update();
-    s32 handle_select();
+    void open_menu_window();
+    void advance_to_preparation_phase();
+    void update();
+    void handle_select();
     void handle_selection();
     s32 check_purchase_eligibility();
     static void refresh_item_list(void *p);

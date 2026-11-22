@@ -14,7 +14,7 @@ public:
     TUnk_804C4498(TObject *parent, TObjBase *source, const Vec *pos, s8 arg);
     virtual ~TUnk_804C4498();
     void sub_801D5884(u8);
-    s32 reset_placement_search_ring();
+    void reset_placement_search_ring();
     s32 step_placement_search();
     s8 unk_1C;
     s8 ring;

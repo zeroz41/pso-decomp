@@ -57,7 +57,7 @@ typedef struct RecvDescriptor {
 s32 lbl_805D7C88;
 s32 lbl_805D7C84;
 s32 exi_send_size;
-saddr lbl_805D7C7C;
+u8 *lbl_805D7C7C;
 u16 lbl_805D7C7A; /* receive ring read page */
 u16 lbl_805D7C78; /* receive ring write page */
 u8 *lbl_805D7C74;
@@ -317,11 +317,11 @@ void TLobby__sub_80429648(void) {
     EXIUnlock(0);
 }
 
-void start_exi_dma_read(u16 arg0) {
+void start_exi_dma_read(u16 reg) {
     u32 len;
     s32 cmd;
     len = (exi_dma_read_length + 0x1F) & ~0x1F;
-    cmd = ((arg0 << 8) & 0xFFFF00) | 0x80000000;
+    cmd = ((reg << 8) & 0xFFFF00) | 0x80000000;
     EXISelect(0, 2, 5);
     EXIImm(0, &cmd, 4, 1, 0);
     EXISync(0);
@@ -587,15 +587,15 @@ s32 init_bba_exi_adapter(void *arg) {
 }
 #pragma pop
 
-void start_exi_send(s32 arg0, s32 arg1, ExiSendCompletionCallback arg2) {
+void start_exi_send(u8 *data, s32 len, ExiSendCompletionCallback callback) {
     s32 var_r3;
     s32 var_r4;
-    lbl_805D7C7C = arg0;
+    lbl_805D7C7C = data;
     var_r3 = 0;
-    exi_send_size = arg1;
+    exi_send_size = len;
     var_r4 = 0;
     exi_send_started_flag = 1;
-    lbl_805D7C54 = arg2;
+    lbl_805D7C54 = callback;
     exi_start_send_dma(0, NULL);
 }
 
@@ -608,12 +608,12 @@ void exi_start_send_dma(s32 chan, OSContext *ctx) {
         }
         lbl_805D7C84 = exi_send_size & ~0x1F;
         lbl_805D7C88 = exi_send_size - lbl_805D7C84;
-        DCStoreRange((void *)lbl_805D7C7C, lbl_805D7C84);
+        DCStoreRange(lbl_805D7C7C, lbl_805D7C84);
         cmd = 0xC0004800;
         EXISelect(0, 2, 5);
         EXIImm(0, &cmd, 4, 1, 0);
         EXISync(0);
-        EXIDma(0, (void *)lbl_805D7C7C, lbl_805D7C84, 1, TLobby__sub_8042B434);
+        EXIDma(0, lbl_805D7C7C, lbl_805D7C84, 1, TLobby__sub_8042B434);
     }
 }
 
@@ -625,7 +625,7 @@ void TLobby__sub_8042B434(s32 chan, OSContext *ctx) {
     u8 pad[4];
     s32 bits;
     if (lbl_805D7C88 != 0) {
-        EXIImmEx(0, (void *)(lbl_805D7C7C + lbl_805D7C84), lbl_805D7C88, 1);
+        EXIImmEx(0, lbl_805D7C7C + lbl_805D7C84, lbl_805D7C88, 1);
     }
     EXIDeselect(0);
     cmd0 = 0x80000000;
@@ -815,7 +815,7 @@ u32 TLobby__sub_8042BA8C(void *addr) {
     return hash;
 }
 
-void enable_network_multicast_address(void *arg0) {
+void enable_network_multicast_address(void *address) {
   u8 val0;
   u8 val1;
   u8 val2;
@@ -831,7 +831,7 @@ void enable_network_multicast_address(void *arg0) {
   s32 isDefault;
   int filter_bits;
   isDefault = 0;
-  if (memcmp(arg0, lbl_805D4830, 6) == 0)
+  if (memcmp(address, lbl_805D4830, 6) == 0)
   {
     isDefault = 1;
   }
@@ -864,7 +864,7 @@ void enable_network_multicast_address(void *arg0) {
   }
   else
   {
-    bit = (u16)TLobby__sub_8042BA8C(arg0);
+    bit = (u16)TLobby__sub_8042BA8C(address);
     addr = ((u32) ((u16) (((u8) (bit / 8)) + 0x26))) << 8;
     read_command = addr | 0x80000000;
     cmd2 = read_command;

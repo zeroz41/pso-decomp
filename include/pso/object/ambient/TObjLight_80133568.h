@@ -3,8 +3,10 @@
 
 #include "types.h"
 
+class TQuestThread;
+
 extern "C" {
-int TLobby__sub_80134A20(void *p);
+TQuestThread *TLobby__sub_80134A20(void *p);
 void TObjBoss2Tunnel__sub_801339EC(f32 farg0, f32 farg1, f32 farg2);
 void render__13TUnk_804A6F78Fv(void);
 void TObjLight__sub_801336DC(void);

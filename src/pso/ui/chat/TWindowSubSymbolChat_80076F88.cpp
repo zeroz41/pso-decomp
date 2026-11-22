@@ -139,8 +139,8 @@ void TWindowSubSymbolChat__sub_800771B0(Obj_800771B0 *arg0, s32 arg1) {
     arg0->s[arg1] = 0xFF;
 }
 
-s32 TWindowSubSymbolChat__sub_800771C4(Obj_800771C4 *arg0, s32 arg1) {
-    return ((u8)arg0->s[arg1] - 0xFF) != 0 ? 1 : 0;
+s32 TWindowSubSymbolChat__sub_800771C4(Obj_800771C4 *arg0, s32 sel) {
+    return ((u8)arg0->s[sel] - 0xFF) != 0 ? 1 : 0;
 }
 
 void TWindowSubSymbolChat::set_entry(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {

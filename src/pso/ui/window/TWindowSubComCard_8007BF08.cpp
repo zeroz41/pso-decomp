@@ -6,11 +6,11 @@ extern "C" {
 s32 get_card_entry__17TWindowSubComCardFi();
 
 void TWindowSubComCard::update_press() {
-    s32 temp_r31;
+    s32 ply_guild_card_tag;
 
-    temp_r31 = get_card_entry__17TWindowSubComCardFi();
-    if (TWindowSubComCard::scroll_list(temp_r31) == 0) {
-        TWindowSubComCard::select_card_entry(temp_r31);
+    ply_guild_card_tag = get_card_entry__17TWindowSubComCardFi();
+    if (TWindowSubComCard::scroll_list(ply_guild_card_tag) == 0) {
+        TWindowSubComCard::select_card_entry(ply_guild_card_tag);
     }
 }
 

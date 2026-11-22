@@ -155,7 +155,7 @@ s32 TLoadingCur::calc_clamp_offset(s32 arg0, u8 *arg1, u8 *arg2) {
     return (u32)__cntlzw((u32)((((temp_f0 * temp_f0) + (temp_f1 * temp_f1)) <= 0.0f))) >> 5;
 }
 
-int TLoadingCur::sub_8001CCD4() {
+void TLoadingCur::sub_8001CCD4() {
     Obj_8001CCD4 *self = (Obj_8001CCD4 *)this;
     f32 sp10[2];
     NJS_POINT2 v;
@@ -176,7 +176,7 @@ int TLoadingCur::sub_8001CCD4() {
     }
 }
 
-void TLoadingCur::render() { { (void)(sub_8001CCD4()); return; } }
+void TLoadingCur::render() { sub_8001CCD4(); }
 
 #pragma push
 #pragma fp_contract on

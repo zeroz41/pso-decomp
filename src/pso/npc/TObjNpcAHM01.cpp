@@ -12,6 +12,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/system/SoundEffect.h"
 
 #pragma readonly_strings on
 
@@ -21,7 +23,6 @@ uaddr TObjNpcAHM01__shared_object;
 uaddr TObjNpcAHM01__texture_handle;
 
 extern "C" {
-s32 play_sound_effect(int, void *, int, int);
 void release_texture_list(void*);
 
 void TObjNpcAHM01::free_resources() {
@@ -61,10 +62,9 @@ void TObjNpcAHM01::play_voice() {
 
 s32 TObjNpcBase::is_target_in_attack_range() { return 0; }
 
-extern void *tl_04;
 
 void *TObjNpcARM00__create(void *set_data) {
-    TObjControl *control = new TObjControl((TObject *)tl_04);
+    TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcARM00(control, set_data);
 }
 

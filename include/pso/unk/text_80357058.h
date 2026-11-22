@@ -5,7 +5,7 @@
 
 struct TItemEffOrgaFlowShot;
 extern "C" {
-void TBoss6Type2__sub_803570C8(s8 *arg0);
+void TBoss6Type2__sub_803570C8(s8 *buf);
 void TItemEffOrgaFlowShot__sub_80357204(void);
 void TItemEffOrgaFlowShot__sub_80357210(void);
 }

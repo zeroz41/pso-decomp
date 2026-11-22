@@ -7,6 +7,7 @@
 
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 #pragma readonly_strings on
 
@@ -16,7 +17,6 @@ const char *TObjTradeCollision__name = "TObjTradeCollision";
 
 extern "C" {
 s32 is_player_outside_trade_radius__18TObjTradeCollisionFUl(void *, int);
-extern const char *TObjTradeCollision__name;
 
 void TObjTradeCollision::render() {  }
 
@@ -39,11 +39,9 @@ TObjTradeCollision::~TObjTradeCollision() {
 }
 
 
-extern void *tl_05;
-
-TObjTradeCollision::TObjTradeCollision(saddr arg1, saddr arg2) : TObjCollidable((TObject *)arg1) {
+TObjTradeCollision::TObjTradeCollision(saddr parent, saddr set_data) : TObjCollidable((TObject *)parent) {
     *(s32 *)((s8 *)this + 0) = (s32) ((saddr)TObjTradeCollision__name);
-    ((TObjTradeCollision *)(((u8 *)this)))->apply_object_set_data((void *)arg2);
+    ((TObjTradeCollision *)(((u8 *)this)))->apply_object_set_data((void *)set_data);
     *(f32 *)((s8 *)this + 0xAC) = (f32) this->scale.x;
     ((TObject *)(((u8 *)this)))->disallow_rendering();
 }

@@ -1,17 +1,17 @@
 #include "types.h"
+#include "pso/math/InverseTrig.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/render/RenderSbssGlobals.h"
 
 struct Matrix34 { f32 elements[3][4]; };
 struct ReflectionPlane { f32 origin[3]; f32 normal[3]; };
 
 extern "C" {
-extern uaddr current_matrix;
 void PSMTXRotRad(Matrix34*, char, f32);
 f32 PSMTXConcat(int, int, int);
 void rotate_matrix_y(Matrix34* matrix, s32 angle);
 
-f64 acos(f32);
 void scale_matrix(u32, f32, f32, f32);
 
 void rotate_matrix_x(u32, s32);
@@ -35,31 +35,31 @@ static inline f32 acosf_803D8F74(f32 v) {
     return (f32)acos(v);
 }
 
-void reflect_matrix_in_plane(uaddr matrix, const ReflectionPlane *arg1)
+void reflect_matrix_in_plane(uaddr matrix, const ReflectionPlane *plane)
 {
-    f32 xz = sqrtf_803D8F74(arg1->normal[0] * arg1->normal[0] + arg1->normal[2] * arg1->normal[2]);
-    f32 len = sqrtf_803D8F74(arg1->normal[1] * arg1->normal[1] + xz * xz);
+    f32 xz = sqrtf_803D8F74(plane->normal[0] * plane->normal[0] + plane->normal[2] * plane->normal[2]);
+    f32 len = sqrtf_803D8F74(plane->normal[1] * plane->normal[1] + xz * xz);
     s32 rx;
     s32 ry;
-    if (arg1->normal[1] >= (0.0f)) {
+    if (plane->normal[1] >= (0.0f)) {
         rx = -(s32)((10430.38043493439) * acosf_803D8F74(xz / len));
     }
-    if (arg1->normal[1] < (0.0f)) {
+    if (plane->normal[1] < (0.0f)) {
         rx = (s32)((10430.38043493439) * acosf_803D8F74(xz / len));
     }
-    if (arg1->normal[0] >= (0.0f)) {
-        ry = (s32)((10430.38043493439) * acosf_803D8F74(arg1->normal[2] / xz));
+    if (plane->normal[0] >= (0.0f)) {
+        ry = (s32)((10430.38043493439) * acosf_803D8F74(plane->normal[2] / xz));
     }
-    if (arg1->normal[0] < (0.0f)) {
-        ry = -(s32)((10430.38043493439) * acosf_803D8F74(arg1->normal[2] / xz));
+    if (plane->normal[0] < (0.0f)) {
+        ry = -(s32)((10430.38043493439) * acosf_803D8F74(plane->normal[2] / xz));
     }
-    translate_matrix(matrix, arg1->origin[0], arg1->origin[1], arg1->origin[2]);
+    translate_matrix(matrix, plane->origin[0], plane->origin[1], plane->origin[2]);
     rotate_matrix_y((Matrix34*)matrix, ry);
     rotate_matrix_x(matrix, rx);
     scale_matrix(matrix, 1.0f, 1.0f, -1.0f);
     rotate_matrix_x(matrix, -rx);
     rotate_matrix_y((Matrix34*)matrix, -ry);
-    translate_matrix(matrix, -arg1->origin[0], -arg1->origin[1], -arg1->origin[2]);
+    translate_matrix(matrix, -plane->origin[0], -plane->origin[1], -plane->origin[2]);
 }
 #pragma pop
 

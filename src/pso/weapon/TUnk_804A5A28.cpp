@@ -8,7 +8,7 @@
 #include "pso/weapon/TUnk_804A5B20.h"
 #include "pso/player/TObjPlayer_8012D8E4.h"
 #include "pso/system/task/TMainTask.h"
-
+#include "pso/player/TObjPlayer_801D2E20.h"
 
 struct Owner_8012D708 { u8 pad[0x60]; s32 f60; };
 struct Self_8012D708 { u8 pad0[0x24]; s32 f24; u8 pad28[0xF0 - 0x28]; Owner_8012D708 *owner; u8 padF4[0x188 - 0xF4]; s32 f188; };
@@ -30,16 +30,8 @@ struct Tec_8012D708 {
     Vec pos;
     Vec dir;
 };
-extern "C" {
-
-s16 get_entity_id(void *);
-}
 struct SlicerState_801295FC;
 void init_slicer_launch_state(void *arg0);
-extern "C" {
-s16 get_validated_attack_stage(u8 *arg0);
-s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
-}
 void enlarge_flight_cutter_slicer(void *arg0);
 
 void TUnk_804A5A28::emit_marker_effects() {
@@ -75,7 +67,6 @@ TItem *TObjPlayer::create_variant_2_5a28(u8 *item) {
     }
     return NULL;
 }
-
 
 void enlarge_flight_cutter_slicer(void *arg0) {
     if (arg0 != NULL) {

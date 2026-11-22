@@ -7,7 +7,7 @@
 class TParticleCtrl;
 
 struct TWindowEffectParty : public TObject {
-    TWindowEffectParty(TObject *arg1, s8 arg2, s8 arg3, void *arg4);
+    TWindowEffectParty(TObject *object, s8 arg2, s8 arg3, void *idx);
     virtual ~TWindowEffectParty();
     u8 m_1c;
     u8 m_1d;
@@ -22,7 +22,7 @@ struct TWindowEffectParty : public TObject {
     virtual void run_task();
     s32 step_toward_target(f32 farg0, f32 farg1);
     void calc_effect_position(void *arg1);
-    static void set_slot_position(s32 arg0, s32 arg1, void *arg2);
+    static void set_slot_position(s32 arg0, s32 arg1, void *window_sub_symbol_chat_parts_set);
     static void *create(void *owner, s32 from, s32 to, u32 kind);
 };
 

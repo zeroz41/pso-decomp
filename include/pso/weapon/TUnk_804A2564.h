@@ -9,7 +9,7 @@ public:
     virtual void update_weapon();
     virtual void emit_marker_effects();
     // Clears reload_timer.
-    virtual void vfunc_57();
+    virtual void on_equipped();
     virtual void init_weapon_effect_descriptor(Desc_8011E5C4 *desc);
     // Draws the loaded projectile (second_model) while reload_timer is 0.
     virtual void vfunc_60();

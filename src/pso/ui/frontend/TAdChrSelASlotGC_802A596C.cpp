@@ -8,8 +8,6 @@
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 
-extern "C" {
-
-void open_yes_no_prompt_with_text(TChCrTagPlBack *window, s32 text, s32 pos, f32 width) { open_yes_no_prompt(window, 0, text, pos, width); }
-
+void TWindowMessageYesNo::open_yes_no_prompt_with_text(s32 text, s32 pos, f32 width) {
+    open_yes_no_prompt((TChCrTagPlBack *)this, 0, text, pos, width);
 }

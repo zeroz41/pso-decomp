@@ -4,20 +4,20 @@
 #include "pso/system/task/TObject.h"
 #include "pso/map/FloorPopulation.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/TLobby_80207DA8.h"
 
 extern "C" {
-void clear_floor_event_flags(void);
 
-void destroy_child_recursive__6TLobbyFPvPv(TObject *arg0, TObject *arg1) {
-    TObject *p = arg0->m_down;
+void destroy_child_recursive__6TLobbyFPvPv(TObject *task, TObject *object) {
+    TObject *p = task->m_down;
     TObject *cur;
-    while (arg0->m_down != 0 && p != 0) {
+    while (task->m_down != 0 && p != 0) {
         cur = p;
         p = p->m_next;
-        if (cur == arg1) {
+        if (cur == object) {
             cur->queue_destruction();
         } else {
-            destroy_child_recursive__6TLobbyFPvPv(cur, arg1);
+            destroy_child_recursive__6TLobbyFPvPv(cur, object);
         }
     }
 }

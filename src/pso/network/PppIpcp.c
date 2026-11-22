@@ -3,6 +3,7 @@
 #include "types.h"
 #include "pso/network/TLobby_803FC178.h"
 #include "pso/network/TLobby_803FCF44.h"
+#include "pso/network/PppFsm.h"
 #include "pso/network/TLobby_804050DC.h"
 #include "pso/network/TLobby_8041112C.h"
 #include "pso/network/PppIpcp.h"
@@ -10,7 +11,6 @@ typedef struct P_803FF48C P_803FF48C;
 /* This file's functions. */
 void free_field_98(void *self);
 void free_field_98_and_clear(void *self);
-u16 get_field_4(void *self);
 s32 read_2_bytes(void *self, void *src);
 s32 set_flags_and_state(void *self);
 u8 *write_network_u32_be(u8 *p, u32 v);
@@ -110,9 +110,9 @@ after:
 
 struct P_803FF48C;
 void TLobby__sub_803FF48C(P_803FF48C *);
-extern s32 TLobby__sub_803FF50C(Conn_804004DC *self, PppHeader *item, s32 arg);
-extern s32 TLobby__sub_803FF698(Conn_804004DC *self, PppHeader *item, s32 arg);
-extern s32 TLobby__sub_803FF9A4(Conn_804004DC *self, PppHeader *src, u32 bits);
+extern s32 TLobby__sub_803FF50C(PppFsm *self, PppHeader *item, s32 arg);
+extern s32 TLobby__sub_803FF698(PppFsm *self, PppHeader *item, s32 arg);
+extern s32 TLobby__sub_803FF9A4(PppFsm *self, PppHeader *src, u32 bits);
 extern PppFrame *build_ipcp_config_request(void *self);
 void TLobby__sub_803FEF4C(u8 *self) {
     const IpcpOptions *src = &lbl_8047FE18;
@@ -151,7 +151,7 @@ void TLobby__sub_803FEF4C(u8 *self) {
     TLobby__sub_803FD694(sub);
 }
 
-s32 ipcp_set_vj_compression(s16 disabled, IpcpSide *side) {
+s16 ipcp_set_vj_compression(s16 disabled, IpcpSide *side) {
     if (disabled == 0) {
         side->want.vj_protocol = 0x2D;
         side->want.vj_slots = 0x10;
@@ -167,7 +167,7 @@ s32 ipcp_set_vj_compression(s16 disabled, IpcpSide *side) {
     return 0;
 }
 
-s32 ipcp_set_peer_secondary_dns(IpcpSide *side, s32 addr) {
+s16 ipcp_set_peer_secondary_dns(IpcpSide *side, s32 addr) {
     if (addr == -1) {
         side->want.dns[1] = 0;
         side->want.flags &= ~0x800;
@@ -178,7 +178,7 @@ s32 ipcp_set_peer_secondary_dns(IpcpSide *side, s32 addr) {
     return 0;
 }
 
-s32 ipcp_set_peer_primary_dns(IpcpSide *side, s32 addr) {
+s16 ipcp_set_peer_primary_dns(IpcpSide *side, s32 addr) {
     if (addr == -1) {
         side->want.dns[0] = 0;
         side->want.flags &= ~0x200;
@@ -189,7 +189,7 @@ s32 ipcp_set_peer_primary_dns(IpcpSide *side, s32 addr) {
     return 0;
 }
 
-s32 ipcp_set_local_secondary_dns(IpcpSide *side, s32 addr) {
+s16 ipcp_set_local_secondary_dns(IpcpSide *side, s32 addr) {
     if (addr == -1) {
         side->want.dns[1] = 0;
         side->want.flags &= ~0x800;
@@ -200,7 +200,7 @@ s32 ipcp_set_local_secondary_dns(IpcpSide *side, s32 addr) {
     return 0;
 }
 
-s32 ipcp_set_local_primary_dns(IpcpSide *side, s32 addr) {
+s16 ipcp_set_local_primary_dns(IpcpSide *side, s32 addr) {
     if (addr == -1) {
         side->want.dns[0] = 0;
         side->want.flags &= ~0x200;
@@ -211,7 +211,7 @@ s32 ipcp_set_local_primary_dns(IpcpSide *side, s32 addr) {
     return 0;
 }
 
-s32 ipcp_set_peer_address(IpcpSide *side, s32 addr) {
+s16 ipcp_set_peer_address(IpcpSide *side, s32 addr) {
     if (addr == -1) {
         side->want.our_addr = 0;
         side->want.flags &= ~8;
@@ -222,7 +222,7 @@ s32 ipcp_set_peer_address(IpcpSide *side, s32 addr) {
     return 0;
 }
 
-s32 ipcp_set_local_address(IpcpSide *side, s32 addr) {
+s16 ipcp_set_local_address(IpcpSide *side, s32 addr) {
     if (addr == -1) {
         side->want.our_addr = 0;
         side->want.flags &= ~8;
@@ -305,7 +305,7 @@ inline u32 optbit_803FFB84(u16 bit) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-extern s32 TLobby__sub_803FF50C(Conn_804004DC *self, PppHeader *item, s32 arg) {
+extern s32 TLobby__sub_803FF50C(PppFsm *self, PppHeader *item, s32 arg) {
     IpcpConfig *bits = (IpcpConfig *)self->opts;
     s32 count = item->len;
     s16 k;
@@ -344,7 +344,7 @@ extern s32 TLobby__sub_803FF50C(Conn_804004DC *self, PppHeader *item, s32 arg) {
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma opt_common_subs on
-extern s32 TLobby__sub_803FF698(Conn_804004DC *self, PppHeader *item, s32 arg) {
+extern s32 TLobby__sub_803FF698(PppFsm *self, PppHeader *item, s32 arg) {
     IpcpConfig *bits;
     IpcpSide *p;
     s32 count;
@@ -389,7 +389,7 @@ extern s32 TLobby__sub_803FF698(Conn_804004DC *self, PppHeader *item, s32 arg) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline uaddr first_803FA664(Sub_803FF858 *s) {
+inline uaddr build_requested_options(IpcpConfig *opts) {
     uaddr t;
     uaddr v = 0;
     t = v;
@@ -397,31 +397,31 @@ inline uaddr first_803FA664(Sub_803FF858 *s) {
     if (t == 0) {
         return v;
     }
-    append_masked_ipcp_options(&t, &s->h1C, s->h1C);
+    append_masked_ipcp_options(&t, &opts->local.got, opts->local.got.flags);
     v = t;
     return v;
 }
-inline s32 read_803FA664(uaddr *p) {
+inline s32 read_option_byte(uaddr *p) {
     if (ppp_buffer_read(p, &lcp_read_byte_buffer, 1) != 1) {
         return -1;
     }
     return (s16)lcp_read_byte_buffer;
 }
-s32 TLobby__sub_803FF858(Obj_803FF858 *obj_803_ff858, PppHeader *msg_803_fa664, uaddr arg2) {
+s32 TLobby__sub_803FF858(PppFsm *fsm, PppHeader *msg, uaddr expected) {
     uaddr cur;
     s16 err;
     s16 a;
     s16 b;
     err = 0;
-    if (msg_803_fa664->id != obj_803_ff858->b1) {
+    if (msg->id != fsm->id) {
         return -1;
     }
-    cur = first_803FA664(obj_803_ff858->p30);
-    if (msg_803_fa664->len != get_field_4((void *)cur)) {
+    cur = build_requested_options((IpcpConfig *)fsm->opts);
+    if (msg->len != get_field_4((void *)cur)) {
         err = 1;
     } else {
-        while ((a = read_803FA664(&cur)) != -1) {
-            b = read_803FA664(&arg2);
+        while ((a = read_option_byte(&cur)) != -1) {
+            b = read_option_byte(&expected);
             if (b == -1 || b != a) {
                 err = 1;
                 break;
@@ -431,13 +431,13 @@ s32 TLobby__sub_803FF858(Obj_803FF858 *obj_803_ff858, PppHeader *msg_803_fa664, 
     if (err != 0) {
         return -1;
     }
-    obj_803_ff858->bB++;
+    fsm->ack_count++;
     return 0;
 }
 #pragma pop
 #pragma pop
 
-extern s32 TLobby__sub_803FF9A4(Conn_804004DC *self, PppHeader *src, u32 bits) {
+extern s32 TLobby__sub_803FF9A4(PppFsm *self, PppHeader *src, u32 bits) {
     u32 sh;
     void *buf;
     unsigned int new_var;
@@ -447,7 +447,6 @@ extern s32 TLobby__sub_803FF9A4(Conn_804004DC *self, PppHeader *src, u32 bits) {
     u8 hdr[2];
     s16 k;
     s16 res;
-    s32 ppp_fsm_send_packet(void *, u8, u8, void *); /* declared here with other parameter types; the definition is s32 (void *, int, int, void *) */
     void append_ipcp_option(PppFrame **pbuf, IpcpOptions *opt, s32 type, s32 len, void *src);
     base = (IpcpConfig *)self->opts;
     n = src->len;

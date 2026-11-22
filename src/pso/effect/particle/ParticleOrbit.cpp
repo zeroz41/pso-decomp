@@ -4,6 +4,8 @@
 #include "pso/unk/TUnk_804C57F0.h"
 #include "pso/effect/particle/ParticleOrbit.h"
 #include "pso/render/render_util.h"
+#include "pso/render/GinjaMaterial.h"
+#include "pso/render/ModelDrawContext.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/AngleLookup.h"
@@ -152,20 +154,14 @@ struct OIVec_8008B060 { s32 x, y, z; };
 
 extern "C" {
 s32 append_node_to_tail__13TParticleCtrlFPvPv(s32, void *);
-s32 rotate_matrix_y(s32, s32);
-void draw_ginja_object(void *child);
-void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 extern u8 *camera_ctrl_instance;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
-void __ct__7TObjectFP7TObject(void *, void *);
 }
 void setup_particle_tev(s32 arg0);
 void load_projected_texture_matrix(f32 farg0);
 extern void *__vt__13TParticleCtrl[];
 extern s32 TParticleCtrl__class_name_descriptor;
-extern void *tl_07;
-extern void *tl_clipout;
 extern const f32 TParticleCtrl__data_805D94E0;
 extern const f32 TParticleCtrl__data_805D94E4;
 
@@ -226,10 +222,12 @@ extern const f32 TParticleCtrl__data_805D94E4;
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/unk/text_803D8F74.h"
 
 
-u8 *create_orbit_particle(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, u16 arg4, s16 arg5) {
-    return (u8 *)new TUnk_8048E790(arg0, arg1, arg2, arg3, arg4, arg5);
+u8 *create_orbit_particle(u8 *arg0, u8 *pos, u8 *dir, s32 parent, u16 flags, s16 target_id) {
+    return (u8 *)new TUnk_8048E790(arg0, pos, dir, parent, flags, target_id);
 }
 void *TParticleCtrl::alloc_child_particle(void *param, void *pos, void *dir, void *parent) {
     return new TUnk_8048E790(param, pos, dir, parent);
@@ -396,7 +394,7 @@ void TUnk_8048E790::render() {
     f32 temp_f1;
     f32 temp_f1_2;
     f32 temp_f3;
-    s32 temp_r4;
+    s32 render_flags;
     u16 temp_r3;
     if ((s32)this->all_parents_unqueued_for_destruction() != 0) {
         temp_f3 = *(f32 *)((s8 *)this->param + 0x70) * cos_table_lookup(this->m_dc);
@@ -406,7 +404,7 @@ void TUnk_8048E790::render() {
         *(f32 *)((s8 *)arg0 + 0x8C) = (f32) (*(f32 *)((s8 *)arg0 + 0x8C) * *(f32 *)((s8 *)arg0 + 0xA8));
         temp_r3 = this->flags;
         if (temp_r3 & 0x200) {
-            if (((is_split_screen() == 0) || !(this->flags & 0x400)) && ((u32) this->unk_B4 != 0U) && ((u32) this->m_b0 != 0U)) {
+            if (((is_split_screen() == 0) || !(this->flags & 0x400)) && ((u32) this->unk_B4 != 0U) && (this->model != NULL)) {
                 sp8.x = this->pos.x + this->attach.x;
                 sp8.y = this->pos.y + this->attach.y;
                 sp8.z = this->pos.z + this->attach.z;
@@ -430,10 +428,10 @@ void TUnk_8048E790::render() {
                 if (this->flags & 0x400) {
                     setup_particle_tev(0);
                 } else {
-                    temp_r4 = model_render_flags;
-                    saved_model_render_flags = temp_r4;
-                    model_render_flags = temp_r4 | 0x8021;
-                    if (((TUnk_8048E728 *)arg0)->is_particle_sprite_additive(temp_r4) != 0) {
+                    render_flags = model_render_flags;
+                    saved_model_render_flags = render_flags;
+                    model_render_flags = render_flags | 0x8021;
+                    if (((TUnk_8048E728 *)arg0)->is_particle_sprite_additive(render_flags) != 0) {
                         ((TUnk_8048E728 *)arg0)->apply_particle_model_fade_color(1);
                     } else {
                         ((TUnk_8048E728 *)arg0)->apply_particle_model_fade_color(0);
@@ -442,9 +440,9 @@ void TUnk_8048E790::render() {
                 TObjFish::set_global_param(this->unk_B4);
                 set_draw_list_mask(3);
                 if ((uaddr) this->motion != 0U) {
-                    draw_ginja_model_with_motion((void *)this->m_b0, (void *)this->motion, (f32)this->motion_frame);
+                    draw_ginja_model_with_motion(this->model, this->motion, this->motion_frame);
                 } else {
-                    draw_ginja_object((void *)this->m_b0);
+                    draw_ginja_object(this->model);
                 }
                 if (this->flags & 0x400) {
                     reset_particle_tev();
@@ -470,10 +468,10 @@ void TUnk_8048E790::render() {
 TUnk_8048E790::~TUnk_8048E790() {}
 #pragma push
 #pragma fp_contract on
-TUnk_8048E790::TUnk_8048E790(u8 *arg1, u8 *arg2, u8 *arg3, saddr arg4, u16 arg5, s16 arg6)
-    : TUnk_8048E728((ParticleParam *)arg1, (TObject *)arg4) {
+TUnk_8048E790::TUnk_8048E790(u8 *src, u8 *arg2, u8 *arg3, saddr parent, u16 arg5, s16 arg6)
+    : TUnk_8048E728((ParticleParam *)src, (TObject *)parent) {
     Obj_8008AC24 *o = (Obj_8008AC24 *)this;
-    Desc_8008AC24 *d = (Desc_8008AC24 *)arg1;
+    Desc_8008AC24 *d = (Desc_8008AC24 *)src;
     Vec *p = (Vec *)arg2;
     IVec_8008AC24 *v = (IVec_8008AC24 *)arg3;
     s32 temp_r0;
@@ -516,12 +514,12 @@ TUnk_8048E790::TUnk_8048E790(u8 *arg1, u8 *arg2, u8 *arg3, saddr arg4, u16 arg5,
 #pragma push
 #pragma fp_contract on
 
-TUnk_8048E790::TUnk_8048E790(void *arg1, void *arg2, void *arg3, void *arg4)
-    : TUnk_8048E728((ParticleParam *)arg1, (TObject *)arg4) {
+TUnk_8048E790::TUnk_8048E790(void *src, void *pos, void *dir, void *parent)
+    : TUnk_8048E728((ParticleParam *)src, (TObject *)parent) {
     OObj_8008B060 *o = (OObj_8008B060 *)this;
-    ODesc_8008B060 *d = (ODesc_8008B060 *)arg1;
-    Vec *p = (Vec *)arg2;
-    OIVec_8008B060 *v = (OIVec_8008B060 *)arg3;
+    ODesc_8008B060 *d = (ODesc_8008B060 *)src;
+    Vec *p = (Vec *)pos;
+    OIVec_8008B060 *v = (OIVec_8008B060 *)dir;
     s32 temp_r0;
     o->f98 = v->x;
     o->f9C = v->y;

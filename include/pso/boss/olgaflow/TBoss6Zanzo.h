@@ -10,7 +10,7 @@ struct Boss6TrailPoint { u32 color; Vec position; };
 struct Boss6TrailFrame { s32 active; Boss6TrailPoint *points; };
 
 struct TBoss6Zanzo : public TObject {
-    TBoss6Zanzo(TObject *arg1, s32 arg2, s32 arg3);
+    TBoss6Zanzo(TObject *object, s32 arg2, s32 arg3);
     virtual ~TBoss6Zanzo();
     static TBoss6Zanzo *create(TObject *parent, s32 points, s32 frames);
     void copy_trail_buffer(Boss6TrailFrame *, Boss6TrailFrame *);
@@ -32,7 +32,7 @@ LAYOUT_ASSERT(TBoss6Zanzo_current_offset, offsetof(TBoss6Zanzo, current) == 0x20
 LAYOUT_ASSERT(TBoss6Zanzo_m_24_offset, offsetof(TBoss6Zanzo, m_24) == 0x24);
 
 extern "C" {
-void TBoss6Zanzo__sub_803205A0(Boss6TrailPoint *arg0, const Boss6TrailPoint *arg1);
+void TBoss6Zanzo__sub_803205A0(Boss6TrailPoint *dest, const Boss6TrailPoint *source);
 }
 
 #endif

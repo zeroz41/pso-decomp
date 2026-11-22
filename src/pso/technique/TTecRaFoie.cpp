@@ -1,3 +1,4 @@
+#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/unk/text_803D96A8.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -38,12 +39,7 @@ struct Obj_80237DAC {
 extern "C" {
 
 u16 get_entity_id(void *);
-void construct_area_technique_base(void *, void *, void *, void *, int);
 s32 is_split_screen();
-
-void attach_particle_model(void *, void *, void *, int, int, f32);
-extern void *technique_effect_bml;
-extern void *lbl_805D63B0;
 
 
 struct RecoveredGlobal_80238388_lbl_8044DAF0 {
@@ -130,7 +126,7 @@ void TTecRaFoie::vfunc_8(void *) {
         } else {
             emitter = spawn_particle_effect(&target, 0x1A);
             if (emitter != NULL) {
-                attach_particle_model(emitter, (void *)get_bml_model((BmlResource *)technique_effect_bml, 9), lbl_805D63B0, 0, 1, (1.0f));
+                attach_particle_model((u8 *)emitter, get_bml_model(technique_effect_bml, 9), lbl_805D63B0, 0, 1, 1.0f);
             }
         }
         spawn_particle_effect(&target, 0x3A);
@@ -144,7 +140,7 @@ void TTecRaFoie::vfunc_8(void *) {
             spawn_particle_effect(&point, 0x39);
             emitter = spawn_particle_effect(&point, 0x1A);
             if (emitter != NULL) {
-                attach_particle_model(emitter, (void *)get_bml_model((BmlResource *)technique_effect_bml, 9), lbl_805D63B0, 0, 1, (1.0f));
+                attach_particle_model((u8 *)emitter, get_bml_model(technique_effect_bml, 9), lbl_805D63B0, 0, 1, 1.0f);
             }
         }
     }
@@ -154,8 +150,10 @@ void TTecRaFoie::vfunc_8(void *) {
 
 #include "pso/system/scene/TScene.h"
 #include "pso/technique/TTecAnti.h"
-#include "pso/technique/TTecCtrl.h"
+
 #include "pso/technique/TechniqueParams.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/unk/text_803D8F74.h"
 struct Stack_80238388 {
     s32 sp8;
     s32 spC;
@@ -179,8 +177,6 @@ struct RaFoie_802381F8 {
 };
 
 extern "C" {
-void scale_matrix(s32, f32, f32, f32);
-void rotate_matrix_y(s32, s32);
 void post_translate_matrix(void *);
 void draw_ginja_object(void);
 extern u8 *camera_ctrl_instance;
@@ -241,7 +237,7 @@ void TUnk_804CCB28::render() {
     TObjFish::set_global_param((saddr)lbl_805D63B0);
     set_cull_back();
     set_draw_list_mask(3);
-    (void *)get_bml_model((BmlResource *)technique_effect_bml, 0xB);
+    get_bml_model(technique_effect_bml, 0xB);
     draw_ginja_object();
     restore_draw_list_mask();
     set_cull_none();
@@ -317,13 +313,13 @@ s32 __ct__7TObjectFP7TObject(void *, void *);
 void copy_technique_target_list(void *, void *);
 }
 
-u8 *create_rafoie_explosion(u8 *arg0, s32 *arg1, s16 arg2, s16 arg3, saddr arg4, f32 farg0) {
+u8 *create_rafoie_explosion(u8 *arg0, s32 *arg1, s16 band, s16 arg3, saddr arg4, f32 farg0) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_802384E0, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_802384E0, spC) == 0x4);
     Stack_802384E0 stack;
     __ct__7TObjectFP7TObject((void *)arg0, (void *)arg4);
     *(s32 **)((s8 *)arg0 + 0x18) = &__vt__13TUnk_804CCB28.value;
-    ((TUnk_804CCB28 *)arg0)->m_20 = arg2;
+    ((TUnk_804CCB28 *)arg0)->m_20 = band;
     *(s16 *)((s8 *)arg0 + 0x22) = arg3;
     ((TUnk_804CCB28 *)arg0)->m_60 = 1;
     VecCopy((Vec *)(arg0 + 0x28), (const Vec *)(arg1));
@@ -352,16 +348,16 @@ struct Stack_802385EC {
     u8 trailing_storage[0x4];
 };
 
-TUnk_804CCB28 *create_fire_explosion_effect(u8 *arg0, f32 farg0, const Vec *arg1, s16 arg2, TObject *arg3) {
+TUnk_804CCB28 *create_fire_explosion_effect(u8 *arg0, f32 farg0, const Vec *pos, s16 arg2, TObject *parent) {
     LAYOUT_ASSERT(sp8_offset, (offsetof(Stack_802385EC, sp8) == 0x0));
     LAYOUT_ASSERT(spC_offset, (offsetof(Stack_802385EC, spC) == 0x4));
     Stack_802385EC stack;
-    __ct__7TObjectFP7TObject((void *)arg0, (void *)arg3);
+    __ct__7TObjectFP7TObject((void *)arg0, (void *)parent);
     *(s32 **)((s8 *)arg0 + 0x18) = &__vt__13TUnk_804CCB28.value;
     ((TUnk_804CCB28 *)arg0)->m_20 = arg2;
     *(s16 *)((s8 *)arg0 + 0x22) = 0;
     ((TUnk_804CCB28 *)arg0)->m_60 = 1;
-    VecCopy((Vec *)(arg0 + 0x28), arg1);
+    VecCopy((Vec *)(arg0 + 0x28), pos);
     *(f32 *)((s8 *)arg0 + 0x44) = farg0;
     ((TUnk_804CCB28 *)arg0)->m_58 = 0;
     *(s32 *)((s8 *)arg0 + 0x5C) = 0;
@@ -466,8 +462,8 @@ void TTecRaFoie::create(void *origin, void *pos, void *level) {
     new TTecRaFoie((saddr)this, (Vec *)origin, (Vec *)pos, (saddr)level);
 }
 
-void TTecRaFoie::create_ex(void *origin, void *targets, void *level) {
-    new TTecRaFoie((saddr)this, (Vec *)origin, (TargetCursorList *)targets, (saddr)level);
+void TTecRaFoie::create_ex(void *source, void *origin, void *targets, s32 level) {
+    new TTecRaFoie((saddr)source, (Vec *)origin, (TargetCursorList *)targets, level);
 }
 
 TTecRaFoie::~TTecRaFoie() {

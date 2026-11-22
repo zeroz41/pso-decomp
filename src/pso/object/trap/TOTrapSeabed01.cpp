@@ -280,7 +280,7 @@ void TOTrapSeabed01::render_effect_layers() {
         }
         lbl_805D681C = actor_frame_tick;
     }
-    set_model_node_callback((saddr)TOTrapSeabed01::trigger_by_id);
+    set_model_node_callback(TOTrapSeabed01::trigger_by_id);
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);
@@ -302,8 +302,8 @@ void TOTrapSeabed01::render_effect_layers() {
 
 // The model node callback of render_effect_layers: the glowing node draws
 // with the effect render state.
-void TOTrapSeabed01::trigger_by_id(u32 node) {
-    if (node == (uaddr)TOTrapSeabed01__ginja_model) {
+void TOTrapSeabed01::trigger_by_id(NJS_OBJECT *node) {
+    if (node == TOTrapSeabed01__ginja_model) {
         TParticleCtrl::begin_effect_render();
     } else {
         TParticleCtrl::end_effect_render();

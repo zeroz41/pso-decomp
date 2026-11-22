@@ -5,6 +5,7 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/unk/TLobbyBattleParamData.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
@@ -53,7 +54,6 @@ Ent_8001D768 *find_free_pool_entry__6TLobbyFPv(Obj_8001D768 *self);
 void archive_pool_free(Pool_8001D7AC *pool, Node_8001D7AC *node);
 Node_8001D808 *archive_pool_alloc(Pool_8001D808 *pool, u32 size);
 
-extern saddr TLobby__protocol_instance;
 
 s32 aram_read_sync__6TLobbyFllll(s32, s32);
 s32 aram_transfer_sync__6TLobbyFlUlll(s32, void *, s32);
@@ -196,7 +196,7 @@ void TLobby::sync_auto_reply_state() {
         if (((s32 (*)(void))get_flag_bit0__6TLobbyFv)() != 0) {
             ((TLobby *)TLobby__protocol_instance)->send_text_packet_c7((char *)(TLobby::get_card_window_area()));
         } else {
-            ((TProtocol *)TLobby__protocol_instance)->send_disable_auto_reply();
+            TLobby__protocol_instance->send_disable_auto_reply();
         }
         auto_reply_flags &= ~4;
         auto_reply_flags = ((s32 (*)(void))get_flag_bit0__6TLobbyFv)() != 0 ? (auto_reply_flags | 2) : (auto_reply_flags & ~2);
@@ -243,7 +243,7 @@ s32 TLobby::set_flag_bit0(s32 arg0) {
 
 struct TextBuilderBuffer { s32 value; u8 remaining[0xFC]; };
 extern TextBuilderBuffer text_builder_buffer;
-extern "C" {
+
 
 s32 TLobby::is_active() {
     return *((s8* (*)(void))get_card_window_area__6TLobbyFv)() == 0 ? 0 : 1;
@@ -256,7 +256,6 @@ void TLobby__sub_8001DBD8(s32 _w0) {
 void TLobby::forward_8001DBD8(void* p) { TLobby__sub_8001DBD8((saddr)p); }
 void TLobby__sub_8001DC04(void* p) { TLobby__sub_8001DBD8((saddr)p); }
 
-    extern saddr TLobby__lobby_instance;
 
 s32 *get_shared_text_buffer(void) {
     return &text_builder_buffer.value;
@@ -299,11 +298,7 @@ struct File_8001DC30
   Sw_8001DC30 sw[4][0x60];
   Pair_8001DC30 pairs[4][0x60];
 };
-}
-extern s32 battle_param_lab_variant;
 void load_battle_param_entry(void) {
-  extern Params_8001DC30 *TLobby__battle_parameter_buffer;
-  extern s32 battle_parameter_difficulty;
   s32 idx;
   const char *name;
   File_8001DC30 *file;
@@ -443,18 +438,18 @@ void TLobby__sub_8001DF58(s32 arg0, saddr ent) {
     }
 }
 
-void TLobby::copy_entry(void *arg1) {
-    *(s16 *)&this->m_name = (s16) *(s16 *)((s8 *)arg1 + 0);
-    *(s16 *)((s8 *)this + 2) = (s16) *(s16 *)((s8 *)arg1 + 2);
-    this->m_flags = (s16) *(s16 *)((s8 *)arg1 + 4);
-    this->m_id = (s16) *(s16 *)((s8 *)arg1 + 6);
-    *(s16 *)&this->m_prev = (s16) *(s16 *)((s8 *)arg1 + 8);
-    *(s16 *)((s8 *)this + 0xA) = (s16) *(s16 *)((s8 *)arg1 + 0xA);
-    *(s32 *)&this->m_next = (s32) *(s32 *)((s8 *)arg1 + 0xC);
-    *(s32 *)&this->m_up = (s32) *(s32 *)((s8 *)arg1 + 0x10);
-    *(s32 *)&this->m_down = (s32) *(s32 *)((s8 *)arg1 + 0x14);
-    *(s32 *)((s8 *)this + 0x18) = (s32) *(s32 *)((s8 *)arg1 + 0x18);
-    *(s32 *)((s8 *)this + 0x1C) = (s32) *(s32 *)((s8 *)arg1 + 0x1C);
+void TLobby::copy_entry(void *ent) {
+    *(s16 *)&this->m_name = (s16) *(s16 *)((s8 *)ent + 0);
+    *(s16 *)((s8 *)this + 2) = (s16) *(s16 *)((s8 *)ent + 2);
+    this->m_flags = (s16) *(s16 *)((s8 *)ent + 4);
+    this->m_id = (s16) *(s16 *)((s8 *)ent + 6);
+    *(s16 *)&this->m_prev = (s16) *(s16 *)((s8 *)ent + 8);
+    *(s16 *)((s8 *)this + 0xA) = (s16) *(s16 *)((s8 *)ent + 0xA);
+    *(s32 *)&this->m_next = (s32) *(s32 *)((s8 *)ent + 0xC);
+    *(s32 *)&this->m_up = (s32) *(s32 *)((s8 *)ent + 0x10);
+    *(s32 *)&this->m_down = (s32) *(s32 *)((s8 *)ent + 0x14);
+    *(s32 *)((s8 *)this + 0x18) = (s32) *(s32 *)((s8 *)ent + 0x18);
+    *(s32 *)((s8 *)this + 0x1C) = (s32) *(s32 *)((s8 *)ent + 0x1C);
 }
 
 void copy_all_entries__6TLobbyFii(s32 arg0, saddr arg1) {
@@ -488,32 +483,32 @@ void TLobby::copy_from(void *arg1) {
     *(s32 *)((s8 *)this + 0x2C) = (s32) *(s32 *)((s8 *)arg1 + 0x2C);
 }
 
-void copy_all_data__6TLobbyFii(s32 arg0, saddr arg1) {
+void copy_all_data__6TLobbyFii(s32 arg0, saddr src) {
     s32 var_r31;
 
     if (((s32 (*)(void))is_valid_player_index__6TLobbyFi)() != 0) {
         var_r31 = 0;
         do {
-            TLobby::copy_data((void *)(((saddr (*)(s32, s32))TLobby__sub_8001E2A8)(var_r31, arg0)), (void *)arg1);
+            TLobby::copy_data((void *)(((saddr (*)(s32, s32))TLobby__sub_8001E2A8)(var_r31, arg0)), (void *)src);
             var_r31 += 1;
         } while (var_r31 < 4);
     }
 }
 
-void TLobby::copy_data(void *arg0, void *arg1) {
-    *(s16 *)((s8 *)arg0 + 0) = (s16) *(s16 *)((s8 *)arg1 + 0);
-    *(s16 *)((s8 *)arg0 + 2) = (s16) *(s16 *)((s8 *)arg1 + 2);
-    *(s16 *)((s8 *)arg0 + 4) = (s16) *(s16 *)((s8 *)arg1 + 4);
-    *(s16 *)((s8 *)arg0 + 6) = (s16) *(s16 *)((s8 *)arg1 + 6);
-    *(s16 *)((s8 *)arg0 + 8) = (s16) *(s16 *)((s8 *)arg1 + 8);
-    *(s16 *)((s8 *)arg0 + 0xA) = (s16) *(s16 *)((s8 *)arg1 + 0xA);
-    *(s16 *)((s8 *)arg0 + 0xC) = (s16) *(s16 *)((s8 *)arg1 + 0xC);
-    *(s16 *)((s8 *)arg0 + 0xE) = (s16) *(s16 *)((s8 *)arg1 + 0xE);
-    *(f32 *)((s8 *)arg0 + 0x10) = (f32) *(f32 *)((s8 *)arg1 + 0x10);
-    *(f32 *)((s8 *)arg0 + 0x14) = (f32) *(f32 *)((s8 *)arg1 + 0x14);
-    *(s32 *)((s8 *)arg0 + 0x18) = (s32) *(s32 *)((s8 *)arg1 + 0x18);
-    *(s32 *)((s8 *)arg0 + 0x1C) = (s32) *(s32 *)((s8 *)arg1 + 0x1C);
-    *(s32 *)((s8 *)arg0 + 0x20) = (s32) *(s32 *)((s8 *)arg1 + 0x20);
+void TLobby::copy_data(void *stats, void *src) {
+    *(s16 *)((s8 *)stats + 0) = (s16) *(s16 *)((s8 *)src + 0);
+    *(s16 *)((s8 *)stats + 2) = (s16) *(s16 *)((s8 *)src + 2);
+    *(s16 *)((s8 *)stats + 4) = (s16) *(s16 *)((s8 *)src + 4);
+    *(s16 *)((s8 *)stats + 6) = (s16) *(s16 *)((s8 *)src + 6);
+    *(s16 *)((s8 *)stats + 8) = (s16) *(s16 *)((s8 *)src + 8);
+    *(s16 *)((s8 *)stats + 0xA) = (s16) *(s16 *)((s8 *)src + 0xA);
+    *(s16 *)((s8 *)stats + 0xC) = (s16) *(s16 *)((s8 *)src + 0xC);
+    *(s16 *)((s8 *)stats + 0xE) = (s16) *(s16 *)((s8 *)src + 0xE);
+    *(f32 *)((s8 *)stats + 0x10) = (f32) *(f32 *)((s8 *)src + 0x10);
+    *(f32 *)((s8 *)stats + 0x14) = (f32) *(f32 *)((s8 *)src + 0x14);
+    *(s32 *)((s8 *)stats + 0x18) = (s32) *(s32 *)((s8 *)src + 0x18);
+    *(s32 *)((s8 *)stats + 0x1C) = (s32) *(s32 *)((s8 *)src + 0x1C);
+    *(s32 *)((s8 *)stats + 0x20) = (s32) *(s32 *)((s8 *)src + 0x20);
 }
 
 u8 is_valid_player_index__6TLobbyFi(s32 arg0) {
@@ -526,32 +521,26 @@ u8 is_valid_player_index__6TLobbyFi(s32 arg0) {
     return (u8)var_r0;
 }
 
-    extern int battle_parameter_difficulty;
 void*TLobby::dispatch_shared_handler_a(s32 index) { return TLobby::get_player_entry(battle_parameter_difficulty, index); }
 
-    extern saddr battle_param_movement;
-void* get_player_entry__6TLobbyFii(int a0, int a1) {  return (char*)(battle_param_movement) + a1 * 48; }
+void* get_player_entry__6TLobbyFii(int a0, int a1) {  return battle_param_movement + a1 * 48; }
 
 void*TLobby::register_object(s32 index) { return TLobby::get_entry(battle_parameter_difficulty, index); }
 
-    extern saddr TLobby__battle_param_resistances;
-void* get_entry__6TLobbyFii(int a0, int a1) {  return (char*)(TLobby__battle_param_resistances) + a1 * 32; }
+void* get_entry__6TLobbyFii(int a0, int a1) {  return TLobby__battle_param_resistances + a1 * 32; }
 
 void*TLobby::dispatch_shared_handler_b(s32 index) { return TLobby__sub_8001E270(battle_parameter_difficulty, index); }
 
-    extern saddr TLobby__battle_param_attacks;
-void* TLobby__sub_8001E270(int a0, int a1) {  return (char*)(TLobby__battle_param_attacks) + a1 * 48; }
+void* TLobby__sub_8001E270(int a0, int a1) {  return TLobby__battle_param_attacks + a1 * 48; }
 
 void*TLobby::register_boss(s32 index) { return TLobby__sub_8001E2A8(battle_parameter_difficulty, index); }
 
-    extern saddr battle_param_stats;
-void* TLobby__sub_8001E2A8(int a0, int a1) {  return (char*)(battle_param_stats) + a1 * 36; }
+void* TLobby__sub_8001E2A8(int a0, int a1) {  return battle_param_stats + a1 * 36; }
 
 void set_difficulty__6TLobbyFi(s32 arg0) {
     battle_param_lab_variant = arg0;
 }
 
-extern u32 TLobby__battle_parameter_buffer;
 
 extern s32 game_difficulty_selection;
 
@@ -581,20 +570,20 @@ void TLobby::update_difficulty() {
     TLobby::clamp_difficulty(game_difficulty_selection);
     TLobby::get_instance();
     ((s32 (*)(void))set_difficulty__6TLobbyFi)();
-    if (((s32) battle_parameter_difficulty != temp_r31) || ((s32) battle_param_lab_variant != temp_r30)) {
+    if ((battle_parameter_difficulty != temp_r31) || (battle_param_lab_variant != temp_r30)) {
         load_battle_param_entry();
     }
 }
 
 void TLobby::free_boss4_rock() {
-    if ((u32) TLobby__battle_parameter_buffer != 0U) {
-        mem_free((void*)TLobby__battle_parameter_buffer);
-        TLobby__battle_parameter_buffer = 0U;
+    if (TLobby__battle_parameter_buffer != NULL) {
+        mem_free(TLobby__battle_parameter_buffer);
+        TLobby__battle_parameter_buffer = NULL;
     }
-    battle_param_stats = 0;
-    TLobby__battle_param_attacks = 0;
-    TLobby__battle_param_resistances = 0;
-    battle_param_movement = 0;
+    battle_param_stats = NULL;
+    TLobby__battle_param_attacks = NULL;
+    TLobby__battle_param_resistances = NULL;
+    battle_param_movement = NULL;
 }
 }
 
@@ -604,11 +593,11 @@ void alloc_battle_param_tables(void) {
     for (i = 0; i < 0x3d80; i++) {
         buf[i] = 0;
     }
-    TLobby__battle_parameter_buffer = (uaddr)buf;
-    battle_param_stats = (saddr)buf;
-    TLobby__battle_param_attacks = (saddr)(buf + 0xd80);
-    TLobby__battle_param_resistances = (saddr)(buf + 0x1f80);
-    battle_param_movement = (saddr)(buf + 0x2b80);
+    TLobby__battle_parameter_buffer = (Params_8001DC30 *)buf;
+    battle_param_stats = buf;
+    TLobby__battle_param_attacks = buf + 0xd80;
+    TLobby__battle_param_resistances = buf + 0x1f80;
+    battle_param_movement = buf + 0x2b80;
     TLobby::clamp_difficulty(game_difficulty_selection);
     TLobby::get_instance();
     ((s32 (*)(void))set_difficulty__6TLobbyFi)();
@@ -687,8 +676,8 @@ s32 TLobby__sub_8001E75C(void *arg0) {
 
 s32 __cvt_fp2unsigned(f32);
 
-s32 TLobby::calc_alpha_shifted(f32 farg0) {
-    return __cvt_fp2unsigned(255.0f * farg0) << 0x18;
+s32 TLobby::calc_alpha_shifted(f32 alpha) {
+    return __cvt_fp2unsigned(255.0f * alpha) << 0x18;
 }
 
 extern s32 TLobby__data_8050AAAC[];

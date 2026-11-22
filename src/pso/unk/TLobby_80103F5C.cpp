@@ -136,12 +136,12 @@ void TLobby__sub_801036CC(void) {
 }
 }
 void evict_lowest_key_floor_item(s32 n);
-void handle_6x63_destroy_floor_item(void *arg0) {
+void handle_6x63_destroy_floor_item(void *command) {
     struct VObj_80103748 *o;
 
-    ((TLobby *)arg0)->bswap_player_packet();
-    remove_item_condition((s32)(*(s32 *)((s8 *)arg0 + 8)), (s32)(*(s32 *)((s8 *)arg0 + 4)));
-    o = (struct VObj_80103748 *)find_item_by_id(*(s32 *)((s8 *)arg0 + 4));
+    ((TLobby *)command)->bswap_player_packet();
+    remove_item_condition((s32)(*(s32 *)((s8 *)command + 8)), (s32)(*(s32 *)((s8 *)command + 4)));
+    o = (struct VObj_80103748 *)find_item_by_id(*(s32 *)((s8 *)command + 4));
     if (o != NULL) {
         o->m27();
     }

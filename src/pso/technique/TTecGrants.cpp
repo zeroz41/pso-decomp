@@ -9,7 +9,8 @@
 #include <stddef.h>
 #include "pso/technique/TTecLuker.h"
 #include "pso/player/TObjPlayer.h"
-extern "C" void *__ct__16TargetCursorListFv(void *list);
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/player/TargetCursorList.h"
 
 struct RecoveredFields_80238D10_arg0
 {
@@ -51,13 +52,11 @@ struct VObj_802386F8 : VBase_802386F8 {
 };
 
 extern "C" {
-void *find_entity_by_id(u16 id);
 u8 * __ct__13TUnk_804CC888FPUclP7TObject(void *, s32, s32, s32);
 extern s32 tl_07;
 void run_task__10TTecGrantsFv(TTecGrants *arg0);
 s32 get_entity_id(int);
 s32 copy_technique_target_list(void *, void *);
-s32 __ct__13TUnk_804CC148Flll(void *, void *, void *, void *);
 extern s32 tec_grants_class_name;
 
 void TTecGrants::render() {  }
@@ -72,8 +71,8 @@ void TTecGrants::vfunc_6(void *target_arg) {
 }
 typedef struct RecoveredFields_80238D10_arg0 RecoveredFields_80238D10_arg0;
 
-void TTecGrants::create(void *arg0, void *arg1, void *arg2, void *arg3) {
-    new TTecGrants((saddr)arg0, (saddr)arg1, (saddr)arg2, (saddr)arg3);
+void TTecGrants::create(void *source, void *origin, void *targets, s32 level) {
+    new TTecGrants((saddr)source, (saddr)origin, (saddr)targets, level);
 }
 
 void run_task__10TTecGrantsFv(TTecGrants *tec_grants) {
@@ -110,12 +109,12 @@ TTecGrants::~TTecGrants() {
 }
 
 #define tec_grants ((u8 *)this)
-TTecGrants::TTecGrants(saddr arg1, saddr arg2, saddr arg3, saddr arg4) : TUnk_804CC148(arg1, arg2, arg4) {
+TTecGrants::TTecGrants(saddr arg1, saddr origin, saddr targets, saddr level) : TUnk_804CC148(arg1, origin, level) {
     u32 temp_r3;
     __ct__16TargetCursorListFv((tec_grants + 0xEC));
     *(s32 *)((s8 *)tec_grants + 0) = (s32) tec_grants_class_name;
     ((TTecGrants *)tec_grants)->init_parameters();
-    copy_technique_target_list(tec_grants + 0xEC, (void *)arg3);
+    copy_technique_target_list(tec_grants + 0xEC, (void *)targets);
     ((TTecGrants *)tec_grants)->m_148 = 0;
     temp_r3 = ((TTecGrants *)tec_grants)->source;
     if (temp_r3 != 0U) {

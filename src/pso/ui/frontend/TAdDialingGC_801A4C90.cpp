@@ -4,11 +4,10 @@
 #include "pso/ui/frontend/TAdDialingGC.h"
 
 extern int player_action_provider_selector;
-extern s32 TAdDialingGC__instance;
 
 void TAdDialingGC__sub_801A4C90(void) { player_action_provider_selector = 1; }
 
-s32 TAdDialingGC__sub_801A4C9C(void) {
+TAdDialingGC *TAdDialingGC__sub_801A4C9C(void) {
     return TAdDialingGC__instance;
 }
 

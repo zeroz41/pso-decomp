@@ -24,11 +24,10 @@ extern s32 TMedicalCenterMes__slot_flags[4];
 extern s32 local_client_id;
 }
 
-struct TMedicalCenterMesInput { u8 pad[0x20]; u8 buttons[0x30]; };
-TMedicalCenterMesInput controller_input_state[];
 
 #include "pso/item/shop/TShopGenerator.h"
 #include "pso/ui/window/TWindowCtrl.h"
+#include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 
 extern "C" {
@@ -43,7 +42,6 @@ extern const char *TMedicalCenterSequence__class_name;
 u8 *create_yes_no_window(s32 arg0, s32 arg1, uaddr arg2, uaddr arg3);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 try_spend_actor_meseta(TObjPlayer *player, s32 amount);
-int sub_802239EC__13TShopSequenceFv(void *);
 int obj_getPtr2B0_20(TObjPlayer *player);
 void send_code50_packet__10TObjPlayerFi(TObjPlayer *player);
 void send_code_49_1__10TObjPlayerFi(TObjPlayer *player);
@@ -150,19 +148,19 @@ void TMedicalCenterSequence::restore_player_state() {
 
 typedef struct Stack_80216830 Stack_80216830;
 typedef struct VBase_18_a93f07 VBase_18_a93f07;
-s32 TMedicalCenterSequence::open_greeting_window() {
+void TMedicalCenterSequence::open_greeting_window() {
     f32 pos[2];
     pos[0] = 332.0f;
     pos[1] = 80.0f;
     create_message_window(get_window_layout_position(0x2C, 332.0f), (saddr)pos);
-    vfunc_6(0x1F, 1);
+    display_shop_message(0x1F, 1);
     m_2c = (TWindowBase *)create_meseta_window(get_child_field1c());
     set_field_20(2);
     counter_camera = set_service_counter_camera(this, 0);
 }
 
 void TMedicalCenterSequence::handle_confirm() {
-    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
+    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
         if (player->get_recovery_need_flags() != 0U || (player->is_alive_and_ready() != 0 && player->are_traps_full() == 0)) {
             set_field_20(7);
             return;
@@ -198,7 +196,7 @@ void TMedicalCenterSequence::handle_window_result() {
 
 void TMedicalCenterSequence::exec_heal() {
     if (obj_getPtr2B0_20(player) < 0xA) {
-        vfunc_6(0xF, 1);
+        display_shop_message(0xF, 1);
         set_field_20(0xA);
         return;
     }
@@ -210,38 +208,38 @@ void TMedicalCenterSequence::exec_heal() {
     }
     player->send_field_state();
     try_spend_actor_meseta(player, 0xA);
-    vfunc_6(0x22, 1);
+    display_shop_message(0x22, 1);
     set_field_20(0xA);
 }
 
 void TMedicalCenterSequence::show_declined() {
-    vfunc_6(0x24, 1);
+    display_shop_message(0x24, 1);
     set_field_20(8);
 }
 
 void TMedicalCenterSequence::show_already_healthy() {
-    vfunc_6(0x21, 1);
+    display_shop_message(0x21, 1);
     set_field_20(8);
 }
 
 void TMedicalCenterSequence::show_fee_prompt() {
     u16 id;
-    vfunc_6(0x20, 1);
+    display_shop_message(0x20, 1);
     id = get_entity_id(player);
     m_30 = (TWindowMenu *)create_yes_no_window(((s32 (*)(int))get_window_layout_position)(0x2B), id, 0, 0);
     ((TWindowAddition *)m_30)->set_position_xy(get_scale(), get_scale());
     set_field_20(3);
 }
 
-s32 TMedicalCenterSequence::handle_window_input() {
-    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
-        vfunc_6(0x22, 1);
+void TMedicalCenterSequence::handle_window_input() {
+    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
+        display_shop_message(0x22, 1);
         set_field_20(0xa);
     }
 }
 
 void TMedicalCenterSequence::close_window() {
-    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
+    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
         TShopSequence::close_window();
         queue_destruction();
     }
@@ -298,7 +296,7 @@ void TMedicalCenterMes::run_task() {
     }
     case 1:
         if (is_ready() != 0 && player != NULL) {
-            if (TWindowShortListCtrl__check_controller_button(controller_input_state[((TRaderMapCore *)player)->get_map_id()].buttons, 4) != 0) {
+            if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[((TRaderMapCore *)player)->get_map_id()], 4) != 0) {
                 state = 2;
             }
         }

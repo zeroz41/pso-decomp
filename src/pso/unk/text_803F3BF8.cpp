@@ -76,8 +76,6 @@ s32 update_network_info_request(void) {
 #pragma pop
 
 
-extern "C" {
-
 s32 TLobby__sub_803F3D60(void) {
     if (get_network_config_mode() == 0) {
         return -1;
@@ -92,4 +90,3 @@ s32 TLobby__sub_803F3D60(void) {
     return 0;
 }
 
-}

@@ -12,32 +12,18 @@
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/ui/city/THunterGuildWarning.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/item/shop/TShopGenerator.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/unk/TLobby.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/ui/city/TShopSequence.h"
 
-struct Base_802129FC { char pad[0x18]; };
-
-struct Seq_802129FC : Base_802129FC {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6();
-    virtual s32 m7(s32, s32);
-    virtual s32 m8();
-    u8 pad1c[0x24 - 0x1C];
-    s32 f24;
-    u8 pad28[0x34 - 0x28];
-    void *f34;
-    s32 f38;
-};
-
 extern "C" {
 extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
-void get_entity_id(s32);
-void THunterGuildSeqOffline__sub_8021E180();
+s32 get_entity_id(TObjPlayer *);
 void fn_802233F8(void *);
-s32 sub_802239EC__13TShopSequenceFv(void *);
 
     extern int evt2_random_enemies_mode;
 void THunterGuildSeqOffline::set_enemy_mode_0() { TLobby::clear_counter(); evt2_random_enemies_mode = 0; TKeyBoardControl__sub_8000F950(); }
@@ -92,21 +78,20 @@ block_8:
 }
 
 void THunterGuildSeqOffline::close_window() {
-    Seq_802129FC *arg0 = (Seq_802129FC *)this;
     void *o;
-    if (arg0->f34 != NULL) {
-        if (((TObject *)(arg0->f34))->all_parents_unqueued_for_destruction() == 1) {
+    if (m_34 != 0) {
+        if (((TObject *)m_34)->all_parents_unqueued_for_destruction() == 1) {
             return;
         }
-        arg0->f34 = NULL;
+        m_34 = 0;
     }
-    if (arg0->m8() == 0) {
+    if (vfunc_10() == 0) {
         return;
     }
-    if (((TShopWindowBase *)arg0)->sub_80223A48() == 0 && sub_802239EC__13TShopSequenceFv(arg0) == 0) {
+    if (sub_80223A48() == 0 && sub_802239EC() == 0) {
         return;
     }
-    switch (arg0->f38) {
+    switch (unk_38) {
     case 0:
         break;
     case 1:
@@ -114,38 +99,34 @@ void THunterGuildSeqOffline::close_window() {
         if (o != NULL) {
             ((THunterGuildSeqOffline *)o)->init(tl_00, (void *)THunterGuildSeqOffline::set_enemy_mode_0);
         }
-        get_entity_id(arg0->f24);
-        THunterGuildSeqOffline__sub_8021E180();
+        THunterGuildSeqOffline__sub_8021E180(get_entity_id(player));
         break;
     case 2:
         o = TObject::operator new(0x28);
         if (o != NULL) {
             ((THunterGuildSeqOffline *)o)->init(tl_00, (void *)THunterGuildSeqOffline::set_enemy_mode_1);
         }
-        get_entity_id(arg0->f24);
-        THunterGuildSeqOffline__sub_8021E180();
+        THunterGuildSeqOffline__sub_8021E180(get_entity_id(player));
         break;
     case 3:
         o = TObject::operator new(0x28);
         if (o != NULL) {
             ((THunterGuildSeqOffline *)o)->init(tl_00, (void *)TQuestListVM::set_enemy_mode_3);
         }
-        get_entity_id(arg0->f24);
-        THunterGuildSeqOffline__sub_8021E180();
+        THunterGuildSeqOffline__sub_8021E180(get_entity_id(player));
         break;
     case 4:
         o = TObject::operator new(0x28);
         if (o != NULL) {
             ((THunterGuildSeqOffline *)o)->init(tl_00, (void *)THunterGuildSeqOffline::set_enemy_mode_5);
         }
-        get_entity_id(arg0->f24);
-        THunterGuildSeqOffline__sub_8021E180();
+        THunterGuildSeqOffline__sub_8021E180(get_entity_id(player));
         break;
     }
-    ((TShopSequence *)arg0)->TShopSequence::close_window();
-    fn_802233F8(arg0);
+    TShopSequence::close_window();
+    fn_802233F8(this);
     THunterGuildWarning::queue_destruction();
-    ((TObject *)arg0)->queue_destruction();
+    queue_destruction();
 }
 
 void THunterGuildSeqOffline::open_quest_list() {
@@ -192,7 +173,7 @@ void THunterGuildSeqOffline::handle_window_input() {
         }
     } else {
 block_3:
-        if ((this->vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
+        if ((this->vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC() != 0))) {
             this->display_guild_message(0xC, 1);
             *(s32 *)&this->unk_38 = 1;
             set_field_20(5);

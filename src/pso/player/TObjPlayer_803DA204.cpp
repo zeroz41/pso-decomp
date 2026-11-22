@@ -25,12 +25,12 @@ extern s32 lbl_805D775C;
 extern Slot_803DA5A8 *lbl_805D7760;
 s32 find_free_slot__10TObjPlayerFPvPv(Rec_803DA688 **arg0, Slot_803DA5A8 **arg1);
 void TObjPlayer__sub_803DA388(Slot_803DA388 *p, s32 n);
-void TObjPlayer::set_render_rect(s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+void TObjPlayer::set_render_rect(s32 arg1, s32 mode, s32 arg3, s32 arg4) {
     u8 *arg0 = (u8 *)this;
     *(s32 *)((s8 *)arg0 + 0) = arg1;
     *(s32 *)((s8 *)arg0 + 0x10) = arg3;
     *(s32 *)((s8 *)arg0 + 0x14) = arg4;
-    *(s32 *)((s8 *)arg0 + 4) = arg2;
+    *(s32 *)((s8 *)arg0 + 4) = mode;
 }
 
 #pragma push

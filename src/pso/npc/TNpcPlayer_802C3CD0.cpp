@@ -6,7 +6,10 @@
 #include "pso/quest/TQuestListVM.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/TLobby.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/TLobby_802A0F3C.h"
+#include "pso/network/TPlyJoinLobbyEntry.h"
+
 
 struct E_802C4698 { u8 pad[0x1c]; };
 
@@ -45,9 +48,7 @@ struct Item_802C3F74 : VBase_802C3F74 {
 };
 
 extern "C" {
-s16 get_actor_tp(void *);
 void copy_player_visual_record(void *, void *);
-void TObjPlayer__sub_8013A748(void *, void *);
 void clamp_stats__10TObjPlayerFiPv(void *, void *, s32);
 s8 TObjPlayer__sub_801AFD8C(void *);
 s8 query_state_if_present__10TObjPlayerFPv(void *, s32);
@@ -57,7 +58,6 @@ u8 *TObjPlayer__sub_802C4688(O_802C4688 *self, s32 i);
 E_802C4698 *TObjPlayer__sub_802C4698(O_802C4698 *self, s32 i);
 saddr reset(s32);
 s32 export_inventory_entry__10TObjPlayerFiPv(Item_802C3F74 *, s32);
-s32 TObjPlayer__sub_802A1018();
 int init_character_stats_for_level(s32, s8 *, s32);
 int copy_item_entry_array(s8, s32, s32);
 

@@ -1,6 +1,6 @@
 #include "pso/system/BmlResource.h"
 #include "types.h"
-#include "pso/system/BmlResource.h"
+
 #include "pso/system/BmlResourceLoader.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/object/mine/TOSparkMachine01.h"
@@ -13,6 +13,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include <stdlib.h>
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 #pragma readonly_strings on
 
@@ -24,14 +25,9 @@ __declspec(section ".data") const char *bm_fe_obj_tank_hikari_model_names[2] = {
 BmlResourceDescriptor bm_fe_obj_tank_hikari_resource_descriptor = { "bm_fe_obj_tank_hikari.bml", bm_fe_obj_tank_hikari_model_names, bm_fe_obj_tank_hikari_motion_names, 1, 0 };
 const char *TOSparkMachine01__name = "TOSparkMachine01";
 BmlResource *TOSparkMachine01__static_resource;
-}
-
-
-extern "C" {
 extern BmlResourceDescriptor bm_fe_obj_tank_hikari_resource_descriptor;
 extern BmlResource *TOSparkMachine01__static_resource;
 extern const char *TOSparkMachine01__name;
-extern s32 tl_05;
 void rotate_matrix_y(int, int);
 void post_translate_matrix(void *);
 
@@ -117,13 +113,13 @@ TOSparkMachine01::~TOSparkMachine01() {
 
 }
 
-TOSparkMachine01::TOSparkMachine01(void *arg1) : TObjBase((TObject *)tl_05) {
+TOSparkMachine01::TOSparkMachine01(void *set_data) : TObjBase(tl_05) {
     TOSparkMachine01 *self = this;
     s32 i;
     self->m_name = TOSparkMachine01__name;
-    self->apply_object_set_data(arg1);
+    self->apply_object_set_data(set_data);
     self->model = (void *)TOSparkMachine01__static_resource->models[0].model;
-    self->texlist = (s32)TOSparkMachine01__static_resource->models[0].m_c;
+    self->texlist = (saddr)TOSparkMachine01__static_resource->models[0].m_c;
     self->view_range = 500.0f;
     self->model_radius = 40.0f;
     self->actorFlags |= 0x40000000;

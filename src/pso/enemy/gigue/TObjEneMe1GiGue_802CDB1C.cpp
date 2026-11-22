@@ -25,6 +25,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/math/AngleUnits.h"
+#include "pso/unk/text_800870BC.h"
 
 extern "C" {
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);

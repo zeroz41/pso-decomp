@@ -49,7 +49,7 @@ struct TFontSmallLobby
     void *handle_photon_blast_ready(void *src);
     static void *create(void *arg0);
     s16 get_valid_index();
-    void set_section_index(s16 arg1);
+    void set_section_index(s16 count);
     s32 is_ready();
     void reset_targets();
     s32 construct_pb_controller();
@@ -57,6 +57,7 @@ struct TFontSmallLobby
     static s32 is_lobby_floor_15();
     static void draw_small_label(int);
     static s32 draw_party_label(int, unsigned int, s16);
+    static u16 get_type(void* p);
 };
 
 extern "C" {

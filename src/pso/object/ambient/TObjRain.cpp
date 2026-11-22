@@ -13,9 +13,10 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/system/MatrixOps.h"
 
-extern "C" { extern const char TObjRain__class_name_string[9] = "TObjRain"; }
-
+ extern const char TObjRain__class_name_string[9] = "TObjRain"; 
 NJS_POINT3 TObjRain__streak_points[2] = {
     {0.0f, 0.0f, 0.0f},
     {0.0f, 9.0f, 0.0f},
@@ -26,10 +27,8 @@ __declspec(section ".data") u32 TObjRain__streak_colors[2] = {0x80808030, 0x7070
 NJS_POINT3COL TObjRain__streak_line_list = {TObjRain__streak_points, TObjRain__streak_colors, NULL, 2};
 
 extern "C" {
-void vec3_add_to(Vec *, const Vec *);
 f32 xz_distance_squared(void *, void *);
 void draw_line_list(NJS_POINT3COL *, s32, s32);
-void subtract_vector(Vec *, const Vec *);
 extern TCameraCtrl *camera_ctrl_instance;
 }
 

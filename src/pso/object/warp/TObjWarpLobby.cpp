@@ -27,6 +27,8 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby.h"
+#include "pso/network/client_id.h"
+#include "pso/unk/text_803D8F74.h"
 
 #pragma readonly_strings on
 
@@ -73,14 +75,10 @@ void TObjWarpLobby::debug_print_area_num() {
 
 extern "C" {
 void request_active_window_close(void);
-int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 create_window_menu_default(f32 *, s32, f32);
-
-extern s32 local_client_id;
 
 void run_task__13TObjWarpLobbyFv(TObjWarpLobby *arg0);
 s32 post_translate_matrix(void *);
-s32 rotate_matrix_y(s32, s32);
 
 GinjaTextureList *lobby_warp_textures;
 
@@ -91,7 +89,7 @@ void TObjWarpLobby::open_lobby_menu() {
     sp[1] = 1e+02f;
     this->menu_window = create_window_menu_default(sp, 0xF, 4.5e+02f);
     for (i = 0; i < 0xF; i++) {
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)this->menu_window, (int)warp_lobby_directory_label_table[i], 6, (int)i);
+        TObjCityMainWarp::forward_trade_action_default((void *)this->menu_window, (saddr)warp_lobby_directory_label_table[i], 6, i);
     }
     ((TWindowMenu *)(this->menu_window))->calc_window_size();
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(this->menu_window));
@@ -112,31 +110,30 @@ void TObjWarpLobby::render() {
     }
 }
 
-extern s32 __vt__13TObjWarpLobby[];
 
-void run_task__13TObjWarpLobbyFv(TObjWarpLobby *arg0) {
+void run_task__13TObjWarpLobbyFv(TObjWarpLobby *warp) {
     s32 selected_menu_value;
-    arg0->beam_frame += 4.0f;
-    if ((f32) (arg0->beam_motion->frameCount - 1) < arg0->beam_frame) {
-        arg0->beam_frame = 0.0f;
+    warp->beam_frame += 4.0f;
+    if ((f32) (warp->beam_motion->frameCount - 1) < warp->beam_frame) {
+        warp->beam_frame = 0.0f;
     }
-    arg0->beam_phase += 336.0f;
-    if ((find_warp_player_in_range(arg0, (u16)local_client_id, arg0->warp_range) != NULL) && (arg0->is_warp_enabled() != 0)) {
-        if (((u32) arg0->menu_window == 0U) && (TLobby::is_idle() != 0)) {
-            arg0->open_lobby_menu();
+    warp->beam_phase += 336.0f;
+    if ((find_warp_player_in_range(warp, (u16)local_client_id, warp->warp_range) != NULL) && (warp->is_warp_enabled() != 0)) {
+        if (((u32) warp->menu_window == 0U) && (TLobby::is_idle() != 0)) {
+            warp->open_lobby_menu();
         }
-        if (((u32) arg0->menu_window != 0U) && (((TWindowMenu *)(arg0->menu_window))->is_decided() != 0)) {
-            selected_menu_value = ((TWindowMenu *)(arg0->menu_window))->get_selected_value();
-            if (arg0->menu_window != 0U) {
-                ((TObject *)(arg0->menu_window))->queue_destruction();
-                arg0->menu_window = 0U;
+        if (((u32) warp->menu_window != 0U) && (((TWindowMenu *)(warp->menu_window))->is_decided() != 0)) {
+            selected_menu_value = ((TWindowMenu *)(warp->menu_window))->get_selected_value();
+            if (warp->menu_window != 0U) {
+                ((TObject *)(warp->menu_window))->queue_destruction();
+                warp->menu_window = 0U;
                 TWindowCtrl::clear_flag();
             }
-            send_room_change__6TLobbyFi(selected_menu_value);
+            TLobby::send_room_change(selected_menu_value);
         }
-    } else if ((u32) arg0->menu_window != 0U) {
-        ((TWindowBase *)arg0->menu_window)->close();
-        arg0->menu_window = 0U;
+    } else if ((u32) warp->menu_window != 0U) {
+        ((TWindowBase *)warp->menu_window)->close();
+        warp->menu_window = 0U;
         TWindowCtrl::clear_flag();
     }
 }

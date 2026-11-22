@@ -15,6 +15,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 extern "C" {
 extern const char TWindowSubSymbolChatFaceType__class_name_string[29] = "TWindowSubSymbolChatFaceType";
 }
@@ -62,9 +63,6 @@ struct Ent_80283FA8 { u8 pad[0x2c]; s32 f2c; };
 extern "C" {
 
 void TWindowSubSymbolChatFaceType__sub_80283C84(Ctx_80283C84 *, f32 *, f32, f32);
-void begin_screen_draw(s32);
-void set_draw_texture_and_color(s32, s32);
-void draw_textured_quad_at_depth(f32 *q, f32 depth);
 extern s32 actor_frame_tick;
 extern s32 lbl_805D63F0;
 
@@ -253,7 +251,6 @@ WindowDescriptor symbol_chat_face_type_window_layout = {
 };
 
 extern "C" {
-void *construct_type1_heading__20TWindowSubStatusDispFll(void *storage, s32 text, s32 client);
 const char *TWindowSubSymbolChatFaceType__name = TWindowSubSymbolChatFaceType__class_name_string;
 TWindowSubSymbolChatFaceType::TWindowSubSymbolChatFaceType(saddr arg1, s32 arg2) : TWindowBase((u8 *)&symbol_chat_face_type_window_layout, (s16)4, (u8 *)arg1) {
     saddr var_r31;

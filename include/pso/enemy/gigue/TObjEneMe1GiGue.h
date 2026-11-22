@@ -70,7 +70,7 @@ struct TObjEneMe1GiGue : public TObjEnemyCustom {
     s32 get_field_44c();
     s32 sub_802CAC48();
     Vec *update_and_get_pos();
-    static void *create(void *arg0);
+    static void *create(void *set_data);
     static void delete_barrier();
     static void load_resources();
     void load_params_from_table(s32 i);

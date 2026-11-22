@@ -43,22 +43,22 @@ void TWindowShop::sub_8026DE94(s32 arg) {
 
 extern "C" {
 
-u8 *create_item_list_window(s32 arg0, s32 arg1, s32 arg2) {
+u8 *create_item_list_window(s32 arg0, s32 count, s32 arg2) {
     s32 camera_id;
     camera_id = TCameraCtrl::get_camera_id();
     switch (camera_id) {
     case 1:
-        TShopJudgmentItemWindow__sub_80267F9C(&TShopJudgmentItemWindow__item_list_rect_table[0], arg1);
+        TShopJudgmentItemWindow__sub_80267F9C(&TShopJudgmentItemWindow__item_list_rect_table[0], count);
         break;
     case 2:
-        TShopJudgmentItemWindow__sub_80267F9C(&TShopJudgmentItemWindow__item_list_rect_table[1], arg1);
+        TShopJudgmentItemWindow__sub_80267F9C(&TShopJudgmentItemWindow__item_list_rect_table[1], count);
         break;
     case 3:
     case 4:
-        TShopJudgmentItemWindow__sub_80267F9C(&TShopJudgmentItemWindow__item_list_rect_table[2], arg1);
+        TShopJudgmentItemWindow__sub_80267F9C(&TShopJudgmentItemWindow__item_list_rect_table[2], count);
         break;
     }
-    return (u8 *)new TWindowShop(arg0, arg1, arg2);
+    return (u8 *)new TWindowShop(arg0, count, arg2);
 }
 
 }

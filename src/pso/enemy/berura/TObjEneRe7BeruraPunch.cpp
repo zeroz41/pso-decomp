@@ -1,7 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/enemy/berura/TObjEneRe7BeruraPunch.h"
-#include "pso/enemy/dd/TObjEneDD_800BA138.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
@@ -17,26 +16,25 @@
 #include "pso/enemy/AttackTargetHistory.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/system/MatrixOps.h"
 
 #pragma readonly_strings on
 
 extern "C" {
 
-s32 is_player_entity_id();
 u16 get_entity_id(void *);
 
 int TObjEneRe7BeruraPunch::is_patrol_active() { return (*(u32 *)&this->owner_id >> 2) & 0x1; }
 
 void TObjEneRe7BeruraPunch::apply_hit_if_active(void *target, f32 *hit) {
-    saddr entity;
+    TObjChara *entity;
 
     TUnk_804928CC::apply_hit_if_active(target, hit);
     if (TObjEneDD::check_v2_mode() != 0) {
-        get_entity_id((void *)target);
-        if (is_player_entity_id() != 0) {
-            entity = (saddr)find_entity_by_id(this->owner_id);
-            if ((entity != 0) && (((TObjChara *)entity)->random_ratio() < 0.1f)) {
-                TObjEneDD__sub_800BA438(entity, (u8 *)target);
+        if (is_player_entity_id(get_entity_id(target)) != 0) {
+            entity = (TObjChara *)find_entity_by_id(this->owner_id);
+            if ((entity != NULL) && (entity->random_ratio() < 0.1f)) {
+                TObjEneDD__sub_800BA438(entity, (TObjChara *)target);
             }
         }
     }
@@ -52,7 +50,6 @@ s32 TObjEneRe7Berura__sub_80094D98();
 
 void TObjEneRe7Berura__sub_80094C68(TObjEneRe7Berura *self);
 s32 post_translate_matrix(void *);
-s32 scale_matrix(s32, f32, f32, f32);
 
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
@@ -194,10 +191,8 @@ CollisionBody TObjEneRe7BeruraPunch__collision_body_templates[2] = {
     {{0.0f, 0.0f, 0.0f}, 3.0f, 0.0f, 0, 0x9D03, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 extern const char *TObjEneRe7BeruraPunch__name;
-void vec3_add_to(void *, void *);
 
 void TObjEneRe7BeruraPunch__sub_800962F4(TObjEneRe7BeruraPunch *p);
-void fill_value_array(saddr address);
 
 void TObjEneRe7BeruraPunch__sub_800962F4(TObjEneRe7BeruraPunch *p) { p->m_b4 = 0; }
 
@@ -208,7 +203,7 @@ void TObjEneRe7BeruraPunch::snap_to_ground() {
 
     VecCopy(&origin, &this->m_dc);
     origin.y = 20.0f;
-    hit = (CsnHit *)csnVecterUnder((saddr)&origin, 0x16EF);
+    hit = csnVecterUnder(&origin, 0x16EF);
     if (hit != 0) {
         VecCopy(&this->position, &hit->contact->point);
         VecCopy(&this->ground_normal, &hit->contact->normal);
@@ -227,7 +222,7 @@ void TObjEneRe7BeruraPunch::snap_to_ground() {
 }
 
 void TObjEneRe7BeruraPunch::reset() {
-    fill_value_array((saddr)this->attack_history);
+    fill_value_array(this->attack_history);
     this->m_f4 = 1.0f;
     this->m_f8.reset_color();
     this->m_118 = 0;

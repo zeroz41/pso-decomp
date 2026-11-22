@@ -14,6 +14,7 @@
 #include "pso/unk/TLobby_803255F8.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/math/MatrixTransforms.h"
 
 
 struct Ent_80325248 { u8 b[0xC]; };
@@ -48,7 +49,6 @@ struct L1_80325070 { u8 pad[8]; L2_80325070 *a; u8 pad2[8]; L2_80325070 *b; };
 
 extern "C" {
 void eval_bezier_curve__12TBoss8DragonFPviiPvf(void *, void *, s32, void *, f32);
-void subtract_vector(void *, void *);
 extern s32 __vt__25TBoss5GryphonLightningEff[];
 const char *lbl_805D4188 = "TBoss5GryphonLightningEff";
 Self_8032537C *__ct__25TBoss5GryphonLightningEffFv(Self_8032537C *self, void *parent, void *a, void *b, f32 x0, f32 x1, f32 scale);
@@ -61,7 +61,7 @@ extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 
 s32 TBoss5GryphonLightningEff::calc_segment_uvs(void *p_) {
-#define arg0 ((Obj_80325070 *)this)
+#define self ((Obj_80325070 *)this)
     Seg_80325070 *p = (Seg_80325070 *)p_;
     s32 i;
     s16 flags;
@@ -70,13 +70,13 @@ s32 TBoss5GryphonLightningEff::calc_segment_uvs(void *p_) {
     f32 step;
     f32 v0;
     f32 v1;
-    flags = arg0->flags;
+    flags = self->flags;
     u = 0.0f;
-    step = arg0->len / (arg0->n - 1);
+    step = self->len / (self->n - 1);
     base = 64.0f * (f32)(flags & 7);
     v0 = base / 512.0f;
     v1 = (64.0f + base) / 512.0f;
-    for (i = 0; i < arg0->n; i++, p++) {
+    for (i = 0; i < self->n; i++, p++) {
         p->a.u = u / 512.0f;
         p->a.v = v0;
         p->b.u = u / 512.0f;
@@ -88,7 +88,7 @@ s32 TBoss5GryphonLightningEff::calc_segment_uvs(void *p_) {
     }
     return *(*inazuma_texture_list)->b->p;
 }
-#undef arg0
+#undef self
 
 void TBoss5GryphonLightningEff::render() {
     char sp10C[0x270];
@@ -117,13 +117,13 @@ void TBoss5GryphonLightningEff::render() {
     restore_saved_depth_alpha_state();
 }
 void TBoss5GryphonLightningEff::run_task() {
-    Obj_80325248 *arg0 = (Obj_80325248 *)this;
-    ((TTecZondeEff *)arg0)->TTecZondeEff::run_task();
+    Obj_80325248 *self = (Obj_80325248 *)this;
+    ((TTecZondeEff *)self)->TTecZondeEff::run_task();
     if ((3.0517578e-05f) * (f32)rand() > (0.95f)) {
-        s32 i = (f32)arg0->n * ((3.0517578e-05f) * (f32)rand());
-        spawn_particle_effect_with_flags((const Vec *)&arg0->ents[i], 0x215, 0x40);
+        s32 i = (f32)self->n * ((3.0517578e-05f) * (f32)rand());
+        spawn_particle_effect_with_flags((const Vec *)&self->ents[i], 0x215, 0x40);
     }
-    (*(s16 *)((u8 *)arg0 + 0x25C))++;
+    (*(s16 *)((u8 *)self + 0x25C))++;
 }
 TBoss5GryphonLightningEff::~TBoss5GryphonLightningEff() {}
 extern const f32 lbl_805DF5FC = 0.0625f;
@@ -171,7 +171,7 @@ Self_8032537C *__ct__25TBoss5GryphonLightningEffFv(Self_8032537C *self, void *pa
 #pragma pop
 
 #pragma readonly_strings on
-    u8 *load_gvm_texture_file(s32 arg0);
+    u8 *load_gvm_texture_file(s32 name);
 extern "C" {
 s32 release_texture_list(void*);
 }

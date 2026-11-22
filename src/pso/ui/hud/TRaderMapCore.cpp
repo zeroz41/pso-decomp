@@ -44,6 +44,8 @@
 #include "pso/system/BmlResource.h"
 #include "pso/camera/TCameraCtrl_801A6E60.h"
 #include "pso/ui/hud/TRaderMapCore_801A6CEC.h"
+#include "pso/unk/TLobby_801E2F94.h"
+#include "pso/unk/TLobby_80131794.h"
 
 typedef struct RadarInitPiece_801F9474 {
     s16 id, flags;
@@ -122,7 +124,7 @@ struct Cam_801F9314 { Vec dir; Vec pos; s32 rot; };
 
 struct Color_801FAAEC { f32 r, g, b, a; };
 
-struct Model_801FAAEC { u8 pad[4]; s32 obj; };
+struct Model_801FAAEC { u8 pad[4]; void *obj; };
 
 struct Rec_801FAAEC {
     s16 id; s16 flags;
@@ -256,7 +258,6 @@ saddr TRaderMapCore__map_heap;
 void TCameraCtrl__sub_80068EF0(void);
 extern RadarSpriteFrame_801FA6CC lbl_804C87E4[];
 extern f32 lbl_804C87B4[][4];
-void TCameraCtrl__sub_801E32D8(f32 farg0, f32 farg1);
 s32 GXSetScissorBoxOffset(int, int);
 extern Rect_801F9228 radar_map_view_scissor_table[3];
 extern saddr camera_ctrl_instance;
@@ -290,7 +291,6 @@ void rotate_matrix_zyx(void *m, s32 x, s32 y, s32 z);
 extern "C" {
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 
-void set_chunk_material_override_pair(s32, s32);
 extern Color_801FAAEC radar_map_backdrop_color;
 extern u8 saved_model_draw_color[];
 extern u8 model_material_color[];
@@ -302,11 +302,9 @@ extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 void TRaderMapCore__sub_801F967C(TRaderMapCore *self, u32 color);
 void scale_matrix(s32, f32, f32, f32);
-void draw_ginja_object(void *child);
 int get_entity_id(void*);
 s32 get_current_floor(void);
 s32 TLobby__sub_801C19D0(void *);
-s32 should_show_map__13TRaderMapCoreFv(void);
 // Marker colours (a, r, g, b) per player slot: red, green, yellow, blue.
 static const Vec4_801F9E9C radar_player_slot_color_table[4] = {
     { 1.0f, 1.0f, 0.0f, 0.0f },
@@ -331,7 +329,7 @@ void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
 #define MAP_801F9D84 ((Map_801F9D84 *) TRaderMapCore__floor_map_resource)
 
 
-#define SHOW(t) ((s32 (*)(void *))should_show_map__13TRaderMapCoreFv)(t)
+#define SHOW(t) ((s32 (*)(void *))TRaderMapCore::should_show_map)(t)
 
 struct RadarView_801FA46C {
     f32 x;
@@ -418,7 +416,6 @@ struct Ent_801FB798 { s32 a; char *name; };
 extern "C" {
 
 void copy_name(s32 arg0);
-s32 replace_file_extension__6TLobbyFPvPvPv(char *arg0, char *arg1, char *arg2);
 }
 saddr get_floor_scene_table(s32 arg0);
 extern "C" {
@@ -434,17 +431,15 @@ extern "C" {
 
 TUnk_804C88A8::~TUnk_804C88A8() {}
 
-s32 TRaderMapCore::init_map_ptr(s32 *counter, s32 index) {
-    return (saddr)get_bml_model((BmlResource *)TRaderMapCore__frame_model_resource, index);
+void *TRaderMapCore::init_map_ptr(s32 *counter, s32 index) {
+    return get_bml_model((BmlResource *)TRaderMapCore__frame_model_resource, index);
 }
 
 void TRaderMapCore::reset() { *(float *)&this->m_prev = 0.0f; *(float *)&this->m_flags = 0.0f; *(float *)&this->m_name = 0.0f; *(int *)&this->m_next = 0; *(float *)&this->m_up = 1.0f; *(short *)&this->m_down = 0; *(short*)((char*)this + 0x16) = -1; *(float *)&this->texlist = 1.0f; *(float *)&this->m_20 = 1.0f; *(float *)&this->entity_id = 1.0f; *(float*)((char*)this + 0x18) = 1.0f; }
 
 void TRaderMapCore::load_frame_texture() {
     saddr temp_r3;
-    s32 var_r0;
-    var_r0 = (saddr)new BmlResource(5, &obj_f_enemy_resource_descriptor, 0, 0, NULL);
-    (*(s32 *)&TRaderMapCore__frame_model_resource) = var_r0;
+    (*(s32 *)&TRaderMapCore__frame_model_resource) = (saddr)new BmlResource(5, &obj_f_enemy_resource_descriptor, 0, 0, NULL);
     (*(u8 * *)&TRaderMapCore__data_805D5F4C) = load_gvm_texture_file((saddr)"RaderMapFrame.gvm");
 }
 
@@ -498,10 +493,10 @@ void TRaderMapCore::load_map_resources() {
 
 void TRaderMapCore::unload_floor_map() {
     GinjaTextureList *texlist;
-    u8 *temp_r31;
-    temp_r31 = (u8 *)TRaderMapCore__floor_map_resource;
-    if (temp_r31 != NULL) {
-        save_floor_discovery(get_current_floor(), temp_r31);
+    u8 *map_data;
+    map_data = (u8 *)TRaderMapCore__floor_map_resource;
+    if (map_data != NULL) {
+        save_floor_discovery(get_current_floor(), map_data);
     }
     TRaderMapCore::free_statics();
     if ((void *) TRaderMapCore__floor_map_resource != NULL) {
@@ -535,9 +530,9 @@ TRaderMapCore::TRaderMapCore(TObject *parent) : TObjBase(parent) {
     s32 i;
     u32 j;
     m_name = rader_map_core_name_ptr;
-    m_178 = (void *)init_map_ptr(&m_90, 2);
-    m_17c = (void *)init_map_ptr(&m_90, 0);
-    m_180 = (void *)init_map_ptr(&m_90, 1);
+    m_178 = init_map_ptr(&m_90, 2);
+    m_17c = init_map_ptr(&m_90, 0);
+    m_180 = init_map_ptr(&m_90, 1);
     for (i = 0; i < 3; i++) {
         g = (GRec_801FB490 *)&TRaderMapCore__map_view_state + i;
         fn_803D64F8(g);
@@ -649,11 +644,11 @@ void TRaderMapCore::advance_scroll() {
 static const u32 lbl_805DC56C = 1;
 
 void TRaderMapCore::update_target() {
-    u32 temp_r3;
+    u32 player;
 
-    temp_r3 = (uaddr)get_player_by_client_id(local_client_id);
-    if (temp_r3 != 0U) {
-        *(u32 *)&this->m_184 = temp_r3;
+    player = (uaddr)get_player_by_client_id(local_client_id);
+    if (player != 0U) {
+        *(u32 *)&this->m_184 = player;
     }
     if ((uaddr) this->m_184 != 0U) {
         if (is_card_flag_set__19TWindowKeyBoardHardFv(get_entity_id((void*)this->m_184)) != 0) {
@@ -845,7 +840,7 @@ void TRaderMapCore::render_region_records(void * _w1) {
             push_matrix();
             translate_matrix(0, r->x, r->y, r->z);
             rotate_matrix_zyx(0, r->rx, r->ry, r->rz);
-            draw_ginja_model((void *)(r->model->obj));
+            draw_ginja_model(r->model->obj);
             pop_matrix();
             set_constant_material(&chunk_material_color_half_alpha_f32);
         }
@@ -1539,7 +1534,7 @@ void setup_overhead_projection__13TRaderMapCoreFv(s32 arg0, Cam_801F9314 *arg1) 
 }
 #pragma fp_contract on
 
-s32 TRaderMapCore::set_view_scissor(void *self, int mode, void *arg2) {
+void TRaderMapCore::set_view_scissor(void *self, int mode, void *arg2) {
     Rect_801F9228 *rect = (Rect_801F9228 *)arg2;
     u32 w;
     u32 h;
@@ -1583,7 +1578,7 @@ void TRaderMapCore::hide_radar() {
 void TRaderMapCore::reset_counter() { this->m_184 = 0; }
 extern "C" {
 
-s32 should_show_map__13TRaderMapCoreFv(void) {
+s32 TRaderMapCore::should_show_map(void) {
     if ((TRaderMapCore::is_not_split_screen() == 1) && (TLobby::is_ready() == 0)) {
         return 0;
     }

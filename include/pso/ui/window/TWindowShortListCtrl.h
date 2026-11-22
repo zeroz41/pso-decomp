@@ -34,17 +34,17 @@ struct TWindowShortListCtrl : public TObject {
     void update_variant_c();
     static s32 get_card_window_flags(s32 client_id);
     static s32 get_card_status_bits(s32 client_id);
-    void set_displayed_item(s32 arg1);
+    void set_displayed_item(s32 item_id);
     s32 is_technique_usable();
     void swap_card_entries(s32 arg1, s32 arg2);
-    static void assign_item_to_palette(u32 arg0, u32 arg1);
+    static void assign_item_to_palette(u32 item_id, u32 client_id);
     void destroy_children();
-    void *create_window(s32 arg1, saddr arg2);
+    void *create_window(s32 position, saddr arg2_arg);
     virtual void render();
-    static void set_card_window_flags(saddr arg0, s32 arg1);
+    static void set_card_window_flags(saddr client_id, s32 page);
     s16 get_cursor_pos();
     void update_cursor_pos();
-    static void assign_shortcut(s32 arg0, saddr arg1, s32 arg2);
+    static void assign_shortcut(s32 slot, saddr item, s32 arg2);
 };
 
 LAYOUT_ASSERT(TWindowShortListCtrl_size, sizeof(TWindowShortListCtrl) == 0x3C);

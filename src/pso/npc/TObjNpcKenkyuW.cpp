@@ -18,6 +18,8 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/object/base/CollisionActorLookup.h"
 
 #pragma readonly_strings on
 
@@ -28,7 +30,7 @@ BmlResourceDescriptor bm_npc_kenkyu_w_resource_descriptor = {
 };
 const char *TObjNpcKenkyuW__name = "TObjNpcKenkyuW";
 TechniqueContactList technique_contact_list;
-uaddr TObjNpcKenkyuW__model_resource;
+BmlResource *TObjNpcKenkyuW__model_resource;
 
 struct Pl_802A3DE8 {
     u8 pad0[0x30];
@@ -73,25 +75,20 @@ extern "C" {
 
 
 s32 obj_is_hit_receivable(u8 *arg0);
-void vector_length(void *);
 s32 get_entity_id(void *);
 TechniqueContactList *TObjPlayer__sub_802A3DE8(Obj_802A3DE8 *self, void *src);
-void *find_entity_by_id(u16 id);
 TechniqueContactList *TObjPlayer__sub_802A3FDC(Obj_802A3FDC *self, void *src);
 void TObjPlayer__sub_802A445C(TNeedleShoot *self, int arg1);
 
 void TObjNpcKenkyuW::destroy_instance() {
-    if ((u32) TObjNpcKenkyuW__model_resource != 0U) {
-        delete (BmlResource *)TObjNpcKenkyuW__model_resource;
-        TObjNpcKenkyuW__model_resource = 0U;
+    if (TObjNpcKenkyuW__model_resource != NULL) {
+        delete TObjNpcKenkyuW__model_resource;
+        TObjNpcKenkyuW__model_resource = NULL;
     }
 }
 
 void TObjNpcKenkyuW::load_resource_instance() {
-    saddr temp_r3;
-    s32 var_r0;
-    var_r0 = (saddr)new BmlResource(1, &bm_npc_kenkyu_w_resource_descriptor, 0, 0, NULL);
-    (*(s32 *)&TObjNpcKenkyuW__model_resource) = var_r0;
+    TObjNpcKenkyuW__model_resource = new BmlResource(1, &bm_npc_kenkyu_w_resource_descriptor, 0, 0, NULL);
 }
 
 }
@@ -102,8 +99,8 @@ TObjNpcKenkyuW::TObjNpcKenkyuW(TObject *parent, void *arg2) : TUnk_804A9F50(pare
     ((TObject *)this)->m_name = TObjNpcKenkyuW__name;
     ((TObjNpcKenkyuW *)this)->apply_set_data(arg2);
     ((TObjPlayer *)this)->init_position_vectors();
-    *(s32 *)((s8 *)this + 0x34) = (saddr)get_bml_model((BmlResource *)(int) ((*(s32 *)&TObjNpcKenkyuW__model_resource)), 0);
-    ((TObjNpcKenkyuW *)this)->texlist = (saddr)get_bml_texlist((BmlResource *)(int) ((*(s32 *)&TObjNpcKenkyuW__model_resource)), 0);
+    model = get_bml_model(TObjNpcKenkyuW__model_resource, 0);
+    texlist = (saddr)get_bml_texlist(TObjNpcKenkyuW__model_resource, 0);
     ((TObjNpcBase *)this)->setup_common();
 }
 
@@ -115,11 +112,11 @@ void clear_technique_contacts__10TObjPlayerFv() {
     technique_contact_list.count=0;
 }
 
-s32 TObjPlayer::is_hit_receivable_target(saddr arg0, uaddr arg1) {
-    if (arg1 == 0U) {
+s32 TObjPlayer::is_hit_receivable_target(saddr arg0, uaddr target) {
+    if (target == 0U) {
         return FALSE;
     }
-    return obj_is_hit_receivable((u8 *)arg1) ? TRUE : FALSE;
+    return obj_is_hit_receivable((u8 *)target) ? TRUE : FALSE;
 }
 #define L_802A3DE8 technique_contact_list
 TechniqueContactList *TObjPlayer__sub_802A3DE8(Obj_802A3DE8 *self, void *src) {

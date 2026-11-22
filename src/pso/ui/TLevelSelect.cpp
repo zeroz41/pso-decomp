@@ -1,4 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/frontend/TAdTitleTexGC.h"
+#include "pso/ui/frontend/TAdTitleGC.h"
+#include "pso/ui/frontend/TAdRayGC.h"
 #include "pso/ui/frontend/TAdGuideTxtGC.h"
 #include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "pso/ui/TLevelSelect.h"
@@ -46,15 +49,12 @@ extern u8 controller_input_state[];
 extern u8 controller_physical_port_bank[];
 s32 game_difficulty_selection;
 void __ct__7TObjectFP7TObject(void *, void *);
-void __ct__8TAdRayGCFv(void *, void *);
-void __ct__10TAdTitleGCFP7TObjectl(void *, void *, int);
-void __ct__13TAdTitleTexGCFv(void *, void *);
-void __ct__14TAdSelectTxtGCFP7TObjectPvPv(void *, void *, void *, int);
+void __ct__14TAdSelectTxtGCFP7TObjectP18TAdSelectTxtLayoutl(void *, void *, void *, int);
 extern u8 __vt__12TLevelSelect[];
 extern void *tl_01;
 Self_8013319C *__ct__12TLevelSelectFv(Self_8013319C *self);
 void TLevelSelect::render() {  }
-int count_unlocked_difficulties__12TLevelSelectFv(void) {
+int TLevelSelect::count_unlocked_difficulties(void) {
     u8 f;
     int n;
     f = 0;
@@ -104,7 +104,7 @@ Self_8013319C *__ct__12TLevelSelectFv(Self_8013319C *self) {
     self->f0 = level_select_class_name;
     TKeyBoardControl__sub_8000F90C(2);
     game_difficulty_selection = 0;
-    self->count = ((int (*)(void *))count_unlocked_difficulties__12TLevelSelectFv)(self);
+    self->count = ((int (*)(void *))TLevelSelect::count_unlocked_difficulties)(self);
     if (self->count == 0) {
         request_main_phase(0xE);
         ((TObject *)self)->queue_destruction();
@@ -112,15 +112,9 @@ Self_8013319C *__ct__12TLevelSelectFv(Self_8013319C *self) {
     }
     new TAdBackGC((TObject *)self);
     new TAdBackTxtGC((TObject *)self);
-    if ((p = TObject::operator new(0x24)) != NULL) {
-        __ct__8TAdRayGCFv(p, self);
-    }
-    if ((p = TObject::operator new(0x138)) != NULL) {
-        __ct__10TAdTitleGCFP7TObjectl(p, self, 2);
-    }
-    if ((p = TObject::operator new(0x9C)) != NULL) {
-        __ct__13TAdTitleTexGCFv(p, self);
-    }
+    new TAdRayGC((TObject *)self);
+    new TAdTitleGC((TObject *)self, 2);
+    new TAdTitleTexGC((TObject *)self);
     {
         Ents_8013319C ents = {{
             { 0x44FFFFFF, 238.0f, 145.0f }, { 0x44FFFFFF, 208.0f, 197.0f },
@@ -130,16 +124,16 @@ Self_8013319C *__ct__12TLevelSelectFv(Self_8013319C *self) {
             ents.e[i].id = -1;
         }
         if ((p = TObject::operator new(0xE0)) != NULL) {
-            __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &ents.e[0], 0);
+            __ct__14TAdSelectTxtGCFP7TObjectP18TAdSelectTxtLayoutl(p, self, &ents.e[0], 0);
         }
         if ((p = TObject::operator new(0xE0)) != NULL) {
-            __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &ents.e[1], 1);
+            __ct__14TAdSelectTxtGCFP7TObjectP18TAdSelectTxtLayoutl(p, self, &ents.e[1], 1);
         }
         if ((p = TObject::operator new(0xE0)) != NULL) {
-            __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &ents.e[2], 2);
+            __ct__14TAdSelectTxtGCFP7TObjectP18TAdSelectTxtLayoutl(p, self, &ents.e[2], 2);
         }
         if ((p = TObject::operator new(0xE0)) != NULL) {
-            __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &ents.e[3], 3);
+            __ct__14TAdSelectTxtGCFP7TObjectP18TAdSelectTxtLayoutl(p, self, &ents.e[3], 3);
         }
         {
             NJS_POINT2 pos = { 302.0f, 28.0f };

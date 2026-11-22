@@ -7,6 +7,10 @@
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/object/switch/TSwitch.h"
+#include "pso/unk/text_8024AD30.h"
+#include "pso/boss/volopt/TObjVoloptCage.h"
+#include "pso/network/client_id.h"
 
 struct Pkt_80186CC8 { u8 cmd; u8 size; u16 id; u16 value; u16 pad; };
 
@@ -24,12 +28,6 @@ struct Obj_80186DA0 {
 };
 
 extern "C" {
-u8 is_current_floor_switch_set(s32 id);
-void end_player_keyboard_hold(saddr arg0);
-void obj_clear_flag30_20000(TObjBase *actor);
-void obj_set_flag_20000(TObjBase *actor);
-
-extern s32 local_client_id;
 
 void TObjCityMainWarpChallenge::close_windows() {
     if ((u32) *(u32 *)((s8 *)this + 0x168) != 0U) {
@@ -58,20 +56,20 @@ void TObjCityMainWarpChallenge::send_6x6A_set_boss_warp_flags(u16 value) {
     ((TWindowSubTradeMain *)(&pkt))->send_60_update();
 }
 
-void TObjCityMainWarp::notify_player_warp(void *arg0, s32 arg1) {
+void TObjCityMainWarp::notify_player_warp(void *arg0, s32 local_client_id) {
     saddr player;
 
-    player = (saddr)get_player_by_client_id(arg1);
+    player = (saddr)get_player_by_client_id(local_client_id);
     if (player != 0) {
         TObjPlayer::send_code_45_1(player);
         obj_clear_flag30_20000((TObjBase *)player);
     }
 }
 
-void TObjCityMainWarpChallenge::trigger_warp_effect(s32 arg1) {
+void TObjCityMainWarpChallenge::trigger_warp_effect(s32 local_client_id) {
     saddr player;
 
-    player = (saddr)get_player_by_client_id(arg1);
+    player = (saddr)get_player_by_client_id(local_client_id);
     if (player != 0) {
         TObjPlayer::play_effect_default(player, -1);
         obj_set_flag_20000((TObjBase *)player);

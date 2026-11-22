@@ -52,7 +52,7 @@ struct TBoss6PlotFalz : public TObjEnemy {
     void set_state(s32 arg1);
     static void spawn_player_hit_effects();
     void award_exp_and_destroy();
-    void apply_fade_alpha(s32 arg1, f32 farg0);
+    void apply_fade_alpha(s32 color, f32 farg0);
     static s32 rand_vary_count(s32 arg0, f32 farg0);
     static f32 cosine_ease(f32 t);
     static f32 get_value();
@@ -79,7 +79,7 @@ struct TBoss6PlotFalz : public TObjEnemy {
     void send_6xA3_action(s8 v);
     static void free_all();
     static void load_resources();
-    static s32 create(saddr arg0);
+    static s32 create(saddr set_data);
     static s32 is_phase_reached();
     void reset_ending_state();
     void update_plot_timer();
@@ -118,6 +118,7 @@ struct TBoss6PlotFalz : public TObjEnemy {
 
 extern "C" {
 void TBoss6PlotFalz__sub_802AC008(f32 a, f32 b);
+s32 TBoss6PlotFalz__sub_802AAE48(s32 i);
 }
 
 extern "C" {

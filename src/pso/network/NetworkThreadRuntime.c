@@ -8,11 +8,13 @@
 #include "pso/network/TLobby_804050DC.h"
 #include "pso/network/TLobby_803FC178.h"
 #include "string.h"
+#include <ctype.h>
 #include "dolphin/os/OSThread.h"
 #include "dolphin/os/OSAlarm.h"
 #include "dolphin/os/OSTime.h"
 #include "dolphin/os/OSInterrupt.h"
 #include "pso/network/NetworkRuntime.h"
+#include "pso/network/PppFsm.h"
 #include "pso/network/NetworkRuntimeSlots.h"
 #include "pso/network/NetworkPacketPool.h"
 #include "pso/network/TLobby_80428374.h"
@@ -244,7 +246,7 @@ void NetMemcpy(void* destination, void* source, int size) {
     memcpy(destination, source, size);
 }
 
-s32 check_connection_status(void *connection) {
+s16 check_connection_status(void *connection) {
     u8 *conn = (u8 *)connection;
     typedef struct Fields_arg0 { u8 field_0; u8 pad_1[7]; s16 field_8; u8 pad_A[2]; u8 * field_C; } Fields_arg0;
     typedef struct Fields_temp_r31 { u8 field_0; } Fields_temp_r31;
@@ -269,11 +271,10 @@ Blk_803FA2A8 lbl_804FD380 = {0};
  * types lbl_804FD398 gives lengths 10 and 6, Interface-Identifier and IPv6-Compression-Protocol). */
 s16 ipv6cp_default_option_flags = 6;
 void *TLobby__sub_803FABDC(void *self);
-s32 TLobby__sub_803FA4A4(Conn_804004DC *self, PppHeader *src, s32 h);
-s32 TLobby__sub_803FA7B0(Conn_804004DC *self, PppHeader *src, void *h);
-s32 TLobby__sub_803FA318(Conn_804004DC *self, PppHeader *src, s32 n);
+s32 TLobby__sub_803FA4A4(PppFsm *self, PppHeader *src, s32 h);
+s32 TLobby__sub_803FA7B0(PppFsm *self, PppHeader *src, void *h);
+s32 TLobby__sub_803FA318(PppFsm *self, PppHeader *src, s32 n);
 void TLobby__sub_803FD694(u8 *arg0);
-s32 verify_message_sequence();
 void TLobby__sub_803F9FAC(u8 *ctx) {
     Blk_803FA2A8 *src = &lbl_804FD380;
     u8 *base = (u8 *)ppp_ipv6cp_protocol_state;
@@ -314,14 +315,14 @@ void TLobby__sub_803F9FAC(u8 *ctx) {
     TLobby__sub_803FD694(sub);
 }
 
-s32 clear_flag_bit4(s32 unused, u8 *opts) {
+s16 clear_flag_bit4(s32 unused, u8 *opts) {
     *(s16 *)((s8 *)opts + 4) = (s16) (*(s16 *)((s8 *)opts + 4) & 0xFFFFFFFB);
     *(s16 *)((s8 *)opts + 0) = (s16) (*(s16 *)((s8 *)opts + 0) & 0xFFFFFFFB);
     *(s16 *)((s8 *)opts + 0x1C) = (s16) (*(s16 *)((s8 *)opts + 0x1C) & 0xFFFFFFFB);
     return 0;
 }
 
-s32 NetIPv6CPSetInterfaceIdentifier(u8 *state, saddr ident) {
+s16 NetIPv6CPSetInterfaceIdentifier(u8 *state, saddr ident) {
     typedef struct Fields_arg0 { u8 pad_0[4]; s16 field_4; u8 pad_6[2]; s32 field_8; s32 field_C; } Fields_arg0;
     s32 sp18;
     s32 sp14;
@@ -379,7 +380,7 @@ void TLobby__sub_803FA2A8(P_803FA2A8 *o) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-s32 TLobby__sub_803FA318(Conn_804004DC *self, PppHeader *src, s32 h) {
+s32 TLobby__sub_803FA318(PppFsm *self, PppHeader *src, s32 h) {
     u8* m = (u8 *)self->opts;
     s32 cnt = src->len;
     s16 k;
@@ -420,7 +421,7 @@ s32 NetIPv6CPParseConfigureOption(void *self, u8 *out, u8 *src, u8 *c, s16 flag)
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma opt_common_subs on
-s32 TLobby__sub_803FA4A4(Conn_804004DC *self, PppHeader *src, s32 h) {
+s32 TLobby__sub_803FA4A4(PppFsm *self, PppHeader *src, s32 h) {
     u8 *bits;
     u8 *p;
     s32 cnt;
@@ -429,7 +430,7 @@ s32 TLobby__sub_803FA4A4(Conn_804004DC *self, PppHeader *src, s32 h) {
     u32 bit;
     s32 f;
     u8 pair[2];
-    m = (u32)self->opts;
+    m = (uaddr)self->opts;
     cnt = src->len;
     bits = (u8 *)m;
     p = (u8 *)m;
@@ -458,8 +459,6 @@ s32 TLobby__sub_803FA4A4(Conn_804004DC *self, PppHeader *src, s32 h) {
     return 0;
 }
 #pragma pop
-typedef struct Sub_803FA664 { u8 pad0[0x1C]; s16 h1C; } Sub_803FA664;
-typedef struct Obj_803FA664 { u8 pad0; u8 b1; u8 pad2[9]; u8 bB; u8 padC[0x24]; Sub_803FA664 *p30; } Obj_803FA664;
 
 void TLobby__sub_803FACD8(uaddr *self, void *src, s32 mask);
 #pragma push
@@ -467,7 +466,7 @@ void TLobby__sub_803FACD8(uaddr *self, void *src, s32 mask);
 #pragma opt_dead_assignments off
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline uaddr first_803FA664(Sub_803FA664 *s) {
+inline uaddr build_requested_options(Ipv6cpOptions *opts) {
     uaddr t;
     uaddr v = 0;
     t = v;
@@ -475,34 +474,34 @@ inline uaddr first_803FA664(Sub_803FA664 *s) {
     if (t == 0) {
         return v;
     }
-    TLobby__sub_803FACD8(&t, &s->h1C, s->h1C);
+    TLobby__sub_803FACD8(&t, &opts->requested, opts->requested.mask);
     v = t;
     return v;
 }
 
-inline s32 read_803FA664(uaddr *p) {
+inline s32 read_option_byte(uaddr *p) {
     if (ppp_buffer_read(p, ppp_option_byte_buf, 1) != 1) {
         return -1;
     }
     return (s16)ppp_option_byte_buf[0];
 }
 
-s32 verify_message_sequence(Obj_803FA664 *obj, PppHeader *msg, uaddr expected) {
+s32 verify_message_sequence(PppFsm *fsm, PppHeader *msg, uaddr expected) {
     s16 err;
     s16 a;
     s16 b;
     uaddr cur;
 
     err = 0;
-    if (msg->id != obj->b1) {
+    if (msg->id != fsm->id) {
         return -1;
     }
-    cur = first_803FA664(obj->p30);
+    cur = build_requested_options((Ipv6cpOptions *)fsm->opts);
     if (msg->len != get_field_4((void *)cur)) {
         err = 1;
     } else {
-        while ((a = read_803FA664(&cur)) != -1) {
-            b = read_803FA664(&expected);
+        while ((a = read_option_byte(&cur)) != -1) {
+            b = read_option_byte(&expected);
             if (b == -1 || b != a) {
                 err = 1;
                 break;
@@ -512,7 +511,7 @@ s32 verify_message_sequence(Obj_803FA664 *obj, PppHeader *msg, uaddr expected) {
     if (err != 0) {
         return -1;
     }
-    obj->bB++;
+    fsm->ack_count++;
     return 0;
 }
 #pragma pop
@@ -520,7 +519,7 @@ s32 verify_message_sequence(Obj_803FA664 *obj, PppHeader *msg, uaddr expected) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-s32 TLobby__sub_803FA7B0(Conn_804004DC *self, PppHeader *src, void *h)
+s32 TLobby__sub_803FA7B0(PppFsm *self, PppHeader *src, void *h)
 {
   u32 sh;
   PppFrame *blk;
@@ -531,7 +530,6 @@ s32 TLobby__sub_803FA7B0(Conn_804004DC *self, PppHeader *src, void *h)
   s16 state;
   s16 res;
   u8 *new_var;
-  s32 ppp_fsm_send_packet(void *, u8, u8, void *); /* declared here with other parameter types; the definition is s32 (void *, int, int, void *) */
   s16 NetIPv6CPParseConfigureOption(void *self, u8 *out, u8 *src, u8 *c, s16 flag); /* declared s16 here; the definition returns s32 */
   self = self;
   new_var = (u8 *)self->opts;

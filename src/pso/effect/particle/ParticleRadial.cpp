@@ -6,6 +6,8 @@
 #include "pso/effect/particle/ParticleRadial.h"
 #include "pso/effect/particle/TParticleCtrl_80085EE4.h"
 #include "pso/render/render_util.h"
+#include "pso/render/GinjaMaterial.h"
+#include "pso/render/ModelDrawContext.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer_801542CC.h"
@@ -80,8 +82,6 @@ void request_main_phase(s32 arg0);
 s32 append_node_to_tail__13TParticleCtrlFPvPv(s32, void *);
 s32 rotate_matrix_y(s32, s32);
 s32 post_translate_matrix(void *);
-s32 draw_ginja_object(u32);
-s32 draw_ginja_model_with_motion(u32, NJS_MOTION *, f32);
 extern u8 *camera_ctrl_instance;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
@@ -96,8 +96,6 @@ void load_projected_texture_matrix(f32 farg0);
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 extern void *__vt__13TParticleCtrl[];
 extern s32 TParticleCtrl__class_name_descriptor;
-extern void *tl_07;
-extern void *tl_clipout;
 extern const f32 TParticleCtrl__data_805D94E0;
 extern const f32 TParticleCtrl__data_805D94E4;
 
@@ -158,13 +156,14 @@ extern const f32 TParticleCtrl__data_805D94E4;
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/task/TMainTask.h"
 
 
-u8 *create_radial_particle(u8 *arg0, u8 *arg1, s32 arg2, u16 arg3, s16 arg4) {
-    return (u8 *)new TUnk_8048E7A8(arg0, arg1, arg2, arg3, arg4);
+u8 *create_radial_particle(u8 *arg0, u8 *pos, s32 parent, u16 flags, s16 target_id) {
+    return (u8 *)new TUnk_8048E7A8(arg0, pos, parent, flags, target_id);
 }
-void *create_random_particle(void *arg0, void *arg1, void *arg2) {
-    return new TUnk_8048E7A8(arg0, arg1, arg2);
+void *create_random_particle(void *arg0, void *pos, void *parent) {
+    return new TUnk_8048E7A8(arg0, pos, parent);
 }
 
 void TUnk_8048E7A8::check_radial_particle_retire() {
@@ -306,7 +305,7 @@ void TUnk_8048E7A8::render() {
     *(f32 *)((s8 *)arg0 + 0x8C) = *(f32 *)((s8 *)arg0 + 0x8C) * *(f32 *)((s8 *)arg0 + 0xA8);
     flags = this->flags;
     if (flags & 0x200) {
-        if (((is_split_screen() == 0) || !(this->flags & 0x400)) && (this->unk_B4 != 0U) && (this->m_b0 != 0U)) {
+        if (((is_split_screen() == 0) || !(this->flags & 0x400)) && (this->unk_B4 != 0U) && (this->model != NULL)) {
             ParticleAngles ang = radial_particle_zero_angles;
             Vec pos2;
             direction_to_rotation_xz((u8 *)&this->step, &ang.x, &ang.z);
@@ -336,10 +335,10 @@ void TUnk_8048E7A8::render() {
             if (this->flags & 0x400) {
                 setup_particle_tev(0);
             } else {
-                s32 temp_r4 = model_render_flags;
-                saved_model_render_flags = temp_r4;
-                model_render_flags = temp_r4 | 0x8021;
-                if (((TUnk_8048E728 *)arg0)->is_particle_sprite_additive(temp_r4) != 0) {
+                s32 render_flags = model_render_flags;
+                saved_model_render_flags = render_flags;
+                model_render_flags = render_flags | 0x8021;
+                if (((TUnk_8048E728 *)arg0)->is_particle_sprite_additive(render_flags) != 0) {
                     ((TUnk_8048E728 *)arg0)->apply_particle_model_fade_color(1);
                 } else {
                     ((TUnk_8048E728 *)arg0)->apply_particle_model_fade_color(0);
@@ -348,9 +347,9 @@ void TUnk_8048E7A8::render() {
             TObjFish::set_global_param(this->unk_B4);
             set_draw_list_mask(3);
             if (this->motion != 0U) {
-                draw_ginja_model_with_motion(this->m_b0, this->motion, this->motion_frame);
+                draw_ginja_model_with_motion(this->model, this->motion, this->motion_frame);
             } else {
-                draw_ginja_object(this->m_b0);
+                draw_ginja_object(this->model);
             }
             if (this->flags & 0x400) {
                 reset_particle_tev();
@@ -380,15 +379,15 @@ TUnk_8048E7A8::~TUnk_8048E7A8() {}
 
 #pragma push
 #pragma fp_contract on
-TUnk_8048E7A8::TUnk_8048E7A8(u8 *arg1, u8 *arg2, saddr arg3, u16 arg4, s16 arg5)
-    : TUnk_8048E728((ParticleParam *)arg1, (TObject *)arg3) {
+TUnk_8048E7A8::TUnk_8048E7A8(u8 *src, u8 *arg2, saddr parent, u16 arg4, s16 arg5)
+    : TUnk_8048E728((ParticleParam *)src, (TObject *)parent) {
     struct Fields_arg0 { u8 pad_0[24]; s32 * field_18; u16 field_1C; u8 pad_1E[6]; u16 field_24; s16 field_26; f32 field_28; f32 field_2C; f32 field_30; f32 field_34; f32 field_38; f32 field_3C; f32 field_40; f32 field_44; u8 pad_48[20]; f32 field_5C; u8 pad_60[8]; f32 field_68; u8 pad_6C[4]; f32 field_70; f32 field_74; f32 field_78; u8 pad_7C[25]; s8 field_95; };
     struct Fields_arg1 { u8 pad_0[24]; f32 field_18; f32 field_1C; f32 field_20; f32 field_24; f32 field_28; u8 pad_2C[4]; f32 field_30; u8 pad_34[4]; f32 field_38; u8 pad_3C[12]; s32 field_48; s32 field_4C; u8 pad_50[56]; u8 field_88; };
     struct Fields_arg2 { f32 field_0; f32 field_4; f32 field_8; };
     s32 temp_r0;
-    ((Fields_arg0*)this)->field_70 = (f32) ((((Fields_arg1*)arg1)->field_18 * ((3.0517578e-05f * (f32) rand()) - 0.5f)) + ((Fields_arg2*)arg2)->field_0);
-    ((Fields_arg0*)this)->field_74 = (f32) ((((Fields_arg1*)arg1)->field_1C * ((3.0517578e-05f * (f32) rand()) - 0.5f)) + ((Fields_arg2*)arg2)->field_4);
-    ((Fields_arg0*)this)->field_78 = (f32) ((((Fields_arg1*)arg1)->field_20 * ((3.0517578e-05f * (f32) rand()) - 0.5f)) + ((Fields_arg2*)arg2)->field_8);
+    ((Fields_arg0*)this)->field_70 = (f32) ((((Fields_arg1*)src)->field_18 * ((3.0517578e-05f * (f32) rand()) - 0.5f)) + ((Fields_arg2*)arg2)->field_0);
+    ((Fields_arg0*)this)->field_74 = (f32) ((((Fields_arg1*)src)->field_1C * ((3.0517578e-05f * (f32) rand()) - 0.5f)) + ((Fields_arg2*)arg2)->field_4);
+    ((Fields_arg0*)this)->field_78 = (f32) ((((Fields_arg1*)src)->field_20 * ((3.0517578e-05f * (f32) rand()) - 0.5f)) + ((Fields_arg2*)arg2)->field_8);
     ((Fields_arg0*)this)->field_24 = arg4;
     if (((Fields_arg0*)this)->field_24 & 0x80) {
         ((Fields_arg0*)this)->field_95 = 1;
@@ -397,15 +396,15 @@ TUnk_8048E7A8::TUnk_8048E7A8(u8 *arg1, u8 *arg2, saddr arg3, u16 arg4, s16 arg5)
     ((Fields_arg0*)this)->field_30 = (f32) ((Fields_arg2*)arg2)->field_0;
     ((Fields_arg0*)this)->field_34 = (f32) ((Fields_arg2*)arg2)->field_4;
     ((Fields_arg0*)this)->field_38 = (f32) ((Fields_arg2*)arg2)->field_8;
-    ((Fields_arg0*)this)->field_28 = (f32) ((((Fields_arg1*)arg1)->field_28 * (3.0517578e-05f * (f32) rand())) + ((Fields_arg1*)arg1)->field_24);
+    ((Fields_arg0*)this)->field_28 = (f32) ((((Fields_arg1*)src)->field_28 * (3.0517578e-05f * (f32) rand())) + ((Fields_arg1*)src)->field_24);
     ((Fields_arg0*)this)->field_2C = (f32) ((Fields_arg0*)this)->field_28;
-    temp_r0 = (s32) (((f32) ((Fields_arg1*)arg1)->field_4C * (3.0517578e-05f * (f32) rand())) + (f32) ((Fields_arg1*)arg1)->field_48);
-    if (((Fields_arg1*)arg1)->field_88 & 1) {
+    temp_r0 = (s32) (((f32) ((Fields_arg1*)src)->field_4C * (3.0517578e-05f * (f32) rand())) + (f32) ((Fields_arg1*)src)->field_48);
+    if (((Fields_arg1*)src)->field_88 & 1) {
         ((Fields_arg0*)this)->field_5C = (f32) (1.0f / (f32) *(s32 *)((s8 *)(*(void **)((s8 *)(*(saddr *)((s8 *)&TParticleCtrl__data_80511F70 + (((Fields_arg0*)this)->field_1C * 4))) + 0x28)) + 0xC));
     } else {
         ((Fields_arg0*)this)->field_5C = (f32) (1.0f / (f32) temp_r0);
     }
-    ((Fields_arg0*)this)->field_68 = (f32) ((((Fields_arg1*)arg1)->field_38 * (3.0517578e-05f * (f32) rand())) + ((Fields_arg1*)arg1)->field_30);
+    ((Fields_arg0*)this)->field_68 = (f32) ((((Fields_arg1*)src)->field_38 * (3.0517578e-05f * (f32) rand())) + ((Fields_arg1*)src)->field_30);
     ((Fields_arg0*)this)->field_3C = 0.0f;
     ((Fields_arg0*)this)->field_40 = 0.0f;
     ((Fields_arg0*)this)->field_44 = 0.0f;
@@ -415,27 +414,27 @@ TUnk_8048E7A8::TUnk_8048E7A8(u8 *arg1, u8 *arg2, saddr arg3, u16 arg4, s16 arg5)
 }
 #pragma pop
 
-TUnk_8048E7A8::TUnk_8048E7A8(void *arg1, void *arg2, void *arg3)
-    : TUnk_8048E728((ParticleParam *)arg1, (TObject *)arg3) {
+TUnk_8048E7A8::TUnk_8048E7A8(void *src, void *arg2, void *parent)
+    : TUnk_8048E728((ParticleParam *)src, (TObject *)parent) {
     struct Fields_arg0 { u8 pad_0[24]; s32 * field_18; u16 field_1C; u8 pad_1E[6]; u16 field_24; u8 pad_26[2]; f32 field_28; f32 field_2C; f32 field_30; f32 field_34; f32 field_38; f32 field_3C; f32 field_40; f32 field_44; u8 pad_48[20]; f32 field_5C; u8 pad_60[8]; f32 field_68; u8 pad_6C[4]; f32 field_70; f32 field_74; f32 field_78; };
     struct Fields_arg1 { u8 pad_0[24]; f32 field_18; f32 field_1C; f32 field_20; f32 field_24; f32 field_28; u8 pad_2C[4]; f32 field_30; u8 pad_34[4]; f32 field_38; u8 pad_3C[12]; s32 field_48; s32 field_4C; u8 pad_50[56]; u8 field_88; };
     struct Fields_arg2 { f32 field_0; f32 field_4; f32 field_8; };
     s32 temp_r0;
-    ((Fields_arg0*)((u8 *)this))->field_70 = (f32) ((((Fields_arg1*)arg1)->field_18 * ((3.0517578e-05f * (f32) rand()) - 0.5f)) + ((Fields_arg2*)arg2)->field_0);
-    ((Fields_arg0*)((u8 *)this))->field_74 = (f32) ((((Fields_arg1*)arg1)->field_1C * ((3.0517578e-05f * (f32) rand()) - 0.5f)) + ((Fields_arg2*)arg2)->field_4);
-    ((Fields_arg0*)((u8 *)this))->field_78 = (f32) ((((Fields_arg1*)arg1)->field_20 * ((3.0517578e-05f * (f32) rand()) - 0.5f)) + ((Fields_arg2*)arg2)->field_8);
+    ((Fields_arg0*)((u8 *)this))->field_70 = (f32) ((((Fields_arg1*)src)->field_18 * ((3.0517578e-05f * (f32) rand()) - 0.5f)) + ((Fields_arg2*)arg2)->field_0);
+    ((Fields_arg0*)((u8 *)this))->field_74 = (f32) ((((Fields_arg1*)src)->field_1C * ((3.0517578e-05f * (f32) rand()) - 0.5f)) + ((Fields_arg2*)arg2)->field_4);
+    ((Fields_arg0*)((u8 *)this))->field_78 = (f32) ((((Fields_arg1*)src)->field_20 * ((3.0517578e-05f * (f32) rand()) - 0.5f)) + ((Fields_arg2*)arg2)->field_8);
     ((Fields_arg0*)((u8 *)this))->field_30 = (f32) ((Fields_arg2*)arg2)->field_0;
     ((Fields_arg0*)((u8 *)this))->field_34 = (f32) ((Fields_arg2*)arg2)->field_4;
     ((Fields_arg0*)((u8 *)this))->field_38 = (f32) ((Fields_arg2*)arg2)->field_8;
-    ((Fields_arg0*)((u8 *)this))->field_28 = (f32) ((((Fields_arg1*)arg1)->field_28 * (3.0517578e-05f * (f32) rand())) + ((Fields_arg1*)arg1)->field_24);
+    ((Fields_arg0*)((u8 *)this))->field_28 = (f32) ((((Fields_arg1*)src)->field_28 * (3.0517578e-05f * (f32) rand())) + ((Fields_arg1*)src)->field_24);
     ((Fields_arg0*)((u8 *)this))->field_2C = (f32) ((Fields_arg0*)((u8 *)this))->field_28;
-    temp_r0 = (s32) (((f32) ((Fields_arg1*)arg1)->field_4C * (3.0517578e-05f * (f32) rand())) + (f32) ((Fields_arg1*)arg1)->field_48);
-    if (((Fields_arg1*)arg1)->field_88 & 1) {
+    temp_r0 = (s32) (((f32) ((Fields_arg1*)src)->field_4C * (3.0517578e-05f * (f32) rand())) + (f32) ((Fields_arg1*)src)->field_48);
+    if (((Fields_arg1*)src)->field_88 & 1) {
         ((Fields_arg0*)((u8 *)this))->field_5C = (f32) (1.0f / (f32) *(s32 *)((s8 *)(*(void **)((s8 *)(*(saddr *)((s8 *)TParticleCtrl__data_80511F70 + (((Fields_arg0*)((u8 *)this))->field_1C * 4))) + 0x28)) + 0xC));
     } else {
         ((Fields_arg0*)((u8 *)this))->field_5C = (f32) (1.0f / (f32) temp_r0);
     }
-    ((Fields_arg0*)((u8 *)this))->field_68 = (f32) ((((Fields_arg1*)arg1)->field_38 * (3.0517578e-05f * (f32) rand())) + ((Fields_arg1*)arg1)->field_30);
+    ((Fields_arg0*)((u8 *)this))->field_68 = (f32) ((((Fields_arg1*)src)->field_38 * (3.0517578e-05f * (f32) rand())) + ((Fields_arg1*)src)->field_30);
     ((Fields_arg0*)((u8 *)this))->field_3C = 0.0f;
     step.y = 0.0f;
     step.z = 0.0f;

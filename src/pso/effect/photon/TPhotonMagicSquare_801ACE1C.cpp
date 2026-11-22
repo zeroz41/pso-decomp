@@ -17,6 +17,9 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/task/TObject.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/render/render_util.h"
 
 #pragma readonly_strings on
 
@@ -45,10 +48,8 @@ struct Self_801ACE1C {
 };
 
 extern "C" {
-s32 rotate_matrix_y(int, int);
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
-extern NJS_ARGB chunk_material_color_half_alpha_f32;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 void TPhotonMagicSquare::render() {
@@ -159,9 +160,7 @@ NJS_ARGB TPhotonMagicSquare__color_palette[6] = {
     { 0.0f, 0.0f, 1.0f, 0.75f },
 };
 extern RecoveredGlobal_801AD0F0___vt__18TPhotonMagicSquare __vt__18TPhotonMagicSquare;
-extern const char *TPhotonMagicSquare__data_805D3508;
 extern u8 *photon_blast_shared_resource;
-s32 play_sound_effect(int, int, int, int);
 
 }
 TPhotonMagicSquare::~TPhotonMagicSquare() {

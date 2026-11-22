@@ -1,3 +1,6 @@
+#include "pso/ui/frontend/TAdTitleTexGC.h"
+#include "pso/ui/frontend/TAdTitleGC.h"
+#include "pso/ui/frontend/TAdRayGC.h"
 #include "pso/ui/frontend/TAdGuideTxtGC.h"
 #include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "pso/ui/frontend/TAdSelectGameModeGC.h"
@@ -14,6 +17,7 @@
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 
 #include "types.h"
+#include "pso/ui/frontend/TAdSelectTxtGC.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
@@ -30,9 +34,7 @@ struct S8_802C4944 { f32 a, b; };
 
 struct S16_802C4944 { S8_802C4944 x[2]; };
 
-struct T12_802C4944 { s32 a; f32 b, c; };
-
-struct S24_802C4944 { T12_802C4944 t[2]; };
+struct S24_802C4944 { TAdSelectTxtLayout t[2]; };
 
 const char *TAdSelectGameModeGC__name = "TAdSelectGameModeGC";
 const S24_802C4944 select_game_mode_text_layout = {{{-1, 208.0f, 197.0f}, {-1, 178.0f, 249.0f}}};
@@ -44,13 +46,6 @@ extern "C" {
 
 s32 free_sub_ctrls__19TAdSelectGameModeGCFv();
 s32 play_sound_effect(int, int, int, int);
-extern s32 TAdSelectGameModeGC__cached_mode_value;
-void __ct__7TObjectFP7TObject(void *, void *);
-void __ct__8TAdRayGCFv(void *, void *);
-void *__ct__10TAdTitleGCFP7TObjectl(void *, void *, int);
-void *__ct__14TAdSelectTxtGCFP7TObjectPvPv(void *, void *, void *, int);
-void __ct__13TAdTitleTexGCFv(void *, void *);
-extern s32 __vt__19TAdSelectGameModeGC[];
 int sync_char_select_state__10TObjPlayerFv(void*);
 
 int fn_802C4748(void* p) { return sync_char_select_state__10TObjPlayerFv(p); }
@@ -67,7 +62,7 @@ void TAdSelectGameModeGC__sub_802C478C(void) {
             TAdSelectGameModeGC::enable_camera();
             return;
         case 1:
-            ((s32)TAdMultiPlyChrSelectGC__sub_802C6558());
+            ((s32)TAdMultiPlyChrSelectGC__count_selected_slots());
             free_sub_ctrls__19TAdSelectGameModeGCFv();
             return;
         }
@@ -75,19 +70,19 @@ void TAdSelectGameModeGC__sub_802C478C(void) {
         TAdSelectGameModeGC::enable_camera();
     }
 }
-void run_task__19TAdSelectGameModeGCFv(u8 *arg0) {
+void TAdSelectGameModeGC::run_task() {
     s32 mode_data;
     TAdMultiChgGameModeGC::set_default_camera();
-    if ((s32) TAdSelectGameModeGC__cached_mode_value != reinterpret_cast<TAdSelectCurGC *>((*(saddr *)((s8 *)arg0 + 0x1C)))->selection_index()) {
-        ((TAdGuideTxtGC *)(*(saddr *)((s8 *)arg0 + 0x20)))->set_line(1, reinterpret_cast<const char *>((get_localized_text_entry(0x15, (s32)(reinterpret_cast<TAdSelectCurGC *>((*(saddr *)((s8 *)arg0 + 0x1C)))->selection_index() + 1)))));
+    if ((s32) TAdSelectGameModeGC__cached_mode_value != cursor->selection_index()) {
+        guide->set_line(1, reinterpret_cast<const char *>(get_localized_text_entry(0x15, cursor->selection_index() + 1)));
     }
-    TAdSelectGameModeGC__cached_mode_value = reinterpret_cast<TAdSelectCurGC *>((*(saddr *)((s8 *)arg0 + 0x1C)))->selection_index();
+    TAdSelectGameModeGC__cached_mode_value = cursor->selection_index();
     if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_physical_port_bank + 0x20), 2) != 0) || (test_controller_flag_4c_color((void *) ((u8 *)&controller_input_state + 0x160), 2) != 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
         TAdMultiChgGameModeGC::request_scene_change();
         return;
     }
-    if (((TAdSelectCurGC *)(*(saddr *)((s8 *)arg0 + 0x1C)))->confirmation_result() == 1) {
+    if (cursor->confirmation_result() == 1) {
         mode_data = TAdSelectGameModeGC::get_mode_data();
         switch (mode_data) {
         case 0:
@@ -101,50 +96,32 @@ void run_task__19TAdSelectGameModeGCFv(u8 *arg0) {
 }
 TAdSelectGameModeGC::~TAdSelectGameModeGC() {}
 
-u8 *__ct__19TAdSelectGameModeGCFv(u8 *arg0, void *parent) {
-    void *p;
-    __ct__7TObjectFP7TObject(arg0, parent);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TAdSelectGameModeGC;
-    ((TAdSelectGameModeGC *)arg0)->m_name = TAdSelectGameModeGC__name;
+TAdSelectGameModeGC::TAdSelectGameModeGC(TObject *parent) : TObject(parent) {
+    m_name = TAdSelectGameModeGC__name;
     TAdSelectGameModeGC__cached_mode_value = 0;
-    *(void **)((s8 *)arg0 + 0x1C) = 0;
-    *(void **)((s8 *)arg0 + 0x20) = 0;
-    new TAdBackGC((TObject *)arg0);
-    new TAdBackTxtGC((TObject *)arg0);
-    if ((p = TObject::operator new(0x24)) != 0) {
-        __ct__8TAdRayGCFv(p, arg0);
-    }
-    if ((p = TObject::operator new(0x138)) != 0) {
-        __ct__10TAdTitleGCFP7TObjectl(p, arg0, 4);
-    }
-    if ((p = TObject::operator new(0x9C)) != 0) {
-        __ct__13TAdTitleTexGCFv(p, arg0);
-    }
+    cursor = 0;
+    guide = 0;
+    new TAdBackGC(this);
+    new TAdBackTxtGC(this);
+    new TAdRayGC(this);
+    new TAdTitleGC(this, 4);
+    new TAdTitleTexGC(this);
     {
         S24_802C4944 txt = select_game_mode_text_layout;
-        if ((p = TObject::operator new(0xE0)) != 0) {
-            __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, arg0, &txt.t[0], 6);
-        }
-        if ((p = TObject::operator new(0xE0)) != 0) {
-            __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, arg0, &txt.t[1], 7);
-        }
+        new TAdSelectTxtGC(this, &txt.t[0], 6);
+        new TAdSelectTxtGC(this, &txt.t[1], 7);
     }
     {
         S8_802C4944 a = lbl_80471A44;
         S16_802C4944 b = select_game_mode_button_rect;
-        p = new TAdSelectCurGC(reinterpret_cast<TObject *>(arg0),
-            reinterpret_cast<const NJS_POINT2 *>(&b),
-            reinterpret_cast<const NJS_POINT2 *>(&a));
-        *(void **)((s8 *)arg0 + 0x1C) = p;
-        ((TAdSelectCurGC *)(*(void **)((s8 *)arg0 + 0x1C)))->append_entry(&b.x[0]);
-        ((TAdSelectCurGC *)(*(void **)((s8 *)arg0 + 0x1C)))->append_entry(&b.x[1]);
+        cursor = new TAdSelectCurGC(this, reinterpret_cast<const NJS_POINT2 *>(&b), reinterpret_cast<const NJS_POINT2 *>(&a));
+        cursor->append_entry(&b.x[0]);
+        cursor->append_entry(&b.x[1]);
     }
-    p = new TAdGuideTxtGC(reinterpret_cast<TObject *>(arg0));
-    *(void **)((s8 *)arg0 + 0x20) = p;
-    ((TAdGuideTxtGC *)(*(saddr *)((s8 *)arg0 + 0x20)))->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x15, 0)));
-    ((TAdGuideTxtGC *)(*(saddr *)((s8 *)arg0 + 0x20)))->set_line(1, reinterpret_cast<const char *>(get_localized_text_entry(0x15, 1)));
-    create_draw_line_ctrl((TObject *)arg0, 0xA, 0.0f);
-    return arg0;
+    guide = new TAdGuideTxtGC(this);
+    guide->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x15, 0)));
+    guide->set_line(1, reinterpret_cast<const char *>(get_localized_text_entry(0x15, 1)));
+    create_draw_line_ctrl(this, 0xA, 0.0f);
 }
 
 }

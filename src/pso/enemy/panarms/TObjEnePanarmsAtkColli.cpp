@@ -14,10 +14,13 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/object/TObjControl.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/system/SoundEffect.h"
 
 // Stored in the object name field by the constructor.
 const char *TObjEnePanarmsAtkColli_class_name = "TObjEnePanarmsAtkColli";
-extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
 struct Entry_800E31C4 { s32 id; u8 data[0xC]; };
 
 __declspec(section ".data") s32 TObjEnePanarmsAtkColli__type_index_table[2] = {1, 2};
@@ -102,15 +105,12 @@ struct Obj_800E322C { u8 pad0[0x10]; u32 f10; u8 pad1[0x38 - 0x14]; Vec pos; u8 
 extern "C" {
 __declspec(section ".rodata") Pair_800E3374 lbl_8043CDF0[] = { 0 };
 __declspec(section ".rodata") Pair_800E32C0 lbl_8043CDF8[] = { 0 };
-void fn_800E3374(Obj_800E3374 *arg0, V_800E3374 *arg1);
+void fn_800E3374(Obj_800E3374 *target, V_800E3374 *arg1);
 f32 horizontal_distance_squared(void *, void *);
 extern s32 registered_player_count;
-void check_radius_collisions(Obj_800E35C8 *arg0);
-u8 *get_enemy_entity(u16 arg0);
+void check_radius_collisions(Obj_800E35C8 *target);
 void fn_800E322C(void *p, void *t);
 void vec3_add_to(void *, void *);
-f32 vector_length(void *);
-void subtract_vector(void *, void *);
 ModelNodePositionCapture::ModelNodePositionCapture(const ModelNodePositionEntry *entries, Vec *positions) {
     this->entries = entries;
     this->positions = positions;
@@ -137,16 +137,16 @@ void fn_800E322C(void *p, void *t) {
     VecCopy((Vec *)&target->pos, (const Vec *)&sp);
 }
 
-void TObjEnePanarmsAtkColli::sub_800E32C0(void *arg1) {
+void TObjEnePanarmsAtkColli::sub_800E32C0(void *ent) {
     Pair_800E32C0 sp10 = lbl_8043CDF8[0];
     Pair_800E32C0 sp8;
     sp10.b = ((Obj_800E32C0 *)this)->f38C;
-    if (((Obj_800E32C0 *)this)->f388 != ((V_800E32C0 *)arg1)) {
+    if (((Obj_800E32C0 *)this)->f388 != ((V_800E32C0 *)ent)) {
         sp8.a = sp10.a; *(s32 *)&sp8.b = *(s32 *)&sp10.b;
-        if (0.0f != ((V_800E32C0 *)arg1)->m21(((Obj_800E32C0 *)this)->f10, &sp8, 0, -1, -1)) {
-            ((V_800E32C0 *)arg1)->m23(this);
+        if (0.0f != ((V_800E32C0 *)ent)->m21(((Obj_800E32C0 *)this)->f10, &sp8, 0, -1, -1)) {
+            ((V_800E32C0 *)ent)->m23(this);
         }
-        ((Obj_800E32C0 *)this)->f388 = ((V_800E32C0 *)arg1);
+        ((Obj_800E32C0 *)this)->f388 = ((V_800E32C0 *)ent);
     }
 }
 void fn_800E3374(Obj_800E3374 *target, V_800E3374 *arg1) {
@@ -208,17 +208,17 @@ void sweep_segment_collisions(Obj_800E3428 *self) {
 
 #pragma pop
 
-void check_radius_collisions(Obj_800E35C8 *arg0) {
+void check_radius_collisions(Obj_800E35C8 *target) {
     s32 i;
     Player_800E35C8 *p;
-    f32 lim = arg0->f378 * arg0->f378;
+    f32 lim = target->f378 * target->f378;
     for (i = 0; i < registered_player_count; i++) {
         p = (Player_800E35C8 *)TObjPlayer::get_player_data(i);
-        if (p != NULL && !(p->f30 & 0x02000A00) && !(horizontal_distance_squared(&arg0->pos, (u8 *) p + 0x2FC) > lim)) {
-            fn_800E3374((Obj_800E3374 *)(arg0), (V_800E3374 *)(p));
+        if (p != NULL && !(p->f30 & 0x02000A00) && !(horizontal_distance_squared(&target->pos, (u8 *) p + 0x2FC) > lim)) {
+            fn_800E3374((Obj_800E3374 *)(target), (V_800E3374 *)(p));
         }
     }
-    fn_800E322C(arg0, &arg0->pos);
+    fn_800E322C(target, &target->pos);
 }
 
 }
@@ -344,12 +344,11 @@ struct Obj_800E37E4 {
 
 extern "C" {
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-int play_sound_effect(s32, void *, void *, void *);
 
 void TObjEnePanarmsAtkColli::run_task() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     if (--*(s32 *)&this->m_380 < 0) {
-        ((TObject *)arg0)->queue_destruction();
+        ((TObject *)self)->queue_destruction();
         return;
     }
     VecCopy(&this->prev_position, (const Vec *)&this->position);
@@ -357,11 +356,11 @@ void TObjEnePanarmsAtkColli::run_task() {
     *(f32 *)&this->unk_378 = (f32) (*(f32 *)&this->unk_378 + this->m_37c);
     switch (*(s32 *)&this->m_374) {
     case 0:
-        ((void (*)(void *))check_radius_collisions)(arg0);
+        ((void (*)(void *))check_radius_collisions)(self);
         return;
     case 1:
-        play_persistent_sound((s32)(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003BA2A)), (saddr)arg0, (uaddr)&this->position, 0, 0);
-        ((void (*)(void *))sweep_segment_collisions)(arg0);
+        play_persistent_sound((s32)(((TObjEnemy *)(self))->remap_sound_for_area(0x4003BA2A)), (saddr)self, (uaddr)&this->position, 0, 0);
+        ((void (*)(void *))sweep_segment_collisions)(self);
         return;
     }
 }

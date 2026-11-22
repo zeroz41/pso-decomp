@@ -2,6 +2,6 @@
 #define _DOLPHIN_CARDCHECK_H_
 
 s32 CARDCheckAsync(s32 chan, CARDCallback callback);
-long CARDCheck(long chan);
+s32 CARDCheck(s32 chan);
 
 #endif

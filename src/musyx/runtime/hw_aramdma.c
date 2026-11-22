@@ -154,14 +154,14 @@ void InitStreamBuffers(void) {
     aramStream = aramTop;
 }
 
-void *aramAllocateStreamBuffer(u32 arg0) {
+u8 aramAllocateStreamBuffer(u32 len) {
     StreamBuffer_803BDCD0 *p;
     StreamBuffer_803BDCD0 *found;
     StreamBuffer_803BDCD0 *prev;
     u32 best;
     u32 size;
     p = aramFreeStreamBuffers;
-    size = (arg0 + 0x1F) & ~0x1F;
+    size = (len + 0x1F) & ~0x1F;
     found = NULL;
     prev = NULL;
     best = -1;
@@ -200,9 +200,9 @@ void *aramAllocateStreamBuffer(u32 arg0) {
         aramUsedStreamBuffers = found;
     }
     if (found == NULL) {
-        return (void *)0xFF;
+        return 0xFF;
     }
-    return (void *)(u8)(found - aramStreamBuffers);
+    return found - aramStreamBuffers;
 }
 
 u32 aramGetStreamBufferAddress(u8 i, u32 *out) {

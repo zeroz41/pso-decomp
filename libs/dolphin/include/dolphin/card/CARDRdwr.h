@@ -1,6 +1,6 @@
 #ifndef _DOLPHIN_CARDRDWR_H_
 #define _DOLPHIN_CARDRDWR_H_
 
-long CARDGetXferredBytes(long chan);
+s32 CARDGetXferredBytes(s32 chan);
 
 #endif

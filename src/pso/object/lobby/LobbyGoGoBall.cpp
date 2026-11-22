@@ -49,6 +49,11 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/camera/TCameraCtrl_801A6E60.h"
+#include "pso/unk/text_800870BC.h"
+#include "pso/network/client_id.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/render/BlobShadow.h"
 BmlResource *gogo_ball_bml_resource;
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -74,10 +79,8 @@ void TWindowTimer__sub_8019A6F8(void*);
 void __dl__7TObjectFPv(void*);
 extern BmlResourceDescriptor language_lobby_texture_descriptor;
 extern Pair_80198F14 gogo_ball_team_scores[];
-void bswap_6x79_gogo_ball__12TWindowTimerFi(saddr);
 void TObjPlayer__sub_801994DC(saddr,void*,void*,s32,void*,f32);
 f32 xyz_distance(Vec*,void*);
-f32 vector_length(Vec*);
 }
 void draw_shadow_on_ground(u8*);
 extern void* lbl_804B8D94[];
@@ -99,7 +102,6 @@ struct Obj_80198A2C {
 struct Pad_80198A2C { u8 pad0[0x10]; s16 buttons; };
 struct Sys_80198A2C { u8 pad0[0x48]; u16 mode; };
 extern "C" {
-void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 void *lbl_804B8A10[210] = {
     (void *)0xbf000000, (void *)0x3f600000, (void *)0x0, (void *)0x40600000,
     (void *)0x40200000, (void *)0x8d480ff, (void *)0x0, (void *)0x41a00000,
@@ -166,19 +168,20 @@ void *lbl_804B8D80[5] = {
     (void *)0x50005, (void *)0x0, (void *)0x0, (void *)0xff00ff,
     (void *)0x0,
 };
+}
 void *lbl_804B8D94[3] = {
     (void *)0x43fa0000, (void *)0x41a00000, (void *)0x0,
 };
 void *lbl_804B8DA0[3] = {
     (void *)0xc3fa0000, (void *)0x41a00000, (void *)0x0,
 };
+
 // The lobby GVM texture lists TLanguage::load_lobby_textures loads.
 GinjaTextureList *lobby_gvm_texture_handles[9] = {0};
 const NJS_ARGB fish_draw_color[1] = {{0.2f, 0.0f, 0.0f, 0.0f}};
 // spawn_particle_effect_with_rotation takes x/y/z angles (0x8000 = half turn).
 struct Rot_80198A2C { s32 x, y, z; };
 const Rot_80198A2C boss3_volopt_init_vec = {0, 0, 0x8000};
-}
 struct Stack_80198DCC {
     s32 sp8;
     s32 spC;
@@ -188,13 +191,11 @@ struct Stack_80198DCC {
     s8 sp1C;
     u8 trailing_storage[0x3];
 };
-extern "C" {
+
 void TWindowTimer__sub_80198D98(void);
-}
 struct Vec_80198E84 { f32 x; f32 y; f32 z; s32 w; u8 pad10[2]; s16 f12; };
-extern "C" {
+
 void fn_80198E84(void);
-}
 struct Cfg_80198F14 { f32 f0; f32 f4; f32 f8; s32 fC; u8 pad10[2]; s16 f12; u8 pad14[4]; s8 f18; };
 struct Pair_80198F14 { s32 a; s32 b; };
 u8 *load_gvm_texture_file(saddr arg0);
@@ -214,18 +215,15 @@ struct Col_801994DC { f32 r, g, b, a; };
 struct Ang_801994DC { s32 x, y, z; };
 extern "C" {
 s32 scale_current_matrix(void *);
-extern u32 blob_shadow_texture_list;
 void TObjPlayer__sub_801994DC(saddr arg0, void *arg1, void *arg2, s32 arg3, void *arg4, f32 farg0);
 f32 fabs_float(f32);
 struct E54_801990B4 { u8 b[0x54]; };
-}
-void handle_6x79_gogo_ball(u8 *arg0);
-void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
-extern "C" {
 struct Seg_80199674 { Vec a; Vec b; };
 struct Hit_80199674 { u32 f0; Seg_80199674 *seg; };
 f32 xyz_distance(Vec *, void *);
 }
+void handle_6x79_gogo_ball(u8 *arg0);
+void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 extern u8 saved_model_draw_color[];
 extern u8 model_material_color[];
 struct Tri_8019978C {
@@ -245,13 +243,8 @@ struct Obj_8019978C {
 extern "C" {
 Hit_8019978C *csnVector(Vec *, Vec *, s32);
 f32 vec3_dot(Vec *, Vec *);
-f32 vector_length(Vec *);
 struct Glob_80199A44 { u8 pad[0x1C]; f32 scale; u8 pad20[0x28]; u16 kind; };
 s32 matrix_mult_vec(int, void *, void *);
-void rotate_matrix_about_axis(u8 *arg0, saddr arg1, s32 arg2);
-void translate_matrix_vec3(u8 *arg0, u8 *arg1);
-f32 vec_squared_length(void *);
-void set_chunk_material_override_pair(s32, s32);
 extern u8 identity_matrix[];
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
@@ -282,16 +275,8 @@ struct Timer_8019A104 {
     s32 f360;
 };
 extern "C" {
-void bswap_6x79_gogo_ball__12TWindowTimerFi(saddr arg0);
 void TWindowTimer__sub_8019A6F8(void* p);
-}
-void add_gogo_ball_three_point_score(s32 i);
-void add_gogo_ball_one_point_score(s32 i);
-void init_6x40_walk_packet(void *cmd);
-extern "C" {
-extern s32 local_client_id;
 void TWindowTimer__sub_8019A098(void);
-void rotate_vec_xz(void *, void *, s32);
 s32 get_entity_id(void *);
 void vec3_add_to(void *, void *);
 f32 atan2_float(f32, f32);
@@ -301,7 +286,10 @@ f32 atan2_float(f32, f32);
 #define vector_length ((f32 (*)(void*,f32))vector_length)
 #define xyz_distance ((f32 (*)(void*,void*))xyz_distance)
 void TWindowTimer__sub_8019A770() { TWindowCtrl::close_timer_window(); }
-
+}
+void add_gogo_ball_three_point_score(s32 i);
+void add_gogo_ball_one_point_score(s32 i);
+void init_6x40_walk_packet(void *cmd);
 void add_gogo_ball_one_point_score(s32 i) {
     ((s32 *)&gogo_ball_team_scores)[i] += 1;
 }
@@ -310,7 +298,8 @@ void add_gogo_ball_three_point_score(s32 i) {
     ((s32 *)&gogo_ball_team_scores)[i] += 3;
 }
 
-int TWindowTimer::set_timer_value(int a0, int a1) { gogo_ball_team_scores[a0] = a1; return (int)gogo_ball_team_scores; }
+
+int *TWindowTimer::set_timer_value(int a0, int a1) { gogo_ball_team_scores[a0] = a1; return gogo_ball_team_scores; }
 
 s16 TWindowTimer::get_timer_value(s32 i) {
     return ((s32 *)&gogo_ball_team_scores)[i];
@@ -702,7 +691,6 @@ s32 TUnk_804B8E18::reflect_velocity_off_collision(void *p, void *v) {
     return 0;
 }
 
-}
 void draw_shadow_on_ground(u8 *arg0) {
     Hit_80199674 *hit;
     f32 t;
@@ -741,7 +729,7 @@ void draw_shadow_on_ground(u8 *arg0) {
 #define controller_input_state (*(s32 (*)[1])&controller_input_state)
 #define gogo_ball_configuration (*(u8 (*)[1])&gogo_ball_configuration)
 
-void TObjPlayer__sub_801994DC(saddr arg0, void *arg1, void *arg2, s32 arg3, void *arg4, f32 farg0) {
+void TObjPlayer__sub_801994DC(saddr arg0, void *arg1, void *arg2, s32 angle, void *arg4, f32 farg0) {
     Ang_801994DC ang;
     Col_801994DC col;
     Fx_801994DC fx;
@@ -754,7 +742,7 @@ void TObjPlayer__sub_801994DC(saddr arg0, void *arg1, void *arg2, s32 arg3, void
     translate_matrix(0, 0.0f, 0.3f, 0.0f);
     rotate_matrix_z(0, ang.z);
     rotate_matrix_x(0, ang.x);
-    rotate_matrix_y(0, arg3);
+    rotate_matrix_y(0, angle);
     if (arg4 != NULL) {
         scale_current_matrix(arg4);
     }
@@ -922,7 +910,7 @@ void fn_80198E84(void) {
     }
 }
 
-void TWindowTimer::throw_gogo_ball(s32 arg1, s32 arg2) {
+void TWindowTimer::throw_gogo_ball(s32 ang, s32 time) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80198DCC, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_80198DCC, spC) == 0x4);
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_80198DCC, sp10) == 0x8);
@@ -931,8 +919,8 @@ void TWindowTimer::throw_gogo_ball(s32 arg1, s32 arg2) {
     LAYOUT_ASSERT(sp1C_offset, offsetof(Stack_80198DCC, sp1C) == 0x14);
     Stack_80198DCC stack;
     TWindowTimer__sub_8019A6F8((&stack.sp8));
-    stack.spC = arg2;
-    stack.sp10 = arg1;
+    stack.spC = time;
+    stack.sp10 = ang;
     stack.sp14 = *(f32 *)((s8 *)((u8 *)this) + 0);
     stack.sp18 = *(f32 *)((s8 *)((u8 *)this) + 8);
     if (test_previous_buttons_packed((void *) ((u8 *)&controller_input_state + 0x20), 4) != 0) {
@@ -1174,18 +1162,18 @@ void TUnk_804B8DD0::render() {
         }
         push_matrix();
         post_translate_matrix((u8 *)&this->pos);
-        ::draw_ginja_model((void *)((*(s32 *)((s8 *)bml_model + 4))));
+        ::draw_ginja_model(*(void **)((s8 *)bml_model + 4));
         push_matrix();
-        ::draw_ginja_model((void *)((*(s32 *)((s8 *)(*(u8 **)((s8 *)bml_model + 0x2C)) + 4))));
+        ::draw_ginja_model(*(void **)((s8 *)(*(u8 **)((s8 *)bml_model + 0x2C)) + 4));
         pop_matrix();
         push_matrix();
         rotate_matrix_z(0, this->m_38);
         rotate_matrix_y(0, 0x8000);
-        ::draw_ginja_model((void *)((*(s32 *)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)bml_model + 0x2C)) + 0x30)) + 4))));
+        ::draw_ginja_model(*(void **)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)bml_model + 0x2C)) + 0x30)) + 4));
         pop_matrix();
         push_matrix();
         rotate_matrix_z(0, (int) (-this->m_38));
-        ::draw_ginja_model((void *)((*(s32 *)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)bml_model + 0x2C)) + 0x30)) + 0x30)) + 4))));
+        ::draw_ginja_model(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)bml_model + 0x2C)) + 0x30)) + 0x30)) + 4));
         pop_matrix();
         pop_matrix();
     }

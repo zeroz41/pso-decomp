@@ -65,26 +65,26 @@ s32 TLobby::get_hold_effect_size_by_type() {
         return 0;
     }
 }
-s32 TLobby::send_packet(s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+s32 TLobby::send_packet(s32 arg1, s32 arg2, s32 size, s32 arg4) {
     s32 temp_r31;
     s32 temp_r31_2;
     saddr temp_r3;
     s32 temp_r0;
-    temp_r31_2 = (arg3 + 0x1F) & 0xFFFFFFE0;
+    temp_r31_2 = (size + 0x1F) & 0xFFFFFFE0;
     temp_r3 = (saddr)mem_alloc(temp_r31_2);
     if (temp_r3 == 0) {
         return 0;
     }
     TLobby::send_type2_event(arg4, temp_r3, temp_r31_2);
     temp_r0 = ((_VObj802A78E4_802a78e4_802A7848*)this)->m0(arg1, arg2);
-    temp_r31 = ((TLobby *)temp_r3)->write_packet_header(arg3, temp_r0, 0x4000);
+    temp_r31 = ((TLobby *)temp_r3)->write_packet_header(size, temp_r0, 0x4000);
     mem_free((void *)temp_r3);
     return temp_r31;
 }
 
-s32 TUnk_804DDD28::load_action_motion_pairs(s32 arg1, s32 arg2, s32 arg3) {
+s32 TUnk_804DDD28::load_action_motion_pairs(s32 arg1, s32 id, s32 flags) {
     Pair_802A7994 sp8;
-    s32 *slots;
+    const s32 *slots;
     s32 i;
     s32 f4;
     s32 pkt;
@@ -93,12 +93,12 @@ s32 TUnk_804DDD28::load_action_motion_pairs(s32 arg1, s32 arg2, s32 arg3) {
     if (this->vfunc_4() == 0U) {
         return 0;
     }
-    slots = (s32 *)this->vfunc_8(arg2, arg3);
+    slots = this->vfunc_8(id, flags);
     if (slots == NULL) {
         return 0;
     }
     zero_pair_fields(&sp8);
-    dst = (u8 *)this->get_state_table(arg2);
+    dst = (u8 *)this->get_state_table(id);
     for (i = 0; i < this->vfunc_75(); i++) {
         ((void (*)(s32, void *))set_slot_position__6TLobbyFii)(*slots, &sp8);
         f4 = ((TLobby *)(&sp8))->get_field_04();
@@ -121,7 +121,7 @@ TUnk_804DDD28::TUnk_804DDD28() {}
 
 s32 TUnk_804DDD28::get_cell_address(s32, s32) { return 0; }
 int TUnk_804DDD28::vfunc_4() { return 0; }
-int TUnk_804DDD28::vfunc_8(s32, s32) { return 0; }
+const s32 *TUnk_804DDD28::vfunc_8(s32, s32) { return NULL; }
 int TUnk_804DDD28::vfunc_9(s32, s32, s32) { return 0; }
 void TUnk_804DDD28::vfunc_14() {  }
 int TUnk_804DDD28::vfunc_75() { return 0; }

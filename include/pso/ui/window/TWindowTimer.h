@@ -15,13 +15,13 @@ struct TWindowTimer : public TWindowBase {
     void draw(s32 arg1, s32 arg2);
     void set_time(u32 secs);
     static void draw_tab(s32 arg0, saddr arg1);
-    static s32 create();
-    static s32 create_alt();
+    static TWindowTimer *create();
+    static TWindowTimer *create_alt();
     void copy_state(u8 *arg1);
     void throw_gogo_ball(s32 arg1, s32 arg2);
     void send_gogo_ball();
     static s16 get_timer_value(s32 i);
-    static int set_timer_value(int a0, int a1);
+    static int *set_timer_value(int a0, int a1);
     static void bswap_6x79_gogo_ball(int);
 };
 

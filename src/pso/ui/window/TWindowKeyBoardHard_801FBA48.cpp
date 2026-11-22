@@ -53,7 +53,7 @@ void draw_ginja_box_tree(u8 *arg0) {
             TParticleCtrl::begin_effect_render();
         }
         if (!(temp_r31 & 8)) {
-            draw_ginja_model((void *)((*(s32 *)((s8 *)var_r30 + 4))));
+            draw_ginja_model(*(void **)((s8 *)var_r30 + 4));
         }
         if (!(temp_r31 & 0x10)) {
             temp_r3 = (u8 *)(*(u8 **)((s8 *)var_r30 + 0x2C));
@@ -162,9 +162,9 @@ s32 TAdSinglePlyChrSelectGC::load_and_verify_character_save(char *desc) {
     return (u8)(saved == res);
 }
 
-s32 TAdSinglePlyChrSelectGC::wait_for_card_load(s32 arg0) {
-    while (poll_memcard_result(arg0) != 0) {
-        if (TAdPlayerLoadGC::probe_card_slot(arg0) != 1) {
+s32 TAdSinglePlyChrSelectGC::wait_for_card_load(s32 chan) {
+    while (poll_memcard_result(chan) != 0) {
+        if (TAdPlayerLoadGC::probe_card_slot(chan) != 1) {
             return 0;
         }
         render_frame__23TAdSinglePlyChrSelectGCFv();

@@ -23,6 +23,12 @@
 #include "pso/ui/frontend/TAdWarningBaseGC.h"
 #include "pso/render/BlobShadow.h"
 #include "pso/system/memory.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/unk/text_803E2F28.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
+#include "pso/unk/TLobby_80243370.h"
 
 void update_music_sequencer(void);
 extern "C" {
@@ -83,22 +89,17 @@ s32 OSInit();
 s32 OSSetArenaLo(u32);
 void TLobby__sub_8007EB70(void);
 void fn_800FFE10(void);
-void install_depth_alpha_state(void);
-void init_char_select_globals__23TAdSinglePlyChrSelectGCFv(void);
 void TLobby__sub_8020E3C0(void);
 s32 TLobby__sub_80226BA4();
 }
 void init_adx_audio_system(void);
-extern "C" {
-void init_buffers(void);
-}
 void request_chara_making_archives(void);
 extern "C" {
 void TCharaMaking__sub_8028E790(void);
 }
 s32 verify_game_file_integrity();
 extern "C" {
-void TLobby__sub_8032C91C(void);
+void gba_init(void);
 u32 OSInitAlloc(u32, u32, int);
 s32 VIInit();
 s32 PADInit();
@@ -107,9 +108,6 @@ s32 GXSetPixelFmt(int, int);
 s32 init_debug_text_buffer(s32, int, int);
 }
 void set_debug_text_scale(u16 arg0);
-extern "C" {
-void set_matrix_identity(u8 *arg0);
-}
 void init_record_and_slot_arrays(s32 arg0, s32 arg1, void *arg2, void *arg3);
 extern "C" {
 u32 calc_framebuffer_size_bytes(int, void *);
@@ -117,10 +115,7 @@ u32 calc_framebuffer_size_bytes(int, void *);
 void init_system_heap_and_global_allocator(u8 *start, s32 size);
 extern "C" {
 s32 init_pad_slots_and_read__16TKeyBoardControlFv(int, int, int);
-void TObjPlayer__sub_803E492C(s32 a, s32 b);
 int OSResetSystem(void*, void*, void*);
-void free_banner_buffers(void);
-void release_all__23TAdSinglePlyChrSelectGCFv(void);
 void TAdWarningBaseGC__sub_8032D188(void);
 void TLobby__sub_80147978(void);
 void TLobby__sub_8020E3BC(void);
@@ -140,8 +135,6 @@ saddr lbl_805D49A4;
 saddr player_matrix_stack_buffer;
 saddr keyboard_input_buffer;
 extern "C" {
-void TLobby__sub_8022809C(void);
-void TLobby__sub_802433A8(void);
 void TObjBoss2Tunnel__sub_8036EF4C(void);
 void TObjPlayer__sub_801D92A4(void);
 void fn_800FFE0C(void);
@@ -367,7 +360,7 @@ void init_game_systems(void) {
     load_ha_u032_kage();
     fn_800FFE10();
     TLobby::reset_story_select();
-    TLobby__sub_8032C91C();
+    gba_init();
     load_ply_level_tbl();
     verify_game_file_integrity();
     TLobby::handle_flag2_request();

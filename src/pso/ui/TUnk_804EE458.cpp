@@ -32,6 +32,7 @@
 #include "pso/render/render_util.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/math/AngleLookup.h"
 
 void TUnk_804EE458::draw_record_with_camera(s32 record, s32 camera) {
     TLobby::draw_with_camera((saddr)((void *) (TLobby::get_record(record))), camera, 0x20, (-1e+01f));
@@ -41,8 +42,6 @@ extern "C" {
 void TCameraCtrl__sub_80068EF0(void);
 
 s32 play_sound_effect(int, int, int, int);
-
-f32 sin_table_lookup(s32);
 
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
@@ -69,14 +68,14 @@ void TUnk_804EE458::handle_cursor_input() {
     u8 *input;
     input = (u8 *)&controller_physical_port_bank.controllers[0];
     color.a = 1.0f;
-    if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
+    if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
         cursor = cursor - 1;
         if (cursor < 0) {
             cursor = 3;
         }
         play_sound_effect(0x54100, 0, 0, 0);
     }
-    if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)input, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
+    if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)input, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
         cursor = cursor + 1;
         if (cursor >= 4) {
             cursor = 0;
@@ -153,8 +152,8 @@ void TUnk_804EE458::run_task() {
 
 TUnk_804EE458::~TUnk_804EE458() {}
 
-TUnk_804EE458::TUnk_804EE458(int a1) : TObject((TObject *)a1) {
-    owner = a1;
+TUnk_804EE458::TUnk_804EE458(TObject *parent) : TObject(parent) {
+    owner = parent;
     cursor = 0;
     state = 0;
     color.a = 0.0f;

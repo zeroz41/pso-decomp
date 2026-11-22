@@ -13,6 +13,7 @@
 #include "pso/enemy/flower/TObjEneRe2Flower.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/SoundEffect.h"
 
 struct VBase_18_9c7b63
 {
@@ -153,8 +154,7 @@ struct RecoveredFields_800C2AC4_arg0
 };
 
 extern "C" {
-s32 TBoss8Dragon__sub_800BB7D4(void *, int);
-s32 play_sound_effect(void *, void *, int, int);
+void TBoss8Dragon__sub_800BB7D4(void *self, int id);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
 f32 vec3_add_to(void *, void *);
@@ -176,10 +176,10 @@ void fn_800C2A88(void *self, s32 msg) {
     }
 }
 
-void fn_800C2AC4(u8 *arg0, int arg1) {
+void fn_800C2AC4(u8 *arg0, int reason) {
   Vec stack;
   f32 temp_f1;
-  switch (arg1)
+  switch (reason)
   {
     return;
     case 4:
@@ -191,7 +191,7 @@ void fn_800C2AC4(u8 *arg0, int arg1) {
       TBoss8Dragon__sub_800BB7D4((void *) arg0, 0xF2);
       ((RecoveredFields_800C2AC4_arg0 *) arg0)->field_410 = 0;
       ((RecoveredFields_800C2AC4_arg0 *) arg0)->field_424 = (f32) lbl_805D9FAC;
-      play_sound_effect((void *) remap_sound_for_variant((saddr)arg0, 0x4003A812), arg0 + 0x38, 0, 0);
+      play_sound_effect(remap_sound_for_variant((saddr)arg0, 0x4003A812), arg0 + 0x38, 0, 0);
       TObjPlayer::play_effect_if_v2(-0x200);
       return;
     case 3:

@@ -9,23 +9,9 @@
 #include "pso/system/task/TObject.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/map/CsnQuery.h"
+#include "pso/render/render_util.h"
 
-struct Stack_8023A510 {
-    s32 sp8;
-    s32 spC;
-    f32 sp10;
-    f32 sp14;
-    f32 sp18;
-    s32 sp1C;
-    f32 sp20;
-    u8 pad_24[0x4];
-    f32 sp28;
-    f32 sp2C;
-    f32 sp30;
-    f32 sp34;
-    f32 sp38;
-    f32 sp3C;
-};
 
 struct RecoveredFields_8023A510_arg0 {
     u8 unknown_0[0x20];
@@ -44,29 +30,12 @@ struct RecoveredFields_8023A510_arg0 {
     f32 field_80;
 };
 
-struct RecoveredFields_8023A510_temp_r3 {
-    u8 unknown_0[0x4];
-    u8 * field_4;
-};
 
-struct RecoveredFields_8023A510_temp_r3_2 {
-    u8 unknown_0[0x4];
-    u8 * field_4;
-};
 
-struct RecoveredFields_8023A510_temp_r6 {
-    u8 unknown_0[0xC];
-    f32 field_C;
-    f32 field_10;
-    f32 field_14;
-};
 
 extern "C" {
 s32 check_technique_projectile_wall_hit__13TUnk_804CCC68Fv(void *, f32, f32);
 f32 fabs_float(f32);
-s32 *csnVecterUnder(saddr origin, s32 mask);
-u8 *csnVector(f32 *, f32 *, s32);
-s32 angle_difference_abs(s32 a, s32 b);
 void step_ground_technique_projectile(RecoveredFields_8023A510_arg0 *arg0);
 }
 void direction_to_rotation_xy(u8 *arg0, s32 *arg1, s32 *arg2);
@@ -97,60 +66,47 @@ LAYOUT_ASSERT(RecoveredFields_8023A510_arg0_64_offset, offsetof(RecoveredFields_
 LAYOUT_ASSERT(RecoveredFields_8023A510_arg0_78_offset, offsetof(RecoveredFields_8023A510_arg0, field_78) == 0x78);
 LAYOUT_ASSERT(RecoveredFields_8023A510_arg0_7C_offset, offsetof(RecoveredFields_8023A510_arg0, field_7C) == 0x7C);
 LAYOUT_ASSERT(RecoveredFields_8023A510_arg0_80_offset, offsetof(RecoveredFields_8023A510_arg0, field_80) == 0x80);
-LAYOUT_ASSERT(RecoveredFields_8023A510_temp_r3_4_offset, offsetof(RecoveredFields_8023A510_temp_r3, field_4) == 0x4);
-LAYOUT_ASSERT(RecoveredFields_8023A510_temp_r3_2_4_offset, offsetof(RecoveredFields_8023A510_temp_r3_2, field_4) == 0x4);
-LAYOUT_ASSERT(RecoveredFields_8023A510_temp_r6_C_offset, offsetof(RecoveredFields_8023A510_temp_r6, field_C) == 0xC);
-LAYOUT_ASSERT(RecoveredFields_8023A510_temp_r6_10_offset, offsetof(RecoveredFields_8023A510_temp_r6, field_10) == 0x10);
-LAYOUT_ASSERT(RecoveredFields_8023A510_temp_r6_14_offset, offsetof(RecoveredFields_8023A510_temp_r6, field_14) == 0x14);
 
 void step_ground_technique_projectile(RecoveredFields_8023A510_arg0 *arg0) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8023A510, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8023A510, spC) == 0x4);
-    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8023A510, sp10) == 0x8);
-    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_8023A510, sp14) == 0xC);
-    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_8023A510, sp18) == 0x10);
-    LAYOUT_ASSERT(sp1C_offset, offsetof(Stack_8023A510, sp1C) == 0x14);
-    LAYOUT_ASSERT(sp20_offset, offsetof(Stack_8023A510, sp20) == 0x18);
-    LAYOUT_ASSERT(sp28_offset, offsetof(Stack_8023A510, sp28) == 0x20);
-    LAYOUT_ASSERT(sp2C_offset, offsetof(Stack_8023A510, sp2C) == 0x24);
-    LAYOUT_ASSERT(sp30_offset, offsetof(Stack_8023A510, sp30) == 0x28);
-    LAYOUT_ASSERT(sp34_offset, offsetof(Stack_8023A510, sp34) == 0x2C);
-    LAYOUT_ASSERT(sp38_offset, offsetof(Stack_8023A510, sp38) == 0x30);
-    LAYOUT_ASSERT(sp3C_offset, offsetof(Stack_8023A510, sp3C) == 0x34);
-    Stack_8023A510 stack;
+    Vec to;
+    Vec from;
+    Vec probe;
+    Vec dir;
+    s32 yaw;
+    s32 pitch;
     f32 temp_f1;
-    u8 *temp_r3;
-    u8 *temp_r3_2;
-    u8 *temp_r6;
+    CsnHit *ground;
+    CsnHit *wall;
+    CsnContact *contact;
     VecCopy((Vec *)(((u8 *)arg0) + 0x78), (const Vec *)(((u8 *)arg0) + 0x20));
     arg0->field_20 = (f32) ((arg0->field_48 * arg0->field_64) + arg0->field_20);
     arg0->field_28 = (f32) ((arg0->field_50 * arg0->field_64) + arg0->field_28);
-    VecCopy((Vec *)(&stack.sp1C), (const Vec *)(((u8 *)arg0) + 0x20));
-    stack.sp20 += 1e+01f;
-    temp_r3 = (u8 *)(csnVecterUnder((saddr)&stack.sp1C, 0x16EF));
-    if (temp_r3 != NULL) {
-        arg0->field_24 = (f32) (5.0f + *(f32 *)((s8 *)(((RecoveredFields_8023A510_temp_r3 *)temp_r3)->field_4) + 4));
+    VecCopy(&probe, (const Vec *)(((u8 *)arg0) + 0x20));
+    probe.y += 1e+01f;
+    ground = csnVecterUnder(&probe, 0x16EF);
+    if (ground != NULL) {
+        arg0->field_24 = 5.0f + ground->contact->point.y;
     }
     if (fabs_float(arg0->field_7C - arg0->field_24) > 12.0f) {
         arg0->field_24 = (f32) arg0->field_7C;
         ((TObject *)arg0)->queue_destruction();
         return;
     }
-    stack.sp28 = arg0->field_78;
+    from.x = arg0->field_78;
     temp_f1 = 5.0f + arg0->field_7C;
-    stack.sp2C = temp_f1;
-    stack.sp30 = arg0->field_80;
-    stack.sp34 = arg0->field_20;
-    stack.sp38 = temp_f1;
-    stack.sp3C = arg0->field_28;
-    temp_r3_2 = (u8 *)(csnVector(&stack.sp28, &stack.sp34, 0x100));
-    if (temp_r3_2 != NULL) {
-        temp_r6 = (u8 *)(((RecoveredFields_8023A510_temp_r3_2 *)temp_r3_2)->field_4);
-        stack.sp10 = ((RecoveredFields_8023A510_temp_r6 *)temp_r6)->field_C;
-        stack.sp14 = ((RecoveredFields_8023A510_temp_r6 *)temp_r6)->field_10;
-        stack.sp18 = ((RecoveredFields_8023A510_temp_r6 *)temp_r6)->field_14;
-        direction_to_rotation_xy((u8 *)&stack.sp10, &stack.spC, &stack.sp8);
-        if (angle_difference_abs(0, stack.spC) >= 0x1555) {
+    from.y = temp_f1;
+    from.z = arg0->field_80;
+    to.x = arg0->field_20;
+    to.y = temp_f1;
+    to.z = arg0->field_28;
+    wall = csnVector(&from, &to, 0x100);
+    if (wall != NULL) {
+        contact = wall->contact;
+        dir.x = contact->normal.x;
+        dir.y = contact->normal.y;
+        dir.z = contact->normal.z;
+        direction_to_rotation_xy((u8 *)&dir, &yaw, &pitch);
+        if (angle_difference_abs(0, yaw) >= 0x1555) {
             ((TObject *)arg0)->queue_destruction();
         }
     }
@@ -187,8 +143,6 @@ f32 vector_length(void *);
 extern const f64 lbl_8044DC00;
 
 void free_collision_body_parts(void *);
-void __dl__7TObjectFPv(void *);
-void __dt__7TEffectFv(void *, int);
 
 TUnk_804CCC68::~TUnk_804CCC68() {
     if (proxy != NULL) { free_collision_body_parts(proxy); proxy = 0; }

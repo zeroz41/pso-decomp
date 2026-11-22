@@ -7,7 +7,7 @@
 struct TWindowMainMenu;
 
 struct TWindowSubLog : public TObject {
-    TWindowSubLog(TObject *arg1, void *arg2);
+    TWindowSubLog(TObject *parent, void *arg2);
     virtual ~TWindowSubLog();
     u32 m_1c;
     TWindowMainMenu *parent_menu;

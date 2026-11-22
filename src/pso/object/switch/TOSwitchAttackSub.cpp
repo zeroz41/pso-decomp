@@ -10,15 +10,15 @@
 #include "pso/object/switch/TOSwitchAttack.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/switch/TSwitch.h"
+#include "pso/network/client_id.h"
 
 const char *TOSwitchAttack__name = "TOSwitchAttack";
 const char *TOSwitchAttackSub__name = "TOSwitchAttackSub";
 
 extern "C" {
 f32 horizontal_distance_squared(const f32*, const f32*);
-u8 is_current_floor_switch_set(s32 id);
 extern u8* camera_ctrl_instance;
-extern void* local_client_id;
 
 }
 
@@ -84,10 +84,9 @@ TOSwitchAttackSub::TOSwitchAttackSub(TObject *parent, s32 arg2, s32 arg3, u32 ar
 }
 #undef object
 
-extern "C" {
 
-void TOSwitchAttack::create_sub(saddr arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0) {
-    new TOSwitchAttackSub((TObject *)arg0, arg1, arg2, (u32)arg3, farg0);
+void TOSwitchAttack::create_sub(saddr parent, s32 arg1, s32 arg2, s32 arg3, f32 farg0) {
+    new TOSwitchAttackSub((TObject *)parent, arg1, arg2, (u32)arg3, farg0);
 }
 
 extern s32 game_difficulty_selection;
@@ -118,4 +117,3 @@ void TOSwitchAttack::init_params() {
     }
 }
 
-}

@@ -34,17 +34,9 @@ static const f32 TContainerAncient01__data_805DBD14[1] = {0.0f};
 
 #include "pso/player/TObjPlayer.h"
 
-extern "C" void has_flag_0x800__9TObjCharaFv();
-
-extern "C" void test_flag30_512__9TObjCharaFv();
-
-extern "C" void test_flag_1000__9TObjCharaFv();
-
-extern "C" void test_flag_256__9TObjCharaFv();
 
 #include "pso/system/vector.h"
 
-#include "pso/object/container/TContainerAncient01.h"
 
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 
@@ -190,7 +182,6 @@ struct Obj_8018B030 : VBase_8018B030 {
     s16 state;
 };
 extern "C" {
-void __ct__9TObjCharaFP7TObject(void *, void *, void *);
 
 
 void init_collision_body_parts(void *, void *, int);
@@ -214,8 +205,6 @@ saddr TContainerAncient01__open_effect_table[2];
 
 void TContainerAncient01__sub_8018A584(Obj_8018A584 *self, f32 range);
 
-void *get_player_by_client_id(s32 i);
-
 extern s32 registered_player_count;
 
 BmlResource *TContainerAncient01__sub_8018BE90(void);
@@ -226,11 +215,6 @@ s32 scale_current_matrix(void *);
 
 s32 post_translate_matrix(void *);
 
-void draw_ginja_object(void *child);
-
-void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
-
-
 
 void *TContainerAncient01R__create(void *arg0);
 
@@ -238,124 +222,6 @@ void TContainerAncient01R__sub_8018AF74(void);
 
 s32 free_collision_body_parts(void *);
 
-
-extern "C" void has_no_target__9TObjCharaFv();
-
-extern "C" void vfunc_74__9TObjCharaFl();
-
-extern "C" void recalc_stats__9TObjCharaFv();
-
-extern "C" void refresh_target__9TObjCharaFv();
-
-extern "C" void consume_timer_field__9TObjCharaFl();
-
-extern "C" void deliver_attack_hits__9TObjCharaFf();
-
-extern "C" void vfunc_66__9TObjCharaFv();
-
-extern "C" void get_anim_node_position__9TObjCharaFlP3Vec();
-
-extern "C" void run_death_reaction__9TObjCharaFv();
-
-extern "C" void run_hit_reaction__9TObjCharaFv();
-
-extern "C" void run_miss_reaction__9TObjCharaFv();
-
-extern "C" void run_attack_action__9TObjCharaFv();
-
-extern "C" void run_move_action__9TObjCharaFv();
-
-extern "C" void run_idle_action__9TObjCharaFv();
-
-extern "C" void apply_slow_status__9TObjCharaFv();
-
-extern "C" void update_shock_clock__9TObjCharaFv();
-
-extern "C" void vfunc_43__9TObjCharaFv();
-
-extern "C" void vfunc_18__9TObjCharaFPUc();
-
-extern "C" void interact__14TObjCollidableFl();
-
-extern "C" void get_name__8TObjBaseFv();
-
-extern "C" void add_actor_exp__9TObjCharaFl();
-
-extern "C" void apply_action_hold_status__9TObjCharaFf();
-
-extern "C" void apply_anti_technique__9TObjCharaFl();
-
-extern "C" void apply_attack_stat_status__9TObjCharaFPv();
-
-extern "C" void apply_confusion_status__9TObjCharaFv();
-
-extern "C" void apply_movement_ailment__9TObjCharaFl();
-
-extern "C" void apply_object_set_data__8TObjBaseFPv();
-
-extern "C" void apply_paralysis__9TObjCharaFv();
-
-extern "C" void apply_poison_status__9TObjCharaFv();
-
-extern "C" void apply_shock_status__9TObjCharaFv();
-
-extern "C" void apply_switch_attack__9TObjCharaFv();
-
-extern "C" void classify_actor_view_detail__8TObjBaseFfff();
-
-extern "C" void clear_all_status_effects__9TObjCharaFv();
-
-extern "C" void clear_harmful_statuses__9TObjCharaFv();
-
-extern "C" void cure_paralysis__9TObjCharaFv();
-
-extern "C" void cure_poison_ailment__9TObjCharaFv();
-
-extern "C" void apply_defense_stat_status__9TObjCharaFPv();
-
-extern "C" void enemy_spawn_jellen_effect__9TObjCharaFv();
-
-extern "C" void enemy_spawn_zalure_effect__9TObjCharaFv();
-
-extern "C" void vfunc_78__9TObjCharaFl();
-
-extern "C" void gain_photon_blast_chain_charge__9TObjCharaFv();
-
-extern "C" void spend_photon_blast_charge__9TObjCharaFf();
-
-extern "C" void gain_photon_blast_charge__9TObjCharaFf();
-
-extern "C" void get_center__9TObjCharaFv();
-
-extern "C" void get_actor_level_index__9TObjCharaFv();
-
-extern "C" void get_pos__9TObjCharaFl();
-
-extern "C" void is_actor_cadence_frame__9TObjCharaFl();
-
-extern "C" void is_target_in_attack_range__9TObjCharaFv();
-
-extern "C" void render_shadows__7TObjectFv();
-
-extern "C" void reset_motion_fields__9TObjCharaFv();
-
-extern "C" void reset_pose__9TObjCharaFv();
-
-extern "C" void trigger_switch_attack__9TObjCharaFv(s32 arg0);
-
-extern "C" void update_action_hold_status__9TObjCharaFv();
-
-extern "C" void update_actor_ground_y__9TObjCharaFv();
-
-extern "C" s32 update_defense_stat_status__9TObjCharaFv(u8 *arg0);
-
-extern "C" void update_flag30_timer__9TObjCharaFv();
-
-extern "C" void update_movement_status__9TObjCharaFv();
-
-extern "C" void update_object_view_visibility__8TObjBaseFff();
-
-extern "C" void update_poison_status__9TObjCharaFv();
 
 const char *fe_obj_h_s_konte_model_names[3] = { "fe_obj_h_s_konte.gj", "fe_obj_h_s_konte2.gj", NULL };
 
@@ -395,7 +261,6 @@ static const NpcAnimationBinding container_ancient_anim_binding = {
 
 const char *TContainerAncient01R__name = "TContainerAncient01R";
 
-extern void *tl_05;
 }
 
 #include "pso/system/task/TObject_80019A50.h"
@@ -447,6 +312,9 @@ s32 reset_state__19TContainerAncient01Fv();
 #include "pso/object/container/TObjContainerIdo.h"
 
 #include "pso/item/TUnk_804B97C0.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/player/PlayerSlots.h"
+#include "pso/render/ModelDrawContext.h"
 
 struct B_8018BE30 { u8 pad[0x18]; };
 
@@ -531,7 +399,7 @@ TContainerAncient01::~TContainerAncient01() {
     unregister_object_by_id();
     free_collision_body_parts(this);
 }
-extern "C" {
+
 void TContainerAncient01::load_resources() {
     BmlResource *p;
     TContainerAncient01__bml_resource = NULL;
@@ -560,8 +428,8 @@ void TContainerAncient01::release_static_resource() {
     }
 }
 
-void *TContainerAncient01::create(void *arg0) {
-    return new TContainerAncient01((TObject *)tl_05, arg0);
+void *TContainerAncient01::create(void *set_data) {
+    return new TContainerAncient01(tl_05, set_data);
 }
 
 void TContainerAncient01::run_task() {
@@ -684,11 +552,8 @@ void TContainerAncient01::vfunc_6(s16 *arg1, s32 arg2) {
         this->m_35c = 1;
     }
 }
-}
-
 #pragma push
 #pragma fp_contract on
-extern "C" {
 void TContainerAncient01::init_state_vectors() {
     *(f32 *)&this->m_338 = (f32) (3e+02f + (this->scale.x - TContainerAncient01__data_805DBD10[0]));
     this->m_33c = (f32) (2.1e+02f + (this->scale.y - TContainerAncient01__data_805DBD10[0]));
@@ -729,10 +594,7 @@ void TContainerAncient01::update_wait_for_player() {
         this->m_2b4 = (-1.0f);
     }
 }
-}
-
 #pragma pop
-extern "C" {
 void TContainerAncient01::sub_8018B48C() {
     u8 *arg0 = (u8 *)this;
   ((TObjMotion *)arg0)->advance_animation();
@@ -817,12 +679,9 @@ void TContainerAncient01__sub_8018B180(Obj_8018B180 *self, f32 range) {
 void TContainerAncient01::spawn_effect(const Vec *position, s32 effect_id) {
     spawn_particle_effect(position, effect_id);
 }
-}
-
 #pragma push
 #pragma fp_contract on
 #define self ((Obj_8018B030 *)this)
-extern "C" {
 TContainerAncient01R::TContainerAncient01R(TObject *parent, void *set_data) : TObjChara(parent) {
     NJS_POINT2 *c;
 
@@ -846,11 +705,8 @@ TContainerAncient01R::TContainerAncient01R(TObject *parent, void *set_data) : TO
     self->state = 0;
     init_positions();
 }
-}
-
 #pragma pop
 #undef self
-extern "C" {
 TContainerAncient01R::~TContainerAncient01R() {
     unregister_object_by_id();
     free_collision_body_parts(this);
@@ -865,7 +721,7 @@ void TContainerAncient01R::init_table_entries() {
 void TContainerAncient01R__sub_8018AF74(void) { TContainerAncient01R__bml_resource = NULL; }
 
 void *TContainerAncient01R__create(void *parent) {
-    return new TContainerAncient01R((TObject *)tl_05, parent);
+    return new TContainerAncient01R(tl_05, parent);
 }
 
 void TContainerAncient01R::run_task() {
@@ -990,11 +846,8 @@ void TContainerAncient01R::vfunc_6(s16 *arg1, s32 arg2) {
         this->m_360 = 1;
     }
 }
-}
-
 #pragma push
 #pragma fp_contract on
-extern "C" {
 void TContainerAncient01R::init_positions() {
     this->m_33c = (f32) (3e+02f + (this->scale.x - TContainerAncient01__data_805DBD10[0]));
     this->m_340 = (f32) (2.1e+02f + (this->scale.y - TContainerAncient01__data_805DBD10[0]));
@@ -1014,10 +867,7 @@ void TContainerAncient01R::init_positions() {
     }
     this->m_338 = 0;
 }
-}
-
 #pragma pop
-extern "C" {
 void TContainerAncient01R::check_open_trigger() {
     Obj_8018A914 *self = (Obj_8018A914 *)this;
     s32 hit;
@@ -1060,7 +910,7 @@ void TContainerAncient01R::update_spawning() {
   }
 }
 
-s32 TContainerAncient01R::sub_8018A688() {
+void TContainerAncient01R::sub_8018A688() {
     u32 period;
     f32 t;
     u32 rem;
@@ -1126,5 +976,4 @@ void TContainerAncient01__sub_8018A584(Obj_8018A584 *self, f32 range) {
             }
         }
     }
-}
 }

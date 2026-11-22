@@ -378,7 +378,7 @@ u8 *TUnk_804EEF64::construct_title_scene() {
         p = ((TUnk_804EEF80 *)p)->construct(arg0);
     }
     *(void **)((s8 *)arg0 + 0x1C) = p;
-    p = (void *)new TUnk_804EE458((saddr)arg0);
+    p = (void *)new TUnk_804EE458((TObject *)arg0);
     *(void **)((s8 *)arg0 + 0x24) = p;
     p = (void *)new TUnk_804EE470((TObject *)(void *)tl_clipout);
     this->m_20 = p;
@@ -415,10 +415,10 @@ u8 *TUnk_804EEF64::construct_title_scene() {
 }
 
 void TLobby::destroy_global_object() {
-    u32 temp_r4;
-    temp_r4 = (u32) call_funcs_reverse__6TLobbyFPvUi(lobby_load_callback_table, sizeof(lobby_load_callback_table));
+    u32 value;
+    value = (u32) call_funcs_reverse__6TLobbyFPvUi(lobby_load_callback_table, sizeof(lobby_load_callback_table));
     if ((void *) lobby_title_texture_list != NULL) {
-        release_texture_list(lobby_title_texture_list, (s32) temp_r4);
+        release_texture_list(lobby_title_texture_list, (s32) value);
         lobby_title_texture_list = NULL;
     }
 }

@@ -12,6 +12,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 #pragma readonly_strings on
 
@@ -59,10 +60,9 @@ void TObjNpcARM00::play_voice() {
     play_sound_effect(0x40003B08, arg0 + 0x38, 0, 0);
 }
 
-extern void *tl_04;
 
 void *TObjNpcARW00__create(void *set_data) {
-    TObjControl *control = new TObjControl((TObject *)tl_04);
+    TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcARW00(control, set_data);
 }
 

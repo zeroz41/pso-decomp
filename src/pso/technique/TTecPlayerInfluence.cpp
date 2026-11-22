@@ -16,6 +16,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/technique/TTecCtrl.h"
+#include "pso/player/PlayerSlots.h"
 struct Owner_80237310
 {
   u8 pad[0x30];
@@ -96,7 +97,7 @@ struct Obj_802370D8 : VObj_18_1a504b {
     void *source;
 };
 
-struct Arr_80236EE8 { u32 w[3]; };
+struct Arr_80236EE8 { TParticleCtrl *w[3]; };
 
 struct Tec_80236EE8 {
     u8 pad0[0x8A];
@@ -118,7 +119,6 @@ void free_collision_body_parts(void *);
 
 List_802370D8 *find_support_technique_contact_for_target__10TObjPlayerFl(void *, u32);
 List_802370D8 *gather_contacts_for_self__10TObjPlayerFl(void *, u32);
-void *get_player_by_client_id(s32 i);
 void deliver_technique_to_party_targets(Obj_802370D8 *arg0);
 void spawn_support_tec_range_effect(Tec_80236EE8 *self);
 }
@@ -189,7 +189,7 @@ TTecPlayerInfluence::~TTecPlayerInfluence() {
     if (*(void **)((s8 *)this + 0xDC) != NULL) { free_collision_body_parts(*(void **)((s8 *)this + 0xDC)); }
 }
 
-extern "C" {
+
 void TTecPlayerInfluence::run_task() {
     sub_80237258();
     this->tick_lifetime();
@@ -232,7 +232,7 @@ void deliver_technique_to_party_targets(Obj_802370D8 *arg0) {
 }
 
 const s32 support_tec_range_effect_id_table[4] = {493, 505, 506, 507};
-const Arr_80236EE8 lbl_8044D908 = {{0, 0, 0}};
+const Arr_80236EE8 lbl_8044D908 = {{NULL, NULL, NULL}};
 void spawn_support_tec_range_effect(Tec_80236EE8 *self) {
     s16 kind;
     Vec pos;
@@ -272,32 +272,32 @@ void spawn_support_tec_range_effect(Tec_80236EE8 *self) {
         band = TTecCtrl::classify_distance_band(kind, self->level, self->slot);
         {
             Arr_80236EE8 fx = lbl_8044D908;
-            fx.w[0] = (uaddr)spawn_particle_effect(&pos, support_tec_range_effect_id_table[band]);
+            fx.w[0] = spawn_particle_effect(&pos, support_tec_range_effect_id_table[band]);
             if (band == 3) {
-                fx.w[1] = (uaddr)spawn_particle_effect(&pos, 0x1F2);
-                fx.w[2] = (uaddr)spawn_particle_effect(&pos, 0x19D);
+                fx.w[1] = spawn_particle_effect(&pos, 0x1F2);
+                fx.w[2] = spawn_particle_effect(&pos, 0x19D);
             }
             switch ((s16)kind) {
             case 14:
                 break;
             case 16:
                 for (i = 0; i < 3; i++) {
-                    if (fx.w[i] != 0) {
-                        ((TParticleCtrl *)(fx.w[i]))->set_tint_color(0xFF4DFF99);
+                    if (fx.w[i] != NULL) {
+                        fx.w[i]->set_tint_color(0xFF4DFF99);
                     }
                 }
                 break;
             case 13:
                 for (j = 0; j < 3; j++) {
-                    if (fx.w[j] != 0) {
-                        ((TParticleCtrl *)(fx.w[j]))->set_tint_color(-0x6667);
+                    if (fx.w[j] != NULL) {
+                        fx.w[j]->set_tint_color(-0x6667);
                     }
                 }
                 break;
             case 10:
                 for (k = 0; k < 3; k++) {
-                    if (fx.w[k] != 0) {
-                        ((TParticleCtrl *)(fx.w[k]))->set_tint_color(0xFF337FFF);
+                    if (fx.w[k] != NULL) {
+                        fx.w[k]->set_tint_color(0xFF337FFF);
                     }
                 }
                 break;
@@ -306,4 +306,3 @@ void spawn_support_tec_range_effect(Tec_80236EE8 *self) {
     }
 }
 
-}

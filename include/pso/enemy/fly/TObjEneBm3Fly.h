@@ -33,12 +33,6 @@ struct Bm3FlyAnimationBinding {
     u16 unknown_0E;
 };
 
-// One entry collect_enemy_target_candidates fills in.
-struct EnemyTargetCandidate {
-    u16 id;
-    f32 dist;
-};
-
 struct TObjEneBm3Fly : public TObjEneDD_ST {
     TObjEneBm3Fly(TObject *parent, TObjEneBm3FlyNest *nest, s32 entity_id, s32 set_index, const Vec *position, const Vec *arg6);
     virtual ~TObjEneBm3Fly();
@@ -50,10 +44,10 @@ struct TObjEneBm3Fly : public TObjEneDD_ST {
     virtual void update_body_colliders();
     virtual void dispatch_action(u32 state, s32 reason);
     void handle_message(s32 arg1);
-    void state_death_fall(s32 arg1);
-    void update_recoil_state(s32 arg1);
-    void state_circle_target(s32 arg1);
-    void execute_action(s32 arg1);
+    void state_death_fall(s32 msg);
+    void update_recoil_state(s32 msg);
+    void state_circle_target(s32 msg);
+    void execute_action(s32 msg);
     void play_pitched_cue();
     u16 get_active_id();
     void sub_800B1634();
@@ -75,7 +69,7 @@ struct TObjEneBm3Fly : public TObjEneDD_ST {
     void run_task();
     void init_child_params();
     static void release_shared_data();
-    void *create(void *arg1, void *arg2, void *arg3, void *arg4);
+    TObjEneBm3Fly *create(s32 entity_id, s32 set_index, const Vec *position, const Vec *velocity);
     static void load_resources();
 
     s32 m_3c0;
@@ -119,11 +113,11 @@ LAYOUT_ASSERT(TObjEneBm3Fly_size, sizeof(TObjEneBm3Fly) == 0x4A8);
 
 extern "C" {
 void TObjEneBm3Fly__play_orbit_flight_sound(TObjEneBm3Fly *fly);
-void TObjEneBm3Fly__sub_800B02C8(TObjEneBm3Fly *arg0, s32 arg1);
-void TObjEneBm3Fly__sub_800B0B20(TObjEneBm3Fly *arg0, s32 arg1);
-void TObjEneBm3Fly__sub_800B0F70(TObjEneBm3Fly *arg0, s32 arg1);
+void TObjEneBm3Fly__sub_800B02C8(TObjEneBm3Fly *ene_bm3_fly, s32 msg);
+void TObjEneBm3Fly__sub_800B0B20(TObjEneBm3Fly *ene_bm3_fly, s32 msg);
+void TObjEneBm3Fly__sub_800B0F70(TObjEneBm3Fly *self, s32 msg);
 void sub_800B1214__13TObjEneBm3FlyFl(TObjEneBm3Fly *arg0, s32 arg1);
-void action__13TObjEneBm3FlyFPvi(TObjEneBm3Fly *arg0, s32 arg1);
+void action__13TObjEneBm3FlyFPvi(TObjEneBm3Fly *child, s32 msg);
 void update_dd_flag__13TObjEneBm3FlyFfff(TObjEneBm3Fly *fly, f32 x, f32 z, f32 speed);
 }
 

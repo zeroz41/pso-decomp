@@ -126,9 +126,9 @@ struct TBoss4Bishi {
 typedef void (TBoss4Bishi::*Act_8005BC4C)();
 
 void vec3_add_to(void *, void *);
-void vt6__9TBoss4UroFv(u8 *arg0);
-void vt2__11TBoss4BishiFv(u8 *arg0);
-void vt5__9TBoss4UroFv(u8 *arg0);
+void vt6__9TBoss4UroFv(u8 *self);
+void vt2__11TBoss4BishiFv(u8 *object);
+void vt5__9TBoss4UroFv(u8 *object);
 
 
 void enter_state_3__11TBoss4BishiFPv(void* p);
@@ -140,7 +140,7 @@ s32 TBoss4Zako__ct(saddr, saddr, saddr);
 extern V2_8005BF68 TBoss4Bishi_spawn_offsets[];
 extern saddr __vt__11TBoss4Bishi[];
 extern const char *TBoss4Bishi__name;
-s32 TBoss4Bishi__ct(saddr arg0, s32 arg1, s32 arg2);
+s32 TBoss4Bishi__ct(saddr arg0, s32 parent, s32 arg2);
 
 struct Obj_8005C6E4;
 void clamp_min_player_distance__9TBoss4UroFPv(Obj_8005C6E4 *arg0);
@@ -148,8 +148,8 @@ void clamp_min_player_distance__9TBoss4UroFPv(Obj_8005C6E4 *arg0);
 
 void minimap_render_dot(void *, s32, s32, s32);
 struct VOff_8005C450_arg0_8005BABC { char pad_0[0x38]; char f_38[1]; };
-void vt0__11TBoss4BishiFv(u8 *arg0);
-void vt4__9TBoss4UroFv(void *arg0);
+void vt0__11TBoss4BishiFv(u8 *self);
+void vt4__9TBoss4UroFv(void *actor);
 void *__dt_deleting__11TBoss4BishiFPvs(void *arg0, s16 arg1);
 s32 create__11TBoss4BishiFi(s32 arg0);
 void try_enter_state_3__11TBoss4BishiFPv(void* p);
@@ -284,7 +284,7 @@ s32 init_collision_body_parts(void *, void *, int);
 extern u32 TBoss4Zako_collision_body_parts[];
 extern saddr __vt__10TBoss4Zako[];
 extern const char *TBoss4Zako__name;
-s32 TBoss4Zako__ct(saddr arg0, saddr arg1, saddr arg2);
+s32 TBoss4Zako__ct(saddr arg0, saddr parent, saddr arg2);
 
 s32 free_collision_body_parts(void *);
 
@@ -891,14 +891,14 @@ void vt5__9TBoss4UroFv(u8 *object) {
 }
 #pragma pop
 #pragma push
-void vt6__9TBoss4UroFv(u8 *arg0) {
-    *(f32 *)((s8 *)arg0 + 0x390) += -0.015000001f;
-    VecCopy__FP3VecPC3Vec(arg0 + 0x44, arg0 + 0x38);
-    vec3_add_to(arg0 + 0x38, arg0 + 0x38C);
-    if (*(f32 *)((s8 *)arg0 + 0x3C) < 6.0f) {
-        *(f32 *)((s8 *)arg0 + 0x390) = 0.0f;
-        *(f32 *)((s8 *)arg0 + 0x3C) = 6.0f;
-        *(s32 *)((s8 *)arg0 + 0x374) = 2;
+void vt6__9TBoss4UroFv(u8 *self) {
+    *(f32 *)((s8 *)self + 0x390) += -0.015000001f;
+    VecCopy__FP3VecPC3Vec(self + 0x44, self + 0x38);
+    vec3_add_to(self + 0x38, self + 0x38C);
+    if (*(f32 *)((s8 *)self + 0x3C) < 6.0f) {
+        *(f32 *)((s8 *)self + 0x390) = 0.0f;
+        *(f32 *)((s8 *)self + 0x3C) = 6.0f;
+        *(s32 *)((s8 *)self + 0x374) = 2;
     }
 }
 #pragma pop
@@ -1028,12 +1028,12 @@ void TBoss4Zako__sub_8005BC4C(TBoss4Bishi *self) {
 }
 #pragma pop
 #pragma push
-void vt0__11TBoss4BishiFv(u8 *arg0) {
-    VecCopy__FP3VecPC3Vec(arg0 + 0x44, arg0 + 0x38);
-    if (*(f32 *)((s8 *)arg0 + 0x3C) < 6.0f) {
-        if ((*(f32 *)((s8 *)arg0 + 0x3C) += 1.1111112f) > 6.0f) {
-            *(f32 *)((s8 *)arg0 + 0x3C) = 6.0f;
-            *(s32 *)((s8 *)arg0 + 0x374) = 2;
+void vt0__11TBoss4BishiFv(u8 *self) {
+    VecCopy__FP3VecPC3Vec(self + 0x44, self + 0x38);
+    if (*(f32 *)((s8 *)self + 0x3C) < 6.0f) {
+        if ((*(f32 *)((s8 *)self + 0x3C) += 1.1111112f) > 6.0f) {
+            *(f32 *)((s8 *)self + 0x3C) = 6.0f;
+            *(s32 *)((s8 *)self + 0x374) = 2;
         }
     }
 }
@@ -1143,7 +1143,7 @@ void update_action_hold_status__9TObjCharaFv();
 void update_poison_status__9TObjCharaFv();
 void vfunc_43__9TObjCharaFv();
 void is_target_in_attack_range__9TObjCharaFv();
-void vfunc_18__9TObjCharaFPUc();
+void update_actor_ground_y_at__9TObjCharaFP3Vec();
 void update_actor_ground_y__9TObjCharaFv();
 void get_center__9TObjCharaFv();
 void reset_motion_fields__9TObjCharaFv();
@@ -1180,7 +1180,7 @@ saddr __vt__11TBoss4Bishi[83] = {
     (saddr)consume_timer_field__9TObjCharaFl,
     (saddr)get_actor_level_index__9TObjCharaFv,
     (saddr)update_actor_ground_y__9TObjCharaFv,
-    (saddr)vfunc_18__9TObjCharaFPUc,
+    (saddr)update_actor_ground_y_at__9TObjCharaFP3Vec,
     (saddr)is_actor_cadence_frame__9TObjCharaFl,
     (saddr)select_melee_contact_body__9TObjCharaFPvf,
     (saddr)calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf,
@@ -1265,7 +1265,7 @@ saddr __vt__9TBoss4Uro[83] = {
     (saddr)consume_timer_field__9TObjCharaFl,
     (saddr)get_actor_level_index__9TObjCharaFv,
     (saddr)update_actor_ground_y__9TObjCharaFv,
-    (saddr)vfunc_18__9TObjCharaFPUc,
+    (saddr)update_actor_ground_y_at__9TObjCharaFP3Vec,
     (saddr)is_actor_cadence_frame__9TObjCharaFl,
     (saddr)select_melee_contact_body__9TObjCharaFPvf,
     (saddr)calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf,
@@ -1350,7 +1350,7 @@ saddr __vt__10TBoss4Zako[83] = {
     (saddr)consume_timer_field__9TObjCharaFl,
     (saddr)get_actor_level_index__9TObjCharaFv,
     (saddr)update_actor_ground_y__9TObjCharaFv,
-    (saddr)vfunc_18__9TObjCharaFPUc,
+    (saddr)update_actor_ground_y_at__9TObjCharaFP3Vec,
     (saddr)is_actor_cadence_frame__9TObjCharaFl,
     (saddr)select_melee_contact_body__9TObjCharaFPvf,
     (saddr)calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf,

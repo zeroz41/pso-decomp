@@ -38,7 +38,7 @@ s32 TObjPlayer__sub_801D8C3C(void);
 player_stats *get_class_stat_caps(s8 arg0);
 u8 *get_class_attack_template(TObjPlayer *arg0);
 stats *get_class_base_stats(s8 arg0);
-s32 TObjPlayer__sub_801D8DCC(TObjPlayer *arg0);
+u8 *TObjPlayer__sub_801D8DCC(TObjPlayer *arg0);
 s32 TObjPlayer__sub_801D91B8(saddr arg0);
 s32 TBoss4DarkFalz__sub_801D94C0(void* p);
 void TObjPlayer__sub_801D92A4(void);
@@ -46,7 +46,7 @@ s32 get_contact_surface_type(saddr arg0);
 int load_encrypted_archive_data(const char *);
 }
 int ply_level_table;
-s32 get_ply_level_table_row(s8 arg0, s32 arg1);
+u8 *get_ply_level_table_row(s8 arg0, s32 arg1);
 f32 lookup_attack_marker(s32, s16, s16, s32);
 extern Rec_801D8F0C *photon_blast_motion_timing_tables[6];
 extern const s32 (*player_footstep_floor_table[3])[5];
@@ -150,24 +150,22 @@ s32 get_class_starting_inventory(s8 cls) {
     return *(s32 *)((s8 *)class_starting_inventory_table + (cls * 4));
 }
 
-s32 TObjPlayer__sub_801D8DCC(TObjPlayer *player) {
+u8 *TObjPlayer__sub_801D8DCC(TObjPlayer *player) {
   s32 temp_r31;
   s8 *new_var;
   temp_r31 = player->get_handle_value() * 0x14;
   new_var = ((s8 *)player_cast_motion_record_table) + (player->has_valid_handle() * 4);
-  return (*((s32 *) new_var)) + temp_r31;
+  return *(u8 **)new_var + temp_r31;
 }
 
-long TObjPlayer::get_anim_table_entry(s32 arg1) {
-    u8 *arg0 = (u8 *)this;
+long TObjPlayer::get_anim_table_entry(s32 picture) {
   int new_var;
-  new_var = ((TObjPlayer *)arg0)->get_clamped_index() * 4;
-  return (*((s32 *) (((s8 *)player_anim_table_pointers) + new_var))) + (arg1 * 4);
+  new_var = this->get_clamped_index() * 4;
+  return (*((s32 *) (((s8 *)player_anim_table_pointers) + new_var))) + (picture * 4);
 }
 
 saddr TObjPlayer::get_table_entry_by_clamped_index() {
-    u8 *arg0 = (u8 *)this;
-    return *(s32 *)((s8 *)player_clamped_index_table_pointers + (((TObjPlayer *)arg0)->get_clamped_index() * 4));
+    return *(s32 *)((s8 *)player_clamped_index_table_pointers + (this->get_clamped_index() * 4));
 }
 
 s32 TObjPlayer::get_footstep_floor_index() {
@@ -193,19 +191,15 @@ f32 TObjPlayer::get_photon_blast_upper_bound() {
 }
 
 f32 TObjPlayer::get_photon_blast_hold_frame() {
-    saddr arg0 = (saddr)this;
-  s32 temp_r31;
-  s32 *new_var;
-  temp_r31 = ((TObjPlayer *)arg0)->get_handle_value() * 0xC;
-  new_var = (s32 *) (((s8 *) (((u8 *)photon_blast_motion_timing_tables) + (((s32)((TObjPlayer *)arg0)->has_valid_handle()) * 4))) + 0);
-  return *((f32 *) (((s8 *) ((*new_var) + temp_r31)) + 0));
+  s32 offset = get_handle_value() * 0xC;
+  u8 *table = (u8 *)photon_blast_motion_timing_tables[has_valid_handle()];
+  return *(f32 *)(table + offset);
 }
 
 f32 TObjPlayer::get_attack_recovery_count() {
-    saddr arg0 = (saddr)this;
     s32 falz_phase;
     falz_phase = get_falz_phase();
-    return (f32) (s8) *(u8 *)((s8 *)((u8 *)(((u8 *)attack_recovery_count_table + (((TObjPlayer *)arg0)->get_handle_value() * 3))) + falz_phase) + 0);
+    return (f32) (s8) *(u8 *)((s8 *)((u8 *)(((u8 *)attack_recovery_count_table + (this->get_handle_value() * 3))) + falz_phase) + 0);
 }
 
 #pragma push
@@ -224,19 +218,19 @@ f32 TObjPlayer::select_normal_attack_marker() {
 
 #pragma pop
 
-f32 lookup_attack_marker(s32 arg0, s16 arg1, s16 arg2, s32 arg3) {
+f32 lookup_attack_marker(s32 arg0, s16 falz_phase, s16 arg2, s32 class_flags) {
     switch (arg0) {
     case 3:
-        return *(f32 *)((s8 *)((u8 *)(((u8 *)attack_marker_table_dagger + (arg2 * 0xC))) + (arg1 * 4)) + 0);
+        return *(f32 *)((s8 *)((u8 *)(((u8 *)attack_marker_table_dagger + (arg2 * 0xC))) + (falz_phase * 4)) + 0);
     case 14:
-        return *(f32 *)((s8 *)((u8 *)(((u8 *)attack_marker_table_double_saber + (arg2 * 0xC))) + (arg1 * 4)) + 0);
+        return *(f32 *)((s8 *)((u8 *)(((u8 *)attack_marker_table_double_saber + (arg2 * 0xC))) + (falz_phase * 4)) + 0);
     case 15:
-        if (arg3 & CLASS_FLAG_MALE) {
-            return *(f32 *)((s8 *)((u8 *)(((u8 *)twin_sword_male_marker_table + (arg2 * 0xC))) + (arg1 * 4)) + 0);
+        if (class_flags & CLASS_FLAG_MALE) {
+            return *(f32 *)((s8 *)((u8 *)(((u8 *)twin_sword_male_marker_table + (arg2 * 0xC))) + (falz_phase * 4)) + 0);
         }
-        return *(f32 *)((s8 *)((u8 *)(((u8 *)twin_sword_female_marker_table + (arg2 * 0xC))) + (arg1 * 4)) + 0);
+        return *(f32 *)((s8 *)((u8 *)(((u8 *)twin_sword_female_marker_table + (arg2 * 0xC))) + (falz_phase * 4)) + 0);
     default:
-        return *(f32 *)((s8 *)((u8 *)(((u8 *)attack_marker_table + (arg0 * 0xC))) + (arg1 * 4)) + 0);
+        return *(f32 *)((s8 *)((u8 *)(((u8 *)attack_marker_table + (arg0 * 0xC))) + (falz_phase * 4)) + 0);
     }
 }
 
@@ -327,23 +321,23 @@ const TPlyInventoryItem *class_starting_inventory_table[12] = {
     lbl_80448F3C, lbl_80448FC8, lbl_80449054, lbl_804490E0,
 };
 
-s32 TObjPlayer__sub_801D91B8(saddr arg0) {
-    return TObjPlayer::get_current_state_field(((TObjPlayer *)arg0)->get_class_index(), TObjPlayer::get_max_level());
+s32 TObjPlayer__sub_801D91B8(saddr player) {
+    return TObjPlayer::get_current_state_field(((TObjPlayer *)player)->get_class_index(), TObjPlayer::get_max_level());
 }
 
 s32 TObjPlayer::get_current_state_field(s8 _w0, s32 _w1) {
-    return *(s32 *)((s8 *)(get_ply_level_table_row(_w0, _w1)) + 8);
+    return *(s32 *)(get_ply_level_table_row(_w0, _w1) + 8);
 }
 
 s32 TObjPlayer::get_class_state_field(s32 arg1) {
     saddr arg0 = (saddr)this; return TObjPlayer::get_current_state_field(((TObjPlayer *)arg0)->get_class_index(), arg1); }
 
-s32 get_ply_level_table_row(s8 cls, s32 arg1) {
+u8 *get_ply_level_table_row(s8 cls, s32 lvl) {
   saddr temp_r30;
   s32 temp_r31;
   temp_r30 = *(*(s32 * *)&ply_level_table);
   ;
-  return (*((s32 *) (((s8 *) temp_r30) + (TObjPlayer__sub_801AFDBC(cls) * 4)))) + (TObjPlayer::clamp_index_to_max(arg1) * 0xC);
+  return *(u8 **)((s8 *)temp_r30 + TObjPlayer__sub_801AFDBC(cls) * 4) + TObjPlayer::clamp_index_to_max(lvl) * 0xC;
 }
 
 void TObjPlayer__sub_801D92A4(void) { TLobby::free_nodes_with_id(ply_level_table); }
@@ -372,11 +366,10 @@ player_stats *TObjPlayer::get_class_stat_entry(u8 *player) {
 }
 
 f32 TObjPlayer::get_tp_class_factor() {
-    u8 *arg0 = (u8 *)this;
     if (this->class_flags & CLASS_FLAG_ANDROID) {
         return 0.0f;
     }
-    return player_profession_stat_factors[((TObjPlayer *)arg0)->get_clamped_index()].tp;
+    return player_profession_stat_factors[this->get_clamped_index()].tp;
 }
 
 f32 TObjPlayer::get_class_hp_factor() {

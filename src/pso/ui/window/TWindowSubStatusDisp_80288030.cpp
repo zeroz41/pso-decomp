@@ -5,10 +5,10 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include <string.h>
+#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 
 extern "C" {
-s32 *get_shared_text_buffer(void);
-void text_builder_append(u8 *str);
 void *TWindowSubComCard__sub_8027523C(void *p);
 u8 *init_heading_entry__20TWindowSubStatusDispFPvPvici(u8 *arg0, u8 *arg1, saddr arg2, s8 arg3, s32 arg4);
 extern const f32 lbl_8044FCF0[2] = { 0.0f, -13.0f };
@@ -49,8 +49,8 @@ s32 TWindowSubStatusDisp::destroy_status_display(saddr arg0, s16 arg1) {
     return arg0;
 }
 
-u8 *TWindowSubStatusDisp::construct_type1_heading(s32 arg1, s32 arg2) {
-    init_heading_entry__20TWindowSubStatusDispFPvPvici(((u8 *)this), (u8 *)lbl_8044FCF0, arg1, 1, arg2);
+u8 *TWindowSubStatusDisp::construct_type1_heading(s32 title, s32 client_index) {
+    init_heading_entry__20TWindowSubStatusDispFPvPvici(((u8 *)this), (u8 *)lbl_8044FCF0, title, 1, client_index);
     return ((u8 *)this);
 }
 

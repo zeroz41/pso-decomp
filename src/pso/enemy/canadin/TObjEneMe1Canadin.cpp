@@ -22,7 +22,6 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/NinjaUtil.h"
-#include "pso/enemy/dd/TObjEneDD_800BB804.h"
 #include "pso/player/TObjPlayer_800F0810.h"
 
 #include "pso/render/TUnk_80494938.h"
@@ -54,6 +53,8 @@
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/effect/particle/TParticleCtrl_800867E4.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 
 
 extern "C" {
@@ -69,11 +70,9 @@ extern s32 model_render_flags;
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
 f32 atan2_float(f32 y, f32 x);
-void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
+void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 angle);
 f32 subtract_vector(void *, void *);
-void TObjEneEpsilon__sub_800B92F8(u8 *arg0, s32 arg1, f32 farg0);
 u32 __cvt_fp2unsigned(f32);
-s32 pack_debug_text_position(s32 arg0, s32 arg1);
 
 
 struct CanadinBehaviorParams {
@@ -205,18 +204,11 @@ struct CanadinLeaderCall : CanadinLeaderCallBase {
     virtual s32 m114(TObjChara *player);
 };
 
-struct Entry_8009E860 { u16 id; u8 pad2[2]; f32 dist; };
-
 u16 get_entity_id(void *);
 f32 newton_sqrtf(f32);
-void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
-void TObjEneEpsilon__sub_800B92AC(u8 *arg0, s32 arg1, f32 farg0);
 int select_and_apply_target__12TObjEneDD_STFf(void*);
-void TObjEneDD__sub_800BA5A4(void *, void *, void *);
-s32 is_player_entity_id(u16 arg0);
 void set_part_position__9TObjEneDDFPvPvi(void *, s32, s32);
-s32 collect_enemy_target_candidates(void *, Entry_8009E860 *);
-void TBoss3Volopt__sub_800D8D88(saddr arg0);
+void TBoss3Volopt__sub_800D8D88(saddr position);
 s32 trigger_dell_biter_events__10TObjPlayerFv(void *, f32);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 s32 matrix_mult_vec(int, Vec *, Vec *);
@@ -228,7 +220,6 @@ s32 *lbl_805D4FE4;
 s32 *lbl_805D4FE8;
 s32 *lbl_805D4FEC;
 s32 *lbl_805D4FF0;
-int is_target_android(void *p);
 
 TObjEneMe1CanadinMovement canadin_setup_param_block = { 225.0f, 0.0f, 0x600, 0, 0, 0, 0 };
 CollisionBody lbl_8048FECC = { { 0.0f, 0.0f, 0.0f }, 8.0f, 0.0f, 0, 0x8003 };
@@ -318,11 +309,11 @@ void TObjEneMe1Canadin::load_resources() {
     p = new TUnk_8048FA00((saddr)bm_ene_me1_mb_resource->models[0].model);
     lbl_805D4FE0 = (TUnk_8048FA00 *)p;
     model = (saddr)bm_ene_me1_mb_resource->models[1].model;
-    lbl_805D4FE4 = (s32 *)(((s32 *)((NJS_OBJECT *)find_model_node(model, 3))->model)[1] + 4);
-    lbl_805D4FE8 = (s32 *)(((s32 *)((NJS_OBJECT *)find_model_node(model, 2))->model)[1] + 4);
+    lbl_805D4FE4 = (s32 *)(((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(model, 3))->model)->polygon_list + 2);
+    lbl_805D4FE8 = (s32 *)(((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(model, 2))->model)->polygon_list + 2);
     model2 = (saddr)bm_ene_me1_mb_resource->models[0].model;
-    lbl_805D4FEC = (s32 *)(((s32 *)((NJS_OBJECT *)find_model_node(model2, 3))->model)[1] + 4);
-    lbl_805D4FF0 = (s32 *)(((s32 *)((NJS_OBJECT *)find_model_node(model2, 2))->model)[1] + 4);
+    lbl_805D4FEC = (s32 *)(((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(model2, 3))->model)->polygon_list + 2);
+    lbl_805D4FF0 = (s32 *)(((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(model2, 2))->model)->polygon_list + 2);
     TObjPlayer__sub_800F0928();
     s16 ids[2] = { 0x17, 0x18 };
     NpcAnimationBinding params = { reinterpret_cast<BmlMotionEntry *>(bm_ene_me1_mb_resource->motions), reinterpret_cast<TObjMotionAction *>(lbl_8048FF30), 0, 0, 7 };
@@ -331,8 +322,8 @@ void TObjEneMe1Canadin::load_resources() {
     }
 }
 
-void *TObjEneMe1Canadin::create(void *arg0) {
-    return new TObjEneMe1Canadin(tl_04, arg0, 0);
+void *TObjEneMe1Canadin::create(void *set_data) {
+    return new TObjEneMe1Canadin(tl_04, set_data, 0);
 }
 
 TObjEneMe1Canadin *TObjEneMe1CanadinLeader::create_canadin(TObjEneMe1Canadin *leader, Vec *position, s32 id, s32 index) {
@@ -555,16 +546,16 @@ u8 *TObjEneMe1Canadin::move_xz_on_ground(u8 *arg) {
 }
 
 
-extern "C" void TObjEneMe1Canadin__sub_8009EB98(TObjEneMe1Canadin *self, f32 farg0) {
+extern "C" void TObjEneMe1Canadin__sub_8009EB98(TObjEneMe1Canadin *self, f32 height) {
     f32 temp_f3;
-    temp_f3 = farg0 - self->m_3F8;
+    temp_f3 = height - self->m_3F8;
     self->m_3C8 &= ~0x80000;
     if (temp_f3 >= 0.5f) {
         self->m_3F8 += 0.5f;
     } else if (temp_f3 <= -0.5f) {
         self->m_3F8 -= 0.5f;
     } else {
-        self->m_3F8 = farg0;
+        self->m_3F8 = height;
         self->m_3C8 |= 0x80000;
     }
 }
@@ -632,14 +623,14 @@ void TObjEneMe1Canadin::fn_8009E930() {
 }
 s32 TObjEneMe1Canadin::fn_8009E860(f32 *out, f32 squared_range) {
     TObjEneMe1Canadin *self = this;
-    Entry_8009E860 list[5];
+    TargetCandidate list[5];
     s32 found;
     s32 count;
     TObjChara *player;
     s32 i;
     found = 0;
     *out = -1.0f;
-    count = collect_enemy_target_candidates(self, list);
+    count = collect_enemy_target_candidates(self, list, squared_range);
     for (i = 0; i < count; i++) {
         player = get_player_by_client_id(list[i].id);
         if (player != self->current_target) {
@@ -1236,7 +1227,7 @@ void TObjEneMe1Canadin::fn_8009D320(s32 arg1) {
             } else {
                 self->advance_state_5_to_4();
             }
-            TObjEneEpsilon__sub_800B92F8((u8 *)self, 0x200, 0.5f);
+            TObjEneEpsilon__sub_800B92F8(self, 0x200, 0.5f);
             break;
         case 2:
             self->update_velocity();
@@ -1445,7 +1436,7 @@ void TObjEneMe1Canadin::fn_8009CC74(s32 arg1) {
                 if (self->destination_distance > 40.0f) {
                     self->m_470 = 1;
                 }
-                TObjEneEpsilon__sub_800B92AC((u8 *)self, 0x200, self->m_468->m_0);
+                TObjEneEpsilon__sub_800B92AC(self, 0x200, self->m_468->m_0);
             }
             self->noop();
             break;
@@ -1742,14 +1733,14 @@ void TObjEneMe1Canadin::fn_8009C2EC(s32 arg1) {
         }
         self->update_velocity();
         TObjEneMe1Canadin__sub_8009EB98(self, self->position.y + self->m_3EC);
-        TObjEneEpsilon__sub_800B92AC((u8 *)self, 0x200, 0.68f);
+        TObjEneEpsilon__sub_800B92AC(self, 0x200, 0.68f);
         self->rotation_z += 0x2000;
         self->m_470++;
         if (self->m_470 >= 0x96) {
             CanadinBehaviorParams c = canadin_projectile_param_block;
             TObjEneMe1CanadinParams *t = self->m_468;
             c.m_4 = t->m_8;
-            TObjEneDD__sub_800BA5A4(self, &c, t);
+            TObjEneDD__sub_800BA5A4(self, &c);
             self->m_3C8 |= 0x800000;
         }
         if (self->m_470 % 10 < 5) {
@@ -2056,8 +2047,8 @@ void TObjEneMe1Canadin::render_canadin_model_with_debug_type() {
 }
 #pragma pool_data reset
 
-void *TObjEneMe1CanadinLeader::create(void *arg0) {
-    return new TObjEneMe1CanadinLeader(tl_04, arg0);
+void *TObjEneMe1CanadinLeader::create(void *set_data) {
+    return new TObjEneMe1CanadinLeader(tl_04, set_data);
 }
 
 TObjEneMe1CanadinLeader::TObjEneMe1CanadinLeader(TObject *parent, void *set_data) : TObjEneMe1Canadin(parent, set_data, 2) {

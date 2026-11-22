@@ -817,7 +817,7 @@ void TBoss3VoloptP01::cast_tech_on_players() {
         for (j = 0; j < registered_player_count; j++) {
             player = TObjPlayer::get_player_data(j);
             if (player != NULL && get_entity_id(player) < 0x1000 && !(player->actorFlags & 0x02000800)) {
-                TTecFoie::create_ex(this, &pos, &player->body_center, (void *)0x1D);
+                TTecFoie::create_ex(this, &pos, &player->body_center, 0x1D);
             }
         }
         break;
@@ -825,7 +825,7 @@ void TBoss3VoloptP01::cast_tech_on_players() {
         for (k = 0; k < registered_player_count; k++) {
             target = TObjPlayer::get_player_data(k);
             if (target != NULL && get_entity_id(target) < 0x1000 && !(target->actorFlags & 0x02000800)) {
-                ((TTecGiBarta *)this)->create(&pos, &target->body_center, (void *)0x1D);
+                TTecGiBarta::create(this, &pos, &target->body_center, 0x1D);
             }
         }
         break;

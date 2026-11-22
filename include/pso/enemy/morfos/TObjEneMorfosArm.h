@@ -9,7 +9,7 @@ struct TObjEneMorfosArm : public TObjMotion {
     virtual ~TObjEneMorfosArm();
     uaddr m_fc;
     u16 m_100;
-    static void *create(void *arg0, void *arg1);
+    static void *create(void *parent, void *owner);
     static void init_global();
     virtual void render();
     virtual void run_task();

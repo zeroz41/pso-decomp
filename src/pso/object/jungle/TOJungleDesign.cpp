@@ -9,6 +9,7 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TMainTask.h"
@@ -36,15 +37,10 @@ void TOJungleDesign::init_design_variant() {
     this->texlist = (saddr)fn_802FF028(0);
 }
 
-extern "C" {
-
-
 
 void *TOJungleDesign__create(void *arg0) {
     void *o = (void *)new TOJungleDesign((saddr)tl_05, (saddr)arg0);
     return o;
-}
-
 }
 
 
@@ -56,9 +52,7 @@ CollisionBody TOJungleDesign__collision_desc_table[3] = {
 };
 
 extern "C" {
-s32 init_collision_body_parts(void *, int, int);
 s32 post_translate_matrix(void *);
-void free_collision_body_parts(void *);
 
 
 void TOJungleDesign::render() {
@@ -77,14 +71,14 @@ TOJungleDesign::~TOJungleDesign() {
     this->unregister_object_by_id();
     free_collision_body_parts(this);
 }
-TOJungleDesign::TOJungleDesign(saddr arg1, saddr arg2) : TObjCollidable((TObject *)arg1) {
+TOJungleDesign::TOJungleDesign(saddr parent, saddr set_data) : TObjCollidable((TObject *)parent) {
     this->m_name = TOJungleDesign__name;
-    ((TOJungleDesign *)(((u8 *)this)))->apply_object_set_data((void *)arg2);
+    ((TOJungleDesign *)(((u8 *)this)))->apply_object_set_data((void *)set_data);
     this->init_design_variant();
-    init_collision_body_parts(((u8 *)this), (int)&TOJungleDesign__collision_desc_table[this->m_b0], 1);
+    init_collision_body_parts(this, &TOJungleDesign__collision_desc_table[this->m_b0], 1);
     ((TObjPlayer *)this)->register_object_by_id();
 }
-extern "C" {
+
 
 GinjaTextureList *fn_802FF028(s32 arg0) {
     if (TOJungleDesign__shared_model_resource != NULL) {
@@ -112,4 +106,3 @@ void TOJungleDesign::load_shared_resource() {
     TOJungleDesign__shared_model_resource = archive;
 }
 
-}

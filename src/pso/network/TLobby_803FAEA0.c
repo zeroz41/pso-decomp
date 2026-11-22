@@ -37,8 +37,8 @@ typedef struct LobbyPkt_803FB7A4 {
     s32 d;
     u16 e;
     u16 f;
-    saddr g;
-    saddr h;
+    char *user;
+    char *password;
 } LobbyPkt_803FB7A4;
 
 #define LOBBY_NOTIFY() do { if (g->cb != NULL) { unlock_mutex(lbl_805C18A0.mutex); g->cb(lbl_805D7A82, 0); lock_mutex(lbl_805C18A0.mutex); } } while (0)
@@ -334,16 +334,13 @@ s32 is_timed_out(void) {
 
 s32 close_all_connections(void);
 
-typedef struct St_803FB6A0 { u8 busy; u8 pad[3]; u8 state; u8 rest[0x143]; } St_803FB6A0;
-
 s32 TLobby__sub_803FB6A0(void) {
-    void update_connection_state(void *state, void *session); /* declared with 2 parameters; the definition is void (int) */
-    St_803FB6A0 *st = (St_803FB6A0 *)&ppp_proto_blocks;
+    PppProtoBlocks *blocks = &ppp_proto_blocks;
     NetSession *sess = &lbl_805BFF68;
-    u8 *state = &st->state;
-    update_connection_state(state, &lbl_805BFF68);
-    if (*state == 6) {
-        while (st->busy != 0) {
+    PppFsm *lcp = &blocks->lcp;
+    update_connection_state(lcp);
+    if (lcp->state == 6) {
+        while (blocks->busy != 0) {
             unlock_mutex(lbl_805C18A0.mutex);
             process_expired_timers();
             net_sleep_ms(lbl_805C18A0.poll_ms);
@@ -369,15 +366,11 @@ s32 TLobby__sub_803FB6A0(void) {
 
 s32 TLobby__sub_803FB7A4(void) {
     extern s32 lbl_805D7BD8;
-    s16 ppp_begin_connect(s32, s32, s32, s32, s32, s32, s32, s32); /* declared s16 here; the definition returns s32 */
     s32 configure_modem_options(s32, s32, s32, s32, s32);
     s16 lcp_connect(void *); /* declared s16 here; the definition is s32 (u8 *) */
-    s16 pap_connect(s32, s32, s32); /* declared s16 here; the definition is s32 (u8 *, u8 *, s32) */
-    s16 chap_connect(s32, s32, s32); /* declared s16 here; the definition is s32 (u8 *, u8 *, s32) */
     s32 ipv6cp_set_interface_identifiers(s32, void *, void *); /* declared here with other parameter types; the definition is s32 (s32, s32, s32) */
     s32 ipcp_configure_all_options(s32, s32, s32, s32, s32, s32, s32); /* declared here with an s32 1st argument; the definition takes s16 */
     s16 negotiate_ipcp_and_ipv6cp(void); /* declared s16 here; the definition returns s32 */
-    s16 wait_for_connection(Conn_804004DC *); /* declared s16 here; the definition returns s32 */
     s16 map_state_to_mode_id(void); /* declared s16 here; the definition returns s32 */
     NetSession *g = &lbl_805BFF68;
     LobbyPkt_803FB7A4 pkt;
@@ -396,7 +389,7 @@ s32 TLobby__sub_803FB7A4(void) {
     lobby_modem_connect_state = 2;
     get_time_ms(&lbl_805D7A94);
     lbl_805D7A84 = 1;
-    rc = ppp_begin_connect(0, 0, g->h80, g->h7E, g->h7C, 1, (saddr)g->modem.s48, g->flags & 4);
+    rc = ppp_begin_connect(0, 0, g->h80, g->h7E, g->h7C, 1, g->modem.s48, g->flags & 4);
     if (rc != 0 || lobby_modem_abort_flag != 0) {
         if (lobby_modem_abort_flag != 0) {
             lbl_805D7A82 = 0xd;
@@ -504,8 +497,8 @@ L242:
     }
     pkt.c = g->h98;
     pkt.d = g->start_tick;
-    pkt.g = (saddr)g->user;
-    pkt.h = (saddr)g->password;
+    pkt.user = g->user;
+    pkt.password = g->password;
     if (lcp_connect(&pkt) != 0) {
         LOBBY_ABORT(5, 8);
     }
@@ -521,7 +514,7 @@ L242:
         ok = 1;
         break;
     case 0:
-        rc = pap_connect((saddr)g->user, (saddr)g->password, 0x80);
+        rc = pap_connect((u8 *)g->user, (u8 *)g->password, 0x80);
         if (rc != 0) {
             LOBBY_NOTIFY();
             return 0;
@@ -529,7 +522,7 @@ L242:
         ok = 1;
         break;
     case 2:
-        rc = chap_connect((saddr)g->user, (saddr)g->password, 0x82);
+        rc = chap_connect((u8 *)g->user, (u8 *)g->password, 0x82);
         if (rc != 0) {
             LOBBY_NOTIFY();
             return 0;
@@ -544,7 +537,7 @@ L242:
         for (r29 = 0; r29 < 2; r29++) {
             u16 st = ppp_auth_protocol;
             if (st == 0x80) {
-                rc = pap_connect((saddr)g->user, (saddr)g->password, st);
+                rc = pap_connect((u8 *)g->user, (u8 *)g->password, st);
                 if (rc == 0) {
                     ok = 1;
                     break;
@@ -554,7 +547,7 @@ L242:
                     return 0;
                 }
             } else if (st == 0x82) {
-                rc = chap_connect((saddr)g->user, (saddr)g->password, st);
+                rc = chap_connect((u8 *)g->user, (u8 *)g->password, st);
                 if (rc == 0) {
                     ok = 1;
                     break;

@@ -27,9 +27,9 @@ TUnk_804A3E20::TUnk_804A3E20(TObject *parent, u8 *item) : TUnk_804A4948(parent, 
     scale.x = scale.y = scale.z = 1.0f;
 }
 
-TItem *TObjPlayer::create_shot_state(u8 *arg0) {
-    if (arg0 != NULL) {
-        return new TUnk_804A3E20(tl_05, arg0);
+TItem *TObjPlayer::create_shot_state(u8 *item) {
+    if (item != NULL) {
+        return new TUnk_804A3E20(tl_05, item);
     }
     return NULL;
 }

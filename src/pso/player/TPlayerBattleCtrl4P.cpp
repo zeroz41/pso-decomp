@@ -108,7 +108,6 @@ extern Rank_801C343C split_screen_battle_rankings[4];
 extern "C" {
 void clear_split_screen_battle_window_slots(T_803102A4 *self);
 TPlayerBattleCtrl4P *TPlayerBattleCtrl4P__instance;
-s32 get_map_id__13TRaderMapCoreFv();
 u8 TLobby__sub_801D7100(void *);
 extern u8 lobby_rule_settings[];
 s32 TLobby__sub_801C19D0(void *);
@@ -203,7 +202,6 @@ void run_task__19TPlayerBattleCtrl4PFv(TPlayerBattleCtrl4P *self);
 void render__7TObjectFv();
 void render_shadows__7TObjectFv();
 // Japanese text (shift-JIS)
-void *get_char_index__23TAdSinglePlyChrSelectGCFUi(u32 arg0);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 void export_character_data__10TObjPlayerFPvPv(u8 *arg0, u8 *arg1);
 const char *TPlayerBattleCtrl4P__message_table_language0[7] = {
@@ -260,7 +258,7 @@ TPlayerBattleCtrl4P* TPlayerBattleCtrl4P::construct(TObject* parent) {
     for (i = 0; i < 4; i++) {
         saddr pl = (saddr)get_player_by_client_id(i);
         if (pl != 0) {
-            export_character_data__10TObjPlayerFPvPv((u8 *)pl, (u8 *)(get_char_index__23TAdSinglePlyChrSelectGCFUi((u32)i)));
+            export_character_data__10TObjPlayerFPvPv((u8 *)pl, (u8 *)(TAdSinglePlyChrSelectGC::get_char_index((u32)i)));
         }
     }
     TPlayerBattleCtrl4P__instance = this;
@@ -446,7 +444,7 @@ void TPlayerBattleCtrl4P::update_battle_time_and_rankings() {
     secs = (OSGetTime() - battle_start_ticks) / (*(u32 *)0x800000F8 / 4);
     r = battle_duration - secs;
     remaining_seconds = r > 0 ? r : 0;
-    ((TWindowCtrl *)remaining_seconds)->set_timer_window_time();
+    TWindowCtrl::set_timer_window_time(remaining_seconds);
     if (remaining_seconds == 0) {
         set_split_screen_battle_phase(3);
         return;
@@ -527,7 +525,7 @@ void TPlayerBattleCtrl4P::wait_before_recording_results() {
 
 #pragma optimization_level 1
 
-extern "C" s32 check_player_flag1__10TObjPlayerFv();
+s32 check_player_flag1__10TObjPlayerFv();
 
 void TPlayerBattleCtrl4P::open_result_windows() {
   u32 var_r31;
@@ -733,7 +731,7 @@ void TPlayerBattleCtrl4P::init_battle() {
     u8 *p;
     ((Ctl_8031171C *)this)->f244 = get_split_screen_battle_timer_limit((u8 *)((Ctl_8031171C *)this));
     TWindowCtrl::create_alt_timer();
-    ((TWindowCtrl *)(((Ctl_8031171C *)this)->f244))->set_timer_window_time();
+    TWindowCtrl::set_timer_window_time(((Ctl_8031171C *)this)->f244);
     TOMineTrap::destroy_matching_traps();
     this->apply_rule_configuration(1);
     for (i = 0; i < 4; i++) {
@@ -1322,17 +1320,17 @@ void TPlayerBattleCtrl4P::update_player_alive_flags() {
 }
 
 
-s32 calc_battle_score__19TPlayerBattleCtrl4PFPvPv(void *self, u8 *arg1) {
+s32 calc_battle_score__19TPlayerBattleCtrl4PFPvPv(void *self, u8 *player) {
     f32 score;
     s32 mode;
 
-    score = (f32)TWindowDuelResult__sub_801C19AC((f32 *)(arg1 + 0x78C));
-    score -= (f32)TWindowDuelResult__sub_801C19AC((f32 *)(arg1 + 0x77C));
-    score += (f32)TWindowDuelResult__sub_801C19AC((f32 *)(arg1 + 0x75C));
-    score -= (f32)TWindowDuelResult__sub_801C19AC((f32 *)(arg1 + 0x76C));
-    score += (f32)obj_getPtr2B0_20(arg1) * fn_801C19A4(arg1 + 0x79C);
+    score = (f32)TWindowDuelResult__sub_801C19AC((f32 *)(player + 0x78C));
+    score -= (f32)TWindowDuelResult__sub_801C19AC((f32 *)(player + 0x77C));
+    score += (f32)TWindowDuelResult__sub_801C19AC((f32 *)(player + 0x75C));
+    score -= (f32)TWindowDuelResult__sub_801C19AC((f32 *)(player + 0x76C));
+    score += (f32)obj_getPtr2B0_20(player) * fn_801C19A4(player + 0x79C);
     mode = (s32)score;
-    ((TPlayerBattleCtrl4P *)(arg1 + 0x7AC))->set_battle_mode(mode);
+    ((TPlayerBattleCtrl4P *)(player + 0x7AC))->set_battle_mode(mode);
     return mode;
 }
 s32 are_split_screen_battle_players_tied(void) {

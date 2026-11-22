@@ -9,7 +9,7 @@ struct TWindowQuantity : public TWindowBase {
     virtual ~TWindowQuantity();
     virtual void render();
     f32 m_60;
-    void* m_64;
+    f32 scale;
     void set_position(s32 arg1);
     virtual void run_task();
     u8 unk_68[0x4];
@@ -18,14 +18,12 @@ struct TWindowQuantity : public TWindowBase {
 LAYOUT_ASSERT(TWindowQuantity_size, sizeof(TWindowQuantity) == 0x6C);
 
 extern "C" {
-void *create_window_quantity(void *arg0);
-void render__15TWindowQuantityFv(saddr arg0);
+void *create_window_quantity(void *client);
 }
 
 // --- C functions defined in TWindowQuantity.cpp ---
 extern "C" {
-void *create_window_quantity(void *arg0);
-void render__15TWindowQuantityFv(saddr arg0);
+void *create_window_quantity(void *client);
 }
 // --- end of C functions
 

@@ -14,49 +14,24 @@
 
 #pragma readonly_strings on
 
-struct Base_8032C504 { char pad[0x18]; };
-struct VObj_8032C504 : Base_8032C504 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-};
-struct Base_8032C594_8032C504 { char pad[0x18]; };
-struct VObj_8032C594_8032C504 : Base_8032C594_8032C504 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-};
-
 extern "C" {
 const char *lbl_805D4200 = "TAdExNetConfirmGC";
 
 void TAdExNetConfirmGC::render() {
-    struct VObj_8032C504 *o = (struct VObj_8032C504 *)this;
-    o->m7();
+    vfunc_9();
 }
 
-void TAdExNetConfirmGC::vfunc_7() {
+saddr TAdExNetConfirmGC::vfunc_7() {
     if (TAdExNetConfirmGC::is_confirmed() != 0) {
-        get_localized_text_entry(0x22, 1);
-        return;
+        return get_localized_text_entry(0x22, 1);
     }
-    get_localized_text_entry(0x22, 0);
+    return get_localized_text_entry(0x22, 0);
 }
 
-int TAdExNetConfirmGC::vfunc_6() { TAdMultiChgGameModeGC::request_scene_change(); }
+void TAdExNetConfirmGC::vfunc_6() { TAdMultiChgGameModeGC::request_scene_change(); }
 
 void TAdExNetConfirmGC::run_task() {
-    struct VObj_8032C594_8032C504 *o = (struct VObj_8032C594_8032C504 *)this;
-    o->m6();
+    vfunc_8();
 }
 
 }
@@ -67,7 +42,7 @@ TAdExNetConfirmGC::~TAdExNetConfirmGC() {
 TAdExNetConfirmGC::TAdExNetConfirmGC(TObject *parent) : TAdWarningBaseGC(parent) {
     m_name = lbl_805D4200;
     if ((TLobby__sub_80145DB4(1) != 0) || (TLobby__sub_80145DB4(4) != 0)) {
-        if (TLobby__sub_80145A94() != 0) {
+        if (load_network_info() != 0) {
             TLobby::init_account_entries();
         } else {
             request_main_phase(0x13);

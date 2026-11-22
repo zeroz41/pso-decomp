@@ -5,6 +5,9 @@
 #include "pso/system/task/TObject.h"
 
 struct CreationTextureCacheEntry;
+class TAdGuideTxtGC;
+class TUnk_804E3008;
+class TPlyCharData;
 
 struct TCheckMemoryCard;
 
@@ -18,8 +21,8 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     uaddr m_24;
     uaddr m_28;
     uaddr m_2c;
-    u32 m_30;
-    u32 m_34;
+    TUnk_804E3008 *m_30;
+    TAdGuideTxtGC *m_34;
     void init_item_entry();
     static void try_load_system_file();
     static s32 wait_for_card_load(s32 arg0);
@@ -90,7 +93,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 load_player(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
     static s32 load_player_slot(s32 chan, const char *file_name, void *buffer);
     s32 try_acquire_slot();
-    static void *calc_preview_offset(void *arg0, s32 arg1, saddr arg2, s32 arg3);
     static void init_entry_tables(void* _w0);
     static s32 is_active();
     void reset_creation_parts();
@@ -185,7 +187,7 @@ LAYOUT_ASSERT(TAdSinglePlyChrSelectGC_size, sizeof(TAdSinglePlyChrSelectGC) == 0
 // in definition order). The buffers hold heap addresses as words: every test of them against 0 is a cmplwi.
 extern uaddr card_character_save_buffer;
 extern uaddr secondary_card_character_save_buffer;
-extern uaddr selected_character_data;
+extern TPlyCharData *selected_character_data;
 extern uaddr active_character_save_record;
 extern uaddr guild_card_save_payload;
 extern uaddr system_save_payload;

@@ -36,7 +36,6 @@
 #include <stdlib.h>
 
 
-extern "C" {
 BmlResource *TObjFish__area_bml_resource;
 s32 TObjFish__area_event_stage;
 
@@ -109,10 +108,6 @@ extern const f32 lbl_80465D74[5][3] = { { 1.0f, 1.0f, 1.0f }, { 0.4f, 0.4f, 0.4f
 extern const f32 lbl_80465DB0[5][3] = { { 30.0f, 30.0f, 30.0f }, { 5.0f, 20.0f, 30.0f }, { 5.0f, 5.0f, 5.0f }, { 30.0f, 30.0f, 30.0f }, { 30.0f, 30.0f, 30.0f } };
 extern const char TObjFish__class_name_string[] = "TObjFish";
 #pragma pop
-}
-
-extern "C" {
-
 extern TCameraCtrl *camera_ctrl_instance;
 
 #pragma push
@@ -342,7 +337,6 @@ void TObjFish::run_task() {
 }
 #pragma pop
 
-}
 
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
@@ -396,7 +390,6 @@ s32 TObjFish::init_fish_school(void *arg1_arg, s32 arg2, s32 arg3) {
     return 1;
 }
 #pragma pop
-
 
 
 const char *lbl_805D3D58 = TObjFish__class_name_string;
@@ -462,15 +455,6 @@ void TObjFish::free_resource() {
         TObjFish__area_bml_resource = NULL;
     }
 }
-void vfunc_6__8TObjBaseFPsl();
-void get_name__8TObjBaseFv();
-void get_center__8TObjBaseFv();
-void apply_object_set_data__8TObjBaseFPv();
-void classify_actor_view_detail__8TObjBaseFfff();
-void render_shadows__7TObjectFv();
-void reset_motion_fields__8TObjBaseFv();
-void run_task__8TObjFishFv();
-void update_object_view_visibility__8TObjBaseFff();
 struct TObjFishAreaResource {
     const char *models[4];
     const char *motions[4];

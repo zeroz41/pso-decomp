@@ -20,6 +20,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/math/MatrixTransforms.h"
 
 
 typedef struct Coll_800C4A5C {
@@ -52,18 +53,6 @@ typedef struct Obj_800C4A5C {
     s32 f100;
 } Obj_800C4A5C;
 
-typedef struct Ent_800C4B78 {
-    u8 pad0[0x38];
-    Vec pos;
-} Ent_800C4B78;
-
-typedef struct Obj_800C4B78 {
-    u8 pad0[0x1C];
-    s32 timer;
-    Ent_800C4B78 *target;
-    s32 effect;
-} Obj_800C4B78;
-
 typedef struct Obj_800C55E0 {
     u8 pad0[0xB8];
     s16 fB8;
@@ -75,27 +64,25 @@ typedef struct Obj_800C55E0 {
 } Obj_800C55E0;
 
 extern "C" {
-s32 subtract_vector(void *, void *);
 
 void * player_render_texture_buffer;
 void release_texture_list(void *);
 extern u8 *camera_ctrl_instance;
 
 extern const char TObjEneRe2Flower_EffCurse3__class_name_string[0x1C] = "TObjEneRe2Flower_EffCurse3";
-s32 TObjEneRe2Flower_EffCurse3__name = (saddr)TObjEneRe2Flower_EffCurse3__class_name_string;
+const char *TObjEneRe2Flower_EffCurse3__name = TObjEneRe2Flower_EffCurse3__class_name_string;
 #pragma push
 #pragma fp_contract on
 void TObjEneRe2Flower_EffCurse3::run_task() {
-    Obj_800C4B78 *o = (Obj_800C4B78 *)this;
     Vec a;
     Vec b;
-    o->timer++;
-    if (o->timer > 20) {
-        ((TObject *)o)->queue_destruction();
+    timer++;
+    if (timer > 20) {
+        queue_destruction();
         return;
     }
-    if (((TObjBase *)o->target)->is_alive() != 0) {
-        VecCopy((Vec *)&a, (const Vec *)&o->target->pos);
+    if (target->is_alive() != 0) {
+        VecCopy(&a, &target->position);
         a.y += (14.0f);
         VecCopy((Vec *)&b, (const Vec *)(camera_ctrl_instance + 0x178));
         subtract_vector(&b, &a);
@@ -103,21 +90,25 @@ void TObjEneRe2Flower_EffCurse3::run_task() {
         a.x = (2e+01f) * b.x + a.x;
         a.y = (2e+01f) * b.y + a.y;
         a.z = (2e+01f) * b.z + a.z;
-        ((TParticleCtrl *)o->effect)->set_position(&a);
+        effect->set_position(&a);
     }
 }
 #pragma pop
 
 }
 TObjEneRe2Flower_EffCurse3::~TObjEneRe2Flower_EffCurse3() {
-    if (*(void * *)&this->unk_24 != NULL) { ((TObject *)(*(void * *)&this->unk_24))->queue_destruction(); *(s32 *)&this->unk_24 = 0; }
+    if (effect != NULL) {
+        effect->queue_destruction();
+        effect = NULL;
+    }
 }
-TObjEneRe2Flower_EffCurse3::TObjEneRe2Flower_EffCurse3(saddr arg1, s32 arg2) : TObject((TObject *)arg1) {
-    *(s32 *)&this->m_name = (s32) TObjEneRe2Flower_EffCurse3__name;
-    *(s32 *)((s8 *)this + 0x1C) = 0;
-    (this->m_20) = arg2;
-    if (((TObjBase *)this->m_20)->is_alive() != 0) {
-        *(s32 *)&this->unk_24 = (saddr)spawn_continuous_particle_effect_with_flags((void *)((this->m_20) + 0x38), 0xDE, 0x40);
+
+TObjEneRe2Flower_EffCurse3::TObjEneRe2Flower_EffCurse3(TObject *parent, TObjBase *target) : TObject(parent) {
+    m_name = TObjEneRe2Flower_EffCurse3__name;
+    timer = 0;
+    this->target = target;
+    if (this->target->is_alive() != 0) {
+        effect = spawn_continuous_particle_effect_with_flags(&this->target->position, 0xDE, 0x40);
     }
 }
 extern "C" {

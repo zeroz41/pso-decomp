@@ -38,7 +38,7 @@ struct TWindowSubMag : public TObject {
     void set_flag60_bit8();
     void clear_flag60_bit8();
     s32 get_mag_state();
-    void set_mag_slot_state(saddr arg1);
+    void set_mag_slot_state(saddr item);
     void init_and_setup(void* a1);
     void start_scroll(f32 farg0);
     static void feed_mag(void* p, void* a1, void* a2);

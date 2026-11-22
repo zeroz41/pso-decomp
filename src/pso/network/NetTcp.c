@@ -2228,7 +2228,7 @@ u16 TLobby__sub_8041EA14(void);
 #pragma opt_propagation off
 #pragma push
 #pragma pool_data off
-s16 tcp_connect_start(s16 arg0, saddr arg1, s16 arg2) {
+s16 tcp_connect_start(s16 arg0, saddr addr, s16 arg2) {
     s16 r;
     TcpTcb *e;
 
@@ -2244,18 +2244,18 @@ s16 tcp_connect_start(s16 arg0, saddr arg1, s16 arg2) {
     }
     e = tcp_protocol_state.tcbs;
     e += arg0;
-    if (TLobby__sub_8040DA54((u8 *)arg1, e->local) == 0) {
+    if (TLobby__sub_8040DA54((u8 *)addr, e->local) == 0) {
         NetDispatchSocketEvent((s16)(e - tcp_protocol_state.tcbs), e->event_ctx, 3, 0xC);
         return -6;
     }
-    if (is_addr_unspecified(e->local) != 0 && AT_IP_SetSrcFromDst((Out_8040D95C *)e->local, (In_8040D95C *)arg1) < 0) {
+    if (is_addr_unspecified(e->local) != 0 && AT_IP_SetSrcFromDst((Out_8040D95C *)e->local, (In_8040D95C *)addr) < 0) {
         NetDispatchSocketEvent((s16)(e - tcp_protocol_state.tcbs), e->event_ctx, 3, 0xC);
         return -6;
     }
     if (e->hdr.sport == 0) {
         e->hdr.sport = TLobby__sub_8041EA14();
     }
-    NetMemcpy(e->remote, (void *)arg1, sizeof(e->remote));
+    NetMemcpy(e->remote, (void *)addr, sizeof(e->remote));
     e->hdr.dport = arg2;
     if (TLobby__sub_8041B724(e) < 0) {
         return -6;

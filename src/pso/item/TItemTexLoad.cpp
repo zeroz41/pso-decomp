@@ -9,10 +9,8 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 extern "C" {
-void prs_decompress_alloc(void*, s32, s32);
-u32 adxf_open_afs__6TLobbyFii(int, int);
+void prs_decompress_alloc(void *, void *, s32);
 void *lookup_item_pmt_record(u8 *item);
-char* strncpy(char*, const char*, u32);
 void TLobby__sub_801E3E9C(s32, const char*, void*, s32);
 extern const char item_kt_archive_filename[] = "ItemKT.afs";
 extern const char TItemTexLoad_class_name[] = "TItemTexLoad";
@@ -23,11 +21,11 @@ char* item_texture_filename_buffer;
 
 void TItemTexLoad::load_texture_archive() {
     char t[12] = "ItemTexLoad";
-    s32 r = (saddr)TLobby::tmp_buf_use_req((const char *)(&t));
-    if (r != 0) {
+    u8 *r = TLobby::tmp_buf_use_req(t);
+    if (r != NULL) {
         prs_decompress_alloc(m_archive_buffer, r, 0x40000);
-        load_gvm_texture_archive((void *)r, &m_texture_list);
-        TLobby::tmp_buf_release((const char *)&t);
+        load_gvm_texture_archive(r, &m_texture_list);
+        TLobby::tmp_buf_release(t);
         m_state = 2;
     } else {
         unload_texture();

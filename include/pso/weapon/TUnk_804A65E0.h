@@ -10,7 +10,7 @@
 class TUnk_804A65E0 : public TItemWeapon {
 public:
     virtual ~TUnk_804A65E0();
-    virtual void vfunc_57();
+    virtual void on_equipped();
     virtual void emit_marker_effects();
     TUnk_804A65E0(TObject *parent, u8 *item);
     WeaponVector cast_point;   // 0x1F8: joint 0, where Gizonde starts (inferred name)

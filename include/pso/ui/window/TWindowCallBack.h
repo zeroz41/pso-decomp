@@ -14,7 +14,6 @@ struct TWindowCallBack : public TWindowBase {
 
 LAYOUT_ASSERT(TWindowCallBack_size, sizeof(TWindowCallBack) == 0x64);
 extern "C" {
-void run_task__15TWindowCallBackFv(void *p);
 void set_field_60__15TWindowCallBackFPvi(void *p, s32 v);
 }
 

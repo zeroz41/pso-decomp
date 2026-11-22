@@ -13,6 +13,9 @@
 #include "pso/boss/galgryphon/TBoss5GryphonLightningHorn.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixTransforms.h"
 
 #pragma readonly_strings on
 
@@ -36,18 +39,15 @@ typedef struct Wing_80326074 {
 } Wing_80326074;
 
 extern "C" {
-f32 vec3_dot(void *, void *);
 void apply_lightning_hit(s32, void *, f32);
 Ctl_80325F7C *get_player_by_client_id(s32);
 void project_point_onto_line(void *, void *, void *);
-void vec3_add_to(void *, void *);
-void subtract_vector(void *, void *);
 extern const f32 lbl_805D8D48;
 s32 TBoss5GryphonLightning__ct(f32);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int, f32, f32);
 extern s32 __vt__26TBoss5GryphonLightningHorn[];
-u8 *__ct__26TBoss5GryphonLightningHornFv(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
+u8 *__ct__26TBoss5GryphonLightningHornFv(u8 *self, s32 arg1, s32 arg2, s32 rotation_y);
 
 void TBoss8Dragon::queue_destruction() { TObject::queue_destruction(); }
 
@@ -66,7 +66,7 @@ void TBoss8Dragon::queue_destruction() { TObject::queue_destruction(); }
         to->z = dir->z * dist + from->z; \
         return 1; \
     }
-s32 TObjPlayer__sub_80325D58(void *arg0, Vec *from, Vec *dir, Vec *to, f32 dist) {
+s32 TObjPlayer__sub_80325D58(void *self, Vec *from, Vec *dir, Vec *to, f32 dist) {
     Vec d;
     Vec n;
     f32 t;
@@ -91,7 +91,7 @@ s32 TObjPlayer__sub_80325D58(void *arg0, Vec *from, Vec *dir, Vec *to, f32 dist)
 #undef STEP_80325D58
 #pragma pop
 
-void fn_80325F7C(void *arg0) {
+void fn_80325F7C(void *self) {
     Ray_80325F7C ray;
     Vec pos;
     Vec wing;
@@ -106,8 +106,8 @@ void fn_80325F7C(void *arg0) {
         do {
             c = get_player_by_client_id(i);
             if (c != 0) {
-                ((TBoss5GryphonLightningWing *)arg0)->copy_position(&pos);
-                ((TBoss5GryphonLightningWing *)arg0)->get_wing_position(&wing);
+                ((TBoss5GryphonLightningWing *)self)->copy_position(&pos);
+                ((TBoss5GryphonLightningWing *)self)->get_wing_position(&wing);
                 ray.o.x = pos.x;
                 ray.o.y = c->pos.y;
                 ray.o.z = pos.z;
@@ -118,7 +118,7 @@ void fn_80325F7C(void *arg0) {
                 dir.x = ray.d.x;
                 dir.y = ray.d.y;
                 dir.z = ray.d.z;
-                TObjPlayer__sub_80325D58(arg0, (Vec *)&pos, (Vec *)&dir, (Vec *)&hit,
+                TObjPlayer__sub_80325D58(self, (Vec *)&pos, (Vec *)&dir, (Vec *)&hit,
                                          normalize_vector_safe(&dir));
                 apply_lightning_hit(inst, &hit, 6.0f);
             }
@@ -145,7 +145,7 @@ void TBoss5GryphonLightningHorn::rebuild_lightning_segments() {
     p.y += self->vel.y;
     p.z += self->vel.z;
     p.y = 60.0f;
-    hit = (Hit_80326074 *)csnVecterUnder((saddr)&p, 0x16EF);
+    hit = (Hit_80326074 *)csnVecterUnder(&p, 0x16EF);
     if (hit == NULL || (h = hit->pos[1]) > lbl_805D8D48) {
         ((TBoss5GryphonLightningWing *)self)->get_wing_position(&p);
         self->vel.x *= 0.5f;
@@ -185,29 +185,29 @@ void TBoss5GryphonLightningHorn::run_task() {
 TBoss5GryphonLightningHorn::~TBoss5GryphonLightningHorn() {}
 
 
-u8 *__ct__26TBoss5GryphonLightningHornFv(u8 *arg0, s32 arg1, s32 arg2, s32 arg3) {
+u8 *__ct__26TBoss5GryphonLightningHornFv(u8 *self, s32 arg1, s32 arg2, s32 rotation_y) {
     f32 temp_f1;
     TBoss5GryphonLightning__ct(10.0f);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__26TBoss5GryphonLightningHorn;
-    ((TBoss5GryphonLightningHorn *)arg0)->m_name = TBoss5GryphonLightningHorn__name;
-    *(s32 *)((s8 *)arg0 + 0xA4) = arg3;
-    temp_f1 = 5.0f * sin_table_lookup((int) (*(s32 *)((s8 *)arg0 + 0xA4)));
-    *(f32 *)((s8 *)arg0 + 0x98) = temp_f1;
-    *(f32 *)((s8 *)arg0 + 0x9C) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0xA0) = (f32) (5.0f * cos_table_lookup((int) (*(s32 *)((s8 *)arg0 + 0xA4)), temp_f1, 5.0f));
-    *(f32 *)((s8 *)arg0 + 0x8C) = 1.0f;
-    *(s32 *)((s8 *)arg0 + 0x90) = 4;
-    return arg0;
+    *(s32 **)((s8 *)self + 0x18) = __vt__26TBoss5GryphonLightningHorn;
+    ((TBoss5GryphonLightningHorn *)self)->m_name = TBoss5GryphonLightningHorn__name;
+    *(s32 *)((s8 *)self + 0xA4) = rotation_y;
+    temp_f1 = 5.0f * sin_table_lookup((int) (*(s32 *)((s8 *)self + 0xA4)));
+    *(f32 *)((s8 *)self + 0x98) = temp_f1;
+    *(f32 *)((s8 *)self + 0x9C) = 0.0f;
+    *(f32 *)((s8 *)self + 0xA0) = (f32) (5.0f * cos_table_lookup((int) (*(s32 *)((s8 *)self + 0xA4)), temp_f1, 5.0f));
+    *(f32 *)((s8 *)self + 0x8C) = 1.0f;
+    *(s32 *)((s8 *)self + 0x90) = 4;
+    return self;
 }
 
-s32 TBoss8Dragon::spawn_ground_lightning(s32 arg0, saddr arg1, s32 arg2) {
+s32 TBoss8Dragon::spawn_ground_lightning(s32 arg0, saddr arg1, s32 rotation_y) {
     Vec position;
     f32 ground_height;
     saddr allocation;
     s32 effect;
     u8* collision;
     VecCopy(&position, (const Vec *)arg1);
-    collision = (u8 *)csnVecterUnder((saddr)((s32*)&position), 0x16EF);
+    collision = (u8 *)csnVecterUnder(&position, 0x16EF);
     if (collision == NULL) {
         position.y = lbl_805D8D48;
     } else {
@@ -222,7 +222,7 @@ s32 TBoss8Dragon::spawn_ground_lightning(s32 arg0, saddr arg1, s32 arg2) {
     allocation = (saddr)TObject::operator new(0xA8);
     effect = allocation;
     if (effect != 0) {
-        effect = (saddr)__ct__26TBoss5GryphonLightningHornFv((u8*)allocation, arg0, (saddr)&position, arg2);
+        effect = (saddr)__ct__26TBoss5GryphonLightningHornFv((u8*)allocation, arg0, (saddr)&position, rotation_y);
     }
     return effect;
 }

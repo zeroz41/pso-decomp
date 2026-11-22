@@ -11,8 +11,8 @@ public:
     TUnk_804ECFB0(TObject *parent, u8 *item);
     virtual ~TUnk_804ECFB0();
     virtual void update_weapon();
-    virtual void vfunc_57();
-    virtual void vfunc_58();
+    virtual void on_equipped();
+    virtual void on_unequipped();
     s32 pad_1f8;
     s16 owner_tp;  // the owner's TP last frame (get_actor_tp)
     u8 pad_1fe[0x2];

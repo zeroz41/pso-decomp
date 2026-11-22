@@ -68,7 +68,7 @@ s32 TLobby__sub_8013F810(TLobby *lz, u32 *data, s32 len, u8 *out) {
     u8 c2;
     bswap_32(hdr);
     bswap_32(hdr + 1);
-    lz->set_range((saddr)(data + 2), hdr[1], (saddr)out);
+    lz->set_range((u8 *)(data + 2), hdr[1], (s8 *)out);
     for (i = 0; i < 0xFEE; i++) {
         ((Lz_8013F99C *)lz)->text_buf[i] = 0;
     }
@@ -126,7 +126,7 @@ s32 TLobby::lz_compress_packet(void *src, s32 size, s32 *hdr) {
     s32 t1;
     out = hdr;
     t0 = TLobby__sub_803DF1CC();
-    this->set_range((saddr)src, size, (saddr)(hdr + 2));
+    this->set_range((u8 *)src, size, (s8 *)(hdr + 2));
     this->init_lookup_tables();
     code_buf[0] = 0;
     mask = code_buf_ptr = 1;
@@ -327,9 +327,9 @@ u8 lzss_read_byte(u8 *arg0) {
 }
 
 // The decoder's input (src, src + size) and output (dst) pointers.
-void TLobby::set_range(int src, int size, int dst) {
+void TLobby::set_range(u8 *src, int size, s8 *dst) {
     LzssStream *s = (LzssStream *)this;
-    s->in = (u8 *)src;
-    s->out = (s8 *)dst;
-    s->in_end = (u8 *)(src + size);
+    s->in = src;
+    s->out = dst;
+    s->in_end = src + size;
 }

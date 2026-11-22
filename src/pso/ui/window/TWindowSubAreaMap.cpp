@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubAreaMap.h"
+#include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 
 #include "pso/ui/window/TWindowSubAreaMapDisp.h"
@@ -11,19 +12,6 @@
 #include "pso/camera/TCameraCtrl_801A6E60.h"
 
 #pragma readonly_strings on
-
-struct VBase_18_204a81 { char pad[0x18]; };
-
-struct VObj_18_204a81 : VBase_18_204a81 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual s32 m7();
-};
 
 struct RecoveredGlobal_80271480_lbl_8050E208 {
     s32 value;
@@ -46,22 +34,20 @@ LAYOUT_ASSERT(RecoveredGlobal_80271480_lbl_8050E208_size, sizeof(RecoveredGlobal
 void TWindowSubAreaMap::run_task() {
     if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state.value + 0x20), 2) != 0) || (test_controller_flag_4c_color((void *) ((u8 *)&controller_input_state.value + 0x160), 2) != 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
-        ((VObj_18_204a81 *)(this->m_20))->m7();
+        parent_menu->on_submenu_closed();
     }
 }
 
 }
 TWindowSubAreaMap::~TWindowSubAreaMap() {
-    if (*(void **)((s8 *)this + 0x24) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x24)))->close(); this->m_24 = 0; }
+    if (map_disp != NULL) { map_disp->close(); map_disp = NULL; }
 }
 const char *TWindowSubAreaMap__name = "TWindowSubAreaMap";
 TWindowSubAreaMap::TWindowSubAreaMap(TObject *object, void *arg2) : TObject(object) {
-    void *o;
     this->m_name = TWindowSubAreaMap__name;
-    *(void **)((s8 *)this + 0x20) = object;
+    parent_menu = static_cast<TWindowMainMenu *>(object);
     *(void **)((s8 *)this + 0x1C) = arg2;
-    o = new TWindowSubAreaMapDisp();
-    *(void **)((s8 *)this + 0x24) = o;
+    map_disp = new TWindowSubAreaMapDisp();
 }
 
 LAYOUT_ASSERT(RecoveredGlobal_802715F0_lbl_8050E208_size, sizeof(RecoveredGlobal_802715F0_lbl_8050E208) == 0x1B0);

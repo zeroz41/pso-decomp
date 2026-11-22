@@ -6,7 +6,7 @@
 class TUnk_804A1098 : public TItemWeapon {
 public:
     virtual ~TUnk_804A1098();
-    virtual void vfunc_57();
+    virtual void on_equipped();
     virtual void vfunc_60();
     virtual void update_idle();
     virtual void update_weapon();

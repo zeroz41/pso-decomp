@@ -6,7 +6,11 @@
 #include "pso/system/byteswap.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/render/ModelDrawContext.h"
+#include "pso/render/GinjaMaterialState.h"
+#include "pso/object/ending/TObjOnlineEndingHexLine.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/render/GinjaTexture.h"
+#include "pso/player/TObjPlayer_8023E480.h"
 
 class TAdGameStartGC : public TObject {
 public:
@@ -222,26 +226,20 @@ Obj_802E6750 *__ct__14TAdGameStartGCFv(Obj_802E6750 *arg0) {
     return arg0;
 }
 
-void release_texture_list(void*);
-
-extern int multiplay_texture_f512_handle;
-
 void destroy_instance__17TAdGameStartSubGCFv(void) {
-    if ((u32) multiplay_texture_f512_handle != 0U) {
-        release_texture_list((void*)multiplay_texture_f512_handle);
-        multiplay_texture_f512_handle = 0U;
+    if (multiplay_texture_f512_handle != NULL) {
+        release_texture_list(multiplay_texture_f512_handle);
+        multiplay_texture_f512_handle = NULL;
     }
 }
-
-    s32 load_streamed_prs_texture(s32 arg0, s32 arg1);
 }
     extern const unsigned char lbl_80472C28[];
-    extern void *texture_f512_multiplay_descriptor[];
-void register_texture_f512_multiplay(void) { multiplay_texture_f512_handle = (saddr)texture_f512_multiplay_descriptor; load_streamed_prs_texture((saddr)lbl_80472C28, (saddr)texture_f512_multiplay_descriptor); }
-extern "C" {
+    __declspec(section ".data") extern GinjaTextureList texture_f512_multiplay_descriptor;
+void register_texture_f512_multiplay(void) { multiplay_texture_f512_handle = &texture_f512_multiplay_descriptor; load_streamed_prs_texture((saddr)lbl_80472C28, (saddr)&texture_f512_multiplay_descriptor); }
 __declspec(section ".rodata") extern const unsigned char lbl_80472C28[] = "f512_multiplay";
 __declspec(section ".rodata") extern const char TAdGameStartGC__class_name_string[] = "TAdGameStartGC";
 __declspec(section ".rodata") extern const char TAdGameStartSubGC__class_name_string[] = "TAdGameStartSubGC";
+extern "C" {
 
 #pragma push
 #pragma fp_contract on
@@ -342,9 +340,9 @@ u8 *__ct__17TAdGameStartSubGCFv(u8 *arg0, void *arg1, u8 *arg2) {
 void __dt__14TAdGameStartGCFv();
 void __dt__17TAdGameStartSubGCFv();
 void render_shadows__7TObjectFv();
-void *lbl_804E3B60[3] = {(void *)lbl_80472C28, 0, 0};
-__declspec(section ".data") void *texture_f512_multiplay_descriptor[2] = {(void *)lbl_804E3B60, (void *)1};
 }
+GinjaTextureEntry lbl_804E3B60[1] = {{(char *)lbl_80472C28, 0, {0}}};
+__declspec(section ".data") GinjaTextureList texture_f512_multiplay_descriptor = {lbl_804E3B60, 1};
 s32 __vt__14TAdGameStartGC[] = {
     0, 0,
     (saddr)__dt__14TAdGameStartGCFv,

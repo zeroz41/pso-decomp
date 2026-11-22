@@ -4,7 +4,7 @@
 #include "pso/unk/TLobby.h"
 struct Row_8020C354 { s16 type, flags; u8 u4[8]; s16 room; u8 ue[0x3a]; };
 
-extern "C" {
+
 s32 is_room_free_of_active_enemies(s32 floor, s16 room) {
     Row_8020C354 *rows = reinterpret_cast<Row_8020C354 *>(get_active_floor_enemy_rows(floor));
     s32 count = TLobby::get_object_type(floor);
@@ -18,4 +18,3 @@ s32 is_room_free_of_active_enemies(s32 floor, s16 room) {
     return 1;
 }
 
-}

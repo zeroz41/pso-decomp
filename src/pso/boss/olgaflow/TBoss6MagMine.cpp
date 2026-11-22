@@ -33,9 +33,11 @@ struct Mine_80368C14 { u8 pad[0x38]; Vec pos; };
 
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/boss/darkfalz/TObjDFHorming.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixVector.h"
 
 #pragma readonly_strings on
-extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
 struct VBase_18_5673ef { char pad[0x18]; };
 
 struct VObj_18_5673ef : VBase_18_5673ef {
@@ -120,28 +122,23 @@ void *__vt__13TBoss6MagMine[11] = {
     (void *)0x0, (void *)0x0, (void *)0x803b, (void *)0x0,
     (void *)0x0, (void *)0x0, (void *)0x0,
 };
-void vec3_add_to(void *, void *);
 void vt2__13TBoss6MagMineFv(u8 *arg0);
-void vt1__13TBoss6MagMineFv(u8 *arg0);
-f32 vector_length(Vec *);
+void vt1__13TBoss6MagMineFv(u8 *self);
 void subtract_vector(Vec *, void *);
 void explode__13TBoss6MagMineFPv(Mine_80368C14 *o);
 s32 get_field_0x42c__13TBoss6MagMineFPv(void* p);
 int TBoss6PlotFalz__sub_8036964C(void);
-void TBoss6MagMine__sub_80368AB8(u8 *arg0, u8 *arg1);
+void TBoss6MagMine__sub_80368AB8(u8 *arg0, u8 *pl);
 saddr VecCopy__FP3VecPC3Vec(saddr, saddr);
 s32 init_collision_body_parts(void *, void *, int);
 const char *lbl_805D44B0 = "TBoss6MagMine";
 s32 is_player_in_range__13TBoss6MagMineFPv(void *arg0_);
-void TBoss4DarkFalz__sub_8004B4F0(void *arg0p, void *arg1p);
 s32 create__13TBoss6MagMineFi(s32 set_data);
-void vt3__13TBoss6MagMineFv(saddr arg0);
+void vt3__13TBoss6MagMineFv(saddr self);
 void vt4__13TBoss6MagMineFv(void* p);
-void copy_pos__13TBoss6MagMineFi(s32 arg0);
-void TBoss6PlotFalz__sub_802AC008(f32 farg0, f32 farg1);
+void copy_pos__13TBoss6MagMineFi(s32 self);
 int post_translate_matrix(void*);
 void free_collision_body_parts(void *);
-void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 int rotate_matrix_y(void*, void*);
 
 void TUnk_804F322C::run_death_reaction() {
@@ -151,13 +148,13 @@ void TUnk_804F322C::run_death_reaction() {
 }
 
 void TUnk_804F322C::run_hit_reaction() {
-    u8 *arg0 = (u8 *)this;
-    *(s32 *)((s8 *)arg0 + 0x30) = (s32) (*(s32 *)((s8 *)arg0 + 0x30) & 0xFFFFFDFF);
-    *(f32 *)((s8 *)arg0 + 0x3A8) = (f32) 1.0f;
+    u8 *self = (u8 *)this;
+    *(s32 *)((s8 *)self + 0x30) = (s32) (*(s32 *)((s8 *)self + 0x30) & 0xFFFFFDFF);
+    *(f32 *)((s8 *)self + 0x3A8) = (f32) 1.0f;
 }
 
-void copy_pos__13TBoss6MagMineFi(s32 arg0) {
-    VecCopy__FP3VecPC3Vec(arg0 + 0x2FC, arg0 + 0x38);
+void copy_pos__13TBoss6MagMineFi(s32 self) {
+    VecCopy__FP3VecPC3Vec(self + 0x2FC, self + 0x38);
 }
 
 void TUnk_804F322C::update_linked_state() {
@@ -178,7 +175,7 @@ void TUnk_804F322C::update_linked_state() {
 
 void TUnk_804F322C::render() { push_matrix(); post_translate_matrix((char*)this + 0x38); rotate_matrix_y((void*)0, *(void**)((char*)this + 0x3ac)); update_linked_state(); pop_matrix(); }
 
-void TBoss6MagMine__sub_80368AB8(u8 *arg0, u8 *arg1) {
+void TBoss6MagMine__sub_80368AB8(u8 *arg0, u8 *pl) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80368AB8, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_80368AB8, spC) == 0x4);
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_80368AB8, sp10) == 0x8);
@@ -203,13 +200,13 @@ void TBoss6MagMine__sub_80368AB8(u8 *arg0, u8 *arg1) {
     }
     switch (var_r31) {
     case 2:
-        ((VObj_18_5673ef *)(arg1))->m46(0);
+        ((VObj_18_5673ef *)(pl))->m46(0);
         return;
     case 3:
-        ((VObj_18_5673ef *)(arg1))->m47();
+        ((VObj_18_5673ef *)(pl))->m47();
         return;
     case 18:
-        ((VObj_18_5673ef *)(arg1))->m45();
+        ((VObj_18_5673ef *)(pl))->m45();
         return;
     default:
         temp_r3_2 = TBoss6PlotFalz::rand_vary_count((int) (*(s32 *)((s8 *)arg0 + 0x39C)), (f32) (0.1f));
@@ -217,7 +214,7 @@ void TBoss6MagMine__sub_80368AB8(u8 *arg0, u8 *arg1) {
         stack.sp10 = 1;
         stack.sp14 = (f32) temp_r3_2;
         *(s32 *)&stack.spC = *(s32 *)&stack.sp14;
-        ((VObj_18_5673ef *)(arg1))->m21(arg0, &stack.sp8, 0, -1, -1);
+        ((VObj_18_5673ef *)(pl))->m21(arg0, &stack.sp8, 0, -1, -1);
         return;
     }
 }
@@ -262,12 +259,12 @@ s32 is_player_in_range__13TBoss6MagMineFPv(void *arg0_) {
 
 void vt4__13TBoss6MagMineFv(void* p) { spawn_particle_effect_with_flags((const Vec *)((char*)p + 0x38), 252, 64); ((TObject *)p)->queue_destruction(); }
 
-void vt3__13TBoss6MagMineFv(saddr arg0) {
-    explode__13TBoss6MagMineFPv((Mine_80368C14 *)(arg0));
-    spawn_particle_effect_with_flags((const Vec *)(arg0 + 0x38), 0xFB, 0x40);
-    spawn_particle_effect_with_flags((const Vec *)(arg0 + 0x38), 0xFC, 0x40);
-    TBoss6PlotFalz::apply_radial_effect_to_players((void *)(arg0 + 0x38), (s16)0xC0, (s16)0xF, (f32)100.0f);
-    ((TObject *)arg0)->queue_destruction();
+void vt3__13TBoss6MagMineFv(saddr self) {
+    explode__13TBoss6MagMineFPv((Mine_80368C14 *)(self));
+    spawn_particle_effect_with_flags((const Vec *)(self + 0x38), 0xFB, 0x40);
+    spawn_particle_effect_with_flags((const Vec *)(self + 0x38), 0xFC, 0x40);
+    TBoss6PlotFalz::apply_radial_effect_to_players((void *)(self + 0x38), (s16)0xC0, (s16)0xF, (f32)100.0f);
+    ((TObject *)self)->queue_destruction();
 }
 
 #pragma push
@@ -292,14 +289,14 @@ void vt2__13TBoss6MagMineFv(u8 *arg0_) {
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_propagation off
-void vt1__13TBoss6MagMineFv(u8 *arg0) {
-    *(f32 *)((s8 *)arg0 + 0x38) = (f32) *(f32 *)((s8 *)arg0 + 0x384);
-    *(f32 *)((s8 *)arg0 + 0x40) = (f32) *(f32 *)((s8 *)arg0 + 0x38C);
-    *(f32 *)((s8 *)arg0 + 0x3C) += 1.0f;
-    if (*(f32 *)((s8 *)arg0 + 0x3C) >= 10.0f) {
-        *(f32 *)((s8 *)arg0 + 0x3C) = (f32) 10.0f;
-        *(s32 *)((s8 *)arg0 + 0x394) = 0;
-        *(s32 *)((s8 *)arg0 + 0x390) = 2;
+void vt1__13TBoss6MagMineFv(u8 *self) {
+    *(f32 *)((s8 *)self + 0x38) = (f32) *(f32 *)((s8 *)self + 0x384);
+    *(f32 *)((s8 *)self + 0x40) = (f32) *(f32 *)((s8 *)self + 0x38C);
+    *(f32 *)((s8 *)self + 0x3C) += 1.0f;
+    if (*(f32 *)((s8 *)self + 0x3C) >= 10.0f) {
+        *(f32 *)((s8 *)self + 0x3C) = (f32) 10.0f;
+        *(s32 *)((s8 *)self + 0x394) = 0;
+        *(s32 *)((s8 *)self + 0x390) = 2;
     }
 }
 #pragma pop
@@ -429,7 +426,7 @@ TUnk_804F322C::TUnk_804F322C(TObject *parent, saddr arg2) : TObjEnemy(parent) {
         key.c = 0;
         ((TObjEnemy *)self)->exchange_object_state(&key, 0);
     }
-    *(s32 *)((s8 *)self + 0x374) = (s32)TBoss6PlotFalz::get_scene_archive();
+    *(saddr *)((s8 *)self + 0x374) = (saddr)TBoss6PlotFalz::get_scene_archive();
     ((TBoss3Volopt *)self)->texlist = 0;
     *(s32 *)((s8 *)self + 0x34) = 0;
     VecCopy__FP3VecPC3Vec((saddr)self + 0x44, VecCopy__FP3VecPC3Vec((saddr)self + 0x50, VecCopy__FP3VecPC3Vec((saddr)self + 0x74, (saddr)self + 0x38)));
@@ -473,8 +470,8 @@ TUnk_804F322C::TUnk_804F322C(TObject *parent, saddr arg2) : TObjEnemy(parent) {
 #undef arg0
 #pragma pop
 
-s32 create__13TBoss6MagMineFi(s32 arg0) {
-    return (saddr)new TUnk_804F322C(new TObjControl((TObject *)tl_04), arg0);
+s32 create__13TBoss6MagMineFi(s32 set_data) {
+    return (saddr)new TUnk_804F322C(new TObjControl((TObject *)tl_04), set_data);
 }
 
 void spawn_mag_mine_at__13TBoss6MagMineFPvPv(const Vec *origin, const Vec *destination) {

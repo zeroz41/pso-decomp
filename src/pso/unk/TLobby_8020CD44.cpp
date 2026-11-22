@@ -85,8 +85,6 @@ struct VObj : VBase {
     virtual void m77(s32);
 };
 
-extern "C" {
-
 
 extern s32 TLobby__data_805D6144;
 
@@ -123,4 +121,3 @@ void TLobby::create_objects(s32 arg0) {
     }
 }
 
-}

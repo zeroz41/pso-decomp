@@ -13,13 +13,11 @@ struct AsyncFileReadRequest {
     s32 size;
     s32 count;
     u8 pad34[8];
-    s32 tex;
+    GinjaTextureList *tex;
     u8 pad40[0x24];
     saddr mode;
 };
 
-extern "C" {
-}
 AsyncFileReadRequest *async_file_read_current_request;
 void *lobby_stack_entry_list_tail;
 s32 lobby_list_entry_count;
@@ -28,7 +26,7 @@ uaddr async_file_read_sector_buffer;
 AdxfHandle *lobby_download_state_ptr;
 s32 lobby_list_next_id;
 s32 game_heap;
-u32 async_file_read_texture_buffer;
+u8 *async_file_read_texture_buffer;
 void process_async_file_reads(void) {
     switch (async_file_read_state) {
     case 0:
@@ -38,10 +36,10 @@ void process_async_file_reads(void) {
             } else {
                 async_file_read_current_request->flags |= 0x100;
                 if (async_file_read_current_request->flags & 2) {
-                    async_file_read_texture_buffer = (uaddr)TLobby::tmp_buf_use_req("FSVR_READPVM");
-                    if (async_file_read_texture_buffer != 0) {
+                    async_file_read_texture_buffer = TLobby::tmp_buf_use_req("FSVR_READPVM");
+                    if (async_file_read_texture_buffer != NULL) {
                         lobby_download_state_ptr = ADXF_Open(async_file_read_current_request->name, 0);
-                        ADXF_ReadNw(lobby_download_state_ptr, async_file_read_current_request->count, (void *)async_file_read_texture_buffer);
+                        ADXF_ReadNw(lobby_download_state_ptr, async_file_read_current_request->count, async_file_read_texture_buffer);
                         async_file_read_state = 3;
                     }
                 } else if (async_file_read_current_request->flags & 4) {
@@ -103,7 +101,7 @@ void process_async_file_reads(void) {
             TLobby::pop_and_close();
             async_file_read_state = 0;
         } else if (ADXF_GetStat(lobby_download_state_ptr) == 3) {
-            load_gvm_texture_archive((void *)async_file_read_texture_buffer, (GinjaTextureList *)async_file_read_current_request->tex);
+            load_gvm_texture_archive(async_file_read_texture_buffer, async_file_read_current_request->tex);
             TLobby::tmp_buf_release("FSVR_READPVM");
             TLobby::notify_and_close();
         }

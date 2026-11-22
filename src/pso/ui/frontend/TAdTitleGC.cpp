@@ -13,41 +13,6 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
 
-struct Rec_802A0A60 { u8 pad[0x20]; };
-
-struct Title_802A0A60 { u8 pad[0x20]; Rec_802A0A60 recs[8]; };
-
-typedef struct Rec_802A0E08 {
-    f32 x0, y0, x1, y1;
-    f32 a, b, c, d;
-} Rec_802A0E08;
-
-typedef struct TAdTitleGC_802A0E08 {
-    const char *name;
-    u8 pad4[0x18 - 0x4];
-    void *vtable;
-    s32 idx;
-    Rec_802A0E08 recs[8];
-    f32 f120;
-    f32 f124;
-    s32 f128;
-    s32 f12C;
-    u32 f130;
-    s32 f134;
-} TAdTitleGC_802A0E08;
-
-struct Rec_802A0C84 {
-    f32 x0, y0, x1, y1;
-    u8 pad[0x10];
-};
-
-struct Title_802A0C84 {
-    u8 pad[0x20];
-    Rec_802A0C84 rects[8];
-    u8 pad120[0x128 - 0x120];
-    s32 f128;
-};
-
 // The title banner textures: English (lbl_804DCA60/78) and Japanese (lbl_804DCA80/98) name lists and texlists.
 NJS_TEXNAME lbl_804DCA60[2] = { { (void *)"f512_midashi_eng", 0, 0 }, { (void *)"f512_midashi_eng_b", 0, 0 } };
 NJS_TEXLIST lbl_804DCA78 = { lbl_804DCA60, 2 };
@@ -93,67 +58,62 @@ void TLobby::free_dialog_global() {
 TAdTitleGC::TAdTitleGC(TObject *parent, s32 idx) : TObject(parent) {
     s32 off;
     s32 i;
-    ((TAdTitleGC_802A0E08 *)this)->name = ad_title_gc_class_name;
-    ((TAdTitleGC_802A0E08 *)this)->idx = idx;
-    ((TAdTitleGC_802A0E08 *)this)->f128 = -1;
-    ((TAdTitleGC_802A0E08 *)this)->f12C = 0;
-    ((TAdTitleGC_802A0E08 *)this)->f134 = 1;
-    ((TAdTitleGC_802A0E08 *)this)->f130 = 0;
-    off = (((TAdTitleGC_802A0E08 *)this)->idx > 11) ? -12 : 0;
+    m_name = ad_title_gc_class_name;
+    title = idx;
+    frames = -1;
+    alpha = 0;
+    render_direct = 1;
+    draw_line_ctrl = NULL;
+    off = (title > 11) ? -12 : 0;
     for (i = 0; i < 8; i++) {
-        ((TAdTitleGC_802A0E08 *)this)->recs[i].a = (0.0f);
-        ((TAdTitleGC_802A0E08 *)this)->recs[i].b = (4e+01f) * (f32)(((TAdTitleGC_802A0E08 *)this)->idx + off) / 512.0f;
-        ((TAdTitleGC_802A0E08 *)this)->recs[i].c = 1.0f;
-        ((TAdTitleGC_802A0E08 *)this)->recs[i].d = (4e+01f) * (f32)(((TAdTitleGC_802A0E08 *)this)->idx + off + 1) / 512.0f;
+        rects[i].u0 = (0.0f);
+        rects[i].v0 = (4e+01f) * (f32)(title + off) / 512.0f;
+        rects[i].u1 = 1.0f;
+        rects[i].v1 = (4e+01f) * (f32)(title + off + 1) / 512.0f;
     }
-    ((TAdTitleGC_802A0E08 *)this)->f130 = (uaddr)create_draw_line_ctrl((TObject *)this, 8, 0.0f);
+    draw_line_ctrl = create_draw_line_ctrl((TObject *)this, 8, 0.0f);
 }
 
 TAdTitleGC::~TAdTitleGC() {}
 #pragma pop
 
 
-void run_task__10TAdTitleGCFv(u8 *ad_title_gc) {
-    s32 temp_r3;
-
-    temp_r3 = *(s32 *)((s8 *)ad_title_gc + 0x128);
-    if (temp_r3 < 0xA) {
-        *(s32 *)((s8 *)ad_title_gc + 0x128) = (temp_r3 + 1);
+void TAdTitleGC::run_task() {
+    if (frames < 0xA) {
+        frames = frames + 1;
     }
-    *(s32 *)((s8 *)ad_title_gc + 0x12C) = (s32) (*(s32 *)((s8 *)ad_title_gc + 0x12C) + 0xC);
-    if ((s32) *(s32 *)((s8 *)ad_title_gc + 0x12C) > 0xFF) {
-        *(s32 *)((s8 *)ad_title_gc + 0x12C) = 0xFF;
+    alpha = alpha + 0xC;
+    if (alpha > 0xFF) {
+        alpha = 0xFF;
     }
-    ((TAdTitleGC *)ad_title_gc)->update_title_rects();
-    TAdTitleGC::calc_text_pos((saddr)ad_title_gc, ad_title_gc + 0x120, (s32)(get_localized_text_entry(0x13, *(s32 *)((s8 *)ad_title_gc + 0x1C))));
+    update_title_rects();
+    calc_text_pos(text_pos, (const char *)get_localized_text_entry(0x13, title));
 }
 
 // Per-rect slide-in factor update_title_rects scales the remaining frames by.
 const f32 title_rect_scale_table[8] = { 1.0f, 0.8f, 0.6f, 0.4f, -1.0f, -0.8f, -0.6f, -0.4f };
 
 s32 TAdTitleGC::update_title_rects() {
-    Title_802A0C84 *arg0 = (Title_802A0C84 *)this;
     s32 i;
     for (i = 0; i < 8; i++) {
-        arg0->rects[i].x0 = (64.0f) - ((f32)(10 - arg0->f128) * ((f32)(10 - arg0->f128) * title_rect_scale_table[i]));
-        arg0->rects[i].y0 = (43.0f);
-        arg0->rects[i].x1 = (512.0f) + arg0->rects[i].x0;
-        arg0->rects[i].y1 = (4e+01f) + arg0->rects[i].y0;
+        rects[i].x0 = (64.0f) - ((f32)(10 - frames) * ((f32)(10 - frames) * title_rect_scale_table[i]));
+        rects[i].y0 = (43.0f);
+        rects[i].x1 = (512.0f) + rects[i].x0;
+        rects[i].y1 = (4e+01f) + rects[i].y0;
     }
     return (saddr)this;
 }
 
 #pragma push
 #pragma fp_contract on
-void TAdTitleGC::calc_text_pos(s32 arg0, u8 *arg1, saddr arg2) {
-    *(f32 *)((s8 *)arg1 + 0) = (f32) ((6.2e+02f) - (f32) calc_text_width((char *)(arg2)));
-    *(f32 *)((s8 *)arg1 + 4) = 86.0f;
+void TAdTitleGC::calc_text_pos(f32 *pos, const char *text) {
+    pos[0] = (f32) ((6.2e+02f) - (f32) calc_text_width((char *)text));
+    pos[1] = 86.0f;
 }
 #pragma pop
 
 void TAdTitleGC::render() {
-    u8 *arg0 = (u8 *)this;
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x134) == 1) {
+    if (render_direct == 1) {
         if (TMainTask::get_render_pass() == 1) {
             return;
         }
@@ -164,11 +124,11 @@ void TAdTitleGC::render() {
 block_5:
         set_color_blending_mode(0, 8);
         set_color_blending_mode(1, 0xA);
-        draw_title_layer((s32)(*(s32 *)((s8 *)arg0 + 0x1C)), 0x1FFFFFFF);
+        draw_title_layer(title, 0x1FFFFFFF);
         set_color_blending_mode(0, 8);
         set_color_blending_mode(1, 6);
-        fn_802A0A30((saddr)arg0, arg0 + 0x120, (s32)(*(s32 *)((s8 *)arg0 + 0x1C)), (s32)((*(s32 *)((s8 *)arg0 + 0x12C) << 0x18) | 0xFF0000 | 0xFFFF), (s32)(get_localized_text_entry(0x13, *(s32 *)((s8 *)arg0 + 0x1C))));
-        if ((s32) *(s32 *)((s8 *)arg0 + 0x134) == 0) {
+        fn_802A0A30((saddr)this, (u8 *)text_pos, title, (alpha << 0x18) | 0xFF0000 | 0xFFFF, get_localized_text_entry(0x13, title));
+        if (render_direct == 0) {
             restore_saved_depth_alpha_state();
         }
     }
@@ -180,7 +140,7 @@ s32 TAdTitleGC::draw_title_layer(s32 arg1, s32 arg2) {
     TObjFish::set_global_param(lbl_805D6630);
     set_draw_texture_and_color(arg1 > 0xB, arg2);
     for (i = 0; i < 8; i++) {
-        draw_textured_quad_at_depth((f32 *)(&((Title_802A0A60 *)this)->recs[i]), (-1.0f) / -((113.0f) - (f32)i));
+        draw_textured_quad_at_depth(&rects[i].x0, (-1.0f) / -((113.0f) - (f32)i));
     }
     return get_player__20TWindowSubStatusDispFv();
 }

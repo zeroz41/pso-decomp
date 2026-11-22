@@ -30,8 +30,8 @@ struct TObjEneMerillLia : public TUnk_80493450 {
     void init_attack_state();
     void reset_action_state();
     static void search_target(void *ov);
-    static s32 update_emerge_state(void *ov);
-    static s32 update_kafun_attack(void *p);
+    static void update_emerge_state(void *ov);
+    static void update_kafun_attack(void *p);
     void init_params_from_position();
     void select_action_by_distance();
     static void destroy_rocks();
@@ -51,12 +51,12 @@ extern "C" {
 void *TObjEneMerillLia__create(void *arg0);
 void *TObjEneMerillLia__ct(void *arg0v, void *arg1, void *arg2);
 void TObjEneMerillLia__sub_800D4EC8(saddr arg0);
-void TObjEneMerillLia__sub_800D501C(saddr arg0);
+void TObjEneMerillLia__sub_800D501C(saddr self);
 void TObjEneMerillLia__sub_800D5BCC(u8 *arg0);
 void *__dt__16TObjEneMerillLiaFPvs(void *arg0, s16 arg1);
 void render__16TObjEneMerillLiaFv(u8 *arg0);
 void run_task__16TObjEneMerillLiaFv(u8 *arg0);
-void spawn_ground_effect__16TObjEneMerillLiaFPv(u8 *arg0);
+void spawn_ground_effect__16TObjEneMerillLiaFPv(u8 *motion);
 }
 
 #endif

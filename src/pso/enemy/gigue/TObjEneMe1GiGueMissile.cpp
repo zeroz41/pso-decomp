@@ -64,7 +64,7 @@ void TObjEneMe1GiGueMissile::explode(void *pos) {
     }
 }
 
-int TObjEneMe1GiGueMissile::vfunc_6() { explode(&pos); TObject::queue_destruction(); }
+void TObjEneMe1GiGueMissile::vfunc_6() { explode(&pos); TObject::queue_destruction(); }
 
 void TObjEneMe1GiGueMissile::vfunc_9(void *a1) { explode(&((TObjBase *)a1)->position); TObject::queue_destruction(); }
 

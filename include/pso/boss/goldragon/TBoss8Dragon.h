@@ -8,7 +8,7 @@
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/boss/derolle/AccelerationCurve.h"
 
-struct AreaAttackHistory;
+class AreaAttackHistory;
 struct TBoss8DragonEffTail;
 class TParticleCtrl;
 struct ControllerInputContext;
@@ -23,7 +23,7 @@ public:
     virtual void render();
     virtual void render_shadows();
     // Slot 23: kinds 0xB and 0xC do it no damage; the rest go to TObjChara's.
-    virtual f32 receive_direct_attack(void *attacker, DirectAttackPayload payload, void *arg2, s32 arg3, s32 arg4);
+    virtual f32 receive_direct_attack(void *attacker, DirectAttackPayload payload, void *arg2, s32 arg3, s32 flags);
     virtual void refresh_target();
     // Slots 44-50: the status ailments TObjChara applies; the dragon ignores them.
     virtual void apply_poison_status();
@@ -46,52 +46,24 @@ public:
 
     void get_render_position(u8 *);
     s32 hasActiveRenderFade();
+    s32 sub_802F46F4();
 
     u32 m_3c0;
     TObject sub_tasks;  // the dragon's collider task hangs under it; run_task runs its tasks
     u32 m_3e0;
     u32 m_3e4;
     s32 m_3e8;
-    Vec m_3ec;
-    Vec m_3f8;
-    Vec m_404;
+    Vec pad_3EC[3];
     Vec m_410;
     Vec m_41c;
     Vec m_428;
-    Vec m_434;
-    Vec m_440;
-    Vec m_44c;
-    Vec m_458;
-    Vec m_464;
-    f32 m_470;
-    f32 m_474;
-    u8 unk_478[0x4];
-    f32 m_47c;
-    u8 unk_480[0x8];
-    Vec m_488;
-    u8 unk_494[0xC];
-    Vec m_4a0;
-    u8 unk_4AC[0x10];
-    u8 * m_4bc;
-    u32 m_4c0;
-    Vec m_4c4;
-    u8 unk_4D0[0xC];
-    u8 unk_4DC[0x8];
-    s32 m_4e4;
-    Vec m_4e8;
-    Vec m_4f4;
-    Vec m_500;
-    u8 unk_50C[0xA8];
-    Vec m_5b4;
-    u8 unk_5C0[0xC];
+    Vec node_positions[0x22];  // the model's node positions; update_body_colliders reads seven
     f32 m_5cc;
     f32 m_5d0;
     f32 m_5d4;
     f32 m_5d8;
     f32 m_5dc;
-    u8 unk_5E0[0x4];
-    f32 m_5e4;
-    u8 unk_5E8[0x4];
+    Vec m_5e0;
     AccelerationCurve curve0;  // fed to init_acceleration_curve / sample_acceleration_curve
     AccelerationCurve curve1;
     void* m_634;
@@ -112,7 +84,7 @@ public:
     u16 m_678;
     u16 m_67a;
     TBoss8DragonEffTail *tail;  // the TBoss8DragonEffTail the constructor creates
-    u32 attack_history;  // the AreaAttackHistory the constructor creates
+    AreaAttackHistory *attack_history;
     TObject *collider;  // the TBoss8DragonColli the constructor hangs under sub_tasks
     f32 m_688;
     f32 m_68c;
@@ -120,7 +92,7 @@ public:
     f32 m_694;
     u32 m_698;
     u32 m_69c;
-    u8 _pad6A0[0x30];
+    f32 pad_6A0[12];
     u32 m_6d0;
     u32 m_6d4;
     ControllerInputContext *m_6d8;
@@ -141,7 +113,7 @@ public:
     s32 m_854;
     u32 m_858;
     s32 m_85c;
-    u32 m_860;
+    s32 m_860;
     f32 m_864;
     f32 m_868;
     f32 m_86c;
@@ -153,38 +125,18 @@ public:
     f32 m_884;
     f32 m_888;
     f32 m_88c;
-    u32 m_890;
+    s32 m_890;
     TParticleCtrl *m_894;
     TParticleCtrl *m_898;
     TParticleCtrl *m_89c;
-    u32 m_8a0;
-    void set_random_param(u8 *arg1);
-    void calc_params(void *arg1, saddr arg2);
-    void calc_product_and_ratio(void *arg1, saddr arg2);
-    void calc_attack_params(void *arg1, saddr arg2);
-    void fn_8005EBDC(u8 *arg1, u8 *arg2);
-    s32 run_action_script_step(s16 *out, u32 *entry);
-    static void copy_angle_state(void *arg0, void *dst, void *src);
-    void update_target_from_state();
-    static void init_state_zero(void *arg0);
-    static void set_flag_4e4(void *p);
+    s32 m_8a0;
     static void sync_target_pos(void *p);
     static s32 restore_target_pos(void *p);
     static s32 copy_pos_to_field688(void *p);
-    void flush_pending_effect();
-    void scale_size(f32 farg0, f32 farg1, f32 farg2);
-    void fire_at_angle(s32 arg1);
-    void update_facing(f32 farg0);
     void spawn_switch_attack();
     void spawn_attack_effect();
-    void run_default_state();
-    int update_state_3();
-    int set_state_2();
-    int attack_default();
-    int query_default();
-    void copy_spawn_params(void* a1);
     void copy_action_state(u8 *arg1);
-    static s32 spawn_ground_lightning(s32 arg0, saddr arg1, s32 arg2);
+    static s32 spawn_ground_lightning(s32 arg0, saddr arg1, s32 rotation_y);
     static void set_default_on_state0();
     static void update_camera_script(NJS_OBJECT *);
     void calc_velocity_from_angle();
@@ -192,10 +144,10 @@ public:
     void freeze_player_at_self();
     static u16 find_player_on_floor(void *arg0);
     void spawn_ground_effect();
-    int setup_instance(int _w1, void * _w2, int _w3);
+    int setup_instance(int _w1, void * _w2, AreaAttackHistory *history);
     void setup_breath_instance(Vec *pos, u32 kind, AreaAttackHistory *history);
-    void emit_effect(void *pos, void *params, s32 history);
-    static void init_state(saddr arg0);
+    void emit_effect(void *pos, void *params, AreaAttackHistory *history);
+    static void init_state(saddr dragon);
     static int set_state_1(void* p);
     static int check_condition_default(void* p);
     void spawn_effect();
@@ -226,7 +178,7 @@ public:
     void play_sound_if_in_band();
     void try_spawn_trap();
     void set_damage_phase_value(s32 arg1);
-    static void init_default(void *arg0);
+    static void init_default(void *boss8_dragon);
     s32 is_near_target();
     void calc_orbit_xz(f32 *arg1, f32 *arg2);
     void store_position();
@@ -235,15 +187,12 @@ public:
     void select_next_action();
     static void free_static();
     static void *clone_node_tree(void *src, void *dst, int state);
-    static void *create(void *arg0);
+    static void *create(void *set_data);
     void update_colli_parts();
-    int test_card_flag_2();
-    void set_speed(f32 v);
     void set_field_3c();
     void set_field_1c();
     void spawn_child_object();
     static void free_resources();
-    void fill_follow_camera_params(u8 *arg1, u8 *arg2);
     static int get_instance_count();
     void init_color();
     void send_spawn_params_packet();
@@ -251,7 +200,7 @@ public:
     void byteswap_record();
     void send_boss_actions();
     void bswap_boss_actions();
-    s32 is_within_xz_distance(u8 *arg1, f32 farg0);
+    s32 is_within_xz_distance(u8 *arg1, f32 off);
     f32 calc_sq_offset(f32 farg0);
     void noop();
     static u16 get_global_part_count(s32 arg0);
@@ -260,7 +209,7 @@ public:
     static s32 is_any_part_alive();
     static void update_all_parts();
     static bool has_enough_enemies();
-    s32 spawn_attack_object(saddr arg1, s32 arg2, s32 arg3, s32 arg4);
+    s32 spawn_attack_object(saddr arg1, s32 arg2, s32 hp, s32 arg4);
     u16 get_part_count_plus(s32 arg1);
     void set_mode_params(s8 arg1);
     void update_pos_from_data();
@@ -271,7 +220,6 @@ public:
     void queue_destruction();
     static void trigger_switches_in_range(void *arg0, void *arg1, void *arg2);
     static s32 calc_binomial_coefficient(s32 n, s32 k);
-    void play_animation_index(s32 arg1);
     void render_body_model();
     void select_freeze_target();
     void emit_body_effects();
@@ -279,7 +227,7 @@ public:
     s32 is_closest_part();
     s32 push_apart_from_parts();
     s32 is_near_other_part();
-    void draw_with_fade(saddr arg1, s32 arg2);
+    void draw_with_fade(saddr pos, s32 view);
     void draw();
 
     // Per-action event handlers, run by dispatch_action (vtable slot 87).
@@ -305,6 +253,7 @@ public:
     void sub_802F75C8(s32 event);
     void action_17(s32 event);
     void sub_802F7B4C(s32 event);
+    void sub_802F7808(u32 event, s32 action);
     void sub_802F7B70(s32 event);
     void state_roar(s32 event);
     void sub_802F8150(s32 event);

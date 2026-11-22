@@ -12,6 +12,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 
 #include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayout.h"
 
 // inferred: window_deposit_layout_entries, the layout table window_deposit_layout points at.
 struct DepositWindowLayout {
@@ -32,7 +33,6 @@ WindowDescriptor window_deposit_layout = {
 };
 
 extern "C" {
-saddr get_window_layout_position(int);
 extern s32 __vt__14TWindowDeposit[];
 #pragma push
 #pragma readonly_strings on
@@ -40,18 +40,15 @@ const char *TWindowDeposit__name = "TWindowDeposit";
 #pragma pop
 s32 draw_window_tab(s32, s32, s32, f32);
 
-void TWindowDeposit::render_status(s32 arg1) {
-    draw_window_tab(arg1, arg1 + 0x10, 3, this->m_60);
+void TWindowDeposit::render_status(s32 ctx) {
+    draw_window_tab(ctx, ctx + 0x10, 3, this->m_60);
 }
 
-void render__14TWindowDepositFv(saddr arg0) {
+void TWindowDeposit::render() {
     saddr ctx;
-    ctx = reinterpret_cast<saddr>(((TWindowBase *)arg0)->setup_window_draw_context((f32 *)(arg0 + 0x64)));
-    ((TWindowDeposit *)arg0)->render_status(ctx);
-    draw_visible_window_entries(
-        reinterpret_cast<const void *>(arg0),
-        reinterpret_cast<const WindowLayoutEntries *>((void *)(arg0 + 0x24)),
-        reinterpret_cast<WindowDrawContext *>(ctx));
+    ctx = reinterpret_cast<saddr>(setup_window_draw_context(&this->scale));
+    render_status(ctx);
+    draw_visible_window_entries(this, &this->entry_list, reinterpret_cast<WindowDrawContext *>(ctx));
 }
 
 void TWindowDeposit::run_task() { ((TWindowDD *)this)->initialize_subwindow(); update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((char*)this + 0x24)); }
@@ -60,7 +57,7 @@ TWindowDeposit::~TWindowDeposit() {}
 #pragma opt_common_subs off
 #pragma opt_propagation off
 #pragma opt_dead_assignments off
-u8 *TWindowDeposit__ct(u8 *arg0, s32 arg1) {
+u8 *TWindowDeposit__ct(u8 *arg0, s16 client) {
   u8 *temp_r30;
   u32 spC;
   s32 sp8;
@@ -68,8 +65,7 @@ u8 *TWindowDeposit__ct(u8 *arg0, s32 arg1) {
   saddr str;
   u32 temp_r3_2;
   u8 *temp_r31;
-  u8 *__ct__11TWindowBaseFPUcsPUc(void *, u8 *, s32, u8 *);
-  __ct__11TWindowBaseFPUcsPUc((void *) arg0, (u8 *) &window_deposit_layout, arg1, (u8 *) get_window_layout_position(0x29));
+  __ct__11TWindowBaseFPUcsPUc((void *) arg0, (u8 *) &window_deposit_layout, client, (u8 *) get_window_layout_position(0x29));
   *((s32 **) (((s8 *) arg0) + (((((0x18 & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu))) = __vt__14TWindowDeposit;
   *((s32 *) (((s8 *) arg0) + 0)) = (saddr) TWindowDeposit__name;
   str = get_message_text(2);

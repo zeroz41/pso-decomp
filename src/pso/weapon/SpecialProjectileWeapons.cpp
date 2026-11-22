@@ -32,6 +32,8 @@ struct TItemEquipBase;
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/item/mag/TItemMag.h"
 #include "pso/camera/TObjCamera.h"
+#include "pso/player/TObjPlayer_80363BE0.h"
+#include "pso/weapon/SpecialProjectileWeapons.h"
 
 struct RecoilWeaponView : TItemWeapon {
     s32 projectileVisible;
@@ -68,10 +70,8 @@ extern "C" {
 void __ct__11TItemWeaponFP7TObjectPUc(void *);
 s32 post_translate_matrix(void *);
 s32 draw_weapon_at_joint(void *, s32, void *);
-void TObjPlayer__sub_80364198(void);
 extern s32 model_render_flags;
 s32 is_item_area_enabled();
-void create_icon__10TObjPlayerFiii(saddr arg0, s32 arg1, s32 arg2);
 }
 
 extern s32 tl_05;
@@ -243,14 +243,14 @@ void TUnk_804A204C::reserved_53() {
             TParticleCtrl::end_effect_render();
             temp_r3 = *(s32 *)((s8 *)temp_r31 + 0);
             *(s32 *)((s8 *)temp_r31 + 0) = (s32) (temp_r3 & ~0x11);
-            ((TObjPlayer *)(temp_r3))->warn_if_gauge_low();
+            TObjPlayer::warn_if_gauge_low();
             pop_matrix();
             pop_matrix();
         }
     }
 }
 
-void TUnk_804A204C::vfunc_57() {
+void TUnk_804A204C::on_equipped() {
     m_204 = -1;
     if (effect_objects != NULL) {
         new TUnk_804A0668(effect_objects, get_owner_client(), 0x5A);

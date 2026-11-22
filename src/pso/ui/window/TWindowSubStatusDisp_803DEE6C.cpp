@@ -17,9 +17,9 @@ extern "C" {
 void GXBegin(u32, u32, u16);
 s64 OSGetTime(void);
 
-void begin_screen_draw(s32 arg0) {
+void begin_screen_draw(s32 mode) {
     TObjPlayer::load_screen_space_matrix();
-    if (arg0 != 0) {
+    if (mode != 0) {
         setup_blended_textured_draw();
         return;
     }
@@ -118,9 +118,9 @@ void DVDConvertEntrynumToPath(f32 *q) {
 #pragma opt_common_subs off
 #pragma scheduling off
 #pragma peephole off
-void set_draw_texture_and_color(s32 idx, s32 arg1) {
+void set_draw_texture_and_color(s32 idx, s32 color) {
     load_list_texture((idx), 0, 0, 0);
-    constant_material_color = ((arg1 & 0xFFFFFF) << 8) | ((u32) (arg1 & 0xFF000000) >> 0x18U);
+    constant_material_color = ((color & 0xFFFFFF) << 8) | ((u32) (color & 0xFF000000) >> 0x18U);
 }
 }
 #pragma pop

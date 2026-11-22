@@ -11,7 +11,7 @@ void TObjBoss2Tunnel__sub_8007DD24(void);
 void draw_snapshot_capture_overlay(void);
 void load_data_buffers(void);
 extern "C" {
-s32 memcard_check_snapshot(s32 arg0, s32 *arg1);
+s32 memcard_check_snapshot(s32 for_save, s32 *error);
 }
 
 #endif

@@ -3,6 +3,7 @@
 
 #include "types.h"
 
+struct BmlResource;
 struct NJS_OBJECT;
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/render/RenderFadeState.h"
@@ -22,7 +23,7 @@ struct TObjEneMorfos : public TObjEneDD_ST {
     virtual void run_hit_reaction();
     virtual void run_miss_reaction();
     virtual void update_body_colliders();
-    virtual s32 run_demo_task();
+    virtual void run_demo_task();
     virtual void render_demo();
     virtual void render();
     virtual void run_task();
@@ -36,12 +37,12 @@ struct TObjEneMorfos : public TObjEneDD_ST {
     RenderFadeState m_424[4];
     TObject *m_494;
     void* m_498;
-    static int get_instance();
+    static BmlResource *get_instance();
     void draw_body();
     static void record_camera_path_point(NJS_OBJECT *);
     void state_death(s32 arg1);
-    void state_patrol(s32 arg1);
-    void state_appear(s32 arg1);
+    void state_patrol(s32 ev);
+    void state_appear(s32 ev);
     void handle_event_transition(s32 ev);
     void play_sound_in_band();
     void init_target_offsets();
@@ -71,7 +72,7 @@ struct TObjEneMorfos : public TObjEneDD_ST {
     u8 unk_4D0[0x4];
     f32 m_4d4;
     void render_part(s32 idx, s32 mode);
-    void state_rotating_projectile_burst(s32 arg1);
+    void state_rotating_projectile_burst(s32 ev);
     s32 select_target_in_view();
 };
 
@@ -80,13 +81,13 @@ LAYOUT_ASSERT(TObjEneMorfos_size, sizeof(TObjEneMorfos) == 0x4D8);
 LAYOUT_ASSERT(TObjEneMorfos_fades, offsetof(TObjEneMorfos, m_3ec) == 0x3EC);
 
 extern "C" {
-void TObjEneMorfos__sub_80332DBC(u8 *arg0, s32 arg1);
-void TObjEneMorfos__sub_80332FD4(TObjEneMorfos *arg0, s32 arg1);
-void TObjEneMorfos__sub_80333690(TObjEneMorfos *arg0, s32 arg1);
-void TObjEneMorfos__sub_80333AD0(u8 *arg0, s32 arg1);
-void TObjEneMorfos__sub_80333E48(u8 *arg0, s32 arg1);
-void TObjEneMorfos__sub_80334030(u8 *arg0, s32 arg1);
-void TObjEneMorfos__sub_803342B8(u8 *arg0, s32 arg1);
+void TObjEneMorfos__sub_80332DBC(u8 *ene_morfos, s32 ev);
+void TObjEneMorfos__sub_80332FD4(TObjEneMorfos *arg0, s32 ev);
+void TObjEneMorfos__sub_80333690(TObjEneMorfos *owner, s32 ev);
+void TObjEneMorfos__sub_80333AD0(u8 *ene_morfos, s32 ev);
+void TObjEneMorfos__sub_80333E48(u8 *ene_dd_st, s32 ev);
+void TObjEneMorfos__sub_80334030(u8 *ene_dd, s32 ev);
+void TObjEneMorfos__sub_803342B8(u8 *ene_dd, s32 ev);
 s32 TObjEneMorfos__sub_803344F0(void *arg0);
 int TObjEneMorfos__sub_80334704(void);
 void state_rotating_projectile_burst__13TObjEneMorfosFl(u8 *arg0, s32 arg1);

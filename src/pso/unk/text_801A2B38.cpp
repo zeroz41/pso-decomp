@@ -12,8 +12,6 @@
 #include "pso/object/warp/TObjCityMainWarpChallenge.h"
 #include "pso/system/task/TObject.h"
 
-extern "C" {
-
 
 void *TOContainerAncientItemRare__create(void *set_data) {
     return new TOContainerAncientItemRare(set_data);
@@ -47,4 +45,3 @@ void *TObjCityMainWarpChallenge__create(void *set_data) {
     return new TObjCityMainWarpChallenge(tl_05, set_data);
 }
 
-}

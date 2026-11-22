@@ -22,6 +22,10 @@
 #include "pso/unk/TLobby.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/object/TObjControl.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
 #pragma readonly_strings on
 
@@ -29,11 +33,7 @@ CollisionBody TObjNpcEnemy__collision_body_parts = {{0.0f, 7.5f, 0.0f}, 7.0f, 0.
 const char *TObjNpcEnemy_class_name = "TObjNpcEnemy";
 
 extern "C" {
-s32 init_collision_body_parts(void *, void *, int);
-s32 draw_debug_info__11TObjNpcBaseFv();
-void debug_printf_at(s32, const char *, ...);
 void * TObjNpcEnemy__create(void *arg0);
-s32 rotate_matrix_y(int, int);
 s32 translate_matrix(int, int, f32, f32, f32);
 
 }
@@ -313,8 +313,6 @@ void TObjNpcEnemy::render() {
 TObjNpcEnemy::~TObjNpcEnemy() {}
 
 
-extern void *tl_04;
-
 TObjNpcEnemy::TObjNpcEnemy(TObject *parent, void *set_data) : TObjNpcBase(parent) {
     m_name = TObjNpcEnemy_class_name;
     apply_set_data(set_data);
@@ -330,7 +328,7 @@ TObjNpcEnemy::TObjNpcEnemy(TObject *parent, void *set_data) : TObjNpcBase(parent
 }
 
 void *TObjNpcEnemy__create(void *set_data) {
-    TObjControl *control = new TObjControl((TObject *)tl_04);
+    TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcEnemy(control, set_data);
 }
 

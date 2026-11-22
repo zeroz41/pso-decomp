@@ -59,7 +59,7 @@ s32 TLobby__sub_801C2614();
 }
 extern RecoveredGlobal_8020D2B4_lbl_8058D490 identity_matrix;
 void apply_room_transform(saddr arg0, u8 *arg1, u8 *arg2);
-s32 resolve_set_row_factory_indices(void *arg0, FloorObjectSetRow *rows, int count);
+void resolve_set_row_factory_indices(void *arg0, FloorObjectSetRow *rows, int count);
 extern Obj_8020D4E8 *camera_ctrl_instance;
 s32 is_within_camera_distance(void *arg0, void *arg1, f32 farg0);
 void spawn_decorations_in_range(TSetManager *arg0);
@@ -112,7 +112,7 @@ void apply_room_transform_to_object_rows(FloorObjectSetRow *arr, s32 n) {
     }
 }
 
-s32 resolve_set_row_factory_indices(void *arg0, FloorObjectSetRow *rows, int count) {
+void resolve_set_row_factory_indices(void *arg0, FloorObjectSetRow *rows, int count) {
     Out_8020D474 o;
     FloorObjectSetRow *p;
     s32 i;
@@ -148,7 +148,7 @@ s32 is_within_camera_distance(void *arg0, void *arg1, f32 farg0) {
     return 0;
 }
 
-void spawn_decorations_in_range(TSetManager *arg0) {
+void spawn_decorations_in_range(TSetManager *manager) {
     Ent_8020D5AC *tbl;
     FloorObjectSetRow *p;
     s32 i;
@@ -163,10 +163,10 @@ void spawn_decorations_in_range(TSetManager *arg0) {
     p = floor_decoration_rows;
     for (i = 0; i < TLobby__data_805D6120; i++, p++) {
         if (p->type != -1 && !(p->flags & 2) && !(p->flags & 8)
-            && is_within_camera_distance(arg0, &p->placement.position, tbl[p->type].creation_distance_squared) == 1) {
+            && is_within_camera_distance(manager, &p->placement.position, tbl[p->type].creation_distance_squared) == 1) {
             p->placement.entity_id = 0xFFFF;
             p->placement.object_type = -1;
-            obj = call_area_set_factory(arg0, p);
+            obj = call_area_set_factory(manager, p);
             if (obj != NULL) {
                 p->object = obj;
                 obj->room = p->placement.room;

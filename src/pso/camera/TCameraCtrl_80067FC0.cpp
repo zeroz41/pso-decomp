@@ -11,6 +11,9 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/unk/text_803D8F74.h"
 
 
 struct View_8006835C {
@@ -58,7 +61,6 @@ struct Cam_8006809C { u8 pad0[0x1C]; Obj_8006809C *obj; u8 pad20[0x60 - 0x20]; V
 void direction_to_pitch_yaw(u8 *arg0, s32 *arg1, s32 *arg2);
 extern "C" {
 void GXSetScissorBoxOffset(s32, s32);
-f32 vector_length(void *);
 extern Vec lbl_804FF5E8;
 extern Flags_8006835C TCameraCtrl__view_state;
 extern Scissor_8006835C TCameraCtrl__data_804FF634;
@@ -68,9 +70,6 @@ void apply_camera_controller_pose(Cam_80068530 *arg0);
 s32 is_split_screen();
 f32 fabs_float();
 Hit_8006809C *csnVector(void *, void *, s32);
-s32 matrix_mult_vec(int, void *, void *);
-s32 vec3_dot(void *, void *);
-s32 rotate_matrix_y(int, s32);
 }
 const Vec lbl_80438168 = {0.0f, 0.0f, -1.0f};
 const Vec lbl_80438174 = {0.0f, 0.0f, -1.0f};

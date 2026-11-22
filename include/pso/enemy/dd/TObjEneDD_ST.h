@@ -28,6 +28,9 @@ public:
     s32 enemy_has_live_target();
     void update_velocity();
     void turn_toward_target_direction(s32 max_step);
+    void fire_attack_a(saddr out, s32 arg2, f32 farg0);
+    void fire_attack_b(saddr arg1, s32 arg2, f32 farg0);
+    void fire_attack_c(saddr shot_pos, s32 iscale, f32 scale);
     void set_target_destination(const Vec *position);
     void state_chase_target(s32 arg1);
 
@@ -45,6 +48,8 @@ public:
 
 extern "C" {
 void enemy_set_target_id(TObjEneDD_ST *self, u16 id);
+s32 enemy_bind_or_clear_target(TObjEneDD_ST *self, u16 id);
+s32 enemy_validate_retained_target(TObjEneDD_ST *self);
 }
 
 #endif

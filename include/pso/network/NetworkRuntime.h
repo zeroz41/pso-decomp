@@ -29,6 +29,19 @@ struct P_803FA2A8 { u8 pad[0x30]; Q_803FA2A8 *q; };
 struct PppFrame { u8 *data; u16 len; };
 LAYOUT_ASSERT(PppFrame_size_check, sizeof(struct PppFrame) == 8);
 struct A_803FADA0 { u8 pad0[4]; u32 a; u32 b; };
+/* An IPv6CP option set: the mask of the options it holds, then their values (TLobby__sub_803FACD8 appends the options
+ * a mask selects). */
+typedef struct Ipv6cpOptionSet {
+    s16 mask;
+    u8 pad_02[0x16];
+} Ipv6cpOptionSet;
+/* IPv6CP's option state (its PppFsm's opts, ppp_ipv6cp_protocol_state + 0x3C). */
+typedef struct Ipv6cpOptions {
+    u8 pad_00[0x1C];
+    Ipv6cpOptionSet requested;  /* 0x1C: the options the last Configure-Request carried */
+} Ipv6cpOptions;
+struct PppFsm;
+struct PppHeader;
 /* The network stack's thread (lbl_805C18A0, TLobby_804048E8.c): the mutex the stack's callers hold, the thread running
  * run_net_thread_loop (start_network_thread) and how long that loop sleeps between polls. */
 typedef struct NetThreadState {
@@ -58,8 +71,8 @@ void deactivate_entry_by_key(u32 key);
 s16 TLobby__sub_803F9B94(NetThreadEntry entry, NetThreadHandle *out_key);
 void *run_current_thread_callback(void *unused);
 s32 NetSetDefaultThreadPriority(s32 priority);
-s32 check_connection_status(void* connection);
-s32 clear_flag_bit4(s32 unused, u8* flags);
+s16 check_connection_status(void *connection);
+s16 clear_flag_bit4(s32 unused, u8 *flags);
 void init_net_state_entry(void* entry);
 void NetIPv6CPCancelTimer(saddr timer);
 void NetYieldThread(void);
@@ -73,7 +86,7 @@ void NetReleaseMutex(u32 handle);
 s16 NetIPv4IsLoopback(s32 address);
 s16 NetIPv4IsUnspecified(u32 address);
 s16 NetIPv6IsMulticast(u8* address);
-s32 NetIPv6CPSetInterfaceIdentifier(u8* state, saddr identifier);
+s16 NetIPv6CPSetInterfaceIdentifier(u8 *state, saddr identifier);
 
 char* NetAppendString(char* destination, const char* source);
 s32 NetCompareStringsN(const char* left, const char* right, u32 size);
@@ -91,6 +104,7 @@ void TLobby__sub_803FA238(u8* state);
 void TLobby__sub_803FA280(void);
 extern s32 net_default_thread_priority;
 void TLobby__sub_803FA2A8(P_803FA2A8 *o);
+s32 verify_message_sequence(struct PppFsm *fsm, struct PppHeader *msg, uaddr expected);
 void TLobby__sub_803FADA0(PppFrame **pbuf, A_803FADA0 *hdr, s32 type, s32 total_len, void *src);
 #ifdef __cplusplus
 }

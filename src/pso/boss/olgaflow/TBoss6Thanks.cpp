@@ -31,6 +31,8 @@
 #include "pso/item/TItem.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/object/switch/TOSwitchItem.h"
+#include "pso/ui/TLevelSelect.h"
+#include "pso/system/MatrixOps.h"
 
 
 LAYOUT_ASSERT(Thanks_current_motion, offsetof(TBoss6Thanks,current_motion)==0x20);
@@ -51,7 +53,6 @@ struct ThanksMotionHeader
 
 extern "C" {
 
-s32 scale_matrix(int, f32, f32, f32);
 s32 post_translate_matrix(const void *);
 
 }
@@ -86,7 +87,7 @@ static const Ent_8035CB88 boss6_thanks_particle_emitter_table[4] = {
 
 extern "C" {
 void TBoss6Thanks__sub_8035CB40(void);
-void TBoss6Thanks__sub_8035CCAC(saddr arg0);
+void TBoss6Thanks__sub_8035CCAC(saddr boss6_thanks);
 f32 xyz_distance(const void *, const void *);
 
 s32 fn_8035CAE0(void) {
@@ -120,18 +121,18 @@ void TBoss6Thanks::update_particle_emitters() {
 }
 
 void TBoss6Thanks::destroy_effects() {
-    W_8035CC50 *arg0 = (W_8035CC50 *)this;
+    W_8035CC50 *self = (W_8035CC50 *)this;
     s32 i;
     for (i = 0; i < 4; i++) {
-        if (arg0->e[i].p != NULL) {
-            TParticleCtrl::release(arg0->e[i].p);
-            arg0->e[i].p = NULL;
+        if (self->e[i].p != NULL) {
+            TParticleCtrl::release(self->e[i].p);
+            self->e[i].p = NULL;
         }
     }
 }
 
-void TBoss6Thanks__sub_8035CCAC(saddr arg0) {
-    O_8035CCAC *self = (O_8035CCAC *)arg0;
+void TBoss6Thanks__sub_8035CCAC(saddr boss6_thanks) {
+    O_8035CCAC *self = (O_8035CCAC *)boss6_thanks;
     s32 i;
     for (i = 0; i < 4; i++) {
         self->arr[i] = 0;
@@ -250,7 +251,7 @@ TBoss6Thanks::~TBoss6Thanks() {
     ((TBoss6Thanks *)this)->destroy_effects();
 }
 
-TBoss6Thanks::TBoss6Thanks(TObject *arg1) : TObject(arg1) {
+TBoss6Thanks::TBoss6Thanks(TObject *parent) : TObject(parent) {
     TBoss6Thanks *boss6_thanks = this;
     u8 *fish_count;
     ((TBoss6Thanks *)boss6_thanks)->m_name = TBoss6Thanks__class_name;
@@ -289,8 +290,6 @@ s32 TBoss6Thanks::is_ship_door_ready() {
 
 s32 TBoss6Thanks__sub_8035D270(void) { return TBoss6Thanks::check_ship_door(); }
 
-extern s32 game_difficulty_selection;
-
 s32 TBoss6Thanks::try_dispatch_darkfalz_phase() {
     if (((s32) game_difficulty_selection == 0) || ((get_main_phase() == 0xE) && (is_split_screen() == 0)) || (any_player_has_listed_equipment() == 0)) {
         return 0;
@@ -302,7 +301,6 @@ s32 TBoss6Thanks::try_dispatch_darkfalz_phase() {
 }
 
 extern "C" {
-extern const u8 listed_equipment_table[][3];
 void get_weapon_color__11TItemWeaponFPv(void *, void *);
 }
 s32 any_player_has_listed_equipment(void) {

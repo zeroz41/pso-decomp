@@ -6,6 +6,7 @@
 #include "pso/render/RenderFadeState.h"
 
 class ModelNodePositionCapture;
+class TParticleCtrl;
 
 /* One state's motion of the Pan Arms body: motion indexes bm7_s_paa_body_motion_names
    (state 0 wait, state 4 deada); same layout as shinowa_mirage_motion_param_table. */
@@ -31,7 +32,7 @@ struct TObjEnePanarms : public TObjEnemy {
     s32 m_388;
     s32 m_38c;
     CollisionBody *collision_body_parts; // init_collision_body_parts / free_collision_body_parts
-    u32 particle_handles[2]; // released by destroy_handles
+    TParticleCtrl *particle_handles[2]; // released by destroy_handles
     ModelNodePositionCapture *m_39c;
     Vec draw_positions[5];
     void* m_3dc;
@@ -47,11 +48,11 @@ struct TObjEnePanarms : public TObjEnemy {
     f32 pad_470;
     s32 search_range; // range passed to find_nearest_visible_player while waiting hidden
     s32 wait_frames; // state timer start value of the hidden wait
-    int find_nearest_enemy_with_flag(Vec *arg1, f32 farg0);
+    int find_nearest_enemy_with_flag(Vec *direction, f32 range);
     static void spawn_npc_pair();
     static int do_action_2(void* p);
     static s32 create_bara(void *setData, s32 index);
-    static s32 create(saddr arg0);
+    static s32 create(saddr setData);
     void init(s16 action);
     int get_state_flag();
     void update_spin();
@@ -85,9 +86,9 @@ struct TObjEnePanarms : public TObjEnemy {
     void enter_rejoin();
     static s32 find_combine_position(void *p);
     void turn_toward_target(s32 arg1);
-    u16 turn_to_nearest_player(s32 arg1, s32 arg2);
+    u16 turn_to_nearest_player(s32 arg1, s32 mode);
     void snap_to_ground();
-    void set_state(s32 arg1);
+    void set_state(s32 next);
     void draw_shadow();
     void destroy_handles();
     static void free_data();

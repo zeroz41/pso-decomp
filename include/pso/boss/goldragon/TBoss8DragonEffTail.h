@@ -19,7 +19,7 @@ struct TBoss8DragonEffTail : public TUnk_804928CC {
     virtual void render();
     void enable();
     void disable();
-    int get_state();
+    void get_state();
     static void load_statics(); // inferred: loads what free_statics frees (its pair in static_resource_callback_table)
     static void free_statics();
 };

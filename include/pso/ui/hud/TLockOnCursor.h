@@ -50,7 +50,7 @@ public:
 };
 
 // A TargetCursorRecord and a flag word. Built and destroyed by the
-// free functions init_sub__13TLockOnCursorFPv and destroy_target_record, so both stay untyped here.
+// static TLockOnCursor::init_sub and the free function destroy_target_record, so both stay untyped here.
 // TargetCursorList.h is not included: its C declarations clash with the cursor units' own.
 struct TUnk_8013F054 {
     u8 unk_0[0x8];
@@ -119,7 +119,7 @@ struct TLockOnCursor : public TObject {
     TUnk_8013F0A0 unk_24;
     TUnk_8013F08C unk_3c;
     TUnk_804A7254 unk_48;
-    TUnk_8013EFB8 unk_5c[4];
+    TUnk_8013EFB8 action_slots[4]; // inferred: one action palette tag and its targets each (find_by_pos)
     TUnk_8013EF6C unk_4ec;
     TUnk_8013EF3C unk_508;
     TUnk_8013EF0C nearest_target;
@@ -146,6 +146,8 @@ struct TLockOnCursor : public TObject {
     saddr cleanup_field();
     saddr cleanup_field_3c();
     void reset_and_spawn_cursors();
+    static void *init_sub(void* p);
+    TUnk_8013EFB8 *find_by_pos(s16 mode, s16 kind);
 };
 
 LAYOUT_ASSERT(TLockOnCursor_size, sizeof(TLockOnCursor) == 0x52C);

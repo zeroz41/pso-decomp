@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void TLobby__sub_8022614C(s32 arg0);
+void TLobby__sub_8022614C(s32 gain);
 int TLobby__sub_80226308(void);
 void TLobby__sub_8022644C(void);
 void TTecRaFoie__sub_80226254(void);

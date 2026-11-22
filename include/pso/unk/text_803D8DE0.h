@@ -8,7 +8,7 @@
 extern "C" {
 // Transforms count vectors by the rotation part of matrix (the current one
 // for 0), src and dst may be the same array.
-void fn_803D8DE0(uaddr matrix, Vec *src, Vec *dst, u32 count);
+void fn_803D8DE0(MtxP matrix, Vec *src, Vec *dst, u32 count);
 }
 // --- end of C functions
 

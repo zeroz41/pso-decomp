@@ -5,6 +5,8 @@
 #include <dolphin/mtx.h>
 #include "pso/enemy/TObjEnemy.h"
 
+struct BmlResource;
+
 // What TBoss6Type1's mine attack (TBoss6Type1__sub_802B6504) hands TBoss6Mine::create: a 0x40-byte object
 // set entry copied from the mag mine's (TBoss4DarkFalz__sub_8004B4F0) followed by the mine's own spawn data.
 // The TBoss6Mine constructor reads 0x40-0x60 and passes the whole record to apply_set_data. Names inferred from those uses.
@@ -31,7 +33,7 @@ struct TBoss6Mine : public TObjEnemy {
     virtual void run_hit_reaction();
     virtual void render_shadows();
     virtual void render();
-    uaddr m_374;
+    BmlResource *scene_archive;
     TObjEnemy *owner;
     s32 heading;
     s32 state;

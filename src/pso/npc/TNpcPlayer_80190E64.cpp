@@ -10,6 +10,9 @@
 #include "pso/npc/TNpcPlayer_80190E64.h"
 #include "pso/unk/TLobby_80191218.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/network/client_id.h"
+#include "pso/player/PlayerSlots.h"
 
 extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
@@ -43,11 +46,8 @@ extern s32 __vt__13TUnk_804B7C04[];
 extern s32 npc_player_char_data_buffer;
 Npc_80190F3C *init_npc_player_char_loader(Npc_80190F3C *arg0, void *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, void *arg6);
 void free_collision_body_parts(void *);
-void *get_player_by_client_id(s32 i);
 f32 horizontal_distance_squared(void *, void *);
 int npc_proximity_target_id = -1;
-extern s32 local_client_id;
-extern void *tl_07;
 void TLobby__sub_80190FD0(int a0);
 void send_6x24_teleport_player(u16 slot, void *pos, s32 heading);
 u8 *create_player_object(u16, s32, s32);
@@ -56,19 +56,17 @@ s32 queue_player_injured_pose();
 void set_player_quest_control_flag(TObjPlayer *player);
 
 #pragma defer_codegen on
-extern void *tl_05;
 int hashi_versus2_flag;
-extern "C" {
+
 
 void TObjHashiVersus2__sub_801912B0(void) { hashi_versus2_flag = 0; }
 
 void TObjHashiVersus2__sub_801912A4(void) { hashi_versus2_flag = 1; }
-}
 
 void set_player_quest_control_flag(TObjPlayer *player) {
     player->set_state_flags(0x8000);
 }
-extern "C" {
+
 
 void TLobby__sub_80191270(void) { npc_proximity_target_id = -1; }
 
@@ -81,17 +79,16 @@ void *TLobby::create_npc(void *arg0) {
     }
     return o;
 }
-u8 *TLobby__sub_8019118C(u8 *arg0, s32 arg1, saddr arg2) {
+u8 *TLobby__sub_8019118C(u8 *arg0, s32 arg1, saddr set_data) {
     __ct__14TObjCollidableFP7TObject(arg0, arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = &__vt__13TUnk_804B7C1C.value;
-    ((TUnk_804B7C1C *)(arg0))->apply_object_set_data((void *)arg2);
+    ((TUnk_804B7C1C *)(arg0))->apply_object_set_data((void *)set_data);
     *(s16 *)((s8 *)arg0 + 0xAC) = 3;
     ((TUnk_804B7C1C *)arg0)->m_b0 = (s32) ((TUnk_804B7C1C *)arg0)->set_params[0];
     *(s32 *)((s8 *)arg0 + 0xB4) = 0;
     init_collision_body_parts(arg0, &npc_player_collision_body_part, 1);
     ((TObjPlayer *)arg0)->register_object_by_id();
     return arg0;
-}
 }
 
 TUnk_804B7C1C::~TUnk_804B7C1C() {
@@ -145,8 +142,8 @@ void TUnk_804B7C1C::render() {  }
 void TLobby__sub_80190FD0(int a0) { npc_proximity_target_id = a0; }
 
 
-Npc_80190F3C *init_npc_player_char_loader(Npc_80190F3C *arg0, void *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, void *arg6) {
-    __ct__7TObjectFP7TObject(arg0, arg6);
+Npc_80190F3C *init_npc_player_char_loader(Npc_80190F3C *arg0, void *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, void *parent) {
+    __ct__7TObjectFP7TObject(arg0, parent);
     arg0->f18 = ((u8 *)__vt__13TUnk_804B7C04);
     VecCopy((Vec *)arg0->f1C, (const Vec *)arg1);
     arg0->f28 = arg2;

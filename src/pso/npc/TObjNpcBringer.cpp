@@ -10,11 +10,11 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 #pragma readonly_strings on
 
 extern "C" {
-extern void *tl_04;
 
 
 void init_collision_body_parts(void *, void *, s32);
@@ -54,6 +54,6 @@ TObjNpcBringer::TObjNpcBringer(TObject *parent, void *set_data) : TObjNpcBase(pa
 TObjNpcBringer::~TObjNpcBringer() {}
 
 void *TObjNpcBringer::create(void *set_data) {
-    TObjControl *control = new TObjControl((TObject *)tl_04);
+    TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcBringer(control, set_data);
 }

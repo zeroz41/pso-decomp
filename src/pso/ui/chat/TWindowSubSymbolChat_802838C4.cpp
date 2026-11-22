@@ -27,8 +27,8 @@ s32 TWindowSubSymbolChatPartsSet::is_active() {
     return this->m_68 & 1;
 }
 
-s32 TWindowSubSymbolChat__sub_80283900(void *arg0) {
-    return *(u8 *)((s8 *)arg0 + 0x68) & 2;
+s32 TWindowSubSymbolChat__sub_80283900(void *parts_set) {
+    return *(u8 *)((s8 *)parts_set + 0x68) & 2;
 }
 
 void TWindowSubSymbolChat::clear_flag60_bit2() {

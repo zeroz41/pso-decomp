@@ -19,6 +19,7 @@
 #include "pso/unk/text_803D8030.h"
 #include "pso/npc/TObjNpcEnemy_803D8090.h"
 #include "pso/npc/TObjNpcEnemy.h"
+#include "pso/render/RenderSbssGlobals.h"
 
 
 char *debug_text_pool_cursor;
@@ -118,12 +119,10 @@ void print_float_padded(s32 arg0, s32 prec, f32 val) {
 }
 
 extern "C" {
-extern saddr current_matrix;
 void rotate_matrix_z(void *, s32);
 void rotate_matrix_x(void *, s32);
 void rotate_matrix_y(void *, s32);
 void scale_matrix(f32 (*m)[4], f32 sx, f32 sy, f32 sz);
-int vsprintf(char *s, const char *fmt, va_list ap);
 
 void debug_printf_at(s32 arg0, const char *fmt, ...) {
     va_list ap;
@@ -218,12 +217,10 @@ void matrix_mult_vec(f32 (*m)[4], const Vec *src, Vec *dst) {
     }
     PSMTXMultVec(m, src, dst);
 }
-}
 #pragma pop
 
 #pragma push
 #pragma scheduling off
-extern "C" {
 void matrix_mult_vec_array(f32 (*m)[4], const Vec *src, Vec *dst, u32 count) {
     if (m == NULL) {
         m = (f32 (*)[4])current_matrix;
@@ -237,7 +234,7 @@ void matrix_mult_vec_array(f32 (*m)[4], const Vec *src, Vec *dst, u32 count) {
 #pragma scheduling off
 #pragma peephole off
 void get_current_matrix(void *m) {
-    void *src = (*(void * *)&current_matrix);
+    void *src = current_matrix;
     if (m == 0) {
         m = src;
     }
@@ -294,7 +291,7 @@ void rotate_matrix_yxz(saddr matrix, s32 arg1, s32 arg2, s32 arg3) {
     }
 }
 typedef f32 Mtx_803D8B5C[3][4];
-extern "C" {
+
 void scale_matrix(f32 (*m)[4], f32 sx, f32 sy, f32 sz) {
     Mtx_803D8B5C tmp;
     f32 (*t)[4];
@@ -818,7 +815,6 @@ u8 debug_font_texture_i4[DEBUG_FONT_TEXTURE_BYTES] ATTRIBUTE_ALIGN(32) = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 };
-}
 
 GXTexObj debug_font_texture_object;
 LAYOUT_ASSERT(DebugFontTextureObjectSize, sizeof(GXTexObj)==32);

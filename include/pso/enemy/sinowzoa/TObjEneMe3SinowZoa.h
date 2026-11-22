@@ -96,10 +96,10 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     f32 m_450;
     TObject *unk_454; // queued for destruction in the dtor; writer not in this TU
     TObject *unk_458; // queued for destruction in the dtor; writer not in this TU
-    void state_knockback(s32 arg1);
-    void handle_state_substate(s32 arg1);
+    void state_knockback(s32 mode);
+    void handle_state_substate(s32 mode);
     void state_chase_target(s32 arg1);
-    void update_state_action(s32 arg1);
+    void update_state_action(s32 mode);
     void state_chase(s32 arg1);
     void update_distance_state();
     f32 get_node_height();

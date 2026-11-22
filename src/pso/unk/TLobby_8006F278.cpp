@@ -79,13 +79,17 @@ s32 is_id_out_of_range__6TLobbyFi(s32 arg0);
 s32 mix_seed_checked__6TLobbyFi(s32);
 uaddr get_character_save_record(int);
 s32 TLobby__sub_8006F5B0(saddr arg0);
+}
+
 LobbyNameStringBuffer lobby_name_string_buffer;
+
+extern "C" {
 s32 decode_slot__6TLobbyFUi(u32 id);
 void TLobby__sub_8006F48C(void);
 u32 *TWindowSubStatusDisp__sub_8006F134(void *, s32);
 s32 TLobby__sub_8006F38C(s32 arg0);
-s32 TLobby::check_challenge_time_range(s32 arg0) {
-    if ((arg0 < TLobby::calc_challenge_time_limit()) || (arg0 > 0x8C9F)) {
+s32 TLobby::check_challenge_time_range(s32 clear_time) {
+    if ((clear_time < TLobby::calc_challenge_time_limit()) || (clear_time > 0x8C9F)) {
         return 1;
     }
     return 0;
@@ -101,7 +105,7 @@ s32 is_id_out_of_range__6TLobbyFi(s32 arg0) {
 #define TBL_8006F48C (*(Table_8006F48C *)&challenge_mode_state)
 
 #define TBL_8006F38C (*(Table_8006F38C *)&challenge_mode_state)
-s32 TLobby__sub_8006F38C(s32 arg0) {
+s32 TLobby__sub_8006F38C(s32 total) {
     s32 lo;
     s32 hi;
     u32 *flags;
@@ -113,13 +117,13 @@ s32 TLobby__sub_8006F38C(s32 arg0) {
     if (get_character_save_record(0xFFFF) == 0) {
         return -4;
     }
-    if (arg0 < lo || arg0 > hi) {
+    if (total < lo || total > hi) {
         return -4;
     }
     w = get_character_save_record(0xFFFF) + 0x21C4;
     flags = TWindowSubStatusDisp__sub_8006F134((void *)w, -1);
     for (i = 2, e = &TBL_8006F38C.entries[2]; i >= 0; i--, e--) {
-        if (e->value != 0 && e->value >= arg0) {
+        if (e->value != 0 && e->value >= total) {
             if (e->value < lo || e->value > hi) {
                 return -4;
             }
@@ -165,7 +169,7 @@ void TLobby__sub_8006F48C(void) {
     win->id = TLobby__sub_80071640(TBL_8006F48C.defaultId);
 }
 
-s32 TLobby__sub_8006F5B0(saddr arg0) {
+s32 TLobby__sub_8006F5B0(saddr clear_time) {
     s32 temp_r30;
     s32 temp_r3;
     saddr temp_r3_2;
@@ -194,14 +198,14 @@ s32 TLobby__sub_8006F5B0(saddr arg0) {
         *(s32 *)((s8 *)temp_r3_2 + temp_r30) = 0;
         return 0;
     }
-    if (arg0 < valid_slot) {
+    if (clear_time < valid_slot) {
         var_r28 = 1;
     }
 block_12:
     if (var_r28 == 0) {
         return 0;
     }
-    *(s32 *)((s8 *)temp_r3_2 + temp_r30) = ((s32 (*)(void *))mix_seed_checked__6TLobbyFi)((void *)arg0);
+    *(s32 *)((s8 *)temp_r3_2 + temp_r30) = ((s32 (*)(void *))mix_seed_checked__6TLobbyFi)((void *)clear_time);
     return 1;
 }
 extern s32 local_client_id;
@@ -320,17 +324,17 @@ s32 TLobby::get_valid_slot(int id) {
 
 s32 mix_seed_checked__6TLobbyFi(s32 arg0);
 
-s32 mix_seed_checked__6TLobbyFi(s32 arg0) {
-    if ((arg0 == 0) || (((s32 (*)())is_id_out_of_range__6TLobbyFi)() != 0)) {
+s32 mix_seed_checked__6TLobbyFi(s32 seed) {
+    if ((seed == 0) || (((s32 (*)())is_id_out_of_range__6TLobbyFi)() != 0)) {
         return 0;
     }
-    return ((s32 (*)(s32))mix_seed__6TLobbyFUs)(arg0);
+    return ((s32 (*)(s32))mix_seed__6TLobbyFUs)(seed);
 }
 
 s32 TLobby::get_slot_clamped(u32 id) {
     s32 var_r3;
 
-    var_r3 = decode_slot__6TLobbyFUi(id);
+    var_r3 = TLobby::decode_slot(id);
     if (var_r3 < 0) {
         var_r3 = 0;
     }
@@ -339,16 +343,16 @@ s32 TLobby::get_slot_clamped(u32 id) {
 
 s32 decode_slot__6TLobbyFUi(u32 arg0);
 
-s32 decode_slot__6TLobbyFUi(u32 arg0) {
+s32 decode_slot__6TLobbyFUi(u32 id) {
     s32 temp_r3;
     u32 temp_r31;
 
-    temp_r31 = arg0 >> 0x10U;
+    temp_r31 = id >> 0x10U;
     temp_r3 = TLobby::count_set_bits(temp_r31);
     if ((temp_r3 < 4) || (temp_r3 > 0xC)) {
         return -1;
     }
-    return (u16) (temp_r31 ^ arg0);
+    return (u16) (temp_r31 ^ id);
 }
 
 s32 TLobby__sub_8006FBE4(void);

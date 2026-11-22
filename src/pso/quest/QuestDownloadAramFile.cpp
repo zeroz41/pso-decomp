@@ -2,6 +2,7 @@
 #include "pso/quest/TQuestVmDownLoadServer_803E6970.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/quest/QuestDownloadServer.h"
+#include "pso/ui/window/TWindowKeyBoardSoft.h"
 
 // The ARAM back end of the keyboard's ASKDIC dictionary ("ASKDIC:ARAM DMA Timeout!!"): TWindowKeyBoardBase sets the
 // ARAM image up with sub_803F0C04, then sub_803F09A4 starts the dictionary; sub_803F0BE0 / sub_803F09FC /
@@ -18,15 +19,15 @@ s32 quest_download_aram_dma_pending;
 u32 quest_download_aram_base;
 
 extern "C" {
-s32 TQuestVmDownLoadServer__sub_803F09A4(void) {
+s32 start_askdic(void) {
     s32 result;
     quest_download_state = 0;
     quest_download_initialized = 1;
     lbl_805D7908 = 0;
     lbl_805D790C = 0;
-    result = dispatch_request_0x20__19TWindowKeyBoardSoftFll("Dummy", "");
+    result = TWindowKeyBoardSoft::dispatch_request_0x20((saddr)"Dummy", (saddr)"");
     if (result == 0) {
-        result = dispatch_request_0x1c__19TWindowKeyBoardSoftFv();
+        result = TWindowKeyBoardSoft::dispatch_request_0x1c();
     }
     if (result > 0) {
         result = -1;
@@ -34,7 +35,7 @@ s32 TQuestVmDownLoadServer__sub_803F09A4(void) {
     return result;
 }
 
-s32 TQuestVmDownLoadServer__sub_803F09FC(void *handle, int offset, int whence) {
+s32 aram_seek(void *handle, int offset, int whence) {
     s32 r;
     switch (whence) {
     case 0:
@@ -83,7 +84,7 @@ u32 TQuestVmDownLoadServer::aram_dma_read(void *h, void *dst, int size) {
     DCInvalidateRange(base + 0x40, 0x2000);
     (*(u32 *)&quest_download_aram_dma_pending) = 1;
     ARQPostRequest(base + 0x2040, quest_download_aram_owner, 1, quest_download_aram_priority, quest_download_aram_base + quest_download_aram_file.pos,
-                   (uaddr)(base + 0x40), len, TQuestVmDownLoadServer__sub_803F0BE8);
+                   (uaddr)(base + 0x40), len, aram_dma_done);
     start = OSGetTick();
     for (;;) {
         if ((*(u32 *)&quest_download_aram_dma_pending) == 0) {
@@ -102,21 +103,21 @@ u32 TQuestVmDownLoadServer::aram_dma_read(void *h, void *dst, int size) {
     return n;
 }
 
-s32 TQuestVmDownLoadServer__sub_803F0BD8(void *handle) {
+s32 aram_close(void *handle) {
     return 0;
 }
 
-s32 TQuestVmDownLoadServer__sub_803F0BE0(const char *name, s32 mode) {
+s32 aram_open(const char *name, s32 mode) {
     return 1;
 }
 
-void TQuestVmDownLoadServer__sub_803F0BE8(u8 *request) {
+void aram_dma_done(u8 *request) {
     if ((u32) *(u32 *)((s8 *)request + 4) == (u32) quest_download_aram_owner) {
         quest_download_aram_dma_pending = 0;
     }
 }
 
-void TQuestVmDownLoadServer__sub_803F0C04(u32 aram_addr, s32 size, u32 owner, u32 priority, u32 timeout_ms) {
+void aram_dma_setup(u32 aram_addr, s32 size, u32 owner, u32 priority, u32 timeout_ms) {
     quest_download_aram_base = aram_addr;
     quest_download_aram_file.remain = size;
     quest_download_aram_file.pos = 0;

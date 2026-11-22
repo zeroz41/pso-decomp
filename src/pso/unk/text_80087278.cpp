@@ -3,10 +3,8 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
-struct Data_8008741C { u8 pad[0x98]; };
 
 
-extern "C" {
 extern s32 particle_pool_limit;
 
 #pragma push
@@ -73,4 +71,3 @@ TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx
     }
 }
 
-}

@@ -136,17 +136,10 @@ s8 func_801A5E54__Fv();
 s32 poll_memcard_result(int);
 s32 func_803DCDFC__Fv();
 s32 cleanup__6TLobbyFv();
-}
-extern "C" {
 s32 PPCSync();
 extern s32 lbl_805D5718;
 void __construct_array(void *, void *, int, int, int);
 s32 TLobby__sub_8013A23C(s32 arg0);
-}
-void clear_floor_population();
-extern s32 TLobby__designated_client_id;
-extern saddr game_protocol_instance;
-extern "C" {
 s32 __dt__7TObjectFv(void *, s32);
 s32 find_leader_section_id(void *, s32);
 s32 unlock_main_warp_destination();
@@ -155,8 +148,6 @@ s32 TObjPlayer__sub_801B1BA4();
 s32 TObjPlayer__sub_801B1C8C();
 void *get_player_by_client_id(s32);
 s32 load_area_scene_and_init(void *);
-}
-extern "C" {
 s32 __ct__7TObjectFP7TObject(void *, s32);
 s32 is_area_transfer_pending();
 s32 apply_phase_keyboard_mode();
@@ -180,9 +171,6 @@ void TLobby__sub_801F494C(u16 arg0);
 s32 reset_story_select__6TLobbyFPv();
 s32 init_key_slots__15TOKeyJungleMainFPv();
 s32 depart_floor_population();
-}
-
-extern "C" {
 void TWindowCtrlMain__sub_8024D838(void);
 void TObjPlayer__sub_80156934(void);
 void TRaderMapCore__sub_801F95CC(void);
@@ -192,6 +180,9 @@ void TQuestThread__sub_801F5D88(void);
 void TLobby__sub_8029B2A4(void);
 void reset_globals(void);
 }
+void clear_floor_population();
+extern s32 TLobby__designated_client_id;
+extern saddr game_protocol_instance;
 void init_scene_fog_system(void);
 void init_item_drop_tables(void);
 void clear_received_symbol_chat(void);
@@ -211,7 +202,7 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {TWindowCtrl::close, TWindowCtrl::shutdown},
     {TLobby__sub_8001ED74, TLobby__sub_8001ED70},
     {alloc_battle_param_tables, TLobby::free_boss4_rock},
-    {TLobby__sub_801A2554, TLobby__sub_801A2550},
+    {reset_id_counters, TLobby__sub_801A2550},
     {TObjPlayer::reset, TObjPlayer__sub_80156934},
     {init_scene_fog_system, TFogCtrl::reset},
     {load_light_entry_file, TObjLight::free_shared_data},
@@ -232,7 +223,7 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {(FloorResourceCallback)TLobby__sub_8001DC04, (FloorResourceCallback)TLobby::forward_8001DBD8},
     {(FloorResourceCallback)TLobby__sub_8034C3A4, (FloorResourceCallback)TLobby__sub_8034C384},
     {(FloorResourceCallback)TWindowGetComCard__sub_8007B67C, (FloorResourceCallback)TWindowGetComCard__sub_8007B65C},
-    {(FloorResourceCallback)TLobby__sub_8024285C, (FloorResourceCallback)TLobby::reset_state},
+    {(FloorResourceCallback)TLobby__sub_8024285C, (FloorResourceCallback)(void (*)(void *))TLobby::reset_state},
     {clear_received_symbol_chat, TLobby__sub_80077608},
     {TLobby__sub_80077BAC, TLobby::free_static_windows},
     {TWindowDD__sub_80344114, TWindowDD::free_buffers},
@@ -316,7 +307,7 @@ void TLobby::start_udp_test_game() {
     strcpy(msg.entries[1].name, "UDPTEST-2");
     TLobby::handle_game_join(&msg);
     ((TObject *)game_protocol_instance)->delete_children();
-    ((TLobby *)(1 - local_client_id))->open_udp_socket_for_player();
+    TLobby::open_udp_socket_for_player(1 - local_client_id);
 }
 
 s32 TLobby::construct_entry_array() {

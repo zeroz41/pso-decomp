@@ -3,23 +3,6 @@
 #ifndef TYPES_H
 #include "types.h"
 #endif
-typedef struct GinjaMaterialCache {
-  u8 prefix[8];
-  u32 parameters[11];
-  u32 dirty[11];
-  u8 reserved60[12];
-  u32 inherited_flags;
-  u8 reserved70[5];
-  u8 tev_stage_offset; /* +0x75: added to the selected TEV stage */
-  u8 reserved76;
-  u8 post_texgen_count; /* +0x77: set_ginja_post_texgen_count */
-  u8 post_tev_stage_count; /* +0x78: set_ginja_post_tev_stage_count */
-  u8 reserved79[3];
-  u32 blend_valid;
-  u32 blend;
-  u32 textured;
-  u32 texture;
-} GinjaMaterialCache;
 typedef struct GinjaParameter {
   u8 kind;
   u8 reserved[3];
@@ -51,9 +34,12 @@ typedef struct GinjaTextureList {
   GinjaTextureEntry *entries;
   u32 count;
 } GinjaTextureList;
+// A render context: render_contexts holds six, select_render_context makes one current.
 typedef struct GinjaSceneState {
-  u8 reserved0[0x20];
+  u8 reserved0[0xC];
+  u32 blend_mode; /* +0x0C: GX blend factors, source in bits 29-31, destination in bits 26-28 (name inferred) */
+  u8 reserved10[0x10];
   GinjaTextureList *textures;
+  u32 reserved24;
 } GinjaSceneState;
-LAYOUT_ASSERT(GinjaMaterialCacheSize, sizeof(GinjaMaterialCache) == 0x8c);
 #endif

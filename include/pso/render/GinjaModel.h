@@ -4,6 +4,15 @@
 #include "types.h"
 #endif
 typedef struct GinjaParameter GinjaParameter;
+// One vertex array of a model; the list ends with attribute 0xFF.
+typedef struct GinjaVertexArray {
+  u8 attribute; /* index into ginja_vertex_attributes */
+  u8 stride;
+  u16 count;
+  u8 pad_04[4];
+  void *data;
+  u32 pad_0C;
+} GinjaVertexArray;
 typedef struct GinjaDrawRecord {
   GinjaParameter *parameters;
   u32 parameter_count;
@@ -11,7 +20,7 @@ typedef struct GinjaDrawRecord {
   u32 display_list_size;
 } GinjaDrawRecord;
 typedef struct GinjaModel {
-  void *vertices;
+  GinjaVertexArray *vertices;
   u32 reserved04;
   GinjaDrawRecord *primary;
   GinjaDrawRecord *secondary;

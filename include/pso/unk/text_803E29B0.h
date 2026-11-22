@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-void draw_particle_strip(void *arg0, void *arg1, void *arg2);
+void draw_particle_strip(void *verts, void *arg1, void *arg2);
 
 #endif

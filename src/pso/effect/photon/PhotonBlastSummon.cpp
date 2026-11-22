@@ -30,6 +30,13 @@ struct NJS_OBJECT;
 #include <stddef.h>
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/camera/TCameraCtrl_800687BC.h"
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/network/client_id.h"
+#include "pso/player/PlayerSlots.h"
 
 struct RecoveredGlobal_801A7310_TCameraCtrl__data_804FF628 {
     s32 value;
@@ -120,12 +127,11 @@ void queue_deferred_photon_blast_support(u32 identity, s32 kind, s32 allow_dupli
 void queue_photon_blast_support(void) {
     ((s32 (*)(f32))queue_photon_blast_hit)(1.0f);
 }
-LAYOUT_ASSERT(RecoveredGlobal_801A7310_TCameraCtrl__data_804FF628_size, sizeof(RecoveredGlobal_801A7310_TCameraCtrl__data_804FF628) == 0xC);
 
 void TUnk_804C3248::begin_photon_summon_camera(s8 arg1) {
     u8 *arg0 = (u8 *)this;
     CameraPlayback playback;
-    s32 temp_r3;
+    s32 position;
     playback.index = arg1;
     playback.bank = (s8)(get_current_floor_area() == AREA_DARK_FALZ);
     playback.flags = 0;
@@ -135,8 +141,8 @@ void TUnk_804C3248::begin_photon_summon_camera(s8 arg1) {
         TCameraCtrl::select_active_controller(5);
     }
     playback.cache_target_and_forward(0x4222);
-    temp_r3 = (long) (arg0 + 0x38);
-    set_scripted_camera_pose(temp_r3, temp_r3, (u8 *)&this->rotation_x);
+    position = (long) (arg0 + 0x38);
+    set_scripted_camera_pose(position, position, (u8 *)&this->rotation_x);
     *(s32 *)((s8 *)arg0 + 0xFC) = 1;
 }
 
@@ -197,18 +203,9 @@ struct Obj_801A7428 {
 };
 
 extern "C" {
-void set_active_camera_pose_from_params(u8 *arg0);
 void update_photon_blast_camera_pose(struct PbCamera_801A73B0 *self);
 extern Vec lbl_80446A44;
 extern struct Reg_801A7578 photon_blast_joint_origins[];
-extern s32 photon_blast_joint_index;
-void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
-void *find_entity_by_id(u16 id);
-void matrix_mult_vec(s32, Vec *, Vec *);
-void rotate_matrix_y(s32, s32);
-}
-extern Group_801A7428 photon_blast_attachment_table[];
-extern "C" {
 void update_photon_blast_camera_pose(struct PbCamera_801A73B0 *self) {
     struct PbCameraParams_801A73B0 parameters;
     approach_vector_fixed_distance(&self->position, &self->destination_position, &self->position, 0.48f);
@@ -219,7 +216,7 @@ void update_photon_blast_camera_pose(struct PbCamera_801A73B0 *self) {
     set_active_camera_pose_from_params((u8 *)&parameters);
 }
 }
-
+extern Group_801A7428 photon_blast_attachment_table[];
 void spawn_photon_blast_opening_effects(s32 arg0, s32 arg1) {
     Rec_801A7428 rec;
     Vec pos;
@@ -282,13 +279,6 @@ struct PhotonDrawOwner_801A7638 {
     PhotonAttachment_801A7638 *bindings;
 };
 
-struct Eff_801A7680 {
-    void *obj;
-    Vec pos;
-    s32 flag;
-    s32 angles[3];
-};
-
 struct Self_801A7680 {
     u8 pad0[0x38];
     Vec pos;
@@ -297,7 +287,7 @@ struct Self_801A7680 {
     u8 pad2[0x100 - 0x64];
     u32 count;
     u8 pad3[0x148 - 0x104];
-    struct Eff_801A7680 *effects;
+    PhotonBlastAttachment *effects;
 };
 
 extern "C" {
@@ -318,7 +308,7 @@ void TUnk_804C3248::set_photon_blast_joint_callback() {
 void TUnk_804C3248::update_photon_blast_attachments() {
     struct Self_801A7680 *self = (struct Self_801A7680 *)this;
     u32 i;
-    struct Eff_801A7680 *e;
+    PhotonBlastAttachment *e;
     for (i = 0; i < self->count; i++) {
         if (((TObject *)(self->effects[i].obj))->all_parents_unqueued_for_destruction() == 0) {
             self->effects[i].obj = NULL;
@@ -334,7 +324,7 @@ void TUnk_804C3248::update_photon_blast_attachments() {
     }
 }
 
-void TUnk_804C3248::free_photon() { void* m = *(void* *)&this->m_148; if (m) mem_free(m); }
+void TUnk_804C3248::free_photon() { void *m = m_148; if (m) mem_free(m); }
 
 void TUnk_804C3248::spawn_photon_blast_attachment_effects(s32 kind) {
     struct Self_801A7680 *self = (struct Self_801A7680 *)this;
@@ -346,7 +336,7 @@ void TUnk_804C3248::spawn_photon_blast_attachment_effects(s32 kind) {
         PhotonAttachmentDef_801A7748 *def;
         PhotonAttachmentDef_801A7748 *defs;
         u32 i;
-        self->effects = (struct Eff_801A7680 *)mem_alloc(self->count * sizeof(struct Eff_801A7680));
+        self->effects = (PhotonBlastAttachment *)mem_alloc(self->count * sizeof(PhotonBlastAttachment));
         defs = group->attachments;
         for (i = 0; i < self->count; i++) {
             def = &defs[i];
@@ -394,7 +384,6 @@ extern u32 TSceneSora__instance;
 u16 TCameraCtrl__sub_8006A5DC();
 CameraPlayback *get_scripted_camera_playback();
 
-extern void *tl_05;
 
 void TUnk_804C3248::update_if_active() {
     if (!(*(s32 *)&this->unk_154 & 1)) {
@@ -404,7 +393,7 @@ void TUnk_804C3248::update_if_active() {
         TObjPlayer__sub_800D8A6C();
     }
     if (tl_05 != 0) {
-        ((TObject *)tl_05)->allow_rendering();
+        tl_05->allow_rendering();
     }
 }
 
@@ -415,7 +404,7 @@ void TUnk_804C3248::enter_scene() {
     ((s32 (*)(s32))apply_all_default__8TFogCtrlFv)(arg0);
     TObjPlayer__sub_800D8A60();
     if (tl_05 != NULL) {
-        ((TObject *)tl_05)->disallow_rendering();
+        tl_05->disallow_rendering();
     }
 }
 void TSceneSora::update(s32 _w0) {
@@ -446,14 +435,9 @@ void TUnk_804C3248::update_state() {
 #pragma pop
 
 #pragma push
-s32 restore_player_cameras(void);
 
 void TCameraCtrl::update() { restore_player_cameras(); TCameraCtrl::release_photon_blast_camera(); }
 
-s32 activate_camera_mode(s32 arg0);
-void *get_player_by_client_id(s32 i);
-
-extern s32 local_client_id;
 void TUnk_804C3248::setup_photon_blast_camera() {
     u8 *arg0 = (u8 *)this;
   Vec a = {-3.0f, 6.7f, 11.0f};
@@ -500,7 +484,6 @@ void TUnk_804C3248::setup_photon_blast_camera() {
   }
 }
 
-extern void *tl_06;
 
 }
 
@@ -508,7 +491,7 @@ TUnk_804C3248::~TUnk_804C3248() {
     m_148 = 0;
 }
 
-TUnk_804C3248::TUnk_804C3248() : TObjMotion((TObject *)tl_06) {
+TUnk_804C3248::TUnk_804C3248() : TObjMotion(tl_06) {
     this->m_134 = 0;
     this->m_100 = 0;
     *(u32 *)((s8 *)this + 0x138) = 0;

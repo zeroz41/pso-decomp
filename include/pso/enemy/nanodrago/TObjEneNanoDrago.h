@@ -33,7 +33,7 @@ struct TObjEneNanoDrago : public TObjEnemyCustom {
     void find_open_direction(Vec *direction);
     void update_attack_parameters();
     s32 collect_beam_targets();
-    void spawn_targeted_beam(s32 arg1);
+    void spawn_targeted_beam(s32 targetIndex);
     void update_dying_state();
     void update_knockback_state();
     void update_flight_state();

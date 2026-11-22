@@ -74,8 +74,6 @@ const char *TObjEnvSoundEx__class_name = "TObjEnvSoundEx";
 const char *TObjEnvSoundGlobal__class_name = "TObjEnvSoundGlobal";
 
 extern "C" {
-s32 __ct__8TObjBaseFP7TObject(void *, void *);
-void copy_pair__18TObjEnvSoundGlobalFPvPv(void* p, void* q);
 const Row_80190AA0 *environment_sound_tables_by_area[36] = {
     lbl_804456F0, lbl_80445708, lbl_80445708, lbl_80445738,
     lbl_80445738, lbl_80445738, lbl_80445768, lbl_80445768,
@@ -88,14 +86,10 @@ const Row_80190AA0 *environment_sound_tables_by_area[36] = {
     NULL, NULL, lbl_80445820, lbl_80445820,
 };
 
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 f32 xz_distance_squared(void *, void *);
 extern TCameraCtrl *camera_ctrl_instance;
 void run_task__14TObjEnvSoundExFv(Env_80190624 *o);
 void * TObjEnvSoundEx__create(void *arg0);
-
-
-extern void *tl_05;
 
 
 #define F(o) (*(f32 *)(self + (o)))
@@ -120,6 +114,8 @@ f32 xyz_distance_squared(void *, void *, void *);
 
 
 #include "pso/unk/text_80190940.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
 
 
 struct Obj_80190AA0 {
@@ -138,12 +134,8 @@ struct Obj_80190AA0 {
 };
 
 
-
-extern "C" {
-
 void copy_pair__18TObjEnvSoundGlobalFPvPv(void *p, void *q);
 
-}
 s32 set_floor_event_flags(s32 arg0, s32 arg1, s32 arg2);
 s32 activate_first_floor_event(s32 idx, s32 id);
 void handle_6x67_trigger_set_event(game_command_header *command) {
@@ -211,7 +203,7 @@ void * TObjEnvSound__create(void *rader_map_core) {
     if (TRaderMapCore::is_not_split_screen() == 1) {
         return NULL;
     }
-    return new TObjEnvSound((TObject *)tl_05, rader_map_core);
+    return new TObjEnvSound(tl_05, rader_map_core);
 }
 
 s32 fn_801908F8(saddr arg0, f32 farg0) {
@@ -313,7 +305,7 @@ void * TObjEnvSoundEx__create(void *rader_map_core) {
     if (TRaderMapCore::is_not_split_screen() == 1) {
         return NULL;
     }
-    return new TObjEnvSoundEx((TObject *)tl_05, (saddr)rader_map_core);
+    return new TObjEnvSoundEx(tl_05, (saddr)rader_map_core);
 }
 
 #define env_sound_global this
@@ -350,11 +342,11 @@ void copy_pair__18TObjEnvSoundGlobalFPvPv(void* p, void* q) { *(u32*)((char*)p +
 #pragma opt_common_subs off
 s32 TObjEnvSoundGlobal::setup_sound() {
     s32 var_r31;
-    uaddr temp_r4;
+    const Row_80190AA0 *table;
     var_r31 = 1;
-    temp_r4 = (uaddr)environment_sound_tables_by_area[get_current_floor_area()];
-    if (temp_r4 != 0U) {
-        copy_pair__18TObjEnvSoundGlobalFPvPv((u8 *)&this->m_94, (void*)((int) (temp_r4 + (this->set_params[0] * 8))));
+    table = environment_sound_tables_by_area[get_current_floor_area()];
+    if (table != NULL) {
+        copy_pair__18TObjEnvSoundGlobalFPvPv(&this->m_94, (void *)&table[this->set_params[0]]);
     } else {
         var_r31 = 0;
         this->m_94 = -1;

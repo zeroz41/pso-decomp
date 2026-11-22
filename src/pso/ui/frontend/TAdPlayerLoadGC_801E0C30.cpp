@@ -1,4 +1,6 @@
 #define PSO_SDK_COMPACT_MATH
+#include <stdio.h>
+#include <string.h>
 #include <dolphin/os/OSThread.h>
 #include <dolphin/card.h>
 #include "pso/system/save/CardSaveFile.h"
@@ -9,8 +11,6 @@
 #include "pso/system/memory.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include <stdio.h>
-#include <string.h>
 
 #pragma readonly_strings on
 
@@ -42,11 +42,6 @@ s32 mount_memcard(saddr);
 s32 poll_memcard_result(saddr);
 const Names_801E13C4 memory_card_banner_filenames = {{"vms_sys.tp", "vms_icon1.tp", "vms_icon2.tp", "vms_down.tp", "vms_capt.tp", "vms_net.tp"}};
 u32 calc_crc32_bitwise(u8 *, u32);
-int sprintf(char *, const char *, ...);
-char *strncpy(char *, const char *, u32);
-void *memcpy(void *, const void *, u32);
-void *memset(void *, int, u32);
-int strncmp(const char *, const char *, u32);
 }
 void fill_date_from_seconds(u32 secs, DateStamp *out);
 extern "C" {

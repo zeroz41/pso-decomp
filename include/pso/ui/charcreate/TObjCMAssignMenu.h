@@ -14,7 +14,7 @@ public:
     void render_assign_slots();
     void calc_grid_layout();
 public:
-    static void *create(void *parent, void *kind);
+    static void *create(void *parent, s32 kind);
 };
 
 #endif

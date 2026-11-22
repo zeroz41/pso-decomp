@@ -86,11 +86,11 @@ TEffIndirectRecipe *get_indirect_recipe(s32 i) {
     return &indirect_recipe_buffer[i];
 }
 
-void TEffIndirectCtrl::sub_802A955C() { this->m_46 = 1; }
+void TEffIndirectCtrl::pause_indirect_effect() { this->m_46 = 1; }
 
-u8 TEffIndirectCtrl__sub_802A9554(TEffIndirectCtrl *ctrl) { return ctrl->m_25; }
+u8 TEffIndirectCtrl__get_indirect_kind(TEffIndirectCtrl *ctrl) { return ctrl->m_25; }
 
-void TEffIndirectCtrl__sub_802A9548(TEffIndirectCtrl *ctrl) { ctrl->m_46 = 0; }
+void TEffIndirectCtrl__resume_indirect_effect(TEffIndirectCtrl *ctrl) { ctrl->m_46 = 0; }
 
 void load_indirect_info(void) {
     s32 i;
@@ -167,7 +167,7 @@ void load_indirect_dat(void) {
                 xfree(buf);
             }
             load_indirect_info();
-            TObjPlayer__sub_802A841C();
+            reset_indirect_effect_ctrl_table();
         }
     }
 }
@@ -177,7 +177,7 @@ void TEffIndirectCtrl::free_all() {
     s32 var_r31;
     TEffIndirectSource *allocation;
 
-    TObjPlayer__sub_802A83F4();
+    clear_indirect_effect_ctrl_table();
     TEffIndirectCtrl::free_buffers();
     var_r31 = 0;
     var_r28 = 0;
@@ -334,7 +334,7 @@ void deform_indirect_texture_scroll(u8 *p, u32 px, u32 py, s32 amp, u32 phase) {
 
 #pragma push
 #pragma fp_contract on
-void update_indirect_texture_wave(u8 *pixels, s32 arg1, s32 arg2, s32 arg3, s32 arg4, u8 arg5) {
+void update_indirect_texture_wave(u8 *pixels, s32 arg1, s32 arg2, s32 arg3, s32 arg4, u8 phase_step) {
     s32 off;
     s32 x;
     s32 i;
@@ -342,9 +342,9 @@ void update_indirect_texture_wave(u8 *pixels, s32 arg1, s32 arg2, s32 arg3, s32 
     s16 row;
     s32 y;
     for (y = 0; y < 64; y++) {
-        row = (s32)((f32)(u8)arg2 * sin_table_lookup((s32)(182.04445f * (f32)(u32)(arg4 + y * arg5))));
+        row = (s32)((f32)(u8)arg2 * sin_table_lookup((s32)(182.04445f * (f32)(u32)(arg4 + y * phase_step))));
         for (x = 0; x < 64; x++) {
-            off = (s32)((f32)(u8)arg1 * sin_table_lookup((s32)(182.04445f * (f32)(u32)(arg3 + x * arg5))) + (f32)row);
+            off = (s32)((f32)(u8)arg1 * sin_table_lookup((s32)(182.04445f * (f32)(u32)(arg3 + x * phase_step))) + (f32)row);
             i = get_indirect_tile_coord(x, y, 0x40);
             v = pixels[i];
             v += off;
@@ -362,16 +362,16 @@ void update_indirect_texture_wave(u8 *pixels, s32 arg1, s32 arg2, s32 arg3, s32 
 
 #pragma push
 #pragma fp_contract on
-void deform_indirect_texture_wave(u8 *pixels, s32 arg1, s32 arg2, s32 arg3, s32 arg4, u8 arg5) {
+void deform_indirect_texture_wave(u8 *pixels, s32 arg1, s32 arg2, s32 arg3, s32 arg4, u8 phase_step) {
     s32 v;
     s32 off;
     s32 y;
     s16 row;
     s32 x;
     for (y = 0; y < 64; y++) {
-        row = (s32)((f32)(u8)arg2 * sin_table_lookup((s32)(182.04445f * (f32)(u32)(arg4 + y * arg5))));
+        row = (s32)((f32)(u8)arg2 * sin_table_lookup((s32)(182.04445f * (f32)(u32)(arg4 + y * phase_step))));
         for (x = 0; x < 64; x++) {
-            off = (s32)((f32)(u8)arg1 * sin_table_lookup((s32)(182.04445f * (f32)(u32)(arg3 + x * arg5))) + (f32)row);
+            off = (s32)((f32)(u8)arg1 * sin_table_lookup((s32)(182.04445f * (f32)(u32)(arg3 + x * phase_step))) + (f32)row);
             v = *pixels;
             if ((s16)v != 0xFF) {
                 v = v + off;
@@ -456,7 +456,7 @@ void TEffIndirectCtrl::run_task() {
             (this->*modes[m_20->mode])();
         }
         m_24 = m_20->source_index;
-        sub_802A955C();
+        pause_indirect_effect();
     }
 }
 
@@ -539,27 +539,27 @@ void setup_indirect_tev_ordinary(TEffIndirectCtrl *ctrl, s32 sampler, s32 scale,
     load_list_texture(0, sampler, sampler, 5);
 }
 
-void TObjPlayer__sub_802A841C(void) {
+void reset_indirect_effect_ctrl_table(void) {
     s32 i;
     indirect_effect_ctrl_count = 0;
     for (i = 0; i < 6; i++) indirect_effect_ctrl_table[i] = 0;
 }
 
-void TObjPlayer__sub_802A83F4(void) {
+void clear_indirect_effect_ctrl_table(void) {
     s32 i;
     for (i = 0; i < 6; i++) indirect_effect_ctrl_table[i] = 0;
 }
 
-void TObjPlayer::play_particle_at_active_slot(s32 arg0, s32 sampler, s32 arg2, s32 arg3, s32 unused, s32 second) {
+void TObjPlayer::play_particle_at_active_slot(s32 kind, s32 sampler, s32 scale, s32 arg3, s32 unused, s32 second) {
     s32 indirect_effect_ctrl;
 
-    indirect_effect_ctrl = (s32)(s8) find_indirect_effect_ctrl(arg0);
+    indirect_effect_ctrl = (s32)(s8) find_indirect_effect_ctrl(kind);
     if ((indirect_effect_ctrl != -1) && (indirect_effect_ctrl_table[indirect_effect_ctrl] != NULL)) {
         if (arg3 != 0) {
-            setup_indirect_tev_alternate(indirect_effect_ctrl_table[indirect_effect_ctrl], unused, sampler, arg2);
+            setup_indirect_tev_alternate(indirect_effect_ctrl_table[indirect_effect_ctrl], unused, sampler, scale);
             return;
         }
-        setup_indirect_tev_ordinary(indirect_effect_ctrl_table[indirect_effect_ctrl], sampler, arg2, second);
+        setup_indirect_tev_ordinary(indirect_effect_ctrl_table[indirect_effect_ctrl], sampler, scale, second);
     }
 }
 
@@ -567,10 +567,10 @@ s8 find_indirect_effect_ctrl(s32 kind) {
     s32 i;
     for (i = 0; i < indirect_effect_ctrl_count; i++) {
         if (indirect_effect_ctrl_table[i] != 0) {
-            u8 id = TEffIndirectCtrl__sub_802A9554(indirect_effect_ctrl_table[i]);
+            u8 id = TEffIndirectCtrl__get_indirect_kind(indirect_effect_ctrl_table[i]);
             if (id == (u8)kind) {
                 if (TObjPlayer::check_demo_mode() == 0) {
-                    TEffIndirectCtrl__sub_802A9548(indirect_effect_ctrl_table[i]);
+                    TEffIndirectCtrl__resume_indirect_effect(indirect_effect_ctrl_table[i]);
                 }
                 return i;
             }

@@ -20,7 +20,7 @@ u32 calc_text_width(u32);
 
 void *window_label_value_part_vtable[6] = {
     0, 0,
-    (void *)destroy_free_buffers__20TWindowSubStatusDispFPvs,
+    (void *)TWindowSubStatusDisp::destroy_free_buffers,
     (void *)TWindowSubStatusDisp__sub_8025B760,
     (void *)draw_label_value__20TWindowSubStatusDispFPvPv,
     0,
@@ -89,7 +89,7 @@ void TWindowSubStatusDisp__sub_8025B760(void *p) {
     if (((TWindowSubComCard *)p)->is_flag_4_set()) return;
 }
 
-void *destroy_free_buffers__20TWindowSubStatusDispFPvs(void *window_sub_status_disp, s16 arg1) {
+void *TWindowSubStatusDisp::destroy_free_buffers(void *window_sub_status_disp, s16 arg1) {
     if (window_sub_status_disp != NULL) {
         *(void ***)((s8 *)window_sub_status_disp + 4) = window_label_value_part_vtable;
         mem_free((void *)(*(saddr *)((s8 *)window_sub_status_disp + 0x20)));

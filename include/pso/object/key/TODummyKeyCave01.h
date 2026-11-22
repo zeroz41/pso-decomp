@@ -7,7 +7,7 @@
 struct GinjaTextureList;
 
 struct TODummyKeyCave01 : public TObjBase {
-    TODummyKeyCave01(TObject *parent, void *arg2);
+    TODummyKeyCave01(TObject *parent, void *set_data);
     virtual ~TODummyKeyCave01();
     void sub_80165940();
     GinjaTextureList *off_textures;

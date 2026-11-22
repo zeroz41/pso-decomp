@@ -25,13 +25,13 @@ struct Stack_8026C708
 };
 
 extern "C" {
-void fn_8026C664(u8 *arg0, f32 farg0, f32 farg1, f32 farg2, f32 farg3) {
+void fn_8026C664(u8 *arg0, f32 farg0, f32 farg1, f32 farg2, f32 arrow_offset) {
   f32 buffer_8[8];
   buffer_8[0] = farg0;
   buffer_8[1] = farg1;
-  if (farg3 < 0.0f)
+  if (arrow_offset < 0.0f)
   {
-    buffer_8[0] = ((f32) ((double) farg0)) + farg3;
+    buffer_8[0] = ((f32) ((double) farg0)) + arrow_offset;
   }
   buffer_8[2] = 29.0f + buffer_8[0];
   buffer_8[3] = 15.0f + buffer_8[1];
@@ -43,14 +43,14 @@ void fn_8026C664(u8 *arg0, f32 farg0, f32 farg1, f32 farg2, f32 farg3) {
   draw_textured_quad_at_depth(&buffer_8[0], farg2);
 }
 typedef struct Stack_8026C708 Stack_8026C708;
-void fn_8026C708(u8 *arg0, f32 farg0, f32 farg1, f32 farg2, f32 farg3) {
+void fn_8026C708(u8 *arg0, f32 farg0, f32 farg1, f32 farg2, f32 arrow_offset) {
   float new_var;
   Stack_8026C708 stack;
   stack.sp8 = farg0;
   stack.spC = farg1;
-  if (farg3 > 0.0f)
+  if (arrow_offset > 0.0f)
   {
-    stack.sp8 = ((f32) ((double) farg0)) + farg3;
+    stack.sp8 = ((f32) ((double) farg0)) + arrow_offset;
   }
   stack.sp10 = 29.0f + stack.sp8;
   new_var = 15.0f + stack.spC;
@@ -63,9 +63,6 @@ void fn_8026C708(u8 *arg0, f32 farg0, f32 farg1, f32 farg2, f32 farg3) {
   draw_textured_quad_at_depth(&stack.sp8, farg2);
 }
 
-}
-
-extern "C" {
 u32 calc_text_width(void);
 u8 get_font_char_advance(void);
 u16 map_char_to_font_code(u16 c);
@@ -75,7 +72,7 @@ void text_builder_append(u8 *str);
 void text_builder_reset(void);
 extern s32 lbl_805D63F0;
 
-extern "C" {
+
 s32 fn_8026C7AC(void *arg0, s8 arg1) {
     *(s8 *)((s8 *)arg0 + 0) = 0;
     *(s8 *)((s8 *)arg0 + 1) = arg1;
@@ -126,11 +123,7 @@ void draw_list_page_indicator(PageIndicator *self, WindowDrawContext *r) {
     text_builder_append_int(self->count);
     draw_window_text((f32 *)&pos, (const char *)(get_shared_text_buffer()), -1, 0, (f32)1e+05f);
 }
-}
 #pragma pop
-
-extern "C" {
-
 #pragma push
 #pragma fp_contract on
 void decay_page_arrow_offset(PageIndicator *o) {
@@ -138,7 +131,6 @@ void decay_page_arrow_offset(PageIndicator *o) {
 }
 #pragma pop
 
-}
 
 struct Pad_8026C9DC {
     u8 pad0[0x20];
@@ -149,12 +141,12 @@ extern "C" {
 void play_sound_effect(s32, s32, s32, s32);
 extern Pad_8026C9DC controller_input_state[];
 
-s32 handle_list_page_flip_input(PageIndicator *arg0) {
+s32 handle_list_page_flip_input(PageIndicator *page_indicator) {
     void *pad;
     s8 cur;
-    decay_page_arrow_offset(arg0);
-    cur = arg0->page;
-    pad = controller_input_state[is_player_input_active(arg0->input_port)].buttons;
+    decay_page_arrow_offset(page_indicator);
+    cur = page_indicator->page;
+    pad = controller_input_state[is_player_input_active(page_indicator->input_port)].buttons;
     if (TWindowShortListCtrl__check_controller_button(pad, 0x30000) == 0) {
         return 0;
     }
@@ -166,19 +158,19 @@ s32 handle_list_page_flip_input(PageIndicator *arg0) {
         cur--;
     }
     if (cur < 0) {
-        cur = arg0->count - 1;
+        cur = page_indicator->count - 1;
     }
-    if (cur >= arg0->count) {
+    if (cur >= page_indicator->count) {
         cur = 0;
     }
-    if (cur == arg0->page) {
+    if (cur == page_indicator->page) {
         return 0;
     }
-    arg0->page = cur;
+    page_indicator->page = cur;
     if (TWindowShortListCtrl__check_controller_button(pad, 0x10000) != 0) {
-        arg0->arrow_offset = 1e+01f;
+        page_indicator->arrow_offset = 1e+01f;
     } else {
-        arg0->arrow_offset = (-1e+01f);
+        page_indicator->arrow_offset = (-1e+01f);
     }
     return 1;
 }

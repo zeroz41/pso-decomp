@@ -2,23 +2,22 @@
 #include "pso/ui/window/TWindowCtrl_8026AD44.h"
 #include "pso/ui/window/TWindowCtrl.h"
 
-extern void *TWindowCtrl__active_window;
 
-s32 TWindowCtrl::get_field44() {
-    if ((void *) TWindowCtrl__active_window == NULL) {
+TWindowMessageLog *TWindowCtrl::get_field44() {
+    if (TWindowCtrl__active_window == NULL) {
         return 0;
     }
-    return *(s32 *)((s8 *)TWindowCtrl__active_window + 0x44);
+    return TWindowCtrl__active_window->message_log;
 }
 
 void TWindowCtrl__sub_8026AD60(void) {
-    if ((void *) TWindowCtrl__active_window != NULL) {
-        *(s32 *)((s8 *)TWindowCtrl__active_window + 0x44) = 0;
+    if (TWindowCtrl__active_window != NULL) {
+        TWindowCtrl__active_window->message_log = NULL;
     }
 }
 
-void TWindowCtrl__sub_8026AD78(s32 arg0) {
-    if ((void *) TWindowCtrl__active_window != NULL) {
-        *(s32 *)((s8 *)TWindowCtrl__active_window + 0x44) = arg0;
+void TWindowCtrl__sub_8026AD78(TWindowMessageLog *window_message_log) {
+    if (TWindowCtrl__active_window != NULL) {
+        TWindowCtrl__active_window->message_log = window_message_log;
     }
 }

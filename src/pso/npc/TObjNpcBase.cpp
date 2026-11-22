@@ -32,6 +32,11 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/camera/TCameraCtrl_8006CC30.h"
+#include "pso/network/client_id.h"
+#include "pso/unk/text_803E2F28.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/math/MatrixTransforms.h"
 
 extern "C" {
 const char *TObjNpcBase__name = "TObjNpcBase";
@@ -66,11 +71,10 @@ void TObjNpcBase::draw_debug_info() {
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
 }
 #pragma pool_data reset
-extern "C" {
+
 NpcBattleStats npc_default_battle_stats = { {0}, 20.0f };
 NpcMovementParameters npc_movement_parameters = { 100.0f, 0.5f, 0x400 };
 CollisionBody npc_base_collision_body_desc = { {0.0f, 10.0f, 0.0f}, 5.0f, 0.0f, 0, 0x30203 };
-}
 
 void TObjNpcBase::setup_common() {
     set_motion_params(&npc_default_battle_stats);
@@ -86,9 +90,6 @@ void TObjNpcBase::setup_common() {
 
 extern "C" {
 s32 approach_angle_limited(s32, s32, s32);
-}
-void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
-extern "C" {
 void select_enemy_destination(TObjEnemy *, Vec *, s32);
 f32 horizontal_distance_squared(Vec *, Vec *);
 void vec3_add_to(Vec *, Vec *);
@@ -98,15 +99,11 @@ extern u8 identity_matrix[];
 u16 get_entity_id(void *);
 f32 atan2_float(f32 y, f32 x);
 }
+void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 void move_with_wall_slide(u8 *arg0);
 u8 *create_conversation_camera(s32 arg0);
 extern "C" {
-void end_conversation_camera(void);
-void begin_conversation_camera(void);
 s32 angle_difference_abs(s32, s32);
-s32 subtract_vector(Vec *, Vec *);
-extern s32 local_client_id;
-s32 has_interactor__14TObjCollidableFv();
 
 void TObjNpcBase::interact(s32 client) {
     TObjPlayer *player;
@@ -406,9 +403,6 @@ void TObjNpcBase::run_idle_action() {
 }
 
 extern "C" {
-void draw_chunk_object(void *child);
-void restore_scene_lighting(void);
-void select_actor_lighting(s32 obj);
 u16 find_nearest_visible_player(void *, s32, f32 *, f32);
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
 
@@ -456,21 +450,21 @@ void TObjNpcBase::render() {
 }
 
 void TObjNpcBase::run_task() {
-    s32 temp_r4;
+    s32 index;
     s32 temp_r4_2;
-    TUnk_804C8678 *var_r31;
+    TUnk_804C8678 *root;
     if (m_3a0 <= 0 && m_3a4 <= 0) {
         m_390 = 1;
         set_indexed_flags(0, 1);
     } else {
         if (m_38c == 0) {
-            var_r31 = quest_mission_manager;
+            root = quest_mission_manager;
         } else {
-            var_r31 = quest_area_manager;
+            root = quest_area_manager;
         }
-        temp_r4 = m_3a0;
-        if (temp_r4 > 0) {
-            if (TQuestThread::get_register(var_r31, temp_r4) != 0) {
+        index = m_3a0;
+        if (index > 0) {
+            if (TQuestThread::get_register(root, index) != 0) {
                 m_390 = 1;
                 set_indexed_flags(0, 1);
             } else {
@@ -479,7 +473,7 @@ void TObjNpcBase::run_task() {
             }
         }
         temp_r4_2 = m_3a4;
-        if ((temp_r4_2 > 0) && (TQuestThread::get_register(var_r31, temp_r4_2) != 0)) {
+        if ((temp_r4_2 > 0) && (TQuestThread::get_register(root, temp_r4_2) != 0)) {
             m_390 = 0;
             clear_player_status_flag(0, 1U);
         }
@@ -523,9 +517,6 @@ void TObjNpcBase::free_static() {
 extern "C" {
 int load_encrypted_archive_data(const char *);
 void load_ply_motion_npc_town(void) { npc_town_motion_data = load_encrypted_archive_data("PlyMotionNpcTown.cpt"); }
-}
-
-extern "C" {
 void TObjNpcBase__sub_80149368(CursorAction *action);
 
 }

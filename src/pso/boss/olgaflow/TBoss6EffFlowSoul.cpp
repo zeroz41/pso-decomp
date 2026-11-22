@@ -87,14 +87,14 @@ extern "C" {
 extern const char *TBoss6EffFlowSoul__name;
 }
 
-TBoss6EffFlowSoul::TBoss6EffFlowSoul(TObject *arg1, Vec *arg2, s32 arg3, s32 arg4) : TObject(arg1) {
+TBoss6EffFlowSoul::TBoss6EffFlowSoul(TObject *parent, Vec *pos, s32 player, s32 duration) : TObject(parent) {
     u8 *boss6_eff_flow_soul = (u8 *)this;
     u8 *particle_emitter;
     m_name = TBoss6EffFlowSoul__name;
-    *(u8 **)((s8 *)boss6_eff_flow_soul + 0x1C) = (u8 *)arg1;
-    VecCopy((Vec *)(boss6_eff_flow_soul + 0x28), (const Vec *)arg2);
-    *(s16 *)((s8 *)boss6_eff_flow_soul + 0x24) = arg3;
-    *(s32 *)((s8 *)boss6_eff_flow_soul + 0x34) = arg4;
+    *(u8 **)((s8 *)boss6_eff_flow_soul + 0x1C) = (u8 *)parent;
+    VecCopy((Vec *)(boss6_eff_flow_soul + 0x28), (const Vec *)pos);
+    *(s16 *)((s8 *)boss6_eff_flow_soul + 0x24) = player;
+    *(s32 *)((s8 *)boss6_eff_flow_soul + 0x34) = duration;
     particle_emitter = (u8 *)(create_particle_emitter((boss6_eff_flow_soul + 0x28), 0x225));
     m_20 = particle_emitter;
     if (particle_emitter != NULL) {

@@ -10,6 +10,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 #include "pso/system/vector.h"
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #pragma readonly_strings on
 
 struct UV_8025A650 { f32 u; f32 v; };
@@ -21,9 +22,6 @@ struct Ctx_8025A650 { u8 p0[0x10]; f32 x; f32 y; u8 p18[0x18]; s32 f30; u8 p34[4
 
 f32 get_item_star_row_width(u8 *arg0);
 extern "C" {
-void begin_screen_draw(s32 arg0);
-void draw_textured_quad_at_depth(f32 *q, f32 depth);
-void set_draw_texture_and_color(s32 idx, s32 arg1);
 extern s32 lbl_805D63F0;
 void render_item_rarity_stars(Item_8025A650 *item, Ctx_8025A650 *ctx);
 }
@@ -126,10 +124,10 @@ void *TWindowHelpItem__sub_8025A904(void *arg0, s16 arg1) {
     return arg0;
 }
 
-u8 *TWindowHelpItem__sub_8025A95C(u8 *arg0, saddr arg1, s32 arg2) {
-    __ct__13TUnk_804CF918Fl(arg0, arg2);
+u8 *TWindowHelpItem__sub_8025A95C(u8 *arg0, saddr rec, s32 client) {
+    __ct__13TUnk_804CF918Fl(arg0, client);
     *(s32 **)((s8 *)arg0 + 4) = ((s32 *)&lbl_804CFA10);
-    copy_vec2((arg0 + 8), (void *)(arg1 + 4));
+    copy_vec2((arg0 + 8), (void *)(rec + 4));
     *(s32 *)((s8 *)arg0 + 0x10) = 0;
     return arg0;
 }

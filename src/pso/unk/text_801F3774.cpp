@@ -29,9 +29,8 @@ struct Stack_801F3778 {
     s16 sp12;
 };
 
-extern "C" {
+
 extern s32 game_difficulty_selection;
-extern char offline_quest_filename_buffer_a[],offline_quest_filename_buffer_b[];
 
 void TLobby__sub_801F3774(void) {  }
 
@@ -53,7 +52,6 @@ void TLobby::send_6x75_quest_flag_cur_difficulty(s16 arg0, s16 arg1) {
     stack.sp10 = (s16) game_difficulty_selection;
     stack.sp12 = 0;
     send_and_handle_6x75((TLobby *)&stack.sp8);
-}
 }
 
 void handle_6x75_update_quest_flag_dc(TLobby *lobby) {

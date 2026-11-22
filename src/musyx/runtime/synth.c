@@ -7,10 +7,10 @@ static SYNTH_JOBTAB_SV synthJobTable[32];
 SynthInfo_SV synthInfo;
 SYNTHMasterFader_SV synthMasterFader[32];
 u8 synthTrackVolume[64];
-saddr synthAuxAUser[8];
-void *synthAuxACallback[8];
-saddr synthAuxBUser[8];
-void *synthAuxBCallback[8];
+void *synthAuxAUser[8];
+SND_AUX_CALLBACK synthAuxACallback[8];
+void *synthAuxBUser[8];
+SND_AUX_CALLBACK synthAuxBCallback[8];
 Tbl_803AA1E0 synthITDDefault[8];
 s32 synthGlobalVariable[16];
 CTRL_DEST_SV inpAuxB[8][4];
@@ -143,12 +143,10 @@ static inline u32 check_portamento_SV(u8 key, u8 midi, u8 midiSet, u32 newVID, u
 
 u32 StartLayer(u16 layerID, s16 prio, u8 maxVoices, u16 allocId, u8 key, u8 vol, u8 panning, u8 midi,
                          u8 midiSet, u8 section, u16 step, u16 trackid, u32 vidFlag, u8 vGroup, u8 studio, u32 itd) {
-    LAYER_SV *dataGetLayer(u16 layerID, u16 *n);
     u32 macStart(u16 macid, u8 priority, u8 maxVoices, u16 allocId, u8 key, u8 vol, u8 panning, u8 midi,
                           u8 midiSet, u8 section, u16 step, u16 trackid, u8 new_vid, u8 vGroup, u8 studio, u32 itd);
     u32 StartKeymap(u16 keymapID, s16 prio, u8 maxVoices, u16 allocId, u8 key, u8 vol, u8 panning, u8 midi,
                              u8 midiSet, u8 section, u16 step, u16 trackid, u32 vidFlag, u8 vGroup, u8 studio, u32 itd);
-    u32 vidMakeRoot(SYNTH_VOICE_SV *svoice);
     u16 n;
     u32 vid;
     u32 new_id;
@@ -245,7 +243,6 @@ end:
 #pragma optimization_level 2
 u32 StartKeymap(u16 keymapID, s16 prio, u8 maxVoices, u16 allocId, u8 key, u8 vol, u8 panning, u8 midi,
                 u8 midiSet, u8 section, u16 step, u16 trackid, u32 vidFlag, u8 vGroup, u8 studio, u32 itd) {
-    KEYMAP_SV *dataGetKeymap(u16 keymapID);
     u32 macStart(u16 macid, u8 priority, u8 maxVoices, u16 allocId, u8 key, u8 vol, u8 panning, u8 midi,
                  u8 midiSet, u8 section, u16 step, u16 trackid, u8 new_vid, u8 vGroup, u8 studio, u32 itd);
     s32 k;
@@ -840,7 +837,6 @@ void HandleFaderTermination(u8 *arg0) {
     }
 }
 
-typedef struct SND_AUX_INFO_SV { union { struct { s32 *left; s32 *right; s32 *surround; } bufferUpdate; struct { u16 para[4]; } parameterUpdate; } data; } SND_AUX_INFO_SV;
 u16 inpGetAuxA(u8 studio, u8 index, u8 midi, u8 midiSet);
 u16 inpGetAuxB(u8 studio, u8 index, u8 midi, u8 midiSet);
 void hwFrameDone(void);
@@ -913,19 +909,19 @@ void synthHandle(u32 deltaTime) {
 
         for (s = 0; s < 8; ++s) {
             if (synthAuxAMIDI[s] != 0xff) {
-                SND_AUX_INFO_SV info;
+                SND_AUX_INFO info;
                 for (i = 0; i < 4; ++i) {
                     info.data.parameterUpdate.para[i] = inpGetAuxA(s, i, synthAuxAMIDI[s], synthAuxAMIDISet[s]);
                 }
-                ((SND_AUX_CALLBACK_SV)synthAuxACallback[s])(1, &info, (void *)synthAuxAUser[s]);
+                synthAuxACallback[s](1, &info, synthAuxAUser[s]);
             }
 
             if (synthAuxBMIDI[s] != 0xff) {
-                SND_AUX_INFO_SV info;
+                SND_AUX_INFO info;
                 for (i = 0; i < 4; ++i) {
                     info.data.parameterUpdate.para[i] = inpGetAuxB(s, i, synthAuxBMIDI[s], synthAuxBMIDISet[s]);
                 }
-                ((SND_AUX_CALLBACK_SV)synthAuxBCallback[s])(1, &info, (void *)synthAuxBUser[s]);
+                synthAuxBCallback[s](1, &info, synthAuxBUser[s]);
             }
         }
     }
@@ -935,19 +931,18 @@ void synthHandle(u32 deltaTime) {
 }
 #pragma pop
 
-s32 synthFXStart(s16 arg0, u8 arg1, u8 arg2, s32 arg3, s32 arg4) {
-    s32 synthStartSound(s32, s32, s32, s32, u8, u8, s32, s32, s32, s32, s32, s32, s32, s32, s32);
-    s32 ret = -1;
-    Se_803A9144 *p = dataGetFX(arg0);
+u32 synthFXStart(u16 fid, u8 vol, u8 pan, u8 studio, u32 itd) {
+    u32 ret = 0xFFFFFFFF;
+    Se_803A9144 *p = dataGetFX(fid);
     if (p != NULL) {
-        if (arg1 == 0xFF) {
-            arg1 = p->b6;
+        if (vol == 0xFF) {
+            vol = p->b6;
         }
-        if (arg2 == 0xFF) {
-            arg2 = p->b7;
+        if (pan == 0xFF) {
+            pan = p->b7;
         }
-        ret = synthStartSound(p->id, p->b5, p->b4, p->b8 | 0x80, arg1, arg2, 0xFF, 0xFF,
-                                   0, 0, 0xFF, p->b9, 0, arg3, arg4);
+        ret = synthStartSound(p->id, p->b5, p->b4, p->b8 | 0x80, vol, pan, 0xFF, 0xFF,
+                                   0, 0, 0xFF, p->b9, 0, studio, itd);
     }
     return ret;
 }
@@ -955,7 +950,6 @@ s32 synthFXStart(s16 arg0, u8 arg1, u8 arg2, s32 arg3, s32 arg4) {
 #pragma push
 #pragma opt_common_subs on
 s32 synthFXSetCtrl(u32 vid, u8 ctrl, u8 value) {
-    void inpSetMidiCtrl(u8 ctrl, u8 channel, u8 set, u8 value);
     u32 i;
     u32 ret;
 
@@ -1139,7 +1133,6 @@ void synthSetMusicVolumeType(u8 i, u8 v) {
 }
 
 s32 synthHWMessageHandler(s32 op, u32 idx) {
-    void voiceKill(u8);
     s32 ret = 0;
     switch (op) {
     case 0:
@@ -1151,7 +1144,7 @@ s32 synthHWMessageHandler(s32 op, u32 idx) {
         }
         break;
     case 1:
-        voiceKill(idx);
+        voiceKill((u8)idx);
         break;
     case 2:
         ret = vsSampleStartNotify(idx);

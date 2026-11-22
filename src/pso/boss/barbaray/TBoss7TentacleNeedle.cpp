@@ -639,7 +639,7 @@ void TBoss7TentacleNeedle::restart_particle_effect() {
     }
     effect = spawn_particle_effect(&position, 0x215);
     if (effect != NULL) {
-        attach_particle_model((u8 *)effect, (s32)TBoss7DeRolLeC::get_archive_model(4), (s32)TBoss7DeRolLeC::get_archive_textures(), 0, 0, 1.0f);
+        attach_particle_model((u8 *)effect, TBoss7DeRolLeC::get_archive_model(4), TBoss7DeRolLeC::get_archive_textures(), 0, 0, 1.0f);
     }
     play_sound_effect(0x3A809, &position, 0, 0);
 }

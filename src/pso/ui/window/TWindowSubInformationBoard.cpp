@@ -6,6 +6,7 @@
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/window/TWindowSubInformationBoard.h"
+#include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
@@ -20,19 +21,6 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-
-struct VBase_18_204a81 { char pad[0x18]; };
-
-struct VObj_18_204a81 : VBase_18_204a81 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual s32 m7();
-};
 
 struct I_8034CDE0 { u8 pad[0x10]; s8 f10; u8 pad11[0xBC - 0x11]; };
 
@@ -57,7 +45,7 @@ TWindowSubInformationBoard::TWindowSubInformationBoard(TObject *object, void *ar
     this->m_name = lbl_805D4348;
     *(void **)((s8 *)this + 0x20) = arg2;
     this->shown_index = -1;
-    *(void **)((s8 *)this + 0x28) = object;
+    parent_menu = static_cast<TWindowMainMenu *>(object);
     this->menu_window = 0;
     this->page_menu = 0;
     this->message_window = 0;
@@ -110,7 +98,7 @@ void TWindowSubInformationBoard::run_task() {
     case 2:
         set_message_index(((TWindowShortListCtrl *)this->menu_window)->get_cursor_pos());
         if (((TWindowMenu *)(this->menu_window))->is_cancelled() != 0) {
-            ((VObj_18_204a81 *)(this->m_28))->m7();
+            parent_menu->on_submenu_closed();
             this->m_1c = 0xCU;
         } else if (((TWindowMenu *)(this->menu_window))->is_decided() != 0) {
             if ((u32) this->message_window != 0U) {
@@ -197,21 +185,21 @@ void TWindowSubInformationBoard::run_task() {
 void TWindowSubInformationBoard::render() {  }
 
 u32 TWindowSubInformationBoard::create_info_board_menu() {
-  void *temp_r31;
-  temp_r31 = create_titled_window_menu_default(get_window_layout_position(0xA4), 2, TWindowSubStatusDisp::get_message_10(0x1D));
+  void *list;
+  list = create_titled_window_menu_default(get_window_layout_position(0xA4), 2, TWindowSubStatusDisp::get_message_10(0x1D));
   if (get_main_phase() == 0xF)
   {
-    TObjCityMainWarp::forward_trade_action_default(temp_r31, (saddr) TWindowSubStatusDisp::get_message_10(0x117), 6, 3);
+    TObjCityMainWarp::forward_trade_action_default(list, (saddr) TWindowSubStatusDisp::get_message_10(0x117), 6, 3);
   }
   else
   {
-    add_gray_text_entry((TWindowSubTradeMain *)temp_r31, (const char *)(TWindowSubStatusDisp::get_message_10(0x117)), 6, 3);
+    add_gray_text_entry((TWindowSubTradeMain *)list, (const char *)(TWindowSubStatusDisp::get_message_10(0x117)), 6, 3);
   }
-  TObjCityMainWarp::forward_trade_action_default(temp_r31, (saddr) TWindowSubStatusDisp::get_message_10(0x118), 6, 9);
-  ((TWindowMenu *)temp_r31)->set_flag70_bit10();
-  ((TWindowMenu *)temp_r31)->update_layout_height(179.0f);
-  align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(temp_r31));
-  return (uaddr)temp_r31;
+  TObjCityMainWarp::forward_trade_action_default(list, (saddr) TWindowSubStatusDisp::get_message_10(0x118), 6, 9);
+  ((TWindowMenu *)list)->set_flag70_bit10();
+  ((TWindowMenu *)list)->update_layout_height(179.0f);
+  align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(list));
+  return (uaddr)list;
 }
 
 u32 TWindowSubInformationBoard::sub_8034CDE0() {
@@ -257,10 +245,10 @@ u32 TWindowSubInformationBoard::show_card_a7() {
     return (uaddr)window;
 }
 
-s32 TWindowSubInformationBoard::open_keyboard(saddr arg0) {
+s32 TWindowSubInformationBoard::open_keyboard(saddr parent) {
     saddr keyboard;
 
-    keyboard = (saddr)new TKeyBoardControl((TObject *)arg0, 0xC6, 5, 4, local_client_id);
+    keyboard = (saddr)new TKeyBoardControl((TObject *)parent, 0xC6, 5, 4, local_client_id);
     ((TKeyBoardControl *)keyboard)->set_text((char *)TLobby::get_card_window_field());
     ((TKeyBoardControl *)keyboard)->set_sub_position((u8 *)(get_window_layout_position(0xBB)));
     ((TKeyBoardControl *)keyboard)->set_flag62_bit2();
@@ -277,13 +265,13 @@ void TWindowSubInformationBoard::set_message_index(s32 index) {
 }
 
 void TWindowSubInformationBoard::set_page(s32 arg1) {
-    s32 temp_r3;
+    s32 info_board;
 
     if (((s32) this->shown_index != arg1) && (arg1 != -1)) {
-        temp_r3 = (saddr)TLobby::get_info_board_ptr();
-        if (temp_r3 != 0) {
+        info_board = (saddr)TLobby::get_info_board_ptr();
+        if (info_board != 0) {
             this->shown_index = arg1;
-            ((TWindowMessage *)(this->message_window))->append_line(temp_r3 + (arg1 * 0xBC) + 0x14, 0x80);
+            ((TWindowMessage *)(this->message_window))->append_line(info_board + (arg1 * 0xBC) + 0x14, 0x80);
         }
     }
 }

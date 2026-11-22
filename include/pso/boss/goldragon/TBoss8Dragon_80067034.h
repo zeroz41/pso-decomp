@@ -4,13 +4,13 @@
 #include "types.h"
 
 extern "C" {
-void TBoss8Dragon__sub_80067074(saddr arg0, saddr arg1);
+void TBoss8Dragon__sub_80067074(saddr arg0, saddr prm);
 void TBoss8Dragon__sub_800670E0(s32 arg0, s32 arg1);
 }
 
 // --- C functions defined in TBoss8Dragon_80067034.cpp ---
 extern "C" {
-void TBoss8Dragon__sub_80067074(saddr arg0, saddr arg1);
+void TBoss8Dragon__sub_80067074(saddr arg0, saddr prm);
 void TBoss8Dragon__sub_800670E0(s32 arg0, s32 arg1);
 }
 // --- end of C functions

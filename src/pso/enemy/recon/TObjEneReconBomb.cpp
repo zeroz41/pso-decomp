@@ -21,6 +21,8 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/enemy/recon/TObjEneRecon.h"
 #include "pso/system/task/TObject.h"
+#include "pso/map/CsnQuery.h"
+#include "pso/system/MatrixOps.h"
 
 
 #pragma readonly_strings on
@@ -94,16 +96,12 @@ struct Obj_8031B808 {
 extern "C" {
 s32 VecCopy__FP3VecPC3Vec(void *, void *, int);
 s16 get_entity_id(int);
-s32 fn_8031B618(Obj_8031B618 *arg0);
-u32 csnVector(void *, void *, int);
+s32 fn_8031B618(Obj_8031B618 *self);
 s32 project_actor_to_ground(void *, void *, void *);
 s32 TObjEneRecon__sub_8031C250(u32);
-s32 vec3_add_to(void *, void *);
 extern s32 lbl_805D5868;
 
 
-s32 rotate_matrix_z(int, int);
-s32 rotate_matrix_x(void *, s32);
 s32 scale_current_matrix(void *);
 BmlResource *recon_bomb_bml_resource;
 f32 TObjEneRecon__sub_8031C2BC(int);
@@ -111,15 +109,15 @@ f32 TObjEneRecon__sub_8031C2C8(int);
 f32 TObjEneRecon__sub_8031C2D4(int);
 
 
-s32 fn_8031B618(Obj_8031B618 *arg0) {
+s32 fn_8031B618(Obj_8031B618 *self) {
     s32 var_r30 = 0;
     Ctrl_8031B618 *c;
-    ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&arg0->pos2, &arg0->pos);
-    u16 id = find_nearest_visible_player(reinterpret_cast<TObjChara *>(arg0), NULL, (25.0f));
+    ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->pos2, &self->pos);
+    u16 id = find_nearest_visible_player(reinterpret_cast<TObjChara *>(self), NULL, (25.0f));
     if (id != 0xFFFF) {
         c = (Ctrl_8031B618 *)get_player_by_client_id(id);
         if (c != 0) {
-            if (!(horizontal_distance_squared((const Vec *)&arg0->pos2, (const Vec *)&c->pos) > ((1.0f) + c->sub->radius) * ((1.0f) + c->sub->radius))) {
+            if (!(horizontal_distance_squared((const Vec *)&self->pos2, (const Vec *)&c->pos) > ((1.0f) + c->sub->radius) * ((1.0f) + c->sub->radius))) {
                 var_r30 = 1;
             }
         }
@@ -130,7 +128,7 @@ s32 fn_8031B618(Obj_8031B618 *arg0) {
 #pragma push
 #pragma fp_contract on
 void TObjEneReconBomb::render() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     struct { f32 x, y, z; } sc;
     s32 spC;
     s32 sp8;
@@ -140,23 +138,23 @@ void TObjEneReconBomb::render() {
     saddr bml_model;
     s32 temp_r30;
     if (recon_bomb_bml_resource == NULL) {
-        ((TObject *)arg0)->queue_destruction();
+        ((TObject *)self)->queue_destruction();
         return;
     }
     bml_model = (saddr)get_bml_model(recon_bomb_bml_resource, 2);
     temp_r30 = (saddr)get_bml_texlist(recon_bomb_bml_resource, 2);
     push_matrix();
-    translate_matrix(0, (f32) (*(f32 *)((s8 *)arg0 + 0x38)), (f32) ((2.0f) + *(f32 *)((s8 *)arg0 + 0x3C)), (f32) (*(f32 *)((s8 *)arg0 + 0x40)));
+    translate_matrix(0, (f32) (*(f32 *)((s8 *)self + 0x38)), (f32) ((2.0f) + *(f32 *)((s8 *)self + 0x3C)), (f32) (*(f32 *)((s8 *)self + 0x40)));
     rotate_matrix_zyx(0, (this->rotation_x), (this->rotation_y), (this->rotation_z));
     TObjFish::set_global_param(temp_r30);
     draw_chunk_object((void *)bml_model);
     pop_matrix();
     push_matrix();
-    translate_matrix(0, (f32) (*(f32 *)((s8 *)arg0 + 0x38)), (f32) ((0.1f) + this->m_348), (f32) (*(f32 *)((s8 *)arg0 + 0x40)));
+    translate_matrix(0, (f32) (*(f32 *)((s8 *)self + 0x38)), (f32) ((0.1f) + this->m_348), (f32) (*(f32 *)((s8 *)self + 0x40)));
     direction_to_rotation_xz(((u8 *)&this->ground_normal), (&spC), (&sp8));
     rotate_matrix_z(0, sp8);
     rotate_matrix_x(0, spC + 0x4000);
-    var_f1 = *(f32 *)((s8 *)arg0 + 0x3C) - this->m_348;
+    var_f1 = *(f32 *)((s8 *)self + 0x3C) - this->m_348;
     if (var_f1 > 40.0f) {
         var_f1 = 40.0f;
     } else if (var_f1 < 0.0f) {
@@ -171,69 +169,69 @@ void TObjEneReconBomb::render() {
 #pragma pop
 
 void TObjEneReconBomb::run_task() {
-    Obj_8031B808 *arg0 = (Obj_8031B808 *)this;
+    Obj_8031B808 *self = (Obj_8031B808 *)this;
     Vec pos;
     s32 i;
     VObj_8031B808 *pl;
-    if (arg0->target == 0) {
-        ((TObject *)arg0)->queue_destruction();
+    if (self->target == 0) {
+        ((TObject *)self)->queue_destruction();
         return;
     }
-    if (++arg0->f360 > arg0->f358 || TObjEneRecon__sub_8031C250(arg0->target) != 0) {
-        arg0->state = 3;
+    if (++self->f360 > self->f358 || TObjEneRecon__sub_8031C250(self->target) != 0) {
+        self->state = 3;
     }
-    switch (arg0->state) {
+    switch (self->state) {
     case 0:
     case 1: {
-        arg0->vel.x *= 0.95f;
-        arg0->vel.y += -0.1f;
-        arg0->vel.z *= 0.95f;
-        ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&pos, &arg0->pos);
-        vec3_add_to(&pos, &arg0->vel);
+        self->vel.x *= 0.95f;
+        self->vel.y += -0.1f;
+        self->vel.z *= 0.95f;
+        ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&pos, &self->pos);
+        vec3_add_to(&pos, &self->vel);
         Vec g = pos;
-        if (project_actor_to_ground(arg0, &g, arg0->f248) != 0) {
-            arg0->f348 = g.y;
+        if (project_actor_to_ground(self, &g, self->f248) != 0) {
+            self->f348 = g.y;
             if (pos.y <= g.y) {
-                pos.y = arg0->f348;
-                if (arg0->state == 0) {
-                    arg0->vel.y *= -0.5f;
-                    arg0->state = 1;
+                pos.y = self->f348;
+                if (self->state == 0) {
+                    self->vel.y *= -0.5f;
+                    self->state = 1;
                 } else {
-                    arg0->state = 2;
+                    self->state = 2;
                 }
-            } else if (csnVector(&arg0->pos, &pos, 0x100) != 0) {
-                ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&pos, &arg0->pos);
-                arg0->state = 3;
+            } else if (csnVector(&self->pos, &pos, 0x100) != 0) {
+                ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&pos, &self->pos);
+                self->state = 3;
             }
         } else {
-            arg0->state = 3;
+            self->state = 3;
         }
-        ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&arg0->pos, &pos);
+        ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->pos, &pos);
         break;
     }
     case 2:
-        if (fn_8031B618((Obj_8031B618 *)arg0) != 0) {
-            arg0->state = 3;
+        if (fn_8031B618((Obj_8031B618 *)self) != 0) {
+            self->state = 3;
         }
         break;
     case 3:
     default:
-        play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003A80B), &arg0->pos, 0, 0);
-        spawn_particle_effect_with_flags(&arg0->pos, 0x45, 0x40);
-        spawn_particle_effect_with_flags(&arg0->pos, 0x46, 0x40);
+        play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003A80B), &self->pos, 0, 0);
+        spawn_particle_effect_with_flags(&self->pos, 0x45, 0x40);
+        spawn_particle_effect_with_flags(&self->pos, 0x46, 0x40);
         for (i = 0; i < lbl_805D5868; i++) {
             pl = (VObj_8031B808 *)TObjPlayer::get_player_data(i);
             if (TObjPlayer::is_valid_and_active((uaddr)pl) != 0 && pl != 0 && (u16)get_entity_id((saddr)pl) < 0x1000 && pl->m31() == 0) {
-                if (horizontal_distance_squared((const Vec *)((u8 *)pl + 0x2FC), (const Vec *)&arg0->pos2) <= arg0->range * arg0->range) {
+                if (horizontal_distance_squared((const Vec *)((u8 *)pl + 0x2FC), (const Vec *)&self->pos2) <= self->range * self->range) {
                     P_8031B808 d;
                     d.a = 0;
-                    d.b = arg0->f350;
-                    pl->m21(arg0->target, d, 0, -1, -1);
-                    pl->m23(arg0->target);
+                    d.b = self->f350;
+                    pl->m21(self->target, d, 0, -1, -1);
+                    pl->m23(self->target);
                 }
             }
         }
-        ((TObject *)arg0)->queue_destruction();
+        ((TObject *)self)->queue_destruction();
         break;
     }
 }
@@ -246,13 +244,13 @@ extern "C" {
 
 extern const char *TObjEneReconBomb__name;
 
-TObjEneReconBomb::TObjEneReconBomb(TObject *arg1, TObjEneRecon *arg2, const Vec *arg3) : TObjChara(arg1) {
+TObjEneReconBomb::TObjEneReconBomb(TObject *parent, TObjEneRecon *recon, const Vec *pos) : TObjChara(parent) {
     f32 temp_f1;
     f32 temp_f31;
     u8 *temp_r5;
 
     *(s32 *)((s8 *)this + 0) = (saddr) TObjEneReconBomb__name;
-    m_334 = (uaddr)arg2;
+    m_334 = (uaddr)recon;
     this->m_338 = get_entity_id(this->m_334);
     *(f32 *)((s8 *)this + 0x34C) = TObjEneRecon__sub_8031C2D4(this->m_334);
     this->m_350 = TObjEneRecon__sub_8031C2C8(this->m_334);
@@ -260,7 +258,7 @@ TObjEneReconBomb::TObjEneReconBomb(TObject *arg1, TObjEneRecon *arg2, const Vec 
     this->m_358 = ((TObjEneRecon *)this->m_334)->calc_scaled_value();
     temp_r5 = (unsigned char *) (this->m_up);
     this->rotation_y = (s32) *(s32 *)((s8 *)temp_r5 + 0x60);
-    VecCopy__FP3VecPC3Vec((u8 *)this + 0x38, (void *)arg3, (saddr)temp_r5);
+    VecCopy__FP3VecPC3Vec((u8 *)this + 0x38, (void *)pos, (saddr)temp_r5);
     temp_f31 = sin_table_lookup(this->rotation_y);
     temp_f1 = cos_table_lookup(this->rotation_y);
     *(f32 *)((s8 *)this + 0x33C) = (f32) (*(f32 *)((s8 *)this + 0x354) * temp_f31);

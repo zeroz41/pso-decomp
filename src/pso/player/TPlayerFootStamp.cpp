@@ -213,7 +213,7 @@ TPlayerFootStamp::TPlayerFootStamp(TObjPlayer *player, s32 side) : TObject(tl_07
         rotation = (s32 *)((TObjBase *)player)->get_rotation();
         VecCopy(&position, (Vec *)player->get_position_ptr());
         position.y += 5.0f;
-        ground = (CsnHit *)csnVecterUnder((saddr)&position, 0x16EF);
+        ground = csnVecterUnder(&position, 0x16EF);
         if (ground == NULL) {
             queue_destruction();
             return;

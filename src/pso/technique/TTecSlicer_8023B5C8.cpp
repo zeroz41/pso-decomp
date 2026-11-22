@@ -23,13 +23,12 @@
 #include "pso/technique/TTecSlicer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
 
-extern "C" {
 typedef struct { f32 r, g, b, a; } Col_8023B220;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
-}
 
 // The z rotation init_launch_angles gives a slicer, by remaining count + 3 * has_valid_handle.
 const s32 TTecSlicer__launch_angle_table[18] = {
@@ -121,7 +120,6 @@ typedef struct TObjPlayer_8023B454 {
 } TObjPlayer_8023B454;
 
 extern "C" {
-void *resolve_hittable_target(u16 actorId, s16 collider);
 s32 get_next_captured_target(TTecSlicerTargets_8023B454 *self, Vec *out_pos, u16 *out_id, s8 *out_part, f32 *out_f) {
     TObjPlayer_8023B454 *hit;
     s32 found;
@@ -170,6 +168,10 @@ void fn_8023B590(TTecSlicerTargets_8023B454 *o, u16 v, s8 b) {
 
 
 #include "pso/weapon/TItemAttacker.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
+#include "pso/player/PlayerSlots.h"
+#include "pso/math/MatrixVector.h"
 
 
 struct RecoveredFields_8023B770_var_r29
@@ -315,18 +317,13 @@ struct Slicer_8023BBB4 {
 
 extern "C" {
 s32 subtract_vector(s32, s32);
-s32 test_flags_any(s32 *flags, s32 mask);
-void *get_player_by_client_id(s32 i);
 
-void __dl__7TObjectFPv(void *);
 void destroy_if_set__10TTecSlicerFv(u32);
 
 f32 *get_weapon_range_record(s32, s32);
 s8 get_captured_target_collider_index(s32);
 s32 get_captured_target_entry(s32, s32);
 s32 get_captured_target_count(s32);
-f32 vector_length(void *);
-extern saddr tl_05;
 u32 csnVector(s32, s32, s32);
 
 TTecSlicerTargets_8023B454::TTecSlicerTargets_8023B454() { count = 0; idx = 0; }
@@ -348,9 +345,9 @@ void TTecSlicer::deliver_target_hit() {
     }
 }
 
-void destroy_on_collision__10TTecSlicerFi(saddr arg0, s32 _w1) {
-    if (csnVector(arg0 + 0x44, arg0 + 0x38, 0x8100) != 0U) {
-        ((TObject *)arg0)->queue_destruction();
+void destroy_on_collision__10TTecSlicerFi(saddr object, s32 _w1) {
+    if (csnVector(object + 0x44, object + 0x38, 0x8100) != 0U) {
+        ((TObject *)object)->queue_destruction();
     }
 }
 
@@ -417,18 +414,18 @@ void TTecSlicer::update() {
 
 }
 
-saddr TTecSlicer::create(u16 *arg0) {
-    saddr var_r31;
+saddr TTecSlicer::create(u16 *launch) {
+    saddr object;
     u8 *player;
-    var_r31 = 0;
-    if (arg0 != NULL) {
-        player = (u8 *)(((u8 *)get_player_by_client_id(*(u16 *)((s8 *)arg0 + 0))));
+    object = 0;
+    if (launch != NULL) {
+        player = (u8 *)(((u8 *)get_player_by_client_id(*(u16 *)((s8 *)launch + 0))));
         if (player != NULL) {
-            var_r31 = (saddr)new TTecSlicer(arg0, player, (Vec *)(player + 0x38), *(s32 *)((s8 *)player + 0x60));
-            TItemAttacker::spawn_item_timer((TObject *)var_r31, (ItemTimerCallback)destroy_if_set__10TTecSlicerFv, 0x5A);
+            object = (saddr)new TTecSlicer(launch, player, (Vec *)(player + 0x38), *(s32 *)((s8 *)player + 0x60));
+            TItemAttacker::spawn_item_timer((TObject *)object, (ItemTimerCallback)destroy_if_set__10TTecSlicerFv, 0x5A);
         }
     }
-    return var_r31;
+    return object;
 }
 
 void TTecSlicer::render() {
@@ -512,7 +509,7 @@ TTecSlicer::~TTecSlicer() {
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_loop_invariants off
-TTecSlicer::TTecSlicer(u16 *launch, void *player, Vec *position, int angle) : TObjBase((TObject *)tl_05) {
+TTecSlicer::TTecSlicer(u16 *launch, void *player, Vec *position, int angle) : TObjBase(tl_05) {
     s32 c;
     saddr ext;
     s32 i;

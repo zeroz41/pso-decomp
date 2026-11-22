@@ -18,18 +18,14 @@ public:
     void destroy_effect_objects();
     void *particles[3];  // queued for destruction by destroy_effect_objects
     ActorBodyHit hit_target;
-    u8 unk_30[0x4];
-    u16 m_34;
-    u8 unk_36[0xE];
-    f32 m_44;
-    u8 unk_48[0x4];
-    f32 m_4c;
-    u32 m_50;
-    u8 unk_54[0xC];
-    s32 m_60;
-    u8 unk_64[0x4];
-    f32 m_68;
-    u8 unk_6C[0x4];
+    s32 age;            // frames run: the flash starts at 0, the trail at 6, the effect ends at 12 (name inferred)
+    u16 target_id;      // get_entity_id of hit_target's actor, 0xFFFF when placed at a position
+    Vec direction;      // normalized by sub_8032E294
+    Vec anchor_offset;  // direction times the hit body's radius: position is the body's center less this
+    u32 tint;           // the particles' tint colour, 0 for none
+    s32 rotation[3];    // x, y, z angles; y faces direction
+    s32 item_id;        // the card, looked up with find_item_by_id
+    Vec position;
 };
 LAYOUT_ASSERT(TUnk_804EDD44_size, sizeof(TUnk_804EDD44) == 0x70);
 

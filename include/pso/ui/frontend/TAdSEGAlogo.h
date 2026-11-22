@@ -6,22 +6,15 @@
 
 class TAdSEGAlogo : public TObject {
 public:
+    TAdSEGAlogo(TObject *parent);
     virtual void render();
     virtual ~TAdSEGAlogo();
     virtual void run_task();
 public:
     static void destroy_and_mark_done();
     static void request_destroy();
+
+    s32 m_wait_frames; // 0x1C; inferred name: frames counted to 60 in run_task before the fade
 };
-
-extern "C" {
-void *__ct__11TAdSEGAlogoFv(void *ad_seg_alogo);
-}
-
-// --- C functions defined in TAdSEGAlogo.cpp ---
-extern "C" {
-void *__ct__11TAdSEGAlogoFv(void *ad_seg_alogo);
-}
-// --- end of C functions
 
 #endif

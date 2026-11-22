@@ -7,6 +7,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/system/task/TMainTask.h"
 #pragma readonly_strings on
 
 extern "C" {
@@ -54,8 +55,7 @@ const char *TOSwitchTimer__name = "TOSwitchTimer";
 
 
 void clear_floor_switch_flag(u32 id, s16 floor);
-extern "C" {
-extern const char *TOSwitchTimer__name;
+
 
 void TOSwitchTimer::render() {
     if (TObjPlayer::check_demo_mode() == 1) {
@@ -106,7 +106,6 @@ void TOSwitchTimer::run_task() {
     }
 }
 
-extern void *tl_05;
 
 void *TOSwitchTimer::create(void *arg0) {
     void *o = (void *)new TOSwitchTimer((saddr)tl_05, (saddr)arg0);
@@ -115,16 +114,13 @@ void *TOSwitchTimer::create(void *arg0) {
 
 void TOSwitchTimer__sub_80178584(void) {  }
 void TOSwitchTimer__sub_80178588(void) {  }
-}
 TOSwitchTimer::~TOSwitchTimer() {
     if ((u32) this->m_98 == 0U) {
         clear_floor_switch_flag(this->m_a8, (s16) this->m_b4);
     }
 }
-extern "C" {
-}
-TOSwitchTimer::TOSwitchTimer(saddr arg1, saddr arg2) : TObjBase((TObject *)arg1) {
+TOSwitchTimer::TOSwitchTimer(saddr parent, saddr set_data) : TObjBase((TObject *)parent) {
     *(s32 *)((s8 *)this + 0) = (s32) ((saddr)TOSwitchTimer__name);
-    ((TOSwitchTimer *)(((u8 *)this)))->apply_object_set_data((void *)arg2);
+    ((TOSwitchTimer *)(((u8 *)this)))->apply_object_set_data((void *)set_data);
     this->sub_801782A0();
 }

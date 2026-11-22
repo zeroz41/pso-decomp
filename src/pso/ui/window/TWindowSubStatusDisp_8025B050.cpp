@@ -52,14 +52,14 @@ void swap_sprite_u_edges(u8 *arg0) {
 
 void set_sprite_uv_bounds(void* p, f32 a, f32 b, f32 c, f32 d) { *(f32*)((char*)p + 0x1c) = a; *(f32*)((char*)p + 0x20) = b; *(f32*)((char*)p + 0x24) = c; *(f32*)((char*)p + 0x28) = d; }
 
-void set_sprite_uv_from_pixels(u8 *arg0, f32 farg0, f32 farg1) {
+void set_sprite_uv_from_pixels(u8 *help, f32 farg0, f32 farg1) {
     f32 x, y;
-    *(f32 *)((s8 *)arg0 + 0x1C) = (f32) (farg0 / 256.0f);
-    *(f32 *)((s8 *)arg0 + 0x20) = (f32) (farg1 / 256.0f);
-    x = farg0 + *(f32 *)((s8 *)arg0 + 0x10);
-    *(f32 *)((s8 *)arg0 + 0x24) = (f32) (x / 256.0f);
-    y = farg1 + *(f32 *)((s8 *)arg0 + 0x14);
-    *(f32 *)((s8 *)arg0 + 0x28) = (f32) (y / 256.0f);
+    *(f32 *)((s8 *)help + 0x1C) = (f32) (farg0 / 256.0f);
+    *(f32 *)((s8 *)help + 0x20) = (f32) (farg1 / 256.0f);
+    x = farg0 + *(f32 *)((s8 *)help + 0x10);
+    *(f32 *)((s8 *)help + 0x24) = (f32) (x / 256.0f);
+    y = farg1 + *(f32 *)((s8 *)help + 0x14);
+    *(f32 *)((s8 *)help + 0x28) = (f32) (y / 256.0f);
 }
 
 void set_sprite_dimensions(void* p, f32 a, f32 b) { *(f32*)((char*)p + 0x10) = a; *(f32*)((char*)p + 0x14) = b; }
@@ -137,42 +137,42 @@ void *TWindowSubStatusDisp__sub_8025B2DC(void *arg0, s16 arg1) {
     return arg0;
 }
 
-u8 *TWindowSubStatusDisp::init_part_direct(u8 *arg1, s32 arg2) {
-    __ct__13TUnk_804CF918Fl(this, arg2);
+u8 *TWindowSubStatusDisp::init_part_direct(u8 *rec, s32 client) {
+    __ct__13TUnk_804CF918Fl(this, client);
     *(void ***)((s8 *)((u8 *)this) + 4) = window_uv_sprite_part_vtable;
-    copy_vec2((((u8 *)this) + 8), arg1 + 4);
-    copy_vec2((((u8 *)this) + 0x10), arg1 + 0xC);
-    *(f32 *)((s8 *)((u8 *)this) + 0x1C) = (f32) *(f32 *)((s8 *)arg1 + 0x14);
-    *(f32 *)((s8 *)((u8 *)this) + 0x20) = (f32) *(f32 *)((s8 *)arg1 + 0x18);
-    *(f32 *)((s8 *)((u8 *)this) + 0x24) = (f32) *(f32 *)((s8 *)arg1 + 0x1C);
-    *(f32 *)((s8 *)((u8 *)this) + 0x28) = (f32) *(f32 *)((s8 *)arg1 + 0x20);
-    *(f32 *)((s8 *)((u8 *)this) + 0x18) = (f32) *(f32 *)((s8 *)arg1 + 0x24);
-    this->window_flags = (s32) *(s32 *)((s8 *)arg1 + 0x28);
-    *(s32 *)((s8 *)((u8 *)this) + 0x30) = (s32) *(s32 *)((s8 *)arg1 + 0x2C);
-    reinterpret_cast<WindowSpritePart *>(this)->kind = *reinterpret_cast<s32 *>(arg1 + 0x30);
-    *(s16 *)((s8 *)((u8 *)this) + 0) = (s16) *(s32 *)((s8 *)arg1 + 0x34);
+    copy_vec2((((u8 *)this) + 8), rec + 4);
+    copy_vec2((((u8 *)this) + 0x10), rec + 0xC);
+    this->sort_depth = (f32) *(f32 *)((s8 *)rec + 0x14);
+    *(f32 *)((s8 *)((u8 *)this) + 0x20) = (f32) *(f32 *)((s8 *)rec + 0x18);
+    *(f32 *)((s8 *)((u8 *)this) + 0x24) = (f32) *(f32 *)((s8 *)rec + 0x1C);
+    *(f32 *)((s8 *)((u8 *)this) + 0x28) = (f32) *(f32 *)((s8 *)rec + 0x20);
+    *(f32 *)((s8 *)((u8 *)this) + 0x18) = (f32) *(f32 *)((s8 *)rec + 0x24);
+    this->window_flags = (s32) *(s32 *)((s8 *)rec + 0x28);
+    *(s32 *)((s8 *)((u8 *)this) + 0x30) = (s32) *(s32 *)((s8 *)rec + 0x2C);
+    reinterpret_cast<WindowSpritePart *>(this)->kind = *reinterpret_cast<s32 *>(rec + 0x30);
+    *(s16 *)((s8 *)((u8 *)this) + 0) = (s16) *(s32 *)((s8 *)rec + 0x34);
     return ((u8 *)this);
 }
 
-u8 *init_part_scaled__20TWindowSubStatusDispFPvPvi(u8 *arg0, u8 *arg1, s32 arg2) {
-    __ct__13TUnk_804CF918Fl(arg0, arg2);
+u8 *init_part_scaled__20TWindowSubStatusDispFPvPvi(u8 *arg0, u8 *rec, s32 client) {
+    __ct__13TUnk_804CF918Fl(arg0, client);
     *(void ***)((s8 *)arg0 + 4) = window_uv_sprite_part_vtable;
-    copy_vec2((arg0 + 8), arg1 + 4);
-    copy_vec2((arg0 + 0x10), arg1 + 0xC);
-    *(f32 *)((s8 *)arg0 + 0x1C) = (f32) (*(f32 *)((s8 *)arg1 + 0x14) / 256.0f);
-    *(f32 *)((s8 *)arg0 + 0x20) = (f32) (*(f32 *)((s8 *)arg1 + 0x18) / 256.0f);
+    copy_vec2((arg0 + 8), rec + 4);
+    copy_vec2((arg0 + 0x10), rec + 0xC);
+    *(f32 *)((s8 *)arg0 + 0x1C) = (f32) (*(f32 *)((s8 *)rec + 0x14) / 256.0f);
+    *(f32 *)((s8 *)arg0 + 0x20) = (f32) (*(f32 *)((s8 *)rec + 0x18) / 256.0f);
     {
-        f32 t0 = *(f32 *)((s8 *)arg1 + 0x14) + *(f32 *)((s8 *)arg0 + 0x10);
+        f32 t0 = *(f32 *)((s8 *)rec + 0x14) + *(f32 *)((s8 *)arg0 + 0x10);
         *(f32 *)((s8 *)arg0 + 0x24) = (f32) (t0 / 256.0f);
     }
     {
-        f32 t1 = *(f32 *)((s8 *)arg1 + 0x18) + *(f32 *)((s8 *)arg0 + 0x14);
+        f32 t1 = *(f32 *)((s8 *)rec + 0x18) + *(f32 *)((s8 *)arg0 + 0x14);
         *(f32 *)((s8 *)arg0 + 0x28) = (f32) (t1 / 256.0f);
     }
-    *(f32 *)((s8 *)arg0 + 0x18) = (f32) *(f32 *)((s8 *)arg1 + 0x1C);
-    *(s32 *)((s8 *)arg0 + 0x2C) = (s32) *(s32 *)((s8 *)arg1 + 0x20);
-    *(s32 *)((s8 *)arg0 + 0x30) = (s32) *(s32 *)((s8 *)arg1 + 0x24);
-    *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)arg1 + 0x28);
-    *(s16 *)((s8 *)arg0 + 0) = (s16) *(s32 *)((s8 *)arg1 + 0x2C);
+    *(f32 *)((s8 *)arg0 + 0x18) = (f32) *(f32 *)((s8 *)rec + 0x1C);
+    *(s32 *)((s8 *)arg0 + 0x2C) = (s32) *(s32 *)((s8 *)rec + 0x20);
+    *(s32 *)((s8 *)arg0 + 0x30) = (s32) *(s32 *)((s8 *)rec + 0x24);
+    *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)rec + 0x28);
+    *(s16 *)((s8 *)arg0 + 0) = (s16) *(s32 *)((s8 *)rec + 0x2C);
     return arg0;
 }

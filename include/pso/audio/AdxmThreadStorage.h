@@ -15,8 +15,8 @@ extern u8 adxm_busy_wait_stack[ADXM_BUSY_WAIT_STACK_BYTES];
 // Flags shared between the ADXM threads (main, worker, vblank, busy-wait).
 // lbl_805D75C8/lbl_805D759C are polled in the call-free loop of
 // TLobby::wait_for_lock_release; the others are each written by one thread and
-// read by another (worker_thread_loop, TLobby__sub_803CBB14,
-// adxm_goto_mwidle_border, __OSCallResetFunctions), and TLobby__sub_803CB858
+// read by another (worker_thread_loop, vblank_thread_loop,
+// adxm_goto_mwidle_border, __OSCallResetFunctions), and init_runtime_threads
 // stores them in source order, which CodeWarrior keeps only for volatile objects.
 extern volatile s32 lbl_805D759C;
 extern volatile s32 lbl_805D75B0;
@@ -27,8 +27,8 @@ extern volatile s32 lobby_worker_thread_run_flag;
 extern volatile s32 lbl_805D75C4;
 extern volatile s32 lbl_805D75C8;
 
-// SVM lock/unlock callbacks TLobby__sub_803CB858 registers.
+// SVM lock/unlock callbacks init_runtime_threads registers.
 void __OSCallResetFunctions(s32 context);
-void fn_803CBCA0(s32 context);
+void adxm_svm_unlock_callback(s32 context);
 }
 #endif

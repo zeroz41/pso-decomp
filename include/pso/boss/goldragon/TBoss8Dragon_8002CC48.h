@@ -40,7 +40,7 @@ f32 apply_velocity_scale(Vec *vector, f32 farg0, f32 farg1);
 
 extern "C" {
 void TBoss8Dragon__sub_8002D5F8(void);
-void *TObjBoss1MokoHill_Solo__ct(void *arg0_, void *arg1, int arg2);
+void *TObjBoss1MokoHill_Solo__ct(void *arg0_, void *parent, int arg2);
 s32 get_state__12TBoss8DragonFv(void);
 }
 s32 is_dragon_trail_damaging(u8 *arg0);

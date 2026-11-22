@@ -19,7 +19,7 @@
 #include "pso/object/trap/TOTrapAncient01.h"
 #include "pso/object/trap/TOTrapChainSawDamage.h"
 #include "pso/object/trap/TOTrapChainSawKey.h"
-#include "pso/object/fence/TOVS2Wall01.h"
+
 #include "pso/object/TObjHashi.h"
 #include "pso/object/TObjHashiVersus1.h"
 #include "pso/object/TObjHashiVersus2.h"
@@ -27,7 +27,7 @@
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/object/TObjComputer.h"
 #include "pso/object/TObjGbAdvance.h"
-#include "pso/object/TMotorcycle.h"
+
 #include "pso/object/fence/TObjLazerFence4.h"
 #include "pso/object/lobby/TObjSuisouLobby.h"
 #include "pso/object/container/TObjContainerIdo.h"
@@ -248,9 +248,6 @@ void* TORockJungleL01__create(void* placement);
 void* TOGrassJungle__create(void* placement);
 void* TObjFish__create(void* placement);
 void* TBGLightningCtrl__create(void* placement);
-}
-void* create_lobby_pigeon(void* placement);
-extern "C" {
 void* create__10TObjPlayerFPv(void* placement);
 void* TObjPlayer__sub_802C28B4(void* placement);
 void* TObjTradeCollision__create(void* placement);
@@ -265,6 +262,7 @@ void* TObjLaboDesignBase__sub_80364D38(void* placement);
 void* alloc_and_construct__18TObjLaboDesignBaseFPv(void* placement);
 void* TObjLaboDesignBase__create(void* placement);
 }
+void* create_lobby_pigeon(void* placement);
 void* create_obj_labo_design_base(void* placement);
 void* create_labo_design_base(void* placement);
 ObjectFactoryEntry object_factories_floor_00[50] = {

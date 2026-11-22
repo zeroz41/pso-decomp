@@ -16,6 +16,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/effect/TBreakUpMdl.h"
+#include "pso/object/ending/TObjOnlineEndingHexLine.h"
 
 struct VB_802E74E4 { u8 pad[0xC]; };
 
@@ -25,7 +26,7 @@ struct Col_802E6CB0 { f32 a; f32 b; f32 c; f32 d; };
 
 struct Part_802E6CB0 { u8 pad0[0x18]; s32 f18; u8 pad1c[4]; s32 f20; f32 f24; s32 type; };
 
-struct Node_802E6CB0 { u8 pad0[4]; s32 model; u8 pad8[0x28]; Node_802E6CB0 *next; };
+struct Node_802E6CB0 { u8 pad0[4]; void *model; u8 pad8[0x28]; Node_802E6CB0 *next; };
 
 struct Bone_802E6F10 { u8 pad0[4]; Vec pos; Vec rot; };
 
@@ -45,7 +46,7 @@ struct Col_802E708C { f32 a; f32 b; f32 c; f32 d; };
 
 struct Part_802E708C { u8 pad0[0x18]; u8 rot[0xC]; f32 f24; s32 type; };
 
-struct Node_802E708C { u8 pad0[4]; s32 model; u8 pad8[0x24]; Node_802E708C *child; Node_802E708C *next; };
+struct Node_802E708C { u8 pad0[4]; void *model; u8 pad8[0x24]; Node_802E708C *child; Node_802E708C *next; };
 
 typedef struct Src_802E72DC { u8 pad0[4]; Vec a; Vec b; } Src_802E72DC;
 
@@ -110,7 +111,6 @@ s32 scale_matrix(int, f32, f32, f32);
 extern const f32 lbl_805DE9E4;
 void __ct__7TObjectFP7TObject(void *);
 
-    extern saddr multiplay_texture_f512_handle;
 }
 void set_chunk_blend(u32 x);
 void draw_chunk_model(void *arg0);
@@ -232,27 +232,27 @@ void TUnk_804E3BD8::alloc_breakup_model(s32 model) {
 void TObjPlayer__sub_802E7470(void) {  }
 void TObjPlayer__sub_802E746C(void) {  }
 
-Obj_802E72DC *TObjPlayer__sub_802E72DC(Obj_802E72DC *arg0, s32 arg1, Vec *arg2, s32 arg3) {
+Obj_802E72DC *TObjPlayer__sub_802E72DC(Obj_802E72DC *piece, s32 arg1, Vec *arg2, s32 index) {
     s32 n;
     Piece_802E72DC *p;
     Vec *q;
     s32 i;
-    ((TObjPlayer *)arg0)->init_zeroed_object();
-    arg0->vt = __vt__13TUnk_804E3BC0;
-    if (arg3 >= 0 && (u32)arg3 < 6) {
-        n = lbl_80472C68[arg3];
+    ((TObjPlayer *)piece)->init_zeroed_object();
+    piece->vt = __vt__13TUnk_804E3BC0;
+    if (index >= 0 && (u32)index < 6) {
+        n = lbl_80472C68[index];
     } else {
         n = -1;
     }
     if (n > 0) {
-        ((TUnk_804E3BD8 *)arg0)->alloc_breakup_model((s32)find_model_node((uaddr)TBoss7DeRolLeC::get_archive_model(3), n));
-        ((TUnk_804E3BC0 *)arg0)->sub_802E7640();
-        p = arg0->pieces;
-        for (i = 0; i < arg0->count; i++, p++) {
+        ((TUnk_804E3BD8 *)piece)->alloc_breakup_model((s32)find_model_node((uaddr)TBoss7DeRolLeC::get_archive_model(3), n));
+        ((TUnk_804E3BC0 *)piece)->sub_802E7640();
+        p = piece->pieces;
+        for (i = 0; i < piece->count; i++, p++) {
             VecCopy((Vec *)&p->pos, (const Vec *)arg2);
-            vec3_add_to(&p->pos, &arg0->tbl->items[i].a);
+            vec3_add_to(&p->pos, &piece->tbl->items[i].a);
             q = &p->rot;
-            VecCopy((Vec *)q, (const Vec *)&arg0->tbl->items[i].b);
+            VecCopy((Vec *)q, (const Vec *)&piece->tbl->items[i].b);
             q->y = lerp__9TDeadSpotFff(lbl_805DE9D4, lbl_805DE9D8);
             q->z -= lerp__9TDeadSpotFff(lbl_805DE9C8, lbl_805DE9DC);
             p->x18 = TObjPlayer::calc_random_scaled();
@@ -262,9 +262,9 @@ Obj_802E72DC *TObjPlayer__sub_802E72DC(Obj_802E72DC *arg0, s32 arg1, Vec *arg2, 
             p->x24 = lbl_805DE9C8;
         }
     } else {
-        ((TObject *)arg0)->queue_destruction();
+        ((TObject *)piece)->queue_destruction();
     }
-    return arg0;
+    return piece;
 }
 
 TUnk_804E3BC0::~TUnk_804E3BC0() {
@@ -303,7 +303,7 @@ void TUnk_804E3BC0::render() {
         switch (part->type) {
         case 0:
         case 1:
-            draw_chunk_model((void *)node->model);
+            draw_chunk_model(node->model);
             break;
         case 2:
             saved_model_render_flags = model_render_flags;
@@ -312,7 +312,7 @@ void TUnk_804E3BC0::render() {
             set_constant_material((const NJS_ARGB *)((&c)));
             set_chunk_material_override_pair(0xFF00, 0x800);
             set_chunk_blend(0x2500);
-            draw_chunk_model((void *)node->model);
+            draw_chunk_model(node->model);
             set_chunk_material_override_pair(0xFF00, 0);
             model_render_flags = saved_model_render_flags;
             break;
@@ -393,7 +393,7 @@ void TUnk_804E3BA8::render() {
         switch (part->type) {
         case 0:
         case 1:
-            draw_chunk_model((void *)node->model);
+            draw_chunk_model(node->model);
             break;
         case 2:
             saved_model_render_flags = model_render_flags;
@@ -402,7 +402,7 @@ void TUnk_804E3BA8::render() {
             set_constant_material((const NJS_ARGB *)(((f32 *)&c)));
             set_chunk_material_override_pair(0xFF00, 0x800);
             set_chunk_blend(0x2500);
-            draw_chunk_model((void *)node->model);
+            draw_chunk_model(node->model);
             set_chunk_material_override_pair(0xFF00, 0);
             model_render_flags = saved_model_render_flags;
             break;
@@ -415,7 +415,7 @@ void TUnk_804E3BA8::render() {
     TObjLight__sub_801337F8(current_scene_light);
 }
 
-saddr TObjPlayer::get_instance() {  return multiplay_texture_f512_handle; }
+saddr TObjPlayer::get_instance() { return (saddr)multiplay_texture_f512_handle; }
 
 f32 lbl_805D6910 = lbl_805DE9F0;
 const f32 lbl_805DE9C8 = 1.0f;
@@ -436,10 +436,8 @@ const f32 lbl_805DE9FC = 1.15f;
 const f32 lbl_805DEA00 = 76.0f;
 const f32 lbl_805DEA04 = -75.0f;
 
-extern "C" {
 __declspec(section ".rodata") s32 lbl_80472C68[6] = { 1, 6, 12, 18, 24, 29 };
 __declspec(section ".rodata") Col_802E708C lbl_80472C80 = { 1.0f, 1.0f, 1.0f, 1.0f };
 __declspec(section ".rodata") Vec lbl_80472C90 = { 0.0f, 0.0f, 0.0f };
 __declspec(section ".rodata") Col_802E6CB0 lbl_80472C9C = { 1.0f, 1.0f, 1.0f, 1.0f };
-}
 

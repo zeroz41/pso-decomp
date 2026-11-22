@@ -17,7 +17,6 @@ void TLobby__sub_802433A8(void) {
 }
 
 
-
 void TKeyBoardControl::alloc_buffer() {
     player_data_load_buffer = (saddr)xmalloc(0x14000);
 }

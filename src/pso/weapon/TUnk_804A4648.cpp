@@ -32,9 +32,9 @@ TUnk_804A4648::TUnk_804A4648(TObject *parent, u8 *item) : TUnk_804A4948(parent, 
     shot_callback = (WeaponShotCallback)TObjPlayer::create_shoot_model;
 }
 
-TItem *TObjPlayer::create_state_2(u8 *arg0) {
-    if (arg0 != NULL) {
-        return new TUnk_804A4648(tl_05, arg0);
+TItem *TObjPlayer::create_state_2(u8 *item) {
+    if (item != NULL) {
+        return new TUnk_804A4648(tl_05, item);
     }
     return NULL;
 }

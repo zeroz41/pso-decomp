@@ -155,14 +155,14 @@ void TKeyBoardControl::init_pad_states() {
     OSRegisterResetFunction(&lbl_804FCD38);
 }
 
-void TKeyBoardControl::parse_pad_event(s32 arg0, u32 arg1) {
+void TKeyBoardControl::parse_pad_event(s32 chan, u32 type) {
     struct Fields_temp_r4 { s8 field_0; s8 field_1; u8 pad_2[38]; s32 field_28; s32 field_2C; };
     s32 temp_r0;
     u32 temp_r6;
     u8 *temp_r4;
-    temp_r6 = arg1 >> 0x10U;
-    temp_r0 = (arg1 >> 0x10U) & 0xFFF0;
-    temp_r4 = (u8 *)&keyboard_pad_state_table.value + (arg0 * 0x68);
+    temp_r6 = type >> 0x10U;
+    temp_r0 = (type >> 0x10U) & 0xFFF0;
+    temp_r4 = (u8 *)&keyboard_pad_state_table.value + (chan * 0x68);
     switch (temp_r0) {
     case 0x820:
         ((Fields_temp_r4*)temp_r4)->field_0 = 1;
@@ -229,8 +229,8 @@ void TKeyBoardControl__sub_803F0E8C(void) {
 
 }
 
-s32 TKeyBoardControl__sub_803F0E90(s32 arg0, void *arg1) {
-    Pad_803F0E90 *p = &((Pad_803F0E90 *)&keyboard_pad_state_table)[arg0];
+s32 TKeyBoardControl__sub_803F0E90(s32 chan, void *arg1) {
+    Pad_803F0E90 *p = &((Pad_803F0E90 *)&keyboard_pad_state_table)[chan];
     void *cb;
     s32 ret;
     s32 lvl;
@@ -247,7 +247,7 @@ s32 TKeyBoardControl__sub_803F0E90(s32 arg0, void *arg1) {
         return ret;
     }
     p->x3 = 0xFF;
-    return TKeyBoardControl::start_get_type_async(arg0, 1, 3, (saddr)TKeyBoardControl::detect_device_type);
+    return TKeyBoardControl::start_get_type_async(chan, 1, 3, (saddr)TKeyBoardControl::detect_device_type);
 }
 
 s32 TKeyBoardControl::disable_all_channels() {
@@ -327,14 +327,14 @@ void TKeyBoardControl__sub_803F107C(s32 chan, u32 type) {
         __OSReschedule();
     }
 }
-s32 TKeyBoardControl::start_get_type_async(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+s32 TKeyBoardControl::start_get_type_async(s32 chan, s32 arg1, s32 arg2, s32 arg3) {
     s32 en;
-    K_803F119C *k = &((K_803F119C *)&keyboard_pad_state_table)[arg0];
+    K_803F119C *k = &((K_803F119C *)&keyboard_pad_state_table)[chan];
     en = OSDisableInterrupts();
     k->f30 = arg3;
     k->f10 = arg1;
     k->f14 = arg2;
-    SIGetTypeAsync(arg0, (void *)TKeyBoardControl__sub_803F107C);
+    SIGetTypeAsync(chan, (void *)TKeyBoardControl__sub_803F107C);
     OSRestoreInterrupts(en);
     return 0;
 }
@@ -436,15 +436,15 @@ u8 TKeyBoardControl__sub_803F1548(s32 arg0) {
     return *(u8 *)((s8 *)((u8 *)&keyboard_pad_state_table.value + (arg0 * 0x68)) + 1);
 }
 
-void TKeyBoardControl::enable_keyboard_polling(s32 arg0) {
+void TKeyBoardControl::enable_keyboard_polling(s32 chan) {
     u32 cmd;
     u32 buf[2];
-    u32 bit = 0x80000000U >> arg0;
+    u32 bit = 0x80000000U >> chan;
     if (!(TKeyBoardControl__polling_channel_mask & bit)) {
         TKeyBoardControl__polling_channel_mask |= bit;
-        SIGetResponse(arg0, buf);
+        SIGetResponse(chan, buf);
         cmd = 0x540000;
-        SISetCommand(arg0, cmd);
+        SISetCommand(chan, cmd);
         SIEnablePolling(TKeyBoardControl__polling_channel_mask);
     }
 }

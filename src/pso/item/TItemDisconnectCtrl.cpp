@@ -3,6 +3,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/task/TMainTask.h"
 
 
 #pragma readonly_strings on
@@ -12,7 +13,6 @@ const char *TItemDisconnectCtrl__name = "TItemDisconnectCtrl";
 
 
 s32 item_desync_detected;
-extern TObject *tl_05;
 extern const char *TItemDisconnectCtrl__name;
 
 void TItemDisconnectCtrl::run_task() {

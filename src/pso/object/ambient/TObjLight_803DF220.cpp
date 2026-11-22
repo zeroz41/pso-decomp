@@ -37,8 +37,8 @@ extern const f32 light_position_distance;
 void GXBegin(int, int, u16);
 
 
-void TObjLight::assert_light_id(s32 arg0) {
-    if (arg0 < 0 || arg0 > 5) {
+void TObjLight::assert_light_id(s32 idx) {
+    if (idx < 0 || idx > 5) {
         OSPanic("gjLight.c", 0x12, "illegal Light ID.");
     }
 }
@@ -107,7 +107,7 @@ void load_gx_light_slot(s32 arg0) {
 }
 
 
-extern "C" void draw_trail_strip(void *vertices, s32 count, s32 mode) {
+void draw_trail_strip(void *vertices, s32 count, s32 mode) {
     TObjPlayer__sub_803DF768(mode);
     draw_untextured_trail_strip(vertices, count);
     reset_player_transform();
@@ -147,9 +147,9 @@ void draw_untextured_trail_strip(void *vertices, int count) {
 #pragma pop
 
 
-void TObjPlayer__sub_803DF768(s32 arg0) {
+void TObjPlayer__sub_803DF768(s32 mode) {
     load_camera_view_matrix();
-    if (arg0 != 0) {
+    if (mode != 0) {
         TObjPlayer__sub_803E21DC();
         return;
     }

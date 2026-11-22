@@ -17,7 +17,7 @@ void TUnk_804A08B8::emit_marker_effects() {
 
 // Starts a 90-frame timer event on the effect objects (named
 // marina_bag_start_regen before; vtable slot 57).
-void TUnk_804A08B8::vfunc_57() {
+void TUnk_804A08B8::on_equipped() {
     if (effect_objects != NULL) {
         new TUnk_804A0648(effect_objects, get_owner_client(), 0x5A);
     }
@@ -27,9 +27,9 @@ TUnk_804A08B8::~TUnk_804A08B8() {}
 
 TUnk_804A08B8::TUnk_804A08B8(TObject *parent, u8 *item) : TItemWeapon(parent, item) {}
 
-TItem *TObjPlayer::create_vtable_804A08B8(u8 *arg0) {
-    if (arg0 != NULL) {
-        return new TUnk_804A08B8(tl_05, arg0);
+TItem *TObjPlayer::create_vtable_804A08B8(u8 *item) {
+    if (item != NULL) {
+        return new TUnk_804A08B8(tl_05, item);
     }
     return NULL;
 }

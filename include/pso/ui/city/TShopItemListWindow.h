@@ -8,19 +8,19 @@
 struct TWindowMenu;
 
 struct TShopItemListWindow : public TShopWindowBase {
-    TShopItemListWindow(saddr parent, s32, s32);
+    TShopItemListWindow(saddr parent, saddr sequence, s32 player);
     virtual ~TShopItemListWindow();
     void prepare_tool_purchase();
     void handle_amount_confirm();
     virtual void vfunc_11();
     virtual void display_message(const char *text, s32 flags);
-    virtual void vfunc_6(s32 id, s32 flags);
+    virtual void display_shop_message(s32 id, s32 flags);
     u8 _pad1C[0x4];
     u32 m_20;
     uaddr m_24;
     // Child windows, closed by the destructor: names from the window each one holds.
     uaddr item_list;      // create_item_list_window
-    u32 m_2c;
+    TShopWindowBase *sequence;  // the shop sequence that opened it; messages go to it
     TWindowMenu *confirm_menu;   // two-entry create_window_menu shown once the quantity is confirmed
     uaddr quantity_input; // TWindowInputNumber
     uaddr help_window;    // TWindowHelpItem
@@ -35,9 +35,9 @@ struct TShopItemListWindow : public TShopWindowBase {
     TItemData shop_items[16];
     u8 _pad198[0x28];
     u32 m_1c0;
-    s32 handle_confirm();
-    s32 update();
-    static s32 handle_tool_list_select(void *p);
+    void handle_confirm();
+    void update();
+    static void handle_tool_list_select(void *p);
     s32 check_purchase_eligibility();
     static void build_item_list(void *p);
 };

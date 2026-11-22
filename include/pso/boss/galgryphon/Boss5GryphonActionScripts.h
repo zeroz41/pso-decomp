@@ -5,18 +5,22 @@
 // One step of a TBoss5Gryphon action script. TBoss5Gryphon::m_778 points at the
 // script list and m_774 walks a script 0x48 bytes at a time; command indexes the
 // action table in TBoss8Dragon::run_action_script_step (0x21 picks the next script).
+struct Boss5GryphonIntRange {
+    s32 min;
+    s32 range;
+};
+
+struct Boss5GryphonFloatRange {
+    f32 min;
+    f32 range;
+};
+
 struct Boss5GryphonActionStep {
     s32 command;
     s16 base;    // rand_scaled_offset(base, spread)
     s16 spread;
-    s32 unk8;
-    s32 unkC;
-    s32 unk10;
-    s32 unk14[5];
-    f32 unk28;
-    s32 unk2C;
-    f32 unk30;
-    s32 unk34[5];
+    Boss5GryphonIntRange ints[4];      // random_in_table_range(step, i)
+    Boss5GryphonFloatRange floats[4];  // fn_8005EAD0(step, i)
 };
 
 LAYOUT_ASSERT(Boss5GryphonActionStep_size, sizeof(Boss5GryphonActionStep) == 0x48);

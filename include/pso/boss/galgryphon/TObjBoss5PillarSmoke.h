@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+struct NJS_OBJECT;
+
 struct TObjBoss5PillarSmoke : public TObject {
     virtual ~TObjBoss5PillarSmoke();
     u32 m_1c;
@@ -17,7 +19,7 @@ LAYOUT_ASSERT(TObjBoss5PillarSmoke_size, sizeof(TObjBoss5PillarSmoke) == 0x28);
 
 // The model-node callback TObjBoss5Pillar::render installs (fn_8028ADDC) and clears (sub_8028ADB0) for a smoke.
 extern "C" {
-void TObjBoss5PillarDemo__sub_8028AD88(void *a0);
+void TObjBoss5PillarDemo__sub_8028AD88(NJS_OBJECT *node);
 void TObjBoss5PillarDemo__sub_8028ADB0(u32 arg0);
 void fn_8028ADDC(void *p);
 }

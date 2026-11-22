@@ -9,6 +9,7 @@
 
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/ui/window/WindowLayout.h"
 
 struct RoomTitleEntry {
     u8 unknown00[8];
@@ -34,8 +35,6 @@ WindowDescriptor room_window_base_parameters = {
 };
 
 extern "C" {
-void measure_message_text_width_default(void *);
-saddr get_window_layout_position(int);
 const char *TWindowRoom__class_name = "TWindowRoom";
 s32 draw_window_tab(s32, s32, s32, f32);
 
@@ -45,8 +44,8 @@ void *TWindowRoom::get_title_entry() {
     return (void *)((TWindowBase *)this)->get_array_entry(0);
 }
 
-void TWindowSubStatusDisp::set_entry_display_value(s32 arg1) {
-    set_text_entry_string((u8 *)(get_array_entry(0)), arg1, 0x60);
+void TWindowSubStatusDisp::set_entry_display_value(s32 str) {
+    set_text_entry_string((u8 *)(get_array_entry(0)), str, 0x60);
 }
 
 void TWindowRoom::draw_tab(void *context) {
@@ -54,15 +53,15 @@ void TWindowRoom::draw_tab(void *context) {
 }
 
 void TWindowRoom::render() {
-    saddr temp_r3;
+    saddr context;
     saddr arg0 = (saddr)this;
 
-    temp_r3 = reinterpret_cast<saddr>(reinterpret_cast<TWindowBase *>(arg0)->draw_default_entry());
-    ((TWindowRoom *)arg0)->draw_tab((void *)temp_r3);
+    context = reinterpret_cast<saddr>(reinterpret_cast<TWindowBase *>(arg0)->draw_default_entry());
+    ((TWindowRoom *)arg0)->draw_tab((void *)context);
     draw_visible_window_entries(
         reinterpret_cast<const void *>(arg0),
         reinterpret_cast<const WindowLayoutEntries *>(arg0 + 0x24),
-        reinterpret_cast<WindowDrawContext *>(temp_r3));
+        reinterpret_cast<WindowDrawContext *>(context));
 }
 void TWindowRoom::run_task() { ((TWindowDD *)this)->initialize_subwindow(); ((TWindowBase *)this)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((char*)this + 0x24)); }
 

@@ -249,7 +249,6 @@ struct ByteBlock_14 { u8 bytes[0x14]; };
 
 struct O_801C12C8 { u8 a; u8 b; u8 pad[2]; s32 c; s32 arr[30]; };
 
-extern "C" {
 
 void TObjPlayer::bswap_cmd_item_data() {
     saddr arg0 = (saddr)this;
@@ -436,7 +435,6 @@ void TObjPlayer::send_player_floor_packet_u32x5() { bswap_pkt_u32x5(); ((TLobby 
 void TObjPlayer::bswap_set_floor_packet() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x4)); }
 
 void*TObjPlayer::handle_6x1F_set_floor(void* a1) { copy_subcommand_header(this); *(void**)((char*)this + 0x4) = *(void**)((char*)a1 + 0x4); return this; }
-}
 
 void init_6x1F_floor_packet(u8 *arg0) {
     *(s32 *)((s8 *)arg0 + 4) = 0;

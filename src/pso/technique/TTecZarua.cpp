@@ -13,6 +13,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby_80226070.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/object/base/CollisionActorLookup.h"
 
 #pragma readonly_strings on
 
@@ -48,20 +50,14 @@ struct VObj_802386F8 : VBase_802386F8 {
 };
 
 extern "C" {
-void *find_entity_by_id(u16 id);
-s32 play_sound_effect(int, void *, int, int);
 s32 get_entity_id(void *);
 void copy_technique_target_list(void *, void *);
 }
 
 void TTecZarua::calc_range() {
     u8 *arg0 = (u8 *)this;
-    s32 ret;
-    struct { s32 v; } tmp;
-
-    ret = (saddr)calc_technique_parameters(0xC, this->m_78, 0xFFFF);
-    tmp.v = ret;
-    ((TechniqueParams *)(arg0 + 0x88))->copy((TechniqueParams *)tmp.v);
+    TechniqueParams *params = calc_technique_parameters(0xC, this->m_78, 0xFFFF);
+    ((TechniqueParams *)(arg0 + 0x88))->copy(params);
     this->m_88 = (f32) (*(s16 *)&this->m_ac * this->m_78);
 }
 

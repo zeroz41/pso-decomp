@@ -22,6 +22,8 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/unk/TLobby.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 
 const char *TWindowCtrl__name = "TWindowCtrl";
 /* frame of the open sequence at which each window appears: split screen / single player */
@@ -36,15 +38,9 @@ typedef struct Ctrl_8024B8A0 {
     u32 color;
 } Ctrl_8024B8A0;
 
-typedef struct Ctrl_8024B7D4 {
-    u8 pad0[0x78];
-    TWindowSimpleStatus *status[3];
-} Ctrl_8024B7D4;
 
 extern "C" {
-f32 cos_table_lookup(s32);
 void *get_player_by_client_id(s32 i);
-extern TWindowCtrl *TWindowCtrl__active_window;
 
 saddr TWindowCtrl__sub_8024B7D4(s32 n) {
     s32 i;
@@ -58,7 +54,7 @@ saddr TWindowCtrl__sub_8024B7D4(s32 n) {
         return 0;
     }
     for (i = 0; i < 3; i++) {
-        status = ((Ctrl_8024B7D4 *)TWindowCtrl__active_window)->status[i];
+        status = TWindowCtrl__active_window->simple_status[i];
         if (status != NULL && status->sub_80244994() != 0 && n-- == 0) {
             player = (TObjPlayer *)get_player_by_client_id(((TWindowSimpleStatus *)status)->get_width());
             if (player == NULL) {
@@ -93,7 +89,6 @@ void TWindowCtrl::update_pulse_color() {
 
 s32 TWindowCtrl__sub_8024B000(void *, saddr);
 s32 is_split_screen();
-s32 fn_8002AE08(s32);
 
 extern s32 local_client_id;
 
@@ -108,7 +103,7 @@ void TWindowCtrl__sub_8024B9C0(void *arg0) {
 }
 
 void TWindowCtrl::update_trade_window() {
-    if ((u32) this->m_34 != 0U) {
+    if (this->m_34 != NULL) {
         if ((TWindowCtrl::is_slot_visible(local_client_id) != 0) || (TWindowCtrl__sub_8024B000(this, local_client_id) != 0) || ((is_split_screen() != 0) && (TRaderMapCore::is_active() == 0))) {
             ((TWindowLockOn *)(this->m_34))->request_close();
             return;
@@ -137,8 +132,8 @@ void TWindowCtrl__sub_8024BB30(TWindowCtrl *ctrl) {
     for (i = 0; i < 4; i++) {
         TWindowCtrl *child = ((Obj_8024BB30 *)ctrl)->children[i];
         if (child != 0 && child->all_parents_unqueued_for_destruction() == 0) {
-            if (ctrl->m_28 == child->get_flags()) {
-                ctrl->m_28 = 0xFFFF;
+            if (ctrl->window_id == child->get_flags()) {
+                ctrl->window_id = 0xFFFF;
             }
             ((Obj_8024BB30 *)ctrl)->children[i] = 0;
         }
@@ -202,9 +197,9 @@ void TWindowCtrl::update_window_visibility() {
     s32 current_target_id;
 
     if ((u32) this->m_38 != 0U) {
-        temp_r3 = *(s16 *)&this->m_22;
+        temp_r3 = this->submit_cooldown;
         if (temp_r3 > 0) {
-            *(s16 *)&this->m_22 = (temp_r3 - 1);
+            this->submit_cooldown = (temp_r3 - 1);
         }
         if (get_player_by_client_id(local_client_id) == 0U) {
             ((TWindowChat *)(this->m_38))->update();

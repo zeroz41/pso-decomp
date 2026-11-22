@@ -39,12 +39,11 @@ struct Gauge_802571B4 {
 
 
 extern "C" {
-void draw_textured_quad_at_depth(f32 *q, f32 depth);
 void TWindowSubStatusDisp__sub_80256C40(TUnk_804CF930 *self, WindowDrawContext *ctx, NJS_POINT2 *pos, f32 depth);
 extern s32 __vt__13TUnk_804CF930[];
 typedef void *(*Ctor_80257D44)(void *, void *, s32);
 
-void*TUnk_804CF930::init_from(void*a1, int a2) { __ct__13TUnk_804CF918Fl(this, a2); *(int*)((char*)this + 0x4) = (saddr)__vt__13TUnk_804CF930; *(float*)((char*)this + 0x1c) = 0.0f; *(float*)((char*)this + 0xc) = *(float*)((char*)a1 + 0x4); *(float*)((char*)this + 0x10) = *(float*)((char*)a1 + 0x8); *(float*)((char*)this + 0x8) = *(float*)((char*)a1 + 0xc); *(float*)((char*)this + 0x14) = *(float*)((char*)a1 + 0x18); *(int*)((char*)this + 0x18) = *(int*)((char*)a1 + 0x10); *(short*)((char*)this + 0x0) = *(int*)((char*)a1 + 0x14); *(float*)((char*)this + 0x20) = *(float*)((char*)a1 + 0x1c); *(float*)((char*)this + 0x24) = *(float*)((char*)a1 + 0x20); return this; }
+void*TUnk_804CF930::init_from(void*a1, int a2) { __ct__13TUnk_804CF918Fl(this, a2); *(int*)((char*)this + 0x4) = (saddr)__vt__13TUnk_804CF930; *(float*)((char*)this + 0x1c) = 0.0f; *(float*)((char*)this + 0xc) = *(float*)((char*)a1 + 0x4); *(float*)((char*)this + 0x10) = *(float*)((char*)a1 + 0x8); *(float*)((char*)this + 0x8) = *(float*)((char*)a1 + 0xc); *(float*)((char*)this + 0x14) = *(float*)((char*)a1 + 0x18); this->color = *(int*)((char*)a1 + 0x10); *(short*)((char*)this + 0x0) = *(int*)((char*)a1 + 0x14); *(float*)((char*)this + 0x20) = *(float*)((char*)a1 + 0x1c); *(float*)((char*)this + 0x24) = *(float*)((char*)a1 + 0x20); return this; }
 
 TUnk_804CF930::~TUnk_804CF930() {}
 

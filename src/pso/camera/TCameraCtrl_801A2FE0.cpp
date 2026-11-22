@@ -1,12 +1,7 @@
 #include "types.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer_80011014.h"
-
-
-extern "C" {
-
-
-extern s32 local_client_id;
+#include "pso/network/client_id.h"
 
 s32 TCameraCtrl::get_camera_no() {
     if (is_split_screen() != 0) {
@@ -15,4 +10,3 @@ s32 TCameraCtrl::get_camera_no() {
     return local_client_id;
 }
 
-}

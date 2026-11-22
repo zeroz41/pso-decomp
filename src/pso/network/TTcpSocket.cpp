@@ -8,6 +8,7 @@
 #include "pso/system/main_loop.h"
 #include "pso/network/TProtocol.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "pso/macros.h"
 #include "pso/system/task/TMainTask.h"
@@ -16,6 +17,8 @@
 #include "pso/network/TTcpSocket.h"
 #include "pso/network/TUdpSocket.h"
 #include "pso/unk/TLobby.h"
+#include "pso/system/task/TObject_80019A50.h"
+#include "pso/unk/text_803DCDFC.h"
 
 // Game code; structure adapted from pso-gc-reference, verified against PsoV3.dol.
 
@@ -53,12 +56,7 @@ char func_801A5E54();
 void render_tick();
 void func_803DCDFC();
 extern "C" {
-s32 tcp_abort(s32 a);
-s32 tcp_bind(s32 a, void *addr, u16 port);
 short tcp_connect(short nh, struct at_ip_addr *addr, u16 port, struct at_ip_option *option);
-s32 tcp_create(void);
-s32 tcp_delete(s32 a);
-s16 tcp_get_opt(s16 nh, s16 type, u32 *opt);
 short tcp_send(short nh, void (*notify)(short size, short sock_fd), char bufnum, struct send_buffs *sb);
 int tcp_stat(short nh, short *stat, short *backlog, u32 *sendwin, u32 *recvwin);
 }
@@ -302,13 +300,9 @@ int TTcpSocket::open() {
 // Adapted from pso-gc-reference (mrb0nk500) for GPOE8P (MWCC 2.6)
 
 extern "C" {
-void func_80019A68__Fv();
 s32 get_csn_group_flags(s32);
 s8 func_801A5E54__Fv();
-int atoi(const char *);
-void func_803DCDFC__Fv();
 s16 TLobby__sub_8040A698(s16, void *, void *, int, void *, int);
-s16 dns_open_addr(char *, s16, s32);
 }
 
 int TSocket::is_empty() {

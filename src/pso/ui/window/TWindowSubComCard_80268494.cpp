@@ -19,12 +19,12 @@ s32 TWindowSubComCard::update_selected_entry() {
     return ((TWindowSubComCard *)((TWindowBase *)this)->get_array_entry(*(s16 *)((s8 *)this + 0x74)))->get_entry_id();
 }
 
-s32 TWindowSubComCard::find_entry_value_by_id(s32 arg1) {
+s32 TWindowSubComCard::find_entry_value_by_id(s32 key) {
     s32 i;
     Ent_802684BC *e;
     for (i = 0; i < ((Win_802684BC *)this)->f76; i++) {
         e = (Ent_802684BC *)((TWindowBase *)this)->get_array_entry(i);
-        if (e != NULL && ((TWindowSubComCard *)e)->is_flag_4_set() != 0 && arg1 == ((TWindowSubComCard *)e)->get_entry_id()) {
+        if (e != NULL && ((TWindowSubComCard *)e)->is_flag_4_set() != 0 && key == ((TWindowSubComCard *)e)->get_entry_id()) {
             return e->f1C;
         }
     }
@@ -41,12 +41,12 @@ void TWindowSubComCard::mark_entry_by_id(s32 arg1) {
         }
     }
 }
-void TWindowSubComCard::disable_entry_by_id(s32 arg1) {
+void TWindowSubComCard::disable_entry_by_id(s32 id) {
     s32 i;
     u8 *e;
     for (i = 0; i < *(s16 *)(((u8 *)this) + 0x76); i++) {
         e = (u8 *)((TWindowBase *)this)->get_array_entry(i);
-        if (e != 0 && ((TWindowSubComCard *)e)->is_flag_4_set() != 0 && arg1 == ((TWindowSubComCard *)e)->get_entry_id()) {
+        if (e != 0 && ((TWindowSubComCard *)e)->is_flag_4_set() != 0 && id == ((TWindowSubComCard *)e)->get_entry_id()) {
             *(u16 *)e &= 0xFFFE;
             *(s32 *)(e + 0x24) = 0xFF909090;
         }

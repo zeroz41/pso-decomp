@@ -6,7 +6,6 @@
 #include "pso/system/task/TObject.h"
 
 
-extern "C" {
 #pragma push
 #pragma readonly_strings on
 const char *TObjPlayer__player_set_class_name = "TObjPlayerSet";
@@ -17,11 +16,10 @@ void TObjPlayerSet::run_task() {  }
 
 extern void *tl_06;
 
-void *TObjPlayerSet::create(void *arg0) {
-    return new TObjPlayerSet((TObject *)tl_06, arg0);
+void *TObjPlayerSet::create(void *set_data) {
+    return new TObjPlayerSet((TObject *)tl_06, set_data);
 }
 
-}
 TObjPlayerSet::~TObjPlayerSet() {
 
 }
@@ -30,9 +28,9 @@ TObjPlayerSet::~TObjPlayerSet() {
 #pragma push
 #pragma opt_common_subs off
 #define player_set this
-TObjPlayerSet::TObjPlayerSet(TObject *parent, void *arg2) : TObjBase(parent) {
+TObjPlayerSet::TObjPlayerSet(TObject *parent, void *set_data) : TObjBase(parent) {
     *(s32 *)((s8 *)player_set + 0) = (saddr) TObjPlayer__player_set_class_name;
-    ((TObjPlayerSet *)(player_set))->apply_object_set_data(arg2);
+    ((TObjPlayerSet *)(player_set))->apply_object_set_data(set_data);
     if (player_set->scale.x < 0.0f) {
         player_set->scale.x = 0.0f;
     }

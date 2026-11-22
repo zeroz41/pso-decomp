@@ -222,8 +222,8 @@ void TTecGiFoie::vfunc_6(void *target) {
 }
 #pragma pop
 
-void TTecGiFoie::create(void *source, void *origin, void *level) {
-    new TTecGiFoie((saddr)source, (Vec *)origin, (saddr)level);
+void TTecGiFoie::create(void *source, void *origin, s32 level) {
+    new TTecGiFoie((saddr)source, (Vec *)origin, level);
 }
 
 TUnk_804CC800::TUnk_804CC800(Vec *pos, s32 angle, s32 band, s32 level, TObject *parent, u8 single) : TObject(parent) {

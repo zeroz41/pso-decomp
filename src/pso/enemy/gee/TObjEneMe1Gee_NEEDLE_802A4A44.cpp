@@ -29,7 +29,7 @@ u8 *TNeedleShoot__ct(void *, s32, void *, void *);
 
 void *TNeedleShoot::get_shoot_data() { return &prev_pos; }
 
-int TObjEneMe1Gee_NEEDLE::queue_destruction() {
+void TObjEneMe1Gee_NEEDLE::queue_destruction() {
     s32 remaining;
     remaining = m_c0 - 1;
     m_c0 = remaining;
@@ -38,7 +38,7 @@ int TObjEneMe1Gee_NEEDLE::queue_destruction() {
     }
 }
 
-int TObjEneMe1Gee_NEEDLE::vfunc_6() {
+void TObjEneMe1Gee_NEEDLE::vfunc_6() {
     if (get_current_floor_area() == AREA_SEASIDE_NIGHT) {
         play_sound_effect(0x4003B20E, &pos, 0, 0);
     } else {

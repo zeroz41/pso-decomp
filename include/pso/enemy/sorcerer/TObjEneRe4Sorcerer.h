@@ -29,7 +29,7 @@ struct TObjEneRe4Sorcerer : public TObjEneDD_ST {
     void handle_death_state(s32 arg1);
     void update_state_machine(s32 reason);
     void state_wait(s32 arg1);
-    s32 handle_state(s32 arg1);
+    void handle_state(s32 arg1);
     void create_effect();
     s32 cast_resta();
     s32 cast_technique();
@@ -48,7 +48,7 @@ struct TObjEneRe4Sorcerer : public TObjEneDD_ST {
     static void free_bits();
     TObjEneRe4Sorcerer *create();
     static void load_resources();
-    s32 update_farthest_target(saddr arg1, f32 *arg2);
+    s32 update_farthest_target(saddr item_pro_shield, f32 *arg2);
 
     s16 m_3c0;
     u8 unk_3C2[0x2];

@@ -366,7 +366,7 @@ void TBoss2Tentacle::raise() { request_raise(); }
 
 TBoss2Tentacle::~TBoss2Tentacle() {}
 
-TBoss2Tentacle::TBoss2Tentacle(TObject *parent, s32 joint, s32 index) : TObject(parent) {
+TBoss2Tentacle::TBoss2Tentacle(TObject *parent, saddr joint, s32 index) : TObject(parent) {
     s32 i;
     m_name = TBoss2Tentacle__name;
     this->joint = joint;

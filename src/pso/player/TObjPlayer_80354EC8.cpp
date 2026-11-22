@@ -28,9 +28,9 @@ void set_palettex_callback(s32 arg0, s32 arg1) {
         ((TObjPlayer *)&((E_80354E7C *)lbl_80543984)[(u16)arg0])->set_player_index(arg1);
     }
 }
-u8 TObjPlayer__sub_80354C7C(s32 arg0) {
-    if (is_local_client(arg0) != 0) {
-        return TObjPlayer__sub_80354F8C(&((E_80354E7C *)lbl_80543984)[(u16)arg0]);
+u8 TObjPlayer__sub_80354C7C(s32 client_index) {
+    if (is_local_client(client_index) != 0) {
+        return TObjPlayer__sub_80354F8C(&((E_80354E7C *)lbl_80543984)[(u16)client_index]);
     }
     return 0;
 }
@@ -44,9 +44,9 @@ void TObjPlayer__sub_80354D14(s32 arg0) {
         ((TObjPlayer *)&((E_80354E7C *)lbl_80543984)[(u16)arg0])->set_flag0_bits01();
     }
 }
-s32 is_palettex_activated(s32 arg0) {
-    if (is_local_client(arg0) != 0) {
-        return ((TObjPlayer *)&((E_80354E7C *)lbl_80543984)[(u16)arg0])->clear_lock_flag();
+s32 is_palettex_activated(s32 client_index) {
+    if (is_local_client(client_index) != 0) {
+        return ((TObjPlayer *)&((E_80354E7C *)lbl_80543984)[(u16)client_index])->clear_lock_flag();
     }
     return 0;
 }
@@ -60,8 +60,8 @@ void activate_palettex(s32 arg0) {
         ((TObjPlayer *)&((E_80354E7C *)lbl_80543984)[(u16)arg0])->set_flag1();
     }
 }
-s32 is_local_client(s32 arg0) {
-    void *player = get_player_by_client_id((u16)arg0);
+s32 is_local_client(s32 client_index) {
+    void *player = get_player_by_client_id((u16)client_index);
     if (player == NULL) {
         return 0;
     }

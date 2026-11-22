@@ -1,7 +1,7 @@
 #include "pso/render/TriangleFan3D.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/animation/MotionContext.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+
 #include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
 #include "pso/camera/TCameraCtrl_803D749C.h"
 #include "pso/unk/TLobby_80227AA0.h"
@@ -174,11 +174,9 @@ struct Lines_801E341C {
 extern "C" {
 void GXBegin(s32, s32, u16);
 void GXSetLineWidth(s32, s32);
-}
-void reset_line_width(void);
-extern "C" {
 void draw_line_list(Lines_801E341C *l, s32 n, u32 flags);
 }
+void reset_line_width(void);
 void setup_opaque_color_draw(void);
 void setup_blended_textured_draw(void);
 void load_context_texture_obj(void);
@@ -497,7 +495,6 @@ void draw_motion(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame) {
 
 extern "C" {
 void TLobby__sub_803382E4(void);
-s32 adxf_open_file__6TLobbyFiPviPv(void *, void *, int, void *);
 s32 TLobby__sub_801E3E9C(s32 arg0, saddr arg1, saddr arg2);
 s32 TKeyBoardControl__sub_801E3E24(s32 arg0, saddr arg1, saddr arg2);
 s32 GXSetViewport(f32, f32, f32, f32, f32, f32);
@@ -507,10 +504,10 @@ void TKeyBoardControl__sub_8000F7FC(void);
 void fn_803DCEC8(void);
 void fn_803DCF0C(void);
 
-void TObjPlayer::render_tree(void *arg0) {
+void TObjPlayer::render_tree(void *model) {
     void *var_r31;
 
-    var_r31 = arg0;
+    var_r31 = model;
     do {
         push_matrix();
         compose_motion_node_matrix(var_r31);

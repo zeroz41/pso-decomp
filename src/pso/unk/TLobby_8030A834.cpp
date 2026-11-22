@@ -6,7 +6,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 
-extern "C" {
+
     extern int lobby_online_ready_flag;
 int TLobby::get_online_ready_flag() {  return lobby_online_ready_flag; }
 
@@ -14,4 +14,3 @@ void *fn_8030A83C(void *parent) {
     return new TBoss4ZakoDraw((TObject *)parent);
 }
 
-}

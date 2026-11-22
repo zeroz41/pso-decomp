@@ -7,7 +7,7 @@
 extern "C" {
 void TObjPlayer__sub_803E500C(void *motA, s32 keyA, void *motB, s32 keyB, f32 t, u32 *src, u32 * *out);
 void TObjPlayer__sub_803E5378(s32 n);
-void TObjPlayer__sub_803E53F8(u8 *arg0, f32 farg0);
+void TObjPlayer__sub_803E53F8(u8 *shape, f32 frame);
 void TObjPlayer__sub_803E5458(s32 arg0);
 }
 
@@ -15,7 +15,7 @@ void TObjPlayer__sub_803E5458(s32 arg0);
 extern "C" {
 void TObjPlayer__sub_803E500C(void *motA, s32 keyA, void *motB, s32 keyB, f32 t, u32 *src, u32 * *out);
 void TObjPlayer__sub_803E5378(s32 n);
-void TObjPlayer__sub_803E53F8(u8 *arg0, f32 farg0);
+void TObjPlayer__sub_803E53F8(u8 *shape, f32 frame);
 void TObjPlayer__sub_803E5458(s32 arg0);
 }
 // --- end of C functions

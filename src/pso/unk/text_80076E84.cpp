@@ -15,17 +15,17 @@ u8 symbol_chat_receive_buffer[0x58];
 extern s8 pending_symbol_chat_count;
 extern s32 local_client_id;
 void handle_6x07_symbol_chat(Pkt_80076E98 *arg0);
-s32 get_technique_name(s32 arg0) {
-    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x10)) + (arg0 * 4));
+s32 get_technique_name(s32 id) {
+    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x10)) + (id * 4));
 }
-void handle_6x07_symbol_chat(Pkt_80076E98 *arg0) {
+void handle_6x07_symbol_chat(Pkt_80076E98 *command) {
     u32 *p;
     s32 ply;
-    ((TWindowSubSymbolChat *)arg0)->bswap_symbol_chat_packet();
-    p = &arg0->f8;
-    ply = (saddr)get_player_by_client_id(arg0->f4);
+    ((TWindowSubSymbolChat *)command)->bswap_symbol_chat_packet();
+    p = &command->f8;
+    ply = (saddr)get_player_by_client_id(command->f4);
     if (ply != 0) {
-        TLobby::dispatch_by_index(arg0->f4, (saddr)p);
+        TLobby::dispatch_by_index(command->f4, (saddr)p);
         open_balloon__11TWindowCtrlFUsPUcll(get_entity_id(ply), p, 2, local_client_id);
         if (*p & 0x200) {
             for (; pending_symbol_chat_count >= 1; pending_symbol_chat_count--) {

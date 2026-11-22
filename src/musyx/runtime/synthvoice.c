@@ -1,7 +1,5 @@
 #include "musyx/runtime/musyx_runtime_a.h"
 
-#define synthVoice ((SYNTH_VOICE_803B2438 *)synthVoice)
-
 typedef struct SYNTH_VOICELIST_V {
     u8 prev;
     u8 next;
@@ -106,8 +104,7 @@ void vidRemoveVoiceReferences(Prog_803B25CC *p) {
     }
 }
 
-s32 vidMakeRoot(u8 *arg0) {
-    SYNTH_VOICE_SV *svoice = (SYNTH_VOICE_SV *)arg0;
+u32 vidMakeRoot(SYNTH_VOICE_SV *svoice) {
     svoice->vidMasterList = svoice->vidList;
     return svoice->vidList->vid;
 }

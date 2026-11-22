@@ -24,6 +24,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/ui/window/WindowLayout.h"
 
 
 #pragma readonly_strings on
@@ -141,8 +142,6 @@ extern "C" {
 u32 obj_getArrWord_254(LockOnEnemyView *, s32);
 s16 obj_getS16_2BA(LockOnEnemyView *);
 u16 get_entity_id(void *);
-void measure_message_text_width_default(void *);
-saddr get_window_layout_position(int);
 s32 is_split_screen(void);
 }
 s32 enemy_name_for_rt_index(s32 arg0);

@@ -350,9 +350,9 @@ WindowDescriptor *TLobby__sub_80269CB4(void) {
     return &message_window_settings;
 }
 
-u8 *TWindowMessage::create(saddr arg0, const f32 *size, uaddr arg2, s32 arg3) {
-    TLobby__sub_80269DA4(size, arg2);
-    return (u8 *)new TWindowMessage(arg0, arg2, arg3);
+u8 *TWindowMessage::create(saddr parent, const f32 *size, uaddr rows, s32 client) {
+    TLobby__sub_80269DA4(size, rows);
+    return (u8 *)new TWindowMessage(parent, rows, client);
 }
 
 u8 *TWindowMessage::create(const NJS_POINT2 *pos, const f32 *size, saddr rows) {
@@ -374,14 +374,14 @@ void TLobby__sub_80269DA4(const void *extent, u32 rows) {
 
 
 void TWindowMessage::render() {
-    saddr temp_r3;
+    saddr draw_context;
     saddr arg0 = (saddr)this;
-    temp_r3 = reinterpret_cast<saddr>(get_draw_context());
-    ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
+    draw_context = reinterpret_cast<saddr>(get_draw_context());
+    ((TWindowBase *)arg0)->draw_window_frame((void *)draw_context);
     draw_visible_window_entries(
         reinterpret_cast<const void *>(arg0),
         reinterpret_cast<const WindowLayoutEntries *>((void *)(arg0 + 0x24)),
-        reinterpret_cast<WindowDrawContext *>(temp_r3));
+        reinterpret_cast<WindowDrawContext *>(draw_context));
 }
 
 void TWindowMessage::run_task() {
@@ -399,9 +399,9 @@ void TWindowMessage::run_task() {
 }
 
 TWindowMessage::~TWindowMessage() {
-    if (*(void **)((s8 *)this + 0x7C) != NULL) { mem_free(*(void **)((s8 *)this + 0x7C)); }
+    if (this->lines != NULL) { mem_free(this->lines); }
 }
-TWindowMessage::TWindowMessage(saddr arg1, u32 arg2, s32 arg3) : TWindowAddition((u8 *)&message_window_settings, (s16)arg3, (u8 *)arg1) {
+TWindowMessage::TWindowMessage(saddr parent, u32 rows, s32 client) : TWindowAddition((u8 *)&message_window_settings, (s16)client, (u8 *)parent) {
     u32 i;
     u8 *p;
     #define window_addition ((u8 *)this)
@@ -409,13 +409,13 @@ TWindowMessage::TWindowMessage(saddr arg1, u32 arg2, s32 arg3) : TWindowAddition
     *(s32 *)(window_addition + 0x70) = 0;
     *(s32 *)(window_addition + 0x74) = 0;
     *(s32 *)(window_addition + 0x88) = 0;
-    *(u32 *)(window_addition + 0x8C) = arg2;
+    *(u32 *)(window_addition + 0x8C) = rows;
     *(s32 *)(window_addition + 0x78) = 0xB4;
     *(f32 *)(window_addition + 0x84) = 0.0f;
     *(f32 *)(window_addition + 0x80) = 0.0f;
-    *(u8 **)(window_addition + 0x7C) = (u8 *)mem_alloc(arg2 * 8);
+    *(u8 **)(window_addition + 0x7C) = (u8 *)mem_alloc(rows * 8);
     p = *(u8 **)(window_addition + 0x7C);
-    for (i = 0; i < arg2; i++) {
+    for (i = 0; i < rows; i++) {
         *(s32 *)p = 0;
         *(s32 *)(p + 4) = 0;
         p += 8;

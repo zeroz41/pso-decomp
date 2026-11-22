@@ -57,7 +57,7 @@ s32 TLobby__sub_803F79AC(void *);
 void net_sleep_ms(int);
 extern u8 ppp_proto_blocks[];
 void TLobby__sub_803FDBF8(u8 *self, void *arg1);
-void pap_input(Conn_804004DC *self, PppFrame *source);
+void pap_input(PppFsm *self, PppFrame *source);
 s16 TLobby__sub_804040E0(void *self, void *arg);
 s32 TLobby__sub_804060B8(u8 *, u16, int);
 
@@ -164,7 +164,7 @@ void lobby_timer_add(N_80405298 *o, s32 v) {
     o->b18 = 0;
 }
 
-s32 lobby_timer_stop(void *arg0) {
+void lobby_timer_stop(void *arg0) {
     Obj_80405304 *o = (Obj_80405304 *)arg0;
     if (o == NULL || o->f18 != 1) {
         return;
@@ -605,18 +605,18 @@ void ppp_input_packet(PppFrame *arg0) {
         if (G[0] != 2 && G[0] != 3) {
             (*(s16 *)((s8 *)G + 0x140))++;
             if (G[0] == 0) {
-                setup_auth_after_lcp_negotiation((Conn_804004DC *)(G + 4));
+                setup_auth_after_lcp_negotiation((PppFsm *)(G + 4));
             }
             return;
         }
         (*(s16 *)((s8 *)G + 0x132))++;
-        pap_input((Conn_804004DC *)(G + 0x38), arg0);
+        pap_input((PppFsm *)(G + 0x38), arg0);
         return;
     case 0xC223:
         if (G[0] != 2 && G[0] != 3) {
             (*(s16 *)((s8 *)G + 0x140))++;
             if (G[0] == 0) {
-                setup_auth_after_lcp_negotiation((Conn_804004DC *)(G + 4));
+                setup_auth_after_lcp_negotiation((PppFsm *)(G + 4));
             }
             return;
         }
@@ -745,8 +745,8 @@ s32 TLobby__sub_804062A0(s16 arg0) {
 }
 
 s32 TLobby__sub_804048E8(void *, saddr *, s16); /* declared here with other parameter types; the definition is s32 (Obj_80403F4C *, PppFrame **, s16) */
-s32 ppp_output_frame(PppFrame *);
-s32 TLobby__sub_80406328(saddr self, s16 type) {
+s16 ppp_output_frame(PppFrame *);
+s16 TLobby__sub_80406328(saddr self, s16 type) {
     saddr sv = self;
     void *me = (void *)self;
     s32 ty = type;
@@ -849,7 +849,7 @@ skip:
     }
 }
 
-s32 TLobby__sub_80406624(s32 a, s32 b, u16 code, void *self) {
+s16 TLobby__sub_80406624(s32 a, s32 b, u16 code, void *self) {
     s32 pad[4];
     u16 r30;
     u8 *r29;
@@ -894,7 +894,7 @@ inline s32 ppp_protocol_field_is_two_bytes(s32 is_lcp, LcpOpts *opts, u16 proto)
 
 #pragma push
 #pragma opt_propagation off
-s32 ppp_output_frame(PppFrame *p) {
+s16 ppp_output_frame(PppFrame *p) {
     PppFrame *frame;
     u8 *out;
     u8 *hdr;
@@ -1002,7 +1002,7 @@ s32 ppp_output_frame(PppFrame *p) {
         return 0;
     }
     get_time_ms(&lbl_805D7A94);
-    return (s16)send_network_frame(frame->len, frame->data);
+    return send_network_frame(frame->len, frame->data);
 }
 #pragma pop
 
@@ -1045,7 +1045,6 @@ s32 TLobby__sub_80406B6C(NetBufferRef *o) {
     return -1;
 }
 
-u16 ones_complement_sum();
 #pragma push
 #pragma opt_lifetimes off
 u16 packet_ones_complement_sum(NetPacket *pkt, s16 flag)

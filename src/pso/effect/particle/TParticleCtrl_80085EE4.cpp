@@ -24,6 +24,11 @@
 #include "pso/effect/particle/TParticleCtrl_80327D30.h"
 #include "pso/player/TObjPlayer_80083594.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/text_803DC86C.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/unk/text_803D853C.h"
 
 struct Col_80086418 { u8 a, r, g, b; };
 
@@ -70,28 +75,16 @@ struct Ctrl_80086248 {
 };
 
 extern "C" {
-void set_color_blend_mode(s32 a, s32 b, s32 c, s32 d);
 s32 GXSetNumTexGens(int);
 s32 GXSetTevOp(int, int);
 s32 GXSetNumTevStages(int);
-s32 rotate_matrix_y(int, s32);
-s32 rotate_matrix_x(int, s32);
 s32 post_translate_matrix(void *);
 s32 emit_particle_strip_vertices(void *, int);
 extern u8 *camera_ctrl_instance;
-void set_inverse_alpha_blend(void);
-f32 sin_table_lookup(int);
-f32 cos_table_lookup(int);
-s32 matrix_mult_vec(int, void *, void *);
-void begin_screen_draw(s32 arg0);
-void DVDConvertEntrynumToPath(f32 *q);
-void set_draw_texture_and_color(s32 idx, s32 arg1);
 }
 void load_projected_texture_matrix(f32 farg0);
 void play_indirect_effect_recipe(u8 arg0, u16 sampler, s32 second);
 s32 set_texture_num(s32 i);
-void set_inverse_color_blend(void);
-void set_constant_material_color(u32 x);
 extern Cam_80085EE4 lbl_8058D4F8;
 
 
@@ -153,7 +146,7 @@ void TUnk_8048E728::operator delete(void *p) {
 
 TUnk_8048E728::TUnk_8048E728(ParticleParam *src, TObject *parent) : TObject(parent) {
     f32 v;
-    m_b0 = 0;
+    model = NULL;
     unk_B4 = 0;
     motion = NULL;
     motion_frame = 0.0f;

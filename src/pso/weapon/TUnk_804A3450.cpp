@@ -6,7 +6,7 @@
 #include "pso/technique/TTecZarua.h"
 #include "pso/system/task/TMainTask.h"
 
-void TUnk_804A3450::vfunc_57() {
+void TUnk_804A3450::on_equipped() {
     roll_technique();
     roll_technique();
 }
@@ -43,9 +43,9 @@ TUnk_804A3450::TUnk_804A3450(TObject *parent, u8 *item) : TItemWeapon(parent, it
     ((TObjPlayer *)this)->set_effect_state(2);
 }
 
-TItem *TObjPlayer::create_substate_b(u8 *arg0) {
-    if (arg0 != NULL) {
-        return new TUnk_804A3450(tl_05, arg0);
+TItem *TObjPlayer::create_substate_b(u8 *item) {
+    if (item != NULL) {
+        return new TUnk_804A3450(tl_05, item);
     }
     return NULL;
 }

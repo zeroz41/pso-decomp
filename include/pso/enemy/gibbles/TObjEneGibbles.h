@@ -48,7 +48,7 @@ struct TObjEneGibbles : public TObjEnemy {
     void * m_3b8;
     s32 m_3bc;
     u8 unk_3C0[0x8C];
-    static void set_min_clamped_entry_value(s32 arg0, s32 arg1, f32 farg0);
+    static void set_min_clamped_entry_value(s32 arg0, s32 arg1, f32 fC);
     s32 spawn_ground_impact_effects(const Vec *pos, f32 scale);
     s32 spawn_ground_contact_effect();
     void play_ground_contact_sound();
@@ -82,7 +82,7 @@ void render__14TObjEneGibblesFv(TObjEneGibbles *arg0);
 }
 void gibbles_render_node_callback(NJS_OBJECT *);
 extern "C" {
-void render_and_get_joint_pos__14TObjEneGibblesFPvii(u8 *arg0, saddr arg1, s32 arg2);
+void render_and_get_joint_pos__14TObjEneGibblesFPvii(u8 *enemy, saddr arg1, s32 arg2);
 void run_task__14TObjEneGibblesFv(TObjEneGibbles *arg0);
 void slam_damage_players__14TObjEneGibblesFl(s32 target, s32 arg1);
 }

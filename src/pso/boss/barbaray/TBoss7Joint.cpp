@@ -6,7 +6,6 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/unk/TLobby.h"
 #include "pso/boss/dragon/TBoss1DragonColli.h"
-#include "pso/enemy/dd/TObjEneDD_800BB804.h"
 #include "pso/system/vector.h"
 #include "pso/boss/barbaray/TBoss7DeRolLeC.h"
 #include "pso/object/base/TObjMotion.h"

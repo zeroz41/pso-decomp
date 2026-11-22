@@ -100,7 +100,7 @@ void install_depth_alpha_state() {
     depth_buffer_config_copy.copy(&depth_buffer_settings);
     saved_depth_alpha_scene_state.copy(&depth_buffer_settings);
     TObjPlayer::set_global_state((saddr)((void *)restore_saved_depth_alpha_state));
-    set_ginja_draw_end_callback((saddr)restore_saved_depth_alpha_state);
+    set_ginja_draw_end_callback(restore_saved_depth_alpha_state);
 }
 
 void restore_draw_list_mask() {
@@ -206,9 +206,9 @@ u32 calc_pulse_flash_color(u8 r, u8 g, u8 b, s32 frame, s32 period, s32 start, s
 
 extern "C" {
 
-s32 delete_object_if_delete_flag(s32 self, s16 del) {
-    if (self != 0 && del > 0) {
-        operator delete((void *)self);
+void *delete_object_if_delete_flag(void *self, s16 del) {
+    if (self != NULL && del > 0) {
+        operator delete(self);
     }
     return self;
 }
@@ -218,7 +218,7 @@ void TObjMapWarp__sub_80141CA4(void *self) { *(s32 *)self = 0; }
 // Debug-draw entry points; their bodies are compiled out of the release game.
 void debug_draw_line(const Vec *from, const Vec *to, u32 from_color, u32 to_color) {}
 void fn_80141CB4(void) {}
-void fn_80141CB8(void) {}
+void fn_80141CB8(const Vec *pos, const s32 *rotation, const Vec *size, const NJS_ARGB *color) {}
 
 void debug_draw_uniform_scaled(const Vec *pos, const NJS_ARGB *color, f32 size) {
     Vec scale;

@@ -19,6 +19,11 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/render/render_util.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/system/MatrixOps.h"
 
 struct RecoveredGlobal_80194528_TObjLight__data_80506320 {
     s32 value;
@@ -63,17 +68,11 @@ typedef struct Light_80193FE8 {
 
 extern "C" {
 s32 is_split_screen(void);
-extern saddr tl_05;
 extern RecoveredGlobal_80194528_TObjLight__data_80506320 TObjLight__scene_light_state;
 u16 get_entity_id(void *);
 f32 xyz_distance_squared(void *, void *);
 void register_actor_light(s32, void *);
-f32 horizontal_distance_squared(void *, void *);
 Actor_80193FE8 *get_player_by_client_id(s32);
-void matrix_mult_vec(void *, void *, void *);
-f32 vector_length(void *);
-void rotate_matrix_z(void *, s32);
-extern u8 identity_matrix[];
 extern TCameraCtrl *camera_ctrl_instance;
 
 const char *TObjLight__class_name = "TObjLight";
@@ -193,12 +192,11 @@ TObjLight::~TObjLight() {
 }
 
 
-LAYOUT_ASSERT(RecoveredGlobal_80194528_TObjLight__data_80506320_size, sizeof(RecoveredGlobal_80194528_TObjLight__data_80506320) == 0x50);
-TObjLight::TObjLight(TObject *parent, u8 *arg2) : TObjBase(parent) {
+TObjLight::TObjLight(TObject *parent, u8 *set_data) : TObjBase(parent) {
     TObjLight *light = this;
     light->m_name = TObjLight__class_name;
-    ((TObjLight *)(light))->apply_object_set_data(arg2);
-    light->m_90 = (s32) *(s16 *)((s8 *)arg2 + 8);
+    ((TObjLight *)(light))->apply_object_set_data(set_data);
+    light->m_90 = (s32) *(s16 *)((s8 *)set_data + 8);
     *(f32 *)((s8 *)light + 0xF0) = 0.5f;
     light->m_f4 = (f32) light->scale.x;
     *(f32 *)((s8 *)light + 0xF8) = (f32) light->scale.y;
@@ -220,5 +218,5 @@ u8 *TObjLight__create(u8 *arg0) {
     if (is_split_screen() != 0) {
         return NULL;
     }
-    return (u8 *)new TObjLight((TObject *)tl_05, arg0);
+    return (u8 *)new TObjLight(tl_05, arg0);
 }

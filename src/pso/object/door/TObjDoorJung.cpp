@@ -19,6 +19,9 @@ struct GinjaTextureList;
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/GinjaMaterial.h"
+#include "pso/object/switch/TSwitch.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/text_803D8F74.h"
 
 
 const char *bm_obj_beamdoa_model_names[3] = {"fe_obj_beamdoa.gj", "fe_obj_beamdoa_singo.gj", NULL};
@@ -47,7 +50,6 @@ s32 init_collision_body_parts(void *, void *, int);
 void *__ct__10TODoorBaseFP7TObject(void *a0);
 extern s32 __vt__12TObjDoorJung[];
 u8 *TObjDoorJung__ct(u8 *arg0, s32 arg1, saddr arg2);
-u8 is_current_floor_switch_set(s32 id);
 /* Ninja object node of the door model: model pointer, transform, then child and sibling links. */
 struct Node_8018F4AC {
     u32 eval_flags;
@@ -60,9 +62,7 @@ struct Node_8018F4AC {
 };
 
 void PPCSync();
-s32 rotate_matrix_y(int, int);
 s32 post_translate_matrix(void *);
-extern s32 actor_frame_tick;
 
 s32 free_collision_body_parts(void *);
 s32 minimap_render_gate(void *, s32, u16, s32, s32);
@@ -167,7 +167,6 @@ void TObjDoorJung::render() {
     }
 }
 
-extern s32 switch_doors_force_closed;
 
 void TObjDoorJung::update_door_switch_state() {
     s32 ok = 1;
@@ -207,11 +206,11 @@ TObjDoorJung::~TObjDoorJung() {
     free_collision_body_parts(this);
 }
 
-u8 *TObjDoorJung__ct(u8 *arg0, s32 arg1, saddr arg2) {
+u8 *TObjDoorJung__ct(u8 *arg0, s32 arg1, saddr set_data) {
     __ct__10TODoorBaseFP7TObject((arg0));
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TObjDoorJung;
     ((TObjDoorJung *)arg0)->m_name = TObjDoorJung__class_name;
-    ((TObjDoorJung *)(arg0))->apply_object_set_data((void *)arg2);
+    ((TObjDoorJung *)(arg0))->apply_object_set_data((void *)set_data);
     init_collision_body_parts(arg0, &TObjDoorJung__collision_desc, 1);
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();

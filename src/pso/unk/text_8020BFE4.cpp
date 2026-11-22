@@ -11,7 +11,6 @@ typedef EnemyFactoryEntry Ent_8020BFE4;
 
 typedef ObjectFactoryEntry Ent_8020C030;
 
-extern "C" {
 
 s32 get_enemy_factory_child_count(s32 arg0, s16 *arg1) {
     Ent_8020BFE4 *base = enemy_factory_area_table[arg0];
@@ -103,4 +102,3 @@ s32 is_room_enemy_set_cleared(s32 floor, s16 room) {
     }
 }
 
-}

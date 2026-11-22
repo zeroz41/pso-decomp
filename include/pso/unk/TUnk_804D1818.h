@@ -3,6 +3,7 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+struct TWindowMainMenu;
 struct TWindowMenu;
 
 // The main menu's pad option sub-window (vtable 0x804D1818, class name unknown): a list of the six
@@ -20,7 +21,7 @@ public:
     u8 vibration;          // the vibration option (entry 4) as last shown
     u8 pad_1e[0x2];
     saddr client_id;
-    void *parent;
+    TWindowMainMenu *parent;
     TWindowMenu *menu;     // the option list create_option_menu_window makes
     uaddr value_window;      // the value window sub_8027C884 opens for the selected option
 };

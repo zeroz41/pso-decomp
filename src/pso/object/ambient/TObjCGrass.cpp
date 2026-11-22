@@ -23,6 +23,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/system/task/TMainTask.h"
 
 extern "C" {
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
@@ -32,7 +33,6 @@ extern s32 actor_frame_tick;
 s32 rotate_vector_by_matrix(int, void *, void *);
 extern u8 identity_matrix[];
 BmlResource *TObjCGrass_bml_resource;
-extern s32 tl_06;
 
 
 const char *bm_ene_cgrass_model_names[2] = {"re1c_b_cgrass_base.nj", NULL};
@@ -134,7 +134,7 @@ TObjCGrass::~TObjCGrass() {
 #pragma push
 #pragma fp_contract on
 #define self this
-TObjCGrass::TObjCGrass(Vec *origin, s32 count, s32 lifetime) : TObjMotion((TObject *)tl_06) {
+TObjCGrass::TObjCGrass(Vec *origin, s32 count, s32 lifetime) : TObjMotion(tl_06) {
     CsnHit *hit;
     initialize_ground_candidates(self->ground_candidates);
     self->m_name = TObjCGrass__name;
@@ -145,7 +145,7 @@ TObjCGrass::TObjCGrass(Vec *origin, s32 count, s32 lifetime) : TObjMotion((TObje
         VecCopy(&self->position, origin);
     }
     self->model = (void *)TObjCGrass_bml_resource->models[0].model;
-    self->texlist = (s32)TObjCGrass_bml_resource->models[0].m_c;
+    self->texlist = (saddr)TObjCGrass_bml_resource->models[0].m_c;
     self->motion_list = TObjCGrass_bml_resource->motions;
     self->action_table = cgrass_action_desc;
     self->set_field_d8((saddr)self->action_table);

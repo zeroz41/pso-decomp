@@ -7,10 +7,9 @@
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/player/TObjPlayer_8012105C.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/unk/text_80120908.h"
 
 extern "C" {
-
-void draw_weapon_at_joint(saddr arg0, s8 arg1);
 
 void TUnk_804A2358::emit_marker_effects() {
     s32 sp8;
@@ -19,7 +18,7 @@ void TUnk_804A2358::emit_marker_effects() {
     if (is_mode_two_and_ready() != 0) {
         if (get_joint_position(0, &sp8) != 0) {
             owner = this->owner;
-            TTecFoie::create((void *)owner, &sp8, (void *)(*(saddr *)((s8 *)owner + 0x60)), (void *)(((TItemWeapon *)this)->get_tp() + 2));
+            TTecFoie::create(owner, &sp8, *(saddr *)((s8 *)owner + 0x60), ((TItemWeapon *)this)->get_tp() + 2);
             roll_technique();
         }
     } else {
@@ -27,7 +26,7 @@ void TUnk_804A2358::emit_marker_effects() {
     }
 }
 void TUnk_804A2358::reserved_53() { draw_weapon_at_joint((saddr)this, 49); update_trail_slot(0); update_trail_slot(1); update_trail_slot(2); }
-void TUnk_804A2358::vfunc_57() { this->roll_technique(); this->roll_technique(); }
+void TUnk_804A2358::on_equipped() { this->roll_technique(); this->roll_technique(); }
 
 }
 

@@ -106,9 +106,9 @@ void TUnk_804F27E0::update_weapon() {
     (*(s32 *)((u8 *)this + 0x1FC)) = (s32) ((*(s32 *)((u8 *)this + 0x1FC)) & 0xFFFFFFFE);
 }
 
-void TObjPlayer::create_cane_if_ready(saddr arg0, void *position) {
-    if (((TItemWeapon *)arg0)->get_attack_stage() == 0) {
-        ((TObjPlayer *)tl_05)->create_item_eff_cane((TItem*)arg0, -1, 0x1BD);
+void TObjPlayer::create_cane_if_ready(saddr item, void *position) {
+    if (((TItemWeapon *)item)->get_attack_stage() == 0) {
+        ((TObjPlayer *)tl_05)->create_item_eff_cane((TItem*)item, -1, 0x1BD);
     }
 }
 

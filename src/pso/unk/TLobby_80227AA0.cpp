@@ -39,25 +39,24 @@ s32 is_special_sound_id(u32 x) {
     }
     return 0;
 }
-extern "C" {
+
 
 void apply_clamped_field_27c__6TLobbyFv(f32 value) {
     ((TLobby *)(&sound_control_state))->set_clamped_field27c(value);
 }
-}
 
-void handle_6xB2_play_sound_from_player(void *arg0) {
+void handle_6xB2_play_sound_from_player(void *command) {
     s32 player;
 
     bswap_6xB2_play_sound();
-    if ((s8) *(u8 *)((s8 *)arg0 + 4) == get_current_floor_area()) {
-        if (*(s16 *)((s8 *)arg0 + 6) == 0xFFFF) {
-            play_sound_effect(*(s32 *)((s8 *)arg0 + 8), 0, 0, 0);
+    if ((s8) *(u8 *)((s8 *)command + 4) == get_current_floor_area()) {
+        if (*(s16 *)((s8 *)command + 6) == 0xFFFF) {
+            play_sound_effect(*(s32 *)((s8 *)command + 8), 0, 0, 0);
             return;
         }
         player = (saddr)get_player_by_client_id(local_client_id);
         if (player != 0) {
-            play_sound_effect(*(s32 *)((s8 *)arg0 + 8), player + 0x38, 0, 0);
+            play_sound_effect(*(s32 *)((s8 *)command + 8), player + 0x38, 0, 0);
         }
     }
 }
@@ -69,8 +68,8 @@ s32 TLobby::is_camera_state_active() {
     return 0;
 }
 
-void TLobby::set_mode(s32 arg0) {
-    switch (arg0) {
+void TLobby::set_mode(s32 mode) {
+    switch (mode) {
     case 0:
         TLobby::on_set_mode(1);
         break;
@@ -81,13 +80,12 @@ void TLobby::set_mode(s32 arg0) {
         TLobby::on_set_mode(0);
         break;
     }
-    sound_control_state.set_output_mode(arg0);
+    sound_control_state.set_output_mode(mode);
 }
-extern "C" {
+
 
 void get_menu_field_280__6TLobbyFv(void) {
     ((TLobby *)&sound_control_state)->get_field_0x280();
-}
 }
 
 void TLobby::set_menu_index_main(u8 *arg0) {
@@ -95,11 +93,10 @@ void TLobby::set_menu_index_main(u8 *arg0) {
 }
 
 void release_sound_with_fade(s32 slot) { fade_out_sound_slot(slot, 64); }
-extern "C" {
-void TLobby__sub_80227D38(void) { TLobby::fade_voice_channels(0); }
-}
 
-s32 normalize_sound_request(u32 arg0, s32 actor, saddr position, s32 arg3, s32 arg4) {
+void TLobby__sub_80227D38(void) { TLobby::fade_voice_channels(0); }
+
+s32 normalize_sound_request(u32 id, s32 actor, saddr position, s32 arg3, s32 arg4) {
     s32 r;
     s32 m;
     s32 flags;
@@ -113,26 +110,26 @@ s32 normalize_sound_request(u32 arg0, s32 actor, saddr position, s32 arg3, s32 a
         flags |= 0xC;
     }
     if (arg4 & 2) {
-        v = -(s32)((arg0 >> 8U) & 0x7F);
+        v = -(s32)((id >> 8U) & 0x7F);
         if (arg3 >= 0) {
             arg3 = 0;
         }
         v += arg3;
     } else {
-        v = -(s32)((arg0 >> 8U) & 0x7F);
+        v = -(s32)((id >> 8U) & 0x7F);
     }
     if (v < -0x7F) {
         r = -0x7F;
     } else {
         r = v < 0 ? v : 0;
     }
-    if (!((arg0 >> 0xFU) & 1)) {
+    if (!((id >> 0xFU) & 1)) {
         flags |= 8;
     }
-    if (!(arg0 & 0x40000000)) {
+    if (!(id & 0x40000000)) {
         flags |= 0x10;
     }
-    m = arg0 & 0xBFFF00FF;
+    m = id & 0xBFFF00FF;
     if (((s32 (*)(void))is_sound_enabled)() == 1) {
         h = alloc_looping_sound_slot(m, actor, (const void *)position, r, flags);
         if (is_special_sound_id(m) != 0) {
@@ -143,7 +140,7 @@ s32 normalize_sound_request(u32 arg0, s32 actor, saddr position, s32 arg3, s32 a
     return -1;
 }
 
-s32 play_packed_sound_once(u32 arg0, saddr position, s32 arg2, s32 arg3) {
+s32 play_packed_sound_once(u32 id, saddr position, s32 arg2, s32 arg3) {
     s32 r;
     s32 m;
     s32 flags;
@@ -157,26 +154,26 @@ s32 play_packed_sound_once(u32 arg0, saddr position, s32 arg2, s32 arg3) {
         flags |= 0xC;
     }
     if (arg3 & 2) {
-        v = -(s32)((arg0 >> 8U) & 0x7F);
+        v = -(s32)((id >> 8U) & 0x7F);
         if (arg2 >= 0) {
             arg2 = 0;
         }
         v += arg2;
     } else {
-        v = -(s32)((arg0 >> 8U) & 0x7F);
+        v = -(s32)((id >> 8U) & 0x7F);
     }
     if (v < -0x7F) {
         r = -0x7F;
     } else {
         r = v < 0 ? v : 0;
     }
-    if (!((arg0 >> 0xFU) & 1)) {
+    if (!((id >> 0xFU) & 1)) {
         flags |= 8;
     }
-    if (!(arg0 & 0x40000000)) {
+    if (!(id & 0x40000000)) {
         flags |= 0x10;
     }
-    m = arg0 & 0xBFFF00FF;
+    m = id & 0xBFFF00FF;
     if (((s32 (*)(void))is_sound_enabled)() == 1) {
         h = alloc_one_shot_sound_slot(m, (const void *)position, r, flags);
         if (is_special_sound_id(m) != 0) {
@@ -186,11 +183,10 @@ s32 play_packed_sound_once(u32 arg0, saddr position, s32 arg2, s32 arg3) {
     }
     return -1;
 }
-extern "C" {
+
 
 void is_sound_enabled(void) {
     sound_control_state.is_ready();
-}
 }
 
 
@@ -226,7 +222,7 @@ void load_floor_sound_bank(s32 arg0) {
             ((TLobby *)((void *)&sound_control_state))->validate_and_set_selection((int)temp_r31);
             do {
                 TLobby::run_disk_error_check();
-                TLobby__sub_803CB81C();
+                exec_adx_server();
                 TLobby::run_frame();
             } while (sound_control_state.is_ready() == 0);
             TLobby__sub_80226B64(0);
@@ -253,7 +249,7 @@ void TLobby::wait_for_sound_init() {
     do {
         TLobby__sub_803382E4();
         TLobby::run_disk_error_check();
-        TLobby__sub_803CB81C();
+        exec_adx_server();
         render_tick();
     } while (((s32 (*)())is_sound_enabled)() == 0);
 }

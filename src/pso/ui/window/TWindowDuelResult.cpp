@@ -8,6 +8,10 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/window/TWindowActionPalette_801C1890.h"
+#include "pso/ui/window/TWindowDuelResult_801C2528.h"
+#include "pso/ui/window/WindowLayout.h"
 
 
 #pragma readonly_strings on
@@ -20,15 +24,10 @@ typedef struct Entry_8024F094 {
 
 extern "C" {
 const char *window_duel_result_class_name = "TWindowDuelResult";
-void measure_message_text_width_default(void *);
-saddr get_window_layout_position(int);
 
 extern const char *window_duel_result_class_name;
-saddr get_localized_text_entry(int, int);
 void *get_player_by_client_id(s32 i);
-s32 TWindowDuelResult__sub_801C19AC(f32 *arg0);
 saddr get_shared_text_buffer(s32);
-s32 *TWindowDuelResult__sub_801C257C(void);
 void text_builder_append_int(s32);
 s32 text_builder_append(s32);
 }

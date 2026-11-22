@@ -4,7 +4,6 @@
 #include <string.h>
 #include "pso/render/GinjaTexture.h"
 
-extern "C" {
 
 s32 find_texture_entry_by_name(const GinjaTextureList *list, const char *name) {
     const GinjaTextureEntry *ents;
@@ -32,4 +31,3 @@ void set_ginja_model_texture_slot(void *model, u32 slot) {
     }
 }
 
-}

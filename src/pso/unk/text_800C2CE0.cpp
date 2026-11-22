@@ -121,13 +121,13 @@ s32 is_player_entity_id(u16);
 void send_6x2F_change_player_hp(s32, u16, s32);
 const Pair_800C2E64 lbl_8043BA60[1] = {{16, 0}};
 void TObjEneRe2Flower__sub_800C2E64(Obj_800C2E64 *self, s32 state);
-s32 TBoss8Dragon__sub_800BB7D4(void *, int);
+void TBoss8Dragon__sub_800BB7D4(void *self, int id);
 s32 remap_sound_for_variant(void *, s32);
 s32 play_sound_effect(s32, void *, s32, s32);
 #define F(T, o) (*(T *)((s8 *)(arg0) + (o)))
-void TObjEneDD::state_damaged(s32 arg1) {
+void TObjEneDD::state_damaged(s32 reason) {
     u8 *arg0 = (u8 *)this;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         F(s16, 0xB8) = 4;
         this->clear_intangible();
@@ -140,13 +140,13 @@ void TObjEneDD::state_damaged(s32 arg1) {
     case 3:
         if (this->get_flag_b4() != 0) {
             if (F(s32, 0x378) == 8) {
-                ((TObjEneDD *)arg0)->transition_enemy_state(F(s32, 0x378));
+                this->transition_enemy_state(F(s32, 0x378));
             } else if (F(s16, 0x32C) < F(s16, 0x2B8) / 4) {
-                ((TObjEneDD *)arg0)->transition_enemy_state(8);
-            } else if (((TObjChara *)arg0)->random_ratio() < 0.3f) {
-                ((TObjEneDD *)arg0)->transition_enemy_state(6);
+                this->transition_enemy_state(8);
+            } else if (this->random_ratio() < 0.3f) {
+                this->transition_enemy_state(6);
             } else {
-                ((TObjEneDD *)arg0)->transition_enemy_state(F(s32, 0x378));
+                this->transition_enemy_state(F(s32, 0x378));
             }
         }
         break;
@@ -154,12 +154,12 @@ void TObjEneDD::state_damaged(s32 arg1) {
         advance_animation();
         this->update_ground_contact();
         this->update_body_colliders();
-        ((TObjEneDD *)arg0)->noop();
+        this->noop();
         break;
     case 5:
         F(s32, 0x30) &= ~0x200;
         F(s32, 0x3C4) &= ~2;
-        ((TObjEneDD *)arg0)->clear_attack_receipts();
+        this->clear_attack_receipts();
         break;
     }
 }
@@ -188,7 +188,7 @@ void TObjEneRe2Flower__sub_800C2E64(Obj_800C2E64 *self, s32 state) {
         if (F(self, s32, 0x410) == 6) {
             t = ((TObjEneRe2Flower *)self)->find_target_in_range();
             if (t != NULL) {
-                void *m = (void *)new TObjEneRe2Flower_EffCurse3((saddr)self, (saddr)t);
+                void *m = (void *)new TObjEneRe2Flower_EffCurse3((TObject *)self, (TObjBase *)t);
                 F(self, u8 *, 0x390) = t;
                 F(self, s32, 0x414) = 1;
                 play_sound_effect(remap_sound_for_variant(self, 0x4003A50F), (u8 *)self + 0x38, 0, 0);

@@ -47,12 +47,12 @@ struct Blk_802BCFD4;
 struct TBoss6Type2 : public TObjEnemy
 {
     void sub_802BBE20();
-    TBoss6Type2(TObject *parent, s32 *params);
+    TBoss6Type2(TObject *parent, saddr *params);
     virtual ~TBoss6Type2();
     virtual void run_task();
     virtual void render();
     virtual f32 receive_physical_attack(void *attacker, f32 scale);
-    virtual f32 receive_direct_attack(void *attacker, DirectAttackPayload payload, void *collision, s32 tech, s32 arg5);
+    virtual f32 receive_direct_attack(void *attacker, DirectAttackPayload payload, void *collision, s32 tech, s32 flags);
     virtual void apply_poison_status();
     virtual void apply_paralysis();
     virtual void apply_slow_status();
@@ -159,7 +159,7 @@ struct TBoss6Type2 : public TObjEnemy
 
     void update_lower_contact_delta();
     s32 turn_toward_target_position();
-    static u8 *create_dpb(saddr arg0, saddr arg1, f32 farg0);
+    static u8 *create_dpb(saddr parent, saddr position, f32 farg0);
     s32 get_phase();
     void call_9A24_plus_1(s32 *arg1);
     void unpack_path_entry(s32 *arg1);
@@ -183,7 +183,7 @@ struct TBoss6Type2 : public TObjEnemy
     s32 is_phase_complete();
     void trigger_screen_pos();
     void spawn_rocks_around_players();
-    static void drop_random_rocks(s32 arg0, s32 arg1);
+    static void drop_random_rocks(s32 arg0, s32 force);
     static void request_default_follow_camera();
     static void init_range();
     void update_target();
@@ -207,7 +207,7 @@ struct TBoss6Type2 : public TObjEnemy
     void start_countdown_sound_state();
     void reset_indices();
     s32 get_hit_count();
-    void add_damage(s32 arg1);
+    void add_damage(s32 diff);
     void reset_attack_counter();
     void copy_anim_state();
     void load_battle_params();
@@ -215,11 +215,11 @@ struct TBoss6Type2 : public TObjEnemy
     void update_motion_tracks();
     void init_motion_entries();
     void copy_transform(void* q);
-    void set_action_state(saddr action);
+    void set_action_state(s32 action);
     void copy_pos_620(saddr arg1);
     void get_push_points(saddr arg1, saddr arg2);
     void copy_pos_59c(saddr arg1);
-    void apply_damage(s32 arg1);
+    void apply_damage(s32 diff);
     s32 get_rotation_timer();
     s32 count_matching_values(s32 arg1, s32 arg2);
     void set_target_state(s32 arg1, s32 arg2);
@@ -230,7 +230,7 @@ struct TBoss6Type2 : public TObjEnemy
     void update_attack_target();
     void update_action_state();
     void send_action_packet_if_idle(s32 arg1, s32 *arg2);
-    void parse_action_packet(void *arg1);
+    void parse_action_packet(void *packet);
     static s32 create(saddr arg0);
     void draw();
     void select_action();
@@ -265,7 +265,7 @@ struct TBoss6Type2 : public TObjEnemy
     void set_anim_frame(s32 v);
     void destroy_part_object(s32 arg1);
     void ensure_particle_emitter(s32 arg1);
-    s32 step_angle_toward(s32 arg1, s32 arg2, s32 arg3);
+    s32 step_angle_toward(s32 arg1, s32 arg2, s32 turn);
     f32 apply_direction_sign(f32 farg0);
     void enforce_min_distance();
     void push_out_from_points();
@@ -293,8 +293,8 @@ struct TBoss6Type2 : public TObjEnemy
     void sub_80337160();
     void sub_803371B4();
     static void send_6xAD_grid_positions(u8 arg0, saddr arg1, s32 arg2);
-    static s32 send_subordinate_actions(s32 kind, saddr ids, s32 n, s32 force, s32 unused);
-    static void *create_flow_soul(void *arg0, void *arg1, void *arg2, void *arg3);
+    static void send_subordinate_actions(s32 kind, saddr ids, s32 n, s32 force, s32 unused);
+    static void *create_flow_soul(void *parent, void *pos, s32 player, s32 duration);
     static void capture_player_snapshots();
     s32 get_state();
     void apply_rock_hits_to_players();

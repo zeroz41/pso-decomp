@@ -1,8 +1,6 @@
+#include <stdlib.h>
 #include <string.h>
 #include "pso/network/NetworkInfoCodec.h"
-extern "C" {
-int atoi(const char *);
-}
 char network_info_file_header[19] = "GAMECUBE_NETINFO\r\n";
 s32 parse_netinfo(char *, u32, NetworkInfoConfig *);
 extern char network_info_unparsed_config_lines[0x400];
@@ -66,7 +64,7 @@ s32 parse_network_info_config_line(char *s, u32 n, NetworkInfoConfig *q);
 #pragma optimization_level 2
 #pragma scheduling off
 #pragma peephole off
-s32 parse_netinfo(char *buf, u32 len, NetworkInfoConfig *arg2) {
+s32 parse_netinfo(char *buf, u32 len, NetworkInfoConfig *config) {
     u32 i;
     u32 start;
     start = 0;
@@ -77,7 +75,7 @@ s32 parse_netinfo(char *buf, u32 len, NetworkInfoConfig *arg2) {
     for (i = 4; i < len; i++) {
         if (buf[i] == '\r') {
             if (buf[i + 1] == '\n') {
-                parse_network_info_config_line(buf + start, i - start, arg2);
+                parse_network_info_config_line(buf + start, i - start, config);
                 start = i + 2;
             }
         }
@@ -272,19 +270,19 @@ s32 parse_network_info_config_hex(char *s, u32 n) {
 #pragma optimization_level 2
 #pragma scheduling off
 #pragma peephole off
-s32 copy_network_info_config_string(char *arg0, char *arg1, u32 arg2, u32 arg3) {
-    if (arg2 <= 4) {
+s32 copy_network_info_config_string(char *arg0, char *arg1, u32 num, u32 arg3) {
+    if (num <= 4) {
         *arg0 = 0;
     } else {
-        arg2 -= 5;
-        if (arg2 > arg3) {
+        num -= 5;
+        if (num > arg3) {
             strncpy(arg0, arg1 + 5, arg3);
             char c = arg0[arg3 - 1];
             if ((u8)c >= 0x80) {
                 arg0[arg3 - 1] = 0;
             }
         } else {
-            strncpy(arg0, arg1 + 5, arg2);
+            strncpy(arg0, arg1 + 5, num);
         }
     }
     network_info_config_field_handled = 1;
@@ -328,18 +326,18 @@ s32 parse_hex_string(char *s) {
 #pragma push
 #pragma use_lmw_stmw off
 #pragma scheduling off
-s32 decode_network_info_payload(u8 *src, u8 *arg1, u32 arg2, NetworkInfoConfig *config) {
+s32 decode_network_info_payload(u8 *src, u8 *payload, u32 size, NetworkInfoConfig *config) {
     u32 *key;
     u32 i;
     s32 r;
     bind_network_info_cipher_pool((u32 *)&network_info_cipher_workspace, 1);
     key = allocate_network_info_cipher_key((saddr)src);
-    for (i = 0; i < arg2; i += 0x10) {
-        if (decrypt_network_info_cipher_blocks(key, (u8 *)(arg1 + i), 0x10, (u8 *)(arg1 + i)) != 0) {
+    for (i = 0; i < size; i += 0x10) {
+        if (decrypt_network_info_cipher_blocks(key, (u8 *)(payload + i), 0x10, (u8 *)(payload + i)) != 0) {
             return -1;
         }
     }
-    r = parse_netinfo((char *)arg1, arg2, config);
+    r = parse_netinfo((char *)payload, size, config);
     release_network_info_cipher_key(key);
     clear_network_info_cipher_pool();
     return r;
@@ -375,12 +373,12 @@ void decrypt_network_info_cipher_round(u32 *arg0, u32 *arg1) {
 #pragma scheduling off
 #pragma peephole off
 #pragma optimization_level 2
-void decrypt_network_info_cipher_block(u32 *arg0, NetworkInfoCipherBlock *src, NetworkInfoCipherBlock *dst) {
+void decrypt_network_info_cipher_block(u32 *key, NetworkInfoCipherBlock *src, NetworkInfoCipherBlock *dst) {
     u32 sp8[4];
     s32 i;
     copy_network_info_cipher_block(sp8, (u32 *)src);
     for (i = 4; i > 0; i--) {
-        decrypt_network_info_cipher_round(arg0 + (i - 1) * 4 + 1, sp8);
+        decrypt_network_info_cipher_round(key + (i - 1) * 4 + 1, sp8);
     }
     copy_network_info_cipher_block((u32 *)dst, sp8);
 }

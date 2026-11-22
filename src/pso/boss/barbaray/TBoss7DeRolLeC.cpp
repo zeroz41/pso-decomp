@@ -144,6 +144,11 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/TObjPlayer_802E6CA8.h"
+#include "pso/camera/TCameraCtrl_800687BC.h"
+#include "pso/camera/CameraHelpers.h"
+#include "pso/object/TObjControl.h"
+#include "pso/math/MatrixTransforms.h"
 
 // Step of a De Rol Le C action sequence: the action id and its parameter, a
 // duration in seconds (the timer compares against param * 30) or the
@@ -393,17 +398,6 @@ const Boss7ActionStep *boss7_derolle_c_difficulty_actions[4] = {boss7_derolle_c_
 const Vec *boss7_derolle_c_crawfish_position_sets[4] = {boss7_derolle_c_crawfish_positions_pos_x, boss7_derolle_c_crawfish_positions_neg_x, boss7_derolle_c_crawfish_positions_pos_z, boss7_derolle_c_crawfish_positions_neg_z};
 
 const s32 *boss7_derolle_c_crawfish_angle_sets[4] = {boss7_derolle_c_crawfish_angles_pos_x, boss7_derolle_c_crawfish_angles_neg_x, boss7_derolle_c_crawfish_angles_pos_z, boss7_derolle_c_crawfish_angles_neg_z};
-extern "C" {
-
-void TObjPlayer__sub_802E7470(void);
-
-void TObjPlayer__sub_802E7084(void);
-
-void TObjPlayer__sub_802E7088(void);
-
-void TObjPlayer__sub_802E746C(void);
-
-}
 
 Boss7LoadCallback boss7_derolle_c_load_callbacks[6] = {
     {TBoss7Tentacle::load_static_resource, TBoss7Tentacle::destroy_instance},
@@ -483,8 +477,6 @@ extern "C" {
 f32 atan2_float(f32 y, f32 x);
 
 f32 newton_sqrtf(f32);
-
-f32 subtract_vector(void *, void *);
 
 
 
@@ -632,7 +624,6 @@ struct Fish_802E8B50 {
 
 
 extern "C" {
-void fill_value_array(saddr address);
 
 
 
@@ -691,7 +682,6 @@ void assign_slots_from_list(void *arg0, saddr arg1);
 
 
 
-void project_sound_origin_from_camera(saddr arg0, u8 *arg1, f32 farg0);
 
 
 u8 *get_enemy_entity(u16 arg0);
@@ -713,7 +703,7 @@ extern f32 lbl_804FF5E8[];
 
 }
 
-void calc_laser_ray_hit_point(u8 *arg0, u8 *arg1);
+void calc_laser_ray_hit_point(u8 *laser, u8 *arg1);
 
 
 
@@ -727,7 +717,6 @@ s32 TBoss7Joint_get_shell_max_hp(void);
 extern "C" {
 
 
-s32 update_local_colliders_from_world(void *, void *);
 #pragma pop
 
 
@@ -735,11 +724,8 @@ s32 update_local_colliders_from_world(void *, void *);
 
 
 
-extern const char *TBoss7DeRolLeC__class_name;
 
-extern const CollisionBody boss7_derolle_c_collision_body;
 
-extern const Vec boss7_derolle_c_joint_start_position;
 
 
 
@@ -825,8 +811,8 @@ void TBoss7DeRolLeC::load_resources() {
     TWindowCtrl::init_all_slots();
 }
 
-void *TBoss7DeRolLeC::create(void *arg0) {
-    return new TBoss7DeRolLeC(tl_04, arg0);
+void *TBoss7DeRolLeC::create(void *set_data) {
+    return new TBoss7DeRolLeC(tl_04, set_data);
 }
 
 void TBoss7DeRolLeC::run_exit_callbacks() {
@@ -917,7 +903,7 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
     laser_light_pos.y = 0.0f;
     laser_light_pos.z = 0.0f;
     attack_history = new AreaAttackHistory(4);
-    fill_value_array((saddr)attack_history);
+    fill_value_array(attack_history);
     unk_71C = NULL;
     unk_720 = NULL;
     for (s32 i = 0; i < 3; i++) {
@@ -3275,7 +3261,7 @@ void TBoss7DeRolLeC::handle_laser_attack_state(u32 event) {
         set_field_b8(0xF);
         position_slot = 3;
         set_position_index(position_slot);
-        fill_value_array((saddr)attack_history);
+        fill_value_array(attack_history);
         unk_728 = 0;
         unk_72C = 0;
         unk_730 = 0;
@@ -3310,7 +3296,7 @@ void TBoss7DeRolLeC::handle_laser_attack_state(u32 event) {
             if (unk_72C >= 0x14) {
                 unk_72C = 0;
                 unk_728 = 1;
-                fill_value_array((saddr)attack_history);
+                fill_value_array(attack_history);
                 set_field_b8(0xD);
                 if (enemy_check_target_valid() != 0) {
                     VecCopy(aim, &current_target->position);
@@ -3962,7 +3948,7 @@ void TBoss7DeRolLeC::render() {
     }
 }
 
-void TObjPlayer::draw_effect() { TObjFish::set_global_param((s32)get_bml_texlist(boss7_derolle_c_bml_resource, 0)); }
+void TObjPlayer::draw_effect() { TObjFish::set_global_param((saddr)get_bml_texlist(boss7_derolle_c_bml_resource, 0)); }
 
 GinjaTextureList *TBoss7DeRolLeC::get_archive_textures() { return (GinjaTextureList *)get_bml_texlist(boss7_derolle_c_bml_resource, 0); }
 

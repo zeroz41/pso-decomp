@@ -146,6 +146,7 @@
 #include "pso/ui/window/TWindowSubComCard_80077788.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/player/TPlyPhotonChair.h"
+#include "pso/map/CsnGroundQuery.h"
 
 // ---- TLobby_80104374.cpp
 
@@ -158,7 +159,6 @@ int fn_80077790(void);
 void send_6x25_equip_item(void *arg0, s32 arg1, s32 arg2);
 extern s32 local_client_id;
 extern s32 TLobby__designated_client_id;
-int get_item_field_6__10TObjPlayerFPv(void *p);
 s32 TItemDropSub__sub_80107B74();
 }
 
@@ -458,10 +458,10 @@ void normalize_drop_area(s32 *p) {
     }
 }
 
-void TLobby::forward_to_player(int arg0, void *item) {
+void TLobby::forward_to_player(int id, void *item) {
     TObjPlayer *player;
     if (item != NULL) {
-        player = get_player_by_client_id((u16)arg0);
+        player = get_player_by_client_id((u16)id);
         if ((player != NULL) && ((TObjPlayer::is_locally_controlled(player) == 1) || ((player->obj_isState3_324() == 1) && ((s32) local_client_id == (s32) TLobby__designated_client_id)) || ((player->is_script_controlled() == 1) && ((s32) local_client_id == (s32) TLobby__designated_client_id)))) {
             player->request_inventory_item((TItemData*)item);
             send_6x25_equip_item((void *)player, *(s32 *)((s8 *)item + 0xC), 0);
@@ -470,34 +470,34 @@ void TLobby::forward_to_player(int arg0, void *item) {
 }
 void TLobby::handle_player_event(s32 arg0, s32 arg1) {
     TObjPlayer *player;
-    uaddr item;
+    TItem *item;
     player = get_player_by_client_id((u16)arg0);
     if ((player != NULL) && ((TObjPlayer::is_locally_controlled(player) == 1) || ((player->obj_isState3_324() == 1) && ((s32) local_client_id == (s32) TLobby__designated_client_id)) || ((player->is_script_controlled() == 1) && ((s32) local_client_id == (s32) TLobby__designated_client_id)))) {
-        item = 0U;
+        item = NULL;
         switch (arg1) {
         case 0:
-            item = get_item_field_6__10TObjPlayerFPv((void *)player);
+            item = TObjPlayer::get_item_field_6(player);
             break;
         case 1:
-            item = ((TItemData *)player)->get_item_field_2();
+            item = (TItem *)((TItemData *)player)->get_item_field_2();
             break;
         case 2:
-            item = ((TItemData *)player)->test_flag3();
+            item = (TItem *)((TItemData *)player)->test_flag3();
             break;
         case 3:
-            item = player->activate_d04_slot();
+            item = (TItem *)player->activate_d04_slot();
             break;
         case 4:
         case 5:
         case 6:
         case 7:
-            item = (uaddr)player->get_equipped_item(arg1 + 5);
+            item = player->get_equipped_item(arg1 + 5);
             break;
         default:
             break;
         }
-        if (item != 0U) {
-            TObjPlayer::send_6x26_unequip_item((void *)player, (void *)((TItem *)item)->get_item_id());
+        if (item != NULL) {
+            TObjPlayer::send_6x26_unequip_item((void *)player, item->get_item_id());
         }
     }
 }
@@ -555,39 +555,39 @@ s32 is_local_player_off_current_floor() {
 }
 
 
-u8 TObjPlayer::find_adjacent_matching_slot(u8 arg0) {
+u8 TObjPlayer::find_adjacent_matching_slot(u8 slot) {
     s16 spC;
     s16 spA;
     s16 sp8;
     int prev;
 
-    prev = (u8) arg0 - 1;
+    prev = (u8) slot - 1;
     get_weapon_special_type_amount((u8) prev, &spC, &sp8);
-    get_weapon_special_type_amount(arg0, &spA, &sp8);
+    get_weapon_special_type_amount(slot, &spA, &sp8);
     if ((spC != -1) && (spA != -1)) {
         if (spC == spA) {
             return (u8) prev;
         }
-        return arg0;
+        return slot;
     }
-    return arg0;
+    return slot;
 }
 
-u8 TObjPlayer::get_next_matching_special_index(u8 arg0) {
+u8 TObjPlayer::get_next_matching_special_index(u8 slot) {
     s16 spC;
     s16 spA;
     s16 sp8;
     int next;
-    get_weapon_special_type_amount(arg0, &spC, &sp8);
-    next = (u8)arg0 + 1;
+    get_weapon_special_type_amount(slot, &spC, &sp8);
+    next = (u8)slot + 1;
     get_weapon_special_type_amount((u8)next, &spA, &sp8);
     if ((spC != -1) && (spA != -1)) {
         if (spC == spA) {
             return (u8)next;
         }
-        return arg0;
+        return slot;
     }
-    return arg0;
+    return slot;
 }
 
 s32 item_identity_matches(u8 *arg0, u8 *arg1) {
@@ -754,9 +754,8 @@ struct MagData_80104DAC { u8 b[0x10]; };
 struct Rec_80104DAC { u8 pad0[6]; u8 b6; u8 b7; u8 b8; u8 b9; u8 bA; u8 bB; u8 bC; };
 
 Rec_80104DAC *find_item_combination_recipe(u8 *, void *);
-extern "C" {
+
 void *lookup_item_pmt_record(u8 *);
-}
 
 s32 TItemData::is_item_usable(saddr arg0, u8 *item) {
     if (TItemData::is_wrapped(item) != 0) {
@@ -771,7 +770,7 @@ s32 TItemData::is_item_usable(saddr arg0, u8 *item) {
     return (u8)((u8) (find_eligible_combination_recipe(arg0, item) != 0));
 }
 #define o ((Obj_80104DAC *)arg0)
-saddr find_eligible_combination_recipe(s32 arg0, u8 *item) {
+saddr find_eligible_combination_recipe(saddr arg0, u8 *item) {
     ItemData_80104DAC d;
     ItemData_80104DAC d2;
     MagData_80104DAC mag;
@@ -931,7 +930,6 @@ ItemCreateFunction item_create_fn_table[5] = {
 };
 extern Entry_8010567C *quest_object_entries;
 int check_class_equip_permission(TObjPlayer *player, s32 perm);
-s32 *csnVecterUnder(saddr origin, s32 mask);
 void send_6x60_standard_drop_item_request(Obj_80105538 *self);
 }
 void *build_6x06_send_guild_card(void *arg0);
@@ -1245,7 +1243,7 @@ void send_6x60_standard_drop_item_request(Obj_80105538 *self) {
                         v.x = pkt.x;
                         v.y = 100.0f;
                         v.z = pkt.z;
-                        if (csnVecterUnder((saddr)&v, 1) != 0) {
+                        if (csnVecterUnder(&v, 1) != 0) {
                             ((TLobby *)(&pkt))->dispatch_packet_wrapper();
                         }
                     }

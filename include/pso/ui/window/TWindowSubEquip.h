@@ -4,19 +4,21 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+struct TWindowMainMenu;
+
 struct TWindowSubEquip : public TObject {
-    TWindowSubEquip(saddr arg1, s32 arg2);
+    TWindowSubEquip(TWindowMainMenu *parent, s32 client);
     virtual ~TWindowSubEquip();
     int build_equipment_list();
     u8 m_1c;
     u8 _pad1D[0x3];
     u32 m_20;
     u32 m_24;
-    u32 m_28;
-    uaddr m_2c;
+    u32 client_id;
+    TWindowMainMenu *parent;
     uaddr m_30;
-    uaddr m_34;
-    uaddr m_38;
+    uaddr equip_list;
+    uaddr equip_kind_list;
     void update_displayed_item();
     void update();
     static void open_submenu(saddr arg0, s32 arg1);

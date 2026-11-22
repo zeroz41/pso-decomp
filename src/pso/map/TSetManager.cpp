@@ -17,6 +17,9 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/quest/TQuestListVM_8007EAF8.h"
 
 extern "C" {
 extern "C" void apply_floor_set_rows__11TSetManagerFv();
@@ -88,10 +91,6 @@ void *TSetManager__ct(void *set_manager, void *parent) {
     return set_manager;
 }
 
-}
-
-extern "C" {
-s32 get_current_floor(void);
 LobbyPoolEntry TLobby__data_80513A40[18];
 LobbyFloorRows TLobby__floor_enemy_group_table[18];
 s32 TLobby__data_80513C80[18];
@@ -102,8 +101,6 @@ u32 TLobby__data_80513D10[9];
 u8 lbl_80513D34[0x24];
 #pragma pop
 void archive_pool_free(void *pool, void *node);
-void *memset(void *, int, unsigned long);
-s32 replace_file_extension__6TLobbyFPvPvPv(char *arg0, char *arg1, char *arg2);
 void *mem_alloc(u32);
 }
 void arrive_floor_population(void);
@@ -112,10 +109,8 @@ extern const char lbl_8044BC24[7] = "ad.dat";
 extern const char lbl_8044BC2C[6] = "d.dat";
 s32 load_map_decoration_rows(s32 map, s32 grp, s32 room);
 extern "C" {
-void* __nw__7TObjectFUl(u32);
 void mem_free(void*);
 
-extern void *tl_02;
 
 void TSetManager::create() {
     void* obj = TObject::operator new(0x20);
@@ -151,9 +146,9 @@ s32 load_map_decoration_rows(s32 map, s32 grp, s32 room) {
         return 0;
     }
     if (TLobby::is_online_ready() != 0) {
-        replace_file_extension__6TLobbyFPvPvPv((char *)path, (char *)r->decoration_set_name, (char *)lbl_8044BC24);
+        TLobby::replace_file_extension((char *)path, (char *)r->decoration_set_name, (char *)lbl_8044BC24);
     } else {
-        replace_file_extension__6TLobbyFPvPvPv((char *)path, (char *)r->decoration_set_name, (char *)lbl_8044BC2C);
+        TLobby::replace_file_extension((char *)path, (char *)r->decoration_set_name, (char *)lbl_8044BC2C);
     }
     size = get_resource_file_size((const char *)path);
     if (size < 0) {
@@ -353,9 +348,6 @@ void TLobby::free_resources() {
     }
 }
 
-extern "C" {
-void *TQuestVmDownLoadServer__sub_8007EBDC(s32, s32);
-}
 void arrive_floor_population(void) {
     s32 index;
     LobbyFloorRows *floor;

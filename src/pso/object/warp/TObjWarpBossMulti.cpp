@@ -60,7 +60,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/frontend/TAdVIConfigGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
-
+#include "pso/ui/window/WindowLayout.h"
 
 
 #pragma defer_codegen on
@@ -91,7 +91,6 @@ const char *TObjWarpBossMulti__name = "TObjWarpBossMulti";
 extern "C" {
 s32 fn_80248994(void *, u32, int);
 void request_active_window_close(void);
-s32 get_window_layout_position(s32);
 s32 is_local_client_floor_leader();
 TObjPlayer *find_local_boss_warp_player(TObjAreaWarp *warp, f32 range);
 BmlResource *boss_warp_resource_bundle;
@@ -317,7 +316,7 @@ void TObjWarpBoss::update() {
     }
 }
 
-s32 TObjWarpBoss::update_warp_dialogs() {
+void TObjWarpBoss::update_warp_dialogs() {
     void *player;
   s32 i;
   int j;
@@ -329,11 +328,11 @@ s32 TObjWarpBoss::update_warp_dialogs() {
     case 0:
       if ((TObjWarpBossMulti::is_lobby_active() == 0) && (yes_no_window == 0))
     {
-      yes_no_window = TWindowMessageYesNo::create(this, (void *)local_client_id, (void *)0, (void *)0);
+      yes_no_window = TWindowMessageYesNo::create(this, local_client_id, (void *)0, (void *)0);
       if (yes_no_window != 0)
       {
-        open_yes_no_prompt_with_text((TChCrTagPlBack *)yes_no_window, (saddr)(TWindowSubStatusDisp::get_message_10(0x41)), (s32)(get_window_layout_position(0x36)), 368.0f);
-        set_menu_selected_index((TWindowSubComCard *)yes_no_window, 1);
+        ((TWindowMessageYesNo *)yes_no_window)->open_yes_no_prompt_with_text((saddr)(TWindowSubStatusDisp::get_message_10(0x41)), (saddr)get_window_layout_position(0x36), 368.0f);
+        ((TWindowMessageYesNo *)yes_no_window)->set_menu_selected_index(1);
         ((TWindowMessageYesNo *)yes_no_window)->set_choice_menu_flag70_bit10();
         begin_player_keyboard_hold(local_client_id);
         request_active_window_close();
@@ -345,10 +344,10 @@ s32 TObjWarpBoss::update_warp_dialogs() {
       if (yes_no_window == 0)
     {
       i = 0x36;
-      yes_no_window = TWindowMessageYesNo::create(this, (void *)local_client_id, (void *)0, (void *)0);
+      yes_no_window = TWindowMessageYesNo::create(this, local_client_id, (void *)0, (void *)0);
       if (yes_no_window != 0)
       {
-        initialize_option_dialog(yes_no_window, (saddr)TWindowSubStatusDisp::get_message_10(0x42), ((s32)get_window_layout_position(i)), 368.0f);
+        initialize_option_dialog(yes_no_window, (saddr)TWindowSubStatusDisp::get_message_10(0x42), (saddr)get_window_layout_position(i), 368.0f);
       }
     }
       break;
@@ -357,7 +356,7 @@ s32 TObjWarpBoss::update_warp_dialogs() {
   {
     pos[0] = 229.0f;
     pos[1] = 104.0f;
-    player_list_window = create_check_box_window_for_local_client((const NJS_POINT2 *)get_window_layout_position(0x34), (const void *)pos);
+    player_list_window = create_check_box_window_for_local_client(get_window_layout_position(0x34), (const void *)pos);
     if (player_list_window != 0)
     {
       ((TWindowSubTradeMain *)player_list_window)->set_visible();
@@ -599,7 +598,7 @@ void TObjWarpBoss::warp_boss_handle_window() {
     case 1:
         if (find_local_boss_warp_player(this, warp_range) != NULL) {
             if (menu_window == 0) {
-                menu_window = create_window_menu_default(get_window_layout_position(0x35), 7);
+                menu_window = create_window_menu_default((saddr)get_window_layout_position(0x35), 7);
                 if (menu_window != 0) {
                     ((TWindowSubTradeMain *)menu_window)->add_text_entry((saddr)TWindowSubStatusDisp::get_message_10(0x40), 0, 0, -1);
                     ((TAdChrSelASlotGC *)menu_window)->set_flag_40();
@@ -651,10 +650,10 @@ void TObjWarpBoss::update_floor_switch_state() {
     }
 }
 
-void TObjWarpBoss::warp_player(s32 arg1) {
+void TObjWarpBoss::warp_player(s32 local_client_id) {
     TObjPlayer *player;
 
-    player = get_player_by_client_id(arg1);
+    player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
         TObjPlayer::play_effect_default((int)player, -1);
         obj_set_flag_20000(player);
@@ -662,10 +661,10 @@ void TObjWarpBoss::warp_player(s32 arg1) {
     }
 }
 
-void TObjWarpBossMulti::notify_player(void *arg0, s32 arg1) {
+void TObjWarpBossMulti::notify_player(void *arg0, s32 local_client_id) {
     saddr player;
 
-    player = (saddr)get_player_by_client_id(arg1);
+    player = (saddr)get_player_by_client_id(local_client_id);
     if (player != 0) {
         TObjPlayer::send_code_45_1((s32)player);
         obj_clear_flag30_20000((TObjBase *)player);

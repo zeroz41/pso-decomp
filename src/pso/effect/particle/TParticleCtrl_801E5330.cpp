@@ -9,14 +9,12 @@
 #include "pso/effect/sprite/TQuadSpriteCol.h"
 #include "pso/effect/sprite/TQuadSpriteSclCol.h"
 #include "pso/effect/sprite/TQuadSpriteSclColRot.h"
+#include "pso/system/task/TMainTask.h"
 
 GinjaTextureList *lbl_805D35A0[2] = { (GinjaTextureList *)&shared_effect_texture_list, 0 };
-extern "C" {
 
 
-extern TObject *tl_particle;
 extern f32 particle_sprite_atlas_uv_rects[0x10][4];
-extern GinjaTextureList *lbl_805D35A0[2];
 extern f32 lbl_804C6900[1][4];
 
 void TParticleCtrl::reset_emitter_table() {
@@ -60,7 +58,6 @@ void TParticleCtrl::create_quad_sprites() {
         sprites[index] = sprite;
         index++;
     } while (index < 0x6C);
-}
 }
 
 void init_particle_sprite_atlas(void) {

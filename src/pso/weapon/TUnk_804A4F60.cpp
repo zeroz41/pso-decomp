@@ -24,13 +24,13 @@ void TUnk_804A4F60::activate_effect(s32 effect) {
         if (get_current_floor() == owner->get_floor()) {
             switch (effect) {
             case 0:
-                TObjPlayer::create_tec_zonde(owner, &cast_point, &targets, (void *)10);
+                TObjPlayer::create_tec_zonde(owner, &cast_point, &targets, 10);
                 return;
             case 1:
-                TTecFoie::create(owner, &cast_point, (void *)cast_rotation_y, (void *)10);
+                TTecFoie::create(owner, &cast_point, cast_rotation_y, 10);
                 return;
             case 2:
-                ((TTecBarta *)owner)->create_ex(&cast_position, (void *)cast_rotation_y, (void *)10);
+                TTecBarta::create_ex(owner, &cast_position, cast_rotation_y, 10);
                 break;
             }
         }
@@ -134,11 +134,11 @@ TItem *create_psycho_wand(u8 *item) {
     return NULL;
 }
 
-void TUnk_804A4F60::vfunc_57() {
+void TUnk_804A4F60::on_equipped() {
     last_tp = -1;
 }
 
-void TUnk_804A4F60::vfunc_58() {
+void TUnk_804A4F60::on_unequipped() {
     last_tp = -1;
 }
 

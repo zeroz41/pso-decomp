@@ -32,26 +32,7 @@ const char *TAdTitleTexGC__name = "TAdTitleTexGC";
 
 saddr lbl_805D6668;
 
-struct B_802A4EF4 {
-    f32 x, y, x2, y2;
-    u8 pad[0x10];
-};
-
-struct Obj_802A4EF4 {
-    u8 pad[0x1C];
-    B_802A4EF4 b[3];
-    u8 pad7C[4];
-    s32 f80;
-    NJS_POINT2 a[3];
-};
-
 extern "C" {
-
-void update_title_tex_positions__13TAdTitleTexGCFPv(Obj_802A4EF4 *arg0);
-
-void __ct__7TObjectFP7TObject(void *);
-
-extern s32 __vt__13TAdTitleTexGC[];
 
 void release_texture_list(void*);
 
@@ -83,60 +64,53 @@ void TLobby::free_dialing_gc() {
     }
 }
 
-void *__ct__13TAdTitleTexGCFv(void *ad_title_tex_gc) {
-    __ct__7TObjectFP7TObject(ad_title_tex_gc);
-    *(s32 **)((s8 *)ad_title_tex_gc + 0x18) = __vt__13TAdTitleTexGC;
-    ((TAdTitleTexGC *)ad_title_tex_gc)->m_name = TAdTitleTexGC__name;
-    *(u32 *)((s8 *)ad_title_tex_gc + 0x7C) = 51;
-    *(u32 *)((s8 *)ad_title_tex_gc + 0x80) = -1;
-    *(f32 *)((s8 *)ad_title_tex_gc + 0x34) = 0.8203125f;
-    *(f32 *)((s8 *)ad_title_tex_gc + 0x38) = 0.3828125f;
-    *(f32 *)((s8 *)ad_title_tex_gc + 0x2C) = 0.7421875f;
-    *(f32 *)((s8 *)ad_title_tex_gc + 0x30) = 0.3046875f;
-    *(f32 *)((s8 *)ad_title_tex_gc + 0x4C) = 0.828125f;
-    *(f32 *)((s8 *)ad_title_tex_gc + 0x50) = 0.3046875f;
-    *(f32 *)((s8 *)ad_title_tex_gc + 0x54) = 0.90625f;
-    *(f32 *)((s8 *)ad_title_tex_gc + 0x58) = 0.3828125f;
-    *(f32 *)((s8 *)ad_title_tex_gc + 0x84) = 205.0f;
-    *(f32 *)((s8 *)ad_title_tex_gc + 0x88) = 421.0f;
-    *(f32 *)((s8 *)ad_title_tex_gc + 0x8C) = 348.0f;
-    *(f32 *)((s8 *)ad_title_tex_gc + 0x90) = 421.0f;
-    *(f32 *)((s8 *)ad_title_tex_gc + 0x94) = 432.0f;
-    *(f32 *)((s8 *)ad_title_tex_gc + 0x98) = 421.0f;
-    return ad_title_tex_gc;
+TAdTitleTexGC::TAdTitleTexGC(TObject *parent) : TObject(parent) {
+    m_name = TAdTitleTexGC__name;
+    alpha = 51;
+    frames = -1;
+    rects[0].u1 = 0.8203125f;
+    rects[0].v1 = 0.3828125f;
+    rects[0].u0 = 0.7421875f;
+    rects[0].v0 = 0.3046875f;
+    rects[1].u0 = 0.828125f;
+    rects[1].v0 = 0.3046875f;
+    rects[1].u1 = 0.90625f;
+    rects[1].v1 = 0.3828125f;
+    rest_pos[0].x = 205.0f;
+    rest_pos[0].y = 421.0f;
+    rest_pos[1].x = 348.0f;
+    rest_pos[1].y = 421.0f;
+    rest_pos[2].x = 432.0f;
+    rest_pos[2].y = 421.0f;
 }
 
 TAdTitleTexGC::~TAdTitleTexGC() {}
 
 void TAdTitleTexGC::run_task() {
-    s32 temp_r4;
-    u32 temp_r4_2;
-    u32 temp_r4_3;
+    u32 faded;
 
-    temp_r4 = *(s32 *)((s8 *)this + 0x80);
-    if (temp_r4 < 0x14) {
-        *(s32 *)((s8 *)this + 0x80) = (temp_r4 + 1);
+    if (frames < 0x14) {
+        frames = frames + 1;
     }
-    temp_r4_2 = *(u32 *)((s8 *)this + 0x7C);
-    if (temp_r4_2 < 0xFFU) {
-        *(u32 *)((s8 *)this + 0x7C) = (temp_r4_2 + 0xC);
+    if (alpha < 0xFFU) {
+        alpha = alpha + 0xC;
     }
-    temp_r4_3 = *(u32 *)((s8 *)this + 0x7C);
-    *(u32 *)((s8 *)this + 0x7C) = (temp_r4_3 <= 0xFFU) ? temp_r4_3 : 0xFFU;
-    update_title_tex_positions__13TAdTitleTexGCFPv((Obj_802A4EF4 *)(this));
+    faded = alpha;
+    alpha = (faded <= 0xFFU) ? faded : 0xFFU;
+    update_title_tex_positions();
 }
 
-void update_title_tex_positions__13TAdTitleTexGCFPv(Obj_802A4EF4 *arg0) {
+void TAdTitleTexGC::update_title_tex_positions() {
     NJS_POINT2 sp[3];
     s32 i;
     for (i = 0; i < 3; i++) {
-        s32 t = 0x14 - arg0->f80;
-        sp[i].x = ((640.0f - arg0->a[i].x) * (f32)(t * t)) / 400.0f;
+        s32 t = 0x14 - frames;
+        sp[i].x = ((640.0f - rest_pos[i].x) * (f32)(t * t)) / 400.0f;
         sp[i].y = 0.0f;
-        arg0->b[i].x = arg0->a[i].x + sp[i].x;
-        arg0->b[i].y = arg0->a[i].y + sp[i].y;
-        arg0->b[i].x2 = 20.0f + arg0->b[i].x;
-        arg0->b[i].y2 = 20.0f + arg0->b[i].y;
+        rects[i].x0 = rest_pos[i].x + sp[i].x;
+        rects[i].y0 = rest_pos[i].y + sp[i].y;
+        rects[i].x1 = 20.0f + rects[i].x0;
+        rects[i].y1 = 20.0f + rects[i].y0;
     }
 }
 
@@ -144,33 +118,31 @@ void TAdTitleTexGC::render() {
     s32 temp_r31;
 
     if (TMainTask::get_render_pass() != 1) {
-        render_status_pair((*(s32 *)((s8 *)this + 0x7C) << 0x18) | 0xFF0000 | 0xFFFF);
-        sub_802A4D74((s32)((*(s32 *)((s8 *)this + 0x7C) << 0x18) | 0xFF0000 | 0xFFFF), (u8 *)(get_localized_text_entry(0x28, 0)), (u8 *)(get_localized_text_entry(0x28, 1)));
+        render_status_pair((alpha << 0x18) | 0xFF0000 | 0xFFFF);
+        sub_802A4D74((alpha << 0x18) | 0xFF0000 | 0xFFFF, (u8 *)(get_localized_text_entry(0x28, 0)), (u8 *)(get_localized_text_entry(0x28, 1)));
     }
 }
 
 }
 
 void TAdTitleTexGC::render_status_pair(s32 arg1) {
-    saddr arg0 = (saddr)this;
     begin_screen_draw(1);
     TObjFish::set_global_param(lbl_805D6668);
     set_draw_texture_and_color(0, arg1);
-    draw_textured_quad_at_depth((f32 *)(arg0 + 0x1C), 0.1f);
+    draw_textured_quad_at_depth(&rects[0].x0, 0.1f);
     TWindowSubStatusDisp::get_player();
     begin_screen_draw(1);
     TObjFish::set_global_param(lbl_805D6668);
     set_draw_texture_and_color(0, arg1);
-    draw_textured_quad_at_depth((f32 *)(arg0 + 0x3C), 0.1f);
+    draw_textured_quad_at_depth(&rects[1].x0, 0.1f);
     TWindowSubStatusDisp::get_player();
 }
 
 #pragma push
 #pragma opt_common_subs off
 void TAdTitleTexGC::sub_802A4D74(s32 arg1, u8 *text, u8 *arg3) {
-    u8 *arg0 = (u8 *)this;
-    draw_menu_text(22.0f + *(f32 *)((s8 *)arg0 + 0x1C), 1.0f + *(f32 *)((s8 *)arg0 + 0x20), (const char *)text, arg1);
-    draw_menu_text(22.0f + *(f32 *)((s8 *)arg0 + 0x3C), 1.0f + *(f32 *)((s8 *)arg0 + 0x40), (const char *)arg3, arg1);
+    draw_menu_text(22.0f + rects[0].x0, 1.0f + rects[0].y0, (const char *)text, arg1);
+    draw_menu_text(22.0f + rects[1].x0, 1.0f + rects[1].y0, (const char *)arg3, arg1);
 }
 #pragma pop
 

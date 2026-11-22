@@ -13,7 +13,7 @@ public:
 public:
     static s32 should_show_warning(void *arg0);
     void open_message_window();
-    static void *create(void *arg0);
+    static void *create(void *bag_warn_win);
 
     TWindowMessage *message_window;
     char message_text[0x80];

@@ -5,6 +5,7 @@
 #include "pso/object/TUnk_804B5BA8.h"
 
 struct TObjCityDoor_Shop : public TUnk_804B5BA8 {
+    TObjCityDoor_Shop(TObject *parent, void *set);
     virtual ~TObjCityDoor_Shop();
     virtual void render();
     virtual void run_task();

@@ -66,7 +66,7 @@ s32 lbl_804855F0[6] = {0x50, 0x4E, 0x1B, 0x1B, 0x1B, 0x1A};
 s32 lbl_80485608[2] = {0x1D, 0x1C};
 CameraPlayback lbl_80485610 = {0, 2, 0, 0.0f, 0.5f};
 DFDemo1NodeColor lbl_8048561C[3] = {{0, 2, 5}, {1, 6, 5}, {1, 0x69, 3}};
-TObjDFDemo1 *TObjDFDemo1::create(TObject *parent, const Vec *pos, saddr angle) {
+TObjDFDemo1 *TObjDFDemo1::create(TObject *parent, const Vec *pos, s32 angle) {
     return new TObjDFDemo1(parent, pos, angle);
 }
 

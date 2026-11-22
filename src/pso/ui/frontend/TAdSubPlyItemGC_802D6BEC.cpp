@@ -14,9 +14,6 @@ const char *TAdSubPlyItemGC__name = "TAdSubPlyItemGC";
 
 struct Entry_802D6DAC { s32 idx; const char *str; s32 id; NJS_POINT2 pos; };
 
-extern "C" {
-}
-
 u8 level_text_buffer[0x40];
 
 #pragma push
@@ -59,13 +56,13 @@ void set_entry_text__15TAdSubPlyItemGCFPvPv(TAdSubPlyItemGC *self, Entry_802D6DA
     self->alpha[i] = 0;
     self->visible[i] = 1;
 }
+}
 
-void TAdSubPlyItemGC__sub_802D6D88(TAdSubPlyItemGC *self) {
+void TAdSubPlyItemGC::sub_802D6D88() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        self->visible[i] = 0;
+        visible[i] = 0;
     }
-}
 }
 
 u8 *TAdSubPlyItemGC::format_level_text(int level) {

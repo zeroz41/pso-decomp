@@ -33,7 +33,7 @@ void TUnk_804A5930::update_weapon() {
     }
 }
 
-void TUnk_804A5930::vfunc_57() {
+void TUnk_804A5930::on_equipped() {
     if (effect_objects != NULL) {
         new TUnk_804A05A8(effect_objects, get_owner_client(), 0xE10, 0.25f);
     }
@@ -54,7 +54,7 @@ TItem *sealed_j_sword_create(u8 *item) {
 s16 TObjPlayer::get_kill_count() { return this->m_11a; }
 
 
-// This object's copy of the slow curse timer's constructor (vfunc_57 calls
+// This object's copy of the slow curse timer's constructor (on_equipped calls
 // it first).
 TUnk_804A05A8::TUnk_804A05A8(TItemHeapObject *parent, u16 client, s32 period, f32 rate)
     : TItemTimerEvent(parent, client, period) {

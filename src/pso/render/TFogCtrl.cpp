@@ -25,7 +25,7 @@
 extern "C" {
 extern uaddr fog_ctrl_instance;
 s32 request_fog__8TFogCtrlFPvii(u8 *arg0, s32 arg1, s32 arg2);
-extern s32 TFogCtrl__fog_instance_table[];
+extern saddr TFogCtrl__fog_instance_table[];
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__12TFogCtrl_EOR[];
 static const char lbl_8043DA20[] = "fogentry.dat";
@@ -173,14 +173,12 @@ struct FogCtrl_800FB134;
 extern "C" {
 
 s32 TFogCtrl__sub_800FAC84(void* p);
-void TFogCtrl__sub_800FB400(O_800FB400 *self, s32 i, s32 j);
+void TFogCtrl__swap_fog_slots(O_800FB400 *self, s32 i, s32 j);
 TFogCtrl_800FB92C * __ct__8TFogCtrlFP7TObjectl(TFogCtrl_800FB92C *self, void *parent, s32 index);
 void TFogCtrl__sub_800FBA54(void);
 void TFogCtrl__sub_800FBA58(void);
 void TFogCtrl__sub_800FBAAC(void);
 void create_area_fog_ctrl(void);
-void __dl__7TObjectFPv(s32);
-u8 * __dt__7TObjectFv(void *, s16);
 void GXInitFogAdjTable(GXFogAdjTable_800FAE1C *, s32, void *);
 void GXSetFogRangeAdj(s32, s32, GXFogAdjTable_800FAE1C *);
 
@@ -189,7 +187,6 @@ extern FogParam_800FBC5C fog_default_entry;
 extern u8 scene_projection_state[];
 extern uaddr fog_entry_array;
 extern s32 fog_update_flags;
-extern s32 actor_frame_tick;
 extern s32 *tl_02;
 
 extern const f32 TFogCtrl__data_805DA948 = 0.0f;
@@ -198,14 +195,15 @@ extern const f32 TFogCtrl__data_805DA94C = 640.0f;
 #define FOG_MAX (*(const f32 *)&TFogCtrl__data_805DA94C)
 }
 void copy_fog_entry(u8 *arg0, u8 *arg1);
-s32 apply_fog_entry(void *arg0);
+void apply_fog_entry(void *arg0);
 void init_scene_fog_system(void);
 
 s32 area_fog_row_table[36] = {
     33, 1, 2, 3, 4, 5, 14, 15, 30, 31, 32, 23, 16, 34, 35, 34, 19, 47,
     96, 97, 98, 64, 65, 24, 25, 26, 27, 28, 40, 41, 66, 99, 100, 16, 73, 75,
 };
-s32 TFogCtrl__fog_instance_table[4];
+// The TFogCtrl of each view (one per player in split screen).
+saddr TFogCtrl__fog_instance_table[4];
 FogParam_800FBC5C fog_default_entry;
 uaddr fog_entry_array;
 s32 fog_update_flags;
@@ -284,11 +282,8 @@ void create_area_fog_ctrl(void) {
         }
     }
     TObjFogCollisionPoison::create();
-    var_r4 = area_fog_row_table;
-    var_r3 = area_fog_row_table;
-    var_r3 = (s32 *)area_fog_row_table[get_current_floor_area()];
-    var_r4 = (s32 *)((u8 *)((s32 *)1));
-    TFogCtrl::update_all((int)var_r3, 1);
+    s32 row = area_fog_row_table[get_current_floor_area()];
+    TFogCtrl::update_all(row, 1);
 }
 
 void TFogCtrl::update_fog_entries() {
@@ -406,7 +401,7 @@ void run_task__8TFogCtrlFv(Ctrl_800FB498 *arg0) {
         }
         break;
     case 1:
-        TFogCtrl__sub_800FB400((O_800FB400 *)arg0, arg0->reqTo, arg0->reqCommit);
+        TFogCtrl__swap_fog_slots((O_800FB400 *)arg0, arg0->reqTo, arg0->reqCommit);
         update = 1;
         arg0->selected = arg0->reqCommit;
         arg0->mode = 0;
@@ -434,7 +429,7 @@ void run_task__8TFogCtrlFv(Ctrl_800FB498 *arg0) {
         mixed->randomPhase = FOG_ZERO;
         amount = arg0->amount;
         if (amount >= 1.0f) {
-            TFogCtrl__sub_800FB400((O_800FB400 *)arg0, arg0->reqTo, arg0->reqCommit);
+            TFogCtrl__swap_fog_slots((O_800FB400 *)arg0, arg0->reqTo, arg0->reqCommit);
             arg0->selected = arg0->blendCommit;
             arg0->mode = 0;
         } else {
@@ -485,18 +480,18 @@ void TFogCtrl::load_entry_into_slot(s32 i, s32 entry) {
     }
 }
 
-void TFogCtrl__sub_800FB400(O_800FB400 *self, s32 i, s32 j) {
+void TFogCtrl__swap_fog_slots(O_800FB400 *self, s32 i, s32 j) {
     s32 t = self->arr[i];
     self->arr[i] = self->arr[j];
     self->arr[j] = t;
 }
 
-s32 TFogCtrl::is_controller_animated(saddr arg0, s32 arg1) {
+s32 TFogCtrl::is_controller_animated(saddr arg0, s32 selected) {
   f32 temp_f31;
   f32 var_f31;
   saddr temp_r3;
   u8 *temp_r31;
-  temp_r3 = arg0 + (arg1 * 4);
+  temp_r3 = arg0 + (selected * 4);
   temp_r31 = (u8 *) (*((u8 **) (((s8 *) temp_r3) + 0x174)));
   temp_r3 = *((s32 *) (((s8 *) temp_r31) + 0));
   if (temp_r3 & 2)
@@ -617,15 +612,15 @@ s32 request_fog__8TFogCtrlFPvii(u8 *fog_ctrl, s32 arg1, s32 arg2) {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-s32 TFogCtrl::select_fog(s32 arg1, s32 arg2) {
+s32 TFogCtrl::select_fog(s32 entry, s32 arg2) {
     struct Ctrl_800FAFE0 *self = (struct Ctrl_800FAFE0 *)this;
     if (this->get_param() != 0) {
         return 0;
     }
-    if (self->slots[self->selected]->identity == arg1) {
+    if (self->slots[self->selected]->identity == entry) {
         return 1;
     }
-    this->load_entry_into_slot(2, arg1);
+    this->load_entry_into_slot(2, entry);
     this->request_transition(1, arg2);
     return 1;
 }
@@ -663,7 +658,7 @@ s32 TFogCtrl::restore_fog(s32 arg1) {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-s32 apply_fog_entry(void *arg0) {
+void apply_fog_entry(void *arg0) {
     TFogCtrl_800FAE1C *self = (TFogCtrl_800FAE1C *)arg0;
     GXFogAdjTable_800FAE1C tbl;
     set_scene_fog_type(2);
@@ -793,12 +788,12 @@ s32 TFogCtrl__sub_800FAC84(void* p) { return *(s32*)((char*)*(void**)((char*)p +
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-s32 TFogCtrl::restore_fog_for_player(s32 arg1, s32 arg0) {
+s32 TFogCtrl::restore_fog_for_player(s32 owner_client_id, s32 arg0) {
     if (is_split_screen() == 0) {
-        arg1 = 0;
+        owner_client_id = 0;
     }
-    if ((arg1 >= 0) && (arg1 < 4)) {
-        saddr elem = *(s32 *)(((s8 *)&TFogCtrl__fog_instance_table) + arg1 * 4);
+    if ((owner_client_id >= 0) && (owner_client_id < 4)) {
+        saddr elem = *(s32 *)(((s8 *)&TFogCtrl__fog_instance_table) + owner_client_id * 4);
         if ((u32) elem != 0U) {
             return ((TFogCtrl *)elem)->restore_fog(arg0);
         }
@@ -842,8 +837,8 @@ s32 TFogCtrl::update_all(s32 arg0) {
 s32 TFogCtrl::update_first_active_fog() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        if ((void *)((s32 *)&TFogCtrl__fog_instance_table)[i] != NULL) {
-            return TFogCtrl__sub_800FAC84((void *)((s32 *)&TFogCtrl__fog_instance_table)[i]);
+        if ((void *)TFogCtrl__fog_instance_table[i] != NULL) {
+            return TFogCtrl__sub_800FAC84((void *)TFogCtrl__fog_instance_table[i]);
         }
     }
     return 0;
@@ -851,7 +846,7 @@ s32 TFogCtrl::update_first_active_fog() {
 
 s32 TFogCtrl::apply_all(s32 arg0, s32 arg1) {
     s32 var_r29 = 0;
-    s32 *var_r30 = TFogCtrl__fog_instance_table;
+    saddr *var_r30 = TFogCtrl__fog_instance_table;
     s32 var_r31 = 0;
     do {
         uaddr v = (u32)var_r30[var_r31];
@@ -866,7 +861,7 @@ s32 TFogCtrl::apply_all(s32 arg0, s32 arg1) {
 
 s32 TFogCtrl::update_all(s32 arg0, s32 arg1) {
     s32 var_r29 = 0;
-    s32 *var_r30 = TFogCtrl__fog_instance_table;
+    saddr *var_r30 = TFogCtrl__fog_instance_table;
     s32 var_r31 = 0;
     do {
         uaddr v = (u32)var_r30[var_r31];

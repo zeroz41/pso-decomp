@@ -5,7 +5,7 @@
 
 class TUnk_804949D8 : public TUnk_804949F4 {
 public:
-    TUnk_804949D8(TObject *parent, Vec *position, s32 emitter, f32 radius);
+    TUnk_804949D8(TObject *parent, Vec *position, TParticleCtrl *emitter, f32 radius);
     virtual ~TUnk_804949D8();
     virtual void vfunc_6();
 };

@@ -36,7 +36,7 @@ typedef struct TBoss6Tube_802B1020 {
 } TBoss6Tube_802B1020;
 
 extern "C" {
-void TBoss6Tube__sub_802B129C(u8 *arg0);
+void TBoss6Tube__sub_802B129C(u8 *self);
 s32 TBoss6Tube__previous_scroll_phase;
 f32 TBoss6Tube__scroll_delta;
 void draw_ginja_object(void);
@@ -123,16 +123,16 @@ void TBoss6Tube::reset_state() {
 }
 
 #pragma fp_contract on
-void TBoss6Tube__sub_802B129C(u8 *arg0) {
+void TBoss6Tube__sub_802B129C(u8 *self) {
   f32 temp_f31;
-  *((s32 *) (((s8 *) arg0) + 0x24)) = (s32) ((*((s32 *) (((s8 *) arg0) + 0x24))) + 0x3A);
-  if (((s32) (*((s32 *) (((s8 *) arg0) + 0x24)))) > 0x3333)
+  *((s32 *) (((s8 *) self) + 0x24)) = (s32) ((*((s32 *) (((s8 *) self) + 0x24))) + 0x3A);
+  if (((s32) (*((s32 *) (((s8 *) self) + 0x24)))) > 0x3333)
   {
-    *((s32 *) (((s8 *) arg0) + 0x24)) = 0x3333;
+    *((s32 *) (((s8 *) self) + 0x24)) = 0x3333;
   }
   ;
-  *((s32 *) (((s8 *) arg0) + 0x24)) = (s32) ((*((s32 *) (((s8 *) arg0) + 0x24))) + ((s32) (((0.075f) * ((2.0f) * (((3.0517578e-05f) * ((f32) rand())) - (0.5f)))) * fabs_float((f32) (*((s32 *) (((s8 *) arg0) + 0x24)))))));
-  *((s32 *) (((s8 *) arg0) + 0x28)) = (s32) ((*((s32 *) (((s8 *) arg0) + 0x28))) + (*((s32 *) (((s8 *) arg0) + 0x24))));
+  *((s32 *) (((s8 *) self) + 0x24)) = (s32) ((*((s32 *) (((s8 *) self) + 0x24))) + ((s32) (((0.075f) * ((2.0f) * (((3.0517578e-05f) * ((f32) rand())) - (0.5f)))) * fabs_float((f32) (*((s32 *) (((s8 *) self) + 0x24)))))));
+  *((s32 *) (((s8 *) self) + 0x28)) = (s32) ((*((s32 *) (((s8 *) self) + 0x28))) + (*((s32 *) (((s8 *) self) + 0x24))));
 }
 
 #pragma push
@@ -150,9 +150,9 @@ void TBoss6Tube::update_wobble() {
 #pragma pop
 
 void TBoss6Tube::spawn_trap() {
-    saddr arg0 = (saddr)this;
-    TBoss6Tube__sub_802B129C((u8 *)arg0);
-    play_persistent_sound(0x40033520, arg0, 0, 0, 0);
+    saddr self = (saddr)this;
+    TBoss6Tube__sub_802B129C((u8 *)self);
+    play_persistent_sound(0x40033520, self, 0, 0, 0);
 }
 
 void TBoss6Tube::update_timer() {
@@ -190,9 +190,9 @@ TBoss6Tube::~TBoss6Tube() {
     TBoss6Tube::reset_state();
 }
 
-TBoss6Tube::TBoss6Tube(TObject *arg1) : TObject(arg1) {
+TBoss6Tube::TBoss6Tube(TObject *parent) : TObject(parent) {
     m_name = TBoss6Tube__name;
-    *(u8 **)((s8 *)this + 0x2C) = (u8 *)arg1;
+    *(u8 **)((s8 *)this + 0x2C) = (u8 *)parent;
     m_24 = 0;
     m_28 = 0;
     TBoss6Tube::reset_state();
@@ -200,13 +200,13 @@ TBoss6Tube::TBoss6Tube(TObject *arg1) : TObject(arg1) {
     m_1c = 0;
 }
 
-u8 *load_gvm_texture_file(saddr arg0);
+u8 *load_gvm_texture_file(saddr name);
 extern "C" {
 s32 release_texture_list(void*);
 }
 
-void *TBoss6Tube::create(void *arg0) {
-    return new TBoss6Tube((TObject *)arg0);
+void *TBoss6Tube::create(void *parent) {
+    return new TBoss6Tube((TObject *)parent);
 }
 
 void TBoss6Tube::free_resources() {

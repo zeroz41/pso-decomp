@@ -7,12 +7,8 @@
 #include "pso/unk/text_802993F0.h"
 #include "pso/unk/text_80299420.h"
 #include "pso/ui/hud/TLoadingCur_801A6DE0.h"
+#include "pso/player/TObjPlayer_80011014.h"
 __declspec(section ".rodata") CreationInputState lbl_80465150 = { 0 };
-
-extern "C" {
-f32 atan2_float(f32 y, f32 x);
-f32 newton_sqrtf(f32);
-}
 
 static s32 cm_proportion_pad_button_masks[4] = {0x10, 0x20, 0x40, 0x80};
 static s32 creation_direction_priority_masks[4] = {0x10, 0x20, 0x40, 0x80};

@@ -195,10 +195,10 @@ void TLobby__sub_8020BB18(void) {
     s32 i;
     for (i = 0; i < TLobby__data_805D6120; i++, p++) {
         if (p->object != 0) {
-            destroy_child_recursive__6TLobbyFPvPv(tl_02, p->object);
-            destroy_child_recursive__6TLobbyFPvPv(tl_05, p->object);
-            destroy_child_recursive__6TLobbyFPvPv(tl_06, p->object);
-            destroy_child_recursive__6TLobbyFPvPv(tl_07, p->object);
+            TLobby::destroy_child_recursive(tl_02, p->object);
+            TLobby::destroy_child_recursive(tl_05, p->object);
+            TLobby::destroy_child_recursive(tl_06, p->object);
+            TLobby::destroy_child_recursive(tl_07, p->object);
             p->flags = 0;
             p->object = 0;
         }

@@ -22,14 +22,10 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/unk/TLobby_8001EF5C.h"
 
 #pragma readonly_strings on
 
-extern "C" {
-AnimationMotion *get_bml_motion(uaddr, int);
-
-
-}
 
 __declspec(section ".data") const char *fe_obj_cam_model_names[2] = { "fe_obj_cam840_841.gj", NULL };
 __declspec(section ".data") const char *fe_obj_cam_motion_names[2] = { "fe_obj_cam840_841.njm", NULL };
@@ -55,7 +51,7 @@ const char *obj_camera_class_name = "TObjCamera";
 const StarLightParameters camera_object_init_params = { 2.5f, 15.0f, { { 0x00, 0xFF, 0x00, 0x00 } }, 0, 10.0f };
 
 Vec camera_slot_positions[8];
-u32 TObjCamera::model_resource;
+BmlResource *TObjCamera::model_resource;
 s32 TObjCamera::camera_slot_scan_index;
 
 void TObjCamera::play_sound_events() {
@@ -88,7 +84,7 @@ void TObjCamera::init_sound_events() {
     }
 }
 
-void TObjCamera::update_camera_slots() {
+void TObjCamera::update_camera_slots(NJS_OBJECT *node) {
     s32 i;
     for (i = 0; i < 8; i++) {
         if (camera_slot_scan_index == camera_slot_id_table[i]) {
@@ -132,13 +128,13 @@ s32 TObjCamera::update_object_view_visibility(f32 radius, f32 depth) {
 void TObjCamera::render() {
     s32 i;
     if (update_object_view_visibility(400.0f, 20.0f) != 0) {
-        TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)model_resource, 0));
+        TObjFish::set_global_param((saddr)get_bml_texlist(model_resource, 0));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         camera_slot_scan_index = 0;
-        set_model_node_callback((saddr)TObjCamera::update_camera_slots);
-        draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)model_resource, 0),
+        set_model_node_callback(TObjCamera::update_camera_slots);
+        draw_ginja_model_with_motion((void *)get_bml_model(model_resource, 0),
                                      get_bml_motion(model_resource, 0), animation_frame);
         set_model_node_callback(0);
         pop_matrix();
@@ -217,15 +213,13 @@ void *TObjCamera::create(void *set_data) {
 }
 
 void TObjCamera::free_resources() {
-    if (model_resource != 0) {
-        delete (BmlResource *)model_resource;
-        model_resource = 0;
+    if (model_resource != NULL) {
+        delete model_resource;
+        model_resource = NULL;
     }
 }
 
 void TObjCamera::load_resources() {
-    uaddr loaded;
     camera_slot_scan_index = 0;
-    loaded = (u32)new BmlResource(1, &fe_obj_cam_resource_descriptor, 0, 0, NULL);
-    model_resource = loaded;
+    model_resource = new BmlResource(1, &fe_obj_cam_resource_descriptor, 0, 0, NULL);
 }

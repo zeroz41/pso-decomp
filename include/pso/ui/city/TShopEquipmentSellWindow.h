@@ -13,7 +13,7 @@ struct TShopEquipmentSellWindow : public TShopWindowBase {
     int get_item_count();
     virtual void vfunc_11();
     virtual void display_message(const char *text, s32 flags);
-    virtual void vfunc_6(s32 id, s32 flags);
+    virtual void display_shop_message(s32 id, s32 flags);
     u8 _pad1C[0x4];
     u32 m_20;
     u32 m_24;
@@ -33,7 +33,7 @@ struct TShopEquipmentSellWindow : public TShopWindowBase {
     u32 m_37c;
     u32 m_380;
     u32 m_384;
-    u32 m_388;
+    TShopWindowBase *sequence;  // the shop sequence that opened it; messages go to it
     uaddr m_38c;
     TWindowMenu *confirm_menu;
     uaddr m_394;
@@ -42,10 +42,10 @@ struct TShopEquipmentSellWindow : public TShopWindowBase {
     uaddr m_3a0;
     u32 m_3a4;
     u32 m_3a8;
-    s32 update();
+    void update();
     void handle_sell_confirm();
     void handle_input_window_result();
-    s32 close();
+    void close();
     void handle_selection();
     void build_sell_list();
     static s32 get_item_data_value(uaddr arg0);

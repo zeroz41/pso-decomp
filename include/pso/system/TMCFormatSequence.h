@@ -4,29 +4,33 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+struct TWindowMenu;
+struct TWindowMessagePage;
+
+// Formats a memory card after asking for confirmation. Field names are inferred from their uses in
+// TQuestVmDownLoadServer.cpp (the class's TU).
 class TMCFormatSequence : public TObject {
 public:
-    u8 unk_1C[0x4];
-    u32 m_20;
-    s32 m_24;
-    u8 unk_28[0x4];
-    u32 m_2c;
-    u8 unk_30[0x4];
-    uaddr m_34;
- void* m_38;
-public:
-    TMCFormatSequence(TObject *arg1, void *arg2);
+    void (*done_callback)(TMCFormatSequence *sequence);  // called in state 4: formatted, declined or cancelled
+    void (*error_callback)(TMCFormatSequence *sequence); // called in state 3, after the error message
+    s32 state;                                           // run_task's switch, 0-4
+    s32 card_slot;                                       // the card channel probed and formatted
+    s32 message_group;                                   // get_localized_text_entry(message_group, message_id):
+    s32 message_id;                                      // the question open_windows shows
+    TWindowMessagePage *message_window;
+    TWindowMenu *confirm_menu;                           // init_shop_judgment_window's yes/no menu
+
+    TMCFormatSequence(TObject *parent, s32 card_slot);
     virtual ~TMCFormatSequence();
     virtual void run_task();
-public:
+
     void close_window();
-    void show_message(s32 arg1, s32 arg2);
+    void show_message(s32 text, s32 flags);
     void check_memcard_load_result();
     void process_format_result();
     void open_windows();
-    // Stage callbacks kept at 0x1C/0x20 and called with the sequence itself.
-    static void wait_confirm_and_finish(void *self);
-    static void update_wait_confirm(void *self);
+    void wait_confirm_and_finish();
+    void update_wait_confirm();
 };
 
 #endif

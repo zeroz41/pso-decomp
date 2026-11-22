@@ -26,12 +26,17 @@
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
 #include "pso/system/task/TObject.h"
+#include "pso/boss/goldragon/TBoss8Dragon_802F3348.h"
+#include "pso/unk/TLobby_8007C550.h"
+#include "pso/unk/text_800832EC.h"
+#include "pso/network/client_id.h"
+#include "pso/player/PlayerSlots.h"
 
 #pragma defer_codegen on
 
 extern "C" {
 s32 TObjPlayer__sub_80084500();
-s32 TObjLiveMonitor__sub_8030C050(void* p);
+s32 TObjLiveCameraCtrl__is_enabled(void* p);
 
 s32 is_split_screen();
 extern s32 __vt__20TObjLiveMonitorSmall[];
@@ -61,18 +66,13 @@ extern "C" {
 
 s32 __ct__7TObjectFP7TObject();
 extern s32 __vt__15TObjLiveMonitor[];
-}
-extern "C" {
 extern void *tl_05;
 int get_global_part_count__12TBoss8DragonFl(void*);
 s32 angle_diff_s16(int);
-void *get_player_by_client_id(s32 i);
-s32 TBoss8Dragon__sub_802F3348(s32 arg0);
 s32 TBoss8Dragon__sub_802FCCBC(TBoss8Dragon *boss8_dragon);
 f32 calc_random_ratio__10TObjPlayerFv(void *);
 void TObjPlayer__sub_80082CBC(void *effect);
 void TObjPlayer__sub_80082CCC(void *effect);
-extern int local_client_id;
 }
 struct Cam_8030BED4 {
     const char *f0;
@@ -92,8 +92,6 @@ struct Cam_8030BED4 {
 extern "C" {
 s32 get_current_floor();
 void subtractive_rng_seed(void *, s32);
-s32 __ct__14SubtractiveRngFv(void *);
-u8 *fn_800832EC(u8 *arg0, saddr arg1, s32 arg2, saddr arg3, saddr arg4, f32 farg0);
 extern s32 tl_particlemodel;
 }
 
@@ -105,7 +103,7 @@ void reset_live_camera_ctrl_globals(void) {
 // inferred: the release hook paired with reset_live_camera_ctrl_globals in static_resource_callback_table
 void release_live_camera_ctrl_globals(void) {}
 
-s32 TObjLiveMonitor__sub_8030C050(void* p) { return *(s32*)((char*)p + 0x20); }
+s32 TObjLiveCameraCtrl__is_enabled(void* p) { return *(s32*)((char*)p + 0x20); }
 
 s32 TObjLiveCameraCtrl::get_table_entry(s32 arg0) {
     if (arg0 < 0) {
@@ -346,9 +344,9 @@ void *TObjLiveCamera__create(void *arg0) {
     return o;
 }
 
-TObjLiveCamera::TObjLiveCamera(saddr parent, saddr arg2) : TObjBase((TObject *)((void *)parent)) {
+TObjLiveCamera::TObjLiveCamera(saddr parent, saddr set_data) : TObjBase((TObject *)((void *)parent)) {
     *(saddr *)((s8 *)this + 0) = (saddr) TObjLiveCamera__class_name;
-    ((TObjLiveCamera *)(((u8 *)this)))->apply_object_set_data((void *)arg2);
+    ((TObjLiveCamera *)(((u8 *)this)))->apply_object_set_data((void *)set_data);
 }
 
 TObjLiveCamera::~TObjLiveCamera() {}
@@ -392,7 +390,7 @@ int run_task__15TObjLiveMonitorFv(void* p) { return ((int (*)(void *))sub_8030B3
 void render__15TObjLiveMonitorFv(TObjLiveMonitor *live_monitor) {
     saddr table_entry;
     table_entry = TObjLiveCameraCtrl::get_table_entry(0);
-    if ((table_entry != 0) && (TObjLiveMonitor__sub_8030C050((void *)table_entry) != 0)) {
+    if ((table_entry != 0) && (TObjLiveCameraCtrl__is_enabled((void *)table_entry) != 0)) {
         ((TObjLiveMonitor *)table_entry)->update_camera();
     } else if (is_split_screen() == 0) {
         TObjPlayer__sub_80084500();
@@ -429,7 +427,7 @@ int TObjLiveMonitor::render_live_monitor_screen() {
     switch (*(s32 *)((s8 *)this + 0x24)) {
     case 0:
         e = TObjLiveCameraCtrl::get_table_entry(*(s32 *)((s8 *)this + 0x24));
-        if (e != 0 && TObjLiveMonitor__sub_8030C050((void *)e) != 0) {
+        if (e != 0 && TObjLiveCameraCtrl__is_enabled((void *)e) != 0) {
             ((TObjLiveMonitor *)e)->update_camera();
         } else if (is_split_screen() == 0) {
             TObjPlayer__sub_80084500();

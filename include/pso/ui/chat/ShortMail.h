@@ -10,16 +10,7 @@ void TLobby__sub_80225C44(void *p);
 void TLobby__sub_80225C64(void *p);
 void TLobby__sub_80225C8C(void *p);
 void TLobby__sub_80225CB8(void);
-void clear_all_entries__6TLobbyFPv(void *_w0);
-void clear_lobby_flag__6TLobbyFv(void);
-void fill_list_entry__6TLobbyFPUc(u8 *arg0, u8 *arg1);
-s32 find_free_slot__6TLobbyFv(void);
-void *find_short_mail_by_id__6TLobbyFUl(u32 id);
 void *get_com_card_list__6TLobbyFv(void *p);
-s32 get_lobby_id__6TLobbyFv(void *p);
-int get_short_mail_ctrl__6TLobbyFv(void);
-void remove_entry_at__6TLobbyFl(s32 idx);
-void send_simple_mail__6TLobbyFlPv(s32 arg0, void *arg1);
 void try_close__6TLobbyFPv(void *p);
 }
 
@@ -32,9 +23,6 @@ void TLobby__sub_80225C44(void *p);
 void TLobby__sub_80225C64(void *p);
 void TLobby__sub_80225C8C(void *p);
 void TLobby__sub_80225CB8(void);
-s32 find_free_slot__6TLobbyFv(void);
-void *find_short_mail_by_id__6TLobbyFUl(u32 id);
-void send_simple_mail__6TLobbyFlPv(s32 arg0, void *arg1);
 void try_close__6TLobbyFPv(void *p);
 }
 // --- end of C functions

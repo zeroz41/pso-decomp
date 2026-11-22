@@ -9,6 +9,8 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/unk/text_803D853C.h"
 
 typedef struct Col_801E5598 { f32 r, g, b, a; } Col_801E5598;
 
@@ -36,22 +38,11 @@ typedef struct Self_801E5598 {
 
 typedef struct Cam_801E5598 { u8 pad0[8]; f32 cx; f32 cy; u8 pad10[8]; f32 sw; f32 aspect; } Cam_801E5598;
 
-extern "C" {
-void set_inverse_alpha_blend(void);
-}
-void set_inverse_color_blend(void);
-extern "C" {
-s32 matrix_mult_vec(int, void *, void *);
-void begin_screen_draw(s32 arg0);
-void draw_textured_quad_at_depth(f32 *q, f32 depth);
-void set_draw_texture_and_color(s32 idx, s32 arg1);
 extern Cam_801E5598 lbl_8058D4F8;
-void render__17TQuadSpriteNormalFv(Self_801E5598 *self);
-
 
 #pragma push
 #pragma fp_contract on
-void render__17TQuadSpriteNormalFv(Self_801E5598 *self) {
+extern "C" void render__17TQuadSpriteNormalFv(Self_801E5598 *self) {
     Quad_801E5598 q;
     Vec out;
     Vec pos;
@@ -139,8 +130,6 @@ void render__17TQuadSpriteNormalFv(Self_801E5598 *self) {
     set_default_alpha_blend();
 }
 #pragma pop
-
-}
 TQuadSpriteNormal::~TQuadSpriteNormal() {
 
 }

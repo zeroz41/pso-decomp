@@ -11,7 +11,7 @@ struct TOTrapChainSawEdge : public TOTrapChainSaw {
     virtual void update_sweep();
     virtual void vfunc_25();
     virtual void vfunc_16();
-    virtual int check_player_contact();
+    virtual void check_player_contact();
     u8 unk_F8[0x10];
 };
 

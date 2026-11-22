@@ -28,6 +28,9 @@
 #include "pso/ui/city/TJudgmentSequence.h"
 #include "pso/ui/city/TJudgmentSequence_8021E4C4.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/network/client_id.h"
+#include "pso/unk/text_803D8F74.h"
 
 // One shop counter of the generator's set (set_params[0] picks it). Field names follow the targets and the
 // callers: run_fn_table_forward/run_fn_table_reverse call the two hooks, run_task opens the counter's sequence
@@ -67,16 +70,12 @@ extern "C" {
 f32 xyz_distance_squared(u8 *arg0, u8 *arg1);
 f32 vec3_dot(void *, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
-s32 rotate_matrix_y(int, int);
 s32 get_entity_id(s32);
 int is_flag_400_set__10TObjPlayerFPv(void *p);
 int check_flag_100__10TObjPlayerFPv(void *p);
 s32 poll_memcard_result(saddr);
 extern u8 controller_input_state[];
-extern s32 local_client_id;
 extern s32 lbl_805D55C0;
-void TMedicalCenterMes__sub_80216260(void);
-extern saddr tl_05;
 // run_task reads the bool through an int-returning call (no clrlwi after either call); kept as found.
 bool is_player_in_service_range__14TShopGeneratorFPUcf(u8 *self, u8 *player, f32 range);
 }
@@ -170,10 +169,10 @@ void TShopGenerator::run_task() {
 TShopGenerator::~TShopGenerator() {
 }
 
-TShopGenerator::TShopGenerator(saddr arg1) : TObjBase((TObject *)tl_05) {
+TShopGenerator::TShopGenerator(saddr set_data) : TObjBase(tl_05) {
     s32 temp_r0;
     m_name = TShopGenerator__class_name;
-    this->apply_object_set_data((void *)arg1);
+    this->apply_object_set_data((void *)set_data);
     this->m_90 = 0;
     this->m_94 = 5;
     temp_r0 = this->set_params[0];
@@ -191,21 +190,20 @@ int TShopGenerator::is_slot_active(int client) {
     return TShopGenerator__slot_active_table[(u16)TShopGenerator__sub_80222DAC(client)] == 1;
 }
 
-void TShopGenerator::clear_slot_active(s32 arg0) {
-    u16 idx = TShopGenerator__sub_80222DAC(arg0);
+void TShopGenerator::clear_slot_active(s32 client) {
+    u16 idx = TShopGenerator__sub_80222DAC(client);
     TShopGenerator__slot_active_table[idx] = 0;
 }
 
-extern "C" {
-void THunterGuildSeqOffline__sub_8021E180(s32 arg0) {
-    u16 idx = TShopGenerator__sub_80222DAC(arg0);
+
+void THunterGuildSeqOffline__sub_8021E180(s32 client) {
+    u16 idx = TShopGenerator__sub_80222DAC(client);
     TShopGenerator__slot_active_table[idx] = 1;
 }
 
 void *TShopGenerator__create(void *arg0) {
     void *o = (void *)new TShopGenerator((saddr)arg0);
     return o;
-}
 }
 
 void TShopGenerator::run_fn_table_reverse() {

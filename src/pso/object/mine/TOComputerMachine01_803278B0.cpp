@@ -11,8 +11,6 @@ s16 *scroll_uv_coordinate_write_cursor;
 extern "C" {
 s32 has_texture_scroll_entry(void *, u16);
 void set_ginja_texture_wrap_repeat(void *);
-extern Ref_803278B0 *scroll_uv_entry_write_cursor;
-extern s16 *scroll_uv_coordinate_write_cursor;
 void collect_scroll_uv_entries__19TOComputerMachine01FiPvi(s32 arg0, Hdr_803278B0 *arg1, s32 arg2);
 void collect_scroll_uv_entries__19TOComputerMachine01FiPvi(s32 arg0, Hdr_803278B0 *arg1, s32 id) {
     s32 hit;

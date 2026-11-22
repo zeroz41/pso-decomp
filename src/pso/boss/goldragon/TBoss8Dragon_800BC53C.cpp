@@ -9,11 +9,10 @@
 
 
 extern "C" {
-void fill_value_array(saddr address);
 
-s32 attack_target_history_add(saddr object, saddr target) {
-    if ((fn_800BC758((u8 *)object) != 0) && (((s32)attack_target_history_contains((void*)((void *)((void *)object)), (void*)((void *)((void *)target)))) == 0)) {
-        ((s32)push_attack_target_entry((u8 *)object, (s32)target));
+s32 attack_target_history_add(AreaAttackHistory *history, TObjChara *target) {
+    if (fn_800BC758(history) != 0 && attack_target_history_contains(history, target) == 0) {
+        push_attack_target_entry(history, target);
         return 1;
     }
     return 0;
@@ -32,7 +31,7 @@ PointerBuffer::PointerBuffer(s32 capacity, void *empty) {
     this->empty = empty;
     count = 0;
     this->capacity = capacity;
-    fill_value_array((saddr)this);
+    fill_value_array(this);
 }
 
 PointerBuffer::~PointerBuffer() {
@@ -43,15 +42,11 @@ PointerBuffer::~PointerBuffer() {
 }
 }
 
-s32 push_attack_target_entry(u8 *arg0, s32 arg1) {
-    s32 temp_r4;
-    s32 temp_r6;
-    temp_r6 = *(s32 *)((s8 *)arg0 + 8);
-    if (temp_r6 < (s32) *(s32 *)((s8 *)arg0 + 0xC)) {
-        *(s32 *)((s8 *)(*(saddr *)((s8 *)arg0 + 0)) + (temp_r6 * 4)) = arg1;
-        temp_r4 = *(s32 *)((s8 *)arg0 + 8);
-        *(s32 *)((s8 *)arg0 + 8) = (temp_r4 + 1);
-        return temp_r4;
+s32 push_attack_target_entry(PointerBuffer *buffer, void *entry) {
+    s32 count = buffer->count;
+    if (count < buffer->capacity) {
+        buffer->entries[count] = entry;
+        return buffer->count++;
     }
     return -1;
 }
@@ -64,6 +59,6 @@ int attack_target_history_contains(void* object, void* target) {
     return 0;
 }
 
-s32 fn_800BC758(u8 *arg0) {
-    return *(s32 *)((s8 *)arg0 + 8) < *(s32 *)((s8 *)arg0 + 0xC);
+s32 fn_800BC758(PointerBuffer *buffer) {
+    return buffer->count < buffer->capacity;
 }

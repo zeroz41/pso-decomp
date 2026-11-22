@@ -423,8 +423,8 @@ int TObjPlayer__sub_801BF8CC(void* p) { return reset__8FlagWordFv(p); }
 
 }
 
-void set_equip_slot_entry(saddr arg0, s32 arg1, s32 arg2) {
-    *(s32 *)((s8 *)arg0 + (arg1 * 4)) = arg2;
+void set_equip_slot_entry(saddr arg0, s32 val_ext, s32 arg2) {
+    *(s32 *)((s8 *)arg0 + (val_ext * 4)) = arg2;
 }
 
 void TObjPlayer__sub_801BF8F8(s32 *p) {
@@ -552,7 +552,7 @@ void TObjPlayer::reset_scale_vector() {
 u8 *TObjPlayer::construct_hurt_timer() {
     u8 *arg0 = (u8 *)this;
     *(s32 **)((s8 *)arg0 + 4) = &lbl_804C3E38.value;
-    ((TObjPlayer *)arg0)->reset_type();
+    this->reset_type();
     return arg0;
 }
 
@@ -572,7 +572,7 @@ void TObjPlayer__sub_801BFD3C(void* p) { *(s16*)((char*)p + 0x0) = 0; *(s16*)((c
 void*TObjPlayer::init_sub() { __ct__8FlagWordFv(((char*)this + 0xc)); reset_stat_scale_and_ring(); return this; }
 void*TObjPlayer::init_subobjects() { __ct__8FlagWordFv(((char*)this + 0x4)); ((TObjPlayer *)((char*)this + 0x18))->init_pair(); init_player_scale_state(this); return this; }
 }
-int init_player_scale_state(TObjPlayer *player) {
+void init_player_scale_state(TObjPlayer *player) {
     *(u16 *)player = 0xFFFF;
     ((FlagWord *)((u8 *)player + 4))->reset();
     player->set_speed(lbl_805DC2DC);
@@ -594,7 +594,6 @@ void TObjPlayer::set_scale_xyz(f32 farg0) {
 
 void*TObjPlayer::init_pair() { TObjPlayer__sub_801BFE88((u8 *)this); TObjPlayer__sub_801BFE88((u8 *)((char*)this + 0xc)); return this; }
 
-extern "C" {
 
 void TObjPlayer__sub_801BFE88(u8 *arg0) {
     *(f32 *)((s8 *)arg0 + 8) = (f32) TObjPlayer__data_805DC278;
@@ -609,7 +608,6 @@ s32 TObjPlayer::init_state() {
     return p;
 }
 
-}
 
 void TObjPlayer__sub_801BFED4(void* p) { *(s32*)((char*)p + 0x4) = -1; }
 s32 TObjPlayer::setup_state() {

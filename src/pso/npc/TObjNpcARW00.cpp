@@ -8,11 +8,11 @@
 #include "pso/npc/TObjNpcFemaleBase.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/SoundEffect.h"
 
 const char *TObjNpcARW00__name = "TObjNpcARW00";
 
 extern "C" {
-s32 play_sound_effect(int, void *, int, int);
 uaddr TObjNpcARW00__static_model;
 uaddr TObjNpcARW00__gvm_texture_handle;
 void release_texture_list(void*);

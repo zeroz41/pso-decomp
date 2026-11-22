@@ -4,6 +4,7 @@
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/window/TWindowFukidasi.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 
 typedef struct Balloon_8024966C {
     u8 pad0[0xC];
@@ -18,7 +19,6 @@ typedef struct Ctrl_8024966C {
 } Ctrl_8024966C;
 
 extern "C" {
-TObject *get_viewport_window_root(s32 viewport_index);
 s32 find_overlapping_balloon__15TWindowFukidasiFPvPvPvPv(s32, s32, s32, s32);
 
 int TUnk_804D0658::is_selected() { return (this->m_70 >> 5) & 0x1; }

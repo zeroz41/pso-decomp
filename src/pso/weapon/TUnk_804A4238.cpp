@@ -6,6 +6,8 @@
 #include "pso/technique/TTecSlicer.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/TObjPlayer_801D2E20.h"
+#include "pso/player/TObjPlayer_80128A70.h"
 
 
 struct Owner_801293FC { u8 pad[0x60]; s32 f60; };
@@ -33,13 +35,8 @@ struct Tec_801293FC {
 
 extern "C" {
 s16 get_entity_id(void *);
-void TObjPlayer__sub_80128A70(void);
 }
 void init_slicer_launch_state(void *);
-extern "C" {
-s16 get_validated_attack_stage(u8 *arg0);
-s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
-}
 void enlarge_s_rank_j_cutter_blade(void *arg0);
 
 void TUnk_804A4238::emit_marker_effects() {

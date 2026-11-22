@@ -16,6 +16,10 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/TLobby_8001EF5C.h"
+#include "pso/system/MatrixOps.h"
 
 struct AnimationMotion;
 
@@ -35,13 +39,10 @@ extern "C" {
 extern const char *komorebi_class_name;
 extern uaddr TKomorebi__resource_bundle;
 extern s32 komorebi_last_uv_update_frame;
-AnimationMotion *get_bml_motion(BmlResource *, s32);
 s32 post_translate_matrix(void *);
-s32 scale_matrix(s32, f32, f32, f32);
 f32 xz_distance_squared(void *, s32);
 
 extern s32 camera_ctrl_instance;
-extern s32 actor_frame_tick;
 
 void TKomorebi::render() {
     f32 temp_f1;
@@ -70,14 +71,9 @@ void TKomorebi::run_task() {  }
 TKomorebi::~TKomorebi() {
 
 }
-extern "C" {
-
-extern void *tl_05;
-
-}
 #define komorebi ((u8 *)this)
 TKomorebi::TKomorebi(TObject *parent, saddr arg2) : TObjBase(parent) {
-    *(s32 *)((s8 *)komorebi + 0) = (s32) ((s32)komorebi_class_name);
+    m_name = komorebi_class_name;
     VecCopy((Vec *)(komorebi + 0x38), (const Vec *)(arg2 + 0xC));
     copy_xyz(komorebi + 0x5C, (void *)(arg2 + 0x18));
     VecCopy((Vec *)(komorebi + 0x68), (const Vec *)(arg2 + 0x24));
@@ -86,9 +82,9 @@ TKomorebi::TKomorebi(TObject *parent, saddr arg2) : TObjBase(parent) {
 }
 #undef komorebi
 
-extern "C" {
-void *TKomorebi__create(void *arg0) {
-    return new TKomorebi((TObject *)tl_05, (saddr)arg0);
+
+void *TKomorebi__create(void *set_data) {
+    return new TKomorebi(tl_05, (saddr)set_data);
 }
 
 void TKomorebi::free_static() {
@@ -136,7 +132,7 @@ __declspec(section ".data") const char *bm_fe_obj_komo_model_names[2] = { (char 
 BmlResourceDescriptor TKomorebi__resource_descriptor = { (char *)"bm_fe_obj_komo.bml", bm_fe_obj_komo_model_names, bm_fe_obj_komo_motion_names, 1, 0 };
 __declspec(section ".sdata") const char *bm_fe_obj_komo_motion_names[1] = { NULL };
 
+
 const char *komorebi_class_name = "TKomorebi";
 uaddr TKomorebi__resource_bundle;
 s32 komorebi_last_uv_update_frame;
-}

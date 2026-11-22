@@ -62,11 +62,10 @@ struct VObj_80322438 : Base_80322438 {
 };
 
 extern "C" {
-s32 __ct__7TObjectFP7TObject(void *, void *);
 f32 vector_length(void *);
 const char *TBoss6Kakusan__name = "TBoss6Kakusan";
 }
-void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
+void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 extern "C" {
 int TBoss6Kakusan__sub_8032263C(void);
 void vec3_add_to(void *, void *);
@@ -83,7 +82,7 @@ typedef struct Hit_80322438 Hit_80322438;
 typedef struct VObj_80322438 VObj_80322438;
 #define PSO_VCALL_VObj_80322438_m21(_self, _arg0, _arg1, _arg2, _arg3, _arg4) (((VObj_80322438 *)(_self))->m21((_arg0), (_arg1), (_arg2), (_arg3), (_arg4)))
 void TBoss6Kakusan::check_beam_player_hits() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
   Vec dir;
   Vec p;
   Vec q;
@@ -145,7 +144,7 @@ void TBoss6Kakusan::check_beam_player_hits() {
       h.a = z;
       h.c = z;
       h.b = *((s32 *)&h.f);
-      PSO_VCALL_VObj_80322438_m21(pl, *((s32 *) (((s8 *) arg0) + 0x10)), &h, 0, -1, -1);
+      PSO_VCALL_VObj_80322438_m21(pl, *((s32 *) (((s8 *) self) + 0x10)), &h, 0, -1, -1);
     }
   }
 }
@@ -154,11 +153,11 @@ void TBoss6Kakusan::check_beam_player_hits() {
 int TBoss6Kakusan__sub_8032263C(void) { return 0; }
 
 s32 TBoss6Kakusan::is_out_of_range() {
-    Obj_80322644 *arg0 = (Obj_80322644 *)this;
-    if (arg0->pos.y < -200.0f || arg0->pos.y > 200.0f) {
+    Obj_80322644 *self = (Obj_80322644 *)this;
+    if (self->pos.y < -200.0f || self->pos.y > 200.0f) {
         return 1;
     }
-    Vec v = arg0->pos;
+    Vec v = self->pos;
     v.y = 0.0f;
     return vector_length(&v) > 400.0f;
 }
@@ -166,7 +165,7 @@ s32 TBoss6Kakusan::is_out_of_range() {
 void TBoss6Kakusan::render() {  }
 
 void TBoss6Kakusan::run_task() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     Vec v;
     Vec w;
     Vec b;
@@ -220,8 +219,8 @@ void TBoss6Kakusan::run_task() {
         *(s32 *)&b.y = 0;
         ((TParticleCtrl *)(*(void * *)&this->m_54))->set_direction(&b);
     }
-    if (is_out_of_range() != 0 || ((int (*)(void *))TBoss6Kakusan__sub_8032263C)(arg0) != 0) {
-        ((TObject *)arg0)->queue_destruction();
+    if (is_out_of_range() != 0 || ((int (*)(void *))TBoss6Kakusan__sub_8032263C)(self) != 0) {
+        ((TObject *)self)->queue_destruction();
         return;
     }
     check_beam_player_hits();

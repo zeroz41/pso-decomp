@@ -10,7 +10,6 @@ TItemDropSub::~TItemDropSub() {
     TItemDropSub__instance = 0;
 }
 
-extern "C" {
 
 const char *TItemDropSub__class_name = "TItemDropSub";
 
@@ -22,4 +21,3 @@ TItemDropSub::TItemDropSub(TObject *parent) : TObject(parent) {
 }
 #undef item_drop_sub
 
-}

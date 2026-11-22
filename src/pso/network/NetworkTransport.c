@@ -193,8 +193,8 @@ void TLobby__sub_803F77E0(void) {
 
 }
 
-void init_modem_buffer_config(void *arg0) {
-    Obj_803F77E4 *o = (Obj_803F77E4 *)arg0;
+void init_modem_buffer_config(void *config) {
+    Obj_803F77E4 *o = (Obj_803F77E4 *)config;
 
     o->f0 = lbl_805AA080;
     o->f4 = 6;
@@ -399,7 +399,7 @@ void subtract_network_queue_timeout(s32 elapsed_ms) {
 }
 
 /* Maps lobby_map_state_code to a mode id (-1 for state 4). */
-s32 map_state_to_mode_id(void) {
+s16 map_state_to_mode_id(void) {
     switch ((*(u32 *)&lobby_map_state_code)) {
     case 3:
         return 0;

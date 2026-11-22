@@ -28,19 +28,19 @@ s32 TWindowKeyBoardHard::test_card_flag(s32 arg1, s32 arg2) {
     return (*(s32 *)((s8 *)character_save_record + 0x10) & arg2) ? 1 : 0;
 }
 
-void TWindowKeyBoardHard::set_card_window_flags(void *arg0, s32 arg1, s32 arg2) {
+void TWindowKeyBoardHard::set_card_window_flags(void *client_id, s32 arg1, s32 arg2) {
     void *character_save_record;
 
-    character_save_record = ((void *)get_character_save_record((u32)arg0));
+    character_save_record = (void *)get_character_save_record((uaddr)client_id);
     if (character_save_record != NULL) {
         *(s32 *)((s8 *)character_save_record + 0x10) = (s32) (*(s32 *)((s8 *)character_save_record + 0x10) & arg2);
         *(s32 *)((s8 *)character_save_record + 0x10) = (s32) (*(s32 *)((s8 *)character_save_record + 0x10) | arg1);
     }
 }
 
-void set_fresh_card_flag(void *arg0) {
-    if (arg0 != NULL) {
-        *(s32 *)((s8 *)arg0 + 0x10) = 0x40058;
+void set_fresh_card_flag(void *card) {
+    if (card != NULL) {
+        *(s32 *)((s8 *)card + 0x10) = 0x40058;
     }
 }
 
@@ -60,12 +60,12 @@ void TLobby::drain_deferred_packets() {
         deferred_packet_buffer_used += n;
     }
 }
-void copy_packet(packet *arg0) {
+void copy_packet(packet *pkt) {
     s32 len;
 
-    len = (u16) to_be_uint16_t__FUs(*(u16 *)((s8 *)arg0 + 2));
+    len = (u16) to_be_uint16_t__FUs(*(u16 *)((s8 *)pkt + 2));
     if (deferred_packet_buffer_used + len <= 0x10000) {
-        memcpy((void *)(deferred_packet_buffer + deferred_packet_buffer_used), arg0, len);
+        memcpy((void *)(deferred_packet_buffer + deferred_packet_buffer_used), pkt, len);
         deferred_packet_buffer_used += len;
     }
 }
@@ -121,15 +121,15 @@ void TLobby__sub_801A54E8(u8 *arg0) {
         ((VObj_801a54e8_801A529C *) arg0)->m8(arg0 + 0x8BC, *(s32 *)((s8 *)arg0 + 0x8B8));
     }
 }
-void append_command_to_batch_buffer(S_801A5544 *arg0, u8 *arg1) {
+void append_command_to_batch_buffer(S_801A5544 *arg0, u8 *cmd) {
     s32 n;
     s32 i;
-    if (arg0->cnt + arg1[1] * 4 > 0x5B4) {
+    if (arg0->cnt + cmd[1] * 4 > 0x5B4) {
         return;
     }
-    n = arg1[1] * 4;
+    n = cmd[1] * 4;
     for (i = 0; i < n; i++) {
-        arg0->buf[arg0->cnt++] = *arg1++;
+        arg0->buf[arg0->cnt++] = *cmd++;
     }
 }
 

@@ -15,13 +15,14 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecCtrl.h"
-extern "C" void *__ct__16TargetCursorListFv(void *list);
+#include "pso/system/task/TMainTask.h"
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/player/TargetCursorList.h"
 
 #pragma readonly_strings on
 
 
 const char *TTecResta__name = "TTecResta";
-
 
 
 struct Row_8023967C { s32 delay; s32 duration; s32 entry; u32 flags; };
@@ -106,7 +107,6 @@ struct Obj_80239CF4 { u8 pad[0x1C]; void *source; u8 pad20[0x88 - 0x20]; f32 pow
 
 extern "C" {
 saddr get_entity_id(int);
-extern const char *TTecResta__name;
 extern s32 __vt__13TUnk_804CCBC0[];
 Row_8023967C TTecResta__self_recovery_effect_table[3] = {
     {0x14, 1, 0x2C, 0},
@@ -116,7 +116,6 @@ Row_8023967C TTecResta__self_recovery_effect_table[3] = {
 void __ct__7TObjectFP7TObject(void *, void *);
 void set_owner_id__13TParticleCtrlFUs(void *, s32);
 Resta_8023967C *construct_self_recovery__9TTecRestaFPvPviPv(Resta_8023967C *self, Vec *pos, s32 owner, void *parent);
-void *find_entity_by_id(u16 id);
 void deliver_technique_to_party_targets(void *);
 void run_task__9TTecRestaFv(Resta_802399F8 *self);
 s32 is_split_screen(void);
@@ -124,11 +123,8 @@ s32 copy_technique_target_list(void *, void *);
 int spawn_support_tec_range_effect(void*);
 
 
-
-
 }
 u8 *construct_delayed_point_sound(u8 *arg0, u8 *arg1, s16 arg2, s32 arg3, u8 *arg4);
-extern saddr tl_07;
 void TTecReverser::vfunc_6(void *arg1_arg) {
     Obj_80239CF4 *arg0 = (Obj_80239CF4 *)this;
     VObj_18_9c98dd *arg1 = (VObj_18_9c98dd *)arg1_arg;
@@ -143,7 +139,7 @@ void TTecReverser::vfunc_6(void *arg1_arg) {
     }
 }
 
-TTecResta::TTecResta(void *owner, void *pos, saddr level) : TTecPlayerInfluence(owner, pos, level) {
+TTecResta::TTecResta(void *owner, void *pos, s32 level) : TTecPlayerInfluence(owner, pos, level) {
 #define arg0 this
     u32 temp_r3_2;
     u8 *temp_r3;
@@ -168,14 +164,14 @@ TTecResta::TTecResta(void *owner, void *pos, saddr level) : TTecPlayerInfluence(
 
 #pragma push
 #pragma opt_common_subs off
-TTecResta::TTecResta(void *owner, void *pos, void *arg3, s32 level) : TTecPlayerInfluence(owner, pos, level) {
+TTecResta::TTecResta(void *owner, void *pos, void *targets, s32 level) : TTecPlayerInfluence(owner, pos, level) {
 #define arg0 this
     u32 src;
     u8 *p;
     __ct__16TargetCursorListFv(((u8 *)arg0 + 0xE0));
     *(s32 *)((s8 *)arg0 + 0) = ((saddr)TTecResta__name);
     *(s32 *)&arg0->m_13c = 1;
-    copy_technique_target_list((u8 *)arg0 + 0xE0, arg3);
+    copy_technique_target_list((u8 *)arg0 + 0xE0, targets);
     arg0->init_parameters();
     p = *(u8 **)((s8 *)arg0 + 0xDC);
     if (p != NULL) {
@@ -249,7 +245,7 @@ void TTecResta::vfunc_7(void *arg1_arg) {
         if (*(s32 *)&arg0->m_ac != 0) {
             void *o = TObject::operator new(0x30);
             if (o != NULL) {
-                construct_self_recovery__9TTecRestaFPvPviPv((Resta_8023967C *)o, (Vec *)((u8 *)player + 0x2FC), arg0->source, (void *)tl_07);
+                construct_self_recovery__9TTecRestaFPvPviPv((Resta_8023967C *)o, (Vec *)((u8 *)player + 0x2FC), arg0->source, tl_07);
             }
         }
     } else if (*(s32 *)&arg0->m_ac != 0) {
@@ -275,8 +271,8 @@ void TTecResta::create(void *owner, void *pos, void *level) {
     new TTecResta(owner, pos, (saddr)level);
 }
 
-void TTecResta::create(void *owner, void *pos, void *arg2, void *level) {
-    new TTecResta(owner, pos, arg2, (saddr)level);
+void TTecResta::create(void *source, void *origin, void *targets, s32 level) {
+    new TTecResta(source, origin, targets, level);
 }
 
 #pragma push
@@ -337,12 +333,12 @@ void TTecResta::init_parameters() {
   }
 }
 
-f32 TTecResta::calc_heal_amount(s32 arg0) {
+f32 TTecResta::calc_heal_amount(s32 level) {
   f32 *temp_r3;
   f32 var_f31;
-  temp_r3 = (f32 *) calc_technique_parameters(0xF, arg0, 0xFFFF);
+  temp_r3 = (f32 *) calc_technique_parameters(0xF, level, 0xFFFF);
   var_f31 = *((f32 *) (((s8 *) temp_r3) + 0));
-  var_f31 = var_f31 + ((f32) (arg0 * 5));
+  var_f31 = var_f31 + ((f32) (level * 5));
   if (TTecCtrl::is_technique_ready() != 0)
   {
     var_f31 *= lbl_804CC55C[15].pad_00;

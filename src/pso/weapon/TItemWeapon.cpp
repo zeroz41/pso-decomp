@@ -36,14 +36,14 @@ extern "C" {
 void draw_weapon_at_joint(saddr arg0, s8 arg1);
 }
 void set_shadow_material_state(void);
-extern "C" {
+
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 extern s16 TObjPlayer__weapon_node_ids[];
 extern s16 weapon_node_material_index;
 extern u8 *weapon_render_callback_object;
 extern s32 model_render_flags;
 
-s32 TItemWeapon::draw_weapon_model() {
+void TItemWeapon::draw_weapon_model() {
     s32 var_r30;
     u8 *temp_r4;
     if ((void *) this->owner == NULL || (u32) *(u32 *)((s8 *)this + 0xF4) == 0U) {
@@ -132,7 +132,6 @@ void draw_weapon_at_joint(saddr arg0, s8 arg1) {
 // ---- pso/unk/text_80120C5C
 void TItemWeapon::release_model() { memset((char*)this + 0x18c, 0, 16); clear_weapon_flags((uaddr)((void*)12)); TItemEquipBase::release_model(); }
 
-}
 
 struct PlB_80120C5C { char pad[0x18]; };
 
@@ -183,7 +182,7 @@ struct Pl_80120C5C : PlB_80120C5C {
 
 struct T_80120C5C { s32 a; s32 b; s32 c; u16 d; u8 e; };
 
-extern "C" {
+
 extern T_80120C5C lbl_8043E828[];
 void TItemWeapon::request_equipped_model() {
     Pl_80120C5C *arg0 = (Pl_80120C5C *)this;
@@ -201,7 +200,6 @@ void TItemWeapon::request_equipped_model() {
     ((TItemWeapon *)arg0)->create_weapon_trail_effects();
 }
 
-}
 
 // ---- pso/item/TItemWeapon
 
@@ -373,9 +371,9 @@ s32 *get_captured_target_entry(Obj_80121248 *self, s32 i) {
     return &self->arr[i];
 }
 
-s32 get_captured_target_count(s32 *arg0) {
+s32 get_captured_target_count(s32 *ext) {
     s32 temp_r3;
-    temp_r3 = *arg0;
+    temp_r3 = *ext;
     if ((temp_r3 < 0) || (temp_r3 > 0xA)) {
         return 0;
     }

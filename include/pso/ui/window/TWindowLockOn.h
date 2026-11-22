@@ -23,9 +23,9 @@ struct TWindowLockOn : public TWindowBase {
     void validate_target();
     void refresh_ground_item();
     void update_photon_blast_marker();
-    static void *create_for_target(s32 arg0, u16 arg1);
+    static void *create_for_target(s32 player, u16 id);
     virtual void run_task();
-    void update_for_player_index(s32 arg1);
+    void update_for_player_index(s32 id);
     void refresh_enemy_statuses();
     static s32 is_lockable_target(TObjCollidable *actor);
     void bind_target(u16 id);

@@ -1,4 +1,6 @@
 #include "pso/system/BmlAccessors.h"
+#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
@@ -22,13 +24,9 @@ const char *lbl_805D2818 = "TBoss5GryphonShockWave";
 
 extern "C" {
 const s32 *gryphon_shockwave_particle_ids_ptr;
-s32 get_bml_motion(s32, s32);
 
-s32 attach_particle_model(s32, s32, s32, s32, s32, f32);
 u32 spawn_continuous_particle_effect_with_flags(void *, s32, s32);
 s32 eval_bezier_curve__12TBoss8DragonFPviiPvf(void *, s32, s32, void *, f32);
-extern s32 boss5_gryphon_bml_resource;
-extern s32 boss5_gryphon_texture_list;
 s32 vec3_add_to(void *, s32);
 s32 subtract_vector(void *, void *);
 
@@ -36,12 +34,12 @@ void TBoss5GryphonShockWave::render() {  }
 
 
 void TBoss5GryphonShockWave::run_task() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     s32 temp_r30;
     s32 temp_r3;
     TParticleCtrl *particle;
     if (((TBoss5Gryphon *)(*(saddr *)&this->m_38))->get_flag_bit6() != 0) {
-        ((TObject *)arg0)->queue_destruction();
+        ((TObject *)self)->queue_destruction();
         return;
     }
     switch (*(s32 *)&this->m_1c) {
@@ -65,14 +63,14 @@ void TBoss5GryphonShockWave::run_task() {
     case 2:
         particle = spawn_particle_effect_with_flags((const Vec *)&this->m_2c, gryphon_shockwave_particle_ids_ptr[1], 0x40);
         if (particle != 0) {
-            attach_particle_model((saddr)particle, (saddr)get_bml_model((BmlResource *)boss5_gryphon_bml_resource, 0), boss5_gryphon_texture_list, get_bml_motion(boss5_gryphon_bml_resource, 0), 0, 1.0f);
+            attach_particle_model(particle, get_bml_model(boss5_gryphon_bml_resource, 0), boss5_gryphon_texture_list, get_bml_motion(boss5_gryphon_bml_resource, 0), 0, 1.0f);
         }
         spawn_particle_effect_with_flags((const Vec *)&this->m_2c, gryphon_shockwave_particle_ids_ptr[2], 0x40);
         play_sound_effect(0x40033C13, (u8 *)&this->m_2c, 0, 0);
         apply_shockwave_hit(TBoss8Dragon::get_instance_count(), (saddr)&this->m_2c);
         spawn_gryphon_tornado(*(s32 *)&this->m_up, *(s32 *)&this->m_38, (const Vec *)&this->m_2c, this->m_28);
         *(s32 *)&this->m_1c = 3;
-        ((TObject *)arg0)->queue_destruction();
+        ((TObject *)self)->queue_destruction();
         break;
     case 3:
         break;

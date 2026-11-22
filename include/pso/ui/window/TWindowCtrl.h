@@ -6,31 +6,36 @@
 #include "pso/system/task/TObject.h"
 
 struct TWindowTradeRequest;
+struct TWindowTimer;
+class TWindowArea;
+struct TWindowMessageLog;
+struct TWindowSimpleStatus;
 
 struct TWindowCtrl : public TObject {
     TWindowCtrl(TObject *parent);
     virtual ~TWindowCtrl();
-    u16 m_1c;
+    u16 flags;
     u16 m_1e;
     u16 m_20;
-    u16 m_22;
+    s16 submit_cooldown;
     u32 m_24;
-    u16 m_28;
+    u16 window_id;
     u8 _pad2A[0x2];
     uaddr m_2c;
-    uaddr m_30;
-    uaddr m_34;
+    TWindowTimer *m_30;
+    TWindowArea *m_34;
     uaddr m_38;
-    u32 m_3c;
+    uaddr m_3c;
     TWindowTradeRequest *trade_request;
-    u32 m_44;
+    TWindowMessageLog *message_log;
     u8 unk_48[0x8];
     s32 m_50;
     u8 unk_54[0x1D];
     u8 m_71;
     u8 unk_72[0x4];
     u16 m_76;
-    u8 unk_78[0x1C];
+    TWindowSimpleStatus *simple_status[3];
+    u8 unk_84[0x10];
     void* m_94;
     virtual void run_task();
     virtual void render();
@@ -52,7 +57,7 @@ struct TWindowCtrl : public TObject {
     static void close_active_window();
     static void ensure_initialized();
     static void create_timer();
-    void set_timer_window_time();
+    static void set_timer_window_time(u32 secs);
     static void close_timer_window();
     static void create_alt_timer();
     static char *skip_name_prefix(void *self, char *s);
@@ -64,16 +69,16 @@ struct TWindowCtrl : public TObject {
     static void suppress_slot(s32 client);
     static void unsuppress_slot(s32 client);
     static s32 has_player_active_menu(s32 client);
-    static void apply_default_vec(s32 arg0, saddr arg1);
+    static void apply_default_vec(s32 arg0, saddr client_id);
     static s32 is_slot_visible(s32 client);
-    static saddr get_message_by_type(s8 arg0, s32 arg1);
+    static saddr get_message_by_type(s8 arg0, s32 client_id);
     static void release_slot(s8 *arg0);
     static void close_windows_by_flags(u16 arg0);
-    static s32 open_balloon(u16 arg0, u8 *arg1, s32 arg2, s32 arg3);
-    static saddr open(s32 arg0, saddr arg1, s32 arg2);
+    static s32 open_balloon(u16 player, u8 *arg1, s32 flags, s32 arg3);
+    static saddr open(s32 id, saddr text, s32 flags);
     static int open_default(s32 id, s32 text);
     static void create_level_up_window(saddr arg0, saddr arg1);
-    static void set_window_flags(void *arg0, s32 arg1, s32 arg2);
+    static void set_window_flags(void *client_id, s32 flags, s32 arg2);
     static void set_window_flags_off(s32 client, s32 flags);
     static void init_all(void* p, void* a1);
     void init_all_default();
@@ -92,7 +97,7 @@ struct TWindowCtrl : public TObject {
     static void close();
     void set_flag1e_bit40();
     u16 get_flags();
-    static saddr get_window(s32 arg0);
+    static saddr get_window(s32 client_id);
     static s32 get_flag_bit4();
     static s32 get_flag_bit5();
     static s32 get_display_flag();
@@ -106,8 +111,7 @@ struct TWindowCtrl : public TObject {
     void update_child_window_visibility();
     void update_trade_window_visibility();
     void run_all_updates();
-    void set_position(void *arg1);
-    static s32 get_field44();
+    static TWindowMessageLog *get_field44();
     static void set_flag_active();
     static void clear_flag_8();
     static void set_flag_bit0();
@@ -127,6 +131,8 @@ struct TWindowCtrl : public TObject {
 
 LAYOUT_ASSERT(WindowCtrlTradeRequestOffset, offsetof(TWindowCtrl, trade_request) == 0x40);
 LAYOUT_ASSERT(TWindowCtrl_size, sizeof(TWindowCtrl) == 0xE8);
+
+extern TWindowCtrl *TWindowCtrl__active_window;
 
 
 #endif

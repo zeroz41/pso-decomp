@@ -3,17 +3,19 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+class TParticleCtrl;
+
 class TUnk_804949F4 : public TObject {
 public:
-    TUnk_804949F4(TObject *parent, Vec *position, s32 emitter, f32 radius);
+    TUnk_804949F4(TObject *parent, Vec *position, TParticleCtrl *emitter, f32 radius);
     virtual ~TUnk_804949F4();
     virtual void run_task();
     virtual void vfunc_6();
-    u8 unk_1C[0xC];
-    f32 m_28;
-    u8 unk_2C[0x4];
-    u32 m_30;
-    s32 m_34;
+    Vec position;
+    f32 radius;
+    s32 timer;     // frames since the last emitter move (name inferred)
+    s32 interval;  // frames between moves: 2, TUnk_804949D8 8 (name inferred)
+    TParticleCtrl *emitter;
 };
 LAYOUT_ASSERT(TUnk_804949F4_size, sizeof(TUnk_804949F4) == 0x38);
 

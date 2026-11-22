@@ -5,7 +5,6 @@
 #include "pso/boss/TUnk_80482C58.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/dd/TObjEneDD.h"
-#include "pso/enemy/dd/TObjEneDD_800BB804.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/TUnk_804820A8.h"
@@ -196,7 +195,7 @@ TBoss2Joint::~TBoss2Joint() {
 
 #pragma push
 #pragma opt_propagation off
-s32 TBoss2Joint::init_params() {
+void TBoss2Joint::init_params() {
     init_position_vectors();
     model = NULL;
     texlist = 0;
@@ -221,8 +220,8 @@ s32 TBoss2Joint::init_params() {
 }
 #pragma pop
 
-TBoss2Joint::TBoss2Joint(TObject *parent, u16 entity_id, s32 set_index, const Vec *anchor, s32 body_material,
-                         s32 rim_material)
+TBoss2Joint::TBoss2Joint(TObject *parent, u16 entity_id, s32 set_index, const Vec *anchor, saddr body_material,
+                         saddr rim_material)
     : TObjEneDD(parent) {
     m_name = TBoss2Joint__name;
     init_common_from((u8 *)parent);

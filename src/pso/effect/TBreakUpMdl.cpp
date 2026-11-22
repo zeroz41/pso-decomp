@@ -26,6 +26,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/render/model_render_state.h"
+#include "pso/unk/text_803D8F74.h"
 
 struct Seg_80096EBC { s32 a; f32 x; f32 y; f32 z; u8 pad[12]; };
 
@@ -111,11 +113,8 @@ s32 rotate_matrix_by_node_angles(void *, int);
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
 void alloc_breakup_piece_records(Brk_80096EBC *arg0, NJS_OBJECT *model);
-extern u32 saved_model_render_flags;
-extern u32 model_render_flags;
 void __ct__7TObjectFP7TObject(void *, void *);
 void rotate_vector_by_matrix(saddr, void *, void *);
-void rotate_matrix_y(s32, s32);
 extern s32 __vt__11TBreakUpMdl[];
 static const BreakUpParamRow breakup_default_param_row = { 12, 0.07f, 1.5f, 0.9f, 0.12f, 0.5f, 0.5f };
 const char *TBreakUpMdl__class_name = "TBreakUpMdl";
@@ -170,14 +169,14 @@ TUnk_8048FA00::~TUnk_8048FA00() {
 
 #pragma push
 #pragma fp_contract on
-s32 TUnk_8048FA00::build_node_records(u8 *arg1, s32 arg2) {
+s32 TUnk_8048FA00::build_node_records(u8 *model, s32 arg2) {
     u8 *temp_r31;
     s32 temp_r30;
     s32 temp_r4;
-    s32 var_r29;
+    s32 index;
     u8 *var_r28;
-    var_r28 = arg1;
-    var_r29 = arg2;
+    var_r28 = model;
+    index = arg2;
     do {
         push_matrix();
         post_translate_matrix(var_r28 + 8);
@@ -185,60 +184,60 @@ s32 TUnk_8048FA00::build_node_records(u8 *arg1, s32 arg2) {
         scale_current_matrix(var_r28 + 0x20);
         temp_r30 = *(s32 *)((s8 *)var_r28 + 0);
         if (!(temp_r30 & 8)) {
-            temp_r31 = (u8 *)m_records + var_r29 * 0x1C;
+            temp_r31 = (u8 *)m_records + index * 0x1C;
             temp_r4 = (long) (temp_r31 + 4);
             matrix_mult_vec(0, temp_r4, temp_r4);
             VecCopy((Vec *)(temp_r31 + 0x10), (const Vec *)(temp_r31 + 4));
             normalize_vector_xz((Vec *)(temp_r31 + 0x10));
-            var_r29 += 1;
+            index += 1;
             *(s32 *)temp_r31 = *(s32 *)((s8 *)var_r28 + 4);
         }
         if (!(temp_r30 & 0x10)) {
-            var_r29 = build_node_records(*(u8 **)((s8 *)var_r28 + 0x2C), var_r29);
+            index = build_node_records(*(u8 **)((s8 *)var_r28 + 0x2C), index);
         }
         pop_matrix();
         var_r28 = (u8 *)(*(u8 **)((s8 *)var_r28 + 0x30));
     } while (var_r28 != NULL);
-    return var_r29;
+    return index;
 }
 
-s32 TUnk_8048FA00::collect_node_positions(u8 *arg1, s32 arg2) {
+s32 TUnk_8048FA00::collect_node_positions(u8 *model, s32 arg2) {
     u8 *temp_r31;
     s32 temp_r30;
     s32 temp_r4;
-    s32 var_r29;
+    s32 index;
     u8 *var_r28;
-    var_r28 = arg1;
-    var_r29 = arg2;
+    var_r28 = model;
+    index = arg2;
     do {
         push_matrix();
         compose_motion_node_matrix((var_r28));
         temp_r30 = *(s32 *)((s8 *)var_r28 + 0);
         if (!(temp_r30 & 8)) {
-            temp_r31 = (u8 *)m_records + var_r29 * 0x1C;
+            temp_r31 = (u8 *)m_records + index * 0x1C;
             temp_r4 = (long) (temp_r31 + 4);
             matrix_mult_vec(0, temp_r4, temp_r4);
             VecCopy((Vec *)(temp_r31 + 0x10), (const Vec *)(temp_r31 + 4));
             normalize_vector_xz((Vec *)(temp_r31 + 0x10));
-            var_r29 += 1;
+            index += 1;
             *(s32 *)temp_r31 = *(s32 *)((s8 *)var_r28 + 4);
         }
         if (!(temp_r30 & 0x10)) {
-            var_r29 = collect_node_positions(*(u8 **)((s8 *)var_r28 + 0x2C), var_r29);
+            index = collect_node_positions(*(u8 **)((s8 *)var_r28 + 0x2C), index);
         }
         pop_matrix();
         var_r28 = (u8 *)(*(u8 **)((s8 *)var_r28 + 0x30));
     } while (var_r28 != NULL);
-    return var_r29;
+    return index;
 }
 
-u8 *TBreakUpMdl__ct(u8 *break_up_mdl, void *arg1, Model_80096AD8 *arg2, void *arg3, s32 arg4, void *arg5, s32 arg6) {
+u8 *TBreakUpMdl__ct(u8 *break_up_mdl, void *parent, Model_80096AD8 *arg2, void *arg3, s32 texlist, void *arg5, s32 arg6) {
     BreakUp_80096AD8 *self = (BreakUp_80096AD8 *)break_up_mdl;
     f32 base;
     f32 scale;
     Part_80096AD8 *part;
     s32 i;
-    __ct__7TObjectFP7TObject(self, arg1);
+    __ct__7TObjectFP7TObject(self, parent);
     self->vtable = __vt__11TBreakUpMdl;
     self->f0 = (saddr)TBreakUpMdl__class_name;
     self->model = arg2;
@@ -247,7 +246,7 @@ u8 *TBreakUpMdl__ct(u8 *break_up_mdl, void *arg1, Model_80096AD8 *arg2, void *ar
     } else {
         ((TBreakUpMdl *)(&self->f38))->copy(arg3);
     }
-    self->f24 = arg4;
+    self->f24 = texlist;
     self->count = self->model->count;
     base = self->f4C;
     scale = self->f50;
@@ -280,7 +279,7 @@ TBreakUpMdl::~TBreakUpMdl() {
 
 #pragma push
 #pragma fp_contract on
-extern "C" {
+
 void TBreakUpMdl::init_alpha(s32 arg1, f32 farg0) {
     u8 *arg0 = (u8 *)this;
     *(f32 *)((s8 *)arg0 + 0x28) = (f32) ((farg0 * (f32) arg1) + 1.0f);
@@ -307,10 +306,7 @@ void TBreakUpMdl::run_task() {
     }
     self->speed = self->speed * self->damping;
 }
-}
-
 #pragma pop
-extern "C" {
 void TBreakUpMdl::render() {
     BreakUp_8009680C *self = (BreakUp_8009680C *)this;
     Part_8009680C *part;
@@ -340,5 +336,4 @@ void TBreakUpMdl::render() {
     }
     set_chunk_material_override_pair(0xFF00, 0);
     model_render_flags = saved_model_render_flags;
-}
 }

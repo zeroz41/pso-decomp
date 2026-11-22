@@ -3,6 +3,8 @@
 
 #include "types.h"
 
+struct TItemWeapon;
+
 extern "C" {
 s32 weapon_has_extra_attack(TItemWeapon *weapon);
 }

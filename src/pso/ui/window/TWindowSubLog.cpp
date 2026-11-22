@@ -35,7 +35,6 @@ s32 play_sound_effect(int, int, int, int);
 extern RecoveredGlobal_8027AF58_lbl_8050E208 controller_input_state;
 const u8 lbl_8044F9C8[8] = {65, 136, 0, 0, 66, 16, 0, 0};
 const u8 lbl_8044F9D0[8] = {67, 151, 128, 0, 67, 204, 0, 0};
-extern const char *TWindowSubLog__class_name;
 
 void TWindowSubLog::render() {  }
 
@@ -65,7 +64,7 @@ void TWindowSubLog::run_task() {
     temp_r3 = (u8 *)this->m_24;
     if ((*(f32 *)((s8 *)temp_r3 + 0x3C) == *(f32 *)((s8 *)temp_r3 + 0x4C)) && ((TWindowShortListCtrl__check_controller_button(context, 2) != 0) || (test_controller_flag_4c_color((void *) ((u8 *)&controller_input_state.value + 0x160), 2) != 0))) {
         play_sound_effect(0x52F16, 0, 0, 0);
-        parent_menu->vfunc_9();
+        parent_menu->on_submenu_closed();
         parent_menu->clear_log_active();
     }
 }
@@ -80,10 +79,10 @@ TWindowSubLog::~TWindowSubLog() {
     }
     TWindowCtrl__sub_8024ADF0((saddr)(*(void **)((s8 *)this + 0x1C)));
 }
-TWindowSubLog::TWindowSubLog(TObject *arg1, void *arg2) : TObject(arg1) {
+TWindowSubLog::TWindowSubLog(TObject *parent, void *arg2) : TObject(parent) {
     void *w;
     ((Lg_8027B194 *)this)->f0 = ((saddr)TWindowSubLog__class_name);
-    parent_menu = static_cast<TWindowMainMenu *>(arg1);
+    parent_menu = static_cast<TWindowMainMenu *>(parent);
     ((Lg_8027B194 *)this)->f1c = arg2;
     TWindowCtrl__sub_8024ADAC((saddr)(((Lg_8027B194 *)this)->f1c));
     parent_menu->hide_for_subwindow();

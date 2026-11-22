@@ -166,12 +166,12 @@ TUnk_80494E48::~TUnk_80494E48() {
         m_f8 = 0;
     }
 }
-Obj_800DCD04 *TObjPlayer__sub_800DCD04(Obj_800DCD04 *self, Vec *pos, s16 id, s32 *rot, s32 arg4, s16 arg5) {
+Obj_800DCD04 *TObjPlayer__sub_800DCD04(Obj_800DCD04 *self, Vec *pos, s16 id, s32 *rot, s32 arg4, s16 entity_id) {
     Vec *pp;
     __ct__14TObjCollidableFP7TObject(self, tl_04);
     self->vt = __vt__13TUnk_80494E48;
     self->id = id;
-    self->f102 = arg5;
+    self->f102 = entity_id;
     self->pos = pos;
     self->fe8 = 0.0f;
     push_matrix_from(identity_matrix);

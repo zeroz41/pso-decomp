@@ -3,6 +3,7 @@
 #include "pso/item/TUnk_8049FBC0.h"
 #include "pso/player/TObjPlayer_801AEB84.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/text_80104FCC.h"
 
 // Written from the last function back (deferred code generation), which also
 // puts the vtable before the switch table.
@@ -14,7 +15,6 @@ extern "C" s16 calc_base_hp_bonus__FUs();
 
 extern "C" {
 s32 get_entity_id(void *);
-int check_class_equip_permission(TObjPlayer *player, s32 perm);
 }
 
 TItem *create_material_item(u8 *item) {

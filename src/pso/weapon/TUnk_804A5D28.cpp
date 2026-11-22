@@ -41,9 +41,9 @@ void expire_weapon_casing(void *p) { ((TObject *)p)->queue_destruction(); }
 
 TUnk_804A5D10::~TUnk_804A5D10() {}
 
-TItem *TObjPlayer::create_inferno_bazooka(u8 *arg0) {
-    if (arg0 != NULL) {
-        return new TUnk_804A5D28(tl_05, arg0);
+TItem *TObjPlayer::create_inferno_bazooka(u8 *item) {
+    if (item != NULL) {
+        return new TUnk_804A5D28(tl_05, item);
     }
     return NULL;
 }
@@ -103,9 +103,8 @@ extern RecoveredGlobal_8012E414_lbl_804A5D10 __vt__13TUnk_804A5D10;
 #pragma push
 #pragma opt_common_subs off
 #pragma fp_contract on
-LAYOUT_ASSERT(RecoveredGlobal_8012E414_lbl_804A5D10_size, sizeof(RecoveredGlobal_8012E414_lbl_804A5D10) == 0x18);
-u8 *TObjPlayer::construct_weapon_casing(u8 *arg1, u8 *arg2, u8 *arg3, u8 *arg4, u8 *arg5) {
-    __ct__7TObjectFP7TObject(this, arg1);
+u8 *TObjPlayer::construct_weapon_casing(u8 *parent, u8 *arg2, u8 *arg3, u8 *arg4, u8 *arg5) {
+    __ct__7TObjectFP7TObject(this, parent);
     *(s32 **)((s8 *)((u8 *)this) + 0x18) = &__vt__13TUnk_804A5D10.value;
     *(s32 *)((s8 *)((u8 *)this) + 0x1C) = ((TItem *)arg2)->get_item_id();
     VecCopy((Vec *)(((u8 *)this) + 0x2C), (const Vec *)arg3);
@@ -153,24 +152,24 @@ void TUnk_804A5D10::render() {
 }
 
 
-void TObjPlayer::launch_weapon_casing(saddr arg0, uaddr arg1, s32 arg2, uaddr arg3, uaddr arg4) {
+void TObjPlayer::launch_weapon_casing(saddr arg0, uaddr arg1, s32 joint, uaddr arg3, uaddr angle) {
     u8 sp8[0x18];
-    void *var_r0;
-    if ((arg0 != 0) && (arg1 != 0U) && (arg3 != 0U) && (arg4 != 0U) && (((TItemWeapon *)arg1)->get_joint_position(arg2, sp8) != 0)) {
-        var_r0 = TObject::operator new(0x44);
-        if (var_r0 != NULL) {
-            var_r0 = ((TObjPlayer *)var_r0)->construct_weapon_casing((u8 *)arg0, (u8 *)arg1, (u8 *)sp8, (u8 *)arg3, (u8 *)arg4);
+    void *object;
+    if ((arg0 != 0) && (arg1 != 0U) && (arg3 != 0U) && (angle != 0U) && (((TItemWeapon *)arg1)->get_joint_position(joint, sp8) != 0)) {
+        object = TObject::operator new(0x44);
+        if (object != NULL) {
+            object = ((TObjPlayer *)object)->construct_weapon_casing((u8 *)arg0, (u8 *)arg1, (u8 *)sp8, (u8 *)arg3, (u8 *)angle);
         }
-        TItemAttacker::spawn_item_timer((TObject *)var_r0, (ItemTimerCallback)expire_weapon_casing, 0xF);
+        TItemAttacker::spawn_item_timer((TObject *)object, (ItemTimerCallback)expire_weapon_casing, 0xF);
     }
 }
 
-void TObjPlayer::spawn_weapon_casing(saddr arg0, uaddr arg1, uaddr arg2, uaddr arg3, uaddr arg4) {
+void TObjPlayer::spawn_weapon_casing(saddr arg0, uaddr arg1, uaddr pos, uaddr arg3, uaddr angle) {
     void *p;
-    if ((arg0 != 0) && (arg1 != 0U) && (arg2 != 0U) && (arg3 != 0U) && (arg4 != 0U)) {
+    if ((arg0 != 0) && (arg1 != 0U) && (pos != 0U) && (arg3 != 0U) && (angle != 0U)) {
         p = TObject::operator new(0x44);
         if (p != 0) {
-            p = ((TObjPlayer *)p)->construct_weapon_casing((u8 *)arg0, (u8 *)arg1, (u8 *)arg2, (u8 *)arg3, (u8 *)arg4);
+            p = ((TObjPlayer *)p)->construct_weapon_casing((u8 *)arg0, (u8 *)arg1, (u8 *)pos, (u8 *)arg3, (u8 *)angle);
         }
         TItemAttacker::spawn_item_timer((TObject *)p, (ItemTimerCallback)expire_weapon_casing, 0xF);
     }

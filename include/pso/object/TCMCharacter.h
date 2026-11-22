@@ -9,7 +9,7 @@ public:
     void apply_character_appearance();
     void update_chara_preview();
     void reset_model_parts();
-    s32 bind_model_parts(u32 *selected, const char **names, CreationModelPart *parts, s32 part, s32 model_index);
+    s32 bind_model_parts(uaddr *selected, const char **names, CreationModelPart *parts, s32 part, s32 model_index);
     void load_model_parts();
     s32 shape_rel;
     s32 shape_rel_size;

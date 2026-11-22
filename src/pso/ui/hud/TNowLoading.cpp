@@ -139,44 +139,44 @@ TNowLoading::TNowLoading(TObject *parent, Vec *arg2) : TObject(parent) {
 void TNowLoading__sub_8001D4D0(void) {  }
 void TNowLoading__sub_8001D4D4(void) {  }
 
-s32 TLobby::aram_dma_blocking(s32 arg0, s32 arg1, saddr arg2, s32 arg3) {
-    u8 sp8[0x20];
+s32 TLobby::aram_dma_blocking(s32 owner, s32 aram, saddr dest, s32 length) {
+    u8 request[0x20];
     s32 len;
-    len = (arg3 + 0x1F) & ~0x1F;
+    len = (length + 0x1F) & ~0x1F;
     aram_dma_pending = 1;
-    DCInvalidateRange((void *)arg2, len);
-    ARQPostRequest(sp8, arg0, 1, 1, arg1, arg2, len, (void *)TLobby__sub_8001D9DC);
+    DCInvalidateRange((void *)dest, len);
+    ARQPostRequest(request, owner, 1, 1, aram, dest, len, (void *)TLobby__sub_8001D9DC);
     for (;;) {
         if (aram_dma_pending == 0) break;
     }
-    DCInvalidateRange((void *)arg2, len);
+    DCInvalidateRange((void *)dest, len);
     return 1;
 }
 
-s32 TLobby::aram_read_sync(s32 arg0, s32 arg1, saddr arg2, s32 arg3) {
-    u8 sp8[0x20];
+s32 TLobby::aram_read_sync(s32 owner, s32 aram, saddr dest, s32 length) {
+    u8 request[0x20];
     s32 len;
-    len = (arg3 + 0x1F) & ~0x1F;
+    len = (length + 0x1F) & ~0x1F;
     aram_dma_pending = 1;
-    DCInvalidateRange((void *)arg2, len);
-    ARQPostRequest(sp8, arg0, 1, 1, arg1, arg2, len, (void *)TLobby__sub_8001D9DC);
+    DCInvalidateRange((void *)dest, len);
+    ARQPostRequest(request, owner, 1, 1, aram, dest, len, (void *)TLobby__sub_8001D9DC);
     for (;;) {
         if (aram_dma_pending == 0) break;
         TLobby::run_frame();
     }
-    DCInvalidateRange((void *)arg2, len);
+    DCInvalidateRange((void *)dest, len);
     return 1;
 }
-s32 TLobby::aram_transfer_sync(s32 arg0, uaddr buf, s32 arg2, s32 arg3) {
-    u8 sp8[0x20];
+s32 TLobby::aram_transfer_sync(s32 owner, uaddr source, s32 aram, s32 length) {
+    u8 request[0x20];
     s32 len;
-    if (arg2 == 0 && buf == 0) {
+    if (aram == 0 && source == 0) {
         return 0;
     }
-    len = (arg3 + 0x1F) & ~0x1F;
+    len = (length + 0x1F) & ~0x1F;
     aram_dma_pending = 1;
-    DCFlushRange((void *)buf, len);
-    ARQPostRequest(sp8, arg0, 0, 1, buf, arg2, len, (void *)TLobby__sub_8001D9DC);
+    DCFlushRange((void *)source, len);
+    ARQPostRequest(request, owner, 0, 1, source, aram, len, (void *)TLobby__sub_8001D9DC);
     for (;;) {
         if (aram_dma_pending == 0) break;
         TLobby::run_frame();

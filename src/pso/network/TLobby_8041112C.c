@@ -20,7 +20,7 @@
 #include "pso/network/IPv6Send.h"
 #include "pso/network/NetStackTypes.h"
 
-s16 TLobby__sub_80413D78(); /* declared without a parameter list; the definition is s16 (self, idx) */
+s16 TLobby__sub_80413D78(void *self, s16 idx);
 s16 TLobby__sub_80413F0C(); /* declared without a parameter list; the definition is s16 (self, id) */
 
 
@@ -58,7 +58,7 @@ s32 TUdpSocket__sub_8041118C(void) {
     return 0;
 }
 
-s16 TLobby__sub_8041123C(s32 arg0, s32 arg1, s16 arg2) {
+s16 TLobby__sub_8041123C(s32 iovp, s32 arg1, s16 arg2) {
     Ipv6Iface *ifc;
     if ((arg2 < 0) || (arg2 >= ipv6_address_routing_state.count)) {
         return -0x10A;
@@ -67,10 +67,10 @@ s16 TLobby__sub_8041123C(s32 arg0, s32 arg1, s16 arg2) {
     if (ifc->state != 1) {
         return -6;
     }
-    return call_handler_by_index(arg2, ifc->handle, 0, arg1, arg0);
+    return call_handler_by_index(arg2, ifc->handle, 0, arg1, iovp);
 }
 
-s16 TLobby__sub_804112B8(s32 arg0, s32 arg1, s16 arg2) {
+s16 TLobby__sub_804112B8(s32 iovp, s32 arg1, s16 arg2) {
     Ipv6Iface *ifc;
     if ((arg2 < 0) || (arg2 >= ipv6_address_routing_state.count)) {
         return -0x10A;
@@ -79,7 +79,7 @@ s16 TLobby__sub_804112B8(s32 arg0, s32 arg1, s16 arg2) {
     if (ifc->state != 1) {
         return -6;
     }
-    return call_handler_by_index(arg2, ifc->handle, 2, arg1, arg0);
+    return call_handler_by_index(arg2, ifc->handle, 2, arg1, iovp);
 }
 
 s32 TLobby__sub_80411604(int, int, void *);
@@ -482,12 +482,12 @@ s16 mtu;
     return -1;
 }
 
-s16 get_iface_mtu(s16 arg0) {
+s16 get_iface_mtu(s16 iface) {
     Ipv6Iface *ifc;
-    if ((arg0 < 0) || (arg0 >= ipv6_address_routing_state.count)) {
+    if ((iface < 0) || (iface >= ipv6_address_routing_state.count)) {
         return -0x10A;
     }
-    ifc = &ipv6_address_routing_state.ifaces[arg0];
+    ifc = &ipv6_address_routing_state.ifaces[iface];
     if (ifc->state != 1) {
         return -2;
     }
@@ -1073,8 +1073,8 @@ release:
     return ret;
 }
 
-s16 TLobby__sub_80413230(u8 *arg0, saddr arg1) {
-    if (TLobby__sub_80413264(arg0, (void *)arg1) != NULL) {
+s16 TLobby__sub_80413230(u8 *dst, saddr src) {
+    if (TLobby__sub_80413264(dst, (void *)src) != NULL) {
         return 1;
     }
     return 0;
@@ -1203,7 +1203,7 @@ extern s16 TLobby__sub_8041347C(u8 *src, s16 id, u8 *key, s16 a, s16 b, s16 c) {
     return 0;
 }
 
-s32 TLobby__sub_804136AC(s16 i)
+s16 TLobby__sub_804136AC(s16 i)
 {
     return is_slot_flag_0x20_set(i);
 }
@@ -1424,10 +1424,7 @@ s16 TLobby__sub_80413C0C(self, id) void *self; s16 id; {
     return 0;
 }
 
-s16 TLobby__sub_80413D78(self, idx)
-void *self;
-s16 idx;
-{
+s16 TLobby__sub_80413D78(void *self, s16 idx) {
     u8 *tbl = (u8 *)&ipv6_address_routing_state;
     u8 *e = NULL;
     s32 i;
@@ -1754,19 +1751,19 @@ s16 TLobby__sub_804145D4(void *out, s16 idx) {
     return -0x10A;
 }
 
-s16 *get_valid_entry(s16 arg0) {
+s16 *get_valid_entry(s16 iface) {
     s16 *temp_r3;
-    if ((arg0 < 0) || (arg0 >= ipv6_address_routing_state.count)) {
+    if ((iface < 0) || (iface >= ipv6_address_routing_state.count)) {
         return NULL;
     }
-    temp_r3 = (s16 *)&ipv6_address_routing_state.ifaces[arg0];
+    temp_r3 = (s16 *)&ipv6_address_routing_state.ifaces[iface];
     if ((s16) *temp_r3 != 1) {
         return NULL;
     }
     return temp_r3;
 }
 
-s32 NetIPv6MakeSolicitedNodeMulticastAddress(u8 *arg0, u8 *arg1) {
+s32 NetIPv6MakeSolicitedNodeMulticastAddress(u8 *arg0, u8 *addr) {
     *(u8 *)((s8 *)arg0 + 0) = 0xFF;
     *(s8 *)((s8 *)arg0 + 1) = 2;
     *(s8 *)((s8 *)arg0 + 2) = 0;
@@ -1780,9 +1777,9 @@ s32 NetIPv6MakeSolicitedNodeMulticastAddress(u8 *arg0, u8 *arg1) {
     *(s8 *)((s8 *)arg0 + 0xA) = 0;
     *(s8 *)((s8 *)arg0 + 0xB) = 1;
     *(u8 *)((s8 *)arg0 + 0xC) = 0xFF;
-    *(u8 *)((s8 *)arg0 + 0xD) = (u8) *(u8 *)((s8 *)arg1 + 0xD);
-    *(u8 *)((s8 *)arg0 + 0xE) = (u8) *(u8 *)((s8 *)arg1 + 0xE);
-    *(u8 *)((s8 *)arg0 + 0xF) = (u8) *(u8 *)((s8 *)arg1 + 0xF);
+    *(u8 *)((s8 *)arg0 + 0xD) = (u8) *(u8 *)((s8 *)addr + 0xD);
+    *(u8 *)((s8 *)arg0 + 0xE) = (u8) *(u8 *)((s8 *)addr + 0xE);
+    *(u8 *)((s8 *)arg0 + 0xF) = (u8) *(u8 *)((s8 *)addr + 0xF);
     return 0;
 }
 
@@ -1826,7 +1823,7 @@ u8 init_ipv6_all_nodes_multicast_address(u8 *address, s8 scope) {
     return 0;
 }
 
-s32 NetIPv6IsLinkLocal(u8 *arg0) {
+s16 NetIPv6IsLinkLocal(u8 *arg0) {
     u8 temp_r3;
 
     if ((u8) *(u8 *)((s8 *)arg0 + 0) != 0xFE) {
@@ -1899,54 +1896,54 @@ s16 NetIPv6IsMulticast(u8 *arg0) {
     return 0;
 }
 
-s16 NetIPv6IsUnspecified(u8 *arg0) {
+s16 NetIPv6IsUnspecified(u8 *bytes) {
     typedef struct Fields_arg0 { u8 field_0; u8 field_1; u8 field_2; u8 field_3; u8 field_4; u8 field_5; u8 field_6; u8 field_7; u8 field_8; u8 field_9; u8 field_A; u8 field_B; u8 field_C; u8 field_D; u8 field_E; u8 field_F; } Fields_arg0;
-    if ((u8) ((Fields_arg0*)arg0)->field_0 != 0) {
+    if ((u8) ((Fields_arg0*)bytes)->field_0 != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)arg0)->field_1 != 0) {
+    if ((u8) ((Fields_arg0*)bytes)->field_1 != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)arg0)->field_2 != 0) {
+    if ((u8) ((Fields_arg0*)bytes)->field_2 != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)arg0)->field_3 != 0) {
+    if ((u8) ((Fields_arg0*)bytes)->field_3 != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)arg0)->field_4 != 0) {
+    if ((u8) ((Fields_arg0*)bytes)->field_4 != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)arg0)->field_5 != 0) {
+    if ((u8) ((Fields_arg0*)bytes)->field_5 != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)arg0)->field_6 != 0) {
+    if ((u8) ((Fields_arg0*)bytes)->field_6 != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)arg0)->field_7 != 0) {
+    if ((u8) ((Fields_arg0*)bytes)->field_7 != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)arg0)->field_8 != 0) {
+    if ((u8) ((Fields_arg0*)bytes)->field_8 != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)arg0)->field_9 != 0) {
+    if ((u8) ((Fields_arg0*)bytes)->field_9 != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)arg0)->field_A != 0) {
+    if ((u8) ((Fields_arg0*)bytes)->field_A != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)arg0)->field_B != 0) {
+    if ((u8) ((Fields_arg0*)bytes)->field_B != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)arg0)->field_C != 0) {
+    if ((u8) ((Fields_arg0*)bytes)->field_C != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)arg0)->field_D != 0) {
+    if ((u8) ((Fields_arg0*)bytes)->field_D != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)arg0)->field_E != 0) {
+    if ((u8) ((Fields_arg0*)bytes)->field_E != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)arg0)->field_F != 0) {
+    if ((u8) ((Fields_arg0*)bytes)->field_F != 0) {
         return 0;
     }
     return 1;

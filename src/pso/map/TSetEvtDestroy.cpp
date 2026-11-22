@@ -10,7 +10,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/TUnk_804B6C24.h"
 
-
 extern const char TSetEvtDestroy_class_name[] = "TSetEvtDestroy";
 const char* TSetEvtDestroy_name = TSetEvtDestroy_class_name;
 
@@ -28,11 +27,6 @@ void queue_destroy_event_descendants(TObject* root) {
     }
 }
 
-extern "C" {
-
-s32 run_wave_event_actions();
-void TLobby__sub_80208884(void*);
-}
 void notify_partner_room_cleared(s32);
 
 void TSetEvtDestroy::run_task() {
@@ -81,37 +75,34 @@ TSetEvtDestroy::~TSetEvtDestroy() {
 
 #include "types.h"
 
-saddr get_area_event_data(s32 arg0);
 s32 next_event_shuffle_entry(EventShuffleTable *s);
 
 void init_event_shuffle_table(EventShuffleTable *arg0, s32 arg1);
 void shuffle_event_entries(EventShuffleTable *arg0);
 
 TSetEvtDestroy::TSetEvtDestroy(TObject* parent, SetDestroyEventRecord* event) : TObject(parent) {
-    s32* p;
-    void* t;
+    FloorEventSet* set;
     m_name = TSetEvtDestroy_name;
-    p = (s32*)get_area_event_data(get_current_floor());
+    set = get_area_event_data(get_current_floor());
     m_event_record = NULL;
     m_enemy_tasks = NULL;
-    if (p != NULL) {
+    if (set != NULL) {
         m_event_record = event;
-        m_event_context.stream = (u8*)p + *p;
+        m_event_context.stream = (u8*)set + set->action_stream_offset;
         m_event_context.cursor = event->action_offset;
         m_countdown = event->delay_ticks;
         m_phase = 0;
-        t = new TEnemyTaskList(this, 0x20);
-        m_enemy_tasks = (TEnemyTaskList*)t;
+        m_enemy_tasks = new TEnemyTaskList(this, 0x20);
     } else {
         queue_destruction();
     }
 }
 
-saddr get_area_event_data(s32 arg0) {
-    if (arg0 < 0x12) {
-        return *(s32 *)((s8 *)&lobby_slot_ptr_table.value + (arg0 * 4));
+FloorEventSet *get_area_event_data(s32 floor) {
+    if (floor < 0x12) {
+        return floor_event_sets[floor];
     }
-    return 0;
+    return NULL;
 }
 
 s32 next_event_shuffle_entry(EventShuffleTable *s) {

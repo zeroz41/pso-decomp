@@ -68,13 +68,13 @@ u8 TObjPlayer::get_castable_technique_level() {
     return a;
 }
 
-void TObjPlayer::update_all_units(s32 arg0, s32 arg1) {
+void TObjPlayer::update_all_units(s32 levels, s32 level) {
     s32 var_r31;
 
     var_r31 = 0;
     do {
-        if (is_invalid_slot__10TObjPlayerFUc(get_cast_technique_level(arg0, (s16) var_r31)) == 0) {
-            set_technique_level_entry(arg0, (s16) var_r31, arg1);
+        if (is_invalid_slot__10TObjPlayerFUc(get_cast_technique_level(levels, (s16) var_r31)) == 0) {
+            set_technique_level_entry(levels, (s16) var_r31, level);
         }
         var_r31 += 1;
     } while (var_r31 < 0x13);

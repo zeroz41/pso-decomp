@@ -23,7 +23,6 @@ extern "C" {
 s32 post_translate_matrix(const Vec *);
 
 
-
 __declspec(section ".rodata") const char lbl_80441268[] = "fs_obj_bapipe.gj";
 __declspec(section ".rodata") const char lbl_8044127C[] = "fs_obj_bapipe_a.gj";
 __declspec(section ".rodata") const char lbl_80441290[] = "fs_obj_bapipe_b.gj";

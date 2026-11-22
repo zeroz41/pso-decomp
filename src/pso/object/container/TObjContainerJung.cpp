@@ -40,6 +40,7 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/network/client_id.h"
 
 #pragma readonly_strings on
 
@@ -109,12 +110,9 @@ extern "C" {
 u32 init_collision_body_parts(void *, saddr, s32);
 s32 free_collision_body_parts(void *);
 s32 post_translate_matrix(void *);
-extern s32 local_client_id;
-u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
 }
 
 struct Obj_8018CBF0 { u8 pad0[0x84]; s32 id; };
-struct Obj_8018CFD4 { u8 pad[0x38]; Vec pos; };
 
 // This TU was compiled -inline deferred: the functions below are written
 // last-to-first, so the compiler emits them (and the three vtables) in

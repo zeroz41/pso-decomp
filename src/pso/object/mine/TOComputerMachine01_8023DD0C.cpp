@@ -17,8 +17,6 @@ struct Tbl_8023DD60 { Ent_8023DD60 *entries; u32 count; };
 
 struct UV_8023DDC8 { s16 u; s16 v; };
 
-struct Arr_8023DDC8 { u8 type; u8 pad; u16 count; u8 pad2[4]; UV_8023DDC8 *uv; u8 pad3[4]; };
-
 struct Spr_8023E0FC { s16 x0, y0, cx, cy, u0, v0, u1, v1; u8 pad[4]; };
 
 struct Self_8023E0FC { f32 x, y; u8 pad8[4]; f32 sx, sy; s32 rot; u8 pad18[4]; Spr_8023E0FC *sprs; };
@@ -65,7 +63,7 @@ void set_ginja_texture_wrap_repeat(Tbl_8023DD60 *t) {
 void scroll_ginja_mesh_uvs(void *model, s32 du, s32 dv, u16 cmd, s32 rewrite) {
     GinjaModel *self = static_cast<GinjaModel *>(model);
     s32 found = 0;
-    Arr_8023DDC8 *a;
+    GinjaVertexArray *a;
     if (self->primary != 0 && has_texture_scroll_entry((Tbl_8023DD0C *)(self->primary), cmd) == 1) {
         found = 1;
         if (rewrite != 0) {
@@ -79,17 +77,17 @@ void scroll_ginja_mesh_uvs(void *model, s32 du, s32 dv, u16 cmd, s32 rewrite) {
         }
     }
     if (found != 0) {
-        for (a = static_cast<Arr_8023DDC8 *>(self->vertices); a != 0 && a->type != 0xFF; a++) {
-            if (a->type == 5 || a->type == 6) {
+        for (a = self->vertices; a != 0 && a->attribute != 0xFF; a++) {
+            if (a->attribute == 5 || a->attribute == 6) {
                 u16 n = a->count;
-                UV_8023DDC8 *uv = a->uv;
+                UV_8023DDC8 *uv = static_cast<UV_8023DDC8 *>(a->data);
                 s32 i;
                 for (i = 0; i < n; i++) {
                     uv->u = static_cast<s16>(static_cast<u32>(uv->u) + static_cast<u32>(du));
                     uv->v = static_cast<s16>(static_cast<u32>(uv->v) + static_cast<u32>(dv));
                     uv++;
                 }
-                DCFlushRangeNoSync(a->uv, a->count * 4);
+                DCFlushRangeNoSync(a->data, a->count * 4);
             }
         }
     }

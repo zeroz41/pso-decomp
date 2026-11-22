@@ -5,8 +5,6 @@
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_800FA848.h"
 
-extern "C" {
-
 
 struct Ent_800fa388;
 
@@ -42,4 +40,3 @@ s32 TLobby::request_file_read(saddr arg0, s32 arg1, s32 *arg2, void **arg3) {
     return *(s32 *)((s8 *)var_r31 + 0x2C);
 }
 
-}

@@ -10,6 +10,7 @@
 
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/ui/window/WindowLayout.h"
 
 struct Quad_8028429C { f32 x, y, x2, y2, u0, v0, u1, v1; };
 
@@ -46,7 +47,6 @@ WindowDescriptor symbol_chat_help_window_layout = {
 };
 
 extern "C" {
-u8 * get_window_layout_position(s32);
 extern s8 controller_input_state[];
 int TWindowSubSymbolChatHelp__sub_80247EE8(int);
 void draw_help_icon__24TWindowSubSymbolChatHelpFiPvii(s32 arg0, Win_802845EC *arg1, s32 arg2, s32 arg3);

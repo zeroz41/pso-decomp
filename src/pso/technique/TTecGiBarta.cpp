@@ -4,6 +4,8 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/technique/TechniqueParams.h"
 #include "types.h"
+#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
+#include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/technique/TTecGiZonde_8023A4CC.h"
@@ -19,6 +21,11 @@
 #include "pso/technique/TTecCtrl.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/TLobby_80226070.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/object/base/CollisionActorLookup.h"
 
 struct RecoveredFields_802308A0_arg0
 {
@@ -94,20 +101,9 @@ struct Shot_802304A0 {
 };
 
 extern "C" {
-void *get_bml_motion(void *, u32);
-
-void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
-void *mem_alloc(u32 size);
-void matrix_mult_vec(s32, void *, void *);
-void rotate_matrix_y(s32, s32);
-extern u8 identity_matrix[];
-extern void *technique_effect_bml;
-extern void *lbl_805D63B0;
 
 u16 get_entity_id(void *);
-void mem_free(void *p);
 s32 play_sound_effect(s32, s32, s32, s32);
-void *find_entity_by_id(u16 id);
 
 void TTecGiBarta::update_technique_by_phase() {
     u8 *arg0 = (u8 *)this;
@@ -230,7 +226,7 @@ void TTecGiBarta::create_particles() {
                 ((TParticleCtrl *)emitter)->set_scale(TTecGiBarta__emitter_profile_table[shot->band].rows[i].scale, TTecGiBarta__emitter_profile_table[shot->band].rows[i].scale);
             }
             if (TTecGiBarta__emitter_profile_table[shot->band].rows[i].flags & 0x20) {
-                attach_particle_model((u8 *)emitter, (saddr)(get_bml_model((BmlResource *)technique_effect_bml, (u16)(TTecGiBarta__emitter_profile_table[shot->band].rows[i].flags >> 16))), (saddr)lbl_805D63B0, (s32)NULL, 0, 1.0f);
+                attach_particle_model((u8 *)emitter, get_bml_model(technique_effect_bml, (u16)(TTecGiBarta__emitter_profile_table[shot->band].rows[i].flags >> 16)), lbl_805D63B0, 0, 0, 1.0f);
             }
         }
         shot->emitters[i] = emitter;
@@ -244,19 +240,19 @@ void TTecGiBarta::create_particles() {
         if (src != NULL) {
             emitter = spawn_particle_effect((const Vec *)(src + 0x38), 0x18B);
             if (emitter != NULL) {
-                attach_particle_model((u8 *)emitter, (saddr)(get_bml_model((BmlResource *)technique_effect_bml, 6)), (saddr)lbl_805D63B0, (saddr)(get_bml_motion(technique_effect_bml, 2)), 0, 1.0f);
+                attach_particle_model((u8 *)emitter, get_bml_model(technique_effect_bml, 6), lbl_805D63B0, get_bml_motion(technique_effect_bml, 2), 0, 1.0f);
             }
             emitter = create_timed_particle_emitter(src + 0x38, 0x18B, 5, 1);
             if (emitter != NULL) {
-                attach_particle_model((u8 *)emitter, (saddr)(get_bml_model((BmlResource *)technique_effect_bml, 7)), (saddr)lbl_805D63B0, (saddr)(get_bml_motion(technique_effect_bml, 2)), 0, 1.0f);
+                attach_particle_model((u8 *)emitter, get_bml_model(technique_effect_bml, 7), lbl_805D63B0, get_bml_motion(technique_effect_bml, 2), 0, 1.0f);
             }
             emitter = create_timed_particle_emitter(src + 0x38, 0x18B, 10, 1);
             if (emitter != NULL) {
-                attach_particle_model((u8 *)emitter, (saddr)(get_bml_model((BmlResource *)technique_effect_bml, 8)), (saddr)lbl_805D63B0, (saddr)(get_bml_motion(technique_effect_bml, 2)), 0, 1.0f);
+                attach_particle_model((u8 *)emitter, get_bml_model(technique_effect_bml, 8), lbl_805D63B0, get_bml_motion(technique_effect_bml, 2), 0, 1.0f);
             }
             emitter = create_timed_particle_emitter(src + 0x38, 0x18F, 20, 1);
             if (emitter != NULL) {
-                attach_particle_model((u8 *)emitter, (saddr)(get_bml_model((BmlResource *)technique_effect_bml, 5)), (saddr)lbl_805D63B0, (s32)NULL, 0, 1.0f);
+                attach_particle_model((u8 *)emitter, get_bml_model(technique_effect_bml, 5), lbl_805D63B0, 0, 0, 1.0f);
             }
         }
     }
@@ -307,12 +303,12 @@ void TTecGiBarta::vfunc_8(void *target) {
     }
 }
 
-void TTecGiBarta::create(void *arg1, void *arg2, void *arg3) {
-    new TTecGiBarta((saddr)this, (u8 *)arg1, (u8 *)arg2, (saddr)arg3);
+void TTecGiBarta::create(void *source, void *origin, void *aim, s32 level) {
+    new TTecGiBarta((saddr)source, (u8 *)origin, (u8 *)aim, level);
 }
 
-void TTecGiBarta::create_ex(void *arg1, void *arg2, void *arg3) {
-    new TTecGiBarta((saddr)this, (Vec *)arg1, (saddr)arg2, (saddr)arg3);
+void TTecGiBarta::create_ex(void *source, void *origin, s32 angle, s32 level) {
+    new TTecGiBarta((saddr)source, (Vec *)origin, angle, level);
 }
 
 TTecGiBarta::~TTecGiBarta() {

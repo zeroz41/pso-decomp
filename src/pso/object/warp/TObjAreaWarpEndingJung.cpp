@@ -9,7 +9,7 @@
 #include "types.h"
 #include <string.h>
 #include <stdio.h>
-#include "pso/unk/TLobby_800FD78C.h"
+
 #include "pso/unk/TLobby_80070A00.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/vector.h"
@@ -78,6 +78,11 @@
 #include "pso/system/byteswap.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/object/warp/TObjCityMainWarp_801867F4.h"
+#include "pso/ui/window/WindowLayout.h"
+#include "pso/render/NinjaUtil.h"
 
 // The original TU was built with deferred codegen: functions below are in reverse
 // address order, and the pool (three {3, 2} initializers, then the float literals
@@ -89,7 +94,6 @@ struct RecoveredGlobal_8019B854___vt__14TObjWarpString {
     u8 remaining[0x14];
 };
 
-LAYOUT_ASSERT(RecoveredGlobal_8019B854___vt__14TObjWarpString_size, sizeof(RecoveredGlobal_8019B854___vt__14TObjWarpString) == 0x18);
 
 struct Obj_8019B8D8 { u8 pad[0x88]; s32 id; };
 
@@ -102,10 +106,6 @@ struct Ids_8019BD84 { u16 id[2]; };
 struct Colors_8019C250 { u16 c[2]; };
 
 struct Colors_8019C604 { u16 c[2]; };
-
-
-
-
 
 
 struct VBase_8019CAB0 { char pad[0x18]; };
@@ -140,43 +140,26 @@ struct Data_8019CAB0 {
 };
 
 
-
 extern "C" {
 
-void mark_area_change_pending();
-void request_main_phase(s32 arg0);
-u16 get_entity_id(void *);
-s32 is_split_screen();
-s32 get_current_floor();
-s32 get_split_screen_view_index__11TCameraCtrlFUs(void *);
 s32 get_floor_destination_name();
-saddr get_localized_text_entry(s32, s32);
 s32 debug_draw_line(void *, void *, u32, u32);
 s32 fn_80141CB4(void *, f32);
-s32 *TObjCityMainWarp__sub_80186AF4(void);
 void * TObjAreaWarpEndingJung__create(void *arg0);
-s64 fn_8019B480(void *arg0, void *arg1);
+s64 get_warp_string_screen_position(void *arg0, u16 client_id);
 void fade_and_destroy__14TObjWarpStringFPv(u8 *arg0);
-void TObjWarpString__sub_8019B728(void *arg0);
+void TObjWarpString__delay_before_fade_out(void *arg0);
 void update_fade_in__14TObjWarpStringFPv(u8 *arg0);
 u8 * __ct__14TObjWarpStringFv(u8 *arg0, u8 *arg1, saddr arg2, s16 arg3);
 s32 can_warp__11TObjMapWarpFlUs(void *, u16);
 void TObjAreaWarpQuest__sub_8019DCD8(TObjPlayer *, s32);
-s32 TObjWarpJung__sub_801A0404(s32);
 int check_flag_100__10TObjPlayerFPv(void *p);
 void send_6x21_inter_level_warp(void *obj, s32 value);
-s32 init__23TAdSinglePlyChrSelectGCFv();
-s32 get_floor_map_terrain(s32);
 void __ct__7TObjectFP7TObject(void *, void *);
-s32 get_window_layout_position(s32);
 void *destroy__13TAdVIConfigGCFPvs(void *arg0, s16 arg1);
 s32 get_game_play_mode(int);
 s32 PPCSync();
-void debug_printf_at(s32 id, const char *fmt, ...);
 }
-extern "C" {
-}
-
 extern RecoveredGlobal_8019B854___vt__14TObjWarpString __vt__14TObjWarpString;
 extern s32 local_client_id;
 
@@ -225,8 +208,6 @@ int is_flag_400_set__10TObjPlayerFPv(void *p);
 
 extern s32 lbl_805D55C0;
 
-f32 xz_distance_squared(void *, void *);
-
 }
 
 BmlResource *forest_warp_bml_resource;
@@ -264,7 +245,7 @@ extern __declspec(section ".data") const Vec map_warp_destination_offsets[4] = {
 };
 
 // Screen position of the warp id string: one entry for a single screen, then the
-// split-screen views of camera 2 (1 entry), 3 (2) and 4 (4), see fn_8019B480.
+// split-screen views of camera 2 (1 entry), 3 (2) and 4 (4), see get_warp_string_screen_position.
 extern __declspec(section ".data") const WarpStringScreenPosition warp_string_screen_position_table[10] = {
     {{320.0f}, {200.0f}},
     {{320.0f}, {120.0f}},
@@ -420,17 +401,17 @@ void TObjMapWarp::vfunc_14() {
 
 #pragma push
 #pragma opt_common_subs off
-void TObjMapWarp::closePlayerWindow(u16 arg1) {
+void TObjMapWarp::closePlayerWindow(u16 slot) {
     saddr arg0 = (saddr)this;
     uaddr temp_r3;
     uaddr player;
     u8 *temp_r31;
-    temp_r31 = (u8 *)(arg0 + ((arg1 * 4) & 0x3FFFC));
+    temp_r31 = (u8 *)(arg0 + ((slot * 4) & 0x3FFFC));
     temp_r3 = *(u32 *)((s8 *)temp_r31 + 0xEC);
     if (temp_r3 != 0U) {
         ((TWindowBase *)temp_r3)->close();
         *(u32 *)((s8 *)temp_r31 + 0xEC) = 0U;
-        player = ((uaddr)get_player_by_client_id((uaddr)((void *) ((s32) arg1))));
+        player = (uaddr)get_player_by_client_id(slot);
         if (player != 0U) {
             fn_8019DD24((void *)(player + 0x550), 4);
         }
@@ -440,12 +421,12 @@ void TObjMapWarp::closePlayerWindow(u16 arg1) {
 
 #pragma push
 #pragma opt_common_subs off
-void TObjMapWarp::open_confirm_window(s32 arg1) {
+void TObjMapWarp::open_confirm_window(s32 client_id) {
     saddr arg0 = (saddr)this;
     u8 *temp_r31;
-    temp_r31 = (u8 *)(arg0 + (arg1 * 4));
+    temp_r31 = (u8 *)(arg0 + (client_id * 4));
     if ((u32) *(u32 *)((s8 *)temp_r31 + 0xEC) == 0U) {
-        *(uaddr *)((s8 *)temp_r31 + 0xEC) = (uaddr)create_window_menu((saddr)get_window_layout_position(0x33), 1, arg1);
+        *(uaddr *)((s8 *)temp_r31 + 0xEC) = (uaddr)create_window_menu((saddr)get_window_layout_position(0x33), 1, client_id);
         ((TWindowSubTradeMain *)(*(uaddr *)((s8 *)temp_r31 + 0xEC)))->add_text_entry(get_localized_text_entry(9, 0x25), 2, 0, -1);
         ((TWindowMenu *)(*(uaddr *)((s8 *)temp_r31 + 0xEC)))->calc_window_size();
         align_menu_entry_positions(reinterpret_cast<TWindowMenu *>((*(uaddr *)((s8 *)temp_r31 + 0xEC))));
@@ -1116,7 +1097,7 @@ void TKeyBoardControl::dispatch_select_phase() {
         request_main_phase(8);
         break;
     }
-    init__23TAdSinglePlyChrSelectGCFv();
+    TAdSinglePlyChrSelectGC::init();
 }
 
 const char *TObjMapForceWarp__name = "TObjMapForceWarp";
@@ -1176,11 +1157,11 @@ void TObjMapForceWarp::create_warp_id_string(u16 client_id) {
 
 const char *TObjWarpString__name = "TObjWarpString";
 
-u8 *__ct__14TObjWarpStringFv(u8 *object, u8 *arg1, saddr arg2, s16 arg3) {
-    __ct__7TObjectFP7TObject(object, arg1);
+u8 *__ct__14TObjWarpStringFv(u8 *object, u8 *parent, saddr src, s16 arg3) {
+    __ct__7TObjectFP7TObject(object, parent);
     *(s32 **)((s8 *)object + 0x18) = &__vt__14TObjWarpString.value;
     *(saddr *)((s8 *)object + 0) = (saddr)TObjWarpString__name;
-    strncpy((char *)(object + 0x1C), (const char *)arg2, 0x20);
+    strncpy((char *)(object + 0x1C), (const char *)src, 0x20);
     *(s8 *)((s8 *)object + 0x3B) = 0;
     *(s16 *)((s8 *)object + 0x48) = arg3;
     *(s32 *)((s8 *)object + 0x3C) = -1;
@@ -1196,13 +1177,13 @@ void TObjWarpString::run_task() {
 
     switch (*(s32 *)((s8 *)this + 0x4C)) {
     case 0:
-        ((TObjWarpString *)this)->sub_8019B77C();
+        ((TObjWarpString *)this)->delay_before_fade_in();
         return;
     case 1:
         ((s32 (*)(void))update_fade_in__14TObjWarpStringFPv)();
         return;
     case 2:
-        TObjWarpString__sub_8019B728(this);
+        TObjWarpString__delay_before_fade_out(this);
         return;
     case 3:
         ((s32 (*)(void))fade_and_destroy__14TObjWarpStringFPv)();
@@ -1210,7 +1191,7 @@ void TObjWarpString::run_task() {
     }
 }
 
-void TObjWarpString::sub_8019B77C() {
+void TObjWarpString::delay_before_fade_in() {
     s32 temp_r0;
 
     temp_r0 = *(s32 *)((s8 *)this + 0x40) - 1;
@@ -1232,7 +1213,7 @@ void update_fade_in__14TObjWarpStringFPv(u8 *arg0) {
 }
 #pragma pop
 
-void TObjWarpString__sub_8019B728(void *arg0) {
+void TObjWarpString__delay_before_fade_out(void *arg0) {
     s32 temp_r0;
 
     temp_r0 = *(s32 *)((s8 *)arg0 + 0x40) - 1;
@@ -1263,7 +1244,7 @@ void TObjWarpString::render() {
     u32 color;
     u32 width;
 
-    pos.packed = fn_8019B480(this, (void *)*(u16 *)((s8 *)this + 0x48));
+    pos.packed = get_warp_string_screen_position(this, *(u16 *)((s8 *)this + 0x48));
     width = calc_text_width((char *)this + 0x1C) >> 1;
     pos.xy.x -= (f32)width;
     y = pos.xy.y;
@@ -1283,7 +1264,7 @@ void TObjWarpString::render() {
 }
 #pragma pop
 
-s64 fn_8019B480(void *arg0, void *camera_ctrl) {
+s64 get_warp_string_screen_position(void *arg0, u16 client_id) {
     const WarpStringScreenPosition *p = warp_string_screen_position_table;
     if (TRaderMapCore::is_not_split_screen() == 1) {
         switch (TCameraCtrl::get_camera_id()) {
@@ -1297,7 +1278,7 @@ s64 fn_8019B480(void *arg0, void *camera_ctrl) {
             p = warp_string_screen_position_table + 6;
             break;
         }
-        p += get_split_screen_view_index__11TCameraCtrlFUs(camera_ctrl);
+        p += TCameraCtrl::get_split_screen_view_index(client_id);
     }
     return *(const s64 *)p;
 }

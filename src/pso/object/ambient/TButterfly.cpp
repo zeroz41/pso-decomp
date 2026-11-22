@@ -14,6 +14,8 @@
 #include "pso/render/ModelDrawContext.h"
 #include <stdlib.h>
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/math/MatrixVector.h"
 
 __declspec(section ".data") const char *bm_o_abe_butterfly_model_names[2] = { "abecyou_fe_obj001_cyou.gj", NULL };
 __declspec(section ".data") const char *bm_o_abe_butterfly_motion_names[2] = { "abecyou2_fe_obj001_cyou.njm", NULL };
@@ -42,7 +44,6 @@ struct Butterfly_8017EA74 {
 };
 
 extern "C" {
-void rotate_vector_by_matrix(void *, Vec *, Vec *);
 
 BmlResource *butterfly_bml_resource;
 
@@ -70,7 +71,7 @@ void TButterfly::init_motion() {
 
 void TButterfly::render() {
     if (this->update_object_view_visibility((4e+02f), (2e+01f)) != 0) {
-        TObjFish::set_global_param((s32)get_bml_texlist((BmlResource *)butterfly_bml_resource, 0));
+        TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)butterfly_bml_resource, 0));
         draw_model();
     }
 }
@@ -218,19 +219,17 @@ void TButterfly::run_task() {
 TButterfly::~TButterfly() {
 
 }
-TButterfly::TButterfly(TObject *arg1, void *arg2) : TObjBase(arg1) {
+TButterfly::TButterfly(TObject *parent, void *arg2) : TObjBase(parent) {
     this->m_name = TButterfly__name;
     VecCopy((Vec *)((char *)this + 56), (const Vec *)((char *)arg2 + 12));
     copy_xyz((char *)this + 92, (void *)((char *)arg2 + 24));
     VecCopy((Vec *)((char *)this + 104), (const Vec *)((char *)arg2 + 36));
     this->init_motion();
 }
-extern "C" {
 
-extern void *tl_05;
 
 void *TButterfly__create(void *arg0) {
-    void *o = (void *)new TButterfly((TObject *)tl_05, (void *)arg0);
+    void *o = (void *)new TButterfly(tl_05, (void *)arg0);
     return o;
 }
 
@@ -248,4 +247,3 @@ void TButterfly::load_resources() {
     butterfly_bml_resource = loaded;
 }
 
-}

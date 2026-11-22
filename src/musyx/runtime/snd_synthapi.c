@@ -30,13 +30,13 @@ s32 sndFXKeyOff(s32 arg0) {
     return var_r3;
 }
 
-s32 sndFXStartParaInfo(s16 arg0, u8 arg1, u8 arg2, s32 arg3, Req_803AA1E0 *req) {
+u32 sndFXStartParaInfo(u16 fid, u8 vol, u8 pan, u8 studio, Req_803AA1E0 *req) {
     u32 id;
     u8 i;
     Ent_803AA1E0 *e;
     u8 t;
     hwDisableIrq();
-    id = synthFXStart(arg0, arg1, arg2, arg3, synthITDDefault[(u8)arg3].b1);
+    id = synthFXStart(fid, vol, pan, studio, synthITDDefault[studio].b1);
     if (id != 0xFFFFFFFF) {
         e = req->ents;
         i = 0;
@@ -95,7 +95,8 @@ void sndOutputMode(s32 mode) {
     }
 }
 
-void sndSetAuxProcessingCallbacks(u8 studio, void *auxA, s32 userA, u8 midiA, u32 seqIDA, void *auxB, s32 userB, u8 midiB, u32 seqIDB) {
+void sndSetAuxProcessingCallbacks(u8 studio, SND_AUX_CALLBACK auxA, void *userA, u8 midiA, SND_SEQID seqIDA,
+                                  SND_AUX_CALLBACK auxB, void *userB, u8 midiB, SND_SEQID seqIDB) {
     hwDisableIrq();
     if (auxA != 0) {
         if ((synthAuxAMIDI[studio] = midiA) != 0xFF) {
@@ -117,7 +118,7 @@ void sndSetAuxProcessingCallbacks(u8 studio, void *auxA, s32 userA, u8 midiA, u3
         synthAuxBCallback[studio] = 0;
         synthAuxBMIDI[studio] = 0xFF;
     }
-    hwSetAUXProcessingCallbacks(studio, (saddr)auxA, userA, (saddr)auxB, userB);
+    hwSetAUXProcessingCallbacks(studio, auxA, userA, auxB, userB);
     hwEnableIrq();
 }
 #pragma push
@@ -156,14 +157,12 @@ void synthDeactivateStudio(u8 studio) {
     hwDeactivateStudio(studio);
 }
 
-void synthAddStudioInput(u8 arg0, void *in_desc) {
-    void hwAddInput(u8, void *);
-    hwAddInput(arg0, in_desc);
+void synthAddStudioInput(u8 studio, SND_STUDIO_INPUT *in_desc) {
+    hwAddInput(studio, in_desc);
 }
 
-void synthRemoveStudioInput(u8 arg0, void *in_desc) {
-    void hwRemoveInput(u8, void *);
-    hwRemoveInput(arg0, in_desc);
+void synthRemoveStudioInput(u8 studio, SND_STUDIO_INPUT *in_desc) {
+    hwRemoveInput(studio, in_desc);
 }
 
 }

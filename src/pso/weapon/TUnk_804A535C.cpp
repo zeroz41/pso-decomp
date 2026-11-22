@@ -28,6 +28,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 
 struct Ent_8012C384 { u8 pad[0x1c]; u8 f1c[0x10]; };
 
@@ -56,11 +57,6 @@ void rocket_punch_wall_impact(u32 arg0, u32 arg1, u32 arg2, uaddr arg3) {
 extern "C" {
 
 s32 post_translate_matrix(void *);
-}
-
-
-extern "C" {
-
 void TUnk_804A5340::render() {
     u8 *arg0 = (u8 *)this;
     if ((TItemShootModel::is_owner_alive() != 0) && ((uaddr) this->model != 0U) && ((uaddr) this->texture_list != 0U)) {
@@ -75,7 +71,6 @@ void TUnk_804A5340::render() {
 }
 
 }
-
 
 
 void TUnk_804A5340::hook() {  }
@@ -95,7 +90,7 @@ Obj_8012C4E4 *TObjPlayer__sub_8012C4E4(Obj_8012C4E4 *self, void *owner, const vo
 
 }
 
-uaddr rocket_punch_create_shot(saddr owner, saddr arg1, saddr arg2, f32 farg0) {
+uaddr rocket_punch_create_shot(saddr owner, saddr pos, saddr dir, f32 life) {
     uaddr var_r31;
     uaddr temp_r30;
 
@@ -103,9 +98,9 @@ uaddr rocket_punch_create_shot(saddr owner, saddr arg1, saddr arg2, f32 farg0) {
     if (owner != 0) {
         var_r31 = (uaddr)TObject::operator new(0x6C);
         if (var_r31 != 0U) {
-            var_r31 = (uaddr)TObjPlayer__sub_8012C4E4((Obj_8012C4E4 *)var_r31, (void *)owner, (const void *)arg1, (const void *)arg2, farg0);
+            var_r31 = (uaddr)TObjPlayer__sub_8012C4E4((Obj_8012C4E4 *)var_r31, (void *)owner, (const void *)pos, (const void *)dir, life);
         }
-        temp_r30 = (uaddr)TObjPlayer::spawn_shoot_particle(owner, arg1, arg2, farg0);
+        temp_r30 = (uaddr)TObjPlayer::spawn_shoot_particle(owner, pos, dir, life);
         if ((var_r31 != 0U) && (temp_r30 != 0U)) {
             ((TItemShootParticle *)temp_r30)->spawn_slot_emitter(0x1BB, 0);
             ((TObject *)temp_r30)->set_parent((TObject *)var_r31);
@@ -117,7 +112,6 @@ uaddr rocket_punch_create_shot(saddr owner, saddr arg1, saddr arg2, f32 farg0) {
 struct Obj_8012C714 { u8 pad[0x184]; void *f184; void *f188; u8 pad2[0x1f8 - 0x18c]; u8 f1f8[4]; };
 
 extern "C" {
-s32 test_flags_any(s32 *flags, s32 mask);
 
 void TUnk_804A535C::emit_marker_effects() {
     saddr temp_r31;
@@ -236,7 +230,7 @@ void rocket_punch_return_timer(uaddr arg0) {
     }
 }
 
-s32 TObjPlayer::get_hp_by_flag() {
+saddr TObjPlayer::get_hp_by_flag() {
     u8 *arg0 = (u8 *)this;
     if (test_flags_any((s32 *)&this->unk_1F8, 4) != 0) {
         return *(s32 *)((s8 *)arg0 + 0x188);

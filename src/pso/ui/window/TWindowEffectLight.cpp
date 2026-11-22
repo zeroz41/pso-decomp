@@ -13,6 +13,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/vector.h"
+#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 
 #pragma readonly_strings on
 
@@ -23,13 +25,9 @@ struct Light_802AD1CC { u8 pad0[0x1C]; f32 x; f32 y; };
 extern "C" {
 s32 __cvt_fp2unsigned(f32);
 void TCameraCtrl__sub_80068EF0(void);
-s32 is_window_display_enabled(void);
-void begin_screen_draw(s32);
 extern s32 lbl_805D63F0;
 const char *TWindowEffectLight__name = "TWindowEffectLight";
 extern saddr tl_window;
-void draw_textured_quad_at_depth(f32 *q, f32 depth);
-void set_draw_texture_and_color(s32 idx, s32 arg1);
 
 
 #pragma fp_contract on
@@ -41,9 +39,9 @@ void *TWindowEffectLight::create(void *position, s16 effect_kind, u32 player_id)
 
 }
 
-TWindowEffectLight::TWindowEffectLight(void *arg1, s16 arg2, u32 id) : TObject((TObject *)tl_window) {
+TWindowEffectLight::TWindowEffectLight(void *position, s16 arg2, u32 id) : TObject((TObject *)tl_window) {
     this->m_name = TWindowEffectLight__name;
-    copy_vec2((((u8 *)this) + 0x1C), arg1);
+    copy_vec2((((u8 *)this) + 0x1C), position);
     WindowDrawContext::adjust_pos_for_split_screen((NJS_POINT2 *)(((u8 *)this) + 0x1C), TCameraCtrl::get_split_screen_view_index(id));
     effect_kind = arg2;
     age = -1;
@@ -53,50 +51,43 @@ TWindowEffectLight::TWindowEffectLight(void *arg1, s16 arg2, u32 id) : TObject((
 TWindowEffectLight::~TWindowEffectLight() {}
 
 
-void run_task__18TWindowEffectLightFv(void *arg0) {
-    s32 temp_r4;
-
-    temp_r4 = *(s16 *)((s8 *)arg0 + 0x26) + 1;
-    *(s16 *)((s8 *)arg0 + 0x26) = temp_r4;
-    if ((s16)temp_r4 >= 8) {
-        ((TObject *)arg0)->queue_destruction();
+void TWindowEffectLight::run_task() {
+    if (++this->age >= 8) {
+        queue_destruction();
     }
 }
 
-void render__18TWindowEffectLightFv(u8 *window_effect_light) {
-  s16 temp_r0;
-  temp_r0 = 0x28;
-  if ((is_window_display_enabled() != 0) && ((is_split_screen() == 0) || (((s32) (*((s32 *) (((s8 *) window_effect_light) + temp_r0)))) == ((s32) TCameraCtrl::get_nth_view_player_id(TCameraCtrl::get_camera_no())))))
+void TWindowEffectLight::render() {
+  if ((is_window_display_enabled() != 0) && ((is_split_screen() == 0) || ((s32)this->player_id == (s32)TCameraCtrl::get_nth_view_player_id(TCameraCtrl::get_camera_no()))))
   {
     TParticleCtrl::begin_effect_render();
     TCameraCtrl::restore_full_screen_view();
     set_additive_blend();
     begin_screen_draw(1);
     TObjFish::set_global_param(lbl_805D63F0);
-    temp_r0 = *((s16 *) (((s8 *) window_effect_light) + 0x24));
     {
-      switch (temp_r0)
+      switch (this->effect_kind)
       {
         case 0:
-          ((TWindowEffectLight *)window_effect_light)->draw_outline_quad(0xAA0E);
+          draw_outline_quad(0xAA0E);
           break;
         case 1:
-          ((TWindowEffectLight *)window_effect_light)->draw_outline_quad(0xFF2417);
+          draw_outline_quad(0xFF2417);
           break;
         case 2:
-          ((TWindowEffectLight *)window_effect_light)->draw_outline_quad(0xFFFFFF);
+          draw_outline_quad(0xFFFFFF);
           break;
         case 3:
-          ((TWindowEffectLight *)window_effect_light)->sub_802AD040(20.0f);
+          sub_802AD040(20.0f);
           break;
         case 4:
-          ((TWindowEffectLight *)window_effect_light)->sub_802AD040(39.0f);
+          sub_802AD040(39.0f);
           break;
         case 5:
-          ((TWindowEffectLight *)window_effect_light)->sub_802AD040(77.0f);
+          sub_802AD040(77.0f);
           break;
         case 6:
-          ((TWindowEffectLight *)window_effect_light)->sub_802AD040(191.0f);
+          sub_802AD040(191.0f);
           break;
       }
     }
@@ -173,12 +164,12 @@ void TWindowEffectLight::sub_802AD040(f32 f) {
 }
 
 u32 TWindowEffectLight::calc_alpha() {
-    s16 frame = *(s16 *)((u8 *)this + 0x26);
+    s16 frame = this->age;
     return (u32)__cvt_fp2unsigned(4278190080.0f * (-1.0f * (f32)frame / 8.0f + 1.0f));
 }
 
 f32 TWindowEffectLight::calc_scale() {
-    s16 frame = *(s16 *)((u8 *)this + 0x26);
+    s16 frame = this->age;
     return 0.5f * (f32)frame / 8.0f + 1.0f;
 }
 

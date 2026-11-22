@@ -34,11 +34,11 @@ struct TWindowHelpItem : public TWindowBase
     static void *operator new(unsigned long size) { return TObject::operator new(size); }
     TWindowHelpItem(void *position, u16 index);
     void set_flag0_bit2();
-    static void set_help_text(saddr arg0, saddr arg1);
+    static void set_help_text(saddr help, saddr arg1);
     static s32 get_help_value(u16 slot, s32 client_id);
     void update_displayed_item();
     void update_stat_disp();
-    static void update_resistance_rows(void *arg0);
+    static void update_resistance_rows(void *window_base);
     void init_help_texts();
     void invoke_callback_pmf();
     void dispatch_item_help();
@@ -51,13 +51,16 @@ struct TWindowHelpItem : public TWindowBase
     static void draw_number_value(void *entry, f32 *pos, s32 value, s32 color, s32 percent);
     static void set_flag_0x10(u16 *arg0, s32 arg1);
     void set_flag8_and_field20(s32 arg1);
-    void set_compare_color(s32 arg1);
-    void set_flag4_and_field1c(s32 arg1);
-    void set_help_text(uaddr arg1);
+    void set_compare_color(s32 count);
+    void set_flag4_and_field1c(s32 count);
+    void set_help_text(uaddr str);
     void reset_float_field();
     s32 is_item_already_equipped();
     void format_description_with_price();
     void refresh_copied_items();
+    static void update_stat_disp2(void *window_base);
+    static void tick_display_timer(void *arg0);
+    static void *destroy(void *arg0, s16 arg1);
 };
 
 LAYOUT_ASSERT(TWindowHelpItem_size_check, sizeof(TWindowHelpItem) == 0xBC);

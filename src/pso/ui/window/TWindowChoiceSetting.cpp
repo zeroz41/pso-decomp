@@ -17,6 +17,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
+#include "pso/ui/window/WindowLayout.h"
 
 const char *lbl_805D3970 = "TWindowMenuInfomation";
 static const f32 lbl_8044F3A0[2] = {425.0f, 188.0f};
@@ -93,13 +94,13 @@ block_4:
         }
     }
 }
-void create_sub_window__20TWindowChoiceSettingFPvi(void *arg0, s32 arg1) {
+void create_sub_window__20TWindowChoiceSettingFPvi(void *arg0, s32 title) {
     uaddr var_r0;
 
     if ((u32) *(u32 *)((s8 *)arg0 + 0x78) == 0U) {
         var_r0 = (saddr)::operator new(0x24);
         if (var_r0 != 0U) {
-            var_r0 = (uaddr)((TWindowSubStatusDisp *)var_r0)->construct_type1_heading(arg1, *(s16 *)((s8 *)arg0 + 0x20));
+            var_r0 = (uaddr)((TWindowSubStatusDisp *)var_r0)->construct_type1_heading(title, *(s16 *)((s8 *)arg0 + 0x20));
         }
         *(u32 *)((s8 *)arg0 + 0x78) = var_r0;
         *(s32 *)((s8 *)arg0 + 0x2C) = (s32) (*(s32 *)((s8 *)arg0 + 0x2C) | 0x40);
@@ -151,25 +152,25 @@ void TUnk_804D0658::clamp_scroll() {
 
 
 void TUnk_804D0658::draw_setting(saddr window_key_board_soft) {
-    u16 *temp_r3;
+    u16 *entry;
 
-    temp_r3 = (u16 *)this->get_array_entry(this->m_74);
-    if (*temp_r3 & 1) {
-        draw_selection_bar(reinterpret_cast<WindowDrawContext *>(window_key_board_soft), (u8 *)temp_r3, this->is_open());
+    entry = (u16 *)this->get_array_entry(this->m_74);
+    if (*entry & 1) {
+        draw_selection_bar(reinterpret_cast<WindowDrawContext *>(window_key_board_soft), (u8 *)entry, this->is_open());
     }
 }
 
-void TWindowMenuInfomation__ct(u8 *lobby, u32 arg1) {
+void TWindowMenuInfomation__ct(u8 *lobby, u32 rows) {
     u32 i;
     u8 *e;
     *(s32 *)lobby = (saddr) lbl_805D3970;
     *(s16 *)(lobby + 0x72) = 0;
     *(s16 *)(lobby + 0x74) = 0;
-    *(u16 *)(lobby + 0x76) = arg1;
+    *(u16 *)(lobby + 0x76) = rows;
     *(s16 *)(lobby + 0x70) = 0;
     *(s32 *)(lobby + 0x78) = 0;
     *(s32 *)(lobby + 0x7C) = 0;
-    for (i = 0; i < arg1; i++) {
+    for (i = 0; i < rows; i++) {
         e = (u8 *)((TWindowBase *)lobby)->get_array_entry(i);
         *(f32 *)(e + 0xC) = (f32)(i * 0x14);
     }
@@ -194,13 +195,12 @@ WindowDescriptor choice_setting_popup_window_descriptor = {
 
 extern "C" {
 void fn_80268C5C(NJS_POINT2 v, s32 x);
-saddr get_window_layout_position(s32);
 }
-s32 create_information_counter_window(s32 arg0) {
+s32 create_information_counter_window(s32 rows) {
     TUnk_804D0658 *window;
 
-    ((s32 (*)(const f32 *, s32))fn_80268C5C)(lbl_8044F3A0, arg0);
-    window = new TUnk_804D0658((void *)get_window_layout_position(0xAE), arg0);
+    ((s32 (*)(const f32 *, s32))fn_80268C5C)(lbl_8044F3A0, rows);
+    window = new TUnk_804D0658((void *)get_window_layout_position(0xAE), rows);
     ((s32 (*)(s32, const char *))create_sub_window__20TWindowChoiceSettingFPvi)((saddr)window, "Information Counter");
     return (saddr)window;
 }
@@ -215,20 +215,20 @@ extern "C" {
 s32 draw_window_scrollbar(s32, s32, void *);
 
 void TUnk_804D0658::render() {
-    saddr temp_r3;
+    saddr draw_context;
 
-    temp_r3 = reinterpret_cast<saddr>(get_draw_context());
-    ((TWindowBase *)((u8 *)this))->draw_window_frame((void *)temp_r3);
+    draw_context = reinterpret_cast<saddr>(get_draw_context());
+    ((TWindowBase *)((u8 *)this))->draw_window_frame((void *)draw_context);
     draw_visible_window_entries(
         reinterpret_cast<const void *>(((u8 *)this)),
         reinterpret_cast<const WindowLayoutEntries *>(((u8 *)this) + 0x24),
-        reinterpret_cast<WindowDrawContext *>(temp_r3));
-    ((TUnk_804D0658 *)((u8 *)this))->draw_setting(temp_r3);
+        reinterpret_cast<WindowDrawContext *>(draw_context));
+    ((TUnk_804D0658 *)((u8 *)this))->draw_setting(draw_context);
     if (this->heading != 0) {
-        ((TWindowSubStatusDisp *)((saddr)this->heading))->forward_render((void *)(temp_r3));
+        ((TWindowSubStatusDisp *)((saddr)this->heading))->forward_render((void *)(draw_context));
     }
     if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x7C) != 0U) {
-        draw_window_scrollbar(*(u32 *)((s8 *)((u8 *)this) + 0x7C), temp_r3, ((u8 *)this) + 0x68);
+        draw_window_scrollbar(*(u32 *)((s8 *)((u8 *)this) + 0x7C), draw_context, ((u8 *)this) + 0x68);
     }
 }
 

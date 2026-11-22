@@ -6,12 +6,11 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/system/task/TObject.h"
 
-extern uaddr TWindowCtrl__active_window;
 
 void TWindowCtrl::shutdown() {
-    if ((u32) TWindowCtrl__active_window != 0U) {
-        ((TObject *)TWindowCtrl__active_window)->queue_destruction();
-        TWindowCtrl__active_window = 0U;
+    if (TWindowCtrl__active_window != NULL) {
+        TWindowCtrl__active_window->queue_destruction();
+        TWindowCtrl__active_window = NULL;
     }
     fn_8026AC50();
     TWindowMainMenu__sub_8024E3CC();

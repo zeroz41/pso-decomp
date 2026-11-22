@@ -118,10 +118,10 @@ char *parse_text_control_codes(char *p, s32 *a, s32 *b) {
 
 #pragma push
 #pragma fp_contract on
-void set_glyph_quad_extents(u8 arg0, u8 *arg1) {
-    *(f32 *)((s8 *)arg1 + 8) = (f32) (*(f32 *)((s8 *)arg1 + 0) + (f32) arg0);
+void set_glyph_quad_extents(u8 adv, u8 *arg1) {
+    *(f32 *)((s8 *)arg1 + 8) = (f32) (*(f32 *)((s8 *)arg1 + 0) + (f32) adv);
     *(f32 *)((s8 *)arg1 + 0xC) = (f32) (18.0f + *(f32 *)((s8 *)arg1 + 4));
-    *(f32 *)((s8 *)arg1 + 0x18) = (f32) (((f32) arg0 / 256.0f) + *(f32 *)((s8 *)arg1 + 0x10));
+    *(f32 *)((s8 *)arg1 + 0x18) = (f32) (((f32) adv / 256.0f) + *(f32 *)((s8 *)arg1 + 0x10));
     *(f32 *)((s8 *)arg1 + 0x1C) = (f32) (0.0703125f + *(f32 *)((s8 *)arg1 + 0x14));
 }
 #pragma pop
@@ -315,9 +315,9 @@ void TWindowSubStatusDisp::pack_status_flags(u32 arg1) {
 }
 extern u8 *menu_font_glyph_pixel_buffers[];
 extern u8 *menu_font_glyph_data;
-void upload_font_glyph(u16 c, void *arg1);
+void upload_font_glyph(u16 c, void *free_slot);
 s32 calc_ci4_tile_offset(u32 arg0, u32 arg1);
-#define g ((Glyph_80145190 *)arg1)
+#define g ((Glyph_80145190 *)free_slot)
 
 s32 calc_ci4_tile_offset(u32 arg0, u32 arg1) {
     s32 tile = (arg0 * 4) & 0x7FFFFFE0;
@@ -327,7 +327,7 @@ s32 calc_ci4_tile_offset(u32 arg0, u32 arg1) {
     return r;
 }
 
-void upload_font_glyph(u16 c, void *arg1) {
+void upload_font_glyph(u16 c, void *free_slot) {
     u8 *tex;
     u32 i;
     u32 j;
@@ -356,18 +356,18 @@ void upload_font_glyph(u16 c, void *arg1) {
 }
 #undef g
 
-s32 TWindowSubStatusDisp::upload_glyph_if_needed(u16 arg0, u8 *arg1, void **arg2) {
+s32 TWindowSubStatusDisp::upload_glyph_if_needed(u16 code, u8 *free_slot, void **arg2) {
     u8 temp_r7;
-    temp_r7 = *(u8 *)((s8 *)arg1 + 3);
+    temp_r7 = *(u8 *)((s8 *)free_slot + 3);
     if (temp_r7 == (u8) lbl_805D56C0) {
         return 0;
     }
     if (temp_r7 != (u8)(lbl_805D56C0 - 1)) {
-        upload_font_glyph(arg0, arg1);
+        upload_font_glyph(code, free_slot);
         return 1;
     }
     if ((void *) *arg2 == NULL) {
-        *arg2 = arg1;
+        *arg2 = free_slot;
     }
     return 0;
 }
@@ -421,12 +421,12 @@ void *TWindowSubStatusDisp::find_cached_glyph(u16 code) {
     return free_slot;
 }
 
-u8 TWindowSubStatusDisp::calc_gauge_scale(u16 glyph, void *arg1, s32 arg2) {
+u8 TWindowSubStatusDisp::calc_gauge_scale(u16 glyph, void *arg1, s32 color) {
     void *cached_glyph;
 
     cached_glyph = TWindowSubStatusDisp::find_cached_glyph(glyph);
     *(u8 *)((s8 *)cached_glyph + 3) = (u8) lbl_805D56C0;
-    set_draw_texture_and_color((*(u8 *)((s8 *)cached_glyph + 4)), (arg2));
+    set_draw_texture_and_color((*(u8 *)((s8 *)cached_glyph + 4)), (color));
     *(f32 *)((s8 *)arg1 + 0x10) = (f32) ((f32) *(u8 *)((s8 *)cached_glyph + 5) / 256.0f);
     *(f32 *)((s8 *)arg1 + 0x14) = (f32) ((f32) *(u8 *)((s8 *)cached_glyph + 6) / 256.0f);
     return *(u8 *)((s8 *)cached_glyph + 2);
@@ -439,7 +439,7 @@ void TWindowSubStatusDisp::set_gauge_param(s32 _w0) {
 void TWindowSubStatusDisp::end_render_forward() { get_player(); }
 void TWindowSubStatusDisp::reset_gauge(void* p) { begin_screen_draw((saddr)((void*)1)); TWindowSubStatusDisp::set_gauge_param((saddr)p); set_draw_texture_and_color((saddr)((void*)0), (saddr)((void*)-1)); }
 typedef struct Pos_8014556C Pos_8014556C;
-void draw_menu_font_string(const char *s, s32 arg1, u32 flags, f32 x, f32 y, f32 scale) {
+void draw_menu_font_string(const char *s, s32 color, u32 flags, f32 x, f32 y, f32 scale) {
   s32 mb = 0;
   Pos_8014556C pos;
   s32 c;
@@ -501,7 +501,7 @@ void draw_menu_font_string(const char *s, s32 arg1, u32 flags, f32 x, f32 y, f32
       }
       code = (hi << 8) & 0xFF00;
       code = code | lo;
-      w = TWindowSubStatusDisp::calc_gauge_scale(((u16 (*)(u32)) map_char_to_font_code)(code), &pos, arg1);
+      w = TWindowSubStatusDisp::calc_gauge_scale(((u16 (*)(u32)) map_char_to_font_code)(code), &pos, color);
       set_glyph_quad_extents(w, (u8 *)&pos);
       draw_textured_quad_at_depth((f32 *)&pos, scale);
       pos.x += (f32) w;

@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/enemy/TUnk_80493450.h"
 #include <stdlib.h>
 #include "pso/technique/TechniqueParams.h"
 #include "pso/player/TObjPlayer.h"
@@ -19,7 +20,7 @@ struct RecoveredFields_8023C558_arg0
   s16 field_F0;
 };
 
-extern "C" {
+
 typedef struct RecoveredFields_8023C558_arg0 RecoveredFields_8023C558_arg0;
 #pragma readonly_strings on
 
@@ -41,7 +42,6 @@ void TTecZonde::init_parameters() {
   }
 }
 
-}
 
 struct VBase_18_0c879f { char pad[0x18]; };
 
@@ -75,17 +75,16 @@ struct VObj_18_0c879f : VBase_18_0c879f {
 struct Obj_8023C6B4 { u8 pad[0x1C]; void *source; u8 pad20[0xCC - 0x20]; f32 power; };
 
 extern "C" {
-s32 test_elt_flag__13TUnk_80493450Fll(void *, s32, s32);
 
-void TObjPlayer::create_tec_zonde(void *arg0, void *arg1, void *arg2, void *arg3) {
-    new TTecZonde((saddr)arg0, (u8 *)arg1, (u8 *)arg2, (saddr)arg3);
+void TObjPlayer::create_tec_zonde(void *source, void *origin, void *targets, s32 level) {
+    new TTecZonde((saddr)source, (u8 *)origin, (u8 *)targets, level);
 }
 void TTecZonde::vfunc_8(void *arg1_arg) {
     VObj_18_0c879f *arg1 = (VObj_18_0c879f *)arg1_arg;
     HitInfo_8023C6B4 h;
     h.type = 3;
     h.power = this->power;
-    if (test_elt_flag__13TUnk_80493450Fll(arg1, 0, 0x80) == 0) {
+    if (((TUnk_80493450 *)arg1)->test_elt_flag(0, 0x80) == 0) {
         HitInfo_8023C6B4 c = h;
         arg1->m21(((Obj_8023C6B4 *)this)->source, &c, 0, 6, -1);
     }
@@ -95,6 +94,9 @@ void TTecZonde::vfunc_8(void *arg1_arg) {
 
 #include "pso/technique/TTecLuker.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/technique/TTecGiZonde_8023CDC4.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/object/base/CollisionActorLookup.h"
 extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 struct Seg_8023C79C { f32 a[3]; f32 b[3]; f32 len; };
@@ -123,9 +125,6 @@ void TTecZonde::render() {  }
 #pragma push
 #pragma fp_contract on
 
-void *find_entity_by_id(u16 id);
-s32 play_sound_effect(s32, void *, s32, s32);
-u8 *construct_helper_effect__11TTecGiZondeFPvPvPvPvi(u8 *arg0, u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4);
 f32 vector_length(void *);
 extern u8 *tl_07;
 
@@ -273,12 +272,12 @@ void TTecZonde::run_task() {
 
 #pragma pop
 #define arg0 ((u8 *)this)
-TTecZonde::TTecZonde(s32 arg1, u8 *arg2, u8 *arg3, s32 arg4) : TUnk_804CCC68(arg1, (Vec *)arg2, 0, arg4) {
+TTecZonde::TTecZonde(s32 source, u8 *arg2, u8 *targets, s32 level) : TUnk_804CCC68(source, (Vec *)arg2, 0, level) {
     u8 *temp_r3;
     __ct__16TargetCursorListFv((arg0 + 0x130));
     *(s32 *)((s8 *)arg0 + 0) = (saddr) lbl_805D3838;
     ((TTecZonde *)arg0)->init_parameters();
-    copy_technique_target_list(arg0 + 0x130, arg3);
+    copy_technique_target_list(arg0 + 0x130, targets);
     temp_r3 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x1C));
     if (temp_r3 != NULL) {
         ((TTecZonde *)arg0)->sourceId = get_entity_id(temp_r3);

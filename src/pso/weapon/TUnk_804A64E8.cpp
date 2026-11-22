@@ -6,7 +6,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
-
+#include "pso/player/TObjPlayer_801D2E20.h"
 
 void TUnk_804A64E8::vfunc_60() {
     switch (TObjPlayer::get_player_list()) {
@@ -52,17 +52,8 @@ struct Tec_8012F704 {
     Vec pos;
     Vec dir;
 };
-extern "C" {
-
-s16 get_entity_id(void *);
-}
 struct SlicerState_801295FC;
 void init_slicer_launch_state(void *arg0);
-extern "C" {
-s16 get_validated_attack_stage(u8 *arg0);
-s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
-}
-
 
 void TUnk_804A64E8::emit_marker_effects() {
     Tec_8012F704 tec;
@@ -84,7 +75,6 @@ void TUnk_804A64E8::emit_marker_effects() {
     get_joint_position(4, &tec.dir);
     TTecSlicer::create((u16*)&tec);
 }
-
 
 TUnk_804A64E8::~TUnk_804A64E8() {}
 

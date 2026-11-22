@@ -2,16 +2,16 @@
 #include "pso/boss/olgaflow/TBoss6Type2_80356E50.h"
 #include "pso/boss/olgaflow/TBoss6Type2.h"
 #include <stdlib.h>
+#include "pso/unk/text_80357058.h"
 
 extern "C" {
 void world_to_grid_pos__11TBoss6Type2FPvPvPv(f32 *arg0, s8 *arg1, s8 *arg2);
 }
 void send_6xAD_olga_flow_subordinate_boss_actions(u8 *arg0);
 extern "C" {
-void TBoss6Type2__sub_803570C8(s8 *arg0);
 
-void TBoss6Type2__sub_80356E50(s32 arg0, s32 arg1, s32 force) {
-    TBoss6Type2::send_subordinate_actions(0, arg0, arg1, force, arg0);
+void TBoss6Type2__sub_80356E50(s32 arg0, s32 cnt, s32 force) {
+    TBoss6Type2::send_subordinate_actions(0, arg0, cnt, force, arg0);
 }
 
 struct Pkt_80356F28 { u8 b[0x40]; };
@@ -46,7 +46,7 @@ void TBoss6Type2::send_6xAD_grid_positions(u8 arg0, saddr arg1, s32 arg2) {
     send_6xAD_olga_flow_subordinate_boss_actions((buf));
 }
 
-s32 TBoss6Type2::send_subordinate_actions(s32 kind, saddr ids, s32 n, s32 force, s32 unused) {
+void TBoss6Type2::send_subordinate_actions(s32 kind, saddr ids, s32 n, s32 force, s32 unused) {
     Pkt_80356F28 pkt;
     s32 i;
 

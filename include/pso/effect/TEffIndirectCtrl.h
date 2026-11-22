@@ -37,7 +37,7 @@ LAYOUT_ASSERT(TEffIndirectSource_size, sizeof(TEffIndirectSource) == 0x1020);
 
 struct TEffIndirectCtrl : public TObject {
     virtual ~TEffIndirectCtrl();
-    void sub_802A955C();
+    void pause_indirect_effect();
     virtual void run_task();
     u8 *m_1c;
     TEffIndirectRecipe *m_20;
@@ -68,8 +68,8 @@ LAYOUT_ASSERT(TEffIndirectCtrl_size, sizeof(TEffIndirectCtrl) == 0x54);
 
 
 extern "C" {
-void TEffIndirectCtrl__sub_802A9548(TEffIndirectCtrl *ctrl);
-u8 TEffIndirectCtrl__sub_802A9554(TEffIndirectCtrl *ctrl);
+void TEffIndirectCtrl__resume_indirect_effect(TEffIndirectCtrl *ctrl);
+u8 TEffIndirectCtrl__get_indirect_kind(TEffIndirectCtrl *ctrl);
 }
 u32 get_indirect_tile_coord(u8 x, u8 y, s32 width);
 void enable_indirect_tev(TUnk_804DDF04 *effect, s32 sampler, s32 scale, s32 mode);

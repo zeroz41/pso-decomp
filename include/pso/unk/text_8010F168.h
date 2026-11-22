@@ -16,7 +16,7 @@ s32 create_load_unload_set(ItemClassLoadUnloadEntry *table);
 
 extern "C" {
 void *TItemDrop__sub_8010F168(void *arg0, s16 arg1);
-u8 *TItemDrop__sub_8010F1B8(u8 *arg0, s32 arg1, s32 arg2);
+u8 *TItemDrop__sub_8010F1B8(u8 *arg0, s32 arg1, s32 found);
 }
 
 #endif

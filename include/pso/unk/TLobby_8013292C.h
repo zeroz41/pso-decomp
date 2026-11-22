@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-void select_main_menu_item_10(s32 arg0);
+void select_main_menu_item_10(s32 id);
 }
 
 // --- C functions defined in TLobby_8013292C.cpp ---
 extern "C" {
-void select_main_menu_item_10(s32 arg0);
+void select_main_menu_item_10(s32 id);
 }
 // --- end of C functions
 

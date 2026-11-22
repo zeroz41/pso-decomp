@@ -118,7 +118,7 @@ void __ct__7TObjectFP7TObject(void *, void *);
 
 extern s32 __vt__22TObjBoss1MokoHill_Solo[];
 
-void *TObjBoss1MokoHill_Solo__ct(void *arg0_, void *arg1, int arg2);
+void *TObjBoss1MokoHill_Solo__ct(void *arg0_, void *parent, int arg2);
 
 
 extern BmlResource *lbl_805D4B50;
@@ -536,12 +536,12 @@ f32 get_velocity_scale_limit(void) {
 }
 
 #define boss1_moko_hill_solo_m ((u8 *)this)
-TObjBoss1MokoHill_SoloM::TObjBoss1MokoHill_SoloM(TObject *parent, u8 *arg2, s32 arg3) : TObject(parent) {
+TObjBoss1MokoHill_SoloM::TObjBoss1MokoHill_SoloM(TObject *parent, u8 *position, s32 arg3) : TObject(parent) {
     *(s32 *)((s8 *)boss1_moko_hill_solo_m + 0) = (saddr) TObjBoss1MokoHill_SoloM__name;
     *(s32 *)((s8 *)boss1_moko_hill_solo_m + 0x1C) = 0;
-    (*(u8 * *)&dragon_trail_position_source) = arg2;
+    (*(u8 * *)&dragon_trail_position_source) = position;
     dragon_trail_heading_source = arg3;
-    VecCopy((Vec *)(boss1_moko_hill_solo_m + 0x20), (const Vec *)arg2);
+    VecCopy((Vec *)(boss1_moko_hill_solo_m + 0x20), (const Vec *)position);
     ((TObjBoss1MokoHill_SoloM *)boss1_moko_hill_solo_m)->m_2c = (f32) 0.0f;
     *(f32 *)((s8 *)boss1_moko_hill_solo_m + 0x30) = (f32) -30.0f;
     ((TObjBoss1MokoHill_SoloM *)boss1_moko_hill_solo_m)->m_34 = (f32) -30.0f;
@@ -677,10 +677,10 @@ void TObjBoss1MokoHill_SoloM::run_task() {
 
 #pragma pop
 void TObjBoss1MokoHill_SoloM::render() {
-    Obj_8002CE78 *arg0 = (Obj_8002CE78 *)this;
+    Obj_8002CE78 *self = (Obj_8002CE78 *)this;
     Ent_8002CE78 *p;
     s32 i;
-    if (arg0->active != 0) {
+    if (self->active != 0) {
         TObjFish::set_global_param(dragon_common_texture_list);
         update_dragon_trail_uvs((Obj_8002D4C0 *)((struct Obj_8002D4C0 *)dragon_trail_position_source));
         for (p = lbl_805D4B78, i = 0; i < lbl_805D4B74; i++, p++) {
@@ -688,8 +688,8 @@ void TObjBoss1MokoHill_SoloM::render() {
         }
         push_matrix();
         post_translate_matrix((void *)dragon_trail_position_source);
-        translate_matrix(0, 0.0f, arg0->unk34, 0.0f);
-        if (arg0->unk38 != 0) {
+        translate_matrix(0, 0.0f, self->unk34, 0.0f);
+        if (self->unk38 != 0) {
             saved_model_render_flags = model_render_flags;
             saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
             saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
@@ -710,10 +710,10 @@ void TObjBoss1MokoHill_SoloM::render() {
 }
 
 #define arg0 ((Obj_8002CD8C *)arg0_)
-void *TObjBoss1MokoHill_Solo__ct(void *arg0_, void *arg1, int arg2) {
+void *TObjBoss1MokoHill_Solo__ct(void *arg0_, void *parent, int arg2) {
     f32 r;
     f32 t;
-    __ct__7TObjectFP7TObject(arg0, arg1);
+    __ct__7TObjectFP7TObject(arg0, parent);
     arg0->vtbl = __vt__22TObjBoss1MokoHill_Solo;
     arg0->name = TObjBoss1MokoHill_Solo__name;
     VecCopy((Vec *)arg0->pos, (const Vec *)(((void *(*)(void *))get_state__12TBoss8DragonFv)(arg0)));

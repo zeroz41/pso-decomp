@@ -22,8 +22,6 @@ typedef struct Trail_800D76E8 {
     Ent_800D76E8 e[1];
 } Trail_800D76E8;
 
-extern "C" {
-
 
 void TUnk_80494968::render() {
     u8 *arg0 = (u8 *)this;
@@ -81,7 +79,6 @@ void TUnk_80494968::sub_800D7818(s32 arg1, s32 arg2) {
     *(s32 *)&this->unk_124 = arg2;
 }
 
-}
 
 struct P_800D78CC { u8 b[0x10]; };
 
@@ -154,11 +151,11 @@ struct Obj_800D79A8 { u8 pad[0x18]; void *vt; u8 pad1c[4]; Ent_800D79A8 ents[8];
 
 extern "C" {
 extern u8 __vt__13TUnk_80494968[];
-Obj_800D79A8 *fn_800D79A8(Obj_800D79A8 *self, s32 x, s32 a, s32 b);
-Obj_800D79A8 *fn_800D79A8(Obj_800D79A8 *self, s32 x, s32 a, s32 b) {
+Obj_800D79A8 *fn_800D79A8(Obj_800D79A8 *self, TObject *parent, s32 a, s32 b);
+Obj_800D79A8 *fn_800D79A8(Obj_800D79A8 *self, TObject *parent, s32 a, s32 b) {
     s32 i;
     Ent_800D79A8 *p;
-    __ct__12TAttackTraceFP7TObject(self, (TObject *)x);
+    __ct__12TAttackTraceFP7TObject(self, parent);
     self->vt = __vt__13TUnk_80494968;
     ((TUnk_80494968 *)self)->sub_800D7818(a, b);
     p = self->ents;

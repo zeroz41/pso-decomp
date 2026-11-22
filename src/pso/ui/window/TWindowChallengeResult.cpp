@@ -12,10 +12,9 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowDD.h"
+#include "pso/ui/window/WindowLayout.h"
 #pragma push
 #pragma readonly_strings on
-
-extern "C" void measure_message_text_width_default(void *);
 
 const char *TWindowChallengeResult__name = "TWindowChallengeResult";
 #pragma pop
@@ -31,7 +30,6 @@ struct ResultEntry {
     s32 value;
 };
 
-saddr get_window_layout_position(s32);
 extern const char lbl_8044E7BC[];
 
 struct ChallengeResultLayout {
@@ -77,7 +75,7 @@ TWindowChallengeResult::TWindowChallengeResult(const char *team_name, s32 clear_
         measure_message_text_width_default(e);
         e->x = 233.0f - e->width;
     }
-    set_text_entry_string((u8 *)(get_array_entry(1)), (u32)team_name, 0x20);
+    set_text_entry_string((u8 *)(get_array_entry(1)), (uaddr)team_name, 0x20);
     e = (ResultEntry *)get_array_entry(3);
     text_builder_reset();
     hours = clear_seconds / 3600;

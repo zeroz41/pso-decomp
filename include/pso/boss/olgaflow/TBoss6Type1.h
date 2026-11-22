@@ -110,7 +110,7 @@ struct TBoss6Type1 : public TObjEnemy {
     static s32 pick_random_entry(s32 arg0, saddr arg1, s32 arg2);
     static int rand_range_inclusive(s32 arg0, int arg1, int arg2);
     s32 pick_remapped_list_value(s32 a, s32 b, s32 n);
-    static s32 request_jittered_camera(void *arg0, void *arg1, void *arg2, int arg3);
+    static void request_jittered_camera(void *arg0, void *arg1, void *arg2, int arg3);
     void request_default_jittered_camera();
     s32 is_timer_expired();
     void reset_fields_4e0();

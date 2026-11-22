@@ -39,7 +39,7 @@ struct TTecGiFoie : public TUnk_804CC148 {
     u16 hitIds[32];            // entity ids vfunc_6 has already hit
     s32 hitCursor;
     void calc_params();
-    static void create(void *source, void *origin, void *level);
+    static void create(void *source, void *origin, s32 level);
     virtual void render();
 };
 

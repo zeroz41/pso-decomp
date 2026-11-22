@@ -247,7 +247,7 @@ void hwSetVolume(s32 voice, u32 volumeCurve, u32 pan, s32 surroundPan, f32 direc
     if (auxiliaryA >= 1.0f) auxiliaryA = 1.0f;
     if (auxiliaryB >= 1.0f) auxiliaryB = 1.0f;
     salCalcVolume(volumeCurve, out, pan, surroundPan, (state->flags & 0x80000000) != 0,
-        lbl_805663D8[state->studio].mode == 1, direct, auxiliaryA, auxiliaryB);
+        dspStudio[state->studio].mode == 1, direct, auxiliaryA, auxiliaryB);
     left = 32767.0f * out[0].left;
     right = 32767.0f * out[0].right;
     surround = 32767.0f * out[0].surround;
@@ -290,17 +290,12 @@ void hwOff(s32 arg0) {
     salDeactivateVoice(&dspVoice[arg0]);
 }
 
-#pragma push
-#pragma scheduling off
-void hwSetAUXProcessingCallbacks(u8 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
-    u8 *temp_r3;
-    temp_r3 = (u8 *)&lbl_805663D8 + (arg0 * 0xBC);
-    *(s32 *)((s8 *)temp_r3 + 0xAC) = arg1;
-    *(s32 *)((s8 *)temp_r3 + 0xB4) = arg2;
-    *(s32 *)((s8 *)temp_r3 + 0xB0) = arg3;
-    *(s32 *)((s8 *)temp_r3 + 0xB8) = arg4;
+void hwSetAUXProcessingCallbacks(u8 studio, SND_AUX_CALLBACK auxA, void *userA, SND_AUX_CALLBACK auxB, void *userB) {
+    dspStudio[studio].auxAHandler = auxA;
+    dspStudio[studio].auxAUser = userA;
+    dspStudio[studio].auxBHandler = auxB;
+    dspStudio[studio].auxBUser = userB;
 }
-#pragma pop
 
 void hwActivateStudio(u8 i, s32 a, s32 b) {
     salActivateStudio(i, a, b);
@@ -310,12 +305,12 @@ void hwDeactivateStudio(u8 i) {
     salDeactivateStudio(i);
 }
 
-void hwAddInput(u8 i, void *p) {
-    salAddStudioInput(&((Rec_803BD62C *)&lbl_805663D8)[i], p);
+void hwAddInput(u8 studio, SND_STUDIO_INPUT *in_desc) {
+    salAddStudioInput(&dspStudio[studio], in_desc);
 }
 
-void hwRemoveInput(u8 i, u32 x) {
-    salRemoveStudioInput(&((Rec_803BD660 *)&lbl_805663D8)[i], x);
+void hwRemoveInput(u8 studio, SND_STUDIO_INPUT *in_desc) {
+    salRemoveStudioInput(&dspStudio[studio], in_desc);
 }
 
 #define SLOTS_803BD694 (*(Slot_803BD694 **)&dspVoice)
@@ -359,8 +354,8 @@ void hwFlushStream(u8 *base, u32 offset, u32 len, u8 i, void *cb, void *arg) {
     aramUploadData((u8 *)(p), (u32)(addr + offset), (u32)(len), (s32)(1), (void *)(cb), (void *)(arg));
 }
 
-void *hwInitStream(u32 size) {
-    return aramAllocateStreamBuffer((u32)(size));
+u8 hwInitStream(u32 size) {
+    return aramAllocateStreamBuffer(size);
 }
 
 void hwExitStream(u8 i) {
@@ -382,8 +377,8 @@ void hwInitSampleMem(void *self, void *p) {
     aramInit((uaddr)p);
 }
 
-void hwSaveSample(Hdr_803BD8A8 **arg0, u32 *arg1) {
-    u32 info = (*arg0)->info;
+void hwSaveSample(Hdr_803BD8A8 **header, uaddr *data) {
+    u32 info = (*header)->info;
     u32 n = info & 0xFFFFFF;
     u32 fmt;
     u32 r;
@@ -401,8 +396,8 @@ void hwSaveSample(Hdr_803BD8A8 **arg0, u32 *arg1) {
     case 3:
         break;
     }
-    r = aramStoreData((u8 *)((u8 *)*arg1), (u32)(n));
-    *arg1 = r;
+    r = aramStoreData((u8 *)*data, n);
+    *data = r;
 }
 
 void hwRemoveSample(Hdr_803BD93C *arg0, u32 arg1) {

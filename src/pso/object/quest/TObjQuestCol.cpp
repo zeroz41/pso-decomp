@@ -30,21 +30,20 @@
 #include "pso/player/TUnk_804B6C24.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/unk/TLobby.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern NJS_ARGB debug_color_green_half_alpha;
 extern NJS_ARGB debug_color_purple_half_alpha;
 
 extern "C" {
-extern saddr tl_00;
 void debug_draw_sphere(const Vec *pos, const NJS_ARGB *color, f32 radius);
 // render_util.h declares (pos, color, size); the lock code still loads its collision body into r5 first, which
 // only a third argument explains, though debug_draw_uniform_scaled never reads r5 (TObjRoomId passes nothing there).
 void debug_draw_uniform_scaled(const Vec *pos, const NJS_ARGB *color, CollisionBody *body, f32 size);
-extern s32 tl_05;
 extern s8 controller_input_state[];
 int check_flag_100__10TObjPlayerFPv(void *player);
 void enable_action_input__10TObjPlayerFPv(void *p);
-u16 get_entity_id(void *);
 void *TObjQuestCol__create(void *arg0);
 void *TObjQuestColA__create(void *arg0);
 void *TObjQuestColALock2__create(void *arg0);
@@ -153,8 +152,8 @@ TQuestThread *TObjQuestCol::vfunc_16() {
     return TQuestThread::create(m_b0);
 }
 
-void *TObjQuestCol__create(void *arg0) {
-    return new TObjQuestCol(quest_collision_task_root, arg0);
+void *TObjQuestCol__create(void *set_data) {
+    return new TObjQuestCol(quest_collision_task_root, set_data);
 }
 
 TObjQuestCol *create_quest_col(ObjectSetData *arg, s32 *out_id) {
@@ -213,8 +212,8 @@ TQuestThread *TObjQuestColA::vfunc_16() {
     return TQuestThread::create(m_b0);
 }
 
-void *TObjQuestColA__create(void *arg0) {
-    return new TObjQuestColA(quest_collision_task_root, arg0);
+void *TObjQuestColA__create(void *set_data) {
+    return new TObjQuestColA(quest_collision_task_root, set_data);
 }
 
 TObjQuestColA *fn_80196814(ObjectSetData *arg, s32 *out_id) {
@@ -474,7 +473,7 @@ void TQuestColCtrl::render() { }
 
 void TQuestColCtrl::init() {
     quest_collision_task_root = new TObject(NULL);
-    new TQuestColCtrl((TObject *)tl_05);
+    new TQuestColCtrl(tl_05);
 }
 
 void TQuestColCtrl::delete_by_param(s32 arg0) {
@@ -598,7 +597,7 @@ TQuestThread *TObjQuestColALock2::vfunc_16() {
     if (thread_root != NULL) {
         thread = new TQuestThread(thread_root, m_b0);
         if (thread != NULL) {
-            thread->set_parent((TObject *)tl_00);
+            thread->set_parent(tl_00);
         }
     }
     return thread;
@@ -611,8 +610,8 @@ void TObjQuestColALock2::update_room_id_check() {
     }
 }
 
-void *TObjQuestColALock2__create(void *arg0) {
-    return new TObjQuestColALock2(quest_collision_task_root, arg0);
+void *TObjQuestColALock2__create(void *set_data) {
+    return new TObjQuestColALock2(quest_collision_task_root, set_data);
 }
 
 // --- TObjQuestCol2 ---
@@ -655,12 +654,12 @@ TQuestThread *TObjQuestCol2::vfunc_16() {
     if (thread_root != NULL) {
         thread = new TQuestThread(thread_root, m_b0);
         if (thread != NULL) {
-            thread->set_parent((TObject *)tl_00);
+            thread->set_parent(tl_00);
         }
     }
     return thread;
 }
 
-void *TObjQuestCol2__create(void *arg0) {
-    return new TObjQuestCol2(quest_collision_task_root, arg0);
+void *TObjQuestCol2__create(void *set_data) {
+    return new TObjQuestCol2(quest_collision_task_root, set_data);
 }

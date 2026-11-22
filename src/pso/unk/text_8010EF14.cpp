@@ -3,6 +3,7 @@
 #include "pso/system/data/FlagWord.h"
 #include "pso/ui/frontend/TAdRicoRing.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 typedef void (*Fn_801Fn)(void);
 struct Ent_8010F0C0 { Fn_801Fn a; Fn_801Fn b; };
 struct Set_8010F0C0 {
@@ -17,7 +18,6 @@ struct O_8010EF14 { s32 count; s32 f4; u8 *buf; };
 
 extern "C" {
 void load_unload_set_init_order(O_8010EFE8 *self);
-s32 test_flags_any(s32 *flags, s32 mask);
 void load_unload_set_shuffle_order(O_8010EF14 *self);
 
 void load_unload_set_shuffle_order(O_8010EF14 *self) {

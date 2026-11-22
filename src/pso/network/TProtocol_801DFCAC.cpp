@@ -17,7 +17,7 @@ LAYOUT_ASSERT(NamedPasswordActionPasswordOffset, offsetof(TSendAction<3>, passwo
 
 s32 destroy__9TProtocolFis(saddr arg0, s16 arg1) {
     if (arg0 != 0) {
-        __dt__12TPlyCharDataFv(arg0 + 4, -1);
+        ((TPlyJoinData *)arg0)->char_data.~TPlyCharData();
         if (arg1 > 0) {
             ::operator delete((void *)arg0);
         }

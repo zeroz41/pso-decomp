@@ -4,6 +4,8 @@
 #include "pso/unk/text_803CE240.h"
 #include "pso/unk/TLobby.h"
 #include "pso/audio/LscStream.h"
+#include "pso/audio/AdxFsServer.h"
+#include "pso/audio/AdxLock.h"
 #include "pso/unk/TLobby_803C4698.h"
 #include "pso/unk/TLobby_803CC0B4.h"
 #include "pso/audio/AdxStreamRuntime.h"
@@ -76,7 +78,6 @@ void TLobby::init_and_add_ref() {
     TLobby_init_ref_count += 1;
 }
 
-
 s32 TLobby::ar_alloc(s32) {
     ADXT_ExecFsSvr();
     return 0;
@@ -88,11 +89,11 @@ s32 TLobby::get_state_zero(s32) {
 }
 
 s32 TLobby::process_connection_state(s32) {
-    if (TLobby__sub_803CB844() == 1) {
+    if (is_adxm_initialized() == 1) {
         lsc_poll_all();
         TLobby__sub_803CE240();
     } else {
-        TLobby__sub_803CBA38();
+        exec_vsync_servers();
         lsc_poll_all();
         TLobby__sub_803CE240();
     }

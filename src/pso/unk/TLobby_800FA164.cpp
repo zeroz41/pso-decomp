@@ -5,12 +5,10 @@
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_800FA848.h"
 
-extern "C" {
-
 
 struct Ent_800fa164;
 
-s32 TLobby::create_file_load_entry(saddr arg0, s32 arg1, u32 arg2, saddr arg3, void **arg4) {
+s32 TLobby::create_file_load_entry(saddr arg0, s32 arg1, u32 arg2, saddr src, void **arg4) {
     struct Ent_800fa164 *var_r31;
     AdxfHandle *file;
 
@@ -37,7 +35,7 @@ s32 TLobby::create_file_load_entry(saddr arg0, s32 arg1, u32 arg2, saddr arg3, v
     *(s32 *)((s8 *)var_r31 + 0x34) = 0;
     *(u32 *)((s8 *)var_r31 + 0x40) = arg2;
     if (arg2 != 0U) {
-        ((TLobby *)((u8 *)var_r31 + 0x44))->move_words((u32 *)arg3, 8);
+        ((TLobby *)((u8 *)var_r31 + 0x44))->move_words((u32 *)src, 8);
     }
     if (arg4 != NULL) {
         *arg4 = var_r31;
@@ -45,4 +43,3 @@ s32 TLobby::create_file_load_entry(saddr arg0, s32 arg1, u32 arg2, saddr arg3, v
     return 0;
 }
 
-}

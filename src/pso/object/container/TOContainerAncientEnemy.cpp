@@ -128,7 +128,6 @@ static __declspec(section ".rodata") const char fe_obj_o_container_hahen01r_text
 static __declspec(section ".rodata") const char fe_obj_o_container_hahen02r_texture[] ATTRIBUTE_ALIGN(4) = "fe_obj_o_container_hahen02r.gvm";
 
 
-
 // Built with -inline off,deferred: the compiler emits the functions (and the
 // vtables) last-to-first, so the definitions below run backwards from the
 // original code order.

@@ -12,7 +12,7 @@ typedef struct SDIR_DATA_D {
     u16 id;
     u16 ref_cnt;
     u32 offset;
-    void *addr;
+    uaddr addr;
     SAMPLE_HEADER_D header;
     u32 extraData;
 } SDIR_DATA_D;
@@ -80,8 +80,8 @@ SAMPLE_HEADER_D *dgs_sheader;
 Req_803AE60C lbl_805D73F8;
 s32 *lbl_805D7400;
 Req_803AE60C lbl_805D7404;
-s32 *lbl_805D740C;
-Res_803AE6DC *lbl_805D7410;
+DATA_TAB_D *lbl_805D740C;
+LAYER_TAB_D *lbl_805D7410;
 
 #pragma push
 #pragma opt_common_subs on
@@ -452,7 +452,7 @@ s32 dataAddSampleReference(u16 sid) {
 done:
 
     if (sdir->ref_cnt == 0) {
-        sdir->addr = (void *)((u32)sdir->offset + (uaddr)dataSmpSDirs[i].base);
+        sdir->addr = sdir->offset + (uaddr)dataSmpSDirs[i].base;
         header = (Hdr_803ADA80 *)&sdir->header;
         hwSaveSample(&header, &sdir->addr);
     }
@@ -696,7 +696,7 @@ s32 dataGetSample(s16 sid, Sample_803AE4D4 *newsmp) {
             if (dgs_result->ref_cnt != 0xFFFF) {
                 dgs_sheader = &dgs_result->header;
                 newsmp->key = dgs_sheader->info;
-                newsmp->addr = (uaddr)dgs_result->addr;
+                newsmp->addr = dgs_result->addr;
                 newsmp->offset = 0;
                 newsmp->loopStart = dgs_sheader->loopOffset;
                 newsmp->count = dgs_sheader->length & 0xffffff;
@@ -728,12 +728,12 @@ saddr dataGetCurve(s16 arg0) {
     return 0;
 }
 
-s32 dataGetKeymap(s16 arg0) {
-    lbl_805D7404.f4 = arg0;
-    if ((lbl_805D740C = sndBSearch(&lbl_805D7404, dataKeymapTab, dataKeymapNum, 8, curvecmp)) != NULL) {
-        return *lbl_805D740C;
+KEYMAP_SV *dataGetKeymap(u16 cid) {
+    lbl_805D7404.f4 = cid;
+    if ((lbl_805D740C = (DATA_TAB_D *)sndBSearch(&lbl_805D7404, dataKeymapTab, dataKeymapNum, 8, curvecmp)) != NULL) {
+        return (KEYMAP_SV *)lbl_805D740C->data;
     }
-    return 0;
+    return NULL;
 }
 
 s32 layercmp(u8 *arg0, u8 *arg1) {
@@ -745,16 +745,16 @@ s32 layercmp(u8 *arg0, u8 *arg1) {
 #pragma bool off
 #pragma dont_inline off
 #pragma inline_depth(4)
-s32 dataGetLayer(s16 cid, u16 *n) {
+LAYER_SV *dataGetLayer(u16 cid, u16 *n) {
     static LAYER_TAB_D key;
 
     key.id = cid;
-    if ((lbl_805D7410 = (Res_803AE6DC *)sndBSearch((Req_803AE60C *)&key, dataLayerTab, dataLayerNum, sizeof(LAYER_TAB_D),
+    if ((lbl_805D7410 = (LAYER_TAB_D *)sndBSearch((Req_803AE60C *)&key, dataLayerTab, dataLayerNum, sizeof(LAYER_TAB_D),
                                                                       (s32 (*)(u8 *, u8 *))layercmp)) != NULL) {
-        *n = lbl_805D7410->h6;
-        return lbl_805D7410->f0;
+        *n = lbl_805D7410->num;
+        return (LAYER_SV *)lbl_805D7410->data;
     }
-    return 0;
+    return NULL;
 }
 
 #pragma pop

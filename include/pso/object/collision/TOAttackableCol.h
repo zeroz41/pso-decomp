@@ -20,7 +20,7 @@ struct TOAttackableCol : public TObjChara {
     f32 m_338;
     u32 m_33c;
     void init_params();
-    int send_state_change(u16 state);
+    void send_state_change(u16 state);
     int handle_6x91_update_state();
     f32 apply_hit(saddr arg1);
     void release();
@@ -42,7 +42,7 @@ void TOAttackableCol__sub_80157310(void *_w0);
 void TOAttackableCol__sub_80157C20(void *p, s32 v);
 s32 TOAttackableCol__sub_80157C28(void *p);
 void *__dt__15TOAttackableColFv(void *arg0, s16 arg1);
-void *fn_80157CA8(void *arg0);
+void *init_6x91_subcommand(void *arg0);
 }
 
 #endif

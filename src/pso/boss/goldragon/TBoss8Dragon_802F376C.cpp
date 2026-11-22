@@ -4,6 +4,8 @@
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80359A7C.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/object/TObjControl.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 struct Stack_802F3A48 {
     s32 sp8;
@@ -18,8 +20,6 @@ struct Ent_802F3974 { u8 pad[0x38]; f32 x; f32 y; f32 z; };
 
 extern "C" {
 extern TObject *tl_04;
-u16 get_entity_id(void *);
-u8 *get_enemy_entity(u16 arg0);
 extern uaddr boss8_dragon_leader_part;
 
 s32 TBoss8Dragon::is_closest_part() {
@@ -103,11 +103,11 @@ s32 TBoss8Dragon::is_near_other_part() {
     return 0;
 }
 
-s32 TBoss8Dragon::spawn_attack_object(saddr arg1, s32 arg2, s32 arg3, s32 arg4) {
-    s32 arg0 = (saddr)this;
+s32 TBoss8Dragon::spawn_attack_object(saddr arg1, s32 arg2, s32 hp, s32 arg4) {
+    s32 self = (saddr)this;
     Stack_802F3A48 stack;
-    if (setup_attack_slot__12TBoss8DragonFiUiiiPv(arg0, arg1, arg2, arg4, (u8 *)&stack.sp8) != 0) {
-        return (saddr)new TUnk_804F1A78(tl_04, &stack.sp8, arg3);
+    if (setup_attack_slot__12TBoss8DragonFiUiiiPv(self, arg1, arg2, arg4, (u8 *)&stack.sp8) != 0) {
+        return (saddr)new TUnk_804F1A78(tl_04, &stack.sp8, hp);
     }
     return 0;
 }

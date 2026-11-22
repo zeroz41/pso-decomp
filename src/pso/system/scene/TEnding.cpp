@@ -18,9 +18,6 @@ u32 __cvt_fp2unsigned(f32);
 int TKeyBoardControl__sub_8000F828(void);
 u32 ending_frame_counter;
 s32 ending_scene_active;
-extern TObject *tl_fade;
-extern TObject *tl_window;
-extern TObject *tl_01;
 extern const char TEnding__class_name_string[];
 const char *TEnding__class_name = TEnding__class_name_string;
 }

@@ -47,7 +47,7 @@ public:
     f32 unk_A8;
     u8 from_particle_heap;     // 0xAC, set by operator new: 1 = TParticleCtrl__heap
     u8 pad_ad[0x3];
-    u32 m_b0;
+    void *model;               // 0xB0, the Ginja model drawn when flags & 0x200
     u32 unk_B4;
     NJS_MOTION *motion;        // 0xB8
     f32 motion_frame;          // 0xBC

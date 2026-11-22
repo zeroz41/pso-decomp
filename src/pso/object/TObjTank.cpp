@@ -17,7 +17,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/task/TObject.h"
-extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
+#include "pso/system/task/TMainTask.h"
 
 __declspec(section ".data") const char *fs_obj_tank_model_names[2] = { "fs_obj_tank.gj", NULL };
 const char *fs_obj_tank_motion_names[1] = { NULL };
@@ -37,7 +37,7 @@ s32 free_collision_body_parts(void *);
 void TObjTank::render() {
     GinjaTextureList *textures;
     if ((this->update_object_view_visibility(400.0f, 20.0f) != 0) && (textures = TObjTank__texture_list)) {
-        TObjFish::set_global_param(reinterpret_cast<s32>(textures));
+        TObjFish::set_global_param((saddr)textures);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, this->rotation_y);
@@ -55,8 +55,6 @@ TObjTank::~TObjTank() {
 }
 
 
-extern void *tl_05;
-
 #define arg0 ((u8 *)this)
 TObjTank::TObjTank(TObject *parent, saddr arg2) : TObjCollidable(parent) {
     *(saddr *)((s8 *)arg0 + 0) = (saddr) TObjTank__class_name;
@@ -69,14 +67,14 @@ TObjTank::TObjTank(TObject *parent, saddr arg2) : TObjCollidable(parent) {
 }
 #undef arg0
 
-void *TObjTank__create(void *arg0) {
-    return new TObjTank((TObject *)tl_05, (saddr)arg0);
+void *TObjTank__create(void *set_data) {
+    return new TObjTank(tl_05, (saddr)set_data);
 }
 
 void TObjTank::free_globals() {
     if (TObjTank__texture_list != NULL) {
         release_texture_list(TObjTank__texture_list);
-        TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<s32>(TObjTank__texture_list));
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)TObjTank__texture_list);
         TObjTank__texture_list = NULL;
     }
     if (tank_bml_resource != NULL) {

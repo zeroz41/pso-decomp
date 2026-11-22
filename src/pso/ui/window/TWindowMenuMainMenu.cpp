@@ -23,30 +23,30 @@ void render__19TWindowMenuMainMenuFv(saddr arg0) {
     ((TWindowMainMenu *)arg0)->draw_entries_reversed((u8 *)frame);
 }
 
-void run_task__19TWindowMenuMainMenuFv(TWindowMenuMainMenu *window_menu_main_menu) {
+void TWindowMenuMainMenu::run_task() {
     s32 var_r31;
     u8 temp_r3;
     u8 temp_r3_2;
     u8 *var_r30;
 
-    temp_r3 = window_menu_main_menu->m_60;
+    temp_r3 = this->m_60;
     if (temp_r3 & 8) {
-        window_menu_main_menu->m_60 = (u8) (temp_r3 | 4);
+        this->m_60 = (u8) (temp_r3 | 4);
     }
-    var_r30 = (u8 *)window_menu_main_menu + 0x64;
+    var_r30 = (u8 *)this + 0x64;
     var_r31 = 0;
     do {
         ((TWindowMainMenu *)var_r30)->update_item_tween();
         var_r31 += 1;
         var_r30 += 0x18;
     } while (var_r31 < 8);
-    window_menu_main_menu->handle_navigation_input();
-    ((TWindowDD *)window_menu_main_menu)->initialize_subwindow();
-    window_menu_main_menu->update_slide_position();
-    ((TWindowBase *)window_menu_main_menu)->update_fade();
-    temp_r3_2 = window_menu_main_menu->m_60;
+    this->handle_navigation_input();
+    ((TWindowDD *)this)->initialize_subwindow();
+    this->update_slide_position();
+    update_fade();
+    temp_r3_2 = this->m_60;
     if (temp_r3_2 & 8) {
-        window_menu_main_menu->m_60 = (u8) (temp_r3_2 & 0xFFFFFFF3);
+        this->m_60 = (u8) (temp_r3_2 & 0xFFFFFFF3);
     }
 }
 

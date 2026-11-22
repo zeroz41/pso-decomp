@@ -76,12 +76,14 @@ int TAdSinglePlyChrSelectGC__sub_80133548(void);
 void __dt__7TObjectFv(void *, int);
 
     extern int light_type_id_table[];
+}
 TObjLightSceneLightState TObjLight__scene_light_state;
+extern "C" {
 void *TObjLight__data_80506370[3];
 Light_801347A4 TObjLight__data_8050637C[32];
 Light_801347A4 TObjLight__data_805068FC[8];
 __declspec(section ".data") u32 TObjLight__data_80506A5C;
-int TLobby__sub_80134A20(void* p) { return (int)TQuestThread::create_in_root((saddr)p); }
+TQuestThread *TLobby__sub_80134A20(void *p) { return TQuestThread::create_in_root((saddr)p); }
 
 extern s32 lbl_804A7008[];
 

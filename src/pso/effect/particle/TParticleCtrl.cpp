@@ -21,6 +21,13 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/network/client_id.h"
+#include "pso/map/CsnQuery.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/player/PlayerSlots.h"
 
 #pragma defer_codegen on
 
@@ -93,24 +100,15 @@ s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__13TUnk_8048E6A8[];
 extern s32 __vt__13TUnk_8048E6DC[];
 s32 lbl_805D2930 = 1;
-s32 rotate_matrix_y(int, s32);
 extern u8 *camera_ctrl_instance;
-void begin_screen_draw(s32 arg0);
-void set_draw_texture_and_color(s32 idx, s32 arg1);
-u32 csnVector(void *, void *, int);
-f32 vec3_dot(void *, void *);
 f32 vec_squared_length(u8 *arg0);
 s32 rotate_vector_by_matrix(int, void *, void *);
-extern s32 identity_matrix[];
-void project_world_to_screen(s32, void *, void *);
-void *get_player_by_client_id(s32 i);
 
-extern s32 local_client_id;
 }
 void set_constant_material_color(u32 x);
 
-u8 *TParticleCtrl::init_particle_obj(s32 arg1, saddr arg2) {
-    __ct__8TObjBaseFP7TObject(this, (void *)arg2);
+u8 *TParticleCtrl::init_particle_obj(s32 arg1, saddr parent) {
+    __ct__8TObjBaseFP7TObject(this, (void *)parent);
     *(s32 **)((s8 *)((u8 *)this) + 0x18) = __vt__13TUnk_8048E6DC;
     ((VObj_18_1a504b *)(this))->m5(arg1);
     *(f32 *)((s8 *)((u8 *)this) + 0xA4) = 225.0f;
@@ -274,8 +272,8 @@ u8 *TParticleCtrl::create_particle_obj_90(s32 arg0) {
     return var_r0;
 }
 
-u8 *TParticleCtrl::construct_particle_obj(s32 arg1, saddr arg2) {
-    __ct__8TObjBaseFP7TObject(this, (void *)arg2);
+u8 *TParticleCtrl::construct_particle_obj(s32 arg1, saddr parent) {
+    __ct__8TObjBaseFP7TObject(this, (void *)parent);
     *(s32 **)((s8 *)((u8 *)this) + 0x18) = __vt__13TUnk_8048E6A8;
     ((VObj_18_1a504b *)(this))->m5(arg1);
     return ((u8 *)this);

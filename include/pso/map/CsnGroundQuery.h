@@ -35,5 +35,9 @@ LAYOUT_ASSERT(CsnHitSize, sizeof(CsnHit) == 8);
 
 // A cached query uses caller-provided storage for up to 14 groups and a null terminator.
 struct CsnGroup;
-extern "C" CsnHit *csnVectorUnder(Vec *origin, CsnGroup **cached_groups, u32 mask);
+extern "C" {
+CsnHit *csnVectorUnder(Vec *origin, CsnGroup **cached_groups, u32 mask);
+// The ground straight below origin, NULL for none.
+CsnHit *csnVecterUnder(Vec *origin, u32 mask);
+}
 #endif

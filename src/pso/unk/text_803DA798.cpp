@@ -5,6 +5,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/unk/TLobby_803DE778.h"
+#include "pso/unk/text_803DA798.h"
+#include <dolphin/os/OSCache.h>
 struct RecoveredFields_803DA84C_arg0 {
     u8 unknown_0[0x14];
     u32 field_14;
@@ -48,23 +50,16 @@ struct B_803DAE1C { u32 a; u32 b; Obj_803DAD84 *c; };
 
 extern saddr record_array_ptr;
 extern "C" {
-void TObjPlayer__sub_803DAC1C(s32 arg0);
 s32 fn_803DB20C(void *);
 extern u8 *current_render_context;
-s32 TObjPlayer__sub_803DA84C(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
 s32 TObjPlayer__sub_803DAD28(u32 arg0);
-s32 TObjPlayer__sub_803DA8B4(u8 *arg0, s32 arg1);
 extern S_803DA7E0 lbl_8058D470;
-void TObjPlayer__sub_803DA7E0(void);
 void TObjPlayer__sub_803DAB7C(Obj_803DAB7C *self, s32 i, s32 j);
-void DCFlushRange(void *, void *);
-void TObjPlayer__sub_803DA808(void *arg0, s32 arg1, void *arg2);
 s32 TObjPlayer__sub_803DAB9C(s32 arg0, s32 arg1);
 s32 TObjPlayer__sub_803DB23C(void *);
 s32 TObjPlayer__sub_803DB244(void);
 s32 TObjPlayer__sub_803DAD84(struct Obj_803DAD84 *arg0, s32 arg1, u32 arg2);
 s32 TObjPlayer__sub_803DA104(int);
-s32 find_free_slot__10TObjPlayerFPvPv(void *, void *);
 void TObjPlayer__sub_803DAD24(void);
 s32 TObjPlayer__sub_803DA8E4(u32 arg0, u32 arg1, s32 arg2, s32 *arg3);
 s32 TObjPlayer__sub_803D9DA8(int, void *);
@@ -72,8 +67,8 @@ extern s32 player_ref_entry_active_count;
 s32 TObjPlayer__sub_803DAA70(u32 arg0, u32 arg1, s32 *arg2);
 s32 TObjPlayer__sub_803DAC48(Obj_803DAB7C *arg0, s32 arg1, u32 arg2, u32 arg3, s32 *arg4, s32 *arg5);
 s32 TObjPlayer__sub_803DAE1C(s32 arg0, s32 arg1, u32 arg2);
-s32 TObjFish::set_global_param(saddr arg0) {
-    *(s32 *)((s8 *)current_render_context + 0x20) = arg0;
+s32 TObjFish::set_global_param(saddr texlist) {
+    *(s32 *)((s8 *)current_render_context + 0x20) = texlist;
     return 1;
 }
 }
@@ -109,9 +104,9 @@ void TObjPlayer__sub_803DA7E0(void) {
 }
 #pragma pop
 
-void TObjPlayer__sub_803DA808(void *buf, s32 arg1, void *arg2) {
-    move_data(buf, (const void *)arg1, (uaddr)arg2);
-    DCFlushRange(buf, arg2);
+void TObjPlayer__sub_803DA808(void *buf, saddr src, u32 size) {
+    move_data(buf, (const void *)src, size);
+    DCFlushRange(buf, size);
 }
 
 s32 TObjPlayer__sub_803DA84C(u8 *arg0, s32 arg1, s32 arg2, s32 arg3) {
@@ -132,15 +127,15 @@ s32 TObjPlayer__sub_803DA84C(u8 *arg0, s32 arg1, s32 arg2, s32 arg3) {
     if (var_r5 > temp_r6) {
         var_r5 = temp_r6;
     }
-    TObjPlayer__sub_803DA808((void *)((int) (temp_r7 + ((RecoveredFields_803DA84C_arg0 *)arg0)->field_1C)), (s32)arg1, (void *)var_r5);
+    TObjPlayer__sub_803DA808((void *)(temp_r7 + ((RecoveredFields_803DA84C_arg0 *)arg0)->field_1C), arg1, var_r5);
     return 0;
 }
 #pragma pop
 
 #pragma push
 #pragma peephole off
-s32 TObjPlayer__sub_803DA8B4(u8 *arg0, s32 arg1) {
-    TObjPlayer__sub_803DA808((void *)((int) (*(s32 *)((s8 *)arg0 + 0x1C))), arg1, (void *)((int) (*(s32 *)((s8 *)arg0 + 0x14))));
+s32 TObjPlayer__sub_803DA8B4(u8 *arg0, s32 src) {
+    TObjPlayer__sub_803DA808((void *)*(saddr *)((s8 *)arg0 + 0x1C), src, *(u32 *)((s8 *)arg0 + 0x14));
     return 0;
 }
 #pragma pop
@@ -161,7 +156,7 @@ s32 TObjPlayer__sub_803DA8E4(u32 arg0, u32 arg1, s32 arg2, s32 *arg3) {
         }
         r = TObjPlayer::find_record_index(arg0, arg1);
         if (r < 0) {
-            slot = find_free_slot__10TObjPlayerFPvPv(&sp8, NULL);
+            slot = TObjPlayer::find_free_slot(&sp8, NULL);
             if (slot < 0) {
                 return -1;
             }
@@ -193,7 +188,7 @@ s32 TObjPlayer__sub_803DAA70(u32 arg0, u32 arg1, s32 *arg2) {
     u8 *spC;
     s32 *sp8;
     s32 temp_r3;
-    temp_r3 = find_free_slot__10TObjPlayerFPvPv(&spC, &sp8);
+    temp_r3 = TObjPlayer::find_free_slot(&spC, &sp8);
     if (temp_r3 < 0) {
         return -1;
     }
@@ -225,8 +220,8 @@ void TObjPlayer__sub_803DAB7C(Obj_803DAB7C *self, s32 i, s32 j) {
 }
 #pragma pop
 
-s32 TObjPlayer__sub_803DAB9C(s32 arg0, s32 arg1) {
-    u8 *p = (*(Ent_803DAB9C * *)&record_array_ptr)[arg0].d;
+s32 TObjPlayer__sub_803DAB9C(s32 handle, s32 arg1) {
+    u8 *p = (*(Ent_803DAB9C * *)&record_array_ptr)[handle].d;
     if (p == 0) {
         ((s32 *)&lbl_8058D470)[2] = 1;
         return -1;
@@ -240,15 +235,15 @@ s32 TObjPlayer__sub_803DAB9C(s32 arg0, s32 arg1) {
 
 #pragma push
 #pragma scheduling off
-void TObjPlayer__sub_803DAC1C(s32 arg0) {
-    TObjPlayer__sub_803DAE98(&((GinjaTextureState *)record_array_ptr)[arg0]);
+void TObjPlayer__sub_803DAC1C(s32 handle) {
+    TObjPlayer__sub_803DAE98(&((GinjaTextureState *)record_array_ptr)[handle]);
 }
 #pragma pop
 
 #pragma push
 #pragma optimize_for_size on
 #pragma use_lmw_stmw off
-s32 TObjPlayer__sub_803DAC48(Obj_803DAB7C *arg0, s32 i, u32 arg2, u32 arg3, s32 *arg4, s32 *arg5) {
+s32 TObjPlayer__sub_803DAC48(Obj_803DAB7C *list, s32 i, u32 arg2, u32 arg3, s32 *arg4, s32 *arg5) {
     switch (TObjPlayer__sub_803DA8E4(arg2, arg3, *arg4, arg5)) {
     case -1:
         return -1;
@@ -257,10 +252,10 @@ s32 TObjPlayer__sub_803DAC48(Obj_803DAB7C *arg0, s32 i, u32 arg2, u32 arg3, s32 
         if (*arg5 < 0) {
             return -1;
         }
-        TObjPlayer__sub_803DAB7C(arg0, i, *arg5);
+        TObjPlayer__sub_803DAB7C(list, i, *arg5);
         return 0;
     case 1:
-        TObjPlayer__sub_803DAB7C(arg0, i, *arg5);
+        TObjPlayer__sub_803DAB7C(list, i, *arg5);
         return 1;
     }
     return 0;
@@ -296,7 +291,7 @@ s32 TObjPlayer__sub_803DAD28(u32 arg0) {
 }
 #pragma pop
 
-s32 TObjPlayer__sub_803DAD84(struct Obj_803DAD84 *arg0, s32 arg1, u32 arg2) {
+s32 TObjPlayer__sub_803DAD84(struct Obj_803DAD84 *arg0, s32 size, u32 arg2) {
     struct Inner_803DAD84 *p = arg0->inner;
     if ((p->flags & 0x80000000) != 0 && arg2 != 0) {
         if (TObjPlayer__sub_803DB23C((u8 *)p + 4) != 0) {
@@ -315,9 +310,9 @@ s32 TObjPlayer__sub_803DAD84(struct Obj_803DAD84 *arg0, s32 arg1, u32 arg2) {
 }
 
 struct Obj_803DAD84;
-s32 TObjPlayer__sub_803DAE1C(s32 arg0, s32 arg1, u32 arg2) {
+s32 TObjPlayer__sub_803DAE1C(s32 arg0, s32 size, u32 arg2) {
     TObjPlayer__sub_803DA7E0();
-    s32 r = TObjPlayer__sub_803DAD84((**(B_803DAE1C ***)(current_render_context + 0x20))[arg0].c, arg1, arg2);
+    s32 r = TObjPlayer__sub_803DAD84((**(B_803DAE1C ***)(current_render_context + 0x20))[arg0].c, size, arg2);
     if (r < 0) {
         lbl_8058D470.a = arg0;
     }

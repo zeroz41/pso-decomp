@@ -7,7 +7,7 @@
 // Zalure (vtable 0x804A3450). Made by TObjPlayer::create_substate_b.
 class TUnk_804A3450 : public TItemWeapon {
 public:
-    virtual void vfunc_57();
+    virtual void on_equipped();
     virtual void emit_marker_effects();
     virtual ~TUnk_804A3450();
     TUnk_804A3450(TObject *parent, u8 *item);

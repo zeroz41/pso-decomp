@@ -2,9 +2,6 @@
 #include "pso/unk/TLobby.h"
 #include "pso/system/THeap.h"
 
-extern "C" {
-
 
     void *alloc_from_obj_heap(size_t size) { return obj_heap->heap_alloc(size); }
 
-}

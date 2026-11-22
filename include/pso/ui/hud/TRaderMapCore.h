@@ -70,7 +70,7 @@ struct TRaderMapCore : public TObjBase {
     void reset_counter();
     static void hide_radar();
     static void show_radar();
-    static s32 set_view_scissor(void *self, int mode, void *arg2);
+    static void set_view_scissor(void *self, int mode, void *arg2);
     static s32 save_floor_discovery(int floor, void *map_data);
     static void free_map_data();
     static void free_heap();
@@ -93,7 +93,7 @@ struct TRaderMapCore : public TObjBase {
     s32 is_render_admitted(void *arg1);
     void update_pan_zoom_input();
     void update_target();
-    static s32 pack_color_bits(s32 arg1, s32 arg2);
+    static s32 pack_color_bits(s32 input, s32 mask);
     static void set_mode(int a0);
     void advance_scroll();
     static void create();
@@ -104,7 +104,7 @@ struct TRaderMapCore : public TObjBase {
     static void free_statics();
     static void load_frame_texture();
     void reset();
-    static s32 init_map_ptr(s32 *counter, s32 index);
+    static void *init_map_ptr(s32 *counter, s32 index);
     static s32 is_not_split_screen();
     static void clear();
     static s32 apply_packed_flags(saddr arg0, s32 arg1, s32 arg2, s32 arg3);
@@ -113,6 +113,7 @@ struct TRaderMapCore : public TObjBase {
     s32 get_map_id();
     static void draw_backdrop(TRaderMapCore *self, s32 mode);
     static void pick_target_position(void *, void *);
+    static s32 should_show_map();
 };
 
 // A TObject subclass of this unit: its destructor (0x801FB9C8) is the unit's last function and its

@@ -15,9 +15,7 @@ const char *TWindowMessageScroll__class_name = "TWindowMessageScroll";
 
 void TWindowMessageScroll::run_task() {
     u8 *arg0 = (u8 *)this;
-    f32 temp_f1;
-    temp_f1 = this->scroll_offset[1];
-    this->scroll_offset[1] = (f32) (temp_f1 + scroll_speed);
+    this->scroll_offset[1] = (f32) (this->scroll_offset[1] + scroll_speed);
     TWindowMessage::retire_scrolled_lines();
     ((TWindowDD *)arg0)->initialize_subwindow();
     ((TWindowBase *)arg0)->update_fade();
@@ -32,9 +30,9 @@ TWindowMessageScroll::~TWindowMessageScroll() {
 
 }
 
-TWindowMessageScroll::TWindowMessageScroll(s32 arg1, s32 *arg2) : TWindowMessageQuest(arg1) {
+TWindowMessageScroll::TWindowMessageScroll(s32 parent, s32 *completion) : TWindowMessageQuest(parent) {
     this->m_name = TWindowMessageScroll__class_name;
     scroll_speed = 0.0f;
-    completion_register = arg2;
+    completion_register = completion;
     *completion_register = 0;
 }

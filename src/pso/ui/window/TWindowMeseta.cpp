@@ -30,8 +30,8 @@ s32 TWindowMeseta::get_meseta_value() {
     }
     return *(s32 *)(stats + 0x20);
 }
-void TWindowMeseta::draw_value(s32 arg1) {
-    draw_window_tab(arg1, arg1 + 0x10, 3, this->m_60);
+void TWindowMeseta::draw_value(s32 ctx) {
+    draw_window_tab(ctx, ctx + 0x10, 3, this->m_60);
 }
 void TWindowMeseta::render() {
     saddr ctx;
@@ -87,16 +87,15 @@ struct Meseta_80269244 {
 };
 
 extern "C" {
-extern const char *TWindowMeseta__class_name;
 
 
 void TWindowMeseta::run_task() {
     u8 *arg0 = (u8 *)this;
-    s32 temp_r3;
+    s32 meseta_value;
 
-    temp_r3 = this->get_meseta_value();
-    if (temp_r3 != (s32) this->m_68) {
-        this->m_68 = temp_r3;
+    meseta_value = this->get_meseta_value();
+    if (meseta_value != (s32) this->m_68) {
+        this->m_68 = meseta_value;
         ((TWindowSubStatusDisp *)(((TWindowBase *)arg0)->get_array_entry(1)))->set_animated_target(this->m_68, 9.0f);
     }
     ((TWindowDD *)arg0)->initialize_subwindow();
@@ -105,12 +104,12 @@ void TWindowMeseta::run_task() {
 
 TWindowMeseta::~TWindowMeseta() {}
 #define self ((Meseta_80269244 *)this)
-TWindowMeseta::TWindowMeseta(saddr arg1, s32 arg2, s32 str)
-    : TWindowBase((u8 *)&TWindowMeseta__window_descriptor, (s16)arg2, (u8 *)arg1) {
+TWindowMeseta::TWindowMeseta(saddr parent, s32 client, s32 str)
+    : TWindowBase((u8 *)&TWindowMeseta__window_descriptor, (s16)client, (u8 *)parent) {
     Sub_80269244 *a;
     Sub_80269244 *b;
     m_name = TWindowMeseta__class_name;
-    self->x64 = arg2;
+    self->x64 = client;
     self->meseta = this->get_meseta_value();
     a = (Sub_80269244 *)get_array_entry(0);
     b = (Sub_80269244 *)get_array_entry(1);

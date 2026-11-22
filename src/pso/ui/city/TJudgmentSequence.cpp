@@ -17,7 +17,6 @@ s32 TJudgmentSequence__slot_flags[4];
 TJudgmentSequence *judgment_sequence_instance;
 TShopJudgmentItemWindow *__ct__23TShopJudgmentItemWindowFPvPvPv(TShopJudgmentItemWindow *arg0, void *arg1, void *arg2, void *arg3);
 extern void *tl_05;
-s32 sub_802239EC__13TShopSequenceFv(void *);
 }
 
 #pragma readonly_strings on
@@ -45,13 +44,13 @@ void TJudgmentSequence__sub_80215BCC(TShopWindowBase *window) {
 
 void TJudgmentSequence__sub_80215BF8(TShopWindowBase *window) {
     if (window != NULL) {
-        window->vfunc_8(0xD, 1);
+        window->send_message(0xD, 1);
         window->set_field_20(4);
     }
 }
 
 void TJudgmentSequence::handle_close_input() {
-    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
+    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
         TShopSequence::close_window();
         queue_destruction();
     }
@@ -62,14 +61,14 @@ void TJudgmentSequence::open_judgment_window() {
     if (o != 0) {
         o = __ct__23TShopJudgmentItemWindowFPvPvPv(o, tl_05, this, player);
     }
-    o->m_16c = (uaddr)TJudgmentSequence__sub_80215BCC;
-    o->m_174 = (uaddr)TJudgmentSequence__sub_80215BA0;
-    o->m_170 = (uaddr)TJudgmentSequence__sub_80215BF8;
+    o->m_16c = TJudgmentSequence__sub_80215BCC;
+    o->m_174 = TJudgmentSequence__sub_80215BA0;
+    o->m_170 = TJudgmentSequence__sub_80215BF8;
     set_field_20(5);
 }
 
 void TJudgmentSequence::handle_confirm() {
-    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
+    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
         set_field_20(3);
     }
 }
@@ -83,7 +82,7 @@ void TJudgmentSequence::setup_counter_camera() {
     pos[1] = 80.0f;
     x = 332.0f;
     create_message_window(get_window_layout_position(0x2C, x), (saddr)pos);
-    vfunc_8(1, 1);
+    send_message(1, 1);
     m_2c = (TWindowBase *)create_meseta_window(((s32)get_child_field1c()) & 0xFFFF);
     set_field_20(2);
     counter_camera = set_service_counter_camera(this, 2);
@@ -155,5 +154,5 @@ void TJudgmentSequence__sub_80216058(void) {
     }
 }
 
-void TShopWindowBase::vfunc_8(s32 id, s32 flags) {  }
+void TShopWindowBase::send_message(s32 id, s32 flags) {  }
 }

@@ -20,6 +20,10 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/unk/text_8024AB98.h"
+#include "pso/ui/window/TWindowCtrl_8024A054.h"
+#include "pso/ui/window/TWindowCtrl_8024A1A8.h"
 
 struct Pad_80252CCC { u8 pad[0x20]; u8 m20[0x30]; };
 
@@ -32,25 +36,20 @@ struct GetCard_80252CCC {
 };
 
 extern "C" {
-s32 *get_shared_text_buffer(void);
 void *get_player_by_client_id(s32 i);
 s32 text_builder_append();
 s32 __ct__7TObjectFP7TObject();
-void TObjPlayer__sub_8024ABDC(saddr arg0);
 extern void *__vt__17TWindowGetComCard[];
 const char *TWindowGetComCard__name = "TWindowGetComCard";
 extern s32 local_client_id;
 u8 *TWindowGetComCard__ct(TWindowGetComCard *arg0);
 void play_sound_effect(s32, s32, s32, s32);
-s32 is_player_input_active(s32);
 u8 *init_shop_judgment_window(void *p);
 __declspec(section ".data") f32 TWindowGetComCard__window_rect[2] = {152.0f, 370.0f};
 extern Pad_80252CCC controller_input_state[];
 void run_task__17TWindowGetComCardFv(GetCard_80252CCC *self);
 void TWindowFukidasi__sub_80252C38(void* p);
 int fn_80252CBC(void* p);
-void TLobby__sub_8024AC20(saddr arg0);
-s32 TWindowCtrl__sub_8024A314();
 
 void TWindowFukidasi__sub_80252C38(void* p) { *(u8*)((char*)p + 0x71) |= 0x4; }
 void TUnk_804CF0B8::clear_visible_flag() { this->m_71 &= 0xfe; }

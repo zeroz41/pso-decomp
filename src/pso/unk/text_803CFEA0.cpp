@@ -12,17 +12,11 @@
 extern const char gcci_version_string[] = "\nGCCI Ver.1.07 Build:Jun 13 2002 19:00:24\n";
 
 
-
-
-
 extern "C" {
 s32 fileio_error_context;
 CvFsErrorCallback fileio_error_callback;
 volatile s32 lbl_805D7610;
 s32 fileio_seek(void *context, s32 arg1, s32 arg2);
-char *strcat(char *, const char *);
-char *strcpy(char *, const char *);
-u32 strlen(const char *);
 extern char dvd_default_path_buffer[0x100];
 extern GcciStatus dvd_active_request;
 u32 OSGetTick(void);
@@ -470,9 +464,6 @@ s32 gcCiGetFileSize(char *name) {
     return size;
 }
 
-}
-
-extern "C" {
 // Installs the error callback and its context (inferred: CRI's gcCiEntryErrFunc, by its device interface slot).
 void set_fileio_error_callback(CvFsErrorCallback callback, s32 context) {
     fileio_error_callback = callback;

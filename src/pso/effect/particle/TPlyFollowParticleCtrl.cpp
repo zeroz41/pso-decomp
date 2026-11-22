@@ -13,6 +13,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer_80309D80.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/player/TPlayerFootStamp.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/effect/particle/TPlyFollowParticleCtrl.h"
@@ -36,8 +37,7 @@ struct Fol_80309E9C { u16 a; u16 b; u8 pad[0x8]; Vec v[3]; };
 extern "C" {
 s32 set_owner_id__13TParticleCtrlFUs(s32, s32);
 uaddr find_entity_by_id(s32);
-void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
-Fol_80309E9C *TObjPlayer__sub_80309E9C(Fol_80309E9C *o);
+Fol_80309E9C *init_follow_particle_state(Fol_80309E9C *o);
 struct VOff_80309DD0_arg0_80309dd0_80309D80 { char pad_0[0x4]; char f_4[1]; };
 }
 void *create_oneshot_particle_emitter(void *pos, void *dir, s32 id, s32 flags);
@@ -114,22 +114,22 @@ void *TPlyPtclObjectRightHand::get_center() {
 
 s32 emit_player_particle(void* p, void* a1, void* a2) { return (saddr)spawn_particle_effect((const Vec *)a1, (s32)(saddr)a2); }
 
-s32 TObjPlayer::check_hit_by_id(saddr arg0, s32 arg1, s32 arg2) {
+s32 TObjPlayer::check_hit_by_id(saddr arg0, s32 arg1, s32 id) {
     TParticleCtrl *particle;
-    u32 entity;
+    uaddr entity;
 
     entity = find_entity_by_id(arg1);
     if (entity == 0U) {
         return 0;
     }
-    particle = spawn_particle_effect_with_flags((const Vec *)(entity + 0x74), arg2, 0x50);
+    particle = spawn_particle_effect_with_flags((const Vec *)(entity + 0x74), id, 0x50);
     if (particle != 0) {
         set_owner_id__13TParticleCtrlFUs((saddr)particle, arg1);
     }
     return (saddr)particle;
 }
 
-s32 create_attached_oneshot_emitter(unsigned long long arg1, s32 arg2) {
+s32 create_attached_oneshot_emitter(unsigned long long arg1, s32 id) {
   Stack_8030A1E4 stack;
   saddr oneshot_particle_emitter;
   u8 *entity;
@@ -141,7 +141,7 @@ s32 create_attached_oneshot_emitter(unsigned long long arg1, s32 arg2) {
   stack.spC = 0;
   stack.sp8 = 0;
   stack.sp10 = -0x8000;
-  oneshot_particle_emitter = (saddr)create_oneshot_particle_emitter((entity + 0x74), (&stack.sp8), arg2, 0x50);
+  oneshot_particle_emitter = (saddr)create_oneshot_particle_emitter((entity + 0x74), (&stack.sp8), id, 0x50);
   if (oneshot_particle_emitter != 0)
   {
     ((TParticleCtrl *)oneshot_particle_emitter)->set_owner_id(arg1);
@@ -158,8 +158,8 @@ s32 emit_player_model_particle(saddr owner, saddr position, saddr entry, s32 mod
   return emitter;
 }
 
-void emit_player_sprite_particle(s32 arg0, s32 arg1, s32 arg2) {
-    spawn_particle_effect_with_flags((const Vec *)arg1, arg2, 0x2000);
+void emit_player_sprite_particle(s32 owner, saddr position, s32 id) {
+    spawn_particle_effect_with_flags((const Vec *)position, id, 0x2000);
 }
 
 void*TObjPlayer::init_follow_particle_ctrl() { TPlyFollowParticleCtrl__sub_8030A694(); *(int*)(this) = 0; *(int*)((char*)this + 0x4) = 0; return this; }
@@ -202,7 +202,7 @@ void emit_idle_water_splash(s32 owner, s32 position) {
 
 s32 TObjPlayer::check_hit_by_id_431(void* p, int a1) { return TObjPlayer::check_hit_by_id((saddr)p, (s32)a1, 431); }
 
-Fol_80309E9C *TObjPlayer__sub_80309E9C(Fol_80309E9C *o) {
+Fol_80309E9C *init_follow_particle_state(Fol_80309E9C *o) {
     s32 i;
     Vec *p;
     ((TObjPlayer *)((u8 *)o + 4))->init_follow_particle_ctrl();
@@ -217,7 +217,7 @@ Fol_80309E9C *TObjPlayer__sub_80309E9C(Fol_80309E9C *o) {
     return o;
 }
 
-s32 TObjPlayer__sub_80309E4C(saddr arg0, s16 arg1) {
+s32 destroy_follow_particle_state(saddr arg0, s16 arg1) {
     if (arg0 != 0) {
         TObjPlayer::dt_follow_particle_ctrl(arg0 + 4, (s16)(-1));
         if (arg1 > 0) {

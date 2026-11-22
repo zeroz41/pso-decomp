@@ -4,10 +4,9 @@
 #include "types.h"
 
 class TChCrTagPlBack;
-void initialize_option_dialog(void *arg0, s32 arg1, s32 arg2, f32 farg0);
+void initialize_option_dialog(void *arg0, s32 message, s32 position, f32 width);
 extern "C" {
-void open_yes_no_prompt(TChCrTagPlBack *arg0, u32 arg1, s32 arg2, s32 arg3, f32 farg0);
-void open_yes_no_prompt_with_text(TChCrTagPlBack *window, s32 text, s32 pos, f32 width);
+void open_yes_no_prompt(TChCrTagPlBack *ch_cr_tag_pl_back, u32 title, s32 text, s32 arg3, f32 width);
 }
 
 #endif

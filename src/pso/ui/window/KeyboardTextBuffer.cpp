@@ -8,14 +8,14 @@ u16 keyboard_dakuten_kana_sjis[20] = {33449, 33451, 33453, 33455, 33457, 33459, 
 u16 keyboard_handakuten_kana_sjis[6] = {33485, 33488, 33491, 33494, 33497, 0};
 u16 keyboard_small_kana_sjis[10] = {33440, 33442, 33444, 33446, 33448, 33474, 33506, 33508, 33510, 33517};
 
-void KeyboardTextBuffer::append_text(u8 *arg1) {
+void KeyboardTextBuffer::append_text(u8 *text) {
     u8 c;
 
-    if (arg1 == NULL) {
+    if (text == NULL) {
         return;
     }
-    while ((s8)*arg1 != 0) {
-        c = *arg1++;
+    while ((s8)*text != 0) {
+        c = *text++;
         if (would_overflow_with((s32)c) != 0) {
             break;
         }
@@ -270,7 +270,7 @@ s32 KeyboardTextBuffer::measure_char_overflow(u16 code, u32 *x, u32 *y, u32 *cou
     return (*y >= line_pixels) ? 1 : 0;
 }
 
-s32 KeyboardTextBuffer::check_text_overflow(u16 *arg1) {
+s32 KeyboardTextBuffer::check_text_overflow(u16 *buf) {
     u32 x;
     u32 y;
     u32 count;
@@ -285,7 +285,7 @@ s32 KeyboardTextBuffer::check_text_overflow(u16 *arg1) {
     while (n > 0) {
         if (measure_char_overflow(*p, &x, &y, &count) != 0) {
             *p = 0;
-            *arg1 = 0;
+            *buf = 0;
             cursor -= n;
             length -= n;
             return 1;
@@ -293,7 +293,7 @@ s32 KeyboardTextBuffer::check_text_overflow(u16 *arg1) {
         p++;
         n--;
     }
-    for (p = arg1; (c = *p) != 0; p++) {
+    for (p = buf; (c = *p) != 0; p++) {
         if (measure_char_overflow(c, &x, &y, &count) != 0) {
             *p = 0;
             buffer[cursor] = 0;
@@ -315,7 +315,7 @@ s32 KeyboardTextBuffer::check_text_overflow(u16 *arg1) {
     return 0;
 }
 
-s32 KeyboardTextBuffer::would_overflow_with(u16 arg1) {
+s32 KeyboardTextBuffer::would_overflow_with(u16 ch) {
     u32 n;
     u32 x;
     u32 y;
@@ -327,7 +327,7 @@ s32 KeyboardTextBuffer::would_overflow_with(u16 arg1) {
     p = buffer;
     while ((s32)*p != 0 || n == cursor) {
         if (n == cursor) {
-            c = arg1;
+            c = ch;
         } else {
             c = *p++;
         }

@@ -140,11 +140,11 @@ void TAdMultiPlyChrSelectGC::set_index_and_close_status(s32 arg1) {
 }
 
 void TAdMultiPlyChrSelectGC::set_status_value(s32 arg1) {
-    void *temp_r3;
+    void *index;
     *(s32 *)((s8 *)this + 0x110) = arg1;
-    temp_r3 = (void *)TAdPlyStatusGC::get_index();
-    if (temp_r3 != 0U) {
-        TAdPlyStatusGC::set_status_index((saddr)temp_r3, (int)(*(s32 *)((s8 *)this + 0x110)));
+    index = (void *)TAdPlyStatusGC::get_index();
+    if (index != 0U) {
+        TAdPlyStatusGC::set_status_index((saddr)index, (int)(*(s32 *)((s8 *)this + 0x110)));
     }
 }
 

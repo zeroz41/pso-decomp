@@ -7,28 +7,26 @@
 #include "pso/system/task/TObject.h"
 
 extern "C" {
-extern struct Obj054_8024A054 *TWindowCtrl__active_window;
 extern u16 lbl_805D63FC;
-struct Obj054_8024A054 { char pad[0x38]; uaddr field38; };
 
 s32 get_multiplayer_controller_active_index(s32);
 u32 get_player_by_client_id(s32);
 s32 get_map_id__13TRaderMapCoreFv();
 
 void TWindowCtrl::clear_flag() {
-    if ((TWindowCtrl__active_window != NULL) && (TWindowCtrl__active_window->field38 != 0U)) {
-        ((TWindowCtrl *)((void*)TWindowCtrl__active_window->field38))->clear_flag1e_bit8();
+    if ((TWindowCtrl__active_window != NULL) && (TWindowCtrl__active_window->m_38 != 0U)) {
+        ((TWindowCtrl *)TWindowCtrl__active_window->m_38)->clear_flag1e_bit8();
     }
 }
 
 void TWindowCtrl__sub_8024A08C(void) {
-    u8 *object;
+    TObject *object;
     lbl_805D63FC &= 0xFFFFFFFD;
-    if ((void *) (*(u8 * *)&TWindowCtrl__active_window) != NULL) {
-        object = (u8 *)(*(u8 **)((s8 *)(*(u8 * *)&TWindowCtrl__active_window) + 0x3C));
+    if (TWindowCtrl__active_window != NULL) {
+        object = (TObject *)TWindowCtrl__active_window->m_3c;
         if (object != NULL) {
-            ((TObject *)object)->queue_destruction();
-            *(u8 **)((s8 *)(*(u8 * *)&TWindowCtrl__active_window) + 0x3C) = NULL;
+            object->queue_destruction();
+            TWindowCtrl__active_window->m_3c = 0;
         }
     }
 }

@@ -142,12 +142,12 @@ void TWindowDD::set_quad_corners_scaled(f32 farg0, f32 farg1, f32 farg2) {
 
 #pragma push
 #pragma opt_dead_assignments off
-s32 TWindowDD::apply_both_choices(s32 arg0, saddr arg1) {
-  return test_buttons_press_or_repeat((void *) ((u8 *)&controller_input_state + 0x20), (void *) arg1, 6, 1) | test_buttons_press_or_repeat((void *) ((u8 *)&controller_input_state + 0x160), (void *) arg1, 6, 1);
+s32 TWindowDD::apply_both_choices(s32 arg0, saddr buttons) {
+  return test_buttons_press_or_repeat((void *) ((u8 *)&controller_input_state + 0x20), (void *) buttons, 6, 1) | test_buttons_press_or_repeat((void *) ((u8 *)&controller_input_state + 0x160), (void *) buttons, 6, 1);
 }
 }
 #pragma pop
 
-s32 TWindowDD_check_input_mask(void *input_context, s32 arg1) {
-  return TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + 0x20), arg1) | test_controller_flag_4c_color(&controller_input_state.keyboard, arg1);
+s32 TWindowDD_check_input_mask(void *input_context, s32 mask) {
+  return TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + 0x20), mask) | test_controller_flag_4c_color(&controller_input_state.keyboard, mask);
 }

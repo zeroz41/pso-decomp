@@ -33,7 +33,7 @@ void select_weapon_drop__9TItemDropFv(saddr rng, s32 level, u8 *item);
 u8 select_weighted_byte__9TItemDropFllll(s32 rng, s32 base, s32 off, s32 count, s32 stride);
 u8 select_weighted_column_u16__9TItemDropFiiiii(saddr rng, saddr base, s32 off, s32 count, s32 stride);
 void set_flag__9TItemDropFPvPv(void *arg0, void *item);
-s32 try_generate_rare_item__9TItemDropFiPvPv(saddr arg0, u8 *arg1, u8 *arg2);
+s32 try_generate_rare_item__9TItemDropFiPvPv(saddr rng, u8 *arg1, u8 *item);
 }
 
 // --- C functions defined in TItemDrop_80105D0C.cpp ---
@@ -65,7 +65,7 @@ void select_weapon_drop__9TItemDropFv(saddr rng, s32 level, u8 *item);
 u8 select_weighted_byte__9TItemDropFllll(s32 rng, s32 base, s32 off, s32 count, s32 stride);
 u8 select_weighted_column_u16__9TItemDropFiiiii(saddr rng, saddr base, s32 off, s32 count, s32 stride);
 void set_flag__9TItemDropFPvPv(void *arg0, void *item);
-s32 try_generate_rare_item__9TItemDropFiPvPv(saddr arg0, u8 *arg1, u8 *arg2);
+s32 try_generate_rare_item__9TItemDropFiPvPv(saddr rng, u8 *arg1, u8 *item);
 }
 // --- end of C functions
 

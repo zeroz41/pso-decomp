@@ -5,6 +5,8 @@
 #include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecRaBarta.h"
 #include "types.h"
+#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
+#include "pso/unk/TLobby_8001EF5C.h"
 
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecCtrl.h"
@@ -24,6 +26,8 @@
 #include "pso/technique/TTecLuker.h"
 #include "pso/technique/TTecPlayerInfluence.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/object/base/CollisionActorLookup.h"
 
 struct HitInfo_80237900 { s32 type; f32 power; };
 
@@ -141,13 +145,6 @@ struct RaBarta_802377FC {
 extern "C" {
 u16 get_entity_id(void *);
 
-void *get_bml_motion(void *, int);
-
-void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
-
-void *mem_alloc(u32 size);
-extern void *technique_effect_bml;
-extern void *lbl_805D63B0;
 
 s32 play_sound_effect(s32, s32, s32, s32);
 
@@ -197,7 +194,7 @@ void TTecRaBarta::vfunc_8(void *pos) {
       if (self && self)
       {
       }
-      attach_particle_model((u8 *)self->emitters[i], (saddr)(get_bml_model((BmlResource *)technique_effect_bml, mid)), (saddr)lbl_805D63B0, 0, 0, (f32)(1.0f));
+      attach_particle_model((u8 *)self->emitters[i], get_bml_model(technique_effect_bml, mid), lbl_805D63B0, 0, 0, (f32)(1.0f));
     }
   }
   if (self->band == 5)
@@ -220,7 +217,7 @@ void TTecRaBarta::vfunc_8(void *pos) {
     id = b2->flags >> 16;
     if (emitter != 0)
     {
-      attach_particle_model((u8 *)emitter, (saddr)(get_bml_model((BmlResource *)technique_effect_bml, id)), (saddr)lbl_805D63B0, (saddr)(get_bml_motion(technique_effect_bml, 1)), 0, (f32)(1.0f));
+      attach_particle_model((u8 *)emitter, get_bml_model(technique_effect_bml, id), lbl_805D63B0, get_bml_motion(technique_effect_bml, 1), 0, (f32)(1.0f));
     }
   }
 }
@@ -305,11 +302,6 @@ void TTecRaBarta::vfunc_6(void *target) {
 
 }
 
-extern "C" {
-void *find_entity_by_id(u16 id);
-void mem_free(void *p);
-}
-
 struct Self_80237A94 {
     u8 pad0[0x18];
     void *vtable;
@@ -325,8 +317,8 @@ void TTecRaBarta::create(void *source, void *origin, void *pos, void *level) {
     new TTecRaBarta((saddr)source, (Vec *)origin, (Vec *)pos, (saddr)level);
 }
 
-void TTecRaBarta::create(void *origin, void *level) {
-    new TTecRaBarta((saddr)this, (Vec *)origin, (saddr)level);
+void TTecRaBarta::create(void *source, void *origin, s32 level) {
+    new TTecRaBarta((saddr)source, (Vec *)origin, level);
 }
 
 TTecRaBarta::~TTecRaBarta() {

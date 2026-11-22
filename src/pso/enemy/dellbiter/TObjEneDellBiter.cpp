@@ -1,5 +1,6 @@
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
+#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/GroundContactSound.h"
 #include "pso/npc/NpcModelRegistry.h"
@@ -15,6 +16,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/enemy/AttackTargetHistory.h"
+#include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
@@ -65,6 +67,9 @@
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/unk/text_800D8830.h"
+#include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
+#include "pso/ui/TLevelSelect.h"
 
 
 extern "C" {
@@ -77,21 +82,16 @@ DelbiterMovementParameters * TObjEneDellBiter__movement_params;
 uaddr TObjEneDellBiter__shared_model_resource;
 s32 TObjEneDellBiter__demo_script_step;
 s32 TObjEneDellBiter__demo_rotate_x_angle;
-s32 TObjEneDellBiter__demo_script_cursor;
+Vec *TObjEneDellBiter__demo_script_cursor;
 saddr TObjEneDellBiter__scrolling_uv_polygon_list;
 s32 TObjEneDellBiter__last_uv_scroll_tick;
-void fill_value_array(saddr address);
-s32 enemy_validate_retained_target(u8 *ene_dd_st);
 s16 get_attack_params_atp_min(void *p);
 s32 obj_is_hit_receivable(u8 *arg0);
 u16 get_entity_id(void *);
 void obj_setFlags30(void *, s32);
-void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 u32 csnLookAt(void *, void *);
-void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
+void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 angle);
 s32 TObjPlayer__sub_800A04F0(void *);
-s32 pack_debug_text_position(s32, s32);
-s32 attack_target_history_add(saddr object, saddr target);
 void fn_800D8830(void *owner, void *pos);
 f32 horizontal_distance_squared(void *, void *);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
@@ -453,7 +453,7 @@ s32 TObjEneDellBiter::check_rush_collisions() {
             if (target == NULL) {
                 break;
             }
-            if (obj_is_hit_receivable((u8 *)target) != 0 && attack_target_history_add((saddr)attack_history, (saddr)target) != 0) {
+            if (obj_is_hit_receivable((u8 *)target) != 0 && attack_target_history_add(attack_history, target) != 0) {
                 if (flags & 0x10) {
                     if (game_difficulty_selection == 3) {
                         attack.kind = 5;
@@ -514,7 +514,7 @@ s32 TObjEneDellBiter::fn_803059BC(const Vec *origin) {
         if (hit->hit_mask & 4) {
             e = (void *)spawn_particle_effect(&hit->contact[2].point, 0x49);
             if (e != NULL) {
-                attach_particle_model((u8 *)e, (s32)(TParticleCtrl::get_particle_model(2)), (s32)(TParticleCtrl::get_instance()), 0, 1, 1.0f);
+                attach_particle_model((u8 *)e, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, 1.0f);
                 ((TParticleCtrl *)e)->set_scale(3.0f, 3.0f);
             }
             e = (void *)spawn_particle_effect(&hit->contact[2].point, 0xA4);
@@ -526,7 +526,7 @@ s32 TObjEneDellBiter::fn_803059BC(const Vec *origin) {
         if (hit->hit_mask & 2) {
             e = (void *)spawn_particle_effect(&hit->contact[3].point, 0x49);
             if (e != NULL) {
-                attach_particle_model((u8 *)e, (s32)(TParticleCtrl::get_particle_model(2)), (s32)(TParticleCtrl::get_instance()), 0, 1, 1.0f);
+                attach_particle_model((u8 *)e, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, 1.0f);
                 ((TParticleCtrl *)e)->set_scale(3.0f, 3.0f);
             }
             e = (void *)spawn_particle_effect(&hit->contact[3].point, 0xA4);
@@ -560,7 +560,7 @@ s32 TObjEneDellBiter::validate_or_update_target() {
     if (!(flags & 8)) {
         return update_linked_position(300.0f);
     }
-    s32 valid = enemy_validate_retained_target((u8 *)this);
+    s32 valid = enemy_validate_retained_target(this);
     if (valid == 0) {
         flags &= ~8;
     }
@@ -989,7 +989,7 @@ void TObjEneDellBiter::fn_803044AC(s32 reason) {
         field_4d0 = 0;
         field_4dc = TObjEneDellBiter__movement_params->rush_speed;
         field_4e0 = 0.0f;
-        fill_value_array((saddr)attack_history);
+        fill_value_array(attack_history);
         this->set_active();
         break;
     case 3:
@@ -1015,7 +1015,7 @@ void TObjEneDellBiter::fn_803044AC(s32 reason) {
                 state_timer = 1;
                 bodies->flags |= 0x700;
             }
-            if (enemy_validate_retained_target((u8 *)this) != 0) {
+            if (enemy_validate_retained_target(this) != 0) {
                 this->enemy_copy_target_destination();
                 this->update_velocity();
             }
@@ -1030,7 +1030,7 @@ void TObjEneDellBiter::fn_803044AC(s32 reason) {
                 this->update_velocity();
             }
             hit = 0;
-            if ((u32)this->enemy_probe_wall_ahead(destination_direction.x, destination_direction.z, 30.0f * TObjEneDellBiter__movement_params->rush_speed) != 0) {
+            if (this->enemy_probe_wall_ahead(destination_direction.x, destination_direction.z, 30.0f * TObjEneDellBiter__movement_params->rush_speed) != 0) {
                 hit = 1;
             }
             this->move_clamped_on_ground(destination_direction.x, destination_direction.z, TObjEneDellBiter__movement_params->rush_speed);
@@ -1045,7 +1045,7 @@ void TObjEneDellBiter::fn_803044AC(s32 reason) {
             if (check_rush_collisions() != 0) {
                 hit = 1;
             }
-            if (enemy_validate_retained_target((u8 *)this) != 0) {
+            if (enemy_validate_retained_target(this) != 0) {
                 Vec v;
                 VecCopy(&v, &current_target->position);
                 subtract_vector(&v, &position);
@@ -1097,7 +1097,7 @@ void TObjEneDellBiter::fn_803042B0(s32 reason) {
         this->set_field_378(5);
         flags = (s32) (flags & 0xFFFFFFFC);
         flags = (s32) (flags | 4);
-        fill_value_array(((saddr)attack_history));
+        fill_value_array(attack_history);
         saver->clear_segments();
         state_timer = 0;
         field_4d0 = 0;
@@ -1417,7 +1417,7 @@ void TObjEneDellBiter::state_death(s32 reason) {
 }
 
 void TObjEneDellBiter::step_demo_script(NJS_OBJECT *) {
-    s32 pos;
+    Vec *pos;
     switch (TObjEneDellBiter__demo_script_step) {
     case 9:
     case 10:
@@ -1448,8 +1448,8 @@ void TObjEneDellBiter::step_demo_script(NJS_OBJECT *) {
     case 22:
     case 32:
         pos = TObjEneDellBiter__demo_script_cursor;
-        TObjEneDellBiter__demo_script_cursor = pos + 0xC;
-        forward_transform_to_view((const Vec *)&dellbiter_demo_camera_vec, (Vec *)pos);
+        TObjEneDellBiter__demo_script_cursor = pos + 1;
+        forward_transform_to_view((const Vec *)&dellbiter_demo_camera_vec, pos);
         break;
     }
     TObjEneDellBiter__demo_script_step += 1;
@@ -1494,7 +1494,7 @@ void TObjEneDellBiter::render() {
         update_secondary_light();
         TObjEneDellBiter__demo_script_step = 0;
         TObjEneDellBiter__demo_rotate_x_angle = part_rotation_x;
-        TObjEneDellBiter__demo_script_cursor = (saddr)part_positions;
+        TObjEneDellBiter__demo_script_cursor = part_positions;
         saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
         TObjPlayer::toggle_particle_effect();

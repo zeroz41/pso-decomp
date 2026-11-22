@@ -11,9 +11,9 @@ struct RecoveredGlobal_80074BD0_lbl_8048D208 {
 extern "C" {
 RecoveredGlobal_80074BD0_lbl_8048D208 lbl_8048D208 = { 0 };
 LAYOUT_ASSERT(RecoveredGlobal_80074BD0_lbl_8048D208_size, sizeof(RecoveredGlobal_80074BD0_lbl_8048D208) == 0x18);
-void fn_80074BD0(saddr arg0) {
+void fn_80074BD0(saddr src) {
     fn_80074C70();
-    strncpy((char *)&lbl_8048D208.value, (const char *)arg0, 0x10);
+    strncpy((char *)&lbl_8048D208.value, (const char *)src, 0x10);
     *(s8 *)((s8 *)&lbl_8048D208.value + 0x10) = 0;
 }
 

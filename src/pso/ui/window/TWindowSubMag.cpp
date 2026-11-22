@@ -34,6 +34,9 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/system/vector.h"
+#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/ui/window/TWindowCtrl_8024A054.h"
+#include "pso/ui/window/TWindowHelpItem_802540AC.h"
 
 #pragma readonly_strings on
 
@@ -89,14 +92,12 @@ struct TWindowSubMag_8027B62C {
 };
 extern "C" {
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
-s32 *get_shared_text_buffer(void);
 s32 calc_text_width();
 s32 text_builder_append();
 s32 set_depth__11TWindowBaseFf(void *);
 s32 TWindowSubEquip__sub_80263AF8(s32, s32);
 saddr get_window_layout_position(s32);
 void *get_player_by_client_id(s32);
-s32 is_player_input_active(s32);
 void *__ct__15TWindowHelpItemFPvUs(void *, s32, s32);
 void *fn_802628C0(s32, const f32 *, s32);
 s32 call_if_split_screen(void *, s32);
@@ -112,7 +113,6 @@ extern const f32 lbl_8044F9F8[2] = {308.0f, 124.0f};
 extern const f32 lbl_8044FA00[2] = {214.0f, 184.0f};
 extern Pad_8027B888 controller_input_state[];
 void *TWindowSubMag__ct(TWindowSubMag *arg0, s32 arg1, s32 arg2);
-void TWindowHelpItem__set_displayed_item_by_id(u8 *arg0, saddr arg1);
 }
 s32 get_help_text_string(s32 arg0);
 extern "C" {
@@ -469,16 +469,16 @@ void *TWindowSubMag::create_action_menu(s32 id) {
 }
 
 void *TWindowSubMag::create() {
-    void *temp_r31;
+    void *object;
     s32 window_layout_position;
 
     window_layout_position = get_window_layout_position(0xB);
-    temp_r31 = TWindowMessage::create(window_layout_position, lbl_8044FA00, 1, this->client_id);
+    object = TWindowMessage::create(window_layout_position, lbl_8044FA00, 1, this->client_id);
     TWindowSubEquip__sub_80263AF8(this->parent, 4);
-    set_depth__11TWindowBaseFf(temp_r31);
-    *(s32 *)((s8 *)temp_r31 + 0x5C) = 0x186A0;
-    call_if_split_screen(temp_r31, this->client_id);
-    return temp_r31;
+    set_depth__11TWindowBaseFf(object);
+    *(s32 *)((s8 *)object + 0x5C) = 0x186A0;
+    call_if_split_screen(object, this->client_id);
+    return object;
 }
 
 #pragma push

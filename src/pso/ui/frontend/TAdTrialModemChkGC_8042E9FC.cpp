@@ -7,6 +7,7 @@
 #include "pso/network/TLobby_80429598.h"
 #include <stdio.h>
 #include <string.h>
+#include "pso/network/ModemRuntime.h"
 
 // ntUtl library banner; TAdTrialModemChkGC__sub_8042EC14 publishes it in lbl_805D7CB4.
 // inferred: name from the string.
@@ -34,13 +35,16 @@ extern "C" {
 // 20 bytes; the function-level asm body (generated from the original
 // disassembly by tools/orig_asm.py) is byte-exact on 20/20.  force_active: nothing
 // calls it, so the linker would strip it.  `static` so the
-// symbol stays local, as the original object declares it.
+// symbol stays local, as the original object declares it.  Only CodeWarrior's
+// object holds the words: nothing reaches them, so no other compiler needs them.
+#ifdef __MWERKS__
 #pragma push
 #pragma force_active on
 static asm void pad_03_8042E9FC_text(void) {
 #include "orig_asm/pso/ui/frontend/TAdTrialModemChkGC_8042E9FC/pad_03_8042E9FC_text.inc"
 }
 #pragma pop
+#endif
 
 #pragma push
 #pragma dont_inline off
@@ -76,7 +80,6 @@ void get_isao_trial_params(const char **number, const char **domain, const char 
 }
 
 extern "C" {
-saddr fn_8042E8B8(void);
 
 #pragma push
 #pragma optimize_for_size off
@@ -118,7 +121,7 @@ void TAdTrialModemChkGC__sub_8042EC14(void) {
     SharedMemory *p;
     lbl_805D7CB4 = ntutl_version;
     if ((s32) lbl_805D7CA8 == 0) {
-        lbl_805D7CB0 = (LaunchDolContext *) fn_8042E8B8();
+        lbl_805D7CB0 = fn_8042E8B8();
         p = &(*(LaunchDolContext *volatile *) &lbl_805D7CB0)->shared_memory;
         lbl_805D7CA8 = 1;
         lbl_805D7CC0 = p;

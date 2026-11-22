@@ -46,9 +46,6 @@ extern "C" {
 
 s32 VecCopy__FP3VecPC3Vec(void *, s32, s8, f32, f32);
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
-}
-u8 *load_gvm_texture_file(saddr arg0);
-extern "C" {
 s32 __ct__7TObjectFP7TObject(u8 *, void *);
 void fn_802A9DF4(Obj_802A9DF4 *self, Vec *dir);
 void fn_802A9F48(Obj_802A9F48 *self, Vec *dir);
@@ -67,7 +64,7 @@ __declspec(section ".rodata") s32 lbl_8046FC8C[3] = { 1, 5, 0 };
 extern void *camera_ctrl_instance;
 saddr bg_lightning_texture_handle;
 
-void TBGLightningCtrl__sub_802A9A08(void) { TObjFish::set_global_param(bg_lightning_texture_handle); }
+void bind_lightning_texture(void) { TObjFish::set_global_param(bg_lightning_texture_handle); }
 
 #pragma push
 #pragma fp_contract on
@@ -112,11 +109,11 @@ void *__dt__16TBGLightningCtrlFv(void *base, s16 arg1) {
     return base;
 }
 
-u8 *TBGLightningCtrl__ct(u8 *bg_lightning_ctrl, saddr parent, saddr arg2) {
+u8 *TBGLightningCtrl__ct(u8 *bg_lightning_ctrl, saddr parent, saddr set_data) {
     __ct__8TObjBaseFP7TObject((void *)bg_lightning_ctrl, (void *)parent);
     *(s32 **)((s8 *)bg_lightning_ctrl + 0x18) = (s32 *)__vt__16TBGLightningCtrl;
     *(saddr *)((s8 *)bg_lightning_ctrl + 0) = (saddr) TBGLightningCtrl__name;
-    ((TBGLightningCtrl *)(bg_lightning_ctrl))->apply_object_set_data((void *)arg2);
+    ((TBGLightningCtrl *)(bg_lightning_ctrl))->apply_object_set_data((void *)set_data);
     ((TBGLightningCtrl *)bg_lightning_ctrl)->m_90 = 0;
     return bg_lightning_ctrl;
 }
@@ -129,7 +126,7 @@ void *TBGLightningCtrl__create(void *arg0) {
     return o;
 }
 }
-
+u8 *load_gvm_texture_file(saddr arg0);
 void TBGLightningCtrl::destroy_instance() {
     if ((u32) (*(uaddr *)&bg_lightning_texture_handle) != 0U) {
         release_texture_list((void*)(*(uaddr *)&bg_lightning_texture_handle));
@@ -192,7 +189,7 @@ void fn_802A9DF4(Obj_802A9DF4 *self, Vec *dir) {
     p.x = self->pos.x - 0.5f * d.x;
     p.y = self->pos.y - d.y;
     p.z = self->pos.z - 0.5f * d.z;
-    TBGLightningCtrl__sub_802A9A08();
+    bind_lightning_texture();
     set_texture_num(idx + lbl_8046FC8C[self->f1c]);
     TParticleCtrl::setup_particle_draw(1);
     submit_particle_quad(self, (f32 *)&p, (f32 *)&d, (s32)(__cvt_fp2unsigned(4278190080.0f * scale) | 0xFFFFFF));
@@ -225,7 +222,7 @@ void fn_802A9F48(Obj_802A9F48 *self, Vec *dir) {
     p.x = self->pos.x + dir->x * (-3.0f * self->f2c) - 0.5f * d.x;
     p.y = self->pos.y + dir->y * (-24.0f * self->f2c) - d.y;
     p.z = self->pos.z + dir->z * (-3.0f * self->f2c) - 0.5f * d.z;
-    TBGLightningCtrl__sub_802A9A08();
+    bind_lightning_texture();
     set_texture_num(0);
     TParticleCtrl::setup_particle_draw(1);
     submit_particle_quad(self, (f32 *)&p, (f32 *)&d, (s32)(__cvt_fp2unsigned(4278190080.0f * scale) | 0xFFFFFF));
@@ -273,12 +270,12 @@ u8 *create__12TBGLightningFiif(saddr arg0, s32 arg1, f32 farg0) {
 TBGLightning::~TBGLightning() {}
 
 extern "C" {
-u8 *__ct__12TBGLightningFv(u8 *object, void *arg1, s32 arg2, f32 farg0) {
+u8 *__ct__12TBGLightningFv(u8 *object, void *parent, s32 arg2, f32 farg0) {
     f32 temp_f1;
     f32 temp_f2;
     s8 temp_r5;
 
-    __ct__7TObjectFP7TObject(object, arg1);
+    __ct__7TObjectFP7TObject(object, parent);
     *(void **)((s8 *)object + 0x18) = (void *) __vt__12TBGLightning;
     *(saddr *)((s8 *)object + 0) = (saddr) TBGLightning__name;
     temp_f2 = (f32) rand();

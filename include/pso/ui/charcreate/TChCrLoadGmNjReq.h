@@ -6,10 +6,11 @@
 #include <stddef.h>
 
 struct BmlResource;
+struct NJS_OBJECT;
 
 struct TChCrLoadGmNjReqArgs {
     const char *name;
-    u32 *model_out;
+    NJS_OBJECT **model_out;
     s32 load_slot;
     s32 completion_mask;
     u32 *completion_flags;
@@ -18,7 +19,7 @@ LAYOUT_ASSERT(TChCrLoadGmNjReqArgs_size, sizeof(TChCrLoadGmNjReqArgs) == 0x14);
 
 class TChCrLoadGmNjReq : public TObject {
 public:
-    u32 *model_out;
+    NJS_OBJECT **model_out;
     s32 completion_mask;
     s32 load_slot;
     u32 *completion_flags;

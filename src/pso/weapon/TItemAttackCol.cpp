@@ -31,6 +31,8 @@
 #include "pso/object/ending/TObjOnlineEnding.h"
 #include <string.h>
 #include "pso/technique/TTecCtrl.h"
+#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
 struct VBase_18_f2ea1e { char pad[0x18]; };
 
@@ -145,7 +147,6 @@ struct VObj_802E3C4C : VBase_802E3C4C {
 struct Hit_802E3D8C { s32 pad; void *pos; };
 extern "C" {
 
-s32 test_flags_any(s32 *flags, s32 mask);
 s32 play_weapon_hit_sound(void *);
 
 void apply_camera_shake__10TObjPlayerFiii(s32 arg0, saddr arg1, s32 arg2);
@@ -159,7 +160,6 @@ TItemAttackCol *attack_collider_render_owner;
 int attack_collider_active_count;
 
 
-
 void fn_802E3BA8(TItemAttackCol *col, void *node);
 
 
@@ -167,19 +167,13 @@ const char *TItemAttackCol__name = "TItemAttackCol";
 
 // The particle's direction before the collider's heading is added.
 static ParticleAngles particle_direction = {0x4000, 0, 0x4000};
-}
-f32 vec_distance_squared(u8 *arg0, u8 *arg1);
-extern "C" {
-s32 get_type__10TObjPlayerFPv(void *);
 
 void TObjPlayer__sub_801542F4(saddr a);
 
 void TObjPlayer__sub_8015431C(u8 *arg0);
 
-void reset_global_table(void);
-
 }
-
+f32 vec_distance_squared(u8 *arg0, u8 *arg1);
 TUnk_804E355C::TUnk_804E355C(TObject *parent, S_802E451C *params) : TObject(parent) {
     TObjPlayer *player;
     body.offset.x = 0.0f;
@@ -247,7 +241,7 @@ void TUnk_804E355C::check_hits() {
     reset_global_table();
 }
 
-extern "C" void copy_actor_body_hit(ActorBodyHit *destination, const ActorBodyHit *source) {
+void copy_actor_body_hit(ActorBodyHit *destination, const ActorBodyHit *source) {
     volatile ActorBodyHit *output = destination;
     const volatile ActorBodyHit *input = source;
     output->target = input->target;
@@ -309,39 +303,39 @@ s32 TUnk_804E355C::resolve_attack_col_hit(ActorBodyHit *hit) {
     Stack_802E456C stack;
     s32 temp_r31;
     s32 damage;
-    u8 *temp_r30;
+    u8 *target;
     u8 *player;
     uaddr item;
     s32 temp_r0;
     f32 var_f31;
-    temp_r30 = (u8 *)(*(u8 **)((s8 *)arg1 + 0));
+    target = (u8 *)(*(u8 **)((s8 *)arg1 + 0));
     player = (u8 *)(get_player_by_client_id(this->client_id));
     item = (uaddr)find_item_by_id((this->item_id));
     temp_r31 = *(s32 *)((s8 *)(*(u8 **)((s8 *)arg1 + 0)) + 0xA4) + (*(s32 *)((s8 *)arg1 + 4) * 0x2C);
-    if ((player != NULL) && (item != 0U) && (((VObj_18_f2ea1e *)(temp_r30))->m19(player, temp_r31, 0, *(f32 *)((s8 *)arg0 + 0xB0)) != 0)) {
+    if ((player != NULL) && (item != 0U) && (((VObj_18_f2ea1e *)(target))->m19(player, temp_r31, 0, *(f32 *)((s8 *)arg0 + 0xB0)) != 0)) {
         temp_r0 = *(s32 *)((s8 *)arg0 + 0xB8);
         var_f31 = 0.0f;
         switch (temp_r0) {
         case 0:
-            var_f31 = ((VObj_18_f2ea1e *)(temp_r30))->m20(player, this->pad_B4);
+            var_f31 = ((VObj_18_f2ea1e *)(target))->m20(player, this->pad_B4);
             break;
         case 1:
-            var_f31 = ((VObj_18_f2ea1e *)(temp_r30))->m20(player, this->pad_B4);
-            ((VObj_18_f2ea1e *)(temp_r30))->m23(player, 0.1f * var_f31);
+            var_f31 = ((VObj_18_f2ea1e *)(target))->m20(player, this->pad_B4);
+            ((VObj_18_f2ea1e *)(target))->m23(player, 0.1f * var_f31);
             break;
         case 2:
-            ((VObj_18_f2ea1e *)(temp_r30))->m22(player, temp_r31);
+            ((VObj_18_f2ea1e *)(target))->m22(player, temp_r31);
             break;
         }
         damage = (s32) var_f31;
         TObjPlayer::calc_photon_blast_charge((void *)player, damage);
         ((VObj_18_f2ea1e *)(player))->m73();
-        apply_camera_shake__10TObjPlayerFiii((saddr)player, (saddr)temp_r30, (s32)damage);
+        apply_camera_shake__10TObjPlayerFiii((saddr)player, (saddr)target, (s32)damage);
         ((TObjPlayer *)(&stack.sp8))->reset_status_block();
         stack.sp8 = ((TItem *)item)->get_item_group();
         stack.sp9 = ((TItem *)item)->get_item_index();
         stack.spC = player;
-        stack.sp14 = temp_r30;
+        stack.sp14 = target;
         stack.sp18 = *(s32 *)((s8 *)arg1 + 4);
         play_weapon_hit_sound(&stack.sp8);
         return 1;
@@ -549,9 +543,9 @@ void TItemAttackCol::render() {
     }
 }
 
-void TItemAttackCol::move_with_collision(void *arg1) {
+void TItemAttackCol::move_with_collision(void *to) {
     Hit_802E3D8C *hit;
-    hit = csnVector((u8 *)&position, arg1, 0x8100);
+    hit = csnVector((u8 *)&position, to, 0x8100);
     if (hit != NULL) {
         hit_wall_flags.set(1);
         VecCopy(&position, (const Vec *)(hit->pos));
@@ -559,7 +553,7 @@ void TItemAttackCol::move_with_collision(void *arg1) {
             hit_wall(item_id, &position, &velocity);
         }
     } else {
-        VecCopy(&position, (const Vec *)(arg1));
+        VecCopy(&position, (const Vec *)(to));
     }
 }
 

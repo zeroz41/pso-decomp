@@ -1,6 +1,7 @@
 #ifndef PSO_SOUND_MIX_VOICE_H
 #define PSO_SOUND_MIX_VOICE_H
 #include "types.h"
+#include "musyx/musyx.h"
 
 struct SoundMixCoefficients {
     u16 left, right, surround;
@@ -11,7 +12,11 @@ struct SoundMixCurveOutput {
 struct SoundStudioMixView {
     u8 unknown0[0x54];
     s32 mode;
-    u8 unknown58[0xBC - 0x58];
+    u8 unknown58[0xAC - 0x58];
+    SND_AUX_CALLBACK auxAHandler;
+    SND_AUX_CALLBACK auxBHandler;
+    void *auxAUser;
+    void *auxBUser;
 };
 struct SoundMixVoice {
     u8 unknown0[0x24];

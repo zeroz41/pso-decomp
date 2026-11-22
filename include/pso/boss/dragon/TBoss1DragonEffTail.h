@@ -21,14 +21,14 @@ struct TBoss1DragonEffTail : public TUnk_804928CC {
     virtual void render();
     void enable();
     void disable();
-    int is_visible();
+    void is_visible();
 };
 
 LAYOUT_ASSERT(TBoss1DragonEffTail_size, sizeof(TBoss1DragonEffTail) == 0xCC);
 
 extern "C" {
 void apply_hit_if_active__19TBoss1DragonEffTailFPvPf(TBoss1DragonEffTail *arg0, u8 *arg1);
-void run_task__19TBoss1DragonEffTailFv(u8 *arg0);
+void run_task__19TBoss1DragonEffTailFv(u8 *boss1_dragon_eff_tail);
 }
 
 #endif

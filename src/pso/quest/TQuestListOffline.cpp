@@ -14,10 +14,7 @@
 #include "pso/unk/text_801F3774.h"
 #include "pso/unk/text_801F43B4.h"
 #include "pso/unk/text_80222C28.h"
-
-extern "C" {
-const NJS_POINT2 *get_window_layout_position(s32 idx);
-}
+#include "pso/ui/window/WindowLayout.h"
 
 OfflineQuestEntry offline_quest_catalog_ep1[28] = {
     {1, 0, 1, 2, 106, 107, 0, "quest04"},

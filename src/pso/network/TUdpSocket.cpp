@@ -40,7 +40,6 @@ struct Q2_800782B8 { s32 len; s32 v; u8 pad[0xc]; };
 extern "C" {
 UdpSocketEventRecord *copy_udp_socket_event_record(UdpSocketEventRecord *dst, UdpSocketEventRecord *src);
 s16 udp_send(int, void *, void *, int, void *, int, void *);
-s32 udp_close(s32 a);
 }
 TTcpSocket *tcp_socket_table[16] = {0};
 TUdpSocket *udp_socket_slots[16] = {0};

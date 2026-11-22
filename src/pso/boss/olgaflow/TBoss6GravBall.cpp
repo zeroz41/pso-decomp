@@ -22,6 +22,10 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/MatrixOps.h"
 
 
 const char TBoss6GravBall__class_name_string[] = "TBoss6GravBall";
@@ -68,7 +72,7 @@ void TBoss6GravBall::destroy_part(s32 index) {
 
 void TBoss6GravBall__sub_80323214(TBoss6GravBall *ball, s32 index) {
     s32 offset = index * sizeof(TParticleCtrl *);
-    u8 *entry_base = (u8 *)((u32)ball + offset);
+    u8 *entry_base = (u8 *)((uaddr)ball + offset);
     if (*(TParticleCtrl **)(entry_base + offsetof(TBoss6GravBall, emitters)) == NULL) {
         *(TParticleCtrl **)(entry_base + offsetof(TBoss6GravBall, emitters)) =
             create_particle_emitter(&ball->ball_position, *(s32 *)((u8 *)TBoss6GravBall__emitter_id_table + offset));
@@ -98,7 +102,7 @@ void TBoss6GravBall::create_emitter(s32 index) {
 #pragma pop
 
 void TBoss6GravBall::init_parts() {
-    s32 arg0 = (saddr)this;
+    s32 self = (saddr)this;
     s32 var_r31;
     var_r31 = 0;
     do {
@@ -119,16 +123,12 @@ void TBoss6GravBall::render() {  }
 
 
 extern "C" {
-f32 vector_length(void *);
-void subtract_vector(void *, void *);
 
 
-void TBoss6GravBall__sub_803236F8(TBoss6GravBall *arg0);
+void TBoss6GravBall__sub_803236F8(TBoss6GravBall *boss6_grav_ball);
 s32 project_actor_to_ground(void *, void *, int);
 
 
-u16 get_entity_id(void *);
-void vec3_add_to(void *, void *);
 void TBoss6PlotFalz__sub_802AC724(void *, void *);
 
 

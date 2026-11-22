@@ -26,19 +26,13 @@
 #include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecAnti.h"
 #include "pso/technique/TTecCtrl.h"
+#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
+#include "pso/object/base/CollisionActorLookup.h"
 
 // ---- pso/unk/text_80232934
 
 struct Quad_80232934 { u32 a; u32 b; u32 c; u32 d; };
 
-struct Obj_80232934 {
-    u8 pad[0x20];
-    f32 f20[3];
-    Vec pos;
-    u8 f38[0x10];
-    s32 f48;
-    f32 f4c;
-};
 
 extern "C" {
 
@@ -47,10 +41,8 @@ void approach_position_if_far(Vec *, Vec *, f32);
 void scale_matrix(s32, f32, f32, f32);
 void draw_ginja_object(void);
 extern u8 technique_ringwave_texture_list[];
-extern s32 technique_effect_bml;
 
 // ---- pso/unk/text_80232AA4
-void *find_entity_by_id(u16 id);
 
 }
 
@@ -75,21 +67,6 @@ struct Obj_80232E0C {
     s32 kind;
 };
 
-struct Obj_80232B7C {
-    u8 pad0[0x18];
-    void *vt;
-    u16 id;
-    Vec pos;
-    Vec scale;
-    f32 f38;
-    f32 f3c;
-    f32 f40;
-    f32 f44;
-    s32 f48;
-    f32 f4c;
-};
-
-struct Obj_80232B7C;
 struct SEnt_80232C50 { s32 a; u32 flags; s32 c; };
 
 struct SGrp_80232C50 { const SEnt_80232C50 *ents; u32 count; };
@@ -105,12 +82,6 @@ struct Ctl_80232C50 {
 
 extern "C" {
 void mem_free(void *);
-void __ct__7TObjectFP7TObject(void *self, void *parent);
-extern u8 __vt__13TUnk_804CC870[];
-
-Obj_80232B7C *construct_grants_flash(Obj_80232B7C *self, s32 id, void *parent, Vec *pos, f32 scale);
-
-void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 }
 
 // Per level tier (TObjPlayer::get_level_tier): the particle emitters TUnk_804CC888 keeps alive and
@@ -142,7 +113,6 @@ const SGrp_80232C50 technique_effect_entry_table[6] = {
 
 const char *tec_grants_class_name = "TTecGrants";
 extern void *tl_07;
-extern s32 lbl_805D63B0;
 
 // Function definitions in reverse address order (defer_codegen emits them reversed).
 #pragma defer_codegen on
@@ -161,28 +131,24 @@ TUnk_804CC888::~TUnk_804CC888() {
 void TUnk_804CC888::run_task() {
     u32 i;
     s32 dir;
-    u8 *obj;
-    saddr r;
-    void *p;
+    TObjCollidable *obj;
+    TParticleCtrl *r;
     ((Ctl_80232C50 *)this)->timer++;
     if (((Ctl_80232C50 *)this)->timer % 5 == 0) {
-        p = TObject::operator new(0x50);
-        if (p != 0) {
-            construct_grants_flash((Obj_80232B7C *) p, ((Ctl_80232C50 *)this)->id, tl_07, 0, 1.0f);
-        }
+        new TUnk_804CC870(((Ctl_80232C50 *)this)->id, (TObject *)tl_07, NULL, 1.0f);
     }
     if (((Ctl_80232C50 *)this)->timer >= 30) {
         for (i = 0; i < technique_effect_entry_table[((Ctl_80232C50 *)this)->kind].count; i++) {
-            obj = (u8 *)find_entity_by_id(((Ctl_80232C50 *)this)->id);
-            if (obj != 0) {
+            obj = find_entity_by_id(((Ctl_80232C50 *)this)->id);
+            if (obj != NULL) {
                 const SEnt_80232C50 *e = &technique_effect_entry_table[((Ctl_80232C50 *)this)->kind].ents[i];
                 if (e->flags & 0x20) {
-                    r = (saddr)spawn_particle_effect((const Vec *)(obj + 0x38), e->a);
-                    if (r != 0) {
-                        attach_particle_model((u8 *)r, (s32)(get_bml_model((BmlResource *)technique_effect_bml, technique_effect_entry_table[((Ctl_80232C50 *)this)->kind].ents[i].flags >> 16)), (s32)lbl_805D63B0, 0, 1, 1.0f);
+                    r = spawn_particle_effect(&obj->position, e->a);
+                    if (r != NULL) {
+                        attach_particle_model(r, get_bml_model(technique_effect_bml, technique_effect_entry_table[((Ctl_80232C50 *)this)->kind].ents[i].flags >> 16), (GinjaTextureList *)lbl_805D63B0, NULL, 1, 1.0f);
                     }
                 } else {
-                    spawn_particle_effect((const Vec *)(obj + 0x38), e->a);
+                    spawn_particle_effect(&obj->position, e->a);
                 }
             }
         }
@@ -205,30 +171,27 @@ void TUnk_804CC888::run_task() {
     }
 }
 
-Obj_80232B7C *construct_grants_flash(Obj_80232B7C *self, s32 id, void *parent, Vec *pos, f32 scale) {
-    __ct__7TObjectFP7TObject(self, parent);
-    self->vt = __vt__13TUnk_804CC870;
-    self->id = id;
-    self->pos.x = 0.0f;
-    self->pos.y = 0.0f;
-    self->pos.z = 0.0f;
-    self->scale.x = 0.05f;
-    self->scale.y = 0.05f;
-    self->scale.z = 0.05f;
-    self->f4c = 0.05f;
-    if ((u16)id == 0xffff && pos != 0) {
-        VecCopy((Vec *)&self->pos, (const Vec *)pos);
-        self->scale.x = scale;
-        self->scale.y = scale;
-        self->scale.z = scale;
-        self->f4c = 2.0f;
+TUnk_804CC870::TUnk_804CC870(s32 owner_id, TObject *parent, Vec *pos, f32 start_scale) : TObject(parent) {
+    this->owner_id = owner_id;
+    position.x = 0.0f;
+    position.y = 0.0f;
+    position.z = 0.0f;
+    scale.x = 0.05f;
+    scale.y = 0.05f;
+    scale.z = 0.05f;
+    scale_rate = 0.05f;
+    if ((u16)owner_id == 0xffff && pos != NULL) {
+        VecCopy(&position, pos);
+        scale.x = start_scale;
+        scale.y = start_scale;
+        scale.z = start_scale;
+        scale_rate = 2.0f;
     }
-    self->f38 = 1.0f;
-    self->f3c = 1.0f;
-    self->f40 = 1.0f;
-    self->f44 = 1.0f;
-    self->f48 = 0;
-    return self;
+    color.a = 1.0f;
+    color.r = 1.0f;
+    color.g = 1.0f;
+    color.b = 1.0f;
+    frame = 0;
 }
 
 TUnk_804CC870::~TUnk_804CC870() {
@@ -236,47 +199,45 @@ TUnk_804CC870::~TUnk_804CC870() {
 }
 
 void TUnk_804CC870::run_task() {
-    u8 *arg0 = (u8 *)this;
-    saddr entity;
-    entity = (saddr)find_entity_by_id((*(u16 *)((s8 *)arg0 + 0x1C)));
-    if (entity != 0) {
-        VecCopy((Vec *)(arg0 + 0x20), (const Vec *)(entity + 0x38));
+    TObjCollidable *entity;
+    entity = find_entity_by_id(owner_id);
+    if (entity != NULL) {
+        VecCopy(&position, &entity->position);
     }
-    this->m_48 = (this->m_48 + 1);
-    if ((s32) this->m_48 >= 7) {
-        this->m_48 = 0;
+    frame = frame + 1;
+    if (frame >= 7) {
+        frame = 0;
     }
-    if (this->m_38 <= 0.0f) {
-        ((TObject *)arg0)->queue_destruction();
+    if (color.a <= 0.0f) {
+        queue_destruction();
     }
 }
 
 void TUnk_804CC870::render() {
-    Obj_80232934 *arg0 = (Obj_80232934 *)this;
     TextureFrameSlot ctx;
     s32 id;
     if (get_current_floor_area() == AREA_PIONEER2_EP1 || get_current_floor_area() == AREA_PIONEER2_EP2 ||
         get_current_floor_area() == AREA_LOBBY) {
         return;
     }
-    init_texture_copy_rect(&ctx, &lbl_804CC868, technique_ringwave_texture_list, 0, this->m_48 + 1);
+    init_texture_copy_rect(&ctx, &lbl_804CC868, technique_ringwave_texture_list, 0, frame + 1);
     Vec v = { 1.2f, 1.2f, 1.2f };
     Quad_80232934 q = { 0, 0, 0, 0 };
-    approach_alpha_clamped((f32 *)arg0->f38, (const f32 *)&q, 0.1f);
-    approach_position_if_far(&arg0->pos, &v, arg0->f4c);
+    approach_alpha_clamped(&color.a, (const f32 *)&q, 0.1f);
+    approach_position_if_far(&scale, &v, scale_rate);
     copy_anim_frame_to_slot(&ctx);
     id = model_render_flags;
     saved_model_render_flags = id;
     model_render_flags = id | 0x10;
-    ((void (*)(void *, s32))set_constant_material)(arg0->f38, id);
+    ((void (*)(NJS_ARGB *, s32))set_constant_material)(&color, id);
     set_draw_list_mask(3);
     TParticleCtrl::begin_effect_render();
     push_matrix();
-    post_translate_matrix(arg0->f20);
-    scale_matrix(0, arg0->pos.x, arg0->pos.y, arg0->pos.z);
+    post_translate_matrix(&position.x);
+    scale_matrix(0, scale.x, scale.y, scale.z);
     translate_matrix(0, 0.0f, 1e+01f, 0.0f);
     TObjFish::set_global_param((saddr)&lbl_804CC868);
-    (saddr)get_bml_model((BmlResource *)technique_effect_bml, 10);
+    get_bml_model(technique_effect_bml, 10);
     draw_ginja_object();
     pop_matrix();
     copy_slot_to_anim_frame(&ctx);
@@ -284,7 +245,7 @@ void TUnk_804CC870::render() {
     model_render_flags = saved_model_render_flags;
 }
 
-extern "C" {
+
 void TTecGrants::init_parameters() {
     TechniqueParams *params = calc_technique_parameters(9, m_78, 0xFFFF);
     ((TechniqueParams *)&m_88)->copy(params);
@@ -298,7 +259,6 @@ void TTecGrants::init_parameters() {
     }
 }
 
-}
 
 #pragma defer_codegen off
 

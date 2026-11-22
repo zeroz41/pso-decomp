@@ -18,6 +18,10 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/render/ModelDrawContext.h"
+#include "pso/object/switch/TSwitch.h"
+#include "pso/unk/TLobby_8001EF5C.h"
+#include "pso/render/GinjaTexture.h"
 
 struct AnimationMotion;
 
@@ -70,7 +74,6 @@ struct Obj_80192554 { u8 pad0[0x38]; u8 f38[0x24]; s32 f5C; s32 f60; u8 pad64[0x
 extern "C" {
 
 void post_translate_matrix(void *);
-void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 
 struct Motion_801926D0 { u8 pad[4]; u32 frames; };
 struct TObjLazerFenceExtra_801926D0 {
@@ -83,15 +86,11 @@ struct TObjLazerFenceExtra_801926D0 {
     Motion_801926D0 *motion;
 };
 
-u8 is_current_floor_switch_set(s32 id);
-
 static const f32 lbl_805DBE58[1] = {0.0f};
 
 struct Node_80192A3C { u32 flags; void *model; u8 pad8[0x24]; Node_80192A3C *child; Node_80192A3C *sibling; };
 
 struct Fish_80192A3C { u8 pad0[0x8C]; s32 f8C; u8 pad90[0x2C]; Node_80192A3C *fBC; Node_80192A3C *fC0; s32 fC4; void *fC8[4]; };
-
-AnimationMotion *get_bml_motion(BmlResource *, s32);
 
 struct Obj_80192B5C { u8 pad0[0x38]; u8 f38[0x24]; s32 f5C; s32 f60; u8 pad64[0x48]; s32 fAC; u8 padB0[8]; f32 fB8; saddr fBC; saddr fC0; saddr fC4; saddr fC8[4]; };
 
@@ -108,10 +107,8 @@ struct TObjLazerFenceNorm_80192CCC {
     Motion_80192CCC *motion;
 };
 
-s32 release_texture_list(void*);
 }
 u8 *load_gvm_texture_file(saddr arg0);
-extern "C" {
 
 void load_lazer_fence_norm_resources(void) {
     BmlResource *obj;
@@ -135,7 +132,6 @@ void load_lazer_fence_norm_resources(void) {
         lazer_fence_norm_texture_list = (GinjaTextureList *)load_gvm_texture_file((saddr)"fe_obj_lazer2.gvm");
         break;
     }
-}
 }
 
 void TObjLazerFenceNorm::free_resources() {

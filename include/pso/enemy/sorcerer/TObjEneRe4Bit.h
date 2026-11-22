@@ -52,7 +52,7 @@ struct TObjEneRe4Bit : public TObjEneDD_ST {
     void refresh_target();
     void render();
     void run_task();
-    s32 handle_event(s32 arg1);
+    void handle_event(s32 arg1);
     void handle_state_message(s32 msg);
     void reset_transform();
     void update_homing_velocity();
@@ -80,10 +80,10 @@ LAYOUT_ASSERT(TObjEneRe4Bit_fade_offset, offsetof(TObjEneRe4Bit, fade) == 0x3DC)
 LAYOUT_ASSERT(TObjEneRe4Bit_size, sizeof(TObjEneRe4Bit) == 0x410);
 
 extern "C" {
-void TObjEneRe4Bit__sub_800ECC14(TObjEneRe4Bit *arg0, s32 arg1);
-void TObjEneRe4Bit__sub_800ECD28(TObjEneRe4Bit *arg0, s32 arg1);
-void TObjEneRe4Bit__sub_800ECE04(TObjEneRe4Bit *arg0, s32 arg1);
-void TObjEneRe4Bit__sub_800ECED0(TObjEneRe4Bit *arg0, s32 arg1);
+void TObjEneRe4Bit__sub_800ECC14(TObjEneRe4Bit *bit, s32 reason);
+void TObjEneRe4Bit__sub_800ECD28(TObjEneRe4Bit *bit, s32 reason);
+void TObjEneRe4Bit__sub_800ECE04(TObjEneRe4Bit *bit, s32 reason);
+void TObjEneRe4Bit__sub_800ECED0(TObjEneRe4Bit *bit, s32 reason);
 void TObjEneRe4Bit__sub_800EDAB0(void);
 void TObjEneRe4Bit__sub_800EDAB4(void);
 }

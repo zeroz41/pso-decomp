@@ -36,7 +36,7 @@ struct TWindowSubTradeMain : public TObject {
     uaddr m_4c;
     uaddr m_50;
     void* m_54;
-    s32 add_text_entry(saddr arg1, s32 arg2, s32 arg3, s32 arg4);
+    s32 add_text_entry(saddr text, s32 arg2, s32 id, s32 arg4);
     void clear_trade_flag();
     void send_60_update();
     void bswap_6x6A_packet();
@@ -54,6 +54,10 @@ struct TWindowSubTradeMain : public TObject {
     static void draw_offer(void *arg0, void *arg1);
     static void draw_request(void *arg0, void *arg1);
     TWindowMessageYesNo *open_confirm_yes_no();
+    TWindowMessageYesNo *open_option_dialog(saddr message);
+    TWindowMessageYesNo *open_option_dialog_thunk(saddr message);
+    TWindowMessageYesNo *open_status_window();
+    TWindowMessageYesNo *update_from_lobby();
     saddr create_trade_menu();
     saddr build_trade_menu();
     virtual void render();

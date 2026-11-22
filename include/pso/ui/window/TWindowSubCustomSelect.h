@@ -19,10 +19,10 @@ struct TWindowSubCustomSelect : public TWindowAddition {
     u32 m_80;
     void handle_cancel();
     void handle_decide();
-    s32 update_list_scroll();
+    void update_list_scroll();
     void handle_grid_navigation();
-    void draw_cursor(u8 *arg1);
-    void draw_palette_cells(int arg1);
+    void draw_cursor(u8 *window_sub_custom_equip);
+    void draw_palette_cells(WindowDrawContext *ctx);
     virtual void run_task();
     int is_active();
     void *get_selected_action();

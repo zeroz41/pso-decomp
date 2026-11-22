@@ -18,6 +18,8 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/network/client_id.h"
 
 
 // One TU: TLobby__sub_8034DAA0 (jumptable after the TUnk_804F07C8 vtable in .data),
@@ -108,23 +110,14 @@ void obj_setFlags30(void *, u32);
 
 void set_tp__10TObjPlayerFs(Player_8034DAA0 *, s32);
 
-}
-
-
-extern "C" {
 struct TNpcPlayerTemplateTable { s32 value; u8 remaining[0x9FC]; };
 extern TNpcPlayerTemplateTable TNpcPlayer__template_table;
 void construct_partner__10TNpcPlayerFPviisPv(void *, u16, u16, s32, void *);
-extern void *tl_00;
 
 typedef struct VBase_18_dac7f3 VBase_18_dac7f3;
 typedef struct VObj_18_dac7f3 VObj_18_dac7f3;
 #pragma opt_pointer_analysis on
 #define PSO_VCALL_VObj_18_dac7f3_m0(_self, _arg0) (((VObj_18_dac7f3 *)(_self))->m0((_arg0)))
-
-
-
-
 
 
 }
@@ -236,12 +229,10 @@ f32 atan2_float(f32, f32);
 void TNpcPlayer__ct(void *, u16, u16, s16, s32, void *);
 s32 load_npc_player_template(s16);
 Obj_8034E814 *create_player_object(u16, s32, s32);
-extern s32 local_client_id;
 void handle_6x69_npc_control(Pkt_8034E814 *pkt);
 
 }
 void quest_remove_npc_player(u16 arg0);
-void show_partner_chatter_for_key(s16 key);
 extern struct Slot_8034EDC4 partner_dialogue_table[];
 extern s32 TNpcPlayer__data_805D5864;
 void init_partner_dialogue(void);
@@ -282,11 +273,11 @@ void TNpcPlayer::end_camera_pan_for_client(u16 arg0) {
     }
 }
 
-void TNpcPlayer::update_player_field(u16 arg0, s32 arg1) {
+void TNpcPlayer::update_player_field(u16 arg0, s32 frames) {
     uaddr player;
     player = ((u32)get_player_by_client_id(arg0));
     if (player != 0U) {
-        ((TObjPlayer *)player)->protection.set_frames(arg1);
+        ((TObjPlayer *)player)->protection.set_frames(frames);
     }
 }
 
@@ -349,17 +340,17 @@ loop_1:
     ((TNpcPlayer *)(&stack.sp8))->send_state_60();
 }
 
-void TNpcPlayer::create_default_companion(u16 arg0, s32 arg1, u8 *arg2, s32 arg3) {
+void TNpcPlayer::create_default_companion(u16 leader, s32 appearance, u8 *pos, s32 heading) {
     Stack_8034EC40 stack;
     build_6x69_npc_control(&stack.sp8);
     stack.spE = 0xFFFF;
-    stack.spC = arg0;
+    stack.spC = leader;
     stack.sp10 = 0;
-    stack.sp12 = arg1;
+    stack.sp12 = appearance;
     stack.spE = 1;
-    set_arrival_override_coords((s32)(1U), arg3, *(f32 *)((s8 *)arg2 + 0), *(f32 *)((s8 *)arg2 + 4), *(f32 *)((s8 *)arg2 + 8));
+    set_arrival_override_coords((s32)(1U), heading, *(f32 *)((s8 *)pos + 0), *(f32 *)((s8 *)pos + 4), *(f32 *)((s8 *)pos + 8));
     ((TNpcPlayer *)(&stack.sp8))->send_state_60();
-    send_6x24_teleport_player(stack.spE, arg2, arg3);
+    send_6x24_teleport_player(stack.spE, pos, heading);
 }
 
 void TNpcPlayer::create_companion(u16 leader, u16 slot, s32 appearance, f32 *p, s32 heading) {
@@ -495,27 +486,27 @@ void handle_6x69_npc_control(Pkt_8034E814 *pkt) {
     }
 }
 
-void TNpcPlayer::send_inter_level_warp_all(s32 arg0) {
+void TNpcPlayer::send_inter_level_warp_all(s32 value) {
     s32 i;
     saddr player;
 
     for (i = 0; i < 4; i++) {
         player = get_player_by_client_id(i);
         if (player != 0 && reinterpret_cast<TObjPlayer *>(player)->obj_isState3_324() != 0 && ((TObjPlayer *)player)->get_npc_controller() != 0xFFFF) {
-            send_6x21_inter_level_warp((void *)player, arg0);
+            send_6x21_inter_level_warp((void *)player, value);
         }
     }
 }
 
-void TNpcPlayer::apply_to_players(s32 arg0, void *arg1, s32 arg2) {
+void TNpcPlayer::apply_to_players(s32 value, void *arg1, s32 heading) {
     s32 var_r31;
     saddr temp_r3;
     var_r31 = 0;
     do {
         temp_r3 = get_player_by_client_id(var_r31);
         if ((temp_r3 != 0) && (reinterpret_cast<TObjPlayer *>(temp_r3)->obj_isState3_324() != 0) && ((u16) ((TObjPlayer *)temp_r3)->get_npc_controller() != 0xFFFF)) {
-            set_arrival_override_coords(get_entity_id(temp_r3), arg2, *(f32 *)((s8 *)arg1 + 0), *(f32 *)((s8 *)arg1 + 4), *(f32 *)((s8 *)arg1 + 8));
-            send_6x21_inter_level_warp((void *)temp_r3, arg0);
+            set_arrival_override_coords(get_entity_id(temp_r3), heading, *(f32 *)((s8 *)arg1 + 0), *(f32 *)((s8 *)arg1 + 4), *(f32 *)((s8 *)arg1 + 8));
+            send_6x21_inter_level_warp((void *)temp_r3, value);
         }
         var_r31 += 1;
     } while (var_r31 < 4);

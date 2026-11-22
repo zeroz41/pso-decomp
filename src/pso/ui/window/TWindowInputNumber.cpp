@@ -16,6 +16,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 
 const char *TWindowInputNumber__name = "TWindowInputNumber";
 // Value of one step at each digit position (1 .. 1000000).
@@ -154,24 +155,21 @@ struct Win_80256354 { u8 p0[0x62]; s8 f62; u8 p63[5]; s32 f68; };
 extern "C" {
 extern s8 controller_input_state[];
 void draw_arrows__18TWindowInputNumberFv(TWindowInputNumber *, Ctx_802563A0 *, Digit_802561E8 *, int);
-void begin_screen_draw(s32);
-void set_draw_texture_and_color(s32, s32);
-void draw_textured_quad_at_depth(f32 *q, f32 depth);
 extern s32 lbl_805D63F0;
 void __dl__7TObjectFPv(void *);
 
-void TWindowInputNumber::create(s32 arg1) {
+void TWindowInputNumber::create(s32 title) {
     uaddr var_r0;
 
     if ((u32) this->unknown70 == 0U) {
         var_r0 = (saddr)::operator new(0x24);
         if (var_r0 != 0U) {
             uaddr saved = var_r0;
-            var_r0 = (uaddr)((TWindowSubStatusDisp *)saved)->construct_type1_heading(arg1, this->client_index);
+            var_r0 = (uaddr)((TWindowSubStatusDisp *)saved)->construct_type1_heading(title, this->client_index);
         }
         this->unknown70 = var_r0;
         this->window_flags = (s32) (this->window_flags | 0x40);
-        *(f32 *)((s8 *)this + 0x3C) += 6.0f;
+        this->target_size[1] += 6.0f;
     }
 }
 
@@ -201,15 +199,15 @@ void TWindowInputNumber::align_digits() {
 
 void TWindowInputNumber::refresh_digit_entries() {
   s32 var_r30;
-  u8 *temp_r3;
+  u8 *entry;
   s32 var_r29;
   var_r30 = 0;
   var_r29 = this->value;
   do
   {
-    temp_r3 = (u8 *) ((TWindowBase *)((u8 *)this))->get_array_entry(var_r30);
-    *((s32 *) (((s8 *) temp_r3) + 0x20)) = (s32) (var_r29 % 10);
-    draw_right_aligned_number(temp_r3);
+    entry = (u8 *) ((TWindowBase *)((u8 *)this))->get_array_entry(var_r30);
+    *((s32 *) (((s8 *) entry) + 0x20)) = (s32) (var_r29 % 10);
+    draw_right_aligned_number(entry);
     var_r29 = var_r29 / 10;
     var_r30 += 1;
   }
@@ -395,9 +393,9 @@ s32 TWindowInputNumber::test_input_flag(s32 buttons) {
     return test_controller_flag_4c_color((u8 *)&controller_input_state + 0x160, buttons);
 }
 
-s32 TWindowInputNumber::is_locked(s32 arg1) {
+s32 TWindowInputNumber::is_locked(s32 buttons) {
     if (this->inputFlags & 0x20) {
         return 0;
     }
-    return test_buttons_press_or_repeat((saddr)(controller_input_state + 0x160), (s32)arg1, 6, 1);
+    return test_buttons_press_or_repeat((saddr)(controller_input_state + 0x160), (s32)buttons, 6, 1);
 }

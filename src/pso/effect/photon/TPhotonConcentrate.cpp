@@ -18,7 +18,6 @@ const char *TPhotonConcentrate__class_name = "TPhotonConcentrate";
 
 extern "C" {
 
-TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 s32 find_entity_by_id(s32, f32);
 
 void render__18TPhotonConcentrateFv(void) { TParticleCtrl::begin_effect_render(); TParticleCtrl::end_effect_render(); }
@@ -26,6 +25,7 @@ void render__18TPhotonConcentrateFv(void) { TParticleCtrl::begin_effect_render()
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/hud/TNowLoading.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 
 extern "C" {
 
@@ -126,7 +126,7 @@ void run_task__18TPhotonConcentrateFv(PC_801A7E7C *self) {
 TPhotonConcentrate::~TPhotonConcentrate() {
     if (*(void **)((s8 *)this + 0xF8) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0xF8)))->queue_destruction(); this->m_f8 = 0; }
 }
-TPhotonConcentrate::TPhotonConcentrate(u8 *arg1, saddr arg2, s32 arg3) : TObjCollidable((TObject *)arg2) {
+TPhotonConcentrate::TPhotonConcentrate(u8 *arg1, saddr parent, s32 arg3) : TObjCollidable((TObject *)parent) {
     f32 temp_f1;
     *(saddr *)((s8 *)this + 0) = (saddr) TPhotonConcentrate__class_name;
     VecCopy((Vec *)(((u8 *)this) + 0xAC), (const Vec *)(VecCopy((Vec *)(((u8 *)this) + 0xB8), (const Vec *)((const Vec *)arg1))));

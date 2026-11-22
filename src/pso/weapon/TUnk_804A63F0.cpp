@@ -12,15 +12,15 @@
 void TUnk_804A63F0::emit_marker_effects() {
     u8 *arg0 = (u8 *)this;
     s32 sp8;
-    u8 *temp_r3;
+    u8 *source;
 
     if (get_attack_stage() == 0) {
         ((TObjPlayer *)tl_05)->spawn_cane_effects((TItem*)arg0, 3, 2);
     }
     ((TItemWeapon *)arg0)->get_joint_position(0, &sp8);
     if (((TItemWeapon *)arg0)->is_mode_two_and_ready() != 0) {
-        temp_r3 = (unsigned char *) (this->owner);
-        ((TTecBarta *)temp_r3)->create_ex(temp_r3 + 0x38, (void *)(*(saddr *)((s8 *)temp_r3 + 0x60)), (void *)3);
+        source = (unsigned char *) (this->owner);
+        TTecBarta::create_ex(source, source + 0x38, *(saddr *)((s8 *)source + 0x60), 3);
         return;
     }
     ((TItemWeapon *)arg0)->update_active_game_effect();
@@ -32,9 +32,9 @@ TUnk_804A63F0::TUnk_804A63F0(TObject *parent, u8 *item) : TItemWeapon(parent, it
 }
 
 
-TItem *TObjPlayer::create_vtable_804A63F0(u8 *arg0) {
-    if (arg0 != NULL) {
-        return new TUnk_804A63F0(tl_05, arg0);
+TItem *TObjPlayer::create_vtable_804A63F0(u8 *item) {
+    if (item != NULL) {
+        return new TUnk_804A63F0(tl_05, item);
     }
     return NULL;
 }

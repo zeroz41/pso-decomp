@@ -25,7 +25,7 @@ struct TWindowSoundBalance : public TWindowBase {
     void handle_lr_input();
     void sub_8027095C();
     virtual void run_task();
-    void apply_balance(void *arg1);
+    void apply_balance(void *window_key_board_soft);
     void handle_cancel();
     u8 unk_66[0x2];
 };
@@ -33,12 +33,10 @@ struct TWindowSoundBalance : public TWindowBase {
 LAYOUT_ASSERT(TWindowSoundBalance_size, sizeof(TWindowSoundBalance) == 0x68);
 
 extern "C" {
-void render__19TWindowSoundBalanceFv(s32 arg0);
 }
 
 // --- C functions defined in TWindowSoundBalance.cpp ---
 extern "C" {
-void render__19TWindowSoundBalanceFv(s32 arg0);
 }
 // --- end of C functions
 

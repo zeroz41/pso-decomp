@@ -26,6 +26,11 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/effect/particle/TParticleCtrl_800867E4.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/object/base/CollisionActorLookup.h"
 
 struct RecoveredFields_80230D9C_arg0
 {
@@ -43,7 +48,6 @@ extern "C" {
 u16 get_entity_id(void *);
 s32 play_sound_effect(s32 id, void *pos, s32 a, s32 b);
 f32 vector_length(void *);
-extern saddr tl_07;
 #pragma push
 #pragma opt_common_subs off
 
@@ -115,9 +119,6 @@ struct VObj_18_9c98dd : VBase_18_9c98dd {
 };
 
 extern "C" {
-void *find_entity_by_id(u16 id);
-s32 play_sound_effect(s32, void *, s32, s32);
-TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 
 typedef struct RecoveredFields_80238D10_arg0 RecoveredFields_80238D10_arg0;
 
@@ -167,9 +168,8 @@ struct RBurst_80238F84 { s32 entry; s32 flags; f32 scale; };
 struct RProfile_80238F84 { RBurst_80238F84 *entries; u32 count; };
 
 extern "C" {
-void create_timed_particle_emitter(void *, s32, s32, s32, void *);
-void TTecRaZonde::create(void *origin, void *level) {
-    new TTecRaZonde((saddr)this, (Vec *)origin, (saddr)level);
+void TTecRaZonde::create(void *source, void *origin, s32 level) {
+    new TTecRaZonde((saddr)source, (Vec *)origin, level);
 }
 
 }
@@ -209,7 +209,7 @@ void TTecRaZonde::run_task() {
     for (i = 0; i < TTecRaZonde__band_profile_table[this->band].count; i++) {
         if (this->m_b4 < 12) {
             if (i == 1) {
-                create_timed_particle_emitter((u8 *)this->source + 0x2FC, TTecRaZonde__band_profile_table[this->band].entries[i].entry, 0, 60, (void *)this->source);
+                create_timed_particle_emitter((u8 *)this->source + 0x2FC, TTecRaZonde__band_profile_table[this->band].entries[i].entry, 0, 60);
             } else {
                 spawn_particle_effect((const Vec *)((u8 *)this->source + 0x2FC), TTecRaZonde__band_profile_table[this->band].entries[i].entry);
             }

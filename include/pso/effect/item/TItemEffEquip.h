@@ -4,10 +4,13 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+class TObjBase;
+class TParticleCtrl;
+
 class TItemEffEquip : public TObject {
 public:
- void* m_1c;
- void* m_20;
+ TObjBase *m_1c;       // the equipped actor the effect follows (inferred)
+ TParticleCtrl *m_20;  // the particle effect spawned at its center
 public:
     virtual ~TItemEffEquip();
     void spawn_equip_particle_effect(saddr);

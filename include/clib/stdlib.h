@@ -7,6 +7,7 @@
 extern "C" {
 #endif
 
+int atoi(const char *str);
 void srand(unsigned int seed);
 int rand(void);
 

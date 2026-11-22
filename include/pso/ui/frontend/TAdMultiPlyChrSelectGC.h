@@ -5,8 +5,11 @@
 #include "pso/system/task/TObject.h"
 
 struct TAdChrSelASlotGC;
+struct TAdChrSelBSlotGC;
+class TAdSelectCurGC;
 class TAdGuideTxtGC;
 struct TAdChrSelPlyPlateGC;
+struct TAdChrMoveEffectGC;
 
 class TUnk_804E3008;
 
@@ -17,22 +20,22 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     void create_widgets();
     void sub_802DC118(s32);
     virtual void render();
-    u32 m_1c;
-    u32 m_20;
-    u32 m_24;
-    u8 unk_28[0x4];
-    f32 m_2c;
-    u8 unk_30[0x4];
-    s32 m_34;
-    u8 unk_38[0x4];
-    u32 m_3c;
-    u32 m_40;
-    u8 _pad44[0x4];
-    u32 m_48;
-    u32 m_4c;
+    s32 state_frames;   // 0x1C  frames in the current state; run_task zeroes it on a state change
+    s32 state;          // 0x20  index into run_task's state handler table
+    s32 prev_state;     // 0x24  state before this frame's handler ran
+    s32 next_state;     // 0x28  state update_idle_timer moves to once the wait ends
+    s32 exit_action;    // 0x2C  what sub_802DCCA4 does on leaving (0 opening movie, 1 start, 2 none)
+    s32 last_card_slot; // 0x30  player_plate's active card slot when last checked
+    s32 last_cursor;    // 0x34  player_plate's cursor when last checked
+    s32 swap_slot;      // 0x38  slot passed to swap_characters (swap_search + 4)
+    s32 m_3c;
+    s32 m_40;
+    s32 guide_state;    // 0x44  which guide line is shown (0, 1, 2 = ready)
+    s32 mode;           // 0x48  constructor mode; switch in handle_event and sub_802DCD14
+    s32 cursor;         // 0x4C  get_clamped_cursor() of this frame
     u8 unk_50[0x4];
     s32 m_54;
-    u8 unk_58[0x4];
+    s32 swap_search;    // 0x58  first extra slot (0..2) the swap search starts from
     TAdChrSelPlyPlateGC *player_plate;
     u8 unk_60[0x4];
     TAdGuideTxtGC *guide;
@@ -40,9 +43,7 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     void set_status_value(s32 arg1);
     void handle_event(s32 arg1);
     void initialize_selection_state(s32 arg1);
-    static int get_instance();
     static TAdChrSelPlyPlateGC *get_card_instance();
-    static void set_select_mode(int a0, int a1);
     static void reset_slot_selection_table();
     static void split_slot_index(s32 arg0, s32 *arg1, s32 *arg2);
     static void init();
@@ -58,11 +59,9 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     static TAdMultiPlyChrSelectGC *get_or_create(TObject *parent, s32 mode);
     static saddr get_selected_slot();
     static int get_global_6700();
-    s32 get_player_index();
-    void set_cursor_index(s32 v);
     void set_field_100(s32 v);
     static void render(void *self);
-    static s32 create_confirm_window();
+    void *create_confirm_window(s32 slot);
     s32 create_choice_menu();
     void collect_player_slots();
     s32 get_state_result();
@@ -83,19 +82,38 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     void update_select();
     void reset_to_select();
     void update_button_input();
+    void update_state_serial();
+    void sub_802DEDA8();
+    void sub_802DE7D0();
+    void update();
+    void sub_802DDD08();
+    void sub_802DDBA8();
+    void sub_802DD400();
+    void sub_802DD2B0();
+    void sub_802DD010();
+    void sub_802DCF68();
+    void sub_802DCD14();
+    void sub_802DCCA4();
+    void sub_802DCA20();
+    void sub_802DC8A0();
+    void sub_802DC5CC();
+    void sub_802DC440();
+    void sub_802DC310();
+    s32 sub_802DC294(s32 arg1);
+    s32 sub_802DBEC4(s32 *desc);
+    s32 sub_802DBE4C(s32 *desc);
+    void *sub_802DBD64();
+    void *sub_802DBCE8();
     virtual void run_task();
-    void set_field_1c(s32 v);
-    s32 get_mode();
-    s32 is_state_closing();
-    static saddr get_global_state();
+    static TAdChrMoveEffectGC *get_global_state();
     static int get_select_flag();
     static int get_chr_select_state();
     s32 get_ready_state();
-    static u32 get_move_effect(saddr arg0);
+    static TAdChrMoveEffectGC *get_move_effect(saddr arg0);
     static TAdChrSelASlotGC *get_or_create_slot_window(TObject *parent, s32 mode);
-    u8 unk_68[0x4];
-    saddr m_6c;
-    u8 unk_70[0x4];
+    TAdChrSelASlotGC *a_slot;        // 0x68  get_or_create_slot_window
+    TAdChrSelBSlotGC *b_slot;        // 0x6C  TAdChrSelBSlotGC::create
+    TAdSelectCurGC *select_cursor;   // 0x70
     u32 m_74;
     u8 unk_78[0x4];
     s32 m_7c;

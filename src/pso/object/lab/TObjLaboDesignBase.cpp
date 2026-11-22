@@ -3,6 +3,7 @@
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_803D96A8.h"
@@ -16,7 +17,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/lab/TObjLaboDesignBase.h"
 #include "pso/map/TObjMapCsn.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803D8F74.h"
+
 
 #pragma readonly_strings on
 
@@ -29,15 +31,11 @@ struct ByteBlock_3C { u8 bytes[0x3C]; };
 extern "C" {
 f32 xz_distance_squared(void *, s32);
 extern s32 camera_ctrl_instance;
-s32 init_collision_body_parts(void *, int, int);
 void *TObjLaboDesignBase__create(void *arg0);
 void *TObjLaboDesignBase__sub_80364D38(void *arg0);
 void *alloc_and_construct__18TObjLaboDesignBaseFPv(void *arg0);
 void *create_instance__18TObjLaboDesignBaseFPv(void *arg0);
-void free_collision_body_parts(void *);
 
-
-s32 rotate_matrix_y(int, int);
 
 
 const char *lbl_805D4488[1] = {0};
@@ -109,55 +107,44 @@ LaboDesignObjectEntry lbl_804F2C08[7] = {
     {5, &lbl_804F2BF8},
     {-1, NULL},
 };
-void *labo_design_entry_table[66] = {
-    (void *)0x0, (void *)0x41a00000, (void *)0x0, (void *)0x40a00000,
-    (void *)0x41200000, (void *)0x1, (void *)0x10003, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0x41a00000, (void *)0x0, (void *)0x40a00000, (void *)0x41200000,
-    (void *)0x1, (void *)0x10003, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x41a00000,
-    (void *)0x0, (void *)0x40a00000, (void *)0x41200000, (void *)0x1,
-    (void *)0x10003, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x41a00000, (void *)0x0,
-    (void *)0x40a00000, (void *)0x41a00000, (void *)0x1, (void *)0x10003,
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0x41a00000, (void *)0x0, (void *)0x40a00000,
-    (void *)0x41a00000, (void *)0x1, (void *)0x10003, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0x41a00000, (void *)0x0, (void *)0x41200000, (void *)0x42200000,
-    (void *)0x1, (void *)0x10003, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0x0,
+CollisionBody labo_design_entry_table[6] = {
+    { { 0.0f, 20.0f, 0.0f }, 5.0f, 10.0f, 1, 0x10003, { 0.0f, 0.0f, 0.0f }, 0.0f },
+    { { 0.0f, 20.0f, 0.0f }, 5.0f, 10.0f, 1, 0x10003, { 0.0f, 0.0f, 0.0f }, 0.0f },
+    { { 0.0f, 20.0f, 0.0f }, 5.0f, 10.0f, 1, 0x10003, { 0.0f, 0.0f, 0.0f }, 0.0f },
+    { { 0.0f, 20.0f, 0.0f }, 5.0f, 20.0f, 1, 0x10003, { 0.0f, 0.0f, 0.0f }, 0.0f },
+    { { 0.0f, 20.0f, 0.0f }, 5.0f, 20.0f, 1, 0x10003, { 0.0f, 0.0f, 0.0f }, 0.0f },
+    { { 0.0f, 20.0f, 0.0f }, 10.0f, 40.0f, 1, 0x10003, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
 
-void *create_instance__18TObjLaboDesignBaseFPv(void *arg0) {
-    return new TObjLaboDesignBase((TObject *)tl_05, arg0, 5);
+void *create_instance__18TObjLaboDesignBaseFPv(void *set_data) {
+    return new TObjLaboDesignBase((TObject *)tl_05, set_data, 5);
 }
 }
-void* get_labo_design_entry(int a0);
+CollisionBody *get_labo_design_entry(int a0);
 extern BmlResource *labo_design_object_table[6];
 
 BmlResource *get_labo_design_object(int a0);
 const char *TObjLaboDesignBase_class_name = "TObjLaboDesignBase";
 void *create_labo_design_base(void *arg0);
 void *create_obj_labo_design_base(void *arg0);
-void *create_obj_labo_design_base(void *arg0) {
-    return new TObjLaboDesignBase((TObject *)tl_05, arg0, 4);
+void *create_obj_labo_design_base(void *set_data) {
+    return new TObjLaboDesignBase((TObject *)tl_05, set_data, 4);
 }
 
-void *TObjLaboDesignBase__sub_80364D38(void *arg0) {
-    return new TObjLaboDesignBase((TObject *)tl_05, arg0, 3);
+void *TObjLaboDesignBase__sub_80364D38(void *set_data) {
+    return new TObjLaboDesignBase((TObject *)tl_05, set_data, 3);
 }
 
-void *create_labo_design_base(void *arg0) {
-    return new TObjLaboDesignBase((TObject *)tl_05, arg0, 2);
+void *create_labo_design_base(void *set_data) {
+    return new TObjLaboDesignBase((TObject *)tl_05, set_data, 2);
 }
 
-void *alloc_and_construct__18TObjLaboDesignBaseFPv(void *arg0) {
-    return new TObjLaboDesignBase((TObject *)tl_05, arg0, 1);
+void *alloc_and_construct__18TObjLaboDesignBaseFPv(void *set_data) {
+    return new TObjLaboDesignBase((TObject *)tl_05, set_data, 1);
 }
 
-void *TObjLaboDesignBase__create(void *arg0) {
-    return new TObjLaboDesignBase((TObject *)tl_05, arg0, 0);
+void *TObjLaboDesignBase__create(void *set_data) {
+    return new TObjLaboDesignBase((TObject *)tl_05, set_data, 0);
 }
 
 s32 TObjLaboDesignBase::update_object_view_visibility(f32 near_dist, f32 far_dist) {
@@ -244,7 +231,7 @@ TObjLaboDesignBase::~TObjLaboDesignBase() {
     free_collision_body_parts(this);
 }
 
-TObjLaboDesignBase::TObjLaboDesignBase(TObject *parent, void *set_data, saddr state) : TObjCollidable(parent) {
+TObjLaboDesignBase::TObjLaboDesignBase(TObject *parent, void *set_data, s32 state) : TObjCollidable(parent) {
     struct CopyStack_80365210 { u8 bytes[0x3C]; };
     CopyStack_80365210 copy_storage_80365210;
     s32 temp_r0;
@@ -252,7 +239,7 @@ TObjLaboDesignBase::TObjLaboDesignBase(TObject *parent, void *set_data, saddr st
     apply_object_set_data(set_data);
     this->state = state;
     model_resource = get_labo_design_object(this->state);
-    init_collision_body_parts(this, (s32)get_labo_design_entry(this->state), 1);
+    init_collision_body_parts(this, get_labo_design_entry(this->state), 1);
     register_object_by_id();
     xB4 = 400.0f;
     xB8 = 50.0f;
@@ -267,9 +254,8 @@ TObjLaboDesignBase::TObjLaboDesignBase(TObject *parent, void *set_data, saddr st
     }
 }
 
-void* get_labo_design_entry(int a0) {  return (char*)labo_design_entry_table + a0 * 44; }
+CollisionBody *get_labo_design_entry(int a0) { return &labo_design_entry_table[a0]; }
 
-extern BmlResource *labo_design_object_table[6];
 
 BmlResource *get_labo_design_object(int a0) {  return labo_design_object_table[a0]; }
 

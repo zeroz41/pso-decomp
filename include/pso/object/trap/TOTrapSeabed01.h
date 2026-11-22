@@ -25,7 +25,7 @@ struct TOTrapSeabed01 : public TOTrap {
     static void *create(void *arg0);
     static void free_static_resources();
     static void load_resources();
-    static void trigger_by_id(u32 arg0);
+    static void trigger_by_id(NJS_OBJECT *node);
     s32 pad_344;
     s32 strike_timer; // name inferred: 30 frames per set param 1; vfunc_82 strikes when it runs out
     s32 projected; // name inferred: set param 2 != 0; draws with the particle TEV and the projection texture

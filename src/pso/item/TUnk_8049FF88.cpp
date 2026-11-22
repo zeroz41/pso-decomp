@@ -5,15 +5,15 @@
 #include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
-s32 add_weapon_grind(s32, u8);
+s32 add_weapon_grind(TItem *weapon, u8 amount);
 }
 
 void TUnk_8049FF88::apply_use_effect() {
-    s32 temp_r3;
+    TItem *weapon;
 
-    temp_r3 = TObjPlayer::get_item_field_6((void *)this->owner);
-    if (temp_r3 != 0) {
-        add_weapon_grind(temp_r3, get_pmt_amount());
+    weapon = TObjPlayer::get_item_field_6(this->owner);
+    if (weapon != NULL) {
+        add_weapon_grind(weapon, get_pmt_amount());
     }
 }
 

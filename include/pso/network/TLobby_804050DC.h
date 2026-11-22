@@ -56,22 +56,22 @@ s32 clear_all_used_records(void);
 s32 close_connection_by_index(s16 i);
 NetPacket *alloc_free_entry(void);
 void release_entry(NetPacket *pkt);
-s32 call_entry_callback(s16 i, s32 arg);
-s16 call_handler_by_index(s16 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+s32 call_entry_callback(s16 i, s16 arg);
+s16 call_handler_by_index(s16 arg0, s32 arg1, s32 detail, s32 first, s32 second);
 s32 clear_table_entry_locked(s16 arg0);
 void init_net_block_18A0(void);
 s16 invoke_socket_callback(s16 i, s32 arg);
 s16 is_entry_flag10_set(s16 i);
-s32 is_slot_flag_0x20_set(s16 i);
+s16 is_slot_flag_0x20_set(s16 i);
 s16 is_slot_flag_0x40_set(s16 i);
 void process_expired_timers(void);
 s32 run_net_init_step(void);
 s32 shutdown_network_handle(void);
 s16 is_socket_flag_set(s16 i);
-s16 TLobby__sub_8040A044(s16 idx, u32 a, s32 b, u32 *c);
+s16 TLobby__sub_8040A044(s16 idx, u32 a, s16 b, u32 *c);
 void TLobby__sub_804050DC(s16 arg0);
 s32 TLobby__sub_804062A0(s16 arg0);
-s32 TLobby__sub_80406624(s32 a, s32 b, u16 code, void *self);
+s16 TLobby__sub_80406624(s32 a, s32 b, u16 code, void *self);
 s16 reset_network_timer_list(void);
 s16 arp_resolve_and_send(s16 idx, void *name, void *arg2);
 s32 TLobby__sub_80409AA8(void);
@@ -82,7 +82,7 @@ s32 TLobby__sub_8040DD68(void);
 s32 shutdown_ipv4_routing(void);
 s32 NetIPv6Shutdown(void);
 s16 TLobby__sub_80409A3C(u8 *arg0, s16 arg1);
-s32 lobby_timer_stop(void *arg0);
+void lobby_timer_stop(void *arg0);
 s16 AT_IP_GetMssFromDstSrc(u8 *arg0, u8 *arg1);
 void netbuf_copy_by_ref(void *a, void *b, s32 v);
 s16 TLobby__sub_80410BA8(void *self, void *a, s16 c, void *d);
@@ -93,19 +93,19 @@ s32 TLobby__sub_80408388(s16 id);
 s16 TLobby__sub_804098B4(void *pkt);
 s32 TLobby__sub_80409908(void *self, void *arr_);
 u8 *netbuf_ref_data(void *self);
-s32 TLobby__sub_80406328(saddr self, s16 type);
+s16 TLobby__sub_80406328(saddr self, s16 type);
 s16 dispatch_handler_by_index(s16 arg0, s32 arg1, s32 arg2, s32 arg3);
 s16 dispatch_by_addr_family(saddr arg0, NetworkAddress *arg1, NetworkAddress *arg2, u8 *arg3, void *arg4, void *arg5);
 s16 AT_IP_SetSrcFromDst(Out_8040D95C *arg0, In_8040D95C *arg1);
 s16 is_multicast_address(NetworkAddress *addr, s16 arg1);
 s16 is_addr_unspecified(u8 *arg0);
 s16 AT_IP4_IsReachable(u32 arg0, u32 arg1);
-s16 TLobby__sub_8040DA54(u8 *arg0, u8 *arg1);
+s16 TLobby__sub_8040DA54(u8 *dst, u8 *src);
 s16 AT_IP4_Send(NetPacket *pkt, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, u8 proto);
 s16 AT_IP4_Forward(u32 dst, u32 src, u8 *pkt, s16 len, s16 iface);
 s16 AT_IP4_PktSend(NetPacket *self, u32 key, s16 id);
 s16 AT_IP4_SrcAddrSel(u32 *out, u32 dst, s16 c);
-s16 TLobby__sub_80410A98(saddr arg0, void *arg1, void *arg2, void *arg3, void *arg4);
+s16 TLobby__sub_80410A98(saddr pkt, void *dst, void *src, void *arg3, void *arg4);
 extern NetPacketPool lobby_udp_socket_table;
 /* Shared by the modules cut out of this unit; each is defined in the file named in its comment. */
 u16 packet_ones_complement_sum(struct NetPacket *, s16); /* TLobby_804050DC.c */
@@ -118,9 +118,11 @@ Ipv4Route *AT_IP4_RouteSearch(u32, u32);             /* NetIpv4Route.c */
 s16 NetIPv4IsInterfaceUp(s16);                       /* NetIpv4Route.c */
 s16 TLobby__sub_8040FEE4(s32, s32);                  /* NetIpv4Route.c */
 s16 get_ipv4_interface_mtu(s16);                       /* NetIpv4Route.c */
+/* Point the routes through old_gateway that cover dst/mask at new_gateway (an ICMP redirect). */
+s32 TLobby__sub_8040F8A4(u32 dst, u32 new_gateway, u32 mask, u32 flags, u32 old_gateway); /* NetIpv4Route.c */
 /* ARP (src/pso/network/NetArp.c). */
 s32 TLobby__sub_80407418(s16 id);
-void forward_net_op_5args(s16, s16, s16, s16, s16, s32, s8, s32);
+s16 forward_net_op_5args(s16, s16, s16, s16, s16, s32, s16, s32);
 /* The handler table (src/pso/network/NetHandlerTable.c). */
 s16 TLobby__sub_80409CE0(s16 idx, s32 handle, s32 op, void *addr);
 s16 TLobby__sub_80409D7C(s16 idx, s32 handle, s32 op, void *addr);
@@ -129,12 +131,14 @@ s32 TLobby__sub_80409E18(s16, s32, s32);
 s32 TLobby__sub_80409EB0(s16, s32);
 /* ICMP (src/pso/network/NetIcmp.c). */
 s16 icmp_input(u8 *self, u32 d, u32 c);
-s32 icmp_send_error(u8 *p, u8 *b, s16 x, s16 id);
+s16 icmp_send_error(u8 *p, u8 *b, s16 x, s16 id);
+u16 ones_complement_sum(void *data, s16 n);
 /* ICMPv6 (src/pso/network/NetIcmp6.c). */
 s16 NetIPv6HandleIcmpMessage(struct NetPacket *pkt, u8 *src, u8 *dst, u8 hop_limit, s16 iface);
 s16 icmp6_send_error(void *a, u8 *src, s16 c, s16 flag);
 /* IPv6 input (src/pso/network/NetIpv6.c). */
 s16 ipv6_process_options(u8 *p, s16 n, u8 *self, s16 c, s16 d);
+s16 ipv6_forward(u8 *self, u8 *p, s16 lim, s16 ctx);
 #ifdef __cplusplus
 }
 #endif

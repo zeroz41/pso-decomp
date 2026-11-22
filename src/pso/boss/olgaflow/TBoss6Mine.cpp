@@ -39,7 +39,6 @@
 #include "pso/math/InverseTrig.h"
 
 #pragma readonly_strings on
-extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
 struct Stack_803242C0 {
     f32 sp8;
     f32 spC;
@@ -92,7 +91,6 @@ static u32 TBoss6Mine__collision_body_template[11] = {
     0, 0, 0, 0x41700000, 0, 0, 0x801B, 0, 0, 0, 0,
 };
 const char *lbl_805D4178 = "TBoss6Mine";
-void TBoss6PlotFalz__sub_802AC008(f32 farg0, f32 farg1);
 void TBoss6Type1__sub_802B5DD4(void *);
 int post_translate_matrix(void*);
 int rotate_matrix_x(void*, void*);
@@ -100,8 +98,8 @@ void free_collision_body_parts(void *);
 int rotate_matrix_y(void*, void*);
 
 void TBoss6Mine::render_shadows() {
-    u8 *arg0 = (u8 *)this;
-    if (*(f32 *)((s8 *)arg0 + 0x3C) >= (0.0f)) {
+    u8 *self = (u8 *)this;
+    if (*(f32 *)((s8 *)self + 0x3C) >= (0.0f)) {
         TObjEnemy::render_shadows();
     }
 }
@@ -115,8 +113,8 @@ void TBoss6Mine::run_death_reaction() {
 void TBoss6Mine::run_hit_reaction() { this->actorFlags = (this->actorFlags & 0xfffffdff); this->fade_amount = 1.0f; }
 
 void TBoss6Mine::copy_pos() {
-    s32 arg0 = (saddr)this;
-    VecCopy__FP3VecPC3Vec(arg0 + 0x2FC, arg0 + 0x38);
+    s32 self = (saddr)this;
+    VecCopy__FP3VecPC3Vec(self + 0x2FC, self + 0x38);
 }
 
 void TBoss6Mine::draw() {
@@ -125,9 +123,9 @@ void TBoss6Mine::draw() {
     saddr bml_model;
 
     set_motion_packed_rotation();
-    temp_r31 = (saddr)get_bml_texlist((BmlResource *)this->m_374, 2);
-    bml_model = (saddr)get_bml_model((BmlResource *)this->m_374, 2);
-    bml_motion = get_bml_motion((BmlResource *)(this->m_374), 0);
+    temp_r31 = (saddr)get_bml_texlist(scene_archive, 2);
+    bml_model = (saddr)get_bml_model(scene_archive, 2);
+    bml_motion = get_bml_motion(scene_archive, 0);
     TObjFish::set_global_param((saddr)(temp_r31));
     TBoss6PlotFalz__sub_802AC008(this->fade_amount, 0.0f);
     draw_model_motion((void *)bml_model, (void *)bml_motion, this->anim_frame);
@@ -138,14 +136,14 @@ void TBoss6Mine::draw() {
 void TBoss6Mine::render() { push_matrix(); post_translate_matrix((char*)this + 0x38); rotate_matrix_y((void*)0, *(void* *)&this->m_390); rotate_matrix_x((void*)0, *(void* *)&this->m_394); rotate_matrix_y((void*)0, *(void* *)&this->m_398); draw(); pop_matrix(); }
 
 void TBoss6Mine::update_facing_angles() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     Vec v;
     s32 a;
     s32 b;
     switch (this->state) {
     case 5:
     case 6:
-        VecCopy__FP3VecPC3Vec((saddr) &v, (saddr)(arg0 + 0x38));
+        VecCopy__FP3VecPC3Vec((saddr) &v, (saddr)(self + 0x38));
         subtract_vector(&v, (u8 *)&this->prev_position);
         if (vector_length(&v) <= 0.00001f) {
             a = 0;
@@ -168,20 +166,20 @@ void TBoss6Mine::update_facing_angles() {
 }
 
 s32 TBoss6Mine::is_far_from_origin() {
-    saddr arg0 = (saddr)this;
-    return vector_length((void *)(arg0 + 0x38)) > 500.0f;
+    saddr self = (saddr)this;
+    return vector_length((void *)(self + 0x38)) > 500.0f;
 }
 
 void TBoss6Mine::explode_damage_players() {
     s32 n;
     s32 i;
     u8 *pl;
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         pl = (u8 *)TObjPlayer::get_player_data(i);
         if (TBoss6PlotFalz::is_active((TObjPlayer *)pl) != 0) {
-            Vec v = *(Vec *) (arg0 + 0x38);
+            Vec v = *(Vec *) (self + 0x38);
             subtract_vector(&v, pl + 0x38);
             v.y = 0.0f;
             if (!(vector_length(&v) > 22.5f)) {
@@ -191,7 +189,7 @@ void TBoss6Mine::explode_damage_players() {
                 h.c = 1;
                 h.d = r;
                 h.b = *(s32 *) &h.d;
-                ((VObj_18_b27ba1 *) pl)->m21(arg0, &h, 0, -1, -1);
+                ((VObj_18_b27ba1 *) pl)->m21(self, &h, 0, -1, -1);
             }
         }
     }
@@ -407,7 +405,7 @@ TBoss6Mine::TBoss6Mine(TObject *parent, TBoss6MineSetData *set_data) : TObjEnemy
         tmp.b = 0;
         ((TObjEnemy *)THIS)->exchange_object_state(&tmp, 0);
     }
-    ((TBoss3Volopt *)THIS)->next_action = (s32)TBoss6PlotFalz::get_scene_archive();
+    scene_archive = TBoss6PlotFalz::get_scene_archive();
     ((TBoss3Volopt *)THIS)->texlist = 0;
     *(s32 *)((s8 *)THIS + 0x34) = 0;
     VecCopyP(THIS + 0x44, VecCopyP(THIS + 0x50, VecCopyP(THIS + 0x74, THIS + 0x38)));

@@ -9,16 +9,16 @@ extern "C" {
 s32 init_status_entry__20TWindowSubStatusDispFPvcUii(void *, u8, s32, s32);
 
 
-void TObjPlayer::add_status_line(u8 arg1, uaddr arg2, s32 arg3) {
+void TObjPlayer::add_status_line(u8 arg1, uaddr item, s32 arg3) {
     void *temp_r31;
 
     temp_r31 = (void *)((TWindowBase *)this)->get_array_entry(*(s16 *)((s8 *)this + 0x72));
-    if (arg2 == 0U) {
+    if (item == 0U) {
         init_status_entry__20TWindowSubStatusDispFPvcUii(temp_r31, arg1, 0, arg3);
         *(f32 *)((s8 *)temp_r31 + 8) += 18.0f;
         reinterpret_cast<ItemListRow *>(temp_r31)->category_style = 0xFFAAAAAA;
     } else {
-        ((TWindowSubStatusDisp *)temp_r31)->init_item_row((void *)arg2, (s32)arg3);
+        ((TWindowSubStatusDisp *)temp_r31)->init_item_row((void *)item, (s32)arg3);
     }
     if (arg1 == 4) {
         *(f32 *)((s8 *)temp_r31 + 8) += 18.0f;
@@ -46,7 +46,7 @@ void build_equipment_list__15TWindowSubEquipFv(void* self) {
     s32 a;
     u8* p;
 
-    p = get_player_by_client_id(*(s16 *)((u8 *)self + 0x20));
+    p = (u8 *)get_player_by_client_id(*(s16 *)((u8 *)self + 0x20));
     if (p != NULL) {
         a = get_class_weapon_icon_index__FPvPUc(self, p);
         q = (void *)get_slot_value__10TObjPlayerFPvi((s32 *)(p + 0xd04), (s32)(6));

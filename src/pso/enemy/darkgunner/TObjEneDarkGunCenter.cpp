@@ -255,7 +255,7 @@ void run_idle_action__9TObjCharaFv();
 void apply_slow_status__9TObjCharaFv();
 void update_shock_clock__9TObjCharaFv();
 void vfunc_43__9TObjCharaFv();
-void vfunc_18__9TObjCharaFPUc();
+void update_actor_ground_y_at__9TObjCharaFP3Vec();
 void interact__14TObjCollidableFl();
 void vfunc_74__9TObjEnemyFl();
 void apply_hit_message_flags__9TObjEnemyFPv();
@@ -332,7 +332,7 @@ void *__vt__20TObjEneDarkGunCenter[83] = {
     (void *)consume_timer_field__9TObjCharaFl,
     (void *)get_actor_level_index__9TObjCharaFv,
     (void *)update_actor_ground_y__9TObjCharaFv,
-    (void *)vfunc_18__9TObjCharaFPUc,
+    (void *)update_actor_ground_y_at__9TObjCharaFP3Vec,
     (void *)is_actor_cadence_frame__9TObjCharaFl,
     (void *)select_melee_contact_body__9TObjCharaFPvf,
     (void *)calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf,

@@ -5,7 +5,7 @@
 #include "pso/technique/TTecPlayerInfluence.h"
 
 struct TTecSifta : public TTecPlayerInfluence {
-    TTecSifta(void *owner, void *pos, void *arg3, s32 level);
+    TTecSifta(void *owner, void *pos, void *targets, s32 level);
     TTecSifta(void *owner, void *pos, s32 level);
     virtual ~TTecSifta();
     void play_sifta_cast_sound();
@@ -15,7 +15,7 @@ struct TTecSifta : public TTecPlayerInfluence {
     u8 _padE4[0x58];
     u32 m_13c;
     void update_effect_params();
-    void create_instance(void *arg1, void *arg2, void *arg3);
+    static void create_instance(void *source, void *origin, void *targets, s32 level);
     static void create(void *arg0, void *arg1, void *arg2);
     virtual void render();
 };

@@ -31,8 +31,6 @@ void set_service_counter_camera(s32 sequence, s32 counter) {
 
 void *get_player_by_client_id(s32 i);
 s32 is_split_screen();
-int send_message__24TMessageWindowControllerFll(void*);
-int format_shop_message__24TMessageWindowControllerFll(void*);
 
 int TShopSequence::vfunc_10() {
     if (message_window != NULL) {
@@ -65,9 +63,9 @@ void TShopSequence::display_guild_message(s32 index, s32 flags) {
     }
 }
 
-void TShopSequence::vfunc_8(s32 id, s32 flags) {
+void TShopSequence::send_message(s32 id, s32 flags) {
     if (message_window != NULL) {
-        send_message__24TMessageWindowControllerFll(message_window);
+        message_window->send_message(id, flags);
     }
 }
 
@@ -77,9 +75,9 @@ void TShopSequence::display_message(const char *text, s32 flags) {
     }
 }
 
-void TShopSequence::vfunc_6(s32 id, s32 flags) {
+void TShopSequence::display_shop_message(s32 id, s32 flags) {
     if (message_window != NULL) {
-        format_shop_message__24TMessageWindowControllerFll(message_window);
+        message_window->format_shop_message(id, flags);
     }
 }
 
@@ -110,7 +108,7 @@ void TShopSequence::restore_player_state() {
     s32 var_r31;
 
     if ((u32) *(u32 *)((s8 *)this + 0x24) != 0U) {
-        ((TObjPlayer *)(*(void **)((s8 *)this + 0x24)))->init_effect_5f0();
+        ((TObjPlayer *)this->player)->init_effect_5f0();
         if (TRaderMapCore::is_not_split_screen() != 1) {
             var_r31 = 0;
             do {

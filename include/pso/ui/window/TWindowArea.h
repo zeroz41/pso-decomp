@@ -11,4 +11,10 @@ public:
     virtual void run_task();
 };
 
+extern "C" {
+TWindowArea *create_area_window(void *text);
+void fn_8024450C(s32 arg0);
+}
+TWindowArea *create_window_area();
+
 #endif

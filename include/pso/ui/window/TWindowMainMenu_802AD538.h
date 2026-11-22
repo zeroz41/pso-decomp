@@ -5,8 +5,8 @@
 
 extern "C" {
 void TWindowMainMenu__sub_802AD74C(void *p);
-int TWindowMainMenu__sub_802ADB00(u8 *arg0);
-s32 count_active_items__15TWindowMainMenuFi(s32 arg0);
+int TWindowMainMenu__sub_802ADB00(u8 *node);
+s32 count_active_items__15TWindowMainMenuFi(saddr arg0);
 u8 *find_active_item_by_id__15TWindowMainMenuFii(saddr arg0, s32 arg1);
 void get_row_position__15TWindowMainMenuFiPvi(s32 arg0, void *arg1, s32 arg2);
 void init_row_entry__15TWindowMainMenuFPvicc(u8 *window_sub_symbol_chat_parts_set, saddr arg1, s8 arg2, s8 arg3);
@@ -15,8 +15,8 @@ void init_row_entry__15TWindowMainMenuFPvicc(u8 *window_sub_symbol_chat_parts_se
 // --- C functions defined in TWindowMainMenu_802AD538.cpp ---
 extern "C" {
 void TWindowMainMenu__sub_802AD74C(void *p);
-int TWindowMainMenu__sub_802ADB00(u8 *arg0);
-s32 count_active_items__15TWindowMainMenuFi(s32 arg0);
+int TWindowMainMenu__sub_802ADB00(u8 *node);
+s32 count_active_items__15TWindowMainMenuFi(saddr arg0);
 u8 *find_active_item_by_id__15TWindowMainMenuFii(saddr arg0, s32 arg1);
 void get_row_position__15TWindowMainMenuFiPvi(s32 arg0, void *arg1, s32 arg2);
 void init_row_entry__15TWindowMainMenuFPvicc(u8 *window_sub_symbol_chat_parts_set, saddr arg1, s8 arg2, s8 arg3);

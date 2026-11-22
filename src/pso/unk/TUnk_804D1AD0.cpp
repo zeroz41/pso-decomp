@@ -39,7 +39,7 @@ TUnk_804D1AD0::~TUnk_804D1AD0() {
 void TUnk_804D1AD0::run_task() {
     is_player_input_active(client_id);
     if (category_menu->is_cancelled() != 0) {
-        main_menu->vfunc_9();
+        main_menu->on_submenu_closed();
     }
     fn_8027FD94(status_disp, category_menu->get_selected_value());
 }

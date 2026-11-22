@@ -3,6 +3,8 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
+struct NJS_OBJECT;
+
 class TUnk_8049442C : public TObjCollidable {
 public:
     // TObjEneGyaranzo::spawn_missile's shot: owner's room and id, launch
@@ -17,7 +19,7 @@ public:
     s32 m_b8;
     s32 m_bc;
     s32 unk_C0;
-    s32 m_c4;
+    NJS_OBJECT *m_c4;
     s32 unk_C8;
     s32 m_cc;
     s32 unk_D0;

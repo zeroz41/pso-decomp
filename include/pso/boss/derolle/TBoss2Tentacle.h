@@ -10,7 +10,7 @@
 // one requested, entered at the top of run_task().
 class TBoss2Tentacle : public TObject {
 public:
-    TBoss2Tentacle(TObject *parent, s32 joint, s32 index);
+    TBoss2Tentacle(TObject *parent, saddr joint, s32 index);
     virtual ~TBoss2Tentacle();
     void request_strike();
     void enter_sway();
@@ -48,7 +48,7 @@ public:
     s32 index;                 // which of the four tentacles; picks its angle-table entries
     Vec segment_pos[14];
     s32 segment_ang[14];
-    s32 joint;                 // the boss matrix the tentacle hangs from
+    saddr joint;               // the boss matrix the tentacle hangs from
     f32 frame;
     f32 frame_speed;
     s32 yaw;

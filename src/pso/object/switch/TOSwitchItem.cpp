@@ -7,8 +7,8 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/system/task/TMainTask.h"
 
-extern void *tl_05;
 
 const char *TOSwitchItem__class_name = "TOSwitchItem";
 
@@ -34,7 +34,7 @@ void TOSwitchItem::load_assets() {}
 void TOSwitchItem::free_assets() {}
 
 void *TOSwitchItem::create(void *set_data) {
-    return new TOSwitchItem((TObject *)tl_05, set_data);
+    return new TOSwitchItem(tl_05, set_data);
 }
 
 void TOSwitchItem::run_task() {

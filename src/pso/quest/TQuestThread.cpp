@@ -49,6 +49,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
+#include "pso/ui/window/TWindowHelpItem_802540AC.h"
 
 
 #pragma readonly_strings on
@@ -61,7 +62,6 @@ struct ByteBlock_100 { u8 bytes[0x100]; };
 extern "C" {
 int check_flag_100__10TObjPlayerFPv(void *p);
 void *get_window_layout_position(s32);
-void TWindowHelpItem__set_displayed_item_by_id(u8 *window_help_item, saddr arg1);
 void TQuestThread__sub_801F5D88(void);
 void __dt__16TObjItemOKWindowFv();
 void __dt__18TObjItemNameSelectFv();

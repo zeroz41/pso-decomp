@@ -21,22 +21,6 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
-struct VBase_18_fbe024 { char pad[0x18]; };
-
-struct VObj_18_fbe024 : VBase_18_fbe024 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual s32 m4();
-    virtual s32 m5();
-    virtual s32 m6();
-    virtual s32 m7();
-    virtual u32 m8();
-};
-
-struct Obj_80329AA8 { const char *f0; u8 pad[0x14]; void *vt; s32 f1C; u8 pad2[4]; s32 f24; s32 f28; s32 f2C; void *cur; s32 f34; };
-
 static const NJS_POINT2 agreement_item_rect_table[2] = {{89.0f, 394.0f}, {89.0f, 414.0f}};
 static const NJS_POINT2 lbl_804770A0 = {462.0f, 18.0f};
 const char *lbl_805D41B8 = "TAdAgreementBaseGC";
@@ -67,95 +51,87 @@ void TAdAgreementBaseGC::draw_agreement_text() {
 }
 #pragma pop
 
-void TAdAgreementBaseGC::vfunc_9() { this->m_1c = 4; }
+void TAdAgreementBaseGC::vfunc_9() { state = 4; }
 
-void TAdAgreementBaseGC::create_agreement_callback() {
-    TAdEnterSerialAccessGC::create_callback((void *)&lbl_804770BC, (void *)&lbl_804770C4, (void *)TAdAgreementBaseGC::draw_agreement_text);
+void *TAdAgreementBaseGC::create_agreement_callback() {
+    return TAdEnterSerialAccessGC::create_callback((void *)&lbl_804770BC, (void *)&lbl_804770C4, (void *)TAdAgreementBaseGC::draw_agreement_text);
 }
 
 void TAdAgreementBaseGC::update_state() {
-    u8 *arg0 = (u8 *)this;
-    s32 temp_r4;
-    *(s32 *)&this->_pad20 = (s32) *(s32 *)&this->m_1c;
-    switch (*(s32 *)&this->m_1c) {
+    s32 count;
+    prev_state = state;
+    switch (state) {
     case 0:
-        this->m_2c = ((VObj_18_fbe024 *)(arg0))->m8();
-        *(s32 *)&this->m_1c = 1;
+        callback_window = create_agreement_callback();
+        state = 1;
         break;
     case 1:
-        if (((TAdSelectCurGC *)(*(saddr *)&this->m_30))->confirmation_result() == 1) {
-            switch (reinterpret_cast<TAdSelectCurGC *>((*(saddr *)&this->m_30))->selection_index()) {
+        if (cursor->confirmation_result() == 1) {
+            switch (cursor->selection_index()) {
             case 0:
-                *(s32 *)&this->m_1c = 2;
-                *(s32 *)&this->m_24 = 3;
+                state = 2;
+                next_state = 3;
                 break;
             case 1:
-                *(s32 *)&this->m_1c = 2;
-                *(s32 *)&this->m_24 = 4;
+                state = 2;
+                next_state = 4;
                 break;
             }
         } else if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_physical_port_bank + 0x20), 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
-            *(s32 *)&this->m_1c = 2;
-            *(s32 *)&this->m_24 = 5;
+            state = 2;
+            next_state = 5;
         }
         break;
     case 2:
-        if ((u32) this->m_2c != 0U) {
-            ((TWindowBase *)(*(void * *)&this->m_2c))->close();
-            this->m_2c = 0U;
+        if (callback_window != NULL) {
+            ((TWindowBase *)callback_window)->close();
+            callback_window = NULL;
         }
-        this->vfunc_6();
-        temp_r4 = *(s32 *)&this->m_28 + 1;
-        *(s32 *)&this->m_28 = temp_r4;
-        if ((f32) temp_r4 > 4.5f) {
-            *(s32 *)&this->m_1c = (s32) *(s32 *)&this->m_24;
+        vfunc_6();
+        count = frames + 1;
+        frames = count;
+        if ((f32) count > 4.5f) {
+            state = next_state;
         }
         break;
     case 3:
-        this->vfunc_7();
+        vfunc_7();
         break;
     case 4:
-        this->vfunc_8();
+        vfunc_8();
         break;
     case 5:
-        this->vfunc_9();
+        vfunc_9();
         break;
     }
-    if ((s32) *(s32 *)&this->_pad20 != (s32) *(s32 *)&this->m_1c) {
-        *(s32 *)&this->m_28 = 0;
+    if (prev_state != state) {
+        frames = 0;
     }
 }
 
 }
 TAdAgreementBaseGC::~TAdAgreementBaseGC() {
-    if (*(void **)((s8 *)this + 0x2C) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x2C)))->queue_destruction(); this->m_2c = 0; }
-    if (*(void **)((s8 *)this + 0x30) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x30)))->queue_destruction(); this->m_30 = 0; }
+    if (callback_window != NULL) { ((TObject *)callback_window)->queue_destruction(); callback_window = NULL; }
+    if (cursor != NULL) { cursor->queue_destruction(); cursor = NULL; }
 }
 
 
-#define arg0 ((Obj_80329AA8 *)this)
-TAdAgreementBaseGC::TAdAgreementBaseGC(TObject *arg1) : TObject(arg1) {
-    void *p;
-    arg0->f0 = lbl_805D41B8;
-    arg0->f28 = 0;
-    arg0->f1C = 0;
-    arg0->f24 = 0;
-    arg0->f34 = 0;
-    arg0->f2C = 0;
-    arg0->cur = 0;
-    p = new TAdBackGC((TObject *)arg0);
-    p = new TAdBackTxtGC((TObject *)arg0);
-    p = new TAdSelectCurGC(tl_clipout,
-        reinterpret_cast<const NJS_POINT2 *>(agreement_item_rect_table),
-        reinterpret_cast<const NJS_POINT2 *>(&lbl_804770A0));
-    arg0->cur = p;
-    ((TAdSelectCurGC *)(arg0->cur))->append_entry((void *)&agreement_item_rect_table[0]);
-    ((TAdSelectCurGC *)(arg0->cur))->append_entry((void *)&agreement_item_rect_table[1]);
-    fn_80329BAC(arg0->cur);
-    ((TAdSelectCurGC *)(arg0->cur))->set_selection_index(1);
-    return;
+TAdAgreementBaseGC::TAdAgreementBaseGC(TObject *parent) : TObject(parent) {
+    m_name = lbl_805D41B8;
+    frames = 0;
+    state = 0;
+    next_state = 0;
+    m_34 = 0;
+    callback_window = NULL;
+    cursor = NULL;
+    new TAdBackGC(this);
+    new TAdBackTxtGC(this);
+    cursor = new TAdSelectCurGC(tl_clipout, agreement_item_rect_table, &lbl_804770A0);
+    cursor->append_entry((void *)&agreement_item_rect_table[0]);
+    cursor->append_entry((void *)&agreement_item_rect_table[1]);
+    fn_80329BAC(cursor);
+    cursor->set_selection_index(1);
 }
-#undef arg0
 
 void TAdAgreementBaseGC::vfunc_6() {  }
 void TAdAgreementBaseGC::vfunc_7() {  }

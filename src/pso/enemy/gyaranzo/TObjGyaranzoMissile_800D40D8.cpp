@@ -18,6 +18,10 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
+#include "pso/enemy/AreaSoundRemap.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/system/MatrixOps.h"
 
 struct D_800D40FC { u8 pad[0x18]; s32 arr[1]; };
 
@@ -79,15 +83,9 @@ struct Missile_800D43B4 {
 extern "C" {
 s32 project_actor_to_ground(void *, void *, int);
 s32 obj_is_hit_receivable();
-s32 remap_area_sound_id(s32 arg0, s32 arg1);
 void check_enemy_body_collisions(void *arg0);
-s32 play_sound_effect(s32, void *, int, int);
-
-void rotate_vector_by_matrix(int, void *, void *);
-extern u8 identity_matrix[];
 
 s32 post_translate_matrix(void *);
-s32 rotate_matrix_x(s32, s32);
 
 void TObjEneGyaranzo::run_miss_reaction() {  }
 void TObjEneGyaranzo::run_move_action() {  }
@@ -167,14 +165,14 @@ void TUnk_8049442C::sub_800D4200() {
 }
 
 void TUnk_8049442C::render() {
-    u8 *arg0 = (u8 *)this;
-    TObjFish::set_global_param(*(s32 *)((s8 *)arg0 + 0xC8));
+    u8 *self = (u8 *)this;
+    TObjFish::set_global_param(*(s32 *)((s8 *)self + 0xC8));
     push_matrix();
     post_translate_matrix((u8 *)&this->position);
     rotate_matrix_y(0, this->m_bc);
     rotate_matrix_x(0, this->unk_C0);
     model_render_flags &= 0xFFFFFBFF;
-    draw_chunk_object((void *)this->m_c4);
+    draw_chunk_object(this->m_c4);
     pop_matrix();
 }
 void TUnk_8049442C::run_task() {
@@ -265,7 +263,7 @@ TUnk_8049442C::TUnk_8049442C(TObjBase *owner, Vec *pos, s32 angle, s32 spin) : T
     VecCopy(&unk_E0, &position);
     unk_E0.y += 5.0f;
     m_dc = spin;
-    m_c4 = (saddr)gyaranzo_bml_resource->models[5].model;
+    m_c4 = gyaranzo_bml_resource->models[5].model;
     unk_C8 = (saddr)gyaranzo_bml_resource->models[5].m_c;
     room = owner->room;
     owner_id = get_entity_id(owner);

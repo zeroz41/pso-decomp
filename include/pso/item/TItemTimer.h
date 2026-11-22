@@ -6,7 +6,7 @@
 
 class TItemTimer : public TObject {
 public:
-    TItemTimer(TObject *parent, s32 arg2, s32 arg3);
+    TItemTimer(TObject *parent, s32 expire, s32 frames);
     virtual ~TItemTimer();
     virtual void run_task();
 

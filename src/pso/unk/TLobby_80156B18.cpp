@@ -15,7 +15,7 @@ void TLobby::bswap_header() {
 }
 void TLobby::update_and_send_60() {
     saddr arg0 = (saddr)this;
-    TLobby::bswap_60_header((void*)arg0);
+    TLobby::bswap_60_header(this);
     send_subcommand((u8 *)arg0);
 }
 void TLobby__sub_80156BA8(void* p) { *(u8*)((char*)p + 0x0) = 11; *(u8*)((char*)p + 0x1) = 3; }

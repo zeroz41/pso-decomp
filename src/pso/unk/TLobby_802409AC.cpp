@@ -43,10 +43,10 @@ void load_selected_guild_card_record(Src_8024220C *arg0);
 void TLobby::set_field0(void *owner) { ((SoundRequestVoice *)this)->owner = (SoundRequestOwner *)owner; }
 
 
-void TLobby::clamp_field9c(f32 farg0) {
+void TLobby::clamp_field9c(f32 scale) {
     f32 var_f1;
 
-    var_f1 = farg0;
+    var_f1 = scale;
     if (var_f1 < 0.0f) {
         *(f32 *)((s8 *)this + 0x9C) = -1.0f;
         return;
@@ -144,15 +144,13 @@ s32 sndFXKeyOff(int);
 s32 OSDisableInterrupts(void);
 s32 OSRestoreInterrupts(s32);
 void TLobby__sub_80240F3C(SoundRequestVoice *);
-}
-void calc_sound_spatial_params(SoundRequestVoice *);
-extern "C" {
 u32 sndFXStartParaInfo(u16, u8, u8, u8, Params_80240B64 *);
 u32 sndFXCheck(u32);
 extern s8 TLobby__data_805434A8[];
 extern s32 TLobby__lobby_state_flags;
 void TLobby__sub_80241798(Sound_80241798 *arg0);
 }
+void calc_sound_spatial_params(SoundRequestVoice *);
 void send_voice_controller_updates(u8 *arg0);
 
 s32 set_voice_pitch_slide(u8 *arg0, s32 arg1, s32 arg2) {
@@ -959,7 +957,7 @@ int com_card_entry_count;
 extern "C" {
 void __copy(void *, void *, int);
 Entry_80242380 *copy_com_card_entry__6TLobbyFPvPv(Entry_80242380 *dst, Entry_80242380 *src);
-int TLobby__sub_8024273C(void*);
+void TLobby__sub_8024273C(void *p);
 
 SoundRequestVoice::~SoundRequestVoice() {
     state = 0;
@@ -969,12 +967,12 @@ SoundRequestVoice::SoundRequestVoice() {
     state = 0;
 }
 s32 TLobby::get_field_308() { return *(s32*)((char*)this + 0x308); }
-int forward_8024273C__6TLobbyFPv(void* p) { return TLobby__sub_8024273C(p); }
+void TLobby::forward_8024273C(void *p) { TLobby__sub_8024273C(p); }
 
-void TLobby::send_find_user_self_tag(s32 arg0) {
+void TLobby::send_find_user_self_tag(s32 gc_num) {
     if ((u32) TLobby__protocol_instance != 0U) {
         Tag_802421C4 tag = *(Tag_802421C4 *)((u8 *)TLobby__protocol_instance + 0x1900);
-        ((TProtocol *)TLobby__protocol_instance)->send_find_user(*(TPlyGuildCardTag *)&tag, arg0);
+        ((TProtocol *)TLobby__protocol_instance)->send_find_user(*(TPlyGuildCardTag *)&tag, gc_num);
     }
 }
 
@@ -1093,11 +1091,9 @@ void TLobby__sub_8024259C(saddr arg0) {
     }
 }
 #pragma pop
-extern int com_card_entry_count;
 u32 find_card_by_id__17TWindowSubComCardFUl();
 saddr get_com_card_list__6TLobbyFv();
 
-extern s32 lbl_805D63D8;
 
 void init_player_entry__6TLobbyFPvPv(u8 *arg0, u8 *arg1) {
     s32 temp_r5;
@@ -1117,10 +1113,10 @@ void init_player_entry__6TLobbyFPvPv(u8 *arg0, u8 *arg1) {
     }
     *(s8 *)((s8 *)arg0 + 0x18) = 0;
     p = ((TLobby *)(arg1 + 0x1C))->build_text_from_comma_list();
-    p = ((void* (*)(void*, void*))parse_csv_token__6TLobbyFPvPv)(p, arg0 + 0x19);
-    p = ((void* (*)(void*, void*))parse_csv_token__6TLobbyFPvPv)(p, arg0 + 0x2A);
-    p = ((void* (*)(void*, void*))parse_csv_token__6TLobbyFPvPv)(p, arg0 + 0x2A);
-    ((void* (*)(void*, void*))parse_csv_token__6TLobbyFPvPv)(p, arg0 + 0x3B);
+    p = TLobby::parse_csv_token(p, arg0 + 0x19);
+    p = TLobby::parse_csv_token(p, arg0 + 0x2A);
+    p = TLobby::parse_csv_token(p, arg0 + 0x2A);
+    TLobby::parse_csv_token(p, arg0 + 0x3B);
 }
 
 void TLobby::remove_com_card_entry(s32 arg0) {
@@ -1132,7 +1128,7 @@ void TLobby::remove_com_card_entry(s32 arg0) {
     (*(s32 *)&com_card_entry_count) -= 1;
 }
 
-int TLobby__sub_8024273C(void *p) {
+void TLobby__sub_8024273C(void *p) {
     u8 *entry;
     s32 slot = TLobby::remove_com_card_by_id(*(u32 *)((u8 *)p + 0xC));
     entry = (u8 *)com_card_entries;

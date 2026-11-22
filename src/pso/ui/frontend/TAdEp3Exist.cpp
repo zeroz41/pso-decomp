@@ -34,41 +34,11 @@ const f32 lbl_8047B8CC[2] = { 470.0f, 32.0f };
 
 extern "C" void draw_message_window__11TAdEp3ExistFl(void);
 
-void TAdEp3Exist::vfunc_6() {
-    TAdEnterSerialAccessGC::create_callback((void *)lbl_8047B8C4, (void *)lbl_8047B8CC, (void *)draw_message_window__11TAdEp3ExistFl);
+void *TAdEp3Exist::vfunc_6() {
+    return TAdEnterSerialAccessGC::create_callback((void *)lbl_8047B8C4, (void *)lbl_8047B8CC, (void *)draw_message_window__11TAdEp3ExistFl);
 }
 
 struct Obj_8036F4DC { u8 pad0[8]; u8 cnt; u8 bits; };
-
-struct Ep3_8036F354 {
-    const char *name;
-    u8 pad4[0x18 - 0x4];
-    void *vt;
-    u32 win1C;
-    uaddr cur20;
-    s32 x24;
-    s32 x28;
-    s32 x2C;
-    s32 x30;
-    s32 x34;
-};
-
-struct Base_8036F10C { u8 pad[0x18]; };
-
-struct Ep3_8036F10C : Base_8036F10C {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual u32 m4();
-    u8 pad1C[0x20 - 0x1C];
-    saddr sel;
-    uaddr win;
-    s32 state;
-    s32 prev;
-    s32 next;
-    s32 count;
-};
 
 struct Prs_8036F5B0 {
     u8 *f0;
@@ -89,12 +59,8 @@ void TAdEp3Exist__sub_8036F574(u8 *arg0);
 u8 TAdEp3Exist__sub_8036F590(u8 *arg0);
 saddr get_localized_text_entry(s32 arg0, s32 arg1);
 u32 calc_text_width(char *s);
-void __ct__7TObjectFP7TObject(void);
 
-u32 __ct__14TAdSelectCurGCFv(void *, TObject *, void *, void *);
-extern s32 __vt__11TAdEp3Exist[];
-void *TAdEp3Exist__ct(Ep3_8036F354 *o);
-void TAdEp3Exist__sub_8036F0AC(void* p);
+void TAdEp3Exist__sub_8036F0AC(TAdEp3Exist *p);
 extern u8 controller_input_state[];
 extern u8 controller_physical_port_bank[];
 int prs_read_control_bit(Obj_8036F4DC *arg0);
@@ -116,47 +82,46 @@ void TAdEp3Exist::render() {
 
 void TAdEp3Exist::request_game_mode_transition() { TAdMultiChgGameModeGC::request_transition(); }
 void TAdEp3Exist::request_scene_change() { TAdMultiChgGameModeGC::request_scene_change(); }
-void TAdEp3Exist__sub_8036F0AC(void* p) { TAdMultiChgGameModeGC::reset_and_set_mode(); }
-void TAdEp3Exist::close_window() { if (this->m_1c != 0) { ((TAdScrollWinGC *)(this->m_1c))->close_window(); this->m_1c = 0; } }
+void TAdEp3Exist__sub_8036F0AC(TAdEp3Exist *p) { TAdMultiChgGameModeGC::reset_and_set_mode(); }
+void TAdEp3Exist::close_window() { if (scroll_window != 0) { ((TAdScrollWinGC *)scroll_window)->close_window(); scroll_window = 0; } }
 
 void TAdEp3Exist::run_task() {
-    Ep3_8036F10C *o = (Ep3_8036F10C *)this;
-    o->prev = o->state;
-    switch (o->state) {
+    prev_state = state;
+    switch (state) {
     case 0:
-        o->win = o->m4();
-        o->state = 1;
+        callback_window = vfunc_6();
+        state = 1;
         break;
     case 1:
-        if (((TAdSelectCurGC *)(o->sel))->confirmation_result() == 1) {
-            switch (reinterpret_cast<TAdSelectCurGC *>(o->sel)->selection_index()) {
+        if (cursor->confirmation_result() == 1) {
+            switch (cursor->selection_index()) {
             case 0:
-                o->state = 2;
-                o->next = 3;
+                state = 2;
+                next_state = 3;
                 break;
             case 1:
-                o->state = 2;
-                o->next = 4;
+                state = 2;
+                next_state = 4;
                 break;
             }
         } else if (TWindowShortListCtrl__check_controller_button(controller_physical_port_bank + 0x20, 2) != 0 ||
                    test_controller_flag_4c_color(controller_input_state + 0x160, 2) != 0) {
-            o->state = 2;
-            o->next = 5;
+            state = 2;
+            next_state = 5;
         }
         break;
     case 2:
-        if (o->win != 0) {
-            ((TWindowBase *)o->win)->close();
-            o->win = 0;
+        if (callback_window != NULL) {
+            ((TWindowBase *)callback_window)->close();
+            callback_window = NULL;
         }
         close_window();
-        if ((f32)++o->count > 4.5f) {
-            o->state = o->next;
+        if ((f32)++frames > 4.5f) {
+            state = next_state;
         }
         break;
     case 3:
-        TAdEp3Exist__sub_8036F0AC((void*)(o));
+        TAdEp3Exist__sub_8036F0AC(this);
         break;
     case 4:
         request_scene_change();
@@ -165,35 +130,31 @@ void TAdEp3Exist::run_task() {
         request_game_mode_transition();
         break;
     }
-    if (o->prev != o->state) {
-        o->count = 0;
+    if (prev_state != state) {
+        frames = 0;
     }
 }
 
 }
 TAdEp3Exist::~TAdEp3Exist() {
-    if (*(void **)((s8 *)this + 0x24) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x24)))->queue_destruction(); this->m_24 = 0; }
-    if (*(void **)((s8 *)this + 0x20) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x20)))->queue_destruction(); this->m_20 = 0; }
+    if (callback_window != NULL) { ((TObject *)callback_window)->queue_destruction(); callback_window = NULL; }
+    if (cursor != NULL) { cursor->queue_destruction(); cursor = NULL; }
 }
 
-
-void *TAdEp3Exist__ct(Ep3_8036F354 *o) {
+TAdEp3Exist::TAdEp3Exist(TObject *parent) : TObject(parent) {
     s8 flag[16];
     u8 save[16];
     s32 res;
-    void *p;
     uaddr r;
     bool ok;
     bool go;
-    __ct__7TObjectFP7TObject();
-    o->vt = __vt__11TAdEp3Exist;
-    o->name = TAdEp3Exist__name;
-    o->win1C = 0;
-    o->cur20 = 0;
-    o->x24 = 0;
-    o->x34 = 0;
-    o->x28 = 0;
-    o->x30 = 0;
+    m_name = TAdEp3Exist__name;
+    scroll_window = 0;
+    cursor = NULL;
+    callback_window = NULL;
+    frames = 0;
+    state = 0;
+    next_state = 0;
     flag[0] = 0;
     res = ((TAdSinglePlyChrSelectGC *)flag)->load_and_verify_character_save((char *)save);
     ok = false;
@@ -210,24 +171,20 @@ void *TAdEp3Exist__ct(Ep3_8036F354 *o) {
     }
     if (!go) {
         TAdMultiChgGameModeGC::reset_and_set_mode();
-        ((TObject *)o)->queue_destruction();
-        return o;
+        queue_destruction();
+        return;
     }
-    p = new TAdBackGC((TObject *)o);
-    p = new TAdBackTxtGC((TObject *)o);
+    new TAdBackGC(this);
+    new TAdBackTxtGC(this);
     r = (uaddr)TObject::operator new(0x54);
     if (r != 0) {
-        r = (uaddr)TAdScrollWinGC__ct((TAdScrollWinGC *)((void *)r), (void *)o, 3, (s32)(get_localized_text_entry(0x2C, 9)));
+        r = (uaddr)TAdScrollWinGC__ct((TAdScrollWinGC *)((void *)r), this, 3, (s32)(get_localized_text_entry(0x2C, 9)));
     }
-    o->win1C = r;
-    r = reinterpret_cast<uaddr>(new TAdSelectCurGC(tl_clipout,
-        reinterpret_cast<const NJS_POINT2 *>(lbl_8047B8A8),
-        reinterpret_cast<const NJS_POINT2 *>(lbl_8047B8B0)));
-    o->cur20 = r;
-    ((TAdSelectCurGC *)(o->cur20))->append_entry((void *)lbl_8047B8A8);
-    fn_80329BAC((void *)o->cur20);
-    ((TAdSelectCurGC *)(o->cur20))->set_selection_index(0);
-    return o;
+    scroll_window = r;
+    cursor = new TAdSelectCurGC(tl_clipout, (const NJS_POINT2 *)lbl_8047B8A8, (const NJS_POINT2 *)lbl_8047B8B0);
+    cursor->append_entry((void *)lbl_8047B8A8);
+    fn_80329BAC(cursor);
+    cursor->set_selection_index(0);
 }
 
 int prs_read_control_bit(Obj_8036F4DC *arg0) {

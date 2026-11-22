@@ -77,9 +77,9 @@ void *destroy_item_follow_effect(void *object, s16 arg1) {
     }
     return object;
 }
-u8 *construct_item_follow_effect(u8 *arg0, saddr arg1, saddr arg2, s32 arg3, s32 arg4) {
+u8 *construct_item_follow_effect(u8 *arg0, saddr parent, saddr arg2, s32 arg3, s32 arg4) {
     Vec position;
-    __ct__7TObjectFP7TObject((void *)arg0, (void *)arg1);
+    __ct__7TObjectFP7TObject((void *)arg0, (void *)parent);
     *(s32 **)((s8 *)arg0 + 0x18) = item_follow_effect_vtable;
     ((TObject *)(arg0))->disallow_rendering();
     *(s32 *)((s8 *)arg0 + 0x1C) = ((TItem *)arg2)->get_item_id();
@@ -100,15 +100,15 @@ void TUnk_804A2678::emit_marker_effects() {
     s32 sp8;
     if (is_mode_two_and_ready() != 0) {
         if ((((TObjPlayer *)((u8 *)this->owner + 0x7CC))->get_stage_strike_count() == 0) && (get_joint_position(0, &sp8) != 0)) {
-            TTecGiFoie::create(this->owner, &sp8, (void *)(((TItemWeapon *)this)->get_tp()));
+            TTecGiFoie::create(this->owner, &sp8, ((TItemWeapon *)this)->get_tp());
             roll_technique();
         }
     } else {
         ((TItemWeapon *)this)->update_active_game_effect();
     }
 }
-void TUnk_804A2678::vfunc_58() { floor_area = -1; }
-void TUnk_804A2678::vfunc_57() {
+void TUnk_804A2678::on_unequipped() { floor_area = -1; }
+void TUnk_804A2678::on_equipped() {
     floor_area = -1;
     if (effect_objects != NULL) {
         new TUnk_804A0688(effect_objects, get_owner_client(), 0x5A);

@@ -16,13 +16,13 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/system/task/TObject.h"
+#include "pso/math/MatrixVector.h"
 #pragma readonly_strings on
 
 struct Obj_802AF64C { u8 pad[0x38]; Vec pos; u8 pad2[0x90 - 0x44]; void *x90; };
 
 extern "C" {
 s32 vec3_add_to(void *, void *);
-s32 rotate_vector_by_matrix(saddr, void *, void *);
 extern Vec lbl_804707E8;
 extern u8 identity_matrix[];
 extern TCameraCtrl *camera_ctrl_instance;
@@ -44,9 +44,6 @@ void TObjMistCtrl::sub_802AF64C() {
     }
 }
 
-}
-
-extern "C" {
 const char *lbl_805D3E80 = "TObjMistCtrl";
 
 void TObjMistCtrl::run_task() { { (void)(sub_802AF64C()); return; } }
@@ -57,10 +54,10 @@ TObjMistCtrl::~TObjMistCtrl() {
 }
 
 
-TObjMistCtrl::TObjMistCtrl(saddr parent, uaddr arg2) : TObjBase((TObject *)((void *)parent)) {
+TObjMistCtrl::TObjMistCtrl(saddr parent, uaddr set_data) : TObjBase((TObject *)((void *)parent)) {
     this->m_name = lbl_805D3E80;
-    if (arg2 != 0U) {
-        ((TObjMistCtrl *)(((u8 *)this)))->apply_object_set_data((void *)arg2);
+    if (set_data != 0U) {
+        ((TObjMistCtrl *)(((u8 *)this)))->apply_object_set_data((void *)set_data);
     }
     *(saddr *)((s8 *)this + 0x90) = (saddr)spawn_continuous_particle_effect_with_flags((((u8 *)this) + 0x38), 0x200, 0x800);
 }

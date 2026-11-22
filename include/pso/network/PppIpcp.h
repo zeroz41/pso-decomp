@@ -48,12 +48,12 @@ LAYOUT_ASSERT(IpcpState_size_check, sizeof(IpcpState) == 0xD8);
 s16 ipcp_merge_config_options(void *cursor, IpcpConfig *cfg, IpcpSide *side, u8 *hdr, s16 c);
 
 /* Option setters for one side of the IPCP configuration; addr -1 turns the option off. */
-s32 ipcp_set_vj_compression(s16 disabled, IpcpSide *side);
-s32 ipcp_set_peer_secondary_dns(IpcpSide *side, s32 addr);
-s32 ipcp_set_peer_primary_dns(IpcpSide *side, s32 addr);
-s32 ipcp_set_local_secondary_dns(IpcpSide *side, s32 addr);
-s32 ipcp_set_local_primary_dns(IpcpSide *side, s32 addr);
-s32 ipcp_set_peer_address(IpcpSide *side, s32 addr);
-s32 ipcp_set_local_address(IpcpSide *side, s32 addr);
+s16 ipcp_set_vj_compression(s16 disabled, IpcpSide *side);
+s16 ipcp_set_peer_secondary_dns(IpcpSide *side, s32 addr);
+s16 ipcp_set_peer_primary_dns(IpcpSide *side, s32 addr);
+s16 ipcp_set_local_secondary_dns(IpcpSide *side, s32 addr);
+s16 ipcp_set_local_primary_dns(IpcpSide *side, s32 addr);
+s16 ipcp_set_peer_address(IpcpSide *side, s32 addr);
+s16 ipcp_set_local_address(IpcpSide *side, s32 addr);
 
 #endif

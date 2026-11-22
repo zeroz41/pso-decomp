@@ -283,13 +283,13 @@ void TObjPlayer::advance_render_counters() {
 
 #pragma push
 #pragma scheduling off
-void TObjPlayer__sub_803E53F8(u8 *arg0, f32 farg0) {
-    *(s32 *)((s8 *)lbl_805D7818 + 0) = (s32) *(s32 *)((s8 *)arg0 + 0);
-    *(s32 *)((s8 *)lbl_805D7818 + 0x18) = (s32) *(s32 *)((s8 *)arg0 + 4);
-    *(f32 *)((s8 *)lbl_805D7818 + 0x14) = farg0;
+void TObjPlayer__sub_803E53F8(u8 *shape, f32 frame) {
+    *(s32 *)((s8 *)lbl_805D7818 + 0) = (s32) *(s32 *)((s8 *)shape + 0);
+    *(s32 *)((s8 *)lbl_805D7818 + 0x18) = (s32) *(s32 *)((s8 *)shape + 4);
+    *(f32 *)((s8 *)lbl_805D7818 + 0x14) = frame;
     *(s32 *)((s8 *)lbl_805D7818 + 0x1C) = 0;
-    *(s32 *)((s8 *)lbl_805D7818 + 0x20) = (s32) *(u16 *)((s8 *)arg0 + 8);
-    TObjPlayer__sub_803E5378((s32)(*(u16 *)((s8 *)arg0 + 0xA) & 0xFFFFFF3F));
+    *(s32 *)((s8 *)lbl_805D7818 + 0x20) = (s32) *(u16 *)((s8 *)shape + 8);
+    TObjPlayer__sub_803E5378((s32)(*(u16 *)((s8 *)shape + 0xA) & 0xFFFFFF3F));
 }
 #pragma pop
 

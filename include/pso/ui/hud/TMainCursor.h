@@ -31,7 +31,7 @@ public:
 struct TMainCursor : public TObject {
     TMainCursor(TObject *parent, saddr target_index, s32 target_id, s32 action_palette, s32 active, u16 offset_y, f32 size);
     virtual ~TMainCursor();
-    s32 bind_action_channels();
+    void bind_action_channels();
     void sub_8013E724(f32);
     u32 m_1c;
     FlagWord unk_20;
@@ -58,12 +58,11 @@ struct TMainCursor : public TObject {
     static void quick_sort(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
     void reset_slots();
     void init_slots();
-    s32 find_by_pos(s16 arg1, s16 arg2);
     void set_cursor_pos(u16 arg1, s32 arg2);
-    static s32 get_action_cursor_priority(void *arg0, saddr arg1, s32 arg2);
-    static void set_cursor_color(s32 arg0, saddr arg1, saddr arg2);
-    static void set_display_flags(s32 arg0, saddr arg1, saddr arg2);
-    static void setup_flags(s32 arg0, s32 arg1, saddr arg2);
+    static s32 get_action_cursor_priority(void *arg0, saddr player, s32 index);
+    static void set_cursor_color(s32 arg0, saddr player, saddr arg2);
+    static void set_display_flags(s32 arg0, saddr player, saddr arg2);
+    static void setup_flags(s32 arg0, s32 player, saddr arg2);
     static void sort_list(s32 arg0, s32 arg1);
     s32 is_channel_active();
     int check_visible();
@@ -124,10 +123,11 @@ struct TMainCursor : public TObject {
     void update_cursor_pair();
     s32 test_button(s32 arg1, u16 arg2);
     void set_flag_bit(s32 arg1, u16 arg2);
-    static s32 find_action_slot(s32 arg0, void *arg1, s16 arg2, s32 arg3, s32 arg4);
+    static s32 find_action_slot(s32 arg0, void *arg1, s16 type, s32 enabled, s32 arg4);
     s32 check_can_pickup();
     void setup_action_channel(u8 *player, s32 slot, s32 kind, s32 id);
     static s32 try_add_target_candidate(void *, void *, void *, void *);
+    static void *get_record_at(void *self, int i);
 };
 
 LAYOUT_ASSERT(TMainCursor_size, sizeof(TMainCursor) == 0x68);

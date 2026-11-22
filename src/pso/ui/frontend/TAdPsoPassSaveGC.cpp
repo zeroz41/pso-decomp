@@ -15,11 +15,10 @@ void TAdPsoPassSaveGC::render() {
     vfunc_12();
 }
 
-void TAdPsoPassSaveGC::vfunc_10() {
-    get_localized_text_entry(0x2A, 0);
+saddr TAdPsoPassSaveGC::vfunc_10() {
+    return get_localized_text_entry(0x2A, 0);
 }
 
-extern s32 TAdPsoPassSaveGC__data_805D6E80;
 
 void TAdPsoPassSaveGC::vfunc_7() {
     TAdPsoPassSaveGC__data_805D6E80 = 0;

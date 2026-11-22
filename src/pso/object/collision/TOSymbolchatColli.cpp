@@ -13,6 +13,12 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/text_800F7DAC.h"
+#include "pso/object/switch/TSwitch.h"
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
 struct VBase_80178AD4 { u8 pad[0x18]; };
 
@@ -61,22 +67,16 @@ struct Ent_8017873C
 };
 
 extern "C" {
-f32 newton_sqrtf(f32 x);
-void init_collision_body_parts(void *, void *, int);
 CollisionBody lbl_804B4550[1] = {
     { { 0.0f, 80.0f, 0.0f }, 1.0f, 1.0f, 0, 0x10002, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
 const char *lbl_805D3190 = "symbolchatcolli.prs";
 const char *TOSymbolchatColli__name = "TOSymbolchatColli";
 Obj_80178AD4 *__ct__17TOSymbolchatColliFP7TObjectl(Obj_80178AD4 *arg0, void *arg1, s32 arg2);
-void *find_entity_by_id(u16 id);
 void fn_8017866C(void *, s32, u16);
 void run_task__17TOSymbolchatColliFv(Obj_80178890 *self);
-u32 prs_decompress_buffer(s32 arg0, s32 arg1);
 u32 symbolchat_colli_param_table[4];
 saddr symbol_chat_colli_entries;
-u8 is_current_floor_switch_set(s32 id);
-s32 free_collision_body_parts(void *);
 
 s32 TOSymbolchatColli::get_state() {
     if (is_current_floor_switch_set(this->m_37c) == 1) {
@@ -88,7 +88,6 @@ s32 TOSymbolchatColli::get_state() {
     return (u32) __cntlzw(1 - is_current_floor_switch_set(this->m_378)) >> 5;
 }
 
-extern void *tl_05;
 
 typedef struct Ent_8017873C Ent_8017873C;
 typedef struct HL_8017873C HL_8017873C;
@@ -174,7 +173,7 @@ void run_task__17TOSymbolchatColliFv(Obj_80178890 *self) {
 void *TOSymbolchatColli::create(void *arg0) {
     void *o = TObject::operator new(0x384);
     if (o != NULL) {
-        o = __ct__17TOSymbolchatColliFP7TObjectl((Obj_80178AD4 *)(o), (void *)tl_05, (saddr)arg0);
+        o = __ct__17TOSymbolchatColliFP7TObjectl((Obj_80178AD4 *)(o), tl_05, (saddr)arg0);
     }
     return o;
 }
@@ -203,7 +202,7 @@ TOSymbolchatColli::~TOSymbolchatColli() {
     this->unregister_object_by_id();
     free_collision_body_parts(this);
 }
-TOSymbolchatColli::TOSymbolchatColli(TObject *arg1, s32 arg2) : TObjChara(arg1) {
+TOSymbolchatColli::TOSymbolchatColli(TObject *parent, s32 arg2) : TObjChara(parent) {
     s32 i;
     m_name = TOSymbolchatColli__name;
     ((Obj_80178AD4 *)this)->v5(arg2);

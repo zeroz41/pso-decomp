@@ -22,9 +22,8 @@ struct O_800EC39C { u8 pad[0x384]; s32 state; };
 extern "C" {
 extern s8 slime_one_animation_end_initialized;
 extern f32 slime_one_animation_end_frame;
-void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 }
-void draw_chunk_model_with_shape_motion(void *child, void *arg1, NJS_MOTION *arg2, f32 farg0);
+void draw_chunk_model_with_shape_motion(void *child, void *motion, NJS_MOTION *shape, f32 frame);
 extern s32 slime_one_part_texture_index_table[];
 extern s32 model_render_flags;
 extern "C" {
@@ -41,20 +40,20 @@ s32 TObjEneSlimeOne::is_in_water_bomb_states() {
 
 saddr TObjEneSlimeOne::get_instance() {  return slime_bml_resource; }
 
-int TObjEneSlimeWaterBomb::find_nearest_enemy_masked(f32 farg0) {
+int TObjEneSlimeWaterBomb::find_nearest_enemy_masked(f32 range) {
     s32 target_id;
     this->actorFlags = (s32) (this->actorFlags | 0x02000000);
-    target_id = find_nearest_hittable_enemy__10TObjPlayerFiPvf(reinterpret_cast<saddr>(this), NULL, farg0);
+    target_id = find_nearest_hittable_enemy__10TObjPlayerFiPvf(reinterpret_cast<saddr>(this), NULL, range);
     this->actorFlags = (s32) (this->actorFlags & 0xFDFFFFFF);
     return static_cast<u16>(target_id);
 }
 
 int TObjEneSlimeOne::is_timer_active() { return (this->actorFlags >> 4) & 0x1; }
 
-int TObjEneSlimeOne::find_nearest_enemy_with_flag(Vec *arg1, f32 farg0) {
+int TObjEneSlimeOne::find_nearest_enemy_with_flag(Vec *direction, f32 range) {
     s32 target_id;
     this->actorFlags = (s32) (this->actorFlags | 0x02000000);
-    target_id = find_nearest_hittable_enemy__10TObjPlayerFiPvf(reinterpret_cast<saddr>(this), arg1, farg0);
+    target_id = find_nearest_hittable_enemy__10TObjPlayerFiPvf(reinterpret_cast<saddr>(this), direction, range);
     this->actorFlags = (s32) (this->actorFlags & 0xFDFFFFFF);
     return static_cast<u16>(target_id);
 }
@@ -196,7 +195,9 @@ SlimePairedMotion lbl_80496C90[2] = {
 };
 __declspec(section ".data") SlimePairedMotion *lbl_80496CB8[2] = {lbl_80496C68, lbl_80496C90};
 __declspec(section ".data") s32 slime_one_attack_target_id_table[2] = {4, 5};
+}
 __declspec(section ".data") s32 slime_one_part_texture_index_table[2] = {0, 2};
+extern "C" {
 f32 TObjEneSlimeOne__target_depth;
 u8 TObjEneSlimeOne__target_depth_initialized;
 f32 slime_one_animation_end_frame;

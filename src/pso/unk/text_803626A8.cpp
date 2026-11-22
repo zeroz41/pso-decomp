@@ -32,13 +32,6 @@ struct Stack_803626A8 {
 
 struct Leaf_803627DC { u8 pad[4]; s32 v; };
 
-struct Node_803627DC {
-    u8 pad0[4];
-    Leaf_803627DC *leaf;
-    u8 pad8[0x2C - 8];
-    Node_803627DC *child;
-    Node_803627DC *next;
-};
 
 struct Model_803627DC { u8 pad[8]; s32 f8; NJS_TEXLIST *texlist; };
 
@@ -61,9 +54,6 @@ f32 post_translate_matrix(void *);
 s32 TObjPlayer__sub_800F0928(void *);
 f32 lbl_80543A18[3];
 s32 epsilon_guard_part_color_table[9];
-extern s32 epsilon_guard_boss_stat_handle;
-extern s32 epsilon_guard_shared_handler_b;
-extern s32 epsilon_guard_registered_object_handle;
 extern s32 TObjEneEpsilonGuard__movement_params;
 extern s32 lbl_805D6F80;
 extern s32 lbl_805D6F84;
@@ -113,9 +103,9 @@ void TObjEneEpsilonGuard::load_assets() {
     lbl_805D6F84 = (saddr)TLobby::dispatch_shared_handler_b(0x23);
     lbl_805D6F88 = (saddr)TLobby::register_object(0x23);
     lbl_805D6F8C = (saddr)TLobby::dispatch_shared_handler_a(0x23);
-    epsilon_guard_boss_stat_handle = (saddr)TLobby::register_boss(0x24);
-    epsilon_guard_shared_handler_b = (saddr)TLobby::dispatch_shared_handler_b(0x24);
-    epsilon_guard_registered_object_handle = (saddr)TLobby::register_object(0x24);
+    epsilon_guard_boss_stat_handle = (u8 *)TLobby::register_boss(0x24);
+    epsilon_guard_shared_handler_b = (u8 *)TLobby::dispatch_shared_handler_b(0x24);
+    epsilon_guard_registered_object_handle = (u8 *)TLobby::register_object(0x24);
     TObjEneEpsilonGuard__movement_params = (saddr)TLobby::dispatch_shared_handler_a(0x24);
     epsilon_guard_part_color_table[0] = ((Leaf_803627DC *)get_bml_model((BmlResource *)lbl_805D6FA0, 0)->child->model)->v;
     epsilon_guard_part_color_table[1] = ((Leaf_803627DC *)get_bml_model((BmlResource *)lbl_805D6FA0, 0)->child->sibling->child->child->sibling->child->child->sibling->sibling->child->model)->v;

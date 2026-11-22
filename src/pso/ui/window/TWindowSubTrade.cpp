@@ -6,6 +6,8 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/ui/window/TWindowSubComCard_802A5748.h"
 class TChCrTagPlBack;
 #include "pso/ui/window/TWindowSubTrade.h"
 #include "pso/unk/TLobby.h"
@@ -61,13 +63,11 @@ struct VObj_802B1B80 : VBase_802B1B80 {
 };
 
 extern "C" {
-s32 *get_shared_text_buffer(void);
 s32 text_builder_append();
 }
 void text_builder_reset(void);
 extern "C" {
 saddr get_window_layout_position(int);
-void open_yes_no_prompt(TChCrTagPlBack *arg0, u32 arg1, s32 arg2, s32 arg3, f32 farg0);
 const char *TWindowSubTrade__name = "TWindowSubTrade"; // TWindowSubTrade__name
 // Player message window position (x, y).
 extern const f32 lbl_80470AA8[2] = {384.0f, 120.0f};
@@ -132,7 +132,7 @@ void TWindowSubTrade::run_task() {
         this->m_1c = 2U;
     case 2:
         if (((TWindowMenu *)(this->m_player_list))->is_cancelled() != 0) {
-            parent_menu->vfunc_9();
+            parent_menu->on_submenu_closed();
             this->m_1c = 7U;
         } else if (((TWindowMenu *)(this->m_player_list))->is_decided() != 0) {
             this->m_1c = 3U;
@@ -245,9 +245,9 @@ s32 TWindowSubTrade::open_trade_confirm_prompt(s32 arg1) {
     }
     TWindowSubStatusDisp::get_message_10(0xD6);
     text_builder_append();
-    temp_r29 = (saddr)TWindowMessageYesNo::create((void *)(arg0), (void *)(this->m_20), 0, 0);
+    temp_r29 = (saddr)TWindowMessageYesNo::create((void *)(arg0), this->m_20, 0, 0);
     open_yes_no_prompt((TChCrTagPlBack *)((u8 *)temp_r29), (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(get_shared_text_buffer()), (s32)(get_window_layout_position(0x5B)), 384.0f);
-    set_menu_selected_index((TWindowSubComCard *)temp_r29, 1);
+    ((TWindowMessageYesNo *)temp_r29)->set_menu_selected_index(1);
     ((TWindowMessageYesNo *)temp_r29)->set_choice_menu_flag70_bit10();
     return temp_r29;
 }

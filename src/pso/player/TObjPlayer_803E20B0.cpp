@@ -1,21 +1,20 @@
 #include "types.h"
 #include "pso/player/TObjPlayer_803E20B0.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/render/RenderSbssGlobals.h"
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/gx/GXTransform.h>
+#undef PSO_SDK_COMPACT_MATH
+#include <dolphin/mtx.h>
 
-extern "C" {
-s32 GXLoadPosMtxImm(int, int);
-extern s32 current_matrix;
 
-typedef f32 Mtx_803E20B0[3][4];
 typedef struct Cam_803E20B0 { u8 pad0[0x4C]; f32 f4C; u8 pad50[4]; f32 f54; } Cam_803E20B0;
 typedef struct Vp_803E20B0 { u8 pad0[4]; u16 w; u16 h; } Vp_803E20B0;
 
-s32 PSMTXIdentity(Mtx_803E20B0);
-s32 GXSetCurrentMtx(u32);
 extern Cam_803E20B0 scene_projection_state;
 extern Vp_803E20B0 *active_gx_render_mode;
 void TObjPlayer::load_screen_space_matrix() {
-    Mtx_803E20B0 m;
+    Mtx34 m;
     f32 z;
     f32 s;
 
@@ -26,18 +25,13 @@ void TObjPlayer::load_screen_space_matrix() {
     m[0][2] = s * ((0.5f * (f32)active_gx_render_mode->w) * z);
     m[1][1] = z;
     m[1][2] = (0.5f * (f32)(-active_gx_render_mode->h)) * z;
-    GXLoadPosMtxImm((saddr)m, 0);
+    GXLoadPosMtxImm(m, 0);
     GXSetCurrentMtx(0);
-}
 }
 
 #pragma push
 #pragma scheduling off
 void load_camera_view_matrix(void) {
-    s32 var_r3;
-    s32 var_r4;
-    var_r3 = current_matrix;
-    var_r4 = 0;
-    GXLoadPosMtxImm(var_r3, 0);
+    GXLoadPosMtxImm(*current_matrix, 0);
 }
 #pragma pop

@@ -5,12 +5,12 @@ extern "C" {
 
 s32 update_child_2c__15TWindowCtrlMainFv(u32, s32, s32);
 
-void TWindowCtrl::set_window_flags(void *arg0, s32 arg1, s32 arg2) {
-    u32 temp_r3;
+void TWindowCtrl::set_window_flags(void *client_id, s32 flags, s32 arg2) {
+    u32 window;
 
-    temp_r3 = (u32)TWindowCtrl::get_window((saddr)arg0);
-    if (temp_r3 != 0U) {
-        update_child_2c__15TWindowCtrlMainFv(temp_r3, arg1, arg2 | 0xE);
+    window = (u32)TWindowCtrl::get_window((saddr)client_id);
+    if (window != 0U) {
+        update_child_2c__15TWindowCtrlMainFv(window, flags, arg2 | 0xE);
     }
 }
 

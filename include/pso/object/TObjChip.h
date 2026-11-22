@@ -10,8 +10,8 @@
 extern "C" {
 void vfunc_12__8TObjChipFv(u8 *arg0);
 int vfunc_8__8TObjChipFv(void *p);
-u8 *__ct__8TObjChipFP7TObjectP19TObjChipSpawnParams(u8 *arg0, u8 *arg1, u8 *arg2);
-u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
+u8 *__ct__8TObjChipFP7TObjectP19TObjChipSpawnParams(u8 *arg0, u8 *parent, u8 *arg2);
+u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *arg0, u8 *parent, u8 *arg2);
 void copy_debris_params__8TObjChipFPvPv(u8 *arg0, u8 *arg1);
 void render__8TObjChipFv(void *arg0);
 s32 init_chips__8TObjChipFv(u8 *arg0);

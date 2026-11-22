@@ -16,8 +16,8 @@ void TObjPlayer::forward_801C210C(void *p, int v) { set_field_0_s32(p, v); }
 
     extern int player_action_provider_selector;
 
-u8 is_action_id_none(s32 arg0) {
-    return (u8) (arg0 == -1);
+u8 is_action_id_none(s32 animation_number) {
+    return (u8) (animation_number == -1);
 }
 
 int TObjPlayer::get_hold_effect_count() {  return player_action_provider_selector; }

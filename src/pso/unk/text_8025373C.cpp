@@ -24,7 +24,7 @@ struct Mag_8025373C {
     u8 data[16];
 };
 
-extern "C" {
+
 extern const f32 TWindowHelpItem__data_805DCDE4;
 s32 fn_8025373C(u8 *self) {
     Mag_8025373C mag;
@@ -80,4 +80,3 @@ s32 fn_8025373C(u8 *self) {
     return 0;
 }
 
-}

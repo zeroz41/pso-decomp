@@ -56,7 +56,6 @@ struct TrapAncient02ResourceRecord {
     BmlResourceDescriptor descriptor;
 };
 
-LAYOUT_ASSERT(TrapAncient02ResourceRecord_size, sizeof(TrapAncient02ResourceRecord) == 0x18);
 TrapAncient02ResourceRecord trap_ancient02_resources[3] = {
     { {"fs_obj_o_torabasami.gj", NULL},
       {"bm_fs_obj_o_torabasami.bml", trap_ancient02_resources[0].model_filenames, bm_fs_obj_o_torabasami_motion_names, 1, 0} },
@@ -634,16 +633,16 @@ void TOTrapAncient02R::vfunc_81() {
                         break;
                     }
                     case 0:
-                        TTecFoie::create_ex(this, &scratch_vec, &((TObjChara *)target)->body_center, (void *)tech_level);
+                        TTecFoie::create_ex(this, &scratch_vec, &((TObjChara *)target)->body_center, tech_level);
                         break;
                     case 2:
-                        ((TTecGiBarta *)this)->create_ex(&scratch_vec, (void *)ang, (void *)tech_level);
+                        TTecGiBarta::create_ex(this, &scratch_vec, ang, tech_level);
                         break;
                     case 3:
                         TTecMegid::create((saddr)this, (saddr)&scratch_vec, (saddr)&((TObjChara *)target)->body_center, tech_level);
                         break;
                     case 4:
-                        TTecGiFoie::create(this, &scratch_vec, (void *)tech_level);
+                        TTecGiFoie::create(this, &scratch_vec, tech_level);
                         break;
                     }
                 } else {

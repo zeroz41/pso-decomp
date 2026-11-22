@@ -4,12 +4,15 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+struct TWindowMainMenu;
+struct TWindowSubAreaMapDisp;
+
 struct TWindowSubAreaMap : public TObject {
-    TWindowSubAreaMap(TObject *arg1, void *arg2);
+    TWindowSubAreaMap(TObject *object, void *arg2);
     virtual ~TWindowSubAreaMap();
     u32 m_1c;
-    uaddr m_20;
-    u32 m_24;
+    TWindowMainMenu *parent_menu;
+    TWindowSubAreaMapDisp *map_disp;
     virtual void render();
     virtual void run_task();
 };

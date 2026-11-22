@@ -8,6 +8,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/math/AngleLookup.h"
+#include "clib/math.h"
 
 struct G_803D6688 { f32 f0, f4, pad8[2], f10, f14, f18, f1c, f20, f24; };
 
@@ -18,7 +19,6 @@ struct Disp_803D676C { u8 pad[6]; u16 h; };
 extern "C" {
 s32 C_MTXPerspective(void *, f32, f32, f32, f32);
 s32 GXSetProjection(void *, int);
-f64 atan(f32);
 Proj_803D676C scene_projection_state;
 extern f32 camera_clip_parameters[];
 extern G_803D6688 lbl_8058D4F8;

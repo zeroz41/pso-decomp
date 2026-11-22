@@ -26,6 +26,7 @@
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 
 #pragma readonly_strings on
@@ -96,16 +97,12 @@ void *get_window_layout_position(s32 a);
 void *create_window_menu_default(void *p, s32 a);
 s32 get_floor_destination_name(s32 f);
 void hide_part__9TObjLukerFPvUs(Obj_801A0C38 *self, u16 i);
-void __ct__8TObjBaseFP7TObject(void *, void *);
-extern const char *TObjLuker__name;
 f32 horizontal_distance_squared(void *, void *);
 s32 check_flag_100__10TObjPlayerFPv(void *);
 s32 play_persistent_sound(int, void *, void *, int, int);
 s32 TTecLuker__sub_8023401C(void *);
 s32 get_entity_id(int);
 s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0);
-s32 get_main_phase();
-s32 mark_area_change_pending();
 s32 send_6x21_inter_level_warp(int, void *);
 s32 init_fields__9TTecLukerFs(void *, int);
 extern s32 lbl_805D55C0;
@@ -476,10 +473,10 @@ TObjLuker::~TObjLuker() {
 }
 
 #define self ((Luker_801A1768 *)this)
-TObjLuker::TObjLuker(TObject *parent, void *arg2) : TObjBase(parent) {
+TObjLuker::TObjLuker(TObject *parent, void *set_data) : TObjBase(parent) {
     s32 i;
     self->f0 = ((saddr)TObjLuker__name);
-    ((TObjBase *)self)->apply_object_set_data(arg2);
+    ((TObjBase *)self)->apply_object_set_data(set_data);
     self->fB0 = 0;
     self->fAA = 0xFFFF;
     self->fA8 = self->f84;

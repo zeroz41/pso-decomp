@@ -1,7 +1,6 @@
 #include "types.h"
 #include "pso/boss/dragon/TBoss1DragonColli.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
-#include "pso/enemy/dd/TObjEneDD_800BA754.h"
 #include "pso/system/vector.h"
 #include "pso/player/TUnk_804928CC.h"
 #include "pso/boss/dragon/TBoss1DragonEffTail.h"
@@ -67,9 +66,8 @@ const char *TBoss1DragonEffTail__name = "TBoss1DragonEffTail";
 CollisionBody TBoss1DragonEffTail__collision_body_templates[17] = {
     { { 0.0f, 0.0f, 0.0f }, 10.0f, 0.0f, 0, 0x8003 },
 };
-void TBoss1Dragon__sub_8002AB6C(u8 *arg0);
+void TBoss1Dragon__sub_8002AB6C(u8 *self);
 s32 matrix_mult_vec(int, void *, void *);
-int fill_value_array(void*);
 
 void TBoss1DragonEffTail::render() {  }
 
@@ -128,7 +126,7 @@ void TBoss1DragonEffTail::apply_hit_if_active(void *arg1, f32 *) {
 
 void TBoss1DragonEffTail::enable() { this->m_bc = 1; is_visible(); }
 void TBoss1DragonEffTail::disable() { this->m_bc = 0; is_visible(); }
-int TBoss1DragonEffTail::is_visible() { return fill_value_array(attack_history); }
+void TBoss1DragonEffTail::is_visible() { fill_value_array(attack_history); }
 
 TBoss1DragonEffTail::~TBoss1DragonEffTail() {
     delete attack_history;
@@ -137,7 +135,6 @@ TBoss1DragonEffTail::~TBoss1DragonEffTail() {
 TBoss1DragonEffTail::TBoss1DragonEffTail(TObjBase *owner, void *arg2) : TUnk_804928CC(NULL, owner, TBoss1DragonEffTail__collision_body_templates, 0x11) {
     void *data;
     s32 i;
-    void *p;
     data = TBoss1DragonEffTail__collision_body_templates;
     m_name = TBoss1DragonEffTail__name;
     for (i = 1; i < 0x11; i++) {
@@ -145,11 +142,7 @@ TBoss1DragonEffTail::TBoss1DragonEffTail(TObjBase *owner, void *arg2) : TUnk_804
     }
     m_b0 = (uaddr)owner;
     m_b4 = (uaddr)arg2;
-    p = ::operator new(0x10);
-    if (p != 0) {
-        p = __ct__17AreaAttackHistoryFl((u8 *)p, 4);
-    }
-    attack_history = (AreaAttackHistory *)p;
+    attack_history = new AreaAttackHistory(4);
     m_bc = 0;
     m_c0.x = 0.0f;
     m_c0.y = 0.0f;

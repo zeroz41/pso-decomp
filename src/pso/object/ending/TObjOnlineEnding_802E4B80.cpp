@@ -27,6 +27,11 @@
 
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/unk/TLobby_80070A00.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80071774.h"
+#include "pso/system/TLoadCtrl_80227390.h"
+#include "pso/camera/TCameraCtrl_800687BC.h"
 
 #pragma readonly_strings on
 
@@ -86,7 +91,6 @@ struct OnlineEndingPlayerPlacement {
     f32 scale;
 };
 
-LAYOUT_ASSERT(OnlineEndingPlayerPlacementSize, sizeof(OnlineEndingPlayerPlacement) == 0x14);
 
 OnlineEndingPlayerPlacement lbl_804E35F8[48] = {
     {{-18.8999996f, -8.0f, -9.0f}, 9466, 1.25f},
@@ -180,23 +184,17 @@ struct Cam_802E4E44 {
 };
 
 extern "C" {
-s32 activate_camera_mode(s32);
-void set_active_camera_pose_from_params(u8 *arg0);
 const char *TObjOnlineEnding__name = "TObjOnlineEnding";
 // inferred: the camera position and target run_task gives the ending scene.
 static const Vec online_ending_camera_eye = {20000.0f, 0.0f, 0.0f};
 static const Vec online_ending_camera_target = {20000.0f, 0.0f, -100.0f};
 u32 calc_text_width(char *s);
-void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 f32 online_ending_scene_scale = 0.88f;
 f32 online_ending_quad_y_offset = -24.0f;
 f32 online_ending_scene_z_offset;
 BmlResource *online_ending_resource;
 s8 online_ending_scene_translation_initialized;
 s8 online_ending_quad_vertices_initialized;
-s32 restore_player_cameras();
-s32 *TLobby__sub_80070ACC();
-s32 TWindowSubStatusDisp__sub_800718D0();
 
 void TObjOnlineEnding::create_result_window() {
     result_window = NULL;
@@ -299,20 +297,18 @@ void *destroy__16TObjOnlineEndingFPvs(void *arg0, s16 arg1) {
 }
 
 
-
 void __ct__8TObjBaseFP7TObject(void *, void *);
-void play_area_music(char *name);
-void *fn_802E6218(void *arg0);
-void fn_802E6260();
+void *create_TObjOnlineEndingHexMove(void *arg0);
+void reset_hex_line_params();
 #pragma push
 #pragma opt_common_subs off
-void *TObjOnlineEnding__ct(void *arg0, void *parent) {
+void *TObjOnlineEnding__ct(void *origin, void *parent) {
     s32 i;
     u8 *pl;
     OnlineEndingPlayer *e;
-    TObjOnlineEnding *self = static_cast<TObjOnlineEnding *>(arg0);
+    TObjOnlineEnding *self = static_cast<TObjOnlineEnding *>(origin);
 
-    __ct__8TObjBaseFP7TObject(arg0, parent);
+    __ct__8TObjBaseFP7TObject(origin, parent);
     *reinterpret_cast<const s32 **>(reinterpret_cast<u8 *>(self) + 0x18) = __vt__16TObjOnlineEnding;
     self->m_name = TObjOnlineEnding__name;
     self->ending_area = get_current_floor_area();
@@ -327,7 +323,7 @@ void *TObjOnlineEnding__ct(void *arg0, void *parent) {
         break;
     default:
         object->queue_destruction();
-        return arg0;
+        return origin;
     }
     self->scene_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)online_ending_resource, 0));
     self->scene_textures = reinterpret_cast<GinjaTextureList *>(get_bml_texlist((BmlResource *)online_ending_resource, 0));
@@ -367,22 +363,22 @@ void *TObjOnlineEnding__ct(void *arg0, void *parent) {
         play_area_music((char *)"CUBE_ENDING_LOOP.adx");
         break;
     }
-    fn_802E6260();
-    fn_802E6218(arg0);
+    reset_hex_line_params();
+    create_TObjOnlineEndingHexMove(origin);
     self->create_result_window();
     self->elapsed_frames = 0;
     self->scene_state = 0;
-    return arg0;
+    return origin;
 }
 
 #pragma pop
 
 void *TObjOnlineEnding__ct(void *, void *);
 
-void *TObjOnlineEnding::create(void *arg0) {
+void *TObjOnlineEnding::create(void *parent) {
     void *o = TObject::operator new(sizeof(TObjOnlineEnding));
     if (o != NULL) {
-        o = TObjOnlineEnding__ct(o, arg0);
+        o = TObjOnlineEnding__ct(o, parent);
     }
     return o;
 }

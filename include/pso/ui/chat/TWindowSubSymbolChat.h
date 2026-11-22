@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+struct TWindowMainMenu;
+
 struct TWindowSubSymbolChat : public TObject {
     TWindowSubSymbolChat(TObject *parent, s32 client);
     virtual ~TWindowSubSymbolChat();
@@ -11,20 +13,20 @@ struct TWindowSubSymbolChat : public TObject {
     void sub_80281C60();
     u8 m_1c;
     u8 _pad1D[0x1];
-    s16 m_1e;
+    s16 symbol_index;
     uaddr m_20;
     u32 m_24;
     uaddr m_28;
-    uaddr m_2c;
+    TWindowMainMenu *parent_menu;
     uaddr m_30;
     uaddr m_34;
     uaddr m_38;
-    uaddr m_3c;
-    uaddr m_40;
+    uaddr main_menu;
+    uaddr confirm_window;
     uaddr m_44;
-    uaddr m_48;
-    uaddr m_4c;
-    uaddr m_50;
+    uaddr face_type_window;
+    uaddr parts;
+    uaddr parts_set;
     uaddr m_54;
     uaddr m_58;
     uaddr m_5c;
@@ -36,7 +38,7 @@ struct TWindowSubSymbolChat : public TObject {
     static unsigned char get_global_4e54();
     static void set_flag_bit1(s32 *arg0);
     s32 commit(s32 * _w1);
-    void select_index_and_scroll(s32 arg1);
+    void select_index_and_scroll(s32 symbol_index);
     void update_height();
     void open(s32 arg1);
     static void send_selected_symbol_chat(s32 *arg0);
@@ -75,7 +77,7 @@ struct TWindowSubSymbolChat : public TObject {
     s32 create_menu();
     s32 create_parts_set();
     s32 create_parts();
-    static void open_menu(s32 arg0, saddr arg1);
+    static void open_menu(s32 arg0, saddr list);
     s32 open_edit_menu();
     static s32 open_main_menu(void * _w0);
     void apply_symbol();
@@ -93,7 +95,7 @@ struct TWindowSubSymbolChat : public TObject {
     void set_flag60_bit1();
     void set_flag60_bit2();
     void set_selection_and_refresh(s32 arg1);
-    void init_layout_entries(saddr arg1);
+    void init_layout_entries(saddr player);
     void set_from_key(s32 arg1);
     s32 select_symbol_chat_record(s8 *arg1, s32 *arg2);
     void init_symbol_layout(s32 *arg1);

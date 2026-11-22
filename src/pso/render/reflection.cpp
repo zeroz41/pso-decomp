@@ -36,6 +36,7 @@
 #include "pso/system/scene/TScene_8029F5B0.h"
 #include "pso/player/TObjPlayer_803DC834.h"
 #include <stddef.h>
+#include "pso/network/client_id.h"
 
 s32 lbl_805D65F0;
 void *scene_sora_instance;
@@ -48,48 +49,39 @@ uaddr scene_sora_recon_object;
 Vec sora_reflection_ray_direction = {0.0f, 1.0f, 0.0f};
 
 extern "C" {
-extern s32 local_client_id;
 void reflect_matrix_in_plane(s32 mode, void *plane);
 }
 
-struct Stack_8029E7BC
-{
-  s32 sp8;
-  f32 spC;
-  u8 trailing_storage[0x4];
-};
-
-typedef struct Stack_8029E7BC Stack_8029E7BC;
 s32 fn_8029E7BC(saddr arg0, u8 *arg1) {
-  Stack_8029E7BC stack;
+  Vec probe;
   s32 area;
-  s32 var_r31;
-  u8 *temp_r3;
-  u8 *temp_r4;
+  s32 mask;
+  CsnHit *hit;
+  CsnContact *contact;
   area = get_current_floor_area();
-  var_r31 = 0x56EF;
+  mask = 0x56EF;
   if (area == AREA_BARBA_RAY)
   {
-    var_r31 = 0x4000;
+    mask = 0x4000;
   }
-  VecCopy((Vec *)(&stack.sp8), (const Vec *)arg0);
-  stack.spC += 35.0f;
-  temp_r3 = (u8 *) csnVecterUnder((saddr)&stack.sp8, var_r31);
-  if (temp_r3 != 0)
+  VecCopy(&probe, (const Vec *)arg0);
+  probe.y += 35.0f;
+  hit = csnVecterUnder(&probe, mask);
+  if (hit != 0)
   {
-    temp_r4 = (u8 *) (*((u8 **) (((s8 *) temp_r3) + 4)));
-    if (!((*((s32 *) (((s8 *) temp_r4) + 0x18))) & 0x4000))
+    contact = hit->contact;
+    if (!(contact->flags & 0x4000))
     {
       return 0;
     }
     if (arg1 != 0)
     {
-      *((f32 *) (((s8 *) arg1) + 0)) = (f32) (*((f32 *) (((s8 *) temp_r4) + 0)));
-      *((f32 *) (((s8 *) arg1) + 4)) = (f32) (*((f32 *) (((s8 *) (*((u8 **) (((s8 *) temp_r3) + 4)))) + 4)));
-      *((f32 *) (((s8 *) arg1) + 8)) = (f32) (*((f32 *) (((s8 *) (*((u8 **) (((s8 *) temp_r3) + 4)))) + 8)));
-      *((f32 *) (((s8 *) arg1) + 0xC)) = (f32) (*((f32 *) (((s8 *) (*((u8 **) (((s8 *) temp_r3) + 4)))) + 0xC)));
-      *((f32 *) (((s8 *) arg1) + 0x10)) = (f32) (*((f32 *) (((s8 *) (*((u8 **) (((s8 *) temp_r3) + 4)))) + 0x10)));
-      *((f32 *) (((s8 *) arg1) + 0x14)) = (f32) (*((f32 *) (((s8 *) (*((u8 **) (((s8 *) temp_r3) + 4)))) + 0x14)));
+      *((f32 *) (arg1 + 0)) = contact->point.x;
+      *((f32 *) (arg1 + 4)) = hit->contact->point.y;
+      *((f32 *) (arg1 + 8)) = hit->contact->point.z;
+      *((f32 *) (arg1 + 0xC)) = hit->contact->normal.x;
+      *((f32 *) (arg1 + 0x10)) = hit->contact->normal.y;
+      *((f32 *) (arg1 + 0x14)) = hit->contact->normal.z;
     }
     return 1;
   }
@@ -230,7 +222,7 @@ struct Ray_8029EC3C { Vec o; Vec d; };
 extern "C" {
 #pragma push
 #pragma fp_contract on
-s32 fn_8029EC3C(Vec *pos, s32 arg1) {
+s32 fn_8029EC3C(Vec *pos, s32 mask) {
     Ray_8029EC3C ray;
     Vec a;
     Vec b;
@@ -267,9 +259,9 @@ s32 fn_8029EC3C(Vec *pos, s32 arg1) {
         return 1;
     }
     if (0.0f == sora_reflection_ray_direction.x && 0.0f == sora_reflection_ray_direction.z) {
-        r = (CsnHit *)csnVecterUnder((saddr)&a, arg1);
+        r = csnVecterUnder(&a, mask);
     } else {
-        r = csnVector(&a, &b, arg1);
+        r = csnVector(&a, &b, mask);
     }
     if (r != 0) {
         e = r->contact;
@@ -317,13 +309,12 @@ struct Sora_8029EFFC {
 extern "C" {
 // Every caller tests this as an int; the header's bool return would not match.
 s32 TCameraCtrl__sub_800689F4();
-void C_MTXLightPerspective(GinjaMatrix m, f32 fov_y, f32 aspect, f32 scale_s, f32 scale_t, f32 trans_s, f32 trans_t);
 void GXSetTevOp(s32 stage, s32 mode);
 void GXSetTevOrder(s32 stage, s32 coord, s32 map, s32 color);
 }
 const f64 lbl_80465E18 = 0.0054931640625;
 extern uaddr camera_ctrl_instance;
-extern "C" {
+
 const Vec sora_reflection_up_vec = {0.0f, 1.0f, 0.0f};
 extern s32 TSceneSora__sky_active_flag;
 extern u32 TSceneSora__instance;
@@ -337,20 +328,20 @@ void TObjPlayer::clear_state_if_flag80(s32 arg0) {
     }
 }
 
-void TObjPlayer::setup_projection_texture(s32 arg0, s32 arg1, s32 arg2) {
+void TObjPlayer::setup_projection_texture(Vec *, SceneSectionAngles *, u32 flags) {
     GinjaMatrix sp10;
     f32 spC;
     f32 sp8;
-    f32 temp_f31;
+    f32 fov_y;
     if (((u32) camera_ctrl_instance != 0U) && ((u32) lbl_805D65F0 != 0U)) {
         calc_projection_screen_offset(&spC, &sp8);
-        if (arg2 & 0x80) {
+        if (flags & 0x80) {
             push_matrix();
-            temp_f31 = (f32) (lbl_80465E18 * calc_camera_fov_degrees());
+            fov_y = (f32) (lbl_80465E18 * calc_camera_fov_degrees());
             if (TCameraCtrl__sub_800689F4() != 0) {
-                C_MTXLightPerspective(sp10, temp_f31, 1.1333334f, 0.5f, -0.5f, (f32) (0.5f - spC), (f32) (0.5f - sp8));
+                C_MTXLightPerspective(sp10, fov_y, 1.1333334f, 0.5f, -0.5f, (f32) (0.5f - spC), (f32) (0.5f - sp8));
             } else {
-                C_MTXLightPerspective(sp10, temp_f31, 1.1333334f, 0.5f, -0.5f, 0.5f, 0.5f);
+                C_MTXLightPerspective(sp10, fov_y, 1.1333334f, 0.5f, -0.5f, 0.5f, 0.5f);
             }
             PSMTXConcat(sp10, *current_matrix, *current_matrix);
             load_current_tex_matrix(2);
@@ -497,10 +488,9 @@ void TUnk_804DC7C4::render_shadows() {
 
 void TUnk_804DC7C4::render() {  }
 void TUnk_804DC7C4::run_task() {
-    TScene::set_id((int)((void *)TObjPlayer::setup_projection_texture));
-    TScene::set_active_scene((int)((void *)TObjPlayer::clear_state_if_flag80));
-    TScene::set_instance((int)((void *)TObjPlayer__sub_8029EE2C));
-}
+    TScene::set_id(TObjPlayer::setup_projection_texture);
+    TScene::set_active_scene(TObjPlayer::clear_state_if_flag80);
+    TScene::set_instance(TObjPlayer__sub_8029EE2C);
 }
 
 TUnk_804DC7C4::~TUnk_804DC7C4() {
@@ -539,11 +529,10 @@ TUnk_804DC7C4::TUnk_804DC7C4(TObject *parent) : TObject(parent) {
     reflect_normal.z = 0.0f;
 }
 
-extern "C" {
+
 s32 TSceneSora::get_state() { return *(s32*)((char*)this + 0x20); }
 void TSceneSora::set_scene_flag(int a0) { (*(int *)&lbl_805D65F0) = a0; }
 void TSceneSora::copy_reflection_vec(u8 *arg0) {
     VecCopy((Vec *)(&sora_reflection_ray_direction), (const Vec *)(arg0));
 }
 
-}

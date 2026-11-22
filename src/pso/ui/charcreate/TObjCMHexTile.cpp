@@ -72,13 +72,8 @@ TObjCMHexTile::~TObjCMHexTile() {}
 
 #pragma push
 #pragma fp_contract on
-extern "C" {
-
-extern const char *TObjCMHexTile__name;
-
 #pragma push
 #pragma opt_lifetimes off
-}
 TObjCMHexTile::TObjCMHexTile(TObject *parent, void *pos) : TObject(parent) {
     s32 v;
     this->m_name = TObjCMHexTile__name;

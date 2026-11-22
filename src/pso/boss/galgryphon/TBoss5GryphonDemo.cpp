@@ -9,6 +9,10 @@
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_800666B0.h"
+#include "pso/camera/TCameraCtrl_800687BC.h"
+#include "pso/camera/CameraHelpers.h"
+#include "pso/boss/goldragon/TBoss8Dragon_8005D700.h"
 
 #pragma readonly_strings on
 
@@ -19,24 +23,17 @@ const char *TBoss5GryphonDemo__name = "TBoss5GryphonDemo";
 struct Obj_800665FC { s32 f0; u8 pad4[0x14]; void *f18; f32 f1c; f32 f20; s32 f24; };
 
 extern "C" {
-void set_camera_capture_overlay_alpha(int a0);
-s32 restore_player_cameras();
-CameraPlayback *get_scripted_camera_playback();
-
-int TBoss8Dragon__sub_8005D700(void);
-s32 activate_camera_mode(s32 arg0);
-extern const char *TBoss5GryphonDemo__name;
 
 void TBoss5GryphonDemo::render() {  }
 
 void TBoss5GryphonDemo::run_task() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     CameraPlayback *scripted_camera_playback;
     scripted_camera_playback = get_scripted_camera_playback();
     set_camera_capture_overlay_alpha(0x8F);
-    if ((scripted_camera_playback->flags & 1) || ((s32) **(s32 **)((s8 *)arg0 + 0x24) == 0)) {
+    if ((scripted_camera_playback->flags & 1) || ((s32) **(s32 **)((s8 *)self + 0x24) == 0)) {
         restore_player_cameras();
-        ((TObject *)arg0)->queue_destruction();
+        ((TObject *)self)->queue_destruction();
     }
 }
 TBoss5GryphonDemo::~TBoss5GryphonDemo() {}

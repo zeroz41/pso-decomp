@@ -61,7 +61,7 @@ typedef void (*SITypeAndStatusCallback)(s32 chan, u32 type);
 
 BOOL SITransfer(s32 chan, void *output, u32 outputBytes, void *input, u32 inputBytes,
                 SICallback callback, OSTime delay);
-u32 SIGetCommand(long chan);
+u32 SIGetCommand(s32 chan);
 u32 SIEnablePolling(u32 poll);
 u32 SIDisablePolling(u32 poll);
 u32 SISetXY(u32 x, u32 y);

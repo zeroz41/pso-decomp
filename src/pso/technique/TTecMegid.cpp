@@ -5,6 +5,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/technique/TechniqueParams.h"
 #include "types.h"
+#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/effect/TUnk_804CCC68.h"
 #include "pso/technique/TTecMegid.h"
 #include "pso/ui/hud/TNowLoading.h"
@@ -16,6 +17,10 @@
 #include "pso/technique/TTecBarta.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/TLobby_80226070.h"
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/system/MatrixOps.h"
 
 struct RecoveredFields_80235348_arg0
 {
@@ -75,20 +80,6 @@ struct VObj_80235490 : VBase_80235490 {
     virtual void m19();
     virtual void m20();
     virtual void m21(void *, HitInfo_80235490 *, void *, s32, s32);
-};
-
-struct Obj_80235490 {
-    u8 pad0[0x1C];
-    void *source;
-    u8 pad20[0xC8 - 0x20];
-    u16 fc8;
-    u8 padCA[0xCC - 0xCA];
-    f32 power;
-    u8 padD0[0xF8 - 0xD0];
-    void *contact;
-    u8 padFC[0x134 - 0xFC];
-    u16 ids[32];
-    s32 cursor;
 };
 
 
@@ -172,27 +163,16 @@ static const Vec tec_megid_offset_vec = {0.0f, 0.0f, -5.0f};
 
 extern "C" {
 void mem_free(void *p);
-void __dl__7TObjectFPv(void *);
 u16 get_entity_id(void *);
 s32 play_sound_effect(s32, s32, s32, s32);
 }
 u32 get_technique_caster_flags(s32 technique, u16 actor);
 extern "C" {
-void *find_entity_by_id(u16);
-void rotate_matrix_y(s32, s32);
-void matrix_mult_vec(s32, Vec *, Vec *);
-}
-extern "C" {
-extern u8 identity_matrix[];
 void run_task__9TTecMegidFv(Obj_80235740 *self);
 
-s32 attach_particle_model(void *, void *, s32, int, int, f32);
 void *spawn_particle_effect_with_rotation(void *, void *, u32, u16);
 void *spawn_continuous_particle_effect_with_flags(void *, u32, u16);
 void **mem_alloc(u32, s32);
-extern s32 technique_effect_bml;
-extern s32 lbl_805D63B0;
-u32 __nw__7TObjectFUl(s32 a0 = 0);
 
 void TTecMegid::update_by_state() {
     u8 *arg0 = (u8 *)this;
@@ -277,7 +257,7 @@ void TTecMegid::spawn_particle_emitters() {
       if (((Data_802351B4 *) TTecMegid__emitter_bands)[this->band].rows[i].flags & 0x20)
       {
         new_var = ((Data_802351B4 *) TTecMegid__emitter_bands)[this->band].rows[i].flags >> 16;
-        attach_particle_model(self->emitters[i], (void *)get_bml_model((BmlResource *)technique_effect_bml, new_var), lbl_805D63B0, 0, 1, 1.0f);
+        attach_particle_model((u8 *)self->emitters[i], get_bml_model(technique_effect_bml, new_var), lbl_805D63B0, 0, 1, 1.0f);
       }
     }
   }
@@ -335,11 +315,11 @@ void TTecMegid::vfunc_8(void *target) {
     }
 }
 
-void TTecMegid::create(saddr arg0, saddr arg1, saddr arg2, s32 arg3) {
-    new TTecMegid(arg0, (u8 *)arg1, (u8 *)arg2, arg3);
+void TTecMegid::create(saddr source, saddr pos, saddr arg2, s32 level) {
+    new TTecMegid(source, (u8 *)pos, (u8 *)arg2, level);
 }
-void TTecMegid::create_ex(saddr arg0, saddr arg1, s32 arg2, s32 arg3) {
-    new TTecMegid(arg0, (Vec *)arg1, arg2, arg3);
+void TTecMegid::create_ex(saddr source, saddr pos, s32 arg2, s32 level) {
+    new TTecMegid(source, (Vec *)pos, arg2, level);
 }
 void TTecMegid::render() {  }
 

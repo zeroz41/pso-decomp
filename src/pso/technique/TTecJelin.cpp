@@ -13,6 +13,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby_80226070.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/object/base/CollisionActorLookup.h"
 
 #pragma readonly_strings on
 
@@ -48,8 +50,6 @@ struct VObj_802386F8 : VBase_802386F8 {
 };
 
 extern "C" {
-void *find_entity_by_id(u16 id);
-s32 play_sound_effect(int, void *, int, int);
 s32 get_entity_id(void *);
 void copy_technique_target_list(void *, void *);
 }
@@ -71,8 +71,8 @@ void TTecJelin::vfunc_6(void *target_arg) {
     ((VObj_802386F8 *)target)->m21(*(s32 *)(self + 0x1C), d, *(s32 *)(self + 0xB8), 0xb, -1, self);
 }
 
-void TTecJelin::create(saddr arg0, saddr arg1, saddr arg2, s32 arg3) {
-    new TTecJelin(arg0, (Vec *)arg1, (Vec *)arg2, arg3);
+void TTecJelin::create(saddr source, saddr pos, saddr arg2, s32 level) {
+    new TTecJelin(source, (Vec *)pos, (Vec *)arg2, level);
 }
 void TTecJelin::render() {  }
 

@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-void fn_80074BD0(saddr arg0);
+void fn_80074BD0(saddr src);
 }
 
 // --- C functions defined in text_80074BD0.cpp ---
 extern "C" {
-void fn_80074BD0(saddr arg0);
+void fn_80074BD0(saddr src);
 }
 // --- end of C functions
 

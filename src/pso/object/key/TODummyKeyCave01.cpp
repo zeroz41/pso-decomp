@@ -21,6 +21,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/unk/text_803D8F74.h"
 
 const char *TODummyKeyCave01__class_name = "TODummyKeyCave01";
 const char *TODummyKeyCave01Sound__class_name = "TODummyKeyCave01Sound";
@@ -66,20 +68,17 @@ struct Obj_80165C84 {
 };
 
 extern "C" {
-s32 rotate_matrix_y(s32, s32);
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
 extern u8 chunk_material_color_half_alpha_f32[];
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
-u8 is_current_floor_switch_set(s32 id);
-extern void *tl_05;
 }
 
 #define dummy_key_cave01 this
-TODummyKeyCave01::TODummyKeyCave01(TObject *parent, void *arg2) : TObjBase(parent) {
+TODummyKeyCave01::TODummyKeyCave01(TObject *parent, void *set_data) : TObjBase(parent) {
     ((TObject *)dummy_key_cave01)->m_name = TODummyKeyCave01__class_name;
-    ((TODummyKeyCave01 *)(dummy_key_cave01))->apply_object_set_data((void *)arg2);
+    ((TODummyKeyCave01 *)(dummy_key_cave01))->apply_object_set_data((void *)set_data);
     *(f32 *)((s8 *)dummy_key_cave01 + 0xA8) = 1.0f;
     ((TODummyKeyCave01 *)dummy_key_cave01)->m_a4 = 1.0f;
     *(f32 *)((s8 *)dummy_key_cave01 + 0xA0) = 1.0f;
@@ -97,11 +96,11 @@ TODummyKeyCave01::~TODummyKeyCave01() {
 
 }
 
-extern "C" {
+
 void TODummyKeyCave01__sub_80165E8C(void) {  }
 void TODummyKeyCave01__sub_80165E88(void) {  }
 void *TODummyKeyCave01::create(void *arg0) {
-    return new TODummyKeyCave01((TObject *)tl_05, arg0);
+    return new TODummyKeyCave01(tl_05, arg0);
 }
 
 void TODummyKeyCave01::run_task() {
@@ -176,7 +175,7 @@ void TODummyKeyCave01::render() {
         rotate_matrix_zyx(0, *(s32 *)(arg0 + 0x5C), *(s32 *)(arg0 + 0x60), *(s32 *)(arg0 + 0x64));
         scale_current_matrix((u8 *)&this->scale);
         node = *(u8 **)(arg0 + 0x34);
-        draw_ginja_model((void *)(*(s32 *)(node + 4)));
+        draw_ginja_model(*(void **)(node + 4));
         if (*(u16 *)(arg0 + 0x9A) == 0) {
             id = model_render_flags;
             saved_model_render_flags = id;
@@ -191,10 +190,10 @@ void TODummyKeyCave01::render() {
             post_translate_matrix((u8 *)&this->m_ac);
         }
         post_translate_matrix(node + 8);
-        draw_ginja_model((void *)(*(s32 *)(node + 4)));
+        draw_ginja_model(*(void **)(node + 4));
         node = *(u8 **)(node + 0x2C);
         post_translate_matrix(node + 8);
-        draw_ginja_model((void *)(*(s32 *)(node + 4)));
+        draw_ginja_model(*(void **)(node + 4));
         if (*(u16 *)(arg0 + 0x9A) == 0) {
             set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
             model_render_flags = saved_model_render_flags;
@@ -204,7 +203,6 @@ void TODummyKeyCave01::render() {
     }
 }
 
-}
 void TODummyKeyCave01::sub_80165940() {
     Key_80165940 *self = (Key_80165940 *)this;
     self->fD0 = 0;
@@ -286,7 +284,7 @@ void TODummyKeyCave01::sub_80165940() {
     }
 }
 
-extern "C" {
+
 TODummyKeyCave01Sound::TODummyKeyCave01Sound(TObject *parent, s32 arg2, s32 arg3) : TObject(parent) {
     m_name = TODummyKeyCave01Sound__class_name;
     delay_frames = arg3;
@@ -307,4 +305,3 @@ void TODummyKeyCave01Sound::run_task() {
     }
 }
 
-}

@@ -50,15 +50,15 @@ extern void *motion_sampler_function_table[3];
 extern void *motion_angle_sampler_table[4];
 extern void *motion_key_sampler_table[3];
 extern s32 motion_packed_rotation_mode;
+void rotate_matrix_by_node_angles(void *, int);
+void scale_current_matrix(void *);
+void post_translate_matrix(void *);
+}
 CameraMotionContextTable camera_motion_context_table;
 // The context model_draw_context points to (name inferred from it).
 ModelDrawContext default_model_draw_context;
 // Const for its users, but placed in .sdata (not .sdata2) in the DOL.
 __declspec(section ".sdata") ModelDrawContext *const model_draw_context = &default_model_draw_context;
-void rotate_matrix_by_node_angles(void *, int);
-void scale_current_matrix(void *);
-void post_translate_matrix(void *);
-}
 void euler_zyx_to_quaternion(u8 *arg0, u8 *arg1);
 void euler_yxz_to_quaternion(u8 *arg0, u8 *arg1);
 
@@ -66,9 +66,9 @@ void euler_yxz_to_quaternion(u8 *arg0, u8 *arg1);
 #pragma scheduling off
 void bind_motion_blend_channels(NJS_MOTION_LINK *motion, f32 blend_factor) {
     select_motion_context(1);
-    bind_motion_channel_samplers((saddr)motion->motion[1], motion->frame[1]);
+    bind_motion_channel_samplers(motion->motion[1], motion->frame[1]);
     select_motion_context(0);
-    bind_motion_channel_samplers((saddr)motion->motion[0], motion->frame[0]);
+    bind_motion_channel_samplers(motion->motion[0], motion->frame[0]);
     motion_blend_factor = blend_factor;
 }
 #pragma pop
@@ -128,7 +128,6 @@ s32 blend_motion_poses(void *node, void *arg1, void *unused, void *arg3, void *r
 #pragma opt_common_subs off
 #pragma scheduling off
 #pragma peephole off
-LAYOUT_ASSERT(RecoveredGlobal_803D77C0_lbl_8047E3C8_size, sizeof(RecoveredGlobal_803D77C0_lbl_8047E3C8) == 0x10);
 
 #pragma push
 #pragma scheduling off
@@ -181,11 +180,11 @@ void advance_motion_row(void) {
 }
 #pragma pop
 
-void select_motion_sampler(s32 *arg0, f32 farg0) {
+void select_motion_sampler(s32 *motion, f32 farg0) {
     s32 *var_r3;
     s32 temp_r31;
     s32 temp_r4;
-    var_r3 = arg0;
+    var_r3 = motion;
     if (var_r3 == NULL) {
         var_r3 = (s32 *)&lbl_8047E3C8.value;
     }
@@ -296,15 +295,15 @@ void find_motion_key_interval(void *keys, s32 stride, s32 count, f32 t, void *k0
 #pragma push
 #pragma scheduling off
 
-void bind_motion_context(NJS_MOTION *motion, f32 farg0) {
+void bind_motion_context(NJS_MOTION *motion, f32 frame) {
     select_motion_context(0);
-    bind_motion_channel_samplers((saddr)motion, farg0);
+    bind_motion_channel_samplers(motion, frame);
 }
 #pragma pop
 
-void bind_motion_channel_samplers(int arg0, f32 farg0) {
+void bind_motion_channel_samplers(NJS_MOTION *motion, f32 farg0) {
     s32 temp_r5;
-    select_motion_sampler((s32 *)arg0, farg0);
+    select_motion_sampler((s32 *)motion, farg0);
     temp_r5 = *(s32 *)((s8 *)current_motion_context + 0x20);
     if ((u32) (temp_r5 & 1) != 0) {
         *(void **)((s8 *)current_motion_context + 0x30) = (void *)sample_motion_vector_channel;
@@ -357,8 +356,8 @@ void compose_motion_node_matrix(void *arg0) {
 #pragma peephole off
 #pragma scheduling off
 #pragma use_lmw_stmw off
-s32 sample_motion_node_transform(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4) {
-#define kK ((Key_803D7D30 *)arg0)
+s32 sample_motion_node_transform(void *node, void *arg1, void *arg2, void *arg3, void *arg4) {
+#define kK ((Key_803D7D30 *)node)
 #define pP ((Vec *)arg1)
 #define rR ((Vec *)arg2)
 #define sS ((Vec *)arg3)

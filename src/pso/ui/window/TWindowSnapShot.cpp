@@ -107,16 +107,16 @@ void TWindowSnapShot::play_open_sound() {
     this->m_60 = (u8) (this->m_60 | 1);
 }
 
-void render__15TWindowSnapShotFv(u8 *arg0) {
+void TWindowSnapShot::render() {
     Stack_802A7F00 stack;
     u8 *temp_r3;
-    temp_r3 = reinterpret_cast<u8 *>(reinterpret_cast<TWindowBase *>(arg0)->draw_default_entry());
-    ((TWindowBase *)arg0)->draw_window_frame(temp_r3);
+    temp_r3 = reinterpret_cast<u8 *>(draw_default_entry());
+    draw_window_frame(temp_r3);
     draw_visible_window_entries(
-        reinterpret_cast<const void *>(arg0),
-        reinterpret_cast<const WindowLayoutEntries *>(arg0 + 0x24),
+        this,
+        &this->entry_list,
         reinterpret_cast<WindowDrawContext *>(temp_r3));
-    if (!(((TWindowSnapShot *)arg0)->m_60 & 2)) {
+    if (!(m_60 & 2)) {
         if ((s32) *(s32 *)((s8 *)temp_r3 + 0x30) > 0) {
             stack.sp8 = 18.0f + *(f32 *)((s8 *)temp_r3 + 0x10);
             stack.spC = *(f32 *)((s8 *)temp_r3 + 0x14);

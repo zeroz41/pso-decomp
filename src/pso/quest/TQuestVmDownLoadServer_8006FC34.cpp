@@ -9,6 +9,7 @@
 #include "pso/object/TObjTombstone.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/text_8026A14C.h"
 
 struct Table_8006FE7C {
     s32 v0;
@@ -33,7 +34,6 @@ extern Table_8006FE7C challenge_mode_state;
 extern void *tl_07;
 char *TLobby__sub_80070ACC(u8, u8, s32);
 Unit_8006FC7C *find_entity_by_id(void);
-void fn_8026A1C4(char *, char *, s32);
 extern char lbl_8043857C[];
 extern s32 local_client_id;
 void TQuestVmDownLoadServer::split_time_hms(s32 arg0, s32 *arg1, s32 *arg2, s32 *arg3) {

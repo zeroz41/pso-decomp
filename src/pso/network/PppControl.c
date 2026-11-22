@@ -16,7 +16,7 @@
 #include "pso/network/TLobby_803FAEA0.h"
 
 extern PppProtoBlocks ppp_proto_blocks;
-s32 configure_and_open_network_transport();
+s16 configure_and_open_network_transport(int a, int b, int c, int d, int e, char *modem_name, int no_modem);
 
 s32 network_input_available(u8 *out) {
     if (TLobby__sub_803F811C((s16 *)out) != 0) {
@@ -84,7 +84,7 @@ s32 ipv6cp_set_interface_identifiers(s32 ignored, s32 first_identifier, s32 seco
     u8 *state;
     u8 *fsm_state;
     s16 clear_flag_bit4(s32, u8 *);
-    s16 NetIPv6CPSetInterfaceIdentifier(u8 *, s32);
+    s16 NetIPv6CPSetInterfaceIdentifier(u8 *, saddr);
 
     fsm_state = (u8 *)&ppp_proto_blocks.ipv6cp;
     state = *(u8 **)((s8 *)fsm_state + 0x30);
@@ -144,13 +144,13 @@ s32 ipcp_configure_all_options(s16 vj_disabled, s32 addr_local, s32 addr_peer, s
     return 0;
 }
 
-s32 chap_connect(u8 *chap_name, u8 *chap_secret, s32 timeout) {
+s16 chap_connect(u8 *chap_name, u8 *chap_secret, s32 timeout) {
     u8 *g = (u8 *)&ppp_proto_blocks;
     u8 *c = g + 0xA0;
     s16 r;
     s16 st;
     TLobby__sub_803FC684(chap_name, chap_secret, c);
-    r = TLobby__sub_803FC1CC((Conn_804004DC *)c, timeout);
+    r = TLobby__sub_803FC1CC((PppFsm *)c, timeout);
     if (r < 0) {
         if (r == -0x12) {
             return -0x12;
@@ -165,7 +165,7 @@ s32 chap_connect(u8 *chap_name, u8 *chap_secret, s32 timeout) {
     return 0;
 }
 
-s32 pap_connect(u8 *peer_id, u8 *pap_password, s32 timeout) {
+s16 pap_connect(u8 *peer_id, u8 *pap_password, s32 timeout) {
     u8 *g = (u8 *)&ppp_proto_blocks;
     u8 *c = g + 0x38;
     s16 r;
@@ -190,17 +190,16 @@ s32 pap_connect(u8 *peer_id, u8 *pap_password, s32 timeout) {
 }
 
 s32 lcp_connect(LcpConfig *cfg) {
-    Conn_804004DC *conn;
+    PppFsm *conn;
     LcpSide *auth_side;
     LcpSide *local_side;
-    s16 wait_for_connection(int);
 
     TLobby__sub_803F808C();
     conn = &ppp_proto_blocks.lcp;
     if (apply_lcp_config_to_sides(conn, cfg) != 0) {
         return -0x11;
     }
-    if (wait_for_connection((saddr) conn) != 0) {
+    if (wait_for_connection(conn) != 0) {
         return -0x11;
     }
     if (cfg->auth_mode == 4) {
@@ -229,8 +228,8 @@ typedef struct ConnectRecord {
 LAYOUT_ASSERT(ConnectRecord_size_check, sizeof(ConnectRecord) == 0x14);
 ConnectRecord ppp_connect_records[8];
 
-s32 ppp_begin_connect(s32 ignored, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 modem_name, s32 no_modem) {
-    s32 transport_rc;
+s16 ppp_begin_connect(s32 ignored, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, char *modem_name, s32 no_modem) {
+    s16 transport_rc;
     ppp_connect_records[0].active = 0;
     ppp_connect_records[1].active = 0;
     ppp_connect_records[2].active = 0;
@@ -244,13 +243,13 @@ s32 ppp_begin_connect(s32 ignored, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 a
     return transport_rc;
 }
 
-s32 configure_and_open_network_transport(a, b, c, d, e, modem_name, no_modem)
+s16 configure_and_open_network_transport(a, b, c, d, e, modem_name, no_modem)
     s16 a;
     s16 b;
     s16 c;
     s16 d;
     s16 e;
-    void *modem_name;
+    char *modem_name;
     s16 no_modem;
 {
     s32 open_network_transport(void *);

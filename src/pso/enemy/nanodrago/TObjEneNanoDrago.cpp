@@ -74,7 +74,6 @@ LAYOUT_ASSERT(NanoDrago_toggle_offset, offsetof(TObjEneNanoDrago, alternateBeam)
 
 void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
 extern "C" f32 atan2_float(f32 y, f32 x);
-extern "C" void check_enemy_body_collisions(void *arg0);
 
 extern "C" u32 get_player_by_client_id(s32);
 
@@ -82,15 +81,12 @@ void move_with_wall_slide(u8 *arg0);
 
 struct BeamRotation { s32 x, y, z; };
 
-extern "C" void *spawn_directional_particle(void *pos, void *dir, s32 id);
 extern "C" void TObjPlayer__sub_800DCD04(void *, void *, int, void *, s32, int);
-extern "C" uaddr __nw__7TObjectFUl(u32);
 extern "C" s32 enemy_turn_half_toward_dest(void *);
 extern "C" s32 construct_beam_effect__10TObjPlayerFPvPvPviPv(u32, void *, void *, u8, void *);
 extern "C" s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 extern "C" s32 check_path_obstructed(void *, Vec *);
 extern "C" void calc_velocity_toward_destination(void *, Vec, Vec, f32);
-extern "C" void project_actor_to_ground(void *, void *, s32);
 extern "C" void TObjPlayer__sub_800D92BC(s32 point, s32 delay);
 
 #pragma push
@@ -117,6 +113,8 @@ inline f32 xz_length_squared(Vec *v) { return v->x * v->x + v->z * v->z; }
 #include "pso/render/RenderFadeState.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/text_80086D50.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
 extern "C" s32 is_split_screen();
 extern "C" s32 restore_scene_lighting();
@@ -131,8 +129,6 @@ extern "C" saddr find_active_entity_by_id(int);
 
 int initialize_enemy_photon_effect(void *p);
 
-extern "C" s32 free_collision_body_parts(void *);
-extern "C" void init_collision_body_parts(void *, void *, s32);
 extern "C" s32 submit_cursor_candidate(void *, int);
 extern "C" s32 minimap_render_dot(void *, int, int, int);
 
@@ -1153,13 +1149,13 @@ void TObjEneNanoDrago::capture_beam_origins() {
     get_anim_node_position(0x54, &beamOrigins[1]);
 }
 void TObjEneNanoDrago::update_attack_parameters() {
-    saddr arg0 = (saddr)this;
-    lbl_805D525C = TObjPlayer__sub_800DC434((arg0), 1);
-    lbl_805D5260 = TObjPlayer__sub_800DC434((arg0), 2);
-    lbl_805D5264 = TObjPlayer__sub_800DC434((arg0), 3);
-    lbl_805D5268 = TObjPlayer__sub_800DC434((arg0), 4);
-    lbl_805D526C = TObjPlayer__sub_800DC420((void *)arg0, 0);
-    lbl_805D5270 = TObjPlayer__sub_800DC420((void *)arg0, 1);
+    saddr self = (saddr)this;
+    lbl_805D525C = TObjPlayer__sub_800DC434((self), 1);
+    lbl_805D5260 = TObjPlayer__sub_800DC434((self), 2);
+    lbl_805D5264 = TObjPlayer__sub_800DC434((self), 3);
+    lbl_805D5268 = TObjPlayer__sub_800DC434((self), 4);
+    lbl_805D526C = TObjPlayer__sub_800DC420((void *)self, 0);
+    lbl_805D5270 = TObjPlayer__sub_800DC420((void *)self, 1);
 }
 
 #pragma push
@@ -1216,9 +1212,9 @@ void TObjEneNanoDrago::find_open_direction(Vec *direction) {
 }
 #pragma pop
 s32 TObjEneNanoDrago::update_action_hold_status() {
-    saddr arg0 = (saddr)this;
+    saddr self = (saddr)this;
     if (TObjChara::update_action_hold_status() != 0) {
-        ((TObjEneNanoDrago *)arg0)->sub_800D9BBC();
+        ((TObjEneNanoDrago *)self)->sub_800D9BBC();
         return 1;
     }
     return 0;

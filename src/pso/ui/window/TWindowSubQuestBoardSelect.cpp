@@ -15,6 +15,7 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/ui/window/WindowLayout.h"
 
 #pragma push
 #pragma readonly_strings on
@@ -87,11 +88,11 @@ extern u8 quest_board_handlers[];
 
 void TWindowSubQuestBoardSelect::sub_8027D230() {
     u8 *arg0 = (u8 *)this;
-    u8 *temp_r31;
+    u8 *str;
     u8 *temp_r3;
-    temp_r31 = (u8 *)&quest_board_handlers + ((s8) this->m_61 * 0x24);
+    str = (u8 *)&quest_board_handlers + ((s8) this->m_61 * 0x24);
     temp_r3 = (u8 *)(((TWindowBase *)arg0)->get_array_entry(1));
-    set_text_entry_string((u8 *)temp_r3, (uaddr)temp_r31, 0);
+    set_text_entry_string((u8 *)temp_r3, (uaddr)str, 0);
     measure_message_text_width(temp_r3, 100000.0f);
     *(f32 *)((s8 *)temp_r3 + 8) = (f32) (385.0f - *(f32 *)((s8 *)temp_r3 + 0x10));
 }
@@ -220,7 +221,7 @@ void TWindowSubQuestBoardSelect::handle_decide() {
 
 
 #define TBL_8027D6A0 ((Ent_8027D6A0 *)&controller_input_state)
-s32 TWindowSubQuestBoardSelect::handle_page_input() {
+void TWindowSubQuestBoardSelect::handle_page_input() {
     Win_8027D6A0 *self = (Win_8027D6A0 *)this;
     void *p;
     s8 d;
@@ -252,15 +253,15 @@ s32 TWindowSubQuestBoardSelect::handle_page_input() {
     }
 }
 
-void render__26TWindowSubQuestBoardSelectFv(u8 *arg0) {
+void TWindowSubQuestBoardSelect::render() {
     saddr ctx;
-    ctx = reinterpret_cast<saddr>(reinterpret_cast<TWindowBase *>(arg0)->draw_default_entry());
-    ((TWindowBase *)arg0)->draw_window_frame((void *)ctx);
-    ((TWindowSubStatusDisp *)((void *)((int) (((TWindowSubQuestBoardSelect *)arg0)->m_64))))->forward_render((void *)(ctx));
-    TWindowSubQuestBoardSelect__sub_8027D444((TWindowSubQuestBoardSelect *)arg0, (Ctx_8027D444 *)ctx);
+    ctx = reinterpret_cast<saddr>(draw_default_entry());
+    draw_window_frame((void *)ctx);
+    m_64->forward_render((void *)ctx);
+    TWindowSubQuestBoardSelect__sub_8027D444(this, (Ctx_8027D444 *)ctx);
     draw_visible_window_entries(
-        reinterpret_cast<const void *>(arg0),
-        reinterpret_cast<const WindowLayoutEntries *>(arg0 + 0x24),
+        this,
+        &this->entry_list,
         reinterpret_cast<WindowDrawContext *>(ctx));
 }
 void TWindowSubQuestBoardSelect::run_task() {
@@ -278,7 +279,7 @@ void TWindowSubQuestBoardSelect::run_task() {
     ((TWindowDD *)arg0)->initialize_subwindow();
     if ((f32) *(s32 *)&this->open_tick >= 7.5f) {
         *(s32 *)&this->open_tick = 0x186A0;
-        ((TWindowSubStatusDisp *)(*(saddr *)&this->m_64))->update_subwindow();
+        this->m_64->update_subwindow();
     }
     ((TWindowBase *)arg0)->update_fade();
     ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
@@ -288,7 +289,6 @@ TWindowSubQuestBoardSelect::~TWindowSubQuestBoardSelect() {
     TWindowSubStatusDisp::destroy_status_display((saddr)(*(void **)((s8 *)this + 0x64)), (s16)1);
 }
 
-u8 * get_window_layout_position(s32);
 u32 calc_text_width();
 s32 update_slot_display_flags__26TWindowSubQuestBoardSelectFv(void *, f32, f32);
 #pragma push
@@ -302,7 +302,7 @@ TWindowSubQuestBoardSelect::TWindowSubQuestBoardSelect() : TWindowBase((u8 *)&TW
     if (var_r30 != 0) {
         var_r30 = (saddr)((TWindowSubStatusDisp *)var_r30)->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x2B), (s32)((s32) this->client_index));
     }
-    *(s32 *)&this->m_64 = var_r30;
+    this->m_64 = (TWindowSubStatusDisp *)var_r30;
     *(s8 *)&this->m_60 = 0;
     temp_r30 = reinterpret_cast<saddr>(((TWindowBase *)this)->get_array_entry(0));
     set_text_entry_string((u8 *)temp_r30, (uaddr)(TQuestThread::get_quest_name()), 0);

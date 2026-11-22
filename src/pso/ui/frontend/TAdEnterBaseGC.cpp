@@ -17,6 +17,7 @@
 #include "pso/ui/frontend/TAdEnterBaseGC.h"
 
 #include "pso/ui/frontend/TAdEnterBaseGC_8032B38C.h"
+#include "pso/ui/frontend/TAdPsoPassSaveGC.h"
 
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 
@@ -117,22 +118,11 @@ s32 TAdEnterBaseGC__entry_mode;
 
 extern "C" {
 
-
-
 void fn_8025DE10(void *arg0, void *arg1);
-
 
 void __dt__19TAdPlyChrSelPlateGCFv(void *, int);
 
 void *__ct__19TAdPlyChrSelPlateGCFv(void *, s32, void *);
-
-
-
-
-
-
-
-void sscanf(int, const char *, ...);
 
 extern char serial_access_hex_string_buf[];
 
@@ -148,9 +138,6 @@ s32 TAdEndText__sub_8001B3BC(int);
 
 s32 TAdEndText__sub_8001B3EC(int);
 
-
-
-
 extern s32 local_client_id;
 
 }
@@ -159,13 +146,9 @@ char serial_access_hex_string_buf[0x40];
 
 extern "C" {
 
-
-
 u32 __ct__14TAdSelectCurGCFv(int, int, const void *, const void *);
 
 }
-
-extern s32 TAdPsoPassSaveGC__data_805D6E80;
 
 s32 TAdPsoPassSaveGC__sub_8032B584(void) {
     return TAdPsoPassSaveGC__data_805D6E80;
@@ -177,34 +160,28 @@ TAdEnterBaseGC::TAdEnterBaseGC(TObject *parent) : TObject(parent) {
 }
 
 TAdEnterBaseGC::~TAdEnterBaseGC() {
-    if (*(void **)((s8 *)this + 0x2C) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x2C)))->queue_destruction(); *(s32 *)((s8 *)this + 0x2C) = 0; }
+    if (this->select_cursor != NULL) { ((TObject *)this->select_cursor)->queue_destruction(); *(s32 *)((s8 *)this + 0x2C) = 0; }
     if (*(void **)((s8 *)this + 0x30) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x30)))->queue_destruction(); this->m_30 = 0; }
     if (*(void **)((s8 *)this + 0x34) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x34)))->queue_destruction(); *(s32 *)((s8 *)this + 0x34) = 0; }
 }
 
-
-void TAdEnterBaseGC::sub_8032B460(int a1) { *(int *)&this->m_24 = 0; this->m_20 = 0; TAdEnterBaseGC__entry_mode = a1; *(int*)((char*)this + 0x38) = 0; *(int*)((char*)this + 0x3c) = 0; this->m_28 = 0; *(int *)&this->unk_2C = 0; this->m_30 = 0; *(int *)&this->unk_34 = 0; password_entry_keyboard_control = 0; }
+void TAdEnterBaseGC::sub_8032B460(int a1) { *(int *)&this->m_24 = 0; this->m_20 = 0; TAdEnterBaseGC__entry_mode = a1; *(int*)((char*)this + 0x38) = 0; *(int*)((char*)this + 0x3c) = 0; this->m_28 = 0; this->select_cursor = NULL; this->m_30 = 0; *(int *)&this->unk_34 = 0; password_entry_keyboard_control = 0; }
 
 void TAdEnterBaseGC::create_parts() {
-    u32 var_r0;
-    u32 var_r0_2;
     new TAdBackGC(this);
     new TAdBackTxtGC(this);
-    if ((s32) (*(s32 *)&TAdEnterBaseGC__entry_mode) == 3) {
-        var_r0 = reinterpret_cast<u32>(new TAdSelectCurGC(reinterpret_cast<TObject *>(tl_clipout),
+    if (TAdEnterBaseGC__entry_mode == 3) {
+        this->select_cursor = new TAdSelectCurGC(reinterpret_cast<TObject *>(tl_clipout),
             reinterpret_cast<const NJS_POINT2 *>(&lbl_80477198[2]),
-            reinterpret_cast<const NJS_POINT2 *>(&lbl_804771B8[1])));
-        *(u32 *)&this->unk_2C = var_r0;
+            reinterpret_cast<const NJS_POINT2 *>(&lbl_804771B8[1]));
         return;
     }
-    var_r0_2 = reinterpret_cast<u32>(new TAdSelectCurGC(reinterpret_cast<TObject *>(tl_clipout),
+    this->select_cursor = new TAdSelectCurGC(reinterpret_cast<TObject *>(tl_clipout),
         reinterpret_cast<const NJS_POINT2 *>(lbl_80477198),
-        reinterpret_cast<const NJS_POINT2 *>(lbl_804771B8)));
-    *(u32 *)&this->unk_2C = var_r0_2;
+        reinterpret_cast<const NJS_POINT2 *>(lbl_804771B8));
 }
 
 void TAdEnterBaseGC::run_task() {  }
-
 
 void TAdEnterBaseGC::fn_8032B318(Position *position) {
     u32 half_width = calc_text_width((char *)get_localized_text_entry(23, 4)) >> 1;
@@ -254,7 +231,7 @@ int validate_input__22TAdEnterSerialAccessGCFPviPv(void *arg0, s32 arg1, const c
 
 char *TAdEnterSerialAccessGC::serial_to_hex_string(const char *arg0) {
     u32 v = 0;
-    sscanf((s32)arg0, "%08X", &v);
+    sscanf(arg0, "%08X", &v);
     memset(serial_access_hex_string_buf, 0, 0x40);
     if (v != 0) {
         sprintf(serial_access_hex_string_buf, "%010lu", v);
@@ -285,7 +262,6 @@ void clear_state(void) {
         memset(instance + 0x1154C, 0, 0x10);
     }
 }
-
 
 void TAdEnterSerialAccessGC::clear_serial_buffer() {
     u8 *instance;
@@ -375,7 +351,6 @@ void fn_8032AC9C(void *arg0, void *arg1) {
         return;
     }
 }
-
 
 void TAdEnterBaseGC::render() {  }
 

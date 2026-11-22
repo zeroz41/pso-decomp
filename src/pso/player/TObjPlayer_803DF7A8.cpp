@@ -2,6 +2,7 @@
 #include "pso/player/TObjPlayer_803DF7A8.h"
 #include "pso/player/TObjPlayer_803E1A58.h"
 #include <dolphin/mtx/GeoTypes.h>
+#include <math.h>
 
 extern "C" {
 s32 quads_touch(Vec *a, Vec *b);
@@ -38,9 +39,6 @@ s32 quad_corner_inside(ProjectedPoint *a, ProjectedPoint *b);
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-// MSL's inline fabs (the double-returning wrapper around __fabs).
-static inline f64 fabs(f64 x) { return __fabs(x); }
-
 // The area of the triangle a, b, c: half of |a - b| times the distance of c from the line through a and b.
 f32 triangle_area(ProjectedPoint *a, ProjectedPoint *b, ProjectedPoint *c) {
     f32 nx;

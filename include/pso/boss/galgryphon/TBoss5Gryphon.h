@@ -6,7 +6,10 @@
 #include "pso/render/RenderFadeState.h"
 #include <stddef.h>
 
+class AreaAttackHistory;
+class TParticleCtrl;
 class TBoss5GryphonDemo;
+struct Boss5GryphonActionStep;
 
 struct Boss5GryphonMotionEntry {
     s16 state;
@@ -65,7 +68,7 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     virtual void update_body_colliders();
     virtual void render_shadows();
     virtual void run_demo_task();
-    virtual int render_demo();
+    virtual void render_demo();
     virtual void vfunc_106();
     virtual void clear_harmful_statuses();
     virtual void apply_shock_status();
@@ -74,24 +77,24 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     virtual void apply_slow_status();
     virtual void apply_paralysis();
     virtual void apply_poison_status();
-    u8 pad_3C0[0xC0];
+    Vec pad_3C0[15];
+    Vec pad_474;  // scaled by scale_size; apply_velocity moves along its x and z
     s32 m_480;
-    u8 _pad484[0xC];
+    Vec pad_484;
     s32 targetRefreshCounter;
-    void* m_494;
-    u8 _pad498[0x24];
+    Boss5GryphonMotionEntry motions[2];
     Boss5GryphonMotionEntry *motion;
     u32 m_4c0;
     void* m_4c4;
     u8 _pad4C8[0x18];
     u32 m_4e0;
-    s32 m_4e4;
-    u8 _pad4E8[0x78];
+    s32 flight_mode;  // 0 ground, 2 low flight, 3 offscreen (the enter_*_mode setters), 1 set_flag_4e4
+    Vec body_points[10];  // update_local_colliders_from_world turns them into body offsets
     void* m_560;
     u8 _pad564[0x8];
     void* m_56c;
     u8 _pad570[0x8];
-    u32 m_578;
+    AreaAttackHistory *attack_history;
     TBoss5GryphonDemo *demo;
     RenderFadeState renderFadeStates[4];
     const s32 *effect_ids;
@@ -104,12 +107,10 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     u32 m_6f0;
     u8 _pad6F4[0x2C];
     u32 m_720;
-    u32 m_724;
-    u32 m_728;
-    u32 m_72c;
+    TParticleCtrl *particles[3];  // spawned and moved by fn_8005E39C in low flight
     u32 m_730;
     u8 _pad734[0x40];
-    u32 m_774;
+    u8 *m_774;  // the action script entry being run; steps 0x48 bytes
     u32 m_778;
     void render_nodes_with_flag();
     void render_with_fade(s32 arg1);
@@ -121,15 +122,15 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     void destroy_parts();
     void enable_particles();
     void update_ground_effects();
-    void update_heading(s32 arg1);
+    void update_heading(s32 ang);
     void advance_motion_entry();
     void advance_motion_timer();
     void apply_velocity();
     void spawn_lightning_effect();
     void spawn_ground_splash();
     void update_collider_from_table();
-    void set_target_from_action(void *arg1);
-    s32 reload_stats_for_phase(void *);
+    void set_target_from_action(void *boss8_dragon);
+    void reload_stats_for_phase(void *);
     void reload_stats_for_type();
     void set_flight_height();
     void refresh_target_periodically();
@@ -145,6 +146,57 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     void shift_position_history();
     static void cleanup();
     static void *create(void *arg0);
+    void set_random_param(u8 *arg1);
+    void calc_params(void *arg1, Boss5GryphonActionStep *step);
+    void calc_product_and_ratio(void *arg1, Boss5GryphonActionStep *step);
+    void calc_attack_params(void *arg1, Boss5GryphonActionStep *step);
+    void fn_8005EBDC(u8 *arg1, Boss5GryphonActionStep *step);
+    s32 get_random_sign(Boss5GryphonActionStep *step, s32 i);
+    s32 calc_product(Boss5GryphonActionStep *step, s32 sign_index, s32 range_index);
+    s32 rand_scaled_offset(s32 base, s32 spread);
+    s32 fn_8005E9D8(Boss5GryphonActionStep *step, s32 i);
+    s32 random_in_table_range(Boss5GryphonActionStep *step, s32 i);
+    f32 random_in_range(f32 min, f32 range);
+    f32 fn_8005EAD0(Boss5GryphonActionStep *step, s32 i);
+    s32 run_action_script_step(s16 *out, u32 *entry);
+    static void copy_angle_state(void *arg0, void *dst, void *src);
+    void update_target_from_state();
+    void play_animation_index(s32 arg1);
+    void flush_pending_effect();
+    void scale_size(f32 scale, f32 farg1, f32 farg2);
+    void copy_spawn_params(void* a1);
+    void fill_follow_camera_params(u8 *arg1, u8 *arg2);
+    void set_animation_by_state();
+    void init_state_zero();
+    void set_flag_4e4();
+    void fire_at_angle(s32 ang);
+    void turn_toward_angle_limited(s32 ang, s32 target);
+    void update_facing(f32 speed);
+    void move_along_angle(f32 speed, s32 ang);
+    void emit_part_attack_effect(int part);
+    void query_default();
+    void attack_default();
+    void set_state_2();
+    void update_state_3();
+    void run_default_state();
+    void fn_80064828();
+    void fn_800648C8();
+    void fn_8005FB90();
+    void fn_80063EF4();
+    void fn_800641A8();
+    void fn_800646F0();
+    void fn_80064DB8();
+    void fn_80064E3C();
+    void spawn_ancient_trap(s32 id);
+    s32 fn_8005DC0C();
+    void fn_8005E040();
+    s32 fn_8005E1E8(Vec *point, f32 radius);
+    void fn_8005E39C();
+    s32 fn_8005FAE0();
+    void fn_8006426C();
+    void fn_8006435C();
+    void fn_8006442C();
+    void fn_80064AB0();
 };
 
 LAYOUT_ASSERT(TBoss5Gryphon_size, sizeof(TBoss5Gryphon) == 0x77C);

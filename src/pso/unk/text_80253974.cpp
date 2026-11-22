@@ -20,7 +20,7 @@ struct VBar_80253D10 : VBase_80253D10 {
     virtual void m3();
 };
 
-extern "C" {
+
 extern const f32 lbl_805DCDF0;
 extern u8 lbl_804CF30C[];
 extern PM_80253D10 TWindowHelpItem__mag_growth_update_callback;
@@ -153,4 +153,3 @@ void TWindowHelpItem__vt10(u8 *window_base) {
 }
 #pragma pop
 
-}

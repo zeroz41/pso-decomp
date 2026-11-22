@@ -2,7 +2,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItemData.h"
 
-extern "C" {
 
 void TObjPlayer::init_item_data(s32 arg1) {
     ((TItemData *)this)->init();
@@ -10,4 +9,3 @@ void TObjPlayer::init_item_data(s32 arg1) {
     *(s32 *)((s8 *)this + 0x10) = arg1;
 }
 
-}

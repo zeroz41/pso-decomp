@@ -11,6 +11,10 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/player/TObjPlayer_803E1A58.h"
+#include "pso/render/render_util.h"
+#include "pso/player/PlayerSlots.h"
 
 struct RecoveredFields_8006B588_arg0
 {
@@ -75,11 +79,7 @@ Vec *TCameraCtrl__sub_8006BAC8(O_8006BAC8 *self, s32 i);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern const s32 __vt__13TUnk_80488AD8[];
 extern uaddr camera_ctrl_instance;
-f32 vector_length(void *);
-f32 xyz_distance(void *, void *);
-void approach_vector_fixed_distance(Vec *, Vec *, Vec *, f32);
 s32 restore_player_cameras();
-void *get_player_by_client_id(s32 i);
 
 extern unsigned char TCameraCtrl__override_flags;
 
@@ -173,14 +173,14 @@ void TUnk_80488AF0::run_task() {
     }
 }
 
-void TCameraCtrl::create(saddr arg0, s32 arg1, s32 arg2) {
-    new TUnk_80488AF0((Vec *)arg0, arg1, arg2, (TObject *)tl_07);
+void TCameraCtrl::create(saddr goal, s32 frames, s32 arg2) {
+    new TUnk_80488AF0((Vec *)goal, frames, arg2, (TObject *)tl_07);
 }
 
 typedef struct RecoveredFields_8006B588_arg0 RecoveredFields_8006B588_arg0;
-u8 *TCameraCtrl::init_conversation_camera(s32 i, s32 arg2, saddr arg3) {
+u8 *TCameraCtrl::init_conversation_camera(s32 i, s32 arg2, saddr parent) {
   void *new_var;
-  __ct__7TObjectFP7TObject((void *) this, (void *) arg3);
+  __ct__7TObjectFP7TObject((void *) this, (void *) parent);
   ((RecoveredFields_8006B588_arg0 *) ((u8 *)this))->field_18 = ((s32 *)&__vt__13TUnk_80488AD8);
   ((RecoveredFields_8006B588_arg0 *) ((u8 *)this))->field_34 = arg2;
   activate_camera_mode(9);

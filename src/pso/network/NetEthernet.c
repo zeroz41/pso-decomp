@@ -17,7 +17,7 @@ s32 TLobby__sub_80408FD8(s16 idx, s16 mode, u8 *data);
 s32 TLobby__sub_80409130(s16 arg0, s16 arg1, s32 arg2);
 s32 TLobby__sub_8040920C(s16 id, u8 *dst);
 s32 TLobby__sub_804092FC(s16 idx);
-s32 TLobby__sub_8040939C();
+s32 TLobby__sub_8040939C(s16 idx);
 s32 TLobby__sub_804093EC(s16 idx);
 s16 TLobby__sub_804094B8(s16 a, u16 b, s16 c, void *k);
 s32 TLobby__sub_8040970C(s16 idx, u8 *dst);
@@ -213,7 +213,7 @@ s32 send_ethernet_frame(s16 idx, s16 mode, u8 *addr, void *pkt) {
     EthLink *c;
     EthSocket *e;
     s16 len;
-    s32 (*fn)(s16, s32, s16);
+    s32 (*fn)(s16, u8 *, s16);
     g = &lbl_805C1AD8;
 
     if (idx < 0 || idx >= g->nsockets) {
@@ -266,7 +266,7 @@ s32 send_ethernet_frame(s16 idx, s16 mode, u8 *addr, void *pkt) {
     NetMemcpy(c->frame, &hdr, sizeof(hdr));
     len = TLobby__sub_804098B4(pkt);
     if (len > 0x5DC) {
-        clear_message_entry((saddr)c->frame);
+        clear_message_entry(c->frame);
         return -2;
     }
     TLobby__sub_80409908(c->frame + sizeof(EthernetFrameHeader), pkt);
@@ -275,9 +275,9 @@ s32 send_ethernet_frame(s16 idx, s16 mode, u8 *addr, void *pkt) {
     }
     fn = g->drivers[e->dev].send;
     if (fn != NULL) {
-        fn(c->dev, (saddr)c->frame, len + 0xE);
+        fn(c->dev, c->frame, len + 0xE);
     } else {
-        clear_message_entry((saddr)c->frame);
+        clear_message_entry(c->frame);
         return -0x111;
     }
     return 0;
@@ -479,9 +479,7 @@ found:
     return 6;
 }
 
-s32 TLobby__sub_8040939C(idx)
-    s16 idx;
-{
+s32 TLobby__sub_8040939C(s16 idx) {
     EthSocket *e;
     if (idx < 0 || idx >= lbl_805C1AD8.nsockets) {
         return -0x111;
@@ -540,7 +538,6 @@ s16 TLobby__sub_804094B8(s16 a, u16 b, s16 c, void *k) {
     s16 ret;
     s16 err;
     EthDriver *cb;
-    s16 forward_net_op_5args(s16, s16, s16, u16, s16, s32, s16, s32);
 
     p1 = find_link(g, a);
     if (p1 == NULL) {

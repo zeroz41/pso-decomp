@@ -40,6 +40,13 @@ struct game_command_header;
 
 #include "pso/player/TUnk_804B6C24.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
+#include "pso/network/client_id.h"
+#include "pso/network/TProtocol.h"
+#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/TLevelSelect.h"
+#include "pso/map/area/AreaScene.h"
 
 // ---- declarations carried over from the fragment TOMineTrapDisp_8016EDC8.cpp
 extern "C" {
@@ -94,10 +101,7 @@ extern u8 chunk_material_color_half_alpha_f32[];
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 // ---- declarations carried over from the fragment text_8016F1C0.cpp
-s32 *get_shared_text_buffer(void);
-void text_builder_append(u8 *str);
 s32 is_split_screen();
-extern s32 local_client_id;
 }
 void text_builder_reset(void);
 struct Obj_8016F64C { u8 pad0[0x2FC]; u8 sub[0x58]; s32 state; };
@@ -105,18 +109,11 @@ extern "C" {
 s16 TOMineTrap__sub_80171340(TOMineTrap *p);
 u16 TOMineTrap__sub_80171358(TOMineTrap *p);
 extern s32 lbl_805D5868;
-extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 void handle_6x80_trigger_trap(game_command_header *command);
-}
-
 // ---- declarations carried over from the fragment TOMineTrap_8016F6F8.cpp
-extern "C" {
 s32 get_current_floor(void);
-extern u8 lobby_rule_settings[];
 u16 get_entity_id(void *);
-extern s32 enable_v2_features;
-saddr create_placed_trap__10TOMineTrapFUiss(uaddr arg0, s16 arg1, s16 arg2);
 }
 
 struct VBase_18_33b813
@@ -175,7 +172,6 @@ struct VObj_18_1da615 : VBase_18_1da615 {
     virtual s32 m23(void *, f32);
 };
 extern "C" {
-saddr get_localized_text_entry(s32 arg0, s32 arg1);
 s32 play_sound_effect(s32, s32, s32, s32);
 void TOMineTrap__sub_80170CD4(void* p);
 void record_attack_source(void *object, u16 id);
@@ -187,7 +183,6 @@ extern s32 TOMineIcon01__name;
 extern s32 TOMineIcon02__name;
 extern s32 TOMineIcon03__name;
 extern s32 TOMineIcon04__name;
-extern s32 game_difficulty_selection;
 typedef struct VBase_18_33b813 VBase_18_33b813;
 typedef struct VObj_18_33b813 VObj_18_33b813;
 }
@@ -222,9 +217,7 @@ int submit_target_to_player_cursor(void*);
 typedef struct RecoveredFields_80170F0C_arg0 RecoveredFields_80170F0C_arg0;
 // ---- declarations carried over from the fragment TOMineTrap.cpp
 void TOMineTrap__sub_80171368(f32 farg0);
-s16 TOMineTrap__sub_80171340(TOMineTrap *p);
 int TOMineTrap__sub_80171350(void);
-u16 TOMineTrap__sub_80171358(TOMineTrap *p);
 // ---- functions, last address first (deferred codegen emits them in reverse)
 void G_TriggerTrap_6x80::init() {
     header.subcommand = 0x80;
@@ -553,16 +546,16 @@ f32 TOMine::receive_physical_attack(void *, f32) {
     }
     return 0.0f;
 }
-void TOMine::vfunc_6(s16 *arg1, s32 arg2) {
+void TOMine::vfunc_6(s16 *lobby, s32 arg2) {
     s16 temp_r0;
-    temp_r0 = *(s16 *)((s8 *)arg1 + 0);
+    temp_r0 = *(s16 *)((s8 *)lobby + 0);
     if (temp_r0 == 5) {
         if (arg2 == 1) {
             sub_8017070C();
         }
         set_flag8();
         queue_destruction();
-        access_object_saved_state(arg1, 0);
+        access_object_saved_state(lobby, 0);
         return;
     }
     if (temp_r0 == 3) {
@@ -572,7 +565,7 @@ void TOMine::vfunc_6(s16 *arg1, s32 arg2) {
         this->calc_attach_pos();
         refresh_collision_body_centers();
         this->vfunc_81();
-        access_object_saved_state(arg1, 0);
+        access_object_saved_state(lobby, 0);
         this->queue_destruction_for_each_node();
     }
 }
@@ -1268,8 +1261,8 @@ void TOMineTrapDisp::run_task() {
     }
 }
 
-s32 TOMineTrap::matches_id(u16 arg1) {
-    if ((arg1 == *(u16 *)&this->body_count) && ((s32) *(s32 *)&this->bodies != 2)) {
+s32 TOMineTrap::matches_id(u16 id) {
+    if ((id == *(u16 *)&this->body_count) && ((s32) *(s32 *)&this->bodies != 2)) {
         return 1;
     }
     return 0;

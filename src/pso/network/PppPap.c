@@ -28,7 +28,7 @@ s32 init_net_block_620_secondary(void) {
 }
 
 s16 TLobby__sub_80402BB4(void *arg0, u32 timeout) {
-    Conn_804004DC *c = (Conn_804004DC *)arg0;
+    PppFsm *c = (PppFsm *)arg0;
     NetThreadState *g;
     u8 *sub;
 
@@ -133,7 +133,7 @@ void set_active(void *self) {
 #pragma dont_inline off
 #pragma inline_depth(4)
 u8 pap_read_byte_buffer[8];
-static inline PapOptions *pap_options(Conn_804004DC *connection) {
+static inline PapOptions *pap_options(PppFsm *connection) {
     return (PapOptions *)connection->opts;
 }
 
@@ -145,9 +145,8 @@ static inline s16 pap_read_reply_message(PapOptions *options, u8 actual_id, u8 e
     s32 result;
     u8 **destination;
     s32 copied;
-    s32 available;
+    u16 available;
     s16 requested;
-    u32 get_field_4(void *self); /* declared here with another return type; the definition returns u16 */
     if (actual_id != expected_id) {
         return -1;
     }
@@ -171,18 +170,18 @@ static inline s16 pap_read_reply_message(PapOptions *options, u8 actual_id, u8 e
     return -1;
 }
 
-static inline void pap_auth_done(Conn_804004DC *self, u32 pending_bit) {
+static inline void pap_auth_done(PppFsm *self, u32 pending_bit) {
     u8 *link = self->sub;
     ((u8 *)self)[2] &= ~pending_bit;
     if (!(((u8 *)self)[2] & 0x30)) {
         self->state = 5;
     }
-    lobby_timer_stop(self->timer);
+    lobby_timer_stop(&self->timer);
     link[2] &= ~pending_bit;
     start_ipcp_after_auth((O_80400ACC *)link);
 }
-void pap_input(Conn_804004DC *self, PppFrame *source) {
-    Conn_804004DC *connection;
+void pap_input(PppFsm *self, PppFrame *source) {
+    PppFsm *connection;
     PppHeader header;
     PapOptions *options;
     options = pap_options(self);
@@ -209,7 +208,7 @@ void pap_input(Conn_804004DC *self, PppFrame *source) {
         if (pap_read_reply_message((PapOptions *)self->opts, header.id, self->id, source) != 0) {
             return;
         }
-        lobby_timer_stop(connection->timer);
+        lobby_timer_stop(&connection->timer);
         options->peer_id = NULL;
         options->password = NULL;
         connection->abort = 1;
@@ -221,7 +220,7 @@ void pap_input(Conn_804004DC *self, PppFrame *source) {
 
 #pragma pop
 
-s32 TLobby__sub_80403168(u8 *arg0, u8 *arg1, u8 *ppp_fsm) {
+s32 TLobby__sub_80403168(u8 *arg0, u8 *pap_password, u8 *ppp_fsm) {
     Names_80403168 *g;
     PapOptions *opts;
     u32 n;
@@ -234,11 +233,11 @@ s32 TLobby__sub_80403168(u8 *arg0, u8 *arg1, u8 *ppp_fsm) {
     }
     NetMemcpy(g->a, arg0, n);
     g->a[n] = 0;
-    m = NetStringLength((const char *)(arg1));
+    m = NetStringLength((const char *)(pap_password));
     if (m >= 0x80) {
         m = 0x7F;
     }
-    NetMemcpy(g->b, arg1, m);
+    NetMemcpy(g->b, pap_password, m);
     g->b[m] = 0;
     opts->peer_id = g->a;
     opts->password = g->b;
@@ -278,7 +277,7 @@ void handle_request_timeout(void *self) {
     }
     opts->message = (u8 *)"Request retry exceeded";
     update_connection_state(fsm->sub + 4);
-    fsm->f8 = 1;
+    fsm->abort = 1;
 }
 
 #pragma push
@@ -309,7 +308,6 @@ inline s32 get_80403308(PppFrame **s) {
     return (s16)pap_read_byte_buffer[0];
 }
 s16 pap_recv_auth_request(u8 *self, u8 *src, PppFrame *val) {
-    s32 ppp_fsm_send_packet(void *, u8, u8, void *); /* declared here with other parameter types; the definition is s32 (void *, int, int, void *) */
     PppFsm *fsm = (PppFsm *)self;
     u8 *p1 = 0;
     u8 *p2 = 0;

@@ -25,6 +25,7 @@
 #include "pso/boss/olgaflow/TBoss6Demo20_TYPE2_APPEAR.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/system/MatrixStack.h"
 
 
 extern const Vec boss6_type2_appear_origin;
@@ -34,7 +35,9 @@ typedef struct Ent_8033D6DC { s32 start; s32 end; s32 id; s32 src; } Ent_8033D6D
 
 extern "C" {
 const char TBoss6Demo20_TYPE2_APPEAR__class_name[] = "TBoss6Demo20_TYPE2_APPEAR";
+}
 const Vec boss6_type2_appear_origin = {-10000.0f, 0.0f, 0.0f};
+extern "C" {
 const ModelNodePositionEntry boss6_type2_appear_model_node_descriptors[9] = {
     {0x24}, {0x30}, {0x36}, {0x3A}, {0x48}, {0x4B}, {0x4E}, {0x52}, {-1},
 };
@@ -52,7 +55,6 @@ const Ent_8033D6DC boss6_type2_appear_particle_schedule[9] = {
 const Vec lbl_80478058 = {-10000.0f, 0.0f, 0.0f};
 const CameraAngles lbl_80478064 = {0, 0, 0};
 const CameraPlayback boss6_type2_appear_camera_script = {1, 3, 0, 0.0f, 0.7f};
-void post_translate_matrix(const f32 *);
 
 void TBoss6Demo20_TYPE2_APPEAR::draw_model_12() {
     push_matrix();
@@ -167,9 +169,8 @@ void render__25TBoss6Demo20_TYPE2_APPEARFv(void* p) { ((TBoss6Demo20_TYPE2_APPEA
 
 extern "C" {
 s32 __dt__7TObjectFv(void *, int);
-s32 __dl__7TObjectFPv(void *);
 extern saddr __vt__25TBoss6Demo20_TYPE2_APPEAR[];
-TBoss6Demo20_TYPE2_APPEAR *__dt__25TBoss6Demo20_TYPE2_APPEARFv(TBoss6Demo20_TYPE2_APPEAR *arg0, s16 arg1);
+TBoss6Demo20_TYPE2_APPEAR *__dt__25TBoss6Demo20_TYPE2_APPEARFv(TBoss6Demo20_TYPE2_APPEAR *self, s16 arg1);
 
 extern const Ent_8033D6DC boss6_type2_appear_particle_schedule[];
 
@@ -248,28 +249,28 @@ void run_task__25TBoss6Demo20_TYPE2_APPEARFv(TBoss6Demo20_TYPE2_APPEAR *self) {
     }
 }
 
-TBoss6Demo20_TYPE2_APPEAR *__dt__25TBoss6Demo20_TYPE2_APPEARFv(TBoss6Demo20_TYPE2_APPEAR *arg0, s16 arg1) {
+TBoss6Demo20_TYPE2_APPEAR *__dt__25TBoss6Demo20_TYPE2_APPEARFv(TBoss6Demo20_TYPE2_APPEAR *self, s16 arg1) {
     s32 i;
-    if (arg0 != 0) {
-        *(void **)((u8 *)arg0 + 0x18) = __vt__25TBoss6Demo20_TYPE2_APPEAR;
+    if (self != 0) {
+        *(void **)((u8 *)self + 0x18) = __vt__25TBoss6Demo20_TYPE2_APPEAR;
         for (i = 0; i < 9; i++) {
-            if (arg0->emitters[i] != 0) {
-                TParticleCtrl::release(arg0->emitters[i]);
-                arg0->emitters[i] = 0;
+            if (self->emitters[i] != 0) {
+                TParticleCtrl::release(self->emitters[i]);
+                self->emitters[i] = 0;
             }
         }
         restore_player_cameras();
         TBoss6PlotFalz::refresh_players_equipment();
-        if (arg0->capture != 0) {
-            ModelNodePositionCapture::destroy((ModelNodePositionCapture *)arg0->capture);
-            arg0->capture = 0;
+        if (self->capture != 0) {
+            ModelNodePositionCapture::destroy((ModelNodePositionCapture *)self->capture);
+            self->capture = 0;
         }
-        __dt__7TObjectFv(arg0, 0);
+        __dt__7TObjectFv(self, 0);
         if (arg1 > 0) {
-            TObject::operator delete(arg0);
+            TObject::operator delete(self);
         }
     }
-    return arg0;
+    return self;
 }
 
 }
@@ -351,7 +352,9 @@ void initialize_boss6_type2_appear_particle_origin(void) {
 extern "C" {
 __declspec(section ".ctors") static void *const __sinit_text_8033DA94_cpp_ref = (void *)initialize_boss6_type2_appear_particle_origin;
 
+}
 __declspec(section ".data") Vec boss6_type2_appear_offset_particle_origin = {0.0f, 0.0f, 0.0f};
+extern "C" {
 __declspec(section ".data") s32 boss6_type2_appear_motion_indices[2] = {31, 33};
 void render_shadows__7TObjectFv(void *);
 saddr __vt__25TBoss6Demo20_TYPE2_APPEAR[7] = {0, 0,

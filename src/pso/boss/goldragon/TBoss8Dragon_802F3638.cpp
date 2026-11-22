@@ -2,6 +2,7 @@
 #include "pso/boss/goldragon/TBoss8Dragon_802F3638.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/TObjControl.h"
 
 extern "C" {
 u8 *get_enemy_entity(u16 entity_id);

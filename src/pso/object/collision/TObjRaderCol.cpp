@@ -11,6 +11,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/network/client_id.h"
 
 #pragma readonly_strings on
 
@@ -24,11 +26,9 @@ const char *TObjRaderCol__name = "TObjRaderCol";
 const char *TObjRaderHideCol__name = "TObjRaderHideCol";
 const char *TObjRaderIcon__name = "TObjRaderIcon";
 void check_any_player_in_range__12TObjRaderColFPv(Col_8019750C *arg0);
-extern s32 local_client_id;
 void add_radar_scaled_gate(void *, u32, u16, s32, s32, f32);
 u8 is_current_floor_switch_set(u16);
 
-extern void *tl_05;
 }
 
 
@@ -40,9 +40,9 @@ TObjRaderCol::~TObjRaderCol() {
 
 }
 
-TObjRaderCol::TObjRaderCol(TObject *parent, void *arg2) : TObjBase(parent) {
+TObjRaderCol::TObjRaderCol(TObject *parent, void *set_data) : TObjBase(parent) {
     m_name = TObjRaderCol__name;
-    apply_object_set_data(arg2);
+    apply_object_set_data(set_data);
     *(f32 *)((s8 *)this + 0x90) = (f32) scale.x;
     m_94 = (s32) set_params[0];
     m_98 = 0;
@@ -91,7 +91,7 @@ void TObjRaderCol::check_local_player_in_range(void *arg0_) {
 }
 #undef arg0
 
-extern "C" {
+
 void check_any_player_in_range__12TObjRaderColFPv(Col_8019750C *arg0) {
     s32 found;
     s32 i;
@@ -118,7 +118,6 @@ void check_any_player_in_range__12TObjRaderColFPv(Col_8019750C *arg0) {
             }
         }
     }
-}
 }
 
 void TObjRaderCol::render() {  }
@@ -153,9 +152,9 @@ void TObjRaderHideCol::run_task() {
 void TObjRaderHideCol::render() {  }
 
 
-TObjRaderIcon::TObjRaderIcon(TObject *parent, void *arg2) : TObjBase(parent) {
+TObjRaderIcon::TObjRaderIcon(TObject *parent, void *set_data) : TObjBase(parent) {
     m_name = TObjRaderIcon__name;
-    apply_object_set_data(arg2);
+    apply_object_set_data(set_data);
     initialize_from_placement();
     disallow_rendering();
 }
@@ -227,5 +226,5 @@ void TObjRaderIcon::render() {  }
 
 
 void *TObjRaderIcon__create(void *arg0) {
-    return new TObjRaderIcon((TObject *)tl_05, arg0);
+    return new TObjRaderIcon(tl_05, arg0);
 }

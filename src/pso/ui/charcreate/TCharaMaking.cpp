@@ -7,6 +7,7 @@
 #include "pso/unk/text_803E2D70.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/ui/charcreate/CharacterAppearanceTables.h"
+#include "pso/ui/charcreate/CharacterCreationModels.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
 #include "pso/ui/charcreate/TChCrLoadReq.h"
@@ -122,19 +123,18 @@ extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
-void *creation_player_character;
-uaddr creation_main_menu_obj;
+CharacterAppearanceFields *creation_player_character;
+TObjCMMainMenu *creation_main_menu_obj;
 extern "C" {
 s32 calc_section_id_from_name(s8 *arg0);
 s32 release_texture_list(void *);
 
-extern uaddr creation_main_menu_obj;
 
 s32 TCharaMaking::query_state() {
-    if ((u32) creation_main_menu_obj == 0U) {
+    if (creation_main_menu_obj == NULL) {
         return -1;
     }
-    return TObjCMMainMenu__sub_8028EBCC((TObjCMMainMenu *)creation_main_menu_obj);
+    return TObjCMMainMenu__sub_8028EBCC(creation_main_menu_obj);
 }
 
 s32 calc_section_id_from_name(s8 *arg0) {
@@ -362,7 +362,7 @@ void TCharaMaking__bind_appearance_texture_lists(TextureOutput *output, TextureO
   CharacterClassAppearance *definition;
   CharacterTextureList **temp_r3;
   CharacterTextureList **temp_r3_2;
-  CharacterTextureList *temp_r6;
+  CharacterTextureList *source;
   CharacterClassAppearance *new_var;
   CharacterTextureList *temp_r6_2;
   new_var = &class_appearance_table[character_display_index(reinterpret_cast<uaddr>(appearance))];
@@ -371,10 +371,10 @@ void TCharaMaking__bind_appearance_texture_lists(TextureOutput *output, TextureO
   temp_r3 = definition->hairTextures;
   if (temp_r3 != 0)
   {
-    temp_r6 = temp_r3[appearance->hair];
-    if (temp_r6 != 0)
+    source = temp_r3[appearance->hair];
+    if (source != 0)
     {
-      ((TCharaMaking *)output)->build_appearance_texture_names(appearance, definition, temp_r6);
+      ((TCharaMaking *)output)->build_appearance_texture_names(appearance, definition, source);
       output->loaded = 1;
     }
   }
@@ -508,7 +508,6 @@ extern "C" {
 
 void *TCMCharacter__ct(void *arg0, void *arg1);
 extern Vec TObjLight__scene_light_state;
-extern void *creation_player_character;
 
 void TCharaMaking__sub_8028E790(void) {  }
 }
@@ -527,7 +526,7 @@ void TCharaMaking::update_light_direction() {
 s32 TCharaMaking::update_main_menu(saddr arg0) {
     saddr var_r3;
 
-    if (((TObjCMMainMenu *)creation_main_menu_obj)->is_state_3() != 0) {
+    if (creation_main_menu_obj->is_state_3() != 0) {
         fn_8028D8F4();
         var_r3 = 0;
         if ((s32) creation_dressing_room_mode_flag == 1) {
@@ -538,7 +537,7 @@ s32 TCharaMaking::update_main_menu(saddr arg0) {
         ((TObject *)arg0)->queue_destruction();
         return 1;
     }
-    if (((TObjCMMainMenu *)creation_main_menu_obj)->is_state_4() != 0) {
+    if (creation_main_menu_obj->is_state_4() != 0) {
         ((TObject *)arg0)->queue_destruction();
         TChCrCharSelect::create((TObject *)tl_03);
         return 1;
@@ -552,13 +551,13 @@ void TCharaMaking::run_task() {
 }
 
 void *TCharaMaking::create(void *arg0, void *arg1) {
-    creation_player_character = arg1;
+    creation_player_character = (CharacterAppearanceFields *)arg1;
     return new TCharaMaking((TObject *)arg0);
 }
 
 TCharaMaking::~TCharaMaking() {
     creation_player_character = NULL;
-    creation_main_menu_obj = 0;
+    creation_main_menu_obj = NULL;
 }
 
 TCharaMaking::TCharaMaking(TObject *parent) : TObject(parent) {
@@ -568,7 +567,7 @@ TCharaMaking::TCharaMaking(TObject *parent) : TObject(parent) {
     if (motion != 0U) {
         TCMCharacter__ct((void *)motion, this);
     }
-    creation_main_menu_obj = (saddr)TObjCMMainMenu::create(this);
+    creation_main_menu_obj = TObjCMMainMenu::create(this);
     m_1c = 0x1555;
     m_20 = 0x9000;
     update_light_direction();

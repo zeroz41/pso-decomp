@@ -10,7 +10,7 @@ struct TObjWarpBoss03 : public TObjAreaWarp {
     virtual void debug_print_area_num();
     void sub_8019F9E4();
     void run_task();
-    static void *create(void *arg0);
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjWarpBoss03_size, sizeof(TObjWarpBoss03) == 0xC4);

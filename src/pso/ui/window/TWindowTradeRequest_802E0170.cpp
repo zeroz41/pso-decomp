@@ -10,19 +10,18 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/text_8024AADC.h"
+#include "pso/unk/text_8024AB98.h"
+#include "pso/unk/text_8024ACA8.h"
+#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/unk/text_8024AC64.h"
 
 extern "C" {
-void fn_8024AADC(s32 arg0, s32 arg1);
-void TLobby__sub_8024AC20(saddr arg0);
-void TWindowReturnCity__sub_8024ACA8(saddr arg0);
 extern s32 local_client_id;
-s32 *get_shared_text_buffer(void);
 u8 *get_window_layout_position(s32);
 }
 void text_builder_reset(void);
 extern "C" {
-void TObjPlayer__sub_8024ABDC(saddr arg0);
-void fn_8024AC64(saddr arg0);
 const char *TWindowTradeRequest__name = "TWindowTradeRequest";
 void TWindowTradeRequest::render() {  }
 
@@ -82,12 +81,10 @@ TWindowTradeRequest::TWindowTradeRequest(TObject *parent) : TObject(parent) {
         text_builder_append((u8 *)player->get_name());
     }
     text_builder_append((u8 *)TWindowSubStatusDisp::get_message_10(0xD9));
-    dialog = static_cast<TWindowMessageYesNo *>(
-        TWindowMessageYesNo::create(this, reinterpret_cast<void *>(local_client_id), NULL, NULL));
+    dialog = TWindowMessageYesNo::create(this, local_client_id, NULL, NULL);
     u8 *position = get_window_layout_position(0xB2);
-    open_yes_no_prompt_with_text(
-        reinterpret_cast<TChCrTagPlBack *>(dialog), reinterpret_cast<s32>(get_shared_text_buffer()),
-        reinterpret_cast<s32>(position), 260.0f);
+    dialog->open_yes_no_prompt_with_text(reinterpret_cast<saddr>(get_shared_text_buffer()),
+        reinterpret_cast<saddr>(position), 260.0f);
     dialog->set_choice_menu_flag70_bit10();
     TObjPlayer *local = get_player_by_client_id(local_client_id);
     if (local != NULL) {

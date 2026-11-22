@@ -5,6 +5,7 @@
 
 struct Vec;
 struct ActorParamBlock;
+struct ControllerInputContext;
 
 struct DirectAttackPayload {
     s32 kind;
@@ -55,7 +56,7 @@ public:
     virtual s32 consume_timer_field(s32);
     virtual s32 get_actor_level_index();
     virtual u8 *update_actor_ground_y();
-    virtual u8 *vfunc_18(u8 *);
+    virtual u8 *update_actor_ground_y_at(Vec *pos);
     virtual s32 is_actor_cadence_frame(s32);
     virtual s32 select_melee_contact_body(void *, f32);
     virtual int calc_distance_accuracy_penalty(void *, void *, void *, float);
@@ -66,7 +67,7 @@ public:
     virtual s32 try_start_action(s32, s32);
     virtual s32 roll_physical_accuracy(void *, s32, f32);
     virtual void refresh_target();
-    virtual bool has_no_target();
+    virtual int has_no_target();
     virtual s32 is_target_in_attack_range();
     virtual int test_flag_256();
     virtual int test_flag30_512();
@@ -105,7 +106,7 @@ public:
     virtual void get_anim_node_position(s32 node, Vec *out);
     virtual int vfunc_66();
     virtual int deliver_attack_hits(f32 damage_scale);
-    virtual void get_pos(s32);
+    virtual void get_pos(saddr out);
     virtual void apply_switch_attack();
     virtual void enemy_spawn_jellen_effect();
     virtual void trigger_switch_attack();
@@ -239,7 +240,9 @@ public:
     };
     f32 y_speed;
     f32 m_310;
-    s32 m_314;
+    // The pad driving it in place of its AI; TObjControl::run_task reads the
+    // attack button and the stick (inferred).
+    ControllerInputContext *controller_input;
     uaddr m_318;  // the actor's AttackParams
     ActorParamBlock *param_block;  // get_actor_param_block
     u8 unk_320[0x2];

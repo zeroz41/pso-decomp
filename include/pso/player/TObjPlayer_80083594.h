@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-void load_projected_texture_matrix(f32 farg0);
+void load_projected_texture_matrix(f32 aspect);
 void setup_particle_tev(s32 arg0);
 // Undoes setup_particle_tev (not in split screen).
 void reset_particle_tev();

@@ -22,6 +22,8 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803E2D70.h"
+#include "pso/camera/TCameraCtrl_8006A03C.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 // The actors check_target_collision hits, with slot 25 as it is called here:
 // the base declares apply_knockback_from_attacker(u8 *) without the strength.
@@ -30,7 +32,7 @@ struct TBoss3VoloptCoreTarget : public TObjCollidable {
     virtual s32 consume_timer_field(s32 frames);
     virtual s32 get_actor_level_index();
     virtual u8 *update_actor_ground_y();
-    virtual u8 *vfunc_18(u8 *);
+    virtual u8 *update_actor_ground_y_at(Vec *pos);
     virtual s32 is_actor_cadence_frame(s32 frame);
     virtual s32 select_melee_contact_body(TObject *attacker, f32 range);
     virtual int calc_distance_accuracy_penalty(void *, void *, void *, f32);
@@ -56,9 +58,7 @@ void set_matrix_identity(s32 matrix, f32 scale);
 void rotate_vector_by_matrix(saddr matrix, Vec *src, Vec *dst);
 void free_collision_body_parts(TObjEnemyCustom *object);
 void init_collision_body_parts(TObjEnemyCustom *object, TBoss3VoloptCoreBodyPart *parts, s32 count);
-void obj_setFlags30(TObjEnemyCustom *object, u32 flags);
 s32 obj_is_hit_receivable(u8 *arg0);
-void start_camera_shake(s32 id, f32 strength);
 }
 void reset_status_effect_row(u8 *row);
 

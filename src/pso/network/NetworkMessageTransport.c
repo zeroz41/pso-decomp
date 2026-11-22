@@ -15,7 +15,6 @@
 #pragma auto_inline off
 #pragma dont_inline off
 
-typedef struct Msg_804264F4 { u32 f0; u32 f4; saddr f8; } Msg_804264F4;
 
 s32 OSInitMessageQueue(void *, void *, int);
 s32 init_bba_exi_adapter(void *);
@@ -80,17 +79,17 @@ void update_exi_status(void) {
     }
 }
 
-/* Looks up a message entry and posts it on queue with value stored at +4; returns 0 on success, -1 otherwise. */
-s32 post_message(void *queue, s32 address, s32 value, s32 by_address) {
+/* Looks up packet's pool entry and posts it on queue with its length; returns 0 on success, -1 otherwise. */
+s32 post_message(void *queue, u8 *packet, s32 length, s32 by_address) {
     s32 sent;
     NetworkPacketBufferDescriptor *p;
     if (by_address != 0) {
-        p = find_entry_by_address(address);
+        p = find_entry_by_address(packet);
     } else {
-        p = TLobby__sub_804256B8(address);
+        p = TLobby__sub_804256B8(packet);
     }
     if (p != NULL) {
-        p->queued_length = value;
+        p->queued_length = length;
         sent = OSSendMessage(queue, p, 0);
     } else {
         sent = 0;
@@ -102,20 +101,20 @@ s32 post_message(void *queue, s32 address, s32 value, s32 by_address) {
 }
 
 void message_thread_loop(void) {
-    u8 *spC;
+    NetworkPacketBufferDescriptor *msg;
     u8 *sp8;
-    s32 id;
+    u8 *packet;
     s32 n;
     for (;;) {
-        OSReceiveMessage(lbl_805CF240, &spC, 1);
-        n = *(s32 *)(spC + 4);
-        id = *(s32 *)(spC + 8);
+        OSReceiveMessage(lbl_805CF240, &msg, 1);
+        n = msg->queued_length;
+        packet = msg->data;
         if (n > 0) {
-            start_exi_send(id, n, TLobby__sub_80425D88);
+            start_exi_send(packet, n, TLobby__sub_80425D88);
             OSReceiveMessage(lbl_805CF380, &sp8, 1);
             network_message_pending_count -= 1;
         }
-        clear_message_entry(id);
+        clear_message_entry(packet);
     }
 }
 
@@ -151,7 +150,7 @@ void dispatch_received_ethernet_frame(EthernetReceiveFilter *filter, void *a, vo
             TLobby__sub_804089A8(0, 1, 0, a);
             break;
         case 2:
-            release_entry_by_id((uaddr)a);
+            release_entry_by_id(a);
             break;
         }
         return;
@@ -163,7 +162,7 @@ void dispatch_received_ethernet_frame(EthernetReceiveFilter *filter, void *a, vo
                 TLobby__sub_804089A8(0, 1, (u8 *)b - 4, a);
                 break;
             case 2:
-                post_message(mq + 0xA0, (saddr)a, (saddr)((u8 *)b - 4), 1);
+                post_message(mq + 0xA0, a, (saddr)((u8 *)b - 4), 1);
                 break;
             }
             return;
@@ -177,7 +176,7 @@ void dispatch_received_ethernet_frame(EthernetReceiveFilter *filter, void *a, vo
                     TLobby__sub_804089A8(0, 1, (u8 *)b - 4, a);
                     break;
                 case 2:
-                    post_message(mq + 0xA0, (saddr)a, (saddr)((u8 *)b - 4), 1);
+                    post_message(mq + 0xA0, a, (saddr)((u8 *)b - 4), 1);
                     break;
                 }
                 return;
@@ -188,7 +187,7 @@ void dispatch_received_ethernet_frame(EthernetReceiveFilter *filter, void *a, vo
             TLobby__sub_804089A8(0, 1, 0, a);
             break;
         case 2:
-            release_entry_by_id((uaddr)a);
+            release_entry_by_id(a);
             break;
         }
         return;
@@ -199,7 +198,7 @@ void dispatch_received_ethernet_frame(EthernetReceiveFilter *filter, void *a, vo
             TLobby__sub_804089A8(0, 1, 0, a);
             break;
         case 2:
-            release_entry_by_id((uaddr)a);
+            release_entry_by_id(a);
             break;
         }
         return;
@@ -209,7 +208,7 @@ void dispatch_received_ethernet_frame(EthernetReceiveFilter *filter, void *a, vo
         TLobby__sub_804089A8(0, 1, (u8 *)b - 4, a);
         break;
     case 2:
-        post_message(mq + 0xA0, (saddr)a, (saddr)((u8 *)b - 4), 1);
+        post_message(mq + 0xA0, a, (saddr)((u8 *)b - 4), 1);
         break;
     }
 }
@@ -304,7 +303,7 @@ s16 TLobby__sub_804262CC(EthernetReceiveFilter *config) {
     return 0;
 }
 
-s32 TLobby__sub_80426440(void) {
+s16 TLobby__sub_80426440(void) {
     return 0;
 }
 
@@ -318,7 +317,7 @@ s16 post_send_message(void *data, u16 len) {
         return -1;
     }
     NetMemcpy((void *)buf, (void *)src, (saddr) (void *)len);
-    msg = TLobby__sub_804256B8((u32)buf);
+    msg = TLobby__sub_804256B8(buf);
     if (msg != NULL) {
         msg->queued_length = (s32)len;
         OSSendMessage((void *) (((s32 *)&lbl_805CF240)), msg, 0);
@@ -326,16 +325,16 @@ s16 post_send_message(void *data, u16 len) {
     return 0;
 }
 
-void clear_message_entry_wrapper(s32 entry) {
-    clear_message_entry(entry);
+void clear_message_entry_wrapper(u8 *packet) {
+    clear_message_entry(packet);
 }
 
-u16 recv_pppoe_message(saddr *out_data, u16 *out_len) {
-    Msg_804264F4 *msg;
+u16 recv_pppoe_message(u8 **out_data, u16 *out_len) {
+    NetworkPacketBufferDescriptor *msg;
     if (OSReceiveMessage(pppoe_message_queue, &msg, 0) == 1) {
-        *out_data = msg->f8;
-        *out_len = msg->f4;
-        return msg->f4;
+        *out_data = msg->data;
+        *out_len = msg->queued_length;
+        return msg->queued_length;
     }
     return 0;
 }
@@ -359,7 +358,7 @@ s32 TLobby__sub_80426574(void) {
     EthernetReceiveFilter *o = &lobby_net_channel_table.filter;
     EthernetProtocolRegistration *p;
     s32 i;
-    Msg_804264F4 *msg;
+    NetworkPacketBufferDescriptor *msg;
 
     remove_rec_80426998(0x8864);
     p = o->protocols;
@@ -375,12 +374,12 @@ s32 TLobby__sub_80426574(void) {
         if (OSReceiveMessage(pppoe_message_queue, &msg, 0) == 0) {
             break;
         }
-        clear_message_entry(msg->f8);
+        clear_message_entry(msg->data);
     }
     return 0;
 }
 
-s32 TLobby__sub_80426660(u8 *out) {
+s16 TLobby__sub_80426660(u8 *out) {
     EthernetReceiveFilter *chan = &lobby_net_channel_table.filter;
     if (TLobby__sub_804262CC(chan) < 0) {
         return -1;
@@ -392,7 +391,7 @@ s32 TLobby__sub_80426660(u8 *out) {
     return 0;
 }
 
-s32 queue_timeout_message(s16 dev, s32 address, s16 timeout) {
+s32 queue_timeout_message(s16 dev, u8 *packet, s16 timeout) {
     s32 clamped;
     NetworkPacketBufferDescriptor *msg;
     u8 pad[8];
@@ -407,7 +406,7 @@ s32 queue_timeout_message(s16 dev, s32 address, s16 timeout) {
     if (dev != 0) {
         return -0x113;
     }
-    msg = TLobby__sub_804256B8(address);
+    msg = TLobby__sub_804256B8(packet);
     if (msg != NULL) {
         msg->queued_length = clamped;
         OSSendMessage(lbl_805CF240, msg, 0);

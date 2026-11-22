@@ -8,7 +8,7 @@ struct TShopJudgmentItemWindow : public TShopWindowBase {
     TShopJudgmentItemWindow(void *arg1, void *arg2, void *arg3);
     virtual ~TShopJudgmentItemWindow();
     virtual void vfunc_11();
-    virtual void vfunc_8(s32 id, s32 flags);
+    virtual void send_message(s32 id, s32 flags);
     virtual void display_message(const char *text, s32 flags);
     u8 _pad1C[0x4];
     u32 m_20;
@@ -30,11 +30,11 @@ struct TShopJudgmentItemWindow : public TShopWindowBase {
     uaddr m_158;
     uaddr m_15c;
     uaddr m_160;
-    uaddr m_164;
+    TShopWindowBase *sequence;  // the TJudgmentSequence that opened it; messages go to it
     s32 m_168;
-    u32 m_16c;
-    u32 m_170;
-    u32 m_174;
+    void (*m_16c)(TShopWindowBase *sequence);
+    void (*m_170)(TShopWindowBase *sequence);
+    void (*m_174)(TShopWindowBase *sequence);
     void invoke_callback_174_and_destroy();
     void invoke_callback_16C_and_destroy();
     void invoke_callback_170_and_destroy();
@@ -42,7 +42,7 @@ struct TShopJudgmentItemWindow : public TShopWindowBase {
     void handle_equip_prompt();
     void create_result_windows();
     void handle_input();
-    static s32 build_item_list(void *arg0);
+    static void build_item_list(void *arg0);
     void close();
     static u8 *open_default(s32 a);
     void add_list_entry(saddr arg1, s32 arg2);

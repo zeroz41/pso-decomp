@@ -14,6 +14,7 @@
 #include "pso/item/TItem.h"
 
 #include "pso/unk/TLobby.h"
+#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 
 struct O_801C1C68 { u8 pad[4]; u8 a[0x10]; u8 b[0x10]; };
 
@@ -26,7 +27,6 @@ struct S_801C1BA8 { u8 a; u8 b; u8 c; u8 d; s32 e; C_801C1BA8 f; };
 
 extern "C" {
 int TWindowActionPalette__sub_801C1C20(void* p);
-s32 test_flags_any(s32 *flags, s32 mask);
 void *TWindowActionPalette__sub_801C1C68(O_801C1C68 *self, s32 i);
 S_801C1BA8 *fn_801C1BA8(S_801C1BA8 *arg0, S_801C1BA8 *arg1);
 }
@@ -165,29 +165,23 @@ void TWindowActionPalette::set_slot_mode(saddr arg0, s32 i, s32 arg2, s32 arg3) 
     set_action_palette_tag_mode(reinterpret_cast<ActionPaletteTag *>(p + arg2), static_cast<u8>(arg3));
 }
 
-u8 *TWindowActionPalette__sub_801C1D7C(saddr arg0, s32 i, s32 arg2) {
-  s32 var_r31;
-  u8 *var_r3;
-  saddr new_var;
-  var_r31 = arg2;
-  new_var = ((saddr)TWindowActionPalette__sub_801C1C68((O_801C1C68 *)(arg0), i));
-  var_r3 = (u8 *) (new_var + (var_r31 * 4));
-  var_r3 = (u8 *) ((void *) (saddr) get_action_palette_tag_slot(reinterpret_cast<const ActionPaletteTag *>(var_r3)));
-  return var_r3;
+s32 TWindowActionPalette__sub_801C1D7C(saddr arg0, s32 i, s32 arg2) {
+    s32 *p = (s32 *)((saddr)TWindowActionPalette__sub_801C1C68((O_801C1C68 *)(arg0), i));
+    return get_action_palette_tag_slot(reinterpret_cast<const ActionPaletteTag *>(p + arg2));
 }
 
 void TWindowActionPalette::get_entry_by_index(s32 *arg0, s32 arg1) {
     TWindowActionPalette__sub_801C1D7C((s32)((saddr) arg0), (s32)(*arg0), arg1);
 }
 
-u16 TWindowActionPalette::get_slot_type(void *arg0, s32 i, s32 arg2) {
+u16 TWindowActionPalette::get_slot_type(void *effect, s32 i, s32 id) {
   saddr new_var;
-  new_var = ((saddr)TWindowActionPalette__sub_801C1C68((O_801C1C68 *)(arg0), i));
-  return get_action_palette_tag_mode(reinterpret_cast<const ActionPaletteTag *>(new_var + arg2 * 4));
+  new_var = ((saddr)TWindowActionPalette__sub_801C1C68((O_801C1C68 *)(effect), i));
+  return get_action_palette_tag_mode(reinterpret_cast<const ActionPaletteTag *>(new_var + id * 4));
 }
 
-u16 TWindowActionPalette::get_slot_type_for_index(s32 *arg0, s32 arg1) {
-    return TWindowActionPalette::get_slot_type(arg0, (s32)(*arg0), arg1);
+u16 TWindowActionPalette::get_slot_type_for_index(s32 *effect, s32 id) {
+    return TWindowActionPalette::get_slot_type(effect, (s32)(*effect), id);
 }
 
 void* ref_primary_action_palette(void* p) { return p; }

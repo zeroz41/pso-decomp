@@ -2,7 +2,7 @@
 #include "pso/render/GinjaModel.h"
 #include "pso/render/GinjaMaterialState.h"
 #include "types.h"
-extern "C" {
+
 void set_material_texture_slot(GinjaDrawRecord *draw, u32 slot) {
     GinjaParameter *p;
     u32 i;
@@ -17,4 +17,3 @@ void set_material_texture_slot(GinjaDrawRecord *draw, u32 slot) {
     }
 }
 
-}

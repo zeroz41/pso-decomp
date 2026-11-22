@@ -13,10 +13,6 @@
 // One TU .text 0x8007EAF8-0x8007ECF0: its .sdata holds enable_v2_features, its .data the TUnk_8048DF58 vtable.
 int enable_v2_features = 1;
 
-extern "C" {
-extern TQuestVmDownLoadServer *TQuestVmDownLoadServer__instance;
-}
-
 u8 *TObjChara::get_stats() { return m_2b0; }
 
 u8 *TQuestListVM::get_quest_bin() { return decrypted_quest_buffer; }

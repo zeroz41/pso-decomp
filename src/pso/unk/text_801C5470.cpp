@@ -17,10 +17,10 @@ s32 are_trap_counts_full(s8 *counts, s32 level, s8 classId) {
     return 1;
 }
 }
-void refill_trap_counts(s32 arg0, s32 arg1, s32 arg2) {
+void refill_trap_counts(s32 trap_counts, s32 arg1, s32 arg2) {
     s32 i;
     for (i = 0; i < 4; i++) {
         s32 idx = calc_class_stat_boost_index__10TObjPlayerFScl(arg1, arg2, i);
-        TObjPlayer__sub_801C5780(arg0, idx, i);
+        TObjPlayer__sub_801C5780(trap_counts, idx, i);
     }
 }

@@ -3,6 +3,15 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
+// One attachment effect of a photon blast summon; the summon holds a counted array of them.
+// (name inferred from update_photon_blast_attachments).
+struct PhotonBlastAttachment {
+    void *obj;
+    Vec pos;
+    s32 flag;
+    s32 angles[3];
+};
+
 class TUnk_804C3248 : public TObjMotion {
 public:
     TUnk_804C3248();
@@ -35,7 +44,7 @@ public:
     f32 m_13c;
     u8 unk_140[0x4];
     f32 m_144;
-    s32 m_148;
+    PhotonBlastAttachment *m_148;
     u8 unk_14C[0x4];
     f32 m_150;
     u8 unk_154[0x4];

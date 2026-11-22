@@ -8,10 +8,9 @@
 #include "pso/network/TLobby_8041112C.h"
 
 s32 init_packet_fragment_pools(void);
-u16 ones_complement_sum(); /* declared without a parameter list; the definition is u16 (p, n) */
 
 
-NetFragPacket *TLobby__sub_8041955C(NetworkAddress *src, s32 ident, s32 ttl);
+NetFragPacket *TLobby__sub_8041955C(NetworkAddress *src, s32 ident, u8 ttl);
 s32 TLobby__sub_80419470(NetworkAddress *src, u32 ident);
 s32 TLobby__sub_80419374(NetFragPacket *pkt);
 s32 TLobby__sub_8041979C(void);
@@ -75,7 +74,7 @@ s32 release_packet_fragments(NetPacket *a) {
 
 s32 fragment_input(u8* self, u16 hdr_len, s16 frag_len, u8 ttl, u32 ident, NetworkAddress* src, u16 frag_off, u8 more, s16 iface)
 {
-    NetFragPacket* TLobby__sub_8041955C(NetworkAddress *, u32, u8); /* declared here with other parameter types; the definition is NetFragPacket * (NetworkAddress *, s32, s32) */
+    NetFragPacket *TLobby__sub_8041955C(NetworkAddress *, s32, u8); /* declared here with other parameter types; the definition is NetFragPacket * (NetworkAddress *, s32, s32) */
     NetFragPool* base = &packet_fragment_pool_state;
     s16 count;
     s32 ret;
@@ -454,7 +453,7 @@ s32 TLobby__sub_80419470(NetworkAddress *src, u32 ident) {
 #pragma push
 #pragma opt_propagation off
 /* Takes a free datagram for (src, ident), freeing everything else if none is left, and appends it to the list. */
-NetFragPacket *TLobby__sub_8041955C(NetworkAddress *src, s32 ident, s32 ttl) {
+NetFragPacket *TLobby__sub_8041955C(NetworkAddress *src, s32 ident, u8 ttl) {
     NetFragPacket *e;
     NetFragPacket **ent;
     NetFragPool *base;
@@ -600,10 +599,8 @@ s32 TLobby__sub_8041979C(void) {
     return 0;
 }
 
-u16 ones_complement_sum(p, n)
-    u8 *p;
-    s16 n;
-{
+u16 ones_complement_sum(void *data, s16 n) {
+    u8 *p = data;
     u16 tmp[2];
     u32 sum;
     u32 odd;

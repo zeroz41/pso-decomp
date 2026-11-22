@@ -4,7 +4,6 @@
 #include "types.h"
 
 extern "C" {
-s32 check_can_pickup__11TMainCursorFv(s32 arg0);
 }
 
 #endif

@@ -9,8 +9,8 @@ struct TechniqueContactBody;
 
 struct TNeedleShoot : public TObject {
     virtual ~TNeedleShoot();
-    virtual int vfunc_6();
-    virtual int queue_destruction();
+    virtual void vfunc_6();
+    virtual void queue_destruction();
     virtual void vfunc_8();
     virtual void vfunc_9(void *);
     uaddr m_1c;
@@ -46,6 +46,6 @@ struct TNeedleShoot : public TObject {
 LAYOUT_ASSERT(TNeedleShoot_size, sizeof(TNeedleShoot) == 0xBC);
 
 extern "C" {
-void TNeedleShoot__sub_802A4668(void *arg0);
+void TNeedleShoot__sub_802A4668(void *self);
 }
 #endif

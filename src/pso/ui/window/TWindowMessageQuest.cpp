@@ -5,6 +5,7 @@
 #include "pso/unk/TLobby_8026B06C.h"
 #include "pso/network/client_id.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/ui/window/WindowLayout.h"
 
 #pragma readonly_strings on
 
@@ -33,7 +34,6 @@ struct DefaultQuestMessageExtent {
 static const DefaultQuestMessageExtent lbl_8044F464 = {{384.0f, 80.0f}, 0.0f};
 
 extern "C" {
-saddr get_window_layout_position(int);
 
 TWindowMessageQuest *create_quest_message_window() {
     return create_quest_message_window_at(reinterpret_cast<const NJS_POINT2 *>(get_window_layout_position(0xAD)), &lbl_8044F464.size);
@@ -68,7 +68,7 @@ TWindowMessageQuest::~TWindowMessageQuest() {
 }
 
 
-TWindowMessageQuest::TWindowMessageQuest(s32 arg1) : TWindowMessage(arg1, 1, local_client_id) {
+TWindowMessageQuest::TWindowMessageQuest(s32 parent) : TWindowMessage(parent, 1, local_client_id) {
     this->m_name = TWindowMessageQuest__name;
     frame_mode = 0;
 }

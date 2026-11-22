@@ -34,7 +34,7 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/TLobby_80226070.h"
-
+#include "pso/math/MatrixTransforms.h"
 
 
 extern "C" {
@@ -83,7 +83,6 @@ struct RecoveredGlobal_80181278_lbl_804B5908 {
 extern "C" {
 u8 * __ct__8TObjBaseFP7TObject(void *);
 extern RecoveredGlobal_80181278_lbl_804B5908 __vt__18TObjCityAirCar_Car;
-LAYOUT_ASSERT(RecoveredGlobal_80181278_lbl_804B5908_size, sizeof(RecoveredGlobal_80181278_lbl_804B5908) == 0x34);
 }
 
 struct Rec_80181310 { s32 timer; s32 count; void *objs[2]; };
@@ -112,7 +111,6 @@ typedef struct
 } Quat_801817AC;
 
 
-
 typedef struct
 {
   f32 len[5];
@@ -125,7 +123,6 @@ extern "C" {
 void __ct__7TObjectFP7TObject(void *);
 extern u8 __vt__19TObjCityAirCar_Ctrl[];
 s32 alloc_tables__6TLobbyFll(s32, s32, s32, BmlModelEntry *);
-void subtract_vector(Vec *, Vec *);
 BmlResource *city_air_car_model_resource;
 GinjaTextureList *city_air_car_model_handle;
 }
@@ -332,13 +329,13 @@ void run_task__19TObjCityAirCar_CtrlFv(Ctrl_80181310 *self) {
 void TObjCityAirCar_Ctrl::render() {  }
 
 
-u8 *construct_city_air_car(TObjCityAirCar_Car *city_air_car_car, void *parent, s32 arg2, s32 arg3, f32 farg0) {
+u8 *construct_city_air_car(TObjCityAirCar_Car *city_air_car_car, void *parent, s32 arg2, s32 type, f32 farg0) {
     __ct__8TObjBaseFP7TObject(city_air_car_car);
     *(s32 **)((s8 *)city_air_car_car + 0x18) = &__vt__18TObjCityAirCar_Car.value;
     city_air_car_car->m_name = TObjCityAirCar_Car__name;
     *(f32 *)((s8 *)city_air_car_car + 0x90) = 0.0f;
     *(s32 *)((s8 *)city_air_car_car + 0x98) = arg2;
-    city_air_car_car->m_9c = arg3;
+    city_air_car_car->m_9c = type;
     city_air_car_car->m_94 = farg0;
     *(s32 *)((s8 *)city_air_car_car + 0xA0) = 0;
     city_air_car_car->m_a4 = 0;

@@ -3,7 +3,7 @@
 #include "pso/system/task/TMainTask.h"
 
 
-void *TObjWarpBoss03::create(void *arg0) {
-    return new TObjWarpBoss03(tl_05, arg0);
+void *TObjWarpBoss03::create(void *set_data) {
+    return new TObjWarpBoss03(tl_05, set_data);
 }
 

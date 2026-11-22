@@ -18,7 +18,7 @@ void TUnk_804A1098::emit_marker_effects() {
     if (is_mode_two_and_ready() != 0) {
         if (get_joint_position(0, &sp8) != 0) {
             tec_gi_barta = this->owner;
-            ((TTecGiBarta *)tec_gi_barta)->create_ex(&sp8, (void *)(*(saddr *)((s8 *)tec_gi_barta + 0x60)), (void *)(((TItemWeapon *)this)->get_tp()));
+            TTecGiBarta::create_ex(tec_gi_barta, &sp8, *(saddr *)((s8 *)tec_gi_barta + 0x60), ((TItemWeapon *)this)->get_tp());
             roll_technique();
         }
     } else {
@@ -74,7 +74,7 @@ void TUnk_804A1098::update_weapon() {
     }
 }
 
-void TUnk_804A1098::vfunc_57() { roll_technique(); roll_technique(); }
+void TUnk_804A1098::on_equipped() { roll_technique(); roll_technique(); }
 
 TUnk_804A1098::~TUnk_804A1098() {}
 

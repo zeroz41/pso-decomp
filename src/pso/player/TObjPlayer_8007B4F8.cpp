@@ -3,8 +3,6 @@
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 
-extern "C" {
-
 
 s32 com_card_keyboard_mode;
 
@@ -23,4 +21,3 @@ void TObjPlayer::set_com_card_window(s32 arg0) {
     }
 }
 
-}

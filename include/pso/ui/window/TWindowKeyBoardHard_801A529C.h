@@ -8,7 +8,7 @@ void TLobby__sub_801A5478(void);
 void TLobby__sub_801A54E8(u8 *arg0);
 void alloc_work_buffer(void);
 }
-void set_fresh_card_flag(void *arg0);
+void set_fresh_card_flag(void *card);
 
 // --- C functions defined in TWindowKeyBoardHard_801A529C.cpp ---
 extern "C" {
@@ -16,7 +16,7 @@ void TLobby__sub_801A5478(void);
 void TLobby__sub_801A54E8(u8 *arg0);
 void alloc_work_buffer(void);
 }
-void set_fresh_card_flag(void *arg0);
+void set_fresh_card_flag(void *card);
 // --- end of C functions
 
 #endif

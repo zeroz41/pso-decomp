@@ -23,10 +23,8 @@ void TObjNpcFemaleBase__sub_80149C64(void) {
     }
 }
 
-extern "C" {
 extern uaddr npc_town_motion_data;
 extern u32 lbl_805D5D78;
-}
 
 void TObjNpcFemaleBase__sub_80149C7C(void) { lbl_805D5758 = lbl_805D5D78; }
 

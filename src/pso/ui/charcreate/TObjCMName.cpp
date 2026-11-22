@@ -267,7 +267,7 @@ void fn_802947A8(void);
 int TObjCMName__sub_802948F4(TObjCMName *, char *);
 Hair_802964B0 * __ct__14TObjCMHairMenuFv(Hair_802964B0 *arg0, void *arg1);
 void render__16TObjCMAssignMenuFv(Menu_80296928 *self);
-void * __ct__16TObjCMAssignMenuFv(void *arg0, void *parent, void *kind);
+void * __ct__16TObjCMAssignMenuFv(void *arg0, void *parent, s32 kind);
 void fn_802972BC(void);
 void fn_802972C0(void);
 void TObjCMMainMenu__sub_80298310(void);
@@ -657,15 +657,15 @@ void TObjCMMainMenu::update_slide_offset() {
 
 void TObjCMMainMenu::update_random_proportion_action(void * _w0) {
     f32 right_trigger_ratio;
-    f32 temp_f31_2;
+    f32 ratio;
     if (TAdSinglePlyChrSelectGC::is_active() != 0) {
         switch (TObjCMMainMenu__data_805D659C) {
         case 0:
         case 1:
             right_trigger_ratio = TObjCMProportion::get_right_trigger_ratio();
-            temp_f31_2 = TObjCMProportion::get_ratio() - right_trigger_ratio;
-            if (fabs_float(temp_f31_2) > 0.05f) {
-                TObjCMMainMenu__sub_80298DA0((s32) (1092.0f * temp_f31_2));
+            ratio = TObjCMProportion::get_ratio() - right_trigger_ratio;
+            if (fabs_float(ratio) > 0.05f) {
+                TObjCMMainMenu__sub_80298DA0((s32) (1092.0f * ratio));
             }
             break;
         }
@@ -749,7 +749,7 @@ void TObjCMMainMenu::sub_80297EF4() {
         icon_pos.y = 234.0f;
         draw_ui_sprite(lbl_804DBC40[character->section], &icon_pos, -3.0625f, section_alpha);
     }
-    const char *section_name = (const char *)TObjLuker::get_stat_table_entry(character->section);
+    const char *section_name = TObjLuker::get_stat_table_entry(character->section);
     if (character->flags & 1) {
         section_name = lbl_805D3CD8;
     }
@@ -1012,7 +1012,7 @@ void TObjCMMainMenu::draw_root_menu() {
 void TObjCMMainMenu::open_assign_menu() {
     play_sound_effect(0x52D01, 0, 0, 0);
     TObjCMMainMenu__data_805D659C = 1;
-    TObjCMAssignMenu::create(nodes, (void *)TObjCMMainMenu__data_804DB9C8[entries[selected_entry]].kind);
+    TObjCMAssignMenu::create(nodes, TObjCMMainMenu__data_804DB9C8[entries[selected_entry]].kind);
 }
 
 void TObjCMMainMenu::open_hair_menu() {
@@ -1058,20 +1058,20 @@ void TObjCMMainMenu::confirm_selection() {
 
 s32 TObjCMMainMenu::try_pay_fee() {
     s32 temp_r4;
-    void *temp_r3;
+    void *char_index;
 
     if ((void *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF) == NULL) {
         play_sound_effect(0x40018519, 0, 0, 0);
         return 0;
     }
-    temp_r3 = (void *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF);
-    temp_r4 = *(s32 *)((s8 *)temp_r3 + 0x36C);
+    char_index = (void *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF);
+    temp_r4 = *(s32 *)((s8 *)char_index + 0x36C);
     if (temp_r4 < 0x2710) {
-        *(s32 *)((s8 *)temp_r3 + 0x36C) = 0;
+        *(s32 *)((s8 *)char_index + 0x36C) = 0;
         play_sound_effect(0xB20C, 0, 0, 0);
         return 0;
     }
-    *(s32 *)((s8 *)temp_r3 + 0x36C) = (temp_r4 - 0x2710);
+    *(s32 *)((s8 *)char_index + 0x36C) = (temp_r4 - 0x2710);
     play_sound_effect(0x44E03, 0, 0, 0);
     return 1;
 }
@@ -1084,7 +1084,7 @@ void fn_802972BC(void) {  }
 
 const char *TObjCMAssignMenu__name = "TObjCMAssignMenu";
 
-void *__ct__16TObjCMAssignMenuFv(void *obj_cm_assign_menu, void *parent, void *kind) {
+void *__ct__16TObjCMAssignMenuFv(void *obj_cm_assign_menu, void *parent, s32 kind) {
     u32 bit;
     s32 i;
     ((void (*)(void *, void *))__ct__7TObjectFP7TObject)(obj_cm_assign_menu, parent);
@@ -1092,7 +1092,7 @@ void *__ct__16TObjCMAssignMenuFv(void *obj_cm_assign_menu, void *parent, void *k
     ((Menu_80297128 *)obj_cm_assign_menu)->name = TObjCMAssignMenu__name;
     ((Menu_80297128 *)obj_cm_assign_menu)->chara = (*(Chara_80297128 * *)&creation_player_character);
     ((Menu_80297128 *)obj_cm_assign_menu)->f20 = 0;
-    ((Menu_80297128 *)obj_cm_assign_menu)->kind = (saddr)kind;
+    ((Menu_80297128 *)obj_cm_assign_menu)->kind = kind;
     ((Menu_80297128 *)obj_cm_assign_menu)->count = ((Row_80297128 *)&class_appearance_table)[character_display_index(reinterpret_cast<uaddr>(((Menu_80297128 *)obj_cm_assign_menu)->chara))].v[((Menu_80297128 *)obj_cm_assign_menu)->kind];
     ((Menu_80297128 *)obj_cm_assign_menu)->f28 = ((Menu_80297128 *)obj_cm_assign_menu)->chara->f38[((Menu_80297128 *)obj_cm_assign_menu)->kind];
     ((Menu_80297128 *)obj_cm_assign_menu)->n = 0;
@@ -1130,7 +1130,7 @@ void *__ct__16TObjCMAssignMenuFv(void *obj_cm_assign_menu, void *parent, void *k
 
 TObjCMAssignMenu::~TObjCMAssignMenu() {}
 
-void *TObjCMAssignMenu::create(void *parent, void *kind) {
+void *TObjCMAssignMenu::create(void *parent, s32 kind) {
     void *o;
     o = TObject::operator new(0x5C);
     if (o != NULL) {
@@ -2013,25 +2013,25 @@ void TObjCMProportion::run_task() {
     f32 sp8;
     f32 temp_f0;
     f32 temp_f1_4;
-    f32 var_f1;
+    f32 proportion;
     f32 var_f30;
     f32 var_f29;
     CharacterAppearanceFields *temp_r3_3;
     CharacterAppearanceFields *temp_r3_4;
 
-    var_f1 = TObjCMMainMenu::get_proportion();
+    proportion = TObjCMMainMenu::get_proportion();
     if ((s32) arg0->active != 0) {
         if (1.0f == arg0->fade) {
-            var_f1 += -0.033333335f;
-            if (var_f1 < 0.0f) {
-                var_f1 = 0.0f;
+            proportion += -0.033333335f;
+            if (proportion < 0.0f) {
+                proportion = 0.0f;
             }
         }
     } else {
         temp_f0 = 1.0f - arg0->fade;
-        var_f1 = (var_f1 > temp_f0) ? var_f1 : temp_f0;
+        proportion = (proportion > temp_f0) ? proportion : temp_f0;
     }
-    set_creation_projection_center(var_f1);
+    set_creation_projection_center(proportion);
     if ((s32) arg0->initialized == 0) {
         arg0->initialized = 1;
         return;

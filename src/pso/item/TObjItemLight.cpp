@@ -9,6 +9,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/text_800870BC.h"
 
 
 #pragma readonly_strings on
@@ -22,7 +23,6 @@ s32 is_item_light_interaction_blocked();
 f32 xz_distance_squared(void *, void *);
 Ply_80191F90 *get_player_by_client_id(s32);
 void run_task__13TObjItemLightFv(Light_80191F90 *arg0);
-void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 
 
 void run_task__13TObjItemLightFv(Light_80191F90 *arg0) {
@@ -56,9 +56,9 @@ TObjItemLight::~TObjItemLight() {
 const char *TObjItemLight__class_name = "TObjItemLight";
 
 #define item_light this
-TObjItemLight::TObjItemLight(TObject *arg1, saddr arg2) : TObjBase(arg1) {
+TObjItemLight::TObjItemLight(TObject *parent, saddr set_data) : TObjBase(parent) {
     ((TObjItemLight *)item_light)->m_name = TObjItemLight__class_name;
-    item_light->apply_object_set_data((void *)arg2);
+    item_light->apply_object_set_data((void *)set_data);
     item_light->m_94 = 0;
     *(f32 *)((s8 *)item_light + 0x90) = (f32) item_light->scale.x;
     if (*(f32 *)((s8 *)item_light + 0x90) < 0.0f) {

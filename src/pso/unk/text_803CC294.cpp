@@ -20,7 +20,7 @@ struct Ent_803CD5C4 {
     u8 pad_0[4]; s32 f4; s32 f8; u16 fc; u8 pad_e[0x114 - 0xE]; s16 f114; s16 arr[1];
 };
 
-extern "C" {
+
 extern Ent_803CC294 *afs_archive_toc_table[];
 extern s32 lobby_adxf_current_file_id;
 extern s32 lobby_afs_toc_entry_index;
@@ -30,7 +30,6 @@ u8 *lbl_805D75F0;
 extern s32 adxf_log_write_index;
 extern s32 lbl_805D75E4;
 
-}
 
 // Command history: one entry per call (phase 0) and per return (phase 1) of an ADXF command.
 template <typename LastArgument>
@@ -461,7 +460,7 @@ void ADXF_Close(AdxfHandle *adxf) {
             stop_803CC980(adxf);
         }
         if (adxf->stream != 0) {
-            TLobby__sub_803C8B38(adxf->stream);
+            adxstm_close(adxf->stream);
         }
         memset(adxf, 0, sizeof(*adxf));
         TLobby::release_ref();
@@ -527,7 +526,7 @@ inline s32 open_803CD3A8(AdxfHandle *s, const void *name, s32 mode) {
         TLobby::notify_error("E9081901:illigal parameter fname=null.(ADXF_Open)");
         return -1;
     }
-    h = TLobby__sub_803C8CDC((const char *)name, mode, 0);
+    h = adxstm_open_fname_attr((const char *)name, mode, 0);
     if (h == 0) {
         TLobby::notify_error("E0110901:can't open file.(ADXF_Open)");
         return -1;
@@ -608,12 +607,12 @@ s32 adxf_load_partition(s32 broken) {
     return -1;
 }
 
-s32 TLobby::read_afs_toc(s32 arg0) {
+s32 TLobby::read_afs_toc(s32 id) {
     s16 *arr;
     Ent_803CD5C4 *e;
     s32 st;
     s32 i;
-    if (arg0 != lobby_adxf_current_file_id) {
+    if (id != lobby_adxf_current_file_id) {
         TLobby::notify_error("E0041303:illigal parameter 'ptid'.(ADXF_GetPtStat)");
         return -3;
     }
@@ -621,7 +620,7 @@ s32 TLobby::read_afs_toc(s32 arg0) {
     if (st != 3) {
         return st;
     }
-    e = ((Ent_803CD5C4 * *)&afs_archive_toc_table)[arg0];
+    e = ((Ent_803CD5C4 * *)&afs_archive_toc_table)[id];
     arr = e->arr;
     if (e->f8 == 0) {
         s32 n;
@@ -675,7 +674,7 @@ void TLobby__sub_803CD804(void) {
 u8 adxf_open_file_buffer[0x2080];
 
 // ADXF_LoadPartitionNw (named by its messages)
-s32 adxf_open_file__6TLobbyFiPviPv(s32 id, const char *name, s32 arg2, Ent_803CC294 *e) {
+s32 adxf_open_file__6TLobbyFiPviPv(s32 id, const char *name, s32 mode, Ent_803CC294 *e) {
     s32 r;
     u8 *buf;
     r = adxf_chk_prm_pt(id, e);
@@ -686,7 +685,7 @@ s32 adxf_open_file__6TLobbyFiPviPv(s32 id, const char *name, s32 arg2, Ent_803CC
         TLobby::notify_error("E0042401:multi-load partition.(ADXF_LoadPartitionNw)");
         return -1;
     }
-    lobby_adxf_open_file_handle = ADXF_Open(name, arg2);
+    lobby_adxf_open_file_handle = ADXF_Open(name, mode);
     if (lobby_adxf_open_file_handle == NULL) {
         TLobby::notify_error("E9040804:can't open file.(ADXF_LoaddPartitionNw)");
         return -1;
@@ -697,7 +696,7 @@ s32 adxf_open_file__6TLobbyFiPviPv(s32 id, const char *name, s32 arg2, Ent_803CC
     afs_archive_toc_table[id] = e;
     e->next = NULL;
     strncpy(e->name, name, 0x100);
-    e->f110 = arg2;
+    e->f110 = mode;
     e->fe = 0;
     buf = (u8 *)((saddr)(adxf_open_file_buffer + 0x20) & ~0x1F);
     lbl_805D75F0 = buf;

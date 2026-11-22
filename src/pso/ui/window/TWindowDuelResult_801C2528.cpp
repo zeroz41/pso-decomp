@@ -47,7 +47,7 @@ TUnk_804C3E60::TUnk_804C3E60(TObject *parent, s32 gain, s32 duration) : TObject(
 
 s32 *TWindowDuelResult__sub_801C257C(void) {
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        return (long *) (get_split_screen_battle_rankings());
+        return get_split_screen_battle_rankings();
     }
     return &TLobby__duel_result_table.value;
 }

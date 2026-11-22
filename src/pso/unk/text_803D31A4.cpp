@@ -1,7 +1,8 @@
 #include "types.h"
 #include <string.h>
 #include "pso/unk/text_803D31A4.h"
-#include "stdarg.h"
+#include <stdarg.h>
+#include <stdio.h>
 #include "pso/unk/TLobby.h"
 
 s32 lobby_callback_tables_refcount;
@@ -18,14 +19,17 @@ extern "C" {
 SvmMessageSlot lbl_805D765C;
 SvmTransitionSlot lbl_805D7664;
 SvmTransitionSlot lbl_805D766C;
-int vsprintf(char *s, const char *fmt, va_list ap);
 void TLobby__sub_803D38B4(const char *fmt, ...);
 u32 worker_callback_slots[8];
 char svm_callback_message_buffer[0x100];
+}
+
 SvmTransitionSlot svm_callback_single_table[7];
 SvmWorkerSlot svm_callback_table[7][4];
 WorkerCallbackFlagTable worker_callback_flag_table;
 SvmCallbackCounts svm_callback_counts;
+
+extern "C" {
 
 void TLobby::init_callback_tables() {
     if ((s32) lobby_callback_tables_refcount == 0) {
@@ -74,12 +78,12 @@ void TLobby__sub_803D33E4(AdxTransitionCallback arg0, s32 arg1) {
     lbl_805D766C.fn = arg0;
     lbl_805D766C.arg = arg1;
 }
-void TLobby::set_callback_params(AdxMessageCallback arg0, s32 arg1) {
+void TLobby::set_callback_params(AdxMessageCallback arg0, s32 context) {
     if (lbl_805D766C.fn != NULL) {
         lbl_805D766C.fn(lbl_805D766C.arg);
     }
     lbl_805D765C.fn = arg0;
-    lbl_805D765C.arg = arg1;
+    lbl_805D765C.arg = context;
     if (lbl_805D7664.fn != NULL) {
         lbl_805D7664.fn(lbl_805D7664.arg);
     }
@@ -173,8 +177,8 @@ s32 TLobby::svm_set_cb_svr(s32 arg0, AdxWorkerCallback fn, s32 arg) {
     return i;
 }
 
-void TLobby::set_message_and_notify(char *arg0) {
-    strncpy(svm_callback_message_buffer, arg0, 0xFF);
+void TLobby::set_message_and_notify(char *src) {
+    strncpy(svm_callback_message_buffer, src, 0xFF);
     if (lbl_805D765C.fn != 0) {
         lbl_805D765C.fn(lbl_805D765C.arg, svm_callback_message_buffer);
     }

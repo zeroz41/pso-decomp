@@ -1,5 +1,6 @@
 #include "types.h"
 #include "pso/math/FloatRounding.h"
+#include "clib/math.h"
 
 extern "C" {
 f64 ceil(f64);

@@ -12,6 +12,11 @@
 #include "pso/effect/TUnk_804CCC68.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/technique/TTecGiZonde_8023CDC4.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/object/base/CollisionActorLookup.h"
 
 typedef struct GTarget_80232598 {
     u16 id;
@@ -67,7 +72,7 @@ struct RecoveredFields_8023C558_arg0
   s16 field_F0;
 };
 
-extern "C" {
+
 typedef struct RecoveredFields_8023C558_arg0 RecoveredFields_8023C558_arg0;
 #pragma readonly_strings on
 
@@ -90,7 +95,6 @@ void TTecGiZonde::init_parameters() {
   }
 }
 
-}
 
 struct Elec_80238E14 { s32 type; f32 val; };
 
@@ -130,13 +134,8 @@ void TTecGiZonde::vfunc_8(void *arg1_arg) {
 }
 
 extern "C" {
-void *find_entity_by_id(u16 id);
 s16 get_entity_id(void *);
-s32 play_sound_effect(s32, void *, s32, s32);
 s32 copy_technique_target_list(void *, void *);
-f32 vector_length(Vec *);
-u8 *construct_helper_effect__11TTecGiZondeFPvPvPvPvi(u8 *arg0, u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4);
-extern saddr tl_07;
 
 #define UNQ(e) TTecLuker::is_parents_unqueued(e)
 s32 TTecGiZonde::find_chain_targets() {

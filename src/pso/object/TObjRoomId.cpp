@@ -15,6 +15,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/object/TObjRoomId.h"
+#include "pso/system/task/TMainTask.h"
 
 
 // The class name, then the direction run_task rotates by the object's yaw into normal, the plane
@@ -120,7 +121,6 @@ void TObjRoomId::run_task() {
 
 TObjRoomId::~TObjRoomId() {}
 
-extern void *tl_05;
 
 TObjRoomId::TObjRoomId(TObject *parent, void *set_data) : TObjBase(parent) {
     m_name = TObjRoomId__name;
@@ -131,7 +131,7 @@ TObjRoomId::TObjRoomId(TObject *parent, void *set_data) : TObjBase(parent) {
 }
 
 void *TObjRoomId::create(void *set_data) {
-    return new TObjRoomId((TObject *)tl_05, set_data);
+    return new TObjRoomId(tl_05, set_data);
 }
 
 void set_player_room_control_flag(TObjPlayer *player) {

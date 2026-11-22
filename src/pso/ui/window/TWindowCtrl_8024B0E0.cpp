@@ -6,11 +6,11 @@ extern "C" {
 
 saddr get_window_layout_position(s32);
 
-saddr TWindowCtrl::get_message_by_type(s8 arg0, s32 arg1) {
+saddr TWindowCtrl::get_message_by_type(s8 arg0, s32 client_id) {
     saddr window;
     s32 var_r3;
 
-    window = TWindowCtrl::get_window(arg1);
+    window = TWindowCtrl::get_window(client_id);
     if (window == 0) {
         return 0;
     }
@@ -24,15 +24,14 @@ saddr TWindowCtrl::get_message_by_type(s8 arg0, s32 arg1) {
     return get_window_layout_position(var_r3 + arg0);
 }
 
-extern void *TWindowCtrl__active_window;
 
 void TWindowCtrl::release_slot(s8 *arg0) {
     s8 temp_r4;
 
-    if ((void *) TWindowCtrl__active_window != NULL) {
+    if (TWindowCtrl__active_window != NULL) {
         temp_r4 = *arg0;
         if ((temp_r4 >= 0) && (temp_r4 < 4)) {
-            *(u16 *)((s8 *)TWindowCtrl__active_window + 0x1C) = (u16) (*(u16 *)((s8 *)TWindowCtrl__active_window + 0x1C) & ~(0x40 << temp_r4));
+            TWindowCtrl__active_window->flags &= ~(0x40 << temp_r4);
             *arg0 = -1;
         }
     }

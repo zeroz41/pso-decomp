@@ -19,15 +19,15 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/item/drop/TItemDrop_800F93F0.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/unk/text_803D853C.h"
 
 
 #pragma push
 #pragma fp_contract on
 #pragma pop
 
-
-extern void* camera_controller_registry[];
-void* camera_controller_registry[];
 
 struct CameraMotionData;
 extern "C" {
@@ -83,8 +83,6 @@ struct Stack_8006C28C {
 void sample_camera_motion(u8 *arg0, saddr arg1, u8 *arg2, f32 farg0);
 extern "C" {
 f32 vec_squared_length(u8 *arg0);
-void rotate_matrix_y(int, s32);
-void matrix_mult_vec(int, Vec *, Vec *);
 }
 extern u8 identity_matrix[];
 
@@ -164,11 +162,6 @@ TUnk_80488B68::~TUnk_80488B68() {
 
 }
 
-extern "C" {
-
-saddr load_relocatable_file(saddr arg0, saddr arg1);
-
-}
 TUnk_80488B68::TUnk_80488B68() : TUnk_80488A28() {
     this->m_38 = 0;
     scripted_camera_projection_angle = 0;

@@ -37,7 +37,7 @@ inline void end_803D1D28(LscStream *lsc_stream) {
     s32 range_offset = 0;
     s32 range_length = 0;
     if (lsc_stream->file_handle != 0) {
-        TLobby__sub_803C8B38(lsc_stream->file_handle);
+        adxstm_close(lsc_stream->file_handle);
         lsc_stream->file_handle = 0;
         if ((s32)lsc_stream->repeat == 1) {
             entry = &lsc_stream->entries[lsc_stream->read_index];

@@ -247,14 +247,14 @@ int TUnk_804ED7D0::vfunc_9(s32 a, s32 b, s32 c) {
     return town_player_motion_clip_index_tables[a][b][c];
 }
 
-int TUnk_804ED7D0::vfunc_8(s32 arg1, s32 arg2) {
+const s32 *TUnk_804ED7D0::vfunc_8(s32 arg1, s32 variant) {
     if (((s32)TLobby__sub_802A7278(arg1)) == 0) {
-        return 0;
+        return NULL;
     }
-    if (((s32)is_valid_player_motion_variant(arg2)) != 0) {
-        return (saddr)town_player_motion_clip_index_tables[arg1][arg2];
+    if (((s32)is_valid_player_motion_variant(variant)) != 0) {
+        return town_player_motion_clip_index_tables[arg1][variant];
     }
-    return 0;
+    return NULL;
 }
 int TUnk_804ED7D0::vfunc_7(s32, s32) {
     s32 i = ((s32 (*)(void))is_valid_state__6TLobbyFPvi)();
@@ -293,8 +293,6 @@ void alloc_work_buffer__6TLobbyFv(void) {
 }
 
 
-void free__10TObjPlayerFPv(void *a0);
-
 void TLobby::update_photon_chairs() { TPlyPhotonChair::free_static_model(); TLobby::free_singleton_805D6C80(); TLobby::set_photon_chair_flag(0); TLobby::clear_flag_at_6c84(); }
 void TLobby::update_photon_chair() {
     TLobby::set_photon_chair_flag(0);
@@ -324,8 +322,7 @@ int TUnk_804ED7D0::vfunc_11() { return (IVS(this)) == 0; }
 int TUnk_804ED7D0::vfunc_10() { return (CVS(this)) == 0; }
 
 int TUnk_804ED7D0::vfunc_13() {
-    saddr arg0 = (saddr)this;
-    return (u8) (((s32)IVS((void*)arg0)) == 1);
+    return (u8) (((s32)IVS(this)) == 1);
 }
 
 int TUnk_804ED7D0::vfunc_12() {

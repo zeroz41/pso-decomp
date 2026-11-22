@@ -201,7 +201,7 @@ s32 TUnk_804928CC::area_attack_deliver_physical(void *arg1, void *object, f32 ra
             }
             if (obj_is_hit_receivable() != 0 && t != ((P_800BC080 *)this)->self_tgt && is_area_attack_target_eligible(((P_800BC080 *)this), t->x30) != 0) {
                 ok = 1;
-                if (object != NULL && attack_target_history_add((saddr)object, (saddr)t) == 0) {
+                if (object != NULL && attack_target_history_add((AreaAttackHistory *)object, (TObjChara *)t) == 0) {
                     ok = 0;
                 }
                 if (ok != 0) {
@@ -227,8 +227,8 @@ void TUnk_804928CC::call_vt16_with_default(void *, void *) {
 }
 #pragma pop
 
-s32 TUnk_804928CC::vfunc_16(void *arg1, void *arg2) {
-    return call_vt13_with_default(arg1, arg2, 0);
+s32 TUnk_804928CC::vfunc_16(void *arg1, void *attack) {
+    return call_vt13_with_default(arg1, attack, 0);
 }
 
 s32 TUnk_804928CC::area_attack_deliver_direct(void *recoil, saddr arg2, void *object, f32 range) {
@@ -257,7 +257,7 @@ s32 TUnk_804928CC::area_attack_deliver_direct(void *recoil, saddr arg2, void *ob
             }
             if (obj_is_hit_receivable() != 0 && t != ((P_800BC250 *)this)->self_tgt && is_area_attack_target_eligible(((P_800BC250 *)this), t->x30) != 0) {
                 ok = 1;
-                if (object != NULL && attack_target_history_add((saddr)object, (saddr)t) == 0) {
+                if (object != NULL && attack_target_history_add((AreaAttackHistory *)object, (TObjChara *)t) == 0) {
                     ok = 0;
                 }
                 if (ok != 0) {
@@ -270,8 +270,8 @@ s32 TUnk_804928CC::area_attack_deliver_direct(void *recoil, saddr arg2, void *ob
     return hit;
 }
 
-s32 TUnk_804928CC::call_vt13_with_default(void *recoil, void *attack, s32 history) {
-    return area_attack_deliver_direct(recoil, reinterpret_cast<s32>(attack), reinterpret_cast<void *>(history), 100.0f);
+s32 TUnk_804928CC::call_vt13_with_default(void *recoil, void *attack, saddr history) {
+    return area_attack_deliver_direct(recoil, reinterpret_cast<saddr>(attack), reinterpret_cast<void *>(history), 100.0f);
 }
 
 }

@@ -9,7 +9,7 @@ class TObject;
 struct TObjEneDarkGunner : public TObjEnemyCustom {
     TObjEneDarkGunner(TObject *parent, void *set_data);
     virtual ~TObjEneDarkGunner();
-    static void *create(void *arg0);
+    static void *create(void *set_data);
     void sub_800A27CC();
     virtual void run_task();
     virtual void render();

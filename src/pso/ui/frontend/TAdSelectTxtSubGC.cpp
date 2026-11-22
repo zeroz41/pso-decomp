@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/object/TObjControl.h"
 #include "pso/ui/frontend/TAdSelectTxtSubGC.h"
+#include "pso/ui/frontend/TAdSelectTxtGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -52,8 +53,6 @@ extern s32 __vt__17TAdSelectTxtSubGC[];
 Txt_802A37A0 *__ct__17TAdSelectTxtSubGCFv(Txt_802A37A0 *arg0, void *parent, Src_802A37A0 *src);
 
 void TAdSelectTxtSubGC::render() { if (TMainTask::get_render_pass() != 1) { set_color_blending_mode(0, 8); set_color_blending_mode(1, 10); render_status(); set_color_blending_mode(0, 8); set_color_blending_mode(1, 6); } }
-
-    extern int ad_select_text_texture_handle;
 
 #pragma push
 #pragma fp_contract on

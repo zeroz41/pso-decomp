@@ -49,9 +49,7 @@ struct Ent_800B23A0 { s32 a; u32 count; };
 
 struct Pair_800B23A0 { s32 k; Ent_800B23A0 *e; };
 
-void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
-s32 TBoss8Dragon__sub_800BB7D4(void *, s32);
-s32 pack_debug_text_position(s32, s32);
+void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 angle);
 s32 set_field_e4__10TObjPlayerFll(void *, int, f32);
 void spawn_dead_spot_scale15(s32 point, s32 delay);
 void free_collision_body_parts(void *);
@@ -61,7 +59,7 @@ f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
 s32 vec3_add_to(void *, void *);
 s32 post_translate_matrix(void *);
-void draw_model_motion(void *arg0, void *arg1, f32 farg0);
+void draw_model_motion(void *model, void *motion, f32 frame);
 
 Bm3FlyMovementParameters bm3_fly_nest_params = { 225.0f, 0.0f, 0x600, { 0, 0, 0, 0 } };
 CollisionBody bm3_flynest_collider_params[1] = {
@@ -488,7 +486,7 @@ void TObjEneBm3FlyNest::spawn_child() {
     if (child_count <= 6) {
         n = (set_index + 1) + spawned_count;
         VecCopy(&pos, sub_800B2A54());
-        if (((TObjEneBm3Fly *)this)->create((void *)next_child_id, (void *)n, &pos, &velocity) != 0) {
+        if (((TObjEneBm3Fly *)this)->create(next_child_id, n, &pos, &velocity) != 0) {
             child_ids[child_count++] = next_child_id;
             next_child_id++;
             spawned_count++;
@@ -1075,10 +1073,10 @@ void TObjEneBm3FlyNest::render() {
 
 #pragma pool_data off
 void TObjEneBm3FlyNest::render_with_state_debug() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     f32 var_f31;
     Ent_800B23A0 *var_r30;
-    if (((TObjEneDD *)arg0)->get_target_info() != 0) {
+    if (((TObjEneDD *)self)->get_target_info() != 0) {
         switch (this->state) {
         default:
         case 2:
@@ -1111,10 +1109,10 @@ void TObjEneBm3FlyNest::render_with_state_debug() {
     }
     if (this->update_object_view_visibility(500.0f, 120.0f) != 0) {
         Vec v = {5.0f, 1.0f, 5.0f};
-        ((TObjEneDD *)(arg0))->draw_ground_shadow(&v, 1);
+        ((TObjEneDD *)(self))->draw_ground_shadow(&v, 1);
         TObjFish::set_global_param(this->texlist);
         push_matrix();
-        ((void (*)(void *))post_translate_matrix)(arg0 + 0x38);
+        ((void (*)(void *))post_translate_matrix)(self + 0x38);
         translate_matrix(0, 0.0f, -5.0f, 0.0f);
         rotate_matrix_y(0, this->rotation_y);
         TObjEneDD::clear_global_flag_400();
@@ -1126,9 +1124,9 @@ void TObjEneBm3FlyNest::render_with_state_debug() {
         pop_matrix();
     }
     push_matrix();
-    ((void (*)(void *))post_translate_matrix)(arg0 + 0x38);
+    ((void (*)(void *))post_translate_matrix)(self + 0x38);
     rotate_matrix_y(0, this->rotation_y);
-    translate_matrix(0, *(f32 *)((s8 *)arg0 + 0x35C), *(f32 *)((s8 *)arg0 + 0x360), *(f32 *)((s8 *)arg0 + 0x364));
+    translate_matrix(0, *(f32 *)((s8 *)self + 0x35C), *(f32 *)((s8 *)self + 0x360), *(f32 *)((s8 *)self + 0x364));
     draw_chunk_object((void *)debug_chunk_object);
     pop_matrix();
 }

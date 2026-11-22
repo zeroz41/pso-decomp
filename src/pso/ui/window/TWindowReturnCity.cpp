@@ -15,6 +15,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
+#include "pso/unk/TLobby_80207644.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 struct Base_8026D208 { char pad[0x18]; };
 struct VObj_8026D208 : Base_8026D208 {
@@ -32,8 +34,6 @@ struct VObj_8026D208 : Base_8026D208 {
 
 extern "C" {
 void *get_player_by_client_id(s32);
-s32 get_floor_map_terrain(s32);
-void mark_area_change_pending(void);
 s32 prepare_hospital_return__10TObjPlayerFv();
 s32 __ct__7TObjectFP7TObject(void *, void *);
 saddr get_window_layout_position(int);
@@ -125,20 +125,20 @@ TWindowReturnCity::~TWindowReturnCity() {
     if (*(void **)((s8 *)this + 0x1C) != NULL) { ((TWindowSubComCard *)(*(void **)((s8 *)this + 0x1C)))->close(); this->m_1c = 0; }
 }
 
-u8 *TWindowReturnCity__ct(TWindowReturnCity *window_return_city, saddr arg1, s32 arg2) {
-  s32 temp_r31;
-  __ct__7TObjectFP7TObject((void *) window_return_city, (void *) arg1);
+u8 *TWindowReturnCity__ct(TWindowReturnCity *window_return_city, saddr parent, s32 arg2) {
+  s32 window_layout_position;
+  __ct__7TObjectFP7TObject((void *) window_return_city, (void *) parent);
   *((s32 **) (((s8 *) window_return_city) + 0x18)) = __vt__17TWindowReturnCity;
   *((s32 *) (((s8 *) window_return_city) + 0)) = (saddr) TWindowReturnCity__class_name;
   window_return_city->m_24 = arg2;
-  temp_r31 = (saddr)TWindowMessageYesNo::create((void *)((void *) window_return_city), (void *)(window_return_city->m_24), 0, 0);
-  window_return_city->m_1c = temp_r31;
+  window_layout_position = (saddr)TWindowMessageYesNo::create((void *)((void *) window_return_city), window_return_city->m_24, 0, 0);
+  window_return_city->m_1c = window_layout_position;
   if (window_return_city)
   {
   }
-  temp_r31 = get_window_layout_position(0x23);
-  open_yes_no_prompt_with_text((TChCrTagPlBack *)window_return_city->m_1c, (saddr)(TWindowSubStatusDisp::get_message_10(0x43)), (s32)temp_r31, 206.0f);
-  set_menu_selected_index((TWindowSubComCard *)window_return_city->m_1c, 1);
+  window_layout_position = get_window_layout_position(0x23);
+  ((TWindowMessageYesNo *)window_return_city->m_1c)->open_yes_no_prompt_with_text((saddr)(TWindowSubStatusDisp::get_message_10(0x43)), (s32)window_layout_position, 206.0f);
+  ((TWindowMessageYesNo *)window_return_city->m_1c)->set_menu_selected_index(1);
   fn_8024AC64((window_return_city->m_24));
   TWindowCtrl::set_close_flag();
   TWindowCtrl__sub_8026D4E8();
@@ -150,16 +150,15 @@ void TWindowReturnCity__sub_8026D4BC(void) {  }
 
 void TWindowReturnCity__sub_8026D4C0(void) { TWindowReturnCity__client_scan_index = 4; }
 
-extern void *TWindowCtrl__active_window;
 
 void TWindowReturnCity::clear_flag_bit5() {
-    if ((void *) TWindowCtrl__active_window != NULL) {
-        *(u16 *)((s8 *)TWindowCtrl__active_window + 0x1C) = (u16) (*(u16 *)((s8 *)TWindowCtrl__active_window + 0x1C) & 0xFFFFFFDF);
+    if (TWindowCtrl__active_window != NULL) {
+        TWindowCtrl__active_window->flags &= ~0x20;
     }
 }
 
 void TWindowCtrl__sub_8026D4E8(void) {
-    if ((void *) TWindowCtrl__active_window != NULL) {
-        *(u16 *)((s8 *)TWindowCtrl__active_window + 0x1C) = (u16) (*(u16 *)((s8 *)TWindowCtrl__active_window + 0x1C) | 0x20);
+    if (TWindowCtrl__active_window != NULL) {
+        TWindowCtrl__active_window->flags |= 0x20;
     }
 }

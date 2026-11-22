@@ -32,6 +32,8 @@
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/system/byteswap.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/system/TLoadCtrl_80227390.h"
+#include "pso/ui/TLevelSelect.h"
 
 extern const char dark_falz_state_name_editor[] = "EDITOR";
 extern const char dark_falz_state_name_wait_casket[] = "WAIT_CASKET";
@@ -66,8 +68,6 @@ extern Vec lbl_80485454;
     extern int dark_falz_form_index;
 int TBoss4DarkFalz__sub_8004B07C(TBoss4DarkFalz *);
 int TBoss4DarkFalz__sub_8004B7DC(void);
-void play_area_music(char *name);
-extern s32 game_difficulty_selection;
 void TBoss4DarkFalz__sub_8004B4F0(void *arg0p, void *arg1p);
 struct RecoveredGlobal_TBoss4DarkFalz__data_804FF1E8 { s32 value; u8 remaining[0x3C]; };
 extern RecoveredGlobal_TBoss4DarkFalz__data_804FF1E8 TBoss4DarkFalz__data_804FF1E8;
@@ -366,7 +366,7 @@ void TBoss4DarkFalz::update_spawn_type2_countdown() {
 void TBoss4DarkFalz::update_leader_app_type2() {  }
 
 void TBoss4DarkFalz::start_demo1() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     ((s32 (*)(void))freeze_all_players__14TBoss4DarkFalzFPv)();
     if (TBoss4DarkFalz__type1_instance != NULL) {
         TObjChara *form = TBoss4DarkFalz__type1_instance;
@@ -483,12 +483,9 @@ void TBoss4DarkFalz::update_demo_warp1() {
 extern "C" {
 f32 horizontal_distance_squared(void *, void *);
 extern s32 registered_player_count;
-void TBoss4DarkFalz__sub_8004B8F8(TBoss4DarkFalz *arg0);
+void TBoss4DarkFalz__sub_8004B8F8(TBoss4DarkFalz *boss4_dark_falz);
 }
 void set_dark_falz_music_request(s32 arg0);
-extern "C" {
-int create__14TObjDFUsoTowerFPv(void);
-}
 void unlock_music_flag(s32 flag);
 
 void TBoss4DarkFalz::init_timer() {

@@ -18,7 +18,7 @@ struct TTecRaBarta : public TUnk_804CC148 {
     u16 hit_ids[32];  // entity ids vfunc_6 has already hit
     u32 m_138;
     static void create(void *source, void *origin, void *pos, void *level);
-    void create(void *origin, void *level);
+    static void create(void *source, void *origin, s32 level);
     virtual void render();
     virtual void run_task();
 };

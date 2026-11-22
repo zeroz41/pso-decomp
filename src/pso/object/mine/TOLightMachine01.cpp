@@ -1,7 +1,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #include "types.h"
-#include "pso/system/BmlResource.h"
+
 #include "pso/system/BmlResourceLoader.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/object/mine/TOLightMachine01.h"
@@ -19,6 +19,8 @@
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/unk/text_803D8F74.h"
 
 #pragma readonly_strings on
 
@@ -33,9 +35,7 @@ BmlResource *TOLightMachine01__shared_bml_archive;
 NJS_OBJECT *light_machine_ginja_model_handle;
 GinjaTextureList *light_machine_ginja_param;
 const char *TOLightMachine01__name = "TOLightMachine01";
-extern s32 tl_05;
 s32 post_translate_matrix(void *);
-s32 rotate_matrix_y(s32, s32);
 
 void TOLightMachine01::run_task() {
     this->m_a8 = (s32) (this->m_a8 + this->m_a4);
@@ -90,11 +90,11 @@ TOLightMachine01::~TOLightMachine01() {
 #pragma push
 #pragma fp_contract on
 #define light_machine01 this
-TOLightMachine01::TOLightMachine01(void *arg1) : TObjBase((TObject *)tl_05) {
+TOLightMachine01::TOLightMachine01(void *set_data) : TObjBase(tl_05) {
     ((TOLightMachine01 *)light_machine01)->m_name = TOLightMachine01__name;
-    ((TOLightMachine01 *)(light_machine01))->apply_object_set_data((void *)arg1);
+    ((TOLightMachine01 *)(light_machine01))->apply_object_set_data((void *)set_data);
     light_machine01->model = (void *)get_bml_model((BmlResource *)TOLightMachine01__shared_bml_archive, 1);
-    light_machine01->texlist = (s32)get_bml_texlist((BmlResource *)TOLightMachine01__shared_bml_archive, 1);
+    light_machine01->texlist = (saddr)get_bml_texlist((BmlResource *)TOLightMachine01__shared_bml_archive, 1);
     light_machine01->view_range = 500.0f;
     light_machine01->m_94 = ((GinjaModelBounds *)((NJS_OBJECT *)light_machine01->model)->model)->radius;
     light_machine01->actorFlags = (s32) (light_machine01->actorFlags | 0x40000000);

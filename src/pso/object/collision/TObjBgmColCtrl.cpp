@@ -15,7 +15,7 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/object/collision/TObjBgmCol.h"
 #include "pso/object/collision/TObjBgmCol_8017E7F0.h"
-#include "pso/object/base/TObjMotion.h"
+
 #include "pso/player/TObjPlayer_80011014.h"
 
 
@@ -31,15 +31,12 @@ struct Names_8017E1E4 { const char *name[2]; };
 extern u32 TLobby__event_theme_id;
 s32 bgm_zone_category;
 s32 lbl_805D5B04;
-uaddr TObjBgmColCtrl__instance;
+// The root the BGM collision zones hang under (created next to the controller).
+TObject *TObjBgmColCtrl__instance;
 u32 TObjBgmColCtrl__current_theme_id;
 
 void create_bgm_col_zones(void);
-extern "C" {
-u32 __ct__7TObjectFP7TObject(int, int);
-extern uaddr TObjBgmColCtrl__instance;
 extern s32 tl_05;
-}
 int get_quest_bgm_issued_flag(void);
 
 extern s32 local_client_id;
@@ -75,16 +72,11 @@ const Row_8017E550 lbl_80443780[12] = {
     {{12.82f, 0.0f, -204.0f}, 26.0f, 2},
 };
 
-extern "C" {
-extern s32 bgm_zone_category;
-}
-
 struct Zone_8017E748 { u8 pad[0x9C]; s32 category; };
 
-extern "C" {
+
 const char *TObjBgmCol__name = "TObjBgmCol";
 const char *TObjBgmColCtrl__name = "TObjBgmColCtrl";
-}
 
 extern s32 lbl_805D62E4;
 extern int TQuestBgmCtrl__bgm_issued_flag;
@@ -173,7 +165,7 @@ void create_bgm_col_zones(void) {
             VecCopy((Vec *)&set.position, (const Vec *)&lbl_80443690[i].pos);
             set.scale.x = lbl_80443690[i].radius;
             set.set_params[0] = lbl_80443690[i].category;
-            new TObjBgmCol((TObject *)TObjBgmColCtrl__instance, &set);
+            new TObjBgmCol(TObjBgmColCtrl__instance, &set);
         }
         break;
     case AREA_PIONEER2_EP2:
@@ -181,7 +173,7 @@ void create_bgm_col_zones(void) {
             VecCopy((Vec *)&set.position, (const Vec *)&lbl_80443780[i].pos);
             set.scale.x = lbl_80443780[i].radius;
             set.set_params[0] = lbl_80443780[i].category;
-            new TObjBgmCol((TObject *)TObjBgmColCtrl__instance, &set);
+            new TObjBgmCol(TObjBgmColCtrl__instance, &set);
         }
         break;
     }
@@ -201,26 +193,15 @@ TObjBgmColCtrl::TObjBgmColCtrl(saddr parent) : TObject((TObject *)parent) {
 }
 
 TObjBgmColCtrl::~TObjBgmColCtrl() {
-    if (TObjBgmColCtrl__instance != 0) {
-        delete (TObject *)TObjBgmColCtrl__instance;
-        TObjBgmColCtrl__instance = 0;
+    if (TObjBgmColCtrl__instance != NULL) {
+        delete TObjBgmColCtrl__instance;
+        TObjBgmColCtrl__instance = NULL;
     }
 }
 
 void TObjBgmColCtrl::create_controller() {
-    uaddr temp_r3;
-    void *ctrl;
-    u32 var_r0;
-    temp_r3 = (uaddr)TObject::operator new(0x1C);
-    var_r0 = temp_r3;
-    if (var_r0 != 0U) {
-        var_r0 = __ct__7TObjectFP7TObject(temp_r3, 0);
-    }
-    TObjBgmColCtrl__instance = var_r0;
-    ctrl = TObject::operator new(0x20);
-    if (ctrl != NULL) {
-        __ct__14TObjBgmColCtrlFl(ctrl, tl_05);
-    }
+    TObjBgmColCtrl__instance = new TObject(NULL);
+    new TObjBgmColCtrl(tl_05);
     create_bgm_col_zones();
 }
 
@@ -236,9 +217,9 @@ void TObjBgmColCtrl::run_task() {
             }
         } else {
             lbl_805D5B04 = 0;
-            void *thisObj = (void *)(u32)TObjBgmColCtrl__instance;
-            if (thisObj != NULL) {
-                ((TObject *)thisObj)->run_tasks();
+            TObject *root = TObjBgmColCtrl__instance;
+            if (root != NULL) {
+                root->run_tasks();
             }
             if ((s32) lbl_805D5B04 == 0) {
                 if (TObjBgmColCtrl::is_active() == 0) {

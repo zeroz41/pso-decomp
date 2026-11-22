@@ -203,41 +203,41 @@ s32 TBoss3Volopt::remap_area_sound_id(s32 arg0) {
     return result;
 }
 
-s32 remap_area_sound_id(s32 arg0, s32 arg1) {
+s32 remap_area_sound_id(s32 sound_id, s32 control) {
     s32 area;
     s32 base;
     s32 start;
     area = get_current_floor_area();
     if (TLobby::get_instance() != 0) {
         if (area != AREA_VR_TEMPLE_ALPHA && area != AREA_VR_TEMPLE_BETA && area != AREA_VR_SPACESHIP_ALPHA && area != AREA_VR_SPACESHIP_BETA && area != AREA_SEASIDE_NIGHT && area != AREA_TOWER) {
-            return arg0;
+            return sound_id;
         }
     } else {
         if (area != AREA_BATTLE1 && area != AREA_BATTLE2) {
-            return arg0;
+            return sound_id;
         }
     }
-    if ((u32) arg0 == 0x4003B241U) {
+    if ((u32) sound_id == 0x4003B241U) {
         return 0x4003B23E;
     }
-    if (((u32) (arg0 & 0xBFFF00FF) >> 16 << 16) != 0x30000) {
-        return arg0;
+    if (((u32) (sound_id & 0xBFFF00FF) >> 16 << 16) != 0x30000) {
+        return sound_id;
     }
     if (TLobby::get_instance() != 0) {
-        base = area_sound_remap_table_b[arg1].base;
+        base = area_sound_remap_table_b[control].base;
     } else {
-        base = area_sound_remap_table_a[arg1].base;
+        base = area_sound_remap_table_a[control].base;
     }
     if (base < 0) {
-        return arg0;
+        return sound_id;
     }
     if (TLobby::get_instance() != 0) {
-        start = area_sound_remap_table_b[arg1].start;
+        start = area_sound_remap_table_b[control].start;
     } else {
-        start = area_sound_remap_table_a[arg1].start;
+        start = area_sound_remap_table_a[control].start;
     }
     {
-        s32 r = base + (arg0 - start);
-        return r | (arg0 & 0x8FFFFF00);
+        s32 r = base + (sound_id - start);
+        return r | (sound_id & 0x8FFFFF00);
     }
 }

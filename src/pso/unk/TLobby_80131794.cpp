@@ -5,26 +5,26 @@
 #include "pso/ui/window/TWindowMakeTeam.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 
-extern "C" {
+
 extern const char lbl_805DB070 = '.';
 void TLobby::debug_print(const char *fmt, ...) {}
 
-s32 replace_file_extension__6TLobbyFPvPvPv(char *arg0, char *arg1, char *arg2) {
+s32 replace_file_extension__6TLobbyFPvPvPv(char *arg0, char *filename, char *arg2) {
     char buf[0x20];
     char *p;
     s32 n;
     memset(buf, 0, 0x20);
     if (arg0 == 0) {
-        arg0 = arg1;
+        arg0 = filename;
     }
     p = buf;
     for (n = 0x20; n != 0; n--) {
-        if (*arg1 == '.' || *arg1 == 0) {
+        if (*filename == '.' || *filename == 0) {
             break;
         }
-        *p = *arg1;
+        *p = *filename;
         p++;
-        arg1++;
+        filename++;
     }
     if (p > &buf[27]) {
         return -1;
@@ -35,12 +35,12 @@ s32 replace_file_extension__6TLobbyFPvPvPv(char *arg0, char *arg1, char *arg2) {
     return 0;
 }
 
-s32 change_file_extension__6TLobbyFPvPvPv(char *arg0, char *arg1, char *arg2) {
+s32 change_file_extension__6TLobbyFPvPvPv(char *dest, char *arg1, char *src) {
     char buf[0x20];
     char *p;
     s32 n;
-    if (arg0 == 0) {
-        arg0 = arg1;
+    if (dest == 0) {
+        dest = arg1;
     }
     p = buf;
     for (n = 0x20; n != 0; n--) {
@@ -56,8 +56,8 @@ s32 change_file_extension__6TLobbyFPvPvPv(char *arg0, char *arg1, char *arg2) {
     }
     *p = 0;
     strcat(buf, &lbl_805DB070);
-    strcat(buf, arg2);
-    strncpy(arg0, buf, 0x20);
+    strcat(buf, src);
+    strncpy(dest, buf, 0x20);
     return 0;
 }
 
@@ -72,4 +72,3 @@ int TLobby::compare_file_extension(const char *ext) {
     return -1;
 }
 
-}

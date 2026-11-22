@@ -6,6 +6,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 #pragma readonly_strings on
 
@@ -17,10 +18,9 @@ void free_collision_body_parts(void *);
 void TObjCollision::render() {  }
 void TObjCollision::run_task() {  }
 
-extern void *tl_06;
 
 void *TObjCollision::create(void *arg0) {
-    return new TObjCollision((TObject *)tl_06, arg0);
+    return new TObjCollision(tl_06, arg0);
 }
 
 }

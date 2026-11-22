@@ -91,16 +91,15 @@ s32 TLobby__sub_80407418(s16 id) {
     return 0;
 }
 
-s16 forward_net_op(s16 idx, u8 *name, u8 *arg2) {
-    return arp_resolve_and_send(idx, name, arg2);
+s16 forward_net_op(s16 idx, u8 *name, u8 *pkt) {
+    return arp_resolve_and_send(idx, name, pkt);
 }
 
-void forward_net_op_5args(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s32 arg5, s8 arg6, s32 arg7) {
-    s16 register_arp_interface(s16, s16, s16, s16, s16, saddr, s8, saddr);
-    register_arp_interface(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+s16 forward_net_op_5args(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s32 arg5, s16 arg6, s32 arg7) {
+    return register_arp_interface(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
 }
 
-extern s32 arp_handle_packet(void *pkt, s16 a, s16 b, s16 c);
+extern s32 arp_handle_packet(void *pkt, s16 a, s16 b, s32 c);
 s32 arp_init(void)
 {
     ArpState *tbl = &lbl_805C1AB0;
@@ -151,7 +150,7 @@ s32 arp_init(void)
     return 0;
 }
 
-s32 TLobby__sub_804082AC(ArpIface *iface, ArpFields *f, void *haddr);
+s16 TLobby__sub_804082AC(ArpIface *iface, ArpFields *f, void *haddr);
 inline ArpIface *FindHit_80407640(ArpState *t, s16 b, s16 c) {
     ArpIface *hit;
     s16 i;
@@ -186,10 +185,8 @@ inline ArpEntry *FindPeer_80407640(ArpEntry *peer, s16 n, u8 ff, u8 *p2) {
     }
     return 0;
 }
-extern s32 arp_handle_packet(void *pkt, s16 a, s16 b, s16 c)
+extern s32 arp_handle_packet(void *pkt, s16 a, s16 b, s32 c)
 {
-  s32 call_handler_by_index(s16 arg0, s16 arg1, s32 arg2, s32 arg3, s32 arg4); /* declared here with an s16 2nd argument; the definition takes s32 */
-  s16 TLobby__sub_804082AC(ArpIface *, ArpFields *, void *); /* declared here with an s16 result; the definition returns s32 */
   ArpState *t = &lbl_805C1AB0;
   ArpHeader *pp;
   ArpIface *hit;
@@ -497,8 +494,6 @@ s16 register_arp_interface(s16 a, s16 b, s16 c, s16 d, s16 e, saddr f, s16 g, sa
     ArpIface *slot;
     s16 res;
     s16 idx;
-    s16 TLobby__sub_8040A044(s16, u32, s16, u32 *); /* declared here with an s16 3rd argument; the definition takes s32 */
-    s32 call_entry_callback(s16, s16); /* declared here with an s16 2nd argument; the definition takes s32 */
 
     if (a < 0) {
         return -1;
@@ -631,7 +626,7 @@ NetPacket *alloc_packet_with_header(ArpFields *f, ArpIface *iface) {
     return pkt;
 }
 
-s32 TLobby__sub_804082AC(ArpIface *iface, ArpFields *f, void *haddr) {
+s16 TLobby__sub_804082AC(ArpIface *iface, ArpFields *f, void *haddr) {
     s16 i;
     ArpAlias *p;
 

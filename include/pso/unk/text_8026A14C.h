@@ -3,16 +3,14 @@
 
 #include "types.h"
 
-extern "C" {
-void fn_8026A14C(void);
-void fn_8026A1C4(char *dst, char *src, s32 size);
-}
+class THeap;
 
-// --- C functions defined in text_8026A14C.cpp ---
+extern THeap *TAdScrollWinGC__chat_log_heap;
+extern char *chat_last_line_buffer;
+
 extern "C" {
 void fn_8026A14C(void);
 void fn_8026A1C4(char *dst, char *src, s32 size);
 }
-// --- end of C functions
 
 #endif

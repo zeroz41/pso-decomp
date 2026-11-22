@@ -11,6 +11,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/math/MatrixVector.h"
 
 #pragma readonly_strings on
 
@@ -74,10 +75,9 @@ u8 *csnVector(f32 *, f32 *, s32);
 void init_collision_body_parts(void *, void *, int);
 void *__ct__14TObjCollidableFP7TObject(void *, void *);
 void __ct__7TObjectFP7TObject(void *, void *);
-f32 vector_length(Vec *);
 extern s32 __vt__12TNeedleShoot[];
 extern void *tl_06;
-TNeedleShoot_802A47C8 *TNeedleShoot__ct(TNeedleShoot_802A47C8 *self, s32 arg1, Vec *from, Vec *to);
+TNeedleShoot_802A47C8 *TNeedleShoot__ct(TNeedleShoot_802A47C8 *self, s32 owner, Vec *from, Vec *to);
 void free_collision_body_parts(void *);
 
 void TNeedleShoot::vfunc_8() {  }
@@ -123,8 +123,8 @@ void TObjEneMe1GiGueMissile::update_lifetime() {
     this->m_24 = (f32) (temp_f1 + *(f32 *)&this->_padAC);
 }
 
-void TNeedleShoot__sub_802A4668(void *arg0) {
-    struct VObj_802A4668 *o = (struct VObj_802A4668 *)arg0;
+void TNeedleShoot__sub_802A4668(void *self) {
+    struct VObj_802A4668 *o = (struct VObj_802A4668 *)self;
     o->m5();
 }
 
@@ -155,7 +155,7 @@ TNeedleShoot::~TNeedleShoot() {
 }
 
 
-TNeedleShoot_802A47C8 *TNeedleShoot__ct(TNeedleShoot_802A47C8 *self, s32 arg1, Vec *from, Vec *to) {
+TNeedleShoot_802A47C8 *TNeedleShoot__ct(TNeedleShoot_802A47C8 *self, s32 owner, Vec *from, Vec *to) {
     f32 dx;
     f32 dz;
     f32 dy;
@@ -178,7 +178,7 @@ TNeedleShoot_802A47C8 *TNeedleShoot__ct(TNeedleShoot_802A47C8 *self, s32 arg1, V
     self->f8c = 1.0f;
     self->f90 = 1.0f;
     self->f24 = 0.0f;
-    self->f1c = arg1;
+    self->f1c = owner;
     self->fac = 5.0f;
     self->f20 = 1000.0f;
     self->fb0 = 0;
@@ -207,6 +207,6 @@ TNeedleShoot_802A47C8 *TNeedleShoot__ct(TNeedleShoot_802A47C8 *self, s32 arg1, V
     return self;
 }
 
-int TNeedleShoot::vfunc_6() { TObject::queue_destruction(); }
-int TNeedleShoot::queue_destruction() { TObject::queue_destruction(); }
+void TNeedleShoot::vfunc_6() { TObject::queue_destruction(); }
+void TNeedleShoot::queue_destruction() { TObject::queue_destruction(); }
 void TNeedleShoot::vfunc_9(void *) {  }

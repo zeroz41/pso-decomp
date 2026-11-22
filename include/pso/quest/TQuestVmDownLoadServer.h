@@ -5,6 +5,7 @@
 #include "pso/ui/window/TMessageWindowController.h"
 #include "types.h"
 
+class TMCFormatSequence;
 struct Hdr_803EA384;
 struct Info_803F0138;
 struct QuestDownloadItemNode;
@@ -14,24 +15,26 @@ struct Req_803EEF2C;
 
 class TQuestVmDownLoadServer : public TObject, public TMessageWindowController {
 public:
-    s32 m_22c;
-    s32 m_230;
-    s32 m_234;
-    s32 m_238;
+    // Field names are inferred from their uses in TQuestVmDownLoadServer.cpp.
+    s32 pad_22c;
+    s32 total_blocks;          // sum of the files' memory card block counts, checked against the free blocks
+    s32 card_mask;             // bit per channel that probe_card_slot reports present
+    s32 prev_card_mask;
     u8 _pad23C[0x20];
-    s32 m_25c;
-    void *m_260;
-    u8 unk_264[0x4];
-    s32 m_268;
-    u8 unk_26C[0x4];
-    char m_270[0xD];
-    char m_27d[0xD];
-    void *m_28c;
-    void *m_290;
-    s32 m_294;
-    s32 m_298;
-    TObject *m_29c;
+    s32 memcard_slot;          // the card picked to save to (poll_memcard_result, get_memcard_free_files)
+    void *save_image;          // alloc(blocks << 13) image built by build_save_file_image
+    s32 slot_file_blocks;      // blocks of quest_download_file_slot
+    s32 state_file_blocks;     // blocks of TQuestVmDownLoadServer__download_file_state
+    s32 info_file_blocks;      // blocks of quest_download_file_info
+    char slot_file_name[0xD];  // written with slot_file_blocks
+    char state_file_name[0xD]; // written with state_file_blocks
+    void *icon_menu;           // TWindowMenuIconLine (clear_decided)
+    void *status_window;       // init_shop_judgment_window
+    TWindowMessagePage *message_window; // create_window's window, closed by close_message
+    s32 file_count;            // files to save, checked against get_memcard_free_files
+    TObject *mc_select;        // TAdMcSelectGC::create
     s32 state;
+    s32 pad_2a4; // picks update_mc_select's status message; nothing in this TU writes it
 
     TQuestVmDownLoadServer(TObject *parent);
     virtual ~TQuestVmDownLoadServer();
@@ -71,7 +74,7 @@ public:
     void check_cancel_input();
     static void create();
     static s32 get_field230();
-    static void clear_field2A0();
+    static void clear_field2A0(TMCFormatSequence *sequence);
     static void split_time_hms(s32 arg0, s32 *arg1, s32 *arg2, s32 *arg3);
     static void *alloc(u32 size);
     static s32 is_ready();
@@ -79,10 +82,10 @@ public:
     static s32 poll_serial_access();
     static void destroy_instance();
     static void reset_download();
-    static s32 reset_download_buffers(s32 *);
-    static s32 poll_download_status(s32 *);
-    static s32 handle_list_scroll(s32 *args);
-    static s32 convert_jis_to_sjis_string(s32 *args);
+    static s32 reset_download_buffers(saddr *);
+    static s32 poll_download_status(saddr *);
+    static s32 handle_list_scroll(saddr *args);
+    static s32 convert_jis_to_sjis_string(saddr *args);
     static void init_buffer_pointers();
     static s32 get_buffer_size();
     static u8 lookup_value_by_key(u16 arg0);
@@ -91,14 +94,14 @@ public:
     static void invalidate_entries_by_id(s32 id);
     static void clear_entries_by_id(s32 id);
     static s32 release_ref_slot(u32 arg0);
-    static s32 set_slot_values_for_indices(s32 *arg0, s32 arg1, u32 arg2);
+    static s32 set_slot_values_for_indices(s32 *ids, s32 arg1, u32 arg2);
     s32 get_max_size_of_indices(s32 arg1);
     static u32 acquire_slot_entry(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
     static void retry_seek_active_entries();
     static void set_active();
     static s32 match_prefix_length(const u8 *a, const u8 *b, s32 n);
-    static s32 count_matching_name_prefix(s32 arg0, u8 *arg1);
-    s32 is_char_allowed(s16 arg1);
+    static s32 count_matching_name_prefix(s32 idx, u8 *name);
+    s32 is_char_allowed(s16 len);
     static s32 read_ask_header();
     static void init_page_cache();
     static s32 seek_or_reopen(int arg0);
@@ -107,7 +110,7 @@ public:
     static void unescape_copy_string(u8 *arg0, u8 *arg1, u8 *arg2);
     static s32 count_entries_until_terminator(const u8 *p, const u8 *end);
     static void copy_sjis_string(u8 *arg0, u8 *arg1);
-    static s32 calc_sjis_string_width(u8 *arg0);
+    static s32 calc_sjis_string_width(u8 *text);
     s32 calc_text_length();
     s32 calc_message_length();
     static u8 *get_buffer_ptr(s32 arg0);
@@ -118,16 +121,16 @@ public:
     static QuestDownloadTextNode *build_text_node_chain(void *record, const QuestDownloadItemNode *source, s32 length,
                                                          QuestDownloadTextNode **head, QuestDownloadTextNode **tail);
     static u16 jis_to_sjis(u16 arg0);
-    static s32 is_valid_sjis_code(u16 arg0);
+    static s32 is_valid_sjis_code(u16 ch);
     static s32 is_download_command(u16 arg0, s32 arg1);
     static s32 encode_char_with_attr(u16 *out, u16 ch, s32 attr);
     static s32 is_sjis_lead_byte(u8 arg0);
     static void push_download_entry(void *storage);
     static void init_block_free_list();
     static s32 calc_item_cost_bonus(u8 kind, u8 v, u8 w, s32 base, s32 add);
-    static s32 calc_pair_cost_bonus(u8 arg0, u8 arg1, s32 arg2);
-    static s32 calc_item_entry_cost_extra(u8 arg0, u8 arg1, u8 arg2, s32 arg3);
-    static void reset_slot_chain_timers(s32 arg0);
+    static s32 calc_pair_cost_bonus(u8 arg0, u8 bk, s32 extra);
+    static s32 calc_item_entry_cost_extra(u8 arg0, u8 arg1, u8 bk, s32 extra);
+    static void reset_slot_chain_timers(s32 pos);
     static s32 select_best_slot_entry(s32 idx, s32 max, s32 want);
     static s32 sum_entry_sizes(s32 start, s32 n);
     static const u8 *find_keyword_entry(u16 *start, u16 *end);
@@ -142,11 +145,13 @@ public:
     static u8 *get_cached_page(s32 page);
     s32 lookup_name_entry(s16 name_len, Out_803E8C2C *out);
     void append_message_text(s32 size, Req_803EEF2C *msg, u8 attr);
-    static QuestDownloadItemNode *build_item_list(s32 arg0, Hdr_803EA384 *arg1);
+    static QuestDownloadItemNode *build_item_list(s32 start, Hdr_803EA384 *arg1);
     static s32 count_fitting_entries(QuestDownloadTextNode *arg0);
     s32 find_symbol_entry(s16 len, Info_803F0138 *out);
 };
-LAYOUT_ASSERT(TQuestVmDownLoadServer_size_check, sizeof(TQuestVmDownLoadServer) == 0x2A4);
+LAYOUT_ASSERT(TQuestVmDownLoadServer_size_check, sizeof(TQuestVmDownLoadServer) == 0x2A8);
+
+extern TQuestVmDownLoadServer *TQuestVmDownLoadServer__instance;
 
 // The two seeds of the download cipher; a quest saved to a memory card is
 // encrypted with the console's serial number in both.
@@ -154,9 +159,22 @@ extern __declspec(section ".data") u32 download_rng_seed_pair[2];
 
 void seed_download_rng(s32 seed);
 
-// quest_download_file_header: layout known from its uses only.
-struct QuestDownloadFileHeader { s32 value; u8 remaining[0x38]; };
-extern QuestDownloadFileHeader quest_download_file_header;
+// One downloaded quest file (begin_file_download fills one per extension: .dat, .bin, .pvr, .gba);
+// the type name is inferred. size is the packet's file size, +8 for .dat/.bin whose buffer starts with a
+// QuestDownloadFile header (receive_file_chunk writes their chunks at data + 8); data is alloc(size).
+struct QuestDownloadRecord {
+    char name[0x10];
+    char title[0x24];
+    s32 size;
+    u8 *data;
+};
+
+extern QuestDownloadRecord TQuestVmDownLoadServer__download_file_state; // .dat
+extern QuestDownloadRecord quest_download_file_slot;                    // .bin
+extern QuestDownloadRecord quest_download_file_info;                    // .pvr
+extern QuestDownloadRecord quest_download_file_header;                  // .gba
+
+QuestDownloadRecord *get_quest_download_file_header(void);
 
 // Set while a quest file is being downloaded (TQuestVmDownLoadServer::load_quest_data sets it).
 extern s32 quest_download_in_progress;

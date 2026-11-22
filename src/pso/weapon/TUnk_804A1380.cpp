@@ -16,7 +16,7 @@ void TUnk_804A1380::emit_marker_effects() {
     spawn_particle_effect((const Vec *)&sp8, 0x1BF);
     if (is_mode_two_and_ready() != 0) {
         owner = this->owner;
-        TTecFoie::create((void *)owner, &sp8, (void *)(*(saddr *)((s8 *)owner + 0x60)), (void *)3);
+        TTecFoie::create(owner, &sp8, *(saddr *)((s8 *)owner + 0x60), 3);
         return;
     }
     ((TItemWeapon *)this)->update_active_game_effect();
@@ -26,9 +26,9 @@ TUnk_804A1380::TUnk_804A1380(TObject *parent, u8 *item) : TItemWeapon(parent, it
     set_weapon_flags(34);
 }
 
-TItem *TObjPlayer::create_obj_80122C2C(u8 *arg0) {
-    if (arg0 != NULL) {
-        return new TUnk_804A1380(tl_05, arg0);
+TItem *TObjPlayer::create_obj_80122C2C(u8 *item) {
+    if (item != NULL) {
+        return new TUnk_804A1380(tl_05, item);
     }
     return NULL;
 }

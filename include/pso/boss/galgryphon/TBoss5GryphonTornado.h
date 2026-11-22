@@ -28,7 +28,7 @@ struct TBoss5GryphonTornado : public TObject {
 LAYOUT_ASSERT(TBoss5GryphonTornado_size, sizeof(TBoss5GryphonTornado) == 0x5C);
 
 extern "C" {
-u8 *TBoss5GryphonTornado__ct(TBoss5GryphonTornado *boss5_gryphon_tornado, u8 *arg1, s32 arg2, u8 *arg3, u16 arg4);
+u8 *TBoss5GryphonTornado__ct(TBoss5GryphonTornado *boss5_gryphon_tornado, u8 *parent, s32 gryphon, u8 *arg3, u16 kind);
 void *__dt__20TBoss5GryphonTornadoFv(TBoss5GryphonTornado *arg0, s16 arg1);
 }
 

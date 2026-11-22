@@ -4,11 +4,11 @@
 #include "pso/weapon/TItemWeapon.h"
 
 // The Madam's Parasol weapon class (vtable 0x804A6200): the canopy opens while
-// idle and closes during an attack; vfunc_57 starts a regeneration timer.
+// idle and closes during an attack; on_equipped starts a regeneration timer.
 class TUnk_804A6200 : public TItemWeapon {
 public:
     virtual void vfunc_60();
-    virtual void vfunc_57();
+    virtual void on_equipped();
     virtual void update_idle();
     virtual void update_attack();
     virtual ~TUnk_804A6200();

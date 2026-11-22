@@ -23,9 +23,12 @@ struct TAdVIConfigGC : public TAdYesNoBaseGC {
     void update_visibility();
     virtual void vfunc_6();
     virtual void vfunc_7();
-    virtual void vfunc_10();
+    virtual saddr vfunc_10();
     static void *destroy(void *, s16);
 };
 
 LAYOUT_ASSERT(TAdVIConfigGC_size, sizeof(TAdVIConfigGC) == 0x4C);
+
+extern s32 logo_clear_flag;
+
 #endif

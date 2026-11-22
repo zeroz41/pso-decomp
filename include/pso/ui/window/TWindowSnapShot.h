@@ -25,8 +25,5 @@ extern "C" {
 const char *get_player_motion_filename(void);
 }
 s32 load_player_motion_data(void);
-extern "C" {
-void render__15TWindowSnapShotFv(u8 *arg0);
-}
 
 #endif

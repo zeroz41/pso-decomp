@@ -25,6 +25,7 @@
 
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 
 struct FadeBase_8019AA18 { char pad[0x14]; };
@@ -66,7 +67,6 @@ BmlResource *TObjTuitate__bml_resource;
 BmlResource *TObjBigTuitate__bml_resource;
 
 s32 init_collision_body_parts(void *, void *, int);
-s32 __ct__14TObjCollidableFP7TObject();
 __declspec(section ".data") const char *fe_obj_tutate_model_names[2] = { "fe_obj_tutate.gj", NULL };
 const char *fe_obj_tutate_motion_names[1] = { NULL };
 BmlResourceDescriptor fe_obj_tutate_resource_descriptor = {
@@ -90,7 +90,6 @@ void free_collision_body_parts(void *);
 
 
 }
-extern void *tl_05;
 struct FadeBase_8019ADA0 { char pad[0x14]; };
 
 struct Fade_8019ADA0 : FadeBase_8019ADA0 {
@@ -123,8 +122,6 @@ struct Obj_8019ADA0 : ObjBase_8019ADA0 {
 #pragma dont_inline off
 
 
-
-
 void load_tuitate_bml_resource(void) {
     BmlResource *storage = new BmlResource(1, (BmlResourceDescriptor *)&fe_obj_tutate_resource_descriptor, 0, 0, NULL);
     TObjTuitate__bml_resource = storage;
@@ -138,7 +135,7 @@ void free_tuitate_bml_resource(void) {
 }
 
 void *TObjTuitate__create(void *arg0) {
-    return new TObjTuitate((TObject *)tl_05, arg0);
+    return new TObjTuitate(tl_05, arg0);
 }
 
 #pragma push
@@ -220,7 +217,7 @@ void TObjBigTuitate::free_instance() {
 }
 
 void *TObjBigTuitate__create(void *arg0) {
-    return new TObjBigTuitate((TObject *)tl_05, arg0);
+    return new TObjBigTuitate(tl_05, arg0);
 }
 
 #pragma push

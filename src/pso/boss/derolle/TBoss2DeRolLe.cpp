@@ -61,7 +61,6 @@ struct NJS_OBJECT;
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/enemy/dd/TObjEneDD_800B9B84.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 
 #include "pso/effect/TBreakUpMdl.h"
@@ -281,15 +280,15 @@ f32 boss2_derolle_particle_limits[3] = {32.0f, 30.0f, 30.0f};
 const char *boss2_de_rol_le_class_name = "TBoss2DeRolLe";
 
 #include <stddef.h>
+#include "pso/player/TObjPlayer_8002E784.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 
 extern "C" {
 
 void *__ct__9TBoss2FinFv(void *, TObject *, Vec *, Vec *);
 
-void fill_value_array(AreaAttackHistory *history);
 
 
-void update_local_colliders_from_world(TObjEneDD *self, Vec *offsets);
 extern f32 lbl_804FF5E8[];
 
 void TObjPlayer__sub_8002E7C8(void);
@@ -331,8 +330,8 @@ extern s32 chunk_polygon_flags_and_mask;
 
 }
 
-saddr TBoss2DeRolLe__base_params[1];
-saddr TBoss2DeRolLe__resistance_params[1];
+void *TBoss2DeRolLe__base_params[1];
+void *TBoss2DeRolLe__resistance_params[1];
 TBoss2DeRolLeParams *derolle_params[1];
 BmlResource *boss2_derolle_resource;
 // derolle_capture_node_points's state while the body draws (derolle_begin_node_capture sets it up).
@@ -354,11 +353,11 @@ Vec TBoss2DeRolLe__mine_ground_targets[5];
 
 u32 *boss2_derolle_primary_color_targets[3];
 
-u32 derolle_segment_joint_node_offsets[10];
+uaddr derolle_segment_joint_node_offsets[10];
 
 u32 *boss2_derolle_segment_color_targets[10];
 
-u32 TBoss2DeRolLe__attack_params_table[3];
+void *TBoss2DeRolLe__attack_params_table[3];
 NJS_ARGB derolle_capture_color;  // the body colour while it draws (derolle_begin_node_capture)
 Vec derolle_capture_origin;      // the node-local point derolle_capture_node_points places
 
@@ -531,13 +530,13 @@ void TBoss2DeRolLe::load_resources() {
     derolle_capture_tentacle_matrices = NULL;
     derolle_capture_node_matrices = NULL;
     for (i = 0; i < 1; i++) {
-        TBoss2DeRolLe__base_params[i] = (saddr)TLobby::register_boss(de_rol_le_base_param_ids[i]);
+        TBoss2DeRolLe__base_params[i] = TLobby::register_boss(de_rol_le_base_param_ids[i]);
     }
     for (i = 0; i < 3; i++) {
-        ((s32 *)TBoss2DeRolLe__attack_params_table)[i] = (saddr)TLobby::dispatch_shared_handler_b(TBoss2DeRolLe__shared_handler_id_table[i]);
+        TBoss2DeRolLe__attack_params_table[i] = TLobby::dispatch_shared_handler_b(TBoss2DeRolLe__shared_handler_id_table[i]);
     }
     for (i = 0; i < 1; i++) {
-        TBoss2DeRolLe__resistance_params[i] = (saddr)TLobby::register_object(de_rol_le_resistance_param_ids[i]);
+        TBoss2DeRolLe__resistance_params[i] = TLobby::register_object(de_rol_le_resistance_param_ids[i]);
     }
     for (i = 0; i < 1; i++) {
         derolle_params[i] = (TBoss2DeRolLeParams *)TLobby::dispatch_shared_handler_a(de_rol_le_shared_handler_a_ids[i]);
@@ -553,7 +552,7 @@ void TBoss2DeRolLe::load_resources() {
     // The shell segments' material colour words (just past each chunk list's first 8 bytes).
     n = res->models[2].model->child;
     for (i = 0; i < 10; i++) {
-        derolle_segment_joint_node_offsets[i] = (u32)(((NJS_CNK_MODEL *)n->model)->polygon_list + 4);
+        derolle_segment_joint_node_offsets[i] = (uaddr)(((NJS_CNK_MODEL *)n->model)->polygon_list + 4);
         boss2_derolle_segment_color_targets[i] = (u32 *)(((NJS_CNK_MODEL *)n->child->model)->polygon_list + 4);
         n = n->sibling;
     }
@@ -669,7 +668,7 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
     tentacle_matrices = (GC_Mtx *)mem_alloc(4 * sizeof(GC_Mtx));
     for (i = 0; i < 4; i++) {
         set_matrix_identity((u8 *)tentacle_matrices[i]);
-        tentacles[i] = new TBoss2Tentacle(&part_group, (s32)&tentacle_matrices[i], i);
+        tentacles[i] = new TBoss2Tentacle(&part_group, (saddr)&tentacle_matrices[i], i);
     }
     Vec v = {10000.0f, 10000.0f, 10000.0f};
     id = entity_id + 1;
@@ -677,7 +676,7 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
     for (j = 0; j < 10; j++) {
         VecCopy(&joint_positions[j], &v);
         unk_5B8[j] = -1;
-        joints[j] = new TBoss2Joint(this, id++, set++, &joint_positions[j], derolle_segment_joint_node_offsets[j], (s32)boss2_derolle_segment_color_targets[j]);
+        joints[j] = new TBoss2Joint(this, id++, set++, &joint_positions[j], derolle_segment_joint_node_offsets[j], (saddr)boss2_derolle_segment_color_targets[j]);
     }
     for (i = 0; i < 5; i++) {
         mines[i] = new TUnk_80482EC0(&part_group, id++, set++);
@@ -852,7 +851,7 @@ void TBoss2DeRolLe::run_task() {
   {
     state_flags = flags & ~0x80;
     state_flags |= 0x40;
-    new TUnk_80482090(this, (u32)node_matrices);
+    new TUnk_80482090(this, (uaddr)node_matrices);
   }
   if ((TObjEneDD::is_main_phase_15() != 0) && (debug_pad_active == 0))
   {
@@ -3803,8 +3802,6 @@ void derolle_begin_node_capture(TBoss2DeRolLe *boss) {
     derolle_capture_part_points = boss->part_points;
 }
 
-extern "C" {
-
 void copy_argb(NJS_ARGB *dst, NJS_ARGB *src) {
     dst->a = src->a;
     dst->r = src->r;
@@ -3958,6 +3955,5 @@ void TBoss2DeRolLe::render_body() {
     pop_matrix();
 }
 
-}
 
 #pragma pop

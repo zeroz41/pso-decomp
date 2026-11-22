@@ -234,7 +234,7 @@ void interpolate_motion_vector_keys_xy(u8 *keys, s32 count, u8 *arg2, f32 farg0)
 
 // Integer-key sampler; motion_key_sampler_table (TCameraCtrl_803D749C) holds it
 // next to the vector and angle samplers, so it takes the same (keys, count, out, frame).
-void interpolate_motion_key(u8 *arg0, s32 count, s32 *arg2, f32 farg0) {
+void interpolate_motion_key(u8 *keys, s32 count, s32 *arg2, f32 farg0) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_803D6F20, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_803D6F20, spC) == 0x4);
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_803D6F20, sp10) == 0x8);
@@ -242,7 +242,7 @@ void interpolate_motion_key(u8 *arg0, s32 count, s32 *arg2, f32 farg0) {
 
     s32 temp_r5;
 
-    find_motion_key_interval(arg0, 8, count, farg0, &stack.spC, &stack.sp8, &stack.sp10);
+    find_motion_key_interval(keys, 8, count, farg0, &stack.spC, &stack.sp8, &stack.sp10);
     temp_r5 = *(s32 *)((s8 *)stack.spC + 4);
     *arg2 = (s32) ((f32) temp_r5 + (stack.sp10 * (f32) (s16) (*(s32 *)((s8 *)stack.sp8 + 4) - temp_r5)));
 }

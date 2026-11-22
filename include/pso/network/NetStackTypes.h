@@ -4,6 +4,7 @@
 #include "types.h"
 #include <stddef.h>
 #include "pso/network/NetworkRuntime.h"
+#include "pso/network/PppFsm.h"
 
 typedef struct p803FE518_UnkBuf803FF344 {
     u8* data;
@@ -60,25 +61,7 @@ typedef struct {
 
 
 
-/* A PPP connection record (TLobby_803FC178.c / TLobby_803FCF44.c). */
-typedef struct Conn_804004DC {
-    u8 state;
-    u8 id;
-    u8 pad2;
-    u8 retries;
-    u8 pad4[2];
-    u8 f6;
-    u8 pad7;
-    s16 abort;
-    u8 padA[2];
-    u8 *sub;
-    u8 timer[0x1C]; /* a lobby timer (lobby_timer_add) */
-    void *proto;
-    void *opts;
-} Conn_804004DC;
-LAYOUT_ASSERT(Conn_804004DC_size_check, sizeof(Conn_804004DC) == 0x34);
-LAYOUT_ASSERT(Conn_804004DC_opts_check, offsetof(Conn_804004DC, opts) == 0x30);
-/* CHAP state, in Conn_804004DC.opts of the CHAP connection. */
+/* CHAP state, in PppFsm.opts of the CHAP connection. */
 typedef struct PppChap {
     const char *name;
     const char *secret;

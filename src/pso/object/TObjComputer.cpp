@@ -33,19 +33,11 @@
 #include "pso/unk/text_803D8F74.h"
 #include <dolphin/base/PPCArch.h>
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 
-
-extern "C" {
-}
 u8 *load_gvm_texture_file(saddr arg0);
-extern "C" {
 extern u32 actor_frame_tick;
-extern void *tl_05;
-
-
-
-}
 void load_computer_resources(void);
 const char *fe_obj_tanmatu02_model_names[3] = {"fe_obj_tanmatu02.gj", "fs_obj_tanmatu01.gj", NULL};
 const char *fe_obj_tanmatu02_motion_names[1] = {NULL};
@@ -126,7 +118,7 @@ void load_computer_resources(void) {
 void TObjComputer::free_resources() {
     if (TObjComputer__texture_gvm_handle != NULL) {
         release_texture_list(TObjComputer__texture_gvm_handle);
-        TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<s32>(TObjComputer__texture_gvm_handle));
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)TObjComputer__texture_gvm_handle);
         TObjComputer__texture_gvm_handle = NULL;
     }
     if (TObjComputer__model_archive != NULL) {
@@ -135,7 +127,7 @@ void TObjComputer::free_resources() {
     }
 }
 
-extern "C" void *create_stage_computer(void *placement) {
+void *create_stage_computer(void *placement) {
     return new TObjComputer(static_cast<TObject *>(tl_05), static_cast<ObjectSetData *>(placement));
 }
 
@@ -162,7 +154,7 @@ void TObjComputer::draw_model() {
     if (screen_model == NULL) {
         return;
     }
-    TObjFish::set_global_param(reinterpret_cast<s32>(TObjComputer__texture_gvm_handle));
+    TObjFish::set_global_param((saddr)TObjComputer__texture_gvm_handle);
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);

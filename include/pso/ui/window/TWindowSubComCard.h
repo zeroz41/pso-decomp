@@ -5,7 +5,7 @@
 #include "pso/system/task/TObject.h"
 
 struct TWindowSubComCard : public TObject {
-    TWindowSubComCard(TObject *arg1, void *arg2);
+    TWindowSubComCard(TObject *object, void *arg2);
     virtual ~TWindowSubComCard();
     u32 sub_80272DE0();
     void sub_80271F04(void *, s32, saddr);
@@ -19,7 +19,7 @@ struct TWindowSubComCard : public TObject {
     void handle_close_flag();
     virtual void render();
     virtual void run_task();
-    u8 m_1c;
+    u8 state;
     u8 m_1d;
     u8 _pad1E[0x2];
     uaddr m_20;
@@ -36,19 +36,21 @@ struct TWindowSubComCard : public TObject {
     u8 unk_4C[0x4];
     u32 m_50;
     u8 unk_54[0x4];
-    uaddr m_58;
+    uaddr chr_select;
     u32 m_5c;
     uaddr m_60;
     uaddr m_64;
     uaddr m_68;
-    uaddr m_6c;
-    uaddr m_70;
+    uaddr message_window;
+    uaddr confirm_window;
     uaddr m_74;
     uaddr m_78;
-    uaddr m_7c;
-    uaddr m_80;
+    uaddr entry_list_window;
+    uaddr keyboard;
     uaddr m_84;
     static s32 get_card_slot(s32 arg0);
+    static void *send_command(saddr index);
+    static u8 *apply_selection(s32 index);
     void clear_flag_and_release();
     s32 find_value_by_key(u16 key);
     static saddr get_com_count();
@@ -64,11 +66,11 @@ struct TWindowSubComCard : public TObject {
     void *init_guild_card();
     static s32 init_card();
     static void remove_entry(s32 arg0);
-    static s32 scroll_list(s32 arg0);
-    static void init_and_press_a(s32 arg0);
+    static s32 scroll_list(s32 ply_guild_card_tag);
+    static void init_and_press_a(s32 id);
     static void init_and_press_b(s32 arg0);
     void update_press();
-    static void select_card_entry(saddr arg0);
+    static void select_card_entry(saddr ply_guild_card_tag);
     static s32 contains_profanity(char *text);
     static void mask_profanity_words(char *src, char *dst);
     uaddr get_field_20();
@@ -82,7 +84,7 @@ struct TWindowSubComCard : public TObject {
     s32 update_selected_entry();
     void update_next_entry(s32 arg1, s32 arg2, s32 arg3);
     s32 get_entry_id();
-    static s32 create_card_list(saddr arg0, s32 arg1, s32 arg2, s32 arg3);
+    static s32 create_card_list(saddr parent, s32 card_slot, s32 arg2, s32 arg3);
     void free_windows();
     void update_card_slot();
     void notify_trade_main();
@@ -91,8 +93,8 @@ struct TWindowSubComCard : public TObject {
     s32 get_card_data();
     void*init_fields(int a1, int a2);
     int is_flag_4_set();
-    static f32 trunc_float(f32 farg0);
-    void set_card_text(saddr arg1);
+    static f32 trunc_float(f32 value);
+    void set_card_text(saddr src);
     u8 *get_card_entry_data();
     static s32 find_card_by_id(u32 arg0);
     static void swap_cards(s32 arg0, s32 arg1);
@@ -102,13 +104,13 @@ struct TWindowSubComCard : public TObject {
     static void start_player_data_load(s32 arg0);
     static s32 count_active_cards();
     void set_text(void *arg1);
-    static void handle_press_a(saddr arg0, s32 arg1);
-    static void handle_press_b(saddr arg0, s32 arg1);
-    void calc_layout_height(f32 farg0);
+    static void handle_press_a(saddr ply_guild_card_tag, s32 id);
+    static void handle_press_b(saddr ply_guild_card_tag, s32 arg1);
+    void calc_layout_height(f32 width);
 
-    s32 find_entry_value_by_id(s32 arg1);
+    s32 find_entry_value_by_id(s32 key);
     void mark_entry_by_id(s32 arg1);
-    void disable_entry_by_id(s32 arg1);
+    void disable_entry_by_id(s32 id);
     void set_card_index(s32 arg1);
     void set_selected_card(s32 arg1);
     void set_help_message(s32 arg1);
@@ -124,12 +126,23 @@ struct TWindowSubComCard : public TObject {
     void set_page(s16 v);
     void set_flag_10();
     void set_display_page();
-    static s32 create_com_card_window(s32 arg0);
+    static s32 create_com_card_window(s32 parent);
+    static s32 create_menu();
+    static s32 create_single_entry_window();
+    static s32 open_menu();
+    static void open_layout_window();
+    static void open_mode4_window();
+    static s32 create_menu_window();
+    static s32 create_player_select_window();
+    static saddr create();
+    static void cleanup(void* p);
+    static u8 *send_cmd_133();
+    static void init_layout();
+    void *get_message_10(s32 index);
 };
 
 LAYOUT_ASSERT(TWindowSubComCard_size, sizeof(TWindowSubComCard) == 0x88);
 struct TWindowSubTradeMain;
-extern "C" void set_menu_selected_index(TWindowSubComCard *window, s16 index);
 extern "C" void add_gray_text_entry(TWindowSubTradeMain *list, const char *text, s32 kind, s32 id);
 
 #endif

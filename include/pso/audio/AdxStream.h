@@ -12,7 +12,7 @@ s32 get_adx_threshold_and_chunk(AdxStreamFile *file, s32 *threshold, s32 *chunk_
 s32 get_adx_stream_position(const AdxStreamFile *file, s32 *position);
 void stop_adx_stream(AdxStreamFile *file);
 s32 get_adx_stream_status(const AdxStreamFile *file);
-void TLobby__sub_803C8B38(AdxStreamFile *file);
+void adxstm_close(AdxStreamFile *file);
 }
 // --- end of C functions
 

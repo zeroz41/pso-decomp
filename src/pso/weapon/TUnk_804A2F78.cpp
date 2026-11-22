@@ -20,7 +20,7 @@ void TUnk_804A2F78::update_attack() {
     TItemEffOrgaFlowShot::approach_value(&scale.z, 0.6f, 4.0f);
 }
 
-void TUnk_804A2F78::vfunc_57() {}
+void TUnk_804A2F78::on_equipped() {}
 
 TUnk_804A2F78::~TUnk_804A2F78() {}
 

@@ -5,7 +5,7 @@
 
 class TUnk_804F3A20 : public TObject {
 public:
-    TUnk_804F3A20(TObject *arg1);
+    TUnk_804F3A20(TObject *object);
     virtual ~TUnk_804F3A20();
     virtual void run_task();
     u8 unk_1C[0x4];

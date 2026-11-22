@@ -16,7 +16,7 @@ void TUnk_804A6200::vfunc_60() {
 
 // Starts a 90-frame timer event on the effect objects (named
 // madam_parasol_start_regen before; vtable slot 57).
-void TUnk_804A6200::vfunc_57() {
+void TUnk_804A6200::on_equipped() {
     if (effect_objects != NULL) {
         new TUnk_804A0648(effect_objects, get_owner_client(), 0x5A);
     }

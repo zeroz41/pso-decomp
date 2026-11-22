@@ -98,7 +98,6 @@ s32 test_flags_any(s32 *flags, s32 mask);
 }
 
 
-
 extern "C" {
 
 f32 apply_stat_multipliers__10TObjPlayerFiif(saddr arg0, saddr arg1, f32 farg0);
@@ -174,15 +173,7 @@ void __dt__7TObjectFv(void *, int);
 }
 
 
-
-
-extern "C" {
-
 LAYOUT_ASSERT(RecoveredGlobal_801C6FF8_lbl_804C4008_size, sizeof(RecoveredGlobal_801C6FF8_lbl_804C4008) == 0x18);
-
-}
-
-
 #include "pso/network/TPlyOnCountOver.h"
 
 #include "pso/network/TPlyOnCreated.h"
@@ -213,8 +204,6 @@ void __dt__7TObjectFv(void *, int);
 #undef set_stat_scale__10TObjPlayerFPvf
 
 #undef TObjPlayer__sub_801C6FCC
-
-
 
 
 extern "C" {
@@ -257,12 +246,9 @@ s32 TObjPlayer__sub_801C6DAC(u8 *arg0);
 }
 
 
-
-
 extern "C" {
 s32 get_contact_surface_type(saddr arg0);
 }
-
 
 
 extern "C" {
@@ -414,8 +400,8 @@ const char *TForceOperate__name = TForceOperate__class_name_string;
 #pragma defer_codegen on
 
 extern "C" {
-u8 *__ct__18TPlayerLobbyMarkerFP7TObjectsSc(u8 *player_lobby_marker, u8 *arg1, s16 arg2, s8 arg3) {
-    __ct__7TObjectFP7TObject(player_lobby_marker, arg1);
+u8 *__ct__18TPlayerLobbyMarkerFP7TObjectsSc(u8 *player_lobby_marker, u8 *parent, s16 arg2, s8 arg3) {
+    __ct__7TObjectFP7TObject(player_lobby_marker, parent);
     *(s32 **)((s8 *)player_lobby_marker + 0x18) = &__vt__18TPlayerLobbyMarker.value;
     *(s8 *)&((TPlayerLobbyMarker *)player_lobby_marker)->material_index = arg3;
     *(s8 *)&((TPlayerLobbyMarker *)player_lobby_marker)->flags = 0;
@@ -611,9 +597,9 @@ void request_player_shrink(PlayerScaleState* state) {
 
 
 extern "C" {
-void TObjPlayer::handle_6x87_shrink(f32 farg0) {
+void TObjPlayer::handle_6x87_shrink(f32 scalar) {
     ((FlagWord *)(((u8 *)this) + 4))->set(1);
-    *(f32 *)((s8 *)((u8 *)this) + 8) = farg0;
+    *(f32 *)((s8 *)((u8 *)this) + 8) = scalar;
 }
 
 }
@@ -731,11 +717,11 @@ void TObjPlayer::apply_stat_multipliers_and_reset(void* p) { ((int (*)(void*))ap
 
 
 extern "C" {
-saddr TObjPlayer::get_slot_value(void *arg0, int arg1) {
-    if (arg1 < 0 || arg1 >= 13) {
+saddr TObjPlayer::get_slot_value(void *equipped_items, int slot) {
+    if (slot < 0 || slot >= 13) {
         return 0;
     }
-    return ((s32 *)arg0)[arg1];
+    return ((s32 *)equipped_items)[slot];
 }
 
 }
@@ -952,29 +938,29 @@ void set_arrival_override_pos(u16 idx, s32 yaw, void *pos) {
 
 #pragma push
 #pragma opt_common_subs off
-void set_arrival_override_coords(u16 arg0, s32 arg1, f32 farg0, f32 farg1, f32 farg2) {
+void set_arrival_override_coords(u16 slot, s32 heading, f32 farg0, f32 farg1, f32 farg2) {
     s32 temp_r5;
     u8 *temp_r3;
-    temp_r5 = arg0 * 0x14;
+    temp_r5 = slot * 0x14;
     *(s32 *)((s8 *)((u8 *)TObjPlayer__arrival_override_table + temp_r5) + 0) = 1;
     temp_r3 = (u8 *)TObjPlayer__arrival_override_table + temp_r5;
-    *(s32 *)((s8 *)temp_r3 + 4) = arg1;
+    *(s32 *)((s8 *)temp_r3 + 4) = heading;
     *(f32 *)((s8 *)temp_r3 + 8) = farg0;
     *(f32 *)((s8 *)temp_r3 + 0xC) = farg1;
     *(f32 *)((s8 *)temp_r3 + 0x10) = farg2;
 }
 #pragma pop
 
-void set_params__10TObjPlayerFPvPvPviPv(void *arg0, void *arg1, void *arg2, saddr arg3, void *arg4) {
+void set_params__10TObjPlayerFPvPvPviPv(void *arg0, void *arg1, void *stats, saddr level, void *arg4) {
     s16 temp_r4;
 
-    *(s16 *)((s8 *)arg0 + 0) = (s16) (*(s16 *)((s8 *)arg2 + 0) + get_attack_params_atp_max((void *)arg3));
-    temp_r4 = *(s16 *)((s8 *)arg2 + 8);
+    *(s16 *)((s8 *)arg0 + 0) = (s16) (*(s16 *)((s8 *)stats + 0) + get_attack_params_atp_max((void *)level));
+    temp_r4 = *(s16 *)((s8 *)stats + 8);
     *(s16 *)((s8 *)arg0 + 2) = (s16) (temp_r4 + *(s32 *)((s8 *)arg4 + 0x1C));
-    *(s16 *)((s8 *)arg0 + 4) = (s16) *(s16 *)((s8 *)arg2 + 2);
-    *(s16 *)((s8 *)arg0 + 6) = (s16) (0.1f * (f32) (*(s16 *)((s8 *)arg2 + 0xA) + TObjPlayer__sub_800194E8(arg3, temp_r4)));
-    *(s16 *)((s8 *)arg0 + 8) = (s16) (*(s16 *)((s8 *)arg2 + 4) + *(s16 *)((s8 *)arg4 + 0));
-    *(s16 *)((s8 *)arg0 + 0xA) = (s16) *(s16 *)((s8 *)arg2 + 0xC);
+    *(s16 *)((s8 *)arg0 + 4) = (s16) *(s16 *)((s8 *)stats + 2);
+    *(s16 *)((s8 *)arg0 + 6) = (s16) (0.1f * (f32) (*(s16 *)((s8 *)stats + 0xA) + TObjPlayer__sub_800194E8(level, temp_r4)));
+    *(s16 *)((s8 *)arg0 + 8) = (s16) (*(s16 *)((s8 *)stats + 4) + *(s16 *)((s8 *)arg4 + 0));
+    *(s16 *)((s8 *)arg0 + 0xA) = (s16) *(s16 *)((s8 *)stats + 0xC);
     *(s16 *)((s8 *)arg0 + 0xC) = (s16) *(s16 *)((s8 *)arg4 + 2);
     *(s16 *)((s8 *)arg0 + 0xE) = (s16) *(s16 *)((s8 *)arg4 + 4);
     *(s16 *)((s8 *)arg0 + 0x10) = (s16) *(s16 *)((s8 *)arg4 + 6);
@@ -1197,9 +1183,9 @@ void*TObjPlayer::restore_shrunken_font() { copy_subcommand_header(this); return 
 void TObjPlayer::init_6x88_packet() { *(u8*)((char*)this + 0x0) = 136; *(u8*)((char*)this + 0x1) = 1; }
 void TObjPlayer::send_font_update_60() { bswap_g_client_id_header(this); send_subcommand((u8 *)this); }
 void TObjPlayer::bswap_shrink() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x4)); }
-void *TObjPlayer__sub_801C7360(void *arg0, void *arg1) {
+void *TObjPlayer__sub_801C7360(void *arg0, void *input) {
     copy_subcommand_header(arg0);
-    *(f32 *)((s8 *)arg0 + 0x4) = *(f32 *)((s8 *)arg1 + 0x4);
+    *(f32 *)((s8 *)arg0 + 0x4) = *(f32 *)((s8 *)input + 0x4);
     return arg0;
 }
 void TObjPlayer::init_shrink_effect() { *(float*)((char*)this + 0x4) = 1.0f; *(unsigned char*)((char*)this + 0x0) = 135; *(unsigned char*)((char*)this + 0x1) = 2; }

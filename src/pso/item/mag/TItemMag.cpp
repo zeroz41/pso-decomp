@@ -833,7 +833,7 @@ s32 TItemMag::apply_feed(MagStats *change) {
             if (owner->obj_isState2_324() == 0) {
                 weapon = (TItem *)TObjPlayer::get_item_field_6(owner);
                 if (weapon != NULL && weapon->check_equip_requirements(owner, NULL) == 0) {
-                    TObjPlayer::send_6x26_unequip_item(owner, (void *)weapon->get_item_id());
+                    TObjPlayer::send_6x26_unequip_item(owner, weapon->get_item_id());
                 }
             }
         }
@@ -864,7 +864,7 @@ void TItemMag::cast_support_technique(s32 technique) {
         targets.count = 1;
         targets.records[0].id = get_entity_id(owner);
         targets.records[0].flag = 0;
-        TTecReverser::create(owner, &owner->position, &targets, (void *)level);
+        TTecReverser::create(owner, &owner->position, &targets, level);
         break;
     }
     case 11:

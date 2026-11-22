@@ -12,12 +12,16 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
 #pragma readonly_strings on
 
 
 const char *TPhotonLaser__name = "TPhotonLaser";
-
 
 
 struct Laser_801AC36C {
@@ -55,17 +59,11 @@ struct Laser_801AC17C {
 };
 
 extern "C" {
-TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
-extern const char *TPhotonLaser__name;
-void *find_entity_by_id(u16);
 void vec3_add_to(void *, void *);
-void rotate_vector_by_matrix(int, void *, void *);
-void rotate_matrix_y(int, int);
 }
 extern u8 identity_matrix[];
 extern "C" {
 void run_task__12TPhotonLaserFv(Laser_801AC17C *o);
-s32 free_collision_body_parts(void *);
 
 void TPhotonLaser::render() { TParticleCtrl::begin_effect_render(); TParticleCtrl::end_effect_render(); }
 

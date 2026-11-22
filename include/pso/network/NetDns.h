@@ -176,6 +176,7 @@ s32 build_dns_query_aaaa(DnsQuery *query, char *name, s16 length);
 s32 build_dns_query_a(DnsQuery *query, char *name, s16 length);
 s32 close_and_reset_connection(DnsQuery *connection);
 void dispatch_request_callback(DnsQuery *connection, s16 status);
+s16 dns_open_addr(char *name, s16 len, s32 type);
 
 
 #ifdef __cplusplus

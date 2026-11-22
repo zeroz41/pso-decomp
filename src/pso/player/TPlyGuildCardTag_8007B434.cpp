@@ -5,13 +5,13 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/Language.h"
 
-extern "C" {
+
 extern u8 *TLobby__protocol_instance;
-void __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void *arg0, void *arg1) {
-    *(u8 *)((s8 *)arg0 + 0) = (u8) *(u8 *)((s8 *)arg1 + 0);
-    *(u8 *)((s8 *)arg0 + 1) = (u8) *(u8 *)((s8 *)arg1 + 1);
-    *(u16 *)((s8 *)arg0 + 2) = (u16) *(u16 *)((s8 *)arg1 + 2);
-    *(s32 *)((s8 *)arg0 + 4) = (s32) *(s32 *)((s8 *)arg1 + 4);
+void __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void *arg0, void *src) {
+    *(u8 *)((s8 *)arg0 + 0) = (u8) *(u8 *)((s8 *)src + 0);
+    *(u8 *)((s8 *)arg0 + 1) = (u8) *(u8 *)((s8 *)src + 1);
+    *(u16 *)((s8 *)arg0 + 2) = (u16) *(u16 *)((s8 *)src + 2);
+    *(s32 *)((s8 *)arg0 + 4) = (s32) *(s32 *)((s8 *)src + 4);
 }
 void TLobby::fill_guild_card_from_char(s32 arg1) {
     uaddr temp_r3;
@@ -36,4 +36,3 @@ void TLobby::fill_guild_card_from_char(s32 arg1) {
     }
 }
 
-}

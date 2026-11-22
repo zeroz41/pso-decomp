@@ -2,17 +2,17 @@
 #include "types.h"
 #include "pso/item/TItemMenuCtrl.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 extern "C" {
 
 s32 set_menu_flags__13TItemMenuCtrlFv(u32, s32);
 
 extern uaddr TItemMenuCtrl__instance;
-extern saddr tl_05;
 
 void TItemMenuCtrl::open_menu(u32 arg0) {
     if (((u32) TItemMenuCtrl__instance == 0U)) {
-        new TItemMenuCtrl((TObject *)tl_05);
+        new TItemMenuCtrl(tl_05);
     }
     if (arg0 < 7U) {
         if (arg0 == 0) {

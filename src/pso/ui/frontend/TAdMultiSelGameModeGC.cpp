@@ -1,3 +1,6 @@
+#include "pso/ui/frontend/TAdTitleTexGC.h"
+#include "pso/ui/frontend/TAdTitleGC.h"
+#include "pso/ui/frontend/TAdRayGC.h"
 #include "pso/ui/frontend/TAdGuideTxtGC.h"
 #include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "types.h"
@@ -49,10 +52,6 @@ void fn_803000C8(void) {
 #include "pso/ui/window/WindowMenuFactory.h"
 
 
-struct Self_80300770 {
-    u8 pad0[0x1C];
-    s32 state;
-};
 typedef void (TAdMultiSelGameModeGC::*Action_80300770)();
 
 struct Ent_80300850 { u8 pad[0x364]; s32 f364; };
@@ -61,36 +60,10 @@ struct Pos_8030095C { f32 v[8]; };
 
 struct Cur_8030095C { f32 v[2]; };
 
-struct TxtSlot_8030095C { s32 id; f32 x; f32 y; };
-
-struct Obj_8030095C {
-    const char *f0;
-    u8 pad4[0x14];
-    void *vt;
-    s32 f1C;
-    s32 f20;
-    s32 f24;
-    s32 f28;
-    void *f2C;
-    void *f30;
-    void *f34;
-    void *f38;
-    void *f3C;
-    void *f40;
-};
-
 s32 is_multiplayer_character_slot_selected(s32 arg0);
 extern "C" {
 Ent_80300850 *get_char_table_entry__23TAdSinglePlyChrSelectGCFi(int);
-void __ct__7TObjectFP7TObject(void *);
-void __ct__8TAdRayGCFv(void *, void *);
-void __ct__10TAdTitleGCFP7TObjectl(void *, void *, s32);
-void *__ct__14TAdSelectTxtGCFP7TObjectPvPv(void *, void *, const void *, s32);
-void __ct__13TAdTitleTexGCFv(void *, void *);
-extern void *__vt__21TAdMultiSelGameModeGC[];
-extern saddr game_difficulty_selection;
 saddr lbl_805D69F4;
-Obj_8030095C *__ct__21TAdMultiSelGameModeGCFv(Obj_8030095C *self, s32 parent, s32 mode);
 }
 
 typedef struct Pos3_803001B4 { NJS_POINT2 p[3]; } Pos3_803001B4;
@@ -102,7 +75,7 @@ int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int 
 s32 create_window_menu_default(void *, u32);
 extern u8 controller_input_state[];
 
-static const TxtSlot_8030095C lbl_80474E40[7] = {
+static const TAdSelectTxtLayout lbl_80474E40[7] = {
     { -1, 133.0f, 145.0f }, { -1, 111.0f, 197.0f }, { -1, 89.0f, 250.0f }, { -1, 148.0f, 301.0f },
     { -1, 340.0f, 145.0f }, { -1, 310.0f, 197.0f }, { -1, 280.0f, 250.0f },
 };
@@ -113,8 +86,8 @@ extern Arr3_803001B4 multi_sel_game_mode_arr3;
 
 void TAdMultiSelGameModeGC::render() {  }
 
-s32 TAdMultiSelGameModeGC::is_mode_entry_enabled(void *self, s32 mode, u32 idx) {
-    switch (mode) {
+s32 TAdMultiSelGameModeGC::is_mode_entry_enabled(s32 menu, u32 idx) {
+    switch (menu) {
     case 0:
         return idx < (u32)(get_max_difficulty_for_party_level() + 1) ? 1 : 0;
     case 1:
@@ -144,7 +117,7 @@ saddr TAdMultiSelGameModeGC::build_mode_menu(s32 arg1) {
     n = counts[arg1];
     r = create_window_menu_default(&pos.p[arg1], n);
     for (i = 0; i < n; i++) {
-        if (TAdMultiSelGameModeGC::is_mode_entry_enabled(this, arg1, i) != 0) {
+        if (is_mode_entry_enabled(arg1, i) != 0) {
             forward_trade_action_default__16TObjCityMainWarpFPviii((void *)r, (int)(get_localized_text_entry(0x18, i + b.v[arg1])), 6, (int)(i + a.v[arg1]));
         } else {
             add_gray_text_entry((TWindowSubTradeMain *)r, (const char *)(get_localized_text_entry(0x18, i + b.v[arg1])), 6, i + a.v[arg1]);
@@ -159,8 +132,7 @@ saddr TAdMultiSelGameModeGC::build_mode_menu(s32 arg1) {
 
 void TAdMultiSelGameModeGC::exit_keyboard_mode() { TObjEneDolmOlm::reset_count(); request_main_phase(14); }
 void TAdMultiSelGameModeGC::update_transition_state() {
-
-    switch (*(s32 *)((s8 *)this + 0x20)) {
+    switch (mode) {
     case 0:
         TAdMultiChgGameModeGC::begin_transition();
         return;
@@ -171,25 +143,24 @@ void TAdMultiSelGameModeGC::update_transition_state() {
 }
 
 void TAdMultiSelGameModeGC::sub_803003A4() {
-    Obj_8030095C *self = (Obj_8030095C *)this;
-    switch (reinterpret_cast<TAdSelectCurGC *>(self->f3C)->selection_index()) {
+    switch (cursor->selection_index()) {
     case 0:
-        if (((TWindowMenu *)self->f2C)->is_cancelled() != 0) {
-            ((TAdMultiSelGameModeGC *)self->f3C)->set_selection_state(1);
-            self->f1C = 1;
-        } else if (((TWindowMenu *)self->f2C)->is_decided() != 0) {
-            game_difficulty_selection = ((TWindowMenu *)self->f2C)->get_selected_value();
-            ((TAdSelectTxtGC *)self->f30)->reset_slots((void *)&lbl_80474E40[4], (void *)game_difficulty_selection);
-            ((TAdMultiSelGameModeGC *)self->f3C)->set_selection_state(1);
-            self->f1C = 1;
+        if (menu->is_cancelled() != 0) {
+            cursor->set_selection_state(1);
+            state = 1;
+        } else if (menu->is_decided() != 0) {
+            game_difficulty_selection = menu->get_selected_value();
+            difficulty_text->reset_slots((TAdSelectTxtLayout *)&lbl_80474E40[4], game_difficulty_selection);
+            cursor->set_selection_state(1);
+            state = 1;
         }
         break;
     case 1:
-        if (((TWindowMenu *)self->f2C)->is_cancelled() != 0) {
-            ((TAdMultiSelGameModeGC *)self->f3C)->set_selection_state(1);
-            self->f1C = 1;
-        } else if (((TWindowMenu *)self->f2C)->is_decided() != 0) {
-            switch (((TWindowMenu *)self->f2C)->get_selected_value()) {
+        if (menu->is_cancelled() != 0) {
+            cursor->set_selection_state(1);
+            state = 1;
+        } else if (menu->is_decided() != 0) {
+            switch (menu->get_selected_value()) {
             case 0:
                 TAdMultiSelGameModeGC__data_805D69F0 = 0;
                 break;
@@ -200,26 +171,26 @@ void TAdMultiSelGameModeGC::sub_803003A4() {
                 TAdMultiSelGameModeGC__data_805D69F0 = 2;
                 break;
             }
-            ((TAdSelectTxtGC *)self->f34)->reset_slots((void *)&lbl_80474E40[5], (void *)(TAdMultiSelGameModeGC__data_805D69F0 + 9));
+            rule_text->reset_slots((TAdSelectTxtLayout *)&lbl_80474E40[5], TAdMultiSelGameModeGC__data_805D69F0 + 9);
             if (TAdMultiSelGameModeGC__data_805D69F0 == 1 && lbl_805D69F4 == 1) {
                 lbl_805D69F4 = 0;
                 TAdStorySelectGC::set_state(0);
-                ((TAdSelectTxtGC *)self->f38)->reset_slots((void *)&lbl_80474E40[6], (void *)(lbl_805D69F4 + 4));
+                episode_text->reset_slots((TAdSelectTxtLayout *)&lbl_80474E40[6], lbl_805D69F4 + 4);
             }
             if (TAdMultiSelGameModeGC__data_805D69F0 == 2 && game_difficulty_selection != 0) {
                 game_difficulty_selection = 0;
-                ((TAdSelectTxtGC *)self->f30)->reset_slots((void *)&lbl_80474E40[4], (void *)0);
+                difficulty_text->reset_slots((TAdSelectTxtLayout *)&lbl_80474E40[4], 0);
             }
-            ((TAdMultiSelGameModeGC *)self->f3C)->set_selection_state(1);
-            self->f1C = 1;
+            cursor->set_selection_state(1);
+            state = 1;
         }
         break;
     case 2:
-        if (((TWindowMenu *)self->f2C)->is_cancelled() != 0) {
-            ((TAdMultiSelGameModeGC *)self->f3C)->set_selection_state(1);
-            self->f1C = 1;
-        } else if (((TWindowMenu *)self->f2C)->is_decided() != 0) {
-            switch (((TWindowMenu *)self->f2C)->get_selected_value()) {
+        if (menu->is_cancelled() != 0) {
+            cursor->set_selection_state(1);
+            state = 1;
+        } else if (menu->is_decided() != 0) {
+            switch (menu->get_selected_value()) {
             case 0:
                 lbl_805D69F4 = 0;
                 TAdStorySelectGC::set_state(0);
@@ -229,9 +200,9 @@ void TAdMultiSelGameModeGC::sub_803003A4() {
                 TAdStorySelectGC::set_state(1);
                 break;
             }
-            ((TAdSelectTxtGC *)self->f38)->reset_slots((void *)&lbl_80474E40[6], (void *)(lbl_805D69F4 + 4));
-            ((TAdMultiSelGameModeGC *)self->f3C)->set_selection_state(1);
-            self->f1C = 1;
+            episode_text->reset_slots((TAdSelectTxtLayout *)&lbl_80474E40[6], lbl_805D69F4 + 4);
+            cursor->set_selection_state(1);
+            state = 1;
         }
         break;
     case 3:
@@ -240,47 +211,46 @@ void TAdMultiSelGameModeGC::sub_803003A4() {
 }
 
 void TAdMultiSelGameModeGC::sub_80300648() {
-    Obj_8030095C *self = (Obj_8030095C *)this;
-    self->f24 = reinterpret_cast<TAdSelectCurGC *>(self->f3C)->selection_index();
-    if (self->f28 != self->f24) {
-        ((TAdGuideTxtGC *)self->f40)->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x18, self->f24)));
+    selection = cursor->selection_index();
+    if (prev_selection != selection) {
+        guide->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x18, selection)));
     }
-    if (self->f2C != NULL) {
-        ((TObject *)self->f2C)->queue_destruction();
-        self->f2C = NULL;
+    if (menu != NULL) {
+        menu->queue_destruction();
+        menu = NULL;
     }
     if (TWindowShortListCtrl__check_controller_button(&controller_input_state[0x20], 2) != 0 ||
         test_controller_flag_4c_color(&controller_input_state[0x160], 2) != 0) {
-        self->f1C = 3;
-    } else if (((TAdSelectCurGC *)self->f3C)->confirmation_result() == 1) {
-        switch (reinterpret_cast<TAdSelectCurGC *>(self->f3C)->selection_index()) {
+        state = 3;
+    } else if (cursor->confirmation_result() == 1) {
+        switch (cursor->selection_index()) {
         case 0:
         case 1:
         case 2:
-            self->f2C = (void *)((TAdMultiSelGameModeGC *)self)->build_mode_menu(reinterpret_cast<TAdSelectCurGC *>(self->f3C)->selection_index());
-            self->f1C = 2;
+            menu = (TWindowMenu *)build_mode_menu(cursor->selection_index());
+            state = 2;
             break;
         case 3:
-            self->f1C = 4;
+            state = 4;
             break;
         }
     }
-    self->f28 = self->f24;
+    prev_selection = selection;
 }
 
-void TAdMultiSelGameModeGC::sub_80300764() { *(s32*)((char*)this + 0x1c) = 1; }
+void TAdMultiSelGameModeGC::sub_80300764() { state = 1; }
 
-void run_task__21TAdMultiSelGameModeGCFv(Self_80300770 *self) {
+void TAdMultiSelGameModeGC::run_task() {
     TAdMultiChgGameModeGC::set_default_camera();
     static Action_80300770 tbl[5] = {
         &TAdMultiSelGameModeGC::sub_80300764, &TAdMultiSelGameModeGC::sub_80300648,
         &TAdMultiSelGameModeGC::sub_803003A4, &TAdMultiSelGameModeGC::update_transition_state,
         &TAdMultiSelGameModeGC::exit_keyboard_mode,
     };
-    (((TAdMultiSelGameModeGC *)self)->*tbl[self->state])();
+    (this->*tbl[state])();
 }
 }
-s32 get_max_difficulty_for_party_level(void) {
+s32 TAdMultiSelGameModeGC::get_max_difficulty_for_party_level() {
     s32 m;
     s32 i;
     if (TAdMultiSelGameModeGC__data_805D69F0 == 2) {
@@ -307,21 +277,18 @@ s32 get_max_difficulty_for_party_level(void) {
 TAdMultiSelGameModeGC::~TAdMultiSelGameModeGC() {}
 
 #pragma pool_data off
-Obj_8030095C *__ct__21TAdMultiSelGameModeGCFv(Obj_8030095C *self, s32 parent, s32 mode) {
-    void *p;
-    __ct__7TObjectFP7TObject(self);
-    self->vt = __vt__21TAdMultiSelGameModeGC;
-    self->f0 = TAdMultiSelGameModeGC__name;
-    self->f1C = 0;
-    self->f24 = 3;
-    self->f20 = mode;
-    self->f28 = -1;
-    self->f40 = 0;
-    self->f3C = 0;
-    self->f30 = 0;
-    self->f34 = 0;
-    self->f38 = 0;
-    self->f2C = 0;
+TAdMultiSelGameModeGC::TAdMultiSelGameModeGC(TObject *parent, s32 mode) : TObject(parent) {
+    m_name = TAdMultiSelGameModeGC__name;
+    state = 0;
+    selection = 3;
+    this->mode = mode;
+    prev_selection = -1;
+    guide = 0;
+    cursor = 0;
+    difficulty_text = 0;
+    rule_text = 0;
+    episode_text = 0;
+    menu = 0;
     lbl_805D69F4 = TLobby::get_instance();
     if (TAdMultiSelGameModeGC__data_805D69F0 == 1) {
         lbl_805D69F4 = 0;
@@ -334,68 +301,37 @@ Obj_8030095C *__ct__21TAdMultiSelGameModeGCFv(Obj_8030095C *self, s32 parent, s3
         TAdStorySelectGC::set_state(1);
         break;
     }
-    new TAdBackGC((TObject *)self);
-    new TAdBackTxtGC((TObject *)self);
-    if ((p = TObject::operator new(0x24)) != NULL) {
-        __ct__8TAdRayGCFv(p, self);
-    }
-    if ((p = TObject::operator new(0x138)) != NULL) {
-        __ct__10TAdTitleGCFP7TObjectl(p, self, 0xE);
-    }
-    if ((p = TObject::operator new(0x9C)) != NULL) {
-        __ct__13TAdTitleTexGCFv(p, self);
-    }
-    if ((p = TObject::operator new(0xE0)) != NULL) {
-        __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[0], 0x10);
-    }
-    if ((p = TObject::operator new(0xE0)) != NULL) {
-        __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[1], 0x11);
-    }
-    if ((p = TObject::operator new(0xE0)) != NULL) {
-        __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[2], 0x8);
-    }
-    if ((p = TObject::operator new(0xE0)) != NULL) {
-        __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[3], 0xF);
-    }
+    new TAdBackGC(this);
+    new TAdBackTxtGC(this);
+    new TAdRayGC(this);
+    new TAdTitleGC(this, 0xE);
+    new TAdTitleTexGC(this);
+    new TAdSelectTxtGC(this, (TAdSelectTxtLayout *)&lbl_80474E40[0], 0x10);
+    new TAdSelectTxtGC(this, (TAdSelectTxtLayout *)&lbl_80474E40[1], 0x11);
+    new TAdSelectTxtGC(this, (TAdSelectTxtLayout *)&lbl_80474E40[2], 0x8);
+    new TAdSelectTxtGC(this, (TAdSelectTxtLayout *)&lbl_80474E40[3], 0xF);
     {
-        s32 max = ((s32 (*)(void *))get_max_difficulty_for_party_level)(self);
+        s32 max = get_max_difficulty_for_party_level();
         game_difficulty_selection = (game_difficulty_selection <= max) ? game_difficulty_selection : 0;
     }
     if (TAdMultiSelGameModeGC__data_805D69F0 == 2) {
         game_difficulty_selection = 0;
     }
-    p = TObject::operator new(0xE0);
-    if (p != NULL) {
-        p = __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[4], game_difficulty_selection);
-    }
-    self->f30 = p;
-    p = TObject::operator new(0xE0);
-    if (p != NULL) {
-        p = __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[5], TAdMultiSelGameModeGC__data_805D69F0 + 9);
-    }
-    self->f34 = p;
-    p = TObject::operator new(0xE0);
-    if (p != NULL) {
-        p = __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[6], lbl_805D69F4 + 4);
-    }
-    self->f38 = p;
+    difficulty_text = new TAdSelectTxtGC(this, (TAdSelectTxtLayout *)&lbl_80474E40[4], game_difficulty_selection);
+    rule_text = new TAdSelectTxtGC(this, (TAdSelectTxtLayout *)&lbl_80474E40[5], TAdMultiSelGameModeGC__data_805D69F0 + 9);
+    episode_text = new TAdSelectTxtGC(this, (TAdSelectTxtLayout *)&lbl_80474E40[6], lbl_805D69F4 + 4);
     {
         Cur_8030095C cur = { { 442.0f, 28.0f } };
         Pos_8030095C pos = { { 144.0f, 146.0f, 114.0f, 198.0f, 84.0f, 250.0f, 54.0f, 302.0f } };
-        p = new TAdSelectCurGC(reinterpret_cast<TObject *>(self),
-            reinterpret_cast<const NJS_POINT2 *>(&pos),
-            reinterpret_cast<const NJS_POINT2 *>(&cur));
-        self->f3C = p;
-        ((TAdSelectCurGC *)(self->f3C))->append_entry(&pos.v[0]);
-        ((TAdSelectCurGC *)(self->f3C))->append_entry(&pos.v[2]);
-        ((TAdSelectCurGC *)(self->f3C))->append_entry(&pos.v[4]);
-        ((TAdSelectCurGC *)(self->f3C))->append_entry(&pos.v[6]);
+        cursor = new TAdSelectCurGC(this, reinterpret_cast<const NJS_POINT2 *>(&pos), reinterpret_cast<const NJS_POINT2 *>(&cur));
+        cursor->append_entry(&pos.v[0]);
+        cursor->append_entry(&pos.v[2]);
+        cursor->append_entry(&pos.v[4]);
+        cursor->append_entry(&pos.v[6]);
     }
-    ((TAdSelectCurGC *)(self->f3C))->set_selection_index(self->f24);
-    p = new TAdGuideTxtGC(reinterpret_cast<TObject *>(self));
-    self->f40 = p;
-    create_draw_line_ctrl((TObject *)self, 0x10, 0.0f);
-    return self;
+    cursor->set_selection_index(selection);
+    guide = new TAdGuideTxtGC(this);
+    create_draw_line_ctrl(this, 0x10, 0.0f);
 }
 #pragma pool_data reset
 

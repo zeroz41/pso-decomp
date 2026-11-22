@@ -133,10 +133,6 @@ typedef struct VBase_18_24931d VBase_18_24931d;
 typedef struct VObj_18_24931d VObj_18_24931d;
 
 
-extern "C" {
-}
-
-
 TItem *TObjPlayer::create_srank_common_weapon(u8 *item) {
     if (item != NULL) {
         return new TUnk_804A4948(tl_05, item);
@@ -201,7 +197,7 @@ TUnk_804A4948::TUnk_804A4948(TObject *parent, u8 *item) : TItemWeapon(parent, it
 
 TUnk_804A4948::~TUnk_804A4948() {}
 
-void TUnk_804A4948::vfunc_57() {
+void TUnk_804A4948::on_equipped() {
     switch (kind) {
     case 3:
         new TUnk_804A0648(effect_objects, get_owner_client(), 0x5A);
@@ -251,22 +247,22 @@ void TUnk_804A4948::emit_marker_effects() {
   }
 }
 
-void TUnk_804A4948::deliver_hit(s32 arg1, u8 *arg2, s32 arg3, s32 arg4, f32 farg0) {
-    u32 f;
+void TUnk_804A4948::deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 attack_kind, s32 body, f32 scale) {
+    TObjPlayer *player;
     if (get_mode() == 2) {
-        f = *(u32 *)((s8 *)this + 0xF0);
-        if ((f != 0U) && (arg2 != 0U)) {
+        player = owner;
+        if ((player != NULL) && (target != NULL)) {
             switch (kind) {
             case 1:
             case 2:
-                if (arg3 == 2) {
-                    send_srank_stat_extra((uaddr)arg2, arg4);
+                if (attack_kind == 2) {
+                    send_srank_stat_extra((uaddr)target, body);
                 } else {
-                    TItemWeapon::deliver_hit((s32)f, arg2, arg3, arg4, farg0);
+                    TItemWeapon::deliver_hit(player, target, attack_kind, body, scale);
                 }
                 break;
             default:
-                TItemWeapon::deliver_hit((s32)f, arg2, arg3, arg4, farg0);
+                TItemWeapon::deliver_hit(player, target, attack_kind, body, scale);
                 break;
             }
         }
@@ -274,9 +270,9 @@ void TUnk_804A4948::deliver_hit(s32 arg1, u8 *arg2, s32 arg3, s32 arg4, f32 farg
 }
 
 
-s32 TUnk_804A4948::send_srank_stat_extra(uaddr arg1, s32 arg2) {
+void TUnk_804A4948::send_srank_stat_extra(uaddr target, s32 body) {
     Self_8012A508 *self = (Self_8012A508 *)this;
-    VObj_8012A508 *obj = (VObj_8012A508 *)arg1;
+    VObj_8012A508 *obj = (VObj_8012A508 *)target;
     u32 f;
     Param_8012A508 t1;
     Param_8012A508 t2;
@@ -286,14 +282,14 @@ s32 TUnk_804A4948::send_srank_stat_extra(uaddr arg1, s32 arg2) {
             t1.kind = 0xB;
             t1.val = 16.0f;
             Param_8012A508 p = t1;
-            obj->m21(f, &p, obj->recs + arg2 * 0x2C, -1, -1);
+            obj->m21(f, &p, obj->recs + body * 0x2C, -1, -1);
             break;
         }
         case 2: {
             t2.kind = 0xC;
             t2.val = 32.0f;
             Param_8012A508 p = t2;
-            obj->m21(f, &p, obj->recs + arg2 * 0x2C, -1, -1);
+            obj->m21(f, &p, obj->recs + body * 0x2C, -1, -1);
             break;
         }
         }

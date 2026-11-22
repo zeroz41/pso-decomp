@@ -56,7 +56,7 @@ struct TObjEneEpsilonGuard : public TObjEneEpsilon {
     u16 body_id;               // entity id of the TObjEneEpsilonBody that spawned it
     u8 pad_472[0x4A];
     TUnk_80494938 fade;
-    TObjEneEpsilonGuard *create(void *arg1, void *arg2, void *arg3, void *arg4);
+    TObjEneEpsilonGuard *create(s32 entity_id, s32 set_index, const Vec *pos, s32 angle);
     void init_model_and_state();
     s32 all_children_gone();
     static void update_attack_pattern(void *arg0);
@@ -70,19 +70,24 @@ struct TObjEneEpsilonGuard : public TObjEneEpsilon {
     s32 is_guard_ready();
     void clear_and_flag_state();
     void set_flag_8_and_notify();
-    void set_target(saddr arg1, s32 arg2, s32 arg3);
+    void set_target(saddr pos, s32 angle, s32 arg3);
     static void advance_camera_ctrl_step(NJS_OBJECT *);
     void handle_message(s32 arg1);
-    void handle_break_state(s32 arg1);
-    void state_orbit(s32 arg1);
+    void handle_break_state(s32 msg);
+    void state_orbit(s32 msg);
     void update_center_position();
     s32 calc_angle_to_target();
-    void set_orbit_destination(s32 arg1);
+    void set_orbit_destination(s32 angle);
     s32 assign_guard_targets();
-    void handle_warp_state(s32 arg1);
+    void handle_warp_state(s32 reason);
     void render_with_fade(s32 detail);
 };
 
 LAYOUT_ASSERT(TObjEneEpsilonGuard_size, sizeof(TObjEneEpsilonGuard) == 0x4D8);
+
+// Stat handles the guards' resource loader registers with TLobby.
+extern u8 *epsilon_guard_boss_stat_handle;
+extern u8 *epsilon_guard_shared_handler_b;
+extern u8 *epsilon_guard_registered_object_handle;
 
 #endif

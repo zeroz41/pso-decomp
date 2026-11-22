@@ -691,7 +691,7 @@ extern void TLobby__sub_8040B3B4(void) {
     }
 }
 
-extern s32 dns_parse_reply(DnsQuery *self);
+extern s16 dns_parse_reply(DnsQuery *self);
 inline DnsQuery *find_8040B4BC(DnsResolverState *base, UdpDatagram *req) {
     s16 count;
     s16 key;
@@ -894,7 +894,7 @@ extern s32 dns_expand_name(DnsQuery *self, u8 *p, s32 n, u8 *dst);
 extern s32 dns_parse_answer_record(DnsQuery *self, u8 *rr, s32 avail);
 #pragma push
 #pragma opt_propagation off
-s32 dns_parse_reply(DnsQuery *self)
+s16 dns_parse_reply(DnsQuery *self)
 {
   volatile u32 pad[2];
   s32 len;
@@ -1322,7 +1322,7 @@ void TLobby__sub_8040C178(DnsHost *self, s16 x)
 
 }
 
-extern s32 dns_remove_addr(DnsHost *self_m, DnsAddr *arg);
+extern s16 dns_remove_addr(DnsHost *self_m, DnsAddr *arg);
 extern DnsAddr *dns_alloc_addr(DnsHost *self)
 {
     s16 n;
@@ -1361,7 +1361,7 @@ extern DnsAddr *dns_alloc_addr(DnsHost *self)
     return best;
 }
 
-extern s32 dns_remove_addr(DnsHost *self_m, DnsAddr *arg) {
+extern s16 dns_remove_addr(DnsHost *self_m, DnsAddr *arg) {
 DnsResolverState *tbl;
 DnsAddr *node;
 DnsAddr *prev;
@@ -1661,33 +1661,33 @@ s16 TLobby__sub_8040C978(void *arg)
   return i;
 }
 
-s32 dns_compare_addr(DnsAddr *arg0, DnsAddr *arg1) {
+s32 dns_compare_addr(DnsAddr *node, DnsAddr *rec) {
     s32 var_r5;
     u8 *var_r3;
     u8 *right;
-    switch (arg0->rtype) {
+    switch (node->rtype) {
     case DNS_TYPE_A:
-        if ((u16) arg1->rtype != DNS_TYPE_A) {
+        if ((u16) rec->rtype != DNS_TYPE_A) {
             var_r3 = (u8 *)((void *)-1);
             return -1;
         }
-        switch ((s32) arg0->addr.family) {
+        switch ((s32) node->addr.family) {
         case 4:
-            if ((u32) arg1->addr.family != 4U) {
+            if ((u32) rec->addr.family != 4U) {
                 var_r3 = (u8 *)((void *)-1);
                 return -1;
             }
-            var_r3 = arg0->addr.address;
-            right = arg1->addr.address;
+            var_r3 = node->addr.address;
+            right = rec->addr.address;
             var_r5 = 4;
             return NetMemcmp(var_r3, right, 4);
         case 6:
-            if ((u32) arg1->addr.family != 6U) {
+            if ((u32) rec->addr.family != 6U) {
                 var_r3 = (u8 *)((void *)-1);
                 return -1;
             }
-            var_r3 = arg0->addr.address;
-            right = arg1->addr.address;
+            var_r3 = node->addr.address;
+            right = rec->addr.address;
             var_r5 = 0x10;
             return NetMemcmp(var_r3, right, 0x10);
         default:
@@ -1697,27 +1697,27 @@ s32 dns_compare_addr(DnsAddr *arg0, DnsAddr *arg1) {
         }
         break;
     case DNS_TYPE_AAAA:
-        if ((u16) arg1->rtype != DNS_TYPE_AAAA) {
+        if ((u16) rec->rtype != DNS_TYPE_AAAA) {
             var_r3 = (u8 *)((void *)-1);
             return -1;
         }
-        switch ((s32) arg0->addr.family) {
+        switch ((s32) node->addr.family) {
         case 4:
-            if ((u32) arg1->addr.family != 4U) {
+            if ((u32) rec->addr.family != 4U) {
                 var_r3 = (u8 *)((void *)-1);
                 return -1;
             }
-            var_r3 = arg0->addr.address;
-            right = arg1->addr.address;
+            var_r3 = node->addr.address;
+            right = rec->addr.address;
             var_r5 = 4;
             return NetMemcmp(var_r3, right, 4);
         case 6:
-            if ((u32) arg1->addr.family != 6U) {
+            if ((u32) rec->addr.family != 6U) {
                 var_r3 = (u8 *)((void *)-1);
                 return -1;
             }
-            var_r3 = arg0->addr.address;
-            right = arg1->addr.address;
+            var_r3 = node->addr.address;
+            right = rec->addr.address;
             var_r5 = 0x10;
             return NetMemcmp(var_r3, right, 0x10);
         default:

@@ -38,12 +38,14 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/unk/TLobby_80226070.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/map/CsnQuery.h"
 
 #pragma defer_codegen on
 extern "C" {
 s32 rotate_matrix_y(int, int);
 void post_translate_matrix(void *);
-void draw_model_motion(void *arg0, void *arg1, f32 farg0);
+void draw_model_motion(void *model, void *motion, f32 frame);
 void TObjEneRe7Berura__sub_80093470(TObjEneRe7Berura *self, s32 mode);
 void TObjEneRe7BeruraPunch__sub_800962F4(TObjEneRe7BeruraPunch *p);
 void TObjPlayer__sub_800A04F0(void *);
@@ -77,19 +79,17 @@ extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
 f32 atan2_float(f32 y, f32 x);
 s32 TObjEneRe7Berura__sub_8009518C(TObjEneRe7Berura *);
-void TObjEneRe7Berura__sub_800940E8(TObjEneRe7Berura *self, s32 arg1);
-s32 enemy_validate_retained_target(u8 *arg0);
-void TObjEneDD__sub_800BA378(s32 arg0, u8 *arg1);
+void TObjEneRe7Berura__sub_800940E8(TObjEneRe7Berura *self, s32 reason);
 s32 matrix_mult_vec_array(int, int, void *, int);
 void set_matrix_identity(u8 *arg0);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-void TObjEneRe7Berura__sub_8009472C(TObjEneRe7Berura *self, s32 arg1);
-void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
+void TObjEneRe7Berura__sub_8009472C(TObjEneRe7Berura *self, s32 reason);
+void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 angle);
 s32 launch__21TObjEneRe7BeruraPunchFll(TObjEneRe7BeruraPunch *, s32, Vec *, f32 *);
 s32 vec3_add_to(void *, void *);
 extern TObjMotionAction TObjEneRe7Berura__animation_definitions[];
-void TObjEneRe7Berura__sub_80093C80(TObjEneRe7Berura *self, s32 arg1);
-void TObjEneRe7Berura__sub_80094624(TObjEneRe7Berura *self, s32 arg1);
+void TObjEneRe7Berura__sub_80093C80(TObjEneRe7Berura *self, s32 reason);
+void TObjEneRe7Berura__sub_80094624(TObjEneRe7Berura *self, s32 reason);
 s32 TObjEneRe7Berura__sub_80094DB4(TObjEneRe7Berura *);
 }
 
@@ -97,9 +97,7 @@ s32 TObjEneRe7Berura__sub_80094DB4(TObjEneRe7Berura *);
 struct Mtx_8009503C { f32 m[3][4]; };
 extern "C" {
 s32 VecCopy__FP3VecPC3Vec(void *, void *);
-u16 get_entity_id(TObjBase *);
-u32 csnLookAt(Vec *, Vec *);
-void TObjEneRe7Berura__sub_80093888(TObjEneRe7Berura *actor, s32 arg1);
+void TObjEneRe7Berura__sub_80093888(TObjEneRe7Berura *actor, s32 reason);
 
 
 void TObjEneRe7Berura__sub_80094C68(TObjEneRe7Berura *self);
@@ -112,7 +110,6 @@ s32 TObjPlayer__sub_800A0554(void *);
 
 
 
-s32 clear_attack_receipts();
 s32 angle_diff_s16(s32);
 void free_collision_body_parts(void *);
 }
@@ -202,7 +199,7 @@ void TObjEneRe7Berura::load_static_resources() {
     s32 pair[4];
     Vec vecs[4];
     BmlResource *r;
-    u32 m;
+    uaddr m;
     u8 *buf;
     s32 i;
     void *p;
@@ -221,7 +218,7 @@ void TObjEneRe7Berura::load_static_resources() {
     berura_demo_flag = 0;
     re7_berura_demo_flag = 0;
     TObjEneRe7Berura__demo_target = 0;
-    m = (saddr)r->models->model;
+    m = (uaddr)r->models->model;
     buf = (u8 *)mem_alloc(0x660);
     re7_berura_static_buffer = buf;
     TObjEneRe7Berura__detached_part_states[0].node_matrices = buf;
@@ -241,7 +238,7 @@ void TObjEneRe7Berura::load_static_resources() {
         AnimationMotion *ent = TObjEneRe7Berura__shared_resource->motions[TObjEneRe7Berura__animation_definitions[e->action].motion].motion;
         set_motion_packed_rotation();
         bind_motion_context((NJS_MOTION *)ent, e->m_14);
-        TObjEneRe7Berura::apply_attack_params(m, e);
+        TObjEneRe7Berura::apply_attack_params((NJS_OBJECT *)m, e);
         clear_motion_packed_rotation();
         e->first_object = (NJS_OBJECT *)find_model_node(m, e->first_node);
         e->last_object = (NJS_OBJECT *)find_model_node(m, e->last_node);
@@ -259,8 +256,8 @@ void TObjEneRe7Berura::load_static_resources() {
         e->object.child = e->first_object->child;
         e->object.sibling = 0;
     }
-    berura_node_matrix_ptr_a = (s32 *)(((s32 *)((NJS_OBJECT *)find_model_node(m, 2))->model)[1] + 8);
-    berura_node_matrix_ptr_b = (s16 *)(((s32 *)((NJS_OBJECT *)find_model_node(m, 1))->model)[1] + 8);
+    berura_node_matrix_ptr_a = (s32 *)(((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(m, 2))->model)->polygon_list + 4);
+    berura_node_matrix_ptr_b = ((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(m, 1))->model)->polygon_list + 4;
     p = ::operator new(0x14);
     if (p != NULL) {
         p = ((TLobby *)p)->alloc_tables((saddr)TObjEneRe7Berura__shared_resource->models->model, 2);
@@ -534,14 +531,14 @@ s32 TObjEneRe7Berura::collect_node_matrices(void *obj, int idx) {
     return idx;
 }
 
-void TObjEneRe7Berura::apply_attack_params(int child, void *part) {
+void TObjEneRe7Berura::apply_attack_params(NJS_OBJECT *root, void *part) {
     TObjEneRe7BeruraPart *e = (TObjEneRe7BeruraPart *)part;
     TObjEneRe7Berura__node_matrix_cursor = e->node_matrices;
     berura_attack_node_range_start = e->first_node;
     berura_attack_node_range_end = e->last_node;
     berura_attack_node_vec_ptr = &e->m_58;
     push_matrix_from(identity_matrix);
-    collect_node_matrices((void *)child, 0);
+    collect_node_matrices(root, 0);
     pop_matrix();
 }
 
@@ -755,12 +752,12 @@ void TObjEneRe7Berura::state_attack(s32 arg1) {
     }
 }
 
-void TObjEneRe7Berura__sub_8009472C(TObjEneRe7Berura *self, s32 arg1) {
+void TObjEneRe7Berura__sub_8009472C(TObjEneRe7Berura *self, s32 reason) {
     s32 temp_r3;
     s32 temp_r3_2;
     s32 var_r4;
     s32 var_r4_2;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         self->requested_action = 0;
         self->set_intangible();
@@ -831,8 +828,8 @@ void TObjEneRe7Berura__sub_8009472C(TObjEneRe7Berura *self, s32 arg1) {
     }
 }
 
-void TObjEneRe7Berura__sub_80094624(TObjEneRe7Berura *self, s32 arg1) {
-    switch (arg1) {
+void TObjEneRe7Berura__sub_80094624(TObjEneRe7Berura *self, s32 reason) {
+    switch (reason) {
     case 4:
         self->requested_action = 0;
         self->set_intangible();
@@ -910,8 +907,8 @@ void TObjEneRe7Berura::handle_state(s32 arg1) {
     }
 }
 
-void TObjEneRe7Berura__sub_800940E8(TObjEneRe7Berura *self, s32 arg1) {
-    switch (arg1) {
+void TObjEneRe7Berura__sub_800940E8(TObjEneRe7Berura *self, s32 reason) {
+    switch (reason) {
     case 4:
         self->requested_action = 1;
         self->clear_intangible();
@@ -1001,11 +998,11 @@ void TObjEneRe7Berura__sub_800940E8(TObjEneRe7Berura *self, s32 arg1) {
     }
 }
 
-void TObjEneRe7Berura__sub_80093C80(TObjEneRe7Berura *self, s32 arg1) {
+void TObjEneRe7Berura__sub_80093C80(TObjEneRe7Berura *self, s32 reason) {
     Vec v;
     TObjEneRe7BeruraPart *t;
     s32 ok;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         self->clear_intangible();
         self->m_3c0 &= ~3;
@@ -1107,7 +1104,7 @@ void TObjEneRe7Berura__sub_80093C80(TObjEneRe7Berura *self, s32 arg1) {
     }
 }
 
-void TObjEneRe7Berura__sub_80093888(TObjEneRe7Berura *actor, s32 arg1) {
+void TObjEneRe7Berura__sub_80093888(TObjEneRe7Berura *actor, s32 reason) {
     Vec sp2C;
     Vec sp20;
     Vec sp14;
@@ -1115,7 +1112,7 @@ void TObjEneRe7Berura__sub_80093888(TObjEneRe7Berura *actor, s32 arg1) {
     s32 i;
     s32 entry;
 
-    switch (arg1) {
+    switch (reason) {
     case 4:
         actor->requested_action = 1;
         actor->clear_intangible();
@@ -1145,7 +1142,7 @@ void TObjEneRe7Berura__sub_80093888(TObjEneRe7Berura *actor, s32 arg1) {
         actor->advance_animation();
         switch (actor->m_4c0) {
         case 0:
-            if (enemy_validate_retained_target((u8 *)actor) != 0) {
+            if (enemy_validate_retained_target(actor) != 0) {
                 actor->enemy_copy_target_destination();
                 actor->update_velocity();
                 if (actor->step_toward_target((s32) (RADIANS_TO_ANGLE * atan2_float(actor->destination_direction.x, actor->destination_direction.z)), 0x100) != 0) {
@@ -1168,10 +1165,10 @@ void TObjEneRe7Berura__sub_80093888(TObjEneRe7Berura *actor, s32 arg1) {
                     if (actor->current_target->receive_physical_attack(actor, 1.0f) > 0.0f) {
                         if (TObjEneDD::check_v2_mode() != 0) {
                             if (actor->random_ratio() <= 0.1f) {
-                                TObjEneDD__sub_800BA378((saddr)actor, (u8 *)actor->current_target);
+                                TObjEneDD__sub_800BA378(actor, actor->current_target);
                             }
                         } else if (actor->random_ratio() <= 0.3333f) {
-                            TObjEneDD__sub_800BA378((saddr)actor, (u8 *)actor->current_target);
+                            TObjEneDD__sub_800BA378(actor, actor->current_target);
                         }
                     }
                     actor->current_target->apply_knockback_from_attacker((u8 *)actor, 5.0f);
@@ -1209,10 +1206,10 @@ void TObjEneRe7Berura__sub_80093888(TObjEneRe7Berura *actor, s32 arg1) {
 }
 #pragma push
 #pragma opt_propagation off
-void TObjEneRe7Berura::run_flash_warning_state(s32 arg1) {
+void TObjEneRe7Berura::run_flash_warning_state(s32 reason) {
     s32 t;
     s32 v;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         requested_action = 5;
         clear_intangible();

@@ -121,7 +121,7 @@ void TLobby::update_alloc_size() {
     gba_download_data_size = 0U;
 }
 
-void TLobby__sub_8032C91C(void) { GBAInit(); }
+void gba_init(void) { GBAInit(); }
 
 u8 TLobby::get_selected_slot() {
     u8 sp8;
@@ -151,7 +151,7 @@ extern "C" {
 
 #pragma push
 #pragma fp_contract on
-void TLobby__sub_8032C9A8(s32 arg0, s32 arg1) {
+void stamp_joyboot_image(s32 arg0, s32 arg1) {
     u32 secs;
     Rec_8032C9A8 rec;
     DateStamp_8032C9A8 ds;
@@ -203,7 +203,7 @@ s32 TLobby::start_gba_joyboot() {
 }
 }
 
-void TLobby__sub_8032CB6C(void) {
+void probe_gba_device(void) {
     TLobby__data_805434A8[0].probe_counter = TLobby__data_805434A8[0].probe_counter + 1;
     if (SIProbe(3) == 0x40000) {
         TLobby__data_805434A8[0].probe_counter = 0;
@@ -220,7 +220,7 @@ void TLobby__sub_8032CB6C(void) {
 }
 
 void update_gba_joyboot_transfer(void) {
-    TLobby__sub_8032CB6C();
+    probe_gba_device();
     if (TLobby__sub_801F34F8() == 2) {
         TLobby__data_805434A8[0].phase = 0;
     }
@@ -231,7 +231,7 @@ void update_gba_joyboot_transfer(void) {
         }
         break;
     case 1:
-        TLobby__sub_8032C9A8(*(u16 *)&lbl_805D6CDA - 1, lbl_805D6CD9);
+        stamp_joyboot_image(*(u16 *)&lbl_805D6CDA - 1, lbl_805D6CD9);
         TLobby__sub_8032CDC0();
         TLobby::calc_joyboot_checksum();
         TLobby__data_805434A8[0].phase = 2;
@@ -266,14 +266,14 @@ void TLobby::set_send_buffer(u8 *arg0, s32 arg1) {
     TLobby__gba_joyboot_send_buffer = arg0;
     gba_joyboot_send_buffer = arg1;
     gba_joyboot_status = 0;
-    TLobby__sub_8032CDD0(TLobby__data_805434A8);
+    reset_joyboot_state(TLobby__data_805434A8);
     TLobby__data_805D6CCC = 0;
 }
 #pragma pop
 
 void TLobby__sub_8032CDC0(void) { lbl_805D6CD9 = 0; lbl_805D6CDA = 0; }
 
-void TLobby__sub_8032CDD0(void* p) { *(s16*)((char*)p + 0x0) = 0; *(s16*)((char*)p + 0x2) = 0; *(s16*)((char*)p + 0x4) = 0; *(u8*)((char*)p + 0x6) = 0; *(u8*)((char*)p + 0x7) = 0; }
+void reset_joyboot_state(void* p) { *(s16*)((char*)p + 0x0) = 0; *(s16*)((char*)p + 0x2) = 0; *(s16*)((char*)p + 0x4) = 0; *(u8*)((char*)p + 0x6) = 0; *(u8*)((char*)p + 0x7) = 0; }
 
     extern int warning_aram_load_done_flag;
     extern int TAdWarningBaseGC__aram_alloc_size;

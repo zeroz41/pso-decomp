@@ -14,6 +14,6 @@ public:
 extern const char *TBoss5GryphonLightningHorn__name;
 
 // Called by TBoss5GryphonLightningHorn::run_task with the horn.
-extern "C" void fn_80325F7C(void *arg0);
+extern "C" void fn_80325F7C(void *self);
 
 #endif

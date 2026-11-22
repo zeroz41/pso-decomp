@@ -2,9 +2,7 @@
 #include <string.h>
 #include "pso/render/ChunkVertexJob.h"
 #include "pso/render/ChunkPolygonList.h"
-#ifndef __MWERKS__
 #include <math.h>
-#endif
 #include "pso/player/TObjPlayer_803E1A58.h"
 #include "pso/player/TObjPlayer_803E21B8.h"
 #include "pso/unk/text_803D853C.h"
@@ -15,6 +13,8 @@
 #include "pso/system/memory.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/render/RenderSbssGlobals.h"
+#include "pso/render/MaterialAlphaCompare.h"
 
 #pragma scheduling off
 
@@ -51,12 +51,6 @@ volatile PPCWGPipe GXWGFifo : 0xCC008000;
 
 typedef struct Vtx_803E36C4 { f32 x, y, z, nx, ny, nz; u32 pad[2]; } Vtx_803E36C4;
 
-struct Sub_803E3B6C { u8 pad[0xC]; u8 *q; };
-
-struct Rec_803E3B6C { u8 pad[8]; Sub_803E3B6C *p; };
-
-struct Holder_803E3B6C { Rec_803E3B6C *recs; };
-
 typedef f32 Mtx_803E4354[3][4];
 extern "C" {
 void GXSetNumTexGens(u8);
@@ -83,7 +77,6 @@ extern saddr chunk_vertex_cache_buffer;
 extern s32 lbl_805D77FC;
 extern s32 chunk_render_flags;
 void transform_chunk_object_tree(void *, void (*)(void *));
-extern saddr current_matrix;
 s32 __cvt_fp2unsigned(f32);
 void rotate_matrix_by_node_angles(void *, int);
 void scale_current_matrix(void *);
@@ -101,8 +94,6 @@ extern u32 chunk_has_vertex_colors;
 void draw_strip_pos_normal__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E36C4 *verts, u32 info);
 void draw_triangle_strips__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E36C4 *verts, u32 info);
 s32 GXSetBlendMode(int, int, int, int);
-extern s32 material_alpha_compare_reference;
-extern u8 *current_render_context;
 void GXSetVtxAttrFmt(int, int, int, int, u8);
 void draw_chunk_textured_strips(s16 *list, Vtx_803E36C4 *verts, u32 info, s32 large);
 struct ChunkModel_803E44D4 { u32 *vertices; s16 *polygons; };
@@ -218,8 +209,8 @@ LAYOUT_ASSERT(VtxOut_803E3390_size, sizeof(VtxOut_803E3390) == 0x20);
 
 // This chunk command transforms indexed positions and normals with signed 8.8 weights.
 #ifdef __MWERKS__
-asm void GXSetVtxAttrFmtv(ChunkVertexJob *job, ReorderedMatrix_803E3390 *matrix, u32 accumulate) {
-#include "orig_asm/pso/unk/text_803E2F28/GXSetVtxAttrFmtv.inc"
+asm void transform_chunk_vertices_weighted(ChunkVertexJob *job, ReorderedMatrix_803E3390 *matrix, u32 accumulate) {
+#include "orig_asm/pso/unk/text_803E2F28/transform_chunk_vertices_weighted.inc"
 }
 #else
 static void transform_chunk_vertex(const VtxIn_803E3390 *src, const ReorderedMatrix_803E3390 *matrix, VtxOut_803E3390 *dst) {
@@ -241,7 +232,7 @@ struct WeightedChunkVertex {
 
 LAYOUT_ASSERT(WeightedChunkVertex_size, sizeof(WeightedChunkVertex) == 0x1C);
 
-void GXSetVtxAttrFmtv(ChunkVertexJob *job, ReorderedMatrix_803E3390 *matrix, u32 accumulate) {
+void transform_chunk_vertices_weighted(ChunkVertexJob *job, ReorderedMatrix_803E3390 *matrix, u32 accumulate) {
     const WeightedChunkVertex *src = (const WeightedChunkVertex *)job->src;
     for (s32 i = 0; i < job->count; ++i, ++src) {
         VtxOut_803E3390 *dst = (VtxOut_803E3390 *)(job->dst + src->index * sizeof(VtxOut_803E3390));
@@ -521,7 +512,7 @@ void set_chunk_blend(u32 x) {
 #pragma opt_common_subs off
 #pragma scheduling off
 #pragma peephole off
-void apply_chunk_texture_command(s32 arg0, s32 arg1) {
+void apply_chunk_texture_command(s32 header, s32 arg1) {
     s32 var_r31;
     s32 idx;
     s32 var_r4;
@@ -529,14 +520,14 @@ void apply_chunk_texture_command(s32 arg0, s32 arg1) {
     s32 var_r6;
     var_r5 = 1;
     var_r6 = 1;
-    if ((u32) (arg0 & 0x2000) != 0) {
+    if ((u32) (header & 0x2000) != 0) {
         var_r6 = 0;
-    } else if ((u32) (arg0 & 0x8000) != 0) {
+    } else if ((u32) (header & 0x8000) != 0) {
         var_r6 = 2;
     }
-    if ((u32) (arg0 & 0x1000) != 0) {
+    if ((u32) (header & 0x1000) != 0) {
         var_r5 = 0;
-    } else if ((u32) (arg0 & 0x4000) != 0) {
+    } else if ((u32) (header & 0x4000) != 0) {
         var_r5 = 2;
     }
     var_r31 = arg1 & 0x1FFF;
@@ -590,12 +581,12 @@ void set_strip_lighting_chan_ctrl(u32 flags) {
 
 #pragma push
 #pragma scheduling off
-s32 set_chunk_alpha_compare_ref(int ref) {
+void set_chunk_alpha_compare_ref(int ref) {
     GXSetAlphaCompare(4, ref, 0, 7, 0);
 }
 #pragma pop
 
-void set_chunk_blend_depth_mode(s32 arg0, s32 arg1) {
+void set_chunk_blend_depth_mode(s32 header, s32 arg1) {
     // Inferred names: the two reasons the blended pass may keep depth writes,
     // loaded from .sdata2 like the original's static constants.
     static const u32 texture_alpha_reason = 1;
@@ -604,11 +595,11 @@ void set_chunk_blend_depth_mode(s32 arg0, s32 arg1) {
     s32 temp_r30;
     s32 temp_r29;
     u32 var_r28;
-    u8 *temp_r4;
+    GinjaSurfaceState *alpha_surface;
     u32 id;
-    u8 *temp_r3;
+    GinjaSurfaceState *zcomp_surface;
     u32 var_r6;
-    if ((u32) (arg0 & 8) != 0) {
+    if ((u32) (header & 8) != 0) {
         var_r31 = 1;
     } else {
         var_r31 = 0;
@@ -625,7 +616,7 @@ void set_chunk_blend_depth_mode(s32 arg0, s32 arg1) {
     } else if (var_r31 != 0) {
         var_r6 = 0;
         var_r28 = 1U;
-        temp_r4 = (u8 *)((*(Holder_803E3B6C **)(current_render_context + 0x20))->recs[chunk_texture_record_index].p->q);
+        alpha_surface = current_render_context->textures->entries[chunk_texture_record_index].texture->surface;
         id = model_render_flags;
         if (((u32) (id & 0x10) != 0) && (1.0f != model_material_color.a)) {
             var_r28 = 0U;
@@ -633,9 +624,9 @@ void set_chunk_blend_depth_mode(s32 arg0, s32 arg1) {
         if (((u32) (id & 0x20) != 0) && (0.0f != model_material_color.a)) {
             var_r28 = 0U;
         }
-        if ((u32) *(u32 *)((s8 *)temp_r4 + 4) == 0xEU) {
+        if (alpha_surface->format == 0xEU) {
             if ((u32) (id & 0x400000) != 0) {
-                if ((u32) (*(s32 *)((s8 *)temp_r4 + 0x1C) & 0x40000000) != 0) {
+                if ((u32) (alpha_surface->flags & 0x40000000) != 0) {
                     var_r6 |= texture_alpha_reason;
                 }
             } else {
@@ -683,8 +674,8 @@ void set_chunk_blend_depth_mode(s32 arg0, s32 arg1) {
         if ((u32) chunk_render_flags != 0) {
             chunk_render_flags |= 0x400;
         }
-        temp_r3 = (u8 *)((*(Holder_803E3B6C **)(current_render_context + 0x20))->recs[chunk_texture_record_index].p->q);
-        if (((u32) *(u32 *)((s8 *)temp_r3 + 4) == 0xEU) && ((u32) (*(s32 *)((s8 *)temp_r3 + 0x1C) & 0x40000000) != 0)) {
+        zcomp_surface = current_render_context->textures->entries[chunk_texture_record_index].texture->surface;
+        if ((zcomp_surface->format == 0xEU) && ((u32) (zcomp_surface->flags & 0x40000000) != 0)) {
             set_chunk_alpha_compare_ref(0x1F);
             GXSetBlendMode(0, temp_r30, temp_r29, 0);
             GXSetZCompLoc(0);
@@ -804,7 +795,7 @@ void dispatch_chunk_polygon_list(s16 *list, saddr vertex_buffer) {
 
 extern "C" {
 void push_reordered_matrix_ps(void);
-void transform_vertex_list__10TObjPlayerFv(ChunkVertexJob *job, s32 matrix);
+void transform_vertex_list__10TObjPlayerFv(ChunkVertexJob *job, GC_Mtx *matrix);
 }
 
 s32 dispatch_chunk_vertex_list(u32 *list, saddr buffer) {
@@ -827,7 +818,7 @@ s32 dispatch_chunk_vertex_list(u32 *list, saddr buffer) {
         if ((type & 0xFF) == 0x29) {
             transform_chunk_vertices_pos_normal(&job, (ReorderedMatrix_803E3390 *)current_matrix);
         } else if ((type & 0xFF) == 0x2C) {
-            GXSetVtxAttrFmtv(&job, (ReorderedMatrix_803E3390 *)current_matrix, ((type & ~0x8000) >> 8) & 0xFF);
+            transform_chunk_vertices_weighted(&job, (ReorderedMatrix_803E3390 *)current_matrix, ((type & ~0x8000) >> 8) & 0xFF);
         } else if ((type & 0xFF) == 0x2A) {
             transform_vertex_list__10TObjPlayerFv(&job, current_matrix);
         } else if ((type & 0xFF) == 0x23) {
@@ -885,7 +876,7 @@ void TObjPlayer::end_chunk_draw() {
 }
 #pragma pop
 
-s32 draw_chunk_vertices_cached__10TObjPlayerFPv(void* arg) {
+s32 TObjPlayer::draw_chunk_vertices_cached(void* arg) {
     ChunkModel_803E44D4* model = (ChunkModel_803E44D4*)arg;
     saddr cache;
     s32 count = 0;
@@ -922,9 +913,9 @@ s32 draw_chunk_vertices_cached__10TObjPlayerFPv(void* arg) {
     }
 }
 
-void draw_chunk_model(void *arg0) {
-    TObjPlayer::setup_model_draw_state(arg0);
-    draw_chunk_vertices_cached__10TObjPlayerFPv(arg0);
+void draw_chunk_model(void *model) {
+    TObjPlayer::setup_model_draw_state(model);
+    TObjPlayer::draw_chunk_vertices_cached(model);
     TObjPlayer::end_chunk_draw();
 }
 
@@ -933,7 +924,7 @@ void draw_chunk_model(void *arg0) {
 
 void draw_chunk_object(void *child) {
     TObjPlayer::setup_model_draw_state(child);
-    transform_chunk_object_tree(child, (void (*)(void *))draw_chunk_vertices_cached__10TObjPlayerFPv);
+    transform_chunk_object_tree(child, (void (*)(void *))TObjPlayer::draw_chunk_vertices_cached);
     TObjPlayer::end_chunk_draw();
 }
 #pragma pop

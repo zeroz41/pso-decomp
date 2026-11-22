@@ -117,8 +117,8 @@ TObjEneMe1GiGueBarrier::TObjEneMe1GiGueBarrier(TObject *parent, void *owner) : T
 
 void TObjEneMe1GiGueBarrier__sub_80325CC0(void) {  }
 
-void *TObjEneMe1GiGueBarrier::create(void *arg0, void *arg1) {
-    return new TObjEneMe1GiGueBarrier((TObject *)arg0, arg1);
+void *TObjEneMe1GiGueBarrier::create(void *parent, void *owner) {
+    return new TObjEneMe1GiGueBarrier((TObject *)parent, owner);
 }
 
 void TObjEneMe1GiGueBarrier::init_global() {

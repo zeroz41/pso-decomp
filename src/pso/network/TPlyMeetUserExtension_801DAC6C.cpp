@@ -7,6 +7,7 @@
 #include "pso/network/protocol/protocol.h"
 #include "pso/network/PSOV3EncryptionTCP.h"
 #include "pso/network/TSocket.h"
+#include "pso/network/TProtocol.h"
 
 struct Tags_801DAC6C { u32 w[16]; };
 
@@ -70,12 +71,12 @@ struct VObjDA : BaseDA {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-Ext_801DAC6C *__as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(Ext_801DAC6C *arg0, const Ext_801DAC6C *arg1) {
-    arg0->tags = arg1->tags;
-    arg0->m = arg1->m;
-    arg0->a = arg1->a;
-    arg0->b = arg1->b;
-    return arg0;
+Ext_801DAC6C *__as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(Ext_801DAC6C *ext, const Ext_801DAC6C *arg1) {
+    ext->tags = arg1->tags;
+    ext->m = arg1->m;
+    ext->a = arg1->a;
+    ext->b = arg1->b;
+    return ext;
 }
 
 void handle_cmd_9A__9TProtocolFR6packet(u8 *arg0, s32 *arg1) {
@@ -118,26 +119,27 @@ void handle_cmd_9B__9TProtocolFR6packet(u8 *arg0, Regist_801DAD38 *arg1) {
     }
 }
 
-s32 socket_set_server_info(u8 *socket, saddr arg1, saddr arg2, saddr arg3, saddr arg4, saddr arg5, s32 arg6) {
-    s32 temp_r31;
+s32 socket_set_server_info(TProtocol *protocol, const char *serial_v1, const char *access_key_v1, const char *serial,
+                           const char *access_key, const char *host, u16 port) {
+    s32 error;
 
-    temp_r31 = ((TSocket *)socket)->resolve_domain((char *)arg5);
-    set_port__7TSocketFUl(socket, arg6);
-    if (temp_r31 != 0) {
+    error = protocol->resolve_domain((char *)host);
+    set_port__7TSocketFUl(protocol, port);
+    if (error != 0) {
         return 2;
     }
-    memset(socket + 0x3EB8, 0, 0x11);
-    memset(socket + 0x3EC9, 0, 0x11);
-    memset(socket + 0x3F8A, 0, 0x11);
-    memset(socket + 0x3F9B, 0, 0x11);
-    strncpy((char *)(socket + 0x3EB8), (const char *)arg1, 8);
-    strncpy((char *)(socket + 0x3EC9), (const char *)arg2, 0xC);
-    strncpy((char *)(socket + 0x3F8A), (const char *)arg3, 8);
-    strncpy((char *)(socket + 0x3F9B), (const char *)arg4, 0xC);
-    if (((VObjDA *)socket)->m4() < 0) {
+    memset(protocol->m_serial_number_v1, 0, 0x11);
+    memset(protocol->m_access_key_v1, 0, 0x11);
+    memset(protocol->m_serial_number2, 0, 0x11);
+    memset(protocol->m_access_key2, 0, 0x11);
+    strncpy(protocol->m_serial_number_v1, serial_v1, 8);
+    strncpy(protocol->m_access_key_v1, access_key_v1, 0xC);
+    strncpy(protocol->m_serial_number2, serial, 8);
+    strncpy(protocol->m_access_key2, access_key, 0xC);
+    if (protocol->open() < 0) {
         return 1;
     }
-    ((VObjDA *)socket)->m6();
+    protocol->recv();
     return 0;
 }
 

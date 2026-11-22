@@ -20,6 +20,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/math/MatrixTransforms.h"
 
 struct V_8035D8B0 { s32 a; f32 b; s32 c; };
 
@@ -88,25 +90,23 @@ extern "C" {
 
 s32 play_sound_effect(s32, u32, int, s32);
 
-f32 vector_length(void *);
-void subtract_vector(void *, void *);
 }
 
 #pragma push
 #pragma fp_contract on
-u8 *TBoss6Type2::create_dpb(saddr arg0, saddr arg1, f32 farg0) {
-    return (u8 *)new TBoss6DPB((TObject *)arg0, arg1, farg0);
+u8 *TBoss6Type2::create_dpb(saddr parent, saddr position, f32 farg0) {
+    return (u8 *)new TBoss6DPB((TObject *)parent, position, farg0);
 }
 #pragma pop
 
-TBoss6DPB::TBoss6DPB(TObject *parent, saddr arg2, f32 farg0) : TObject(parent) {
+TBoss6DPB::TBoss6DPB(TObject *parent, saddr position, f32 farg0) : TObject(parent) {
     u8 *object = (u8 *)this;
     saddr arg1 = (saddr)parent;
     f32 temp_f1;
     f32 temp_f2;
     *(const char **)((s8 *)object + 0) = TBoss6DPB__class_name;
     *(s32 *)((s8 *)object + 0x1C) = arg1;
-    VecCopy((Vec *)(object + 0x20), (const Vec *)(arg2));
+    VecCopy((Vec *)(object + 0x20), (const Vec *)(position));
     *(f32 *)((s8 *)object + 0x24) = 0.0f;
     *(f32 *)((s8 *)object + 0x2C) = farg0;
     temp_f2 = *(f32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x2C)) + 8);
@@ -127,14 +127,14 @@ TBoss6DPB::~TBoss6DPB() {}
 
 extern "C" {
 void TBoss6DPB::run_task() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     if (TObjEneDD::query_teammate_state() == 0) {
-        *(s32 *)((s8 *)arg0 + 0x30) = (s32) (*(s32 *)((s8 *)arg0 + 0x30) + 1);
-        if ((f32) *(s32 *)((s8 *)arg0 + 0x30) > 5.0f) {
-            ((TBoss6DPB *)arg0)->apply_shower_damage_to_players();
-            play_sound_effect(0x40069411, (uaddr)(arg0 + 0x20), 0, 0);
-            ((TBoss6DPB *)arg0)->sub_8035D8B0();
-            ((TObject *)arg0)->queue_destruction();
+        *(s32 *)((s8 *)self + 0x30) = (s32) (*(s32 *)((s8 *)self + 0x30) + 1);
+        if ((f32) *(s32 *)((s8 *)self + 0x30) > 5.0f) {
+            ((TBoss6DPB *)self)->apply_shower_damage_to_players();
+            play_sound_effect(0x40069411, (uaddr)(self + 0x20), 0, 0);
+            ((TBoss6DPB *)self)->sub_8035D8B0();
+            ((TObject *)self)->queue_destruction();
         }
     }
 }
@@ -144,7 +144,7 @@ void TBoss6DPB::render() {  }
 #pragma push
 #pragma opt_common_subs off
 void TBoss6DPB::apply_shower_damage_to_players() {
-    Shower_8035D924 *arg0 = (Shower_8035D924 *)this;
+    Shower_8035D924 *self = (Shower_8035D924 *)this;
     Vec v;
     Dmg_8035D924 dmg;
     s32 n;
@@ -156,19 +156,19 @@ void TBoss6DPB::apply_shower_damage_to_players() {
         pl = (Pl_8035D924 *)TObjPlayer::get_player_data(i);
         if (TBoss6PlotFalz::is_active((TObjPlayer *)pl) != 0) {
             VecCopy((Vec *)&v, (const Vec *)((u8 *)pl + 0x38));
-            subtract_vector(&v, &arg0->pos);
+            subtract_vector(&v, &self->pos);
             v.y = 0.0f;
-            if (!(vector_length(&v) > arg0->radius)) {
-                power = arg0->power;
-                if (((TBoss6Type2 *)(arg0->owner))->get_rotation_timer() != 0) {
-                    power = (f32)power * arg0->scale;
+            if (!(vector_length(&v) > self->radius)) {
+                power = self->power;
+                if (((TBoss6Type2 *)(self->owner))->get_rotation_timer() != 0) {
+                    power = (f32)power * self->scale;
                 }
                 s32 r = TBoss6PlotFalz::rand_vary_count(power, 0.1f);
                 dmg.a = 0;
                 dmg.c = 0;
                 dmg.d = r;
                 dmg.b = *(s32 *)&dmg.d;
-                pl->v21(arg0->owner, &dmg, 0, -1, -1);
+                pl->v21(self->owner, &dmg, 0, -1, -1);
                 create_TDPBShower((void *)tl_02, (u8 *)pl + 0x38);
             }
         }
@@ -177,26 +177,26 @@ void TBoss6DPB::apply_shower_damage_to_players() {
 #pragma pop
 
 void TBoss6DPB::sub_8035D8B0() {
-    W_8035D8B0 *arg0 = (W_8035D8B0 *)this;
-    V_8035D8B0 v = arg0->v;
+    W_8035D8B0 *self = (W_8035D8B0 *)this;
+    V_8035D8B0 v = self->v;
     v.b = 5.0f;
     spawn_particle_effect_with_flags((const Vec *)&v, 0x21C, 0x40);
     spawn_particle_effect_with_flags((const Vec *)&v, 0x21D, 0x40);
-    create_TDPBShower((void *)tl_02, &arg0->v);
+    create_TDPBShower((void *)tl_02, &self->v);
 }
 }
 #pragma pop
 
-void* create_TDPBShower(void* arg0, void* arg1) {
-    return new TDPBShower((TObject *)arg0, arg1);
+void* create_TDPBShower(void* parent, void* position) {
+    return new TDPBShower((TObject *)parent, position);
 }
 
-TDPBShower::TDPBShower(TObject *arg1, void *arg2) : TObject(arg1) {
+TDPBShower::TDPBShower(TObject *parent, void *position) : TObject(parent) {
     u8 *dpb_shower = (u8 *)this;
     u8 *particle_emitter;
     *(const char **)((s8 *)dpb_shower + 0) = TDPBShower__class_name;
     ((TDPBShower *)dpb_shower)->m_countdown = 5;
-    VecCopy((Vec *)(dpb_shower + 0x1C), (const Vec *)arg2);
+    VecCopy((Vec *)(dpb_shower + 0x1C), (const Vec *)position);
     *(f32 *)((s8 *)dpb_shower + 0x20) += 300.0f;
     particle_emitter = (u8 *)(create_particle_emitter((dpb_shower + 0x1C), 0x134));
     ((TDPBShower *)dpb_shower)->m_2c = particle_emitter;

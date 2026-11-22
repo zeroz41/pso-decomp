@@ -21,7 +21,7 @@ struct Obj_8012AFF8 {
     s32 unk188;
 };
 
-extern "C" {
+
 void TUnk_804A4C78::reserved_53() {
     s32 saved;
     s32 savedF4;
@@ -50,7 +50,6 @@ void TUnk_804A4C78::reserved_53() {
     sub_8012B1F0(saved);
 }
 
-}
 
 TUnk_804A4C78::TUnk_804A4C78(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(513);

@@ -8,7 +8,7 @@ struct PageIndicator;
 
 struct TWindowSubComCardList : public TWindowMenu {
     TWindowSubComCardList(void *parent);
-    TWindowSubComCardList(void *parent, s32 arg2, s32 arg3, s32 arg4);
+    TWindowSubComCardList(void *parent, s32 card_slot, s32 arg3, s32 arg4);
     virtual ~TWindowSubComCardList();
     void sub_80275360();
     void draw_card_list_selection(u8 *);

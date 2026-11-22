@@ -42,14 +42,14 @@ void TItemLockCountCtrl::lock_effect(u16 client, u32 effect) {
 }
 
 
-void TItemEquipBase__sub_80119100(int arg0) {
+void remove_freeze_immunity(int arg0) {
     uaddr temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
         ((TObjEneDD_ST *)temp)->sub_800F5864(0x20);
     }
 }
 
-void notify_stealth_enemies_10(int arg0) {
+void remove_confusion_immunity(int arg0) {
     uaddr temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
         ((TObjEneDD_ST *)temp)->sub_800F5864(0x10);
@@ -57,84 +57,84 @@ void notify_stealth_enemies_10(int arg0) {
 }
 
 
-void TItemEquipBase__sub_80119168(int arg0) {
+void remove_slow_immunity(int arg0) {
     uaddr temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
         ((TObjEneDD_ST *)temp)->sub_800F5864(8);
     }
 }
 
-void TItemEquipBase__sub_8011919C(int arg0) {
+void remove_shock_immunity(int arg0) {
     uaddr temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
         ((TObjEneDD_ST *)temp)->sub_800F5864(4);
     }
 }
 
-void TItemEquipBase__sub_801191D0(int arg0) {
+void remove_paralysis_immunity(int arg0) {
     uaddr temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
         ((TObjEneDD_ST *)temp)->sub_800F5864(2);
     }
 }
 
-void fn_80119204(int arg0) {
+void remove_poison_immunity(int arg0) {
     uaddr temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
         ((TObjEneDD_ST *)temp)->sub_800F5864(1);
     }
 }
 
-void TItemLockCountCtrl__sub_80119238(int arg0) {
+void remove_status_cleanse(int arg0) {
     uaddr temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
         ((TObjBase *)temp)->obj_clearFlags30(0x40);
     }
 }
 
-void TItemLockCountCtrl__sub_8011926C(int arg0) {
+void add_freeze_immunity(int arg0) {
     uaddr temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
         ((TObjEneDD_ST *)temp)->sub_800F5874(0x20);
     }
 }
 
-void TItemLockCountCtrl__sub_801192A0(int arg0) {
+void add_confusion_immunity(int arg0) {
     uaddr temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
         ((TObjEneDD_ST *)temp)->sub_800F5874(0x10);
     }
 }
 
-void notify_stealth_enemies_08(int arg0) {
+void add_slow_immunity(int arg0) {
     uaddr temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
         ((TObjEneDD_ST *)temp)->sub_800F5874(8);
     }
 }
 
-void apply_battle_ctrl_effect(int arg0) {
+void add_shock_immunity(int arg0) {
     uaddr temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
         ((TObjEneDD_ST *)temp)->sub_800F5874(4);
     }
 }
 
-void TItemLockCountCtrl__sub_8011933C(int arg0) {
+void add_paralysis_immunity(int arg0) {
     uaddr temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
         ((TObjEneDD_ST *)temp)->sub_800F5874(2);
     }
 }
 
-void TItemLockCountCtrl::apply_unit_immunity(int arg0) {
+void TItemLockCountCtrl::add_poison_immunity(int arg0) {
     uaddr temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
         ((TObjEneDD_ST *)temp)->sub_800F5874(1);
     }
 }
 
-void TItemLockCountCtrl::set_battle_ctrl_flag30(int arg0) {
+void TItemLockCountCtrl::add_status_cleanse(int arg0) {
     u32 temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
         obj_setFlags30(temp, 0x40);
@@ -152,11 +152,11 @@ void TItemLockCountCtrl::free_all() {
 #define MK_80119444(idx, a, b)                                   \
     item_effect_object_table[idx] = (VObj_801193D8 *)new TItemLockCountCtrl(0, 0xC, a, b);
 void TItemLockCountCtrl::init_effect_table() {
-    MK_80119444(0, TItemLockCountCtrl::set_battle_ctrl_flag30, TItemLockCountCtrl__sub_80119238)
-    MK_80119444(1, TItemLockCountCtrl::apply_unit_immunity, fn_80119204)
-    MK_80119444(2, TItemLockCountCtrl__sub_8011933C, TItemEquipBase__sub_801191D0)
-    MK_80119444(3, apply_battle_ctrl_effect, TItemEquipBase__sub_8011919C)
-    MK_80119444(4, notify_stealth_enemies_08, TItemEquipBase__sub_80119168)
-    MK_80119444(5, TItemLockCountCtrl__sub_801192A0, notify_stealth_enemies_10)
-    MK_80119444(6, TItemLockCountCtrl__sub_8011926C, TItemEquipBase__sub_80119100)
+    MK_80119444(0, TItemLockCountCtrl::add_status_cleanse, remove_status_cleanse)
+    MK_80119444(1, TItemLockCountCtrl::add_poison_immunity, remove_poison_immunity)
+    MK_80119444(2, add_paralysis_immunity, remove_paralysis_immunity)
+    MK_80119444(3, add_shock_immunity, remove_shock_immunity)
+    MK_80119444(4, add_slow_immunity, remove_slow_immunity)
+    MK_80119444(5, add_confusion_immunity, remove_confusion_immunity)
+    MK_80119444(6, add_freeze_immunity, remove_freeze_immunity)
 }

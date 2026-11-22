@@ -16,6 +16,9 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
+#include "pso/render/model_render_state.h"
+#include "pso/unk/text_803D853C.h"
 
 
 #pragma readonly_strings on
@@ -132,17 +135,8 @@ const char *TTecZondeEff_class_name = "TTecZondeEff";
 P_8023DBB4 tec_zonde_effect_task_list;
 extern char lbl_804CC8C8[];
 s32 TTecZondeEff__beam_vertex_data;
-f32 rand_signed_unit();
-void restore_saved_depth_alpha_state();
-extern u32 saved_model_render_flags;
-extern u32 model_render_flags;
-void matrix_mult_vec(s32, Vec *, Vec *);
 extern Cam_8023D128 lbl_8058D4F8;
 s32 project_lightning_points(Obj_8023D128 *self, Vec *out, f32 *a, f32 *b);
-}
-void clear_zonde_beam_vertex_pointer(void);
-extern "C" {
-
 struct Obj_8023D294 { u8 pad[0x28]; Vec d; };
 
 extern "C" {
@@ -460,9 +454,9 @@ void TTecZondeEff::run_task() {
 #pragma pop
 
 TTecZondeEff::~TTecZondeEff() {}
-
 }
-TTecZondeEff::TTecZondeEff(TObject *arg1, s32 arg2, s32 arg3, f32 farg0) : TObject(arg1) {
+void clear_zonde_beam_vertex_pointer(void);
+TTecZondeEff::TTecZondeEff(TObject *parent, s32 arg2, s32 arg3, f32 farg0) : TObject(parent) {
     this->m_name = TTecZondeEff_class_name;
     *(f32 *)((s8 *)this + 0x244) = farg0;
     *(s32 *)((s8 *)this + 0x254) = arg2;
@@ -478,11 +472,11 @@ TTecZondeEff::TTecZondeEff(TObject *arg1, s32 arg2, s32 arg3, f32 farg0) : TObje
 LAYOUT_ASSERT(RecoveredGlobal_8023DADC___vt__12TTecZondeEff_size, sizeof(RecoveredGlobal_8023DADC___vt__12TTecZondeEff) == 0x18);
 
 LAYOUT_ASSERT(RecoveredGlobal_8023DA10___vt__12TTecZondeEff_size, sizeof(RecoveredGlobal_8023DA10___vt__12TTecZondeEff) == 0x18);
-u8 *TTecZonde::construct_bolt_effect(u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4, s32 arg5, f32 farg0, f32 farg1) {
-    __ct__7TObjectFP7TObject(this, arg1);
+u8 *TTecZonde::construct_bolt_effect(u8 *parent, u8 *arg2, u8 *arg3, s32 arg4, s32 arg5, f32 farg0, f32 scale) {
+    __ct__7TObjectFP7TObject(this, parent);
     *(s32 **)((s8 *)((u8 *)this) + 0x18) = &(*(RecoveredGlobal_8023DA10___vt__12TTecZondeEff *)&__vt__12TTecZondeEff).value;
     this->m_name = TTecZondeEff_class_name;
-    *(f32 *)((s8 *)((u8 *)this) + 0x244) = farg1;
+    *(f32 *)((s8 *)((u8 *)this) + 0x244) = scale;
     *(s32 *)((s8 *)((u8 *)this) + 0x254) = arg4;
     *(s32 *)((s8 *)((u8 *)this) + 0x258) = arg5;
     VecCopy((Vec *)(((u8 *)this) + 0x1C), (const Vec *)arg2);
@@ -499,8 +493,8 @@ u8 *TTecZonde::construct_bolt_effect(u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4, s32
     return ((u8 *)this);
 }
 
-u8 *TTecZondeEff::construct(u8 *arg1, u8 *arg2, u8 *arg3, f32 farg0) {
-    __ct__7TObjectFP7TObject(this, arg1);
+u8 *TTecZondeEff::construct(u8 *parent, u8 *arg2, u8 *arg3, f32 farg0) {
+    __ct__7TObjectFP7TObject(this, parent);
     *(s32 **)((s8 *)((u8 *)this) + 0x18) = &(*(RecoveredGlobal_8023DADC___vt__12TTecZondeEff *)&__vt__12TTecZondeEff).value;
     this->m_name = TTecZondeEff_class_name;
     *(f32 *)((s8 *)((u8 *)this) + 0x244) = 1.0f;

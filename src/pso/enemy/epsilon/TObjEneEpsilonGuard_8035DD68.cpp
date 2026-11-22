@@ -39,9 +39,9 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TMainTask.h"
 
-s32 epsilon_guard_boss_stat_handle;
-s32 epsilon_guard_shared_handler_b;
-s32 epsilon_guard_registered_object_handle;
+u8 *epsilon_guard_boss_stat_handle;
+u8 *epsilon_guard_shared_handler_b;
+u8 *epsilon_guard_registered_object_handle;
 TObjEneEpsilonGuardParams *TObjEneEpsilonGuard__movement_params;
 extern "C" {
 struct RecoveredGlobal_lbl_805439E0 { s32 value; u8 remaining[0xC]; };
@@ -53,7 +53,6 @@ extern const TBoss3VoloptBreakupParams epsilon_guard_breakup_params = { 0x14, { 
 const char *TObjEneEpsilonGuard__class_name = "TObjEneEpsilonGuard";
 extern s32 lbl_805D6FA8;
 
-extern TObjEneEpsilonGuardParams *TObjEneEpsilonGuard__movement_params;
 extern CollisionBody TObjEneEpsilonGuard__model_desc[];
 
 int TObjEneEpsilonGuard__sub_8035F95C(TObjEneEpsilonBody *body);
@@ -282,8 +281,8 @@ void TObjEneEpsilonGuard::handle_message(s32 arg1) {
 }
 
 
-void TObjEneEpsilonGuard::handle_break_state(s32 arg1) {
-    switch (arg1) {
+void TObjEneEpsilonGuard::handle_break_state(s32 msg) {
+    switch (msg) {
     case 4:
         requested_action = 0;
         set_field_378(4);
@@ -597,11 +596,8 @@ void TObjEneEpsilonGuard::update_center_position() {
 }
 void TObjEneEpsilonGuard::update_body_colliders() { set_part_local_pos(&body_center, 0); }
 
-void TObjEneEpsilonGuard__vt85(TObjEneEpsilonGuard *arg0, s32 arg1, s32 arg2);
+void TObjEneEpsilonGuard__vt85(TObjEneEpsilonGuard *guard, s32 state, s32 msg);
 void run_task__19TObjEneEpsilonGuardFv(u8 *arg0);
-extern s32 epsilon_guard_boss_stat_handle;
-extern s32 epsilon_guard_shared_handler_b;
-extern s32 epsilon_guard_registered_object_handle;
 extern BmlResource *lbl_805D6FA0;
 s32 __ct__14TObjEneEpsilonFP7TObject();
 void *TObjEneEpsilonGuard__ct(TObjEneEpsilonGuard *guard, TObject *parent, TObjEneEpsilonBody *body, s32 entity_id, s32 set_index, const Vec *pos, s32 angle);
@@ -650,7 +646,7 @@ extern "C" void run_idle_action__9TObjCharaFv();
 extern "C" void apply_slow_status__9TObjCharaFv();
 extern "C" void update_shock_clock__9TObjCharaFv();
 extern "C" void vfunc_43__9TObjCharaFv();
-extern "C" void vfunc_18__9TObjCharaFPUc();
+extern "C" void update_actor_ground_y_at__9TObjCharaFP3Vec();
 extern "C" void interact__14TObjCollidableFl();
 extern "C" void vfunc_74__9TObjEnemyFl();
 extern "C" void apply_hit_message_flags__9TObjEnemyFPv();
@@ -714,7 +710,7 @@ void *__vt__19TObjEneEpsilonGuard[105] = {
     (void *)&render__19TObjEneEpsilonGuardFv, (void *)&render_shadows__9TObjEnemyFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
     (void *)&reset_motion_fields__9TObjCharaFv, (void *)&get_center__9TObjCharaFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
     (void *)&get_name__9TObjEnemyFv, (void *)&interact__14TObjCollidableFl, (void *)&add_actor_exp__9TObjCharaFl, (void *)&consume_timer_field__9TObjCharaFl,
-    (void *)&get_actor_level_index__9TObjCharaFv, (void *)&update_actor_ground_y__9TObjCharaFv, (void *)&vfunc_18__9TObjCharaFPUc, (void *)&is_actor_cadence_frame__9TObjCharaFl,
+    (void *)&get_actor_level_index__9TObjCharaFv, (void *)&update_actor_ground_y__9TObjCharaFv, (void *)&update_actor_ground_y_at__9TObjCharaFP3Vec, (void *)&is_actor_cadence_frame__9TObjCharaFl,
     (void *)&select_melee_contact_body__9TObjCharaFPvf, (void *)&calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf, (void *)&receive_physical_attack__19TObjEneEpsilonGuardFPvf, (void *)&TObjEneEpsilonGuard__vt21,
     (void *)&receive_weapon_special_attack__19TObjEneEpsilonGuardFPvPv, (void *)&apply_knockback_from_attacker__9TObjCharaFPUcf, (void *)&try_start_action__9TObjCharaFll, (void *)&roll_physical_accuracy__9TObjCharaFPvlf,
     (void *)&refresh_target__19TObjEneEpsilonGuardFv, (void *)&has_no_target__9TObjCharaFv, (void *)&is_target_in_attack_range__14TObjEneEpsilonFv, (void *)&test_flag_256__9TObjCharaFv,
@@ -761,7 +757,6 @@ void TObjEneEpsilonGuard::run_hit_reaction() {  }
 void TObjEneEpsilonGuard::run_death_reaction() {  }
 void TObjEneEpsilonGuard::refresh_target() {  }
 
-extern TObject *tl_04;
 
 void TObjEneEpsilonGuard__vt85(TObjEneEpsilonGuard *guard, s32 state, s32 msg) {
     switch (state) {
@@ -808,11 +803,11 @@ void TObjEneEpsilonGuard::run_task() {
     }
 }
 
-TObjEneEpsilonGuard *TObjEneEpsilonGuard::create(void *arg1, void *arg2, void *arg3, void *arg4) {
+TObjEneEpsilonGuard *TObjEneEpsilonGuard::create(s32 entity_id, s32 set_index, const Vec *pos, s32 angle) {
     TObjEneEpsilonGuard *o;
     o = (TObjEneEpsilonGuard *)TObject::operator new(sizeof(TObjEneEpsilonGuard));
     if (o != NULL) {
-        o = (TObjEneEpsilonGuard *)TObjEneEpsilonGuard__ct(o, tl_04, (TObjEneEpsilonBody *)this, (saddr)arg1, (saddr)arg2, (const Vec *)arg3, (saddr)arg4);
+        o = (TObjEneEpsilonGuard *)TObjEneEpsilonGuard__ct(o, tl_04, (TObjEneEpsilonBody *)this, entity_id, set_index, pos, angle);
     }
     return o;
 }
@@ -849,7 +844,7 @@ void TObjEneEpsilonGuard::init_model_and_state() {
     requested_action = 0;
     set_animation(requested_action);
     set_field_b8(requested_action);
-    reset_hp((u8 *)epsilon_guard_boss_stat_handle, (u8 *)epsilon_guard_shared_handler_b, (u8 *)epsilon_guard_registered_object_handle);
+    reset_hp(epsilon_guard_boss_stat_handle, epsilon_guard_shared_handler_b, epsilon_guard_registered_object_handle);
     set_indexed_flags(0, 0x80020);
     set_state_flag_4();
     movementParameters = &epsilon_guard_params;

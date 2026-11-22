@@ -13,6 +13,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/unk/text_8030C340.h"
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 
 
 #pragma readonly_strings on
@@ -32,19 +33,14 @@ struct Stack_8030C0C4 {
 };
 
 extern "C" {
-void render__18TWindowPartyStatusFv(saddr arg0);
 s32 TWindowSubComCard__sub_802452DC(int);
 s32 TWindowSubComCard__sub_80245320(void *, void *);
 s32 TWindowSubComCard__sub_802454E4(int);
 s32 TWindowSubComCard__sub_80245558(void *, void *, void *);
-void begin_screen_draw(s32 arg0);
-void draw_textured_quad_at_depth(f32 *q, f32 depth);
-void set_draw_texture_and_color(s32 idx, s32 arg1);
 extern s32 lbl_805D63F0;
 saddr get_window_layout_position(int);
 s32 TWindowSimpleStatus__ct(void *, int, void *, void *);
 extern s32 __vt__18TWindowPartyStatus[];
-extern const char *TWindowPartyStatus__name;
 extern s32 local_client_id;
 u8 *TWindowPartyStatus__ct(u8 *arg0, s32 arg1, saddr arg2);
 s32 update_lockon_window();
@@ -76,7 +72,7 @@ WindowDescriptor party_status_window_params = {
 
 void TWindowPartyStatus::draw() { ((TWindowSubStatusDisp *)this)->update_hp_entry(); ((TWindowSubStatusDisp *)this)->update_status_entry(); }
 
-void TWindowPartyStatus::draw_background(u8 *arg1) {
+void TWindowPartyStatus::draw_background(u8 *ctx) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8030C0C4, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_8030C0C4, spC) == 0x4);
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8030C0C4, sp10) == 0x8);
@@ -87,15 +83,15 @@ void TWindowPartyStatus::draw_background(u8 *arg1) {
     LAYOUT_ASSERT(sp24_offset, offsetof(Stack_8030C0C4, sp24) == 0x1C);
     Stack_8030C0C4 stack;
     f32 temp_f2;
-    f32 temp_f31;
+    f32 depth;
     f32 temp_f6;
-    temp_f31 = -1.0f / this->draw_depth;
+    depth = -1.0f / this->draw_depth;
     begin_screen_draw(1);
     TObjFish::set_global_param(lbl_805D63F0);
-    set_draw_texture_and_color(0xB, (*(s32 *)((s8 *)arg1 + 0x34)));
-    temp_f2 = *(f32 *)((s8 *)arg1 + 0x10);
+    set_draw_texture_and_color(0xB, (*(s32 *)((s8 *)ctx + 0x34)));
+    temp_f2 = *(f32 *)((s8 *)ctx + 0x10);
     stack.sp8 = temp_f2;
-    temp_f6 = *(f32 *)((s8 *)arg1 + 0x14);
+    temp_f6 = *(f32 *)((s8 *)ctx + 0x14);
     stack.spC = temp_f6;
     stack.sp10 = 114.0f + temp_f2;
     stack.sp14 = 46.0f + temp_f6;
@@ -103,24 +99,24 @@ void TWindowPartyStatus::draw_background(u8 *arg1) {
     stack.sp1C = 0.703125f;
     stack.sp20 = 0.4453125f;
     stack.sp24 = 0.8828125f;
-    ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)&stack.sp8);
-    draw_textured_quad_at_depth((&stack.sp8), temp_f31);
+    ((WindowDrawContext *)ctx)->transform_quad((TexturedQuad *)&stack.sp8);
+    draw_textured_quad_at_depth((&stack.sp8), depth);
     TWindowSubStatusDisp::get_player();
-    if (TWindowSubComCard__sub_80245558(arg1, arg1 + 0x10, arg1 + 0x18) != 0) {
+    if (TWindowSubComCard__sub_80245558(ctx, ctx + 0x10, ctx + 0x18) != 0) {
         TWindowSubComCard__sub_802454E4(0xB);
-        TWindowSubComCard__sub_80245320(&stack.sp8, arg1);
+        TWindowSubComCard__sub_80245320(&stack.sp8, ctx);
         TWindowSubComCard__sub_802452DC(0xB);
     }
 }
 extern "C" {
 
-void render__18TWindowPartyStatusFv(saddr arg0) {
+void TWindowPartyStatus::render() {
     saddr ctx;
-    ctx = reinterpret_cast<saddr>(reinterpret_cast<TWindowBase *>(arg0)->draw_default_entry());
-    ((TWindowPartyStatus *)arg0)->draw_background((u8 *)ctx);
+    ctx = reinterpret_cast<saddr>(draw_default_entry());
+    draw_background((u8 *)ctx);
     draw_visible_window_entries(
-        reinterpret_cast<const void *>(arg0),
-        reinterpret_cast<const WindowLayoutEntries *>((void *)(arg0 + 0x24)),
+        this,
+        &this->entry_list,
         reinterpret_cast<WindowDrawContext *>(ctx));
 }
 }

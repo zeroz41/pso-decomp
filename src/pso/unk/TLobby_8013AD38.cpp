@@ -33,7 +33,7 @@ s32 *get_access_key_input_buffer(void) {
     return &TAdEnterSerialAccessGC__access_key_input_buffer.value;
 }
 
-char *TLobby::init_serial_access() { return TAdEnterSerialAccessGC::hex_to_decimal_string((saddr)get_raw_serial_input_buffer()); }
+char *TLobby::init_serial_access() { return TAdEnterSerialAccessGC::hex_to_decimal_string((const char *)get_raw_serial_input_buffer()); }
 
 LAYOUT_ASSERT(RecoveredGlobal_8013ADB0_TAdEnterSerialAccessGC__data_804EC9B8_size, sizeof(RecoveredGlobal_8013ADB0_TAdEnterSerialAccessGC__data_804EC9B8) == 0xC);
 s32 *get_raw_serial_input_buffer(void) {

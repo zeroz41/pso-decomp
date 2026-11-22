@@ -6,8 +6,8 @@ struct TWindowCtrl;
 typedef void (TWindowCtrl::*PlayerWindowCommand)();
 typedef s32 (TWindowCtrl::*PlayerWindowQuery)();
 
-typedef char PlayerWindowCommandSize[sizeof(PlayerWindowCommand) == 0xC ? 1 : -1];
-typedef char PlayerWindowQuerySize[sizeof(PlayerWindowQuery) == 0xC ? 1 : -1];
+LAYOUT_ASSERT(PlayerWindowCommandSize, sizeof(PlayerWindowCommand) == 0xC);
+LAYOUT_ASSERT(PlayerWindowQuerySize, sizeof(PlayerWindowQuery) == 0xC);
 
 extern "C" {
 void call_window_method__11TWindowCtrlFPvi(s32 client_id, PlayerWindowCommand command);

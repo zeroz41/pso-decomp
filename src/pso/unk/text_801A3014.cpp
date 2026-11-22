@@ -65,7 +65,6 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
 
 
-
 struct VBase_801A33DC { char pad[0x18]; };
 
 struct VObj_801A33DC : VBase_801A33DC {
@@ -133,8 +132,6 @@ struct PV_801A39BC : PVB_801A39BC {
 
 extern "C" {
 s32 TLobby__sub_801A3B98();
-}
-extern "C" {
 void TLobby__sub_802075F4(void);
 void TWindowCtrlMain__sub_8024D838(void);
 void TObjPlayer__sub_80156934(void);
@@ -168,7 +165,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {TLobby::set_ending_callback, TLobby::free_ending_callback},
     {TKeyBoardControl__sub_80131F60, TKeyBoardControl__sub_80131F5C},
     {alloc_battle_param_tables, TLobby::free_boss4_rock},
-    {TLobby__sub_801A2554, TLobby__sub_801A2550},
+    {reset_id_counters, TLobby__sub_801A2550},
     {TObjPlayer::reset, TObjPlayer__sub_80156934},
     {init_scene_fog_system, TFogCtrl::reset},
     {load_light_entry_file, TObjLight::free_shared_data},
@@ -192,7 +189,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {(FloorResourceCallback)TLobby__sub_8001DC04, (FloorResourceCallback)TLobby::forward_8001DBD8},
     {(FloorResourceCallback)TLobby__sub_8034C3A4, (FloorResourceCallback)TLobby__sub_8034C384},
     {(FloorResourceCallback)TWindowGetComCard__sub_8007B67C, (FloorResourceCallback)TWindowGetComCard__sub_8007B65C},
-    {(FloorResourceCallback)TLobby__sub_8024285C, (FloorResourceCallback)TLobby::reset_state},
+    {(FloorResourceCallback)TLobby__sub_8024285C, (FloorResourceCallback)(void (*)(void *))TLobby::reset_state},
     {clear_received_symbol_chat, TLobby__sub_80077608},
     {TLobby__sub_80077BAC, TLobby::free_static_windows},
     {TLobby::init_char_slots, TLobby__sub_801C3A40},
@@ -208,16 +205,11 @@ void find_leader_section_id(void *, s32);
 void unlock_main_warp_destination(s32);
 void reset_controller_input_state();
 void load_area_scene_and_init(void *);
-}
-extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 s32 is_area_transfer_pending();
 s32 apply_phase_keyboard_mode();
 s32 TLobby__sub_801A2E00();
 s32 rebuild_player_inventory(void *);
-}
-void clear_floor_population(void);
-extern "C" {
 s32 get_game_play_mode();
 s32 TKeyBoardControl__sub_8000F95C();
 s32 clear_keyboard_key_state();
@@ -242,6 +234,7 @@ s32 TObjPlayer__sub_801B1C8C();
 s32 set_copy_clear_color_argb(s32, s32, s32);
 s32 TLobby__sub_801F3774();
 }
+void clear_floor_population(void);
 void clear_resource_load_tasks(void);
 void run_single_view_frame(void);
 void process_pending_resources();

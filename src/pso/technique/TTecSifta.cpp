@@ -12,7 +12,9 @@
 
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby_80226070.h"
-extern "C" void *__ct__16TargetCursorListFv(void *list);
+#include "pso/system/SoundEffect.h"
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/player/TargetCursorList.h"
 
 #pragma readonly_strings on
 
@@ -70,17 +72,14 @@ struct Sifta_8023AF94 {
 
 extern "C" {
 saddr get_entity_id(int);
-int TTecSifta__sub_8023AC88(void* p);
-extern const char *TTecSifta__name;
-s32 play_sound_effect(int, void *, int, int);
+int TTecSifta__spawn_sifta_range_effect(void* p);
 s32 is_split_screen();
-void *find_entity_by_id(u16 id);
 void deliver_technique_to_party_targets(void *);
 void run_task__9TTecSiftaFv(Sifta_8023AF94 *self);
 void copy_technique_target_list(void *, void *);
 int spawn_support_tec_range_effect(void*);
 
-int TTecSifta__sub_8023AC88(void* p) { return spawn_support_tec_range_effect(p); }
+int TTecSifta__spawn_sifta_range_effect(void* p) { return spawn_support_tec_range_effect(p); }
 
 void TTecSifta::play_sifta_cast_sound() {
     Obj_8023ACA8 *arg0 = (Obj_8023ACA8 *)this;
@@ -115,8 +114,8 @@ void TTecSifta::update_effect_params() {
     this->m_74 = (f32) (this->m_98 * this->m_a4);
 }
 
-void TTecSifta::create_instance(void *pos, void *arg2, void *level) {
-    new TTecSifta(this, pos, arg2, (saddr)level);
+void TTecSifta::create_instance(void *source, void *origin, void *targets, s32 level) {
+    new TTecSifta(source, origin, targets, level);
 }
 
 void TTecSifta::create(void *owner, void *pos, void *level) {
@@ -178,13 +177,13 @@ void run_task__9TTecSiftaFv(Sifta_8023AF94 *self) {
 #pragma opt_common_subs off
 struct Obj_8023ACA8;
 #define arg0 ((u8 *)this)
-TTecSifta::TTecSifta(void *owner, void *pos, void *arg3, s32 level) : TTecPlayerInfluence(owner, pos, level) {
+TTecSifta::TTecSifta(void *owner, void *pos, void *targets, s32 level) : TTecPlayerInfluence(owner, pos, level) {
     u8 *temp_r3;
     u32 t;
     __ct__16TargetCursorListFv((arg0 + 0xE0));
     *(s32 *)((s8 *)arg0 + 0) = ((saddr)TTecSifta__name);
     *(s32 *)&((TTecSifta *)arg0)->m_13c = 1;
-    copy_technique_target_list(arg0 + 0xE0, arg3);
+    copy_technique_target_list(arg0 + 0xE0, targets);
     ((TTecSifta *)arg0)->update_effect_params();
     temp_r3 = *(u8 **)((s8 *)arg0 + 0xDC);
     if (temp_r3 != NULL) {
@@ -195,14 +194,14 @@ TTecSifta::TTecSifta(void *owner, void *pos, void *arg3, s32 level) : TTecPlayer
         *(s16 *)&((TTecSifta *)arg0)->m_a8 = get_entity_id((int)t);
     }
     if (*(s32 *)&((TTecSifta *)arg0)->m_ac != 0) {
-        TTecSifta__sub_8023AC88(arg0);
+        TTecSifta__spawn_sifta_range_effect(arg0);
         ((TTecSifta *)arg0)->play_sifta_cast_sound();
     }
 }
 #undef arg0
 #pragma pop
 
-TTecSifta::TTecSifta(void *owner, void *pos, saddr level) : TTecPlayerInfluence(owner, pos, level) {
+TTecSifta::TTecSifta(void *owner, void *pos, s32 level) : TTecPlayerInfluence(owner, pos, level) {
 #define arg0 this
     u32 temp_r3_2;
     u8 *temp_r3;
@@ -218,7 +217,7 @@ TTecSifta::TTecSifta(void *owner, void *pos, saddr level) : TTecPlayerInfluence(
     if (temp_r3_2 != 0U) {
         arg0->m_a8 = get_entity_id(temp_r3_2);
     }
-    TTecSifta__sub_8023AC88(arg0);
+    TTecSifta__spawn_sifta_range_effect(arg0);
     arg0->play_sifta_cast_sound();
 #undef arg0
 }

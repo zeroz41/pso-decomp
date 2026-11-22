@@ -1,5 +1,9 @@
+#include "pso/ui/frontend/TAdTitleTexGC.h"
+#include "pso/ui/frontend/TAdTitleGC.h"
+#include "pso/ui/frontend/TAdRayGC.h"
 #include "pso/ui/frontend/TAdGuideTxtGC.h"
 #include "pso/ui/frontend/TAdSelectCurGC.h"
+#include "pso/ui/frontend/TAdSelectTxtGC.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/frontend/TitleBackgroundStorage.h"
 #include "pso/system/ControllerInputState.h"
@@ -17,47 +21,18 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/system/task/TObject.h"
 
-struct RecoveredFields_802FFCE4_arg0
-{
-  u8 unknown_0[0x20];
-  s32 field_20;
-  s32 field_24;
-  saddr field_28;
-  saddr field_2C;
-};
-
-struct TxtSlot_802FFE58 { s32 id; f32 x; f32 y; };
-
-struct Txt_802FFE58 { TxtSlot_802FFE58 v[3]; };
+struct Txt_802FFE58 { TAdSelectTxtLayout v[3]; };
 
 struct Pos_802FFE58 { f32 v[6]; };
 
 struct Cur_802FFE58 { f32 v[2]; };
 
-struct Obj_802FFE58 {
-    const char *f0;
-    u8 pad4[0x14];
-    void *vt;
-    s32 f1C;
-    s32 f20;
-    s32 f24;
-    void *f28;
-    void *f2C;
-};
-
 extern "C" {
 s32 lbl_805D69E8;
-void __ct__7TObjectFP7TObject(void *);
-void __ct__8TAdRayGCFv(void *, void *);
-void __ct__10TAdTitleGCFP7TObjectl(void *, void *, s32);
-void __ct__14TAdSelectTxtGCFP7TObjectPvPv(void *, void *, void *, s32);
-void __ct__13TAdTitleTexGCFv(void *, void *);
-extern void *__vt__21TAdMultiChgGameModeGC[];
-Obj_802FFE58 *__ct__21TAdMultiChgGameModeGCFv(Obj_802FFE58 *self);
 }
 s32 is_multiplayer_character_slot_selected(s32 arg0);
 extern "C" {
-s32 TAdMultiPlyChrSelectGC__sub_802C658C(s32 arg0);
+s32 TAdMultiPlyChrSelectGC__get_multiplayer_character_slot(s32 arg0);
 const char *TAdMultiChgGameModeGC__name = "TAdMultiChgGameModeGC";
 
 static const Txt_802FFE58 multi_chg_game_mode_text_layout = { { { -1, 223.0f, 169.0f }, { -1, 193.0f, 221.0f }, { -1, 163.0f, 273.0f } } };
@@ -72,7 +47,7 @@ s32 TAdMultiChgGameModeGC::check_players_ready(void * _w0) {
 
     var_r31 = 0U;
 loop_1:
-    if ((is_multiplayer_character_slot_selected(var_r31) != 0) && (TAdMultiPlyChrSelectGC__sub_802C658C(var_r31) > 3)) {
+    if ((is_multiplayer_character_slot_selected(var_r31) != 0) && (TAdMultiPlyChrSelectGC__get_multiplayer_character_slot(var_r31) > 3)) {
         return 1;
     }
     var_r31 += 1;
@@ -81,99 +56,65 @@ loop_1:
     }
     goto loop_1;
 }
-typedef struct RecoveredFields_802FFCE4_arg0 RecoveredFields_802FFCE4_arg0;
 void TAdMultiChgGameModeGC::run_task() {
-    RecoveredFields_802FFCE4_arg0 *arg0 = (RecoveredFields_802FFCE4_arg0 *)this;
-  saddr *new_var;
-  s32 temp_r4;
-  TAdMultiChgGameModeGC::set_default_camera();
-  arg0->field_20 = reinterpret_cast<TAdSelectCurGC *>(arg0->field_2C)->selection_index();
-  temp_r4 = arg0->field_20;
-  new_var = &arg0->field_2C;
-  if (((s32) arg0->field_24) != temp_r4)
-  {
-    ((TAdGuideTxtGC *)((int) arg0->field_28))->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x21, arg0->field_20)));
-  }
-  if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + 0x20), 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0))
-  {
-    TAdMultiChgGameModeGC::request_scene_change();
-  }
-  else
-    if (1 == ((TAdSelectCurGC *)((int) arg0->field_2C))->confirmation_result())
-  {
-    switch (reinterpret_cast<TAdSelectCurGC *>((*new_var))->selection_index())
-    {
-      case 0:
-        TAdMultiChgGameModeGC::set_mode_state_0d();
-        break;
-      case 1:
-        TAdMultiPlyChrSelectGC::reset_slot_selections();
-        lbl_805D69E8 = 1;
-        TAdMultiChgGameModeGC::set_mode_18();
-        break;
-      case 2:
-        if (TAdMultiChgGameModeGC::check_players_ready((void *)((void *) ((u8 *) arg0))) != 0)
-      {
-        TAdMultiChgGameModeGC::set_mode_state_0e();
-      }
-      else
-      {
-        TAdMultiChgGameModeGC::request_scene_change();
-      }
-        break;
+    set_default_camera();
+    selection = select_cursor->selection_index();
+    if (prev_selection != selection) {
+        guide_text->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x21, selection)));
     }
-  }
-  arg0->field_24 = (s32) arg0->field_20;
+    if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 2) != 0 ||
+        test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0) {
+        request_scene_change();
+    } else if (select_cursor->confirmation_result() == 1) {
+        switch (select_cursor->selection_index()) {
+        case 0:
+            set_mode_state_0d();
+            break;
+        case 1:
+            TAdMultiPlyChrSelectGC::reset_slot_selections();
+            lbl_805D69E8 = 1;
+            set_mode_18();
+            break;
+        case 2:
+            if (check_players_ready(this) != 0) {
+                set_mode_state_0e();
+            } else {
+                request_scene_change();
+            }
+            break;
+        }
+    }
+    prev_selection = selection;
 }
 TAdMultiChgGameModeGC::~TAdMultiChgGameModeGC() {}
-Obj_802FFE58 *__ct__21TAdMultiChgGameModeGCFv(Obj_802FFE58 *self) {
-    void *p;
-    __ct__7TObjectFP7TObject(self);
-    self->vt = __vt__21TAdMultiChgGameModeGC;
-    self->f0 = TAdMultiChgGameModeGC__name;
-    self->f1C = 0;
-    self->f20 = 2;
-    self->f24 = -1;
-    self->f28 = 0;
-    self->f2C = 0;
-    new TAdBackGC((TObject *)self);
-    new TAdBackTxtGC((TObject *)self);
-    if ((p = TObject::operator new(0x24)) != NULL) {
-        __ct__8TAdRayGCFv(p, self);
-    }
-    if ((p = TObject::operator new(0x138)) != NULL) {
-        __ct__10TAdTitleGCFP7TObjectl(p, self, 0xF);
-    }
+TAdMultiChgGameModeGC::TAdMultiChgGameModeGC(TObject *parent) : TObject(parent) {
+    m_name = TAdMultiChgGameModeGC__name;
+    pad_1C = 0;
+    selection = 2;
+    prev_selection = -1;
+    guide_text = 0;
+    select_cursor = 0;
+    new TAdBackGC(this);
+    new TAdBackTxtGC(this);
+    new TAdRayGC(this);
+    new TAdTitleGC(this, 0xF);
     {
         Txt_802FFE58 txt = multi_chg_game_mode_text_layout;
-        if ((p = TObject::operator new(0xE0)) != NULL) {
-            __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &txt.v[0], 0xC);
-        }
-        if ((p = TObject::operator new(0xE0)) != NULL) {
-            __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &txt.v[1], 0xD);
-        }
-        if ((p = TObject::operator new(0xE0)) != NULL) {
-            __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &txt.v[2], 0xE);
-        }
-        if ((p = TObject::operator new(0x9C)) != NULL) {
-            __ct__13TAdTitleTexGCFv(p, self);
-        }
+        new TAdSelectTxtGC(this, &txt.v[0], 0xC);
+        new TAdSelectTxtGC(this, &txt.v[1], 0xD);
+        new TAdSelectTxtGC(this, &txt.v[2], 0xE);
+        new TAdTitleTexGC(this);
         {
             Cur_802FFE58 cur = lbl_80474E1C[0];
             Pos_802FFE58 pos = multi_chg_game_mode_position_table;
-            p = new TAdSelectCurGC(reinterpret_cast<TObject *>(self),
-                reinterpret_cast<const NJS_POINT2 *>(&pos),
-                reinterpret_cast<const NJS_POINT2 *>(&cur));
-            self->f2C = p;
-            ((TAdSelectCurGC *)(self->f2C))->append_entry(&pos.v[0]);
-            ((TAdSelectCurGC *)(self->f2C))->append_entry(&pos.v[2]);
-            ((TAdSelectCurGC *)(self->f2C))->append_entry(&pos.v[4]);
+            select_cursor = new TAdSelectCurGC(this, reinterpret_cast<const NJS_POINT2 *>(&pos), reinterpret_cast<const NJS_POINT2 *>(&cur));
+            select_cursor->append_entry(&pos.v[0]);
+            select_cursor->append_entry(&pos.v[2]);
+            select_cursor->append_entry(&pos.v[4]);
         }
     }
-    ((TAdSelectCurGC *)(self->f2C))->set_selection_index(self->f20);
-    p = new TAdGuideTxtGC(reinterpret_cast<TObject *>(self));
-    self->f28 = p;
-    create_draw_line_ctrl((TObject *)self, 0xF, 0.0f);
-    return self;
+    select_cursor->set_selection_index(selection);
+    guide_text = new TAdGuideTxtGC(this);
+    create_draw_line_ctrl(this, 0xF, 0.0f);
 }
 }

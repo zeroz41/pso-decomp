@@ -89,18 +89,18 @@ s32 spawn_dropped_item_from_msg(void *, int);
 void handle_6x5F_drop_item(Pkt_8011ADF4 *pkt);
 }
 
-u32 build_item_id(u16 arg0) {
+u32 build_item_id(u16 drop_id_base) {
     u32 id;
     if (get_main_phase() == 0xF) {
         if (is_quest_active() != 0) {
-            id = arg0 | 0x06030000;
+            id = drop_id_base | 0x06030000;
         } else {
-            id = arg0 | 0x06010000;
+            id = drop_id_base | 0x06010000;
         }
     } else if (build_item_id_mode == 1) {
-        id = arg0 | 0x06020000;
+        id = drop_id_base | 0x06020000;
     } else {
-        id = arg0 | 0x06010000;
+        id = drop_id_base | 0x06010000;
     }
     return id;
 }
@@ -259,12 +259,12 @@ void handle_6xA2_specializable_item_drop_request(void *lobby) {
 }
 #pragma pop
 
-void handle_6x60_standard_drop_item_request(void *arg0) {
-    Req_8011AD1C *req = (Req_8011AD1C *)arg0;
+void handle_6x60_standard_drop_item_request(void *command) {
+    Req_8011AD1C *req = (Req_8011AD1C *)command;
     s32 client;
     s32 slot;
     s8 area;
-    bswap_6x60_drop_request_fields(arg0);
+    bswap_6x60_drop_request_fields(command);
     if ((u32)(req->size * 4) == 0x14) {
         client = req->client;
         slot = get_floor_area(client);
@@ -340,7 +340,7 @@ void TLobby::reset_item_id_counters() {
     }
 }
 
-extern "C" {
+
 TItemIdCounters::~TItemIdCounters() {
     mem_free((void *)item_sync_counter_table);
     item_sync_counter_table = 0;
@@ -374,11 +374,11 @@ void *TLobby::init_header() {
     return this;
 }
 void TLobby::bswap_packet() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x8)); bswap_32((u32 *)((char*)this + 0x4)); }
-s32 TLobby::apply_table_entry(s16 arg0, void * _w1) {
-    if (arg0 > 0xB9F) {
+s32 TLobby::apply_table_entry(s16 source, void * _w1) {
+    if (source > 0xB9F) {
         return 0;
     }
-    ((TLobby *)&quest_object_entries[arg0])->copy_short_fields(_w1);
+    ((TLobby *)&quest_object_entries[source])->copy_short_fields(_w1);
     return 1;
 }
 void TLobby::copy_short_fields(void *arg1) {
@@ -386,4 +386,3 @@ void TLobby::copy_short_fields(void *arg1) {
     *(u16 *)((s8 *)this + 2) = (u16) *(u16 *)((s8 *)arg1 + 2);
 }
 
-}

@@ -24,15 +24,12 @@ struct MovieState;
 
 extern "C" {
 void TMovie__sub_80144324(MovieState *movie, const s8 *name);
-void run_task__6TMovieFv(TMovie *movie);
 }
 int get_opening_movie_selector(void);
 void activate_main_menu_scene(void);
 extern "C" {
 void fn_801449F0(void);
 
-s32 is_playback_finished__6TMovieFv(s32);
-u8 *__nw__7TObjectFUl(s32);
 s32 DVDCheckDisk();
 s32 set_queued_main_phase(s32);
 s8 get_opening_movie_purpose();
@@ -55,16 +52,16 @@ static const Vec movie_camera_up = {0.0f, 1.0f, 0.0f};
 
 void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
 
-s32 TMovie::close(int arg0, short arg1) {
-    if (arg0 != 0) {
-        ((TMovie *)arg0)->release();
-        ((TMovie *)arg0)->free_buffer();
+TMovie *TMovie::close(TMovie *movie, short dealloc) {
+    if (movie != NULL) {
+        movie->release();
+        movie->free_buffer();
         TLobby::stop_audio_streams();
-        if (arg1 > 0) {
-            ::operator delete((void *)arg0);
+        if (dealloc > 0) {
+            ::operator delete(movie);
         }
     }
-    return arg0;
+    return movie;
 }
 
 u8 *initialize_movie_with_soundtrack(u8 *movie, s8 *name, s32 arg2, s32 arg3, s32 arg4) {
@@ -96,12 +93,15 @@ s32 TMovie::check_finished() {
     return 1;
 }
 
-bool TMovie::is_playback_finished() {
+s32 TMovie::is_playback_finished() {
     void **temp_r3;
     u8 *temp_r4;
     temp_r3 = (void **)(*(void ** *)&this->m_flags);
     temp_r4 = (u8 *)(*temp_r3);
-    return (*(s32 (**)(void **, void *))((s8 *)temp_r4 + 0x20))(temp_r3, temp_r4) == 3;
+    if ((*(s32 (**)(void **, void *))((s8 *)temp_r4 + 0x20))(temp_r3, temp_r4) == 3) {
+        return 1;
+    }
+    return 0;
 }
 
 void TMovie::update_stop() {
@@ -237,7 +237,7 @@ s32 TMovie::decode_frame() {
     return 1;
 }
 
-void TMovie::copy(void* q) { *(u32 *)&this->m_name = *(u32*)((char*)q + 0x0); *(u32 *)&this->m_flags = *(u32*)((char*)q + 0x4); *(u32 *)&this->m_prev = *(u32*)((char*)q + 0x8); *(u32 *)&this->m_next = *(u32*)((char*)q + 0xc); *(u32 *)&this->m_up = *(u32*)((char*)q + 0x10); *(u32 *)&this->m_down = *(u32*)((char*)q + 0x14); *(u32*)((char*)this + 0x18) = *(u32*)((char*)q + 0x18); module = ((const TMovie *)q)->module; this->m_20 = *(u32*)((char*)q + 0x20); *(u32 *)&this->m_24 = *(u32*)((char*)q + 0x24); *(u32 *)&this->unk_28 = *(u32*)((char*)q + 0x28); this->m_2c = *(u32*)((char*)q + 0x2c); *(u32 *)&this->unk_30 = *(u32*)((char*)q + 0x30); this->m_34 = *(u32*)((char*)q + 0x34); *(u32 *)&this->unk_38 = *(u32*)((char*)q + 0x38); this->m_3c = *(u32*)((char*)q + 0x3c); }
+void TMovie::copy(void* q) { *(u32 *)&this->m_name = *(u32*)((char*)q + 0x0); *(u32 *)&this->m_flags = *(u32*)((char*)q + 0x4); *(u32 *)&this->m_prev = *(u32*)((char*)q + 0x8); *(u32 *)&this->m_next = *(u32*)((char*)q + 0xc); *(u32 *)&this->m_up = *(u32*)((char*)q + 0x10); *(u32 *)&this->m_down = *(u32*)((char*)q + 0x14); *(u32*)((char*)this + 0x18) = *(u32*)((char*)q + 0x18); module = ((const TMovie *)q)->module; this->player = ((const TMovie *)q)->player; *(u32 *)&this->m_24 = *(u32*)((char*)q + 0x24); *(u32 *)&this->unk_28 = *(u32*)((char*)q + 0x28); this->m_2c = *(u32*)((char*)q + 0x2c); *(u32 *)&this->unk_30 = *(u32*)((char*)q + 0x30); this->m_34 = *(u32*)((char*)q + 0x34); *(u32 *)&this->unk_38 = *(u32*)((char*)q + 0x38); this->m_3c = *(u32*)((char*)q + 0x3c); }
 
 void TMovie::free_buffer() {
     if ((u32) *(u32 *)((s8 *)this + 0x9C) != 0U) {
@@ -285,14 +285,14 @@ void TMovie__sub_80144324(MovieState *movie, const s8 *name) {
 
 TMovie::~TMovie() {
     s32 (*temp_r12)(void *);
-    u32 t;
+    TMovie *t;
 
     this->render_until_finished();
     render_tick();
-    t = this->m_20;
-    if (t != 0U) {
+    t = this->player;
+    if (t != NULL) {
         TMovie::close(t, 1);
-        this->m_20 = 0U;
+        this->player = NULL;
     }
     render_tick();
     render_tick();
@@ -322,7 +322,7 @@ s32 TMovie::check_skip_input() {
     s32 var_r30;
 
     if (TAdEndText__sub_8001B41C() != 0) {
-        if ((TLobby::run_disk_error_check() == 0) || (is_playback_finished__6TMovieFv(this->m_20) != 0) || (func_801A5E54__Fv() != 0)) {
+        if ((TLobby::run_disk_error_check() == 0) || (this->player->is_playback_finished() != 0) || (func_801A5E54__Fv() != 0)) {
             if ((TLobby::run_disk_error_check() == 0) || (func_801A5E54__Fv() != 0)) {
                 fn_801449F0();
             }
@@ -349,7 +349,7 @@ s32 TMovie::check_skip_input() {
         if (test_controller_flag_4c_color(context, 2) != 0) goto block_fn_8000F91C;
         if (TLobby::run_disk_error_check() == 0) goto block_fn_8000F91C;
         if (TKeyBoardControl::check_reset_button() != 0) goto block_fn_8000F91C;
-        if (is_playback_finished__6TMovieFv(this->m_20) == 0) goto block_return0;
+        if (this->player->is_playback_finished() == 0) goto block_return0;
 block_fn_8000F91C:
         set_queued_main_phase(9);
         return 1;
@@ -366,7 +366,7 @@ block_fn_8000F91C:
         if (test_controller_flag_4c_color(context, 2) != 0) goto block_call_func;
         if (TLobby::run_disk_error_check() == 0) goto block_call_func;
         if (var_r30 != 0) goto block_call_func;
-        if (is_playback_finished__6TMovieFv(this->m_20) == 0) goto block_return0;
+        if (this->player->is_playback_finished() == 0) goto block_return0;
 block_call_func:
         if ((func_801A5E54__Fv() != 0) || (var_r30 != 0)) {
             activate_main_menu_scene();
@@ -396,11 +396,11 @@ struct VObj_18_a28850 : VBase_18_a28850 {
     virtual s32 m2();
 };
 
-void run_task__6TMovieFv(TMovie *movie) {
+void TMovie::run_task() {
     VObj_18_a28850 *txt;
     u8 *p;
-    if (movie->module == NULL || movie->m_20 == 0) {
-        movie->queue_destruction();
+    if (this->module == NULL || this->player == NULL) {
+        this->queue_destruction();
         return;
     }
     render_tick();
@@ -410,20 +410,20 @@ void run_task__6TMovieFv(TMovie *movie) {
     if (TAdEndText__sub_8001B41C() != 0) {
         p = (u8 *)TObject::operator new(0x197C);
         if (p != NULL) {
-            p = __ct__10TAdEndTextFv(p, movie);
+            p = __ct__10TAdEndTextFv(p, this);
         }
         txt = (VObj_18_a28850 *)p;
     }
     for (;;) {
-        if (movie->check_skip_input() != 0) {
+        if (this->check_skip_input() != 0) {
             break;
         }
         func_803DCDFC__Fv();
         controller_stuff();
         TKeyBoardControl::update_input_frame();
-        ((TMovie *)(movie->m_20))->decode_frame();
-        if (*(s32 *)&movie->m_48 != 0) {
-            ((TMovie *)(movie->m_20))->update_stop();
+        this->player->decode_frame();
+        if (*(s32 *)&this->m_48 != 0) {
+            this->player->update_stop();
             TMovie::run_callback();
         } else {
             Vec eye = movie_camera_eye;
@@ -431,7 +431,7 @@ void run_task__6TMovieFv(TMovie *movie) {
             Vec up = movie_camera_up;
             set_perspective_projection_from_fov(0x4B, 1.1333334f, 1.0f, 21000.0f);
             set_camera_look_at((u8 *)&eye, (u8 *)&at, (u8 *)&up);
-            ((TMovie *)(movie->m_20))->update_stop();
+            this->player->update_stop();
             if (txt != NULL) {
                 txt->m1();
                 txt->m2();
@@ -439,7 +439,7 @@ void run_task__6TMovieFv(TMovie *movie) {
             render_tick();
         }
     }
-    movie->queue_destruction();
+    this->queue_destruction();
 }
 
 TMovie::TMovie(TObject *parent, s8 *name, s32 a3, s32 a4, s32 a5) : TObject(parent) {

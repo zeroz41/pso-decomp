@@ -29,7 +29,7 @@ struct TObjEneRe2Flower : public TObjEneDD_ST {
     void set_child_flags();
     u8 *find_target_in_range();
     static void destroy_instance();
-    static void *create(void *arg0);
+    static void *create(void *setData);
     int get_flag_11();
 
     s32 m_3c0;

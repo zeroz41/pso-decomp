@@ -23,7 +23,7 @@ void bswap_cmd_c4_reconnect_command(saddr arg0);
 extern "C" {
 s32 *copy_cmd_c4_entry_table(s32 *arg0, s32 *arg1);
 }
-int copy_cmd_c4_entry(int arg0, int arg1);
+void *copy_cmd_c4_entry(void *dst, void *src);
 void bswap_choice_search_packet(void *p);
 void bswap_u16_pair_field(void *p);
 void bswap_c0_choice_search_entry(void *p);
@@ -43,7 +43,7 @@ void bswap_cmd_c4_reconnect_command(saddr arg0);
 extern "C" {
 s32 *copy_cmd_c4_entry_table(s32 *arg0, s32 *arg1);
 }
-int copy_cmd_c4_entry(int arg0, int arg1);
+void *copy_cmd_c4_entry(void *dst, void *src);
 void bswap_choice_search_packet(void *p);
 void bswap_u16_pair_field(void *p);
 void bswap_c0_choice_search_entry(void *p);

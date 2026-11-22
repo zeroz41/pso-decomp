@@ -6,8 +6,6 @@
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_800FA848.h"
 
-extern "C" {
-
 
 s32 create_named_entry__6TLobbyFiiUiiPv(saddr name, s32 arg1, u32 arg2, void *src, void **arg4) {
     u8 *var_r31;
@@ -41,4 +39,3 @@ s32 create_named_entry__6TLobbyFiiUiiPv(saddr name, s32 arg1, u32 arg2, void *sr
     return *(s32 *)((s8 *)var_r31 + 0x2C);
 }
 
-}

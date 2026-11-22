@@ -8,6 +8,7 @@
 struct TItem;
 struct TItemData;
 class TItemEffectWeapon;
+class TObjChara;
 struct WeaponVector { f32 x,y,z; };
 
 struct WeaponMotionRecord { u32 unknown; u32 frame_count; };
@@ -64,11 +65,14 @@ struct TItemWeapon : public TItemEquipBase {
     virtual void update_idle();
     virtual void reserved_53();
     virtual void update_weapon();
-    virtual void vfunc_57();
-    virtual void vfunc_58();
+    // Run last by on_equip and on_unequip; subclasses reset their own state.
+    virtual void on_equipped();
+    virtual void on_unequipped();
     virtual void init_weapon_effect_descriptor(Desc_8011E5C4 *desc);
     virtual void vfunc_60();
-    virtual void deliver_hit(s32 arg1, u8 *arg2, s32 arg3, s32 arg4, f32 farg0);
+    // attack_kind 0 physical, 1 physical with knockback, 2 the weapon
+    // special; body indexes the target's collision bodies.
+    virtual void deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 attack_kind, s32 body, f32 scale);
 
     // Copies what an item of this class keeps when it is replaced by a new
     // item code (replace_item_with_new_code) into the new item's data.
@@ -78,7 +82,7 @@ struct TItemWeapon : public TItemEquipBase {
     // wall in between, or NULL.
     u8 *trace_from_owner(u8 *point);
     void remap_extra_attack_type();
-    s32 draw_weapon_model();
+    void draw_weapon_model();
     void create_weapon_trail_effects();
     void apply_model_params();
     void spawn_light_task();
@@ -111,7 +115,8 @@ struct TItemWeapon : public TItemEquipBase {
     s8 trail_start_joints[4];      // set_weapon_trail_joints
     s8 trail_end_joints[4];
     u8 attributes[6];              // the item's three attribute pairs
-    u8 pad_1aa[0x1B8 - 0x1AA];
+    u8 pad_1aa[0x1AC - 0x1AA];
+    Vec held_position;             // the owner's joint 0x30, where get_center puts it
     u32 weapon_flags;
     s32 technique_roll;
     s32 previous_technique_roll;

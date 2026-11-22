@@ -32,7 +32,7 @@ void TUnk_804EDAC0::sub_8032BC94(TObject *object) {
     }
 }
 
-extern "C" s32 dispatch_input_to_instance__18TAdEnterPasswordGCFi(saddr object) {
+s32 dispatch_input_to_instance__18TAdEnterPasswordGCFi(saddr object) {
     if (TUnk_804EDAC0::instance != NULL) {
         if (TUnk_804EDAC0::instance->get_confirm_state() != 0) {
             return 0;
@@ -64,8 +64,8 @@ TUnk_804EDAC0::TUnk_804EDAC0(TObject *parent) : TObject(parent) {
     rendering = 0;
 }
 
-extern "C" void TLobby__sub_8032BE30(void) { TUnk_804EDAC0::instance = NULL; }
+void TLobby__sub_8032BE30(void) { TUnk_804EDAC0::instance = NULL; }
 
-extern "C" void TLobby__sub_8032BE3C(void) { TUnk_804EDAC0::instance = NULL; }
+void TLobby__sub_8032BE3C(void) { TUnk_804EDAC0::instance = NULL; }
 
 s32 TUnk_804EDAC0::get_confirm_state() { return rendering; }

@@ -12,6 +12,9 @@
 #include "pso/render/render_util.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/unk/text_803D853C.h"
 
 #pragma readonly_strings on
 
@@ -73,7 +76,6 @@ s32 TObjPlayer__effect_count;
 extern const f32 lbl_805D99F8;
 extern const f32 lbl_805D9A04;
 extern const f32 lbl_805D9A08;
-s32 matrix_mult_vec(int, void *, void *);
 extern Cam_800A3D1C lbl_8058D4F8;
 extern const f32 lbl_805D99F0;
 extern const f32 lbl_805D99FC;
@@ -95,8 +97,6 @@ struct Obj_800A39A8 {
     s32 n;
 };
 
-f32 rand_signed_unit();
-f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
 s32 normalize_vector_safe__FP3Vec(Vec *);
 extern const f32 lbl_805D99F4;
@@ -374,19 +374,19 @@ TeneFakeTecThunderEff::~TeneFakeTecThunderEff() {
 
 }
 
-u8 *TObjPlayer__sub_800A4204(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3, s32 arg4) {
-    __ct__7TObjectFP7TObject(arg0, arg1);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__21TeneFakeTecThunderEff;
-    ((TeneFakeTecThunderEff *)arg0)->m_name = lbl_805D29E0;
-    ((TeneFakeTecThunderEff *)arg0)->m_338 = arg2;
-    *(s32 *)((s8 *)arg0 + 0x33C) = arg3;
-    ((TeneFakeTecThunderEff *)arg0)->m_330 = 0;
-    *(s32 *)((s8 *)arg0 + 0x334) = 0;
-    *(s32 *)((s8 *)arg0 + 0x344) = arg4;
-    build_beam_points__12TTecZondeEffFPv((Obj_800A39A8 *)arg0);
-    ((TeneFakeTecThunderEff *)arg0)->m_328 = 0;
-    *(s32 *)((s8 *)arg0 + 0x32C) = 0xFF000000;
-    ((TeneFakeTecThunderEff *)arg0)->m_340 = 0;
-    return arg0;
+u8 *TObjPlayer__sub_800A4204(u8 *effect, u8 *parent, s32 target, s32 arg3, s32 arg4) {
+    __ct__7TObjectFP7TObject(effect, parent);
+    *(s32 **)((s8 *)effect + 0x18) = __vt__21TeneFakeTecThunderEff;
+    ((TeneFakeTecThunderEff *)effect)->m_name = lbl_805D29E0;
+    ((TeneFakeTecThunderEff *)effect)->m_338 = target;
+    *(s32 *)((s8 *)effect + 0x33C) = arg3;
+    ((TeneFakeTecThunderEff *)effect)->m_330 = 0;
+    *(s32 *)((s8 *)effect + 0x334) = 0;
+    *(s32 *)((s8 *)effect + 0x344) = arg4;
+    build_beam_points__12TTecZondeEffFPv((Obj_800A39A8 *)effect);
+    ((TeneFakeTecThunderEff *)effect)->m_328 = 0;
+    *(s32 *)((s8 *)effect + 0x32C) = 0xFF000000;
+    ((TeneFakeTecThunderEff *)effect)->m_340 = 0;
+    return effect;
 }
 

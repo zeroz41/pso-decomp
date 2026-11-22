@@ -5,10 +5,10 @@
 
 // --- C functions defined in TObjBase.cpp ---
 extern "C" {
-u16 TLobby__sub_801A20C8(s32 arg);
+u16 alloc_enemy_ids(s32 arg);
 void TLobby__sub_801A2550(void);
-void TLobby__sub_801A2554(void);
-u16 fn_801A210C(s32 n);
+void reset_id_counters(void);
+u16 alloc_player_ids(s32 n);
 }
 // --- end of C functions
 

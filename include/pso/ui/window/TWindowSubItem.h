@@ -9,7 +9,7 @@ struct TWindowSubItem : public TObject {
     u8 m_1c;
     u8 _pad1D[0x3];
     u32 m_20;
-    u32 m_24;
+    u32 client_id;
     u32 m_28;
     u32 m_2c;
     uaddr m_30;
@@ -20,11 +20,11 @@ struct TWindowSubItem : public TObject {
     void set_displayed_item(s32 arg1);
     void use_selected_item();
     void close_windows(s32 arg1);
-    void exec_item_command(saddr arg1, s32 arg2);
+    void exec_item_command(saddr item_id, s32 arg2);
     void set_cursor_row_for_mode(s32 arg1);
     static void draw_slot(saddr arg1, saddr arg2, s32 arg3);
     static void add_meseta_purpose_actions(saddr arg0, saddr arg1);
-    s32 create_count_input(s32 arg1);
+    s32 create_count_input(s32 maximum);
     s32 create_menu_window();
     virtual void render();
     virtual void run_task();
@@ -41,4 +41,6 @@ struct TWindowSubItem : public TObject {
 };
 
 LAYOUT_ASSERT(TWindowSubItem_size, sizeof(TWindowSubItem) == 0x44);
+
+extern "C" void *TWindowSubItem__ct(TWindowSubItem *window_sub_item, s32 parent, s32 client_id);
 #endif

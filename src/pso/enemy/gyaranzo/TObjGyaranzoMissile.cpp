@@ -19,6 +19,9 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/system/task/TObject.h"
+#include "pso/enemy/AreaSoundRemap.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/system/MatrixOps.h"
 
 
 CollisionBody gyaranzo_missile_collision_body_b = {{0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, 0, 0x8001, {0.0f, 0.0f, 0.0f}, 0.0f};
@@ -50,23 +53,17 @@ struct Col_800D4990 { u8 pad[0xC]; f32 radius; u8 pad10[0x18 - 0x10]; u32 flags;
 extern "C" {
 u16 get_entity_id(void *);
 s32 init_collision_body_parts(void *, void *, int);
-s32 __ct__14TObjCollidableFP7TObject(void *, int);
-extern f32 identity_matrix[12];
-extern saddr gyaranzo_bml_resource;
+extern BmlResource *gyaranzo_bml_resource;
 extern saddr tl_04;
 s32 matrix_mult_vec(int, int, int);
-s32 rotate_matrix_x(int, int);
 extern f32 TObjGyaranzoMissile__speed_scale;
-s32 remap_area_sound_id(s32 arg0, s32 arg1);
 void check_enemy_body_collisions(void *);
-s32 play_sound_effect(s32, void *, int, int);
 Target_800D4990 *find_active_entity_by_id(u16);
 }
 s32 get_gyaranzo_missile_int_parameter(s32 i);
-void direction_to_rotation_xy(u8 *arg0, s32 *arg1, s32 *arg2);
+void direction_to_rotation_xy(u8 *dir, s32 *rot_a, s32 *rot_b);
 extern "C" {
 s32 project_actor_to_ground(void *, void *, int);
-int vec3_add_to(void *, void *);
 extern const f32 TObjGyaranzoMissile__max_range;
 extern s32 gyaranzo_missile_volley_end_time;
 s32 post_translate_matrix(void *);
@@ -106,7 +103,7 @@ void TObjGyaranzoMissile::sub_800D47B4() {
 }
 
 void TObjGyaranzoMissile::render() {
-    TObjFish::set_global_param((s32)get_bml_texlist((BmlResource *)(void *)gyaranzo_bml_resource, 6));
+    TObjFish::set_global_param((saddr)get_bml_texlist(gyaranzo_bml_resource, 6));
     push_matrix();
     post_translate_matrix((u8 *)&this->position);
     rotate_matrix_x(0, (int)this->rotation_x);
@@ -178,7 +175,7 @@ TObjGyaranzoMissile::TObjGyaranzoMissile(u8 *arg1, u8 *arg2, u16 arg3) : TObjCol
     *(s32 *)((s8 *)gyaranzo_missile + 0) = (saddr) lbl_805D2A80;
     init_collision_body_parts(gyaranzo_missile, &gyaranzo_missile_collision_body_b, 1);
     ((Col_800D4990 *)((TObjGyaranzoMissile *)gyaranzo_missile)->bodies)->radius = 4.0f;
-    VecCopy(&((TObjGyaranzoMissile *)gyaranzo_missile)->position, (const Vec *)((int) (*(s32 *)((s8 *)arg2 + 0))));
+    VecCopy(&((TObjGyaranzoMissile *)gyaranzo_missile)->position, *(const Vec **)arg2);
     ((TObjGyaranzoMissile *)gyaranzo_missile)->target_id = arg3;
     ((TObjGyaranzoMissile *)gyaranzo_missile)->rotation_x = (s32) *(s32 *)((s8 *)arg2 + 4);
     ((TObjGyaranzoMissile *)gyaranzo_missile)->rotation_y = (s32) *(s32 *)((s8 *)arg2 + 8);

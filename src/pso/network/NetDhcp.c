@@ -772,7 +772,7 @@ s16 TLobby__sub_8042474C(s32 *lease, s32 *renew, s32 *rebind) {
     return -1;
 }
 
-u8 find_dhcp_option(u8 *p, u8 tag, u8 **out) {
+s32 find_dhcp_option(u8 *p, u8 tag, u8 **out) {
     u8 *base = p;
     u8 t;
     u8 len;
@@ -808,16 +808,16 @@ s16 TLobby__sub_8042489C(void *, s32 *out) {
     return 0;
 }
 
-s16 validate_slot_buffers(void *arg0, char *out, s32 *arg2, s32 *arg3) {
+s16 validate_slot_buffers(void *arg0, char *out, s32 *dns1, s32 *dns2) {
     dhcp_error = 0;
     if ((*(volatile s32 *)&dhcp_state) != 3 && (*(volatile s32 *)&dhcp_state) != 4 && (*(volatile s32 *)&dhcp_state) != 5) {
         dhcp_error = 2;
         return -1;
     }
-    if (dhcp_get_option(4, arg2) != 0) {
+    if (dhcp_get_option(4, dns1) != 0) {
         dhcp_error = 0xE;
     }
-    if (dhcp_get_option(5, arg3) != 0 && dhcp_error == 0) {
+    if (dhcp_get_option(5, dns2) != 0 && dhcp_error == 0) {
         dhcp_error = 0xF;
     }
     if (dhcp_get_option(3, out) != 0 && dhcp_error == 0) {

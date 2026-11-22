@@ -12,6 +12,7 @@
 
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/window/WindowLayout.h"
 
 struct Quantity_8026D000 {
     s32 f0;
@@ -45,7 +46,6 @@ WindowDescriptor quantity_window_layout = {
 
 extern "C" {
 u32 calc_text_width(void);
-saddr get_window_layout_position(s32);
 const char *TWindowQuantity__name = "TWindowQuantity";
 s32 draw_window_tab(s32, s32, s32, f32);
 
@@ -53,21 +53,18 @@ void TWindowQuantity::set_position(s32 arg1) {
     draw_window_tab(arg1, arg1 + 0x10, 3, this->m_60);
 }
 
-void render__15TWindowQuantityFv(saddr arg0) {
+void TWindowQuantity::render() {
     saddr ctx;
-    ctx = reinterpret_cast<saddr>(((TWindowBase *)arg0)->setup_window_draw_context((f32 *)(arg0 + 0x64)));
-    ((TWindowQuantity *)arg0)->set_position(ctx);
-    draw_visible_window_entries(
-        reinterpret_cast<const void *>(arg0),
-        reinterpret_cast<const WindowLayoutEntries *>((void *)(arg0 + 0x24)),
-        reinterpret_cast<WindowDrawContext *>(ctx));
+    ctx = reinterpret_cast<saddr>(setup_window_draw_context(&this->scale));
+    set_position(ctx);
+    draw_visible_window_entries(this, &this->entry_list, reinterpret_cast<WindowDrawContext *>(ctx));
 }
 
 void TWindowQuantity::run_task() { ((TWindowDD *)this)->initialize_subwindow(); update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((char*)this + 0x24)); }
 
 TWindowQuantity::~TWindowQuantity() {}
 
-TWindowQuantity::TWindowQuantity(s32 arg1) : TWindowBase((u8 *)&quantity_window_layout, (s16)arg1, (u8 *)(get_window_layout_position(0x2A))) {
+TWindowQuantity::TWindowQuantity(s32 client) : TWindowBase((u8 *)&quantity_window_layout, (s16)client, (u8 *)(get_window_layout_position(0x2A))) {
 #define self ((Quantity_8026D000 *)this)
     u8 *e1;
     u8 *e0;
@@ -93,8 +90,8 @@ TWindowQuantity::TWindowQuantity(s32 arg1) : TWindowBase((u8 *)&quantity_window_
 #undef self
 }
 
-void *create_window_quantity(void *arg0) {
-    return new TWindowQuantity((saddr)arg0);
+void *create_window_quantity(void *client) {
+    return new TWindowQuantity((saddr)client);
 }
 
 }

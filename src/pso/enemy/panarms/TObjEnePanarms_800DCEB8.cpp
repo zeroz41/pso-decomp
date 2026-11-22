@@ -5,6 +5,8 @@
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "types.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/unk/text_803D8F74.h"
 #include "pso/system/ModelNodePositionCapture.h"
 #include "pso/enemy/panarms/TObjEnePanarms_800DCEB8.h"
 #include "pso/object/base/TObjChara.h"
@@ -43,6 +45,11 @@
 
 
 #include "pso/render/RenderFadeState.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/unk/text_80086D50.h"
+#include "pso/render/BlobShadow.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/math/MatrixVector.h"
 
 
 struct Stack_800DDFDC
@@ -61,7 +68,6 @@ struct Stack_800DD9A0 {
 
 struct Obj_800DECC4 { u8 pad[0x38]; Vec pos; u8 pad2[0x248 - 0x44]; u8 f248[0x384 - 0x248]; f32 f384; };
 
-struct Obj_800DF1B8 { u8 pad[0x394]; u32 handles[2]; };
 
 
 struct Obj_800DE2D0 { u8 pad0[0x30]; u32 f30; u8 pad1[0x374 - 0x34]; s32 f374; u8 pad2[0x3AC - 0x378]; u8 f3AC[0x18]; u8 f3C4[4]; };
@@ -182,11 +188,8 @@ struct Obj_800DD8AC { u8 pad0[0xB0]; u32 flags; u8 padb4[0xC0 - 0xB4]; f32 fc0; 
 
 
 extern "C" {
-s32 obj_setFlags30(void *, int);
 int TObjEnePanarms__sub_800E1D94(void *);
 s32 spawn_continuous_particle_with_direction(void *, void *, int, int);
-f32 sin_table_lookup(int);
-f32 cos_table_lookup(int);
 void *spawn_directional_particle(void *pos, void *dir, s32 id);
 s32 TObjEnePanarms__sub_800DFB44(s32);
 void TObjEnePanarms__sub_800E1E14(u8 *arg0);
@@ -196,24 +199,19 @@ s32 TObjEnePanarms__sub_800DFB9C(void *);
 s32 TObjEnePanarms__sub_800DFBB0(void *);
 f32 atan2_float(f32 y, f32 x);
 s32 approach_angle_limited(s32, s32, s32);
-f32 vector_length(void *);
 void TObjEnePanarms__sub_800E1D38(void *arg0);
 s32 TObjEnePanarms__sub_800DE528(void *arg0, Vec *arg1);
 s32 subtract_vector(void *, void *);
-s32 check_ground_along_path__14TObjEnePanarmsFPvPvPvff(void *arg0, Vec *arg1, Vec *arg2, f32 step, f32 dy);
+s32 check_ground_along_path__14TObjEnePanarmsFPvPvPvff(void *actor, Vec *arg1, Vec *arg2, f32 step, f32 dy);
 u32 csnLookAt(void *, void *);
 f32 horizontal_distance_squared(void *, void *);
-s32 try_warp_to_position__14TObjEnePanarmsFPvPv(u8 *arg0, Vec *arg1);
+s32 try_warp_to_position__14TObjEnePanarmsFPvPv(u8 *player, Vec *pos);
 int TObjEnePanarms__sub_800DFBC4(void *p);
-int post_translate_matrix(void*);
-int rotate_matrix_y(void*, void*);
-void draw_blob_shadow(s32 arg0);
 s32 rotate_matrix_z(int, int);
 void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 s32 rotate_matrix_x(int, int);
-s32 scale_current_matrix(Vec *);
 }
-void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
+void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 typedef struct Stack_800DDFDC Stack_800DDFDC;
 
 
@@ -231,7 +229,6 @@ struct VFade_800DEF5C {
 };
 
 extern "C" {
-s32 is_split_screen();
 extern s32 model_render_flags;
 extern s32 saved_model_render_flags;
 s32 minimap_render_dot(void *, s32, s32, s32);
@@ -351,9 +348,9 @@ TObjEnePanarms::~TObjEnePanarms() {
 void TObjEnePanarms::destroy_handles() {
     s32 i;
     for (i = 0; i < 2; i++) {
-        if (((Obj_800DF1B8 *)this)->handles[i] != 0) {
-            TParticleCtrl::release((void *)((Obj_800DF1B8 *)this)->handles[i]);
-            ((Obj_800DF1B8 *)this)->handles[i] = 0;
+        if (particle_handles[i] != NULL) {
+            TParticleCtrl::release(particle_handles[i]);
+            particle_handles[i] = NULL;
         }
     }
 }
@@ -424,7 +421,16 @@ void TObjEnePanarms::render() {
     }
 }
 
-void TObjEnePanarms__sub_800DEEF8(void* p) { push_matrix(); post_translate_matrix((char*)p + 0x38); rotate_matrix_y((void*)0, *(void**)((char*)p + 0x60)); TObjFish::set_global_param((saddr)((GinjaTextureList *)((s32)(*(void**)((char*)p + 0x24))))); ((TObjEnePanarms *)p)->m_39c->install(); ((TObjMotion *)p)->draw(); ((TObjEnePanarms *)p)->m_39c->clear(); pop_matrix(); }
+void TObjEnePanarms__sub_800DEEF8(TObjEnePanarms *self) {
+    push_matrix();
+    post_translate_matrix(&self->position.x);
+    rotate_matrix_y(NULL, self->rotation_y);
+    TObjFish::set_global_param(self->texlist);
+    self->m_39c->install();
+    ((TObjMotion *)self)->draw();
+    self->m_39c->clear();
+    pop_matrix();
+}
 
 #pragma push
 #pragma fp_contract on
@@ -442,7 +448,7 @@ void TObjEnePanarms::draw_shadow() {
         translate_matrix(0, 0.25f * *(f32 *)((s8 *)((u8 *)this) + 0x38) + 0.75f * draw_positions[0].x, 0.2f + *(f32 *)&this->unk_384, 0.25f * *(f32 *)((s8 *)((u8 *)this) + 0x40) + 0.75f * draw_positions[0].z);
         direction_to_rotation_xz(((u8 *)this) + 0x248, &spC, &sp8);
         rotate_matrix_z(0, sp8);
-        rotate_matrix_y((void *) 0, *(void * *)&this->rotation_y);
+        rotate_matrix_y(NULL, rotation_y);
         rotate_matrix_x(0, spC + 0x4000);
         d = *(f32 *)((s8 *)((u8 *)this) + 0x3C) - *(f32 *)&this->unk_384;
         if (d > 40.0f) {
@@ -455,7 +461,7 @@ void TObjEnePanarms::draw_shadow() {
         v.z = 1.0f;
         v.x = 5.0f * k;
         v.y = 2.0f * k;
-        scale_current_matrix(&v);
+        scale_current_matrix(&v.x);
         draw_blob_shadow(0);
         pop_matrix();
     }
@@ -485,7 +491,7 @@ void TObjEnePanarms::snap_to_ground() {
 
 #pragma push
 #pragma fp_contract on
-s32 try_warp_to_position__14TObjEnePanarmsFPvPv(u8 *player, Vec *arg1) {
+s32 try_warp_to_position__14TObjEnePanarmsFPvPv(u8 *player, Vec *pos) {
     s32 ok;
     s32 i;
     s32 ang;
@@ -497,7 +503,7 @@ s32 try_warp_to_position__14TObjEnePanarmsFPvPv(u8 *player, Vec *arg1) {
     Vec hit;
     ok = 0;
     if (!(horizontal_distance_squared(player + 0x38, player + 0x50) > 250000.0f)) {
-        VecCopy((Vec *)&d, (const Vec *)arg1);
+        VecCopy((Vec *)&d, (const Vec *)pos);
         subtract_vector(&d, player + 0x38);
         if (0.0f != vector_length(&d)) {
             i = 1;
@@ -531,12 +537,12 @@ s32 try_warp_to_position__14TObjEnePanarmsFPvPv(u8 *player, Vec *arg1) {
 }
 #pragma pop
 
-u16 TObjEnePanarms::turn_to_nearest_player(s32 arg1, s32 arg2) {
+u16 TObjEnePanarms::turn_to_nearest_player(s32 arg1, s32 mode) {
     Vec sp;
     s32 t;
     s32 var;
     if ((t = find_nearest_visible_player(this, &sp, 200.0f)) != 0xFFFF) {
-        if (arg2 == 0 || vector_length(&sp) < 30.0f) {
+        if (mode == 0 || vector_length(&sp) < 30.0f) {
             var = 0;
         } else {
             var = -0x1800;
@@ -608,7 +614,7 @@ s32 TObjEnePanarms::find_combine_position(void *p) {
 #undef arg0
 #pragma pop
 
-s32 check_ground_along_path__14TObjEnePanarmsFPvPvPvff(void *arg0, Vec *arg1, Vec *arg2, f32 step, f32 dy) {
+s32 check_ground_along_path__14TObjEnePanarmsFPvPvPvff(void *actor, Vec *arg1, Vec *arg2, f32 step, f32 dy) {
     Vec p = *arg1;
     Vec d = *arg2;
     f32 len;
@@ -624,7 +630,7 @@ s32 check_ground_along_path__14TObjEnePanarmsFPvPvPvff(void *arg0, Vec *arg1, Ve
     d.z *= step;
     for (t = 0.0f; t < len; ) {
         p.y += dy;
-        if (project_actor_to_ground((TObjChara *)arg0, (Vec *)&p, 0) == 0) {
+        if (project_actor_to_ground((TObjChara *)actor, (Vec *)&p, 0) == 0) {
             return 0;
         }
         t += step;
@@ -682,15 +688,15 @@ s32 TObjEnePanarms__sub_800DE494(void *self) {
 }
 #pragma pop
 
-void TObjEnePanarms__sub_800DE430(saddr arg0, s32 arg1, s32 arg2) {
+void TObjEnePanarms__sub_800DE430(saddr self, s32 arg1, s32 arg2) {
     Vec position;
-    VecCopy((Vec *)(&position.x), (const Vec *)(arg0 + 0x2FC));
+    VecCopy((Vec *)(&position.x), (const Vec *)(self + 0x2FC));
     position.y += 10.0f;
-    create_particle_controller_with_rotation(&position, (ParticleAngles *)(arg0 + 0x5C), 0x106, arg1, arg2);
+    create_particle_controller_with_rotation(&position, (ParticleAngles *)(self + 0x5C), 0x106, arg1, arg2);
 }
 
 s32 TObjEnePanarms::sub_800DE390() {
-    Obj_800DE390 *arg0 = (Obj_800DE390 *)this;
+    Obj_800DE390 *self = (Obj_800DE390 *)this;
     switch (this->state) {
     case 0:
     case 1:
@@ -701,7 +707,7 @@ s32 TObjEnePanarms::sub_800DE390() {
         return 0;
     default:
         if (TObjEnePanarms__sub_800DFB44(this->m_3e4) != 0 || TObjEnePanarms__sub_800DFB44(this->m_3e8) != 0) {
-            ((TObjEnePanarms *)arg0)->set_state((saddr)((void*)((void *)10)));
+            ((TObjEnePanarms *)self)->set_state((saddr)((void*)((void *)10)));
             return 1;
         }
         return 0;
@@ -711,15 +717,15 @@ s32 TObjEnePanarms::sub_800DE390() {
 void TObjEnePanarms::run_death_reaction() { if (this->state != 4) { set_state((saddr)((void*)((void*)4))); } }
 
 void TObjEnePanarms::run_hit_reaction() {
-    Obj_800DE2D0 *arg0 = (Obj_800DE2D0 *)this;
-    switch (arg0->f374) {
+    Obj_800DE2D0 *self = (Obj_800DE2D0 *)this;
+    switch (self->f374) {
     case 1:
     case 2:
         return;
     default:
-        arg0->f30 &= 0xFFFFFDFF;
-        play_sound_effect((s32)(((int)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003BC34))), arg0->f3AC, 0, 0);
-        play_sound_effect((s32)(((int)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003BC33))), arg0->f3C4, 0, 0);
+        self->f30 &= 0xFFFFFDFF;
+        play_sound_effect((s32)(((int)((TObjEnemy *)(self))->remap_sound_for_area(0x4003BC34))), self->f3AC, 0, 0);
+        play_sound_effect((s32)(((int)((TObjEnemy *)(self))->remap_sound_for_area(0x4003BC33))), self->f3C4, 0, 0);
         break;
     }
 }
@@ -776,26 +782,26 @@ void TObjEnePanarms::set_hidden_flags() {
 }
 
 void TObjEnePanarms::update_fall() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
   Stack_800DDFDC stack;
   this->move_velocity.y += -0.5f;
   vec3_add_to((u8 *)&this->position, (u8 *)&this->move_velocity);
-  if ((*((f32 *) (((s8 *) arg0) + 0x37C))) <= 0.0f)
+  if ((*((f32 *) (((s8 *) self) + 0x37C))) <= 0.0f)
   {
     ;
-    if ((*((f32 *) (((s8 *) arg0) + 0x3C))) <= (*((f32 *) (((s8 *) arg0) + 0x384))))
+    if ((*((f32 *) (((s8 *) self) + 0x3C))) <= (*((f32 *) (((s8 *) self) + 0x384))))
     {
-      *((f32 *) (((s8 *) arg0) + 0x3C)) = *((f32 *) (((s8 *) arg0) + 0x384));
+      *((f32 *) (((s8 *) self) + 0x3C)) = *((f32 *) (((s8 *) self) + 0x384));
       spawn_particle_effect(&this->position, 0xF0);
       set_state((saddr)((void*)(3)));
       return;
     }
   }
   this->m_388 = (s32) ((this->m_388) + 1);
-  if ((!((this->m_388) & 7)) && ((*((f32 *) (((s8 *) arg0) + 0x37C))) > 0.0f))
+  if ((!((this->m_388) & 7)) && ((*((f32 *) (((s8 *) self) + 0x37C))) > 0.0f))
   {
-    VecCopy((Vec *)(&stack.sp8), (const Vec *)(arg0 + 0x2FC));
-    stack.spC = 5.0f + (*((f32 *) (((s8 *) arg0) + 0x384)));
+    VecCopy((Vec *)(&stack.sp8), (const Vec *)(self + 0x2FC));
+    stack.spC = 5.0f + (*((f32 *) (((s8 *) self) + 0x384)));
     spawn_particle_effect((const Vec *)&stack.sp8, 0xF0);
   }
 }
@@ -1010,12 +1016,12 @@ void TObjEnePanarms::enter_arm_attack_0() {
 
 void TObjEnePanarms::update_destroy_child() {
     s32 temp_r0;
-    uaddr temp_r3;
+    TParticleCtrl *temp_r3;
     if (this->frame >= 5.0f) {
         temp_r3 = this->particle_handles[0];
-        if (temp_r3 != 0) {
-            TParticleCtrl::release((void *)temp_r3);
-            this->particle_handles[0] = 0U;
+        if (temp_r3 != NULL) {
+            TParticleCtrl::release(temp_r3);
+            this->particle_handles[0] = NULL;
         }
     }
     temp_r0 = this->m_388 - 1;
@@ -1072,12 +1078,12 @@ void TObjEnePanarms::enter_arm_attack_1() {
 
 void TObjEnePanarms::update_wait_then_set_state() {
     s32 temp_r0;
-    uaddr temp_r3;
+    TParticleCtrl *temp_r3;
     if (this->frame >= 5.0f) {
         temp_r3 = this->particle_handles[0];
-        if (temp_r3 != 0) {
-            TParticleCtrl::release((void *)temp_r3);
-            this->particle_handles[0] = 0U;
+        if (temp_r3 != NULL) {
+            TParticleCtrl::release(temp_r3);
+            this->particle_handles[0] = NULL;
         }
     }
     temp_r0 = this->m_388 - 1;

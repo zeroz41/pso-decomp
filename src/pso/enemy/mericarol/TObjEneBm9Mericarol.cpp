@@ -8,6 +8,7 @@
 #include "pso/system/AreaSound.h"
 #include "pso/unk/text_800D8830.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
+#include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/object/base/TObjMotion.h"
@@ -48,27 +49,18 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/BmlResource.h"
 #include "pso/unk/TLobby.h"
-#include "pso/enemy/dd/TObjEneDD_800BB804.h"
 #include "pso/unk/text_802D1C84.h"
+#include "pso/ui/TLevelSelect.h"
+#include "pso/player/TObjPlayer_800F0810.h"
 #pragma defer_codegen on
 
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
 struct Sub_800ACA10 { u8 pad[0x18]; s32 level; };
 
-s32 tick_period_counter(s32 arg0, s32 *arg1, s32 arg2);
 extern "C" {
-extern s32 game_difficulty_selection;
-void vec3_add_to(Vec *dst, const Vec *src);
-void TBoss8Dragon__sub_800BB7D4(TObjEneBm9Mericarol *self, s32 arg1);
-void fill_value_array(saddr address);
-s32 enemy_validate_retained_target(u8 *ene_dd_st);
-s32 approach_angle_limited(s32 from, s32 to, s32 max_step);
-s32 angle_difference_abs(s32 a, s32 b);
 void fn_802CE510(TObjEneBm9Mericarol *owner);
-s32 attack_target_history_add(AreaAttackHistory *history, TObjChara *target);
 void create__9TTecKafunFllllllff(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, f32 farg0, f32 farg1);
-u16 enemy_find_nearest_player_in_range(u8 *self, f32 range);
 }
 
 // The motion-binding block TLobby::spawn_npc_enemy takes (same layout as
@@ -191,8 +183,8 @@ extern "C" void TBoss4Type3__sub_802D1130(void) {
     }
 }
 
-void *TObjEneBm9Mericarol::create(void *arg0) {
-    return new TObjEneBm9Mericarol((TObject *)tl_04, arg0);
+void *TObjEneBm9Mericarol::create(void *set_data) {
+    return new TObjEneBm9Mericarol((TObject *)tl_04, set_data);
 }
 
 void TObjEneBm9Mericarol::free_shared_instances() {
@@ -481,8 +473,8 @@ void TObjEneBm9Mericarol::handle_action(s32 arg1) {
     }
 }
 
-void TObjEneBm9Mericarol::sub_802D05BC(s32 arg1) {
-    switch (arg1) {
+void TObjEneBm9Mericarol::sub_802D05BC(s32 reason) {
+    switch (reason) {
     case 4:
         requested_action = 2;
         set_intangible();
@@ -536,10 +528,10 @@ void TObjEneBm9Mericarol::handle_event(s32 arg1) {
     }
 }
 
-void TObjEneBm9Mericarol::sub_802D01D8(s32 arg1) {
+void TObjEneBm9Mericarol::sub_802D01D8(s32 reason) {
     f32 distance;
     u16 target;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         if (mode == 2) {
             requested_action = 4;
@@ -608,8 +600,8 @@ void TObjEneBm9Mericarol::sub_802D01D8(s32 arg1) {
     }
 }
 
-void TObjEneBm9Mericarol::handle_shot_state(s32 arg1) {
-    switch (arg1) {
+void TObjEneBm9Mericarol::handle_shot_state(s32 reason) {
+    switch (reason) {
     case 4:
         requested_action = 0;
         clear_intangible();
@@ -653,14 +645,14 @@ void TObjEneBm9Mericarol::handle_shot_state(s32 arg1) {
     }
 }
 
-void TObjEneBm9Mericarol::sub_802CFB64(s32 arg1) {
+void TObjEneBm9Mericarol::sub_802CFB64(s32 reason) {
     Vec trail0[2];
     Vec trail1[2];
     s32 i;
     Vec *points1;
     Vec *points0;
     TObjChara *p;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         requested_action = 8;
         clear_intangible();
@@ -680,7 +672,7 @@ void TObjEneBm9Mericarol::sub_802CFB64(s32 arg1) {
         break;
     case 0:
         advance_animation();
-        enemy_validate_retained_target((u8 *)this);
+        enemy_validate_retained_target(this);
         switch (m_490) {
         case 2:
             break;
@@ -750,12 +742,12 @@ void TObjEneBm9Mericarol::sub_802CFB64(s32 arg1) {
     }
 }
 
-void TObjEneBm9Mericarol::sub_802CF7B4(s32 arg1) {
+void TObjEneBm9Mericarol::sub_802CF7B4(s32 reason) {
     s32 hit_wall;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         sync_center_position();
-        if (this->enemy_probe_wall_ahead(destination_direction.x, destination_direction.z, 100.0f) != 0U) {
+        if (this->enemy_probe_wall_ahead(destination_direction.x, destination_direction.z, 100.0f) != NULL) {
             requested_action = 3;
             m_490 = 3;
             return;
@@ -768,7 +760,7 @@ void TObjEneBm9Mericarol::sub_802CF7B4(s32 arg1) {
         m_498 = 0xA;
         m_4a4 = m_444;
         m_4a8 = 0.0f;
-        fill_value_array((saddr)m_488);
+        fill_value_array(m_488);
         set_active();
         return;
     case 3:
@@ -781,7 +773,7 @@ void TObjEneBm9Mericarol::sub_802CF7B4(s32 arg1) {
         switch (m_490) {
         case 0:
             sync_center_position();
-            if (this->enemy_probe_wall_ahead(destination_direction.x, destination_direction.z, 100.0f) != 0U) {
+            if (this->enemy_probe_wall_ahead(destination_direction.x, destination_direction.z, 100.0f) != NULL) {
                 requested_action = 3;
                 m_490 = 3;
                 play_sound_effect(remap_sound_for_area(0x3AD0E), &position, 0, 0);
@@ -795,7 +787,7 @@ void TObjEneBm9Mericarol::sub_802CF7B4(s32 arg1) {
                 bodies->flags |= 0x700;
                 play_sound_effect(remap_sound_for_area(0x3AD0E), &position, 0, 0);
             }
-            if (enemy_validate_retained_target((u8 *)this) != 0) {
+            if (enemy_validate_retained_target(this) != 0) {
                 enemy_copy_target_destination();
                 update_velocity();
             }
@@ -807,7 +799,7 @@ void TObjEneBm9Mericarol::sub_802CF7B4(s32 arg1) {
             fn_802CE510(this);
             hit_wall = 0;
             sync_center_position();
-            if (this->enemy_probe_wall_ahead(destination_direction.x, destination_direction.z, 30.0f * m_444) != 0U) {
+            if (this->enemy_probe_wall_ahead(destination_direction.x, destination_direction.z, 30.0f * m_444) != NULL) {
                 hit_wall = 1;
             }
             move_clamped_on_ground(destination_direction.x, destination_direction.z, m_444);
@@ -879,10 +871,10 @@ s32 TObjEneBm9Mericarol::check_attack_hits() {
     return ret;
 }
 
-void TObjEneBm9Mericarol::sub_802CF4F8(s32 arg1) {
+void TObjEneBm9Mericarol::sub_802CF4F8(s32 reason) {
     s32 count;
     TObjPlayer *target;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         requested_action = 2;
         clear_intangible();
@@ -924,10 +916,10 @@ void TObjEneBm9Mericarol::sub_802CF4F8(s32 arg1) {
     }
 }
 
-void TObjEneBm9Mericarol::sub_802CF368(s32 arg1) {
+void TObjEneBm9Mericarol::sub_802CF368(s32 reason) {
     s16 max;
     s16 cur;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         requested_action = 5;
         clear_intangible();
@@ -965,10 +957,10 @@ void TObjEneBm9Mericarol::sub_802CF368(s32 arg1) {
     }
 }
 
-void TObjEneBm9Mericarol::state_burrow(s32 arg1) {
+void TObjEneBm9Mericarol::state_burrow(s32 reason) {
     f32 x;
     Vec pos;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         requested_action = 6;
         clear_intangible();
@@ -1054,9 +1046,9 @@ void TObjEneBm9Mericarol::handle_motion_event(s32 arg1) {
     }
 }
 
-void TObjEneBm9Mericarol::sub_802CEDA0(s32 arg1) {
+void TObjEneBm9Mericarol::sub_802CEDA0(s32 reason) {
     Vec pos;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         requested_action = 2;
         set_field_378(3);
@@ -1089,7 +1081,7 @@ void TObjEneBm9Mericarol::sub_802CEDA0(s32 arg1) {
                     m_490 = 1;
                 }
             }
-            if (enemy_validate_retained_target((u8 *)this) != 0) {
+            if (enemy_validate_retained_target(this) != 0) {
                 enemy_copy_target_destination();
                 update_velocity();
             }
@@ -1353,8 +1345,8 @@ void fn_802CE510(TObjEneBm9Mericarol *owner) {
             if (surface_mask != 0) {
                 TParticleCtrl *spray = (TParticleCtrl *)spawn_particle_effect(&hit->contact[2].point, 0x49);
                 if (spray != NULL) {
-                    attach_particle_model((u8 *)spray, (s32)TParticleCtrl::get_particle_model(2),
-                                          (s32)TParticleCtrl::get_instance(), 0, 1, 1.0f);
+                    attach_particle_model((u8 *)spray, TParticleCtrl::get_particle_model(2),
+                                          TParticleCtrl::get_instance(), 0, 1, 1.0f);
                     spray->set_scale(5.0f, 1.0f);
                 }
                 TParticleCtrl *ripple = (TParticleCtrl *)spawn_particle_effect(&hit->contact[2].point, 0xA4);

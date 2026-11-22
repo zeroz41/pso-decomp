@@ -125,7 +125,6 @@ void TAdVIConfigGC::render() {
     vfunc_12();
 }
 
-extern s32 logo_clear_flag;
 
 void TAdVIConfigGC::set_field48_clear_global() {
     this->m_48 = 1;
@@ -137,7 +136,7 @@ void TAdVIConfigGC::set_field48_clear_global() {
 void TAdVIConfigGC::enable_progressive_mode(void * _w0) { OSSetProgressiveMode((void*)1); active_gx_render_mode = (saddr)GXNtsc480Prog; VIConfigure(GXNtsc480Prog); VIFlush(); VIWaitForRetrace(); VIWaitForRetrace(); }
 
 int TAdVIConfigGC::disable_progressive_mode(void* _w0) { return OSSetProgressiveMode((void*)(0)); }
-void TAdVIConfigGC::vfunc_10() { get_localized_text_entry((saddr)((void*)29), (saddr)((void*)0)); }
+saddr TAdVIConfigGC::vfunc_10() { return get_localized_text_entry(29, 0); }
 
 void TAdVIConfigGC::vfunc_7() { disable_progressive_mode(this); set_field48_clear_global(); }
 

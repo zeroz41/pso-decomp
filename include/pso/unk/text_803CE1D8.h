@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-s8 TLobby__sub_803CE1D8(u8 *arg0);
+s8 TLobby__sub_803CE1D8(u8 *lobby);
 }
 
 // --- C functions defined in text_803CE1D8.cpp ---
 extern "C" {
-s8 TLobby__sub_803CE1D8(u8 *arg0);
+s8 TLobby__sub_803CE1D8(u8 *lobby);
 }
 // --- end of C functions
 

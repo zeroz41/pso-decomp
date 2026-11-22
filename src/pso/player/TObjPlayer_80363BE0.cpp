@@ -86,12 +86,12 @@ void reset_id_array__10TObjPlayerFPv(void *arg0) {
     *(s32 *)((u8 *)arg0 + 0xB0) = 0;
 }
 
-void TObjPlayer::push_to_list(s32 arg1) {
+void TObjPlayer::push_to_list(s32 id) {
     s32 temp_r0;
 
     temp_r0 = this->motion_flags;
     if (temp_r0 < 0x20) {
-        ((struct Elt80364258_80364258 *)(((u8 *)this) + 0x30))[temp_r0].f0 = arg1;
+        ((struct Elt80364258_80364258 *)(((u8 *)this) + 0x30))[temp_r0].f0 = id;
         this->motion_flags = (this->motion_flags + 1);
     }
 }
@@ -168,11 +168,11 @@ void TObjPlayer::spawn_cleanup_helper(void *arg0) {
 #undef init_vtable_804F2A10__13TUnk_804F2A10Fv
 
 
-void TObjPlayer::push_id_to_list(s32 arg0) {
+void TObjPlayer::push_id_to_list(s32 id) {
     if ((s32) *(s32 *)((s8 *)(*(void **)&lbl_805D6FB8) + 0xB0) == 0) {
         reset_id_array__10TObjPlayerFPv((*(void **)&lbl_805D6FB8));
     }
-    ((TObjPlayer *)(*(void **)&lbl_805D6FB8))->push_to_list(arg0);
+    ((TObjPlayer *)(*(void **)&lbl_805D6FB8))->push_to_list(id);
 }
 void*TUnk_804F2A10::init_vtable_804F2A10() { __ct__7TObjectFP7TObject(); *(int*)((char*)this + 0x18) = (saddr)__vt__13TUnk_804F2A10; reset_id_array__10TObjPlayerFPv((void*)((*(saddr *)&lbl_805D6FB8))); return this; }
 

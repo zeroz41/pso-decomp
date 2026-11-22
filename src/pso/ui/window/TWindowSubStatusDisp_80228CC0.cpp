@@ -4,13 +4,14 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 
 char * text_builder_write_cursor;
 char text_builder_buffer[0x100];
 
-void TWindowSubStatusDisp::append_play_time(u32 arg0) {
-    u32 h = arg0 / 3600U;
-    u32 rem = arg0 % 3600U;
+void TWindowSubStatusDisp::append_play_time(u32 time) {
+    u32 h = time / 3600U;
+    u32 rem = time % 3600U;
     if (h > 99U) {
         text_builder_append((u8 *)"99'59\"59");
         return;
@@ -100,12 +101,10 @@ char *format_int_decimal(s32 v, char *out) {
 
 // ---- pso/ui/window/TWindowSubStatusDisp_80228F5C
 
-
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/Language.h"
 
 extern "C" {
-char *parse_text_control_codes(char *p, s32 *a, s32 *b);
 void text_builder_append_int(s32 arg0) {
     text_builder_write_cursor = format_int_decimal(arg0, text_builder_write_cursor);
 }
@@ -149,11 +148,11 @@ s8 *TWindowSubStatusDisp::copy_message_page_text() {
 }
 
 void text_builder_append(u8 *str) {
-  s32 temp_r3;
-  temp_r3 = TWindowKeyBoardSoft::strnlen((s8 *)str, (u32)0xFFU);
-  strncpy(text_builder_write_cursor, (char *)str, temp_r3);
-  text_builder_write_cursor[temp_r3] = 0;
-  text_builder_write_cursor += temp_r3;
+  s32 num;
+  num = TWindowKeyBoardSoft::strnlen((s8 *)str, (u32)0xFFU);
+  strncpy(text_builder_write_cursor, (char *)str, num);
+  text_builder_write_cursor[num] = 0;
+  text_builder_write_cursor += num;
 }
 }
 void text_builder_reset(void) {

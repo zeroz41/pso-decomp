@@ -22,10 +22,11 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TBoss4ZakoDraw_8030AD38.h"
+#include "pso/unk/text_803E2F28.h"
+#include "pso/player/TObjPlayer_80052374.h"
 
 extern "C" {
 void post_translate_matrix(void *);
-void draw_chunk_object(int);
 f32 xyz_distance(void *, void *);
 void TObjPlayer__sub_8030A9B0();
 extern u32 TCameraCtrl__data_804FF634[18];
@@ -129,6 +130,7 @@ void TObjPlayer__sub_8030A9B0() {
     model_render_flags = saved_model_render_flags;
 }
 #pragma pop
+}
 
 void TObjPlayer::draw_area_chunk_objects() {
     NJS_OBJECT *model;
@@ -143,7 +145,7 @@ void TObjPlayer::draw_area_chunk_objects() {
         post_translate_matrix(&p->position.x);
         rotate_matrix_y(0, p->rotation_y);
         rotate_matrix_x(0, p->rotation_x);
-        draw_chunk_object((s32)model);
+        draw_chunk_object(model);
         pop_matrix();
     }
     TObjPlayer::sync_player_globals();
@@ -196,7 +198,6 @@ void TBoss4DarkFalz::clear_uro_link_state() {
     TBoss4ZakoDraw__draw_buffer_index = 0;
 }
 
-}
 
 Boss4ZakoDrawBuffer boss4_zako_draw_buffers[2];
 

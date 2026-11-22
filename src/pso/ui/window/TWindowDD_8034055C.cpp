@@ -95,7 +95,7 @@ void TWindowDD__sub_8034055C(TUnk_804EFBAC *self) {
     TWindowSubStatusDisp::get_player();
 }
 
-void update_draw__9TWindowDDFPv(void *p) { ((TWindowDD *)p)->initialize_subwindow(); ((TWindowBase *)p)->update_fade(); }
+void TWindowDD::update_draw(void *p) { ((TWindowDD *)p)->initialize_subwindow(); ((TWindowBase *)p)->update_fade(); }
 
 void TWindowDD::set_clamped_page(s32 arg1) {
     if (arg1 < 0) {
@@ -151,7 +151,7 @@ struct TWindowPlacement { f32 x; f32 y; f32 depth; s32 entry_count; s32 flags; }
 __declspec(section ".data") f32 TWindowDD__layout_constant_pair[2] = { TWindowDD__data_805DFBFC, lbl_805DFC00 };
 TWindowPlacement TWindowDD__layout_constants = { lbl_805DFC04, lbl_805DFC08, lbl_805DFC2C, 0, 3 };
 void *lbl_804EFBAC[7] = {
-    (void *)0x0, (void *)0x0, (void *)&__dt__13TUnk_804EFBACFv, (void *)&update_draw__9TWindowDDFPv,
+    (void *)0x0, (void *)0x0, (void *)&__dt__13TUnk_804EFBACFv, (void *)&TWindowDD::update_draw,
     (void *)&TWindowDD__sub_8034055C, (void *)&render_shadows__7TObjectFv, (void *)0x0,
 };
 #define lbl_804EFBAC ((s32 *)lbl_804EFBAC)

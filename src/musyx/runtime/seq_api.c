@@ -2,9 +2,9 @@
 
 extern "C" {
 
-void sndSeqSpeed(s32 arg0, s16 arg1) {
+void sndSeqSpeed(u32 seqId, u16 speed) {
     hwDisableIrq();
-    seqSpeed(arg0, arg1);
+    seqSpeed(seqId, speed);
     hwEnableIrq();
 }
 
@@ -20,9 +20,9 @@ void sndSeqMute(s32 arg0, s32 arg1, s32 arg2) {
     hwEnableIrq();
 }
 
-void sndSeqVolume(s8 arg0, s32 arg1, s32 arg2, s32 arg3) {
+void sndSeqVolume(u8 volume, u16 time, u32 seqId, u8 mode) {
     hwDisableIrq();
-    seqVolume(arg0, arg1, arg2, arg3);
+    seqVolume(volume, time, seqId, mode);
     hwEnableIrq();
 }
 u16 seqGetMIDIPriority(u8 arg0, u8 arg1) {

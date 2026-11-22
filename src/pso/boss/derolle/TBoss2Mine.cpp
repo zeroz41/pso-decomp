@@ -8,7 +8,6 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
-#include "pso/enemy/dd/TObjEneDD_800BA138.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_800F0810.h"
@@ -22,6 +21,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/render/model_render_state.h"
 #include "pso/unk/text_803E2D70.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
 struct TBoss2MineMovement {
     f32 target_range;
@@ -61,8 +61,6 @@ f32 atan2_float(f32 y, f32 x);
 f32 newton_sqrtf(s32, f32, f32, f32);
 
 extern void *lbl_805D28BC;
-
-void free_collision_body_parts(void *);
 
 __declspec(section ".data") s32 boss2_mine_params[2] = { 0x11, 0x11 };
 
@@ -120,7 +118,7 @@ TBoss2Mine::TBoss2Mine(TObject *parent, u16 entity_id, s32 set_index, s32 varian
 void TBoss2Mine::init(s32 variant) {
     this->init_position_vectors();
     this->model = boss2_derolle_resource->models[3].model;
-    this->texlist = (s32)boss2_derolle_resource->models[2].m_c;
+    this->texlist = (saddr)boss2_derolle_resource->models[2].m_c;
     this->init_model(&boss2_mine_collision_body, 1);
     this->reset_hp((u8 *)TLobby::register_boss(boss2_mine_params[variant]),
                    (u8 *)TLobby::dispatch_shared_handler_b(boss2_mine_attack_params[variant]),

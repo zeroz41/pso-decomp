@@ -1,3 +1,4 @@
+#include <string.h>
 #include "pso/system/Adxf.h"
 #include "pso/system/ResourceFile.h"
 #include "pso/system/TGStream.h"
@@ -15,12 +16,6 @@
 #include "pso/unk/TLobby_803DE778.h"
 
 extern "C" {
-s32 strcmp(const char *, const char *);
-s32 strlen(char *);
-s32 strncpy(char *, char *, s32);
-extern u8 gstream_sector_buffer[];
-extern GslArchiveEntry gsl_archive_entries[256];
-extern char gsl_archive_filename[32];
 
 #pragma readonly_strings on
 const char TGStream__class_name_string[] = "TGStream";
@@ -276,8 +271,8 @@ void open_gsl_archive(char *name) {
     }
 }
 
-void TLobby::read_data_sync(s32 arg0, s32 arg1, s32 arg2) {
-    s32 sp8;
+void TLobby::read_data_sync(saddr arg0, s32 arg1, saddr arg2) {
+    saddr sp8;
 
     sp8 = arg0;
     ADXF_ReadNw((AdxfHandle *)sp8, arg1, (void *)arg2);
@@ -300,7 +295,7 @@ s32 TGStream::read_data(saddr dst, s32 size) {
     s32 n;
     total = 0;
     while (size > 0) {
-        if (refill_gstream_buffer((s32)adxf_handle) <= 0) {
+        if (refill_gstream_buffer((saddr)adxf_handle) <= 0) {
             break;
         }
         if (size < get_gstream_buffered_bytes()) {
@@ -325,7 +320,7 @@ s32 get_gstream_buffered_bytes(void) {
   return (gstream_buffer_valid_size - gstream_buffer_read_offset) & (((s32) ((-new_var) & (~new_var))) >> 0x1F);
 }
 
-s32 refill_gstream_buffer(s32 arg0) {
+s32 refill_gstream_buffer(saddr arg0) {
     s32 temp_r0;
     s32 var_r5;
     if (arg0 == 0) {

@@ -30,14 +30,14 @@ static const NJS_POINT2 mc_check_window_positions[2] = {
 };
 
 s32 TAdMcCheckGC::create(s32 arg1) {
-    saddr temp_r31;
+    saddr window_menu_default;
 
-    temp_r31 = create_window_menu_default(&mc_check_window_positions[this->m_28], 1);
-    forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)(get_localized_text_entry(0x16, arg1)), 0x20, 0);
-    ((TAdChrSelASlotGC *)temp_r31)->set_flag_40();
-    TQuestThread::set_status_flag_80((void *)temp_r31);
-    ((TWindowSubComCard *)temp_r31)->calc_layout_height(190.0f);
-    return temp_r31;
+    window_menu_default = create_window_menu_default(&mc_check_window_positions[this->m_28], 1);
+    forward_trade_action_default__16TObjCityMainWarpFPviii((void *)window_menu_default, (int)(get_localized_text_entry(0x16, arg1)), 0x20, 0);
+    ((TAdChrSelASlotGC *)window_menu_default)->set_flag_40();
+    TQuestThread::set_status_flag_80((void *)window_menu_default);
+    ((TWindowSubComCard *)window_menu_default)->calc_layout_height(190.0f);
+    return window_menu_default;
 }
 
 void TAdMcCheckGC::run_task() {

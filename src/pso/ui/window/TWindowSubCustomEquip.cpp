@@ -18,6 +18,9 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/system/vector.h"
+#include "pso/ui/window/TWindowActionPalette_801C1890.h"
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 
 struct Obj_80275DB4 { u8 pad[0x60]; char f60; u8 pad2[0x6c - 0x61]; void *f6c; };
 
@@ -102,9 +105,6 @@ void *get_player_by_client_id(s32);
 s32 can_use_palette_action__10TObjPlayerFPvUcUc(void *, u8, u8);
 void update_palette_item_count_label(u8 *, u8 *, s32, s32, s32);
 void draw_action_palette_icon(u8 *, s32, s32);
-void begin_screen_draw(s32 arg0);
-void draw_textured_quad_at_depth(f32 *q, f32 depth);
-void set_draw_texture_and_color(s32 idx, s32 arg1);
 void draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(u8 *arg0, NJS_POINT2 *arg1, s32 arg2, f32 farg0);
 int TWindowSubCustomEquip__sub_80275DA8(void* p);
 
@@ -165,7 +165,7 @@ void TWindowSubCustomEquip::draw_cursor(u8 *arg1) {
     ((void (*)(f32, u8 *, NJS_POINT2 *, s32))draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif)(0.8f, arg1, &pos, arg0->f66);
 }
 
-void TWindowSubCustomEquip::update_palette_slot(s32 arg1, s32 kind, s32 arg3) {
+void TWindowSubCustomEquip::update_palette_slot(s32 arg1, s32 kind, s32 index) {
     void *pl;
     u8 *a;
     u8 *b;
@@ -173,13 +173,13 @@ void TWindowSubCustomEquip::update_palette_slot(s32 arg1, s32 kind, s32 arg3) {
     if (pl != NULL) {
         a = (u8 *)this->get_array_entry(lbl_8044F738[arg1]);
         b = (u8 *)this->get_array_entry(lbl_8044F740[arg1]);
-        if (can_use_palette_action__10TObjPlayerFPvUcUc(pl, kind, arg3) != 0) {
+        if (can_use_palette_action__10TObjPlayerFPvUcUc(pl, kind, index) != 0) {
             *(s32 *)(a + 0x2C) = -1;
         } else {
             *(s32 *)(a + 0x2C) = 0xFF404040;
         }
-        draw_action_palette_icon(a, kind, arg3);
-        update_palette_item_count_label(b, a, kind, arg3, this->client_index);
+        draw_action_palette_icon(a, kind, index);
+        update_palette_item_count_label(b, a, kind, index, this->client_index);
     }
 }
 
@@ -210,7 +210,6 @@ s32 TWindowSubCustomEquip::get_saved_slot_for_index(s32 arg0, s8 arg1) {
 
 extern "C" {
 void *get_player_by_client_id(s32 i);
-u8 *TWindowActionPalette__sub_801C1D7C(s32 arg0, s32 i, s32 arg2);
 s32 get_slot_type__20TWindowActionPaletteFPvll(s32, s32, s32);
 s32 is_type_valid__21TWindowSubCustomEquipFv(void *, u8);
 s32 get_saved_slot_for_index__21TWindowSubCustomEquipFlSc(void *, u8);
@@ -277,7 +276,6 @@ f32 TWindowSubCustomEquip__ring_scale;
 u8 TWindowSubCustomEquip__bank_ring_init_done;
 f32 lbl_805D6478;
 u8 lbl_805D647C;
-s32 fn_8002AE08(int);
 s32 test_buttons_press_or_repeat(void *, int, int, int);
 s32 play_sound_effect(s32, s32, s32, s32);
 
@@ -287,7 +285,7 @@ void TWindowSubCustomEquip::set_relative_pos(void *arg1) {
     *(f32 *)&this->m_flags = (f32) (*(f32 *)((s8 *)arg1 + 0xC) - 15.0f);
 }
 
-int TWindowSubCustomEquip::layout_selection_parts(void *arg1) {
+void TWindowSubCustomEquip::layout_selection_parts(void *arg1) {
     NJS_POINT2 pos;
     u8 *p;
     u8 *a;
@@ -346,7 +344,7 @@ void TWindowSubCustomEquip::layout_entry_group(void *arg1) {
 
 void TWindowSubCustomEquip::reset_selection() { layout_entry_group((void *)((void*)9)); layout_entry_group((void *)((void*)0)); layout_selection_parts((void *)((void*)9)); }
 
-s32 TWindowSubCustomEquip::refresh_palette_slots() {
+void TWindowSubCustomEquip::refresh_palette_slots() {
     u8 *player;
     s32 pal;
     player = (u8 *)get_player_by_client_id(this->client_index);

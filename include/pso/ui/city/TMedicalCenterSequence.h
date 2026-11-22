@@ -16,13 +16,13 @@ struct TMedicalCenterSequence : public TShopSequence {
     void vfunc_11();
     static void clear_window_slots();
     static void clear_slot_data();
-    s32 open_greeting_window();
+    void open_greeting_window();
     void handle_confirm();
     void handle_window_result();
     void exec_heal();
     void show_declined();
     void show_already_healthy();
-    s32 handle_window_input();
+    void handle_window_input();
     TWindowBase *m_2c;       // meseta window
     TWindowMenu *m_30;       // yes or no
     TObject *counter_camera; // 0x34: set_service_counter_camera

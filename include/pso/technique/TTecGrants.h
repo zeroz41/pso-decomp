@@ -5,7 +5,7 @@
 #include "pso/effect/TUnk_804CC148.h"
 
 struct TTecGrants : public TUnk_804CC148 {
-    TTecGrants(saddr arg1, saddr arg2, saddr arg3, saddr arg4);
+    TTecGrants(saddr arg1, saddr origin, saddr targets, saddr level);
     virtual ~TTecGrants();
     virtual void vfunc_6(void *);
     virtual void run_task();
@@ -14,7 +14,7 @@ struct TTecGrants : public TUnk_804CC148 {
     u8 _padF2[0x56];
     u32 m_148;
     virtual void render();
-    static void create(void *arg0, void *arg1, void *arg2, void *arg3);
+    static void create(void *source, void *origin, void *targets, s32 level);
     void init_parameters();
 };
 

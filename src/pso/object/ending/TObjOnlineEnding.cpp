@@ -2,8 +2,6 @@
 #include "types.h"
 #include "pso/object/ending/TObjOnlineEnding.h"
 
-extern "C" {
-
 
 s32 TObjOnlineEnding::get_card_window_value() {
     if (reinterpret_cast<const void *>(get_character_save_record(0xFFFF)) == NULL) {
@@ -12,4 +10,3 @@ s32 TObjOnlineEnding::get_card_window_value() {
     return (s16)(*(s16 *)((s8 *)(get_character_save_record(0xFFFF)) + 0x2228));
 }
 
-}

@@ -9,6 +9,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 #pragma readonly_strings on
 
@@ -17,12 +18,11 @@ const char *TObjNpcHFW01__name = "TObjNpcHFW01";
 uaddr TObjNpcHFW01__resource_node;
 uaddr TObjNpcHFW01__texture_handle;
 
-extern void *tl_04;
 extern "C" {
 void release_texture_list(void*);
 
 void *TObjNpcHFW01__create(void *set_data) {
-    TObjControl *control = new TObjControl((TObject *)tl_04);
+    TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcHFW01(control, set_data);
 }
 

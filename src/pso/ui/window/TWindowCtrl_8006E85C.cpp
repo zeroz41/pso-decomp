@@ -7,13 +7,12 @@
 #include "pso/player/TObjPlayer.h"
 
 
-extern void *TWindowCtrl__active_window;
 
 s32 TWindowCtrl::get_flag_bit3() {
-    if ((void *) TWindowCtrl__active_window == NULL) {
+    if (TWindowCtrl__active_window == NULL) {
         return 0;
     }
-    return ((u16) *(u16 *)((s8 *)TWindowCtrl__active_window + 0x1C) >> 3U) & 1;
+    return ((u16) TWindowCtrl__active_window->flags >> 3U) & 1;
 }
 
 int TWindowCtrl::is_player_flag_4000_set() { return ((TObjPlayer *)this)->check_flag(16384); }

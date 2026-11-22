@@ -49,7 +49,6 @@
 #include "pso/system/scene/TScene.h"
 #include "pso/technique/TTecResta.h"
 #include "pso/technique/TTecSifta.h"
-#include "pso/enemy/dd/TObjEneDD_800BB804.h"
 #include "pso/npc/TObjNpcEnemy_803D8090.h"
 #include "pso/enemy/stelth/TObjEneMe3Stelth_803DC82C.h"
 #include "pso/unk/text_803DC86C.h"
@@ -75,6 +74,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/technique/TTecDeband.h"
+#include "pso/ui/TLevelSelect.h"
 
 #pragma readonly_strings on
 
@@ -91,7 +91,6 @@ extern "C" {
 s32 select_enemy_destination(void *, Vec *, int);
 s32 copy_position_if_valid__10TObjPlayerFii(s32 arg0, s32 arg1);
 extern StelthBehaviorParams *TObjEneMe3Stelth__behavior_params_by_variant[];
-extern s32 game_difficulty_selection;
 u16 get_entity_id(void *);
 extern CollisionBody TObjEneMe3Stelth__collision_body_template;
 BmlResource *TObjEneMe3Stelth__bml_resource;
@@ -112,25 +111,23 @@ u32 *TObjEneMe3Stelth__material_color_pointers[4];
 s32 dispatch_input_to_instance__18TAdEnterPasswordGCFi(void *);
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
-void TObjEneMe3Stelth__sub_800F290C(TObjEneMe3Stelth *stelth, s32 arg1);
-void TObjEneMe3Stelth__sub_800F2270(TObjEneMe3Stelth *stelth, s32 arg1);
+void TObjEneMe3Stelth__sub_800F290C(TObjEneMe3Stelth *stelth, s32 reason);
+void TObjEneMe3Stelth__sub_800F2270(TObjEneMe3Stelth *stelth, s32 reason);
 
 
-void action__16TObjEneMe3StelthFPvi(TObjEneMe3Stelth *stelth, s32 arg1);
+void action__16TObjEneMe3StelthFPvi(TObjEneMe3Stelth *stelth, s32 reason);
 }
 void move_with_wall_slide(u8 *arg0);
 extern "C" {
 s32 TBoss3Volopt__sub_800D8D88(void *, f32);
-void TObjEneMe3Stelth__sub_800F3FE4(TObjEneMe3Stelth *stelth, s32 arg1);
+void TObjEneMe3Stelth__sub_800F3FE4(TObjEneMe3Stelth *stelth, s32 reason);
 f32 *TBoss3Volopt__sub_800F059C(void *);
 f32 atan2_float(f32 y, f32 x);
-void TObjEneMe3Stelth__sub_800F348C(TObjEneMe3Stelth *stelth, s32 arg1);
-void TObjEneMe3Stelth__sub_800F3214(TObjEneMe3Stelth *stelth, s32 arg1);
+void TObjEneMe3Stelth__sub_800F348C(TObjEneMe3Stelth *stelth, s32 reason);
+void TObjEneMe3Stelth__sub_800F3214(TObjEneMe3Stelth *stelth, s32 reason);
 
 
-u32 get_item_field_6__10TObjPlayerFPv(void *);
 f32 fabs_float(f32);
-void TObjEneDD__sub_800BA438(void *, void *);
 
 
 extern void *lbl_80497710[2];
@@ -203,7 +200,7 @@ void TObjEneMe3Stelth::load_shared_resources() {
     s32 n;
     StelthBehaviorParams *d;
     u32 m;
-    s32 *q;
+    NJS_CNK_MODEL *q;
     AnimationMotion *motion;
     void *p;
 
@@ -245,21 +242,21 @@ void TObjEneMe3Stelth::load_shared_resources() {
     lbl_80501114[1] = 0.0f;
     lbl_80501114[2] = 0.0f;
     m = (saddr)TObjEneMe3Stelth__bml_resource->models->model;
-    q = (s32 *)((NJS_OBJECT *)find_model_node(m, 9))->model;
+    q = (NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(m, 9))->model;
     if (q != NULL) {
-        TObjEneMe3Stelth__material_color_pointers[0] = (u32 *)(q[1] + 4);
+        TObjEneMe3Stelth__material_color_pointers[0] = (u32 *)(q->polygon_list + 2);
     } else {
         TObjEneMe3Stelth__material_color_pointers[0] = 0;
     }
-    q = (s32 *)((NJS_OBJECT *)find_model_node(m, 0xD))->model;
+    q = (NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(m, 0xD))->model;
     if (q != NULL) {
-        TObjEneMe3Stelth__material_color_pointers[1] = (u32 *)(q[1] + 4);
+        TObjEneMe3Stelth__material_color_pointers[1] = (u32 *)(q->polygon_list + 2);
     } else {
         TObjEneMe3Stelth__material_color_pointers[1] = 0;
     }
-    q = (s32 *)((NJS_OBJECT *)find_model_node(m, 0x26))->model;
+    q = (NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(m, 0x26))->model;
     if (q != NULL) {
-        TObjEneMe3Stelth__material_color_pointers[2] = (u32 *)(q[1] + 4);
+        TObjEneMe3Stelth__material_color_pointers[2] = (u32 *)(q->polygon_list + 2);
     } else {
         TObjEneMe3Stelth__material_color_pointers[2] = 0;
     }
@@ -300,7 +297,7 @@ void TObjEneMe3Stelth::load_shared_resources() {
                                                   reinterpret_cast<GinjaTextureList *>(TObjEneMe3Stelth__bml_resource->models->m_c), &b, 8.0f, 0.0f);
     }
 }
-int TObjEneMe3Stelth::create_real() { return (int)TObjEneMe3StelthReal::create(this); }
+void *TObjEneMe3Stelth::create_real() { return TObjEneMe3StelthReal::create(this); }
 void TObjEneMe3Stelth::free_shared_resources() {
     if (TObjEneMe3Stelth__trail_buffer != NULL) {
         delete TObjEneMe3Stelth__trail_buffer;
@@ -513,8 +510,8 @@ void TObjEneMe3Stelth::attack_and_unequip() {
             if (sub_800F47D4() != 0) {
                 TObjChara *t = current_target;
                 TItem *held;
-                if (TObjPlayer::is_locally_controlled(t) != 0 && (held = (TItem *)get_item_field_6__10TObjPlayerFPv(t)) != 0) {
-                    TObjPlayer::send_6x26_unequip_item((void *)t, (void *)(held->get_item_id()));
+                if (TObjPlayer::is_locally_controlled(t) != 0 && (held = (TItem *)TObjPlayer::get_item_field_6(t)) != 0) {
+                    TObjPlayer::send_6x26_unequip_item((void *)t, held->get_item_id());
                     ((TObjPlayer *)t)->get_hand_joint_position((saddr)&m_3f8);
                     spawn_particle_effect(&m_3f8, 0x1D0);
                 }
@@ -661,8 +658,8 @@ void TObjEneMe3Stelth::dispatch_action(u32 state, s32 reason) {
         render_minimap_dot();
     }
 }
-void TObjEneMe3Stelth::vfunc_113(s32 arg1) {
-    switch (arg1) {
+void TObjEneMe3Stelth::vfunc_113(s32 reason) {
+    switch (reason) {
     case 4:
         if (m_3c4 == 1) {
             requested_action = 2;
@@ -705,10 +702,10 @@ void TObjEneMe3Stelth::vfunc_113(s32 arg1) {
         break;
     }
 }
-void TObjEneMe3Stelth::sub_800F42B8(s32 arg1) {
+void TObjEneMe3Stelth::sub_800F42B8(s32 reason) {
     Vec v;
     f32 t;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         requested_action = 2;
         set_field_378(0);
@@ -800,10 +797,10 @@ void TObjEneMe3Stelth::state_chase(s32 arg1) {
     }
 }
 #pragma pop
-void TObjEneMe3Stelth__sub_800F3FE4(TObjEneMe3Stelth *stelth, s32 arg1) {
+void TObjEneMe3Stelth__sub_800F3FE4(TObjEneMe3Stelth *stelth, s32 reason) {
     Vec pos;
     f32 temp_f1;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         stelth->requested_action = 0;
         stelth->set_field_378(0);
@@ -827,10 +824,9 @@ void TObjEneMe3Stelth__sub_800F3FE4(TObjEneMe3Stelth *stelth, s32 arg1) {
         break;
     }
 }
-void TObjEneMe3Stelth::update_state_fade_in(s32 arg1) {
-    s32 enemy_validate_retained_target(void *, s32);
+void TObjEneMe3Stelth::update_state_fade_in(s32 reason) {
     s32 t;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         requested_action = 0;
         set_field_378(5);
@@ -862,7 +858,7 @@ void TObjEneMe3Stelth::update_state_fade_in(s32 arg1) {
             }
             t = m_428;
             m_3e8 = (t << 24) | (m_3e8 & 0x00FFFFFF);
-            if (enemy_validate_retained_target(this, t) == 0) {
+            if (enemy_validate_retained_target(this) == 0) {
                 m_424 = 0;
                 m_3e8 = 0;
             }
@@ -878,11 +874,11 @@ void TObjEneMe3Stelth::update_state_fade_in(s32 arg1) {
         break;
     }
 }
-void TObjEneMe3Stelth::update_state_drop(s32 arg1) {
+void TObjEneMe3Stelth::update_state_drop(s32 reason) {
     f32 node_world_y;
     f32 temp_f31;
 
-    switch (arg1) {
+    switch (reason) {
     case 4:
         requested_action = 1;
         set_field_378(0xD);
@@ -990,7 +986,7 @@ void TObjEneMe3Stelth::state_chase_target(s32 arg1) {
                 turn_toward_target_direction(0x500);
                 update_ground_contact();
             } else {
-                enemy_turn_and_move_on_ground((u8 *)this, 0x500, m_430);
+                enemy_turn_and_move_on_ground(this, 0x500, m_430);
             }
             check_collisions();
         }
@@ -1000,13 +996,13 @@ void TObjEneMe3Stelth::state_chase_target(s32 arg1) {
 #pragma pop
 #pragma push
 #pragma fp_contract on
-void TObjEneMe3Stelth__sub_800F348C(TObjEneMe3Stelth *stelth, s32 arg1) {
+void TObjEneMe3Stelth__sub_800F348C(TObjEneMe3Stelth *stelth, s32 reason) {
     Vec v;
     Vec points[2];
     f32 t;
     s32 ang;
-    s32 entry;
-    switch (arg1) {
+    Vec *entry;
+    switch (reason) {
     case 4:
         stelth->requested_action = 6;
         stelth->set_field_378(6);
@@ -1067,7 +1063,7 @@ void TObjEneMe3Stelth__sub_800F348C(TObjEneMe3Stelth *stelth, s32 arg1) {
                     v.x += stelth->destination_direction.x * t;
                     v.y += 20.0f;
                     v.z += stelth->destination_direction.z * t;
-                    if (csnVecterUnder((saddr)&v, 0x15) != 0) {
+                    if (csnVecterUnder(&v, 0x15) != 0) {
                         if (stelth->room == ((TScene *)(&v))->find_section_at_position()) {
                             stelth->m_424 = 3;
                             stelth->m_434 = (stelth->destination_distance - 20.0f) / 12.857143f;
@@ -1111,13 +1107,13 @@ void TObjEneMe3Stelth__sub_800F348C(TObjEneMe3Stelth *stelth, s32 arg1) {
             break;
         }
         if (stelth->m_424 != 0) {
-            entry = (saddr)TObjEneMe3Stelth__trail_buffer->lookup(stelth->frame);
-            if (entry != 0) {
+            entry = TObjEneMe3Stelth__trail_buffer->lookup(stelth->frame);
+            if (entry != NULL) {
                 push_matrix();
                 set_matrix_identity(0);
                 post_translate_matrix((f32 *)&stelth->position);
                 rotate_matrix_y(0, stelth->rotation_y);
-                matrix_mult_vec_array(NULL, (const Vec *)entry, (Vec *)points, 2);
+                matrix_mult_vec_array(NULL, entry, (Vec *)points, 2);
                 pop_matrix();
             }
         }
@@ -1133,10 +1129,10 @@ void TObjEneMe3Stelth__sub_800F348C(TObjEneMe3Stelth *stelth, s32 arg1) {
 #pragma pop
 #pragma push
 #pragma fp_contract on
-void TObjEneMe3Stelth__sub_800F3214(TObjEneMe3Stelth *stelth, s32 arg1) {
+void TObjEneMe3Stelth__sub_800F3214(TObjEneMe3Stelth *stelth, s32 reason) {
     f32 temp_f1;
     s32 var_r4;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         stelth->requested_action = 7;
         stelth->set_field_378(0xC);
@@ -1197,8 +1193,8 @@ void TObjEneMe3Stelth__sub_800F3214(TObjEneMe3Stelth *stelth, s32 arg1) {
 #pragma pop
 #pragma push
 #pragma fp_contract on
-void TObjEneMe3Stelth::run_walk_state(s32 arg1) {
-    switch (arg1) {
+void TObjEneMe3Stelth::run_walk_state(s32 reason) {
+    switch (reason) {
     case 4:
         this->requested_action = 3;
         this->set_field_378(6);
@@ -1283,8 +1279,8 @@ void TObjEneMe3Stelth::run_walk_state(s32 arg1) {
 #pragma pop
 #pragma push
 #pragma fp_contract on
-void TObjEneMe3Stelth::update_state_resta_cast(s32 arg1) {
-    switch (arg1) {
+void TObjEneMe3Stelth::update_state_resta_cast(s32 reason) {
+    switch (reason) {
     case 4:
         requested_action = 8;
         set_field_378(0xB);
@@ -1365,9 +1361,9 @@ void TObjEneMe3Stelth::handle_message(s32 arg1) {
 }
 
 
-void action__16TObjEneMe3StelthFPvi(TObjEneMe3Stelth *stelth, s32 arg1) {
+void action__16TObjEneMe3StelthFPvi(TObjEneMe3Stelth *stelth, s32 reason) {
 
-    switch (arg1) {
+    switch (reason) {
     case 4:
         stelth->requested_action = 8;
         stelth->set_field_378(6);
@@ -1403,10 +1399,10 @@ void action__16TObjEneMe3StelthFPvi(TObjEneMe3Stelth *stelth, s32 arg1) {
         break;
     }
 }
-void TObjEneMe3Stelth__sub_800F290C(TObjEneMe3Stelth *stelth, s32 arg1) {
+void TObjEneMe3Stelth__sub_800F290C(TObjEneMe3Stelth *stelth, s32 reason) {
     Vec v;
     f32 c;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         stelth->requested_action = 4;
         stelth->advance_animation();
@@ -1439,10 +1435,10 @@ void TObjEneMe3Stelth__sub_800F290C(TObjEneMe3Stelth *stelth, s32 arg1) {
 }
 #pragma push
 #pragma fp_contract on
-void TObjEneMe3Stelth::handle_breakup_state(s32 arg1) {
+void TObjEneMe3Stelth::handle_breakup_state(s32 reason) {
     Vec ofs;
     Vec v;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         requested_action = 5;
         refresh_and_send_entity_flags();
@@ -1502,14 +1498,14 @@ void TObjEneMe3Stelth::handle_breakup_state(s32 arg1) {
 #pragma push
 #pragma fp_contract on
 #pragma fp_contract on
-void TObjEneMe3Stelth__sub_800F2270(TObjEneMe3Stelth *stelth, s32 arg1) {
+void TObjEneMe3Stelth__sub_800F2270(TObjEneMe3Stelth *stelth, s32 reason) {
     Vec v;
     Vec p;
     Vec q;
     s32 arr[3];
     s32 i;
     s32 ang;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         stelth->requested_action = 0xC;
         stelth->set_field_378(0xC);
@@ -1596,7 +1592,7 @@ void TObjEneMe3Stelth__sub_800F2270(TObjEneMe3Stelth *stelth, s32 arg1) {
     }
 }
 #pragma pop
-void TObjEneMe3Stelth::add_instance() {
+void TObjEneMe3Stelth::add_instance(NJS_OBJECT *node) {
     load_projection_tex_matrix(stelth_projection_texture_handle);
     TObjEneMe3Stelth__render_node_index = TObjEneMe3Stelth__render_node_index + 1;
 }
@@ -1713,7 +1709,7 @@ void TObjEneMe3Stelth::render() {
             TObjEneMe3Stelth__render_node_index = 0;
             m_420 += 0x222;
             stelth_projection_texture_handle = m_420;
-            set_model_node_callback((saddr)((void *)TObjEneMe3Stelth::add_instance));
+            set_model_node_callback(TObjEneMe3Stelth::add_instance);
             if (m_3c0 != 0) {
                 set_ginja_draw_list_mask(3);
             }
@@ -1890,8 +1886,8 @@ void TObjEneMe3Stelth::exec(s32 arg1) {
         break;
     }
 }
-void TObjEneMe3Stelth__sub_800F1440(TObjEneMe3Stelth *stelth, s32 arg1) {
-    switch (arg1) {
+void TObjEneMe3Stelth__sub_800F1440(TObjEneMe3Stelth *stelth, s32 reason) {
+    switch (reason) {
     case 4:
         stelth->requested_action = 0xB;
         stelth->set_field_378(6);
@@ -1946,12 +1942,12 @@ void TObjEneMe3Stelth__sub_800F1440(TObjEneMe3Stelth *stelth, s32 arg1) {
         break;
     }
 }
-void TObjEneMe3Stelth__sub_800F1098(TObjEneMe3Stelth *stelth, s32 arg1) {
+void TObjEneMe3Stelth__sub_800F1098(TObjEneMe3Stelth *stelth, s32 reason) {
     Vec d;
     Vec out;
     s32 c[3];
     s32 r;
-    switch (arg1) {
+    switch (reason) {
     case 4:
         stelth->requested_action = 0xA;
         stelth->set_field_378(6);
@@ -2029,7 +2025,7 @@ void TObjEneMe3Stelth__sub_800F1098(TObjEneMe3Stelth *stelth, s32 arg1) {
                     if (game_difficulty_selection == 3) {
                         ((TTecRaFoie *)stelth)->create(&out, (u8 *)&stelth->destination, (void *)TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[stelth->m_3c8]->attack_tech_level));
                     } else {
-                        TTecGiFoie::create(stelth, &out, (void *)TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[stelth->m_3c8]->attack_tech_level));
+                        TTecGiFoie::create(stelth, &out, TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[stelth->m_3c8]->attack_tech_level));
                     }
                 } else {
                     stelth->m_424 = 3;

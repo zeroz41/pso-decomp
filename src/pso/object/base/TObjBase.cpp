@@ -81,10 +81,10 @@ u16 TObjBase::get_or_assign_entity_id(s32 count) {
     if (this->entity_id == 0xFFFF) {
         switch (this->actorFlags & 0x70000000) {
         case 0x10000000:
-            this->entity_id = fn_801A210C(count);
+            this->entity_id = alloc_player_ids(count);
             break;
         case 0x20000000:
-            this->entity_id = TLobby__sub_801A20C8(count);
+            this->entity_id = alloc_enemy_ids(count);
             break;
         default:
         case 0x40000000:
@@ -107,7 +107,7 @@ u16 TLobby::alloc_actor_ids(s32 arg) {
     return id;
 }
 
-u16 TLobby__sub_801A20C8(s32 arg) {
+u16 alloc_enemy_ids(s32 arg) {
     u16 n = arg;
     s32 id = lbl_805D5CD2;
     if (id + n + 1 >= 0x4000) {
@@ -120,7 +120,7 @@ u16 TLobby__sub_801A20C8(s32 arg) {
     return id;
 }
 
-u16 fn_801A210C(s32 n) {
+u16 alloc_player_ids(s32 n) {
     u16 r = lbl_805D5CD0;
     lbl_805D5CD0 += n + 1;
     return r;
@@ -257,7 +257,7 @@ void TLobby::init_limits() {
 void TLobby__sub_801A2550(void) {  }
 
 
-void TLobby__sub_801A2554(void) {
+void reset_id_counters(void) {
     lbl_805D5CD0 = 0;
     lbl_805D5CD2 = 0x1000;
     lbl_805D5CD4 = 0x4000;

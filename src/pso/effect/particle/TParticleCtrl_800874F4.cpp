@@ -22,11 +22,15 @@
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/effect/particle/ParticleBallistic.h"
+#include "pso/effect/particle/ParticleOrbit.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 
 struct O_80087638 { u8 pad[0x2e]; u16 x2e; };
 
-extern "C" {
+
 extern s32 particle_pool_limit;
 
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id) {
@@ -74,13 +78,12 @@ void TParticleCtrl::set_owner_id(u16 id) {
     }
 }
 
-void TParticleCtrl::set_tint_color(s32 arg1) {
+void TParticleCtrl::set_tint_color(s32 tint) {
     u8 *arg0 = (u8 *)this;
     *(u16 *)((s8 *)arg0 + 0x2C) = (u16) (*(u16 *)((s8 *)arg0 + 0x2C) | 0x100);
-    *(s32 *)((s8 *)arg0 + 0x48) = arg1;
+    *(s32 *)((s8 *)arg0 + 0x48) = tint;
 }
 
-}
 
 void TParticleCtrl::set_position(void *pos) {
     position.x = ((Vec *)pos)->x;
@@ -174,17 +177,10 @@ struct GenEntry_8008767C { s32 id; Gen_8008767C fn; };
 extern "C" {
 void set_particle_tint_color(u8 *arg0, void *arg1);
 s32 release_texture_list(void*);
-void mem_free(void *p);
 extern uaddr TParticleCtrl__regular_bml_resource;
 extern uaddr TParticleCtrl__texture_list;
-s32 mem_alloc(s32);
 // particle_pool_limit: declared s32 above (part 1)
 // particle_global_entry_table: declared s32 above (part 1)
-u8 *create_ballistic_particle(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, u16 arg4, s16 arg5);
-u8 *create_orbit_particle(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, u16 arg4, s16 arg5);
-}
-u8 *load_gvm_texture_file(saddr arg0);
-extern "C" {
 extern u8 *camera_ctrl_instance;
 void VecCopy__FP3VecPC3Vec(void *, const void *);
 void TParticleCtrl__sub_800884F0(void *p, void *dir);
@@ -193,8 +189,6 @@ s32 TLoadCtrl__sub_8001C60C();
 f32 horizontal_distance_squared(void *, void *);
 u8 *get_player_by_client_id(s32);
 extern GenEntry_8008767C particle_ctrl_generator_table[];
-extern void *tl_07;
-extern void *tl_particlemodel;
 void run_task__13TParticleCtrlFv(Ctrl_8008767C *self);
 void clear_active_flag__13TParticleCtrlFv(void* p);
 
@@ -417,7 +411,6 @@ struct ParticleCtrlData {
 void __ct__7TObjectFP7TObject(void *, void *);
 
 extern void *__vt__13TParticleCtrl[];
-extern void *tl_clipout;
 
 #define COPY_PARTICLE_DIRECTION(particle, direction) do {                      \
     s32 component;                                                             \
@@ -587,11 +580,11 @@ TParticleCtrl *initialize_flagged_particle(void *storage, const void *position, 
     return static_cast<TParticleCtrl *>(storage);
 }
 
-void *TParticleCtrl::initialize(const void *position, ParticleParam *particle_index, s32 field30, s32 field34, s32 field38, s32 use_self) {
+TParticleCtrl *TParticleCtrl::initialize(const void *position, ParticleParam *particle_index, s32 field30, s32 field34, s32 field38, s32 use_self) {
     INITIALIZE_PARTICLE(((ParticleCtrlData *)this), position, particle_index, field30, field34,
                         field38, use_self, 0, CLEAR_PARTICLE_DIRECTION,
                         position);
-    return ((ParticleCtrlData *)this);
+    return this;
 }
 
 }
@@ -609,14 +602,14 @@ void TParticleCtrl::attach_model(s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 far
     *(u16 *)((s8 *)((u8 *)this) + 0x24) = (u16) (*(u16 *)((s8 *)((u8 *)this) + 0x24) | 0x200);
 }
 
-void set_particle_tint_color(u8 *arg0, void *arg1) {
+void set_particle_tint_color(u8 *arg0, void *rgba) {
     *(u16 *)((s8 *)arg0 + 0x24) = (u16) (*(u16 *)((s8 *)arg0 + 0x24) | 0x100);
-    ((void (*)(void *, void *, void *))copy_argb)(arg0 + 0x48, arg1, arg0);
+    ((void (*)(void *, void *, void *))copy_argb)(arg0 + 0x48, rgba, arg0);
 }
 
 void set_particle_draw_scale(void* p, f32 a, f32 b) { *(f32*)((char*)p + 0xa4) = a; *(f32*)((char*)p + 0xa8) = b; }
 }
-
+u8 *load_gvm_texture_file(saddr arg0);
 void TParticleCtrl::free_system() { mem_free(particle_global_entry_table); particle_global_entry_table = 0; }
 void TParticleCtrl::free_all() {
     mem_free(particle_area_entry_table);
@@ -640,11 +633,11 @@ void TParticleCtrl::init_particle_buffer() {
         particle_pool_limit = (u32) temp_r3 / 152U;
     }
 }
-ParticleParam *TParticleCtrl::get_particle_by_index(s32 arg0) {
-    if (arg0 >= 0x200) {
-        return &particle_area_entry_table[arg0 - 0x200];
+ParticleParam *TParticleCtrl::get_particle_by_index(s32 particle_index) {
+    if (particle_index >= 0x200) {
+        return &particle_area_entry_table[particle_index - 0x200];
     }
-    return &particle_global_entry_table[arg0];
+    return &particle_global_entry_table[particle_index];
 }
 void load_particle_entry_resources(void);
 extern char lbl_80439494[];
@@ -672,12 +665,10 @@ void load_particle_entry_resources(void) {
     TParticleCtrl__regular_bml_resource = (uaddr)p;
     TParticleCtrl__texture_list = (uaddr)load_gvm_texture_file((saddr)lbl_804394D4);
 }
-extern "C" {
 
 __declspec(section ".rodata") extern char lbl_80439494[] = "particleentrya";
 __declspec(section ".rodata") extern char lbl_804394A4[] = "particleentrya0%d.dat";
 __declspec(section ".rodata") extern char lbl_804394BC[] = "particleentrya%d.dat";
 __declspec(section ".rodata") extern char lbl_804394D4[] = "tecregular.gvm";
-}
 
 s32 particle_pool_limit = 1;

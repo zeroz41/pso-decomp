@@ -12,6 +12,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/task/TMainTask.h"
 
 #pragma readonly_strings on
 
@@ -23,10 +24,6 @@ __declspec(section ".data") const char *bm_n_trunk_i_body_model_names[2] = { "n_
 BmlResourceDescriptor bm_n_trunk_i_body_resource_descriptor = { "bm_n_trunk_i_body.bml", bm_n_trunk_i_body_model_names, bm_n_trunk_i_body_motion_names, 1, 0 };
 const char *TObjNpcCloakroomBase__name = "TObjNpcCloakroomBase";
 uaddr TObjNpcCloakroomBase__static_instance;
-}
-
-
-extern "C" {
 s32 play_sound_effect(s32, s32, s32, s32);
 
 void TObjNpcCloakroomBase::play_voice() {
@@ -38,10 +35,9 @@ void TObjNpcCloakroomBase::play_voice() {
     play_sound_effect(0x40003802, arg0 + 0x38, 0, 0);
 }
 
-extern void *tl_04;
 
 void *TObjNpcCloakroomBase::create(void *set_data) {
-    TObjControl *control = new TObjControl((TObject *)tl_04);
+    TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcCloakroomBase(control, set_data);
 }
 
@@ -77,7 +73,7 @@ f32 TObjNpcCloakroomBase::receive_direct_attack(void *, DirectAttackPayload, voi
 }
 
 void *TObjNpcConnoisseur__create(void *set_data) {
-    TObjControl *control = new TObjControl((TObject *)tl_04);
+    TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcConnoisseur(control, set_data);
 }
 

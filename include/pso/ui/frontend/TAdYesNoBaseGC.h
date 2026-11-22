@@ -11,10 +11,9 @@ struct TAdYesNoBaseGC : public TObject {
     virtual void vfunc_7() = 0;
     virtual void vfunc_8();
     virtual void vfunc_9();
-    virtual void vfunc_10() = 0;
+    virtual saddr vfunc_10() = 0;  // the prompt text: get_localized_text_entry
     virtual void vfunc_11();
     virtual void vfunc_12();
-    virtual void vfunc_13() = 0;
     s32 sub_8032C0B4();
     u32 m_1c;
     u32 m_20;

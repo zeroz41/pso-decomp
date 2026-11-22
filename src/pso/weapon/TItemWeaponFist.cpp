@@ -11,38 +11,39 @@
 #include "pso/unk/text_80120908.h"
 #include "pso/unk/text_80126A34.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/TObjPlayer_801D2E20.h"
 
 // ---- pso/unk/text_80126740
 
 
-void TUnk_804A2B98::vfunc_58() {
+void TUnk_804A2B98::on_unequipped() {
     ((PlayerAttackState *)((u8 *)this->owner + 0x7CC))->set_evp(1.0f);
 }
 
 // ---- pso/player/TObjPlayer_801267C4
 
 
-void TUnk_804A2B98::vfunc_57() {
-    f32 var_f31;
+void TUnk_804A2B98::on_equipped() {
+    f32 scale;
     u8 temp_r3;
 
-    var_f31 = 1.0f;
+    scale = 1.0f;
     temp_r3 = get_item_index();
     switch ((s32) temp_r3) {
     case 0:
-        var_f31 = 1.05f;
+        scale = 1.05f;
         break;
     case 1:
-        var_f31 = 1.1f;
+        scale = 1.1f;
         break;
     case 2:
-        var_f31 = 1.15f;
+        scale = 1.15f;
         break;
     case 3:
-        var_f31 = 1.2f;
+        scale = 1.2f;
         break;
     }
-    ((PlayerAttackState *)((u8 *)this->owner + 0x7CC))->set_evp(var_f31);
+    ((PlayerAttackState *)((u8 *)this->owner + 0x7CC))->set_evp(scale);
 }
 
 
@@ -60,7 +61,6 @@ struct Stack_8012685C {
 
 extern "C" {
 s32 reflect_matrix_in_plane(s32, f32 *, f32);
-s16 get_validated_attack_stage(u8 *arg0);
 }
 s32 knuckle_second_hand_pass;
 

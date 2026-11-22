@@ -79,7 +79,6 @@ void TObjPlayer__sub_801BA42C(void);
 extern s32 door_vo_ship_class_name;
 extern s32 local_client_id;
 extern s32 lbl_805D5868;
-extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 }
 void reset_status_effect_row(u8 *row);

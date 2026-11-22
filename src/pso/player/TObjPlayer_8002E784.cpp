@@ -142,7 +142,7 @@ TUnk_804820C0::~TUnk_804820C0() {
 }
 
 void TObjPlayer::create_breakup_model() {
-    TUnk_8048FA00 *model = new TUnk_8048FA00((s32)boss2_derolle_resource->models[6].model);
+    TUnk_8048FA00 *model = new TUnk_8048FA00((saddr)boss2_derolle_resource->models[6].model);
     shared_breakup_model = model;
     TObjPlayer__sub_8002ED48(model, 0x13);
     TObjPlayer__sub_8002ECC4(shared_breakup_model, 0x13);
@@ -242,7 +242,7 @@ void TUnk_804820A8::render() {
 }
 
 void TObjPlayer__sub_8002E7C8(void) {
-    TUnk_8048FA00 *model = new TUnk_8048FA00((s32)boss2_derolle_resource->models[5].model);
+    TUnk_8048FA00 *model = new TUnk_8048FA00((saddr)boss2_derolle_resource->models[5].model);
     lbl_805D4B8C = model;
     TObjPlayer__sub_8002ECC4(model, 0x1C);
 }
@@ -252,7 +252,7 @@ void TObjPlayer::clear_target_ref() {
     lbl_805D4B8C = NULL;
 }
 
-TUnk_80482090::TUnk_80482090(TObject *parent, u32 matrix) : TUnk_804820C0(parent) {
+TUnk_80482090::TUnk_80482090(TObject *parent, uaddr matrix) : TUnk_804820C0(parent) {
     BreakupPiece *p;
     s32 i;
     Vec *v;

@@ -29,7 +29,6 @@ void blend_creation_proportion_shapes(f32 *point);
 extern s32 chr_select_preview_stride_table[];
 extern s32 chr_select_preview_base_offset_table[];
 
-extern s32 chr_select_slot_state;
 
 s32 TChCrLoadGmNjReq::try_acquire_slot() {
     if (((s32) chr_select_slot_state < 0) || ((s32) chr_select_slot_state > 1)) {
@@ -115,7 +114,7 @@ void TChCrLoadReq::start_preview_loads() {
         entry = (u8 *)this + off;
         id = *(s32 *)(entry + offsetof(TChCrLoadReq, m_68));
         load = TChCrLoadAfs::create(this, 0xDB,
-            (u32)TAdSinglePlyChrSelectGC::calc_preview_offset(this, disp, inputs.appearance->head, id));
+            calc_preview_offset(disp, inputs.appearance->head, id));
         *(TChCrLoadAfs **)(entry + offsetof(TChCrLoadReq, m_74)) = load;
         if (load == NULL) {
             break;
@@ -169,7 +168,7 @@ void TChCrLoadReq::request_model_loads() {
     reset_character_load_buffer(inputs.load_slot);
     *inputs.body_model = 0;
     body.name = m_5c->bodyModel;
-    body.model_out = (u32 *)inputs.body_model;
+    body.model_out = (NJS_OBJECT **)inputs.body_model;
     body.load_slot = inputs.load_slot;
     body.completion_mask = 0x40;
     body.completion_flags = inputs.completion_flags;
@@ -179,7 +178,7 @@ void TChCrLoadReq::request_model_loads() {
     names = m_5c->capModels;
     if (names != NULL && (name = names[index]) != NULL) {
         cap.name = name;
-        cap.model_out = (u32 *)&inputs.part_models[1];
+        cap.model_out = (NJS_OBJECT **)&inputs.part_models[1];
         cap.load_slot = inputs.load_slot;
         cap.completion_mask = 8;
         cap.completion_flags = inputs.completion_flags;
@@ -191,7 +190,7 @@ void TChCrLoadReq::request_model_loads() {
     names = m_5c->hairModels;
     if (names != NULL && (name = names[index]) != NULL) {
         hair.name = name;
-        hair.model_out = (u32 *)&inputs.part_models[0];
+        hair.model_out = (NJS_OBJECT **)&inputs.part_models[0];
         hair.load_slot = inputs.load_slot;
         hair.completion_mask = 0x10;
         hair.completion_flags = inputs.completion_flags;
@@ -201,7 +200,7 @@ void TChCrLoadReq::request_model_loads() {
     }
     inputs.part_models[2] = 0;
     head.name = m_5c->headModels[inputs.appearance->head];
-    head.model_out = (u32 *)&inputs.part_models[2];
+    head.model_out = (NJS_OBJECT **)&inputs.part_models[2];
     head.load_slot = inputs.load_slot;
     head.completion_mask = 0x20;
     head.completion_flags = inputs.completion_flags;
@@ -240,8 +239,8 @@ saddr TChCrLoadReq::calc_preview_last_index(s32 display_index, s32 region_index)
     return stride + region_index * stride - 1 + chr_select_preview_base_offset_table[display_index];
 }
 
-void *TAdSinglePlyChrSelectGC::calc_preview_offset(void *arg0, s32 arg1, saddr arg2, s32 arg3) {
-    return (void *)(arg2 + (arg3 * chr_select_preview_stride_table[arg1] + chr_select_preview_base_offset_table[arg1]));
+saddr TChCrLoadReq::calc_preview_offset(s32 display_index, s32 head, s32 region_index) {
+    return head + (region_index * chr_select_preview_stride_table[display_index] + chr_select_preview_base_offset_table[display_index]);
 }
 
 void TChCrLoadReq::close_and_destroy() {

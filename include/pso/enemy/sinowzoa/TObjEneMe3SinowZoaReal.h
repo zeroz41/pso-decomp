@@ -12,7 +12,7 @@ struct TObjEneMe3SinowZoaReal : public TObjEneMe3SinowZoa {
     virtual void on_target_lost();
     void run_death_reaction();
     void run_hit_reaction();
-    static void *create_instance(void *arg0);
+    static void *create_instance(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjEneMe3SinowZoaReal_size, sizeof(TObjEneMe3SinowZoaReal) == 0x45C);

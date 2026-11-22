@@ -16,8 +16,8 @@ struct TTecMegid : public TUnk_804CCC68 {
     void update_by_state();
     void spawn_particle_emitters();
     void init_parameters();
-    static void create(saddr arg0, saddr arg1, saddr arg2, s32 arg3);
-    static void create_ex(saddr arg0, saddr arg1, s32 arg2, s32 arg3);
+    static void create(saddr source, saddr pos, saddr arg2, s32 level);
+    static void create_ex(saddr source, saddr pos, s32 arg2, s32 level);
     void render();
     u8 unk_178[0x4];
 };

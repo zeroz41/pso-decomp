@@ -6,7 +6,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TOLightMachine01 : public TObjBase {
-    TOLightMachine01(void *arg1);
+    TOLightMachine01(void *set_data);
     virtual ~TOLightMachine01();
     f32 view_range;
     f32 m_94;

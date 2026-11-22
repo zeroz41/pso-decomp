@@ -144,7 +144,7 @@ void TLobby::init_pkt_cmd_7C() {
     *(s8 *)((s8 *)((u8 *)this) + 1) = 0x42;
 }
 
-s32 TLobby::bswap_challenge_battle_records() {
+void TLobby::bswap_challenge_battle_records() {
     saddr arg0 = (saddr)this;
     S_80072994 *s = (S_80072994 *)arg0;
     s32 i;
@@ -240,8 +240,8 @@ void TLobby::send_45_and_close_windows(void * _w0) {
     TWindowCtrl::unsuppress_slot(local_client_id);
     TLobby__sub_8024AC20(local_client_id);
 }
-void TLobby::show_ctrl_and_play_effect(void* a0) { TWindowCtrl::suppress_slot(*(int *)&local_client_id); play_player_default_effect__6TLobbyFv((saddr)a0); }
-void TLobby::play_default_effect(void* a0) { TObjPlayer__sub_8024ABDC(((*(int *)&local_client_id))); play_player_default_effect__6TLobbyFv((saddr)a0); }
+void TLobby::show_ctrl_and_play_effect(void* a0) { TWindowCtrl::suppress_slot(*(int *)&local_client_id); ((TLobby *)a0)->play_player_default_effect(); }
+void TLobby::play_default_effect(void* a0) { TObjPlayer__sub_8024ABDC(((*(int *)&local_client_id))); ((TLobby *)a0)->play_player_default_effect(); }
 void play_player_default_effect__6TLobbyFv(s32 _w0) {
     saddr player;
     player = get_player_by_client_id(local_client_id);
@@ -359,7 +359,7 @@ void TObjChallengeRetry::sub_8007313C() {
     block_4:
     if (has_window_task_root() != 0)
     {
-      ((s32 (*)(void *))play_player_default_effect__6TLobbyFv)((void *) ((u8 *)this));
+      ((TLobby *)this)->play_player_default_effect();
       var_r31 = 1;
       var_r30 = new_var;
       loop_6:
@@ -386,7 +386,7 @@ void TObjChallengeRetry::sub_8007313C() {
           return;
         }
         TLobby::send_45_and_close_windows((void *) ((u8 *)this));
-        ((s32 (*)(void *))play_player_default_effect__6TLobbyFv)((void *) ((u8 *)this));
+        ((TLobby *)this)->play_player_default_effect();
         sub_80072BB0();
         this->state = 3;
       }
@@ -404,26 +404,26 @@ void TObjChallengeRetry::run_task() {
     this->m_20 = ((s32 (*)(void *))is_challenge_lobby__6TLobbyFv)(arg0);
     switch (this->state) {
     case 0:
-        ((TObjChallengeRetry *)arg0)->sub_8007313C();
+        this->sub_8007313C();
         break;
     case 1:
-        ((TObjChallengeRetry *)arg0)->handle_challenge_retry_confirm();
+        this->handle_challenge_retry_confirm();
         break;
     case 2:
-        ((TObjChallengeRetry *)arg0)->update_challenge_retry();
+        this->update_challenge_retry();
         break;
     case 3:
-        ((TObjChallengeRetry *)arg0)->handle_loss_sequence();
+        this->handle_loss_sequence();
         break;
     case 4:
-        ((TObjChallengeRetry *)arg0)->update_destroy_countdown();
+        this->update_destroy_countdown();
         break;
     }
     if (TLobby::is_ready_to_draw() == 0) {
         TLobby::send_45_and_close_windows(arg0);
-        ((TObjChallengeRetry *)arg0)->close_window_2c();
-        ((TObjChallengeRetry *)arg0)->sub_80072B70();
-        ((TObject *)arg0)->queue_destruction();
+        this->close_window_2c();
+        this->sub_80072B70();
+        this->queue_destruction();
     }
 }
 

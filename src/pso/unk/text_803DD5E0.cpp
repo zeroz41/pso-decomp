@@ -293,15 +293,15 @@ void TLobby::bswap32_in_place(u32 *p) {
 }
 #pragma pop
 
-void TLobby__sub_803DDD20(s32 arg0) {
-    lbl_805D77A4 = arg0;
-    lbl_805D77A0 = arg0;
+void TLobby__sub_803DDD20(s32 buf) {
+    lbl_805D77A4 = buf;
+    lbl_805D77A0 = buf;
 }
 
-saddr TLobby__sub_803DDD2C(s32 arg0) {
+saddr TLobby__sub_803DDD2C(s32 stride) {
     s32 temp_r4;
     temp_r4 = lbl_805D77A0;
-    lbl_805D77A0 = temp_r4 + arg0;
+    lbl_805D77A0 = temp_r4 + stride;
     return temp_r4;
 }
 
@@ -436,7 +436,7 @@ void TLobby::seek_gvrt_chunk() {
 
 #pragma push
 #pragma use_lmw_stmw off
-s32 load_gvm_texture_archive(void *arg0, GinjaTextureList *list) {
+s32 load_gvm_texture_archive(void *buf, GinjaTextureList *list) {
     s32 id;
     s32 arg;
     s32 handle;
@@ -449,11 +449,11 @@ s32 load_gvm_texture_archive(void *arg0, GinjaTextureList *list) {
     s32 n;
     arg = -1;
     TObjPlayer__sub_803DA7E0();
-    if (arg0 == NULL) {
+    if (buf == NULL) {
         lbl_8058D470.c = 1;
         return -1;
     }
-    TLobby__sub_803DDD20((saddr)arg0);
+    TLobby__sub_803DDD20((saddr)buf);
     hdr = (u32 *)TLobby__sub_803DDD2C(0xC);
     TLobby::bswap32_in_place(hdr);
     TLobby::bswap32_in_place(hdr + 1);

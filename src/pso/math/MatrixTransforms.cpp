@@ -3,43 +3,42 @@
 #include "pso/unk/text_803D9650.h"
 #include "dolphin/mtx.h"
 #include "pso/player/TObjPlayer.h"
-
-struct Matrix34 { f32 elements[3][4]; };
+#include "pso/render/RenderSbssGlobals.h"
+#include "pso/system/MatrixOps.h"
 
 extern "C" {
-extern uaddr current_matrix;
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
 
-void rotate_matrix_z(Matrix34* matrix, s32 angle) {
+void rotate_matrix_z(MtxP matrix, s32 angle) {
     // Game angles have 65536 units per turn. The original uses a single-precision pi.
     const f64 radians_per_angle_unit = 2.0 * 3.141592f / 65536.0;
-    Matrix34 rotation;
-    Matrix34* selected;
+    GC_Mtx rotation;
+    MtxP selected;
     if (angle != 0) {
-        if (matrix == NULL) selected = (Matrix34*)current_matrix;
+        if (matrix == NULL) selected = *current_matrix;
         else selected = matrix;
-        PSMTXRotRad(rotation.elements, 'z', (f32)(radians_per_angle_unit * (f64)angle));
-        PSMTXConcat(selected->elements, rotation.elements, selected->elements);
+        PSMTXRotRad(rotation, 'z', (f32)(radians_per_angle_unit * (f64)angle));
+        PSMTXConcat(selected, rotation, selected);
     }
 }
 
 #pragma push
 #pragma peephole off
 void TObjPlayer::copy_matrix(uaddr arg0, uaddr arg1) {
-    uaddr var_r0;
-    uaddr var_r3;
+    MtxP dst;
+    MtxP src;
     if (arg0 == 0U) {
-        var_r0 = current_matrix;
+        dst = *current_matrix;
     } else {
-        var_r0 = arg0;
+        dst = (MtxP)arg0;
     }
     if (arg1 == 0U) {
-        var_r3 = current_matrix;
+        src = *current_matrix;
     } else {
-        var_r3 = arg1;
+        src = (MtxP)arg1;
     }
-    PSMTXCopy((MtxP)var_r3, (MtxP)var_r0);
+    PSMTXCopy(src, dst);
 }
 }
 #pragma pop
@@ -90,13 +89,10 @@ void euler_yxz_to_quaternion(u8 *arg0, u8 *arg1) {
 #pragma scheduling off
 
 void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z) {
-    uaddr var_r3;
-    uaddr phi_r3;
-    var_r3 = arg0;
-    phi_r3 = var_r3;
-    if (var_r3 == 0U) {
-        phi_r3 = current_matrix;
+    MtxP m = (MtxP)arg0;
+    if (m == NULL) {
+        m = *current_matrix;
     }
-    matrix_apply_translation((MtxP)phi_r3, x, y, z);
+    matrix_apply_translation(m, x, y, z);
 }
 #pragma pop

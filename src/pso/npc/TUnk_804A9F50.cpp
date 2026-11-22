@@ -22,10 +22,8 @@ void TObjNpcLappy__sub_8014B828(void) {
     }
 }
 
-extern "C" {
 extern uaddr npc_town_motion_data;
 extern u32 lbl_805D5D78;
-}
 
 void TObjNpcLappy__sub_8014B840(void) { npc_lappy_cached_object = lbl_805D5D78; }
 

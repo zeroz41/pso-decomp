@@ -31,20 +31,20 @@ void *create_check_box_window_for_local_client(const NJS_POINT2 *layout_position
 }
 
 void TWindowCheckBox::render() {
-    saddr temp_r3;
+    saddr draw_context;
 
-    temp_r3 = reinterpret_cast<saddr>(get_draw_context());
-    draw_window_frame((void *)temp_r3);
+    draw_context = reinterpret_cast<saddr>(get_draw_context());
+    draw_window_frame((void *)draw_context);
     draw_visible_window_entries(
         this,
         reinterpret_cast<const WindowLayoutEntries *>(((u8 *)this) + 0x24),
-        reinterpret_cast<WindowDrawContext *>(temp_r3));
-    ((TWindowMenuIconLine *)((u8 *)this))->draw_selected_list_entry(temp_r3);
+        reinterpret_cast<WindowDrawContext *>(draw_context));
+    ((TWindowMenuIconLine *)((u8 *)this))->draw_selected_list_entry(draw_context);
     if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x80) != 0U) {
-        ((TWindowSubStatusDisp *)((void *)(*(uaddr *)((s8 *)((u8 *)this) + 0x80))))->forward_render((void *)(temp_r3));
+        ((TWindowSubStatusDisp *)((void *)(*(uaddr *)((s8 *)((u8 *)this) + 0x80))))->forward_render((void *)(draw_context));
     }
     if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x84) != 0U) {
-        draw_window_scrollbar(*(u32 *)((s8 *)((u8 *)this) + 0x84), temp_r3, ((u8 *)this) + 0x68);
+        draw_window_scrollbar(*(u32 *)((s8 *)((u8 *)this) + 0x84), draw_context, ((u8 *)this) + 0x68);
     }
 }
 

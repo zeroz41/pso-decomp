@@ -26,6 +26,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/player/PlayerSlots.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
 
@@ -34,6 +35,12 @@
 #include "pso/boss/darkfalz/TBoss4Thanks_8035C8F0.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/ui/TLevelSelect.h"
+#include "pso/object/TObjControl.h"
+#include "pso/camera/TCameraCtrl_800687BC.h"
+#include "pso/unk/TLobby_8030A834.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixVector.h"
 
 #pragma readonly_strings on
 
@@ -177,15 +184,12 @@ E_8004AB90 dark_falz_push_zone_table[3] = {
 
 
 extern "C" {
-s32 vec3_add_to(void *, void *);
-f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
 f32 xyz_distance(void *, void *);
 extern s32 lbl_805D5868;
-extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 
-void TBoss4DarkFalz::push_players_out_of_zone(s32 arg0, s32 arg1) {
+void TBoss4DarkFalz::push_players_out_of_zone(s32 boss4_dark_falz, s32 arg1) {
     Vec v;
     E_8004AB90 *e;
     Vec *ev;
@@ -342,9 +346,8 @@ V(60)V(61)V(62)V(63)V(64)V(65)V(66)V(67)V(68)V(69)V(70)V(71)V(72)V(73)V(74)V(75)
 };
 extern "C" {
 s32 is_split_screen();
-s32 get_player_by_client_id(void *);
 extern s32 local_client_id;
-s32 TBoss4DarkFalz__sub_8004AF5C(u8 *arg0, s16 *arg1, s16 *arg2);
+s32 TBoss4DarkFalz__sub_8004AF5C(u8 *self, s16 *arg1, s16 *arg2);
 
 void release_all_players_control_lock(void);
 
@@ -352,30 +355,29 @@ void TBoss4DarkFalz__sub_8004B5A0(void);
 void TBoss4DarkFalz__sub_8004B4F0(void *, void *);
 void create__10TBoss4ZakoFl(void *);
 Desc_8004BD58 TBoss4DarkFalz__data_804FF1E8;
-extern s32 game_difficulty_selection;
 
 }
 void reset_cameras_to_actor(void *, s32);
 
 extern "C" {
-void TBoss4DarkFalz__sub_8004B7DC(TBoss4DarkFalz *arg0);
-void TBoss4DarkFalz__sub_8004B8F8(TBoss4DarkFalz *arg0);
+void TBoss4DarkFalz__sub_8004B7DC(TBoss4DarkFalz *boss4_dark_falz);
+void TBoss4DarkFalz__sub_8004B8F8(TBoss4DarkFalz *boss4_dark_falz);
 int TBoss4DarkFalz__sub_8004B07C(TBoss4DarkFalz *);
 s32 is_local_client_floor_leader();
 s32 get_main_phase();
 
-s32 TBoss4DarkFalz__sub_8004AF5C(u8 *arg0, s16 *arg1, s16 *arg2) {
+s32 TBoss4DarkFalz__sub_8004AF5C(u8 *self, s16 *arg1, s16 *arg2) {
     s32 temp_r6;
-    temp_r6 = *(s32 *)((s8 *)arg0 + 0x384);
+    temp_r6 = *(s32 *)((s8 *)self + 0x384);
     if ((temp_r6 < 1) || (temp_r6 > 0x1FE)) {
         return 0;
     }
     if (temp_r6 > 0x1FD) {
         return 0;
     }
-    *arg1 = *(s16 *)((s8 *)arg0 + 0x2C) + temp_r6;
-    *arg2 = *(u16 *)((s8 *)arg0 + 0x1C) + *(s32 *)((s8 *)arg0 + 0x384);
-    *(s32 *)((s8 *)arg0 + 0x384) = (s32) (*(s32 *)((s8 *)arg0 + 0x384) + 1);
+    *arg1 = *(s16 *)((s8 *)self + 0x2C) + temp_r6;
+    *arg2 = *(u16 *)((s8 *)self + 0x1C) + *(s32 *)((s8 *)self + 0x384);
+    *(s32 *)((s8 *)self + 0x384) = (s32) (*(s32 *)((s8 *)self + 0x384) + 1);
     return 1;
 }
 
@@ -598,41 +600,41 @@ struct V3_8004B654 { u32 w[3]; };
 #pragma dont_inline off
 #pragma auto_inline on
 void TBoss4DarkFalz::handle_defeat() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     struct V3_8004B654 save;
     s32 flags[3];
-    saddr p;
+    TObjPlayer *p;
 
     TBoss4DarkFalz__sub_8004B5A0();
     if (is_split_screen() != 0) {
-        ((TObjEnemy *)arg0)->distribute_experience();
+        ((TObjEnemy *)self)->distribute_experience();
     } else {
-        p = get_player_by_client_id((void *) ((u16) local_client_id));
+        p = get_player_by_client_id((u16)local_client_id);
         if (p != 0) {
-            save = *(struct V3_8004B654 *)(arg0 + 0x2FC);
-            VecCopy(&this->body_center, (const Vec *)(p + 0x2FC));
-            ((TObjEnemy *)arg0)->distribute_experience();
+            save = *(struct V3_8004B654 *)(self + 0x2FC);
+            VecCopy(&this->body_center, &p->body_center);
+            ((TObjEnemy *)self)->distribute_experience();
             VecCopy(&this->body_center, (const Vec *)&save);
         }
     }
     flags[0] = 0x800;
-    ((TObjEnemy *)arg0)->send_6x0A_enemy_state(flags);
-    ((TObjEnemy *)arg0)->exchange_object_state(flags, 0);
-    ((VObj_18_8004B654 *)(arg0))->m77(flags);
-    ((TObjEnemy *)arg0)->send_entity_set_flags();
-    ((TObject *)arg0)->queue_destruction();
+    ((TObjEnemy *)self)->send_6x0A_enemy_state(flags);
+    ((TObjEnemy *)self)->exchange_object_state(flags, 0);
+    ((VObj_18_8004B654 *)(self))->m77(flags);
+    ((TObjEnemy *)self)->send_entity_set_flags();
+    ((TObject *)self)->queue_destruction();
 }
 
-void TBoss4DarkFalz__sub_8004B730(TBoss4DarkFalz *controller, s32 arg1, f32 farg0) {
+void TBoss4DarkFalz__sub_8004B730(TBoss4DarkFalz *controller, s32 color, f32 alpha) {
     f32 var_f1;
     TBoss4Fade *temp_r3;
-    var_f1 = farg0;
+    var_f1 = alpha;
     temp_r3 = controller->fade;
     if ((temp_r3 != NULL) && !(var_f1 <= 0.0f)) {
         if (var_f1 > 1.0f) {
             var_f1 = 1.0f;
         }
-        fn_803594B4(temp_r3, arg1, var_f1);
+        fn_803594B4(temp_r3, color, var_f1);
     }
 }
 void TBoss4DarkFalz::refresh_player_equipment(void *self) {
@@ -777,13 +779,10 @@ typedef struct Msg_8004BFA4 {
 extern "C" {
 void TBoss4Type2__sub_80056EA8(void *, s32);
 void TBoss4Type3__sub_80059DCC(TBoss4Type3 *self, u32 packed);
-u8 *get_enemy_entity(u16 arg0);
 void handle_6x19_dark_falz_actions(Msg_8004BFA4 *arg0);
-s32 restore_player_cameras();
 extern s32 __vt__14TBoss4DarkFalz[];
 void TBoss4DarkFalz__sub_8004B4F0(void *arg0p, void *arg1p);
 s32 __ct__9TObjEnemyFP7TObject();
-void *fn_8030A83C(void *arg0);
 s32 TBoss4DarkFalz__ct(saddr a0, s32 arg1, saddr a2);
 int TBoss4DarkFalz__sub_8030AD38(void);
 s32 __ct__11TObjControlFP7TObject(s32, s32);
@@ -791,17 +790,17 @@ s32 __ct__11TObjControlFP7TObject(s32, s32);
 void TBoss4DarkFalz::render() {  }
 
 void TBoss4DarkFalz::run_task() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     if (((s32) this->m_37c != 0) && (TObjPlayer::check_demo_mode() != 0)) {
-        ((TBoss4DarkFalz *)arg0)->change_state(0);
+        ((TBoss4DarkFalz *)self)->change_state(0);
     }
     if (TObjEneDD::query_teammate_state() == 0) {
-        ((TBoss4DarkFalz *)arg0)->update_visible_flag();
+        ((TBoss4DarkFalz *)self)->update_visible_flag();
         if ((s32) this->m_378 == 0) {
-            ((TBoss4DarkFalz *)arg0)->sub_8004B0F8();
+            ((TBoss4DarkFalz *)self)->sub_8004B0F8();
         }
-        ((TBoss4DarkFalz *)arg0)->sub_8004B084();
-        ((TBoss4DarkFalz *)arg0)->update_roar_sound_timer();
+        ((TBoss4DarkFalz *)self)->sub_8004B084();
+        ((TBoss4DarkFalz *)self)->update_roar_sound_timer();
     }
 }
 

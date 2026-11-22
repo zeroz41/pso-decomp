@@ -29,10 +29,10 @@ struct TWindowOptionCtrl : public TObject {
     void apply_selection_change();
     void init_selection_indices();
     void apply_and_close(s32 arg1);
-    s32 handle_input(s32 arg1);
+    s32 handle_input(s32 language);
     // The cursor position of the entry at m_88.
     s32 update_selected_item();
-    static void add_menu_item(saddr arg1, s32 arg2, s32 arg3);
+    static void add_menu_item(saddr check_box_window, s32 arg2, s32 arg3);
     static void set_field_value(s32 arg0, s16 arg1);
     static s32 get_option_field_C();
     static const char *text_or_default(const char *text);

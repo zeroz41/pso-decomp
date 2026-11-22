@@ -11,7 +11,7 @@ struct TMovie : public TObject {
     virtual ~TMovie();
     virtual void run_task();
     RelModuleBuffer *module;
-    uaddr m_20;
+    TMovie *player; // 0x20: the 0xD0-byte player initialize_movie_with_soundtrack builds (inferred)
     void* m_24;
     u8 unk_28[0x4];
     u32 m_2c;
@@ -28,7 +28,7 @@ struct TMovie : public TObject {
     static void calc_frame_buffer_size(saddr arg0, saddr arg1);
     s32 stop_if_advanced();
     s32 check_finished();
-    bool is_playback_finished();
+    s32 is_playback_finished();
     void update_stop();
     void release();
     void init_sfd_player(s32 arg1, s32 arg2);
@@ -38,7 +38,7 @@ struct TMovie : public TObject {
     void render_until_finished();
     s32 check_skip_input();
     static void run_callback();
-    static s32 close(int arg0, short arg1);
+    static TMovie *close(TMovie *movie, short dealloc);
 };
 
 LAYOUT_ASSERT(TMovie_size, sizeof(TMovie) == 0x4C);

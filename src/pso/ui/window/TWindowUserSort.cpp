@@ -69,9 +69,9 @@ TWindowUserSort::TWindowUserSort(saddr arg1, s32 arg2) : TWindowBase((u8 *)&wind
 }
 #undef self
 
-void TWindowMainMenu1P::vfunc_9() { if (close_active_submenu() != 0) { this->create_char_select_slot(); } }
+void TWindowMainMenu1P::on_submenu_closed() { if (close_active_submenu() != 0) { this->create_char_select_slot(); } }
 
-void TWindowMainMenu1P::vfunc_7() {
+void TWindowMainMenu1P::on_menu_opened() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r3;
 
@@ -82,12 +82,12 @@ void TWindowMainMenu1P::vfunc_7() {
     }
 }
 
-void TWindowMainMenu1P::vfunc_8() {
+void TWindowMainMenu1P::close_main_menu() {
     if (*(s32 *)((s8 *)this + 0x4C) & 1) {
         TWindowMainMenu::close_and_clear_flags();
     }
 }
-void TWindowMainMenu1P::vfunc_6() {
+void TWindowMainMenu1P::open_main_menu() {
     u8 *arg0 = (u8 *)this;
     u8 *player;
     if (!(*(s32 *)((s8 *)arg0 + 0x4C) & 1)) {
@@ -99,7 +99,7 @@ void TWindowMainMenu1P::vfunc_6() {
                 ((TWindowMainMenu *)arg0)->open((saddr)main_menu_1p_entries);
             }
             ((TWindowMainMenu1P *)arg0)->create_char_select_slot();
-            this->vfunc_7();
+            this->on_menu_opened();
         }
     }
 }

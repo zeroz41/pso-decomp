@@ -4,12 +4,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
-
-extern "C" {
-
-void draw_weapon_at_joint(saddr arg0, s8 arg1);
-
-}
+#include "pso/unk/text_80120908.h"
 
 void TUnk_804A1C38::reserved_53() { draw_weapon_at_joint((saddr)this, (s8)49); update_trail_slot(0); update_trail_slot(1); }
 

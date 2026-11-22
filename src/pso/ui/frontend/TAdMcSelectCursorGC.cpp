@@ -161,22 +161,22 @@ s32 release_texture_list(void *, s32);
 
 
 uaddr TAdMcSelectCursorGC::get_instance(saddr arg0) {
-    uaddr var_r0;
+    uaddr ad_mc_select_cursor_gc;
 
     if ((u32) TAdMcSelectCursorGC__instance == 0U) {
-        var_r0 = (uaddr)new TAdMcSelectCursorGC((TObject *)arg0);
-        TAdMcSelectCursorGC__instance = var_r0;
+        ad_mc_select_cursor_gc = (uaddr)new TAdMcSelectCursorGC((TObject *)arg0);
+        TAdMcSelectCursorGC__instance = ad_mc_select_cursor_gc;
     }
     return TAdMcSelectCursorGC__instance;
 }
 
 
 void TAdMcSelectCursorGC::release_cursor_entry() {
-    u8 *temp_r4;
+    u8 *value;
     if ((void **) (*(void ** *)&TAdMcSelectCursorGC__texture_entry) != NULL) {
-        temp_r4 = (u8 *)(*(*(void ** *)&TAdMcSelectCursorGC__texture_entry));
-        if ((u32) *(u32 *)((s8 *)temp_r4 + 8) != 0U) {
-            release_texture_list((*(void ** *)&TAdMcSelectCursorGC__texture_entry), (saddr) temp_r4);
+        value = (u8 *)(*(*(void ** *)&TAdMcSelectCursorGC__texture_entry));
+        if ((u32) *(u32 *)((s8 *)value + 8) != 0U) {
+            release_texture_list((*(void ** *)&TAdMcSelectCursorGC__texture_entry), (saddr) value);
         }
     }
 }

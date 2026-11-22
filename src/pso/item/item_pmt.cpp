@@ -18,12 +18,14 @@
 #include "pso/item/TItemLoad_8010FDF0.h"
 #include "pso/item/TItemLoad.h"
 #include "pso/unk/TLobby_80226070.h"
+#include "pso/item/TItemData_8010EDA8.h"
+#include "pso/unk/TLobby_800F8AA8.h"
+#include "pso/system/SoundEffect.h"
 
 void *item_pmt;
-extern "C" {
+
 void *item_pmt_tbl;
 TObject *item_mgr;
-}
 
 const char *item_pmt_filename_descriptor = "ItemPMT.prs";
 
@@ -104,27 +106,13 @@ typedef struct Pmt_8011C234 { u8 pad[0xC]; PmtRow_8011C234 *rows; } Pmt_8011C234
 
 extern "C" {
 s32 select_enemy_drop__9TItemDropFPviiPv(u32, s32, s32, s32);
-s32 get_unit_attribute_index__10TObjPlayerFUc(u8 arg0);
-saddr get_text_collection(s32);
-extern const char *lbl_805D2B10;
 s32 __cvt_fp2unsigned(f32);
 s32 get_item_star_count(s32 id);
 Entry_8011CB18 *get_weapon_range_record(Item_8011CB18 *item, s16 mode);
-s32 play_sound_effect(s32, void *, s32, s32);
 void play_weapon_owner_sounds(Ctx_8011C7C8 *c);
 void play_weapon_hit_sound(Ctx_8011C7C8 *c);
 u16 get_entity_id(void *);
-}
-Rule_8011C0B8 *find_item_combination_recipe(u8 *id, void *item);
-extern "C" {
 void play_shield_sound_cue(Obj_8011C59C *arg0);
-}
-void normalize_drop_area(s32 *p);
-saddr get_mag_feed_result(s32 arg0, s32 arg1);
-void roll_item_channel_below(u32 arg0, s32 arg1);
-s32 is_unsealable_item(u8 *id);
-saddr get_item_stat_boost_record(s32 arg0, s32 arg1, s32 arg2);
-extern "C" {
 typedef struct Thing__8011c1e8_8011C000 { u8 a; u8 b; } Thing;
 
 saddr TObjPlayer::get_item_pmt_entry(u8 arg0) {
@@ -137,7 +125,12 @@ saddr TObjPlayer::get_item_pmt_entry(u8 arg0) {
     return 0;
 }
 }
-
+Rule_8011C0B8 *find_item_combination_recipe(u8 *id, void *item);
+void normalize_drop_area(s32 *p);
+saddr get_mag_feed_result(s32 arg0, s32 arg1);
+void roll_item_channel_below(u32 arg0, s32 arg1);
+s32 is_unsealable_item(u8 *id);
+saddr get_item_stat_boost_record(s32 arg0, s32 arg1, s32 arg2);
 s32 is_unsealable_item(u8 *id) {
     List_8011C030 *l = ((Tbl_8011C030 *)item_pmt_tbl)->list;
     s32 n = l->count;
@@ -232,37 +225,37 @@ void roll_item_channel_below(u32 count, s32 arg1) {
     __cvt_fp2unsigned((f32) count * TObjPlayer::get_drop_random_float(arg1));
 }
 
-void TObjPlayer::drop_item_from_slot(s32 area, s32 arg1, saddr arg2) {
+void TObjPlayer::drop_item_from_slot(s32 area, s32 arg1, saddr item) {
     s32 sp8;
-    s32 temp_r5;
+    s32 idx;
     sp8 = arg1;
     if (item_mgr != NULL) {
         normalize_drop_area(&sp8);
-        temp_r5 = sp8 - 1;
-        sp8 = temp_r5;
-        select_enemy_drop__9TItemDropFPviiPv((*(u32 *)&item_mgr), area, temp_r5, arg2);
+        idx = sp8 - 1;
+        sp8 = idx;
+        select_enemy_drop__9TItemDropFPviiPv((*(u32 *)&item_mgr), area, idx, item);
     }
 }
-void TObjPlayer::drop_item(s32 arg0, saddr arg1) {
+void TObjPlayer::drop_item(s32 slot, saddr item) {
     s32 sp8;
     s32 temp_r4;
-    sp8 = arg0;
+    sp8 = slot;
     if (item_mgr != NULL) {
         normalize_drop_area(&sp8);
         temp_r4 = sp8 - 1;
         sp8 = temp_r4;
-        select_box_item__9TItemDropFiiPv((s32)(*(u32 *)&item_mgr), (s32)temp_r4, (u8 *)arg1);
+        select_box_item__9TItemDropFiiPv((s32)(*(u32 *)&item_mgr), (s32)temp_r4, (u8 *)item);
     }
 }
-void TObjPlayer::drop_meseta_from_slot(s32 arg0, saddr arg1) {
+void TObjPlayer::drop_meseta_from_slot(s32 arg0, saddr item) {
     s32 sp8;
-    s32 temp_r4;
+    s32 idx;
     sp8 = arg0;
     if (item_mgr != NULL) {
         normalize_drop_area(&sp8);
-        temp_r4 = sp8 - 1;
-        sp8 = temp_r4;
-        ((TItemDrop *)item_mgr)->generate_drop_item((s32)temp_r4, (u8 *)arg1);
+        idx = sp8 - 1;
+        sp8 = idx;
+        ((TItemDrop *)item_mgr)->generate_drop_item((s32)idx, (u8 *)item);
     }
 }
 
@@ -295,9 +288,9 @@ saddr get_item_stat_boost_record(s32 arg0, s32 type, s32 id) {
     return *(s32 *)((s8 *)item_pmt_tbl + 0x38);
 }
 
-s32 get_unit_attribute_index__10TObjPlayerFUc(u8 arg0) {
-    if ((arg0 & 0x3F) && !(arg0 & 0x80)) {
-        return get_item_star_count(arg0 + 0x1CB);
+s32 get_unit_attribute_index__10TObjPlayerFUc(u8 flags) {
+    if ((flags & 0x3F) && !(flags & 0x80)) {
+        return get_item_star_count(flags + 0x1CB);
     }
     return 0;
 }
@@ -433,9 +426,9 @@ s32 get_item_star_count(s32 id) {
     return 0;
 }
 
-saddr get_mag_feed_result(s32 arg0, s32 arg1) {
-    if ((arg0 >= 0) && (arg0 < 8)) {
-        return *(s32 *)((s8 *)(*(saddr *)((s8 *)(*(u8 * *)&item_pmt_tbl) + 0x28)) + (arg0 * 4)) + (arg1 * 8);
+saddr get_mag_feed_result(s32 feed_table, s32 arg1) {
+    if ((feed_table >= 0) && (feed_table < 8)) {
+        return *(s32 *)((s8 *)(*(saddr *)((s8 *)(*(u8 * *)&item_pmt_tbl) + 0x28)) + (feed_table * 4)) + (arg1 * 8);
     }
     return 0;
 }
@@ -484,20 +477,20 @@ f32 get_item_price_coefficient(u8 arg0, u8 arg1) {
     return 0.0f;
 }
 
-u8 get_weapon_class_motion_type(u8 arg0) {
-    if (arg0 < 0xAAU) {
-        return *(u8 *)((s8 *)(*(saddr *)((s8 *)(*(u8 * *)&item_pmt_tbl) + 0x14) + arg0) + 0);
+u8 get_weapon_class_motion_type(u8 group) {
+    if (group < 0xAAU) {
+        return *(u8 *)((s8 *)(*(saddr *)((s8 *)(*(u8 * *)&item_pmt_tbl) + 0x14) + group) + 0);
     }
     return 0U;
 }
 
-saddr TObjPlayer::get_item_by_slot_flag(u8 arg0) {
-    if (arg0 & 0x3F) {
-        if (arg0 & 0x80) {
+saddr TObjPlayer::get_item_by_slot_flag(u8 flags) {
+    if (flags & 0x3F) {
+        if (flags & 0x80) {
             return get_text_collection(0x1F4);
         }
-        if ((arg0 != 0) && (arg0 < 0x29U)) {
-            return get_text_collection(arg0 + 0x1CB);
+        if ((flags != 0) && (flags < 0x29U)) {
+            return get_text_collection(flags + 0x1CB);
         }
         goto block_6;
     }
@@ -532,7 +525,6 @@ struct PmtSub {
     char* records;
 };
 
-extern "C" {
 
 void*TObjPlayer::get_pmt_record(int i) {
     PmtSub* c = *(PmtSub**)((char*)item_pmt_tbl + 0x10);
@@ -584,7 +576,6 @@ void* get_armor_pmt_record(int type, int id) {
         return &s->records[s->count * 28];
     }
     return NULL;
-}
 }
 
 void* get_photon_color_record(int i) {

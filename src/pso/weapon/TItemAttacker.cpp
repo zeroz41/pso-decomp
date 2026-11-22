@@ -19,24 +19,18 @@ const char *TItemAttacker__name = "TItemAttacker";
 
 
 struct RecoveredGlobal_8010355C_lbl_8043E038 { char value[0xA]; };
-LAYOUT_ASSERT(RecoveredGlobal_8010355C_lbl_8043E038_size, sizeof(RecoveredGlobal_8010355C_lbl_8043E038) == 0xA);
 
 struct Rec_80103368 { u8 pad[0x1C]; f32 v[3]; u8 pad2[0x2C - 0x28]; };
 
 struct M_80103368 { u8 pad[0xA4]; Rec_80103368 *recs; };
 
-extern "C" {
+
 s32 item_buffer_temp_mode;
 saddr item_buff_buffer;
 void TItemBuff__ct(void);
-extern const char *TItemAttacker__name;
 void TItemAttacker__sub_8010349C(uaddr arg0);
-}
 saddr get_item_chunk_buffer(int a0);
 void deliver_delayed_weapon_hit(u8 *arg0);
-extern "C" {
-}
-
 struct AttackWeaponBase { char pad[0x18]; };
 
 struct AttackWeapon : AttackWeaponBase {
@@ -107,7 +101,6 @@ struct Rec_801031CC { u8 d[0x2c]; };
 struct Tbl_801031CC { u8 pad[0x1c]; Rec_801031CC r[1]; };
 
 extern "C" {
-u8 *__ct__13TItemAttackerFllll(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 f32 horizontal_distance_squared(void *, void *);
 }
 void deliver_delayed_weapon_hit(u8 *arg0) {
@@ -144,7 +137,7 @@ void spawn_item_attacker(s32 arg0, u32 arg1, s32 frames, u8 *arg3) {
     }
 }
 
-TItemAttacker::TItemAttacker(saddr arg1, saddr arg2, s32 arg3, saddr arg4) : TObject((TObject *)arg1) {
+TItemAttacker::TItemAttacker(saddr parent, saddr arg2, s32 arg3, saddr arg4) : TObject((TObject *)parent) {
     u8* temp_r5;
     u8 *entity;
     *(s32 *)((s8 *)this + 0) = (s32) ((saddr)TItemAttacker__name);
@@ -199,17 +192,17 @@ void TItemBuff__ct(void) {
     }
 }
 s32 create_item_buff(s32 arg0);
-s32 create_item_buff(s32 arg0) {
+s32 create_item_buff(s32 size) {
     s32 temp_r3;
 
-    if (arg0 != 0) {
+    if (size != 0) {
         TItemBuff__ct();
         temp_r3 = TLobby::tmp_buf_is_free();
         item_buffer_temp_mode = temp_r3;
-        if ((temp_r3 != 0) && (arg0 < 0x40000)) {
+        if ((temp_r3 != 0) && (size < 0x40000)) {
             item_buff_buffer = (saddr)TLobby::tmp_buf_use_req("TItemBuff");
         } else {
-            item_buff_buffer = (saddr)mem_alloc(arg0);
+            item_buff_buffer = (saddr)mem_alloc(size);
         }
     }
     return item_buff_buffer;

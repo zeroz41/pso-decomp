@@ -40,9 +40,6 @@ extern s32 lbl_805D63F0;
 int info_icon_texture;
 s32 lobby_pulse_color_phase;
 u32 __cvt_fp2unsigned(f32);
-}
-u8 *load_gvm_texture_file(saddr arg0);
-extern "C" {
 s32 release_texture_list(s32 *);
 
 NJS_TEXNAME lbl_804EF1B8[3] = {
@@ -144,6 +141,7 @@ void TLobby__sub_803382E4(void) {
     }
 }
 }
+u8 *load_gvm_texture_file(saddr arg0);
 #pragma pop
 
 void TLobby::handle_flag2_request() {
@@ -154,16 +152,16 @@ void TLobby::handle_flag2_request() {
 }
 
 void TLobby::load_now_loading_texture() {
-    s32 temp_r31;
-    saddr temp_r3;
+    saddr archive;
+    saddr packed;
     if (!(lobby_request_flags & 2)) {
-        temp_r31 = (saddr)TQuestVmDownLoadServer::alloc(0x11000);
-        temp_r3 = (saddr)TQuestVmDownLoadServer::alloc(0x2000);
-        read_disc_file_sectors("NowLoading.prs", (void *)temp_r3);
-        prs_decompress_buffer((temp_r3), (temp_r31));
-        load_gvm_texture_archive((void *)temp_r31, (GinjaTextureList *)lbl_804EF1DC);
-        TAdSinglePlyChrSelectGC::safe_free(temp_r3);
-        TAdSinglePlyChrSelectGC::safe_free(temp_r31);
+        archive = (saddr)TQuestVmDownLoadServer::alloc(0x11000);
+        packed = (saddr)TQuestVmDownLoadServer::alloc(0x2000);
+        read_disc_file_sectors("NowLoading.prs", (void *)packed);
+        prs_decompress_buffer(packed, archive);
+        load_gvm_texture_archive((void *)archive, (GinjaTextureList *)lbl_804EF1DC);
+        TAdSinglePlyChrSelectGC::safe_free(packed);
+        TAdSinglePlyChrSelectGC::safe_free(archive);
         lobby_request_flags |= 2;
     }
 }
@@ -191,7 +189,7 @@ void render_info_icon_overlay(void) {
 
 #pragma push
 #pragma opt_propagation off
-extern "C" {
+
 void TLobby__sub_80338534(void) {
     G_80338534 *t = &lbl_804EF1B8;
     TCameraCtrl::restore_full_screen_view();
@@ -257,6 +255,5 @@ void TLobby::update_pulse_colors(s32 arg0) {
 #pragma pop
 
 void TWindowSubStatusDisp__sub_803386F0(void) { TObjPlayer::free_if_valid(info_icon_texture); }
-}
 
 void load_info_icon(void) { info_icon_texture = (saddr)load_gvm_texture_file((saddr)"InfoIcon.gvm"); }

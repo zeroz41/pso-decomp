@@ -30,6 +30,8 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/math/MatrixVector.h"
 
 struct EmitterSchedule { s32 start; s32 end; s32 id; };
 
@@ -42,14 +44,12 @@ struct Pl_8033E0F0 {
 
 extern "C" {
 extern void *__vt__23TBoss6Demo21_TYPE2_DEAD[];
-void post_translate_matrix(const f32 *);
 void __ct__7TObjectFP7TObject(void *, TObject *);
 void vec3_add_to(void *, void *);
-f32 vector_length(void *);
 void subtract_vector(void *, void *);
 #define __vt__23TBoss6Demo21_TYPE2_DEAD ((u8 *)__vt__23TBoss6Demo21_TYPE2_DEAD)
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-void run_task__23TBoss6Demo21_TYPE2_DEADFv(TBoss6Demo21_TYPE2_DEAD *arg0);
+void run_task__23TBoss6Demo21_TYPE2_DEADFv(TBoss6Demo21_TYPE2_DEAD *self);
 
 }
 extern "C" const char TBoss6Demo21_TYPE2_DEAD__class_name_string[] = "TBoss6Demo21_TYPE2_DEAD";
@@ -179,12 +179,12 @@ void render__23TBoss6Demo21_TYPE2_DEADFv(void* p) { ((TBoss6Demo21_TYPE2_DEAD *)
 
 #pragma push
 #pragma pool_data off
-void run_task__23TBoss6Demo21_TYPE2_DEADFv(TBoss6Demo21_TYPE2_DEAD *arg0) {
+void run_task__23TBoss6Demo21_TYPE2_DEADFv(TBoss6Demo21_TYPE2_DEAD *self) {
     Vec points[3];
-    if ((arg0->frame += 0.7f) > 499.0f) {
-        arg0->frame = 499.0f;
+    if ((self->frame += 0.7f) > 499.0f) {
+        self->frame = 499.0f;
     }
-    switch (arg0->timer) {
+    switch (self->timer) {
     case 0x0:
         play_sound_effect(0x4003232C, 0, 0, 0);
         break;
@@ -196,73 +196,73 @@ void run_task__23TBoss6Demo21_TYPE2_DEADFv(TBoss6Demo21_TYPE2_DEAD *arg0) {
         play_sound_effect(0x40032830, 0, 0, 0);
         break;
     }
-    if (arg0->timer >= 0x12C && arg0->timer <= 0x1AC) {
-        play_persistent_sound(0x4003352E, (saddr)arg0, 0, 0, 0);
+    if (self->timer >= 0x12C && self->timer <= 0x1AC) {
+        play_persistent_sound(0x4003352E, (saddr)self, 0, 0, 0);
     }
-    if (arg0->timer >= 0x1D7 && arg0->timer <= 0x23A) {
-        play_persistent_sound(0x32D2F, (saddr)arg0, 0, 0, 0);
+    if (self->timer >= 0x1D7 && self->timer <= 0x23A) {
+        play_persistent_sound(0x32D2F, (saddr)self, 0, 0, 0);
     }
-    switch (arg0->timer) {
+    switch (self->timer) {
     case 0xAE:
     case 0xCF: {
-        Vec p = arg0->camera_position;
+        Vec p = self->camera_position;
         vec3_add_to(&p, (void *)&lbl_804780AC);
         spawn_particle_effect_with_flags(&p, 0x221, 0x40);
         spawn_particle_effect_with_flags(&p, 0x22F, 0x40);
         break;
     }
     case 0x1AC:
-        spawn_particle_effect_with_flags(&arg0->effect_position_8, 0x223, 0x40);
+        spawn_particle_effect_with_flags(&self->effect_position_8, 0x223, 0x40);
         break;
     case 0x23A: {
-        Vec p = arg0->camera_position;
+        Vec p = self->camera_position;
         vec3_add_to(&p, (void *)&lbl_804780B8);
         spawn_particle_effect_with_flags(&p, 0xA4, 0x40);
         spawn_particle_effect_with_flags(&p, 0xE3, 0x40);
         break;
     }
     }
-    if (arg0->timer >= 0x12C && arg0->timer < 0x1BA) {
-        spawn_particle_effect_with_flags(&arg0->effect_position_8, 0x22E, 0x40);
+    if (self->timer >= 0x12C && self->timer < 0x1BA) {
+        spawn_particle_effect_with_flags(&self->effect_position_8, 0x22E, 0x40);
     }
     {
         Vec *ptrs[4];
         s32 i;
-        ptrs[0] = &arg0->camera_position;
-        ptrs[1] = &arg0->effect_position_5;
-        ptrs[2] = &arg0->effect_position_8;
-        ptrs[3] = &arg0->effect_position_5;
+        ptrs[0] = &self->camera_position;
+        ptrs[1] = &self->effect_position_5;
+        ptrs[2] = &self->effect_position_8;
+        ptrs[3] = &self->effect_position_5;
         for (i = 0; i < 4; i++) {
-            if (arg0->timer >= boss6_type2_death_emitter_ranges[i].start && arg0->timer < boss6_type2_death_emitter_ranges[i].end) {
-                if (arg0->emitters[i] == 0) {
-                    arg0->emitters[i] = create_particle_emitter(ptrs[i], boss6_type2_death_emitter_ranges[i].id);
-                    if (arg0->emitters[i] != 0) {
-                        arg0->emitters[i]->set_flags(0x40);
+            if (self->timer >= boss6_type2_death_emitter_ranges[i].start && self->timer < boss6_type2_death_emitter_ranges[i].end) {
+                if (self->emitters[i] == 0) {
+                    self->emitters[i] = create_particle_emitter(ptrs[i], boss6_type2_death_emitter_ranges[i].id);
+                    if (self->emitters[i] != 0) {
+                        self->emitters[i]->set_flags(0x40);
                     }
                 } else {
-                    arg0->emitters[i]->set_position(ptrs[i]);
+                    self->emitters[i]->set_position(ptrs[i]);
                 }
-            } else if (arg0->emitters[i] != 0) {
-                TParticleCtrl::release(arg0->emitters[i]);
-                arg0->emitters[i] = 0;
+            } else if (self->emitters[i] != 0) {
+                TParticleCtrl::release(self->emitters[i]);
+                self->emitters[i] = 0;
             }
         }
     }
-    if (arg0->timer >= 0x1AE) {
-        VecCopy(&points[0], &arg0->trail_positions[0]);
-        VecCopy(&points[2], &arg0->trail_positions[1]);
+    if (self->timer >= 0x1AE) {
+        VecCopy(&points[0], &self->trail_positions[0]);
+        VecCopy(&points[2], &self->trail_positions[1]);
         VecCopy(&points[1], &points[0]);
         vec3_add_to(&points[1], &points[2]);
         points[1].x *= 0.5f;
         points[1].y *= 0.5f;
         points[1].z *= 0.5f;
-        arg0->trail_effect->set_effect_points(points, lbl_8047817C);
+        self->trail_effect->set_effect_points(points, lbl_8047817C);
     }
-    if (arg0->timer == 0x23A) {
+    if (self->timer == 0x23A) {
         s32 n = TLobby::get_game_mode();
         Vec c;
         s32 i;
-        VecCopy((Vec *)&c, (const Vec *)&arg0->camera_position);
+        VecCopy((Vec *)&c, (const Vec *)&self->camera_position);
         vec3_add_to(&c, (void *)&lbl_804780B8);
         for (i = 0; i < n; i++) {
             Pl_8033E0F0 *p = (Pl_8033E0F0 *)TObjPlayer::get_player_data(i);
@@ -277,7 +277,7 @@ void run_task__23TBoss6Demo21_TYPE2_DEADFv(TBoss6Demo21_TYPE2_DEAD *arg0) {
             }
         }
     }
-    switch (arg0->timer) {
+    switch (self->timer) {
     case 0x5F:
     case 0x82:
     case 0xB1:
@@ -288,9 +288,9 @@ void run_task__23TBoss6Demo21_TYPE2_DEADFv(TBoss6Demo21_TYPE2_DEAD *arg0) {
         start_pad_rumble_all(0xC0, 0xF);
         break;
     }
-    arg0->timer++;
-    if (arg0->timer >= 0x2CA || arg0->plot->get_scene_state() != 7) {
-        arg0->queue_destruction();
+    self->timer++;
+    if (self->timer >= 0x2CA || self->plot->get_scene_state() != 7) {
+        self->queue_destruction();
     }
 }
 #pragma pop

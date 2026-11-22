@@ -40,14 +40,13 @@ void draw_empty_warp_overlay(void) {
 }
 
 extern "C" {
-s32 is_ship_door_ready__12TBoss6ThanksFv();
 
 void TBoss6EmptyWarp::render() { draw_empty_warp_overlay(); }
 
 void TBoss6EmptyWarp::run_task() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     if (TBoss6PlotFalz::is_flag_set() != 0) {
-        ((TObject *)arg0)->queue_destruction();
+        ((TObject *)self)->queue_destruction();
         return;
     }
     *(s32 *)&this->unk_1C = (s32) (*(s32 *)&this->unk_1C + 1);
@@ -59,7 +58,7 @@ void TBoss6EmptyWarp::run_task() {
         } else {
             play_area_music((char *)("HALL.adx"));
         }
-        ((TObject *)arg0)->queue_destruction();
+        ((TObject *)self)->queue_destruction();
     }
 }
 

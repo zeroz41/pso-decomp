@@ -15,7 +15,6 @@
 #include <stdlib.h>
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer.h"
-extern "C" void *__ct__14TObjCollidableFP7TObject(TObjCollidable *, TObject *);
 
 #include <stddef.h>
 
@@ -23,6 +22,8 @@ extern "C" void *__ct__14TObjCollidableFP7TObject(TObjCollidable *, TObject *);
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/math/MatrixTransforms.h"
 
 struct RecoveredGlobal_8036D4E0_lbl_8047ACE8 {
     s32 value;
@@ -77,14 +78,11 @@ struct Chase_8036D1B4 {
 struct Param_8036D1B4 { u8 pad[0xC]; f32 v; };
 
 extern "C" {
-saddr __nw__7TObjectFUl(int);
 __declspec(section ".rodata") char TBoss6RockChase__class_name_string[] = "TBoss6RockChase";
 __declspec(section ".rodata") RecoveredGlobal_8036D4E0_lbl_8047ACE8 boss6_rock_chase_model_radius_table = {
     4, { 0x41, 0xA0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x41, 0xF0, 0x00, 0x00 }
 };
 const char *TBoss6RockChase__name = TBoss6RockChase__class_name_string;
-f32 vector_length(void *);
-int subtract_vector(void *, void *);
 extern RecoveredGlobal_8036D4E0_lbl_8047ACE8 boss6_rock_chase_model_radius_table;
 int post_translate_matrix(void*);
 int rotate_matrix_z(void*, void*);
@@ -93,7 +91,7 @@ int rotate_matrix_y(void*, void*);
 
 #pragma push
 #pragma opt_propagation off
-s32 TBoss6RockChase::damage_players_in_range() {
+void TBoss6RockChase::damage_players_in_range() {
     Chase_8036D1B4 *self = (Chase_8036D1B4 *)this;
     Vec d;
     s32 n;
@@ -135,7 +133,7 @@ void TBoss6RockChase::render() { push_matrix(); post_translate_matrix((char*)thi
 #pragma push
 #pragma opt_common_subs off
 void TBoss6RockChase::run_task() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     s32 temp_r3;
     if (TObjEneDD::query_teammate_state() == 0) {
         temp_r3 = this->m_b4;
@@ -148,9 +146,9 @@ void TBoss6RockChase::run_task() {
         if (*(f32 *)&this->_padB8 < -11.25f) {
             *(f32 *)&this->_padB8 = -11.25f;
         }
-        *(f32 *)((s8 *)arg0 + 0x3C) = (f32) (*(f32 *)((s8 *)arg0 + 0x3C) + *(f32 *)&this->_padB8);
-        if (*(f32 *)((s8 *)arg0 + 0x3C) <= 0.0f) {
-            *(f32 *)((s8 *)arg0 + 0x3C) = 0.0f;
+        *(f32 *)((s8 *)self + 0x3C) = (f32) (*(f32 *)((s8 *)self + 0x3C) + *(f32 *)&this->_padB8);
+        if (*(f32 *)((s8 *)self + 0x3C) <= 0.0f) {
+            *(f32 *)((s8 *)self + 0x3C) = 0.0f;
             *(f32 *)&this->_padB8 = 0.0f;
             damage_players_in_range();
             play_sound_effect(0x4006B51E, (u8 *)&this->position, 0, 0);
@@ -159,7 +157,7 @@ void TBoss6RockChase::run_task() {
             TBoss6PlotFalz::apply_radial_effect_to_players((u8 *)&this->position, 0xC0, 0xF, 100.0f);
             TBoss6Rock::spawn_crush_rocks(&position, m_b0);
             play_sound_effect(0x4006AB1F, (u8 *)&this->position, 0, 0);
-            ((TObject *)arg0)->queue_destruction();
+            ((TObject *)self)->queue_destruction();
         }
     }
 }
@@ -174,19 +172,19 @@ TBoss6RockChase::~TBoss6RockChase() {
 #pragma push
 #pragma fp_contract on
 LAYOUT_ASSERT(RecoveredGlobal_8036D4E0_lbl_8047ACE8_size, sizeof(RecoveredGlobal_8036D4E0_lbl_8047ACE8) == 0x10);
-TBoss6RockChase::TBoss6RockChase(TObject *parent, const Vec *arg2, s32 arg3) : TObjCollidable(parent) {
+TBoss6RockChase::TBoss6RockChase(TObject *parent, const Vec *position, s32 size_kind) : TObjCollidable(parent) {
     TBoss6RockChase *boss6_rock_chase = this;
     boss6_rock_chase->m_name = TBoss6RockChase__name;
     boss6_rock_chase->owner = parent;
-    boss6_rock_chase->m_b0 = arg3;
+    boss6_rock_chase->m_b0 = size_kind;
     boss6_rock_chase->m_b4 = (s32) (15.0f * (3.0517578e-05f * (f32) rand()));
     ((TBoss6RockChase *)boss6_rock_chase)->rotation_x = (s32) (2048.0f * ((3.0517578e-05f * (f32) rand()) - 0.5f));
     boss6_rock_chase->rotation_y = (s32) (65535.0f * (3.0517578e-05f * (f32) rand()));
     boss6_rock_chase->rotation_z = (s32) (2048.0f * ((3.0517578e-05f * (f32) rand()) - 0.5f));
     boss6_rock_chase->m_bc = (s32) (8192.0f * ((3.0517578e-05f * (f32) rand()) - 0.5f));
     *(f32 *)((s8 *)boss6_rock_chase + 0xB8) = 0.0f;
-    VecCopy((Vec *)((u8 *)boss6_rock_chase + 0x38), (const Vec *)(arg2));
-    boss6_rock_chase->model = (NJS_OBJECT *)get_bml_model((BmlResource *)(TBoss6Rock__sub_80353A0C()), (int) (*(s32 *)((s8 *)&boss6_rock_chase_model_radius_table.value + (arg3 * 8))));
+    VecCopy((Vec *)((u8 *)boss6_rock_chase + 0x38), (const Vec *)(position));
+    boss6_rock_chase->model = (NJS_OBJECT *)get_bml_model((BmlResource *)(TBoss6Rock__sub_80353A0C()), (int) (*(s32 *)((s8 *)&boss6_rock_chase_model_radius_table.value + (size_kind * 8))));
     boss6_rock_chase->textures = (GinjaTextureList *)TBoss6Rock__sub_80353A04();
 }
 #pragma pop

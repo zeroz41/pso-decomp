@@ -13,6 +13,7 @@ extern "C" void get_render_mode_for_tv_format(GXRenderModeObj_803DD430 *rmode, G
 #include "pso/system/movie/TMovie.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/NinjaTypes.h"
+#include <math.h>
 
 
 struct RMode_803DCDFC {
@@ -258,7 +259,7 @@ void TKeyBoardControl::update_camera() {
 }
 
 
-s32 TCameraCtrl::init_projection_state() {
+void TCameraCtrl::init_projection_state() {
     s32 i;
     Cam_803DD300 *c = &lbl_8058D4F8;
 
@@ -328,8 +329,6 @@ extern GXRenderModeObj_803DD430 GXMpal480IntDf;
 extern GXRenderModeObj_803DD430 GXPal528IntDf;
 void *OSGetArenaLo(void);
 void OSSetArenaLo(void *);
-f64 cos(f64);
-f64 sin(f64);
 extern SinCos_803DD4EC *sin_cos_table;
 void get_render_mode_for_tv_format(GXRenderModeObj_803DD430 *rmode, GXRenderModeObj_803DD430 *out) {
     switch (VIGetTvFormat()) {

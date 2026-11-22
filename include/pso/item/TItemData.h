@@ -55,22 +55,22 @@ struct TItemData {
     // A tool's stack count (data1 byte 5); 1 for an item that does not stack.
     s32 get_stack_count();
     void set_stack_count(u8 count);
-    void set_unit_modifier(s16 arg1);
+    void set_unit_modifier(s16 modifier);
     // The item data's byte-swapped s16 at +6 (a unit's modifier).
     static s16 get_field6_bswap(void *data);
     // The byte-swapped s16s at +6 and +8 (an armor's or shield's DFP and
     // EVP bonus).
     static s16 getS16_06(void *data);
     static s16 get_bswap16_field8(void *data);
-    void set_bswapped_field_8(s16 arg1);
-    void set_dfp_bonus(s16 arg1);
+    void set_bswapped_field_8(s16 evp_bonus);
+    void set_dfp_bonus(s16 dfp_bonus);
     s16 get_technique_level();
     s32 has_bonus_stats();
     void bswap_fields();
-    f32 get_shield_set_multiplier(u8 *arg1);
+    f32 get_shield_set_multiplier(u8 *player);
     f32 get_armor_set_multiplier(u8 *arg1);
     f32 get_weapon_set_multiplier(u8 *arg1);
-    void apply_equip_effects(s32 arg1, saddr arg2, saddr arg3, saddr arg4, s32 arg5);
+    void apply_equip_effects(s32 arg1, saddr player, saddr arg3, saddr arg4, s32 arg5);
     void apply_custom_shield_bonus(saddr player, TItemData *a, TItemData *b, EquipStats *stats, s32);
     saddr calc_buy_price();
     void format_item_name(char *buf);
@@ -80,15 +80,15 @@ struct TItemData {
     static s32 is_item_usable(saddr arg0, u8 *arg1);
     saddr test_flag3();
     saddr get_item_field_2();
-    void add_quantity(s32 arg1);
-    void adjust_count(s32 arg1);
-    static void add_stat_ptr(s16 *arg0, s32 arg1);
-    void add_bonus(s16 arg1);
+    void add_quantity(s32 amount);
+    void adjust_count(s32 amount);
+    static void add_stat_ptr(s16 *arg0, s32 amount);
+    void add_bonus(s16 amount);
     void set_present_color(s8 color);
     s32 get_type_nibble();
     void add_weapon_stat_bonuses(s32 player, s16 *out, s32 unused, s16 *out2, s32 _w5);
     void set_wrapped();
-    void set_packed_value(u16 arg1);
+    void set_packed_value(u16 kill_count);
     void unpack_from_item(void *arg1);
     void pack_three_colors(u8 *in);
     s32 calc_action_flags(s32 mask, u8 *player);

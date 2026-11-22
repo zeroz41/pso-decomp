@@ -23,10 +23,9 @@
 
 #pragma push
 #pragma readonly_strings on
-extern "C" {
+
 const char *TObjEZRopeBase__name = "TObjEZRopeBase";
 const char *TObjHMS_EZRope_Player__name = "TObjHMS_EZRope_Player";
-}
 #pragma pop
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -79,8 +78,6 @@ struct Obj_800FF2D0 {
 extern "C" {
 void *TObjEZRopeBase__ct(void *);
 extern f32 ezrope_chunk_material_color_table[];
-void translate_matrix_vec3(u8 *arg0, u8 *arg1);
-void set_chunk_material_override_pair(s32 arg0, s32 arg1);
 extern u8 lbl_8048DEF4[];
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;

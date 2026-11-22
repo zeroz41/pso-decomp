@@ -20,6 +20,9 @@
 #include "pso/item/TItem.h"
 
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
+#include "pso/technique/TTecCtrl.h"
+#include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/unk/text_803D96A8.h"
 
 struct InwardOrbitDir { s32 x, y, z; };
@@ -37,14 +40,9 @@ struct Strike_80357B2C {
 
 extern "C" {
 u16 get_entity_id(void *);
-int get_item_field_6__10TObjPlayerFPv(void *p);
 void dispatch_weapon_special_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase);
 void *spawn_continuous_particle_with_direction(void *pos, void *dir, s32 id);
 f32 vector_length(void *);
-void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
-s32 get_bml_motion(s32, s32);
-
-void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 
 }
 void spawn_scattered_lightning_strikes(u8 *arg0, s32 arg1);
@@ -184,9 +182,9 @@ TUnk_804F166C::TUnk_804F166C(TObject *parent, Vec *pos, s32 start_angle) : TObje
 }
 #pragma pop
 
-void TObjPlayer::update_battle_control_on_unlock(void *arg0, void *arg1, void *arg2, s32 arg3) {
-    if (arg3 == 0) {
-        ((TObjPlayer *)arg0)->update_battle_control_if_unlocked();
+void TObjPlayer::update_battle_control_on_unlock(void *player, void *target, void *pos, s32 phase) {
+    if (phase == 0) {
+        ((TObjPlayer *)player)->update_battle_control_if_unlocked();
     }
 }
 
@@ -347,9 +345,6 @@ void dispatch_by_type(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase)
     }
 }
 
-extern s32 technique_effect_bml;
-extern s32 lbl_805D63B0;
-
 void weapon_special_lightning_bolt_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase) {
     Vec node;
     Vec v;
@@ -380,7 +375,7 @@ void spawn_effect_by_type(TObjPlayer *player, TObjBase *target, Vec *pos, s32 ph
     if (phase == 1) {
         temp_a = (saddr)create_timed_particle_emitter(pos, 0xBF, 0, 0xF);
         if (temp_a != 0) {
-            attach_particle_model((u8 *)temp_a, (saddr)get_bml_model((BmlResource *)technique_effect_bml, 0), lbl_805D63B0, get_bml_motion(technique_effect_bml, 0), 0, 1.0f);
+            attach_particle_model((u8 *)temp_a, get_bml_model(technique_effect_bml, 0), lbl_805D63B0, get_bml_motion(technique_effect_bml, 0), 0, 1.0f);
         }
     }
 }
@@ -394,7 +389,7 @@ void spawn_hit_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase)
     if (phase == 1) {
         timed_particle_emitter = (saddr)create_timed_particle_emitter(pos, 0x9A, 0, 0xF);
         if (timed_particle_emitter != 0) {
-            attach_particle_model((u8 *)timed_particle_emitter, (saddr)get_bml_model((BmlResource *)technique_effect_bml, 0), lbl_805D63B0, get_bml_motion(technique_effect_bml, 0), 0, 1.0f);
+            attach_particle_model((u8 *)timed_particle_emitter, get_bml_model(technique_effect_bml, 0), lbl_805D63B0, get_bml_motion(technique_effect_bml, 0), 0, 1.0f);
         }
     }
 }
@@ -506,7 +501,7 @@ void dispatch_weapon_special_effect(TObjPlayer *player, TObjBase *target, Vec *p
     if (is_current_area_item_enabled() == 0) {
         return;
     }
-    weapon = (TItemWeapon *)(saddr)get_item_field_6__10TObjPlayerFPv(player);
+    weapon = (TItemWeapon *)TObjPlayer::get_item_field_6(player);
     if (weapon == NULL) {
         return;
     }

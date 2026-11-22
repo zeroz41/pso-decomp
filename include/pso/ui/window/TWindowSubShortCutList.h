@@ -14,9 +14,9 @@ struct TWindowSubShortCutList : public TWindowMenuIconLine {
     virtual void render();
     PageIndicator *m_88;
     void refresh_entries();
-    void *create(void *arg1);
+    void *create(void *index);
     virtual void run_task();
-    void draw_entry(s32 arg1, u8 arg2, s32 arg3, s32 arg4);
+    void draw_entry(s32 index, u8 arg2, s32 arg3, s32 arg4);
 };
 
 LAYOUT_ASSERT(TWindowSubShortCutList_size, sizeof(TWindowSubShortCutList) == 0x8C);

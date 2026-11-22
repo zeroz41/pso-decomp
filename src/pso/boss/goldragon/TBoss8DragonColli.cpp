@@ -9,6 +9,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/TLobby.h"
 #include "types.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 #pragma defer_codegen on
 

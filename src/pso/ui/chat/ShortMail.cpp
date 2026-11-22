@@ -60,10 +60,7 @@ typedef struct Hdr_8022525C
   Tier_8022525C *tiers;
 } Hdr_8022525C;
 
-extern unsigned char lbl_80513F70[];
 extern "C" {
-extern s32 lbl_805D6270;
-extern int lobby_short_mail_entry_count;
 extern u8 *TLobby__protocol_instance;
 
 unsigned char lbl_80513F70[0x680];
@@ -72,7 +69,7 @@ int lobby_short_mail_entry_count;
 
 void try_close__6TLobbyFPv(void* p) { if (((TLobby *)p)->is_name_too_long() == 0) { TLobby__sub_80225A08(p); } }
 
-void TLobby::send_simple_mail(s32 arg0, void *arg1) {
+void TLobby::send_simple_mail(s32 arg0, void *src) {
     Tag_80225828 t;
     saddr mode;
     ((TLobby *)(&t))->init_guild_card_tag();
@@ -82,7 +79,7 @@ void TLobby::send_simple_mail(s32 arg0, void *arg1) {
         strncpy((char *)&t.b[0xC], (char *)(((void *)((TLobby *)mode)->get_com_card_list())), 0x17);
         *(s32 *)&t.b[0x1C] = arg0;
         t.b[0x23] = 0;
-        strncpy((char *)&t.b[0x20], (char *)arg1, 0xAB);
+        strncpy((char *)&t.b[0x20], (char *)src, 0xAB);
         t.b[0xCB] = 0;
         ((TProtocol *)TLobby__protocol_instance)->send_simple_mail(*(TChatMessage *)&t);
     }

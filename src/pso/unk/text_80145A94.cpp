@@ -24,7 +24,7 @@ saddr lbl_805D56C8;
 u16 lbl_805D56CC;
 u16 lbl_805D56CE;
 int keyboard_buffer_cursor; // stored only by TLobby_801461EC; placed here by the 8-byte .sbss boundary at 0x805D56D8
-s32 TLobby__sub_80145A94(void) {
+s32 load_network_info(void) {
     Buf_80145A94 buf;
     Ids_80145A94 ids = {0, 1};
     s32 res;
