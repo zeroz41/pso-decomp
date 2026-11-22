@@ -47,14 +47,14 @@ saddr TWindowCtrl__sub_8024B7D4(s32 n) {
     TWindowSimpleStatus *status;
     TObjPlayer *player;
 
-    if (TWindowCtrl__active_window == NULL) {
+    if (TWindowCtrl::instance == NULL) {
         return 0;
     }
     if (get_current_floor_area() == AREA_LOBBY) {
         return 0;
     }
     for (i = 0; i < 3; i++) {
-        status = TWindowCtrl__active_window->simple_status[i];
+        status = TWindowCtrl::instance->simple_status[i];
         if (status != NULL && status->sub_80244994() != 0 && n-- == 0) {
             player = (TObjPlayer *)get_player_by_client_id(((TWindowSimpleStatus *)status)->get_width());
             if (player == NULL) {

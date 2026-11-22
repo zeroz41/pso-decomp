@@ -14,19 +14,19 @@ extern u16 lbl_805D63FC;
 s32 get_multiplayer_controller_active_index(s32);
 
 void TWindowCtrl::clear_flag() {
-    if ((TWindowCtrl__active_window != NULL) && (TWindowCtrl__active_window->m_38 != 0U)) {
-        ((TWindowCtrl *)TWindowCtrl__active_window->m_38)->clear_flag1e_bit8();
+    if ((instance != NULL) && (instance->m_38 != 0U)) {
+        ((TWindowCtrl *)instance->m_38)->clear_flag1e_bit8();
     }
 }
 
 void TWindowCtrl__sub_8024A08C(void) {
     TObject *object;
     lbl_805D63FC &= 0xFFFFFFFD;
-    if (TWindowCtrl__active_window != NULL) {
-        object = (TObject *)TWindowCtrl__active_window->m_3c;
+    if (TWindowCtrl::instance != NULL) {
+        object = (TObject *)TWindowCtrl::instance->m_3c;
         if (object != NULL) {
             object->queue_destruction();
-            TWindowCtrl__active_window->m_3c = 0;
+            TWindowCtrl::instance->m_3c = 0;
         }
     }
 }

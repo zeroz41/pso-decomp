@@ -779,10 +779,10 @@ s32 get_camera_reset_button(s32 client_id) {
 }
 
 s32 TWindowCtrl::get_flag_bit3() {
-    if (TWindowCtrl__active_window == NULL) {
+    if (instance == NULL) {
         return 0;
     }
-    return ((u16)TWindowCtrl__active_window->flags >> 3U) & 1;
+    return ((u16)instance->flags >> 3U) & 1;
 }
 
 s32 TObjPlayer::is_flag_4000_set() { return check_flag(16384); }

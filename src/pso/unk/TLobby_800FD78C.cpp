@@ -52,14 +52,14 @@ s32 has_nonfinite_position(f32 *xz) {
 
 
 void TWindowCtrl::clear_flag_2() {
-    if (TWindowCtrl__active_window != NULL) {
-        TWindowCtrl__active_window->flags &= ~2;
+    if (instance != NULL) {
+        instance->flags &= ~2;
     }
 }
 
 void TWindowCtrl::set_close_flag() {
-    if (TWindowCtrl__active_window != NULL) {
-        TWindowCtrl__active_window->flags |= 2;
+    if (instance != NULL) {
+        instance->flags |= 2;
     }
 }
 

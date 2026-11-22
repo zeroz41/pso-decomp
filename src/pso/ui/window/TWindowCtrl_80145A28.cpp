@@ -3,8 +3,8 @@
 
 
 s32 TWindowCtrl::get_field24() {
-    if (TWindowCtrl__active_window == NULL) {
+    if (instance == NULL) {
         return -0x1600;
     }
-    return TWindowCtrl__active_window->m_24;
+    return instance->m_24;
 }

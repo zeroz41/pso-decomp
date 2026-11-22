@@ -108,8 +108,8 @@ TWindowCtrl::~TWindowCtrl() {
         ((TWindowBase *)self->f2C)->close();
         self->f2C = NULL;
     }
-    if (TWindowCtrl__active_window == this) {
-        TWindowCtrl__active_window = NULL;
+    if (instance == this) {
+        instance = NULL;
     }
 }
 
@@ -119,10 +119,10 @@ TWindowCtrl::TWindowCtrl(TObject *parent) : TObject(parent) {
     s32 i;
     void *p;
     self->name = TWindowCtrl__name;
-    if (TWindowCtrl__active_window != NULL) {
-        TWindowCtrl__active_window->queue_destruction();
+    if (instance != NULL) {
+        instance->queue_destruction();
     }
-    TWindowCtrl__active_window = this;
+    instance = this;
     self->f1C = 0;
     self->f1E = 0;
     self->f20 = 0;

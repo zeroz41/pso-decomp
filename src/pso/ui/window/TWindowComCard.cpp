@@ -347,7 +347,7 @@ void TWindowComCard__sub_80249D7C(u8 *arg0, s32 count) {
 #include "pso/ui/window/TWindowTradeRequest.h"
 #include "pso/system/NinjaTypes.h"
 
-TWindowCtrl *TWindowCtrl__active_window;
+TWindowCtrl *TWindowCtrl::instance;
 u16 lbl_805D63FC;
 extern "C" {
 typedef struct Parent_80249ED8 {
@@ -422,19 +422,19 @@ Win_80249ED8 *TWindowComCard__sub_80249ED8(Win_80249ED8 *o, Parent_80249ED8 *par
 
 void TWindowTradeRequest::close_request_window() {
     lbl_805D63FC &= 0xFFFFFFF7;
-    TWindowCtrl *controller = TWindowCtrl__active_window;
+    TWindowCtrl *controller = TWindowCtrl::instance;
     if (controller != NULL) {
         TWindowTradeRequest *request = controller->trade_request;
         if (request != NULL) {
             request->queue_destruction();
-            TWindowCtrl__active_window->trade_request = NULL;
+            TWindowCtrl::instance->trade_request = NULL;
         }
     }
 }
 
 void request_active_window_close(void) {
-    if ((TWindowCtrl__active_window != NULL) && (TWindowCtrl__active_window->m_38 != 0U)) {
-        ((TWindowCtrl *)TWindowCtrl__active_window->m_38)->set_flag1e_bit8();
+    if ((TWindowCtrl::instance != NULL) && (TWindowCtrl::instance->m_38 != 0U)) {
+        ((TWindowCtrl *)TWindowCtrl::instance->m_38)->set_flag1e_bit8();
     }
 }
 

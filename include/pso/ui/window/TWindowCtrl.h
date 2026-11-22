@@ -14,6 +14,7 @@ struct TWindowSimpleStatus;
 struct TWindowCtrl : public TObject {
     TWindowCtrl(TObject *parent);
     virtual ~TWindowCtrl();
+    static TWindowCtrl *instance;
     u16 flags;
     u16 m_1e;
     u16 m_20;
@@ -130,8 +131,6 @@ struct TWindowCtrl : public TObject {
 
 LAYOUT_ASSERT(WindowCtrlTradeRequestOffset, offsetof(TWindowCtrl, trade_request) == 0x40);
 LAYOUT_ASSERT(TWindowCtrl_size, sizeof(TWindowCtrl) == 0xE8);
-
-extern TWindowCtrl *TWindowCtrl__active_window;
 
 
 #endif

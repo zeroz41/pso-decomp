@@ -5,7 +5,7 @@
 
 
 void TWindowCtrl::dispatch_to_child(s32 client, s32 kind) {
-    uaddr *p = (uaddr *)TWindowCtrl__active_window;
+    uaddr *p = (uaddr *)instance;
     if (p != 0 && p[client + 18] != 0U) {
         ((TWindowCtrlMain *)p[client + 18])->spawn_palette_slot_light(kind);
     }

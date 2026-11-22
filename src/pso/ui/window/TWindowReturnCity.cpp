@@ -152,13 +152,13 @@ void TWindowReturnCity__sub_8026D4C0(void) { TWindowReturnCity__client_scan_inde
 
 
 void TWindowReturnCity::clear_flag_bit5() {
-    if (TWindowCtrl__active_window != NULL) {
-        TWindowCtrl__active_window->flags &= ~0x20;
+    if (TWindowCtrl::instance != NULL) {
+        TWindowCtrl::instance->flags &= ~0x20;
     }
 }
 
 void TWindowCtrl__sub_8026D4E8(void) {
-    if (TWindowCtrl__active_window != NULL) {
-        TWindowCtrl__active_window->flags |= 0x20;
+    if (TWindowCtrl::instance != NULL) {
+        TWindowCtrl::instance->flags |= 0x20;
     }
 }

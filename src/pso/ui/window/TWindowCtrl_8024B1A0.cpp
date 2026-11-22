@@ -25,11 +25,11 @@ s8 TUnk_804CF0B8::alloc_nearest_free_slot() {
     f32 dx;
     f32 dy;
     f32 d;
-    if (TWindowCtrl__active_window == NULL) {
+    if (TWindowCtrl::instance == NULL) {
         return 0;
     }
     if (get_flag_bit1() != 0) {
-        TWindowCtrl__active_window->flags |= 0x200;
+        TWindowCtrl::instance->flags |= 0x200;
         return 3;
     }
     mask = 0x40;
@@ -39,7 +39,7 @@ s8 TUnk_804CF0B8::alloc_nearest_free_slot() {
     bestd = lbl_805DCBE0;
     cy = (lbl_805DCBE4 * ((Win_8024B1A0 *)this)->h) + ((Win_8024B1A0 *)this)->y;
     do {
-        if (!(TWindowCtrl__active_window->flags & mask)) {
+        if (!(TWindowCtrl::instance->flags & mask)) {
             m = (NJS_POINT2 *)TWindowCtrl::get_message_by_type((s8)i, get_field_20());
             if (m != NULL) {
                 dx = cx - m->x;
@@ -57,21 +57,21 @@ s8 TUnk_804CF0B8::alloc_nearest_free_slot() {
     if (best == -1) {
         best = 3;
     }
-    TWindowCtrl__active_window->flags |= (0x40 << best);
+    TWindowCtrl::instance->flags |= (0x40 << best);
     return best;
 }
 #pragma pop
 
 void TWindowCtrl::set_field28(u16 arg0) {
-    if (TWindowCtrl__active_window != NULL) {
-        TWindowCtrl__active_window->window_id = arg0;
+    if (instance != NULL) {
+        instance->window_id = arg0;
     }
 }
 u16 TWindowCtrl::get_window_id() {
-    if (TWindowCtrl__active_window == NULL) {
+    if (instance == NULL) {
         return 0xFFFFU;
     }
-    return TWindowCtrl__active_window->window_id;
+    return instance->window_id;
 }
 
 }
@@ -91,9 +91,9 @@ s32 acquire_balloon_slot__11TWindowCtrlFPviiPv(TWindowCtrl *, u16, s32, s32);
 void TWindowCtrl::close_windows_by_flags(u16 arg0) {
     u32 i;
     void *w;
-    if (TWindowCtrl__active_window != NULL) {
+    if (instance != NULL) {
         for (i = 0; i < 4; i++) {
-            w = ((Ctrl_8024B328 *)TWindowCtrl__active_window)->win[i];
+            w = ((Ctrl_8024B328 *)instance)->win[i];
             if (w != NULL && ((TObject *)w)->all_parents_unqueued_for_destruction() != 0 && arg0 == ((TWindowCtrl *)w)->get_flags()) {
                 ((TWindowBase *)w)->close();
             }
@@ -104,9 +104,9 @@ void TWindowCtrl::close_windows_by_flags(u16 arg0) {
 void complete_actor_speech_balloons(u16 id) {
     u32 i;
     void *w;
-    if (TWindowCtrl__active_window != NULL) {
+    if (TWindowCtrl::instance != NULL) {
         for (i = 0; i < 4; i++) {
-            w = ((Ctrl_8024B3B4 *)TWindowCtrl__active_window)->win[i];
+            w = ((Ctrl_8024B3B4 *)TWindowCtrl::instance)->win[i];
             if (w != NULL && ((TObject *)w)->all_parents_unqueued_for_destruction() != 0 && id == ((TWindowCtrl *)w)->get_flags()) {
                 complete_speech_balloon((u8 *)w);
             }
@@ -117,11 +117,11 @@ void complete_actor_speech_balloons(u16 id) {
 s32 is_actor_speech_balloon_done(u16 id) {
     u32 i;
     void *w;
-    if (TWindowCtrl__active_window == NULL) {
+    if (TWindowCtrl::instance == NULL) {
         return 1;
     }
     for (i = 0; i < 4; i++) {
-        w = ((Ctrl_8024B440 *)TWindowCtrl__active_window)->win[i];
+        w = ((Ctrl_8024B440 *)TWindowCtrl::instance)->win[i];
         if (w != NULL && ((TObject *)w)->all_parents_unqueued_for_destruction() != 0 && id == ((TWindowCtrl *)w)->get_flags() && is_speech_balloon_ready((u8 *)w) == 0) {
             return 0;
         }
@@ -131,10 +131,10 @@ s32 is_actor_speech_balloon_done(u16 id) {
 
 s32 TWindowCtrl::open_balloon(u16 player, u8 *arg1, s32 flags, s32 arg3) {
     saddr temp_r3;
-    if (TWindowCtrl__active_window == 0U) {
+    if (instance == 0U) {
         return 0;
     }
-    temp_r3 = acquire_balloon_slot__11TWindowCtrlFPviiPv(TWindowCtrl__active_window, player, flags, arg3);
+    temp_r3 = acquire_balloon_slot__11TWindowCtrlFPviiPv(instance, player, flags, arg3);
     if (temp_r3 == 0) {
         return 0;
     }

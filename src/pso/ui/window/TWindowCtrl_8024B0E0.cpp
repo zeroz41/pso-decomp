@@ -28,10 +28,10 @@ saddr TWindowCtrl::get_message_by_type(s8 arg0, s32 client_id) {
 void TWindowCtrl::release_slot(s8 *arg0) {
     s8 temp_r4;
 
-    if (TWindowCtrl__active_window != NULL) {
+    if (instance != NULL) {
         temp_r4 = *arg0;
         if ((temp_r4 >= 0) && (temp_r4 < 4)) {
-            TWindowCtrl__active_window->flags &= ~(0x40 << temp_r4);
+            instance->flags &= ~(0x40 << temp_r4);
             *arg0 = -1;
         }
     }

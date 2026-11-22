@@ -3,7 +3,7 @@
 
 
 saddr TWindowCtrl::get_window(s32 client_id) {
-    if (TWindowCtrl__active_window == NULL) {
+    if (instance == NULL) {
         return 0;
     }
     if (client_id < 0) {
@@ -12,5 +12,5 @@ saddr TWindowCtrl::get_window(s32 client_id) {
     if (client_id >= 0xC) {
         return 0;
     }
-    return ((saddr *)((s8 *)TWindowCtrl__active_window + 0x48))[client_id];
+    return ((saddr *)((s8 *)instance + 0x48))[client_id];
 }
