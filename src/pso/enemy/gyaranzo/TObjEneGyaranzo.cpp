@@ -50,6 +50,7 @@
 #include "pso/object/TObjChip.h"
 
 #include "pso/system/BmlResource.h"
+#include "pso/object/ambient/TObjFish_8001ED90.h"
 
 #include "pso/system/BmlResourceDescriptor.h"
 
@@ -335,7 +336,7 @@ struct VObj_800D3BA0_800D3B38 : Base_800D3BA0_800D3B38 {
 
 // The motion-binding block TLobby::spawn_npc_enemy takes (same layout as MojaAnimationBinding).
 
-struct Res_800D3C04 { u8 pad0[0x38]; s32 r38; NJS_TEXLIST *texlist; u8 pad40[8]; s32 r48; };
+struct Res_800D3C04 { u8 pad0[0x38]; uaddr r38; NJS_TEXLIST *texlist; u8 pad40[8]; s32 r48; };
 
 struct Area_800D3C04 { u8 pad0[0x42C]; Res_800D3C04 *res; BmlMotionEntry *motions; };
 
@@ -349,7 +350,6 @@ s32 is_split_screen();
 
 
 
-s32 get_bml_motion(u32, int);
 
 
 
@@ -581,7 +581,7 @@ void TLobby::load_gyaranzo_resources() {
     }
     (*(s32 *)&lbl_805D5200) = (s32)find_model_node(AREA->res->r38, 0x19);
     (*(s32 *)&lbl_805D5204) = (s32)find_model_node(AREA->res->r38, 0xD);
-    p = new TUnk_8048FA00((int)AREA->res->r38, (int)get_bml_motion(gyaranzo_bml_resource, 3), 54.0f);
+    p = new TUnk_8048FA00((NJS_OBJECT *)AREA->res->r38, (NJS_MOTION *)get_bml_motion((BmlResource *)gyaranzo_bml_resource, 3), 54.0f);
     (*(struct VObj_800D3BA0_800D3B38 * *)&gyaranzo_breakup_model_obj) = (VObj_800D3BA0_800D3B38 *)p;
     gyaranzo_boss_stats_handle = (saddr)TLobby::register_boss(0x1D);
     gyaranzo_boss_stats_ptr_b = (saddr)TLobby::dispatch_shared_handler_b(0x1D);

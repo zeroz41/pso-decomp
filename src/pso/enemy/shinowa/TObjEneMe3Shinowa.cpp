@@ -229,7 +229,7 @@ void load_shinowa_mirage_resources() {
         lbl_80501000[2] = NULL;
     }
     motion = TObjEneMe3ShinowaMirage__data_805D5298->motions[shinowa_mirage_motion_param_table[4].motion].motion;
-    TUnk_8048FA00 *breakup = new TUnk_8048FA00((int)TObjEneMe3ShinowaMirage__data_805D5298->models->model, (int)motion, motion->frameCount - 1);
+    TUnk_8048FA00 *breakup = new TUnk_8048FA00(TObjEneMe3ShinowaMirage__data_805D5298->models->model, (NJS_MOTION *)motion, motion->frameCount - 1);
     TObjEneMe3ShinowaMirage__data_805D52A0 = breakup;
     {
         Vec first;
