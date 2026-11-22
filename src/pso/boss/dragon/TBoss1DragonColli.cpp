@@ -28,61 +28,20 @@ const char *TBoss1DragonColli_C__name = "TBoss1DragonColli_C";
 
 const char *TBoss1DragonColli__name = "TBoss1DragonColli";
 
-struct E_8002B3F4 { u8 pad[0x18]; u32 flags; u8 pad2[0x2c - 0x1c]; };
-
-struct O_8002B3F4 { u8 pad[0xa4]; E_8002B3F4 *elems; s32 count; };
-
-struct E_8002B42C { u8 pad[0x18]; u32 flags; u8 pad2[0x2c - 0x1c]; };
-
-struct O_8002B42C { u8 pad[0xa4]; E_8002B42C *elems; s32 count; };
-
-struct O_8002B3F4;
-
-struct E_8002B4CC { f32 x, y, z, w; u8 pad10[8]; u32 flags; u8 pad1c[0x2c - 0x1c]; };
-
-struct O_8002B4CC {
-    const char *name;
-    u8 pad4[0x18 - 4];
-    void *vt;
-    s16 f1c;
-    u8 pad1e[0xa4 - 0x1e];
-    E_8002B4CC *elems;
-    s32 count;
-    u8 pos[0xc];
-};
-extern "C" {
-
-u16 register_entity_by_id(void *ov);
-
-extern CollisionBody TBoss1DragonColli_sphere_chain_desc;
-}
-
 #include "pso/boss/dragon/TBoss1DragonDemo.h"
 
 #include "pso/unk/TLobby.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
 #pragma inline_depth(1)
 
 #pragma auto_inline off
 
 #pragma dont_inline off
-extern "C" {
-
-void TBoss1DragonColli__sub_8002B35C(void* p);
-
-int matrix_mult_vec(void*, void*, void*);
-
-int post_translate_matrix(void*);
-
-s32 free_collision_body_parts(void *);
-
-void set_matrix_identity(u8 *arg0);
-
-int rotate_matrix_y(void*, void*);
-
-
-}
 
 CollisionBody TBoss1DragonColli_sphere_chain_desc = {
     {0.0f, 0.0f, 0.0f}, 25.0f, 0.0f, 0, 0x8003,
@@ -96,61 +55,69 @@ void copy_collision_body(CollisionBody *dst, const CollisionBody *src) {
 }
 
 #pragma pop
-#define self ((O_8002B4CC *)this)
-TBoss1DragonColli_C::TBoss1DragonColli_C(TObject *parent, s32 arg2, Vec *arg3, f32 scale) : TObjCollidable(parent) {
-    E_8002B4CC *e;
+TBoss1DragonColli_C::TBoss1DragonColli_C(TObject *parent, s32 count, Vec *pos, f32 scale) : TObjCollidable(parent) {
+    CollisionBody *e;
     s32 i;
     f32 zero;
     f32 step;
     f32 z;
-    self->name = TBoss1DragonColli_C__name;
-    VecCopy((Vec *)self->pos, arg3);
-    self->f1c = TLobby::alloc_actor_ids(0);
-    self->count = arg2;
-    self->elems = (E_8002B4CC *)mem_alloc(self->count * 0x2C);
+    this->m_name = TBoss1DragonColli_C__name;
+    VecCopy(&this->local_position, pos);
+    this->entity_id = TLobby::alloc_actor_ids(0);
+    this->body_count = count;
+    this->bodies = (CollisionBody *)mem_alloc(this->body_count * sizeof(CollisionBody));
     step = 2.0f * scale;
-    e = self->elems;
+    e = this->bodies;
     zero = 0.0f;
-    z = scale * (self->count - 1);
-    for (i = 0; i < self->count; i++) {
-        copy_collision_body((CollisionBody *)e, &TBoss1DragonColli_sphere_chain_desc);
-        e->x = zero;
-        e->y = zero;
-        e->z = z;
+    z = scale * (this->body_count - 1);
+    for (i = 0; i < this->body_count; i++) {
+        copy_collision_body(e, &TBoss1DragonColli_sphere_chain_desc);
+        e->offset.x = zero;
+        e->offset.y = zero;
+        e->offset.z = z;
         z -= step;
-        e->w = scale;
+        e->radius = scale;
         e->flags = 0x10003;
         e++;
     }
-    ((TObjCollidable *)self)->refresh_collision_body_centers();
-    register_entity_by_id(self);
-    ((TBoss1DragonColli_C *)self)->clear_segment_flags();
+    this->refresh_collision_body_centers();
+    register_entity_by_id(this);
+    this->clear_segment_flags();
 }
 
-#undef self
 TBoss1DragonColli_C::~TBoss1DragonColli_C() {
     unregister_object_by_id();
     free_collision_body_parts(this);
 }
 
-void TBoss1DragonColli::set_elem_flags() {
+void TBoss1DragonColli_C::set_segment_flags() {
     s32 i;
-    for (i = 0; i < ((O_8002B42C *)this)->count; i++) {
-        ((O_8002B42C *)this)->elems[i].flags |= 1;
+    for (i = 0; i < this->body_count; i++) {
+        this->bodies[i].flags |= 1;
     }
 }
 
 void TBoss1DragonColli_C::clear_segment_flags() {
-    O_8002B3F4 *self = (O_8002B3F4 *)this;
     s32 i;
     for (i = 0; i < this->body_count; i++) {
-        self->elems[i].flags &= ~1;
+        this->bodies[i].flags &= ~1;
     }
 }
 
-void TBoss1DragonColli::draw(void* a1, void* a2) { push_matrix(); set_matrix_identity((u8 *)((void*)0)); post_translate_matrix(a1); rotate_matrix_y((void*)0, a2); matrix_mult_vec((void*)0, (char*)this + 0xac, (char*)this + 0x38); pop_matrix(); *(void**)((char*)this + 0x60) = a2; ((TObjCollidable *)this)->refresh_collision_body_centers(); set_elem_flags(); }
+// Places the chain at local_position from pos turned by angle and enables its bodies.
+void TBoss1DragonColli_C::enable_at(Vec *pos, s32 angle) {
+    push_matrix();
+    set_matrix_identity(NULL);
+    post_translate_matrix(&pos->x);
+    rotate_matrix_y(NULL, angle);
+    matrix_mult_vec(NULL, &this->local_position, &this->position);
+    pop_matrix();
+    this->rotation_y = angle;
+    this->refresh_collision_body_centers();
+    this->set_segment_flags();
+}
 
-void TBoss1DragonColli__sub_8002B35C(void* p) { ((TBoss1DragonColli_C *)p)->clear_segment_flags(); }
+void TBoss1DragonColli_C::disable() { this->clear_segment_flags(); }
 
 void TBoss1DragonColli_C::render() {  }
 

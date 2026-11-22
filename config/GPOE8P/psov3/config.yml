@@ -319,7 +319,7 @@ force_active:
   - update_controlled_stand_state__12TBoss1DragonFUl
   - handle_spiral_state__12TBoss1DragonFUl
   - update_stand_state__12TBoss1DragonFUl
-  - update_start_state__12TBoss1DragonFUl
+  - update_idle_state__12TBoss1DragonFUl
   - clamp_step_in_radius__12TBoss1DragonFfff
   - update_flap_effect__12TBoss1DragonFv
   - setup_v2_instance__12TBoss1DragonFP3VecPUcl
@@ -7011,7 +7011,7 @@ force_active:
   - start_retreat__16TObjEneMerillLiaFv
   - init_attack_timer__11TBoss6Type1Fv
   - init_attack_timers__11TBoss6Type1Fv
-  - init_base__13TUnk_80481B34Fv
+  - __ct__13TUnk_80481B34FP7TObjectP8TObjBase
   - init_base__27TOHangceilingCave01KeyQuickFll
   - init_battle_round__17TPlayerBattleCtrlFv
   - init_body_sub__14TObjEneDolmOlmFv
@@ -15453,7 +15453,7 @@ force_active:
   - set_draw_mode__15TObjEneDelDepthFl
   - set_effect_pos_above_self__16TObjEneDellBiterFv
   - set_effect_pos_above_self__17TObjEneDf2BringerFv
-  - set_elem_flags__17TBoss1DragonColliFPv
+  - set_segment_flags__19TBoss1DragonColli_CFv
   - set_enemy_mode_0__22THunterGuildSeqOfflineFv
   - set_entered_name__17TObjItemNameEntryFPCc
   - set_entry_item__18TChallenge4PResultFPvl

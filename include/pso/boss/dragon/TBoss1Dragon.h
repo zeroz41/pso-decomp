@@ -146,7 +146,7 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     s32 crater_count;  // craters spawn_impact_crater has placed (at most 12)
     f32 sector_radii[12];
     TObjBoss1MokoHill_SoloM *moko_hill; // the mound that follows the Dragon underground
-    s32 burrow_count;  // burrow runs so far; calc_burrow_speed grows with it
+    s32 burrow_run_count;  // burrow runs so far; calc_burrow_speed grows with it
     s32 lobby_state_locked;  // while set, run_task stops refreshing lobby_state
     DragonControllerInput *controller_input;
     RenderFadeState viewFade[4];
@@ -164,7 +164,7 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     s32 stateStep;
     s32 impactAge;
     s32 action_frames;  // frames into the current action step (twin TBoss8Dragon::action_frames)
-    s32 demo_active;  // the flag TBoss1DragonDemo clears when the opening demo ends
+    s32 demo_flag;  // the flag TBoss1DragonDemo clears when the opening demo ends
     s32 action_angle;  // the heading the current action turns to
     s32 action_spin;  // the spinning attack's heading; the dive's roll speed
     f32 fallVelocity;
@@ -268,7 +268,7 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     void update_controlled_stand_state(u32 reason);
     void handle_spiral_state(u32 reason);
     void update_stand_state(u32 reason);
-    void update_start_state(u32 reason);
+    void update_idle_state(u32 reason);
     f32 clamp_step_in_radius(f32 dir_x, f32 dir_z, f32 step);
     void update_flap_effect();
     void apply_trail_attack();
@@ -291,7 +291,7 @@ LAYOUT_ASSERT(DragonModelNodeChild, offsetof(DragonModelNode, child) == 0x2C);
 DRAGON_OFFSET(target_id, 0x38C);
 DRAGON_OFFSET(breath_origin, 0x40C);
 DRAGON_OFFSET(breath_effect_position, 0x424);
-DRAGON_OFFSET(demo_active, 0x870);
+DRAGON_OFFSET(demo_flag, 0x870);
 DRAGON_OFFSET(breath_particles, 0x8AC);
 DRAGON_OFFSET(action_speed, 0x884);
 DRAGON_OFFSET(wall_reach, 0x37C);
