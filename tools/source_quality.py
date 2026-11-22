@@ -1103,7 +1103,7 @@ def tree_report(repo: Repo, rev: str, top: int) -> dict:
         found = related.get(rel, [])
         totals.update(scan.counts)
         totals.update(f.key for f in found)
-        per_file[rel] = sum(scan.counts.values()) + len(found)
+        per_file[rel] = sum(scan.counts.values()) + sum(f.key not in OWNERSHIP for f in found)   # debt only
     return {"revision": rev, "files": len(scans), "total": sum(totals[p.key] for p in CATALOG),
             "categories": [{**_row(p.key), "count": totals[p.key]} for p in CATALOG],
             "ownership": [{**_row(k), "count": totals[k]} for k in OWNERSHIP],
