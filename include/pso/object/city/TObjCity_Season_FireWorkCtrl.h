@@ -8,10 +8,13 @@ struct TObjCity_Season_FireWorkCtrl : public TObjBase {
     TObjCity_Season_FireWorkCtrl(TObject *parent, void *set_data);
     virtual ~TObjCity_Season_FireWorkCtrl();
     virtual void vfunc_13(s32);
+    // Draws the area the fireworks start in as a debug box (name inferred).
     void sub_8018355C();
     virtual void run_task();
 
-    s32 unk_90;
+    // Frames until the next firework: run_task counts it down and rolls a new
+    // delay from set_params[0] (name inferred).
+    s32 spawn_delay;
 };
 
 LAYOUT_ASSERT(TObjCity_Season_FireWorkCtrl_size, sizeof(TObjCity_Season_FireWorkCtrl) == 0x94);

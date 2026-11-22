@@ -218,7 +218,7 @@ void TObjMapWarp__sub_80141CA4(void *self) { *(s32 *)self = 0; }
 // Debug-draw entry points; their bodies are compiled out of the release game.
 void debug_draw_line(const Vec *from, const Vec *to, u32 from_color, u32 to_color) {}
 void fn_80141CB4(void) {}
-void fn_80141CB8(void) {}
+void fn_80141CB8(const Vec *pos, const s32 *rotation, const Vec *size, const NJS_ARGB *color) {}
 
 void debug_draw_uniform_scaled(const Vec *pos, const NJS_ARGB *color, f32 size) {
     Vec scale;
