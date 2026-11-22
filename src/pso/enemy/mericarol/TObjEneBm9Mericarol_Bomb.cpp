@@ -120,7 +120,7 @@ void TObjEneBm9Mericarol_Bomb::run_task() {
         }
         bodies->offset.y = d;
         if (this->vfunc_16(&this->attack_power, &this->attack_type) != 0) {
-            ((TObjEneBm9Mericarol *)(find_entity_by_id(owner_id)))->sub_802CED40();
+            ((TObjEneBm9Mericarol *)(find_entity_by_id(owner_id)))->notify_bomb_hit();
             if (attack_type == 0 && this->final_blast != 0) {
                 attack_type = 0x12;
                 this->vfunc_16(&this->attack_power, &this->attack_type);

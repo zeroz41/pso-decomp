@@ -68,7 +68,7 @@ void TTecKafun::vfunc_6(void *target) {
     }
 }
 
-void TTecKafun::create(saddr source, saddr pos, s32 kind, s32 effect, s32 second_effect, s32 level, f32 value, f32 radius) {
+void TTecKafun::create(saddr source, saddr pos, s32 kind, s32 effect, s32 second_effect, f32 value, s32 level, f32 radius) {
     new TTecKafun(source, (Vec *)pos, kind, effect, second_effect, level, value, radius);
 }
 

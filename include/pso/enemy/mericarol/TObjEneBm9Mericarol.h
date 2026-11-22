@@ -19,6 +19,7 @@ struct TObjEneBm9MericarolMovementParameters {
 };
 
 class TObjPlayer;
+class TParticleCtrl;
 
 struct TObjEneBm9MericarolParams {
     f32 attack_power;         // the swipe's DirectAttackPayload power
@@ -51,36 +52,44 @@ struct TObjEneBm9Mericarol : public TObjEneDD_ST {
     s32 get_phase();
     void init_size_tier_and_offsets();
     TObjPlayer *find_nearby_target();
-    s32 try_set_mode8_if_flag2();
+    // flags 0x2 (its bomb hit): laugh (state 8) instead; the Re2 Flower twin's check_hit_flag.
+    s32 check_hit_flag();
     void sync_center_position();
     static void load_resources();
     static void free_shared_instances();
     static void *create(void *set_data);
     static void update_particle_effect(NJS_OBJECT *);
-    // inferred: footstep sound plus splash or dust on frames 5, 15 and 25 of a step.
-    void sub_802CE510();
+    // inferred: footstep sound plus splash or dust on frames 5, 15 and 25 of a rush step (Dell Biter's
+    // play_step_effect shape).
+    void play_step_effect();
     void get_node_position(Vec *out, s32 node);
-    void sub_802CED40();
+    // The bomb sets flags 0x2 on its owner when it hits (the Re2 Flower twin's notify_bomb_hit).
+    void notify_bomb_hit();
     s32 get_clamped_level();
-    // dispatch_action's states 1, 3, 5, 6, 7, 9 and 10; named by the motions they request (fire, atack,
-    // damage) and what they do (TTecKafun cast, EffCurse3 plus set_tp(0), the 200-unit rush).
+    // dispatch_action's states 0-12, named by the motions they request through mericarol_motion_actions
+    // (atack0 damage1 dead2 fire3 laugh4 wait5 wait2_6 wake7) and what they do, with the Re2 Flower
+    // twin's names: hidden 0, fade_in 1, wait 2, chase_target 3, shoot 4 (fire, the bomb), attack 5
+    // (atack), rush 6 (the 200-unit rush), curse 7 (EffCurse3 plus set_tp(0)), laugh 8, cast_technique 9
+    // (TTecKafun), damaged 10, die 11 (dead, sinks), destroy 12.
     void state_cast_technique(s32 reason);
-    void handle_motion_event(s32 arg1);
-    void handle_state_message(s32 msg);
-    void state_burrow(s32 reason);
-    void handle_event(s32 arg1);
-    void handle_action(s32 arg1);
+    void state_laugh(s32 reason);
+    void state_destroy(s32 reason);
+    void state_die(s32 reason);
+    void state_wait(s32 reason);
+    void state_hidden(s32 reason);
     void state_damaged(s32 reason);
     void state_curse(s32 reason);
     s32 check_attack_hits();
     void state_rush(s32 reason);
     void state_attack(s32 reason);
-    void handle_shot_state(s32 reason);
+    void state_shoot(s32 reason);
     void state_chase_target(s32 reason);
     void state_fade_in(s32 reason);
-    void sub_802D073C();
-    void sub_802D093C();
-    void sub_802D0940();
+    // The persistent move sound of the walking states (Bringer's play_move_sound shape).
+    void play_move_sound();
+    // Empty here; the Re2 Flower twin's states call its clear/set_child_flags at the same points.
+    void clear_child_flags();
+    void set_child_flags();
     TUnk_80494968 *trails[2];          // fed the two sampled arm points each swipe frame
     RenderFadeState camera_fades[4];   // one per split-screen camera
     u32 flags;                         // 0x10 while it has a target, 0x400 for the rare colour
@@ -90,8 +99,8 @@ struct TObjEneBm9Mericarol : public TObjEneDD_ST {
     f32 technique_chance;              // chance to cast (state 9) instead of swiping
     s32 m_44c;
     s32 retarget_counter;              // tick_period_counter of the chase's target search
-    s32 m_454;
-    s32 m_458;
+    s32 hit_cooldown;                  // only zeroed here; the Re2 Flower twin's hit cooldown
+    s32 blink_level;                   // only zeroed here; the Re2 Flower twin's blink level
     s32 phase;                         // 0..2: param table and texture set
     Vec shot_origin;                   // node 0x43, where the bomb starts
     TUnk_80494938 appear_fade;
@@ -104,7 +113,7 @@ struct TObjEneBm9Mericarol : public TObjEneDD_ST {
     s32 target_angle;                  // rotation_y turns toward it
     f32 slide_speed;                   // the rush's slowing speed; the death sink depth
     f32 rush_distance;                 // the rush stops at 200
-    TObject *m_4ac;
+    TParticleCtrl *charge_effect;      // destroyed when the shot ends, as the Re2 Flower twin's
 };
 
 extern TObjEneBm9MericarolParams *mericarol_phase_param_table[3];
