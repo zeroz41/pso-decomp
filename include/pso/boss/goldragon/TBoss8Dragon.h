@@ -135,11 +135,6 @@ public:
     static s32 copy_pos_to_field688(void *p);
     void spawn_switch_attack();
     void spawn_attack_effect();
-    void run_default_state();
-    void update_state_3();
-    void set_state_2();
-    void attack_default();
-    void query_default();
     void copy_action_state(u8 *arg1);
     static s32 spawn_ground_lightning(s32 arg0, saddr arg1, s32 rotation_y);
     static void set_default_on_state0();

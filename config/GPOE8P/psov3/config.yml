@@ -468,8 +468,8 @@ force_active:
   - TBoss8Dragon__sub_8006435C
   - TBoss8Dragon__sub_8006442C
   - TBoss8Dragon__sub_800646F0
-  - TBoss8Dragon__sub_80064828
-  - TBoss8Dragon__sub_800648C8
+  - fn_80064828__13TBoss5GryphonFv
+  - fn_800648C8__13TBoss5GryphonFv
   - TBoss8Dragon__sub_80064AB0
   - TBoss8Dragon__sub_80064DB8
   - TBoss8Dragon__sub_80064E3C
@@ -4154,7 +4154,7 @@ force_active:
   - at_end__24TMessageWindowControllerFv
   - attach_mine_trap__10TObjPlayerFiUi
   - attach_model__13TParticleCtrlFllllf
-  - attack_default__12TBoss8DragonFv
+  - attack_default__13TBoss5GryphonFv
   - attack_target__15TObjIllGillKageFv
   - attack_target_history_contains__FPvPv
   - attack_visible_players__17TObjEneDf2BringerFv
@@ -5994,7 +5994,7 @@ force_active:
   - emit_marker_effects__13TUnk_804A6DC0Fv
   - emit_marker_effects__13TUnk_804ECDC0Fv
   - emit_marker_effects__13TUnk_804F1320Fv
-  - emit_part_attack_effect__13TBoss5GryphonFPvi
+  - emit_part_attack_effect__13TBoss5GryphonFi
   - emit_photon_blast_feedback_effects__Fll
   - emit_player_model_particle__Fllll
   - emit_player_sprite_particle__Flll
@@ -13899,7 +13899,7 @@ force_active:
   - qst_cstring_buffer
   - qst_label_address__Fi
   - query_battle_state__17TWindowReturnCityFv
-  - query_default__12TBoss8DragonFv
+  - query_default__13TBoss5GryphonFv
   - query_status_field__20TWindowSubStatusDispFPvSc
   - quest_bgm_area_filename_table
   - quest_bgm_carnaval_filename
@@ -14733,7 +14733,7 @@ force_active:
   - run_active_state__18TObjEneBalClawClawFv
   - run_and_return_arg__10TObjPlayerFl
   - run_confirm_message_loop__15TObjBoss2TunnelFv
-  - run_default_state__12TBoss8DragonFv
+  - run_default_state__13TBoss5GryphonFv
   - run_demo_task__16TObjEneNanoDragoFv
   - run_floor_cleanup_callbacks__6TLobbyFi
   - run_floor_initialize_callbacks__Fl
@@ -15616,7 +15616,7 @@ force_active:
   - set_state4_if_ready__14TBoss6PlotFalzFv
   - __ct__13TUnk_804A6010FP7TObjectPUc
   - set_state_0x34__11TBoss6Type2Fv
-  - set_state_2__12TBoss8DragonFv
+  - set_state_2__13TBoss5GryphonFv
   - set_state__15TObjEneSlimeOneFl
   - set_state__16TAdChrSelASlotGCFv
   - set_state__21TAdMultiChgGameModeGCFl
@@ -17250,7 +17250,7 @@ force_active:
   - update_stat_line_if_positive__20TWindowSubStatusDispFPvi
   - update_stat_messages__17TWindowSetLevelUpFv
   - update_state3__10TBoss4ZakoFPv
-  - update_state_3__12TBoss8DragonFv
+  - update_state_3__13TBoss5GryphonFv
   - update_state__10TObjMapCsnFv
   - update_state__11TBoss6Type1Fv
   - update_state__12TObjNpcEnemyFv
