@@ -11,10 +11,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 
-struct T_8029BCB4 { f32 v[8]; };
-
 extern "C" {
-extern T_8029BCB4 TAdRayGC_ray_quad_table[4];
+extern f32 TAdRayGC_ray_quad_table[4][8];
 uaddr TAdRayGC__ray_texture_list;
 
 void TAdRayGC::draw_ray_quads(s32 frame, s32 color, s32 side) {
@@ -27,7 +25,7 @@ void TAdRayGC::draw_ray_quads(s32 frame, s32 color, s32 side) {
             begin_screen_draw(1);
             TObjFish::set_global_param(TAdRayGC__ray_texture_list);
             set_draw_texture_and_color(texture, color);
-            draw_textured_quad_at_depth(TAdRayGC_ray_quad_table[i].v, 0.007142857f);
+            draw_textured_quad_at_depth(TAdRayGC_ray_quad_table[i], 0.007142857f);
             TWindowSubStatusDisp::get_player();
         }
         break;
@@ -37,7 +35,7 @@ void TAdRayGC::draw_ray_quads(s32 frame, s32 color, s32 side) {
             begin_screen_draw(1);
             TObjFish::set_global_param(TAdRayGC__ray_texture_list);
             set_draw_texture_and_color(texture, color);
-            draw_textured_quad_at_depth(TAdRayGC_ray_quad_table[i].v, 0.007142857f);
+            draw_textured_quad_at_depth(TAdRayGC_ray_quad_table[i], 0.007142857f);
             TWindowSubStatusDisp::get_player();
         }
         break;
@@ -146,7 +144,7 @@ TexName_804DC0F8 lbl_804DC0F8[40] = {
 };
 __declspec(section ".data") TexList_804DC2D8 lbl_804DC2D8 = { lbl_804DC0F8, 40 };
 
-T_8029BCB4 TAdRayGC_ray_quad_table[4] = {
+f32 TAdRayGC_ray_quad_table[4][8] = {
     { 0.0f, 0.0f, 319.0f, 239.0f, 0.0f, 0.0f, 1.0f, 1.0f },
     { 0.0f, 479.0f, 319.0f, 240.0f, 0.0f, 0.0f, 1.0f, 1.0f },
     { 320.0f, 0.0f, 639.0f, 239.0f, 0.0f, 0.0f, 1.0f, 1.0f },
