@@ -521,11 +521,11 @@ void TObjEneBm5GibonU::state_cast_technique(s32 msg) {
                         break;
                     default:
                         if (r < ((AttackParams *)m_318)->get_attack_angle() / 2 && current_target != 0) {
-                            clear_target_cursor_list((TargetCursorList *)&m_4b0);
-                            m_4b0 = 1;
-                            m_4b4 = get_entity_id((saddr)current_target);
-                            m_4b6 = 0;
-                            TTecGiZonde::create(this, &p, &m_4b0, get_clamped_level());
+                            clear_target_cursor_list(&targets);
+                            targets.count = 1;
+                            targets.records[0].id = get_entity_id((saddr)current_target);
+                            targets.records[0].flag = 0;
+                            TTecGiZonde::create(this, &p, &targets, get_clamped_level());
                         } else {
                             void *e;
                             spawn_particle_effect(&p, 0xB9);
@@ -2057,7 +2057,6 @@ TObjEneBm5GibonU *TObjEneBm5GibonU::find_enemy_by_id(s32 id) {
 TObjEneBm5GibonU::TObjEneBm5GibonU(TObject *parent, void *set_data) : TObjEneDD_ST(parent) {
     s32 i;
     s32 b;
-    __ct__16TargetCursorListFv(&m_4b0);
     this->m_name = TObjEneBm5GibonU__class_name;
     this->invoke_initialization_hook(set_data);
     this->sub_800D10A0();

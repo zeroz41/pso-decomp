@@ -8,6 +8,7 @@ struct NJS_OBJECT;
 #include "dolphin/mtx.h"
 #include "pso/render/RenderFadeState.h"
 #include "pso/render/TUnk_80494938.h"
+#include "pso/player/TargetCursorList.h"
 
 struct TObjPlayer;
 struct TObjEneBm5GibonU;
@@ -79,10 +80,7 @@ struct TObjEneBm5GibonU : public TObjEneDD_ST {
     f32 m_4a4;
     f32 m_4a8;
     s32 m_4ac;
-    s32 m_4b0;
-    s16 m_4b4;
-    s16 m_4b6;
-    u8 unk_4B8[0x54];
+    TargetCursorList targets;
     TObjCollidable *m_50c;
     s32 m_510;
     u16 m_514;
