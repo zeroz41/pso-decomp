@@ -309,9 +309,9 @@ struct Obj_8005D708 {
     f32 f354;
     f32 f358;
 };
-const f32 gryphon_max_floor_height = 6.0f;
 typedef void (TBoss5Gryphon::*StateAction)(int);
 }
+const f32 gryphon_max_floor_height = 6.0f;
 #pragma push
 #pragma inline on
 extern "C" {
