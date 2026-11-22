@@ -97,35 +97,33 @@ f32 rand_signed_unit(void) {
     return 2.0f * ((3.0517578e-05f * (f32) rand()) - 0.5f);
 }
 
-f32 lerp__9TDeadSpotFff(f32 farg0, f32 farg1) {
-    return ((farg1 - farg0) * (3.0517578e-05f * (f32) rand())) + farg0;
+f32 lerp__9TDeadSpotFff(f32 lo, f32 hi) {
+    return ((hi - lo) * (3.0517578e-05f * (f32) rand())) + lo;
 }
 
 #pragma pop
-f32 apply_velocity_scale(Vec *vector, f32 farg0, f32 farg1) {
-    f32 temp_f1;
-    f32 temp_f1_2;
-    f32 temp_f2;
-    f32 var_f31;
-    s32 temp_r31;
+f32 apply_velocity_scale(Vec *vector, f32 radius, f32 height) {
+    f32 distance;
+    f32 scale;
+    f32 s;
+    s32 angle;
 
-    temp_f1 = normalize_vector_xz(vector);
-    if (temp_f1 > farg0) {
-        var_f31 = 0.0f;
-        vector->x = var_f31;
+    distance = normalize_vector_xz(vector);
+    if (distance > radius) {
+        scale = 0.0f;
+        vector->x = scale;
         vector->y = 1.0f;
-        vector->z = var_f31;
+        vector->z = scale;
     } else {
-        temp_r31 = (s32) (32768.0f * (temp_f1 / farg0));
-        var_f31 = farg1 * (1.0f + cos_table_lookup(temp_r31));
-        temp_f1_2 = sin_table_lookup(temp_r31);
-        temp_f2 = vector->x * temp_f1_2;
-        vector->x = temp_f2;
+        angle = (s32) (32768.0f * (distance / radius));
+        scale = height * (1.0f + cos_table_lookup(angle));
+        s = sin_table_lookup(angle);
+        vector->x *= s;
         vector->y = 1.0f;
-        vector->z = vector->z * temp_f1_2;
-        normalize_vector_safe((Vec *)vector);
+        vector->z *= s;
+        normalize_vector_safe(vector);
     }
-    return var_f31;
+    return scale;
 }
 
 f32 apply_default_velocity_scale(Vec *vector) {

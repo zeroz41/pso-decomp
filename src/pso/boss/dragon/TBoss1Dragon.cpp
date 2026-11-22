@@ -283,7 +283,6 @@ void handle_6x11_dragon_boss_actions(void *packet);
 void handle_6x10_dragon_boss_actions(void *packet);
 extern s32 enable_v2_features;
 static const f64 boss1_dragon_angle_units_per_radian = 10430.38043493439;
-extern void *lbl_805D28BC;
 struct Pkt_800284B4 {
     u16 hdr; u16 owner; s16 state; s16 cursor; s32 target; f32 x; f32 z;
 };
@@ -1775,7 +1774,7 @@ void TBoss1Dragon::sweep_body_attack_spheres(f32 a, f32 b, f32 c) {
         push_matrix();
         post_translate_matrix(&pos.x);
         scale_matrix(0, b, (2.0f), b);
-        draw_chunk_object((void *)lbl_805D28BC);
+        draw_chunk_object(debug_cylinder_object);
         pop_matrix();
     }
     this->reset_hp((u8 *)0, boss1_dragon_part_hp_stats[0], (u8 *)0);

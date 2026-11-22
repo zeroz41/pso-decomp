@@ -136,7 +136,6 @@ extern TBoss8Dragon *boss8_dragon_main_instance;
 extern s32 TLobby__designated_client_id;
 extern s32 boss8_dragon_breath_node;
 extern f32 boss8_dragon_visibility_distance;
-extern void *lbl_805D28BC;
 
 
 // The tables below mirror TBoss1Dragon's (same values where the Gol Dragon kept them).
@@ -1448,7 +1447,7 @@ void TBoss8Dragon::draw_beam_segments(f32 a, f32 b, f32 c) {
         push_matrix();
         post_translate_matrix(&v2.x);
         scale_matrix(0, b, 2.0f, b);
-        draw_chunk_object((void *)lbl_805D28BC);
+        draw_chunk_object(debug_cylinder_object);
         pop_matrix();
     }
     ((TObjEneDD *)ene_dd)->reset_hp((u8 *)0, boss8_dragon_part_hp_stats[0], (u8 *)0);

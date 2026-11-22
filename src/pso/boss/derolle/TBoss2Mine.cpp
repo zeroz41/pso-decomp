@@ -60,8 +60,6 @@ f32 atan2_float(f32 y, f32 x);
 
 f32 newton_sqrtf(s32, f32, f32, f32);
 
-extern void *lbl_805D28BC;
-
 __declspec(section ".data") s32 boss2_mine_params[2] = { 0x11, 0x11 };
 
 __declspec(section ".data") s32 boss2_mine_attack_params[2] = { 0xF, 0xF };
@@ -146,8 +144,8 @@ void TBoss2Mine::init(s32 variant) {
     this->timer = 0;
     this->m_3d0 = 0;
     this->tilt = 0;
-    this->m_3dc = 0.0f;
-    this->m_3e0 = 0.0f;
+    this->throw_distance = 0.0f;
+    this->throw_distance_left = 0.0f;
     this->drop_distance = 0.0f;
     this->fall_speed = 0.0f;
     this->throw_speed = 0.0f;
@@ -418,7 +416,7 @@ void TBoss2Mine::render() {
         f32 s = 0.5f * blast_scale;
         post_translate_matrix(&position.x);
         scale_matrix(NULL, s, 3.0f, s);
-        draw_chunk_object(lbl_805D28BC);
+        draw_chunk_object(debug_cylinder_object);
         pop_matrix();
     }
     model_render_flags = saved_model_render_flags;
@@ -461,7 +459,7 @@ void TUnk_80482EC0::state_launch(s32 reason) {
         mine_flags &= ~7;
         VecCopy(&throw_dir, &target_pos);
         subtract_vector(&throw_dir, &body_center);
-        m_3dc = normalize_vector_xz(&throw_dir);
+        throw_distance = normalize_vector_xz(&throw_dir);
         angle = (s32)(10430.38043493439 * atan2_float(throw_dir.x, throw_dir.z));
         rotation_y = angle;
         rotation_x = 0x4000;
@@ -471,7 +469,7 @@ void TUnk_80482EC0::state_launch(s32 reason) {
         throw_speed = 10.0f;
         fall_speed = 0.0f;
         tilt = 0;
-        m_3e0 = m_3dc;
+        throw_distance_left = throw_distance;
         break;
     case 3:
         if (body_center.y < target_pos.y) {
@@ -484,8 +482,8 @@ void TUnk_80482EC0::state_launch(s32 reason) {
     case 0:
         body_center.x = throw_dir.x * throw_speed + body_center.x;
         body_center.z = throw_dir.z * throw_speed + body_center.z;
-        m_3e0 = m_3e0 - throw_speed;
-        if (m_3e0 < drop_distance) {
+        throw_distance_left = throw_distance_left - throw_speed;
+        if (throw_distance_left < drop_distance) {
             fall_speed = fall_speed - 0.2f;
             body_center.y = body_center.y + fall_speed;
             if (rotation_x >= 0x8000) {
@@ -630,8 +628,8 @@ void TUnk_80482D04::state_launch(s32 reason) {
         rotation_z = 0;
         step = 1;
         timer = 0;
-        m_3dc = 8.0f;
-        m_3e0 = 0.0f;
+        launch_speed = 8.0f;
+        homing_weight = 0.0f;
         break;
     case 3:
         if (step == 3) {
@@ -646,8 +644,8 @@ void TUnk_80482D04::state_launch(s32 reason) {
                 step = 1;
                 play_sound_effect(0x4003A804, &body_center, 0, 0);
             }
-            body_center.x = direction.x * m_3dc + body_center.x;
-            body_center.z = direction.z * m_3dc + body_center.z;
+            body_center.x = direction.x * launch_speed + body_center.x;
+            body_center.z = direction.z * launch_speed + body_center.z;
             break;
         case 1:
             spike_angle += 0x400;
@@ -655,8 +653,8 @@ void TUnk_80482D04::state_launch(s32 reason) {
                 spike_angle = 0x38E3;
                 step = 2;
             }
-            body_center.x = direction.x * m_3dc + body_center.x;
-            body_center.z = direction.z * m_3dc + body_center.z;
+            body_center.x = direction.x * launch_speed + body_center.x;
+            body_center.z = direction.z * launch_speed + body_center.z;
             break;
         case 2:
             rotation_x -= 0x600;
@@ -664,9 +662,9 @@ void TUnk_80482D04::state_launch(s32 reason) {
                 rotation_x = 0;
             }
             rotation_z += 2560.0f;
-            m_3dc -= 0.2f;
-            if (m_3dc <= 3.0f) {
-                m_3dc = 3.0f;
+            launch_speed -= 0.2f;
+            if (launch_speed <= 3.0f) {
+                launch_speed = 3.0f;
             }
             move_mine();
             VecCopy(&to_target, &target_pos);
@@ -674,18 +672,18 @@ void TUnk_80482D04::state_launch(s32 reason) {
             if (normalize_vector_safe(&to_target) <= 4.5f) {
                 step = 3;
             }
-            m_3e0 += 0.05f;
-            if (m_3e0 > 3.0f) {
-                m_3e0 = 3.0f;
+            homing_weight += 0.05f;
+            if (homing_weight > 3.0f) {
+                homing_weight = 3.0f;
             }
-            t = m_3e0 / m_3dc;
+            t = homing_weight / launch_speed;
             direction.x = to_target.x * t + direction.x;
             direction.y = to_target.y * t + direction.y;
             direction.z = to_target.z * t + direction.z;
             normalize_vector_safe(&direction);
-            body_center.x = direction.x * m_3dc + body_center.x;
-            body_center.y = direction.y * m_3dc + body_center.y;
-            body_center.z = direction.z * m_3dc + body_center.z;
+            body_center.x = direction.x * launch_speed + body_center.x;
+            body_center.y = direction.y * launch_speed + body_center.y;
+            body_center.z = direction.z * launch_speed + body_center.z;
             break;
         }
         update_move_flag();

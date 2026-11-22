@@ -64,8 +64,14 @@ struct TBoss2Mine : public TObjEneDD {
     s32 m_3d0;
     u8 unk_3D4[0x4];
     s32 tilt;
-    f32 m_3dc;                 // the floor mine's throw distance; the launched mine's speed
-    f32 m_3e0;                 // the throw distance left; the launched mine's homing weight
+    union {
+        f32 throw_distance;    // the floor mine (TUnk_80482EC0)
+        f32 launch_speed;      // the launched mine (TUnk_80482D04)
+    };
+    union {
+        f32 throw_distance_left;
+        f32 homing_weight;
+    };
     f32 drop_distance;         // distance left when the thrown mine starts to fall
     f32 fall_speed;
     f32 throw_speed;

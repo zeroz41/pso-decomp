@@ -61,7 +61,7 @@
 #include "pso/unk/TLobby_803DE778.h"
 
 // Two debug chunk models other units draw with draw_chunk_object: debug_chunk_object (TObjEneBm3FlyNest,
-// TObjEneRecobox, and TObjHMS_EZRope_Player through debug_chunk_b_object) and lbl_805D28BC (TBoss1Dragon, TBoss2Mine,
+// TObjEneRecobox, and TObjHMS_EZRope_Player through debug_chunk_b_object) and debug_cylinder_object (TBoss1Dragon, TBoss2Mine,
 // TObjFogCollision, TBoss8Dragon). Each is a strip list, an NJD_CV_VN vertex list, an NJS_CNK_MODEL and its NJS_OBJECT.
 struct DebugChunkVertexVN {
     f32 pos[3];
@@ -200,7 +200,7 @@ NJS_OBJECT debug_chunk_b_object = {
     {0.0f, 0.0f, 0.0f}, {0, 0, 0}, {1.0f, 1.0f, 1.0f}, NULL, NULL,
 };
 NJS_OBJECT *debug_chunk_object = &debug_chunk_b_object;
-NJS_OBJECT *lbl_805D28BC = &debug_chunk_a_object;
+NJS_OBJECT *debug_cylinder_object = &debug_chunk_a_object;
 
 struct Quad_8007D828 { f32 x0; f32 y0; f32 x1; f32 y1; f32 u0; f32 v0; f32 u1; f32 v1; };
 // screen.bin / the PSO_SCREEN card file: a 256x192 capture and who was in the room.

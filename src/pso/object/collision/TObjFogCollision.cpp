@@ -60,7 +60,7 @@ u8 is_current_floor_switch_set(u16);
 s32 post_translate_matrix(void *);
 extern s32 saved_model_draw_color[];
 extern s32 model_material_color[];
-extern saddr lbl_805D28BC;
+extern saddr debug_cylinder_object;
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;
@@ -192,7 +192,7 @@ void TObjFogCollision::draw_volume() {
         s = 0.5f * this->scale.x;
         post_translate_matrix((u8 *)&this->position);
         scale_matrix(0, s, 3.0f, s);
-        draw_chunk_object((void *)lbl_805D28BC);
+        draw_chunk_object((void *)debug_cylinder_object);
         pop_matrix();
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
