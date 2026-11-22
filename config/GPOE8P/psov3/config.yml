@@ -5060,7 +5060,7 @@ force_active:
   - choose_next_action__11TBoss4Type2Fv
   - choose_next_action__11TBoss6Type1Fv
   - choose_next_action__12TBoss1DragonFv
-  - choose_next_action__13TBoss5GryphonFPvPv
+  - choose_next_action__13TBoss5GryphonFPUl
   - choose_next_camera_shot__18TObjLiveCameraCtrlFv
   - choose_roaming_destination__14TObjEneBm5WolfFv
   - choose_turn_motion__11TBoss6Type2Fv

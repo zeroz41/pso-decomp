@@ -2,8 +2,8 @@
 #define PSO_BOSS_GALGRYPHON_BOSS5GRYPHONACTIONSCRIPTS_H
 #include "types.h"
 
-// One step of a TBoss5Gryphon action script. TBoss5Gryphon::m_778 points at the
-// script list and m_774 walks a script 0x48 bytes at a time; command indexes the
+// One step of a TBoss5Gryphon action script. TBoss5Gryphon::action_scripts points at the
+// script list and script_entry walks a script one step at a time; command indexes the
 // action table in TBoss8Dragon::run_action_script_step (0x21 picks the next script).
 struct Boss5GryphonIntRange {
     s32 min;

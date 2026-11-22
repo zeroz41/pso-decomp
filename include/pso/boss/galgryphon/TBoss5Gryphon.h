@@ -77,22 +77,20 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     virtual void apply_slow_status();
     virtual void apply_paralysis();
     virtual void apply_poison_status();
-    Vec pad_3C0[15];
-    Vec pad_474;  // scaled by scale_size; apply_velocity moves along its x and z
-    s32 m_480;
-    Vec pad_484;
+    Vec bone_positions[15];  // draw_body captures the boss5_gryphon_bone_capture_node_indices nodes
+    Vec move_velocity;  // scaled by scale_size; apply_velocity moves along its x and z
+    s32 turn_velocity;  // apply_velocity adds it to rotation_y
+    Vec position_correction;  // fn_8005FB90 adds it to position once, then clears it
     s32 targetRefreshCounter;
     Boss5GryphonMotionEntry motions[2];
     Boss5GryphonMotionEntry *motion;
-    u32 m_4c0;
+    u32 flags;  // 1 destroy, 2 remote action pending, 0x40 get_flag_bit6
     TObject sub_tasks;  // the Colli and Snarl tasks hang under it; run_task runs its tasks
-    u32 m_4e0;
+    s32 run_mode;  // 0 runs the actions, 1 holds them while the lobby is not ready
     s32 flight_mode;  // 0 ground, 2 low flight, 3 offscreen (the enter_*_mode setters), 1 set_flag_4e4
     Vec body_points[10];  // update_local_colliders_from_world turns them into body offsets
-    void* m_560;
-    u8 _pad564[0x8];
-    void* m_56c;
-    u8 _pad570[0x8];
+    Vec sound_origin;  // projected from the camera each frame; sounds play from it
+    Vec pad_56C;
     AreaAttackHistory *attack_history;
     TBoss5GryphonDemo *demo;
     RenderFadeState renderFadeStates[4];
@@ -105,12 +103,12 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     u32 m_6ec;
     u32 m_6f0;
     f32 pad_6F4[11];
-    u32 m_720;
+    u32 pad_720;
     TParticleCtrl *particles[3];  // spawned and moved by fn_8005E39C in low flight
-    u32 m_730;
+    s32 run_mode_changed;  // run_task sets it when run_mode drops back to 0
     TObject *parts[16];
-    u8 *m_774;  // the action script entry being run; steps 0x48 bytes
-    u32 m_778;
+    Boss5GryphonActionStep *script_entry;  // the action script step being run
+    Boss5GryphonActionStep **action_scripts;  // boss5_gryphon_action_scripts
     void render_nodes_with_flag();
     void render_with_fade(s32 fade_index);
     void render_model();
@@ -160,6 +158,7 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     s32 run_action_script_step(s16 *out, u32 *entry);
     static void copy_angle_state(void *gryphon, void *dst, void *src);
     void update_target_from_state();
+    void choose_next_action(u32 *entry);
     void play_animation_index(s32 index);
     void flush_pending_effect();
     void scale_size(f32 scale, f32 scale_y, f32 turn_scale);
@@ -199,7 +198,9 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
 };
 
 LAYOUT_ASSERT(TBoss5Gryphon_size, sizeof(TBoss5Gryphon) == 0x77C);
-LAYOUT_ASSERT(TBoss5Gryphon_m_480, offsetof(TBoss5Gryphon, m_480) == 0x480);
+LAYOUT_ASSERT(TBoss5Gryphon_turn_velocity, offsetof(TBoss5Gryphon, turn_velocity) == 0x480);
+LAYOUT_ASSERT(TBoss5Gryphon_sound_origin, offsetof(TBoss5Gryphon, sound_origin) == 0x560);
+LAYOUT_ASSERT(TBoss5Gryphon_action_scripts, offsetof(TBoss5Gryphon, action_scripts) == 0x778);
 LAYOUT_ASSERT(TBoss5Gryphon_fade, offsetof(TBoss5Gryphon, renderFadeStates) == 0x580);
 LAYOUT_ASSERT(TBoss5Gryphon_m_6dc, offsetof(TBoss5Gryphon, m_6dc) == 0x6DC);
 #endif
