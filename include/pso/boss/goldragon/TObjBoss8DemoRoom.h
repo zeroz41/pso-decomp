@@ -6,6 +6,7 @@
 
 class TObjBoss8DemoRoom : public TObject {
 public:
+    TObjBoss8DemoRoom(TObject *parent);
     virtual ~TObjBoss8DemoRoom();
     virtual void run_task();
     virtual void render();
@@ -13,9 +14,5 @@ public:
     static void free_static_instance();
     static void load_resource();
 };
-
-extern "C" {
-void run_task__17TObjBoss8DemoRoomFv(saddr self);
-}
 
 #endif
