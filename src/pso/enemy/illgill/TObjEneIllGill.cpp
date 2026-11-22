@@ -45,52 +45,36 @@
 #include "pso/math/ScratchVectors.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/math/MatrixTransforms.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/render/render_util.h"
+#include "pso/player/PlayerSlots.h"
+#include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/network/client_id.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 struct IllGillEffectRotation { s32 x, y, z; };
 extern "C" {
-f32 calc_xz_distance_sq(saddr arg0, uaddr arg1, void *arg2);
 }
 extern int enable_v2_features;
-void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
 extern "C" {
-s32 get_current_floor(void);
-f32 atan2_float(f32 y, f32 x);
-f32 newton_sqrtf(f32);
-s32 angle_difference_abs(s32, s32);
-void *get_player_by_client_id(s32 i);
-s32 minimap_render_dot(void *, int, int, int);
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-extern saddr tl_05;
-s32 obj_setFlags30(void *, int);
-u16 get_entity_id(void *);
 }
-void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
-f32 horizontal_distance_squared(void *, void *);
 s32 select_enemy_destination(void *, Vec, int);
-s32 copy_position_if_valid__10TObjPlayerFii(void *, Vec);
-s32 is_split_screen();
-extern s32 local_client_id;
 BmlResource * illGillResource;
 saddr TObjEneIllGill__boss_registration_id;
 saddr lbl_805D6FD8;
 IllGillAttackBehavior * illGillAttackBehavior;
 s32 illGillModelNodeIndex;
-s32 init_collision_body_parts(void *, void *, int);
 }
-void move_with_wall_slide(u8 *arg0);
 extern "C" {
-s32 project_actor_to_ground(void *, void *, int);
-void submit_cursor_candidate(void *, int);
 f32 step_toward_destination__10TObjPlayerFPvPvf(void *, Vec, f32);
 s32 check_path_obstructed(void *, void *);
-s32 obj_is_hit_receivable(u8 *arg0);
-extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 f32 enemy_move_toward(void *, s32, Vec *, s32, f32, f32);
 s32 enemy_pursue_point(void *, s32, Vec *, f32, f32, f32);
-f32 fabs_float(f32);
 s32 approach_angle_limited(s32, s32, s32);
-void free_collision_body_parts(void *);
 extern const char *TObjEneIllGill_model_file_list[2];
 extern const char *TObjEneIllGill_motion_name_table[11];
 Vec illGillWeaponEffectPosition;
@@ -135,7 +119,6 @@ const NpcAnimationBinding lbl_8047A318 = { NULL, reinterpret_cast<TObjMotionActi
 const Vec lbl_8047A328 = {0.0f, 0.0f, 0.0f};
 const char *TObjIllGillKage__class_name = "TObjIllGillKage";
 extern u8 lbl_804FF5E8[];
-extern void *tl_04;
 void select_actor_lighting(s32 obj);
 void post_translate_matrix(void *);
 extern s32 saved_model_render_flags;
@@ -204,7 +187,7 @@ TObjEneIllGill::TObjEneIllGill(TObject *parent, void *setData) : TObjEnemy(paren
     scale.y = 1.2f;
     scale.z = 1.2f;
     this->add_flags_2e4(8);
-    init_collision_body_parts(self, &illGillCollisionBody, 1);
+    init_collision_body_parts(this, &illGillCollisionBody, 1);
     this->update_prev_position();
     ((TBoss3VoloptHiraisin *)self)->copy_position();
     register_object_by_id();
@@ -253,7 +236,7 @@ TObjEneIllGill::~TObjEneIllGill() {
 }
 
 void *TObjEneIllGill::create(void *setData) {
-    TObjControl *parent = new TObjControl((TObject *)tl_04);
+    TObjControl *parent = new TObjControl(tl_04);
     return new TObjEneIllGill(parent, setData);
 }
 
@@ -369,7 +352,7 @@ void TObjEneIllGill::refresh_target() {
                 pl = (u8 *)TObjPlayer::get_player_data(i);
                 if (pl == NULL) break;
                 if (obj_is_hit_receivable(pl) == 0) continue;
-                id = get_entity_id(pl);
+                id = get_entity_id((TObjBase *)pl);
                 if (id >= 0x4000) continue;
                 if (id == entity_id) continue;
                 if (((TObjChara *)pl)->actorFlags & 0x02000800) continue;
@@ -552,7 +535,7 @@ void TObjEneIllGill::update_idle() {
     case 2:
         ((TObjBase *)self)->obj_clearFlags30(0x04040000);
         this->requested_action = 1;
-        if (horizontal_distance_squared((u8 *)&this->position, (u8 *)&this->home_position) > 10000.0f) {
+        if (horizontal_distance_squared(&this->position, &this->home_position) > 10000.0f) {
             move_toward_dest_with_detour();
         } else {
             this->body_center.y += 5.0f;
@@ -568,7 +551,7 @@ void TObjEneIllGill::update_idle() {
         }
         break;
     }
-    minimap_render_dot((u8 *)&this->position, -0x5DB4, 1, 0);
+    minimap_render_dot(&this->position, -0x5DB4, 1, 0);
     ((TObjBase *)self)->obj_clearFlags30(0x200000);
 }
 
@@ -654,7 +637,7 @@ void TObjEneIllGill::update_chase_target() {
                 Vec tgt = *(Vec *)((u8 *)&((TObjChara *)target)->body_center);
                 enemy_pursue_point(self, id, &tgt, r, 40.0f, t);
             }
-            d = horizontal_distance_squared(&m_29c, &body_center);
+            d = horizontal_distance_squared((Vec *)&m_29c, &body_center);
             t = r + this->bodies->radius;
             if (d < t * t) {
                 if (this->targetId == 0xFFFF) {
@@ -695,7 +678,7 @@ s32 TObjEneIllGill::is_target_in_attack_range() {
             bind_enemy_combat_stats((u8 *)0, (u8 *)ill_gill_combat_parameter_variants[this->attackType], (u8 *)0);
             return 1;
         }
-        dist = calc_xz_distance_sq((saddr)this, (uaddr)this->target, (void *)&v);
+        dist = calc_xz_distance_sq(this, (TObjBase *)this->target, &v);
         ang = angle_difference_abs(this->rotation_y, (s32)(10430.38043493439 * atan2_float(v.x, v.z)));
         pl = this->target;
         if (((TObjChara *)pl)->bodies != NULL) {
@@ -703,7 +686,7 @@ s32 TObjEneIllGill::is_target_in_attack_range() {
         } else {
             rad = 10.0f;
         }
-        id = get_entity_id(pl);
+        id = get_entity_id((TObjBase *)pl);
         if (id < 0x1000) {
             s32 i;
             pl = this->target;
@@ -1201,7 +1184,7 @@ void TObjEneIllGill::update_shadow_attack() {
                 atan2_float(w.z, newton_sqrtf(w.x * w.x + w.y * w.y));
                 atan2_float(w.x, w.y);
                 if (this->action_flags != 4 && ((TObjCollidable *)target)->obj_testFlags30(0x04000000) == 0) {
-                    void *m = (void *)new TObjIllGillKage(tl_05, (uaddr)this->target);
+                    void *m = (void *)new TObjIllGillKage((saddr)tl_05, (uaddr)this->target);
                 }
             } else {
                 this->action_flags &= ~4;
@@ -1286,7 +1269,7 @@ void TObjEneIllGill::update_charge_attack() {
                     o->requested_action = 8;
                     obj_setFlags30(o, 0x4000000);
                     o->set_indexed_flags(0, 0x80);
-                    copy_position_if_valid__10TObjPlayerFii(o, (*(&o->body_center)));
+                    ((s32 (*)(void *, Vec))copy_position_if_valid__10TObjPlayerFii)(o, (*(&o->body_center)));
                     o->actionTimer = 10;
                     play_sound_effect(0x4003A34E, &o->position, 0, 0);
                 } else {
@@ -1450,7 +1433,7 @@ TObjIllGillKage::TObjIllGillKage(saddr parent, uaddr target) : TObjBase((TObject
     m_name = TObjIllGillKage__class_name;
     if (target != 0U) {
         VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(target + 0x38));
-        this->m_98 = get_entity_id((void *)target);
+        this->m_98 = get_entity_id((TObjBase *)target);
         this->m_94 = 0xB4;
         this->m_90 = 0;
     } else {
