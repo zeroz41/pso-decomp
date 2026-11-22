@@ -36,7 +36,6 @@ Vec get_target_position__11TCameraCtrlFv(void);
 void debug_printf_at(s32, const char *, ...);
 extern Ctl_8006C964 controller_input_state;
 
-extern unsigned char __vt__13TUnk_80488DA0[];
 
 void * TCameraCtrl__vt6(void) {
     void *o;

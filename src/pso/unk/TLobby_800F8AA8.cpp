@@ -921,7 +921,6 @@ void TLobby::set_entry_params(s32 arg1, s32 arg2, s32 arg3) {
 
 #pragma push
 void release_texture_list(void *p);
-void *tmp_buf_use_req__6TLobbyFPCc(const char *);
 
 void TLobby::set_read_params(void *handle_ref, int sector_count, int destination) { pending_file_read_handle_ref = (AdxfHandle **)handle_ref; (*(int *)&pending_file_read_sector_count) = sector_count; (*(int *)&pending_file_read_destination) = destination; }
 

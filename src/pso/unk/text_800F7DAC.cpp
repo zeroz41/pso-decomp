@@ -53,7 +53,6 @@ struct Fade_800F88D8 {
 extern "C" {
 
 void __ct__13TUnk_804999E8FP7TObject(void *, void *);
-void *__dt__13TUnk_804999E8Fv(void *, s16);
 void TCameraCtrl__sub_80068EF0(void);
 u32 prs_decompress_buffer(s32 arg0, s32 arg1);
 }
@@ -63,11 +62,6 @@ void __ct__7TObjectFP7TObject(void *);
 s32 TWindowCtrlMain__sub_8024CD5C(s32 viewport_index);
 u32 prs_decompress(int, int, int, int);
 
-struct RecoveredGlobal_lbl_80499988 { s32 value; u8 remaining[0x14]; };
-extern RecoveredGlobal_lbl_80499988 lbl_80499988;
-extern s32 lbl_804999A0[];
-extern s32 lbl_804999B8[];
-extern s32 lbl_804999D0[];
 extern s32 __vt__13TUnk_80499988[];
 extern s32 __vt__13TUnk_804999A0[];
 extern s32 __vt__13TUnk_804999B8[];

@@ -108,7 +108,6 @@ extern Rank_801C343C split_screen_battle_rankings[4];
 extern "C" {
 void clear_split_screen_battle_window_slots(T_803102A4 *self);
 TPlayerBattleCtrl4P *TPlayerBattleCtrl4P__instance;
-s32 get_map_id__13TRaderMapCoreFv();
 u8 TLobby__sub_801D7100(void *);
 extern u8 lobby_rule_settings[];
 s32 TLobby__sub_801C19D0(void *);

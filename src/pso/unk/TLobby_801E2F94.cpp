@@ -497,7 +497,6 @@ void draw_motion(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame) {
 
 extern "C" {
 void TLobby__sub_803382E4(void);
-s32 adxf_open_file__6TLobbyFiPviPv(void *, void *, int, void *);
 s32 TLobby__sub_801E3E9C(s32 arg0, saddr arg1, saddr arg2);
 s32 TKeyBoardControl__sub_801E3E24(s32 arg0, saddr arg1, saddr arg2);
 s32 GXSetViewport(f32, f32, f32, f32, f32, f32);

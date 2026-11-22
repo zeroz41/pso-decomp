@@ -73,7 +73,6 @@ struct TBinModel {
     void request_motions(u32 *list);
 };
 
-struct Desc_80020004 { saddr name; u8 pad4[8]; s16 n16; s16 n8; };
 struct BmlTextureLoadRequest {
     BmlResource *resource;
     BmlModelEntry *entry;

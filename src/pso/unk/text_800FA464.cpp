@@ -18,8 +18,6 @@ struct AsyncFileReadRequest {
     saddr mode;
 };
 
-extern "C" {
-}
 AsyncFileReadRequest *async_file_read_current_request;
 void *lobby_stack_entry_list_tail;
 s32 lobby_list_entry_count;

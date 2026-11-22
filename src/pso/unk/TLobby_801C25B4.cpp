@@ -398,14 +398,12 @@ s32 check_flag_100__10TObjPlayerFPv(void *);
 
 void record_local_battle_placement(void *);
 
-s32 forward_trade_action_default__16TObjCityMainWarpFPviii(void *, s32, int, int);
 void *create_window_menu_default(void *, int);
 extern Flags_801C3AF4 *controller_input_state[];
 
 extern saddr local_client_id;
 extern s32 TLobby__designated_client_id;
 void update_duel_result__6TLobbyFPv(u8 *arg0);
-
 
 
 extern s32 battle_intro_value_table[];

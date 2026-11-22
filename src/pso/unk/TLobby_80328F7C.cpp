@@ -293,8 +293,6 @@ void alloc_work_buffer__6TLobbyFv(void) {
 }
 
 
-void free__10TObjPlayerFPv(void *a0);
-
 void TLobby::update_photon_chairs() { TPlyPhotonChair::free_static_model(); TLobby::free_singleton_805D6C80(); TLobby::set_photon_chair_flag(0); TLobby::clear_flag_at_6c84(); }
 void TLobby::update_photon_chair() {
     TLobby::set_photon_chair_flag(0);

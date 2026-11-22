@@ -9,10 +9,6 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/unk/TLobby.h"
 
-extern "C" {
-
-}
-
 void ModelNodeTables::destroy() {
     s32 i;
     for (i = 0; i < count; i++) {

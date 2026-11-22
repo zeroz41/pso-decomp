@@ -1481,7 +1481,6 @@ u8 fn_801D71D0(s32 *);
 u8 fn_801D7204(s32 *);
 u8 *TObjPlayer__sub_801D8DCC(TObjPlayer *player);
 s32 TObjPlayer__sub_801D91B8(void *, void *);
-s32 get_current_state_field__10TObjPlayerFScl(s32, s32);
 s32 get_class_attack_template(void *);
 s32 get_class_defense_template();
 player_stats *get_class_stat_caps(s8 cls);

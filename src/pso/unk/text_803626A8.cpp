@@ -32,13 +32,6 @@ struct Stack_803626A8 {
 
 struct Leaf_803627DC { u8 pad[4]; s32 v; };
 
-struct Node_803627DC {
-    u8 pad0[4];
-    Leaf_803627DC *leaf;
-    u8 pad8[0x2C - 8];
-    Node_803627DC *child;
-    Node_803627DC *next;
-};
 
 struct Model_803627DC { u8 pad[8]; s32 f8; NJS_TEXLIST *texlist; };
 

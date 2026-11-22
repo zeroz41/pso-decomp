@@ -20,8 +20,6 @@
 
 // Built with -inline off,deferred: functions are written last to first.
 
-extern "C" {
-}
 void spawn_faust_explosion(uaddr a0, const Vec &pos);
 
 TItem *create_panzer_faust(u8 *item) {

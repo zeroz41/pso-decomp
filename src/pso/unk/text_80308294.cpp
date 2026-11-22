@@ -17,8 +17,6 @@ typedef struct SlicerLaunchData_8012D9C8 {
 } SlicerLaunchData_8012D9C8;
 
 
-extern "C" {
-}
 s32 spawn_fire_explosion_at(uaddr a0, saddr a1) {
     Desc_8011E5C4 info;
     void *o;

@@ -12,7 +12,6 @@
 
 extern "C" {
 
-void for_each_player_slot__10TObjPlayerFv(void *);
 
 extern "C" {
 

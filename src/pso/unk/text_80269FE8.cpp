@@ -4,8 +4,6 @@
 #include "pso/unk/text_80269FE8.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowMessageInfomation.h"
-extern "C" {
-}
 saddr create_message_information_window(saddr parent, saddr extent, saddr client) {
   u8 *temp_r3;
   s32 phi_r4;

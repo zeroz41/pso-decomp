@@ -98,7 +98,6 @@ s32 test_flags_any(s32 *flags, s32 mask);
 }
 
 
-
 extern "C" {
 
 f32 apply_stat_multipliers__10TObjPlayerFiif(saddr arg0, saddr arg1, f32 farg0);
@@ -174,15 +173,7 @@ void __dt__7TObjectFv(void *, int);
 }
 
 
-
-
-extern "C" {
-
 LAYOUT_ASSERT(RecoveredGlobal_801C6FF8_lbl_804C4008_size, sizeof(RecoveredGlobal_801C6FF8_lbl_804C4008) == 0x18);
-
-}
-
-
 #include "pso/network/TPlyOnCountOver.h"
 
 #include "pso/network/TPlyOnCreated.h"
@@ -213,8 +204,6 @@ void __dt__7TObjectFv(void *, int);
 #undef set_stat_scale__10TObjPlayerFPvf
 
 #undef TObjPlayer__sub_801C6FCC
-
-
 
 
 extern "C" {
@@ -257,12 +246,9 @@ s32 TObjPlayer__sub_801C6DAC(u8 *arg0);
 }
 
 
-
-
 extern "C" {
 s32 get_contact_surface_type(saddr arg0);
 }
-
 
 
 extern "C" {

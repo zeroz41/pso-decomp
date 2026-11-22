@@ -39,15 +39,9 @@
 
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
-extern "C" void has_flag_0x800__9TObjCharaFv();
-extern "C" void test_flag30_512__9TObjCharaFv();
-extern "C" void test_flag_1000__9TObjCharaFv();
-extern "C" void test_flag_256__9TObjCharaFv();
-extern "C" void apply_switch_attack__9TObjCharaFv();
 
 #include "pso/item/TItem.h"
 
-extern "C" void apply_anti_technique__9TObjCharaFl();
 
 #include "pso/enemy/lappy/TObjEneLappy.h"
 
@@ -371,10 +365,7 @@ struct Layout_80019038 {
 };
 extern "C" {
 void spawn_slow_effect__10TObjPlayerFii(saddr arg0, s32 arg1);
-void apply_slow_status__9TObjCharaFv(void *arg0);
 void play_shock_feedback__10TObjPlayerFii(saddr arg0, s32 arg1);
-s32 update_shock_clock__9TObjCharaFv(u8 *arg0);
-s32 vfunc_43__9TObjCharaFv(Player_800172CC *self);
 s32 VecCopy__FP3VecPC3Vec(s32, s32);
 void subtract_vector(void *a, void *b);
 f32 calc_xz_distance_sq(saddr arg0, uaddr arg1, void *arg2);
@@ -384,7 +375,6 @@ s32 add_actor_hp(u8 *arg0, s16 arg1);
 s32 TObjectV8047c128_subtract_hp(u8 *arg0, s16 arg1);
 s32 get_type__10TObjPlayerFPv(void* p);
 void create_hit_effect__10TObjPlayerFPv(void *);
-f32 receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll(Actor_8001311C *self, Actor_8001311C *att, Info_8001311C *arg, Coll_8001311C *coll, s32 tech, s32 arg5);
 s32 obj_is_hit_receivable(u8 *arg0);
 int get_player_data__10TObjPlayerFi(int a0);
 extern s32 registered_player_count;
@@ -398,7 +388,6 @@ int obj_getPtr2B0_20(u8* p);
 s16 obj_getS16_2BA(u8* p);
 void send_6x2F_change_player_hp(u16, u16, s16);
 void dispatch_weapon_special_effect(void *, void *, void *, s32);
-f32 receive_weapon_special_attack__9TObjCharaFPvPv(Actor_80011824 *self, Actor_80011824 *att, Coll_80011824 *coll);
 void TObjPlayer__sub_8001951C(void* p);
 void subtractive_rng_seed(void *, u16);
 void __ct__14SubtractiveRngFv(void *);
@@ -730,51 +719,19 @@ struct Player_80018990 {
 void shutdown_and_reset_system(void);
 void init_game_systems(void);
 extern "C" {
-bool has_no_target__9TObjCharaFv(u8 *arg0);
 void spawn_poison_effect__10TObjPlayerFii(saddr arg0, s32 arg1);
 void clear_velocity(u8 *arg0);
 void add_id_to_slots__10TObjPlayerFiUs(s32 arg0, u16 arg1);
-int vfunc_74__9TObjCharaFl(void);
-void recalc_stats__9TObjCharaFv(void);
-void enemy_spawn_zalure_effect__9TObjCharaFv(s32 arg0);
-void enemy_spawn_jellen_effect__9TObjCharaFv(s32 arg0);
 void handle_6x9A_update_entity_stat(Pkt_80010C54 *pkt);
 void sub_80010DE8__9TObjCharaFUsUcUc(Obj_80010DE8 *self, u16 a, u8 b, u8 c);
-void vfunc_78__9TObjCharaFl(void);
-void gain_photon_blast_chain_charge__9TObjCharaFv(void);
-void spend_photon_blast_charge__9TObjCharaFf(void);
-void gain_photon_blast_charge__9TObjCharaFf(void);
 u16 fn_80010F4C(void* p);
 void record_attack_source(Obj_80010F54 *self, s32 id);
-void refresh_target__9TObjCharaFv(void);
-s32 get_actor_level_index__9TObjCharaFv(void* p);
-s32 consume_timer_field__9TObjCharaFl(u8 *arg0, s32 arg1);
-s32 add_actor_exp__9TObjCharaFl(u8 *arg0, s32 arg1);
 s32 add_actor_tp_bonus(O_80011274 *self, s32 x);
 s32 add_actor_hp_bonus(O_80011378 *self, s32 x);
-s32 is_actor_cadence_frame__9TObjCharaFl(O_80011704 *self, s32 x);
 }
 
 void apply_actor_gravity(TObjEnemy *arg0, s32 *arg1, f32 farg0);
 extern "C" {
-void apply_knockback_from_attacker__9TObjCharaFPUcf(u8 *arg0, u8 *arg1);
-int deliver_attack_hits__9TObjCharaFf(void);
-int vfunc_66__9TObjCharaFv(void);
-void get_anim_node_position__9TObjCharaFlP3Vec(void);
-void reset_pose__9TObjCharaFv(void* p);
-void run_death_reaction__9TObjCharaFv(void);
-void run_hit_reaction__9TObjCharaFv(void);
-void run_miss_reaction__9TObjCharaFv(void);
-void run_attack_action__9TObjCharaFv(void);
-void run_move_action__9TObjCharaFv(void);
-void run_idle_action__9TObjCharaFv(void);
-void apply_action_hold_status__9TObjCharaFf(s32 arg0, f32 farg0);
-void cure_poison_ailment__9TObjCharaFv(Obj_80014C1C *self);
-s32 try_start_action__9TObjCharaFll(void *arg0, s32 arg1, s32 arg2);
-s32 select_melee_contact_body__9TObjCharaFPvf(Actor_80016454 *target, Actor_80016454 *source, f32 factor);
-s32 update_flag30_timer__9TObjCharaFv(u8 *arg0);
-s32 update_slow_status__9TObjCharaFv(u8 *arg0);
-s32 is_target_in_attack_range__9TObjCharaFv(Player_8001745C *p);
 f32 step_toward_destination__10TObjPlayerFPvPvf(Obj_80017804 *arg0, Vec *arg1, f32 farg0);
 f32 enemy_pursue_point(u8 *arg0, s32 arg1, Vec arg2, f32 farg0, f32 farg1);
 f32 enemy_backstep_from_point(Obj_80017ABC *arg0, Vec arg1, f32 farg0);
@@ -788,12 +745,6 @@ s32 select_enemy_destination(Obj_800182A0 *self, Vec *arg1, int flags);
 s32 check_path_obstructed(u8 *arg0, Vec *arg1);
 s32 copy_position_if_valid__10TObjPlayerFii(s32 arg0, s32 arg1);
 void enemy_turn_half_toward_dest(Obj_80018570 *self);
-u8 * update_actor_ground_y_at__9TObjCharaFP3Vec(u8 *arg0, u8 *arg1);
-u8 * update_actor_ground_y__9TObjCharaFv(u8 *arg0);
-void* get_center__9TObjCharaFv(void* p);
-void reset_motion_fields__9TObjCharaFv(Obj_80018F64 *self);
-void * __dt__9TObjCharaFv(void *arg0, s16 arg1);
-void get_pos__9TObjCharaFl(s32 arg0, s32 arg1);
 f32 TObjPlayer__sub_800192C4(Obj800192C4 *self, s32 i);
 int obj_getArrWord_254(ObjArr254* p, int i);
 void obj_setArrS16_FC(ObjArrFC* p, int i, s16 v);
@@ -806,7 +757,6 @@ void TObjPlayer__sub_8001941C(O_8001941C *self, s32 i, f32 v);
 int TObjPlayer__sub_8001943C(ObjArr254_p53* p, int i);
 s16 TObjPlayer__sub_800194E8(void* p);
 s16 get_attack_params_atp_max(void* p);
-void interact__14TObjCollidableFl(void* p, s16 v);
 u16 get_entity_id(ObjFlags* p);
 void obj_setFlags30(ObjFlags* p, u32 mask);
 bool is_split_screen(void);
@@ -826,14 +776,12 @@ f32 horizontal_distance_squared(void *, void *);
 s32 angle_difference_abs(s32, s32);
 s32 lerp_angle_half__Fll(s32, s32);
 s32 approach_angle_limited(s32, s32, s32);
-void __dt__10TObjMotionFv(void *, int);
 void * find_entity_by_id(s32 id);
 s32 project_actor_to_ground(saddr, saddr, s32);
 s32 record_damage_stats__10TOMineTrapFUiUis(void *, void *, void *);
 s32 get_player_by_client_id(s32);
 int bswap_16__FPUs(void*);
 s32 play_sound_effect(s32, s32, s32, s32);
-void __dl__7TObjectFPv(void *);
 u32 __nw__7TObjectFUl(s32);
 s32 construct_actor_light_task(f32, void *, const f32 *, const f32 *, s32, void *, s32);
 s32 vec3_add_to(void *, void *);
@@ -960,36 +908,6 @@ typedef struct {
 
 typedef struct { unsigned char prefix[0x18]; RangedU flags; RangedVec center; float defense; } RangedBody;
 struct Obj_80014108;
-extern "C" {
-void run_task__7TObjectFv(void);
-void render__7TObjectFv(void);
-void render_shadows__7TObjectFv(void);
-void vfunc_6__8TObjBaseFPsl(void);
-void apply_object_set_data__8TObjBaseFPv(void);
-void update_object_view_visibility__8TObjBaseFff(void);
-void classify_actor_view_detail__8TObjBaseFfff(void);
-void get_name__8TObjBaseFv(void);
-int calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf(RangedActor* target,RangedActor* attacker,RangedBody* body,const RangedVec* origin,float multiplier);
-f32 receive_physical_attack__9TObjCharaFPvf(Obj_80014108 *self, Obj_80014108 *att, f32 scale);
-s32 roll_physical_accuracy__9TObjCharaFPvlf(Obj_800162E0 *arg0, void *arg1, s32 arg2, f32 farg0);
-s32 update_poison_status__9TObjCharaFv(u8 *arg0);
-s32 update_action_hold_status__9TObjCharaFv(u8 *arg0);
-s32 update_movement_status__9TObjCharaFv(u8 *arg0);
-s32 update_attack_stat_status__9TObjCharaFv(u8 *arg0);
-s32 update_defense_stat_status__9TObjCharaFv(u8 *arg0);
-void apply_defense_stat_status__9TObjCharaFPv(void *arg0, void *arg1);
-void trigger_switch_attack__9TObjCharaFv(void *arg0);
-void apply_poison_status__9TObjCharaFv(void *arg0);
-void apply_paralysis__9TObjCharaFv(u8 *arg0);
-void apply_confusion_status__9TObjCharaFv(void *arg0);
-void apply_movement_ailment__9TObjCharaFl(u8 *arg0, s32 arg1);
-void apply_shock_status__9TObjCharaFv(u8 *arg0);
-void clear_harmful_statuses__9TObjCharaFv(u8 *arg0);
-void apply_attack_stat_status__9TObjCharaFPv(TObjPlayer *arg0, StatStatusReceipt_80014E74 *arg1);
-void cure_paralysis__9TObjCharaFv(Obj_80014B5C *self);
-void clear_all_status_effects__9TObjCharaFv(u8 *arg0);
-}
-
 #pragma pop
 #undef TEST30
 #undef SET30

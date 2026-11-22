@@ -34,7 +34,6 @@ void set_active_camera_pose(void *, void *);
 s32 activate_camera_mode(s32 arg0);
 s32 verify_system_file__23TAdSinglePlyChrSelectGCFPv(void);
 s32 pso_system_load_gc(void);
-s32 TAdSinglePlyChrSelectGC__sub_8033B9F8(void *);
 void *TWindowOptionCtrl__ct(void *, void *);
 void *__ct__10TAdTitleGCFP7TObjectl(void *, void *, int);
 }
