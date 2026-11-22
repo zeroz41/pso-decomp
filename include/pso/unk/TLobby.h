@@ -561,7 +561,7 @@ struct TLobby : public TObject {
     static s32 aram_read_sync(s32 owner, s32 aram, saddr dest, s32 length);
     static s32 aram_transfer_sync(s32 owner, uaddr source, s32 aram, s32 length);
     static void send_game_character();
-    void open_udp_socket_for_player();
+    static void open_udp_socket_for_player(s32 client);
     void send_6x71_to_player();
     void send_6x6D_item_state();
     static void make_players();

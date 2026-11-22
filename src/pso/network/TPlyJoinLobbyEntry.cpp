@@ -632,14 +632,13 @@ u8 *init_idle_timeout_timer(u8 *arg0, saddr arg1) {
     return arg0;
 }
 
-void TLobby::open_udp_socket_for_player() {
-    saddr arg0 = (saddr)this;
+void TLobby::open_udp_socket_for_player(s32 client) {
     TPacket *o = new TPacket((TObject *)game_protocol_instance);
     if (o != NULL) {
-        o->m_id = arg0;
-        o->set_ip_address(game_join_player_records[arg0].ip);
+        o->m_id = client;
+        o->set_ip_address(game_join_player_records[client].ip);
         o->m_dst_port = local_client_id + 0xFA0;
-        o->m_src_port = arg0 + 0xFA0;
+        o->m_src_port = client + 0xFA0;
         s32 v = o->open();
         lobby_debug_printf_stub(lobby_debug_udp_open_format, v, o->m_dst_addr.addr_bytes[0], o->m_dst_addr.addr_bytes[1], o->m_dst_addr.addr_bytes[2], o->m_dst_addr.addr_bytes[3]);
     }
@@ -670,7 +669,7 @@ void handle_6x71_unblock_game_join(void) {
                     p = create_player_object(i, 4, e->body);
                     ((TLobby *)(p + 0xDAC))->copy_header_struct(e);
                     ((VObj_18_9029aa *)p)->m6();
-                    ((TLobby *)i)->open_udp_socket_for_player();
+                    TLobby::open_udp_socket_for_player(i);
                     lobby_debug_printf_stub(lobby_debug_burst_player_format, i);
                 } else {
                     lobby_debug_printf_stub(lobby_debug_duplicate_player_format, i);
@@ -708,7 +707,7 @@ void handle_6x70_sync_player_disp_and_inventory(Pkt_801354AC *arg0) {
             }
             plr = (Plr_801354AC *)create_remote_player_object(disp);
             strncpy(TLobby__player_names[get_entity_id(plr)], plr->m10(), 0x10);
-            ((TLobby *)(disp->id))->open_udp_socket_for_player();
+            TLobby::open_udp_socket_for_player(disp->id);
             lobby_debug_printf_stub(lobby_debug_create_player_format, get_entity_id(plr));
         }
     }
@@ -2624,7 +2623,7 @@ void TLobby::on_game_player_add(int arg0, int arg1, int arg2) {
             plr = create_player_object(e.client_id, 4, e.char_data);
             ((TLobby *)(plr + 0xDAC))->copy_header_struct(&e);
             ((Plr_80136080 *)plr)->m6();
-            ((TLobby *)(e.client_id))->open_udp_socket_for_player();
+            TLobby::open_udp_socket_for_player(e.client_id);
             lobby_debug_printf_stub(lobby_debug_burst_player_format, e.client_id);
         }
     } else {

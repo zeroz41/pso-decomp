@@ -316,7 +316,7 @@ void TLobby::start_udp_test_game() {
     strcpy(msg.entries[1].name, "UDPTEST-2");
     TLobby::handle_game_join(&msg);
     ((TObject *)game_protocol_instance)->delete_children();
-    ((TLobby *)(1 - local_client_id))->open_udp_socket_for_player();
+    TLobby::open_udp_socket_for_player(1 - local_client_id);
 }
 
 s32 TLobby::construct_entry_array() {
