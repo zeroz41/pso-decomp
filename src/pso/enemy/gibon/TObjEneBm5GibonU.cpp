@@ -314,13 +314,13 @@ void TObjEneBm5GibonU::render_debug() {
 #pragma pool_data reset
 
 void TObjEneBm5GibonU::run_demo_task() {
-    s32 temp_r31;
+    s32 was_leader;
 
     if (this->get_target_info() != 0) {
-        temp_r31 = is_leader;
+        was_leader = is_leader;
         select_subtype();
-        if (temp_r31 != is_leader) {
-            if (temp_r31 != 0) {
+        if (was_leader != is_leader) {
+            if (was_leader != 0) {
                 forward_hit_to_enemy_list();
             } else {
                 init_child_from_list();
@@ -682,8 +682,8 @@ void TObjEneBm5GibonU::sub_800CDB98(s32 msg) {
 }
 
 void TObjEneBm5GibonU::update_dying_state(s32 msg) {
-    Vec sp14;
-    Vec sp8;
+    Vec spot;
+    Vec dir;
     f32 k;
     TObjEneBm5GibonUNode *n;
     TObjEneBm5GibonU *o;
@@ -721,30 +721,30 @@ void TObjEneBm5GibonU::update_dying_state(s32 msg) {
             this->advance_animation();
             if (this->get_flag_b4() != 0) {
                 this->substate = 1;
-                sp14.x = 0.0f;
-                sp14.y = 0.0f;
-                sp14.z = -10.0f;
-                rotate_xz_pair_by_angle(&sp14.x, &sp14.z, this->rotation_y);
-                vec3_add_to(&sp14, &this->position);
+                spot.x = 0.0f;
+                spot.y = 0.0f;
+                spot.z = -10.0f;
+                rotate_xz_pair_by_angle(&spot.x, &spot.z, this->rotation_y);
+                vec3_add_to(&spot, &this->position);
                 if (this->is_leader == 1) {
-                    spawn_dead_spot_scale15((saddr)&sp14, 0x32);
+                    spawn_dead_spot_scale15((saddr)&spot, 0x32);
                 } else {
-                    TObjPlayer::spawn_dead_spot_type2((saddr)&sp14, 0x32);
+                    TObjPlayer::spawn_dead_spot_type2((saddr)&spot, 0x32);
                 }
-                spawn_effect_at_ground(&sp14, 0x46);
+                spawn_effect_at_ground(&spot, 0x46);
             }
             this->rotation_y = approach_angle_limited(this->rotation_y, this->m_528, 0x300);
             this->rotation_y = (s16)this->rotation_y;
             if (this->wall_reach < 28.0f) {
                 this->wall_reach += this->m_530;
             }
-            VecCopy(&sp8, (const Vec *)&this->velocity.x);
+            VecCopy(&dir, (const Vec *)&this->velocity.x);
             {
-                f32 v = normalize_vector_xz(&sp8);
-                this->move_clamped_on_ground(sp8.x, sp8.z, v);
+                f32 v = normalize_vector_xz(&dir);
+                this->move_clamped_on_ground(dir.x, dir.z, v);
             }
             if (this->is_passing_frame(26.0f) != 0) {
-                spawn_recoil_dust(&sp8);
+                spawn_recoil_dust(&dir);
             }
             this->velocity.x *= 0.8f;
             this->velocity.z *= 0.8f;
@@ -767,7 +767,7 @@ void TObjEneBm5GibonU::update_dying_state(s32 msg) {
 }
 
 void TObjEneBm5GibonU::hurt_state(s32 msg) {
-    Vec sp8;
+    Vec dir;
     switch (msg) {
     case 4:
         this->clear_intangible();
@@ -798,10 +798,10 @@ void TObjEneBm5GibonU::hurt_state(s32 msg) {
         break;
     case 0:
         this->advance_animation();
-        VecCopy(&sp8, (const Vec *)&this->velocity.x);
+        VecCopy(&dir, (const Vec *)&this->velocity.x);
         {
-            f32 v = normalize_vector_xz(&sp8);
-            this->move_with_wall_slide_on_ground(sp8.x, sp8.z, v);
+            f32 v = normalize_vector_xz(&dir);
+            this->move_with_wall_slide_on_ground(dir.x, dir.z, v);
         }
         if (this->substate == 0) {
             this->velocity.x *= 0.5f;
@@ -812,7 +812,7 @@ void TObjEneBm5GibonU::hurt_state(s32 msg) {
             this->rotation_y = approach_angle_limited(this->rotation_y, this->m_528, 0x300);
             this->rotation_y = (s16) this->rotation_y;
             if (this->is_passing_frame(26.0f) != 0) {
-                spawn_recoil_dust(&sp8);
+                spawn_recoil_dust(&dir);
             }
         }
         this->check_collisions();
@@ -826,7 +826,6 @@ void TObjEneBm5GibonU::hurt_state(s32 msg) {
 }
 
 void TObjEneBm5GibonU::action(s32 msg) {
-    s32 temp_r0;
 
     switch (msg) {
     case 4:
@@ -849,10 +848,9 @@ void TObjEneBm5GibonU::action(s32 msg) {
             play_sound_effect(this->remap_sound_for_area(0x3AA22), &this->position, 0, 0);
         }
         this->substate++;
-        temp_r0 = this->substate;
-        if (temp_r0 == 0x1E) {
+        if (this->substate == 0x1E) {
             this->damage_linked_entity_type10();
-        } else if (temp_r0 == 0x28) {
+        } else if (this->substate == 0x28) {
             this->damage_linked_entity();
         }
         this->check_collisions();
@@ -1009,18 +1007,18 @@ void TObjEneBm5GibonU::returning_state(s32 msg) {
 #pragma pop
 
 void TObjEneBm5GibonU::update_lunge(s32 msg) {
-    f32 temp_f0;
-    s32 temp_r4;
+    f32 speed;
+    s32 flags;
     switch (msg) {
     case 4:
         this->requested_action = 0xA;
         this->set_field_378(0xE);
         this->clear_intangible();
-        temp_r4 = this->status_flags & 0xFFFFFFFD;
-        this->status_flags = temp_r4;
+        flags = this->status_flags & 0xFFFFFFFD;
+        this->status_flags = flags;
         this->substate = 0;
         this->state_timer = 0;
-        this->m_528 = calc_lunge_aim(temp_r4);
+        this->m_528 = calc_lunge_aim(flags);
         this->m_52c = 0;
         {
             f32 lim = 40.0f;
@@ -1028,9 +1026,9 @@ void TObjEneBm5GibonU::update_lunge(s32 msg) {
                 this->destination_distance = lim;
             }
         }
-        temp_f0 = this->destination_distance / 14.666667f;
-        this->desired_speed = temp_f0;
-        this->current_speed = temp_f0;
+        speed = this->destination_distance / 14.666667f;
+        this->desired_speed = speed;
+        this->current_speed = speed;
         this->near_target = 0;
         return;
     case 3:
@@ -1417,9 +1415,8 @@ void TObjEneBm5GibonU::flanking_state(s32 msg) {
 }
 
 void TObjEneBm5GibonU::chasing_state(s32 msg) {
-    f32 temp_f1;
-    f32 temp_f1_2;
-    f32 temp_f1_3;
+    f32 frame;
+    f32 speed;
     switch (msg) {
     case 4:
         this->requested_action = 2;
@@ -1456,13 +1453,13 @@ void TObjEneBm5GibonU::chasing_state(s32 msg) {
             if (this->is_passing_frame(18.0f) != 0) {
                 this->current_speed = 4.0f;
             }
-            temp_f1 = this->frame;
-            if ((temp_f1 >= 10.0f) && (temp_f1 <= 18.0f)) {
+            frame = this->frame;
+            if ((frame >= 10.0f) && (frame <= 18.0f)) {
                 enemy_turn_and_move_on_ground(this, (768.0f * this->current_speed), 1.0f);
             } else {
                 this->current_speed *= 0.9f;
-                temp_f1_2 = this->current_speed;
-                enemy_turn_and_move_on_ground(this, (768.0f * temp_f1_2), temp_f1_2);
+                speed = this->current_speed;
+                enemy_turn_and_move_on_ground(this, (768.0f * speed), speed);
             }
             this->m_49c += this->current_speed;
             if (this->m_49c >= 50.0f) {
@@ -2121,9 +2118,6 @@ TObjEneBm5GibonU::~TObjEneBm5GibonU() {
 }
 
 void TObjEneBm5GibonU::run_task() {
-    s16 temp_r0;
-    s16 temp_r3_2;
-    s32 temp_r3;
     TObject *partner;
     if (TObjPlayer::check_demo_mode() != 0) {
         this->run_demo_task();
@@ -2134,22 +2128,19 @@ void TObjEneBm5GibonU::run_task() {
         partner->all_parents_unqueued_for_destruction();
     }
     if (this->update_status_effects() != 4) {
-        temp_r3 = this->reaction_delay;
-        if (temp_r3 != 0) {
-            this->reaction_delay = (temp_r3 - 1);
+        if (this->reaction_delay != 0) {
+            this->reaction_delay = (this->reaction_delay - 1);
             if ((s32) this->reaction_delay == 0) {
-                temp_r0 = this->mode;
-                if ((temp_r0 != 0x11) && (temp_r0 != 0x12)) {
+                if ((this->mode != 0x11) && (this->mode != 0x12)) {
                     transition_enemy_state(0xF);
                 }
             }
         }
         this->update_action_state();
     } else {
-        temp_r3_2 = this->mode;
-        if (temp_r3_2 == 0) {
+        if (this->mode == 0) {
             this->update_action_state();
-        } else if (temp_r3_2 == 1) {
+        } else if (this->mode == 1) {
             VecCopy(&position, &home_position);
             transition_enemy_state(8);
             this->update_action_state();
@@ -2163,10 +2154,7 @@ void TObjEneBm5GibonU::run_task() {
 void TObjEneBm5GibonU::refresh_target() {  }
 
 void TObjEneBm5GibonU::run_death_reaction() {
-    s16 temp_r0;
-
-    temp_r0 = this->mode;
-    if ((temp_r0 != 0x11) && (temp_r0 != 0x12)) {
+    if ((this->mode != 0x11) && (this->mode != 0x12)) {
         transition_enemy_state(0x11);
     }
 }
@@ -2372,21 +2360,21 @@ int TObjEneBm5GibonU::is_active() { return this->entity_id & 0x1; }
 #pragma push
 #pragma fp_contract on
 s32 TObjEneBm5GibonU::calc_lunge_aim(int) {
-    f32 temp_f4;
-    f32 temp_f5;
-    f32 var_f0;
+    f32 dir_x;
+    f32 dir_z;
+    f32 side;
     if (is_target_unobstructed_from((TObjEneDD *)this, (TObjChara *)this->current_target) != 0) {
         this->enemy_copy_target_destination();
         this->update_velocity();
         if (this->is_active() != 0) {
-            var_f0 = 7.0f;
+            side = 7.0f;
         } else {
-            var_f0 = -7.0f;
+            side = -7.0f;
         }
-        temp_f5 = this->destination_direction.z;
-        temp_f4 = this->destination_direction.x;
-        this->destination.x = (f32) (this->destination.x + ((2.0f * temp_f4) + (temp_f5 * var_f0)));
-        this->destination.z = (f32) (this->destination.z + ((2.0f * temp_f5) - (temp_f4 * var_f0)));
+        dir_z = this->destination_direction.z;
+        dir_x = this->destination_direction.x;
+        this->destination.x = (f32) (this->destination.x + ((2.0f * dir_x) + (dir_z * side)));
+        this->destination.z = (f32) (this->destination.z + ((2.0f * dir_z) - (dir_x * side)));
         this->update_velocity();
         return (s32) (RADIANS_TO_ANGLE * atan2_float((f64) this->destination_direction.x, (f64) this->destination_direction.z));
     }

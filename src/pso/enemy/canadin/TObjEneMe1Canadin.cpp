@@ -344,10 +344,7 @@ void TObjEneMe1Canadin::run_task() {
 void TObjEneMe1Canadin::refresh_target() {  }
 
 void TObjEneMe1Canadin::run_death_reaction() {
-    s16 temp_r0;
-
-    temp_r0 = mode;
-    if ((temp_r0 != 0xD) && (temp_r0 != 0xB)) {
+    if ((mode != 0xD) && (mode != 0xB)) {
         transition_enemy_state(0xD);
     }
 }
@@ -515,18 +512,18 @@ s32 TObjEneMe1Canadin::find_attack_target(f32 *out, f32 squared_range) {
 }
 
 s32 TObjEneMe1Canadin::check_target() {
-    f32 sp8;
-    s32 var_r31;
+    f32 dist;
+    s32 in_range;
 
-    var_r31 = 0;
+    in_range = 0;
     if (destination_distance < 70.0f) {
-        var_r31 = 1;
+        in_range = 1;
         leader = (TObjEneMe1Canadin *)find_entity_by_id(leader_id);
-        if ((leader->can_member_attack_target(current_target) == 0) && (find_attack_target(&sp8, 22500.0f) != 0) && (sp8 > 70.0f)) {
-            var_r31 = 0;
+        if ((leader->can_member_attack_target(current_target) == 0) && (find_attack_target(&dist, 22500.0f) != 0) && (dist > 70.0f)) {
+            in_range = 0;
         }
     }
-    return var_r31;
+    return in_range;
 }
 
 void TObjEneMe1Canadin::advance_state_4_to_5() {
@@ -551,16 +548,14 @@ s32 TObjEneMe1Canadin::fn_8009E76C() {
 void TObjEneMe1Canadin::spawn_members() {  }
 
 s32 TObjEneMe1Canadin::check_retreat_trigger() {
-    s32 temp_r4;
-    temp_r4 = status_flags;
-    if (temp_r4 & 0x20) {
-        status_flags = (s32) (temp_r4 & 0xFFFFFFDF);
+    if (status_flags & 0x20) {
+        status_flags &= 0xFFFFFFDF;
         transition_enemy_state(0xA);
         m_40C = 0;
         return 1;
     }
-    if (temp_r4 & 0x40) {
-        status_flags = (s32) (temp_r4 & 0xFFFFFFBF);
+    if (status_flags & 0x40) {
+        status_flags &= 0xFFFFFFBF;
         transition_enemy_state(0xB);
         return 1;
     }
@@ -843,8 +838,6 @@ void TObjEneMe1Canadin::state_appear(s32 msg) {
 }
 
 void TObjEneMe1Canadin::state_hover(s32 msg) {
-    s32 temp_r3;
-
     switch (msg) {
     case 4:
         requested_action = 0;
@@ -857,9 +850,8 @@ void TObjEneMe1Canadin::state_hover(s32 msg) {
         break;
     case 3:
         if (this->check_retreat_trigger() == 0) {
-            temp_r3 = status_flags;
-            if (temp_r3 & 1) {
-                status_flags = (s32) (temp_r3 & 0xFFFFFFFE);
+            if (status_flags & 1) {
+                status_flags &= 0xFFFFFFFE;
                 transition_enemy_state(3);
             } else if (enemy_has_live_target() != 0) {
                 transition_enemy_state(3);
@@ -885,9 +877,6 @@ void TObjEneMe1Canadin::state_hover(s32 msg) {
 }
 
 void TObjEneMe1Canadin::state_activate(s32 msg) {
-    s32 temp_r3;
-    f32 temp_f1;
-
     switch (msg) {
     case 4:
         advance_state_5_to_4();
@@ -906,9 +895,8 @@ void TObjEneMe1Canadin::state_activate(s32 msg) {
         return;
     case 3:
         if (this->check_retreat_trigger() == 0) {
-            temp_r3 = status_flags;
-            if (temp_r3 & 2) {
-                status_flags = temp_r3 & ~2;
+            if (status_flags & 2) {
+                status_flags &= ~2;
                 if (kind == 1) {
                     transition_enemy_state(5);
                 } else {
@@ -987,8 +975,6 @@ void TObjEneMe1Canadin::state_rise(s32 msg) {
 }
 
 void TObjEneMe1Canadin::state_formation(s32 msg) {
-    s32 temp_r3;
-
     switch (msg) {
     case 4:
         advance_state_5_to_4();
@@ -1011,9 +997,8 @@ void TObjEneMe1Canadin::state_formation(s32 msg) {
         update_linked_position(200.0f);
         switch (stage) {
         case 0:
-            temp_r3 = status_flags;
-            if (temp_r3 & 4) {
-                status_flags = (s32) (temp_r3 & 0xFFFFFFFB);
+            if (status_flags & 4) {
+                status_flags &= 0xFFFFFFFB;
                 if (has_status_flag(0x200) != 0) {
                     stage = 1;
                     start_fade_sequence(1);
@@ -1769,22 +1754,19 @@ void TObjEneMe1Canadin::state_move_forward(s32 msg) {
 
 
 void fn_8009BD00(NJS_OBJECT *) {
-    Vec *temp_r4;
     Vec *pos;
-    Vec *temp_r5;
     Vec *temp_r5_2;
     switch (TObjEneMe1Canadin__render_node_index) {
     case 2:
     case 3:
         push_matrix();
         forward_split_screen_view_matrix();
-        temp_r5 = TObjEneMe1Canadin__render_point_cursor;
-        TObjEneMe1Canadin__render_point_cursor = temp_r5 + 1;
-        matrix_mult_vec(0, &lbl_80500960, temp_r5);
-        temp_r4 = TObjEneMe1Canadin__render_point_cursor;
-        temp_r5_2 = temp_r4;
-        TObjEneMe1Canadin__render_point_cursor = temp_r4 + 1;
-        rotate_vector_by_matrix(0, temp_r4, temp_r5_2);
+        pos = TObjEneMe1Canadin__render_point_cursor;
+        TObjEneMe1Canadin__render_point_cursor = pos + 1;
+        matrix_mult_vec(0, &lbl_80500960, pos);
+        pos = TObjEneMe1Canadin__render_point_cursor;
+        TObjEneMe1Canadin__render_point_cursor = pos + 1;
+        rotate_vector_by_matrix(0, pos, pos);
         pop_matrix();
         break;
     case 6:
@@ -1799,24 +1781,22 @@ void fn_8009BD00(NJS_OBJECT *) {
 }
 
 void TObjEneMe1Canadin::render() {
-    s16 temp_r0;
-    s16 temp_r0_2;
-    s32 var_r30;
-    s32 var_r29;
+    s32 detail;
+    s32 draw_now;
     if (TObjPlayer::check_demo_mode() != 0) {
         render_demo();
         return;
     }
     if (status_flags & 0x400000) {
-        var_r30 = 0;
+        detail = 0;
     } else if (TObjEneDD::is_main_phase_15() != 0) {
-        var_r30 = classify_actor_view_detail(view_detail_near_depth, view_detail_far_depth, 15.0f);
+        detail = classify_actor_view_detail(view_detail_near_depth, view_detail_far_depth, 15.0f);
     } else if (update_object_view_visibility(400.0f, 15.0f) != 0) {
-        var_r30 = 1;
+        detail = 1;
     } else {
-        var_r30 = 0;
+        detail = 0;
     }
-    if (var_r30 != 0) {
+    if (detail != 0) {
         if (status_flags & 0x01000000) {
             draw_ground_shadow(0, 0);
         }
@@ -1830,22 +1810,21 @@ void TObjEneMe1Canadin::render() {
         post_translate_matrix(&position.x);
         translate_matrix(0, 0.0f, hover_offset, 0.0f);
         rotate_matrix_y(0, rotation_y);
-        temp_r0 = mode;
-        var_r29 = 1;
-        if ((temp_r0 == 1) || (temp_r0 == 0xB)) {
+        draw_now = 1;
+        if ((mode == 1) || (mode == 0xB)) {
             fade.set_flags_and_apply_damage_color();
             if (defer_render() != 0) {
-                var_r29 = 0;
+                draw_now = 0;
             }
         }
-        if (var_r29 != 0) {
+        if (draw_now != 0) {
             if ((s16) mode != 0xA) {
                 TObjEneMe1Canadin__render_node_index = 0;
                 TObjEneMe1Canadin__render_point_cursor = node_points;
                 VecCopy(&node_points[3], &lbl_8043A268);
                 VecCopy(&node_points[1], &lbl_8043A274);
                 set_chunk_model_node_callback(fn_8009BD00);
-                if (var_r30 == 1) {
+                if (detail == 1) {
                     draw();
                 } else {
                     draw_motion_model();
@@ -1862,8 +1841,7 @@ void TObjEneMe1Canadin::render() {
                 set_chunk_model_node_callback(NULL);
             }
         }
-        temp_r0_2 = mode;
-        if ((temp_r0_2 == 1) || (temp_r0_2 == 0xB)) {
+        if ((mode == 1) || (mode == 0xB)) {
             fade.clear_flag_and_notify();
         }
         pop_matrix();
@@ -1885,12 +1863,10 @@ void TObjEneMe1Canadin::run_demo_task() { if (get_target_info() != 0) { this->ap
 
 #pragma pool_data off
 void TObjEneMe1Canadin::render_demo() {
-    s32 temp_r3;
     if (((s32)get_target_info() != 0) && (kind == 0)) {
-        temp_r3 = status_flags;
-        if (temp_r3 & 0x100) {
+        if (status_flags & 0x100) {
             TObjEneMe1Gee::queue_debug_text((s32)(pack_debug_text_position(0, 0)), "TYPE:IN FIGHTER");
-        } else if (temp_r3 & 0x200) {
+        } else if (status_flags & 0x200) {
             TObjEneMe1Gee::queue_debug_text((s32)(pack_debug_text_position(0, 0)), "TYPE:OUT FIGHTER");
         } else {
             TObjEneMe1Gee::queue_debug_text((s32)(pack_debug_text_position(0, 0)), "TYPE:UNKOWN");
@@ -2136,12 +2112,12 @@ void TObjEneMe1CanadinLeader::update_formation_state() {
     }
 }
 
-void TObjEneMe1CanadinLeader::state_activate(s32 arg1) {
+void TObjEneMe1CanadinLeader::state_activate(s32 msg) {
     s32 k;
     s32 i;
     s32 j;
 
-    switch (arg1) {
+    switch (msg) {
     case 4: {
         advance_state_5_to_4();
         set_field_378(3);
