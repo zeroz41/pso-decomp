@@ -13,6 +13,8 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/math/MatrixTransforms.h"
 
 struct Hold_8036CF30 {
     u8 pad0[0x38];
@@ -34,8 +36,6 @@ struct Hold_8036CE20 {
 };
 
 extern "C" {
-void subtract_vector(Vec *, void *);
-extern u8 *camera_ctrl_instance;
 void run_task__17TObjEneHoldEffectFv(Hold_8036CE20 *o);
 
 #pragma push
@@ -60,7 +60,7 @@ void run_task__17TObjEneHoldEffectFv(Hold_8036CE20 *o) {
             Vec d;
             Vec out;
             VecCopy((Vec *)&d, (const Vec *)&o->pos);
-            subtract_vector(&d, camera_ctrl_instance + 0x178);
+            subtract_vector(&d, &camera_ctrl_instance->pos);
             normalize_vector(&d);
             out.x = o->pos.x - 5.0f * d.x;
             out.y = o->pos.y;
@@ -87,7 +87,7 @@ void TObjEneHoldEffect::render() {
         Vec d;
         Vec out;
         VecCopy((Vec *)&d, (const Vec *)&o->pos);
-        subtract_vector(&d, camera_ctrl_instance + 0x178);
+        subtract_vector(&d, &camera_ctrl_instance->pos);
         normalize_vector(&d);
         out.x = o->pos.x - 5.0f * d.x;
         out.y = o->pos.y;

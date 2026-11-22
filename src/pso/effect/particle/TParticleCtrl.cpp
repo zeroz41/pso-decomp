@@ -28,6 +28,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/camera/TCameraCtrl.h"
 
 #pragma defer_codegen on
 
@@ -68,14 +69,6 @@ typedef struct Particle_80085EE4 {
     s16 f96;
 } Particle_80085EE4;
 
-
-struct Player_80085CB0 {
-    u8 pad0[0x178];
-    Vec pos;
-    u8 pad184[0x194 - 0x184];
-    s32 f194;
-};
-
 struct Ctrl_80085CB0 {
     u8 pad0[0x38];
     Vec pos;
@@ -100,7 +93,6 @@ s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__13TUnk_8048E6A8[];
 extern s32 __vt__13TUnk_8048E6DC[];
 s32 lbl_805D2930 = 1;
-extern u8 *camera_ctrl_instance;
 f32 vec_squared_length(u8 *arg0);
 s32 rotate_vector_by_matrix(int, void *, void *);
 
@@ -127,16 +119,16 @@ void TUnk_8048E6DC::run_task() {
     Vec d;
     f32 v;
     f32 r;
-    if ((*(Player_80085CB0 * *)&camera_ctrl_instance) != NULL) {
-        d.x = self->pos.x - (*(Player_80085CB0 * *)&camera_ctrl_instance)->pos.x;
+    if (camera_ctrl_instance != NULL) {
+        d.x = self->pos.x - camera_ctrl_instance->pos.x;
         d.y = 0.0f;
-        d.z = self->pos.z - (*(Player_80085CB0 * *)&camera_ctrl_instance)->pos.z;
+        d.z = self->pos.z - camera_ctrl_instance->pos.z;
         if (0.0f != vec_squared_length((u8 *)&d)) {
             normalize_vector(&d);
         }
         push_matrix_from(identity_matrix);
         Vec t = { 0.0f, 0.0f, -1.0f };
-        rotate_matrix_y(0, (s32)((*(Player_80085CB0 * *)&camera_ctrl_instance)->f194));
+        rotate_matrix_y(0, camera_ctrl_instance->yaw);
         rotate_vector_by_matrix(0, &t, &out);
         pop_matrix();
         self->f94 = vec3_dot(&out, &d);
@@ -150,7 +142,7 @@ void TUnk_8048E6DC::run_task() {
             v = 0.0f;
         }
         self->f90 = 50.0f * v + 25.0f;
-        Vec p = (*(Player_80085CB0 * *)&camera_ctrl_instance)->pos;
+        Vec p = camera_ctrl_instance->pos;
         if (csnVector(&p, &self->pos, 0x100) != 0) {
             self->f98 = 1;
         } else {
