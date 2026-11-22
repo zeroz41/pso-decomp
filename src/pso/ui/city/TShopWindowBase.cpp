@@ -7,6 +7,7 @@
 
 #include "types.h"
 #include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/system/ControllerInput.h"
 
 #pragma readonly_strings on
@@ -45,7 +46,7 @@ s32 TShopSequence::get_child_field1c() {
 extern s32 lbl_805D55C0;
 
 s32 TShopWindowBase::sub_802239EC() {
-    if (*(s32 *)((s8 *)((u8 *)&controller_input_state + (((TRaderMapCore *)(*(saddr *)((s8 *)((u8 *)this) + 0x24)))->get_map_id() * 0x50)) + 0x28) & 2) {
+    if (*(s32 *)((s8 *)((u8 *)&controller_input_state + (((TObjPlayer *)(*(saddr *)((s8 *)((u8 *)this) + 0x24)))->get_controller_port() * 0x50)) + 0x28) & 2) {
         return 1;
     }
     return test_controller_flag_4c_color(&controller_input_state.keyboard, 2) ? 1 : 0;
@@ -53,7 +54,7 @@ s32 TShopWindowBase::sub_802239EC() {
 
 s32 TShopWindowBase::sub_80223A48() {
     u8 *arg0 = (u8 *)this;
-    if (*(s32 *)((s8 *)((u8 *)&controller_input_state + (((TRaderMapCore *)(*(saddr *)((s8 *)arg0 + 0x24)))->get_map_id() * 0x50)) + 0x28) & 4) {
+    if (*(s32 *)((s8 *)((u8 *)&controller_input_state + (((TObjPlayer *)(*(saddr *)((s8 *)arg0 + 0x24)))->get_controller_port() * 0x50)) + 0x28) & 4) {
         return 1;
     }
     if (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0) {

@@ -296,7 +296,7 @@ void TMedicalCenterMes::run_task() {
     }
     case 1:
         if (is_ready() != 0 && player != NULL) {
-            if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[((TRaderMapCore *)player)->get_map_id()], 4) != 0) {
+            if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[((TObjPlayer *)player)->get_controller_port()], 4) != 0) {
                 state = 2;
             }
         }

@@ -96,6 +96,7 @@ struct TObjPlayer : public TObjChara {
     void set_move_mode_from_class_flags();
     void init_from_source(u8 *);
     void init_control_mode(s32);
+    s32 get_controller_port();
     void load_char_data(u8 *);
     void destroy_owned_object();
     void init_collision_body();
@@ -181,7 +182,7 @@ struct TObjPlayer : public TObjChara {
     s32 m_3c4;
     u8 unk_3C8[0x4];
     u32 m_3cc;
-    s32 m_3d0;
+    s32 controller_port; // 0-3, set by init_control_mode for a local player
     u8 unk_3D4[0x4];
     s32 m_3d8;
     s32 m_3dc;

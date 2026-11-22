@@ -6907,7 +6907,7 @@ s32 TObjPlayer__sub_801AFD8C(u8 *player) {
     return temp_r3;
 }
 
-s32 TRaderMapCore::get_map_id() { return *(s32*)((char*)this + 0x3d0); }
+s32 TObjPlayer::get_controller_port() { return this->controller_port; }
 
 void TObjPlayer::set_action_provider_variant(s16 arg1) {
     if (arg1 != ((TObjPlayer *)(((Player_801AFCF4 *)this)->obj))->sub_802a7290_fwd() && fn_8000F740(main_phase_state) != 0) {

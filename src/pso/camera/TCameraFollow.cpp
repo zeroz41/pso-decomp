@@ -702,7 +702,7 @@ void TCameraFollow::run_task() {
         player = get_player_by_client_id(i);
         if ((player != NULL && player->is_controls_locked() == 0) || TWindowCtrl::get_flag_bit3() == 1) {
             i = get_camera_reset_button(i);
-            if ((TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[((TRaderMapCore *)player)->get_map_id()], i) != 0 && close_up == 0) || recenter_requested != 0) {
+            if ((TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[player->get_controller_port()], i) != 0 && close_up == 0) || recenter_requested != 0) {
                 recenter_requested = 0;
                 yaw = this->actor->rotation_y + 0x8000;
             }

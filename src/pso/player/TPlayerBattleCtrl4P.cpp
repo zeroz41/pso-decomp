@@ -1395,7 +1395,7 @@ s32 TPlayerBattleCtrl4P::close_windows_on_button() {
     for (i = 0; i < 4; i++) {
         if ((p = get_player_by_client_id(i)) != NULL) {
             if (self->win[i] != NULL) {
-                if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[((TRaderMapCore *)p)->get_map_id()], 2) != 0) {
+                if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[((TObjPlayer *)p)->get_controller_port()], 2) != 0) {
                     ((TWindowBase *)(self->win[i]))->close();
                     self->win[i] = 0;
                 } else {

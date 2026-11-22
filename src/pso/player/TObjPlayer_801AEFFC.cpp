@@ -20,7 +20,7 @@ s32 TObjPlayer::get_card_window_field_244() {
 
 void TObjPlayer::init_local_pad_binding() {
     if (((s32)TObjPlayer::is_locally_controlled(this)) != 0) {
-        init_pad_binding((void *) (((u8 *)this) + 0x550), (get_entity_id(this)), (int) ((s16) this->m_3d0));
+        init_pad_binding((void *) (((u8 *)this) + 0x550), (get_entity_id(this)), (int) ((s16) this->controller_port));
     }
 }
 

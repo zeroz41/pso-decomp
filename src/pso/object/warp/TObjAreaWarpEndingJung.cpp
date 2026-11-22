@@ -479,7 +479,7 @@ void TObjMapWarp::process_player_warps() {
                 t = find_warp_player_in_range(this, i, this->warp_range);
                 if (t != NULL) {
                     this->open_confirm_window(get_entity_id(t));
-                    if (t->is_target_valid() != 0 && this->vfunc_18(((TRaderMapCore *)t)->get_map_id()) != 0) {
+                    if (t->is_target_valid() != 0 && this->vfunc_18(t->get_controller_port()) != 0) {
                         for (j = 0; j < 4; j++) {
                             if (test_player_body_overlap_at(this, t, &destinations[j]) == 0) {
                                 send_6x55_intra_map_warp(get_entity_id(t), &destinations[j], this->set_params[0]);
@@ -508,7 +508,7 @@ void TObjMapWarp::process_player_warps() {
         t2 = find_warp_player_in_range(this, local_client_id, this->warp_range);
         if (t2 != NULL) {
             this->open_confirm_window(local_client_id);
-            if (t2->is_target_valid() != 0 && this->vfunc_18(((TRaderMapCore *)t2)->get_map_id()) != 0) {
+            if (t2->is_target_valid() != 0 && this->vfunc_18(t2->get_controller_port()) != 0) {
                 for (j2 = 0; j2 < 4; j2++) {
                     if (test_player_body_overlap_at(this, t2, &destinations[j2]) == 0) {
                         send_6x55_intra_map_warp(get_entity_id(t2), &destinations[j2], this->set_params[0]);
@@ -691,7 +691,7 @@ void TObjAreaWarp::handle_area_selection() {
             TObjPlayer *t2 = find_warp_player_in_range(this, local_client_id, d->fAC);
             if (t2 != NULL) {
                 this->open_confirm_window(local_client_id);
-                if (this->vfunc_18(((TRaderMapCore *)t2)->get_map_id()) != 0) {
+                if (this->vfunc_18(t2->get_controller_port()) != 0) {
                     this->vfunc_14();
                     this->confirm_area_transfer(t2);
                 }

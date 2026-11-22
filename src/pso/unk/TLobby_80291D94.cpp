@@ -532,7 +532,7 @@ void TLobby::rebuild_players_for_stage(s32 arg0) {
             VecCopy((Vec *)&pos, (const Vec *)((u8 *)p + 0x38));
             copy_player_visual_record(&info, (u8 *)p + 0x85C);
             ((TLobby *)(&hdr))->copy_header_struct((u8 *)p + 0xDAC);
-            map = ((TRaderMapCore *)p)->get_map_id();
+            map = ((TObjPlayer *)p)->get_controller_port();
             if (p != NULL) {
                 p->v0(1);
             }
