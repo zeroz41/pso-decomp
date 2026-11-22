@@ -4,6 +4,8 @@
 #include "pso/system/memory.h"
 #include "pso/system/vector.h"
 #include "pso/boss/goldragon/TObjBoss8PillerCtrl.h"
+#include "pso/boss/goldragon/TObjBoss8Piller.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
 
 struct Ent_8035C03C { s32 x; s32 y; };
@@ -19,11 +21,6 @@ const Ent_8035C03C boss8_piller_ctrl_params[41] = {
     {2, 0}, {-2, 0}, {-1, 1}, {-1, -1}, {2, 1}, {2, -1}, {-1, 2}, {-1, -2}, {0, 2}, {0, -2}, {1, 2}, {1, -2}, {0xFFFF, 0xFFFF},
     {3, 0}, {-3, 0}, {-2, 1}, {-2, -1}, {3, 1}, {3, -1}, {2, 2}, {2, -2}, {-2, 2}, {-2, -2}, {-1, 3}, {-1, -3}, {0, 3}, {0, -3}, {1, 3}, {1, -3}, {2, 3}, {2, -3}, {0xFFFF, 0xFFFF},
 };
-
-extern "C" {
-void __ct__15TObjBoss8PillerFv(void *, s32, Vec *, f32, u16);
-extern saddr tl_05;
-}
 
 // Written last to first: the unit is generated deferred (see configure.py).
 
@@ -48,7 +45,6 @@ TObjBoss8PillerCtrl::~TObjBoss8PillerCtrl() {
 #pragma fp_contract on
 void TObjBoss8PillerCtrl::run_task() {
     Vec v;
-    void *p;
     switch (frame) {
     case 0:
     case 5:
@@ -62,10 +58,7 @@ void TObjBoss8PillerCtrl::run_task() {
                 v.z += -21.65f;
             }
             if (fn_8035BFF8(&v) == 0) {
-                p = TObject::operator new(0x34);
-                if (p != NULL) {
-                    __ct__15TObjBoss8PillerFv(p, tl_05, &v, 100.0f, piller_arg);
-                }
+                new TObjBoss8Piller(tl_05, &v, 100.0f, piller_arg);
             }
             step++;
         }

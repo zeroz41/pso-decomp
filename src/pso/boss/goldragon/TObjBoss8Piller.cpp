@@ -16,6 +16,7 @@
 #include "pso/object/TObjControl.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/animation/ActorAnimationState.h"
 
 const char *bm_obj_boss8_piller_model_names[5] = {
     "fe_obj_gol_hasira5m.nj", "fe_obj_gol_hasira1m.nj", "fe_obj_gol_hasira5m_m.nj", "fe_obj_gol_hasira1m_m.nj", NULL,
@@ -28,43 +29,41 @@ const char *TObjBoss8Piller__class_name = "TObjBoss8Piller";
 
 extern "C" {
 
-uaddr TObjBoss8Piller__shared_resource;
+BmlResource *TObjBoss8Piller__shared_resource;
 s32 TBoss8Dragon__sub_802FB1B0(int, f32, void *);
 s32 post_translate_matrix(void *);
 
 
 void TObjBoss8Piller::render() {
-    u8 *self = (u8 *)this;
-    saddr var_r31;
+    NJS_OBJECT *model;
 
     if (TObjPlayer::is_any_teammate_in_state() == 0) {
         if (is_split_screen() != 0) {
-            var_r31 = *(s32 *)((s8 *)(*(void **)((s8 *)TObjBoss8Piller__shared_resource + 0x42C)) + 0x28);
+            model = TObjBoss8Piller__shared_resource->models[2].model;
         } else {
-            var_r31 = *(s32 *)((s8 *)(*(void **)((s8 *)TObjBoss8Piller__shared_resource + 0x42C)) + 8);
+            model = TObjBoss8Piller__shared_resource->models[0].model;
         }
-        TObjFish::set_global_param((saddr)((void *) (*(saddr *)((s8 *)(*(void **)((s8 *)TObjBoss8Piller__shared_resource + 0x42C)) + 0xC))));
+        TObjFish::set_global_param((saddr)TObjBoss8Piller__shared_resource->models[0].m_c);
         push_matrix();
-        post_translate_matrix(self + 0x1C);
+        post_translate_matrix(&this->position);
         scale_matrix(0, 1.0f, 1.0f, 1.0f);
-        draw_model_motion((void *)var_r31, (void *)(*(saddr *)((s8 *)self + 0x2C)), (f32) (*(f32 *)((s8 *)self + 0x28)));
+        draw_model_motion(model, this->motion, this->frame);
         pop_matrix();
         set_default_alpha_blend();
     }
 }
 void TObjBoss8Piller::run_task() {
-    u8 *self = (u8 *)this;
     u32 enemy_entity;
-    u32 temp_r3_2;
-    *(f32 *)((s8 *)self + 0x28) += 1.0f;
-    enemy_entity = (uaddr)get_enemy_entity((*(u16 *)((s8 *)self + 0x30)));
+    u32 last_frame;
+    this->frame += 1.0f;
+    enemy_entity = (uaddr)get_enemy_entity(this->dragon_id);
     if (enemy_entity != 0U) {
-        TBoss8Dragon__sub_802FB1B0(enemy_entity, 25.0f, self + 0x1C);
+        TBoss8Dragon__sub_802FB1B0(enemy_entity, 25.0f, &this->position);
     }
-    temp_r3_2 = *(s32 *)((s8 *)(*(u8 **)((s8 *)self + 0x2C)) + 4) - 1;
-    if (*(f32 *)((s8 *)self + 0x28) >= (f32) temp_r3_2) {
-        *(f32 *)((s8 *)self + 0x28) = (f32) temp_r3_2;
-        ((TObject *)self)->queue_destruction();
+    last_frame = this->motion->frameCount - 1;
+    if (this->frame >= (f32)last_frame) {
+        this->frame = (f32)last_frame;
+        this->queue_destruction();
     }
 }
 
@@ -72,41 +71,26 @@ void TObjBoss8Piller::run_task() {
 
 TObjBoss8Piller::~TObjBoss8Piller() {}
 
-
-struct RecoveredGlobal_8030AF60___vt__15TObjBoss8Piller {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-extern "C" {
-void __ct__7TObjectFP7TObject(void *, void *);
-extern RecoveredGlobal_8030AF60___vt__15TObjBoss8Piller __vt__15TObjBoss8Piller;
-
-LAYOUT_ASSERT(RecoveredGlobal_8030AF60___vt__15TObjBoss8Piller_size, sizeof(RecoveredGlobal_8030AF60___vt__15TObjBoss8Piller) == 0x18);
-u8 *__ct__15TObjBoss8PillerFv(u8 *object, u8 *parent, u8 *arg2, s16 arg3) {
-    __ct__7TObjectFP7TObject(object, parent);
-    *(s32 **)((s8 *)object + 0x18) = &__vt__15TObjBoss8Piller.value;
-    ((TObjBoss8Piller *)object)->m_name = TObjBoss8Piller__class_name;
-    VecCopy((Vec *)(object + 0x1C), (const Vec *)arg2);
-    *(f32 *)((s8 *)object + 0x20) = 0.0f;
-    *(f32 *)((s8 *)object + 0x28) = 0.0f;
-    *(s16 *)((s8 *)object + 0x30) = arg3;
-    *(f32 *)((s8 *)object + 0x28) = (f32) (3.0f * (3.0517578e-05f * (f32) rand()));
-    *(s32 *)((s8 *)object + 0x2C) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjBoss8Piller__shared_resource) + 0x430)) + 4);
-    return object;
+TObjBoss8Piller::TObjBoss8Piller(TObject *parent, Vec *pos, f32, u16 dragon_id) : TObject(parent) {
+    m_name = TObjBoss8Piller__class_name;
+    VecCopy(&this->position, pos);
+    this->position.y = 0.0f;
+    this->frame = 0.0f;
+    this->dragon_id = dragon_id;
+    this->frame = 3.0f * (3.0517578e-05f * (f32)rand());
+    this->motion = TObjBoss8Piller__shared_resource->motions[0].motion;
 }
 
+extern "C" {
+
 void TObjBoss8Piller::free_held_object() {
-    if ((u32) TObjBoss8Piller__shared_resource != 0U) {
-        delete (BmlResource *)TObjBoss8Piller__shared_resource;
-        TObjBoss8Piller__shared_resource = 0U;
+    if (TObjBoss8Piller__shared_resource != NULL) {
+        delete TObjBoss8Piller__shared_resource;
+        TObjBoss8Piller__shared_resource = NULL;
     }
 }
 void TObjBoss8Piller::load_resource_descriptor() {
-    saddr temp_r3;
-    s32 var_r0;
-    var_r0 = (saddr)new BmlResource(5, &bm_obj_boss8_piller_resource_descriptor, 0, 0, NULL);
-    (*(s32 *)&TObjBoss8Piller__shared_resource) = var_r0;
+    TObjBoss8Piller__shared_resource = new BmlResource(5, &bm_obj_boss8_piller_resource_descriptor, 0, 0, NULL);
 }
 
 }
