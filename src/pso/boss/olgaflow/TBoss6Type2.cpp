@@ -786,7 +786,7 @@ Blk_802BCFD4 *TBoss6Type2::copy_block(Blk_802BCFD4 *d, const Blk_802BCFD4 *s) {
     return d;
 }
 
-void TBoss6Type2::copy_transform(void* q) { *(u32*)((char*)this + 0x0) = *(u32*)((char*)q + 0x0); *(f32*)((char*)this + 0x4) = *(f32*)((char*)q + 0x4); *(f32*)((char*)this + 0x8) = *(f32*)((char*)q + 0x8); *(f32*)((char*)this + 0xc) = *(f32*)((char*)q + 0xc); *(f32*)((char*)this + 0x10) = *(f32*)((char*)q + 0x10); *(u32*)((char*)this + 0x14) = *(u32*)((char*)q + 0x14); *(f32*)((char*)this + 0x18) = *(f32*)((char*)q + 0x18); }
+void TBoss6Type2MotionTrack::copy_from(TBoss6Type2MotionTrack *src) { *this = *src; }
 
 void TBoss6Type2::init_motion_entries() {
     s32 i;
@@ -794,7 +794,7 @@ void TBoss6Type2::init_motion_entries() {
     for (i = 0; i < get_motion_track_count(); i++) {
         TBoss6Type2MotionTrack *e = &motion_tracks[i];
         AnimationMotion *motion;
-        ((TBoss6Type2 *)e)->copy_transform((void *)boss6_type2_motion_entry_transform);
+        e->copy_from((TBoss6Type2MotionTrack *)&boss6_type2_motion_entry_transform);
         motion = get_bml_motion(archive, TBoss6Type2__motion_table[0].motion[i]);
         e->prev_motion = motion;
         e->motion = motion;

@@ -35,6 +35,7 @@ struct TBoss6Type2MotionTrack {
     f32 blend_step;
     AnimationMotion *prev_motion;
     f32 prev_frame;
+    void copy_from(TBoss6Type2MotionTrack *src);
 };
 
 // A head joint aim_toward_point turns: render adds aim_angle to the node's rest angle.
@@ -231,7 +232,6 @@ struct TBoss6Type2 : public TObjEnemy
     void draw_body_models();
     void update_motion_tracks();
     void init_motion_entries();
-    void copy_transform(void* q);
     void set_action_state(s32 action);
     void copy_pos_620(saddr arg1);
     void get_push_points(saddr arg1, saddr arg2);

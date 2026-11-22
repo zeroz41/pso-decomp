@@ -5414,7 +5414,7 @@ force_active:
   - copy_struct_f8__6TLobbyFii
   - copy_target_record__11TMainCursorFPvPv
   - copy_transform__10TNpcPlayerFPvPv
-  - copy_transform__11TBoss6Type2FPv
+  - copy_from__22TBoss6Type2MotionTrackFP22TBoss6Type2MotionTrack
   - copy_transform_second__10TNpcPlayerFPvPvPv
   - copy_udp_socket_event_record
   - copy_vec3__11TBoss6Type2Fii
