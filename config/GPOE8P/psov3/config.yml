@@ -369,7 +369,7 @@ force_active:
   - TBoss4Type3_name
   - TBoss4Type3_type_name
   - __ct__9TBoss4UroFP7TObjectP17TBoss4ZakoSetData
-  - sub_8005D6D4__14TBoss4DarkFalzFv
+  - count_minion_lost__14TBoss4DarkFalzFv
   - run_death_reaction__9TBoss4UroFv
   - __ct__10TBoss4ZakoFP7TObjectP17TBoss4ZakoSetData
   - run_task__11TBoss4BishiFv
@@ -6327,7 +6327,7 @@ force_active:
   - fn_80049A0C
   - fn_8004D9A8
   - fn_8005586C
-  - sub_8005D6E4__14TBoss4DarkFalzFv
+  - count_minion_spawned__14TBoss4DarkFalzFv
   - fn_8005EBDC__13TBoss5GryphonFPUcP22Boss5GryphonActionStep
   - run_action_script_step__13TBoss5GryphonFPsPUl
   - fn_8005FD34__13TBoss5GryphonFl
@@ -16158,9 +16158,9 @@ force_active:
   - sub_80043CA8__15TBoss3VoloptP01Fv
   - sub_800443DC__15TBoss3VoloptP01Fl
   - sub_80049000__14TObjVoloptCageFv
-  - sub_8004AFB8__14TBoss4DarkFalzFv
-  - sub_8004B084__14TBoss4DarkFalzFv
-  - sub_8004B0F8__14TBoss4DarkFalzFv
+  - reset_child_ids__14TBoss4DarkFalzFv
+  - run_state_update__14TBoss4DarkFalzFv
+  - run_state_leader_update__14TBoss4DarkFalzFv
   - sub_8004E068__11TObjDFDemo1Fv
   - sub_8004F2A8__11TObjDFDemo4Fv
   - sub_80056998__11TBoss4Type2Fv

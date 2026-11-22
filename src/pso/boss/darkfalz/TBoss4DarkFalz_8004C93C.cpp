@@ -78,7 +78,7 @@ TBoss4Type1 *TBoss4DarkFalz::get_instance() {
     return TBoss4DarkFalz__type1_instance;
 }
 
-int TBoss4DarkFalz::is_field378_zero() { return this->m_378 == 0; }
+int TBoss4DarkFalz::is_floor_leader() { return this->not_floor_leader == 0; }
 s32 TBoss4Type3::get_action_state() { return state; }
 s32 TBoss4Type2::get_phase() { return action; }
 s32 TBoss4Type1::get_state() { return state; }
@@ -377,7 +377,7 @@ void TBoss4DarkFalz::start_demo1() {
 }
 
 void TBoss4DarkFalz::spawn_ancient_trap() {
-    if (sub_8004D990() > 0) {
+    if (get_live_minion_count() > 0) {
         play_persistent_sound(0x4003A30A, (saddr)this, 0, -0x20, 2);
     }
 }

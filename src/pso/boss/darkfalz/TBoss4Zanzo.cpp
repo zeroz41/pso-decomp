@@ -243,7 +243,7 @@ void TBoss4Type2::run_death_reaction() {
 void TBoss4Type2::run_task() {
     void (TBoss4Type2::*fn)();
 
-    if (owner->is_field378_zero() != 0) {
+    if (owner->is_floor_leader() != 0) {
         fn = boss4_type2_action_table[action].update_idle;
         if (fn != 0) {
             (this->*fn)();
@@ -636,7 +636,7 @@ void TBoss4Type2::spawn_bishi_around_players() {
         pl = TObjPlayer::get_player_data(i);
         if (pl != 0 && TBoss4Type3__sub_8005254C(get_entity_id(pl)) != 0) {
             for (j = 0; j < 3; j++) {
-                if (owner->sub_8004AF5C(&b.set_index, &b.entity_id) != 0) {
+                if (owner->alloc_child_ids(&b.set_index, &b.entity_id) != 0) {
                     VecCopy(&b.position, &pl->position);
                     b.position.x += bishi_spawn_offset_table[j].x;
                     b.position.z += bishi_spawn_offset_table[j].z;

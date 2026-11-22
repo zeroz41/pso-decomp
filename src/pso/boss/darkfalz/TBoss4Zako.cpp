@@ -48,14 +48,14 @@ const char *TBoss4Bishi__name = TBoss4Bishi__class_name_string;
 static const f32 movement_speed_step = 0.033333335f;
 static const f32 one_third = 0.33333334f;
 
-// Counts a spawned minion (sub_8004D990 returns m_388 - m_38c, the minions alive).
-void TBoss4DarkFalz::sub_8005D6E4() {
-    m_388 = m_388 + 1;
+// Counts a spawned minion (get_live_minion_count returns minions_spawned - minions_lost).
+void TBoss4DarkFalz::count_minion_spawned() {
+    minions_spawned = minions_spawned + 1;
 }
 
 // Counts a minion that died or sank.
-void TBoss4DarkFalz::sub_8005D6D4() {
-    m_38c = m_38c + 1;
+void TBoss4DarkFalz::count_minion_lost() {
+    minions_lost = minions_lost + 1;
 }
 
 s32 TBoss4Zako::sub_8005D6B0() {
@@ -76,7 +76,7 @@ TBoss4Zako::TBoss4Zako(TObject *parent, TBoss4ZakoSetData *set_data) : TObjEnemy
     m_name = TBoss4Zako__name;
     add_flags_2e4(8);
     owner = set_data->owner;
-    owner->sub_8005D6E4();
+    owner->count_minion_spawned();
     apply_set_data(&set_data->set_index);
     clear_lobby_object_state();
     archive = reinterpret_cast<BmlResource *>(TBoss4Uro::get_instance_count());
@@ -323,7 +323,7 @@ void TBoss4Zako::update_sink_state() {
 }
 
 void TBoss4Zako::set_state3() {
-    owner->sub_8005D6D4();
+    owner->count_minion_lost();
     surfaced = 0;
     state = 3;
 }
@@ -392,7 +392,7 @@ TBoss4Uro::~TBoss4Uro() {}
 void TBoss4Uro::run_death_reaction() {
     if (state != 3) {
         distribute_experience();
-        owner->sub_8005D6D4();
+        owner->count_minion_lost();
         state = 3;
     }
 }
@@ -434,7 +434,7 @@ void TBoss4Uro::clamp_min_player_distance() {
 #pragma fp_contract on
 void TBoss4Uro::run_task() {
     if (state != 3 && owner->get_phase() != 6) {
-        owner->sub_8005D6D4();
+        owner->count_minion_lost();
         state = 3;
         return;
     }
@@ -628,7 +628,7 @@ void TBoss4Bishi::run_death_reaction() {
 
 void TBoss4Bishi::enter_state_3() {
     if (state != 3) {
-        owner->sub_8005D6D4();
+        owner->count_minion_lost();
         state = 3;
     }
 }

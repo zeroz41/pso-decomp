@@ -448,7 +448,7 @@ void TBoss4Type1::run_death_reaction() {
 #pragma opt_common_subs off
 void TBoss4Type1::run_task() {
     void (TBoss4Type1::*act)();
-    if (owner->is_field378_zero() != 0) {
+    if (owner->is_floor_leader() != 0) {
         act = lbl_80485C48[state].update_idle;
         if (act) {
             (this->*act)();
@@ -896,7 +896,7 @@ void TBoss4Type1::choose_next_attack() {
 }
 
 void TBoss4Type1::check_state_transition() {
-    if (owner->sub_8004D990() <= (s32) (0xC - uro_limit)) {
+    if (owner->get_live_minion_count() <= (s32) (0xC - uro_limit)) {
         send_state_to_target(5);
         return;
     }
@@ -1074,7 +1074,7 @@ void TBoss4Type1::update_spawn_uro() {
     t = state_timer;
     if (t < 0x106 && (t & 0x1F) == 0 && uro_count < uro_limit) {
         TBoss4DarkFalz__sub_8004B4F0(&p.set_index, &dark_falz_set_entry);
-        if (owner->sub_8004AF5C(&p.set_index, &p.entity_id) != 0) {
+        if (owner->alloc_child_ids(&p.set_index, &p.entity_id) != 0) {
             p.owner = owner;
             p.unk_0C = 1;
             VecCopy(&p.position, s);
@@ -1085,7 +1085,7 @@ void TBoss4Type1::update_spawn_uro() {
             }
         }
     }
-    owner->sub_8004D990();
+    owner->get_live_minion_count();
     if (state_timer == 0x106) {
         play_sound_effect(0x4003AD0F, s, 0, 1);
     }

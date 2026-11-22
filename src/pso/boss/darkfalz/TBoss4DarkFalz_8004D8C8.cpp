@@ -28,8 +28,8 @@ void TBoss4Type2::get_demo2_params(u16 *a, u16 *b, u16 *out) {
     }
 }
 
-s32 TBoss4DarkFalz::sub_8004D990() {
-    return *(s32 *)((s8 *)this + 0x388) - *(s32 *)((s8 *)this + 0x38C);
+s32 TBoss4DarkFalz::get_live_minion_count() {
+    return minions_spawned - minions_lost;
 }
 
 void TObjDFUsoTower::sub_8004D9A0(s32 state) { fade_state = state; }

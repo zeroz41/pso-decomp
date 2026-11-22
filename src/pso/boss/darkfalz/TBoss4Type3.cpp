@@ -345,7 +345,7 @@ void TBoss4Type3::run_task() {
     if (capture_target != 0xFFFF && TBoss4Type3__sub_8005254C(capture_target) == 0) {
         capture_target = 0xFFFF;
     }
-    if (owner->is_field378_zero()) {
+    if (owner->is_floor_leader()) {
         fn = boss4_type3_states[state].advance;
         if (fn) {
             (this->*fn)();

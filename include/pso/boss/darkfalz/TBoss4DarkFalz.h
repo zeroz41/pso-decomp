@@ -12,19 +12,19 @@ struct TBoss4DarkFalzSetEntry;
 struct TBoss4DarkFalz : public TObjEnemy {
     TBoss4DarkFalz(TObject *parent, TBoss4DarkFalzSetEntry *set_data);
     virtual ~TBoss4DarkFalz();
-    void sub_8004B0F8();
-    void sub_8004B084();
-    void sub_8004AFB8();
-    s32 sub_8004AF5C(s16 *set_index_out, s16 *entity_id_out);
+    void run_state_leader_update();
+    void run_state_update();
+    void reset_child_ids();
+    s32 alloc_child_ids(s16 *set_index_out, s16 *entity_id_out);
     virtual void run_death_reaction();
-    u32 m_374;
-    u32 m_378;
-    u32 m_37c;
+    s32 roar_timer;          // frames to the next roar sound, 300..600 (update_roar_sound_timer)
+    s32 not_floor_leader;    // 0 on the floor leader's client (update_visible_flag)
+    s32 state_index;         // dark_falz_state_table entry, -1 before the first change_state
     s32 state_timer; // per-state countdown: init_timer sets 30, update_timer decrements and tests < 0
-    s32 m_384;
-    u32 m_388;
-    u32 m_38c;
-    u32 m_390;
+    s32 next_child_index;    // added to set_index / entity_id by alloc_child_ids
+    s32 minions_spawned;
+    s32 minions_lost;
+    s32 active_player_count; // count_active_players() when the boss was built
     TObjDFUsoTower *intro_tower;
     TBoss4Fade *fade;
     Vec cinematic_position;
@@ -35,7 +35,7 @@ struct TBoss4DarkFalz : public TObjEnemy {
     static void load_resources();
     static TBoss4DarkFalz *create(saddr set_data);
     static TBoss4Type1 *get_instance();
-    int is_field378_zero();
+    int is_floor_leader();
 
     void swap_and_send();
     void swap_bytes();
@@ -88,10 +88,10 @@ struct TBoss4DarkFalz : public TObjEnemy {
 
     void begin_defeat_sequence();
     void update_countdown_shrink();
-    s32 sub_8004D990();
+    s32 get_live_minion_count();
     s32 get_phase();
-    void sub_8005D6E4();
-    void sub_8005D6D4();
+    void count_minion_spawned();
+    void count_minion_lost();
     static s32 is_state_ready();
     static s32 is_active();
     void spawn_zako_rings();
@@ -116,7 +116,7 @@ typedef void (TBoss4DarkFalz::*TBoss4DarkFalzHandler)();
 
 /* One state of the TBoss4DarkFalz state machine (16 records, names EDITOR .. OL ENDING).
  * change_state calls leave on the old state and enter on the new one; run_task calls
- * update_leader while m_378 is 0 (cleared for the floor leader) and update every frame. */
+ * update_leader while not_floor_leader is 0 (cleared for the floor leader) and update every frame. */
 struct TBoss4DarkFalzState {
     const char *name;
     TBoss4DarkFalzHandler enter;
@@ -136,7 +136,7 @@ extern TBoss4DarkFalzState dark_falz_state_table[16];
 
 /* The 0x40-byte enemy set entry the constructor was given (kind 0x200), kept with kind
  * cleared; the minion spawners copy it (TBoss4DarkFalz__sub_8004B4F0) and renumber it with
- * sub_8004AF5C. */
+ * alloc_child_ids. */
 struct TBoss4DarkFalzSetEntry {
     s16 set_index;
     s16 kind;
