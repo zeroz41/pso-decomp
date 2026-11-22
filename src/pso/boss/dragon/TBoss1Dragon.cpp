@@ -598,7 +598,7 @@ void TBoss1Dragon::load_resources() {
         boss1_dragon_resource = (uaddr)load_enemy_bml_resource_named(&boss1_dragon_bml_descriptor, "bm_boss1_dragon_a.bml");
         break;
     }
-    source = ((DragonResource *)boss1_dragon_resource)->model->root;
+    source = ((DragonResource *)boss1_dragon_resource)->models[0].root;
     boss1_dragon_model_node_count = TBoss1Dragon::countModelNodes(source);
     boss1_dragon_capture_model = (uaddr)TQuestVmDownLoadServer::alloc(boss1_dragon_model_node_count * 0x50);
     boss1_dragon_capture_chunk_model.state[0] = 0;
@@ -607,7 +607,7 @@ void TBoss1Dragon::load_resources() {
     boss1_dragon_capture_chunk_model.params[1] = (0.0f);
     boss1_dragon_capture_chunk_model.params[2] = (0.0f);
     boss1_dragon_capture_chunk_model.params[3] = (0.0f);
-    source = ((DragonResource *)boss1_dragon_resource)->model->root;
+    source = ((DragonResource *)boss1_dragon_resource)->models[0].root;
     TBoss1Dragon::cloneModelHierarchy(source, (DragonModelNode *)boss1_dragon_capture_model, boss1_dragon_capture_chunk_model.state);
 
     boss1_dragon_capture_node = 0;
@@ -740,8 +740,8 @@ TBoss1Dragon::TBoss1Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
         this->flags |= 0x40;
     }
     this->init_position_vectors();
-    this->model = ((DragonResource *)boss1_dragon_resource)->model->root;
-    this->texlist = ((DragonResource *)boss1_dragon_resource)->model->m_c;
+    this->model = ((DragonResource *)boss1_dragon_resource)->models[0].root;
+    this->texlist = ((DragonResource *)boss1_dragon_resource)->models[0].texlist;
     this->init_model((CollisionBody *)boss1_dragon_collision_body_parts, (s32)7);
     this->motion_flags = 0;
     this->set_field_d8((saddr)boss1_dragon_motion_actions);
@@ -2048,7 +2048,7 @@ void TBoss1Dragon::hold_captured_player() {
 
 #pragma pop
 void TBoss1Dragon::release_held_player() {
-    s32 var_r31;
+    s32 pick_next_action;
     u16 client_id;
     TObjPlayer *player;
     player = get_player_by_client_id((s32) this->target_client_id);
@@ -2064,13 +2064,13 @@ void TBoss1Dragon::release_held_player() {
     }
     this->player_controlled = 0;
     if ((s16) this->mode != 0x15) {
-        var_r31 = 0;
+        pick_next_action = 0;
         if (this->is_primary_sequence() != 0) {
             this->sequenceCursor = 0;
             switch (this->mode) {
             case 23:
             case 24:
-                var_r31 = 1;
+                pick_next_action = 1;
                 this->sequenceCursor = 0;
                 break;
             case 3:
@@ -2084,7 +2084,7 @@ void TBoss1Dragon::release_held_player() {
                 break;
             case 25:
             case 26:
-                var_r31 = 1;
+                pick_next_action = 1;
                 this->sequenceCursor = 6;
                 break;
             case 7:
@@ -2102,7 +2102,7 @@ void TBoss1Dragon::release_held_player() {
             switch (this->mode) {
             case 23:
             case 24:
-                var_r31 = 1;
+                pick_next_action = 1;
                 this->sequenceCursor = 0;
                 break;
             case 3:
@@ -2114,7 +2114,7 @@ void TBoss1Dragon::release_held_player() {
                 break;
             case 25:
             case 26:
-                var_r31 = 1;
+                pick_next_action = 1;
                 this->sequenceCursor = 0xA;
                 break;
             case 7:
@@ -2129,7 +2129,7 @@ void TBoss1Dragon::release_held_player() {
                 break;
             case 36:
             case 37:
-                var_r31 = 1;
+                pick_next_action = 1;
                 this->sequenceCursor = 9;
                 break;
             case 9:
@@ -2138,7 +2138,7 @@ void TBoss1Dragon::release_held_player() {
             }
             this->sequenceCursor = (this->sequenceCursor + 0x32);
         }
-        if (var_r31 != 0) {
+        if (pick_next_action != 0) {
             next_sequence_action();
         }
     }
@@ -3122,9 +3122,9 @@ void TBoss1Dragon::update_spinning_projectile_attack(u32 reason) {
 
 #pragma pop
 void TBoss1Dragon::handleFallState(u32 reason) {
-    f32 temp_f1;
-    f32 temp_f2;
-    f32 temp_f3;
+    f32 root_height;
+    f32 fall_height;
+    f32 ground_y;
     switch (reason) {
     case ENEMY_STATE_ENTER:
         this->requested_action = 0x11;
@@ -3200,17 +3200,17 @@ void TBoss1Dragon::handleFallState(u32 reason) {
         case 1:
             this->fallVelocity = (f32) (this->fallVelocity + TBoss1Dragon__gravity_accel);
             this->height = (f32) (this->height + this->fallVelocity);
-            temp_f3 = this->position.y;
-            temp_f1 = this->rootHeight;
-            temp_f2 = this->height;
-            if (temp_f2 < (temp_f3 + temp_f1)) {
+            ground_y = this->position.y;
+            root_height = this->rootHeight;
+            fall_height = this->height;
+            if (fall_height < (ground_y + root_height)) {
                 this->stateStep = 2;
                 this->height = (f32) this->position.y;
                 this->heightOffset = (f32) this->defaultHeightOffset;
                 this->play_se_at_pos(0x4003AD0E);
                 return;
             }
-            this->heightOffset = (f32) (this->defaultHeightOffset + ((temp_f2 - temp_f1) - temp_f3));
+            this->heightOffset = (f32) (this->defaultHeightOffset + ((fall_height - root_height) - ground_y));
             return;
         case 2:
             this->impactAge = (this->impactAge + 1);
@@ -3233,10 +3233,10 @@ void TBoss1Dragon::handleFallState(u32 reason) {
 
 void TBoss1Dragon::update_head_down_attack_state(u32 reason) {
     u8 *self = (u8 *)this;
-    f32 var_f31;
-    f32 temp_f30;
-    f32 temp_f29;
-    f32 temp_f1;
+    f32 step;
+    f32 dir_x;
+    f32 dir_z;
+    f32 frame;
 
     switch (reason) {
     case ENEMY_STATE_ENTER:
@@ -3304,15 +3304,15 @@ void TBoss1Dragon::update_head_down_attack_state(u32 reason) {
             }
             break;
         case 2:
-            var_f31 = 0.9f;
-            temp_f30 = sin_table_lookup(this->rotation_y);
-            temp_f29 = cos_table_lookup(this->rotation_y);
+            step = 0.9f;
+            dir_x = sin_table_lookup(this->rotation_y);
+            dir_z = cos_table_lookup(this->rotation_y);
             if ((s32) this->player_controlled != 0) {
-                var_f31 = this->clamp_step_in_radius((f32)temp_f30, (f32)temp_f29, (f32)(0.9f));
+                step = this->clamp_step_in_radius(dir_x, dir_z, 0.9f);
             }
-            temp_f1 = this->frame;
-            if ((temp_f1 >= (13.0f)) && (temp_f1 <= (20.0f))) {
-                this->move_to_shot_position(temp_f30, temp_f29, var_f31);
+            frame = this->frame;
+            if ((frame >= (13.0f)) && (frame <= (20.0f))) {
+                this->move_to_shot_position(dir_x, dir_z, step);
                 return;
             }
             break;
@@ -3745,9 +3745,8 @@ void TBoss1Dragon::update_burrow_outward_run(u32 reason) {
 }
 
 void TBoss1Dragon::handle_spiral_state(u32 reason) {
-    f32 temp_f1;
-    s32 temp_r30;
-    s32 temp_r30_2;
+    s32 angle;
+    s32 turn;
 
     switch (reason) {
     case 4:
@@ -3781,8 +3780,9 @@ void TBoss1Dragon::handle_spiral_state(u32 reason) {
         }
         return;
     case 6:
-        this->position.x = (f32) ((350.0f) * sin_table_lookup(temp_r30 = (s32) ((65536.0f) * this->random_ratio())));
-        this->position.z = (f32) ((350.0f) * cos_table_lookup(temp_r30));
+        angle = (s32) ((65536.0f) * this->random_ratio());
+        this->position.x = (f32) ((350.0f) * sin_table_lookup(angle));
+        this->position.z = (f32) ((350.0f) * cos_table_lookup(angle));
         this->saveCurrentDestination();
         return;
     case 0:
@@ -3801,11 +3801,11 @@ void TBoss1Dragon::handle_spiral_state(u32 reason) {
             }
             break;
         case 1:
-            temp_r30_2 = (s32) (boss1_dragon_angle_units_per_radian * (this->fallVelocity / this->action_speed));
-            this->action_angle += temp_r30_2;
+            turn = (s32) (boss1_dragon_angle_units_per_radian * (this->fallVelocity / this->action_speed));
+            this->action_angle += turn;
             this->position.x = this->action_speed * sin_table_lookup(this->action_angle);
             this->position.z = this->action_speed * cos_table_lookup(this->action_angle);
-            this->action_speed -= (0.001068115234375f) * (f32) temp_r30_2;
+            this->action_speed -= (0.001068115234375f) * (f32) turn;
             if (this->action_speed < (5.0f)) {
                 this->stateStep = 2;
             }
@@ -4244,12 +4244,12 @@ void TBoss1Dragon::update_controlled_stand_state(u32 reason) {
 }
 
 void TBoss1Dragon::update_controlled_walk_state(u32 reason) {
-    f32 temp_f31;
-    f32 temp_f30;
-    f32 var_f29;
-    f32 temp_f1;
-    s32 temp_r4;
-    DragonControllerInput *temp_r4_2;
+    f32 dir_x;
+    f32 dir_z;
+    f32 step;
+    f32 frame;
+    s32 input_flags;
+    DragonControllerInput *input;
     s32 *saved = &this->action_angle;
 
     switch (reason) {
@@ -4267,16 +4267,16 @@ void TBoss1Dragon::update_controlled_walk_state(u32 reason) {
             this->request_state_change(0x17);
             return;
         }
-        temp_r4 = this->controller_input->flags;
-        if (temp_r4 & 4) {
+        input_flags = this->controller_input->flags;
+        if (input_flags & 4) {
             this->request_state_change(3);
             return;
         }
-        if (temp_r4 & 2) {
+        if (input_flags & 2) {
             this->request_state_change(4);
             return;
         }
-        if (temp_r4 & 0x400) {
+        if (input_flags & 0x400) {
             this->request_state_change(5);
         }
         return;
@@ -4306,12 +4306,12 @@ void TBoss1Dragon::update_controlled_walk_state(u32 reason) {
         this->stateStep = (this->stateStep + 1);
         if ((s32) this->stateStep >= 0x1E) {
             this->stateStep = 0;
-            temp_r4_2 = this->controller_input;
-            if (temp_r4_2->stick_magnitude <= (0.1f)) {
+            input = this->controller_input;
+            if (input->stick_magnitude <= (0.1f)) {
                 this->impactAge = 1;
                 return;
             }
-            *saved = temp_r4_2->stick_angle;
+            *saved = input->stick_angle;
             this->setDestinationX(*saved);
             this->send_state_sync();
             return;
@@ -4333,17 +4333,17 @@ void TBoss1Dragon::update_controlled_walk_state(u32 reason) {
         } else if (this->is_passing_frame((24.0f)) != 0) {
             this->apply_foot_attack_pair_1();
         }
-        var_f29 = (0.8f);
+        step = (0.8f);
         this->play_speed = (f32) (0.48000001907348633f);
-        temp_f1 = this->frame;
-        if ((!(temp_f1 > (4.0f)) || !(temp_f1 < (9.0f))) && (!(temp_f1 > (24.0f)) || !(temp_f1 < (30.0f)))) {
+        frame = this->frame;
+        if ((!(frame > (4.0f)) || !(frame < (9.0f))) && (!(frame > (24.0f)) || !(frame < (30.0f)))) {
             this->rotation_y = approach_angle_limited(this->rotation_y, *saved, 0x200);
-            temp_f31 = sin_table_lookup(this->rotation_y);
-            temp_f30 = cos_table_lookup(this->rotation_y);
+            dir_x = sin_table_lookup(this->rotation_y);
+            dir_z = cos_table_lookup(this->rotation_y);
             if ((s32) this->player_controlled != 0) {
-                var_f29 = this->clamp_step_in_radius(temp_f31, temp_f30, (0.8f));
+                step = this->clamp_step_in_radius(dir_x, dir_z, (0.8f));
             }
-            this->move_to_shot_position(temp_f31, temp_f30, var_f29);
+            this->move_to_shot_position(dir_x, dir_z, step);
         }
         break;
     default:
@@ -4419,11 +4419,11 @@ void TBoss1Dragon::update_controlled_hover_state(u32 reason) {
 }
 
 void TBoss1Dragon::update_controlled_flight_state(u32 reason) {
-    f32 temp_f31;
-    f32 temp_f30;
-    f32 var_f3;
-    s32 temp_r4;
-    DragonControllerInput *temp_r4_2;
+    f32 dir_x;
+    f32 dir_z;
+    f32 step;
+    s32 input_flags;
+    DragonControllerInput *input;
     s32 *saved = &this->action_angle;
 
     switch (reason) {
@@ -4458,16 +4458,16 @@ void TBoss1Dragon::update_controlled_flight_state(u32 reason) {
             this->request_state_change(0x19);
             return;
         }
-        temp_r4 = this->controller_input->flags;
-        if (temp_r4 & 4) {
+        input_flags = this->controller_input->flags;
+        if (input_flags & 4) {
             this->request_state_change(7);
             return;
         }
-        if (temp_r4 & 2) {
+        if (input_flags & 2) {
             this->request_state_change(0xF);
             return;
         }
-        if (temp_r4 & 0x400) {
+        if (input_flags & 0x400) {
             this->request_state_change(8);
             return;
         }
@@ -4476,12 +4476,12 @@ void TBoss1Dragon::update_controlled_flight_state(u32 reason) {
         this->stateStep = (this->stateStep + 1);
         if ((s32) this->stateStep >= 0x1E) {
             this->stateStep = 0;
-            temp_r4_2 = this->controller_input;
-            if (temp_r4_2->stick_magnitude <= (0.1f)) {
+            input = this->controller_input;
+            if (input->stick_magnitude <= (0.1f)) {
                 this->impactAge = 1;
                 return;
             }
-            *saved = temp_r4_2->stick_angle;
+            *saved = input->stick_angle;
             this->setDestinationX(*saved);
             this->send_state_sync();
             return;
@@ -4498,13 +4498,13 @@ void TBoss1Dragon::update_controlled_flight_state(u32 reason) {
         this->play_nearby_se();
         this->update_flap_effect();
         this->rotation_y = approach_angle_limited(this->rotation_y, *saved, 0x200);
-        temp_f31 = sin_table_lookup(this->rotation_y);
-        temp_f30 = cos_table_lookup(this->rotation_y);
-        var_f3 = (2.0f);
+        dir_x = sin_table_lookup(this->rotation_y);
+        dir_z = cos_table_lookup(this->rotation_y);
+        step = (2.0f);
         if ((s32) this->player_controlled != 0) {
-            var_f3 = this->clamp_step_in_radius(temp_f31, temp_f30, var_f3);
+            step = this->clamp_step_in_radius(dir_x, dir_z, step);
         }
-        this->move_with_wall_stop(temp_f31, temp_f30, var_f3);
+        this->move_with_wall_stop(dir_x, dir_z, step);
         break;
     default:
         return;
@@ -4512,7 +4512,7 @@ void TBoss1Dragon::update_controlled_flight_state(u32 reason) {
 }
 
 void TBoss1Dragon::handle_state(u32 reason) {
-    DragonControllerInput *temp_r3;
+    DragonControllerInput *input;
 
     switch (reason) {
     case 4:
@@ -4527,12 +4527,12 @@ void TBoss1Dragon::handle_state(u32 reason) {
         return;
     case 2:
     case 11:
-        temp_r3 = this->controller_input;
-        if (temp_r3->stick_magnitude > (0.1f)) {
+        input = this->controller_input;
+        if (input->stick_magnitude > (0.1f)) {
             this->request_state_change(0x1C);
             return;
         }
-        if (temp_r3->flags & 2) {
+        if (input->flags & 2) {
             this->request_state_change(0x13);
             return;
         }
@@ -5157,7 +5157,7 @@ void TBoss1Dragon::render() {
             rotate_matrix_z(0, this->rotation_z);
             NJS_ARGB color = dragon_boss1_render_color;
             saved = *(s32 *)&this->model;
-            *(s32 *)&this->model = ((DragonResource *)boss1_dragon_resource)->model->m_18;
+            this->model = ((DragonResource *)boss1_dragon_resource)->models[1].root;
             saved_model_render_flags = model_render_flags;
             model_render_flags = saved_model_render_flags | 0x10;
             set_constant_material((const NJS_ARGB *)((&color)));
@@ -5273,27 +5273,25 @@ void TBoss1Dragon::render() {
 
 #pragma pop
 void TBoss1Dragon::render_shadows() {
-    s32 temp_r31;
-    s32 var_r31;
-    u8 *temp_r4;
+    void *body_model;
+    s32 view;
 
-    var_r31 = 0;
+    view = 0;
     if (TObjPlayer::check_demo_mode() == 0) {
         if (is_split_screen() != 0) {
-            var_r31 = TCameraCtrl::get_camera_mode();
+            view = TCameraCtrl::get_camera_mode();
         }
-        if ((this->viewFade[var_r31].has_visible_opacity() != 0) && ((this->heightOffset - this->defaultHeightOffset) >= (-5.0f)) && ((s16) this->mode != 0x16)) {
+        if ((this->viewFade[view].has_visible_opacity() != 0) && ((this->heightOffset - this->defaultHeightOffset) >= (-5.0f)) && ((s16) this->mode != 0x16)) {
             push_matrix();
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, (int) (this->rotation_y));
             scale_matrix(0, (2.0f), (2.0f), (2.0f));
             rotate_matrix_x(0, this->rotation_x);
             rotate_matrix_z(0, (int) (this->rotation_z));
-            temp_r31 = *(s32 *)&this->model;
-            temp_r4 = (u8 *)((DragonResource *)boss1_dragon_resource)->model;
-            *(s32 *)&this->model = ((DragonModelEntry *)temp_r4)->m_18;
+            body_model = this->model;
+            this->model = ((DragonResource *)boss1_dragon_resource)->models[1].root;
             TObjMotion::draw();
-            *(s32 *)&this->model = temp_r31;
+            this->model = body_model;
             pop_matrix();
         }
     }

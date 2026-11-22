@@ -46,8 +46,9 @@ struct DragonMotion { DragonMotionData *data; u32 frameCount; };
 struct DragonMotionEntry { u32 unknown00; DragonMotion* motion; };
 struct DragonAnimationEntry { u32 unknown00; s32 motionIndex; u8 unknown08[8]; };
 
-struct DragonModelEntry { u8 unknown00[8]; DragonModelNode *root; s32 m_c; u8 unknown10[8]; s32 m_18; };
-struct DragonResource { u8 unknown00[0x42C]; DragonModelEntry *model; DragonMotionEntry *motions; };
+// One model of the Dragon's resource: [0] the body the ctor clones, [1] the one render_shadows draws.
+struct DragonModelEntry { u8 unknown00[8]; DragonModelNode *root; saddr texlist; };
+struct DragonResource { u8 unknown00[0x42C]; DragonModelEntry *models; DragonMotionEntry *motions; };
 LAYOUT_ASSERT(DragonPositionKeySize, sizeof(DragonPositionKey) == 0x10);
 
 extern "C" void copy_model_node(u8 *dst, u8 *src);
