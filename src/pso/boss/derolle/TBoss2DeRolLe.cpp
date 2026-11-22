@@ -78,6 +78,9 @@ struct NJS_OBJECT;
 #include "pso/boss/TUnk_80482C58.h"
 
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/player/TObjPlayer_8002E784.h"
+#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/model_render_state.h"
 
 #include "pso/boss/derolle/TBoss2Fin.h"
 
@@ -291,19 +294,10 @@ void *__ct__9TBoss2FinFv(void *, TObject *, Vec *, Vec *);
 
 extern f32 lbl_804FF5E8[];
 
-void TObjPlayer__sub_8002E7C8(void);
-
 s32 TObjLight__sub_801337F8(s32);
-
-void draw_model_motion(void *model, void *motion, f32 frame);
 
 extern saddr current_scene_light;
 
-extern s32 saved_model_render_flags;
-
-extern s32 model_render_flags;
-
-void TObjPlayer__sub_8002EB88(void);
 
 }
 
@@ -319,14 +313,6 @@ s32 TObjLight__sub_8013379C(s32, void *);
 extern SceneLightColor TObjLight__scene_light_state;
 
 extern s32 lbl_805D5564;
-
-extern s32 saved_chunk_polygon_flags_and_mask;
-
-extern s32 saved_chunk_polygon_flags_or_mask;
-
-extern s32 chunk_polygon_flags_or_mask;
-
-extern s32 chunk_polygon_flags_and_mask;
 
 }
 
@@ -930,7 +916,7 @@ void TBoss2DeRolLe::run_task() {
   }
   sub_800BBA0C();
   update_body_colliders();
-  backup_pos__13TBoss2DeRolLeFi(this);
+  backup_pos();
   submit_default_cursor_candidate();
   add_radar_scaled_marker(&position, -0x5DB4, 1, 1, 2.0f);
   update_particle_ctrls();
@@ -980,9 +966,9 @@ void TBoss2DeRolLe::run_hit_reaction() {
 
 void TBoss2DeRolLe::run_miss_reaction() {  }
 
-void backup_pos__13TBoss2DeRolLeFi(TBoss2DeRolLe *boss) {
-    VecCopy(&boss->body_center, &boss->position);
-    VecCopy(&boss->center, &boss->body_center);
+void TBoss2DeRolLe::backup_pos() {
+    VecCopy(&body_center, &position);
+    VecCopy(&center, &body_center);
 }
 
 #pragma push
@@ -1678,7 +1664,7 @@ extern "C" s32 play_sound(s32 id, Vec *position) {
     return play_sound_effect(id, position, 0, 0);
 }
 
-extern "C" int spawn_trap__13TBoss2DeRolLeFPvii(s32 id, void *owner, Vec *pos) {
+s32 TBoss2DeRolLe::spawn_trap(s32 id, void *owner, Vec *pos) {
     return play_persistent_sound(id, (saddr)owner, (uaddr)pos, 0, 0);
 }
 
@@ -2831,8 +2817,6 @@ void TBoss2DeRolLe::handle_bite_state(u32 reason, s32 side) {
 
 #pragma pop
 
-// TBoss2Tentacle's state == 4 test (turning to its rest angle).
-extern "C" s32 TBoss2Tentacle__sub_80039CA0(void *);
 
 void TBoss2DeRolLe::handle_tentacle_volley_state(u32 reason, s32 side) {
     Vec v;
@@ -2913,7 +2897,7 @@ void TBoss2DeRolLe::handle_tentacle_volley_state(u32 reason, s32 side) {
             ok = 1;
             unk_6E4++;
             for (i = 0; i < 4; i++) {
-                if (TBoss2Tentacle__sub_80039CA0(tentacles[i]) == 0) {
+                if (tentacles[i]->is_turning_to_rest() == 0) {
                     ok = 0;
                     break;
                 }
@@ -3079,7 +3063,7 @@ void TBoss2DeRolLe::handle_ceiling_pass_state(u32 reason) {
             if (unk_6E8 >= 0x1E) {
                 unk_6E8 = 0;
             }
-            spawn_trap__13TBoss2DeRolLeFPvii(0x40039E02, this, &unk_518[0]);
+            spawn_trap(0x40039E02, this, &unk_518[0]);
             position.z += 6.0f;
             if (position.z >= 360.0f) {
                 state_step = 3;
@@ -3469,7 +3453,7 @@ void TBoss2DeRolLe::handle_laser_attack_state(u32 reason) {
                     TObjEneDD::setup_instance((saddr)this, (saddr)hit, (u8 *)&r, (saddr)attack_history);
                 }
             }
-            spawn_trap__13TBoss2DeRolLeFPvii(0x4003B00A, this, hit);
+            spawn_trap(0x4003B00A, this, hit);
             if (state_floats[0] >= 500.0f) {
                 state_floats[0] = 500.0f;
                 state_step = 3;

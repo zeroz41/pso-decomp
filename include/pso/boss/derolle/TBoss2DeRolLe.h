@@ -83,6 +83,9 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     static void load_resources();
     static void reset_parts();
     void advance_phase_wrap();
+    void backup_pos();
+    // Plays sound id at pos as a persistent sound owned by owner.
+    static s32 spawn_trap(s32 id, void *owner, Vec *pos);
     void clear_play_flags();
     s32 update_phase_is_done();
     void init_movement();
@@ -213,17 +216,10 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
 LAYOUT_ASSERT(TBoss2DeRolLe_size, sizeof(TBoss2DeRolLe) == 0x75C);
 extern "C" {
 void derolle_capture_node_points(NJS_OBJECT *);
-void advance_phase_wrap__13TBoss2DeRolLeFv(u8 *arg0);
-// TBoss2DeRolLe::backup_pos(int): the run_task call passes no int, so the call
-// cannot be a member call without a stray li r4.
-void backup_pos__13TBoss2DeRolLeFi(TBoss2DeRolLe *boss);
 void derolle_begin_node_capture(TBoss2DeRolLe *boss);
 void handle_6x13_de_rol_le_boss_actions(void *arg0);
 void handle_6x14_de_rol_le_boss_actions_with_target(void *arg0);
 s32 play_sound(s32 id, Vec *position);
-void render__13TBoss2DeRolLeFv(u8 *arg0);
-void render_body__13TBoss2DeRolLeFv(u8 *arg0);
-int spawn_trap__13TBoss2DeRolLeFPvii(s32 id, void *owner, Vec *pos);
 }
 
 

@@ -40,6 +40,8 @@ public:
     void drop_back();
     void start_attack_at_target(u8 *target_pos, s32 hold_time);
     void raise();
+    // state == 4 (turning to its rest angle). Name inferred from the body.
+    s32 is_turning_to_rest();
 
     s32 state;
     s32 next_state;
