@@ -2116,7 +2116,7 @@ force_active:
   - __ct__17TChCrTagOccHeaderFP7TObjectl
   - __ct__17TChCrTagPlGraphicFP7TObjectl
   - __ct__17TItemEffNeedlePosFP7TObjectP5TItemPC3VecP3Vec
-  - __ct__17TMCFormatSequenceFP7TObjectPv
+  - __ct__17TMCFormatSequenceFP7TObjectl
   - __ct__17TOBarrierEnergy01FP7TObjectPv
   - __ct__17TODragonflyCave01FPv
   - __ct__17TOHangerMachine01FPv
@@ -5167,7 +5167,7 @@ force_active:
   - clear_episode1_quest_availability__FPv
   - clear_error_callback__6TLobbyFv
   - clear_error_callback_state__6TLobbyFv
-  - clear_field2A0__22TQuestVmDownLoadServerFv
+  - clear_field2A0__22TQuestVmDownLoadServerFP17TMCFormatSequence
   - clear_field_d8__14TOTrapChainSawFv
   - clear_log_active__15TWindowMainMenuFv
   - clear_flag60_bit8__13TWindowSubMagFv
