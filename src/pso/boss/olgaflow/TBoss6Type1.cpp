@@ -633,7 +633,7 @@ u8 * TBoss6Type1__sub_802B96C0(saddr arg0, saddr arg1) {
     *(ByteBlock_C_boss6_1 *)(arg0) = *(const ByteBlock_C_boss6_1 *)(arg1);
     return (u8 *)arg0;
 }
-#define arg0 ((u8 *)arg0_)
+#define self ((u8 *)arg0_)
 #define arg2 ((s32 *)arg2_)
 #pragma push
 #pragma opt_propagation off
@@ -642,74 +642,74 @@ s32 TBoss6Type1__ct(saddr arg0_, saddr parent, saddr arg2_) {
     Tmp_802B93C4 tmp;
     s32 i;
 
-    __ct__9TObjEnemyFP7TObject(arg0, (void*)parent);
-    *(u8 **)((s8 *)arg0 + 0x18) = __vt__11TBoss6Type1;
-    *(const char **)((s8 *)arg0 + 0) = TBoss6Type1__name;
-    ((TObjChara *)arg0)->add_flags_2e4(8);
-    *(s32 *)((s8 *)arg0 + 0x3F8) = arg2[0];
-    ((VObj_18_f05d67 *)(arg0))->m79(arg2 + 1);
-    if (((TObjEnemy *)arg0)->exchange_object_state(&tmp, 1) != 0) {
+    __ct__9TObjEnemyFP7TObject(self, (void*)parent);
+    *(u8 **)((s8 *)self + 0x18) = __vt__11TBoss6Type1;
+    *(const char **)((s8 *)self + 0) = TBoss6Type1__name;
+    ((TObjChara *)self)->add_flags_2e4(8);
+    *(s32 *)((s8 *)self + 0x3F8) = arg2[0];
+    ((VObj_18_f05d67 *)(self))->m79(arg2 + 1);
+    if (((TObjEnemy *)self)->exchange_object_state(&tmp, 1) != 0) {
         tmp.a = 0;
         tmp.c = 0;
-        ((TObjEnemy *)arg0)->exchange_object_state(&tmp, 0);
+        ((TObjEnemy *)self)->exchange_object_state(&tmp, 0);
     }
-    *(saddr *)((s8 *)arg0 + 0x3FC) = (saddr)TBoss6PlotFalz::get_scene_archive();
-    *(s32 *)((s8 *)arg0 + 0x24) = 0;
-    *(s32 *)((s8 *)arg0 + 0x34) = 0;
-    VecCopy((Vec *)(arg0 + 0x38), &lbl_80470CD4);
-    copy_xyz(arg0 + 0x5C, (void *)lbl_80470D1C);
-    VecCopy((Vec *)(arg0 + 0x44), (const Vec *)((void *)VecCopy((Vec *)(arg0 + 0x50), (const Vec *)((void *)VecCopy((Vec *)(arg0 + 0x74), (const Vec *)(arg0 + 0x38))))));
-    init_collision_body_parts((TObjCollidable *)arg0, lbl_804DF4E0, 7);
-    ((TBoss6Type1 *)arg0)->update_position();
-    *(f32 *)((s8 *)arg0 + 0x310) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x30C) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x308) = 0.0f;
-    *(s32 *)((s8 *)arg0 + 0x2A8) = 0;
-    ((TObjEnemy *)arg0)->bind_enemy_combat_stats((u8 *)(TLobby::register_boss(0x2B)), (u8 *)(TLobby::dispatch_shared_handler_b(0x2B)), (u8 *)(TLobby::register_object(0x2B)));
-    *(s16 *)((s8 *)arg0 + 0x33E) = *(s16 *)((s8 *)arg0 + 0x32C);
-    ((TBoss3Volopt *)arg0)->reset_photon_effect();
-    ((TObjEnemy *)arg0)->set_param(0x4E);
-    TBoss6Type1__sub_802B854C(arg0);
-    TBoss6Type1 *boss = reinterpret_cast<TBoss6Type1 *>(arg0);
+    *(saddr *)((s8 *)self + 0x3FC) = (saddr)TBoss6PlotFalz::get_scene_archive();
+    *(s32 *)((s8 *)self + 0x24) = 0;
+    *(s32 *)((s8 *)self + 0x34) = 0;
+    VecCopy((Vec *)(self + 0x38), &lbl_80470CD4);
+    copy_xyz(self + 0x5C, (void *)lbl_80470D1C);
+    VecCopy((Vec *)(self + 0x44), (const Vec *)((void *)VecCopy((Vec *)(self + 0x50), (const Vec *)((void *)VecCopy((Vec *)(self + 0x74), (const Vec *)(self + 0x38))))));
+    init_collision_body_parts((TObjCollidable *)self, lbl_804DF4E0, 7);
+    ((TBoss6Type1 *)self)->update_position();
+    *(f32 *)((s8 *)self + 0x310) = 0.0f;
+    *(f32 *)((s8 *)self + 0x30C) = 0.0f;
+    *(f32 *)((s8 *)self + 0x308) = 0.0f;
+    *(s32 *)((s8 *)self + 0x2A8) = 0;
+    ((TObjEnemy *)self)->bind_enemy_combat_stats((u8 *)(TLobby::register_boss(0x2B)), (u8 *)(TLobby::dispatch_shared_handler_b(0x2B)), (u8 *)(TLobby::register_object(0x2B)));
+    *(s16 *)((s8 *)self + 0x33E) = *(s16 *)((s8 *)self + 0x32C);
+    ((TBoss3Volopt *)self)->reset_photon_effect();
+    ((TObjEnemy *)self)->set_param(0x4E);
+    TBoss6Type1__sub_802B854C(self);
+    TBoss6Type1 *boss = reinterpret_cast<TBoss6Type1 *>(self);
     boss->draw_callback_lists[1] = ModelNodePositionCapture::create(boss6_type1_model_node_desc, boss->node_points);
     boss->draw_callback_lists[0] = ModelNodePositionCapture::create(boss6_type1_model_node_desc_b, boss->arm_node_positions);
-    ((TBoss6Type1 *)arg0)->scroll_strips_u.build_tables(boss6_type1_build_table, 2);
-    ((TBoss6Type1 *)arg0)->scroll_strips_v.build_tables(lbl_80470EA0, 1);
+    ((TBoss6Type1 *)self)->scroll_strips_u.build_tables(boss6_type1_build_table, 2);
+    ((TBoss6Type1 *)self)->scroll_strips_v.build_tables(lbl_80470EA0, 1);
     boss->trail_point_receiver = TBoss6Zanzo::create(boss, 7, 0xF);
     boss->effect_point_receiver = TBoss6Zanzo::create(boss, 2, 0xF);
-    *(s32 *)((s8 *)arg0 + 0x414) = 0;
-    *(s8 *)((s8 *)arg0 + 0x41C) = 0;
-    TBoss6Type1__sub_802B96C0((saddr)(arg0 + 0x420), (saddr)&lbl_80470EAC);
-    VecCopy((Vec *)(arg0 + 0x420), (const Vec *)(arg0 + 0x38));
-    TBoss6Type1__sub_802B96C0((saddr)(arg0 + 0x42C), (saddr)&lbl_80470EAC);
-    *(s32 *)((s8 *)arg0 + 0x438) = 1;
-    *(s32 *)((s8 *)arg0 + 0x418) = 0;
+    *(s32 *)((s8 *)self + 0x414) = 0;
+    *(s8 *)((s8 *)self + 0x41C) = 0;
+    TBoss6Type1__sub_802B96C0((saddr)(self + 0x420), (saddr)&lbl_80470EAC);
+    VecCopy((Vec *)(self + 0x420), (const Vec *)(self + 0x38));
+    TBoss6Type1__sub_802B96C0((saddr)(self + 0x42C), (saddr)&lbl_80470EAC);
+    *(s32 *)((s8 *)self + 0x438) = 1;
+    *(s32 *)((s8 *)self + 0x418) = 0;
     for (i = 0; i < 32; i++) {
-        ((Arr_802B93C4 *)arg0)->arr[i] = 0;
+        ((Arr_802B93C4 *)self)->arr[i] = 0;
     }
-    ((TBoss6Type1 *)arg0)->load_params_from_table();
-    *(s32 *)((s8 *)arg0 + 0x4AC) = 0;
-    *(f32 *)((s8 *)arg0 + 0x4B4) = 1.0f;
-    ((TBoss6Type1 *)arg0)->latch_phase_counter();
-    *(s32 *)((s8 *)arg0 + 0x4B8) = 0;
-    *(s32 *)((s8 *)arg0 + 0x4BC) = 0;
-    *(s32 *)((s8 *)arg0 + 0x4C0) = 0;
-    *(s32 *)((s8 *)arg0 + 0x4C4) = 0;
-    *(f32 *)((s8 *)arg0 + 0x4D4) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x4D8) = 1.0f;
-    ((TBoss6Type1 *)arg0)->reset_fields_4e0();
-    ((TBoss6Type1 *)arg0)->reset_param();
-    TBoss6Type1__sub_802B7D50(arg0);
-    *(s32 *)((s8 *)arg0 + 0x408) = 0;
-    TBoss6Type1__sub_802B4D38((Obj_802B4D38 *)arg0);
-    ((TBoss6Type1 *)arg0)->clear_slot_array();
-    TBoss6Type1__sub_802B4A90(arg0);
-    VecCopy((Vec *)(arg0 + 0x56C), (const Vec *)(arg0 + 0x38));
-    ((TBoss6Type1 *)arg0)->set_action_state(0);
+    ((TBoss6Type1 *)self)->load_params_from_table();
+    *(s32 *)((s8 *)self + 0x4AC) = 0;
+    *(f32 *)((s8 *)self + 0x4B4) = 1.0f;
+    ((TBoss6Type1 *)self)->latch_phase_counter();
+    *(s32 *)((s8 *)self + 0x4B8) = 0;
+    *(s32 *)((s8 *)self + 0x4BC) = 0;
+    *(s32 *)((s8 *)self + 0x4C0) = 0;
+    *(s32 *)((s8 *)self + 0x4C4) = 0;
+    *(f32 *)((s8 *)self + 0x4D4) = 0.0f;
+    *(f32 *)((s8 *)self + 0x4D8) = 1.0f;
+    ((TBoss6Type1 *)self)->reset_fields_4e0();
+    ((TBoss6Type1 *)self)->reset_param();
+    TBoss6Type1__sub_802B7D50(self);
+    *(s32 *)((s8 *)self + 0x408) = 0;
+    TBoss6Type1__sub_802B4D38((Obj_802B4D38 *)self);
+    ((TBoss6Type1 *)self)->clear_slot_array();
+    TBoss6Type1__sub_802B4A90(self);
+    VecCopy((Vec *)(self + 0x56C), (const Vec *)(self + 0x38));
+    ((TBoss6Type1 *)self)->set_action_state(0);
     return arg0_;
 }
 #pragma pop
-#undef arg0
+#undef self
 #undef arg2
 
 TBoss6Type1::~TBoss6Type1() {

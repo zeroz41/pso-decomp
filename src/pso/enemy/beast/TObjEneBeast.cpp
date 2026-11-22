@@ -611,54 +611,54 @@ __declspec(section ".rodata") const char beast_a_bml_filename[25] = "bm_ene_re8_
 struct Rec2C_800927DC { u8 b[0x2C]; };
 struct Rec1C_800927DC { u8 b[0x1C]; };
 
-#define arg0 ((u8 *)this)
+#define self ((u8 *)this)
 
 TObjEneBeast::TObjEneBeast(TObject *parent, void *set_data) : TUnk_80493450(parent) {
     s32 i;
 
-    F(arg0, const char *, 0) = beast_class_name;
+    F(self, const char *, 0) = beast_class_name;
     apply_set_data(set_data);
-    ((TObjPlayer *)arg0)->init_position_vectors();
-    F(arg0, s32, 0x334) = F(arg0, s32, 0x368);
-    ((TObjEneBeast *)arg0)->select_subtype();
-    ((TObjEneBeast *)arg0)->select_model_record(F(arg0, s32, 0x368));
-    F(arg0, u8 *, 0xD8) = (u8 *)beast_action_table;
-    ((TObjMotion *)arg0)->set_field_d8((saddr)(F(arg0, u8 *, 0xD8)));
-    F(arg0, BmlMotionEntry *, 0xDC) = ene_beast_bml_resource->motions;
-    F(arg0, s16, 0xB8) = 0;
-    ((TObjMotion *)arg0)->set_animation(F(arg0, s16, 0xB8));
-    ((TObjMotion *)arg0)->set_field_b8(F(arg0, s16, 0xB8));
-    init_collision_body_parts(arg0, &((Rec2C_800927DC *)beast_collision_body_table)[F(arg0, s32, 0x334)], 1);
-    ((TObjEnemy *)arg0)->bind_enemy_combat_stats((u8 *)(((uaddr *)ene_beast_boss_id_buffer)[F(arg0, s32, 0x334)]), (u8 *)(((uaddr *)TObjEneBeast__boss4_rock_handler_ids)[F(arg0, s32, 0x334)]), (u8 *)(((uaddr *)boss4_rock_pool)[F(arg0, s32, 0x334)]));
-    F(arg0, void *, 0x350) = &((Rec1C_800927DC *)beast_movement_params)[F(arg0, s32, 0x334)];
-    F(arg0, s16, 0x33E) = F(arg0, s16, 0x32C);
-    ((TObjEnemy *)arg0)->update_prev_position();
-    ((TBoss3VoloptHiraisin *)arg0)->copy_position();
-    ((TObjPlayer *)arg0)->register_object_by_id();
-    F(arg0, s32, 0x2AC) = (s32)(182.04445f * (3.6e+02f * ((TObjChara *)arg0)->random_ratio()));
-    F(arg0, s16, 0x33A) = 0xF;
-    F(arg0, s16, 0x33C) = F(arg0, s16, 0x33A);
-    F(arg0, s16, 0x328) = 0;
-    F(arg0, s16, 0x374) = 0;
-    F(arg0, s16, 0x376) = 0;
-    F(arg0, s32, 0x378) = 0;
-    F(arg0, s32, 0x37C) = 0;
-    ((TObjChara *)arg0)->add_flags_2e4(1);
-    obj_setFlags30(arg0, 0x40000);
-    F(arg0, f32, 0x380) = 0.0f;
+    ((TObjPlayer *)self)->init_position_vectors();
+    F(self, s32, 0x334) = F(self, s32, 0x368);
+    ((TObjEneBeast *)self)->select_subtype();
+    ((TObjEneBeast *)self)->select_model_record(F(self, s32, 0x368));
+    F(self, u8 *, 0xD8) = (u8 *)beast_action_table;
+    ((TObjMotion *)self)->set_field_d8((saddr)(F(self, u8 *, 0xD8)));
+    F(self, BmlMotionEntry *, 0xDC) = ene_beast_bml_resource->motions;
+    F(self, s16, 0xB8) = 0;
+    ((TObjMotion *)self)->set_animation(F(self, s16, 0xB8));
+    ((TObjMotion *)self)->set_field_b8(F(self, s16, 0xB8));
+    init_collision_body_parts(self, &((Rec2C_800927DC *)beast_collision_body_table)[F(self, s32, 0x334)], 1);
+    ((TObjEnemy *)self)->bind_enemy_combat_stats((u8 *)(((uaddr *)ene_beast_boss_id_buffer)[F(self, s32, 0x334)]), (u8 *)(((uaddr *)TObjEneBeast__boss4_rock_handler_ids)[F(self, s32, 0x334)]), (u8 *)(((uaddr *)boss4_rock_pool)[F(self, s32, 0x334)]));
+    F(self, void *, 0x350) = &((Rec1C_800927DC *)beast_movement_params)[F(self, s32, 0x334)];
+    F(self, s16, 0x33E) = F(self, s16, 0x32C);
+    ((TObjEnemy *)self)->update_prev_position();
+    ((TBoss3VoloptHiraisin *)self)->copy_position();
+    ((TObjPlayer *)self)->register_object_by_id();
+    F(self, s32, 0x2AC) = (s32)(182.04445f * (3.6e+02f * ((TObjChara *)self)->random_ratio()));
+    F(self, s16, 0x33A) = 0xF;
+    F(self, s16, 0x33C) = F(self, s16, 0x33A);
+    F(self, s16, 0x328) = 0;
+    F(self, s16, 0x374) = 0;
+    F(self, s16, 0x376) = 0;
+    F(self, s32, 0x378) = 0;
+    F(self, s32, 0x37C) = 0;
+    ((TObjChara *)self)->add_flags_2e4(1);
+    obj_setFlags30(self, 0x40000);
+    F(self, f32, 0x380) = 0.0f;
     m_3a8[0] = (TObject *)TUnk_80494968::create((u32)0xA0303030, (u32)0xFF303030);
     m_3a8[1] = (TObject *)TUnk_80494968::create((u32)0xA0303030, (u32)0xFF303030);
-    F(arg0, f32, 0x398) = ((f32 **)boss4_rock_shared_handler_ids)[F(arg0, s32, 0x334)][0];
-    F(arg0, f32, 0x3A0) = ((f32 **)boss4_rock_shared_handler_ids)[F(arg0, s32, 0x334)][1];
-    F(arg0, f32, 0x39C) = ((f32 **)boss4_rock_shared_handler_ids)[F(arg0, s32, 0x334)][2];
-    F(arg0, f32, 0x3A4) = ((f32 **)boss4_rock_shared_handler_ids)[F(arg0, s32, 0x334)][3];
-    F(arg0, s32, 0x390) = 1;
+    F(self, f32, 0x398) = ((f32 **)boss4_rock_shared_handler_ids)[F(self, s32, 0x334)][0];
+    F(self, f32, 0x3A0) = ((f32 **)boss4_rock_shared_handler_ids)[F(self, s32, 0x334)][1];
+    F(self, f32, 0x39C) = ((f32 **)boss4_rock_shared_handler_ids)[F(self, s32, 0x334)][2];
+    F(self, f32, 0x3A4) = ((f32 **)boss4_rock_shared_handler_ids)[F(self, s32, 0x334)][3];
+    F(self, s32, 0x390) = 1;
     for (i = 0; i < 4; i++) {
         m_3b0[i].activate_and_dispatch();
     }
     clear_lobby_object_state();
 }
-#undef arg0
+#undef self
 #undef F
 
 TObjEneBeast::~TObjEneBeast() {

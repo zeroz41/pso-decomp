@@ -718,59 +718,59 @@ void TObjEneMerillLia::load_entry_params(s32 i) {
     self->f24 = (*(D_800D7274 * *)&TObjEneMerillLia__entry_params_resource)->entries[i].fc;
 }
 
-#define arg0 ((u8 *)arg0v)
+#define self ((u8 *)arg0v)
 void *TObjEneMerillLia__ct(void *arg0v, void *arg1, void *arg2) {
     f32 sc;
     s32 hp;
     s16 t;
 
-    __ct__13TUnk_80493450FP7TObject(arg0, (saddr)arg1);
-    *(void **)((s8 *)arg0 + 0x18) = lbl_80494728;
-    __ct__13TUnk_80494938Fv((arg0 + 0x3A8));
-    *(const char **)((s8 *)arg0 + 0) = TObjEneMerillLia__class_name;
-    ((VObj_18_4c2345 *) arg0)->m79((saddr)arg2);
-    ((TObjEneMerillLia *)arg0)->init_params_from_position();
-    ((TObjPlayer *)arg0)->init_position_vectors();
-    *(s32 *)((s8 *)arg0 + 0x334) = *(s32 *)((s8 *)arg0 + 0x368);
-    ((TObjEneMerillLia *)arg0)->clamp_and_apply_mode_param();
-    ((TObjEneMerillLia *)arg0)->load_entry_params(*(s32 *)((s8 *)arg0 + 0x368));
-    *(void **)((s8 *)arg0 + 0xD8) = lbl_80494570;
-    ((TObjMotion *)arg0)->set_field_d8((saddr)(*(void **)((s8 *)arg0 + 0xD8)));
-    *(s32 *)((s8 *)arg0 + 0xDC) = *(s32 *)((s8 *)TObjEneMerillLia__entry_params_resource + 0x430);
-    *(s16 *)((s8 *)arg0 + 0xB8) = 0;
-    ((TObjMotion *)arg0)->set_animation(*(s16 *)((s8 *)arg0 + 0xB8));
-    ((TObjMotion *)arg0)->set_field_b8(*(s16 *)((s8 *)arg0 + 0xB8));
-    init_collision_body_parts(arg0, (u8 *) lbl_804946A4 + *(s32 *)((s8 *)arg0 + 0x334) * 0x2C, 1);
-    ((TObjEnemy *)arg0)->bind_enemy_combat_stats((u8 *)TObjEneMerillLia__rock_stats_table[*(s32 *)((s8 *)arg0 + 0x334)], (u8 *)merill_lia_rock_buffer[*(s32 *)((s8 *)arg0 + 0x334)], (u8 *)merill_lia_rock_aux_buffer[*(s32 *)((s8 *)arg0 + 0x334)]);
-    *(u8 **)((s8 *)arg0 + 0x350) = (u8 *) lbl_80494650 + *(s32 *)((s8 *)arg0 + 0x334) * 0x1C;
-    *(s16 *)((s8 *)arg0 + 0x33E) = *(s16 *)((s8 *)arg0 + 0x32C);
-    ((TObjEnemy *)arg0)->update_prev_position();
-    ((TBoss3VoloptHiraisin *)arg0)->copy_position();
-    ((TObjPlayer *)arg0)->register_object_by_id();
-    *(s32 *)((s8 *)arg0 + 0x2AC) = 182.04445f * (360.0f * ((TObjChara *)arg0)->random_ratio());
-    *(s16 *)((s8 *)arg0 + 0x33A) = 0xF;
-    *(s16 *)((s8 *)arg0 + 0x33C) = *(s16 *)((s8 *)arg0 + 0x33A);
-    *(s16 *)((s8 *)arg0 + 0x328) = 0;
-    *(s16 *)((s8 *)arg0 + 0x374) = 0;
-    *(s16 *)((s8 *)arg0 + 0x376) = 0;
-    *(s32 *)((s8 *)arg0 + 0x378) = 0;
-    *(s32 *)((s8 *)arg0 + 0x37C) = 0;
-    ((TObjChara *)arg0)->add_flags_2e4(2);
-    obj_setFlags30(arg0, 0x40000);
-    *(f32 *)((s8 *)arg0 + 0x380) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x398) = ((f32 **) TObjEneMerillLia__rock_param_table)[*(s32 *)((s8 *)arg0 + 0x334)][0];
-    *(f32 *)((s8 *)arg0 + 0x3A0) = ((f32 **) TObjEneMerillLia__rock_param_table)[*(s32 *)((s8 *)arg0 + 0x334)][1];
-    *(f32 *)((s8 *)arg0 + 0x39C) = ((f32 **) TObjEneMerillLia__rock_param_table)[*(s32 *)((s8 *)arg0 + 0x334)][2];
-    *(f32 *)((s8 *)arg0 + 0x3A4) = ((f32 **) TObjEneMerillLia__rock_param_table)[*(s32 *)((s8 *)arg0 + 0x334)][3];
-    *(f32 *)((s8 *)arg0 + 0x3D4) = ((f32 **) TObjEneMerillLia__rock_param_table)[*(s32 *)((s8 *)arg0 + 0x334)][5];
-    *(f32 *)((s8 *)arg0 + 0x3CC) = ((s32 **) TObjEneMerillLia__rock_param_table)[*(s32 *)((s8 *)arg0 + 0x334)][6] / 100.0f;
-    *(s32 *)((s8 *)arg0 + 0x390) = 1;
-    *(s16 *)((s8 *)arg0 + 0x326) = 0xD;
-    *(s16 *)((s8 *)arg0 + 0xB8) = 1;
-    ((VObj_18_4c2345 *) arg0)->m80();
-    return arg0;
+    __ct__13TUnk_80493450FP7TObject(self, (saddr)arg1);
+    *(void **)((s8 *)self + 0x18) = lbl_80494728;
+    __ct__13TUnk_80494938Fv((self + 0x3A8));
+    *(const char **)((s8 *)self + 0) = TObjEneMerillLia__class_name;
+    ((VObj_18_4c2345 *) self)->m79((saddr)arg2);
+    ((TObjEneMerillLia *)self)->init_params_from_position();
+    ((TObjPlayer *)self)->init_position_vectors();
+    *(s32 *)((s8 *)self + 0x334) = *(s32 *)((s8 *)self + 0x368);
+    ((TObjEneMerillLia *)self)->clamp_and_apply_mode_param();
+    ((TObjEneMerillLia *)self)->load_entry_params(*(s32 *)((s8 *)self + 0x368));
+    *(void **)((s8 *)self + 0xD8) = lbl_80494570;
+    ((TObjMotion *)self)->set_field_d8((saddr)(*(void **)((s8 *)self + 0xD8)));
+    *(s32 *)((s8 *)self + 0xDC) = *(s32 *)((s8 *)TObjEneMerillLia__entry_params_resource + 0x430);
+    *(s16 *)((s8 *)self + 0xB8) = 0;
+    ((TObjMotion *)self)->set_animation(*(s16 *)((s8 *)self + 0xB8));
+    ((TObjMotion *)self)->set_field_b8(*(s16 *)((s8 *)self + 0xB8));
+    init_collision_body_parts(self, (u8 *) lbl_804946A4 + *(s32 *)((s8 *)self + 0x334) * 0x2C, 1);
+    ((TObjEnemy *)self)->bind_enemy_combat_stats((u8 *)TObjEneMerillLia__rock_stats_table[*(s32 *)((s8 *)self + 0x334)], (u8 *)merill_lia_rock_buffer[*(s32 *)((s8 *)self + 0x334)], (u8 *)merill_lia_rock_aux_buffer[*(s32 *)((s8 *)self + 0x334)]);
+    *(u8 **)((s8 *)self + 0x350) = (u8 *) lbl_80494650 + *(s32 *)((s8 *)self + 0x334) * 0x1C;
+    *(s16 *)((s8 *)self + 0x33E) = *(s16 *)((s8 *)self + 0x32C);
+    ((TObjEnemy *)self)->update_prev_position();
+    ((TBoss3VoloptHiraisin *)self)->copy_position();
+    ((TObjPlayer *)self)->register_object_by_id();
+    *(s32 *)((s8 *)self + 0x2AC) = 182.04445f * (360.0f * ((TObjChara *)self)->random_ratio());
+    *(s16 *)((s8 *)self + 0x33A) = 0xF;
+    *(s16 *)((s8 *)self + 0x33C) = *(s16 *)((s8 *)self + 0x33A);
+    *(s16 *)((s8 *)self + 0x328) = 0;
+    *(s16 *)((s8 *)self + 0x374) = 0;
+    *(s16 *)((s8 *)self + 0x376) = 0;
+    *(s32 *)((s8 *)self + 0x378) = 0;
+    *(s32 *)((s8 *)self + 0x37C) = 0;
+    ((TObjChara *)self)->add_flags_2e4(2);
+    obj_setFlags30(self, 0x40000);
+    *(f32 *)((s8 *)self + 0x380) = 0.0f;
+    *(f32 *)((s8 *)self + 0x398) = ((f32 **) TObjEneMerillLia__rock_param_table)[*(s32 *)((s8 *)self + 0x334)][0];
+    *(f32 *)((s8 *)self + 0x3A0) = ((f32 **) TObjEneMerillLia__rock_param_table)[*(s32 *)((s8 *)self + 0x334)][1];
+    *(f32 *)((s8 *)self + 0x39C) = ((f32 **) TObjEneMerillLia__rock_param_table)[*(s32 *)((s8 *)self + 0x334)][2];
+    *(f32 *)((s8 *)self + 0x3A4) = ((f32 **) TObjEneMerillLia__rock_param_table)[*(s32 *)((s8 *)self + 0x334)][3];
+    *(f32 *)((s8 *)self + 0x3D4) = ((f32 **) TObjEneMerillLia__rock_param_table)[*(s32 *)((s8 *)self + 0x334)][5];
+    *(f32 *)((s8 *)self + 0x3CC) = ((s32 **) TObjEneMerillLia__rock_param_table)[*(s32 *)((s8 *)self + 0x334)][6] / 100.0f;
+    *(s32 *)((s8 *)self + 0x390) = 1;
+    *(s16 *)((s8 *)self + 0x326) = 0xD;
+    *(s16 *)((s8 *)self + 0xB8) = 1;
+    ((VObj_18_4c2345 *) self)->m80();
+    return self;
 }
-#undef arg0
+#undef self
 
 void *__dt__16TObjEneMerillLiaFPvs(void *arg0, s16 arg1) {
     if (arg0 != NULL) {

@@ -722,42 +722,42 @@ void TObjEneDimedian::load_dimedian_param_entry(s32 i) {
 #define dimedian_action_table ((u8 *)dimedian_action_table)
 #define dimedian_movement_params ((u8 *)dimedian_movement_params)
 #define dimedian_collision_body_table ((u8 *)dimedian_collision_body_table)
-#define arg0 ((u8 *)this)
+#define self ((u8 *)this)
 TObjEneDimedian::TObjEneDimedian(TObject *parent, void *set_data) : TUnk_80493450(parent) {
     s32 color;
     s32 i;
-    *(const char **)((s8 *)arg0 + 0) = TObjEneDimedian_name_ref;
+    *(const char **)((s8 *)self + 0) = TObjEneDimedian_name_ref;
     apply_set_data(set_data);
-    ((TObjPlayer *)arg0)->init_position_vectors();
-    *(s32 *)((s8 *)arg0 + 0x334) = *(s32 *)((s8 *)arg0 + 0x368);
-    ((TObjEneDimedian *)arg0)->sub_800A7B54();
-    ((TObjEneDimedian *)arg0)->load_dimedian_param_entry(*(s32 *)((s8 *)arg0 + 0x368));
-    *(u8 **)((s8 *)arg0 + 0xD8) = dimedian_action_table;
-    ((TObjMotion *)arg0)->set_field_d8((saddr)(*(u8 **)((s8 *)arg0 + 0xD8)));
-    *(s32 *)((s8 *)arg0 + 0xDC) = *(s32 *)((s8 *)(*(u8 **)&dimedian_resource_ptr) + 0x430);
-    *(s16 *)((s8 *)arg0 + 0xB8) = 0;
-    ((TObjMotion *)arg0)->set_animation(*(s16 *)((s8 *)arg0 + 0xB8));
-    ((TObjMotion *)arg0)->set_field_b8(*(s16 *)((s8 *)arg0 + 0xB8));
-    init_collision_body_parts(arg0, dimedian_collision_body_table + *(s32 *)((s8 *)arg0 + 0x334) * 0x2C, 1);
-    ((TObjEnemy *)arg0)->bind_enemy_combat_stats((u8 *)((*(saddr **)&dimedian_boss_object_buf)[*(s32 *)((s8 *)arg0 + 0x334)]), (u8 *)((*(saddr **)&lbl_805D5074)[*(s32 *)((s8 *)arg0 + 0x334)]), (u8 *)((*(saddr **)&TObjEneDimedian__boss_objects)[*(s32 *)((s8 *)arg0 + 0x334)]));
-    *(u8 **)((s8 *)arg0 + 0x350) = dimedian_movement_params + *(s32 *)((s8 *)arg0 + 0x334) * 0x1C;
-    *(s16 *)((s8 *)arg0 + 0x33E) = *(s16 *)((s8 *)arg0 + 0x32C);
-    ((TObjEnemy *)arg0)->update_prev_position();
-    ((TBoss3VoloptHiraisin *)arg0)->copy_position();
-    initialize_enemy_photon_effect(arg0);
-    *(s32 *)((s8 *)arg0 + 0x2AC) = (s32)(182.04445f * (3.6e+02f * ((TObjChara *)arg0)->random_ratio()));
-    *(s16 *)((s8 *)arg0 + 0x33A) = 0xF;
-    *(s16 *)((s8 *)arg0 + 0x33C) = *(s16 *)((s8 *)arg0 + 0x33A);
-    *(s16 *)((s8 *)arg0 + 0x328) = 0;
-    *(s16 *)((s8 *)arg0 + 0x374) = 0;
-    *(s16 *)((s8 *)arg0 + 0x376) = 0;
-    *(s32 *)((s8 *)arg0 + 0x378) = 0;
-    *(s32 *)((s8 *)arg0 + 0x37C) = 0;
-    ((TObjChara *)arg0)->add_flags_2e4(8);
-    *(u32 *)((s8 *)arg0 + 0x30) |= 0x40000;
-    *(f32 *)((s8 *)arg0 + 0x388) = (-4.0f);
+    ((TObjPlayer *)self)->init_position_vectors();
+    *(s32 *)((s8 *)self + 0x334) = *(s32 *)((s8 *)self + 0x368);
+    ((TObjEneDimedian *)self)->sub_800A7B54();
+    ((TObjEneDimedian *)self)->load_dimedian_param_entry(*(s32 *)((s8 *)self + 0x368));
+    *(u8 **)((s8 *)self + 0xD8) = dimedian_action_table;
+    ((TObjMotion *)self)->set_field_d8((saddr)(*(u8 **)((s8 *)self + 0xD8)));
+    *(s32 *)((s8 *)self + 0xDC) = *(s32 *)((s8 *)(*(u8 **)&dimedian_resource_ptr) + 0x430);
+    *(s16 *)((s8 *)self + 0xB8) = 0;
+    ((TObjMotion *)self)->set_animation(*(s16 *)((s8 *)self + 0xB8));
+    ((TObjMotion *)self)->set_field_b8(*(s16 *)((s8 *)self + 0xB8));
+    init_collision_body_parts(self, dimedian_collision_body_table + *(s32 *)((s8 *)self + 0x334) * 0x2C, 1);
+    ((TObjEnemy *)self)->bind_enemy_combat_stats((u8 *)((*(saddr **)&dimedian_boss_object_buf)[*(s32 *)((s8 *)self + 0x334)]), (u8 *)((*(saddr **)&lbl_805D5074)[*(s32 *)((s8 *)self + 0x334)]), (u8 *)((*(saddr **)&TObjEneDimedian__boss_objects)[*(s32 *)((s8 *)self + 0x334)]));
+    *(u8 **)((s8 *)self + 0x350) = dimedian_movement_params + *(s32 *)((s8 *)self + 0x334) * 0x1C;
+    *(s16 *)((s8 *)self + 0x33E) = *(s16 *)((s8 *)self + 0x32C);
+    ((TObjEnemy *)self)->update_prev_position();
+    ((TBoss3VoloptHiraisin *)self)->copy_position();
+    initialize_enemy_photon_effect(self);
+    *(s32 *)((s8 *)self + 0x2AC) = (s32)(182.04445f * (3.6e+02f * ((TObjChara *)self)->random_ratio()));
+    *(s16 *)((s8 *)self + 0x33A) = 0xF;
+    *(s16 *)((s8 *)self + 0x33C) = *(s16 *)((s8 *)self + 0x33A);
+    *(s16 *)((s8 *)self + 0x328) = 0;
+    *(s16 *)((s8 *)self + 0x374) = 0;
+    *(s16 *)((s8 *)self + 0x376) = 0;
+    *(s32 *)((s8 *)self + 0x378) = 0;
+    *(s32 *)((s8 *)self + 0x37C) = 0;
+    ((TObjChara *)self)->add_flags_2e4(8);
+    *(u32 *)((s8 *)self + 0x30) |= 0x40000;
+    *(f32 *)((s8 *)self + 0x388) = (-4.0f);
     if (TObjEneDD::check_v2_mode() != 0) {
-        switch (*(s32 *)((s8 *)arg0 + 0x334)) {
+        switch (*(s32 *)((s8 *)self + 0x334)) {
         case 0:
         default:
             color = 0xFF20FF20;
@@ -770,7 +770,7 @@ TObjEneDimedian::TObjEneDimedian(TObject *parent, void *set_data) : TUnk_8049345
             break;
         }
     } else {
-        switch (*(s32 *)((s8 *)arg0 + 0x334)) {
+        switch (*(s32 *)((s8 *)self + 0x334)) {
         default:
             color = 0xFF0000FF;
             break;
@@ -784,17 +784,17 @@ TObjEneDimedian::TObjEneDimedian(TObject *parent, void *set_data) : TUnk_8049345
     }
     m_3c4[0] = TUnk_80494968::create(0xA0303030, color);
     m_3c4[1] = TUnk_80494968::create(0xA0303030, color);
-    *(s32 *)((s8 *)arg0 + 0x390) = 1;
-    *(f32 *)((s8 *)arg0 + 0x398) = ((f32 **)(*(s32 **)&dimedian_buffer_ptr))[*(s32 *)((s8 *)arg0 + 0x334)][0];
-    *(f32 *)((s8 *)arg0 + 0x3A0) = ((f32 **)(*(s32 **)&dimedian_buffer_ptr))[*(s32 *)((s8 *)arg0 + 0x334)][1];
-    *(f32 *)((s8 *)arg0 + 0x39C) = ((f32 **)(*(s32 **)&dimedian_buffer_ptr))[*(s32 *)((s8 *)arg0 + 0x334)][2];
-    *(f32 *)((s8 *)arg0 + 0x3A4) = ((f32 **)(*(s32 **)&dimedian_buffer_ptr))[*(s32 *)((s8 *)arg0 + 0x334)][3];
+    *(s32 *)((s8 *)self + 0x390) = 1;
+    *(f32 *)((s8 *)self + 0x398) = ((f32 **)(*(s32 **)&dimedian_buffer_ptr))[*(s32 *)((s8 *)self + 0x334)][0];
+    *(f32 *)((s8 *)self + 0x3A0) = ((f32 **)(*(s32 **)&dimedian_buffer_ptr))[*(s32 *)((s8 *)self + 0x334)][1];
+    *(f32 *)((s8 *)self + 0x39C) = ((f32 **)(*(s32 **)&dimedian_buffer_ptr))[*(s32 *)((s8 *)self + 0x334)][2];
+    *(f32 *)((s8 *)self + 0x3A4) = ((f32 **)(*(s32 **)&dimedian_buffer_ptr))[*(s32 *)((s8 *)self + 0x334)][3];
     for (i = 0; i < 4; i++) {
         m_3cc[i].activate_and_dispatch();
     }
     clear_lobby_object_state();
 }
-#undef arg0
+#undef self
 
 TObjEneDimedian::~TObjEneDimedian() {
     s32 i;

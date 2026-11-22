@@ -61,7 +61,7 @@ extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 
 s32 TBoss5GryphonLightningEff::calc_segment_uvs(void *p_) {
-#define arg0 ((Obj_80325070 *)this)
+#define self ((Obj_80325070 *)this)
     Seg_80325070 *p = (Seg_80325070 *)p_;
     s32 i;
     s16 flags;
@@ -70,13 +70,13 @@ s32 TBoss5GryphonLightningEff::calc_segment_uvs(void *p_) {
     f32 step;
     f32 v0;
     f32 v1;
-    flags = arg0->flags;
+    flags = self->flags;
     u = 0.0f;
-    step = arg0->len / (arg0->n - 1);
+    step = self->len / (self->n - 1);
     base = 64.0f * (f32)(flags & 7);
     v0 = base / 512.0f;
     v1 = (64.0f + base) / 512.0f;
-    for (i = 0; i < arg0->n; i++, p++) {
+    for (i = 0; i < self->n; i++, p++) {
         p->a.u = u / 512.0f;
         p->a.v = v0;
         p->b.u = u / 512.0f;
@@ -88,7 +88,7 @@ s32 TBoss5GryphonLightningEff::calc_segment_uvs(void *p_) {
     }
     return *(*inazuma_texture_list)->b->p;
 }
-#undef arg0
+#undef self
 
 void TBoss5GryphonLightningEff::render() {
     char sp10C[0x270];

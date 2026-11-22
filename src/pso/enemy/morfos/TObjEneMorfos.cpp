@@ -1066,7 +1066,7 @@ void TObjEneMorfos::refresh_target() {  }
 
 void TObjEneMorfos::run_death_reaction() { if (this->mode != 11) { transition_enemy_state((saddr)((void*)11)); } }
 
-#define arg0 ((Obj_80334A4C *)this)
+#define self ((Obj_80334A4C *)this)
 #define att ((Obj_80334A4C *)attacker)
 f32 TObjEneMorfos::receive_physical_attack(void *attacker, f32 scale) {
     Vec v;
@@ -1074,26 +1074,26 @@ f32 TObjEneMorfos::receive_physical_attack(void *attacker, f32 scale) {
     s32 d;
     if (att != 0) {
         VecCopy((Vec *)&v, (const Vec *)&att->pos);
-        subtract_vector(&v, &arg0->pos);
-        d = angle_difference_abs(arg0->f60, (s32)(10430.38043493439 * atan2_float(v.x, v.z)));
+        subtract_vector(&v, &self->pos);
+        d = angle_difference_abs(self->f60, (s32)(10430.38043493439 * atan2_float(v.x, v.z)));
     } else {
         d = 0;
     }
-    if (arg0->f3C0 & 0x10) {
+    if (self->f3C0 & 0x10) {
         if (d < 0x4000) {
             spawn_particle_effect((const Vec *)&m_498, 0x214);
             spawn_particle_effect((const Vec *)&m_498, 0x21A);
         } else {
-            arg0->f3C0 &= ~0x10;
-            arg0->f3C0 |= 0x20;
-            ret = ((TObjChara *)arg0)->TObjChara::receive_physical_attack(att, scale);
+            self->f3C0 &= ~0x10;
+            self->f3C0 |= 0x20;
+            ret = ((TObjChara *)self)->TObjChara::receive_physical_attack(att, scale);
         }
     } else {
-        ret = ((TObjChara *)arg0)->TObjChara::receive_physical_attack(att, scale);
+        ret = ((TObjChara *)self)->TObjChara::receive_physical_attack(att, scale);
     }
     return ret;
 }
-#undef arg0
+#undef self
 #undef att
 
 void TObjEneMorfos::run_hit_reaction() {
