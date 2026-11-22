@@ -55,6 +55,7 @@ void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 #include "pso/boss/darkfalz/TBoss4Type3.h"
 
 #include "pso/enemy/TUnk_8048FE08.h"
+#include "pso/enemy/AttackTargetHistory.h"
 
 #include "pso/player/TUnk_804928CC.h"
 #include "pso/render/TUnk_80490470.h"
@@ -63,18 +64,8 @@ struct Bringer_80097714;
 struct Bringer_800993E8;
 struct Obj_80098EFC;
 struct Obj_80098FF4;
-struct VBase_800996EC { char pad[0x18]; };
-
-struct VObj_800996EC : VBase_800996EC {
-    virtual void m0(s32);
-};
-
 extern "C" {
-void *__dt__13TUnk_80490470Fv(void *arg0, s16 arg1);
-s32 __dt__17AreaAttackHistoryFv(s32 arg0, s16 arg1);
 s32 free_collision_body_parts(void *);
-s32 __destroy_arr(void *, void *, int, int);
-extern s32 __dt__15RenderFadeStateFv[];
 void render__17TObjEneDf2BringerFv(u8 *arg0);
 void TObjEneDf2Bringer__sub_80097620(u8 *arg0, s32 arg1);
 void TObjEneDf2Bringer__sub_80097714(Bringer_80097714 *obj, s32 mode);
@@ -981,29 +972,17 @@ struct VObj_18_p5 : VBase_18_p5 {
     virtual s32 m103();
 };
 
-struct VBase_14_fa0828 { char pad[0x14]; };
-struct VObj_14_fa0828 : VBase_14_fa0828 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual s32 m3();
-};
 extern "C" {
 void *__ct__17TObjEneDf2BringerFP7TObjectPv(void *arg0, void *arg1, void *arg2);
-void __construct_array(void *, void *, void *, int, int);
 }
 void *destroy_buffer_pair(void *arg0, s16 arg1);
 extern "C" {
 
 
-extern s32 __ct__15RenderFadeStateFv[];
 const char *TObjEneDf2Bringer__name = "TObjEneDf2Bringer";
 
 
-struct Slot_80099800 { u8 pad[0x1C]; };
 
-u8 *__ct__17AreaAttackHistoryFl(u8 *arg0, s32 arg1);
-struct Arr_80099800 { u8 pad[0x3E0]; Slot_80099800 slot[4]; Vec v[4]; };
 
 typedef struct RecoveredGlobal_8031B170_lbl_804E8880 RecoveredGlobal_8031B170_lbl_804E8880;
 LAYOUT_ASSERT(RecoveredGlobal_8031B170_lbl_804E8880_size, (sizeof(RecoveredGlobal_8031B170_lbl_804E8880)) == 0xD0);
@@ -1160,8 +1139,6 @@ void TObjEneDf2Bringer::set_entry_value_clamped(s32 arg0, f32 farg0) {
 
 }
 TObjEneDf2Bringer::TObjEneDf2Bringer(TObject *arg1, void *arg2) : TObjEneDD_ST(arg1) {
-    __ct__13TUnk_80490470Fv(((char *)this + 964));
-    __construct_array((void *)((char *)this + 992), __ct__15RenderFadeStateFv, __dt__15RenderFadeStateFv, 28, 4);
     m_name = TObjEneDf2Bringer__name;
     invoke_initialization_hook(arg2);
     sub_800994F8();
@@ -1170,88 +1147,69 @@ TObjEneDf2Bringer::TObjEneDf2Bringer(TObject *arg1, void *arg2) : TObjEneDD_ST(a
 
 
 void TObjEneDf2Bringer::init_enemy() {
-    u8 *arg0 = (u8 *)this;
     s32 i;
-    void *p;
 
-    ((TObjEneDD *)arg0)->init_position_vectors();
-    *(s32 *)((s8 *)arg0 + 0x34) = *(s32 *)((s8 *)(*(u8 **)((s8 *)TObjEneDf2Bringer__resource_bundle + 0x42C)) + 8);
+    init_position_vectors();
+    this->model = *(void **)((s8 *)(*(u8 **)((s8 *)TObjEneDf2Bringer__resource_bundle + 0x42C)) + 8);
     this->texlist = *(s32 *)((s8 *)(*(u8 **)((s8 *)TObjEneDf2Bringer__resource_bundle + 0x42C)) + 0xC);
-    ((TObjEneDD *)arg0)->init_model((CollisionBody *)lbl_8048FA2C, (s32)1);
-    ((TObjMotion *)arg0)->set_field_d8((saddr)&lbl_8048FAF8);
-    ((TObjMotion *)arg0)->set_field_dc(*(s32 *)((s8 *)TObjEneDf2Bringer__resource_bundle + 0x430));
+    init_model((CollisionBody *)lbl_8048FA2C, (s32)1);
+    set_field_d8((saddr)&lbl_8048FAF8);
+    set_field_dc(*(s32 *)((s8 *)TObjEneDf2Bringer__resource_bundle + 0x430));
     this->requested_action = 0;
-    ((TObjMotion *)arg0)->set_animation(this->requested_action);
-    ((TObjMotion *)arg0)->set_field_b8(this->requested_action);
-    ((TObjEneDD *)arg0)->reset_hp((u8 *)bringer_boss_stats_handle, (u8 *)bringer_boss_stats_ptr_b, (u8 *)bringer_object_handle);
-    ((TObjEneDD *)arg0)->set_state_8();
-    *(void **)((s8 *)arg0 + 0x350) = bringer_init_params;
-    ((TObjEneDD *)arg0)->initialize_enemy_state(0x24);
-    *(f32 *)((s8 *)arg0 + 0x37C) = 20.0f;
-    ((TObjEneDD_ST *)arg0)->enemy_init_acquire_period(0x1E);
-    ((TObjEneDD_ST *)arg0)->enemy_init_validate_period(0x1E);
-    *(s32 *)((s8 *)arg0 + 0x3C0) = 0;
-    *(s32 *)((s8 *)arg0 + 0x3C0) |= 1;
-    ((VObj_14_fa0828 *)(arg0 + 0x3C4))->m3();
+    set_animation(this->requested_action);
+    set_field_b8(this->requested_action);
+    reset_hp((u8 *)bringer_boss_stats_handle, (u8 *)bringer_boss_stats_ptr_b, (u8 *)bringer_object_handle);
+    set_state_8();
+    this->movementParameters = bringer_init_params;
+    initialize_enemy_state(0x24);
+    this->wall_reach = 20.0f;
+    enemy_init_acquire_period(0x1E);
+    enemy_init_validate_period(0x1E);
+    this->pad_3C0 = 0;
+    this->pad_3C0 |= 1;
+    this->pad_3C4.reset_obstruction_fade();
     for (i = 0; i < 4; i++) {
-        ((RenderFadeState *)(&((Arr_80099800 *)arg0)->slot[i]))->activate_and_dispatch();
+        this->renderFadeStates[i].activate_and_dispatch();
     }
     for (i = 0; i < 4; i++) {
-        VecCopy((Vec *)(&((Arr_80099800 *)arg0)->v[i]), (const Vec *)(arg0 + 0x38));
+        VecCopy(&this->pad_450[i], &this->position);
     }
-    *(s32 *)((s8 *)arg0 + 0x480) = 0;
-    *(s32 *)((s8 *)arg0 + 0x484) = 0;
-    *(s32 *)((s8 *)arg0 + 0x488) = 1;
-    *(s32 *)((s8 *)arg0 + 0x494) = 0;
-    *(s32 *)((s8 *)arg0 + 0x48C) = 0;
-    *(s32 *)((s8 *)arg0 + 0x490) = 0;
-    p = TObject::operator new(0xB0);
-    if (p != NULL) {
-        p = __ct__13TUnk_804928CCFP7TObjectP8TObjBasePC13CollisionBodyl(p, arg0, arg0, (u8 *)lbl_8048FA2C + 0x2C, 2);
-    }
-    *(void **)((s8 *)arg0 + 0x498) = p;
-    p = ::operator new(0x10);
-    if (p != NULL) {
-        p = __ct__17AreaAttackHistoryFl((u8 *)p, 8);
-    }
-    *(void **)((s8 *)arg0 + 0x49C) = p;
-    *(void **)((s8 *)arg0 + 0x4A0) = new TUnk_8048FE08((TObject *)arg0, (TObjBase *)arg0, *(AreaAttackHistory **)((s8 *)arg0 + 0x49C));
-    *(s32 *)((s8 *)arg0 + 0x4A4) = (saddr)TUnk_80494968::create(0xFF5050FF, 0x80000080);
-    *(s32 *)((s8 *)arg0 + 0x4A8) = 0;
-    *(s32 *)((s8 *)arg0 + 0x4AC) = 0;
-    *(s32 *)((s8 *)arg0 + 0x4B0) = 0;
-    *(s32 *)((s8 *)arg0 + 0x4B4) = 0;
-    *(s32 *)((s8 *)arg0 + 0x4B8) = 0;
-    *(f32 *)((s8 *)arg0 + 0x4BC) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x4C0) = 0.0f;
-    *(s32 *)((s8 *)arg0 + 0x4C4) = 0;
+    this->pad_480 = 0;
+    this->pad_484 = 0;
+    this->pad_488 = 1;
+    this->pad_494 = 0;
+    this->pad_48C = 0;
+    this->pad_490 = 0;
+    this->collider = new TUnk_804928CC(this, this, (const CollisionBody *)((u8 *)lbl_8048FA2C + 0x2C), 2);
+    this->attack_history = new AreaAttackHistory(8);
+    this->pad_4A0 = new TUnk_8048FE08(this, this, this->attack_history);
+    this->pad_4A4 = TUnk_80494968::create(0xFF5050FF, 0x80000080);
+    this->pad_4A8 = 0;
+    this->pad_4AC = 0;
+    this->pad_4B0 = 0;
+    this->pad_4B4 = 0;
+    this->pad_4B8 = 0;
+    this->pad_4BC = 0.0f;
+    this->pad_4C0 = 0.0f;
+    this->pad_4C4 = NULL;
     this->mode = 1;
     this->dispatch_action(this->mode, 4);
 }
 
 TObjEneDf2Bringer::~TObjEneDf2Bringer() {
-    VObj_800996EC *o;
-    if (*(void **)((s8 *)this + 0x4C4) != NULL) {
-        ((TObject *)(*(void **)((s8 *)this + 0x4C4)))->queue_destruction();
-        *(void **)((s8 *)this + 0x4C4) = NULL;
+    if (this->pad_4C4 != NULL) {
+        this->pad_4C4->queue_destruction();
+        this->pad_4C4 = NULL;
     }
-    ((TObject *)(*(void **)((s8 *)this + 0x4A4)))->queue_destruction();
-    *(s32 *)((s8 *)this + 0x4A4) = 0;
-    o = *(VObj_800996EC **)((s8 *)this + 0x4A0);
-    if (o != NULL) {
-        o->m0(1);
-    }
-    *(void **)((s8 *)this + 0x4A0) = NULL;
-    __dt__17AreaAttackHistoryFv(*(s32 *)((s8 *)this + 0x49C), 1);
-    *(s32 *)((s8 *)this + 0x49C) = 0;
-    o = *(VObj_800996EC **)((s8 *)this + 0x498);
-    if (o != NULL) {
-        o->m0(1);
-    }
-    *(void **)((s8 *)this + 0x498) = NULL;
+    this->pad_4A4->queue_destruction();
+    this->pad_4A4 = NULL;
+    delete this->pad_4A0;
+    this->pad_4A0 = NULL;
+    delete this->attack_history;
+    this->attack_history = NULL;
+    delete this->collider;
+    this->collider = NULL;
     free_collision_body_parts(this);
-    __destroy_arr(((u8 *)this) + 0x3E0, __dt__15RenderFadeStateFv, 0x1C, 4);
-    __dt__13TUnk_80490470Fv(((u8 *)this) + 0x3C4, -1);
 }
 
 

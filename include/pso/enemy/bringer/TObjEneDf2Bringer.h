@@ -3,6 +3,13 @@
 
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
+#include "pso/render/RenderFadeState.h"
+#include "pso/render/TUnk_80490470.h"
+
+class AreaAttackHistory;
+class TUnk_804928CC;
+class TUnk_8048FE08;
+class TUnk_80494968;
 
 struct TObjEneDf2Bringer : public TObjEneDD_ST {
     TObjEneDf2Bringer(TObject *arg1, void *arg2);
@@ -21,18 +28,6 @@ struct TObjEneDf2Bringer : public TObjEneDD_ST {
     void refresh_target();
     void render();
     void run_task();
-    u8 _pad3DC[0x4];
-    void* m_3e0;
-    u8 _pad3E4[0x6C];
-    void* m_450;
-    u8 _pad454[0x2C];
-    u32 m_480;
-    u8 _pad484[0x4];
-    u32 m_488;
-    u8 _pad48C[0x8];
-    u32 m_494;
-    u8 _pad498[0x10];
-    u32 m_4a8;
     void exec(s32 arg1);
     void handle_state(s32 arg1);
     s32 check_stage_advance();
@@ -41,10 +36,31 @@ struct TObjEneDf2Bringer : public TObjEneDD_ST {
     static void free_resources();
     void *create();
     static void load_resources();
-    u8 unk_490[0x38];
     void spawn_offset_particle();
     void spawn_particle_if_in_band();
     void update_if_in_band();
+    s32 pad_3C0;  // flags; init_enemy sets bit 0
+    TUnk_80490470 pad_3C4;
+    RenderFadeState renderFadeStates[4];
+    Vec pad_450[4];
+    s32 pad_480;
+    s32 pad_484;
+    s32 pad_488;
+    s32 pad_48C;
+    s32 pad_490;
+    s32 pad_494;
+    TUnk_804928CC *collider;  // built over the Bringer's collision bodies
+    AreaAttackHistory *attack_history;
+    TUnk_8048FE08 *pad_4A0;
+    TUnk_80494968 *pad_4A4;
+    s32 pad_4A8;
+    s32 pad_4AC;
+    s32 pad_4B0;
+    s32 pad_4B4;
+    s32 pad_4B8;
+    f32 pad_4BC;
+    f32 pad_4C0;
+    TObject *pad_4C4;
 };
 
 LAYOUT_ASSERT(TObjEneDf2Bringer_size, sizeof(TObjEneDf2Bringer) == 0x4C8);
