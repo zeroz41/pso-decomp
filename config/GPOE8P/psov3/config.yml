@@ -7779,7 +7779,7 @@ force_active:
   - dark_gunner_action_table
   - dark_gunner_constant_material
   - dark_gunner_child_local_offsets
-  - lbl_80490998
+  - dark_gunner_shot_collision_body
   - __vt__12TObjEneShark
   - __vt__14TObjEneBm5Wolf
   - lappy_motion_names
@@ -16179,7 +16179,7 @@ force_active:
   - update_vertex_positions__13TUnk_8048FE7CFv
   - update_state__17TObjEneDarkGunnerFv
   - update_hover__17TObjEneDarkGunnerFv
-  - sub_800A3290__13TUnk_804909C4FUs
+  - check_player_hits__13TUnk_804909C4FUs
   - update_particle_effect__12TObjEneSaverFv
   - state_jump_attack__12TObjEneSaverFv
   - state_appear__12TObjEneSaverFv
