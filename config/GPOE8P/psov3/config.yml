@@ -6706,7 +6706,7 @@ force_active:
   - get_player_entry__6TLobbyFii
   - get_player_load_state__Fv
   - get_player_motion_filename
-  - get_player_pos_in_arc__13TBoss5GryphonFPviiPvPv
+  - get_player_pos_in_arc__13TBoss5GryphonFllP3VecP3Vec
   - get_pos_ptr__10TObjPlayerFv
   - get_quest_data__16TQuestListOnlineFv
   - get_quest_size__12TQuestListVMFv

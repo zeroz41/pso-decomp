@@ -241,15 +241,8 @@ struct Obj_80063570 {
     u8 pad494[0x4c0 - 0x494];
     s32 flags;
 };
-struct Obj_8005D880 {
-    u8 pad0[0x38];
-    Vec pos;
-    u8 pad44[0x60 - 0x44];
-    s32 f60;
-};
 struct Seg_80063CDC { f32 x, y, z, w; };
 f32 newton_sqrtf(f32);
-s32 get_player_pos_in_arc__13TBoss5GryphonFPviiPvPv(Obj_8005D880 *arg0, s32 arg1, s32 arg2, Vec *org, Vec *out);
 void TBoss8Dragon__sub_8005E17C(NJS_OBJECT *);
 void TBoss8Dragon__sub_8005F684(TBoss5Gryphon *self, void *params);
 void trigger_effect__12TBoss8DragonFPvi(void *arg0, s32 arg1);
@@ -4032,7 +4025,7 @@ void TBoss8Dragon__sub_8005D9BC(u8 *arg0, s32 arg1, s32 arg2) {
         if (*(u32 *)((s8 *)arg0 + 0x6E0) == 0) return;
         copy_position__26TBoss5GryphonLightningWingFPv((void *)(*(uaddr *)((s8 *)arg0 + 0x6E0)), &pos);
     }
-    if (((s32 (*)(void *, s32, s32, void *, void *))get_player_pos_in_arc__13TBoss5GryphonFPviiPvPv)(arg0, arg1, arg2, &pos, &out) == 0) {
+    if (((TBoss5Gryphon *)arg0)->get_player_pos_in_arc(arg1, arg2, &pos, &out) == 0) {
         if (arg1 != 0) {
             ang += 20480.0f;
         }
@@ -4052,28 +4045,28 @@ void TBoss8Dragon__sub_8005D9BC(u8 *arg0, s32 arg1, s32 arg2) {
     mid.z = 0.5f * (pos.z + out.z);
     spawn_lightning_wing__12TBoss8DragonFiiiiii((saddr)arg0, (saddr)&pos, (saddr)&mid, (saddr)&out, 0x14, 0x11);
 }
-
-s32 get_player_pos_in_arc__13TBoss5GryphonFPviiPvPv(Obj_8005D880 *arg0, s32 arg1, s32 arg2, Vec *org, Vec *out) {
-    Obj_8005D880 *p;
+}
+s32 TBoss5Gryphon::get_player_pos_in_arc(s32 left, s32 client_id, Vec *org, Vec *out) {
+    TObjPlayer *p;
     f32 dx;
     f32 dz;
     f32 px;
     f32 pz;
     s32 ang;
 
-    p = ((Obj_8005D880 * (*)(s32))get_player_by_client_id)(arg2);
+    p = get_player_by_client_id(client_id);
     if (p == 0) {
         return 0;
     }
-    pz = p->pos.z;
-    px = p->pos.x;
-    dz = pz - arg0->pos.z;
-    dx = px - arg0->pos.x;
+    pz = p->position.z;
+    px = p->position.x;
+    dz = pz - this->position.z;
+    dx = px - this->position.x;
     if (dx * dx + dz * dz < 10000.0f) {
         return 0;
     }
-    ang = angle_diff_s16((s32)(10430.38043493439 * atan2_float(px - org->x, pz - org->z)), arg0->f60);
-    if (arg1 != 0) {
+    ang = angle_diff_s16((s32)(10430.38043493439 * atan2_float(px - org->x, pz - org->z)), this->rotation_y);
+    if (left != 0) {
         if ((f32)(s32)(u16)ang > 45056.0f) {
             return 0;
         }
@@ -4082,11 +4075,10 @@ s32 get_player_pos_in_arc__13TBoss5GryphonFPviiPvPv(Obj_8005D880 *arg0, s32 arg1
             return 0;
         }
     }
-    VecCopy(out, &p->pos);
+    VecCopy(out, &p->position);
     return 1;
 }
 
-}
 void TBoss5Gryphon::run_demo_task() { get_target_info(); }
 
 void TBoss5Gryphon::render_demo() {
