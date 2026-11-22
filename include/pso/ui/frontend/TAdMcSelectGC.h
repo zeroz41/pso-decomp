@@ -5,6 +5,7 @@
 #include "pso/system/task/TObject.h"
 
 struct TAdMcSelectCursorGC;
+class TAdChrSelSlotGC;
 
 struct TAdMcSelectGC : public TObject {
     TAdMcSelectGC(TObject *parent);
@@ -15,8 +16,7 @@ struct TAdMcSelectGC : public TObject {
     u32 m_24;
     uaddr m_28;
     uaddr m_2c;
-    uaddr m_30;
-    void init_slot(s32 arg1, void *arg2);
+    TAdChrSelSlotGC *slot_gc; // 0x30
     static void render(void *self);
     static void update_state();
     static s32 get_selected_slot_index();
@@ -26,10 +26,6 @@ struct TAdMcSelectGC : public TObject {
     static void open();
     static void close();
     static TAdMcSelectCursorGC *get_mc_count();
-    s32 get_slot_index();
-    void set_field_13c(s32 v);
-    void set_field_0x1c(s32 v);
-    void set_select_index(s32 v);
 };
 
 LAYOUT_ASSERT(TAdMcSelectGC_size, sizeof(TAdMcSelectGC) == 0x34);

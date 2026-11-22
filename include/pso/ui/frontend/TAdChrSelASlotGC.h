@@ -7,6 +7,7 @@
 class TAdSubPlyItemGC;
 class TAdChrSelMovePlateGC;
 class TAdPlyChrSelPlateGC;
+class TAdChrSelSlotGC;
 
 struct TAdChrSelASlotGC : public TObject {
     TAdChrSelASlotGC(TObject *parent, s32 mode);
@@ -17,7 +18,7 @@ struct TAdChrSelASlotGC : public TObject {
     s32 mode;
     u32 state;
     u32 prev_state;
-    u8 _pad2C[0x4];
+    TAdChrSelSlotGC *slot_gc; // 0x2C
     uaddr m_30;
     void set_flag_40();
     static void render(void *self);

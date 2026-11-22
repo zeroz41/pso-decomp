@@ -7,6 +7,7 @@
 class TAdSubPlyItemGC;
 class TAdChrSelMovePlateGC;
 class TAdPlyChrSelPlateGC;
+class TAdChrSelSlotGC;
 
 struct TAdChrSelBSlotGC : public TObject {
     TAdChrSelBSlotGC(TObject *parent);
@@ -32,7 +33,7 @@ struct TAdChrSelBSlotGC : public TObject {
     static void *create(void *arg0);
     int get_global_state();
     static saddr get_global_slot_data();
-    u8 unk_28[0x4];
+    TAdChrSelSlotGC *slot_gc; // 0x28
     TAdPlyChrSelPlateGC *m_2c;
     TAdSubPlyItemGC *player_items;
     TAdChrSelMovePlateGC *m_34;

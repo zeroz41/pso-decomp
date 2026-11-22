@@ -134,7 +134,7 @@ force_active:
   - TAdChrSelBSlotGC__sub_8030F2E4
   - TAdChrSelBSlotGC__sub_8030F3A0
   - TAdChrSelSlotGC__name
-  - TAdChrSelSlotGC__sub_802C754C
+  - sub_802C754C__15TAdChrSelSlotGCFl
   - TAdDialingGC__sub_803284F8
   - TAdDialingMessageWindow__name
   - TAdDrawLineCtrl__class_name

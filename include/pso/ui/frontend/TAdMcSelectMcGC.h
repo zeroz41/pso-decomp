@@ -27,6 +27,7 @@ public:
     virtual void run_task();
     static void release_selected_entry();
     static void init_memorycard();
+    void set_field_0x1c(s32 v); // stores pad_1c; defined in TAdMcSelectGC.cpp
 };
 
 LAYOUT_ASSERT(TAdMcSelectMcGC_size, sizeof(TAdMcSelectMcGC) == 0x134);

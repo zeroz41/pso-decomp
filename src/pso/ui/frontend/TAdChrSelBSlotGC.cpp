@@ -120,7 +120,7 @@ void TAdChrSelBSlotGC__sub_8030E624(TAdChrSelBSlotGC *self) {
     s32 slot;
 
     if (self->m_2c->is_slot_value_ready(2)) {
-        ((TAdChrSelSlotGC *)*(void **)((s8 *)self + 0x28))->init_slot_entry(2, (void *)&lbl_80475908);
+        self->slot_gc->init_slot_entry(2, (void *)&lbl_80475908);
         slot = (saddr)self;
         for (i = 0; i < 4; i++) {
             set_entry_text__15TAdSubPlyItemGCFPvPv(*(void **)((s8 *)self + 0x30), TAdChrSelBSlotGC__sub_8030E3BC(slot, i, i, (void *)&lbl_804758E8[i]));
@@ -332,7 +332,6 @@ extern "C" {
 s32 TAdChrSelASlotGC__sub_8030C4F8(TAdChrSelASlotGC *self, s32 kind);
 s32 TAdChrSelASlotGC__sub_8030C5C0(TAdChrSelASlotGC *self, s32 kind);
 s32 TAdChrSelASlotGC__sub_8030C688(TAdChrSelASlotGC *self, s32 kind);
-s32 TAdChrSelSlotGC__sub_802C7498(s32, s32);
 s32 poll_memcard_result(saddr);
 s32 start_memcard_format(s32, s32, s32, s32, s32);
 void TAdSubPlyItemGC__sub_802D6D88(TAdSubPlyItemGC *self);
@@ -616,7 +615,7 @@ void close_windows__16TAdChrSelBSlotGCFPv(void *ad_chr_sel_b_slot_gc) {
     ((TAdChrSelBSlotGC *)ad_chr_sel_b_slot_gc)->m_2c->reset_selection_slots();
     TAdSubPlyItemGC__sub_802D6D88((TAdSubPlyItemGC *)(*(saddr *)((s8 *)ad_chr_sel_b_slot_gc + 0x30)));
     ((TAdChrSelBSlotGC *)ad_chr_sel_b_slot_gc)->m_34->clear_entries();
-    TAdChrSelSlotGC__sub_802C7498(*(s32 *)((s8 *)ad_chr_sel_b_slot_gc + 0x28), 2);
+    ((TAdChrSelBSlotGC *)ad_chr_sel_b_slot_gc)->slot_gc->sub_802C7498(2);
     if (((TAdChrSelBSlotGC *)ad_chr_sel_b_slot_gc)->get_global_state() > 0xD) {
         if ((u32) *(u32 *)((s8 *)ad_chr_sel_b_slot_gc + 0x40) != 0U) {
             ((TWindowBase *)(*(void **)((s8 *)ad_chr_sel_b_slot_gc + 0x40)))->close();
@@ -642,7 +641,7 @@ void close_windows__16TAdChrSelBSlotGCFPv(void *ad_chr_sel_b_slot_gc) {
 
 
 void reset_windows__16TAdChrSelBSlotGCFPv(void *ad_mc_select_gc) {
-    ((TAdChrSelSlotGC *)(((TAdMcSelectGC *)ad_mc_select_gc)->m_28))->reset_all_slots();
+    ((TAdChrSelBSlotGC *)ad_mc_select_gc)->slot_gc->reset_all_slots();
     if ((u32) *(u32 *)((s8 *)ad_mc_select_gc + 0x38) != 0U) {
         ((TObject *)(*(void **)((s8 *)ad_mc_select_gc + 0x38)))->queue_destruction();
         *(u32 *)((s8 *)ad_mc_select_gc + 0x38) = 0U;
@@ -695,13 +694,13 @@ void reset_windows__16TAdChrSelBSlotGCFPv(void *ad_mc_select_gc) {
         ((TWindowBase *)(*(void **)((s8 *)ad_mc_select_gc + 0x68)))->close();
         *(u32 *)((s8 *)ad_mc_select_gc + 0x68) = 0U;
     }
-    ((TAdPlyChrSelPlateGC *)(((TAdMcSelectGC *)ad_mc_select_gc)->m_2c))->reset_selection_slots();
-    TAdSubPlyItemGC__sub_802D6D88((TAdSubPlyItemGC *)(((TAdMcSelectGC *)ad_mc_select_gc)->m_30));
-    ((TAdMcSelectGC *)(((TAdMcSelectGC *)ad_mc_select_gc)->m_28))->init_slot(1, (void *)&lbl_80475910);
+    ((TAdChrSelBSlotGC *)ad_mc_select_gc)->m_2c->reset_selection_slots();
+    TAdSubPlyItemGC__sub_802D6D88(((TAdChrSelBSlotGC *)ad_mc_select_gc)->player_items);
+    ((TAdChrSelBSlotGC *)ad_mc_select_gc)->slot_gc->init_slot(1, (void *)&lbl_80475910);
     *(u32 *)((s8 *)ad_mc_select_gc + 0x38) = (uaddr)create_draw_line_ctrl((TObject *)ad_mc_select_gc, 0xE, 0.0f);
     *(u32 *)((s8 *)ad_mc_select_gc + 0x3C) = (uaddr)create_draw_line_ctrl((TObject *)ad_mc_select_gc, 0x15, 0.0f);
-    ((TAdMcSelectGC *)ad_mc_select_gc)->m_24 = -1;
-    ((TAdMcSelectGC *)ad_mc_select_gc)->m_1c = 1;
+    ((TAdChrSelBSlotGC *)ad_mc_select_gc)->m_24 = -1;
+    ((TAdChrSelBSlotGC *)ad_mc_select_gc)->m_1c = 1;
 }
 
 struct C_8030F874 {
@@ -890,12 +889,8 @@ void run_task__16TAdChrSelBSlotGCFv(C_8030F874 *self) {
 
 
 void TAdChrSelBSlotGC::create_children() {
-    void *o;
-    void *o2;
-    o = new TAdChrSelSlotGC(this);
-    *(void * *)&this->unk_28 = o;
-    o2 = new TAdPlyChrSelPlateGC(this, &chr_sel_b_slot_plate_layout);
-    this->m_2c = (TAdPlyChrSelPlateGC *)o2;
+    slot_gc = new TAdChrSelSlotGC(this);
+    m_2c = new TAdPlyChrSelPlateGC(this, &chr_sel_b_slot_plate_layout);
     this->player_items = new TAdSubPlyItemGC(this);
     this->m_34 = new TAdChrSelMovePlateGC(this);
 }
@@ -904,7 +899,7 @@ void TAdChrSelBSlotGC::sub_8030FE04() {
     this->m_1c = 0;
     this->m_20 = 0;
     this->m_24 = -1;
-    *(s32 *)&this->unk_28 = 0;
+    slot_gc = 0;
     this->m_2c = NULL;
     this->player_items = 0;
     this->m_34 = 0;

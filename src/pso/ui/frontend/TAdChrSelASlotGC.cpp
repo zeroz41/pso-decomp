@@ -57,7 +57,6 @@ extern "C" {
 s32 TAdChrSelASlotGC__sub_8030CA84(saddr arg0, s32 arg1);
 s32 TAdChrSelASlotGC__sub_8030C978(void *arg0, s32 arg1, saddr arg2);
 TAdChrSelASlotGC *TAdChrSel__global_slot_data;
-s32 __ct__15TAdChrSelSlotGCFP7TObject(int, void *);
 void set_entry_text__15TAdSubPlyItemGCFPvPv(void *item, G_8030C45C *entry);
 s32 TAdChrSelASlotGC__sub_8030C3C0(TAdChrSelASlotGC *self, u32 arg1);
 extern G_8030C45C chr_select_a_slot_entry;
@@ -67,7 +66,6 @@ u32 TAdChrSelASlotGC__sub_8030CB08(TAdChrSelASlotGC *arg0, s32 kind, s32 text);
 s32 TAdChrSelASlotGC__sub_8030C4F8(TAdChrSelASlotGC *self, s32 kind);
 s32 TAdChrSelASlotGC__sub_8030C5C0(TAdChrSelASlotGC *self, s32 kind);
 s32 TAdChrSelASlotGC__sub_8030C688(TAdChrSelASlotGC *self, s32 kind);
-s32 TAdChrSelSlotGC__sub_802C7498(s32, s32);
 void TAdSubPlyItemGC__sub_802D6D88(TAdSubPlyItemGC *self);
 s32 play_sound_effect(s32, s32, s32, s32);
 
@@ -298,7 +296,7 @@ void TAdChrSelASlotGC::sub_8030CCE4() {
     if (this->get_plate_value_for_slot(this->mode) != 0) {
         switch (this->mode) {
         case 0:
-            ((TAdChrSelSlotGC *)*(void **)((s8 *)this + 0x2C))->init_slot_entry(0, (void *)&lbl_80475838);
+            slot_gc->init_slot_entry(0, (void *)&lbl_80475838);
             for (i = 0; i < 4; i++) {
                 set_entry_text__15TAdSubPlyItemGCFPvPv(*(void **)((s8 *)this + 0x3C), TAdChrSelASlotGC__sub_8030C45C(this, i, i, (void *)&lbl_80475818[i]));
                 if (TAdChrSelASlotGC__sub_8030C3C0(this, i)) {
@@ -307,8 +305,8 @@ void TAdChrSelASlotGC::sub_8030CCE4() {
             }
             break;
         case 1:
-            ((TAdChrSelSlotGC *)*(void **)((s8 *)this + 0x2C))->init_slot_entry(0, (void *)&lbl_80475890);
-            ((TAdChrSelSlotGC *)*(void **)((s8 *)this + 0x2C))->init_slot_entry(1, (void *)&lbl_80475898);
+            slot_gc->init_slot_entry(0, (void *)&lbl_80475890);
+            slot_gc->init_slot_entry(1, (void *)&lbl_80475898);
             for (i = 0; i < 4; i++) {
                 set_entry_text__15TAdSubPlyItemGCFPvPv(*(void **)((s8 *)this + 0x3C), TAdChrSelASlotGC__sub_8030C45C(this, i, i, (void *)&lbl_80475858[i]));
                 if (TAdChrSelASlotGC__sub_8030C3C0(this, i)) {
@@ -320,7 +318,7 @@ void TAdChrSelASlotGC::sub_8030CCE4() {
             }
             break;
         case 2:
-            ((TAdChrSelSlotGC *)*(void **)((s8 *)this + 0x2C))->init_slot_entry(1, (void *)&lbl_80475890);
+            slot_gc->init_slot_entry(1, (void *)&lbl_80475890);
             for (j = 0; j < 3; j++) {
                 set_entry_text__15TAdSubPlyItemGCFPvPv(*(void **)((s8 *)this + 0x40), TAdChrSelASlotGC__sub_8030C45C(this, j, j + 4, (void *)&lbl_80475858[j]));
             }
@@ -569,9 +567,9 @@ void TAdChrSelASlotGC::sub_8030D5DC() {
         TAdSubPlyItemGC__sub_802D6D88((TAdSubPlyItemGC *)(*(saddr *)((s8 *)this + 0x40)));
         break;
     }
-    TAdChrSelSlotGC__sub_802C7498(*(s32 *)((s8 *)this + 0x2C), 0);
-    TAdChrSelSlotGC__sub_802C7498(*(s32 *)((s8 *)this + 0x2C), 1);
-    TAdChrSelSlotGC__sub_802C7498(*(s32 *)((s8 *)this + 0x2C), 2);
+    slot_gc->sub_802C7498(0);
+    slot_gc->sub_802C7498(1);
+    slot_gc->sub_802C7498(2);
     if (((TAdChrSelASlotGC *)(*(saddr *)((s8 *)this + 0x30)))->get_slot_index() > 0) {
         if ((u32) *(u32 *)((s8 *)this + 0x54) != 0U) {
             ((TWindowBase *)(*(void **)((s8 *)this + 0x54)))->close();
@@ -588,7 +586,7 @@ void TAdChrSelASlotGC::sub_8030D5DC() {
 
 void TAdChrSelASlotGC::close_windows() {
 
-    ((TAdChrSelSlotGC *)(*(saddr *)&this->_pad2C))->reset_all_slots();
+    slot_gc->reset_all_slots();
     if ((u32) this->m_48 != 0U) {
         ((TObject *)(*(void * *)&this->m_48))->queue_destruction();
         this->m_48 = 0U;
@@ -664,15 +662,15 @@ void TAdChrSelASlotGC::close_windows() {
     switch (this->mode) {
     case 0:
         *(u32 *)&this->unk_4C = (uaddr)create_draw_line_ctrl((TObject *)this, 0xC, 0.0f);
-        ((TAdMcSelectGC *)(*(saddr *)&this->_pad2C))->init_slot(0, (void *)&lbl_80475840);
+        slot_gc->init_slot(0, (void *)&lbl_80475840);
         this->m_48 = (uaddr)create_draw_line_ctrl((TObject *)this, 0xB, 0.0f);
         break;
     case 1:
-        ((TAdMcSelectGC *)(*(saddr *)&this->_pad2C))->init_slot(0, (void *)&lbl_80475840);
+        slot_gc->init_slot(0, (void *)&lbl_80475840);
         this->m_48 = (uaddr)create_draw_line_ctrl((TObject *)this, 0xB, 0.0f);
         break;
     case 2:
-        ((TAdMcSelectGC *)(*(saddr *)&this->_pad2C))->init_slot(0, (void *)&lbl_804758A0);
+        slot_gc->init_slot(0, (void *)&lbl_804758A0);
         this->m_48 = (uaddr)create_draw_line_ctrl((TObject *)this, 0xD, 0.0f);
         *(u32 *)&this->unk_4C = (uaddr)create_draw_line_ctrl((TObject *)this, 0x14, 0.0f);
         break;
@@ -719,15 +717,7 @@ void TAdChrSelASlotGC::run_task() {
 }
 
 void TAdChrSelASlotGC::create_children(s32 arg1) {
-    u8 *arg0 = (u8 *)this;
-    s32 temp_r3;
-    s32 var_r0;
-    temp_r3 = ((saddr)TObject::operator new(0x128));
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = __ct__15TAdChrSelSlotGCFP7TObject(temp_r3, arg0);
-    }
-    *(s32 *)&this->_pad2C = var_r0;
+    slot_gc = new TAdChrSelSlotGC(this);
     switch (arg1) {
     case 0:
         this->m_30 = (uaddr)new TAdPlayerLoadGC(this, 0);
@@ -756,7 +746,7 @@ void TAdChrSelASlotGC::init(s32 arg1) {
     this->prev_state = 0;
     this->mode = arg1;
     this->state_frames = -1;
-    *(s32 *)&this->_pad2C = 0;
+    slot_gc = 0;
     this->m_30 = 0;
     this->m_34 = NULL;
     this->m_38 = NULL;

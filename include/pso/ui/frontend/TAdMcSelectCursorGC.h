@@ -26,6 +26,8 @@ struct TAdMcSelectCursorGC : public TObject {
     static saddr get_cursor_type(int a0);
     void sub_8032A140(); // clears m_1c; defined in TAdMcSelectGC.cpp
     void sub_8032A15C(); // sets m_1c to 1; defined in TAdMcSelectGC.cpp
+    s32 get_slot_index(); // returns m_20; defined in TAdMcSelectGC.cpp
+    void set_field_13c(s32 v); // defined in TAdMcSelectGC.cpp
     s32 sub_8032AAC4(); // returns m_20, the selected slot; defined in TAdMcSelectMcGC.cpp, its only caller
 };
 

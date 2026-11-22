@@ -13,6 +13,7 @@ public:
     void start_line(s32);
     virtual void run_task();
     virtual void render();
+    void sub_8032A180(s32 mode); // stores render_mode; defined in TAdMcSelectGC.cpp
     DrawLineGroup *line_data;
     TObject *child_root;
     f32 line_depth;
