@@ -263,7 +263,7 @@ TBoss6Demo20_TYPE2_APPEAR::~TBoss6Demo20_TYPE2_APPEAR() {
 
 #include "pso/camera/TCameraCtrl.h"
 
-extern s32 lbl_804DF614[]; // model ids, defined in TBoss6Type1.cpp
+extern s32 boss6_type1_part_model_ids[]; // model ids, defined in TBoss6Type1.cpp
 extern "C" {
 __declspec(section ".data") extern s32 boss6_type2_appear_motion_indices[];
 struct AppearanceClassTag { const char *value; u32 padding; };
@@ -285,7 +285,7 @@ TBoss6Demo20_TYPE2_APPEAR::TBoss6Demo20_TYPE2_APPEAR(TBoss6PlotFalz *plot) : TOb
     archive = TBoss6PlotFalz::get_scene_archive();
     for (i = 0; i < 2; i++) {
         {
-            s32 t = lbl_804DF614[i];
+            s32 t = boss6_type1_part_model_ids[i];
             v = t;
             opening_parts[i].model = (NJS_OBJECT *)get_bml_model(archive, t);
         }

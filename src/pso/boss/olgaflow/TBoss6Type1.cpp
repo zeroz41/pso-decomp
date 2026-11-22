@@ -101,7 +101,7 @@ extern "C" {
 
 
 // init_collision_body_parts copies these 7 spheres in TBoss6Type1__ct.
-CollisionBody lbl_804DF4E0[7] = {
+CollisionBody TBoss6Type1__collision_body_parts[7] = {
     {{0.0f, 0.0f, 0.0f}, 35.0f, 0.0f, 0, 0x801B, {0.0f, 0.0f, 0.0f}, 0.0f},
     {{0.0f, 0.0f, 0.0f}, 50.0f, 0.0f, 0, 0x801B, {0.0f, 0.0f, 0.0f}, 0.0f},
     {{0.0f, 0.0f, 0.0f}, 10.0f, 0.0f, 0, 0x801B, {0.0f, 0.0f, 0.0f}, 0.0f},
@@ -110,7 +110,7 @@ CollisionBody lbl_804DF4E0[7] = {
     {{0.0f, 0.0f, 0.0f}, 10.0f, 0.0f, 0, 0x801B, {0.0f, 0.0f, 0.0f}, 0.0f},
     {{0.0f, 0.0f, 0.0f}, 10.0f, 0.0f, 0, 0x801B, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
-__declspec(section ".data") s32 lbl_804DF614[2] = {3, 6};
+__declspec(section ".data") s32 boss6_type1_part_model_ids[2] = {3, 6};
 Boss6Type1MotionSet TBoss6Type1__motion_set_table[21] = {
     {0, 0, 44, 45}, {0, 1, 42, 45}, {0, 2, 44, 56}, {2, 0, 40, 41}, {2, 2, 44, 53},
     {2, 0, 37, 38}, {2, 2, 37, 38}, {2, 8, 29, 30}, {0, 8, 13, 14}, {2, 1, 47, 48},
@@ -121,21 +121,21 @@ Boss6Type1MotionSet TBoss6Type1__motion_set_table[21] = {
 
 const s8 lbl_805DE2C8[2] = { 0x12, 0x0A };
 const s8 lbl_805DE2CC[2] = { 0x12, -2 };
-static const s32 lbl_805DE2D4 = 24;
-static const s32 lbl_805DE3A8 = 256;
-static const s32 lbl_805DE3AC = 64;
-static const s32 lbl_805DE3B0 = 20;
-static const s32 lbl_805DE3B4 = 20;
-static const s32 TBoss6Type1__data_805DE3C4 = 2;
-static const s32 lbl_805DE3C8 = 1;
+static const s32 boss6_type1_slot_count = 24;
+static const s32 boss6_type1_sway_target_min = 256;
+static const s32 boss6_type1_sway_target_range = 64;
+static const s32 boss6_type1_sway_delay_min = 20;
+static const s32 boss6_type1_sway_delay_range = 20;
+static const s32 boss6_type1_anim_count = 2;
+static const s32 boss6_type1_main_anim_index = 1;
 
-inline const s32 &slot_count() { return lbl_805DE2D4; }
-inline const s32 &sway_target_min() { return lbl_805DE3A8; }
-inline const s32 &sway_target_range() { return lbl_805DE3AC; }
-inline const s32 &sway_delay_min() { return lbl_805DE3B0; }
-inline const s32 &sway_delay_range() { return lbl_805DE3B4; }
-inline const s32 &anim_count() { return TBoss6Type1__data_805DE3C4; }
-inline const s32 &main_anim_index() { return lbl_805DE3C8; }
+inline const s32 &slot_count() { return boss6_type1_slot_count; }
+inline const s32 &sway_target_min() { return boss6_type1_sway_target_min; }
+inline const s32 &sway_target_range() { return boss6_type1_sway_target_range; }
+inline const s32 &sway_delay_min() { return boss6_type1_sway_delay_min; }
+inline const s32 &sway_delay_range() { return boss6_type1_sway_delay_range; }
+inline const s32 &anim_count() { return boss6_type1_anim_count; }
+inline const s32 &main_anim_index() { return boss6_type1_main_anim_index; }
 
 
 
@@ -158,10 +158,10 @@ struct Tmp_802B93C4 { s32 a; s16 b; s16 c; u8 pad[0x10]; };
 // The class name and the tables TBoss6Type1's code reads, in .rodata order.
 const char TBoss6Type1__class_name_string[] = "TBoss6Type1";
 const char *TBoss6Type1__name = TBoss6Type1__class_name_string;
-const Vec lbl_80470CD4 = {0.0f, 300.0f, 280.0f};
-const Vec lbl_80470CE0 = {0.0f, 100.0f, 280.0f};
+const Vec boss6_type1_spawn_position = {0.0f, 300.0f, 280.0f};
+const Vec boss6_type1_base_position = {0.0f, 100.0f, 280.0f};
 const s32 TBoss6Type1__param_table[12] = {20, 20, 20, 20, 200, 200, 200, 200, 90, 180, 7, 7};
-const s32 lbl_80470D1C[3] = {0x8000, 0, 0};
+const s32 boss6_type1_spawn_rotation[3] = {0x8000, 0, 0};
 const Tbl_802B4BA8 TBoss6Type1__effect_slot_table[4] = {{0x210, -1}, {0x211, -1}, {0x215, 7}, {0x21E, -1}};
 // Node -1 ends a node list.
 const ModelNodePositionEntry boss6_type1_model_node_desc[12] = {
@@ -189,30 +189,30 @@ const ModelNodePositionEntry boss6_type1_model_node_desc_b[8] = {
     {-1, {0.0f, 0.0f, 0.0f}},
 };
 const Boss6StripDesc boss6_type1_build_table[2] = {{3, 1, 0}, {6, 1, 0}};
-const Boss6StripDesc lbl_80470EA0[1] = {{0, 0, 0}};
-const Vec lbl_80470EAC = {0.0f, 0.0f, 0.0f};
+const Boss6StripDesc boss6_type1_scroll_strip_descs[1] = {{0, 0, 0}};
+const Vec boss6_type1_origin = {0.0f, 0.0f, 0.0f};
 const s32 boss6_type1_random_action_table[5] = {4, 0x16, 5, 8, 2};
-const Blk_802B8624 lbl_80470ECC = {2, 0};
-const Boss6PartMotion lbl_80470F0C = {NULL, 0.0f, 0.5f, 0.0f, 1.0f / 15.0f, NULL, 0.0f};
+const Blk_802B8624 boss6_type1_initial_motion_set = {2, 0};
+const Boss6PartMotion boss6_type1_initial_part_motion = {NULL, 0.0f, 0.5f, 0.0f, 1.0f / 15.0f, NULL, 0.0f};
 const Tbl_802B79DC TBoss6Type1__part_position_sources[7] = {{1, 2}, {1, 1}, {0, 0}, {0, 1}, {0, 2}, {0, 3}, {0, 4}};
 const f32 TBoss6Type1__sword_shot_hit_radii[4] = {15.0f, 20.0f, 25.0f, 50.0f};
-// Model nodes the five kakusan shots of TBoss6Type1::sub_802B6944 leave from.
-const s32 lbl_80470F70[5] = {4, 3, 7, 5, 6};
-// The zero vector TBoss6Type1::sub_802B6504 starts the mine offsets from.
-const Vec lbl_80470F84 = {0.0f, 0.0f, 0.0f};
+// Model nodes the five kakusan shots of TBoss6Type1::fire_kakusan_shots leave from.
+const s32 boss6_type1_kakusan_shot_nodes[5] = {4, 3, 7, 5, 6};
+// The zero vector TBoss6Type1::spawn_mines starts the mine offsets from.
+const Vec boss6_type1_zero_offset = {0.0f, 0.0f, 0.0f};
 const u32 boss6_type1_trail_point_offsets[7] = {
     0xFFFF4000, 0xFFFFFF60, 0xFFFFFF60, 0xFFFF4000, 0xFFFFFF60, 0xFFFFFF60, 0xFFFF4000,
 };
 const u32 lbl_80470FAC[2] = {0xFFFF4000, 0xFFFFFFC0};
-const Vec TBoss6Type1__data_80470FB4 = {0.0f, 19.8f, -5.0f};
-const Vec lbl_80470FC0 = {0.0f, 25.43f, 45.42f};
-const Vec lbl_80470FCC = {0.0f, -5.0f, 5.0f};
-const Vec lbl_80470FD8 = {0.0f, 40.0f, 40.0f};
-const Vec lbl_80470FE4 = {0.0f, 24.8f, -5.0f};
-const Vec lbl_80470FF0 = {0.0f, 15.43f, 70.42f};
-const Vec lbl_80470FFC = {0.0f, 19.8f, -5.0f};
-const Vec lbl_80471008 = {0.0f, 50.43f, 45.42f};
-const s32 lbl_80471014[3] = {0x8000, 0, 0};
+const Vec boss6_type1_camera_eye = {0.0f, 19.8f, -5.0f};
+const Vec boss6_type1_camera_target = {0.0f, 25.43f, 45.42f};
+const Vec boss6_type1_laser_camera_eye_shift = {0.0f, -5.0f, 5.0f};
+const Vec boss6_type1_laser_camera_target_shift = {0.0f, 40.0f, 40.0f};
+const Vec boss6_type1_top_camera_eye = {0.0f, 24.8f, -5.0f};
+const Vec boss6_type1_top_camera_target = {0.0f, 15.43f, 70.42f};
+const Vec boss6_type1_default_camera_eye = {0.0f, 19.8f, -5.0f};
+const Vec boss6_type1_default_camera_target = {0.0f, 50.43f, 45.42f};
+const s32 boss6_type1_effect_direction[3] = {0x8000, 0, 0};
 const Vec boss6_map_csn_offset = {62.5f, 0.0f, -35.0f};
 const Vec boss6_map_csn_scale = {30.0f, 25.0f, 30.0f};
 
@@ -268,10 +268,10 @@ TBoss6Type1::TBoss6Type1(TObject *parent, saddr *params) : TObjEnemy(parent) {
     bml_resource = TBoss6PlotFalz::get_scene_archive();
     texlist = 0;
     model = 0;
-    VecCopy(&position, &lbl_80470CD4);
-    copy_xyz(&rotation_x, (void *)lbl_80470D1C);
+    VecCopy(&position, &boss6_type1_spawn_position);
+    copy_xyz(&rotation_x, (void *)boss6_type1_spawn_rotation);
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
-    init_collision_body_parts(this, lbl_804DF4E0, 7);
+    init_collision_body_parts(this, TBoss6Type1__collision_body_parts, 7);
     update_position();
     velocity.z = 0.0f;
     velocity.y = 0.0f;
@@ -281,18 +281,18 @@ TBoss6Type1::TBoss6Type1(TObject *parent, saddr *params) : TObjEnemy(parent) {
     referenceHp = hp;
     ((TBoss3Volopt *)this)->reset_photon_effect();
     set_param(0x4E);
-    sub_802B854C();
+    init_motions();
     draw_callback_lists[1] = ModelNodePositionCapture::create(boss6_type1_model_node_desc, node_points);
     draw_callback_lists[0] = ModelNodePositionCapture::create(boss6_type1_model_node_desc_b, arm_node_positions);
     scroll_strips_u.build_tables(boss6_type1_build_table, 2);
-    scroll_strips_v.build_tables(lbl_80470EA0, 1);
+    scroll_strips_v.build_tables(boss6_type1_scroll_strip_descs, 1);
     trail_point_receiver = TBoss6Zanzo::create(this, 7, 0xF);
     effect_point_receiver = TBoss6Zanzo::create(this, 2, 0xF);
     target_mode = 0;
     random_factor = 0;
-    TBoss6Type1__sub_802B96C0((saddr)&target_position, (saddr)&lbl_80470EAC);
+    TBoss6Type1__sub_802B96C0((saddr)&target_position, (saddr)&boss6_type1_origin);
     VecCopy(&target_position.v, &position);
-    TBoss6Type1__sub_802B96C0((saddr)&m_42C, (saddr)&lbl_80470EAC);
+    TBoss6Type1__sub_802B96C0((saddr)&m_42C, (saddr)&boss6_type1_origin);
     attack_mode = 1;
     active_parts = 0;
     for (i = 0; i < 32; i++) {
@@ -596,7 +596,7 @@ void TBoss6Type1::run_task() {
     update_collisions();
     submit_cursor_candidate(this, -1);
     add_radar_scaled_marker(&this->node_points[1], -0x5DB4, 1, 1, 5.0f);
-    sub_802B5CB4();
+    update_action_camera();
     this->hit_flash += -0.06666667f;
     if (this->hit_flash < 0.0f) {
         this->hit_flash = 0.0f;
@@ -649,13 +649,13 @@ void Boss6PartMotion::copy_from(Boss6PartMotion *src) {
     *this = *src;
 }
 
-void TBoss6Type1::sub_802B854C() {
+void TBoss6Type1::init_motions() {
     s32 i;
     Boss6PartMotion *a;
-    copy_block((Blk_802B8624 *)&motion_set, &lbl_80470ECC);
+    copy_block((Blk_802B8624 *)&motion_set, &boss6_type1_initial_motion_set);
     for (i = 0; i < anim_count(); i++) {
         a = &part_motions[i];
-        a->copy_from((Boss6PartMotion *)&lbl_80470F0C);
+        a->copy_from((Boss6PartMotion *)&boss6_type1_initial_part_motion);
         a->motion = a->prev_motion = get_bml_motion(bml_resource, TBoss6Type1__motion_set_table[2].ids[i]);
     }
 }
@@ -741,7 +741,7 @@ void TBoss6Type1::draw_part_motions() {
     set_motion_packed_rotation();
     for (i = 0; i < 2; i++) {
         {
-            s32 t = lbl_804DF614[i];
+            s32 t = boss6_type1_part_model_ids[i];
             id = t;
             p = (saddr)get_bml_texlist((BmlResource *)this->bml_resource, t);
         }
@@ -1130,7 +1130,7 @@ void TBoss6Type1::sub_802B73AC() {
 }
 // Swept-arm hit test: damages every player inside the triangle the arm tip (arm_node_positions[6])
 // swept since the previous frame, between frames 10.5 and 15 of motion set 14.
-void TBoss6Type1::sub_802B715C() {
+void TBoss6Type1::check_sweep_hits() {
     f32 frame = part_motions[0].frame;
     AnimationMotion *motion = part_motions[0].motion;
     Vec *tip = (Vec *)&arm_node_positions[6];
@@ -1350,13 +1350,13 @@ void TBoss6Type1::damage_players_in_range() {
 
 // Fires five kakusan shots from body nodes, fanned across the boss's front (inferred). Off Normal
 // difficulty each shot is given the next player slot, starting at the slot in random_factor.
-void TBoss6Type1::sub_802B6944() {
+void TBoss6Type1::fire_kakusan_shots() {
     f32 side = -92.5f;
     s32 first = random_factor & 3;
     u16 target = first;
     f32 height = 5.0f * first;
     for (s32 i = 0; i < 5; i++) {
-        Vec pos = node_points[lbl_80470F70[i]];
+        Vec pos = node_points[boss6_type1_kakusan_shot_nodes[i]];
         Vec dir;
         dir.x = side * cos_table_lookup(-rotation_y);
         dir.y = height;
@@ -1412,14 +1412,14 @@ void TBoss6Type1::spawn_grav_ball() {
 // Spreads the mines over rings around node 0 in a shuffled order (inferred: the mine attack). The
 // spawn data starts as a copy of the mag mine's set entry; each mine gets its ring offset, a heading
 // and the next seed.
-void TBoss6Type1::sub_802B6504() {
+void TBoss6Type1::spawn_mines() {
     s32 seed = random_factor;
     TBoss6MineSetData set;
     reset_fields_4e0();
     copy_set_entry(&set, plot_falz->get_set_entry());
     set.owner = this;
     VecCopy(&set.origin, &node_points[0]);
-    VecCopy(&set.offset, &lbl_80470F84);
+    VecCopy(&set.offset, &boss6_type1_zero_offset);
     set.unk_08 = 0;
     VecCopy(&set.position, &set.origin);
     s32 heading = 0;
@@ -1433,7 +1433,7 @@ void TBoss6Type1::sub_802B6504() {
         rings++;
     }
     Vec *points = (Vec *)mem_alloc(total * sizeof(Vec));
-    VecCopy(&points[0], &lbl_80470F84);
+    VecCopy(&points[0], &boss6_type1_zero_offset);
     if (total > 1 && rings > 0) {
         f32 spacing = 95.0f / rings;
         f32 radius = spacing;
@@ -1516,7 +1516,7 @@ void TBoss6Type1::reset_param() {
     this->laser_scale = 0.0f;
 }
 // Draws bml model 0 at node_points[7], turned to face the viewing player and scaled by laser_scale.
-void TBoss6Type1::sub_802B626C() {
+void TBoss6Type1::render_laser() {
     if (this->laser_scale != 0.0f) {
         saddr fish = (saddr)get_bml_texlist((BmlResource *)this->bml_resource, 0);
         saddr model = (saddr)get_bml_model((BmlResource *)this->bml_resource, 0);
@@ -1610,11 +1610,11 @@ s32 TBoss6Type1::sub_802B600C() {
 }
 
 s32 TBoss6Type1::sub_802B5FF4() {
-    return *(f32 *)((s8 *)this + 0x3C) > 140.0f;
+    return position.y > 140.0f;
 }
 
 s32 TBoss6Type1::sub_802B5FDC() {
-    return *(f32 *)((s8 *)this + 0x3C) < 40.0f;
+    return position.y < 40.0f;
 }
 
 void TBoss6Type1::set_flag_on_threshold() {
@@ -1668,40 +1668,40 @@ s32 TBoss6Type1::is_timer_expired() {
     return timer_limit <= timer_elapsed;
 }
 
-void TBoss6Type1::sub_802B5CB4() {
+void TBoss6Type1::update_action_camera() {
     switch (this->action_state) {
     case 1:
     case 2:
     case 4:
     case 24:
     case 25:
-        sub_802B5AB0();
+        request_float_camera();
         break;
     case 11:
     case 12:
     case 13:
     case 14:
     case 15:
-        sub_802B5970();
+        request_top_jittered_camera();
         break;
     case 22:
-        sub_802B59CC();
+        request_laser_camera();
         break;
     case 21:
-        sub_802B59A8();
+        request_tail_attack_camera();
         break;
     case 26:
-        sub_802B5AB0();
+        request_float_camera();
         break;
     case 30:
     case 31:
-        sub_802B5970();
+        request_top_jittered_camera();
         break;
     case 27:
-        sub_802B5970();
+        request_top_jittered_camera();
         break;
     case 32:
-        sub_802B5970();
+        request_top_jittered_camera();
         break;
     case 16:
     case 17:
@@ -1748,7 +1748,7 @@ void TBoss6Type1::fire_at_all_players(f32 dy) {
     }
     for (i = 0; i < n; i++) {
         p = TObjPlayer::get_player_data(i);
-        VecCopy((Vec *)&ofs, (const Vec *)&TBoss6Type1__data_80470FB4);
+        VecCopy((Vec *)&ofs, (const Vec *)&boss6_type1_camera_eye);
         if (p == 0) continue;
         VecCopy(&pp, &p->position);
         pp.y += ofs.y;
@@ -1782,42 +1782,42 @@ void TBoss6Type1::fire_at_all_players(f32 dy) {
     }
 }
 
-void TBoss6Type1::sub_802B5AB0() {
+void TBoss6Type1::request_float_camera() {
     fire_at_all_players(80.0f);
 }
-void TBoss6Type1::sub_802B59CC() {
-    Vec eye = TBoss6Type1__data_80470FB4;
-    Vec target = lbl_80470FC0;
+void TBoss6Type1::request_laser_camera() {
+    Vec eye = boss6_type1_camera_eye;
+    Vec target = boss6_type1_camera_target;
     f32 t = laser_scale;
     if (t > 0.0f) {
-        eye.x += t * lbl_80470FCC.x;
-        eye.y += t * lbl_80470FCC.y;
-        eye.z += t * lbl_80470FCC.z;
-        target.x += t * lbl_80470FD8.x;
-        target.y += t * lbl_80470FD8.y;
-        target.z += t * lbl_80470FD8.z;
+        eye.x += t * boss6_type1_laser_camera_eye_shift.x;
+        eye.y += t * boss6_type1_laser_camera_eye_shift.y;
+        eye.z += t * boss6_type1_laser_camera_eye_shift.z;
+        target.x += t * boss6_type1_laser_camera_target_shift.x;
+        target.y += t * boss6_type1_laser_camera_target_shift.y;
+        target.z += t * boss6_type1_laser_camera_target_shift.z;
     }
     request_jittered_camera(&eye, &target, 0xFFFF);
 }
 
-void TBoss6Type1::sub_802B59A8() {
+void TBoss6Type1::request_tail_attack_camera() {
     fire_at_all_players(0.0f);
 }
-void TBoss6Type1::sub_802B5970() {
-    request_jittered_camera(&lbl_80470FE4, &lbl_80470FF0, 0xFFFF);
+void TBoss6Type1::request_top_jittered_camera() {
+    request_jittered_camera(&boss6_type1_top_camera_eye, &boss6_type1_top_camera_target, 0xFFFF);
 }
 
 void TBoss6Type1::request_default_jittered_camera() {
-    request_jittered_camera(&lbl_80470FFC, &lbl_80471008, 0xFFFF);
+    request_jittered_camera(&boss6_type1_default_camera_eye, &boss6_type1_default_camera_target, 0xFFFF);
 }
 void TBoss6Type1::request_jittered_camera(const Vec *eye, const Vec *target, u16 client_id) {
     f32 dist;
     Vec off;
     if (eye == NULL) {
-        eye = &TBoss6Type1__data_80470FB4;
+        eye = &boss6_type1_camera_eye;
     }
     if (target == NULL) {
-        target = &lbl_80470FC0;
+        target = &boss6_type1_camera_target;
     }
     dist = 0.1f * xyz_distance((Vec *)eye, (Vec *)target);
     if (dist < 4.0f) {
@@ -1972,12 +1972,12 @@ void TBoss6Type1::sub_802B5140(s32 arg1, s32 arg2) {
     if (temp_r31 > 0x4000) {
         var_f31 += (1.0f - var_f31) * TBoss6PlotFalz::cosine_ease((var_f30 - 0.6666667f) / 0.3333333f);
     }
-    VecCopy(&stack, &lbl_80470CE0);
-    subtract_vector(&stack, &lbl_80470CD4);
+    VecCopy(&stack, &boss6_type1_base_position);
+    subtract_vector(&stack, &boss6_type1_spawn_position);
     stack.x *= var_f31;
     stack.y *= var_f31;
     stack.z *= var_f31;
-    vec3_add_to(&stack, &lbl_80470CD4);
+    vec3_add_to(&stack, &boss6_type1_spawn_position);
     VecCopy(&position, &stack);
 }
 void TBoss6Type1::ease_toward_target(s32 a, s32 b) {
@@ -2074,7 +2074,7 @@ void TBoss6Type1::sub_802B4C28() {
             switch (i) {
             case 0:
             case 1:
-                effect_slots[i]->set_direction((void *)lbl_80471014);
+                effect_slots[i]->set_direction((void *)boss6_type1_effect_direction);
                 break;
             }
         }
@@ -2162,7 +2162,7 @@ void TBoss6Type1::release_map_csn() {
 
 void TBoss6Type1::render() {
     draw_model();
-    sub_802B626C();
+    render_laser();
 }
 
 void TBoss6Type1::draw_model() {

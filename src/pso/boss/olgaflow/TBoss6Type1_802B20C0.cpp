@@ -115,7 +115,7 @@ void TBoss6Type1::update_if_ready() {
 void TBoss6Type1::set_phase_555() {
     action_duration = 555;
     action_timer = 555;
-    sub_802B6504();
+    spawn_mines();
     release_effect_slot(0);
     release_effect_slot(1);
     spawn_effect_slot(3);
@@ -504,7 +504,7 @@ void TBoss6Type1::act_fllsr_mv() {
 }
 
 void TBoss6Type1::update_attack_timer2() {
-    sub_802B715C();
+    check_sweep_hits();
     interpolate_pos_to_target(action_timer, action_duration);
     if (--action_timer < 0) {
         set_action_state(1);
@@ -614,7 +614,7 @@ void TBoss6Type1::update_action_timer() {
     case 0x48:
     case 0x3E:
     case 0x52:
-        sub_802B6944();
+        fire_kakusan_shots();
         break;
     }
     if (--action_timer < 0) {
@@ -631,7 +631,7 @@ void TBoss6Type1::init_hp_state() {
 
 void TBoss6Type1::update_kakusan() {
     if ((s32)action_timer == 0x3E) {
-        sub_802B6944();
+        fire_kakusan_shots();
     }
     if (--action_timer < 0) {
         set_action_state(1);
@@ -724,7 +724,7 @@ void TBoss6Type1::update_appear() {
 }
 
 void TBoss6Type1::init_effect_slot_1() {
-    VecCopy(&target_position.v, &lbl_80470CE0);
+    VecCopy(&target_position.v, &boss6_type1_base_position);
     action_duration = 0x5A;
     action_timer = 0x5A;
     spawn_effect_slot(1);

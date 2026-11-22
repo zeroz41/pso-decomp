@@ -29,7 +29,7 @@ struct FishSpawnEntry {
 
 // One node of the list ModelNodePositionCapture::create reads (node -1 ends it).
 
-extern s32 lbl_804DF614[]; // model ids, defined in TBoss6Type1.cpp
+extern s32 boss6_type1_part_model_ids[]; // model ids, defined in TBoss6Type1.cpp
 
 const char TBoss6Demo11_TYPE1_DEAD__class_name_string[] = "TBoss6Demo11_TYPE1_DEAD";
 static s32 death_motion_indices[2] = {4, 5};          // motion ids
@@ -69,7 +69,7 @@ TBoss6Demo11_TYPE1_DEAD::TBoss6Demo11_TYPE1_DEAD(TBoss6PlotFalz *plot, const Vec
     VecCopy(&position, &death_origin);
     resource = TBoss6PlotFalz::get_scene_archive();
     for (i = 0; i < 2; i++) {
-        model_id = lbl_804DF614[i];
+        model_id = boss6_type1_part_model_ids[i];
         parts[i].model = (NJS_OBJECT *)get_bml_model(resource, model_id);
         parts[i].texture = (GinjaTextureList *)get_bml_texlist(resource, model_id);
         parts[i].motion = get_bml_motion(resource, death_motion_indices[i]);

@@ -32,7 +32,7 @@ extern ModelNodePositionEntry boss6_type1_appear_node_desc[];
 extern Boss6StripDesc boss6_type1_appear_model_node_descriptors[];
 extern CameraAngles lbl_80477E30;
 extern CameraPlayback lbl_80477E3C;
-extern s32 lbl_804DF614[];
+extern s32 boss6_type1_part_model_ids[];
 extern s32 boss6_type1_appear_motion_indices[];
 struct AppearanceClassTag { const char *value; u32 padding; };
 __declspec(section ".sdata") extern AppearanceClassTag TBoss6Demo10_TYPE1_APPEAR__name;
@@ -150,7 +150,7 @@ TBoss6Demo10_TYPE1_APPEAR::TBoss6Demo10_TYPE1_APPEAR(TBoss6PlotFalz *plot) : TOb
     archive = TBoss6PlotFalz::get_scene_archive();
     for (i = 0; i < 2; i++)
     {
-      k = lbl_804DF614[i];
+      k = boss6_type1_part_model_ids[i];
       k = k & 0xFFFFFFFFu;
       parts[i].model = (NJS_OBJECT *)get_bml_model(archive, k);
       parts[i].texture = (GinjaTextureList *)get_bml_texlist(archive, k);

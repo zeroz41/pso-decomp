@@ -9,7 +9,7 @@ struct BmlResource;
 class TParticleCtrl;
 struct TBoss6Type1;
 
-// What TBoss6Type1's mine attack (TBoss6Type1::sub_802B6504) hands TBoss6Mine::create: a 0x40-byte object
+// What TBoss6Type1's mine attack (TBoss6Type1::spawn_mines) hands TBoss6Mine::create: a 0x40-byte object
 // set entry copied from the mag mine's (copy_set_entry) followed by the mine's own spawn data.
 // The TBoss6Mine constructor reads 0x40-0x60 and passes the whole record to apply_set_data. Names inferred from those uses.
 struct TBoss6MineSetData {

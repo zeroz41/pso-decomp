@@ -43,9 +43,9 @@ struct Boss6Point {
 struct TBoss6Type1 : public TObjEnemy {
     TBoss6Type1(TObject *parent, saddr *params);
     virtual ~TBoss6Type1();
-    void sub_802B626C();
+    void render_laser();
     void set_action_state(s32);
-    void sub_802B5CB4();
+    void update_action_camera();
     void sub_802B4C28();
     virtual void run_hit_reaction();
     virtual void clear_harmful_statuses();
@@ -242,17 +242,17 @@ struct TBoss6Type1 : public TObjEnemy {
     void sub_802B8E1C();
     void sub_802B8BB4();
     void sub_802B8A70();
-    void sub_802B854C();
+    void init_motions();
     // Starts the sway over: zero offset and phase, the minimum speed and delay.
     void reset_sway();
     void sub_802B73AC();
     // Swept-arm hit test of the motion-14 sweep (frames 10.5-15): damages players inside the arm's triangle.
-    void sub_802B715C();
+    void check_sweep_hits();
     void sub_802B6C30();
     // Fires five kakusan shots from body nodes across the boss's front (inferred).
-    void sub_802B6944();
+    void fire_kakusan_shots();
     // Spreads the mines on rings around node 0 in a shuffled order (inferred: the mine attack).
-    void sub_802B6504();
+    void spawn_mines();
     s32 sub_802B6060() const;
     s32 sub_802B600C();
     s32 sub_802B5FF4();
@@ -260,10 +260,10 @@ struct TBoss6Type1 : public TObjEnemy {
     // Counts timer_elapsed up while a timer_limit is set (is_timer_expired reads it).
     void tick_timer();
     void fire_at_all_players(f32 dy);
-    void sub_802B5AB0();
-    void sub_802B59CC();
-    void sub_802B59A8();
-    void sub_802B5970();
+    void request_float_camera();
+    void request_laser_camera();
+    void request_tail_attack_camera();
+    void request_top_jittered_camera();
     void calc_grid_cell_position(Vec *out);
     void sub_802B5598(Vec *out);
     void clamp_to_arena_radius(Vec *out);
@@ -299,7 +299,7 @@ extern TBoss6Type1Action boss6_type1_action_table[41];
 
 
 // Defined in TBoss6Type1.cpp's .rodata; init_effect_slot_1 reads it too.
-extern const Vec lbl_80470CE0;
+extern const Vec boss6_type1_base_position;
 
 LAYOUT_ASSERT(Boss6EffectPoint_size, (sizeof(Boss6EffectPoint)==0xC));
 LAYOUT_ASSERT(TBoss6Type1_receiver_offset, (offsetof(TBoss6Type1,effect_point_receiver)==0x404));
