@@ -451,31 +451,31 @@ void TObjEneDelDepth::try_relocate_on_timer() {
 void TObjEneDelDepth::init_draw_params() {
     this->set_draw_mode(0);
     this->actorFlags = (s32) (this->actorFlags & 0xFBFBFFFF);
-    this->m_38c = 0.0f;
+    this->progress = 0.0f;
     this->drawOffsetY = -2.5f;
 }
 
 #pragma push
 #pragma fp_contract on
 void TObjEneDelDepth::fn_80314EC4() {
-    this->drawOffsetY = -2.5f * (1.0f - this->m_38c);
-    this->drawScale.x = this->m_38c * (full_scale.x - flat_scale.x) + flat_scale.x;
-    this->drawScale.y = this->m_38c * (full_scale.y - flat_scale.y) + flat_scale.y;
-    this->drawScale.z = this->m_38c * (full_scale.z - flat_scale.z) + flat_scale.z;
+    this->drawOffsetY = -2.5f * (1.0f - this->progress);
+    this->drawScale.x = this->progress * (full_scale.x - flat_scale.x) + flat_scale.x;
+    this->drawScale.y = this->progress * (full_scale.y - flat_scale.y) + flat_scale.y;
+    this->drawScale.z = this->progress * (full_scale.z - flat_scale.z) + flat_scale.z;
     f32 fade = 1.0f;
-    if (this->m_38c > 0.8f) {
-        fade = (1.0f - this->m_38c) / 0.19999999f;
+    if (this->progress > 0.8f) {
+        fade = (1.0f - this->progress) / 0.19999999f;
     }
     f32 wobble = fade * (0.1f * sin_table_lookup(this->timer << 12));
     this->drawScale.x *= 1.0f + wobble;
     this->drawScale.z *= 1.0f - wobble;
     this->timer++;
-    if (this->m_38c >= 0.5f) {
+    if (this->progress >= 0.5f) {
         this->opacity = 1.0f;
     } else {
-        this->opacity = 2.0f * this->m_38c;
+        this->opacity = 2.0f * this->progress;
     }
-    if ((this->m_38c += 0.033333335f) > 1.0f) {
+    if ((this->progress += 0.033333335f) > 1.0f) {
         if (find_nearest_visible_player(reinterpret_cast<TObjChara *>(this), NULL, 200.0f) != 0xFFFF) {
             this->set_action_state(3);
             play_sound_effect(0x4003A822, (u8 *)&this->position, 0, 0);
@@ -487,7 +487,7 @@ void TObjEneDelDepth::fn_80314EC4() {
 #pragma pop
 
 void TObjEneDelDepth::init_draw_mode_and_motion() {
-    this->m_38c = 1.0f;
+    this->progress = 1.0f;
     this->drawOffsetY = 0.0f;
     this->set_draw_mode(0);
     this->motionController->set_motion(0x6);
@@ -496,24 +496,24 @@ void TObjEneDelDepth::init_draw_mode_and_motion() {
 #pragma push
 #pragma fp_contract on
 void TObjEneDelDepth::update_scale_pulse() {
-    this->drawOffsetY = -2.5f * (1.0f - this->m_38c);
-    this->drawScale.x = this->m_38c * (full_scale.x - flat_scale.x) + flat_scale.x;
-    this->drawScale.y = this->m_38c * (full_scale.y - flat_scale.y) + flat_scale.y;
-    this->drawScale.z = this->m_38c * (full_scale.z - flat_scale.z) + flat_scale.z;
+    this->drawOffsetY = -2.5f * (1.0f - this->progress);
+    this->drawScale.x = this->progress * (full_scale.x - flat_scale.x) + flat_scale.x;
+    this->drawScale.y = this->progress * (full_scale.y - flat_scale.y) + flat_scale.y;
+    this->drawScale.z = this->progress * (full_scale.z - flat_scale.z) + flat_scale.z;
     f32 fade = 1.0f;
-    if (this->m_38c > 0.8f) {
-        fade = (1.0f - this->m_38c) / 0.19999999f;
+    if (this->progress > 0.8f) {
+        fade = (1.0f - this->progress) / 0.19999999f;
     }
     f32 wobble = fade * (0.15f * sin_table_lookup(this->timer << 10));
     this->drawScale.x *= 1.0f + wobble;
     this->drawScale.z *= 1.0f - wobble;
     this->timer++;
-    if (this->m_38c >= 0.5f) {
+    if (this->progress >= 0.5f) {
         this->opacity = 1.0f;
     } else {
-        this->opacity = 2.0f * this->m_38c;
+        this->opacity = 2.0f * this->progress;
     }
-    if ((this->m_38c += -0.011111111f) < 0.0f) {
+    if ((this->progress += -0.011111111f) < 0.0f) {
         this->set_action_state(0);
     }
 }
@@ -537,7 +537,7 @@ void TObjEneDelDepth::start_move_toward_player() {
         return;
     }
     normalize_vector(&this->direction);
-    this->m_38c = ((30.0f * random_ratio()) + 70.0f);
+    this->progress = ((30.0f * random_ratio()) + 70.0f);
     this->opacity = 1.0f;
     this->motionController->set_motion(7);
     this->set_draw_mode((saddr)((void *)3));
@@ -570,9 +570,9 @@ void TObjEneDelDepth::update_movement() {
             }
         }
     }
-    if (this->m_38c > 0.0f) {
-        this->m_394 += 0xC00;
-        f32 t = sin_table_lookup(this->m_394);
+    if (this->progress > 0.0f) {
+        this->angle += 0xC00;
+        f32 t = sin_table_lookup(this->angle);
         f32 u = 0.5f * (0.5f + t);
         u = TObjEneDelDepth__tune_params->accel * u;
         if ((self->movementSpeed += u) > TObjEneDelDepth__tune_params->maxSpeed) {
@@ -583,7 +583,7 @@ void TObjEneDelDepth::update_movement() {
             self->movementSpeed = 0.0f;
         }
     }
-    this->m_38c -= fabs_float(self->movementSpeed);
+    this->progress -= fabs_float(self->movementSpeed);
     VecCopy((Vec *)&self->prev_position, (const Vec *)&self->position);
     for (k = 1; k < 15; k++) {
         f32 s;
@@ -617,7 +617,7 @@ void TObjEneDelDepth::update_movement() {
                 d = 1.2f * TObjEneDelDepth_collision_body_parts[0].radius;
                 p.x += d * n.x;
                 p.z += d * n.z;
-                this->m_394 = (s32)(10430.38043493439 * atan2_float(n.x, n.z));
+                this->angle = (s32)(10430.38043493439 * atan2_float(n.x, n.z));
                 if (csnVector(&self->prev_position, &p, 0x88E0) == 0) {
                     ang = 1;
                 }
@@ -646,7 +646,7 @@ void TObjEneDelDepth::update_movement() {
         this->rotation_y = (s32)(10430.38043493439 * atan2_float(self->direction.x, self->direction.z));
         VecCopy((Vec *)&self->position, (const Vec *)&self->prev_position);
     }
-    if (this->m_38c <= 0.0f && 0.0f == self->movementSpeed) {
+    if (this->progress <= 0.0f && 0.0f == self->movementSpeed) {
         Vec q;
         if (find_nearest_visible_player(reinterpret_cast<TObjChara *>(self), &q, 50.0f) != 0xFFFF && vector_length(&q) > 15.0f) {
             this->set_action_state(4);
@@ -695,11 +695,11 @@ void TObjEneDelDepth::try_enter_appear() {
 
 void TObjEneDelDepth::fn_80314500() {
     targetPlayer = 0xFFFF;
-    m_394 = ((s32)(4.0f * random_ratio()) + 4) << 16;
+    angle = ((s32)(4.0f * random_ratio()) + 4) << 16;
     timer = 0x7FFFFFFF;
-    m_3bc = TObjEneDelDepth__tune_params->turnSpeed;
+    turnSpeed = TObjEneDelDepth__tune_params->turnSpeed;
     if (random_ratio() > 0.5f) {
-        m_3bc *= -1;
+        turnSpeed *= -1;
     }
     motionController->set_motion(0);
     set_draw_mode(2);
@@ -714,23 +714,23 @@ void TObjEneDelDepth::fn_803142DC() {
     f32 f;
     s32 lim;
     u16 id;
-    f = sin_table_lookup(this->m_394);
+    f = sin_table_lookup(this->angle);
     if (f < 0.0f) {
         f = 0.0f;
     }
-    this->rotation_y = (s32)(f * (f32)this->m_3bc + (f32)this->rotation_y);
+    this->rotation_y = (s32)(f * (f32)this->turnSpeed + (f32)this->rotation_y);
     if (this->targetPlayer == 0xFFFF) {
         id = find_nearest_visible_player(reinterpret_cast<TObjChara *>(ene_del_depth), &v, 162.5f);
         if (id != 0xFFFF && angle_difference_abs(this->rotation_y, (s32)(10430.38043493439 * atan2_float(v.x, v.z))) < 0x1C71) {
-            this->m_394 = 0;
+            this->angle = 0;
             this->targetPlayer = id;
         }
     }
-    this->m_394 -= 0x600;
-    if (this->m_394 <= 0) {
+    this->angle -= 0x600;
+    if (this->angle <= 0) {
         u32 n = ((AnimationMotion *)get_bml_motion(TObjEneDelDepth__shared_resource, 0xB))->frameCount;
         lim = (s32)((f32)n / 0.5f);
-        this->m_394 = 0;
+        this->angle = 0;
         if (this->targetPlayer != 0xFFFF) {
             w.x = 1.0f;
     w.z = w.y = 0.0f;
@@ -753,9 +753,9 @@ void TObjEneDelDepth::fn_803142DC() {
 
 void TObjEneDelDepth::init_depth() {
     this->set_depth_offset(0x1E, 0x1E);
-    this->m_3bc = 0x888;
+    this->turnSpeed = 0x888;
     if (random_ratio() > 0.5f) {
-        this->m_3bc = this->m_3bc * 0xFFFFFFFF;
+        this->turnSpeed = this->turnSpeed * 0xFFFFFFFF;
     }
     this->motionController->set_motion(0);
     this->set_draw_mode(2);
@@ -766,7 +766,7 @@ void TObjEneDelDepth::fn_803141A8() {
     Vec sp;
     s32 r = 0;
     s32 t;
-    self->rotation_y = self->rotation_y + self->m_3bc;
+    self->rotation_y = self->rotation_y + self->turnSpeed;
     if (this->find_nearest_enemy_with_flag(&sp, 500.0f) != 0xFFFF) {
         t = (s32) (10430.38043493439 * atan2_float(sp.x, sp.z));
         if (angle_difference_abs(self->rotation_y, t) < 0x444) {

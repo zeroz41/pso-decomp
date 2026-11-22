@@ -59,23 +59,23 @@ struct TObjEneDelDepth : public TObjEnemy {
     CollisionBody *collisionBody;
     s32 timer;
     s32 attackTimer;
-    f32 m_38c;
+    f32 progress; // surfacing progress 0..1 while appearing or sinking; distance left while moving
     f32 bombSpeed;
-    s32 m_394;
+    s32 angle;
     f32 opacity;
     f32 drawOffsetY;
     Vec drawScale;
     f32 movementSpeed;
     Vec direction;
-    s32 m_3bc;
+    s32 turnSpeed;
     s32 relocationAttempts;
     s32 targetPlayer;
-    u8 unk_3C8[0xC];
+    u8 pad_3c8[0xC];
     Vec fallVelocity;
     u32 groundFlags;
     Vec groundPoint;
     s32 targetable;
-    u8 unknown3F4[0x40];
+    u8 pad_3f4[0x40];
     f32 get_bomb_speed();
     void update_ground_check();
     void init_move();
