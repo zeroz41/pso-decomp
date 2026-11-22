@@ -21,12 +21,11 @@ void TAdExNetConfirmGC::render() {
     vfunc_9();
 }
 
-void TAdExNetConfirmGC::vfunc_7() {
+saddr TAdExNetConfirmGC::vfunc_7() {
     if (TAdExNetConfirmGC::is_confirmed() != 0) {
-        get_localized_text_entry(0x22, 1);
-        return;
+        return get_localized_text_entry(0x22, 1);
     }
-    get_localized_text_entry(0x22, 0);
+    return get_localized_text_entry(0x22, 0);
 }
 
 void TAdExNetConfirmGC::vfunc_6() { TAdMultiChgGameModeGC::request_scene_change(); }
