@@ -81,7 +81,7 @@ Vec tombstone_position_table[4];
 }
 
 // The unit is compiled -inline off,deferred, which emits functions last-defined
-// first: they are written here from the last (0x800766CC) back to the first.
+// first: they are written here from the last back to the first.
 s32 TCameraCtrl::get_viewport_x() { return TCameraCtrl::viewport_x; }
 
 s32 TCameraCtrl::get_viewport_y() { return TCameraCtrl::viewport_y; }
