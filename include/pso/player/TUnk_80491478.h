@@ -4,6 +4,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 class TObjEneDubchik;
+class TeneFakeTecThunderEff;
 
 // One of the parts a TObjEneDubchik falls apart into (TObjEneDubchik::update_fall_apart news one per part).
 class TUnk_80491478 : public TObjCollidable {
@@ -23,7 +24,7 @@ public:
     u8 unk_C4[0x4];
     saddr m_c8;
     Vec *target;  // &parent->part_offsets[part_index]; run_task homes on it (inferred)
-    TObject *m_d0;
+    TeneFakeTecThunderEff *thunder_effect;  // the ctor's 0x348-byte TeneFakeTecThunderEff (inferred name)
     s16 parent_id;  // get_entity_id(parent)
     u8 unk_D6[0x2];
     NJS_TEXLIST *m_d8;

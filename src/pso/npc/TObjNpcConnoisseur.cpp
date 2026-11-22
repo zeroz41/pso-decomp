@@ -77,7 +77,7 @@ TObjNpcConnoisseur::~TObjNpcConnoisseur() {}
 TObjNpcConnoisseur::TObjNpcConnoisseur(TObject *parent, void *arg2) : TUnk_804A9F50(parent) {
     ((TObjNpcConnoisseur *)this)->m_name = TObjNpcConnoisseur__name;
     ((TObjNpcConnoisseur *)this)->apply_set_data(arg2);
-    ((TObjPlayer *)this)->init_position_vectors();
+    init_position_vectors();
     *(s32 *)((s8 *)this + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcConnoisseur__instance) + 0x42C)) + 8);
     ((TObjNpcConnoisseur *)this)->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcConnoisseur__instance) + 0x42C)) + 0xC);
     ((TObjNpcBase *)this)->setup_common();

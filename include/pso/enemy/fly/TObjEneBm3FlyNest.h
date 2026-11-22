@@ -9,6 +9,7 @@ struct NJS_OBJECT;
 #include "pso/render/RenderFadeState.h"
 
 struct BmlResource;
+struct TObjEneBm3Fly;
 
 // The set entry TObjEneBm3FlyNest::create passes to the constructor; the constructor caps
 // total_num with the s16 at +2.
@@ -42,19 +43,19 @@ struct TObjEneBm3FlyNest : public TObjEneDD {
     void state_initial_emit(s32 reason);    // state 1
     void state_wait(s32 reason);            // state 2
     void handle_event(s32 reason);          // state 3
-    void sub_800B318C(s32 reason);          // state 4
+    void update_down_state(s32 reason);     // state 4
     void update_state(s32 reason);          // state 5
     void state_spawn(s32 reason);           // state 6
     void handle_motion_event(s32 reason);   // state 7
     void state_dying(s32 reason);           // state 8
     void handle_state(s32 reason);          // state 9
-    s32 sub_800B3AC8();
-    Vec *sub_800B2A54();
+    s32 has_pending_spawns();
+    Vec *get_spawn_point();
     s32 copy_target_state(s32 sound_id);
-    static void capture_attachment(NJS_OBJECT *_w0);
-    static void handle_attachment_sample(NJS_OBJECT *);
-    static BmlResource *sub_800B4158();
-    void remove_child(u8 *child);
+    static void capture_attachment(NJS_OBJECT *object);
+    static void handle_attachment_sample(NJS_OBJECT *object);
+    static BmlResource *get_bml_resource();
+    void remove_child(TObjEneBm3Fly *child);
     s32 has_free_attack_slot(u16 id);
     void spawn_child();
     void update_replenish();
@@ -67,33 +68,37 @@ struct TObjEneBm3FlyNest : public TObjEneDD {
     s32 state;           // 0x38C "STATE : NORMAL/DEAD/FALLEN" (2/9/5) in render_with_state_debug
     s32 start_num;       // 0x390 "START NUM"
     s32 total_num;       // 0x394 "TOTAL NUM", capped by the set entry
-    s32 unk_398[4];
-    s32 unk_3a8;
-    s32 unk_3ac;
+    s32 pad_398[4];
+    s32 fallen;          // set once it has gone down (state 4/5): hits and death take the fallen motions
+    s32 drawn;           // render drew it this frame
     s32 child_count;     // live children in child_ids
     s32 spawned_count;   // children spawned so far (capped by total_num)
     u16 child_ids[6];
     u16 next_child_id;   // entity id the next child gets
-    Vec unk_3c8[2];
-    Vec unk_3e0[8];
+    Vec attachment_points[2];  // model nodes 36 and 45 in view space; [1] is where children come out
+    Vec carry_origins[8];      // nodes sampled while it lands: where the CarryFly effects start
     RenderFadeState fades[4];  // one per camera (render)
-    f32 unk_4b0;         // the nest's height offset (render)
-    u32 unk_4b4;         // update_replenish's state
-    s32 unk_4b8;         // flies left to send out (spawn_child decrements it)
-    s32 unk_4bc;
-    s32 unk_4c0;
-    s32 unk_4c4;
-    s32 unk_4c8;
-    s32 unk_4cc;
-    s32 unk_4d0;
-    s32 unk_4d4;
-    f32 unk_4d8;
+    f32 height_offset;   // render draws the model this far above position
+    u32 replenish_state; // update_replenish's state
+    s32 pending_spawns;  // flies left to send out (spawn_child decrements it)
+    s32 replenish_timer;
+    s32 replenish_count;    // flies per replenish (1, 2 once fallen)
+    s32 replenish_interval; // frames between replenishes
+    s32 counter;         // state work variables
+    union {
+        s32 carry_release;  // appear: CarryFly index allowed to leave (their *arrived)
+        s32 emitted;        // initial emit: children sent out so far
+        s32 sound_timer;    // dying
+    };
+    s32 step;
+    s32 descent_wave;    // appear: wobble of the drop
+    f32 sink_depth;      // dying: how far it has sunk into the ground
 };
 
 LAYOUT_ASSERT(TObjEneBm3FlyNest_size, sizeof(TObjEneBm3FlyNest) == 0x4DC);
 LAYOUT_ASSERT(TObjEneBm3FlyNest_child_count_offset, offsetof(TObjEneBm3FlyNest, child_count) == 0x3B0);
 LAYOUT_ASSERT(TObjEneBm3FlyNest_fades_offset, offsetof(TObjEneBm3FlyNest, fades) == 0x440);
-LAYOUT_ASSERT(TObjEneBm3FlyNest_unk_4d8_offset, offsetof(TObjEneBm3FlyNest, unk_4d8) == 0x4D8);
+LAYOUT_ASSERT(TObjEneBm3FlyNest_sink_depth_offset, offsetof(TObjEneBm3FlyNest, sink_depth) == 0x4D8);
 
 
 #endif

@@ -6,21 +6,18 @@
 
 class TObjEneMe1Gee_NEEDLE : public TNeedleShoot {
 public:
+    TObjEneMe1Gee_NEEDLE(TObject *owner, Vec *from, Vec *to, f32 speed, f32 power);
     virtual ~TObjEneMe1Gee_NEEDLE();
-    virtual void vfunc_9(void *);
+    virtual void on_target_hit(void *);
     virtual void queue_destruction();
-    virtual void vfunc_6();
+    virtual void on_wall_hit();
     virtual void render();
     virtual void run_task();
-    f32 m_bc;
-    s32 m_c0;
+    static void free_global();
+    static void init_global();
+    f32 power;
+    s32 linger_frames;  // frames the needle stays stuck after a wall hit (150)
 };
 LAYOUT_ASSERT(TObjEneMe1Gee_NEEDLE_size, sizeof(TObjEneMe1Gee_NEEDLE) == 0xC4);
-
-extern "C" {
-TObjEneMe1Gee_NEEDLE *TObjEneMe1Gee_NEEDLE__ct(TObjEneMe1Gee_NEEDLE *self, TObject *owner, Vec *from, Vec *to, f32 farg0,
-                                               f32 power);
-void TObjEneMe1Gee__sub_802A4D4C(void);
-}
 
 #endif

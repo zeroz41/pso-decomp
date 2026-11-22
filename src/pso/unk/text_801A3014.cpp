@@ -214,12 +214,10 @@ s32 get_game_play_mode();
 s32 TKeyBoardControl__sub_8000F95C();
 s32 clear_keyboard_key_state();
 s32 request_main_phase(s32);
-s32 TObjBoss2Tunnel__sub_8007D1D0();
 void TLobby__sub_8007EB20(const char *, ...);
 s8 func_801A5E54__Fv();
 s32 func_803DCDFC__Fv();
 s32 TLobby__sub_8006EF90();
-u16 TCameraCtrl__sub_8006A5DC();
 s8 TLobby__sub_801A3C40();
 s32 TWindowCtrlMain__sub_8024CB7C();
 s32 TWindowCtrlMain__sub_8024CB8C();
@@ -478,7 +476,7 @@ void run_offline_game_frame(void) {
     process_async_file_reads();
     update_sound_request_slots();
     TAdSinglePlyChrSelectGC::run_save_load_sequence();
-    TObjBoss2Tunnel__sub_8007D1D0();
+    take_snapshot();
     if (func_801A5E54__Fv() != 0) {
         TLobby::shutdown_keyboard_control();
     }
@@ -511,7 +509,7 @@ void run_offline_transfer_frame(void) {
     update_sound_request_slots();
     TAdSinglePlyChrSelectGC::run_save_load_sequence();
     TAdSinglePlyChrSelectGC::noop();
-    TObjBoss2Tunnel__sub_8007D1D0();
+    take_snapshot();
     TLobby__sub_8006EF90();
     if (func_801A5E54__Fv() != 0) {
         TLobby::reset_keyboard_input();

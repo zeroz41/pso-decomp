@@ -13,6 +13,7 @@ struct Tbl_802B9C00 { s32 a; s32 b; };
 struct Ent_802B9F3C { s32 a; s32 b; s32 c; };
 struct Blk_802BCFD4 { s32 a; s32 b; s32 rest[7]; };
 struct Tbl_802BBE20 { s32 kind; s32 idx; };
+struct TBoss6Type2MotionTrack;
 
 // Fallbacks load_battle_params uses when the boss parameter entries are not positive.
 struct TBoss6Type2DefaultParams {
@@ -23,6 +24,17 @@ struct TBoss6Type2DefaultParams {
 
 extern const char *TBoss6Type2__name;
 extern const Vec boss6_arena_center;
+// TBoss6Type2.cpp defines these with its .sdata2 constants: the arena radius and the
+// motion speeds the action handlers turn into durations (frames / speed).
+extern "C" {
+extern const f32 boss6_arena_radius;
+extern const f32 boss6_type2_search_speed;      // SEARCH
+extern const f32 boss6_type2_bkjump_speed;      // BKJUMP
+extern const f32 boss6_type2_iai_speed;         // IAI_*
+extern const f32 boss6_type2_bsk_speed;         // CHG_TO_BSK, BSK_AGAIN
+extern const f32 boss6_type2_chg_to_cmn_speed;  // CHG_TO_CMN
+extern const f32 boss6_type2_b_wait_speed;      // B_WAIT
+}
 extern const Vec TBoss6Type2__initial_position;
 extern const s32 TBoss6Type2__initial_rotation[3];
 extern const TBoss6Type2DefaultParams TBoss6Type2__default_battle_parameters;
@@ -34,7 +46,7 @@ extern const s32 lbl_8047128C[2];
 extern const Boss6StripDesc boss6_type2_plot_falz_entry_table[2];
 extern const s32 boss6_type2_zero_vec[4];
 extern const Blk_802BCFD4 boss6_type2_zero_motion_block;
-extern const f32 boss6_type2_motion_entry_transform[7];
+extern const TBoss6Type2MotionTrack boss6_type2_motion_entry_transform;
 extern const s32 TBoss6Type2__no_target_sound_ids[4];
 extern const Tbl_802BBE20 lbl_8047130C[3];
 extern const s32 TBoss6Type2__player_hit_rock_indices[6];

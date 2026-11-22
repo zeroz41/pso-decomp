@@ -3,31 +3,33 @@
 
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include <dolphin/mtx/GeoTypes.h>
 
+struct AnimationMotion;
+struct NJS_OBJECT;
+struct TObjBoss5PillarSmoke;
+
+// A pillar of the Gal Gryphon arena. play_sound_once starts it: models[0] then
+// plays its motion once with smoke on the model's nodes; models[1] is always drawn.
 struct TObjBoss5Pillar : public TObject {
+    TObjBoss5Pillar(TObject *parent, Vec *pos);
     virtual ~TObjBoss5Pillar();
     virtual void run_task();
-    u32 m_1c;
-    u8 unk_20[0x4];
-    f32 m_24;
-    u32 m_28;
-    void* m_2c;
-    u8 _pad30[0x8];
-    uaddr m_38;
-    uaddr m_3c;
-    uaddr m_40;
-    uaddr m_44;
-    uaddr m_48;
     virtual void render();
-    static void *create_smoke(void *parent, void *smokeParent);
-    static void *create(void *arg0);
+    static TObjBoss5PillarSmoke *create_smoke(TObject *parent, NJS_OBJECT *node);
+    static TObjBoss5Pillar *create(Vec *pos);
+    void play_sound_once();
+
+    s32 state;  // 0 waiting, 1 playing the motion, 2 smoke settling, 3 done
+    f32 frame;
+    f32 frame_step;
+    s32 timer;  // frames spent in state 2
+    Vec position;
+    NJS_OBJECT *models[2];
+    AnimationMotion *motions[2];  // played on models[0] and models[1]
+    TObjBoss5PillarSmoke *smoke;
 };
 
 LAYOUT_ASSERT(TObjBoss5Pillar_size, sizeof(TObjBoss5Pillar) == 0x4C);
-
-extern "C" {
-u8 *TObjBoss5Pillar__ct(TObjBoss5Pillar *boss5_pillar, u8 *parent, u8 *arg2);
-void *__dt__15TObjBoss5PillarFv(void *arg0, s16 arg1);
-}
 
 #endif

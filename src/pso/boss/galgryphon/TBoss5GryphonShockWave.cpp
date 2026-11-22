@@ -5,106 +5,108 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/boss/galgryphon/TBoss5Gryphon.h"
+#include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8005D700.h"
 #include "pso/boss/galgryphon/TBoss5GryphonShockWave.h"
 #include "pso/boss/galgryphon/Boss5GryphonBehavior.h"
 #include "pso/system/task/TObject_80019A50.h"
 
 #include "pso/system/vector.h"
-#include "pso/unk/text_80355970.h"
+#include "pso/boss/galgryphon/TBoss5GryphonTornado.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/unk/text_80087278.h"
 
 static const s32 lbl_80437F40[3] = {0x208, 0x20A, 0x20B};
 const char *lbl_805D2818 = "TBoss5GryphonShockWave";
 
 extern "C" {
 const s32 *gryphon_shockwave_particle_ids_ptr;
-
-u32 spawn_continuous_particle_effect_with_flags(void *, s32, s32);
-s32 eval_bezier_curve__12TBoss8DragonFPviiPvf(void *, s32, s32, void *, f32);
-s32 vec3_add_to(void *, s32);
-s32 subtract_vector(void *, void *);
+}
 
 void TBoss5GryphonShockWave::render() {  }
 
 
 void TBoss5GryphonShockWave::run_task() {
-    u8 *self = (u8 *)this;
-    s32 temp_r30;
-    s32 temp_r3;
     TParticleCtrl *particle;
-    if (((TBoss5Gryphon *)(*(saddr *)&this->m_38))->get_flag_bit6() != 0) {
-        ((TObject *)self)->queue_destruction();
+    if (this->owner->get_flag_bit6() != 0) {
+        this->queue_destruction();
         return;
     }
-    switch (*(s32 *)&this->m_1c) {
+    switch (this->state) {
     case 0:
-        *(s32 *)&this->m_1c = 1;
+        this->state = 1;
     case 1:
-        eval_bezier_curve__12TBoss8DragonFPviiPvf((u8 *)&this->m_40, 3, 0, (u8 *)&this->m_2c, (f32) *(s32 *)&this->m_20 / (f32) *(s32 *)&this->m_24);
-        if ((u32) this->m_3c == 0U) {
-            this->m_3c = spawn_continuous_particle_effect_with_flags((u8 *)&this->m_2c, gryphon_shockwave_particle_ids_ptr[0], 0x40);
+        TBoss8Dragon::eval_bezier_curve(this->path, 3, 0, &this->position, (f32)this->frame / (f32)this->duration);
+        if (this->trail == NULL) {
+            this->trail = spawn_continuous_particle_effect_with_flags(&this->position,
+                                                                       gryphon_shockwave_particle_ids_ptr[0], 0x40);
         }
-        if ((u32) this->m_3c != 0U) {
-            ((TParticleCtrl *)this->m_3c)->set_position((u8 *)&this->m_2c);
+        if (this->trail != NULL) {
+            this->trail->set_position(&this->position);
         }
-        temp_r3 = *(s32 *)&this->m_20;
-        *(s32 *)&this->m_20 = (temp_r3 + 1);
-        if (temp_r3 > (s32) *(s32 *)&this->m_24) {
-            *(s32 *)&this->m_20 = 0;
-            *(s32 *)&this->m_1c = 2;
+        if (this->frame++ > this->duration) {
+            this->frame = 0;
+            this->state = 2;
         }
         break;
     case 2:
-        particle = spawn_particle_effect_with_flags((const Vec *)&this->m_2c, gryphon_shockwave_particle_ids_ptr[1], 0x40);
-        if (particle != 0) {
-            attach_particle_model(particle, get_bml_model(boss5_gryphon_bml_resource, 0), boss5_gryphon_texture_list, get_bml_motion(boss5_gryphon_bml_resource, 0), 0, 1.0f);
+        particle = spawn_particle_effect_with_flags(&this->position, gryphon_shockwave_particle_ids_ptr[1], 0x40);
+        if (particle != NULL) {
+            attach_particle_model(particle, get_bml_model(boss5_gryphon_bml_resource, 0), boss5_gryphon_texture_list,
+                                  get_bml_motion(boss5_gryphon_bml_resource, 0), 0, 1.0f);
         }
-        spawn_particle_effect_with_flags((const Vec *)&this->m_2c, gryphon_shockwave_particle_ids_ptr[2], 0x40);
-        play_sound_effect(0x40033C13, (u8 *)&this->m_2c, 0, 0);
-        apply_shockwave_hit(TBoss8Dragon::get_instance_count(), (saddr)&this->m_2c);
-        spawn_gryphon_tornado(*(s32 *)&this->m_up, *(s32 *)&this->m_38, (const Vec *)&this->m_2c, this->m_28);
-        *(s32 *)&this->m_1c = 3;
-        ((TObject *)self)->queue_destruction();
+        spawn_particle_effect_with_flags(&this->position, gryphon_shockwave_particle_ids_ptr[2], 0x40);
+        play_sound_effect(0x40033C13, &this->position, 0, 0);
+        TBoss5Gryphon::apply_shockwave_hit(TBoss5Gryphon::get_instance(), &this->position);
+        TBoss5GryphonTornado::spawn(this->m_up, this->owner, &this->position, this->target_client_id);
+        this->state = 3;
+        this->queue_destruction();
         break;
     case 3:
         break;
     }
 }
 
-}
 TBoss5GryphonShockWave::~TBoss5GryphonShockWave() {
-    if (*(void **)((s8 *)this + 0x3C) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x3C)))->queue_destruction(); this->m_3c = 0; }
-}
-TBoss5GryphonShockWave::TBoss5GryphonShockWave(TObject *arg1_parent, s32 arg2, u8 *arg3, u8 *arg4, s32 arg5, s16 arg6) : TObject(arg1_parent) {
-    s32 sp8[4];
-    m_name = lbl_805D2818;
-    VecCopy((Vec *)(((u8 *)this) + 0x40), (const Vec *)arg3);
-    VecCopy((Vec *)(((u8 *)this) + 0x50), (const Vec *)arg3);
-    vec3_add_to(((u8 *)this) + 0x50, arg5);
-    VecCopy((Vec *)(((u8 *)this) + 0x60), (const Vec *)arg4);
-    *(f32 *)((s8 *)this + 0x64) = 5.0f;
-    VecCopy((Vec *)(((u8 *)this) + 0x2C), (const Vec *)(((u8 *)this) + 0x40));
-    this->m_28 = arg6;
-    this->m_38 = arg2;
-    this->m_3c = 0;
-    VecCopy((Vec *)sp8, (const Vec *)(((u8 *)this) + 0x2C));
-    subtract_vector(sp8, arg4);
-    this->m_24 = (s32) (0.07f * normalize_vector_safe((Vec *)sp8));
-    if ((s32) this->m_24 < 0x1E) {
-        this->m_24 = 0x1E;
+    if (this->trail != NULL) {
+        this->trail->queue_destruction();
+        this->trail = NULL;
     }
-    this->m_20 = 0;
-    this->m_1c = 0;
 }
 
-void TBoss8Dragon__sub_80066A4C(void) {  }
-void TBoss8Dragon::set_default_on_state0() {
+TBoss5GryphonShockWave::TBoss5GryphonShockWave(TObject *parent, TBoss5Gryphon *owner, Vec *origin, Vec *target,
+                                               Vec *velocity, u16 target_client_id)
+    : TObject(parent) {
+    Vec to_target;
+    m_name = lbl_805D2818;
+    VecCopy(&this->path[0].pos, origin);
+    VecCopy(&this->path[1].pos, origin);
+    vec3_add_to(&this->path[1].pos, velocity);
+    VecCopy(&this->path[2].pos, target);
+    this->path[2].pos.y = 5.0f;
+    VecCopy(&this->position, &this->path[0].pos);
+    this->target_client_id = target_client_id;
+    this->owner = owner;
+    this->trail = NULL;
+    VecCopy(&to_target, &this->position);
+    subtract_vector(&to_target, target);
+    this->duration = 0.07f * normalize_vector_safe(&to_target);
+    if (this->duration < 30) {
+        this->duration = 30;
+    }
+    this->frame = 0;
+    this->state = 0;
+}
+
+void TBoss5GryphonShockWave::release_particle_table() {  }
+void TBoss5GryphonShockWave::select_particle_table() {
     switch (TBoss8Dragon__sub_8005D700()) {
     case 0:
         gryphon_shockwave_particle_ids_ptr = lbl_80437F40;

@@ -5,7 +5,7 @@
 #include <stddef.h>
 #include "pso/system/data/FlagWord.h"
 
-// An actor's attack parameters (TObjChara::m_318, read with
+// An actor's attack parameters (TObjChara::attack_params, read with
 // get_attack_params_atp_min/_atp_max and TObjPlayer__sub_800194E8). An
 // equipped item keeps its own bonus in the same layout and adds it to them.
 struct AttackParams {
@@ -19,6 +19,7 @@ struct AttackParams {
     u8 pad_14[0x1C];
 
     f32 get_attack_range();
+    void set_attack_range(f32 range);
     s32 get_attack_angle();
     f32 get_damage_radius();
 

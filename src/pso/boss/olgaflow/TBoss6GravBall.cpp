@@ -26,116 +26,82 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 
 
 const char TBoss6GravBall__class_name_string[] = "TBoss6GravBall";
 const s32 TBoss6GravBall__emitter_id_table[9] = {535, 536, 537, 538, 539, 534, 534, 534, 534};
-const s32 lbl_8047667C[2] = {0, 1};
-const Vec lbl_80476684 = {0.0f, 0.0f, 0.0f};
+// The emitters the constructor creates.
+const s32 boss6_grav_ball_start_emitters[2] = {0, 1};
+// drift_to_center snaps the ball here once it is within 2/3 of a unit.
+const Vec boss6_grav_ball_origin = {0.0f, 0.0f, 0.0f};
 const char *TBoss6GravBall__name = TBoss6GravBall__class_name_string;
 
-extern "C" {
-
-void fn_80323134(TBoss6GravBall *ball) {
+void TBoss6GravBall::update_emitter_positions() {
     s32 i;
     Vec position;
     for (i = 0; i < 9; i++) {
-        if (ball->emitters[i] != NULL) {
+        if (emitters[i] != NULL) {
             switch (i) {
             case 5: case 6: case 7: case 8: {
                 TObjPlayer *player = get_player_by_client_id((u16)(i - 5));
                 if (player != NULL) {
                     VecCopy(&position, &player->position);
-                    ball->emitters[i]->set_position(&position);
+                    emitters[i]->set_position(&position);
                 }
                 break;
             }
             default:
-                ball->emitters[i]->set_position(&ball->ball_position);
+                emitters[i]->set_position(&ball_position);
                 break;
             }
         }
     }
 }
 
-#pragma push
-#pragma opt_common_subs off
-
 void TBoss6GravBall::destroy_part(s32 index) {
-    u8 *entry_base = (u8 *)((uaddr)this + index * sizeof(TParticleCtrl *));
-    TParticleCtrl *emitter = *(TParticleCtrl **)(entry_base + offsetof(TBoss6GravBall, emitters));
-    if (emitter != NULL) {
-        TParticleCtrl::release(emitter);
-        *(TParticleCtrl **)(entry_base + offsetof(TBoss6GravBall, emitters)) = NULL;
+    if (emitters[index] != NULL) {
+        TParticleCtrl::release(emitters[index]);
+        emitters[index] = NULL;
     }
 }
 
-void TBoss6GravBall__sub_80323214(TBoss6GravBall *ball, s32 index) {
-    s32 offset = index * sizeof(TParticleCtrl *);
-    u8 *entry_base = (u8 *)((uaddr)ball + offset);
-    if (*(TParticleCtrl **)(entry_base + offsetof(TBoss6GravBall, emitters)) == NULL) {
-        *(TParticleCtrl **)(entry_base + offsetof(TBoss6GravBall, emitters)) =
-            create_particle_emitter(&ball->ball_position, *(s32 *)((u8 *)TBoss6GravBall__emitter_id_table + offset));
-        TParticleCtrl *emitter = *(TParticleCtrl **)(entry_base + offsetof(TBoss6GravBall, emitters));
-        if (emitter != NULL) {
-            emitter->set_flags(0x2040);
+void TBoss6GravBall::create_charge_emitter(s32 index) {
+    if (emitters[index] == NULL) {
+        emitters[index] = create_particle_emitter(&ball_position, TBoss6GravBall__emitter_id_table[index]);
+        if (emitters[index] != NULL) {
+            emitters[index]->set_flags(0x2040);
         }
     }
 }
-#pragma pop
 
-#pragma push
-#pragma opt_common_subs off
 void TBoss6GravBall::create_emitter(s32 index) {
-    s32 offset = index * sizeof(TParticleCtrl *);
-    u8 *entry_base = (u8 *)((uaddr)this + offset);
-    if (*(TParticleCtrl **)(entry_base + offsetof(TBoss6GravBall, emitters)) == NULL) {
-        *(TParticleCtrl **)(entry_base + offsetof(TBoss6GravBall, emitters)) =
-            create_particle_emitter(&ball_position, *(s32 *)((u8 *)TBoss6GravBall__emitter_id_table + offset));
-        TParticleCtrl *emitter = *(TParticleCtrl **)(entry_base + offsetof(TBoss6GravBall, emitters));
-        if (emitter != NULL) {
-            emitter->set_flags(0x40);
+    if (emitters[index] == NULL) {
+        emitters[index] = create_particle_emitter(&ball_position, TBoss6GravBall__emitter_id_table[index]);
+        if (emitters[index] != NULL) {
+            emitters[index]->set_flags(0x40);
         }
     }
 }
-
-#pragma pop
 
 void TBoss6GravBall::init_parts() {
-    s32 self = (saddr)this;
-    s32 var_r31;
-    var_r31 = 0;
+    s32 i;
+    i = 0;
     do {
-        destroy_part(var_r31);
-        var_r31 += 1;
-    } while (var_r31 < 9);
+        destroy_part(i);
+        i += 1;
+    } while (i < 9);
 }
 
-void TBoss6GravBall__sub_80323320(TBoss6GravBall *ball) {
+void TBoss6GravBall::clear_emitters() {
     for (s32 i = 0; i < 9; i++) {
-        ball->emitters[i] = NULL;
+        emitters[i] = NULL;
     }
 }
 
 void TBoss6GravBall::render() {  }
-
-}
-
-
-extern "C" {
-
-
-void TBoss6GravBall__sub_803236F8(TBoss6GravBall *boss6_grav_ball);
-s32 project_actor_to_ground(void *, void *, int);
-
-
-void TBoss6PlotFalz__sub_802AC724(void *, void *);
-
-
-void TBoss6GravBall__sub_803233AC(TBoss6GravBall *self);
-
-
-void TBoss6GravBall__sub_80323544(TBoss6GravBall *self);
 
 void TBoss6GravBall::clear_player_grav_flags() {
     s32 n = TLobby::get_game_mode();
@@ -148,7 +114,7 @@ void TBoss6GravBall::clear_player_grav_flags() {
     }
 }
 
-void TBoss6GravBall__sub_803233AC(TBoss6GravBall *self) {
+void TBoss6GravBall::push_players() {
     Vec v;
     s32 n;
     s32 i;
@@ -161,16 +127,16 @@ void TBoss6GravBall__sub_803233AC(TBoss6GravBall *self) {
         pl = TObjPlayer::get_player_data(i);
         id = get_entity_id(pl) + 5;
         if (TBoss6PlotFalz::is_active(pl) == 0) {
-            self->destroy_part(id);
+            destroy_part(id);
             continue;
         }
         flag = 0;
-        VecCopy(&v, &self->ball_position);
+        VecCopy(&v, &ball_position);
         subtract_vector(&v, &pl->position);
         v.y = 0.0f;
         d = vector_length(&v);
         if (d > 32.5f) {
-            self->destroy_part(id);
+            destroy_part(id);
             continue;
         }
         if (d <= 1e+01f) {
@@ -185,16 +151,16 @@ void TBoss6GravBall__sub_803233AC(TBoss6GravBall *self) {
             v.z *= s;
         }
         vec3_add_to(&v, &pl->position);
-        project_actor_to_ground(self, &v, 0);
-        TBoss6PlotFalz__sub_802AC724(pl, &v);
+        project_actor_to_ground(this, &v, NULL);
+        TBoss6PlotFalz::move_player_to(pl, &v);
         if (flag != 0) {
             pl->actorFlags |= 0x20000;
-            self->create_emitter(id);
+            create_emitter(id);
         }
     }
 }
 
-void TBoss6GravBall__sub_80323544(TBoss6GravBall *self) {
+void TBoss6GravBall::pull_players() {
     Vec v;
     s32 n;
     s32 i;
@@ -207,11 +173,11 @@ void TBoss6GravBall__sub_80323544(TBoss6GravBall *self) {
         pl = TObjPlayer::get_player_data(i);
         id = get_entity_id(pl) + 5;
         if (TBoss6PlotFalz::is_active(pl) == 0) {
-            self->destroy_part(id);
+            destroy_part(id);
             continue;
         }
         flag = 1;
-        VecCopy(&v, &self->ball_position);
+        VecCopy(&v, &ball_position);
         {
             s32 a = get_entity_id(pl) << 14;
             v.x = 2.5f * sin_table_lookup(a) + v.x;
@@ -222,11 +188,11 @@ void TBoss6GravBall__sub_80323544(TBoss6GravBall *self) {
         d = vector_length(&v);
         if (d > 1e+01f) {
             f32 s;
-            if (self->pull_flags & 1) {
-                self->destroy_part(id);
+            if (pull_flags & 1) {
+                destroy_part(id);
                 continue;
             }
-            s = 3.0f * (self->pull_strength * (1.0f - d / 225.0f));
+            s = 3.0f * (pull_strength * (1.0f - d / 225.0f));
             if (s < 1.0f) {
                 s = 1.0f;
             }
@@ -236,32 +202,32 @@ void TBoss6GravBall__sub_80323544(TBoss6GravBall *self) {
             v.z *= s;
         }
         vec3_add_to(&v, &pl->position);
-        project_actor_to_ground(self, &v, 0);
-        TBoss6PlotFalz__sub_802AC724(pl, &v);
+        project_actor_to_ground(this, &v, NULL);
+        TBoss6PlotFalz::move_player_to(pl, &v);
         if (flag != 0) {
             pl->actorFlags |= 0x20000;
-            self->create_emitter(id);
+            create_emitter(id);
         }
     }
 }
 
-void TBoss6GravBall__sub_803236F8(TBoss6GravBall *boss6_grav_ball) {
-    Vec v = boss6_grav_ball->ball_position;
+void TBoss6GravBall::drift_to_center() {
+    Vec v = ball_position;
     v.y = 0.0f;
     if (vector_length(&v) > 0.6666667f) {
         normalize_vector(&v);
         v.x *= 0.6666667f;
         v.z *= 0.6666667f;
-        subtract_vector(&boss6_grav_ball->ball_position, &v);
+        subtract_vector(&ball_position, &v);
     } else {
-        VecCopy(&boss6_grav_ball->ball_position, &lbl_80476684);
+        VecCopy(&ball_position, &boss6_grav_ball_origin);
     }
-    boss6_grav_ball->clamp_to_ground();
+    clamp_to_ground();
 }
 
 s32 TBoss6GravBall::clamp_to_ground() {
     Vec v = ball_position;
-    if (project_actor_to_ground(this, &v, 0) == 0) {
+    if (project_actor_to_ground(this, &v, NULL) == 0) {
         queue_destruction();
         return 1;
     }
@@ -275,48 +241,39 @@ s32 TBoss6GravBall::clamp_to_ground() {
 }
 
 void TBoss6GravBall::update_lifetime() {
-    s32 temp_r0;
+    s32 next_age;
 
-    temp_r0 = age + 1;
-    age = temp_r0;
-    if (temp_r0 > 0x1E) {
+    next_age = age + 1;
+    age = next_age;
+    if (next_age > 0x1E) {
         queue_destruction();
     }
 }
 
-}
-
-extern "C" {
-s32 query_teammate_state__9TObjEneDDFv(void);
-
-s32 play_persistent_sound(int, void *, void *, int, int);
-
-
-
 void TBoss6GravBall::update_charge_effects() {
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 temp_r0_3;
+    s32 charge;
+    s32 pulse;
+    s32 slow_pulse;
 
-    TBoss6GravBall__sub_803233AC(this);
-    play_persistent_sound(0x4003C418, this, &ball_position, 0, 0);
-    temp_r0 = charge_age;
-    if (temp_r0 >= 0x96) {
-        if (temp_r0 == 0x96) {
+    push_players();
+    play_persistent_sound(0x4003C418, (saddr)this, (uaddr)&ball_position, 0, 0);
+    charge = charge_age;
+    if (charge >= 0x96) {
+        if (charge == 0x96) {
             create_emitter(3);
         }
-    } else if (temp_r0 > 0x4B) {
-        temp_r0_2 = temp_r0 & 0xF;
-        if (temp_r0_2 == 0) {
+    } else if (charge > 0x4B) {
+        pulse = charge & 0xF;
+        if (pulse == 0) {
             create_emitter(3);
-        } else if (temp_r0_2 == 0xE) {
+        } else if (pulse == 0xE) {
             destroy_part(3);
         }
     } else {
-        temp_r0_3 = temp_r0 & 0xF;
-        if (temp_r0_3 == 0) {
+        slow_pulse = charge & 0xF;
+        if (slow_pulse == 0) {
             create_emitter(3);
-        } else if (temp_r0_3 == 0xA) {
+        } else if (slow_pulse == 0xA) {
             destroy_part(3);
         }
     }
@@ -357,14 +314,13 @@ void TBoss6GravBall::update_charge_effects() {
 }
 
 void TBoss6GravBall::update_state() {
-    s32 temp_r3;
-    s32 temp_r3_2;
-    temp_r3 = clamp_to_ground();
-    if (temp_r3 != 0) {
-        TBoss6GravBall__sub_803236F8(this);
+    s32 grounded;
+    grounded = clamp_to_ground();
+    if (grounded != 0) {
+        drift_to_center();
     }
-    fn_80323134(this);
-    if (temp_r3 != 0) {
+    update_emitter_positions();
+    if (grounded != 0) {
         create_emitter(2);
         if ((pull_strength) < 1.0f) {
             pull_strength += 0.033333335f;
@@ -372,8 +328,8 @@ void TBoss6GravBall::update_state() {
                 pull_strength = 1.0f;
             }
         }
-        TBoss6GravBall__sub_80323544(this);
-        play_persistent_sound(0x4003B51A, this, &ball_position, 0, 0);
+        pull_players();
+        play_persistent_sound(0x4003B51A, (saddr)this, (uaddr)&ball_position, 0, 0);
         switch (owner->get_gravity_attack_state()) {
         case 0x27:
             return;
@@ -384,7 +340,7 @@ void TBoss6GravBall::update_state() {
             destroy_part(0);
             destroy_part(1);
             destroy_part(2);
-            TBoss6GravBall__sub_80323214(this, 4);
+            create_charge_emitter(4);
             charge_age = 0;
             age = 0;
             state = 1;
@@ -402,7 +358,7 @@ void TBoss6GravBall::run_task() {
     if (TObjPlayer::check_demo_mode() != 0) {
         return;
     }
-    if (query_teammate_state__9TObjEneDDFv() != 0) {
+    if (TObjEneDD::query_teammate_state() != 0) {
         return;
     }
     typedef void (TBoss6GravBall::*Handler)();
@@ -416,7 +372,6 @@ void TBoss6GravBall::run_task() {
     pull_flags++;
 }
 
-}
 TBoss6GravBall::~TBoss6GravBall() {
     init_parts();
     clear_player_grav_flags();
@@ -432,8 +387,8 @@ TBoss6GravBall::TBoss6GravBall(TBoss6Type1 *owner, const Vec *position)
     pull_strength = 0.0f;
     pull_flags = 0;
     burst_played = 0;
-    TBoss6GravBall__sub_80323320(this);
+    clear_emitters();
     for (i = 0; i < 2; i++) {
-        create_emitter(lbl_8047667C[i]);
+        create_emitter(boss6_grav_ball_start_emitters[i]);
     }
 }

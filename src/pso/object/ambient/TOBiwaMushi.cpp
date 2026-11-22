@@ -39,7 +39,6 @@ BmlResource *TOMekaFish00::model_resource;
 BmlResource *TOMekaFish01::model_resource;
 BmlResource *TOBiwaMushi::model_resource;
 
-extern uaddr TBoss6PlotFalz__instance;
 
 s32 TBoss6PlotFalz::is_phase_reached() {
     u32 p = TBoss6PlotFalz__instance;

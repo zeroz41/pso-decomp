@@ -18,11 +18,11 @@ struct TBoss3VoloptMonitor : public TObjEnemyCustom {
     void set_hit_flags_and_notify();
     void spawn_effects();
     void damage_player_if_aligned();
-    void sub_80041C78();
-    void sub_80041D0C();
-    void sub_80041D3C();
-    void sub_80041E88();
-    void sub_800420D8();
+    void update_wait();
+    void update_idle();
+    void update_destroyed();
+    void update_hit();
+    void run_demo_task();
     void dispatch_state();
     static void release();
     static void load_resources();

@@ -17,7 +17,7 @@
 #include "pso/network/TLobby_8041112C.h"
 #include "pso/network/text_80421620.h"
 /* The object header the stack's records share (laid out like TObject's fields). */
-void complete_pending_request(s16 id);
+void complete_pending_request(s16 id, s16 event);
 void tick_connection_timeouts(void);
 s32 append_to_list(DnsHost *o, DnsAddr *n);
 NetworkAddress *find_next_active_record(DnsQuery *a);
@@ -312,11 +312,10 @@ static inline DnsQuery *dns_alloc_query(DnsResolverState *g) {
     return e;
 }
 static inline s16 dns_open_socket(DnsQuery *e) {
-    e->socket = udp_open(0, 0, 0, 0x35, (s32)complete_pending_request, AT_DNS_UdpReceiver);
+    e->socket = udp_open(0, 0, 0, 0x35, complete_pending_request, AT_DNS_UdpReceiver);
     return e->socket;
 }
 static inline s16 dns_send_query(DnsQuery *e, NetworkAddress *dst) {
-    s16 udp_send(s32, void *, void *, u16, void *, s8, send_buffs *); /* declared here with other parameter types; the definition is s16 (s32, u32 *, u32 *, u16, u32 *, s8, send_buffs *) */
     send_buffs buf;
     s16 r;
     buf.len = e->msg->len;
@@ -543,9 +542,8 @@ void tick_connection_timeouts(void) {
 
 extern void TLobby__sub_8040AFE0(void)
 {
-    s16 udp_send(s32, s32, s32, u16, s32, s8, void *); /* declared here with other parameter types; the definition is s16 (s32, u32 *, u32 *, u16, u32 *, s8, send_buffs *) */
     DnsResolverState *base = (DnsResolverState *)&dns_resolver_state;
-    saddr found;
+    NetworkAddress *found;
     s16 *dp;
     s16 cnt;
     DnsQuery *e;
@@ -553,7 +551,7 @@ extern void TLobby__sub_8040AFE0(void)
     send_buffs tmp;
     s16 val;
     s16 ret;
-    s32 f2;
+    NetworkAddress *dst;
     s32 f3;
 
     dp = &base->nservers;
@@ -568,8 +566,8 @@ extern void TLobby__sub_8040AFE0(void)
             continue;
         }
         if (e->outstanding != 0) {
-            found = (saddr)find_next_active_record((DnsQuery *)e);
-            if (found == 0) {
+            found = find_next_active_record(e);
+            if (found == NULL) {
                 TLobby__sub_8040BE40(e, -0x44, 0);
                 continue;
             }
@@ -577,10 +575,10 @@ extern void TLobby__sub_8040AFE0(void)
             e->timer = base->timeouts[e->status / *dp];
             buf[0] = DNS_TYPE_A;
             NetMemcpy((u8 *)e->msg->data + e->msg->len - DNS_QUESTION_FIXED_SIZE, &buf[0], 2);
-            f2 = found;
+            dst = found;
             tmp.len = e->msg->len;
             tmp.buff = e->msg->data;
-            ret = udp_send(e->socket, 0, f2, 0, 0, 1, &tmp);
+            ret = udp_send(e->socket, NULL, dst, 0, NULL, 1, &tmp);
             val = DNS_TYPE_AAAA;
             NetMemcpy((u8 *)e->msg->data + e->msg->len - DNS_QUESTION_FIXED_SIZE, &val, 2);
             if (ret < 0) {
@@ -596,7 +594,6 @@ extern void TLobby__sub_8040AFE0(void)
 
 extern void TLobby__sub_8040B1C4(void *arg)
 {
-    s16 udp_send(s32, s32, s32, u16, s32, s8, void *); /* declared here with other parameter types; the definition is s16 (s32, u32 *, u32 *, u16, u32 *, s8, send_buffs *) */
     DnsQuery *e = (DnsQuery *)arg;
     DnsResolverState *base;
     NetworkAddress *found;
@@ -616,7 +613,7 @@ extern void TLobby__sub_8040B1C4(void *arg)
     e->timer = base->timeouts[e->status / *dp];
     tmp.len = e->msg->len;
     tmp.buff = e->msg->data;
-    ret = udp_send(e->socket, 0, (saddr)found, 0, 0, 1, &tmp);
+    ret = udp_send(e->socket, NULL, found, 0, NULL, 1, &tmp);
     if (ret < 0) {
         e->timer = 1;
         e->status = e->status + 1;
@@ -784,7 +781,7 @@ inline DnsQuery *find_8040B654(s16 id) {
     return NULL;
 }
 
-void complete_pending_request(s16 id) {
+void complete_pending_request(s16 id, s16 event) {
     DnsQuery *e;
 
     if ((e = find_8040B654(id)) != NULL) {

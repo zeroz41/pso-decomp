@@ -63,7 +63,7 @@ public:
     int apply_shop_judgment(void *owners);
     int count_matching_items(void *owners);
     int run_state_query(int a1);
-    int run_and_get_result(int a1);
+    int run_and_get_result(saddr ids);
 };
 
 #endif

@@ -8,11 +8,13 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/system/vector.h"
 #include "pso/object/ambient/TObjLight.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/unk/text_8023601C.h"
 #include "pso/technique/TTecLuker.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/effect/TUnk_804CCC68.h"
 #include "pso/effect/TUnk_804CC148.h"
+#include "pso/technique/TTecPlayerInfluence.h"
 #include "pso/technique/TechniqueContact.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TLobby.h"
@@ -27,77 +29,50 @@
 static const f32 lbl_805DC888[1] = {1.0f};
 static const f32 lbl_805DC88C[1] = {0.0f};
 
-struct Stack_80235E9C {
-    s32 sp8;
-    u8 trailing_storage[0xC];
-};
-
-struct Light_80235C44 {
-    u8 task[0x1C];
-    s32 duration;
-    u32 phase;
-    NJS_ARGB color;
-    Vec desired;
-    Vec direction;
-    s32 age;
-    f32 step;
-    saddr source;
-    f32 peak;
-    f32 intensity;
-    u16 actor;
-    u16 pad62;
-};
-
-struct Base_80235C44 { u8 pad[0x1C]; f32 f1c; f32 f20; };
-
 extern "C" {
 u16 get_entity_id(void *);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__13TUnk_804CCAA8[];
 
-void publish_actor_light_scalars(u32 arg0, f32 farg0, f32 farg1);
-void publish_light_direction_color(u32 id, void *dir, void *color);
-extern Base_80235C44 TObjLight__scene_light_state;
 
 #pragma push
 #pragma fp_contract on
 void TUnk_804CCAA8::run_task() {
-    Light_80235C44 *arg0 = (Light_80235C44 *)this;
     Vec baseDir;
     NJS_ARGB baseColor;
     NJS_ARGB unused;
     f32 mid;
     f32 frac;
-    if (get_player_by_client_id(arg0->actor) == 0) {
-        ((TObject *)arg0)->queue_destruction();
+    if (get_player_by_client_id(actor) == 0) {
+        queue_destruction();
         return;
     }
-    TObjLight::find_light_params((f32 *)&baseDir, (f32 *)&baseColor, arg0->actor);
-    mid = 0.5f * (f32) arg0->duration;
-    if (arg0->age < (s32) mid) {
+    TObjLight::find_light_params((f32 *)&baseDir, (f32 *)&baseColor, actor);
+    mid = 0.5f * (f32) duration;
+    if (age < (s32) mid) {
         f32 amb1;
         f32 inten1;
-        frac = (f32) arg0->age / mid;
-        amb1 = frac * (arg0->peak - TObjLight__scene_light_state.f20) + TObjLight__scene_light_state.f20;
-        inten1 = frac * (arg0->intensity - TObjLight__scene_light_state.f1c) + TObjLight__scene_light_state.f1c;
-        publish_actor_light_scalars((u16) get_entity_id((void *)arg0->source), inten1, amb1);
-        copy_argb((NJS_ARGB *)&unused, (NJS_ARGB *)&baseColor);
-        approach_vector_fixed_distance(&arg0->direction, &arg0->desired, &arg0->direction, arg0->step);
-        approach_rgb_clamped(&unused, &arg0->color, 0.1f);
+        frac = (f32) age / mid;
+        amb1 = frac * (peak - TObjLight__scene_light_state.ambient) + TObjLight__scene_light_state.ambient;
+        inten1 = frac * (intensity - TObjLight__scene_light_state.intensity) + TObjLight__scene_light_state.intensity;
+        publish_actor_light_scalars((u16) get_entity_id(source), inten1, amb1);
+        copy_argb(&unused, &baseColor);
+        approach_vector_fixed_distance(&direction, &desired, &direction, step);
+        approach_rgb_clamped(&unused, &color, 0.1f);
     } else {
         f32 amb2;
         f32 inten2;
-        frac = ((f32) arg0->age - mid) / mid;
-        amb2 = frac * (TObjLight__scene_light_state.f20 - arg0->peak) + arg0->peak;
-        inten2 = frac * (TObjLight__scene_light_state.f1c - arg0->intensity) + arg0->intensity;
-        publish_actor_light_scalars((u16) get_entity_id((void *)arg0->source), inten2, amb2);
-        approach_vector_fixed_distance(&arg0->direction, &baseDir, &arg0->direction, arg0->step);
-        approach_rgb_clamped(&arg0->color, &baseColor, 0.1f);
+        frac = ((f32) age - mid) / mid;
+        amb2 = frac * (TObjLight__scene_light_state.ambient - peak) + peak;
+        inten2 = frac * (TObjLight__scene_light_state.intensity - intensity) + intensity;
+        publish_actor_light_scalars((u16) get_entity_id(source), inten2, amb2);
+        approach_vector_fixed_distance(&direction, &baseDir, &direction, step);
+        approach_rgb_clamped(&color, &baseColor, 0.1f);
     }
-    publish_light_direction_color((u16) get_entity_id((void *)arg0->source), &arg0->direction, &arg0->color);
-    arg0->age++;
-    if (arg0->duration < arg0->age) {
-        ((TObject *)arg0)->queue_destruction();
+    publish_light_direction_color((u16) get_entity_id(source), &direction, &color);
+    age++;
+    if (duration < age) {
+        queue_destruction();
     }
 }
 #pragma pop
@@ -107,39 +82,39 @@ TUnk_804CCAA8::~TUnk_804CCAA8() {
 
 }
 
-u8 *TObjLight::construct_actor_light(saddr arg1, saddr arg2, s32 arg3, s32 arg4, saddr parent, f32 farg0, f32 farg1, f32 farg2, s32 arg_sp0) {
-    Stack_80235E9C stack;
-    __ct__7TObjectFP7TObject(this, (void *)parent);
-    *(s32 **)((s8 *)((u8 *)this) + 0x18) = __vt__13TUnk_804CCAA8;
-    copy_argb((NJS_ARGB *)(((u8 *)this) + 0x24), (NJS_ARGB *)arg1);
-    VecCopy((Vec *)(((u8 *)this) + 0x34), (const Vec *)(arg2));
-    *(s32 *)&this->entity_id = arg3;
-    *(s32 *)&this->prev_position.z = 0;
-    this->home_position.x = farg0;
-    *(s32 *)&this->home_position.y = arg4;
-    *(s32 *)((s8 *)((u8 *)this) + 0x20) = 1;
-    this->home_position.z = farg1;
-    *(f32 *)&this->rotation_x = farg2;
-    *(u16 *)&this->rotation_y = get_entity_id((void *)(int) (*(s32 *)&this->home_position.y));
-    TObjLight::find_light_params((f32 *)(((u8 *)this) + 0x40), (f32 *)&stack.sp8, (u32)((int) ((s32) *(u16 *)&this->rotation_y)));
-    return ((u8 *)this);
+TUnk_804CCAA8::TUnk_804CCAA8(f32 step, f32 peak, f32 intensity, NJS_ARGB *color, Vec *desired, s32 duration,
+                             TObjBase *source, TObject *parent)
+    : TObject(parent) {
+    NJS_ARGB scene_color;
+    copy_argb(&this->color, color);
+    VecCopy(&this->desired, desired);
+    this->duration = duration;
+    age = 0;
+    this->step = step;
+    this->source = source;
+    phase = 1;
+    this->peak = peak;
+    this->intensity = intensity;
+    actor = get_entity_id(this->source);
+    TObjLight::find_light_params((f32 *)&direction, (f32 *)&scene_color, actor);
 }
-u8 *construct_actor_light_task(u8 *arg0, NJS_ARGB *njs_argb, u8 *arg2, s32 arg3, u8 *arg4, u8 *parent, f32 farg0) {
-    s32 sp8;
-    __ct__7TObjectFP7TObject(arg0, parent);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_804CCAA8;
-    copy_argb((NJS_ARGB *)(arg0 + 0x24), njs_argb);
-    VecCopy((Vec *)(arg0 + 0x34), (const Vec *)arg2);
-    *(s32 *)((s8 *)arg0 + 0x1C) = arg3;
-    ((TUnk_804CCAA8 *)arg0)->m_4c = 0;
-    *(f32 *)((s8 *)arg0 + 0x50) = farg0;
-    ((TUnk_804CCAA8 *)arg0)->m_54 = arg4;
-    ((TUnk_804CCAA8 *)arg0)->m_20 = 0;
-    *(f32 *)((s8 *)arg0 + 0x58) = (f32) lbl_805DC888[0];
-    ((TUnk_804CCAA8 *)arg0)->m_5c = (f32) lbl_805DC888[0];
-    *(u16 *)((s8 *)arg0 + 0x60) = ((u16)get_entity_id((void *)(saddr)(((TUnk_804CCAA8 *)arg0)->m_54)));
-    TObjLight::find_light_params((f32 *)(arg0 + 0x40), (f32 *)((saddr) &sp8), (u32)((int)((u32) *(u16 *)((s8 *)arg0 + 0x60))));
-    return arg0;
+TUnk_804CCAA8 *construct_actor_light_task(TUnk_804CCAA8 *light, NJS_ARGB *color, Vec *desired, s32 duration,
+                                          TObjBase *source, TObject *parent, f32 step) {
+    NJS_ARGB scene_color;
+    __ct__7TObjectFP7TObject(light, parent);
+    *(s32 **)((s8 *)light + 0x18) = __vt__13TUnk_804CCAA8;
+    copy_argb(&light->color, color);
+    VecCopy(&light->desired, desired);
+    light->duration = duration;
+    light->age = 0;
+    light->step = step;
+    light->source = source;
+    light->phase = 0;
+    light->peak = lbl_805DC888[0];
+    light->intensity = lbl_805DC888[0];
+    light->actor = get_entity_id(light->source);
+    TObjLight::find_light_params((f32 *)&light->direction, (f32 *)&scene_color, light->actor);
+    return light;
 }
 
 extern "C" {
@@ -273,10 +248,10 @@ TechniqueContactQueryResults technique_contact_query_results;
 
 void resetTechniqueContactQuery();
 
-saddr find_support_technique_contact(void *self, int target, void *_w2, void *_w3);
+saddr find_support_technique_contact(void *self, TObjCollidable *target, void *_w2, void *_w3);
 saddr find_area_technique_contact(TUnk_804CC148 *self, TObjCollidable *target, CollisionBody *body, void *arg3);
 
-saddr find_support_technique_contact(void *self, int target, void *_w2, void *_w3) {
+saddr find_support_technique_contact(void *self, TObjCollidable *target, void *_w2, void *_w3) {
     Vec pos;
     f32 range;
     s32 i;
@@ -289,14 +264,14 @@ saddr find_support_technique_contact(void *self, int target, void *_w2, void *_w
     }
     VecCopy((Vec *)&pos, (const Vec *)((u8 *)self + 0x20));
     resetTechniqueContactQuery();
-    if ((u32)target == 0) {
+    if (target == NULL) {
         return (saddr)&technique_contact_query_results;
     }
-    VecCopy((Vec *)((u8 *)target + 0x38), (const Vec *)&pos);
+    VecCopy(&target->position, &pos);
     for (i = TLobby::get_game_mode(); i < TLobby::get_lobby_flag(); i++) {
         pd = (PlayerData_80236154 *)TObjPlayer::get_player_data(i);
         if (pd != 0 && (pd->flags & 0x20000000)) {
-            c = (Contact_80236154 *)((TObjCollidable *)target)->find_actor_body_contact((u8 *)pd, range);
+            c = (Contact_80236154 *)target->find_actor_body_contact((u8 *)pd, range);
             if (c != 0 && ((c->flags & 1) || !(c->flags & 0x02000000))) {
                 ((List_80236154 *)&technique_contact_query_results)->bodies[((List_80236154 *)&technique_contact_query_results)->count] = c;
                 ((List_80236154 *)&technique_contact_query_results)->actors[((List_80236154 *)&technique_contact_query_results)->count] = pd;
@@ -371,7 +346,7 @@ saddr find_area_technique_contact(TUnk_804CC148 *self, TObjCollidable *target, C
     return (saddr)&technique_contact_query_results;
 }
 
-saddr TObjPlayer::collect_body_contacts(int target, void *_w2, void *player) {
+saddr TUnk_804CC148::collect_body_contacts(TObjCollidable *target, CollisionBody *body, void *player) {
     Vec pos;
     PD_802364D8 *e;
     PD_802364D8 *pd;
@@ -380,12 +355,12 @@ saddr TObjPlayer::collect_body_contacts(int target, void *_w2, void *player) {
     s32 ok;
     Contact_802364D8 *c;
     s32 j;
-    VecCopy((Vec *)&pos, (const Vec *)((u8 *)this + 0x20));
+    VecCopy(&pos, &position);
     resetTechniqueContactQuery();
-    if ((u32)target == 0) {
+    if (target == NULL) {
         return (saddr)&technique_contact_query_results;
     }
-    VecCopy((Vec *)((u8 *)target + 0x38), (const Vec *)&pos);
+    VecCopy(&target->position, &pos);
     if (get_entity_id(player) < 4) {
         n = TLobby::get_lobby_flag();
         for (i = 0; i < n; i++) {
@@ -400,7 +375,7 @@ saddr TObjPlayer::collect_body_contacts(int target, void *_w2, void *player) {
                     }
                 }
                 if (ok != 0 && ((pd->flags & 0x20000000) || (pd->flags & 0x10000000))) {
-                    c = (Contact_802364D8 *)((TObjCollidable *)target)->find_actor_body_contact((u8 *)pd, 1e+04f);
+                    c = (Contact_802364D8 *)target->find_actor_body_contact((u8 *)pd, 1e+04f);
                     if (c != 0 && ((c->flags & 1) || !(c->flags & 0x02000000))) {
                         ((List_802364D8 *)&technique_contact_query_results)->bodies[((List_802364D8 *)&technique_contact_query_results)->count] = c;
                         ((List_802364D8 *)&technique_contact_query_results)->actors[((List_802364D8 *)&technique_contact_query_results)->count] = pd;
@@ -416,7 +391,7 @@ saddr TObjPlayer::collect_body_contacts(int target, void *_w2, void *player) {
         for (j = 0; j < 4; j++) {
             e = (PD_802364D8 *)find_entity_by_id(j);
             if (e != 0 && get_entity_id(e) != get_entity_id(player) && (e->flags & 0x10000000)) {
-                c = (Contact_802364D8 *)((TObjCollidable *)target)->find_actor_body_contact((u8 *)e, 1e+04f);
+                c = (Contact_802364D8 *)target->find_actor_body_contact((u8 *)e, 1e+04f);
                 if (c != 0) {
                     ((List_802364D8 *)&technique_contact_query_results)->bodies[((List_802364D8 *)&technique_contact_query_results)->count] = c;
                     ((List_802364D8 *)&technique_contact_query_results)->actors[((List_802364D8 *)&technique_contact_query_results)->count] = e;
@@ -435,13 +410,12 @@ void TUnk_804CC148::find_area_contact(saddr arg1) {
     find_area_technique_contact(this, this->m_e8, &this->collisionBody, (void *)arg1);
 }
 
-void TObjPlayer::collect_body_contacts_for_target(saddr player) {
-    collect_body_contacts((int)(this->blend.motion[1]), (u8 *)&this->previous_action, (void *)player);
+saddr TUnk_804CC148::collect_body_contacts_for_target(saddr player) {
+    return collect_body_contacts(m_e8, &collisionBody, (void *)player);
 }
 
-void TObjPlayer::find_support_technique_contact_for_target(saddr arg1) {
-    u8 *arg0 = (u8 *)this;
-    find_support_technique_contact((void *)arg0, (int)this->motion_list, (u8 *)&this->motion_flags, (void *)arg1);
+saddr TTecPlayerInfluence::find_support_technique_contact_for_target(saddr player) {
+    return find_support_technique_contact(this, target, &m_b0, (void *)player);
 }
 
 void TObjPlayer::gather_contacts_for_self(s32 arg1) {

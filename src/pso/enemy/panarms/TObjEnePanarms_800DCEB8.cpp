@@ -8,7 +8,6 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/ModelNodePositionCapture.h"
-#include "pso/enemy/panarms/TObjEnePanarms_800DCEB8.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -50,33 +49,15 @@
 #include "pso/render/BlobShadow.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/render/render_util.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/map/CsnQuery.h"
+#include "pso/render/model_render_state.h"
+#include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/unk/text_800871A0.h"
 
-
-struct Stack_800DDFDC
-{
-  s32 sp8;
-  f32 spC;
-};
-
-struct Stack_800DD9A0 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-    s32 sp14;
-    f32 sp18;
-};
-
-struct Obj_800DECC4 { u8 pad[0x38]; Vec pos; u8 pad2[0x248 - 0x44]; u8 f248[0x384 - 0x248]; f32 f384; };
-
-
-
-struct Obj_800DE2D0 { u8 pad0[0x30]; u32 f30; u8 pad1[0x374 - 0x34]; s32 f374; u8 pad2[0x3AC - 0x378]; u8 f3AC[0x18]; u8 f3C4[4]; };
-
-struct Obj_800DE390 { u8 pad0[0x374]; s32 f374; u8 pad1[0x3E4 - 0x378]; s32 f3E4; s32 f3E8; };
-
-struct Obj_800DE9F0 { u8 pad0[0x1C]; u16 f1C; u8 pad1[0x60 - 0x1E]; s32 f60; };
-
-struct Obj_800DEA88 { u8 pad0[0x60]; s32 f60; u8 pad1[0x38C - 0x64]; s32 f38C; };
 
 extern const char bm7_s_paa_body_model_filename[] = "bm7_s_paa_body.nj";
 extern const char bm7_s_pal_body_model_filename[] = "bm7_s_pal_body.nj";
@@ -131,7 +112,7 @@ const char *bm7_s_paa_body_motion_names[32] = {
     walk_bm7_s_par_body_motion_filename, walkl_bm7_s_paa_body_motion_filename, walkr_bm7_s_paa_body_motion_filename,
     NULL,
 };
-BmlResourceDescriptor lbl_80494F10 = {
+BmlResourceDescriptor bm7_s_paa_body_resource_descriptor = {
     bm7_s_paa_body_bml_filename, bm7_s_paa_body_model_names, bm7_s_paa_body_motion_names, 3, 31,
 };
 /* The body's one collision sphere (init_collision_body_parts in the constructor). */
@@ -147,94 +128,24 @@ TObjMotionAction panarms_motion_param_table[12] = {
 extern const NpcAnimationBinding panarms_npc_spawn_descriptor = {
     NULL, panarms_motion_param_table, 0, 11, 12,
 };
-extern const s32 lbl_8043CCF4[2] = { 0x10b, 0x10c };
-extern const s32 lbl_8043CCFC[2] = { 1, 2 };
-extern const s32 lbl_8043CD04[2] = { 0x10a, 0x107 };
-extern const s32 lbl_8043CD0C[3] = { 3, 4, 0 };
+/* The charge effects of the two beam attacks (btameu state 5, btamed state 7): particle ids and the
+   draw_positions (arm nodes) they start at. */
+extern const s32 panarms_beam_up_charge_effects[2] = { 0x10b, 0x10c };
+extern const s32 panarms_beam_up_charge_points[2] = { 1, 2 };
+extern const s32 panarms_beam_down_charge_effects[2] = { 0x10a, 0x107 };
+extern const s32 panarms_beam_down_charge_points[3] = { 3, 4, 0 };
 
-/* State table of TObjEnePanarms: {enter, update} per state, indexed by state; built by the TU's __sinit. */
+/* State table of TObjEnePanarms: {enter, update} per state, indexed by state; filled by the TU's __sinit. */
 typedef void (TObjEnePanarms::*PanarmsStateFn)();
 struct PanarmsState { PanarmsStateFn enter; PanarmsStateFn update; };
-static PanarmsState lbl_8049515C[14] = {
-    { &TObjEnePanarms::enter_idle, &TObjEnePanarms::try_activate },
-    { &TObjEnePanarms::enter_wait_hidden, &TObjEnePanarms::update_wait_hidden },
-    { &TObjEnePanarms::set_hidden_flags, &TObjEnePanarms::update_fall },
-    { &TObjEnePanarms::enter_move, &TObjEnePanarms::update_move },
-    { &TObjEnePanarms::enter_dead, &TObjEnePanarms::update_dead },
-    { &TObjEnePanarms::set_state_flags_6, &TObjEnePanarms::update_particle_emitters_set2 },
-    { &TObjEnePanarms::enter_arm_attack_0, &TObjEnePanarms::update_destroy_child },
-    { &TObjEnePanarms::set_flags_and_field_b8, &TObjEnePanarms::update_particle_emitters },
-    { &TObjEnePanarms::enter_arm_attack_1, &TObjEnePanarms::update_wait_then_set_state },
-    { &TObjEnePanarms::enter_split, &TObjEnePanarms::update_hit_effect },
-    { &TObjEnePanarms::enter_separated, &TObjEnePanarms::update_separated_parts },
-    { &TObjEnePanarms::merge_halves, &TObjEnePanarms::update_timed_action },
-    { &TObjEnePanarms::enter_rejoin, &TObjEnePanarms::update_state_effect },
-    { &TObjEnePanarms::enter_down_state, &TObjEnePanarms::update_spin },
-};
-/* Model nodes the constructor hands to ModelNodePositionCapture::create. */
-ModelNodePositionEntry panarms_model_node_desc[6] = {
-    { 0x35 }, { 0x22 }, { 0x38 }, { 0x46 }, { 0x3b }, { -1 },
-};
-
-
-
-struct Sub_800DD690 { u8 b[0xC]; };
-
-struct Obj_800DD690 { u8 pad0[0xB0]; u32 flags; u8 padb4[0xC0 - 0xB4]; f32 fc0; u8 padc4[0x394 - 0xC4]; u32 items[2]; u8 pad39c[4]; Sub_800DD690 subs[1]; };
-
-struct Sub_800DD8AC { u8 b[0xC]; };
-
-struct Obj_800DD8AC { u8 pad0[0xB0]; u32 flags; u8 padb4[0xC0 - 0xB4]; f32 fc0; u8 padc4[0x394 - 0xC4]; u32 items[2]; u8 pad39c[4]; Sub_800DD8AC subs[1]; };
-
-
+extern PanarmsState panarms_state_table[14];
+// The original's static initializer sits before the weak copies of the inline accessors this unit
+// emits (0x800DFB00-0x800DFBD0), which no compiler-generated __sinit reproduces, so it is spelled out.
 extern "C" {
-int TObjEnePanarms__sub_800E1D94(void *);
-s32 spawn_continuous_particle_with_direction(void *, void *, int, int);
-void *spawn_directional_particle(void *pos, void *dir, s32 id);
-s32 TObjEnePanarms__sub_800DFB44(s32);
-void TObjEnePanarms__sub_800E1E14(u8 *arg0);
-f32 vec3_add_to(void *, void *);
-s32 TObjEnePanarms__sub_800DFB74(void *);
-s32 TObjEnePanarms__sub_800DFB9C(void *);
-s32 TObjEnePanarms__sub_800DFBB0(void *);
-f32 atan2_float(f32 y, f32 x);
-s32 approach_angle_limited(s32, s32, s32);
-void TObjEnePanarms__sub_800E1D38(void *arg0);
-s32 TObjEnePanarms__sub_800DE528(void *arg0, Vec *arg1);
-s32 subtract_vector(void *, void *);
-s32 check_ground_along_path__14TObjEnePanarmsFPvPvPvff(void *actor, Vec *arg1, Vec *arg2, f32 step, f32 dy);
-u32 csnLookAt(void *, void *);
-f32 horizontal_distance_squared(void *, void *);
-s32 try_warp_to_position__14TObjEnePanarmsFPvPv(u8 *player, Vec *pos);
-int TObjEnePanarms__sub_800DFBC4(void *p);
-s32 rotate_matrix_z(int, int);
-void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
-s32 rotate_matrix_x(int, int);
+static void __sinit_TObjEnePanarms_800DCEB8_cpp();
 }
-void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
-typedef struct Stack_800DDFDC Stack_800DDFDC;
+__declspec(section ".ctors") static void *const panarms_body_global_initializer = (void *)__sinit_TObjEnePanarms_800DCEB8_cpp;
 
-
-// The camera-obstruction fade (vtable __vt__15RenderFadeState) keeps its vtable pointer at +0x14.
-struct VFade_800DEF5C {
-    u8 pad[0x14];
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void begin_draw();
-    virtual void end_draw();
-};
-
-extern "C" {
-extern s32 model_render_flags;
-extern s32 saved_model_render_flags;
-s32 minimap_render_dot(void *, s32, s32, s32);
-}
-
-struct Obj_800DEF5C { u8 pad[0x400]; RenderFadeState fades[4]; };
 
 /* The 0x40-byte set entry the constructor copies for each half it creates. */
 struct PanarmsSetEntry {
@@ -252,12 +163,80 @@ struct PanarmsParams {
     s32 wait_frames;
 };
 
+// Out-of-line copies of inline accessors; defined first because the unit is emitted backwards.
+int TObjEnePanarms::get_state_flag() { return (this->actorFlags >> 4) & 0x1; }
+
+s32 TObjEnePanBARA::is_dead() {
+    return (u8)(state == 8);
+}
+
+s32 TObjEnePanBARA::is_attacking() {
+    return (u8)(state == 0xB);
+}
+
+int TObjEnePanBARA::is_slide_in_done() {
+    u8 result = 0;
+    if (state == 4 && action_timer < 0) {
+        result = 1;
+    }
+    return result;
+}
+
+int TObjEnePanBARA::get_state_flag() { return (this->actorFlags >> 4) & 0x1; }
+
+s32 TObjEnePanBARA::is_dying() {
+    return state == 7 || state == 8;
+}
+
+void TObjMotion::init(s16 action) {
+    fn_800660B8();
+    change_action(action);
+    sub_8002AE64();
+}
+
+static void __sinit_TObjEnePanarms_800DCEB8_cpp() {
+    panarms_state_table[0].enter = &TObjEnePanarms::enter_idle;
+    panarms_state_table[0].update = &TObjEnePanarms::try_activate;
+    panarms_state_table[1].enter = &TObjEnePanarms::enter_wait_hidden;
+    panarms_state_table[1].update = &TObjEnePanarms::update_wait_hidden;
+    panarms_state_table[2].enter = &TObjEnePanarms::enter_rise;
+    panarms_state_table[2].update = &TObjEnePanarms::update_rise;
+    panarms_state_table[3].enter = &TObjEnePanarms::enter_move;
+    panarms_state_table[3].update = &TObjEnePanarms::update_move;
+    panarms_state_table[4].enter = &TObjEnePanarms::enter_dead;
+    panarms_state_table[4].update = &TObjEnePanarms::update_dead;
+    panarms_state_table[5].enter = &TObjEnePanarms::enter_charge_beam_up;
+    panarms_state_table[5].update = &TObjEnePanarms::update_charge_beam_up;
+    panarms_state_table[6].enter = &TObjEnePanarms::enter_beam_up;
+    panarms_state_table[6].update = &TObjEnePanarms::update_beam_up;
+    panarms_state_table[7].enter = &TObjEnePanarms::enter_charge_beam_down;
+    panarms_state_table[7].update = &TObjEnePanarms::update_charge_beam_down;
+    panarms_state_table[8].enter = &TObjEnePanarms::enter_beam_down;
+    panarms_state_table[8].update = &TObjEnePanarms::update_beam_down;
+    panarms_state_table[9].enter = &TObjEnePanarms::enter_split;
+    panarms_state_table[9].update = &TObjEnePanarms::update_split;
+    panarms_state_table[10].enter = &TObjEnePanarms::enter_separated;
+    panarms_state_table[10].update = &TObjEnePanarms::update_separated;
+    panarms_state_table[11].enter = &TObjEnePanarms::enter_merge;
+    panarms_state_table[11].update = &TObjEnePanarms::update_merge;
+    panarms_state_table[12].enter = &TObjEnePanarms::enter_rejoin;
+    panarms_state_table[12].update = &TObjEnePanarms::update_rejoin;
+    panarms_state_table[13].enter = &TObjEnePanarms::enter_spin;
+    panarms_state_table[13].update = &TObjEnePanarms::update_spin;
+}
+
+PanarmsState panarms_state_table[14] = {};
+/* Model nodes the constructor hands to ModelNodePositionCapture::create. */
+ModelNodePositionEntry panarms_model_node_desc[6] = {
+    { 0x35 }, { 0x22 }, { 0x38 }, { 0x46 }, { 0x3b }, { -1 },
+};
+
 s32 TObjEnePanarms::create(saddr setData) {
     return (saddr)new TObjEnePanarms(new TObjControl(tl_04), (void *)setData);
 }
 
 void TObjEnePanarms::load_and_spawn_npc() {
-    BmlResource *resource = new BmlResource(1, (BmlResourceDescriptor *)&lbl_80494F10, 0, 0, NULL);
+    BmlResource *resource = new BmlResource(1, &bm7_s_paa_body_resource_descriptor, 0, 0, NULL);
     TObjEnePanarms__entry_params_resource = resource;
     if (resource != NULL) {
         NpcAnimationBinding binding = panarms_npc_spawn_descriptor;
@@ -291,7 +270,7 @@ TObjEnePanarms::TObjEnePanarms(TObject *parent, void *setData) : TObjEnemy(paren
     set_animation(0);
     set_field_b8(0);
     VecCopy(&body_center, &position);
-    x_speed = y_speed = m_310 = 0.0f;
+    velocity.x = velocity.y = velocity.z = 0.0f;
     move_velocity.x = move_velocity.y = move_velocity.z = 0.0f;
     target = NULL;
     bind_enemy_combat_stats((u8 *)TLobby::register_boss(49), (u8 *)TLobby::dispatch_shared_handler_b(49),
@@ -303,8 +282,8 @@ TObjEnePanarms::TObjEnePanarms(TObject *parent, void *setData) : TObjEnemy(paren
         particle_handles[i] = 0;
     }
     motion_flags &= ~1;
-    m_39c = ModelNodePositionCapture::create(panarms_model_node_desc, draw_positions);
-    m_38c = 1;
+    node_capture = ModelNodePositionCapture::create(panarms_model_node_desc, draw_positions);
+    step_right = 1;
     attack_count = 0;
     max_hp = hp;
     has_split = 0;
@@ -325,21 +304,21 @@ TObjEnePanarms::TObjEnePanarms(TObject *parent, void *setData) : TObjEnemy(paren
     PanarmsSetEntry entry = *(PanarmsSetEntry *)setData;
     entry.unk_0 = set_index + 1;
     entry.unk_6 = entity_id + 1;
-    m_3e4 = create_bara(&entry, 0);
+    halves[0] = create_bara(&entry, 0);
     entry.unk_0 = set_index + 2;
     entry.unk_6 = entity_id + 2;
-    m_3e8 = create_bara(&entry, 1);
-    if (m_3e4 == 0 || m_3e8 == 0) {
+    halves[1] = create_bara(&entry, 1);
+    if (halves[0] == NULL || halves[1] == NULL) {
         return;
     }
-    TObjEnePanarms__sub_800E1C8C((void *)m_3e4, (saddr)this, m_3e8);
-    TObjEnePanarms__sub_800E1C8C((void *)m_3e8, (saddr)this, m_3e4);
+    halves[0]->set_links(this, halves[1]);
+    halves[1]->set_links(this, halves[0]);
 }
 
 TObjEnePanarms::~TObjEnePanarms() {
-    ModelNodePositionCapture::destroy((ModelNodePositionCapture *)*(u8 **)((s8 *)this + 0x39C));
-    ((TObject *)(*(u8 **)((s8 *)this + 0x3E4)))->queue_destruction();
-    ((TObject *)(*(u8 **)((s8 *)this + 0x3E8)))->queue_destruction();
+    ModelNodePositionCapture::destroy(node_capture);
+    halves[0]->queue_destruction();
+    halves[1]->queue_destruction();
     free_collision_body_parts(this);
     this->collision_body_parts = 0;
     this->destroy_handles();
@@ -360,22 +339,22 @@ void TObjEnePanarms::run_task() {
     if (this->state != 0 && TObjPlayer::check_demo_mode() != 0) {
         set_state(0);
     }
-    sub_800DE390();
-    update = lbl_8049515C[this->state].update;
+    check_half_dying();
+    update = panarms_state_table[this->state].update;
     if (update) {
         (this->*update)();
-        if (*(s32 *)&this->m_3dc != 0) {
+        if (this->visible != 0) {
             this->actorFlags &= ~0x02000000;
         } else {
             this->actorFlags |= 0x02000000;
         }
         update_prev_position();
         if (this->state != 0) {
-            if (*(s32 *)&this->m_3dc != 0) {
+            if (this->visible != 0) {
                 submit_cursor_candidate(this, -1);
                 advance_animation();
             }
-            if ((*(s32 *)&this->m_3dc != 0 && this->state != 4) || this->state == 1) {
+            if ((this->visible != 0 && this->state != 4) || this->state == 1) {
                 minimap_render_dot(&this->body_center, -0x5DB4, 1, 0);
             }
         }
@@ -385,7 +364,7 @@ void TObjEnePanarms::run_task() {
 void TObjEnePanarms::render() {
     s32 cam;
     RenderFadeState *fade;
-    s32 draw;
+    s32 draw_now;
     if (this->update_object_view_visibility(500.0f, 20.0f) == 0) {
         return;
     }
@@ -393,42 +372,42 @@ void TObjEnePanarms::render() {
     if (is_split_screen() != 0) {
         cam = TCameraCtrl::get_camera_mode();
     }
-    if (*(s32 *)&this->m_3dc == 0) {
+    if (this->visible == 0) {
         return;
     }
     TObjPlayer::toggle_particle_effect();
     saved_model_render_flags = model_render_flags;
-    fade = &((Obj_800DEF5C *)this)->fades[cam];
+    fade = &this->fades[cam];
     fade->update();
     if (fade->updateFromCamera(&this->body_center.x) != 0) {
-        ((VFade_800DEF5C *)fade)->begin_draw();
-        draw = 1;
+        fade->set_flags_and_apply_damage_color();
+        draw_now = 1;
         if (defer_render() != 0) {
-            draw = 0;
+            draw_now = 0;
         }
-        if (draw != 0) {
-            TObjEnePanarms__sub_800DEEF8(this);
+        if (draw_now != 0) {
+            draw();
         }
-        ((VFade_800DEF5C *)fade)->end_draw();
+        fade->clear_flag_and_notify();
     } else {
         model_render_flags |= 0x01000000;
-        TObjEnePanarms__sub_800DEEF8(this);
+        draw();
     }
     model_render_flags = saved_model_render_flags;
     TParticleCtrl::end_effect_render();
-    if (*(s32 *)&this->unk_3E0 != 0) {
+    if (this->shadow_visible != 0) {
         draw_shadow();
     }
 }
 
-void TObjEnePanarms__sub_800DEEF8(TObjEnePanarms *self) {
+void TObjEnePanarms::draw() {
     push_matrix();
-    post_translate_matrix(&self->position.x);
-    rotate_matrix_y(NULL, self->rotation_y);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(self->texlist));
-    self->m_39c->install();
-    ((TObjMotion *)self)->draw();
-    self->m_39c->clear();
+    post_translate_matrix(&position.x);
+    rotate_matrix_y(NULL, rotation_y);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+    node_capture->install();
+    TObjMotion::draw();
+    node_capture->clear();
     pop_matrix();
 }
 
@@ -437,20 +416,20 @@ void TObjEnePanarms__sub_800DEEF8(TObjEnePanarms *self) {
 #pragma opt_common_subs off
 void TObjEnePanarms::draw_shadow() {
     Vec v;
-    s32 spC;
-    s32 sp8;
+    s32 angle_x;
+    s32 angle_z;
     f32 d;
     f32 k;
     f32 t;
 
-    if (!(*(f32 *)&this->unk_384 > 19.800001f + *(f32 *)((s8 *)((u8 *)this) + 0x3C))) {
+    if (!(this->ground_y > 19.800001f + this->position.y)) {
         push_matrix();
-        translate_matrix(0, 0.25f * *(f32 *)((s8 *)((u8 *)this) + 0x38) + 0.75f * draw_positions[0].x, 0.2f + *(f32 *)&this->unk_384, 0.25f * *(f32 *)((s8 *)((u8 *)this) + 0x40) + 0.75f * draw_positions[0].z);
-        direction_to_rotation_xz(((u8 *)this) + 0x248, &spC, &sp8);
-        rotate_matrix_z(0, sp8);
+        translate_matrix(0, 0.25f * this->position.x + 0.75f * draw_positions[0].x, 0.2f + this->ground_y, 0.25f * this->position.z + 0.75f * draw_positions[0].z);
+        direction_to_rotation_xz((u8 *)&ground_normal, &angle_x, &angle_z);
+        rotate_matrix_z(0, angle_z);
         rotate_matrix_y(NULL, rotation_y);
-        rotate_matrix_x(0, spC + 0x4000);
-        d = *(f32 *)((s8 *)((u8 *)this) + 0x3C) - *(f32 *)&this->unk_384;
+        rotate_matrix_x(0, angle_x + 0x4000);
+        d = this->position.y - this->ground_y;
         if (d > 40.0f) {
             d = 40.0f;
         } else if (d < 0.0f) {
@@ -475,23 +454,23 @@ void TObjEnePanarms::set_state(s32 next) {
         return;
     }
     destroy_handles();
-    PanarmsStateFn enter = lbl_8049515C[this->state].enter;
+    PanarmsStateFn enter = panarms_state_table[this->state].enter;
     if (enter) {
         (this->*enter)();
     }
 }
 
 void TObjEnePanarms::snap_to_ground() {
-    Vec v = ((Obj_800DECC4 *)this)->pos;
+    Vec v = position;
     v.y += 10.0f;
-    if (project_actor_to_ground(this, (Vec *)&v, (saddr)((Obj_800DECC4 *)this)->f248) != 0) {
-        ((Obj_800DECC4 *)this)->f384 = v.y;
+    if (project_actor_to_ground(this, &v, &ground_normal) != 0) {
+        ground_y = v.y;
     }
 }
 
 #pragma push
 #pragma fp_contract on
-s32 try_warp_to_position__14TObjEnePanarmsFPvPv(u8 *player, Vec *pos) {
+s32 TObjEnePanarms::try_warp_to_position(Vec *pos) {
     s32 ok;
     s32 i;
     s32 ang;
@@ -502,20 +481,20 @@ s32 try_warp_to_position__14TObjEnePanarmsFPvPv(u8 *player, Vec *pos) {
     Vec p;
     Vec hit;
     ok = 0;
-    if (!(horizontal_distance_squared(player + 0x38, player + 0x50) > 250000.0f)) {
-        VecCopy((Vec *)&d, (const Vec *)pos);
-        subtract_vector(&d, player + 0x38);
+    if (!(horizontal_distance_squared(&position, &home_position) > 250000.0f)) {
+        VecCopy(&d, pos);
+        subtract_vector(&d, &position);
         if (0.0f != vector_length(&d)) {
             i = 1;
             do {
-                VecCopy((Vec *)&p, (const Vec *)(player + 0x38));
+                VecCopy(&p, &position);
                 vec3_add_to(&p, &d);
                 p.y += 10.0f;
-                if (((s32 (*)(void *, void *, void *))project_actor_to_ground)(player, &p, &hit) != 0 && csnLookAt(player + 0x38, &p) == 0) {
-                    VecCopy((Vec *)(player + 0x44), (const Vec *)(player + 0x38));
-                    VecCopy((Vec *)(player + 0x38), (const Vec *)&p);
-                    *(f32 *)((s8 *)player + 0x384) = p.y;
-                    VecCopy((Vec *)(player + 0x248), (const Vec *)&hit);
+                if (project_actor_to_ground(this, &p, &hit) != 0 && csnLookAt(&position, &p) == 0) {
+                    VecCopy(&prev_position, &position);
+                    VecCopy(&position, &p);
+                    ground_y = p.y;
+                    VecCopy(&ground_normal, &hit);
                     ok = 1;
                     break;
                 }
@@ -532,12 +511,12 @@ s32 try_warp_to_position__14TObjEnePanarmsFPvPv(u8 *player, Vec *pos) {
             } while (i < 0x10);
         }
     }
-    ((TObjPlayer *)player)->update_collisions();
+    update_collisions();
     return ok;
 }
 #pragma pop
 
-u16 TObjEnePanarms::turn_to_nearest_player(s32 arg1, s32 mode) {
+u16 TObjEnePanarms::turn_to_nearest_player(s32 max_step, s32 mode) {
     Vec sp;
     s32 t;
     s32 var;
@@ -546,77 +525,75 @@ u16 TObjEnePanarms::turn_to_nearest_player(s32 arg1, s32 mode) {
             var = 0;
         } else {
             var = -0x1800;
-            if (((Obj_800DEA88 *)this)->f38C == 1) {
+            if (step_right == 1) {
                 var *= -1;
             }
         }
-        ((Obj_800DEA88 *)this)->f60 = approach_angle_limited(((Obj_800DEA88 *)this)->f60, var + (s32) (10430.38043493439 * atan2_float(sp.x, sp.z)), arg1);
+        rotation_y = approach_angle_limited(rotation_y, var + (s32) (10430.38043493439 * atan2_float(sp.x, sp.z)), max_step);
     }
     return t;
 }
 
-void TObjEnePanarms::turn_toward_target(s32 arg1) {
+void TObjEnePanarms::turn_toward_target(s32 max_step) {
     Vec sp;
     if (this->find_nearest_enemy_with_flag(&sp, (f32)500.0f) == 0xFFFF) {
-        if (((Obj_800DE9F0 *)this)->f1C & 1) {
-            arg1 *= -1;
+        if (entity_id & 1) {
+            max_step *= -1;
         }
-        ((Obj_800DE9F0 *)this)->f60 = ((Obj_800DE9F0 *)this)->f60 + arg1;
+        rotation_y = rotation_y + max_step;
         return;
     }
-    ((Obj_800DE9F0 *)this)->f60 = approach_angle_limited(((Obj_800DE9F0 *)this)->f60, (s32) (10430.38043493439 * atan2_float(sp.x, sp.z)), arg1);
+    rotation_y = approach_angle_limited(rotation_y, (s32) (10430.38043493439 * atan2_float(sp.x, sp.z)), max_step);
 }
 
 #pragma push
 #pragma opt_common_subs off
-#define arg0 ((u8 *)p)
-s32 TObjEnePanarms::find_combine_position(void *p) {
-    Vec sp14;
-    Vec sp8;
+s32 TObjEnePanarms::find_combine_position() {
+    Vec probe;
+    Vec step;
     f32 dist;
     f32 t;
-    VecCopy((Vec *)&sp14, (const Vec *)(*(u8 **)((s8 *)arg0 + 0x3E4) + 0x38));
-    vec3_add_to(&sp14, *(u8 **)((s8 *)arg0 + 0x3E8) + 0x38);
-    sp14.x *= 0.5f;
-    sp14.y *= 0.5f;
-    sp14.z *= 0.5f;
-    VecCopy((Vec *)&sp8, (const Vec *)(arg0 + 0x38));
-    subtract_vector(&sp8, &sp14);
-    dist = vector_length(&sp8);
+    VecCopy(&probe, &halves[0]->position);
+    vec3_add_to(&probe, &halves[1]->position);
+    probe.x *= 0.5f;
+    probe.y *= 0.5f;
+    probe.z *= 0.5f;
+    VecCopy(&step, &position);
+    subtract_vector(&step, &probe);
+    dist = vector_length(&step);
     if (dist >= 10.0f) {
-        normalize_vector(&sp8);
-        sp8.x *= 10.0f;
-        sp8.y *= 10.0f;
-        sp8.z *= 10.0f;
+        normalize_vector(&step);
+        step.x *= 10.0f;
+        step.y *= 10.0f;
+        step.z *= 10.0f;
     }
     t = 0.0f;
     while (t < dist) {
-        sp14.y += 10.0f;
-        if (project_actor_to_ground((TObjChara *)arg0, (Vec *)&sp14, 0) != 0 &&
-            TObjEnePanarms__sub_800DE528(arg0, (Vec *) &sp14) != 0 &&
-            check_ground_along_path__14TObjEnePanarmsFPvPvPvff(arg0, (Vec *) (*(u8 **)((s8 *)arg0 + 0x3E4) + 0x38), (Vec *) &sp14, 10.0f, 10.0f) != 0 &&
-            check_ground_along_path__14TObjEnePanarmsFPvPvPvff(arg0, (Vec *) (*(u8 **)((s8 *)arg0 + 0x3E8) + 0x38), (Vec *) &sp14, 10.0f, 10.0f) != 0) {
-            u8 *a;
-            u8 *b;
-            VecCopy((Vec *)(arg0 + 0x38), (const Vec *)&sp14);
-            a = *(u8 **)((s8 *)arg0 + 0x3E4);
-            b = *(u8 **)((s8 *)arg0 + 0x3E8);
-            ((TObjEnePanarms *)arg0)->rotation_y = (s32) (10430.38043493439 * atan2_float(
-                *(f32 *)((s8 *)b + 0x38) - *(f32 *)((s8 *)a + 0x38),
-                *(f32 *)((s8 *)b + 0x40) - *(f32 *)((s8 *)a + 0x40))) + 0x4000;
+        probe.y += 10.0f;
+        if (project_actor_to_ground(this, &probe, 0) != 0 &&
+            has_ground_around(&probe) != 0 &&
+            check_ground_along_path(&halves[0]->position, &probe, 10.0f, 10.0f) != 0 &&
+            check_ground_along_path(&halves[1]->position, &probe, 10.0f, 10.0f) != 0) {
+            TObjEnePanBARA *left;
+            TObjEnePanBARA *right;
+            VecCopy(&position, &probe);
+            left = halves[0];
+            right = halves[1];
+            rotation_y = (s32) (10430.38043493439 * atan2_float(
+                right->position.x - left->position.x,
+                right->position.z - left->position.z)) + 0x4000;
             return 1;
         }
         t += 10.0f;
-        vec3_add_to(&sp14, &sp8);
+        vec3_add_to(&probe, &step);
     }
     return 0;
 }
-#undef arg0
 #pragma pop
 
-s32 check_ground_along_path__14TObjEnePanarmsFPvPvPvff(void *actor, Vec *arg1, Vec *arg2, f32 step, f32 dy) {
-    Vec p = *arg1;
-    Vec d = *arg2;
+s32 TObjEnePanarms::check_ground_along_path(Vec *from, Vec *to, f32 step, f32 rise) {
+    Vec p = *from;
+    Vec d = *to;
     f32 len;
     f32 t;
     subtract_vector(&d, &p);
@@ -629,8 +606,8 @@ s32 check_ground_along_path__14TObjEnePanarmsFPvPvPvff(void *actor, Vec *arg1, V
     d.y *= step;
     d.z *= step;
     for (t = 0.0f; t < len; ) {
-        p.y += dy;
-        if (project_actor_to_ground((TObjChara *)actor, (Vec *)&p, 0) == 0) {
+        p.y += rise;
+        if (project_actor_to_ground(this, &p, 0) == 0) {
             return 0;
         }
         t += step;
@@ -641,24 +618,24 @@ s32 check_ground_along_path__14TObjEnePanarmsFPvPvPvff(void *actor, Vec *arg1, V
 
 #pragma push
 #pragma fp_contract on
-s32 TObjEnePanarms__sub_800DE528(void *arg0, Vec *arg1) {
+s32 TObjEnePanarms::has_ground_around(Vec *pos) {
     Vec v;
     f32 r;
     s32 step;
     s32 a;
-    VecCopy((Vec *)&v, (const Vec *)arg1);
+    VecCopy(&v, pos);
     v.y += 10.0f;
-    if (project_actor_to_ground((TObjChara *)arg0, (Vec *)&v, 0) == 0) {
+    if (project_actor_to_ground(this, &v, 0) == 0) {
         return 0;
     }
     for (r = 10.0f; r <= 20.0f; r += 10.0f) {
         step = (s32)(655360.0f / (6.28f * r));
         for (a = 0; a < 0x10000; a += step) {
-            VecCopy((Vec *)&v, (const Vec *)arg1);
+            VecCopy(&v, pos);
             v.x += r * sin_table_lookup(a);
             v.y += 10.0f;
             v.z += r * cos_table_lookup(a);
-            if (project_actor_to_ground((TObjChara *)arg0, (Vec *)&v, 0) == 0) {
+            if (project_actor_to_ground(this, &v, 0) == 0) {
                 return 0;
             }
         }
@@ -669,13 +646,13 @@ s32 TObjEnePanarms__sub_800DE528(void *arg0, Vec *arg1) {
 
 #pragma push
 #pragma opt_loop_invariants off
-s32 TObjEnePanarms__sub_800DE494(void *self) {
+s32 TObjEnePanarms::is_far_from_players() {
     s32 i;
     f32 best = 250000.0f;
     for (i = 0; i < registered_player_count; i++) {
         TObjPlayer *player = TObjPlayer::get_player_data(i);
         if (player != NULL) {
-            f32 d = horizontal_distance_squared((u8 *)self + 0x38, (u8 *)player + 0x2FC);
+            f32 d = horizontal_distance_squared(&position, &player->body_center);
             if (d < best) {
                 best = d;
             }
@@ -688,15 +665,14 @@ s32 TObjEnePanarms__sub_800DE494(void *self) {
 }
 #pragma pop
 
-void TObjEnePanarms__sub_800DE430(saddr self, s32 arg1, s32 arg2) {
-    Vec position;
-    VecCopy((Vec *)(&position.x), (const Vec *)(self + 0x2FC));
-    position.y += 10.0f;
-    create_particle_controller_with_rotation(&position, (ParticleAngles *)(self + 0x5C), 0x106, arg1, arg2);
+void TObjEnePanarms::spawn_split_effect(s32 a, s32 b) {
+    Vec origin;
+    VecCopy(&origin, &body_center);
+    origin.y += 10.0f;
+    create_particle_controller_with_rotation(&origin, (ParticleAngles *)&rotation_x, 0x106, a, b);
 }
 
-s32 TObjEnePanarms::sub_800DE390() {
-    Obj_800DE390 *self = (Obj_800DE390 *)this;
+s32 TObjEnePanarms::check_half_dying() {
     switch (this->state) {
     case 0:
     case 1:
@@ -706,58 +682,52 @@ s32 TObjEnePanarms::sub_800DE390() {
     case 11:
         return 0;
     default:
-        if (TObjEnePanarms__sub_800DFB44(this->m_3e4) != 0 || TObjEnePanarms__sub_800DFB44(this->m_3e8) != 0) {
-            ((TObjEnePanarms *)self)->set_state((saddr)((void*)((void *)10)));
+        if (this->halves[0]->is_dying() != 0 || this->halves[1]->is_dying() != 0) {
+            set_state(10);
             return 1;
         }
         return 0;
     }
 }
 
-void TObjEnePanarms::run_death_reaction() { if (this->state != 4) { set_state((saddr)((void*)((void*)4))); } }
+void TObjEnePanarms::run_death_reaction() { if (this->state != 4) { set_state(4); } }
 
 void TObjEnePanarms::run_hit_reaction() {
-    Obj_800DE2D0 *self = (Obj_800DE2D0 *)this;
-    switch (self->f374) {
+    switch (state) {
     case 1:
     case 2:
         return;
     default:
-        self->f30 &= 0xFFFFFDFF;
-        play_sound_effect((s32)(((int)((TObjEnemy *)(self))->remap_sound_for_area(0x4003BC34))), self->f3AC, 0, 0);
-        play_sound_effect((s32)(((int)((TObjEnemy *)(self))->remap_sound_for_area(0x4003BC33))), self->f3C4, 0, 0);
+        actorFlags &= 0xFFFFFDFF;
+        play_sound_effect(remap_sound_for_area(0x4003BC34), &draw_positions[1], 0, 0);
+        play_sound_effect(remap_sound_for_area(0x4003BC33), &draw_positions[3], 0, 0);
         break;
     }
 }
 
 void TObjEnePanarms::run_miss_reaction() { this->actorFlags &= 0xfffffeff; }
 
-void TObjEnePanarms::enter_idle() { *(s32 *)((s8 *)this + 0x3E0) = 1; *(s32 *)((s8 *)this + 0x3DC) = 1; }
+void TObjEnePanarms::enter_idle() { this->shadow_visible = 1; this->visible = 1; }
 
-void TObjEnePanarms::try_activate() { if (TObjPlayer::check_demo_mode() == 0) { set_state((saddr)((void*)((void*)1))); } }
+void TObjEnePanarms::try_activate() { if (TObjPlayer::check_demo_mode() == 0) { set_state(1); } }
 
 void TObjEnePanarms::enter_wait_hidden() {
-    u8 *temp_r4;
-    u8 *temp_r4_2;
-
-    VecCopy((Vec *)((u8 *)this + 0x38), (const Vec *)((u8 *)this + 0x50));
+    VecCopy(&this->position, &this->home_position);
     this->snap_to_ground();
-    *(f32 *)((s8 *)this + 0x3C) = (f32) (-39.600002f + *(f32 *)((s8 *)this + 0x384));
+    this->position.y = (f32) (-39.600002f + this->ground_y);
     obj_setFlags30(this, 0x04040000);
-    temp_r4 = (unsigned char *) (*(void **)((s8 *)this + 0x390));
-    *(s32 *)((s8 *)temp_r4 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r4 + 0x18) & 0xFFFFFFFE);
-    temp_r4_2 = (unsigned char *) (*(void **)((s8 *)this + 0x390));
-    *(s32 *)((s8 *)temp_r4_2 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r4_2 + 0x18) | 0x08000000);
-    *(s32 *)((s8 *)this + 0x3E0) = 0;
-    *(s32 *)((s8 *)this + 0x3DC) = 0;
-    this->m_388 = (s32) this->wait_frames;
+    this->collision_body_parts->flags &= ~1;
+    this->collision_body_parts->flags |= 0x08000000;
+    this->shadow_visible = 0;
+    this->visible = 0;
+    this->state_timer = this->wait_frames;
 }
 
 void TObjEnePanarms::update_wait_hidden() {
     Vec sp;
     s32 r = 0;
     s32 t;
-    if (--this->m_388 < 0) {
+    if (--this->state_timer < 0) {
         r = 1;
     } else if ((t = find_nearest_visible_player(this, &sp, (f32) this->search_range)) != 0xFFFF) {
         this->rotation_y = (s32) (10430.38043493439 * atan2_float(sp.x, sp.z));
@@ -768,78 +738,72 @@ void TObjEnePanarms::update_wait_hidden() {
     }
 }
 
-void TObjEnePanarms::set_hidden_flags() {
-    u8 *temp_r5;
+void TObjEnePanarms::enter_rise() {
     this->move_velocity.x = 0.0f;
     this->move_velocity.y = 7.5f;
     this->move_velocity.z = 0.0f;
-    *(s32 *)&this->unk_3E0 = 1;
-    *(s32 *)&this->m_3dc = 1;
-    temp_r5 = (u8 *)this->collision_body_parts;
-    *(s32 *)((s8 *)temp_r5 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r5 + 0x18) & 0xFFFFFFFE);
+    this->shadow_visible = 1;
+    this->visible = 1;
+    this->collision_body_parts->flags &= ~1;
     obj_clearFlags30(0x40000U);
     obj_setFlags30(this, (int)(0x04000000U));
 }
 
-void TObjEnePanarms::update_fall() {
-    u8 *self = (u8 *)this;
-  Stack_800DDFDC stack;
+void TObjEnePanarms::update_rise() {
+  Vec v;
   this->move_velocity.y += -0.5f;
-  vec3_add_to((u8 *)&this->position, (u8 *)&this->move_velocity);
-  if ((*((f32 *) (((s8 *) self) + 0x37C))) <= 0.0f)
+  vec3_add_to(&this->position, &this->move_velocity);
+  if (this->move_velocity.y <= 0.0f)
   {
-    ;
-    if ((*((f32 *) (((s8 *) self) + 0x3C))) <= (*((f32 *) (((s8 *) self) + 0x384))))
+    if (this->position.y <= this->ground_y)
     {
-      *((f32 *) (((s8 *) self) + 0x3C)) = *((f32 *) (((s8 *) self) + 0x384));
+      this->position.y = this->ground_y;
       spawn_particle_effect(&this->position, 0xF0);
-      set_state((saddr)((void*)(3)));
+      set_state(3);
       return;
     }
   }
-  this->m_388 = (s32) ((this->m_388) + 1);
-  if ((!((this->m_388) & 7)) && ((*((f32 *) (((s8 *) self) + 0x37C))) > 0.0f))
+  this->state_timer++;
+  if ((!(this->state_timer & 7)) && (this->move_velocity.y > 0.0f))
   {
-    VecCopy((Vec *)(&stack.sp8), (const Vec *)(self + 0x2FC));
-    stack.spC = 5.0f + (*((f32 *) (((s8 *) self) + 0x384)));
-    spawn_particle_effect((const Vec *)&stack.sp8, 0xF0);
+    VecCopy(&v, &this->body_center);
+    v.y = 5.0f + this->ground_y;
+    spawn_particle_effect(&v, 0xF0);
   }
 }
 
 void TObjEnePanarms::enter_move() {
-    s16 var_r30;
-    switch (this->m_38c) {
+    s16 action;
+    switch (this->step_right) {
     case 0:
-        this->m_38c = 1;
-        var_r30 = 2;
+        this->step_right = 1;
+        action = 2;
         break;
     case 1:
-        this->m_38c = 0;
-        var_r30 = 1;
+        this->step_right = 0;
+        action = 1;
         break;
     default:
         return;
     }
     this->move_count += 1;
-    *(u32 *)((s8 *)(*(u8 **)((s8 *)this + 0x390)) + 0x18) &= ~0x08000000;
-    *(u32 *)((s8 *)(*(u8 **)((s8 *)this + 0x390)) + 0x18) |= 1;
+    this->collision_body_parts->flags &= ~0x08000000;
+    this->collision_body_parts->flags |= 1;
     this->obj_clearFlags30(0x04040000);
-    this->m_388 = (s32) (49.999996f * (f32) ((s32) (1.99f * random_ratio()) + 1));
-    set_field_b8((s16)var_r30);
+    this->state_timer = (s32) (49.999996f * (f32) ((s32) (1.99f * random_ratio()) + 1));
+    set_field_b8((s16)action);
 }
 
 #pragma push
 #pragma fp_contract on
-struct Obj_800DE9F0;
-struct Obj_800DEA88;
 void TObjEnePanarms::update_move() {
     f32 s;
     if (this->frame >= 0.0f && this->frame <= 12.0f) {
         s32 mode = 1;
-        if ((f32)this->m_388 < 49.999996f) {
+        if ((f32)this->state_timer < 49.999996f) {
             mode = 0;
         }
-        if (TObjEnePanarms__sub_800DFBC4(this) != 0) {
+        if (get_state_flag() != 0) {
             turn_toward_target(0x100);
         } else {
             turn_to_nearest_player(0x100, mode);
@@ -853,34 +817,34 @@ void TObjEnePanarms::update_move() {
     if (s > 0.0f) {
         Vec pos = this->position;
         f32 r = 1.5f * s;
-        if (this->m_38c == 1) {
+        if (this->step_right == 1) {
             r *= -1.0f;
         }
         pos.x += r * cos_table_lookup(this->rotation_y);
         pos.z += -r * sin_table_lookup(this->rotation_y);
-        try_warp_to_position__14TObjEnePanarmsFPvPv((u8 *)this, (Vec *)&pos);
+        try_warp_to_position(&pos);
     }
-    if (TObjEnePanarms__sub_800DFBC4(this) == 0) {
-        if (TObjEnePanarms__sub_800DE494(this) != 0) {
+    if (get_state_flag() == 0) {
+        if (is_far_from_players() != 0) {
             set_state(1);
             return;
         }
         if (this->has_split == 0 && this->hp <= this->max_hp / 3 &&
-            TObjEnePanarms__sub_800DE528(this, (Vec *)&this->position) != 0) {
+            has_ground_around(&this->position) != 0) {
             set_state(9);
             return;
         }
     }
-    if (--this->m_388 > 0) {
+    if (--this->state_timer > 0) {
         return;
     }
-    if (TObjEnePanarms__sub_800DFBC4(this) == 0 && this->move_count >= 3 &&
-        TObjEnePanarms__sub_800DE528(this, (Vec *)&this->position) != 0) {
+    if (get_state_flag() == 0 && this->move_count >= 3 &&
+        has_ground_around(&this->position) != 0) {
         this->move_count = 0;
         set_state(9);
         return;
     }
-    switch (this->m_38c) {
+    switch (this->step_right) {
     case 0:
         this->attack_count++;
         this->spin_count = 0;
@@ -898,8 +862,8 @@ void TObjEnePanarms::update_move() {
 void TObjEnePanarms::enter_dead() {
     s16 st;
     Vec v;
-    this->m_388 = 0xA4;
-    ((TObjPlayer *)this)->refresh_lobby_state();
+    this->state_timer = 0xA4;
+    refresh_lobby_state();
     this->send_entity_set_flags();
     st = 5;
     if (find_nearest_visible_player(this, &v, 200.0f) != 0xFFFF) {
@@ -908,21 +872,21 @@ void TObjEnePanarms::enter_dead() {
         }
     }
     set_field_b8((s16)st);
-    play_sound_effect(this->remap_sound_for_area(0x4003B836), (u8 *)this + 0x3AC, 0, 0);
-    play_sound_effect(this->remap_sound_for_area(0x4003BB35), (u8 *)this + 0x3C4, 0, 0);
-    if (*(s32 *)((s8 *)this + 0x3DC) != 0) {
-        if (TObjEnePanarms__sub_800DFB44(this->m_3e4) == 0) {
-            ((TObjEnePanBARA *)(this->m_3e4))->reset_split();
+    play_sound_effect(this->remap_sound_for_area(0x4003B836), &this->draw_positions[1], 0, 0);
+    play_sound_effect(this->remap_sound_for_area(0x4003BB35), &this->draw_positions[3], 0, 0);
+    if (this->visible != 0) {
+        if (this->halves[0]->is_dying() == 0) {
+            this->halves[0]->reset_split();
         }
-        if (TObjEnePanarms__sub_800DFB44(this->m_3e8) == 0) {
-            ((TObjEnePanBARA *)(this->m_3e8))->reset_split();
+        if (this->halves[1]->is_dying() == 0) {
+            this->halves[1]->reset_split();
         }
     } else {
-        if (TObjEnePanarms__sub_800DFB44(this->m_3e4) == 0) {
-            TObjEnePanarms__sub_800E1D38((void *)this->m_3e4);
+        if (this->halves[0]->is_dying() == 0) {
+            this->halves[0]->die_with_body();
         }
-        if (TObjEnePanarms__sub_800DFB44(this->m_3e8) == 0) {
-            TObjEnePanarms__sub_800E1D38((void *)this->m_3e8);
+        if (this->halves[1]->is_dying() == 0) {
+            this->halves[1]->die_with_body();
         }
     }
 }
@@ -933,187 +897,167 @@ void TObjEnePanarms::enter_dead() {
 #pragma opt_propagation off
 #pragma fp_contract on
 void TObjEnePanarms::update_dead() {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800DD9A0, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_800DD9A0, spC) == 0x4);
-    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_800DD9A0, sp10) == 0x8);
-    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_800DD9A0, sp14) == 0xC);
-    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_800DD9A0, sp18) == 0x10);
-    Stack_800DD9A0 stack;
-    f32 temp_f2;
-    s32 temp_r0;
-    this->m_388 = (this->m_388 - 1);
-    // inferred name: twin of panarms_particle_frame_window in TObjEnePanBARA::sub_800E0950
+    Vec dust;
+    Vec spot;
+    f32 motion_frame;
+    s32 timer;
+    this->state_timer = (this->state_timer - 1);
+    // inferred name: twin of panarms_particle_frame_window in TObjEnePanBARA::update_dead
     static f32 panarms_dead_particle_frame_window = panarms_motion_param_table[4].speed;
-    temp_f2 = this->frame;
-    if ((temp_f2 >= 21.0f) && (temp_f2 < (21.0f + panarms_dead_particle_frame_window))) {
-        VecCopy((Vec *)(&stack.sp14), (const Vec *)((u8 *)this + 0x2FC));
-        stack.sp18 += 5.0f;
-        spawn_particle_effect((const Vec *)&stack.sp14, 0xF0);
+    motion_frame = this->frame;
+    if ((motion_frame >= 21.0f) && (motion_frame < (21.0f + panarms_dead_particle_frame_window))) {
+        VecCopy(&dust, &this->body_center);
+        dust.y += 5.0f;
+        spawn_particle_effect(&dust, 0xF0);
     }
-    temp_r0 = this->m_388;
-    if (temp_r0 <= 0x78) {
-        if (temp_r0 == 0x78) {
-            stack.sp8 = (0.5f * this->position.x) + (0.5f * *(f32 *)((s8 *)this + 0x3A0));
-            stack.spC = this->position.y;
-            stack.sp10 = (0.5f * this->position.z) + (0.5f * *(f32 *)((s8 *)this + 0x3A8));
-            ((TObjPlayer *)(&stack.sp8))->spawn_ground_effect(0x78);
-            TObjPlayer::spawn_dead_spot_default((saddr)((void *)&stack.sp8), 6);
+    timer = this->state_timer;
+    if (timer <= 0x78) {
+        if (timer == 0x78) {
+            spot.x = (0.5f * this->position.x) + (0.5f * draw_positions[0].x);
+            spot.y = this->position.y;
+            spot.z = (0.5f * this->position.z) + (0.5f * draw_positions[0].z);
+            spawn_ground_effect(&spot, 0x78);
+            TObjPlayer::spawn_dead_spot_default((saddr)&spot, 6);
         }
-        if ((s32) this->m_388 == 0x5A) {
-            *(s32 *)((s8 *)this + 0x3E0) = 0;
+        if (this->state_timer == 0x5A) {
+            this->shadow_visible = 0;
         }
         this->position.y = (f32) (this->position.y - 0.104166664f);
-        if ((s32) this->m_388 <= 0) {
+        if (this->state_timer <= 0) {
             queue_destruction();
         }
     }
 }
 #pragma pop
 
-void TObjEnePanarms::set_state_flags_6() {
-    u8 *temp_r5;
-    temp_r5 = (u8 *)this->collision_body_parts;
-    *(s32 *)((s8 *)temp_r5 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r5 + 0x18) | 1);
+void TObjEnePanarms::enter_charge_beam_up() {
+    this->collision_body_parts->flags |= 1;
     obj_clearFlags30(0x04040000U);
     set_field_b8(6);
 }
 
-void TObjEnePanarms::update_particle_emitters_set2() {
+void TObjEnePanarms::update_charge_beam_up() {
     s32 i;
-    if (((Obj_800DD8AC *)this)->fc0 >= 10.0f) {
+    if (frame >= 10.0f) {
         for (i = 0; i < 2; i++) {
-            u32 *it = &((Obj_800DD8AC *)this)->items[i];
-            if (*it == 0) {
-                *it = (uaddr)create_particle_emitter(&((Obj_800DD8AC *)this)->subs[lbl_8043CCFC[i]], lbl_8043CCF4[i]);
+            TParticleCtrl **handle = &particle_handles[i];
+            if (*handle == NULL) {
+                *handle = create_particle_emitter(&draw_positions[panarms_beam_up_charge_points[i]], panarms_beam_up_charge_effects[i]);
             }
         }
     }
-    if (((Obj_800DD8AC *)this)->flags & 0x10) {
+    if (motion_flags & 0x10) {
         set_state(6);
     }
 }
 
-void TObjEnePanarms::enter_arm_attack_0() {
-    s32 buffer_14[3];
+void TObjEnePanarms::enter_beam_up() {
+    s32 angles[3];
     Vec direction;
-    s32 temp_r6;
-    u8 *temp_r5;
-    temp_r5 = (u8 *)(*(u8 **)((s8 *)this + 0x390));
-    *(s32 *)((s8 *)temp_r5 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r5 + 0x18) | 1);
+    s32 angle;
+    this->collision_body_parts->flags |= 1;
     this->obj_clearFlags30(0x04040000U);
-    temp_r6 = this->rotation_y + 0x4000;
-    buffer_14[1] = 0;
-    buffer_14[0] = temp_r6;
-    buffer_14[2] = 0x4000;
-    *(s32 *)((s8 *)this + 0x394) = spawn_continuous_particle_with_direction(&draw_positions[2], &buffer_14[0], 0x105, temp_r6);
+    angle = this->rotation_y + 0x4000;
+    angles[1] = 0;
+    angles[0] = angle;
+    angles[2] = 0x4000;
+    particle_handles[0] = (TParticleCtrl *)spawn_continuous_particle_with_direction(&draw_positions[2], angles, 0x105);
     direction.y = 0.0f;
     direction.x = sin_table_lookup(this->rotation_y);
     direction.z = cos_table_lookup(this->rotation_y);
-    ((TObjEnePanarmsAtkColli *)this)->create(&draw_positions[2], &direction, (void *)0);
+    TObjEnePanarmsAtkColli::create(this, &draw_positions[2], &direction, 0);
     set_field_b8(7);
-    this->m_388 = 0x5A;
+    this->state_timer = 0x5A;
 }
 
-void TObjEnePanarms::update_destroy_child() {
-    s32 temp_r0;
-    TParticleCtrl *temp_r3;
+void TObjEnePanarms::update_beam_up() {
+    TParticleCtrl *handle;
     if (this->frame >= 5.0f) {
-        temp_r3 = this->particle_handles[0];
-        if (temp_r3 != NULL) {
-            TParticleCtrl::release(temp_r3);
+        handle = this->particle_handles[0];
+        if (handle != NULL) {
+            TParticleCtrl::release(handle);
             this->particle_handles[0] = NULL;
         }
     }
-    temp_r0 = this->m_388 - 1;
-    this->m_388 = temp_r0;
-    if (temp_r0 <= 0) {
-        set_state((saddr)((void*)(3)));
+    if (--this->state_timer <= 0) {
+        set_state(3);
     }
 }
 
-void TObjEnePanarms::set_flags_and_field_b8() {
-    u8 *temp_r5;
-    temp_r5 = (u8 *)this->collision_body_parts;
-    *(s32 *)((s8 *)temp_r5 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r5 + 0x18) | 1);
+void TObjEnePanarms::enter_charge_beam_down() {
+    this->collision_body_parts->flags |= 1;
     obj_clearFlags30(0x04040000U);
     set_field_b8(8);
 }
 
-void TObjEnePanarms::update_particle_emitters() {
+void TObjEnePanarms::update_charge_beam_down() {
     s32 i;
-    if (((Obj_800DD690 *)this)->fc0 >= 10.0f) {
+    if (frame >= 10.0f) {
         for (i = 0; i < 2; i++) {
-            u32 *slot = &((Obj_800DD690 *)this)->items[i];
-            if (*slot == 0) {
-                *slot = (uaddr)create_particle_emitter(&((Obj_800DD690 *)this)->subs[lbl_8043CD0C[i]], lbl_8043CD04[i]);
+            TParticleCtrl **handle = &particle_handles[i];
+            if (*handle == NULL) {
+                *handle = create_particle_emitter(&draw_positions[panarms_beam_down_charge_points[i]], panarms_beam_down_charge_effects[i]);
             }
         }
     }
-    if (((Obj_800DD690 *)this)->flags & 0x10) {
+    if (motion_flags & 0x10) {
         set_state(8);
     }
 }
 
-void TObjEnePanarms::enter_arm_attack_1() {
-    s32 buffer_14[3];
+void TObjEnePanarms::enter_beam_down() {
+    s32 angles[3];
     Vec direction;
-    s32 temp_r6;
-    u8 *temp_r5;
-    temp_r5 = (u8 *)(*(u8 **)((s8 *)this + 0x390));
-    *(s32 *)((s8 *)temp_r5 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r5 + 0x18) | 1);
+    s32 angle;
+    this->collision_body_parts->flags |= 1;
     this->obj_clearFlags30(0x04040000U);
-    spawn_directional_particle((&draw_positions[4]), ((u8 *)this + 0x5C), 0x109);
-    temp_r6 = this->rotation_y - 0x4000;
-    buffer_14[1] = 0;
-    buffer_14[0] = temp_r6;
-    buffer_14[2] = 0x4000;
-    *(s32 *)((s8 *)this + 0x394) = spawn_continuous_particle_with_direction(&draw_positions[4], &buffer_14[0], 0x108, temp_r6);
+    spawn_directional_particle(&draw_positions[4], &rotation_x, 0x109);
+    angle = this->rotation_y - 0x4000;
+    angles[1] = 0;
+    angles[0] = angle;
+    angles[2] = 0x4000;
+    particle_handles[0] = (TParticleCtrl *)spawn_continuous_particle_with_direction(&draw_positions[4], angles, 0x108);
     direction.y = 0.0f;
     direction.x = sin_table_lookup(this->rotation_y);
     direction.z = cos_table_lookup(this->rotation_y);
-    ((TObjEnePanarmsAtkColli *)this)->create(&draw_positions[4], &direction, (void *)1);
+    TObjEnePanarmsAtkColli::create(this, &draw_positions[4], &direction, 1);
     set_field_b8(9);
-    this->m_388 = 0x5A;
+    this->state_timer = 0x5A;
 }
 
-void TObjEnePanarms::update_wait_then_set_state() {
-    s32 temp_r0;
-    TParticleCtrl *temp_r3;
+void TObjEnePanarms::update_beam_down() {
+    TParticleCtrl *handle;
     if (this->frame >= 5.0f) {
-        temp_r3 = this->particle_handles[0];
-        if (temp_r3 != NULL) {
-            TParticleCtrl::release(temp_r3);
+        handle = this->particle_handles[0];
+        if (handle != NULL) {
+            TParticleCtrl::release(handle);
             this->particle_handles[0] = NULL;
         }
     }
-    temp_r0 = this->m_388 - 1;
-    this->m_388 = temp_r0;
-    if (temp_r0 <= 0) {
+    if (--this->state_timer <= 0) {
         if (!(this->attack_count & 1) && (this->spin_count < 4)) {
             set_state((saddr)((void*)(0xD)));
             return;
         }
-        set_state((saddr)((void*)(3)));
+        set_state(3);
     }
 }
 
 void TObjEnePanarms::enter_split() {
-    u8 *temp_r5;
-    temp_r5 = (u8 *)(*(u8 **)((s8 *)this + 0x390));
-    *(s32 *)((s8 *)temp_r5 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r5 + 0x18) & 0xFFFFFFFE);
+    this->collision_body_parts->flags &= ~1;
     this->obj_clearFlags30((u32)(0x40000));
     obj_setFlags30(this, 0x04000000);
-    TObjEnePanarms__sub_800DE430((saddr)this, 0x22, 0x3C);
-    play_sound_effect(this->remap_sound_for_area(0x4003BC2D), (u8 *)this + 0x3AC, 0, 0);
-    play_sound_effect(this->remap_sound_for_area(0x4003BC2C), (u8 *)this + 0x3C4, 0, 0);
+    spawn_split_effect(0x22, 0x3C);
+    play_sound_effect(this->remap_sound_for_area(0x4003BC2D), &this->draw_positions[1], 0, 0);
+    play_sound_effect(this->remap_sound_for_area(0x4003BC2C), &this->draw_positions[3], 0, 0);
     set_field_b8(0xA);
 }
 
-void TObjEnePanarms::update_hit_effect() {
-    f32 temp_f1;
-    temp_f1 = this->frame;
-    if ((temp_f1 >= 20.0f) && (temp_f1 < 20.6f)) {
-        spawn_particle_effect((const Vec *)(((u8 *)this) + 0x38), 0xF0);
+void TObjEnePanarms::update_split() {
+    f32 motion_frame;
+    motion_frame = this->frame;
+    if ((motion_frame >= 20.0f) && (motion_frame < 20.6f)) {
+        spawn_particle_effect(&this->position, 0xF0);
     }
     if (this->motion_flags & 0x10) {
         set_state((saddr)((void*)(0xA)));
@@ -1121,59 +1065,57 @@ void TObjEnePanarms::update_hit_effect() {
 }
 
 void TObjEnePanarms::enter_separated() {
-    u8 *temp_r5;
-    temp_r5 = (u8 *)(*(u8 **)((s8 *)this + 0x390));
-    *(s32 *)((s8 *)temp_r5 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r5 + 0x18) & 0xFFFFFFFE);
+    this->collision_body_parts->flags &= ~1;
     this->obj_clearFlags30((u32)(0x40000));
     obj_setFlags30(this, 0x04000000);
-    *(s32 *)((s8 *)this + 0x3DC) = 0;
-    this->m_388 = 0x384;
+    this->visible = 0;
+    this->state_timer = 0x384;
     this->has_split = 1;
-    play_sound_effect(this->remap_sound_for_area(0x4003BC2E), (u8 *)this + 0x38, 0, 0);
-    if (TObjEnePanarms__sub_800DFB44((s32)(this->m_3e4)) == 0) {
-        TObjEnePanarms__sub_800E1E14((u8 *)this->m_3e4);
+    play_sound_effect(this->remap_sound_for_area(0x4003BC2E), &this->position, 0, 0);
+    if (this->halves[0]->is_dying() == 0) {
+        this->halves[0]->start_split();
     }
-    if (TObjEnePanarms__sub_800DFB44((s32)(this->m_3e8)) == 0) {
-        TObjEnePanarms__sub_800E1E14((u8 *)this->m_3e8);
+    if (this->halves[1]->is_dying() == 0) {
+        this->halves[1]->start_split();
     }
 }
 
-void TObjEnePanarms::update_separated_parts() {
-    s32 temp_r0;
-    this->hp = (s16) ((*(s16 *)(this->m_3e4 + 0x32C)) + *(s16 *)(this->m_3e8 + 0x32C));
-    if ((TObjEnePanarms__sub_800DFBB0((void *)this->m_3e4) != 0) && (TObjEnePanarms__sub_800DFBB0((void *)this->m_3e8) != 0)) {
+void TObjEnePanarms::update_separated() {
+    s32 timer;
+    this->hp = (s16) (this->halves[0]->hp + this->halves[1]->hp);
+    if ((this->halves[0]->is_dead() != 0) && (this->halves[1]->is_dead() != 0)) {
         this->send_entity_set_flags();
         queue_destruction();
         return;
     }
-    if (TObjEnePanarms__sub_800DFB44(this->m_3e4) == 0) {
-        switch (TObjEnePanarms__sub_800DFB44(this->m_3e8)) {
+    if (this->halves[0]->is_dying() == 0) {
+        switch (this->halves[1]->is_dying()) {
         case 0:
-        this->m_388 = (this->m_388 - 1);
-        temp_r0 = this->m_388;
-        if (temp_r0 == 0) {
-            if ((TObjEnePanarms__sub_800DFB9C((void *)this->m_3e4) != 0) || (TObjEnePanarms__sub_800DFB9C((void *)this->m_3e8) != 0)) {
-                this->m_388 += 15.0f;
+        this->state_timer = (this->state_timer - 1);
+        timer = this->state_timer;
+        if (timer == 0) {
+            if ((this->halves[0]->is_attacking() != 0) || (this->halves[1]->is_attacking() != 0)) {
+                this->state_timer += 15.0f;
                 return;
             }
-            TObjEnePanarms::find_combine_position(this);
-            ((TObjEnePanBARA *)(this->m_3e4))->init_state();
-            ((TObjEnePanBARA *)(this->m_3e8))->init_state();
+            find_combine_position();
+            this->halves[0]->init_state();
+            this->halves[1]->init_state();
             return;
         }
-        if (temp_r0 < 0) {
-            if ((TObjEnePanarms__sub_800DFB74((void *)this->m_3e4) != 0) && (TObjEnePanarms__sub_800DFB74((void *)this->m_3e8) != 0)) {
-                if ((((TObjEnePanarms *)(this->m_3e4))->get_state_flag() != 0) || (((TObjEnePanarms *)(this->m_3e8))->get_state_flag() != 0)) {
-                    this->m_388 = -1;
+        if (timer < 0) {
+            if ((this->halves[0]->is_slide_in_done() != 0) && (this->halves[1]->is_slide_in_done() != 0)) {
+                if ((this->halves[0]->get_state_flag() != 0) || (this->halves[1]->get_state_flag() != 0)) {
+                    this->state_timer = -1;
                     return;
                 }
                 set_state((saddr)((void*)(0xB)));
                 return;
             }
-            if ((s32) this->m_388 < -0x12C) {
-                TObjEnePanarms::do_action_2((void *)this->m_3e4);
-                TObjEnePanarms::do_action_2((void *)this->m_3e8);
-                this->m_388 = 0x384;
+            if (this->state_timer < -0x12C) {
+                this->halves[0]->do_action_2();
+                this->halves[1]->do_action_2();
+                this->state_timer = 0x384;
             }
         }
         break;
@@ -1181,82 +1123,70 @@ void TObjEnePanarms::update_separated_parts() {
     }
 }
 
-void TObjEnePanarms::merge_halves() {
-    u8 *temp_r5;
-    this->m_3dc = 0;
-    temp_r5 = (u8 *)this->collision_body_parts;
-    *(s32 *)((s8 *)temp_r5 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r5 + 0x18) & 0xFFFFFFFE);
+void TObjEnePanarms::enter_merge() {
+    this->visible = 0;
+    this->collision_body_parts->flags &= ~1;
     obj_clearFlags30(0x40000U);
     obj_setFlags30(this, (int)(0x04000000U));
-    TObjEnePanarms__sub_800DE430((saddr)this, 0x2D, 0x25);
-    this->hp = (s16) (*(s16 *)(this->m_3e4 + 0x32C) + *(s16 *)(this->m_3e8 + 0x32C));
-    TObjEnePanarms__sub_800E1D94(*(u8 * *)&this->m_3e4);
-    TObjEnePanarms__sub_800E1D94(*(u8 * *)&this->m_3e8);
-    this->m_388 = 0x40;
+    spawn_split_effect(0x2D, 0x25);
+    this->hp = (s16) (this->halves[0]->hp + this->halves[1]->hp);
+    this->halves[0]->start_merge();
+    this->halves[1]->start_merge();
+    this->state_timer = 0x40;
 }
 
-void TObjEnePanarms::update_timed_action() {
-    s32 temp_r0;
+void TObjEnePanarms::update_merge() {
 
-    if ((TObjEnePanarms__sub_800DFB44(this->m_3e4) != 0) || (TObjEnePanarms__sub_800DFB44(this->m_3e8) != 0)) {
+    if ((this->halves[0]->is_dying() != 0) || (this->halves[1]->is_dying() != 0)) {
         set_state((saddr)((void*)(0xA)));
         return;
     }
-    temp_r0 = this->m_388 - 1;
-    this->m_388 = temp_r0;
-    if (temp_r0 <= 0) {
+    if (--this->state_timer <= 0) {
         set_state((saddr)((void*)(0xC)));
         return;
     }
-    if ((s32) this->m_388 == 0x13) {
-        play_sound_effect(this->remap_sound_for_area(0x4003BC32), ((u8 *)this) + 0x38, 0, 0);
+    if (this->state_timer == 0x13) {
+        play_sound_effect(this->remap_sound_for_area(0x4003BC32), &this->position, 0, 0);
     }
 }
 
 void TObjEnePanarms::enter_rejoin() {
-    u8 *temp_r5;
-    *(s32 *)((s8 *)this + 0x3DC) = 1;
-    temp_r5 = (u8 *)(*(u8 **)((s8 *)this + 0x390));
-    *(s32 *)((s8 *)temp_r5 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r5 + 0x18) & 0xFFFFFFFE);
+    this->visible = 1;
+    this->collision_body_parts->flags &= ~1;
     this->obj_clearFlags30((u32)(0x40000));
     obj_setFlags30(this, 0x04000000);
-    play_sound_effect(this->remap_sound_for_area(0x4003BC31), (u8 *)this + 0x3AC, 0, 0);
-    play_sound_effect(this->remap_sound_for_area(0x4003BC30), (u8 *)this + 0x3C4, 0, 0);
+    play_sound_effect(this->remap_sound_for_area(0x4003BC31), &this->draw_positions[1], 0, 0);
+    play_sound_effect(this->remap_sound_for_area(0x4003BC30), &this->draw_positions[3], 0, 0);
     this->init(0xA);
 }
 
-void TObjEnePanarms::update_state_effect() {
-    f32 temp_f1;
-    temp_f1 = this->frame;
-    if ((temp_f1 >= 20.0f) && (temp_f1 < 20.6f)) {
-        spawn_particle_effect((const Vec *)(((u8 *)this) + 0x38), 0xF0);
+void TObjEnePanarms::update_rejoin() {
+    f32 motion_frame;
+    motion_frame = this->frame;
+    if ((motion_frame >= 20.0f) && (motion_frame < 20.6f)) {
+        spawn_particle_effect(&this->position, 0xF0);
     }
     if (this->motion_flags & 0x10) {
-        set_state((saddr)((void*)(3)));
+        set_state(3);
     }
 }
 
-void TObjEnePanarms::enter_down_state() {
-    u8 *temp_r5;
-    temp_r5 = (u8 *)this->collision_body_parts;
-    *(s32 *)((s8 *)temp_r5 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r5 + 0x18) | 1);
+void TObjEnePanarms::enter_spin() {
+    this->collision_body_parts->flags |= 1;
     obj_clearFlags30(0x04040000U);
-    this->m_388 = 0x1E;
+    this->state_timer = 0x1E;
     this->spin_count = this->spin_count + 1;
     set_field_b8(0xB);
 }
 
 void TObjEnePanarms::update_spin() {
-    s32 temp_r0;
 
     if (this->attack_count & 2) {
         this->rotation_y = (this->rotation_y + 0x111);
     } else {
         this->rotation_y = (this->rotation_y - 0x111);
     }
-    temp_r0 = this->m_388 - 1;
-    this->m_388 = temp_r0;
-    if (temp_r0 < 0) {
+    if (--this->state_timer < 0) {
         set_state((saddr)((void*)(7)));
     }
 }

@@ -16,6 +16,8 @@ public:
     virtual void run_task();
     s32 sub_8006E7FC();
     void sub_8006DCC8();
+    // Sets the two follow offsets (m_e8 and eye_offset) and passes angle to the virtual at 0x14.
+    void set_pos_target(Vec *position, Vec *target, s32 angle);
     void sub_8006CF38();
     s32 sub_8006CDD0();
     s32 is_flag_set();

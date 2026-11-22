@@ -1,6 +1,7 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/FloorEventCommand.h"
 #include "pso/boss/olgaflow/OlgaFlowActions.h"
+#include "pso/boss/galgryphon/Boss5GryphonBehavior.h"
 #include "pso/network/TGameProtocol.h"
 #include "pso/unk/text_800C7FEC.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
@@ -26,7 +27,6 @@
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 
 struct TBoss3Volopt;
-struct TBoss8Dragon;
 struct TLobby;
 struct TObjPlayer;
 
@@ -180,8 +180,6 @@ extern "C" void handle_6x9A_update_entity_stat();
 extern "C" void handle_6x9B_level_up_all_techniques(void *arg0);
 extern "C" void handle_6x9C_set_enemy_low_game_flags_ultimate();
 extern "C" void handle_6x9D_set_challenge_dead_flag();
-void handle_6x9F_gal_gryphon_boss_actions(void *arg0);
-void handle_6xA0_gal_gryphon_boss_actions(TBoss8Dragon *arg0);
 extern "C" void handle_6xA1_revive_player_v3(void *arg0);
 void handle_6xA2_specializable_item_drop_request(void *arg0);
 void handle_6xA6_modify_trade_proposal(u8 *arg0);

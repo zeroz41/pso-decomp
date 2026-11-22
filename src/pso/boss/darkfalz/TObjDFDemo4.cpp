@@ -13,7 +13,6 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80052374.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/MatrixStack.h"
@@ -31,9 +30,9 @@ extern s32 boss4_zanzo_bml_index_table[2];
 
 const char *TObjDFDemo4__name = "TObjDFDemo4";
 // The motions of the afterimage and body models.
-s32 lbl_80485720[2] = {0x12, 0x11};
-s32 lbl_80485728[3] = {0x20, 0x21, 0x22};
-ModelNodePositionEntry lbl_80485734[3] = {{0x34}, {0x35}, {-1}};
+s32 df_demo4_zanzo_motion_ids[2] = {0x12, 0x11};
+s32 df_demo4_body_motion_ids[3] = {0x20, 0x21, 0x22};
+ModelNodePositionEntry df_demo4_node_capture_entries[3] = {{0x34}, {0x35}, {-1}};
 
 TObjDFDemo4 *TObjDFDemo4::create(TObject *parent, const Vec *position, s32 angle) {
     return new TObjDFDemo4(parent, position, angle);
@@ -65,13 +64,13 @@ TObjDFDemo4::TObjDFDemo4(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
         int id = boss4_zanzo_bml_index_table[i];
         zanzo_parts[i].model = (NJS_OBJECT *)get_bml_model(res, id);
         zanzo_parts[i].texlist = (GinjaTextureList *)get_bml_texlist(res, id);
-        zanzo_parts[i].motion = get_bml_motion(res, lbl_80485720[i]);
+        zanzo_parts[i].motion = get_bml_motion(res, df_demo4_zanzo_motion_ids[i]);
     }
     for (i = 0; i < 3; i++) {
-        int id = lbl_80486FB0[i];
+        int id = boss4_type3_model_ids[i];
         body_parts[i].model = (NJS_OBJECT *)get_bml_model(res, id);
         body_parts[i].texlist = (GinjaTextureList *)get_bml_texlist(res, id);
-        body_parts[i].motion = get_bml_motion(res, lbl_80485728[i]);
+        body_parts[i].motion = get_bml_motion(res, df_demo4_body_motion_ids[i]);
     }
     frame = -0.5f;
     node_tables.init(strip_nodes(), 2);
@@ -86,7 +85,7 @@ TObjDFDemo4::TObjDFDemo4(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
         set_scripted_camera_pose(&this->pos, &this->pos, &angles);
         playback.cache_target_and_forward(0x416C);
     }
-    node_list = ModelNodePositionCapture::create(lbl_80485734, node_positions);
+    node_list = ModelNodePositionCapture::create(df_demo4_node_capture_entries, node_positions);
     timer = 0;
 }
 
@@ -177,7 +176,7 @@ void TObjDFDemo4::sub_8004F2A8() {
         alpha = (f32)(0x4C - timer) / 8.0f;
     }
     if (alpha < 1.0f) {
-        TObjPlayer__sub_80052390(alpha);
+        TObjPlayer::begin_alpha_blend(alpha);
     }
     push_matrix();
     set_motion_packed_rotation();

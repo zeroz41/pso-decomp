@@ -16,9 +16,9 @@ extern GinjaTextureList *boss2_common_texture_list;
 extern const f32 boss2_tunnel_max_scroll_speed;
 
 // --- C functions defined in TObjBoss2CeilJunk_8003A81C.cpp ---
-extern "C" {
-void TLobby__sub_8003A874(void);
-}
+// Twin of free_boss7_common_resources: clears boss2_dermt_slot_table and frees what
+// load_boss2_common_resource loaded; called by TLobby::init_boss2_stage.
+void free_boss2_common_resource(void);
 void load_boss2_common_resource(void);
 extern "C" {
 void __sinit_TObjBoss2CeilJunk_8003A81C_cpp(void);

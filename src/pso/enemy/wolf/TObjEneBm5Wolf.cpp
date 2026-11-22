@@ -40,11 +40,12 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/object/ambient/TObjCGrass.h"
 #include "pso/render/BlobShadow.h"
+#include "pso/render/render_util.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/system/task/TMainTask.h"
 extern "C" {
-s32 approach_angle_limited(int, int, int);
-void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 angle);
-void *fn_800B8B00(void *p);
-u16 get_entity_id(TObjBase *object);
 extern u32 TObjEneBm5Wolf__instance_list[];
 extern u32 TObjEneBm5Wolf__pack_member_list[];
 BmlResource *TObjEneBm5Wolf__bml_resource;
@@ -104,60 +105,37 @@ static const NpcAnimationBinding bm5_wolf_spawn_descriptor = { NULL, reinterpret
 __declspec(section ".data") u8 *TObjEneBm5Wolf__stat_params[2];
 __declspec(section ".data") u8 *wolf_stat_handle_a_table[2];
 __declspec(section ".data") u8 *wolf_stat_handle_b_table[2];
-__declspec(section ".data") s32 lbl_80500B58[2];
-s32 is_vec_xz_cross_negative(void *, void *);
-f32 calc_circle_offset__14TObjEneBm5WolfFPvPvPv(TObjEneBm5Wolf *wolf, Vec *target, Vec *out);
-void draw_blob_shadow(s32 arg0);
-s32 scale_matrix(s32, f32, f32, f32);
-s32 rotate_matrix_z(s32, s32);
-s32 rotate_matrix_x(s32, s32);
-s32 post_translate_matrix(void *);
-s32 TObjEneBm5Wolf__spawn_timer;
-s32 TObjEneBm5Wolf__data_805D5128;
-extern const f32 lbl_805D9E84;
-extern const f32 lbl_805D9E88;
-s32 vec3_add_to(void *, void *);
-s32 debug_draw_line(void *, void *, int, int);
-typedef void (*State_800B73A8)(u8 *, s32);
+__declspec(section ".data") s32 wolf_param_table[2];
+s32 TObjEneBm5Wolf__render_node_index;
+s32 TObjEneBm5Wolf__render_joint_y_rotation;
 }
-void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 #include <stddef.h>
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 
 #pragma defer_codegen on
-extern "C" {
-f32 newton_sqrtf(f32);
 #pragma push
 #pragma fp_contract on
-s32 angle_diff_s16(s32, s32);
-s32 free_collision_body_parts(void *);
-s32 init_collision_body_parts(void *, void *, int);
-void *__ct__14TObjCollidableFP7TObject(void *, int);
-}
 
 struct Globals_800B8A40 {
     u8 pad[0x2c];
     u8 chain0[0xc];
-    u8 list0[0x8];
+    TObjEneBm5WolfList list0;
     u8 chain1[0xc];
-    u8 list1[0x8];
+    TObjEneBm5WolfList list1;
 };
 extern "C" {
-extern s32 lbl_8043B3A8[];
-extern s32 lbl_8043B3B0[];
-extern s32 lbl_8043B3B8[];
-extern s32 lbl_8043B3C0[];
 Vec lbl_80500B60;
 u32 lbl_80500B6C[3];
 u32 TObjEneBm5Wolf__pack_member_list[5];
 u32 TObjEneBm5Wolf__instance_list[3];
 void __register_global_object(void *obj, void *dtor, void *chain);
-void __dl__FPv(void);
-extern void *tl_04;
+void __dt__18TObjEneBm5WolfListFv();
 }
 
 __declspec(section ".ctors") static void *const __sinit_TObjEneBm5Wolf_cpp_ref = (void *)TObjEneBm5Wolf::register_global_objects;
 
-s32 TObjEneBm5Wolf::get_group_id() { return this->m_3dc; }
+s32 TObjEneBm5Wolf::get_group_id() { return this->group_id; }
 
 s32 actor_rand_int(saddr actor, s32 range) {
     return (s32) ((f32) range * ((TObjChara *)actor)->random_ratio());
@@ -165,80 +143,66 @@ s32 actor_rand_int(saddr actor, s32 range) {
 
 void TObjEneBm5Wolf::register_global_objects() {
     Globals_800B8A40 *g = (Globals_800B8A40 *)TObjEneBm5Wolf__stat_params;
-    __register_global_object(((void *)((TObjEneBm5Wolf *)(g->list0))->reset()), (void *)__dt__14TObjEneBm5WolfFis, g->chain0);
-    __register_global_object(((void *)((TObjEneBm5Wolf *)(g->list1))->reset()), (void *)__dt__14TObjEneBm5WolfFis, g->chain1);
+    __register_global_object(g->list0.reset(), (void *)__dt__18TObjEneBm5WolfListFv, g->chain0);
+    __register_global_object(g->list1.reset(), (void *)__dt__18TObjEneBm5WolfListFv, g->chain1);
 }
 
-TObjEneBm5WolfListNode::TObjEneBm5WolfListNode() {
+TObjEneBm5WolfNode::TObjEneBm5WolfNode() {
     prev = NULL;
     next = NULL;
     entity_id = 0xFFFF;
 }
 
-TObjEneBm5WolfListNode::~TObjEneBm5WolfListNode() {}
+TObjEneBm5WolfNode::~TObjEneBm5WolfNode() {}
 
-void TObjEneBm5Wolf::unlink_list_node(void ***arg1, void **arg2) {
-    TObjEneBm5WolfListNode *node = (TObjEneBm5WolfListNode *)this;
-    TObjEneBm5WolfListNode **head = (TObjEneBm5WolfListNode **)arg1;
-    TObjEneBm5WolfListNode **tail = (TObjEneBm5WolfListNode **)arg2;
-    if (node->prev != NULL) {
-        node->prev->next = node->next;
+void TObjEneBm5WolfNode::unlink_from(TObjEneBm5WolfNode **head, TObjEneBm5WolfNode **tail) {
+    if (prev != NULL) {
+        prev->next = next;
     } else {
-        *head = node->next;
+        *head = next;
     }
-    if (node->next != NULL) {
-        node->next->prev = node->prev;
+    if (next != NULL) {
+        next->prev = prev;
         return;
     }
-    *tail = node->prev;
+    *tail = prev;
 }
 
-void TObjEneBm5Wolf::push_list_node(void **arg1, void **arg2) {
-    TObjEneBm5WolfListNode *node = (TObjEneBm5WolfListNode *)this;
-    TObjEneBm5WolfListNode **head = (TObjEneBm5WolfListNode **)arg1;
-    TObjEneBm5WolfListNode **tail = (TObjEneBm5WolfListNode **)arg2;
+void TObjEneBm5WolfNode::append_to(TObjEneBm5WolfNode **head, TObjEneBm5WolfNode **tail) {
     if (*tail != NULL) {
-        node->prev = *tail;
-        (*tail)->next = node;
+        prev = *tail;
+        (*tail)->next = this;
     } else {
-        node->prev = NULL;
-        *head = node;
+        prev = NULL;
+        *head = this;
     }
-    *tail = node;
-    node->next = NULL;
+    *tail = this;
+    next = NULL;
 }
 
-void TObjEneBm5Wolf::set_field8_from_obj(saddr arg1) {
-    ((TObjEneBm5WolfListNode *)this)->entity_id = get_entity_id((TObjBase *)arg1);
+void TObjEneBm5WolfNode::set_owner(TObjEneBm5Wolf *owner) {
+    entity_id = get_entity_id(owner);
 }
 
-TObjEneBm5Wolf *play_sound__14TObjEneBm5WolfFPv(TObjEneBm5WolfListNode *node) {
-    return (TObjEneBm5Wolf *)find_entity_by_id(node->entity_id);
+TObjEneBm5Wolf *TObjEneBm5WolfNode::get_owner() {
+    return (TObjEneBm5Wolf *)find_entity_by_id(entity_id);
 }
 
-void*TObjEneBm5Wolf::reset() { reset_fields(); return this; }
+TObjEneBm5WolfList *TObjEneBm5WolfList::reset() { clear(); return this; }
 
-s32 __dt__14TObjEneBm5WolfFis(s32 arg0, s16 arg1) {
-    if ((arg0 != 0) && (arg1 > 0)) {
-        __dl__FPv();
-    }
-    return arg0;
+TObjEneBm5WolfList::~TObjEneBm5WolfList() {}
+
+void TObjEneBm5WolfList::clear() {
+    head = NULL;
+    tail = NULL;
 }
 
-void TObjEneBm5Wolf::reset_fields() {
-    TObjEneBm5WolfList *list = (TObjEneBm5WolfList *)this;
-    list->head = NULL;
-    list->tail = NULL;
+void TObjEneBm5WolfList::append(TObjEneBm5WolfNode *node) {
+    node->append_to(&head, &tail);
 }
 
-void TObjEneBm5Wolf::apply_to_position(void* a1) {
-    TObjEneBm5WolfList *list = (TObjEneBm5WolfList *)this;
-    ((TObjEneBm5Wolf *)a1)->push_list_node((void **)&list->head, (void **)&list->tail);
-}
-
-void TObjEneBm5Wolf::update(void* a1) {
-    TObjEneBm5WolfList *list = (TObjEneBm5WolfList *)this;
-    ((TObjEneBm5Wolf *)a1)->unlink_list_node((void ***)&list->head, (void **)&list->tail);
+void TObjEneBm5WolfList::remove(TObjEneBm5WolfNode *node) {
+    node->unlink_from(&head, &tail);
 }
 
 void TObjEneBm5Wolf::load_resources() {
@@ -249,18 +213,18 @@ void TObjEneBm5Wolf::load_resources() {
     } else {
         TObjEneBm5Wolf__bml_resource = load_enemy_bml_resource(&bm_ene_bm5_wolf_resource_descriptor);
     }
-    ((TObjEneBm5Wolf *)TObjEneBm5Wolf__pack_member_list)->reset_fields();
-    ((TObjEneBm5Wolf *)TObjEneBm5Wolf__instance_list)->reset_fields();
-    TObjEneBm5Wolf__spawn_timer = 0;
-    TObjEneBm5Wolf__data_805D5128 = 0;
+    ((TObjEneBm5WolfList *)TObjEneBm5Wolf__pack_member_list)->clear();
+    ((TObjEneBm5WolfList *)TObjEneBm5Wolf__instance_list)->clear();
+    TObjEneBm5Wolf__render_node_index = 0;
+    TObjEneBm5Wolf__render_joint_y_rotation = 0;
     lbl_80500B60.x = 0.0f;
     lbl_80500B60.y = 0.0f;
     lbl_80500B60.z = 0.0f;
     for (i = 0; i < 2; i++) {
-        TObjEneBm5Wolf__stat_params[i] = (u8 *)TLobby::register_boss(lbl_8043B3A8[i]);
-        wolf_stat_handle_a_table[i] = (u8 *)TLobby::dispatch_shared_handler_b(lbl_8043B3B0[i]);
-        wolf_stat_handle_b_table[i] = (u8 *)TLobby::register_object(lbl_8043B3B8[i]);
-        lbl_80500B58[i] = (saddr)TLobby::dispatch_shared_handler_a(lbl_8043B3C0[i]);
+        TObjEneBm5Wolf__stat_params[i] = (u8 *)TLobby::register_boss(wolf_base_stat_ids[i]);
+        wolf_stat_handle_a_table[i] = (u8 *)TLobby::dispatch_shared_handler_b(wolf_attack_stat_ids[i]);
+        wolf_stat_handle_b_table[i] = (u8 *)TLobby::register_object(wolf_resist_stat_ids[i]);
+        wolf_param_table[i] = (saddr)TLobby::dispatch_shared_handler_a(wolf_param_ids[i]);
     }
     {
     NpcAnimationBinding sp = bm5_wolf_spawn_descriptor;
@@ -278,7 +242,7 @@ static f32 actor_rand_float(saddr actor, s32 range) {
 }
 
 void *TObjEneBm5Wolf::create(void *set_data) {
-    return new TObjEneBm5Wolf((TObject *)tl_04, set_data);
+    return new TObjEneBm5Wolf(tl_04, set_data);
 }
 
 void TObjEneBm5Wolf::release_global_805D5120() {
@@ -288,27 +252,27 @@ void TObjEneBm5Wolf::release_global_805D5120() {
     }
 }
 
-void TObjEneBm5Wolf::apply_position_to_node_list() {
-    ((TObjEneBm5Wolf *)TObjEneBm5Wolf__pack_member_list)->apply_to_position(&this->m_3c0);
+void TObjEneBm5Wolf::add_to_pack_member_list() {
+    ((TObjEneBm5WolfList *)TObjEneBm5Wolf__pack_member_list)->append(&this->pack_node);
 }
 
-void TObjEneBm5Wolf::update_with_default_state() {
-    ((TObjEneBm5Wolf *)TObjEneBm5Wolf__pack_member_list)->update(&this->m_3c0);
+void TObjEneBm5Wolf::remove_from_pack_member_list() {
+    ((TObjEneBm5WolfList *)TObjEneBm5Wolf__pack_member_list)->remove(&this->pack_node);
 }
 
-void TObjEneBm5Wolf::apply_global_to_position() {
-    ((TObjEneBm5Wolf *)TObjEneBm5Wolf__instance_list)->apply_to_position(&this->m_3cc);
+void TObjEneBm5Wolf::add_to_instance_list() {
+    ((TObjEneBm5WolfList *)TObjEneBm5Wolf__instance_list)->append(&this->instance_node);
 }
 
-void TObjEneBm5Wolf::update_default() {
-    ((TObjEneBm5Wolf *)TObjEneBm5Wolf__instance_list)->update(&this->m_3cc);
+void TObjEneBm5Wolf::remove_from_instance_list() {
+    ((TObjEneBm5WolfList *)TObjEneBm5Wolf__instance_list)->remove(&this->instance_node);
 }
 
 TObjEneBm5Wolf *TObjEneBm5Wolf::find_pack_leader(s32 id) {
-    TObjEneBm5WolfListNode *n;
+    TObjEneBm5WolfNode *n;
     for (n = ((TObjEneBm5WolfList *)TObjEneBm5Wolf__instance_list)->head; n != 0; n = n->next) {
-        TObjEneBm5Wolf *w = play_sound__14TObjEneBm5WolfFPv(n);
-        if (w != 0 && w->m_3dc == id) {
+        TObjEneBm5Wolf *w = n->get_owner();
+        if (w != 0 && w->group_id == id) {
             return w;
         }
     }
@@ -318,7 +282,6 @@ TObjEneBm5Wolf *TObjEneBm5Wolf::find_pack_leader(s32 id) {
 #pragma bool off
 TObjEneBm5Wolf::TObjEneBm5Wolf(TObject *parent, void *set_data) : TObjEneDD_ST(parent) {
     s32 n;
-    void *o;
     m_name = bm5_wolf_class_name;
     invoke_initialization_hook(set_data);
     select_subtype();
@@ -329,11 +292,11 @@ TObjEneBm5Wolf::TObjEneBm5Wolf(TObject *parent, void *set_data) : TObjEneDD_ST(p
     requested_action = 0;
     set_animation(requested_action);
     set_field_b8(requested_action);
-    n = m_3d8;
+    n = is_leader;
     reset_hp(TObjEneBm5Wolf__stat_params[n != 0], wolf_stat_handle_a_table[n != 0], wolf_stat_handle_b_table[n != 0]);
     set_state_flag_1();
     movementParameters = bm5_wolf_decision_row;
-    if (m_3d8 != 0) {
+    if (is_leader != 0) {
         initialize_enemy_state(8);
     } else {
         initialize_enemy_state(7);
@@ -341,49 +304,45 @@ TObjEneBm5Wolf::TObjEneBm5Wolf(TObject *parent, void *set_data) : TObjEneDD_ST(p
     wall_reach = 15.0f;
     enemy_init_acquire_period(0x14);
     enemy_init_validate_period(0x14);
-    ((TObjEneBm5Wolf *)&m_3c0)->set_field8_from_obj((saddr)this);
-    apply_position_to_node_list();
-    if (m_3d8 != 0) {
-        ((TObjEneBm5Wolf *)&m_3cc)->set_field8_from_obj((saddr)this);
-        apply_global_to_position();
+    pack_node.set_owner(this);
+    add_to_pack_member_list();
+    if (is_leader != 0) {
+        instance_node.set_owner(this);
+        add_to_instance_list();
     }
-    m_3e0 = 0xFFFF;
-    turnOffset = 0;
-    VecCopy(&m_3e8, &position);
-    VecCopy(&groupAnchor, &position);
-    desiredSpeed = 0.0f;
-    currentSpeed = 0.0f;
-    m_408 = 0;
-    m_40c = 0.0f;
-    o = TObject::operator new(0xAC);
-    if (o != NULL) {
-        o = __ct__14TObjCollidableFP7TObject(o, 0);
-    }
-    m_410 = (TObjCollidable *)o;
-    init_collision_body_parts(m_410, &TObjEneBm5Wolf__collider_params[1], 1);
-    m_414 = 0;
-    m_418 = 0xFFFF;
+    leader_id = 0xFFFF;
+    turn_offset = 0;
+    VecCopy(&spawn_position, &position);
+    VecCopy(&group_anchor, &position);
+    desired_speed = 0.0f;
+    current_speed = 0.0f;
+    status_flags = 0;
+    jump_height = 0.0f;
+    attack_collider = new TObjCollidable(NULL);
+    init_collision_body_parts(attack_collider, &TObjEneBm5Wolf__collider_params[1], 1);
+    reaction_delay = 0;
+    reaction_attacker_id = 0xFFFF;
     set_colliders_contact_low();
-    roamingSubstate = 0;
-    roamingTimer = 0;
-    randomPhase = 0;
-    m_428 = 0;
-    m_42c = 0;
-    m_430 = 0;
-    stoppingDistance = 0.0f;
-    m_438 = 0.0f;
-    m_43c = 0.0f;
-    m_440 = 0.0f;
-    m_444.x = 0.0f;
-    m_444.y = 0.0f;
-    m_444.z = 0.0f;
-    m_450.x = 0.0f;
-    m_450.y = 0.0f;
-    m_450.z = 0.0f;
-    m_45c = 0.0f;
-    m_460 = 0.0f;
-    m_464 = 0.0f;
-    nearTarget = 0;
+    substate = 0;
+    state_timer = 0;
+    random_phase = 0;
+    circle_shift_timer = 0;
+    target_heading = 0;
+    base_heading = 0;
+    stopping_distance = 0.0f;
+    circle_radius = 0.0f;
+    sink_depth = 0.0f;
+    pad_440 = 0.0f;
+    work_point.x = 0.0f;
+    work_point.y = 0.0f;
+    work_point.z = 0.0f;
+    work_vector.x = 0.0f;
+    work_vector.y = 0.0f;
+    work_vector.z = 0.0f;
+    pad_45c = 0.0f;
+    pad_460 = 0.0f;
+    pad_464 = 0.0f;
+    near_target = 0;
     update_collision_center();
     update_body_colliders();
     transform_part_positions();
@@ -392,47 +351,47 @@ TObjEneBm5Wolf::TObjEneBm5Wolf(TObject *parent, void *set_data) : TObjEneDD_ST(p
 }
 #pragma pop
 TObjEneBm5Wolf::~TObjEneBm5Wolf() {
-    if (m_410 != NULL) {
-        free_collision_body_parts(m_410);
-        delete m_410;
-        m_410 = NULL;
+    if (attack_collider != NULL) {
+        free_collision_body_parts(attack_collider);
+        delete attack_collider;
+        attack_collider = NULL;
     }
-    update_with_default_state();
-    if (m_3d8 != 0) {
-        update_default();
+    remove_from_pack_member_list();
+    if (is_leader != 0) {
+        remove_from_instance_list();
     }
     free_collision_body_parts(this);
 }
 
 void TObjEneBm5Wolf::run_task() {
-    s16 temp_r0;
-    s16 temp_r3_2;
-    s32 temp_r3;
+    s16 cur_mode;
+    s16 idle_mode;
+    s32 delay;
     if (TObjPlayer::check_demo_mode() != 0) {
         this->update_state();
         return;
     }
-    TObject *entity = (TObject *)find_entity_by_id((this->m_3e0));
+    TObject *entity = (TObject *)find_entity_by_id((this->leader_id));
     if (entity != NULL) {
         entity->all_parents_unqueued_for_destruction();
     }
     if (this->update_status_effects() != 4) {
-        temp_r3 = this->m_414;
-        if (temp_r3 != 0) {
-            this->m_414 = (temp_r3 - 1);
-            if (this->m_414 == 0) {
-                temp_r0 = this->mode;
-                if ((temp_r0 != 0x10) && (temp_r0 != 0x11)) {
+        delay = this->reaction_delay;
+        if (delay != 0) {
+            this->reaction_delay = (delay - 1);
+            if (this->reaction_delay == 0) {
+                cur_mode = this->mode;
+                if ((cur_mode != 0x10) && (cur_mode != 0x11)) {
                     this->transition_enemy_state(0xE);
                 }
             }
         }
         this->update_action_state();
     } else {
-        temp_r3_2 = this->mode;
-        if (temp_r3_2 == 0) {
+        idle_mode = this->mode;
+        if (idle_mode == 0) {
             this->update_action_state();
-        } else if (temp_r3_2 == 1) {
+        } else if (idle_mode == 1) {
             VecCopy(&this->position, &this->home_position);
             this->transition_enemy_state(7);
             this->update_action_state();
@@ -446,10 +405,10 @@ void TObjEneBm5Wolf::run_task() {
 void TObjEneBm5Wolf::refresh_target() {  }
 
 void TObjEneBm5Wolf::run_death_reaction() {
-    s16 temp_r0;
+    s16 cur_mode;
 
-    temp_r0 = this->mode;
-    if ((temp_r0 != 0x10) && (temp_r0 != 0x11)) {
+    cur_mode = this->mode;
+    if ((cur_mode != 0x10) && (cur_mode != 0x11)) {
         this->transition_enemy_state(0x10);
     }
 }
@@ -461,24 +420,24 @@ void TObjEneBm5Wolf::run_miss_reaction() {  }
 void TObjEneBm5Wolf::update_collision_center() {
 
     this->body_center.x = (f32) this->position.x;
-    this->body_center.y = (f32) ((this->m_40c) + (10.0f + this->position.y));
+    this->body_center.y = (f32) ((this->jump_height) + (10.0f + this->position.y));
     this->body_center.z = (f32) this->position.z;
     VecCopy(&this->center, &this->body_center);
 }
 
 void TObjEneBm5Wolf::update_body_colliders() {
-    this->bodies->offset.y = 10.0f + this->m_40c;
+    this->bodies->offset.y = 10.0f + this->jump_height;
 }
 
 void TObjEneBm5Wolf::select_subtype() {
-    this->m_3dc = (s32) floor_to_float(this->parameters[0]);
+    this->group_id = (s32) floor_to_float(this->parameters[0]);
     if (this->parameters[1] >= 1.0f) {
-        this->m_3d8 = 1;
+        this->is_leader = 1;
         this->model = (void *)TObjEneBm5Wolf__bml_resource->models[1].model;
         this->texlist = (saddr)TObjEneBm5Wolf__bml_resource->models[0].m_c;
         return;
     }
-    this->m_3d8 = 0;
+    this->is_leader = 0;
     this->model = (void *)TObjEneBm5Wolf__bml_resource->models[0].model;
     this->texlist = (saddr)TObjEneBm5Wolf__bml_resource->models[0].m_c;
 }
@@ -491,18 +450,18 @@ void TObjEneBm5Wolf::advance_pose_turn(s32 target) {
     } else if (d < -0x4000) {
         d = -0x4000;
     }
-    if (this->turnOffset * d >= 0) {
-        this->turnOffset = approach_angle_limited(this->turnOffset, d, 0x800);
-    } else if (this->turnOffset * angle_diff_s16(this->turnOffset, d) >= 0) {
-        if (this->turnOffset >= 0) {
-            this->turnOffset -= 0x800;
+    if (this->turn_offset * d >= 0) {
+        this->turn_offset = approach_angle_limited(this->turn_offset, d, 0x800);
+    } else if (this->turn_offset * angle_diff_s16(this->turn_offset, d) >= 0) {
+        if (this->turn_offset >= 0) {
+            this->turn_offset -= 0x800;
         } else {
-            this->turnOffset += 0x800;
+            this->turn_offset += 0x800;
         }
     } else {
-        this->turnOffset = approach_angle_limited(this->turnOffset, d, 0x800);
+        this->turn_offset = approach_angle_limited(this->turn_offset, d, 0x800);
     }
-    this->turnOffset = (s16)this->turnOffset;
+    this->turn_offset = (s16)this->turn_offset;
 }
 
 void TObjEneBm5Wolf::turn_pose_to_target() {
@@ -518,24 +477,24 @@ void TObjEneBm5Wolf::turn_pose_to_target() {
 
 void TObjEneBm5Wolf::choose_roaming_destination() {
     Vec dir;
-    f32 temp_f3;
-    f32 temp_f3_2;
+    f32 radius;
+    f32 wall_distance;
     CsnHit *hit;
-    dir.x = this->position.x - this->groupAnchor.x;
+    dir.x = this->position.x - this->group_anchor.x;
     dir.y = 0.0f;
-    dir.z = this->position.z - this->groupAnchor.z;
+    dir.z = this->position.z - this->group_anchor.z;
     normalize_vector_xz(&dir);
     rotate_xz_pair_by_angle(&dir.x, &dir.z, (s32) (32768.0f * this->random_ratio()) + 0x4000);
-    temp_f3 = 120.0f * this->rand_range(0.3f, 1.0f);
-    this->destination.x = (f32) ((dir.x * temp_f3) + this->groupAnchor.x);
-    this->destination.z = (f32) ((dir.z * temp_f3) + this->groupAnchor.z);
+    radius = 120.0f * this->rand_range(0.3f, 1.0f);
+    this->destination.x = (f32) ((dir.x * radius) + this->group_anchor.x);
+    this->destination.z = (f32) ((dir.z * radius) + this->group_anchor.z);
     hit = csnVector(&this->body_center, &this->destination, 0x88E0U);
     if (hit != NULL) {
         dir.x = hit->contact->point.x - this->position.x;
         dir.z = hit->contact->point.z - this->position.z;
-        temp_f3_2 = normalize_vector_xz(&dir) - 25.0f;
-        this->destination.x = (f32) ((dir.x * temp_f3_2) + this->position.x);
-        this->destination.z = (f32) ((dir.z * temp_f3_2) + this->position.z);
+        wall_distance = normalize_vector_xz(&dir) - 25.0f;
+        this->destination.x = (f32) ((dir.x * wall_distance) + this->position.x);
+        this->destination.z = (f32) ((dir.z * wall_distance) + this->position.z);
     }
 }
 
@@ -543,31 +502,31 @@ void TObjEneBm5Wolf::approach_target(f32 step) {
     f32 desired;
     f32 current;
 
-    current = this->currentSpeed;
-    desired = this->desiredSpeed;
+    current = this->current_speed;
+    desired = this->desired_speed;
     if (current != desired) {
         if (current > desired) {
-            this->currentSpeed = (f32) (current - step);
-            if (this->currentSpeed < this->desiredSpeed) {
-                this->currentSpeed = this->desiredSpeed;
+            this->current_speed = (f32) (current - step);
+            if (this->current_speed < this->desired_speed) {
+                this->current_speed = this->desired_speed;
             }
         } else {
-            this->currentSpeed = (f32) (current + step);
-            if (this->currentSpeed > this->desiredSpeed) {
-                this->currentSpeed = this->desiredSpeed;
+            this->current_speed = (f32) (current + step);
+            if (this->current_speed > this->desired_speed) {
+                this->current_speed = this->desired_speed;
             }
         }
     }
 }
 
-void calc_rotated_vector__14TObjEneBm5WolfFPviPvPv(TObjEneBm5Wolf *wolf, s32 angle, Vec *out, s32 *heading) {
+void TObjEneBm5Wolf::calc_rotated_vector(s32 angle, Vec *out, s32 *heading) {
     f32 c;
     f32 s;
 
     s = sin_table_lookup(angle);
     c = cos_table_lookup(angle);
-    out->z = (f32) ((c * wolf->destination_direction.z) - (s * wolf->destination_direction.x));
-    out->x = (f32) ((s * wolf->destination_direction.z) + (c * wolf->destination_direction.x));
+    out->z = (f32) ((c * destination_direction.z) - (s * destination_direction.x));
+    out->x = (f32) ((s * destination_direction.z) + (c * destination_direction.x));
     *heading = (s32) (RADIANS_TO_ANGLE * atan2_float(out->x, out->z));
 }
 #pragma pop
@@ -580,7 +539,7 @@ void TObjEneBm5Wolf::set_state_by_timer() {
 }
 
 void TObjEneBm5Wolf::set_anim_state() {
-    if (this->m_3d8 != 0) {
+    if (this->is_leader != 0) {
         this->transition_enemy_state(6);
         return;
     }
@@ -588,13 +547,13 @@ void TObjEneBm5Wolf::set_anim_state() {
 }
 #pragma push
 #pragma fp_contract on
-f32 calc_circle_offset__14TObjEneBm5WolfFPvPvPv(TObjEneBm5Wolf *wolf, Vec *target, Vec *out) {
+f32 TObjEneBm5Wolf::calc_circle_offset(Vec *target, Vec *out) {
     f32 dx;
     f32 dz;
-    dz = wolf->position.z - target->z;
-    dx = wolf->position.x - target->x;
+    dz = position.z - target->z;
+    dx = position.x - target->x;
     f32 distSq = dx * dx + dz * dz;
-    f32 inv = 1.0f / ((f32 (*)(f32, f32))newton_sqrtf)(distSq, wolf->position.x);
+    f32 inv = 1.0f / ((f32 (*)(f32, f32))newton_sqrtf)(distSq, position.x);
     out->x = dx * inv;
     out->y = 0.0f;
     out->z = dz * inv;
@@ -605,7 +564,7 @@ s32 TObjEneBm5Wolf::select_death_direction(s32 *heading) {
     Vec v;
     Vec side;
     s32 ret;
-    VecCopy(&v, (const Vec *)&this->x_speed);
+    VecCopy(&v, (const Vec *)&this->velocity.x);
     v.y = 0.0f;
     if (0.0f != normalize_vector_xz(&v)) {
         *heading = (s32)(RADIANS_TO_ANGLE * atan2_float(v.x, v.z));
@@ -626,26 +585,26 @@ s32 TObjEneBm5Wolf::select_death_direction(s32 *heading) {
     return ret;
 }
 
-void TObjEneBm5Wolf::set_attack_flag() { this->m_408 |= 0x1; }
+void TObjEneBm5Wolf::set_attack_flag() { this->status_flags |= 0x1; }
 
 s32 TObjEneBm5Wolf::select_target() {
-    if (this->m_3d8 != 0) {
+    if (this->is_leader != 0) {
         return this->select_and_apply_target(350.0f);
     }
     return this->select_and_apply_target(250.0f);
 }
 
 s32 TObjEneBm5Wolf::play_variant_sound() {
-    if (this->m_3d8 != 0) {
+    if (this->is_leader != 0) {
         return this->update_linked_position(350.0f);
     }
     return this->update_linked_position(250.0f);
 }
 #pragma push
 #pragma fp_contract on
-void spawn_recoil_dust__14TObjEneBm5WolfFiPv(TObjEneBm5Wolf *wolf, Vec *dir) {
+void TObjEneBm5Wolf::spawn_recoil_dust(Vec *dir) {
     Vec pos;
-    VecCopy(&pos, &wolf->position);
+    VecCopy(&pos, &position);
     pos.x += 5.0f * dir->x;
     pos.z += 5.0f * dir->z;
     spawn_particle_effect(&pos, 0xF3);
@@ -673,21 +632,21 @@ int TObjEneBm5Wolf::get_flag_bit0() { return this->entity_id & 0x1; }
 #pragma push
 #pragma fp_contract on
 s32 TObjEneBm5Wolf::calc_lunge_aim() {
-    f32 temp_f4;
-    f32 temp_f5;
-    f32 var_f0;
+    f32 dir_x;
+    f32 dir_z;
+    f32 side_offset;
     if (is_target_unobstructed_from((TObjEneDD *)this, (TObjChara *)this->current_target) != 0) {
         this->enemy_copy_target_destination();
         this->update_velocity();
         if (((s32)get_flag_bit0()) != 0) {
-            var_f0 = 7.0f;
+            side_offset = 7.0f;
         } else {
-            var_f0 = -7.0f;
+            side_offset = -7.0f;
         }
-        temp_f5 = this->destination_direction.z;
-        temp_f4 = this->destination_direction.x;
-        this->destination.x = (f32) (this->destination.x + ((2.0f * temp_f4) + (temp_f5 * var_f0)));
-        this->destination.z = (f32) (this->destination.z + ((2.0f * temp_f5) - (temp_f4 * var_f0)));
+        dir_z = this->destination_direction.z;
+        dir_x = this->destination_direction.x;
+        this->destination.x = (f32) (this->destination.x + ((2.0f * dir_x) + (dir_z * side_offset)));
+        this->destination.z = (f32) (this->destination.z + ((2.0f * dir_z) - (dir_x * side_offset)));
         this->update_velocity();
         return (s32) (RADIANS_TO_ANGLE * atan2_float((f64) this->destination_direction.x, (f64) this->destination_direction.z));
     }
@@ -701,13 +660,13 @@ s32 TObjEneBm5Wolf::calc_lunge_aim() {
     return this->rotation_y;
 }
 #pragma pop
-void TObjEneBm5Wolf::schedule_pack_reaction(s32 delay, u16 value) {
-    this->m_414 = delay;
-    this->m_418 = value;
+void TObjEneBm5Wolf::schedule_pack_reaction(s32 delay, u16 attacker_id) {
+    this->reaction_delay = delay;
+    this->reaction_attacker_id = attacker_id;
 }
 
 void TObjEneBm5Wolf::apply_mourning_zalure() {
-    TObjEneBm5Wolf *target = (TObjEneBm5Wolf *)find_entity_by_id(this->m_3e0);
+    TObjEneBm5Wolf *target = (TObjEneBm5Wolf *)find_entity_by_id(this->leader_id);
     if (target != 0) {
         DirectAttackPayload attack;
         attack.kind = 0xc;
@@ -717,7 +676,7 @@ void TObjEneBm5Wolf::apply_mourning_zalure() {
 }
 
 void TObjEneBm5Wolf::apply_mourning_jellen() {
-    TObjEneBm5Wolf *target = (TObjEneBm5Wolf *)find_entity_by_id(this->m_3e0);
+    TObjEneBm5Wolf *target = (TObjEneBm5Wolf *)find_entity_by_id(this->leader_id);
     if (target != 0) {
         DirectAttackPayload attack;
         attack.kind = 0xb;
@@ -738,7 +697,7 @@ void TObjEneBm5Wolf::dispatch_action(u32 state, s32 event) {
         this->sleeping_state(event);
         break;
     case 3:
-        ((State_800B73A8)TObjEneBm5Wolf::empty_state)((u8 *)this, event);
+        this->empty_state(event);
         break;
     case 4:
         this->alerted_state(event);
@@ -790,35 +749,35 @@ void TObjEneBm5Wolf::anchor_state(s32 event) {
 
     switch (event) {
     case 4:
-        this->roamingTimer = 0;
+        this->state_timer = 0;
         this->set_field_378(0);
         this->set_intangible();
-        this->m_408 = (s32) (this->m_408 | 2);
+        this->status_flags = (s32) (this->status_flags | 2);
         return;
     case 3:
-        if (this->roamingTimer > 0) {
+        if (this->state_timer > 0) {
             this->transition_enemy_state(1);
         }
     case 5:
         return;
     case 0:
-        leader = TObjEneBm5Wolf::find_pack_leader(this->m_3dc);
+        leader = TObjEneBm5Wolf::find_pack_leader(this->group_id);
         if (leader != 0) {
-            this->m_3e0 = get_entity_id(leader);
+            this->leader_id = get_entity_id(leader);
         }
-        if ((this->m_3d8 != 0) || (leader == 0)) {
-            VecCopy(&this->groupAnchor, (const Vec *)&this->m_3e8);
+        if ((this->is_leader != 0) || (leader == 0)) {
+            VecCopy(&this->group_anchor, (const Vec *)&this->spawn_position);
         } else {
-            VecCopy(&this->groupAnchor, (const Vec *)(fn_800B8B00(leader)));
+            VecCopy(&this->group_anchor, leader->get_spawn_position());
         }
-        this->roamingTimer = (this->roamingTimer + 1);
+        this->state_timer = (this->state_timer + 1);
         break;
     }
 }
 #pragma push
 #pragma fp_contract on
 void TObjEneBm5Wolf::appearing_state(s32 event) {
-    Vec *home = &this->m_444;
+    Vec *home = &this->work_point;
     f32 t;
 
     switch (event) {
@@ -826,16 +785,16 @@ void TObjEneBm5Wolf::appearing_state(s32 event) {
         this->requested_action = 0x11;
         this->set_field_378(7);
         this->set_intangible();
-        this->m_408 &= ~3;
-        this->m_408 |= 4;
+        this->status_flags &= ~3;
+        this->status_flags |= 4;
         this->enemy_clear_target();
-        this->turnOffset = 0;
+        this->turn_offset = 0;
         VecCopy(home, &this->position);
         this->position.x -= 100.0f * sin_table_lookup(this->rotation_y);
         this->position.z -= 100.0f * cos_table_lookup(this->rotation_y);
-        this->stoppingDistance = 3.3333333f;
-        this->m_40c = 0.0f;
-        this->m_438 = this->position.y;
+        this->stopping_distance = 3.3333333f;
+        this->jump_height = 0.0f;
+        this->circle_radius = this->position.y;
         break;
     case 3:
         if (this->get_flag_b4() != 0) {
@@ -862,18 +821,18 @@ void TObjEneBm5Wolf::appearing_state(s32 event) {
             }
             if (this->frame <= 30.0f) {
                 t = this->frame - 15.0f;
-                this->m_40c = (this->m_438 + (-0.08888889f * (t * t) + 20.0f)) - this->position.y;
+                this->jump_height = (this->circle_radius + (-0.08888889f * (t * t) + 20.0f)) - this->position.y;
             } else {
-                this->stoppingDistance *= 0.8f;
+                this->stopping_distance *= 0.8f;
             }
-            this->position.x += this->stoppingDistance * sin_table_lookup(this->rotation_y);
-            this->position.z += this->stoppingDistance * cos_table_lookup(this->rotation_y);
+            this->position.x += this->stopping_distance * sin_table_lookup(this->rotation_y);
+            this->position.z += this->stopping_distance * cos_table_lookup(this->rotation_y);
         }
         this->update_ground_contact();
         this->update_body_colliders();
         break;
     case 5:
-        this->m_40c = 0.0f;
+        this->jump_height = 0.0f;
         break;
     }
 }
@@ -887,11 +846,11 @@ void TObjEneBm5Wolf::sleeping_state(s32 event) {
       this->set_field_378(2);
       (this->set_intangible());
       this->enemy_clear_target();
-      this->turnOffset = 0;
-      this->m_408 = (s32) ((this->m_408) & 0xFFFFFFFE);
+      this->turn_offset = 0;
+      this->status_flags = (s32) ((this->status_flags) & 0xFFFFFFFE);
       return;
     case 3:
-      if ((this->m_408) & 1)
+      if ((this->status_flags) & 1)
     {
       this->transition_enemy_state(4);
       return;
@@ -901,7 +860,7 @@ void TObjEneBm5Wolf::sleeping_state(s32 event) {
     {
       this->enemy_copy_target_destination();
       set_anim_state();
-      entity = (TObjEneBm5Wolf *)find_entity_by_id(this->m_3e0);
+      entity = (TObjEneBm5Wolf *)find_entity_by_id(this->leader_id);
       if (entity != 0)
       {
         entity->set_attack_flag();
@@ -915,7 +874,7 @@ void TObjEneBm5Wolf::sleeping_state(s32 event) {
       (this->update_body_colliders());
       return;
     case 5:
-      this->m_408 = (s32) ((this->m_408) & 0xFFFFFFFE);
+      this->status_flags = (s32) ((this->status_flags) & 0xFFFFFFFE);
       break;
   }
 }
@@ -929,10 +888,10 @@ void TObjEneBm5Wolf::alerted_state(s32 event) {
       this->set_field_378(4);
       (this->set_intangible());
       new_var = (s32) (((s32) (60.0f * this->random_ratio())) + 0xA);
-      this->roamingSubstate = new_var;
+      this->substate = new_var;
       return;
     case 3:
-      if ((this->roamingSubstate) <= 0)
+      if ((this->substate) <= 0)
     {
       set_anim_state();
     }
@@ -940,7 +899,7 @@ void TObjEneBm5Wolf::alerted_state(s32 event) {
       return;
       return;
     case 0:
-      this->roamingSubstate = (s32) ((this->roamingSubstate) - 1);
+      this->substate = (s32) ((this->substate) - 1);
       play_variant_sound();
       this->advance_animation();
       (this->update_ground_contact());
@@ -956,17 +915,17 @@ void TObjEneBm5Wolf::standing_state(s32 event) {
       this->requested_action = 5;
       this->set_field_378(7);
       (this->set_intangible());
-      this->roamingSubstate = 0;
+      this->substate = 0;
       return;
     case 3:
-      if ((this->roamingSubstate) > 0x3C)
+      if ((this->substate) > 0x3C)
     {
       this->transition_enemy_state(7);
     }
     case 5:
       return;
     case 0:
-      this->roamingSubstate = (s32) ((this->roamingSubstate) + 1);
+      this->substate = (s32) ((this->substate) + 1);
       this->advance_animation();
       this->is_passing_frame(7.0f);
       if (enemy_validate_retained_target(this) != 0)
@@ -987,14 +946,14 @@ void TObjEneBm5Wolf::standing_state(s32 event) {
 }
 
 void TObjEneBm5Wolf::howling_state(s32 event) {
-    TObjEneBm5WolfListNode *p;
+    TObjEneBm5WolfNode *p;
     TObjEneBm5Wolf *r;
     switch (event) {
     case 4:
         this->requested_action = 0x10;
         set_field_378(7);
         this->set_intangible();
-        this->roamingSubstate = 0;
+        this->substate = 0;
         break;
     case 3:
         if (this->get_flag_b4() != 0) {
@@ -1004,7 +963,7 @@ void TObjEneBm5Wolf::howling_state(s32 event) {
     case 5:
         break;
     case 0:
-        (this->roamingSubstate)++;
+        (this->substate)++;
         advance_animation();
         if (this->requested_action == 0x10) {
             is_passing_frame(7.0f);
@@ -1012,10 +971,10 @@ void TObjEneBm5Wolf::howling_state(s32 event) {
             play_sound_effect(this->remap_sound_for_area(0x3A819), &this->position, 0, 0);
             TObjPlayer::play_effect_if_v2(-0x200);
         }
-        if (this->roamingSubstate == 0x3C) {
+        if (this->substate == 0x3C) {
             for (p = ((TObjEneBm5WolfList *)TObjEneBm5Wolf__instance_list)->head; p != NULL; p = p->next) {
-                r = play_sound__14TObjEneBm5WolfFPv(p);
-                if (this->m_3dc == ((TObjEneBm5Wolf *)r)->get_group_id()) {
+                r = p->get_owner();
+                if (this->group_id == ((TObjEneBm5Wolf *)r)->get_group_id()) {
                     r->set_attack_flag();
                 }
             }
@@ -1024,7 +983,7 @@ void TObjEneBm5Wolf::howling_state(s32 event) {
             if (this->requested_action == 0x10) {
                 this->turn_pose_to_target();
             } else {
-                this->turnOffset = 0;
+                this->turn_offset = 0;
             }
         } else {
             play_variant_sound();
@@ -1035,38 +994,38 @@ void TObjEneBm5Wolf::howling_state(s32 event) {
     }
 }
 
-void TObjEneBm5Wolf::empty_state() {  }
+void TObjEneBm5Wolf::empty_state(s32 event) {}
 #pragma push
 #pragma fp_contract on
 void TObjEneBm5Wolf::roaming_state(int event) {
-    f32 temp_f1;
-    f32 temp_f1_2;
-    f32 temp_f1_3;
-    f32 temp_f31;
-    f32 temp_f3;
+    f32 dz;
+    f32 walk_speed;
+    f32 stop_speed;
+    f32 radius;
+    f32 dx;
     f32 square;
-    s32 temp_r30;
-    TObjChara *temp_r3;
+    s32 angle;
+    TObjChara *target;
     switch (event) {
     case 4:
         this->requested_action = 1;
         set_field_378(7);
         this->clear_intangible();
-        this->roamingTimer = 0;
-        this->roamingSubstate = 0;
-        this->randomPhase = actor_rand_int((saddr)this, 0x14);
-        this->nearTarget = 0;
-        temp_r30 = (s32) (65536.0f * this->random_ratio());
-        temp_f31 = 120.0f * this->random_ratio();
-        this->destination.x = (f32) ((temp_f31 * sin_table_lookup(temp_r30)) + this->groupAnchor.x);
-        this->destination.z = (f32) ((temp_f31 * cos_table_lookup(temp_r30)) + this->groupAnchor.z);
-        this->desiredSpeed = (f32) ((0.7f * this->random_ratio()) + 0.3f);
-        this->currentSpeed = (f32) (0.0f);
-        this->stoppingDistance = (f32) (2.0f + TObjBoss2Tunnel::calc_scaled_value(0x200, this->desiredSpeed));
+        this->state_timer = 0;
+        this->substate = 0;
+        this->random_phase = actor_rand_int((saddr)this, 0x14);
+        this->near_target = 0;
+        angle = (s32) (65536.0f * this->random_ratio());
+        radius = 120.0f * this->random_ratio();
+        this->destination.x = (f32) ((radius * sin_table_lookup(angle)) + this->group_anchor.x);
+        this->destination.z = (f32) ((radius * cos_table_lookup(angle)) + this->group_anchor.z);
+        this->desired_speed = (f32) ((0.7f * this->random_ratio()) + 0.3f);
+        this->current_speed = (f32) (0.0f);
+        this->stopping_distance = (f32) (2.0f + TObjBoss2Tunnel::calc_scaled_value(0x200, this->desired_speed));
         this->update_velocity();
         return;
     case 3:
-        if (this->nearTarget != 0) {
+        if (this->near_target != 0) {
             set_state_by_timer();
         }
     case 5:
@@ -1074,59 +1033,59 @@ void TObjEneBm5Wolf::roaming_state(int event) {
     case 0:
         advance_animation();
         if (play_variant_sound() != 0) {
-            temp_r3 = this->current_target;
-            temp_f3 = temp_r3->position.x - this->position.x;
-            temp_f1 = temp_r3->position.z - this->position.z;
-            square = temp_f3 * temp_f3;
-            square = (temp_f1 * temp_f1) + square;
+            target = this->current_target;
+            dx = target->position.x - this->position.x;
+            dz = target->position.z - this->position.z;
+            square = dx * dx;
+            square = (dz * dz) + square;
             if (square < 22500.0f) {
-                this->nearTarget = 1;
+                this->near_target = 1;
             }
             turn_pose_to_target();
         } else {
             advance_pose_turn(this->rotation_y);
         }
-        switch (this->roamingSubstate) {
+        switch (this->substate) {
         case 0:
             play_footsteps();
             this->update_velocity();
             approach_target(0.05f);
-            this->roamingTimer = (this->roamingTimer + 1);
-            if ((this->destination_distance < this->stoppingDistance) || (this->roamingTimer > 0x64)) {
-                this->roamingSubstate = 1;
-                this->desiredSpeed = (f32) (0.0f);
+            this->state_timer = (this->state_timer + 1);
+            if ((this->destination_distance < this->stopping_distance) || (this->state_timer > 0x64)) {
+                this->substate = 1;
+                this->desired_speed = (f32) (0.0f);
             } else if (((s32)has_move_failures(0x14)) != 0) {
-                this->roamingTimer = 0;
+                this->state_timer = 0;
                 choose_roaming_destination();
-                this->desiredSpeed = this->rand_range(0.3f, 1.0f);
-                this->stoppingDistance = (f32) (2.0f + TObjBoss2Tunnel::calc_scaled_value(0x200, this->desiredSpeed));
+                this->desired_speed = this->rand_range(0.3f, 1.0f);
+                this->stopping_distance = (f32) (2.0f + TObjBoss2Tunnel::calc_scaled_value(0x200, this->desired_speed));
             }
-            this->play_speed = (f32) (1.1f * this->currentSpeed);
-            temp_f1_2 = this->currentSpeed;
-            enemy_turn_and_move_on_ground(this, (s32)(512.0f * temp_f1_2), (f32)temp_f1_2);
+            this->play_speed = (f32) (1.1f * this->current_speed);
+            walk_speed = this->current_speed;
+            enemy_turn_and_move_on_ground(this, (s32)(512.0f * walk_speed), (f32)walk_speed);
             break;
         case 1:
             play_footsteps();
             this->update_velocity();
             approach_target(0.020000001f);
-            if (this->currentSpeed <= 0.1f) {
-                this->roamingSubstate = 2;
-                this->roamingTimer = (s32) this->rand_range(240.0f, 360.0f);
+            if (this->current_speed <= 0.1f) {
+                this->substate = 2;
+                this->state_timer = (s32) this->rand_range(240.0f, 360.0f);
                 this->requested_action = 0;
             }
-            this->play_speed = (f32) (1.1f * this->currentSpeed);
-            temp_f1_3 = this->currentSpeed;
-            enemy_turn_and_move_on_ground(this, (s32)(512.0f * temp_f1_3), (f32)temp_f1_3);
+            this->play_speed = (f32) (1.1f * this->current_speed);
+            stop_speed = this->current_speed;
+            enemy_turn_and_move_on_ground(this, (s32)(512.0f * stop_speed), (f32)stop_speed);
             break;
         case 2:
             this->requested_action = 0;
-            this->roamingTimer = (this->roamingTimer - 1);
-            if (this->roamingTimer <= 0) {
+            this->state_timer = (this->state_timer - 1);
+            if (this->state_timer <= 0) {
                 choose_roaming_destination();
-                this->desiredSpeed = this->rand_range(0.3f, 1.0f);
-                this->currentSpeed = (f32) (0.0f);
-                this->stoppingDistance = (f32) (2.0f + TObjBoss2Tunnel::calc_scaled_value(0x200, this->desiredSpeed));
-                this->roamingSubstate = 0;
+                this->desired_speed = this->rand_range(0.3f, 1.0f);
+                this->current_speed = (f32) (0.0f);
+                this->stopping_distance = (f32) (2.0f + TObjBoss2Tunnel::calc_scaled_value(0x200, this->desired_speed));
+                this->substate = 0;
                 this->requested_action = 1;
             }
             this->update_ground_contact();
@@ -1138,15 +1097,15 @@ void TObjEneBm5Wolf::roaming_state(int event) {
 }
 #pragma pop
 void TObjEneBm5Wolf::chasing_state(s32 event) {
-    f32 temp_f1;
-    f32 temp_f1_2;
+    f32 slowed_speed;
+    f32 speed;
     switch (event) {
     case 4:
         this->requested_action = 2;
         this->set_field_378(8);
         this->clear_intangible();
-        this->desiredSpeed = (f32) (1.6f);
-        this->roamingSubstate = 0;
+        this->desired_speed = (f32) (1.6f);
+        this->substate = 0;
         break;
     case 3:
         if ((uaddr) this->current_target == 0U) {
@@ -1157,7 +1116,7 @@ void TObjEneBm5Wolf::chasing_state(s32 event) {
             this->transition_enemy_state(9);
             break;
         }
-        if ((this->roamingSubstate == 0) && (this->is_passing_frame(this->frame_count - 1.0f) != 0) && (this->destination_distance < 90.0f)) {
+        if ((this->substate == 0) && (this->is_passing_frame(this->frame_count - 1.0f) != 0) && (this->destination_distance < 90.0f)) {
             this->transition_enemy_state(0xA);
             break;
         }
@@ -1176,15 +1135,15 @@ void TObjEneBm5Wolf::chasing_state(s32 event) {
             this->enemy_copy_target_destination();
             this->update_velocity();
             if (this->frame >= 15.0f) {
-                this->currentSpeed *= 0.9f;
-                this->play_speed = (f32) (0.8f * this->currentSpeed);
-                temp_f1 = this->currentSpeed;
-                enemy_turn_and_move_on_ground(this, (768.0f * temp_f1), temp_f1);
+                this->current_speed *= 0.9f;
+                this->play_speed = (f32) (0.8f * this->current_speed);
+                slowed_speed = this->current_speed;
+                enemy_turn_and_move_on_ground(this, (768.0f * slowed_speed), slowed_speed);
             } else {
                 approach_target(0.1f);
-                this->play_speed = (f32) (0.8f * this->currentSpeed);
-                temp_f1_2 = this->currentSpeed;
-                enemy_turn_and_move_on_ground(this, (768.0f * temp_f1_2), temp_f1_2);
+                this->play_speed = (f32) (0.8f * this->current_speed);
+                speed = this->current_speed;
+                enemy_turn_and_move_on_ground(this, (768.0f * speed), speed);
             }
             turn_pose_to_target();
             this->check_collisions();
@@ -1194,20 +1153,20 @@ void TObjEneBm5Wolf::chasing_state(s32 event) {
 }
 
 void TObjEneBm5Wolf::flanking_state(s32 event) {
-    s32 *ang = &this->m_42c;
-    Vec *dst = &this->m_444;
-    Vec *src = &this->m_450;
+    s32 *ang = &this->target_heading;
+    Vec *dst = &this->work_point;
+    Vec *src = &this->work_vector;
     switch (event) {
     case 4:
         this->requested_action = 3;
         set_field_378(9);
         this->clear_intangible();
-        this->desiredSpeed = 2.0f;
-        this->roamingSubstate = 0;
-        this->roamingTimer = 0;
-        calc_rotated_vector__14TObjEneBm5WolfFPviPvPv(this, 0x1C71, src, ang);
+        this->desired_speed = 2.0f;
+        this->substate = 0;
+        this->state_timer = 0;
+        calc_rotated_vector(0x1C71, src, ang);
         VecCopy(dst, src);
-        this->m_430 = *ang;
+        this->base_heading = *ang;
         break;
     case 3:
         if (this->current_target == 0U) {
@@ -1229,28 +1188,28 @@ void TObjEneBm5Wolf::flanking_state(s32 event) {
             if (is_passing_frame(15.0f) != 0) {
                 this->enemy_copy_target_destination();
                 this->update_velocity();
-                if (this->roamingTimer == 0) {
-                    this->roamingTimer = 1;
-                    calc_rotated_vector__14TObjEneBm5WolfFPviPvPv(this, -0x1C71, src, ang);
+                if (this->state_timer == 0) {
+                    this->state_timer = 1;
+                    calc_rotated_vector(-0x1C71, src, ang);
                 } else {
-                    this->roamingTimer = 0;
-                    calc_rotated_vector__14TObjEneBm5WolfFPviPvPv(this, 0x1C71, src, ang);
+                    this->state_timer = 0;
+                    calc_rotated_vector(0x1C71, src, ang);
                 }
             }
             if (is_passing_frame(this->frame_count - 1.0f) != 0) {
                 VecCopy(dst, src);
-                this->m_430 = *ang;
+                this->base_heading = *ang;
             }
-            this->rotation_y = approach_angle_limited(this->rotation_y, this->m_430, 0x800);
+            this->rotation_y = approach_angle_limited(this->rotation_y, this->base_heading, 0x800);
             this->rotation_y = (s16)this->rotation_y;
             if (this->frame >= 15.0f) {
-                this->currentSpeed *= 0.9f;
-                this->play_speed = 0.5f * this->currentSpeed;
-                this->move_with_wall_slide_on_ground(dst->x, dst->z, this->currentSpeed);
+                this->current_speed *= 0.9f;
+                this->play_speed = 0.5f * this->current_speed;
+                this->move_with_wall_slide_on_ground(dst->x, dst->z, this->current_speed);
             } else {
                 approach_target(1.0f);
-                this->play_speed = 0.5f * this->currentSpeed;
-                this->move_with_wall_slide_on_ground(dst->x, dst->z, this->currentSpeed);
+                this->play_speed = 0.5f * this->current_speed;
+                this->move_with_wall_slide_on_ground(dst->x, dst->z, this->current_speed);
             }
             this->turn_pose_to_target();
             this->check_collisions();
@@ -1265,21 +1224,21 @@ void TObjEneBm5Wolf::circling_state(s32 event) {
     Vec *a;
     f32 vx;
     f32 vz;
-    a = &this->m_444;
-    b = &this->m_450;
+    a = &this->work_point;
+    b = &this->work_vector;
     switch (event) {
     case 4:
         this->requested_action = 1;
         this->set_field_378(10);
         this->clear_intangible();
-        this->desiredSpeed = 0.7f;
-        this->roamingSubstate = 0;
-        this->roamingTimer = 0;
-        this->randomPhase = 0;
-        this->m_428 = 0;
-        this->m_42c = 0;
-        this->stoppingDistance = 0.0f;
-        this->m_438 = 0.0f;
+        this->desired_speed = 0.7f;
+        this->substate = 0;
+        this->state_timer = 0;
+        this->random_phase = 0;
+        this->circle_shift_timer = 0;
+        this->target_heading = 0;
+        this->stopping_distance = 0.0f;
+        this->circle_radius = 0.0f;
         a->x = 0.0f;
         a->y = 0.0f;
         a->z = 0.0f;
@@ -1293,12 +1252,12 @@ void TObjEneBm5Wolf::circling_state(s32 event) {
             this->transition_enemy_state(7);
             break;
         }
-        if (this->roamingSubstate > 450) {
-            this->roamingSubstate = 0;
+        if (this->substate > 450) {
+            this->substate = 0;
             if (this->random_ratio() < 0.5f) {
                 this->transition_enemy_state(11);
             }
-        } else if (this->roamingSubstate > 45) {
+        } else if (this->substate > 45) {
             f32 dz = this->position.z - this->current_target->position.z;
             f32 dx = this->position.x - this->current_target->position.x;
             f32 d = dx * dx + dz * dz;
@@ -1320,13 +1279,13 @@ void TObjEneBm5Wolf::circling_state(s32 event) {
     case 0:
         this->advance_animation();
         if (((TObjEneEpsilon *)this)->update_death_check() != 0) {
-            if (this->randomPhase == 0) {
+            if (this->random_phase == 0) {
                 Vec fwd;
                 Vec to;
-                this->randomPhase = 1;
+                this->random_phase = 1;
                 VecCopy(a, &this->current_target->position);
-                this->stoppingDistance = calc_circle_offset__14TObjEneBm5WolfFPvPvPv(this, a, b);
-                this->m_438 = this->rand_range(50.0f, 80.0f);
+                this->stopping_distance = calc_circle_offset(a, b);
+                this->circle_radius = this->rand_range(50.0f, 80.0f);
                 fwd.x = sin_table_lookup(this->rotation_y);
                 fwd.y = 0.0f;
                 fwd.z = cos_table_lookup(this->rotation_y);
@@ -1334,38 +1293,38 @@ void TObjEneBm5Wolf::circling_state(s32 event) {
                 to.y = 0.0f;
                 to.z = this->current_target->position.z - this->position.z;
                 if (is_vec_xz_cross_negative(&fwd, &to) != 0) {
-                    this->m_42c = -1;
+                    this->target_heading = -1;
                 } else {
-                    this->m_42c = 1;
+                    this->target_heading = 1;
                 }
             }
-            this->roamingSubstate++;
+            this->substate++;
             play_footsteps();
-            if (this->m_428 > 0) {
-                this->m_428--;
-                if (this->m_42c > 0) {
-                    this->stoppingDistance -= 0.5f;
+            if (this->circle_shift_timer > 0) {
+                this->circle_shift_timer--;
+                if (this->target_heading > 0) {
+                    this->stopping_distance -= 0.5f;
                 } else {
-                    this->stoppingDistance += 0.5f;
+                    this->stopping_distance += 0.5f;
                 }
             } else {
-                f32 cur = this->stoppingDistance;
-                f32 tgt = this->m_438;
+                f32 cur = this->stopping_distance;
+                f32 tgt = this->circle_radius;
                 f32 diff = cur - tgt;
                 if (diff > 0.2f) {
-                    this->stoppingDistance = cur - 0.2f;
+                    this->stopping_distance = cur - 0.2f;
                 } else if (diff < -0.2f) {
-                    this->stoppingDistance += 0.2f;
+                    this->stopping_distance += 0.2f;
                 } else {
-                    this->stoppingDistance = tgt;
+                    this->stopping_distance = tgt;
                 }
             }
-            switch (this->randomPhase) {
+            switch (this->random_phase) {
             case 1: {
-                this->desiredSpeed = 0.7f;
+                this->desired_speed = 0.7f;
                 approach_target(0.12f);
-                calc_circle_offset__14TObjEneBm5WolfFPvPvPv(this, a, b);
-                if (this->m_42c >= 0) {
+                calc_circle_offset(a, b);
+                if (this->target_heading >= 0) {
                     vx = b->z;
                     vz = -b->x;
                 } else {
@@ -1377,10 +1336,10 @@ void TObjEneBm5Wolf::circling_state(s32 event) {
                 } else {
                     this->clear_field_388();
                 }
-                this->move_with_wall_slide_on_ground(vx, vz, this->currentSpeed);
+                this->move_with_wall_slide_on_ground(vx, vz, this->current_speed);
                 if (this->has_move_failures(10) != 0) {
-                    this->roamingTimer = 0;
-                    this->randomPhase = 2;
+                    this->state_timer = 0;
+                    this->random_phase = 2;
                 }
                 break;
             }
@@ -1388,25 +1347,25 @@ void TObjEneBm5Wolf::circling_state(s32 event) {
                 s32 ang;
                 f32 sx;
                 f32 cz;
-                this->desiredSpeed = 0.5f;
+                this->desired_speed = 0.5f;
                 approach_target(0.12f);
-                this->roamingTimer++;
-                if (this->roamingTimer >= 40) {
+                this->state_timer++;
+                if (this->state_timer >= 40) {
                     ang = this->rotation_y;
                 } else {
-                    ang = this->rotation_y + (this->m_42c << 11);
+                    ang = this->rotation_y + (this->target_heading << 11);
                 }
                 sx = sin_table_lookup(ang);
                 cz = cos_table_lookup(ang);
                 if (this->has_move_failures(2) != 0) {
-                    this->roamingTimer = 0;
+                    this->state_timer = 0;
                     this->set_active();
                 } else {
                     this->clear_field_388();
                 }
-                this->move_with_wall_slide_on_ground(sx, cz, this->currentSpeed);
-                if (this->roamingTimer >= 80) {
-                    this->randomPhase = 0;
+                this->move_with_wall_slide_on_ground(sx, cz, this->current_speed);
+                if (this->state_timer >= 80) {
+                    this->random_phase = 0;
                 }
                 break;
             }
@@ -1415,11 +1374,11 @@ void TObjEneBm5Wolf::circling_state(s32 event) {
                 (s32)(RADIANS_TO_ANGLE * atan2_float(this->position.x - this->prev_position.x, this->position.z - this->prev_position.z)),
                 0x200);
             this->rotation_y = (s16)this->rotation_y;
-            this->play_speed = 1.1f * this->currentSpeed;
+            this->play_speed = 1.1f * this->current_speed;
             this->turn_pose_to_target();
             this->check_collisions();
             if (this->bodies->flags & 0x380000) {
-                this->m_428 = 20;
+                this->circle_shift_timer = 20;
             }
         }
         break;
@@ -1430,46 +1389,46 @@ void TObjEneBm5Wolf::circling_state(s32 event) {
 }
 
 void TObjEneBm5Wolf::update_lunge(s32 event) {
-    f32 temp_f2;
-    f32 temp_f3;
+    f32 t;
+    f32 lunge_speed;
     switch (event) {
     case 4:
         this->requested_action = 0xC;
         this->set_field_378(0xD);
         this->clear_intangible();
-        this->m_408 = (s32) (this->m_408 & 0xFFFFFFFD);
-        this->m_408 = (this->m_408 | 4);
-        this->roamingSubstate = 0;
-        this->roamingTimer = 0;
-        this->m_42c = calc_lunge_aim();
-        this->m_430 = 0;
+        this->status_flags = (s32) (this->status_flags & 0xFFFFFFFD);
+        this->status_flags = (this->status_flags | 4);
+        this->substate = 0;
+        this->state_timer = 0;
+        this->target_heading = calc_lunge_aim();
+        this->base_heading = 0;
         if (this->destination_distance > 40.0f) {
             this->destination_distance = 40.0f;
         }
-        temp_f3 = this->destination_distance / 13.333333f;
-        this->desiredSpeed = temp_f3;
-        this->currentSpeed = temp_f3;
-        this->nearTarget = 0;
-        this->m_40c = (f32) (0.0f);
-        this->stoppingDistance = (f32) this->position.y;
-        this->m_43c = (f32) (20.0f);
-        this->m_438 = -0.08888889f;
+        lunge_speed = this->destination_distance / 13.333333f;
+        this->desired_speed = lunge_speed;
+        this->current_speed = lunge_speed;
+        this->near_target = 0;
+        this->jump_height = (f32) (0.0f);
+        this->stopping_distance = (f32) this->position.y;
+        this->sink_depth = (f32) (20.0f);
+        this->circle_radius = -0.08888889f;
         return;
     case 3:
-        if (this->roamingSubstate == 2) {
+        if (this->substate == 2) {
             this->transition_enemy_state(0xD);
         }
         break;
     case 0:
-        switch (this->roamingSubstate) {
+        switch (this->substate) {
         case 0:
             this->advance_animation();
             if (this->get_flag_b4() != 0) {
-                if (this->nearTarget != 0) {
-                    this->roamingSubstate = 2;
+                if (this->near_target != 0) {
+                    this->substate = 2;
                 } else {
-                    this->roamingSubstate = 1;
-                    this->roamingTimer = 0;
+                    this->substate = 1;
+                    this->state_timer = 0;
                 }
             }
             if (this->is_passing_frame(5.0f) != 0) {
@@ -1483,14 +1442,14 @@ void TObjEneBm5Wolf::update_lunge(s32 event) {
                 TObjPlayer::play_effect_if_v2(-0x500);
             }
             if (this->is_passing_frame((f32) (20.0f)) != 0) {
-                this->nearTarget = 0;
+                this->near_target = 0;
                 if (enemy_validate_retained_target(this) != 0) {
                     if (this->current_target->select_melee_contact_body(this, 1.0f) != 0) {
                         this->current_target->receive_physical_attack(this, 1.0f);
                         this->current_target->apply_knockback_from_attacker((u8 *)this, 7.0f);
-                        this->nearTarget = 1;
+                        this->near_target = 1;
                         if ((TObjEneDD::check_v2_mode() != 0) && (this->random_ratio() <= 0.1f)) {
-                            if (this->m_3d8 != 0) {
+                            if (this->is_leader != 0) {
                                 TObjEneDD__sub_800BA378(this, this->current_target);
                             } else {
                                 TObjEneDD::send_damage_message(this, this->current_target);
@@ -1500,55 +1459,55 @@ void TObjEneBm5Wolf::update_lunge(s32 event) {
                 }
             }
             approach_target((f32) (0.1f));
-            this->rotation_y = approach_angle_limited(this->rotation_y, this->m_42c, 0x1000);
+            this->rotation_y = approach_angle_limited(this->rotation_y, this->target_heading, 0x1000);
             this->rotation_y = (s32) (s16) this->rotation_y;
             advance_pose_turn(this->rotation_y);
             if (this->frame <= 30.0f) {
-                this->move_with_wall_slide_on_ground(this->destination_direction.x, this->destination_direction.z, this->currentSpeed);
-                temp_f2 = this->frame - 15.0f;
-                this->m_40c = (f32) ((this->stoppingDistance + ((this->m_438 * (temp_f2 * temp_f2)) + 20.0f)) - this->position.y);
+                this->move_with_wall_slide_on_ground(this->destination_direction.x, this->destination_direction.z, this->current_speed);
+                t = this->frame - 15.0f;
+                this->jump_height = (f32) ((this->stopping_distance + ((this->circle_radius * (t * t)) + 20.0f)) - this->position.y);
             } else {
-                if (this->nearTarget == 0) {
-                    this->currentSpeed *= 0.8f;
-                    this->move_with_wall_slide_on_ground(this->destination_direction.x, this->destination_direction.z, this->currentSpeed);
+                if (this->near_target == 0) {
+                    this->current_speed *= 0.8f;
+                    this->move_with_wall_slide_on_ground(this->destination_direction.x, this->destination_direction.z, this->current_speed);
                 }
-                this->m_40c = (f32) (0.0f);
+                this->jump_height = (f32) (0.0f);
             }
             break;
         case 1:
             this->advance_animation();
-            this->roamingTimer = (this->roamingTimer + 1);
-            if (this->roamingTimer >= 0xA) {
-                this->roamingSubstate = 2;
+            this->state_timer = (this->state_timer + 1);
+            if (this->state_timer >= 0xA) {
+                this->substate = 2;
             }
             advance_pose_turn(this->rotation_y);
-            if (this->nearTarget == 0) {
-                this->currentSpeed *= 0.8f;
-                this->move_with_wall_slide_on_ground(this->destination_direction.x, this->destination_direction.z, this->currentSpeed);
+            if (this->near_target == 0) {
+                this->current_speed *= 0.8f;
+                this->move_with_wall_slide_on_ground(this->destination_direction.x, this->destination_direction.z, this->current_speed);
             }
             break;
         }
         this->check_collisions();
         return;
     case 5:
-        this->m_40c = (f32) (0.0f);
+        this->jump_height = (f32) (0.0f);
         break;
     }
 }
 
 void TObjEneBm5Wolf::returning_state(s32 event) {
-    Vec *home = &this->m_450;
-    f32 lim = this->stoppingDistance;
+    Vec *home = &this->work_vector;
+    f32 lim = this->stopping_distance;
     switch (event) {
     case 4:
         this->requested_action = 1;
         this->set_field_378(0xC);
         this->clear_intangible();
-        this->desiredSpeed = 1.6f;
-        this->roamingSubstate = 0;
+        this->desired_speed = 1.6f;
+        this->substate = 0;
         VecCopy(home, &this->position);
         TObjBoss2Tunnel::calc_scaled_value(0x200, 1.6f);
-        this->m_430 = this->rotation_y;
+        this->base_heading = this->rotation_y;
         if (this->enemy_has_live_target() != 0) {
             Vec a;
             Vec d;
@@ -1559,19 +1518,19 @@ void TObjEneBm5Wolf::returning_state(s32 event) {
             d.x = t->position.x - this->position.x;
             d.z = t->position.z - this->position.z;
             if (is_vec_xz_cross_negative(&a, &d) != 0) {
-                this->m_42c = 0x5000;
+                this->target_heading = 0x5000;
             } else {
-                this->m_42c = -0x5000;
+                this->target_heading = -0x5000;
             }
         } else if (this->random_ratio() < 0.5f) {
-            this->m_42c = 0x5000;
+            this->target_heading = 0x5000;
         } else {
-            this->m_42c = -0x5000;
+            this->target_heading = -0x5000;
         }
-        this->m_42c = this->m_42c + this->m_430;
+        this->target_heading = this->target_heading + this->base_heading;
         break;
     case 3:
-        if (this->current_target == NULL || this->roamingSubstate > 0x96) {
+        if (this->current_target == NULL || this->substate > 0x96) {
             this->transition_enemy_state(7);
         } else if (this->destination_distance < lim) {
             this->transition_enemy_state(0xA);
@@ -1580,17 +1539,17 @@ void TObjEneBm5Wolf::returning_state(s32 event) {
     case 5:
         break;
     case 0:
-        this->roamingSubstate++;
+        this->substate++;
         this->advance_animation();
         if (((TObjEneEpsilon *)this)->update_death_check() != 0) {
             play_footsteps();
-            this->m_42c = approach_angle_limited(this->m_42c, this->m_430, 0x100);
-            this->destination.x = 90.0f * sin_table_lookup(this->m_42c) + home->x;
-            this->destination.z = 90.0f * cos_table_lookup(this->m_42c) + home->z;
+            this->target_heading = approach_angle_limited(this->target_heading, this->base_heading, 0x100);
+            this->destination.x = 90.0f * sin_table_lookup(this->target_heading) + home->x;
+            this->destination.z = 90.0f * cos_table_lookup(this->target_heading) + home->z;
             this->update_velocity();
             approach_target(0.2f);
-            this->play_speed = 1.1f * this->currentSpeed;
-            enemy_turn_and_move_on_ground(this, 0x500, this->currentSpeed);
+            this->play_speed = 1.1f * this->current_speed;
+            enemy_turn_and_move_on_ground(this, 0x500, this->current_speed);
             this->turn_pose_to_target();
             this->check_collisions();
         }
@@ -1604,12 +1563,12 @@ void TObjEneBm5Wolf::repositioning_state(s32 event) {
         this->requested_action = 0;
         this->set_field_378(0xD);
         this->clear_intangible();
-        this->roamingSubstate = 0;
-        this->m_42c = 0;
-        this->roamingTimer = 0;
+        this->substate = 0;
+        this->target_heading = 0;
+        this->state_timer = 0;
         return;
     case 3:
-        if (this->roamingSubstate == 2) {
+        if (this->substate == 2) {
             if (this->current_target != 0U) {
                 this->transition_enemy_state(0xA);
             } else {
@@ -1621,29 +1580,29 @@ void TObjEneBm5Wolf::repositioning_state(s32 event) {
         break;
     case 0:
         this->advance_animation();
-        switch (this->roamingSubstate) {
+        switch (this->substate) {
         case 0: {
             f32 dx;
             f32 dz;
-            this->m_42c = ((this->roamingTimer >> 1) << 0xC) + 0x1800;
-            if (this->roamingTimer & 1) {
-                this->m_42c = -this->m_42c;
+            this->target_heading = ((this->state_timer >> 1) << 0xC) + 0x1800;
+            if (this->state_timer & 1) {
+                this->target_heading = -this->target_heading;
             }
             if (get_flag_bit0() == 0) {
-                this->m_42c = -this->m_42c;
+                this->target_heading = -this->target_heading;
             }
-            this->m_42c += this->rotation_y;
-            (this->roamingTimer)++;
-            if (this->roamingTimer > 8) {
-                this->roamingSubstate = 2;
+            this->target_heading += this->rotation_y;
+            (this->state_timer)++;
+            if (this->state_timer > 8) {
+                this->substate = 2;
             }
-            dx = 16.0f * sin_table_lookup(this->m_42c);
-            dz = 16.0f * cos_table_lookup(this->m_42c);
-            this->m_410->position.x = this->position.x + dx;
-            this->m_410->position.y = this->position.y;
-            this->m_410->position.z = this->position.z + dz;
-            ((TObjPlayer *)(this->m_410))->update_collisions();
-            if (!(this->m_410->bodies->flags & 0x380000)) {
+            dx = 16.0f * sin_table_lookup(this->target_heading);
+            dz = 16.0f * cos_table_lookup(this->target_heading);
+            this->attack_collider->position.x = this->position.x + dx;
+            this->attack_collider->position.y = this->position.y;
+            this->attack_collider->position.z = this->position.z + dz;
+            this->attack_collider->update_collisions();
+            if (!(this->attack_collider->bodies->flags & 0x380000)) {
                 dx *= 2.0f;
                 dz *= 2.0f;
                 if (this->enemy_probe_wall_ahead(dx, dz, 1.0f) == NULL) {
@@ -1651,12 +1610,12 @@ void TObjEneBm5Wolf::repositioning_state(s32 event) {
                     VecCopy(&v, &this->body_center);
                     v.x += dx;
                     v.z += dz;
-                    if (csnVectorUnder(&v, (CsnGroup **)&this->m_120, 0x15) != NULL) {
-                        this->roamingSubstate = 1;
+                    if (csnVectorUnder(&v, (CsnGroup **)&this->ground_cache, 0x15) != NULL) {
+                        this->substate = 1;
                         this->requested_action = 0x12;
-                        this->destination_direction.x = sin_table_lookup(this->m_42c);
+                        this->destination_direction.x = sin_table_lookup(this->target_heading);
                         this->destination_direction.y = 0.0f;
-                        this->destination_direction.z = cos_table_lookup(this->m_42c);
+                        this->destination_direction.z = cos_table_lookup(this->target_heading);
                     }
                 }
             }
@@ -1665,12 +1624,12 @@ void TObjEneBm5Wolf::repositioning_state(s32 event) {
         case 1:
             if (this->get_flag_b4() != 0) {
                 select_target();
-                this->roamingSubstate = 2;
+                this->substate = 2;
             }
             play_proximity_effect();
             this->move_with_wall_slide_on_ground(this->destination_direction.x, this->destination_direction.z, 1.8f);
-            this->rotation_y = approach_angle_limited(this->rotation_y, this->m_42c, 0xF00);
-            advance_pose_turn(this->m_42c);
+            this->rotation_y = approach_angle_limited(this->rotation_y, this->target_heading, 0xF00);
+            advance_pose_turn(this->target_heading);
             this->check_collisions();
             break;
         }
@@ -1678,14 +1637,14 @@ void TObjEneBm5Wolf::repositioning_state(s32 event) {
     }
 }
 
-void TObjEneBm5Wolf::action(s32 arg1) {
-    switch (arg1) {
+void TObjEneBm5Wolf::action(s32 event) {
+    switch (event) {
     case 4:
         this->clear_intangible();
         this->set_field_378(7);
         this->requested_action = 0xB;
-        this->roamingSubstate = 0;
-        TObjEneBm5Wolf::find_pack_leader(this->m_3dc);
+        this->substate = 0;
+        TObjEneBm5Wolf::find_pack_leader(this->group_id);
         return;
     case 3:
         if (this->get_flag_b4() != 0) {
@@ -1700,10 +1659,10 @@ void TObjEneBm5Wolf::action(s32 arg1) {
             play_sound_effect(this->remap_sound_for_area(0x3AA1A), &this->position, 0, 0);
             TObjPlayer::play_effect_if_v2(-0x100);
         }
-        this->roamingSubstate = (this->roamingSubstate + 1);
-        if (this->roamingSubstate == 0x1E) {
+        this->substate = (this->substate + 1);
+        if (this->substate == 0x1E) {
             apply_mourning_zalure();
-        } else if (this->roamingSubstate == 0x28) {
+        } else if (this->substate == 0x28) {
             apply_mourning_jellen();
         }
         this->check_collisions();
@@ -1716,10 +1675,10 @@ void TObjEneBm5Wolf::hurt_state(s32 event) {
     case 4:
         this->clear_intangible();
         TBoss8Dragon__sub_800BB7D4(this, 0xF1);
-        this->roamingTimer = 0;
-        this->m_42c = 0;
+        this->state_timer = 0;
+        this->target_heading = 0;
         this->requested_action = 6;
-        this->roamingSubstate = 0;
+        this->substate = 0;
         if (this->referenceHp - this->hp < 0x14) {
             play_sound_effect(this->remap_sound_for_area(0x3AB1B), &this->position, 0, 0);
             TObjPlayer::play_effect_if_v2(-0x500);
@@ -1744,21 +1703,21 @@ void TObjEneBm5Wolf::hurt_state(s32 event) {
     case 0: {
         Vec v;
         this->advance_animation();
-        VecCopy(&v, (const Vec *)&this->x_speed);
+        VecCopy(&v, (const Vec *)&this->velocity.x);
         {
         f32 c = normalize_vector_xz(&v);
         this->move_with_wall_slide_on_ground(v.x, v.z, c);
         }
-        if (this->roamingSubstate == 0) {
-            this->x_speed *= 0.5f;
-            this->m_310 *= 0.5f;
+        if (this->substate == 0) {
+            this->velocity.x *= 0.5f;
+            this->velocity.z *= 0.5f;
         } else {
-            this->x_speed *= 0.9f;
-            this->m_310 *= 0.9f;
-            this->rotation_y = approach_angle_limited(this->rotation_y, this->m_42c, 0x300);
+            this->velocity.x *= 0.9f;
+            this->velocity.z *= 0.9f;
+            this->rotation_y = approach_angle_limited(this->rotation_y, this->target_heading, 0x300);
             this->rotation_y = (s16) this->rotation_y;
             if (this->is_passing_frame(22.0f) != 0) {
-                spawn_recoil_dust__14TObjEneBm5WolfFiPv(this, &v);
+                spawn_recoil_dust(&v);
             }
         }
         this->check_collisions();
@@ -1773,13 +1732,13 @@ void TObjEneBm5Wolf::hurt_state(s32 event) {
 
 void TObjEneBm5Wolf::update_dying_state(s32 event) {
     s32 *tgt;
-    TObjEneBm5WolfListNode *n;
+    TObjEneBm5WolfNode *n;
     TObjEneBm5Wolf *e;
     f32 k;
     Vec pos;
     Vec vel;
     f32 c;
-    tgt = &this->m_42c;
+    tgt = &this->target_heading;
     switch (event) {
     case 4:
         this->clear_intangible();
@@ -1792,14 +1751,14 @@ void TObjEneBm5Wolf::update_dying_state(s32 event) {
             this->requested_action = 0xE;
         }
         TBoss8Dragon__sub_800BB7D4(this, 0xF1);
-        this->roamingSubstate = 0;
-        this->stoppingDistance = calc_death_slide_speed(this->action_table[9].speed);
-        this->wall_reach = this->m_43c = 0.0f;
-        if (this->m_3d8 != 0) {
+        this->substate = 0;
+        this->stopping_distance = calc_death_slide_speed(this->action_table[9].speed);
+        this->wall_reach = this->sink_depth = 0.0f;
+        if (this->is_leader != 0) {
             k = 50.0f;
             for (n = ((TObjEneBm5WolfList *)TObjEneBm5Wolf__pack_member_list)->head; n != NULL; n = n->next) {
-                e = play_sound__14TObjEneBm5WolfFPv(n);
-                if (e != NULL && e->m_3dc == this->m_3dc) {
+                e = n->get_owner();
+                if (e != NULL && e->group_id == this->group_id) {
                     ((TObjEneBm5Wolf *)e)->schedule_pack_reaction((s32)(k * this->random_ratio()) + 0x14, this->attacker_id);
                 }
             }
@@ -1807,18 +1766,18 @@ void TObjEneBm5Wolf::update_dying_state(s32 event) {
         this->set_active();
         break;
     case 3:
-        if (this->roamingSubstate == 2) {
+        if (this->substate == 2) {
             this->transition_enemy_state(0x11);
         }
         break;
     case 1:
         break;
     case 0:
-        switch (this->roamingSubstate) {
+        switch (this->substate) {
         case 0:
             this->advance_animation();
             if (this->get_flag_b4() != 0) {
-                this->roamingSubstate = 1;
+                this->substate = 1;
                 pos.y = 0.0f;
                 if (this->requested_action == 0xE) {
                     pos.x = 12.0f;
@@ -1830,29 +1789,29 @@ void TObjEneBm5Wolf::update_dying_state(s32 event) {
                 rotate_xz_pair_by_angle(&pos.x, &pos.z, this->rotation_y);
                 vec3_add_to(&pos, &this->position);
                 TObjPlayer::spawn_dead_spot_type2((saddr)&pos, 0x32);
-                ((TObjPlayer *)(&pos))->spawn_effect_at_ground(0x46);
+                spawn_effect_at_ground(&pos, 0x46);
             }
             this->rotation_y = approach_angle_limited(this->rotation_y, *tgt, 0x300);
             this->rotation_y = (s16)this->rotation_y;
             if (this->wall_reach < 28.0f) {
-                this->wall_reach = this->wall_reach + this->stoppingDistance;
+                this->wall_reach = this->wall_reach + this->stopping_distance;
             }
-            VecCopy(&vel, (const Vec *)&this->x_speed);
+            VecCopy(&vel, (const Vec *)&this->velocity.x);
             c = normalize_vector_xz(&vel);
             this->move_clamped_on_ground(vel.x, vel.z, c);
             if (this->is_passing_frame(22.0f) != 0) {
-                spawn_recoil_dust__14TObjEneBm5WolfFiPv(this, &vel);
+                spawn_recoil_dust(&vel);
             }
-            this->x_speed *= 0.8f;
-            this->m_310 *= 0.8f;
+            this->velocity.x *= 0.8f;
+            this->velocity.z *= 0.8f;
             advance_pose_turn(this->rotation_y);
             this->update_body_colliders();
             break;
         case 1:
             this->position.y -= 0.1f;
-            this->m_43c += 0.1f;
-            if (this->m_43c > 20.0f) {
-                this->roamingSubstate = 2;
+            this->sink_depth += 0.1f;
+            if (this->sink_depth > 20.0f) {
+                this->substate = 2;
             }
             break;
         }
@@ -1874,32 +1833,32 @@ void TObjEneBm5Wolf::despawn_state(s32 msg) {
 }
 
 void TObjEneBm5Wolf::advance_spawn_timer(NJS_OBJECT *) {
-    if (((s32) TObjEneBm5Wolf__spawn_timer >= 0x16) && ((s32) TObjEneBm5Wolf__spawn_timer < 0x18)) {
-        rotate_matrix_y(0, TObjEneBm5Wolf__data_805D5128);
+    if (((s32) TObjEneBm5Wolf__render_node_index >= 0x16) && ((s32) TObjEneBm5Wolf__render_node_index < 0x18)) {
+        rotate_matrix_y(0, TObjEneBm5Wolf__render_joint_y_rotation);
     }
-    TObjEneBm5Wolf__spawn_timer += 1;
+    TObjEneBm5Wolf__render_node_index += 1;
 }
 
 void TObjEneBm5Wolf::render() {
     s32 rot[3];
-    s32 var_r31;
+    s32 detail;
     if (TObjPlayer::check_demo_mode() != 0) {
         this->render_debug();
         return;
     }
-    if (!(this->m_408 & 2) && ((s16) this->mode != 0x11)) {
+    if (!(this->status_flags & 2) && ((s16) this->mode != 0x11)) {
         if (TObjEneDD::is_main_phase_15() != 0) {
-            var_r31 = this->classify_actor_view_detail(lbl_805D9E88, lbl_805D9E84, 20.0f);
+            detail = this->classify_actor_view_detail(view_detail_near_depth, view_detail_far_depth, 20.0f);
         } else if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
-            var_r31 = 1;
+            detail = 1;
         } else {
-            var_r31 = 0;
+            detail = 0;
         }
-        if (var_r31 != 0) {
+        if (detail != 0) {
             if ((s16) this->mode != 0x10) {
                 direction_to_rotation_xz((u8 *)&this->ground_normal, &rot[0], &rot[2]);
                 push_matrix();
-                post_translate_matrix(&this->position);
+                post_translate_matrix(&this->position.x);
                 translate_matrix(0, 0.0f, 0.3f, 0.0f);
                 rotate_matrix_z(0, rot[2]);
                 rotate_matrix_x(0, rot[0]);
@@ -1913,18 +1872,18 @@ void TObjEneBm5Wolf::render() {
             this->update_secondary_light();
             TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
             push_matrix();
-            post_translate_matrix(&this->position);
+            post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
             translate_matrix(0, 0.0f, 0.0f, -10.0f);
-            if (this->m_408 & 4) {
-                translate_matrix(0, 0.0f, this->m_40c, 0.0f);
+            if (this->status_flags & 4) {
+                translate_matrix(0, 0.0f, this->jump_height, 0.0f);
             }
-            TObjEneBm5Wolf__spawn_timer = 0;
-            TObjEneBm5Wolf__data_805D5128 = -(this->turnOffset / 2);
+            TObjEneBm5Wolf__render_node_index = 0;
+            TObjEneBm5Wolf__render_joint_y_rotation = -(this->turn_offset / 2);
             set_chunk_model_node_callback(TObjEneBm5Wolf::advance_spawn_timer);
             TObjEneDD::clear_global_flag_400();
             TObjPlayer::toggle_particle_effect();
-            if (var_r31 == 1) {
+            if (detail == 1) {
                 this->draw();
             } else {
                 this->draw_motion_model();
@@ -1941,13 +1900,13 @@ void TObjEneBm5Wolf::update_state() {
     s32 old_subtype;
 
     if (this->get_target_info() != 0) {
-        old_subtype = this->m_3d8;
+        old_subtype = this->is_leader;
         this->select_subtype();
-        if (old_subtype != this->m_3d8) {
+        if (old_subtype != this->is_leader) {
             if (old_subtype != 0) {
-                this->update_default();
+                this->remove_from_instance_list();
             } else {
-                this->apply_global_to_position();
+                this->add_to_instance_list();
             }
         }
         this->update_collision_center();
@@ -1964,8 +1923,8 @@ void TObjEneBm5Wolf::render_debug() {
     TObjEneBm5Wolf *leader;
 
     if (this->get_target_info() != 0) {
-        debug_printf_at(pack_debug_text_position(0, 0), "GROUP:%2d", this->m_3dc);
-        if (this->m_3d8 != 0) {
+        debug_printf_at(pack_debug_text_position(0, 0), "GROUP:%2d", this->group_id);
+        if (this->is_leader != 0) {
             debug_printf_at(pack_debug_text_position(0, 1), "L/M:LEADER");
         } else {
             debug_printf_at(pack_debug_text_position(0, 1), "L/M:MEMBER");
@@ -1975,7 +1934,7 @@ void TObjEneBm5Wolf::render_debug() {
         this->draw_ground_shadow(0, 0);
         TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
         push_matrix();
-        post_translate_matrix(&this->position);
+        post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         idx = (s32) this->parameters[3];
         if (idx < 0) {
@@ -2001,7 +1960,7 @@ void TObjEneBm5Wolf::render_debug() {
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }
-    leader = TObjEneBm5Wolf::find_pack_leader(this->m_3dc);
+    leader = TObjEneBm5Wolf::find_pack_leader(this->group_id);
     if (leader != 0) {
         debug_draw_line(&this->body_center, &leader->body_center, 0xFFC0C0C0, 0xFF6060FF);
         return;

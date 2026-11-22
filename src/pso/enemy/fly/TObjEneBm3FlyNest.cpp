@@ -40,26 +40,20 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
+#include "pso/player/TObjPlayer_800D8FDC.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/render/model_render_state.h"
 
 #pragma readonly_strings on
 
 extern "C" {
 
-struct Ent_800B23A0 { s32 a; u32 count; };
-
-struct Pair_800B23A0 { s32 k; Ent_800B23A0 *e; };
-
-void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 angle);
-s32 set_field_e4__10TObjPlayerFll(void *, int, f32);
-void spawn_dead_spot_scale15(s32 point, s32 delay);
-void free_collision_body_parts(void *);
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-s32 play_sound_effect(s32, void *, int, int);
-f32 sin_table_lookup(int);
-f32 cos_table_lookup(int);
-s32 vec3_add_to(void *, void *);
-s32 post_translate_matrix(void *);
-void draw_model_motion(void *model, void *motion, f32 frame);
 
 Bm3FlyMovementParameters bm3_fly_nest_params = { 225.0f, 0.0f, 0x600, { 0, 0, 0, 0 } };
 CollisionBody bm3_flynest_collider_params[1] = {
@@ -83,35 +77,27 @@ TObjMotionAction bm3_flynest_hit_action_table[10] = {
 static const s32 bm3_fly_nest_attachment_sample_table[8] = { 2, 4, 9, 11, 16, 18, 24, 26 };
 const char *bm3_fly_nest_class_name = "TObjEneBm3FlyNest";
 const char *TObjEneBm3FlyNest_CarryFly__name = "TObjEneBm3FlyNest_CarryFly";
-typedef struct Ctl_800B47C4 {
-    f32 *pv;
-    s32 *pc;
-    s32 d;
-    s32 e;
-    s32 f;
-} Ctl_800B47C4;
+struct Bm3FlyNestVertexList {
+    f32 *vertices;
+    s32 *indices;
+    s32 pad_08;
+    s32 count;
+    s32 pad_10;
+};
 Vec TObjEneBm3FlyNest__attachment_sample_origin;
 f32 fly_nest_vertex_table[6];
-__declspec(section ".data") s32 lbl_80500B24[2];
-Ctl_800B47C4 lbl_80500B2C;
+__declspec(section ".data") s32 fly_nest_vertex_indices[2];
+Bm3FlyNestVertexList fly_nest_vertex_list;
 extern saddr debug_chunk_object;
-u8 *lbl_805D50F8;
-u8 *lbl_805D50FC;
-u8 *lbl_805D5100;
-void *lbl_805D5104;
-BmlResource *lbl_805D5108;
-s32 lbl_805D510C;
+u8 *bm3_fly_nest_base_stats;
+u8 *bm3_fly_nest_attack_stats;
+u8 *bm3_fly_nest_resist_stats;
+void *bm3_fly_nest_lobby_params;
+BmlResource *bm3_fly_nest_bml;
+s32 bm3_fly_nest_node_index;
 Vec *TObjEneBm3FlyNest_attachment_point_ptr;
-Vec *lbl_805D5114;
+Vec *bm3_fly_nest_sample_cursor;
 s32 bm3_fly_nest_attachment_index;
-extern s32 saved_model_render_flags;
-extern s32 saved_chunk_polygon_flags_and_mask;
-extern s32 saved_chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_and_mask;
-extern const f32 lbl_805D9E84;
-extern const f32 lbl_805D9E88;
-extern s32 model_render_flags;
 }
 
 #pragma defer_codegen on
@@ -120,12 +106,12 @@ void TObjEneBm3FlyNest::init_vertex_table() {
     f32 *v = fly_nest_vertex_table;
     v[3] = v[2] = v[1] = v[0] = 0.0f;
     v[5] = v[4] = 6.0f;
-    lbl_80500B24[0] = -1;
-    lbl_80500B24[1] = -1;
-    lbl_80500B2C.pv = fly_nest_vertex_table;
-    lbl_80500B2C.pc = lbl_80500B24;
-    lbl_80500B2C.d = 0;
-    lbl_80500B2C.e = 2;
+    fly_nest_vertex_indices[0] = -1;
+    fly_nest_vertex_indices[1] = -1;
+    fly_nest_vertex_list.vertices = fly_nest_vertex_table;
+    fly_nest_vertex_list.indices = fly_nest_vertex_indices;
+    fly_nest_vertex_list.pad_08 = 0;
+    fly_nest_vertex_list.count = 2;
 }
 
 TObjEneBm3FlyNest_CarryFly::TObjEneBm3FlyNest_CarryFly(TObject *parent, Vec *origin, Vec *target, Vec *unused, s32 *arrived, s32 index) : TObject(parent) {
@@ -142,10 +128,10 @@ TObjEneBm3FlyNest_CarryFly::TObjEneBm3FlyNest_CarryFly(TObject *parent, Vec *ori
     offset.x = 6.0f * v.x;
     offset.y = 6.0f;
     offset.z = 6.0f * v.z;
-    motion = lbl_805D5108->motions[10].motion;
+    motion = bm3_fly_nest_bml->motions[10].motion;
     frame = (f32) (this->index * 2);
-    unk_3C = 1.0f;
-    unk_44 = 0;
+    pad_3c = 1.0f;
+    pad_44 = 0;
     velocity.x = 0.0f;
     velocity.y = 0.0f;
     velocity.z = 0.0f;
@@ -207,7 +193,7 @@ void TObjEneBm3FlyNest_CarryFly::run_task() {
         v = v - 0.05f * spd;
         if (v < 0.5f * -spd) {
             spawn_particle_effect(target, 0xC8);
-            ((s32 (*)(s32, void *, s32, s32))play_sound_effect)(((TObjEneBm3FlyNest *)m_up)->copy_target_state(0x4003AB27), target, 0, 0);
+            play_sound_effect(((TObjEneBm3FlyNest *)m_up)->copy_target_state(0x4003AB27), target, 0, 0);
             TObjPlayer::play_effect_if_v2(-0x400);
             queue_destruction();
             break;
@@ -225,17 +211,17 @@ void TObjEneBm3FlyNest_CarryFly::run_task() {
 #pragma pop
 
 void TObjEneBm3FlyNest_CarryFly::render() {
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D5108->models[0].m_c));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(bm3_fly_nest_bml->models[0].m_c));
     push_matrix();
     if (state == 0) {
-        post_translate_matrix(origin);
+        post_translate_matrix(&origin->x);
     } else {
-        post_translate_matrix(target);
+        post_translate_matrix(&target->x);
     }
-    post_translate_matrix(&offset);
+    post_translate_matrix(&offset.x);
     rotate_matrix_y(0, angle);
     set_motion_packed_rotation();
-    draw_model_motion((void *)lbl_805D5108->models[0].model, motion, frame);
+    draw_model_motion((void *)bm3_fly_nest_bml->models[0].model, motion, frame);
     clear_motion_packed_rotation();
     pop_matrix();
 }
@@ -245,25 +231,25 @@ void TObjEneBm3FlyNest::load_resources() {
     TObjEneBm3FlyNest__attachment_sample_origin.x = 0.0f;
     TObjEneBm3FlyNest__attachment_sample_origin.y = 0.0f;
     TObjEneBm3FlyNest__attachment_sample_origin.z = 0.0f;
-    lbl_805D510C = 0;
+    bm3_fly_nest_node_index = 0;
     TObjEneBm3FlyNest_attachment_point_ptr = NULL;
-    lbl_805D5114 = NULL;
+    bm3_fly_nest_sample_cursor = NULL;
     bm3_fly_nest_attachment_index = 0;
     if (TObjEneDD::check_v2_mode() != 0) {
-        lbl_805D5108 = load_enemy_bml_resource_named(&bm3_fly_nest_resource_desc, "bm_ene_bm3_fly_a.bml");
+        bm3_fly_nest_bml = load_enemy_bml_resource_named(&bm3_fly_nest_resource_desc, "bm_ene_bm3_fly_a.bml");
     } else {
-        lbl_805D5108 = load_enemy_bml_resource(&bm3_fly_nest_resource_desc);
+        bm3_fly_nest_bml = load_enemy_bml_resource(&bm3_fly_nest_resource_desc);
     }
-    lbl_805D50F8 = (u8 *)TLobby::register_boss(1);
-    lbl_805D50FC = (u8 *)TLobby::dispatch_shared_handler_b(1);
-    lbl_805D5100 = (u8 *)TLobby::register_object(1);
-    lbl_805D5104 = TLobby::dispatch_shared_handler_a(1);
+    bm3_fly_nest_base_stats = (u8 *)TLobby::register_boss(1);
+    bm3_fly_nest_attack_stats = (u8 *)TLobby::dispatch_shared_handler_b(1);
+    bm3_fly_nest_resist_stats = (u8 *)TLobby::register_object(1);
+    bm3_fly_nest_lobby_params = TLobby::dispatch_shared_handler_a(1);
     TObjEneBm3Fly::load_resources();
     TObjEneBm3FlyNest::init_vertex_table();
     {
         NpcAnimationBinding anim = { NULL, reinterpret_cast<TObjMotionAction *>(bm3_flynest_hit_action_table), 0, 8, 10 };
-        anim.motions = reinterpret_cast<BmlMotionEntry *>(lbl_805D5108->motions);
-        models = lbl_805D5108->models;
+        anim.motions = reinterpret_cast<BmlMotionEntry *>(bm3_fly_nest_bml->motions);
+        models = bm3_fly_nest_bml->models;
         NpcModelRegistry::register_animated_chunk(8, reinterpret_cast<void *>(models[1].model), reinterpret_cast<void *>(models[0].m_c), &anim, bm3_flynest_collider_params[0].radius, 0.0f);
     }
 }
@@ -274,13 +260,13 @@ void *TObjEneBm3FlyNest::create(void *set_data) {
 
 void TObjEneBm3FlyNest::free_fly() {
     TObjEneBm3Fly::release_shared_data();
-    if (lbl_805D5108 != NULL) {
-        delete lbl_805D5108;
-        lbl_805D5108 = NULL;
+    if (bm3_fly_nest_bml != NULL) {
+        delete bm3_fly_nest_bml;
+        bm3_fly_nest_bml = NULL;
     }
 }
 
-BmlResource *TObjEneBm3FlyNest::sub_800B4158() { return lbl_805D5108; }
+BmlResource *TObjEneBm3FlyNest::get_bml_resource() { return bm3_fly_nest_bml; }
 
 #pragma push
 #pragma opt_loop_invariants off
@@ -290,17 +276,17 @@ TObjEneBm3FlyNest::TObjEneBm3FlyNest(TObject *parent, Bm3FlyNestSetData *set_dat
     m_name = bm3_fly_nest_class_name;
     invoke_initialization_hook(set_data);
     init_position_vectors();
-    model = (void *)lbl_805D5108->models[1].model;
-    texlist = (saddr)lbl_805D5108->models[0].m_c;
+    model = (void *)bm3_fly_nest_bml->models[1].model;
+    texlist = (saddr)bm3_fly_nest_bml->models[0].m_c;
     init_model(bm3_flynest_collider_params, 1);
     body_center.y = 20.0f + position.y;
     update_body_colliders();
     set_field_d8((saddr)bm3_flynest_hit_action_table);
-    set_field_dc((saddr)lbl_805D5108->motions);
+    set_field_dc((saddr)bm3_fly_nest_bml->motions);
     requested_action = 0;
     set_animation(requested_action);
     set_field_b8(requested_action);
-    reset_hp(lbl_805D50F8, lbl_805D50FC, lbl_805D5100);
+    reset_hp(bm3_fly_nest_base_stats, bm3_fly_nest_attack_stats, bm3_fly_nest_resist_stats);
     set_state_flag_1();
     movementParameters = &bm3_fly_nest_params;
     initialize_enemy_state(4);
@@ -310,10 +296,10 @@ TObjEneBm3FlyNest::TObjEneBm3FlyNest(TObject *parent, Bm3FlyNestSetData *set_dat
         total_num = set_data->unknown_02;
     }
     for (i = 0; i < 4; i++) {
-        unk_398[i] = 0;
+        pad_398[i] = 0;
     }
-    unk_3a8 = 0;
-    unk_3ac = 0;
+    fallen = 0;
+    drawn = 0;
     child_count = 0;
     spawned_count = 0;
     next_child_id = entity_id + 1;
@@ -321,26 +307,26 @@ TObjEneBm3FlyNest::TObjEneBm3FlyNest(TObject *parent, Bm3FlyNestSetData *set_dat
         child_ids[i] = 0xFFFF;
     }
     for (i = 0; i < 2; i++) {
-        VecCopy(&unk_3c8[i], &position);
+        VecCopy(&attachment_points[i], &position);
     }
-    unk_3c8[1].y += 25.0f;
+    attachment_points[1].y += 25.0f;
     for (i = 0; i < 8; i++) {
-        VecCopy(&unk_3e0[i], &position);
+        VecCopy(&carry_origins[i], &position);
     }
     for (i = 0; i < 4; i++) {
         fades[i].activate_and_dispatch();
     }
-    unk_4b0 = 0.0f;
-    unk_4b4 = 0;
-    unk_4b8 = 0;
-    unk_4bc = 0;
-    unk_4c0 = 0;
-    unk_4c4 = 0;
-    unk_4c8 = 0;
-    unk_4cc = 0;
-    unk_4d0 = 0;
-    unk_4d4 = 0;
-    unk_4d8 = 0.0f;
+    height_offset = 0.0f;
+    replenish_state = 0;
+    pending_spawns = 0;
+    replenish_timer = 0;
+    replenish_count = 0;
+    replenish_interval = 0;
+    counter = 0;
+    carry_release = 0;
+    step = 0;
+    descent_wave = 0;
+    sink_depth = 0.0f;
     mode = 0;
     dispatch_action(mode, 4);
 }
@@ -383,7 +369,7 @@ void TObjEneBm3FlyNest::dispatch_action(u32 state, s32 reason) {
         handle_event(reason);
         return;
     case 4:
-        sub_800B318C(reason);
+        update_down_state(reason);
         return;
     case 5:
         update_state(reason);
@@ -411,7 +397,7 @@ void TObjEneBm3FlyNest::run_death_reaction() {
 
     m = mode;
     if ((m != 9) && (m != 8) && (m != 4)) {
-        if (unk_3a8 == 0) {
+        if (fallen == 0) {
             transition_enemy_state(4);
             return;
         }
@@ -446,19 +432,19 @@ void TObjEneBm3FlyNest::update_replenish() {
     s32 room_left;
     s32 total_left;
     s32 n;
-    switch (unk_4b4) {
+    switch (replenish_state) {
     case 0:
-        if ((child_count <= start_num / 2) || (unk_3a8 != 0)) {
-            unk_4b4 = 1;
-            unk_4bc = 0;
+        if ((child_count <= start_num / 2) || (fallen != 0)) {
+            replenish_state = 1;
+            replenish_timer = 0;
         }
         return;
     case 1:
-        if (unk_4c0 > 0) {
-            unk_4bc = unk_4bc + 1;
-            if (unk_4bc > unk_4c4) {
-                unk_4bc = 0;
-                n = unk_4c0;
+        if (replenish_count > 0) {
+            replenish_timer = replenish_timer + 1;
+            if (replenish_timer > replenish_interval) {
+                replenish_timer = 0;
+                n = replenish_count;
                 room_left = 6 - child_count;
                 if (room_left < n) {
                     n = room_left;
@@ -467,7 +453,7 @@ void TObjEneBm3FlyNest::update_replenish() {
                 if (total_left < n) {
                     n = total_left;
                 }
-                unk_4b8 = n;
+                pending_spawns = n;
                 return;
             }
         }
@@ -475,8 +461,8 @@ void TObjEneBm3FlyNest::update_replenish() {
     }
 }
 
-s32 TObjEneBm3FlyNest::sub_800B3AC8() {
-    return unk_4b8 > 0;
+s32 TObjEneBm3FlyNest::has_pending_spawns() {
+    return pending_spawns > 0;
 }
 
 void TObjEneBm3FlyNest::spawn_child() {
@@ -485,12 +471,12 @@ void TObjEneBm3FlyNest::spawn_child() {
     saddr n;
     if (child_count <= 6) {
         n = (set_index + 1) + spawned_count;
-        VecCopy(&pos, sub_800B2A54());
-        if (((TObjEneBm3Fly *)this)->create(next_child_id, n, &pos, &velocity) != 0) {
+        VecCopy(&pos, get_spawn_point());
+        if (TObjEneBm3Fly::create(this, next_child_id, n, &pos, &velocity) != 0) {
             child_ids[child_count++] = next_child_id;
             next_child_id++;
             spawned_count++;
-            spawn_particle_effect(&unk_3c8[1], 0xC8);
+            spawn_particle_effect(&attachment_points[1], 0xC8);
             play_sound_effect(remap_sound_for_area(0x4003AB27), &position, 0, 0);
             TObjPlayer::play_effect_if_v2(-0x400);
         }
@@ -523,7 +509,7 @@ void TObjEneBm3FlyNest::init_params() {
 #pragma push
 #pragma fp_contract on
 void TObjEneBm3FlyNest::handle_appear(s32 reason) {
-    s32 *cnt = &unk_4cc;
+    s32 *cnt = &carry_release;
     s32 i;
 
     switch (reason) {
@@ -531,47 +517,47 @@ void TObjEneBm3FlyNest::handle_appear(s32 reason) {
         requested_action = 8;
         set_intangible();
         set_field_378(2);
-        unk_4b0 = 100.0f;
-        unk_4c8 = 0;
-        unk_4d0 = 0;
-        unk_4d4 = 0;
+        height_offset = 100.0f;
+        counter = 0;
+        step = 0;
+        descent_wave = 0;
         break;
     case 3:
-        if (unk_4d0 == 2 && get_flag_b4() != 0) {
+        if (step == 2 && get_flag_b4() != 0) {
             transition_enemy_state(1);
         }
         break;
     case 0:
         advance_animation();
-        switch (unk_4d0) {
+        switch (step) {
         case 0:
-            unk_4c8 += 1;
-            if (unk_4c8 == 1) {
+            counter += 1;
+            if (counter == 1) {
                 *cnt = 0;
                 for (i = 0; i < 6; i++) {
-                    new TObjEneBm3FlyNest_CarryFly(this, &unk_3e0[i], &unk_3c8[1], &position, cnt, i + 1);
+                    new TObjEneBm3FlyNest_CarryFly(this, &carry_origins[i], &attachment_points[1], &position, cnt, i + 1);
                 }
             }
-            unk_4b0 = unk_4b0 - ((0.3f * (1.0f + sin_table_lookup(unk_4d4))) + 0.2f);
-            unk_4d4 += 0x700;
-            if (unk_4b0 < 18.0f && requested_action != 9) {
+            height_offset = height_offset - ((0.3f * (1.0f + sin_table_lookup(descent_wave))) + 0.2f);
+            descent_wave += 0x700;
+            if (height_offset < 18.0f && requested_action != 9) {
                 requested_action = 9;
             }
-            if (unk_4b0 < -5.0f) {
-                unk_4b0 = -5.0f;
-                unk_4d0 = 1;
-                unk_4c8 = 0;
+            if (height_offset < -5.0f) {
+                height_offset = -5.0f;
+                step = 1;
+                counter = 0;
                 spawn_particle_effect(&position, 0xF0);
                 play_sound_effect(remap_sound_for_area(0x4003B72A), &position, 0, 0);
             }
             break;
         case 1:
-            unk_4c8 += 1;
-            if (unk_4c8 > 3) {
-                unk_4c8 = 0;
+            counter += 1;
+            if (counter > 3) {
+                counter = 0;
                 *cnt += 1;
                 if (*cnt >= 6) {
-                    unk_4d0 = 2;
+                    step = 2;
                 }
             }
             break;
@@ -591,14 +577,14 @@ void TObjEneBm3FlyNest::state_initial_emit(s32 reason) {
         requested_action = 0;
         set_intangible();
         set_field_378(2);
-        unk_4b0 = -5.0f;
-        unk_4c8 = 0;
-        unk_4cc = 0;
-        unk_4d0 = 0;
+        height_offset = -5.0f;
+        counter = 0;
+        emitted = 0;
+        step = 0;
         break;
     case 3:
         advance_animation();
-        if (unk_4d0 == 3) {
+        if (step == 3) {
             switch (state) {
             case 2:
                 transition_enemy_state(state);
@@ -613,7 +599,7 @@ void TObjEneBm3FlyNest::state_initial_emit(s32 reason) {
                 advance_animation();
                 frame = frame_count - 1.0f;
                 actorFlags |= 0x800;
-                unk_3a8 = 1;
+                fallen = 1;
                 transition_enemy_state(state);
                 break;
             }
@@ -623,29 +609,29 @@ void TObjEneBm3FlyNest::state_initial_emit(s32 reason) {
         break;
     case 0:
         advance_animation();
-        unk_4c8 += 1;
-        switch (unk_4d0) {
+        counter += 1;
+        switch (step) {
         case 0:
-            if (unk_4c8 > 0x3C) {
-                unk_4d0 = 2;
+            if (counter > 0x3C) {
+                step = 2;
                 requested_action = 1;
             }
             break;
         case 1:
             if (is_passing_frame(15.0f) != 0) {
-                unk_4d0 = 2;
+                step = 2;
             }
             break;
         case 2:
             if (get_flag_b4() != 0) {
                 requested_action = 0;
             }
-            if ((unk_4c8 % 10) == 0) {
-                if (unk_4cc < start_num) {
+            if ((counter % 10) == 0) {
+                if (emitted < start_num) {
                     spawn_child();
-                    unk_4cc += 1;
+                    emitted += 1;
                 } else {
-                    unk_4d0 = 3;
+                    step = 3;
                 }
             }
             break;
@@ -660,12 +646,12 @@ void TObjEneBm3FlyNest::state_wait(s32 reason) {
         requested_action = 0;
         clear_intangible();
         set_field_378(2);
-        unk_4b0 = -5.0f;
-        unk_4c0 = 1;
-        unk_4c4 = 0x96;
+        height_offset = -5.0f;
+        replenish_count = 1;
+        replenish_interval = 0x96;
         return;
     case 3:
-        if (sub_800B3AC8() != 0) {
+        if (has_pending_spawns() != 0) {
             transition_enemy_state(3);
         }
         break;
@@ -685,7 +671,7 @@ void TObjEneBm3FlyNest::handle_event(s32 reason) {
         requested_action = 1;
         clear_intangible();
         set_field_378(2);
-        unk_4b0 = -5.0f;
+        height_offset = -5.0f;
         return;
     case 3:
         if (motion_flags & 0x10) {
@@ -698,7 +684,7 @@ void TObjEneBm3FlyNest::handle_event(s32 reason) {
         advance_animation();
         if (is_passing_frame(15.0f) != 0) {
             spawn_child();
-            unk_4b8 = unk_4b8 - 1;
+            pending_spawns = pending_spawns - 1;
         }
         update_ground_contact();
         break;
@@ -708,7 +694,7 @@ void TObjEneBm3FlyNest::handle_event(s32 reason) {
 #pragma push
 #pragma opt_common_subs off
 #pragma fp_contract on
-void TObjEneBm3FlyNest::sub_800B318C(s32 reason) {
+void TObjEneBm3FlyNest::update_down_state(s32 reason) {
     Vec pos;
     s32 angle;
     switch (reason) {
@@ -717,7 +703,7 @@ void TObjEneBm3FlyNest::sub_800B318C(s32 reason) {
         requested_action = 3;
         clear_intangible();
         set_field_378(5);
-        unk_4b0 = -5.0f;
+        height_offset = -5.0f;
         break;
     case 3:
         if (motion_flags & 0x10) {
@@ -739,9 +725,9 @@ void TObjEneBm3FlyNest::sub_800B318C(s32 reason) {
             pos.z += 16.0f * cos_table_lookup(angle);
             spawn_particle_effect(&pos, 0xF0);
         }
-        unk_4b0 += 0.1f;
-        if (unk_4b0 > 0.0f) {
-            unk_4b0 = 0.0f;
+        height_offset += 0.1f;
+        if (height_offset > 0.0f) {
+            height_offset = 0.0f;
         }
         update_ground_contact();
         break;
@@ -758,17 +744,17 @@ void TObjEneBm3FlyNest::update_state(s32 reason) {
         requested_action = 4;
         clear_intangible();
         set_field_378(5);
-        unk_4b0 = 0.0f;
-        if (unk_3a8 == 0) {
-            unk_3a8 = 1;
-            unk_4c0 = 2;
-            unk_4c4 = 0x78;
+        height_offset = 0.0f;
+        if (fallen == 0) {
+            fallen = 1;
+            replenish_count = 2;
+            replenish_interval = 0x78;
         }
         break;
     case 5:
         break;
     case 3:
-        if (sub_800B3AC8() != 0) {
+        if (has_pending_spawns() != 0) {
             transition_enemy_state(6);
             return;
         }
@@ -787,7 +773,7 @@ void TObjEneBm3FlyNest::state_spawn(s32 reason) {
         requested_action = 5;
         clear_intangible();
         set_field_378(5);
-        unk_4b0 = 0.0f;
+        height_offset = 0.0f;
         return;
     case 3:
         if (motion_flags & 0x10) {
@@ -800,7 +786,7 @@ void TObjEneBm3FlyNest::state_spawn(s32 reason) {
     case 0:
         if (is_passing_frame(15.0f) != 0) {
             spawn_child();
-            unk_4b8 = unk_4b8 - 1;
+            pending_spawns = pending_spawns - 1;
         }
         advance_animation();
         update_ground_contact();
@@ -815,17 +801,17 @@ void TObjEneBm3FlyNest::handle_motion_event(s32 reason) {
         ((TBoss8Dragon *)this)->noop();
         TBoss8Dragon__sub_800BB7D4(this, 0xF1);
         play_sound_effect(remap_sound_for_area(0x4003A829), &position, 0, 0);
-        if (unk_3a8 != 0) {
+        if (fallen != 0) {
             requested_action = 6;
-            unk_4b0 = 0.0f;
+            height_offset = 0.0f;
             return;
         }
         requested_action = 2;
-        unk_4b0 = -5.0f;
+        height_offset = -5.0f;
         return;
     case 3:
         if (get_flag_b4() != 0) {
-            if (unk_3a8 != 0) {
+            if (fallen != 0) {
                 transition_enemy_state(5);
                 return;
             }
@@ -858,37 +844,37 @@ void TObjEneBm3FlyNest::state_dying(s32 reason) {
     case 4:
         requested_action = 7;
         clear_intangible();
-        unk_4b0 = 0.0f;
-        ((TObjPlayer *)this)->refresh_lobby_state();
-        unk_4c8 = 4;
-        unk_4cc = 0x14;
-        unk_4d0 = 0;
-        unk_4d8 = 0.0f;
+        height_offset = 0.0f;
+        refresh_lobby_state();
+        counter = 4;
+        sound_timer = 0x14;
+        step = 0;
+        sink_depth = 0.0f;
         break;
     case 3:
-        if (unk_4d8 >= 20.0f) {
+        if (sink_depth >= 20.0f) {
             transition_enemy_state(9);
         }
         break;
     case 5:
         break;
     case 0:
-        switch (unk_4d0) {
+        switch (step) {
         case 0:
             advance_animation();
             if (get_flag_b4() != 0) {
-                unk_4d0 = 1;
+                step = 1;
                 v.x = -10.0f;
                 v.y = 0.0f;
                 v.z = -8.0f;
                 rotate_xz_pair_by_angle(&v.x, &v.z, rotation_y);
                 vec3_add_to(&v, &position);
                 spawn_dead_spot_scale15((saddr)&v, 0x32);
-                set_field_e4__10TObjPlayerFll(&v, 0x46, 10.0f);
+                create_dead_spot_e4(&v, 0x46, 10.0f);
             }
             if (frame < 25.0f) {
-                unk_4c8 += 1;
-                if (unk_4c8 >= 4) {
+                counter += 1;
+                if (counter >= 4) {
                     r = rand_range(5.0f, 10.0f);
                     a = get_random_scaled();
                     VecCopy(&p, &body_center);
@@ -896,18 +882,18 @@ void TObjEneBm3FlyNest::state_dying(s32 reason) {
                     p.y += 5.0f;
                     p.z = r * cos_table_lookup(a) + p.z;
                     spawn_particle_effect(&p, 0xF1);
-                    unk_4c8 = 0;
+                    counter = 0;
                 }
-                unk_4cc += 1;
-                if (unk_4cc >= 0x14) {
+                sound_timer += 1;
+                if (sound_timer >= 0x14) {
                     play_sound_effect(remap_sound_for_area(0x4003AD2B), &position, 0, 0);
-                    unk_4cc = 0;
+                    sound_timer = 0;
                 }
             }
             update_ground_contact();
             break;
         case 1:
-            unk_4d8 += 0.1f;
+            sink_depth += 0.1f;
             position.y -= 0.1f;
             break;
         }
@@ -936,8 +922,8 @@ s32 TObjEneBm3FlyNest::has_free_attack_slot(u16 id) {
     s32 n = 0;
     s32 i;
     for (i = 0; i < child_count; i++) {
-        u8 *p = (u8 *)find_entity_by_id(child_ids[i]);
-        if (p != 0 && id == ((TObjEneBm3Fly *)p)->get_active_id()) {
+        TObjEneBm3Fly *fly = (TObjEneBm3Fly *)find_entity_by_id(child_ids[i]);
+        if (fly != NULL && id == fly->get_active_id()) {
             n++;
         }
     }
@@ -947,10 +933,10 @@ s32 TObjEneBm3FlyNest::has_free_attack_slot(u16 id) {
     return n < 2;
 }
 
-void TObjEneBm3FlyNest::remove_child(u8 *child) {
+void TObjEneBm3FlyNest::remove_child(TObjEneBm3Fly *child) {
     s32 i;
     for (i = 0; i < 6; i++) {
-        if (find_entity_by_id(child_ids[i]) == reinterpret_cast<TObjCollidable *>(child)) {
+        if (find_entity_by_id(child_ids[i]) == child) {
             child_count--;
             child_ids[i] = child_ids[child_count];
             child_ids[child_count] = 0xFFFF;
@@ -959,30 +945,30 @@ void TObjEneBm3FlyNest::remove_child(u8 *child) {
     }
 }
 
-Vec *TObjEneBm3FlyNest::sub_800B2A54() { return &unk_3c8[1]; }
+Vec *TObjEneBm3FlyNest::get_spawn_point() { return &attachment_points[1]; }
 
 s32 TObjEneBm3FlyNest::copy_target_state(s32 sound_id) { return remap_sound_for_area(sound_id); }
 
 void TObjEneBm3FlyNest::init() { init_params(); }
 
-void TObjEneBm3FlyNest::capture_attachment(NJS_OBJECT *_w0) {
-    switch (lbl_805D510C) {
+void TObjEneBm3FlyNest::capture_attachment(NJS_OBJECT *object) {
+    switch (bm3_fly_nest_node_index) {
     case 36: case 45:
         forward_transform_to_view(&TObjEneBm3FlyNest__attachment_sample_origin, TObjEneBm3FlyNest_attachment_point_ptr++);
         break;
     }
-    ++lbl_805D510C;
+    ++bm3_fly_nest_node_index;
 }
 
-void TObjEneBm3FlyNest::handle_attachment_sample(NJS_OBJECT *arg0) {
+void TObjEneBm3FlyNest::handle_attachment_sample(NJS_OBJECT *object) {
     Vec *pos;
-    if (lbl_805D510C == bm3_fly_nest_attachment_sample_table[bm3_fly_nest_attachment_index]) {
-        pos = lbl_805D5114;
+    if (bm3_fly_nest_node_index == bm3_fly_nest_attachment_sample_table[bm3_fly_nest_attachment_index]) {
+        pos = bm3_fly_nest_sample_cursor;
         bm3_fly_nest_attachment_index += 1;
-        lbl_805D5114 = pos + 1;
+        bm3_fly_nest_sample_cursor = pos + 1;
         forward_transform_to_view(&TObjEneBm3FlyNest__attachment_sample_origin, pos);
     }
-    TObjEneBm3FlyNest::capture_attachment(arg0);
+    TObjEneBm3FlyNest::capture_attachment(object);
 }
 
 void TObjEneBm3FlyNest::render() {
@@ -999,10 +985,10 @@ void TObjEneBm3FlyNest::render() {
     if (is_split_screen() != 0) {
         cam = TCameraCtrl::get_camera_mode();
     }
-    unk_3ac = 0;
+    drawn = 0;
     if (mode != 9) {
         if (TObjEneDD::is_main_phase_15() != 0) {
-            res = classify_actor_view_detail(25.0f + lbl_805D9E88, 50.0f + lbl_805D9E84, 120.0f);
+            res = classify_actor_view_detail(25.0f + view_detail_near_depth, 50.0f + view_detail_far_depth, 120.0f);
         } else if (update_object_view_visibility(500.0f, 120.0f) != 0) {
             res = 1;
         } else {
@@ -1010,7 +996,7 @@ void TObjEneBm3FlyNest::render() {
         }
         if (res != 0) {
             visible = 1;
-            unk_3ac = 1;
+            drawn = 1;
             saved_model_render_flags = model_render_flags;
             saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
             saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
@@ -1025,7 +1011,7 @@ void TObjEneBm3FlyNest::render() {
             if (mode != 9) {
                 Vec v = {5.0f, 1.0f, 5.0f};
                 if (mode == 0) {
-                    t = 10.0f / (unk_4b0 - 2.0f);
+                    t = 10.0f / (height_offset - 2.0f);
                     if (t < 1.0f && t > 0.0f) {
                         v.x = v.z = 5.0f * t;
                     }
@@ -1036,18 +1022,18 @@ void TObjEneBm3FlyNest::render() {
                 update_secondary_light();
                 TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
                 push_matrix();
-                lbl_805D510C = 0;
-                TObjEneBm3FlyNest_attachment_point_ptr = &unk_3c8[0];
-                post_translate_matrix(&position);
-                ((s32 (*)(int, f32, f32, f32))translate_matrix)(0, 0.0f, unk_4b0, 0.0f);
+                bm3_fly_nest_node_index = 0;
+                TObjEneBm3FlyNest_attachment_point_ptr = &attachment_points[0];
+                post_translate_matrix(&position.x);
+                translate_matrix(0, 0.0f, height_offset, 0.0f);
                 if (mode == 0) {
                     bm3_fly_nest_attachment_index = 0;
-                    lbl_805D5114 = unk_3e0;
+                    bm3_fly_nest_sample_cursor = carry_origins;
                     set_chunk_model_node_callback(TObjEneBm3FlyNest::handle_attachment_sample);
                 } else {
                     set_chunk_model_node_callback(TObjEneBm3FlyNest::capture_attachment);
                 }
-                ((s32 (*)(int, int))rotate_matrix_y)(0, rotation_y);
+                rotate_matrix_y(0, rotation_y);
                 TObjEneDD::clear_global_flag_400();
                 TObjPlayer::toggle_particle_effect();
                 if (res == 1) {
@@ -1068,15 +1054,14 @@ void TObjEneBm3FlyNest::render() {
             chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         }
     }
-    VecCopy(&body_center, &unk_3c8[0]);
+    VecCopy(&body_center, &attachment_points[0]);
 }
 
 #pragma pool_data off
 void TObjEneBm3FlyNest::render_with_state_debug() {
-    u8 *self = (u8 *)this;
-    f32 var_f31;
-    Ent_800B23A0 *var_r30;
-    if (((TObjEneDD *)self)->get_target_info() != 0) {
+    f32 motion_frame;
+    AnimationMotion *motion;
+    if (get_target_info() != 0) {
         switch (this->state) {
         default:
         case 2:
@@ -1095,39 +1080,40 @@ void TObjEneBm3FlyNest::render_with_state_debug() {
     switch (this->state) {
     default:
     case 2:
-        var_f31 = 0.0f;
-        var_r30 = (*(Pair_800B23A0 * *)&this->motion_list)[*(s32 *)((s8 *)(*(u8 * *)&this->action_table) + 4)].e;
+        motion_frame = 0.0f;
+        motion = this->motion_list[this->action_table[0].motion].motion;
         break;
     case 9:
-        var_r30 = (*(Pair_800B23A0 * *)&this->motion_list)[*(s32 *)((s8 *)(*(u8 * *)&this->action_table) + 0x74)].e;
-        var_f31 = var_r30->count - 1;
+        motion = this->motion_list[this->action_table[7].motion].motion;
+        motion_frame = motion->frameCount - 1;
         break;
     case 5:
-        var_r30 = (*(Pair_800B23A0 * *)&this->motion_list)[*(s32 *)((s8 *)(*(u8 * *)&this->action_table) + 0x34)].e;
-        var_f31 = var_r30->count - 1;
+        motion = this->motion_list[this->action_table[3].motion].motion;
+        motion_frame = motion->frameCount - 1;
         break;
     }
     if (this->update_object_view_visibility(500.0f, 120.0f) != 0) {
         Vec v = {5.0f, 1.0f, 5.0f};
-        ((TObjEneDD *)(self))->draw_ground_shadow(&v, 1);
+        draw_ground_shadow(&v, 1);
         TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
         push_matrix();
-        ((void (*)(void *))post_translate_matrix)(self + 0x38);
+        post_translate_matrix(&this->position.x);
         translate_matrix(0, 0.0f, -5.0f, 0.0f);
         rotate_matrix_y(0, this->rotation_y);
         TObjEneDD::clear_global_flag_400();
         TObjPlayer::toggle_particle_effect();
         set_motion_packed_rotation();
-        draw_model_motion(this->model, var_r30, var_f31);
+        draw_model_motion(this->model, motion, motion_frame);
         clear_motion_packed_rotation();
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }
     push_matrix();
-    ((void (*)(void *))post_translate_matrix)(self + 0x38);
+    post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
-    translate_matrix(0, *(f32 *)((s8 *)self + 0x35C), *(f32 *)((s8 *)self + 0x360), *(f32 *)((s8 *)self + 0x364));
+    translate_matrix(0, this->parameters[2], this->parameters[3], this->parameters[4]);
     draw_chunk_object((void *)debug_chunk_object);
     pop_matrix();
 }
+
 #pragma pool_data reset

@@ -290,7 +290,7 @@ void TObjNpcEnemy::render() {
     TObjNpcEnemyEntry *entry;
 
     if ((this->entry != NULL) && (this->update_object_view_visibility(this->m_398, this->m_39c) != 0) && ((s32) this->m_390 == 1)) {
-        select_actor_lighting((saddr)arg0);
+        select_actor_lighting(this);
         if (((TObjNpcEnemy *)arg0)->sub_802D7444() != 0) {
             model_render_flags |= 1;
         }
@@ -316,7 +316,7 @@ TObjNpcEnemy::~TObjNpcEnemy() {}
 TObjNpcEnemy::TObjNpcEnemy(TObject *parent, void *set_data) : TObjNpcBase(parent) {
     m_name = TObjNpcEnemy_class_name;
     apply_set_data(set_data);
-    ((TObjPlayer *)this)->init_position_vectors();
+    init_position_vectors();
     apply_set_params(0, 1);
     movementParameters = &npc_movement_parameters;
     set_motion_params(&npc_default_battle_stats);

@@ -7,10 +7,11 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/system/BmlResource.h"
+#include "pso/system/NinjaTypes.h"
 
 extern "C" {
-extern void *lbl_805D4DD8;
-extern s32 __vt__19TObjBoss5PillarDemo[];
+extern BmlResource *lbl_805D4DD8;
 #pragma push
 #pragma readonly_strings on
 const char *TObjBoss5PillarDemo__name = "TObjBoss5PillarDemo";
@@ -41,29 +42,18 @@ TObjBoss5PillarDemo::~TObjBoss5PillarDemo() {
 
 }
 
-u8 *TObjBoss5PillarDemo__ct(TObjBoss5PillarDemo *boss5_pillar_demo, saddr parent, saddr arg2) {
-    TObjBoss5Pillar__ct((boss5_pillar_demo), (u8 *)parent, (u8 *)arg2);
-    *(s32 **)((s8 *)boss5_pillar_demo + 0x18) = __vt__19TObjBoss5PillarDemo;
-    *(s32 *)((s8 *)boss5_pillar_demo + 0) = (saddr)TObjBoss5PillarDemo__name;
-    boss5_pillar_demo->m_24 = 0.5f;
-    boss5_pillar_demo->m_38 = *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&lbl_805D4DD8) + 0x42C)) + 0x38);
-    boss5_pillar_demo->m_3c = *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&lbl_805D4DD8) + 0x42C)) + 0x48);
-    boss5_pillar_demo->m_40 = *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&lbl_805D4DD8) + 0x430)) + 4);
-    boss5_pillar_demo->m_44 = *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&lbl_805D4DD8) + 0x430)) + 0xC);
-    return (u8 *)boss5_pillar_demo;
+TObjBoss5PillarDemo::TObjBoss5PillarDemo(TObject *parent, Vec *pos) : TObjBoss5Pillar(parent, pos) {
+    m_name = TObjBoss5PillarDemo__name;
+    this->frame_step = 0.5f;
+    this->models[0] = lbl_805D4DD8->models[3].model;
+    this->models[1] = lbl_805D4DD8->models[4].model;
+    this->motions[0] = lbl_805D4DD8->motions[0].motion;
+    this->motions[1] = lbl_805D4DD8->motions[1].motion;
 }
 
 TObjBoss5PillarDemo *TObjBoss5PillarDemo::create() {
-    s32 temp_r31;
-    saddr boss5_pillar_demo;
-    saddr var_r0;
-    temp_r31 = *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&lbl_805D4DD8) + 0x42C)) + 0x38);
-    boss5_pillar_demo = (saddr)TObject::operator new(0x4C);
-    var_r0 = boss5_pillar_demo;
-    if (var_r0 != 0) {
-        var_r0 = ((saddr)TObjBoss5PillarDemo__ct((TObjBoss5PillarDemo *)((u8 *)boss5_pillar_demo), (saddr)tl_02, temp_r31 + 8));
-    }
-    return (TObjBoss5PillarDemo *)var_r0;
+    NJS_OBJECT *model = lbl_805D4DD8->models[3].model;
+    return new TObjBoss5PillarDemo(tl_02, (Vec *)model->pos);
 }
 
 void TObjBoss5PillarDemo__sub_8028ACE0(void) {  }

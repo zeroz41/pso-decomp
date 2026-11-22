@@ -7,6 +7,7 @@
 #include "pso/render/TUnk_80490470.h"
 
 class TObject;
+class TUnk_80494968;
 
 struct TObjEneDimedian : public TUnk_80493450 {
     TObjEneDimedian(TObject *parent, void *set_data);
@@ -24,9 +25,9 @@ struct TObjEneDimedian : public TUnk_80493450 {
     virtual void spawn_death_effect();
     virtual void update_attack_trail();
     virtual void beast_retire_corpse();
-    TUnk_80490470 m_3a8;
-    TObject *m_3c4[2];
-    RenderFadeState m_3cc[4];
+    TUnk_80490470 body_fade;  // raised while appearing, decayed by beast_retire_corpse
+    TUnk_80494968 *attack_trails[2];  // fed by update_attack_trail from the claw samples
+    RenderFadeState camera_fades[4];  // one per camera (render indexes it by camera mode)
     static void *create(void *arg0);
     static void free_boss_objects();
 };

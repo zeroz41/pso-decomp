@@ -10,16 +10,12 @@ struct MojaBattleStat {
     u8 unknown_00[0x18];
     s32 techniqueLevel;
 };
-struct MojaCollisionState {
-    u8 unknown_00[0x18];
-    s32 flags;
-};
 // One per variant (TObjEnemy::variant); TObjEnemy::movementParameters points
 // at the Moja's.
 struct MojaMovementParameters {
-    f32 unknown_00;
-    f32 unknown_04;
-    s32 unknown_08;
+    f32 target_range;  // find_nearest_visible_player's radius; a farther target is dropped
+    f32 move_speed;    // wander and chase speed
+    s32 turn_speed;    // turn_toward_direction's max step
     u32 unknown_0C[4];
 };
 // The motion-binding block TLobby::spawn_npc_enemy takes (same layout as
@@ -30,6 +26,9 @@ struct MojaAnimationBinding {
     u32 unknown_08;
     u16 actionCount;
     u16 unknown_0E;
+};
+struct MojaParticleAngles {
+    s32 x, y, z;
 };
 struct TObjEneMoja : public TObjEnemy {
     TObjEneMoja(TObject *parent, void *setData);
@@ -64,8 +63,10 @@ struct TObjEneMoja : public TObjEnemy {
     s32 calc_technique_level();
     void select_rare_variant();
     void update_death_state();
-    static void update_technique_state(void *self_800AD3D8);
-    static void update_punch_attack(void *self_800ADAAC);
+    void update_technique_state();
+    void update_punch_attack();
+    void update_invincibility();
+    void update_ground_effect();
     void update_approach_state();
     void update_idle_state();
     void update_appearance_jump();

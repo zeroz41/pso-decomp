@@ -41,7 +41,7 @@ s32 get_move_done_result__24TObjWaitEntryHairMoveSimFPv(H_800FE32C *h) {
 
 }
 void T_OWEHMS_Exp::start_bone_rotation() {
-    saddr bone = (saddr)player->m_8ac;
+    saddr bone = (saddr)player->hair_model;
     TObjWaitEntryHairMoveSim__sub_800FE3BC(bone);
     TObjEZBoneRotPlayer::create((void *)player, (void *)bone, (void *)((u8*)&hair_bone_rotation_descriptor + descriptor_index * 0x14));
 }
@@ -49,7 +49,7 @@ void T_OWEHMS_Exp::start_bone_rotation() {
 void TObjWaitEntryHairMoveSim__sub_800FE3BC(int _w0) {  }
 
 void T_OWEHMS_Exp::run_task() {
-    if (player->m_cfc == 0) {
+    if (player->model_load_flags == 0) {
         start_bone_rotation();
         queue_destruction();
     }

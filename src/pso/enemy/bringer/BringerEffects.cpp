@@ -4,7 +4,7 @@
 #include "pso/enemy/bringer/BringerEffects.h"
 #include "pso/enemy/bringer/TObjEneDf2Bringer_Eff_Rush.h"
 #include "pso/enemy/AttackTargetHistory.h"
-#include "pso/enemy/TUnk_8048FE08.h"
+#include "pso/enemy/bringer/TObjEneDf2Bringer_Eff_TpAbsorb1.h"
 #include "pso/enemy/TUnk_8048FE64.h"
 #include "pso/enemy/TUnk_8048FE7C.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
@@ -21,28 +21,27 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include <stdlib.h>
 #include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 
 // Written last-to-first: the unit is built with -inline off,deferred, which emits the functions
 // (and pools their constants) in reverse order.
 
 extern "C" {
-s32 is_vec_xz_cross_negative(void *, void *);
-s32 rotate_xz_pair_by_angle(void *, void *, s32);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__26TObjEneDf2Bringer_Eff_Rush[];
 }
 
-// The first argument of TUnk_804928CC::call_vt13_with_default (contents {3.0f, 3}; fields unknown),
-// as in TObjEneDellBiterEffects.
+// The first argument of TUnk_804928CC::call_vt13_with_default: the recoil and the bodies the shot
+// tests (bit 0 players, bit 1 enemies; see DragonAttackParams), as in TObjEneDellBiterEffects.
 struct BringerTpAbsorbHitParams {
-    f32 unk_0;
-    s32 unk_4;
+    f32 recoil;
+    s32 contact_flags;
 };
 
 const char *bringer_rush_effect_name = "TObjEneDf2Bringer_Eff_Rush";
 const char *bringer_tp_absorb_effect_name = "TObjEneDf2Bringer_Eff_TpAbsorb1";
-extern const BringerTpAbsorbHitParams lbl_8043A164 = {3.0f, 3};
-extern const DirectAttackPayload lbl_8043A16C = {0, 20.0f};
+extern const BringerTpAbsorbHitParams bringer_tp_absorb_hit_params = {3.0f, 3};
+extern const DirectAttackPayload bringer_tp_absorb_attack = {0, 20.0f};
 
 Vec bringer_effect_vec_table[6];
 u32 bringer_effect_color_table[12];
@@ -61,7 +60,7 @@ u8 *construct_bringer_rush_effect(u8 *rush, saddr parent, u8 *source, saddr reci
     self->m_name = bringer_rush_effect_name;
     self->target = (TObjChara *)recipient;
     self->strength = speed;
-    self->field_30 = 0;
+    self->pad_30 = 0;
     VecCopy(&displacement, &((TObjChara *)recipient)->position);
     subtract_vector(&displacement, &((TObjBase *)source)->position);
     displacement.y = 0.0f;
@@ -96,8 +95,8 @@ void TObjEneDf2Bringer_Eff_Rush::run_task() {
         queue_destruction();
         return;
     }
-    target->x_speed = direction.x * speed;
-    target->m_310 = direction.z * strength;
+    target->velocity.x = direction.x * speed;
+    target->velocity.z = direction.z * strength;
     strength *= 0.8f;
 }
 
@@ -149,13 +148,13 @@ TUnk_8048FE7C::TUnk_8048FE7C(TObject *parent, const Vec *pos, f32 max_radius) : 
     angle = 0;
     alpha = 1.0f;
     frame = 0;
-    sub_8009A640();
-    sub_8009A598();
+    update_vertex_positions();
+    update_vertex_colors();
 }
 
 TUnk_8048FE7C::~TUnk_8048FE7C() {}
 
-void TUnk_8048FE7C::sub_8009A640() {
+void TUnk_8048FE7C::update_vertex_positions() {
     s32 i;
     f32 outer = 3.0f + radius;
     f32 inner = radius - 3.0f;
@@ -175,7 +174,7 @@ void TUnk_8048FE7C::sub_8009A640() {
     }
 }
 
-void TUnk_8048FE7C::sub_8009A598() {
+void TUnk_8048FE7C::update_vertex_colors() {
     s32 i;
     s32 n;
     Vertex *p;
@@ -202,7 +201,7 @@ void TUnk_8048FE7C::run_task() {
             radius = max_radius;
             state = 1;
         }
-        sub_8009A640();
+        update_vertex_positions();
         break;
     case 1:
         alpha = alpha - 0.05f;
@@ -218,7 +217,7 @@ void TUnk_8048FE7C::run_task() {
     if (frame >= 12) {
         frame = 0;
     }
-    sub_8009A598();
+    update_vertex_colors();
 }
 
 void TUnk_8048FE7C::render() {
@@ -259,7 +258,7 @@ void TUnk_8048FE64::run_task() {
 
 void TUnk_8048FE64::render() {}
 
-TUnk_8048FE08::TUnk_8048FE08(TObject *parent, TObjBase *owner, AreaAttackHistory *history)
+TObjEneDf2Bringer_Eff_TpAbsorb1::TObjEneDf2Bringer_Eff_TpAbsorb1(TObject *parent, TObjBase *owner, AreaAttackHistory *history)
     : TUnk_804928CC(parent, owner) {
     m_name = bringer_tp_absorb_effect_name;
     active = 0;
@@ -277,9 +276,9 @@ TUnk_8048FE08::TUnk_8048FE08(TObject *parent, TObjBase *owner, AreaAttackHistory
     bodies->shape = 1;
 }
 
-TUnk_8048FE08::~TUnk_8048FE08() {}
+TObjEneDf2Bringer_Eff_TpAbsorb1::~TObjEneDf2Bringer_Eff_TpAbsorb1() {}
 
-void TUnk_8048FE08::setup_dir_shot(const Vec *origin, s32 angle, f32 attack_power) {
+void TObjEneDf2Bringer_Eff_TpAbsorb1::setup_dir_shot(const Vec *origin, s32 angle, f32 attack_power) {
     VecCopy(&position, origin);
     rotation_y = angle;
     direction.x = sin_table_lookup(rotation_y);
@@ -293,9 +292,9 @@ void TUnk_8048FE08::setup_dir_shot(const Vec *origin, s32 angle, f32 attack_powe
     timer = 25;
 }
 
-void TUnk_8048FE08::sub_8009A11C() { active = 0; }
+void TObjEneDf2Bringer_Eff_TpAbsorb1::deactivate() { active = 0; }
 
-void TUnk_8048FE08::run_task() {
+void TObjEneDf2Bringer_Eff_TpAbsorb1::run_task() {
     Vec destination;
     Vec offset;
     Vec sample;
@@ -334,19 +333,19 @@ void TUnk_8048FE08::run_task() {
     bodies->radius = 0.5f * step;
     update_enemy_collision_flags();
     if (bodies->flags & 0x200000) {
-        sub_8009A11C();
+        deactivate();
         return;
     }
-    attack.kind = lbl_8043A16C.kind;
+    attack.kind = bringer_tp_absorb_attack.kind;
     attack.power = power;
-    call_vt13_with_default((void *)&lbl_8043A164, &attack, (saddr)attack_history);
+    call_vt13_with_default((void *)&bringer_tp_absorb_hit_params, &attack, (saddr)attack_history);
     timer--;
     if (hit != 0 || timer < 0) {
-        sub_8009A11C();
+        deactivate();
     }
 }
 
-void TUnk_8048FE08::render() {
+void TObjEneDf2Bringer_Eff_TpAbsorb1::render() {
     if (active == 0) {
         return;
     }

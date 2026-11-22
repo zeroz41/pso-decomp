@@ -9,6 +9,7 @@ struct NJS_OBJECT;
 #include "pso/player/PlayerScaleState.h"
 #include "pso/player/RenderMaterialState.h"
 #include "pso/object/base/TObjChara.h"
+#include "pso/player/PlayerAttackController.h"
 
 struct TItemData;
 struct SceneSectionAngles;
@@ -25,6 +26,8 @@ struct TUnk_801D8A4C;
 struct ProtectionTimer {
     s32 get_frames();
     void set_frames(s32 frames);
+    void reset_type();
+    void reset_lobby_model();
 
     s32 frames;
 };
@@ -84,7 +87,7 @@ struct TObjPlayer : public TObjChara {
     virtual s32 update_flag30_timer();
     virtual s32 update_movement_status();
     virtual s32 update_shock_clock();
-    virtual void vfunc_78(s32);
+    virtual void vfunc_78(saddr);
     virtual s32 vfunc_79();
     void set_floor(s32);
     void set_input_mode(s32);
@@ -129,7 +132,7 @@ struct TObjPlayer : public TObjChara {
         u8 bindings[2][4][4];
     };
 
-    u32 find_revival_item();
+    void *find_revival_item();
     void request_inventory_item(TItemData* item);
     ActionPalette* select_action_palette(int secondary);
     s32 add_meseta(s32 amount);
@@ -239,8 +242,8 @@ struct TObjPlayer : public TObjChara {
     u8 _pad758[0x6C];
     s8 trap_counts[4];  // per trap kind, refilled from the class table (refill_trap_counts)
     void* m_7c8;
-    void* attack_state;  // the attack accuracy/damage-scale block
-    u8 _pad7D0[0x58];
+    PlayerAttackController attack_state;  // the attack accuracy/damage-scale block
+    u8 _pad7EC[0x3C];
     void* m_828;
     u8 _pad82C[0x4];
     void* m_830;
@@ -260,11 +263,17 @@ struct TObjPlayer : public TObjChara {
     s16 skin;  // an android's body colour
     u8 unk_898[0x10];
     f32 height;  // the body height the mag scales its follow height by
-    void* m_8ac;
-    u8 unk_8B0[0x4];
-    u32 m_8b4;
-    u8 unk_8B8[0x444];
-    s32 m_cfc;
+    // The part models TChCrLoadReq loads after the body (TObjMotion::model):
+    // the hair and head hang from node 0x3B, the attachment from node 0x3A.
+    void* hair_model;
+    void* head_model;
+    u32 attachment_model;
+    u8 unk_8B8[0x164];
+    // Texture lists TChCrLoadReq fills for the head/hair, the attachment and the body.
+    u8 head_textures[0x16C];
+    u8 attachment_textures[0x16C];
+    u8 body_textures[0x8];
+    s32 model_load_flags;  // nonzero while the models load (update_body_parts sets 255); not drawn until 0
     TPlyItem *inventory_objects;  // created by create_inventory
     void *equipped_items[13];  // by equip slot; read through get_equipped_item
     u8 unk_D38[0x10];
@@ -272,27 +281,11 @@ struct TObjPlayer : public TObjChara {
     u8 unk_D4C[0x60];
     void* m_dac;
     static void draw_area_chunk_objects();
-    void save_position();
     static void copy_screen_to_texture(s32 mode, void *src);
-    void step_along_ground();
-    void update_move_to_destination();
-    void update_hide_sequence();
-    void trigger_action_if_not_flagged();
-    void spawn_hamon_effects(s32 arg1, s32 arg2, f32 farg0);
-    void render_shadow();
-    void set_hidden_flag();
-    void apply_fall_damage_flag();
-    static void cleanup_effects();
-    int is_flag_set_388_bit26();
-    void clear_counter();
-    void set_cancel_flag();
     static void reset_effect_count();
     static void step_cutscene_frame(NJS_OBJECT *);
-    static void free_resources();
     void enter_state_8();
     void tick_freeze_state();
-    void update_death_breakup();
-    void dispatch_state_update();
     static void create_render_texture();
     // The photon blast gauge's charge, 0-100.
     s32 get_photon_blast_charge();
@@ -300,7 +293,6 @@ struct TObjPlayer : public TObjChara {
     static void send_6x26_unequip_item(void *player, u32 item_id);
     player_class_type get_class_type();
     static void add_angle_clamped(s32 *arg0, s32 arg1, s32 arg2);
-    static void step_angle_clamped(void *actor, int arg1);
     void call_callback_1ec(saddr arg1, saddr arg2);
     void copy_wall_polygon(u8 *arg1);
     static void copy_matrix(uaddr arg0, uaddr arg1);
@@ -336,8 +328,6 @@ struct TObjPlayer : public TObjChara {
     static void*get_pmt_record_by_type_id(int type, int id);
     static void*get_pmt_record_by_index(int i);
     static s32 is_hit_receivable_target(saddr arg0, uaddr arg1);
-    void refresh_lobby_state();
-    int query_lobby_state();
     s32 is_action_available();
     f32 calc_photon_blast_power(s32 arg1, f32 farg0);
     static s32 is_any_teammate_in_state();
@@ -381,7 +371,7 @@ struct TObjPlayer : public TObjChara {
     void set_attribute_entry(s32 i, void *q);
     void copy_entry_bytes(void* q);
     s16 *get_attribute_entry(s32 i);
-    static f32 calc_distance_to_client(saddr actor, u16 arg1, uaddr arg2);
+    static f32 calc_distance_to_client(saddr actor, u16 client, Vec *delta);
     s16 get_class_id();
     s16 get_item_index();
     s32 add_status_effect_timer(s32 i, s32 v);
@@ -392,8 +382,6 @@ struct TObjPlayer : public TObjChara {
     s32 get_floor();
     s32 get_area();
     static s32 get_player_count();
-    void reset_lobby_model();
-    void reset_type();
     void send_6x12_packet();
     void bswap_6x12_packet();
     void set_type_dragon();
@@ -406,6 +394,7 @@ struct TObjPlayer : public TObjChara {
     s32 check_player_flag1();
     s32 check_flag(s32 arg1);
     static void sync_player_globals();
+    static void begin_alpha_blend(f32 alpha);
     void*get_position_ptr();
     void clear_header_struct();
     void clear_velocity_vectors();
@@ -433,26 +422,10 @@ struct TObjPlayer : public TObjChara {
     static f32 get_end_text_value(f32 x);
     int is_inactive();
     static void set_visibility_flags_by_count(void *arg0, s32 arg1);
-    void init_position_vectors();
-    void trigger_targets_action();
-    s16 get_field_2c8();
-    void set_flag_start_effect();
-    void clear_state7_flag();
-    void update_timed_state();
-    void run_synced_state_handler();
-    static void *create_dubchik(void *arg0);
-    static void free_effect_resources();
-    void clear_flag_04000000();
-    void set_invuln_flags();
-    void update_invincibility();
+    s16 get_atp();
+    s16 get_atp_range();
     static void update_effect_sequence(NJS_OBJECT *);
     static void toggle_particle_effect();
-    static void create_dead_spot(saddr arg0, s32 arg1, f32 farg0);
-    static void spawn_effect_f8(saddr arg1, s32 arg2);
-    static void set_field_e4(s32 arg1, s32 arg2);
-    void trigger_dell_biter_events();
-    void spawn_ground_effect(s32 arg1);
-    void spawn_effect_at_ground(s32 arg1);
     static void apply_effect_variant_a(saddr arg0, s32 arg1);
     static void apply_effect_variant_b(s32 arg0, s32 arg1);
     static void spawn_dead_spot_default(saddr arg0, s32 arg1);
@@ -462,6 +435,8 @@ struct TObjPlayer : public TObjChara {
     void copy_vec3(void* q);
     static void init_render_globals();
     static void push_material_color_override(f32 farg0, f32 farg1, f32 farg2, f32 farg3);
+    // get_validated_attack_stage of attack_state: the pending stage, 0 when it is not valid.
+    s16 get_attack_stage();
     static void update_lights();
     static void clear_alt_model_flag();
     static void set_alt_model_flag();
@@ -528,13 +503,12 @@ struct TObjPlayer : public TObjChara {
     static void init_all_slots();
     static s32 check_flag_pair(s32 arg0, s32 arg1);
     static s32 check_flags(s32 arg0, s32 arg1);
-    void update_collisions();
     static void reset();
     static void set_camera_mode(s32 arg0);
     void reset_fields();
     void reset_state_block();
     static void*get_photon_blast_entry(int a0);
-    s16 get_hp();
+    s16 get_evp();
     u16 get_section_id();
     void set_field_2(s16 v);
     void set_type(s16 v);
@@ -1003,9 +977,6 @@ struct TObjPlayer : public TObjChara {
     static void create_tec_jelin(void *source, void *origin, void *targets, s32 level);
     static s32 is_valid_and_active(uaddr arg0);
     s32 *gather_player_contacts(uaddr arg1, saddr _w2, s32 _w3);
-    saddr collect_body_contacts(int target, void *_w2, void *arg3);
-    void collect_body_contacts_for_target(saddr arg1);
-    void find_support_technique_contact_for_target(saddr arg1);
     void gather_contacts_for_self(s32 arg1);
     void*get_pos_ptr();
     static void create_tec_zarua(void *source, void *origin, void *targets, s32 level);
@@ -1127,8 +1098,8 @@ struct TObjPlayer : public TObjChara {
     static void update_render_state();
     static void set_global_color_rgba(u32 v, u32);
     static void set_global_color_rgba_alt_b(u32 v, u32);
-    static void draw_player_model_by_client(u16 arg0, saddr arg1, f32 farg0, f32 farg1);
-    static void draw_player_model_by_id(s32 arg0, f32 farg0);
+    static void draw_player_model_by_client(u16 client_id, saddr motion, f32 frame, f32 alpha);
+    static void draw_player_model_by_id(s32 client_id, f32 alpha);
     static void rebuild_players_for_stage(s32 arg0);
     static void spawn_appearance_effect(u16 client);
     static TItem *create_vtable_804A08B8(u8 *arg0);
@@ -1209,8 +1180,6 @@ struct TObjPlayer : public TObjChara {
     static void advance_render_counters();
     static void draw_effect();
     void draw_trail_pair();
-    void update_aim_and_fire();
-    void set_flag_and_notify();
     static void update_particle_by_phase(NJS_OBJECT *);
     void draw_blob_shadows();
     void set_flag_8_if_check_passes();
@@ -1228,7 +1197,6 @@ struct TObjPlayer : public TObjChara {
     static void load_jungle_ebi_resources();
     static void load_seabed_dolphin();
     static void new_child_object(s32 arg0);
-    void update_ground_effect();
     void create_item_eff_cane(TItem* item, s32 attachment, s32 effect_id);
     void spawn_cane_effect(TItem* item, s32 attachment);
     void spawn_cane_effects(TItem* item, s32 first_attachment, s32 second_attachment);
@@ -1312,7 +1280,7 @@ struct TObjPlayer : public TObjChara {
     s32 is_outside_movement_hold(f32 *pos);
     static s32 draw_small_font(saddr arg0, void * _w1);
     static void send_code_45_1(saddr player);
-    static void play_effect_default(int player, int effect);
+    static void play_effect_default(saddr player, int effect);
     static void play_effect(saddr arg0, s32 arg1, s32 arg2);
     s32 get_clamped_index();
     void apply_input_mode();
@@ -1328,7 +1296,7 @@ struct TObjPlayer : public TObjChara {
     static void refresh_party_cursors(saddr arg0);
     void set_action_palette_entry(s32 secondary, s32 valid, s32 idx, s32 arg4, s32 arg5);
     void select_action_palette_and_apply(s32 secondary, s32 arg2, s32 arg3);
-    s32 refresh_effect();
+    saddr refresh_effect();
     void update_ground_contact();
     s32 check_actor_blocking_move();
     saddr resolve_move_collision();
@@ -1445,7 +1413,7 @@ struct TObjPlayer : public TObjChara {
     void build_6xAE_set_animation_state_packet();
     void bswap_pkt_u32x5();
     void init_cmd_6x20();
-    void send_player_floor_packet(void* a1);
+    void send_player_floor_packet(u32 client);
     void send_player_floor_packet_u32x5();
     void bswap_set_floor_packet();
     void*handle_6x1F_set_floor(void* a1);
@@ -1603,8 +1571,11 @@ LAYOUT_ASSERT(PlayerActionPalettesOffset, offsetof(TObjPlayer, action_palettes) 
 LAYOUT_ASSERT(PlayerStateAfterPalettes, offsetof(TObjPlayer, m_550) == 0x550);
 LAYOUT_ASSERT(PlayerHairSelectorOffset, offsetof(TObjPlayer, m_878) == 0x878);
 LAYOUT_ASSERT(PlayerHairFlagsOffset, offsetof(TObjPlayer, m_88e) == 0x88E);
-LAYOUT_ASSERT(PlayerHairTargetOffset, offsetof(TObjPlayer, m_8ac) == 0x8AC);
-LAYOUT_ASSERT(PlayerHairWaitOffset, offsetof(TObjPlayer, m_cfc) == 0xCFC);
+LAYOUT_ASSERT(PlayerHairModelOffset, offsetof(TObjPlayer, hair_model) == 0x8AC);
+LAYOUT_ASSERT(PlayerHeadTexturesOffset, offsetof(TObjPlayer, head_textures) == 0xA1C);
+LAYOUT_ASSERT(PlayerAttachmentTexturesOffset, offsetof(TObjPlayer, attachment_textures) == 0xB88);
+LAYOUT_ASSERT(PlayerBodyTexturesOffset, offsetof(TObjPlayer, body_textures) == 0xCF4);
+LAYOUT_ASSERT(PlayerModelLoadFlagsOffset, offsetof(TObjPlayer, model_load_flags) == 0xCFC);
 LAYOUT_ASSERT(PlayerInventoryObjectOffset, offsetof(TObjPlayer, inventory_objects) == 0xD00);
 
 LAYOUT_ASSERT(TObjPlayer_area_offset, offsetof(TObjPlayer, current_area) == 0x3E0);

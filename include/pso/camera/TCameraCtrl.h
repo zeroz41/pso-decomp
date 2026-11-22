@@ -92,7 +92,7 @@ struct TCameraCtrl : public TObject {
     static f32 get_view_scale();
     void copy_view_state(saddr src);
     static void restore_full_screen_view();
-    static s32 get_camera_target_id(s32 arg0);
+    static u16 get_camera_target_id(s32 arg0);
     static void apply_split_screen_view_matrix();
     static s32 *get_view_matrix();
     static void create();
@@ -118,7 +118,6 @@ struct TCameraCtrl : public TObject {
     static void reset_to_local_player();
     static void set_override_position_and_angle(u8 *arg0, s16 arg1);
     static void set_fixed_position_and_target(u8 *arg0, u8 *arg1);
-    void set_pos_target(void *arg1, void *arg2, s32 arg3);
     static void set_active_camera_flag();
     void set_field_100(s32 v);
     static s32 get_screen_width();
@@ -169,6 +168,8 @@ extern f32 camera_right[3];
 
 extern "C" {
 int is_quest_active(void);
+// The first view state word.
+u16 TCameraCtrl__sub_8006A5DC(void);
 }
 
 #endif

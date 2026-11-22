@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/boss/DragonAttackParams.h"
 
 // Data-only unit split off the flower enemy: the .rodata block at 0x8043BA68.
 // The referencing units (TObjEneRe2Flower, TObjEneDD) keep these extern so
@@ -8,92 +9,53 @@
 
 extern TObjMotionAction TObjEneRe2Flower__animation_descriptors[8];
 
-__declspec(section ".rodata") extern const u32 enemy_dd_attack_param_block[5] ATTRIBUTE_ALIGN(4) = {
-    0x00000010, 0x00000000, 0x41F00000, 0x00000000,
-    0x00000001,
+// The normal and rare variants' self-destruct blast (state_self_destruct hands it to TObjEneDD__sub_800BA5A4).
+__declspec(section ".rodata") extern const DragonAttackParams enemy_dd_attack_param_block ATTRIBUTE_ALIGN(4) = {
+    0x10, 0.0f, 30.0f, 0.0f, 1,
 };
 
-__declspec(section ".rodata") extern const u32 lbl_8043BA7C[3] ATTRIBUTE_ALIGN(4) = {
+// Per variant (0 normal, 1 rare, 2 the tower's), as Gibon's twins: the reset_hp blocks and the param block.
+__declspec(section ".rodata") extern const u32 re2_flower_base_stat_ids[3] ATTRIBUTE_ALIGN(4) = {
     0x00000004, 0x00000005, 0x00000025,
 };
 
-__declspec(section ".rodata") extern const u32 lbl_8043BA88[3] ATTRIBUTE_ALIGN(4) = {
+__declspec(section ".rodata") extern const u32 re2_flower_attack_stat_ids[3] ATTRIBUTE_ALIGN(4) = {
     0x00000004, 0x00000005, 0x00000025,
 };
 
-__declspec(section ".rodata") extern const u32 lbl_8043BA94[3] ATTRIBUTE_ALIGN(4) = {
+__declspec(section ".rodata") extern const u32 re2_flower_resist_stat_ids[3] ATTRIBUTE_ALIGN(4) = {
     0x00000004, 0x00000005, 0x00000025,
 };
 
-__declspec(section ".rodata") extern const u32 lbl_8043BAA0[3] ATTRIBUTE_ALIGN(4) = {
+__declspec(section ".rodata") extern const u32 re2_flower_param_ids[3] ATTRIBUTE_ALIGN(4) = {
     0x00000004, 0x00000005, 0x00000025,
 };
 
-__declspec(section ".rodata") extern const u8 lbl_8043BAAC[21] ATTRIBUTE_ALIGN(4) = {
-    0x72, 0x65, 0x32, 0x5F, 0x62, 0x5F, 0x66, 0x6C, 0x6F, 0x77, 0x65, 0x72, 0x5F, 0x72, 0x6F, 0x6F,
-    0x74, 0x2E, 0x6E, 0x6A, 0x00,
-};
+__declspec(section ".rodata") extern const char re2_flower_model_name_re2_b_flower_root_nj[] ATTRIBUTE_ALIGN(4) = "re2_b_flower_root.nj";
+__declspec(section ".rodata") extern const char re2_flower_motion_name_attack_re2_b_root_njm[] ATTRIBUTE_ALIGN(4) = "attack_re2_b_root.njm";
+__declspec(section ".rodata") extern const char re2_flower_motion_name_damege_re2_b_root_njm[] ATTRIBUTE_ALIGN(4) = "damege_re2_b_root.njm";
+__declspec(section ".rodata") extern const char re2_flower_motion_name_die_re2_b_root_njm[] ATTRIBUTE_ALIGN(4) = "die_re2_b_root.njm";
+__declspec(section ".rodata") extern const char re2_flower_motion_name_laugh_re2_b_root_njm[] ATTRIBUTE_ALIGN(4) = "laugh_re2_b_root.njm";
+__declspec(section ".rodata") extern const char re2_flower_motion_name_waitc_re2_b_root_njm[] ATTRIBUTE_ALIGN(4) = "waitc_re2_b_root.njm";
+__declspec(section ".rodata") extern const char re2_flower_motion_name_waito_re2_b_root_njm[] ATTRIBUTE_ALIGN(4) = "waito_re2_b_root.njm";
+__declspec(section ".rodata") extern const char re2_flower_motion_name_wake_re2_b_root_njm[] ATTRIBUTE_ALIGN(4) = "wake_re2_b_root.njm";
+__declspec(section ".rodata") extern const char re2_flower_bml_name_bm_ene_re2_flower_bml[] ATTRIBUTE_ALIGN(4) = "bm_ene_re2_flower.bml";
+__declspec(section ".rodata") extern const char TObjEneRe2Flower__class_name_string[] ATTRIBUTE_ALIGN(4) = "TObjEneRe2Flower";
 
-__declspec(section ".rodata") extern const u8 lbl_8043BAC4[22] ATTRIBUTE_ALIGN(4) = {
-    0x61, 0x74, 0x74, 0x61, 0x63, 0x6B, 0x5F, 0x72, 0x65, 0x32, 0x5F, 0x62, 0x5F, 0x72, 0x6F, 0x6F,
-    0x74, 0x2E, 0x6E, 0x6A, 0x6D, 0x00,
-};
-
-__declspec(section ".rodata") extern const u8 lbl_8043BADC[22] ATTRIBUTE_ALIGN(4) = {
-    0x64, 0x61, 0x6D, 0x65, 0x67, 0x65, 0x5F, 0x72, 0x65, 0x32, 0x5F, 0x62, 0x5F, 0x72, 0x6F, 0x6F,
-    0x74, 0x2E, 0x6E, 0x6A, 0x6D, 0x00,
-};
-
-__declspec(section ".rodata") extern const u8 lbl_8043BAF4[19] ATTRIBUTE_ALIGN(4) = {
-    0x64, 0x69, 0x65, 0x5F, 0x72, 0x65, 0x32, 0x5F, 0x62, 0x5F, 0x72, 0x6F, 0x6F, 0x74, 0x2E, 0x6E,
-    0x6A, 0x6D, 0x00,
-};
-
-__declspec(section ".rodata") extern const u8 lbl_8043BB08[21] ATTRIBUTE_ALIGN(4) = {
-    0x6C, 0x61, 0x75, 0x67, 0x68, 0x5F, 0x72, 0x65, 0x32, 0x5F, 0x62, 0x5F, 0x72, 0x6F, 0x6F, 0x74,
-    0x2E, 0x6E, 0x6A, 0x6D, 0x00,
-};
-
-__declspec(section ".rodata") extern const u8 lbl_8043BB20[21] ATTRIBUTE_ALIGN(4) = {
-    0x77, 0x61, 0x69, 0x74, 0x63, 0x5F, 0x72, 0x65, 0x32, 0x5F, 0x62, 0x5F, 0x72, 0x6F, 0x6F, 0x74,
-    0x2E, 0x6E, 0x6A, 0x6D, 0x00,
-};
-
-__declspec(section ".rodata") extern const u8 lbl_8043BB38[21] ATTRIBUTE_ALIGN(4) = {
-    0x77, 0x61, 0x69, 0x74, 0x6F, 0x5F, 0x72, 0x65, 0x32, 0x5F, 0x62, 0x5F, 0x72, 0x6F, 0x6F, 0x74,
-    0x2E, 0x6E, 0x6A, 0x6D, 0x00,
-};
-
-__declspec(section ".rodata") extern const u32 lbl_8043BB50[5] ATTRIBUTE_ALIGN(4) = {
-    0x77616B65, 0x5F726532, 0x5F625F72, 0x6F6F742E,
-    0x6E6A6D00,
-};
-
-__declspec(section ".rodata") extern const u8 lbl_8043BB64[22] ATTRIBUTE_ALIGN(4) = {
-    0x62, 0x6D, 0x5F, 0x65, 0x6E, 0x65, 0x5F, 0x72, 0x65, 0x32, 0x5F, 0x66, 0x6C, 0x6F, 0x77, 0x65,
-    0x72, 0x2E, 0x62, 0x6D, 0x6C, 0x00,
-};
-
-__declspec(section ".rodata") extern const u8 TObjEneRe2Flower__class_name_string[17] ATTRIBUTE_ALIGN(4) = {
-    0x54, 0x4F, 0x62, 0x6A, 0x45, 0x6E, 0x65, 0x52, 0x65, 0x32, 0x46, 0x6C, 0x6F, 0x77, 0x65, 0x72,
-    0x00,
-};
-
-extern "C" {
-__declspec(section ".rodata") extern const NpcAnimationBinding lbl_8043BB90 = {
+__declspec(section ".rodata") extern const NpcAnimationBinding re2_flower_animation_binding = {
     NULL, TObjEneRe2Flower__animation_descriptors, 1, 6, 8,
 };
-}
 
-__declspec(section ".rodata") extern const u32 lbl_8043BBA0[5] ATTRIBUTE_ALIGN(4) = {
-    0x00000000, 0x00000000, 0x41F00000, 0x00000000,
-    0x00000001,
+// The tower variant's self-destruct blast; state_self_destruct sets power and recoil from its param block.
+__declspec(section ".rodata") extern const DragonAttackParams re2_flower_tower_attack_params ATTRIBUTE_ALIGN(4) = {
+    0, 0.0f, 30.0f, 0.0f, 1,
 };
 
-__declspec(section ".rodata") extern const u32 lbl_8043BBB4[3] ATTRIBUTE_ALIGN(4) = {
-    0x40000000, 0x3F800000, 0x40000000,
+// draw_ground_shadow scales: render, then render_demo.
+__declspec(section ".rodata") extern const f32 re2_flower_shadow_scale[3] ATTRIBUTE_ALIGN(4) = {
+    2.0f, 1.0f, 2.0f,
 };
 
-__declspec(section ".rodata") extern const u32 lbl_8043BBC0[4] ATTRIBUTE_ALIGN(4) = {
-    0x40000000, 0x3F800000, 0x40000000, 0x00000000,
+__declspec(section ".rodata") extern const f32 re2_flower_demo_shadow_scale[4] ATTRIBUTE_ALIGN(4) = {
+    2.0f, 1.0f, 2.0f, 0.0f,
 };

@@ -10,6 +10,7 @@
 #include "pso/system/vector.h"
 
 #include "types.h"
+#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8005D700.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
@@ -27,7 +28,6 @@ s32 * TBoss5GryphonSnarl__effect_table;
 extern s32 boss5_gryphon_snarl_effect_id_table[4];
 extern s32 *TBoss5GryphonSnarl__effect_table;
 extern const char *TBoss5GryphonSnarl__name;
-void apply_snarl_hit(s32 arg0, s32 arg1, f32 inner, f32 scale);
 
 
 s32 release_texture_list(void*);
@@ -42,7 +42,7 @@ void TBoss5GryphonSnarl::run_task() {
     Vec v;
     f32 inner;
     f32 outer;
-    s32 instance;
+    TBoss5Gryphon *instance;
     f32 scale;
     s32 i;
     s32 angle;
@@ -51,10 +51,10 @@ void TBoss5GryphonSnarl::run_task() {
     switch (state) {
     case 0:
         inner = 7.0f * (f32)frame;
-        instance = TBoss8Dragon::get_instance_count();
+        instance = TBoss5Gryphon::get_instance();
         scale = (f32)(30 - frame) / 30.0f;
         scale += 1.0f;
-        apply_snarl_hit(instance, (saddr)&position, inner, scale);
+        TBoss5Gryphon::apply_snarl_hit(instance, &position, inner, scale);
         outer = 10.0f + inner;
         for (i = 0; i < 32; i++) {
             angle = (i << 16) / 32;
@@ -135,12 +135,12 @@ TBoss5GryphonSnarl::TBoss5GryphonSnarl(TObject *parent, void *arg2) : TObject(pa
 }
 #pragma pop
 
-void TBoss5GryphonSnarl__sub_80066E84(void) {  }
+void TBoss5GryphonSnarl::release_effect_table() {  }
 
 extern void *lbl_805D4DD8;
 extern uaddr boss5_common_texture_list;
 
-void TBoss5GryphonSnarl__sub_80066E88(void) {
+void TBoss5GryphonSnarl::select_effect_table() {
     switch (TBoss8Dragon__sub_8005D700()) {
     case 0:
         TBoss5GryphonSnarl__effect_table = boss5_gryphon_snarl_effect_id_table;

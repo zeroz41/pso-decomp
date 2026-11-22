@@ -23,7 +23,6 @@
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/effect/enemy/TObjEneHoldEffect.h"
-#include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/ui/font/TFontSmallLobby.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/unk/TLobby.h"
@@ -1035,7 +1034,6 @@ s32 get_current_floor(void);
 f32 atan2_float(f32 y, f32 x);
 f32 newton_sqrtf(f32);
 s32 test_flags_any(void *, int);
-s32 fn_800660B8(void *);
 s32 TObjPlayer__sub_80082300(void *);
 s32 check_value_equals__13TUnk_804B6C24CFl(saddr, void *);
 s32 init_entry_fields__6TLobbyFiii(int, int, void *, int);
@@ -1863,7 +1861,7 @@ void TObjPlayer__deactivate_off_floor_body(void* p) { ((TObjPlayer *)p)->deactiv
 void TObjPlayer__enter_off_floor_state(u8 *player) {
     TObjPlayer__sub_801BF690((player + 0x730));
     zero_vec3((void *) (player + 0x5FC));
-    ((TObjPlayer *)(player + 0x644))->reset_lobby_model();
+    ((TObjPlayer *)player)->protection.reset_lobby_model();
     ((TObjPlayer *)player)->set_state_flags(4);
     ((TObjPlayer *)player)->deactivate_body_collision();
     ((TObjPlayer *)player)->set_flag_20000();
@@ -2261,7 +2259,7 @@ void TObjPlayer::reset_lobby_state() {
     clear_velocity(arg0);
     this->obj_clearFlags30((u32)0x20);
     if (((s16) this->phase == 1) && (TObjPlayer::is_locally_controlled(arg0) != 0)) {
-        ((TObjPlayer *)(arg0 + 0x644))->reset_lobby_model();
+        ((TObjPlayer *)arg0)->protection.reset_lobby_model();
     }
 }
 
@@ -2575,10 +2573,10 @@ void TObjPlayer::init_action() {
     clear_velocity(arg0);
     this->protection.set_frames(0x12C);
     this->phase = 0;
-    this->m_2b4 = 44.0f;
+    this->frame_timer = 44.0f;
     this->set_attacker_id(0xFFFF);
     this->set_action_state(0x12, (s16) ((s32 (*)(void))ret_801D26AC)());
-    fn_800660B8(arg0);
+    fn_800660B8();
     if (is_current_area_item_enabled() != 0) {
         void *new_obj = (void *)(size_t)__nw__7TObjectFUl(0x38);
         if (new_obj != 0U) {
@@ -2648,7 +2646,7 @@ void update_timer_state__10TObjPlayerFPv(void *arg0) {
         *(f32 *)((s8 *)arg0 + 0x2B4) = temp_f1;
         if (temp_f1 < 0.0f) {
             *(s16 *)((s8 *)arg0 + 0x328) = 1;
-            ((TObjEnePanarms *)arg0)->init(((TObjPlayer *)arg0)->get_idle_animation());
+            ((TObjPlayer *)arg0)->TObjMotion::init(((TObjPlayer *)arg0)->get_idle_animation());
             ((TObjPlayer *)arg0)->set_action_flag_40();
             *(f32 *)((s8 *)arg0 + 0x2B4) = 24.0f;
         }
@@ -2671,18 +2669,18 @@ void TObjPlayer::update_timer_action() {
 
     switch (this->phase) {
     case 0:
-        temp_f1 = this->m_2b4 - 1.0f;
-        this->m_2b4 = temp_f1;
+        temp_f1 = this->frame_timer - 1.0f;
+        this->frame_timer = temp_f1;
         if (temp_f1 < 0.0f) {
             this->phase = 1;
-            ((TObjEnePanarms *)arg0)->init(this->get_idle_animation());
+            TObjMotion::init(this->get_idle_animation());
             set_action_flag_40();
-            this->m_2b4 = 24.0f;
+            this->frame_timer = 24.0f;
         }
         break;
     case 1:
-        temp_f1_2 = this->m_2b4 - 1.0f;
-        this->m_2b4 = temp_f1_2;
+        temp_f1_2 = this->frame_timer - 1.0f;
+        this->frame_timer = temp_f1_2;
         if (temp_f1_2 < 0.0f) {
             ((s32 (*)(void))clear_status_bit6__10TObjPlayerFPv)();
             this->protection.set_frames((saddr)this->get_getup_protection_ticks());
@@ -2867,7 +2865,7 @@ void TObjPlayer::reset_on_death() {
     obj_setFlags30(arg0, 0x800U);
     this->hp = 0;
     this->clear_all_status_effects();
-    ((TObjPlayer *)(arg0 + 0x644))->reset_lobby_model();
+    ((TObjPlayer *)arg0)->protection.reset_lobby_model();
     ((void (*)(void *))zero_vec3)(arg0 + 0x5FC);
 }
 
@@ -3084,12 +3082,12 @@ void TObjPlayer::update_fall_reaction() {
         }
         if (this->motion_flags & 0x10) {
             this->phase = 1;
-            this->m_2b4 = 30.0f;
+            this->frame_timer = 30.0f;
         }
         break;
     case 1:
-        temp_f1 = this->m_2b4 - 1.0f;
-        this->m_2b4 = temp_f1;
+        temp_f1 = this->frame_timer - 1.0f;
+        this->frame_timer = temp_f1;
         if (temp_f1 < 0.0f) {
             this->phase = 2;
             this->requested_action = ((s16 (*)(void))query_child_state2__10TObjPlayerFPv)();
@@ -3151,7 +3149,7 @@ void TObjPlayer::begin_fall_reaction() {
     f32 x;
     f32 z;
     Pkt_801CADA4 pkt;
-    z = this->m_310;
+    z = this->velocity.z;
     x = *(f32 *)((s8 *)this + 0x308);
     if (newton_sqrtf(x * x + z * z) > 1e-05f) {
         this->rotation_y = (s32) ((s32) (lbl_80447148 * atan2_float(x, z)) + 0x8000);
@@ -3819,7 +3817,7 @@ void TObjPlayer::exit_photon_blast_action() {
         TObjPlayer::update_photon_blast_state();
     }
     if ((s32) *(s32 *)((s8 *)arg0 + 0x33C) != 0x13) {
-        ((TObjPlayer *)(arg0 + 0x644))->reset_lobby_model();
+        ((TObjPlayer *)arg0)->protection.reset_lobby_model();
     }
 }
 
@@ -5044,7 +5042,7 @@ void TObjPlayer::apply_movement_if_ready() {
 
     temp_r3 = ((TObjPlayer *)this)->get_handle_value();
     if ((temp_r3 != 0x11) && ((temp_r3 >= 0x11) || (temp_r3 >= 0xA) || (temp_r3 < 6)) && (this->is_flag_b0_4() == 0) && ((s16) this->requested_action == (s16) this->current_action) && (this->action_flags & 0x20000000) && (((s32 (*)(void *))TObjPlayer__sub_801D2680)(arg0) == 0)) {
-        if (0.0f > get_root_motion_step(&this->x_speed, &this->m_310)) {
+        if (0.0f > get_root_motion_step(&this->velocity.x, &this->velocity.z)) {
             clear_velocity(arg0);
         }
         if (this->check_actor_blocking_move() != 0) {
@@ -6649,7 +6647,7 @@ f32 get_action_rate_entry(Obj_801D2640 *p) {
 void TObjPlayer::set_field_d4_and_flag_200(f32 value) {
     u8 *p = (u8 *)this;
     *(f32 *)(p + 0xD4) = value;
-    set_flags_B0(0x200U);
+    set_motion_flags(MOTION_OVERRIDE_BLEND_SPEED);
 }
 
 int TObjPlayer__sub_801D2680(void *p) {

@@ -20,13 +20,11 @@
 #include "pso/unk/text_80086B64.h"
 #include "pso/unk/text_800870BC.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 const char *TObjEneBm9Mericarol_Bomb__class_name = "TObjEneBm9Mericarol_Bomb";
 
-extern "C" {
-s32 obj_is_hit_receivable(u32);
-f32 fabs_float(f32);
-s32 is_area_attack_target_eligible(void *, u32);
+extern "C" s32 is_area_attack_target_eligible(void *, u32);
 
 s32 TObjEneBm9Mericarol_Bomb::area_attack_deliver_direct(void *recoil, saddr desc, void *object, f32 range) {
     s32 hit;
@@ -54,7 +52,7 @@ s32 TObjEneBm9Mericarol_Bomb::area_attack_deliver_direct(void *recoil, saddr des
             if (obj == 0) {
                 break;
             }
-            if (obj_is_hit_receivable(obj) != 0 && (u32)obj != this->owner &&
+            if (obj_is_hit_receivable((u8 *)obj) != 0 && (TObjBase *)obj != this->owner &&
                 is_area_attack_target_eligible(this, ((TObjBase *)obj)->actorFlags) != 0 &&
                 !(fabs_float(pos.y - ((TObjChara *)obj)->body_center.y) > 3e+01f)) {
                 ok = 1;
@@ -77,29 +75,6 @@ void TObjEneBm9Mericarol_Bomb::render() {
     }
 }
 
-}
-
-struct VBase_18_64db54 { char pad[0x18]; };
-
-struct VObj_18_64db54 : VBase_18_64db54 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual s32 m14(void *, void *);
-};
-
-extern "C" {
 
 void TObjEneBm9Mericarol_Bomb::run_task() {
     Vec v;
@@ -144,11 +119,11 @@ void TObjEneBm9Mericarol_Bomb::run_task() {
             bodies->flags |= 2;
         }
         bodies->offset.y = d;
-        if (((VObj_18_64db54 *)this)->m14((u8 *)&this->attack_power, (u8 *)&this->attack_type) != 0) {
-            ((TObjEneBm9Mericarol *)(find_entity_by_id(owner_id)))->sub_802CED40();
-            if (attack_type == 0 && this->m_108 != 0) {
+        if (this->vfunc_16(&this->recoil, &this->attack_type) != 0) {
+            ((TObjEneBm9Mericarol *)(find_entity_by_id(owner_id)))->notify_bomb_hit();
+            if (attack_type == 0 && this->final_blast != 0) {
                 attack_type = 0x12;
-                this->vfunc_16((u8 *)&this->attack_power, (u8 *)&this->attack_type);
+                this->vfunc_16(&this->recoil, &this->attack_type);
             }
             queue_destruction();
             return;
@@ -181,10 +156,6 @@ void TObjEneBm9Mericarol_Bomb::run_task() {
     }
 }
 
-s16 get_entity_id(void *);
-
-}
-
 TObjEneBm9Mericarol_Bomb::~TObjEneBm9Mericarol_Bomb() {
     if (effect != NULL) {
         effect->queue_destruction();
@@ -197,7 +168,7 @@ TObjEneBm9Mericarol_Bomb::~TObjEneBm9Mericarol_Bomb() {
 }
 
 
-TObjEneBm9Mericarol_Bomb::TObjEneBm9Mericarol_Bomb(TObjEneBm9Mericarol *owner, Vec *start, Vec *target, f32 farg0, f32 farg1, s32 arg4)
+TObjEneBm9Mericarol_Bomb::TObjEneBm9Mericarol_Bomb(TObjEneBm9Mericarol *owner, Vec *start, Vec *target, f32 power, f32 speed, s32 final_blast)
     : TUnk_804928CC(owner, owner) {
     Vec d;
     f32 k;
@@ -214,12 +185,12 @@ TObjEneBm9Mericarol_Bomb::TObjEneBm9Mericarol_Bomb(TObjEneBm9Mericarol *owner, V
             break;
         case 0:
         default:
-            m_108 = arg4;
+            this->final_blast = final_blast;
             attack_type = 0;
             break;
         }
     }
-    m_f4 = farg0;
+    this->power = power;
     switch (owner->get_phase()) {
     case 1:
         phase_effect_id = 0x20A;
@@ -245,15 +216,15 @@ TObjEneBm9Mericarol_Bomb::TObjEneBm9Mericarol_Bomb(TObjEneBm9Mericarol *owner, V
     if (0.0f != vector_length(&d)) {
         normalize_vector(&d);
     }
-    velocity.x = d.x * farg1;
-    k = 3.0f + farg1;
-    velocity.y = d.y * farg1;
-    velocity.z = d.z * farg1;
+    velocity.x = d.x * speed;
+    k = 3.0f + speed;
+    velocity.y = d.y * speed;
+    velocity.z = d.z * speed;
     look_ahead.x = d.x * k;
     look_ahead.y = d.y * k;
     look_ahead.z = d.z * k;
-    attack_power = 0.0f;
-    attack_flags = 1;
+    recoil = 0.0f;
+    contact_flags = 1;
     fall_speed = 0.0f;
     age = 0;
     state = 0;

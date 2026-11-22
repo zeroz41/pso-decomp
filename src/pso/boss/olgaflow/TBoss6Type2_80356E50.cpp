@@ -4,9 +4,6 @@
 #include <stdlib.h>
 #include "pso/unk/text_80357058.h"
 
-extern "C" {
-void world_to_grid_pos__11TBoss6Type2FPvPvPv(f32 *arg0, s8 *arg1, s8 *arg2);
-}
 void send_6xAD_olga_flow_subordinate_boss_actions(u8 *arg0);
 extern "C" {
 
@@ -24,22 +21,22 @@ static const u8 forced_action_flag = 0x20;
 inline const u8 &get_random_action_flag() { return random_action_flag; }
 inline const u8 &get_forced_action_flag() { return forced_action_flag; }
 
-void TBoss6Type2::send_6xAD_grid_positions(u8 arg0, saddr arg1, s32 arg2) {
+void TBoss6Type2::send_6xAD_grid_positions(s32 index, saddr points, s32 count) {
     u8 a;
     u8 b;
     u8 buf[0x44];
     saddr p;
     s32 j;
     s32 i;
-    if (arg2 < 0 || arg2 > 3) {
+    if (count < 0 || count > 3) {
         return;
     }
     TBoss6Type2__sub_803570C8((s8 *)buf);
-    buf[0] = arg0;
-    p = arg1;
+    buf[0] = index;
+    p = points;
     j = 1;
-    for (i = 0; i < arg2; i++, p += 0xC, j += 2) {
-        world_to_grid_pos__11TBoss6Type2FPvPvPv((f32 *)p, (s8 *)&a, (s8 *)&b);
+    for (i = 0; i < count; i++, p += 0xC, j += 2) {
+        world_to_grid_pos((Vec *)p, (s8 *)&a, (s8 *)&b);
         buf[j] = a;
         buf[j + 1] = b;
     }

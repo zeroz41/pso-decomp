@@ -27,18 +27,13 @@
 
 
 #include "pso/system/task/TObject.h"
-extern "C" void has_flag_0x800__9TObjCharaFv();
-extern "C" void test_flag30_512__9TObjCharaFv();
-extern "C" void test_flag_1000__9TObjCharaFv();
+#include "pso/system/task/TMainTask.h"
+#include "pso/object/TObjControl.h"
+#include "pso/technique/TTecKafun.h"
 
 #include "pso/system/vector.h"
 
 #include "pso/render/TUnk_80494938.h"
-extern "C" void test_flag_256__13TUnk_80493450Fv();
-
-struct Obj_800D5614 { u8 pad0[0x38]; u8 pos[0xC]; u8 pad44[0x2A8 - 0x44]; void *f2a8; u8 pad2ac[0x326 - 0x2AC]; s16 f326; s16 f328; u8 pad32a[0x338 - 0x32A]; u16 f338; u8 pad33a[0x350 - 0x33A]; f32 *f350; u8 pad354[0x3D0 - 0x354]; f32 f3d0; };
-struct Pl_800D5614 { u8 pad0[0x38]; u8 pos[0xC]; };
-
 #include <stddef.h>
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
@@ -56,779 +51,183 @@ struct Pl_800D5614 { u8 pad0[0x38]; u8 pos[0xC]; };
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/math/MatrixTransforms.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/enemy/EnemyMovement.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/player/TObjPlayer_800D8FDC.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/player/TPlyDispData.h"
+#include "pso/render/NinjaUtil.h"
+#include "pso/render/model_render_state.h"
+#include "pso/render/render_util.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/unk/text_803D853C.h"
 
 #pragma readonly_strings on
 
-struct RecoveredGlobal_800D5060_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
-LAYOUT_ASSERT(RecoveredGlobal_800D5060_lbl_8058D490_size, sizeof(RecoveredGlobal_800D5060_lbl_8058D490) == 0x30);
+// TObjPlayer member defined in TObjControl.cpp with no declaration in TObjPlayer.h.
+extern "C" void link_chain_nodes__10TObjPlayerFPvPvPv(void *, void *, void *);
 
-struct VBase_18_477421
-{
-  char pad[0x18];
-};
-
-struct VObj_18_477421 : VBase_18_477421 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual s32 m81();
-    virtual s32 m82();
-    virtual s32 m83();
-    virtual s32 m84();
-    virtual s32 m85();
-    virtual s32 m86();
-    virtual s32 m87();
-    virtual s32 m88();
-    virtual s32 m89();
-    virtual s32 m90();
-    virtual void m91();
-    virtual void m92();
-    virtual void m93();
-    virtual void m94();
-    virtual void m95();
-    virtual void m96();
-    virtual void m97();
-    virtual void m98();
-    virtual s32 m99();
-};
-
-
-struct VBase_18_ca64a0
-{
-  char pad[0x18];
-};
-
-struct VObj_18_ca64a0 : VBase_18_ca64a0 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual s32 m9(f32, f32, f32);
-};
-
-struct VBase_14_fddec9
-{
-  char pad[0x14];
-};
-
-struct VObj_14_fddec9 : VBase_14_fddec9 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual s32 m6();
-    virtual s32 m7();
-    virtual s32 m8();
-};
-
-struct RecoveredFields_800D6810_arg0
-{
-  u8 unknown_0[0x24];
-  s32 field_24;
-  u8 unknown_28[0xC];
-  s32 field_34;
-  u8 unknown_38[0x28];
-  s32 field_60;
-  u8 unknown_64[0x2C2];
-  s16 field_326;
-  u8 unknown_328[0x58];
-  f32 field_380;
-};
-
-struct E_800D7274 { s32 f0; s32 f4; s32 f8; s32 fc; };
-
-struct D_800D7274 { u8 pad[0x42c]; E_800D7274 *entries; };
-
-struct O_800D7274 { u8 pad[0x24]; s32 f24; u8 pad2[0xc]; s32 f34; };
-
-struct Sub_800D5100 { u8 pad[0x18]; s32 f18; };
-
-struct Obj_800D5100 { u8 pad[0x2b0]; Sub_800D5100 *f2b0; };
-
-struct Obj_800D5150 { u8 pad[0x334]; s32 f334; u8 pad2[0x368 - 0x338]; s32 f368; };
-
-struct VBase_14_800D5570 { char pad[0x14]; };
-
-struct VObj_14_800D5570 : VBase_14_800D5570 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); virtual void m4();
-    virtual s32 m5();
-};
-
-struct Obj_800D5570 { u8 pad0[0x38]; u8 sub38[0xB8 - 0x38]; s16 fb8; u8 padba[0x326 - 0xBA]; s16 f326; s16 state; };
-
-typedef struct Ene_800D51C8 {
-    u8 pad0[0xB8];
-    s16 fB8;
-    u8 padBA[0x326 - 0xBA];
-    s16 state;
-    s16 f328;
-    u8 pad32A[0x34C - 0x32A];
-    void *f34C;
-} Ene_800D51C8;
-
-struct Base_800D64F0 {
-    char pad[0x18];
-};
-
-struct Ene_800D64F0 : Base_800D64F0 {
-    virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3(); virtual void v4(); virtual void v5(); virtual void v6(); virtual void v7(); virtual void v8(); virtual void v9(); virtual void v10(); virtual void v11(); virtual void v12(); virtual void v13(); virtual void v14(); virtual void v15(); virtual void v16(); virtual void v17(); virtual void v18(); virtual void v19(); virtual void v20(); virtual void v21(); virtual void v22(); virtual void v23(); virtual void v24(); virtual void v25(); virtual void v26(); virtual void v27(); virtual void v28(); virtual void v29(); virtual void v30(); virtual void v31(); virtual void v32(); virtual void v33(); virtual void v34(); virtual void v35(); virtual void v36(); virtual void v37(); virtual void v38(); virtual void v39(); virtual void v40(); virtual void v41(); virtual void v42(); virtual void v43(); virtual void v44(); virtual void v45(); virtual void v46(); virtual void v47(); virtual void v48(); virtual void v49(); virtual void v50(); virtual void v51(); virtual void v52(); virtual void v53(); virtual void v54(); virtual void v55(); virtual void v56(); virtual void v57(); virtual void v58(); virtual void v59(); virtual void v60(); virtual void v61(); virtual void v62(); virtual void v63(); virtual void v64(); virtual void v65(); virtual void v66(); virtual void v67(); virtual void v68(); virtual void v69(); virtual void v70(); virtual void v71(); virtual void v72(); virtual void v73(); virtual void v74(); virtual void v75(); virtual void v76(); virtual void v77(); virtual void v78(); virtual void v79(); virtual void v80(); virtual void v81(); virtual void v82(); virtual void v83(); virtual void v84(); virtual void v85(); virtual void v86(); virtual void v87(); virtual void v88(); virtual void v89(); virtual void v90(); virtual void v91(); virtual void v92(); virtual void v93(); virtual void v94();
-    virtual void m95();
-    u8 pad1C[0xB4 - 0x1C];
-    u32 fB4;
-    s16 fB8;
-    u8 padBA[0x326 - 0xBA];
-    s16 state;
-    s16 sub;
-    u8 pad32A[0x338 - 0x32A];
-    s16 target;
-    u8 pad33A[0x350 - 0x33A];
-    f32 *param;
-    u8 pad354[0x390 - 0x354];
-    s32 f390;
-};
-
-typedef struct Ene_800D52DC {
-    u8 pad0[0xB8];
-    s16 fB8;
-    u8 padBA[0x326 - 0xBA];
-    s16 state;
-    s16 f328;
-    u8 pad32A[0x34C - 0x32A];
-    void *f34C;
-} Ene_800D52DC;
-
-struct Vec_800D57C8 { s32 x, y, z; };
-
-struct Stack_800D4D74 {
-    s32 sp8;
-    f32 spC;
-    f32 sp10;
-};
-
-struct VBase_18_800D6110 { char pad[0x18]; };
-
-struct VObj_18_800D6110 : VBase_18_800D6110 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16();
-    virtual s32 m17(s32);
-    virtual void m18(); virtual void m19(); virtual void m20(); virtual void m21();
-    virtual void m22(); virtual void m23(); virtual void m24(); virtual void m25();
-    virtual void m26(); virtual void m27(); virtual void m28(); virtual void m29();
-    virtual void m30(); virtual void m31(); virtual void m32(); virtual void m33();
-    virtual void m34(); virtual void m35(); virtual void m36(); virtual void m37();
-    virtual void m38(); virtual void m39(); virtual void m40(); virtual void m41();
-    virtual void m42(); virtual void m43(); virtual void m44(); virtual void m45();
-    virtual void m46(); virtual void m47(); virtual void m48(); virtual void m49();
-    virtual void m50(); virtual void m51(); virtual void m52(); virtual void m53();
-    virtual void m54(); virtual void m55(); virtual void m56(); virtual void m57();
-    virtual void m58(); virtual void m59(); virtual void m60(); virtual void m61();
-    virtual void m62(); virtual void m63(); virtual void m64(); virtual void m65();
-    virtual void m66(); virtual void m67(); virtual void m68(); virtual void m69();
-    virtual void m70(); virtual void m71(); virtual void m72(); virtual void m73();
-    virtual void m74(); virtual void m75(); virtual void m76(); virtual void m77();
-    virtual void m78(); virtual void m79(); virtual void m80(); virtual void m81();
-    virtual void m82(); virtual void m83(); virtual void m84(); virtual void m85();
-    virtual void m86(); virtual void m87(); virtual void m88(); virtual void m89();
-    virtual void m90(); virtual void m91(); virtual void m92(); virtual void m93();
-    virtual void m94(); virtual void m95(); virtual void m96();
-    virtual void m97();
-};
-
-struct Pl_800D6110 { u8 pad0[0x38]; Vec pos; u8 pad44[0x2FC - 0x44]; Vec p2fc; };
-
-struct Model_800D6110 { u8 pad0[0xC]; f32 radius; u8 pad10[8]; u32 flags; };
-
-struct Obj_800D6110 : VObj_18_800D6110 {
-    u8 pad1C[0x38 - 0x1C]; Vec pos; u8 pad44[0xA4 - 0x44]; Model_800D6110 *model;
-    u8 padA8[0xB8 - 0xA8]; s16 fb8; u8 padBA[0x2A8 - 0xBA]; Pl_800D6110 *f2a8;
-    u8 pad2ac[0x308 - 0x2AC]; u8 ang308[0x326 - 0x308]; s16 f326; s16 f328;
-    u8 pad32a[0x338 - 0x32A]; u16 f338; u8 pad33a[0x350 - 0x33A]; f32 *f350;
-    u8 pad354[0x374 - 0x354]; s16 f374; u8 pad376[0x398 - 0x376]; f32 f398;
-    u8 pad39c[0x3D4 - 0x39C]; f32 f3d4;
-};
-
-struct Param_800D5BCC { u8 pad0[4]; f32 speed; s32 turn; };
-
-struct Sub_800D5BCC { u8 pad0[0xC]; f32 fC; };
-
-struct Lia_800D5BCC {
-    u8 pad0[0x38];
-    Vec pos;
-    Vec prev;
-    Vec home;
-    u8 pad5C[0x60 - 0x5C];
-    s32 angle;
-    u8 pad64[0xA4 - 0x64];
-    Sub_800D5BCC *fA4;
-    u8 padA8[0xB8 - 0xA8];
-    s16 fB8;
-    u8 padBA[0x290 - 0xBA];
-    Vec f290;
-    Vec f29C;
-    u8 pad2A8[0x2FC - 0x2A8];
-    Vec f2FC;
-    u8 pad308[0x328 - 0x308];
-    s16 state;
-    u8 pad32A[0x348 - 0x32A];
-    Lia_800D5BCC *partner;
-    u8 pad34C[0x350 - 0x34C];
-    Param_800D5BCC *param;
-    u8 pad354[0x358 - 0x354];
-    f32 f358;
-    u8 pad35C[0x378 - 0x35C];
-    s32 f378;
-    s32 count;
-    u8 pad380[0x394 - 0x380];
-    f32 f394;
-};
-
-struct VBase_18_4c2345 { char pad[0x18]; };
-struct VObj_18_4c2345 : VBase_18_4c2345 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual s32 m79(s32);
-    virtual s32 m80();
-};
-
-void move_with_wall_slide(u8 *arg0);
-
-extern "C" {
-void TObjEneMerillLia__sub_800D4EC8(saddr arg0);
-void play_group_chase_sound__16TObjEneMerillLiaFv(s32 arg0);
-void play_death_sound__16TObjEneMerillLiaFv(s32 arg0);
-void play_hurt_sound__16TObjEneMerillLiaFv(s32 arg0);
-void play_attack_sound__16TObjEneMerillLiaFv(s32 arg0);
-void TObjEneMerillLia__sub_800D501C(saddr self);
-void TObjPlayer__sub_800D92BC(s32 point, s32 delay);
-f32 vec3_add_to(void *, void *);
-s32 rotate_vector_by_matrix(int, void *, void *);
-extern RecoveredGlobal_800D5060_lbl_8058D490 identity_matrix;
-void spawn_death_effect__16TObjEneMerillLiaFv(u8 *arg0);
-s32 get_current_floor();
-f32 xz_distance_squared(void *, void *);
-void run_task__16TObjEneMerillLiaFv(u8 *arg0);
-void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
-f32 post_translate_matrix(void *);
-extern s32 saved_model_render_flags;
-extern s32 model_render_flags;
-void render__16TObjEneMerillLiaFv(u8 *arg0);
-void **TObjEneMerillLia__rock_stats_table;
+void **merill_lia_rock_stats_table;
 void **merill_lia_rock_buffer;
 void **merill_lia_rock_aux_buffer;
-uaddr TObjEneMerillLia__rock_param_table;
-uaddr TObjEneMerillLia__entry_params_resource;
-extern s32 game_difficulty_selection;
-void run_move_action__16TObjEneMerillLiaFv(Ene_800D51C8 *arg0);
-void beast_update_appear__16TObjEneMerillLiaFv(Ene_800D64F0 *arg0);
-void run_attack_action__16TObjEneMerillLiaFv(Ene_800D52DC *arg0);
-s32 minimap_render_dot(void *, int, int, int);
-s32 create__9TTecKafunFlllllff(void *, void *, int, int, int, f32, f32);
-s32 matrix_mult_vec(int, void *, void *);
-}
-void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
-extern "C" {
-s32 enemy_move_toward(void *, s32, void *, int, f32);
-f32 horizontal_distance_squared(void *, void *);
-void beast_update_approach__16TObjEneMerillLiaFv(u8 *arg0);
-extern s32 actor_frame_tick;
-void spawn_ground_effect__16TObjEneMerillLiaFPv(u8 *motion);
-f32 enemy_backstep_from_point(void *, void *, f32);
-void beast_update_group_chase__16TObjEneMerillLiaFv(Obj_800D6110 *arg0);
-f32 fabs_float(f32);
-f32 atan2_float(f32 y, f32 x);
-void link_chain_nodes__10TObjPlayerFPvPvPv(void *, void *, void *);
-s32 approach_angle_limited(s32, s32, s32);
-s32 project_actor_to_ground(void *, void *, s32);
-void TObjEneMerillLia__sub_800D5BCC(u8 *arg0);
-void * TObjEneMerillLia__create(void *arg0);
-void run_demo_task__16TObjEneMerillLiaFv(void);
-void update_attack_trail__16TObjEneMerillLiaFv(void);
-void *__dt__16TObjEneMerillLiaFPvs(void *arg0, s16 arg1);
-void run_idle_action__16TObjEneMerillLiaFv(void *arg0);
-void *__ct__11TObjControlFP7TObject(void *, void *);
-void free_collision_body_parts(void *);
-void *TObjEneMerillLia__ct(void *, void *, void *);
-void *__dt__13TUnk_80493450Fv(void *arg0, s16 arg1);
-void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
-void TObjEneMerillLia__sub_800D6D64(void);
+MerillLiaBehaviorParams **merill_lia_behavior_params;
+BmlResource *merill_lia_bml_resource;
 
-extern "C" void vfunc_6__8TObjBaseFPsl();
-extern "C" void beast_update_hurt__16TObjEneMerillLiaFv(u8 *arg0);
-extern "C" void has_no_target__9TObjCharaFv();
-extern "C" void recalc_stats__9TObjCharaFv();
-extern "C" void consume_timer_field__9TObjCharaFl();
-extern "C" void deliver_attack_hits__9TObjCharaFf();
-extern "C" void vfunc_66__9TObjCharaFv();
-extern "C" void get_anim_node_position__9TObjCharaFlP3Vec();
-extern "C" void apply_slow_status__9TObjCharaFv();
-extern "C" void update_shock_clock__9TObjCharaFv();
-extern "C" void vfunc_43__9TObjCharaFv();
-extern "C" void update_actor_ground_y_at__9TObjCharaFP3Vec();
-extern "C" void interact__14TObjCollidableFl();
-extern "C" void select_post_attack_mode__13TUnk_80493450Fv();
-extern "C" void vfunc_89__13TUnk_80493450Fv();
-extern "C" void update_turn_toward_target__13TUnk_80493450Fv();
-extern "C" void play_alert_sound__13TUnk_80493450Fv();
-extern "C" void vfunc_74__9TObjEnemyFl();
-extern "C" void apply_hit_message_flags__9TObjEnemyFPv();
-extern "C" void add_actor_exp__9TObjCharaFl();
-extern "C" void apply_action_hold_status__9TObjCharaFf();
-extern "C" void apply_anti_technique__9TObjCharaFl();
-extern "C" void apply_attack_stat_status__9TObjCharaFPv();
-extern "C" void apply_confusion_status__9TObjCharaFv();
-extern "C" void apply_knockback_from_attacker__9TObjCharaFPUcf();
-extern "C" void apply_movement_ailment__9TObjCharaFl();
-extern "C" void apply_object_set_data__8TObjBaseFPv();
-extern "C" void apply_paralysis__9TObjCharaFv();
-extern "C" void apply_poison_status__9TObjCharaFv();
-extern "C" void apply_set_data__9TObjEnemyFPv();
-extern "C" void apply_shock_status__9TObjCharaFv();
-extern "C" void apply_switch_attack__9TObjCharaFv();
-extern "C" void beast_retire_corpse__13TUnk_80493450Fv();
-extern "C" void refresh_target__13TUnk_80493450Fv();
-extern "C" void beast_update_attack__13TUnk_80493450Fv();
-extern "C" void beast_update_dead__13TUnk_80493450Fv();
-extern "C" void calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf();
-extern "C" void apply_enemy_state__9TObjEnemyFPl();
-extern "C" void classify_actor_view_detail__8TObjBaseFfff();
-extern "C" void clear_all_status_effects__9TObjCharaFv();
-extern "C" void run_miss_reaction__13TUnk_80493450Fv();
-extern "C" void clear_harmful_statuses__9TObjCharaFv();
-extern "C" void cure_paralysis__9TObjCharaFv();
-extern "C" void cure_poison_ailment__9TObjCharaFv();
-extern "C" void enemy_spawn_jellen_effect__9TObjCharaFv();
-extern "C" void enemy_spawn_zalure_effect__9TObjCharaFv();
-extern "C" void run_hit_reaction__13TUnk_80493450Fv();
-extern "C" void run_death_reaction__13TUnk_80493450Fv();
-extern "C" void vfunc_78__9TObjCharaFl();
-extern "C" void gain_photon_blast_chain_charge__9TObjCharaFv();
-extern "C" void spend_photon_blast_charge__9TObjCharaFf();
-extern "C" void gain_photon_blast_charge__9TObjCharaFf();
-extern "C" void clear_lobby_object_state__9TObjEnemyFv();
-extern "C" void get_center__9TObjCharaFv();
-extern "C" void get_actor_level_index__9TObjCharaFv();
-extern "C" void get_name__9TObjEnemyFv();
-extern "C" void get_pos__9TObjCharaFl();
-extern "C" void is_actor_cadence_frame__9TObjCharaFl();
-extern "C" void is_target_in_attack_range__9TObjCharaFv();
-extern "C" void receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll();
-extern "C" void receive_physical_attack__9TObjCharaFPvf();
-extern "C" void receive_weapon_special_attack__9TObjCharaFPvPv();
-extern "C" void apply_defense_stat_status__9TObjCharaFPv();
-extern "C" void render_shadows__9TObjEnemyFv();
-extern "C" void request_stand_action__13TUnk_80493450Fv();
-extern "C" void reset_motion_fields__9TObjCharaFv();
-extern "C" void reset_pose__9TObjCharaFv();
-extern "C" void roll_physical_accuracy__9TObjCharaFPvlf();
-extern "C" void select_melee_contact_body__9TObjCharaFPvf();
-extern "C" void update_movement_status__13TUnk_80493450Fv();
-extern "C" void trigger_switch_attack__9TObjCharaFv(s32 arg0);
-extern "C" void try_start_action__9TObjCharaFll();
-extern "C" void update_action_hold_status__13TUnk_80493450Fv();
-extern "C" s32 update_slow_status__9TObjCharaFv(u8 *player);
-extern "C" void update_actor_ground_y__9TObjCharaFv();
-extern "C" s32 update_attack_stat_status__9TObjCharaFv(u8 *player);
-extern "C" s32 update_defense_stat_status__9TObjCharaFv(u8 *player);
-extern "C" void update_flag30_timer__9TObjCharaFv();
-extern "C" void update_object_view_visibility__8TObjBaseFff();
-extern "C" void update_poison_status__9TObjCharaFv();
-const char *lbl_804944D0[3] = {
+const char *merill_lia_model_names[3] = {
     "re8_b_beast_wola_body.nj", "re8_b_srbeast_wola_body.nj", 0,
 };
-const char *lbl_804944DC[13] = {
+const char *merill_lia_motion_names[13] = {
     "appear_re8_b_beast_wola_body.njm", "atk_a_re8_b_beast_wola_body.njm", "atk_b_re8_b_beast_wola_body.njm", "damage_re8_b_beast_wola_body.njm",
     "dead_re8_b_beast_wola_body.njm", "stand_re8_b_beast_wola_body.njm", "wait_re8_b_beast_wola_body.njm", "wakeup_re8_b_beast_wola_body.njm",
     "walk_re8_b_beast_wola_body.njm", "run_bm1_s_wala_body.njm", "kahun_re8_b_beast_wola_body.njm", "umari_re8_b_beast_wola_body.njm",
     0,
 };
 BmlResourceDescriptor bm_ene_re8_merill_lia_resource_descriptor = {
-    "bm_ene_re8_merill_lia.bml", lbl_804944D0, lbl_804944DC, 2, 12,
+    "bm_ene_re8_merill_lia.bml", merill_lia_model_names, merill_lia_motion_names, 2, 12,
 };
-const char *lbl_80494520[3] = {
+const char *merill_lia_low_model_names[3] = {
     "lo_re8_b_beast_wola_body.nj", "lo_re8_b_srbeast_wola_body.nj", 0,
 };
-const char *lbl_8049452C[13] = {
+const char *merill_lia_low_motion_names[13] = {
     "appear_re8_b_beast_wola_body.njm", "atk_a_re8_b_beast_wola_body.njm", "atk_b_re8_b_beast_wola_body.njm", "damage_re8_b_beast_wola_body.njm",
     "dead_re8_b_beast_wola_body.njm", "stand_re8_b_beast_wola_body.njm", "wait_re8_b_beast_wola_body.njm", "wakeup_re8_b_beast_wola_body.njm",
     "walk_re8_b_beast_wola_body.njm", "run_bm1_s_wala_body.njm", "kahun_re8_b_beast_wola_body.njm", "umari_re8_b_beast_wola_body.njm",
     0,
 };
 BmlResourceDescriptor bm_ene_re8_merill_lia_low_resource_descriptor = {
-    "bm_ene_re8_merill_lia_low.bml", lbl_80494520, lbl_8049452C, 2, 12,
+    "bm_ene_re8_merill_lia_low.bml", merill_lia_low_model_names, merill_lia_low_motion_names, 2, 12,
 };
-const char *TObjEneMerillLia__class_name = "TObjEneMerillLia";
-void *lbl_80494570[56] = {
-    (void *)0x10000, (void *)0x5, (void *)0x3f19999a, (void *)0x1,
-    (void *)0x10001, (void *)0x6, (void *)0x3f4ccccd, (void *)0x1,
-    (void *)0x10002, (void *)0x8, (void *)0x3f19999a, (void *)0x1,
-    (void *)0x20000, (void *)0x1, (void *)0x3f4ccccd, (void *)0x4,
-    (void *)0x20000, (void *)0x2, (void *)0x3f800000, (void *)0x4,
-    (void *)0x10000, (void *)0x9, (void *)0x3f800000, (void *)0x1,
-    (void *)0x20000, (void *)0x3, (void *)0x3f4ccccd, (void *)0x8,
-    (void *)0x20000, (void *)0x7, (void *)0x3f4ccccd, (void *)0x20,
-    (void *)0x30000, (void *)0x4, (void *)0x3f19999a, (void *)0x10,
-    (void *)0x30000, (void *)0x4, (void *)0x3f19999a, (void *)0x10,
-    (void *)0x20000, (void *)0x5, (void *)0x3f19999a, (void *)0x20,
-    (void *)0x20000, (void *)0x0, (void *)0x3f000000, (void *)0x20,
-    (void *)0x20000, (void *)0xa, (void *)0x3f333333, (void *)0x4,
-    (void *)0x20001, (void *)0xb, (void *)0x3f19999a, (void *)0x20,
+const char *merill_lia_class_name = "TObjEneMerillLia";
+TObjMotionAction merill_lia_action_table[14] = {
+    {1, 0, 5, 0.6f, 1},
+    {1, 1, 6, 0.8f, 1},
+    {1, 2, 8, 0.6f, 1},
+    {2, 0, 1, 0.8f, 4},
+    {2, 0, 2, 1.0f, 4},
+    {1, 0, 9, 1.0f, 1},
+    {2, 0, 3, 0.8f, 8},
+    {2, 0, 7, 0.8f, 0x20},
+    {3, 0, 4, 0.6f, 0x10},
+    {3, 0, 4, 0.6f, 0x10},
+    {2, 0, 5, 0.6f, 0x20},
+    {2, 0, 0, 0.5f, 0x20},
+    {2, 0, 0xA, 0.7f, 4},
+    {2, 1, 0xB, 0.6f, 0x20},
 };
-void *lbl_80494650[21] = {
-    (void *)0x43610000, (void *)0x3ecccccd, (void *)0x400, (void *)0x0,
-    (void *)0x1e0000, (void *)0x1, (void *)0x0, (void *)0x437a0000,
-    (void *)0x3f0ccccd, (void *)0x400, (void *)0x0, (void *)0x1e0000,
-    (void *)0x1, (void *)0x0, (void *)0x43960000, (void *)0x3f333333,
-    (void *)0x400, (void *)0x0, (void *)0x1e0000, (void *)0x1,
-    (void *)0x0,
+BeastMovementParams merill_lia_movement_params[3] = {
+    {225.0f, 0.4f, 0x400, {0, 0x1E0000, 1, 0}},
+    {250.0f, 0.55f, 0x400, {0, 0x1E0000, 1, 0}},
+    {300.0f, 0.7f, 0x400, {0, 0x1E0000, 1, 0}},
 };
-void *lbl_804946A4[33] = {
-    (void *)0x0, (void *)0x40f00000, (void *)0x0, (void *)0x41000000,
-    (void *)0x0, (void *)0x0, (void *)0x8003, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0x40f00000, (void *)0x0, (void *)0x41000000, (void *)0x0,
-    (void *)0x0, (void *)0x8003, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x41200000,
-    (void *)0x0, (void *)0x41000000, (void *)0x0, (void *)0x0,
-    (void *)0x8003, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0x0,
+CollisionBody merill_lia_collision_bodies[3] = {
+    {{0.0f, 7.5f, 0.0f}, 8.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
+    {{0.0f, 7.5f, 0.0f}, 8.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
+    {{0.0f, 10.0f, 0.0f}, 8.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
-void *lbl_80494728[103] = {
-    (void *)0x0, (void *)0x0, (void *)&__dt__16TObjEneMerillLiaFPvs, (void *)&run_task__16TObjEneMerillLiaFv,
-    (void *)&render__16TObjEneMerillLiaFv, (void *)&render_shadows__9TObjEnemyFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
-    (void *)&reset_motion_fields__9TObjCharaFv, (void *)&get_center__9TObjCharaFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
-    (void *)&get_name__9TObjEnemyFv, (void *)&interact__14TObjCollidableFl, (void *)&add_actor_exp__9TObjCharaFl, (void *)&consume_timer_field__9TObjCharaFl,
-    (void *)&get_actor_level_index__9TObjCharaFv, (void *)&update_actor_ground_y__9TObjCharaFv, (void *)&update_actor_ground_y_at__9TObjCharaFP3Vec, (void *)&is_actor_cadence_frame__9TObjCharaFl,
-    (void *)&select_melee_contact_body__9TObjCharaFPvf, (void *)&calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf, (void *)&receive_physical_attack__9TObjCharaFPvf, (void *)&receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll,
-    (void *)&receive_weapon_special_attack__9TObjCharaFPvPv, (void *)&apply_knockback_from_attacker__9TObjCharaFPUcf, (void *)&try_start_action__9TObjCharaFll, (void *)&roll_physical_accuracy__9TObjCharaFPvlf,
-    (void *)&refresh_target__13TUnk_80493450Fv, (void *)&has_no_target__9TObjCharaFv, (void *)&is_target_in_attack_range__9TObjCharaFv, (void *)&test_flag_256__13TUnk_80493450Fv,
-    (void *)&test_flag30_512__9TObjCharaFv, (void *)&has_flag_0x800__9TObjCharaFv, (void *)&test_flag_1000__9TObjCharaFv, (void *)&update_poison_status__9TObjCharaFv,
-    (void *)&update_action_hold_status__13TUnk_80493450Fv, (void *)&update_slow_status__9TObjCharaFv, (void *)&update_flag30_timer__9TObjCharaFv, (void *)&update_movement_status__13TUnk_80493450Fv,
-    (void *)&update_shock_clock__9TObjCharaFv, (void *)&update_attack_stat_status__9TObjCharaFv, (void *)&update_defense_stat_status__9TObjCharaFv, (void *)&vfunc_43__9TObjCharaFv,
-    (void *)&apply_poison_status__9TObjCharaFv, (void *)&apply_paralysis__9TObjCharaFv, (void *)&apply_slow_status__9TObjCharaFv, (void *)&apply_confusion_status__9TObjCharaFv,
-    (void *)&apply_movement_ailment__9TObjCharaFl, (void *)&apply_shock_status__9TObjCharaFv, (void *)&clear_harmful_statuses__9TObjCharaFv, (void *)&apply_attack_stat_status__9TObjCharaFPv,
-    (void *)&apply_defense_stat_status__9TObjCharaFPv, (void *)&cure_poison_ailment__9TObjCharaFv, (void *)&cure_paralysis__9TObjCharaFv, (void *)&clear_all_status_effects__9TObjCharaFv,
-    (void *)&apply_action_hold_status__9TObjCharaFf, (void *)&apply_anti_technique__9TObjCharaFl, (void *)&run_idle_action__16TObjEneMerillLiaFv, (void *)&run_move_action__16TObjEneMerillLiaFv,
-    (void *)&run_attack_action__16TObjEneMerillLiaFv, (void *)&run_miss_reaction__13TUnk_80493450Fv, (void *)&run_hit_reaction__13TUnk_80493450Fv, (void *)&run_death_reaction__13TUnk_80493450Fv,
-    (void *)&reset_pose__9TObjCharaFv, (void *)&get_anim_node_position__9TObjCharaFlP3Vec, (void *)&vfunc_66__9TObjCharaFv, (void *)&deliver_attack_hits__9TObjCharaFf,
-    (void *)&get_pos__9TObjCharaFl, (void *)&apply_switch_attack__9TObjCharaFv, (void *)&enemy_spawn_jellen_effect__9TObjCharaFv, (void *)&trigger_switch_attack__9TObjCharaFv,
-    (void *)&enemy_spawn_zalure_effect__9TObjCharaFv, (void *)&recalc_stats__9TObjCharaFv, (void *)&vfunc_74__9TObjEnemyFl, (void *)&gain_photon_blast_charge__9TObjCharaFf,
-    (void *)&spend_photon_blast_charge__9TObjCharaFf, (void *)&gain_photon_blast_chain_charge__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl, (void *)&apply_enemy_state__9TObjEnemyFPl,
-    (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv, (void *)&beast_update_appear__16TObjEneMerillLiaFv,
-    (void *)&TObjEneMerillLia__sub_800D5BCC, (void *)&update_turn_toward_target__13TUnk_80493450Fv, (void *)&beast_update_approach__16TObjEneMerillLiaFv, (void *)&beast_update_group_chase__16TObjEneMerillLiaFv,
-    (void *)&beast_update_attack__13TUnk_80493450Fv, (void *)&vfunc_89__13TUnk_80493450Fv, (void *)&beast_update_hurt__16TObjEneMerillLiaFv, (void *)&beast_update_dead__13TUnk_80493450Fv,
-    (void *)&beast_retire_corpse__13TUnk_80493450Fv, (void *)&update_attack_trail__16TObjEneMerillLiaFv, (void *)&spawn_death_effect__16TObjEneMerillLiaFv, (void *)&play_alert_sound__13TUnk_80493450Fv,
-    (void *)&play_attack_sound__16TObjEneMerillLiaFv, (void *)&play_hurt_sound__16TObjEneMerillLiaFv, (void *)&play_death_sound__16TObjEneMerillLiaFv, (void *)&play_group_chase_sound__16TObjEneMerillLiaFv,
-    (void *)&select_post_attack_mode__13TUnk_80493450Fv, (void *)&run_demo_task__16TObjEneMerillLiaFv, (void *)&request_stand_action__13TUnk_80493450Fv,
-};
-#define lbl_80494728 ((s32 *)lbl_80494728)
-
-// The motion set TLobby::spawn_npc_enemy copies for each spawned part.
-
-// One 0x2C-byte record of the collision body table init_collision_body_parts reads.
-struct CollisionPartRecord { u8 pad_0[0xC]; f32 radius; u8 pad_10[0x1C]; };
-
-extern void *tl_04;
-typedef struct RecoveredFields_800D6810_arg0 RecoveredFields_800D6810_arg0;
-typedef struct VBase_14_fddec9 VBase_14_fddec9;
-typedef struct VBase_18_ca64a0 VBase_18_ca64a0;
-typedef struct VObj_14_fddec9 VObj_14_fddec9;
-typedef struct VObj_18_ca64a0 VObj_18_ca64a0;
-struct Obj_800D5100;
-struct RecoveredGlobal_800D5060_lbl_8058D490;
-s32 check_path_obstructed(void *, void *);
-typedef struct VBase_18_477421 VBase_18_477421;
-typedef struct VObj_18_477421 VObj_18_477421;
-struct O_800D7274;
-struct Obj_800D5150;
-s32 __ct__13TUnk_80493450FP7TObject(void *, s32);
-s32 init_collision_body_parts(void *, void *, int);
 
 // This unit is built with -inline off,deferred: CW then emits .text in reverse definition order, so the
-// functions below are defined from the last one in the DOL (load_entry_params) back to the first (vfunc_101).
-void TObjEneMerillLia::load_entry_params(s32 i) {
-    O_800D7274 *self = (O_800D7274 *)this;
-    self->f34 = (*(D_800D7274 * *)&TObjEneMerillLia__entry_params_resource)->entries[i].f8;
-    self->f24 = (*(D_800D7274 * *)&TObjEneMerillLia__entry_params_resource)->entries[i].fc;
+// functions below are defined from the last one in the DOL (select_model_record) back to the first (run_demo_task).
+void TObjEneMerillLia::select_model_record(s32 i) {
+    model = merill_lia_bml_resource->models[i].model;
+    texlist = (saddr)merill_lia_bml_resource->models[i].m_c;
 }
 
-#define self ((u8 *)arg0v)
-void *TObjEneMerillLia__ct(void *arg0v, void *arg1, void *arg2) {
-    f32 sc;
-    s32 hp;
-    s16 t;
-
-    __ct__13TUnk_80493450FP7TObject(self, (saddr)arg1);
-    *(void **)((s8 *)self + 0x18) = lbl_80494728;
-    __ct__13TUnk_80494938Fv((self + 0x3A8));
-    *(const char **)((s8 *)self + 0) = TObjEneMerillLia__class_name;
-    ((VObj_18_4c2345 *) self)->m79((saddr)arg2);
-    ((TObjEneMerillLia *)self)->init_params_from_position();
-    ((TObjPlayer *)self)->init_position_vectors();
-    *(s32 *)((s8 *)self + 0x334) = *(s32 *)((s8 *)self + 0x368);
-    ((TObjEneMerillLia *)self)->clamp_and_apply_mode_param();
-    ((TObjEneMerillLia *)self)->load_entry_params(*(s32 *)((s8 *)self + 0x368));
-    *(void **)((s8 *)self + 0xD8) = lbl_80494570;
-    ((TObjMotion *)self)->set_field_d8((saddr)(*(void **)((s8 *)self + 0xD8)));
-    *(s32 *)((s8 *)self + 0xDC) = *(s32 *)((s8 *)TObjEneMerillLia__entry_params_resource + 0x430);
-    *(s16 *)((s8 *)self + 0xB8) = 0;
-    ((TObjMotion *)self)->set_animation(*(s16 *)((s8 *)self + 0xB8));
-    ((TObjMotion *)self)->set_field_b8(*(s16 *)((s8 *)self + 0xB8));
-    init_collision_body_parts(self, (u8 *) lbl_804946A4 + *(s32 *)((s8 *)self + 0x334) * 0x2C, 1);
-    ((TObjEnemy *)self)->bind_enemy_combat_stats((u8 *)TObjEneMerillLia__rock_stats_table[*(s32 *)((s8 *)self + 0x334)], (u8 *)merill_lia_rock_buffer[*(s32 *)((s8 *)self + 0x334)], (u8 *)merill_lia_rock_aux_buffer[*(s32 *)((s8 *)self + 0x334)]);
-    *(u8 **)((s8 *)self + 0x350) = (u8 *) lbl_80494650 + *(s32 *)((s8 *)self + 0x334) * 0x1C;
-    *(s16 *)((s8 *)self + 0x33E) = *(s16 *)((s8 *)self + 0x32C);
-    ((TObjEnemy *)self)->update_prev_position();
-    ((TBoss3VoloptHiraisin *)self)->copy_position();
-    ((TObjPlayer *)self)->register_object_by_id();
-    *(s32 *)((s8 *)self + 0x2AC) = 182.04445f * (360.0f * ((TObjChara *)self)->random_ratio());
-    *(s16 *)((s8 *)self + 0x33A) = 0xF;
-    *(s16 *)((s8 *)self + 0x33C) = *(s16 *)((s8 *)self + 0x33A);
-    *(s16 *)((s8 *)self + 0x328) = 0;
-    *(s16 *)((s8 *)self + 0x374) = 0;
-    *(s16 *)((s8 *)self + 0x376) = 0;
-    *(s32 *)((s8 *)self + 0x378) = 0;
-    *(s32 *)((s8 *)self + 0x37C) = 0;
-    ((TObjChara *)self)->add_flags_2e4(2);
-    obj_setFlags30(self, 0x40000);
-    *(f32 *)((s8 *)self + 0x380) = 0.0f;
-    *(f32 *)((s8 *)self + 0x398) = ((f32 **) TObjEneMerillLia__rock_param_table)[*(s32 *)((s8 *)self + 0x334)][0];
-    *(f32 *)((s8 *)self + 0x3A0) = ((f32 **) TObjEneMerillLia__rock_param_table)[*(s32 *)((s8 *)self + 0x334)][1];
-    *(f32 *)((s8 *)self + 0x39C) = ((f32 **) TObjEneMerillLia__rock_param_table)[*(s32 *)((s8 *)self + 0x334)][2];
-    *(f32 *)((s8 *)self + 0x3A4) = ((f32 **) TObjEneMerillLia__rock_param_table)[*(s32 *)((s8 *)self + 0x334)][3];
-    *(f32 *)((s8 *)self + 0x3D4) = ((f32 **) TObjEneMerillLia__rock_param_table)[*(s32 *)((s8 *)self + 0x334)][5];
-    *(f32 *)((s8 *)self + 0x3CC) = ((s32 **) TObjEneMerillLia__rock_param_table)[*(s32 *)((s8 *)self + 0x334)][6] / 100.0f;
-    *(s32 *)((s8 *)self + 0x390) = 1;
-    *(s16 *)((s8 *)self + 0x326) = 0xD;
-    *(s16 *)((s8 *)self + 0xB8) = 1;
-    ((VObj_18_4c2345 *) self)->m80();
-    return self;
+TObjEneMerillLia::TObjEneMerillLia(TObject *parent, void *setData) : TUnk_80493450(parent) {
+    m_name = merill_lia_class_name;
+    apply_set_data(setData);
+    init_behavior_params();
+    init_position_vectors();
+    subtype = variant;
+    select_subtype();
+    select_model_record(variant);
+    action_table = merill_lia_action_table;
+    set_field_d8((saddr)action_table);
+    motion_list = merill_lia_bml_resource->motions;
+    requested_action = 0;
+    set_animation(requested_action);
+    set_field_b8(requested_action);
+    init_collision_body_parts(this, &merill_lia_collision_bodies[subtype], 1);
+    bind_enemy_combat_stats((u8 *)merill_lia_rock_stats_table[subtype], (u8 *)merill_lia_rock_buffer[subtype], (u8 *)merill_lia_rock_aux_buffer[subtype]);
+    movementParameters = &merill_lia_movement_params[subtype];
+    referenceHp = hp;
+    update_prev_position();
+    ((TBoss3VoloptHiraisin *)this)->copy_position();
+    register_object_by_id();
+    m_2ac = (s32)(182.04445f * (360.0f * random_ratio()));
+    resetTimer = 0xF;
+    timer = resetTimer;
+    phase = 0;
+    retreat_timer = 0;
+    pad_376 = 0;
+    in_group = 0;
+    child_count = 0;
+    add_flags_2e4(2);
+    obj_setFlags30(this, 0x40000);
+    corpse_offset_y = 0.0f;
+    far_move_speed = merill_lia_behavior_params[subtype]->far_move_speed;
+    far_anim_speed = merill_lia_behavior_params[subtype]->far_anim_speed;
+    near_move_speed = merill_lia_behavior_params[subtype]->near_move_speed;
+    near_anim_speed = merill_lia_behavior_params[subtype]->near_anim_speed;
+    retreat_speed = merill_lia_behavior_params[subtype]->retreat_speed;
+    react_hp_ratio = merill_lia_behavior_params[subtype]->react_hp_percent / 100.0f;
+    appearing = 1;
+    mode = 0xD;
+    requested_action = 1;
+    clear_lobby_object_state();
 }
-#undef self
 
-void *__dt__16TObjEneMerillLiaFPvs(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_80494728;
-        ((TUnk_80493450 *)arg0)->unlink_enemy_group_relations();
-        free_collision_body_parts(arg0);
-        __dt__13TUnk_80494938Fv((s8 *)arg0 + 0x3A8, -1);
-        __dt__13TUnk_80493450Fv(arg0, 0);
-        if (arg1 > 0) {
-            TObject::operator delete(arg0);
-        }
-    }
-    return arg0;
+TObjEneMerillLia::~TObjEneMerillLia() {
+    unlink_enemy_group_relations();
+    free_collision_body_parts(this);
 }
 
 #pragma push
 #pragma opt_loop_invariants off
-void TObjEneMerillLia__sub_800D6D64(void) {
+void TObjEneMerillLia::load_resources() {
     s32 i;
-    u8 *res;
+    BmlResource *res;
 
     if (is_split_screen() != 0) {
-        res = (u8 *)new BmlResource(1, &bm_ene_re8_merill_lia_low_resource_descriptor, 0, 0, NULL);
-        TObjEneMerillLia__entry_params_resource = (uaddr)res;
+        res = new BmlResource(1, &bm_ene_re8_merill_lia_low_resource_descriptor, 0, 0, NULL);
+        merill_lia_bml_resource = res;
     } else {
-        res = (u8 *)new BmlResource(1, &bm_ene_re8_merill_lia_resource_descriptor, 0, 0, NULL);
-        TObjEneMerillLia__entry_params_resource = (uaddr)res;
+        res = new BmlResource(1, &bm_ene_re8_merill_lia_resource_descriptor, 0, 0, NULL);
+        merill_lia_bml_resource = res;
     }
-    ((CollisionPartRecord *)lbl_804946A4)[0].radius = 7.0f;
-    ((CollisionPartRecord *)lbl_804946A4)[1].radius = 7.0f;
-    ((CollisionPartRecord *)lbl_804946A4)[2].radius = 8.0f;
-    TObjEneMerillLia__rock_stats_table = (void **)mem_alloc(8);
+    merill_lia_collision_bodies[0].radius = 7.0f;
+    merill_lia_collision_bodies[1].radius = 7.0f;
+    merill_lia_collision_bodies[2].radius = 8.0f;
+    merill_lia_rock_stats_table = (void **)mem_alloc(8);
     merill_lia_rock_buffer = (void **)mem_alloc(8);
     merill_lia_rock_aux_buffer = (void **)mem_alloc(8);
-    TObjEneMerillLia__rock_param_table = (uaddr)mem_alloc(8);
-    TObjEneMerillLia__rock_stats_table[0] = TLobby::register_boss(75);
-    TObjEneMerillLia__rock_stats_table[1] = TLobby::register_boss(76);
+    merill_lia_behavior_params = (MerillLiaBehaviorParams **)mem_alloc(8);
+    merill_lia_rock_stats_table[0] = TLobby::register_boss(75);
+    merill_lia_rock_stats_table[1] = TLobby::register_boss(76);
     merill_lia_rock_buffer[0] = TLobby::dispatch_shared_handler_b(78);
     merill_lia_rock_buffer[1] = TLobby::dispatch_shared_handler_b(79);
     merill_lia_rock_aux_buffer[0] = TLobby::register_object(74);
     merill_lia_rock_aux_buffer[1] = TLobby::register_object(75);
-    ((void **)TObjEneMerillLia__rock_param_table)[0] = TLobby::dispatch_shared_handler_a(74);
-    ((void **)TObjEneMerillLia__rock_param_table)[1] = TLobby::dispatch_shared_handler_a(75);
+    merill_lia_behavior_params[0] = (MerillLiaBehaviorParams *)TLobby::dispatch_shared_handler_a(74);
+    merill_lia_behavior_params[1] = (MerillLiaBehaviorParams *)TLobby::dispatch_shared_handler_a(75);
     {
         s16 ids[2] = {44, 46};
-        NpcAnimationBinding motions = { NULL, reinterpret_cast<TObjMotionAction *>(lbl_80494570), 0, 2, 12 };
-        motions.motions = reinterpret_cast<BmlMotionEntry *>(((BmlResource *)TObjEneMerillLia__entry_params_resource)->motions);
+        NpcAnimationBinding motions = { NULL, merill_lia_action_table, 0, 2, 12 };
+        motions.motions = merill_lia_bml_resource->motions;
         for (i = 0; i < 2; i++) {
-            NpcModelRegistry::register_animated_chunk(ids[i], reinterpret_cast<void *>(((BmlResource *)TObjEneMerillLia__entry_params_resource)->models[i].model),
-                reinterpret_cast<void *>(((BmlResource *)TObjEneMerillLia__entry_params_resource)->models[i].m_c), &motions,
-                ((CollisionPartRecord *)lbl_804946A4)[i].radius, 0.0f);
+            NpcModelRegistry::register_animated_chunk(ids[i], merill_lia_bml_resource->models[i].model,
+                merill_lia_bml_resource->models[i].m_c, &motions, merill_lia_collision_bodies[i].radius, 0.0f);
         }
     }
 }
 #pragma pop
 
-void TObjEneMerillLia::destroy_rocks() {
-    if (TObjEneMerillLia__rock_stats_table != NULL) {
-        mem_free(TObjEneMerillLia__rock_stats_table);
-        TObjEneMerillLia__rock_stats_table = NULL;
+void TObjEneMerillLia::free_resources() {
+    if (merill_lia_rock_stats_table != NULL) {
+        mem_free(merill_lia_rock_stats_table);
+        merill_lia_rock_stats_table = NULL;
     }
     if (merill_lia_rock_buffer != NULL) {
         mem_free(merill_lia_rock_buffer);
@@ -838,430 +237,392 @@ void TObjEneMerillLia::destroy_rocks() {
         mem_free(merill_lia_rock_aux_buffer);
         merill_lia_rock_aux_buffer = NULL;
     }
-    if ((u32) TObjEneMerillLia__rock_param_table != 0U) {
-        mem_free((void*)TObjEneMerillLia__rock_param_table);
-        TObjEneMerillLia__rock_param_table = 0U;
+    if (merill_lia_behavior_params != NULL) {
+        mem_free(merill_lia_behavior_params);
+        merill_lia_behavior_params = NULL;
     }
-    if ((u32) TObjEneMerillLia__entry_params_resource != 0U) {
-        delete (BmlResource *)TObjEneMerillLia__entry_params_resource;
-        TObjEneMerillLia__entry_params_resource = 0U;
+    if (merill_lia_bml_resource != NULL) {
+        delete merill_lia_bml_resource;
+        merill_lia_bml_resource = NULL;
     }
 }
 
-void * TObjEneMerillLia__create(void *arg0) {
-    void *o;
-    void *o2;
-    o = TObject::operator new(0x20);
-    if (o != NULL) {
-        o = __ct__11TObjControlFP7TObject(o, tl_04);
-    }
-    o2 = TObject::operator new(0x3DC);
-    if (o2 != NULL) {
-        o2 = TObjEneMerillLia__ct(o2, o, arg0);
-    }
-    return o2;
+void *TObjEneMerillLia::create(void *setData) {
+    TObjControl *parent = new TObjControl(tl_04);
+    return new TObjEneMerillLia(parent, setData);
 }
 
 void TObjEneMerillLia::run_task() {
-  s16 temp_r0;
-  if (TObjPlayer::check_demo_mode() == 1)
-  {
-    (this->run_demo_task());
-    return;
-  }
-  temp_r0 = this->mode;
-  {
-    switch (temp_r0)
-    {
-      case 0:
-        (this->beast_update_appear());
-        break;
-      case 1:
-        (this->beast_idle_update());
-        break;
-      case 2:
-        (this->update_turn_toward_target());
-        break;
-      case 3:
-        (this->beast_update_approach());
-        break;
-      case 4:
-        (this->beast_update_group_chase());
-        break;
-      case 5:
-        (this->beast_update_attack());
-        break;
-      case 6:
-        (this->vfunc_89());
-        break;
-      case 7:
-        (this->beast_update_hurt());
-        break;
-      case 8:
-        (this->beast_update_dead());
-        break;
-      case 9:
-        (this->beast_retire_corpse());
-        break;
-      case 10:
-        TObjEneMerillLia::update_kafun_attack((void *)this);
-        break;
-      case 11:
-        TObjEneMerillLia::update_emerge_state((void *) ((u8 *)this));
-        break;
-      case 12:
-        TObjEneMerillLia::search_target((void *) ((u8 *)this));
-        break;
-      case 13:
-        this->sub_800D5570();
-        break;
-    }
-  }
-  this->update_prev_position();
-  ((TBoss3VoloptHiraisin *)this)->copy_position();
-  submit_cursor_candidate((void *) this, -1);
-  this->m_2b4 += 1.0f;
-}
-
-void TObjEneMerillLia::select_action_by_distance() {
-    u8 *self = (u8 *)this;
-    if (((TObjChara *)self)->random_ratio() <= this->m_3c4) {
-        init_attack_state();
+    if (TObjPlayer::check_demo_mode() == 1) {
+        run_demo_task();
         return;
     }
-    if (((TObjChara *)self)->random_ratio() <= *(f32 *)((s8 *)self + 0x3C8)) {
-        reset_action_state();
+    switch (mode) {
+    case 0:
+        beast_update_appear();
+        break;
+    case 1:
+        beast_idle_update();
+        break;
+    case 2:
+        update_turn_toward_target();
+        break;
+    case 3:
+        beast_update_approach();
+        break;
+    case 4:
+        beast_update_group_chase();
+        break;
+    case 5:
+        beast_update_attack();
+        break;
+    case 6:
+        vfunc_89();
+        break;
+    case 7:
+        beast_update_hurt();
+        break;
+    case 8:
+        beast_update_dead();
+        break;
+    case 9:
+        beast_retire_corpse();
+        break;
+    case 10:
+        update_kafun_attack();
+        break;
+    case 11:
+        update_burrow();
+        break;
+    case 12:
+        search_target();
+        break;
+    case 13:
+        update_fade_in();
+        break;
+    }
+    update_prev_position();
+    ((TBoss3VoloptHiraisin *)this)->copy_position();
+    submit_cursor_candidate(this, -1);
+    frame_timer += 1.0f;
+}
+
+void TObjEneMerillLia::select_hurt_action() {
+    if (random_ratio() <= retreat_chance) {
+        start_retreat();
+        return;
+    }
+    if (random_ratio() <= kafun_chance) {
+        start_kafun_attack();
     }
 }
 
 #pragma push
 #pragma opt_common_subs off
-void TObjEneMerillLia::init_params_from_position() {
-    u8 *self = (u8 *)this;
-    this->m_3d8 = (s16) ((s32) *(f32 *)((s8 *)self + 0x360) + 0x12C);
-    this->m_3c4 = (f32) (*(f32 *)((s8 *)self + 0x354) - 0.2f);
-    if (this->m_3c4 < 0.0f) {
-        this->m_3c4 = 0.0f;
+void TObjEneMerillLia::init_behavior_params() {
+    retreat_frames = (s16)((s32)parameters[3] + 300);
+    retreat_chance = parameters[0] - 0.2f;
+    if (retreat_chance < 0.0f) {
+        retreat_chance = 0.0f;
     }
-    *(f32 *)((s8 *)self + 0x3C8) = (f32) (*(f32 *)((s8 *)self + 0x35C) - 0.2f);
-    if (*(f32 *)((s8 *)self + 0x3C8) < 0.0f) {
-        *(f32 *)((s8 *)self + 0x3C8) = 0.0f;
+    kafun_chance = parameters[2] - 0.2f;
+    if (kafun_chance < 0.0f) {
+        kafun_chance = 0.0f;
     }
-    this->m_3d0 = (f32) (100.0f + *(f32 *)((s8 *)self + 0x364));
-    if (this->m_3d0 < 15.0f) {
-        this->m_3d0 = 15.0f;
+    notice_range = 100.0f + parameters[4];
+    if (notice_range < 15.0f) {
+        notice_range = 15.0f;
     }
 }
 #pragma pop
 
 void TObjEneMerillLia::render() {
-  Vec stack;
-  s32 var_r30;
-  s16 temp_r0;
-  s32 temp_r3;
-  s32 var_r29;
-  temp_r3 = (this->classify_actor_view_detail(200.0f, 400.0f, 30.0f));
-  if (temp_r3 != 0)
-  {
-    saved_model_render_flags = model_render_flags;
-    select_actor_lighting((saddr)this);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((int) ((RecoveredFields_800D6810_arg0 *) ((u8 *)this))->field_24));
-    push_matrix();
-    translate_matrix(0, 0.0f, (f32) ((RecoveredFields_800D6810_arg0 *) ((u8 *)this))->field_380, 0.0f);
-    post_translate_matrix(((u8 *)this) + 0x38);
-    rotate_matrix_y(0, (int) ((RecoveredFields_800D6810_arg0 *) ((u8 *)this))->field_60);
-    if (TObjPlayer::check_demo_mode() == 1)
-    {
-      draw_chunk_object(model);
-    }
-    else
-    {
-      TObjPlayer::toggle_particle_effect();
-      var_r30 = 1;
-      var_r29 = 0;
-      if (((s16) ((RecoveredFields_800D6810_arg0 *) ((u8 *)this))->field_326) == 0xD)
-      {
-        var_r29 = 1;
-        var_r30 = (((VObj_14_fddec9 *)(((u8 *) ((u8 *)this)) + 936))->m8());
-      }
-      if (var_r29 != 0)
-      {
-        (((VObj_14_fddec9 *)(((u8 *) ((u8 *)this)) + 936))->m6());
-        if (this->defer_render() != 0)
-        {
-          var_r30 = 0;
+    Vec scale;
+    s32 visible;
+    s16 state;
+    s32 detail;
+    s32 fading;
+
+    detail = classify_actor_view_detail(200.0f, 400.0f, 30.0f);
+    if (detail != 0) {
+        saved_model_render_flags = model_render_flags;
+        select_actor_lighting(this);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        push_matrix();
+        translate_matrix(0, 0.0f, corpse_offset_y, 0.0f);
+        post_translate_matrix(&position.x);
+        rotate_matrix_y(0, rotation_y);
+        if (TObjPlayer::check_demo_mode() == 1) {
+            draw_chunk_object(model);
+        } else {
+            TObjPlayer::toggle_particle_effect();
+            visible = 1;
+            fading = 0;
+            if (mode == 0xD) {
+                fading = 1;
+                visible = fade.has_visible_opacity();
+            }
+            if (fading != 0) {
+                fade.set_flags_and_apply_damage_color();
+                if (defer_render() != 0) {
+                    visible = 0;
+                }
+            }
+            if (visible != 0) {
+                if (detail == 1) {
+                    set_motion_packed_rotation();
+                    draw();
+                    clear_motion_packed_rotation();
+                } else {
+                    set_motion_packed_rotation();
+                    draw_motion_model();
+                    clear_motion_packed_rotation();
+                }
+            }
+            TParticleCtrl::end_effect_render();
+            if (fading != 0) {
+                fade.clear_flag_and_notify();
+            }
         }
-      }
-      if (var_r30 != 0)
-      {
-        if (temp_r3 == 1)
-        {
-          set_motion_packed_rotation();
-          this->draw();
-          clear_motion_packed_rotation();
+        pop_matrix();
+        restore_scene_lighting();
+        state = mode;
+        if (state >= 0xA || state < 8) {
+            scale.x = 1.5f;
+            scale.y = 1.0f;
+            scale.z = 2.0f;
+            draw_ground_shadow(&scale, 0);
         }
-        else
-        {
-          set_motion_packed_rotation();
-          this->draw_motion_model();
-          clear_motion_packed_rotation();
-        }
-      }
-      TParticleCtrl::end_effect_render();
-      if (var_r29 != 0)
-      {
-        (((VObj_14_fddec9 *)(((u8 *) ((u8 *)this)) + 936))->m7());
-      }
     }
-    pop_matrix();
-    restore_scene_lighting();
-    temp_r0 = ((RecoveredFields_800D6810_arg0 *) ((u8 *)this))->field_326;
-    if ((temp_r0 >= 0xA) || (temp_r0 < 8))
-    {
-      stack.x = 1.5f;
-      stack.y = 1.0f;
-      stack.z = 2.0f;
-      this->TObjEnemy::draw_ground_shadow(&stack, 0);
-    }
-  }
 }
 
 void TObjEneMerillLia::beast_update_approach() {
-    u8 *self = (u8 *)this;
-    Vec sp14;
+    Vec dest;
     f32 r;
-    switch (this->phase) {
+    switch (phase) {
     case 0:
-        apply_actor_gravity((TObjEnemy *)self, (s32 *)(0), 0.0f);
-        ((TObjMotion *)self)->advance_animation();
-        if (this->action_flags != 0x20U) {
-            this->phase = 1;
-            this->requested_action = 2;
+        apply_actor_gravity(this, NULL, 0.0f);
+        advance_animation();
+        if (action_flags != 0x20) {
+            phase = 1;
+            requested_action = 2;
         }
         break;
     default:
-        spawn_ground_effect__16TObjEneMerillLiaFPv(self);
-        if (*(u32 *)&this->target != 0U) {
-            if (((TUnk_80493450 *)self)->test_elt_flag(0, 0x300000) != 0) {
-                if (this->m_38c++ < 60.0f) {
-                    VecCopy((Vec *)&sp14, &this->home_position);
+        spawn_ground_effect();
+        if (target != NULL) {
+            if (test_elt_flag(0, 0x300000) != 0) {
+                if (home_chase_frames++ < 60.0f) {
+                    VecCopy(&dest, &home_position);
                 } else {
-                    VecCopy((Vec *)&sp14, (const Vec *)(*(uaddr *)&this->target + 0x2FC));
+                    VecCopy(&dest, &((TObjChara *)target)->body_center);
                 }
             } else {
-                this->m_38c = 0U;
-                VecCopy((Vec *)&sp14, (const Vec *)(*(uaddr *)&this->target + 0x2FC));
+                home_chase_frames = 0;
+                VecCopy(&dest, &((TObjChara *)target)->body_center);
             }
-            ((TUnk_80493450 *)self)->update_target_near_flag();
-            ((TUnk_80493450 *)self)->sub_800C4E08();
-            ((TObjMotion *)self)->advance_animation();
-            {
-                Vec sp8 = sp14;
-                enemy_move_toward(self, *(s32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 8), &sp8, 0, *(f32 *)&this->unk_394);
-            }
-            if (this->targetId == 0xFFFF) {
-                if (horizontal_distance_squared((u8 *)&this->m_29c, (u8 *)&this->position) < (r = *(f32 *)&this->unk_394 + *(f32 *)((s8 *)(*(u8 * *)&this->bodies) + 0xC)) * r ||
-                    150.0f < (f32) (*(s32 *)&this->m_2ac)++) {
-                    *(u32 *)&this->target = 0U;
-                    *(s32 *)&this->m_2ac = 0;
+            update_target_near_flag();
+            select_move_speed();
+            advance_animation();
+            enemy_move_toward(this, ((BeastMovementParams *)movementParameters)->turnSpeed, dest, 0, move_speed);
+            if (targetId == 0xFFFF) {
+                if (horizontal_distance_squared(&move_destination, &position) < (r = move_speed + bodies->radius) * r ||
+                    150.0f < (f32)(*(s32 *)&m_2ac)++) {
+                    target = NULL;
+                    m_2ac = 0;
                 }
             }
         }
         break;
     }
-    ((TObjPlayer *)self)->update_collisions();
-    ((TObjPlayer *)self)->update_enemy_collision_flags();
-    minimap_render_dot((u8 *)&this->position, -0x5DB4, 1, 0);
-    ((TObjBase *)self)->obj_clearFlags30(0x200000);
+    update_collisions();
+    update_enemy_collision_flags();
+    minimap_render_dot(&position, -0x5DB4, 1, 0);
+    obj_clearFlags30(0x200000);
 }
 
 void TObjEneMerillLia::beast_update_appear() {
-    Ene_800D64F0 *self = (Ene_800D64F0 *)this;
-    switch (self->sub) {
+    switch (phase) {
     case 0:
     default:
-        if (self->f390 != 1) {
-            self->sub = 2;
+        if (appearing != 1) {
+            phase = 2;
         } else {
-            self->sub = 1;
-            self->fB8 = 0xB;
-            ((TObjCollidable *)self)->set_indexed_flags(0, 0xA000000);
-            obj_setFlags30(self, 0x4000000);
-            self->m95();
+            phase = 1;
+            requested_action = 0xB;
+            set_indexed_flags(0, 0xA000000);
+            obj_setFlags30(this, 0x4000000);
+            play_hurt_sound();
         }
         break;
     case 1:
-        spawn_ground_effect__16TObjEneMerillLiaFPv((u8 *)self);
-        if (((TObjMotion *)self)->is_passing_frame(10.0f) != 0) {
-            TObjEneMerillLia__sub_800D501C((saddr)self);
+        spawn_ground_effect();
+        if (is_passing_frame(10.0f) != 0) {
+            play_dig_sound();
         }
-        if (self->fB4 != 0x20) {
-            self->sub = 2;
-            self->f390 = 0;
-            self->fB8 = 0;
-            ((TObjCollidable *)self)->clear_player_status_flag(0, 0xA000000);
-            ((TObjBase *)self)->obj_clearFlags30(0x4000000);
+        if (action_flags != 0x20) {
+            phase = 2;
+            appearing = 0;
+            requested_action = 0;
+            clear_player_status_flag(0, 0xA000000);
+            obj_clearFlags30(0x4000000);
         }
         break;
     case 2:
-        self->target = find_nearest_visible_player(reinterpret_cast<TObjChara *>(self), NULL, *self->param);
-        self->state = 1;
+        targetId = find_nearest_visible_player(this, NULL, ((BeastMovementParams *)movementParameters)->detectionRadius);
+        mode = 1;
         break;
     }
-    ((TObjMotion *)self)->advance_animation();
+    advance_animation();
 }
 
 #pragma push
 #pragma fp_contract on
 void TObjEneMerillLia::beast_update_group_chase() {
-    Obj_800D6110 *self = (Obj_800D6110 *)this;
     Vec save;
     Vec to;
     Vec d;
     f32 dist;
-    ((TObjMotion *)self)->advance_animation();
-    switch (self->f328) {
+    advance_animation();
+    switch (phase) {
     case 0:
-        self->f328 = 1;
-        self->m97();
+        phase = 1;
+        play_group_chase_sound();
         break;
     case 1:
-        if (self->f2a8 != NULL) {
-            spawn_ground_effect__16TObjEneMerillLiaFPv((u8 *)self);
-            save.x = self->pos.x;
-            save.y = self->pos.y;
-            save.z = self->pos.z;
-            if (self->f3d4 <= 0.0f) {
-                Vec a = self->f2a8->p2fc;
-                dist = enemy_backstep_from_point(self, &a, self->f398);
+        if (target != NULL) {
+            spawn_ground_effect();
+            save.x = position.x;
+            save.y = position.y;
+            save.z = position.z;
+            if (retreat_speed <= 0.0f) {
+                dist = enemy_backstep_from_point(this, ((TObjChara *)target)->body_center, far_move_speed);
             } else {
-                Vec b = self->f2a8->p2fc;
-                dist = enemy_backstep_from_point(self, &b, self->f3d4);
+                dist = enemy_backstep_from_point(this, ((TObjChara *)target)->body_center, retreat_speed);
             }
-            ((TObjEnemy *)self)->turn_toward_direction(((s32 *)self->f350)[2], (Vec *)self->ang308);
-            self->f374--;
-            if (dist < (self->f398 + self->model->radius) * (self->f398 + self->model->radius) || self->f374 < 0) {
-                self->f328 = 2;
-                self->f374 = 0;
+            turn_toward_direction(((BeastMovementParams *)movementParameters)->turnSpeed, &velocity);
+            retreat_timer--;
+            if (dist < (far_move_speed + bodies->radius) * (far_move_speed + bodies->radius) || retreat_timer < 0) {
+                phase = 2;
+                retreat_timer = 0;
             }
-            ((TObjPlayer *)self)->update_collisions();
-            ((TObjPlayer *)self)->update_enemy_collision_flags();
-            if (self->model->flags & 0x380000) {
-                self->f328 = 2;
-                self->f374 = 0;
+            update_collisions();
+            update_enemy_collision_flags();
+            if (bodies->flags & 0x380000) {
+                phase = 2;
+                retreat_timer = 0;
                 break;
             }
-            d.x = self->pos.x - save.x;
-            d.y = self->pos.y - save.y;
-            d.z = self->pos.z - save.z;
+            d.x = position.x - save.x;
+            d.y = position.y - save.y;
+            d.z = position.z - save.z;
             normalize_vector(&d);
-            to.x = 30.0f * d.x + self->pos.x;
-            to.y = 30.0f * d.y + self->pos.y;
-            to.z = 30.0f * d.z + self->pos.z;
-            if (csnVector(&save, &to, 0x88E0) != 0) {
-                self->f328 = 2;
-                self->f374 = 0;
+            to.x = 30.0f * d.x + position.x;
+            to.y = 30.0f * d.y + position.y;
+            to.z = 30.0f * d.z + position.z;
+            if (csnVector(&save, &to, 0x88E0) != NULL) {
+                phase = 2;
+                retreat_timer = 0;
             }
             break;
         }
-        if (self->m17(0x1E) != 0) {
-            self->f338 = find_nearest_visible_player(reinterpret_cast<TObjChara *>(self), NULL, *self->f350);
+        if (is_actor_cadence_frame(0x1E) != 0) {
+            targetId = find_nearest_visible_player(this, NULL, ((BeastMovementParams *)movementParameters)->detectionRadius);
         }
-        if (self->f338 < 0x1000) {
-            Pl_800D5614 *p = (Pl_800D5614 *)get_player_by_client_id(self->f338);
-            if (p != NULL && ((TObjPlayer *)p)->get_floor() == get_current_floor()) {
-                self->f2a8 = (Pl_800D6110 *)p;
+        if (targetId < 0x1000) {
+            TObjPlayer *p = get_player_by_client_id(targetId);
+            if (p != NULL && p->get_floor() == get_current_floor()) {
+                target = (u8 *)p;
                 break;
             }
-            self->f2a8 = NULL;
-            ((TObjEneMerillLia *)self)->reset_state_clear_status();
+            target = NULL;
+            start_burrow();
             break;
         }
-        self->f2a8 = NULL;
-        ((TObjEneMerillLia *)self)->reset_state_clear_status();
+        target = NULL;
+        start_burrow();
         break;
     case 2:
-        ((TObjBase *)self)->obj_clearFlags30(0x1000);
-        if (self->m17(0x1E) != 0) {
-            self->f338 = find_nearest_visible_player(reinterpret_cast<TObjChara *>(self), NULL, *self->f350);
+        obj_clearFlags30(0x1000);
+        if (is_actor_cadence_frame(0x1E) != 0) {
+            targetId = find_nearest_visible_player(this, NULL, ((BeastMovementParams *)movementParameters)->detectionRadius);
         }
-        if (self->f338 < 0x1000) {
-            Pl_800D5614 *p = (Pl_800D5614 *)get_player_by_client_id(self->f338);
-            if (p != NULL && ((TObjPlayer *)p)->get_floor() == get_current_floor() &&
-                xz_distance_squared(p->pos, &self->pos) < 10000.0f) {
-                self->f326 = 1;
-                self->f328 = 0;
-                self->fb8 = 0xA;
-                ((TObjBase *)self)->obj_clearFlags30(0x4040000);
-                ((TObjCollidable *)self)->clear_player_status_flag(0, 0xA000000);
+        if (targetId < 0x1000) {
+            TObjPlayer *p = get_player_by_client_id(targetId);
+            if (p != NULL && p->get_floor() == get_current_floor() &&
+                xz_distance_squared(&p->position, &position) < 10000.0f) {
+                mode = 1;
+                phase = 0;
+                requested_action = 0xA;
+                obj_clearFlags30(0x4040000);
+                clear_player_status_flag(0, 0xA000000);
                 break;
             }
-            ((TObjEneMerillLia *)self)->reset_state_clear_status();
+            start_burrow();
         } else {
-            ((TObjEneMerillLia *)self)->reset_state_clear_status();
+            start_burrow();
         }
         break;
     }
-    ((TObjPlayer *)self)->update_collisions();
-    ((TObjPlayer *)self)->update_enemy_collision_flags();
-    minimap_render_dot(&self->pos, -0x5DB4, 1, 0);
+    update_collisions();
+    update_enemy_collision_flags();
+    minimap_render_dot(&position, -0x5DB4, 1, 0);
 }
 #pragma pop
 
 #pragma push
 #pragma opt_common_subs off
-#define o ((Lia_800D5BCC *)arg0)
-void TObjEneMerillLia__sub_800D5BCC(u8 *arg0) {
-    ((TUnk_80493450 *)o)->update_target_near_flag();
-    ((TUnk_80493450 *)o)->sub_800C4E08();
-    ((TObjMotion *)o)->advance_animation();
-    if (o->state != 1) {
-        o->state = 1;
-        ((TUnk_80493450 *)o)->link_into_group_chain();
-        o->f378 = ((TObjPlayer *)o)->is_action_available();
+void TObjEneMerillLia::beast_idle_update() {
+    update_target_near_flag();
+    select_move_speed();
+    advance_animation();
+    if (phase != 1) {
+        phase = 1;
+        link_into_group_chain();
+        in_group = ((TObjPlayer *)this)->is_action_available();
     }
-    o->count = ((TUnk_80493450 *)o)->countChildren();
+    child_count = countChildren();
     {
-        Lia_800D5BCC *p = o->partner;
-        if (p != NULL) {
-            s32 diff = p->count - o->count;
+        TUnk_80493450 *other = (TUnk_80493450 *)next;
+        if (other != NULL) {
+            s32 diff = other->child_count - child_count;
             if (diff > 1) {
-                link_chain_nodes__10TObjPlayerFPvPvPv(o, p, o);
-                o->count++;
-                p->count--;
+                link_chain_nodes__10TObjPlayerFPvPvPv(this, other, this);
+                child_count++;
+                other->child_count--;
             } else if (diff < -1) {
-                link_chain_nodes__10TObjPlayerFPvPvPv(o, o, p);
-                o->count--;
-                p->count++;
+                link_chain_nodes__10TObjPlayerFPvPvPv(this, this, other);
+                child_count--;
+                other->child_count++;
             }
         }
     }
     {
-    f32 dist = horizontal_distance_squared(&o->pos, &o->home);
-    f32 r = o->f358 + (o->param->speed + o->fA4->fC);
+    f32 dist = horizontal_distance_squared(&position, &home_position);
+    f32 r = parameters[1] + (((BeastMovementParams *)movementParameters)->wanderSpeed + bodies->radius);
     if (r * r < dist) {
         Vec *d;
         Vec *v;
         s32 ang;
-        VecCopy((Vec *)&o->f29C, (const Vec *)&o->home);
-        VecCopy((Vec *)&o->f290, (const Vec *)&o->f2FC);
-        VecCopy((Vec *)&o->prev, (const Vec *)&o->pos);
-        VecCopy((Vec *)&scratch_vec, (const Vec *)&o->home);
-        subtract_vector(&scratch_vec, &o->pos);
+        VecCopy(&move_destination, &home_position);
+        VecCopy(&move_origin, &body_center);
+        VecCopy(&prev_position, &position);
+        VecCopy(&scratch_vec, &home_position);
+        subtract_vector(&scratch_vec, &position);
         d = &scratch_vec;
         ang = (s32)(10430.38043493439 * atan2_float(d->x, d->z));
         v = &lbl_8050BF00;
         v->x = v->y = 0.0f;
-        v->z = o->f394;
-        push_matrix_from(&identity_matrix);
+        v->z = move_speed;
+        push_matrix_from(identity_matrix);
         rotate_matrix_y(0, ang);
         rotate_vector_by_matrix(0, &lbl_8050BF00, &lbl_8050BF00);
         pop_matrices(1);
-        vec3_add_to(&lbl_8050BF00, &o->pos);
-        if (project_actor_to_ground(o, &lbl_8050BF00, 0) == 1) {
-            o->fB8 = 2;
-            VecCopy((Vec *)&o->pos, (const Vec *)&lbl_8050BF00);
-            o->angle = approach_angle_limited(o->angle, ang, o->param->turn);
+        vec3_add_to(&lbl_8050BF00, &position);
+        if (project_actor_to_ground(this, &lbl_8050BF00, 0) == 1) {
+            requested_action = 2;
+            VecCopy(&position, &lbl_8050BF00);
+            rotation_y = approach_angle_limited(rotation_y, ang, ((BeastMovementParams *)movementParameters)->turnSpeed);
         } else {
             f32 rr = fabs_float(d->z);
             if (fabs_float(scratch_vec.x) < rr) {
@@ -1271,16 +632,16 @@ void TObjEneMerillLia__sub_800D5BCC(u8 *arg0) {
             }
             v->y = 0.0f;
             lbl_8050BF00.x = 0.0f;
-            v->z = o->f394;
-            push_matrix_from(&identity_matrix);
+            v->z = move_speed;
+            push_matrix_from(identity_matrix);
             rotate_matrix_y(0, ang);
             rotate_vector_by_matrix(0, &lbl_8050BF00, &lbl_8050BF00);
             pop_matrices(1);
-            vec3_add_to(&lbl_8050BF00, &o->pos);
-            if (project_actor_to_ground(o, &lbl_8050BF00, 0) == 1) {
-                o->fB8 = 2;
-                VecCopy((Vec *)&o->pos, (const Vec *)&lbl_8050BF00);
-                o->angle = approach_angle_limited(o->angle, ang, o->param->turn);
+            vec3_add_to(&lbl_8050BF00, &position);
+            if (project_actor_to_ground(this, &lbl_8050BF00, 0) == 1) {
+                requested_action = 2;
+                VecCopy(&position, &lbl_8050BF00);
+                rotation_y = approach_angle_limited(rotation_y, ang, ((BeastMovementParams *)movementParameters)->turnSpeed);
             } else {
                 s32 ang2;
                 rr = fabs_float(d->z);
@@ -1291,279 +652,261 @@ void TObjEneMerillLia__sub_800D5BCC(u8 *arg0) {
                 }
                 v->y = 0.0f;
                 lbl_8050BF00.x = 0.0f;
-                v->z = o->f394;
-                push_matrix_from(&identity_matrix);
+                v->z = move_speed;
+                push_matrix_from(identity_matrix);
                 rotate_matrix_y(0, ang2);
                 rotate_vector_by_matrix(0, &lbl_8050BF00, &lbl_8050BF00);
                 pop_matrices(1);
-                vec3_add_to(&lbl_8050BF00, &o->pos);
-                if (project_actor_to_ground(o, &lbl_8050BF00, 0) == 1) {
-                    o->fB8 = 2;
-                    VecCopy((Vec *)&o->pos, (const Vec *)&lbl_8050BF00);
-                    o->angle = approach_angle_limited(o->angle, ang2, o->param->turn);
+                vec3_add_to(&lbl_8050BF00, &position);
+                if (project_actor_to_ground(this, &lbl_8050BF00, 0) == 1) {
+                    requested_action = 2;
+                    VecCopy(&position, &lbl_8050BF00);
+                    rotation_y = approach_angle_limited(rotation_y, ang2, ((BeastMovementParams *)movementParameters)->turnSpeed);
                 } else {
-                    o->fB8 = 2;
+                    requested_action = 2;
                 }
             }
         }
-    } else if (o->count == 0 && 0.0f < o->f358) {
+    } else if (child_count == 0 && 0.0f < parameters[1]) {
         f32 w;
-        o->fB8 = 2;
-        w = o->f358;
-        ((TObjEnemy *)(o))->enemy_wander_home(o->param->speed, w, w, o->param->turn);
+        requested_action = 2;
+        w = parameters[1];
+        enemy_wander_home(((BeastMovementParams *)movementParameters)->wanderSpeed, w, w, ((BeastMovementParams *)movementParameters)->turnSpeed);
     } else {
-        ((TObjEneMerillLia *)o)->reset_state_clear_status();
+        start_burrow();
     }
     }
-    if (((TObjCollidable *)o)->obj_testFlags30(0x800000) == 0) {
-        apply_actor_gravity((TObjEnemy *)o, (s32 *)(0), 0.0f);
+    if (obj_testFlags30(0x800000) == 0) {
+        apply_actor_gravity(this, NULL, 0.0f);
     }
-    ((TObjCollidable *)o)->refresh_collision_body_centers();
-    minimap_render_dot(&o->pos, -0x5DB4, 1, 0);
-    ((TObjBase *)o)->obj_clearFlags30(0x04240000);
-    ((TObjCollidable *)o)->clear_player_status_flag(0, 0x0A000000);
+    refresh_collision_body_centers();
+    minimap_render_dot(&position, -0x5DB4, 1, 0);
+    obj_clearFlags30(0x04240000);
+    clear_player_status_flag(0, 0x0A000000);
 }
-#undef o
 #pragma pop
 
 void TObjEneMerillLia::beast_update_hurt() {
     Vec pos;
 
-    this->advance_animation();
-    VecCopy((Vec *)&pos, (const Vec *)(((u8 *)this) + 0x2FC));
+    advance_animation();
+    VecCopy(&pos, &body_center);
     scratch_vec.y = 0.0f;
     scratch_vec.x = 0.0f;
     scratch_vec.z = get_collision_body_radius(0);
-    push_matrix_from(&identity_matrix);
-    rotate_matrix_y(0, -this->rotation_y);
+    push_matrix_from(identity_matrix);
+    rotate_matrix_y(0, -rotation_y);
     rotate_vector_by_matrix(0, &scratch_vec, &scratch_vec);
     pop_matrix();
     vec3_add_to(&pos, &scratch_vec);
-    pos.x = pos.x + *(f32 *)((s8 *)((u8 *)this) + 0x308);
-    pos.z = pos.z + *(f32 *)((s8 *)((u8 *)this) + 0x310);
+    pos.x = pos.x + velocity.x;
+    pos.z = pos.z + velocity.z;
     if (check_path_obstructed(this, &pos) == 0) {
-        move_with_wall_slide(((u8 *)this));
-        *(f32 *)((s8 *)((u8 *)this) + 0x308) *= 0.5f;
-        *(f32 *)((s8 *)((u8 *)this) + 0x310) *= 0.5f;
+        move_with_wall_slide((u8 *)this);
+        velocity.x *= 0.5f;
+        velocity.z *= 0.5f;
     } else {
-        *(f32 *)((s8 *)((u8 *)this) + 0x310) = 0.0f;
-        *(f32 *)((s8 *)((u8 *)this) + 0x308) = 0.0f;
+        velocity.z = 0.0f;
+        velocity.x = 0.0f;
     }
-    ((TObjPlayer *)((u8 *)this))->update_collisions();
-    this->update_enemy_collision_flags();
-    if (this->is_passing_frame(0.0f) != 0) {
-        this->play_hurt_sound();
+    update_collisions();
+    update_enemy_collision_flags();
+    if (is_passing_frame(0.0f) != 0) {
+        play_hurt_sound();
     }
-    if (this->action_flags != 8) {
-        this->obj_clearFlags30(0x600);
-        this->clear_player_status_flag(0, 0x04000000);
-        if ((f32)this->hp <= (f32)this->hpmax * *(f32 *)((s8 *)((u8 *)this) + 0x3CC)) {
-            this->select_action_by_distance();
+    if (action_flags != 8) {
+        obj_clearFlags30(0x600);
+        clear_player_status_flag(0, 0x04000000);
+        if ((f32)hp <= (f32)hpmax * react_hp_ratio) {
+            select_hurt_action();
         }
-        this->referenceHp = this->hp;
+        referenceHp = hp;
     }
-    minimap_render_dot(((u8 *)this) + 0x38, -0x5DB4, 1, 0);
+    minimap_render_dot(&position, -0x5DB4, 1, 0);
 }
 
-#define arg0 ((u8 *)p)
-void TObjEneMerillLia::update_kafun_attack(void *p) {
-    Vec_800D57C8 sp14;
-    ((TObjMotion *)arg0)->advance_animation();
-    switch (*(s16 *)((s8 *)arg0 + 0x328)) {
+void TObjEneMerillLia::update_kafun_attack() {
+    Vec pos;
+    advance_animation();
+    switch (phase) {
     default:
     case 0:
-        *(s16 *)((s8 *)arg0 + 0x328) = 1;
-        *(s16 *)((s8 *)arg0 + 0xB8) = 0xC;
-        obj_setFlags30(arg0, 0x200000);
-        ((TObjBase *)arg0)->obj_clearFlags30(0x04040000);
-        ((TObjCollidable *)arg0)->clear_player_status_flag(0, 0x0A000000);
+        phase = 1;
+        requested_action = 0xC;
+        obj_setFlags30(this, 0x200000);
+        obj_clearFlags30(0x04040000);
+        clear_player_status_flag(0, 0x0A000000);
         break;
     case 1:
-        if (((TObjMotion *)arg0)->is_passing_frame(13.0f) != 0) {
-            ((TObjMotion *)arg0)->advance_animation();
-            push_matrix_from(&identity_matrix);
-            post_translate_matrix(arg0 + 0x38);
-            rotate_matrix_y(0, *(s32 *)((s8 *)arg0 + 0x60));
-            ((TObjEnemy *)arg0)->calc_joint_matrices(13.0f);
+        if (is_passing_frame(13.0f) != 0) {
+            advance_animation();
+            push_matrix_from(identity_matrix);
+            post_translate_matrix(&position.x);
+            rotate_matrix_y(0, rotation_y);
+            calc_joint_matrices(13.0f);
             pop_matrix();
             push_matrix_from(anim_model_matrix_array[23]);
             {
-                Vec_800D57C8 sp8 = {0, 0, 0};
-                matrix_mult_vec(0, &sp8, &sp14);
+                Vec offset = {0.0f, 0.0f, 0.0f};
+                matrix_mult_vec(0, &offset, &pos);
             }
             pop_matrix();
-            create__9TTecKafunFlllllff(arg0, &sp14, 0xF, 0xD3, ((TObjEneMerillLia *)arg0)->get_clamped_level(), *(f32 *)((s8 *)(((void **) TObjEneMerillLia__rock_param_table)[*(s32 *)((s8 *)arg0 + 0x334)]) + 0x10), 20.0f);
-            TObjEneMerillLia__sub_800D4EC8((saddr)arg0);
+            TTecKafun::create((saddr)this, (saddr)&pos, 0xF, 0xD3, get_clamped_level(), merill_lia_behavior_params[subtype]->kafun_value, 20.0f);
+            play_kafun_sound();
         }
-        if ((u32) *(u32 *)((s8 *)arg0 + 0xB4) != 4U) {
-            *(s16 *)((s8 *)arg0 + 0x328) = 2;
-            *(s16 *)((s8 *)arg0 + 0xB8) = 0;
-            *(s16 *)((s8 *)arg0 + 0x33C) = 0xF;
+        if (action_flags != 4) {
+            phase = 2;
+            requested_action = 0;
+            timer = 0xF;
         }
         break;
     case 2:
-        (*(s16 *)((s8 *)arg0 + 0x33C))--;
-        if (*(s16 *)((s8 *)arg0 + 0x33C) < 0) {
-            ((TObjBase *)arg0)->obj_clearFlags30(0x200000);
-            *(s16 *)((s8 *)arg0 + 0x33C) = 0;
-            if (((TObjChara *)arg0)->random_ratio() <= *(f32 *)((s8 *)arg0 + 0x3C4)) {
-                ((TObjEneMerillLia *)arg0)->init_attack_state();
+        timer--;
+        if (timer < 0) {
+            obj_clearFlags30(0x200000);
+            timer = 0;
+            if (random_ratio() <= retreat_chance) {
+                start_retreat();
             } else {
-                *(s16 *)((s8 *)arg0 + 0x326) = 1;
-                *(s16 *)((s8 *)arg0 + 0x328) = 0;
-                obj_setFlags30(arg0, 0x04040000);
-                ((TObjCollidable *)arg0)->set_indexed_flags(0, 0x0A000000);
+                mode = 1;
+                phase = 0;
+                obj_setFlags30(this, 0x04040000);
+                set_indexed_flags(0, 0x0A000000);
             }
         }
         break;
     }
-    ((TObjPlayer *)arg0)->update_collisions();
-    ((TObjPlayer *)arg0)->update_enemy_collision_flags();
-    minimap_render_dot(arg0 + 0x38, -0x5DB4, 1, 0);
+    update_collisions();
+    update_enemy_collision_flags();
+    minimap_render_dot(&position, -0x5DB4, 1, 0);
 }
-#undef arg0
 
-#define arg0 ((u8 *)ov)
-void TObjEneMerillLia::update_emerge_state(void *ov) {
-
-    ((TObjMotion *)arg0)->advance_animation();
-    switch (*(s16 *)((s8 *)arg0 + 0x328)) {
+void TObjEneMerillLia::update_burrow() {
+    advance_animation();
+    switch (phase) {
     case 0:
     default:
-        if ((s32) *(s32 *)((s8 *)arg0 + 0x390) == 1) {
-            *(s16 *)((s8 *)arg0 + 0x328) = 2;
+        if (appearing == 1) {
+            phase = 2;
         } else {
-            *(s16 *)((s8 *)arg0 + 0x328) = 1;
-            *(s16 *)((s8 *)arg0 + 0xB8) = 0xD;
-            ((TObjCollidable *)arg0)->set_indexed_flags(0, 0x0A000000);
-            obj_setFlags30(arg0, 0x04000000);
-            TObjEneMerillLia__sub_800D501C((saddr)arg0);
+            phase = 1;
+            requested_action = 0xD;
+            set_indexed_flags(0, 0x0A000000);
+            obj_setFlags30(this, 0x04000000);
+            play_dig_sound();
         }
         break;
     case 1:
-        spawn_ground_effect__16TObjEneMerillLiaFPv(arg0);
-        if ((u32) *(u32 *)((s8 *)arg0 + 0xB4) != 0x20U) {
-            *(s16 *)((s8 *)arg0 + 0x328) = 2;
-            *(s32 *)((s8 *)arg0 + 0x390) = 1;
-            ((TObjCollidable *)arg0)->clear_player_status_flag(0, 0x0A000000);
-            ((TObjBase *)arg0)->obj_clearFlags30(0x04040000);
+        spawn_ground_effect();
+        if (action_flags != 0x20) {
+            phase = 2;
+            appearing = 1;
+            clear_player_status_flag(0, 0x0A000000);
+            obj_clearFlags30(0x04040000);
         }
         break;
     case 2:
-        *(s16 *)((s8 *)arg0 + 0x326) = 0xC;
-        *(s16 *)((s8 *)arg0 + 0xB8) = 1;
+        mode = 0xC;
+        requested_action = 1;
         break;
     }
-    ((TObjPlayer *)arg0)->update_collisions();
-    ((TObjPlayer *)arg0)->update_enemy_collision_flags();
-    minimap_render_dot(arg0 + 0x38, -0x5DB4, 1, 0);
+    update_collisions();
+    update_enemy_collision_flags();
+    minimap_render_dot(&position, -0x5DB4, 1, 0);
 }
-#undef arg0
 
-#define arg0 ((Obj_800D5614 *)ov)
-void TObjEneMerillLia::search_target(void *ov) {
-    Pl_800D5614 *p;
-    s32 v;
-    arg0->f338 = find_nearest_visible_player(reinterpret_cast<TObjChara *>(arg0), NULL, *arg0->f350);
-    if (arg0->f338 < 0x1000) {
-        p = (Pl_800D5614 *)get_player_by_client_id(arg0->f338);
+void TObjEneMerillLia::search_target() {
+    TObjPlayer *p;
+    s32 floor;
+    targetId = find_nearest_visible_player(this, NULL, ((BeastMovementParams *)movementParameters)->detectionRadius);
+    if (targetId < 0x1000) {
+        p = get_player_by_client_id(targetId);
         if (p != NULL) {
-            s32 w;
-            v = get_current_floor();
-            w = ((TObjPlayer *)p)->get_floor();
-            if (w == v) {
-                if (xz_distance_squared(p->pos, arg0->pos) < arg0->f3d0 * arg0->f3d0) {
-                    arg0->f2a8 = p;
-                    arg0->f326 = 0;
-                    arg0->f328 = 0;
+            s32 player_floor;
+            floor = get_current_floor();
+            player_floor = p->get_floor();
+            if (player_floor == floor) {
+                if (xz_distance_squared(&p->position, &position) < notice_range * notice_range) {
+                    target = (u8 *)p;
+                    mode = 0;
+                    phase = 0;
                 }
             }
         }
     }
-    ((TObjMotion *)arg0)->advance_animation();
+    advance_animation();
 }
-#undef arg0
 
-void TObjEneMerillLia::sub_800D5570() {
-    Obj_800D5570 *self = (Obj_800D5570 *)this;
-    switch (this->phase) {
+void TObjEneMerillLia::update_fade_in() {
+    switch (phase) {
     case 0:
     default:
-        this->phase = 1;
-        this->requested_action = 1;
-        ((TUnk_80494938 *)((u8 *)self + 0x3A8))->start_fade_in();
-        play_area_sound_effect((Vec *)(self->sub38));
+        phase = 1;
+        requested_action = 1;
+        fade.start_fade_in();
+        play_area_sound_effect(&position);
         break;
     case 1:
-        spawn_ground_effect__16TObjEneMerillLiaFPv((u8 *)self);
-        if (((VObj_14_800D5570 *)((u8 *)self + 0x3A8))->m5() != 0) {
-            this->phase = 2;
+        spawn_ground_effect();
+        if (fade.advance_toward_max() != 0) {
+            phase = 2;
         }
         break;
     case 2:
-        this->mode = 12;
+        mode = 12;
         break;
     }
-    ((TObjMotion *)self)->advance_animation();
+    advance_animation();
 }
 
-void TObjEneMerillLia::reset_action_state() {
-    this->mode = 0xA;
-    this->phase = 0;
+void TObjEneMerillLia::start_kafun_attack() {
+    mode = 0xA;
+    phase = 0;
     obj_setFlags30(this, 0x200000);
     obj_clearFlags30(0x04040000);
     clear_player_status_flag(0, 0x0A000000);
 }
 
-void TObjEneMerillLia::init_attack_state() {
-    this->mode = 4;
-    this->phase = 0;
-    this->m_374 = (s16) this->m_3d8;
+void TObjEneMerillLia::start_retreat() {
+    mode = 4;
+    phase = 0;
+    retreat_timer = retreat_frames;
     obj_clearFlags30(0x04240000);
     clear_player_status_flag(0, 0x0A000000);
 }
 
-void TObjEneMerillLia::reset_state_clear_status() {
-    u8 *self = (u8 *)this;
-    this->mode = 0xB;
-    this->phase = 0;
-    this->target = 0;
-    ((TObjCollidable *)self)->clear_player_status_flag(0, (s32)(0x0A000000U));
+void TObjEneMerillLia::start_burrow() {
+    mode = 0xB;
+    phase = 0;
+    target = NULL;
+    clear_player_status_flag(0, 0x0A000000);
 }
 
 void TObjEneMerillLia::run_idle_action() {
-    s32 temp_r0;
-
-    temp_r0 = this->mode;
-    if (temp_r0 != 4) {
-        if (temp_r0 < 4) {
-            if (temp_r0 < 3) {
-                if (temp_r0 >= 0) {
-                    goto block_end;
-                }
-                goto block_7;
-            } else {
-                goto block_7;
-            }
-        } else if ((temp_r0 >= 0xE) || (temp_r0 < 0xB)) {
-block_7:
-            if ((s32) this->m_390 != 0) {
-                this->mode = 0;
-            } else {
-                this->mode = 1;
-            }
-            this->phase = 0;
-            obj_setFlags30(this, 0x04040000);
-            set_indexed_flags(0, 0x0A000000);
+    switch (mode) {
+    case 0:
+    case 1:
+    case 2:
+    case 4:
+    case 11:
+    case 12:
+    case 13:
+        break;
+    default:
+        if (appearing != 0) {
+            mode = 0;
+        } else {
+            mode = 1;
         }
+        phase = 0;
+        obj_setFlags30(this, 0x04040000);
+        set_indexed_flags(0, 0x0A000000);
+        break;
     }
-block_end:
-    ;
 }
 
 void TObjEneMerillLia::run_attack_action() {
-    Ene_800D52DC *self = (Ene_800D52DC *)this;
-    switch (this->mode) {
+    switch (mode) {
     case 0:
     case 2:
     case 4:
@@ -1573,38 +916,37 @@ void TObjEneMerillLia::run_attack_action() {
     case 13:
         break;
     case 1:
-        this->phase = 0;
-        if (this->children == NULL) {
-            this->mode = 3;
-            this->requested_action = 7;
+        phase = 0;
+        if (children == NULL) {
+            mode = 3;
+            requested_action = 7;
         } else {
-            this->mode = 2;
-            this->requested_action = 10;
+            mode = 2;
+            requested_action = 10;
         }
-        ((TObjBase *)self)->obj_clearFlags30(0x4040000);
-        ((TObjCollidable *)self)->clear_player_status_flag(0, 0xA000000);
+        obj_clearFlags30(0x4040000);
+        clear_player_status_flag(0, 0xA000000);
         break;
     default:
-        this->mode = 5;
-        this->phase = 1;
-        if (0.5f < ((TObjChara *)self)->random_ratio()) {
-            this->requested_action = 3;
+        mode = 5;
+        phase = 1;
+        if (0.5f < random_ratio()) {
+            requested_action = 3;
         } else {
-            this->requested_action = 4;
+            requested_action = 4;
         }
-        obj_setFlags30(self, 0x200000);
-        ((TObjBase *)self)->obj_clearFlags30(0x4040000);
-        ((TObjCollidable *)self)->clear_player_status_flag(0, 0xA000000);
+        obj_setFlags30(this, 0x200000);
+        obj_clearFlags30(0x4040000);
+        clear_player_status_flag(0, 0xA000000);
         break;
     }
 }
 
 void TObjEneMerillLia::run_move_action() {
-    Ene_800D51C8 *self = (Ene_800D51C8 *)this;
-    if (((TObjCollidable *)self)->obj_testFlags30(0x1000) != 0) {
-        this->mode = 4;
+    if (obj_testFlags30(0x1000) != 0) {
+        mode = 4;
     }
-    switch (this->mode) {
+    switch (mode) {
     case 0:
     case 2:
     case 3:
@@ -1614,55 +956,53 @@ void TObjEneMerillLia::run_move_action() {
     case 13:
         break;
     case 1:
-        this->phase = 0;
-        if (this->children == NULL) {
-            this->mode = 3;
-            this->requested_action = 7;
+        phase = 0;
+        if (children == NULL) {
+            mode = 3;
+            requested_action = 7;
         } else {
-            this->mode = 2;
-            this->requested_action = 10;
+            mode = 2;
+            requested_action = 10;
         }
-        ((TObjBase *)self)->obj_clearFlags30(0x4040000);
-        ((TObjCollidable *)self)->clear_player_status_flag(0, 0xA000000);
+        obj_clearFlags30(0x4040000);
+        clear_player_status_flag(0, 0xA000000);
         break;
     case 4:
-        this->requested_action = 5;
+        requested_action = 5;
         break;
     default:
-        this->mode = 3;
-        this->phase = 1;
-        this->requested_action = 2;
-        ((TObjBase *)self)->obj_clearFlags30(0x4040000);
-        ((TObjCollidable *)self)->clear_player_status_flag(0, 0xA000000);
+        mode = 3;
+        phase = 1;
+        requested_action = 2;
+        obj_clearFlags30(0x4040000);
+        clear_player_status_flag(0, 0xA000000);
         break;
     }
 }
 
-void TObjEneMerillLia::clamp_and_apply_mode_param() {
-    Obj_800D5150 *self = (Obj_800D5150 *)this;
-    if (self->f334 < 0) {
-        self->f334 = 0;
-    } else if (self->f334 > 1) {
-        self->f334 = 1;
+void TObjEneMerillLia::select_subtype() {
+    if ((s32)subtype < 0) {
+        subtype = 0;
+    } else if ((s32)subtype > 1) {
+        subtype = 1;
     }
-    switch (self->f334) {
+    switch (subtype) {
     case 1:
-        self->f368 = 1;
-        ((TObjEnemy *)self)->set_param(0x35);
+        variant = 1;
+        set_param(0x35);
         break;
     default:
-        self->f368 = 0;
-        ((TObjEnemy *)self)->set_param(0x34);
+        variant = 0;
+        set_param(0x34);
         break;
     }
 }
 
 s32 TObjEneMerillLia::get_clamped_level() {
-    TObjEneMerillLia *self = this;
-    Sub_800D5100 *p = *(Sub_800D5100 * *)&self->m_2b0;
+    player_stats *p = (player_stats *)stat_block;
     s32 v = 0;
     if (p != 0) {
-        v = p->f18;
+        v = p->level;
         if (v < 0) {
             v = 0;
         } else if (game_difficulty_selection == 3) {
@@ -1679,71 +1019,62 @@ s32 TObjEneMerillLia::get_clamped_level() {
 void TObjEneMerillLia::update_attack_trail() {  }
 
 void TObjEneMerillLia::spawn_death_effect() {
-    u8 *self = (u8 *)this;
     Vec stack;
     stack.x = 0.0f;
     stack.y = 10.0f;
-    stack.z = 0.5f * *(f32 *)(this->m_2b0 + 0x10);
-    push_matrix_from((void *)&identity_matrix.value);
-    rotate_matrix_y(0, this->rotation_y);
-    rotate_vector_by_matrix(0, (void *)&stack.x, (void *)&stack.x);
+    stack.z = 0.5f * ((player_stats *)stat_block)->proportions;
+    push_matrix_from(identity_matrix);
+    rotate_matrix_y(0, rotation_y);
+    rotate_vector_by_matrix(0, &stack, &stack);
     pop_matrix();
-    vec3_add_to((void *)&stack.x, (void *)(self + 0x38));
-    ((TObjPlayer *)(&stack.x))->spawn_ground_effect(0x23);
-    TObjPlayer__sub_800D92BC((saddr)&stack.x, 0xF);
+    vec3_add_to(&stack, &position);
+    ::spawn_ground_effect(&stack, 0x23);
+    TObjPlayer__sub_800D92BC((saddr)&stack, 0xF);
 }
 
-void TObjEneMerillLia__sub_800D501C(saddr self) {
-    play_sound_effect((((TObjEnemy *)((void *)self))->remap_sound_for_area(0x3B206)), (void *)(self + 0x38), 0, 0);
+void TObjEneMerillLia::play_dig_sound() {
+    play_sound_effect(remap_sound_for_area(0x3B206), &position, 0, 0);
 }
 
 void TObjEneMerillLia::play_attack_sound() {
-    saddr self = (saddr)this;
-    play_sound_effect((((TObjEnemy *)((void *)self))->remap_sound_for_area(0x3AB02)), (void *)(self + 0x38), 0, 0);
+    play_sound_effect(remap_sound_for_area(0x3AB02), &position, 0, 0);
 }
 
 void TObjEneMerillLia::play_hurt_sound() {
-    saddr self = (saddr)this;
-    play_sound_effect((((TObjEnemy *)((void *)self))->remap_sound_for_area(0x3B201)), (void *)(self + 0x38), 0, 0);
+    play_sound_effect(remap_sound_for_area(0x3B201), &position, 0, 0);
 }
 
 void TObjEneMerillLia::play_death_sound() {
-    saddr self = (saddr)this;
-    play_sound_effect((((TObjEnemy *)((void *)self))->remap_sound_for_area(0x3AD00)), (void *)(self + 0x38), 0, 0);
+    play_sound_effect(remap_sound_for_area(0x3AD00), &position, 0, 0);
 }
 
 void TObjEneMerillLia::play_group_chase_sound() {
-    saddr self = (saddr)this;
-    play_sound_effect((((TObjEnemy *)((void *)self))->remap_sound_for_area(0x3B205)), (void *)(self + 0x38), 0, 0);
+    play_sound_effect(remap_sound_for_area(0x3B205), &position, 0, 0);
 }
 
-void TObjEneMerillLia__sub_800D4EC8(saddr arg0) {
-    play_sound_effect((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x3AD04)), (void *)(arg0 + 0x38), 0, 0);
+void TObjEneMerillLia::play_kafun_sound() {
+    play_sound_effect(remap_sound_for_area(0x3AD04), &position, 0, 0);
 }
 
-void spawn_ground_effect__16TObjEneMerillLiaFPv(u8 *motion) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800D4D74, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_800D4D74, spC) == 0x4);
-    Stack_800D4D74 stack;
-    s32 temp_r29;
-    saddr particle_effect;
-    u8 *temp_r3;
-    VecCopy((Vec *)&stack.sp8, (const Vec *)(motion + 0x38));
-    stack.spC += 15.0f;
-    temp_r3 = (u8 *)(csnVectorUnder((Vec *)&stack.sp8, (CsnGroup **)(motion + 0x120), 5));
-    if ((temp_r3 != NULL) && (*(s32 *)((s8 *)temp_r3 + 0) & 4)) {
-        if (((s32) ((f32) actor_frame_tick * (3.0517578125e-05f * (f32) rand())) % 5) == 0) {
-            particle_effect = (saddr)spawn_particle_effect((const Vec *)(*(saddr *)((s8 *)temp_r3 + 4) + 0x38), 0x49);
-            if (particle_effect != 0) {
-                attach_particle_model((u8 *)particle_effect, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, 1.0f);
+void TObjEneMerillLia::spawn_ground_effect() {
+    Vec pos;
+    TParticleCtrl *particle;
+    CsnHit *hit;
+    VecCopy(&pos, &position);
+    pos.y += 15.0f;
+    hit = csnVectorUnder(&pos, (CsnGroup **)&ground_cache, 5);
+    if ((hit != NULL) && (hit->hit_mask & 4)) {
+        if (((s32)((f32)actor_frame_tick * (3.0517578125e-05f * (f32)rand())) % 5) == 0) {
+            particle = spawn_particle_effect(&hit->contact[2].point, 0x49);
+            if (particle != NULL) {
+                attach_particle_model(particle, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, 1.0f);
             }
-            spawn_particle_effect((const Vec *)(*(saddr *)((s8 *)temp_r3 + 4) + 0x38), 0xA4);
+            spawn_particle_effect(&hit->contact[2].point, 0xA4);
         }
-        if ((((TObjMotion *)motion)->is_passing_frame(7.0f) != 0) || (((TObjMotion *)motion)->is_passing_frame(22.0f) != 0)) {
-            fn_800D88E4((motion + 0x38));
+        if ((is_passing_frame(7.0f) != 0) || (is_passing_frame(22.0f) != 0)) {
+            fn_800D88E4(&position);
         }
     }
-}
 }
 
 void TObjEneMerillLia::run_demo_task() {  }

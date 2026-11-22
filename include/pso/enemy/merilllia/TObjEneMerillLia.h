@@ -3,9 +3,25 @@
 
 #include "types.h"
 #include "pso/enemy/TUnk_80493450.h"
+#include "pso/render/TUnk_80494938.h"
+
+// The row of merill_lia_behavior_params a Merill Lia's subtype picks (what
+// TLobby::dispatch_shared_handler_a(74 + subtype) returns).
+struct MerillLiaBehaviorParams {
+    f32 far_move_speed;
+    f32 far_anim_speed;
+    f32 near_move_speed;
+    f32 near_anim_speed;
+    f32 kafun_value;       // TTecKafun::create's value for its pollen attack
+    f32 retreat_speed;
+    s32 react_hp_percent;  // a hit at or below this share of its hp picks a reaction
+};
 
 struct TObjEneMerillLia : public TUnk_80493450 {
+    TObjEneMerillLia(TObject *parent, void *setData);
     virtual ~TObjEneMerillLia();
+    static void *create(void *setData);
+    virtual void beast_idle_update();
     virtual void beast_update_hurt();
     virtual void run_task();
     virtual void render();
@@ -18,45 +34,37 @@ struct TObjEneMerillLia : public TUnk_80493450 {
     virtual void play_death_sound();
     virtual void play_group_chase_sound();
     virtual void run_demo_task();
-    void sub_800D5570();
+    void update_fade_in();
     virtual void beast_update_appear();
     virtual void run_attack_action();
     virtual void run_move_action();
     virtual void run_idle_action();
-    void* m_3a8;
+    TUnk_80494938 fade;  // the fade-in of its first appearance (mode 13)
     s32 get_clamped_level();
-    void clamp_and_apply_mode_param();
-    void reset_state_clear_status();
-    void init_attack_state();
-    void reset_action_state();
-    static void search_target(void *ov);
-    static void update_emerge_state(void *ov);
-    static void update_kafun_attack(void *p);
-    void init_params_from_position();
-    void select_action_by_distance();
-    static void destroy_rocks();
-    void load_entry_params(s32 i);
-    u8 unk_3AC[0x18];
-    f32 m_3c4;
-    u8 unk_3C8[0x8];
-    f32 m_3d0;
-    u8 unk_3D4[0x4];
-    s16 m_3d8;
-    u8 unk_3DA[0x2];
+    void select_subtype();
+    void start_burrow();
+    void start_retreat();
+    void start_kafun_attack();
+    void search_target();
+    void update_burrow();
+    void update_kafun_attack();
+    void init_behavior_params();
+    void select_hurt_action();
+    static void load_resources();
+    static void free_resources();
+    void select_model_record(s32 i);
+    void play_kafun_sound();
+    void play_dig_sound();
+    void spawn_ground_effect();
+    f32 retreat_chance;   // set param 0 - 0.2: odds a hit or a finished pollen attack starts a retreat
+    f32 kafun_chance;     // set param 2 - 0.2: odds a hit starts a pollen attack instead
+    f32 react_hp_ratio;   // react_hp_percent / 100
+    f32 notice_range;     // 100 + set param 4 (at least 15): search_target's reach
+    f32 retreat_speed;    // the retreat's backstep speed, far_move_speed while it is 0
+    s16 retreat_frames;   // 300 + set param 3: start_retreat's retreat_timer
+    u8 pad_3DA[0x2];
 };
 
 LAYOUT_ASSERT(TObjEneMerillLia_size, sizeof(TObjEneMerillLia) == 0x3DC);
-
-extern "C" {
-void *TObjEneMerillLia__create(void *arg0);
-void *TObjEneMerillLia__ct(void *arg0v, void *arg1, void *arg2);
-void TObjEneMerillLia__sub_800D4EC8(saddr arg0);
-void TObjEneMerillLia__sub_800D501C(saddr self);
-void TObjEneMerillLia__sub_800D5BCC(u8 *arg0);
-void *__dt__16TObjEneMerillLiaFPvs(void *arg0, s16 arg1);
-void render__16TObjEneMerillLiaFv(u8 *arg0);
-void run_task__16TObjEneMerillLiaFv(u8 *arg0);
-void spawn_ground_effect__16TObjEneMerillLiaFPv(u8 *motion);
-}
 
 #endif

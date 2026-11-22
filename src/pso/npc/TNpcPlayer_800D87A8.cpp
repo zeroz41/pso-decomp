@@ -4,19 +4,15 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 
-extern "C" {
-void *get_battle_param__10TObjPlayerFi();
-
-void *TNpcPlayer::get_valid_target_player() {
-    void *temp_r31;
-
-    temp_r31 = get_battle_param__10TObjPlayerFi();
-    if (TObjPlayer::is_valid_and_active((uaddr)temp_r31) != 0) {
-        return temp_r31;
+void *get_valid_target_player(int id) {
+    void *player = (void *)TObjPlayer::get_battle_param(id);
+    if (TObjPlayer::is_valid_and_active((uaddr)player) != 0) {
+        return player;
     }
-    return 0;
+    return NULL;
 }
 
+extern "C" {
 void *find_active_entity_by_id(u16 id) {
     void *entity;
     entity = find_entity_by_id(id);

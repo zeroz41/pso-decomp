@@ -16,10 +16,10 @@ extern const NJS_ARGB me3_stelth_offset_vec = {-0.8f, 0.0f, 0.0f, 0.0f};
 extern const TBoss3VoloptBreakupParams me3_stelth_breakup_params = { 0x14, { 0.07f, 2.0f, 0.97f, 0.2f, 2.0f, 1.5f } };
 // TLobby kind ids, one list per TLobby table
 // TObjEneMe3Stelth::load_shared_resources registers them with.
-extern const s32 lbl_8043D47C[2] = { 6, 19 };
-extern const s32 lbl_8043D484[2] = { 6, 71 };
-extern const s32 lbl_8043D48C[2] = { 6, 19 };
-extern const s32 lbl_8043D494[2] = { 6, 16 };
+extern const s32 stelth_base_stat_ids[2] = { 6, 19 };
+extern const s32 stelth_attack_stat_ids[2] = { 6, 71 };
+extern const s32 stelth_resist_stat_ids[2] = { 6, 19 };
+extern const s32 stelth_param_ids[2] = { 6, 16 };
 extern const char stelth_model[] = "me3_y_me3.gj";
 extern const char stelth_t_wait_motion[] = "t_wait_me3_y_me3.njm";
 extern const char stelth_apper_motion[] = "apper_me3_y_me3.njm";
@@ -43,7 +43,7 @@ extern const NJS_ARGB stelth_render_color_a = {-0.8f, 0.0f, 0.0f, 0.0f};
 extern const NJS_ARGB stelth_render_color_b = {0.5f, 0.0f, 0.0f, 0.0f};
 extern const NJS_ARGB me3_stelth_render_color = {0.5f, 0.0f, 0.0f, 0.0f};
 extern const NJS_ARGB me3_stelth_secondary_render_color = {0.5f, 0.0f, 0.0f, 0.0f};
-extern const s32 lbl_8043D680[3] = {0, 0, 0};
+extern const Vec stelth_foie_origin_offset = {0.0f, 0.0f, 0.0f};
 extern const char stelth_debug_stelth_enable[] = "STELTH:ENABLE";
 extern const char stelth_debug_stelth_disable[] = "STELTH:DISABLE";
 extern const char stelth_debug_appear_ground[] = "APPEAR:GROUND";

@@ -2,8 +2,7 @@
 #include "types.h"
 #include "pso/boss/dragon/TObjBoss1Floor.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
-#include "pso/boss/dragon/TObjBoss1Crater_8002C6B4.h"
-#include "pso/boss/dragon/TObjBoss1Floor_8002C838.h"
+#include "pso/boss/dragon/TObjBoss1Crater.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_8002C190.h"
@@ -28,40 +27,27 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/boss/dragon/TObjBoss1MokoHill_Solo.h"
+#include "pso/boss/dragon/TObjBoss1MokoHill_SoloM.h"
+#include "pso/boss/dragon/ObjBoss1CommonResource.h"
+#include "pso/system/BmlResource.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
 #include "pso/system/scene/TScene_800838C4.h"
 
-struct Obj_8002CACC { s32 f0; u8 pad4[0x14]; void *vt; f32 f1c; f32 f20; f32 f24; s32 f28[4]; };
-
-typedef struct Player_8002C968 {
-    u8 pad0[0x38];
-    Vec pos;
-} Player_8002C968;
-
-typedef struct Floor_8002C968 {
-    u8 pad0[0x28];
-    void *objs[4];
-} Floor_8002C968;
-
-struct Obj_8002CA38 { u8 pad[0x28]; uaddr slot[4]; };
-
 extern "C" {
 const char *TObjBoss1Floor__name = "TObjBoss1Floor";
-void run_task__14TObjBoss1FloorFv(Floor_8002C968 *self);
 void TObjBoss1Floor__sub_8002CB40(void);
 void TObjBoss1Floor__sub_8002CB78(void);
+}
 
-void TLobby::update_boss1_objects() { TBoss8Dragon::free_resources(); TObjBoss1Rock__sub_8002E3CC(); TObjBoss1Crater__sub_8002C7B4(); TObjBoss1Floor__sub_8002CB40(); TLobby::free_char_select(); }
+void TLobby::update_boss1_objects() { TObjBoss1MokoHill_SoloM::free_resources(); TObjBoss1Rock__sub_8002E3CC(); TObjBoss1Crater__sub_8002C7B4(); TObjBoss1Floor__sub_8002CB40(); TLobby::free_char_select(); }
 void TLobby::forward_floor_2CB44() { TObjBoss1Floor::create_instance(); }
-void TLobby::init_bosses() { load_dragon_ground_assets(); TObjBoss1Floor__sub_8002CB78(); TObjBoss1Crater__sub_8002C7B8(); TObjBoss1Rock__sub_8002E3D0(); TBoss8Dragon__sub_8002D5F8(); }
+void TLobby::init_bosses() { load_dragon_ground_assets(); TObjBoss1Floor__sub_8002CB78(); TObjBoss1Crater__sub_8002C7B8(); TObjBoss1Rock__sub_8002E3D0(); TObjBoss1MokoHill_SoloM::load_resources(); }
 
-extern u8 *lbl_805D4B50;
-extern s32 dragon_common_texture_list;
 
-void render__14TObjBoss1FloorFv(void) {
+void TObjBoss1Floor::render() {
     u32 temp_r3;
-    u8 *temp_r31;
+    NJS_OBJECT *floor;
 
     if ((TObjPlayer::is_any_teammate_in_state() == 0) && ((TObjEneDD::check_v2_mode() != 0) || (TMainTask::get_render_pass() != 1))) {
         temp_r3 = model_render_flags;
@@ -73,9 +59,9 @@ void render__14TObjBoss1FloorFv(void) {
         set_draw_list_mask(3);
         TObjPlayer::draw_if_all_ready();
         TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(dragon_common_texture_list));
-        temp_r31 = (unsigned char *) (*(void **)((s8 *)(*(void **)((s8 *)lbl_805D4B50 + 0x42C)) + 0x58));
-        render_projected_shadow_receiver((u8 *)(temp_r31 + 8), (saddr)(temp_r31 + 0x14));
-        draw_ginja_model(*(void **)(temp_r31 + 4));
+        floor = dragon_ground_resource->models[5].model;
+        render_projected_shadow_receiver((u8 *)floor->pos, (saddr)floor->ang);
+        draw_ginja_model(floor->model);
         TScene::apply_single_screen_state();
         restore_draw_list_mask();
         pop_matrix();
@@ -83,83 +69,75 @@ void render__14TObjBoss1FloorFv(void) {
     }
 }
 
-void run_task__14TObjBoss1FloorFv(Floor_8002C968 *self) {
+void TObjBoss1Floor::run_task() {
     s32 i;
-    Player_8002C968 *pl;
+    TObjPlayer *player;
     if (TObjEneDD::check_v2_mode() != 0) {
         for (i = 0; i < 4; i++) {
-            pl = (Player_8002C968 *)get_player_by_client_id(i);
-            if (pl != NULL) {
-                Vec pos = pl->pos;
+            player = get_player_by_client_id(i);
+            if (player != NULL) {
+                Vec pos = player->position;
                 pos.y -= 4.0f;
-                if (self->objs[i] == NULL) {
-                    self->objs[i] = create_particle_emitter(&pos, 0x144);
+                if (this->player_emitters[i] == NULL) {
+                    this->player_emitters[i] = create_particle_emitter(&pos, 0x144);
                 } else {
-                    ((TParticleCtrl *)self->objs[i])->set_position(&pos);
+                    this->player_emitters[i]->set_position(&pos);
                 }
-            } else if (self->objs[i] != NULL) {
-                ((TObject *)self->objs[i])->queue_destruction();
-                self->objs[i] = NULL;
+            } else if (this->player_emitters[i] != NULL) {
+                this->player_emitters[i]->queue_destruction();
+                this->player_emitters[i] = NULL;
             }
         }
     }
 }
 
-}
 TObjBoss1Floor::~TObjBoss1Floor() {
     s32 i;
     for (i = 0; i * 0x10 != 0; i++) {
-        if (((Obj_8002CA38 *)this)->slot[i] != 0) {
-            ((TObject *)(((Obj_8002CA38 *)this)->slot[i]))->queue_destruction();
-            ((Obj_8002CA38 *)this)->slot[i] = 0;
+        if (this->player_emitters[i] != NULL) {
+            this->player_emitters[i]->queue_destruction();
+            this->player_emitters[i] = NULL;
         }
     }
 }
 TObjBoss1Floor::TObjBoss1Floor(TObject *parent) : TObject(parent) {
     s32 i;
     m_name = TObjBoss1Floor__name;
-    ((Obj_8002CACC *)this)->f1c = 0.0f;
-    ((Obj_8002CACC *)this)->f20 = 0.0f;
-    ((Obj_8002CACC *)this)->f24 = 0.0f;
+    this->position.x = 0.0f;
+    this->position.y = 0.0f;
+    this->position.z = 0.0f;
     for (i = 0; i < 4; i++) {
-        ((Obj_8002CACC *)this)->f28[i] = 0;
+        this->player_emitters[i] = NULL;
     }
 }
 
-extern "C" {
-
-s32 update_dragon_trail_uvs(void *);
-
-void TObjBoss1Floor__sub_8002CB40(void) {  }
+extern "C" void TObjBoss1Floor__sub_8002CB40(void) {  }
 
 
 void TObjBoss1Floor::create_instance() {
     void* obj = new TObjBoss1Floor((TObject *)tl_02);
 }
 
-void TObjBoss1Floor__sub_8002CB78(void) {  }
+extern "C" void TObjBoss1Floor__sub_8002CB78(void) {  }
 
 
 void TObjBoss1MokoHill_Solo::render() {
-    u8 *self = (u8 *)this;
     TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(dragon_common_texture_list));
-    update_dragon_trail_uvs((u8 *)&this->m_28);
+    update_dragon_trail_uvs(&position);
     push_matrix();
-    translate_matrix(0, this->m_28, (f32) (*(f32 *)((s8 *)self + 0x34)), this->m_30);
-    if ((s32) this->m_48 != 0) {
+    translate_matrix(0, position.x, height, position.z);
+    if (v2_mode != 0) {
         saved_model_render_flags = model_render_flags;
         saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
         saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
         model_render_flags |= 0x800;
         set_chunk_material_override_pair(0xFF00, 0x100);
-        draw_chunk_object((void *)(*(saddr *)((s8 *)(*(void **)((s8 *)lbl_805D4B50 + 0x42C)) + 0x38)));
+        draw_chunk_object(dragon_ground_resource->models[3].model);
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         model_render_flags = saved_model_render_flags;
     } else {
-        draw_chunk_object((void *)(*(saddr *)((s8 *)(*(void **)((s8 *)lbl_805D4B50 + 0x42C)) + 0x38)));
+        draw_chunk_object(dragon_ground_resource->models[3].model);
     }
     pop_matrix();
-}
-
 }

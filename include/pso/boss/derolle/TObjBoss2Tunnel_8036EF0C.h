@@ -5,16 +5,10 @@
 
 extern "C" {
 s32 get_display_copy_filter(void);
-void TObjBoss2Tunnel__sub_8036EF4C(void);
 }
 
 void set_display_copy_filter(int enabled);
-
-// --- C functions defined in TObjBoss2Tunnel_8036EF0C.cpp ---
-extern "C" {
-s32 get_display_copy_filter(void);
-void TObjBoss2Tunnel__sub_8036EF4C(void);
-}
-// --- end of C functions
+// Turns the display copy filter flag back on without touching GX (shutdown_and_reset_system).
+void reset_display_copy_filter(void);
 
 #endif

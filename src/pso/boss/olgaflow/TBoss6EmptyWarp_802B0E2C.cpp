@@ -1,7 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/olgaflow/TBoss6EmptyWarp.h"
-#include "pso/boss/olgaflow/TBoss6EmptyWarp_802B0E2C.h"
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/system/task/TObject_80019A50.h"
 
@@ -11,6 +10,7 @@
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 
 const char *TBoss6EmptyWarp__name = "TBoss6EmptyWarp";
@@ -39,18 +39,15 @@ void draw_empty_warp_overlay(void) {
     restore_saved_depth_alpha_state();
 }
 
-extern "C" {
-
 void TBoss6EmptyWarp::render() { draw_empty_warp_overlay(); }
 
 void TBoss6EmptyWarp::run_task() {
-    u8 *self = (u8 *)this;
     if (TBoss6PlotFalz::is_flag_set() != 0) {
-        ((TObject *)self)->queue_destruction();
+        queue_destruction();
         return;
     }
-    *(s32 *)&this->unk_1C = (s32) (*(s32 *)&this->unk_1C + 1);
-    if ((s32) *(s32 *)&this->unk_1C > 3) {
+    warp_delay = warp_delay + 1;
+    if (warp_delay > 3) {
         TBoss6EmptyWarp::init_warp();
         if (TBoss6Thanks::is_ship_door_ready() != 0) {
             TBoss6Thanks::create();
@@ -58,11 +55,10 @@ void TBoss6EmptyWarp::run_task() {
         } else {
             play_area_music((char *)("HALL.adx"));
         }
-        ((TObject *)self)->queue_destruction();
+        queue_destruction();
     }
 }
 
-}
 TBoss6EmptyWarp::~TBoss6EmptyWarp() {
     TBoss6PlotFalz::end_cutscene_camera();
 }
@@ -70,22 +66,9 @@ TBoss6EmptyWarp::~TBoss6EmptyWarp() {
 TBoss6EmptyWarp::TBoss6EmptyWarp(TObject *parent) : TObject(parent) {
     m_name = TBoss6EmptyWarp__name;
     TBoss6PlotFalz::freeze_all_players();
-    *(u32 *)((s8 *)this + 0x1C) = 0;
+    warp_delay = 0;
 }
-
-extern "C" {
-
-extern void *tl_02;
 
 void *TBoss6EmptyWarp::create() {
-    return new TBoss6EmptyWarp((TObject *)tl_02);
-}
-
-void TBoss6EmptyWarp::activate_warp() {
-    *(s32 *)&this->unk_1C = 1;
-    play_sound_effect(0x4003351F, 0, 0, 0);
-}
-void TBoss6EmptyWarp__sub_802B1004(void* p) { *(s32*)((char*)p + 0x20) = 0; *(s32*)((char*)p + 0x1c) = 2; }
-int TBoss6EmptyWarp__sub_802B1018(void) { return 0; }
-
+    return new TBoss6EmptyWarp(tl_02);
 }

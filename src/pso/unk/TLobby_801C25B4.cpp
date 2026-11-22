@@ -42,7 +42,7 @@
 char *lobby_rank_ordinal_text_table[] = {"1st", "2nd", "3rd", "4th"};
 
 
-void *TLobby__battle_mode_data_ptr;
+TPlayerBattleCtrl *TLobby__battle_mode_data_ptr;
 s32 lbl_805D5D9C;
 s32 TLobby__battle_config_ptr;
 s32 lbl_805D5DA4;
@@ -293,22 +293,6 @@ struct VObj_801C4214 : VBase_801C4214 {
     virtual void m55(); virtual void m56(); virtual void m57(); virtual void m58(); virtual void m59();
     virtual void m60(); virtual void m61();
     virtual void m62();
-};
-
-struct VBase_18_26c590 { char pad[0x18]; };
-
-struct VObj_18_26c590 : VBase_18_26c590 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual s32 m10();
 };
 
 struct Pair_801C49B8 { s32 a, b; };
@@ -563,11 +547,11 @@ void TLobby::update_battle_intro() {
             names[i].s[0] = 0;
         }
         for (i = 0; i < 4; i++) {
-            u8 *pl = (u8 *)((uaddr (*)(s32))get_player_by_client_id)(i);
+            TObjPlayer *pl = (TObjPlayer *)get_player_by_client_id(i);
             if (pl != NULL) {
                 s32 team = battle_intro_value_table[i] != 1 ? 1 : 0;
                 if (cnt.v[team] < 2) {
-                    strncpy(names[team * 2 + cnt.v[team]].s, (const char *)((VObj_18_26c590 *)pl)->m10(), 0x10);
+                    strncpy(names[team * 2 + cnt.v[team]].s, pl->get_name(), 0x10);
                     cnt.v[team]++;
                 }
             }
@@ -1660,27 +1644,13 @@ s32 TLobby__sub_801C2678(void) {
 }
 
 u8 TLobby__sub_801C2614(void) {
-  u8 var_r0;
-  u8 *var_r3;
-  if (TRaderMapCore::is_not_split_screen() == 1)
-  {
-    var_r0 = TPlayerBattleCtrl4P::is_battle_mode_active();
-    return var_r0;
-  }
-  var_r3 = (u8 *) TLobby__battle_mode_data_ptr;
-  if (var_r3 != 0)
-  {
-    var_r3 = (u8 *) (*((u8 **) (((s8 *) var_r3) + 0x1C)));
-    var_r0 = 0;
-    if ((((saddr) var_r3) == 1) || (((saddr) var_r3) == 2))
-    {
-      var_r0 = 1;
+    if (TRaderMapCore::is_not_split_screen() == 1) {
+        return TPlayerBattleCtrl4P::is_battle_mode_active();
     }
-    var_r3 = (u8 *) ((void *) var_r0);
-    return (u8) (uaddr) var_r3;
-  }
-  var_r3 = (u8 *) 0;
-  return 0U;
+    if (TLobby__battle_mode_data_ptr != NULL) {
+        return TLobby__battle_mode_data_ptr->state_1c == 1 || TLobby__battle_mode_data_ptr->state_1c == 2;
+    }
+    return 0;
 }
 
 s32 TLobby::check_all_battle_flags(void *) {

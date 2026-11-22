@@ -4,9 +4,9 @@
 
 extern "C" {
 
-void *TObjEneHoldEffect__ct(void *, void *, void *, void *);
+void *TObjEneHoldEffect__ct(void *, void *, s32, s32);
 
-void TObjEneHoldEffect::create(void *parent, void *type, void *arg2) {
+void TObjEneHoldEffect::create(void *parent, s32 type, s32 arg2) {
     void *o;
     o = TObject::operator new(0xA0);
     if (o != NULL) {

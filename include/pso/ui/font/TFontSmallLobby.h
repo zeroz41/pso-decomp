@@ -47,7 +47,7 @@ struct TFontSmallLobby
     void*copy_packet_header_6x38(void* a1);
     void send_state();
     void *handle_photon_blast_ready(void *src);
-    static void *create(void *arg0);
+    static void *create(s32 id);
     s16 get_valid_index();
     void set_section_index(s16 count);
     s32 is_ready();

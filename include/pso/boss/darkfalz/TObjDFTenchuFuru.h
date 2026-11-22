@@ -25,8 +25,13 @@ public:
     static TObjDFTenchuFuru *create(TObject *parent, const Vec *position);
     static void capture_matrix_by_frame(NJS_OBJECT *);
     static void register_callback();
-    void transform_node_tree();
-    void draw_node_tree();
+    static void unregister_callback();
+    // Walks a Ninja node tree like the chunk drawer, capturing nodes 0x3B and 0x3A.
+    static void transform_node_tree(NJS_OBJECT *node);
+    static void draw_node_tree(NJS_OBJECT *node);
+
+    // Node counter shared by transform_node_tree and capture_matrix_by_frame.
+    static int matrix_node_index;
 };
 
 LAYOUT_ASSERT(TObjDFTenchuFuru_pos_offset, offsetof(TObjDFTenchuFuru, pos) == 0x1C);

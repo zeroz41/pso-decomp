@@ -28,7 +28,6 @@ const char *TBoss6CrushRock__name = TBoss6CrushRock__class_name_string;
 const char *TBoss6CrushPtcl__name = TBoss6CrushPtcl__class_name_string;
 
 extern "C" {
-extern saddr TBoss6PlotFalz__instance;
 // Keep the retail allocation and constructor calls separate.
 TBoss6CrushRock *__ct__15TBoss6CrushRockFP7TObjectPC3Vecl(
     TBoss6CrushRock *rock, TObject *parent, const Vec *point, saddr model_index);
@@ -81,8 +80,8 @@ void TBoss6Rock::spawn_crush_rocks(Vec *point, s32 kind) {
 
 TBoss6CrushRock::TBoss6CrushRock(TObject *parent, const Vec *point, saddr model_index) : TObject(parent) {
     m_name = TBoss6CrushRock__name;
-    model = (void *)get_bml_model((BmlResource *)TBoss6Rock__sub_80353A0C(), model_index);
-    texture_list = TBoss6Rock__sub_80353A04();
+    model = (void *)get_bml_model((BmlResource *)TBoss6Rock::get_resource(), model_index);
+    texture_list = TBoss6Rock::get_texture_list();
     VecCopy(&position, point);
     velocity.x = (0.5f * ((0.000030517578f * (f32) rand()) - 0.5f));
     velocity.y = (0.5f * ((0.000030517578f * (f32) rand()) - 0.5f));

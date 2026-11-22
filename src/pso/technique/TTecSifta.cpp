@@ -118,8 +118,8 @@ void TTecSifta::create_instance(void *source, void *origin, void *targets, s32 l
     new TTecSifta(source, origin, targets, level);
 }
 
-void TTecSifta::create(void *owner, void *pos, void *level) {
-    new TTecSifta(owner, pos, (saddr)level);
+void TTecSifta::create(void *owner, void *pos, s32 level) {
+    new TTecSifta(owner, pos, level);
 }
 
 void TTecSifta::vfunc_7(void *arg1_arg) {

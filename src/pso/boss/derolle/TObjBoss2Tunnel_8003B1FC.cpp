@@ -1,5 +1,5 @@
-// The De Rol Le tunnel particles' common parent: TObjBoss2Tunnel::sub_8003B2B0 creates the TObject that
-// detach_children and release_children re-parent the particles to. Its own TU (twin: text_802F190C.cpp for
+// The De Rol Le tunnel particles' common parent: TObjBoss2Tunnel::create_parent_object creates the TObject that
+// detach_children and release_children re-parent the particles to. Its own TU (twin: TObjBoss7Tunnel_802F190C.cpp for
 // Boss7): its .sbss (TObjBoss2Tunnel_parent_object and pad, 0x805D4BF8) sits between TObjBoss2DustCtrl's and
 // TObjBoss2Tunnel's 8-aligned .sbss, and TObjBoss2Tunnel's .sdata2 pool starts with render (0x8003B2EC).
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -30,6 +30,6 @@ void TObjBoss2Tunnel::release_children(TParticleCtrl *particle, f32 speed) {
     }
 }
 
-void TObjBoss2Tunnel::sub_8003B2B0() {
+void TObjBoss2Tunnel::create_parent_object() {
     TObjBoss2Tunnel_parent_object = new TObject(tl_07);
 }

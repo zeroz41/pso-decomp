@@ -97,7 +97,7 @@ s16 init_net_sockets(void) {
         } else {
             return -0x111;
         }
-        r = TLobby__sub_80409A3C((u8 *)fns, 0x7C);
+        r = TLobby__sub_80409A3C(fns, 0x7C);
         if (r < 0) {
             return r;
         }

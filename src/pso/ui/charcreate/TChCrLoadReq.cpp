@@ -9,6 +9,7 @@
 #include "pso/ui/charcreate/CharacterAppearanceTables.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/charcreate/CharacterLoadBuffer.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 // Built with -inline off,deferred: .text comes out last function first, so the functions are
 // written in reverse address order; the data (the node range statics, then the load slot count,
@@ -20,7 +21,6 @@ const char *TChCrLoadReq__name = "TChCrLoadReq";
 #pragma pop
 
 extern "C" {
-u16 get_entity_id(void *);
 }
 
 // A node tree is valid when no node, child, sibling or model pointer lies in the low 2 MB.
@@ -56,17 +56,16 @@ TChCrLoadReq *create_ch_cr_load_req(TObject *parent, const CharacterPreviewLoadA
     return new TChCrLoadReq(parent, args);
 }
 
-// TObjPlayer has no fields yet at 0xCF4, 0xB88 and 0xA1C.
 TChCrLoadReq::TChCrLoadReq(TObjPlayer *player) : TObject(player) {
     m_name = TChCrLoadReq__name;
     inputs.appearance = (CharacterAppearanceFields *)player->name;
-    inputs.completion_flags = (u32 *)&player->m_cfc;
+    inputs.completion_flags = (u32 *)&player->model_load_flags;
     inputs.load_slot = get_entity_id(player);
     inputs.body_model = (s32 *)&player->model;
-    inputs.part_models = (s32 *)&player->m_8ac;
-    inputs.body_textures = (GinjaTextureList *)((u8 *)player + 0xCF4);
-    inputs.other_textures = (GinjaTextureList *)((u8 *)player + 0xB88);
-    inputs.head_textures = (GinjaTextureList *)((u8 *)player + 0xA1C);
+    inputs.part_models = (s32 *)&player->hair_model;
+    inputs.body_textures = (GinjaTextureList *)player->body_textures;
+    inputs.other_textures = (GinjaTextureList *)player->attachment_textures;
+    inputs.head_textures = (GinjaTextureList *)player->head_textures;
     reset_request();
 }
 

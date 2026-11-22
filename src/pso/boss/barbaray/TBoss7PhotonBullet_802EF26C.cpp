@@ -7,6 +7,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/object/base/TObjChara.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/vector.h"
 #include "pso/unk/text_80087278.h"
 
@@ -33,7 +34,6 @@ const char *TBoss7PhotonPad__name = "TBoss7PhotonPad";
 const char *TBoss7PhotonBullet__name = "TBoss7PhotonBullet";
 
 extern "C" {
-s32 project_actor_to_ground(TObjBase *actor, Vec *pos, Vec *normal);
 extern const f32 lbl_805DEA00;
 extern const f32 lbl_805DEA04;
 }

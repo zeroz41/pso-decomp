@@ -57,9 +57,7 @@ struct Obj_80154954 { u8 pad[4]; s16 kind; };
 
 struct Player_80154954 { u8 pad[0x1C]; u16 id; u8 pad1e[0x80 - 0x1E]; Obj_80154954 *obj; };
 
-struct Coll_801564A0 { u8 pad[0x18]; s32 flags; };
 
-struct Player_801564A0 { u8 pad[0x1C]; u16 id; u8 pad1e[0x28 - 0x1E]; s16 room; u8 pad2a[0xA4 - 0x2A]; Coll_801564A0 *coll; };
 
 struct Hit_801561C4 { u8 pad[0x18]; u32 flags; };
 
@@ -134,11 +132,10 @@ s32 angle_difference_abs(s32, s32);
 extern saddr quest_object_entries;
 void handle_6x0B_update_object_state(G_UpdateObjectState_6x0B *packet);
 s32 resolve_player_box_contact(u8 *arg0, u8 *arg1, u8 *arg2);
-struct Obj_80156844 { u8 pad[0x1C]; u16 room; u8 pad2[0x90 - 0x1E]; void *f90; };
 
 s32 lbl_805D5868;
 s32 registered_player_count;
-s32 lbl_805D5870;
+s32 registered_enemy_count;
 s32 registered_entity_count;
 int player_unique_pair_entry_count;
 extern "C" {
@@ -154,12 +151,12 @@ void *__construct_new_array(void *, void (*)(void *), void *, s32, s32);
 Part_80156780 *init_collision_body_parts(Obj_80156780 *self, Part_80156780 *src, s32 count);
 void *get_player_by_client_id(u32 id);
 void TLobby__sub_80156BA8(void *p);
-void check_enemy_body_collisions(void *arg0);
+void check_enemy_body_collisions(TObjCollidable *actor);
 extern unsigned char lbl_8050DAD0[];
 void free_collision_body_parts(G_80156720 *arg0);
 u16 get_entity_id(int);
 u16 TObjRoomId__sub_801A1DB8(u16);
-s32 project_actor_to_ground(Obj_80156844 *self, Vec *pos, Vec *normal);
+s32 project_actor_to_ground(TObjCollidable *actor, Vec *pos, Vec *normal);
 void TObjPlayer__sub_801542F4(saddr a);
 void reset_global_table(void);
 s32 obj_is_hit_receivable(u8 *arg0);
@@ -171,11 +168,11 @@ void TObjPlayer::apply_status_effect(saddr a) {
 }
 
 void TObjPlayer__sub_801542F4(saddr a) {
-    TObjPlayer__sub_8015434C((CollisionBodySet *)a, registered_player_count, lbl_805D5870);
+    TObjPlayer__sub_8015434C((CollisionBodySet *)a, registered_player_count, registered_enemy_count);
 }
 
 void TObjPlayer__sub_8015431C(u8 *set) {
-    TObjPlayer__sub_8015434C((CollisionBodySet *)set, registered_player_count + lbl_805D5870, registered_entity_count);
+    TObjPlayer__sub_8015434C((CollisionBodySet *)set, registered_player_count + registered_enemy_count, registered_entity_count);
 }
 
 #pragma push
@@ -429,7 +426,7 @@ s32 TObjCollidable::unregister_object_by_id() {
         if (k < 0x1000) {
             registered_player_count--;
         } else if (k < 0x4000) {
-            lbl_805D5870--;
+            registered_enemy_count--;
         } else {
             registered_entity_count--;
         }
@@ -482,7 +479,7 @@ u16 register_entity_by_id(void *ov) {
     if (t < 0x1000) {
         registered_player_count++;
     } else if (t < 0x4000) {
-        lbl_805D5870++;
+        registered_enemy_count++;
     } else {
         registered_entity_count++;
     }
@@ -676,13 +673,13 @@ block_7:
             displacement.x = (displacement.x * tangentScale);
             displacement.z *= tangentScale;
             vec3_add_to(&displacement, actor + 0x44);
-            if (project_actor_to_ground((Obj_80156844 *)(actor), (Vec *)(&displacement), (Vec *)(0)) != 0) {
+            if (project_actor_to_ground((TObjCollidable *)(actor), (Vec *)(&displacement), (Vec *)(0)) != 0) {
                 VecCopy__FP3VecPC3Vec(actor + 0x38, &displacement);
                 return 1;
             }
         }
     }
-    if (project_actor_to_ground((Obj_80156844 *)(actor), (Vec *)(actor + 0x44), (Vec *)(0)) != 0) {
+    if (project_actor_to_ground((TObjCollidable *)(actor), (Vec *)(actor + 0x44), (Vec *)(0)) != 0) {
         VecCopy__FP3VecPC3Vec(actor + 0x38, actor + 0x44);
         return 1;
     }
@@ -691,7 +688,6 @@ block_7:
 
 #pragma push
 #pragma fp_contract on
-struct Obj_80156844;
 #define PATG_80155294 ((s32 (*)(void *, void *, int))project_actor_to_ground)
 s32 resolve_player_box_contact(u8 *actor, u8 *other, u8 *arg2) {
     Vec radial;
@@ -1071,7 +1067,7 @@ void TObjCollidable::update_enemy_collision_flags() {
     temp_r5 = *(void **)((s8 *)this + 0xA4);
     if (temp_r5 != NULL) {
         *(s32 *)((s8 *)temp_r5 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r5 + 0x18) & 0xFEDFFFFF);
-        for (j = registered_player_count + lbl_805D5870; j < (s32) lbl_805D5868; j++) {
+        for (j = registered_player_count + registered_enemy_count; j < (s32) lbl_805D5868; j++) {
             player = TObjPlayer::get_player_data(j);
             if (player != NULL) {
                 actor_body_contact = find_actor_body_contact((u8 *)player, 10000.0f);
@@ -1084,23 +1080,22 @@ void TObjCollidable::update_enemy_collision_flags() {
     }
 }
 
-void check_enemy_body_collisions(void *player) {
-    Player_801564A0 *self = (Player_801564A0 *)player;
-    Player_801564A0 *other;
+void check_enemy_body_collisions(TObjCollidable *actor) {
+    TObjPlayer *other;
     s32 i;
-    Coll_801564A0 *ct;
-    if (self->coll != 0) {
-        self->coll->flags &= ~0x900000;
-        for (i = registered_player_count; i < registered_player_count + lbl_805D5870; i++) {
-            other = (Player_801564A0 *)TObjPlayer::get_player_data(i);
+    CollisionBody *contact;
+    if (actor->bodies != 0) {
+        actor->bodies->flags &= ~0x900000;
+        for (i = registered_player_count; i < registered_player_count + registered_enemy_count; i++) {
+            other = TObjPlayer::get_player_data(i);
             if (other != 0) {
-                if (self->room == other->room || self->id < 0x1000) {
-                    ct = (Coll_801564A0 *)((TObjCollidable *)self)->find_actor_body_contact((u8 *)other, 10000.0f);
-                    if (ct != 0) {
-                        self->coll->flags |= 0x100000;
-                        if (TObjPlayer::check_flag_pair(self->coll->flags, ct->flags) == 0 &&
-                            respond_to_body_contact((u8 *)self, (u32)((saddr)other), (u8 *)ct) != 0) {
-                            self->coll->flags |= 0x800000;
+                if (actor->room == other->room || actor->entity_id < 0x1000) {
+                    contact = (CollisionBody *)actor->find_actor_body_contact((u8 *)other, 10000.0f);
+                    if (contact != 0) {
+                        actor->bodies->flags |= 0x100000;
+                        if (TObjPlayer::check_flag_pair(actor->bodies->flags, contact->flags) == 0 &&
+                            respond_to_body_contact((u8 *)actor, (uaddr)other, (u8 *)contact) != 0) {
+                            actor->bodies->flags |= 0x800000;
                         }
                     }
                 }
@@ -1138,7 +1133,7 @@ void TObjCollidable::check_object_collisions() {
         }
     }
 }
-void TObjPlayer::update_collisions() { check_object_collisions(); check_enemy_body_collisions(this); }
+void TObjCollidable::update_collisions() { check_object_collisions(); check_enemy_body_collisions(this); }
 void TObjCollidable::clear_collision_bodies() {
     body_flags = NULL;
     bodies = NULL;
@@ -1183,7 +1178,7 @@ Part_80156780 *init_collision_body_parts(Obj_80156780 *self, Part_80156780 *src,
     return self->parts;
 }
 
-s32 project_actor_to_ground(Obj_80156844 *self, Vec *pos, Vec *normal) {
+s32 project_actor_to_ground(TObjCollidable *actor, Vec *pos, Vec *normal) {
     Vec v;
     Hit_80156844 *hit;
     u16 r;
@@ -1191,12 +1186,12 @@ s32 project_actor_to_ground(Obj_80156844 *self, Vec *pos, Vec *normal) {
     s32 flags;
     VecCopy__FP3VecPC3Vec(&v, pos);
     v.y += 10.0f;
-    r = TObjRoomId__sub_801A1DB8(self->room);
+    r = TObjRoomId__sub_801A1DB8(actor->entity_id);
     flags = 0x15;
     if (r == 0) {
         flags = 0x55;
     }
-    coll = self->f90;
+    coll = actor->ground_cache;
     if (coll != 0) {
         hit = (Hit_80156844 *)csnVectorUnder(&v, (CsnGroup **)coll, flags);
     } else {
@@ -1218,7 +1213,7 @@ void TObjCollidable::reset_motion_fields() {
     }
 }
 void TObjPlayer__sub_80156934(void) { TObjPlayer::clear_item_table(); TObjPlayer::init_all_slots(); }
-void TObjPlayer::reset() { (*(int *)&lbl_805D5868) = 0; (*(int *)&registered_player_count) = 0; (*(int *)&lbl_805D5870) = 0; (*(int *)&registered_entity_count) = 0; TObjPlayer::clear_item_table(); TObjPlayer::init_all_slots(); }
+void TObjPlayer::reset() { (*(int *)&lbl_805D5868) = 0; (*(int *)&registered_player_count) = 0; (*(int *)&registered_enemy_count) = 0; (*(int *)&registered_entity_count) = 0; TObjPlayer::clear_item_table(); TObjPlayer::init_all_slots(); }
 TObjCollidable::~TObjCollidable() {
     body_count = 0;
     bodies = NULL;

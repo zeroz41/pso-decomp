@@ -23,7 +23,7 @@ void TBoss6Zanzo::set_effect_points(const Vec *points, const u32 *colors) {
     const u32 *b2 = colors;
     current->active = 1;
     p = current->points;
-    end = p + m_24;
+    end = p + point_count;
     for (; p < end; ++p, ++a2, ++b2) {
         VecCopy(&p->position, a2);
         ((TAdChrMoveEffectGC *)&p->color)->copy4((void *)b2);
@@ -31,18 +31,15 @@ void TBoss6Zanzo::set_effect_points(const Vec *points, const u32 *colors) {
 }
 
 void TBoss6Zanzo::copy_trail_buffer(Boss6TrailFrame *dest, Boss6TrailFrame *source) {
-    TBoss6Zanzo *owner = this;
-    Boss6TrailFrame *arg1 = dest;
-    Boss6TrailFrame *arg2 = source;
     Boss6TrailPoint *src;
     Boss6TrailPoint *dst;
     Boss6TrailPoint *end;
-    arg1->active = arg2->active;
-    if (arg1->active != 0) {
-        s32 count = owner->m_24;
-        dst = arg1->points;
+    dest->active = source->active;
+    if (dest->active != 0) {
+        s32 count = point_count;
+        dst = dest->points;
         end = dst + count;
-        src = arg2->points;
+        src = source->points;
         for (; dst < end; ++dst, ++src) TBoss6Zanzo__sub_803205A0(dst, src);
     }
 }
@@ -69,10 +66,10 @@ void TBoss6Zanzo::sub_803205C4() {
     NJS_POINT3COL quad;
     Vec positions[4];
 
-    step = 1.0f / m_28;
+    step = 1.0f / frame_count;
     alpha = 1.0f;
     frame = frames;
-    end = frame + m_28;
+    end = frame + frame_count;
     drawn = 0;
     for (; frame < end; frame++) {
         if (frame == frames || frame->active == 0 || prev->active == 0) {
@@ -90,7 +87,7 @@ void TBoss6Zanzo::sub_803205C4() {
             quad.num = 4;
             quad.p = positions;
             // Each packed RGBA color retains RGB while its alpha fades.
-            for (i = 0; i < m_24 - 1; i++) {
+            for (i = 0; i < point_count - 1; i++) {
                 {
                     Boss6TrailPoint *p = &prev->points[i];
                     ((TAdChrMoveEffectGC *)&colors[0])->copy4((void *)&p->color);
@@ -133,7 +130,7 @@ void TBoss6Zanzo::run_task() {
     Boss6TrailFrame *p;
     if (TObjPlayer::check_demo_mode() == 0) {
         base = frames;
-        for (p = base + m_28 - 1; p > base; p--) copy_trail_buffer(p, p - 1);
+        for (p = base + frame_count - 1; p > base; p--) copy_trail_buffer(p, p - 1);
         copy_trail_buffer(p, current);
         current->active = 0;
     }
@@ -145,26 +142,26 @@ TBoss6Zanzo::~TBoss6Zanzo() {
     Boss6TrailFrame *end;
     mem_free(current->points);
     ::operator delete(current);
-    for (p = frames, end = p + m_28; p < end; p++) {
+    for (p = frames, end = p + frame_count; p < end; p++) {
         mem_free(p->points);
     }
     mem_free(frames);
 }
 
-TBoss6Zanzo::TBoss6Zanzo(TObject *object, s32 arg2, s32 arg3) : TObject(object) {
+TBoss6Zanzo::TBoss6Zanzo(TObject *object, s32 points, s32 trail_length) : TObject(object) {
     Boss6TrailFrame *p;
     Boss6TrailFrame *end;
     m_name = TBoss6Zanzo__name;
-    m_24 = arg2;
-    if (m_24 < 2) m_24 = 2;
-    m_28 = arg3;
-    if (m_28 < 2) m_28 = 2;
-    frames = (Boss6TrailFrame *)mem_alloc(m_28 * sizeof(Boss6TrailFrame));
-    for (p = frames, end = p + m_28; p < end; p++) {
+    point_count = points;
+    if (point_count < 2) point_count = 2;
+    frame_count = trail_length;
+    if (frame_count < 2) frame_count = 2;
+    frames = (Boss6TrailFrame *)mem_alloc(frame_count * sizeof(Boss6TrailFrame));
+    for (p = frames, end = p + frame_count; p < end; p++) {
         p->active = 0;
-        p->points = (Boss6TrailPoint *)mem_alloc(m_24 * sizeof(Boss6TrailPoint));
+        p->points = (Boss6TrailPoint *)mem_alloc(point_count * sizeof(Boss6TrailPoint));
     }
     current = (Boss6TrailFrame *)::operator new(sizeof(Boss6TrailFrame));
     current->active = 0;
-    current->points = (Boss6TrailPoint *)mem_alloc(m_24 * sizeof(Boss6TrailPoint));
+    current->points = (Boss6TrailPoint *)mem_alloc(point_count * sizeof(Boss6TrailPoint));
 }

@@ -299,13 +299,6 @@ struct G_8029EFFC {
     f32 z180;
 };
 
-struct Sora_8029EFFC {
-    u8 pad0[0x1C];
-    u32 f1C;
-    u8 pad20[4];
-    Vec pos24;
-};
-
 extern "C" {
 // Every caller tests this as an int; the header's bool return would not match.
 s32 TCameraCtrl__sub_800689F4();
@@ -359,7 +352,6 @@ void TObjPlayer::setup_projection_texture(Vec *, SceneSectionAngles *, u32 flags
 }
 
 void TUnk_804DC7C4::render_shadows() {
-    Sora_8029EFFC *o = (Sora_8029EFFC *)this;
     Cam_8029EFFC c3;
     Cam_8029EFFC c2;
     Cam_8029EFFC c1;
@@ -370,7 +362,7 @@ void TUnk_804DC7C4::render_shadows() {
     f32 k;
     f32 len;
     Pl_8029EFFC *p;
-    if (camera_ctrl_instance == 0 || o->f1C == 0) {
+    if (camera_ctrl_instance == 0 || recon_object == 0) {
         return;
     }
     p = (Pl_8029EFFC *)get_player_by_client_id(local_client_id);
@@ -387,7 +379,7 @@ void TUnk_804DC7C4::render_shadows() {
     {
         Vec off = p->pos2FC;
         off.y += 10.0f;
-        hit = fn_8029E7BC((saddr)&off, (u8 *)&o->pos24);
+        hit = fn_8029E7BC((saddr)&off, (u8 *)&reflect_pos);
     }
     if (is_boss_area() != 0) {
         hit = 1;
@@ -412,9 +404,9 @@ void TUnk_804DC7C4::render_shadows() {
             }
         } else if (p != NULL) {
             ((TMainTask *)((u8 *)&main_task))->render_object_layers(1);
-            c2.pos.x = o->pos24.x;
-            c2.pos.y = o->pos24.y;
-            c2.pos.z = o->pos24.z;
+            c2.pos.x = reflect_pos.x;
+            c2.pos.y = reflect_pos.y;
+            c2.pos.z = reflect_pos.z;
             c2.scale.x = 0.0f;
             c2.scale.y = 1.0f;
             c2.scale.z = c2.scale.x;
@@ -426,9 +418,9 @@ void TUnk_804DC7C4::render_shadows() {
     }
     ((TMainTask *)((u8 *)&main_task))->render_task_layer_02();
     if (p != NULL) {
-        c1.pos.x = o->pos24.x;
-        c1.pos.y = o->pos24.y;
-        c1.pos.z = o->pos24.z;
+        c1.pos.x = reflect_pos.x;
+        c1.pos.y = reflect_pos.y;
+        c1.pos.z = reflect_pos.z;
         c1.scale.x = 0.0f;
         c1.scale.y = 1.0f;
         c1.scale.z = c1.scale.x;
@@ -482,8 +474,8 @@ void TUnk_804DC7C4::render_shadows() {
     if (TSceneSora__instance != 0) {
         TSceneSora__sky_active_flag = 1;
     }
-    ((TObjPlayer *)(o->f1C))->copy_efb_to_texture();
-    TSceneSora::set_scene_flag(o->f1C + 0x1C);
+    ((TObjPlayer *)recon_object)->copy_efb_to_texture();
+    TSceneSora::set_scene_flag(recon_object + 0x1C);
 }
 
 void TUnk_804DC7C4::render() {  }

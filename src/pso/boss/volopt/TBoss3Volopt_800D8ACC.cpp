@@ -28,10 +28,10 @@ s32 player_particle_effect_enabled;
 extern "C" {
 s32 TBreakUpMdl__ct(void*, void *, saddr, saddr, s32, saddr, s32);
 
-void TBoss3Volopt::create_breakup_mdl(saddr arg0, saddr arg1, s32 texlist, saddr arg3, s32 rotation_y) {
+void TBoss3Volopt::create_breakup_mdl(saddr model, saddr params, s32 texlist, saddr position, s32 rotation_y) {
     void* obj = TObject::operator new(0x54);
     if (obj != 0) {
-        TBreakUpMdl__ct(obj, tl_05, arg0, arg1, texlist, arg3, rotation_y);
+        TBreakUpMdl__ct(obj, tl_05, model, params, texlist, position, rotation_y);
     }
 }
 
@@ -171,46 +171,47 @@ void spawn_particles_at__12TBoss3VoloptFi(saddr position) {
     spawn_particle_effect(&pos, 0xE9);
 }
 
-#define create_dead_spot__10TObjPlayerFiiif ((s32 (*)(s32, s32, s32))create_dead_spot__10TObjPlayerFiiif)
-
-void TObjPlayer::create_dead_spot(saddr arg0, s32 arg1, f32 radius) {
-    new TUnk_804949F4((TObject *)tl_05, (Vec *)arg0, create_timed_particle_emitter((void *)arg0, 0xF8, 0, arg1), radius);
 }
 
-void TObjPlayer::spawn_effect_f8(saddr arg1, s32 timer) {
-    create_timed_particle_emitter((void *)arg1, 0xF8, 0, (timer));
+void create_dead_spot(Vec *pos, s32 duration, f32 radius) {
+    new TUnk_804949F4((TObject *)tl_05, pos, create_timed_particle_emitter(pos, 0xF8, 0, duration), radius);
 }
 
-void TObjPlayer::set_field_e4(s32 arg1, s32 arg2) {
-    create_dead_spot__10TObjPlayerFiiif(arg1, 0xE4, arg2);
+void spawn_effect_f8(Vec *pos, s32 duration) {
+    create_timed_particle_emitter(pos, 0xF8, 0, duration);
 }
 
-#undef create_dead_spot__10TObjPlayerFiiif
-
-
-void create_dead_spot__10TObjPlayerFiiif(saddr arg0, s32 arg1, s32 arg2, f32 radius) {
-    new TUnk_804949D8((TObject *)tl_05, (Vec *)arg0, create_timed_particle_emitter((void *)arg0, arg1, 0, arg2), radius);
+void create_dead_spot_e4(Vec *pos, s32 duration, f32 radius) {
+    create_dead_spot(pos, 0xE4, duration, radius);
 }
+
+void create_dead_spot(Vec *pos, s32 particle, s32 duration, f32 radius) {
+    new TUnk_804949D8((TObject *)tl_05, pos, create_timed_particle_emitter(pos, particle, 0, duration), radius);
+}
+
+extern "C" {
 
 void fn_800D911C(Vec *position) {
     create_timed_particle_emitter(position, 232, 10, 1);
     create_timed_particle_emitter(position, 236, 10, 1);
 }
 
-void TObjPlayer::trigger_dell_biter_events() { spawn_particle_effect((const Vec *)this, 251); spawn_particle_effect((const Vec *)this, 252); spawn_particle_effect((const Vec *)this, 227); }
-
-void TObjPlayer::spawn_ground_effect(s32 arg1) {
-    Vec sp8;
-
-    TObjBoss2Tunnel::adjust_to_ground((const Vec *)this, &sp8);
-    create_timed_particle_emitter((&sp8), 0xE5, 0, (arg1));
 }
 
-void TObjPlayer::spawn_effect_at_ground(s32 arg1) {
-    Vec sp8;
+void trigger_dell_biter_events(const Vec *pos) { spawn_particle_effect(pos, 251); spawn_particle_effect(pos, 252); spawn_particle_effect(pos, 227); }
 
-    TObjBoss2Tunnel::adjust_to_ground((const Vec *)this, &sp8);
-    create_timed_particle_emitter(&sp8, 0xE4, 0, arg1);
+void spawn_ground_effect(const Vec *pos, s32 duration) {
+    Vec ground;
+
+    TObjBoss2Tunnel::adjust_to_ground(pos, &ground);
+    create_timed_particle_emitter(&ground, 0xE5, 0, duration);
+}
+
+void spawn_effect_at_ground(const Vec *pos, s32 duration) {
+    Vec ground;
+
+    TObjBoss2Tunnel::adjust_to_ground(pos, &ground);
+    create_timed_particle_emitter(&ground, 0xE4, 0, duration);
 }
 
 // Dead-stripped from the DOL: the selector-0 corner dead spots come in the same
@@ -219,7 +220,6 @@ void TObjPlayer::spawn_effect_at_ground(s32 arg1) {
 // .sdata2 pools 2.5f ahead of 7.5f/15.0f and 25.0f after them (0x805DA3C4-D0),
 // which first use by the surviving code cannot give. Bodies and names inferred
 // from the family.
-}
 void spawn_corner_dead_spot_scale2_5(s32 point, s32 delay) {
     TObjPlayer__sub_800D93F0(point, 0, delay, 2.5f);
 }

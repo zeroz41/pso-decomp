@@ -14,7 +14,6 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80052374.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/MatrixStack.h"
@@ -31,10 +30,10 @@
 
 
 const char *TObjDFDemo5__name = "TObjDFDemo5";
-ModelNodePositionEntry lbl_80485798[3] = {{0x38}, {0x39}, {-1}};
-ModelNodePositionEntry lbl_804857C8[2] = {{0}, {-1}};
+ModelNodePositionEntry df_demo5_emitter_node_entries[3] = {{0x38}, {0x39}, {-1}};
+ModelNodePositionEntry df_demo5_tail_node_entries[2] = {{0}, {-1}};
 // The motions of the three body models.
-s32 lbl_804857E8[3] = {0x24, 0x54, 0x55};
+s32 df_demo5_part_motion_ids[3] = {0x24, 0x54, 0x55};
 
 TObjDFDemo5 *TObjDFDemo5::create(TObject *parent, const Vec *position, s32 angle) {
     return new TObjDFDemo5(parent, position, angle);
@@ -49,10 +48,10 @@ TObjDFDemo5::TObjDFDemo5(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
     this->angle = angle;
     res = TBoss4Uro::get_instance_count();
     for (i = 0; i < 3; i++) {
-        id = lbl_80486FB0[i];
+        id = boss4_type3_model_ids[i];
         parts[i].model = (NJS_OBJECT *)get_bml_model(res, id);
         parts[i].texlist = (GinjaTextureList *)get_bml_texlist(res, id);
-        parts[i].motion = get_bml_motion(res, lbl_804857E8[i]);
+        parts[i].motion = get_bml_motion(res, df_demo5_part_motion_ids[i]);
     }
     parts[3].model = (NJS_OBJECT *)get_bml_model(res, 1);
     parts[3].texlist = (GinjaTextureList *)get_bml_texlist(res, 1);
@@ -68,8 +67,8 @@ TObjDFDemo5::TObjDFDemo5(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
         set_scripted_camera_pose(&this->pos, &this->pos, &angles);
         playback.cache_target_and_forward(0x416C);
     }
-    node_list0 = ModelNodePositionCapture::create(lbl_80485798, emitter_positions);
-    node_list1 = ModelNodePositionCapture::create(lbl_804857C8, &tail_position);
+    node_list0 = ModelNodePositionCapture::create(df_demo5_emitter_node_entries, emitter_positions);
+    node_list1 = ModelNodePositionCapture::create(df_demo5_tail_node_entries, &tail_position);
     play_sound_effect(0x4003A835, NULL, 0, 0);
     timer = 0;
 }
@@ -127,7 +126,7 @@ void TObjDFDemo5::draw_fading_motion() {
         alpha = (f32)(0xF0 - t) / 80.0f;
     }
     if (alpha < 1.0f) {
-        TObjPlayer__sub_80052390(alpha);
+        TObjPlayer::begin_alpha_blend(alpha);
     }
     push_matrix();
     set_motion_packed_rotation();
@@ -151,7 +150,7 @@ void TObjDFDemo5::draw_fading_motion() {
 
 void TObjDFDemo5::release_subobjects() {
     if (timer >= 0xB4) {
-        TObjPlayer__sub_80052390(0.99f);
+        TObjPlayer::begin_alpha_blend(0.99f);
         push_matrix();
         set_motion_packed_rotation();
         post_translate_matrix(&pos.x);

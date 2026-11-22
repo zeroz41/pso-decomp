@@ -18,6 +18,7 @@ typedef struct Ipv4ProtocolState Ipv4ProtocolState;
 typedef struct N_80405298 N_80405298;
 typedef struct In_8040D95C In_8040D95C;
 typedef struct Out_8040D95C Out_8040D95C;
+typedef void (*Fn_8040881C)(void); /* a link-layer driver entry (NetHandlerTable.c) */
 /* A raw IPv4 socket: ipv4_input hands it every packet of its protocol. */
 struct Ipv4RawSocket {
     u8 tag[3];                  /* 0x00: "IP4" */
@@ -81,7 +82,7 @@ s16 ipv4_iface_for_address(u32 ip);
 s32 TLobby__sub_8040DD68(void);
 s32 shutdown_ipv4_routing(void);
 s32 NetIPv6Shutdown(void);
-s16 TLobby__sub_80409A3C(u8 *arg0, s16 arg1);
+s16 TLobby__sub_80409A3C(Fn_8040881C *fns, s16 kind);
 void lobby_timer_stop(void *arg0);
 s16 AT_IP_GetMssFromDstSrc(u8 *arg0, u8 *arg1);
 void netbuf_copy_by_ref(void *a, void *b, s32 v);
@@ -95,7 +96,7 @@ s32 TLobby__sub_80409908(void *self, void *arr_);
 u8 *netbuf_ref_data(void *self);
 s16 TLobby__sub_80406328(saddr self, s16 type);
 s16 dispatch_handler_by_index(s16 arg0, s32 arg1, s32 arg2, s32 arg3);
-s16 dispatch_by_addr_family(saddr arg0, NetworkAddress *arg1, NetworkAddress *arg2, u8 *arg3, void *arg4, void *arg5);
+s16 dispatch_by_addr_family(NetPacket *pkt, NetworkAddress *dst, NetworkAddress *src, u8 *ip4_opts, void *ip6_opts, u8 proto);
 s16 AT_IP_SetSrcFromDst(Out_8040D95C *arg0, In_8040D95C *arg1);
 s16 is_multicast_address(NetworkAddress *addr, s16 arg1);
 s16 is_addr_unspecified(u8 *arg0);
@@ -105,14 +106,13 @@ s16 AT_IP4_Send(NetPacket *pkt, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, u8 prot
 s16 AT_IP4_Forward(u32 dst, u32 src, u8 *pkt, s16 len, s16 iface);
 s16 AT_IP4_PktSend(NetPacket *self, u32 key, s16 id);
 s16 AT_IP4_SrcAddrSel(u32 *out, u32 dst, s16 c);
-s16 TLobby__sub_80410A98(saddr pkt, void *dst, void *src, void *arg3, void *arg4);
+s16 TLobby__sub_80410A98(NetPacket *pkt, void *dst, void *src, NetIPv6SendOptions *opts, u8 proto);
 extern NetPacketPool lobby_udp_socket_table;
 /* Shared by the modules cut out of this unit; each is defined in the file named in its comment. */
 u16 packet_ones_complement_sum(struct NetPacket *, s16); /* TLobby_804050DC.c */
 s32 dispatch_slot_a(s16, s32);                       /* NetArp.c */
 s32 dispatch_slot_b(s16, s32);                       /* NetArp.c */
 s16 forward_net_op(s16, u8 *, u8 *);                 /* NetArp.c */
-typedef void (*Fn_8040881C)(void);                   /* a link-layer driver entry (NetHandlerTable.c) */
 s16 *get_active_entry_by_index(s16);                 /* NetIpv4Route.c */
 Ipv4Route *AT_IP4_RouteSearch(u32, u32);             /* NetIpv4Route.c */
 s16 NetIPv4IsInterfaceUp(s16);                       /* NetIpv4Route.c */
@@ -128,7 +128,7 @@ s16 TLobby__sub_80409CE0(s16 idx, s32 handle, s32 op, void *addr);
 s16 TLobby__sub_80409D7C(s16 idx, s32 handle, s32 op, void *addr);
 s16 TLobby__sub_8040A0C0(s16 idx, void *dst);
 s32 TLobby__sub_80409E18(s16, s32, s32);
-s32 TLobby__sub_80409EB0(s16, s32);
+s16 TLobby__sub_80409EB0(s16, s32);
 /* ICMP (src/pso/network/NetIcmp.c). */
 s16 icmp_input(u8 *self, u32 d, u32 c);
 s16 icmp_send_error(u8 *p, u8 *b, s16 x, s16 id);

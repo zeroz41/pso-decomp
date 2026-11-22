@@ -4,6 +4,7 @@
 #include "types.h"
 #include <stddef.h>
 #include "pso/network/SocketEvents.h"
+#include "pso/network/IPv6Send.h"
 
 typedef struct NetworkAddress {
     u32 family;
@@ -26,8 +27,19 @@ typedef struct UdpControlBlock {
     NetworkAddress localAddress;
     NetworkAddress remoteAddress;
     u32 receiveCallback;
-    s32 eventCallback;
+    NetSocketEventCallback eventCallback;
 } UdpControlBlock;
+
+/* The IP options of one udp_send: the address family they are for, then that family's options as
+   dispatch_by_addr_family hands them on (AT_IP4_Send's ttl, tos and df bytes, or the IPv6 send options). */
+typedef struct UdpSendOptions {
+    u32 family;
+    union {
+        u8 ipv4[3];
+        NetIPv6SendOptions ipv6;
+    };
+} UdpSendOptions;
+LAYOUT_ASSERT(UdpSendOptions_size_check, sizeof(UdpSendOptions) == 0x10);
 
 /* One piece of the data to send (tcp_send, udp_send). */
 typedef struct send_buffs {
@@ -70,8 +82,11 @@ extern "C" {
 extern UdpRuntimeState udp_runtime_state;
 s32 NetUdpClose(s16 handle);
 s16 NetUdpConnect(s16 handle, NetworkAddress* remoteAddress, s32 port,
-                  s32 eventCallback, u32 receiveCallback);
-s16 udp_open(void *src, s32 sport, void *dst, s32 dport, s32 eventCallback, NetUdpReceiveCallback callback);
+                  NetSocketEventCallback eventCallback, u32 receiveCallback);
+s16 udp_open(void *src, s32 sport, void *dst, s32 dport, NetSocketEventCallback eventCallback,
+             NetUdpReceiveCallback callback);
+s16 udp_send(s32 handle, NetworkAddress *src, NetworkAddress *dst, u16 port, UdpSendOptions *options, s8 count,
+             send_buffs *buffers);
 s32 TLobby__sub_80420D38(u16 src_port, u8 code);
 s16 NetUdpCreate(void);
 s16 NetUdpBind(s16 handle, NetworkAddress* localAddress, s32 port);

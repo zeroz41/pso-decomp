@@ -78,7 +78,7 @@ TOTrapAncient01::TOTrapAncient01(TObject *parent, void *set_data) : TOTrap(paren
     s32 i;
     m_name = TOTrapAncient01__class_name;
     apply_object_set_data(set_data);
-    ((TObjPlayer *)this)->init_position_vectors();
+    init_position_vectors();
     calc_attach_pos();
     model = (void *)get_bml_model((BmlResource *)TOTrapAncient01__bml_resource, 3);
     texlist = (saddr)get_bml_texlist((BmlResource *)TOTrapAncient01__bml_resource, 3);

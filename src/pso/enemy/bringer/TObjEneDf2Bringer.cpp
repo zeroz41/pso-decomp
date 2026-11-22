@@ -31,12 +31,9 @@
 
 
 
-extern "C" {
-s32 post_translate_matrix(void *);
-void draw_model_motion(void *model, void *motion, f32 frame);
-
-
-}
+#include "pso/system/MatrixStack.h"
+#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
 #include "pso/unk/SampledMotionPoints.h"
 
@@ -54,32 +51,24 @@ void draw_model_motion(void *model, void *motion, f32 frame);
 
 #include "pso/boss/darkfalz/TBoss4Type3.h"
 
-#include "pso/enemy/TUnk_8048FE08.h"
+#include "pso/enemy/bringer/TObjEneDf2Bringer_Eff_TpAbsorb1.h"
 #include "pso/enemy/AttackTargetHistory.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
 
 #include "pso/player/TUnk_804928CC.h"
 #include "pso/render/TUnk_80490470.h"
 
-extern "C" {
-s32 free_collision_body_parts(void *);
-}
 void bringer_render_node_callback(NJS_OBJECT *);
-extern "C" {
 void *bringer_init_params[7] = {
     (void *)0x43610000, (void *)0x0, (void *)0x600, (void *)0x0,
     (void *)0x0, (void *)0x0, (void *)0x0,
 };
-void *lbl_8048FA2C[33] = {
-    (void *)0x0, (void *)0x41a00000, (void *)0x41000000, (void *)0x40e00000,
-    (void *)0x0, (void *)0x0, (void *)0x8003, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x40400000, (void *)0x0,
-    (void *)0x0, (void *)0x9d03, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0x40400000, (void *)0x0, (void *)0x0,
-    (void *)0x9d03, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0x0,
+// The body (init_model) and the two blade bodies of the attack collider, which the slash moves
+// onto the sampled blade points (update_attack_child).
+CollisionBody bringer_collision_bodies[3] = {
+    { { 0.0f, 20.0f, 8.0f }, 7.0f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
+    { { 0.0f, 0.0f, 0.0f }, 3.0f, 0.0f, 0, 0x9D03, { 0.0f, 0.0f, 0.0f }, 0.0f },
+    { { 0.0f, 0.0f, 0.0f }, 3.0f, 0.0f, 0, 0x9D03, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
 // The Bringer's model and motions, and the archive that holds them.
 __declspec(section ".data") const char *bm_ene_df2_bringer_model_names[2] = {
@@ -103,7 +92,7 @@ const char *bm_ene_df2_bringer_motion_names[12] = {
 BmlResourceDescriptor bm_ene_df2_bringer_resource_descriptor = {
     "bm_ene_df2_bringer.bml", bm_ene_df2_bringer_model_names, bm_ene_df2_bringer_motion_names, 1, 11
 };
-TObjMotionAction lbl_8048FAF8[11] = {
+TObjMotionAction bringer_motion_actions[11] = {
     { 1, 0, 9, 0.8f, 0 },
     { 1, 0, 10, 1.0f, 0 },
     { 1, 0, 7, 1.0f, 0 },
@@ -116,8 +105,6 @@ TObjMotionAction lbl_8048FAF8[11] = {
     { 3, 0, 8, 0.4f, 0 },
     { 3, 0, 3, 0.6f, 0 },
 };
-
-}
 
 
 
@@ -147,27 +134,23 @@ TObjMotionAction lbl_8048FAF8[11] = {
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/render/model_render_state.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
+#include "pso/unk/text_800F5BC0.h"
+#include "pso/system/task/TMainTask.h"
 
 #pragma defer_codegen on
 
 
 extern "C" {
-s32 TObjPlayer__sub_800A04F0(void *);
 s32 scroll_strip_uvs(int, int, int);
-extern s32 saved_model_render_flags;
-extern s32 model_render_flags;
-extern const f32 lbl_805D9E84;
-extern const f32 lbl_805D9E88;
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
-
-
 }
 
 saddr bringer_boss_stats_handle;
 saddr bringer_boss_stats_ptr_b;
 saddr bringer_object_handle;
-BringerParameters *TObjEneDf2Bringer__data_805D4FB4;
+BringerParameters *TObjEneDf2Bringer__params;
 BmlResource *TObjEneDf2Bringer__resource_bundle;
 s32 TObjEneDf2Bringer__render_node_index;
 s32 TObjEneDf2Bringer__render_rotation_x;
@@ -181,18 +164,13 @@ Vec bringer_camera_ctrl_target_vec;
 
 
 
-struct Pair_800993E8 { f32 a; u32 flags; };
+// The slash's contact block, call_vt16_with_default's first argument: the recoil and the bodies
+// it tests (bit 0 players, bit 1 enemies; see DragonAttackParams).
+struct BringerSlashContact {
+    f32 recoil;
+    u32 contact_flags;
+};
 
-
-
-extern "C" {
-s32 rotate_xz_pair_by_angle(f32 *, f32 *, s32, f32, f32);
-void check_enemy_body_collisions(void *arg0);
-}
-
-
-void *destroy_buffer_pair(void *arg0, s16 arg1);
-extern "C" {
 
 
 const char *TObjEneDf2Bringer__name = "TObjEneDf2Bringer";
@@ -202,7 +180,6 @@ const char *TObjEneDf2Bringer__name = "TObjEneDf2Bringer";
 
 
 
-extern void *tl_04;
 
 
 #pragma push
@@ -236,13 +213,13 @@ void TObjEneDf2Bringer::load_resources() {
   bringer_boss_stats_handle = (saddr)TLobby::register_boss(0xD);
   bringer_boss_stats_ptr_b = (saddr)TLobby::dispatch_shared_handler_b(0xD);
   bringer_object_handle = (saddr)TLobby::register_object(0xD);
-  TObjEneDf2Bringer__data_805D4FB4 = (BringerParameters *)TLobby::dispatch_shared_handler_a(0xD);
+  TObjEneDf2Bringer__params = (BringerParameters *)TLobby::dispatch_shared_handler_a(0xD);
   TObjEneDf2Bringer__render_node_index = 0;
   TObjEneDf2Bringer__render_rotation_x = 0;
   TObjEneDf2Bringer__render_point_cursor = 0;
-  TObjEneDf2Bringer::set_entry_value_clamped(4, TObjEneDf2Bringer__data_805D4FB4->action4_speed);
-  TObjEneDf2Bringer::set_entry_value_clamped(5, TObjEneDf2Bringer__data_805D4FB4->action5_speed);
-  SampledMotionPoints *sampled = new SampledMotionPoints(4, 7.0f, 14.0f, lbl_8048FAF8[4].speed);
+  TObjEneDf2Bringer::set_entry_value_clamped(4, TObjEneDf2Bringer__params->action4_speed);
+  TObjEneDf2Bringer::set_entry_value_clamped(5, TObjEneDf2Bringer__params->action5_speed);
+  SampledMotionPoints *sampled = new SampledMotionPoints(4, 7.0f, 14.0f, bringer_motion_actions[4].speed);
   TObjEneDf2Bringer__trail_buffer = sampled;
   {
     ids[0] = 0x1A;
@@ -256,7 +233,7 @@ void TObjEneDf2Bringer::load_resources() {
       offs[i].z = 0.0f;
     }
 
-    sampled->sample(TObjEneDf2Bringer__resource_bundle->models[0].model, (NJS_MOTION *)TObjEneDf2Bringer__resource_bundle->motions[lbl_8048FAF8[4].motion].motion, ids, offs);
+    sampled->sample(TObjEneDf2Bringer__resource_bundle->models[0].model, (NJS_MOTION *)TObjEneDf2Bringer__resource_bundle->motions[bringer_motion_actions[4].motion].motion, ids, offs);
   }
   n = TObjEneDf2Bringer__trail_buffer->sample_count;
   seg = TObjEneDf2Bringer__trail_buffer->points;
@@ -287,14 +264,14 @@ void TObjEneDf2Bringer::load_resources() {
   TObjEneDf2Bringer__uv_scroll_buffer = (uaddr) o;
   init_bringer_effect_tables();
   {
-    NpcAnimationBinding sp = { TObjEneDf2Bringer__resource_bundle->motions, lbl_8048FAF8, 0, 1, 11 };
+    NpcAnimationBinding sp = { TObjEneDf2Bringer__resource_bundle->motions, bringer_motion_actions, 0, 1, 11 };
     NpcModelRegistry::register_animated_chunk((s16)0x16, TObjEneDf2Bringer__resource_bundle->models[0].model, TObjEneDf2Bringer__resource_bundle->models[0].m_c, &sp, 7.0f, 0.0f);
   }
 }
 
 #pragma pop
-void *TObjEneDf2Bringer::create() {
-    void *o = (void *)new TObjEneDf2Bringer((TObject *)tl_04, (void *)this);
+void *TObjEneDf2Bringer::create(void *set_data) {
+    void *o = new TObjEneDf2Bringer(tl_04, set_data);
     return o;
 }
 
@@ -319,9 +296,7 @@ void TObjEneDf2Bringer::set_entry_value_clamped(s32 index, f32 speed) {
   {
     speed = 0.1f;
   }
-  lbl_8048FAF8[index].speed = speed;
-}
-
+  bringer_motion_actions[index].speed = speed;
 }
 TObjEneDf2Bringer::TObjEneDf2Bringer(TObject *parent, void *set_data) : TObjEneDD_ST(parent) {
     m_name = TObjEneDf2Bringer__name;
@@ -337,8 +312,8 @@ void TObjEneDf2Bringer::init_enemy() {
     init_position_vectors();
     this->model = TObjEneDf2Bringer__resource_bundle->models[0].model;
     this->texlist = (saddr)TObjEneDf2Bringer__resource_bundle->models[0].m_c;
-    init_model((CollisionBody *)lbl_8048FA2C, (s32)1);
-    set_field_d8((saddr)lbl_8048FAF8);
+    init_model(bringer_collision_bodies, 1);
+    set_field_d8((saddr)bringer_motion_actions);
     set_field_dc((saddr)TObjEneDf2Bringer__resource_bundle->motions);
     this->requested_action = 0;
     set_animation(this->requested_action);
@@ -350,46 +325,46 @@ void TObjEneDf2Bringer::init_enemy() {
     this->wall_reach = 20.0f;
     enemy_init_acquire_period(0x1E);
     enemy_init_validate_period(0x1E);
-    this->pad_3C0 = 0;
-    this->pad_3C0 |= 1;
-    this->pad_3C4.reset_obstruction_fade();
+    this->status_flags = 0;
+    this->status_flags |= 1;
+    this->body_fade.reset_obstruction_fade();
     for (i = 0; i < 4; i++) {
         this->renderFadeStates[i].activate_and_dispatch();
     }
     for (i = 0; i < 4; i++) {
-        VecCopy(&this->pad_450[i], &this->position);
+        VecCopy(&this->node_points[i], &this->position);
     }
-    this->pad_480 = 0;
-    this->pad_484 = 0;
-    this->pad_488 = 1;
-    this->pad_494 = 0;
-    this->pad_48C = 0;
-    this->pad_490 = 0;
-    this->collider = new TUnk_804928CC(this, this, (const CollisionBody *)((u8 *)lbl_8048FA2C + 0x2C), 2);
+    this->twist_angle = 0;
+    this->stagger_timer = 0;
+    this->face_texture = 1;
+    this->hit_count = 0;
+    this->combo_count = 0;
+    this->rush_count = 0;
+    this->collider = new TUnk_804928CC(this, this, &bringer_collision_bodies[1], 2);
     this->attack_history = new AreaAttackHistory(8);
-    this->pad_4A0 = new TUnk_8048FE08(this, this, this->attack_history);
-    this->pad_4A4 = TUnk_80494968::create(0xFF5050FF, 0x80000080);
-    this->pad_4A8 = 0;
-    this->pad_4AC = 0;
-    this->pad_4B0 = 0;
-    this->pad_4B4 = 0;
-    this->pad_4B8 = 0;
-    this->pad_4BC = 0.0f;
+    this->shot_launcher = new TObjEneDf2Bringer_Eff_TpAbsorb1(this, this, this->attack_history);
+    this->attack_trail = TUnk_80494968::create(0xFF5050FF, 0x80000080);
+    this->texture_scroll = 0;
+    this->step = 0;
+    this->counter = 0;
+    this->drained_tp = 0;
+    this->target_angle = 0;
+    this->speed = 0.0f;
     this->pad_4C0 = 0.0f;
-    this->pad_4C4 = NULL;
+    this->emitter = NULL;
     this->mode = 1;
     this->dispatch_action(this->mode, 4);
 }
 
 TObjEneDf2Bringer::~TObjEneDf2Bringer() {
-    if (this->pad_4C4 != NULL) {
-        this->pad_4C4->queue_destruction();
-        this->pad_4C4 = NULL;
+    if (this->emitter != NULL) {
+        this->emitter->queue_destruction();
+        this->emitter = NULL;
     }
-    this->pad_4A4->queue_destruction();
-    this->pad_4A4 = NULL;
-    delete this->pad_4A0;
-    this->pad_4A0 = NULL;
+    this->attack_trail->queue_destruction();
+    this->attack_trail = NULL;
+    delete this->shot_launcher;
+    this->shot_launcher = NULL;
     delete this->attack_history;
     this->attack_history = NULL;
     delete this->collider;
@@ -406,15 +381,15 @@ void TObjEneDf2Bringer::run_task() {
     }
     if (update_status_effects() != 4) {
         update_action_state();
-        pad_4A8 = pad_4A8 + 0xC;
-        pad_4A8 = (u8)pad_4A8;
-        hits = pad_494;
+        texture_scroll = texture_scroll + 0xC;
+        texture_scroll = (u8)texture_scroll;
+        hits = hit_count;
         if (hits <= 2) {
-            pad_488 = 1;
+            face_texture = 1;
         } else if (hits <= 4) {
-            pad_488 = 5;
+            face_texture = 5;
         } else if (hits <= 5) {
-            pad_488 = 6;
+            face_texture = 6;
         }
     }
     set_effect_pos_above_self();
@@ -424,31 +399,27 @@ void TObjEneDf2Bringer::run_task() {
 
 void TObjEneDf2Bringer::refresh_target() {  }
 
-void TObjEneDf2Bringer::run_death_reaction() { if (*(short*)((char*)this + 0x326) != 10) { TObjEneDD::transition_enemy_state(10); } }
+void TObjEneDf2Bringer::run_death_reaction() { if (mode != 10) { TObjEneDD::transition_enemy_state(10); } }
 
 void TObjEneDf2Bringer::run_hit_reaction() {
-    u8 *self = (u8 *)this;
-    s16 temp_r0;
-    temp_r0 = this->mode;
-    if ((temp_r0 != 9) && (temp_r0 != 8)) {
-        this->sub_80098DEC();
+    if ((mode != 9) && (mode != 8)) {
+        retarget_attacker();
     }
-    if (*(s32 *)((s8 *)self + 0x3C0) & 4) {
-        ((TObjEneDD *)self)->clear_attack_receipts();
+    if (status_flags & 4) {
+        clear_attack_receipts();
         return;
     }
-    if ((s16) this->mode != 9) {
-        ((TObjEneDD *)self)->transition_enemy_state(9);
+    if (mode != 9) {
+        transition_enemy_state(9);
     }
 }
 
 void TObjEneDf2Bringer::run_miss_reaction() {  }
 
 void TObjEneDf2Bringer::set_effect_pos_above_self() {
-    u8 *self = (u8 *)this;
-    VecCopy((Vec *)(self + 0x2FC), (const Vec *)(self + 0x38));
-    *(f32 *)((s8 *)self + 0x300) += 20.0f;
-    VecCopy((Vec *)(self + 0x74), (const Vec *)(self + 0x2FC));
+    VecCopy(&body_center, &position);
+    body_center.y += 20.0f;
+    VecCopy(&center, &body_center);
 }
 
 void TObjEneDf2Bringer::update_body_colliders() {  }
@@ -472,16 +443,16 @@ void TObjEneDf2Bringer::update_attack_child() {
         VecCopy(&collider->bodies[0].offset, &points[1]);
         VecCopy(&collider->bodies[1].offset, &points[3]);
         collider->refresh_collision_body_centers();
-        Pair_800993E8 pair = { 3.0f, 1 };
+        BringerSlashContact contact = { 3.0f, 1 };
         if (is_confused() != 0) {
-            pair.flags |= 2;
+            contact.contact_flags |= 2;
         }
-        collider->call_vt16_with_default(&pair, attack_history);
+        collider->call_vt16_with_default(&contact, attack_history);
     }
 }
 
 // The charge's contact: every player the body touches takes rush_power once per charge.
-s32 TObjEneDf2Bringer::sub_80099248() {
+s32 TObjEneDf2Bringer::check_rush_hits() {
     s32 hit;
     TObjPlayer *player;
     s32 i;
@@ -500,7 +471,7 @@ s32 TObjEneDf2Bringer::sub_80099248() {
             if (obj_is_hit_receivable((u8 *)player) != 0 && attack_target_history_add(attack_history, player) != 0) {
                 DirectAttackPayload h;
                 h.kind = 0;
-                h.power = TObjEneDf2Bringer__data_805D4FB4->rush_power;
+                h.power = TObjEneDf2Bringer__params->rush_power;
                 player->receive_direct_attack(this, h, 0, -1, -1);
                 if (is_player_entity_id(get_entity_id(player)) != 0) {
                     if (TObjEneDD::check_v2_mode() != 0) {
@@ -529,7 +500,7 @@ void TObjEneDf2Bringer::spawn_offset_particle() {
     stack.x = -5.0f;
     stack.y = 0.0f;
     stack.z = 7.0f;
-    rotate_xz_pair_by_angle(&stack.x, &stack.z, rotation_y, 0.0f, -5.0f);
+    rotate_xz_pair_by_angle(&stack.x, &stack.z, rotation_y);
     vec3_add_to(&stack, &position);
     spawn_particle_effect(&stack, 0xF3);
 }
@@ -550,18 +521,18 @@ void TObjEneDf2Bringer::update_if_in_band() {
 // longer valid clears the flag.
 s32 TObjEneDf2Bringer::update_flag_0x3C0() {
     s32 valid;
-    if (!(pad_3C0 & 8)) {
+    if (!(status_flags & 8)) {
         return update_linked_position(300.0f);
     }
     valid = enemy_validate_retained_target(this);
     if (valid == 0) {
-        pad_3C0 &= ~8;
+        status_flags &= ~8;
     }
     return valid;
 }
 
 // Targets the farthest living player within 300 units that it can see (inferred: the shot's target).
-s32 TObjEneDf2Bringer::sub_80098FF4() {
+s32 TObjEneDf2Bringer::target_farthest_visible_player() {
     s32 count;
     TObjPlayer *player;
     u16 id;
@@ -605,16 +576,16 @@ s32 TObjEneDf2Bringer::attack_visible_players() {
             horizontal_distance_squared(&body_center, &player->position);
             if (csnLookAt(&body_center, &player->body_center) == NULL) {
                 dmg = floor_to_float(0.25f * (f32)get_actor_tp(player));
-                check_can_act__10TObjPlayerFii((saddr)player, (s16)dmg);
+                player->check_can_act((s16)dmg);
                 total += dmg;
-                new TUnk_8048FE64(this, &player->body_center, &pad_450[3]);
+                new TUnk_8048FE64(this, &player->body_center, &node_points[3]);
             }
         }
     }
     return total;
 }
 
-void TObjEneDf2Bringer::sub_80098EB4() {
+void TObjEneDf2Bringer::play_move_sound() {
     play_persistent_sound(remap_sound_for_area(0x4003B708), (saddr)this, (uaddr)&position, 0, 0);
 }
 
@@ -625,23 +596,22 @@ s32 TObjEneDf2Bringer::acquire_target(f32 range) {
     return select_nearest_target(range);
 }
 
-void TObjEneDf2Bringer::sub_80098DEC() {
-    u8 *self = (u8 *)this;
-    saddr player;
-    u16 temp_r3;
-    temp_r3 = *(u16 *)((s8 *)self + 0x2D4);
-    if (temp_r3 < 0x1000U) {
-        player = (saddr)get_player_by_client_id(temp_r3);
-        if (player != 0) {
-            ((TObjEneDD_ST *)self)->set_target_player((void *)player);
+void TObjEneDf2Bringer::retarget_attacker() {
+    TObjPlayer *player;
+    u16 id;
+    id = attacker_id;
+    if (id < 0x1000U) {
+        player = get_player_by_client_id(id);
+        if (player != NULL) {
+            set_target_player(player);
         }
-        *(s32 *)((s8 *)self + 0x3C0) = (s32) (*(s32 *)((s8 *)self + 0x3C0) | 8);
+        status_flags |= 8;
     }
-    *(s32 *)((s8 *)self + 0x494) = (s32) (*(s32 *)((s8 *)self + 0x494) + 1);
+    hit_count++;
 }
 
 s32 TObjEneDf2Bringer::check_stage_advance() {
-    if ((s32) *(s32 *)((s8 *)this + 0x494) >= 5) {
+    if (hit_count >= 5) {
         this->transition_enemy_state(8);
         return 1;
     }
@@ -654,60 +624,60 @@ void TObjEneDf2Bringer::dispatch_action(u32 state, s32 reason) {
         handle_state(reason);
         return;
     case 1:
-        this->sub_80098BAC(reason);
+        this->update_hidden_state(reason);
         return;
     case 2:
-        exec(reason);
+        update_emerge_state(reason);
         return;
     case 3:
-        this->sub_800987E8(reason);
+        this->update_fade_out_state(reason);
         return;
     case 4:
-        sub_8009859C(reason);
+        update_walk_state(reason);
         return;
     case 5:
-        sub_8009813C(reason);
+        update_rush_state(reason);
         return;
     case 6:
-        sub_80097E9C(reason);
+        update_slash_state(reason);
         return;
     case 7:
-        action(reason);
+        update_stagger_state(reason);
         return;
     case 8:
-        sub_80097820(reason);
+        update_shot_state(reason);
         return;
     case 9:
-        this->sub_80097714(reason);
+        this->update_damage_state(reason);
         return;
     case 10:
-        this->sub_80097620(reason);
+        this->update_death_state(reason);
     default:
         return;
     }
 }
 
-void TObjEneDf2Bringer::handle_state(s32 arg1) {
-    switch (arg1) {
+void TObjEneDf2Bringer::handle_state(s32 reason) {
+    switch (reason) {
     case 4:
         this->set_field_378(0);
-        this->pad_4AC = 0;
+        this->step = 0;
         return;
     case 3:
         this->transition_enemy_state(1);
         return;
     case 0:
-        this->pad_4AC++;
+        this->step++;
     case 5:
         return;
     }
 }
 
-void TObjEneDf2Bringer::sub_80098BAC(s32 mode) {
-    switch (mode) {
+void TObjEneDf2Bringer::update_hidden_state(s32 reason) {
+    switch (reason) {
     case 4:
         this->set_field_378(1);
-        this->pad_3C0 |= 1;
+        this->status_flags |= 1;
         this->set_intangible();
         return;
     case 3:
@@ -723,54 +693,54 @@ void TObjEneDf2Bringer::sub_80098BAC(s32 mode) {
     }
 }
 
-void TObjEneDf2Bringer::exec(s32 arg1) {
-    switch (arg1) {
+void TObjEneDf2Bringer::update_emerge_state(s32 reason) {
+    switch (reason) {
     case 4:
         this->requested_action = 1;
         this->set_field_378(4);
-        this->pad_3C0 &= ~1;
-        this->pad_3C0 |= 2;
+        this->status_flags &= ~1;
+        this->status_flags |= 2;
         this->set_intangible();
-        this->pad_3C4.reset_obstruction_fade();
-        this->pad_4AC = 0;
-        this->pad_4B0 = 0;
+        this->body_fade.reset_obstruction_fade();
+        this->step = 0;
+        this->counter = 0;
         play_sound_effect(this->remap_sound_for_area(0x3640D), &this->position, 0, 0);
         VecCopy(&this->position, &this->home_position);
         VecCopy(&this->prev_position, &this->position);
         VecCopy(&this->body_center, &this->position);
-        this->pad_494 = 0;
-        this->pad_48C = 0;
+        this->hit_count = 0;
+        this->combo_count = 0;
         return;
     case 3:
-        if (this->pad_4B0 == 2) {
+        if (this->counter == 2) {
             this->transition_enemy_state(4);
         }
         return;
     case 0:
         advance_animation();
         this->update_linked_position(300.0f);
-        this->pad_4AC++;
-        switch (this->pad_4B0) {
+        this->step++;
+        switch (this->counter) {
         case 0:
-            if (this->pad_4AC > 0x14) {
-                this->pad_4B0 = 1;
+            if (this->step > 0x14) {
+                this->counter = 1;
                 this->requested_action = 3;
                 play_sound_effect(this->remap_sound_for_area(0x4003B40E), &this->position, 0, 0);
                 TObjPlayer::play_effect_if_v2(-0x200);
             }
             this->spawn_particle_if_in_band();
             this->move_with_wall_slide_on_ground(this->destination_direction.x, this->destination_direction.z, 1.2f);
-            sub_80098EB4();
+            play_move_sound();
             break;
         case 1:
             this->update_if_in_band();
             if (this->get_flag_b4() != 0) {
-                this->pad_4B0 = 2;
+                this->counter = 2;
             }
             break;
         }
-        if (this->pad_3C4.advance_toward_max() != 0) {
-            this->pad_3C0 &= ~2;
+        if (this->body_fade.advance_toward_max() != 0) {
+            this->status_flags &= ~2;
             this->clear_intangible();
             this->check_collisions();
             return;
@@ -782,20 +752,20 @@ void TObjEneDf2Bringer::exec(s32 arg1) {
     }
 }
 
-void TObjEneDf2Bringer::sub_800987E8(s32 mode) {
-    switch (mode) {
+void TObjEneDf2Bringer::update_fade_out_state(s32 reason) {
+    switch (reason) {
     case 4:
         this->requested_action = 0;
         this->set_field_378(3);
-        this->pad_3C0 &= ~7;
+        this->status_flags &= ~7;
         this->set_intangible();
-        this->pad_4AC = 0;
-        this->pad_4B0 = 0;
+        this->step = 0;
+        this->counter = 0;
         return;
     case 3:
-        if (this->pad_4AC == 2) {
+        if (this->step == 2) {
             this->transition_enemy_state(4);
-        } else if (this->pad_4AC == 3) {
+        } else if (this->step == 3) {
             this->transition_enemy_state(1);
         }
         break;
@@ -803,22 +773,22 @@ void TObjEneDf2Bringer::sub_800987E8(s32 mode) {
         break;
     case 0:
         this->advance_animation();
-        switch (this->pad_4AC) {
+        switch (this->step) {
         case 0:
             if (this->update_linked_position(300.0f) != 0) {
-                this->pad_4AC = 2;
+                this->step = 2;
             } else {
-                this->pad_4B0++;
-                if (this->pad_4B0 >= 0x3C) {
-                    this->pad_4AC = 1;
-                    this->pad_3C4.reset_color();
-                    this->pad_3C0 |= 2;
+                this->counter++;
+                if (this->counter >= 0x3C) {
+                    this->step = 1;
+                    this->body_fade.reset_color();
+                    this->status_flags |= 2;
                 }
             }
             break;
         case 1:
-            if (this->pad_3C4.decay_value_toward_floor() != 0) {
-                this->pad_4AC = 3;
+            if (this->body_fade.decay_value_toward_floor() != 0) {
+                this->step = 3;
             }
             break;
         }
@@ -832,24 +802,24 @@ void TObjEneDf2Bringer::sub_800987E8(s32 mode) {
 #pragma fp_contract on
 // The approach: walks toward the target, charges when it is farther than rush_distance and
 // slashes once it is within attack_distance and facing it.
-void TObjEneDf2Bringer::sub_8009859C(s32 mode) {
+void TObjEneDf2Bringer::update_walk_state(s32 reason) {
     f32 t;
     s32 ang;
     BringerParameters *prm;
-    switch (mode) {
+    switch (reason) {
     case 4:
         requested_action = 1;
         set_field_378(4);
         clear_intangible();
-        pad_3C0 &= ~7;
-        pad_4AC = 0;
+        status_flags &= ~7;
+        step = 0;
         break;
     case 3:
         if (current_target == NULL) {
             transition_enemy_state(3);
-        } else if (destination_distance >= (f32)TObjEneDf2Bringer__data_805D4FB4->rush_distance && pad_490 < 2) {
+        } else if (destination_distance >= (f32)TObjEneDf2Bringer__params->rush_distance && rush_count < 2) {
             transition_enemy_state(5);
-        } else if (pad_4AC == 1) {
+        } else if (step == 1) {
             transition_enemy_state(6);
         }
         break;
@@ -863,45 +833,45 @@ void TObjEneDf2Bringer::sub_8009859C(s32 mode) {
         }
         ang = (s32)(10430.38043493439 * atan2_float(destination_direction.x, destination_direction.z));
         rotation_y = approach_angle_limited(rotation_y, ang, 0x300);
-        pad_480 = TObjBoss2Tunnel::turn_toward_angle_limited(rotation_y, pad_480, ang, 0x200, 0x2000);
-        prm = TObjEneDf2Bringer__data_805D4FB4;
+        twist_angle = TObjBoss2Tunnel::turn_toward_angle_limited(rotation_y, twist_angle, ang, 0x200, 0x2000);
+        prm = TObjEneDf2Bringer__params;
         if (destination_distance <= (f32)prm->attack_distance) {
             t = destination_direction.z * cos_table_lookup(rotation_y);
             t = (destination_direction.x * sin_table_lookup(rotation_y)) + t;
             if (t >= cos_table_lookup(0x1800)) {
-                pad_4AC = 1;
+                step = 1;
             }
         } else {
             t = cos_table_lookup(rotation_y);
             move_clamped_on_ground(sin_table_lookup(rotation_y), t, prm->walk_speed);
         }
         check_collisions();
-        sub_80098EB4();
+        play_move_sound();
         break;
     }
 }
 
 // The charge: runs at rush_speed until it hits a wall, a player or passes its target, then
 // staggers for stagger_frames while the speed decays.
-void TObjEneDf2Bringer::sub_8009813C(s32 mode) {
+void TObjEneDf2Bringer::update_rush_state(s32 reason) {
     Vec d;
     s32 hit;
-    switch (mode) {
+    switch (reason) {
     case 4:
         requested_action = 7;
         set_field_378(4);
-        pad_3C0 &= ~7;
-        pad_4AC = 0;
-        pad_4B0 = 0;
-        pad_4BC = TObjEneDf2Bringer__data_805D4FB4->rush_speed;
+        status_flags &= ~7;
+        step = 0;
+        counter = 0;
+        speed = TObjEneDf2Bringer__params->rush_speed;
         fill_value_array(attack_history);
         set_active();
         break;
     case 3:
-        if (pad_4AC == 3) {
-            pad_48C = 0;
-            pad_490++;
-            pad_3C0 &= ~8;
+        if (step == 3) {
+            combo_count = 0;
+            rush_count++;
+            status_flags &= ~8;
             if (check_stage_advance() == 0) {
                 transition_enemy_state(7);
             }
@@ -909,15 +879,15 @@ void TObjEneDf2Bringer::sub_8009813C(s32 mode) {
         break;
     case 0:
         advance_animation();
-        switch (pad_4AC) {
+        switch (step) {
         case 0:
             if (is_passing_frame(11.0f) != 0 || is_passing_frame(21.0f) != 0) {
                 spawn_offset_particle();
             }
             if (get_flag_b4() != 0) {
                 requested_action = 2;
-                pad_4AC = 1;
-                pad_3C0 |= 4;
+                step = 1;
+                status_flags |= 4;
                 bodies->flags |= 0x700;
             }
             if (enemy_validate_retained_target(this) != 0) {
@@ -925,16 +895,16 @@ void TObjEneDf2Bringer::sub_8009813C(s32 mode) {
                 update_velocity();
             }
             rotation_y = approach_angle_limited(rotation_y, (s32)(10430.38043493439 * atan2_float(destination_direction.x, destination_direction.z)), 0x280);
-            pad_480 = TObjBoss2Tunnel::turn_toward_angle_limited(rotation_y, pad_480, rotation_y, 0x200, 0x2000);
+            twist_angle = TObjBoss2Tunnel::turn_toward_angle_limited(rotation_y, twist_angle, rotation_y, 0x200, 0x2000);
             check_collisions();
             break;
         case 1:
             spawn_particle_if_in_band();
             hit = 0;
-            if (enemy_probe_wall_ahead(destination_direction.x, destination_direction.z, 30.0f * TObjEneDf2Bringer__data_805D4FB4->rush_speed) != 0) {
+            if (enemy_probe_wall_ahead(destination_direction.x, destination_direction.z, 30.0f * TObjEneDf2Bringer__params->rush_speed) != 0) {
                 hit = 1;
             }
-            move_clamped_on_ground(destination_direction.x, destination_direction.z, TObjEneDf2Bringer__data_805D4FB4->rush_speed);
+            move_clamped_on_ground(destination_direction.x, destination_direction.z, TObjEneDf2Bringer__params->rush_speed);
             if (has_move_failures(1) != 0) {
                 hit = 1;
             }
@@ -942,7 +912,7 @@ void TObjEneDf2Bringer::sub_8009813C(s32 mode) {
             if (bodies->flags & 0x200000) {
                 hit = 1;
             }
-            if (sub_80099248() != 0) {
+            if (check_rush_hits() != 0) {
                 hit = 1;
             }
             if (enemy_validate_retained_target(this) != 0) {
@@ -955,10 +925,10 @@ void TObjEneDf2Bringer::sub_8009813C(s32 mode) {
                 }
             }
             if (hit != 0) {
-                pad_4AC = 2;
-                pad_4B0 = 0;
-                pad_484 = TObjEneDf2Bringer__data_805D4FB4->stagger_frames;
-                pad_3C0 &= ~4;
+                step = 2;
+                counter = 0;
+                stagger_timer = TObjEneDf2Bringer__params->stagger_frames;
+                status_flags &= ~4;
                 set_field_378(7);
                 play_sound_effect(remap_sound_for_area(0x4003B40E), &position, 0, 0);
                 TObjPlayer::play_effect_if_v2(-0x200);
@@ -966,26 +936,26 @@ void TObjEneDf2Bringer::sub_8009813C(s32 mode) {
             play_persistent_sound(remap_sound_for_area(0x4003AD09), (saddr)this, (uaddr)&position, 0, 0);
             break;
         case 2:
-            pad_4B0++;
-            if (pad_4B0 >= 10) {
+            counter++;
+            if (counter >= 10) {
                 requested_action = 3;
                 update_if_in_band();
                 if (get_flag_b4() != 0) {
-                    pad_4AC = 3;
+                    step = 3;
                 }
-                pad_4BC *= 0.95f;
+                speed *= 0.95f;
             }
-            if (pad_4BC >= 3.0f) {
-                sub_80099248();
+            if (speed >= 3.0f) {
+                check_rush_hits();
             } else {
                 check_collisions();
             }
-            move_clamped_on_ground(destination_direction.x, destination_direction.z, pad_4BC);
+            move_clamped_on_ground(destination_direction.x, destination_direction.z, speed);
             break;
         }
         break;
     case 5:
-        pad_3C0 &= ~4;
+        status_flags &= ~4;
         bodies->flags &= ~0x700;
         clear_field_388();
         break;
@@ -995,28 +965,28 @@ void TObjEneDf2Bringer::sub_8009813C(s32 mode) {
 #pragma pop
 // The slash: sweeps the trail between the sampled blade points and hits through
 // update_attack_child, then waits slash_recover_frames.
-void TObjEneDf2Bringer::sub_80097E9C(s32 mode) {
+void TObjEneDf2Bringer::update_slash_state(s32 reason) {
     Vec edge[2];
     s32 angle;
     Vec *points;
-    switch (mode) {
+    switch (reason) {
     case 4:
         requested_action = 4;
         set_field_378(4);
-        pad_3C0 &= ~3;
-        pad_3C0 |= 4;
+        status_flags &= ~3;
+        status_flags |= 4;
         fill_value_array(attack_history);
-        pad_4A4->clear_segments();
-        pad_4AC = 0;
-        pad_4B0 = 0;
-        pad_490 = 0;
+        attack_trail->clear_segments();
+        step = 0;
+        counter = 0;
+        rush_count = 0;
         break;
     case 3:
-        if (pad_4B0 == 2) {
-            pad_48C++;
-            if (pad_48C >= 2) {
-                pad_48C = 0;
-                pad_3C0 &= ~8;
+        if (counter == 2) {
+            combo_count++;
+            if (combo_count >= 2) {
+                combo_count = 0;
+                status_flags &= ~8;
             }
             if (check_stage_advance() == 0) {
                 transition_enemy_state(4);
@@ -1026,8 +996,8 @@ void TObjEneDf2Bringer::sub_80097E9C(s32 mode) {
     case 0:
         advance_animation();
         angle = rotation_y;
-        pad_480 = TObjBoss2Tunnel::turn_toward_angle_limited(angle, pad_480, angle, 0x200, 0x2000);
-        switch (pad_4B0) {
+        twist_angle = TObjBoss2Tunnel::turn_toward_angle_limited(angle, twist_angle, angle, 0x200, 0x2000);
+        switch (counter) {
         case 0:
             if (is_passing_frame(11.0f) != 0) {
                 spawn_offset_particle();
@@ -1036,12 +1006,12 @@ void TObjEneDf2Bringer::sub_80097E9C(s32 mode) {
             if (points != NULL) {
                 push_matrix();
                 set_matrix_identity(0);
-                post_translate_matrix(&position);
+                post_translate_matrix(&position.x);
                 rotate_matrix_y(0, rotation_y);
                 matrix_mult_vec(0, &points[2], &edge[0]);
                 matrix_mult_vec(0, &points[0], &edge[1]);
                 pop_matrix();
-                pad_4A4->vfunc_6(&edge[0], &edge[1]);
+                attack_trail->add_segment(&edge[0], &edge[1]);
             }
             update_attack_child();
             if (is_passing_frame(10.8f) != 0) {
@@ -1050,14 +1020,14 @@ void TObjEneDf2Bringer::sub_80097E9C(s32 mode) {
             }
             if (get_flag_b4() != 0) {
                 requested_action = 0;
-                pad_4B0 = 1;
-                pad_4AC = 0;
+                counter = 1;
+                step = 0;
             }
             break;
         case 1:
-            pad_4AC++;
-            if ((f32)pad_4AC >= TObjEneDf2Bringer__data_805D4FB4->slash_recover_frames) {
-                pad_4B0 = 2;
+            step++;
+            if ((f32)step >= TObjEneDf2Bringer__params->slash_recover_frames) {
+                counter = 2;
             }
             break;
         }
@@ -1071,39 +1041,39 @@ void TObjEneDf2Bringer::sub_80097E9C(s32 mode) {
 
 // The stagger after a charge that hit something: sparks alternate between the two front
 // points until stagger_frames run out.
-void TObjEneDf2Bringer::action(s32 mode) {
-    switch (mode) {
+void TObjEneDf2Bringer::update_stagger_state(s32 reason) {
+    switch (reason) {
     case 4:
         requested_action = 8;
         set_field_378(7);
-        pad_4C4 = NULL;
+        emitter = NULL;
         return;
     case 3:
-        if (pad_484 <= 0) {
+        if (stagger_timer <= 0) {
             transition_enemy_state(4);
         }
         return;
     case 0:
         advance_animation();
-        pad_484--;
-        if (pad_4C4 == NULL) {
-            pad_4C4 = create_particle_emitter(&pad_450[0], 0x100);
-            if (pad_4C4 != NULL) {
-                pad_4C4->enable();
+        stagger_timer--;
+        if (emitter == NULL) {
+            emitter = create_particle_emitter(&node_points[0], 0x100);
+            if (emitter != NULL) {
+                emitter->enable();
             }
-        } else if (pad_484 & 1) {
-            pad_4C4->set_position(&pad_450[0]);
+        } else if (stagger_timer & 1) {
+            emitter->set_position(&node_points[0]);
         } else {
-            pad_4C4->set_position(&pad_450[1]);
+            emitter->set_position(&node_points[1]);
         }
         update_ground_contact();
         check_collisions();
         play_persistent_sound(remap_sound_for_area(0x4003AD0F), (saddr)this, (uaddr)&position, 0, 0);
         return;
     case 5:
-        if (pad_4C4 != NULL) {
-            pad_4C4->queue_destruction();
-            pad_4C4 = NULL;
+        if (emitter != NULL) {
+            emitter->queue_destruction();
+            emitter = NULL;
         }
         break;
     }
@@ -1112,38 +1082,38 @@ void TObjEneDf2Bringer::action(s32 mode) {
 // The shot: drains the TP of the players it sees (attack_visible_players), turns to the
 // farthest one and fires a shot whose speed grows with the TP drained (shot_speed, x1.5
 // above 70, x2 above 150); in v2 it fires up to three times.
-void TObjEneDf2Bringer::sub_80097820(s32 mode) {
+void TObjEneDf2Bringer::update_shot_state(s32 reason) {
     TParticleCtrl *e;
-    switch (mode) {
+    switch (reason) {
     case 4:
         requested_action = 9;
         set_field_378(4);
-        pad_3C0 &= ~3;
-        pad_3C0 |= 4;
-        pad_4AC = 0;
-        pad_4B0 = 0;
-        pad_4B4 = 0;
-        pad_4B8 = 0;
-        pad_4C4 = NULL;
+        status_flags &= ~3;
+        status_flags |= 4;
+        step = 0;
+        counter = 0;
+        drained_tp = 0;
+        target_angle = 0;
+        emitter = NULL;
         break;
     case 3:
-        if (pad_4AC == 4) {
+        if (step == 4) {
             transition_enemy_state(4);
         }
         break;
     case 0:
         advance_animation();
-        switch (pad_4AC) {
+        switch (step) {
         case 0:
             if (get_flag_b4() != 0) {
-                if (sub_80098FF4() != 0) {
+                if (target_farthest_visible_player() != 0) {
                     enemy_copy_target_destination();
                     update_velocity();
-                    pad_4B8 = (u16)(s32)(10430.38043493439 * atan2_float(destination_direction.x, destination_direction.z));
-                    pad_4AC = 1;
+                    target_angle = (u16)(s32)(10430.38043493439 * atan2_float(destination_direction.x, destination_direction.z));
+                    step = 1;
                     requested_action = 1;
                 } else {
-                    pad_4AC = 4;
+                    step = 4;
                 }
             } else {
                 if (is_passing_frame(8.0f) != 0) {
@@ -1152,92 +1122,92 @@ void TObjEneDf2Bringer::sub_80097820(s32 mode) {
                     new TUnk_8048FE7C(this, &v, 100.0f);
                 }
                 if (is_passing_frame(12.0f) != 0) {
-                    pad_4B4 = attack_visible_players();
+                    drained_tp = attack_visible_players();
                     play_sound_effect(remap_sound_for_area(0x4003B20B), &position, 0, 0);
                 }
-                if ((e = pad_4C4) == NULL) {
-                    pad_4C4 = create_particle_emitter(&pad_450[3], 0xEB);
-                    if (pad_4C4 != NULL) {
-                        pad_4C4->enable();
+                if ((e = emitter) == NULL) {
+                    emitter = create_particle_emitter(&node_points[3], 0xEB);
+                    if (emitter != NULL) {
+                        emitter->enable();
                     }
                 } else if (frame < 11.0f || frame > 28.0f) {
                     e->enable();
                 } else {
-                    e->set_position(&pad_450[3]);
+                    e->set_position(&node_points[3]);
                 }
             }
             break;
         case 1:
-            rotation_y = approach_angle_limited(rotation_y, pad_4B8, 0x300);
-            if ((u16)rotation_y == pad_4B8) {
-                pad_4AC = 2;
+            rotation_y = approach_angle_limited(rotation_y, target_angle, 0x300);
+            if ((u16)rotation_y == target_angle) {
+                step = 2;
                 requested_action = 5;
                 play_sound_effect(remap_sound_for_area(0x4003A80A), &position, 0, 0);
             }
-            if (pad_4C4 != NULL) {
-                pad_4C4->queue_destruction();
-                pad_4C4 = NULL;
+            if (emitter != NULL) {
+                emitter->queue_destruction();
+                emitter = NULL;
             }
-            sub_80098EB4();
+            play_move_sound();
             break;
         case 2:
             if (get_flag_b4() != 0) {
                 if (TObjEneDD::check_v2_mode() != 0) {
-                    pad_4B0++;
-                    if (pad_4B0 < 3) {
-                        if (sub_80098FF4() != 0) {
+                    counter++;
+                    if (counter < 3) {
+                        if (target_farthest_visible_player() != 0) {
                             enemy_copy_target_destination();
                             update_velocity();
-                            pad_4B8 = (u16)(s32)(10430.38043493439 * atan2_float(destination_direction.x, destination_direction.z));
-                            pad_4AC = 1;
+                            target_angle = (u16)(s32)(10430.38043493439 * atan2_float(destination_direction.x, destination_direction.z));
+                            step = 1;
                             requested_action = 1;
                         } else {
-                            pad_4AC = 4;
+                            step = 4;
                         }
                     } else {
-                        pad_4B0 = 0;
-                        pad_4AC = 3;
-                        pad_494 = 0;
-                        pad_488 = 1;
-                        pad_3C0 &= ~8;
+                        counter = 0;
+                        step = 3;
+                        hit_count = 0;
+                        face_texture = 1;
+                        status_flags &= ~8;
                     }
                 } else {
-                    pad_4AC = 3;
-                    pad_494 = 0;
-                    pad_488 = 1;
-                    pad_3C0 &= ~8;
+                    step = 3;
+                    hit_count = 0;
+                    face_texture = 1;
+                    status_flags &= ~8;
                 }
             }
             if (is_passing_frame(14.0f) != 0) {
-                f32 spd = (f32)TObjEneDf2Bringer__data_805D4FB4->shot_speed;
-                if (pad_4B4 > 150) {
+                f32 spd = (f32)TObjEneDf2Bringer__params->shot_speed;
+                if (drained_tp > 150) {
                     spd *= 2.0f;
-                } else if (pad_4B4 > 70) {
+                } else if (drained_tp > 70) {
                     spd *= 1.5f;
                 }
-                pad_4A0->setup_dir_shot(&pad_450[2], pad_4B8, spd);
+                shot_launcher->setup_dir_shot(&node_points[2], target_angle, spd);
             }
-            if ((e = pad_4C4) == NULL) {
-                pad_4C4 = create_particle_emitter(&position, 0xED);
-                if (pad_4C4 != NULL) {
+            if ((e = emitter) == NULL) {
+                emitter = create_particle_emitter(&position, 0xED);
+                if (emitter != NULL) {
                     s32 ang[3];
                     ang[0] = 0;
-                    ang[1] = pad_4B8 - 0x4000;
+                    ang[1] = target_angle - 0x4000;
                     ang[2] = -0x4000;
-                    pad_4C4->set_flags(2);
-                    pad_4C4->set_direction(ang);
-                    pad_4C4->enable();
+                    emitter->set_flags(2);
+                    emitter->set_direction(ang);
+                    emitter->enable();
                 }
             } else if (frame < 7.0f || frame > 14.0f) {
                 e->enable();
             } else {
-                e->set_position(&pad_450[2]);
+                e->set_position(&node_points[2]);
             }
             break;
         case 3:
-            pad_4B0++;
-            if (pad_4B0 >= 60) {
-                pad_4AC = 4;
+            counter++;
+            if (counter >= 60) {
+                step = 4;
             }
             break;
         }
@@ -1245,19 +1215,19 @@ void TObjEneDf2Bringer::sub_80097820(s32 mode) {
         check_collisions();
         break;
     case 5:
-        pad_3C0 &= ~8;
-        pad_494 = 0;
-        if (pad_4C4 != NULL) {
-            pad_4C4->queue_destruction();
-            pad_4C4 = NULL;
+        status_flags &= ~8;
+        hit_count = 0;
+        if (emitter != NULL) {
+            emitter->queue_destruction();
+            emitter = NULL;
         }
         break;
     }
 }
-void TObjEneDf2Bringer::sub_80097714(s32 mode) {
+void TObjEneDf2Bringer::update_damage_state(s32 reason) {
     Vec v;
     f32 speed;
-    switch (mode) {
+    switch (reason) {
     case 4:
         this->requested_action = 6;
         this->advance_animation();
@@ -1270,13 +1240,13 @@ void TObjEneDf2Bringer::sub_80097714(s32 mode) {
         break;
     case 0:
         this->advance_animation();
-        this->pad_484--;
-        // x_speed, y_speed and m_310 are the velocity vector
-        VecCopy(&v, (const Vec *)&this->x_speed);
+        this->stagger_timer--;
+        // velocity.x, velocity.y and velocity.z are the velocity vector
+        VecCopy(&v, (const Vec *)&this->velocity.x);
         speed = normalize_vector_xz(&v);
         this->move_clamped_on_ground(v.x, v.z, speed);
-        this->x_speed *= 0.8f;
-        this->m_310 *= 0.8f;
+        this->velocity.x *= 0.8f;
+        this->velocity.z *= 0.8f;
         this->check_collisions();
         break;
     case 5:
@@ -1286,22 +1256,22 @@ void TObjEneDf2Bringer::sub_80097714(s32 mode) {
     }
 }
 
-void TObjEneDf2Bringer::sub_80097620(s32 mode) {
-    switch (mode) {
+void TObjEneDf2Bringer::update_death_state(s32 reason) {
+    switch (reason) {
     case 4:
         this->requested_action = 0xA;
-        this->pad_3C0 &= ~3;
-        this->pad_3C0 |= 2;
+        this->status_flags &= ~3;
+        this->status_flags |= 2;
         this->disable_body_collision();
         this->refresh_and_send_entity_flags();
         fn_800D911C(&this->body_center);
-        TObjPlayer__sub_800A04F0(&this->pad_3C4);
+        body_fade.start_fade_out();
         play_sound_effect(this->remap_sound_for_area(0x4003A511), &this->position, 0, 0);
         TObjPlayer::play_effect_if_v2(-0x200);
         return;
     case 0:
         this->advance_animation();
-        if (this->pad_3C4.decay_value_toward_floor() != 0) {
+        if (this->body_fade.decay_value_toward_floor() != 0) {
             TObjPlayer::apply_effect_variant_b((saddr)&this->position, 0);
             this->queue_destruction();
         }
@@ -1348,10 +1318,10 @@ void TObjEneDf2Bringer::render() {
     if (is_split_screen() != 0) {
         view = TCameraCtrl::get_camera_mode();
     }
-    if (pad_3C0 & 1) {
+    if (status_flags & 1) {
         detail = 0;
     } else if (TObjEneDD::is_main_phase_15() != 0) {
-        detail = classify_actor_view_detail(lbl_805D9E88, lbl_805D9E84, 15.0f);
+        detail = classify_actor_view_detail(view_detail_near_depth, view_detail_far_depth, 15.0f);
     } else if (update_object_view_visibility(400.0f, 15.0f) != 0) {
         detail = 1;
     } else {
@@ -1364,8 +1334,8 @@ void TObjEneDf2Bringer::render() {
         }
         update_secondary_light();
         TObjEneDf2Bringer__render_node_index = 0;
-        TObjEneDf2Bringer__render_rotation_x = pad_480;
-        TObjEneDf2Bringer__render_point_cursor = pad_450;
+        TObjEneDf2Bringer__render_rotation_x = twist_angle;
+        TObjEneDf2Bringer__render_point_cursor = node_points;
         saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
         TObjPlayer::toggle_particle_effect();
@@ -1373,8 +1343,8 @@ void TObjEneDf2Bringer::render() {
         show = 1;
         fade->update();
         fading = fade->updateFromCamera(&body_center.x);
-        if (pad_3C0 & 2) {
-            pad_3C4.set_flags_and_apply_damage_color();
+        if (status_flags & 2) {
+            body_fade.set_flags_and_apply_damage_color();
             if (defer_render() != 0) {
                 show = 0;
             }
@@ -1384,16 +1354,16 @@ void TObjEneDf2Bringer::render() {
                 show = 0;
             }
         }
-        scroll_strip_uvs(TObjEneDf2Bringer__uv_scroll_buffer, (s16)pad_4A8, 0);
+        scroll_strip_uvs(TObjEneDf2Bringer__uv_scroll_buffer, (s16)texture_scroll, 0);
         TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
         {
             NJS_TEXNAME *textures = ((NJS_TEXLIST *)texlist)->textures;
             saved_texture = textures[1].texaddr;
-            textures[1].texaddr = textures[pad_488].texaddr;
+            textures[1].texaddr = textures[face_texture].texaddr;
         }
         if (show != 0) {
             push_matrix();
-            post_translate_matrix(&position);
+            post_translate_matrix(&position.x);
             rotate_matrix_y(0, rotation_y);
             set_chunk_model_node_callback(bringer_render_node_callback);
             set_motion_packed_rotation();
@@ -1406,8 +1376,8 @@ void TObjEneDf2Bringer::render() {
             set_chunk_model_node_callback(NULL);
             pop_matrix();
         }
-        if (pad_3C0 & 2) {
-            pad_3C4.clear_flag_and_notify();
+        if (status_flags & 2) {
+            body_fade.clear_flag_and_notify();
         } else if (fading != 0) {
             fade->clear_flag_and_notify();
         }
@@ -1418,7 +1388,7 @@ void TObjEneDf2Bringer::render() {
         return;
     }
     for (i = 0; i < 4; i++) {
-        VecCopy(&pad_450[i], &body_center);
+        VecCopy(&node_points[i], &body_center);
     }
 }
 
@@ -1437,7 +1407,7 @@ void TObjEneDf2Bringer::render_demo() {
         TObjPlayer::toggle_particle_effect();
         TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
         push_matrix();
-        post_translate_matrix(&position);
+        post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         i = (s32)parameters[0];
         if (i < 0) {

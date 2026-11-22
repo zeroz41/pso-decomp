@@ -22,8 +22,8 @@ extern "C" {
 void set_field_60__15TWindowCallBackFPvi(void* p, s32 v);
 const char *TWindowCallBack__name = "TWindowCallBack";
 
-s32 TBoss6Type2::get_state() { return this->m_374; }
-s32 TBoss6Type1::get_gravity_attack_state() { return m_374; }
+s32 TBoss6Type2::get_state() { return this->action_state; }
+s32 TBoss6Type1::get_gravity_attack_state() { return action_state; }
 void OlgaFlowType2ActionMsg::send() { swap_entity_id(); send_subcommand(this); }
 void OlgaFlowType2ActionMsg::swap_entity_id() { header.bswap(); }
 void OlgaFlowType2ActionMsg::initialize() {

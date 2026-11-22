@@ -13,7 +13,6 @@ struct TObjDFDemoF : public TObjBase {
     virtual ~TObjDFDemoF();
     virtual void run_task();
     virtual void render();
-    virtual void vfunc_13() = 0;
     static TObjDFDemoF *create(TObject *parent);
 
     s32 timer;

@@ -268,7 +268,7 @@ void setup_blended_textured_draw(void);
 extern "C" {
 s32 GXSetTexCoordGen2(s32 a0 = 0, s32 a1 = 0, s32 a2 = 0, s32 a3 = 0, s32 a4 = 0, s32 a5 = 0);
 
-int TObjPlayer::is_inactive() { return this->m_cfc == 0; }
+int TObjPlayer::is_inactive() { return this->model_load_flags == 0; }
 
 void GXPosition3f32_80083594(f32 farg0, f32 farg1, f32 farg2) {
     *(f32 *)0xCC008000 = farg0;

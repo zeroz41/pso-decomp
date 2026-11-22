@@ -101,6 +101,9 @@ public:
     void mark_enemy_body_contacts();
     void update_enemy_collision_flags();
     void check_object_collisions();
+    // check_object_collisions, then the same against the enemies
+    // (check_enemy_body_collisions); actors call it once per update.
+    void update_collisions();
     void refresh_collision_body_centers();
     // Gives it an entity id if it has none and enters it in the id-sorted
     // entity table (unregister_object_by_id takes it out).
@@ -188,9 +191,11 @@ public:
     void set_field_b8(s16);
     void sub_8002AE64();
     void sub_800A7798(f32);
-    void set_flags_B0(u32);
+    void set_motion_flags(u32 flags);
     TObjMotionAction *get_anim_entry(int action);
     int test_motion_flags(s32 flags);
+    // Whether MOTION_BLENDING is set (a blend from previous_action is running).
+    int is_motion_blending();
     void clear_motion_flags(s32 flags);
     // The motion an action plays.
     NJS_MOTION *get_action_motion(s16 action);
@@ -204,6 +209,11 @@ public:
     // Switches to the action, blending from the current one unless either
     // side or MOTION_NO_BLEND forbids it.
     void change_action(s16 action);
+    // Clears MOTION_BLENDING and sets MOTION_NO_BLEND.
+    void fn_800660B8();
+    // Calls fn_800660B8, switches to the action, then
+    // runs sub_8002AE64. Its one out-of-line copy sits in the Panarms unit.
+    void init(s16 action);
     // Steps the frame and the play mode; every actor calls it each update.
     void advance_animation();
     s32 is_anim_finished();

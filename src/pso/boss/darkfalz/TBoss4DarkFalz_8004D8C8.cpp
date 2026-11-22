@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/boss/darkfalz/TBoss4Type3.h"
-#include "pso/enemy/TUnk_80486924.h"
+#include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/darkfalz/TObjDFUsoTower.h"
 
@@ -12,24 +12,24 @@ extern "C" u16 obj_getArrU16_FC(void *obj, s32 i);
 
 void TBoss4Type3::get_defeat_params(u16 *a, u16 *b, u16 *out) {
     s32 i;
-    *a = m_2d6;
+    *a = local_attacker_id;
     *b = attacker_id;
     for (i = 0; i < 4; i++) {
         out[i] = obj_getArrU16_FC(this, i);
     }
 }
 
-void TUnk_80486924::get_demo2_params(u16 *a, u16 *b, u16 *out) {
+void TBoss4Type2::get_demo2_params(u16 *a, u16 *b, u16 *out) {
     s32 i;
-    *a = m_2d6;
+    *a = local_attacker_id;
     *b = attacker_id;
     for (i = 0; i < 4; i++) {
         out[i] = obj_getArrU16_FC(this, i);
     }
 }
 
-s32 TBoss4DarkFalz::sub_8004D990() {
-    return *(s32 *)((s8 *)this + 0x388) - *(s32 *)((s8 *)this + 0x38C);
+s32 TBoss4DarkFalz::get_live_minion_count() {
+    return minions_spawned - minions_lost;
 }
 
-void TObjDFUsoTower::sub_8004D9A0(s32 state) { fade_state = state; }
+void TObjDFUsoTower::set_fade_state(s32 state) { fade_state = state; }

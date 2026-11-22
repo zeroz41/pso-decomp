@@ -11,12 +11,12 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
+#include "pso/unk/TLobby_8001EF5C.h"
 
 typedef void (TChCrLoadAfsTextureReq::*TChCrLoadAfsTextureReqHandler)();
 
 extern "C" {
 
-void *init_bin_model_request(void *, int, char **, u32 *, int, int, int);
 extern "C" { extern char TChCrLoadAfsTextureReq__class_name_string[]; }
 const char *lbl_805D3B50 = TChCrLoadAfsTextureReq__class_name_string;
 f64 log(f64);
@@ -148,7 +148,7 @@ extern "C" f32 TLobby__sub_8028C50C(f32 x) {
 void TChCrLoadGmNjReq::update_model_load() {
     s32 timer;
     NJS_OBJECT *bml_model;
-    void *request;
+    TBinModel *request;
     timer = load_timer - 1;
     load_timer = timer;
     if (timer < 0) {
@@ -157,9 +157,9 @@ void TChCrLoadGmNjReq::update_model_load() {
         } else {
             return;
         }
-        request = ::operator new(0x440);
+        request = (TBinModel *)::operator new(0x440);
         if (request != NULL) {
-            request = init_bin_model_request(request, 6, (char **)model_ids, (u32 *)&model_ids[1], 0, 0, (saddr)get_character_load_buffer(load_slot));
+            request = init_bin_model_request(request, 6, model_ids, &model_ids[1], 0, 0, (saddr)get_character_load_buffer(load_slot));
         }
         loaded_bml = (BmlResource *)request;
         if (request != NULL) {

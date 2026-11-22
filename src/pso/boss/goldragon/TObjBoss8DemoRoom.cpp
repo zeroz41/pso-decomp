@@ -15,7 +15,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/task/TObject.h"
-#include "pso/boss/goldragon/TBoss8Dragon_802F3348.h"
+#include "pso/boss/goldragon/TBoss8Dragon.h"
 
 __declspec(section ".data") const char *bm_obj_boss8_demoroom_model_names[2] = { "fe_obj_cyl_soto.nj", NULL };
 const char *bm_obj_boss8_demoroom_motion_names[1] = { NULL };
@@ -25,8 +25,6 @@ BmlResourceDescriptor TObjBoss8DemoRoom__resource_desc = {
 const char *TObjBoss8DemoRoom__name = "TObjBoss8DemoRoom";
 
 extern "C" {
-
-s32 TBoss8Dragon__sub_802FCCBC();
 
 void * TObjBoss8DemoRoom__shared_resource_object;
 
@@ -38,24 +36,18 @@ void TObjBoss8DemoRoom::render() {
     pop_matrix();
 }
 
-void run_task__17TObjBoss8DemoRoomFv(saddr self) {
+void TObjBoss8DemoRoom::run_task() {
     TObjPlayer__sub_8023DEE0((s16 *)(*(saddr *)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)TObjBoss8DemoRoom__shared_resource_object + 0x42C)) + 8)) + 0x2C)) + 4)) + 4)), 0, 1, 3);
     TObjPlayer__sub_8023DEE0((s16 *)(*(saddr *)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)TObjBoss8DemoRoom__shared_resource_object + 0x42C)) + 8)) + 0x2C)) + 0x30)) + 4)) + 4)), 0, 0x14, 1);
-    if ((TBoss8Dragon__sub_802F3348(0) != 0U) && (TBoss8Dragon__sub_802FCCBC() != 0)) {
-        ((TObject *)self)->queue_destruction();
+    TBoss8Dragon *leader = TBoss8Dragon::get_part(0);
+    if ((leader != NULL) && (leader->has_appeared() != 0)) {
+        this->queue_destruction();
     }
 }
 TObjBoss8DemoRoom::~TObjBoss8DemoRoom() {}
 
-void __ct__7TObjectFP7TObject(void *);
-
-extern s32 __vt__17TObjBoss8DemoRoom[];
-
-void *__ct__17TObjBoss8DemoRoomFv(void *boss8_demo_room) {
-    __ct__7TObjectFP7TObject(boss8_demo_room);
-    *(s32 **)((s8 *)boss8_demo_room + 0x18) = __vt__17TObjBoss8DemoRoom;
-    ((TObjBoss8DemoRoom *)boss8_demo_room)->m_name = TObjBoss8DemoRoom__name;
-    return boss8_demo_room;
+TObjBoss8DemoRoom::TObjBoss8DemoRoom(TObject *parent) : TObject(parent) {
+    m_name = TObjBoss8DemoRoom__name;
 }
 
 void TObjBoss8DemoRoom::free_static_instance() {

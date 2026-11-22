@@ -5,12 +5,15 @@
 #include "pso/enemy/TObjEnemy.h"
 
 struct CsnHit;
+struct DragonAttackParams;
+class AreaAttackHistory;
 class TObjEneDD_ST;
 
 struct TObjEneDD : public TObjEnemy {
     TObjEneDD(TObject *parent);
     virtual ~TObjEneDD();
     void set_part_local_pos(void *, s32);
+    static void set_part_position(void *actor, void *v, int i);
     void transition_enemy_state(s32);
     void sub_800BBA0C();
     void invoke_initialization_hook(void *set_data);
@@ -44,7 +47,7 @@ struct TObjEneDD : public TObjEnemy {
     int get_flag_b4();
     f32 calc_elapsed_scaled();
     static void init_lights();
-    static s32 clamp_frame_index(s32 arg0);
+    static s32 clamp_frame_index(s32 frame);
     static s32 check_v2_mode();
     int get_target_state_a();
     int get_target_state_b();
@@ -55,13 +58,13 @@ struct TObjEneDD : public TObjEnemy {
     static void clear_global_flag_400();
     void draw_ground_shadow(const Vec *scale, s32 forceDraw);
     static void draw_oriented_shadow(const Vec *position, const Vec *normal, saddr angle, const Vec *scale);
-    int update_primary_light();
-    int update_secondary_light();
+    void update_primary_light();
+    void update_secondary_light();
     void reload_stats_keep_hp_tp(u8 *base_stats, u8 *attack_stats, u8 *resistance_stats);
     void reset_hp(u8 *base_stats, u8 *attack_stats, u8 *resistance_stats);
     void initialize_enemy_state(s32 parameter);
     s32 get_random_scaled();
-    f32 rand_range(f32 farg0, f32 farg1);
+    f32 rand_range(f32 low, f32 high);
     void set_state_8();
     void set_state_flag_4();
     void set_state_flag_2();
@@ -70,31 +73,28 @@ struct TObjEneDD : public TObjEnemy {
     static void inflict_poison(TObjChara *attacker, TObjChara *target);
     void emit_effect_at_position(void* a1);
     static void emit_effect(void *p, saddr pos, saddr params);
-    static void emit_enemy_effect(void *ene_dd, void *pos, u8 *arg2, void *attack_history);
-    static void setup(void *p, saddr pos, saddr params);
-    static void setup_instance(saddr owner, saddr arg1, u8 *bytes, saddr attack_history);
-    s32 is_target_unobstructed(saddr from);
+    static void emit_enemy_effect(void *ene_dd, void *pos, u8 *params, void *attack_history);
+    // Fires the shared DD hitbox (obj_ene_dd_instance) at pos for owner with the given attack.
+    static void setup(TObjBase *owner, Vec *pos, DragonAttackParams *params);
+    static void setup_instance(TObjBase *owner, Vec *pos, DragonAttackParams *params, AreaAttackHistory *attack_history);
     s32 is_valid_target();
     void transform_part_positions();
     void init_model(CollisionBody *bodies, s32 count);
     void clear_field_388();
-    int has_move_failures(s32 arg1);
+    int has_move_failures(s32 limit);
     CsnHit *enemy_probe_wall_ahead(f32 dx, f32 dz, f32 dist);
     void calc_shot_position(u8 *, f32, f32, f32);
     u8 *try_move_actor_xz_on_ground(u8 *);
     void move_to_wall_clamped_destination(f32 dx, f32 dz, f32 dist);
     u8 *move_with_wall_slide_commit(f32 dx, f32 dz, f32 dist);
-    void move_with_wall_stop(f32 dx, f32 dz, f32 farg2);
+    void move_with_wall_stop(f32 dx, f32 dz, f32 dist);
     void move_clamped_on_ground(f32 dx, f32 dz, f32 dist);
     void move_with_wall_slide_on_ground(f32 dx, f32 dz, f32 dist);
-    void move_to_shot_position(f32 dx, f32 dz, f32 farg2);
+    void move_to_shot_position(f32 dx, f32 dz, f32 dist);
     // Fills enemy_target_candidate_table for actor; returns how many it found.
     static s32 collect_target_candidates(TObjEneDD *actor, f32 range);
     static void create_instance();
     static int get_enemy_count();
-    void handle_state(s32 arg1);
-    void noop();
-    void state_damaged(s32 arg1);
     int get_target_info();
     void set_field_378(s32 v);
     void init_position_vectors();
@@ -115,6 +115,11 @@ struct TargetCandidate {
     f32 dist;
 };
 
+// Where a move of dist along (dx, dz) from self ends, stopped wall_reach
+// short of a wall the probe hits.
+void calc_wall_clamped_destination(TObjEneDD *self, Vec *dest, f32 dx, f32 dz, f32 dist);
+void calc_wall_slide_destination(TObjEneDD *self, Vec *out, f32 dx, f32 dz, f32 dist);
+
 extern "C" {
 extern TargetCandidate enemy_target_candidate_table[4];
 // Copies world points into the actor's collision body centers and stores
@@ -129,28 +134,33 @@ s32 is_target_unobstructed_from(TObjEneDD *self, TObjChara *target);
 u16 enemy_nearest_visible_enemy(void *self, f32 range);
 u16 enemy_find_nearest_player_in_range(u8 *self, f32 range);
 s32 is_player_entity_id(u16 id);
-int TObjEneDD__sub_800BA804(u16 id);
+// 1 for an enemy's entity id (0x1000-0x3FFF).
+int is_enemy_entity_id(u16 id);
 s32 pack_debug_text_position(s32 x, s32 y);
-void project_sound_origin_from_camera(saddr arg0, u8 *boss2_tunnel, f32 farg0);
+void project_sound_origin_from_camera(saddr source, u8 *out, f32 distance);
 void TObjEneDD__sub_800BA378(TObjChara *attacker, TObjChara *target);
 void TObjEneDD__sub_800BA438(TObjChara *attacker, TObjChara *target);
-void TObjEneDD__sub_800BA5A4(void *p, void *a1);
+void TObjEneDD__sub_800BA5A4(TObjBase *owner, void *params);
 int is_target_android(void *p);
 int is_target_ranger(void *p);
 void TBoss8Dragon__sub_800BB650(TargetCandidate *dst, TargetCandidate *src);
 void TBoss8Dragon__sub_800BB7D4(void *self, int id);
-u8 *TObjEneEpsilon__sub_800B92AC(TObjEneDD_ST *self, s32 arg1, f32 farg0);
-u8 *TObjEneEpsilon__sub_800B92F8(TObjEneDD_ST *self, s32 arg1, f32 farg0);
+u8 *TObjEneEpsilon__sub_800B92AC(TObjEneDD_ST *self, s32 max_step, f32 distance);
+u8 *TObjEneEpsilon__sub_800B92F8(TObjEneDD_ST *self, s32 max_step, f32 distance);
 u8 *TObjEneEpsilon__sub_800B9384(TObjEneDD_ST *self, s32 iscale, f32 scale);
 void TBoss8Dragon__sub_800BB7D8(void *self, s32 id, f32 scale);
 void TBoss8Dragon__sub_800BB7DC(void *self);
 }
-u8 *enemy_turn_and_move_on_ground(TObjEneDD_ST *self, s32 arg1, f32 currentSpeed);
+u8 *enemy_turn_and_move_on_ground(TObjEneDD_ST *self, s32 max_step, f32 currentSpeed);
 
-void set_collider_contact_high(u8 *arg0);
-void set_collider_contact_low(u8 *arg0);
-void update_collider_contact_by_height(u8 *arg0, f32 farg0);
-u16 enemy_nearest_visible_player_sq(u8 *arg0, f32 farg0);
+void set_collider_contact_high(u8 *body);
+void set_collider_contact_low(u8 *body);
+void update_collider_contact_by_height(u8 *body, f32 height);
+u16 enemy_nearest_visible_player_sq(TObjChara *self, f32 range);
 s32 tick_period_counter(s32 self, s32 *counter, s32 limit);
+
+// The far (310) and near (155) depths the enemies' render() hands classify_actor_view_detail.
+extern const f32 view_detail_far_depth;
+extern const f32 view_detail_near_depth;
 
 #endif

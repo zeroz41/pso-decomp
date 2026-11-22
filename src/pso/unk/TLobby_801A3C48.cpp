@@ -131,7 +131,6 @@ s32 is_keyboard_active();
 s32 clear_keyboard_key_state();
 int request_main_phase(int);
 s32 TLobby__sub_8006EF90();
-s32 TObjBoss2Tunnel__sub_8007D1D0();
 s8 func_801A5E54__Fv();
 s32 poll_memcard_result(int);
 s32 func_803DCDFC__Fv();
@@ -656,7 +655,7 @@ void TLobby::run_lobby_frame() {
     update_sound_request_slots();
     TAdSinglePlyChrSelectGC::run_save_load_sequence();
     TAdSinglePlyChrSelectGC::noop();
-    TObjBoss2Tunnel__sub_8007D1D0();
+    take_snapshot();
     if (((s32) lbl_805D55C0 == 0) && (poll_memcard_result((int) ((s8)TAdSinglePlyChrSelectGC::get_chr_select_state())) != -1)) {
         if (TAdPlayerLoadGC::probe_card_slot((s8)TAdSinglePlyChrSelectGC::get_chr_select_state()) != 0) {
             TLobby__online_lobby_frame_counter = 0;
@@ -705,7 +704,7 @@ void TLobby::run_main_frame() {
     update_sound_request_slots();
     TAdSinglePlyChrSelectGC::run_save_load_sequence();
     TAdSinglePlyChrSelectGC::noop();
-    TObjBoss2Tunnel__sub_8007D1D0();
+    take_snapshot();
     TLobby__sub_8006EF90();
     if (((s32) lbl_805D55C0 == 0) && (poll_memcard_result((int) ((s8)TAdSinglePlyChrSelectGC::get_chr_select_state())) != -1)) {
         if (TAdPlayerLoadGC::probe_card_slot((s8)TAdSinglePlyChrSelectGC::get_chr_select_state()) != 0) {

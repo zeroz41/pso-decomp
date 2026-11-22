@@ -12,7 +12,7 @@ void TObjPlayer::reset_state() {
     u8 *arg0 = (u8 *)this;
     ((FlagWord *)(arg0 + 0x858))->clear(2);
     ((TObjPlayer *)(arg0 + 0x63C))->reset_counter_field4();
-    ((TObjPlayer *)(arg0 + 0x644))->reset_type();
+    protection.reset_type();
     ((TObjPlayer *)(arg0 + 0x7CC))->reset_movement_state();
     TObjPlayer__sub_801BF690((u8 *)&this->m_730);
     ((TObjPlayer *)(arg0 + 0x608))->set_vec4_const();
@@ -26,8 +26,8 @@ void TObjPlayer::reset_state() {
     this->move_target.z = (f32) TObjPlayer__data_805DC278;
     this->move_target.y = (f32) TObjPlayer__data_805DC278;
     this->move_target.x = (f32) TObjPlayer__data_805DC278;
-    this->m_310 = (f32) TObjPlayer__data_805DC278;
-    this->y_speed = (f32) TObjPlayer__data_805DC278;
-    *(f32 *)&this->unk_308 = (f32) TObjPlayer__data_805DC278;
+    this->velocity.z = (f32) TObjPlayer__data_805DC278;
+    this->velocity.y = (f32) TObjPlayer__data_805DC278;
+    this->velocity.x = (f32) TObjPlayer__data_805DC278;
     zero_vec3(&this->pad_5fc);
 }

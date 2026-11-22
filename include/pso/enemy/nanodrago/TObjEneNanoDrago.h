@@ -46,7 +46,7 @@ struct TObjEneNanoDrago : public TObjEnemyCustom {
     void update_proximity_state();
     void begin_hidden_flight();
     void load_entry_params_nanodrago(s32);
-    void sub_800D9BBC();
+    void clear_state7_flag();
     void update_growth_state();
     void update_circling_state();
     static void load_resources();

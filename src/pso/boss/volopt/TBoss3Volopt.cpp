@@ -1,3 +1,7 @@
+#include "pso/camera/TCameraCtrl_8006CC30.h"
+#include "pso/enemy/EnemyTargeting.h"
+#include "pso/network/client_id.h"
+#include "pso/player/TObjPlayer_80011014.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/network/protocol/protocol_types.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -65,21 +69,11 @@ struct VoloptShutterNode {
 };
 
 extern "C" {
-f32 fabs_float(f32 x);
-f32 newton_sqrtf(f32 x);
-s32 get_current_floor(void);
 s32 play_persistent_sound(u32 id, TObject *source, f32 *pos, s32, s32);
-u16 find_nearest_visible_player(TObject *self, s32 flags, f32 range);
 s32 is_local_client_floor_leader();
-void request_follow_camera_offsets(Vec *position, Vec *target, s32 id, f32 blend);
-u16 get_entity_id(void *object);
-void obj_setFlags30(void *object, s32 flags);
 u16 TObjRoomId__sub_801A1DB8(u16 id);
 void TObjPlayer__sub_801BA42C(void);
 extern s32 door_vo_ship_class_name;
-extern s32 local_client_id;
-extern s32 lbl_805D5868;
-extern s32 lbl_805D5870;
 }
 void reset_status_effect_row(u8 *row);
 void reset_cameras_to_actor(void *actor, s32 flags);
@@ -238,7 +232,7 @@ static Vec boss3_volopt_seq4_camera_position;
 static Vec boss3_volopt_seq4_camera_target;
 TObjPlayer *TBoss3Volopt::candidate_players[5];
 
-TBoss3VoloptCore *fn_8003F468(TBoss3Volopt *parent, u16 id, s32 group) {
+TBoss3VoloptCore *TBoss3VoloptCore::create(TBoss3Volopt *parent, u16 id, s32 group) {
     return new TBoss3VoloptCore(parent, id, group);
 }
 
@@ -247,19 +241,19 @@ BOOL TBoss3VoloptCore::is_mode_0() {
 }
 
 BOOL TBoss3VoloptP02::can_action_wait() {
-    return !(m_388 & 0x80000);
+    return !(behavior_flags & 0x80000);
 }
 
 BOOL TBoss3VoloptP02::can_action() {
-    return !(m_388 & 0x20000);
+    return !(behavior_flags & 0x20000);
 }
 
 BOOL TBoss3VoloptP02::can_trigger() {
-    return !(m_388 & 0x40000);
+    return !(behavior_flags & 0x40000);
 }
 
 BOOL TBoss3VoloptP02::can_set_motion() {
-    return !(m_388 & 0x10000);
+    return !(behavior_flags & 0x10000);
 }
 
 BOOL TBoss3VoloptP02::is_mode_0() {
@@ -267,7 +261,7 @@ BOOL TBoss3VoloptP02::is_mode_0() {
 }
 
 int TBoss3VoloptP01::is_broken() {
-    return (m_388 >> 18) & 1;
+    return (behavior_flags >> 18) & 1;
 }
 
 void TObject::pause_update() {
@@ -470,7 +464,7 @@ void TBoss3Volopt::run_task() {
             obj_clearFlags30(0x4000);
         }
     } else {
-        if ((s32)next_action != mode) {
+        if (next_action != mode) {
             if ((s32)state != -1) {
                 state = -1;
                 dispatch_mode();
@@ -502,7 +496,7 @@ void TBoss3Volopt::dispatch_mode() {
             boss3_volopt_seq2_camera_target.x = 0.0f;
             boss3_volopt_seq2_camera_target.y = camera->target_y;
             boss3_volopt_seq2_camera_target.z = camera->target_z;
-            request_follow_camera_offsets(&boss3_volopt_seq2_camera_position, &boss3_volopt_seq2_camera_target, 0xFFFF, 0.0f);
+            request_follow_camera_offsets(&boss3_volopt_seq2_camera_position, &boss3_volopt_seq2_camera_target, 0xFFFF);
         }
         break;
     case 3:
@@ -523,7 +517,7 @@ void TBoss3Volopt::dispatch_mode() {
             boss3_volopt_seq4_camera_target.x = 0.0f;
             boss3_volopt_seq4_camera_target.y = camera->target_y;
             boss3_volopt_seq4_camera_target.z = camera->target_z;
-            request_follow_camera_offsets(&boss3_volopt_seq4_camera_position, &boss3_volopt_seq4_camera_target, 0xFFFF, 0.0f);
+            request_follow_camera_offsets(&boss3_volopt_seq4_camera_position, &boss3_volopt_seq4_camera_target, 0xFFFF);
         }
         break;
     case 5:
@@ -944,7 +938,7 @@ void TBoss3Volopt::start_phase2() {
     in_phase2 = 1;
     TObjEnemyCustom *p02 = (TObjEnemyCustom *)find_entity_by_id(volopt_p02_id);
     if (p02 != NULL) {
-        p02->sub_800C7860();
+        p02->start_appear();
     }
     move_to_arena(1);
     VecCopy(&position, VecCopy(&body_center, &boss3_volopt_spawn_pos));
@@ -969,7 +963,7 @@ void TBoss3Volopt::update_intro_cutscene() {
                 hiraisin->set_flag_08000000();
             }
         }
-        m_384 = 0xD2;
+        state_timer = 0xD2;
         TFogCtrl::apply_all(0xA, 0);
         first.index = 0;
         first.bank = 1;
@@ -981,8 +975,8 @@ void TBoss3Volopt::update_intro_cutscene() {
         state = 1;
     case 1:
         play_persistent_sound(0x4003B202, this, 0, 0, 0);
-        if (--m_384 <= 0) {
-            m_384 = 0x3C;
+        if (--state_timer <= 0) {
+            state_timer = 0x3C;
             state = 2;
             TFogCtrl::update_all(0);
             second.index = 0;
@@ -998,14 +992,14 @@ void TBoss3Volopt::update_intro_cutscene() {
         if (get_scripted_camera_playback()->flags & 1) {
             TObjEnemyCustom *core = (TObjEnemyCustom *)find_entity_by_id(volopt_core_id);
             if (core != NULL) {
-                core->sub_800C7860();
+                core->start_appear();
             }
-            m_384 = 0x5A;
+            state_timer = 0x5A;
             state = 3;
         }
         break;
     case 3:
-        if (--m_384 <= 0) {
+        if (--state_timer <= 0) {
             next_action = 2;
         }
         break;
@@ -1047,7 +1041,7 @@ void TBoss3Volopt::update_phase1() {
         }
         break;
     case 2: {
-        m_384 = 0x96;
+        state_timer = 0x96;
         start_camera_shake(0xB4, 0.03f);
         for (i = 0; i < 6; i++) {
             TObject *p01 = (TObject *)find_entity_by_id(volopt_target_entity_ids[i]);
@@ -1063,7 +1057,7 @@ void TBoss3Volopt::update_phase1() {
         start_rumble();
     }
     case 3:
-        if (--m_384 <= 0) {
+        if (--state_timer <= 0) {
             state = 4;
         }
         angle = (s32)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand())));
@@ -1110,12 +1104,12 @@ void TBoss3Volopt::update_phase2_intro() {
         return;
     case 1:
         if (volopt_fade_in_done == 1) {
-            m_384 = 0x96;
+            state_timer = 0x96;
             state = 2;
         }
         return;
     case 2:
-        if (--m_384 <= 0) {
+        if (--state_timer <= 0) {
             restore_player_cameras();
             state = 3;
             return;
@@ -1167,7 +1161,7 @@ void TBoss3Volopt::update_phase2() {
         if (is_dead() != 0) {
             update_phase();
             obj_setFlags30(this, 0x800);
-            vfunc_74(0);
+            sync_enemy_state(0);
             next_action = 5;
             new TUnk_80483B88;
         }
@@ -1200,7 +1194,7 @@ void TBoss3Volopt::spawn_parts() {
             new TBoss3VoloptMonitor(this, boss3_volopt_monitor_base_actor_id + j, get_part_group(j + 7), j, timer);
         }
         volopt_core_id = get_part_id(0x22);
-        fn_8003F468(this, volopt_core_id, get_part_group(0x22));
+        TBoss3VoloptCore::create(this, volopt_core_id, get_part_group(0x22));
         volopt_hiraisin_id = get_part_id(0x21);
         if (is_v2_mode() == 0) {
             new TBoss3VoloptHiraisin(this, volopt_hiraisin_id, get_part_group(0x21));
@@ -1321,7 +1315,7 @@ void TBoss3Volopt::push_actors_out(s32 phase2) {
     TObjPlayer *actor;
 
     center_z = (f32)((phase2 != 0) ? -5000 : 0);
-    for (i = registered_player_count + lbl_805D5870; i < lbl_805D5868; i++) {
+    for (i = registered_player_count + registered_enemy_count; i < lbl_805D5868; i++) {
         actor = TObjPlayer::get_player_data(i);
         if (actor == NULL) continue;
         if (actor->bodies == NULL) continue;
@@ -1370,7 +1364,7 @@ void handle_6x15_vol_opt_boss_actions(TBoss3VoloptActionPacket *packet) {
         for (i = 0; i < 6; i++) {
             TBoss3VoloptP01 *p01 = (TBoss3VoloptP01 *)find_entity_by_id(volopt_target_entity_ids[i]);
             if (p01 != NULL) {
-                p01->sub_80042F84();
+                p01->enter_state_machine();
             }
         }
         break;

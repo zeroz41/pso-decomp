@@ -50,7 +50,7 @@ TObjNpcHFW00::~TObjNpcHFW00() {}
 TObjNpcHFW00::TObjNpcHFW00(TObject *parent, void *arg2) : TUnk_804A92A8(parent) {
     *(s32 *)((s8 *)this + 0) = (saddr) TObjNpcHFW00__name;
     ((TObjNpcHFW00 *)this)->apply_set_data(arg2);
-    ((TObjPlayer *)this)->init_position_vectors();
+    init_position_vectors();
     *(s32 *)((s8 *)this + 0x34) = (s32) *(*(s32 * *)&TObjNpcHFW00__shared_resource_obj);
     ((TObjNpcHFW00 *)this)->texlist = (s32) (*(s32 *)&TObjNpcHFW00__texture_handle);
     ((TObjNpcBase *)this)->setup_common();

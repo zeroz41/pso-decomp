@@ -59,7 +59,7 @@ extern u8 ppp_proto_blocks[];
 void TLobby__sub_803FDBF8(u8 *self, void *arg1);
 void pap_input(PppFsm *self, PppFrame *source);
 s16 TLobby__sub_804040E0(void *self, void *arg);
-s32 TLobby__sub_804060B8(u8 *, u16, int);
+s32 TLobby__sub_804060B8(u8 *, int, int);
 
 struct N_80405298;
 
@@ -649,26 +649,23 @@ void ppp_input_packet(PppFrame *arg0) {
 
 #pragma push
 #pragma opt_common_subs on
-s32 TLobby__sub_804060B8(u8 *src, u16 len, int id) {
-    int i;
-    int idx;
-    s32 n;
-    s32 t;
+s32 TLobby__sub_804060B8(u8 *src, int len, int id) {
+    s16 i;
+    s16 idx;
+    s16 n;
     s16 *lim;
     s16 j;
     s16 *flags;
     u8 *dst;
     s16 stride;
-    void TLobby__sub_80409818(void *, s32, s16, s32, u16); /* declared here with other parameter types; the definition is void (s32, s16, s16, s16, u16) */
-    void NetMemcpy(void *, void *, s16); /* declared here with an s16 3rd argument; the definition takes int */
 
-    for (i = 0; (s16)i < 2; i++) {
+    for (i = 0; i < 2; i++) {
         if (lobby_net_buffer_desc_b.protocols[i].used != 0 && lobby_net_buffer_desc_b.protocols[i].type == (u16)id) {
             idx = i;
             break;
         }
     }
-    if ((s16)i >= 2) {
+    if (i >= 2) {
         return 0;
     }
     lim = &lobby_net_buffer_desc_b.size;
@@ -678,14 +675,9 @@ s32 TLobby__sub_804060B8(u8 *src, u16 len, int id) {
     for (j = 0; j < lobby_net_buffer_desc_b.count; j++) {
         if (*flags == 0) {
             *flags = 1;
-            if ((s16)len < *lim) {
-                t = (s16)len;
-            } else {
-                t = *lim;
-            }
-            n = t;
+            n = ((s16)len < *lim) ? (s16)len : *lim;
             NetMemcpy(dst, src, n);
-            TLobby__sub_80409818(dst, n, lobby_net_buffer_desc_b.id, idx, lobby_net_buffer_desc_b.protocols[(s16)idx].type);
+            TLobby__sub_80409818((saddr)dst, n, lobby_net_buffer_desc_b.id, idx, lobby_net_buffer_desc_b.protocols[idx].type);
             return 0;
         }
         flags++;

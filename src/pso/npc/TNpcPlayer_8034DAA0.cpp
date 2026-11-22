@@ -285,7 +285,7 @@ void TNpcPlayer::reset_player_lobby_model(u16 arg0) {
     uaddr player;
     player = ((u32)get_player_by_client_id(arg0));
     if (player != 0U) {
-        ((TObjPlayer *)(player + 0x644))->reset_lobby_model();
+        ((TObjPlayer *)player)->protection.reset_lobby_model();
     }
 }
 

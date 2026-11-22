@@ -6,15 +6,39 @@
 struct TObjPlayer;
 
 extern "C" {
-s32 TBoss6PlotFalz__sub_802ABADC(void);
 // Nonzero when the game runs on Normal difficulty (game_difficulty_selection == 0).
 s32 is_normal_difficulty(void);
-// One step of the boss's pseudo-random sequence: returns the next value of seed.
-s32 TBoss6Type1__sub_802ABDEC(s32 seed);
 }
+
+// One step of the boss's pseudo-random sequence (the ANSI C rand() recurrence on a caller-held seed):
+// returns the next value of seed (next_random_seed is an inferred name).
+s32 next_random_seed(s32 seed);
 
 struct BmlResource;
 class TBoss4Fade;
+struct TBoss6Tube;
+struct TBoss6Type1;
+struct TBoss6Type2;
+
+class TBoss6Demo15_TYPE2_WAIT;
+
+// An Olga Flow parameter record (TLobby::dispatch_shared_handler_a 0x2B-0x2F): six floats then six
+// ints. TBoss6Type1::load_params_from_table reads 0x2B, TBoss6Type2::load_battle_params 0x2C/0x2E/0x2F.
+struct Boss6ParamRecord {
+    f32 floats[6];
+    s32 ints[6];
+};
+
+// The 0x40-byte enemy set entry the constructor was given, kept with kind cleared; spawn_type1/2
+// copy it (copy_set_entry) and renumber it for the bodies (TBoss4DarkFalzSetEntry layout).
+struct TBoss6PlotFalzSetEntry {
+    s16 set_index;
+    s16 kind;
+    u8 pad_04[0x2];
+    u16 entity_id;
+    s16 room;
+    u8 pad_0A[0x36];
+};
 
 struct TBoss6PlotFalz : public TObjEnemy {
     TBoss6PlotFalz(TObject *parent, void *set_data);
@@ -22,38 +46,44 @@ struct TBoss6PlotFalz : public TObjEnemy {
     void ensure_field384();
     void set_visible_flag();
     void call_state_action();
-    void sub_802AAC98();
+    void reset_child_ids();
+    // How many child ids get_next_point can still hand out.
+    s32 count_free_child_ids();
     void run_death_reaction();
-    s32 phase_state;
-    s32 m_378;
-    u8 m_37c;
-    u8 unk_37D[0x3];
+    s32 not_floor_leader;  // 0 on the floor leader's client (set_visible_flag)
+    s32 state_index;  // index into boss6_plot_falz_script_states
+    u8 spawn_variant;  // the 6xA3 mode; handed to the bodies as Boss6BodySpawnParams::variant
+    u8 pad_37D[0x3];
     TBoss4Fade *fade;
-    u8 unk_384[0x6];
-    s16 m_38a;
-    u8 unk_38C[0x40];
-    s32 m_3cc;
-    u32 m_3d0;
-    u32 m_3d4;
-    u32 m_3d8;
-    u32 m_3dc;
+    TBoss6Tube *tube;  // the warp tube; ensure_field384 creates it
+    TBoss6PlotFalzSetEntry set_entry;
+    s32 next_child_index;  // added to set_index / entity_id by get_next_point
+    s32 state_timer;  // frames in the current plot state
+    s32 shake_active;
+    s32 shake_timer;
+    s32 shake_preset;
+    TBoss6Demo15_TYPE2_WAIT *wait_demo;  // the DEMO_WAIT_T2 scene object
     static s32 get_hp();
-    static s32 damage_player_hp(s32 arg0, u32 arg1);
+    static TBoss6Type2 *get_type2();
+    static s32 damage_player_hp(s32 client, u32 damage);
     static s32 sort_active_players();
+    static u16 get_sorted_player(s32 i);  // i-th client id of sort_active_players' order
     static u16 pick_random_active_player();
     int is_idle();
-    void *get_mag_mine_ptr();
+    TBoss6PlotFalzSetEntry *get_set_entry();
     static s32 is_active(TObjPlayer *player);
     static s32 is_state_1f(TObjPlayer *player);
+    // Puts the player at pos (position and previous position).
+    static void move_player_to(TObjPlayer *player, Vec *pos);
     void set_state_2();
     void reset_state();
     void activate_warp();
     void free_child();
-    void set_state(s32 arg1);
+    void set_state(s32 state);
     static void spawn_player_hit_effects();
     void award_exp_and_destroy();
-    void apply_fade_alpha(s32 color, f32 farg0);
-    static s32 rand_vary_count(s32 arg0, f32 farg0);
+    void apply_fade_alpha(s32 color, f32 alpha);
+    static s32 rand_vary_count(s32 base, f32 spread);
     static f32 cosine_ease(f32 t);
     static f32 get_value();
     static s32 is_boss_active();
@@ -69,7 +99,7 @@ struct TBoss6PlotFalz : public TObjEnemy {
     static void apply_radial_effect_to_players(void *pos, s16 amount, s16 kind, f32 range);
     static void set_fade_material_color(f32 f);
     static void update_camera_target();
-    static void apply_fade_material_color(f32 farg0, f32 farg1, f32 farg2, f32 farg3);
+    static void apply_fade_material_color(f32 fade, f32 r, f32 g, f32 b);
     static int get_phase();
     s32 get_scene_state();
     static BmlResource *get_scene_archive();
@@ -99,26 +129,40 @@ struct TBoss6PlotFalz : public TObjEnemy {
     void advance_phase_if_ready();
     void update_cutscene_fade();
     static s32 is_flag_set();
-    s32 get_next_point(s16 *arg1, s16 *arg2);
+    s32 get_next_point(s16 *set_index_out, s16 *entity_id_out);
     void run_phase_action();
+    void update_random_shake();
+    // Horizontal distance of pos from the arena centre.
+    static f32 arena_center_distance(const Vec *pos);
+    // Nonzero while the first body is alive and not in its death state.
+    static s32 is_type1_active();
     static void warp_nearby_players();
-    // Plot script state actions (installed in TBoss6PlotFalz__data_804DE66C).
-    void sub_802B0228();
-    void sub_802B03F4();
-    void sub_802B0448();
+    // Plot script state actions (enter / tick / update of a boss6_plot_falz_script_states row).
+    void update_ol_ending();
+    void update_vs_type2();
+    void enter_vs_type2();
     void stop_adx_audio();
     void init_hall_boss_scene();
-    void sub_802B06D0();
-    void sub_802B0808();
-    void sub_802B08F0();
+    void update_demo_ded_t1();
+    void update_vs_type1();
+    void tick_demo_start();
     void init_proto1_adx();
-    void sub_802B0A34();
+    void enter_fall_elev();
     static void update_active_flag();
 };
 
+// The two Olga Flow bodies of the running fight, NULL when there is none.
+extern TBoss6Type1 *TBoss6PlotFalz__type1_instance;
+extern TBoss6Type2 *TBoss6PlotFalz__type2_instance;
+// The running TBoss6PlotFalz (set by its constructor, cleared by its destructor).
+extern saddr TBoss6PlotFalz__instance;
+// Client ids in descending hp order (sort_active_players, get_sorted_player).
+extern u16 boss6_plot_falz_player_order_table[];
+// 1 on the main floor phase 0xF or in split screen (update_active_flag, get_phase).
+extern s32 plot_falz_phase;
+
 extern "C" {
-void TBoss6PlotFalz__sub_802AC008(f32 a, f32 b);
-s32 TBoss6PlotFalz__sub_802AAE48(s32 i);
+void TBoss6PlotFalz__sub_802AC008(f32 fade, f32 hp_ratio);
 }
 
 extern "C" {

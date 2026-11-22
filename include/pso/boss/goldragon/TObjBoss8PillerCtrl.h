@@ -25,4 +25,7 @@ struct TObjBoss8PillerCtrl : public TObject {
 
 LAYOUT_ASSERT(TObjBoss8PillerCtrl_size, sizeof(TObjBoss8PillerCtrl) == 0x38);
 
+// Spawns a TObjBoss8PillerCtrl under tl_05 (pso/unk/text_802FE908.cpp); the ctor drops the f32
+void create_boss8_piller_ctrl(const Vec *position, s32 id, f32 ignored);
+
 #endif

@@ -7,6 +7,7 @@
 #include <stddef.h>
 
 struct Vec;
+struct Boss6Type2MoveTarget;
 
 // High byte of the angle, then the radius and height in units of ten.
 struct Boss6PolarBytes {
@@ -24,6 +25,22 @@ struct Boss6FlowAction {
     void decode_target(Vec *target);
 };
 
+// The grid cell (TBoss6Type2::grid_to_world_pos) and the high byte of the heading.
+struct Boss6GridBytes {
+    s8 grid_x;
+    s8 grid_z;
+    s8 heading;
+
+    void decode_grid_position(Boss6Type2MoveTarget *target);
+};
+
+struct Boss6Type2FlowAction {
+    s8 action;
+    Boss6GridBytes position;
+
+    void decode_target(Boss6Type2MoveTarget *target);
+};
+
 struct OlgaFlowActionMsg {
     G_ClientIDHeader header;
     Boss6FlowAction flow;
@@ -39,10 +56,7 @@ struct OlgaFlowActionMsg {
 
 struct OlgaFlowType2ActionMsg {
     G_ClientIDHeader header;
-    s8 action;
-    s8 grid_x;
-    s8 grid_z;
-    s8 heading;
+    Boss6Type2FlowAction flow;
     u8 random_factor;
     s8 next_motion;
     s8 target_mode;
@@ -62,7 +76,7 @@ LAYOUT_ASSERT(OlgaFlowActionMsg_size, sizeof(OlgaFlowActionMsg) == 0x14);
 LAYOUT_ASSERT(OlgaFlowActionMsg_flow_offset, offsetof(OlgaFlowActionMsg, flow) == 4);
 LAYOUT_ASSERT(OlgaFlowActionMsg_sync_offset, offsetof(OlgaFlowActionMsg, attack_mode) == 8);
 LAYOUT_ASSERT(OlgaFlowType2ActionMsg_size, sizeof(OlgaFlowType2ActionMsg) == 0x14);
-LAYOUT_ASSERT(OlgaFlowType2ActionMsg_action_offset, offsetof(OlgaFlowType2ActionMsg, action) == 4);
+LAYOUT_ASSERT(OlgaFlowType2ActionMsg_action_offset, offsetof(OlgaFlowType2ActionMsg, flow) == 4);
 LAYOUT_ASSERT(OlgaFlowType2ActionMsg_sync_offset, offsetof(OlgaFlowType2ActionMsg, random_factor) == 8);
 
 struct OlgaFlowPlotActionMsg {

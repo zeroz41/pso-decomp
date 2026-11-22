@@ -52,7 +52,7 @@ public:
     void distribute_part_damage();
     void destroy_sub_objects();
     void spawn_sub_objects();
-    void fn_80044680();
+    void update_ring_attack();
     void apply_hit_reaction(f32 delay);
     static void copy_phase2_positions_to_global(const VoloptPhase2Message *message);
     static void send_random_params();
@@ -66,19 +66,19 @@ public:
     s16 collect_targets_in_front();
     void trigger_breakup();
     void apply_broken_part_visibility();
-    void fn_800456E4();
-    void fn_800457A0();
+    void break_off_part_c();
+    void break_off_part_b();
     void spawn_breakup_models();
     void reset_visual_state();
     void spawn_ambient_particles();
     void update_death_sequence();
     void update_fade_state();
     void update_pillar_heal_state();
-    void fn_80046260();
+    void update_back_attack();
     void check_and_notify();
-    void fn_800465B0();
-    void fn_80046CB8();
-    void fn_800472D4();
+    void update_front_attack();
+    void update_attack();
+    void update_idle();
     void update_state();
     void dispatch_state();
     void set_action_wait(u16 target_id);
@@ -130,7 +130,7 @@ public:
     s32 ring_phase;
 };
 
-extern BmlResource *lbl_805D4CE4;
+extern BmlResource *volopt_p02_resources;
 extern VoloptP02Params *volopt_p02_params;
 
 LAYOUT_ASSERT(TBoss3VoloptP02_size, sizeof(TBoss3VoloptP02) == 0x510);

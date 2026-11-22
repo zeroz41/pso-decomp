@@ -22,7 +22,18 @@ struct TBoss6GravBall : public TObjCollidable {
     Vec ball_position;
     TParticleCtrl *emitters[9];
 
+    // Moves emitters 5-8 to their players (by client id) and the others to the ball.
+    void update_emitter_positions();
+    // create_emitter with particle flag 0x2000 added; used for emitter 4 when the charge starts.
+    void create_charge_emitter(s32 index);
+    void clear_emitters();
     void clear_player_grav_flags();
+    // Charge phase: players within 10 are held at the ball, players within 32.5 pushed out to 33.5.
+    void push_players();
+    // Grounded phase: players are pulled to the ball (pull_strength), held within 10.
+    void pull_players();
+    // Moves the ball 2/3 of a unit per frame towards the origin of the floor (x, z).
+    void drift_to_center();
     s32 clamp_to_ground();
     void update_state();
     void update_charge_effects();

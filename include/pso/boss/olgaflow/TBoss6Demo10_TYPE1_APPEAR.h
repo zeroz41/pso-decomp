@@ -17,7 +17,7 @@ public:
     TBoss6Demo10_TYPE1_APPEAR(TBoss6PlotFalz *plot);
     static TBoss6Demo10_TYPE1_APPEAR *create(TBoss6PlotFalz *plot);
     virtual ~TBoss6Demo10_TYPE1_APPEAR();
-    void sub_8033C7C8();
+    void draw_parts();
     virtual void render();
     virtual void run_task();
     OlgaFlowScenePart parts[2];

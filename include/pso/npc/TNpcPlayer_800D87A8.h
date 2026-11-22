@@ -13,4 +13,8 @@ void *find_active_entity_by_id(u16 id);
 }
 // --- end of C functions
 
+// The player in battle slot `id` (TObjPlayer::get_battle_param), or 0 when that
+// slot is not a valid, active player.
+void *get_valid_target_player(int id);
+
 #endif

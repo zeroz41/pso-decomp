@@ -14,16 +14,16 @@ struct TObjEneMe1CanadinLeader : public TObjEneMe1Canadin {
     virtual void spawn_members();
     virtual s32 check_retreat_trigger();
     virtual int has_no_members();
-    virtual void vfunc_110(s32);
-    virtual void vfunc_111(s32);
+    virtual void state_activate(s32);
+    virtual void state_rise(s32);
     virtual void state_dead(s32);
     virtual void apply_model_color();
     virtual int can_member_attack_target(TObjChara *);
-    virtual void remove_member(uaddr);
-    s32 m_4CC;
-    s32 m_4D0;
-    TObjEneMe1Canadin *m_4D4[8];
-    s32 m_4F4;
+    virtual void remove_member(TObjEneMe1Canadin *member);
+    s32 member_total;
+    s32 member_count;
+    TObjEneMe1Canadin *members[8];
+    s32 formation_state;
     void update_formation_state();
     static void *create(void *set_data);
     static TObjEneMe1Canadin *create_canadin(TObjEneMe1Canadin *leader, Vec *position, s32 id, s32 index);
@@ -31,6 +31,6 @@ struct TObjEneMe1CanadinLeader : public TObjEneMe1Canadin {
 
 LAYOUT_ASSERT(TObjEneMe1CanadinLeader_size, sizeof(TObjEneMe1CanadinLeader) == 0x4F8);
 
-LAYOUT_ASSERT(CanadinLeaderMembersOffset, offsetof(TObjEneMe1CanadinLeader, m_4D4) == 0x4D4);
+LAYOUT_ASSERT(CanadinLeaderMembersOffset, offsetof(TObjEneMe1CanadinLeader, members) == 0x4D4);
 
 #endif

@@ -14,7 +14,6 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/slime/TObjEneSlimeWaterBomb.h"
 #include "pso/enemy/slime/TObjEneSlimeOne.h"
-#include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/player/TObjPlayer.h"
 
 struct O_800EC39C { u8 pad[0x384]; s32 state; };
@@ -26,8 +25,8 @@ extern f32 slime_one_animation_end_frame;
 void draw_chunk_model_with_shape_motion(void *child, void *motion, NJS_MOTION *shape, f32 frame);
 extern s32 slime_one_part_texture_index_table[];
 extern s32 model_render_flags;
+#include "pso/player/TObjPlayer_801D2E20.h"
 extern "C" {
-int get_validated_attack_stage(void*);
 
 s32 TObjEneSlimeOne::get_attack_target() { return variant; }
 
@@ -43,7 +42,7 @@ saddr TObjEneSlimeOne::get_instance() {  return slime_bml_resource; }
 int TObjEneSlimeWaterBomb::find_nearest_enemy_masked(f32 range) {
     s32 target_id;
     this->actorFlags = (s32) (this->actorFlags | 0x02000000);
-    target_id = find_nearest_hittable_enemy__10TObjPlayerFiPvf(reinterpret_cast<saddr>(this), NULL, range);
+    target_id = find_nearest_hittable_enemy(this, NULL, range);
     this->actorFlags = (s32) (this->actorFlags & 0xFDFFFFFF);
     return static_cast<u16>(target_id);
 }
@@ -53,14 +52,14 @@ int TObjEneSlimeOne::is_timer_active() { return (this->actorFlags >> 4) & 0x1; }
 int TObjEneSlimeOne::find_nearest_enemy_with_flag(Vec *direction, f32 range) {
     s32 target_id;
     this->actorFlags = (s32) (this->actorFlags | 0x02000000);
-    target_id = find_nearest_hittable_enemy__10TObjPlayerFiPvf(reinterpret_cast<saddr>(this), direction, range);
+    target_id = find_nearest_hittable_enemy(this, direction, range);
     this->actorFlags = (s32) (this->actorFlags & 0xFDFFFFFF);
     return static_cast<u16>(target_id);
 }
 
-void TObjEneSlimeOne__sub_800EC470(void* p) { *(s32*)((char*)p + 0x3f0) = 0; }
+void TObjEneSlimeOne::clear_parent_slime() { parent_slime = NULL; }
 
-int TObjEneSlimeOne::check_player_field_7cc() { return get_validated_attack_stage((char*)this + 0x7cc); }
+s16 TObjPlayer::get_attack_stage() { return get_validated_attack_stage((u8 *)&attack_state); }
 
 extern f32 TObjEneSlimeOne__target_depth;
 extern u8 TObjEneSlimeOne__target_depth_initialized;
@@ -211,7 +210,7 @@ void SlimeAnimationState::set_state(s32 next_state) {
     }
     if (state < 7) {
         if (flag != 0) {
-            ((TObjEnePanarms *)owner)->init(state);
+            owner->init(state);
         } else {
             owner->set_field_b8(state);
         }

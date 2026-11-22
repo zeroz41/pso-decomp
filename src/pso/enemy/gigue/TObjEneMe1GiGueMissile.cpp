@@ -22,21 +22,13 @@
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/render/render_util.h"
 #include "pso/object/base/TObjChara.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/task/TMainTask.h"
 
 #pragma readonly_strings on
 
-extern "C" {
-BmlResource *lbl_805D6858;
-u16 get_entity_id(void *);
-void *TNeedleShoot__ct(void *, s32, Vec *, Vec *);
-extern void *__vt__22TObjEneMe1GiGueMissile[];
-const char *lbl_805D3F20 = "TObjEneMe1GiGueMissile";
-TObjEneMe1GiGueMissile *TObjEneMe1GiGueMissile__ct(TObjEneMe1GiGueMissile *self, s32 owner, Vec *from, Vec *to, f32 speed, f32 power);
-void TObjPlayer__sub_802A445C(TNeedleShoot *self, int arg1);
-void TObjEneMe1GiGue__sub_802CE4E8(void);
-void TObjEneMe1GiGue__sub_802CE4EC(void);
-void obj_setFlags30(void *, int);
-extern void *tl_07;
+BmlResource *gigue_missile_resource;
+const char *TObjEneMe1GiGueMissile__name = "TObjEneMe1GiGueMissile";
 
 void TObjEneMe1GiGueMissile::explode(void *pos) {
     void *fx;
@@ -44,15 +36,15 @@ void TObjEneMe1GiGueMissile::explode(void *pos) {
     s32 i;
     fx = TObject::operator new(0x64);
     if (fx != NULL) {
-        create_fire_explosion_effect((u8 *)fx, 40.0f, (const Vec *)pos, 0, (TObject *)tl_07);
+        create_fire_explosion_effect((u8 *)fx, 40.0f, (const Vec *)pos, 0, tl_07);
     }
     for (i = 0; i < 4; i++) {
         p = get_player_by_client_id(i);
         if (p != NULL && horizontal_distance_squared(&p->position, (Vec *)pos) <= 1600.0f) {
             DirectAttackPayload hit;
             hit.kind = 0;
-            hit.power = m_c0;
-            if (p->receive_direct_attack((void *)m_1c, hit, NULL, -1, -1) > 0.0f) {
+            hit.power = power;
+            if (p->receive_direct_attack((void *)owner, hit, NULL, -1, -1) > 0.0f) {
                 obj_setFlags30(p, 0x600);
             }
             if (get_current_floor_area() == AREA_TOWER) {
@@ -64,35 +56,31 @@ void TObjEneMe1GiGueMissile::explode(void *pos) {
     }
 }
 
-void TObjEneMe1GiGueMissile::vfunc_6() { explode(&pos); TObject::queue_destruction(); }
+void TObjEneMe1GiGueMissile::on_wall_hit() { explode(&pos); TObject::queue_destruction(); }
 
-void TObjEneMe1GiGueMissile::vfunc_9(void *a1) { explode(&((TObjBase *)a1)->position); TObject::queue_destruction(); }
+void TObjEneMe1GiGueMissile::on_target_hit(void *a1) { explode(&((TObjBase *)a1)->position); TObject::queue_destruction(); }
 
 void TObjEneMe1GiGueMissile::create(s32 owner, saddr from, saddr to, f32 speed, f32 power) {
-    void *o = TObject::operator new(0xC4);
-    if (o != NULL) {
-        TObjEneMe1GiGueMissile__ct((TObjEneMe1GiGueMissile *)o, owner, (Vec *)from, (Vec *)to, speed, power);
-    }
+    new TObjEneMe1GiGueMissile(owner, (Vec *)from, (Vec *)to, speed, power);
 }
 
-}
 TObjEneMe1GiGueMissile::~TObjEneMe1GiGueMissile() {
 
 }
 
 void TObjEneMe1GiGueMissile::render() {
-    if (lbl_805D6858 == NULL) {
+    if (gigue_missile_resource == NULL) {
         TObject::queue_destruction();
         return;
     }
     push_matrix();
     TParticleCtrl::begin_effect_render();
     post_translate_matrix(&pos.x);
-    rotate_matrix_y(NULL, m_a4);
-    rotate_matrix_x(NULL, m_a0);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D6858->models[1].m_c));
+    rotate_matrix_y(NULL, rotation_y);
+    rotate_matrix_x(NULL, rotation_x);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(gigue_missile_resource->models[1].m_c));
     set_motion_packed_rotation();
-    draw_model_motion((void *)get_bml_model((BmlResource *)lbl_805D6858, 1), get_bml_motion(lbl_805D6858, 5), m_bc);
+    draw_model_motion((void *)get_bml_model(gigue_missile_resource, 1), get_bml_motion(gigue_missile_resource, 5), motion_frame);
     clear_motion_packed_rotation();
     TParticleCtrl::end_effect_render();
     pop_matrix();
@@ -102,41 +90,37 @@ void TObjEneMe1GiGueMissile::render() {
 #pragma opt_common_subs off
 void TObjEneMe1GiGueMissile::run_task() {
     f32 frame;
-    m_1c = (uaddr)find_entity_by_id(m_34);
-    if (m_1c == 0) {
+    owner = (uaddr)find_entity_by_id(owner_id);
+    if (owner == 0) {
         TObject::queue_destruction();
         return;
     }
-    m_bc += 1.0f;
-    frame = m_bc;
+    motion_frame += 1.0f;
+    frame = motion_frame;
     if (frame >= 20.0f) {
-        m_bc = frame - 20.0f;
+        motion_frame = frame - 20.0f;
     }
     update_position();
     update_lifetime();
-    TObjPlayer__sub_802A445C(this, 1);
+    check_target_hit(1);
 }
 #pragma pop
 
-TObjEneMe1GiGueMissile *TObjEneMe1GiGueMissile__ct(TObjEneMe1GiGueMissile *self, s32 owner, Vec *from, Vec *to, f32 speed, f32 power) {
-    TObjCollidable *target;
-    TNeedleShoot__ct(self, owner, from, to);
-    *(void ***)((s8 *)self + 0x18) = __vt__22TObjEneMe1GiGueMissile;
-    self->m_name = lbl_805D3F20;
-    self->m_c0 = power;
-    *(f32 *)self->_padAC = speed;
-    play_sound_effect(0x4002A600, &self->pos, 0, 0);
-    if ((void *)self->m_1c != NULL) {
-        self->m_34 = get_entity_id((void *)self->m_1c);
+TObjEneMe1GiGueMissile::TObjEneMe1GiGueMissile(s32 owner, Vec *from, Vec *to, f32 speed, f32 power)
+    : TNeedleShoot(owner, from, to) {
+    m_name = TObjEneMe1GiGueMissile__name;
+    this->power = power;
+    this->speed = speed;
+    play_sound_effect(0x4002A600, &pos, 0, 0);
+    if ((void *)this->owner != NULL) {
+        owner_id = get_entity_id((TObjBase *)this->owner);
     }
-    target = (TObjCollidable *)self->m_68;
-    if (target != NULL) {
-        target->bodies->radius = 1.0f;
+    if (collider != NULL) {
+        collider->bodies->radius = 1.0f;
     }
-    self->m_b0 = 1;
-    return self;
+    contact_mode = 1;
 }
 
-void TObjEneMe1GiGue__sub_802CE4E8(void) {  }
+void TObjEneMe1GiGueMissile::free_global() {}
 
-void TObjEneMe1GiGue__sub_802CE4EC(void) { lbl_805D6858 = TObjEneMe1GiGue::sub_802CAC80(); }
+void TObjEneMe1GiGueMissile::init_global() { gigue_missile_resource = TObjEneMe1GiGue::get_resource(); }

@@ -10,30 +10,45 @@
 struct OlgaFlowActionMsg;
 
 class ModelNodePositionCapture;
+class TBoss6PlotFalz;
+struct AnimationMotion;
+class TParticleCtrl;
 typedef Vec Boss6EffectPoint;
-// One of the two part-motion players at 0x444 (render blends prev_motion_id/prev_frame into
-// motion_id/frame by blend; names inferred from that use).
+// One of the two part-motion players at 0x444 (render blends prev_motion/prev_frame into
+// motion/frame by blend; the TBoss6Type2MotionTrack twin).
 struct Boss6PartMotion {
-    s32 motion_id;
+    AnimationMotion *motion;
     f32 frame;
-    f32 frame_step;
+    f32 speed;  // frames per update
     f32 blend;
-    u8 pad_10[0x4];
-    s32 prev_motion_id;
+    f32 blend_step;
+    AnimationMotion *prev_motion;
     f32 prev_frame;
+    void copy_from(Boss6PartMotion *src);
 };
 struct TBoss6GravBall;
+struct Blk_802B8624;
+
+// The three bytes an attack choice fills (init_attack_params / randomize_attack) and send_6xA4_action
+// sends as the action's Boss6PolarBytes: heading byte, radius and height in units of ten.
+struct Boss6Type1AttackTarget {
+    s8 angle;
+    u8 radius;
+    s8 height;
+};
 
 struct Boss6Point {
     Vec v;
 };
 
 struct TBoss6Type1 : public TObjEnemy {
+    TBoss6Type1(TObject *parent, saddr *params);
     virtual ~TBoss6Type1();
-    void sub_802B626C();
+    void render_laser();
     void set_action_state(s32);
-    void sub_802B5CB4();
-    void sub_802B4C28();
+    void update_action_camera();
+    // Moves the effect_slots emitters to their node (TBoss6Type1__effect_slot_table).
+    void update_effect_slots();
     virtual void run_hit_reaction();
     virtual void clear_harmful_statuses();
     virtual void apply_shock_status();
@@ -46,51 +61,59 @@ struct TBoss6Type1 : public TObjEnemy {
     void run_task();
     void update_effect_points();
     void update_trail_points();
-    u32 m_374;
-    u8 unk_378[0x80];
-    saddr m_3f8;
-    saddr bml_resource; // BML archive handle passed to get_bml_motion / get_bml_model, name inferred
+    u32 action_state;  // row of boss6_type1_action_table (set_action_state)
+    s32 action_history[32];  // set_action_state shifts the last 32 states in
+    TBoss6PlotFalz *plot_falz;  // the spawn parameters' first word
+    BmlResource *bml_resource; // BML archive handle passed to get_bml_motion / get_bml_model, name inferred
     TBoss6Zanzo *trail_point_receiver;
     TBoss6Zanzo *effect_point_receiver;
-    saddr unk_408;
-    s32 m_40c;
+    u32 frame_counter;  // run_task adds one every update
+    s32 action_duration;  // what action_timer runs to (interpolate_pos_to_target's total)
     s32 action_timer;
-    s32 m_414;
-    u8 unk_418[0x4];
-    s8 m_41c;
-    u8 unk_41D[0x3];
-    Boss6Point m_420;
-    Boss6Point m_42C;
-    s32 m_438;
-    u8 unk_43C[0x4];
-    s32 m_440;
+    s32 target_mode;   // OlgaFlowActionMsg::target_mode
+    s32 active_parts;  // the action row's param: 1 turns the first two bodies on, 2 the other five
+    s8 random_factor;  // OlgaFlowActionMsg::random_factor
+    u8 pad_41D[0x3];
+    Boss6Point target_position;  // OlgaFlowActionMsg's decoded target
+    Boss6Point pad_42C;  // set to boss6_type1_origin by the constructor
+    s32 attack_mode;   // OlgaFlowActionMsg::attack_mode
+    s32 motion_set;    // row of TBoss6Type1__motion_set_table
+    s32 motion_mode;   // that row's mode: 0 loops, 2 holds the last frame and goes on to the row's next set
     Boss6PartMotion part_motions[2];
-    s32 m_47c;
+    s32 beam_damage;   // base damage of update_beam_attack's hit, name inferred
     s32 sweep_damage; // base damage of the swept-arm hit test (TBoss6Type1__sub_802B715C), name inferred
-    s32 m_484;
-    u8 unk_488[0x4];
-    s32 m_48c;
-    u8 unk_490[0x4];
-    s32 m_494;
-    u8 unk_498[0x4];
-    s32 m_49c;
+    s32 laser_damage;  // base damage of check_laser_hits (FLLSR_MV), name inferred
+    s32 center_damage;  // base damage of damage_players_in_range, name inferred
+    s32 scream_threshold;   // is_ready: damage since the latch that sends SCREAM (target_mode 0)
+    s32 chal_ud_threshold;  // is_time_up: damage since the latch that sends CHAL_UD (send_chal_ud)
+    s32 damage_step;        // check_field4b0_threshold's step (times damage_step_scale)
+    s32 delta_threshold;  // is_field4b0_delta_reached compares calc_field4b0_delta() with it
+    s32 laser_charge_time;  // FLLSR_MV: frames before the laser fires (act_fllsr_mv adds it to the duration)
     s32 laser_fire_time;
-    s32 m_4a4;
-    u8 unk_4A8[0x4];
-    s32 m_4ac;
-    u8 unk_4B0[0x4];
-    f32 m_4b4;
-    u8 unk_4B8[0x10];
+    s32 float_time;  // RND_FLOAT duration (init_attack_timers)
+    s32 low_hp_float_time;  // RND_FLOAT duration once low_hp_flag is set
+    s32 low_hp_flag;  // set_flag_on_threshold sets it once hp_ratio drops below a third
+    s32 latched_hp;  // latch_phase_counter stores hp; calc_field4b0_delta returns the damage since
+    f32 damage_step_scale;  // check_field4b0_threshold: damage since the latch vs this * damage_step, then * 1.5
+    // set_action_state counts these actions (boss6_type1_action_table's names).
+    s32 chal_ud_count;       // CHAL_UD
+    s32 center_trip_count;   // GOTO_CENTOP and GOTO_CENBTM
+    s32 centop_count;        // GOTO_CENTOP
+    s32 cenbtm_count;        // GOTO_CENBTM
     Vec prev_effect_point; // effect_points[1] of the previous frame, name inferred
-    f32 m_4d4;
-    f32 m_4d8;
-    f32 m_4dc;
-    s32 m_4e0;
-    u8 unk_4E4[0x4];
-    f32 m_4e8;
-    u8 unk_4EC[0x1C];
-    s32 m_508;
-    u8 unk_50C[0x6C];
+    f32 hit_flash;  // run_hit_reaction sets 1, run_task fades it out over 15 updates
+    f32 hp_ratio;   // hp / referenceHp, run_task
+    f32 laser_scale;  // grows to 1 while the FLLSR_MV laser fires; scales the beam drawn at node_points[7]
+    s32 timer_limit;    // is_timer_expired: 0 or less never runs
+    s32 timer_elapsed;  // counts up to timer_limit
+    f32 sway_offset;    // update_sway eases it toward its target
+    s32 sway_phase;
+    s32 sway_speed;
+    s32 sway_delay;
+    TParticleCtrl *effect_slots[4];  // TBoss6Type1__effect_slot_table's emitters
+    s32 laser_frames;  // count_laser_frame adds one per update while the laser is drawn, name inferred
+    TParticleCtrl *slot_particles[24];
+    Vec last_beam_point;  // update_beam_attack measures from it every other update, name inferred
     // The capture lists end after 11 body positions and 7 arm positions.
     Vec node_points[11];
     Vec arm_node_positions[7];
@@ -101,16 +124,16 @@ struct TBoss6Type1 : public TObjEnemy {
     TObject *map_csn;
     static u8 *create_kakusan(TObject *parent, Vec *pos, Vec *dir, u16 target_client, f32 speed);
     void clear_slot_array();
-    void release_effect_slot(s32 arg1);
-    void spawn_effect_slot(s32 arg1);
+    void release_effect_slot(s32 slot);
+    void spawn_effect_slot(s32 slot);
     void rotate_around_center(s32 num, s32 den);
     void interpolate_pos_to_target(s32 step, s32 total);
     void ease_toward_target(s32 a, s32 b);
-    s32 count_matches(s32 arg1, s32 arg2);
-    static s32 pick_random_entry(s32 arg0, saddr arg1, s32 arg2);
-    static int rand_range_inclusive(s32 arg0, int arg1, int arg2);
+    s32 count_matches(s32 action, s32 depth);
+    s32 pick_random_entry(const s32 *table, s32 count);
+    int rand_range_inclusive(int lo, int hi);
     s32 pick_remapped_list_value(s32 a, s32 b, s32 n);
-    static void request_jittered_camera(void *arg0, void *arg1, void *arg2, int arg3);
+    void request_jittered_camera(const Vec *eye, const Vec *target, u16 client_id);
     void request_default_jittered_camera();
     s32 is_timer_expired();
     void reset_fields_4e0();
@@ -120,7 +143,7 @@ struct TBoss6Type1 : public TObjEnemy {
     s32 check_field4b0_threshold();
     int is_time_up();
     void set_flag_on_threshold();
-    static void set_part_default_value(int a0, void* a1);
+    void set_part_default_value(Vec *point);
     void init_parts();
     void reset_param();
     void decrease_field_clamped_min();
@@ -137,15 +160,15 @@ struct TBoss6Type1 : public TObjEnemy {
     void latch_phase_counter();
     void load_params_from_table();
     void draw_part_motions();
-    void set_motion_set(s32 arg1);
+    void set_motion_set(s32 set);
     void advance_animations();
-    void copy_transform(void* q);
+    static Blk_802B8624 *copy_block(Blk_802B8624 *d, const Blk_802B8624 *s);
     void render_shadows();
     void do_attack();
-    void send_6xA4_action(s32 t, s32 *src);
+    void send_6xA4_action(s32 t, const Boss6Type1AttackTarget *src);
     void load_params(const OlgaFlowActionMsg *message);
     void set_sync_data(OlgaFlowActionMsg *message);
-    static s32 create(s32 arg0);
+    static TBoss6Type1 *create(saddr arg0);
     void enter_flag800_state();
     void update_attack_countdown();
     void update_countdown_state();
@@ -186,20 +209,20 @@ struct TBoss6Type1 : public TObjEnemy {
     void choose_next_action();
     void init_attack_timers();
     void init_effect_slot_1();
-    void sub_802B245C();
-    void sub_802B24B4();
-    void sub_802B2724();
-    void sub_802B2A94();
-    void sub_802B2CB4();
-    void sub_802B2D68();
-    void sub_802B2F00();
-    void sub_802B3178();
-    void sub_802B31E4();
-    void sub_802B3320();
-    void sub_802B343C();
-    void sub_802B3564();
-    void sub_802B381C();
-    void sub_802B3B94();
+    void update_cenbtm_d();
+    void act_cenbtm_d();
+    void update_tkof_centop();
+    void update_down_centop();
+    void act_centop_u();
+    void act_centop_d();
+    void idle_chal_float();
+    void act_scream();
+    void update_fllsr_mv();
+    void act_fllsr_mv();
+    void update_sword_ud();
+    void update_sword_mv();
+    void update_kakusan();
+    void update_appear();
     void draw_model();
     void render();
     void release_map_csn();
@@ -216,26 +239,86 @@ struct TBoss6Type1 : public TObjEnemy {
     void init_state();
     void tick_trap_countdown();
     void init_work();
+    // Fills a heading near rotation_y, radius 180 or 280 and height 100 (inferred name).
+    void init_attack_params(Boss6Type1AttackTarget *atk);
+    void randomize_attack(Boss6Type1AttackTarget *atk);
+    // Sends RET_RND_UD, or RET_RND_DU below y -20.
+    void send_ret_rnd();
+    // RND_FLOAT's next attack: SWORD/SWORD2/KAKUSAN (target_mode 0) or TAILATK_MV and the random actions.
+    void choose_attack();
+    // Sends CHAL_UD, height weighted by the GOTO_CENTOP/GOTO_CENBTM counts.
+    void send_chal_ud();
+    void init_motions();
+    // Starts the sway over: zero offset and phase, the minimum speed and delay.
+    void reset_sway();
+    // SWORD_U/SWORD_D: spawns a TBoss6SwordShot where the blade (node_points[8]-[9]) crosses y 0.
+    void spawn_sword_shots();
+    // Swept-arm hit test of the motion-14 sweep (frames 10.5-15): damages players inside the arm's triangle.
+    void check_sweep_hits();
+    // FLLSR_MV: damages players inside the laser's area while it fires (inferred name).
+    void check_laser_hits();
+    // Fires five kakusan shots from body nodes across the boss's front (inferred).
+    void fire_kakusan_shots();
+    // Spreads the mines on rings around node 0 in a shuffled order (inferred: the mine attack).
+    void spawn_mines();
+    s32 is_raised() const;  // position.y > 100
+    s32 is_near_center();   // XZ distance from the centre < 230
+    s32 is_high();          // position.y > 140
+    s32 is_low();           // position.y < 40
+    // Counts timer_elapsed up while a timer_limit is set (is_timer_expired reads it).
+    void tick_timer();
+    void fire_at_all_players(f32 dy);
+    void request_float_camera();
+    void request_laser_camera();
+    void request_tail_attack_camera();
+    void request_top_jittered_camera();
+    void calc_grid_cell_position(Vec *out);
+    // SWORD_MV's target: radius 180 or 280 at y 100, turned 0x2000-0x6800 from rotation_y.
+    void pick_sword_move_target(Vec *out);
+    void clamp_to_arena_radius(Vec *out);
+    // APPEAR: eases position from the spawn to the base position over the last total updates.
+    void update_appear_position(s32 step, s32 total);
+    void clear_effect_slots();
+    // release_effect_slot for all four effect_slots.
+    void release_effect_slots();
+    // Called by the destructor: release_slot_particles (destroy_slot_particles is an inferred name).
+    void destroy_slot_particles();
+    void count_laser_frame();
+    // Zeroes laser_frames and releases every slot_particles emitter.
+    void release_slot_particles();
+    void clear_map_csn();
+    // Called by the destructor: release_map_csn (destroy_map_csn is an inferred name).
+    void destroy_map_csn();
 };
-extern "C" {
-void sub_802B626C__11TBoss6Type1Fv(TBoss6Type1 *boss);
-// Spreads the mines on rings around node 0 in a shuffled order (inferred: the mine attack).
-void TBoss6Type1__sub_802B6504(TBoss6Type1 *boss);
-// Fires five kakusan shots from body nodes across the boss's front (inferred).
-void TBoss6Type1__sub_802B6944(TBoss6Type1 *boss);
-// Swept-arm hit test of the motion-14 sweep (frames 10.5-15): damages players inside the arm's triangle.
-void TBoss6Type1__sub_802B715C(TBoss6Type1 *self);
-}
+// A row of TBoss6Type1__motion_set_table: how the main part motion ends and the two motions.
+struct Boss6Type1MotionSet {
+    s32 mode;      // TBoss6Type1::motion_mode
+    s32 next_set;  // the set mode 2 goes on to
+    s32 ids[2];    // BML motion indices of the two part motions
+};
+
+// A row of boss6_type1_action_table: set_action_state runs act, run_task update every
+// update and idle while the Plot Falz is idle.
+struct TBoss6Type1Action {
+    const char *name;
+    s32 anim;   // the motion set (set_motion_set)
+    s32 param;  // TBoss6Type1::active_parts
+    void (TBoss6Type1::*act)();
+    void (TBoss6Type1::*idle)();
+    void (TBoss6Type1::*update)();
+};
+extern TBoss6Type1Action boss6_type1_action_table[41];
+
 
 // Defined in TBoss6Type1.cpp's .rodata; init_effect_slot_1 reads it too.
-extern const Vec lbl_80470CE0;
+extern const Vec boss6_type1_base_position;
 
 LAYOUT_ASSERT(Boss6EffectPoint_size, (sizeof(Boss6EffectPoint)==0xC));
 LAYOUT_ASSERT(TBoss6Type1_receiver_offset, (offsetof(TBoss6Type1,effect_point_receiver)==0x404));
 LAYOUT_ASSERT(TBoss6Type1_points_offset, (offsetof(TBoss6Type1,arm_node_positions) + 5 * sizeof(Vec) == 0x638));
 LAYOUT_ASSERT(TBoss6Type1_trail_receiver_offset, (offsetof(TBoss6Type1,trail_point_receiver)==0x400));
 LAYOUT_ASSERT(TBoss6Type1_map_csn_offset, (offsetof(TBoss6Type1,map_csn)==0x680));
-LAYOUT_ASSERT(TBoss6Type1_target_position_offset, offsetof(TBoss6Type1, m_420) == 0x420);
+LAYOUT_ASSERT(TBoss6Type1_target_position_offset, offsetof(TBoss6Type1, target_position) == 0x420);
 LAYOUT_ASSERT(TBoss6Type1_node_points_offset, offsetof(TBoss6Type1, node_points) == 0x578);
 LAYOUT_ASSERT(TBoss6Type1_arm_node_positions_offset, offsetof(TBoss6Type1, arm_node_positions) == 0x5FC);
 #endif

@@ -14,7 +14,6 @@
 #include "pso/camera/TObjLiveCameraCtrl.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/boss/goldragon/TBoss8Dragon_802F3638.h"
 #include "pso/object/TObjControl.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/camera/TObjLiveCamera.h"
@@ -26,7 +25,6 @@
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
 #include "pso/system/task/TObject.h"
-#include "pso/boss/goldragon/TBoss8Dragon_802F3348.h"
 #include "pso/unk/TLobby_8007C550.h"
 #include "pso/unk/text_800832EC.h"
 #include "pso/network/client_id.h"
@@ -67,9 +65,8 @@ extern "C" {
 s32 __ct__7TObjectFP7TObject();
 extern s32 __vt__15TObjLiveMonitor[];
 extern void *tl_05;
-int get_global_part_count__12TBoss8DragonFl(void*);
+int get_part_entity_id__12TBoss8DragonFl(void*);
 s32 angle_diff_s16(int);
-s32 TBoss8Dragon__sub_802FCCBC(TBoss8Dragon *boss8_dragon);
 f32 calc_random_ratio__10TObjPlayerFv(void *);
 void TObjPlayer__sub_80082CBC(void *effect);
 void TObjPlayer__sub_80082CCC(void *effect);
@@ -170,7 +167,7 @@ void TObjLiveCameraCtrl::run_task() {
 
 
 void TObjLiveCameraCtrl::update_toggle_state() {
-    if ((s32) slot_index >= TBoss8Dragon__sub_802F3638()) {
+    if ((s32) slot_index >= TBoss8Dragon::get_live_monitor_count()) {
         if ((s32) pad_20 == 1) {
             if (camera_object != NULL) {
                 TObjPlayer__sub_80082CBC(camera_object);
@@ -189,7 +186,7 @@ void TObjLiveCameraCtrl::update_toggle_state() {
 #pragma fp_contract on
 void TObjLiveCameraCtrl::update_live_camera() {
     u8 *arg0 = (u8 *)this;
-    uaddr boss8_dragon;
+    TBoss8Dragon *boss8_dragon;
     u8 *player;
     u8 *temp_r3_2;
     u8 *enemy_entity;
@@ -233,8 +230,8 @@ void TObjLiveCameraCtrl::update_live_camera() {
         }
         break;
     case 5:
-        boss8_dragon = TBoss8Dragon__sub_802F3348(0);
-        if ((boss8_dragon != 0U) && (TBoss8Dragon__sub_802FCCBC((TBoss8Dragon *)boss8_dragon) != 0)) {
+        boss8_dragon = TBoss8Dragon::get_part(0);
+        if ((boss8_dragon != NULL) && (boss8_dragon->has_appeared() != 0)) {
             this->pad_1e = 0;
         }
         break;
@@ -331,7 +328,7 @@ void TObjLiveCameraCtrl::sub_8030B818(int _w1) {
 
 int TBoss8Dragon__sub_8030B80C(void) {  return (local_client_id & 0xffff); }
 
-int call_null__12TBoss8DragonFv(void) { return get_global_part_count__12TBoss8DragonFl((void*)(0)); }
+int call_null__12TBoss8DragonFv(void) { return get_part_entity_id__12TBoss8DragonFl((void*)(0)); }
 
 void TObjLiveMonitor::update_camera() { void* m = *(void**)((char*)this + 0x50); if (m) ((TCameraCtrl *)m)->update_single_screen(); }
 

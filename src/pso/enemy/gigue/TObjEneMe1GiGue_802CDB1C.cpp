@@ -26,16 +26,9 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/math/AngleUnits.h"
 #include "pso/unk/text_800870BC.h"
+#include "pso/network/client_id.h"
+#include "pso/npc/TNpcPlayer_800D87A8.h"
 
-extern "C" {
-void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
-extern f32 lbl_805D6844;
-extern f32 lbl_805D6848;
-TObjChara *find_active_entity_by_id(u16);
-extern s32 local_client_id;
-extern const f32 lbl_805D684C;
-extern s32 lbl_805D6854;
-}
 
 TUnk_804E14E8::TUnk_804E14E8(Vec *start, u16 target_id, GiGueShotAngles *angles, s32 delay, s32 double_hit, u16 src_id)
     : TObjCollidable(tl_04) {
@@ -47,7 +40,7 @@ TUnk_804E14E8::TUnk_804E14E8(Vec *start, u16 target_id, GiGueShotAngles *angles,
     m_e8 = 0.0f;
     push_matrix_from(identity_matrix);
     {
-        Vec v = {0.0f, 0.0f, lbl_805D6844};
+        Vec v = {0.0f, 0.0f, gigue_shot_speed};
         rotate_matrix_y(NULL, angles->y);
         rotate_matrix_x(NULL, angles->x);
         matrix_mult_vec(NULL, &v, &vel);
@@ -63,7 +56,7 @@ TUnk_804E14E8::TUnk_804E14E8(Vec *start, u16 target_id, GiGueShotAngles *angles,
     ptcl0 = (TParticleCtrl *)spawn_particle_effect_with_rotation(start, &ang, 0x201, 2);
     ptcl1 = (TParticleCtrl *)spawn_particle_effect_with_rotation(start, &ang, 0x202, 2);
     }
-    speed = lbl_805D6848;
+    speed = gigue_shot_homing;
     if (xz_distance_squared(target, start) < 22500.0f) {
         speed *= 2.0f;
     }
@@ -90,7 +83,7 @@ void TUnk_804E14E8::run_task() {
         queue_destruction();
         return;
     }
-    tgt = find_active_entity_by_id(target_id);
+    tgt = (TObjChara *)find_active_entity_by_id(target_id);
     switch (state) {
     case 0:
         timer--;
@@ -122,9 +115,9 @@ void TUnk_804E14E8::run_task() {
             VecCopy(&v, &tgt->body_center);
             subtract_vector(&v, &pos);
             vec_set_length(&v, speed);
-            speed += lbl_805D684C;
+            speed += gigue_shot_homing_step;
             vec3_add_to(&vel, &v);
-            vec_set_length(&vel, lbl_805D6844);
+            vec_set_length(&vel, gigue_shot_speed);
         }
         VecCopy(&prev, &pos);
         vec3_add_to(&pos, &vel);
@@ -139,8 +132,8 @@ void TUnk_804E14E8::run_task() {
             return;
         }
         if (tgt != NULL && !(tgt->actorFlags & 0x04000A00) &&
-            xyz_distance_squared(&pos, &tgt->body_center) <= lbl_805D6844 * lbl_805D6844) {
-            DirectAttackPayload hit = {1, (f32)lbl_805D6854};
+            xyz_distance_squared(&pos, &tgt->body_center) <= gigue_shot_speed * gigue_shot_speed) {
+            DirectAttackPayload hit = {1, (f32)gigue_shot_power};
             tgt->receive_direct_attack(src, hit, 0, -1, -1);
             if (double_hit == 1) {
                 hit.kind = 0x12;

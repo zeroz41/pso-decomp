@@ -25,29 +25,28 @@ void TLobby__sub_803FD0C0(void) {
     TLobby__sub_803F7980(g);
 }
 
-typedef void (*PppLinkHandler)(void);
 s32 TLobby__sub_803FD404(s16 ch, u8 *addr);
 s32 TLobby__sub_803FD60C(s16 ch, u8 *dst);
 
 s16 TLobby__sub_803FD10C(void) {
-    PppLinkHandler fns[11];
+    Fn_8040881C fns[11];
     s16 r;
     s16 i;
     s16 *p;
 
     init_buffer_desc_b(&lobby_net_buffer_desc_b);
-    fns[0] = (PppLinkHandler)TLobby__sub_803FD60C;
-    fns[1] = (PppLinkHandler)TLobby__sub_803FD5A4;
-    fns[2] = (PppLinkHandler)clear_socket_slot;
-    fns[3] = (PppLinkHandler)get_checked_status_value;
-    fns[4] = (PppLinkHandler)TLobby__sub_803FD4FC;
-    fns[5] = (PppLinkHandler)TLobby__sub_803FD4D8;
-    fns[6] = (PppLinkHandler)TLobby__sub_803FD4B4;
-    fns[7] = (PppLinkHandler)TLobby__sub_803FD490;
-    fns[8] = (PppLinkHandler)TLobby__sub_803FD404;
-    fns[9] = (PppLinkHandler)TLobby__sub_803FD310;
-    fns[10] = (PppLinkHandler)TLobby__sub_803FD21C;
-    r = TLobby__sub_80409A3C((u8 *)fns, 2);
+    fns[0] = (Fn_8040881C)TLobby__sub_803FD60C;
+    fns[1] = (Fn_8040881C)TLobby__sub_803FD5A4;
+    fns[2] = (Fn_8040881C)clear_socket_slot;
+    fns[3] = (Fn_8040881C)get_checked_status_value;
+    fns[4] = (Fn_8040881C)TLobby__sub_803FD4FC;
+    fns[5] = (Fn_8040881C)TLobby__sub_803FD4D8;
+    fns[6] = (Fn_8040881C)TLobby__sub_803FD4B4;
+    fns[7] = (Fn_8040881C)TLobby__sub_803FD490;
+    fns[8] = (Fn_8040881C)TLobby__sub_803FD404;
+    fns[9] = (Fn_8040881C)TLobby__sub_803FD310;
+    fns[10] = (Fn_8040881C)TLobby__sub_803FD21C;
+    r = TLobby__sub_80409A3C(fns, 2);
     if (r < 0) {
         return r;
     }

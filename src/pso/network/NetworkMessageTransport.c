@@ -38,7 +38,7 @@ s16 TLobby__sub_80426110(EthernetReceiveFilter *o, u16 arg1, u16 arg2);
 s32 OSReceiveMessage(void *, void *, int);
 extern const u8 lbl_805E1190[8] = { 255, 255, 255, 255, 255, 255, 0, 0 };
 saddr TLobby__sub_804089A8(s16, s16, void *, void *); /* declared here with other parameter types; the definition is s32 (s16, s16, s16, void *) */
-s32 TLobby__sub_80426AAC(u16 key, saddr len);
+saddr TLobby__sub_80426AAC(u16 key, saddr len);
 
 static struct {
     EthernetReceiveFilter filter;
@@ -515,10 +515,10 @@ void forward_to_channel(void *frame, void *b) {
     }
 }
 
-s32 TLobby__sub_80426AAC(u16 key, saddr len) {
+saddr TLobby__sub_80426AAC(u16 key, saddr len) {
     EthernetReceiveFilter *o = &lobby_net_channel_table.filter;
     s32 i;
-    s32 ret = 0;
+    saddr ret = 0;
     EthernetFrameHeader hdr;
     u8 pad[4];
 
@@ -533,7 +533,7 @@ s32 TLobby__sub_80426AAC(u16 key, saddr len) {
                 ret = TLobby__sub_804089A8(0, 0, (void *)(len - 4), &hdr);
                 break;
             case 2:
-                ret = (s32)TLobby__sub_80425640(len);
+                ret = (saddr)TLobby__sub_80425640(len);
                 break;
             }
             break;

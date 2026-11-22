@@ -1,17 +1,11 @@
 #include "types.h"
 #include "pso/enemy/TObjEnemy.h"
 
-#include <stddef.h>
 #include "pso/unk/TLobby.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/ui/window/TWindowLockOn.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-struct Stack_800F5D80 {
-    s32 sp8;
-    u8 pad_C[0x2];
-    s16 spE;
-};
 
 extern "C" {
 s32 collect_model_strips_by_texture(void *, s32, s32, s32);
@@ -38,13 +32,11 @@ void *TLobby::alloc_tables(s32 ctx, s32 arg2) {
     return this;
 }
 void TObjEnemy::clear_lobby_object_state() {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800F5D80, sp8) == 0x0);
-    LAYOUT_ASSERT(spE_offset, offsetof(Stack_800F5D80, spE) == 0x6);
-    Stack_800F5D80 stack;
-    if (this->exchange_object_state(&stack.sp8, 1) != 0) {
-        stack.sp8 = 0;
-        stack.spE = 0;
-        this->exchange_object_state(&stack.sp8, 0);
+    EnemyStateRecord record;
+    if (this->exchange_object_state(&record, 1) != 0) {
+        record.flags = 0;
+        record.damage = 0;
+        this->exchange_object_state(&record, 0);
     }
 }
 

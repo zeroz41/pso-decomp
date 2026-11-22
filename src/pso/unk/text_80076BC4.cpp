@@ -27,7 +27,8 @@ void submit_chat_text(u8 *lobby) {
     if (player != NULL && (s8) *lobby != 0) {
         ((TLobby *)lobby)->capture_chat_sensor();
         if (get_main_phase() == 0xF) {
-            Tag_80076BC8 tmp = *(Tag_80076BC8 *)&TPlyGuildCardTag(0, 0);
+            const TPlyGuildCardTag &made = TPlyGuildCardTag(0, 0);
+            Tag_80076BC8 tmp = *(Tag_80076BC8 *)&made;
             send_chat__9TProtocolFR16TPlyGuildCardTagPc(TLobby__protocol_instance, (TPlyGuildCardTag *)&tmp, lobby);
         } else {
             TWindowCtrl::open((saddr)(get_entity_id(player)), (saddr)lobby, 0xCB);

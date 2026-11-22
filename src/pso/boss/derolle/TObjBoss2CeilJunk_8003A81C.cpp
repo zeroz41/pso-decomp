@@ -47,7 +47,7 @@ BmlResourceDescriptor bm_obj_boss2_common_resource_descriptor = {
     0,
 };
 
-void *lbl_804FE9C8[7];
+void *boss2_dermt_slot_table[7];
 f32 boss2_ceil_junk_water_level;
 s32 lbl_805D4BE4;
 BmlResource *boss2_common_resource;
@@ -59,10 +59,10 @@ void *TObjBoss2CeilJunk::create(void *position) {
 
 
 void __sinit_TObjBoss2CeilJunk_8003A81C_cpp(void) { boss2_ceil_junk_water_level = boss2_water_level; }
-void TLobby__sub_8003A874(void) {
+void free_boss2_common_resource(void) {
     s32 i;
     for (i = 0; i < 7; i++) {
-        lbl_804FE9C8[i] = 0;
+        boss2_dermt_slot_table[i] = 0;
     }
     release_texture_list(boss2_common_texture_list);
     delete boss2_common_resource;

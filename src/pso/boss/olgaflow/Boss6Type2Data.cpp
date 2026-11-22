@@ -1,5 +1,6 @@
 #include "pso/system/ModelNodePositionCapture.h"
 #include "pso/boss/olgaflow/Boss6Type2Data.h"
+#include "pso/boss/olgaflow/TBoss6Type2.h"
 
 const char *TBoss6Type2__name = "TBoss6Type2";
 // Inferred name: distance checks (> 390), sound sources and the start position all use it.
@@ -27,7 +28,7 @@ const s32 lbl_8047128C[2] = { 4, 5 };
 const Boss6StripDesc boss6_type2_plot_falz_entry_table[2] = { { 4, 0x69, 0 }, { 5, 0x69, 0 } };
 const s32 boss6_type2_zero_vec[4] = { 0, 0, 0, 0 };
 const Blk_802BCFD4 boss6_type2_zero_motion_block = { 0 };
-const f32 boss6_type2_motion_entry_transform[7] = { 0.0f, 0.0f, 0.0f, 0.0f, 1.0f / 15.0f, 0.0f, 0.0f };
+const TBoss6Type2MotionTrack boss6_type2_motion_entry_transform = { NULL, 0.0f, 0.0f, 0.0f, 1.0f / 15.0f, NULL, 0.0f };
 const s32 TBoss6Type2__no_target_sound_ids[4] = { 0x68528, 0x68529, 0x6852A, 0x6852B };
 const Tbl_802BBE20 lbl_8047130C[3] = { { 0, 4 }, { 0, 9 }, { 0, 11 } };
 const s32 TBoss6Type2__player_hit_rock_indices[6] = { 3, 4, 5, 8, 9, 10 };

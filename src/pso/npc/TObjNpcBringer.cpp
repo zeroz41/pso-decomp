@@ -38,7 +38,7 @@ void *lbl_804A7EC0[22] = {
 TObjNpcBringer::TObjNpcBringer(TObject *parent, void *set_data) : TObjNpcBase(parent) {
     m_name = TObjNpcBringer__name;
     apply_set_data(set_data);
-    ((TObjPlayer *)this)->init_position_vectors();
+    init_position_vectors();
     apply_set_params(0, 1);
     *(s32 *)((u8 *)this + 0x34) = (saddr)get_bml_model((BmlResource *)TObjEneDf2Bringer__resource_bundle, 0);
     *(s32 *)((u8 *)this + 0x24) = (saddr)get_bml_texlist((BmlResource *)TObjEneDf2Bringer__resource_bundle, 0);

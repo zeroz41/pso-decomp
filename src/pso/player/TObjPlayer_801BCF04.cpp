@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
 
@@ -9,7 +10,6 @@ s32 TObjPlayer__sub_801C2114();
 s32 assign_inventory_item_ids(void *, s32, u8);
 s32 bind_saved_inventory_equipment__10TObjPlayerFPvPvi(void *, s32, u8);
 
-u16 get_entity_id(void *);
 extern s32 player_shared_buffer_base;
 extern s32 shared_state_flags;
 

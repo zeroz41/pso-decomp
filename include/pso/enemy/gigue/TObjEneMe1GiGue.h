@@ -17,13 +17,14 @@ struct GiGueParameters {
 class TObjChara;
 
 struct TObjEneMe1GiGue : public TObjEnemyCustom {
+    TObjEneMe1GiGue(TObject *parent, void *set_data);
     virtual ~TObjEneMe1GiGue();
     void move_around_center(void *, f32);
-    void sub_802CACD8();
+    void clear_state7_flag(); // update_action_hold_status's hook, as TObjEneNanoDrago's
     virtual void run_task();
     virtual void render();
-    void sub_802CCF2C();
-    void sub_802CB6D4();
+    void update_idle_state();
+    void update_proximity_state();
     void init_move();
     void update_direction();
     void load_params();
@@ -38,43 +39,43 @@ struct TObjEneMe1GiGue : public TObjEnemyCustom {
     virtual void run_attack_action();
     virtual void run_idle_action();
     u16 m_38c;
-    Vec m_390;
-    Vec m_39c;
-    Vec m_3a8;
-    Vec m_3b4;
-    s32 m_3c0;
-    u16 m_3c4[12];
-    s32 m_3dc;
-    f32 m_3e0;
-    f32 m_3e4;
-    f32 m_3e8;
-    f32 m_3ec;
-    u8 unk_3F0[0x4];
-    s32 m_3f4;
-    s32 m_3f8;
-    TUnk_80494938 m_3fc;
-    RenderFadeState m_418;
-    s32 m_434;
-    f32 m_438;
-    f32 m_43c;
-    f32 m_440;
-    f32 m_444;
-    s32 m_448;
-    s32 m_44c;
-    s32 m_450;
-    s32 m_454;
+    Vec moveDestination;
+    Vec missileOrigin;
+    Vec shotOrigin;
+    Vec rootPosition;
+    s32 targetCount;
+    u16 targetIds[12];
+    s32 circlingAngle;
+    f32 wanderDistance;
+    f32 moveSpeed;
+    f32 sinkingOffset;
+    f32 flightHeight;
+    u8 pad_3f0[0x4];
+    s32 cameraShakeCooldown;
+    s32 approachCount;
+    TUnk_80494938 appearFade;
+    RenderFadeState cameraFade;
+    s32 attackAngle;
+    f32 attackRange;
+    f32 entryHeight;
+    f32 barrierChance;
+    f32 techniqueChance;
+    s32 volleyCount;
+    s32 barrierDuration;
+    s32 attackDuration;
+    s32 rushDelay;
     void dispatch_state();
-    void clear_flag388_bit80000();
-    void sub_802CABF4();
+    void clear_barrier_active();
+    void set_barrier_active();
     s32 is_active_state();
-    s32 get_field_44c();
-    s32 sub_802CAC48();
+    s32 get_barrier_duration();
+    s32 get_rotation_y();
     Vec *update_and_get_pos();
     static void *create(void *set_data);
     static void delete_barrier();
     static void load_resources();
     void load_params_from_table(s32 i);
-    static BmlResource *sub_802CAC80();
+    static BmlResource *get_resource();
     void apply_hit_shake(TObjChara *player);
     s32 check_vector_bit(Vec *pos);
     static s32 remap_sound_id(void *obj, s32 id);
@@ -82,7 +83,26 @@ struct TObjEneMe1GiGue : public TObjEnemyCustom {
     void update_hit_reaction();
     void update_rush_attack();
     void add_target_in_cone(TObjChara *target);
+    void find_open_direction(Vec *dir);
+    void capture_shot_origins();
+    s32 collect_shot_targets();
+    void init();
+    void update_landing_state();
+    void spawn_targeted_shot(s32 index);
+    void action();
+    void update_technique_state();
+    void update_multi_shot_state();
+    void update_missile_state();
+    void update_circling_state();
+    void run_demo_task();
+    void update_attack();     // mode 2 (run_attack_action's); empty, the attacks are modes 9-11
 };
 
 LAYOUT_ASSERT(TObjEneMe1GiGue_size, sizeof(TObjEneMe1GiGue) == 0x458);
+
+// Shot parameters load_params copies from the GiGue parameter table for TUnk_804E14E8.
+extern f32 gigue_shot_speed;
+extern f32 gigue_shot_homing;
+extern f32 gigue_shot_homing_step;
+extern s32 gigue_shot_power;
 #endif

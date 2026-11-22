@@ -1,26 +1,17 @@
 #include "types.h"
+#include "pso/enemy/sorcerer/Re4BitData.h"
 
-// Data-only unit split off the re4 bit enemy at 0x8043D2B0; the referencing unit keeps these extern.
+// The Bit enemy's read-only data (Re4BitData.h says why it is a unit of its own).
 
-__declspec(section ".rodata") extern const u32 lbl_8043D2B0[2] = {
-    0x0000000B, 0x0000000C,
-};
+__declspec(section ".rodata") extern const s32 re4_bit_base_param_ids[2] = {11, 12};
 
-__declspec(section ".rodata") extern const u32 lbl_8043D2B8[2] = {
-    0x0000000B, 0x0000000C,
-};
+__declspec(section ".rodata") extern const s32 re4_bit_attack_param_ids[2] = {11, 12};
 
-__declspec(section ".rodata") extern const u32 lbl_8043D2C0[2] = {
-    0x0000000B, 0x0000000C,
-};
+__declspec(section ".rodata") extern const s32 re4_bit_resistance_param_ids[2] = {11, 12};
 
-__declspec(section ".rodata") extern const u32 lbl_8043D2C8[2] = {
-    0x0000000B, 0x0000000C,
-};
+__declspec(section ".rodata") extern const s32 re4_bit_behavior_param_ids[2] = {11, 12};
 
-__declspec(section ".rodata") extern const u8 TObjEneRe4Bit__class_name_string[14] ATTRIBUTE_ALIGN(4) = {
-    0x54, 0x4F, 0x62, 0x6A, 0x45, 0x6E, 0x65, 0x52, 0x65, 0x34, 0x42, 0x69, 0x74, 0x00,
-};
+__declspec(section ".rodata") extern const char TObjEneRe4Bit__class_name_string[14] ATTRIBUTE_ALIGN(4) = "TObjEneRe4Bit";
 
 __declspec(section ".rodata") extern const u32 re4_bit_render_vec[4] = {
     0x3F000000, 0x3F800000, 0x3F000000, 0x00000000,

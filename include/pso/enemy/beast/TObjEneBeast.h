@@ -6,6 +6,7 @@
 #include "pso/render/RenderFadeState.h"
 
 class TObject;
+class TUnk_80494968;
 
 struct TObjEneBeast : public TUnk_80493450 {
     TObjEneBeast(TObject *parent, void *set_data);
@@ -20,8 +21,8 @@ struct TObjEneBeast : public TUnk_80493450 {
     void play_alert_sound();
     void spawn_death_effect();
     void update_attack_trail();
-    TObject *m_3a8[2];
-    RenderFadeState m_3b0[4];
+    TUnk_80494968 *attack_trails[2];  // fed by update_attack_trail from the claw samples
+    RenderFadeState camera_fades[4];  // one per camera (render indexes it by camera mode)
     void select_subtype();
     static void *create(void *set_data);
     static void load_resources();
@@ -30,7 +31,7 @@ struct TObjEneBeast : public TUnk_80493450 {
 
 #include <stddef.h>
 LAYOUT_ASSERT(BeastSize, sizeof(TObjEneBeast) == 0x420);
-LAYOUT_ASSERT(BeastEmbeddedObjects, offsetof(TObjEneBeast, m_3b0) == 0x3B0);
+LAYOUT_ASSERT(BeastEmbeddedObjects, offsetof(TObjEneBeast, camera_fades) == 0x3B0);
 
 void free_boss4_rock_pool(void);
 

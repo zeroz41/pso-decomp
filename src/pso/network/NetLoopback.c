@@ -27,7 +27,6 @@ void init_loopback(void) {
 
 s16 register_loopback_handlers(void)
 {
-    s16 TLobby__sub_80409A3C(Fn_8040881C *, s16); /* declared here with other parameter types; the definition is s16 (u8 *, s16) */
     Fn_8040881C tbl[11];
     u8* base;
     LoopbackState* p;
@@ -102,11 +101,9 @@ s32 forward_loopback_packet(id, unused, arr)
     s32 unused;
     u8 *arr;
 {
-    s32 TLobby__sub_804098B4(void *); /* declared s32 here; the definition returns s16 */
-    void TLobby__sub_80409818(s32, s32, s16, s16, u16); /* declared here with an s32 2nd argument; the definition takes s16 */
     LoopbackState *p = &network_loopback_state;
     u8 *base;
-    s32 sum;
+    s16 len;
     s16 i;
     s16 *cnt;
     s16 sz;
@@ -114,8 +111,8 @@ s32 forward_loopback_packet(id, unused, arr)
     if (id != 0 && id != 1) {
         return -0x110;
     }
-    sum = TLobby__sub_804098B4(arr);
-    if (p->slot_size < (s16)sum) {
+    len = TLobby__sub_804098B4(arr);
+    if (p->slot_size < len) {
         return -0x110;
     }
     sz = p->slot_size;
@@ -125,7 +122,7 @@ s32 forward_loopback_packet(id, unused, arr)
         if (*cnt == 0) {
             *cnt = 1;
             TLobby__sub_80409908(base, arr);
-            TLobby__sub_80409818((saddr)base, sum, p->handler, id, p->protos[id].type);
+            TLobby__sub_80409818((saddr)base, len, p->handler, id, p->protos[id].type);
             return 0;
         }
         base += sz;

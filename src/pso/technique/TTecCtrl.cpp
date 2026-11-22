@@ -2,6 +2,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/technique/TechniqueParams.h"
@@ -9,6 +10,8 @@
 #include "pso/technique/TechniqueBoost.h"
 #include "pso/effect/TUnk_804CC148.h"
 #include "pso/object/ambient/TObjLight.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/TUnk_804CCAA8.h"
 #include "pso/player/TObjPlayer_8022C6C4.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
@@ -78,12 +81,9 @@ struct Player_8022D27C {
     u8 tech[1];
 };
 
-typedef struct Col_8022C738 { f32 r, g, b, a; } Col_8022C738;
 
 
 typedef struct Params_8022C738 { u8 pad0[0x12]; s16 f12; u8 pad14[0x20 - 0x14]; s16 f20; } Params_8022C738;
-
-typedef struct LightData_8022C738 { u8 pad0[0x1C]; f32 f1C; u8 pad20[4]; } LightData_8022C738;
 
 extern "C" {
 void *TObjPlayer__sub_80116620(void *, int);
@@ -97,18 +97,15 @@ void get_hand_joint_position__10TObjPlayerFl(void *, void *);
 Target_8022D27C *get_technique_data__10TObjPlayerFPv(void *);
 u8 get_cast_technique_level(void *, int);
 void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl);
-void *construct_actor_light__9TObjLightFlllllfffl(void *, Col_8022C738 *, Vec *, s32, void *, s32, f32, f32, f32);
-void *__ct__13TUnk_804CC794Fll(void *, void *, s32);
-void *__ct__13TUnk_804CC948Fll(void *, void *, s32);
-void *__ct__13TUnk_804CCD0CFll(void *, void *, s32);
-void *__ct__13TUnk_804CC990Fll(void *, void *, s32);
-void *__ct__13TUnk_804CCAC8Fll(void *, void *, s32);
-void *__ct__13TUnk_804CC74CFll(void *, void *, s32);
+void *__ct__13TUnk_804CC794Fll(void *, void *, TObject *);
+void *__ct__13TUnk_804CC948Fll(void *, void *, TObject *);
+void *__ct__13TUnk_804CCD0CFll(void *, void *, TObject *);
+void *__ct__13TUnk_804CC990Fll(void *, void *, TObject *);
+void *__ct__13TUnk_804CCAC8Fll(void *, void *, TObject *);
+void *__ct__13TUnk_804CC74CFll(void *, void *, TObject *);
 }
 extern u8 identity_matrix[];
 extern s32 local_client_id;
-extern LightData_8022C738 TObjLight__scene_light_state;
-extern s32 tl_07;
 
 // The technique effects' models and motions, and the archive that holds them.
 const char *bm_technic_model_names[13] = {
@@ -714,18 +711,15 @@ void capture_technique_targets__10TObjPlayerFv(int kind, Owner_8022CDE8 *owner) 
     }
 }
 
-// One technique's charge light: colour R, G, B, A, shining down; INIT builds its
+// One technique's charge light: colour A, R, G, B, shining down; INIT builds its
 // charge effect when the caster is played here.
-#define CHARGE_LIGHT_8022C738(R, G, B, A, INIT)                                                  \
+#define CHARGE_LIGHT_8022C738(A, R, G, B, INIT)                                                  \
     {                                                                                            \
-        Col_8022C738 c = {R, G, B, A};                                                           \
+        NJS_ARGB c = {A, R, G, B};                                                               \
         Vec v = {0.0f, -1.0f, 0.0f};                                                             \
-        void *o = TObject::operator new(100);                                                    \
-        if (o != NULL) {                                                                         \
-            ((void *(*)(f32, f32, f32, void *, Col_8022C738 *, Vec *, s32, void *, s32))          \
-                 construct_actor_light__9TObjLightFlllllfffl)(0.1f, 0.35f, TObjLight__scene_light_state.f1C, \
-                                          o, &c, &v, base, owner, tl_07);                        \
-        }                                                                                        \
+        void *o;                                                                                 \
+        new TUnk_804CCAA8(0.1f, 0.35f, TObjLight__scene_light_state.intensity, &c, &v, base,          \
+                          (TObjBase *)owner, tl_07);                                             \
         if (TObjPlayer::is_locally_controlled(owner) != 0) {                                \
             o = TObject::operator new(0x34);                                                     \
             if (o != NULL) {                                                                     \

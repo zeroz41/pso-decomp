@@ -42,7 +42,7 @@ extern u8 *rappy_bml_resource;
 TObjNpcLappy::TObjNpcLappy(TObject *parent, void *set_data) : TObjNpcBase(parent) {
     m_name = TObjNpcLappy__name;
     apply_set_data(set_data);
-    ((TObjPlayer *)this)->init_position_vectors();
+    init_position_vectors();
     apply_set_params(0, 1);
     *(s32 *)((u8 *)this + 0x34) = *(s32 *)(*(u8 **)(rappy_bml_resource + 0x42C) + 8);
     *(s32 *)((u8 *)this + 0x24) = *(s32 *)(*(u8 **)(rappy_bml_resource + 0x42C) + 0xC);

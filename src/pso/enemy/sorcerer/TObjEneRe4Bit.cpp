@@ -22,33 +22,23 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2F28.h"
+#include "pso/render/model_render_state.h"
+#include "pso/enemy/sorcerer/Re4BitData.h"
 #pragma defer_codegen on
 
-extern "C" {
-extern const f32 lbl_805D9E84;
+// Re4BitData.cpp defines it as 16 bytes (the shadow scale and a zero word), a Vec is 12.
 extern const Vec re4_bit_render_vec;
-extern s32 saved_model_render_flags;
-extern s32 model_render_flags;
 saddr TObjEneRe4Bit__model;
 s32 re4_bit_texture_list;
-extern "C" { extern char TObjEneRe4Bit__class_name_string[]; }
-const char *lbl_805D2AE8 = TObjEneRe4Bit__class_name_string;
-extern BmlResource *sorcerer_bml_resource;
-extern s32 lbl_8043D2B0[];
-extern s32 lbl_8043D2B8[];
-extern s32 lbl_8043D2C0[];
-extern s32 lbl_8043D2C8[];
-}
+const char *TObjEneRe4Bit__name = TObjEneRe4Bit__class_name_string;
 
 TObjEneRe4InitParams re4_bit_init_params = {225.0f, 0.0f, 0x600};
 CollisionBody re4_bit_model_node_desc = {{0.0f, 0.0f, 0.0f}, 2.0f, 0.0f, 0, 0x8003};
 
-extern "C" {
 __declspec(section ".data") u8 *TObjEneRe4Bit_boss_handles[2];
-__declspec(section ".data") u8 *lbl_80501058[2];
-__declspec(section ".data") u8 *lbl_80501060[2];
-__declspec(section ".data") void *lbl_80501068[2];
-}
+__declspec(section ".data") u8 *TObjEneRe4Bit_attack_handles[2];
+__declspec(section ".data") u8 *TObjEneRe4Bit_resistance_handles[2];
+__declspec(section ".data") void *TObjEneRe4Bit_behavior_params[2];
 
 void TObjEneRe4Bit::apply_defense_stat_status(void *) {  }
 
@@ -68,19 +58,19 @@ void TObjEneRe4Bit::apply_paralysis() {  }
 
 void TObjEneRe4Bit::apply_poison_status() {  }
 
-void TObjEneRe4Bit__sub_800EDAB4(void) {
+void TObjEneRe4Bit::load_resources() {
     s32 i;
     TObjEneRe4Bit__model = (saddr)sorcerer_bml_resource->models[1].model;
     re4_bit_texture_list = (saddr)sorcerer_bml_resource->models[0].m_c;
     for (i = 0; i < 2; i++) {
-        TObjEneRe4Bit_boss_handles[i] = (u8 *)TLobby::register_boss(lbl_8043D2B0[i]);
-        lbl_80501058[i] = (u8 *)TLobby::dispatch_shared_handler_b(lbl_8043D2B8[i]);
-        lbl_80501060[i] = (u8 *)TLobby::register_object(lbl_8043D2C0[i]);
-        lbl_80501068[i] = TLobby::dispatch_shared_handler_a(lbl_8043D2C8[i]);
+        TObjEneRe4Bit_boss_handles[i] = (u8 *)TLobby::register_boss(re4_bit_base_param_ids[i]);
+        TObjEneRe4Bit_attack_handles[i] = (u8 *)TLobby::dispatch_shared_handler_b(re4_bit_attack_param_ids[i]);
+        TObjEneRe4Bit_resistance_handles[i] = (u8 *)TLobby::register_object(re4_bit_resistance_param_ids[i]);
+        TObjEneRe4Bit_behavior_params[i] = TLobby::dispatch_shared_handler_a(re4_bit_behavior_param_ids[i]);
     }
 }
 
-void TObjEneRe4Bit__sub_800EDAB0(void) {  }
+void TObjEneRe4Bit::free_resources() {  }
 
 TObjEneRe4Bit *TObjEneRe4Bit::create(TObjEneRe4Sorcerer *owner, Vec *anchor, s32 enabled, u16 id, s32 set_index) {
     return new TObjEneRe4Bit(tl_04, owner, anchor, enabled, id, set_index);
@@ -96,13 +86,13 @@ void TObjEneRe4Sorcerer::create_enabled(Vec *anchor, u16 id, s32 set_index) {
 
 TObjEneRe4Bit::TObjEneRe4Bit(TObject *parent, TObjEneRe4Sorcerer *owner, Vec *anchor, s32 enabled, u16 id, s32 set_index)
     : TObjEneDD_ST(parent) {
-    m_name = lbl_805D2AE8;
+    m_name = TObjEneRe4Bit__name;
     init_common_from((u8 *)owner);
-    m_3c4 = get_entity_id((TObjBase *)owner);
+    owner_id = get_entity_id((TObjBase *)owner);
     entity_id = id;
     this->set_index = set_index;
-    m_3c0 = anchor;
-    m_3c8 = enabled;
+    this->anchor = anchor;
+    this->enabled = enabled;
     VecCopy(&position, anchor);
     init();
 }
@@ -114,28 +104,28 @@ void TObjEneRe4Bit::init() {
     model = (void *)TObjEneRe4Bit__model;
     texlist = re4_bit_texture_list;
     init_model(&re4_bit_model_node_desc, 1);
-    i = m_3c8 == 1 ? 0 : 1;
-    reset_hp(TObjEneRe4Bit_boss_handles[i], lbl_80501058[i], lbl_80501060[i]);
+    i = enabled == 1 ? 0 : 1;
+    reset_hp(TObjEneRe4Bit_boss_handles[i], TObjEneRe4Bit_attack_handles[i], TObjEneRe4Bit_resistance_handles[i]);
     set_state_8();
     movementParameters = &re4_bit_init_params;
-    if (m_3c8 == 1) {
+    if (enabled == 1) {
         initialize_enemy_state(0x20);
     } else {
         initialize_enemy_state(0x21);
     }
     wall_reach = 3.0f;
-    m_3cc = 0;
-    m_3d0 = 3;
-    m_3d4 = 3;
-    m_3d8 = 0.0f;
+    behavior_flags = 0;
+    texture_index = 3;
+    technique_texture = 3;
+    lift_height = 0.0f;
     fade.reset_obstruction_fade();
-    m_3f8.x = 0.0f;
-    m_3f8.y = 0.0f;
-    m_3f8.z = 0.0f;
-    m_404 = 0;
-    m_408 = 0;
-    m_40c = 0;
-    sub_800ED408();
+    homing_velocity.x = 0.0f;
+    homing_velocity.y = 0.0f;
+    homing_velocity.z = 0.0f;
+    cast_state = 0;
+    state_step = 0;
+    pad_40c = 0;
+    hide();
     call_vt_90_91();
     mode = 0;
     dispatch_action(mode, 4);
@@ -150,11 +140,11 @@ void TObjEneRe4Bit::run_task() {
         run_demo_task();
         return;
     }
-    if (update_status_effects() == 1 || (m_3cc & 0x2000) == 0) {
+    if (update_status_effects() == 1 || (behavior_flags & 0x2000) == 0) {
         update_action_state();
         clear_state_flags_when_done();
     } else {
-        m_3cc &= ~0x2000;
+        behavior_flags &= ~0x2000;
     }
     copy_pos();
     update_body_colliders();
@@ -168,7 +158,7 @@ void TObjEneRe4Bit::run_death_reaction() {
     if (m != 6) {
         if (m == 2) {
             transition_enemy_state(6);
-            m_404 = 3;
+            cast_state = 3;
             return;
         }
         transition_enemy_state(6);
@@ -177,7 +167,7 @@ void TObjEneRe4Bit::run_death_reaction() {
 
 void TObjEneRe4Bit::run_hit_reaction() {
     if (mode != 5) {
-        if (m_3cc & 0x1000) {
+        if (behavior_flags & 0x1000) {
             clear_attack_receipts();
             return;
         }
@@ -198,10 +188,10 @@ void TObjEneRe4Bit::update_position_flag() {
 
     VecCopy(&pos, &body_center);
     if (move_xz_on_ground((u8 *)&pos) == 0) {
-        m_3cc &= ~0x800;
+        behavior_flags &= ~0x800;
         return;
     }
-    m_3cc |= 0x800;
+    behavior_flags |= 0x800;
 }
 
 #pragma push
@@ -209,20 +199,20 @@ void TObjEneRe4Bit::update_position_flag() {
 void TObjEneRe4Bit::update_homing_velocity() {
     Vec dir;
     f32 s;
-    VecCopy(&dir, m_3c0);
-    dir.y = dir.y + m_3d8;
+    VecCopy(&dir, anchor);
+    dir.y = dir.y + lift_height;
     subtract_vector(&dir, &body_center);
     s = 0.01f * normalize_vector_safe(&dir);
-    m_3f8.x = 0.9f * (dir.x * s + m_3f8.x);
-    m_3f8.y = 0.9f * (dir.y * s + m_3f8.y);
-    m_3f8.z = 0.9f * (dir.z * s + m_3f8.z);
-    vec3_add_to(&body_center, &m_3f8);
+    homing_velocity.x = 0.9f * (dir.x * s + homing_velocity.x);
+    homing_velocity.y = 0.9f * (dir.y * s + homing_velocity.y);
+    homing_velocity.z = 0.9f * (dir.z * s + homing_velocity.z);
+    vec3_add_to(&body_center, &homing_velocity);
     position.x = body_center.x;
     position.z = body_center.z;
 }
 #pragma pop
 
-s32 TObjEneRe4Bit::sub_800ED498() {
+s32 TObjEneRe4Bit::can_cast() {
     s16 m;
     u8 result;
     m = mode;
@@ -233,54 +223,54 @@ s32 TObjEneRe4Bit::sub_800ED498() {
     return result;
 }
 
-s32 TObjEneRe4Bit::get_state() { return m_404; }
+s32 TObjEneRe4Bit::get_state() { return cast_state; }
 
 Vec *TObjEneRe4Bit::get_spell_data() { return &body_center; }
 
-void TObjEneRe4Bit::sub_800ED47C() { m_3d0 = 3; }
+void TObjEneRe4Bit::reset_texture() { texture_index = 3; }
 
 void TObjEneRe4Bit::set_state_flag_and_mode(s32 kind) {
-    m_3cc |= 0x1;
+    behavior_flags |= 0x1;
     switch (kind) {
     case 0:
-        m_3d4 = 4;
+        technique_texture = 4;
         return;
     case 1:
-        m_3d4 = 5;
+        technique_texture = 5;
         return;
     case 2:
-        m_3d4 = 6;
+        technique_texture = 6;
         return;
     }
 }
 
-void TObjEneRe4Bit::set_attack_flag() { m_3cc |= 0x2; }
+void TObjEneRe4Bit::set_attack_flag() { behavior_flags |= 0x2; }
 
-void TObjEneRe4Bit::sub_800ED408() { m_3cc &= ~0x100; }
+void TObjEneRe4Bit::hide() { behavior_flags &= ~0x100; }
 
 void TObjEneRe4Bit::set_flag_and_notify() {
-    m_3cc |= 0x10;
-    if (!(m_3cc & 0x4)) {
+    behavior_flags |= 0x10;
+    if (!(behavior_flags & 0x4)) {
         set_hold_flags();
     }
 }
 
 void TObjEneRe4Bit::set_hold_flags() {
-    m_3cc |= 0x204;
-    m_3cc &= ~0x8;
+    behavior_flags |= 0x204;
+    behavior_flags &= ~0x8;
     fade.reset_color();
 }
 
 void TObjEneRe4Bit::clear_state_flag_0x10() {
-    m_3cc &= ~0x10;
-    if (!(m_3cc & 0x408)) {
+    behavior_flags &= ~0x10;
+    if (!(behavior_flags & 0x408)) {
         set_state_flags();
     }
 }
 
 void TObjEneRe4Bit::set_state_flags() {
-    m_3cc &= ~0x4;
-    m_3cc |= 0x308;
+    behavior_flags &= ~0x4;
+    behavior_flags |= 0x308;
     fade.reset_obstruction_fade();
 }
 
@@ -294,28 +284,28 @@ void TObjEneRe4Bit::call_vt_90_91() {
     enable_body_collision();
 }
 
-void TObjEneRe4Bit::set_flag3cc_bit2000() { m_3cc |= 0x2000; }
+void TObjEneRe4Bit::set_flag3cc_bit2000() { behavior_flags |= 0x2000; }
 
 void TObjEneRe4Bit::reset_transform() {
-    VecCopy(&body_center, m_3c0);
-    m_3f8.x = 0.0f;
-    m_3f8.y = 0.0f;
-    m_3f8.z = 0.0f;
+    VecCopy(&body_center, anchor);
+    homing_velocity.x = 0.0f;
+    homing_velocity.y = 0.0f;
+    homing_velocity.z = 0.0f;
     update_position_flag();
     transform_part_positions();
 }
 
 void TObjEneRe4Bit::clear_state_flags_when_done() {
-    u32 flags = m_3cc;
+    u32 flags = behavior_flags;
     if (flags & 0x4) {
         if (fade.decay_value_toward_floor() != 0) {
-            m_3cc &= ~0x4;
-            m_3cc &= ~0x200;
-            m_3cc &= ~0x100;
+            behavior_flags &= ~0x4;
+            behavior_flags &= ~0x200;
+            behavior_flags &= ~0x100;
         }
     } else if ((flags & 0x8) && fade.advance_toward_max() != 0) {
-        m_3cc &= ~0x8;
-        m_3cc &= ~0x200;
+        behavior_flags &= ~0x8;
+        behavior_flags &= ~0x200;
     }
 }
 
@@ -328,16 +318,16 @@ void TObjEneRe4Bit::dispatch_action(u32 state, s32 reason) {
         handle_event(reason);
         return;
     case 2:
-        TObjEneRe4Bit__sub_800ECED0(this, reason);
+        update_raise_state(reason);
         return;
     case 3:
-        TObjEneRe4Bit__sub_800ECE04(this, reason);
+        update_lower_state(reason);
         return;
     case 5:
-        TObjEneRe4Bit__sub_800ECD28(this, reason);
+        update_damage_state(reason);
         return;
     case 6:
-        TObjEneRe4Bit__sub_800ECC14(this, reason);
+        update_death_state(reason);
     default:
         return;
     }
@@ -353,23 +343,23 @@ void TObjEneRe4Bit::handle_state_message(s32 msg) {
     }
 }
 
-void TObjEneRe4Bit::handle_event(s32 arg1) {
+void TObjEneRe4Bit::handle_event(s32 mode) {
     u32 flags;
 
-    switch (arg1) {
+    switch (mode) {
     case 4:
         set_field_378(1);
-        m_3cc &= ~0x1000;
+        behavior_flags &= ~0x1000;
         break;
     case 3:
-        flags = m_3cc;
+        flags = behavior_flags;
         if (flags & 0x1) {
-            m_3cc = flags & ~0x1;
+            behavior_flags = flags & ~0x1;
             transition_enemy_state(2);
             break;
         }
         if (flags & 0x2) {
-            m_3cc = flags & ~0x2;
+            behavior_flags = flags & ~0x2;
             transition_enemy_state(3);
         }
         break;
@@ -385,42 +375,42 @@ void TObjEneRe4Bit::handle_event(s32 arg1) {
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_propagation off
-void TObjEneRe4Bit__sub_800ECED0(TObjEneRe4Bit *bit, s32 reason) {
+void TObjEneRe4Bit::update_raise_state(s32 reason) {
     u32 flags;
     switch (reason) {
     case 4:
-        bit->set_field_378(3);
-        bit->m_3cc |= 0x1000;
-        bit->m_408 = 0;
-        bit->m_404 = 1;
-        bit->m_3d0 = bit->m_3d4;
+        this->set_field_378(3);
+        this->behavior_flags |= 0x1000;
+        this->state_step = 0;
+        this->cast_state = 1;
+        this->texture_index = this->technique_texture;
         return;
     case 3:
-        flags = bit->m_3cc;
+        flags = this->behavior_flags;
         if (flags & 0x2) {
-            bit->m_3cc = flags & ~0x2;
-            bit->transition_enemy_state(3);
+            this->behavior_flags = flags & ~0x2;
+            this->transition_enemy_state(3);
         }
         return;
     case 0:
-        switch (bit->m_408) {
+        switch (this->state_step) {
         case 1:
             break;
         case 0:
-            bit->m_3d8 += 0.8f;
-            if (bit->m_3d8 > 20.0f) {
-                bit->m_3d8 = 20.0f;
-                bit->m_408 = 1;
-                bit->m_404 = 2;
+            this->lift_height += 0.8f;
+            if (this->lift_height > 20.0f) {
+                this->lift_height = 20.0f;
+                this->state_step = 1;
+                this->cast_state = 2;
             }
-            bit->rotation_y = bit->rotation_y + 0x1800;
+            this->rotation_y = this->rotation_y + 0x1800;
             break;
         }
-        bit->update_homing_velocity();
-        bit->update_position_flag();
+        this->update_homing_velocity();
+        this->update_position_flag();
         return;
     case 5:
-        bit->m_404 = 0;
+        this->cast_state = 0;
         break;
     }
 }
@@ -428,90 +418,90 @@ void TObjEneRe4Bit__sub_800ECED0(TObjEneRe4Bit *bit, s32 reason) {
 
 #pragma push
 #pragma opt_common_subs off
-void TObjEneRe4Bit__sub_800ECE04(TObjEneRe4Bit *bit, s32 reason) {
+void TObjEneRe4Bit::update_lower_state(s32 reason) {
     switch (reason) {
     case 4:
-        bit->set_field_378(3);
-        bit->m_3cc &= ~0x1000;
-        bit->m_3d0 = 3;
+        this->set_field_378(3);
+        this->behavior_flags &= ~0x1000;
+        this->texture_index = 3;
         break;
     case 3:
-        if (bit->m_3d8 <= 0.0f) {
-            bit->transition_enemy_state(1);
+        if (this->lift_height <= 0.0f) {
+            this->transition_enemy_state(1);
             break;
         }
     case 5:
         break;
     case 0:
-        bit->m_3d8 -= 0.8f;
-        if (bit->m_3d8 < 0.0f) {
-            bit->m_3d8 = 0.0f;
+        this->lift_height -= 0.8f;
+        if (this->lift_height < 0.0f) {
+            this->lift_height = 0.0f;
         }
-        bit->rotation_y = bit->rotation_y - 0x1800;
-        bit->update_homing_velocity();
-        bit->update_position_flag();
+        this->rotation_y = this->rotation_y - 0x1800;
+        this->update_homing_velocity();
+        this->update_position_flag();
         break;
     }
 }
 #pragma pop
 
-void TObjEneRe4Bit__sub_800ECD28(TObjEneRe4Bit *bit, s32 reason) {
+void TObjEneRe4Bit::update_damage_state(s32 reason) {
     switch (reason) {
     case 4:
-        bit->m_408 = 0;
+        this->state_step = 0;
         return;
     case 3:
-        if (bit->m_408 > 0xF) {
-            bit->transition_enemy_state(1);
+        if (this->state_step > 0xF) {
+            this->transition_enemy_state(1);
         }
         return;
     case 0:
-        bit->m_408 = bit->m_408 + 1;
-        VecCopy(&bit->body_center, bit->m_3c0);
-        bit->body_center.y = bit->body_center.y + bit->m_3d8;
-        bit->body_center.x = bit->body_center.x + ((TObjEneDD *)bit)->calc_elapsed_scaled();
-        bit->body_center.z = bit->body_center.z + ((TObjEneDD *)bit)->calc_elapsed_scaled();
-        bit->update_ground_contact();
+        this->state_step = this->state_step + 1;
+        VecCopy(&this->body_center, this->anchor);
+        this->body_center.y = this->body_center.y + this->lift_height;
+        this->body_center.x = this->body_center.x + ((TObjEneDD *)this)->calc_elapsed_scaled();
+        this->body_center.z = this->body_center.z + ((TObjEneDD *)this)->calc_elapsed_scaled();
+        this->update_ground_contact();
         return;
     case 5:
-        bit->clear_attack_receipts();
+        this->clear_attack_receipts();
         return;
     }
 }
 
 #pragma push
 #pragma fp_contract on
-void TObjEneRe4Bit__sub_800ECC14(TObjEneRe4Bit *bit, s32 reason) {
+void TObjEneRe4Bit::update_death_state(s32 reason) {
     u32 flags;
     switch (reason) {
     case 4:
-        bit->m_408 = 0;
-        bit->set_hold_flags();
-        bit->m_3cc |= 0x400;
-        play_sound_effect(bit->remap_sound_for_area(0x4003A815), &bit->position, 0, 0);
+        this->state_step = 0;
+        this->set_hold_flags();
+        this->behavior_flags |= 0x400;
+        play_sound_effect(this->remap_sound_for_area(0x4003A815), &this->position, 0, 0);
         break;
     case 3:
-        if (bit->m_3cc & 0x8) {
-            play_sound_effect(bit->remap_sound_for_area(0x4003AD16), &bit->position, 0, 0);
-            bit->transition_enemy_state(1);
+        if (this->behavior_flags & 0x8) {
+            play_sound_effect(this->remap_sound_for_area(0x4003AD16), &this->position, 0, 0);
+            this->transition_enemy_state(1);
         }
         break;
     case 0:
-        bit->m_408 = bit->m_408 + 1;
-        if (bit->m_408 >= 900) {
-            flags = bit->m_3cc;
+        this->state_step = this->state_step + 1;
+        if (this->state_step >= 900) {
+            flags = this->behavior_flags;
             if (!(flags & 0x10)) {
-                bit->m_3cc = flags & ~0x400;
-                bit->set_state_flags();
+                this->behavior_flags = flags & ~0x400;
+                this->set_state_flags();
                 return;
             }
         }
         break;
     case 5:
-        bit->actorFlags &= ~0x800;
-        bit->hp = bit->hpmax;
-        bit->sub_800ED47C();
-        bit->m_3d8 = 0.0f;
+        this->actorFlags &= ~0x800;
+        this->hp = this->hpmax;
+        this->reset_texture();
+        this->lift_height = 0.0f;
         break;
     }
 }
@@ -527,30 +517,30 @@ void TObjEneRe4Bit::render() {
         return;
     }
     if (TObjEneDD::is_main_phase_15() != 0) {
-        range = lbl_805D9E84;
+        range = view_detail_far_depth;
     } else {
         range = 400.0f;
     }
-    if (!(m_3cc & 0x100)) {
+    if (!(behavior_flags & 0x100)) {
         return;
     }
     if (update_object_view_visibility(range, 20.0f) == 0) {
         return;
     }
-    if (m_3cc & 0x800) {
+    if (behavior_flags & 0x800) {
         Vec v = re4_bit_render_vec;
         TObjEnemy::draw_ground_shadow(&v, 0);
     }
     update_secondary_light();
     textures = ((NJS_TEXLIST *)texlist)->textures;
     saved = textures[3].texaddr;
-    textures[3].texaddr = textures[m_3d0].texaddr;
+    textures[3].texaddr = textures[texture_index].texaddr;
     TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
     saved_model_render_flags = model_render_flags;
     TObjEneDD::clear_global_flag_400();
     TObjPlayer::toggle_particle_effect();
     draw = 1;
-    if (m_3cc & 0x200) {
+    if (behavior_flags & 0x200) {
         fade.set_flags_and_apply_damage_color();
         if (defer_render() != 0) {
             draw = 0;

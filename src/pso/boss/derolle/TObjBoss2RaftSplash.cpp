@@ -25,11 +25,11 @@ void TObjBoss2RaftSplash::run_task() {
 TObjBoss2RaftSplash::~TObjBoss2RaftSplash() {}
 
 extern "C" {
-const char *lbl_805D2700 = "TObjBoss2RaftSplash";
+const char *TObjBoss2RaftSplash__name = "TObjBoss2RaftSplash";
 }
 TObjBoss2RaftSplash::TObjBoss2RaftSplash(TObject *parent, const Vec *position, const Vec *offset, f32 *speed)
     : TObject(parent) {
-    m_name = lbl_805D2700;
+    m_name = TObjBoss2RaftSplash__name;
     interval = boss2_tunnel_max_scroll_speed * (3.0f + rand_signed_unit());
     elapsed = interval * (3.0517578e-05f * (f32)rand());
     VecCopy(&this->position, position);
@@ -38,7 +38,7 @@ TObjBoss2RaftSplash::TObjBoss2RaftSplash(TObject *parent, const Vec *position, c
 }
 
 // The particle helpers below share this TU's .sdata2 pool: -5.0f (0x805D85D8, before the pad that
-// ends the pool) is used by TObjBoss2CeilJunk::create_particle and TObjBoss2Tunnel::sub_8003B1D8,
+// ends the pool) is used by TObjBoss2CeilJunk::create_particle and TObjBoss2Tunnel::release_splash_children,
 // and the .text runs on without a pool of its own (twin: TObjBoss7RaftSplash.cpp).
 void TObjBoss2CeilJunk::create_particle(const void *position, s32 particle_index) {
     TObjBoss2Tunnel::create_particle_effect(position, particle_index, -5.0f);
@@ -70,6 +70,6 @@ void TObjBoss2Tunnel::create_particle_effect(const void *position, s32 particle_
     }
 }
 
-void TObjBoss2Tunnel::sub_8003B1D8(TParticleCtrl *particle) {
+void TObjBoss2Tunnel::release_splash_children(TParticleCtrl *particle) {
     release_children(particle, -5.0f);
 }

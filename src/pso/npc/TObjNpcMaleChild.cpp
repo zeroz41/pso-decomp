@@ -36,7 +36,7 @@ TObjNpcMaleChild::~TObjNpcMaleChild() {}
 TObjNpcMaleChild::TObjNpcMaleChild(TObject *parent, void *set_data) : TUnk_804A9F50(parent) {
     this->m_name = TObjNpcMaleChild__name;
     this->apply_set_data(set_data);
-    ((TObjPlayer *)this)->init_position_vectors();
+    init_position_vectors();
     this->model = (void *)TObjNpcMaleChild__shared_model_resource->models->model;
     this->texlist = (saddr)TObjNpcMaleChild__shared_model_resource->models->m_c;
     this->setup_common();

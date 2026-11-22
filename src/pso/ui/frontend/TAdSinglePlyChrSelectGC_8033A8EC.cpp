@@ -8,6 +8,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/TUnk_804EF8C0.h"
 #include <string.h>
+#include "pso/object/ambient/TObjLight_80133568.h"
 #pragma push
 
 #include "types.h"
@@ -90,7 +91,6 @@ s32 func_803DCDFC__Fv();
 s32 TKeyBoardControl__sub_8000F90C(int);
 s32 TCameraCtrl__ct(u32, TObject *);
 s32 run_load_callback_table(void *, int);
-s32 init_menu_scene_lights(void *, int);
 s32 reset_controller_input_state();
 s32 set_copy_clear_color_argb(int, int, int);
 s32 __ct__15TWindowCtrlMainFv(u32);

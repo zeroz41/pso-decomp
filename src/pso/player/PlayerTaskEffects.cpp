@@ -89,8 +89,6 @@ extern "C" const char* TParticleCtrl__class_name_descriptor;
 
 extern "C" {
 void TObjPlayer__sub_801C6FCC(void*, f32);
-void TObjPlayer__sub_801C6FDC(void);
-void TObjPlayer__sub_801C6FE0(void*, f32, f32, f32);
 f32 apply_stat_multipliers__10TObjPlayerFiif(saddr, saddr, f32);
 void apply_stat_multipliers_default__10TObjPlayerFv(void);
 void set_stat_scale__10TObjPlayerFPvf(void*, f32);
@@ -119,7 +117,6 @@ void restore_shrunken_font__10TObjPlayerFv(PlayerRestoreSizePacket*, const Playe
 void bswap_g_client_id_header(void *p);
 int validate_6x88_restore_shrunken_player(PlayerRestoreSizePacket*);
 void handle_6x88_restore_shrunken_player(const PlayerRestoreSizePacket* input);
-void request_follow_camera_offsets(void *arg0, void *arg1, u16 arg2);
 void update_player_scale_camera(PlayerScaleState *state);
 }
 
@@ -164,8 +161,6 @@ extern "C" {
 
 int TObjPlayer__sub_801C6F90(void* p);
 void TObjPlayer__sub_801C6FCC(void* p, f32 v);
-void TObjPlayer__sub_801C6FDC(void);
-void TObjPlayer__sub_801C6FE0(void* p, f32 a, f32 b, f32 c);
 void set_stat_scale__10TObjPlayerFPvf(void* p, f32 v);
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
@@ -272,16 +267,6 @@ void TObjPlayer__sub_801C6FCC(void* p, f32 v);
 
 
 extern "C" {
-void TObjPlayer__sub_801C6FDC(void);
-}
-
-
-extern "C" {
-void TObjPlayer__sub_801C6FE0(void* p, f32 a, f32 b, f32 c);
-}
-
-
-extern "C" {
 u8 *__ct__18TPlayerLobbyMarkerFP7TObjectsSc(u8 *arg0, u8 *arg1, s16 arg2, s8 arg3);
 }
 
@@ -303,6 +288,7 @@ int TObjPlayer__sub_801C7098(void* p);
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
 
+#include "pso/camera/TCameraCtrl_8006CC30.h"
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 chunk_polygon_flags_or_mask;
 
@@ -420,13 +406,13 @@ u16 TObjPlayer::get_obj_type() { return *(u16*)((char*)this + 0x0); }
 
 
 extern "C" {
-void TObjPlayer__sub_801C6FE0(void* p, f32 a, f32 b, f32 c) { *(f32*)((char*)p + 0x0) = a; *(f32*)((char*)p + 0x4) = b; *(f32*)((char*)p + 0x8) = c; }
+void TObjPlayer__sub_801C6FE0(Vec *v, f32 x, f32 y, f32 z) { v->x = x; v->y = y; v->z = z; }
 
 }
 
 
 extern "C" {
-void TObjPlayer__sub_801C6FDC(void) {  }
+Vec *TObjPlayer__sub_801C6FDC(Vec *v) { return v; }
 
 }
 
@@ -659,9 +645,9 @@ void handle_6x88_restore_shrunken_player(const PlayerRestoreSizePacket* input) {
 
 extern "C" {
 void update_player_scale_camera(PlayerScaleState *state) {
-  TObjPlayer__sub_801C6FE0(state->camera_position, 0.0f, 0.6f * (25.43f * state->get_scalar()), 45.42f * state->get_scalar());
-  TObjPlayer__sub_801C6FE0(state->camera_target, 0.0f, 19.8f * state->get_scalar(), -5.0f);
-  request_follow_camera_offsets(((f32* (*)(f32*))TObjPlayer__sub_801C6FDC)(state->camera_target), ((f32* (*)(f32*))TObjPlayer__sub_801C6FDC)(state->camera_position), 0xFFFF);
+  TObjPlayer__sub_801C6FE0(&state->camera_position, 0.0f, 0.6f * (25.43f * state->get_scalar()), 45.42f * state->get_scalar());
+  TObjPlayer__sub_801C6FE0(&state->camera_target, 0.0f, 19.8f * state->get_scalar(), -5.0f);
+  request_follow_camera_offsets(TObjPlayer__sub_801C6FDC(&state->camera_target), TObjPlayer__sub_801C6FDC(&state->camera_position), 0xFFFF);
 }
 
 }
@@ -843,7 +829,7 @@ void TPlayerLevelFeedback::run_task() {
 
 void TPlayerReadyCallback::run_task() {
     TObjPlayer* player = (TObjPlayer*)get_player_by_client_id(player_id);
-    if (player != NULL && player->m_cfc == 0) {
+    if (player != NULL && player->model_load_flags == 0) {
         void (*fn)(TObjPlayer*) = callback;
         if (fn != NULL) {
             fn(player);
@@ -852,11 +838,11 @@ void TPlayerReadyCallback::run_task() {
     }
 }
 
-void *TPlyOnCreated::create(void *arg0, void *arg1) {
+void *TPlyOnCreated::create(s32 client, void *callback) {
     void *o;
     o = TObject::operator new(0x24);
     if (o != NULL) {
-        o = __ct__13TPlyOnCreatedFv((u8 *)o, (saddr)arg0, (saddr)arg1);
+        o = __ct__13TPlyOnCreatedFv((u8 *)o, client, (saddr)callback);
     }
     return o;
 }

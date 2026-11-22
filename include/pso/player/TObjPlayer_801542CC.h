@@ -19,13 +19,12 @@ u16 register_entity_by_id(void *ov);
 // The actor with this entity id if it can be hit on that collision body now,
 // else NULL.
 TObjChara *resolve_hittable_target(u16 actor_id, s16 collider);
-s32 project_actor_to_ground(TObjChara *actor, Vec *pos, s32 flags);
+// Drops pos onto the ground under it (from 10 units up, through the actor's
+// ground cache when it has one); 1 if found, the ground normal in *normal.
+s32 project_actor_to_ground(TObjCollidable *actor, Vec *pos, Vec *normal);
 // The radius of the actor's collision body, or a default without bodies.
 f32 get_collision_body_radius__14TObjCollidableFl(TObjCollidable *actor, s32 body);
 void reset_global_table(void);
 }
-
-// The entity table: players fill its first registered_player_count slots.
-extern s32 registered_player_count;
 
 #endif

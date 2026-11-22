@@ -10,7 +10,7 @@ struct Vec;
 // A velocity/position ramp: accelerate from v0 to peak, cruise, brake to rest over dist.
 // init fills it, speed_at reads the speed and sample the distance at a time; advance samples
 // the distance at t and steps t by one frame.
-// TObjBoss2Tunnel (+0x68) and the tunnel of TObjBoss2Tunnel_802F1A58 (+0x20) hold one as a member.
+// TObjBoss2Tunnel (+0x68) and TObjBoss7Tunnel (+0x20) hold one as a member.
 struct PiecewiseCurve {
     PiecewiseCurve();
     ~PiecewiseCurve();
@@ -59,10 +59,12 @@ struct TObjBoss2Tunnel : public TObject {
     void shift_queue_push_next();
     void enable_fog();
     void restore_fog();
-    s32 sub_8003C21C();
+    // 0, or texture_frame + 31: the texture render swaps into boss2_common_texture_list's first entry.
+    s32 current_texture_index();
     s32 is_swaying();
+    // Global flags 0x1000 (sway to -x) and 0x2000 (sway to +x); is_swaying is either.
     s32 is_flag_set();
-    s32 sub_8003C1C8();
+    s32 is_swaying_positive_x();
     void update_particles();
 
     f32 segment_pos;
@@ -127,20 +129,21 @@ struct TObjBoss2Tunnel : public TObject {
     // step or speed to its z, so they outlive the emitter (TObjBoss2Tunnel_8003B1FC.cpp).
     static void detach_children(TParticleCtrl *particle, const Vec *offset);
     static void release_children(TParticleCtrl *particle, f32 speed);
-    // release_children with the full -5.0f drift (TObjBoss2RaftSplash.cpp).
-    static void sub_8003B1D8(TParticleCtrl *particle);
+    // release_children with the -5.0f drift, for the boss splash emitters (TObjBoss2RaftSplash.cpp).
+    static void release_splash_children(TParticleCtrl *particle);
     // Creates TObjBoss2Tunnel_parent_object under tl_07 (TObjBoss2Tunnel_8003B1FC.cpp).
-    static void sub_8003B2B0();
+    static void create_parent_object();
     // Empty; called by TLobby::init_boss2_stage.
     static void sub_8003C648();
     // Set global flag 0x1000 and clear 0x2000, and the reverse.
-    static void sub_8003C610();
-    static void sub_8003C5F8();
+    static void start_sway_negative_x();
+    static void start_sway_positive_x();
     static void set_global_flag_100();
     // Draws n vertices as a triangle strip, dividing x and y by -z.
     static void draw_projected_quads(ProjectedVertex *vertices, s32 n);
-    // Loads the screen-space matrix and the vertex state for draw_projected_quads.
-    static void sub_803E2D10(s32 mode);
+    // Loads the screen-space matrix and the colour vertex state for draw_projected_quads,
+    // blended when mode != 0.
+    static void setup_projected_color_draw(s32 mode);
 };
 
 LAYOUT_ASSERT(TObjBoss2Tunnel_size, sizeof(TObjBoss2Tunnel) == 0xDC);
@@ -151,5 +154,8 @@ s32 count_tree_nodes(NJS_OBJECT *node);
 // The nodes of that tree that are drawn: NJD_EVAL_HIDE (8) skips a node, NJD_EVAL_BREAK
 // (0x10) its children.
 s32 count_visible_nodes(NJS_OBJECT *node);
+// Debug chunk model of an 8-sided cylinder (radius 2, y -5..5, named from its vertex data); the Dragon,
+// De Rol Le's mines, TBoss8Dragon and TObjFogCollision draw it scaled to show hit volumes.
+extern NJS_OBJECT *debug_cylinder_object;
 
 #endif

@@ -292,7 +292,7 @@ void TBoss2Tentacle::advance_motion_position() {
 
 // The boss polls this through a declaration returning s32 (it tests the whole register), so it stays a
 // free function under its own name.
-extern "C" u8 TBoss2Tentacle__sub_80039CA0(TBoss2Tentacle *tentacle) { return tentacle->state == 4; }
+s32 TBoss2Tentacle::is_turning_to_rest() { return state == 4; }
 
 void TBoss2Tentacle::enter_drop_back() {
     yaw = 0;

@@ -39,17 +39,17 @@ struct TObjEneDelDepth : public TObjEnemy {
     void enter_fall_to_ground();
     void update_death_fade();
     void enter_attack_cast();
-    void fn_803141A8();
-    void fn_803142DC();
-    void fn_80314500();
-    void fn_80314EC4();
+    void update_spin_search(); // action 7: spins until an enemy flagged ahead (500 units) is in line
+    void update_look_around(); // action 6: sweeps rotation_y looking for a player within 162.5 units
+    void enter_look_around(); // action 6 enter: random sweep angle and turn direction
+    void update_surface(); // action 1: grows from flat_scale to full_scale, then attacks or idles
     s32 adjust_height_to_ground();
-    void fn_80315518();
+    void render_in_demo(); // render() in demo mode; empty
     void set_action_state(s32);
     void set_draw_mode(s32);
     void set_depth_offset(s32, s32);
-    void sub_803152C0();
-    void sub_803152A0();
+    void set_body_flag(); // collisionBody flag 1, set before each update
+    void clear_body_flag_if_untargetable(); // clears it again after the update unless targetable
     virtual void run_death_reaction();
     virtual void run_hit_reaction();
     virtual void run_miss_reaction();
@@ -59,23 +59,23 @@ struct TObjEneDelDepth : public TObjEnemy {
     CollisionBody *collisionBody;
     s32 timer;
     s32 attackTimer;
-    f32 m_38c;
+    f32 progress; // surfacing progress 0..1 while appearing or sinking; distance left while moving
     f32 bombSpeed;
-    s32 m_394;
+    s32 angle;
     f32 opacity;
     f32 drawOffsetY;
     Vec drawScale;
     f32 movementSpeed;
     Vec direction;
-    s32 m_3bc;
+    s32 turnSpeed;
     s32 relocationAttempts;
     s32 targetPlayer;
-    u8 unk_3C8[0xC];
+    u8 pad_3c8[0xC];
     Vec fallVelocity;
     u32 groundFlags;
     Vec groundPoint;
     s32 targetable;
-    u8 unknown3F4[0x40];
+    u8 pad_3f4[0x40];
     f32 get_bomb_speed();
     void update_ground_check();
     void init_move();

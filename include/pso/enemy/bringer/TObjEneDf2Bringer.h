@@ -8,7 +8,7 @@
 
 class AreaAttackHistory;
 class TUnk_804928CC;
-class TUnk_8048FE08;
+class TObjEneDf2Bringer_Eff_TpAbsorb1;
 class TUnk_80494968;
 class TParticleCtrl;
 
@@ -19,7 +19,7 @@ struct BringerParameters {
     f32 action4_speed;    // play speeds load_resources gives actions 4 and 5
     f32 action5_speed;
     f32 pad_10;
-    f32 slash_recover_frames;  // frames sub_80097E9C waits after the slash
+    f32 slash_recover_frames;  // frames update_slash_state waits after the slash
     f32 pad_18;
     s32 stagger_frames;   // a charge that hits something staggers this long
     s32 rush_power;       // the charge's direct-attack power
@@ -37,7 +37,7 @@ struct TObjEneDf2Bringer : public TObjEneDD_ST {
     virtual void render_demo();
     virtual void dispatch_action(u32 state, s32 reason);
     void set_effect_pos_above_self();
-    void sub_80098DEC();
+    void retarget_attacker();
     void sub_800994F8();
     void run_death_reaction();
     void run_hit_reaction();
@@ -45,54 +45,54 @@ struct TObjEneDf2Bringer : public TObjEneDD_ST {
     void refresh_target();
     void render();
     void run_task();
-    void exec(s32 arg1);
-    void handle_state(s32 arg1);
+    void update_emerge_state(s32 reason);
+    void handle_state(s32 reason);
     s32 check_stage_advance();
-    void sub_80097620(s32 mode);
-    void sub_80097714(s32 mode);
-    void sub_80097820(s32 mode);
-    void action(s32 mode);
-    void sub_80097E9C(s32 mode);
-    void sub_8009813C(s32 mode);
-    void sub_8009859C(s32 mode);
-    void sub_800987E8(s32 mode);
-    void sub_80098BAC(s32 mode);
-    void sub_80098EB4();
+    void update_death_state(s32 reason);
+    void update_damage_state(s32 reason);
+    void update_shot_state(s32 reason);
+    void update_stagger_state(s32 reason);
+    void update_slash_state(s32 reason);
+    void update_rush_state(s32 reason);
+    void update_walk_state(s32 reason);
+    void update_fade_out_state(s32 reason);
+    void update_hidden_state(s32 reason);
+    void play_move_sound();
     s32 attack_visible_players();
-    s32 sub_80098FF4();
+    s32 target_farthest_visible_player();
     s32 update_flag_0x3C0();
-    s32 sub_80099248();
+    s32 check_rush_hits();
     void update_attack_child();
     void init_enemy();
-    static void set_entry_value_clamped(s32 index, f32 farg0);
+    static void set_entry_value_clamped(s32 index, f32 speed);
     static void free_resources();
-    void *create();
+    static void *create(void *set_data);
     static void load_resources();
     void spawn_offset_particle();
     void spawn_particle_if_in_band();
     void update_if_in_band();
-    s32 pad_3C0;  // flags; init_enemy sets bit 0
-    TUnk_80490470 pad_3C4;
+    s32 status_flags;  // bit 0 hidden (init_enemy), 1 body fade, 2 no flinch, 3 hit since the emerge
+    TUnk_80490470 body_fade;
     RenderFadeState renderFadeStates[4];
-    Vec pad_450[4];
-    s32 pad_480;
-    s32 pad_484;
-    s32 pad_488;
-    s32 pad_48C;
-    s32 pad_490;
-    s32 pad_494;
+    Vec node_points[4];  // filled by bringer_render_node_callback: sparks [0]/[1], shot [2], TP drain [3]
+    s32 twist_angle;     // turns toward the target within +-0x2000; render rotates a node by it
+    s32 stagger_timer;   // stagger_frames after a charge hit, counted down
+    s32 face_texture;    // texture copied into slot 1: 1, 5 or 6 by hit_count
+    s32 combo_count;     // slashes in a row
+    s32 rush_count;      // charges since the last slash; the walk charges only below 2
+    s32 hit_count;       // hits taken; 5 starts the shot (check_stage_advance)
     TUnk_804928CC *collider;  // built over the Bringer's collision bodies
     AreaAttackHistory *attack_history;
-    TUnk_8048FE08 *pad_4A0;
-    TUnk_80494968 *pad_4A4;
-    s32 pad_4A8;
-    s32 pad_4AC;
-    s32 pad_4B0;
-    s32 pad_4B4;
-    s32 pad_4B8;
-    f32 pad_4BC;
+    TObjEneDf2Bringer_Eff_TpAbsorb1 *shot_launcher;
+    TUnk_80494968 *attack_trail;
+    s32 texture_scroll;
+    s32 step;
+    s32 counter;
+    s32 drained_tp;      // attack_visible_players
+    s32 target_angle;
+    f32 speed;           // the charge speed, from rush_speed decaying by 0.95
     f32 pad_4C0;
-    TParticleCtrl *pad_4C4;
+    TParticleCtrl *emitter;
 };
 
 LAYOUT_ASSERT(TObjEneDf2Bringer_size, sizeof(TObjEneDf2Bringer) == 0x4C8);

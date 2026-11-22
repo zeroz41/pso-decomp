@@ -17,6 +17,6 @@ void set_display_copy_filter(int enabled) {
 
 s32 get_display_copy_filter(void) {  return display_copy_filter_enabled; }
 
-void TObjBoss2Tunnel__sub_8036EF4C(void) { display_copy_filter_enabled = 1; }
+void reset_display_copy_filter(void) { display_copy_filter_enabled = 1; }
 
-void TObjBoss2Tunnel::enable_and_trigger() { display_copy_filter_enabled = 1; ((int (*)(void *))set_display_copy_filter)((void*)1); }
+void TObjBoss2Tunnel::enable_and_trigger() { display_copy_filter_enabled = 1; set_display_copy_filter(1); }

@@ -7,9 +7,9 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 
 extern "C" {
-const char *lbl_805D44D8 = "TBoss6EffHyoui";
-f32 lbl_805D6FF8;
-s8 lbl_805D6FFC;
+const char *TBoss6EffHyoui__name = "TBoss6EffHyoui";
+f32 boss6_eff_hyoui_scale;
+s8 boss6_eff_hyoui_scale_set;
 extern void *tl_02;
 }
 
@@ -32,23 +32,23 @@ TBoss6EffHyoui::~TBoss6EffHyoui() {
     }
 }
 
-const s32 lbl_8047AC70[2] = {550, 551};
+const s32 boss6_eff_hyoui_effect_ids[2] = {550, 551};
 
 TBoss6EffHyoui::TBoss6EffHyoui(TObject *parent, u16 client, s32 effect, s32 duration)
     : TObject(parent) {
-    m_name = lbl_805D44D8;
+    m_name = TBoss6EffHyoui__name;
     this->client = client;
     this->duration = duration;
     emitter = NULL;
     TObjPlayer *player = get_player_by_client_id(this->client);
     if (player != NULL && TBoss6PlotFalz::is_active(player) != 0) {
-        if (lbl_805D6FFC == 0) {
-            lbl_805D6FFC = 1;
-            lbl_805D6FF8 = 0.2f;
+        if (boss6_eff_hyoui_scale_set == 0) {
+            boss6_eff_hyoui_scale_set = 1;
+            boss6_eff_hyoui_scale = 0.2f;
         }
-        if ((emitter = create_particle_emitter(&player->position, lbl_8047AC70[effect])) != NULL) {
+        if ((emitter = create_particle_emitter(&player->position, boss6_eff_hyoui_effect_ids[effect])) != NULL) {
             emitter->set_flags(0x40);
-            emitter->set_scale(lbl_805D6FF8, lbl_805D6FF8);
+            emitter->set_scale(boss6_eff_hyoui_scale, boss6_eff_hyoui_scale);
         }
     }
     age = 0;

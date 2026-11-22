@@ -5,12 +5,25 @@
 #include <dolphin/mtx.h>
 #include "pso/object/base/TObjMotion.h"
 
+struct TObjEneGyaranzo;
+
+// How TObjEneGyaranzo::spawn_missile_volley launches one missile.
+struct GyaranzoMissileLaunch {
+    Vec *position;
+    s32 rotation_x;
+    s32 rotation_y;
+    f32 wobble_speed;   // scaled by 0.5-1.0 at random
+    f32 wobble_height;
+    f32 pad_14;
+};
+
 struct TObjGyaranzoMissile : public TObjCollidable {
-    TObjGyaranzoMissile(u8 *arg1, u8 *arg2, u16 arg3);
+    TObjGyaranzoMissile(TObjEneGyaranzo *owner, GyaranzoMissileLaunch *launch, u16 target);
     virtual ~TObjGyaranzoMissile();
     virtual void run_task();
     virtual void render();
-    void sub_800D47B4();
+    // Hits every hittable player with the parameter-2 damage, then goes off.
+    void explode();
     Vec velocity;
     u8 pad_B8[0xC];
     u16 target_id;
@@ -24,4 +37,8 @@ struct TObjGyaranzoMissile : public TObjCollidable {
 };
 
 LAYOUT_ASSERT(TObjGyaranzoMissile_size, sizeof(TObjGyaranzoMissile) == 0xDC);
+
+// Set from the Gyaranzo parameter table (TObjEneGyaranzo::init_params_from_table).
+extern f32 TObjGyaranzoMissile__speed_scale;
+extern f32 TObjGyaranzoMissile__max_range;
 #endif

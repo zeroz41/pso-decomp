@@ -3,40 +3,32 @@
 
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include "pso/boss/galgryphon/TBoss5GryphonLightning.h"
 
+struct TBoss5Gryphon;
+class TParticleCtrl;
+
+// Gal Gryphon's ground shock wave: travels along a curve from the gryphon to the floor at the target, then bursts
+// and leaves a tornado there.
 struct TBoss5GryphonShockWave : public TObject {
-    TBoss5GryphonShockWave(TObject *arg1_parent, s32 arg2, u8 *arg3, u8 *arg4, s32 arg5, s16 arg6);
+    TBoss5GryphonShockWave(TObject *parent, TBoss5Gryphon *owner, Vec *origin, Vec *target, Vec *velocity,
+                           u16 target_client_id);
     virtual ~TBoss5GryphonShockWave();
-    u32 m_1c;
-    u32 m_20;
-    u32 m_24;
-    u16 m_28;
-    u8 _pad2A[0x2];
-    void* m_2c;
-    u8 _pad30[0x8];
-    u32 m_38;
-    uaddr m_3c;
-    void* m_40;
-    u8 _pad44[0xC];
-    void* m_50;
-    u8 _pad54[0xC];
-    void* m_60;
     virtual void render();
     virtual void run_task();
-    u8 unk_64[0xC];
+    static void release_particle_table();  // TBoss5Gryphon::cleanup's counterpart, empty
+    static void select_particle_table();  // load_boss5_gryphon_resources picks the particle ids
+
+    s32 state;  // 0 start, 1 travelling, 2 burst, 3 done
+    s32 frame;
+    s32 duration;  // frames to reach the target, at least 30
+    u16 target_client_id;  // handed on to the tornado
+    Vec position;  // on path at frame / duration
+    TBoss5Gryphon *owner;
+    TParticleCtrl *trail;
+    TBoss5GryphonLightningSegment path[3];  // origin, origin + velocity, target at floor height
 };
 
 LAYOUT_ASSERT(TBoss5GryphonShockWave_size, sizeof(TBoss5GryphonShockWave) == 0x70);
-
-extern "C" {
-void TBoss8Dragon__sub_80066A4C(void);
-void *__dt__22TBoss5GryphonShockWaveFv(void *arg0, s16 arg1);
-}
-
-// --- C functions defined in TBoss5GryphonShockWave.cpp ---
-extern "C" {
-void TBoss8Dragon__sub_80066A4C(void);
-}
-// --- end of C functions
 
 #endif

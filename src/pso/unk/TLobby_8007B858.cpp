@@ -248,10 +248,10 @@ void TLobby__sub_8007BBF8(void) { quest_collision_next_id = 0; }
 
 extern saddr TLobby__protocol_instance;
 
-s32 TWindowSubComCard::get_card_slot(s32 arg0) {
+saddr TWindowSubComCard::get_card_slot(s32 arg0) {
     s32 state;
     s32 var_r31;
-    s32 var_r3;
+    saddr var_r3;
     var_r31 = arg0;
     if (var_r31 < 0) {
         var_r3 = 0;

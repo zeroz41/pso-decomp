@@ -24,23 +24,13 @@
 #include "pso/unk/text_803E2D70.h"
 #include "pso/camera/TCameraCtrl_8006A03C.h"
 #include "pso/player/TObjPlayer_80011014.h"
-
-// The actors check_target_collision hits, with slot 25 as it is called here:
-// the base declares apply_knockback_from_attacker(u8 *) without the strength.
-struct TBoss3VoloptCoreTarget : public TObjCollidable {
-    virtual s32 add_actor_exp(s32 exp);
-    virtual s32 consume_timer_field(s32 frames);
-    virtual s32 get_actor_level_index();
-    virtual u8 *update_actor_ground_y();
-    virtual u8 *update_actor_ground_y_at(Vec *pos);
-    virtual s32 is_actor_cadence_frame(s32 frame);
-    virtual s32 select_melee_contact_body(TObject *attacker, f32 range);
-    virtual int calc_distance_accuracy_penalty(void *, void *, void *, f32);
-    virtual f32 receive_physical_attack(TObject *attacker, f32 scale);
-    virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
-    virtual f32 receive_weapon_special_attack(void *, void *);
-    virtual void apply_knockback_from_attacker(TObject *attacker, f32 strength);
-};
+#include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/network/client_id.h"
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/render/model_render_state.h"
+#include "pso/ui/hud/TRaderMapCore.h"
 
 struct TBoss3VoloptOrbitSpeeds {
     u8 pad_0[0x18];
@@ -48,17 +38,9 @@ struct TBoss3VoloptOrbitSpeeds {
 };
 
 extern "C" {
-extern s32 local_client_id;
-extern u32 model_render_flags;
-void *find_entity_by_id(u16 id);
-void minimap_render_dot(f32 *pos, s32 color, s32, s32);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-TObject *create_particle_emitter(Vec *pos, s32 id);
 void set_matrix_identity(s32 matrix, f32 scale);
 void rotate_vector_by_matrix(saddr matrix, Vec *src, Vec *dst);
-void free_collision_body_parts(TObjEnemyCustom *object);
-void init_collision_body_parts(TObjEnemyCustom *object, TBoss3VoloptCoreBodyPart *parts, s32 count);
-s32 obj_is_hit_receivable(u8 *arg0);
 }
 void reset_status_effect_row(u8 *row);
 
@@ -82,8 +64,8 @@ static TObjMotionAction core_motions[5] = {
 static TBoss3VoloptCoreMovement core_movement = {
     150.0f, 0.55555552f, 0x400, { 0x1E0000, 0, 1, 0 },
 };
-static TBoss3VoloptCoreBodyPart core_body_parts[1] = {
-    { { 0 }, 0.001f, { 0 }, 0x8003, { 0 } },
+static CollisionBody core_body_parts[1] = {
+    { { 0.0f, 0.0f, 0.0f }, 0.001f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
 
 extern saddr player_battle_param_table[];
@@ -91,13 +73,13 @@ extern saddr player_battle_param_table[];
 void TObjEnemyCustom::set_state(s32 action) {
     s16 current = mode;
     if (current != action) {
-        m_380 = current;
+        previous_action = current;
         next_action = action;
     }
 }
 
 void TObjEnemyCustom::update_if_active(s32 action) {
-    if (!(m_388 & 1)) {
+    if (!(behavior_flags & 1)) {
         set_state(action);
     }
 }
@@ -124,12 +106,12 @@ TBoss3VoloptCore::TBoss3VoloptCore(TObject *parent, void *set_data) : TObjEnemyC
     init_params();
 }
 
-TBoss3VoloptCore::TBoss3VoloptCore(TObject *parent, u16 id, s32 param) : TObjEnemyCustom(parent) {
+TBoss3VoloptCore::TBoss3VoloptCore(TBoss3Volopt *parent, u16 id, s32 param) : TObjEnemyCustom(parent) {
     entity_id = id;
     this->set_index = param;
     set_entry = 0;
-    *(s16 *)((u8 *)this + 0x28) = *(s16 *)((u8 *)parent + 0x28);
-    this->set_group = *(s16 *)((u8 *)parent + 0x2A);
+    room = parent->room;
+    set_group = parent->set_group;
     init_params();
 }
 
@@ -152,7 +134,7 @@ void TBoss3VoloptCore::init_params() {
     update_prev_position();
     ((TBoss3Volopt *)this)->reset_photon_effect();
     load_entry_params_volopt(0x18);
-    m_388 |= 0x10000;
+    behavior_flags |= 0x10000;
     orbit_angle = 0;
     bodies->flags |= 0xC00;
     run_idle_action();
@@ -189,7 +171,7 @@ void TBoss3VoloptCore::release() {}
 void TBoss3VoloptCore::run_task() {
     vol_opt_active_hit_zone = calc_hit_zone_index();
     if (TObjPlayer::check_demo_mode() == 1) {
-        sub_80040558();
+        run_demo_task();
         return;
     }
     VecCopy(&prev_position, &position);
@@ -211,7 +193,7 @@ void TBoss3VoloptCore::run_task() {
             obj_clearFlags30(0x4000);
         }
     } else {
-        if (mode != (s32)next_action) {
+        if (mode != next_action) {
             if ((s32)state != -1) {
                 state = -1;
                 dispatch_reaction_state();
@@ -248,7 +230,7 @@ void TBoss3VoloptCore::dispatch_reaction_state() {
         update_state_spin();
         return;
     case 9:
-        sub_8003F81C();
+        update_orbit_end_state();
         return;
     case 10:
         update_topple_state();
@@ -256,7 +238,7 @@ void TBoss3VoloptCore::dispatch_reaction_state() {
     }
 }
 
-void TBoss3VoloptCore::sub_80040558() {}
+void TBoss3VoloptCore::run_demo_task() {}
 
 void TBoss3VoloptCore::render() {
     if (!(actorFlags & 0x02000000) && update_object_view_visibility(400.0f, 40.0f) != 0) {
@@ -265,7 +247,7 @@ void TBoss3VoloptCore::render() {
         model_render_flags &= ~0x400;
         post_translate_matrix(&position.x);
         rotate_matrix_x(0, rotation_x);
-        if (m_388 & 0x10000) {
+        if (behavior_flags & 0x10000) {
             rotate_matrix_y(0, facing_angle);
             scale_matrix(0, 1.0f, 1.0f, 0.05f);
             rotate_matrix_y(0, rotation_y - facing_angle);
@@ -288,10 +270,10 @@ void TBoss3VoloptCore::update_charge_state() {
     target = (u8 *)get_player_by_client_id(targetId);
     switch (state) {
     case 0:
-        m_388 &= ~0x10000;
+        behavior_flags &= ~0x10000;
         this->requested_action = 0;
         rotation_x = 0;
-        if ((s32)m_380 == 4) {
+        if ((s32)previous_action == 4) {
             state = charge_step;
         } else {
             VecCopy(&home_pos, &position);
@@ -301,9 +283,9 @@ void TBoss3VoloptCore::update_charge_state() {
         }
         break;
     case 1:
-        VecCopy((Vec *)unk_308, &((TObjPlayer *)target)->position);
-        subtract_vector((Vec *)unk_308, &position);
-        turn_toward_direction(0x800, (Vec *)unk_308);
+        VecCopy(&velocity, &((TObjPlayer *)target)->position);
+        subtract_vector(&velocity, &position);
+        turn_toward_direction(0x800, &velocity);
         if (--charge_timer <= 0) {
             charge_timer = 0x96;
             charge_step = 2;
@@ -321,11 +303,11 @@ void TBoss3VoloptCore::update_charge_state() {
             state = 4;
             return;
         }
-        VecCopy((Vec *)unk_308, &player->body_center);
-        subtract_vector((Vec *)unk_308, &position);
-        vec_set_length((Vec *)unk_308, 5.0f);
-        turn_toward_direction(0x800, (Vec *)unk_308);
-        vec3_add_to(&position, (Vec *)unk_308);
+        VecCopy(&velocity, &player->body_center);
+        subtract_vector(&velocity, &position);
+        vec_set_length(&velocity, 5.0f);
+        turn_toward_direction(0x800, &velocity);
+        vec3_add_to(&position, &velocity);
         if (check_target_collision() != 0) {
             charge_step = 4;
             state = 4;
@@ -336,11 +318,11 @@ void TBoss3VoloptCore::update_charge_state() {
         }
         break;
     case 4:
-        VecCopy((Vec *)unk_308, &home_pos);
-        subtract_vector((Vec *)unk_308, &position);
-        distance = vec_set_length((Vec *)unk_308, 5.0f);
-        turn_toward_direction(0x800, (Vec *)unk_308);
-        vec3_add_to(&position, (Vec *)unk_308);
+        VecCopy(&velocity, &home_pos);
+        subtract_vector(&velocity, &position);
+        distance = vec_set_length(&velocity, 5.0f);
+        turn_toward_direction(0x800, &velocity);
+        vec3_add_to(&position, &velocity);
         check_target_collision();
         if (distance < 10.0f) {
             targetId = 0xFFFF;
@@ -349,14 +331,14 @@ void TBoss3VoloptCore::update_charge_state() {
         break;
     }
     advance_animation();
-    minimap_render_dot(&position.x, -0x5DB4, 1, 0);
+    minimap_render_dot(&position, -0x5DB4, 1, 0);
 }
 
 void TBoss3VoloptCore::update_grabbed_state() {
     switch (state) {
     case 0:
         if (obj_testFlags30(0x02000000) != 0) {
-            m_388 |= 0x40000;
+            behavior_flags |= 0x40000;
         }
         obj_clearFlags30(0x02200200);
         referenceHp = hp;
@@ -371,16 +353,16 @@ void TBoss3VoloptCore::update_grabbed_state() {
     case 1:
         advance_animation();
         if (this->action_flags != 8) {
-            m_388 &= ~1;
-            if (m_388 & 0x40000) {
+            behavior_flags &= ~1;
+            if (behavior_flags & 0x40000) {
                 set_grabbed_state(0xF);
             } else {
-                this->update_if_active(m_380);
+                this->update_if_active(previous_action);
             }
         }
         return;
     case -1:
-        m_388 &= ~0x40000;
+        behavior_flags &= ~0x40000;
         break;
     }
 }
@@ -416,7 +398,7 @@ void TBoss3VoloptCore::run_freeze_state() {
 s32 TBoss3VoloptCore::check_target_collision() {
     s32 found;
     s32 i;
-    TBoss3VoloptCoreTarget *object;
+    TObjChara *object;
     if (target == NULL) {
         return 0;
     }
@@ -425,13 +407,13 @@ s32 TBoss3VoloptCore::check_target_collision() {
     this->check_object_collisions();
     if (bodies->flags & 0x80000) {
         for (i = 0; i < 0x10; i++) {
-            object = (TBoss3VoloptCoreTarget *)TObjPlayer::get_battle_param(i);
+            object = (TObjChara *)TObjPlayer::get_battle_param(i);
             if (object == NULL) {
                 break;
             }
             if (obj_is_hit_receivable((u8 *)object) != 0) {
                 if (object->select_melee_contact_body(this, 1.0f) != 0) {
-                    object->apply_knockback_from_attacker(this, 3.0f);
+                    object->apply_knockback_from_attacker((u8 *)this, 3.0f);
                     object->receive_physical_attack(this, 1.0f);
                 }
                 if ((u8 *)object == target) {
@@ -447,23 +429,23 @@ void TBoss3VoloptCore::update_state_spin() {
     switch (state) {
     case 0:
         actorFlags |= 0x40000;
-        m_388 |= 0x20000;
+        behavior_flags |= 0x20000;
         orbit_angle = 0x4000;
         sweep_angle = -0x1555;
         targetId = 0xFFFF;
-        m_388 |= 0x10000;
+        behavior_flags |= 0x10000;
         this->requested_action = 0;
         rotation_x = 0;
         update_orbit_position();
         facing_angle = calc_spin_value();
         rotation_y = facing_angle;
-        *(s16 *)&timer = 0x5A;
+        timer = 0x5A;
         state = 1;
     case 1:
         advance_animation();
-        if (--*(s16 *)&timer <= 0) {
+        if (--timer <= 0) {
             actorFlags &= ~0x40000;
-            m_388 &= ~1;
+            behavior_flags &= ~1;
             run_idle_action();
         }
         break;
@@ -479,7 +461,7 @@ s32 TBoss3VoloptCore::calc_spin_value() {
 void TBoss3VoloptCore::update_orbit_position() {
     f32 radius;
     s32 offset = ((u16)orbit_angle % 10922) - 0x1555;
-    if (m_388 & 0x20000) {
+    if (behavior_flags & 0x20000) {
         orbit_radius = 134.0f / cos_table_lookup(offset);
         position.y = 50.0f;
     } else {
@@ -532,13 +514,13 @@ s32 TBoss3VoloptCore::calc_hit_zone_index() {
 
 void TBoss3VoloptCore::set_boss_target_pos(s32 slot, s32 moves, s32 delay_frames) {
     if (obj_testFlags30(0x800) == 0) {
-        m_388 |= 0x20000;
+        behavior_flags |= 0x20000;
         target_slot = slot;
         moves_left = moves;
         delay = delay_frames;
         boss3_volopt_core_active_flag = 0;
         alloc_boss_target_slot();
-        m_388 &= ~1;
+        behavior_flags &= ~1;
         run_move_action();
     }
 }
@@ -546,7 +528,7 @@ void TBoss3VoloptCore::set_boss_target_pos(s32 slot, s32 moves, s32 delay_frames
 void TBoss3VoloptCore::update_orbit_state() {
     switch (state) {
     case 0:
-        m_388 |= 0x10000;
+        behavior_flags |= 0x10000;
         this->requested_action = 0;
         rotation_x = 0;
         state = 1;
@@ -579,27 +561,27 @@ void TBoss3VoloptCore::update_orbit_state() {
         break;
     }
     if (vol_opt_active_hit_zone >= 0) {
-        minimap_render_dot(&position.x, -0x5DB4, 1, 0);
+        minimap_render_dot(&position, -0x5DB4, 1, 0);
     }
 }
 
-void TBoss3VoloptCore::sub_8003F81C() {
+void TBoss3VoloptCore::update_orbit_end_state() {
     switch (state) {
     case 0:
-        m_388 |= 0x10000;
+        behavior_flags |= 0x10000;
         this->requested_action = 0;
-        *(s16 *)&timer = 5;
+        timer = 5;
         effect = NULL;
         state = 1;
     case 1:
         rotation_y = approach_angle_limited(rotation_y, facing_angle - 0x8000, core_turn_angle_limit);
         if (angle_difference_abs(rotation_y, facing_angle - 0x8000) <= core_turn_angle_limit) {
-            *(s16 *)&timer = (TBoss3Volopt::is_v2_mode() != 0) ? 5 : 0x1E;
+            timer = (TBoss3Volopt::is_v2_mode() != 0) ? 5 : 0x1E;
             state = 2;
         }
         break;
     case 2:
-        if (--*(s16 *)&timer <= 0) {
+        if (--timer <= 0) {
             Vec pos = *&position;
             pos.y -= 20.0f;
             effect = create_particle_emitter(&pos, 0x31);
@@ -608,7 +590,7 @@ void TBoss3VoloptCore::sub_8003F81C() {
         }
         break;
     case 3:
-        if (--*(s16 *)&timer < 0) {
+        if (--timer < 0) {
             boss3_volopt_core_active_flag = 1;
             run_idle_action();
         }
@@ -622,7 +604,7 @@ void TBoss3VoloptCore::sub_8003F81C() {
     }
     advance_animation();
     if (vol_opt_active_hit_zone >= 0) {
-        minimap_render_dot(&position.x, -0x5DB4, 1, 0);
+        minimap_render_dot(&position, -0x5DB4, 1, 0);
     }
 }
 
@@ -662,7 +644,7 @@ void TBoss3VoloptCore::update_topple_state() {
     case -1:
         break;
     case 0:
-        m_388 |= 0x10000;
+        behavior_flags |= 0x10000;
         this->requested_action = 0;
         if (angle_difference_abs(rotation_y, facing_angle - 0x4000) <= core_turn_angle_limit) {
             state = 3;
@@ -695,7 +677,7 @@ void TBoss3VoloptCore::update_topple_state() {
     }
     advance_animation();
     if (vol_opt_active_hit_zone >= 0) {
-        minimap_render_dot(&position.x, -0x5DB4, 1, 0);
+        minimap_render_dot(&position, -0x5DB4, 1, 0);
     }
 }
 

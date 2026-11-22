@@ -173,19 +173,19 @@ AreaSoundRemapEntry area_sound_remap_table_b[] = {
     { -1, 0 },
 };
 
-s32 TBoss3Volopt::remap_area_sound_id(s32 arg0) {
+s32 TBoss3Volopt::remap_area_sound_id(s32 sound_id) {
     s32 masked;
     s32 result;
     s32 area;
     area = get_current_floor_area();
     if (TLobby::get_instance() != 0) {
         if (area != AREA_VR_TEMPLE_ALPHA && area != AREA_VR_TEMPLE_BETA && area != AREA_VR_SPACESHIP_ALPHA && area != AREA_VR_SPACESHIP_BETA && area != AREA_SEASIDE_NIGHT && area != AREA_TOWER) {
-            return arg0;
+            return sound_id;
         }
     } else if (area != AREA_BATTLE1 && area != AREA_BATTLE2) {
-        return arg0;
+        return sound_id;
     }
-    masked = arg0 & 0x8FFFFF00;
+    masked = sound_id & 0x8FFFFF00;
     if (TLobby::get_instance() != 0) {
         if (area == AREA_VR_TEMPLE_ALPHA || area == AREA_VR_TEMPLE_BETA) {
             result = 0x3AB42;

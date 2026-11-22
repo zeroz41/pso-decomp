@@ -41,7 +41,7 @@ TObjNpcARW00::~TObjNpcARW00() {}
 TObjNpcARW00::TObjNpcARW00(TObject *parent, void *arg2) : TUnk_804A8640(parent) {
     *(s32 *)((s8 *)this + 0) = (saddr) TObjNpcARW00__name;
     ((TObjNpcARW00 *)this)->apply_set_data(arg2);
-    ((TObjPlayer *)this)->init_position_vectors();
+    init_position_vectors();
     *(s32 *)((s8 *)this + 0x34) = (s32) *(*(s32 * *)&TObjNpcARW00__static_model);
     ((TObjNpcARW00 *)this)->texlist = (s32) (*(s32 *)&TObjNpcARW00__gvm_texture_handle);
     ((TObjNpcBase *)this)->setup_common();

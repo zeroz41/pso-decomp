@@ -272,7 +272,7 @@ struct WaitDemoLayout {
 };
 
 void __ct__7TObjectFP7TObject(TObject *self, TObject *parent);
-extern s32 lbl_804DF614[];
+extern s32 boss6_type1_part_model_ids[];
 __declspec(section ".data") s32 lbl_804EFB70[2] = {0x1F, 0x21};
 
 #pragma push
@@ -290,7 +290,7 @@ void *TObjFish__sub_8034029C(TBoss6Demo15_TYPE2_WAIT *wait, TObjFish *fish) {
     bml = TBoss6PlotFalz::get_scene_archive();
     for (i = 0; i < 2; i++) {
         {
-            s32 t = lbl_804DF614[i];
+            s32 t = boss6_type1_part_model_ids[i];
             v = t;
             self->parts[i].model = get_bml_model(bml, t);
         }

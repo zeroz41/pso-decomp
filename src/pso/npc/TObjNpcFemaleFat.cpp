@@ -34,7 +34,7 @@ TObjNpcFemaleFat::~TObjNpcFemaleFat() {}
 TObjNpcFemaleFat::TObjNpcFemaleFat(TObject *parent, void *set_data) : TUnk_804A8640(parent) {
     this->m_name = TObjNpcFemaleFat__name;
     this->apply_set_data(set_data);
-    ((TObjPlayer *)this)->init_position_vectors();
+    init_position_vectors();
     this->model = (void *)TObjNpcFemaleFat__static_model->models->model;
     this->texlist = (saddr)TObjNpcFemaleFat__static_model->models->m_c;
     this->setup_common();

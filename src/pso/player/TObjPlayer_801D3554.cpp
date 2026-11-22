@@ -14,23 +14,23 @@ typedef struct Rec_801D35FC {
 struct ByteBlock_14 { u8 bytes[0x14]; };
 
 extern "C" {
-int TItemList__sub_801D5868(void*, void*);
+s32 *TItemList__sub_801D5868(void *list, s32 index);
 void create_drop_nodes__9TItemListFPvPvPvPvi(void *arg0, void *arg1, void *arg2, Rec_801D35FC *arg3, s32 arg4);
 s32 TItemList__sub_801D5854(s32, s32);
-s32 copy_item_data__9TItemListFv(s32, s32);
+s32 copy_item_data__9TItemListFv(saddr, void *);
 s32 create_node__9TItemListFPvPvPvSc(s32, s32, s32, s32);
 
-void insert_item_node__10TObjPlayerFiiiii(saddr list, s32 pos, s32 source, s32 arg3, s32 id) {
-    saddr temp_r31;
+void insert_item_node__10TObjPlayerFiiiii(saddr list, void *pos, void *source, void *item, s32 id) {
+    s32 *temp_r31;
     saddr temp_r30;
 
-    temp_r31 = TItemList__sub_801D5868((void*)list, (void*)(0));
+    temp_r31 = TItemList__sub_801D5868((void*)list, 0);
     temp_r30 = TItemList__sub_801D5854(list, 0);
-    if (TItemList__sub_801D5844((void *)temp_r31) != 0) {
-        TItemList__sub_801D5838((void *)temp_r31);
+    if (TItemList__sub_801D5844(temp_r31) != 0) {
+        TItemList__sub_801D5838(temp_r31);
         ((TObjPlayer *)temp_r30)->set_field4(id);
-        copy_item_data__9TItemListFv(temp_r30, arg3);
-        TItemList::create_node((void *)list, (void *)source, (void *)pos, 0);
+        copy_item_data__9TItemListFv(temp_r30, item);
+        TItemList::create_node((void *)list, source, pos, 0);
         TItemList__sub_801D5804((s32 *)list);
     }
 }
@@ -69,7 +69,7 @@ u8 *copy_drop_node(u8 *arg0, u8 *arg1) {
 
 void fn_801D371C(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); }
 void start_placement_search(saddr list, saddr pos, saddr source) {
-    TItemList__sub_801D5838(((void *)((s32)TItemList__sub_801D5868((void*)list, (void*)(0)))));
+    TItemList__sub_801D5838(TItemList__sub_801D5868((void *)list, 0));
     TItemList__sub_801D3B00((void *)list, (void *)source, (void *)pos, 0);
     TItemList__sub_801D5804((s32 *)list);
 }

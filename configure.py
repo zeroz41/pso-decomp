@@ -454,7 +454,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/effect/TDuelEffectString.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-fp_contract on")},
     "pso/effect/TEffClitical.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/item/TItemEffArmor.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/boss/derolle/TObjBoss2Tunnel_802F1A58.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/boss/barbaray/TObjBoss7Tunnel.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/unk/TLobby_803382E4.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/object/TObjControl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # -sdata 4: its 8-byte leader selection 0x805011D8 sits in .bss, not .sbss.
@@ -488,7 +488,10 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # its class name "TBreakUpMdl" sits in .rodata between the default parameter row and colour: readonly strings.
     "pso/effect/TBreakUpMdl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # the four effect class names sit in .rodata, pointed to by .sdata 0x805D29B8..C4: readonly strings.
-    "pso/enemy/canadin/CanadinEffects.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # -inline off,deferred: the four vtables follow the text in forward order (EffLight first), so the
+    # source runs from the last function back; -fp_contract on: EffLight::render and
+    # EffDischarge::run_task use fmadds.
+    "pso/enemy/canadin/CanadinEffects.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly", "-fp_contract on")},
     "pso/ui/window/TWindowArea.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # its only string (the empty entry text) sits in .sdata2, as in its sibling parts _80336054/_8033A8EC.
     "pso/ui/frontend/TAdSinglePlyChrSelectGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
@@ -670,7 +673,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/enemy/morfos/TObjEneMorfos.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/enemy/mericarol/TObjEneBm9Mericarol_Bomb.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/enemy/mericarol/TObjEneBm9Mericarol_EffCurse3.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/enemy/epsilon/TObjEneEpsilonGuard_8035DD68.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/enemy/epsilon/TObjEneEpsilonGuard_8035DD68.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/enemy/epsilon/TObjEneEpsilonGuard_8035F5C8.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly", "-sdata 4")},
     # Functions in reverse source order (0x8008DC18-0x80090448 is written last-to-first) and the four 8-byte
     # .bss arrays 0x805007A8-0x805007C0 reached through one lis/addi pool base in the ctor, not r13.
@@ -682,7 +685,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/enemy/lappy/TObjEneLappy.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/enemy/wolf/TObjEneBm5Wolf.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/enemy/gee/TObjEneMe1Gee.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/enemy/gibbles/TObjEneGibbles.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # .data holds the vtable ahead of sub_802D9110's jump table: deferred generation of the last-to-first source.
+    "pso/enemy/gibbles/TObjEneGibbles.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/object/door/TODoorLabo.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     "pso/effect/photon/TPhotonGolla.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/photon/TPhotonPilla.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
@@ -969,7 +973,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/npc/TObjNpcFemaleMacho.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/npc/TObjNpcFemaleOld.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/npc/TObjNpcFemaleTall.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/boss/dragon/TBoss1Dragon.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # -inline auto,deferred: .data holds the TBoss1Dragon vtable ahead of the jump tables and the
+    # TUnk_80481B34 vtable after them, so the source runs last function to first.
+    "pso/boss/dragon/TBoss1Dragon.cpp": {"cflags": _switch(cflags_pso, "-inline auto,deferred", "-str reuse,readonly")},
     "pso/technique/TTecBarta.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # consume_telepipe_arrival reaches each .rodata object with its own lis/addi (no shared base): -pool off.
     # -inline off,deferred: .data holds the TUnk_804CC9D4, TUnk_804CCA0C and TTecLuker vtables in the
@@ -1440,7 +1446,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/boss/galgryphon/TBoss5GryphonColli.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # .data holds __vt__19TObjBoss8PillerCtrl ahead of run_task's jump table: deferred generation of the last-to-first source.
     "pso/boss/goldragon/TObjBoss8PillerCtrl.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
-    "pso/unk/text_803626A8.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/enemy/epsilon/TObjEneEpsilon.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # -sdata 4: the 8-byte name tables sit in .data while 4-byte objects sit in .sdata.
     "pso/unk/text_8035B750.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
     # -fp_contract on: fn_80293D84 fuses each hexagon vertex's scale and offset into fmadds; no other
@@ -1484,7 +1490,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/network/TGameProtocol.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdMcCheckGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/TEF_PvrWave.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/boss/darkfalz/TObjDFDemoF_80050134.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/boss/darkfalz/TObjDFDemoF.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/dragon/TObjBoss1Floor.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/object/TObjParticle.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # .data holds the vtable ahead of vfunc_11's jump table and .rodata init_quest_list_window's window size

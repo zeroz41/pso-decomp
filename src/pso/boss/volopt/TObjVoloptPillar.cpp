@@ -33,7 +33,7 @@ const DirectAttackPayload volopt_pillar_attack = {0, 0.0f};
 const Vec volopt_pillar_push = {0.0f, 0.0f, 0.0f};
 
 // Throws three debris chips from the pillar's position.
-void TObjVoloptPillar::sub_80049FD8() {
+void TObjVoloptPillar::spawn_debris_chips() {
     const TObjChipParams params = {
         {0.5f, 0.03f, 0.25f},
         {this->position.x, this->position.y, this->position.z},
@@ -67,7 +67,7 @@ static CollisionBody volopt_pillar_collision_body[1] = {
 void TObjVoloptPillar::render() {
     f32 scale;
     if (update_object_view_visibility(400.0f, 40.0f) != 0) {
-        select_actor_lighting((saddr)this);
+        select_actor_lighting(this);
         TObjPlayer::toggle_particle_effect();
         push_matrix();
         post_translate_matrix(&position);
@@ -102,7 +102,7 @@ void TObjVoloptPillar::run_task() {
         state = 1;
     case 1:
         if (--timer <= 0) {
-            sub_80049FD8();
+            spawn_debris_chips();
             state = 2;
         }
         break;
@@ -134,7 +134,7 @@ void TObjVoloptPillar::run_task() {
                                     Vec push = volopt_pillar_push;
                                     push.x = TBoss3VoloptP02::get_float_param(2);
                                     rotate_matrix_y(0, angle);
-                                    matrix_mult_vec(0, &push, (Vec *)target->unk_308);
+                                    matrix_mult_vec(0, &push, &target->velocity);
                                 }
                             }
                             pop_matrix();

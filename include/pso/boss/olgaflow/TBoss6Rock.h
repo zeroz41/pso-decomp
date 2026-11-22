@@ -12,7 +12,7 @@ struct BmlResource;
 struct GinjaTextureList;
 struct TBoss6Type2;
 
-// The per-kind parameters of a falling rock (TBoss6Rock__data_80479258).
+// The per-kind parameters of a falling rock (boss6_rock_kind_params).
 struct RockKindParams {
     s32 model_id;
     f32 radius;      // the marker's radius; players are pushed out to it
@@ -27,23 +27,24 @@ struct RockKindParams {
 struct TBoss6Rock : public TObjCollidable {
     TBoss6Rock(TObject *parent, s32 index);
     virtual ~TBoss6Rock();
-    void sub_803542E8(s32);
+    // Pushes the players out of a landed rock, hurting them when it lands.
+    void push_out_players(s32 landed);
     virtual void run_task();
     virtual void render();
-    void sub_80353F5C();
-    s32 m_ac;            // index into TBoss6Rock__instance_table and the point table
-    TObjMapCsn *m_b0;            // the TObjMapCsn made when it lands
-    s32 m_b4;            // kind (index into TBoss6Rock__data_80479258)
-    s32 m_b8;            // kind of the next fall
-    s32 m_bc;            // fast fall (1)
-    s32 m_c0;            // fast fall of the next fall
-    s32 m_c4;            // state: 0 waiting, 1 falling, 2 landed
-    s32 m_c8;            // command: 0 none, 2 hold the landed rock
-    f32 m_cc;            // fall speed
-    s32 m_d0;            // y spin per frame
-    Vec m_d4;            // its point
-    s32 m_e0;            // frame counter of the landed push-out
-    TUnk_804F1280 *m_e4; // the marker object
+    void create_map_csn();
+    s32 rock_index;                  // index into TBoss6Rock__instance_table and the point table
+    TObjMapCsn *map_csn;             // the TObjMapCsn made when it lands
+    s32 kind_index;                  // kind (index into boss6_rock_kind_params)
+    s32 next_kind_index;             // kind of the next fall
+    s32 fast_fall;                   // fast fall (1)
+    s32 next_fast_fall;              // fast fall of the next fall
+    s32 fall_state;                  // state: 0 waiting, 1 falling, 2 landed
+    s32 command;                     // command: 0 none, 2 hold the landed rock
+    f32 fall_speed;                  // fall speed
+    s32 spin_speed;                  // y spin per frame
+    Vec rock_point;                  // its point
+    s32 push_timer;                  // frame counter of the landed push-out
+    TUnk_804F1280 *marker;           // the marker object
     static const char *class_name;
     static TUnk_804F1280 *create();
     static TBoss6Rock *create(s32 index);
@@ -67,22 +68,17 @@ struct TBoss6Rock : public TObjCollidable {
     static void break_rocks_in_radius(Vec *point, f32 radius);
     static s32 push_out_of_rocks(Vec *point, f32 radius);
     static s32 get_point(s32 index, Vec *point, f32 *radius);
+    // The point a rock pushes players out of the boss's reach towards (TBoss6Type2).
+    static s32 get_push_target(s32 i, Vec *out, f32 *radius);
+    // Lays the 32 rock points out on four rings around the arena centre.
+    static void init_rock_points();
+    // Clears the owner (TBoss6Type2's dtor): every rock then destroys itself.
+    static void clear_owner();
+    // The model resource and texture list load_resources loads (TBoss6CrushRock's ctor).
+    static BmlResource *get_resource();
+    static GinjaTextureList *get_texture_list();
 };
 
 LAYOUT_ASSERT(TBoss6Rock_size, sizeof(TBoss6Rock) == 0xE8);
-
-extern "C" {
-// The texture list and model resource load_resources loads (TBoss6CrushRock's ctor).
-GinjaTextureList *TBoss6Rock__sub_80353A04(void);
-BmlResource *TBoss6Rock__sub_80353A0C(void);
-// The point a rock pushes players out of the boss's reach towards (TBoss6Type2).
-s32 TBoss6Rock__sub_80353A14(s32 i, Vec *out, f32 *radius);
-// Lays the 32 rock points out on four rings around the arena centre.
-void TBoss6Rock__sub_80354188(void);
-// Pushes the players out of a landed rock, hurting them when it lands.
-void sub_803542E8__10TBoss6RockFl(TBoss6Rock *rock, s32 landed);
-// Clears the owner (TBoss6Type2's dtor): every rock then destroys itself.
-void TBoss6Rock__sub_80354A44(void);
-}
 
 #endif

@@ -17,13 +17,13 @@ extern "C" TCameraCtrl *camera_ctrl_instance;
 void TObjEneBm9Mericarol_EffCurse3::run_task() {
     Vec a;
     Vec b;
-    m_1c++;
-    if (m_1c > 10) {
+    age++;
+    if (age > 10) {
         queue_destruction();
         return;
     }
-    if (m_20->is_alive() != 0) {
-        VecCopy(&a, &m_20->position);
+    if (target->is_alive() != 0) {
+        VecCopy(&a, &target->position);
         a.y += 14.0f;
         VecCopy(&b, (const Vec *)&camera_ctrl_instance->pos_x);
         subtract_vector(&b, &a);
@@ -31,25 +31,25 @@ void TObjEneBm9Mericarol_EffCurse3::run_task() {
         a.x = 20.0f * b.x + a.x;
         a.y = 20.0f * b.y + a.y;
         a.z = 20.0f * b.z + a.z;
-        m_24->set_position(&a);
+        effect->set_position(&a);
     }
 }
 #pragma pop
 
 TObjEneBm9Mericarol_EffCurse3::~TObjEneBm9Mericarol_EffCurse3() {
-    if (m_24 != NULL) {
-        m_24->queue_destruction();
-        m_24 = NULL;
+    if (effect != NULL) {
+        effect->queue_destruction();
+        effect = NULL;
     }
 }
 
 const char *TObjEneBm9Mericarol_EffCurse3__class_name = "TObjEneBm9Mericarol_EffCurse3";
 
-TObjEneBm9Mericarol_EffCurse3::TObjEneBm9Mericarol_EffCurse3(TObject *parent, TObjBase *target) : TObject(parent) {
+TObjEneBm9Mericarol_EffCurse3::TObjEneBm9Mericarol_EffCurse3(TObject *parent, TObjBase *victim) : TObject(parent) {
     m_name = TObjEneBm9Mericarol_EffCurse3__class_name;
-    m_1c = 0;
-    m_20 = target;
-    if (m_20->is_alive() != 0) {
-        m_24 = spawn_continuous_particle_effect_with_flags(&m_20->position, 0x20D, 0x40);
+    age = 0;
+    target = victim;
+    if (target->is_alive() != 0) {
+        effect = spawn_continuous_particle_effect_with_flags(&target->position, 0x20D, 0x40);
     }
 }

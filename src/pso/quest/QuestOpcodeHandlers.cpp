@@ -102,6 +102,7 @@ int qst_label_address(int label);
 #include "pso/player/TPlyItem.h"
 #include "pso/item/TItemList.h"
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
+#include "pso/camera/TCameraCtrl_8006CC30.h"
 u8 *qst_code;
 s32 *qst_function_table;
 s32 *qst_registers;
@@ -876,9 +877,6 @@ int is_quest_active(void);
 s32 reset_battle_camera__11TCameraCtrlFv();
 void TCameraCtrl__sub_8006B3B8(Vec *, Vec *);
 void set_override_position_and_angle__11TCameraCtrlFPUcs(Vec *, int, Vec *, s32 *);
-void request_follow_camera_offsets(void *arg0, void *arg1, u16 arg2);
-int end_conversation_camera(void*);
-int begin_conversation_camera(void*);
 saddr TLobby__sub_80070ACC();
 s32 set_challenge_mode_split_flag();
 s32 TLobby__sub_80070B34(int);
@@ -4756,9 +4754,9 @@ void qst_op_cam_pan(u8 reg) {
 void qst_op_nop_86(void) {  }
 
 void qst_op_nop_85(void) {  }
-int qst_op_cam_zmout(void* p) { return end_conversation_camera(p); }
+void qst_op_cam_zmout(void *p) { end_conversation_camera(); }
 
-int qst_op_cam_zmin(void* p) { return begin_conversation_camera(p); }
+void qst_op_cam_zmin(void *p) { begin_conversation_camera(); }
 
 void qst_op_cam_quake(void) { TCameraCtrl::set_shake_preset(2); }
 

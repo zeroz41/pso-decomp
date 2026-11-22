@@ -3,14 +3,9 @@
 
 #include "types.h"
 
+// Empty in the release build.
 extern "C" {
-void TObjEneDD__sub_800B9B24(void);
+void TObjEneDD__sub_800B9B24(f32);
 }
-
-// --- C functions defined in TObjEneDD_800B9AF8.cpp ---
-extern "C" {
-void TObjEneDD__sub_800B9B24(void);
-}
-// --- end of C functions
 
 #endif

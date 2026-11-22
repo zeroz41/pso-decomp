@@ -7,7 +7,7 @@
 class TParticleCtrl;
 class TObjPlayer;
 
-// The shot a TObjEneDubchik fires (TObjPlayer__sub_800A8FB4 news one): it flies straight
+// The shot a TObjEneDubchik fires (TObjEneDubchik::update_shoot news one): it flies straight
 // along the shooter's heading, stops at a wall or after 150 units, and hits the first
 // player it passes within 7 units of.
 class TUnk_80491460 : public TObject {

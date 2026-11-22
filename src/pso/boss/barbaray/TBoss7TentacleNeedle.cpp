@@ -110,7 +110,7 @@ void TBoss7Tentacle::enable_extend() { flags &= ~HIDDEN; }
 
 void TBoss7Tentacle::enable_retract() { flags |= HIDDEN; }
 
-void TBoss7Tentacle::sub_802F0B58() {
+void TBoss7Tentacle::raise() {
     next_state = 1;
     flags &= ~HIDDEN;
 }
@@ -121,10 +121,10 @@ void TBoss7Tentacle::start_attack_at_position(u8 *target, s32 hold_time) {
     }
     this->hold_time = hold_time;
     VecCopy(&this->target, (const Vec *)target);
-    sub_802F0A14();
+    request_aim();
 }
 
-void TBoss7Tentacle::sub_802F0AF0() {
+void TBoss7Tentacle::drop_back() {
     next_state = 5;
     flags &= ~HIDDEN;
 }
@@ -144,37 +144,37 @@ void TBoss7Tentacle::init_segments() {
     }
 }
 
-void TBoss7Tentacle::sub_802F0A44() {
+void TBoss7Tentacle::request_sway() {
     next_state = 0;
     flags &= ~HIDDEN;
 }
 
-void TBoss7Tentacle::sub_802F0A2C() {
+void TBoss7Tentacle::request_turn_to_rest() {
     next_state = 4;
     flags &= ~HIDDEN;
 }
 
-void TBoss7Tentacle::sub_802F0A14() {
+void TBoss7Tentacle::request_aim() {
     next_state = 2;
     flags &= ~HIDDEN;
 }
 
-void TBoss7Tentacle::sub_802F09FC() {
+void TBoss7Tentacle::request_strike() {
     next_state = 3;
     flags &= ~HIDDEN;
 }
 
-void TBoss7Tentacle::sub_802F09EC() {
+void TBoss7Tentacle::enter_sway() {
     pitch = 0;
     yaw = 0;
 }
 
-void TBoss7Tentacle::sub_802F09C8() {
+void TBoss7Tentacle::enter_raise() {
     yaw = TBoss7Tentacle__target_angle_table[index];
     pitch = 0;
 }
 
-void TBoss7Tentacle::sub_802F09B4() {
+void TBoss7Tentacle::enter_turn_to_rest() {
     yaw = 0;
     pitch = 0x4000;
 }
@@ -196,7 +196,7 @@ void TBoss7Tentacle::reset_state() {
     segment_scale = 1.0f;
 }
 
-void TBoss7Tentacle::sub_802F0918() {
+void TBoss7Tentacle::enter_drop_back() {
     yaw = 0;
     pitch = 0x4000;
 }
@@ -215,7 +215,7 @@ void TBoss7Tentacle::advance_path_position() {
 
 #pragma push
 #pragma fp_contract on
-void TBoss7Tentacle::sub_802F0608(f32 length) {
+void TBoss7Tentacle::shape_strike_arc(f32 length) {
     s32 i;
     s32 prev, ang;
     s32 j;
@@ -288,7 +288,7 @@ void TBoss7Tentacle::run_task() {
     case 2:
         yaw = approach_angle_limited(yaw, 0, 0x80);
         if (yaw == 0) {
-            sub_802F09FC();
+            request_strike();
         }
         break;
     case 3: {
@@ -342,7 +342,7 @@ void TBoss7Tentacle::run_task() {
                 bend = reach / (0.4f * len);
             }
             pitch = approach_angle_limited(pitch, boss7_tentacle_angle_table[index], 0x100);
-            sub_802F0608(len);
+            shape_strike_arc(len);
             break;
         case 2:
             timer = timer + 1;
@@ -357,7 +357,7 @@ void TBoss7Tentacle::run_task() {
             if (reach < 20.0f) {
                 reach = 20.0f;
                 attack_phase = 2;
-                sub_802F0A2C();
+                request_turn_to_rest();
             }
             if (reach >= 0.4f * len) {
                 bend = 1.0f;
@@ -365,7 +365,7 @@ void TBoss7Tentacle::run_task() {
                 bend = reach / (0.4f * len);
             }
             pitch = approach_angle_limited(pitch, 0, 0x100);
-            sub_802F0608(len);
+            shape_strike_arc(len);
             break;
         }
         break;
@@ -378,7 +378,7 @@ void TBoss7Tentacle::run_task() {
         advance_path_position();
         pitch = approach_angle_limited(pitch, 0, 0x280);
         if (pitch == 0) {
-            sub_802F0A44();
+            request_sway();
         }
         break;
     }
@@ -390,13 +390,13 @@ void TBoss7Tentacle::switch_state() {
     if (state != this->state) {
         switch (state) {
         case 0:
-            sub_802F09EC();
+            enter_sway();
             break;
         case 1:
-            sub_802F09C8();
+            enter_raise();
             break;
         case 4:
-            sub_802F09B4();
+            enter_turn_to_rest();
             break;
         case 2:
             setup_state();
@@ -405,7 +405,7 @@ void TBoss7Tentacle::switch_state() {
             reset_state();
             break;
         case 5:
-            sub_802F0918();
+            enter_drop_back();
             break;
         }
         this->state = next_state;
@@ -538,7 +538,7 @@ void TBoss7TentacleNeedle::run_task() {
         damage_nearby_players();
         return;
     case 3:
-        sub_802EF954();
+        update_sink();
         return;
     }
 }
@@ -607,7 +607,7 @@ void TBoss7TentacleNeedle::damage_nearby_players() {
     }
 }
 
-void TBoss7TentacleNeedle::sub_802EF954() {
+void TBoss7TentacleNeedle::update_sink() {
     if (advance_toward_limit(1.0f) != 0) {
         queue_destruction();
         disallow_rendering();

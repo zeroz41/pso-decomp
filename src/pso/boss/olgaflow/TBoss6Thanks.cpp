@@ -33,9 +33,14 @@
 #include "pso/object/switch/TOSwitchItem.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/animation/ActorAnimationState.h"
 
 
+LAYOUT_ASSERT(Thanks_state, offsetof(TBoss6Thanks,state)==0x1c);
 LAYOUT_ASSERT(Thanks_current_motion, offsetof(TBoss6Thanks,current_motion)==0x20);
+LAYOUT_ASSERT(Thanks_next_motion, offsetof(TBoss6Thanks,next_motion)==0x24);
 LAYOUT_ASSERT(Thanks_frame0, offsetof(TBoss6Thanks,frame0)==0x28);
 LAYOUT_ASSERT(Thanks_frame1, offsetof(TBoss6Thanks,frame1)==0x2c);
 LAYOUT_ASSERT(Thanks_opacity, offsetof(TBoss6Thanks,opacity)==0x30);
@@ -45,28 +50,10 @@ LAYOUT_ASSERT(Thanks_texture0, offsetof(TBoss6Thanks,texture0)==0x40);
 LAYOUT_ASSERT(Thanks_texture1, offsetof(TBoss6Thanks,texture1)==0x44);
 LAYOUT_ASSERT(Thanks_motions, offsetof(TBoss6Thanks,motions)==0x48);
 LAYOUT_ASSERT(Thanks_motion1, offsetof(TBoss6Thanks,motion1)==0x50);
-struct ThanksMotionHeader
-{
-  u32 x0;
-  u32 count;
-};
+LAYOUT_ASSERT(Thanks_particle_emitters, offsetof(TBoss6Thanks,particle_emitters)==0x54);
 
-extern "C" {
-
-s32 post_translate_matrix(const void *);
-
-}
-
-
-struct O_8035CCAC { u8 pad[0x54]; s32 arr[4]; };
-
-struct E_8035CC50 { void *p; };
-
-struct W_8035CC50 { u8 pad0[0x54]; E_8035CC50 e[4]; };
-
-struct Ent_8035CB88 { s32 id; s32 lo; s32 hi; };
-
-struct Obj_8035CB88 { u8 pad[0x34]; s32 x30; u8 pad38[0x1C]; void *p[4]; };
+// Particle effect id and the fade_frame range in which update_particle_emitters keeps it.
+struct Boss6ThanksEmitter { s32 id; s32 first_frame; s32 last_frame; };
 
 const char *TBoss6Thanks__class_name = "TBoss6Thanks";
 
@@ -80,102 +67,92 @@ extern const u8 listed_equipment_table[10][3] = {
     {0, 0x44, 0}, {0, 0x4C, 0}, {1, 2, 0x27}, {1, 2, 0x31}, {1, 2, 0x32},
 };
 
-// Particle effect id and the m_34 range in which update_particle_emitters keeps each emitter.
-static const Ent_8035CB88 boss6_thanks_particle_emitter_table[4] = {
+static const Boss6ThanksEmitter boss6_thanks_particle_emitter_table[4] = {
     {141, 0, 50}, {178, 30, 110}, {510, 50, 90}, {450, 70, 120},
 };
 
-extern "C" {
-void TBoss6Thanks__sub_8035CB40(void);
-void TBoss6Thanks__sub_8035CCAC(saddr boss6_thanks);
-f32 xyz_distance(const void *, const void *);
+extern "C" f32 xyz_distance(const void *, const void *);
 
-s32 fn_8035CAE0(void) {
+s32 TBoss6Thanks::is_story_flag_0x9A_set() {
     return get_story_flag(0x9A) != 0;
 }
 s32 TBoss6Thanks::check_ship_door() {
     return get_story_flag(0x98) != 0;
 }
-void TBoss6Thanks__sub_8035CB40(void) { set_story_flag_or_send_quest_flag(154); }
+void TBoss6Thanks::set_story_flag_0x9A() { set_story_flag_or_send_quest_flag(154); }
 void TBoss6Thanks::dispatch_darkfalz_phase() { set_story_flag_or_send_quest_flag(152); }
 
 void TBoss6Thanks::update_particle_emitters() {
-    Obj_8035CB88 *o = (Obj_8035CB88 *)this;
     s32 i;
     for (i = 0; i < 4; i++) {
-        const Ent_8035CB88 *e = &boss6_thanks_particle_emitter_table[i];
-        if (*(s32 *)&this->m_34 >= e->lo && *(s32 *)&this->m_34 <= e->hi) {
-            if (o->p[i] == NULL) {
-                o->p[i] = create_particle_emitter(&boss6_thanks_position, e->id);
-                if (o->p[i] != NULL) {
-                    ((TParticleCtrl *)(o->p[i]))->set_flags(0x40);
+        const Boss6ThanksEmitter *e = &boss6_thanks_particle_emitter_table[i];
+        if (this->fade_frame >= e->first_frame && this->fade_frame <= e->last_frame) {
+            if (particle_emitters[i] == NULL) {
+                particle_emitters[i] = create_particle_emitter(&boss6_thanks_position, e->id);
+                if (particle_emitters[i] != NULL) {
+                    particle_emitters[i]->set_flags(0x40);
                 }
             }
         } else {
-            if (o->p[i] != NULL) {
-                TParticleCtrl::release(o->p[i]);
-                o->p[i] = NULL;
+            if (particle_emitters[i] != NULL) {
+                TParticleCtrl::release(particle_emitters[i]);
+                particle_emitters[i] = NULL;
             }
         }
     }
 }
 
 void TBoss6Thanks::destroy_effects() {
-    W_8035CC50 *self = (W_8035CC50 *)this;
     s32 i;
     for (i = 0; i < 4; i++) {
-        if (self->e[i].p != NULL) {
-            TParticleCtrl::release(self->e[i].p);
-            self->e[i].p = NULL;
+        if (particle_emitters[i] != NULL) {
+            TParticleCtrl::release(particle_emitters[i]);
+            particle_emitters[i] = NULL;
         }
     }
 }
 
-void TBoss6Thanks__sub_8035CCAC(saddr boss6_thanks) {
-    O_8035CCAC *self = (O_8035CCAC *)boss6_thanks;
+void TBoss6Thanks::clear_particle_emitters() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        self->arr[i] = 0;
+        particle_emitters[i] = NULL;
     }
 }
 
-int TBoss6Thanks::is_player_near(void *arg0) {
+int TBoss6Thanks::is_player_near(void *) {
     s32 i;
     s32 n;
-    u8 *p;
+    TObjPlayer *p;
     f32 r;
     n = TLobby::get_game_mode();
     r = 30.0f;
     for (i = 0; i < n; i++) {
-        p = (u8 *)TObjPlayer::get_player_data(i);
-        if (p != NULL && TBoss6PlotFalz::is_active((TObjPlayer *)p) != 0 &&
-            xyz_distance(p + 0x38, &boss6_thanks_position) <= r) {
+        p = TObjPlayer::get_player_data(i);
+        if (p != NULL && TBoss6PlotFalz::is_active(p) != 0 &&
+            xyz_distance(&p->position, &boss6_thanks_position) <= r) {
             return 1;
         }
     }
     return 0;
 }
 
-}
-
 void TBoss6Thanks::render() {
-    TBoss6Thanks *o = this;
-    if (0.0f == o->opacity) {
+    if (0.0f == opacity) {
         return;
     }
-    TBoss6PlotFalz::set_fade_material_color(o->opacity);
+    TBoss6PlotFalz::set_fade_material_color(opacity);
     set_motion_packed_rotation();
     push_matrix();
-    post_translate_matrix(&boss6_thanks_position);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(o->texture0));
+    post_translate_matrix(&boss6_thanks_position.x);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texture0));
     scale_matrix(0, 1.2f, 1.2f, 1.2f);
-    draw_model_motion(o->model0, o->motions[o->current_motion], o->frame0);
+    draw_model_motion(model0, motions[current_motion], frame0);
     pop_matrix();
     push_matrix();
-    post_translate_matrix(&boss6_thanks_position);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(o->texture1));
+    post_translate_matrix(&boss6_thanks_position.x);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texture1));
     scale_matrix(0, 1.2f, 1.2f, 1.2f);
-    draw_model_motion(o->model1, o->motion1, o->frame1);
+    draw_model_motion(model1, motion1, frame1);
     pop_matrix();
     clear_motion_packed_rotation();
     TObjFish::reset_fish_globals();
@@ -183,112 +160,101 @@ void TBoss6Thanks::render() {
 
 
 void TBoss6Thanks::update_fade_out() {
-    s32 temp_r3;
-
     if ((s32) this->current_motion != 1) {
-        if ((s32) *(s32 *)&this->m_34 == 0) {
+        if (this->fade_frame == 0) {
             play_sound_effect(0x40033231, 0, 0, 0);
         }
         update_particle_emitters();
-        this->opacity = (f32) (0.99f * (1.0f - ((f32) *(s32 *)&this->m_34 / 120.0f)));
-        temp_r3 = *(s32 *)&this->m_34;
-        if (temp_r3 == 0x78) {
+        this->opacity = (f32) (0.99f * (1.0f - ((f32) this->fade_frame / 120.0f)));
+        if (this->fade_frame == 120) {
             play_sound_effect(0x40033232, 0, 0, 0);
             queue_destruction();
             return;
         }
-        *(s32 *)&this->m_34 = (temp_r3 + 1);
+        this->fade_frame = this->fade_frame + 1;
     }
 }
 
 void TBoss6Thanks::advance_thanks_state() {
     if ((s32) this->current_motion == 1) {
-        this->m_24 = 0;
-        this->m_1c = 2;
+        this->next_motion = 0;
+        this->state = 2;
     }
 }
 
-void TBoss6Thanks::mark_done() { if (TBoss6Thanks::is_player_near(this) != 0) { this->m_24 = 1; this->m_1c = 1; } }
+void TBoss6Thanks::mark_done() { if (TBoss6Thanks::is_player_near(this) != 0) { this->next_motion = 1; this->state = 1; } }
 
-typedef struct ThanksMotionHeader ThanksMotionHeader;
-typedef struct Thanks_8035CF78 Thanks_8035CF78;
 void TBoss6Thanks::run_task() {
   f32 lim;
   s32 *new_var;
-  TBoss6Thanks *o = this;
-  switch (o->m_1c)
+  switch (state)
   {
     case 0:
-      ((TBoss6Thanks *)o)->mark_done();
+      mark_done();
       break;
     case 1:
-      ((TBoss6Thanks *)o)->advance_thanks_state();
+      advance_thanks_state();
       break;
     case 2:
-      ((TBoss6Thanks *)o)->update_fade_out();
+      update_fade_out();
       break;
   }
-  o->frame0 += 0.6f;
-  lim = ((f32) ((ThanksMotionHeader *)o->motions[o->current_motion])->count) - 1.0f;
-  if (o->frame0 >= lim)
+  frame0 += 0.6f;
+  lim = ((f32) motions[current_motion]->frameCount) - 1.0f;
+  if (frame0 >= lim)
   {
-    o->frame0 -= lim;
-    if ((*(new_var = &o->m_24)) != o->current_motion)
+    frame0 -= lim;
+    if ((*(new_var = &next_motion)) != current_motion)
     {
-      o->current_motion = *new_var;
+      current_motion = *new_var;
     }
   }
-  o->frame1 += 0.6f;
-  lim = ((f32) ((ThanksMotionHeader *)o->motion1)->count) - 1.0f;
-  if (o->frame1 >= lim)
+  frame1 += 0.6f;
+  lim = ((f32) motion1->frameCount) - 1.0f;
+  if (frame1 >= lim)
   {
-    o->frame1 -= lim;
+    frame1 -= lim;
   }
 }
 
 TBoss6Thanks::~TBoss6Thanks() {
-    TBoss6Thanks__sub_8035CB40();
-    ((TBoss6Thanks *)this)->destroy_effects();
+    TBoss6Thanks::set_story_flag_0x9A();
+    destroy_effects();
 }
 
 TBoss6Thanks::TBoss6Thanks(TObject *parent) : TObject(parent) {
-    TBoss6Thanks *boss6_thanks = this;
-    u8 *fish_count;
-    ((TBoss6Thanks *)boss6_thanks)->m_name = TBoss6Thanks__class_name;
-    fish_count = (u8 *)TBoss6PlotFalz::get_scene_archive();
-    *(saddr *)((s8 *)boss6_thanks + 0x38) = (saddr)get_bml_model((BmlResource *)fish_count, 7);
-    boss6_thanks->texture0 = (saddr)get_bml_texlist((BmlResource *)fish_count, 7);
-    *(saddr *)((s8 *)boss6_thanks + 0x48) = reinterpret_cast<saddr>(get_bml_motion((BmlResource *)(fish_count), 9));
-    *(saddr *)((s8 *)boss6_thanks + 0x4C) = reinterpret_cast<saddr>(get_bml_motion((BmlResource *)(fish_count), 0xB));
-    *(saddr *)((s8 *)boss6_thanks + 0x3C) = (saddr)get_bml_model((BmlResource *)fish_count, 9);
-    boss6_thanks->texture1 = (saddr)get_bml_texlist((BmlResource *)fish_count, 9);
-    *(saddr *)((s8 *)boss6_thanks + 0x50) = reinterpret_cast<saddr>(get_bml_motion((BmlResource *)(fish_count), 0xA));
-    TBoss6Thanks__sub_8035CCAC((saddr)((saddr) boss6_thanks));
-    boss6_thanks->m_1c = 0;
-    boss6_thanks->m_24 = 0;
-    boss6_thanks->current_motion = 0;
-    boss6_thanks->frame0 = 0.0f;
-    boss6_thanks->frame1 = 0.0f;
-    boss6_thanks->opacity = 0.99f;
-    boss6_thanks->m_34 = 0;
+    BmlResource *archive;
+    m_name = TBoss6Thanks__class_name;
+    archive = TBoss6PlotFalz::get_scene_archive();
+    model0 = get_bml_model(archive, 7);
+    texture0 = get_bml_texlist(archive, 7);
+    motions[0] = get_bml_motion(archive, 9);
+    motions[1] = get_bml_motion(archive, 0xB);
+    model1 = get_bml_model(archive, 9);
+    texture1 = get_bml_texlist(archive, 9);
+    motion1 = get_bml_motion(archive, 0xA);
+    clear_particle_emitters();
+    state = 0;
+    next_motion = 0;
+    current_motion = 0;
+    frame0 = 0.0f;
+    frame1 = 0.0f;
+    opacity = 0.99f;
+    fade_frame = 0;
 }
 
-extern "C" {
-
-extern void *tl_02;
-
 void *TBoss6Thanks::create() {
-    return new TBoss6Thanks((TObject *)tl_02);
+    return new TBoss6Thanks(tl_02);
 }
 
 s32 TBoss6Thanks::is_ship_door_ready() {
-    if ((check_ship_door() != 0) && (fn_8035CAE0() == 0)) {
+    if ((check_ship_door() != 0) && (is_story_flag_0x9A_set() == 0)) {
         return 1;
     }
     return 0;
 }
 
-s32 TBoss6Thanks__sub_8035D270(void) { return TBoss6Thanks::check_ship_door(); }
+extern "C" s32 TBoss6Thanks__sub_8035D270(void) { return TBoss6Thanks::check_ship_door(); }
 
 s32 TBoss6Thanks::try_dispatch_darkfalz_phase() {
     if (((s32) game_difficulty_selection == 0) || ((get_main_phase() == 0xE) && (is_split_screen() == 0)) || (any_player_has_listed_equipment() == 0)) {
@@ -298,8 +264,6 @@ s32 TBoss6Thanks::try_dispatch_darkfalz_phase() {
     return 1;
 }
 
-}
-
 extern "C" {
 void get_weapon_color__11TItemWeaponFPv(void *, void *);
 }
@@ -307,17 +271,17 @@ s32 any_player_has_listed_equipment(void) {
     s32 n = TLobby::get_game_mode();
     s32 i;
     for (i = 0; i < n; i++) {
-        void *pl = (void *)TObjPlayer::get_player_data(i);
-        if (pl != NULL && TBoss6PlotFalz::is_active((TObjPlayer *)pl) != 0) {
+        TObjPlayer *pl = TObjPlayer::get_player_data(i);
+        if (pl != NULL && TBoss6PlotFalz::is_active(pl) != 0) {
             s32 j;
             for (j = 0; j < 10; j++) {
                 const u8 *e = listed_equipment_table[j];
                 s32 k;
                 for (k = 0; k < 13; k++) {
-                    void *it = ((TObjPlayer *)pl)->get_equipped_item(k);
-                    if (it != NULL && e[0] == ((TItem *)it)->get_item_type() &&
-                        e[1] == ((TItem *)it)->get_item_group() &&
-                        e[2] == ((TItem *)it)->get_item_index()) {
+                    TItem *it = pl->get_equipped_item(k);
+                    if (it != NULL && e[0] == it->get_item_type() &&
+                        e[1] == it->get_item_group() &&
+                        e[2] == it->get_item_index()) {
                         return 1;
                     }
                 }
@@ -328,10 +292,10 @@ s32 any_player_has_listed_equipment(void) {
 }
 
 void TUnk_804F1EC8::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
-    f32 sp8[4];
+    f32 color[4];
     desc->flags |= 0x1C;
-    get_weapon_color__11TItemWeaponFPv(sp8, this);
-    copy_argb(&desc->color, (NJS_ARGB *)sp8);
+    get_weapon_color__11TItemWeaponFPv(color, this);
+    copy_argb(&desc->color, (NJS_ARGB *)color);
     desc->model = second_model;
     desc->wall_effect = (void *)TObjPlayer::forward_item_effect_callback;
 }

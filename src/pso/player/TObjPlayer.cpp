@@ -149,7 +149,7 @@ void *TObjPlayer__sub_801BEDC0(void *arg0, s16 arg1) {
 void TObjPlayer::set_position(f32 a, f32 b, f32 c) { this->position.x = a; this->position.y = b; this->position.z = c; }
 
 void TObjPlayer::set_meseta(s32 arg1) {
-    *(s32 *)(this->m_2b0 + 0x20) = arg1;
+    *(s32 *)(this->stat_block + 0x20) = arg1;
 }
 
 void TObjPlayer::sub_801BEE24(s16 v) { this->tp_bonus = v; }
@@ -552,7 +552,7 @@ void TObjPlayer::reset_scale_vector() {
 u8 *TObjPlayer::construct_hurt_timer() {
     u8 *arg0 = (u8 *)this;
     *(s32 **)((s8 *)arg0 + 4) = &lbl_804C3E38.value;
-    this->reset_type();
+    ((ProtectionTimer *)this)->reset_type();
     return arg0;
 }
 

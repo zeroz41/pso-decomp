@@ -381,7 +381,6 @@ void apply_all_default__8TFogCtrlFv(void) { TFogCtrl::apply_all((saddr)((void*)6
 #pragma push
 extern s32 TSceneSora__sky_active_flag;
 extern u32 TSceneSora__instance;
-u16 TCameraCtrl__sub_8006A5DC();
 CameraPlayback *get_scripted_camera_playback();
 
 

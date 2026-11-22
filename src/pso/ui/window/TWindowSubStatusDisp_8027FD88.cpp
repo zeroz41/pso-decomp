@@ -536,13 +536,13 @@ void TWindowSubStatusDisp::vt12() {
     pl = (saddr)get_player_by_client_id(this->client_index);
     if (pl != 0) {
         e2 = (Entry_80280B1C *)(void *)get_array_entry(2);
-        e2->value = TObjPlayer__sub_800A776C((void *)pl) + (((TObjPlayer *)pl)->get_field_2c8() + ((TObjPlayer *)pl)->get_actor_attack_params_atp_min());
+        e2->value = ((TObjPlayer *)pl)->get_atp_range() + (((TObjPlayer *)pl)->get_atp() + ((TObjPlayer *)pl)->get_actor_attack_params_atp_min());
         e = (Entry_80280B1C *)(void *)get_array_entry(8);
         e->value = ((TWindowSubStatusDisp *)pl)->get_value();
         e = (Entry_80280B1C *)(void *)get_array_entry(0x14);
         e->value = ((TObjPlayer *)pl)->get_ata();
         e = (Entry_80280B1C *)(void *)get_array_entry(0x1A);
-        e->value = ((TObjPlayer *)pl)->get_hp();
+        e->value = ((TObjPlayer *)pl)->get_evp();
         q = ((TObjPlayer *)pl)->get_stats();
         if (q != NULL) {
             e = (Entry_80280B1C *)(void *)get_array_entry(0xE);

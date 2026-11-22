@@ -9,12 +9,12 @@ struct TObjIllGillKage : public TObjBase {
     virtual ~TObjIllGillKage();
     virtual void render();
     virtual void run_task();
-    u32 m_90;
-    u32 m_94;
-    u16 m_98;
+    u32 state;      // run_task: 0 attack_target, 1 tick_persistent_sound, then queue_destruction
+    s32 timer;      // frames the effect lasts (180); play_effect gets it, tick_persistent_sound counts it down
+    u16 target_id;  // entity id of the player it was spawned on
     void queue_destruction();
     void attack_target();
-    u8 unk_9A[0x2];
+    u8 pad_9A[0x2];
     void tick_persistent_sound();
 };
 

@@ -3,49 +3,52 @@
 
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjMotion.h"
 #include <dolphin/mtx/GeoTypes.h>
 
 struct TechniqueContactBody;
 
 struct TNeedleShoot : public TObject {
+    TNeedleShoot(s32 owner, Vec *from, Vec *to);
     virtual ~TNeedleShoot();
-    virtual void vfunc_6();
+    // Called when the shot meets a wall (check_wall_hit) or check_target_hit finds no contact list.
+    virtual void on_wall_hit();
     virtual void queue_destruction();
     virtual void vfunc_8();
-    virtual void vfunc_9(void *);
-    uaddr m_1c;
-    u8 unk_20[0x4];
-    f32 m_24;
+    // Called by check_target_hit with the first receivable contact.
+    virtual void on_target_hit(void *);
+    uaddr owner;  // the shooter; run_task refreshes it from owner_id
+    f32 range;     // the shot is destroyed once distance passes it
+    f32 distance;  // speed summed each frame
     Vec prev_pos;
-    u16 m_34;
+    u16 owner_id;  // get_entity_id(owner), 0xFFFF for none
     u8 _pad36[0x2];
-    TechniqueContactBody *m_38;
-    void* m_3c;
-    u8 _pad40[0x10];
-    u32 m_50;
-    u32 m_54;
-    u8 _pad58[0x10];
-    void *m_68;
+    TechniqueContactBody *contact_body;  // the body check_target_hit hit
+    CollisionBody collision_body;  // collider's only body
+    TObjCollidable *collider;
     Vec pos;
-    u8 unk_78[0x1C];
+    u8 pad_78[0x10];
+    Vec pad_88;  // set to 1, 1, 1
     Vec dir;
-    u32 m_a0;
-    u32 m_a4;
-    u32 m_a8;
-    u8 _padAC[0x4];
-    u32 m_b0;
-    u8 _padB4[0x4];
-    u32 m_b8;
+    s32 rotation_x;  // atan2 angles of the direction, set in the ctor
+    s32 rotation_y;
+    s32 rotation_z;
+    f32 speed;  // pos moves by dir * speed each frame
+    u32 contact_mode;
+    f32 pad_b4;
+    s32 active;  // 1 while flying; on_wall_hit clears it in the Gee needle
     virtual void run_task();
     virtual void render();
     void update_position();
     void check_wall_hit();
     void*get_shoot_data();
+    void update_lifetime();
+    void update_stopped();  // run_task step once active is cleared: calls queue_destruction
+    // Collects the technique contacts of the shot (contact_mode picks the collector) and calls on_wall_hit or
+    // on_target_hit. Defined with the KenkyuW unit, which owns its address.
+    void check_target_hit(s32);
 };
 
 LAYOUT_ASSERT(TNeedleShoot_size, sizeof(TNeedleShoot) == 0xBC);
 
-extern "C" {
-void TNeedleShoot__sub_802A4668(void *self);
-}
 #endif

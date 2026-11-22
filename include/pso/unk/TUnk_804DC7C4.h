@@ -14,7 +14,7 @@ public:
     virtual void render();
     virtual void render_shadows();
     // scene_sora_recon_object when the task was made (name inferred).
-    u32 recon_object;
+    uaddr recon_object;
     // construct_indirect_effect_task(.., 0x28, 1, tl_05) (name inferred).
     TObject *indirect_effect;
     // Floor point the reflection ray hits and the plane normal (0,1,0)

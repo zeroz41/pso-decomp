@@ -69,9 +69,9 @@ struct TBinModel {
     s32 nEnts16;
     s32 nEnts8;
 
-    void load_models(u32 *list);
-    void load_motions(u32 *list);
-    void request_motions(u32 *list);
+    void load_models(char **list);
+    void load_motions(char **list);
+    void request_motions(char **list);
 };
 
 struct BmlTextureLoadRequest {
@@ -841,39 +841,39 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, saddr on_l
 
 // TBinModel helpers (inferred names): the original inlines one loop per list here; the inline copies of the
 // list parameter are what give the constructor its register assignment.
-inline void TBinModel::load_models(u32 *list) {
+inline void TBinModel::load_models(char **list) {
     s32 i;
     for (i = 0; *list != 0; list++, i++) {
-        ((BmlResource *)this)->load_bin_model((void *)*list, i);
+        ((BmlResource *)this)->load_bin_model(*list, i);
     }
 }
 
-inline void TBinModel::load_motions(u32 *list) {
+inline void TBinModel::load_motions(char **list) {
     s32 i;
-    u32 *p;
+    char **p;
     for (p = list, i = 0; *p != 0; p++, i++) {
-        ((BmlResource *)this)->load_bin_motion((void *)*p, i);
+        ((BmlResource *)this)->load_bin_motion(*p, i);
     }
 }
 
-inline void TBinModel::request_motions(u32 *list) {
+inline void TBinModel::request_motions(char **list) {
     BmlMotionLoadRequest req;
     void *handle;
     s32 i;
     for (i = 0; *list != 0; list++, i++) {
         req.motion = &((BmlResource *)this)->motions[i].motion;
         req.resource = (BmlResource *)this;
-        create_named_entry__6TLobbyFiiUiiPv(*list, (saddr)lobby_download_buffer, (uaddr)load_bin_motion_callback, &req, &handle);
+        create_named_entry__6TLobbyFiiUiiPv((saddr)*list, (saddr)lobby_download_buffer, (uaddr)load_bin_motion_callback, &req, &handle);
         TLobby__sub_8001EDD8((BmlResource *)this, handle);
     }
 }
 
 // TBinModel constructor (inferred: strings "TBinModel_NORMAL" / "TBinModel_REQ", operator new(0x440) at each caller).
 extern "C" {
-TBinModel *init_bin_model_request(TBinModel *self, s32 kind, u32 *models, u32 *motions, saddr on_loaded, saddr on_loaded_arg, s32 load_buffer) {
+TBinModel *init_bin_model_request(TBinModel *self, s32 kind, char **models, char **motions, saddr on_loaded, saddr on_loaded_arg, s32 load_buffer) {
     BmlModelLoadRequest req;
     void *handle;
-    u32 *p;
+    char **p;
     s32 i;
     ((BmlResource *)self)->reset();
     self->flags = kind;
@@ -915,13 +915,13 @@ TBinModel *init_bin_model_request(TBinModel *self, s32 kind, u32 *models, u32 *m
             TLobby::debug_print("TBinModel:Too Many Files.");
         }
         for (p = models, i = 0; *p != 0; p++, i++) {
-            req.name = (void *)*p;
+            req.name = *p;
             req.model = (NJS_OBJECT **)&((BmlResource *)self)->models[i].model;
             req.texture = (GinjaTextureList **)&((BmlResource *)self)->models[i].m_c;
             req.resource = (BmlResource *)self;
             req.entry = &((BmlResource *)self)->models[i];
-            req.size = TGStream::get_resource_file_size((const char *)*p);
-            create_named_entry__6TLobbyFiiUiiPv(*p, (saddr)lobby_download_buffer, (uaddr)load_bin_model_callback, &req, &handle);
+            req.size = TGStream::get_resource_file_size(*p);
+            create_named_entry__6TLobbyFiiUiiPv((saddr)*p, (saddr)lobby_download_buffer, (uaddr)load_bin_model_callback, &req, &handle);
             TLobby__sub_8001EDD8((BmlResource *)self, handle);
         }
         self->request_motions(motions);

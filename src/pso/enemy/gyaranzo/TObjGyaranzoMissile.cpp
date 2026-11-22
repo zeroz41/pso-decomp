@@ -4,6 +4,7 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
+#include "pso/enemy/gyaranzo/TObjEneGyaranzo.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
@@ -22,78 +23,42 @@
 #include "pso/enemy/AreaSoundRemap.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/npc/TNpcPlayer_800D87A8.h"
+#include "pso/render/model_render_state.h"
+#include "pso/render/render_util.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/unk/text_803E2F28.h"
 
 
 CollisionBody gyaranzo_missile_collision_body_b = {{0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, 0, 0x8001, {0.0f, 0.0f, 0.0f}, 0.0f};
 
-typedef struct Parm_800D47B4 {
-    s32 a;
-    f32 b;
-} Parm_800D47B4;
+const char *TObjGyaranzoMissile__class_name = "TObjGyaranzoMissile";
+static const DirectAttackPayload gyaranzo_missile_explosion_attack[] = {{0, 0.0f}};
 
-const char *lbl_805D2A80 = "TObjGyaranzoMissile";
-static const Parm_800D47B4 lbl_8043C464[] = {{0, 0.0f}};
-
-struct Base_800D47B4 {
-    char pad[0x18];
-};
-
-struct Obj_800D47B4 : Base_800D47B4 {
-    virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3(); virtual void v4(); virtual void v5(); virtual void v6(); virtual void v7(); virtual void v8(); virtual void v9(); virtual void v10(); virtual void v11(); virtual void v12(); virtual void v13(); virtual void v14(); virtual void v15(); virtual void v16(); virtual void v17(); virtual void v18(); virtual void v19(); virtual void v20();
-    virtual void v21(void *, Parm_800D47B4, s32, s32, s32);
-};
-
-struct Target_800D4990 {
-    u8 pad[0x2FC];
-    Vec pos;
-};
-
-struct Col_800D4990 { u8 pad[0xC]; f32 radius; u8 pad10[0x18 - 0x10]; u32 flags; };
-
-extern "C" {
-u16 get_entity_id(void *);
-s32 init_collision_body_parts(void *, void *, int);
-extern BmlResource *gyaranzo_bml_resource;
-extern saddr tl_04;
-s32 matrix_mult_vec(int, int, int);
-extern f32 TObjGyaranzoMissile__speed_scale;
-void check_enemy_body_collisions(void *);
-Target_800D4990 *find_active_entity_by_id(u16);
-}
-s32 get_gyaranzo_missile_int_parameter(s32 i);
-void direction_to_rotation_xy(u8 *dir, s32 *rot_a, s32 *rot_b);
-extern "C" {
-s32 project_actor_to_ground(void *, void *, int);
-extern const f32 TObjGyaranzoMissile__max_range;
-extern s32 gyaranzo_missile_volley_end_time;
-s32 post_translate_matrix(void *);
-void free_collision_body_parts(void *);
-
-
-s32 draw_chunk_object();
-
-extern s32 model_render_flags;
-
-void TObjGyaranzoMissile::sub_800D47B4() {
-    void *owner;
+void TObjGyaranzoMissile::explode() {
+    TObjCollidable *owner;
     s32 i;
-    Obj_800D47B4 *q;
-    Col_800D4990 *&collision = (Col_800D4990 *&)bodies;
+    TObjChara *target;
     owner = find_entity_by_id(owner_id);
-    collision->radius = 6.0f;
+    bodies->radius = 6.0f;
     TObjPlayer::init_all_slots();
-    this->check_object_collisions();
+    check_object_collisions();
     check_enemy_body_collisions(this);
-    if (collision->flags & 0x180000) {
+    if (bodies->flags & 0x180000) {
         for (i = 0; i < 0x10; i++) {
-            q = (Obj_800D47B4 *)TObjPlayer::get_battle_param(i);
-            if (q == NULL) {
+            target = (TObjChara *)TObjPlayer::get_battle_param(i);
+            if (target == NULL) {
                 break;
             }
-            if (TObjPlayer::is_valid_and_active((uaddr)q) != 0) {
-                Parm_800D47B4 parm = lbl_8043C464[0];
-                parm.b = get_gyaranzo_missile_int_parameter(2);
-                q->v21(owner, parm, 0, -1, -1);
+            if (TObjPlayer::is_valid_and_active((uaddr)target) != 0) {
+                DirectAttackPayload hit = gyaranzo_missile_explosion_attack[0];
+                hit.power = get_gyaranzo_missile_int_parameter(2);
+                target->receive_direct_attack(owner, hit, NULL, -1, -1);
             }
         }
     }
@@ -105,23 +70,21 @@ void TObjGyaranzoMissile::sub_800D47B4() {
 void TObjGyaranzoMissile::render() {
     TObjFish::set_global_param(get_bml_texlist(gyaranzo_bml_resource, 6));
     push_matrix();
-    post_translate_matrix((u8 *)&this->position);
-    rotate_matrix_x(0, (int)this->rotation_x);
-    rotate_matrix_y(0, this->rotation_y);
-    translate_matrix(0, 0.0f, (f32) (this->wobble_height * sin_table_lookup((int) this->wobble_phase)), 0.0f);
-    model_render_flags &= 0xFFFFFBFF;
-    (saddr)get_bml_model((BmlResource *)(void *)gyaranzo_bml_resource, 6);
-    draw_chunk_object();
+    post_translate_matrix(&position.x);
+    rotate_matrix_x(0, rotation_x);
+    rotate_matrix_y(0, rotation_y);
+    translate_matrix(0, 0.0f, wobble_height * sin_table_lookup(wobble_phase), 0.0f);
+    model_render_flags &= ~0x400;
+    draw_chunk_object(get_bml_model(gyaranzo_bml_resource, 6));
     pop_matrix();
 }
 
 void TObjGyaranzoMissile::run_task() {
-    Target_800D4990 *t;
+    TObjChara *chased;
     f32 dist;
-    Col_800D4990 *&collision = (Col_800D4990 *&)bodies;
-    t = find_active_entity_by_id(target_id);
-    if (t != NULL) {
-        Vec d = t->pos;
+    chased = (TObjChara *)find_active_entity_by_id(target_id);
+    if (chased != NULL) {
+        Vec d = chased->body_center;
         subtract_vector(&d, &position);
         dist = vector_length(&d);
         if (timer >= 15 && dist > TObjGyaranzoMissile__max_range) {
@@ -135,65 +98,60 @@ void TObjGyaranzoMissile::run_task() {
     direction_to_rotation_xy((u8 *)&velocity, &rotation_x, &rotation_y);
     wobble_phase += wobble_speed;
     if (timer >= 10) {
-        if (csnVector(&prev_position, &position, -1) != 0) {
-            sub_800D47B4();
+        if (csnVector(&prev_position, &position, -1) != NULL) {
+            explode();
             return;
         }
-        Vec p = *&position;
-        if (project_actor_to_ground(this, &p, 0) == 1) {
-            if (position.y - p.y < 22.0f) {
-                collision->flags |= 2;
-                collision->flags &= ~4;
-                this->check_object_collisions();
+        Vec ground = position;
+        if (project_actor_to_ground(this, &ground, 0) == 1) {
+            if (position.y - ground.y < 22.0f) {
+                bodies->flags |= 2;
+                bodies->flags &= ~4;
+                check_object_collisions();
                 check_enemy_body_collisions(this);
-                if (collision->flags & 0x180000) {
-                    sub_800D47B4();
+                if (bodies->flags & 0x180000) {
+                    explode();
                     return;
                 }
             } else {
-                collision->flags &= ~2;
-                collision->flags |= 4;
+                bodies->flags &= ~2;
+                bodies->flags |= 4;
             }
         }
     }
     timer++;
     if (timer > gyaranzo_missile_volley_end_time) {
-        sub_800D47B4();
+        explode();
     }
 }
 
-}
 TObjGyaranzoMissile::~TObjGyaranzoMissile() {
     free_collision_body_parts(this);
 }
 
 #pragma push
 #pragma fp_contract on
-#define gyaranzo_missile ((u8 *)this)
-TObjGyaranzoMissile::TObjGyaranzoMissile(u8 *arg1, u8 *arg2, u16 arg3) : TObjCollidable((TObject *)tl_04) {
-    u8 *temp_r4;
-    *(s32 *)((s8 *)gyaranzo_missile + 0) = (saddr) lbl_805D2A80;
-    init_collision_body_parts(gyaranzo_missile, &gyaranzo_missile_collision_body_b, 1);
-    ((Col_800D4990 *)((TObjGyaranzoMissile *)gyaranzo_missile)->bodies)->radius = 4.0f;
-    VecCopy(&((TObjGyaranzoMissile *)gyaranzo_missile)->position, *(const Vec **)arg2);
-    ((TObjGyaranzoMissile *)gyaranzo_missile)->target_id = arg3;
-    ((TObjGyaranzoMissile *)gyaranzo_missile)->rotation_x = (s32) *(s32 *)((s8 *)arg2 + 4);
-    ((TObjGyaranzoMissile *)gyaranzo_missile)->rotation_y = (s32) *(s32 *)((s8 *)arg2 + 8);
-    ((TObjGyaranzoMissile *)gyaranzo_missile)->wobble_phase = (s32) (182.04445f * (3.6e+02f * (3.0517578e-05f * (f32) rand())));
-    ((TObjGyaranzoMissile *)gyaranzo_missile)->wobble_speed = (s32) (*(f32 *)((s8 *)arg2 + 0xC) * (0.5f * ((3.0517578e-05f * (f32) rand()) + 1.0f)));
-    ((TObjGyaranzoMissile *)gyaranzo_missile)->wobble_height = (f32) *(f32 *)((s8 *)arg2 + 0x10);
-    *(s16 *)((s8 *)gyaranzo_missile + 0x28) = (s16) *(s16 *)((s8 *)arg1 + 0x28);
-    ((TObjGyaranzoMissile *)gyaranzo_missile)->owner_id = get_entity_id(arg1);
-    ((TObjGyaranzoMissile *)gyaranzo_missile)->velocity.x = 0.0f;
-    ((TObjGyaranzoMissile *)gyaranzo_missile)->velocity.y = 0.0f;
-    ((TObjGyaranzoMissile *)gyaranzo_missile)->velocity.z = (f32) TObjGyaranzoMissile__speed_scale;
+TObjGyaranzoMissile::TObjGyaranzoMissile(TObjEneGyaranzo *owner, GyaranzoMissileLaunch *launch, u16 target) : TObjCollidable(tl_04) {
+    m_name = TObjGyaranzoMissile__class_name;
+    init_collision_body_parts(this, &gyaranzo_missile_collision_body_b, 1);
+    bodies->radius = 4.0f;
+    VecCopy(&position, launch->position);
+    target_id = target;
+    rotation_x = launch->rotation_x;
+    rotation_y = launch->rotation_y;
+    wobble_phase = (s32)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand())));
+    wobble_speed = (s32)(launch->wobble_speed * (0.5f * ((3.0517578e-05f * (f32)rand()) + 1.0f)));
+    wobble_height = launch->wobble_height;
+    room = owner->room;
+    owner_id = get_entity_id(owner);
+    velocity.x = 0.0f;
+    velocity.y = 0.0f;
+    velocity.z = TObjGyaranzoMissile__speed_scale;
     push_matrix_from(identity_matrix);
-    rotate_matrix_y(0, (int) (((TObjGyaranzoMissile *)gyaranzo_missile)->rotation_y));
-    rotate_matrix_x(0, (int) (((TObjGyaranzoMissile *)gyaranzo_missile)->rotation_x));
-    temp_r4 = (gyaranzo_missile + 0xAC);
-    matrix_mult_vec(0, (saddr)temp_r4, (saddr)temp_r4);
+    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_x(0, rotation_x);
+    matrix_mult_vec(NULL, &velocity, &velocity);
     pop_matrix();
-    ((TObjGyaranzoMissile *)gyaranzo_missile)->timer = 0;
+    timer = 0;
 }
-#undef gyaranzo_missile
 #pragma pop

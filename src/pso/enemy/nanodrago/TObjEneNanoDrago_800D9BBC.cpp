@@ -2,26 +2,23 @@
 #include "pso/system/vector.h"
 #include "pso/enemy/nanodrago/TObjEneNanoDrago.h"
 #include "pso/enemy/TObjEnemyCustom.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
-extern "C" {
-s32 project_actor_to_ground(void *, void *, s32);
 #pragma push
 #pragma fp_contract on
-void TObjEneNanoDrago::sub_800D9BBC() {
-    u8 *self = (u8 *)this;
-    s32 temp_r4;
-    temp_r4 = this->m_388;
-    if (temp_r4 & 0x40000) {
-        this->m_388 = (s32) (temp_r4 & 0xFFFBFFFF);
-        VecCopy((Vec *)(self + 0x38), (const Vec *)(self + 0x50));
-        project_actor_to_ground(self, (u8 *)&this->position, 0);
+// The hook update_action_hold_status calls: a drago still hidden in flight (behavior_flags bit 18)
+// lands back home; otherwise a pending appear (next action 7) is dropped, as in
+// TObjEneDubchik::clear_state7_flag.
+void TObjEneNanoDrago::clear_state7_flag() {
+    if (behavior_flags & 0x40000) {
+        behavior_flags &= ~0x40000;
+        VecCopy(&position, &home_position);
+        project_actor_to_ground(this, &position, NULL);
         return;
     }
-    if ((s32) this->next_action == 7) {
-        this->m_388 = (s32) (temp_r4 & 0xFFFFFFFE);
-        ((TObjEnemyCustom *)self)->update_if_active(0);
+    if (next_action == 7) {
+        behavior_flags &= ~1;
+        update_if_active(0);
     }
 }
 #pragma pop
-
-}

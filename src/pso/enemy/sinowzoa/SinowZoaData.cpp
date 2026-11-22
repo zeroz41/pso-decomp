@@ -15,10 +15,10 @@
 extern const TBoss3VoloptBreakupParams sinow_zoa_breakup_params = { 0x14, { 0.07f, 2.0f, 0.97f, 0.2f, 2.0f, 1.5f } };
 // TLobby kind ids for the two Sinow Zoa kinds, one list per TLobby table
 // TObjEneMe3SinowZoa::load_resources registers them with.
-extern const s32 lbl_80475E0C[2] = { 0x43, 0x44 };
-extern const s32 lbl_80475E14[2] = { 0x43, 0x44 };
-extern const s32 lbl_80475E1C[2] = { 0x43, 0x44 };
-extern const s32 lbl_80475E24[2] = { 0x43, 0x44 };
+extern const s32 sinow_zoa_base_param_ids[2] = { 0x43, 0x44 };
+extern const s32 sinow_zoa_attack_param_ids[2] = { 0x43, 0x44 };
+extern const s32 sinow_zoa_resistance_param_ids[2] = { 0x43, 0x44 };
+extern const s32 sinow_zoa_kind_param_ids[2] = { 0x43, 0x44 };
 extern const char sinow_zoa_model[] = "me3_y_me3.nj";
 extern const char sinow_zoa_t_wait_motion[] = "t_wait_me3_y_me3.njm";
 extern const char sinow_zoa_apper_motion[] = "apper_me3_y_me3.njm";
@@ -36,9 +36,9 @@ extern const char sinow_zoa_low_model[] = "lo_me3_y_me3.nj";
 extern const char sinow_zoa_low_bml[] = "bm_ene_me3_zoa_low.bml";
 extern const char sinow_zoa_class_name[] = "TObjEneMe3SinowZoa";
 extern const char sinow_zoa_real_class_name[] = "TObjEneMe3SinowZoaReal";
-extern const NpcAnimationBinding lbl_80475FA8 = { NULL, reinterpret_cast<TObjMotionAction *>(lbl_804E8880), 9, 10, 13 };
-extern const NpcAnimationBinding lbl_80475FB8 = { NULL, reinterpret_cast<TObjMotionAction *>(lbl_804E8880), 0, 0, 13 };
-extern const Vec lbl_80475FC8 = {0.0f, 0.0f, 0.0f};
+extern const NpcAnimationBinding sinow_zoa_attack_binding_desc_a = { NULL, reinterpret_cast<TObjMotionAction *>(TObjEneMe3SinowZoa__animation_descriptors), 9, 10, 13 };
+extern const NpcAnimationBinding sinow_zoa_attack_binding_desc_b = { NULL, reinterpret_cast<TObjMotionAction *>(TObjEneMe3SinowZoa__animation_descriptors), 0, 0, 13 };
+extern const Vec sinow_zoa_barta_origin_offset = {0.0f, 0.0f, 0.0f};
 extern const char sinow_zoa_debug_stelth_enable[] = "STELTH:ENABLE";
 extern const char sinow_zoa_debug_stelth_disable[] = "STELTH:DISABLE";
 extern const char sinow_zoa_debug_appear_ground[] = "APPEAR:GROUND";

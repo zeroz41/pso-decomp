@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #pragma readonly_strings on
+#include "pso/enemy/EnemyMovement.h"
 #include "pso/unk/TUnk_804C8678.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/npc/TObjNpcBase_80149128.h"
@@ -90,7 +91,6 @@ void TObjNpcBase::setup_common() {
 
 extern "C" {
 s32 approach_angle_limited(s32, s32, s32);
-void select_enemy_destination(TObjEnemy *, Vec *, s32);
 f32 horizontal_distance_squared(Vec *, Vec *);
 void vec3_add_to(Vec *, Vec *);
 void rotate_vector_by_matrix(int, Vec *, Vec *);
@@ -291,7 +291,7 @@ void TObjNpcBase::update_conversation() {
         m_3b0 = 0;
         break;
     }
-    ((TObjPlayer *)this)->update_collisions();
+    update_collisions();
 }
 
 void TObjNpcBase::update_wandering() {
@@ -312,9 +312,8 @@ void TObjNpcBase::update_wandering() {
         v.z = v.z * parameters[0];
         vec3_add_to(&v, &home_position);
         if (100.0f < horizontal_distance_squared(&v, &position)) {
-            Vec d = v;
-            select_enemy_destination(this, &d, 0);
-            x_speed = m_310 = 0.0f;
+            select_enemy_destination(this, v, 0);
+            velocity.x = velocity.z = 0.0f;
             phase = 1;
             request_action(1);
         }
@@ -329,7 +328,7 @@ void TObjNpcBase::update_wandering() {
             play_voice();
         }
         {
-            f32 dist = horizontal_distance_squared((Vec *)&m_29c, &body_center);
+            f32 dist = horizontal_distance_squared(&move_destination, &body_center);
             r = ((NpcMovementParameters *)movementParameters)->speed + bodies->radius;
             if (dist < r * r || (bodies->flags & 0x380000)) {
                 phase = 3;
@@ -348,7 +347,7 @@ void TObjNpcBase::update_wandering() {
         }
         break;
     }
-    ((TObjPlayer *)this)->update_collisions();
+    update_collisions();
 }
 
 void TObjNpcBase::update_standing() {
@@ -429,7 +428,7 @@ extern s32 model_render_flags;
 
 void TObjNpcBase::render() {
     if ((update_object_view_visibility(m_398, m_39c) != 0) && (m_390 == 1)) {
-        select_actor_lighting((saddr) this);
+        select_actor_lighting(this);
         model_render_flags |= 1;
         TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
         push_matrix_from(0);

@@ -11,14 +11,14 @@
 // shape): TObjEneMe3SinowZoa.cpp addresses each object on its own.
 extern "C" {
 // TObjEneMe3SinowZoa.cpp .data; both animation bindings point at it.
-extern TObjMotionAction lbl_804E8880[13];
+extern TObjMotionAction TObjEneMe3SinowZoa__animation_descriptors[13];
 extern const TBoss3VoloptBreakupParams sinow_zoa_breakup_params;
 // TLobby kind ids for the two Sinow Zoa kinds, one list per TLobby table
 // load_resources registers them with.
-extern const s32 lbl_80475E0C[2];
-extern const s32 lbl_80475E14[2];
-extern const s32 lbl_80475E1C[2];
-extern const s32 lbl_80475E24[2];
+extern const s32 sinow_zoa_base_param_ids[2];
+extern const s32 sinow_zoa_attack_param_ids[2];
+extern const s32 sinow_zoa_resistance_param_ids[2];
+extern const s32 sinow_zoa_kind_param_ids[2];
 extern const char sinow_zoa_model[];
 extern const char sinow_zoa_t_wait_motion[];
 extern const char sinow_zoa_apper_motion[];
@@ -36,9 +36,9 @@ extern const char sinow_zoa_low_model[];
 extern const char sinow_zoa_low_bml[];
 extern const char sinow_zoa_class_name[];
 extern const char sinow_zoa_real_class_name[];
-extern const NpcAnimationBinding lbl_80475FA8;
-extern const NpcAnimationBinding lbl_80475FB8;
-extern const Vec lbl_80475FC8;
+extern const NpcAnimationBinding sinow_zoa_attack_binding_desc_a;
+extern const NpcAnimationBinding sinow_zoa_attack_binding_desc_b;
+extern const Vec sinow_zoa_barta_origin_offset;
 extern const char sinow_zoa_debug_stelth_enable[];
 extern const char sinow_zoa_debug_stelth_disable[];
 extern const char sinow_zoa_debug_appear_ground[];

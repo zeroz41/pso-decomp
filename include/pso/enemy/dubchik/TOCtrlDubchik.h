@@ -8,11 +8,13 @@ struct TOCtrlDubchik : public TObjEnemy {
     TOCtrlDubchik(TObject *parent, void *set_data);
     virtual ~TOCtrlDubchik();
     virtual f32 receive_weapon_special_attack(void *, void *);
-    void sub_8015CE80();
-    void update_bobbing();
-    void sub_8015CCF4();
-    void update_spin();
-    void sub_8015CA74();
+    // The handlers run_task picks by mode.
+    void update_waiting();      // mode 0: hovers high until a Dubchik of its room goes down
+    void update_bobbing();      // mode 1: sinks and spreads the parts apart
+    void update_effect_grow();  // mode 2: grows the effect part, then becomes hittable
+    void update_spin();         // mode 3: spins the effect part
+    void kill_room_dubchiks();  // start_dying on every Dubchik (variant 0) of its room
+    void run_demo_task();       // run_task's demo branch (empty)
     virtual void apply_knockback_from_attacker(u8 *, f32);
     virtual s32 roll_physical_accuracy(void *, s32, f32);
     virtual s32 try_start_action(s32, s32);

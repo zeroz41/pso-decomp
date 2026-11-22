@@ -14,6 +14,7 @@ struct NJS_OBJECT;
 #include "pso/system/PadRumble.h"
 #include "pso/player/PlayerClassFlags.h"
 #include "pso/boss/darkfalz/TObjDFTenchuFuru.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TObjDFRecover.h"
 #include "pso/object/base/TObjMotion.h"
@@ -32,7 +33,6 @@ struct NJS_OBJECT;
 #include "dolphin/mtx.h"
 #include <stddef.h>
 #include "pso/math/MatrixVector.h"
-#include "pso/player/TObjPlayer_80052374.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/boss/darkfalz/TObjDFJisin.h"
 #include "pso/unk/text_803E2D70.h"
@@ -48,6 +48,10 @@ struct NJS_OBJECT;
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/render/render_util.h"
+#include "pso/unk/text_803D853C.h"
 
 
 const char *TObjDFUsoTower__name = "TObjDFUsoTower";
@@ -74,187 +78,18 @@ __declspec(section ".data") YutaiRange yutai_height_range = {10.0f, 0.0f};
 __declspec(section ".data") YutaiRange yutai_scale_range = {2.0f, 1.0f};
 __declspec(section ".data") YutaiRange yutai_weight_range = {0.0f, 0.75f};
 
-typedef struct Obj_8005063C {
-    u8 pad0[0x2FC];
-    Vec f2fc;
-    u8 pad308[0x348 - 0x308];
-    Vec dir;
-    u8 pad354[0x364 - 0x354];
-    f32 f364;
-    s32 state;
-    Vec f36c;
-    f32 f378;
-    f32 f37c;
-} Obj_8005063C;
-
-extern "C" {
-f32 fabs_float(f32);
-void queue_destruction__7TObjectFv(void *);
-void steer_homing_direction(Obj_8005063C *self);
-
-
-
-}
-
-
-
-// The Jisin: a ring of fire that grows by 25 a frame around its centre (TBoss4Type2::create_jisin).
-class TObjDFJisin : public TObject {
-public:
-    TObjDFJisin(TObject *parent, s32 angle);
-    virtual ~TObjDFJisin();
-    virtual void run_task();
-
-    Vec center;
-    f32 radius;
-};
-class TObjDFBeamCursor : public TObject {
-public:
-    TObjDFBeamCursor(TObject *parent, const Vec *position);
-    virtual ~TObjDFBeamCursor();
-    virtual void run_task();
-
-    s32 timer;    // spawns its particle effect at position when it runs out
-    Vec position;
-};
-class TObjDFRecBall : public TObject {
-public:
-    TObjDFRecBall(TObject *parent, const Vec *position, const Vec *target);
-    virtual ~TObjDFRecBall();
-    virtual void run_task();
-
-    Vec pos;
-    Vec target;
-    Vec vel;
-    f32 speed;
-    void *model; // its particle emitter
-    s32 timer;
-};
-
-struct Ang_80050808 { s32 x, y, z; };
-
-extern "C" {
-u16 find_nearest_visible_player(void *, int, f32);
-int queue_destruction__13TObjDFHormingFPv(void* p);
-}
-void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
-extern "C" {
-s32 minimap_render_dot(void *, int, int, int);
-void run_task__13TObjDFHormingFv(u8 *self);
-
-typedef struct Hit_80050D74 {
-    s32 type;
-    f32 value;
-} Hit_80050D74;
-
-struct VBase_80050D74 { u8 pad[0x18]; };
-
-struct VObj_80050D74 : VBase_80050D74 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21(s32, Hit_80050D74 *, s32, s32, s32);
-};
-
-struct Player_80050D74 : VObj_80050D74 {
-    u8 pad1c[0x38 - 0x1c];
-    Vec pos;
-    u8 pad44[0x890 - 0x44];
-    u32 class_flags;
-};
-
-typedef struct Obj_80050EB4 {
-    u8 pad0[0x1C];
-    f32 cx;
-    f32 f20;
-    f32 cz;
-    f32 radius;
-} Obj_80050EB4;
-
-struct Ball_8005123C {
-    u8 pad0[0x1C];
-    Vec pos;
-    Vec target;
-    Vec vel;
-    f32 speed;
-    void *model;
-    s32 timer;
-};
-
-
-u16 get_entity_id(void *);
-f32 atan2_float(f32 y, f32 x);
-f32 newton_sqrtf(f32);
-}
-void damage_players_near_point(s32 arg0, Vec *arg1);
-extern "C" {
-void fn_spawn_particle_f3_with_flags(s32 arg0, saddr arg1);
-void * create__16TObjDFBeamCursorFPvPv(void *parent, void *arg1);
-void * create__13TObjDFRecBallFPvPvPv(void *parent, void *position, void *arg2);
-
-
-
-
-}
-
-
-extern const char *TObjDFRecover__name;
-
-
-
-struct RecoveredFields_80051AD0_var_r31 {
-    s32 field_0;
-    u8 unknown_4[0x28];
-    u8 * field_2C;
-    u8 * field_30;
-};
-
-void get_current_matrix(void *m);
-int TObjDFTenchuFuru__matrix_node_index;
-extern "C" {
-Vec lbl_804FF228;
-Vec lbl_804FF234;
+int TObjDFTenchuFuru::matrix_node_index;
+// World positions transform_node_tree captures at player nodes 0x3B (where the head and hair are drawn)
+// and 0x3A (the attachment part).
+Vec dark_falz_head_node_position;
+Vec dark_falz_part_node_position;
 Mtx34 df_captured_matrix_pair[2];
-void TObjDFTenchuFuru__sub_80051A7C(void);
-
-
-
-
-
-
-LAYOUT_ASSERT(RecoveredFields_80051AD0_var_r31_0_offset, offsetof(RecoveredFields_80051AD0_var_r31, field_0) == 0x0);
-LAYOUT_ASSERT(RecoveredFields_80051AD0_var_r31_2C_offset, offsetof(RecoveredFields_80051AD0_var_r31, field_2C) == 0x2C);
-LAYOUT_ASSERT(RecoveredFields_80051AD0_var_r31_30_offset, offsetof(RecoveredFields_80051AD0_var_r31, field_30) == 0x30);
-
-}
-
-
 
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803DC86C.h"
 #include "pso/boss/darkfalz/TObjDFUsoTower.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/ui/TLevelSelect.h"
-#include "pso/unk/text_803D853C.h"
-
 extern u8 *camera_ctrl_instance;
 
 
@@ -314,12 +149,12 @@ void TObjDFUsoTower::run_task() {
 #pragma pop
 
 void TObjDFUsoTower::render() {
-    f32 temp_f1;
+    f32 alpha;
 
-    temp_f1 = fade_alpha;
-    if (0.0f != temp_f1) {
-        if (temp_f1 < 1.0f) {
-            TObjPlayer__sub_80052390(temp_f1);
+    alpha = fade_alpha;
+    if (0.0f != alpha) {
+        if (alpha < 1.0f) {
+            TObjPlayer::begin_alpha_blend(alpha);
             set_color_blend_mode(1, 4, 5, 0);
         }
         push_matrix();
@@ -333,102 +168,102 @@ void TObjDFUsoTower::render() {
     }
 }
 
-void TObjPlayer::draw_player_model_by_id(s32 arg0, f32 alpha) {
-    u8 *p;
-    uaddr m8b0;
-    u32 m8ac;
-    s32 a1c;
-    uaddr m8b4;
-    s32 b88;
-    uaddr m34;
-    s32 cf4;
+void TObjPlayer::draw_player_model_by_id(s32 client_id, f32 alpha) {
+    TObjPlayer *player;
+    void *head;
+    void *hair;
+    s32 head_textures;
+    uaddr attachment;
+    s32 attachment_textures;
+    void *body;
+    s32 body_textures;
 
     if (0.0f == alpha) {
         return;
     }
-    if ((u16)arg0 == 0xFFFF) {
+    if ((u16)client_id == 0xFFFF) {
         return;
     }
-    p = (u8 *)get_player_by_client_id((u16)arg0);
-    if (p == NULL || *(s32 *)((s8 *)p + 0xCFC) != 0) {
+    player = get_player_by_client_id((u16)client_id);
+    if (player == NULL || player->model_load_flags != 0) {
         return;
     }
-    m34 = *(u32 *)((s8 *)p + 0x34);
-    a1c = (saddr)(p + 0xA1C);
-    m8b0 = *(u32 *)((s8 *)p + 0x8B0);
-    b88 = (saddr)(p + 0xB88);
-    m8ac = *(u32 *)((s8 *)p + 0x8AC);
-    m8b4 = *(u32 *)((s8 *)p + 0x8B4);
-    cf4 = (saddr)(p + 0xCF4);
-    ((TObjDFTenchuFuru *)m34)->draw_node_tree();
+    body = player->model;
+    head_textures = (saddr)player->head_textures;
+    head = player->head_model;
+    attachment_textures = (saddr)player->attachment_textures;
+    hair = player->hair_model;
+    attachment = player->attachment_model;
+    body_textures = (saddr)player->body_textures;
+    TObjDFTenchuFuru::draw_node_tree((NJS_OBJECT *)body);
     if (alpha < 1.0f) {
-        TObjPlayer__sub_80052390(alpha);
+        TObjPlayer::begin_alpha_blend(alpha);
     }
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(cf4));
-    draw_chunk_object((void *)m34);
-    if (m8b4 != 0U) {
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(body_textures));
+    draw_chunk_object(body);
+    if (attachment != 0U) {
         push_matrix();
-        post_translate_matrix(&lbl_804FF234.x);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(b88));
-        draw_chunk_object((void *)m8b4);
+        post_translate_matrix(&dark_falz_part_node_position.x);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(attachment_textures));
+        draw_chunk_object((void *)attachment);
         pop_matrix();
     }
-    if (m8b0 != 0U) {
+    if (head != NULL) {
         TCharaMaking::enable_making();
         push_matrix();
-        post_translate_matrix(&lbl_804FF228.x);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(a1c));
-        draw_chunk_object((void *)m8b0);
+        post_translate_matrix(&dark_falz_head_node_position.x);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(head_textures));
+        draw_chunk_object(head);
         pop_matrix();
         TCharaMaking::clear_flag_bit0();
     }
     if (alpha < 1.0f) {
         TObjPlayer::sync_player_globals();
     }
-    if (m8ac != 0U) {
+    if (hair != NULL) {
         TCharaMaking::enable_making();
         push_matrix();
-        post_translate_matrix(&lbl_804FF228.x);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(a1c));
-        TCharaMaking__draw_colored_hair(alpha, (s32)m8ac, (CharacterAppearanceFields *)(p + 0x85C), 0);
+        post_translate_matrix(&dark_falz_head_node_position.x);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(head_textures));
+        TCharaMaking__draw_colored_hair(alpha, (saddr)hair, (CharacterAppearanceFields *)player->name, 0);
         pop_matrix();
         TCharaMaking::clear_flag_bit0();
     }
 }
 
-void boss6type2_draw_models(s32 arg0, s32 arg1, s32 arg2, uaddr arg3, uaddr arg4, u32 model, uaddr arg6, saddr appearance, f32 alpha) {
+void boss6type2_draw_models(s32 body_texlist, s32 head_texlist, s32 part_texlist, uaddr body, uaddr head, u32 hair, uaddr part, saddr appearance, f32 alpha) {
     if (0.0f != alpha) {
-        ((TObjDFTenchuFuru *)arg3)->draw_node_tree();
+        TObjDFTenchuFuru::draw_node_tree((NJS_OBJECT *)body);
         if (alpha < 1.0f) {
-            TObjPlayer__sub_80052390(alpha);
+            TObjPlayer::begin_alpha_blend(alpha);
         }
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(arg0));
-        draw_chunk_object((void *)arg3);
-        if (arg6 != 0U) {
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(body_texlist));
+        draw_chunk_object((void *)body);
+        if (part != 0U) {
             push_matrix();
-            post_translate_matrix(&lbl_804FF234.x);
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(arg2));
-            draw_chunk_object((void *)arg6);
+            post_translate_matrix(&dark_falz_part_node_position.x);
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(part_texlist));
+            draw_chunk_object((void *)part);
             pop_matrix();
         }
-        if (arg4 != 0U) {
+        if (head != 0U) {
             TCharaMaking::enable_making();
             push_matrix();
-            post_translate_matrix(&lbl_804FF228.x);
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(arg1));
-            draw_chunk_object((void *)arg4);
+            post_translate_matrix(&dark_falz_head_node_position.x);
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(head_texlist));
+            draw_chunk_object((void *)head);
             pop_matrix();
             TCharaMaking::clear_flag_bit0();
         }
         if (alpha < 1.0f) {
             TObjPlayer::sync_player_globals();
         }
-        if (model != 0U) {
+        if (hair != 0U) {
             TCharaMaking::enable_making();
             push_matrix();
-            post_translate_matrix(&lbl_804FF228.x);
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(arg1));
-            TCharaMaking__draw_colored_hair(alpha, (s32)model, (CharacterAppearanceFields *)appearance, 0);
+            post_translate_matrix(&dark_falz_head_node_position.x);
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(head_texlist));
+            TCharaMaking__draw_colored_hair(alpha, (s32)hair, (CharacterAppearanceFields *)appearance, 0);
             pop_matrix();
             TCharaMaking::clear_flag_bit0();
         }
@@ -436,61 +271,61 @@ void boss6type2_draw_models(s32 arg0, s32 arg1, s32 arg2, uaddr arg3, uaddr arg4
 }
 
 extern "C" {
-void TObjPlayer::draw_player_model_by_client(u16 arg0, saddr arg1, f32 farg0, f32 alpha) {
-    u8 *p;
-    uaddr a;
-    u32 b;
-    u8 *c;
-    uaddr d;
-    u8 *e;
-    saddr f;
-    u8 *g;
+void TObjPlayer::draw_player_model_by_client(u16 client_id, saddr motion, f32 frame, f32 alpha) {
+    TObjPlayer *player;
+    void *head;
+    void *hair;
+    s32 head_textures;
+    uaddr attachment;
+    s32 attachment_textures;
+    void *body;
+    s32 body_textures;
     if (0.0f == alpha) {
         return;
     }
-    if (arg0 == 0xFFFF) {
+    if (client_id == 0xFFFF) {
         return;
     }
-    p = (u8 *)get_player_by_client_id(arg0);
-    if (p == NULL || *(s32 *)((s8 *)p + 0xCFC) != 0) {
+    player = get_player_by_client_id(client_id);
+    if (player == NULL || player->model_load_flags != 0) {
         return;
     }
-    c = p + 0xA1C;
-    a = *(u32 *)((s8 *)p + 0x8B0);
-    e = p + 0xB88;
-    b = *(u32 *)((s8 *)p + 0x8AC);
-    d = *(u32 *)((s8 *)p + 0x8B4);
-    g = p + 0xCF4;
-    f = *(s32 *)((s8 *)p + 0x34);
+    head_textures = (saddr)player->head_textures;
+    head = player->head_model;
+    attachment_textures = (saddr)player->attachment_textures;
+    hair = player->hair_model;
+    attachment = player->attachment_model;
+    body_textures = (saddr)player->body_textures;
+    body = player->model;
     if (alpha < 1.0f) {
-        TObjPlayer__sub_80052390(alpha);
+        TObjPlayer::begin_alpha_blend(alpha);
     }
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(g));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(body_textures));
     TObjDFTenchuFuru::register_callback();
-    draw_model_motion((void *)f, (void *)arg1, farg0);
-    TObjDFTenchuFuru__sub_80051A7C();
-    if (d != 0) {
+    draw_model_motion(body, (void *)motion, frame);
+    TObjDFTenchuFuru::unregister_callback();
+    if (attachment != 0) {
         push_matrix_from(df_captured_matrix_pair[1]);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(e));
-        draw_chunk_object((void *)d);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(attachment_textures));
+        draw_chunk_object((void *)attachment);
         pop_matrix();
     }
-    if (a != 0) {
+    if (head != NULL) {
         TCharaMaking::enable_making();
         push_matrix_from(df_captured_matrix_pair[0]);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(c));
-        draw_chunk_object((void *)a);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(head_textures));
+        draw_chunk_object(head);
         pop_matrix();
         TCharaMaking::clear_flag_bit0();
     }
     if (alpha < 1.0f) {
         TObjPlayer::sync_player_globals();
     }
-    if (b != 0) {
+    if (hair != NULL) {
         TCharaMaking::enable_making();
         push_matrix_from(df_captured_matrix_pair[0]);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(c));
-        TCharaMaking__draw_colored_hair(alpha, b, (CharacterAppearanceFields *)(p + 0x85C), 0);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(head_textures));
+        TCharaMaking__draw_colored_hair(alpha, (saddr)hair, (CharacterAppearanceFields *)player->name, 0);
         pop_matrix();
         TCharaMaking::clear_flag_bit0();
     }
@@ -498,50 +333,45 @@ void TObjPlayer::draw_player_model_by_client(u16 arg0, saddr arg1, f32 farg0, f3
 }
 
 extern "C" {
-void TObjDFTenchuFuru::draw_node_tree() { TObjDFTenchuFuru__matrix_node_index = 0; push_matrix(); set_matrix_identity((u8 *)((void*)0)); transform_node_tree(); pop_matrix(); }
+void TObjDFTenchuFuru::draw_node_tree(NJS_OBJECT *node) { matrix_node_index = 0; push_matrix(); set_matrix_identity(NULL); transform_node_tree(node); pop_matrix(); }
 }
 
 extern "C" {
-void TObjDFTenchuFuru::transform_node_tree() {
-    u8 *self = (u8 *)this;
-    u8 *temp_r3;
-    u8 *var_r31;
-    var_r31 = self;
+void TObjDFTenchuFuru::transform_node_tree(NJS_OBJECT *node) {
     do {
         push_matrix();
-        post_translate_matrix((f32 *)(var_r31 + 8));
-        rotate_matrix_by_node_angles((s32 *)(var_r31 + 0x14), (u32) (((RecoveredFields_80051AD0_var_r31 *)var_r31)->field_0 & 0x20));
-        scale_current_matrix((f32 *)(var_r31 + 0x20));
-        switch ((s32) (*(s32 *)&TObjDFTenchuFuru__matrix_node_index)) {
+        post_translate_matrix(node->pos);
+        rotate_matrix_by_node_angles(node->ang, node->evalflags & 0x20);
+        scale_current_matrix(node->scl);
+        switch (matrix_node_index) {
         case 0x3B:
-            matrix_mult_vec(0, &dark_falz_jisin_zero_vec, &lbl_804FF228);
+            matrix_mult_vec(0, &dark_falz_jisin_zero_vec, &dark_falz_head_node_position);
             break;
         case 0x3A:
-            matrix_mult_vec(0, &dark_falz_jisin_zero_vec, &lbl_804FF234);
+            matrix_mult_vec(0, &dark_falz_jisin_zero_vec, &dark_falz_part_node_position);
             break;
         }
-        (*(s32 *)&TObjDFTenchuFuru__matrix_node_index) += 1;
-        temp_r3 = (u8 *)(((RecoveredFields_80051AD0_var_r31 *)var_r31)->field_2C);
-        if (temp_r3 != NULL) {
-            ((TObjDFTenchuFuru *)temp_r3)->transform_node_tree();
+        matrix_node_index += 1;
+        if (node->child != NULL) {
+            transform_node_tree(node->child);
         }
         pop_matrix();
-        var_r31 = (u8 *)(((RecoveredFields_80051AD0_var_r31 *)var_r31)->field_30);
-    } while (var_r31 != NULL);
+        node = node->sibling;
+    } while (node != NULL);
 }
 }
 
 extern "C" {
-void TObjDFTenchuFuru::register_callback() { TObjDFTenchuFuru__matrix_node_index = 0; set_chunk_model_node_callback(TObjDFTenchuFuru::capture_matrix_by_frame); }
+void TObjDFTenchuFuru::register_callback() { matrix_node_index = 0; set_chunk_model_node_callback(TObjDFTenchuFuru::capture_matrix_by_frame); }
 }
 
 extern "C" {
-void TObjDFTenchuFuru__sub_80051A7C(void) { set_chunk_model_node_callback(0); }
+void TObjDFTenchuFuru::unregister_callback() { set_chunk_model_node_callback(0); }
 }
 
 extern "C" {
 void TObjDFTenchuFuru::capture_matrix_by_frame(NJS_OBJECT *) {
-    switch ((s32) (*(s32 *)&TObjDFTenchuFuru__matrix_node_index)) {
+    switch (matrix_node_index) {
     case 0x3B:
         get_current_matrix(df_captured_matrix_pair[0]);
         break;
@@ -549,7 +379,7 @@ void TObjDFTenchuFuru::capture_matrix_by_frame(NJS_OBJECT *) {
         get_current_matrix(df_captured_matrix_pair[1]);
         break;
     }
-    (*(s32 *)&TObjDFTenchuFuru__matrix_node_index) += 1;
+    matrix_node_index += 1;
 }
 }
 
@@ -584,15 +414,15 @@ void TObjDFTenchuFuru::run_task() {
 }
 #pragma pop
 
-TObjDFRecover *TObjDFRecover::create(TObject *parent, u16 id, const f32 *position) {
+TObjDFRecover *TObjDFRecover::create(TObject *parent, u16 id, const Vec *position) {
     return new TObjDFRecover(parent, id, position);
 }
 
-TObjDFRecover::TObjDFRecover(TObject *parent, u16 id, const f32 *position) : TObject(parent) {
+TObjDFRecover::TObjDFRecover(TObject *parent, u16 id, const Vec *position) : TObject(parent) {
     m_name = TObjDFRecover__name;
     target_id = id;
     effect = NULL;
-    VecCopy((Vec *)cached_position, (const Vec *)position);
+    VecCopy(&cached_position, position);
     phase = 0;
     countdown = 5;
 }
@@ -604,9 +434,9 @@ TObjDFRecover::~TObjDFRecover() {
 #pragma push
 #pragma fp_contract on
 void TObjDFRecover::run_task() {
-    f32 position[3];
+    Vec position;
     s32 current_phase;
-    saddr target_address;
+    TObjPlayer *target;
     uaddr effect_address;
     u16 id;
     if (TBoss4DarkFalz::is_state_ready() == 0) {
@@ -614,17 +444,17 @@ void TObjDFRecover::run_task() {
         return;
     }
     id = target_id;
-    if ((id == 0xFFFF) || ((target_address = (saddr)get_player_by_client_id(id)) == 0)) {
+    if ((id == 0xFFFF) || ((target = get_player_by_client_id(id)) == NULL)) {
         queue_destruction();
         return;
     }
-    VecCopy((Vec *)position, (const Vec *)(target_address + 0x2FC));
+    VecCopy(&position, &target->body_center);
     countdown = countdown - 1;
     current_phase = phase;
     switch (current_phase) {
     case 0:
         if (countdown <= 0) {
-            effect_address = (uaddr)create_particle_emitter(position, 0xEB);
+            effect_address = (uaddr)create_particle_emitter(&position, 0xEB);
             effect = (void*)effect_address;
             if (effect_address == 0U) {
                 queue_destruction();
@@ -636,7 +466,7 @@ void TObjDFRecover::run_task() {
         }
         break;
     case 1:
-        ((TParticleCtrl *)effect)->set_position(position);
+        ((TParticleCtrl *)effect)->set_position(&position);
         if (countdown <= 0) {
             TParticleCtrl::release(effect);
             effect = NULL;
@@ -649,7 +479,7 @@ void TObjDFRecover::run_task() {
     case 2:
         if ((countdown % 5) == 0) {
             play_sound_effect(0x4003AD19, 0, 0, 0);
-            ((s32 (*)(int, void *, void *))create__13TObjDFRecBallFPvPvPv)((saddr)m_up, position, cached_position);
+            TObjDFRecBall::create(m_up, &position, &cached_position);
         }
         if (countdown <= 0) {
             queue_destruction();
@@ -659,10 +489,8 @@ void TObjDFRecover::run_task() {
 }
 #pragma pop
 
-extern "C" {
-void * create__13TObjDFRecBallFPvPvPv(void *parent, void *position, void *arg2) {
-    return new TObjDFRecBall((TObject *)parent, (const Vec *)position, (const Vec *)arg2);
-}
+TObjDFRecBall *TObjDFRecBall::create(TObject *parent, const Vec *position, const Vec *target) {
+    return new TObjDFRecBall(parent, position, target);
 }
 
 TObjDFRecBall::TObjDFRecBall(TObject *parent, const Vec *position, const Vec *target_position) : TObject(parent) {
@@ -688,44 +516,43 @@ TObjDFRecBall::~TObjDFRecBall() {
 #pragma push
 #pragma fp_contract on
 void TObjDFRecBall::run_task() {
-    Ball_8005123C *o = (Ball_8005123C *)this;
     Vec d;
 
-    if (--o->timer < 0 || o->model == 0) {
-        ((TObject *)o)->queue_destruction();
+    if (--timer < 0 || model == 0) {
+        queue_destruction();
         return;
     }
-    if ((o->speed += 0.26666668f) > 9.0f) {
-        o->speed = 9.0f;
+    if ((speed += 0.26666668f) > 9.0f) {
+        speed = 9.0f;
     }
-    VecCopy((Vec *)&d, (const Vec *)&o->target);
-    subtract_vector(&d, &o->pos);
+    VecCopy(&d, &target);
+    subtract_vector(&d, &pos);
     if (vector_length(&d) > 0.01f) {
         normalize_vector(&d);
     } else {
         d.x = 1.0f;
         d.z = d.y = 0.0f;
     }
-    if (vector_length(&o->vel) > 0.01f) {
-        normalize_vector(&o->vel);
+    if (vector_length(&vel) > 0.01f) {
+        normalize_vector(&vel);
     } else {
-        o->vel.x = 1.0f;
-        o->vel.y = 0.0f;
-        o->vel.z = 0.0f;
+        vel.x = 1.0f;
+        vel.y = 0.0f;
+        vel.z = 0.0f;
     }
-    o->vel.x = o->speed * (0.9f * o->vel.x + 0.100000024f * d.x);
-    o->vel.y = o->speed * (0.9f * o->vel.y + 0.100000024f * d.y);
-    o->vel.z = o->speed * (0.9f * o->vel.z + 0.100000024f * d.z);
-    vec3_add_to(&o->pos, &o->vel);
-    ((TParticleCtrl *)o->model)->set_position(&o->pos);
-    if (xyz_distance(&o->pos, &o->target) <= o->speed) {
-        ((TObject *)o)->queue_destruction();
+    vel.x = speed * (0.9f * vel.x + 0.100000024f * d.x);
+    vel.y = speed * (0.9f * vel.y + 0.100000024f * d.y);
+    vel.z = speed * (0.9f * vel.z + 0.100000024f * d.z);
+    vec3_add_to(&pos, &vel);
+    ((TParticleCtrl *)model)->set_position(&pos);
+    if (xyz_distance(&pos, &target) <= speed) {
+        queue_destruction();
     }
 }
 #pragma pop
 
-void * create__16TObjDFBeamCursorFPvPv(void *parent, void *arg1) {
-    return new TObjDFBeamCursor((TObject *)parent, (const Vec *)arg1);
+TObjDFBeamCursor *TObjDFBeamCursor::create(TObject *parent, const Vec *position) {
+    return new TObjDFBeamCursor(parent, position);
 }
 
 TObjDFBeamCursor::TObjDFBeamCursor(TObject *parent, const Vec *pos) : TObject(parent) {
@@ -743,8 +570,8 @@ void TObjDFBeamCursor::run_task() {
     }
 }
 
-void *TBoss4Type2::create_jisin(void *parent, void *angle) {
-    return new TObjDFJisin((TObject *)parent, (saddr)angle);
+TObjDFJisin *TBoss4Type2::create_jisin(TObject *parent, s32 angle) {
+    return new TObjDFJisin(parent, angle);
 }
 
 TObjDFJisin::TObjDFJisin(TObject *parent, s32 angle) : TObject(parent) {
@@ -766,57 +593,55 @@ void TObjDFJisin::run_task() {
     s32 count;
     f32 max;
 
-    step = (s32)(1638400.0f / (6.28f * ((Obj_80050EB4 *)this)->radius));
+    step = (s32)(1638400.0f / (6.28f * radius));
     count = 0;
     v.y = 0.0f;
     max = 255.0f;
     for (ang = 0; ang < 0x10000; ang += step) {
-        v.x = ((Obj_80050EB4 *)this)->radius * sin_table_lookup(ang) + ((Obj_80050EB4 *)this)->cx;
-        v.z = ((Obj_80050EB4 *)this)->radius * cos_table_lookup(ang) + ((Obj_80050EB4 *)this)->cz;
+        v.x = radius * sin_table_lookup(ang) + center.x;
+        v.z = radius * cos_table_lookup(ang) + center.z;
         if (!(vector_length(&v) > max)) {
-            ((void (*)(void *, Vec *))fn_spawn_particle_f3_with_flags)(this, &v);
-            ((void (*)(void *, Vec *))damage_players_near_point)(this, &v);
+            spawn_particle_f3(&v);
+            damage_players_near_point(&v);
             count++;
         }
     }
-    if (((Obj_80050EB4 *)this)->radius > 300.0f && count == 0) {
+    if (radius > 300.0f && count == 0) {
         queue_destruction();
         return;
     }
-    ((Obj_80050EB4 *)this)->radius += 25.0f;
+    radius += 25.0f;
 }
 #pragma pop
 
-extern "C" {
-void fn_spawn_particle_f3_with_flags(s32 arg0, saddr arg1) {
+void TObjDFJisin::spawn_particle_f3(const Vec *point) {
     Vec position;
-    uaddr particle_effect;
-    VecCopy((Vec *)(&position.x), (const Vec *)(arg1));
+    TParticleCtrl *effect;
+    VecCopy(&position, point);
     position.y += 2.0f;
-    particle_effect = (uaddr)spawn_particle_effect(&position, 0xF3);
-    if (particle_effect != 0U) {
-        ((TParticleCtrl *)particle_effect)->set_flags(0x40);
+    effect = spawn_particle_effect(&position, 0xF3);
+    if (effect != NULL) {
+        effect->set_flags(0x40);
     }
 }
-}
 
-void damage_players_near_point(s32 arg0, Vec *arg1) {
-    Vec pos = *arg1;
+void TObjDFJisin::damage_players_near_point(Vec *point) {
+    Vec pos = *point;
     DirectAttackPayload hit;
     s32 i;
-    Player_80050D74 *p;
+    TObjPlayer *p;
     if (TBoss4DarkFalz::is_state_ready() == 0) {
         return;
     }
     hit.kind = 0x11;
     hit.power = 0.0f;
     for (i = 0; i < TLobby::get_game_mode(); i++) {
-        p = (Player_80050D74 *)TObjPlayer::get_player_data(i);
-        if (p != NULL && TBoss4Type3__sub_8005254C(get_entity_id(p)) != 0 &&
+        p = TObjPlayer::get_player_data(i);
+        if (p != NULL && is_player_in_boss_area(get_entity_id(p)) != 0 &&
             !(p->class_flags & CLASS_FLAG_ANDROID) &&
-            !(xyz_distance(&pos, &p->pos) > 20.0f)) {
+            !(xyz_distance(&pos, &p->position) > 20.0f)) {
             DirectAttackPayload h = hit;
-            reinterpret_cast<TObjChara *>(p)->receive_direct_attack(TBoss4DarkFalz__sub_8004C1B4(), h, NULL, -1, -1);
+            p->receive_direct_attack(TBoss4DarkFalz::get_type2_instance(), h, NULL, -1, -1);
         }
     }
 }
@@ -834,15 +659,15 @@ TObjDFHorming::TObjDFHorming(TObject *parent, const Vec *position, u16 target_id
     s32 i;
 
     m_name = TObjDFHorming__name;
-    m_334 = target_id;
-    m_338 = 150;
+    this->target_id = target_id;
+    lifetime = 150;
     if (game_difficulty_selection == 3) {
-        m_338 = 300;
+        lifetime = 300;
     }
     VecCopy(&body_center, VecCopy(&prev_position, VecCopy(&spawn_position, position)));
     scale = newton_sqrtf(1.08f);
     ang = (s32)(16384.0f * (0.000030517578f * (f32)rand() - 0.5f));
-    p = get_player_by_client_id(m_334);
+    p = get_player_by_client_id(this->target_id);
     if (p != NULL) {
         ang = 0;
     } else {
@@ -852,18 +677,18 @@ TObjDFHorming::TObjDFHorming(TObject *parent, const Vec *position, u16 target_id
     velocity.z = 1.2f * cos_table_lookup(ang) / scale;
     velocity.y = -6.0f / scale;
     speed = 6.0f;
-    m_360 = *(s32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x38)) + 0x28);
+    damage = *(s32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x38)) + 0x28);
     homing_rate = *(f32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x38)) + 0);
     if (homing_rate < 0.0f || homing_rate > 1.0f) {
         homing_rate = 0.5f;
     }
-    m_378 = -50.0f * homing_rate + 60.0f;
+    lock_distance = -50.0f * homing_rate + 60.0f;
     for (i = 0; i < 2; i++) {
         if ((effects[i] = create_particle_emitter(&body_center, TObjDFJisin__particle_emitter_id_table[i])) != NULL) {
             effects[i]->set_flags(0x40);
         }
     }
-    m_368 = 0;
+    state = 0;
 }
 #pragma pop
 
@@ -877,122 +702,114 @@ TObjDFHorming::~TObjDFHorming() {
     }
 }
 
-extern "C" {
-void run_task__13TObjDFHormingFv(u8 *self) {
-    Ang_80050808 rot;
+void TObjDFHorming::run_task() {
+    s32 rotation[3];
     Vec d;
     DirectAttackPayload s;
-    u8 *p;
+    TObjPlayer *p;
     s32 i;
     if (TObjEneDD::query_teammate_state() != 0) {
         return;
     }
-    if (((TObjDFHorming *)self)->m_334 == 0xFFFF || (p = (u8 *)get_player_by_client_id(((TObjDFHorming *)self)->m_334)) == NULL) {
-        ((TObject *)self)->queue_destruction();
+    if (target_id == 0xFFFF || (p = get_player_by_client_id(target_id)) == NULL) {
+        queue_destruction();
         return;
     }
-    VecCopy((Vec *)(self + 0x36C), (const Vec *)(p + 0x2FC));
-    *(f32 *)((s8 *)self + 0x37C) = xyz_distance((Vec *)(self + 0x2FC), (Vec *)(self + 0x36C));
-    VecCopy((Vec *)(self + 0x44), (const Vec *)(self + 0x2FC));
-    switch (*(s32 *)&((TObjDFHorming *)self)->m_368) {
+    VecCopy(&target_position, &p->body_center);
+    target_distance = xyz_distance(&body_center, &target_position);
+    VecCopy(&prev_position, &body_center);
+    switch (state) {
     case 0:
-        ((TObjDFHorming *)self)->sub_8005076C();
+        approach_target_height();
         break;
     case 1:
-        steer_homing_direction((Obj_8005063C *)self);
+        steer_homing_direction();
         break;
     case 2:
-        ((TObjDFHorming *)self)->check_attack_trigger();
+        check_attack_trigger();
         break;
     }
-    normalize_vector((Vec *)(self + 0x348));
-    *(f32 *)((s8 *)self + 0x348) *= *(f32 *)((s8 *)self + 0x354);
-    *(f32 *)((s8 *)self + 0x34C) *= *(f32 *)((s8 *)self + 0x354);
-    ((TObjDFHorming *)self)->velocity.z *= *(f32 *)((s8 *)self + 0x354);
-    vec3_add_to((Vec *)(self + 0x2FC), &((TObjDFHorming *)self)->velocity);
+    normalize_vector(&velocity);
+    velocity.x *= speed;
+    velocity.y *= speed;
+    velocity.z *= speed;
+    vec3_add_to(&body_center, &velocity);
     {
-        s32 id = find_nearest_visible_player(self, 0, 7.5f);
-        if (id != 0xFFFF && (p = (u8 *)get_player_by_client_id(id)) != NULL) {
-            if (TObjDFHorming::is_boss_active() != 0) {
+        s32 id = find_nearest_visible_player(this, NULL, 7.5f);
+        if (id != 0xFFFF && (p = get_player_by_client_id(id)) != NULL) {
+            if (is_boss_active() != 0) {
                 s.kind = 0;
-                s.power = static_cast<s32>(reinterpret_cast<TObjDFHorming *>(self)->m_360);
+                s.power = damage;
                 {
                     DirectAttackPayload t = s;
-                    reinterpret_cast<TObjChara *>(p)->receive_direct_attack(TBoss4DarkFalz__sub_8004C1AC(), t, NULL, -1, -1);
+                    p->receive_direct_attack(TBoss4DarkFalz::get_type3_instance(), t, NULL, -1, -1);
                 }
             }
-            queue_destruction__13TObjDFHormingFPv(self);
+            queue_destruction(this);
             return;
         }
     }
     for (i = 0; i < 2; i++) {
-        if (*(u32 *)((s8 *)(self + i * 4) + 0x358) != 0) {
+        if (effects[i] != NULL) {
             if (i == 1) {
-                VecCopy((Vec *)&d, (const Vec *)(self + 0x2FC));
-                subtract_vector(&d, (Vec *)(self + 0x44));
-                direction_to_rotation_xz((u8 *)&d, &rot.x, &rot.z);
-                rot.y = 0;
-                ((TParticleCtrl *)((void *)*(uaddr *)((s8 *)(self + i * 4) + 0x358)))->set_direction(&rot);
+                VecCopy(&d, &body_center);
+                subtract_vector(&d, &prev_position);
+                direction_to_rotation_xz((u8 *)&d, &rotation[0], &rotation[2]);
+                rotation[1] = 0;
+                effects[i]->set_direction(rotation);
             }
-            ((TParticleCtrl *)(void *)*(uaddr *)((s8 *)(self + i * 4) + 0x358))->set_position(self + 0x2FC);
+            effects[i]->set_position(&body_center);
         }
     }
-    minimap_render_dot(self + 0x2FC, -0x5DB4, 1, 0);
-    if (--*(s32 *)&((TObjDFHorming *)self)->m_338 < 0) {
-        ((TObject *)self)->queue_destruction();
+    minimap_render_dot(&body_center, -0x5DB4, 1, 0);
+    if (--lifetime < 0) {
+        queue_destruction();
     }
 }
-}
 
-extern "C" {
-int queue_destruction__13TObjDFHormingFPv(void* p) { return ((int (*)(void*))queue_destruction__7TObjectFv)(p); }
-}
+void TObjDFHorming::queue_destruction(TObject *object) { object->queue_destruction(); }
 
-extern "C" {
-void TObjDFHorming::sub_8005076C() {
-    f32 temp_f1;
-    temp_f1 = *(f32 *)((s8 *)((u8 *)this) + 0x370) - this->body_center.y;
-    if (temp_f1 > 0.0f) {
-        *(f32 *)((s8 *)((u8 *)this) + 0x34C) += 0.05f;
+void TObjDFHorming::approach_target_height() {
+    f32 dy;
+    dy = target_position.y - body_center.y;
+    if (dy > 0.0f) {
+        velocity.y += 0.05f;
     } else {
-        *(f32 *)((s8 *)((u8 *)this) + 0x34C) -= 0.05f;
+        velocity.y -= 0.05f;
     }
-    if (fabs_float(temp_f1) < 50.0f) {
-        this->m_368 = 1;
+    if (fabs_float(dy) < 50.0f) {
+        state = 1;
     }
-}
 }
 
-extern "C" {
-void steer_homing_direction(Obj_8005063C *self) {
+void TObjDFHorming::steer_homing_direction() {
     Vec d;
     f32 k;
     f32 inv;
-    VecCopy((Vec *)&d, (const Vec *)&self->f36c);
-    subtract_vector(&d, &self->f2fc);
+    VecCopy(&d, &target_position);
+    subtract_vector(&d, &body_center);
     if (vector_length(&d) <= 0.01f ||
-        vector_length(&self->dir) <= 0.01f) {
-        ((TObject *)self)->queue_destruction();
+        vector_length(&velocity) <= 0.01f) {
+        queue_destruction();
         return;
     }
     normalize_vector(&d);
-    normalize_vector(&self->dir);
-    k = -0.3f * self->f364 + 0.8f;
-    Vec prev = self->dir;
+    normalize_vector(&velocity);
+    k = -0.3f * homing_rate + 0.8f;
+    Vec prev = velocity;
     inv = 1.0f - k;
-    self->dir.x = k * self->dir.x + inv * d.x;
-    self->dir.y = k * self->dir.y + inv * d.y;
-    self->dir.z = k * self->dir.z + inv * d.z;
-    if (self->f37c <= self->f378 && xyz_distance(&self->dir, &prev) <= 0.001f) {
-        self->state = 2;
+    velocity.x = k * velocity.x + inv * d.x;
+    velocity.y = k * velocity.y + inv * d.y;
+    velocity.z = k * velocity.z + inv * d.z;
+    if (target_distance <= lock_distance && xyz_distance(&velocity, &prev) <= 0.001f) {
+        state = 2;
     }
-}
 }
 
 // TObjDFYutai, TBoss4Type3::create_yutai and TObjDFHorming::check_attack_trigger open the TU's text.
 void TObjDFHorming::check_attack_trigger() {
-    if (((s32) game_difficulty_selection == 3) && ((s32) this->m_338 >= 0x78) && (*(f32 *)&this->unk_37C > (2.5f * *(f32 *)&(this->m_378)))) {
-        this->m_368 = 1;
+    if (game_difficulty_selection == 3 && lifetime >= 0x78 && target_distance > 2.5f * lock_distance) {
+        state = 1;
     }
 }
 
@@ -1025,19 +842,19 @@ TObjDFYutai::~TObjDFYutai() {}
 #pragma push
 #pragma opt_common_subs off
 void TObjDFYutai::run_task() {
-    f32 temp_f1;
-    if (TBoss4Type3__sub_8005254C(player_id) == 0) {
+    f32 progress;
+    if (is_player_in_boss_area(player_id) == 0) {
         queue_destruction();
         return;
     }
     t = t + rate;
-    temp_f1 = t;
-    if (temp_f1 <= 0.0f) {
+    progress = t;
+    if (progress <= 0.0f) {
         t = 0.0f;
         queue_destruction();
         return;
     }
-    if (temp_f1 >= 1.0f) {
+    if (progress >= 1.0f) {
         t = 1.0f;
         queue_destruction();
     }
@@ -1052,7 +869,7 @@ void TObjDFYutai::render() {
     f32 s;
     f32 w;
     p = get_player_by_client_id(player_id);
-    if (p == NULL || TBoss4Type3__sub_8005254C(player_id) == 0) {
+    if (p == NULL || is_player_in_boss_area(player_id) == 0) {
         return;
     }
     s = yutai_scale_range.lerp(t);

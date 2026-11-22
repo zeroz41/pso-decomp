@@ -12,7 +12,7 @@ s32 init_packet_fragment_pools(void);
 
 NetFragPacket *TLobby__sub_8041955C(NetworkAddress *src, s32 ident, u8 ttl);
 s32 TLobby__sub_80419470(NetworkAddress *src, u32 ident);
-s32 TLobby__sub_80419374(NetFragPacket *pkt);
+s16 TLobby__sub_80419374(NetFragPacket *pkt);
 s32 TLobby__sub_8041979C(void);
 saddr reassemble_fragment_packet(NetFragPacket *node, u8 *self, u16 hdr_len, u16 frag_off, u16 frag_len, u8 more, s16 iface);
 
@@ -368,14 +368,10 @@ void update_timeout_entries(void) {
 
 /* Sends the ICMP (family 4) or ICMPv6 (family 6) "fragment reassembly time exceeded" error for pkt, if its
    first fragment has arrived. */
-s32 TLobby__sub_80419374(NetFragPacket *pkt) {
-    /* declared here with an s32 length and result; the definitions take an s16 length and icmp6_send_error
-       returns s16 */
-    s32 icmp6_send_error(void *a, u8 *src, s32 c, s16 flag);
-    s32 icmp_send_error(u8 *p, u8 *b, s32 x, s16 id);
+s16 TLobby__sub_80419374(NetFragPacket *pkt) {
     u8 *q;
     s32 type;
-    s32 total;
+    s16 total;
 
     if (pkt->first == NULL) {
         return 0;

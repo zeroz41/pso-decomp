@@ -428,7 +428,7 @@ void TObjPlayer::init_cmd_6x20() {
 
 #define copy_subcommand_header ((int (*)(void*))copy_subcommand_header)
 
-void TObjPlayer::send_player_floor_packet(void* a1) { bswap_pkt_u16x2_u32x2(); ((TLobby *)this)->send_subcommand_to_client((saddr)a1); }
+void TObjPlayer::send_player_floor_packet(u32 client) { bswap_pkt_u16x2_u32x2(); ((TLobby *)this)->send_subcommand_to_client(client); }
 
 void TObjPlayer::send_player_floor_packet_u32x5() { bswap_pkt_u32x5(); ((TLobby *)this)->send_60_sized(); }
 

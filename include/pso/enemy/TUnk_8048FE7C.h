@@ -16,8 +16,8 @@ public:
     virtual ~TUnk_8048FE7C();
     virtual void run_task();
     virtual void render();
-    void sub_8009A598();
-    void sub_8009A640();
+    void update_vertex_colors();    // the color table rotated by frame, alpha in the top byte
+    void update_vertex_positions(); // (outer, inner) pairs at radius +-3 along the direction table
     s32 state;  // 0 growing, 1 fading
     Vec position;
     f32 alpha;

@@ -17,6 +17,8 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/object/ending/TObjOnlineEndingHexLine.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight.h"
 
 struct VB_802E74E4 { u8 pad[0xC]; };
 
@@ -82,7 +84,6 @@ extern const f32 lbl_805DE9FC;
 extern const f32 lbl_805DEA00;
 extern const f32 lbl_805DEA04;
 extern s32 __vt__13TUnk_804E3BD8[];
-s32 TObjLight__sub_801337F8(s32);
 s32 rotate_matrix_z(int, s32);
 void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 s32 rotate_matrix_x(int, s32);
@@ -115,7 +116,6 @@ void __ct__7TObjectFP7TObject(void *);
 void set_chunk_blend(u32 x);
 void draw_chunk_model(void *arg0);
 extern Col_802E6CB0 lbl_80472C9C;
-extern saddr current_scene_light;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 #pragma push
@@ -320,7 +320,7 @@ void TUnk_804E3BC0::render() {
         pop_matrix();
         part++;
     }
-    TObjLight__sub_801337F8(current_scene_light);
+    current_scene_light->sub_801337F8();
 }
 
 void TObjPlayer__sub_802E7088(void) {  }
@@ -412,7 +412,7 @@ void TUnk_804E3BA8::render() {
         part++;
     }
     pop_matrix();
-    TObjLight__sub_801337F8(current_scene_light);
+    current_scene_light->sub_801337F8();
 }
 
 saddr TObjPlayer::get_instance() { return (saddr)multiplay_texture_f512_handle; }
@@ -429,8 +429,8 @@ const f32 lbl_805DE9E4 = 1.1f;
 const f32 lbl_805DE9E8 = 0.2f;
 const f32 lbl_805DE9EC = 0.05f;
 const f32 lbl_805DE9F0 = -10.0f;
-extern const f32 lbl_805DE9F4;
-const f32 lbl_805DE9F4 = -5.0f;
+extern const f32 boss7_tunnel_splash_y;
+const f32 boss7_tunnel_splash_y = -5.0f;
 const f32 lbl_805DE9F8 = 2.5f;
 const f32 lbl_805DE9FC = 1.15f;
 const f32 lbl_805DEA00 = 76.0f;

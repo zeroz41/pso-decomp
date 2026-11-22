@@ -6,6 +6,8 @@
 #include "pso/system/task/TObject.h"
 
 class TUnk_8048FA00;
+struct NJS_OBJECT;
+struct NJS_MOTION;
 
 struct TBreakUpMdl : public TObject {
     virtual ~TBreakUpMdl();
@@ -37,7 +39,7 @@ public:
     BreakupNodeRecord *m_records;
     s32 m_8;
     TUnk_8048FA00(long model, long motion, f32 frame);
-    TUnk_8048FA00(int model, int motion, f32 frame);
+    TUnk_8048FA00(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame);
     TUnk_8048FA00(long model);
     virtual ~TUnk_8048FA00();
     s32 collect_node_positions(u8 *node, s32 index);

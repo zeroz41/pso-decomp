@@ -33,7 +33,6 @@ const ModelNodeSpec TObjDFDemo0__model_node_entries[7] = {
 
 extern "C" {
 
-s32 TObjPlayer__sub_80052390();
 s32 post_translate_matrix(void *);
 extern void *lbl_80485550[3];
 
@@ -45,7 +44,7 @@ void fn_8004D9A8(u8 *arg0) {
 
     if ((0.0f) != o->f10c) {
         if (o->f10c < (1.0f)) {
-            TObjPlayer__sub_80052390();
+            TObjPlayer::begin_alpha_blend(o->f10c);
         }
         push_matrix();
         set_motion_packed_rotation();
@@ -268,7 +267,7 @@ typedef struct Data_8004DEE0 {
 
 void set_scripted_camera_pose(void *, void *, void *);
 void __ct__8TObjBaseFP7TObject(void *, void *);
-extern s32 lbl_80485EB0[];
+extern s32 boss4_type1_model_ids[];
 
 extern "C" void vfunc_6__8TObjBaseFPsl();
 extern "C" void get_name__8TObjBaseFv();
@@ -301,7 +300,7 @@ Obj_8004DEE0 *TObjDFDemo0__ct(void *arg0, void *parent) {
     h = TBoss4Uro::get_instance_count();
     for (i = 0; i < 6; i++) {
         {
-            s32 t = lbl_80485EB0[i];
+            s32 t = boss4_type1_model_ids[i];
             k = t;
             self->fbc[0][i] = (saddr)get_bml_model(h, t);
         }

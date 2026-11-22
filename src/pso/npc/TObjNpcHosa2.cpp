@@ -42,7 +42,7 @@ TObjNpcHosa2::~TObjNpcHosa2() {}
 TObjNpcHosa2::TObjNpcHosa2(TObject *parent, void *arg2) : TUnk_804A9F50(parent) {
     *(s32 *)((s8 *)this + 0) = (saddr) TObjNpcHosa2__name;
     ((TObjNpcHosa2 *)this)->apply_set_data(arg2);
-    ((TObjPlayer *)this)->init_position_vectors();
+    init_position_vectors();
     model = get_bml_model(TObjNpcHosa2__shared_model_resource, 0);
     texlist = (saddr)get_bml_texlist(TObjNpcHosa2__shared_model_resource, 0);
     ((TObjNpcBase *)this)->setup_common();

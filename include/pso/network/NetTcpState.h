@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pso/network/TcpSendQueue.h"
 #include "pso/network/IPv6Send.h"
+#include "pso/network/SocketEvents.h"
 
 typedef struct TcpTcb TcpTcb;
 
@@ -15,6 +16,10 @@ typedef struct TcpSackSeg {
 } TcpSackSeg;
 LAYOUT_ASSERT(TcpSackSeg_size_check, sizeof(TcpSackSeg) == 0x10);
 /* TCP sequence numbers wrap at 32 bits. Compare their unsigned difference as a signed distance. */
+#define SEQ_LT(a, b) ((s32)((a) - (b)) < 0)
+#define SEQ_LEQ(a, b) ((s32)((a) - (b)) <= 0)
+#define SEQ_GT(a, b) ((s32)((a) - (b)) > 0)
+#define SEQ_GEQ(a, b) ((s32)((a) - (b)) >= 0)
 typedef struct TcpSeqRange {
     u32 start;
     u32 end;
@@ -122,8 +127,8 @@ struct TcpTcb {
     s16 f2C4;
     s16 pending;
     void (*accept_cb)(s16, s16, s32, s32); /* callback of the waits[3] operation */
-    s32 accept_ctx; /* handed to the accepted TCB's event_ctx */
-    s32 event_ctx; /* passed to NetDispatchSocketEvent */
+    NetSocketEventCallback accept_ctx; /* handed to the accepted TCB's event_ctx */
+    NetSocketEventCallback event_ctx; /* passed to NetDispatchSocketEvent */
     s16 keepidle; /* keepalive time set by option 8; 0 uses tcp_protocol_state.keepidle */
     u8 f2D6[3];
     u8 pad2D9[3];
@@ -188,6 +193,8 @@ extern "C" {
 extern TcpState tcp_protocol_state;
 
 s16 TLobby__sub_8041A9AC(TcpTcb *tcb);
+/* NetTcp.c: claim a free TCB, else the state-10 one with the smallest timers[3]; returns its index or -0x103. */
+s16 TLobby__sub_8041E780(void);
 /* NetTcp.c: account the resent range [first, last) against the retransmit scoreboard (segs[]). */
 void TLobby__sub_8041D398(TcpTcb *tp, s32 first, s32 last);
 /* NetTcp.c: start sending a queued packet on connection arg0. */

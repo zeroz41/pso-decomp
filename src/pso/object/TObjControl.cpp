@@ -50,7 +50,6 @@ struct Ply_800F7118 {
 extern "C" {
 u16 get_entity_id(void *);
 
-extern s32 lbl_805D5870;
 
 extern uaddr TObjPlayer__data_8050D460[];
 
@@ -58,21 +57,9 @@ struct Msg_800F641C { u8 code; u8 size; u16 id; s32 arg; };
 
 struct Obj_800F641C { u8 pad[0x1c]; u16 id; };
 
-struct Hdr_800F6464 { u32 w; u16 x; s16 y; u32 z; };
-
 struct Msg_800F6464 { u8 pad0[2]; u16 f2; u16 f4; s16 f6; u32 f8; };
 
 struct Msg_800F62E0 { u8 pad0[2]; u16 id; s32 flags; };
-
-struct Pkt_800F65D0 {
-    s32 id;
-    s16 pad4;
-    s16 diff;
-    s8 a;
-    s8 av;
-    s8 b;
-    s8 bv;
-};
 
 struct Pair_800F673C { s32 a; f32 b; };
 
@@ -131,8 +118,6 @@ struct VObj_800F673C : VBase_800F673C {
     virtual void m49(Pair_800F673C);
     virtual void m50(Pair_800F673C);
 };
-
-struct Msg_800F673C { u32 flags; u8 pad4[2]; s16 f6; u8 b8; u8 b9; u8 bA; u8 bB; };
 
 typedef struct TObjPlayer_800F6B68 {
     u8 pad[0x2D6];
@@ -213,7 +198,7 @@ s32 minimap_render_dot(void *, int, int, int);
 
 void init_6x9C_enemy_low_game_flags_packet(u8 *arg0);
 
-extern Hdr_800F6464 *TLobby__data_805D6144;
+extern EnemyStateRecord *TLobby__data_805D6144;
 
 extern u8 lobby_rule_settings[];
 
@@ -316,21 +301,21 @@ s32 TObjEnemy::bind_enemy_combat_stats(u8 *arg1, u8 *arg2, u8 *arg3) {
     u8 *temp_r6;
 
     if (arg1 != NULL) {
-        this->m_2b0 = arg1;
-        temp_r6 = this->m_2b0;
+        this->stat_block = arg1;
+        temp_r6 = this->stat_block;
         this->hpmax = (s16) (*(s16 *)((s8 *)temp_r6 + 6) + *(s32 *)((s8 *)temp_r6 + 0x18));
         this->hp = (s16) this->hpmax;
         if (obj_testFlag_2E4(4U) != 0) {
             this->tpmax = 0;
             this->tp = 0;
         } else {
-            temp_r4 = this->m_2b0;
+            temp_r4 = this->stat_block;
             this->tpmax = (s16) (*(s16 *)((s8 *)temp_r4 + 2) + *(s32 *)((s8 *)temp_r4 + 0x18));
             this->tp = (s16) this->tpmax;
         }
         goto block_6;
     }
-    if ((void *) this->m_2b0 == NULL) {
+    if ((void *) this->stat_block == NULL) {
         return 0;
     }
 block_6:
@@ -350,29 +335,29 @@ block_10:
         return 0;
     }
 block_14:
-    temp_r0 = *(s16 *)(this->m_2b0 + 0);
-    this->m_2c8 = temp_r0;
-    this->m_2c0 = temp_r0;
+    temp_r0 = *(s16 *)(this->stat_block + 0);
+    this->atp = temp_r0;
+    this->base_atp = temp_r0;
     attack_params_atp_max = get_attack_params_atp_max(*(u8 **)((s8 *)((u8 *)this) + 0x318));
     temp_r0_2 = attack_params_atp_max - get_attack_params_atp_min(*(u8 **)((s8 *)((u8 *)this) + 0x318));
-    *(s16 *)((s8 *)((u8 *)this) + 0x2CA) = temp_r0_2;
-    *(s16 *)((s8 *)((u8 *)this) + 0x2C2) = temp_r0_2;
-    temp_r0_3 = *(s16 *)(this->m_2b0 + 4) + *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 0);
-    this->m_2cc = temp_r0_3;
-    this->m_2c4 = temp_r0_3;
-    temp_r0_4 = *(s16 *)(this->m_2b0 + 8) + *(s32 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 0x1C);
-    *(s16 *)((s8 *)((u8 *)this) + 0x2CE) = temp_r0_4;
-    *(s16 *)((s8 *)((u8 *)this) + 0x2C6) = temp_r0_4;
-    this->m_2d0 = (s16) (*(s16 *)(this->m_2b0 + 0xA) + TObjPlayer__sub_800194E8(*(u8 **)((s8 *)((u8 *)this) + 0x318)));
-    *(s16 *)((s8 *)((u8 *)this) + 0x2D2) = (s16) *(s16 *)(this->m_2b0 + 0xC);
+    this->atp_range = temp_r0_2;
+    this->base_atp_range = temp_r0_2;
+    temp_r0_3 = *(s16 *)(this->stat_block + 4) + *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 0);
+    this->evp = temp_r0_3;
+    this->base_evp = temp_r0_3;
+    temp_r0_4 = *(s16 *)(this->stat_block + 8) + *(s32 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 0x1C);
+    this->dfp = temp_r0_4;
+    this->base_dfp = temp_r0_4;
+    this->ata = (s16) (*(s16 *)(this->stat_block + 0xA) + TObjPlayer__sub_800194E8(*(u8 **)((s8 *)((u8 *)this) + 0x318)));
+    this->lck = (s16) *(s16 *)(this->stat_block + 0xC);
     this->m_2f2 = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 2);
     this->m_2f4 = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 6);
     *(s16 *)((s8 *)((u8 *)this) + 0x2F6) = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 4);
     this->m_2f8 = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 0xA);
     *(s16 *)((s8 *)((u8 *)this) + 0x2FA) = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 8);
-    this->add_to_field_2c8((s32)((f32)this->get_field_2c0() * TObjPlayer__sub_800192C4((saddr)this, 2)));
-    this->add_to_field_2ca((s32)((f32)this->get_field_2c2() * TObjPlayer__sub_800192C4((saddr)this, 2)));
-    this->add_to_field_2ce((s32)((f32)this->get_atp() * TObjPlayer__sub_800192C4((saddr)this, 3)));
+    this->adjust_atp((s32)((f32)this->get_base_atp() * TObjPlayer__sub_800192C4((saddr)this, 2)));
+    this->adjust_atp_range((s32)((f32)this->get_base_atp_range() * TObjPlayer__sub_800192C4((saddr)this, 2)));
+    this->adjust_dfp((s32)((f32)this->get_base_dfp() * TObjPlayer__sub_800192C4((saddr)this, 3)));
     return 1;
 }
 
@@ -415,7 +400,7 @@ void TUnk_80493450::link_into_group_chain() {
     if (*(s32 *)&this->state36C > 0 && *(Ply_800F7118 * *)&this->group == NULL && *(Ply_800F7118 * *)&this->previous == NULL) {
         head = NULL;
         tail = NULL;
-        for (i = registered_player_count; i < registered_player_count + lbl_805D5870; i++) {
+        for (i = registered_player_count; i < registered_player_count + registered_enemy_count; i++) {
             p = (Ply_800F7118 *)TObjPlayer::get_player_data(i);
             if (p == NULL || p == self) {
                 continue;
@@ -657,7 +642,7 @@ void TObjEnemy::update_prev_position() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r3;
     VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(arg0 + 0x38));
-    temp_r3 = (unsigned char *) (this->m_2b0);
+    temp_r3 = (unsigned char *) (this->stat_block);
     if (temp_r3 != NULL) {
         this->body_center.y = (f32) ((0.5f * *(f32 *)((s8 *)temp_r3 + 0x10)) + this->body_center.y);
     }
@@ -672,7 +657,7 @@ void TObjEnemy::award_enemy_experience(s32 arg1) {
         p->obj_testFlags30(0x800) != 0 || p->get_floor() != get_current_floor()) {
         return;
     }
-    val = *(s32 *)(this->m_2b0 + 0x1C);
+    val = *(s32 *)(this->stat_block + 0x1C);
     if ((u16)arg1 == this->attacker_id) {
         if (((TLobby *)lobby_rule_settings)->get_rule_field_0() == 1) {
             fn_801B0480(p, this, 1);
@@ -712,16 +697,16 @@ void TObjEnemy::distribute_experience() {
     }
 }
 
-int TObjPlayer::query_lobby_state() { return send_6x60_standard_drop_item_request(this); }
+int TObjEnemy::query_lobby_state() { return send_6x60_standard_drop_item_request(this); }
 
-void TObjPlayer::refresh_lobby_state() { ((TObjEnemy *)this)->distribute_experience(); query_lobby_state(); }
+void TObjEnemy::refresh_lobby_state() { distribute_experience(); query_lobby_state(); }
 
 u8 *get_enemy_entity(u16 arg0) {
     s32 low;
     s32 mid;
     s32 high;
     if (arg0 >= 0x1000 && arg0 < 0x4000) {
-        high = (registered_player_count + lbl_805D5870) - 1;
+        high = (registered_player_count + registered_enemy_count) - 1;
         low = registered_player_count;
         while (low < high) {
             mid = (low + high) / 2;
@@ -763,10 +748,10 @@ void TObjEnemy::apply_enemy_state(s32 *state) {
 }
 
 void TObjEnemy::apply_hit_message_flags(void *arg1_arg) {
-    Msg_800F673C *arg1 = (Msg_800F673C *)arg1_arg;
+    EnemyStateRecord *arg1 = (EnemyStateRecord *)arg1_arg;
     s32 flags;
     Pair_800F673C p;
-    this->hp = this->hpmax - arg1->f6;
+    this->hp = this->hpmax - arg1->damage;
     if (game_difficulty_selection == 3) {
         flags = arg1->flags & ~0x3F;
     } else {
@@ -785,20 +770,20 @@ void TObjEnemy::apply_hit_message_flags(void *arg1_arg) {
         }
     }
     obj_setFlags30(this, flags);
-    p.a = arg1->b8;
-    p.b = arg1->b9;
-    arg1->b8 = 0;
-    arg1->b9 = 0;
+    p.a = arg1->attack_status;
+    p.b = arg1->attack_status_level;
+    arg1->attack_status = 0;
+    arg1->attack_status_level = 0;
     switch (p.a) {
     case 9:
     case 11:
         ((VObj_800F673C *)this)->m49(p);
         break;
     }
-    p.a = arg1->bA;
-    p.b = arg1->bB;
-    arg1->bA = 0;
-    arg1->bB = 0;
+    p.a = arg1->defense_status;
+    p.b = arg1->defense_status_level;
+    arg1->defense_status = 0;
+    arg1->defense_status_level = 0;
     switch (p.a) {
     case 10:
     case 12:
@@ -807,24 +792,24 @@ void TObjEnemy::apply_hit_message_flags(void *arg1_arg) {
     }
 }
 
-s32 TObjEnemy::vfunc_74(s32 kind) {
-    Pkt_800F65D0 pkt;
+s32 TObjEnemy::sync_enemy_state(s32 status) {
+    EnemyStateRecord pkt;
     s32 ret;
     ret = 0;
     if (this->entity_id >= 0x1000 && this->entity_id < 0x4000) {
         this->exchange_object_state(&pkt, 1);
-        pkt.diff = this->hpmax - this->hp;
-        pkt.id = this->actorFlags;
-        switch (kind) {
+        pkt.damage = this->hpmax - this->hp;
+        pkt.flags = this->actorFlags;
+        switch (status) {
         case 9:
         case 11:
-            pkt.a = kind;
-            pkt.av = 0.1f * ((f32)TObjPlayer__sub_8001943C(this, 2) / 30.0f - 40.0f);
+            pkt.attack_status = status;
+            pkt.attack_status_level = 0.1f * ((f32)TObjPlayer__sub_8001943C(this, 2) / 30.0f - 40.0f);
             break;
         case 10:
         case 12:
-            pkt.b = kind;
-            pkt.bv = 0.1f * ((f32)TObjPlayer__sub_8001943C(this, 3) / 30.0f - 40.0f);
+            pkt.defense_status = status;
+            pkt.defense_status_level = 0.1f * ((f32)TObjPlayer__sub_8001943C(this, 3) / 30.0f - 40.0f);
             break;
         }
         ret = this->exchange_object_state(&pkt, 0);
@@ -836,45 +821,45 @@ s32 TObjEnemy::vfunc_74(s32 kind) {
 }
 
 void TObjEnemy::send_6x0A_enemy_state(void *state_in) {
-    Pkt_800F65D0 state;
+    EnemyStateRecord state;
     Msg_800F6464 msg;
     u32 new_flags;
-    if (((Pkt_800F65D0 *)state_in) != NULL) {
-        ((TLobby *)(&state))->copy_header(((Pkt_800F65D0 *)state_in));
+    if (((EnemyStateRecord *)state_in) != NULL) {
+        ((TLobby *)(&state))->copy_header(((EnemyStateRecord *)state_in));
     } else if (this->exchange_object_state(&state, 1) == 0) {
         return;
     }
     init_6x0A_enemy_state_packet(&msg);
     msg.f2 = this->entity_id;
     msg.f4 = ((Ene_800F6510 *)this)->f2C;
-    msg.f6 = state.diff;
+    msg.f6 = state.damage;
     if (game_difficulty_selection == 3) {
-        msg.f8 = state.id & ~0x3F;
-        new_flags = state.id & 0x3F;
+        msg.f8 = state.flags & ~0x3F;
+        new_flags = state.flags & 0x3F;
         new_flags &= ~((Ene_800F6510 *)this)->low_game_flags;
         if (new_flags != 0) {
             this->send_6x9C_enemy_low_game_flags(new_flags);
-            ((Ene_800F6510 *)this)->low_game_flags = state.id & 0x3F;
+            ((Ene_800F6510 *)this)->low_game_flags = state.flags & 0x3F;
         }
     } else {
-        msg.f8 = state.id;
+        msg.f8 = state.flags;
     }
     send_6x0A_enemy_state_packet(&msg);
 }
 
 void handle_6x0A_update_enemy_state(Msg_800F6464 *arg0) {
-    Hdr_800F6464 sp;
+    EnemyStateRecord sp;
     u16 idx;
     TObjEnemy *e;
     ((TLobby *)arg0)->bswap_enemy_state();
     idx = arg0->f4;
     ((TLobby *)(&sp))->copy_header(&TLobby__data_805D6144[idx]);
-    sp.y = arg0->f6;
+    sp.damage = arg0->f6;
     if (game_difficulty_selection == 3) {
-        sp.w &= 0x3F;
-        sp.w = (arg0->f8 & ~0x3F) | sp.w;
+        sp.flags &= 0x3F;
+        sp.flags = (arg0->f8 & ~0x3F) | sp.flags;
     } else {
-        sp.w = arg0->f8;
+        sp.flags = arg0->f8;
     }
     apply_by_index__9TObjEnemyFs(idx, &sp);
     e = (TObjEnemy *)get_enemy_entity(arg0->f2);
@@ -995,7 +980,7 @@ void TObjControl::run_task() {
             switch (mode) {
             case 0:
                 input = enemy->controller_input;
-                if (input->unknown_08 & 4) {
+                if (input->pressed_buttons & 4) {
                     enemy->run_attack_action();
                     return;
                 }

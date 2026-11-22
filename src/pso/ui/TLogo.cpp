@@ -24,6 +24,7 @@
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/unk/text_803DCDFC.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
 
 
 extern "C" {
@@ -31,7 +32,6 @@ s32 TKeyBoardControl__sub_8000F90C(int);
 s32 TCameraCtrl__ct(u32, void *);
 s32 is_area_transfer_pending();
 s32 apply_phase_keyboard_mode();
-s32 init_menu_scene_lights(void *, int);
 s32 reset_controller_input_state();
 s32 set_copy_clear_color_argb(int, int, int);
 s32 __ct__15TWindowCtrlMainFv(u32);

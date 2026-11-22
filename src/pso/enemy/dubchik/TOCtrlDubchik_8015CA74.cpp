@@ -2,7 +2,6 @@
 #include "pso/system/BmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
-#include "pso/enemy/dubchik/TOCtrlDubchik_8015CA74.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
@@ -34,9 +33,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/task/TMainTask.h"
-
-// What receive_weapon_special_attack's second argument points at: its hit position at 0x1C.
-struct A_8015C9D4 { u8 pad[0x1C]; Vec pos; };
+#include "pso/render/GinjaModel.h"
 
 static const char *bm_fs_obj_zombie_con_model_names[2] = { "fs_obj_zombie_con.gj", NULL };
 static const char *bm_fs_obj_zombie_con_motion_names[1] = { NULL };
@@ -46,22 +43,20 @@ static BmlResourceDescriptor bm_fs_obj_zombie_con_resource_descriptor = {
 static CollisionBody TOCtrlDubchik__collision_body = { { 0.0f, 0.0f, 0.0f }, 5.0f, 0.0f, 0, 0x8005, { 0.0f, 0.0f, 0.0f }, 0.0f };
 static const char *TOCtrlDubchik__name = "TOCtrlDubchik";
 
-extern "C" {
-extern uaddr TOCtrlDubchik__shared_resource;
-extern s32 lbl_805D5870;
-void dubchik_start_dying(u8 *arg0);
+// The switch's loaded BML resource (load_shared_resource loads it).
+BmlResource *TOCtrlDubchik__shared_resource;
 
 void TOCtrlDubchik::apply_knockback_from_attacker(u8 *, f32) {  }
 
-s32 TOCtrlDubchik::roll_physical_accuracy(void *arg1, s32 arg2, f32 farg0) {
-    if (this->mode != 0) {
-        return TObjChara::roll_physical_accuracy(arg1, arg2, farg0);
+s32 TOCtrlDubchik::roll_physical_accuracy(void *attacker, s32 collider, f32 accuracy) {
+    if (mode != 0) {
+        return TObjChara::roll_physical_accuracy(attacker, collider, accuracy);
     }
     return 0;
 }
 
 s32 TOCtrlDubchik::try_start_action(s32 arg1, s32 collider) {
-    if (this->mode != 0) {
+    if (mode != 0) {
         return TObjChara::try_start_action(arg1, collider);
     }
     return 0;
@@ -74,9 +69,9 @@ f32 TOCtrlDubchik::receive_direct_attack(void *attacker, DirectAttackPayload pay
     return 0.0f;
 }
 
-s32 TOCtrlDubchik::select_melee_contact_body(void *arg1, f32 farg0) {
-    if (this->mode != 0) {
-        return TObjChara::select_melee_contact_body(arg1, farg0);
+s32 TOCtrlDubchik::select_melee_contact_body(void *source, f32 factor) {
+    if (mode != 0) {
+        return TObjChara::select_melee_contact_body(source, factor);
     }
     return 0;
 }
@@ -84,9 +79,9 @@ s32 TOCtrlDubchik::select_melee_contact_body(void *arg1, f32 farg0) {
 TOCtrlDubchik::TOCtrlDubchik(TObject *parent, void *set_data) : TObjEnemy(parent) {
     m_name = TOCtrlDubchik__name;
     apply_set_data(set_data);
-    ((TObjPlayer *)this)->init_position_vectors();
-    model = (unsigned char *) ((void *) *(void **)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TOCtrlDubchik__shared_resource) + 0x42C)) + 8));
-    texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TOCtrlDubchik__shared_resource) + 0x42C)) + 0xC);
+    init_position_vectors();
+    model = TOCtrlDubchik__shared_resource->models[0].model;
+    texlist = (saddr)TOCtrlDubchik__shared_resource->models[0].m_c;
     init_collision_body_parts(this, &TOCtrlDubchik__collision_body, 1);
     refresh_collision_body_centers();
     register_object_by_id();
@@ -95,13 +90,13 @@ TOCtrlDubchik::TOCtrlDubchik(TObject *parent, void *set_data) : TObjEnemy(parent
     hp = 0x12C;
     hpmax = 0x12C;
     view_range = 400.0f;
-    model_radius = (f32) *(f32 *)((s8 *)(*(void **)((s8 *)model + 4)) + 0x14);
+    model_radius = ((GinjaModelBounds *)((NJS_OBJECT *)model)->model)->radius;
     hover_height = 60.0f;
     bob_phase = 0;
     part_spread = 0.0f;
     effect_scale = 0.0f;
     spin_angle = 0;
-    VecCopy(&shadow_pos, (const Vec *)((u8 *)this + 0x50));
+    VecCopy(&shadow_pos, &home_position);
     visible = 1;
 }
 
@@ -111,16 +106,13 @@ TOCtrlDubchik::~TOCtrlDubchik() {
 }
 
 void TOCtrlDubchik::load_shared_resource() {
-    saddr temp_r3;
-    s32 var_r0;
-    var_r0 = (saddr)new BmlResource(1, &bm_fs_obj_zombie_con_resource_descriptor, 0, 0, NULL);
-    (*(s32 *)&TOCtrlDubchik__shared_resource) = var_r0;
+    TOCtrlDubchik__shared_resource = new BmlResource(1, &bm_fs_obj_zombie_con_resource_descriptor, 0, 0, NULL);
 }
 
 void TOCtrlDubchik::destroy_instance() {
-    if ((u32) TOCtrlDubchik__shared_resource != 0U) {
-        delete (BmlResource *)TOCtrlDubchik__shared_resource;
-        TOCtrlDubchik__shared_resource = 0U;
+    if (TOCtrlDubchik__shared_resource != NULL) {
+        delete TOCtrlDubchik__shared_resource;
+        TOCtrlDubchik__shared_resource = NULL;
     }
 }
 
@@ -187,30 +179,29 @@ void TOCtrlDubchik::render() {
 }
 
 void TOCtrlDubchik::run_task() {
-    u8 *self = (u8 *)this;
     if (TObjPlayer::check_demo_mode() == 1) {
-        TOCtrlDubchik__sub_8015C9D0(self);
+        run_demo_task();
         return;
     }
-    if (((TObjCollidable *)self)->obj_testFlags30(0x800) != 0) {
-        *(s16 *)(self + 0x326) = 6;
-    } else if (this->update_movement_status() != 0) {
-        ((TObjCollidable *)self)->refresh_collision_body_centers();
-        submit_cursor_candidate(self, -1);
+    if (obj_testFlags30(0x800) != 0) {
+        mode = 6;
+    } else if (update_movement_status() != 0) {
+        refresh_collision_body_centers();
+        submit_cursor_candidate(this, -1);
         return;
     }
-    switch (*(s16 *)(self + 0x326)) {
+    switch (mode) {
     case 0:
-        ((TOCtrlDubchik *)self)->sub_8015CE80();
+        update_waiting();
         break;
     case 1:
-        ((TOCtrlDubchik *)self)->update_bobbing();
+        update_bobbing();
         break;
     case 2:
-        ((TOCtrlDubchik *)self)->sub_8015CCF4();
+        update_effect_grow();
         break;
     case 3:
-        ((TOCtrlDubchik *)self)->update_spin();
+        update_spin();
         break;
     case 4:
         decay_timer_and_finish();
@@ -222,23 +213,23 @@ void TOCtrlDubchik::run_task() {
         complete_and_destroy();
         break;
     }
-    VecCopy(&this->body_center, (const Vec *)&this->position);
-    ((TObjCollidable *)self)->refresh_collision_body_centers();
-    submit_cursor_candidate(self, -1);
+    VecCopy(&body_center, &position);
+    refresh_collision_body_centers();
+    submit_cursor_candidate(this, -1);
 }
 
-void TOCtrlDubchik::sub_8015CE80() {
+void TOCtrlDubchik::update_waiting() {
     s32 i;
-    u8 *p;
+    TObjEnemy *p;
     bob_phase += 2184.0f;
     hover_height = 60.0f + sin_table_lookup(bob_phase);
     apply_actor_gravity(this, (s32 *)&shadow_pos, hover_height);
-    for (i = registered_player_count; i < registered_player_count + lbl_805D5870; i++) {
-        p = (u8 *)TObjPlayer::get_player_data(i);
-        if (p != NULL && p != ((u8 *)this) && ((TObjCollidable *)p)->obj_testFlags30(0x800) != 0 &&
+    for (i = registered_player_count; i < registered_player_count + registered_enemy_count; i++) {
+        p = (TObjEnemy *)TObjPlayer::get_player_data(i);
+        if (p != NULL && p != this && p->obj_testFlags30(0x800) != 0 &&
             ((TUnk_804B6C24 *)p)->check_value_equals((saddr)TObjEneDubchik__class_name) != 0 &&
-            *(s32 *)(p + 0x368) == 0 && *(s16 *)(((u8 *)this) + 0x28) == *(s16 *)(p + 0x28)) {
-            this->mode = 1;
+            p->variant == 0 && room == p->room) {
+            mode = 1;
         }
     }
 }
@@ -254,7 +245,7 @@ void TOCtrlDubchik::update_bobbing() {
     }
 }
 
-void TOCtrlDubchik::sub_8015CCF4() {
+void TOCtrlDubchik::update_effect_grow() {
     bob_phase += 2184.0f;
     hover_height = 20.0f + sin_table_lookup(bob_phase);
     apply_actor_gravity(this, (s32 *)&shadow_pos, hover_height);
@@ -293,35 +284,33 @@ void TOCtrlDubchik::decay_timer_and_clear_flag() {
 }
 
 void TOCtrlDubchik::complete_and_destroy() {
-    u8 *self = (u8 *)this;
-    s32 sp8;
-    if (((TObjEnemy *)self)->exchange_object_state(&sp8, 1) != 0) {
-        sp8 = 1;
-        ((TObjEnemy *)self)->send_6x0A_enemy_state(&sp8);
-        ((TObjEnemy *)self)->exchange_object_state(&sp8, 0);
-        apply_enemy_state(&sp8);
-        ((TOCtrlDubchik *)self)->sub_8015CA74();
-        ((TObjCollidable *)self)->set_flag8();
-        ((TObject *)self)->queue_destruction();
+    EnemyStateRecord state;
+    if (exchange_object_state(&state, 1) != 0) {
+        state.flags = 1;
+        send_6x0A_enemy_state(&state);
+        exchange_object_state(&state, 0);
+        apply_enemy_state(&state.flags);
+        kill_room_dubchiks();
+        set_flag8();
+        queue_destruction();
     }
 }
 
-void TOCtrlDubchik::sub_8015CA74() {
-    u8 *self = (u8 *)this;
+void TOCtrlDubchik::kill_room_dubchiks() {
     s32 area;
     s32 i;
-    u8 *p;
-    spawn_particle_effect(&this->position, 0x45);
-    spawn_particle_effect(&this->position, 0x46);
+    TObjEnemy *p;
+    spawn_particle_effect(&position, 0x45);
+    spawn_particle_effect(&position, 0x46);
     area = get_current_floor_area();
     if (area >= 0x17 || area < 0x13) {
-        play_sound_effect(0x4003AD16, (u8 *)&this->position, 0, 0);
+        play_sound_effect(0x4003AD16, &position, 0, 0);
     }
-    for (i = registered_player_count; i < registered_player_count + lbl_805D5870; i++) {
-        p = (u8 *)TObjPlayer::get_player_data(i);
-        if (p != NULL && p != self && ((TUnk_804B6C24 *)p)->check_value_equals((saddr)TObjEneDubchik__class_name) != 0 &&
-            *(s32 *)(p + 0x368) == 0 && *(s16 *)(self + 0x28) == *(s16 *)(p + 0x28)) {
-            dubchik_start_dying(p);
+    for (i = registered_player_count; i < registered_player_count + registered_enemy_count; i++) {
+        p = (TObjEnemy *)TObjPlayer::get_player_data(i);
+        if (p != NULL && p != this && ((TUnk_804B6C24 *)p)->check_value_equals((saddr)TObjEneDubchik__class_name) != 0 &&
+            p->variant == 0 && room == p->room) {
+            ((TObjEneDubchik *)p)->start_dying();
         }
     }
 }
@@ -333,7 +322,7 @@ f32 TOCtrlDubchik::receive_weapon_special_attack(void *attacker, void *hit) {
             return TObjChara::receive_physical_attack(attacker, 1.0f);
         }
         if (hit != NULL) {
-            VecCopy(&pos, &((A_8015C9D4 *)hit)->pos);
+            VecCopy(&pos, &((CollisionBody *)hit)->center);
         } else {
             VecCopy(&pos, &body_center);
         }
@@ -342,7 +331,7 @@ f32 TOCtrlDubchik::receive_weapon_special_attack(void *attacker, void *hit) {
     return 0.0f;
 }
 
-void TOCtrlDubchik__sub_8015C9D0(u8 *) {  }
+void TOCtrlDubchik::run_demo_task() {  }
 
 // Dead-stripped from the DOL: no code of it survives. The TU's .sdata2 pool opens
 // with 0.0 (0x805DB3A8) ahead of receive_weapon_special_attack's 1.0 although that
@@ -354,6 +343,3 @@ void TOCtrlDubchik::clear_part_offsets() {
     effect_scale = 0.0f;
 }
 
-
-uaddr TOCtrlDubchik__shared_resource;
-}

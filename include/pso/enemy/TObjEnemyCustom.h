@@ -27,9 +27,11 @@ struct TObjEnemyCustom : public TObjEnemy {
     s32 turn_toward_point(Vec *point, s32 max_step, s32 angle_offset);
     void render_anim_model_at_pos();
     void run_demo_task();
-    void sub_800C7860();
+    // Enters action 7 (the subclass's appear / fade-in) with the action lock set.
+    void start_appear();
     void release_destroyed_target();
-    void sub_8004292C();
+    // Clears the actorFlags bits set_flags_30 sets (0x04040000).
+    void clear_flags_30();
     void set_flags_30();
     virtual void apply_enemy_state(s32 *);
     virtual void get_anim_node_position(s32 node, Vec *out);
@@ -42,12 +44,14 @@ struct TObjEnemyCustom : public TObjEnemy {
     virtual void refresh_target();
     virtual void render();
     virtual void run_task();
-    u32 next_action;
-    u32 m_378;
+    s32 next_action;
+    u32 resume_action;  // the action to go back to after a reaction (Gyaranzo update_if_active(resume_action))
     u32 state;
-    u32 m_380;
-    s32 m_384;
-    u32 m_388;
+    u32 previous_action;  // set_state stores the mode it leaves
+    s32 state_timer;  // frames left in the current state
+    // Bit 0 locks the action (hit, death and appear set it, update_if_active then
+    // requests nothing); the other bits belong to each subclass.
+    u32 behavior_flags;
     void update_if_active(s32 action);
     void set_state(s32 action);
     void update_dying_state();

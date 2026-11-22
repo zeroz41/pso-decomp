@@ -2,6 +2,7 @@
 #include "pso/unk/TUnk_80488A28.h"
 #include "pso/system/vector.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
+#include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -14,27 +15,11 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/camera/TCameraCtrl_801A6E60.h"
+#include "pso/camera/TCameraCtrl_8006CC30.h"
 
 
 extern "C" __declspec(section ".rodata") FollowVector lbl_80438528 = { 0.0f, 0.0f, 45.42f };
 __declspec(section ".rodata") FollowVector lbl_80438534 = { 0.0f, 0.0f, 45.42f };
-
-struct Base_8006CE78_8006CC30 { char pad[0x18]; };
-struct VObj_8006CE78_8006CC30 : Base_8006CE78_8006CC30 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12(s32);
-};
 
 struct RecoveredGlobal_8006D494_TCameraCtrl__data_804FF628 {
     u8 value;
@@ -184,11 +169,8 @@ extern u16 TCameraCtrl__camera_override_client_id;
 struct CameraControllerRegistry { s32 value; u8 remaining[0x64]; };
 extern CameraControllerRegistry camera_controller_registry;
 extern RecoveredGlobal_8006D494_TCameraCtrl__data_804FF628 TCameraCtrl__view_state;
-void end_conversation_camera(void);
 u8 * csnVector(void *, void *, u32);
 s32 angle_difference_abs(s32 a, s32 b);
-void begin_conversation_camera(void);
-void request_follow_camera_offsets(void *arg0, void *arg1, u16 arg2);
 void matrix_mult_vec(s32, void *, void *);
 void TCameraCtrl__sub_8006E804(void* a0);
 extern Pads_8006D1A4 controller_input_state;
@@ -204,9 +186,7 @@ void reset_cameras_to_actor(void *p, s32 x);
 extern FollowView *camera_ctrl_instance;
 
 s32 conversation_camera_obstructed(FollowController *self,s32 heading);
-void apply_follow_camera_offsets(void *arg0, void *arg1, s32 arg2, u16 arg3);
 s32 approach_camera_scalar(f32 *arg0, f32 *target, f32 farg0);
-void get_dragon_follow_camera_offsets(u8 *arg0, u8 *arg1);
 // inferred: 0x18 bytes in the DOL and only the first vector is read; a pair like the (a, b) offsets that
 // request_follow_camera_offsets takes.
 Vec follow_camera_offset_default[2] = {
@@ -214,7 +194,6 @@ Vec follow_camera_offset_default[2] = {
     { 0.0f, 0.0f, 0.0f },
 };
 extern "C" {
-void get_camera_offsets__12TBoss8DragonFPvPv(Vec *, Vec *);
 s32 approach_angle_limited(s32, s32, s32);
 s32 check_flag_100__10TObjPlayerFPv(void *);
 void *TCameraCtrl__vt0(void);
@@ -258,15 +237,15 @@ s32 TUnk_80488E00::sub_8006CDD0() {
     return 0;
 }
 
-void TCameraCtrl::set_pos_target(void *arg1, void *arg2, s32 arg3) {
-    this->m_fc = (s32) (this->m_fc | 8);
-    ((VObj_8006CE78_8006CC30*)this)->m12(arg3);
-    *(f32 *)&this->unk_E8 = (f32) *(f32 *)((s8 *)arg1 + 0);
-    this->m_ec = (f32) *(f32 *)((s8 *)arg1 + 4);
-    *(f32 *)&this->unk_F0 = (f32) *(f32 *)((s8 *)arg1 + 8);
-    this->m_dc = (f32) *(f32 *)((s8 *)arg2 + 0);
-    *(f32 *)&this->unk_E0 = (f32) *(f32 *)((s8 *)arg2 + 4);
-    this->m_e4 = (f32) *(f32 *)((s8 *)arg2 + 8);
+void TUnk_80488E00::set_pos_target(Vec *position, Vec *target, s32 angle) {
+    m_fc |= 8;
+    vfunc_14(angle);
+    m_e8 = position->x;
+    m_ec = position->y;
+    m_f0 = position->z;
+    eye_offset.x = target->x;
+    eye_offset.y = target->y;
+    eye_offset.z = target->z;
 }
 
 s32 TUnk_80488E00::is_flag_set() {
@@ -386,51 +365,51 @@ void TUnk_80488E00::rotate_heading_by_stick() {
     }
 }
 
-void request_follow_camera_offsets(void *arg0, void *arg1, u16 arg2) {
+void request_follow_camera_offsets(Vec *position, Vec *target, u16 client_id) {
     Ply_8006D2B0 *p;
-    s32 v;
-    v = 0x8000;
+    s32 angle;
+    angle = 0x8000;
     p = NULL;
     if (is_split_screen() != 0) {
-        if (arg2 != 0xFFFF) {
-            p = ((Ply_8006D2B0 *)get_player_by_client_id(arg2));
+        if (client_id != 0xFFFF) {
+            p = ((Ply_8006D2B0 *)get_player_by_client_id(client_id));
         }
     } else {
         p = ((Ply_8006D2B0 *)get_player_by_client_id((u32)((*(s32 *)&local_client_id))));
     }
     if (p != NULL) {
-        v = p->f60 + 0x8000;
+        angle = p->f60 + 0x8000;
     }
-    apply_follow_camera_offsets(arg0, arg1, v, arg2);
+    apply_follow_camera_offsets(position, target, angle, client_id);
 }
 }
 
 #define REG_8006D344 ((void **)&camera_controller_registry)
-void apply_follow_camera_offsets(void *arg0, void *arg1, s32 arg2, u16 arg3) {
+void apply_follow_camera_offsets(Vec *position, Vec *target, s32 angle, u16 client_id) {
     void *cam;
     Ply_8006D344 *p;
     s32 i;
     s32 v;
     if (TCameraCtrl__view_state.value <= 2 || TCameraCtrl__view_state.value == 3) {
         if (is_split_screen() != 0) {
-            if (arg3 == 0xFFFF) {
+            if (client_id == 0xFFFF) {
                 for (i = 0; i < 4; i++) {
                     cam = REG_8006D344[TCameraCtrl__view_state.value + i];
                     p = (Ply_8006D344 *)get_player_by_client_id(TCameraCtrl::get_nth_view_player_id(i));
-                    v = arg2;
+                    v = angle;
                     if (p != 0) {
-                        v = p->f60 + arg2;
+                        v = p->f60 + angle;
                     }
-                    ((TCameraCtrl *)cam)->set_pos_target(arg0, arg1, v);
+                    ((TUnk_80488E00 *)cam)->set_pos_target(position, target, v);
                 }
                 return;
             }
-            cam = REG_8006D344[TCameraCtrl__view_state.value + arg3];
+            cam = REG_8006D344[TCameraCtrl__view_state.value + client_id];
         } else {
             cam = REG_8006D344[TCameraCtrl__view_state.value];
         }
         if (cam != 0) {
-            ((TCameraCtrl *)cam)->set_pos_target(arg0, arg1, arg2);
+            ((TUnk_80488E00 *)cam)->set_pos_target(position, target, angle);
         }
     }
 }
@@ -610,9 +589,9 @@ void TUnk_80488E00::select_follow_camera_offsets() {
         Vec a0;
         Vec b1;
         Vec a1;
-        get_dragon_follow_camera_offsets((u8 *)&a0, (u8 *)&b0);
+        get_dragon_follow_camera_offsets(&a0, &b0);
         request_follow_camera_offsets(&a0, &b0, 0xFFFF);
-        get_dragon_follow_camera_offsets((u8 *)&a1, (u8 *)&b1);
+        get_dragon_follow_camera_offsets(&a1, &b1);
         request_follow_camera_offsets(&a1, &b1, 0xFFFF);
     } else if (area == AREA_GAL_GRYPHON) {
         Vec b;
@@ -622,7 +601,7 @@ void TUnk_80488E00::select_follow_camera_offsets() {
     } else if (area == AREA_GOL_DRAGON) {
         Vec b;
         Vec a;
-        get_camera_offsets__12TBoss8DragonFPvPv(&a, &b);
+        TBoss8Dragon::get_camera_offsets(&a, &b);
         request_follow_camera_offsets(&a, &b, 0xFFFF);
     } else {
         if (!(arg0->flags & 8)) {

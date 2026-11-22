@@ -29,6 +29,8 @@
 
 #include "pso/player/TObjPlayer.h"
 
+#include "pso/player/TObjPlayer_801542CC.h"
+
 #include "pso/effect/particle/TParticleCtrl.h"
 
 #include "pso/unk/text_80087278.h"
@@ -55,12 +57,6 @@ extern const s32 boss2_photon_bullet_hit_args[2] = { 0x40400000, 1 }; // 3.0f as
 const char *TBoss2PhotonPad__name = "TBoss2PhotonPad";
 
 const char *TBoss2PhotonBullet__name = "TBoss2PhotonBullet";
-
-extern "C" {
-s32 project_actor_to_ground(TObjBase *actor, Vec *pos, Vec *normal);
-
-
-}
 
 TBoss2PhotonPad::TBoss2PhotonPad(TObject *parent, Vec *start, Vec *dir, s32 level) : TObject(parent) {
     m_name = TBoss2PhotonPad__name;

@@ -8,7 +8,7 @@ public:
     virtual void run_task();
     virtual ~TPlyOnCreated();
 public:
-    static void *create(void *arg0, void *arg1);
+    static void *create(s32 client, void *callback);
 };
 
 #endif

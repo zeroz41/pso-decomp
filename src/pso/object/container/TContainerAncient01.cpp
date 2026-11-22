@@ -451,12 +451,12 @@ void TContainerAncient01::run_task() {
             default:
                 this->mode = 0;
                 this->requested_action = (s16) this->mode;
-                this->m_2b4 = (f32) (-1.0f);
+                this->frame_timer = (f32) (-1.0f);
                 ((TContainerAncient01 *)arg0)->update_wait_for_player();
                 break;
             }
-            temp_f1 = this->m_2b4;
-            this->m_2b4 = (f32) (temp_f1 + TContainerAncient01__data_805DBD10[0]);
+            temp_f1 = this->frame_timer;
+            this->frame_timer = (f32) (temp_f1 + TContainerAncient01__data_805DBD10[0]);
             submit_cursor_candidate(arg0, -1, temp_f1);
         } else {
             temp_f1_2 = this->open_scale.y;
@@ -577,7 +577,7 @@ void TContainerAncient01::update_wait_for_player() {
     f32 c;
     ((TObjMotion *)arg0)->advance_animation();
     flag = 0;
-    if (arg0->f338 <= this->m_2b4) {
+    if (arg0->f338 <= this->frame_timer) {
         flag = 1;
     } else {
         c = 6.4e+03f;
@@ -591,22 +591,22 @@ void TContainerAncient01::update_wait_for_player() {
     if (flag != 0) {
         this->mode = 1;
         arg0->fB4[2] = this->mode;
-        this->m_2b4 = (-1.0f);
+        this->frame_timer = (-1.0f);
     }
 }
 #pragma pop
 void TContainerAncient01::sub_8018B48C() {
     u8 *arg0 = (u8 *)this;
   ((TObjMotion *)arg0)->advance_animation();
-  if (((__cvt_fp2unsigned(this->m_2b4) & 0xFFFFFFFF) % 15) == 0)
+  if (((__cvt_fp2unsigned(this->frame_timer) & 0xFFFFFFFF) % 15) == 0)
   {
     spawn_effect(&this->lower_effect_position, 0x7D);
   }
-  if (6e+01f <= (this->m_2b4))
+  if (6e+01f <= (this->frame_timer))
   {
     this->mode = 2;
     this->requested_action = this->mode;
-    this->m_2b4 = (f32) (-1.0f);
+    this->frame_timer = (f32) (-1.0f);
   }
 }
 
@@ -615,7 +615,7 @@ void TContainerAncient01::sub_8018B284() {
     u32 phase;
     f32 t;
     this->advance_animation();
-    if (1e+01f == this->m_2b4) {
+    if (1e+01f == this->frame_timer) {
         switch (get_current_floor_area()) {
         case AREA_CENTRAL_CONTROL_AREA:
         case AREA_JUNGLE_NORTH:
@@ -635,27 +635,27 @@ void TContainerAncient01::sub_8018B284() {
             break;
         }
     }
-    if (1e+01f == this->m_2b4 || 12.0f == this->m_2b4 || 14.0f == this->m_2b4) {
+    if (1e+01f == this->frame_timer || 12.0f == this->frame_timer || 14.0f == this->frame_timer) {
         spawn_effect(&this->upper_effect_position, 0x7D);
     }
-    if (4e+01f == this->m_2b4) {
+    if (4e+01f == this->frame_timer) {
         spawn_effect(&this->lower_effect_position, 0x7E);
     }
     period = (u32)(3e+01f / (f32)this->m_36c);
-    phase = (u32)(t = this->m_2b4) % period;
+    phase = (u32)(t = this->frame_timer) % period;
     if (14.0f < t && t < 6e+01f && phase == 0) {
         spawn_effect(&this->upper_effect_position, 0x7E);
     }
-    if (6e+01f < this->m_2b4 && phase == 0) {
+    if (6e+01f < this->frame_timer && phase == 0) {
         spawn_effect(&this->lower_effect_position, 0x7E);
     }
     TContainerAncient01__sub_8018B180((Obj_8018B180 *)this, this->m_340);
-    if (this->m_33c <= this->m_2b4) {
+    if (this->m_33c <= this->frame_timer) {
         this->reset_state();
     }
 }
 
-void TContainerAncient01::reset_state() { this->mode = 0; this->requested_action = this->mode; this->m_2b4 = (-1.0f); }
+void TContainerAncient01::reset_state() { this->mode = 0; this->requested_action = this->mode; this->frame_timer = (-1.0f); }
 
 void TContainerAncient01__sub_8018B180(Obj_8018B180 *self, f32 range) {
     u16 i;
@@ -743,12 +743,12 @@ void TContainerAncient01R::run_task() {
             default:
                 this->mode = 0;
                 this->requested_action = (s16) this->mode;
-                this->m_2b4 = (f32) (-1.0f);
+                this->frame_timer = (f32) (-1.0f);
                 ((TContainerAncient01R *)arg0)->check_open_trigger();
                 break;
             }
-            temp_f1 = this->m_2b4;
-            this->m_2b4 = (f32) (temp_f1 + TContainerAncient01__data_805DBD10[0]);
+            temp_f1 = this->frame_timer;
+            this->frame_timer = (f32) (temp_f1 + TContainerAncient01__data_805DBD10[0]);
             submit_cursor_candidate(arg0, -1, temp_f1);
         } else {
             temp_f1_2 = this->open_scale.y;
@@ -877,7 +877,7 @@ void TContainerAncient01R::check_open_trigger() {
 
     ((TObjMotion *)self)->advance_animation();
     hit = 0;
-    if (this->m_33c <= this->m_2b4) {
+    if (this->m_33c <= this->frame_timer) {
         hit = 1;
     } else {
         range = 6.4e+03f;
@@ -891,22 +891,22 @@ void TContainerAncient01R::check_open_trigger() {
     if (hit != 0) {
         this->mode = 1;
         this->requested_action = this->mode;
-        this->m_2b4 = (-1.0f);
+        this->frame_timer = (-1.0f);
     }
 }
 
 void TContainerAncient01R::update_spawning() {
     u8 *arg0 = (u8 *)this;
   ((TObjMotion *)arg0)->advance_animation();
-  if ((__cvt_fp2unsigned(this->m_2b4) % 15) == 0)
+  if ((__cvt_fp2unsigned(this->frame_timer) % 15) == 0)
   {
     trigger_spawn(&this->lower_effect_position, 0x7D);
   }
-  if (6e+01f <= (this->m_2b4))
+  if (6e+01f <= (this->frame_timer))
   {
     this->mode = 2;
     this->requested_action = this->mode;
-    this->m_2b4 = (f32) (-1.0f);
+    this->frame_timer = (f32) (-1.0f);
   }
 }
 
@@ -916,7 +916,7 @@ void TContainerAncient01R::sub_8018A688() {
     u32 rem;
 
     this->advance_animation();
-    if (1e+01f == this->m_2b4) {
+    if (1e+01f == this->frame_timer) {
         switch (get_current_floor_area()) {
         case AREA_CENTRAL_CONTROL_AREA:
         case AREA_JUNGLE_NORTH:
@@ -936,28 +936,28 @@ void TContainerAncient01R::sub_8018A688() {
             break;
         }
     }
-    if (1e+01f == this->m_2b4 || 12.0f == this->m_2b4 || 14.0f == this->m_2b4) {
+    if (1e+01f == this->frame_timer || 12.0f == this->frame_timer || 14.0f == this->frame_timer) {
         trigger_spawn(&this->upper_effect_position, 0x7D);
     }
-    if (4e+01f == this->m_2b4) {
+    if (4e+01f == this->frame_timer) {
         trigger_spawn(&this->lower_effect_position, 0x7E);
     }
     period = __cvt_fp2unsigned(3e+01f / this->m_370);
-    t = this->m_2b4;
+    t = this->frame_timer;
     rem = (u32)t % period;
     if (14.0f < t && t < 6e+01f && rem == 0) {
         trigger_spawn(&this->upper_effect_position, 0x7E);
     }
-    if (6e+01f < this->m_2b4 && rem == 0) {
+    if (6e+01f < this->frame_timer && rem == 0) {
         trigger_spawn(&this->lower_effect_position, 0x7E);
     }
     TContainerAncient01__sub_8018A584((Obj_8018A584 *)this, this->m_344);
-    if (this->m_340 <= this->m_2b4) {
+    if (this->m_340 <= this->frame_timer) {
         this->reset_hp();
     }
 }
 
-void TContainerAncient01R::reset_hp() { this->mode = 0; this->requested_action = this->mode; this->m_2b4 = (-1.0f); }
+void TContainerAncient01R::reset_hp() { this->mode = 0; this->requested_action = this->mode; this->frame_timer = (-1.0f); }
 
 void TContainerAncient01__sub_8018A584(Obj_8018A584 *self, f32 range) {
     u16 i;

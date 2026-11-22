@@ -19,6 +19,10 @@ extern "C" {
 void init_debug_text_buffer(DebugTextRecord *p, s32 n, s32 x);
 }
 
+// Queues text for render_debug_text at position (x << 16 | y in glyph cells, see pack_debug_text_position),
+// copying it into the text pool.
+void queue_debug_text(s32 position, const char *text);
+
 void get_current_matrix(void *m);
 extern "C" {
 // dst = m * src; m is the current matrix when NULL.

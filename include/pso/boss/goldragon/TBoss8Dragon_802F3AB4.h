@@ -3,23 +3,12 @@
 
 #include "types.h"
 
-extern "C" {
-void *TBoss8Dragon__sub_802F3C24(void *object, void *set_data);
-void TBoss8Dragon__sub_802F3C74(void);
-s32 TBoss8Dragon__sub_802F3C94(void *self, s32 arg1);
-}
-void clear_boss8_dragon_leader_part(void);
-extern "C" {
-s32 setup_attack_slot__12TBoss8DragonFiUiiiPv(saddr self, uaddr arg1, s32 arg2, s32 arg3, u8 *dst);
-}
+class TObject;
+class TUnk_804E4BF0;
 
-// --- C functions defined in TBoss8Dragon_802F3AB4.cpp ---
-extern "C" {
-void *TBoss8Dragon__sub_802F3C24(void *object, void *set_data);
-void TBoss8Dragon__sub_802F3C74(void);
-s32 TBoss8Dragon__sub_802F3C94(void *self, s32 arg1);
-s32 setup_attack_slot__12TBoss8DragonFiUiiiPv(saddr self, uaddr arg1, s32 arg2, s32 arg3, u8 *dst);
-}
-// --- end of C functions
+// The leader's constructor makes boss8_dragon_leader_part; TLobby's floor callbacks clear and release it.
+TUnk_804E4BF0 *create_boss8_dragon_leader_part(TObject *parent, void *set_data);
+void release_boss8_dragon_leader_part(void);
+void clear_boss8_dragon_leader_part(void);
 
 #endif

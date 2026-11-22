@@ -198,7 +198,7 @@ void TLobby__sub_8041615C(void);
 void NetIPv6TickNeighborCache(void);
 void NetIPv6TickNeighborDiscovery(void);
 s16 NetIPv6EmitNeighborSolicitation(void *arg0, void *arg1, void *arg2, s16 arg3, int arg4);
-s32 NetIPv6SendUnspecifiedSourceNeighborSolicitation(u8 *arg0, s16 idx);
+s16 NetIPv6SendUnspecifiedSourceNeighborSolicitation(u8 *arg0, s16 idx);
 s16 TLobby__sub_804112B8(s32 iovp, s32 arg1, s16 arg2);
 s16 TLobby__sub_8041123C(s32 iovp, s32 arg1, s16 arg2);
 s16 ipv6_iface_for_address(void *self);
@@ -212,9 +212,9 @@ s32 NetIPv6MakeSolicitedNodeMulticastAddress(u8 *arg0, u8 *addr);
 s32 loopback_shutdown(void);
 s32 init_ipv6_all_routers_multicast_address(u8 *address, s8 scope);
 u8 init_ipv6_all_nodes_multicast_address(u8 *address, s8 scope);
-s16 TLobby__sub_80416F58(u8 *self, s32 n, void *out, void *arg_);
-s16 TLobby__sub_80417028(void *self, void *a, void *b, void *d);
-s32 NetIPv6EmitRouterSolicitation(NetPacket *net_packet, NetIPv6SendParameters *addr, s32 arg2);
+s16 TLobby__sub_80416F58(u8 *self, s32 n, void *out, s16 iface);
+s16 TLobby__sub_80417028(void *self, void *a, void *b, s16 iface);
+s16 NetIPv6EmitRouterSolicitation(NetPacket *net_packet, NetIPv6SendParameters *addr, s16 id);
 s16 NetIPv6GetInterfaceLinkLayerAddress(s32 arg0, s16 arg1, s16 id);
 s16 NetIPv6SendNeighborAdvertisement(NetPacket *arg0, u8 *address, u8 arg2, NetIPv6SendParameters *arg3, s16 arg4);
 s16 NetIPv6IsLinkLocal(u8 *arg0);
@@ -225,6 +225,12 @@ s32 TLobby__sub_80415508(s16 arg0);
 s16 TLobby__sub_80411F1C(void *out, void *dst, s16 idx);
 s16 TLobby__sub_80415D0C(NetPacket *a, u8 *b, NetIPv6SendParameters *c, s16 d);
 s16 TLobby__sub_80411C44(u8 *addr, s16 idx);
+s32 TLobby__sub_80411604(s16 id, int n, void *pp);
+s16 TLobby__sub_80413AA0(void *self, s16 id);
+s16 TLobby__sub_80413C0C(void *self, s16 id);
+s16 TLobby__sub_804137FC(void *addr, s16 idx);
+s16 TLobby__sub_80413D78(void *self, s16 idx);
+s16 TLobby__sub_80413F0C(void *self, s16 id);
 #ifdef __cplusplus
 }
 #endif

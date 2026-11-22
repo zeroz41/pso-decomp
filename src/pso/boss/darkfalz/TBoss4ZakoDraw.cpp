@@ -11,6 +11,7 @@
 #include "pso/boss/darkfalz/TBoss4Zako.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/darkfalz/TBoss4Uro.h"
+#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/boss/darkfalz/TBoss4ZakoDraw.h"
 #include "pso/boss/darkfalz/TBoss4ZakoDrawBuffer.h"
@@ -21,9 +22,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TObject.h"
-#include "pso/boss/darkfalz/TBoss4ZakoDraw_8030AD38.h"
 #include "pso/unk/text_803E2F28.h"
-#include "pso/player/TObjPlayer_80052374.h"
 
 extern "C" {
 void post_translate_matrix(void *);
@@ -31,7 +30,6 @@ f32 xyz_distance(void *, void *);
 void TObjPlayer__sub_8030A9B0();
 extern u32 TCameraCtrl__data_804FF634[18];
 void TCameraCtrl__sub_8030ABF4();
-void TObjPlayer__sub_80052390(f32);
 }
 
 void draw_chunk_model(void *);
@@ -138,7 +136,7 @@ void TObjPlayer::draw_area_chunk_objects() {
     Boss4ZakoDrawEntry *p = t->entries;
     s32 i;
     model = get_bml_model(TBoss4Uro::get_instance_count(), 8);
-    TObjPlayer__sub_80052390(zako_fade_full);
+    TObjPlayer::begin_alpha_blend(zako_fade_full);
     TObjFish::set_global_param(falz_zako_texture_list);
     for (i = 0; i < t->count; i++, p++) {
         push_matrix();
@@ -201,10 +199,15 @@ void TBoss4DarkFalz::clear_uro_link_state() {
 
 Boss4ZakoDrawBuffer boss4_zako_draw_buffers[2];
 
-extern "C" {
+void TBoss4DarkFalz::release_uro_link() { clear_uro_link_state(); }
 
-void TBoss4DarkFalz__sub_8030AD38(void) {
-    TBoss4DarkFalz::clear_uro_link_state();
-}
-
+void TBoss4DarkFalz::init_uro_link() {
+    falz_zako_texture_list = get_bml_texlist(TBoss4Uro::get_instance_count(), 8);
+    NJS_OBJECT *child = get_bml_model(TBoss4Uro::get_instance_count(), 8)->child;
+    child->evalflags &= ~NJD_EVAL_UNIT_ANG;
+    if (child->model != NULL) {
+        falz_zako_chunk_model = child->model;
+        TBoss4ZakoDraw__rotation_phase = 0;
+        TBoss4DarkFalz::clear_uro_link_state();
+    }
 }

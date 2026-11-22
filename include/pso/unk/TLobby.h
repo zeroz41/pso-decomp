@@ -8,6 +8,7 @@
 #include "pso/item/TItemData.h"
 
 struct NJS_TEXLIST;
+class TObjPlayer;
 s32 pso_load_texture(NJS_TEXLIST *texlist);
 
 struct TLobbyFloorItemEntry {
@@ -44,7 +45,6 @@ struct TLobby : public TObject {
     static s32 get_filtered_event_theme();
     static void load_dimedian_resources();
     static void load_gyaranzo_resources();
-    static void cleanup_handles();
     static void load_shark_resources();
     static s32 clear_record_flags_a();
     static s32 clear_record_flags_b();
@@ -281,7 +281,7 @@ struct TLobby : public TObject {
     void reduce_item_amount(s32 arg1, saddr node, s32 arg3);
     s32 use_item(saddr player, s32 arg2, s32 amount);
     void set_globals_and_update(int a1, int a2);
-    int set_globals_and_notify(int a1, int a2);
+    int set_globals_and_notify(TObjPlayer *player, void *records);
     void update_all_children();
     void set_volume(u8 vol);
     void set_validated_field_0x11(u8 arg1);
@@ -443,7 +443,6 @@ struct TLobby : public TObject {
     static s32 is_camera_ctrl_active();
     static s32 is_ready();
     static int get_online_ready_flag();
-    static void free_char_select_singleton();
     static void apply_state_6c84();
     static s32 test_flag_2_at_6c84();
     static void init_object_flag();

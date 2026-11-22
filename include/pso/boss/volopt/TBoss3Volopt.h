@@ -113,8 +113,8 @@ struct TBoss3Volopt : public TObjEnemyCustom {
 
     // Defined in other units; most are helpers of other classes filed under
     // TBoss3Volopt.
-    static void create_breakup_mdl(saddr arg0, saddr arg1, s32 texlist, saddr arg3, s32 rotation_y);
-    static s32 remap_area_sound_id(s32 arg0);
+    static void create_breakup_mdl(saddr model, saddr params, s32 texlist, saddr position, s32 rotation_y);
+    static s32 remap_area_sound_id(s32 sound_id);
     void create_cage(u16 target_id);
 
     u8 pad_38C[0x18];
@@ -148,7 +148,6 @@ void handle_6x16_vol_opt_boss_actions(TBoss3VoloptTargetsPacket *packet);
 void handle_6x15_vol_opt_boss_actions(TBoss3VoloptActionPacket *packet);
 void clear_volopt_cage_flag();
 
-extern "C" TBoss3VoloptCore *fn_8003F468(TBoss3Volopt *parent, u16 id, s32 group);
 
 extern u16 volopt_cage_id;
 extern s32 volopt_cage_group;

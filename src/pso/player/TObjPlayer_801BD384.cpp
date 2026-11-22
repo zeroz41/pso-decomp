@@ -16,7 +16,7 @@
 #include "pso/ui/font/TFontSmallLobby.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
-#include "pso/boss/olgaflow/TBoss6Type2.h"
+#include "pso/boss/olgaflow/TBoss6Type2_8036DC80.h"
 #include "pso/player/TUnk_804C4540.h"
 
 
@@ -42,8 +42,8 @@ typedef void (*Fn_vpvp_801BD570)(void *, void *);
 
 void TObjPlayer__sub_801BD384(void* p) { ((TObjPlayer *)p)->update_body_parts(); }
 void TObjPlayer__sub_801BD3A4(void) {  }
-void TObjPlayer::free_chara_making() { ((TBoss6Type2 *)this)->apply_pending_effect(); ((TCharaMaking *)this)->free_loaded_buffers(); }
-void TObjPlayer::update_body_parts() { copy_player_visual_record((char*)this + 0x85c); this->m_cfc = 255; ((TCharaMaking *)this)->update_body_parts(); fn_800FE73C(this); }
+void TObjPlayer::free_chara_making() { restore_boss6_player_snapshot(this); ((TCharaMaking *)this)->free_loaded_buffers(); }
+void TObjPlayer::update_body_parts() { copy_player_visual_record((char*)this + 0x85c); this->model_load_flags = 255; ((TCharaMaking *)this)->update_body_parts(); fn_800FE73C(this); }
 
 void TObjPlayer__sub_801BCD54(void *);
 void TObjPlayer__sub_801BCC50(void *);

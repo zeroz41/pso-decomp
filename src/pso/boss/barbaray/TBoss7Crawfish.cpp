@@ -24,7 +24,6 @@
 #include "pso/unk/TLobby.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/boss/dragon/TBoss1DragonColli.h"
-#include "pso/boss/barbaray/TBoss7Crawfish_8030908C.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
@@ -67,7 +66,8 @@ TObjMotionAction crawfish_action_table[6] = {
 };
 const char *TBoss7Crawfish__class_name = "TBoss7Crawfish";
 const CollisionBody crawfish_collision_body_desc = {{0.0f, 0.0f, 0.0f}, 10.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f};
-const Vec lbl_8047559C = {0.0f, 0.0f, 0.0f};
+// is_visible measures the crawfish's distance from here (the arena centre is inferred).
+const Vec boss7_arena_center = {0.0f, 0.0f, 0.0f};
 
 // The record exchange_object_state reads and writes.
 struct Boss7CrawfishStateRecord {
@@ -124,7 +124,7 @@ void TBoss7Crawfish::spawn_effect(s32 sound_id) {
 
 s32 TBoss7Crawfish::is_visible() {
     if ((s32)main_task.get_task_flags() & 0x20) {
-        if (3600.0f < horizontal_distance_squared(&lbl_8047559C, &position)) {
+        if (3600.0f < horizontal_distance_squared(&boss7_arena_center, &position)) {
             return 0;
         }
     } else if (update_object_view_visibility(400.0f, 20.0f) == 0) {
@@ -230,7 +230,7 @@ void TBoss7Crawfish::update_motion_and_release() {
     if (effect != NULL) {
         effect->set_position(&position);
     }
-    if (try_move_by_delta((Vec *)unk_308) == 0) {
+    if (try_move_by_delta(&velocity) == 0) {
         free_child();
         change_state(3);
         return;
@@ -239,19 +239,19 @@ void TBoss7Crawfish::update_motion_and_release() {
 }
 
 void TBoss7Crawfish::aim_at_nearest_player() {
-    u16 player = find_nearest_visible_player(this, (Vec *)unk_308, 400.0f);
+    u16 player = find_nearest_visible_player(this, &velocity, 400.0f);
     f32 speed = 1.0f + params->speed;
     if (player != 0xFFFF) {
-        normalize_vector((Vec *)unk_308);
-        x_speed *= speed;
-        y_speed *= speed;
-        m_310 *= speed;
+        normalize_vector(&velocity);
+        velocity.x *= speed;
+        velocity.y *= speed;
+        velocity.z *= speed;
     } else {
-        x_speed = speed * sin_table_lookup(rotation_y);
-        y_speed = 0.0f;
-        m_310 = speed * cos_table_lookup(rotation_y);
+        velocity.x = speed * sin_table_lookup(rotation_y);
+        velocity.y = 0.0f;
+        velocity.z = speed * cos_table_lookup(rotation_y);
     }
-    rotation_y = 10430.38043493439 * atan2_float(x_speed, m_310);
+    rotation_y = 10430.38043493439 * atan2_float(velocity.x, velocity.z);
     change_state(2);
 }
 

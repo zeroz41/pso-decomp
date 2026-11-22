@@ -21,6 +21,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 
 
 extern "C" {
@@ -107,16 +108,16 @@ void TBoss3VoloptHiraisin::set_flag_08000000() {
     set_indexed_flags(0, 0x08000000);
 }
 
-s32 TBoss3VoloptHiraisin::sub_80040FCC() {
+s32 TBoss3VoloptHiraisin::is_grounded() {
     return (bodies->flags >> 1) & 1;
 }
 
-void TBoss3VoloptHiraisin::sub_80040FDC() {
+void TBoss3VoloptHiraisin::update_descend() {
     switch (state) {
     case -1:
         break;
     case 0:
-        m_388 |= 1;
+        behavior_flags |= 1;
         this->requested_action = 0;
         advance_animation();
         position.y = 80.0f;
@@ -129,7 +130,7 @@ void TBoss3VoloptHiraisin::sub_80040FDC() {
         position.y -= 0.5f;
         if (position.y <= 50.0f) {
             position.y = 50.0f;
-            m_388 &= ~1;
+            behavior_flags &= ~1;
             actorFlags &= ~0x40000;
             run_move_action();
         }
@@ -143,18 +144,18 @@ void TBoss3VoloptHiraisin::start_attack() {
     u32 flags;
     TBoss3Volopt::create_breakup_mdl((saddr)volopt_hiraisin_breakup_model, (saddr)&volopt_hiraisin_breakup_params,
                                      (saddr)get_bml_texlist((BmlResource *)volopt_hiraisin_resources, 0x10), (saddr)&body_center, rotation_y);
-    ((TObjPlayer *)(&body_center))->trigger_dell_biter_events();
+    trigger_dell_biter_events(&body_center);
     play_sound_effect(0x4001C112, &position, 0, 0);
-    m_388 &= ~1;
+    behavior_flags &= ~1;
     max_hp = hpmax;
     referenceHp = max_hp;
     hp = max_hp;
     flags = actorFlags;
     actorFlags = flags & ~0xA00;
-    sub_800C7860();
+    start_appear();
 }
 
-void TBoss3VoloptHiraisin::sub_8004118C() {
+void TBoss3VoloptHiraisin::update_hover() {
     switch (state) {
     case 0:
         this->requested_action = 0;
@@ -173,13 +174,13 @@ void TBoss3VoloptHiraisin::update_drop() {
     switch (state) {
     case 0:
         this->requested_action = 4;
-        y_speed = -2.27f;
+        velocity.y = -2.27f;
         state = 1;
         hover_angle = 0;
         break;
     case 1:
         advance_animation();
-        position.y = position.y + y_speed;
+        position.y = position.y + velocity.y;
         if (position.y <= 4.6f) {
             position.y = 4.6f;
             state = 2;
@@ -199,10 +200,10 @@ void TBoss3VoloptHiraisin::update_drop() {
     case 3:
         break;
     }
-    ((TObjPlayer *)this)->update_collisions();
+    update_collisions();
 }
 
-void TBoss3VoloptHiraisin::sub_80041314() {
+void TBoss3VoloptHiraisin::update_hit() {
     switch (state) {
     case -1:
         break;
@@ -215,7 +216,7 @@ void TBoss3VoloptHiraisin::sub_80041314() {
         if (this->action_flags != 8) {
             referenceHp = hp;
             actorFlags &= ~0x200;
-            m_388 &= ~1;
+            behavior_flags &= ~1;
             run_move_action();
         }
         break;
@@ -231,7 +232,7 @@ void TBoss3VoloptHiraisin::render() {
         TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
         saved_model_render_flags = model_render_flags;
         model_render_flags |= 0x01000000;
-        select_actor_lighting((saddr)this);
+        select_actor_lighting(this);
         TObjPlayer::toggle_particle_effect();
         push_matrix();
         model_render_flags &= ~0x400;
@@ -267,16 +268,16 @@ void TBoss3VoloptHiraisin::dispatch_state() {
     switch (mode) {
     case 0:
     case 1:
-        sub_8004118C();
+        update_hover();
         break;
     case 4:
-        sub_80041314();
+        update_hit();
         break;
     case 5:
         update_drop();
         break;
     case 7:
-        sub_80040FDC();
+        update_descend();
         break;
     }
 }
@@ -290,7 +291,7 @@ void TBoss3VoloptHiraisin::run_task() {
                 run_hit_reaction();
             }
         }
-        if (mode != (s32)next_action) {
+        if (mode != next_action) {
             if ((s32)state != -1) {
                 state = -1;
                 dispatch_state();
@@ -357,7 +358,7 @@ void TBoss3VoloptHiraisin::init_params() {
     set_param(0x2E);
     ((TBoss3Volopt *)this)->reset_photon_effect();
     load_params_from_table(0x10);
-    sub_800C7860();
+    start_appear();
     add_flags_2e4(4);
     obj_setFlags30(this, 0x8000);
     clear_lobby_object_state();

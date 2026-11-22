@@ -22,7 +22,6 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/enemy/TUnk_80486924.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
@@ -62,7 +61,9 @@ extern const s32 boss4_type3_effect_ids[8] = {326,326,326,326,328,327,327,323};
 const char *TObjBs4CutAtk_name = TObjBs4CutAtk_type_name;
 const char *TBoss4Type3_name = TBoss4Type3_type_name;
 typedef TBoss4Type3Handler Type3Handler;
-struct Type3MotionView { s32 kind, flags, motions[3]; };
+// A row of TBoss4Type3__anim_state_table: how the animation ends (0 loops, 1 holds
+// its last frame, 2 goes on to next) and the motion of each of the three models.
+struct Type3MotionView { s32 kind, next, motions[3]; };
 #include "pso/boss/darkfalz/TBoss4Zanzo.h"
 #include <stddef.h>
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -78,307 +79,26 @@ struct Type3MotionView { s32 kind, flags, motions[3]; };
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/technique/TTecResta.h"
 #include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
-#include "pso/player/TObjPlayer_80052374.h"
 #include "pso/player/TObjPlayer_803E1A58.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/camera/TCameraCtrl_8006CC30.h"
+#include "pso/enemy/sorcerer/TObjEneRe4Sorcerer_801E3F14.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/network/client_id.h"
+#include "pso/player/PlayerSlots.h"
+#include "pso/player/TargetCursorList.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/render/model_render_state.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/system/vector.h"
+#include "pso/technique/TTecMegid.h"
+#include "pso/unk/text_80052420.h"
+#include "pso/unk/text_803D853C.h"
 
 #pragma defer_codegen on
-
-struct Obj_8005A1AC {
-    u8 pad0[0x3ba];
-    u16 f3ba;
-    u8 pad3bc[0x404 - 0x3bc];
-    void *f404[13];
-    u8 pad438[0x444 - 0x438];
-    Vec f444;
-    Vec f450;
-    Vec f45c;
-    u8 pad468[0x480 - 0x468];
-    Vec f480;
-    Vec f48c;
-    Vec f498;
-    u8 pad4a4[0x4d4 - 0x4a4];
-    Vec f4d4;
-    Vec f4e0;
-};
-
-struct Ply_80059ABC;
-
-struct Obj_8005683C;
-
-struct Self_8005AE60 {
-    s32 f0;
-    u8 pad4[0x18 - 0x4];
-    void *vt;
-    u8 pad1c[0x24 - 0x1c];
-    s32 f24;
-    u8 pad28[0x34 - 0x28];
-    s32 f34;
-    u8 v38[0xC];
-    u8 v44[0xC];
-    u8 v50[0xC];
-    s32 f5C;
-    s32 f60;
-    u8 pad64[0x74 - 0x64];
-    u8 v74[0xC];
-    u8 pad80[0x2A8 - 0x80];
-    s32 f2A8;
-    u8 pad2ac[0x2FC - 0x2AC];
-    u8 v2FC[0xC];
-    f32 f308;
-    f32 f30C;
-    f32 f310;
-    u8 pad314[0x32C - 0x314];
-    s16 f32C;
-    u8 pad32e[0x33E - 0x32E];
-    s16 f33E;
-    u8 pad340[0x378 - 0x340];
-    ModelNodeTables node_tables;
-    s32 f38C;
-    BmlResource *archive;
-    s32 f394;
-    u8 pad398[0x3A0 - 0x398];
-    s32 f3A0;
-    s32 f3A4;
-    s32 f3A8;
-    s32 f3AC;
-    f32 f3B0;
-    s32 f3B4;
-    u16 f3B8;
-    u16 f3BA;
-    s32 f3BC;
-    u8 pad3c0[4];
-    s32 f3C4;
-    f32 f3C8;
-    s32 f3CC;
-    s32 f3D0;
-    s32 f3D4;
-    s32 f3D8;
-    f32 f3DC;
-    s32 f3E0;
-    s32 f3E4;
-    f32 f3E8;
-    f32 f3EC;
-    s32 f3F0;
-    f32 f3F4;
-    f32 f3F8;
-    s32 f3FC;
-    u8 pad400[0x438 - 0x400];
-    ModelNodePositionCapture *a438[3];
-    Vec a444[3][6];
-    u8 pad57c[0x51C - 0x51C];
-};
-
-union TypedVector_80059B78 {
-    struct { f32 x, y, z; } f;
-    struct { s32 x, y, z; } bits;
-};
-
-extern "C" {
-saddr VecCopy__FP3VecPC3Vec(void *, void *);
-s32 vec3_add_to(void *, void *);
-s32 subtract_vector(void *, void *);
-f32 atan2_float(f32 y, f32 x);
-s32 pick_random_target_player__11TBoss4Type3Fv(void);
-struct Stack_80055918
-{
-  s32 sp8;
-  f32 spC;
-};
-
-typedef struct Stack_80055918 Stack_80055918;
-
-struct S_80058224 {
-    u8 pad0[0x398];
-    s32 f398;
-    u8 pad39c[0x3b8 - 0x39c];
-    u16 f3b8;
-    u16 f3ba;
-};
-
-struct S_800582B4 {
-    u8 pad0[0x398];
-    s32 f398;
-    u8 pad39c[0x3b8 - 0x39c];
-    u16 f3b8;
-    u16 f3ba;
-};
-
-struct Obj_8005683C {
-    u8 pad0[0x38c];
-    s32 f38c;
-};
-
-struct O_80058D70 { u8 pad[0x398]; s32 f398; u8 pad2[0x1c]; u16 f3b8; };
-
-struct Obj_80059010 { u8 pad[0x398]; s32 f398; u8 pad39c[0x1C]; u16 f3b8; u16 f3ba; };
-
-struct Obj_80059390 { u8 pad[0x30]; u32 flags; u8 pad34[0x384]; u16 f3b8; u16 f3ba; };
-
-struct Obj_80058E64 { u8 pad[0x32C]; s16 f32c; u8 pad2[0x6A]; s32 f398; u8 pad3[0x1C]; u16 f3b8; u16 f3ba; u8 pad4[0x24]; s32 f3e0; };
-
-struct O_80058848 {
-    u8 pad0[0x38];
-    Vec pos;
-    u8 pad44[0x398 - 0x44];
-    s32 f398;
-};
-
-struct Grant_80058A48 { s32 f0; u16 f4; s16 f6; u8 pad[0x58]; };
-
-struct O_80058BA0 {
-    u8 pad0[0x38];
-    u8 f38[0x398 - 0x38];
-    s32 f398;
-    u8 pad39c[0x3B8 - 0x39C];
-    u16 f3b8;
-    u8 pad3ba[0x424 - 0x3BA];
-    void *f424;
-    void *f428;
-    u8 pad42c[0x450 - 0x42C];
-    u8 f450[0xC];
-    u8 f45c[0x52C - 0x45C];
-    s32 f52c;
-};
-
-struct VBase_800590F4
-{
-  char pad[0x18];
-};
-
-struct VObj_800590F4 : VBase_800590F4 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4(Vec *, Vec *);
-};
-
-struct O_800590F4
-{
-  u8 pad0[0x38];
-  u8 f38[0x28];
-  s32 f60;
-  u8 pad64[0x374 - 0x64];
-  s32 f374;
-  u8 pad378[0x398 - 0x378];
-  s32 f398;
-  f32 f39c;
-  u8 pad3a0[0x3A8 - 0x3A0];
-  s32 f3a8;
-  u8 pad3ac[0x3F4 - 0x3AC];
-  f32 f3f4;
-  u8 pad3f8[0x51C - 0x3F8];
-  saddr f51c[2];
-  VObj_800590F4 *f524[2];
-};
-
-typedef struct O_800590F4 O_800590F4;
-
-typedef struct VBase_800590F4 VBase_800590F4;
-
-typedef struct VObj_800590F4 VObj_800590F4;
-
-struct Obj_80059EA8 { u8 pad[0x38C]; void *target; u8 pad390[0x10]; s32 f3a0; u8 pad3a4[4]; s32 f3a8; u8 pad3ac[0xC]; u16 f3b8; u16 f3ba; };
-
-struct Obj_80059F04 { u8 pad[0x38C]; void *target; u8 pad390[0x10]; s32 f3a0; u8 pad3a4[4]; s32 f3a8; u8 pad3ac[0xC]; u16 f3b8; u16 f3ba; };
-
-struct Obj_80059F64 { u8 pad[0x38C]; void *target; u8 pad390[0x10]; s32 f3a0; u8 pad3a4[4]; s32 f3a8; u8 pad3ac[0xC]; u16 f3b8; u16 f3ba; };
-
-struct Obj_8005A2A4 { u8 pad[0x404]; void *parts[13]; };
-
-struct Obj_80059ABC { u8 pad[0x60]; s32 f60; };
-
-struct Ply_80059ABC { u8 pad[0x38]; f32 f38; u8 pad3c[4]; f32 f40; };
-
-struct Obj_8005A300 { u8 pad[0x38]; u8 f38[0x3CC]; TParticleCtrl *f404[13]; };
-
-struct Obj_8005A438 { u8 pad[0x3B0]; f32 f3b0; };
-
-struct Pair_8005A438 { void *p; f32 f; };
-
-struct Words_8005A438 { void *p; u32 w; };
-
-struct O_80059618 {
-    u8 pad0[0x32C];
-    s16 f32c;
-    u8 pad32e[0x374 - 0x32E];
-    s32 f374;
-    u8 pad378[0x3BA - 0x378];
-    u16 f3ba;
-    u8 pad3bc[0x3E4 - 0x3BC];
-    s32 f3e4;
-    u8 pad3e8[0x480 - 0x3E8];
-    Vec f480;
-};
-
-struct Obj_8005ACBC { u8 pad[0x374]; s32 f374; u8 pad378[0x40]; u16 f3b8; u16 f3ba; };
-
-struct S_8005AD50 {
-    u8 pad0[0x18];
-    void *vt;
-    u8 pad1c[0x378 - 0x1c];
-    ModelNodeTables node_tables;
-    u8 pad38c[0x394 - 0x38C];
-    s32 f394;
-    u8 pad398[0x438 - 0x398];
-    void *fx[3];
-    u8 pad444[0x51c - 0x444];
-    void *f51c;
-    void *f520;
-    void *f524;
-    void *f528;
-};
-
-struct S_80058380 {
-    u8 pad0[0x398];
-    s32 f398;
-    f32 f39c;
-};
-
-struct Dmg_8005B218 { s32 type; f32 val; };
-
-struct VBase_8005B218 { char pad[0x18]; };
-
-struct VObj_8005B218 : VBase_8005B218 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20();
-    virtual void m21(s32, Dmg_8005B218 *, s32, s32, s32);
-};
-
-u16 get_entity_id(void *);
-s32 is_split_screen();
-void TBoss4Type3__sub_800599F4(void*, int, int);
-void TBoss4Type3__sub_80059EA8(Obj_80059EA8 *self, s32 arg1, s32 arg2);
-void TBoss4Type3__sub_80059F64(Obj_80059F64 *self, s32 arg1);
-
-void TBoss4Type3__sub_8005A150(TBoss4Type3 *self);
-void TBoss4Type3__sub_80059DCC(TBoss4Type3 *self, u32 packed);
-void * __ct__13TObjBs4CutAtkFv(void *self, s32 arg1, s32 arg2, s32 arg3);
-void * create__13TObjBs4CutAtkFPvPvPv(void *arg0, void *arg1, void *arg2);
-void request_follow_camera_offsets(void *arg0, void *arg1, u16 arg2);
-void free_collision_body_parts(void *);
-void TObjEneRe4Sorcerer__sub_801E3F1C(f32, f32);
-void __ct__7TObjectFP7TObject(void *);
-s32 create__9TTecMegidFllll(void *, Vec *, u8 *, s32);
-void TBoss6PlotFalz__sub_802AC008(f32 farg0, f32 hp_ratio);
-s32 matrix_mult_vec(int, void *, void *);
-f32 xyz_distance(Vec *, Vec *);
-
-extern void* __vt__13TObjBs4CutAtk[];
-
-extern s32 local_client_id;
-
-s32 init_collision_body_parts(void *, void *, int);
-extern s32 model_render_flags;
-extern saddr tl_04;
-
-extern ModelNodePositionEntry lbl_80487090[7];
-extern ModelNodePositionEntry lbl_80487100[3];
 
 TBoss4Type3State boss4_type3_states[17] = {
     { boss4_type3_state_name_appear, 0x0, &TBoss4Type3::enter_appear, &TBoss4Type3::advance_appear, &TBoss4Type3::update_appear },
@@ -399,17 +119,11 @@ TBoss4Type3State boss4_type3_states[17] = {
     { boss4_type3_state_name_bura, 0x0, &TBoss4Type3::enter_bura, &TBoss4Type3::advance_bura, &TBoss4Type3::update_bura },
     { boss4_type3_state_name_libera, 0x0, &TBoss4Type3::enter_libera, &TBoss4Type3::advance_libera, &TBoss4Type3::update_libera },
 };
-void *boss4_type3_collision_body_desc[11] = {
-    (void *)0x0, (void *)0x41a00000, (void *)0x0, (void *)0x42340000,
-    (void *)0x0, (void *)0x0, (void *)0x8003, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x0,
+CollisionBody boss4_type3_collision_body_desc[1] = {
+    {{0.0f, 20.0f, 0.0f}, 45.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
-void *lbl_80486FB0[3] = {
-    (void *)0xc, (void *)0xd, (void *)0xd,
-};
-void *boss4_type3_index_table[3] = {
-    (void *)0xe, (void *)0xf, (void *)0xf,
-};
+s32 boss4_type3_model_ids[3] = {0xc, 0xd, 0xd};
+s32 boss4_type3_index_table[3] = {0xe, 0xf, 0xf};
 Type3MotionView TBoss4Type3__anim_state_table[10] = {
     { 0, 0, 83, 84, 85 },
     { 0, 0, 52, 53, 54 },
@@ -422,7 +136,7 @@ Type3MotionView TBoss4Type3__anim_state_table[10] = {
     { 2, 0, 14, 15, 16 },
     { 1, 0, 19, 84, 85 },
 };
-ModelNodePositionEntry lbl_80487090[7] = {
+ModelNodePositionEntry boss4_type3_body_node_captures[7] = {
     {0x38, {0.0f, 0.0f, 0.0f}},
     {0x34, {0.0f, 0.0f, 0.0f}},
     {0x35, {0.0f, 0.0f, 0.0f}},
@@ -431,77 +145,41 @@ ModelNodePositionEntry lbl_80487090[7] = {
     {0x39, {0.0f, 0.0f, 0.0f}},
     {-1, {0.0f, 0.0f, 0.0f}},
 };
-ModelNodePositionEntry lbl_80487100[3] = {
+ModelNodePositionEntry boss4_type3_wing_node_captures[3] = {
     {0xB, {0.0f, 0.0f, 0.0f}},
     {0xC, {0.0f, 0.0f, 0.0f}},
     {-1, {0.0f, 0.0f, 0.0f}},
 };
-void *boss4_type3_start_position[3] = {
-    (void *)0x461c4000, (void *)0xc1200000, (void *)0x0,
-};
+Vec boss4_type3_start_position = {10000.0f, -10.0f, 0.0f};
 const ModelNodePositionEntry *boss4_type3_effect_desc_ptr_table[3] = {
-    lbl_80487090, lbl_80487100, lbl_80487100,
+    boss4_type3_body_node_captures, boss4_type3_wing_node_captures, boss4_type3_wing_node_captures,
 };
-__declspec(section ".data") void *boss4_type3_run_task_params[2] = {
-    (void *)0x34, (void *)0x35,
-};
-void *lbl_80487150[3] = {
-    (void *)0x0, (void *)0x0, (void *)0x0,
-};
-void *boss4_type3_default_position[3] = {
-    (void *)0x461c4000, (void *)0xc1200000, (void *)0x0,
-};
-void *boss4_type3_interp_origin_vec[3] = {
-    (void *)0x461c4000, (void *)0x43960000, (void *)0x0,
-};
-void *boss4_type3_radar_marker_colors[4] = {
-    (void *)0xffff0000, (void *)0xff00ff00, (void *)0xffffff00, (void *)0xff0000ff,
-};
-#define boss4_type3_radar_marker_colors ((u32 *)boss4_type3_radar_marker_colors)
+__declspec(section ".data") s32 boss4_type3_run_task_params[2] = {0x34, 0x35};
+Vec boss4_type3_zero_vec = {0.0f, 0.0f, 0.0f};
+Vec boss4_type3_default_position = {10000.0f, -10.0f, 0.0f};
+Vec boss4_type3_interp_origin_vec = {10000.0f, 300.0f, 0.0f};
+u32 boss4_type3_radar_marker_colors[4] = {0xffff0000, 0xff00ff00, 0xffffff00, 0xff0000ff};
 
-extern "C" {
-void *get_player_by_client_id(s32 i);
-}
-}
-u32 drain_player_hp(s32 id, u32 arg1);
+struct Pair_8005A438 { void *p; f32 f; };
 
-struct Obj_80059ABC;
-struct TBoss4Type3;
+struct Words_8005A438 { void *p; u32 w; };
 
-LAYOUT_ASSERT(TypedVector_80059B78_size, sizeof(TypedVector_80059B78) == 12);
-
-extern "C" {
-void submit_cursor_candidate(void *, int);
-struct O_80059618;
-struct Obj_8005A1AC;
-struct Ply_80059ABC;
-
+TObjBs4CutAtk *TObjBs4CutAtk::create(TObject *parent, s32 heading, s32 side) {
+    return new TObjBs4CutAtk(parent, heading, side);
 }
 
-void * create__13TObjBs4CutAtkFPvPvPv(void *arg0, void *arg1, void *arg2) {
-    void *o;
-    o = TObject::operator new(0x28);
-    if (o != NULL) {
-        o = __ct__13TObjBs4CutAtkFv((void *)o, (saddr)arg0, (saddr)arg1, (saddr)arg2);
-    }
-    return o;
-}
-
-void *__ct__13TObjBs4CutAtkFv(void *self, s32 arg1, s32 arg2, s32 arg3) {
-    ((s32 (*)(void))__ct__7TObjectFP7TObject)();
-    *(void **)((s8 *)self + 0x18) = __vt__13TObjBs4CutAtk;
-    *(s32 *)((s8 *)self + 0) = (saddr) TObjBs4CutAtk_name;
-    if (arg3 == 0) {
-        ((TObjBs4CutAtk *)self)->angle = -0x1554;
-        ((TObjBs4CutAtk *)self)->angle = (s32) (((TObjBs4CutAtk *)self)->angle + (arg2 << 0xC));
-        ((TObjBs4CutAtk *)self)->angle_step = 0x71C;
+TObjBs4CutAtk::TObjBs4CutAtk(TObject *parent, s32 heading, s32 side) : TObject(parent) {
+    m_name = TObjBs4CutAtk_name;
+    if (side == 0) {
+        angle = -0x1554;
+        angle = angle + (heading << 12);
+        angle_step = 0x71C;
     } else {
-        ((TObjBs4CutAtk *)self)->angle = 0xE38;
-        ((TObjBs4CutAtk *)self)->angle = (s32) (((TObjBs4CutAtk *)self)->angle + (arg2 << 0xC));
-        ((TObjBs4CutAtk *)self)->angle_step = -0x71C;
+        angle = 0xE38;
+        angle = angle + (heading << 12);
+        angle_step = -0x71C;
     }
-    ((TObjBs4CutAtk *)self)->age = 0;
-    return self;
+    age = 0;
 }
 
 TObjBs4CutAtk::~TObjBs4CutAtk() {}
@@ -510,272 +188,258 @@ void TObjBs4CutAtk::run_task() {
     s32 lo;
     s32 hi;
     s32 i;
-    VObj_8005B218 *p;
-    s32 id;
+    TObjPlayer *player;
+    void *attacker;
     u16 ang;
 
-    lo = (u16)this->angle;
+    lo = (u16)angle;
     hi = lo + 0x71C;
     if (TObjEneDD::query_teammate_state() != 0) {
         return;
     }
     for (i = 0; i < TLobby::get_game_mode(); i++) {
-        p = (VObj_8005B218 *)TObjPlayer::get_player_data(i);
-        if (TBoss4Type3__sub_8005254C(get_entity_id(p)) == 0) {
+        player = TObjPlayer::get_player_data(i);
+        if (is_player_in_boss_area(get_entity_id(player)) == 0) {
             continue;
         }
-        ang = (s32)(10430.38043493439 * atan2_float(-(*(f32 *)((s8 *)p + 0x38) - 10000.0f), *(f32 *)((s8 *)p + 0x40)));
+        ang = (s32)(10430.38043493439 * atan2_float(-(player->position.x - 10000.0f), player->position.z));
         if (ang >= lo && ang < hi) {
-            Dmg_8005B218 d;
-            id = *(s32 *)&this->m_up;
-            d.type = 0;
-            d.val = *(s16 *)TLobby::register_boss(0x38);
-            {
-                Dmg_8005B218 t = d;
-                p->m21(id, &t, 0, -1, -1);
-            }
+            DirectAttackPayload hit;
+            attacker = m_up;
+            hit.kind = 0;
+            hit.power = *(s16 *)TLobby::register_boss(0x38);
+            player->receive_direct_attack(attacker, hit, NULL, -1, -1);
         }
     }
-    if (++this->age >= 6) {
+    if (++age >= 6) {
         queue_destruction();
         return;
     }
-    this->angle += this->angle_step;
+    angle += angle_step;
 }
 
 void TObjBs4CutAtk::render() {  }
 
-s32 TBoss4Type3::create(saddr arg0) {
-    return (saddr)new TBoss4Type3(new TObjControl((TObject *)tl_04), (s32 *)arg0);
+TBoss4Type3 *TBoss4Type3::create(TBoss4FormSetData *set_data) {
+    return new TBoss4Type3(new TObjControl(tl_04), set_data);
 }
 
-
-#define self ((Self_8005AE60 *)this)
-TBoss4Type3::TBoss4Type3(TObject *parent, s32 *arg2) : TObjEnemy(parent) {
+TBoss4Type3::TBoss4Type3(TObject *parent, TBoss4FormSetData *set_data) : TObjEnemy(parent) {
     s32 i;
-    saddr model;
-    s32 p;
+    NJS_OBJECT *body;
 
-    self->f0 = (saddr)TBoss4Type3_name;
-    ((TObjChara *)self)->add_flags_2e4(8);
-    self->f38C = arg2[0];
-    ((TBoss4Type3 *)self)->apply_set_data(arg2 + 1);
-    self->archive = TBoss4Uro::get_instance_count();
-    self->f24 = 0;
-    self->f34 = 0;
-    VecCopy__FP3VecPC3Vec(self->v38, boss4_type3_start_position);
-    self->f60 = 0;
-    VecCopy__FP3VecPC3Vec(self->v44,
-        (void *)VecCopy__FP3VecPC3Vec(self->v50,
-            (void *)VecCopy__FP3VecPC3Vec(self->v74, self->v38)));
-    self->f394 = init_collision_body_parts(self, boss4_type3_collision_body_desc, 1);
-    VecCopy__FP3VecPC3Vec(self->v2FC, self->v38);
-    self->f308 = self->f30C = self->f310 = 0.0f;
-    self->f2A8 = 0;
-    ((TObjEnemy *)self)->bind_enemy_combat_stats((u8 *)((saddr)TLobby::register_boss(0x38)), (u8 *)(TLobby::dispatch_shared_handler_b(0x38)), (u8 *)(TLobby::register_object(0x38)));
-    self->f33E = self->f3E4 = self->f32C;
-    ((TBoss3Volopt *)self)->reset_photon_effect();
-    ((TObjEnemy *)self)->set_param(0x2F);
-    self->f3F0 = 0;
-    self->f3FC = 0;
-    self->f3F8 = 0.6f;
-    self->f3F4 = 0.0f;
+    m_name = TBoss4Type3_name;
+    add_flags_2e4(8);
+    owner = set_data->owner;
+    apply_set_data(&set_data->entry);
+    archive = TBoss4Uro::get_instance_count();
+    texlist = 0;
+    model = 0;
+    VecCopy(&position, &boss4_type3_start_position);
+    rotation_y = 0;
+    VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
+    collision = init_collision_body_parts(this, boss4_type3_collision_body_desc, 1);
+    VecCopy(&body_center, &position);
+    velocity.x = velocity.y = velocity.z = 0.0f;
+    target = 0;
+    bind_enemy_combat_stats((u8 *)TLobby::register_boss(0x38), (u8 *)TLobby::dispatch_shared_handler_b(0x38), (u8 *)TLobby::register_object(0x38));
+    referenceHp = drained_hp = hp;
+    ((TBoss3Volopt *)this)->reset_photon_effect();
+    set_param(0x2F);
+    anim = 0;
+    anim_looped = 0;
+    anim_speed = 0.6f;
+    anim_frame = 0.0f;
     for (i = 0; i < 3; i++) {
-        self->a438[i] = ModelNodePositionCapture::create(boss4_type3_effect_desc_ptr_table[i], self->a444[i]);
+        render_lists[i] = ModelNodePositionCapture::create(boss4_type3_effect_desc_ptr_table[i], node_positions[i]);
     }
     set_motion_packed_rotation();
-    model = (saddr)get_bml_model(self->archive, ((s32 *)lbl_80486FB0)[0]);
-    p = (saddr)new SampledMotionPoints(2, 3.0f, 9.0f, 0.6f);
-    *(s32 *)((u8 *)self + 0x51C) = p;
-    ((SampledMotionPoints *)(*(saddr *)((u8 *)self + 0x51C)))->sample_two_nodes((NJS_OBJECT *)model, (NJS_MOTION *)get_bml_motion(self->archive, ((s32 *)&TBoss4Type3__anim_state_table)[0x44 / 4]), 0x16, 0x17);
-    *(s32 *)((u8 *)self + 0x524) = (saddr)TUnk_80494968::create(0xA0303030, 0xFFFF0088);
-    p = (saddr)new SampledMotionPoints(2, 3.0f, 9.0f, 0.6f);
-    *(s32 *)((u8 *)self + 0x520) = p;
-    ((SampledMotionPoints *)(*(saddr *)((u8 *)self + 0x520)))->sample_two_nodes((NJS_OBJECT *)model, (NJS_MOTION *)get_bml_motion(self->archive, ((s32 *)&TBoss4Type3__anim_state_table)[0x58 / 4]), 9, 10);
-    *(s32 *)((u8 *)self + 0x528) = (saddr)TUnk_80494968::create(0xA0303030, 0xFFFF0088);
+    body = (NJS_OBJECT *)get_bml_model(archive, boss4_type3_model_ids[0]);
+    trail_samples[0] = new SampledMotionPoints(2, 3.0f, 9.0f, 0.6f);
+    trail_samples[0]->sample_two_nodes(body, (NJS_MOTION *)get_bml_motion(archive, TBoss4Type3__anim_state_table[3].motions[0]), 0x16, 0x17);
+    trails[0] = TUnk_80494968::create(0xA0303030, 0xFFFF0088);
+    trail_samples[1] = new SampledMotionPoints(2, 3.0f, 9.0f, 0.6f);
+    trail_samples[1]->sample_two_nodes(body, (NJS_MOTION *)get_bml_motion(archive, TBoss4Type3__anim_state_table[4].motions[0]), 9, 10);
+    trails[1] = TUnk_80494968::create(0xA0303030, 0xFFFF0088);
     clear_motion_packed_rotation();
-    ((TBoss4Type3 *)self)->create_particle_emitters();
-    self->node_tables.init(boss4_type3_model_node_specs, 2);
-    self->f3D4 = self->f32C;
-    self->f3CC = 0;
-    self->f3D0 = *(s32 *)((u8 *)TLobby::dispatch_shared_handler_a(0x38) + 0x24);
-    self->f3B0 = 1.0f;
-    self->f3B4 = 0;
-    self->f3A4 = 0x10;
-    self->f3A0 = 0x10;
-    self->f3AC = 0;
-    self->f3A8 = 0;
-    self->f3B8 = 0xFFFF;
-    self->f3BA = 0xFFFF;
-    self->f3C4 = -0x5DB4;
-    self->f3BC = 0;
-    self->f3C8 = 0.0f;
-    self->f3D8 = 0;
-    self->f3DC = 0.0f;
-    self->f3E0 = self->f32C / 2;
-    self->f3E8 = 0.0f;
-    self->f3EC = 1.0f;
-    *(s32 *)((u8 *)self + 0x52C) = 0;
-    ((TBoss4Type3 *)self)->set_action_from_table(0);
+    create_particle_emitters();
+    node_tables.init(boss4_type3_model_node_specs, 2);
+    prev_hp = hp;
+    radius_shown = 0;
+    radius_hidden = *(s32 *)((u8 *)TLobby::dispatch_shared_handler_a(0x38) + 0x24);
+    fade = 1.0f;
+    fade_timer = 0;
+    prev_node = 0x10;
+    node = 0x10;
+    prev_heading = 0;
+    heading = 0;
+    capture_target = 0xFFFF;
+    captured_player = 0xFFFF;
+    radar_color = -0x5DB4;
+    move_count = 0;
+    captured_fade = 0.0f;
+    rumble_timer = 0;
+    texture_scroll = 0.0f;
+    capture_hp = hp / 2;
+    hit_flash = 0.0f;
+    hp_ratio = 1.0f;
+    camera_mode = 0;
+    set_action_from_table(0);
 }
-#undef self
 
-#define o ((S_8005AD50 *)this)
 TBoss4Type3::~TBoss4Type3() {
     s32 i;
-    o->node_tables.destroy();
-    ((TBoss4Type3 *)o)->destroy_parts();
-    if (o->f51c != 0) {
-        delete (SampledMotionPoints *)o->f51c;
-        o->f51c = 0;
+    node_tables.destroy();
+    destroy_parts();
+    if (trail_samples[0] != 0) {
+        delete trail_samples[0];
+        trail_samples[0] = 0;
     }
-    if (o->f524 != 0) {
-        ((TObject *)o->f524)->queue_destruction();
-        o->f524 = 0;
+    if (trails[0] != 0) {
+        trails[0]->queue_destruction();
+        trails[0] = 0;
     }
-    if (o->f520 != 0) {
-        delete (SampledMotionPoints *)o->f520;
-        o->f520 = 0;
+    if (trail_samples[1] != 0) {
+        delete trail_samples[1];
+        trail_samples[1] = 0;
     }
-    if (o->f528 != 0) {
-        ((TObject *)o->f528)->queue_destruction();
-        o->f528 = 0;
+    if (trails[1] != 0) {
+        trails[1]->queue_destruction();
+        trails[1] = 0;
     }
     for (i = 0; i < 3; i++) {
-        ModelNodePositionCapture::destroy(static_cast<ModelNodePositionCapture *>(o->fx[i]));
-        o->fx[i] = 0;
+        ModelNodePositionCapture::destroy(render_lists[i]);
+        render_lists[i] = 0;
     }
-    free_collision_body_parts(o);
-    o->f394 = 0;
+    free_collision_body_parts(this);
+    collision = 0;
 }
-#undef o
 
 void TBoss4Type3::run_hit_reaction() {
-    *(s32 *)((s8 *)((u8 *)this) + 0x30) = (s32) (*(s32 *)((s8 *)((u8 *)this) + 0x30) & 0xFFFFFDFF);
-    *(f32 *)((s8 *)((u8 *)this) + 0x3E8) = (f32) 1.0f;
-    ((s32 (*)(int, void *, int, int, void *))play_sound_effect)(0x4003B734, ((u8 *)this) + 0x38, 0, 1, this);
+    actorFlags &= ~0x200;
+    hit_flash = 1.0f;
+    play_sound_effect(0x4003B734, &position, 0, 1);
 }
 
 void TBoss4Type3::run_death_reaction() {
-    if (((Obj_8005ACBC *)this)->f374 != 3 && ((Obj_8005ACBC *)this)->f374 != 2) {
-        ((Obj_8005ACBC *)this)->f3b8 = 0xFFFF;
-        ((Obj_8005ACBC *)this)->f3ba = 0xFFFF;
-        ((TBoss4Type3 *)this)->set_action_from_table(3);
+    if (state != 3 && state != 2) {
+        capture_target = 0xFFFF;
+        captured_player = 0xFFFF;
+        set_action_from_table(3);
     }
 }
-
 
 #pragma push
 #pragma fp_contract on
 void TBoss4Type3::run_task() {
-    u8 v[2][0xC];
+    Vec v[2];
     Type3Handler fn;
     SampledMotionPoints *p;
     f32 lim;
-    u8 *e;
+    Vec *e;
 
-    if (this->m_3ba != 0xFFFF && TBoss4Type3__sub_8005254C(this->m_3ba) == 0) {
-        this->m_3ba = 0xFFFF;
+    if (captured_player != 0xFFFF && is_player_in_boss_area(captured_player) == 0) {
+        captured_player = 0xFFFF;
     }
-    if (this->m_3b8 != 0xFFFF && TBoss4Type3__sub_8005254C(this->m_3b8) == 0) {
-        this->m_3b8 = 0xFFFF;
+    if (capture_target != 0xFFFF && is_player_in_boss_area(capture_target) == 0) {
+        capture_target = 0xFFFF;
     }
-    if (((TBoss4DarkFalz *)((void *)this->m_38c))->is_field378_zero()) {
-        fn = boss4_type3_states[this->m_374].advance;
+    if (owner->is_floor_leader()) {
+        fn = boss4_type3_states[state].advance;
         if (fn) {
             (this->*fn)();
         }
     }
-    fn = boss4_type3_states[this->m_374].update;
+    fn = boss4_type3_states[state].update;
     if (fn) {
         (this->*fn)();
     }
     update_phase_timer();
     advance_afterimage();
-    if (this->m_3a0 != 17) {
-        this->m_394->flags |= 1;
-        ((TObjPlayer *)this)->update_collisions();
+    if (node != 17) {
+        collision->flags |= 1;
+        update_collisions();
         submit_cursor_candidate(this, -1);
     } else {
-        this->m_394->flags &= ~1;
+        collision->flags &= ~1;
     }
     update_radar_markers();
     update_scale_sound();
-    this->m_394->radius = this->m_3b0 * (f32)(this->m_3cc - this->m_3d0) + (f32)this->m_3d0;
+    collision->unk_28 = fade * (f32)(radius_shown - radius_hidden) + (f32)radius_hidden;
     handle_damage_taken();
-    if (this->m_374 != 2) {
+    if (state != 2) {
         copy_positions_to_parts();
-        this->node_tables.scroll_strips();
+        node_tables.scroll_strips();
     }
-    if (this->m_3ba == 0xFFFF) {
-        if ((this->m_3c8 -= 0.06666667f) < 0.0f) {
-            this->m_3c8 = 0.0f;
+    if (captured_player == 0xFFFF) {
+        if ((captured_fade -= 0.06666667f) < 0.0f) {
+            captured_fade = 0.0f;
         }
     } else {
-        if ((this->m_3c8 += 0.06666667f) > 1.0f) {
-            this->m_3c8 = 1.0f;
+        if ((captured_fade += 0.06666667f) > 1.0f) {
+            captured_fade = 1.0f;
         }
-        if (get_player_by_client_id(this->m_3ba) == 0) {
-            this->m_3c8 = 0.0f;
+        if (get_player_by_client_id(captured_player) == 0) {
+            captured_fade = 0.0f;
         }
     }
     update_target_effect_timer();
-    this->m_3d4 = this->hp;
+    prev_hp = hp;
     request_follow_camera_default_offsets();
-    if ((this->m_3dc += 0.022222223f) >= 1.0f) {
-        this->m_3dc -= 1.0f;
+    if ((texture_scroll += 0.022222223f) >= 1.0f) {
+        texture_scroll -= 1.0f;
     }
-    lim = this->m_3f4;
+    lim = anim_frame;
     if (lim > 29.0f) {
         lim = 29.0f;
     }
     p = new SampledMotionPoints(2, lim, lim, 0.6f);
     set_motion_packed_rotation();
-    p->sample((NJS_OBJECT *)(get_bml_model(this->archive, ((s32 *)lbl_80486FB0)[0])), (NJS_MOTION *)(get_bml_motion(this->archive, TBoss4Type3__anim_state_table[this->m_3f0].motions[0])), (const s32 *)boss4_type3_run_task_params, NULL);
+    p->sample((NJS_OBJECT *)get_bml_model(archive, boss4_type3_model_ids[0]), (NJS_MOTION *)get_bml_motion(archive, TBoss4Type3__anim_state_table[anim].motions[0]), boss4_type3_run_task_params, NULL);
     clear_motion_packed_rotation();
-    e = (u8 *)((SampledMotionPoints *)p)->lookup(lim);
+    e = p->lookup(lim);
     push_matrix();
     set_matrix_identity(0);
-    post_translate_matrix(&this->position.x);
-    rotate_matrix_y(0, this->rotation_y);
-    matrix_mult_vec(0, e, v[0]);
-    matrix_mult_vec(0, e + 0xC, v[1]);
+    post_translate_matrix(&position.x);
+    rotate_matrix_y(0, rotation_y);
+    matrix_mult_vec(0, &e[0], &v[0]);
+    matrix_mult_vec(0, &e[1], &v[1]);
     pop_matrix();
     if (e != 0) {
-        if (this->effect_parts[5] != 0) {
-            ((TParticleCtrl *)this->effect_parts[5])->set_position(v[0]);
+        if (effect_parts[5] != 0) {
+            effect_parts[5]->set_position(&v[0]);
         }
-        if (this->effect_parts[6] != 0) {
-            ((TParticleCtrl *)this->effect_parts[6])->set_position(v[1]);
+        if (effect_parts[6] != 0) {
+            effect_parts[6]->set_position(&v[1]);
         }
     }
     delete p;
-    this->m_3e8 += -0.06666667f;
-    if (this->m_3e8 < 0.0f) {
-        this->m_3e8 = 0.0f;
+    hit_flash += -0.06666667f;
+    if (hit_flash < 0.0f) {
+        hit_flash = 0.0f;
     }
-    this->m_3ec = (f32)this->hp / (f32)this->referenceHp;
+    hp_ratio = (f32)hp / (f32)referenceHp;
 }
 #pragma pop
 
-void TBoss4Type3::render() { ((TBoss4Type3 *)this)->draw(); }
+void TBoss4Type3::render() { draw(); }
 
 void TBoss4Type3::advance_afterimage() {
-    VecCopy__FP3VecPC3Vec(((u8 *)this) + 0x2FC, ((u8 *)this) + 0x38);
-    *(f32 *)((s8 *)((u8 *)this) + 0x300) += 25.0f;
+    VecCopy(&body_center, &position);
+    body_center.y += 25.0f;
 }
 
 void TBoss4Type3::draw() {
-    ((TObjPlayer *)this)->toggle_particle_effect();
+    TObjPlayer::toggle_particle_effect();
     push_matrix();
-    ((void (*)(void *))post_translate_matrix)((void *)((char *)this + 56));
-    ((void (*)(int, void *))rotate_matrix_y)(0, *(void * *)&this->rotation_y);
-    sub_8005A438();
+    post_translate_matrix(&position.x);
+    rotate_matrix_y(0, rotation_y);
+    draw_faded_models();
     pop_matrix();
     push_matrix();
-    ((void (*)(void *))post_translate_matrix)((void *)((char *)this + 1152));
-    ((void (*)(int, void *))rotate_matrix_y)(0, *(void * *)&this->rotation_y);
-    TObjPlayer::draw_player_model_by_id(this->m_3ba, this->m_3c8);
+    post_translate_matrix(&node_positions[0][5].x);
+    rotate_matrix_y(0, rotation_y);
+    TObjPlayer::draw_player_model_by_id(captured_player, captured_fade);
     pop_matrix();
     TParticleCtrl::end_effect_render();
 }
@@ -783,45 +447,44 @@ void TBoss4Type3::draw() {
 #pragma push
 #pragma opt_common_subs off
 void TBoss4Type3::update_phase_timer() {
-    f32 temp_f1;
-    f32 temp_f1_2;
-    *(s32 *)((s8 *)((u8 *)this) + 0x3FC) = 0;
-    *(f32 *)((s8 *)((u8 *)this) + 0x3F4) = (f32) (*(f32 *)((s8 *)((u8 *)this) + 0x3F4) + *(f32 *)((s8 *)((u8 *)this) + 0x3F8));
-    switch (*(s32 *)((s8 *)((u8 *)this) + 0x400)) {
+    f32 frame;
+    anim_looped = 0;
+    anim_frame = anim_frame + anim_speed;
+    switch (anim_mode) {
     case 0:
-        temp_f1 = *(f32 *)((s8 *)((u8 *)this) + 0x3F4);
-        if (temp_f1 >= 30.0f) {
-            *(f32 *)((s8 *)((u8 *)this) + 0x3F4) = (f32) (temp_f1 - 30.0f);
-            *(s32 *)((s8 *)((u8 *)this) + 0x3FC) = 1;
+        frame = anim_frame;
+        if (frame >= 30.0f) {
+            anim_frame = frame - 30.0f;
+            anim_looped = 1;
         }
         break;
     case 1:
-        if (*(f32 *)((s8 *)((u8 *)this) + 0x3F4) >= 29.0f) {
-            *(f32 *)((s8 *)((u8 *)this) + 0x3F4) = (f32) 29.0f;
-            *(s32 *)((s8 *)((u8 *)this) + 0x3FC) = 1;
+        if (anim_frame >= 29.0f) {
+            anim_frame = 29.0f;
+            anim_looped = 1;
         }
         break;
     case 2:
-        if (*(f32 *)((s8 *)((u8 *)this) + 0x3F4) >= 29.0f) {
-            *(s32 *)((s8 *)((u8 *)this) + 0x3F0) = TBoss4Type3__anim_state_table[*(s32 *)((s8 *)((u8 *)this) + 0x3F0)].flags;
-            *(s32 *)((s8 *)((u8 *)this) + 0x400) = TBoss4Type3__anim_state_table[*(s32 *)((s8 *)((u8 *)this) + 0x3F0)].kind;
-            *(f32 *)((s8 *)((u8 *)this) + 0x3F4) = (f32) 0.0f;
-            *(s32 *)((s8 *)((u8 *)this) + 0x3FC) = 1;
+        if (anim_frame >= 29.0f) {
+            anim = TBoss4Type3__anim_state_table[anim].next;
+            anim_mode = TBoss4Type3__anim_state_table[anim].kind;
+            anim_frame = 0.0f;
+            anim_looped = 1;
         }
         break;
     }
-    temp_f1_2 = *(f32 *)((s8 *)((u8 *)this) + 0x3F4);
-    if ((temp_f1_2 < 0.0f) || (temp_f1_2 >= 30.0f)) {
-        *(f32 *)((s8 *)((u8 *)this) + 0x3F4) = (f32) 0.0f;
+    frame = anim_frame;
+    if (frame < 0.0f || frame >= 30.0f) {
+        anim_frame = 0.0f;
     }
 }
 #pragma pop
 
-void TBoss4Type3::set_anim_state(s32 arg1) {
-    if (arg1 != -1) {
-        this->m_3f0 = arg1;
-        this->m_3f4 = (f32) 0.0f;
-        *(s32 *)&this->_pad400 = TBoss4Type3__anim_state_table[arg1].kind;
+void TBoss4Type3::set_anim_state(s32 index) {
+    if (index != -1) {
+        anim = index;
+        anim_frame = 0.0f;
+        anim_mode = TBoss4Type3__anim_state_table[index].kind;
     }
 }
 
@@ -831,12 +494,11 @@ void TBoss4Type3::draw_model_set(const s32 *tbl, f32 t) {
     f32 c;
     s32 i;
     f32 v;
-    s32 off;
 
-    if (this->m_3f0 < 0 || this->m_3f0 >= 0xA) {
+    if (anim < 0 || anim >= 0xA) {
         return;
     }
-    v = this->m_3f4;
+    v = anim_frame;
     c = 0.0f;
     if (v < c || v >= 30.0f) {
         return;
@@ -845,19 +507,18 @@ void TBoss4Type3::draw_model_set(const s32 *tbl, f32 t) {
         return;
     }
     if (t < 1.0f) {
-        TObjPlayer__sub_80052390(t);
-    } else if (tbl == (const s32 *)lbl_80486FB0) {
-        TBoss6PlotFalz__sub_802AC008(this->m_3e8, this->m_3ec);
+        TObjPlayer::begin_alpha_blend(t);
+    } else if (tbl == boss4_type3_model_ids) {
+        TBoss6PlotFalz__sub_802AC008(hit_flash, hp_ratio);
     }
     model_render_flags |= 0x20000;
-    TObjEneRe4Sorcerer__sub_801E3F1C(0.0f, this->m_3dc);
+    TObjEneRe4Sorcerer__sub_801E3F1C(0.0f, texture_scroll);
     set_motion_packed_rotation();
     for (i = 0; i < 3; i++) {
-        TObjFish::set_global_param(get_bml_texlist(this->archive, tbl[i]));
-        off = i;
-        ((ModelNodePositionCapture *)((saddr)this->render_lists[off]))->install();
-        draw_model_motion((void *)(get_bml_model(this->archive, tbl[i])), (void *)(get_bml_motion(this->archive, TBoss4Type3__anim_state_table[this->m_3f0].motions[i])), this->m_3f4);
-        ((ModelNodePositionCapture *)this->render_lists[off])->clear();
+        TObjFish::set_global_param(get_bml_texlist(archive, tbl[i]));
+        render_lists[i]->install();
+        draw_model_motion((void *)get_bml_model(archive, tbl[i]), (void *)get_bml_motion(archive, TBoss4Type3__anim_state_table[anim].motions[i]), anim_frame);
+        render_lists[i]->clear();
     }
     clear_motion_packed_rotation();
     model_render_flags &= ~0x20000;
@@ -865,7 +526,7 @@ void TBoss4Type3::draw_model_set(const s32 *tbl, f32 t) {
         TObjPlayer::sync_player_globals();
         return;
     }
-    if (tbl == (const s32 *)lbl_80486FB0) {
+    if (tbl == boss4_type3_model_ids) {
         TBoss6PlotFalz::update_camera_target();
     }
 }
@@ -873,17 +534,17 @@ void TBoss4Type3::draw_model_set(const s32 *tbl, f32 t) {
 
 void TBoss4Type3::copy_pair(void* q) { *(u32 *)&this->m_name = *(u32*)((char*)q + 0x0); (*(f32 *)&this->m_flags) = *(f32*)((char*)q + 0x4); }
 
-void TBoss4Type3::sub_8005A438() {
+void TBoss4Type3::draw_faded_models() {
     Pair_8005A438 b;
     Pair_8005A438 a;
     Words_8005A438 tmp;
     Pair_8005A438 *pb = &b;
-    a.p = lbl_80486FB0;
-    a.f = ((Obj_8005A438 *)this)->f3b0;
+    a.p = boss4_type3_model_ids;
+    a.f = fade;
     b.p = boss4_type3_index_table;
     b.f = 1.0f - a.f;
     if (a.f < 0.5f) {
-        tmp.p = lbl_80486FB0;
+        tmp.p = boss4_type3_model_ids;
         tmp.w = *(u32 *)&a.f;
         ((TBoss4Type3 *)(&a))->copy_pair(pb);
         ((TBoss4Type3 *)pb)->copy_pair(&tmp);
@@ -894,63 +555,61 @@ void TBoss4Type3::sub_8005A438() {
 
 void TBoss4Type3::set_action_from_table(s32 action) {
     Type3Handler m;
-    TBoss4Type3__sub_8005A150(this);
-    this->m_374 = action;
-    set_anim_state(boss4_type3_states[this->m_374].animation);
-    m = boss4_type3_states[this->m_374].enter;
+    release_state_effects();
+    state = action;
+    set_anim_state(boss4_type3_states[state].animation);
+    m = boss4_type3_states[state].enter;
     if (m != 0) {
         (this->*m)();
     }
 }
 
 void TBoss4Type3::create_particle_emitters() {
-    Obj_8005A300 *self = (Obj_8005A300 *)this;
     s32 i;
     for (i = 0; i < 8; i++) {
-        self->f404[i] = create_particle_emitter(self->f38, boss4_type3_effect_ids[i]);
-        if (self->f404[i] != 0) {
-            self->f404[i]->set_flags(0x40);
+        effect_parts[i] = create_particle_emitter(&position, boss4_type3_effect_ids[i]);
+        if (effect_parts[i] != 0) {
+            effect_parts[i]->set_flags(0x40);
         }
     }
     for (; i < 13; i++) {
-        self->f404[i] = 0;
+        effect_parts[i] = 0;
     }
 }
 
 void TBoss4Type3::destroy_parts() {
-    Obj_8005A2A4 *self = (Obj_8005A2A4 *)this;
     s32 i;
     for (i = 0; i < 13; i++) {
-        if (self->parts[i] != 0) {
-            TParticleCtrl::release(self->parts[i]);
-            self->parts[i] = 0;
+        if (effect_parts[i] != 0) {
+            TParticleCtrl::release(effect_parts[i]);
+            effect_parts[i] = 0;
         }
     }
 }
 
 void TBoss4Type3::copy_positions_to_parts() {
     Vec *pos[8] = {
-        &((Obj_8005A1AC *)this)->f48c, &((Obj_8005A1AC *)this)->f498, &((Obj_8005A1AC *)this)->f4d4, &((Obj_8005A1AC *)this)->f4e0,
-        &((Obj_8005A1AC *)this)->f444, &((Obj_8005A1AC *)this)->f450, &((Obj_8005A1AC *)this)->f45c, 0
+        &node_positions[1][0], &node_positions[1][1], &node_positions[2][0], &node_positions[2][1],
+        &node_positions[0][0], &node_positions[0][1], &node_positions[0][2], 0
     };
     Vec **p = pos;
     s32 i;
     for (i = 0; i < 8; i++, p++) {
-        if (((Obj_8005A1AC *)this)->f404[i] != 0 && *p != 0) {
-            ((TParticleCtrl *)((Obj_8005A1AC *)this)->f404[i])->set_position(*p);
+        if (effect_parts[i] != 0 && *p != 0) {
+            effect_parts[i]->set_position(*p);
         }
     }
-    if (((Obj_8005A1AC *)this)->f3ba == 0xFFFF) {
-        ((TParticleCtrl *)((Obj_8005A1AC *)this)->f404[7])->set_position(lbl_80487150);
+    if (captured_player == 0xFFFF) {
+        effect_parts[7]->set_position(&boss4_type3_zero_vec);
     } else {
-        ((TParticleCtrl *)((Obj_8005A1AC *)this)->f404[7])->set_position(&((Obj_8005A1AC *)this)->f480);
+        effect_parts[7]->set_position(&node_positions[0][5]);
     }
 }
 
-void TBoss4Type3__sub_8005A150(TBoss4Type3 *self) {
+void TBoss4Type3::release_state_effects() {
     s32 i;
     for (i = 8; i < 13; i++) {
-        TParticleCtrl **slot = &((Obj_8005A300 *)self)->f404[i];
+        TParticleCtrl **slot = &effect_parts[i];
         if (*slot != 0) {
             TParticleCtrl::release(*slot);
             *slot = 0;
@@ -961,122 +620,97 @@ void TBoss4Type3__sub_8005A150(TBoss4Type3 *self) {
 #pragma push
 #pragma opt_common_subs off
 void TBoss4Type3::update_scale_sound() {
-    f32 temp_f1;
-    f32 temp_f1_2;
-    f32 temp_f1_3;
-    f32 temp_f31;
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 var_r3;
-    s32 var_r5;
-    s32 var_r6;
-    u8 *var_r31;
-    u8 *var_r4;
-    var_r31 = ((u8 *)this);
-    temp_r0 = *(s32 *)((s8 *)((u8 *)this) + 0x374);
-    temp_f31 = *(f32 *)((s8 *)((u8 *)this) + 0x3B0);
-    if ((temp_r0 == 2) || (temp_r0 == 3)) {
-        temp_f1 = (*(f32 *)((s8 *)var_r31 + 0x3B0) += 0.1f);
-        if (temp_f1 > 1.0f) {
-            *(f32 *)((s8 *)var_r31 + 0x3B0) = (f32) 1.0f;
+    f32 prev;
+    s32 s;
+    s32 t;
+    s = state;
+    prev = fade;
+    if (s == 2 || s == 3) {
+        if ((fade += 0.1f) > 1.0f) {
+            fade = 1.0f;
         }
     } else {
-        var_r3 = *(s32 *)((s8 *)var_r31 + 0x3B4);
-        *(s32 *)((s8 *)var_r31 + 0x3B4) = (var_r3 + 1);
-        temp_r0_2 = *(s32 *)((s8 *)var_r31 + 0x3B4);
-        if (temp_r0_2 < 0x78) {
-            *(f32 *)((s8 *)var_r31 + 0x3B0) = (f32) 1.0f;
-        } else if (temp_r0_2 < 0x96) {
-            temp_f1_2 = (*(f32 *)((s8 *)var_r31 + 0x3B0) += (-0.033333335f));
-            if (temp_f1_2 < 0.0f) {
-                *(f32 *)((s8 *)var_r31 + 0x3B0) = (f32) 0.0f;
+        fade_timer++;
+        t = fade_timer;
+        if (t < 0x78) {
+            fade = 1.0f;
+        } else if (t < 0x96) {
+            if ((fade += -0.033333335f) < 0.0f) {
+                fade = 0.0f;
             }
-        } else if (temp_r0_2 < 0x10E) {
-            *(f32 *)((s8 *)var_r31 + 0x3B0) = (f32) 0.0f;
-        } else if (temp_r0_2 < 0x12C) {
-            temp_f1_3 = (*(f32 *)((s8 *)var_r31 + 0x3B0) += 0.033333335f);
-            if (temp_f1_3 > 1.0f) {
-                *(f32 *)((s8 *)var_r31 + 0x3B0) = (f32) 1.0f;
+        } else if (t < 0x10E) {
+            fade = 0.0f;
+        } else if (t < 0x12C) {
+            if ((fade += 0.033333335f) > 1.0f) {
+                fade = 1.0f;
             }
         } else {
-            *(f32 *)((s8 *)var_r31 + 0x3B0) = (f32) 1.0f;
-            *(s32 *)((s8 *)var_r31 + 0x3B4) = 0;
+            fade = 1.0f;
+            fade_timer = 0;
         }
-        if (((0.0f == temp_f31) && (*(f32 *)((s8 *)var_r31 + 0x3B0) > 0.0f)) || ((1.0f == temp_f31) && (*(f32 *)((s8 *)var_r31 + 0x3B0) < 1.0f))) {
-            var_r3 = 0x40040000;
-            var_r4 = var_r31 + 0x38;
-            var_r3 = 0x4003B02F;
-            var_r5 = 0;
-            var_r6 = 1;
-            ((s32 (*)(s32, s32, s32, s32))play_sound_effect)(0x4003B02F, (saddr)var_r4, 0, 1);
+        if ((0.0f == prev && fade > 0.0f) || (1.0f == prev && fade < 1.0f)) {
+            play_sound_effect(0x4003B02F, &position, 0, 1);
         }
-        if ((temp_f31 > 0.0f) && (0.0f == *(f32 *)((s8 *)var_r31 + 0x3B0))) {
-            var_r3 = 0x40040000;
-            var_r4 = var_r31 + 0x38;
-            var_r3 = 0x4003AD30;
-            var_r5 = 0;
-            var_r6 = 1;
-            ((s32 (*)(s32, s32, s32, s32))play_sound_effect)(0x4003AD30, (saddr)var_r4, 0, 1);
+        if (prev > 0.0f && 0.0f == fade) {
+            play_sound_effect(0x4003AD30, &position, 0, 1);
         }
     }
 }
 #pragma pop
 
-void TBoss4Type3__sub_80059F64(Obj_80059F64 *self, s32 arg1) {
-    if (self->target != 0) {
-        ((TBoss4DarkFalz *)(self->target))->send_code_25_4((arg1 & 0x1F) | ((self->f3a0 & 0x1F) << 5) | ((self->f3a0 & 0x1F) << 10) | ((self->f3a8 & 0xF) << 15) | ((self->f3a8 & 0xF) << 19) | ((self->f3b8 & 0xF) << 23) | ((self->f3ba & 0xF) << 27));
+void TBoss4Type3::send_action(s32 action) {
+    if (owner != 0) {
+        owner->send_code_25_4((action & 0x1F) | ((node & 0x1F) << 5) | ((node & 0x1F) << 10) | ((heading & 0xF) << 15) | ((heading & 0xF) << 19) | ((capture_target & 0xF) << 23) | ((captured_player & 0xF) << 27));
     }
 }
 
-void TBoss4Type3::send_packed_action(s32 arg1, s32 arg2, s32 arg3) {
-    Obj_80059F04 *self = (Obj_80059F04 *)this;
-    if (self->target != 0) {
-        ((TBoss4DarkFalz *)(self->target))->send_code_25_4((arg1 & 0x1F) | ((self->f3a0 & 0x1F) << 5) | ((arg2 & 0x1F) << 10) | ((self->f3a8 & 0xF) << 15) | ((arg3 & 0xF) << 19) | ((self->f3b8 & 0xF) << 23) | ((self->f3ba & 0xF) << 27));
+void TBoss4Type3::send_packed_action(s32 action, s32 next_node, s32 next_heading) {
+    if (owner != 0) {
+        owner->send_code_25_4((action & 0x1F) | ((node & 0x1F) << 5) | ((next_node & 0x1F) << 10) | ((heading & 0xF) << 15) | ((next_heading & 0xF) << 19) | ((capture_target & 0xF) << 23) | ((captured_player & 0xF) << 27));
     }
 }
 
-void TBoss4Type3__sub_80059EA8(Obj_80059EA8 *self, s32 arg1, s32 arg2) {
-    if (self->target != 0) {
-        ((TBoss4DarkFalz *)(self->target))->send_code_25_4((arg1 & 0x1F) | ((self->f3a0 & 0x1F) << 5) | ((self->f3a0 & 0x1F) << 10) | ((self->f3a8 & 0xF) << 15) | ((self->f3a8 & 0xF) << 19) | ((arg2 & 0xF) << 23) | ((self->f3ba & 0xF) << 27));
+void TBoss4Type3::send_attack_code(s32 action, u16 target) {
+    if (owner != 0) {
+        owner->send_code_25_4((action & 0x1F) | ((node & 0x1F) << 5) | ((node & 0x1F) << 10) | ((heading & 0xF) << 15) | ((heading & 0xF) << 19) | ((target & 0xF) << 23) | ((captured_player & 0xF) << 27));
     }
 }
 
 void TBoss4Type3::spawn_random_effect() {
-    s32 self = (saddr)this;
-    s32 temp_r5;
+    s32 sector;
 
-    temp_r5 = (s32) (15.99f * ((TObjChara *)this)->random_ratio());
-    send_packed_action(0xF, temp_r5, temp_r5);
+    sector = (s32)(15.99f * random_ratio());
+    send_packed_action(0xF, sector, sector);
 }
 
-void TBoss4Type3__sub_80059DCC(TBoss4Type3 *self, u32 packed) {
+// Unpacks an action sent by send_action, send_attack_code or send_packed_action.
+void TBoss4Type3::apply_packed_state(u32 packed) {
     u16 v;
     s32 action;
-    self->m_3a4 = (packed >> 5) & 0x1F;
-    self->m_3a0 = (packed >> 10) & 0x1F;
-    self->m_3ac = (packed >> 15) & 0xF;
-    self->m_3a8 = (packed >> 19) & 0xF;
+    prev_node = (packed >> 5) & 0x1F;
+    node = (packed >> 10) & 0x1F;
+    prev_heading = (packed >> 15) & 0xF;
+    heading = (packed >> 19) & 0xF;
     v = (packed >> 23) & 0xF;
-    self->m_3b8 = v;
+    capture_target = v;
     if (v == 0xF) {
-        self->m_3b8 = 0xFFFF;
+        capture_target = 0xFFFF;
     }
     v = (packed >> 27) & 0xF;
-    self->m_3ba = v;
+    captured_player = v;
     if (v == 0xF) {
-        self->m_3ba = 0xFFFF;
+        captured_player = 0xFFFF;
     }
     action = packed & 0x1F;
     if (action < 0 || action >= 17) {
         return;
     }
-    self->set_action_from_table(action);
+    set_action_from_table(action);
 }
 
 #pragma push
 #pragma fp_contract on
 void TBoss4Type3::interp_position_between_nodes() {
-    u8 *self = (u8 *)this;
     Vec pts[2];
     s32 ids[2];
     s32 id;
@@ -1084,78 +718,76 @@ void TBoss4Type3::interp_position_between_nodes() {
     s32 a;
     s32 i;
 
-    a = this->m_3ac << 12;
-    this->rotation_y = approach_angle_limited(this->rotation_y, -(a + (s32)(this->m_39c * (f32)((s32 (*)(s32, s32))angle_diff_s16)(a, this->m_3a8 << 12))), 0x888);
-    ids[0] = this->m_3a4;
-    ids[1] = this->m_3a0;
+    a = prev_heading << 12;
+    rotation_y = approach_angle_limited(rotation_y, -(a + (s32)(move_ratio * (f32)angle_diff_s16(a, heading << 12))), 0x888);
+    ids[0] = prev_node;
+    ids[1] = node;
     for (i = 0; i < 2; i++) {
         id = ids[i];
         switch (id) {
         case 16:
-            ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&pts[i], &boss4_type3_default_position);
+            VecCopy(&pts[i], &boss4_type3_default_position);
             break;
         case 17:
-            ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&pts[i], &boss4_type3_interp_origin_vec);
+            VecCopy(&pts[i], &boss4_type3_interp_origin_vec);
             break;
         default:
             p = &pts[i];
-            ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(p, &boss4_type3_default_position);
+            VecCopy(p, &boss4_type3_default_position);
             id <<= 12;
             p->x += (-100.0f) * sin_table_lookup(id);
             p->z += 100.0f * cos_table_lookup(id);
             break;
         }
     }
-    ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(self + 0x38, &pts[1]);
-    subtract_vector((u8 *)&this->position, &pts[0]);
-    this->position.x *= this->m_39c;
-    this->position.y *= this->m_39c;
-    this->position.z *= this->m_39c;
-    vec3_add_to((u8 *)&this->position, &pts[0]);
+    VecCopy(&position, &pts[1]);
+    subtract_vector(&position, &pts[0]);
+    position.x *= move_ratio;
+    position.y *= move_ratio;
+    position.z *= move_ratio;
+    vec3_add_to(&position, &pts[0]);
 }
 #pragma pop
 
 s32 TBoss4Type3::choose_attack_heading_sector() {
-    saddr self = (saddr)this;
-    TypedVector_80059B78 sp8;
-    f32 temp_f0;
+    Vec v;
+    f32 dx;
     u16 id;
-    id = ((u16 (*)(void))pick_random_target_player__11TBoss4Type3Fv)();
-    if ((id == 0xFFFFU) || (TBoss4Type3__sub_8005254C(id) == 0)) {
-        return TBoss4Type3::get_random_scaled((void *)self);
+    id = pick_random_target_player();
+    if (id == 0xFFFFU || is_player_in_boss_area(id) == 0) {
+        return get_random_scaled();
     }
-    VecCopy__FP3VecPC3Vec(&sp8, (void *) (((saddr)get_player_by_client_id(id)) + 0x38));
-    temp_f0 = sp8.f.x - 10000.0f;
-    sp8.f.x = temp_f0;
-    return ((u32) ((s32) (10430.38043493439 * atan2_float((f32) (-temp_f0), sp8.f.z)) + 0x800) >> 0xCU) & 0xF;
+    VecCopy(&v, &get_player_by_client_id(id)->position);
+    dx = v.x - 10000.0f;
+    v.x = dx;
+    return ((u32)((s32)(10430.38043493439 * atan2_float(-dx, v.z)) + 0x800) >> 12) & 0xF;
 }
 
-s32 TBoss4Type3::get_random_scaled(void * _w0) {
-    return (s32) (15.84f * ((TObjChara *)_w0)->random_ratio());
+s32 TBoss4Type3::get_random_scaled() {
+    return (s32)(15.84f * random_ratio());
 }
 
 void TBoss4Type3::turn_toward_player(s32 id) {
-    TBoss4Type3 *self = this;
-    Ply_80059ABC *p;
+    TObjPlayer *p;
     if ((u16)id != 0xFFFF) {
-        p = (Ply_80059ABC *)get_player_by_client_id((u16)((u16)id));
+        p = get_player_by_client_id((u16)id);
         if (p != NULL) {
-            self->rotation_y = approach_angle_limited(self->rotation_y, (s32)(10430.38043493439 * atan2_float(p->f38 - 10000.0f, p->f40)), 0x888);
+            rotation_y = approach_angle_limited(rotation_y, (s32)(10430.38043493439 * atan2_float(p->position.x - 10000.0f, p->position.z)), 0x888);
             calc_grid_index();
         }
     }
 }
 
 void TBoss4Type3::calc_grid_index() {
-    this->m_3ac = (s32) (((u32) -(this->rotation_y + 0x800) >> 0xCU) & 0xF);
-    this->m_3a8 = (s32) (((u32) -(this->rotation_y + 0x800) >> 0xCU) & 0xF);
+    prev_heading = (s32)(((u32)-(rotation_y + 0x800) >> 12) & 0xF);
+    heading = (s32)(((u32)-(rotation_y + 0x800) >> 12) & 0xF);
 }
 
-void TBoss4Type3__sub_800599F4(void *p, int lo, int hi) {
-    s32 sector = ((TBoss4Type3 *)p)->choose_attack_heading_sector();
-    s32 n = (s64)(s32)(0.99f * (f32)(hi - lo + 1) * ((TObjChara *)p)->random_ratio());
+void TBoss4Type3::send_random_action(s32 lo, s32 hi) {
+    s32 sector = choose_attack_heading_sector();
+    s32 n = (s64)(s32)(0.99f * (f32)(hi - lo + 1) * random_ratio());
     n += lo;
-    ((TBoss4Type3 *)p)->send_packed_action(n + 4, sector, sector);
+    send_packed_action(n + 4, sector, sector);
 }
 
 void TBoss4Type3::update_radar_markers() {
@@ -1167,20 +799,19 @@ void TBoss4Type3::update_radar_markers() {
     u16 id;
     s32 i;
     s32 d;
-    Ply_80059ABC *p;
+    TObjPlayer *p;
     f32 f;
     s32 n;
     s32 j;
-    u8 *self = (u8 *)this;
     col = 0xFFFFA24C;
-    id = *(u16 *)((s8 *)self + 0x3BA);
+    id = captured_player;
     if (id != 0xFFFF) {
         if (id >= 4) return;
         col = boss4_type3_radar_marker_colors[id];
     }
     for (i = 0, sh = 0; i < 3; i++, sh += 8) {
         tgt = col >> sh;
-        c[i] = (u8)(*(u32 *)((s8 *)self + 0x3C4) >> sh);
+        c[i] = (u8)(radar_color >> sh);
         d = tgt - c[i];
         if (d > 0) {
             if ((c[i] = c[i] + 0x10) > tgt) c[i] = tgt;
@@ -1188,17 +819,17 @@ void TBoss4Type3::update_radar_markers() {
             if ((c[i] = c[i] - 0x10) < tgt) c[i] = tgt;
         }
     }
-    *(u32 *)((s8 *)self + 0x3C4) = c[0] | ((c[2] << 16) | 0xFF000000 | (c[1] << 8));
-    if (0.0f == *(f32 *)((s8 *)self + 0x3B0) && (*(s32 *)((s8 *)self + 0x3C0) & 4)) {
-        add_radar_scaled_marker(&this->body_center, -1, 1, 1, 5.0f);
+    radar_color = c[0] | ((c[2] << 16) | 0xFF000000 | (c[1] << 8));
+    if (0.0f == fade && (radar_frame & 4)) {
+        add_radar_scaled_marker(&body_center, -1, 1, 1, 5.0f);
     } else {
-        add_radar_scaled_marker(&this->body_center, *(u32 *)((s8 *)self + 0x3C4), 1, 1, 5.0f);
+        add_radar_scaled_marker(&body_center, radar_color, 1, 1, 5.0f);
     }
-    if (!(*(s32 *)((s8 *)self + 0x3C0) & 1) && *(u16 *)((s8 *)self + 0x3BA) != 0xFFFF) {
-        p = (Ply_80059ABC *)get_player_by_client_id((u16)(*(u16 *)((s8 *)self + 0x3BA)));
+    if (!(radar_frame & 1) && captured_player != 0xFFFF) {
+        p = get_player_by_client_id(captured_player);
         if (p != NULL) {
-            VecCopy__FP3VecPC3Vec(&v, (u8 *)p + 0x38);
-            subtract_vector(&v, self + 0x38);
+            VecCopy(&v, &p->position);
+            subtract_vector(&v, &position);
             v.y = 0.0f;
             f = vector_length(&v);
             if (!(f < 25.0f)) {
@@ -1208,35 +839,35 @@ void TBoss4Type3::update_radar_markers() {
                 v.x *= 25.0f;
                 v.z *= 25.0f;
                 {
-                Vec w = *(Vec *)(self + 0x38);
+                Vec w = position;
                 vec3_add_to(&w, &v);
                 for (j = 0; j < n; j++) {
-                    add_radar_scaled_marker(&w, boss4_type3_radar_marker_colors[*(u16 *)((s8 *)self + 0x3BA)], 1, 1, 2.5f);
+                    add_radar_scaled_marker(&w, boss4_type3_radar_marker_colors[captured_player], 1, 1, 2.5f);
                     vec3_add_to(&w, &v);
                 }
                 }
             }
         }
     }
-    (*(s32 *)((s8 *)self + 0x3C0))++;
+    radar_frame++;
 }
 
 void TBoss4Type3::handle_damage_taken() {
-    u8 *p;
+    TObjPlayer *p;
     s32 i;
-    uaddr e;
-    if (((O_80059618 *)this)->f3ba == 0xFFFF || ((O_80059618 *)this)->f374 == 2 || ((O_80059618 *)this)->f374 == 3 || ((O_80059618 *)this)->f32c >= ((O_80059618 *)this)->f3e4 ||
-        (p = (u8 *)get_player_by_client_id(((O_80059618 *)this)->f3ba)) == NULL) {
-        ((O_80059618 *)this)->f3e4 = ((O_80059618 *)this)->f32c;
+    TParticleCtrl *e;
+    if (captured_player == 0xFFFF || state == 2 || state == 3 || hp >= drained_hp ||
+        (p = get_player_by_client_id(captured_player)) == NULL) {
+        drained_hp = hp;
         return;
     }
-    drain_player_hp(((O_80059618 *)this)->f3ba, ((O_80059618 *)this)->f3e4 - ((O_80059618 *)this)->f32c);
-    ((O_80059618 *)this)->f3e4 = ((O_80059618 *)this)->f32c;
-    TBoss4Type3::create_yutai(this, 2, ((O_80059618 *)this)->f3ba);
-    Vec pos = *(Vec *)(p + 0x2FC);
-    Vec tgt = ((O_80059618 *)this)->f480;
+    drain_player_hp(captured_player, drained_hp - hp);
+    drained_hp = hp;
+    create_yutai(this, 2, captured_player);
+    Vec pos = p->body_center;
+    Vec tgt = node_positions[0][5];
     Vec dir;
-    VecCopy__FP3VecPC3Vec(&dir, &tgt);
+    VecCopy(&dir, &tgt);
     subtract_vector(&dir, &pos);
     if (vector_length(&dir) <= 0.01f) {
         return;
@@ -1246,51 +877,51 @@ void TBoss4Type3::handle_damage_taken() {
     dir.y *= 25.0f;
     dir.z *= 25.0f;
     for (i = 0; i < 8; i++) {
-        e = (uaddr)spawn_particle_effect(&pos, 0x38);
+        e = spawn_particle_effect(&pos, 0x38);
         if (e != 0) {
-            ((TParticleCtrl *)e)->set_flags(0x40);
+            e->set_flags(0x40);
         }
         vec3_add_to(&pos, &dir);
-        if (((f32 (*)(void *, void *))xyz_distance)(&pos, &tgt) <= 12.75f) {
+        if (xyz_distance(&pos, &tgt) <= 12.75f) {
             break;
         }
     }
 }
 
 void TBoss4Type3::update_target_effect_timer() {
-    s32 temp_r30;
-    s32 var_r30;
+    s32 frame;
+    s32 active;
 
-    var_r30 = 1;
-    if ((s32) *(s32 *)((s8 *)this + 0x374) == 0x10) {
-        var_r30 = 0;
+    active = 1;
+    if (state == 0x10) {
+        active = 0;
     }
     if (is_split_screen() != 0) {
-        if (*(u16 *)((s8 *)this + 0x3BA) == 0xFFFF) {
-            var_r30 = 0;
+        if (captured_player == 0xFFFF) {
+            active = 0;
         }
-    } else if ((s32) *(u16 *)((s8 *)this + 0x3BA) != (s32) local_client_id) {
-        var_r30 = 0;
+    } else if (captured_player != local_client_id) {
+        active = 0;
     }
-    if (var_r30 == 0) {
-        *(s32 *)((s8 *)this + 0x3D8) = 0;
+    if (active == 0) {
+        rumble_timer = 0;
         return;
     }
     static s32 sound_frame = (s32)8.0f;
-    temp_r30 = *(s32 *)((s8 *)this + 0x3D8) % 39;
-    if (temp_r30 == 0) {
-        start_pad_rumble_client(0x60, 0xF, (s16) *(u16 *)((s8 *)this + 0x3BA));
+    frame = rumble_timer % 39;
+    if (frame == 0) {
+        start_pad_rumble_client(0x60, 0xF, (s16)captured_player);
     }
-    if (temp_r30 == sound_frame) {
-        ((s32 (*)(s32, s32, s32, s32))play_sound_effect)(0x4003C133, 0, 0, 0);
+    if (frame == sound_frame) {
+        play_sound_effect(0x4003C133, 0, 0, 0);
     }
-    *(s32 *)((s8 *)this + 0x3D8) = (s32) (*(s32 *)((s8 *)this + 0x3D8) + 1);
+    rumble_timer = rumble_timer + 1;
 }
 
 #pragma push
 #pragma pool_data off
 void TBoss4Type3::request_follow_camera_default_offsets() {
-    if ((s32) *(s32 *)((s8 *)((u8 *)this) + 0x52C) == 1) {
+    if (camera_mode == 1) {
         Vec target = {0.0f, 3.0f, 32.0f};
         Vec position = {0.0f, 28.8f, -5.0f};
         request_follow_camera_offsets(&position, &target, 0xFFFF);
@@ -1302,248 +933,218 @@ void TBoss4Type3::request_follow_camera_default_offsets() {
 }
 #pragma pop
 
-void TBoss4Type3::enter_appear() {
-    void* p = (void*)this; this->m_398 = 147; }
+void TBoss4Type3::enter_appear() { state_timer = 147; }
 
 void TBoss4Type3::advance_appear() {
-    void* p = (void*)this; if (this->m_398 == 0) { TBoss4Type3__sub_800599F4(p, 0, 2); } }
+    if (state_timer == 0) {
+        send_random_action(0, 2);
+    }
+}
 
 void TBoss4Type3::update_appear() {
-    void *self = (void *)this;
-    s32 temp_r0;
-    temp_r0 = this->m_398 - 1;
-    this->m_398 = temp_r0;
-    if (temp_r0 < 0) {
-        ((TBoss4Type3 *)self)->set_action_from_table(1);
+    if (--state_timer < 0) {
+        set_action_from_table(1);
     }
 }
 
 void TBoss4Type3::advance_wait_next() {
-    Obj_80059390 *self = (Obj_80059390 *)this;
-    if (this->actorFlags & 0x800) {
-        ((int (*)(void*, void*))TBoss4Type3__sub_80059F64)(self, (void*)((void *)2));
+    if (actorFlags & 0x800) {
+        send_action(2);
     } else {
-        self->f3b8 = 0xFFFF;
-        self->f3ba = 0xFFFF;
-        ((int (*)(void*, void*))TBoss4Type3__sub_80059F64)(self, (void*)((void *)10));
+        capture_target = 0xFFFF;
+        captured_player = 0xFFFF;
+        send_action(10);
     }
 }
 
 void TBoss4Type3::enter_dead() {
-    *(f32 *)&this->_pad3F8 = (f32) 0.2f;
-    this->m_398 = 0x31;
+    anim_speed = 0.2f;
+    state_timer = 0x31;
 }
 
 void TBoss4Type3::advance_dead() {  }
 
 void TBoss4Type3::update_dead() {
-    u8 *self = (u8 *)this;
-    s32 temp_r0;
-    temp_r0 = this->m_398 - 1;
-    this->m_398 = temp_r0;
-    if (temp_r0 < 0) {
-        ((TBoss4Type3 *)self)->set_action_from_table(2);
+    if (--state_timer < 0) {
+        set_action_from_table(2);
     }
 }
 
 void TBoss4Type3::enter_cut() {
-    u8 *self = (u8 *)this;
-    ((TUnk_80494968 *)(this->m_524))->clear_segments();
-    ((TUnk_80494968 *)(this->m_528))->clear_segments();
-    ((TBoss4Type3 *)self)->set_anim_state((int) (((this->m_374 - 4) & 1) + 3));
-    this->m_52c = 0;
-    this->m_398 = 0x31;
+    trails[0]->clear_segments();
+    trails[1]->clear_segments();
+    set_anim_state(((state - 4) & 1) + 3);
+    camera_mode = 0;
+    state_timer = 0x31;
 }
 
 void TBoss4Type3::advance_cut() {
-    u8 *self = (u8 *)this;
-    s32 random_scaled;
-    if ((s32) this->m_398 == 0) {
-        if ((s32) this->m_374 == 4) {
-            this->m_3bc = 0;
-            ((TBoss4Type3 *)self)->spawn_random_effect();
+    s32 sector;
+    if (state_timer == 0) {
+        if (state == 4) {
+            move_count = 0;
+            spawn_random_effect();
             return;
         }
-        random_scaled = TBoss4Type3::get_random_scaled(self);
-        ((TBoss4Type3 *)self)->send_packed_action(this->m_374 - 1, random_scaled, random_scaled);
+        sector = get_random_scaled();
+        send_packed_action(state - 1, sector, sector);
     }
 }
 
 void TBoss4Type3::update_cut() {
-    O_800590F4 *o = (O_800590F4 *)this;
-  saddr pb;
-  Vec b;
-  Vec a;
-  if (o->f398 > 0x2A)
-  {
-    o->f39c = 1.0f - ((o->f398 - 0x2A) / 7.0f);
-  }
-  else
-  {
-    o->f39c = 1.0f;
-  }
-  ((TBoss4Type3 *)o)->interp_position_between_nodes();
-  if (o->f398 == 0x28)
-  {
-    ((s32 (*)(void *, s32, s32))create__13TObjBs4CutAtkFPvPvPv)(o, o->f3a8, (o->f374 - 4) & 1);
-    play_sound_effect(0x4003B228, o->f38, 0, 1);
-  }
-  if ((o->f3f4 >= 3.0f) && (o->f3f4 <= 9.0f))
-  {
-    s32 idx = (o->f374 - 4) & 1;
-    u8 *e = (u8 *)((SampledMotionPoints *)o->f51c[idx])->lookup(o->f3f4);
-    if (e != 0)
-    {
-      push_matrix();
-      set_matrix_identity(0);
-      ((s32 (*)(void *))post_translate_matrix)(o->f38);
-      rotate_matrix_y(0, o->f60);
-      matrix_mult_vec(0, e, &a);
-      pb = (0, (saddr)&b);
-      matrix_mult_vec(0, e + 0xC, (void *) pb);
-      pop_matrix();
-      o->f524[idx]->m4(&a, (Vec *) pb);
+    Vec seg[2];
+    s32 side;
+    Vec *e;
+    if (state_timer > 0x2A) {
+        move_ratio = 1.0f - ((state_timer - 0x2A) / 7.0f);
+    } else {
+        move_ratio = 1.0f;
     }
-  }
-  if ((--o->f398) < 0)
-  {
-    ((TBoss4Type3 *)o)->set_action_from_table(1);
-  }
+    interp_position_between_nodes();
+    if (state_timer == 0x28) {
+        TObjBs4CutAtk::create(this, heading, (state - 4) & 1);
+        play_sound_effect(0x4003B228, &position, 0, 1);
+    }
+    if (anim_frame >= 3.0f && anim_frame <= 9.0f) {
+        side = (state - 4) & 1;
+        e = trail_samples[side]->lookup(anim_frame);
+        if (e != 0) {
+            push_matrix();
+            set_matrix_identity(0);
+            post_translate_matrix(&position.x);
+            rotate_matrix_y(0, rotation_y);
+            matrix_mult_vec(0, &e[0], &seg[0]);
+            matrix_mult_vec(0, &e[1], &seg[1]);
+            pop_matrix();
+            trails[side]->add_segment(&seg[0], &seg[1]);
+        }
+    }
+    if (--state_timer < 0) {
+        set_action_from_table(1);
+    }
 }
 
 void TBoss4Type3::enter_go_up() {
-    u8 *self = (u8 *)this;
-    this->m_3a4 = (s32) this->m_3a0;
-    this->m_3a0 = 0x11;
-    this->m_3ac = (s32) this->m_3a8;
-    play_sound_effect(0x4003B031, self + 0x38, 0, 1);
-    this->m_52c = 1;
-    this->m_398 = 0x31;
+    prev_node = node;
+    node = 0x11;
+    prev_heading = heading;
+    play_sound_effect(0x4003B031, &position, 0, 1);
+    camera_mode = 1;
+    state_timer = 0x31;
 }
 
 void TBoss4Type3::advance_go_up() {
-    Obj_80059010 *self = (Obj_80059010 *)this;
-    s32 id;
-    if (self->f398 == 0) {
-        if (self->f3ba != 0xFFFF) {
-            ((int (*)(void*, void*))TBoss4Type3__sub_80059F64)(self, (void*)((void *)0xD));
+    u16 id;
+    if (state_timer == 0) {
+        if (captured_player != 0xFFFF) {
+            send_action(0xD);
         } else {
-            id = TBoss4Type3::pick_random_target_player();
-            if ((u16)id != 0xFFFF) {
-                ((void (*)(void *, s32, s32))TBoss4Type3__sub_80059EA8)(self, 0xB, id);
+            id = pick_random_target_player();
+            if (id != 0xFFFF) {
+                send_attack_code(0xB, id);
             } else {
-                ((int (*)(void*, void*))TBoss4Type3__sub_80059F64)(self, (void*)((void *)0xC));
+                send_action(0xC);
             }
         }
     }
 }
 
 void TBoss4Type3::update_go_up() {
-    s32 temp_r0;
-    this->m_39c = (f32) (1.0f - ((f32) this->m_398 / 49.0f));
-    this->m_39c = TBoss4Type3__sub_800524E8(this->m_39c);
+    move_ratio = 1.0f - ((f32)state_timer / 49.0f);
+    move_ratio = ease_out_pow6(move_ratio);
     interp_position_between_nodes();
-    temp_r0 = this->m_398 - 1;
-    this->m_398 = temp_r0;
-    if (temp_r0 < 0) {
+    if (--state_timer < 0) {
         set_action_from_table(1);
     }
 }
 
 void TBoss4Type3::enter_go_down() {
-    u8 *self = (u8 *)this;
-    this->m_3a4 = 0x11;
-    this->m_3a0 = 0x10;
-    this->m_3ac = (s32) this->m_3a8;
-    play_sound_effect(0x4003B032, self + 0x38, 0, 1);
-    if ((u16) this->m_3ba == (u16)-1) {
-        play_sound_effect(0x4003C62D, (void *)(0), 0, 0);
+    prev_node = 0x11;
+    node = 0x10;
+    prev_heading = heading;
+    play_sound_effect(0x4003B032, &position, 0, 1);
+    if (captured_player == 0xFFFF) {
+        play_sound_effect(0x4003C62D, 0, 0, 0);
     }
-    this->m_52c = 0;
-    this->m_398 = 0x31;
+    camera_mode = 0;
+    state_timer = 0x31;
 }
 
 void TBoss4Type3::advance_go_down() {
-    Obj_80058E64 *self = (Obj_80058E64 *)this;
-    s32 t;
-    if (self->f398 == 0) {
-        if (self->f3ba != 0xFFFF) {
-            ((int (*)(void*, void*))TBoss4Type3__sub_80059F64)(self, (void*)16);
+    u16 id;
+    if (state_timer == 0) {
+        if (captured_player != 0xFFFF) {
+            send_action(16);
             return;
         }
-        t = TBoss4Type3::pick_random_target_player();
-        if (this->hp <= self->f3e0 && (u16)t != 0xFFFF) {
-            ((void (*)(void *, s32, s32))TBoss4Type3__sub_80059EA8)(self, 14, t);
+        id = pick_random_target_player();
+        if (hp <= capture_hp && id != 0xFFFF) {
+            send_attack_code(14, id);
             return;
         }
-        TBoss4Type3__sub_800599F4(self, 0, 2);
+        send_random_action(0, 2);
     }
 }
 
 void TBoss4Type3::update_go_down() {
-    s32 temp_r0;
-    this->m_39c = (f32) (1.0f - ((f32) this->m_398 / 49.0f));
-    this->m_39c = TBoss4Type3__sub_800524E8(this->m_39c);
+    move_ratio = 1.0f - ((f32)state_timer / 49.0f);
+    move_ratio = ease_out_pow6(move_ratio);
     interp_position_between_nodes();
-    temp_r0 = this->m_398 - 1;
-    this->m_398 = temp_r0;
-    if (temp_r0 < 0) {
+    if (--state_timer < 0) {
         set_action_from_table(1);
     }
 }
 
 void TBoss4Type3::enter_homing() {
-    this->m_3a0 = 0x11;
-    this->m_3a4 = 0x11;
-    this->m_3ac = (s32) this->m_3a8;
-    this->m_52c = 1;
-    this->m_398 = 0xC4;
+    node = 0x11;
+    prev_node = 0x11;
+    prev_heading = heading;
+    camera_mode = 1;
+    state_timer = 0xC4;
 }
 
 void TBoss4Type3::advance_homing() {
-    O_80058D70 *self = (O_80058D70 *)this;
-    if (self->f398 == 0) {
-        self->f3b8 = 0xFFFF;
-        ((int (*)(void*, void*))TBoss4Type3__sub_80059F64)(self, (void*)(0xc));
+    if (state_timer == 0) {
+        capture_target = 0xFFFF;
+        send_action(0xC);
     }
 }
 
 void TBoss4Type3::update_homing() {
-    O_80058BA0 *o = (O_80058BA0 *)this;
-    u8 *a;
-    u8 *b;
+    Vec *a;
+    Vec *b;
     s32 n;
     s32 step;
     s32 v;
     s32 i;
     u16 id;
-    a = o->f450;
-    b = o->f45c;
-    id = o->f3b8;
+    a = &node_positions[0][1];
+    b = &node_positions[0][2];
+    id = capture_target;
     if (id == 0xFFFF) {
-        ((TBoss4Type3 *)o)->set_action_from_table(1);
+        set_action_from_table(1);
         return;
     }
-    if (o->f398 > 0x93) {
-        ((TBoss4Type3 *)o)->turn_toward_player(id);
-    } else if (o->f398 == 0x93) {
-        if ((o->f424 = create_particle_emitter(a, 0xF7)) != 0) {
-            ((TParticleCtrl *)(o->f424))->set_flags(0x40);
+    if (state_timer > 0x93) {
+        turn_toward_player(id);
+    } else if (state_timer == 0x93) {
+        if ((effect_parts[8] = create_particle_emitter(a, 0xF7)) != 0) {
+            effect_parts[8]->set_flags(0x40);
         }
-        if ((o->f428 = create_particle_emitter(b, 0xF7)) != 0) {
-            ((TParticleCtrl *)(o->f428))->set_flags(0x40);
+        if ((effect_parts[9] = create_particle_emitter(b, 0xF7)) != 0) {
+            effect_parts[9]->set_flags(0x40);
         }
-        ((TBoss4Type3 *)o)->set_anim_state(6);
-    } else if (o->f398 == 0x75) {
-        if (o->f424 != 0) {
-            TParticleCtrl::release(o->f424);
-            o->f424 = 0;
+        set_anim_state(6);
+    } else if (state_timer == 0x75) {
+        if (effect_parts[8] != 0) {
+            TParticleCtrl::release(effect_parts[8]);
+            effect_parts[8] = 0;
         }
-        if (o->f428 != 0) {
-            TParticleCtrl::release(o->f428);
-            o->f428 = 0;
+        if (effect_parts[9] != 0) {
+            TParticleCtrl::release(effect_parts[9]);
+            effect_parts[9] = 0;
         }
-        o->f52c = 0;
+        camera_mode = 0;
     }
     n = *(s32 *)((u8 *)TLobby::dispatch_shared_handler_a(0x38) + 0x20);
     if (n < 1 || n > 8) {
@@ -1555,104 +1156,106 @@ void TBoss4Type3::update_homing() {
     }
     v = 0x75;
     for (i = 0; i < n; i++) {
-        if (o->f398 == v) {
-            TBoss4Type3::create_horming(this, (const Vec *)a, o->f3b8);
-            TBoss4Type3::create_horming(this, (const Vec *)b, o->f3b8);
-            play_sound_effect(0x4003B229, o->f38, 0, 1);
+        if (state_timer == v) {
+            create_horming(this, a, capture_target);
+            create_horming(this, b, capture_target);
+            play_sound_effect(0x4003B229, &position, 0, 1);
             break;
         }
         v += step;
     }
-    if (o->f424 != 0) {
-        ((TParticleCtrl *)o->f424)->set_position(a);
+    if (effect_parts[8] != 0) {
+        effect_parts[8]->set_position(a);
     }
-    if (o->f428 != 0) {
-        ((TParticleCtrl *)o->f428)->set_position(b);
+    if (effect_parts[9] != 0) {
+        effect_parts[9]->set_position(b);
     }
-    if (--o->f398 < 0) {
-        ((TBoss4Type3 *)o)->set_action_from_table(1);
+    if (--state_timer < 0) {
+        set_action_from_table(1);
     }
 }
 
 void TBoss4Type3::enter_light_magic() {
-    this->m_3a0 = 0x11;
-    this->m_3a4 = 0x11;
-    this->m_3ac = (s32) this->m_3a8;
-    this->m_52c = 1;
-    this->m_398 = 0x93;
+    node = 0x11;
+    prev_node = 0x11;
+    prev_heading = heading;
+    camera_mode = 1;
+    state_timer = 0x93;
 }
 
 void TBoss4Type3::advance_light_magic() {
-    void* p = (void*)this; if (this->m_398 == 0) { ((int (*)(void*, void*))TBoss4Type3__sub_80059F64)(p, (void*)10); } }
+    if (state_timer == 0) {
+        send_action(10);
+    }
+}
 
 void TBoss4Type3::update_light_magic() {
-    void *p;
-    Grant_80058A48 g;
-    saddr r29;
-    u8 *sub;
+    TParticleCtrl *p;
+    s32 level;
+    Vec *origin;
     s32 i;
-    u8 *arg0;
-    arg0 = (u8 *)this;
-    sub = arg0 + 0x474;
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x398) == 0x62) {
-        ((TBoss4Type3 *)arg0)->set_anim_state(7);
+    origin = &node_positions[0][4];
+    if (state_timer == 0x62) {
+        set_anim_state(7);
     }
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x398) == 0x49) {
-        p = spawn_particle_effect((const Vec *)sub, 0x133);
+    if (state_timer == 0x49) {
+        p = spawn_particle_effect(origin, 0x133);
         if (p != 0) {
-            ((TParticleCtrl *)p)->set_flags(0x40);
+            p->set_flags(0x40);
         }
     }
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x398) == 0x45) {
-        r29 = *(s32 *)((u8 *)TLobby::dispatch_shared_handler_a(0x38) + 0x18);
+    if (state_timer == 0x45) {
+        level = *(s32 *)((u8 *)TLobby::dispatch_shared_handler_a(0x38) + 0x18);
         for (i = 0; i < 4; i++) {
-            if (TBoss4Type3__sub_8005254C(i) != 0) {
-                __ct__16TargetCursorListFv((&g));
-                clear_target_cursor_list((TargetCursorList *)&g);
-                g.f0 = 1;
-                g.f4 = i;
-                g.f6 = 0;
-                TTecGrants::create(arg0, sub, &g, r29);
+            if (is_player_in_boss_area(i) != 0) {
+                TargetCursorList targets;
+                clear_target_cursor_list(&targets);
+                targets.count = 1;
+                targets.records[0].id = i;
+                targets.records[0].flag = 0;
+                TTecGrants::create(this, origin, &targets, level);
             }
         }
         start_pad_rumble_all(0xC0, 0xF);
     }
-    if (--*(s32 *)((s8 *)arg0 + 0x398) < 0) {
-        ((TBoss4Type3 *)arg0)->set_action_from_table(1);
+    if (--state_timer < 0) {
+        set_action_from_table(1);
     }
 }
 
 void TBoss4Type3::enter_dark_magic() {
-    this->m_3a0 = 0x11;
-    this->m_3a4 = 0x11;
-    this->m_3ac = (s32) this->m_3a8;
-    play_sound_effect(0x4003B238, (void *)(0), 0, 0);
-    this->m_52c = 1;
-    this->m_398 = 0x62;
+    node = 0x11;
+    prev_node = 0x11;
+    prev_heading = heading;
+    play_sound_effect(0x4003B238, 0, 0, 0);
+    camera_mode = 1;
+    state_timer = 0x62;
 }
 
 void TBoss4Type3::advance_dark_magic() {
-    void* p = (void*)this; if (this->m_398 == 0) { ((int (*)(void*, void*))TBoss4Type3__sub_80059F64)(p, (void*)12); } }
+    if (state_timer == 0) {
+        send_action(12);
+    }
+}
 
 #pragma push
 #pragma fp_contract on
-#pragma opt_propagation off
+#pragma opt_loop_invariants off
 void TBoss4Type3::update_dark_magic() {
-    saddr p;
-    s32 r30;
+    TObjPlayer *player;
+    Vec *target;
+    s32 level;
     s32 i;
-    O_80058848 *o;
     f32 s;
-    o = (O_80058848 *)this;
-    if (o->f398 == 0x46) {
-        r30 = *(s32 *)((u8 *)TLobby::dispatch_shared_handler_a(0x38) + 0x1C);
+    if (state_timer == 0x46) {
+        level = *(s32 *)((u8 *)TLobby::dispatch_shared_handler_a(0x38) + 0x1C);
         for (i = 0; i < TLobby::get_game_mode(); i++) {
-            p = (saddr)get_player_by_client_id(i);
-            if (TBoss4Type3__sub_8005254C(i) != 0) {
-                Vec v = o->pos;
-                p += 0x2FC;
-                ((s32 (*)(Vec *, u8 *))subtract_vector)(&v, (u8 *)p);
-                if (0.0f == ((f32 (*)(Vec *))vector_length)(&v)) {
+            player = get_player_by_client_id(i);
+            if (is_player_in_boss_area(i) != 0) {
+                Vec v = position;
+                target = &player->body_center;
+                subtract_vector(&v, target);
+                if (0.0f == vector_length(&v)) {
                     v.y = 1.0f;
                 } else {
                     normalize_vector(&v);
@@ -1661,213 +1264,207 @@ void TBoss4Type3::update_dark_magic() {
                 v.x *= s;
                 v.y *= s;
                 v.z *= s;
-                ((s32 (*)(Vec *, u8 *))vec3_add_to)(&v, (u8 *)p);
-                create__9TTecMegidFllll(o, &v, (u8 *)p, r30);
+                vec3_add_to(&v, target);
+                TTecMegid::create((saddr)this, (saddr)&v, (saddr)target, level);
             }
         }
         start_pad_rumble_all(0xC0, 0xF);
     }
-    if (--o->f398 < 0) {
-        ((TBoss4Type3 *)o)->set_action_from_table(1);
+    if (--state_timer < 0) {
+        set_action_from_table(1);
     }
 }
 #pragma pop
 
 void TBoss4Type3::enter_capture() {
-    play_sound_effect(0x4003C12B, (void *)(0), 0, 0);
-    this->m_52c = 0;
-    this->m_398 = 0x62;
+    play_sound_effect(0x4003C12B, 0, 0, 0);
+    camera_mode = 0;
+    state_timer = 0x62;
 }
 
 void TBoss4Type3::advance_capture() {
-    void *self = (void *)this;
-    if (TBoss4Type3__sub_8005254C(this->m_3b8) == 0) {
-        this->m_3b8 = 0xFFFFU;
-        this->m_3ba = 0xFFFFU;
-        TBoss4Type3__sub_800599F4(self, 0, 2);
+    if (is_player_in_boss_area(capture_target) == 0) {
+        capture_target = 0xFFFF;
+        captured_player = 0xFFFF;
+        send_random_action(0, 2);
         return;
     }
-    if ((s32) this->m_398 == 0) {
-        this->m_3ba = (u16) this->m_3b8;
-        this->m_3b8 = 0xFFFFU;
-        play_sound_effect(0x4003C12C, (void *)(0), 0, 0);
-        this->m_3bc = 0;
-        ((TBoss4Type3 *)self)->spawn_random_effect();
+    if (state_timer == 0) {
+        captured_player = capture_target;
+        capture_target = 0xFFFF;
+        play_sound_effect(0x4003C12C, 0, 0, 0);
+        move_count = 0;
+        spawn_random_effect();
     }
 }
 
 void TBoss4Type3::update_capture() {
-    u8 *self = (u8 *)this;
     Vec v;
-    Ply_80059ABC *p;
+    TObjPlayer *p;
     u16 id;
-    void *pos;
-    uaddr h;
-    id = this->m_3b8;
+    Vec *pos;
+    TParticleCtrl *h;
+    id = capture_target;
     if (id == 0xFFFF) {
-        ((TBoss4Type3 *)self)->set_action_from_table(1);
+        set_action_from_table(1);
         return;
     }
-    if (id == 0xFFFF || (p = (Ply_80059ABC *)get_player_by_client_id(id)) == NULL) {
+    if (id == 0xFFFF || (p = get_player_by_client_id(id)) == NULL) {
         v.x = v.y = v.z = 0.0f;
     } else {
-        VecCopy__FP3VecPC3Vec(&v, (u8 *)p + 0x2FC);
+        VecCopy(&v, &p->body_center);
     }
-    ((TBoss4Type3 *)self)->turn_toward_player(this->m_3b8);
-    if (this->m_398 == 0x31) {
+    turn_toward_player(capture_target);
+    if (state_timer == 0x31) {
         play_sound_effect(0x4003AA2E, 0, 0, 0);
-        start_pad_rumble_client(0xC0, 0xF, (s16)this->m_3b8);
-        ((TBoss4Type3 *)self)->set_anim_state(5);
+        start_pad_rumble_client(0xC0, 0xF, (s16)capture_target);
+        set_anim_state(5);
     }
-    pos = (u8 *)&this->m_474;
-    if (this->m_398 < 0x12) {
-        if (*(void **)((s8 *)self + 0x42C) != NULL) {
-            TParticleCtrl::release(*(void **)((s8 *)self + 0x42C));
-            *(void **)((s8 *)self + 0x42C) = NULL;
+    pos = &node_positions[0][4];
+    if (state_timer < 0x12) {
+        if (effect_parts[10] != NULL) {
+            TParticleCtrl::release(effect_parts[10]);
+            effect_parts[10] = NULL;
         }
-    } else if (this->m_398 <= 0x21 && *(u32 *)((s8 *)self + 0x42C) == 0) {
-        h = (uaddr)create_particle_emitter(pos, 0x142);
-        *(u32 *)((s8 *)self + 0x42C) = h;
+    } else if (state_timer <= 0x21 && effect_parts[10] == 0) {
+        h = create_particle_emitter(pos, 0x142);
+        effect_parts[10] = h;
         if (h != 0) {
-            ((TParticleCtrl *)(*(void **)((s8 *)self + 0x42C)))->set_flags(0x40);
+            effect_parts[10]->set_flags(0x40);
         }
     }
-    if (*(void **)((s8 *)self + 0x42C) != NULL) {
-        ((TParticleCtrl *)*(void **)((s8 *)self + 0x42C))->set_position(pos);
+    if (effect_parts[10] != NULL) {
+        effect_parts[10]->set_position(pos);
     }
-    if (this->m_398 == 0x21) {
-        TBoss4Type3::create_yutai(this, 0, this->m_3b8);
+    if (state_timer == 0x21) {
+        create_yutai(this, 0, capture_target);
     }
-    if (this->m_398 == 0x1C) {
-        h = (uaddr)spawn_particle_effect(&v, 0x38);
+    if (state_timer == 0x1C) {
+        h = spawn_particle_effect(&v, 0x38);
         if (h != 0) {
-            ((TParticleCtrl *)h)->set_flags(0x40);
+            h->set_flags(0x40);
         }
     }
     pos = &v;
-    if (this->m_398 < 2) {
-        if (*(void **)((s8 *)self + 0x430) != NULL) {
-            TParticleCtrl::release(*(void **)((s8 *)self + 0x430));
-            *(void **)((s8 *)self + 0x430) = NULL;
+    if (state_timer < 2) {
+        if (effect_parts[11] != NULL) {
+            TParticleCtrl::release(effect_parts[11]);
+            effect_parts[11] = NULL;
         }
-        if (*(void **)((s8 *)self + 0x434) != NULL) {
-            TParticleCtrl::release(*(void **)((s8 *)self + 0x434));
-            *(void **)((s8 *)self + 0x434) = NULL;
+        if (effect_parts[12] != NULL) {
+            TParticleCtrl::release(effect_parts[12]);
+            effect_parts[12] = NULL;
         }
-    } else if (this->m_398 <= 0x12) {
-        if (*(u32 *)((s8 *)self + 0x430) == 0) {
-            h = (uaddr)create_particle_emitter(pos, 0xEA);
-            *(u32 *)((s8 *)self + 0x430) = h;
+    } else if (state_timer <= 0x12) {
+        if (effect_parts[11] == 0) {
+            h = create_particle_emitter(pos, 0xEA);
+            effect_parts[11] = h;
             if (h != 0) {
-                ((TParticleCtrl *)(*(void **)((s8 *)self + 0x430)))->set_flags(0x40);
+                effect_parts[11]->set_flags(0x40);
             }
         }
-        if (*(u32 *)((s8 *)self + 0x434) == 0) {
-            h = (uaddr)create_particle_emitter(pos, 0x139);
-            *(u32 *)((s8 *)self + 0x434) = h;
+        if (effect_parts[12] == 0) {
+            h = create_particle_emitter(pos, 0x139);
+            effect_parts[12] = h;
             if (h != 0) {
-                ((TParticleCtrl *)(*(void **)((s8 *)self + 0x434)))->set_flags(0x40);
+                effect_parts[12]->set_flags(0x40);
             }
         }
     }
-    if (*(void **)((s8 *)self + 0x430) != NULL) {
-        ((TParticleCtrl *)*(void **)((s8 *)self + 0x430))->set_position(pos);
+    if (effect_parts[11] != NULL) {
+        effect_parts[11]->set_position(pos);
     }
-    if (*(void **)((s8 *)self + 0x434) != NULL) {
-        ((TParticleCtrl *)*(void **)((s8 *)self + 0x434))->set_position(pos);
+    if (effect_parts[12] != NULL) {
+        effect_parts[12]->set_position(pos);
     }
-    if (--this->m_398 < 0) {
-        ((TBoss4Type3 *)self)->set_action_from_table(1);
+    if (--state_timer < 0) {
+        set_action_from_table(1);
     }
 }
 
 void TBoss4Type3::enter_bura() {
-    void* p = (void*)this; this->m_52c = 0; this->m_398 = 147; }
+    camera_mode = 0;
+    state_timer = 147;
+}
 
 void TBoss4Type3::advance_bura() {
-    void *self = (void *)this;
-    s32 temp_r0;
-
-    u16 v = this->m_3ba;
-    if ((v != 0xFFFF) && (TBoss4Type3__sub_8005254C(v) == 0)) {
-        this->m_3b8 = 0xFFFF;
-        this->m_3ba = 0xFFFF;
+    s32 count;
+    u16 id = captured_player;
+    if (id != 0xFFFF && is_player_in_boss_area(id) == 0) {
+        capture_target = 0xFFFF;
+        captured_player = 0xFFFF;
     }
-    if ((s32) this->m_398 == 0) {
-        this->m_3bc = (this->m_3bc + 1);
-        temp_r0 = this->m_3bc;
-        if ((temp_r0 >= 5) || ((temp_r0 >= 2) && (((TObjChara *)self)->random_ratio() < 0.5f))) {
-            ((s32 (*)(void *, s32))TBoss4Type3__sub_80059F64)(self, 9);
+    if (state_timer == 0) {
+        move_count = move_count + 1;
+        count = move_count;
+        if (count >= 5 || (count >= 2 && random_ratio() < 0.5f)) {
+            send_action(9);
             return;
         }
-        ((TBoss4Type3 *)self)->spawn_random_effect();
+        spawn_random_effect();
     }
 }
 
 void TBoss4Type3::update_bura() {
-    S_80058380 *o = (S_80058380 *)this;
-    if (o->f398 > 0x48) {
-        o->f39c = 1.0f - (o->f398 - 0x48) / 75.0f;
+    if (state_timer > 0x48) {
+        move_ratio = 1.0f - (state_timer - 0x48) / 75.0f;
     } else {
-        o->f39c = 1.0f;
+        move_ratio = 1.0f;
     }
-    o->f39c = TBoss4Type3__sub_800524E8(o->f39c);
-    ((TBoss4Type3 *)o)->interp_position_between_nodes();
-    if (--o->f398 < 0) {
-        ((TBoss4Type3 *)o)->set_action_from_table(1);
+    move_ratio = ease_out_pow6(move_ratio);
+    interp_position_between_nodes();
+    if (--state_timer < 0) {
+        set_action_from_table(1);
     }
 }
 
 void TBoss4Type3::enter_libera() {
-    u8 *self = (u8 *)this;
-    TBoss4Type3::create_yutai(this, 1, this->m_3ba);
-    this->m_52c = 0;
-    this->m_398 = 0x62;
+    create_yutai(this, 1, captured_player);
+    camera_mode = 0;
+    state_timer = 0x62;
 }
 
 void TBoss4Type3::advance_libera() {
-    S_800582B4 *o = (S_800582B4 *)this;
-    if (TBoss4Type3__sub_8005254C(o->f3ba) == 0) {
-        o->f3b8 = 0xFFFF;
-        o->f3ba = 0xFFFF;
-        ((void (*)(void *, s32, s32))TBoss4Type3__sub_800599F4)(o, 0, 2);
+    if (is_player_in_boss_area(captured_player) == 0) {
+        capture_target = 0xFFFF;
+        captured_player = 0xFFFF;
+        send_random_action(0, 2);
         return;
     }
-    if (o->f398 == 0) {
-        o->f3b8 = 0xFFFF;
-        o->f3ba = 0xFFFF;
-        ((void (*)(void *, s32, s32))TBoss4Type3__sub_800599F4)(o, 0, 2);
+    if (state_timer == 0) {
+        capture_target = 0xFFFF;
+        captured_player = 0xFFFF;
+        send_random_action(0, 2);
     }
 }
 
 void TBoss4Type3::update_libera() {
-    S_80058224 *o = (S_80058224 *)this;
-    u16 id = o->f3ba;
+    u16 id = captured_player;
     if (id == 0xFFFF) {
-        ((TBoss4Type3 *)o)->set_action_from_table(1);
+        set_action_from_table(1);
         return;
     }
-    ((TBoss4Type3 *)o)->turn_toward_player(id);
-    if (o->f398 == 0x31) {
-        start_pad_rumble_client(0xC0, 0xF, (s16)o->f3ba);
-        o->f3b8 = 0xFFFF;
-        o->f3ba = 0xFFFF;
+    turn_toward_player(id);
+    if (state_timer == 0x31) {
+        start_pad_rumble_client(0xC0, 0xF, (s16)captured_player);
+        capture_target = 0xFFFF;
+        captured_player = 0xFFFF;
     }
-    if (--o->f398 < 0) {
-        ((TBoss4Type3 *)o)->set_action_from_table(1);
+    if (--state_timer < 0) {
+        set_action_from_table(1);
     }
 }
 
-void TUnk_80486924::clear_harmful_statuses() {  }
+void TBoss4Type2::clear_harmful_statuses() {  }
 
-void TUnk_80486924::apply_shock_status() {  }
+void TBoss4Type2::apply_shock_status() {  }
 
-void TUnk_80486924::apply_movement_ailment(s32) {  }
+void TBoss4Type2::apply_movement_ailment(s32) {  }
 
-void TUnk_80486924::apply_confusion_status() {  }
+void TBoss4Type2::apply_confusion_status() {  }
 
-void TUnk_80486924::apply_slow_status() {  }
+void TBoss4Type2::apply_slow_status() {  }
 
-void TUnk_80486924::apply_paralysis() {  }
+void TBoss4Type2::apply_paralysis() {  }
 
-void TUnk_80486924::apply_poison_status() {  }
+void TBoss4Type2::apply_poison_status() {  }

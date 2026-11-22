@@ -27,6 +27,7 @@
 #include "pso/system/task/TObject.h"
 #include <string.h>
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
 
 // The character-creation motion archive: no models, 49 body motions.
 const char *charamakingmot_model_names[1] = {NULL};
@@ -507,7 +508,6 @@ void request_chara_making_archives(void) {
 extern "C" {
 
 void *TCMCharacter__ct(void *arg0, void *arg1);
-extern Vec TObjLight__scene_light_state;
 
 void TCharaMaking__sub_8028E790(void) {  }
 }
@@ -517,10 +517,10 @@ extern s32 creation_dressing_room_mode_flag;
 
 void TCharaMaking::update_light_direction() {
     f32 temp_f31;
-    TObjLight__scene_light_state.y = -1.0f * sin_table_lookup(m_1c);
+    TObjLight__scene_light_state.direction.y = -1.0f * sin_table_lookup(m_1c);
     temp_f31 = cos_table_lookup(m_1c);
-    TObjLight__scene_light_state.x = temp_f31 * sin_table_lookup(m_20);
-    TObjLight__scene_light_state.z = temp_f31 * cos_table_lookup(m_20);
+    TObjLight__scene_light_state.direction.x = temp_f31 * sin_table_lookup(m_20);
+    TObjLight__scene_light_state.direction.z = temp_f31 * cos_table_lookup(m_20);
 }
 
 s32 TCharaMaking::update_main_menu(saddr arg0) {

@@ -12,6 +12,7 @@ class TParticleCtrl;
 struct TBoss6PlotFalz;
 class TBoss6Demo20_TYPE2_APPEAR : public TObject {
 public:
+    TBoss6Demo20_TYPE2_APPEAR(TBoss6PlotFalz *plot);
     virtual ~TBoss6Demo20_TYPE2_APPEAR();
     static TBoss6Demo20_TYPE2_APPEAR *create(TBoss6PlotFalz *plot);
     void draw_fading_model_pair();

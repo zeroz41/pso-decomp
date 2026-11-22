@@ -73,7 +73,7 @@ void TObjTailsTailsMove::advance_phase() {
 }
 
 void TObjTailsTailsMove::find_vertex_list() {
-    if (m_player->m_cfc != 0) return;
+    if (m_player->model_load_flags != 0) return;
     NJS_OBJECT *root = (NJS_OBJECT *)m_player->model;
     if (root == NULL) return;
     NJS_OBJECT *child = root->child;

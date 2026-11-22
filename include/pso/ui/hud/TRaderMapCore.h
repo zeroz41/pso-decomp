@@ -145,6 +145,7 @@ extern "C" s32 minimap_render_gate(Vec *pos, u32 color, u16 rot, s16 kind, s32 f
 // Queues a radar dot of the given colour and kind at pos, drawn at scale. Unless bit 0 of flags is
 // set, a dot more than 300 units from the radar's view centre is dropped. Returns 0 when dropped or
 // when all 128 marker slots are taken.
+extern "C" s32 minimap_render_dot(Vec *pos, s32 color, s16 kind, s32 flags);
 extern "C" s32 add_radar_scaled_marker(Vec *pos, s32 color, s16 kind, s32 flags, f32 scale);
 
 #endif

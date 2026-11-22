@@ -9,23 +9,11 @@
 struct DelDepthParameters {
     f32 accel;
     f32 maxSpeed;
-    u8 unknown08[0x10];
+    u8 pad_08[0x10];
     s32 techniqueLevel;
     s32 turnSpeed;
 };
 
-struct DelDepthAnimationBinding {
-    void *motions;
-    TObjMotionAction *actions;
-    u32 unknown08;
-    u16 actionCount;
-    u16 unknown0E;
-};
-
-extern "C" {
 extern DelDepthParameters *TObjEneDelDepth__tune_params;
 extern BmlResource *TObjEneDelDepth__shared_resource;
-extern const NpcAnimationBinding deldepth_anim_binding;
-extern const NpcAnimationBinding deldepth_anim_binding_b;
-}
 #endif

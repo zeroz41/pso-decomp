@@ -25,21 +25,15 @@
 #include <stdlib.h>
 #include "pso/unk/text_803D853C.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/render/GinjaTexture.h"
+#include "pso/render/model_render_state.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/ui/hud/TRaderMapCore.h"
+#include <dolphin/base/PPCArch.h>
 
 
-extern "C" {
-void *find_entity_by_id(u16 id);
-s32 minimap_render_dot(Vec *pos, s32 color, s16 a2, s32 a3);
-void init_collision_body_parts(TObject *obj, void *parts, s32 count);
-void free_collision_body_parts(TObject *obj);
-void PPCSync(void);
-void release_texture_list(GinjaTextureList *list);
-
-
-extern u32 model_render_flags;
-extern s32 actor_frame_tick;
-extern TObject *tl_04;
-}
 
 struct EnemyMovementParams {
     f32 pad_0;
@@ -49,19 +43,6 @@ struct EnemyMovementParams {
     s32 pad_10;
     s32 pad_14;
     s32 pad_18;
-};
-
-struct CollisionBodyPart {
-    Vec offset;
-    f32 radius;
-    u8 pad_10[0x8];
-    s32 flags;
-    u8 pad_1c[0x10];
-};
-
-struct CollisionState {
-    u8 pad_0[0x18];
-    u32 flags;
 };
 
 struct BossStats {
@@ -89,11 +70,11 @@ static EnemyMovementParams volopt_monitor_movement = {
     150.0f, 0.5555555f, 0x400, 0x1E0000, 0, 1, 0,
 };
 
-static CollisionBodyPart volopt_monitor_collision[4] = {
-    { { 0.0f, 43.0f, 0.0f }, 20.0f, { 0 }, 0x8005 },
-    { { 0.0f, 15.0f, 0.0f }, 10.0f, { 0 }, 0x8003 },
-    { { 0.0f, 15.0f, 0.0f }, 15.0f, { 0 }, 0x8003 },
-    { { 0.0f, 15.0f, 0.0f }, 10.0f, { 0 }, 0x8003 },
+static CollisionBody volopt_monitor_collision[4] = {
+    { { 0.0f, 43.0f, 0.0f }, 20.0f, 0.0f, 0, 0x8005, { 0.0f, 0.0f, 0.0f }, 0.0f },
+    { { 0.0f, 15.0f, 0.0f }, 10.0f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
+    { { 0.0f, 15.0f, 0.0f }, 15.0f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
+    { { 0.0f, 15.0f, 0.0f }, 10.0f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
 
 static Vec volopt_monitor_offsets[4] = {
@@ -154,16 +135,16 @@ static void *volopt_monitor_screen_meshes[4];
 s8 volopt_target_slot_used[VOLOPT_MONITOR_SLOTS];
 Vec volopt_slot_positions[VOLOPT_MONITOR_SLOTS];
 
-s32 fn_80042960(s32 i);
-s32 fn_80042960(s32 i) {
-    return volopt_monitor_stat_table->hp[i];
+s32 get_monitor_hp(s32 index);
+s32 get_monitor_hp(s32 index) {
+    return volopt_monitor_stat_table->hp[index];
 }
 
 void TBoss3VoloptMonitor::set_model(s32 index) {
     model = (void *)volopt_monitor_resources->models[index].model;
 }
 
-void TObjEnemyCustom::sub_8004292C() {
+void TObjEnemyCustom::clear_flags_30() {
     actorFlags &= ~0x04040000;
 }
 
@@ -202,7 +183,7 @@ TBoss3VoloptMonitor::TBoss3VoloptMonitor(TObjBase *parent, u16 id, s32 index, s3
     VecCopy(&volopt_slot_positions[slot], &position);
     volopt_slot_positions[slot].y = (slot & 3) == 0 ? 43.0f : 15.0f;
     init_collision_body_parts(this, &volopt_monitor_collision[variant], 1);
-    ((CollisionState *)bodies)->flags |= 0x500;
+    bodies->flags |= 0x500;
 }
 
 TBoss3VoloptMonitor::~TBoss3VoloptMonitor() {
@@ -211,7 +192,7 @@ TBoss3VoloptMonitor::~TBoss3VoloptMonitor() {
 
 void TBoss3VoloptMonitor::init_params() {
     movementParameters = &volopt_monitor_movement;
-    volopt_monitor_stats->hp = fn_80042960(slot % 4 ? 1 : 0);
+    volopt_monitor_stats->hp = get_monitor_hp(slot % 4 ? 1 : 0);
     recalc_combat_stats(volopt_monitor_stats, volopt_monitor_stats_b, volopt_monitor_object_params, 1.0f, 1.0f);
     hp = hpmax;
     tp = tpmax;
@@ -258,7 +239,7 @@ void TBoss3VoloptMonitor::run_task() {
     s32 in_zone;
     s32 base;
     if (TObjPlayer::check_demo_mode() == 1) {
-        sub_800420D8();
+        run_demo_task();
         return;
     }
     if (has_flag_0x800() != 0) {
@@ -266,7 +247,7 @@ void TBoss3VoloptMonitor::run_task() {
     } else if (test_flag30_512() != 0) {
         run_hit_reaction();
     }
-    if (mode != (s32)next_action) {
+    if (mode != next_action) {
         if ((s32)state != -1) {
             state = -1;
             dispatch_state();
@@ -286,10 +267,10 @@ void TBoss3VoloptMonitor::run_task() {
             anim_timer = 3;
             if (++anim_frame >= 8) {
                 anim_frame = 0;
-                if (m_388 & 0x10000) {
-                    m_388 &= ~0x10000;
+                if (behavior_flags & 0x10000) {
+                    behavior_flags &= ~0x10000;
                 } else if (3.0517578e-05f * (f32)rand() <= 0.1f) {
-                    m_388 |= 0x10000;
+                    behavior_flags |= 0x10000;
                 }
             }
         }
@@ -309,7 +290,7 @@ void TBoss3VoloptMonitor::run_task() {
         }
     }
     if (in_zone != 0) {
-        sub_8004292C();
+        clear_flags_30();
     } else {
         set_flags_30();
     }
@@ -319,21 +300,21 @@ void TBoss3VoloptMonitor::run_task() {
 void TBoss3VoloptMonitor::dispatch_state() {
     switch (mode) {
     case 0:
-        sub_80041C78();
+        update_wait();
         return;
     case 1:
-        sub_80041D0C();
+        update_idle();
         return;
     case 4:
-        sub_80041E88();
+        update_hit();
         return;
     case 5:
-        sub_80041D3C();
+        update_destroyed();
         return;
     }
 }
 
-void TBoss3VoloptMonitor::sub_800420D8() {}
+void TBoss3VoloptMonitor::run_demo_task() {}
 
 void TBoss3VoloptMonitor::render() {
     s32 frame;
@@ -353,7 +334,7 @@ void TBoss3VoloptMonitor::render() {
             } else {
                 set_model(volopt_monitor_models[0][variant]);
                 frame = anim_frame;
-                if (m_388 & 0x10000) {
+                if (behavior_flags & 0x10000) {
                     frame += MONITOR_SCREEN_NOISE;
                 }
             }
@@ -370,32 +351,32 @@ void TBoss3VoloptMonitor::render() {
     }
 }
 
-void TBoss3VoloptMonitor::sub_80041E88() {
+void TBoss3VoloptMonitor::update_hit() {
     switch (state) {
     case -1:
         break;
     case 0:
-        m_388 |= 1;
+        behavior_flags |= 1;
         anim_timer = 3;
         anim_frame = 0;
-        m_388 |= 0x10000;
+        behavior_flags |= 0x10000;
         play_sound_effect(0x4003BC03, &position, 0, 0);
         damage_player_if_aligned();
         referenceHp = hp;
-        *(s16 *)&timer = 3;
+        timer = 3;
         state = 1;
         break;
     case 1:
-        if (--*(s16 *)&timer <= 0) {
+        if (--timer <= 0) {
             obj_clearFlags30(0x200200);
             this->update_if_active(0);
-            m_388 &= ~1;
+            behavior_flags &= ~1;
         }
         break;
     }
 }
 
-void TBoss3VoloptMonitor::sub_80041D3C() {
+void TBoss3VoloptMonitor::update_destroyed() {
     s32 base;
     s32 all;
     s32 j;
@@ -439,7 +420,7 @@ void TBoss3VoloptMonitor::sub_80041D3C() {
     }
 }
 
-void TBoss3VoloptMonitor::sub_80041D0C() {
+void TBoss3VoloptMonitor::update_idle() {
     switch (state) {
     case -1:
         break;
@@ -452,13 +433,13 @@ void TBoss3VoloptMonitor::sub_80041D0C() {
     }
 }
 
-void TBoss3VoloptMonitor::sub_80041C78() {
+void TBoss3VoloptMonitor::update_wait() {
     switch (state) {
     case 0:
         actorFlags |= 0x02040000;
         state = 1;
     case 1:
-        if (--*(s16 *)&timer <= 0) {
+        if (--timer <= 0) {
             run_move_action();
         }
         break;
@@ -469,7 +450,7 @@ void TBoss3VoloptMonitor::sub_80041C78() {
 }
 
 void TBoss3VoloptMonitor::damage_player_if_aligned() {
-    if (!(m_388 & 0x40000) && vol_opt_active_hit_zone >= 0 && vol_opt_active_hit_zone / 4 == slot / 4) {
+    if (!(behavior_flags & 0x40000) && vol_opt_active_hit_zone >= 0 && vol_opt_active_hit_zone / 4 == slot / 4) {
         TBoss3VoloptCore::link_photon(attacker_id, 0);
     }
 }
@@ -484,7 +465,7 @@ void TBoss3VoloptMonitor::spawn_effects() {
 }
 
 void TBoss3VoloptMonitor::set_hit_flags_and_notify() {
-    m_388 |= 0x40000;
+    behavior_flags |= 0x40000;
     obj_setFlags30(this, 0x800);
     run_death_reaction();
 }

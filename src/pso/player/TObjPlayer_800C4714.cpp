@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/enemy/flower/TObjEneRe2Flower.h"
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -142,7 +143,6 @@ extern "C" {
 
 u32 csnVector(void *, void *, int);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
-void TObjEneDD__sub_800C2618(void *p);
 void *find_entity_by_id(u16 id);
 
 void vfunc_6__8TObjBaseFPsl();
@@ -211,7 +211,7 @@ s32 TObjEneRe2Flower_Bomb::area_attack_deliver_direct(void *recoil, saddr arg2, 
             if (p == 0) {
                 break;
             }
-            if (obj_is_hit_receivable((u8 *)p) != 0 && (u32)p != this->owner &&
+            if (obj_is_hit_receivable((u8 *)p) != 0 && (TObjBase *)p != this->owner &&
                 is_area_attack_target_eligible((saddr)this, *(s32 *)((s8 *)p + 0x30)) != 0 &&
                 !(fabs_float(*(f32 *)&(this->m_b8) - *(f32 *)((s8 *)p + 0x300)) > 30.0f)) {
                 ok = 1;
@@ -285,7 +285,7 @@ void TObjEneRe2Flower_Bomb::run_task() {
             o->fE8 |= 2;
         }
         if (o->m14(&o->fE4, &lbl_8043BC10) != 0) {
-            TObjEneDD__sub_800C2618(find_entity_by_id(o->ownerId));
+            ((TObjEneRe2Flower *)find_entity_by_id(o->ownerId))->notify_bomb_hit();
             ((TObject *)o)->queue_destruction();
             return;
         }

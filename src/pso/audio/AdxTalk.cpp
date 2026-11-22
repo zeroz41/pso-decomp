@@ -185,7 +185,7 @@ struct VT_803C9E38 {
 struct VObj_803C9E38 { VT_803C9E38 *vt; };
 
 struct Obj_803C9E38 {
-    u8 f0; s8 f1; u8 f2; s8 f3; void *f4; AdxStreamFile *f8; s32 fc; u8 pad_10[4];
+    u8 f0; s8 f1; u8 f2; s8 f3; void *f4; AdxStreamFile *f8; saddr fc; u8 pad_10[4];
     VObj_803C9E38 *f14; VObj_803C9E38 *objs[13]; s32 f4c; u8 pad_50[0x94 - 0x50];
     saddr f94; s8 f98; u8 pad_99[3]; s32 f9c; s32 fa0;
 };
@@ -411,21 +411,21 @@ void TLobby::adxt_set_out_pan(s32 arg1, s16 arg2) {
 
 s32 TLobby__sub_803C9740(u8 *arg0) {
     if ((s8) *(u8 *)((s8 *)arg0 + 1) >= 2) {
-        return ((TLobby *)(*(s32 *)((s8 *)arg0 + 4)))->send_with_offset4();
+        return ((TLobby *)(*(saddr *)((s8 *)arg0 + 4)))->send_with_offset4();
     }
     return 0;
 }
 
 s32 TLobby::apply_if_v2() {
     if ((s8) *(u8 *)((s8 *)((u8 *)this) + 1) >= 2) {
-        return ((TLobby *)(*(s32 *)&this->m_flags))->notify_field_4();
+        return ((TLobby *)(*(saddr *)&this->m_flags))->notify_field_4();
     }
     return 0;
 }
 
 s32 TLobby__sub_803C97B8(u8 *arg0) {
     if ((s8) *(u8 *)((s8 *)arg0 + 1) >= 2) {
-        return ((TLobby *)(*(s32 *)((s8 *)arg0 + 4)))->send_packet_by_id();
+        return ((TLobby *)(*(saddr *)((s8 *)arg0 + 4)))->send_packet_by_id();
     }
     return 0;
 }
@@ -445,7 +445,7 @@ struct Adxt_803C97F4 {
     u8 pad_2[2];
     saddr f4;
     u8 pad_8[4];
-    s32 fC;
+    saddr fC;
     u8 pad_10[8];
     Strm_803C97F4 *f18;
     u8 pad_1c[0x72 - 0x1C];
@@ -573,7 +573,7 @@ void stop_audio_stream(u8 *arg0) {
         }
     }
     TLobby::init_once();
-    TLobby::dispatch_packet((GcrnaStream *)((int) (*(s32 *)((s8 *)arg0 + 0xC))), 0);
+    TLobby::dispatch_packet(*(GcrnaStream **)((s8 *)arg0 + 0xC), 0);
     TLobby__sub_803CC030((int) (*(s32 *)((s8 *)arg0 + 0xC)), 0);
     ((TLobby *)(*(saddr *)((s8 *)arg0 + 4)))->reset_flag();
     if ((s32) *(u8 *)((s8 *)arg0 + 2) == 2) {
@@ -594,7 +594,7 @@ void stop_audio_stream(u8 *arg0) {
 void TLobby__sub_803C9DB4(u8 *arg0) {
     void **temp_r3;
     TLobby::init_once();
-    TLobby::dispatch_packet((GcrnaStream *)((int) (*(s32 *)((s8 *)arg0 + 0xC))), 0);
+    TLobby::dispatch_packet(*(GcrnaStream **)((s8 *)arg0 + 0xC), 0);
     TLobby__sub_803CC030((int) (*(s32 *)((s8 *)arg0 + 0xC)), 0);
     ((TLobby *)(*(saddr *)((s8 *)arg0 + 4)))->reset_flag();
     if ((s32) *(u8 *)((s8 *)arg0 + 2) == 2) {
@@ -726,7 +726,7 @@ void TLobby__sub_803CA194(Obj_803CA194 *arg0) {
             }
         }
         TLobby::init_once();
-        TLobby::dispatch_packet((GcrnaStream *)((int)arg0->fc), 0);
+        TLobby::dispatch_packet((GcrnaStream *)arg0->fc, 0);
         TLobby__sub_803CC030((saddr)arg0->fc, 0);
         ((TLobby *)((saddr)arg0->f4))->reset_flag();
         if ((s32)arg0->f2 == 2) {

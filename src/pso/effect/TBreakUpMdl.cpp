@@ -28,6 +28,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/render/model_render_state.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/unk/text_803D853C.h"
 
 struct Seg_80096EBC { s32 a; f32 x; f32 y; f32 z; u8 pad[12]; };
 
@@ -35,7 +36,7 @@ struct Brk_80096EBC { s32 count; Seg_80096EBC *segs; };
 
 struct Part_8009680C { u8 pos[0x18]; u8 rot[0x10]; };
 
-struct Chunk_8009680C { s32 model; u8 pad[0x18]; };
+struct Chunk_8009680C { void *model; u8 pad[0x18]; };
 
 struct Model_8009680C { u8 pad0[4]; Chunk_8009680C *chunks; s32 is_chunk; };
 
@@ -71,9 +72,9 @@ struct BreakUp_8009693C {
     f32 gravity;
 };
 
-struct Part_80096AD8 { f32 pos[3]; f32 vel[3]; s32 f18; s32 f1c; s32 f20; s32 f24; };
+struct Part_80096AD8 { Vec pos; f32 vel[3]; s32 f18; s32 f1c; s32 f20; s32 f24; };
 
-struct Seg_80096AD8 { s32 f0; f32 a[3]; f32 b[3]; };
+struct Seg_80096AD8 { s32 f0; Vec a; f32 b[3]; };
 
 struct Model_80096AD8 { s32 count; Seg_80096AD8 *segs; };
 
@@ -108,7 +109,6 @@ struct BreakUp_80096AD8 {
 };
 
 extern "C" {
-s32 matrix_mult_vec(int, int, int);
 s32 rotate_matrix_by_node_angles(void *, int);
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
@@ -132,10 +132,10 @@ TUnk_8048FA00::TUnk_8048FA00(long model) {
     m_8 = 0;
 }
 
-TUnk_8048FA00::TUnk_8048FA00(int model, int motion, f32 frame) {
+TUnk_8048FA00::TUnk_8048FA00(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame) {
     m_8 = 0;
-    alloc_breakup_piece_records((Brk_80096EBC *)this, (NJS_OBJECT *)model);
-    bind_motion_context((NJS_MOTION *)motion, frame);
+    alloc_breakup_piece_records((Brk_80096EBC *)this, model);
+    bind_motion_context(motion, frame);
     push_matrix_from((void *)&identity_matrix);
     collect_node_positions((u8 *)model, 0);
     pop_matrix();
@@ -172,7 +172,7 @@ TUnk_8048FA00::~TUnk_8048FA00() {
 s32 TUnk_8048FA00::build_node_records(u8 *model, s32 arg2) {
     u8 *temp_r31;
     s32 temp_r30;
-    s32 temp_r4;
+    Vec *pos;
     s32 index;
     u8 *var_r28;
     var_r28 = model;
@@ -185,8 +185,8 @@ s32 TUnk_8048FA00::build_node_records(u8 *model, s32 arg2) {
         temp_r30 = *(s32 *)((s8 *)var_r28 + 0);
         if (!(temp_r30 & 8)) {
             temp_r31 = (u8 *)m_records + index * 0x1C;
-            temp_r4 = (long) (temp_r31 + 4);
-            matrix_mult_vec(0, temp_r4, temp_r4);
+            pos = (Vec *)(temp_r31 + 4);
+            matrix_mult_vec(NULL, pos, pos);
             VecCopy((Vec *)(temp_r31 + 0x10), (const Vec *)(temp_r31 + 4));
             normalize_vector_xz((Vec *)(temp_r31 + 0x10));
             index += 1;
@@ -204,7 +204,7 @@ s32 TUnk_8048FA00::build_node_records(u8 *model, s32 arg2) {
 s32 TUnk_8048FA00::collect_node_positions(u8 *model, s32 arg2) {
     u8 *temp_r31;
     s32 temp_r30;
-    s32 temp_r4;
+    Vec *pos;
     s32 index;
     u8 *var_r28;
     var_r28 = model;
@@ -215,8 +215,8 @@ s32 TUnk_8048FA00::collect_node_positions(u8 *model, s32 arg2) {
         temp_r30 = *(s32 *)((s8 *)var_r28 + 0);
         if (!(temp_r30 & 8)) {
             temp_r31 = (u8 *)m_records + index * 0x1C;
-            temp_r4 = (long) (temp_r31 + 4);
-            matrix_mult_vec(0, temp_r4, temp_r4);
+            pos = (Vec *)(temp_r31 + 4);
+            matrix_mult_vec(NULL, pos, pos);
             VecCopy((Vec *)(temp_r31 + 0x10), (const Vec *)(temp_r31 + 4));
             normalize_vector_xz((Vec *)(temp_r31 + 0x10));
             index += 1;
@@ -256,7 +256,7 @@ u8 *TBreakUpMdl__ct(u8 *break_up_mdl, void *parent, Model_80096AD8 *arg2, void *
     rotate_matrix_y(0, arg6);
     for (i = 0; i < self->count; i++) {
         part = &self->parts[i];
-        matrix_mult_vec(0, (int)self->model->segs[i].a, (int)part);
+        matrix_mult_vec(NULL, &self->model->segs[i].a, &part->pos);
         rotate_vector_by_matrix(0, self->model->segs[i].b, part->vel);
         normalize_vector_xz((Vec *)(part->vel));
         part->vel[1] = scale * (3.0517578e-05f * (f32)rand()) + base;
@@ -328,9 +328,9 @@ void TBreakUpMdl::render() {
         post_translate_matrix(part->pos);
         rotate_matrix_by_node_angles(part->rot, 0);
         if (self->model->is_chunk != 0) {
-            draw_ginja_model((void *)(self->model->chunks[i].model));
+            draw_ginja_model(self->model->chunks[i].model);
         } else {
-            draw_chunk_model((void *)self->model->chunks[i].model);
+            draw_chunk_model(self->model->chunks[i].model);
         }
         pop_matrix();
     }

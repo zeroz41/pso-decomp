@@ -13,10 +13,10 @@ struct SlimeChildSlot {
 
 union SlimeSpawnTemplate {
     struct {
-        s16 field_00;
-        s16 field_02;
-        s16 field_04;
-        u16 field_06;
+        s16 set_index;    // the split slimes' set indices count up from the spawner's
+        s16 child_count;  // the spawner's child_limit (1..4); 0 for the split slimes
+        u8 pad_04[0x2];
+        u16 entity_id;    // the split slimes' entity ids count up from the spawner's
         u8 pad8[8];
         Vec position;
         u8 rest[0x40 - 0x1C];
@@ -45,8 +45,7 @@ struct TObjEneSlime : public TObjEnemy {
 
 LAYOUT_ASSERT(TObjEneSlime_size, sizeof(TObjEneSlime) == 0x3D8);
 
-extern "C" {
-void TObjEneSlime__sub_800EB9F0(void *p, void *q);
-}
+// Copies a child slot; init_slots empties the slots from slime_empty_child_slot.
+void copy_child_slot(SlimeChildSlot *dst, SlimeChildSlot *src);
 
 #endif

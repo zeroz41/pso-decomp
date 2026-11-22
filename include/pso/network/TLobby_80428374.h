@@ -122,7 +122,7 @@ s16 modem_script_next_token(u8 *src, u8 *dst, u8 **next);
 void modem_script_store_field(s16 type, s16 index, u8 *src, s16 *nstr, s16 *nint);
 s16 TLobby__sub_804290D4(s32 idx);
 void reset_boot_state(void);
-s32 wait_timeout_loop(void *params);
+s16 wait_timeout_loop(void *params);
 void cancel_alarm_b(void);
 s16 init_buffer_pool(void);
 void reset_buffer_pool(void);

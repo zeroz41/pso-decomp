@@ -6,6 +6,8 @@
 struct Vec;
 struct ActorParamBlock;
 struct ControllerInputContext;
+struct AttackParams;
+struct CsnGroup;
 
 struct DirectAttackPayload {
     s32 kind;
@@ -24,7 +26,11 @@ public:
     // control_state 7: the owner holds a fixed pose its mag aligns to.
     s32 is_in_fixed_pose();
     void calc_attach_pos();
+    // move_destination = position, then move_origin and prev_position follow it.
+    void init_position_vectors();
     void add_flags_2e4(u32);
+    // Alive and nothing blocks the line from `from` to its body centre (csnLookAt).
+    s32 is_target_unobstructed(const Vec *from);
     s16 get_stats_atp_max();
     s16 sub_800194C4();
     f32 get_attack_range();
@@ -35,19 +41,21 @@ public:
     int obj_getPtr2B0_1C();
     // The character's stat block (ATP, MST, EVP, HP, DFP, ATA, LCK first).
     u8 *get_stats();
-    s16 get_s16_2c4();
-    void sub_800192B4(int);
-    s16 get_field_2c0();
-    void add_to_field_2c8(int);
-    s16 get_field_2c2();
-    void add_to_field_2ca(int);
-    s16 get_atp();
-    void add_to_field_2ce(int);
+    s16 get_base_evp();
+    void adjust_evp(int);
+    s16 get_base_atp();
+    void adjust_atp(int);
+    s16 get_base_atp_range();
+    void adjust_atp_range(int);
+    s16 get_base_dfp();
+    void adjust_dfp(int);
     s32 recalc_combat_stats(void *, void *, void *, f32, f32);
     s32 set_motion_params(void *);
     void show_miss_popup(const float *);
     void try_apply_damage(const Vec *pos, s32 damage);
     s32 subtract_actor_tp(s32);
+    // Spends dmg of its TP (subtract_actor_tp) unless it is in state 2; 0 when it cannot act.
+    s32 check_can_act(s32 dmg);
     void sub_80010DE8(u16, u8, u8);
     s16 clamp_hp();
     void spawn_freeze_shell_effect(u32, s32);
@@ -64,7 +72,7 @@ public:
     virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
     virtual f32 receive_weapon_special_attack(void *, void *);
     virtual void apply_knockback_from_attacker(u8 *, f32);
-    virtual s32 try_start_action(s32, s32);
+    virtual s32 try_start_action(s32 attacker, s32 collider);
     virtual s32 roll_physical_accuracy(void *, s32, f32);
     virtual void refresh_target();
     virtual int has_no_target();
@@ -114,151 +122,106 @@ public:
     virtual void enemy_spawn_zalure_effect();
     // Recomputes the combat stats and clamps HP and TP to their maxima.
     virtual void recalc_stats();
-    virtual s32 vfunc_74(s32);
+    // Sends an enemy's HP lost and Jellen/Zalure stat drop (status 9-12) to the
+    // other clients in a 6x0A packet; a player sends nothing (0).
+    virtual s32 sync_enemy_state(s32 status);
     virtual void gain_photon_blast_charge(f32);
     // Spends photon blast charge; TObjPlayer forwards it to subtract_photon_blast_charge (param name inferred).
     virtual void spend_photon_blast_charge(f32 charge);
     virtual void gain_photon_blast_chain_charge();
-    virtual void vfunc_78(s32);
+    virtual void vfunc_78(saddr);
     void request_box_item_drop(const Vec *position, s32 random_item);
     virtual void *get_center();
     virtual void reset_motion_fields();
-    int m_fc;
-    u8 unk_100[0x3];
+    u8 pad_FC[0x7];
     u8 m_103;
-    void* m_104;
-    s32 m_108;
-    u8 unk_10C[0xA];
+    u8 pad_104[0x12];
     s16 m_116;
     u8 unk_118[0x2];
     s16 m_11a;
     s16 m_11c;
-    u8 unk_11E[0x1];
+    u8 pad_11E[0x1];
     u8 m_11f;
-    void* m_120;
-    u8 unk_124[0x4];
-    void * m_128;
-    u8 unk_12C[0xF];
+    CsnGroup *ground_cache;  // csnVectorUnder's cached candidate groups for ground probes
+    u8 pad_124[0x17];
     u8 m_13b;
-    u8 unk_13C[0x14];
-    f32 m_150;
-    u8 unk_154[0x3];
+    u8 pad_13C[0x1B];
     u8 m_157;
-    u8 unk_158[0x18];
-    s32 m_170;
-    u8 unk_174[0x10];
+    u8 pad_158[0x2C];
     s32 m_184;
-    u8 unk_188[0x7];
+    u8 pad_188[0x7];
     u8 m_18f;
-    u8 unk_190[0x8];
-    s16 m_198;
-    u8 unk_19A[0x11];
+    u8 pad_190[0x1B];
     u8 m_1ab;
-    u8 unk_1AC[0xC];
-    u32 m_1b8;
-    u8 unk_1BC[0x4];
-    s32 m_1c0;
+    u8 pad_1AC[0x18];
     TObject *unk_1C4;
-    int m_1c8;
+    u8 pad_1C8[0x4];
     u8 unk_1CC[0x2];
-    s16 m_1ce;
-    u8 unk_1D0[0x2];
-    u8 m_1d2;
-    u8 unk_1D3[0x11];
-    float m_1e4;
-    u8 unk_1E8[0x4];
-    s32 * m_1ec;
-    u8 unk_1F0[0x4];
-    s32 * m_1f4;
+    u8 pad_1CE[0x2A];
     u8 unk_1F8[0x4];
-    s32 m_1fc;
-    u8 unk_200[0x4];
-    s32 m_204;
-    u8 unk_208[0x4];
-    s32 m_20c;
-    u8 unk_210[0x4];
-    s32 m_214;
-    u8 unk_218[0x4];
-    s32 m_21c;
-    u8 unk_220[0x4];
-    f32 m_224;
-    u8 unk_228[0x4];
-    void* m_22c;
-    u8 unk_230[0x18];
+    u8 pad_1FC[0x4C];
     Vec ground_normal;
-    u8 unk_254[0x20];
-    void* m_274;
-    u8 unk_278[0x8];
-    void* m_280;
+    u8 pad_254[0x30];
     u8 unk_284[0x8];
-    u32 m_28c;
-    void* m_290;
-    u32 m_294;
-    u8 unk_298[0x4];
-    u16 m_29c;
-    s16 m_29e;
-    u8 unk_2A0[0x8];
+    u8 pad_28C[0x4];
+    Vec move_origin;  // where the current move started (calc_velocity_toward_destination's from)
+    Vec move_destination;  // where the current move goes
     u8 *target;
     u32 m_2ac;
-    u8 * m_2b0;
-    f32 m_2b4;
+    u8 *stat_block;  // the stat block get_stats returns (ATP, MST, EVP, HP, DFP, ATA, LCK; proportions at +0x10)
+    f32 frame_timer;  // frames counted up or down by the current behaviour
     s16 hpmax;
     s16 tpmax;
     s16 hp_bonus;  // what items add to the HP maximum (add_actor_hp_bonus)
     s16 tp_bonus;  // and to the TP maximum
-    s16 m_2c0;
-    u8 unk_2C2[0x2];
-    s16 m_2c4;
-    u8 unk_2C6[0x2];
-    s16 m_2c8;
-    u8 unk_2CA[0x2];
-    short m_2cc;
-    s16 m_2ce;
-    s16 m_2d0;
-    u8 unk_2D2[0x2];
+    // Combat stats filled by recalc_combat_stats: base_* are the stat block's
+    // values plus the item bonuses, the others the current values after the
+    // Shifta/Deband boosts and status effects.
+    s16 base_atp;  // stat block ATP
+    s16 base_atp_range;  // the attack params' ATP max - min
+    s16 base_evp;  // stat block EVP plus the item bonus
+    s16 base_dfp;  // the stat block's DFP plus the item bonus
+    s16 atp;  // base_atp with Shifta
+    s16 atp_range;  // base_atp_range with Shifta
+    s16 evp;
+    s16 dfp;  // base_dfp with Deband; the guard formulas subtract it from the attacker's ATP
+    s16 ata;  // stat block ATA plus the attack params' bonus
+    s16 lck;  // stat block LCK
     u16 attacker_id;  // entity id of whoever last hit it; 6x89 sets a player's killer
-    u16 m_2d6;
+    u16 local_attacker_id;  // the last local player that hit it (record_attack_source, single screen); distribute_experience awards it
     u16 m_2d8;
-    u8 unk_2DA[0x2];
-    u32 m_2dc;
-    void* m_2e0;
-    uaddr m_2e4;
-    u8 unk_2E8[0x2];
+    u8 pad_2DA[0x2];
+    // Bit 1: hit by a ranged attack (calc_distance_accuracy_penalty); bit 2: a
+    // Recon whose Recobox died. Cleared with the attack receipts.
+    u32 hit_flags;
+    u8 pad_2E0[0x4];
+    u32 target_attribute_mask;  // 1 native, 2 A.Beast, 4 machine (androids), 8 dark: what a weapon's attribute bonus targets
+    u8 pad_2E8[0x2];
     s16 m_2ea;
-    u8 unk_2EC[0x2];
+    u8 pad_2EC[0x2];
     s16 m_2ee;
-    u8 unk_2F0[0x2];
+    u8 pad_2F0[0x2];
     s16 m_2f2;
     s16 m_2f4;
     s16 m_2f6;
     s16 m_2f8;
     s16 m_2fa;
     Vec body_center;  // position raised to mid-body; effects spawn and distances are measured here
-    union {
-        u8 unk_308[0x4];
-        f32 x_speed;
-    };
-    f32 y_speed;
-    f32 m_310;
+    Vec velocity;
     // The pad driving it in place of its AI; TObjControl::run_task reads the
     // attack button and the stick (inferred).
     ControllerInputContext *controller_input;
-    uaddr m_318;  // the actor's AttackParams
+    AttackParams *attack_params;
     ActorParamBlock *param_block;  // get_actor_param_block
     u8 unk_320[0x2];
-    s16 m_322;
+    u8 pad_322[0x2];
     s16 control_state;  // who drives it: 6 a script, 7 a fixed pose
     s16 mode;
     s16 phase;
-    u8 unk_32A[0x2];
+    u8 pad_32A[0x2];
     s16 hp;
     u16 tp;
     u8 unk_330[0x4];
-
-    // Typed views of the vectors the fields above split up: the movement
-    // destination at 0x29C and the velocity at 0x308.
-    Vec *destination() { return (Vec *)&m_29c; }
-    Vec *velocity() { return (Vec *)unk_308; }
 };
 
 extern "C" void *__dt__9TObjCharaFv(void *, s16);

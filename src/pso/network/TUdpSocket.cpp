@@ -21,25 +21,8 @@
 OBJECT_NAME(TTcpSocket)
 OBJECT_NAME(TUdpSocket)
 
-struct Q_80078110 { s32 len; s32 v; u8 pad[0xc]; };
-
-struct R_80078110 { s16 a; saddr b; };
-
-struct C_80078110 { s32 len; s8 a; s8 b; s8 c; u8 pad[8]; };
-
-struct Q_800781B8 { s32 len; s32 v; u8 pad[0xc]; };
-
-struct R_800781B8 { s16 a; saddr b; };
-
-struct C_800781B8 { s32 len; s8 a; s8 b; s8 c; u8 pad[8]; };
-
-struct Q_800782B8 { s32 len; s32 v; u8 pad[0xc]; };
-
-struct Q2_800782B8 { s32 len; s32 v; u8 pad[0xc]; };
-
 extern "C" {
 UdpSocketEventRecord *copy_udp_socket_event_record(UdpSocketEventRecord *dst, UdpSocketEventRecord *src);
-s16 udp_send(int, void *, void *, int, void *, int, void *);
 }
 TTcpSocket *tcp_socket_table[16] = {0};
 TUdpSocket *udp_socket_slots[16] = {0};
@@ -60,47 +43,47 @@ void TUdpSocket::recv() {
 }
 
 short TUdpSocket::send(u8 *data, size_t size) {
-    Q_80078110 q2;
-    Q_80078110 q1;
-    C_80078110 c;
-    R_80078110 r;
+    NetworkAddress src;
+    NetworkAddress dst;
+    UdpSendOptions options;
+    send_buffs buffer;
     u16 port;
-    q1.len = 4;
-    q1.v = m_dst_addr.addr;
+    dst.family = 4;
+    dst.ipv4 = m_dst_addr.addr;
     TLobby__sub_8014672C((s32 *)&m_src_addr);
-    q2.len = 4;
-    q2.v = m_src_addr.addr;
-    c.len = 4;
-    c.a = 0x78;
-    c.b = 0;
-    c.c = 0;
-    r.b = (saddr)data;
-    r.a = size;
+    src.family = 4;
+    src.ipv4 = m_src_addr.addr;
+    options.family = 4;
+    options.ipv4[0] = 0x78;
+    options.ipv4[1] = 0;
+    options.ipv4[2] = 0;
+    buffer.buff = data;
+    buffer.len = size;
     port = m_dst_port;
     bswap_16(&port);
-    return udp_send(m_sock_fd, &q2, &q1, port, &c, 1, &r);
+    return udp_send(m_sock_fd, &src, &dst, port, &options, 1, &buffer);
 }
 
 short TUdpSocket::send(u8 *data) {
-    Q_800781B8 q2;
-    Q_800781B8 q1;
-    C_800781B8 c;
-    R_800781B8 r;
+    NetworkAddress src;
+    NetworkAddress dst;
+    UdpSendOptions options;
+    send_buffs buffer;
     u16 port;
-    q1.len = 4;
-    q1.v = m_dst_addr.addr;
+    dst.family = 4;
+    dst.ipv4 = m_dst_addr.addr;
     TLobby__sub_8014672C((s32 *)&m_src_addr);
-    q2.len = 4;
-    q2.v = m_src_addr.addr;
-    c.len = 4;
-    c.a = 0x78;
-    c.b = 0;
-    c.c = 0;
-    r.b = (saddr)data;
-    r.a = strlen((const char *)data);
+    src.family = 4;
+    src.ipv4 = m_src_addr.addr;
+    options.family = 4;
+    options.ipv4[0] = 0x78;
+    options.ipv4[1] = 0;
+    options.ipv4[2] = 0;
+    buffer.buff = data;
+    buffer.len = strlen((const char *)data);
     port = m_dst_port;
     bswap_16(&port);
-    return udp_send(m_sock_fd, &q2, &q1, port, &c, 1, &r);
+    return udp_send(m_sock_fd, &src, &dst, port, &options, 1, &buffer);
 }
 
 void TUdpSocket::close() {
@@ -111,22 +94,22 @@ void TUdpSocket::close() {
 }
 
 int TUdpSocket::open() {
-    Q_800782B8 q1;
-    Q2_800782B8 q2;
+    NetworkAddress src;
+    NetworkAddress dst;
     u16 pb;
     u16 pa;
     s32 i;
-    q1.len = 4;
-    q1.v = 0;
-    q2.len = 4;
-    q2.v = m_dst_addr.addr;
+    src.family = 4;
+    src.ipv4 = 0;
+    dst.family = 4;
+    dst.ipv4 = m_dst_addr.addr;
     for (i = 0; i < 30001; i++) {
     }
     pa = m_src_port;
     pb = m_dst_port;
     bswap_16(&pa);
     bswap_16(&pb);
-    m_sock_fd = udp_open(&q1, pa, &q2, pb, 0, handle_socket_event);
+    m_sock_fd = udp_open(&src, pa, &dst, pb, 0, handle_socket_event);
     if (m_sock_fd < 0) {
         return -1;
     }

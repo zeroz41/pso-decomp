@@ -13,7 +13,7 @@ struct TObjEneHoldEffect : public TObjBase {
     u32 m_98;
     u32 m_9c;
     virtual void render();
-    static void create(void *parent, void *arg1, void *arg2);
+    static void create(void *parent, s32 type, s32 arg2);
     s32 validate_6x49_packet();
 };
 

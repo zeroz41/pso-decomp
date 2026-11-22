@@ -14,6 +14,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/olgaflow/TBoss6Rock.h"
 #include "pso/boss/olgaflow/TBoss6Type2.h"
+#include "pso/boss/olgaflow/TBoss6Mag.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/weapon/TItemAttackCol.h"
 #include "pso/player/TObjPlayer.h"
@@ -50,7 +51,6 @@ struct O_8035740C { u8 pad0[0xC4]; V4_8035740C v[10]; };
 extern "C" {
 const char *TItemEffOrgaFlowShot__name = "TItemEffOrgaFlowShot";
 s32 is_local_client_floor_leader();
-void grid_to_world_pos__11TBoss6Type2FccPv(u8, u8, Vec *);
 void clear_rock_state__10TBoss6RockFl(s32 i, s32 a, s32 b);
 int olga_flow_subordinate_actions_enabled;
 void handle_6xAD_olga_flow_subordinate_boss_actions(Pkt_803570E4 *pkt);
@@ -97,10 +97,10 @@ void handle_6xAD_olga_flow_subordinate_boss_actions(Pkt_803570E4 *pkt) {
             if (p[0] < 0 || p[1] < 0) {
                 break;
             }
-            grid_to_world_pos__11TBoss6Type2FccPv(p[0], p[1], &v[i]);
+            TBoss6Type2::grid_to_world_pos(p[0], p[1], &v[i]);
             n++;
         }
-        TBoss6Type2::set_path_points_by_index(boss, v, n);
+        TBoss6Mag::set_path_points_by_index(boss, v, n);
     }
     for (j = 0; j < 0x40; j++) {
         if (pkt->d[j] >= 0 && j >= 7 && j <= 0x26) {

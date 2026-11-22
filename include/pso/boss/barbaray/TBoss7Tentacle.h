@@ -17,29 +17,29 @@ public:
 
     TBoss7Tentacle(TObject *parent, s32 joint, s32 index);
     virtual ~TBoss7Tentacle();
-    void sub_802F09FC();
-    void sub_802F09EC();
+    void request_strike();
+    void enter_sway();
     virtual void render();
     virtual void run_task();
 public:
     void update_extend_amount();
     void switch_state();
-    void sub_802F0608(f32 length);
+    void shape_strike_arc(f32 length);
     void advance_path_position();
-    void sub_802F0918();
+    void enter_drop_back();
     void reset_state();
     void setup_state();
-    void sub_802F09B4();
-    void sub_802F09C8();
-    void sub_802F0A14();
-    void sub_802F0A2C();
-    void sub_802F0A44();
+    void enter_turn_to_rest();
+    void enter_raise();
+    void request_aim();
+    void request_turn_to_rest();
+    void request_sway();
     void init_segments();
     void start_attack_at_position(u8 *target, s32 hold_time);
     s32 is_attack_finished();
     void speed_up_sway();
-    void sub_802F0AF0();
-    void sub_802F0B58();
+    void drop_back();
+    void raise();
     void enable_retract();
     void enable_extend();
     // Load and release the shared tentacle model nodes (the boss's resource callback table, as the

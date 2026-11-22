@@ -21,11 +21,11 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 s32 obj_is_hit_receivable(u8 *arg0);
-u16 get_entity_id(TObject *object);
 extern GC_Mtx identity_matrix;
 }
 
@@ -68,9 +68,9 @@ void TUnk_80484A94::run_task() {
     if (player != NULL) {
         Vec steer = player->body_center;
         subtract_vector(&steer, &position);
-        vec_set_length(&steer, fn_800499FC(1));
+        vec_set_length(&steer, TObjVoloptCage::get_float_param(1));
         vec3_add_to(&velocity, &steer);
-        vec_set_length(&velocity, fn_800499FC(0));
+        vec_set_length(&velocity, TObjVoloptCage::get_float_param(0));
     }
     VecCopy(&prev_position, &position);
     vec3_add_to(&position, &velocity);
@@ -107,7 +107,7 @@ TUnk_80484A94::~TUnk_80484A94() {
         ((TObject *)glow)->queue_destruction();
     }
     if (m_up != NULL) {
-        fn_80049A0C((TObjEnemyCustom *)m_up);
+        clear_cage_shot_in_flight((TObjEnemyCustom *)m_up);
     }
 }
 
@@ -122,7 +122,7 @@ TUnk_80484A94::TUnk_80484A94(TObjEnemy *owner, Vec *pos, s32 target) : TObjColli
     push_matrix_from(identity_matrix);
     {
         Vec dir = volopt_shot_forward;
-        dir.z = fn_800499FC(0);
+        dir.z = TObjVoloptCage::get_float_param(0);
         rotate_matrix_y(0, ((TObjBase *)owner)->rotation_y);
         rotate_vector_by_matrix(0, &dir, &velocity);
     }
@@ -130,10 +130,11 @@ TUnk_80484A94::TUnk_80484A94(TObjEnemy *owner, Vec *pos, s32 target) : TObjColli
     lifetime = TObjVoloptCage::get_int_param(0);
 }
 
-f32 fn_800499FC(s32 index) {
+// Float twin of TObjVoloptCage::get_int_param (volopt_cage_params).
+f32 TObjVoloptCage::get_float_param(s32 index) {
     return volopt_cage_params->float_params[index];
 }
 
-void fn_80049A0C(TObjEnemyCustom *boss) {
-    boss->m_388 &= ~0x100000;
+void clear_cage_shot_in_flight(TObjEnemyCustom *boss) {
+    boss->behavior_flags &= ~0x100000;
 }

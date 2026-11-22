@@ -6,6 +6,7 @@
 #include <dolphin/mtx.h>
 
 struct BmlResource;
+class TBoss3Volopt;
 
 struct TBoss3VoloptCoreMovement {
     f32 target_range;
@@ -14,17 +15,9 @@ struct TBoss3VoloptCoreMovement {
     s32 params[4];
 };
 
-struct TBoss3VoloptCoreBodyPart {
-    u8 pad_0[0xC];
-    f32 radius;
-    u8 pad_10[0x8];
-    u32 flags;
-    u8 pad_1C[0x10];
-};
-
 class TBoss3VoloptCore : public TObjEnemyCustom {
 public:
-    TBoss3VoloptCore(TObject *parent, u16 id, s32 param);
+    TBoss3VoloptCore(TBoss3Volopt *parent, u16 id, s32 param);
     TBoss3VoloptCore(TObject *parent, void *set_data);
     virtual ~TBoss3VoloptCore();
     virtual void run_task();
@@ -32,6 +25,7 @@ public:
     virtual s32 is_target_in_attack_range();
 
     static void *create(void *set_data);
+    static TBoss3VoloptCore *create(TBoss3Volopt *parent, u16 id, s32 group);
     static void load_resources();
     static void release();
     static void set_grabbed_state(s32 delay);
@@ -40,7 +34,7 @@ public:
     void init_params();
     void load_entry_params_volopt(s32 index);
     void dispatch_reaction_state();
-    void sub_80040558();
+    void run_demo_task();
     s32 calc_hit_zone_index();
     s32 alloc_boss_target_slot();
     void set_boss_target_pos(s32 slot, s32 moves, s32 delay);
@@ -56,7 +50,8 @@ public:
     void update_grabbed_state();
     void update_reaction_animation();
     void update_state_spin();
-    void sub_8003F81C();
+    // Mode 9: entered when the last orbit move ends; turns the core around, then marks it active.
+    void update_orbit_end_state();
     void update_topple_state();
 
     f32 orbit_radius;

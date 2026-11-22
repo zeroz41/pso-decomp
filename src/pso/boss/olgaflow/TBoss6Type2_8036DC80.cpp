@@ -2,87 +2,64 @@
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/boss/olgaflow/TBoss6Type2_8036DC80.h"
 #include "pso/boss/olgaflow/TBoss6Type2.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerSlots.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
-struct E_8036DDE8 { s32 f0; u8 pad[0x28]; };
-
-struct Ent_8036DD30 { s32 active; u8 v0[8]; u8 v1[8]; u8 v2[8]; s32 a; s32 b; s32 c; s32 d; };
-
-s8 boss6_type2_player_snapshot_table[176] = {
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
+// One client's look as the Olga Flow fight starts; free_chara_making puts it back.
+struct Boss6PlayerSnapshot {
+    s32 active;
+    Boss6PlayerLook look;
 };
-extern "C" {
-u16 get_entity_id();
-}
 
-void TBoss6Type2::apply_pending_effect() {
-    u16 entity_id;
-    u8 *temp_r31;
+Boss6PlayerSnapshot boss6_type2_player_snapshot_table[4] = { 0 };
 
-    entity_id = get_entity_id();
-    if (entity_id < 4U) {
-        temp_r31 = (unsigned char *) (boss6_type2_player_snapshot_table + (entity_id * 0x2C));
-        if ((s32) *(s32 *)((s8 *)temp_r31 + 0) != 0) {
-            *(s32 *)((s8 *)temp_r31 + 0) = 0;
-            if (TBoss6PlotFalz::is_state_1f((TObjPlayer *)this) != 0) {
-                ((TBoss6Type2 *)(((u8 *)this) + 0xCF4))->copy_vec2(temp_r31 + 4);
-                ((TBoss6Type2 *)(((u8 *)this) + 0xA1C))->copy_vec2(temp_r31 + 0xC);
-                ((TBoss6Type2 *)(((u8 *)this) + 0xB88))->copy_vec2(temp_r31 + 0x14);
-                this->model = *(void **)((s8 *)temp_r31 + 0x1C);
-                *(s32 *)((s8 *)((u8 *)this) + 0x8B0) = (s32) *(s32 *)((s8 *)temp_r31 + 0x20);
-                *(s32 *)((s8 *)((u8 *)this) + 0x8AC) = (s32) *(s32 *)((s8 *)temp_r31 + 0x24);
-                *(s32 *)((s8 *)((u8 *)this) + 0x8B4) = (s32) *(s32 *)((s8 *)temp_r31 + 0x28);
+void restore_boss6_player_snapshot(TObjPlayer *player) {
+    u16 client_id;
+    Boss6PlayerSnapshot *snapshot;
+
+    client_id = get_entity_id(player);
+    if (client_id < 4U) {
+        snapshot = &boss6_type2_player_snapshot_table[client_id];
+        if (snapshot->active != 0) {
+            snapshot->active = 0;
+            if (TBoss6PlotFalz::is_state_1f(player) != 0) {
+                copy_texlist((GinjaTextureList *)player->body_textures, &snapshot->look.body_textures);
+                copy_texlist((GinjaTextureList *)player->head_textures, &snapshot->look.head_textures);
+                copy_texlist((GinjaTextureList *)player->attachment_textures, &snapshot->look.attachment_textures);
+                player->model = snapshot->look.model;
+                player->head_model = snapshot->look.head_model;
+                player->hair_model = snapshot->look.hair_model;
+                player->attachment_model = snapshot->look.attachment_model;
             }
         }
     }
 }
 
-void TBoss6Type2::capture_player_snapshots() {
+void capture_boss6_player_snapshots() {
     s32 i;
-    u8 *p;
-    Ent_8036DD30 *e;
+    Boss6PlayerSnapshot *snapshot;
+    TObjPlayer *player;
     for (i = 0; i < 4; i++) {
-        e = &((Ent_8036DD30 *)boss6_type2_player_snapshot_table)[i];
-        e->active = 0;
-        p = (u8 *)get_player_by_client_id(i);
-        if (p != NULL && TBoss6PlotFalz::is_state_1f((TObjPlayer *)p) != 0) {
-            ((TBoss6Type2 *)(e->v0))->copy_vec2(p + 0xCF4);
-            ((TBoss6Type2 *)(e->v1))->copy_vec2(p + 0xA1C);
-            ((TBoss6Type2 *)(e->v2))->copy_vec2(p + 0xB88);
-            e->a = *(s32 *)((s8 *)p + 0x34);
-            e->b = *(s32 *)((s8 *)p + 0x8B0);
-            e->c = *(s32 *)((s8 *)p + 0x8AC);
-            e->d = *(s32 *)((s8 *)p + 0x8B4);
-            e->active = 1;
+        snapshot = &boss6_type2_player_snapshot_table[i];
+        snapshot->active = 0;
+        player = get_player_by_client_id(i);
+        if (player != NULL && TBoss6PlotFalz::is_state_1f(player) != 0) {
+            copy_texlist(&snapshot->look.body_textures, (GinjaTextureList *)player->body_textures);
+            copy_texlist(&snapshot->look.head_textures, (GinjaTextureList *)player->head_textures);
+            copy_texlist(&snapshot->look.attachment_textures, (GinjaTextureList *)player->attachment_textures);
+            snapshot->look.model = player->model;
+            snapshot->look.head_model = player->head_model;
+            snapshot->look.hair_model = player->hair_model;
+            snapshot->look.attachment_model = player->attachment_model;
+            snapshot->active = 1;
         }
     }
 }
 
-// inferred: clears the active flag of the four snapshots capture_player_snapshots fills
 void clear_boss6_player_snapshots(void) {
     s32 i;
     for (i = 0; i < 4; i++) {
-        ((E_8036DDE8 *)boss6_type2_player_snapshot_table)[i].f0 = 0;
+        boss6_type2_player_snapshot_table[i].active = 0;
     }
 }
