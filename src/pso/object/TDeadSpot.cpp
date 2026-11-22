@@ -284,12 +284,12 @@ void TUnk_80494A10::run_task() {
 }
 #pragma push
 #pragma fp_contract on
-TUnk_804949F4::TUnk_804949F4(TObject *parent, Vec *position, s32 emitter, f32 radius) : TObject(parent) {
-    VecCopy((Vec *)unk_1C, position);
-    m_28 = radius;
-    *(s32 *)((s8 *)this + 0x2C) = 0;
-    m_30 = 2;
-    m_34 = emitter;
+TUnk_804949F4::TUnk_804949F4(TObject *parent, Vec *position, TParticleCtrl *emitter, f32 radius) : TObject(parent) {
+    VecCopy(&this->position, position);
+    this->radius = radius;
+    timer = 0;
+    interval = 2;
+    this->emitter = emitter;
 }
 #pragma pop
 TUnk_804949F4::~TUnk_804949F4() {}
@@ -299,29 +299,28 @@ void TUnk_804949F4::vfunc_6() {
   f32 temp_f1;
   s32 temp_r3;
   temp_r3 = TObjPlayer::calc_random_scaled();
-  temp_f1 = (this->m_28) * sin_table_lookup((int) (temp_r3 & 0xFFFFFFFFu));
+  temp_f1 = radius * sin_table_lookup((int) (temp_r3 & 0xFFFFFFFFu));
   stack.y = lbl_805DA380;
   stack.x = temp_f1;
-  stack.z = (this->m_28) * cos_table_lookup((int) temp_r3);
-  vec3_add_to(&stack.x, (u8 *)&this->unk_1C);
-  ((TParticleCtrl *)this->m_34)->set_position(&stack.x);
+  stack.z = radius * cos_table_lookup((int) temp_r3);
+  vec3_add_to(&stack.x, (u8 *)&position);
+  emitter->set_position(&stack.x);
 }
 
 void TUnk_804949F4::run_task() {
-    uaddr tmp34 = ((TUnk_804949F4 *)this)->m_34;
-    if ((tmp34 == 0U) || (((TObject *)tmp34)->all_parents_unqueued_for_destruction() == 0)) {
-        ((TObject *)this)->queue_destruction();
+    if (emitter == NULL || emitter->all_parents_unqueued_for_destruction() == 0) {
+        queue_destruction();
         return;
     }
-    *(s32 *)((s8 *)this + 0x2C) = (s32) (*(s32 *)((s8 *)this + 0x2C) + 1);
-    if ((s32) *(s32 *)((s8 *)this + 0x2C) >= (s32) ((TUnk_804949F4 *)this)->m_30) {
-        *(s32 *)((s8 *)this + 0x2C) = 0;
-        ((TUnk_804949F4 *)this)->vfunc_6();
+    timer++;
+    if (timer >= interval) {
+        timer = 0;
+        vfunc_6();
     }
 }
 
-TUnk_804949D8::TUnk_804949D8(TObject *parent, Vec *position, s32 emitter, f32 radius) : TUnk_804949F4(parent, position, emitter, radius) {
-    m_30 = 8;
+TUnk_804949D8::TUnk_804949D8(TObject *parent, Vec *position, TParticleCtrl *emitter, f32 radius) : TUnk_804949F4(parent, position, emitter, radius) {
+    interval = 8;
 }
 
 TUnk_804949D8::~TUnk_804949D8() {}
@@ -332,13 +331,13 @@ void TUnk_804949D8::vfunc_6() {
     f32 temp_f1;
     s32 temp_r3;
     temp_r3 = TObjPlayer::calc_random_scaled();
-    temp_f1 = this->m_28 * sin_table_lookup(temp_r3);
+    temp_f1 = radius * sin_table_lookup(temp_r3);
     stack.y = lbl_805DA380;
     stack.x = temp_f1;
-    stack.z = this->m_28 * cos_table_lookup(temp_r3);
-    vec3_add_to(&stack.x, (u8 *)&this->unk_1C);
+    stack.z = radius * cos_table_lookup(temp_r3);
+    vec3_add_to(&stack.x, (u8 *)&position);
     TObjBoss2Tunnel::adjust_to_ground(&stack, &stack);
-    ((TParticleCtrl *)this->m_34)->set_position(&stack.x);
+    emitter->set_position(&stack.x);
 }
 
 #pragma pop

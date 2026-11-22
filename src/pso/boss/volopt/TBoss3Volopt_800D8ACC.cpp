@@ -174,7 +174,7 @@ void spawn_particles_at__12TBoss3VoloptFi(saddr position) {
 #define create_dead_spot__10TObjPlayerFiiif ((s32 (*)(s32, s32, s32))create_dead_spot__10TObjPlayerFiiif)
 
 void TObjPlayer::create_dead_spot(saddr arg0, s32 arg1, f32 radius) {
-    new TUnk_804949F4((TObject *)tl_05, (Vec *)arg0, (saddr)create_timed_particle_emitter((void *)arg0, 0xF8, 0, arg1), radius);
+    new TUnk_804949F4((TObject *)tl_05, (Vec *)arg0, (TParticleCtrl *)create_timed_particle_emitter((void *)arg0, 0xF8, 0, arg1), radius);
 }
 
 void TObjPlayer::spawn_effect_f8(saddr arg1, s32 timer) {
@@ -189,7 +189,7 @@ void TObjPlayer::set_field_e4(s32 arg1, s32 arg2) {
 
 
 void create_dead_spot__10TObjPlayerFiiif(saddr arg0, s32 arg1, s32 arg2, f32 radius) {
-    new TUnk_804949D8((TObject *)tl_05, (Vec *)arg0, (saddr)create_timed_particle_emitter((void *)arg0, arg1, 0, arg2), radius);
+    new TUnk_804949D8((TObject *)tl_05, (Vec *)arg0, (TParticleCtrl *)create_timed_particle_emitter((void *)arg0, arg1, 0, arg2), radius);
 }
 
 void fn_800D911C(Vec *position) {
