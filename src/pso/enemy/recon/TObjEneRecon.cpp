@@ -64,7 +64,7 @@ extern const Vec lbl_804760FC = { 0.8f, 1.0f, 0.8f };
 saddr lbl_805D6AF0;
 saddr TObjEneRecon__attack_params;
 saddr TObjEneRecon__resistance_params;
-f32 *TObjEneRecon__data_805D6AFC;
+ReconParams *TObjEneRecon__data_805D6AFC;
 BmlResource *TObjEneRecon__recobox_static_instance;
 TUnk_8048FA00 *boss3_volopt_instance;
 s32 recon_intro_stage;
@@ -255,37 +255,31 @@ s32 TObjEneRecon::is_anim_5() {
     return (u8) (mode == 5);
 }
 
-struct T_8031C250 { u8 pad[0x326]; s16 state; };
 
 
-struct Data_8031CF30 { u8 pad[0x1C]; s32 f1C; };
 
 extern "C" {
-f32 TObjEneRecon__sub_8031C2BC(void);
-f32 TObjEneRecon__sub_8031C2C8(void);
-f32 TObjEneRecon__sub_8031C2D4(void);
-u8 TObjEneRecon__sub_8031C250(T_8031C250 *self);
 s16 get_attack_params_atp_min(void *p);
 u16 get_entity_id(void *);
 f32 horizontal_distance_squared(void *, void *);
 extern s32 lbl_805D5868;
 
-u8 TObjEneRecon__sub_8031C250(T_8031C250 *self) {
-    return self->state == 8 || self->state == 7;
+s32 TObjEneRecon::sub_8031C250() {
+    return mode == 8 || mode == 7;
 }
 
 s32 TObjEneRecon::calc_scaled_value() {
-    return (s32) (30.0f * (f32) *(s32 *)((s8 *)TObjEneRecon__data_805D6AFC + 0x18));
+    return (s32) (30.0f * (f32) TObjEneRecon__data_805D6AFC->bomb_seconds);
 }
 
-f32 TObjEneRecon__sub_8031C2BC(void) {
-    return *(f32 *)((s8 *)TObjEneRecon__data_805D6AFC + 0xC);
+f32 TObjEneRecon::sub_8031C2BC() {
+    return TObjEneRecon__data_805D6AFC->bomb_speed;
 }
-f32 TObjEneRecon__sub_8031C2C8(void) {
-    return *(f32 *)((s8 *)TObjEneRecon__data_805D6AFC + 8);
+f32 TObjEneRecon::sub_8031C2C8() {
+    return TObjEneRecon__data_805D6AFC->bomb_power;
 }
-f32 TObjEneRecon__sub_8031C2D4(void) {
-    return *(f32 *)((s8 *)TObjEneRecon__data_805D6AFC + 4);
+f32 TObjEneRecon::sub_8031C2D4() {
+    return TObjEneRecon__data_805D6AFC->bomb_radius;
 }
 
 void TObjEneRecon::handle_message(s32 message) {
@@ -702,7 +696,7 @@ void TObjEneRecon::sub_8031CF30(s32 reason) {
             break;
         case 1:
             state_timer++;
-            if (state_timer >= ((Data_8031CF30 *)TObjEneRecon__data_805D6AFC)->f1C) {
+            if (state_timer >= TObjEneRecon__data_805D6AFC->strike_delay) {
                 state_timer = 0;
                 state_step = 2;
                 requested_action = 2;
@@ -1094,7 +1088,7 @@ void TObjEneRecon::update_collide_flag() {
     void *temp_r5;
 
     temp_r5 = this->movementParameters;
-    if (TObjEneEpsilon__sub_800B92F8(this, *(s32 *)((s8 *)temp_r5 + 8), *TObjEneRecon__data_805D6AFC) != 0) {
+    if (TObjEneEpsilon__sub_800B92F8(this, *(s32 *)((s8 *)temp_r5 + 8), TObjEneRecon__data_805D6AFC->collide_distance) != 0) {
         recon_flags = (s32) (recon_flags | 2);
         return;
     }
@@ -1189,7 +1183,7 @@ void TObjEneRecon::load_resources() {
   lbl_805D6AF0 = (saddr)TLobby::register_boss(0x42);
   TObjEneRecon__attack_params = (saddr)TLobby::dispatch_shared_handler_b(0x42);
   TObjEneRecon__resistance_params = (saddr)TLobby::register_object(0x42);
-  TObjEneRecon__data_805D6AFC = (f32 *)TLobby::dispatch_shared_handler_a(0x42);
+  TObjEneRecon__data_805D6AFC = (ReconParams *)TLobby::dispatch_shared_handler_a(0x42);
   TObjEneReconBomb::load_resources();
   NpcAnimationBinding binding = recon_anim_binding;
   binding.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneRecon__recobox_static_instance->motions);

@@ -17,6 +17,18 @@ struct ReconMoveParams {
     s32 pad_0C[4];
 };
 
+// The Recon parameter block TLobby::dispatch_shared_handler_a(0x42) hands out (TObjEneRecon__data_805D6AFC).
+struct ReconParams {
+    f32 collide_distance;  // distance update_collide_flag probes ahead with
+    f32 bomb_radius;       // TObjEneReconBomb blast radius
+    f32 bomb_power;        // TObjEneReconBomb blast power
+    f32 bomb_speed;        // TObjEneReconBomb launch speed
+    f32 pad_10;
+    f32 pad_14;
+    s32 bomb_seconds;      // a bomb's lifetime in seconds (calc_scaled_value: x30 frames)
+    s32 strike_delay;      // frames it hovers in range before a strike
+};
+
 struct TObjEneRecon : public TObjEneDD_ST {
     TObjEneRecon(TObject *parent, TObjEneRecobox *owner, u16 id, s32 index, Vec *pos, Vec *dir);
     virtual ~TObjEneRecon();
@@ -37,6 +49,10 @@ struct TObjEneRecon : public TObjEneDD_ST {
     void sub_8031CF30(s32 reason);
     void sub_8031D380(s32 reason);
     s32 sub_8031DA90();
+    s32 sub_8031C250();
+    f32 sub_8031C2BC();
+    f32 sub_8031C2C8();
+    f32 sub_8031C2D4();
     void run_death_reaction();
     void run_hit_reaction();
     void run_miss_reaction();
