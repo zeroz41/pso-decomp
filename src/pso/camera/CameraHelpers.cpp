@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/render/GinjaView.h"
 #include "pso/camera/TCameraScripted.h"
 #include "pso/map/FloorArea.h"
@@ -90,9 +91,9 @@ void TCameraScripted::post_update_view() {
     at.z = camera_ctrl_instance->tgt.z;
     Vec up = {0.0f, 1.0f, 0.0f};
     set_camera_look_at((u8 *)&camera_ctrl_instance->pos.x, (u8 *)&at, (u8 *)&up);
-    lbl_804FF5E8[0] = camera_ctrl_instance->pos.x;
-    lbl_804FF5E8[1] = camera_ctrl_instance->pos.y;
-    lbl_804FF5E8[2] = camera_ctrl_instance->pos.z;
+    ninja_camera.px = camera_ctrl_instance->pos.x;
+    ninja_camera.py = camera_ctrl_instance->pos.y;
+    ninja_camera.pz = camera_ctrl_instance->pos.z;
 }
 
 void CameraPlayback::cache_target_and_forward(s32 angle) const {

@@ -7,6 +7,7 @@
 #include <dolphin/mtx/GeoTypes.h>
 
 class TCameraController;
+struct NJS_CAMERA;
 struct CameraViewParams;
 
 // The request a scripted or event camera hands over (get_params, and the
@@ -223,9 +224,9 @@ extern TCameraCtrl *camera_ctrl_instance;
 extern s8 camera_ctrl_view_state_byte;
 // One controller per registry slot, made by the constructor.
 extern TCameraController *camera_controller_registry[13];
-// The Ninja camera the views are set up from: eye position, view direction,
-// roll, view angle and clip planes, in the order fn_803D64F8 resets them.
-extern f32 lbl_804FF5E8[10];
+// The Ninja camera the view matrix is built from each frame: the camera
+// position and the direction to its target.
+extern NJS_CAMERA ninja_camera;
 
 // Points every controller of the actor's view at the actor.
 void reset_cameras_to_actor(void *actor, s32 view_unused);

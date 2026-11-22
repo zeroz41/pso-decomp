@@ -12,6 +12,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/system/NinjaTypes.h"
 
 struct Stack_8001CAD4 {
     s32 sp8;
@@ -29,8 +31,6 @@ struct RecoveredGlobal_8001CAD4_lbl_8058D490 {
     u8 remaining[0x2C];
 };
 
-struct Tbl_8001CBC4 { Vec base; Vec dir; };
-
 struct Obj_8001CBC4 { u8 pad[0x44]; Vec pos; };
 
 extern "C" {
@@ -43,9 +43,7 @@ s32 rotate_matrix_x(int, int);
 const char *TLoadingCur__class_name = "TLoadingCur";
 #pragma pop
 extern const RecoveredGlobal_8001CAD4_lbl_804349FC lbl_804349FC = {0};
-extern f32 lbl_804FF5E8[];
 extern RecoveredGlobal_8001CAD4_lbl_8058D490 identity_matrix;
-extern u32 camera_ctrl_instance;
 
 LAYOUT_ASSERT(RecoveredGlobal_8001CAD4_lbl_804349FC_size, sizeof(RecoveredGlobal_8001CAD4_lbl_804349FC) == 0xC);
 LAYOUT_ASSERT(RecoveredGlobal_8001CAD4_lbl_8058D490_size, sizeof(RecoveredGlobal_8001CAD4_lbl_8058D490) == 0x30);
@@ -60,9 +58,9 @@ void TLoadingCur::update_camera_facing_offset() {
         stack.sp8 = *(s32 *)((s8 *)&lbl_804349FC.value + 0);
         stack.spC = *(s32 *)((s8 *)&lbl_804349FC.value + 4);
         stack.sp10 = *(s32 *)((s8 *)&lbl_804349FC.value + 8);
-        *(f32 *)((s8 *)arg0 + 0x50) = (f32) -*(f32 *)((s8 *)&lbl_804FF5E8 + 0xC);
-        this->m_54 = (f32) -*(f32 *)((s8 *)&lbl_804FF5E8 + 0x10);
-        *(f32 *)&this->unk_58 = (f32) -*(f32 *)((s8 *)&lbl_804FF5E8 + 0x14);
+        *(f32 *)((s8 *)arg0 + 0x50) = (f32) -ninja_camera.vx;
+        this->m_54 = (f32) -ninja_camera.vy;
+        *(f32 *)&this->unk_58 = (f32) -ninja_camera.vz;
         direction_to_rotation_xy((arg0 + 0x50), (&stack.sp8), (&stack.spC));
         push_matrix_from((void *)&identity_matrix.value);
         rotate_matrix_y(0, stack.spC);
@@ -76,10 +74,10 @@ void TLoadingCur::update_camera_facing_offset() {
 #pragma push
 #pragma fp_contract on
 Vec calc_loading_cursor_pos(Obj_8001CBC4 *o) {
-    if (camera_ctrl_instance != 0) {
-        o->pos.x = 1e+02f * (*(Tbl_8001CBC4 *)&lbl_804FF5E8).dir.x + (*(Tbl_8001CBC4 *)&lbl_804FF5E8).base.x;
-        o->pos.y = 1e+02f * (*(Tbl_8001CBC4 *)&lbl_804FF5E8).dir.y + (*(Tbl_8001CBC4 *)&lbl_804FF5E8).base.y;
-        o->pos.z = 1e+02f * (*(Tbl_8001CBC4 *)&lbl_804FF5E8).dir.z + (*(Tbl_8001CBC4 *)&lbl_804FF5E8).base.z;
+    if (camera_ctrl_instance != NULL) {
+        o->pos.x = 1e+02f * ninja_camera.vx + ninja_camera.px;
+        o->pos.y = 1e+02f * ninja_camera.vy + ninja_camera.py;
+        o->pos.z = 1e+02f * ninja_camera.vz + ninja_camera.pz;
     }
     return o->pos;
 }
@@ -261,12 +259,12 @@ TLoadingCur::TLoadingCur(TObject *parent, Vec *pos) : TObject(parent) {
     *(f32 *)((s8 *)object + 0x38) = 0.0f;
     *(f32 *)((s8 *)object + 0x3C) = 0.0f;
     *(f32 *)((s8 *)object + 0x40) = 0.0f;
-    *(f32 *)((s8 *)object + 0x44) = (f32) ((1e+02f * *(f32 *)((s8 *)&lbl_804FF5E8 + 0xC)) + *(f32 *)((s8 *)&lbl_804FF5E8 + 0));
-    *(f32 *)((s8 *)object + 0x48) = (f32) ((1e+02f * *(f32 *)((s8 *)&lbl_804FF5E8 + 0x10)) + *(f32 *)((s8 *)&lbl_804FF5E8 + 4));
-    *(f32 *)((s8 *)object + 0x4C) = (f32) ((1e+02f * *(f32 *)((s8 *)&lbl_804FF5E8 + 0x14)) + *(f32 *)((s8 *)&lbl_804FF5E8 + 8));
-    *(f32 *)((s8 *)object + 0x50) = (f32) -*(f32 *)((s8 *)&lbl_804FF5E8 + 0xC);
-    *(f32 *)((s8 *)object + 0x54) = (f32) -*(f32 *)((s8 *)&lbl_804FF5E8 + 0x10);
-    *(f32 *)((s8 *)object + 0x58) = (f32) -*(f32 *)((s8 *)&lbl_804FF5E8 + 0x14);
+    *(f32 *)((s8 *)object + 0x44) = (f32) ((1e+02f * ninja_camera.vx) + ninja_camera.px);
+    *(f32 *)((s8 *)object + 0x48) = (f32) ((1e+02f * ninja_camera.vy) + ninja_camera.py);
+    *(f32 *)((s8 *)object + 0x4C) = (f32) ((1e+02f * ninja_camera.vz) + ninja_camera.pz);
+    *(f32 *)((s8 *)object + 0x50) = (f32) -ninja_camera.vx;
+    *(f32 *)((s8 *)object + 0x54) = (f32) -ninja_camera.vy;
+    *(f32 *)((s8 *)object + 0x58) = (f32) -ninja_camera.vz;
     stack.sp8 = 0;
     stack.spC = 0;
     stack.sp10 = 0;

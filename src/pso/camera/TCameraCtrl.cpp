@@ -33,10 +33,12 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/render/Draw2D.h"
+#include "pso/render/GinjaView.h"
+#include "pso/system/NinjaTypes.h"
 
 // The Ninja camera the view matrix is built from each frame: position,
 // direction, roll, angle and clip planes.
-f32 lbl_804FF5E8[10];
+NJS_CAMERA ninja_camera;
 f32 camera_right[3];
 Vec camera_pitch_rotated_up_vector;
 CameraViewState TCameraCtrl::view_state;
@@ -66,14 +68,8 @@ s32 TCameraCtrl::pose_snap_flags;
 int TCameraCtrl::camera_id;
 s16 TCameraCtrl::camera_mode;
 s16 TCameraCtrl::view_offset_active;
-void set_perspective_projection_from_fov(s32 fov, f32 aspect, f32 near_clip, f32 far_clip);
-void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
 extern "C" {
 u16 get_entity_id(void *);
-struct SceneProjectionState { u8 pad_0[0x4C]; f32 pad_4C; f32 pad_50; u8 pad_54[0x4]; };
-extern SceneProjectionState scene_projection_state;
-s32 camera_renderer_setup_nop(void *, int);
-s32 fn_803D64F8(void *);
 f32 rotate_vector_by_current_matrix(void *, void *);
 extern int camera_split_screen_selector;
 extern int quest_active_flag;
@@ -208,12 +204,12 @@ TCameraCtrl::TCameraCtrl(TObject *parent) : TObject(parent) {
         split_tgt[j].y = 0.0f;
         split_tgt[j].z = 0.0f;
     }
-    lbl_804FF5E8[0] = 0.0f;
-    lbl_804FF5E8[1] = 0.0f;
-    lbl_804FF5E8[2] = 0.0f;
-    lbl_804FF5E8[3] = 0.0f;
-    lbl_804FF5E8[4] = 0.0f;
-    lbl_804FF5E8[5] = -1.0f;
+    ninja_camera.px = 0.0f;
+    ninja_camera.py = 0.0f;
+    ninja_camera.pz = 0.0f;
+    ninja_camera.vx = 0.0f;
+    ninja_camera.vy = 0.0f;
+    ninja_camera.vz = -1.0f;
 }
 #pragma pop
 
@@ -223,17 +219,17 @@ void TCameraCtrl::setup_default_view(void *offset_arg) {
     Vec at_pos;
     Vec d;
     Vec *pat;
-    eye_pos.x = lbl_804FF5E8[0];
-    eye_pos.y = lbl_804FF5E8[1];
-    eye_pos.z = lbl_804FF5E8[2];
+    eye_pos.x = ninja_camera.px;
+    eye_pos.y = ninja_camera.py;
+    eye_pos.z = ninja_camera.pz;
     if (offset != 0) {
         eye_pos.x += offset->x;
         eye_pos.y += offset->y;
         eye_pos.z += offset->z;
     }
-    at_pos.x = lbl_804FF5E8[3] + eye_pos.x;
-    at_pos.y = lbl_804FF5E8[4] + eye_pos.y;
-    at_pos.z = lbl_804FF5E8[5] + eye_pos.z;
+    at_pos.x = ninja_camera.vx + eye_pos.x;
+    at_pos.y = ninja_camera.vy + eye_pos.y;
+    at_pos.z = ninja_camera.vz + eye_pos.z;
     d.x = eye_pos.x - at_pos.x;
     d.y = eye_pos.y - at_pos.y;
     d.z = eye_pos.z - at_pos.z;
@@ -280,28 +276,28 @@ void TCameraCtrl::run_task() {
         dir.x = (shake->x + camera_ctrl_instance->tgt.x) - camera_ctrl_instance->pos.x;
         dir.y = (shake->y + camera_ctrl_instance->tgt.y) - camera_ctrl_instance->pos.y;
         dir.z = (shake->z + camera_ctrl_instance->tgt.z) - camera_ctrl_instance->pos.z;
-        lbl_804FF5E8[0] = pos.x;
-        lbl_804FF5E8[1] = pos.y;
-        lbl_804FF5E8[2] = pos.z;
+        ninja_camera.px = pos.x;
+        ninja_camera.py = pos.y;
+        ninja_camera.pz = pos.z;
         if (0.0f != vec_squared_length(&dir)) {
             normalize_vector(&dir);
         }
-        lbl_804FF5E8[3] = dir.x;
-        lbl_804FF5E8[4] = dir.y;
-        lbl_804FF5E8[5] = dir.z;
+        ninja_camera.vx = dir.x;
+        ninja_camera.vy = dir.y;
+        ninja_camera.vz = dir.z;
         vector_length(&dir);
     }
     if (is_split_screen() != 0) {
         if (TCameraCtrl::view_state.controller == 5) {
-            ((TObjBoss2Tunnel *)lbl_804FF5E8)->render(&TCameraCtrl::view_matrices[TCameraCtrl::get_camera_no()]);
+            ((TObjBoss2Tunnel *)&ninja_camera)->render(&TCameraCtrl::view_matrices[TCameraCtrl::get_camera_no()]);
             for (i = 1; i < 4; i++) {
                 copy_view_params(&TCameraCtrl::view_matrices[i], &TCameraCtrl::view_matrices[0]);
             }
         } else {
-            ((TObjBoss2Tunnel *)lbl_804FF5E8)->render(&TCameraCtrl::view_matrices[TCameraCtrl::get_camera_no()]);
+            ((TObjBoss2Tunnel *)&ninja_camera)->render(&TCameraCtrl::view_matrices[TCameraCtrl::get_camera_no()]);
         }
     } else {
-        ((TObjBoss2Tunnel *)lbl_804FF5E8)->render(&TCameraCtrl::view_matrix);
+        ((TObjBoss2Tunnel *)&ninja_camera)->render(&TCameraCtrl::view_matrix);
     }
     calc_rotated_axes();
 }
@@ -975,12 +971,12 @@ void CameraViewParams::apply() {
     TCameraCtrl::view_params.height = height;
     TCameraCtrl::view_params.center_x = center_x;
     TCameraCtrl::view_params.center_y = center_y;
-    TCameraCtrl::view_params.pad_10[2] = scene_projection_state.pad_50;
-    TCameraCtrl::view_params.pad_10[3] = scene_projection_state.pad_4C;
+    TCameraCtrl::view_params.pad_10[2] = scene_projection_state.screen_scale;
+    TCameraCtrl::view_params.pad_10[3] = scene_projection_state.aspect;
     TCameraCtrl::view_params.pad_10[4] = 1.0f;
-    TCameraCtrl::view_params.pad_10[5] = TCameraCtrl::view_params.pad_10[4] / scene_projection_state.pad_4C;
-    TCameraCtrl::view_params.pad_0[0] = scene_projection_state.pad_4C * scene_projection_state.pad_50;
-    TCameraCtrl::view_params.pad_0[1] = -(TCameraCtrl::view_params.pad_10[4] * scene_projection_state.pad_50);
+    TCameraCtrl::view_params.pad_10[5] = TCameraCtrl::view_params.pad_10[4] / scene_projection_state.aspect;
+    TCameraCtrl::view_params.pad_0[0] = scene_projection_state.aspect * scene_projection_state.screen_scale;
+    TCameraCtrl::view_params.pad_0[1] = -(TCameraCtrl::view_params.pad_10[4] * scene_projection_state.screen_scale);
     TCameraCtrl::view_params.pad_30[0] = pad_30[0];
     TCameraCtrl::view_params.pad_30[1] = pad_30[1];
     TCameraCtrl::view_params.pad_30[2] = pad_30[2];
@@ -1066,8 +1062,8 @@ void TCameraCtrl::reset_default_view() {
     TCameraCtrl::set_target(0x280, 0x1E0);
     TCameraCtrl::set_fullscreen_viewport();
     TCameraCtrl::reset_viewport_scissor();
-    fn_803D64F8(lbl_804FF5E8);
-    camera_renderer_setup_nop(lbl_804FF5E8, 0x3555);
+    init_ninja_camera(&ninja_camera);
+    camera_renderer_setup_nop(&ninja_camera, 0x3555);
     TCameraCtrl::update_camera_state(0.0f, 0.0f, 0.0f);
     TCameraCtrl::look_at_position(0.0f, 0.0f, -1.0f);
     view.center_x = 320.0f;

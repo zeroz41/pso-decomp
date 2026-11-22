@@ -1565,7 +1565,7 @@ void TObjGrass::update_camera_vec_by_stage(NJS_OBJECT *) {
         grass_camera_vec.x = (0.0f);
         v->y = (0.0f);
         v->z = (0.0f);
-        TObjBoss2Tunnel::transform_vec_by_camera((saddr)lbl_804FF5E8, (saddr)v, (saddr)v);
+        TObjBoss2Tunnel::transform_vec_by_camera((saddr)&ninja_camera, (saddr)v, (saddr)v);
         break;
     case 0x32:
         break;
@@ -1576,7 +1576,7 @@ void TObjGrass::update_camera_vec_by_stage(NJS_OBJECT *) {
         grass_render_vec.x = (0.0f);
         v->y = (0.0f);
         v->z = (0.0f);
-        TObjBoss2Tunnel::transform_vec_by_camera((saddr)lbl_804FF5E8, (saddr)v, (saddr)v);
+        TObjBoss2Tunnel::transform_vec_by_camera((saddr)&ninja_camera, (saddr)v, (saddr)v);
         break;
     case 0x3F:
         break;
@@ -1587,7 +1587,7 @@ void TObjGrass::update_camera_vec_by_stage(NJS_OBJECT *) {
         grass_origin_vec.x = (0.0f);
         v->y = (0.0f);
         v->z = (0.0f);
-        TObjBoss2Tunnel::transform_vec_by_camera((saddr)lbl_804FF5E8, (saddr)v, (saddr)v);
+        TObjBoss2Tunnel::transform_vec_by_camera((saddr)&ninja_camera, (saddr)v, (saddr)v);
         break;
     }
     TObjGrass__render_node_index++;

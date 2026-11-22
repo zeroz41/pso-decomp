@@ -38,10 +38,10 @@ __declspec(section ".rodata") Vec follow_camera_reset_eye_offset = { 0.0f, 0.0f,
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/render/Draw2D.h"
 
 u8 camera_override_flags;
 
-extern "C" void camera_renderer_setup_nop(void *, s32);
 extern "C" s32 check_flag_100__10TObjPlayerFPv(void *);
 
 // inferred: 0x18 bytes in the DOL and only the first vector is read; a pair like the (a, b) offsets that
@@ -583,7 +583,7 @@ void TCameraFollow::init_pose() {
             break;
         }
     }
-    camera_renderer_setup_nop(lbl_804FF5E8, this->projection_angle);
+    camera_renderer_setup_nop(&ninja_camera, this->projection_angle);
     TCameraCtrl::update_camera_state(this->position.x, this->position.y, this->position.z);
 }
 

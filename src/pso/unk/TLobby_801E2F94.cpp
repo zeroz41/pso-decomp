@@ -111,7 +111,6 @@ s32 lbl_805D3584 = 1;
 f32 viewport_scissor_origin_x = 320.0f;
 f32 camera_viewport_center_y = 240.0f;
 void GXSetScissor(u32, u32, u32, u32);
-void camera_renderer_setup_nop(void);
 s32 TObjPlayer__sub_803DAD28(u32 arg0);
 }
 
@@ -153,7 +152,7 @@ void set_screen_center(f32 x, f32 y) {
 }
 
 extern "C" {
-void camera_renderer_setup_nop(void) {  }
+void camera_renderer_setup_nop(NJS_CAMERA *camera, s32 angle) {  }
 
 void TWindowDD::draw_transformed_primitive(s32 a1, u32 a2, s32 a3) { TObjPlayer__sub_803DAD28(a2); TObjPlayer::draw_textured_vertices(this, a1, a3); }
 

@@ -3,6 +3,7 @@
 #include "pso/camera/CameraHelpers.h"
 #include "pso/camera/TCameraFollow.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/camera/CameraViewParams.h"
 #include "pso/render/GinjaView.h"
 #include "pso/map/CsnQuery.h"
@@ -154,9 +155,9 @@ void TCameraController::post_update_view() {
     look.y = camera_ctrl_instance->tgt.y + t->y;
     look.z = camera_ctrl_instance->tgt.z + t->z;
     set_camera_look_at((u8 *)&camera_ctrl_instance->pos, (u8 *)&look, (u8 *)&TCameraCtrl::up_vector);
-    lbl_804FF5E8[0] = camera_ctrl_instance->pos.x;
-    lbl_804FF5E8[1] = camera_ctrl_instance->pos.y;
-    lbl_804FF5E8[2] = camera_ctrl_instance->pos.z;
+    ninja_camera.px = camera_ctrl_instance->pos.x;
+    ninja_camera.py = camera_ctrl_instance->pos.y;
+    ninja_camera.pz = camera_ctrl_instance->pos.z;
     if (TCameraCtrl::view_state.flags & 0x200) {
         GXSetScissorBoxOffset((s32)-(TCameraCtrl::view_params.center_x - 320.0f), (s32)-(TCameraCtrl::view_params.center_y - 240.0f));
         set_screen_center(TCameraCtrl::view_params.center_x, TCameraCtrl::view_params.center_y);

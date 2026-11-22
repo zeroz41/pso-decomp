@@ -12,4 +12,9 @@ void set_viewport_scissor(int mode, void *rect);
 // The screen center set_viewport_scissor offsets its rectangle by.
 void set_screen_center(f32 x, f32 y);
 
+extern "C" {
+// Would set camera's view angle up for drawing; empty.
+void camera_renderer_setup_nop(NJS_CAMERA *camera, s32 angle);
+}
+
 #endif

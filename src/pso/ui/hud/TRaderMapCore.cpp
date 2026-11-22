@@ -396,14 +396,7 @@ Gate_801FA1E0 TRaderMapCore__marker_buffer[128];
 TRaderMapCoreMapViewState TRaderMapCore__map_view_state;
 s16 *TRaderMapCore__floor_discovery_table[18];
 
-struct GRec_801FB490 { u8 pad0[4]; f32 f4; u8 pad8[8]; f32 f10; f32 f14; s32 f18; u8 pad1c[0x28 - 0x1C]; };
-
 struct MRec_801FB490 { f32 v[3]; s32 a0; f32 a4; s16 h[2]; u8 padac[0x28 - 0x18]; };
-extern "C" {
-
-
-s32 fn_803D64F8(void *);
-}
 
 
 struct Ent_801FB798 { s32 a; char *name; };
@@ -520,7 +513,7 @@ extern "C" {
 #pragma push
 #pragma opt_common_subs off
 TRaderMapCore::TRaderMapCore(TObject *parent) : TObjBase(parent) {
-    GRec_801FB490 *g;
+    NJS_CAMERA *g;
     s32 i;
     u32 j;
     m_name = rader_map_core_name_ptr;
@@ -528,12 +521,12 @@ TRaderMapCore::TRaderMapCore(TObject *parent) : TObjBase(parent) {
     m_17c = init_map_ptr(&m_90, 0);
     m_180 = init_map_ptr(&m_90, 1);
     for (i = 0; i < 3; i++) {
-        g = (GRec_801FB490 *)&TRaderMapCore__map_view_state + i;
-        fn_803D64F8(g);
-        g->f4 = lbl_805D35F0;
-        g->f10 = -1.0f;
-        g->f14 = 0.0f;
-        g->f18 = 0x8000;
+        g = (NJS_CAMERA *)&TRaderMapCore__map_view_state + i;
+        init_ninja_camera(g);
+        g->py = lbl_805D35F0;
+        g->vy = -1.0f;
+        g->vz = 0.0f;
+        g->roll = 0x8000;
     }
     m_150 = 500.0f;
     viewport_width = 640.0f;

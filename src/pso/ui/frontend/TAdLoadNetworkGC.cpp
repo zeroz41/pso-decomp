@@ -9,6 +9,8 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/system/NinjaTypes.h"
 #pragma readonly_strings on
 
 void TAdLoadNetworkGC::render() {  }
@@ -17,15 +19,12 @@ struct Net_803084AC { u8 pad0[0x20]; void *obj[5]; Vec pos; };
 
 struct Net_80308518 { u8 pad0[0x18]; void *vt; u8 pad1[4]; void *obj[5]; };
 
-struct Ray_803085A0 { Vec a; Vec b; };
-
 ParticleAngles TAdLoadNetworkGC__object_offset_table[5] = {
     {0x4000, 0, 0}, {0x4000, 0, 0}, {0, 0, 0}, {0x4000, 0, 0}, {0x4000, 0, 0},
 };
 
 extern "C" {
 const s32 load_network_object_id_table[5] = {19, 21, 23, 29, 110};
-extern Ray_803085A0 lbl_804FF5E8;
 const char *TAdLoadNetworkGC__class_name = "TAdLoadNetworkGC";
 void TAdLoadNetworkGC::run_task() {
     Net_803084AC *o = (Net_803084AC *)this;
@@ -52,9 +51,9 @@ TAdLoadNetworkGC::TAdLoadNetworkGC(TObject *parent, Vec *pos) : TObject(parent) 
     u32 i;
     m_name = TAdLoadNetworkGC__class_name;
     VecCopy((Vec *)&self->pos, (const Vec *)pos);
-    self->pos.x = 100.0f * lbl_804FF5E8.b.x + lbl_804FF5E8.a.x;
-    self->pos.y = 100.0f * lbl_804FF5E8.b.y + lbl_804FF5E8.a.y;
-    self->pos.z = 100.0f * lbl_804FF5E8.b.z + lbl_804FF5E8.a.z;
+    self->pos.x = 100.0f * ninja_camera.vx + ninja_camera.px;
+    self->pos.y = 100.0f * ninja_camera.vy + ninja_camera.py;
+    self->pos.z = 100.0f * ninja_camera.vz + ninja_camera.pz;
     for (i = 0; i < 5; i++) {
         self->obj[i] = 0;
         self->obj[i] = fn_80086FE0(&self->pos, &TAdLoadNetworkGC__object_offset_table[i], load_network_object_id_table[i], 1);

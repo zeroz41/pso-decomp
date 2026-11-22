@@ -1050,28 +1050,28 @@ void TObjEneIllGill::capture_effect_positions(NJS_OBJECT *) {
         v->x = 0.0f;
         v->y = 0.0f;
         v->z = 0.0f;
-        TObjBoss2Tunnel::transform_vec_by_camera((saddr)lbl_804FF5E8, (saddr)v, (saddr)v);
+        TObjBoss2Tunnel::transform_vec_by_camera((saddr)&ninja_camera, (saddr)v, (saddr)v);
         break;
     case 44:
         v = &illGillShadowEffectPosition;
         v->x = 0.0f;
         v->y = 0.0f;
         v->z = 0.0f;
-        TObjBoss2Tunnel::transform_vec_by_camera((saddr)lbl_804FF5E8, (saddr)v, (saddr)v);
+        TObjBoss2Tunnel::transform_vec_by_camera((saddr)&ninja_camera, (saddr)v, (saddr)v);
         break;
     case 40:
         v = &illGillChargeEffectPosition1;
         v->x = 0.0f;
         v->y = 0.0f;
         v->z = 0.0f;
-        TObjBoss2Tunnel::transform_vec_by_camera((saddr)lbl_804FF5E8, (saddr)v, (saddr)v);
+        TObjBoss2Tunnel::transform_vec_by_camera((saddr)&ninja_camera, (saddr)v, (saddr)v);
         break;
     case 27:
         v = &illGillChargeEffectPosition2;
         v->x = 0.0f;
         v->y = 0.0f;
         v->z = 0.0f;
-        TObjBoss2Tunnel::transform_vec_by_camera((saddr)lbl_804FF5E8, (saddr)v, (saddr)v);
+        TObjBoss2Tunnel::transform_vec_by_camera((saddr)&ninja_camera, (saddr)v, (saddr)v);
         break;
     }
     illGillModelNodeIndex++;

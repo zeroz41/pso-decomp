@@ -56,6 +56,9 @@ extern f32 camera_look_at_up_vector[3];
 // as it is.
 void get_look_at_eye(u8 *eye);
 void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
+// Resets camera to the origin, looking down -z with a 60-degree view angle
+// and clip planes at -1 and -60000 (the Ninja SDK's njInitCamera).
+void init_ninja_camera(struct NJS_CAMERA *camera);
 void set_screen_size(f32 width, f32 height);
 // fov is a horizontal angle (0x10000 a turn) at aspect; GX gets the vertical one.
 void set_perspective_projection_from_fov(s32 fov, f32 aspect, f32 near_z, f32 far_z);

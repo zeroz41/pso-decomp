@@ -26,6 +26,17 @@ struct NJS_TEXANIM {
 
 typedef Vec NJS_POINT3;
 
+// A Ninja camera: eye position, view direction, roll, view angle (0x10000 a
+// turn) and the near and far clip planes (negative view-space z).
+struct NJS_CAMERA {
+    f32 px, py, pz;
+    f32 vx, vy, vz;
+    s32 roll;
+    s32 ang;
+    f32 n_clip;
+    f32 f_clip;
+};
+
 // A 2D sprite: position, scale and angle, drawn from cells of `tanim`
 // (texture ids into `tlist`).
 struct NJS_SPRITE {
