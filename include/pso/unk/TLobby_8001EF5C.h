@@ -12,6 +12,7 @@ void increment_ref_and_set_flag__6TLobbyFPv(void *arg0);
 struct BmlModelLoadRequest;
 struct BmlMotionLoadRequest;
 struct AnimationMotion;
+struct TBinModel;
 void load_bin_model_callback(BmlModelLoadRequest *request);
 void load_bin_motion_callback(BmlMotionLoadRequest *request);
 
@@ -19,6 +20,9 @@ void load_bin_motion_callback(BmlMotionLoadRequest *request);
 extern "C" {
 
 int fn_8001ED90(void *p);
+// The TBinModel constructor: kind, NULL-ended model and motion name lists, load callback and buffer.
+TBinModel *init_bin_model_request(TBinModel *self, s32 kind, char **models, char **motions, saddr on_loaded,
+                                  saddr on_loaded_arg, s32 load_buffer);
 
 AnimationMotion *get_bml_motion(BmlResource *resource, s32 index);
 void increment_ref_and_set_flag__6TLobbyFPv(void *arg0);

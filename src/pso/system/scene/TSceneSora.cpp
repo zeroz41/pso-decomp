@@ -12,6 +12,7 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/system/BmlResourceLoad.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/unk/text_803D96A8.h"
@@ -30,7 +31,6 @@
 
 struct Ent_80207478 { s32 f0; char *name; };
 
-struct Res_80207478 { void *buf; s32 n; };
 
 #pragma readonly_strings on
 
@@ -45,7 +45,6 @@ void TSceneSora__sub_80207430(void);
 u8 *__ct__10TSceneSoraFl(TSceneSora *arg0, s32 _w1);
 s32 rotate_matrix_y(int, int);
 s32 get_current_floor();
-u32 init_bin_model_request(void *, int, Res_80207478 *, Res_80207478 *, int, int, int);
 extern char sky_model_ext_s_njm[];
 extern char sky_model_ext_sm_gj[];
 extern char sky_model_ext_s_gj[];
@@ -130,12 +129,12 @@ void TSceneSora::load_sky_resources() {
     char name2[0x20];
     char name1[0x20];
     FloorMapSelection ref;
-    Res_80207478 b;
-    Res_80207478 a;
+    char *models[2];
+    char *motions[2];
     Ent_80207478 *tbl;
     s32 ok;
     AdxfHandle *p;
-    uaddr o;
+    TBinModel *o;
     TSceneSora__instance = 0;
     TSceneSora__sky_bml_resource = NULL;
     TSceneSora__has_sky_motion = 0;
@@ -152,24 +151,24 @@ void TSceneSora::load_sky_resources() {
         }
         p = ADXF_Open(name2, 0);
         if (p != NULL) {
-            b.buf = name2;
+            models[0] = name2;
             ADXF_Close(p);
         } else {
             return;
         }
         p = ADXF_Open(name1, 0);
         if (p != NULL) {
-            a.buf = name1;
+            motions[0] = name1;
             TSceneSora__has_sky_motion = 1;
             ADXF_Close(p);
         } else {
-            a.buf = NULL;
+            motions[0] = NULL;
         }
-        b.n = 0;
-        a.n = 0;
-        o = (u32)(saddr)::operator new(0x440);
+        models[1] = NULL;
+        motions[1] = NULL;
+        o = (TBinModel *)::operator new(0x440);
         if (o != 0) {
-            o = init_bin_model_request((void *)o, 1, &b, &a, 0, 0, 0);
+            o = init_bin_model_request(o, 1, models, motions, 0, 0, 0);
         }
         TSceneSora__sky_bml_resource = reinterpret_cast<BmlResource *>(o);
         TSceneSora__sky_active_flag = 1;
