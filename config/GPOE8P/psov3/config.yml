@@ -413,8 +413,8 @@ force_active:
   - push_out_players__10TBoss6RockFl
   - __ct__15TBoss6SwordShotFP7TObjectPC3Veclf
   - angle_to_bit__16Boss6WaveArcMaskFl
-  - TBoss6Thanks__sub_8035CB40
-  - TBoss6Thanks__sub_8035CCAC
+  - set_story_flag_0x9A__12TBoss6ThanksFv
+  - clear_particle_emitters__12TBoss6ThanksFv
   - TBoss6Tube__previous_scroll_phase
   - TBoss6Tube__scroll_delta
   - accelerate_scroll__10TBoss6TubeFv
