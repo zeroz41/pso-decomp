@@ -30,22 +30,23 @@ struct TObjEneLappy : public TObjEnemy {
     void apply_variant_speeds();
     void clear_flags_60();
     s32 advance_flee_step();
+    void set_flag_and_notify();
     s16 m_374;
     u8 _pad376[0x2];
     u8 m_378;
     u8 m_379;
-    u16 m_37a;
+    s16 m_37a;
     u8 _pad37C[0x2];
-    u16 m_37e;
-    u16 m_380;
+    s16 m_37e;
+    s16 m_380;
     s16 m_382;
     s16 m_384;
     u8 unk_386[0x2];
     s32 m_388;
-    u8 unk_38C[0x4];
+    f32 wander_distance;  // set to 30 when a wander starts, reduced by the walk speed each frame (inferred)
     s32 m_390;
-    u8 unk_394[0x2];
-    u16 m_396;
+    s16 flee_turn_timer;  // frames since the fleeing rappy last turned away from a player (inferred)
+    s16 m_396;
     void play_walk_sound();
     void update_hurt();
     void update_attacking();
@@ -53,7 +54,8 @@ struct TObjEneLappy : public TObjEnemy {
     static void update_idle_state(void *ov);
     static void *create(void *set);
     static void load_resources();
-    u8 unk_398[0x4];
+    static void free_resources();
+    s32 pad_398;
     f32 m_39c;
     u8 unk_3A0[0x4];
 };

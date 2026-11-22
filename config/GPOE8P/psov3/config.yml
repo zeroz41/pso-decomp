@@ -15496,7 +15496,7 @@ force_active:
   - set_flag__16TObjEneBm5GibonUFv
   - set_flag__9TItemDropFPvPv
   - set_flag_and_clear_download__6TLobbyFv
-  - set_flag_and_notify__10TObjPlayerFv
+  - set_flag_and_notify__12TObjEneLappyFv
   - set_flag_and_notify__11BmlResourceFv
   - set_flags__13MagOwnerWatchFUl
   - set_flags_and_apply_damage_color__13TUnk_80490470Fv
