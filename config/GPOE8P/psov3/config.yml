@@ -272,9 +272,9 @@ force_active:
   - state_dying__17TObjEneBm3FlyNestFl
   - state_spawn__17TObjEneBm3FlyNestFl
   - state_wait__17TObjEneBm3FlyNestFl
-  - sub_800B2A54__17TObjEneBm3FlyNestFv
-  - sub_800B318C__17TObjEneBm3FlyNestFl
-  - sub_800B3AC8__17TObjEneBm3FlyNestFv
+  - get_spawn_point__17TObjEneBm3FlyNestFv
+  - update_down_state__17TObjEneBm3FlyNestFl
+  - has_pending_spawns__17TObjEneBm3FlyNestFv
   - sub_802E1528__12TAdTimeSetGCFv
   - sub_802E15C8__12TAdTimeSetGCFv
   - sub_802E1868__12TAdTimeSetGCFv
@@ -410,7 +410,7 @@ force_active:
   - TBoss6Rock__instance_table
   - TBoss6Rock__rock_point_table
   - init_rock_points__10TBoss6RockFv
-  - TBoss6Rock__sub_803542E8
+  - push_out_players__10TBoss6RockFl
   - __ct__15TBoss6SwordShotFP7TObjectPC3Veclf
   - angle_to_bit__16Boss6WaveArcMaskFl
   - TBoss6Thanks__sub_8035CB40
@@ -449,7 +449,7 @@ force_active:
   - TBoss7Tentacle__sub_802F0A14
   - TBoss7Tentacle__sub_802F0A2C
   - TBoss7Tentacle__sub_802F0A44
-  - TBoss8Dragon__sub_8005D9BC
+  - fire_horn_lightning__13TBoss5GryphonFll
   - fn_8005DC0C__13TBoss5GryphonFv
   - TBoss8Dragon__sub_8005DF60
   - fn_8005E040__13TBoss5GryphonFv
@@ -1065,10 +1065,10 @@ force_active:
   - TObjEneBm3FlyNest_attachment_point_ptr
   - __ct__13TObjEneBm3FlyFP7TObjectP17TObjEneBm3FlyNestllPC3VecPC3Vec
   - play_orbit_flight_sound__13TObjEneBm3FlyFv
-  - sub_800B02C8__13TObjEneBm3FlyFl
-  - sub_800B0B20__13TObjEneBm3FlyFl
-  - sub_800B0F70__13TObjEneBm3FlyFl
-  - sub_800B1214__13TObjEneBm3FlyFl
+  - update_return_state__13TObjEneBm3FlyFl
+  - update_chase_state__13TObjEneBm3FlyFl
+  - update_orbit_state__13TObjEneBm3FlyFl
+  - update_launch_state__13TObjEneBm3FlyFl
   - run_demo_task__13TObjEneBm3FlyFv
   - render_demo__13TObjEneBm3FlyFv
   - dispatch_action__13TObjEneBm3FlyFUll
@@ -1348,7 +1348,7 @@ force_active:
   - TObjEneRe7BeruraPunch__collision_body_templates
   - TObjEneRe7BeruraPunch__data_805D97A0
   - __ct__16TObjEneRe7BeruraFP7TObjectPv
-  - TObjEneRe7Berura__data_805007D4
+  - TObjEneRe7Berura__attack_stat_handles
   - TObjEneRe7Berura__vt85
   - TObjEneRecobox__attack_params
   - __ct__14TObjEneRecoboxFP7TObjectPv
@@ -6441,7 +6441,7 @@ force_active:
   - fn_80314500__15TObjEneDelDepthFv
   - fn_80314EC4__15TObjEneDelDepthFv
   - fn_80315518__15TObjEneDelDepthFv
-  - fn_8031B618
+  - fn_8031B618__16TObjEneReconBombFv
   - __dt__14TObjEneRecoboxFv
   - fn_80327A38
   - receive_direct_attack__9TBoss6MagFPv19DirectAttackPayloadPvll
@@ -8114,8 +8114,8 @@ force_active:
   - lbl_804E6CB4
   - lbl_804E7578
   - lbl_804E7750
-  - lbl_804E80C0
-  - lbl_804E8114
+  - deldepth_model_names
+  - deldepth_low_model_names
   - lbl_804E8760
   - lbl_804E8780
   - lbl_804E87F0
@@ -8179,8 +8179,8 @@ force_active:
   - lbl_80500948
   - lbl_80500954
   - lbl_80500978
-  - lbl_80500B24
-  - lbl_80500B2C
+  - fly_nest_vertex_indices
+  - fly_nest_vertex_list
   - wolf_param_table
   - lbl_80500B60
   - lbl_80500B6C
@@ -8367,13 +8367,13 @@ force_active:
   - saver_jump_trail_points
   - saver_nail_trail_points
   - lbl_805D5074
-  - lbl_805D50F8
-  - lbl_805D50FC
-  - lbl_805D5100
-  - lbl_805D5104
-  - lbl_805D5108
-  - lbl_805D510C
-  - lbl_805D5114
+  - bm3_fly_nest_base_stats
+  - bm3_fly_nest_attack_stats
+  - bm3_fly_nest_resist_stats
+  - bm3_fly_nest_lobby_params
+  - bm3_fly_nest_bml
+  - bm3_fly_nest_node_index
+  - bm3_fly_nest_sample_cursor
   - lbl_805D5140
   - lbl_805D514C
   - lbl_805D5158
@@ -16142,7 +16142,7 @@ force_active:
   - sub_8002E1CC__13TObjBoss1RockFPUcPUcl
   - enter_sway__14TBoss2TentacleFv
   - request_strike__14TBoss2TentacleFv
-  - sub_8003C21C__15TObjBoss2TunnelFv
+  - current_texture_index__15TObjBoss2TunnelFv
   - sub_8003F81C__16TBoss3VoloptCoreFv
   - sub_80040558__16TBoss3VoloptCoreFv
   - update_descend__20TBoss3VoloptHiraisinFv
@@ -16195,7 +16195,7 @@ force_active:
   - select_model_record__12TObjEneSaverFl
   - sub_800A7B54__15TObjEneDimedianFv
   - sub_800AC9DC__12TObjEneSharkFl
-  - sub_800B1634__13TObjEneBm3FlyFv
+  - pick_hover_point__13TObjEneBm3FlyFv
   - sub_800BCE44__9TObjGrassFv
   - sub_800BD4D8__9TObjGrassFv
   - sub_800BDD70__9TObjGrassFv
