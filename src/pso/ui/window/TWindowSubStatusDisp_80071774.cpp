@@ -124,11 +124,11 @@ s32 TWindowSubStatusDisp__sub_80071988(u16 arg0, saddr slot) {
 }
 
 s32 TWindowSubStatusDisp__sub_80071A24(s32 arg0, u16 arg1, saddr slot) {
-    s32 temp_r3;
+    s32 layout_id;
     uaddr character_save_record;
     character_save_record = get_character_save_record((u32)arg1);
-    temp_r3 = TWindowSubStatusDisp::get_layout_id(slot);
-    if ((arg0 < 0) || (arg0 >= temp_r3) || (character_save_record == 0U)) {
+    layout_id = TWindowSubStatusDisp::get_layout_id(slot);
+    if ((arg0 < 0) || (arg0 >= layout_id) || (character_save_record == 0U)) {
         return 0;
     }
     return TLobby::get_valid_slot((int) (*(s32 *)((s8 *)(TWindowSubStatusDisp__sub_8006F0D8((void *)(character_save_record + 0x21C4), (void *)slot)) + (arg0 * 4))));

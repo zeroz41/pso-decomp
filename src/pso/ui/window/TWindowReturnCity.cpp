@@ -126,18 +126,18 @@ TWindowReturnCity::~TWindowReturnCity() {
 }
 
 u8 *TWindowReturnCity__ct(TWindowReturnCity *window_return_city, saddr parent, s32 arg2) {
-  s32 temp_r31;
+  s32 window_layout_position;
   __ct__7TObjectFP7TObject((void *) window_return_city, (void *) parent);
   *((s32 **) (((s8 *) window_return_city) + 0x18)) = __vt__17TWindowReturnCity;
   *((s32 *) (((s8 *) window_return_city) + 0)) = (saddr) TWindowReturnCity__class_name;
   window_return_city->m_24 = arg2;
-  temp_r31 = (saddr)TWindowMessageYesNo::create((void *)((void *) window_return_city), window_return_city->m_24, 0, 0);
-  window_return_city->m_1c = temp_r31;
+  window_layout_position = (saddr)TWindowMessageYesNo::create((void *)((void *) window_return_city), window_return_city->m_24, 0, 0);
+  window_return_city->m_1c = window_layout_position;
   if (window_return_city)
   {
   }
-  temp_r31 = get_window_layout_position(0x23);
-  ((TWindowMessageYesNo *)window_return_city->m_1c)->open_yes_no_prompt_with_text((saddr)(TWindowSubStatusDisp::get_message_10(0x43)), (s32)temp_r31, 206.0f);
+  window_layout_position = get_window_layout_position(0x23);
+  ((TWindowMessageYesNo *)window_return_city->m_1c)->open_yes_no_prompt_with_text((saddr)(TWindowSubStatusDisp::get_message_10(0x43)), (s32)window_layout_position, 206.0f);
   ((TWindowMessageYesNo *)window_return_city->m_1c)->set_menu_selected_index(1);
   fn_8024AC64((window_return_city->m_24));
   TWindowCtrl::set_close_flag();

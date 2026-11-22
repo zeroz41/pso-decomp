@@ -207,13 +207,13 @@ void TWindowSubCustomSelect::draw_palette_cells(WindowDrawContext *ctx) {
 
 void TWindowSubCustomSelect::render() {
     TWindowSubCustomSelect *window_sub_custom_select = this;
-    saddr temp_r3;
-    temp_r3 = reinterpret_cast<saddr>(window_sub_custom_select->get_draw_context());
-    ((TWindowBase *)window_sub_custom_select)->draw_window_frame((void *)temp_r3);
-    window_sub_custom_select->draw_palette_cells(reinterpret_cast<WindowDrawContext *>(temp_r3));
-    window_sub_custom_select->draw_cursor((u8 *)temp_r3);
-    ((TWindowSubStatusDisp *)((void *)(window_sub_custom_select->m_7c)))->forward_render((void *)(temp_r3));
-    draw_window_scrollbar(window_sub_custom_select->m_80, temp_r3, (u8 *)window_sub_custom_select + 0x68);
+    saddr draw_context;
+    draw_context = reinterpret_cast<saddr>(window_sub_custom_select->get_draw_context());
+    ((TWindowBase *)window_sub_custom_select)->draw_window_frame((void *)draw_context);
+    window_sub_custom_select->draw_palette_cells(reinterpret_cast<WindowDrawContext *>(draw_context));
+    window_sub_custom_select->draw_cursor((u8 *)draw_context);
+    ((TWindowSubStatusDisp *)((void *)(window_sub_custom_select->m_7c)))->forward_render((void *)(draw_context));
+    draw_window_scrollbar(window_sub_custom_select->m_80, draw_context, (u8 *)window_sub_custom_select + 0x68);
 }
 
 void TWindowSubCustomSelect::run_task() {

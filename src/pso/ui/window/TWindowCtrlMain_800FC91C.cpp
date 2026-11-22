@@ -58,13 +58,13 @@ s32 get_status_index_or_default__20TWindowSubStatusDispFPUs(void *, s32);
 saddr TWindowCtrlMain::get_instance() {  return TWindowCtrlMain__instance; }
 
 void TWindowCtrlMain::advance_card_status(s32 local_client_id) {
-    s32 var_r4;
+    s32 card_status_bits;
 
-    var_r4 = TWindowShortListCtrl::get_card_status_bits(local_client_id) + 1;
-    if (var_r4 >= 5) {
-        var_r4 = 0;
+    card_status_bits = TWindowShortListCtrl::get_card_status_bits(local_client_id) + 1;
+    if (card_status_bits >= 5) {
+        card_status_bits = 0;
     }
-    fn_800FCCC8(local_client_id, var_r4);
+    fn_800FCCC8(local_client_id, card_status_bits);
 }
 s32 TWindowSubStatusDisp::build_status_text(s32 arg0) {
     s32 mode;
@@ -126,19 +126,19 @@ void *TFontSmallLobby::create(void *arg0) {
 }
 
 void TUnk_8049CA54::run_task() {
-    s32 temp_r3_2;
+    s32 card_status_bits;
     s32 temp_r4;
     uaddr temp_r3_3;
-    saddr temp_r3;
+    saddr player;
 
-    temp_r3 = (saddr)get_player_by_client_id(*(s32 *)&this->player_id);
-    if (temp_r3 == 0) {
+    player = (saddr)get_player_by_client_id(*(s32 *)&this->player_id);
+    if (player == 0) {
         queue_destruction();
         return;
     }
-    temp_r3_2 = TWindowShortListCtrl::get_card_status_bits(*(s32 *)&this->player_id);
-    if ((s32) *(s32 *)&this->unk_60 != temp_r3_2) {
-        *(s32 *)&this->unk_60 = temp_r3_2;
+    card_status_bits = TWindowShortListCtrl::get_card_status_bits(*(s32 *)&this->player_id);
+    if ((s32) *(s32 *)&this->unk_60 != card_status_bits) {
+        *(s32 *)&this->unk_60 = card_status_bits;
         temp_r3_3 = (u32)TWindowSubStatusDisp::build_status_text(*(s32 *)&this->player_id);
         set_help_text((const char *)temp_r3_3);
         if (temp_r3_3 != 0U) {
@@ -146,7 +146,7 @@ void TUnk_8049CA54::run_task() {
                 temp_r4 = *(s32 *)&this->player_id;
                 set_color(get_status_index_or_default__20TWindowSubStatusDispFPUs((s8 *)lobby_player_status_records + (temp_r4 * 0x11C) + 4, temp_r4));
             } else {
-                set_color(fn_800FCCF4((void *)temp_r3));
+                set_color(fn_800FCCF4((void *)player));
             }
         }
     }

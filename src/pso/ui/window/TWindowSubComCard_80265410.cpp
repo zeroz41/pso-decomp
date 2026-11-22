@@ -657,18 +657,18 @@ saddr create_window_menu_default(saddr pos, s32 entries) {
 }
 
 saddr create_titled_window_menu(saddr arg0, s32 arg1, saddr title, s32 client_id) {
-    saddr temp_r31;
+    saddr menu;
     saddr temp_r3;
     saddr var_r0;
-    temp_r31 = reinterpret_cast<saddr>(create_window_menu(arg0, arg1, client_id));
+    menu = reinterpret_cast<saddr>(create_window_menu(arg0, arg1, client_id));
     temp_r3 = (saddr)::operator new(0x24);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (saddr)((TWindowSubStatusDisp *)temp_r3)->construct_type1_heading(title, client_id);
     }
-    *(s32 *)((s8 *)temp_r31 + 0x88) = var_r0;
-    *(s32 *)((s8 *)temp_r31 + 0x2C) = (s32) (*(s32 *)((s8 *)temp_r31 + 0x2C) | 0x40);
-    return temp_r31;
+    *(s32 *)((s8 *)menu + 0x88) = var_r0;
+    *(s32 *)((s8 *)menu + 0x2C) = (s32) (*(s32 *)((s8 *)menu + 0x2C) | 0x40);
+    return menu;
 }
 
 saddr create_titled_window_menu_default(saddr pos, s32 entries, saddr title) {

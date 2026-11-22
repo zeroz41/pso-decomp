@@ -864,14 +864,14 @@ extern saddr lbl_805D63F0;
 
 void TWindowDD_WS_String::draw(saddr ctx, s32 idx, f32 offset) {
     Buf sp8;
-    s32 temp_r31;
+    s32 draw_count;
 
-    temp_r31 = TWindowDD::get_draw_count((void **)(lbl_805D63F0));
+    draw_count = TWindowDD::get_draw_count((void **)(lbl_805D63F0));
     ((TWindowDD *)(&sp8))->reset_entries(TWindowDD__sub_80348AD4(draw_depth, offset), -1);
     ((TWindowDD *)(&sp8))->copy_point_table(idx);
     TWindowDD__sub_80348A2C(reinterpret_cast<WindowDrawContext *>(ctx), reinterpret_cast<WindowVertex *>(&sp8));
     TWindowDD__sub_803489B8(reinterpret_cast<WindowDrawContext *>(ctx), reinterpret_cast<WindowVertex *>(&sp8), 0);
-    ((TWindowDD *)(&sp8))->draw_transformed_primitive(8, temp_r31, 1);
+    ((TWindowDD *)(&sp8))->draw_transformed_primitive(8, draw_count, 1);
 }
 
 #pragma push

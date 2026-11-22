@@ -218,10 +218,10 @@ void TWindowCtrl::update_trade_window_visibility() {
 
 void TWindowCtrl::update_child_window_visibility() {
     u8 *arg0 = (u8 *)this;
-    u32 temp_r31;
+    u32 player;
     if (((u32) this->m_34 != 0U) && (((TWindowCtrl *)((void *) this->m_34))->is_flag_2_set() == 0)) {
-        temp_r31 = get_player_by_client_id(this->m_24);
-        if ((get_active_menu() != 0) || (((TWindowCtrl *)arg0)->is_visible() != 0) || (((TWindowCtrl *)arg0)->is_enabled() != 0) || (temp_r31 == 0U)) {
+        player = get_player_by_client_id(this->m_24);
+        if ((get_active_menu() != 0) || (((TWindowCtrl *)arg0)->is_visible() != 0) || (((TWindowCtrl *)arg0)->is_enabled() != 0) || (player == 0U)) {
             ((TWindowLockOn *)(this->m_34))->request_close();
             return;
         }

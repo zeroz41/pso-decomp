@@ -41,17 +41,17 @@ s32 clamp_list_scroll_offset(int, void *, void *, f32);
 s32 find_entity_by_id();
 
 s32 TWindowMessageLog::get_active_photon_object() {
-    saddr temp_r3;
+    saddr entity;
     s32 var_r3;
 
-    temp_r3 = find_entity_by_id();
-    if (temp_r3 == 0) {
+    entity = find_entity_by_id();
+    if (entity == 0) {
         return 0;
     }
-    if ((((TObjChara *)temp_r3)->obj_isState2_324() == 0) && (TObjPlayer::is_locally_controlled((void *)temp_r3) == 0)) {
+    if ((((TObjChara *)entity)->obj_isState2_324() == 0) && (TObjPlayer::is_locally_controlled((void *)entity) == 0)) {
         return 0;
     }
-    var_r3 = temp_r3 + 0x85C;
+    var_r3 = entity + 0x85C;
     if (var_r3 == 0) {
         var_r3 = 0;
     }
@@ -288,14 +288,14 @@ struct Stack_8026ABA8 {
 extern "C" {
 s32 draw_window_scrollbar(int, int, void *);
 void TWindowMessageLog::render() {
-    saddr temp_r3;
-    temp_r3 = reinterpret_cast<saddr>(get_draw_context());
-    draw_window_frame((void *)temp_r3);
+    saddr draw_context;
+    draw_context = reinterpret_cast<saddr>(get_draw_context());
+    draw_window_frame((void *)draw_context);
     draw_visible_window_entries(
         this,
         reinterpret_cast<const WindowLayoutEntries *>((void *) (((u8 *)this) + 0x24)),
-        reinterpret_cast<WindowDrawContext *>(temp_r3));
-    draw_window_scrollbar((int) (*(s32 *)((s8 *)((u8 *)this) + 0x90)), temp_r3, (void *) (((u8 *)this) + 0x68));
+        reinterpret_cast<WindowDrawContext *>(draw_context));
+    draw_window_scrollbar((int) (*(s32 *)((s8 *)((u8 *)this) + 0x90)), draw_context, (void *) (((u8 *)this) + 0x68));
 }
 void TWindowMessageLog::run_task() {
     if (!(*(s32 *)&this->window_flags & 2)) {

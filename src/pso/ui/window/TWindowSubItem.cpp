@@ -706,11 +706,11 @@ void TWindowSubItem::set_cursor_row_for_mode(s32 arg1) {
 
 void TWindowSubItem::exec_item_command(saddr item_id, s32 arg2) {
     saddr player;
-    void *temp_r3_2;
+    void *item;
     saddr t;
 
     player = get_player_by_client_id(this->client_id);
-    if ((player != 0) && (temp_r3_2 = find_item_by_id(item_id), ((temp_r3_2 == NULL) == 0))) {
+    if ((player != 0) && (item = find_item_by_id(item_id), ((item == NULL) == 0))) {
         switch (arg2) {
         case 3:
             break;
@@ -719,7 +719,7 @@ void TWindowSubItem::exec_item_command(saddr item_id, s32 arg2) {
             this->m_1c = 0x16;
             break;
         case 1: {
-            TItem *held = (TItem *)TObjPlayer::get_slot_value((void *)(player + 0xD04), (int)((s8) ((V_A_80279714 *) temp_r3_2)->m31()));
+            TItem *held = (TItem *)TObjPlayer::get_slot_value((void *)(player + 0xD04), (int)((s8) ((V_A_80279714 *) item)->m31()));
             if (held != NULL) {
                 t = held->get_item_id();
                 TObjPlayer::send_6x26_unequip_item((void *)player, t);

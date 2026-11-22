@@ -97,7 +97,7 @@ TWindowSubGameEnd::~TWindowSubGameEnd() {
 
 
 void *TWindowSubGameEnd__ct(TWindowSubGameEnd *window_sub_game_end, s32 arg1, s32 arg2) {
-    f32 var_f31;
+    f32 width;
     s32 var_r31;
     __ct__7TObjectFP7TObject();
     *(s32 **)((s8 *)window_sub_game_end + 0x18) = __vt__17TWindowSubGameEnd;
@@ -106,16 +106,16 @@ void *TWindowSubGameEnd__ct(TWindowSubGameEnd *window_sub_game_end, s32 arg1, s3
     window_sub_game_end->m_20 = arg2;
     if (get_main_phase() == 0xF) {
         var_r31 = (saddr)TWindowSubStatusDisp::get_message_10(0x3B);
-        var_f31 = 469.0f;
+        width = 469.0f;
     } else if (is_split_screen() != 0) {
         var_r31 = (saddr)TWindowSubStatusDisp::get_message_10(0x3C);
-        var_f31 = 312.0f;
+        width = 312.0f;
     } else {
         var_r31 = (saddr)TWindowSubStatusDisp::get_message_10(0x3A);
-        var_f31 = 469.0f;
+        width = 469.0f;
     }
     window_sub_game_end->m_28 = (saddr)TWindowMessageYesNo::create((void *)(window_sub_game_end), window_sub_game_end->m_20, 0, 0);
-    ((TWindowMessageYesNo *)window_sub_game_end->m_28)->open_yes_no_prompt_with_text((s32)var_r31, (s32)(get_window_layout_position(0x17)), var_f31);
+    ((TWindowMessageYesNo *)window_sub_game_end->m_28)->open_yes_no_prompt_with_text((s32)var_r31, (s32)(get_window_layout_position(0x17)), width);
     ((TWindowMessageYesNo *)window_sub_game_end->m_28)->set_menu_selected_index(1);
     ((TWindowMessageYesNo *)(window_sub_game_end->m_28))->set_choice_menu_flag70_bit10();
     window_sub_game_end->m_1c = 0;

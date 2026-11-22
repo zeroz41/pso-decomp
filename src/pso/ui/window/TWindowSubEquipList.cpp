@@ -26,16 +26,16 @@ u8 *create_equip_list_window(saddr parent, saddr position, s32 client) {
 #pragma push
 #pragma fp_contract on
 void TWindowSubEquipList::render() {
-    saddr temp_r3;
-    temp_r3 = reinterpret_cast<saddr>(get_draw_context());
-    draw_window_frame((void *)temp_r3);
+    saddr draw_context;
+    draw_context = reinterpret_cast<saddr>(get_draw_context());
+    draw_window_frame((void *)draw_context);
     draw_visible_window_entries(
         this,
         reinterpret_cast<const WindowLayoutEntries *>((void *) (((u8 *)this) + 0x24)),
-        reinterpret_cast<WindowDrawContext *>(temp_r3));
-    draw_selected_list_entry(temp_r3);
+        reinterpret_cast<WindowDrawContext *>(draw_context));
+    draw_selected_list_entry(draw_context);
     if ((uaddr) this->status_display != 0U) {
-        ((TWindowSubStatusDisp *)((void *)(this->status_display)))->forward_render((void *)(temp_r3));
+        ((TWindowSubStatusDisp *)((void *)(this->status_display)))->forward_render((void *)(draw_context));
     }
 }
 #pragma pop

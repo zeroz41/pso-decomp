@@ -1275,12 +1275,12 @@ u32 TWindowSubComCard__sub_8027337C() {
 }
 
 s32 TWindowSubComCard::create_single_entry_window(void) {
-  saddr temp_r31;
-    temp_r31 = create_window_menu_default((void *)(((saddr)get_window_layout_position(0x84))), 1);
-    forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((int) ((saddr)TWindowSubStatusDisp::get_message_10(0x38))), 3, 0);
-    ((TAdChrSelASlotGC *)temp_r31)->set_flag_40();
-    ((TWindowSubComCardList *)temp_r31)->set_scroll_target(213.0f, 64.0f);
-    return temp_r31;
+  saddr menu;
+    menu = create_window_menu_default((void *)(((saddr)get_window_layout_position(0x84))), 1);
+    forward_trade_action_default__16TObjCityMainWarpFPviii((void *)menu, (int)((int) ((saddr)TWindowSubStatusDisp::get_message_10(0x38))), 3, 0);
+    ((TAdChrSelASlotGC *)menu)->set_flag_40();
+    ((TWindowSubComCardList *)menu)->set_scroll_target(213.0f, 64.0f);
+    return menu;
 }
 
 s32 TWindowSubComCard::open_menu(void) {
@@ -1549,15 +1549,15 @@ s32 TWindowSubComCard__sub_802728CC(void) {
 }
 
 s32 TWindowSubComCard::create_card_action_window() {
-    saddr temp_r31;
+    saddr menu;
     void *temp_r31_2;
-    temp_r31 = create_titled_window_menu_default(((s32)get_window_layout_position(0x93)), 3, (void*)TWindowSubStatusDisp::get_message_10(0x1D));
-    forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((saddr)(void*)TWindowSubStatusDisp::get_message_10(0xFD)), 6, 0x41);
-    forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((saddr)(void*)TWindowSubStatusDisp::get_message_10(0xFE)), 6, 0x45);
-    forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((saddr)(void*)TWindowSubStatusDisp::get_message_10(0xFF)), 6, 0x4A);
-    ((TWindowMenu *)temp_r31)->set_flag70_bit10();
-    ((TWindowMenu *)temp_r31)->update_layout_height(193.0f);
-    return temp_r31;
+    menu = create_titled_window_menu_default(((s32)get_window_layout_position(0x93)), 3, (void*)TWindowSubStatusDisp::get_message_10(0x1D));
+    forward_trade_action_default__16TObjCityMainWarpFPviii((void *)menu, (int)((saddr)(void*)TWindowSubStatusDisp::get_message_10(0xFD)), 6, 0x41);
+    forward_trade_action_default__16TObjCityMainWarpFPviii((void *)menu, (int)((saddr)(void*)TWindowSubStatusDisp::get_message_10(0xFE)), 6, 0x45);
+    forward_trade_action_default__16TObjCityMainWarpFPviii((void *)menu, (int)((saddr)(void*)TWindowSubStatusDisp::get_message_10(0xFF)), 6, 0x4A);
+    ((TWindowMenu *)menu)->set_flag70_bit10();
+    ((TWindowMenu *)menu)->update_layout_height(193.0f);
+    return menu;
 }
 }
 #pragma push

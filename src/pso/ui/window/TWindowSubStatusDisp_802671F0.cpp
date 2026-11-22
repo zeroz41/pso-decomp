@@ -459,9 +459,9 @@ void TWindowMenuIconLine::set_flag4() {
 }
 
 void TWindowMenuIconLine::handle_open() {
-    saddr temp_r31;
-    temp_r31 = reinterpret_cast<saddr>(get_array_entry(this->cursor));
-    if ((((TWindowSubStatusDisp *)temp_r31)->is_flag_4_set() == 0) || (((TWindowSubStatusDisp *)temp_r31)->is_flag80_set() != 0)) {
+    saddr entry;
+    entry = reinterpret_cast<saddr>(get_array_entry(this->cursor));
+    if ((((TWindowSubStatusDisp *)entry)->is_flag_4_set() == 0) || (((TWindowSubStatusDisp *)entry)->is_flag80_set() != 0)) {
         play_sound_effect(0x53F06, 0, 0, 0);
         return;
     }
@@ -691,20 +691,20 @@ void TShopJudgmentItemWindow__sub_80267F9C(NJS_POINT2 v, s32 x) {
 }
 
 void TWindowMenuIconLine::render() {
-    saddr temp_r3;
+    saddr draw_context;
 
-    temp_r3 = reinterpret_cast<saddr>(get_draw_context());
-    draw_window_frame((void *)temp_r3);
+    draw_context = reinterpret_cast<saddr>(get_draw_context());
+    draw_window_frame((void *)draw_context);
     draw_visible_window_entries(
         this,
         reinterpret_cast<const WindowLayoutEntries *>(((u8 *)this) + 0x24),
-        reinterpret_cast<WindowDrawContext *>(temp_r3));
-    this->draw_selected_list_entry(temp_r3);
+        reinterpret_cast<WindowDrawContext *>(draw_context));
+    this->draw_selected_list_entry(draw_context);
     if (this->status_display != 0) {
-        ((TWindowSubStatusDisp *)this->status_display)->forward_render((void *)(temp_r3));
+        ((TWindowSubStatusDisp *)this->status_display)->forward_render((void *)(draw_context));
     }
     if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x84) != 0U) {
-        draw_window_scrollbar(*(u32 *)((s8 *)((u8 *)this) + 0x84), temp_r3, ((u8 *)this) + 0x68);
+        draw_window_scrollbar(*(u32 *)((s8 *)((u8 *)this) + 0x84), draw_context, ((u8 *)this) + 0x68);
     }
 }
 

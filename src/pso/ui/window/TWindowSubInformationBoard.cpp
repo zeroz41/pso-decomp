@@ -277,13 +277,13 @@ void TWindowSubInformationBoard::set_message_index(s32 index) {
 }
 
 void TWindowSubInformationBoard::set_page(s32 arg1) {
-    s32 temp_r3;
+    s32 info_board;
 
     if (((s32) this->shown_index != arg1) && (arg1 != -1)) {
-        temp_r3 = (saddr)TLobby::get_info_board_ptr();
-        if (temp_r3 != 0) {
+        info_board = (saddr)TLobby::get_info_board_ptr();
+        if (info_board != 0) {
             this->shown_index = arg1;
-            ((TWindowMessage *)(this->message_window))->append_line(temp_r3 + (arg1 * 0xBC) + 0x14, 0x80);
+            ((TWindowMessage *)(this->message_window))->append_line(info_board + (arg1 * 0xBC) + 0x14, 0x80);
         }
     }
 }

@@ -46,19 +46,19 @@ s32 TWindowSubComCard::find_card_by_id(u32 arg0) {
 }
 s32 get_card_entry__17TWindowSubComCardFi(s32 arg0) {
     s32 var_r31;
-    s32 var_r3;
+    s32 state;
     var_r31 = arg0;
     if (var_r31 < 0) {
-        var_r3 = 0;
+        state = 0;
         return 0;
     }
     if (var_r31 >= 0xD2) {
-        var_r3 = 0;
+        state = 0;
         return 0;
     }
-    var_r3 = TAdSinglePlyChrSelectGC::get_state() + 0xC4;
-    var_r3 += var_r31 << 8;
-    return var_r3;
+    state = TAdSinglePlyChrSelectGC::get_state() + 0xC4;
+    state += var_r31 << 8;
+    return state;
 }
 
 }

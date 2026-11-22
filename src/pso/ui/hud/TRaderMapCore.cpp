@@ -644,11 +644,11 @@ void TRaderMapCore::advance_scroll() {
 static const u32 lbl_805DC56C = 1;
 
 void TRaderMapCore::update_target() {
-    u32 temp_r3;
+    u32 player;
 
-    temp_r3 = (uaddr)get_player_by_client_id(local_client_id);
-    if (temp_r3 != 0U) {
-        *(u32 *)&this->m_184 = temp_r3;
+    player = (uaddr)get_player_by_client_id(local_client_id);
+    if (player != 0U) {
+        *(u32 *)&this->m_184 = player;
     }
     if ((uaddr) this->m_184 != 0U) {
         if (is_card_flag_set__19TWindowKeyBoardHardFv(get_entity_id((void*)this->m_184)) != 0) {

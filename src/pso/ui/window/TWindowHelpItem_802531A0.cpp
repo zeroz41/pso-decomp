@@ -86,16 +86,16 @@ void TWindowHelpItem__sub_80253268(u8 *window_base) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80253268, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_80253268, spC) == 0x4);
     Stack_80253268 stack;
-    saddr temp_r3;
+    saddr player;
     u8 *temp_r31;
     u8 *temp_r31_2;
     ((TWindowSubStatusDisp *)(&stack.sp8))->clear_fields();
-    temp_r3 = (saddr)get_player_by_client_id((*(s16 *)((s8 *)window_base + 0x20)));
-    if (temp_r3 != 0) {
-        temp_r31 = (u8 *)(temp_r3 + 0x85C);
+    player = (saddr)get_player_by_client_id((*(s16 *)((s8 *)window_base + 0x20)));
+    if (player != 0) {
+        temp_r31 = (u8 *)(player + 0x85C);
         if (temp_r31 != NULL) {
             temp_r31_2 = (u8 *)(((TWindowBase *)window_base)->get_array_entry(5));
-            if (!(*(s32 *)((s8 *)temp_r31 + 0x34) & 0x10) && (build_player_equipment_requirement_stats(temp_r3, &stack.sp8) != 0)) {
+            if (!(*(s32 *)((s8 *)temp_r31 + 0x34) & 0x10) && (build_player_equipment_requirement_stats(player, &stack.sp8) != 0)) {
                 *(s32 *)((s8 *)temp_r31_2 + 0x20) = (s32) stack.spC;
             }
         }

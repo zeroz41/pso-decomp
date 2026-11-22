@@ -91,11 +91,11 @@ extern "C" {
 
 void TWindowMeseta::run_task() {
     u8 *arg0 = (u8 *)this;
-    s32 temp_r3;
+    s32 meseta_value;
 
-    temp_r3 = this->get_meseta_value();
-    if (temp_r3 != (s32) this->m_68) {
-        this->m_68 = temp_r3;
+    meseta_value = this->get_meseta_value();
+    if (meseta_value != (s32) this->m_68) {
+        this->m_68 = meseta_value;
         ((TWindowSubStatusDisp *)(((TWindowBase *)arg0)->get_array_entry(1)))->set_animated_target(this->m_68, 9.0f);
     }
     ((TWindowDD *)arg0)->initialize_subwindow();

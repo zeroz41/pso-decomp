@@ -374,14 +374,14 @@ void TLobby__sub_80269DA4(const void *extent, u32 rows) {
 
 
 void TWindowMessage::render() {
-    saddr temp_r3;
+    saddr draw_context;
     saddr arg0 = (saddr)this;
-    temp_r3 = reinterpret_cast<saddr>(get_draw_context());
-    ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
+    draw_context = reinterpret_cast<saddr>(get_draw_context());
+    ((TWindowBase *)arg0)->draw_window_frame((void *)draw_context);
     draw_visible_window_entries(
         reinterpret_cast<const void *>(arg0),
         reinterpret_cast<const WindowLayoutEntries *>((void *)(arg0 + 0x24)),
-        reinterpret_cast<WindowDrawContext *>(temp_r3));
+        reinterpret_cast<WindowDrawContext *>(draw_context));
 }
 
 void TWindowMessage::run_task() {

@@ -215,20 +215,20 @@ extern "C" {
 s32 draw_window_scrollbar(s32, s32, void *);
 
 void TUnk_804D0658::render() {
-    saddr temp_r3;
+    saddr draw_context;
 
-    temp_r3 = reinterpret_cast<saddr>(get_draw_context());
-    ((TWindowBase *)((u8 *)this))->draw_window_frame((void *)temp_r3);
+    draw_context = reinterpret_cast<saddr>(get_draw_context());
+    ((TWindowBase *)((u8 *)this))->draw_window_frame((void *)draw_context);
     draw_visible_window_entries(
         reinterpret_cast<const void *>(((u8 *)this)),
         reinterpret_cast<const WindowLayoutEntries *>(((u8 *)this) + 0x24),
-        reinterpret_cast<WindowDrawContext *>(temp_r3));
-    ((TUnk_804D0658 *)((u8 *)this))->draw_setting(temp_r3);
+        reinterpret_cast<WindowDrawContext *>(draw_context));
+    ((TUnk_804D0658 *)((u8 *)this))->draw_setting(draw_context);
     if (this->heading != 0) {
-        ((TWindowSubStatusDisp *)((saddr)this->heading))->forward_render((void *)(temp_r3));
+        ((TWindowSubStatusDisp *)((saddr)this->heading))->forward_render((void *)(draw_context));
     }
     if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x7C) != 0U) {
-        draw_window_scrollbar(*(u32 *)((s8 *)((u8 *)this) + 0x7C), temp_r3, ((u8 *)this) + 0x68);
+        draw_window_scrollbar(*(u32 *)((s8 *)((u8 *)this) + 0x7C), draw_context, ((u8 *)this) + 0x68);
     }
 }
 
