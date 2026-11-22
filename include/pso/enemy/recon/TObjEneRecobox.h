@@ -3,6 +3,8 @@
 
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
+#include "pso/render/RenderFadeState.h"
+#include "pso/render/TUnk_80494938.h"
 
 struct BmlResource;
 
@@ -35,11 +37,7 @@ struct TObjEneRecobox : public TObjEneDD_ST {
     s32 has_child_in_anim_5();
     s32 is_below_child_limit(u16 id);
     void spawn_debris_chips();
-    u8 pad_3C0[0x4];
-    u32 m_3c4;
-    void* m_3c8;
-    u8 pad_3CC[0xC];
-    u32 m_3d8;
+    TUnk_80494938 fade;
     u32 mount_type;               // debug TYPE: 0 NORMAL, 1 BOTTOM (rotated 0x8000), 2 SIDE (0x4000)
     u8 pad_3E0[0x10];
     u32 m_3f0;
@@ -49,12 +47,8 @@ struct TObjEneRecobox : public TObjEneDD_ST {
     u32 status_flags;             // bit 0 set while idle (sub_8031F6C0), cleared on activation
     u8 pad_410[0x34];
     void* m_444;
-    u8 pad_448[0x74];
-    u32 m_4bc;
-    u32 m_4c0;
-    u32 m_4c4;
-    u32 m_4c8;
-    u32 m_4cc;
+    u8 pad_448[0x18];
+    RenderFadeState fades[4];
     u32 m_4d0;
     static u32 remap_area_sound_id(u32 arg0);
     static void release_static_instance();

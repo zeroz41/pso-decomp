@@ -82,17 +82,6 @@
 
 #include "pso/ui/window/TWindowSubComCard.h"
 
-struct FadeBase_8031EA70 { char pad[0x14]; };
-
-struct Fade_8031EA70 : FadeBase_8031EA70 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual s32 m8();
-    u8 pad18[4];
-};
-
-struct Holder_8031EA70 { u8 pad[0x460]; Fade_8031EA70 arr[4]; };
-
 extern "C" {
 
 
@@ -162,38 +151,6 @@ s32 is_out_of_range__14TObjEneRecoboxFv();
 
 }
 
-struct Base_8031F600 { char pad[0x18]; };
-
-struct VObj_8031F600 : Base_8031F600 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20(); virtual void m21(); virtual void m22(); virtual void m23();
-    virtual void m24(); virtual void m25(); virtual void m26(); virtual void m27();
-    virtual void m28(); virtual void m29(); virtual void m30(); virtual void m31();
-    virtual void m32(); virtual void m33(); virtual void m34(); virtual void m35();
-    virtual void m36(); virtual void m37(); virtual void m38(); virtual void m39();
-    virtual void m40(); virtual void m41(); virtual void m42(); virtual void m43();
-    virtual void m44(); virtual void m45(); virtual void m46(); virtual void m47();
-    virtual void m48(); virtual void m49(); virtual void m50(); virtual void m51();
-    virtual void m52(); virtual void m53(); virtual void m54(); virtual void m55();
-    virtual void m56(); virtual void m57(); virtual void m58(); virtual void m59();
-    virtual void m60(); virtual void m61(); virtual void m62(); virtual void m63();
-    virtual void m64(); virtual void m65(); virtual void m66(); virtual void m67();
-    virtual void m68(); virtual void m69(); virtual void m70(); virtual void m71();
-    virtual void m72(); virtual void m73(); virtual void m74(); virtual void m75();
-    virtual void m76(); virtual void m77(); virtual void m78(); virtual void m79();
-    virtual void m80(); virtual void m81(); virtual void m82(); virtual void m83();
-    virtual void m84(); virtual void m85(); virtual void m86(); virtual void m87();
-    virtual void m88(); virtual void m89(); virtual void m90(); virtual void m91();
-    virtual void m92(); virtual void m93(); virtual void m94(s32);
-    virtual void m95(); virtual void m96(); virtual void m97();
-    virtual void m98(); virtual void m99(); virtual void m100(); virtual void m101();
-    virtual s32 m102(f32);
-};
-
 extern "C" {
 
 struct Obj_8031FACC;
@@ -202,47 +159,10 @@ s32 TObjEneRecon__sub_8031FACC(Obj_8031FACC *ene_dd);
 
 }
 
-struct Base_8031F6C0 { char pad[0x18]; };
-
-struct VObj_8031F6C0 : Base_8031F6C0 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20(); virtual void m21(); virtual void m22(); virtual void m23();
-    virtual void m24(); virtual void m25(); virtual void m26(); virtual void m27();
-    virtual void m28(); virtual void m29(); virtual void m30(); virtual void m31();
-    virtual void m32(); virtual void m33(); virtual void m34(); virtual void m35();
-    virtual void m36(); virtual void m37(); virtual void m38(); virtual void m39();
-    virtual void m40(); virtual void m41(); virtual void m42(); virtual void m43();
-    virtual void m44(); virtual void m45(); virtual void m46(); virtual void m47();
-    virtual void m48(); virtual void m49(); virtual void m50(); virtual void m51();
-    virtual void m52(); virtual void m53(); virtual void m54(); virtual void m55();
-    virtual void m56(); virtual void m57(); virtual void m58(); virtual void m59();
-    virtual void m60(); virtual void m61(); virtual void m62(); virtual void m63();
-    virtual void m64(); virtual void m65(); virtual void m66(); virtual void m67();
-    virtual void m68(); virtual void m69(); virtual void m70(); virtual void m71();
-    virtual void m72(); virtual void m73(); virtual void m74(); virtual void m75();
-    virtual void m76(); virtual void m77(); virtual void m78(); virtual void m79();
-    virtual void m80(); virtual void m81(); virtual void m82(); virtual void m83();
-    virtual void m84(); virtual void m85(); virtual void m86(); virtual void m87();
-    virtual void m88(); virtual void m89(); virtual void m90(); virtual void m91();
-    virtual void m92(); virtual void m93(s32);
-};
-
 #define CAT(a, b) CAT2(a, b)
 #define CAT2(a, b) a##b
 #define PADV virtual void CAT(pv, __LINE__)();
 #define PADV4 virtual void CAT(pa, __LINE__)(); virtual void CAT(pb, __LINE__)(); virtual void CAT(pc, __LINE__)(); virtual void CAT(pd, __LINE__)();
-
-struct Base_Sub_8031f748 { char pad[0x14]; };
-
-struct V_Sub_8031f748 : Base_Sub_8031f748 {
-    PADV4
-    PADV
-    virtual s32 m5();
-};
 
 struct Recon_8031F8C4 {
     u8 pad0[0x1C];
@@ -295,98 +215,6 @@ extern "C" void test_flag_256__9TObjCharaFv();
 extern "C" {
 
 struct Obj_8031FE14 { u8 pad[0x18]; void *vt; };
-
-struct VBase_18_b2458f { char pad[0x18]; };
-
-struct VObj_18_b2458f : VBase_18_b2458f {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual void m84();
-    virtual s32 m85(s16, s32);
-    virtual s32 m86();
-};
 
 struct Sub_8031FE98 { u8 b[0x1C]; };
 
@@ -836,7 +664,7 @@ u8 *TObjEneRecobox__ct(u8 *ene_recobox, s32 arg1, u8 *set_data) {
     }
     *(s32 *)((s8 *)ene_recobox + 0x40C) = 0;
     *(s32 *)((s8 *)ene_recobox + 0x40C) |= 1;
-    ((TUnk_80494938 *)(ene_recobox + 0x3C0))->start_fade_in();
+    ((TObjEneRecobox *)ene_recobox)->fade.start_fade_in();
     *(s32 *)((s8 *)ene_recobox + 0x410) = 0;
     *(s32 *)((s8 *)ene_recobox + 0x414) = 0;
     for (i = 0; i < 30; i++) {
@@ -858,7 +686,7 @@ u8 *TObjEneRecobox__ct(u8 *ene_recobox, s32 arg1, u8 *set_data) {
     *(s32 *)((s8 *)ene_recobox + 0x4EC) = 0;
     ((TObjEneRecobox *)ene_recobox)->m_4f0 = 0.0f;
     ((TObjEneRecobox *)ene_recobox)->mode = 0;
-    ((VObj_18_b2458f *)ene_recobox)->m85(((TObjEneRecobox *)ene_recobox)->mode, 4);
+    ((TObjEneRecobox *)ene_recobox)->dispatch_action(((TObjEneRecobox *)ene_recobox)->mode, 4);
     return ene_recobox;
 }
 
@@ -1057,10 +885,10 @@ void TObjEneRecobox::handle_state(s32 arg1) {
         *(s16 *)((s8 *)self + 0xB8) = 0;
         this->set_intangible();
         ((TObjEneDD *)self)->set_field_378(0);
-        ((TUnk_80494938 *)(self + 0x3C0))->start_fade_in();
+        ((TObjEneRecobox *)self)->fade.start_fade_in();
         return;
     case 3:
-        if (((V_Sub_8031f748 *) (self + 0x3C0))->m5() != 0) {
+        if (((TObjEneRecobox *)self)->fade.advance_toward_max() != 0) {
             ((TObjEneDD *)self)->transition_enemy_state(2);
         }
     case 5:
@@ -1079,7 +907,7 @@ void TObjEneRecobox::sub_8031F6C0(s32 reason) {
         temp_r4 = *(s32 *)((s8 *)this + 0x40C) | 1;
         *(s32 *)((s8 *)this + 0x40C) = temp_r4;
         this->requested_action = 0;
-        ((VObj_8031F6C0 *)this)->m93(temp_r4);
+        this->set_intangible();
         set_field_378(0);
         return;
     case 3:
@@ -1098,11 +926,11 @@ void TObjEneRecon__sub_8031F600(void *ene_dd, s32 arg1) {
         temp_r4 = *(s32 *)((s8 *)ene_dd + 0x40C) & 0xFFFFFFFE;
         *(s32 *)((s8 *)ene_dd + 0x40C) = temp_r4;
         ((TObjEneDD *)ene_dd)->requested_action = 0;
-        ((VObj_8031F600 *)ene_dd)->m94(temp_r4);
+        ((TObjEneRecon *)ene_dd)->clear_intangible();
         ((TObjEneDD *)ene_dd)->set_field_378(2);
         return;
     case 3:
-        if ((((VObj_8031F600 *)ene_dd)->m102(500.0f) != 0) && (TObjEneRecon__sub_8031FACC((Obj_8031FACC *)ene_dd) != 0)) {
+        if ((((TObjEneRecon *)ene_dd)->acquire_target(500.0f) != 0) && (TObjEneRecon__sub_8031FACC((Obj_8031FACC *)ene_dd) != 0)) {
             ((TObjEneDD *)ene_dd)->transition_enemy_state(3);
         }
         break;
@@ -1348,7 +1176,7 @@ void TObjEneRecobox::update_if_800BB858() { if (get_target_info() != 0) { sub_80
 
 void TObjEneRecobox::render() {
     s32 temp_r30;
-    Fade_8031EA70 *temp_r29;
+    RenderFadeState *temp_r29;
     s32 camera_mode;
     s32 var_r28;
     s32 var_r27;
@@ -1376,7 +1204,7 @@ void TObjEneRecobox::render() {
                 saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
                 saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
                 if ((s16) ((TObjEneRecobox *)self)->mode == 1) {
-                    if (((Fade_8031EA70 *)(self + 0x3C0))->m8() != 0) {
+                    if (this->fade.has_visible_opacity() != 0) {
                         if (((TObject *)self)->defer_render() != 0) {
                             model_render_flags = saved_model_render_flags;
                             chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
@@ -1384,7 +1212,7 @@ void TObjEneRecobox::render() {
                             return;
                         }
                         var_r27 = 1;
-                        ((Fade_8031EA70 *)(self + 0x3C0))->m6();
+                        this->fade.set_flags_and_apply_damage_color();
                         goto block_18;
                     }
                     model_render_flags = saved_model_render_flags;
@@ -1393,9 +1221,9 @@ void TObjEneRecobox::render() {
                     return;
                 }
 block_18:
-                temp_r29 = &((Holder_8031EA70 *)self)->arr[camera_mode];
-                ((RenderFadeState *)temp_r29)->update();
-                temp_r30 = ((RenderFadeState *)temp_r29)->updateFromCamera((const f32*)(self + 0x2FC));
+                temp_r29 = &this->fades[camera_mode];
+                temp_r29->update();
+                temp_r30 = temp_r29->updateFromCamera((const f32*)(self + 0x2FC));
                 if ((var_r27 == 0) && (temp_r30 != 0)) {
                     if (((TObject *)self)->defer_render() != 0) {
                         model_render_flags = saved_model_render_flags;
@@ -1403,7 +1231,7 @@ block_18:
                         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
                         return;
                     }
-                    temp_r29->m6();
+                    temp_r29->set_flags_and_apply_damage_color();
                     goto block_23;
                 }
 block_23:
@@ -1431,9 +1259,9 @@ block_23:
                 pop_matrix();
                 ((TObjEneDD *)self)->update_primary_light();
                 if (var_r27 != 0) {
-                    ((Fade_8031EA70 *)(self + 0x3C0))->m7();
+                    this->fade.clear_flag_and_notify();
                 } else if (temp_r30 != 0) {
-                    temp_r29->m7();
+                    temp_r29->clear_flag_and_notify();
                 }
                 model_render_flags = saved_model_render_flags;
                 chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
