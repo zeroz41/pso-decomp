@@ -288,7 +288,7 @@ void TBoss6Mine::run_task() {
     if (TObjPlayer::check_demo_mode() != 0) {
         return;
     }
-    if (TBoss6PlotFalz__sub_802ABADC() == 0) {
+    if (TBoss6PlotFalz::is_type1_active() == 0) {
         this->owner = NULL;
         queue_destruction();
         return;

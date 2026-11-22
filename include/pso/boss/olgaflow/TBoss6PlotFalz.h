@@ -6,7 +6,6 @@
 struct TObjPlayer;
 
 extern "C" {
-s32 TBoss6PlotFalz__sub_802ABADC(void);
 // Nonzero when the game runs on Normal difficulty (game_difficulty_selection == 0).
 s32 is_normal_difficulty(void);
 // One step of the boss's pseudo-random sequence: returns the next value of seed.
@@ -19,35 +18,49 @@ struct TBoss6Tube;
 struct TBoss6Type1;
 struct TBoss6Type2;
 
+class TBoss6Demo15_TYPE2_WAIT;
+
+// The 0x40-byte enemy set entry the constructor was given, kept with kind cleared; spawn_type1/2
+// copy it (copy_set_entry) and renumber it for the bodies (TBoss4DarkFalzSetEntry layout).
+struct TBoss6PlotFalzSetEntry {
+    s16 set_index;
+    s16 kind;
+    u8 pad_04[0x2];
+    u16 entity_id;
+    s16 room;
+    u8 pad_0A[0x36];
+};
+
 struct TBoss6PlotFalz : public TObjEnemy {
     TBoss6PlotFalz(TObject *parent, void *set_data);
     virtual ~TBoss6PlotFalz();
     void ensure_field384();
     void set_visible_flag();
     void call_state_action();
-    void sub_802AAC98();
+    void reset_child_ids();
+    // How many child ids get_next_point can still hand out.
+    s32 count_free_child_ids();
     void run_death_reaction();
-    s32 phase_state;
-    s32 m_378;
-    u8 m_37c;
-    u8 unk_37D[0x3];
+    s32 not_floor_leader;  // 0 on the floor leader's client (set_visible_flag)
+    s32 state_index;  // index into boss6_plot_falz_script_states
+    u8 spawn_variant;  // the 6xA3 mode; handed to the bodies as Boss6BodySpawnParams::variant
+    u8 pad_37D[0x3];
     TBoss4Fade *fade;
     TBoss6Tube *tube;  // the warp tube; ensure_field384 creates it
-    u8 pad_388[0x2];
-    s16 m_38a;
-    u8 unk_38C[0x40];
-    s32 m_3cc;
-    u32 m_3d0;
-    u32 m_3d4;
-    u32 m_3d8;
-    u32 m_3dc;
+    TBoss6PlotFalzSetEntry set_entry;
+    s32 next_child_index;  // added to set_index / entity_id by get_next_point
+    s32 state_timer;  // frames in the current plot state
+    s32 shake_active;
+    s32 shake_timer;
+    s32 shake_preset;
+    TBoss6Demo15_TYPE2_WAIT *wait_demo;  // the DEMO_WAIT_T2 scene object
     static s32 get_hp();
     static TBoss6Type2 *get_type2();
     static s32 damage_player_hp(s32 client, u32 damage);
     static s32 sort_active_players();
     static u16 pick_random_active_player();
     int is_idle();
-    void *get_mag_mine_ptr();
+    TBoss6PlotFalzSetEntry *get_set_entry();
     static s32 is_active(TObjPlayer *player);
     static s32 is_state_1f(TObjPlayer *player);
     // Puts the player at pos (position and previous position).
@@ -108,18 +121,23 @@ struct TBoss6PlotFalz : public TObjEnemy {
     static s32 is_flag_set();
     s32 get_next_point(s16 *arg1, s16 *arg2);
     void run_phase_action();
+    void update_random_shake();
+    // Horizontal distance of pos from the arena centre.
+    static f32 arena_center_distance(const Vec *pos);
+    // Nonzero while the first body is alive and not in its death state.
+    static s32 is_type1_active();
     static void warp_nearby_players();
-    // Plot script state actions (installed in TBoss6PlotFalz__data_804DE66C).
-    void sub_802B0228();
-    void sub_802B03F4();
-    void sub_802B0448();
+    // Plot script state actions (enter / tick / update of a boss6_plot_falz_script_states row).
+    void update_ol_ending();
+    void update_vs_type2();
+    void enter_vs_type2();
     void stop_adx_audio();
     void init_hall_boss_scene();
-    void sub_802B06D0();
-    void sub_802B0808();
-    void sub_802B08F0();
+    void update_demo_ded_t1();
+    void update_vs_type1();
+    void tick_demo_start();
     void init_proto1_adx();
-    void sub_802B0A34();
+    void enter_fall_elev();
     static void update_active_flag();
 };
 

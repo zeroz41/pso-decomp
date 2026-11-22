@@ -126,7 +126,6 @@ struct Type2ActionSendStorage {
 
 
 u16 obj_getArrU16_FC(void *obj, s32 i);
-f32 TBoss6PlotFalz__sub_802AB684(void *);
 s32 grab_player__11TBoss6Type2FPvUs(u8 *self, u16 arg1);
 
 // Read by the TBoss6Type2_802BE588/_802BF558 units and TBoss6Rock; emitted ahead of the literal pool.
@@ -1426,7 +1425,7 @@ void TBoss6Type2::create_mags(f32) {
     VecCopy(&params.origin, &position);
     params.origin.y += 150.0f;
     params.rotation_y = rotation_y;
-    copy_set_entry(&params, plot_falz->get_mag_mine_ptr());
+    copy_set_entry(&params, plot_falz->get_set_entry());
     params.active = 1;
     VecCopy(&params.pos, &params.origin);
     params.flags = m_2e4;
@@ -1823,7 +1822,7 @@ s32 TBoss6Type2::should_back_jump() {
     if (iai_count >= 3) {
         return 1;
     }
-    return TBoss6PlotFalz__sub_802AB684(&position) >= 350.0f;
+    return TBoss6PlotFalz::arena_center_distance(&position) >= 350.0f;
 }
 
 s32 TBoss6Type2::should_use_dpb() {

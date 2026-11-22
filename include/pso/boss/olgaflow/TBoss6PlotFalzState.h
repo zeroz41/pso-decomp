@@ -22,6 +22,6 @@ LAYOUT_ASSERT(TBoss6PlotFalzScriptState_leave_offset, offsetof(TBoss6PlotFalzScr
 LAYOUT_ASSERT(TBoss6PlotFalzScriptState_tick_offset, offsetof(TBoss6PlotFalzScriptState, tick) == 0x1C);
 LAYOUT_ASSERT(TBoss6PlotFalzScriptState_update_offset, offsetof(TBoss6PlotFalzScriptState, update) == 0x28);
 
-extern "C" TBoss6PlotFalzScriptState TBoss6PlotFalz__data_804DE66C[9];
+extern TBoss6PlotFalzScriptState boss6_plot_falz_script_states[9];
 
 #endif

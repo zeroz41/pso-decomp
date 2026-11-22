@@ -16311,13 +16311,13 @@ force_active:
   - sub_8028B944__12TChCrLoadAfsFv
   - sub_802A2DF4__18TChCrTagOccupationFv
   - pause_indirect_effect__16TEffIndirectCtrlFv
-  - sub_802B0228__14TBoss6PlotFalzFv
-  - sub_802B03F4__14TBoss6PlotFalzFv
-  - sub_802B0448__14TBoss6PlotFalzFv
-  - sub_802B06D0__14TBoss6PlotFalzFv
-  - sub_802B0808__14TBoss6PlotFalzFv
-  - sub_802B08F0__14TBoss6PlotFalzFv
-  - sub_802B0A34__14TBoss6PlotFalzFv
+  - update_ol_ending__14TBoss6PlotFalzFv
+  - update_vs_type2__14TBoss6PlotFalzFv
+  - enter_vs_type2__14TBoss6PlotFalzFv
+  - update_demo_ded_t1__14TBoss6PlotFalzFv
+  - update_vs_type1__14TBoss6PlotFalzFv
+  - tick_demo_start__14TBoss6PlotFalzFv
+  - enter_fall_elev__14TBoss6PlotFalzFv
   - update_cenbtm_d__11TBoss6Type1Fv
   - act_cenbtm_d__11TBoss6Type1Fv
   - update_tkof_centop__11TBoss6Type1Fv
@@ -17151,7 +17151,7 @@ force_active:
   - update_punch_attack__11TObjEneMojaFv
   - update_radar_markers__11TBoss4Type3Fv
   - update_ramp_timer__9TBoss6MagFv
-  - update_random_shake__14TBoss6PlotFalzFPv
+  - update_random_shake__14TBoss6PlotFalzFv
   - update_reaction_animation__16TBoss3VoloptCoreFv
   - update_recoil_state__13TObjEneBm3FlyFl
   - update_records_in_range__6TSceneFv

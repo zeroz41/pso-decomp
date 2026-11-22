@@ -227,8 +227,8 @@ void OlgaFlowActionMsg::send() {
 }
 
 void OlgaFlowActionMsg::swap_entity_id() { header.bswap(); }
-int TBoss6PlotFalz::is_idle() { return phase_state == 0; }
-void *TBoss6PlotFalz::get_mag_mine_ptr() { return pad_388; }
+int TBoss6PlotFalz::is_idle() { return not_floor_leader == 0; }
+TBoss6PlotFalzSetEntry *TBoss6PlotFalz::get_set_entry() { return &set_entry; }
 void TBoss6Type1::clear_harmful_statuses() {  }
 void TBoss6Type1::apply_shock_status() {  }
 void TBoss6Type1::apply_movement_ailment(s32) {  }
@@ -1416,7 +1416,7 @@ void TBoss6Type1::sub_802B6504() {
     s32 seed = random_factor;
     TBoss6MineSetData set;
     reset_fields_4e0();
-    copy_set_entry(&set, ((TBoss6PlotFalz *)plot_falz)->get_mag_mine_ptr());
+    copy_set_entry(&set, plot_falz->get_set_entry());
     set.owner = this;
     VecCopy(&set.origin, &node_points[0]);
     VecCopy(&set.offset, &lbl_80470F84);
@@ -1651,7 +1651,7 @@ int TBoss6Type1::is_field4b0_delta_reached() {
     return calc_field4b0_delta() >= delta_threshold ? 1 : 0;
 }
 s32 TBoss6Type1::is_field3F8_over_0x20() {
-    return TBoss6PlotFalz__sub_802AAC74((u8 *)this->plot_falz) > 0x20;
+    return this->plot_falz->count_free_child_ids() > 0x20;
 }
 
 void TBoss6Type1::reset_fields_4e0() { this->timer_limit = 0; this->timer_elapsed = 0; }
