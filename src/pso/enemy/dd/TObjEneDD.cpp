@@ -29,7 +29,6 @@ u16 get_entity_id(void *);
 u32 csnLookAt(void *, void *);
 }
 
-#include "pso/enemy/dd/TObjEneDD_800BABA4.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon_800B92AC.h"
 
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
@@ -545,9 +544,7 @@ void calc_wall_slide_destination(TObjEneDD *e, Vec *out, f32 dx, f32 dz, f32 dis
 
 #pragma push
 #pragma fp_contract on
-void calc_wall_clamped_destination(void *self, void *dest, f32 dx, f32 dz, f32 dist) {
-    TObjEneDD *e = (TObjEneDD *)self;
-    Vec *out = (Vec *)dest;
+void calc_wall_clamped_destination(TObjEneDD *e, Vec *out, f32 dx, f32 dz, f32 dist) {
     CsnHit *n = e->enemy_probe_wall_ahead(dx, dz, dist + e->wall_reach);
     if (n == NULL) {
         e->wall_probe_failures = 0;
@@ -636,7 +633,7 @@ void TObjEneDD::move_with_wall_slide_on_ground(f32 dx, f32 dz, f32 dist) {
 
 void TObjEneDD::move_clamped_on_ground(f32 dx, f32 dz, f32 dist) {
     s32 sp8;
-    calc_wall_clamped_destination(this, &sp8, dx, dz, dist);
+    calc_wall_clamped_destination(this, (Vec *)&sp8, dx, dz, dist);
     try_move_actor_xz_on_ground((u8 *)&sp8);
 }
 
@@ -654,7 +651,7 @@ u8 *TObjEneDD::move_with_wall_slide_commit(f32 dx, f32 dz, f32 dist) {
 
 void TObjEneDD::move_to_wall_clamped_destination(f32 dx, f32 dz, f32 dist) {
     s32 sp8;
-    calc_wall_clamped_destination(this, &sp8, dx, dz, dist);
+    calc_wall_clamped_destination(this, (Vec *)&sp8, dx, dz, dist);
     move_xz_on_ground((u8 *)&sp8);
 }
 
@@ -1238,7 +1235,7 @@ void TObjEneDD_ST::fire_attack_a(saddr out, s32 max_step, f32 distance) {
 
     dist = distance;
     turn_toward_target_direction(max_step);
-    calc_wall_clamped_destination((void *)this, (void *)out, (f32)(sin_table_lookup(this->rotation_y)), (f32)((f32)cos_table_lookup(this->rotation_y)), (f32)((f32)dist));
+    calc_wall_clamped_destination(this, (Vec *)out, (f32)(sin_table_lookup(this->rotation_y)), (f32)((f32)cos_table_lookup(this->rotation_y)), (f32)((f32)dist));
 }
 
 u8 *TObjEneEpsilon__sub_800B9384(TObjEneDD_ST *self, s32 iscale, f32 scale) {

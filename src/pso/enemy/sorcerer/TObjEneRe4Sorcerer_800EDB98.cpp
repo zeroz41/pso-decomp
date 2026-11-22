@@ -160,7 +160,6 @@ extern "C" {
 
 }
 
-void calc_wall_clamped_destination(void *self, void *arg1, f32 dx, f32 dz, f32 dist);
 
 
 extern "C" {

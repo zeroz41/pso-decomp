@@ -116,6 +116,11 @@ struct TargetCandidate {
     f32 dist;
 };
 
+// Where a move of dist along (dx, dz) from self ends, stopped wall_reach
+// short of a wall the probe hits.
+void calc_wall_clamped_destination(TObjEneDD *self, Vec *dest, f32 dx, f32 dz, f32 dist);
+void calc_wall_slide_destination(TObjEneDD *self, Vec *out, f32 dx, f32 dz, f32 dist);
+
 extern "C" {
 extern TargetCandidate enemy_target_candidate_table[4];
 // Copies world points into the actor's collision body centers and stores

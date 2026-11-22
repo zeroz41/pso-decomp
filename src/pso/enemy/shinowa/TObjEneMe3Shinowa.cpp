@@ -25,7 +25,6 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/dd/TObjEneDD.h"
-#include "pso/enemy/dd/TObjEneDD_800BABA4.h"
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
