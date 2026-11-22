@@ -846,7 +846,7 @@ s32 test_previous_buttons_packed(void *pad, s32 mask) {
 
 }
 
-s32 TAdMultiPlyChrSelectGC::dispatch_draw_command(s32 input, s32 buttons, s32 delay, s32 period) {
+s32 TAdMultiPlyChrSelectGC::dispatch_draw_command(saddr input, s32 buttons, s32 delay, s32 period) {
     u32 mask = TRaderMapCore::pack_color_bits(input, buttons);
     return input_press_or_repeat((ControllerInputContext *)input, mask, delay, period);
 }
@@ -858,7 +858,7 @@ s32 TRaderMapCore::apply_packed_flags(saddr input, s32 buttons, s32 delay, s32 p
 
 extern "C" {
 
-s32 test_buttons_press_or_repeat(s32 input, s32 buttons, s32 delay, s32 period) {
+s32 test_buttons_press_or_repeat(saddr input, s32 buttons, s32 delay, s32 period) {
     u32 mask = pack_flags__13TRaderMapCoreFii(input, buttons);
     return input_press_or_repeat((ControllerInputContext *)input, mask, delay, period);
 }
