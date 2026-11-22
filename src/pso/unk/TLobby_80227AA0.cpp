@@ -19,10 +19,10 @@ void TLobby__sub_80227AA8(s32 arg0) {
 #include <stddef.h>
 #include "pso/system/scene/TScene.h"
 #include "pso/system/main_loop.h"
+#include "pso/camera/TCameraCtrl.h"
 
 extern "C" {
 s32 play_sound_effect(s32, s32, s32, s32);
-u16 TCameraCtrl__sub_8006A5DC();
 void *get_player_by_client_id(s32 i);
 s32 bswap_6xB2_play_sound();
 

@@ -219,7 +219,6 @@ void TLobby__sub_8007EB20(const char *, ...);
 s8 func_801A5E54__Fv();
 s32 func_803DCDFC__Fv();
 s32 TLobby__sub_8006EF90();
-u16 TCameraCtrl__sub_8006A5DC();
 s8 TLobby__sub_801A3C40();
 s32 TWindowCtrlMain__sub_8024CB7C();
 s32 TWindowCtrlMain__sub_8024CB8C();

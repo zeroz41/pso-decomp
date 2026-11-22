@@ -231,7 +231,6 @@ s32 camera_renderer_setup_nop(void *, int);
 s32 fn_803D64F8(void *);
 s32 activate_camera_mode(s32 arg0);
 bool TCameraCtrl__sub_800689F4(void);
-u16 TCameraCtrl__sub_8006A5DC(void);
 extern s32 TCameraCtrl__saved_projection_angle;
 s32 restore_player_cameras(void);
 f32 TCameraCtrl__sub_80068A04(void);

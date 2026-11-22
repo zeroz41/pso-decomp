@@ -45,7 +45,6 @@ LAYOUT_ASSERT(ScriptedCameraYawOffset, offsetof(ScriptedCameraState, angles) + o
 LAYOUT_ASSERT(ScriptedCameraPlaybackOffset, offsetof(ScriptedCameraState, playback) == 0x98);
 extern "C" {
 
-u16 TCameraCtrl__sub_8006A5DC();
 
 }
 

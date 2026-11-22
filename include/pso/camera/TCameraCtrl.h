@@ -169,6 +169,8 @@ extern f32 camera_right[3];
 
 extern "C" {
 int is_quest_active(void);
+// The first view state word.
+u16 TCameraCtrl__sub_8006A5DC(void);
 }
 
 #endif

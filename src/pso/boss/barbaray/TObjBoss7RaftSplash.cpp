@@ -8,12 +8,12 @@
 #include "pso/boss/barbaray/TObjBoss7Tunnel.h"
 #include "pso/system/task/TObject.h"
 #include <stdlib.h>
+#include "pso/camera/TCameraCtrl.h"
 
 #pragma readonly_strings on
 
 // Defined without a shared declaration (TCameraCtrl.cpp).
 extern "C" {
-u16 TCameraCtrl__sub_8006A5DC();
 }
 
 const char *TObjBoss7RaftSplash__name = "TObjBoss7RaftSplash";
