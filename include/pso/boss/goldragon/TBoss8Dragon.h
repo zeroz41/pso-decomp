@@ -9,6 +9,7 @@
 #include "pso/boss/derolle/AccelerationCurve.h"
 
 class AreaAttackHistory;
+struct DragonAttackParams;
 struct TBoss8DragonEffTail;
 class TParticleCtrl;
 struct ControllerInputContext;
@@ -156,7 +157,7 @@ public:
     void freeze_player_at_self();
     static u16 find_player_on_floor(void *arg0);
     void spawn_ground_effect();
-    int setup_instance(int _w1, void * _w2, AreaAttackHistory *history);
+    void setup_instance(Vec *pos, DragonAttackParams *params, AreaAttackHistory *history);
     void sub_802FB1B0(Vec *pos, f32 radius);  // pillar area attack at pos (boss8_dragon_pillar_attack_params); TObjBoss8Piller::run_task
     void sub_802FB220(Vec *pos, u32 kind);  // fireball impact attack at pos (boss8_dragon_fireball_impact_params); TBoss8DragonEffBullet::run_task
     void setup_breath_instance(Vec *pos, u32 kind, AreaAttackHistory *history);

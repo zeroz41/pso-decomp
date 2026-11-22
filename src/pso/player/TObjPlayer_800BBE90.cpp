@@ -14,51 +14,6 @@ struct VObj : VBase { virtual void m0(); virtual void m1(); virtual void m2(); v
 
 struct Obj_800BBFD0 { u8 pad[0x38]; Vec pos; u8 pad2[0x308 - 0x44]; f32 f308; f32 f30c; f32 f310; };
 
-typedef struct Desc_800BBF08 {
-    s32 a;
-    s32 b;
-} Desc_800BBF08;
-
-typedef struct Rec_800BBF08 {
-    u8 pad0[0x18];
-    s32 flags;
-    u8 pad1C[0x2C - 0x1C];
-} Rec_800BBF08;
-
-struct VBase_800BBF08 { char pad[0x18]; };
-
-struct VObj_800BBF08 : VBase_800BBF08 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18(void *, f32);
-    virtual void m19();
-    virtual void m20();
-    virtual void m21(s32, Desc_800BBF08, Rec_800BBF08 *, s32, s32);
-};
-
-typedef struct Actor_800BBF08 : VObj_800BBF08 {
-    u8 pad1C[0xA4 - 0x1C];
-    Rec_800BBF08 *recs;
-    s32 nrecs;
-    s32 owner;
-} Actor_800BBF08;
-
 struct Rec_800BC080 { u8 pad0[0x18]; s32 flags; u8 pad1C[0x2C - 0x1C]; };
 
 struct Tgt_800BC080 { u8 pad[0x30]; s32 x30; u8 pad2[0xA4 - 0x34]; Rec_800BC080 *recs; s32 nrecs; };
@@ -107,34 +62,10 @@ extern "C" {
 void subtract_vector(Vec *a, Vec *b);
 s32 obj_is_hit_receivable();
 s32 is_area_attack_target_eligible(void *, int);
-struct Base_800bbe90 { char pad[0x18]; };
-struct VObj_800bbe90 : Base_800bbe90 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18(void *, f32);
-    virtual void m19();
-    virtual void m20(s32, f32);
-};
 
 
 void TUnk_804928CC::apply_hit_if_active(void *chara, f32 *arg2) {
-    ((VObj_800bbe90*)chara)->m20(this->owner, 1.0f);
+    ((TObjChara *)chara)->receive_physical_attack(owner, 1.0f);
     if (((TObjChara *)chara)->obj_isState2_324() == 0) {
         this->area_attack_apply_recoil(chara, *arg2);
     }
@@ -142,13 +73,13 @@ void TUnk_804928CC::apply_hit_if_active(void *chara, f32 *arg2) {
 
 void TUnk_804928CC::area_attack_receive_direct(void *dst, f32 *recoil, void *desc) {
     s32 i;
-    Rec_800BBF08 *rec;
-    for (i = 0; i < ((Actor_800BBF08 *)dst)->nrecs; i++) {
-        rec = &((Actor_800BBF08 *)dst)->recs[i];
+    CollisionBody *rec;
+    for (i = 0; i < ((TObjChara *)dst)->body_count; i++) {
+        rec = &((TObjChara *)dst)->bodies[i];
         if (rec->flags & 0x04000000) {
-            ((Actor_800BBF08 *)dst)->m21(this->owner, *((Desc_800BBF08 *)desc), rec, -1, -1);
-            if (((TObjChara *)((Actor_800BBF08 *)dst))->obj_isState2_324() == 0) {
-                ((Actor_800BBF08 *)this)->m18(((Actor_800BBF08 *)dst), *recoil);
+            ((TObjChara *)dst)->receive_direct_attack(owner, *(DirectAttackPayload *)desc, rec, -1, -1);
+            if (((TObjChara *)dst)->obj_isState2_324() == 0) {
+                area_attack_apply_recoil(dst, *recoil);
             }
             return;
         }

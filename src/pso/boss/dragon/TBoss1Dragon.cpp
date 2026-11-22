@@ -1873,7 +1873,7 @@ void TBoss1Dragon::apply_trail_attack() {
         params.field_4 = boss1_dragon_behavior_params[0]->trail_attack_power;
         switch (TBoss1Dragon::isV2Mode()) {
         case 0:
-            TObjEneDD::setup_instance((saddr)this, (saddr)&this->position, (u8 *)&params, (saddr)this->attack_history);
+            TObjEneDD::setup_instance(this, &this->position, &params, this->attack_history);
             return;
         case 1:
             this->setup_v2_instance(&this->position, (u8 *)&params, (saddr)this->attack_history);
@@ -1888,7 +1888,7 @@ void TBoss1Dragon::deliver_breath_attack(saddr position, s32 attack_history) {
     params.field_0 = this->attack_kind;
     switch (TBoss1Dragon::isV2Mode()) {
     case 0:
-        TObjEneDD::setup_instance((saddr)this, position, (u8 *)&params, attack_history);
+        TObjEneDD::setup_instance(this, (Vec *)position, &params, (AreaAttackHistory *)attack_history);
         return;
     case 1:
         this->setup_v2_instance((Vec *)position, (u8 *)&params, attack_history);
@@ -1902,7 +1902,7 @@ void TBoss1Dragon::apply_fireball_impact_damage(saddr position) {
     params.field_0 = this->attack_kind;
     switch (TBoss1Dragon::isV2Mode()) {
     case 0:
-        TObjEneDD::setup(this, position, (saddr)&params);
+        TObjEneDD::setup(this, (Vec *)position, &params);
         return;
     case 1:
         this->setup_v2_instance((Vec *)position, (u8 *)&params, 0);

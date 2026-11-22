@@ -8,6 +8,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
+#include "pso/boss/DragonAttackParams.h"
 #include "pso/system/vector.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/render/render_util.h"
@@ -805,25 +806,25 @@ int is_target_ranger(void* p) { return (((TObjPlayer *)p)->class_flags & CLASS_F
 
 int is_target_android(void* p) { return (((TObjPlayer *)p)->class_flags & CLASS_FLAG_ANDROID) != 0; }
 
-void TObjEneDD::setup_instance(saddr owner, saddr pos, u8 *bytes, saddr attack_history) {
-    obj_ene_dd_instance->sub_800BC3E8((u8 *)owner);
-    obj_ene_dd_instance->set_position_from((void *)pos);
-    obj_ene_dd_instance->bodies->radius = *(f32 *)(bytes + 8);
+void TObjEneDD::setup_instance(TObjBase *owner, Vec *pos, DragonAttackParams *params, AreaAttackHistory *attack_history) {
+    obj_ene_dd_instance->set_owner(owner);
+    obj_ene_dd_instance->set_position_from(pos);
+    obj_ene_dd_instance->bodies->radius = params->field_8;
     obj_ene_dd_instance->bodies->flags = 0x9D03;
-    if (*(f32 *)(bytes + 8) > 100.0f) {
-        obj_ene_dd_instance->area_attack_deliver_direct(bytes + 0xC, (saddr)bytes, (void *)attack_history, *(f32 *)(bytes + 8));
+    if (params->field_8 > 100.0f) {
+        obj_ene_dd_instance->area_attack_deliver_direct(&params->field_C, (saddr)params, attack_history, params->field_8);
         return;
     }
-    obj_ene_dd_instance->call_vt13_with_default(bytes + 0xC, bytes, attack_history);
+    obj_ene_dd_instance->call_vt13_with_default(&params->field_C, params, (saddr)attack_history);
 }
 
-void TObjEneDD::setup(void *p, saddr pos, saddr params) { TObjEneDD::setup_instance((saddr)p, pos, (u8 *)params, 0); }
+void TObjEneDD::setup(TObjBase *owner, Vec *pos, DragonAttackParams *params) { TObjEneDD::setup_instance(owner, pos, params, NULL); }
 
-void TObjEneDD__sub_800BA5A4(void* p, void* a1) { TObjEneDD::setup_instance((saddr)p, (saddr)((char*)p + 0x38), (u8 *)a1, (saddr)((void*)0)); }
+void TObjEneDD__sub_800BA5A4(TObjBase *owner, void *params) { TObjEneDD::setup_instance(owner, &owner->position, (DragonAttackParams *)params, NULL); }
 
 void TObjEneDD::emit_enemy_effect(void *ene_dd, void *pos, u8 *params, void *attack_history) {
-    obj_ene_dd_instance->sub_800BC3E8((u8 *)ene_dd);
-    obj_ene_dd_instance->set_position_from(pos);
+    obj_ene_dd_instance->set_owner((TObjBase *)ene_dd);
+    obj_ene_dd_instance->set_position_from((Vec *)pos);
     obj_ene_dd_instance->bodies->radius = *(f32 *)(params + 8);
     obj_ene_dd_instance->bodies->flags = 0x9D03;
     if (*(f32 *)(params + 8) > 100.0f) {

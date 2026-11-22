@@ -211,7 +211,7 @@ s32 TObjEneRe2Flower_Bomb::area_attack_deliver_direct(void *recoil, saddr arg2, 
             if (p == 0) {
                 break;
             }
-            if (obj_is_hit_receivable((u8 *)p) != 0 && (u32)p != this->owner &&
+            if (obj_is_hit_receivable((u8 *)p) != 0 && (TObjBase *)p != this->owner &&
                 is_area_attack_target_eligible((saddr)this, *(s32 *)((s8 *)p + 0x30)) != 0 &&
                 !(fabs_float(*(f32 *)&(this->m_b8) - *(f32 *)((s8 *)p + 0x300)) > 30.0f)) {
                 ok = 1;

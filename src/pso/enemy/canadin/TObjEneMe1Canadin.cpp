@@ -711,7 +711,7 @@ void TObjEneMe1Canadin::set_flag3c8_bit40() { status_flags |= 0x40; }
 void TObjEneMe1Canadin::fn_8009E1D4(Vec *pos) {
     CanadinBehaviorParams params = canadin_behavior_params;
     params.m_4 = kind_params->m_4;
-    TObjEneDD::setup(this, (saddr)pos, (saddr)&params);
+    TObjEneDD::setup(this, pos, (DragonAttackParams *)&params);
 }
 
 // The state names are read from the bodies and shared with the Gee's twin states (Gee state n + 1

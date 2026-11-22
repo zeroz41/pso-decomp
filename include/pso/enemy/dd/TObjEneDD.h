@@ -5,6 +5,8 @@
 #include "pso/enemy/TObjEnemy.h"
 
 struct CsnHit;
+struct DragonAttackParams;
+class AreaAttackHistory;
 class TObjEneDD_ST;
 
 struct TObjEneDD : public TObjEnemy {
@@ -72,8 +74,9 @@ struct TObjEneDD : public TObjEnemy {
     void emit_effect_at_position(void* a1);
     static void emit_effect(void *p, saddr pos, saddr params);
     static void emit_enemy_effect(void *ene_dd, void *pos, u8 *params, void *attack_history);
-    static void setup(void *p, saddr pos, saddr params);
-    static void setup_instance(saddr owner, saddr pos, u8 *bytes, saddr attack_history);
+    // Fires the shared DD hitbox (obj_ene_dd_instance) at pos for owner with the given attack.
+    static void setup(TObjBase *owner, Vec *pos, DragonAttackParams *params);
+    static void setup_instance(TObjBase *owner, Vec *pos, DragonAttackParams *params, AreaAttackHistory *attack_history);
     s32 is_target_unobstructed(saddr from);
     s32 is_valid_target();
     void transform_part_positions();
@@ -137,7 +140,7 @@ s32 pack_debug_text_position(s32 x, s32 y);
 void project_sound_origin_from_camera(saddr source, u8 *out, f32 distance);
 void TObjEneDD__sub_800BA378(TObjChara *attacker, TObjChara *target);
 void TObjEneDD__sub_800BA438(TObjChara *attacker, TObjChara *target);
-void TObjEneDD__sub_800BA5A4(void *p, void *a1);
+void TObjEneDD__sub_800BA5A4(TObjBase *owner, void *params);
 int is_target_android(void *p);
 int is_target_ranger(void *p);
 void TBoss8Dragon__sub_800BB650(TargetCandidate *dst, TargetCandidate *src);

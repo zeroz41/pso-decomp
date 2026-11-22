@@ -3432,7 +3432,7 @@ void TBoss2DeRolLe::handle_laser_attack_state(u32 reason) {
                 {
                     DeRolLeEffectParams r = derolle_laser_hit_effect_params;
                     r.power = derolle_params[0]->laser_power;
-                    TObjEneDD::setup_instance((saddr)this, (saddr)hit, (u8 *)&r, (saddr)attack_history);
+                    TObjEneDD::setup_instance(this, hit, (DragonAttackParams *)&r, attack_history);
                 }
             }
             spawn_trap(0x4003B00A, this, hit);

@@ -3138,7 +3138,7 @@ void TBoss7DeRolLeC::handle_laser_attack_state(u32 event) {
             {
                 Boss7AttackParams params = boss7_laser_particle_params;
                 params.power = boss_params->laser_power;
-                TObjEneDD::setup_instance((saddr)this, (saddr)beam_end, (u8 *)&params, (saddr)attack_history);
+                TObjEneDD::setup_instance(this, beam_end, (DragonAttackParams *)&params, attack_history);
             }
             if (laser_ptcl != NULL) {
                 if (laser_ptcl->is_state_2() != 0) {

@@ -117,7 +117,6 @@ extern "C" {
 struct Obj_802FAC08 { u8 pad0[0x38]; f32 x; u8 pad1[4]; f32 z; };
 
 s32 get_current_floor();
-int setup_instance__9TObjEneDDFllPUcl(void*);
 void free_collision_body_parts(void *);
 s32 check_flag_100__10TObjPlayerFPv();
 s32 TBoss8Dragon__sub_802FCCBC(TBoss8Dragon *boss8_dragon);
@@ -1502,21 +1501,21 @@ void TBoss8Dragon::setup_breath_instance(Vec *pos, u32 kind, AreaAttackHistory *
     DragonAttackParams s = TBoss8Dragon__breath_params;
     s.field_4 = boss8_dragon_behavior_params[0]->values[0];
     s.field_0 = kind;
-    setup_instance((saddr)pos, &s, history);
+    setup_instance(pos, &s, history);
 }
 
 void TBoss8Dragon::sub_802FB220(Vec *pos, u32 kind) {
     DragonAttackParams s = boss8_dragon_fireball_impact_params;
     s.field_4 = boss8_dragon_behavior_params[0]->values[1];
     s.field_0 = kind;
-    this->setup_instance((saddr)pos, &s, 0);
+    this->setup_instance(pos, &s, 0);
 }
 
 void TBoss8Dragon::sub_802FB1B0(Vec *pos, f32 radius) {
     DragonAttackParams s = boss8_dragon_pillar_attack_params;
     s.field_8 = radius;
     s.field_4 = boss8_dragon_behavior_params[0]->values[2];
-    this->setup_instance((saddr)pos, &s, this->attack_history);
+    this->setup_instance(pos, &s, this->attack_history);
 }
 
 void TBoss8Dragon::emit_effect(void *pos, void *params, AreaAttackHistory *history) {
@@ -1525,7 +1524,7 @@ void TBoss8Dragon::emit_effect(void *pos, void *params, AreaAttackHistory *histo
 
 void TBoss8Dragon::get_state_flags(void *params) { emit_effect_at_position(params); }
 
-int TBoss8Dragon::setup_instance(int _w1, void * _w2, AreaAttackHistory *history) { return setup_instance__9TObjEneDDFllPUcl(this); }
+void TBoss8Dragon::setup_instance(Vec *pos, DragonAttackParams *params, AreaAttackHistory *history) { TObjEneDD::setup_instance(this, pos, params, history); }
 
 void TBoss8Dragon::spawn_ground_effect() {
     Vec pos;

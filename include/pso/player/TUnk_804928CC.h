@@ -18,9 +18,10 @@ public:
     virtual void area_attack_apply_recoil(void *, f32);
     virtual void area_attack_receive_direct(void *, f32 *, void *);
     virtual void apply_hit_if_active(void *, f32 *);
-    void sub_800BC3E8(u8 *);
-    int set_position_from(void *pos);
-    uaddr owner;   // the actor that fired this hitbox (a TObjBase *; sub_800BC3E8 stores it and copies its room)
+    // Takes the firing actor and its room.
+    void set_owner(TObjBase *actor);
+    void set_position_from(const Vec *pos);
+    TObjBase *owner;   // the actor that fired this hitbox
 };
 LAYOUT_ASSERT(TUnk_804928CC_size, sizeof(TUnk_804928CC) == 0xB0);
 

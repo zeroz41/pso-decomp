@@ -52,7 +52,7 @@ s32 TObjEneBm9Mericarol_Bomb::area_attack_deliver_direct(void *recoil, saddr des
             if (obj == 0) {
                 break;
             }
-            if (obj_is_hit_receivable((u8 *)obj) != 0 && (u32)obj != this->owner &&
+            if (obj_is_hit_receivable((u8 *)obj) != 0 && (TObjBase *)obj != this->owner &&
                 is_area_attack_target_eligible(this, ((TObjBase *)obj)->actorFlags) != 0 &&
                 !(fabs_float(pos.y - ((TObjChara *)obj)->body_center.y) > 3e+01f)) {
                 ok = 1;
