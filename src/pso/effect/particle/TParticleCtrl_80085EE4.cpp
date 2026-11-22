@@ -147,7 +147,7 @@ void TUnk_8048E728::operator delete(void *p) {
 
 TUnk_8048E728::TUnk_8048E728(ParticleParam *src, TObject *parent) : TObject(parent) {
     f32 v;
-    m_b0 = 0;
+    model = NULL;
     unk_B4 = 0;
     motion = NULL;
     motion_frame = 0.0f;

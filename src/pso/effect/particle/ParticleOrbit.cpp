@@ -4,6 +4,8 @@
 #include "pso/unk/TUnk_804C57F0.h"
 #include "pso/effect/particle/ParticleOrbit.h"
 #include "pso/render/render_util.h"
+#include "pso/render/GinjaMaterial.h"
+#include "pso/render/ModelDrawContext.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/AngleLookup.h"
@@ -153,8 +155,6 @@ struct OIVec_8008B060 { s32 x, y, z; };
 extern "C" {
 s32 append_node_to_tail__13TParticleCtrlFPvPv(s32, void *);
 s32 rotate_matrix_y(s32, s32);
-void draw_ginja_object(void *child);
-void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 extern u8 *camera_ctrl_instance;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
@@ -405,7 +405,7 @@ void TUnk_8048E790::render() {
         *(f32 *)((s8 *)arg0 + 0x8C) = (f32) (*(f32 *)((s8 *)arg0 + 0x8C) * *(f32 *)((s8 *)arg0 + 0xA8));
         temp_r3 = this->flags;
         if (temp_r3 & 0x200) {
-            if (((is_split_screen() == 0) || !(this->flags & 0x400)) && ((u32) this->unk_B4 != 0U) && ((u32) this->m_b0 != 0U)) {
+            if (((is_split_screen() == 0) || !(this->flags & 0x400)) && ((u32) this->unk_B4 != 0U) && (this->model != NULL)) {
                 sp8.x = this->pos.x + this->attach.x;
                 sp8.y = this->pos.y + this->attach.y;
                 sp8.z = this->pos.z + this->attach.z;
@@ -441,9 +441,9 @@ void TUnk_8048E790::render() {
                 TObjFish::set_global_param(this->unk_B4);
                 set_draw_list_mask(3);
                 if ((uaddr) this->motion != 0U) {
-                    draw_ginja_model_with_motion((void *)this->m_b0, (void *)this->motion, (f32)this->motion_frame);
+                    draw_ginja_model_with_motion(this->model, this->motion, this->motion_frame);
                 } else {
-                    draw_ginja_object((void *)this->m_b0);
+                    draw_ginja_object(this->model);
                 }
                 if (this->flags & 0x400) {
                     reset_particle_tev();
