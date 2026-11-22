@@ -27,8 +27,8 @@ const char *TObjEneDD__name = "TObjEneDD";
 const char *TObjEneDD_ST__name = "TObjEneDD_ST";
 extern "C" {
 u16 get_entity_id(void *);
-u32 csnLookAt(void *, void *);
 }
+#include "pso/map/CsnQuery.h"
 
 #include "pso/enemy/epsilon/TObjEneEpsilon_800B92AC.h"
 
@@ -67,10 +67,8 @@ int freeze_all_players__10TObjPlayerFv(void*);
 #include "pso/unk/text_803D96A8.h"
 
 
-extern "C" {
-s32 minimap_render_dot(void *, int, int, int);
-extern int model_render_flags;
-}
+#include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/render/model_render_state.h"
 
 
 
@@ -92,9 +90,7 @@ TUnk_804928CC *obj_ene_dd_instance;
 #include "pso/math/MatrixVector.h"
 
 
-extern "C" {
-int matrix_mult_vec(void *, void *, void *);
-}
+#include "pso/unk/text_803D853C.h"
 
 
 extern "C" {
@@ -106,7 +102,6 @@ f32 newton_sqrtf(f32);
 #include <stddef.h>
 extern "C" {
 f32 fabs_float(f32);
-CsnHit *csnVector(const Vec *from, const Vec *to, u32 mask);
 s32 VecCopy__FP3VecPC3Vec(void *, void *, s32);
 }
 
@@ -332,21 +327,21 @@ int TObjEneBm3Fly::was_hit_by_ranged() { return (this->hit_flags >> 1) & 0x1; }
 
 void TObjEnemy::refresh_and_send_entity_flags() { refresh_lobby_state(); send_entity_set_flags(); }
 
-u16 enemy_nearest_visible_player_sq(u8 *self, f32 range) {
+u16 enemy_nearest_visible_player_sq(TObjChara *self, f32 range) {
     f32 d;
     f32 best;
     s32 n;
-    u8 *p;
+    TObjChara *p;
     u16 result;
     s32 i;
     best = range;
     result = 0xFFFF;
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
-        p = (u8 *)TObjPlayer::get_player_data(i);
-        if (((TObjBase *)p)->is_alive() != 0) {
-            d = horizontal_distance_squared((const Vec *)(self + 0x2FC), (const Vec *)(p + 0x38));
-            if (d < best && csnLookAt(self + 0x2FC, p + 0x2FC) == 0) {
+        p = (TObjChara *)TObjPlayer::get_player_data(i);
+        if (p->is_alive() != 0) {
+            d = horizontal_distance_squared(&self->body_center, &p->position);
+            if (d < best && csnLookAt(&self->body_center, &p->body_center) == 0) {
                 result = get_entity_id(p);
                 best = d;
             }
@@ -357,7 +352,7 @@ u16 enemy_nearest_visible_player_sq(u8 *self, f32 range) {
 
 
 u16 enemy_find_nearest_player_in_range(u8 *self, f32 range) {
-    return enemy_nearest_visible_player_sq(self, range * range);
+    return enemy_nearest_visible_player_sq((TObjChara *)self, range * range);
 }
 
 void TBoss8Dragon__sub_800BB650(TargetCandidate *dst, TargetCandidate *src) {
@@ -687,7 +682,7 @@ void update_local_colliders_from_world(TObjEneDD *self, Vec *world_points) {
     translate_matrix(0, -self->position.x, -self->position.y, -self->position.z);
     for (i = 0; i < self->body_count; i++) {
         VecCopy(&self->bodies[i].center, world_points);
-        matrix_mult_vec(0, world_points, &self->bodies[i]);
+        matrix_mult_vec(NULL, world_points, &self->bodies[i].offset);
         world_points++;
     }
     pop_matrix();
@@ -710,7 +705,7 @@ void TObjEneDD::transform_part_positions() {
     rotate_matrix_y(NULL, rotation_y);
     set_motion_packed_rotation();
     for (i = 0; i < this->body_count; i++) {
-        matrix_mult_vec(0, &bodies[i].offset, &bodies[i].center);
+        matrix_mult_vec(NULL, &bodies[i].offset, &bodies[i].center);
     }
     clear_motion_packed_rotation();
     pop_matrix();
@@ -777,15 +772,14 @@ s32 TObjEneDD::is_valid_target() {
     return (u8)valid;
 }
 
-s32 TObjEneDD::is_target_unobstructed(saddr from) {
-    saddr self = (saddr)this;
-    if ((((TObjBase *)self)->is_alive() != 0) && (csnLookAt((void *)from, (void *)(self + 0x2FC)) == 0U)) {
+s32 TObjChara::is_target_unobstructed(const Vec *from) {
+    if ((is_alive() != 0) && (csnLookAt(from, &body_center) == NULL)) {
         return 1;
     }
     return 0;
 }
 
-s32 is_target_unobstructed_from(TObjEneDD *self, TObjChara *target) { return ((TObjEneDD *)target)->is_target_unobstructed((saddr)((char *)self + 0x2fc)); }
+s32 is_target_unobstructed_from(TObjEneDD *self, TObjChara *target) { return target->is_target_unobstructed(&self->body_center); }
 
 s32 TObjBase::is_alive() {
     int alive;
@@ -987,7 +981,7 @@ void TObjEneDD::clear_global_flag_400() { model_render_flags = (model_render_fla
 
 void TObjEneDD::render_minimap_dot() {
     if (!(this->actorFlags & 0x40800)) {
-        minimap_render_dot((u8 *)&this->position, -0x5DB4, 1, 0);
+        minimap_render_dot(&this->position, -0x5DB4, 1, 0);
     }
 }
 
@@ -1205,7 +1199,7 @@ s32 TObjEneEpsilon::update_death_check() {
 }
 
 void TObjEneDD_ST::turn_toward_target_direction(s32 max_step) {
-    this->rotation_y = (s16) approach_angle_limited(this->rotation_y, (s32) (10430.38043493439 * atan2_float(*(f32 *)((s8 *)this + 0x3A0), *(f32 *)((s8 *)this + 0x3A8))), max_step);
+    this->rotation_y = (s16) approach_angle_limited(this->rotation_y, (s32) (10430.38043493439 * atan2_float(destination_direction.x, destination_direction.z)), max_step);
 }
 
 void TObjEneDD_ST::fire_attack_c(saddr shot_pos, s32 iscale, f32 scale) {

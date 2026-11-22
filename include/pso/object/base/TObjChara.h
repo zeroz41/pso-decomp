@@ -29,6 +29,8 @@ public:
     // move_destination = position, then move_origin and prev_position follow it.
     void init_position_vectors();
     void add_flags_2e4(u32);
+    // Alive and nothing blocks the line from `from` to its body centre (csnLookAt).
+    s32 is_target_unobstructed(const Vec *from);
     s16 get_stats_atp_max();
     s16 sub_800194C4();
     f32 get_attack_range();

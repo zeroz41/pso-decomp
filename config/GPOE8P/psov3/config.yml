@@ -6036,7 +6036,7 @@ force_active:
   - enemy_factories_floors_28_29
   - enemy_freeze_ice_resource_descriptor
   - enemy_nearest_visible_enemy_sq
-  - enemy_nearest_visible_player_sq__FPUcf
+  - enemy_nearest_visible_player_sq__FP9TObjCharaf
   - enemy_tick_target_acquisition__12TObjEneDD_STFPllf
   - enlarge_flight_cutter_slicer__FPv
   - enlarge_s_rank_j_cutter_blade__FPv
@@ -7361,7 +7361,7 @@ force_active:
   - is_target_in_front_range__9TBoss6MagFv
   - is_target_in_range__11TObjInfoColFf
   - is_target_line_clear__10TNpcPlayerFPvUs
-  - is_target_unobstructed__9TObjEneDDFl
+  - is_target_unobstructed__9TObjCharaFPC3Vec
   - is_valid_player_index__6TLobbyFi
   - is_valid_state__6TLobbyFPvi
   - is_value_out_of_range__6TLobbyFl

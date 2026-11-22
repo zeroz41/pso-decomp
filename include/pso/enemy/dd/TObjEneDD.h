@@ -77,7 +77,6 @@ struct TObjEneDD : public TObjEnemy {
     // Fires the shared DD hitbox (obj_ene_dd_instance) at pos for owner with the given attack.
     static void setup(TObjBase *owner, Vec *pos, DragonAttackParams *params);
     static void setup_instance(TObjBase *owner, Vec *pos, DragonAttackParams *params, AreaAttackHistory *attack_history);
-    s32 is_target_unobstructed(saddr from);
     s32 is_valid_target();
     void transform_part_positions();
     void init_model(CollisionBody *bodies, s32 count);
@@ -157,7 +156,7 @@ u8 *enemy_turn_and_move_on_ground(TObjEneDD_ST *self, s32 max_step, f32 currentS
 void set_collider_contact_high(u8 *body);
 void set_collider_contact_low(u8 *body);
 void update_collider_contact_by_height(u8 *body, f32 height);
-u16 enemy_nearest_visible_player_sq(u8 *self, f32 range);
+u16 enemy_nearest_visible_player_sq(TObjChara *self, f32 range);
 s32 tick_period_counter(s32 self, s32 *counter, s32 limit);
 
 // The far (310) and near (155) depths the enemies' render() hands classify_actor_view_detail.
