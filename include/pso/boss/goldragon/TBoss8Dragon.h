@@ -97,10 +97,10 @@ public:
     u32 m_6d4;
     ControllerInputContext *m_6d8;
     RenderFadeState renderFadeStates[4];
-    u32 m_74c;
+    s32 m_74c;
     u16 m_750;
     u8 _pad752[0x2];
-    u32 m_754;
+    s32 m_754;
     u32 m_758;
     s32 m_75c;
     const s32 *m_760;
