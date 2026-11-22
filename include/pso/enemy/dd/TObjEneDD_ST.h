@@ -32,7 +32,6 @@ public:
     void fire_attack_b(saddr out, s32 max_step, f32 distance);
     void fire_attack_c(saddr shot_pos, s32 iscale, f32 scale);
     void set_target_destination(const Vec *position);
-    void state_chase_target(s32 arg1);
 
     u16 target_id;                // 0xFFFF: no target
     u8 pad_38E[0x2];

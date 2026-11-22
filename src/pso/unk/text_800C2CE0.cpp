@@ -4,220 +4,104 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/enemy/flower/TObjEneRe2Flower.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/SoundEffect.h"
 
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
 
-struct Pair_800C2E64 { s32 a, b; };
-struct Obj_800C2E64;
-struct Obj_800C2E64Base { u8 pad[0x18]; };
-struct Obj_800C2E64 : Obj_800C2E64Base {
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual void v5();
-    virtual void v6();
-    virtual void v7();
-    virtual void v8();
-    virtual void v9();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void v15();
-    virtual void v16();
-    virtual void v17();
-    virtual void v18();
-    virtual void v19();
-    virtual void v20();
-    virtual void hit(Obj_800C2E64 *src, Pair_800C2E64 *p, s32 a, s32 b, s32 c);
-    virtual void v22();
-    virtual void v23();
-    virtual void v24();
-    virtual void v25();
-    virtual void v26();
-    virtual void v27();
-    virtual void v28();
-    virtual void v29();
-    virtual void v30();
-    virtual void v31();
-    virtual void v32();
-    virtual void v33();
-    virtual void v34();
-    virtual void v35();
-    virtual void v36();
-    virtual void v37();
-    virtual void v38();
-    virtual void v39();
-    virtual void v40();
-    virtual void v41();
-    virtual void v42();
-    virtual void v43();
-    virtual void v44();
-    virtual void v45();
-    virtual void v46();
-    virtual void v47();
-    virtual void v48();
-    virtual void v49();
-    virtual void v50();
-    virtual void v51();
-    virtual void v52();
-    virtual void v53();
-    virtual void v54();
-    virtual void v55();
-    virtual void v56();
-    virtual void v57();
-    virtual void v58();
-    virtual void v59();
-    virtual void v60();
-    virtual void v61();
-    virtual void v62();
-    virtual void v63();
-    virtual void v64();
-    virtual void v65();
-    virtual void v66();
-    virtual void v67();
-    virtual void v68();
-    virtual void v69();
-    virtual void v70();
-    virtual void v71();
-    virtual void v72();
-    virtual void v73();
-    virtual void v74();
-    virtual void v75();
-    virtual void v76();
-    virtual void v77();
-    virtual void v78();
-    virtual void v79();
-    virtual void v80();
-    virtual void v81();
-    virtual void v82();
-    virtual void v83();
-    virtual void v84();
-    virtual void v85();
-    virtual void s160();
-    virtual void v87();
-    virtual void v88();
-    virtual void s16c();
-    virtual void v90();
-    virtual void v91();
-    virtual void v92();
-    virtual void v93();
-    virtual void s180();
-    virtual void v95();
-    virtual void v96();
-    virtual void v97();
-    virtual void v98();
-    virtual void v99();
-    virtual void s198(s32);
-};
+// The client id is passed unextended, as a u16; TObjPlayer_801AF2F0.h declares it s32.
+extern "C" void send_6x2F_change_player_hp(s32 sender, u16 client, s32 hp);
 
-extern "C" {
-u16 get_entity_id(void *);
-s32 is_player_entity_id(u16);
-void send_6x2F_change_player_hp(s32, u16, s32);
-const Pair_800C2E64 lbl_8043BA60[1] = {{16, 0}};
-void TObjEneRe2Flower__sub_800C2E64(Obj_800C2E64 *self, s32 state);
-void TBoss8Dragon__sub_800BB7D4(void *self, int id);
-s32 remap_sound_for_variant(void *, s32);
-s32 play_sound_effect(s32, void *, s32, s32);
-#define F(T, o) (*(T *)((s8 *)(arg0) + (o)))
-void TObjEneDD::state_damaged(s32 reason) {
-    u8 *arg0 = (u8 *)this;
+// The curse's hit on a target that is not a player.
+const DirectAttackPayload lbl_8043BA60[1] = {{16, 0}};
+
+void TObjEneRe2Flower::state_damaged(s32 reason) {
     switch (reason) {
     case 4:
-        F(s16, 0xB8) = 4;
-        this->clear_intangible();
-        ((TObjEneRe2Flower *)arg0)->clear_child_flags();
-        F(s32, 0x3C4) &= ~8;
-        TBoss8Dragon__sub_800BB7D4(arg0, 0xF2);
-        play_sound_effect(remap_sound_for_variant(arg0, 0x4003AB13), (u8 *)&this->position, 0, 0);
+        requested_action = 4;
+        clear_intangible();
+        clear_child_flags();
+        flags &= ~8;
+        TBoss8Dragon__sub_800BB7D4(this, 0xF2);
+        play_sound_effect(remap_sound_for_variant(0x4003AB13), &position, 0, 0);
         TObjPlayer::play_effect_if_v2(-0x200);
         break;
     case 3:
-        if (this->get_flag_b4() != 0) {
-            if (F(s32, 0x378) == 8) {
-                this->transition_enemy_state(F(s32, 0x378));
-            } else if (F(s16, 0x32C) < F(s16, 0x2B8) / 4) {
-                this->transition_enemy_state(8);
-            } else if (this->random_ratio() < 0.3f) {
-                this->transition_enemy_state(6);
+        if (get_flag_b4() != 0) {
+            if (next_mode == 8) {
+                transition_enemy_state(next_mode);
+            } else if (hp < hpmax / 4) {
+                transition_enemy_state(8);
+            } else if (random_ratio() < 0.3f) {
+                transition_enemy_state(6);
             } else {
-                this->transition_enemy_state(F(s32, 0x378));
+                transition_enemy_state(next_mode);
             }
         }
         break;
     case 0:
         advance_animation();
-        this->update_ground_contact();
-        this->update_body_colliders();
-        this->noop();
+        update_ground_contact();
+        update_body_colliders();
+        noop();
         break;
     case 5:
-        F(s32, 0x30) &= ~0x200;
-        F(s32, 0x3C4) &= ~2;
-        this->clear_attack_receipts();
+        actorFlags &= ~0x200;
+        flags &= ~2;
+        clear_attack_receipts();
         break;
     }
 }
-#undef F
 
-#define F(o, T, off) (*(T *)((u8 *)(o) + (off)))
-void TObjEneRe2Flower__sub_800C2E64(Obj_800C2E64 *self, s32 state) {
-    u8 *t;
-    switch (state) {
+void TObjEneRe2Flower::state_curse(s32 reason) {
+    TObjPlayer *t;
+    switch (reason) {
     case 4:
-        F(self, s16, 0xB8) = 1;
-        self->s180();
-        self->s16c();
-        ((TObjEneRe2Flower *)self)->clear_child_flags();
-        F(self, u32, 0x3C4) &= ~8;
-        F(self, s32, 0x410) = 0;
-        F(self, s32, 0x414) = 0;
+        requested_action = 1;
+        clear_intangible();
+        set_invulnerable();
+        clear_child_flags();
+        flags &= ~8;
+        state_step = 0;
+        state_timer = 0;
         break;
     case 3:
-        if (F(self, s32, 0x410) >= 0x1E) {
-            ((TObjEneDD *)self)->transition_enemy_state(3);
+        if (state_step >= 0x1E) {
+            transition_enemy_state(3);
         }
         break;
     case 0:
-        ((TObjMotion *)self)->advance_animation();
-        if (F(self, s32, 0x410) == 6) {
-            t = ((TObjEneRe2Flower *)self)->find_target_in_range();
+        advance_animation();
+        if (state_step == 6) {
+            t = find_target_in_range();
             if (t != NULL) {
-                void *m = (void *)new TObjEneRe2Flower_EffCurse3((TObject *)self, (TObjBase *)t);
-                F(self, u8 *, 0x390) = t;
-                F(self, s32, 0x414) = 1;
-                play_sound_effect(remap_sound_for_variant(self, 0x4003A50F), (u8 *)self + 0x38, 0, 0);
+                new TObjEneRe2Flower_EffCurse3(this, (TObjBase *)t);
+                current_target = (TObjChara *)t;
+                state_timer = 1;
+                play_sound_effect(remap_sound_for_variant(0x4003A50F), &position, 0, 0);
                 TObjPlayer::play_effect_if_v2(-0x200);
             }
-        } else if (F(self, s32, 0x410) == 0x19 && F(self, s32, 0x414) != 0 &&
-                   ((TObjBase *)(F(self, void *, 0x390)))->is_alive() != 0) {
-            if (((TObjEneRe2Flower *)self)->get_flag_11() != 0) {
-                if (is_player_entity_id(get_entity_id(F(self, void *, 0x390))) != 0) {
-                    send_6x2F_change_player_hp(F(self, u16, 0x1C), get_entity_id(F(self, void *, 0x390)), 1);
+        } else if (state_step == 0x19 && state_timer != 0 && current_target->is_alive() != 0) {
+            if (is_tower_variant() != 0) {
+                if (is_player_entity_id(get_entity_id(current_target)) != 0) {
+                    send_6x2F_change_player_hp(entity_id, get_entity_id(current_target), 1);
                 }
             } else {
-                Pair_800C2E64 p = lbl_8043BA60[0];
-                Obj_800C2E64 *o = F(self, Obj_800C2E64 *, 0x390);
-                o->hit(self, &p, F(o, s32, 0xA4), -1, -1);
+                DirectAttackPayload p = lbl_8043BA60[0];
+                current_target->receive_direct_attack(this, p, current_target->bodies, -1, -1);
             }
         }
-        self->s198(F(self, s32, 0x410)++);
-        self->s160();
-        ((TObjEneDD *)self)->noop();
+        state_step++;
+        update_ground_contact();
+        update_body_colliders();
+        noop();
         break;
     case 5:
-        F(self, u32, 0x30) &= ~0x04000000;
-        F(self, u32, 0x3C4) &= ~2;
+        actorFlags &= ~0x04000000;
+        flags &= ~2;
         break;
     }
-}
-#undef F
-
 }
 
 __declspec(section ".sdata2") extern const f32 lbl_805D9FD4 = 3.0f;

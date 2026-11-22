@@ -6,10 +6,11 @@
 #include "types.h"
 #include "pso/system/AreaSound.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon_800B92AC.h"
-#include "pso/unk/text_800C3088.h"
-#include "pso/unk/text_800C3A60.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/vector.h"
+#include "pso/render/render_util.h"
+#include "pso/enemy/TObjEnemyCustom.h"
+#include "pso/math/AngleUnits.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/enemy/flower/TObjEneRe2Flower.h"
@@ -33,8 +34,6 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/unk/TLobby.h"
 #include "pso/enemy/flower/TObjEneRe2Flower_800C4B78.h"
-#include "pso/enemy/dd/TObjEneDD_800C2614.h"
-#include "pso/unk/text_800C2A88.h"
 #include "pso/player/TObjPlayer_800F0810.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
 #include "pso/system/task/TMainTask.h"
@@ -80,8 +79,6 @@ extern char lbl_8043BB20[];
 extern char lbl_8043BB38[];
 extern char lbl_8043BB50[];
 extern char lbl_8043BB64[];
-void TObjEneRe2Flower__sub_800C2E64(void *, s32);
-f32 horizontal_distance_squared(void *, void *);
 }
 
 extern const f32 lbl_805D9FBC; // 5.0
@@ -116,7 +113,7 @@ LAYOUT_ASSERT(FlowerSetupData_size, sizeof(FlowerSetupData) == 0x1C);
 
 FlowerSetupData TObjEneRe2Flower__setup_data = { 225.0f, 0, 0x200, { 0, 0, 0, 0 } };
 // The two collision part lists the constructor chooses between: the common
-// kinds, then the one get_flag_11() selects.
+// kinds, then the one is_tower_variant() selects.
 CollisionBody lbl_80493094[2] = {
     { { 0.0f, 0.0f, 0.0f }, 5.0f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
     { { 0.0f, 0.0f, 0.0f }, 5.0f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f }
@@ -190,16 +187,16 @@ TObjEneRe2Flower::TObjEneRe2Flower(TObject *parent, void *setData) : TObjEneDD_S
     m_name = lbl_805D2A48;
     invoke_initialization_hook(setData);
     sub_800C3BA8();
-    m_3c4 = 0;
+    flags = 0;
     if (get_current_floor_area() == AREA_TOWER) {
-        m_3c4 |= 0x800;
+        flags |= 0x800;
     } else if (random_ratio() <= lbl_805D9FFC) {
-        m_3c4 |= 0x400;
+        flags |= 0x400;
     }
     init_position_vectors();
     model = (void *)re2_flower_bml_resource->models->model;
     texlist = (saddr)re2_flower_bml_resource->models->m_c;
-    if (get_flag_11()) {
+    if (is_tower_variant()) {
         init_model(lbl_804930EC, 2);
     } else {
         init_model(lbl_80493094, 2);
@@ -210,7 +207,7 @@ TObjEneRe2Flower::TObjEneRe2Flower(TObject *parent, void *setData) : TObjEneDD_S
     set_animation(requested_action);
     set_field_b8(requested_action);
     sub_8002AE64();
-    if (get_flag_11()) {
+    if (is_tower_variant()) {
         variant = 2;
     } else if (is_rare_variant()) {
         variant = 1;
@@ -221,13 +218,13 @@ TObjEneRe2Flower::TObjEneRe2Flower(TObject *parent, void *setData) : TObjEneDD_S
              (u8 *)TLobby::dispatch_shared_handler_b(lbl_8043BA88[variant]),
              (u8 *)TLobby::register_object(lbl_8043BA94[variant]));
     re2_flower_movement_params = TLobby::dispatch_shared_handler_a(lbl_8043BAA0[variant]);
-    if (get_flag_11()) {
+    if (is_tower_variant()) {
         set_state_8();
     } else {
         set_state_flag_2();
     }
     movementParameters = &TObjEneRe2Flower__setup_data;
-    if (get_flag_11()) {
+    if (is_tower_variant()) {
         initialize_enemy_state(83);
     } else if (is_rare_variant()) {
         initialize_enemy_state(14);
@@ -237,24 +234,24 @@ TObjEneRe2Flower::TObjEneRe2Flower(TObject *parent, void *setData) : TObjEneDD_S
     wall_reach = lbl_805D9FBC;
     enemy_init_acquire_period(30);
     enemy_init_validate_period(30);
-    m_3c0 = rotation_y;
-    m_3c8 = lbl_805D9FAC;
-    m_3cc = 0;
-    m_3d0 = 0;
-    m_3d4 = 0;
-    m_3d8 = 0;
+    base_yaw = rotation_y;
+    draw_offset_y = lbl_805D9FAC;
+    pad_3cc = 0;
+    retarget_counter = 0;
+    hit_cooldown = 0;
+    blink_level = 0;
     for (s32 i = 0; i < 2; i++) {
-        VecCopy(&m_3dc[i], &position);
-        m_3dc[i].y += lbl_805D9FD8;
+        VecCopy(&node_points[i], &position);
+        node_points[i].y += lbl_805D9FD8;
     }
-    m_3f4.reset_obstruction_fade();
-    m_410 = 0;
-    m_414 = 0;
-    m_418 = 0;
-    m_41c = 0;
-    m_420 = 0;
-    m_424 = lbl_805D9FAC;
-    m_428 = NULL;
+    appear_fade.reset_obstruction_fade();
+    state_step = 0;
+    state_timer = 0;
+    swing_count = 0;
+    pad_41c = 0;
+    target_angle = 0;
+    sink_depth = lbl_805D9FAC;
+    charge_effect = NULL;
     sync_center_offset();
     update_body_colliders();
     transform_part_positions();
@@ -263,9 +260,9 @@ TObjEneRe2Flower::TObjEneRe2Flower(TObject *parent, void *setData) : TObjEneDD_S
 }
 
 TObjEneRe2Flower::~TObjEneRe2Flower() {
-    if (m_428 != NULL) {
-        m_428->queue_destruction();
-        m_428 = NULL;
+    if (charge_effect != NULL) {
+        charge_effect->queue_destruction();
+        charge_effect = NULL;
     }
     free_collision_body_parts(this);
 }
@@ -281,7 +278,7 @@ void TObjEneRe2Flower::run_task() {
     } else {
         temp_r3 = this->mode;
         if ((temp_r3 == 0) || (temp_r3 == 1)) {
-            m_3f4.reset_color();
+            appear_fade.reset_color();
             transition_enemy_state(2);
         }
     }
@@ -293,40 +290,40 @@ void TObjEneRe2Flower::run_task() {
 void TObjEneRe2Flower::dispatch_action(u32 state, s32 reason) {
     switch (state) {
     case 0:
-        dispatch_action(reason);
+        state_hidden(reason);
         return;
     case 1:
-        handle_state(reason);
+        state_fade_in(reason);
         return;
     case 2:
-        handle_flower_state_change(this, reason);
+        state_wait(reason);
         return;
     case 3:
         state_chase_target(reason);
         return;
     case 4:
-        fn_800C32DC(reason);
+        state_shoot(reason);
         return;
     case 5:
-        fn_800C3088(reason);
+        state_attack(reason);
         return;
     case 9:
         state_damaged(reason);
         return;
     case 10:
-        fn_800C2AC4((u8 *)this, reason);
+        state_die(reason);
         return;
     case 6:
-        TObjEneRe2Flower__sub_800C2E64(this, reason);
+        state_curse(reason);
         return;
     case 7:
-        handle_event(reason);
+        state_laugh(reason);
         return;
     case 8:
-        TObjEneDD__sub_800C2628((u8 *)this, reason);
+        state_self_destruct(reason);
         return;
     case 11:
-        fn_800C2A88(this, reason);
+        state_destroy(reason);
     default:
         return;
     }
@@ -349,7 +346,7 @@ void TObjEneRe2Flower::run_hit_reaction() {
     temp_r0 = this->mode;
     if (temp_r0 != 9) {
         if (temp_r0 == 8) {
-            begin_state_242();
+            start_hit_cooldown();
             clear_attack_receipts();
             return;
         }
@@ -367,11 +364,11 @@ void TObjEneRe2Flower::sync_center_offset() {
 
 void TObjEneRe2Flower::update_body_colliders() {
     bodies[1].offset.y = body_center.y - position.y;
-    set_part_local_pos(m_3dc, 0);
+    set_part_local_pos(node_points, 0);
 }
 
 void TObjEneRe2Flower::set_child_flags() {
-    if (get_flag_11() != 0) {
+    if (is_tower_variant() != 0) {
         bodies[0].flags |= 1;
         return;
     }
@@ -379,7 +376,7 @@ void TObjEneRe2Flower::set_child_flags() {
 }
 
 void TObjEneRe2Flower::clear_child_flags() {
-    if (get_flag_11() != 0) {
+    if (is_tower_variant() != 0) {
         bodies[0].flags &= ~1;
         return;
     }
@@ -387,35 +384,35 @@ void TObjEneRe2Flower::clear_child_flags() {
 }
 
 s32 TObjEneRe2Flower::check_hit_flag() {
-    if (m_3c4 & 2) {
+    if (flags & 2) {
         transition_enemy_state(7);
         return 1;
     }
     return 0;
 }
 
-void TObjEneRe2Flower::begin_state_242() {
-    if (m_3d4 == 0) {
+void TObjEneRe2Flower::start_hit_cooldown() {
+    if (hit_cooldown == 0) {
         TBoss8Dragon__sub_800BB7D4(this, 0xF2);
-        m_3d4 = 20;
+        hit_cooldown = 20;
     }
 }
 
-u8 *TObjEneRe2Flower::find_target_in_range() {
+TObjPlayer *TObjEneRe2Flower::find_target_in_range() {
     s32 n;
-    u8 *result;
-    u8 *p;
+    TObjPlayer *result;
+    TObjPlayer *p;
     s32 i;
     result = NULL;
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
-        p = (u8 *)TObjPlayer::get_player_data(i);
-        if (((TObjEneDD *)p)->is_valid_target() != 0 && ((TObjChara *)p)->obj_isState2_324() == 0) {
+        p = TObjPlayer::get_player_data(i);
+        if (((TObjEneDD *)p)->is_valid_target() != 0 && p->obj_isState2_324() == 0) {
             result = p;
             break;
         }
     }
-    if (((TObjEneDD *)result)->is_valid_target() != 0 && horizontal_distance_squared((u8 *)&this->position, result + 0x38) < lbl_805D9FF4) {
+    if (((TObjEneDD *)result)->is_valid_target() != 0 && horizontal_distance_squared(&position, &result->position) < lbl_805D9FF4) {
         return result;
     }
     return NULL;
@@ -424,18 +421,17 @@ u8 *TObjEneRe2Flower::find_target_in_range() {
 void TObjEneRe2Flower::sub_800C3BA8() {  }
 
 s32 TObjEneRe2Flower::is_rare_variant() {
-    u32 flags = m_3c4;
-    if (flags & 0x800) {
+    u32 variant = flags;
+    if (variant & 0x800) {
         return 0;
     }
-    return (flags & 0x400) != 0;
+    return (variant & 0x400) != 0;
 }
 
-int TObjEneRe2Flower::get_flag_11() { return (m_3c4 >> 11) & 0x1; }
+int TObjEneRe2Flower::is_tower_variant() { return (flags >> 11) & 0x1; }
 
-extern "C" {
-s32 remap_sound_for_variant(saddr owner, s32 sound_id) {
-    if (((TObjEneRe2Flower *)owner)->get_flag_11() != 0) {
+s32 TObjEneRe2Flower::remap_sound_for_variant(s32 sound_id) {
+    if (is_tower_variant() != 0) {
         switch (sound_id) {
         case 0x4003A10E:
             return 0x4003A339;
@@ -457,13 +453,13 @@ s32 remap_sound_for_variant(saddr owner, s32 sound_id) {
             return 0x40039942;
         }
     }
-    return ((TObjEnemy *)((void *)owner))->remap_sound_for_area(sound_id);
+    return remap_sound_for_area(sound_id);
 }
 
-void TObjEneDD::noop() {  }
+void TObjEneRe2Flower::noop() {}
 
-void TObjEneRe2Flower::dispatch_action(s32 arg1) {
-    switch (arg1) {
+void TObjEneRe2Flower::state_hidden(s32 reason) {
+    switch (reason) {
     case 4:
         this->set_intangible();
         return;
@@ -475,148 +471,144 @@ void TObjEneRe2Flower::dispatch_action(s32 arg1) {
     }
 }
 
-void TObjEneDD::handle_state(s32 arg1) {
-    u8 *self = (u8 *)this;
-    switch (arg1) {
+void TObjEneRe2Flower::state_fade_in(s32 reason) {
+    switch (reason) {
     case 4:
-        this->requested_action = 1;
-        this->set_intangible();
-        ((TObjEneRe2Flower *)self)->clear_child_flags();
-        *(s32 *)((s8 *)self + 0x3C4) = (s32) (*(s32 *)((s8 *)self + 0x3C4) | 8);
-        ((TObjEneDD *)self)->set_field_378(2);
-        ((TObjEneDD_ST *)(self))->enemy_clear_target();
-        ((TUnk_80494938 *)(self + 0x3F4))->start_fade_in();
-        if (((TObjEneRe2Flower *)self)->get_flag_11() != 0) {
-            play_area_se_with_particle((Vec *)(self + 0x38));
+        requested_action = 1;
+        set_intangible();
+        clear_child_flags();
+        flags |= 8;
+        set_field_378(2);
+        enemy_clear_target();
+        appear_fade.start_fade_in();
+        if (is_tower_variant() != 0) {
+            play_area_se_with_particle(&position);
             return;
         }
-        play_area_sound_effect((Vec *)(self + 0x38));
+        play_area_sound_effect(&position);
         return;
     case 3:
-        if (((TObjEneRe2Flower *)self)->m_3f4.advance_toward_max() != 0) {
-            ((TObjEneDD *)self)->transition_enemy_state(2);
+        if (appear_fade.advance_toward_max() != 0) {
+            transition_enemy_state(2);
         }
     case 1:
         return;
     case 0:
         advance_animation();
-        this->update_ground_contact();
-        this->update_body_colliders();
+        update_ground_contact();
+        update_body_colliders();
         return;
     case 5:
-        *(s32 *)((s8 *)self + 0x3C4) = (s32) (*(s32 *)((s8 *)self + 0x3C4) & 0xFFFFFFF7);
+        flags &= ~8;
         break;
     }
 }
 
-}
-
-void handle_flower_state_change(TObjEneDD *ene_dd, s32 reason) {
+void TObjEneRe2Flower::state_wait(s32 reason) {
     switch (reason) {
     case 4:
-        ene_dd->requested_action = 1;
-        ene_dd->clear_intangible();
-        ((TObjEneRe2Flower *)ene_dd)->clear_child_flags();
-        *(s32 *)((s8 *)ene_dd + 0x3C4) = (s32) (*(s32 *)((s8 *)ene_dd + 0x3C4) & 0xFFFFFFF7);
-        ene_dd->set_field_378(2);
-        ((TObjEneDD_ST *)(ene_dd))->enemy_clear_target();
+        requested_action = 1;
+        clear_intangible();
+        clear_child_flags();
+        flags &= ~8;
+        set_field_378(2);
+        enemy_clear_target();
         return;
     case 3:
-        if ((((TObjEneRe2Flower *)ene_dd)->check_hit_flag() == 0) && (((TObjEneDD_ST *)ene_dd)->update_linked_position(lbl_805D9FF0) != 0)) {
-            ((TObjEneDD *)ene_dd)->transition_enemy_state(3);
+        if (check_hit_flag() == 0 && update_linked_position(lbl_805D9FF0) != 0) {
+            transition_enemy_state(3);
         }
     case 5:
     case 1:
         return;
     case 0:
-        ene_dd->advance_animation();
-        ene_dd->update_ground_contact();
-        ene_dd->update_body_colliders();
+        advance_animation();
+        update_ground_contact();
+        update_body_colliders();
         break;
     }
 }
 
-void TObjEneDD_ST::state_chase_target(s32 arg1) {
-    u8 *self = (u8 *)this;
+void TObjEneRe2Flower::state_chase_target(s32 reason) {
     f32 d;
     s32 t;
     u16 idx;
 
-    switch (arg1) {
+    switch (reason) {
     case 5:
         break;
     case 4:
-        if (this->mode == 2) {
-            this->requested_action = 3;
+        if (mode == 2) {
+            requested_action = 3;
         } else {
-            this->requested_action = 2;
+            requested_action = 2;
         }
-        this->clear_intangible();
-        ((TObjEneRe2Flower *)self)->set_child_flags();
-        *(s32 *)((s8 *)self + 0x3C4) &= ~8;
-        ((TObjEneDD *)self)->set_field_378(3);
-        *(s32 *)((s8 *)self + 0x414) = 0;
-        *(s32 *)((s8 *)self + 0x420) = 0;
-        if (((TObjEneRe2Flower *)self)->get_flag_11() != 0) {
-            play_sound_effect(0x4003A840, (u8 *)&this->position, 0, 0);
+        clear_intangible();
+        set_child_flags();
+        flags &= ~8;
+        set_field_378(3);
+        state_timer = 0;
+        target_angle = 0;
+        if (is_tower_variant() != 0) {
+            play_sound_effect(0x4003A840, &position, 0, 0);
         }
         break;
     case 3:
-        if (((TObjEneRe2Flower *)self)->check_hit_flag() == 0) {
-            d = *(f32 *)((s8 *)self + 0x3AC);
-            if (d > lbl_805D9FE0 || *(void **)((s8 *)self + 0x390) == NULL) {
-                ((TObjEneDD *)self)->transition_enemy_state(2);
+        if (check_hit_flag() == 0) {
+            d = destination_distance;
+            if (d > lbl_805D9FE0 || current_target == NULL) {
+                transition_enemy_state(2);
             } else if (d < lbl_805D9FE4) {
-                t = angle_difference_abs(this->rotation_y, *(s32 *)((s8 *)self + 0x420));
-                if (t < ((AttackParams *)(this->m_318))->get_attack_angle()) {
-                    ((TObjEneDD *)self)->transition_enemy_state(5);
+                t = angle_difference_abs(rotation_y, target_angle);
+                if (t < ((AttackParams *)m_318)->get_attack_angle()) {
+                    transition_enemy_state(5);
                 }
-            } else if ((f32)*(s32 *)((s8 *)self + 0x414) > lbl_805D9FE8) {
-                ((TObjEneDD *)self)->transition_enemy_state(4);
+            } else if ((f32)state_timer > lbl_805D9FE8) {
+                transition_enemy_state(4);
             }
         }
         break;
     case 0:
         advance_animation();
         idx = 0xFFFF;
-        if (tick_period_counter((saddr)self, (s32 *)(self + 0x3D0), 0x14) != 0) {
-            if (*(f32 *)((s8 *)self + 0x3AC) > lbl_805D9FEC) {
-                if (this->is_confused() != 0) {
-                    idx = enemy_nearest_visible_enemy(self, *(f32 *)((s8 *)self + 0x3AC) - lbl_805D9FEC);
+        if (tick_period_counter((saddr)this, &retarget_counter, 0x14) != 0) {
+            if (destination_distance > lbl_805D9FEC) {
+                if (is_confused() != 0) {
+                    idx = enemy_nearest_visible_enemy(this, destination_distance - lbl_805D9FEC);
                 }
                 if (idx == 0xFFFF) {
-                    idx = enemy_find_nearest_player_in_range(self, *(f32 *)((s8 *)self + 0x3AC) - lbl_805D9FEC);
+                    idx = enemy_find_nearest_player_in_range((u8 *)this, destination_distance - lbl_805D9FEC);
                 }
                 if (idx != 0xFFFF) {
-                    enemy_set_target_id((TObjEneDD_ST *)self, idx);
+                    enemy_set_target_id(this, idx);
                 }
             }
-        } else if (((TObjEneEpsilon *)self)->update_death_check() == 0) {
+        } else if (((TObjEneEpsilon *)this)->update_death_check() == 0) {
             break;
         }
-        ((TObjEneDD_ST *)self)->enemy_copy_target_destination();
-        ((TObjEneDD_ST *)self)->update_velocity();
-        (*(s32 *)((s8 *)self + 0x414))++;
-        *(s32 *)((s8 *)self + 0x420) = (s32)(10430.38043493439 * atan2_float(*(f32 *)((s8 *)self + 0x3A0), *(f32 *)((s8 *)self + 0x3A8)));
-        this->rotation_y = approach_angle_limited(this->rotation_y, *(s32 *)((s8 *)self + 0x420), (saddr)(*(void **)((s8 *)this->movementParameters + 8)));
-        this->rotation_y = (s16)this->rotation_y;
-        this->update_ground_contact();
-        this->update_body_colliders();
-        ((TObjEneDD *)self)->noop();
+        enemy_copy_target_destination();
+        update_velocity();
+        state_timer++;
+        target_angle = (s32)(RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z));
+        rotation_y = approach_angle_limited(rotation_y, target_angle, ((EnemyMoveParams *)movementParameters)->turn_speed);
+        rotation_y = (s16)rotation_y;
+        update_ground_contact();
+        update_body_colliders();
+        noop();
         break;
     }
 }
 
-void TObjEneRe2Flower::fn_800C32DC(s32 reason) {
+void TObjEneRe2Flower::state_shoot(s32 reason) {
     Vec pos;
     switch (reason) {
     case 4:
         requested_action = 0;
         clear_intangible();
         set_child_flags();
-        m_3c4 &= ~8;
+        flags &= ~8;
         set_field_378(3);
-        m_428 = NULL;
+        charge_effect = NULL;
         break;
     case 3:
         if (check_hit_flag() == 0 && get_flag_b4() != 0) {
@@ -627,23 +619,23 @@ void TObjEneRe2Flower::fn_800C32DC(s32 reason) {
         break;
     case 0:
         advance_animation();
-        if (m_428 == NULL) {
-            m_428 = create_particle_emitter(&m_3dc[1], 0xD1);
-            if (m_428 != NULL) {
-                m_428->enable();
+        if (charge_effect == NULL) {
+            charge_effect = create_particle_emitter(&node_points[1], 0xD1);
+            if (charge_effect != NULL) {
+                charge_effect->enable();
             }
         }
-        if (m_428 != NULL) {
+        if (charge_effect != NULL) {
             if (frame < lbl_805D9FD8) {
-                m_428->set_position(&m_3dc[1]);
+                charge_effect->set_position(&node_points[1]);
             } else {
-                m_428->enable();
+                charge_effect->enable();
             }
         }
         if (is_passing_frame(lbl_805D9FDC) != 0) {
-            VecCopy(&pos, &m_3dc[0]);
+            VecCopy(&pos, &node_points[0]);
             pos.y = lbl_805D9FDC + position.y;
-            if (get_flag_11() != 0 || TObjEneDD::check_v2_mode() != 0) {
+            if (is_tower_variant() != 0 || TObjEneDD::check_v2_mode() != 0) {
                 TTecMegid::create_ex((saddr)this, (saddr)&pos, rotation_y, TObjEneDD::clamp_frame_index(*(s32 *)((s8 *)re2_flower_movement_params + 0x18)));
             } else {
                 u32 bomb = (uaddr)TObject::operator new(0x104);
@@ -651,35 +643,35 @@ void TObjEneRe2Flower::fn_800C32DC(s32 reason) {
                     TObjPlayer__sub_800C4A5C(bomb, this, &pos, rotation_y);
                 }
             }
-            play_sound_effect(remap_sound_for_variant((saddr)this, 0x4003A10E), &m_3dc[0], 0, 0);
+            play_sound_effect(remap_sound_for_variant(0x4003A10E), &node_points[0], 0, 0);
         }
         update_ground_contact();
         update_body_colliders();
         noop();
         break;
     case 5:
-        if (m_428 != NULL) {
-            m_428->queue_destruction();
-            m_428 = NULL;
+        if (charge_effect != NULL) {
+            charge_effect->queue_destruction();
+            charge_effect = NULL;
         }
         break;
     }
 }
 
-void TObjEneRe2Flower::fn_800C3088(s32 reason) {
+void TObjEneRe2Flower::state_attack(s32 reason) {
     switch (reason) {
     case 4:
         requested_action = 7;
         clear_intangible();
         set_child_flags();
-        m_3c4 &= ~8;
+        flags &= ~8;
         set_field_378(3);
-        m_410 = 0;
-        m_414 = 0;
-        m_418 = 0;
+        state_step = 0;
+        state_timer = 0;
+        swing_count = 0;
         return;
     case 3:
-        if (m_410 >= 0x14) {
+        if (state_step >= 0x14) {
             transition_enemy_state(3);
         }
     case 1:
@@ -687,12 +679,12 @@ void TObjEneRe2Flower::fn_800C3088(s32 reason) {
     case 0:
         advance_animation();
         enemy_validate_retained_target(this);
-        switch (m_414) {
+        switch (state_timer) {
         case 0:
             if (is_passing_frame((frame_count - lbl_805D9FC0) - play_speed) != 0) {
-                m_418++;
-                if ((f32)m_418 >= lbl_805D9FD4) {
-                    m_414 = 1;
+                swing_count++;
+                if ((f32)swing_count >= lbl_805D9FD4) {
+                    state_timer = 1;
                     play_speed = lbl_805D9FAC;
                 }
             } else if (is_passing_frame(lbl_805D9FC4) != 0) {
@@ -702,12 +694,12 @@ void TObjEneRe2Flower::fn_800C3088(s32 reason) {
                         current_target->apply_knockback_from_attacker((u8 *)this, lbl_805D9FD4);
                     }
                 }
-                play_sound_effect(remap_sound_for_variant((saddr)this, 0x4003A814), &position, 0, 0);
+                play_sound_effect(remap_sound_for_variant(0x4003A814), &position, 0, 0);
                 TObjPlayer::play_effect_if_v2(-0x200);
             }
             break;
         case 1:
-            m_410++;
+            state_step++;
             break;
         }
         update_ground_contact();
@@ -715,7 +707,7 @@ void TObjEneRe2Flower::fn_800C3088(s32 reason) {
         noop();
         return;
     case 5:
-        m_3c4 &= ~2;
+        flags &= ~2;
         break;
     }
 }
