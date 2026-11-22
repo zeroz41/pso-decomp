@@ -1166,8 +1166,8 @@ force_active:
   - TObjEneEpsilonGuard__debug_line_list
   - TObjEneEpsilonGuard__model_desc
   - TObjEneEpsilonGuard__resource_descriptor
-  - sub_8035E578__19TObjEneEpsilonGuardFl
-  - sub_8035E8C0__19TObjEneEpsilonGuardFl
+  - state_fade_out__19TObjEneEpsilonGuardFl
+  - state_move_out__19TObjEneEpsilonGuardFl
   - clear_guard_state_flag__18TObjEneEpsilonBodyFl
   - set_guards_flag_2__18TObjEneEpsilonBodyFv
   - notify_guards_if_ready__18TObjEneEpsilonBodyFv
@@ -8135,10 +8135,10 @@ force_active:
   - lbl_804EFC74
   - lbl_804EFC7C
   - lbl_804EFC90
-  - lbl_804F2230
-  - lbl_804F2250
-  - lbl_804F226C
-  - lbl_804F22C4
+  - epsilon_body_action_table
+  - epsilon_body_movement_params
+  - epsilon_body_collision_bodies
+  - epsilon_body_debug_line_colors
   - lbl_804F2B78
   - lbl_804F2B80
   - lbl_804F2B90
@@ -8224,7 +8224,7 @@ force_active:
   - lbl_805434D0
   - morfos_attack_params
   - lbl_80543978
-  - lbl_805439E0
+  - epsilon_guard_node_origin
   - lbl_80543A18
   - lbl_80543A90
   - lbl_805470AC
@@ -16393,8 +16393,8 @@ force_active:
   - sub_8035B610__13TUnk_804A7478Fv
   - sub_8035B66C__13TUnk_804A7488Fv
   - sub_8035D8B0__9TBoss6DPBFv
-  - sub_8035EA90__19TObjEneEpsilonGuardFv
-  - sub_8035F8A8__18TObjEneEpsilonBodyFv
+  - update_effect_attack__19TObjEneEpsilonGuardFv
+  - get_immune_special_kind__18TObjEneEpsilonBodyFv
   - update_guard_anchor__18TObjEneEpsilonBodyFl
   - handle_wait_state__18TObjEneEpsilonBodyFl
   - sub_803669B0__14TObjEneIllGillFv
