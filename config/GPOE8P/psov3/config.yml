@@ -7286,13 +7286,13 @@ force_active:
   - is_enabled__9TItemDropFv
   - is_end__12TCharaMakingFv
   - is_entity_locally_controlled__Fl
+  - is_manual_camera_held__13TCameraFollowFv
   - is_valid__24ModelNodePositionCaptureFPC22ModelNodePositionEntry
   - is_entry_valid__23TAdSinglePlyChrSelectGCFPvi
   - is_entry_valid__6TLobbyFl
   - is_far_from_origin__10TBoss6MineFv
   - is_field88_zero__15TObjCityMapWarpFv
   - is_field88_zero__15TObjLaboMapWarpFv
-  - is_flag_set__11TCameraCtrlFv
   - is_flag_set__15TObjBoss2TunnelFv
   - is_flag_set__6TLobbyFPv
   - is_grounded__10TObjPlayerFv

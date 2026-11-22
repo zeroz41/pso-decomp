@@ -101,7 +101,7 @@ void TCameraFollow::set_pos_target(Vec *target_offset, Vec *eye_offset, s32 yaw)
     this->eye_offset.z = eye_offset->z;
 }
 
-s32 TCameraFollow::is_flag_set() {
+s32 TCameraFollow::is_manual_camera_held() {
     if (is_split_screen() != 0) {
         return 0;
     }
@@ -712,7 +712,7 @@ void TCameraFollow::run_task() {
                 yaw = this->actor->rotation_y + 0x8000;
             }
         }
-        if (is_flag_set() != 0) {
+        if (is_manual_camera_held() != 0) {
             idle_frames = 0;
             update_manual_camera();
         } else {

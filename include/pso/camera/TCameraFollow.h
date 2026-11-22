@@ -28,7 +28,9 @@ public:
     void set_pos_target(Vec *target_offset, Vec *eye_offset, s32 yaw);
     void update_manual_camera();
     s32 apply_override_pose();
-    s32 is_flag_set();
+    // The keyboard pad holds the button that hands the camera to update_manual_camera
+    // (never in split screen).
+    s32 is_manual_camera_held();
     void rotate_heading_by_stick();
     void update_follow_motion_state();
     void calc_follow_position();
