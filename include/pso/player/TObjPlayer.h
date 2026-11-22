@@ -272,7 +272,6 @@ struct TObjPlayer : public TObjChara {
     u8 unk_D4C[0x60];
     void* m_dac;
     static void draw_area_chunk_objects();
-    void save_position();
     static void copy_screen_to_texture(s32 mode, void *src);
     void clear_counter();
     void set_cancel_flag();
