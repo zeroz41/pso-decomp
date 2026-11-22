@@ -9,6 +9,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/render/GinjaView.h"
 #include "pso/map/FloorArea.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/math/MatrixVector.h"
@@ -57,16 +58,16 @@ void TCameraCtrl::reset_to_local_player() {
     reset_cameras_to_actor(get_player_by_client_id(local_client_id), 0);
 }
 
-void TCameraCtrl::set_override_position_and_angle(u8 *position, s16 client_id) {
+void TCameraCtrl::set_override_position_and_angle(Vec *position, u16 client_id) {
     camera_override_flags |= 2;
-    VecCopy(&camera_override_position, (const Vec *)position);
+    VecCopy(&camera_override_position, position);
     camera_override_client_id = client_id;
 }
 
-void TCameraCtrl::set_fixed_position_and_target(u8 *position, u8 *target) {
+void TCameraCtrl::set_fixed_position_and_target(Vec *position, Vec *target) {
     camera_override_flags |= 1;
-    VecCopy(&camera_override_position, (const Vec *)position);
-    VecCopy(&camera_fixed_target_position, (const Vec *)target);
+    VecCopy(&camera_override_position, position);
+    VecCopy(&camera_fixed_target_position, target);
 }
 
 s32 TCameraFollow::apply_override_pose() {
@@ -567,24 +568,24 @@ void TCameraFollow::init_pose() {
             VecCopy(&this->position, &follow_camera_init_pose_table[0][0].pos);
             VecCopy(&this->target, &follow_camera_init_pose_table[0][0].target);
             this->projection_angle = follow_camera_init_pose_table[0][0].projection_angle;
-            TCameraCtrl::set_clamped_offsets(follow_camera_init_pose_table[0][0].near_clip, follow_camera_init_pose_table[0][0].far_clip);
+            set_clamped_offsets(follow_camera_init_pose_table[0][0].near_clip, follow_camera_init_pose_table[0][0].far_clip);
             break;
         case AREA_LOBBY:
             VecCopy(&this->position, &follow_camera_init_pose_table[0][1].pos);
             VecCopy(&this->target, &follow_camera_init_pose_table[0][1].target);
             this->projection_angle = follow_camera_init_pose_table[0][1].projection_angle;
-            TCameraCtrl::set_clamped_offsets(follow_camera_init_pose_table[0][1].near_clip, follow_camera_init_pose_table[0][1].far_clip);
+            set_clamped_offsets(follow_camera_init_pose_table[0][1].near_clip, follow_camera_init_pose_table[0][1].far_clip);
             break;
         case AREA_PIONEER2_EP2:
             VecCopy(&this->position, &follow_camera_init_pose_table[0][2].pos);
             VecCopy(&this->target, &follow_camera_init_pose_table[0][2].target);
             this->projection_angle = follow_camera_init_pose_table[0][2].projection_angle;
-            TCameraCtrl::set_clamped_offsets(follow_camera_init_pose_table[0][2].near_clip, follow_camera_init_pose_table[0][2].far_clip);
+            set_clamped_offsets(follow_camera_init_pose_table[0][2].near_clip, follow_camera_init_pose_table[0][2].far_clip);
             break;
         }
     }
     camera_renderer_setup_nop(&ninja_camera, this->projection_angle);
-    TCameraCtrl::update_camera_state(this->position.x, this->position.y, this->position.z);
+    update_camera_state(this->position.x, this->position.y, this->position.z);
 }
 
 TCameraFollow *TCameraFollow::create() {

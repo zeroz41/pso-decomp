@@ -120,6 +120,8 @@ public:
     static s16 camera_mode;
     // Set when the restored view's center is off the screen center.
     static s16 view_offset_active;
+    // The one view split-screen frames run and draw, or -1 for every view.
+    static s8 active_view;
 
     static void reset_up_vector();
     static void clear_pose_snap_flags();
@@ -167,11 +169,11 @@ public:
     void cycle_spectate_target();
     static void update_active_player();
     static void update_battle_camera();
-    static void create(saddr goal, s32 frames, s32 arg2);
-    void *destroy(s16 arg1);
+    static void create(saddr goal, s32 frames, s32 hold_frames);
     static void reset_to_local_player();
-    static void set_override_position_and_angle(u8 *position, s16 angle);
-    static void set_fixed_position_and_target(u8 *position, u8 *target);
+    // Holds the view at position, looking at the player with client_id.
+    static void set_override_position_and_angle(Vec *position, u16 client_id);
+    static void set_fixed_position_and_target(Vec *position, Vec *target);
     // Fixes the view at position, looking at target (quest leti_fixed_camera).
     static void set_fixed_camera(Vec *position, Vec *target);
     static void set_active_camera_flag();
@@ -192,10 +194,6 @@ public:
     static void set_camera_id(int id);
     // The one view split-screen frames run and draw, or -1 for every view.
     static s8 get_view_state();
-    static void update_camera_state(f32 x, f32 y, f32 z);
-    static void look_at_position(f32 x, f32 y, f32 z);
-    static void translate_view_negated(f32 x, f32 y, f32 z);
-    static void set_clamped_offsets(f32 near_clip, f32 far_clip);
     void update_projection_params();
     static void concat_matrix(uaddr target, uaddr matrix);
     static void update();
@@ -204,30 +202,32 @@ public:
     static void select_active_controller(s8 index);
     static CameraMatrix *copy_view_params(CameraMatrix *dst, const CameraMatrix *src);
     static void calc_axes_from_angles(saddr unused_angle, saddr pitch, saddr yaw);
-    static int get_instance();
+    // Views on screen: 1, or 2 to 4 in a split-screen game.
+    static int get_view_count();
     static int get_camera_id();
     static void set_target_coords(int x, int y);
     static void reset_battle_camera();
-    static s32 clamp_distance(s32 yaw, s32 to, s32 arg2);
+    static s32 clamp_distance(s32 yaw, s32 to, s32 step_scale);
     static void free_entries();
     static void load_camera_banks();
-    static void init_projection_state();
     static void set_target(int width, int height);
 };
 
 LAYOUT_ASSERT(TCameraCtrl_size, sizeof(TCameraCtrl) == 0x1D4);
 // The camera's right axis, which screen tests offset points along.
-extern f32 camera_right[3];
+extern Vec camera_right;
+// The camera's up axis after the pitch rotation (calc_rotated_axes).
+extern Vec camera_pitch_rotated_up_vector;
 // The camera task; NULL until TCameraCtrl::create makes it.
 extern TCameraCtrl *camera_ctrl_instance;
-// The one view split-screen frames run and draw, or -1 for every view.
-extern s8 camera_ctrl_view_state_byte;
 // One controller per registry slot, made by the constructor.
 extern TCameraController *camera_controller_registry[13];
 // The Ninja camera the view matrix is built from each frame: the camera
 // position and the direction to its target.
 extern NJS_CAMERA ninja_camera;
 
+// Makes registry controller `index` the active one.
+void select_camera_controller(s32 index);
 // Points every controller of the actor's view at the actor.
 void reset_cameras_to_actor(void *actor, s32 view_unused);
 

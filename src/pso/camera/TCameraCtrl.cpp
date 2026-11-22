@@ -35,11 +35,14 @@
 #include "pso/render/Draw2D.h"
 #include "pso/render/GinjaView.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/scene/OfflineGameScene.h"
+#include "pso/quest/QuestOpcodeTables.h"
 
 // The Ninja camera the view matrix is built from each frame: position,
 // direction, roll, angle and clip planes.
 NJS_CAMERA ninja_camera;
-f32 camera_right[3];
+Vec camera_right;
 Vec camera_pitch_rotated_up_vector;
 CameraViewState TCameraCtrl::view_state;
 CameraViewParams TCameraCtrl::view_params;
@@ -49,11 +52,14 @@ CameraMatrix TCameraCtrl::view_matrix;
 CameraMatrix TCameraCtrl::view_matrices[4];
 
 extern "C" {
-s32 is_split_screen();
-s32 GXSetViewport(f32, f32, f32, f32, f32, f32);
-s32 GXSetScissor(int, int, int, int);
-s32 GXSetScissorBoxOffset(int, int);
+// The SDK's GX headers come with <dolphin/types.h>, whose math inlines add
+// sqrt constants this unit does not have.
+void GXSetViewport(f32 left, f32 top, f32 wd, f32 ht, f32 nearz, f32 farz);
+void GXSetScissor(u32 left, u32 top, u32 wd, u32 ht);
+void GXSetScissorBoxOffset(s32 x_off, s32 y_off);
+void rotate_vector_by_current_matrix(const Vec *src, Vec *dst);
 }
+
 s16 TCameraCtrl::viewport_width = 640;
 s16 TCameraCtrl::viewport_height = 480;
 const char *camera_ctrl_class_name = "TCameraCtrl";
@@ -61,22 +67,13 @@ f32 camera_default_view_value;
 f32 camera_default_view_value_b;
 TCameraCtrl *camera_ctrl_instance;
 s32 camera_view_state_flag;
-s8 camera_ctrl_view_state_byte;
+s8 TCameraCtrl::active_view;
 s16 TCameraCtrl::viewport_x;
 s16 TCameraCtrl::viewport_y;
 s32 TCameraCtrl::pose_snap_flags;
 int TCameraCtrl::camera_id;
 s16 TCameraCtrl::camera_mode;
 s16 TCameraCtrl::view_offset_active;
-extern "C" {
-u16 get_entity_id(void *);
-f32 rotate_vector_by_current_matrix(void *, void *);
-extern int camera_split_screen_selector;
-extern int quest_active_flag;
-}
-
-void select_camera_controller(s32 index);
-
 typedef TCameraController *(*CameraControllerFactory)(void);
 
 TCameraController *camera_controller_registry[13] = {
@@ -97,7 +94,7 @@ CameraControllerFactory camera_controller_factories[13] = {
 #pragma dont_inline off
 
 void TCameraCtrl::set_fixed_camera(Vec *position, Vec *target) {
-    TCameraCtrl::set_fixed_position_and_target((u8 *)position, (u8 *)target);
+    TCameraCtrl::set_fixed_position_and_target(position, target);
 }
 
 void TCameraCtrl::reset_battle_camera() { TCameraCtrl::reset_to_local_player(); }
@@ -109,12 +106,12 @@ extern "C" int is_float_nonfinite(f32 value) {
 extern "C" int is_quest_active(void) { return quest_active_flag; }
 s32 TMainTask::get_task_flags() { return task_flags; }
 
-extern "C" u16 TCameraCtrl__sub_8006B358(TCameraController *controller) { return controller->actor_id; }
+u16 TCameraController::get_actor_id() { return actor_id; }
 void TCameraCtrl::set_target_coords(int x, int y) { TCameraCtrl::viewport_x = x; TCameraCtrl::viewport_y = y; }
 void TCameraCtrl::set_target(int width, int height) { TCameraCtrl::viewport_width = width; TCameraCtrl::viewport_height = height; }
 int TCameraCtrl::get_camera_id() { return TCameraCtrl::camera_id; }
 
-int TCameraCtrl::get_instance() { return camera_split_screen_selector; }
+int TCameraCtrl::get_view_count() { return camera_split_screen_selector; }
 
 const CharacterSelectionRequest *get_character_select_request_buffer(void) {
     return &chr_select_request_buffer;
@@ -308,7 +305,7 @@ void TCameraCtrl::calc_rotated_axes() {
     Vec up = {0.0f, 1.0f, 0.0f};
     push_matrix_from(identity_matrix);
     rotate_matrix_y(NULL, yaw);
-    rotate_vector_by_current_matrix(&right, camera_right);
+    rotate_vector_by_current_matrix(&right, &camera_right);
     pop_matrix();
     push_matrix_from(identity_matrix);
     rotate_matrix_x(NULL, pitch);
@@ -324,7 +321,7 @@ void TCameraCtrl::calc_axes_from_angles(saddr unused_angle, saddr pitch, saddr y
     Vec up = {0.0f, 1.0f, 0.0f};
     push_matrix_from(identity_matrix);
     rotate_matrix_y(NULL, yaw);
-    rotate_vector_by_current_matrix(&right, camera_right);
+    rotate_vector_by_current_matrix(&right, &camera_right);
     pop_matrix();
     push_matrix_from(identity_matrix);
     rotate_matrix_x(NULL, pitch);
@@ -499,7 +496,7 @@ void reset_cameras_to_actor(void *actor, s32 view_unused) {
     if (actor == 0) {
         return;
     }
-    entity_id = (u16)get_entity_id(actor);
+    entity_id = (u16)get_entity_id((TObjBase *)actor);
     id = entity_id;
     if (is_split_screen() == 0) {
         view = 0;
@@ -573,7 +570,7 @@ void TCameraCtrl::reset_view_state() {
     up->y = 1.0f;
     up->z = 0.0f;
     camera_view_state_flag = 0;
-    camera_ctrl_view_state_byte = -1;
+    TCameraCtrl::active_view = -1;
     TCameraCtrl::view_offset_active = 0;
 }
 
@@ -1064,8 +1061,8 @@ void TCameraCtrl::reset_default_view() {
     TCameraCtrl::reset_viewport_scissor();
     init_ninja_camera(&ninja_camera);
     camera_renderer_setup_nop(&ninja_camera, 0x3555);
-    TCameraCtrl::update_camera_state(0.0f, 0.0f, 0.0f);
-    TCameraCtrl::look_at_position(0.0f, 0.0f, -1.0f);
+    update_camera_state(0.0f, 0.0f, 0.0f);
+    look_at_position(0.0f, 0.0f, -1.0f);
     view.center_x = 320.0f;
     view.center_y = 240.0f;
     view.width = 640.0f;
@@ -1089,7 +1086,7 @@ void TCameraCtrl::create() {
 s32 *TCameraCtrl::get_view_matrix() {
     if (is_split_screen() != 0) {
         if (main_task.get_task_flags() & 1) {
-            return (s32 *)&TCameraCtrl::view_matrices[TCameraCtrl::get_instance() - 1];
+            return (s32 *)&TCameraCtrl::view_matrices[TCameraCtrl::get_view_count() - 1];
         }
         return (s32 *)&TCameraCtrl::view_matrices[TCameraCtrl::get_camera_no()];
     }
@@ -1099,7 +1096,7 @@ s32 *TCameraCtrl::get_view_matrix() {
 void TCameraCtrl::apply_split_screen_view_matrix() {
     if (is_split_screen() != 0) {
         if (main_task.get_task_flags() & 1) {
-            TCameraCtrl::concat_matrix(0, (uaddr)&TCameraCtrl::view_matrices[TCameraCtrl::get_instance() - 1]);
+            TCameraCtrl::concat_matrix(0, (uaddr)&TCameraCtrl::view_matrices[TCameraCtrl::get_view_count() - 1]);
             return;
         }
         TCameraCtrl::concat_matrix(0, (uaddr)&TCameraCtrl::view_matrices[TCameraCtrl::get_camera_no()]);
@@ -1135,14 +1132,14 @@ u16 TCameraCtrl::get_camera_target_id(s32 view) {
         }
         controller = camera_controller_registry[index];
         if (controller != NULL) {
-            id = TCameraCtrl__sub_8006B358(controller);
+            id = controller->get_actor_id();
         }
         return id;
     }
     if (camera_ctrl_instance != NULL) {
         actor = camera_ctrl_instance->focus_actor;
         if (actor != NULL) {
-            return get_entity_id(actor);
+            return get_entity_id((TObjBase *)actor);
         }
     }
     return 0xFFFF;

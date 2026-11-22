@@ -63,7 +63,7 @@ struct FollowCameraInitPose {
     Vec pos;
     Vec target;
     s32 projection_angle; // 0x3555 = 75 degrees
-    f32 near_clip;        // inferred: TCameraCtrl::set_clamped_offsets clamps both to [-65535, -1]
+    f32 near_clip;        // inferred: set_clamped_offsets clamps both to [-65535, -1]
     f32 far_clip;
 };
 

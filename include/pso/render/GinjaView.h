@@ -56,6 +56,15 @@ extern f32 camera_look_at_up_vector[3];
 // as it is.
 void get_look_at_eye(u8 *eye);
 void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
+// Moves the view to x, y, z (translate_view_negated).
+void update_camera_state(f32 x, f32 y, f32 z);
+// Points the view from the current eye at x, y, z.
+void look_at_position(f32 x, f32 y, f32 z);
+// Translates the current matrix by -x, -y, -z.
+void translate_view_negated(f32 x, f32 y, f32 z);
+// Sets the near and far clip planes (negative view-space z), each clamped to
+// [-65535, -1].
+void set_clamped_offsets(f32 near_z, f32 far_z);
 // Resets camera to the origin, looking down -z with a 60-degree view angle
 // and clip planes at -1 and -60000 (the Ninja SDK's njInitCamera).
 void init_ninja_camera(struct NJS_CAMERA *camera);

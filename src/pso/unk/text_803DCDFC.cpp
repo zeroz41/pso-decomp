@@ -255,11 +255,11 @@ extern s32 model_render_flags;
 
 
 void TKeyBoardControl::update_camera() {
-    TCameraCtrl::init_projection_state();
+    init_projection_state();
 }
 
 
-void TCameraCtrl::init_projection_state() {
+void init_projection_state() {
     s32 i;
     Cam_803DD300 *c = &screen_projection;
 

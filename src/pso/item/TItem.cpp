@@ -1226,17 +1226,17 @@ s32 is_point_on_screen(const f32 *pos, f32 range, f32 radius) {
         return 0;
     }
     if (view.x < 0.0f) {
-        view.x = camera_right[0] * radius + pos[0];
-        view.y = camera_right[1] * radius + pos[1];
-        view.z = camera_right[2] * radius + pos[2];
+        view.x = camera_right.x * radius + pos[0];
+        view.y = camera_right.y * radius + pos[1];
+        view.z = camera_right.z * radius + pos[2];
         project_world_to_screen(0, &view, screen);
         if (screen[0] < 0.0f) {
             return 0;
         }
     } else {
-        view.x = pos[0] - camera_right[0] * radius;
-        view.y = pos[1] - camera_right[1] * radius;
-        view.z = pos[2] - camera_right[2] * radius;
+        view.x = pos[0] - camera_right.x * radius;
+        view.y = pos[1] - camera_right.y * radius;
+        view.z = pos[2] - camera_right.z * radius;
         project_world_to_screen(0, &view, screen);
         if (screen[0] > 640.0f) {
             return 0;

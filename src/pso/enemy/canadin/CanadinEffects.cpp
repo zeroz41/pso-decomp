@@ -1,6 +1,7 @@
 #include "pso/system/TrailStrip.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/camera/TCameraCtrl.h"
 #include "pso/system/vector.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
@@ -28,7 +29,6 @@ const char *TObjEneMe1Canadin_EffDischarge__name = "TObjEneMe1Canadin_EffDischar
 const char *TObjEneMe1Canadin_EffLight__name = "TObjEneMe1Canadin_EffLight";
 
 extern "C" {
-extern Vec camera_pitch_rotated_up_vector;
 void draw_line_list(VoloptLineList *lines, s32 count, u32 flags);
 }
 

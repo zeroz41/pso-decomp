@@ -25,6 +25,7 @@ public:
     virtual void init_pose();
     virtual void post_update_view();
     virtual void run_task();
+    u16 get_actor_id();
 
     TObjPlayer *actor;  // set_target; looked up again by actor_id
     u16 actor_id;       // get_entity_id(actor)

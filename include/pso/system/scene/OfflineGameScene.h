@@ -6,6 +6,9 @@
 void init_offline_game_scene(void);
 void dispatch_offline_main_frame(void);
 
+// Views on screen: 1, or 2 to 4 in a split-screen game (TCameraCtrl::get_view_count).
+extern int camera_split_screen_selector;
+
 extern "C" {
 void TLobby__sub_801A2DF4(void);
 void TLobby__sub_801A2DF8(void);

@@ -130,7 +130,7 @@ s32 is_within_camera_distance(void *arg0, void *arg1, f32 farg0) {
     s32 i;
     if (TRaderMapCore::is_not_split_screen() == 1) {
         if (camera_ctrl_instance != NULL) {
-            n = TCameraCtrl::get_instance();
+            n = TCameraCtrl::get_view_count();
             for (i = 0; i < n; i++) {
                 if (xyz_distance_squared((u8 *)arg1, (u8 *)&camera_ctrl_instance->split_pos[i]) < farg0) {
                     return 1;
