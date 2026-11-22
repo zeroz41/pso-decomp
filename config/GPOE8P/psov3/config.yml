@@ -1303,8 +1303,8 @@ force_active:
   - sub_800F4C10__16TObjEneMe3StelthFf
   - TObjEneMe3Stelth__trail_buffer
   - __ct__16TObjEneMerillLiaFP7TObjectPv
-  - sub_800D4EC8__16TObjEneMerillLiaFv
-  - sub_800D501C__16TObjEneMerillLiaFv
+  - play_kafun_sound__16TObjEneMerillLiaFv
+  - play_dig_sound__16TObjEneMerillLiaFv
   - beast_idle_update__16TObjEneMerillLiaFv
   - TObjEneMorfosArm__name
   - __ct__13TObjEneMorfosFP7TObjectPv
@@ -5090,7 +5090,7 @@ force_active:
   - city_vertical_model_min_y_offset
   - city_vertical_model_vtable
   - city_vertical_model_y_step
-  - clamp_and_apply_mode_param__16TObjEneMerillLiaFv
+  - select_subtype__16TObjEneMerillLiaFv
   - clamp_axes__16TKeyBoardControlFv
   - clamp_destination_index__15TObjCityMapWarpFv
   - clamp_difficulty__6TLobbyFl
@@ -7016,7 +7016,7 @@ force_active:
   - init_alpha__11TBreakUpMdlFlf
   - init_and_reset_forward__10TObjPlayerFPv
   - init_and_set_flag__6TLobbyFv
-  - init_attack_state__16TObjEneMerillLiaFv
+  - start_retreat__16TObjEneMerillLiaFv
   - init_attack_timer__11TBoss6Type1Fv
   - init_attack_timers__11TBoss6Type1Fv
   - init_base__13TUnk_80481B34Fv
@@ -7145,7 +7145,7 @@ force_active:
   - init_params__18TObjEneEpsilonBodyFv
   - init_params__19TBoss3VoloptMonitorFv
   - init_params__20TBoss3VoloptHiraisinFv
-  - init_params_from_position__16TObjEneMerillLiaFv
+  - init_behavior_params__16TObjEneMerillLiaFv
   - init_particle_effect__10TObjPlayerFv
   - init_particle_obj__13TParticleCtrlFll
   - init_parts__11TBoss6Type2Fv
@@ -7811,11 +7811,11 @@ force_active:
   - lbl_80493DB0
   - lbl_80493DE4
   - __vt__16TObjEneBm5GibonU
-  - lbl_804944D0
-  - lbl_804944DC
-  - lbl_80494520
-  - lbl_8049452C
-  - lbl_80494570
+  - merill_lia_model_names
+  - merill_lia_motion_names
+  - merill_lia_low_model_names
+  - merill_lia_low_motion_names
+  - merill_lia_action_table
   - __vt__16TObjEneMerillLia
   - slime_model_index_by_type
   - lbl_804966FC
@@ -8868,7 +8868,7 @@ force_active:
   - load_downloaded_quest__12TQuestListVMFv
   - load_enemy_set_file__FlPCc
   - load_entry_into_slot__8TFogCtrlFll
-  - load_entry_params__16TObjEneMerillLiaFl
+  - select_model_record__16TObjEneMerillLiaFl
   - load_entry_params_volopt__16TBoss3VoloptCoreFl
   - load_file_to_buffer__6TSceneFl
   - load_floor_bin_file__6TSceneFl
@@ -14596,7 +14596,7 @@ force_active:
   - reset__21TObjEneRe7BeruraPunchFv
   - reset__6TLobbyFi
   - reset__8TGStreamFv
-  - reset_action_state__16TObjEneMerillLiaFv
+  - start_kafun_attack__16TObjEneMerillLiaFv
   - reset_active_state__18TObjEneBalClawClawFPv
   - reset_all_tech_slots__10TObjPlayerFv
   - reset_and_invoke__6TLobbyFv
@@ -14655,7 +14655,7 @@ force_active:
   - reset_state__16KeyboardKeyStateFv
   - reset_state__19TContainerAncient01Fv
   - reset_state__6TLobbyFi
-  - reset_state_clear_status__16TObjEneMerillLiaFv
+  - start_burrow__16TObjEneMerillLiaFv
   - reset_state_fields__9TObjEneDDFv
   - reset_telepipe_record
   - reset_view_flags__11TCameraCtrlFv
@@ -15299,12 +15299,12 @@ force_active:
   - seabed_trap_model_filenames
   - seabed_trap_motion_filenames
   - seabed_trap_resource_descriptor
-  - search_target__16TObjEneMerillLiaFPv
+  - search_target__16TObjEneMerillLiaFv
   - secretary_body_resource_descriptor
   - seed_character_select_serial_rng__Fl
   - seed_download_rng__Fl
   - seek_gvrt_chunk__6TLobbyFv
-  - select_action_by_distance__16TObjEneMerillLiaFv
+  - select_hurt_action__16TObjEneMerillLiaFv
   - select_air_fire_target__12TBoss1DragonFP3Vec
   - select_and_advance__20TShopItemTecSequenceFPv
   - select_attack_by_range__16TObjEneBm5GibonUFv
@@ -15994,7 +15994,7 @@ force_active:
   - spawn_freeze_shell_effect__9TObjCharaFUll
   - spawn_front_particle__16TObjEneDellBiterFv
   - run_hit_reaction__9TBoss6MagFv
-  - spawn_ground_effect__16TObjEneMerillLiaFPv
+  - spawn_ground_effect__16TObjEneMerillLiaFv
   - spawn_ground_effects__14TObjEneDolmOlmFP3Vec
   - spawn_ground_splash__13TBoss5GryphonFv
   - spawn_hamon_effects__17TObjEneDarkGunnerFllf
@@ -16215,7 +16215,7 @@ force_active:
   - select_subtype__16TObjEneBm5GibonUFv
   - sub_800D4200__13TUnk_8049442CFv
   - sub_800D47B4__19TObjGyaranzoMissileFv
-  - sub_800D5570__16TObjEneMerillLiaFv
+  - update_fade_in__16TObjEneMerillLiaFv
   - sub_800D741C__13TUnk_80494938Fv
   - hit_enemy__22TObjEnePanarmsAtkColliFP9TObjChara
   - sub_800E841C__22TObjEneSlimeTailAttackFv
@@ -16881,7 +16881,7 @@ force_active:
   - update_effect_subsystems__9TBoss6MagFv
   - update_effects__13TUnk_804B8DD0Fv
   - update_elapsed_time__23TAdSinglePlyChrSelectGCFPv
-  - update_emerge_state__16TObjEneMerillLiaFPv
+  - update_burrow__16TObjEneMerillLiaFv
   - update_emergence_state__12TBoss1DragonFUl
   - update_emitter_positions__13TObjLobbyMainFv
   - update_entry_animation__12TAdMultiOkGCFi
@@ -16999,7 +16999,7 @@ force_active:
   - update_item_icon_colors__20TWindowSubStatusDispFPvPv
   - update_item_select__21TShopDeleteItemWindowFPv
   - update_judge_confirm__23TShopJudgmentItemWindowFv
-  - update_kafun_attack__16TObjEneMerillLiaFPv
+  - update_kafun_attack__16TObjEneMerillLiaFv
   - update_key_events__16TKeyBoardControlFl
   - update_knockback_state__12TObjEneSaverFv
   - update_knockback_state__15TObjEnemyCustomFv
