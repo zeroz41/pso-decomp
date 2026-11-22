@@ -38,7 +38,7 @@ struct TLobby : public TObject {
     static int is_flag_set(void *p);
     virtual ~TLobby();
     void try_close(void *);
-    static void on_game_player_add(int, int, int);
+    static void on_game_player_add(TPlyJoinLobbyEntry *entries, int leader_id, int disable_udp);
     static void forward_8024273C(void *p);
     void close_window();
     static s32 get_filtered_event_theme();
@@ -984,10 +984,10 @@ struct TLobby : public TObject {
     static void broadcast_to_players(int, int);
     static void *bsearch_record(void *, int, int);
     static void bswap_6x6E_sync_game_state(void*);
-    static void bswap_and_handle_packet(int, int);
-    static void bswap_header_fields(int);
+    static void bswap_and_handle_packet(void *packet, int size);
+    static void bswap_header_fields(void *header);
     static void bswap_inventory(void*);
-    static void bswap_player_data(int);
+    static void bswap_player_data(void *data);
     static s32 calc_player_rankings(void *);
     static s32 change_file_extension(void *, void *, void *);
     static void check_bin_model_loaded(void *, void *);
@@ -1069,7 +1069,7 @@ struct TLobby : public TObject {
     static u8 lookup_key_value(char);
     static s32 mix_seed(u16);
     static s32 mix_seed_checked(int);
-    static void on_lobby_player_add(int, int);
+    static void on_lobby_player_add(TPlyJoinLobbyEntry *entries, int leader_id);
     static void open_city_warp_menu();
     static void open_download_list_window(int, void *);
     static s32 open_hard_keyboard(void*);
@@ -1110,7 +1110,7 @@ struct TLobby : public TObject {
     static void send_giveup_to_all_players();
     static s32 send_login_9e_extended(void *, void *, int);
     static void send_logout();
-    static void send_packet_60(int);
+    static void send_packet_60(void *packet);
     static void send_position_update();
     static void send_room_change(int);
     static void send_selected_character();

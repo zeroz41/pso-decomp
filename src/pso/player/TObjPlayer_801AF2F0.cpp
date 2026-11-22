@@ -1140,7 +1140,6 @@ saddr TObjPlayer__sub_80116620(void *, int);
 void restore_scene_lighting(void);
 void select_actor_lighting(saddr obj);
 void publish_actor_light_scalars(u16, f32, f32);
-void bswap_player_data__6TLobbyFi(void *);
 void TObjPlayer__sub_8013A748(void *);
 void try_add_target_candidate__11TMainCursorFPvPvPvPv(void *c, void *self, void *owner, void *p);
 u16 get_id__11TMainCursorFv(void* p);
@@ -4739,7 +4738,7 @@ void fill_player_record__10TObjPlayerFPvPv(Src_801B4CE4 *src, Dst_801B4CE4 *dst)
     TObjPlayer__sub_801BE7A4(dst, get_mag_level__10TObjPlayerFv(src));
     TObjPlayer__sub_801BE794(dst, get_byte_339__10TObjPlayerFv(src));
     TObjPlayer__sub_801BE784(dst, get_battle_mode__10TObjPlayerFv(src));
-    bswap_player_data__6TLobbyFi(dst);
+    TLobby::bswap_player_data(dst);
 }
 
 s32 TObjPlayer::get_battle_ctrl_flag(u16 id) {

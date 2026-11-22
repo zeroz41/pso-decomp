@@ -21,7 +21,6 @@ extern u8 lobby_scroll_text_buffer[];
 extern s32 TLobby__data_805D5594;
 extern void *lobby_scroll_text_window;
 extern saddr tl_window;
-void on_game_player_add__6TLobbyFiii();
 void handle_game_join__6TLobbyFPv();
 
 extern saddr TLobby__protocol_instance;
@@ -128,6 +127,6 @@ s32 TLobby::get_option_state() {
 
 void TLobby::install_game_join_handlers() {
     *(void (**)())(TLobby__protocol_instance + 0xBC04) = handle_game_join__6TLobbyFPv;
-    *(void (**)())(TLobby__protocol_instance + 0xBC18) = on_game_player_add__6TLobbyFiii;
+    *(void (**)(TPlyJoinLobbyEntry *, int, int))(TLobby__protocol_instance + 0xBC18) = TLobby::on_game_player_add;
 }
 }

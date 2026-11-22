@@ -113,13 +113,11 @@ s32 get_guild_text(s32 arg0);
 struct Obj_802181B0 { u8 pad[0x20]; u32 state; };
 
 extern s32 __vt__16TQuestListOnline[];
-struct VOff_80218310_arg0 { char pad_0[0x4C]; char f_4C[1]; };
 
 void *TQuestListOnline__ct(TQuestListOnline *quest_list_online, void *parent, void *arg2, void *arg3) {
-    struct VOff_80218310_arg0 *self = (struct VOff_80218310_arg0 *)quest_list_online;
     __ct__15TShopWindowBaseFP7TObject(quest_list_online, (TObject *)parent);
     *(s32 **)((s8 *)quest_list_online + 0x18) = __vt__16TQuestListOnline;
-    __ct__13GameListEntryFv((saddr)self->f_4C);
+    __ct__13GameListEntryFv(quest_list_online->selected_entry);
     quest_list_online->m_name = TQuestListOnline__class_name;
     quest_list_online->list_window = NULL;
     quest_list_online->description_window = NULL;
@@ -127,12 +125,12 @@ void *TQuestListOnline__ct(TQuestListOnline *quest_list_online, void *parent, vo
     quest_list_online->confirm_window = NULL;
     quest_list_online->sequence = arg2;
     quest_list_online->selected_index = 0;
-    *(u32 *)((s8 *)quest_list_online + 0x28) = 0;
-    *(u32 *)((s8 *)quest_list_online + 0x2C) = 0;
-    *(u32 *)((s8 *)quest_list_online + 0x34) = 0;
+    quest_list_online->callback28 = NULL;
+    quest_list_online->callback2c = NULL;
+    quest_list_online->callback34 = NULL;
     quest_list_online->selection_stage = 0;
     *(void **)((s8 *)quest_list_online + 0x24) = arg3;
-    memset(self->f_4C, 0, 28);
+    memset(quest_list_online->selected_entry, 0, 28);
     ((TShopWindowBase *)quest_list_online)->set_field_20(0);
     TQuestListOnline__instance = quest_list_online;
     return quest_list_online;
