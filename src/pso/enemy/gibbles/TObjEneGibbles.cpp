@@ -1477,7 +1477,7 @@ void TObjEneGibbles__sub_802D8E8C(u8 *arg0) {
             F_802D(0x2A8, u32) = 0;
         }
     } else if (id < 0x4000) {
-        F_802D(0x2A8, s32) = (s32)get_enemy_entity(id);
+        F_802D(0x2A8, u8 *) = get_enemy_entity(id);
     } else {
         F_802D(0x338, u16) = 0xFFFF;
         F_802D(0x2A8, s32) = 0;
