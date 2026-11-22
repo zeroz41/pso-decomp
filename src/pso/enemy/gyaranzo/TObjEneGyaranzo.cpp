@@ -146,75 +146,6 @@ void move_with_wall_slide(u8 *arg0);
 
 #pragma dont_inline off
 
-struct VBase_18_f1aa6a { char pad[0x18]; };
-
-struct VObj_18_f1aa6a : VBase_18_f1aa6a {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual s32 m63(s32, void *);
-};
-
 struct Desc_800D23D4 { Vec *pos; s32 a; s32 angle; f32 b; f32 c; f32 d; };
 
 f32 get_gyaranzo_missile_float_parameter(s32);
@@ -328,12 +259,6 @@ typedef struct Ene_800D2F6C {
 
 struct Ene_800D2E8C;
 
-struct Base_800D3BA0_800D3B38 { char pad[0xC]; };
-
-struct VObj_800D3BA0_800D3B38 : Base_800D3BA0_800D3B38 {
-    virtual void m0(s32);
-};
-
 // The motion-binding block TLobby::spawn_npc_enemy takes (same layout as MojaAnimationBinding).
 
 struct Res_800D3C04 { u8 pad0[0x38]; uaddr r38; NJS_TEXLIST *texlist; u8 pad40[8]; s32 r48; };
@@ -417,7 +342,7 @@ extern u32 *lbl_805D5200;
 
 extern u32 *lbl_805D5204;
 
-extern s32 gyaranzo_breakup_model_obj;
+extern TUnk_8048FA00 *gyaranzo_breakup_model_obj;
 
 extern s32 saved_model_render_flags;
 
@@ -505,7 +430,7 @@ u32 *lbl_805D5200;
 
 u32 *lbl_805D5204;
 
-s32 gyaranzo_breakup_model_obj;
+TUnk_8048FA00 *gyaranzo_breakup_model_obj;
 
 s32 gyaranzo_missile_volley_end_time;
 
@@ -580,7 +505,7 @@ void TLobby::load_gyaranzo_resources() {
     (*(s32 *)&lbl_805D5200) = (s32)find_model_node(AREA->res->r38, 0x19);
     (*(s32 *)&lbl_805D5204) = (s32)find_model_node(AREA->res->r38, 0xD);
     p = new TUnk_8048FA00((NJS_OBJECT *)AREA->res->r38, (NJS_MOTION *)get_bml_motion((BmlResource *)gyaranzo_bml_resource, 3), 54.0f);
-    (*(struct VObj_800D3BA0_800D3B38 * *)&gyaranzo_breakup_model_obj) = (VObj_800D3BA0_800D3B38 *)p;
+    gyaranzo_breakup_model_obj = (TUnk_8048FA00 *)p;
     gyaranzo_boss_stats_handle = (saddr)TLobby::register_boss(0x1D);
     gyaranzo_boss_stats_ptr_b = (saddr)TLobby::dispatch_shared_handler_b(0x1D);
     gyaranzo_object_handle = (saddr)TLobby::register_object(0x1D);
@@ -600,11 +525,9 @@ void TObjEneGyaranzo::free_static_instances() {
         delete (BmlResource *)gyaranzo_bml_resource;
         gyaranzo_bml_resource = 0U;
     }
-    if ((*(struct VObj_800D3BA0_800D3B38 * *)&gyaranzo_breakup_model_obj) != 0) {
-        if ((*(struct VObj_800D3BA0_800D3B38 * *)&gyaranzo_breakup_model_obj) != 0) {
-            (*(struct VObj_800D3BA0_800D3B38 * *)&gyaranzo_breakup_model_obj)->m0(1);
-        }
-        (*(struct VObj_800D3BA0_800D3B38 * *)&gyaranzo_breakup_model_obj) = 0;
+    if (gyaranzo_breakup_model_obj != NULL) {
+        delete gyaranzo_breakup_model_obj;
+        gyaranzo_breakup_model_obj = NULL;
     }
 }
 
@@ -955,7 +878,7 @@ void TObjPlayer::update_death_breakup() {
         ((TObjMotion *)self)->advance_animation();
         self->timer--;
         if (self->timer < 0) {
-            TBoss3Volopt::create_breakup_mdl((s32)gyaranzo_breakup_model_obj, (saddr)gyaranzo_death_breakup_params, (s32)this->texlist, (saddr)self->v2FC, (s32)this->rotation_y);
+            TBoss3Volopt::create_breakup_mdl((saddr)gyaranzo_breakup_model_obj, (saddr)gyaranzo_death_breakup_params, (s32)this->texlist, (saddr)self->v2FC, (s32)this->rotation_y);
             ((TObjEnemy *)self)->send_entity_set_flags();
             ((TObjPlayer *)(self->v2FC))->trigger_dell_biter_events();
             play_sound_effect(((TObjEnemy *)(self))->remap_sound_for_area(0x4003AD10), self->pos, 0, 0);
@@ -1131,7 +1054,6 @@ void TObjEneGyaranzo::sub_800D2900() {
 #undef spawn_missile_volley__19TObjGyaranzoMissileFPv
 #undef update_walk_to_target__10TObjPlayerFPv
 #define NEW(d, id) { new TObjGyaranzoMissile(arg0, (u8 *)&d, id); }
-#define V ((VObj_18_f1aa6a *)(arg0))
 #pragma pool_data off
 void spawn_missile_volley__19TObjGyaranzoMissileFPv(u8 *arg0) {
     Vec pos;
@@ -1148,38 +1070,38 @@ void spawn_missile_volley__19TObjGyaranzoMissileFPv(u8 *arg0) {
         for (i = 0; i < 4; i++) {
             ids[i] = *(s32 *)(arg0 + idx[i] * 4 + 0x3BC);
         }
-        V->m63(0x10, &pos);
+        ((TObjEnemyCustom *)arg0)->get_anim_node_position(0x10, &pos);
         NEW(d1, ids[0]);
         NEW(d2, ids[1]);
         spawn_particle_effect(&pos, 0xF3);
-        V->m63(0x14, &pos);
+        ((TObjEnemyCustom *)arg0)->get_anim_node_position(0x14, &pos);
         NEW(d3, ids[0]);
         NEW(d4, ids[1]);
         spawn_particle_effect(&pos, 0xF3);
         if (*(s32 *)((s8 *)arg0 + 0x3A8) >= 1) {
-            V->m63(0x11, &pos);
+            ((TObjEnemyCustom *)arg0)->get_anim_node_position(0x11, &pos);
             NEW(d1, ids[0]);
             NEW(d2, ids[1]);
             spawn_particle_effect(&pos, 0xF3);
-            V->m63(0x15, &pos);
+            ((TObjEnemyCustom *)arg0)->get_anim_node_position(0x15, &pos);
             NEW(d3, ids[2]);
             NEW(d4, ids[3]);
             spawn_particle_effect(&pos, 0xF3);
         }
         if (*(s32 *)((s8 *)arg0 + 0x3A8) >= 2) {
-            V->m63(0x12, &pos);
+            ((TObjEnemyCustom *)arg0)->get_anim_node_position(0x12, &pos);
             NEW(d1, ids[0]);
             NEW(d2, ids[1]);
             spawn_particle_effect(&pos, 0xF3);
-            V->m63(0x16, &pos);
+            ((TObjEnemyCustom *)arg0)->get_anim_node_position(0x16, &pos);
             NEW(d3, ids[2]);
             NEW(d4, ids[3]);
             spawn_particle_effect(&pos, 0xF3);
-            V->m63(0x13, &pos);
+            ((TObjEnemyCustom *)arg0)->get_anim_node_position(0x13, &pos);
             NEW(d1, ids[2]);
             NEW(d2, ids[3]);
             spawn_particle_effect(&pos, 0xF3);
-            V->m63(0x17, &pos);
+            ((TObjEnemyCustom *)arg0)->get_anim_node_position(0x17, &pos);
             NEW(d3, ids[2]);
             NEW(d4, ids[3]);
             spawn_particle_effect(&pos, 0xF3);
@@ -1190,7 +1112,6 @@ void spawn_missile_volley__19TObjGyaranzoMissileFPv(u8 *arg0) {
 #pragma pool_data reset
 
 #undef NEW
-#undef V
 #pragma push
 #pragma scheduling off
 void EnemyTargetCandidate::copy_from(const EnemyTargetCandidate *source) {
