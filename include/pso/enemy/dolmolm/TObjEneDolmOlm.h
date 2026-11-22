@@ -5,9 +5,13 @@
 
 struct NJS_OBJECT;
 #include "pso/enemy/TUnk_80493450.h"
+#include "pso/render/TUnk_80494938.h"
+
+class TUnk_80494968;
 
 struct TObjEneDolmOlm : public TUnk_80493450 {
-    TObjEneDolmOlm(saddr parent, saddr arg2);
+    TObjEneDolmOlm(TObject *parent, void *set_data);
+    static void *create(void *set_data);
     virtual ~TObjEneDolmOlm();
     virtual void run_task();
     virtual void render();
@@ -27,12 +31,8 @@ struct TObjEneDolmOlm : public TUnk_80493450 {
     virtual void play_alert_sound();
     virtual void spawn_death_effect();
     virtual void update_attack_trail();
-    void* m_3a8;
-    u8 _pad3AC[0x10];
-    u32 m_3bc;
-    u8 _pad3C0[0x4];
-    u32 m_3c4;
-    u32 m_3c8;
+    TUnk_80494938 fade;
+    TUnk_80494968 *attack_traces[2]; // driven by update_attack_trail
     u8 unk_3CC[0x4];
     f32 m_3d0;
     u8 unk_3D4[0x4];
@@ -51,8 +51,6 @@ struct TObjEneDolmOlm : public TUnk_80493450 {
 LAYOUT_ASSERT(TObjEneDolmOlm_size, sizeof(TObjEneDolmOlm) == 0x3E8);
 
 extern "C" {
-void *TObjEneDolmOlm__create(void *arg0);
-u8 *__ct__14TObjEneDolmOlmFll(u8 *arg0, s32 arg1, s32 arg2);
 s32 TObjEneDolmOlm__sub_80300CF0(void);
 void TObjEneDolmOlm__sub_8030177C(void *arg0_);
 void TObjEneDolmOlm__sub_80301C3C(u8 *self);

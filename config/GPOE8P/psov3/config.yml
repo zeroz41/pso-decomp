@@ -2063,7 +2063,7 @@ force_active:
   - __ct__14TORockCaveSS02FPv
   - __ct__14TOTrapChainSawFP7TObjectPv
   - __ct__14TObjBgmColCtrlFl
-  - __ct__14TObjEneDolmOlmFll
+  - __ct__14TObjEneDolmOlmFP7TObjectPv
   - __ct__14TObjEneIllGillFP7TObjectPv
   - __ct__14TObjWarpStringFv
   - __ct__15TAdDrawLineCtrlFP7TObjectPvf

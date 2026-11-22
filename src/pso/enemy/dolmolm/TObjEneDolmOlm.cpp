@@ -34,23 +34,6 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 
-struct Base_80301690_80300CE4 { char pad[0x18]; };
-struct VObj_80301690_80300CE4 : Base_80301690_80300CE4 {
-#define V(n) virtual void m##n();
-    V(0)V(1)V(2)V(3)V(4)V(5)V(6)V(7)V(8)V(9)
-    V(10)V(11)V(12)V(13)V(14)V(15)V(16)V(17)V(18)V(19)
-    V(20)V(21)V(22)V(23)V(24)V(25)V(26)V(27)V(28)V(29)
-    V(30)V(31)V(32)V(33)V(34)V(35)V(36)V(37)V(38)V(39)
-    V(40)V(41)V(42)V(43)V(44)V(45)V(46)V(47)V(48)V(49)
-    V(50)V(51)V(52)V(53)V(54)V(55)V(56)V(57)V(58)V(59)
-    V(60)V(61)V(62)V(63)V(64)V(65)V(66)V(67)V(68)V(69)
-    V(70)V(71)V(72)V(73)V(74)V(75)V(76)V(77)V(78)V(79)
-    V(80)V(81)V(82)V(83)V(84)V(85)V(86)V(87)V(88)V(89)
-    V(90)V(91)V(92)V(93)V(94)V(95)V(96)V(97)V(98)V(99)
-    virtual void m100();
-#undef V
-};
-
 #include <stddef.h>
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/enemy/beast/TObjEneBeast.h"
@@ -68,119 +51,12 @@ struct VObj_80301690_80300CE4 : Base_80301690_80300CE4 {
 #include "pso/unk/text_800D8830.h"
 #include "pso/object/TObjControl.h"
 #include "pso/math/MatrixTransforms.h"
+#include "pso/player/TObjPlayer_800D8FDC.h"
 
 struct RecoveredGlobal_80300FC0_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
 LAYOUT_ASSERT(RecoveredGlobal_80300FC0_lbl_8058D490_size, sizeof(RecoveredGlobal_80300FC0_lbl_8058D490) == 0x30);
 
 struct RecoveredGlobal_80301264_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
-
-struct VBase_18_477421
-{
-  char pad[0x18];
-};
-
-struct VObj_18_477421 : VBase_18_477421 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual s32 m81();
-    virtual s32 m82();
-    virtual s32 m83();
-    virtual s32 m84();
-    virtual s32 m85();
-    virtual s32 m86();
-    virtual s32 m87();
-    virtual s32 m88();
-    virtual s32 m89();
-    virtual s32 m90();
-    virtual void m91();
-    virtual void m92();
-    virtual void m93();
-    virtual void m94();
-    virtual void m95();
-    virtual void m96();
-    virtual void m97();
-    virtual void m98();
-    virtual s32 m99();
-};
 
 struct RecoveredFields_8030247C_arg0
 {
@@ -198,13 +74,6 @@ struct G_80302D80 { u8 pad[0x42c]; E_80302D80 *e; };
 
 struct O_80302D80 { u8 pad[0x24]; s32 f24; u8 pad2[0xc]; s32 f34; };
 
-struct B14_80302004 { char pad[0x14]; };
-
-struct V14_80302004 : B14_80302004 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual s32 m5();
-};
-
 struct Ene_80302004 {
     u8 pad0[0x38];
     u8 sub38[0x2ee];
@@ -212,34 +81,7 @@ struct Ene_80302004 {
     s16 s328;
     u8 pad1[0x390 - 0x32a];
     s32 f390;
-    u8 pad2[0x3a8 - 0x394];
-    V14_80302004 obj;
 };
-
-struct Ene_80302A34 { u8 pad0[0x18]; void *vt; u8 pad1[0x3a8 - 0x1c]; u8 sub[0x1c]; void *obj[2]; };
-
-struct VBase_800A7A14 { char pad[0x18]; };
-
-struct VObj_800A7A14 : VBase_800A7A14 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4(Vec *, Vec *);
-};
-
-typedef struct Obj_800A7A14 {
-    u8 pad0[0x38];
-    Vec pos;
-    u8 pad44[0x60 - 0x44];
-    s32 f60;
-    u8 pad64[0xB8 - 0x64];
-    s16 fB8;
-    u8 padBA[0xC0 - 0xBA];
-    f32 fC0;
-    u8 padC4[0x3C4 - 0xC4];
-    VObj_800A7A14 *effs[2];
-} Obj_800A7A14;
 
 
 struct O_80302D80;
@@ -248,28 +90,6 @@ struct E16_80301148 { u8 pad[8]; NJS_OBJECT *v; u8 pad2[4]; };
 struct E8_80301148 { u8 pad[4]; NJS_MOTION *v; };
 
 struct T_80301148 { u8 pad[0x42C]; E16_80301148 *a; E8_80301148 *b; };
-
-struct VBase_14_fa0828 { char pad[0x14]; };
-struct VObj_14_fa0828 : VBase_14_fa0828 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual s32 m3();
-};
-struct VSubBase_803021AC { char pad[0x14]; };
-
-struct VSub_803021AC : VSubBase_803021AC {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual s32 m6();
-    virtual s32 m7();
-    virtual s32 m8();
-    u8 rest[0x3c - 0x18];
-};
 
 struct Mesh_803021AC { u8 pad[6]; s16 flags; };
 
@@ -281,20 +101,8 @@ struct L1_803021AC { u8 pad[0x30]; L2_803021AC *p; };
 
 struct Model_803021AC { u8 pad[0x2c]; L1_803021AC *p; };
 
-struct EBase_803021AC { char pad[0x18]; };
-
-struct Ene_803021AC : EBase_803021AC {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual s32 m9(f32, f32, f32);
-    u8 pad1c[8];
+struct Ene_803021AC {
+    u8 pad0[0x24];
     s32 f24;
     u8 pad28[8];
     u32 f30;
@@ -308,7 +116,7 @@ struct Ene_803021AC : EBase_803021AC {
     u8 pad384[0x390 - 0x384];
     s32 f390;
     u8 pad394[0x3a8 - 0x394];
-    VSub_803021AC sub;
+    u8 pad3a8[0x3c];
     u32 f3e4;
 };
 
@@ -344,29 +152,6 @@ struct Obj_8030177C {
     s32 kind;
 };
 
-struct VBase_18_cc39a7 { char pad[0x18]; };
-struct VObj_18_cc39a7 : VBase_18_cc39a7 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual s32 m17(s32);
-};
-
-
 struct Row_80302784 { u8 pad[0xC]; f32 fC; u8 pad2[0x1C]; };
 
 struct Ent_80302784 { s32 f0; s32 f4; NJS_OBJECT *f8; NJS_TEXLIST *texlist; };
@@ -376,9 +161,7 @@ struct Pair_80302784 { s32 a; NJS_MOTION *b; };
 struct Res_80302784 { u8 pad[0x42C]; Ent_80302784 *x42C; Pair_80302784 *x430; };
 
 extern "C" {
-s32 TObjEneDolmOlm__sub_80300CF0(void);
 extern s32 TObjEneDolmOlm__effect_render_state;
-void TObjPlayer__sub_800D92BC(s32 point, s32 delay);
 f32 vec3_add_to(void *, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
 extern RecoveredGlobal_80300FC0_lbl_8058D490 identity_matrix;
@@ -386,7 +169,6 @@ s32 check_path_obstructed(void *, void *);
 void check_path_ahead__14TObjEneDolmOlmFlf(u8 *arg0, s32 arg1, f32 farg0);
 s32 submit_cursor_candidate(void *, int);
 extern uaddr TObjEneDolmOlm__resource_bundle;
-void __dt__13TUnk_80494938Fv(void *, int);
 void free_collision_body_parts(void *);
 void set_matrix_identity(u8 *arg0);
 s32 post_translate_matrix(void *);
@@ -432,9 +214,6 @@ extern void *lbl_804E67B8[4];
 extern void *lbl_804E6774[4];
 extern s32 TObjEneDolmOlm__param_table[52];
 extern s32 lbl_804E68D0[22];
-void * TObjEneDolmOlm__create(void *arg0);
-void *__ct__11TObjControlFP7TObject(void *, void *);
-u8 *__ct__14TObjEneDolmOlmFll(u8 *, s32, s32);
 s32 init_collision_body_parts(void *, void *, int);
 extern const char *obj_ene_dolm_olm_class_name;
 extern "C" {
@@ -538,10 +317,7 @@ s32 lbl_804E68D0[22] = {
 
 
 typedef struct RecoveredFields_8030247C_arg0 RecoveredFields_8030247C_arg0;
-typedef struct VBase_18_477421 VBase_18_477421;
-typedef struct VObj_18_477421 VObj_18_477421;
 
-u8 *__ct__14TObjEneDolmOlmFll(u8 *arg0, s32 arg1, s32 arg2);
 
 extern const u8 lbl_80474F08[0x14];
 __declspec(section ".rodata") const u8 lbl_80474F08[0x14] ATTRIBUTE_ALIGN(4) = "abgc01_wola_body.nj";
@@ -583,11 +359,10 @@ void TObjEneDolmOlm::load_params_from_table(s32 i) {
     self->f24 = (*(G_80302D80 * *)&TObjEneDolmOlm__resource_bundle)->e[i].d;
 }
 int initialize_enemy_photon_effect(void *p);
-TObjEneDolmOlm::TObjEneDolmOlm(saddr parent, saddr arg2) : TUnk_80493450((TObject *)parent) {
+TObjEneDolmOlm::TObjEneDolmOlm(TObject *parent, void *set_data) : TUnk_80493450(parent) {
     u32 col;
-    __ct__13TUnk_80494938Fv((((u8 *)this) + 0x3A8));
     m_name = obj_ene_dolm_olm_class_name;
-    this->apply_set_data((void *)arg2);
+    this->apply_set_data(set_data);
     ((TObjPlayer *)this)->init_position_vectors();
     this->sub_80301148();
     *(void * *)&this->action_table = TObjEneDolmOlm__param_table;
@@ -623,10 +398,10 @@ TObjEneDolmOlm::TObjEneDolmOlm(saddr parent, saddr arg2) : TUnk_80493450((TObjec
         col = 0xFFCDDE62;
         break;
     }
-    ((VObj_14_fa0828 *) (((u8 *)this) + 0x3A8))->m3();
+    fade.reset_obstruction_fade();
     this->m_390 = 1;
-    *(s32 *)&this->m_3c4 = (saddr)TUnk_80494968::create(0xA0303030, col);
-    *(s32 *)&this->m_3c8 = (saddr)TUnk_80494968::create(0xA0303030, col);
+    attack_traces[0] = TUnk_80494968::create(0xA0303030, col);
+    attack_traces[1] = TUnk_80494968::create(0xA0303030, col);
     *(f32 *)&this->m_398 = ((f32 **) TObjEneDolmOlm__behavior_params_by_variant)[*(s32 *)&this->variant][0];
     *(f32 *)&this->m_3a0 = ((f32 **) TObjEneDolmOlm__behavior_params_by_variant)[*(s32 *)&this->variant][1];
     *(f32 *)((s8 *)this + 0x39C) = ((f32 **) TObjEneDolmOlm__behavior_params_by_variant)[*(s32 *)&this->variant][2];
@@ -639,14 +414,13 @@ TObjEneDolmOlm::TObjEneDolmOlm(saddr parent, saddr arg2) : TUnk_80493450((TObjec
 TObjEneDolmOlm::~TObjEneDolmOlm() {
     s32 i;
     for (i = 0; i < 2; i++) {
-        if (((Ene_80302A34 *)this)->obj[i] != NULL) {
-            ((TObject *)(((Ene_80302A34 *)this)->obj[i]))->queue_destruction();
-            ((Ene_80302A34 *)this)->obj[i] = 0;
+        if (attack_traces[i] != NULL) {
+            attack_traces[i]->queue_destruction();
+            attack_traces[i] = NULL;
         }
     }
-    ((TUnk_80493450 *)this)->unlink_enemy_group_relations();
-    free_collision_body_parts(((Ene_80302A34 *)this));
-    __dt__13TUnk_80494938Fv(((Ene_80302A34 *)this)->sub, -1);
+    unlink_enemy_group_relations();
+    free_collision_body_parts(this);
 }
 
 void TObjEneDolmOlm::load_shared_resources() {
@@ -719,18 +493,9 @@ void TObjEneDolmOlm::free_shared_resources() {
         TObjEneDolmOlm__resource_bundle = 0U;
     }
 }
-void * TObjEneDolmOlm__create(void *arg0) {
-    void *o;
-    void *o2;
-    o = TObject::operator new(0x20);
-    if (o != NULL) {
-        o = __ct__11TObjControlFP7TObject(o, tl_04);
-    }
-    o2 = TObject::operator new(0x3E8);
-    if (o2 != NULL) {
-        o2 = ((void *(*)(void *, void *, void *))__ct__14TObjEneDolmOlmFll)(o2, o, arg0);
-    }
-    return o2;
+void *TObjEneDolmOlm::create(void *set_data) {
+    TObjControl *control = new TObjControl((TObject *)tl_04);
+    return new TObjEneDolmOlm(control, set_data);
 }
 void TObjEneDolmOlm::run_task() {
   s16 temp_r0;
@@ -804,7 +569,7 @@ void TObjEneDolmOlm::render() {
     if (is_split_screen() != 0) {
         TCameraCtrl::get_camera_mode();
     }
-    vis = self->m9(200.0f, 400.0f, 30.0f);
+    vis = classify_actor_view_detail(200.0f, 400.0f, 30.0f);
     if (vis != 0 && ((TObjEneDolmOlm *)self)->render_model_if_visible() == 0) {
     select_actor_lighting(self);
     model_render_flags |= 1;
@@ -833,17 +598,17 @@ void TObjEneDolmOlm::render() {
         TObjEneDolmOlm__effect_render_state = 0;
         set_chunk_model_node_callback(TObjEneDolmOlm::toggle_effect_render);
         if (self->f390 == 1) {
-            if (self->sub.m8() != 0) {
+            if (fade.has_visible_opacity() != 0) {
                 saved_model_render_flags = model_render_flags;
                 saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
                 saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
-                self->sub.m6();
+                fade.set_flags_and_apply_damage_color();
                 if (((TObject *)self)->defer_render() == 0) {
                     model_render_flags |= 1;
                     ((TObjMotion *)self)->draw();
                     model_render_flags &= ~1;
                 }
-                self->sub.m7();
+                fade.clear_flag_and_notify();
                 chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
                 chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
                 model_render_flags = saved_model_render_flags;
@@ -920,7 +685,7 @@ void TObjEneDolmOlm::beast_update_appear() {
     case 0:
     default:
         if (this->m_390 != 0) {
-            ((TUnk_80494938 *)(&self->obj))->start_fade_in();
+            fade.start_fade_in();
             play_area_sound_effect((Vec *)(self->sub38));
             this->phase = 1;
             return;
@@ -928,7 +693,7 @@ void TObjEneDolmOlm::beast_update_appear() {
         this->phase = 2;
         return;
     case 1:
-        if (self->obj.m5() == 1) {
+        if (fade.advance_toward_max() == 1) {
             this->phase = 2;
             this->m_390 = 0;
         }
@@ -975,7 +740,7 @@ void TObjEneDolmOlm__sub_80301C3C(u8 *self) {
             }
             ((TObjMotion *)self)->advance_animation();
             play_sound_effect(((TObjEnemy *)(self))->remap_sound_for_area(0x4003B205), self + 0x38, 0, 0);
-            if (horizontal_distance_squared(self + 0x29C, self + 0x38) < 0.00001f || ((VObj_18_cc39a7 *)(self))->m17(0x1E) != 0) {
+            if (horizontal_distance_squared(self + 0x29C, self + 0x38) < 0.00001f || ((TObjEneDolmOlm *)self)->is_actor_cadence_frame(0x1E) != 0) {
                 Vec a = v;
                 if (select_enemy_destination(self, &a, 1) != 0) {
                     Vec b = *(Vec *)(self + 0x2FC);
@@ -1155,7 +920,7 @@ void TObjEneDolmOlm::run_idle_action() {
             this->mode = 1;
         }
         this->phase = 0;
-        ((VObj_80301690_80300CE4 *) this)->m100();
+        request_stand_action();
         obj_setFlags30(this, 0x04040000);
         set_indexed_flags(0, 0x0A000000);
         break;
@@ -1303,12 +1068,11 @@ void TObjEneDolmOlm::sub_80301148() {
     this->m_3d0 = 0.3f + *(f32 *)((s8 *)((u8 *)this) + 0x360);
 }
 void TObjEneDolmOlm::update_attack_trail() {
-    Obj_800A7A14 *o = (Obj_800A7A14 *)this;
     Vec b;
     Vec a;
     Vec *e;
     s32 idx;
-    VObj_800A7A14 *eff;
+    TUnk_80494968 *eff;
     if (!(this->frame < 12.0f)) {
         return;
     }
@@ -1330,13 +1094,13 @@ void TObjEneDolmOlm::update_attack_trail() {
     }
     push_matrix();
     set_matrix_identity(0);
-    post_translate_matrix(&o->pos);
+    post_translate_matrix(&position);
     rotate_matrix_y(0, this->rotation_y);
     matrix_mult_vec_array(NULL, e, &a, 2);
     pop_matrix();
-    eff = o->effs[idx];
+    eff = attack_traces[idx];
     if (eff != NULL) {
-        eff->m4(&a, &b);
+        eff->vfunc_6(&a, &b);
     }
 }
 void TObjEneDolmOlm::spawn_death_effect() {
