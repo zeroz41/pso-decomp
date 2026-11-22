@@ -20,6 +20,7 @@
 #include "pso/map/area/AreaScene.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/system/GslArchive.h"
+#include "pso/unk/TLobby_801D6DC4.h"
 
 struct Item_80105EA4 { u8 type; u8 b1; u8 b2; };
 
@@ -379,7 +380,6 @@ void roll_rare_weapon_attributes__9TItemDropFiPvi(saddr rng, Obj_80106F4C *item,
 void build_weapon_type_weights__9TItemDropFiPvi(saddr rng, Obj_80106F4C *item, s32 idx);
 void select_weapon_drop__9TItemDropFv(saddr rng, s32 level, u8 *item);
 void *load_relocatable_file(char *, saddr);
-u8 TLobby__sub_801D6DDC(void *arg0);
 
 
 void TItemDrop::free_unit_star_tables() {

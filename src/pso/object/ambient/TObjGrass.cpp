@@ -44,6 +44,8 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/network/TProtocol.h"
+#include "pso/math/ScratchVectors.h"
 
 
 saddr lbl_805D5140;
@@ -277,7 +279,6 @@ extern s32 lbl_805D5870;
 void TObjGrass__sub_800BCA2C(void *);
 s32 scale_matrix(int, f32, f32, f32);
 s32 post_translate_matrix(void *);
-extern s32 enable_v2_features;
 f32 enemy_move_toward(void *, s32, void *, s32, f32);
 void enemy_pursue_point(void *, s32, void *, f32, f32);
 f64 atan2_float(f32, f32);
@@ -294,8 +295,6 @@ extern "C" {
 f32 fabs_float(f32);
 s32 approach_angle_limited(s32, s32, s32);
 s32 project_actor_to_ground(void *, void *, s32);
-extern Vec scratch_vec;
-extern Vec lbl_8050BF00;
 s32 select_enemy_destination(void *, Vec, int);
 s32 copy_position_if_valid__10TObjPlayerFii(void *, Vec);
 s32 obj_is_hit_receivable(void *);

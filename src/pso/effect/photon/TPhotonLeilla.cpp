@@ -28,6 +28,7 @@ const char *TPhotonLeilla__class_name = "TPhotonLeilla";
 #include "pso/math/MatrixTransforms.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/object/base/CollisionActorLookup.h"
 
 
 void TObjPlayer__sub_801AC43C(void) {  }
@@ -58,7 +59,6 @@ struct Self_801AC45C {
 
 extern "C" {
 u16 get_entity_id(void *);
-void *find_entity_by_id(u16 id);
 }
 u8 *construct_photon_magic_square_normal(u8 *arg0, saddr arg1, s32 arg2, saddr arg3, s32 arg4);
 extern "C" {

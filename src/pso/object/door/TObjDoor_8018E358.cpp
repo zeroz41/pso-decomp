@@ -24,6 +24,7 @@
 #include "pso/object/switch/TSwitch.h"
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/camera/TCameraCtrl_800687BC.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
 
 struct BmlResource;
 struct GinjaTextureList;
@@ -96,7 +97,6 @@ void draw_locked__8TObjDoorFPv(Door_8018E74C *arg0);
 }
 s32 check_player_door_proximity(saddr arg0, s32 arg1, f32 farg0);
 extern "C" {
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 extern s32 TObjDoor__data_805D5BC8;
 s32 init_collision_body_parts(void *, void *, s32);
 s32 __ct__14TObjCollidableFP7TObject(void *, void *);

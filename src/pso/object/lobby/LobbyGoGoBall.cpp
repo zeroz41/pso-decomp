@@ -52,6 +52,8 @@
 #include "pso/unk/text_800870BC.h"
 #include "pso/network/client_id.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/render/BlobShadow.h"
 BmlResource *gogo_ball_bml_resource;
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -79,7 +81,6 @@ extern BmlResourceDescriptor language_lobby_texture_descriptor;
 extern Pair_80198F14 gogo_ball_team_scores[];
 void TObjPlayer__sub_801994DC(saddr,void*,void*,s32,void*,f32);
 f32 xyz_distance(Vec*,void*);
-f32 vector_length(Vec*);
 }
 void draw_shadow_on_ground(u8*);
 extern void* lbl_804B8D94[];
@@ -214,7 +215,6 @@ struct Col_801994DC { f32 r, g, b, a; };
 struct Ang_801994DC { s32 x, y, z; };
 extern "C" {
 s32 scale_current_matrix(void *);
-extern u32 blob_shadow_texture_list;
 void TObjPlayer__sub_801994DC(saddr arg0, void *arg1, void *arg2, s32 arg3, void *arg4, f32 farg0);
 f32 fabs_float(f32);
 struct E54_801990B4 { u8 b[0x54]; };
@@ -243,12 +243,8 @@ struct Obj_8019978C {
 extern "C" {
 Hit_8019978C *csnVector(Vec *, Vec *, s32);
 f32 vec3_dot(Vec *, Vec *);
-f32 vector_length(Vec *);
 struct Glob_80199A44 { u8 pad[0x1C]; f32 scale; u8 pad20[0x28]; u16 kind; };
 s32 matrix_mult_vec(int, void *, void *);
-void rotate_matrix_about_axis(u8 *arg0, saddr arg1, s32 arg2);
-void translate_matrix_vec3(u8 *arg0, u8 *arg1);
-f32 vec_squared_length(void *);
 extern u8 identity_matrix[];
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;

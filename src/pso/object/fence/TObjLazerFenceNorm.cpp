@@ -21,6 +21,7 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/unk/TLobby_8001EF5C.h"
+#include "pso/render/GinjaTexture.h"
 
 struct AnimationMotion;
 
@@ -106,7 +107,6 @@ struct TObjLazerFenceNorm_80192CCC {
     Motion_80192CCC *motion;
 };
 
-s32 release_texture_list(void*);
 }
 u8 *load_gvm_texture_file(saddr arg0);
 

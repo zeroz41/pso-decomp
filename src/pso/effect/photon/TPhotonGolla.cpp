@@ -31,6 +31,8 @@
 #include "pso/effect/photon/TPhotonConcentrate.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/text_803D853C.h"
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/effect/photon/TPhotonMagicSquare_801ACE1C.h"
 
 struct Stack_801ABBAC {
     s32 sp8;
@@ -115,8 +117,6 @@ typedef struct Golla_801AB868 {
 
 extern u8 *photon_blast_shared_resource;
 extern "C" {
-void *find_entity_by_id(u16 id);
-u8 *TPhotonMagicSquare__ct(u8 *arg0, saddr arg1, s32 arg2, saddr arg3, s32 arg4, f32 farg0);
 
 s32 scroll_strip_uvs(void *, s16, int);
 s32 post_translate_matrix(void *);

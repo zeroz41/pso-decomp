@@ -46,6 +46,7 @@ struct game_command_header;
 #include "pso/network/TProtocol.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/map/area/AreaScene.h"
 
 // ---- declarations carried over from the fragment TOMineTrapDisp_8016EDC8.cpp
 extern "C" {
@@ -112,7 +113,6 @@ extern s32 lbl_805D5870;
 void handle_6x80_trigger_trap(game_command_header *command);
 // ---- declarations carried over from the fragment TOMineTrap_8016F6F8.cpp
 s32 get_current_floor(void);
-extern u8 lobby_rule_settings[];
 u16 get_entity_id(void *);
 }
 

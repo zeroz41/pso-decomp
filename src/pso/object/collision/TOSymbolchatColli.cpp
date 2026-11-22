@@ -18,6 +18,7 @@
 #include "pso/unk/text_800F7DAC.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
 struct VBase_80178AD4 { u8 pad[0x18]; };
 
@@ -66,7 +67,6 @@ struct Ent_8017873C
 };
 
 extern "C" {
-void init_collision_body_parts(void *, void *, int);
 CollisionBody lbl_804B4550[1] = {
     { { 0.0f, 80.0f, 0.0f }, 1.0f, 1.0f, 0, 0x10002, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
@@ -77,7 +77,6 @@ void fn_8017866C(void *, s32, u16);
 void run_task__17TOSymbolchatColliFv(Obj_80178890 *self);
 u32 symbolchat_colli_param_table[4];
 saddr symbol_chat_colli_entries;
-s32 free_collision_body_parts(void *);
 
 s32 TOSymbolchatColli::get_state() {
     if (is_current_floor_switch_set(this->m_37c) == 1) {

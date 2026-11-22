@@ -35,6 +35,7 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/math/MatrixVector.h"
 
 struct Stack_802340E4 {
     s32 sp8;
@@ -125,7 +126,6 @@ const Vec *consume_telepipe_arrival(u16 slot, s32 *heading);
 s16 get_field_2__9TTecLukerFPv(void* p);
 s32 get_current_floor(void);
 void restore_floor_telepipes(void);
-f32 vector_length(void *);
 s32 telepipe_record_differs(Rec_8023402C *r, s16 floor, Vec *p, u16 unused);
 s32 get_entity_id(void *);
 s32 is_split_screen();

@@ -32,6 +32,7 @@
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/object/base/CollisionActorLookup.h"
 
 u16 TObjPlayer::get_entity_type() { return *(u16*)((char*)this + 0x0); }
 void* TObjPlayer__sub_801AA66C(void* p, void* a1) { *(short*)(p) = *(unsigned short*)(a1); *(short*)((char*)p + 0x2) = *(short*)((char*)a1 + 0x2); *(void**)((char*)p + 0x4) = *(void**)((char*)a1 + 0x4); TObjPlayer__sub_801AA6E4((u8 *)((char*)p + 0x8), (u8 *)((char*)a1 + 0x8)); TObjPlayer__sub_801AA6E4((u8 *)((char*)p + 0xc), (u8 *)((char*)a1 + 0xc)); TObjPlayer__sub_801AA6E4((u8 *)((char*)p + 0x10), (u8 *)((char*)a1 + 0x10)); TObjPlayer__sub_801AA6E4((u8 *)((char*)p + 0x14), (u8 *)((char*)a1 + 0x14)); return p; }
@@ -74,10 +75,6 @@ struct Self_801AA818 {
     s32 started;
 };
 
-extern "C" {
-void *find_entity_by_id(u16 id);
-
-}
 u8 *construct_photon_magic_square_normal(u8 *arg0, saddr arg1, s32 arg2, saddr arg3, s32 arg4);
 const char *TPhotonEstlla__class_name = "TPhotonEstlla";
 extern const PhotonLineParams photon_estlla_line_packet_init = {

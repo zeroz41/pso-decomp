@@ -36,6 +36,7 @@ struct NJS_OBJECT;
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/network/client_id.h"
+#include "pso/player/PlayerSlots.h"
 
 struct RecoveredGlobal_801A7310_TCameraCtrl__data_804FF628 {
     s32 value;
@@ -436,8 +437,6 @@ void TUnk_804C3248::update_state() {
 #pragma push
 
 void TCameraCtrl::update() { restore_player_cameras(); TCameraCtrl::release_photon_blast_camera(); }
-
-void *get_player_by_client_id(s32 i);
 
 void TUnk_804C3248::setup_photon_blast_camera() {
     u8 *arg0 = (u8 *)this;

@@ -75,6 +75,7 @@
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/network/client_id.h"
+#include "pso/object/warp/TObjLaboMapWarp_80185248.h"
 
 s32 get_story_flag(s32);
 
@@ -92,8 +93,6 @@ struct Obj_80185BE8 { u8 pad[0xC4]; f32 t; };
 
 extern "C" {
 
-
-void run_task__15TObjLaboMapWarpFv(TObjLaboMapWarp *warp);
 
 
 void unlock_main_warp_destination(s32 id);

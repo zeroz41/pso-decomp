@@ -30,6 +30,7 @@
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/unk/TLobby_80291D94.h"
 
 struct Ply_800F7118 {
     u8 pad0[0x28];
@@ -208,7 +209,6 @@ TObjPlayer *get_player_by_client_id(u16);
 
 s32 minimap_render_dot(void *, int, int, int);
 
-s32 is_challenge_mode_active();
 }
 
 void init_6x9C_enemy_low_game_flags_packet(u8 *arg0);

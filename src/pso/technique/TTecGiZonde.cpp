@@ -16,6 +16,7 @@
 #include "pso/technique/TTecGiZonde_8023CDC4.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/object/base/CollisionActorLookup.h"
 
 typedef struct GTarget_80232598 {
     u16 id;
@@ -133,7 +134,6 @@ void TTecGiZonde::vfunc_8(void *arg1_arg) {
 }
 
 extern "C" {
-void *find_entity_by_id(u16 id);
 s16 get_entity_id(void *);
 s32 copy_technique_target_list(void *, void *);
 

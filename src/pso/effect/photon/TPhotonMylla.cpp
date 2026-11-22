@@ -27,6 +27,7 @@ struct TPhotonYoulla;
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/effect/photon/TPhotonYoulla.h"
 #include "pso/unk/TLobby_802268F4.h"
+#include "pso/effect/photon/PhotonBlastSummon.h"
 struct Stack_801AD5D8 {
     s32 sp8;
     f32 spC;
@@ -128,7 +129,6 @@ extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 void spawn_photon_blast_opening_effects(s32 arg0, s32 arg1);
 extern "C" {
-void *__ct__13TUnk_804C3248Fv(void *arg0);
 void sub_801AD4A8__12TPhotonMyllaFv(void* a0);
 void TPhotonRainbow__ct(void *, void *, void *, s32);
 const char *TPhotonMylla__class_name = "TPhotonMylla";

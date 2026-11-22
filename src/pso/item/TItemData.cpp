@@ -97,10 +97,8 @@ s32 obj_getArrWord_254(void *, int);
 u16 get_entity_id(void *);
 s32 check_equip_requirements(void *self, TItemData *p, s32 *out);
 void *lookup_item_pmt_record(u8 *item);
-void *get_player_by_client_id(s32 i);
 u8 get_cast_technique_level(void *, int);
 void *calc_technique_parameters(u8, u8, s32);
-extern s32 local_client_id;
 f32 calc_clock_bonus__9TItemDataFPv(u8 *arg0);
 void * lookup_item_pmt_record(u8 *item);
 s16 getS16_06__9TItemDataFPv(void *arg0);
@@ -774,6 +772,9 @@ s32 TItemData::get_max_stack_size() {
 #include "pso/unk/text_80104FCC.h"
 #include "pso/player/TObjPlayer_8011C000.h"
 #include "pso/player/TObjPlayer_80117DD8.h"
+#include "pso/network/client_id.h"
+#include "pso/item/item_param.h"
+#include "pso/player/PlayerSlots.h"
 
 
 #define calc_clock_bonus__9TItemDataFPv ((s32 (*)(void *, s32))calc_clock_bonus__9TItemDataFPv)
@@ -809,9 +810,6 @@ struct Item_8010E59C {
     s32 meseta;
 };
 
-extern "C" {
-void *get_armor_pmt_record(int type, int id);
-}
 saddr get_item_chunk_buffer(int a0);
 extern const char *lbl_805D2B10;
 s32 format_item_description(u8 *item);

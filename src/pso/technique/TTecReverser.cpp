@@ -16,6 +16,7 @@
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/object/base/CollisionActorLookup.h"
 extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 #pragma readonly_strings on
@@ -46,7 +47,6 @@ struct Rev_8023A364 {
 struct List_8023A244 { uaddr objs[16]; s32 vals[16]; s32 count; };
 
 extern "C" {
-void *find_entity_by_id(u16 id);
 s32 is_active__12TTecReverserFv();
 void run_task__12TTecReverserFv(u8 *arg0);
 s32 get_entity_id(int);

@@ -30,6 +30,7 @@
 #include "pso/unk/TLobby_8007C550.h"
 #include "pso/unk/text_800832EC.h"
 #include "pso/network/client_id.h"
+#include "pso/player/PlayerSlots.h"
 
 #pragma defer_codegen on
 
@@ -68,7 +69,6 @@ extern s32 __vt__15TObjLiveMonitor[];
 extern void *tl_05;
 int get_global_part_count__12TBoss8DragonFl(void*);
 s32 angle_diff_s16(int);
-void *get_player_by_client_id(s32 i);
 s32 TBoss8Dragon__sub_802FCCBC(TBoss8Dragon *boss8_dragon);
 f32 calc_random_ratio__10TObjPlayerFv(void *);
 void TObjPlayer__sub_80082CBC(void *effect);

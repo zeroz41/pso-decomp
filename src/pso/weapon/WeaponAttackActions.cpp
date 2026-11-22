@@ -48,6 +48,7 @@ struct NJS_OBJECT;
 #include "pso/player/TObjPlayer_8012121C.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/ambient/TObjLight_80235C44.h"
+#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 
 
 // ---- pso/item/WeaponAttackActions
@@ -936,7 +937,6 @@ s16 weapon_node_material_index;
 __declspec(section ".data") s16 TObjPlayer__weapon_node_ids[4];
 u8* weapon_render_callback_object;
 extern "C" {
-s32 test_flags_any(s32 *flags, s32 mask);
 extern const u8 lbl_805DACA4;
 }
 

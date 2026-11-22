@@ -23,6 +23,11 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/network/client_id.h"
+#include "pso/map/CsnQuery.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/player/PlayerSlots.h"
 
 #pragma defer_codegen on
 
@@ -96,13 +101,8 @@ extern s32 __vt__13TUnk_8048E6A8[];
 extern s32 __vt__13TUnk_8048E6DC[];
 s32 lbl_805D2930 = 1;
 extern u8 *camera_ctrl_instance;
-u32 csnVector(void *, void *, int);
-f32 vec3_dot(void *, void *);
 f32 vec_squared_length(u8 *arg0);
 s32 rotate_vector_by_matrix(int, void *, void *);
-extern s32 identity_matrix[];
-void project_world_to_screen(s32, void *, void *);
-void *get_player_by_client_id(s32 i);
 
 }
 void set_constant_material_color(u32 x);

@@ -32,6 +32,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer_803E1A58.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/unk/TLobby_8013A874.h"
 
 extern "C" {
 void rotate_matrix_y(s32, s32);
@@ -142,7 +143,6 @@ extern Text_8014E250 npc_partner_dialogue_state[];
 extern uaddr npc_player_char_data_buffer;
 
 void copy_player_visual_record(void *, void *);
-void bswap__15disp_data_part2Fv(saddr arg0);
 extern s32 TNpcPlayer__data_805D5864;
 
 u32 lbl_8050CF68[20];

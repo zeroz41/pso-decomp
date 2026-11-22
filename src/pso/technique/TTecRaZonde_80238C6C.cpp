@@ -30,6 +30,7 @@
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/object/base/CollisionActorLookup.h"
 
 struct RecoveredFields_80230D9C_arg0
 {
@@ -118,7 +119,6 @@ struct VObj_18_9c98dd : VBase_18_9c98dd {
 };
 
 extern "C" {
-void *find_entity_by_id(u16 id);
 
 typedef struct RecoveredFields_80238D10_arg0 RecoveredFields_80238D10_arg0;
 

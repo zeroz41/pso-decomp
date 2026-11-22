@@ -71,6 +71,9 @@ struct Out_80069F20 {
 #include "pso/system/MatrixOps.h"
 #include "pso/camera/TCameraCtrl_80067654.h"
 #include "pso/camera/TCameraCtrl_8006782C.h"
+#include "pso/camera/TCameraCtrl_800687BC.h"
+#include "pso/map/CsnQuery.h"
+#include "pso/math/MatrixVector.h"
 struct Stack_80069318 {
     s32 sp8;
     u8 pad_C[0x4];
@@ -218,7 +221,6 @@ s32 TCameraCtrl__sub_8006B358(void *p);
 extern void *camera_controller_registry[13];
 void TCameraCtrl__sub_801E32D8(f32, f32);
 s32 matrix_mult_vec(int, void *, void *);
-void transform_to_view__11TCameraCtrlFii(saddr arg0, saddr arg1);
 void set_active_camera_pose(u8 *arg0, u8 *arg1);
 void set_active_camera_pose_from_params(u8 *arg0);
 void TCameraCtrl__sub_800687C8(void);
@@ -232,8 +234,6 @@ bool TCameraCtrl__sub_800689F4(void);
 u16 TCameraCtrl__sub_8006A5DC(void);
 extern s32 TCameraCtrl__saved_projection_angle;
 s32 restore_player_cameras(void);
-u8 *csnVector(void *, void *, u32);
-f32 vector_length(void *);
 f32 TCameraCtrl__sub_80068A04(void);
 u8 *TCameraCtrl__ct(u8 *arg0, void *parent);
 
@@ -261,11 +261,6 @@ extern Big_8006A13C controller_input_state;
 
 
 void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
-extern "C" {
-
-
-f32 vec_squared_length(void *);
-}
 
 extern void *lbl_80488AC0[6];
 

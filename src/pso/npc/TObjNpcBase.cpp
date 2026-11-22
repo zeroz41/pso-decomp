@@ -36,6 +36,7 @@
 #include "pso/network/client_id.h"
 #include "pso/unk/text_803E2F28.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/math/MatrixTransforms.h"
 
 extern "C" {
 const char *TObjNpcBase__name = "TObjNpcBase";
@@ -103,7 +104,6 @@ void move_with_wall_slide(u8 *arg0);
 u8 *create_conversation_camera(s32 arg0);
 extern "C" {
 s32 angle_difference_abs(s32, s32);
-s32 subtract_vector(Vec *, Vec *);
 
 void TObjNpcBase::interact(s32 client) {
     TObjPlayer *player;

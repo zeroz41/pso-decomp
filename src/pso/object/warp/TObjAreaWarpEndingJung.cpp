@@ -79,6 +79,10 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/object/warp/TObjCityMainWarp_801867F4.h"
+#include "pso/ui/window/WindowLayout.h"
+#include "pso/render/NinjaUtil.h"
 
 // The original TU was built with deferred codegen: functions below are in reverse
 // address order, and the pool (three {3, 2} initializers, then the float literals
@@ -139,10 +143,8 @@ struct Data_8019CAB0 {
 extern "C" {
 
 s32 get_floor_destination_name();
-saddr get_localized_text_entry(s32, s32);
 s32 debug_draw_line(void *, void *, u32, u32);
 s32 fn_80141CB4(void *, f32);
-s32 *TObjCityMainWarp__sub_80186AF4(void);
 void * TObjAreaWarpEndingJung__create(void *arg0);
 s64 fn_8019B480(void *arg0, u16 client_id);
 void fade_and_destroy__14TObjWarpStringFPv(u8 *arg0);
@@ -154,7 +156,6 @@ void TObjAreaWarpQuest__sub_8019DCD8(TObjPlayer *, s32);
 int check_flag_100__10TObjPlayerFPv(void *p);
 void send_6x21_inter_level_warp(void *obj, s32 value);
 void __ct__7TObjectFP7TObject(void *, void *);
-s32 get_window_layout_position(s32);
 void *destroy__13TAdVIConfigGCFPvs(void *arg0, s16 arg1);
 s32 get_game_play_mode(int);
 s32 PPCSync();
@@ -206,8 +207,6 @@ void fn_8019DD24(void *p, u32 v);
 int is_flag_400_set__10TObjPlayerFPv(void *p);
 
 extern s32 lbl_805D55C0;
-
-f32 xz_distance_squared(void *, void *);
 
 }
 
