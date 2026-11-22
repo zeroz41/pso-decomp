@@ -71,8 +71,6 @@ void action__17TObjEneDf2BringerFPvi(u8 *arg0, s32 arg1);
 void TObjEneDf2Bringer__sub_80097E9C(u8 *arg0, s32 arg1);
 void TObjEneDf2Bringer__sub_8009813C(u8 *arg0, s32 arg1);
 void TObjEneDf2Bringer__sub_8009859C(u8 *arg0, s32 arg1);
-void TObjEneDf2Bringer__sub_800987E8(u8 *arg0, s32 arg1);
-void TObjEneDf2Bringer__sub_80098BAC(u8 *arg0, s32 arg1);
 void sub_80098DEC__17TObjEneDf2BringerFv(u8 *arg0);
 void TObjEneDf2Bringer__sub_80098EB4(saddr arg0);
 s32 attack_visible_players__17TObjEneDf2BringerFPv(Obj_80098EFC *self);
@@ -143,15 +141,6 @@ void *lbl_8048FAF8[44] = {
 
 }
 
-struct VB2_800987E8 { u8 pad0[0x14]; };
-
-struct V2_800987E8 : VB2_800987E8 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual s32 m4();
-};
 
 struct VBase_14_aa9368 { char pad[0x14]; };
 
@@ -1242,13 +1231,13 @@ void TObjEneDf2Bringer::dispatch_action(u32 state, s32 reason) {
         handle_state(reason);
         return;
     case 1:
-        TObjEneDf2Bringer__sub_80098BAC((u8 *)this, reason);
+        this->sub_80098BAC(reason);
         return;
     case 2:
         exec(reason);
         return;
     case 3:
-        TObjEneDf2Bringer__sub_800987E8((u8 *)this, reason);
+        this->sub_800987E8(reason);
         return;
     case 4:
         TObjEneDf2Bringer__sub_8009859C((u8 *)this, reason);
@@ -1291,19 +1280,19 @@ void TObjEneDf2Bringer::handle_state(s32 arg1) {
     }
 }
 
-void TObjEneDf2Bringer__sub_80098BAC(u8 *ene_dd_st, s32 arg1) {
-    switch (arg1) {
+void TObjEneDf2Bringer::sub_80098BAC(s32 mode) {
+    switch (mode) {
     case 4:
-        ((TObjEneDD *)ene_dd_st)->set_field_378(1);
-        *(s32 *)((s8 *)ene_dd_st + 0x3C0) = (s32) (*(s32 *)((s8 *)ene_dd_st + 0x3C0) | 1);
-        ((TObjEneDD_ST *)(ene_dd_st))->set_intangible();
+        this->set_field_378(1);
+        this->pad_3C0 |= 1;
+        this->set_intangible();
         return;
     case 3:
-        if (((s32)((TObjEneDD_ST *)ene_dd_st)->update_linked_position(300.0f)) != 0) {
-            ((TObjEneDD_ST *)ene_dd_st)->enemy_copy_target_destination();
-            ((TObjEneDD_ST *)ene_dd_st)->update_velocity();
-            ((TObjEneDD_ST *)ene_dd_st)->rotation_y = (s32) (10430.38043493439 * atan2_float((f64) *(f32 *)((s8 *)ene_dd_st + 0x3A0), (f64) *(f32 *)((s8 *)ene_dd_st + 0x3A8)));
-            ((TObjEneDD *)ene_dd_st)->transition_enemy_state(2);
+        if (((s32)this->update_linked_position(300.0f)) != 0) {
+            this->enemy_copy_target_destination();
+            this->update_velocity();
+            this->rotation_y = (s32) (10430.38043493439 * atan2_float((f64) this->destination_direction.x, (f64) this->destination_direction.z));
+            this->transition_enemy_state(2);
         }
     case 5:
     case 0:
@@ -1380,49 +1369,48 @@ void TObjEneDf2Bringer::exec(s32 arg1) {
 #define F(t, o) (*(t *)(arg0 + (o)))
 #define PRM TObjEneDf2Bringer__data_805D4FB4
 #define VO ((VObj_18_313dd8 *)(arg0))
-void TObjEneDf2Bringer__sub_800987E8(u8 *ene_dd_st, s32 arg1) {
-    s32 temp_r0;
-    switch (arg1) {
+void TObjEneDf2Bringer::sub_800987E8(s32 mode) {
+    switch (mode) {
     case 4:
-        ((TObjEneDD_ST *)ene_dd_st)->requested_action = 0;
-        ((TObjEneDD *)ene_dd_st)->set_field_378(3);
-        *(s32 *)((s8 *)ene_dd_st + 0x3C0) = (s32) (*(s32 *)((s8 *)ene_dd_st + 0x3C0) & 0xFFFFFFF8);
-        ((TObjEneDD *)(ene_dd_st))->set_intangible();
-        *(s32 *)((s8 *)ene_dd_st + 0x4AC) = 0;
-        *(s32 *)((s8 *)ene_dd_st + 0x4B0) = 0;
+        this->requested_action = 0;
+        this->set_field_378(3);
+        this->pad_3C0 &= ~7;
+        this->set_intangible();
+        this->pad_4AC = 0;
+        this->pad_4B0 = 0;
         return;
     case 3:
-        if (*(s32 *)((s8 *)ene_dd_st + 0x4AC) == 2) {
-            ((TObjEneDD *)ene_dd_st)->transition_enemy_state(4);
-        } else if (*(s32 *)((s8 *)ene_dd_st + 0x4AC) == 3) {
-            ((TObjEneDD *)ene_dd_st)->transition_enemy_state(1);
+        if (this->pad_4AC == 2) {
+            this->transition_enemy_state(4);
+        } else if (this->pad_4AC == 3) {
+            this->transition_enemy_state(1);
         }
         break;
     case 5:
         break;
     case 0:
-        ((TObjMotion *)ene_dd_st)->advance_animation();
-        switch (*(s32 *)((s8 *)ene_dd_st + 0x4AC)) {
+        this->advance_animation();
+        switch (this->pad_4AC) {
         case 0:
-            if (((TObjEneDD_ST *)ene_dd_st)->update_linked_position(300.0f) != 0) {
-                *(s32 *)((s8 *)ene_dd_st + 0x4AC) = 2;
+            if (this->update_linked_position(300.0f) != 0) {
+                this->pad_4AC = 2;
             } else {
-                *(s32 *)((s8 *)ene_dd_st + 0x4B0) = (s32) (*(s32 *)((s8 *)ene_dd_st + 0x4B0) + 1);
-                if ((s32) *(s32 *)((s8 *)ene_dd_st + 0x4B0) >= 0x3C) {
-                    *(s32 *)((s8 *)ene_dd_st + 0x4AC) = 1;
-                    ((V2_800987E8 *)(ene_dd_st + 0x3C4))->m2();
-                    *(s32 *)((s8 *)ene_dd_st + 0x3C0) = (s32) (*(s32 *)((s8 *)ene_dd_st + 0x3C0) | 2);
+                this->pad_4B0++;
+                if (this->pad_4B0 >= 0x3C) {
+                    this->pad_4AC = 1;
+                    this->pad_3C4.reset_color();
+                    this->pad_3C0 |= 2;
                 }
             }
             break;
         case 1:
-            if (((V2_800987E8 *)(ene_dd_st + 0x3C4))->m4() != 0) {
-                *(s32 *)((s8 *)ene_dd_st + 0x4AC) = 3;
+            if (this->pad_3C4.decay_value_toward_floor() != 0) {
+                this->pad_4AC = 3;
             }
             break;
         }
-        ((TObjEneDD *)(ene_dd_st))->update_ground_contact();
-        ((TObjEneDD *)(ene_dd_st))->check_collisions();
+        this->update_ground_contact();
+        this->check_collisions();
         break;
     }
 }

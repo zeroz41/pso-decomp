@@ -33,6 +33,8 @@ struct TObjEneDf2Bringer : public TObjEneDD_ST {
     s32 check_stage_advance();
     void sub_80097620(s32 mode);
     void sub_80097714(s32 mode);
+    void sub_800987E8(s32 mode);
+    void sub_80098BAC(s32 mode);
     void init_enemy();
     static void set_entry_value_clamped(s32 arg0, f32 farg0);
     static void free_resources();
