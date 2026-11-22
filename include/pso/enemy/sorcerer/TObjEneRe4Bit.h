@@ -29,13 +29,13 @@ struct TObjEneRe4Bit : public TObjEneDD_ST {
     void clear_state_flag_0x10();
     void set_hold_flags();
     void set_flag_and_notify();
-    void sub_800ED408();
+    void hide();
     void set_attack_flag();
     void set_state_flag_and_mode(s32 kind);
-    void sub_800ED47C();
+    void reset_texture();
     Vec *get_spell_data();
     s32 get_state();
-    s32 sub_800ED498();
+    s32 can_cast();
     void clear_state_flags_when_done();
     void run_death_reaction();
     void run_hit_reaction();
@@ -59,33 +59,30 @@ struct TObjEneRe4Bit : public TObjEneDD_ST {
     void update_position_flag();
     void copy_pos();
     void init();
+    static void load_resources();
+    static void free_resources();
     static TObjEneRe4Bit *create(TObjEneRe4Sorcerer *owner, Vec *anchor, s32 enabled, u16 id, s32 set_index);
 
     Vec *anchor;
     s16 owner_id;
-    u8 unk_3C6[0x2];
+    u8 pad_3c6[0x2];
     s32 enabled;
     u32 behavior_flags;
-    s32 m_3d0;
-    s32 m_3d4;
-    f32 m_3d8;
+    s32 texture_index;
+    s32 technique_texture;
+    f32 lift_height;
     TUnk_80490470 fade;
-    Vec m_3f8;
-    s32 m_404;
+    Vec homing_velocity;
+    s32 cast_state;
     s32 state_step;
-    s32 m_40c;
-    void sub_800ECC14(s32 reason);
-    void sub_800ECD28(s32 reason);
-    void sub_800ECE04(s32 reason);
-    void sub_800ECED0(s32 reason);
+    s32 pad_40c;
+    void update_death_state(s32 reason);
+    void update_damage_state(s32 reason);
+    void update_lower_state(s32 reason);
+    void update_raise_state(s32 reason);
 };
 
 LAYOUT_ASSERT(TObjEneRe4Bit_fade_offset, offsetof(TObjEneRe4Bit, fade) == 0x3DC);
 LAYOUT_ASSERT(TObjEneRe4Bit_size, sizeof(TObjEneRe4Bit) == 0x410);
-
-extern "C" {
-void TObjEneRe4Bit__sub_800EDAB0(void);
-void TObjEneRe4Bit__sub_800EDAB4(void);
-}
 
 #endif

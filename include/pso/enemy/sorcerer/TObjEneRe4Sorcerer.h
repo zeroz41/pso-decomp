@@ -40,7 +40,7 @@ struct TObjEneRe4Sorcerer : public TObjEneDD_ST {
     s32 check_shield(TObjChara *target);
     void advance_anim_frame();
     void request_death_effect();
-    s32 try_attack(f32 farg0, f32 farg1);
+    s32 try_attack(f32 ranger_range_sq, f32 range_sq);
     void update_collision_center();
     void init_enemy();
     void create_enabled(Vec *anchor, u16 id, s32 set_index);
@@ -68,7 +68,7 @@ struct TObjEneRe4Sorcerer : public TObjEneDD_ST {
     s32 state_step;
     f32 farthest_distance;
     void set_motion_by_state();
-    s32 select_attack_target(f32 farg0, f32 farg1);
+    s32 select_attack_target(f32 ranger_range_sq, f32 range_sq);
     void update_damage_state(s32 reason);
     void update_cure_state(s32 reason);
     void update_attack_state(s32 reason);
@@ -89,7 +89,7 @@ LAYOUT_ASSERT(TObjEneRe4Sorcerer_fades_offset, offsetof(TObjEneRe4Sorcerer, fade
 LAYOUT_ASSERT(TObjEneRe4Sorcerer_size, sizeof(TObjEneRe4Sorcerer) == 0x4F0);
 
 struct BmlResource;
-// The sorcerer model file; the Bit models come from it too (TObjEneRe4Bit__sub_800EDAB4).
+// The sorcerer model file; the Bit models come from it too (TObjEneRe4Bit::load_resources).
 extern BmlResource *sorcerer_bml_resource;
 
 #endif

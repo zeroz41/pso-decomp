@@ -1323,10 +1323,10 @@ force_active:
   - TObjEnePanarmsAtkColli__type_index_table
   - TObjEnePanarmsAtkColli_class_name
   - TObjEneRe4Bit__ct
-  - sub_800ECC14__13TObjEneRe4BitFl
-  - sub_800ECD28__13TObjEneRe4BitFl
-  - sub_800ECE04__13TObjEneRe4BitFl
-  - sub_800ECED0__13TObjEneRe4BitFl
+  - update_death_state__13TObjEneRe4BitFl
+  - update_damage_state__13TObjEneRe4BitFl
+  - update_lower_state__13TObjEneRe4BitFl
+  - update_raise_state__13TObjEneRe4BitFl
   - TObjEneRe4Bit_boss_handles
   - __ct__18TObjEneRe4SorcererFP7TObjectPv
   - TObjEneRe4Sorcerer__data_805DA78C
@@ -8191,9 +8191,9 @@ force_active:
   - lbl_80500E98
   - lbl_80500EA4
   - lbl_80501010
-  - lbl_80501058
-  - lbl_80501060
-  - lbl_80501068
+  - TObjEneRe4Bit_attack_handles
+  - TObjEneRe4Bit_resistance_handles
+  - TObjEneRe4Bit_behavior_params
   - lbl_80501070
   - lbl_805010E0
   - lbl_80501114
@@ -16232,7 +16232,7 @@ force_active:
   - sub_800EA56C__15TObjEneSlimeOneFv
   - sub_800EA678__15TObjEneSlimeOneFv
   - sub_800EA820__15TObjEneSlimeOneFv
-  - sub_800ED408__13TObjEneRe4BitFv
+  - hide__13TObjEneRe4BitFv
   - state_fade_in__16TObjEneMe3StelthFl
   - sub_800F4758__16TObjEneMe3StelthFv
   - sub_800F47D4__16TObjEneMe3StelthFv
