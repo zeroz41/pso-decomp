@@ -64,21 +64,21 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     void run_hit_reaction();
     void run_miss_reaction();
     void refresh_target();
-    s32 m_3c0;
+    s32 stealthed;
     s32 m_3c4;
-    s32 m_3c8;
+    s32 kind_index;
     s32 m_3cc;
     s32 m_3d0;
     Vec m_3d4;
-    f32 m_3e0;
-    f32 m_3e4;
+    f32 body_y;
+    f32 body_offset_y;
     // The debug overlay labels these "TECNIQ ATTACK % (+0.4f)", "STELTH ON % (+0.3f)",
     // "STELTH OFF % (+0.1f)" and "WARP % (+0.5f)": setup_move_bounds adds those bases.
     f32 technique_chance;
     f32 stealth_on_chance;
     f32 stealth_off_chance;
     f32 warp_chance;
-    u32 m_3f8;
+    u32 material_color;
     s32 m_3fc;
     s32 m_400;
     s16 m_404;
@@ -86,8 +86,8 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     Vec unk_408; // filled with the target player's hand joint position, then a particle spawn point
     TUnk_80494938 fade;
     s32 m_430;
-    s32 m_434;
-    s32 m_438;
+    s32 state_step;
+    s32 state_timer;
     s32 m_43c;
     f32 m_440;
     f32 m_444;
@@ -132,7 +132,7 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     s32 sub_8031A820(f32);
 };
 
-LAYOUT_ASSERT(TObjEneMe3SinowZoa_m_3c0_offset, offsetof(TObjEneMe3SinowZoa, m_3c0) == 0x3C0);
+LAYOUT_ASSERT(TObjEneMe3SinowZoa_m_3c0_offset, offsetof(TObjEneMe3SinowZoa, stealthed) == 0x3C0);
 LAYOUT_ASSERT(TObjEneMe3SinowZoa_fade_offset, offsetof(TObjEneMe3SinowZoa, fade) == 0x414);
 LAYOUT_ASSERT(TObjEneMe3SinowZoa_size, sizeof(TObjEneMe3SinowZoa) == 0x45C);
 

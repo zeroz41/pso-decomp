@@ -338,7 +338,7 @@ void TObjEneMe3StelthReal::init_common() {
     set_field_d8((saddr)TObjEneMe3Stelth__animation_descriptors);
     set_field_dc((saddr)TObjEneMe3Stelth__bml_resource->motions);
     set_animation(requested_action);
-    v = m_3c8;
+    v = variant_index;
     reset_hp((u8 *)TObjEneMe3Stelth__base_params_by_variant[v], (u8 *)TObjEneMe3Stelth__attack_params_by_variant[v], (u8 *)TObjEneMe3Stelth__resistance_params_by_variant[v]);
     set_state_flag_4();
     movementParameters = TObjEneMe3Stelth__shared_params;
@@ -347,14 +347,14 @@ void TObjEneMe3StelthReal::init_common() {
     enemy_init_validate_period(0x1E);
     m_3cc = 0;
     y = position.y;
-    m_3d0 = y;
-    m_3d4 = 0.0f;
-    m_3e8 = 0;
+    body_y = y;
+    body_offset_y = 0.0f;
+    material_color = 0;
     m_3ec = 0;
     m_3f4 = m_2cc;
-    m_404.reset_obstruction_fade();
-    m_424 = 0;
-    m_428 = 0;
+    fade.reset_obstruction_fade();
+    state_step = 0;
+    state_timer = 0;
     m_42c = 0;
     m_430 = 0.0f;
     m_434 = 0.0f;
@@ -364,7 +364,7 @@ void TObjEneMe3StelthReal::init_common() {
     m_444 = NULL;
     m_448 = NULL;
     m_420 = 0;
-    if (m_3c0 == 1) {
+    if (stealthed == 1) {
         set_indexed_flags(0, 0x08000000);
         return;
     }
@@ -409,7 +409,7 @@ void TObjEneMe3Stelth::run_death_reaction() {
 void TObjEneMe3Stelth::run_hit_reaction() {
     if (m_3cc & 1) {
         clear_attack_receipts();
-        if (m_3c0 == 1 && random_ratio() <= m_3e0) {
+        if (stealthed == 1 && random_ratio() <= stealth_off_chance) {
             transition_enemy_state(0x12);
         }
     } else if (mode != 0xE) {
@@ -419,7 +419,7 @@ void TObjEneMe3Stelth::run_hit_reaction() {
 void TObjEneMe3Stelth::run_miss_reaction() {  }
 void TObjEneMe3Stelth::copy_pos_with_height_offset() {
     VecCopy(&body_center, &position);
-    body_center.y += 12.0f + m_3d4;
+    body_center.y += 12.0f + body_offset_y;
     VecCopy(&center, &body_center);
 }
 void TObjEneMe3Stelth::update_body_colliders() {
@@ -427,9 +427,9 @@ void TObjEneMe3Stelth::update_body_colliders() {
 }
 void TObjEneMe3Stelth::setup_move_bounds() {
     if (sub_800F4850() != 0) {
-        m_3c0 = 1;
+        stealthed = 1;
     } else {
-        m_3c0 = 0;
+        stealthed = 0;
     }
     m_3c4 = is_angle_in_range();
     if (m_3c4 == 1) {
@@ -437,10 +437,10 @@ void TObjEneMe3Stelth::setup_move_bounds() {
     } else {
         requested_action = 0;
     }
-    m_3d8 = 0.4f + parameters[2];
-    m_3dc = 0.3f + parameters[1];
-    m_3e0 = 0.1f + parameters[4];
-    m_3e4 = 0.5f + parameters[3];
+    technique_chance = 0.4f + parameters[2];
+    stealth_on_chance = 0.3f + parameters[1];
+    stealth_off_chance = 0.1f + parameters[4];
+    warp_chance = 0.5f + parameters[3];
     m_3f0 = variant;
 }
 f32 TObjEneMe3Stelth::get_node_world_y() {
@@ -538,14 +538,14 @@ s32 TObjEneMe3Stelth::check_target_in_range() {
 void TObjEneMe3Stelth::select_next_attack_state() {  }
 s32 TObjEneMe3Stelth::check_active_flag() {
     if (m_3cc & 4) {
-        m_404.set_flags_and_apply_damage_color();
+        fade.set_flags_and_apply_damage_color();
         return 1;
     }
     return 0;
 }
 s32 TObjEneMe3Stelth::check_flag() {
     if (m_3cc & 4) {
-        m_404.clear_flag_and_notify();
+        fade.clear_flag_and_notify();
         return 1;
     }
     return 0;
@@ -555,7 +555,7 @@ void TObjEneMe3Stelth::set_intangible() { TObjEneDD::set_intangible(); sub_800F5
 void TObjEneMe3Stelth::clear_intangible() { TObjEneDD::clear_intangible(); sub_800F5864(38); }
 void TObjEneMe3Stelth::vfunc_112() {  }
 void TObjEneMe3Stelth::update_distance_state() {
-    if (m_3d0 - position.y > 30.0f) {
+    if (body_y - position.y > 30.0f) {
         set_colliders_contact_high();
         return;
     }
@@ -582,15 +582,15 @@ void TObjEneMe3Stelth::sub_800F4758() {
     if (sub_800F47D4() != 0) {
         texlist = (saddr)&TObjEneMe3Stelth__alternate_texture_list;
         initialize_enemy_state(0x3F);
-        m_3c8 = 1;
+        variant_index = 1;
         return;
     }
     texlist = (saddr)TObjEneMe3Stelth__bml_resource->models->m_c;
     initialize_enemy_state(0x3E);
-    m_3c8 = 0;
+    variant_index = 0;
 }
 void TObjEneMe3Stelth::create_resta_effect() {
-    saddr f = TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[this->m_3c8]->support_tech_level);
+    saddr f = TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[this->variant_index]->support_tech_level);
     TTecResta::create((void *)this, (u8 *)&this->position, f);
 }
 void TObjEneMe3Stelth::dispatch_action(u32 state, s32 reason) {
@@ -653,7 +653,7 @@ void TObjEneMe3Stelth::dispatch_action(u32 state, s32 reason) {
         sub_800F1440(reason);
         break;
     }
-    if (m_3c0 != 1 || ((s32)state != 1 && (s32)state != 2)) {
+    if (stealthed != 1 || ((s32)state != 1 && (s32)state != 2)) {
         render_minimap_dot();
     }
 }
@@ -673,16 +673,16 @@ void TObjEneMe3Stelth::vfunc_113(s32 reason) {
         if (TObjEneDD::check_v2_mode() != 0) {
             m_3cc &= ~0x10000;
         }
-        m_424 = 0;
+        state_step = 0;
         VecCopy(&position, &home_position);
         VecCopy(&prev_position, &home_position);
         VecCopy(&body_center, &home_position);
-        m_3d0 = position.y;
-        m_3e8 = 0;
+        body_y = position.y;
+        material_color = 0;
         m_3ec = 0;
         return;
     case 3:
-        if (m_424 > 5) {
+        if (state_step > 5) {
             if (m_3c4 == 1) {
                 transition_enemy_state(1);
             } else {
@@ -692,11 +692,11 @@ void TObjEneMe3Stelth::vfunc_113(s32 reason) {
     case 5:
         return;
     case 0:
-        m_424++;
-        if (m_424 == 1) {
-            m_3d0 = position.y;
+        state_step++;
+        if (state_step == 1) {
+            body_y = position.y;
             update_ground_contact();
-            m_3d4 = m_3d0 - position.y;
+            body_offset_y = body_y - position.y;
         }
         break;
     }
@@ -711,19 +711,19 @@ void TObjEneMe3Stelth::sub_800F42B8(s32 reason) {
         set_intangible();
         m_3cc &= ~2;
         m_3cc |= 5;
-        m_404.start_fade_in();
+        fade.start_fade_in();
         VecCopy(&v, &position);
-        t = m_3d0;
+        t = body_y;
         v.y = t - 20.0f;
-        if (m_3c0 == 0) {
+        if (stealthed == 0) {
             TBoss3Volopt__sub_800D8D88(&v, t);
         } else {
             create_timed_particle_emitter((u8 *)&position, 0x79, 0, 0xF);
         }
         break;
     case 3:
-        if (m_404.advance_toward_max() != 0) {
-            if (m_3c0 == 1) {
+        if (fade.advance_toward_max() != 0) {
+            if (stealthed == 1) {
                 transition_enemy_state(2);
             } else {
                 transition_enemy_state(0xD);
@@ -731,7 +731,7 @@ void TObjEneMe3Stelth::sub_800F42B8(s32 reason) {
         }
         break;
     case 0:
-        if (*TBoss3Volopt__sub_800F059C(&m_404) >= -0.75f) {
+        if (*TBoss3Volopt__sub_800F059C(&fade) >= -0.75f) {
             advance_animation();
         }
         update_ground_contact();
@@ -751,8 +751,8 @@ void TObjEneMe3Stelth::state_chase(s32 arg1) {
         set_field_378(0xD);
         clear_intangible();
         m_3cc &= ~7;
-        m_424 = 0;
-        m_428 = 0;
+        state_step = 0;
+        state_timer = 0;
         m_434 = 0.0f;
         break;
     case 3:
@@ -761,17 +761,17 @@ void TObjEneMe3Stelth::state_chase(s32 arg1) {
                 transition_enemy_state(0xD);
                 break;
             }
-            temp_r0 = m_428 - 1;
-            m_428 = temp_r0;
+            temp_r0 = state_timer - 1;
+            state_timer = temp_r0;
             if ((temp_r0 <= 0) && (check_target_in_range() != 0)) {
-                m_428 = 0x3C;
+                state_timer = 0x3C;
                 if (random_ratio() <= 0.01f) {
                     transition_enemy_state(7);
                     break;
                 }
             }
         } else {
-            if (m_424 >= 0xE10) {
+            if (state_step >= 0xE10) {
                 transition_enemy_state(0xD);
                 break;
             }
@@ -780,7 +780,7 @@ void TObjEneMe3Stelth::state_chase(s32 arg1) {
         }
         break;
     case 0:
-        m_424++;
+        state_step++;
         advance_animation();
         if (update_linked_position(200.0f) != 0) {
             enemy_copy_target_destination();
@@ -805,14 +805,14 @@ void TObjEneMe3Stelth::sub_800F3FE4(s32 reason) {
         this->set_field_378(0);
         this->set_intangible();
         this->m_3cc |= 7;
-        this->m_404.start_fade_in();
+        this->fade.start_fade_in();
         VecCopy(&pos, &this->position);
-        temp_f1 = this->m_3d0;
+        temp_f1 = this->body_y;
         pos.y = temp_f1 - 10.0f;
         TBoss3Volopt__sub_800D8D88(&pos, temp_f1);
         break;
     case 3:
-        if (this->m_404.advance_toward_max() != 0) {
+        if (this->fade.advance_toward_max() != 0) {
             this->transition_enemy_state(4);
             break;
         }
@@ -831,45 +831,45 @@ void TObjEneMe3Stelth::update_state_fade_in(s32 reason) {
         set_field_378(5);
         set_intangible();
         m_3cc &= ~7;
-        m_424 = 0;
-        m_428 = 0;
+        state_step = 0;
+        state_timer = 0;
         break;
     case 3:
-        if (m_424 > 0x1E) {
+        if (state_step > 0x1E) {
             transition_enemy_state(5);
         }
         break;
     case 0:
         advance_animation();
-        if (m_424 == 0) {
+        if (state_step == 0) {
             if (update_linked_position(200.0f) != 0) {
-                m_424 = 1;
+                state_step = 1;
                 static const u32 color_mask = 0xFFFF00FF;
-                m_3e8 = 0x1C00FFFF;
-                m_3e8 &= color_mask;
-                m_428 = 0;
+                material_color = 0x1C00FFFF;
+                material_color &= color_mask;
+                state_timer = 0;
             }
         } else {
-            m_424 += 1;
-            m_428 += 0x10;
-            if (m_428 > 0xFF) {
-                m_428 = 0xFF;
+            state_step += 1;
+            state_timer += 0x10;
+            if (state_timer > 0xFF) {
+                state_timer = 0xFF;
             }
-            t = m_428;
-            m_3e8 = (t << 24) | (m_3e8 & 0x00FFFFFF);
+            t = state_timer;
+            material_color = (t << 24) | (material_color & 0x00FFFFFF);
             if (enemy_validate_retained_target(this) == 0) {
-                m_424 = 0;
-                m_3e8 = 0;
+                state_step = 0;
+                material_color = 0;
             }
         }
         update_ground_contact();
         update_distance_state();
         check_collisions();
-        m_3d4 = m_3d0 - position.y;
+        body_offset_y = body_y - position.y;
         break;
     case 5:
-        m_3e8 = 0x1C00FFFF;
-        m_3d4 = 0.0f;
+        material_color = 0x1C00FFFF;
+        body_offset_y = 0.0f;
         break;
     }
 }
@@ -884,7 +884,7 @@ void TObjEneMe3Stelth::update_state_drop(s32 reason) {
         clear_intangible();
         m_3cc &= ~6;
         m_3cc |= 1;
-        m_424 = 0;
+        state_step = 0;
         m_430 = 0.0f;
         if (enemy_has_live_target() != 0) {
             enemy_copy_target_destination();
@@ -892,19 +892,19 @@ void TObjEneMe3Stelth::update_state_drop(s32 reason) {
         }
         break;
     case 3:
-        if (m_424 == 3) {
+        if (state_step == 3) {
             transition_enemy_state(0xD);
         }
         break;
     case 0:
-        switch (m_424) {
+        switch (state_step) {
         case 0:
             temp_f31 = get_node_world_y();
             advance_animation();
             m_434 = get_node_world_y();
-            m_3d0 = m_3d0 + (temp_f31 - m_434);
-            m_424 = 1;
-            m_3d4 = m_3d0 - position.y;
+            body_y = body_y + (temp_f31 - m_434);
+            state_step = 1;
+            body_offset_y = body_y - position.y;
             break;
         case 1:
             advance_animation();
@@ -915,22 +915,22 @@ void TObjEneMe3Stelth::update_state_drop(s32 reason) {
             if (m_430 < -5.0f) {
                 m_430 = -5.0f;
             }
-            m_3d0 = m_3d0 + m_430;
+            body_y = body_y + m_430;
             node_world_y = get_node_world_y();
-            m_3d0 = m_3d0 - (node_world_y - m_434);
+            body_y = body_y - (node_world_y - m_434);
             m_434 = node_world_y;
-            if (m_3d0 < position.y) {
-                m_3d0 = position.y;
-                m_424 = 2;
+            if (body_y < position.y) {
+                body_y = position.y;
+                state_step = 2;
                 play_hit_effect();
             }
             break;
         case 2:
             if (get_flag_b4() != 0) {
                 requested_action = 9;
-                m_424 = 3;
-                m_3d0 = position.y;
-                m_3d4 = 0.0f;
+                state_step = 3;
+                body_y = position.y;
+                body_offset_y = 0.0f;
             }
             advance_animation();
             break;
@@ -938,11 +938,11 @@ void TObjEneMe3Stelth::update_state_drop(s32 reason) {
         update_ground_contact();
         update_distance_state();
         check_collisions();
-        m_3d4 = m_3d0 - position.y;
+        body_offset_y = body_y - position.y;
         break;
     case 5:
         m_3cc &= ~1;
-        m_3d4 = 0.0f;
+        body_offset_y = 0.0f;
         break;
     }
 }
@@ -956,7 +956,7 @@ void TObjEneMe3Stelth::state_chase_target(s32 arg1) {
         clear_intangible();
         m_3cc &= ~7;
         destination_distance = 300.0f;
-        m_430 = TObjEneMe3Stelth__behavior_params_by_variant[m_3c8]->m_00;
+        m_430 = TObjEneMe3Stelth__behavior_params_by_variant[variant_index]->m_00;
         m_434 = 0.0f;
         return;
     case 3:
@@ -1008,12 +1008,12 @@ void TObjEneMe3Stelth::sub_800F348C(s32 reason) {
         this->clear_intangible();
         this->m_3cc &= ~7;
         this->m_3cc |= 0x10000;
-        this->m_424 = 0;
+        this->state_step = 0;
         this->m_430 = 0.0f;
         this->set_active();
         break;
     case 3:
-        if (this->m_424 == 5 || this->get_flag_b4() != 0) {
+        if (this->state_step == 5 || this->get_flag_b4() != 0) {
             if (this->update_ground_contact() == 0) {
                 this->transition_enemy_state(0xA);
             } else {
@@ -1022,11 +1022,11 @@ void TObjEneMe3Stelth::sub_800F348C(s32 reason) {
         }
         break;
     case 0:
-        switch (this->m_424) {
+        switch (this->state_step) {
         case 0:
             this->advance_animation();
             if (this->motion_flags & 8) {
-                this->m_424 = 1;
+                this->state_step = 1;
             }
             this->update_ground_contact();
             this->check_collisions();
@@ -1042,7 +1042,7 @@ void TObjEneMe3Stelth::sub_800F348C(s32 reason) {
             }
             this->rotation_y = approach_angle_limited(this->rotation_y, ang, 0x1000);
             if (this->is_passing_frame(10.0f) != 0) {
-                this->m_424 = 2;
+                this->state_step = 2;
             }
             this->update_ground_contact();
             this->check_collisions();
@@ -1055,7 +1055,7 @@ void TObjEneMe3Stelth::sub_800F348C(s32 reason) {
             }
             if (this->frame + this->play_speed >= 14.0f) {
                 if (this->test_body_collision(this->rotation_y, this->destination_distance - 20.0f) != 0) {
-                    this->m_424 = 5;
+                    this->state_step = 5;
                 } else {
                     t = this->destination_distance - 20.0f;
                     VecCopy(&v, &this->position);
@@ -1064,15 +1064,15 @@ void TObjEneMe3Stelth::sub_800F348C(s32 reason) {
                     v.z += this->destination_direction.z * t;
                     if (csnVecterUnder(&v, 0x15) != 0) {
                         if (this->room == ((TScene *)(&v))->find_section_at_position()) {
-                            this->m_424 = 3;
+                            this->state_step = 3;
                             this->m_434 = (this->destination_distance - 20.0f) / 12.857143f;
                             this->set_invulnerable();
                             play_sound_effect(0x3A835, (u8 *)&this->position, 0, 0);
                         } else {
-                            this->m_424 = 5;
+                            this->state_step = 5;
                         }
                     } else {
-                        this->m_424 = 5;
+                        this->state_step = 5;
                     }
                 }
             }
@@ -1082,7 +1082,7 @@ void TObjEneMe3Stelth::sub_800F348C(s32 reason) {
         case 3:
             this->advance_animation();
             if (this->frame + this->play_speed >= 23.0f) {
-                this->m_424 = 4;
+                this->state_step = 4;
                 this->clear_invulnerable();
                 this->play_hit_effect();
             }
@@ -1105,7 +1105,7 @@ void TObjEneMe3Stelth::sub_800F348C(s32 reason) {
             this->check_collisions();
             break;
         }
-        if (this->m_424 != 0) {
+        if (this->state_step != 0) {
             entry = TObjEneMe3Stelth__trail_buffer->lookup(this->frame);
             if (entry != NULL) {
                 push_matrix();
@@ -1118,8 +1118,8 @@ void TObjEneMe3Stelth::sub_800F348C(s32 reason) {
         }
         break;
     case 5:
-        this->m_3d0 = this->position.y;
-        this->m_3d4 = 0.0f;
+        this->body_y = this->position.y;
+        this->body_offset_y = 0.0f;
         this->clear_invulnerable();
         this->clear_field_388();
         break;
@@ -1138,8 +1138,8 @@ void TObjEneMe3Stelth::sub_800F3214(s32 reason) {
         this->clear_intangible();
         this->m_3cc &= ~7;
         this->m_3cc |= 0x10000;
-        this->m_424 = 0;
-        this->m_428 = 0;
+        this->state_step = 0;
+        this->state_timer = 0;
         return;
     case 3:
         if (this->get_flag_b4() != 0) {
@@ -1149,7 +1149,7 @@ void TObjEneMe3Stelth::sub_800F3214(s32 reason) {
         return;
     case 0:
         this->advance_animation();
-        switch (this->m_424) {
+        switch (this->state_step) {
         case 0:
             this->attack_and_unequip();
             if (this->frame < 20.0f) {
@@ -1168,18 +1168,18 @@ void TObjEneMe3Stelth::sub_800F3214(s32 reason) {
             sub_800F0C90();
             temp_f1 = this->frame;
             if ((temp_f1 >= 0.0f) && (temp_f1 <= 5.0f)) {
-                ((TObjEneDD *)this)->move_to_shot_position(this->destination_direction.x, this->destination_direction.z, TObjEneMe3Stelth__behavior_params_by_variant[this->m_3c8]->m_08);
+                ((TObjEneDD *)this)->move_to_shot_position(this->destination_direction.x, this->destination_direction.z, TObjEneMe3Stelth__behavior_params_by_variant[this->variant_index]->m_08);
             } else {
                 this->update_ground_contact();
             }
             if (this->frame >= 25.0f) {
                 this->frame = 25.0f;
-                this->m_424 = 1;
+                this->state_step = 1;
             }
             break;
         case 1:
-            this->m_428++;
-            if (this->m_428 <= TObjEneMe3Stelth__behavior_params_by_variant[this->m_3c8]->m_20) {
+            this->state_timer++;
+            if (this->state_timer <= TObjEneMe3Stelth__behavior_params_by_variant[this->variant_index]->m_20) {
                 this->frame = 25.0f;
             }
             this->update_ground_contact();
@@ -1200,7 +1200,7 @@ void TObjEneMe3Stelth::run_walk_state(s32 reason) {
         this->clear_intangible();
         this->m_3cc &= ~7;
         this->m_3ec = 0;
-        this->m_424 = 3;
+        this->state_step = 3;
         if (this->acquire_target(200.0f) != 0) {
             this->enemy_copy_target_destination();
             this->update_velocity();
@@ -1208,21 +1208,21 @@ void TObjEneMe3Stelth::run_walk_state(s32 reason) {
             if (this->test_body_collision(this->m_42c + 0x8000, 80.0f) == 0) {
                 this->destination_direction.x *= -1.0f;
                 this->destination_direction.z *= -1.0f;
-                this->m_424 = 0;
+                this->state_step = 0;
                 this->m_430 = 7.111111f;
             }
         }
         this->set_active();
         return;
     case 3:
-        if (this->m_424 == 3) {
-            if ((this->m_3c0 == 0) && (this->random_ratio() <= this->m_3dc)) {
+        if (this->state_step == 3) {
+            if ((this->stealthed == 0) && (this->random_ratio() <= this->stealth_on_chance)) {
                 this->transition_enemy_state(0x11);
                 return;
             }
-            if (this->random_ratio() <= this->m_3d8) {
+            if (this->random_ratio() <= this->technique_chance) {
                 if (this->sub_800F47D4() != 0) {
-                    if (this->random_ratio() > TObjEneMe3Stelth__behavior_params_by_variant[this->m_3c8]->m_14) {
+                    if (this->random_ratio() > TObjEneMe3Stelth__behavior_params_by_variant[this->variant_index]->m_14) {
                         this->transition_enemy_state(0x10);
                         return;
                     }
@@ -1232,7 +1232,7 @@ void TObjEneMe3Stelth::run_walk_state(s32 reason) {
                 this->transition_enemy_state(0x10);
                 return;
             }
-            if (this->random_ratio() <= this->m_3e4) {
+            if (this->random_ratio() <= this->warp_chance) {
                 this->transition_enemy_state(0xC);
                 return;
             }
@@ -1241,11 +1241,11 @@ void TObjEneMe3Stelth::run_walk_state(s32 reason) {
         return;
     case 0:
         this->advance_animation();
-        switch (this->m_424) {
+        switch (this->state_step) {
         case 0:
             this->rotation_y = approach_angle_limited(this->rotation_y, this->m_42c, 0x31C7);
             if ((this->frame + this->play_speed) >= 15.0f) {
-                this->m_424 = 1;
+                this->state_step = 1;
                 this->set_invulnerable();
                 play_sound_effect(0x3A835, (u8 *)&this->position, 0, 0);
             }
@@ -1254,7 +1254,7 @@ void TObjEneMe3Stelth::run_walk_state(s32 reason) {
             return;
         case 1:
             if ((this->frame + this->play_speed) >= 24.0f) {
-                this->m_424 = 2;
+                this->state_step = 2;
                 this->clear_invulnerable();
                 this->play_hit_effect();
             }
@@ -1262,7 +1262,7 @@ void TObjEneMe3Stelth::run_walk_state(s32 reason) {
             return;
         case 2:
             if (this->get_flag_b4() != 0) {
-                this->m_424 = 3;
+                this->state_step = 3;
             }
             this->update_ground_contact();
             this->check_collisions();
@@ -1286,40 +1286,40 @@ void TObjEneMe3Stelth::update_state_resta_cast(s32 reason) {
         clear_intangible();
         m_3cc &= ~6;
         m_3cc |= 1;
-        m_424 = 0;
-        m_428 = 0;
+        state_step = 0;
+        state_timer = 0;
         return;
     case 3:
-        if (m_428 > TObjEneMe3Stelth__behavior_params_by_variant[m_3c8]->m_1c) {
+        if (state_timer > TObjEneMe3Stelth__behavior_params_by_variant[variant_index]->m_1c) {
             transition_enemy_state(6);
         }
     case 5:
         return;
     case 0:
         advance_animation();
-        switch (m_424) {
+        switch (state_step) {
         case 0:
             if (get_flag_b4() != 0) {
                 create_resta_effect();
                 if (TObjEneDD::check_v2_mode() != 0) {
-                    m_424 = 2;
+                    state_step = 2;
                 } else {
-                    m_424 = 1;
+                    state_step = 1;
                 }
-                m_428 = 0;
+                state_timer = 0;
             }
             break;
         case 1:
-            m_428++;
+            state_timer++;
             break;
         case 2:
-            m_428++;
-            if (m_428 == 5) {
-                TTecSifta::create((void *)this, (u8 *)&position, TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[m_3c8]->support_tech_level));
-            } else if (m_428 == 0xA) {
-                TTecDeband::create(this, (u8 *)&position, (s32)(TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[m_3c8]->support_tech_level)));
-                m_424 = 1;
-                m_428 = 0;
+            state_timer++;
+            if (state_timer == 5) {
+                TTecSifta::create((void *)this, (u8 *)&position, TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[variant_index]->support_tech_level));
+            } else if (state_timer == 0xA) {
+                TTecDeband::create(this, (u8 *)&position, (s32)(TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[variant_index]->support_tech_level)));
+                state_step = 1;
+                state_timer = 0;
             }
             break;
         }
@@ -1338,19 +1338,19 @@ void TObjEneMe3Stelth::handle_message(s32 arg1) {
         this->m_3cc &= ~7;
         this->set_intangible();
         this->m_3ec = 0;
-        this->m_424 = 0;
+        this->state_step = 0;
         break;
     case 3:
         if (this->update_linked_position(200.0f) != 0) {
             this->transition_enemy_state(6);
-        } else if (this->m_424 >= 0x5A) {
+        } else if (this->state_step >= 0x5A) {
             this->transition_enemy_state(0xA);
         }
         break;
     case 5:
         break;
     case 0:
-        this->m_424++;
+        this->state_step++;
         this->advance_animation();
         this->update_ground_contact();
         this->check_collisions();
@@ -1369,25 +1369,25 @@ void action__16TObjEneMe3StelthFPvi(TObjEneMe3Stelth *stelth, s32 reason) {
         stelth->set_intangible();
         stelth->m_3cc &= ~3;
         stelth->m_3cc |= 4;
-        stelth->m_404.reset_color();
-        stelth->m_424 = 1;
+        stelth->fade.reset_color();
+        stelth->state_step = 1;
         return;
     case 3:
-        if (stelth->m_424 == 2) {
+        if (stelth->state_step == 2) {
             stelth->transition_enemy_state(0);
         }
         return;
     case 0:
         stelth->advance_animation();
-        switch (stelth->m_424) {
+        switch (stelth->state_step) {
         case 0:
             if (stelth->get_flag_b4() != 0) {
-                stelth->m_424 = 1;
+                stelth->state_step = 1;
             }
             break;
         case 1:
-            if (stelth->m_404.decay_value_toward_floor() != 0) {
-                stelth->m_424 = 2;
+            if (stelth->fade.decay_value_toward_floor() != 0) {
+                stelth->state_step = 2;
             }
             break;
         }
@@ -1410,7 +1410,7 @@ void TObjEneMe3Stelth::sub_800F290C(s32 reason) {
         break;
     case 3:
         if (this->get_flag_b4() != 0) {
-            if (this->m_3c0 == 1 && this->random_ratio() <= this->m_3e0) {
+            if (this->stealthed == 1 && this->random_ratio() <= this->stealth_off_chance) {
                 this->transition_enemy_state(0x12);
             } else {
                 this->transition_enemy_state(this->next_mode);
@@ -1443,20 +1443,20 @@ void TObjEneMe3Stelth::handle_breakup_state(s32 reason) {
         refresh_and_send_entity_flags();
         disable_body_collision();
         m_3cc &= ~0xF;
-        m_424 = 0;
+        state_step = 0;
         break;
     case 3:
         break;
     case 0:
-        switch (m_424) {
+        switch (state_step) {
         case 0:
             advance_animation();
             if (is_passing_frame(18.0f) != 0 || is_passing_frame(28.0f) != 0) {
                 play_sound_effect(0x3A836, (u8 *)&position, 0, 0);
             }
             if (get_flag_b4() != 0) {
-                m_424 = 1;
-                m_428 = 0;
+                state_step = 1;
+                state_timer = 0;
                 ofs.x = 0.0f;
                 ofs.y = 10.0f;
                 ofs.z = 20.0f;
@@ -1466,13 +1466,13 @@ void TObjEneMe3Stelth::handle_breakup_state(s32 reason) {
                 m_3cc |= 8;
             } else if (is_passing_frame(6.0f) != 0) {
                 m_3cc &= ~8;
-                m_3c0 = 0;
+                stealthed = 0;
             }
             break;
         case 1:
-            m_428++;
-            if (m_428 >= 0x14) {
-                m_424 = 2;
+            state_timer++;
+            if (state_timer >= 0x14) {
+                state_step = 2;
                 m_3cc |= 2;
                 TBoss3Volopt::create_breakup_mdl((saddr)TObjEneMe3Stelth__breakup_model, (saddr)&me3_stelth_breakup_params, (s32)texlist, (saddr)&position, (s32)rotation_y);
                 VecCopy((Vec *)&v, (const Vec *)&position);
@@ -1511,16 +1511,16 @@ void TObjEneMe3Stelth::sub_800F2270(s32 reason) {
         this->set_intangible();
         this->m_3cc &= ~6;
         this->m_3cc |= 1;
-        this->m_424 = 0;
+        this->state_step = 0;
         break;
     case 3:
-        if (this->m_424 == 2) {
-            this->m_3c0 = 1;
+        if (this->state_step == 2) {
+            this->stealthed = 1;
             this->m_3cc |= 0x40000;
             this->set_indexed_flags(0, 0x8000000);
-            if (this->random_ratio() <= this->m_3d8) {
+            if (this->random_ratio() <= this->technique_chance) {
                 if (this->sub_800F47D4() != 0) {
-                    if (this->random_ratio() > TObjEneMe3Stelth__behavior_params_by_variant[this->m_3c8]->m_14) {
+                    if (this->random_ratio() > TObjEneMe3Stelth__behavior_params_by_variant[this->variant_index]->m_14) {
                         this->transition_enemy_state(0x10);
                     } else {
                         this->transition_enemy_state(0xB);
@@ -1534,22 +1534,22 @@ void TObjEneMe3Stelth::sub_800F2270(s32 reason) {
         }
         break;
     case 0:
-        switch (this->m_424) {
+        switch (this->state_step) {
         case 0:
             this->advance_animation();
             if (this->get_flag_b4() != 0) {
                 this->m_3cc |= 4;
-                this->m_404.reset_color();
+                this->fade.reset_color();
                 VecCopy(&v, &this->position);
-                v.y = this->m_3d0 - 20.0f;
-                this->m_424 = 1;
+                v.y = this->body_y - 20.0f;
+                this->state_step = 1;
                 play_sound_effect(0x3B23B, &this->position, 0, 0);
             }
             this->update_ground_contact();
             this->check_collisions();
             break;
         case 1:
-            if (this->m_404.decay_value_toward_floor() != 0) {
+            if (this->fade.decay_value_toward_floor() != 0) {
                 this->m_3cc |= 2;
                 if (this->update_linked_position(200.0f) != 0) {
                     if (this->current_target == NULL) {
@@ -1580,7 +1580,7 @@ void TObjEneMe3Stelth::sub_800F2270(s32 reason) {
                         }
                     }
                 }
-                this->m_424 = 2;
+                this->state_step = 2;
             }
             break;
         }
@@ -1612,7 +1612,7 @@ void TObjEneMe3Stelth::render() {
     } else {
         mode = 0;
     }
-    if (m_3c0 != 0 && is_split_screen() == 0 && dispatch_input_to_instance__18TAdEnterPasswordGCFi(this) != 0) {
+    if (stealthed != 0 && is_split_screen() == 0 && dispatch_input_to_instance__18TAdEnterPasswordGCFi(this) != 0) {
         return;
     }
     if (mode != 0) {
@@ -1628,13 +1628,13 @@ void TObjEneMe3Stelth::render() {
             s32 i;
             for (i = 0; i < 3; i++) {
                 if (TObjEneMe3Stelth__material_color_pointers[i] != 0) {
-                    *TObjEneMe3Stelth__material_color_pointers[i] = m_3e8;
+                    *TObjEneMe3Stelth__material_color_pointers[i] = material_color;
                 }
             }
             draw = 1;
-            if (m_3c0 != 0) {
+            if (stealthed != 0) {
                 if (m_3cc & 8) {
-                    m_404.set_flags_and_apply_damage_color();
+                    fade.set_flags_and_apply_damage_color();
                 } else {
                     model_render_flags |= 0x820;
                     NJS_ARGB c = stelth_render_color_a;
@@ -1658,7 +1658,7 @@ void TObjEneMe3Stelth::render() {
                 TObjFish::set_global_param(texlist);
                 push_matrix();
                 post_translate_matrix(&position.x);
-                translate_matrix(0, 0.0f, m_3d4, 0.0f);
+                translate_matrix(0, 0.0f, body_offset_y, 0.0f);
                 rotate_matrix_y(0, rotation_y);
                 TObjEneMe3Stelth__render_node_index = 0;
                 if (mode == 1) {
@@ -1668,16 +1668,16 @@ void TObjEneMe3Stelth::render() {
                 }
                 pop_matrix();
             }
-            if (m_3c0 != 0) {
+            if (stealthed != 0) {
                 if (m_3cc & 8) {
-                    m_404.clear_flag_and_notify();
+                    fade.clear_flag_and_notify();
                 }
             } else {
                 check_flag();
             }
         } else {
             s32 i;
-            if (m_3c0 != 0) {
+            if (stealthed != 0) {
                 TParticleCtrl::begin_effect_render();
                 if (m_3cc & 8) {
                     TObjPlayer::setup_tev_stage();
@@ -1697,19 +1697,19 @@ void TObjEneMe3Stelth::render() {
             TObjFish::set_global_param(texlist);
             for (i = 0; i < 3; i++) {
                 if (TObjEneMe3Stelth__material_color_pointers[i] != 0) {
-                    *TObjEneMe3Stelth__material_color_pointers[i] = m_3e8;
+                    *TObjEneMe3Stelth__material_color_pointers[i] = material_color;
                 }
             }
             check_active_flag();
             push_matrix();
             post_translate_matrix(&position.x);
-            translate_matrix(0, 0.0f, m_3d4, 0.0f);
+            translate_matrix(0, 0.0f, body_offset_y, 0.0f);
             rotate_matrix_y(0, rotation_y);
             TObjEneMe3Stelth__render_node_index = 0;
             m_420 += 0x222;
             stelth_projection_texture_handle = m_420;
             set_model_node_callback(TObjEneMe3Stelth::add_instance);
-            if (m_3c0 != 0) {
+            if (stealthed != 0) {
                 set_ginja_draw_list_mask(3);
             }
             if (mode == 1) {
@@ -1717,13 +1717,13 @@ void TObjEneMe3Stelth::render() {
             } else {
                 draw_model__16TObjEneMe3StelthFPv(this);
             }
-            if (m_3c0 != 0) {
+            if (stealthed != 0) {
                 set_ginja_draw_list_mask(2);
             }
             set_model_node_callback(0);
             pop_matrix();
             check_flag();
-            if (m_3c0 != 0) {
+            if (stealthed != 0) {
                 reset_particle_tev();
             }
         }
@@ -1839,11 +1839,11 @@ void TObjEneMe3Stelth::exec(s32 arg1) {
         this->clear_intangible();
         this->m_3cc &= 0xFFFFFFF1;
         this->m_3cc |= 1;
-        this->m_424 = 0;
+        this->state_step = 0;
         play_sound_effect(0x3B23B, &this->position, 0, 0);
         return;
     case 3:
-        if (this->m_424 == 3) {
+        if (this->state_step == 3) {
             this->transition_enemy_state(6);
             this->m_3cc &= ~1;
             this->m_3cc |= 0x40000;
@@ -1853,27 +1853,27 @@ void TObjEneMe3Stelth::exec(s32 arg1) {
     case 0:
         this->advance_animation();
         if (this->get_flag_b4() != 0) {
-            this->m_424 = 3;
+            this->state_step = 3;
         } else if (is_split_screen() != 0) {
-            switch (this->m_424) {
+            switch (this->state_step) {
             case 0:
                 if (this->is_passing_frame(4.0f) != 0) {
                     this->m_3cc |= 8;
-                    this->m_404.reset_obstruction_fade();
-                    this->m_424 = 1;
+                    this->fade.reset_obstruction_fade();
+                    this->state_step = 1;
                 }
                 break;
             case 1:
-                if (((TObjEneMe3SinowZoa *)&this->m_404)->advance_timer(0.2f) != 0) {
+                if (((TObjEneMe3SinowZoa *)&this->fade)->advance_timer(0.2f) != 0) {
                     this->m_3cc &= ~8;
-                    this->m_3c0 = 0;
-                    this->m_424 = 2;
+                    this->stealthed = 0;
+                    this->state_step = 2;
                 }
                 break;
             }
         } else if (this->is_passing_frame(25.0f) != 0) {
             this->m_3cc |= 8;
-            this->m_3c0 = 1;
+            this->stealthed = 1;
         } else if (this->is_passing_frame(29.0f) != 0) {
             this->m_3cc &= ~8;
         }
@@ -1895,11 +1895,11 @@ void TObjEneMe3Stelth::sub_800F1440(s32 reason) {
         this->m_3cc |= 1;
         this->m_3cc |= 0x40000;
         this->clear_player_status_flag(0, 0x08000000);
-        this->m_424 = 0;
+        this->state_step = 0;
         play_sound_effect(0x3B23B, &this->position, 0, 0);
         break;
     case 3:
-        if (this->m_424 == 3) {
+        if (this->state_step == 3) {
             this->transition_enemy_state(6);
             this->m_3cc &= ~1;
         }
@@ -1907,22 +1907,22 @@ void TObjEneMe3Stelth::sub_800F1440(s32 reason) {
     case 0:
         this->advance_animation();
         if (this->get_flag_b4() != 0) {
-            this->m_424 = 3;
+            this->state_step = 3;
         } else if (is_split_screen() != 0) {
-            switch (this->m_424) {
+            switch (this->state_step) {
             case 0:
                 if (this->is_passing_frame(4.0f) != 0) {
                     this->m_3cc |= 8;
                     NJS_ARGB q = me3_stelth_offset_vec;
-                    ((TObjEneMe3SinowZoa *)&this->m_404)->copy_position_vector(&q);
-                    this->m_424 = 1;
+                    ((TObjEneMe3SinowZoa *)&this->fade)->copy_position_vector(&q);
+                    this->state_step = 1;
                 }
                 break;
             case 1:
-                if (this->m_404.decay_value_toward_floor() != 0) {
+                if (this->fade.decay_value_toward_floor() != 0) {
                     this->m_3cc &= ~8;
-                    this->m_3c0 = 0;
-                    this->m_424 = 2;
+                    this->stealthed = 0;
+                    this->state_step = 2;
                 }
                 break;
             }
@@ -1930,14 +1930,14 @@ void TObjEneMe3Stelth::sub_800F1440(s32 reason) {
             this->m_3cc |= 8;
         } else if (this->is_passing_frame(6.0f) != 0) {
             this->m_3cc &= ~8;
-            this->m_3c0 = 0;
+            this->stealthed = 0;
         }
         this->update_ground_contact();
         this->check_collisions();
         break;
     case 5:
         this->m_3cc &= ~8;
-        this->m_3c0 = 0;
+        this->stealthed = 0;
         break;
     }
 }
@@ -1954,16 +1954,16 @@ void TObjEneMe3Stelth::sub_800F1098(s32 reason) {
         this->m_3cc &= 0xFFFFFFF8;
         this->m_3cc |= 0x10000;
         this->enemy_copy_target_destination();
-        this->m_424 = 0;
+        this->state_step = 0;
         break;
     case 3:
-        if (this->m_424 == 3) {
+        if (this->state_step == 3) {
             this->transition_enemy_state(6);
         }
         break;
     case 0:
         this->update_prev_position();
-        switch (this->m_424) {
+        switch (this->state_step) {
         case 0:
         default:
             if (this->current_target == NULL) {
@@ -1986,7 +1986,7 @@ void TObjEneMe3Stelth::sub_800F1098(s32 reason) {
                 }
             }
             if (r < 0x100) {
-                this->m_424 = 1;
+                this->state_step = 1;
                 this->requested_action = 8;
             } else {
                 this->requested_action = 0xA;
@@ -1995,8 +1995,8 @@ void TObjEneMe3Stelth::sub_800F1098(s32 reason) {
         case 1:
             this->advance_animation();
             if (this->get_flag_b4() != 0) {
-                this->m_428 = 0;
-                this->m_424 = 2;
+                this->state_timer = 0;
+                this->state_step = 2;
             }
             if (this->is_passing_frame(10.0f) != 0) {
                 this->advance_animation();
@@ -2022,18 +2022,18 @@ void TObjEneMe3Stelth::sub_800F1098(s32 reason) {
                 }
                 if (r < ((s32 *)this->m_318)[3] / 2 && this->current_target != NULL) {
                     if (game_difficulty_selection == 3) {
-                        ((TTecRaFoie *)this)->create(&out, (u8 *)&this->destination, TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[this->m_3c8]->attack_tech_level));
+                        ((TTecRaFoie *)this)->create(&out, (u8 *)&this->destination, TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[this->variant_index]->attack_tech_level));
                     } else {
-                        TTecGiFoie::create(this, &out, TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[this->m_3c8]->attack_tech_level));
+                        TTecGiFoie::create(this, &out, TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[this->variant_index]->attack_tech_level));
                     }
                 } else {
-                    this->m_424 = 3;
+                    this->state_step = 3;
                 }
             }
             break;
         case 2:
-            if (++this->m_428 >= 0x3C) {
-                this->m_424 = 3;
+            if (++this->state_timer >= 0x3C) {
+                this->state_step = 3;
             }
             break;
         }
@@ -2074,7 +2074,7 @@ s32 TObjEneMe3Stelth::sub_800F0F84(Vec *pos) {
     return result;
 }
 f32 TObjEneMe3Stelth::receive_direct_attack(void *source, DirectAttackPayload payload, void *collider, s32, s32) {
-    if (m_3c0 == 1 && get_entity_id(source) < 0x1000 && random_ratio() <= m_3e0) {
+    if (stealthed == 1 && get_entity_id(source) < 0x1000 && random_ratio() <= stealth_off_chance) {
         transition_enemy_state(0x12);
     } else if (mode == 2) {
         transition_enemy_state(6);

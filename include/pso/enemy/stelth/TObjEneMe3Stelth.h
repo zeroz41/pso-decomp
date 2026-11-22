@@ -64,26 +64,26 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     void render();
     void run_task();
     // TObjEneDD fields its header does not declare yet (TObjEneBm5Wolf declares the same ones).
-    s32 m_3c0;
+    s32 stealthed;
     s32 m_3c4;
-    s32 m_3c8;
+    s32 variant_index;
     s32 m_3cc;
-    f32 m_3d0;
-    f32 m_3d4;
-    f32 m_3d8;
-    f32 m_3dc;
-    f32 m_3e0;
-    f32 m_3e4;
-    s32 m_3e8;
+    f32 body_y;
+    f32 body_offset_y;
+    f32 technique_chance;
+    f32 stealth_on_chance;
+    f32 stealth_off_chance;
+    f32 warp_chance;
+    s32 material_color;
     s32 m_3ec;
     s32 m_3f0;
     s16 m_3f4;
     u8 unk_3F6[0x2];
     Vec m_3f8;
-    TUnk_80494938 m_404;
+    TUnk_80494938 fade;
     s32 m_420;
-    s32 m_424;
-    s32 m_428;
+    s32 state_step;
+    s32 state_timer;
     s32 m_42c;
     f32 m_430;
     f32 m_434;
@@ -123,7 +123,7 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     s32 sub_800F4C10(f32);
 };
 
-LAYOUT_ASSERT(TObjEneMe3StelthFadeOffset, offsetof(TObjEneMe3Stelth, m_404) == 0x404);
+LAYOUT_ASSERT(TObjEneMe3StelthFadeOffset, offsetof(TObjEneMe3Stelth, fade) == 0x404);
 LAYOUT_ASSERT(TObjEneMe3Stelth_size, sizeof(TObjEneMe3Stelth) == 0x44C);
 
 
