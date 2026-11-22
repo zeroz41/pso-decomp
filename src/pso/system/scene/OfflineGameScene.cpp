@@ -407,7 +407,7 @@ void run_offline_area_transfer(void) {
     TLobby::create_map_csn_ctrl();
     TParticleCtrl::create_quad_sprites();
     TLoadCtrl::start_loading(2);
-    find_leader_section_id(&TLobby__data_805011D8, TLobby__designated_client_id);
+    leader_selection.find_leader_section_id(TLobby__designated_client_id);
     load_area_scene_and_init((u8 *)&floor_transition_state);
     unlock_main_warp_destination(get_current_floor());
     TLoadCtrl::cleanup_scene();
@@ -615,7 +615,7 @@ void init_offline_game_scene(void) {
     local_client_id = 0;
     TLobby__designated_client_id = 0;
     TLobby__sub_801A2DF4();
-    find_leader_section_id(&TLobby__data_805011D8, TLobby__designated_client_id);
+    leader_selection.find_leader_section_id(TLobby__designated_client_id);
     load_area_scene_and_init((u8 *)&floor_transition_state);
     TLoadCtrl::cleanup_scene();
     main_task.begin_frame();

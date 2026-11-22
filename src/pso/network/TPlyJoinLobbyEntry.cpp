@@ -58,6 +58,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/unk/text_8013ADD0.h"
 #include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/ui/font/TFontSmallTask.h"
 
 struct Entry_8013634C {
     u8 tag[8];
@@ -353,7 +354,6 @@ void * get_char_index__23TAdSinglePlyChrSelectGCFUi(u32);
 void * __nw__7TObjectFUl(u32);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 s32 has_window_task_root();
-extern u8 TLobby__data_805011D8[];
 extern s32 TLobby__data_805D4E30;
 extern u32 *quest_object_entries;
 extern S12_801358B4 *TLobby__data_805D6144;
@@ -461,7 +461,6 @@ extern int area_random_seed;
 }
 void activate_keyboard();
 void restore_switch_table(saddr arg0, s32 arg1);
-void set_world_section_id(void *, s32);
 void bswap_object_source_record(void *);
 void set_area_random_seed(int a0);
 void *create_remote_player_object(void *arg0);
@@ -2408,7 +2407,7 @@ void TLobby::handle_game_join(void *data) {
     game_difficulty_selection = pkt->b107;
     TLobby__event_theme_id = pkt->b109;
     set_area_random_seed(pkt->w10c);
-    set_world_section_id(TLobby__data_805011D8, pkt->b10a);
+    leader_selection.set_section_id(pkt->b10a);
     if ((s32)pkt->b110 == 2) {
         request_story_select_state(1);
     } else {

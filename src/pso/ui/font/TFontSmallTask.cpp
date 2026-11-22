@@ -265,33 +265,16 @@ struct Ent_800FD6A0 { u32 id; void (*fn)(void); };
 
 struct Ent_800FD6F8 { void (*fn)(void); u32 id; };
 
-struct VBase_800FD614 { u8 pad[0x18]; };
-
-struct VObj_800FD614 : VBase_800FD614 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual s32 m14();
-};
-
-// The leader's level (TObjChara::get_actor_level_index) and its section id.
-struct LeaderSelection { s32 level; s32 section_id; };
-
-void reset_leader_selection(void* p);
-// The leader selection find_leader_section_id fills (TLobby_801A3C48, text_801A3014) and set_world_section_id /
-// TFontSmallTask::get_task_id store and read the section id of; the .ctors entry below resets it.
-LeaderSelection TLobby__data_805011D8;
+LeaderSelection leader_selection;
 extern "C" {
 void call_funcs_reverse__6TLobbyFPvUi(Ent_800FD6A0 *arr, u32 size);
 s32 is_area_transfer_pending(void);
 s32 run_load_callback_table(Ent_800FD6F8 *p, u32 size);
 u16 get_entity_id();
-void find_leader_section_id(struct LeaderSelection *out, s32 client_id);
 void __ct__7TObjectFP7TObject(void *, void *);
 }
 u32 calc_small_font_text_width(const char *s);
 extern u8 __vt__14TFontSmallTask[];
-void set_world_section_id(void* p, s32 v);
 
 #pragma push
 #pragma fp_contract on
@@ -321,20 +304,23 @@ TFontSmallTask_800FD4D4 *__ct__14TFontSmallTaskFv(TFontSmallTask_800FD4D4 *self,
 }
 #pragma pop
 
-void set_world_section_id(void* p, s32 v) { *(s32*)((char*)p + 0x4) = v; }
-s32 TFontSmallTask::get_task_id() { return *(s32 *)&this->m_flags; }
-void reset_leader_selection(void* p) { *(s32*)((char*)p + 0x0) = 0; *(s32*)((char*)p + 0x4) = 0; }
+void LeaderSelection::set_section_id(s32 id) { section_id = id; }
+s32 LeaderSelection::get_section_id() { return section_id; }
+LeaderSelection::LeaderSelection() {
+    level = 0;
+    section_id = 0;
+}
 
-void find_leader_section_id(struct LeaderSelection *out, s32 client_id) {
-    s32 n;
+void LeaderSelection::find_leader_section_id(s32 client_id) {
+    s32 count;
     s32 i;
-    VObj_800FD614 *p;
-    n = TLobby::get_game_mode();
-    for (i = 0; i < n; i++) {
-        p = (VObj_800FD614 *)TObjPlayer::get_player_data(i);
-        if (p != NULL && client_id == get_entity_id()) {
-            out->level = p->m14();
-            out->section_id = (s32)((TPlyPhotonChair *)(p))->get_actor_section_id();
+    TObjPlayer *player;
+    count = TLobby::get_game_mode();
+    for (i = 0; i < count; i++) {
+        player = TObjPlayer::get_player_data(i);
+        if (player != NULL && client_id == get_entity_id()) {
+            level = player->get_actor_level_index();
+            section_id = ((TPlyPhotonChair *)player)->get_actor_section_id();
         }
     }
 }
@@ -366,8 +352,3 @@ s32 run_load_callback_table(Ent_800FD6F8 *p, u32 size) {
     return 1;
 }
 
-void TLobby::reset_leader_selection_static() {
-    reset_leader_selection(&TLobby__data_805011D8);
-}
-
-__declspec(section ".ctors") static void *const __sinit_TFontSmallTask_cpp_ref = (void *)TLobby::reset_leader_selection_static;

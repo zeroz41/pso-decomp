@@ -68,6 +68,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007CF0C.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/ui/font/TFontSmallTask.h"
 
 
 struct Pair_801A3CFC { s32 f0; s32 f4; };
@@ -140,7 +141,6 @@ extern s32 lbl_805D5718;
 void __construct_array(void *, void *, int, int, int);
 s32 TLobby__sub_8013A23C(s32 arg0);
 s32 __dt__7TObjectFv(void *, s32);
-s32 find_leader_section_id(void *, s32);
 s32 unlock_main_warp_destination();
 int reset_controller_input_state(void);
 s32 TObjPlayer__sub_801B1BA4();
@@ -269,7 +269,6 @@ void clear_resource_load_tasks(void);
 extern s32 local_client_id;
 void process_pending_resources(void);
 void clear_quest_floor_designations(void);
-extern u8 TLobby__data_805011D8[];
 s32 start_quest_mission(void);
 extern u8 game_variations[];
 s32 change_floor_reload_area(void);
@@ -336,7 +335,7 @@ void reload_lobby_floor_scene(void) {
     TLobby::send_game_character();
     render_tick();
     render_tick();
-    find_leader_section_id(TLobby__data_805011D8, TLobby__designated_client_id);
+    leader_selection.find_leader_section_id(TLobby__designated_client_id);
     TLobby::free_objects();
     main_task.delete_layer_children();
     main_task.resume_layers();
@@ -482,7 +481,7 @@ s32 start_quest_mission(void) {
     reset_controller_input_state();
     render_tick();
     render_tick();
-    find_leader_section_id(TLobby__data_805011D8, TLobby__designated_client_id);
+    leader_selection.find_leader_section_id(TLobby__designated_client_id);
     for (i = 0; i < 12; i++) {
         p = (VObj_18_801A4268 *) get_player_by_client_id(i);
         if (p != NULL) {
@@ -545,7 +544,7 @@ s32 change_floor_reload_area(void) {
     reset_controller_input_state();
     render_tick();
     render_tick();
-    find_leader_section_id(TLobby__data_805011D8, TLobby__designated_client_id);
+    leader_selection.find_leader_section_id(TLobby__designated_client_id);
     for (i = 0; i < 12; i++) {
         p = (VObj_18_801A441C *) get_player_by_client_id(i);
         if (p != NULL) {
