@@ -4,6 +4,14 @@
 #include "pso/system/task/TObject.h"
 #include <dolphin/mtx.h>
 
+struct NpcCameraDestination {
+    Vec position;
+    Vec target;
+};
+
+// Conversation camera poses, indexed by the NPC or counter that starts one.
+extern const NpcCameraDestination fixed_npc_camera_destination_table[20];
+
 // Set once a conversation camera holds its pose; the fixed camera clears it.
 extern s32 fixed_npc_camera_active;
 
