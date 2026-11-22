@@ -48,7 +48,7 @@ struct TWindowSubComCard : public TObject {
     uaddr entry_list_window;
     uaddr keyboard;
     uaddr m_84;
-    static s32 get_card_slot(s32 arg0);
+    static saddr get_card_slot(s32 arg0);
     static void *send_command(saddr index);
     static u8 *apply_selection(s32 index);
     void clear_flag_and_release();

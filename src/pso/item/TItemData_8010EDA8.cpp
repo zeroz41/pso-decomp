@@ -67,7 +67,7 @@ saddr get_item_description_text(s32 name) {
     return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 4)) + (name * 4));
 }
 saddr get_text_collection(s32 arg0) {
-    return *(s32 *)((s8 *)(*(*(s32 * *)&text_language_group_table)) + (arg0 * 4));
+    return *(s32 *)((s8 *)(*(saddr *)text_language_group_table) + (arg0 * 4));
 }
 
 }
