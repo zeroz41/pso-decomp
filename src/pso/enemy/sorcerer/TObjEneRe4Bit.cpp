@@ -328,16 +328,16 @@ void TObjEneRe4Bit::dispatch_action(u32 state, s32 reason) {
         handle_event(reason);
         return;
     case 2:
-        TObjEneRe4Bit__sub_800ECED0(this, reason);
+        sub_800ECED0(reason);
         return;
     case 3:
-        TObjEneRe4Bit__sub_800ECE04(this, reason);
+        sub_800ECE04(reason);
         return;
     case 5:
-        TObjEneRe4Bit__sub_800ECD28(this, reason);
+        sub_800ECD28(reason);
         return;
     case 6:
-        TObjEneRe4Bit__sub_800ECC14(this, reason);
+        sub_800ECC14(reason);
     default:
         return;
     }
@@ -385,42 +385,42 @@ void TObjEneRe4Bit::handle_event(s32 arg1) {
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_propagation off
-void TObjEneRe4Bit__sub_800ECED0(TObjEneRe4Bit *bit, s32 reason) {
+void TObjEneRe4Bit::sub_800ECED0(s32 reason) {
     u32 flags;
     switch (reason) {
     case 4:
-        bit->set_field_378(3);
-        bit->m_3cc |= 0x1000;
-        bit->m_408 = 0;
-        bit->m_404 = 1;
-        bit->m_3d0 = bit->m_3d4;
+        this->set_field_378(3);
+        this->m_3cc |= 0x1000;
+        this->m_408 = 0;
+        this->m_404 = 1;
+        this->m_3d0 = this->m_3d4;
         return;
     case 3:
-        flags = bit->m_3cc;
+        flags = this->m_3cc;
         if (flags & 0x2) {
-            bit->m_3cc = flags & ~0x2;
-            bit->transition_enemy_state(3);
+            this->m_3cc = flags & ~0x2;
+            this->transition_enemy_state(3);
         }
         return;
     case 0:
-        switch (bit->m_408) {
+        switch (this->m_408) {
         case 1:
             break;
         case 0:
-            bit->m_3d8 += 0.8f;
-            if (bit->m_3d8 > 20.0f) {
-                bit->m_3d8 = 20.0f;
-                bit->m_408 = 1;
-                bit->m_404 = 2;
+            this->m_3d8 += 0.8f;
+            if (this->m_3d8 > 20.0f) {
+                this->m_3d8 = 20.0f;
+                this->m_408 = 1;
+                this->m_404 = 2;
             }
-            bit->rotation_y = bit->rotation_y + 0x1800;
+            this->rotation_y = this->rotation_y + 0x1800;
             break;
         }
-        bit->update_homing_velocity();
-        bit->update_position_flag();
+        this->update_homing_velocity();
+        this->update_position_flag();
         return;
     case 5:
-        bit->m_404 = 0;
+        this->m_404 = 0;
         break;
     }
 }
@@ -428,90 +428,90 @@ void TObjEneRe4Bit__sub_800ECED0(TObjEneRe4Bit *bit, s32 reason) {
 
 #pragma push
 #pragma opt_common_subs off
-void TObjEneRe4Bit__sub_800ECE04(TObjEneRe4Bit *bit, s32 reason) {
+void TObjEneRe4Bit::sub_800ECE04(s32 reason) {
     switch (reason) {
     case 4:
-        bit->set_field_378(3);
-        bit->m_3cc &= ~0x1000;
-        bit->m_3d0 = 3;
+        this->set_field_378(3);
+        this->m_3cc &= ~0x1000;
+        this->m_3d0 = 3;
         break;
     case 3:
-        if (bit->m_3d8 <= 0.0f) {
-            bit->transition_enemy_state(1);
+        if (this->m_3d8 <= 0.0f) {
+            this->transition_enemy_state(1);
             break;
         }
     case 5:
         break;
     case 0:
-        bit->m_3d8 -= 0.8f;
-        if (bit->m_3d8 < 0.0f) {
-            bit->m_3d8 = 0.0f;
+        this->m_3d8 -= 0.8f;
+        if (this->m_3d8 < 0.0f) {
+            this->m_3d8 = 0.0f;
         }
-        bit->rotation_y = bit->rotation_y - 0x1800;
-        bit->update_homing_velocity();
-        bit->update_position_flag();
+        this->rotation_y = this->rotation_y - 0x1800;
+        this->update_homing_velocity();
+        this->update_position_flag();
         break;
     }
 }
 #pragma pop
 
-void TObjEneRe4Bit__sub_800ECD28(TObjEneRe4Bit *bit, s32 reason) {
+void TObjEneRe4Bit::sub_800ECD28(s32 reason) {
     switch (reason) {
     case 4:
-        bit->m_408 = 0;
+        this->m_408 = 0;
         return;
     case 3:
-        if (bit->m_408 > 0xF) {
-            bit->transition_enemy_state(1);
+        if (this->m_408 > 0xF) {
+            this->transition_enemy_state(1);
         }
         return;
     case 0:
-        bit->m_408 = bit->m_408 + 1;
-        VecCopy(&bit->body_center, bit->m_3c0);
-        bit->body_center.y = bit->body_center.y + bit->m_3d8;
-        bit->body_center.x = bit->body_center.x + ((TObjEneDD *)bit)->calc_elapsed_scaled();
-        bit->body_center.z = bit->body_center.z + ((TObjEneDD *)bit)->calc_elapsed_scaled();
-        bit->update_ground_contact();
+        this->m_408 = this->m_408 + 1;
+        VecCopy(&this->body_center, this->m_3c0);
+        this->body_center.y = this->body_center.y + this->m_3d8;
+        this->body_center.x = this->body_center.x + ((TObjEneDD *)this)->calc_elapsed_scaled();
+        this->body_center.z = this->body_center.z + ((TObjEneDD *)this)->calc_elapsed_scaled();
+        this->update_ground_contact();
         return;
     case 5:
-        bit->clear_attack_receipts();
+        this->clear_attack_receipts();
         return;
     }
 }
 
 #pragma push
 #pragma fp_contract on
-void TObjEneRe4Bit__sub_800ECC14(TObjEneRe4Bit *bit, s32 reason) {
+void TObjEneRe4Bit::sub_800ECC14(s32 reason) {
     u32 flags;
     switch (reason) {
     case 4:
-        bit->m_408 = 0;
-        bit->set_hold_flags();
-        bit->m_3cc |= 0x400;
-        play_sound_effect(bit->remap_sound_for_area(0x4003A815), &bit->position, 0, 0);
+        this->m_408 = 0;
+        this->set_hold_flags();
+        this->m_3cc |= 0x400;
+        play_sound_effect(this->remap_sound_for_area(0x4003A815), &this->position, 0, 0);
         break;
     case 3:
-        if (bit->m_3cc & 0x8) {
-            play_sound_effect(bit->remap_sound_for_area(0x4003AD16), &bit->position, 0, 0);
-            bit->transition_enemy_state(1);
+        if (this->m_3cc & 0x8) {
+            play_sound_effect(this->remap_sound_for_area(0x4003AD16), &this->position, 0, 0);
+            this->transition_enemy_state(1);
         }
         break;
     case 0:
-        bit->m_408 = bit->m_408 + 1;
-        if (bit->m_408 >= 900) {
-            flags = bit->m_3cc;
+        this->m_408 = this->m_408 + 1;
+        if (this->m_408 >= 900) {
+            flags = this->m_3cc;
             if (!(flags & 0x10)) {
-                bit->m_3cc = flags & ~0x400;
-                bit->set_state_flags();
+                this->m_3cc = flags & ~0x400;
+                this->set_state_flags();
                 return;
             }
         }
         break;
     case 5:
-        bit->actorFlags &= ~0x800;
-        bit->hp = bit->hpmax;
-        bit->sub_800ED47C();
-        bit->m_3d8 = 0.0f;
+        this->actorFlags &= ~0x800;
+        this->hp = this->hpmax;
+        this->sub_800ED47C();
+        this->m_3d8 = 0.0f;
         break;
     }
 }

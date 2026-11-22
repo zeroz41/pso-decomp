@@ -69,6 +69,17 @@ struct TObjEneRe4Sorcerer : public TObjEneDD_ST {
     f32 m_4ec;
     void set_motion_by_state();
     s32 select_attack_target(f32 farg0, f32 farg1);
+    void sub_800EE0F8(s32 reason);
+    void sub_800EE1CC(s32 reason);
+    void sub_800EE7DC(s32 reason);
+    void sub_800EEC00(s32 reason);
+    void sub_800EEDE4(s32 reason);
+    void sub_800EEFE4(s32 reason);
+    void sub_800EF214();
+    void sub_800EF7C8();
+    void sub_800EF844();
+    void sub_800EF95C(f32 speed);
+    void sub_800EFE30();
 };
 
 LAYOUT_ASSERT(TObjEneRe4Sorcerer_m_3c0_offset, offsetof(TObjEneRe4Sorcerer, m_3c0) == 0x3C0);

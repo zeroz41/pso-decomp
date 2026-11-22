@@ -1330,27 +1330,27 @@ force_active:
   - TObjEnePanarmsAtkColli__type_index_table
   - TObjEnePanarmsAtkColli_class_name
   - TObjEneRe4Bit__ct
-  - TObjEneRe4Bit__sub_800ECC14
-  - TObjEneRe4Bit__sub_800ECD28
-  - TObjEneRe4Bit__sub_800ECE04
-  - TObjEneRe4Bit__sub_800ECED0
+  - sub_800ECC14__13TObjEneRe4BitFl
+  - sub_800ECD28__13TObjEneRe4BitFl
+  - sub_800ECE04__13TObjEneRe4BitFl
+  - sub_800ECED0__13TObjEneRe4BitFl
   - TObjEneRe4Bit_boss_handles
   - __ct__18TObjEneRe4SorcererFP7TObjectPv
   - TObjEneRe4Sorcerer__data_805DA78C
   - TObjEneRe4Sorcerer__data_805DA790
   - TObjEneRe4Sorcerer__data_805DA794
   - TObjEneRe4Sorcerer__sub_800ED47C
-  - TObjEneRe4Sorcerer__sub_800EE0F8
-  - TObjEneRe4Sorcerer__sub_800EE1CC
-  - TObjEneRe4Sorcerer__sub_800EE7DC
-  - TObjEneRe4Sorcerer__sub_800EEC00
-  - TObjEneRe4Sorcerer__sub_800EEDE4
-  - TObjEneRe4Sorcerer__sub_800EEFE4
-  - TObjEneRe4Sorcerer__sub_800EF214
-  - TObjEneRe4Sorcerer__sub_800EF7C8
-  - TObjEneRe4Sorcerer__sub_800EF844
-  - TObjEneRe4Sorcerer__sub_800EF95C
-  - TObjEneRe4Sorcerer__sub_800EFE30
+  - sub_800EE0F8__18TObjEneRe4SorcererFl
+  - sub_800EE1CC__18TObjEneRe4SorcererFl
+  - sub_800EE7DC__18TObjEneRe4SorcererFl
+  - sub_800EEC00__18TObjEneRe4SorcererFl
+  - sub_800EEDE4__18TObjEneRe4SorcererFl
+  - sub_800EEFE4__18TObjEneRe4SorcererFl
+  - sub_800EF214__18TObjEneRe4SorcererFv
+  - sub_800EF7C8__18TObjEneRe4SorcererFv
+  - sub_800EF844__18TObjEneRe4SorcererFv
+  - sub_800EF95C__18TObjEneRe4SorcererFf
+  - sub_800EFE30__18TObjEneRe4SorcererFv
   - dispatch_action__18TObjEneRe4SorcererFUll
   - TObjEneRe7BeruraPunch__collision_body_templates
   - TObjEneRe7BeruraPunch__data_805D97A0
