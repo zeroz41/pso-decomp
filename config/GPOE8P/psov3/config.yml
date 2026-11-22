@@ -1200,12 +1200,12 @@ force_active:
   - TObjEneLappy__resource_name_table
   - __ct__23TObjEneMe1CanadinLeaderFP7TObjectPv
   - fn_8009E258__17TObjEneMe1CanadinFv
-  - fn_8009E27C__17TObjEneMe1CanadinFv
-  - fn_8009E31C__17TObjEneMe1CanadinFl
+  - set_flag3c8_bit4__17TObjEneMe1CanadinFv
+  - has_status_flag__17TObjEneMe1CanadinFl
   - fn_8009E334__17TObjEneMe1CanadinFv
   - fn_8009E350__17TObjEneMe1CanadinFv
   - fn_8009E36C__17TObjEneMe1CanadinFv
-  - fn_8009E4AC__17TObjEneMe1CanadinFl
+  - start_fade_sequence__17TObjEneMe1CanadinFl
   - select_next_attack_state__23TObjEneMe1CanadinLeaderFv
   - select_model__23TObjEneMe1CanadinLeaderFv
   - spawn_members__23TObjEneMe1CanadinLeaderFv
@@ -1230,8 +1230,8 @@ force_active:
   - find_attack_target__17TObjEneMe1CanadinFPff
   - fn_8009E930__17TObjEneMe1CanadinFv
   - fn_8009E948__17TObjEneMe1CanadinFv
-  - fn_8009EB14__17TObjEneMe1CanadinFf
-  - fn_8009EB98__17TObjEneMe1CanadinFf
+  - hover_toward__17TObjEneMe1CanadinFf
+  - approach_hover_y__17TObjEneMe1CanadinFf
   - TObjEneMe1Gee_NEEDLE__name
   - __ct__13TObjEneMe1GeeFP7TObjectP13TObjEneMe1GeeP3VecUsl
   - TObjEneMe1Gee__fade_command_streams
@@ -1245,13 +1245,13 @@ force_active:
   - sub_800CB4DC__13TObjEneMe1GeeFv
   - sub_800CB560__13TObjEneMe1GeeFv
   - sub_800CB584__13TObjEneMe1GeeFv
-  - sub_800CB5A0__13TObjEneMe1GeeFl
+  - has_status_flag__13TObjEneMe1GeeFl
   - sub_800CB628__13TObjEneMe1GeeFv
   - sub_800CB968__13TObjEneMe1GeeFv
   - sub_800CBA80__13TObjEneMe1GeeFv
   - sub_800CBC04__13TObjEneMe1GeeFv
   - sub_800CBC1C__13TObjEneMe1GeeFv
-  - sub_800CBDBC__13TObjEneMe1GeeFf
+  - climb_toward__13TObjEneMe1GeeFf
   - TObjEneMe1GiGueBarrier__barrier_resource_object
   - __ct__22TObjEneMe1GiGueBarrierFP7TObjectPv
   - __ct__22TObjEneMe1GiGueMissileFlP3VecP3Vecff
@@ -4015,7 +4015,7 @@ force_active:
   - approach_target__14CreationCameraFllff
   - approach_target__14TObjEneBm5WolfFPvf
   - approach_target__16TObjEneBm5GibonUFf
-  - approach_target_value__13TObjEneMe1GeeFf
+  - climb_hover_y__13TObjEneMe1GeeFf
   - approach_value__13TObjEneBm3FlyFff
   - approach_value__13TObjEneMorfosFll
   - aramQueueCallback
@@ -6360,7 +6360,7 @@ force_active:
   - fn_8009BD00
   - fn_8009E2DC__17TObjEneMe1CanadinFv
   - fn_8009E300__17TObjEneMe1CanadinFv
-  - fn_8009E378__17TObjEneMe1CanadinFv
+  - update_photon_target__17TObjEneMe1CanadinFv
   - fn_800BC758
   - hit_enemy_near__22TObjEnePanarmsAtkColliFP3Vec
   - hit_player__22TObjEnePanarmsAtkColliFP9TObjChara
@@ -15542,7 +15542,7 @@ force_active:
   - set_model__19TBoss3VoloptMonitorFl
   - set_motion_by_state__18TObjEneRe4SorcererFPv
   - set_motion_row_stride__Fl
-  - set_move_speed_x__13TObjEneMe1GeeFv
+  - approach_upper_hover_height__13TObjEneMe1GeeFv
   - set_movie_finished_flag__Fl
   - set_multi_chg_game_mode_0x14__18TAdEnterPasswordGCFPv
   - set_music_gain__19TWindowSoundBalanceFs
@@ -15619,7 +15619,7 @@ force_active:
   - set_target_coords__11TCameraCtrlFii
   - set_target_flag_bit0__15TObjEneSlimeOneFv
   - set_target_from_action__13TBoss5GryphonFPv
-  - set_target_speed_z__17TObjEneMe1CanadinFv
+  - update_hover_height__17TObjEneMe1CanadinFv
   - set_target_state__11TBoss6Type2Fll
   - set_telepipe__12CursorActionFv
   - set_tev_passclr__10TObjPlayerFv
@@ -16202,14 +16202,14 @@ force_active:
   - sub_800BE75C__9TObjGrassFv
   - sub_800C20B0__12TObjEneLappyFv
   - sub_800C20C0__12TObjEneLappyFv
-  - sub_800C84C8__13TUnk_8049387CFv
+  - update_formation_state__13TUnk_8049387CFv
   - sub_800CB5B8__13TObjEneMe1GeeFv
   - sub_800CB5D4__13TObjEneMe1GeeFv
   - sub_800CB5F0__13TObjEneMe1GeeFv
   - sub_800CB60C__13TObjEneMe1GeeFv
-  - sub_800CB764__13TUnk_8049387CFl
-  - sub_800CBE6C__13TObjEneMe1GeeFf
-  - sub_800CBF58__13TObjEneMe1GeeFf
+  - start_fade_sequence__13TObjEneMe1GeeFl
+  - hover_toward__13TObjEneMe1GeeFf
+  - approach_hover_y__13TObjEneMe1GeeFf
   - sub_800CC0C4__13TObjEneMe1GeeFv
   - select_subtype__16TObjEneBm5GibonUFv
   - explode__13TUnk_8049442CFv
@@ -16673,7 +16673,7 @@ force_active:
   - update_angle__13TObjEneMe1GeeFv
   - update_angle__17TObjEneMe1CanadinFv
   - update_anim__8TObjDoorFPv
-  - update_animation_frame__13TObjEneMe1GeeFv
+  - update_upper_hover_height__13TObjEneMe1GeeFv
   - update_appear__11TBoss4Type3Fv
   - update_appearance_drop__11TObjEneMojaFv
   - update_appearance_jump__11TObjEneMojaFv
@@ -16932,7 +16932,7 @@ force_active:
   - update_formation_state__23TObjEneMe1CanadinLeaderFv
   - update_forward_movement__14TObjEneIllGillFv
   - update_from_data__12TBoss1DragonFv
-  - update_from_float_sum__13TObjEneMe1GeeFv
+  - climb_to_hover_height__13TObjEneMe1GeeFv
   - update_from_lobby__19TWindowSubTradeMainFv
   - update_game_list_menu__6TLobbyFv
   - update_giveup__20TObjChallenge4PRetryFv
@@ -16958,7 +16958,7 @@ force_active:
   - update_homing__11TBoss4Type3Fv
   - update_homing_velocity__13TObjEneRe4BitFv
   - update_hover_height__13TObjEneMe1GeeFv
-  - update_hover_height__17TObjEneMe1CanadinFv
+  - update_upper_hover_height__17TObjEneMe1CanadinFv
   - update_hp_tp_values__20TWindowSubStatusDispFPv
   - update_hurt__12TObjEneLappyFv
   - update_idle__13TUnk_804A1570Fv
@@ -17141,7 +17141,7 @@ force_active:
   - update_position_history__11TBoss2JointFv
   - update_position_history__12TBoss1DragonFv
   - update_position_if_changed__19TWindowSubTradeMainFlPUcPUc
-  - update_position_with_offset__17TObjEneMe1CanadinFv
+  - approach_upper_hover_height__17TObjEneMe1CanadinFv
   - update_possess_target__11TBoss6Type2Fv
   - update_pressed_keys__16TKeyBoardControlFv
   - update_proximity_state__16TObjEneNanoDragoFv

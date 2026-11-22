@@ -415,7 +415,7 @@ u8 *TObjEneMe1Canadin::move_xz_on_ground(u8 *arg) {
 }
 
 
-void TObjEneMe1Canadin::fn_8009EB98(f32 height) {
+void TObjEneMe1Canadin::approach_hover_y(f32 height) {
     f32 delta;
     delta = height - hover_y;
     status_flags &= ~0x80000;
@@ -429,25 +429,25 @@ void TObjEneMe1Canadin::fn_8009EB98(f32 height) {
     }
 }
 
-void TObjEneMe1Canadin::update_position_with_offset() {
-    fn_8009EB98(position.y + upper_hover_height);
+void TObjEneMe1Canadin::approach_upper_hover_height() {
+    approach_hover_y(position.y + upper_hover_height);
 }
 
 
-void TObjEneMe1Canadin::fn_8009EB14(f32 height) {
+void TObjEneMe1Canadin::hover_toward(f32 height) {
     Vec pos;
-    fn_8009EB98(height);
+    approach_hover_y(height);
     VecCopy(&pos, &position);
     pos.y = hover_y;
     move_xz_on_ground((u8 *)&pos);
 }
 
-void TObjEneMe1Canadin::set_target_speed_z() {
-    fn_8009EB14(hover_height + position.y);
+void TObjEneMe1Canadin::update_hover_height() {
+    hover_toward(hover_height + position.y);
 }
 
-void TObjEneMe1Canadin::update_hover_height() {
-    fn_8009EB14(upper_hover_height + position.y);
+void TObjEneMe1Canadin::update_upper_hover_height() {
+    hover_toward(upper_hover_height + position.y);
 }
 
 void TObjEneMe1Canadin::update_angle() {
@@ -625,7 +625,7 @@ void TObjEneMe1Canadin::update_fade_sequence() {
 }
 
 
-void TObjEneMe1Canadin::fn_8009E4AC(s32 sequence) {
+void TObjEneMe1Canadin::start_fade_sequence(s32 sequence) {
     reset_map_core((NJS_ARGB *)&canadin_formation_fade_start_color);
     fade_mode = 3;
     fade_sequence = sequence;
@@ -653,7 +653,7 @@ void TObjEneMe1Canadin::apply_model_color() {
 int TObjEneMe1Canadin::has_no_members() { return 1; }
 
 
-void TObjEneMe1Canadin::fn_8009E378() {
+void TObjEneMe1Canadin::update_photon_target() {
     if (mode == 2) {
         leader = (TObjEneMe1Canadin *)find_entity_by_id(leader_id);
         leader->fn_8009E2DC();
@@ -668,7 +668,7 @@ void TObjEneMe1Canadin::fn_8009E334() {
     status_flags |= 0x200;
     status_flags &= ~0x100;
 }
-s32 TObjEneMe1Canadin::fn_8009E31C(s32 mask) {
+s32 TObjEneMe1Canadin::has_status_flag(s32 mask) {
     return (status_flags & mask) != 0;
 }
 TObjChara *TObjEneMe1Canadin::fn_8009E300() {
@@ -697,7 +697,7 @@ void TObjEneMe1Canadin::set_leader_index(TObjChara *target, s32 index) {
 void TObjEneMe1Canadin::set_attack_flag() { status_flags |= 0x2; }
 
 
-void TObjEneMe1Canadin::fn_8009E27C() { status_flags |= 0x4; }
+void TObjEneMe1Canadin::set_flag3c8_bit4() { status_flags |= 0x4; }
 
 void TObjEneMe1Canadin::set_flag3c8_bit8() { status_flags |= 0x8; }
 
@@ -826,9 +826,9 @@ void TObjEneMe1Canadin::fn_8009DE90(s32 msg) {
     case 0:
         this->advance_animation();
         if (this->kind == 2) {
-            this->fn_8009EB14(25.0f + this->position.y);
+            this->hover_toward(25.0f + this->position.y);
         } else {
-            this->set_target_speed_z();
+            this->update_hover_height();
         }
         this->update_body_colliders();
         break;
@@ -865,9 +865,9 @@ void TObjEneMe1Canadin::action(s32 msg) {
             update_linked_position(200.0f);
         }
         if (kind == 2) {
-            fn_8009EB14(25.0f + position.y);
+            hover_toward(25.0f + position.y);
         } else {
-            set_target_speed_z();
+            update_hover_height();
         }
         this->check_collisions();
         break;
@@ -942,7 +942,7 @@ void TObjEneMe1Canadin::vfunc_110(s32 msg) {
             update_move();
             break;
         }
-        set_target_speed_z();
+        update_hover_height();
         this->check_collisions();
         return;
     case 5:
@@ -972,7 +972,7 @@ void TObjEneMe1Canadin::vfunc_111(s32 msg) {
         advance_animation();
         update_linked_position(200.0f);
         update_move();
-        this->update_hover_height();
+        this->update_upper_hover_height();
         this->check_collisions();
         noop();
         break;
@@ -1007,31 +1007,31 @@ void TObjEneMe1Canadin::move(s32 msg) {
             temp_r3 = status_flags;
             if (temp_r3 & 4) {
                 status_flags = (s32) (temp_r3 & 0xFFFFFFFB);
-                if (fn_8009E31C(0x200) != 0) {
+                if (has_status_flag(0x200) != 0) {
                     stage = 1;
-                    fn_8009E4AC(1);
+                    start_fade_sequence(1);
                 } else {
                     stage = 2;
                     advance_state_4_to_5();
-                    fn_8009E4AC(3);
+                    start_fade_sequence(3);
                 }
             }
             update_move();
-            update_hover_height();
+            update_upper_hover_height();
             break;
         case 1:
             if (fade_mode == 0) {
                 stage = 3;
             }
             update_move();
-            update_hover_height();
+            update_upper_hover_height();
             break;
         case 2:
             update_move();
             if (fade_mode != 0) {
-                update_hover_height();
+                update_upper_hover_height();
             } else {
-                fn_8009EB14(position.y + random_hover_height);
+                hover_toward(position.y + random_hover_height);
                 if (status_flags & 0x80000) {
                     stage = 3;
                 }
@@ -1164,7 +1164,7 @@ void TObjEneMe1Canadin::fn_8009D320(s32 msg) {
             }
             break;
         }
-        this->update_position_with_offset();
+        this->approach_upper_hover_height();
         this->check_collisions();
         this->noop();
         break;
@@ -1245,7 +1245,7 @@ void TObjEneMe1Canadin::fn_8009CC74(s32 msg) {
                     }
                 }
             }
-            this->fn_8009EB14(this->position.y + this->hover_offset);
+            this->hover_toward(this->position.y + this->hover_offset);
             break;
         }
         case 1:
@@ -1290,7 +1290,7 @@ void TObjEneMe1Canadin::fn_8009CC74(s32 msg) {
             this->enemy_copy_target_destination();
             this->update_velocity();
             this->update_angle();
-            this->fn_8009EB98(this->position.y + this->hover_height);
+            this->approach_hover_y(this->position.y + this->hover_height);
             if (this->destination_distance < 18.0f) {
                 if (this->fn_8009E76C() != 0) {
                     this->stage_timer = 0;
@@ -1346,7 +1346,7 @@ void TObjEneMe1Canadin::fn_8009CC74(s32 msg) {
                     }
                 }
             }
-            this->set_target_speed_z();
+            this->update_hover_height();
             break;
         }
         this->check_collisions();
@@ -1436,7 +1436,7 @@ void TObjEneMe1Canadin::fn_8009C91C(s32 msg) {
                 this->enemy_copy_target_destination();
                 this->update_velocity();
                 this->update_angle();
-                this->update_hover_height();
+                this->update_upper_hover_height();
                 this->stage_timer++;
                 if (this->stage_timer > 30) {
                     this->stage_timer = 0;
@@ -1479,7 +1479,7 @@ void TObjEneMe1Canadin::run_task(s32 msg) {
         set_target_destination(&home_position);
         update_velocity();
         update_angle();
-        update_position_with_offset();
+        approach_upper_hover_height();
         move_with_wall_slide_commit(destination_direction.x, destination_direction.z, 0.8f);
         update_body_colliders();
         noop();
@@ -1496,7 +1496,7 @@ void TObjEneMe1Canadin::hurt_state(s32 msg) {
     case 4:
         this->requested_action = this->move_action;
         this->advance_animation();
-        this->fn_8009E378();
+        this->update_photon_target();
         this->status_flags &= ~0x400000;
         this->clear_intangible();
         this->actorFlags &= ~0x1000000;
@@ -1593,7 +1593,7 @@ void TObjEneMe1Canadin::fn_8009C2EC(s32 msg) {
             this->enemy_copy_target_destination();
         }
         this->update_velocity();
-        this->fn_8009EB98(this->position.y + this->hover_height);
+        this->approach_hover_y(this->position.y + this->hover_height);
         TObjEneEpsilon__sub_800B92AC(this, 0x200, 0.68f);
         this->rotation_z += 0x2000;
         this->stage++;
@@ -1674,13 +1674,13 @@ void TObjEneMe1Canadin::fn_8009BFF8(s32 msg) {
                 this->stage = 1;
                 this->advance_state_5_to_4();
             }
-            this->fn_8009EB14(this->position.y + this->hover_offset);
+            this->hover_toward(this->position.y + this->hover_offset);
             break;
         case 1:
             this->set_target_destination(&this->home_position);
             this->update_velocity();
             this->update_angle();
-            this->update_position_with_offset();
+            this->approach_upper_hover_height();
             if (this->destination_distance > 2.0f) {
                 this->move_with_wall_slide_commit(this->destination_direction.x, this->destination_direction.z, 0.8f);
             }
@@ -2069,7 +2069,7 @@ void TObjEneMe1CanadinLeader::update_formation_state() {
     }
     switch (this->formation_state) {
     case 1:
-        this->fn_8009E4AC(0);
+        this->start_fade_sequence(0);
         this->formation_state = 2;
         play_sound_effect(0x4003AD1B, &this->body_center, 0, 0);
         break;
@@ -2079,8 +2079,8 @@ void TObjEneMe1CanadinLeader::update_formation_state() {
             this->status_flags &= ~8;
             copy_argb(&this->core_color, (NJS_ARGB *)&canadin_formation_reset_vec4);
             for (i = 0; i < this->member_count; i++) {
-                if (this->members[i]->fn_8009E31C(0x200) != 0) {
-                    this->members[i]->fn_8009E27C();
+                if (this->members[i]->has_status_flag(0x200) != 0) {
+                    this->members[i]->set_flag3c8_bit4();
                 }
             }
         }
@@ -2091,7 +2091,7 @@ void TObjEneMe1CanadinLeader::update_formation_state() {
         }
         break;
     case 4:
-        this->fn_8009E4AC(2);
+        this->start_fade_sequence(2);
         this->formation_state = 5;
         play_sound_effect(0x4003AD1C, &this->body_center, 0, 0);
         break;
@@ -2100,8 +2100,8 @@ void TObjEneMe1CanadinLeader::update_formation_state() {
             copy_argb(&this->core_color, (NJS_ARGB *)&canadin_formation_reset_vec4);
             this->formation_state = 6;
             for (i = 0; i < this->member_count; i++) {
-                if (this->members[i]->fn_8009E31C(0x100) != 0) {
-                    this->members[i]->fn_8009E27C();
+                if (this->members[i]->has_status_flag(0x100) != 0) {
+                    this->members[i]->set_flag3c8_bit4();
                 }
             }
         }
@@ -2109,7 +2109,7 @@ void TObjEneMe1CanadinLeader::update_formation_state() {
     case 6:
         break;
     case 7:
-        this->fn_8009E4AC(4);
+        this->start_fade_sequence(4);
         this->formation_state = 8;
         play_sound_effect(0x4003AD1B, &this->body_center, 0, 0);
         break;
@@ -2187,7 +2187,7 @@ void TObjEneMe1CanadinLeader::vfunc_110(s32 arg1) {
             update_move();
             break;
         }
-        fn_8009EB14(25.0f + position.y);
+        hover_toward(25.0f + position.y);
         check_collisions();
         break;
     case 5:
@@ -2212,7 +2212,7 @@ void TObjEneMe1CanadinLeader::vfunc_111(s32 mode) {
         advance_animation();
         update_linked_position(200.0f);
         update_move();
-        update_hover_height();
+        update_upper_hover_height();
         check_collisions();
         break;
     case 5:

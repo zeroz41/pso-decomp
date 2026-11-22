@@ -18,8 +18,7 @@ public:
     virtual void vfunc_110(s32);
     virtual void vfunc_111(s32);
     virtual void state_dead(s32);
-    void sub_800CB764(s32);
-    void sub_800C84C8();
+    void update_formation_state();
     s32 member_total;
     s32 member_count;
     TObjEneMe1Gee *members[8];
