@@ -6,7 +6,7 @@
 struct TObjPlayer;
 extern "C" {
 void TObjPlayer__sub_803DA7E0(void);
-void TObjPlayer__sub_803DA808(void *buf, saddr arg1, u32 arg2);
+void TObjPlayer__sub_803DA808(void *buf, saddr src, u32 size);
 s32 TObjPlayer__sub_803DA84C(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
 s32 TObjPlayer__sub_803DA8B4(u8 *arg0, s32 arg1);
 s32 TObjPlayer__sub_803DA8E4(u32 arg0, u32 arg1, s32 arg2, s32 *arg3);

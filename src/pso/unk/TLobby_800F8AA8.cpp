@@ -76,14 +76,14 @@ void fn_800F8A78(void) {
     memset(player_name_copy_buffer, 0, 0x10);
 }
 
-s32 *lobby_checked_read_ptr_table[4] = { 0, 0, 0, 0 };
+AdxfHandle **lobby_checked_read_ptr_table[4] = { 0, 0, 0, 0 };
 s32 lbl_80499A10[4] = { 0, 0, 0, 0 };
-u32 lbl_80499A20[4] = { 0, 0, 0, 0 };
+uaddr lbl_80499A20[4] = { 0, 0, 0, 0 };
 u32 lbl_80499A30[4] = { 0, 0, 0, 0 };
 u8 lobby_font_texture_loaded;
-s32 *pending_file_read_handle_ref;
+AdxfHandle **pending_file_read_handle_ref;
 s32 pending_file_read_sector_count;
-u32 pending_file_read_destination;
+uaddr pending_file_read_destination;
 s32 pending_file_read_flush_requested;
 u32 main_phase_deferred_callback;
 s32 quest_download_server_ready;
@@ -869,7 +869,7 @@ void TLobby::invoke_callback() {
 void TLobby::set_keyboard_mode(int a0) { (*(int *)&main_phase_deferred_callback) = a0; }
 
 void TLobby::flush_pending() {
-    u32 temp_r5;
+    uaddr temp_r5;
     s32 count;
     if ((s32) pending_file_read_flush_requested != 0) {
         temp_r5 = pending_file_read_destination;
@@ -877,7 +877,7 @@ void TLobby::flush_pending() {
         if ((temp_r5 != 0U)) {
             count = pending_file_read_sector_count;
             if (count != 0) {
-                ADXF_ReadNw((AdxfHandle *)*pending_file_read_handle_ref, count, (void *)temp_r5);
+                ADXF_ReadNw(*pending_file_read_handle_ref, count, (void *)temp_r5);
             }
         }
         TLobby::flush_checked_reads();
@@ -889,7 +889,7 @@ void TLobby::flush_checked_reads() {
 
     for (i = 0; i < 4; i++) {
         if (lobby_checked_read_ptr_table[i] != NULL && lbl_80499A10[i] != 0 && lbl_80499A20[i] != 0) {
-            ADXF_ReadNw((AdxfHandle *)*lobby_checked_read_ptr_table[i], lbl_80499A10[i], (void *)lbl_80499A20[i]);
+            ADXF_ReadNw(*lobby_checked_read_ptr_table[i], lbl_80499A10[i], (void *)lbl_80499A20[i]);
         }
     }
 }
@@ -914,7 +914,7 @@ void TLobby::clear_player_slot_tables(s32 n) {
 
 void TLobby::set_entry_params(s32 arg1, s32 arg2, s32 arg3) {
     saddr arg0 = (saddr)this;
-    lobby_checked_read_ptr_table[arg1] = (s32 *)arg0;
+    lobby_checked_read_ptr_table[arg1] = (AdxfHandle **)arg0;
     lbl_80499A10[arg1] = arg2;
     lbl_80499A20[arg1] = arg3;
 }
@@ -923,7 +923,7 @@ void TLobby::set_entry_params(s32 arg1, s32 arg2, s32 arg3) {
 void release_texture_list(void *p);
 void *tmp_buf_use_req__6TLobbyFPCc(const char *);
 
-void TLobby::set_read_params(void *handle_ref, int sector_count, int destination) { pending_file_read_handle_ref = (s32 *)handle_ref; (*(int *)&pending_file_read_sector_count) = sector_count; (*(int *)&pending_file_read_destination) = destination; }
+void TLobby::set_read_params(void *handle_ref, int sector_count, int destination) { pending_file_read_handle_ref = (AdxfHandle **)handle_ref; (*(int *)&pending_file_read_sector_count) = sector_count; (*(int *)&pending_file_read_destination) = destination; }
 
 void TLobby__sub_800F8DD8(void) { (*(int *)&pending_file_read_flush_requested) = 1; }
 

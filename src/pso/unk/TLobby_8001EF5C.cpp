@@ -103,7 +103,7 @@ struct Ent_8001F128 {
     s32 flags;
     s32 unk4;
     s32 motion;
-    u32 texture;
+    GinjaTextureList *texture;
 };
 
 struct Rec_8001F128 { u8 pad0[0x20]; s32 size; u8 pad24[4]; s32 rawSize; u8 pad2C[0x14]; };
@@ -441,7 +441,7 @@ s32 TLobby::load_bml_exec(u8 *arg0, u8 *arg1) {
             self->state = 9;
         } else if (ADXF_GetStat(lobby_bml_file_handle) == 3) {
             TLobby::reset_read_state();
-            load_gvm_texture_archive(lobby_bml_read_buffer, (GinjaTextureList *)self->entries[bml_load_entry_index].texture);
+            load_gvm_texture_archive(lobby_bml_read_buffer, self->entries[bml_load_entry_index].texture);
             self->entries[bml_load_entry_index].flags |= 1;
             bml_load_entry_index++;
             bml_header_record_ptr++;
@@ -597,7 +597,7 @@ s32 BmlResource::load_bin_motion(void *name, s32 index) {
     u32 offset;
     s32 tag;
     s32 size;
-    s32 data;
+    saddr data;
     motions[index].motion = NULL;
     size = read_disc_file_sectors((const char *)name, (void *)lobby_download_buffer);
     if (size == 0) {

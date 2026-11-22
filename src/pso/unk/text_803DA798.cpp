@@ -5,6 +5,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/unk/TLobby_803DE778.h"
+#include "pso/unk/text_803DA798.h"
+#include <dolphin/os/OSCache.h>
 struct RecoveredFields_803DA84C_arg0 {
     u8 unknown_0[0x14];
     u32 field_14;
@@ -48,17 +50,11 @@ struct B_803DAE1C { u32 a; u32 b; Obj_803DAD84 *c; };
 
 extern saddr record_array_ptr;
 extern "C" {
-void TObjPlayer__sub_803DAC1C(s32 arg0);
 s32 fn_803DB20C(void *);
 extern u8 *current_render_context;
-s32 TObjPlayer__sub_803DA84C(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
 s32 TObjPlayer__sub_803DAD28(u32 arg0);
-s32 TObjPlayer__sub_803DA8B4(u8 *arg0, s32 arg1);
 extern S_803DA7E0 lbl_8058D470;
-void TObjPlayer__sub_803DA7E0(void);
 void TObjPlayer__sub_803DAB7C(Obj_803DAB7C *self, s32 i, s32 j);
-void DCFlushRange(void *, void *);
-void TObjPlayer__sub_803DA808(void *arg0, s32 arg1, void *arg2);
 s32 TObjPlayer__sub_803DAB9C(s32 arg0, s32 arg1);
 s32 TObjPlayer__sub_803DB23C(void *);
 s32 TObjPlayer__sub_803DB244(void);
@@ -109,9 +105,9 @@ void TObjPlayer__sub_803DA7E0(void) {
 }
 #pragma pop
 
-void TObjPlayer__sub_803DA808(void *buf, s32 arg1, void *arg2) {
-    move_data(buf, (const void *)arg1, (uaddr)arg2);
-    DCFlushRange(buf, arg2);
+void TObjPlayer__sub_803DA808(void *buf, saddr src, u32 size) {
+    move_data(buf, (const void *)src, size);
+    DCFlushRange(buf, size);
 }
 
 s32 TObjPlayer__sub_803DA84C(u8 *arg0, s32 arg1, s32 arg2, s32 arg3) {
@@ -132,7 +128,7 @@ s32 TObjPlayer__sub_803DA84C(u8 *arg0, s32 arg1, s32 arg2, s32 arg3) {
     if (var_r5 > temp_r6) {
         var_r5 = temp_r6;
     }
-    TObjPlayer__sub_803DA808((void *)((int) (temp_r7 + ((RecoveredFields_803DA84C_arg0 *)arg0)->field_1C)), (s32)arg1, (void *)var_r5);
+    TObjPlayer__sub_803DA808((void *)(temp_r7 + ((RecoveredFields_803DA84C_arg0 *)arg0)->field_1C), arg1, var_r5);
     return 0;
 }
 #pragma pop
@@ -140,7 +136,7 @@ s32 TObjPlayer__sub_803DA84C(u8 *arg0, s32 arg1, s32 arg2, s32 arg3) {
 #pragma push
 #pragma peephole off
 s32 TObjPlayer__sub_803DA8B4(u8 *arg0, s32 arg1) {
-    TObjPlayer__sub_803DA808((void *)((int) (*(s32 *)((s8 *)arg0 + 0x1C))), arg1, (void *)((int) (*(s32 *)((s8 *)arg0 + 0x14))));
+    TObjPlayer__sub_803DA808((void *)*(saddr *)((s8 *)arg0 + 0x1C), arg1, *(u32 *)((s8 *)arg0 + 0x14));
     return 0;
 }
 #pragma pop
