@@ -60,6 +60,7 @@
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/map/TSetManager.h"
+#include "pso/player/TObjPlayer_801BDF5C.h"
 
 struct Entry_8013634C {
     u8 tag[8];
@@ -322,7 +323,6 @@ void apply_lobby_markers__6TLobbyFv();
 void copy_player_records__6TLobbyFl();
 void init_once__6TLobbyFPv();
 void lobby_debug_printf_stub(const char *fmt, ...);
-u8 * create_player_object(s32, s32, void *);
 void TLobby__sub_8013AA64(void *, void *);
 extern const char TLobby__data_8043EF38[];
 extern const char lobby_debug_burst_player_format[];
@@ -649,7 +649,7 @@ void handle_6x71_unblock_game_join(void) {
     saddr i;
 
     if (TLobby__data_805D5CE8 == 0) {
-        p = create_player_object(local_client_id, 0, (void *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
+        p = create_player_object(local_client_id, 0, (u8 *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
         ((TLobby *)(p + 0xDAC))->copy_header_struct((u8 *)TLobby__protocol_instance + 0x1900);
         ((VObj_18_9029aa *)p)->m6();
         {
@@ -2435,14 +2435,14 @@ void TLobby::make_players() {
     Hdr_80136A8C hdr;
     Ply_80136A8C *q;
     if (TLobby__sub_801A3E8C() != 0) {
-        p = (Ply_80136A8C *)create_player_object(local_client_id, 0, (void *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
+        p = (Ply_80136A8C *)create_player_object(local_client_id, 0, (u8 *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
         ((TLobby *)((u8 *)p + 0xDAC))->copy_header_struct((u8 *)TLobby__protocol_instance + 0x1900);
         p->m6();
         strncpy(TLobby__player_names[local_client_id], p->m10(), 0x10);
         lobby_debug_printf_stub(lobby_debug_make_player_format, local_client_id);
         ((TLobby *)TLobby__protocol_instance)->send_6F_burst_done();
         TLobby__data_805D5594 = 0xF;
-        p = (Ply_80136A8C *)create_player_object(1 - local_client_id, 4, (void *)TAdSinglePlyChrSelectGC::get_char_index(0));
+        p = (Ply_80136A8C *)create_player_object(1 - local_client_id, 4, (u8 *)TAdSinglePlyChrSelectGC::get_char_index(0));
         if (p != NULL) {
             init_player_join_record(&hdr);
             TObjPlayer::fill_player_record(p, &hdr);
@@ -2456,7 +2456,7 @@ void TLobby::make_players() {
             }
         }
     } else if (local_client_id == TLobby__designated_client_id) {
-        p = (Ply_80136A8C *)create_player_object(local_client_id, 0, (void *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
+        p = (Ply_80136A8C *)create_player_object(local_client_id, 0, (u8 *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
         ((TLobby *)((u8 *)p + 0xDAC))->copy_header_struct((u8 *)TLobby__protocol_instance + 0x1900);
         p->m6();
         strncpy(TLobby__player_names[local_client_id], p->m10(), 0x10);
@@ -2520,7 +2520,7 @@ void construct_lobby_players(Rec_801378AC *records, s32 count, int self_id, s32 
     for (i = 0; i < count; i++) {
         if (self_id == ((Entry_8013634C *)records)[i].client_id) {
             if (get_player_by_client_id(self_id) == NULL) {
-                plr = create_player_object(self_id, 0, (void *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
+                plr = create_player_object(self_id, 0, (u8 *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
                 ((TLobby *)(plr + 0xDAC))->copy_header_struct(&((Entry_8013634C *)records)[i]);
                 ((Plr_80136080 *)plr)->m6();
                 lobby_debug_printf_stub(lobby_debug_my_player_format, self_id);

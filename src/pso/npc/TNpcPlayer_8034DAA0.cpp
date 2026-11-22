@@ -20,6 +20,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/client_id.h"
+#include "pso/player/TObjPlayer_801BDF5C.h"
 
 
 // One TU: TLobby__sub_8034DAA0 (jumptable after the TUnk_804F07C8 vtable in .data),
@@ -185,19 +186,6 @@ struct Player_8034E24C {
     f32 z;
 };
 
-struct Base_8034E814 { u8 pad[0x18]; };
-
-class Obj_8034E814 : public Base_8034E814 {
-public:
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-};
-
 struct Pkt_8034E814 { u8 pad0[4]; u16 client; u16 target; s16 cmd; s16 state; };
 
 
@@ -227,8 +215,6 @@ void send_6x21_inter_level_warp(void *obj, s32 value);
 void send_6x24_teleport_player(u16 slot, void *pos, s32 heading);
 f32 atan2_float(f32, f32);
 void TNpcPlayer__ct(void *, u16, u16, s16, s32, void *);
-s32 load_npc_player_template(s16);
-Obj_8034E814 *create_player_object(u16, s32, s32);
 void handle_6x69_npc_control(Pkt_8034E814 *pkt);
 
 }
@@ -409,7 +395,7 @@ void TNpcPlayer::send_npc_control_6x69(s32 arg0) {
 
 void handle_6x69_npc_control(Pkt_8034E814 *pkt) {
     u16 client;
-    Obj_8034E814 *p;
+    TObjPlayer *p;
     void *o;
     s32 i;
     ((TNpcPlayer *)pkt)->byteswap_header();
@@ -426,35 +412,35 @@ void handle_6x69_npc_control(Pkt_8034E814 *pkt) {
             return;
         }
         if (client == local_client_id) {
-            p = create_player_object(pkt->target, 5, load_npc_player_template(pkt->state));
+            p = (TObjPlayer *)create_player_object(pkt->target, 5, load_npc_player_template(pkt->state));
             if (p == NULL) {
                 return;
             }
-            p->m6();
-            reinterpret_cast<TObjPlayer *>(p)->set_npc_controller((u16)local_client_id);
-            reinterpret_cast<TObjPlayer *>(p)->set_npc_control_state(pkt->state);
+            p->reset_motion_fields();
+            p->set_npc_controller((u16)local_client_id);
+            p->set_npc_control_state(pkt->state);
             o = TObject::operator new(0xE8);
             if (o != NULL) {
                 construct_partner__10TNpcPlayerFPviisPv(o, (u16)local_client_id, pkt->target, pkt->state, tl_00);
             }
         } else {
-            p = create_player_object(pkt->target, 4, load_npc_player_template(pkt->state));
+            p = (TObjPlayer *)create_player_object(pkt->target, 4, load_npc_player_template(pkt->state));
             if (p != NULL) {
-                p->m6();
+                p->reset_motion_fields();
             }
         }
         break;
     case 1:
-        p = (Obj_8034E814 *)get_player_by_client_id(client);
-        if (p != NULL && reinterpret_cast<TObjPlayer *>(p)->obj_isState3_324() != 0) {
-            reinterpret_cast<TObjPlayer *>(p)->set_npc_controller(0xFFFF);
+        p = (TObjPlayer *)get_player_by_client_id(client);
+        if (p != NULL && p->obj_isState3_324() != 0) {
+            p->set_npc_controller(0xFFFF);
         }
         break;
     case 2:
         for (i = 0; i < 4; i++) {
-            p = (Obj_8034E814 *)get_player_by_client_id(i);
-            if (p != NULL && reinterpret_cast<TObjPlayer *>(p)->obj_isState3_324() != 0) {
-                reinterpret_cast<TObjPlayer *>(p)->set_npc_controller(pkt->client);
+            p = (TObjPlayer *)get_player_by_client_id(i);
+            if (p != NULL && p->obj_isState3_324() != 0) {
+                p->set_npc_controller(pkt->client);
             }
         }
         break;
@@ -463,22 +449,22 @@ void handle_6x69_npc_control(Pkt_8034E814 *pkt) {
             return;
         }
         if (client == local_client_id) {
-            p = create_player_object(pkt->target, 5, load_npc_player_template(pkt->state));
+            p = (TObjPlayer *)create_player_object(pkt->target, 5, load_npc_player_template(pkt->state));
             if (p == NULL) {
                 return;
             }
             TObjPlayer::notify_field1c((saddr)p);
-            p->m6();
-            reinterpret_cast<TObjPlayer *>(p)->set_npc_controller((u16)local_client_id);
-            reinterpret_cast<TObjPlayer *>(p)->set_npc_control_state(pkt->state);
+            p->reset_motion_fields();
+            p->set_npc_controller((u16)local_client_id);
+            p->set_npc_control_state(pkt->state);
             o = TObject::operator new(0xE8);
             if (o != NULL) {
                 TNpcPlayer__ct(o, (u16)local_client_id, pkt->target, pkt->state, 1, tl_00);
             }
         } else {
-            p = create_player_object(pkt->target, 4, load_npc_player_template(pkt->state));
+            p = (TObjPlayer *)create_player_object(pkt->target, 4, load_npc_player_template(pkt->state));
             if (p != NULL) {
-                p->m6();
+                p->reset_motion_fields();
                 TObjPlayer::notify_field1c((saddr)p);
             }
         }

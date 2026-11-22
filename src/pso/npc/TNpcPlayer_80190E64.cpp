@@ -13,6 +13,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/client_id.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/player/TObjPlayer_801BDF5C.h"
 
 extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
@@ -50,7 +51,6 @@ f32 horizontal_distance_squared(void *, void *);
 int npc_proximity_target_id = -1;
 void TLobby__sub_80190FD0(int a0);
 void send_6x24_teleport_player(u16 slot, void *pos, s32 heading);
-u8 *create_player_object(u16, s32, s32);
 s32 queue_player_injured_pose();
 }
 void set_player_quest_control_flag(TObjPlayer *player);
@@ -157,7 +157,7 @@ Npc_80190F3C *init_npc_player_char_loader(Npc_80190F3C *arg0, void *arg1, s32 ar
 }
 
 TUnk_804B7C04::~TUnk_804B7C04() {
-    u8 *player_object = create_player_object(this->unk_30, 6, (saddr)TNpcPlayer::build_npc_player_record(this->unk_34));
+    u8 *player_object = create_player_object(this->unk_30, 6, TNpcPlayer::build_npc_player_record(this->unk_34));
     if (player_object != NULL) {
         *(s16 *)((s8 *)player_object + 0x324) = 6;
         if (this->unk_38 == 1) {

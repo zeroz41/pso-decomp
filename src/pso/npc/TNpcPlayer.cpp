@@ -1287,9 +1287,6 @@ extern void *__vt__10TNpcPlayer[];
 
 extern s32 lbl_805D6EA0;
 
-extern "C" {
-u8 *load_npc_player_template(s32 index);
-}
 
 void TUnk_804AF7B0::run_task() {
     s32 temp_r0;

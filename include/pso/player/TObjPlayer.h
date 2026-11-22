@@ -1353,7 +1353,7 @@ struct TObjPlayer : public TObjChara {
     void send_respawn_position();
     void init_battle();
     void reset_area_entry_state();
-    u8 *construct_player_instance(saddr arg1, s16 arg2, s32 arg3, u8 *arg4);
+    u8 *construct_player_instance(saddr arg1, s32 slot, s32 role, u8 *record);
     void*init_pair();
     u8 *copy_hold_params(u8 *arg1);
     void init_cmd_6x24();

@@ -102,9 +102,9 @@
 #include "pso/system/scene/TScene.h"
 #include "pso/object/door/TODoorBase.h"
 #include "pso/unk/TLobby_800F8AA8.h"
+#include "pso/player/TObjPlayer_801BDF5C.h"
 
 extern "C" {
-u8 *create_player_object(s32 slot, s32 role, u8 *record);
 }
 
 void TLobby::reset_keyboard_input() { TKeyBoardControl::reset(); TKeyBoardControl__sub_8000F92C(); clear_keyboard_key_state(); TKeyBoardControl__sub_8000F95C(); TLobby::clear_counter(); }

@@ -4802,8 +4802,6 @@ void qst_op_npc_crp(u8 first) {
 }
 
 extern "C" {
-u8 *load_npc_player_template(s32 appearance);
-u8 *construct_player_instance__10TObjPlayerFlslPUc(void *self, s32 parent, s32 slot, s32 role, u8 *data);
 void set_arrival_override_coords(u16 slot, s32 heading, f32 x, f32 y, f32 z);
 void queue_player_injured_pose(s32 arg0);
 }
@@ -4828,7 +4826,7 @@ void qst_op_npc_crptalk_id(u8 first) {
     TLobby::free_luker_object();
     player = (TObjPlayer *)TObject::operator new(0xDB8);
     if (player != NULL) {
-        player = (TObjPlayer *)construct_player_instance__10TObjPlayerFlslPUc(player, (saddr)tl_03, slot, 6, load_npc_player_template(appearance));
+        player = (TObjPlayer *)player->construct_player_instance((saddr)tl_03, slot, 6, load_npc_player_template(appearance));
     }
     if (player != NULL) {
         *(s16 *)((u8 *)player + 0x324) = 6;
