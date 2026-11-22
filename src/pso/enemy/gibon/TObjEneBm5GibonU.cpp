@@ -496,12 +496,12 @@ void TObjEneBm5GibonU::state_cast_technique(s32 msg) {
                     subtract_vector(&v, &body_center);
                     r = turn_toward_direction(((TObjEneBm5GibonUMovementParameters *)movementParameters)->turn, &v);
                 } else {
-                    r = ((AttackParams *)m_318)->get_attack_angle();
+                    r = attack_params->get_attack_angle();
                 }
                 if (game_difficulty_selection == 3) {
                     switch (technique_type) {
                     case 1:
-                        if (r < ((AttackParams *)m_318)->get_attack_angle() / 2 && current_target != 0) {
+                        if (r < attack_params->get_attack_angle() / 2 && current_target != 0) {
                             TTecMegid::create((saddr)this, (saddr)&p, (saddr)&destination, (s32)(get_clamped_level()));
                         } else {
                             TTecMegid::create_ex((saddr)this, (saddr)&p, rotation_y, (s32)(get_clamped_level()));
@@ -509,7 +509,7 @@ void TObjEneBm5GibonU::state_cast_technique(s32 msg) {
                         play_sound_effect(0x4002A60B, &p, 0, 0);
                         break;
                     default:
-                        if (r < ((AttackParams *)m_318)->get_attack_angle() / 2 && current_target != 0) {
+                        if (r < attack_params->get_attack_angle() / 2 && current_target != 0) {
                             clear_target_cursor_list(&targets);
                             targets.count = 1;
                             targets.records[0].id = get_entity_id(current_target);
@@ -528,7 +528,7 @@ void TObjEneBm5GibonU::state_cast_technique(s32 msg) {
                             pop_matrix();
                             e = TObject::operator new(0x260);
                             if (e != 0) {
-                                ((TTecZonde *)e)->construct_bolt_effect((u8 *)tl_07, (u8 *)&p, (u8 *)&v, 0x14000000, 20, (f32)(((AttackParams *)m_318)->get_attack_range()), 1.8f);
+                                ((TTecZonde *)e)->construct_bolt_effect((u8 *)tl_07, (u8 *)&p, (u8 *)&v, 0x14000000, 20, (f32)(attack_params->get_attack_range()), 1.8f);
                             }
                         }
                         play_sound_effect(0x4002A408, &p, 0, 0);
@@ -540,7 +540,7 @@ void TObjEneBm5GibonU::state_cast_technique(s32 msg) {
                         TTecGiBarta::create_ex(this, &p, rotation_y, get_clamped_level());
                         break;
                     default:
-                        if (r < ((AttackParams *)m_318)->get_attack_angle() / 2 && current_target != 0) {
+                        if (r < attack_params->get_attack_angle() / 2 && current_target != 0) {
                             TTecFoie::create_ex(this, &p, &current_target->body_center, get_clamped_level());
                         } else {
                             TTecFoie::create(this, &p, rotation_y, get_clamped_level());

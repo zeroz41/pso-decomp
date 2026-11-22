@@ -529,7 +529,7 @@ void TObjEneBalClawBody::sub_8008F1DC() {
             }
             body->turn_toward_direction(((EnemyMoveParams *)body->movementParameters)->turn_speed, &body->velocity);
             body->target_distance_sq = xz_distance_squared(&body->body_center, &((TObjChara *)body->target)->body_center);
-            if (body->target_distance_sq <= ((AttackParams *)body->m_318)->get_attack_range() * ((AttackParams *)body->m_318)->get_attack_range()) {
+            if (body->target_distance_sq <= body->attack_params->get_attack_range() * body->attack_params->get_attack_range()) {
                 body->requested_action = 7;
                 body->state = 2;
                 body->effects[2] = (TParticleCtrl *)spawn_particle_effect_with_rotation(&body->body_center, body->attack_effect_angle, 0x12B, 2);
@@ -639,7 +639,7 @@ void TObjEneBalClawBody::sub_8008EDE8() {
             }
             body->turn_toward_direction(((EnemyMoveParams *)body->movementParameters)->turn_speed, &body->velocity);
             body->target_distance_sq = xz_distance_squared(&body->body_center, &((TObjChara *)body->target)->body_center);
-            if (body->target_distance_sq <= ((AttackParams *)body->m_318)->get_attack_range() * ((AttackParams *)body->m_318)->get_attack_range()) {
+            if (body->target_distance_sq <= body->attack_params->get_attack_range() * body->attack_params->get_attack_range()) {
                 body->requested_action = 2;
                 body->state = 2;
                 play_sound_effect(0x4003B033, &body->position, 0, 0);

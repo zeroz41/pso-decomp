@@ -1200,8 +1200,8 @@ void TObjEneMe1GiGue::capture_shot_origins() {
 }
 
 void TObjEneMe1GiGue::update_direction() {
-    attackRange = ((AttackParams *)m_318)->get_attack_range();
-    attackAngle = ((AttackParams *)m_318)->get_attack_angle();
+    attackRange = attack_params->get_attack_range();
+    attackAngle = attack_params->get_attack_angle();
 }
 
 void TObjEneMe1GiGue::load_params() {

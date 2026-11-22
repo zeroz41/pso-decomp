@@ -407,7 +407,7 @@ void TUnk_80493450::update_turn_toward_target() {
                 mode = 3;
                 phase = 1;
                 requested_action = 2;
-            } else if (ang <= ((AttackParams *)m_318)->get_attack_angle()) {
+            } else if (ang <= attack_params->get_attack_angle()) {
                 phase = 2;
                 requested_action = 0;
             }
@@ -423,7 +423,7 @@ void TUnk_80493450::update_turn_toward_target() {
                 mode = 3;
                 phase = 1;
                 requested_action = 2;
-            } else if (((AttackParams *)m_318)->get_attack_angle() < ang) {
+            } else if (attack_params->get_attack_angle() < ang) {
                 phase = 1;
                 requested_action = 2;
             }

@@ -380,7 +380,7 @@ s32 TObjEneBm3Fly::can_attack_target() {
     f32 facing;
     if ((this->destination_distance < ((5.0f) + TObjEneBm3Fly__attack_params->get_attack_range())) && (fabs_float((f32) (this->flightY - this->destination.y)) < (1.0f))) {
         facing = vec3_dot(&this->moveDir, &this->destination_direction);
-        if (facing >= cos_table_lookup(((AttackParams *)(this->m_318))->get_attack_angle())) {
+        if (facing >= cos_table_lookup(this->attack_params->get_attack_angle())) {
             return 1;
         }
     }

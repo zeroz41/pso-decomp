@@ -876,7 +876,7 @@ s32 TObjEneGibbles::is_target_in_attack_range() {
     CollisionBody *body;
     if (this->mode >= 3) {
         obj = (TObjChara *)this->target;
-        if (obj != NULL && this->m_318 != 0 && !(obj->actorFlags & 0x02000800)) {
+        if (obj != NULL && this->attack_params != NULL && !(obj->actorFlags & 0x02000800)) {
             dist = calc_xz_distance_sq(this, obj, &v);
             ang = angle_difference_abs(this->rotation_y, (s32)(10430.38043493439 * atan2_float(v.x, v.z)));
             body = ((TObjChara *)this->target)->bodies;

@@ -837,7 +837,7 @@ s32 TObjEneMoja::is_target_in_attack_range() {
     CollisionBody *c;
     Vec d;
     if (this->mode > 1 && (t = this->target) != NULL &&
-        this->m_318 != 0 && !(((TObjChara *)t)->actorFlags & 0x02000800)) {
+        this->attack_params != NULL && !(((TObjChara *)t)->actorFlags & 0x02000800)) {
         dist = calc_xz_distance_sq(this, (TObjBase *)t, &d);
         angd = angle_difference_abs(this->rotation_y,
                                     (s32)(10430.38043493439 * atan2_float(d.x, d.z)));
@@ -848,10 +848,10 @@ s32 TObjEneMoja::is_target_in_attack_range() {
             radius = 10.0f;
         }
         for (i = 0; i < 3; i++) {
-            this->m_318 = (uaddr)moja_attack_params[i + (this->variant) * 3];
-            sq = (radius + ((AttackParams *)(this->m_318))->get_attack_range()) *
-                 (radius + ((AttackParams *)(this->m_318))->get_attack_range());
-            lim = ((AttackParams *)(this->m_318))->get_attack_angle();
+            this->attack_params = (AttackParams *)moja_attack_params[i + (this->variant) * 3];
+            sq = (radius + this->attack_params->get_attack_range()) *
+                 (radius + this->attack_params->get_attack_range());
+            lim = this->attack_params->get_attack_angle();
             if (dist <= sq && angd <= lim) {
                 this->attack = i;
                 switch (this->attack) {
@@ -1086,12 +1086,12 @@ void TObjEneMoja::update_technique_state() {
                 subtract_vector(&dir, &body_center);
                 ang2 = turn_toward_direction(((MojaMovementParameters *)movementParameters)->turn_speed, (Vec *)&dir);
             } else {
-                ang2 = ((AttackParams *)(m_318))->get_attack_angle();
+                ang2 = attack_params->get_attack_angle();
             }
             if (game_difficulty_selection == 3) {
                 switch (variant) {
                 case 1:
-                    if (ang2 < ((AttackParams *)(m_318))->get_attack_angle() / 2 && target != NULL) {
+                    if (ang2 < attack_params->get_attack_angle() / 2 && target != NULL) {
                         TTecMegid::create((saddr)this, (saddr)&pos, (saddr)&((TObjChara *)target)->body_center, calc_technique_level());
                     } else {
                         TTecMegid::create_ex((saddr)this, (saddr)&pos, rotation_y, calc_technique_level());
@@ -1101,7 +1101,7 @@ void TObjEneMoja::update_technique_state() {
                 default:
                     spawn_particle_effect(&pos, 0xB9);
                     spawn_particle_effect(&pos, 0xBA);
-                    if (ang2 < ((AttackParams *)(m_318))->get_attack_angle() / 2) {
+                    if (ang2 < attack_params->get_attack_angle() / 2) {
                         if (normalize_vector_safe(&dir) < 0.00001f) {
                             dir.y = dir.x = 0.0f;
                             dir.z = 1.0f;
@@ -1126,7 +1126,7 @@ void TObjEneMoja::update_technique_state() {
                     }
                     obj = TObject::operator new(0x260);
                     if (obj != NULL) {
-                        ((TTecZonde *)obj)->construct_bolt_effect((u8 *)tl_07, (u8 *)&pos, (u8 *)&dir, 0x14000000, 20, (f32)(((AttackParams *)(m_318))->get_attack_range()), 1.8f);
+                        ((TTecZonde *)obj)->construct_bolt_effect((u8 *)tl_07, (u8 *)&pos, (u8 *)&dir, 0x14000000, 20, (f32)(attack_params->get_attack_range()), 1.8f);
                     }
                     play_sound_effect(0x4002A408, &pos, 0, 0);
                     break;
@@ -1137,7 +1137,7 @@ void TObjEneMoja::update_technique_state() {
                     TTecGiBarta::create_ex(this, &pos, rotation_y, calc_technique_level());
                     break;
                 default:
-                    if (ang2 < ((AttackParams *)(m_318))->get_attack_angle() / 2 && target != NULL) {
+                    if (ang2 < attack_params->get_attack_angle() / 2 && target != NULL) {
                         TTecFoie::create_ex(this, &pos, &((TObjChara *)target)->body_center, calc_technique_level());
                     } else {
                         TTecFoie::create(this, &pos, rotation_y, calc_technique_level());
@@ -1228,10 +1228,10 @@ void TObjEneMoja::update_attack_jump() {
                 }
                 if (obj_is_hit_receivable((u8 *)p) != 0) {
                     d = horizontal_distance_squared(&p->body_center, &body_center);
-                    if (d <= ((AttackParams *)(m_318))->get_damage_radius() * ((AttackParams *)(m_318))->get_damage_radius()) {
+                    if (d <= attack_params->get_damage_radius() * attack_params->get_damage_radius()) {
                         DirectAttackPayload hit;
                         hit.kind = 0;
-                        hit.power = get_attack_params_atp_min((void *)m_318);
+                        hit.power = get_attack_params_atp_min(attack_params);
                         f32 damage = p->receive_direct_attack(this, hit, 0, -1, -1);
                         p->apply_knockback_from_attacker((u8 *)this, damage);
                     }

@@ -605,7 +605,7 @@ void TObjEneIllGill::update_chase_target() {
             subtract_vector(&dir, &body_center);
             a = angle_difference_abs(this->rotation_y,
                                      (s32)(10430.38043493439 * atan2_float(dir.x, dir.z)));
-            if (a < ((AttackParams *)(this->m_318))->get_attack_angle()) {
+            if (a < this->attack_params->get_attack_angle()) {
                 this->phase = 2;
             }
             break;
@@ -648,7 +648,7 @@ s32 TObjEneIllGill::is_target_in_attack_range() {
     u16 id;
     u8 *pl;
 
-    if (this->target != NULL && this->m_318 != 0 && !(((TObjChara *)this->target)->actorFlags & 0x02000800)) {
+    if (this->target != NULL && this->attack_params != NULL && !(((TObjChara *)this->target)->actorFlags & 0x02000800)) {
         if (obj_testFlags30(0x2000) != 0) {
             this->attackType = 3;
             bind_enemy_combat_stats((u8 *)0, (u8 *)ill_gill_combat_parameter_variants[this->attackType], (u8 *)0);
@@ -667,9 +667,9 @@ s32 TObjEneIllGill::is_target_in_attack_range() {
             s32 i;
             pl = this->target;
             if (((TObjPlayer *)pl)->check_player_flag1() == 1 || (enable_v2_features == 1 && ((TObjCollidable *)pl)->obj_testFlags30(0x20) != 0)) {
-                this->m_318 = (uaddr)ill_gill_combat_parameter_variants[0];
-                if (dist <= (rad + ((AttackParams *)(this->m_318))->get_attack_range()) * (rad + ((AttackParams *)(this->m_318))->get_attack_range()) &&
-                    ang <= ((AttackParams *)(this->m_318))->get_attack_angle()) {
+                this->attack_params = ill_gill_combat_parameter_variants[0];
+                if (dist <= (rad + this->attack_params->get_attack_range()) * (rad + this->attack_params->get_attack_range()) &&
+                    ang <= this->attack_params->get_attack_angle()) {
                     this->attackType = 0;
                     bind_enemy_combat_stats((u8 *)0, (u8 *)ill_gill_combat_parameter_variants[this->attackType], (u8 *)0);
                     return 1;
@@ -679,9 +679,9 @@ s32 TObjEneIllGill::is_target_in_attack_range() {
             for (i = 0; i < 4; i++) {
                 f32 r2;
                 s32 m;
-                this->m_318 = (uaddr)ill_gill_combat_parameter_variants[i];
-                r2 = (rad + ((AttackParams *)(this->m_318))->get_attack_range()) * (rad + ((AttackParams *)(this->m_318))->get_attack_range());
-                m = ((AttackParams *)(this->m_318))->get_attack_angle();
+                this->attack_params = ill_gill_combat_parameter_variants[i];
+                r2 = (rad + this->attack_params->get_attack_range()) * (rad + this->attack_params->get_attack_range());
+                m = this->attack_params->get_attack_angle();
                 if (dist <= r2 && ang <= m) {
                     this->attackType = i;
                     bind_enemy_combat_stats((u8 *)0, (u8 *)ill_gill_combat_parameter_variants[this->attackType], (u8 *)0);
@@ -689,9 +689,9 @@ s32 TObjEneIllGill::is_target_in_attack_range() {
                 }
             }
         } else if (id < 0x4000) {
-            this->m_318 = (uaddr)ill_gill_combat_parameter_variants[0];
-            if (dist <= (rad + ((AttackParams *)(this->m_318))->get_attack_range()) * (rad + ((AttackParams *)(this->m_318))->get_attack_range()) &&
-                ang <= ((AttackParams *)(this->m_318))->get_attack_angle()) {
+            this->attack_params = ill_gill_combat_parameter_variants[0];
+            if (dist <= (rad + this->attack_params->get_attack_range()) * (rad + this->attack_params->get_attack_range()) &&
+                ang <= this->attack_params->get_attack_angle()) {
                 this->attackType = 0;
                 bind_enemy_combat_stats((u8 *)0, (u8 *)ill_gill_combat_parameter_variants[this->attackType], (u8 *)0);
                 return 1;
@@ -773,7 +773,7 @@ void TObjEneIllGill::update_weapon_attack() {
             subtract_vector(&v, &body_center);
             angle_left = ((TObjEnemy *)actor)->turn_toward_direction((((IllGillMovementParameters *)movementParameters)->turn), &v);
             apply_actor_gravity((TObjEnemy *)actor, (s32 *)(0), 0.0f);
-            if (angle_left < ((AttackParams *)(this->m_318))->get_attack_angle()) {
+            if (angle_left < this->attack_params->get_attack_angle()) {
                 this->phase = 2;
                 special_param = this->parameters[1];
                 if (0.0f == special_param) {
@@ -1213,7 +1213,7 @@ void TObjEneIllGill::update_charge_attack() {
             s32 d;
             subtract_vector(&v, &o->body_center);
             d = o->turn_toward_direction((s32)(2.0f * (f32)((IllGillMovementParameters *)o->movementParameters)->turn), &v);
-            if (d < ((AttackParams *)(o->m_318))->get_attack_angle()) {
+            if (d < o->attack_params->get_attack_angle()) {
                 s32 ang = (s32)(10430.38043493439 * atan2_float(v.x, v.z));
                 o->chargeDistance = 30.0f + (newton_sqrtf(TObjPlayer::calc_distance_to_client((saddr)o, o->targetId, NULL)) + ((TObjCollidable *)o)->get_collision_body_radius(0));
                 if (o->chargeDistance < 100.0f) {
@@ -1256,7 +1256,7 @@ void TObjEneIllGill::update_charge_attack() {
             s32 d;
             subtract_vector(&v, &o->body_center);
             d = o->turn_toward_direction((s32)(2.0f * (f32)((IllGillMovementParameters *)o->movementParameters)->turn), &v);
-            if (d < ((AttackParams *)(o->m_318))->get_attack_angle()) {
+            if (d < o->attack_params->get_attack_angle()) {
                 s32 ang = (s32)(10430.38043493439 * atan2_float(v.x, v.z));
                 o->chargeDistance = 30.0f + (newton_sqrtf(TObjPlayer::calc_distance_to_client((saddr)o, o->targetId, NULL)) + ((TObjCollidable *)o)->get_collision_body_radius(0));
                 if (o->chargeDistance < 100.0f) {

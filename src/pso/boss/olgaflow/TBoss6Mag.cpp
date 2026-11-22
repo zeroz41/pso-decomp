@@ -1072,7 +1072,7 @@ s32 TBoss6Mag::is_phase_active() {
 
 void TBoss6Mag::set_anim_frame(TBoss6Mag *partner) { this->partner = partner; }
 
-void TBoss6Mag::set_target_nodes(u32 flags, s32 variant) { m_2e4 = flags; segment_variant = variant; update_segment_angles(); }
+void TBoss6Mag::set_target_nodes(u32 flags, s32 variant) { target_attribute_mask = flags; segment_variant = variant; update_segment_angles(); }
 
 void TBoss6Mag::set_action_field_0x408(u16 client_id) { chase_target.client_id = client_id; }
 

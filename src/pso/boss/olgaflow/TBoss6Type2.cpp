@@ -519,7 +519,7 @@ s32 TBoss6Type2::find_index_in_table(u32 v) {
 
 s32 TBoss6Type2::pick_random_other_index() {
     TBoss6Type2 *o = this;
-    s32 t = TBoss6Type2::find_index_in_table(o->m_2e4);
+    s32 t = TBoss6Type2::find_index_in_table(o->target_attribute_mask);
     s32 r = t + (s32)(2.99f * (3.0517578e-05f * (f32)rand())) + 1;
     if (r >= 4) {
         r -= 4;
@@ -540,19 +540,19 @@ void TBoss6Type2::set_target_state(s32 mode, s32 new_variant) {
     u32 old_mask;
     s32 old_variant;
 
-    old_mask = m_2e4;
+    old_mask = target_attribute_mask;
     old_variant = variant;
-    m_2e4 = get_table_entry(mode);
+    target_attribute_mask = get_table_entry(mode);
     variant = new_variant;
     update_segments();
-    if (old_mask != m_2e4 || old_variant != variant) {
+    if (old_mask != target_attribute_mask || old_variant != variant) {
         set_state_0x34();
     }
     if (mags[0] != 0) {
-        mags[0]->set_target_nodes(m_2e4, variant);
+        mags[0]->set_target_nodes(target_attribute_mask, variant);
     }
     if (mags[1] != 0) {
-        mags[1]->set_target_nodes(m_2e4, variant);
+        mags[1]->set_target_nodes(target_attribute_mask, variant);
     }
 }
 
@@ -594,7 +594,7 @@ f32 TBoss6Type2::receive_physical_attack(void *att, f32 scale) {
 
     hurt = 1;
     if (berserk != 0 && att != 0) {
-        // While berserk only a weapon attribute in m_2e4 gets through.
+        // While berserk only a weapon attribute in target_attribute_mask gets through.
         attributes = 0;
         i = 0;
         do {
@@ -614,7 +614,7 @@ f32 TBoss6Type2::receive_physical_attack(void *att, f32 scale) {
             }
             i++;
         } while (i < 3);
-        if (!(m_2e4 & attributes)) {
+        if (!(target_attribute_mask & attributes)) {
             hurt = 0;
         }
     }
@@ -1060,7 +1060,7 @@ void TBoss6Type2::update_countdown() {
 
 void TBoss6Type2::play_sound_if_no_target() {
     if (is_target_valid() == 0) {
-        play_sound_effect(TBoss6Type2__no_target_sound_ids[TBoss6Type2::find_index_in_table(this->m_2e4)], &position, 0, 1);
+        play_sound_effect(TBoss6Type2__no_target_sound_ids[TBoss6Type2::find_index_in_table(this->target_attribute_mask)], &position, 0, 1);
     }
 }
 
@@ -1428,7 +1428,7 @@ void TBoss6Type2::create_mags(f32) {
     copy_set_entry(&params, plot_falz->get_set_entry());
     params.active = 1;
     VecCopy(&params.pos, &params.origin);
-    params.flags = m_2e4;
+    params.flags = target_attribute_mask;
     x = params.x;
     z = params.z;
     params.variant = variant;

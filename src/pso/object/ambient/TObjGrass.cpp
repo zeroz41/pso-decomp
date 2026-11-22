@@ -1013,8 +1013,8 @@ void TObjGrass::update_chase_target(void *arg0_) {
 #undef arg0
 
 #define TBL TObjGrass__bml_resource
-#define T318 m_318
-#define IN_RANGE() (dist <= (r + ((AttackParams *)T318)->get_attack_range()) * (r + ((AttackParams *)T318)->get_attack_range()) && ang <= ((AttackParams *)T318)->get_attack_angle())
+#define T318 attack_params
+#define IN_RANGE() (dist <= (r + T318->get_attack_range()) * (r + T318->get_attack_range()) && ang <= T318->get_attack_angle())
 #define BIND(n) m_39e = (n); bind_enemy_combat_stats(NULL, (u8 *)TBL[m_39e], NULL); return 1;
 
 s32 TObjGrass::is_target_in_attack_range() {
@@ -1028,7 +1028,7 @@ s32 TObjGrass::is_target_in_attack_range() {
     Vec v;
 
     tgt = this->target;
-    if (tgt != NULL && T318 != 0 && !(*(s32 *)((s8 *)tgt + 0x30) & 0x02000800)) {
+    if (tgt != NULL && T318 != NULL && !(*(s32 *)((s8 *)tgt + 0x30) & 0x02000800)) {
     if (obj_testFlags30(0x2000) != 0) {
         BIND(2)
     }
@@ -1044,20 +1044,20 @@ s32 TObjGrass::is_target_in_attack_range() {
     if (kind < 0x1000) {
         t = this->target;
         if (((TObjPlayer *)t)->check_player_flag1() == 1 || (enable_v2_features == 1 && ((TObjCollidable *)t)->obj_testFlags30(0x20) != 0)) {
-            T318 = (uaddr)TBL[0];
+            T318 = (AttackParams *)TBL[0];
             if (IN_RANGE()) {
                 BIND(0)
             }
             return 0;
         }
         for (i = 0; i < 2; i++) {
-            T318 = (uaddr)TBL[i];
+            T318 = (AttackParams *)TBL[i];
             if (IN_RANGE()) {
                 BIND(i)
             }
         }
     } else if (kind < 0x4000) {
-        T318 = (uaddr)TBL[0];
+        T318 = (AttackParams *)TBL[0];
         if (IN_RANGE()) {
             BIND(0)
         }
@@ -1116,7 +1116,7 @@ void TObjGrass::sub_800BDD70() {
             subtract_vector(&sp8, (u8 *)&this->body_center);
             ang = ((TObjEnemy *)arg0)->turn_toward_direction(*(s32 *)((s8 *)this->movementParameters + 8), (Vec *)&sp8);
             apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), (0.0f));
-            if (ang < ((AttackParams *)(this->m_318))->get_attack_angle()) {
+            if (ang < this->attack_params->get_attack_angle()) {
                 this->phase = 1;
                 if ((0.5f) < ((TObjChara *)arg0)->random_ratio()) {
                     this->requested_action = 2;

@@ -422,7 +422,7 @@ void AttackParams::sub_atp_min(s32 amount) { atp_min -= amount; }
 
 ActorParamBlock *get_actor_param_block(TObjChara *actor) { return actor->param_block; }
 
-AttackParams *get_actor_attack_params(TObjChara *actor) { return (AttackParams *)actor->m_318; }
+AttackParams *get_actor_attack_params(TObjChara *actor) { return actor->attack_params; }
 
 void AttackParams::add_ata(s32 amount) { ata += amount; }
 

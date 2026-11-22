@@ -415,7 +415,7 @@ void TObjEneBalClawClaw::sub_80090ECC() {
         }
         update_enemy_wander_move(this, ((TObjChara *)target)->body_center, 1, 0.7f);
         turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, &velocity);
-        if (target_distance_sq <= ((AttackParams *)m_318)->get_attack_range() * ((AttackParams *)m_318)->get_attack_range()) {
+        if (target_distance_sq <= attack_params->get_attack_range() * attack_params->get_attack_range()) {
             state = requested_action = 2;
         }
         break;

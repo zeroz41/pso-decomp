@@ -1,4 +1,5 @@
 #include "pso/enemy/EnemyMovement.h"
+#include "pso/player/PlayerAttackParams.h"
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -2002,9 +2003,9 @@ void TObjEneMe3Stelth::state_cast_barta(s32 reason) {
                     subtract_vector(&d, &this->body_center);
                     r = this->turn_toward_direction(((StelthMovementParams *)this->movementParameters)->turn, &d);
                 } else {
-                    r = ((s32 *)this->m_318)[3];
+                    r = this->attack_params->attack_angle;
                 }
-                if (r < ((s32 *)this->m_318)[3] / 2 && this->current_target != NULL) {
+                if (r < this->attack_params->attack_angle / 2 && this->current_target != NULL) {
                     if (game_difficulty_selection == 3) {
                         ((TTecRaFoie *)this)->create(&out, (u8 *)&this->destination, TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[this->variant_index]->attack_tech_level));
                     } else {

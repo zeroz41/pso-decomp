@@ -523,7 +523,7 @@ void TObjEneDubchik::update_proximity_state() {
                 return;
             }
         } else if (current_target != NULL) {
-            if (xz_distance_squared(&position, &((TObjChara *)target)->position) < (((AttackParams *)(this->m_318))->get_attack_range() * ((AttackParams *)(this->m_318))->get_attack_range())) {
+            if (xz_distance_squared(&position, &((TObjChara *)target)->position) < (this->attack_params->get_attack_range() * this->attack_params->get_attack_range())) {
                 this->attack_count = (this->attack_count + 1);
                 if ((s16) this->attack_count > 3) {
                     this->attack_count = 0;
@@ -1107,7 +1107,7 @@ void TObjEneDubchik::load_params() {
     dubchik_action_table[2].speed = get_float_parameter(0);
     dubchik_action_table[7].speed = get_float_parameter(3);
     dubchik_action_table[12].speed = get_float_parameter(4);
-    ((AttackParams *)m_318)->set_attack_range(get_float_parameter(collapsed ? 5 : 1));
+    attack_params->set_attack_range(get_float_parameter(collapsed ? 5 : 1));
 }
 
 void TObjEneDubchik::render_model_and_set_attach_points() {

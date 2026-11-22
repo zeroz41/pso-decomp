@@ -710,10 +710,10 @@ void TObjEneRecon::state_attack(s32 reason) {
                     p = TObjPlayer::get_player_data(i);
                     if (TObjPlayer::is_valid_and_active((uaddr)p) != 0 && p != NULL && get_entity_id(p) < 0x1000 && p->has_flag_0x800() == 0) {
                         d = horizontal_distance_squared(&p->body_center, &root_node_position);
-                        if (d <= ((AttackParams *)m_318)->get_damage_radius() * ((AttackParams *)m_318)->get_damage_radius()) {
+                        if (d <= attack_params->get_damage_radius() * attack_params->get_damage_radius()) {
                             DirectAttackPayload attack;
                             attack.kind = 0;
-                            attack.power = (f32)get_attack_params_atp_min((AttackParams *)m_318);
+                            attack.power = (f32)get_attack_params_atp_min(attack_params);
                             p->receive_direct_attack(this, attack, NULL, -1, -1);
                             p->apply_knockback_from_attacker((u8 *)this, 7.0f);
                         }
@@ -945,7 +945,7 @@ s32 TObjEneRecon::is_in_strike_range() {
     f32 facing;
     if ((destination_distance < (5.0f + ((AttackParams *)TObjEneRecon__attack_params)->get_attack_range())) && (fabs_float((f32) (hover_height - destination.y)) < 1.0f)) {
         facing = vec3_dot(&velocity, &destination_direction);
-        if (facing >= cos_table_lookup(((AttackParams *)(m_318))->get_attack_angle())) {
+        if (facing >= cos_table_lookup(attack_params->get_attack_angle())) {
             return 1;
         }
     }

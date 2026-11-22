@@ -1124,17 +1124,17 @@ void TObjCollidable::interact(s32 client) { this->interactor = client; }
 
 void*TObjPlayer::init_192dc_return_self(void* p) { ((int (*)(void*))reset_status_effect_row)(p); return p; }
 
-void TObjChara::add_flags_2e4(u32 v) { (this->m_2e4) |= v; }
+void TObjChara::add_flags_2e4(u32 v) { (this->target_attribute_mask) |= v; }
 
 void TObjPlayer__sub_8001951C(void* p) { *(s16*)((char*)p + 0x11c) = 0; }
 
 s16 get_attack_params_atp_max(void* p) { return *(s16*)((char*)p + 0x2); }
 
-s16 TObjChara::get_stats_atp_max() { return get_attack_params_atp_max((void*)this->m_318); }
+s16 TObjChara::get_stats_atp_max() { return get_attack_params_atp_max(this->attack_params); }
 
 s16 TObjPlayer__sub_800194E8(void* p) { return *(s16*)((char*)p + 0x4); }
 
-s16 TObjChara::sub_800194C4() { return TObjPlayer__sub_800194E8((void*)this->m_318); }
+s16 TObjChara::sub_800194C4() { return TObjPlayer__sub_800194E8(this->attack_params); }
 
 s32 TObjPlayer::add_status_effect_timer(s32 i, s32 v) {
     O_800194AC *self = (O_800194AC *)this;
@@ -1143,11 +1143,11 @@ s32 TObjPlayer::add_status_effect_timer(s32 i, s32 v) {
 
 f32 AttackParams::get_attack_range() { return attack_range; }
 
-f32 TObjChara::get_attack_range() { return ((AttackParams *)(this->m_318))->get_attack_range(); }
+f32 TObjChara::get_attack_range() { return this->attack_params->get_attack_range(); }
 
 s32 AttackParams::get_attack_angle() { return attack_angle; }
 
-s32 TObjChara::get_attack_angle() { return ((AttackParams *)(this->m_318))->get_attack_angle(); }
+s32 TObjChara::get_attack_angle() { return this->attack_params->get_attack_angle(); }
 
 s16 TObjPlayer::get_ata() { return this->ata; }
 #pragma push
@@ -1174,7 +1174,7 @@ void TObjPlayer__sub_800193FC(O_800193FC *self, s32 i, s32 v) {
 
 s16 get_attack_params_atp_min(void* p) { return *(s16*)((char*)p + 0x0); }
 
-s16 TObjChara::get_actor_attack_params_atp_min() { return get_attack_params_atp_min((void*)this->m_318); }
+s16 TObjChara::get_actor_attack_params_atp_min() { return get_attack_params_atp_min(this->attack_params); }
 
 #pragma push
 #pragma scheduling off
@@ -1198,7 +1198,7 @@ s16 obj_getS16_118(u8* p) {
 }
 
 s32 TObjChara::obj_testFlag_2E4(u32 mask) {
-    return (u8)((this->m_2e4 & mask) != 0);
+    return (u8)((this->target_attribute_mask & mask) != 0);
 }
 
 s16 TObjChara::get_actor_hp() {
@@ -1313,7 +1313,7 @@ TObjChara::TObjChara(TObject *parent) : TObjMotion(parent) {
     *(s32 *)((s8 *)this + 0x2B0) = 0;
     *(s32 *)((s8 *)this + 0x2A8) = 0;
     this->controller_input = NULL;
-    this->m_318 = 0;
+    this->attack_params = NULL;
     *(s32 *)((s8 *)this + 0x31C) = 0;
     this->tp_bonus = 0;
     this->hp_bonus = 0;
@@ -1344,7 +1344,7 @@ TObjChara::TObjChara(TObject *parent) : TObjMotion(parent) {
     this->m_2f4 = 0;
     this->m_2f2 = 0;
     subtractive_rng_seed(p + 0x160, this->entity_id);
-    this->m_2e4 = 0;
+    this->target_attribute_mask = 0;
     this->add_flags_2e4(0);
     this->control_state = 0;
     this->m_2d8 = 0xFFFF;
@@ -2377,7 +2377,7 @@ void TObjPlayer::set_attribute_entry(s32 i, void *q) {
 
 void TObjChara::trigger_switch_attack(const Vec *arg1) {
     if (this->obj_testFlags30(0x02000000) == 0) {
-        switch (this->m_2e4) {
+        switch (this->target_attribute_mask) {
         case 1:
             spawn_particle_effect_with_flags((const Vec *)arg1, 0xF1, 0x40);
             return;

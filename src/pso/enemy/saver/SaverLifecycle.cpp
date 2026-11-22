@@ -1324,7 +1324,7 @@ s32 TObjEneSaver::is_target_in_attack_range() {
     CollisionBody *body;
     if (mode >= 3) {
         tgt = target;
-        if (tgt != NULL && m_318 != 0U && !(((TObjChara *)tgt)->actorFlags & 0x02000800)) {
+        if (tgt != NULL && attack_params != NULL && !(((TObjChara *)tgt)->actorFlags & 0x02000800)) {
             dist = calc_xz_distance_sq(this, (TObjBase *)tgt, &v);
             ang = angle_difference_abs(rotation_y, (s32)(10430.38043493439 * atan2_float(v.x, v.z)));
             body = ((TObjChara *)target)->bodies;

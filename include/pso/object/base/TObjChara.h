@@ -6,6 +6,7 @@
 struct Vec;
 struct ActorParamBlock;
 struct ControllerInputContext;
+struct AttackParams;
 
 struct DirectAttackPayload {
     s32 kind;
@@ -225,7 +226,7 @@ public:
     // Recon whose Recobox died. Cleared with the attack receipts.
     u32 hit_flags;
     void* m_2e0;
-    uaddr m_2e4;
+    u32 target_attribute_mask;  // 1 native, 2 A.Beast, 4 machine (androids), 8 dark: what a weapon's attribute bonus targets
     u8 unk_2E8[0x2];
     s16 m_2ea;
     u8 unk_2EC[0x2];
@@ -241,7 +242,7 @@ public:
     // The pad driving it in place of its AI; TObjControl::run_task reads the
     // attack button and the stick (inferred).
     ControllerInputContext *controller_input;
-    uaddr m_318;  // the actor's AttackParams
+    AttackParams *attack_params;
     ActorParamBlock *param_block;  // get_actor_param_block
     u8 unk_320[0x2];
     s16 m_322;

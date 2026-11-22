@@ -1324,7 +1324,7 @@ void TObjPlayer__sub_801BE864(void *, u8);
 void apply_status_effect__10TObjPlayerFPv(void *);
 void swap_endian__10TObjPlayerFi(saddr arg0);
 void bswap_fields__10TObjPlayerFi(saddr arg0);
-void init_shield_params(void *out, void *player, void *stats, s32 level, void *extra);
+void init_shield_params(void *out, void *player, void *stats, AttackParams *attack_params, void *extra);
 void init_inventory_list__10TObjPlayerFPv(void *);
 s32 TObjPlayer__sub_801BE8F4(void *, s32, s32);
 void *TObjPlayer__sub_801BE918(void *a0, int a1, void *a2, void *a3);
@@ -3850,9 +3850,9 @@ void TObjPlayer::check_level_up() {
                     }
                     var_r30 += 1;
                 } while (var_r30 < 0xD);
-                init_shield_params(&sp40, (u8 *)this, this->m_2b0, this->m_318, *(void **)((s8 *)this + 0x31C));
+                init_shield_params(&sp40, (u8 *)this, this->m_2b0, this->attack_params, *(void **)((s8 *)this + 0x31C));
                 this->apply_exp_level_growth();
-                init_shield_params(&sp24, (u8 *)this, this->m_2b0, this->m_318, *(void **)((s8 *)this + 0x31C));
+                init_shield_params(&sp24, (u8 *)this, this->m_2b0, this->attack_params, *(void **)((s8 *)this + 0x31C));
                 var_r31 = 0;
                 do {
                     temp_r30_2 = (u8 *)TObjPlayer::get_slot_value((s32 *)this->equipped_items, var_r31);
@@ -4543,7 +4543,7 @@ s32 TObjPlayer::get_clamped_index() {
 }
 
 void TObjPlayer::init_trait_flags() {
-    this->m_2e4 = 0;
+    this->target_attribute_mask = 0;
     if (get_class_flags() & CLASS_FLAG_ANDROID) {
         this->add_flags_2e4(4);
     } else {

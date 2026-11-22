@@ -560,7 +560,7 @@ void TObjEneRe2Flower::state_chase_target(s32 reason) {
                 transition_enemy_state(2);
             } else if (d < lbl_805D9FE4) {
                 t = angle_difference_abs(rotation_y, target_angle);
-                if (t < ((AttackParams *)m_318)->get_attack_angle()) {
+                if (t < attack_params->get_attack_angle()) {
                     transition_enemy_state(5);
                 }
             } else if ((f32)state_timer > lbl_805D9FE8) {

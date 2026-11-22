@@ -2042,9 +2042,9 @@ void TObjEneMe3SinowZoa::state_cast_barta(s32 mode) {
                     subtract_vector(&diff, &this->body_center);
                     angle = this->turn_toward_direction(((TObjEneMe3SinowZoaMoveParams *)this->movementParameters)->turn, &diff);
                 } else {
-                    angle = ((AttackParams *)this->m_318)->attack_angle;
+                    angle = this->attack_params->attack_angle;
                 }
-                if (angle < ((AttackParams *)this->m_318)->attack_angle / 2 && this->current_target != NULL) {
+                if (angle < this->attack_params->attack_angle / 2 && this->current_target != NULL) {
                     if (game_difficulty_selection == 3) {
                         TTecRaBarta::create((void *)this, (void *)(&out), (void *)(&this->position), TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[this->kind_index]->attack_tech_level));
                     } else {
