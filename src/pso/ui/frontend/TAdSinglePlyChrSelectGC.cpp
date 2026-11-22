@@ -523,7 +523,7 @@ void TAdSinglePlyChrSelectGC::cleanup() {
         *(u32 *)((s8 *)this + 0x3C) = 0U;
     }
     if ((u32) *(u32 *)((s8 *)this + 0x40) != 0U) {
-        ((TWindowBase *)(*(void **)((s8 *)this + 0x40)))->close();
+        ((TWindowBase *)this->memory_card_check)->close();
         *(u32 *)((s8 *)this + 0x40) = 0U;
     }
     if ((u32) *(u32 *)((s8 *)this + 0x54) != 0U) {
@@ -597,7 +597,7 @@ void TAdSinglePlyChrSelectGC::sub_802D4E08() {
 TAdSinglePlyChrSelectGC::~TAdSinglePlyChrSelectGC() {
     if (*(void **)((s8 *)this + 0x38) != NULL) { ((TObject *)((void *)(*(void **)((s8 *)this + 0x38))))->queue_destruction(); *(s32 *)((s8 *)this + 0x38) = 0; }
     if (*(void **)((s8 *)this + 0x3C) != NULL) { ((TObject *)((void *)(*(void **)((s8 *)this + 0x3C))))->queue_destruction(); *(s32 *)((s8 *)this + 0x3C) = 0; }
-    if (*(void **)((s8 *)this + 0x40) != NULL) { ((TObject *)((void *)(*(void **)((s8 *)this + 0x40))))->queue_destruction(); *(s32 *)((s8 *)this + 0x40) = 0; }
+    if (this->memory_card_check != NULL) { ((TObject *)((void *)this->memory_card_check))->queue_destruction(); *(s32 *)((s8 *)this + 0x40) = 0; }
     if (*(void **)((s8 *)this + 0x44) != NULL) { ((TObject *)((void *)(*(void **)((s8 *)this + 0x44))))->queue_destruction(); *(s32 *)((s8 *)this + 0x44) = 0; }
     if (*(void **)((s8 *)this + 0x48) != NULL) { ((TObject *)((void *)(*(void **)((s8 *)this + 0x48))))->queue_destruction(); *(s32 *)((s8 *)this + 0x48) = 0; }
 }

@@ -627,7 +627,7 @@ void TUnk_804CF0B8::sub_80251DF0(s16 arg1, saddr str, s16 arg3, f32 farg0) {
         this->name = 0;
     }
     ((s32 (*)(void *, s16))set_color__13TUnk_804CF0B8FUs)(this, arg1);
-    this->frame_size[14] = 0.0f;
+    *(f32 *)((s8 *)this + 0x80) = 0.0f;
     this->m_7c = farg0;
     this->frame_size[0] = 0.0f;
     this->frame_size[1] = 0.0f;

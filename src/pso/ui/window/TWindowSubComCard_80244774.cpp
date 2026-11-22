@@ -583,8 +583,8 @@ void TWindowBase::draw_message_frame_row(void *q, void *r) {
     f32 t;
     f32 z;
     f32 w;
-    if (this->target_position[6] < 64.0f) {
-        w = 0.5f * this->target_position[6];
+    if (this->frame_size[0] < 64.0f) {
+        w = 0.5f * this->frame_size[0];
     } else {
         w = 32.0f;
     }
@@ -596,8 +596,8 @@ void TWindowBase::draw_message_frame_row(void *q, void *r) {
     ((TexturedQuad *)q)->x0 = ((Rect_802455CC *)r)->sx * (((TexturedQuad *)q)->x0 - ((Rect_802455CC *)r)->px) + ((Rect_802455CC *)r)->px;
     ((TexturedQuad *)q)->x1 = ((Rect_802455CC *)r)->sx * (((TexturedQuad *)q)->x1 - ((Rect_802455CC *)r)->px) + ((Rect_802455CC *)r)->px;
     draw_textured_quad_at_depth((f32 *)((TexturedQuad *)q), z);
-    ((TexturedQuad *)q)->x0 = (((Rect_802455CC *)r)->x + this->target_position[6]) - w;
-    ((TexturedQuad *)q)->x1 = ((Rect_802455CC *)r)->x + this->target_position[6];
+    ((TexturedQuad *)q)->x0 = (((Rect_802455CC *)r)->x + this->frame_size[0]) - w;
+    ((TexturedQuad *)q)->x1 = ((Rect_802455CC *)r)->x + this->frame_size[0];
     ((TexturedQuad *)q)->u0 = 0.6328125f;
     ((TexturedQuad *)q)->u1 = 0.7578125f;
     ((TexturedQuad *)q)->x0 = ((Rect_802455CC *)r)->sx * (((TexturedQuad *)q)->x0 - ((Rect_802455CC *)r)->px) + ((Rect_802455CC *)r)->px;
@@ -606,7 +606,7 @@ void TWindowBase::draw_message_frame_row(void *q, void *r) {
     ((TexturedQuad *)q)->x0 = 32.0f + ((Rect_802455CC *)r)->x;
     ((TexturedQuad *)q)->u0 = 0.5078125f;
     ((TexturedQuad *)q)->u1 = 0.6328125f;
-    rem = ((Rect_802455CC *)r)->sx * (this->target_position[6] - 64.0f);
+    rem = ((Rect_802455CC *)r)->sx * (this->frame_size[0] - 64.0f);
     ((TexturedQuad *)q)->x0 = ((Rect_802455CC *)r)->sx * (((TexturedQuad *)q)->x0 - ((Rect_802455CC *)r)->px) + ((Rect_802455CC *)r)->px;
     while (rem >= 0.0f) {
         if (rem < 32.0f) {
@@ -884,9 +884,9 @@ void TWindowBase::update_fade() {
         return;
     }
     *(f32 *)&(*(s32 *)((u8 *)this + 0x40)) += (*(f32 *)&(*(void * *)((u8 *)this + 0x30)) - *(f32 *)&(*(s32 *)((u8 *)this + 0x40))) / (f32) temp_r5;
-    this->target_position[5] += (this->target_position[1] - this->target_position[5]) / (f32) this->tween_ticks;
-    this->target_position[6] += (this->target_position[2] - this->target_position[6]) / (f32) this->tween_ticks;
-    this->target_position[7] += (this->target_position[3] - this->target_position[7]) / (f32) this->tween_ticks;
+    this->frame_position[1] += (this->target_position[1] - this->frame_position[1]) / (f32) this->tween_ticks;
+    this->frame_size[0] += (this->target_size[0] - this->frame_size[0]) / (f32) this->tween_ticks;
+    this->frame_size[1] += (this->target_size[1] - this->frame_size[1]) / (f32) this->tween_ticks;
     this->tween_ticks = (u32) (this->tween_ticks - 1);
 }
 

@@ -29,7 +29,7 @@ struct TWindowKeyBoardSoft : public TWindowBase
     s8 m_64;
     s8 m_65;
     s8 m_66;
-    f32 m_68;
+    f32 page_slide;  // page-change slide, set to +-10 when the page index at 0x64 steps, decays 15% a frame
     TWindowKeyBoardBase *m_control;
     f32 calc_key_coord(s32 count);
     void update_focus_flags();

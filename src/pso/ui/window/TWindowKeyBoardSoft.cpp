@@ -447,11 +447,11 @@ void TWindowKeyBoardSoft::handle_page_cycle_input(s32 port) {
         play_sound_effect(0x54100, 0, 0, 0);
         calc_cursor_step(&spC, &sp8);
         if (TWindowShortListCtrl__check_controller_button(temp_r30, 0x10000) != 0) {
-            this->target_position[14] = 10.0f;
+            this->page_slide = 10.0f;
             *(u8 *)((s8 *)((u8 *)this) + 0x64) = (u8) (*(u8 *)((s8 *)((u8 *)this) + 0x64) + 1);
         }
         if (TWindowShortListCtrl__check_controller_button(temp_r30, 0x20000) != 0) {
-            this->target_position[14] = -10.0f;
+            this->page_slide = -10.0f;
             *(u8 *)((s8 *)((u8 *)this) + 0x64) = (u8) (*(u8 *)((s8 *)((u8 *)this) + 0x64) - 1);
         }
         if ((s8) *(u8 *)((s8 *)((u8 *)this) + 0x64) < spC) {
@@ -904,7 +904,7 @@ void TWindowKeyBoardSoft::run_task() {
         }
         ((TWindowDD *)this)->initialize_subwindow();
         ((TWindowBase *)this)->update_fade();
-        this->target_position[14] -= 0.15f * this->target_position[14];
+        this->page_slide -= 0.15f * this->page_slide;
     }
 }
 
@@ -924,7 +924,7 @@ TWindowKeyBoardSoft::TWindowKeyBoardSoft(TWindowKeyBoardBase *control, s32 clien
     m_64 = 0;
     m_65 = 2;
     m_66 = 1;
-    m_68 = 0.0f;
+    page_slide = 0.0f;
     m_control = control;
     update_close_mode();
 }

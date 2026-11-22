@@ -378,11 +378,11 @@ void TWindowSubSymbolChatPartsSet::render() {
         *(f32 *)((s8 *)c_arg + 0x2C) = (f32) *(f32 *)((s8 *)c_arg + 0x28);
     }
     draw_quest_message_frame((void *)c_arg);
-    *(f32 *)((s8 *)c_arg + 0x10) = (f32) (*(f32 *)((s8 *)c_arg + 0x10) + this->target_position[23]);
+    *(f32 *)((s8 *)c_arg + 0x10) = (f32) (*(f32 *)((s8 *)c_arg + 0x10) + *(f32 *)((s8 *)this + 0x8C));
     *(f32 *)((s8 *)c_arg + 0x14) = (f32) (*(f32 *)((s8 *)c_arg + 0x14) + this->m_90);
-    *(f32 *)((s8 *)c_arg + 0x28) = (f32) (*(f32 *)((s8 *)c_arg + 0x28) * this->target_position[25]);
+    *(f32 *)((s8 *)c_arg + 0x28) = (f32) (*(f32 *)((s8 *)c_arg + 0x28) * *(f32 *)((s8 *)this + 0x94));
     ctx = *(f32 *)((s8 *)c_arg + 0x2C);
-    *(f32 *)((s8 *)c_arg + 0x2C) = (f32) (ctx * this->target_position[25]);
+    *(f32 *)((s8 *)c_arg + 0x2C) = (f32) (ctx * *(f32 *)((s8 *)this + 0x94));
     draw_visible_window_entries(
         this,
         &this->entry_list,

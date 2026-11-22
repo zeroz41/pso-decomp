@@ -110,7 +110,7 @@ void TShopSequence::restore_player_state() {
     s32 var_r31;
 
     if ((u32) *(u32 *)((s8 *)this + 0x24) != 0U) {
-        ((TObjPlayer *)(*(void **)((s8 *)this + 0x24)))->init_effect_5f0();
+        ((TObjPlayer *)this->player)->init_effect_5f0();
         if (TRaderMapCore::is_not_split_screen() != 1) {
             var_r31 = 0;
             do {

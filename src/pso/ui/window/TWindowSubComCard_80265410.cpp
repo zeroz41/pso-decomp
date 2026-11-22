@@ -345,7 +345,7 @@ void TWindowMenu::clamp_menu_choice_scroll() {
     f32 temp_f1;
     if ((u32) this->m_84 != 0U) {
         stack.sp8 = 0.0f;
-        temp_f1 = this->target_position[7] - 20.0f;
+        temp_f1 = this->frame_size[1] - 20.0f;
         stack.spC = temp_f1;
         if (this->m_88 != 0) {
             stack.spC = temp_f1 - 6.0f;
@@ -457,10 +457,10 @@ void TWindowSubComCard::calc_layout_height(f32 width) {
 
 void TWindowSubComCardList::set_scroll_target(f32 width, f32 farg1) {
     update_layout_height(width);
-    if (this->target_position[3] > farg1) {
+    if (this->target_size[1] > farg1) {
         sub_8026556C();
     }
-    this->target_position[3] = farg1;
+    this->target_size[1] = farg1;
     layout_height = (f32) (farg1 - 20.0f);
     save_position();
     update_scroll_target_position();

@@ -35,7 +35,7 @@ s32 TShopWindowBase::sub_8022397C() {
 }
 
 s32 TShopSequence::get_child_field1c() {
-    void *temp_r3 = *(void **)((s8 *)this + 0x24);
+    void *temp_r3 = this->player;
     if (temp_r3 != NULL) {
         return get_entity_id(temp_r3);
     }

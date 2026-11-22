@@ -487,7 +487,7 @@ void TShopArmorListWindow::handle_equip_offer() {
 }
 
 void TShopArmorListWindow::update_selection(void *arg1) {
-    void *r3 = *(void **)((s8 *)this + 0x3C);
+    void *r3 = this->cost_window;
     if (r3 != 0) {
         s32 r4 = *(s32 *)((s8 *)arg1 + 0x10);
         if (r4 > 0) {

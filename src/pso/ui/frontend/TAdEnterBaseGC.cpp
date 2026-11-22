@@ -160,7 +160,7 @@ TAdEnterBaseGC::TAdEnterBaseGC(TObject *parent) : TObject(parent) {
 }
 
 TAdEnterBaseGC::~TAdEnterBaseGC() {
-    if (*(void **)((s8 *)this + 0x2C) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x2C)))->queue_destruction(); *(s32 *)((s8 *)this + 0x2C) = 0; }
+    if (this->select_cursor != NULL) { ((TObject *)this->select_cursor)->queue_destruction(); *(s32 *)((s8 *)this + 0x2C) = 0; }
     if (*(void **)((s8 *)this + 0x30) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x30)))->queue_destruction(); this->m_30 = 0; }
     if (*(void **)((s8 *)this + 0x34) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x34)))->queue_destruction(); *(s32 *)((s8 *)this + 0x34) = 0; }
 }
