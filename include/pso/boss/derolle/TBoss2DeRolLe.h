@@ -50,11 +50,11 @@ struct TBoss2DeRolLeParams {
     f32 ceil_junk_drift;          // x drift per elapsed frame of a dropped TObjBoss2CeilJunk
     f32 ceil_junk_chance;         // per-frame chance of dropping one during the ceiling run
     u8 pad_14[4];
-    s32 unk_18;
+    s32 body_hp;                  // TBoss2DeRolLe::body_hp's start
     s32 shell_max_hp;             // TBoss2Joint's shell hp
-    s32 unk_20;
-    s32 unk_24;                   // unk_6EC's start in v2 mode
-    s32 unk_28;                   // unk_6F0's start in v2 mode
+    s32 shell_hp;                 // TBoss2DeRolLe::shell_hp's start
+    s32 volley_interval;          // frames between tentacle volleys in v2 mode (else 180)
+    s32 volley_hold_time;         // start_attack_at_target's hold_time in v2 mode (else 120)
 };
 
 struct TBoss2DeRolLe : public TObjEneDD_ST {
@@ -159,19 +159,19 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     void set_params(DeRolLeActionTargetPacket *packet);
     void reset_action_sequence();
     s32 state_flags;                   // 0x8 shell broken, 0x40/0x80 breakup pieces, 0x8000 already beaten
-    s32 unk_3C4;
+    s32 stat_phase;                    // the stat phase reload_stats_for_phase restores after a hit
     s32 debug_pad_active;              // handle_debug_pad_input drives the boss from debug_pad when set
     ControllerInputContext *debug_pad; // controller_input_state.controllers[1]
-    s32 unk_3D0;
+    s32 pad_3D0;
     s32 action_index;                  // the action sequence step, sent in the 6x13/6x14 packets
     TObject part_group;                // parent of the tentacles, mines, fin and laser light
-    s32 unk_3F4;
+    s32 run_mode;                      // 0 runs the action sequence, 1 holds it (lobby not ready), 2 checks is_ready only
     Vec node_positions[20];            // the derolle_position_node_ids nodes, recorded while the body draws
     Vec part_points[4];                // derolle_part_transform_template placed on node 0x33; [1] made relative to [0]
-    Vec unk_518[3];
-    s32 unk_53C;
+    Vec sound_origins[3];              // project_sound_origin_from_camera of position and node 18, and their midpoint
+    s32 loop_sound_frames;             // frames the body's looping sound has played (update_projectile_spawns)
     Vec joint_positions[10];           // one per TBoss2Joint in joints
-    s32 unk_5B8[10];
+    s32 pad_5B8[10];
     TBoss2Joint *joints[10];
     NJS_ARGB body_color;               // white; copied to derolle_capture_color while the body draws
     GC_Mtx *node_matrices;             // 12 matrices of nodes 0x4D-0x58, recorded while the body draws
@@ -182,14 +182,14 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     TBoss2Fin *fin;
     s32 position_index;
     s32 next_position_index;           // where the running move ends; it becomes position_index
-    s32 unk_65C;
-    s32 unk_660;
+    s32 travel_step_zx;                // step of the moves that run motion_z, then motion_x (update_phase_is_done)
+    s32 travel_step_xz;                // step of the moves that run motion_x, then motion_z
     TUnk_80036250 motion_x;            // drives position.x (TBoss7DeRolLeC's motion_x)
     TUnk_80036250 motion_z;            // drives position.z
     f32 height_offset;                 // body height the render matrix is translated by (render)
-    s32 unk_6A8;
-    s32 unk_6AC;
-    s32 unk_6B0;
+    s32 body_max_hp;                   // derolle_params[0]->body_hp
+    s32 body_hp;                       // drained by hits once the shell is broken; at 0 is_ready turns true
+    s32 shell_hp;                      // drained by hits while the shell is whole; at 0 the shell breaks (state_flags 0x88)
     s32 photon_pad_level;              // 0-2, cycled by state_photon_pads; TBoss2PhotonPad's level
     TBoss2LaserLight *laser_light;
     Vec laser_light_pos;               // the position the laser light follows
@@ -200,15 +200,10 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     f32 pulse_speed;
     s32 laser_shot_count;              // laser shots since the state that clears it; 4 ends the laser runs
     s32 state_step;                    // the running state's step (every state handler switches on it)
-    s32 unk_6E4;
-    s32 unk_6E8;
-    s32 unk_6EC;
-    s32 unk_6F0;
-    s32 unk_6F4;
-    s32 unk_6F8;
-    f32 state_floats[10];              // per-state scratch: each state handler gives them its own meaning
+    s32 state_ints[6];                 // per-state scratch: each state handler gives them its own meaning
+    f32 state_floats[10];              // per-state scratch, as state_ints
     Vec state_vectors[2];              // per-state scratch: handle_intro_camera_state's node offset; the laser's aim and hit point
-    TParticleCtrl *unk_73C;
+    TParticleCtrl *state_emitter;      // the running state's emitter: 0x161 on nodes 7/8 (bite), 0x122/0x177 (laser)
     TParticleCtrl *splash_ctrls[6];    // splash emitters kept on the joints (update_particle_ctrls)
     s32 splash_joint;                  // when set, the joint the first splash pair moves to for one update
 };

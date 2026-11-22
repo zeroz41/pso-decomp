@@ -685,7 +685,7 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
         boss7_joint_state = this;
     }
     reset_hp((u8 *)TLobby::register_boss(15), (u8 *)TLobby::dispatch_shared_handler_b(15), (u8 *)TLobby::register_object(15));
-    unk_620 = (TBoss7DeRolLeCParams *)TLobby::dispatch_shared_handler_a(15);
+    boss_params = (TBoss7DeRolLeCParams *)TLobby::dispatch_shared_handler_a(15);
     invoke_initialization_hook(set_data);
     state_flags = 0;
     if (exchange_object_state(state, 1) && (state[0] & 0x12008) == 0x12008) {
@@ -695,8 +695,8 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
     model = (void *)get_bml_model(boss7_derolle_c_bml_resource, 0);
     texlist = (saddr)get_bml_texlist(boss7_derolle_c_bml_resource, 0);
     save_joint_polygons();
-    copy_collision_body(&unk_3C0, &boss7_derolle_c_collision_body);
-    set_collision_body(&unk_3C0);
+    copy_collision_body(&collision_body, &boss7_derolle_c_collision_body);
+    set_collision_body(&collision_body);
     transform_part_positions();
     motion_flags = 0;
     set_field_d8((saddr)de_rol_le_c_action_table);
@@ -710,20 +710,20 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
     wall_reach = 20.0f;
     enemy_init_acquire_period(30);
     enemy_init_validate_period(30);
-    unk_7A8 = 0;
+    laser_ptcl = 0;
     crawfish_parent = new TObject(this);
-    unk_62C = 0;
-    unk_6B0 = 0;
+    stat_phase = 0;
+    pad_6B0 = 0;
     action_index = 0;
     for (s32 i = 0; i < 20; i++) {
-        unk_3EC[i].x = 0.0f;
-        unk_3EC[i].y = 0.0f;
-        unk_3EC[i].z = 0.0f;
+        node_positions[i].x = 0.0f;
+        node_positions[i].y = 0.0f;
+        node_positions[i].z = 0.0f;
     }
     for (s32 i = 0; i < 4; i++) {
-        unk_4DC[i].x = 0.0f;
-        unk_4DC[i].y = 0.0f;
-        unk_4DC[i].z = 0.0f;
+        part_points[i].x = 0.0f;
+        part_points[i].y = 0.0f;
+        part_points[i].z = 0.0f;
     }
     tentacle_matrices = (GC_Mtx *)mem_alloc(4 * sizeof(GC_Mtx));
     for (s32 i = 0; i < 4; i++) {
@@ -739,91 +739,91 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
     }
     position_slot = 0;
     next_position_slot = 0;
-    unk_6C8 = 0;
-    unk_6CC = 0;
-    unk_6D0 = 0;
+    travel_step_zx = 0;
+    motion_y_done = 0;
+    travel_step_xz = 0;
     motion_x.init_float_block();
     motion_y.init_float_block();
     motion_z.init_float_block();
-    unk_6EC.x = 0.0f;
-    unk_6EC.y = 0.0f;
-    unk_6EC.z = 0.0f;
-    unk_6F8 = unk_6FC = unk_620->unk_18;
-    unk_700 = unk_620->unk_20;
+    body_offset.x = 0.0f;
+    body_offset.y = 0.0f;
+    body_offset.z = 0.0f;
+    body_max_hp = body_hp = boss_params->body_hp;
+    shell_hp = boss_params->shell_hp;
     hpmax = hp = 20000;
-    unk_704 = 0;
+    photon_pad_level = 0;
     laser_light = new TBoss7LaserLight(&part_group, &laser_light_pos);
     laser_light_pos.x = 0.0f;
     laser_light_pos.y = 0.0f;
     laser_light_pos.z = 0.0f;
     attack_history = new AreaAttackHistory(4);
     fill_value_array(attack_history);
-    unk_71C = NULL;
-    unk_720 = NULL;
+    hit_trail = NULL;
+    hit_trail_long = NULL;
     for (s32 i = 0; i < 3; i++) {
-        VecCopy(&unk_50C[i], &position);
+        VecCopy(&sound_origins[i], &position);
     }
-    unk_6BC = 0;
-    unk_6D4 = (GC_Mtx *)mem_alloc(12 * sizeof(GC_Mtx));
+    loop_sound_frames = 0;
+    node_matrices = (GC_Mtx *)mem_alloc(12 * sizeof(GC_Mtx));
     for (s32 i = 0; i < 12; i++) {
-        set_matrix_identity((u8 *)unk_6D4[i]);
+        set_matrix_identity((u8 *)node_matrices[i]);
     }
     for (s32 i = 0; i < 6; i++) {
-        unk_788[i] = NULL;
+        splash_ctrls[i] = NULL;
     }
-    unk_7A0 = 0;
-    unk_724 = 0;
-    unk_728 = 0;
-    unk_72C = 0;
-    unk_730 = 0;
-    unk_734 = 0;
-    unk_738 = 0;
-    unk_73C = 0;
-    unk_740 = 0;
-    unk_744 = 0.0f;
-    unk_748 = 0.0f;
-    unk_74C = 0.0f;
-    unk_750 = 0.0f;
-    unk_754 = 0.0f;
-    unk_758 = 0.0f;
-    unk_75C = 0.0f;
-    unk_760 = 0.0f;
-    unk_764 = 0.0f;
-    unk_768 = 0.0f;
-    unk_76C.x = 0.0f;
-    unk_76C.y = 0.0f;
-    unk_76C.z = 0.0f;
-    unk_778.x = 0.0f;
-    unk_778.y = 0.0f;
-    unk_778.z = 0.0f;
-    unk_784 = NULL;
-    unk_6AC = 0;
+    splash_joint = 0;
+    laser_shot_count = 0;
+    state_step = 0;
+    state_ints[0] = 0;
+    state_ints[1] = 0;
+    state_ints[2] = 0;
+    state_ints[3] = 0;
+    state_ints[4] = 0;
+    state_ints[5] = 0;
+    state_floats[0] = 0.0f;
+    state_floats[1] = 0.0f;
+    state_floats[2] = 0.0f;
+    state_floats[3] = 0.0f;
+    state_floats[4] = 0.0f;
+    state_floats[5] = 0.0f;
+    state_floats[6] = 0.0f;
+    state_floats[7] = 0.0f;
+    state_floats[8] = 0.0f;
+    state_floats[9] = 0.0f;
+    state_vectors[0].x = 0.0f;
+    state_vectors[0].y = 0.0f;
+    state_vectors[0].z = 0.0f;
+    state_vectors[1].x = 0.0f;
+    state_vectors[1].y = 0.0f;
+    state_vectors[1].z = 0.0f;
+    state_emitter = NULL;
+    debug_pad_active = 0;
     debug_pad = &controller_input_state.controllers[1];
     if (TObjEneDD::is_main_phase_15()) {
         if (update_lobby_state()) {
-            unk_6B8 = 0;
+            run_mode = 0;
         } else {
-            unk_6B8 = 1;
+            run_mode = 1;
         }
     } else {
-        unk_6B8 = 0;
+        run_mode = 0;
     }
     reset_action_sequence();
     if (!(state_flags & 0x8000)) {
         mode = 1;
         dispatch_action(mode, 4);
     }
-    unk_7AC = new TUnk_804F1C58(this, model);
-    if (unk_7AC != NULL) {
-        unk_7AC->set_field_38(record_node_transforms);
+    node_recorder = new TUnk_804F1C58(this, model);
+    if (node_recorder != NULL) {
+        node_recorder->set_field_38(record_node_transforms);
     }
-    unk_7B0 = NULL;
-    unk_7B4.x = 0.0f;
-    unk_7B4.y = 0.0f;
-    unk_7B4.z = 0.0f;
-    unk_7C0.x = 0.0f;
-    unk_7C0.y = 0.0f;
-    unk_7C0.z = 0.0f;
+    aimed_emitter = NULL;
+    emitter_points[0].x = 0.0f;
+    emitter_points[0].y = 0.0f;
+    emitter_points[0].z = 0.0f;
+    emitter_points[1].x = 0.0f;
+    emitter_points[1].y = 0.0f;
+    emitter_points[1].z = 0.0f;
     needle_targets[0] = 0xFFFF;
     needle_targets[1] = 0xFFFF;
     needle_targets[2] = 0xFFFF;
@@ -832,25 +832,25 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
 
 TBoss7DeRolLeC::~TBoss7DeRolLeC() {
     s32 i;
-    if (unk_784 != NULL) {
-        unk_784->queue_destruction();
-        unk_784 = NULL;
+    if (state_emitter != NULL) {
+        state_emitter->queue_destruction();
+        state_emitter = NULL;
     }
     for (i = 0; i < 6; i++) {
-        if (unk_788[i] != NULL) {
-            unk_788[i]->queue_destruction();
-            unk_788[i] = NULL;
+        if (splash_ctrls[i] != NULL) {
+            splash_ctrls[i]->queue_destruction();
+            splash_ctrls[i] = NULL;
         }
     }
-    mem_free(unk_6D4);
-    unk_6D4 = NULL;
-    if (unk_71C != NULL) {
-        unk_71C->queue_destruction();
-        unk_71C = NULL;
+    mem_free(node_matrices);
+    node_matrices = NULL;
+    if (hit_trail != NULL) {
+        hit_trail->queue_destruction();
+        hit_trail = NULL;
     }
-    if (unk_720 != NULL) {
-        unk_720->queue_destruction();
-        unk_720 = NULL;
+    if (hit_trail_long != NULL) {
+        hit_trail_long->queue_destruction();
+        hit_trail_long = NULL;
     }
     if (attack_history != NULL) {
         delete attack_history;
@@ -890,28 +890,28 @@ void TBoss7DeRolLeC::run_task() {
         {
             void *p = (void *)TObject::operator new(0x3C);
             if (p != NULL) {
-                ((TObjPlayer *)p)->init_breakup_pieces(this, (saddr)this->unk_6D4);
+                ((TObjPlayer *)p)->init_breakup_pieces(this, (saddr)this->node_matrices);
             }
         }
     }
-    if ((TObjEneDD::is_main_phase_15() != 0) && (this->unk_6AC == 0)) {
+    if ((TObjEneDD::is_main_phase_15() != 0) && (this->debug_pad_active == 0)) {
         if (this->update_lobby_state() != 0) {
-            this->unk_6B8 = 0;
+            this->run_mode = 0;
         } else {
-            this->unk_6B8 = 1;
+            this->run_mode = 1;
         }
     }
-    if ((this->unk_6AC != 0) && (debug_pad->unknown_08 & 0x10000)) {
-        switch (this->unk_6B8) {
+    if ((this->debug_pad_active != 0) && (debug_pad->unknown_08 & 0x10000)) {
+        switch (this->run_mode) {
         case 1:
-            this->unk_6B8 = 0;
+            this->run_mode = 0;
             this->advance_action_sequence();
             break;
         case 0:
-            this->unk_6B8 = 2;
+            this->run_mode = 2;
             break;
         case 2:
-            this->unk_6B8 = 1;
+            this->run_mode = 1;
             break;
         }
     }
@@ -924,7 +924,7 @@ void TBoss7DeRolLeC::run_task() {
         } else {
             this->actorFlags = (s32) (this->actorFlags & 0xFFFFF7FF);
         }
-        temp_r0_3 = this->unk_6B8;
+        temp_r0_3 = this->run_mode;
         if (temp_r0_3 != 1) {
             if (temp_r0_3 == 2) {
                 if (is_ready() != 0) {
@@ -956,16 +956,16 @@ void TBoss7DeRolLeC::run_task() {
     if (temp_r30 == 0) {
         this->part_group.run_tasks();
     }
-    if (this->unk_7AC != 0) {
+    if (this->node_recorder != 0) {
         set_motion_packed_rotation();
         push_matrix();
         set_matrix_identity(0);
         post_translate_matrix(&position.x);
-        post_translate_matrix(&unk_6EC.x);
+        post_translate_matrix(&body_offset.x);
         rotate_matrix_by_node_angles(&rotation_x, 1);
         scale_current_matrix(&boss7_derolle_c_model_scale.x);
         this->reset_node_transforms();
-        unk_7AC->apply_with_callback((NJS_MOTION *)current_motion, get_frame());
+        node_recorder->apply_with_callback((NJS_MOTION *)current_motion, get_frame());
         pop_matrix();
         clear_motion_packed_rotation();
         calc_joint_positions();
@@ -992,13 +992,13 @@ void TBoss7DeRolLeC::run_hit_reaction() {
     s32 damage;
     damage = hpmax - hp;
     if (state_flags & 8) {
-        unk_6FC = unk_6FC - damage;
+        body_hp = body_hp - damage;
         spawn_offset_particle(&bodies->center, 2.0f, 8.0f);
-        play_sound_at(0x3B213, &unk_50C[0]);
+        play_sound_at(0x3B213, &sound_origins[0]);
     } else {
-        unk_700 = unk_700 - damage;
-        if (unk_700 < 0) {
-            unk_700 = 0;
+        shell_hp = shell_hp - damage;
+        if (shell_hp < 0) {
+            shell_hp = 0;
             set_hooked_effect_target();
         }
     }
@@ -1019,7 +1019,7 @@ void TBoss7DeRolLeC::update_body_colliders() {
     s32 set;
     s32 clr;
     s32 i;
-    VecCopy(&v, &unk_3EC[6]);
+    VecCopy(&v, &node_positions[6]);
     update_local_colliders_from_world(this, &v);
     f = position.y;
     if (f < -35.0f) {
@@ -1090,7 +1090,7 @@ void TBoss7DeRolLeC::reload_stats_for_phase(s32 phase) {
 void TBoss7DeRolLeC::emit_hit_effect(const Vec *position) {
     reload_stats_for_phase(2);
     TObjEneDD::emit_effect(this, (saddr)position, (saddr)&boss7_derolle_c_hit_effect_params);
-    reload_stats_for_phase(unk_62C);
+    reload_stats_for_phase(stat_phase);
 }
 
 f32 TBoss7PhotonBullet::get_target_pos_y() {
@@ -1103,7 +1103,7 @@ s32 TBoss7Joint_get_shell_max_hp(void) {
 
 void TBoss7DeRolLeC::set_position_index(s32 index) {
     VecCopy(&position, &boss7_derolle_c_position_points[index]);
-    unk_6EC.y = 0.0f;
+    body_offset.y = 0.0f;
     rotation_z = 0;
 }
 
@@ -1116,7 +1116,7 @@ void TBoss7DeRolLeC::set_swim_direction(s32) {
         rotation_z = -0x500;
     }
     position.z = 10.0f;
-    unk_6EC.y = 4.0f;
+    body_offset.y = 4.0f;
 }
 
 f32 TBoss7DeRolLeC::sub_802ED3E4() {
@@ -1134,12 +1134,12 @@ f32 TBoss7DeRolLeC::sub_802ED3E4() {
 }
 
 void TBoss7DeRolLeC::update_wobble_angle() {
-    if (unk_6EC.y > 0.4f) {
-        unk_6EC.y -= 0.4f;
-    } else if (unk_6EC.y < -0.4f) {
-        unk_6EC.y += 0.4f;
+    if (body_offset.y > 0.4f) {
+        body_offset.y -= 0.4f;
+    } else if (body_offset.y < -0.4f) {
+        body_offset.y += 0.4f;
     } else {
-        unk_6EC.y = 0.0f;
+        body_offset.y = 0.0f;
     }
 }
 
@@ -1158,17 +1158,17 @@ u32 TBoss7DeRolLeC::update_anim_state() {
     u8 done;
     motion_z.advance();
     if (motion_y.advance() == 3) {
-        unk_6CC = 1;
+        motion_y_done = 1;
     }
-    switch (unk_6C8) {
+    switch (travel_step_zx) {
     case 0:
         if (motion_z.travelled > 380.0f) {
-            unk_6C8 = 1;
+            travel_step_zx = 1;
         }
         break;
     case 1:
         if (motion_x.advance() == 3) {
-            unk_6C8 = 2;
+            travel_step_zx = 2;
         }
         break;
     }
@@ -1177,7 +1177,7 @@ u32 TBoss7DeRolLeC::update_anim_state() {
         play_speed = 0.9f;
     }
     done = 0;
-    if (unk_6C8 == 2 && unk_6CC == 1) {
+    if (travel_step_zx == 2 && motion_y_done == 1) {
         done = 1;
     }
     return done;
@@ -1190,21 +1190,21 @@ u32 TBoss7DeRolLeC::update_phase_settling() {
     u8 done;
     motion_x.advance();
     if (motion_y.advance() == 3) {
-        unk_6CC = 1;
+        motion_y_done = 1;
     }
-    switch (unk_6D0) {
+    switch (travel_step_xz) {
     case 0:
         if (motion_x.travelled > 160.0f) {
-            unk_6D0 = 2;
+            travel_step_xz = 2;
         }
         break;
     case 2:
         play_speed = 0.3f;
-        unk_6D0 = 3;
+        travel_step_xz = 3;
         break;
     case 3:
         if (motion_z.advance() == 3) {
-            unk_6D0 = 4;
+            travel_step_xz = 4;
         }
         if (motion_z.travelled > 200.0f) {
             play_speed += 0.1f;
@@ -1215,7 +1215,7 @@ u32 TBoss7DeRolLeC::update_phase_settling() {
         break;
     }
     done = 0;
-    if (unk_6D0 == 4 && unk_6CC == 1) {
+    if (travel_step_xz == 4 && motion_y_done == 1) {
         done = 1;
     }
     return done;
@@ -1227,18 +1227,18 @@ u32 TBoss7DeRolLeC::update_tail_anim_state() {
     u8 done;
     motion_z.advance();
     if (motion_y.advance() == 3) {
-        unk_6CC = 1;
+        motion_y_done = 1;
     }
-    switch (unk_6C8) {
+    switch (travel_step_zx) {
     case 0:
         play_speed = 0.3f;
         if (motion_z.travelled > 100.0f) {
-            unk_6C8 = 1;
+            travel_step_zx = 1;
         }
         break;
     case 1:
         if (motion_x.advance() == 3) {
-            unk_6C8 = 2;
+            travel_step_zx = 2;
         }
         break;
     }
@@ -1246,7 +1246,7 @@ u32 TBoss7DeRolLeC::update_tail_anim_state() {
         play_speed = 0.9f;
     }
     done = 0;
-    if (unk_6C8 == 2 && unk_6CC == 1) {
+    if (travel_step_zx == 2 && motion_y_done == 1) {
         done = 1;
     }
     return done;
@@ -1259,9 +1259,9 @@ u32 TBoss7DeRolLeC::update_phase_rising() {
     u8 done;
     motion_x.advance();
     if (motion_y.advance() == 3) {
-        unk_6CC = 1;
+        motion_y_done = 1;
     }
-    switch (unk_6D0) {
+    switch (travel_step_xz) {
     case 2:
         break;
     case 1:
@@ -1272,12 +1272,12 @@ u32 TBoss7DeRolLeC::update_phase_rising() {
         motion_z.speed = speed;
         motion_z.travelled = motion_z.travelled + speed;
         if (motion_x.travelled > 30.0f) {
-            unk_6D0 = 3;
+            travel_step_xz = 3;
         }
         break;
     case 3:
         if (motion_z.advance() == 3) {
-            unk_6D0 = 4;
+            travel_step_xz = 4;
         }
         break;
     }
@@ -1286,7 +1286,7 @@ u32 TBoss7DeRolLeC::update_phase_rising() {
         play_speed = 0.9f;
     }
     done = 0;
-    if (unk_6D0 == 4 && unk_6CC == 1) {
+    if (travel_step_xz == 4 && motion_y_done == 1) {
         done = 1;
     }
     return done;
@@ -1311,10 +1311,10 @@ void TBoss7DeRolLeC::spawn_photon_pad(s32 joint, s32 shot_level) {
 #pragma fp_contract on
 
 void TBoss7DeRolLeC::calc_offset_position() {
-    VecCopy(&laser_light_pos, &unk_4DC[0]);
-    laser_light_pos.x += 30.0f * unk_4DC[1].x;
-    laser_light_pos.y += 30.0f * unk_4DC[1].y;
-    laser_light_pos.z += 30.0f * unk_4DC[1].z;
+    VecCopy(&laser_light_pos, &part_points[0]);
+    laser_light_pos.x += 30.0f * part_points[1].x;
+    laser_light_pos.y += 30.0f * part_points[1].y;
+    laser_light_pos.z += 30.0f * part_points[1].z;
 }
 #pragma pop
 void TBoss7DeRolLeC::turn_on_laser_light() {
@@ -1377,7 +1377,7 @@ void TBoss7DeRolLeC::sub_802ECBDC() {
 }
 
 void TBoss7DeRolLeC::apply_damage_and_set_effect(s32 damage, u16) {
-    unk_6FC = unk_6FC - (s32)(0.5f * (f32)damage);
+    body_hp = body_hp - (s32)(0.5f * (f32)damage);
     play_sound_at(0x3B213, &position);
 }
 
@@ -1390,7 +1390,7 @@ s32 TBoss7DeRolLeC::is_ready() {
     s32 var_r4;
 
     var_r4 = 0;
-    if ((this->unk_6FC <= 0) && !(this->state_flags & 4)) {
+    if ((this->body_hp <= 0) && !(this->state_flags & 4)) {
         var_r4 = 1;
     }
     return (u8)var_r4;
@@ -1439,7 +1439,7 @@ void TBoss7DeRolLeC::set_params(G_BarbaRayBossActions_6xAA *cmd) {
 }
 
 void TBoss7DeRolLeC::reset_action_sequence() {
-    unk_6B0 = 0;
+    pad_6B0 = 0;
     action_index = 0;
 }
 
@@ -1536,19 +1536,19 @@ void TBoss7DeRolLeC::update_particle_ctrls() {
     s32 m;
     ok = 1;
     for (i = 0; i < 6; i++) {
-        if (unk_788[i] == 0) {
+        if (splash_ctrls[i] == 0) {
             void *r;
             p[2] = 0;
             p[1] = 0;
             p[0] = 0;
             r = create_particle_controller_with_angles(joint_positions, p, 0x200, 1, 0x40);
             if (r != 0) {
-                unk_788[i] = (TParticleCtrl *)r;
-                unk_788[i]->set_flags(2);
-                unk_788[i]->enable();
+                splash_ctrls[i] = (TParticleCtrl *)r;
+                splash_ctrls[i]->set_flags(2);
+                splash_ctrls[i]->enable();
             } else {
                 for (ok = 0; ok < i; ok++) {
-                    unk_788[ok]->enable();
+                    splash_ctrls[ok]->enable();
                 }
                 ok = 0;
                 break;
@@ -1556,7 +1556,7 @@ void TBoss7DeRolLeC::update_particle_ctrls() {
         }
     }
     if (ok != 0) {
-        if (unk_7A0 == 0) {
+        if (splash_joint == 0) {
             for (k = 0; k < 3; k++) {
                 Vec *src = &joint_positions[particle_pos_index_table[k]];
                 r = fabs_float(src->y - -10.0f);
@@ -1566,28 +1566,28 @@ void TBoss7DeRolLeC::update_particle_ctrls() {
                     w -= r;
                     v.y = -5.0f;
                     v.x += w;
-                    unk_788[k * 2]->set_position(&v);
+                    splash_ctrls[k * 2]->set_position(&v);
                     v.x -= 2.0f * w;
-                    unk_788[k * 2 + 1]->set_position(&v);
+                    splash_ctrls[k * 2 + 1]->set_position(&v);
                 } else {
-                    unk_788[k * 2]->enable();
-                    unk_788[k * 2 + 1]->enable();
+                    splash_ctrls[k * 2]->enable();
+                    splash_ctrls[k * 2 + 1]->enable();
                 }
             }
         } else {
-            VecCopy(&v, &joint_positions[unk_7A0]);
+            VecCopy(&v, &joint_positions[splash_joint]);
             v.y = -5.0f;
             v.x += 20.0f;
-            unk_788[0]->set_position(&v);
+            splash_ctrls[0]->set_position(&v);
             v.x -= 40.0f;
-            unk_788[1]->set_position(&v);
+            splash_ctrls[1]->set_position(&v);
             for (j = 2; j < 6; j++) {
-                unk_788[j]->enable();
+                splash_ctrls[j]->enable();
             }
-            unk_7A0 = 0;
+            splash_joint = 0;
         }
         for (m = 0; m < 6; m++) {
-            sub_802EC52C(unk_788[m]);
+            sub_802EC52C(splash_ctrls[m]);
         }
     }
 }
@@ -1613,27 +1613,27 @@ void TBoss7DeRolLeC::spawn_offset_particle(const Vec *pos, f32 lift, f32 back) {
 void TBoss7DeRolLeC::update_projectile_spawns() {
     Vec *mid;
 
-    project_sound_origin_from_camera((saddr)&position, (u8 *)&unk_50C[0], 0.3f);
-    project_sound_origin_from_camera((saddr)&unk_3EC[18], (u8 *)&unk_50C[1], 0.3f);
-    mid = &unk_50C[2];
-    VecCopy(mid, &unk_50C[1]);
-    vec3_add_to(mid, &unk_50C[1]);
+    project_sound_origin_from_camera((saddr)&position, (u8 *)&sound_origins[0], 0.3f);
+    project_sound_origin_from_camera((saddr)&node_positions[18], (u8 *)&sound_origins[1], 0.3f);
+    mid = &sound_origins[2];
+    VecCopy(mid, &sound_origins[1]);
+    vec3_add_to(mid, &sound_origins[1]);
     mid->x *= 0.5f;
     mid->y *= 0.5f;
     mid->z *= 0.5f;
     if ((state_flags & 0x100) && ((is_passing_frame(3.0f) != 0) || (is_passing_frame(20.0f) != 0))) {
-        unk_6BC = 0;
+        loop_sound_frames = 0;
     }
-    if (unk_6BC <= 0x10) {
+    if (loop_sound_frames <= 0x10) {
         if (state_flags & 0x400) {
-            play_persistent_sound_at(0x39704, &unk_50C[2]);
+            play_persistent_sound_at(0x39704, &sound_origins[2]);
         } else {
-            play_persistent_sound_at(0x3A303, &unk_50C[2]);
+            play_persistent_sound_at(0x3A303, &sound_origins[2]);
         }
-        unk_6BC = unk_6BC + 1;
+        loop_sound_frames = loop_sound_frames + 1;
     }
     if (state_flags & 0x200) {
-        play_persistent_sound_at(0x39F08, &unk_50C[0]);
+        play_persistent_sound_at(0x39F08, &sound_origins[0]);
     }
 }
 
@@ -1857,26 +1857,26 @@ void TBoss7DeRolLeC::handle_intro_camera_state(u32 event) {
         sub_802ECC44();
         state_flags &= ~4;
         state_flags &= ~0x100;
-        unk_6EC.y = 0.0f;
-        unk_728 = 0;
-        unk_72C = 0;
+        body_offset.y = 0.0f;
+        state_step = 0;
+        state_ints[0] = 0;
         TWindowCtrl::init_all_slots();
         get_target_state_b();
         break;
     case 2:
-        if (unk_728 == 1) {
+        if (state_step == 1) {
             position_slot = 0;
             set_state_and_send(2);
         }
         break;
     case 9:
-        if (unk_728 == 1) {
+        if (state_step == 1) {
             position_slot = 0;
             advance_action_sequence();
         }
         break;
     case 0:
-        if (unk_72C == 0) {
+        if (state_ints[0] == 0) {
             if (TObjEneDD::query_teammate_state() == 0) {
                 CameraPlayback cam;
                 cam.index = 0;
@@ -1886,7 +1886,7 @@ void TBoss7DeRolLeC::handle_intro_camera_state(u32 event) {
                 cam.frame_step = 0.7f;
                 activate_camera_mode(5);
                 cam.cache_target_and_forward(0x1C71);
-                unk_72C = 1;
+                state_ints[0] = 1;
             }
         } else {
             advance_animation();
@@ -1895,7 +1895,7 @@ void TBoss7DeRolLeC::handle_intro_camera_state(u32 event) {
             }
             if (is_passing_frame(83.0f) != 0) {
                 destroy_child();
-                unk_7B0 = spawn_continuous_particle_effect_with_flags(&unk_7B4, 0x20F, 0x40);
+                aimed_emitter = spawn_continuous_particle_effect_with_flags(&emitter_points[0], 0x20F, 0x40);
             }
             if (is_passing_frame(105.0f) != 0) {
                 destroy_child();
@@ -1913,7 +1913,7 @@ void TBoss7DeRolLeC::handle_intro_camera_state(u32 event) {
             if (get_scripted_camera_playback()->flags & 1) {
                 restore_player_cameras();
                 advance_action_sequence();
-                unk_728 = 1;
+                state_step = 1;
             }
         }
         break;
@@ -1934,11 +1934,11 @@ void TBoss7DeRolLeC::handle_debug_pad_input(u32 event) {
         sub_802ECBDC();
         state_flags &= ~4;
         state_flags |= 0x100;
-        unk_6EC.y = 0.0f;
+        body_offset.y = 0.0f;
         rotation_z = 0;
-        unk_72C = 1;
-        unk_730 = 0;
-        unk_728 = 0;
+        state_ints[0] = 1;
+        state_ints[1] = 0;
+        state_step = 0;
         break;
     case 2:
         switch (position_slot) {
@@ -2033,7 +2033,7 @@ void TBoss7DeRolLeC::handle_debug_pad_input(u32 event) {
 #pragma fp_contract on
 // Moves the body from point position_slot of boss7_derolle_c_position_points to point next_position_slot (states 3, 5,
 // 6, 8, 9, 0xB, 0xC, 0xE, 0x28, 0x29 of dispatch_action): one TUnk_80036250 profile
-// per axis, unk_74C/unk_758/unk_750 the x/y/z direction signs, unk_744/unk_754/unk_748
+// per axis, state_floats[2]/state_floats[5]/state_floats[3] the x/y/z direction signs, state_floats[0]/state_floats[4]/state_floats[1]
 // the start position.
 void TBoss7DeRolLeC::handle_position_travel_state(u32 event, s32 mode, s32 next_mode) {
     f32 d;
@@ -2052,38 +2052,38 @@ void TBoss7DeRolLeC::handle_position_travel_state(u32 event, s32 mode, s32 next_
         position_slot = mode;
         next_position_slot = next_mode;
         set_position_index(position_slot);
-        unk_728 = 0;
-        unk_744 = position.x;
-        unk_754 = position.y;
-        unk_748 = position.z;
+        state_step = 0;
+        state_floats[0] = position.x;
+        state_floats[4] = position.y;
+        state_floats[1] = position.z;
         d = boss7_derolle_c_position_points[next_position_slot].x - boss7_derolle_c_position_points[position_slot].x;
         if (0.0f < d) {
-            unk_74C = 1.0f;
+            state_floats[2] = 1.0f;
         } else if (d < 0.0f) {
-            unk_74C = -1.0f;
+            state_floats[2] = -1.0f;
         } else {
-            unk_74C = 0.0f;
+            state_floats[2] = 0.0f;
         }
         d = boss7_derolle_c_position_points[next_position_slot].y - boss7_derolle_c_position_points[position_slot].y;
         if (0.0f < d) {
-            unk_758 = 1.0f;
+            state_floats[5] = 1.0f;
         } else if (d < 0.0f) {
-            unk_758 = -1.0f;
+            state_floats[5] = -1.0f;
         } else {
-            unk_758 = 0.0f;
+            state_floats[5] = 0.0f;
         }
         d = boss7_derolle_c_position_points[next_position_slot].z - boss7_derolle_c_position_points[position_slot].z;
         if (0.0f < d) {
-            unk_750 = 1.0f;
+            state_floats[3] = 1.0f;
         } else if (d < 0.0f) {
-            unk_750 = -1.0f;
+            state_floats[3] = -1.0f;
         } else {
-            unk_750 = 0.0f;
+            state_floats[3] = 0.0f;
         }
         if (next_position_slot < 5) {
             speed = 3.0f;
             accel = 0.08f;
-            if (unk_750 > 0.0f) {
+            if (state_floats[3] > 0.0f) {
                 z_accel = accel;
                 z_speed = 5.0f;
             } else {
@@ -2093,7 +2093,7 @@ void TBoss7DeRolLeC::handle_position_travel_state(u32 event, s32 mode, s32 next_
         } else {
             speed = 6.0f;
             accel = 0.16f;
-            if (unk_750 > 0.0f) {
+            if (state_floats[3] > 0.0f) {
                 z_accel = accel;
                 z_speed = 10.0f;
             } else {
@@ -2103,75 +2103,75 @@ void TBoss7DeRolLeC::handle_position_travel_state(u32 event, s32 mode, s32 next_
         }
         motion_x.init_params(speed, fabs_float(boss7_derolle_c_position_points[next_position_slot].x - position.x), accel);
         motion_y.init_params(speed, fabs_float(boss7_derolle_c_position_points[next_position_slot].y - position.y), accel);
-        if (unk_750 > 0.0f) {
+        if (state_floats[3] > 0.0f) {
             motion_z.init_params(z_speed, fabs_float(boss7_derolle_c_position_points[next_position_slot].z - position.z), z_accel);
         } else {
             motion_z.set_move_params(z_speed, fabs_float(boss7_derolle_c_position_points[next_position_slot].z - position.z), z_accel, 0.05f);
         }
-        if (0.0f != unk_750) {
-            unk_6C8 = 0;
+        if (0.0f != state_floats[3]) {
+            travel_step_zx = 0;
         } else {
-            unk_6C8 = 1;
+            travel_step_zx = 1;
         }
-        unk_6CC = 0;
-        if (unk_750 > 0.0f) {
-            if (0.0f != unk_74C) {
-                unk_6D0 = 1;
+        motion_y_done = 0;
+        if (state_floats[3] > 0.0f) {
+            if (0.0f != state_floats[2]) {
+                travel_step_xz = 1;
             } else {
-                unk_6D0 = 3;
+                travel_step_xz = 3;
             }
         } else {
-            if (0.0f != unk_74C) {
-                unk_6D0 = 0;
+            if (0.0f != state_floats[2]) {
+                travel_step_xz = 0;
             } else {
-                unk_6D0 = 2;
+                travel_step_xz = 2;
             }
         }
-        if (0.0f != unk_758) {
-            unk_72C = 4;
-            if (unk_758 > 0.0f) {
+        if (0.0f != state_floats[5]) {
+            state_ints[0] = 4;
+            if (state_floats[5] > 0.0f) {
                 extend_all_tentacles();
-                play_sound_at(0x39902, unk_50C);
+                play_sound_at(0x39902, sound_origins);
                 state_flags &= ~0x400;
             } else {
                 retract_all_tentacles();
-                play_sound_at(0x39E01, unk_50C);
+                play_sound_at(0x39E01, sound_origins);
                 state_flags |= 0x400;
             }
         } else {
             switch (position_slot) {
             case 1:
             case 6:
-                unk_72C = 2;
+                state_ints[0] = 2;
                 break;
             case 3:
             case 8:
-                unk_72C = 0;
+                state_ints[0] = 0;
                 break;
             default:
                 switch (next_position_slot) {
                 case 1:
                 case 6:
-                    unk_72C = 1;
+                    state_ints[0] = 1;
                     break;
                 case 3:
                 case 8:
-                    unk_72C = 3;
+                    state_ints[0] = 3;
                     break;
                 default:
-                    unk_72C = 3;
+                    state_ints[0] = 3;
                     break;
                 }
                 break;
             }
         }
     case 2:
-        if (unk_728 == 1) {
+        if (state_step == 1) {
             set_state_and_send(2);
         }
         break;
     case 9:
-        if (unk_728 == 1) {
+        if (state_step == 1) {
             if (state_flags & 0x800) {
                 state_flags &= ~0x800;
                 switch (next_position_slot) {
@@ -2195,21 +2195,21 @@ void TBoss7DeRolLeC::handle_position_travel_state(u32 event, s32 mode, s32 next_
         this->advance_animation();
         sub_802EC32C();
         done = 0;
-        switch (unk_72C) {
+        switch (state_ints[0]) {
         case 0:
             done = update_phase_rising();
             break;
         case 1:
             done = update_anim_state();
-            position.z = unk_748 + motion_z.travelled;
+            position.z = state_floats[1] + motion_z.travelled;
             break;
         case 2:
             done = update_phase_settling();
-            position.z = unk_748 - motion_z.travelled;
+            position.z = state_floats[1] - motion_z.travelled;
             break;
         case 3:
             done = update_tail_anim_state();
-            position.z = unk_748 - motion_z.travelled;
+            position.z = state_floats[1] - motion_z.travelled;
             break;
         case 4:
             done = 0;
@@ -2218,18 +2218,18 @@ void TBoss7DeRolLeC::handle_position_travel_state(u32 event, s32 mode, s32 next_
                 if (play_speed > 0.9f) {
                     done = 1;
                 }
-            } else if (unk_758 < 0.0f) {
+            } else if (state_floats[5] < 0.0f) {
                 play_speed = 0.3f;
             }
-            position.z = unk_748 - motion_z.travelled;
+            position.z = state_floats[1] - motion_z.travelled;
             break;
         }
         if (done) {
-            unk_728 = 1;
+            state_step = 1;
         }
-        position.x = motion_x.travelled * unk_74C + unk_744;
-        position.y = motion_y.travelled * unk_758 + unk_754;
-        position.z = motion_z.travelled * unk_750 + unk_748;
+        position.x = motion_x.travelled * state_floats[2] + state_floats[0];
+        position.y = motion_y.travelled * state_floats[5] + state_floats[4];
+        position.z = motion_z.travelled * state_floats[3] + state_floats[1];
         break;
     case 5:
         position_slot = next_position_slot;
@@ -2247,28 +2247,28 @@ void TBoss7DeRolLeC::handle_side_jump_state(u32 event, s32 position_index, s32 n
         set_position_index(position_slot);
         if (position_slot == 0) {
             set_field_b8(5);
-            unk_744 = -1.0f;
+            state_floats[0] = -1.0f;
         } else {
             set_field_b8(6);
-            unk_744 = 1.0f;
+            state_floats[0] = 1.0f;
         }
-        unk_728 = 0;
-        unk_72C = 0;
-        unk_730 = 0;
-        unk_748 = 0.0f;
-        unk_74C = 0.0f;
-        unk_754 = 0.0f;
-        unk_758 = 0.0f;
-        unk_750 = 0.0f;
-        unk_734 = 0;
+        state_step = 0;
+        state_ints[0] = 0;
+        state_ints[1] = 0;
+        state_floats[1] = 0.0f;
+        state_floats[2] = 0.0f;
+        state_floats[4] = 0.0f;
+        state_floats[5] = 0.0f;
+        state_floats[3] = 0.0f;
+        state_ints[2] = 0;
         break;
     case 2:
-        if (unk_728 == 2) {
+        if (state_step == 2) {
             set_state_and_send(2);
         }
         break;
     case 9:
-        if (unk_728 == 2) {
+        if (state_step == 2) {
             if (state_flags & 0x800) {
                 state_flags &= ~0x800;
                 switch (next_position_slot) {
@@ -2289,77 +2289,77 @@ void TBoss7DeRolLeC::handle_side_jump_state(u32 event, s32 position_index, s32 n
         }
         break;
     case 0:
-        switch (unk_728) {
+        switch (state_step) {
         case 0:
             advance_animation();
             if (!(motion_flags & 4)) {
-                unk_728 = 1;
+                state_step = 1;
             }
             break;
         case 1:
             advance_animation();
-            switch (unk_730) {
+            switch (state_ints[1]) {
             case 0:
                 if (frame >= 10.0f) {
-                    unk_730 = 1;
-                    unk_754 = 3.25f * unk_744;
+                    state_ints[1] = 1;
+                    state_floats[4] = 3.25f * state_floats[0];
                 }
                 break;
             case 1:
                 if (frame >= 20.0f) {
-                    unk_730 = 2;
-                    unk_754 = -5.625f * unk_744;
-                    unk_758 = ((270.0f - position.z) + 72.666664f * -unk_750) / 1034.6666f;
-                    unk_7B0 = spawn_continuous_particle_effect_with_flags(&unk_7B4, 0x20F, 0x40);
+                    state_ints[1] = 2;
+                    state_floats[4] = -5.625f * state_floats[0];
+                    state_floats[5] = ((270.0f - position.z) + 72.666664f * -state_floats[3]) / 1034.6666f;
+                    aimed_emitter = spawn_continuous_particle_effect_with_flags(&emitter_points[0], 0x20F, 0x40);
                 }
                 break;
             case 2:
                 if (frame >= 28.0f) {
-                    unk_730 = 3;
-                    unk_748 = (sub_802ED3E4() - unk_748) / 2.5f;
-                    unk_74C = (2.0f * unk_748) / 56.666664f;
-                    unk_754 = -6.5294123f * unk_744;
-                    unk_734 = 0;
+                    state_ints[1] = 3;
+                    state_floats[1] = (sub_802ED3E4() - state_floats[1]) / 2.5f;
+                    state_floats[2] = (2.0f * state_floats[1]) / 56.666664f;
+                    state_floats[4] = -6.5294123f * state_floats[0];
+                    state_ints[2] = 0;
                 }
                 break;
             case 3:
                 if (frame >= 45.0f) {
-                    unk_730 = 4;
-                    unk_754 = -15.0f * unk_744;
+                    state_ints[1] = 4;
+                    state_floats[4] = -15.0f * state_floats[0];
                     motion_z.set_move_params(7.0f, fabs_float(25.0f - position.z), 0.2f, 0.05f);
-                    motion_z.speed = -(0.5f * unk_750);
-                    unk_750 = position.z;
+                    motion_z.speed = -(0.5f * state_floats[3]);
+                    state_floats[3] = position.z;
                     destroy_child();
                 }
                 break;
             case 4:
                 if (frame >= 46.0f) {
-                    unk_730 = 5;
-                    unk_754 = unk_744 * ((-175.0f - position.x * unk_744) / 36.0f);
+                    state_ints[1] = 5;
+                    state_floats[4] = state_floats[0] * ((-175.0f - position.x * state_floats[0]) / 36.0f);
                 }
                 break;
             case 5:
                 if (frame >= 64.0f) {
-                    unk_730 = 6;
+                    state_ints[1] = 6;
                 }
                 break;
             }
             if (requested_action != 1) {
                 if (is_passing_frame(10.0f) != 0 || is_passing_frame(41.0f) != 0) {
-                    play_sound_at(0x39905, &unk_50C[0]);
+                    play_sound_at(0x39905, &sound_origins[0]);
                 } else if (is_passing_frame(25.0f) != 0) {
-                    play_sound_at(0x39906, &unk_50C[0]);
+                    play_sound_at(0x39906, &sound_origins[0]);
                 }
             }
             update_attached_orientation();
-            unk_734++;
-            if (unk_730 != 6) {
+            state_ints[2]++;
+            if (state_ints[1] != 6) {
                 f32 f = frame;
                 if (f >= 24.0f && f <= 32.0f) {
-                    if (unk_734 >= 3) {
+                    if (state_ints[2] >= 3) {
                         Vec v;
                         s32 i;
-                        unk_734 = 0;
+                        state_ints[2] = 0;
                         VecCopy(&v, &position);
                         for (i = 0; i < 10; i++) {
                             if (v.y * joint_positions[i].y < 0.0f) {
@@ -2367,61 +2367,61 @@ void TBoss7DeRolLeC::handle_side_jump_state(u32 event, s32 position_index, s32 n
                             }
                             VecCopy(&v, &joint_positions[i]);
                         }
-                        v.x = v.x - unk_744 * (20.0f * random_ratio() + 40.0f);
+                        v.x = v.x - state_floats[0] * (20.0f * random_ratio() + 40.0f);
                         v.y = -5.0f;
                         v.z = v.z + (20.0f * calc_elapsed_scaled() + 70.0f);
                         spawn_particle_201(&v);
                     }
-                } else if (f >= 41.0f && f <= 46.0f && unk_734 >= 3) {
+                } else if (f >= 41.0f && f <= 46.0f && state_ints[2] >= 3) {
                     Vec v;
-                    unk_734 = 0;
+                    state_ints[2] = 0;
                     VecCopy(&v, &position);
-                    v.x = v.x + unk_744 * (20.0f * random_ratio() + 20.0f);
+                    v.x = v.x + state_floats[0] * (20.0f * random_ratio() + 20.0f);
                     v.y = -5.0f;
                     v.z = v.z + (60.0f * calc_elapsed_scaled() + 10.0f);
                     spawn_particle_201(&v);
                 }
             }
-            switch (unk_730) {
+            switch (state_ints[1]) {
             case 0:
-                unk_750 -= 0.2f;
-                position.z = position.z + unk_750;
+                state_floats[3] -= 0.2f;
+                position.z = position.z + state_floats[3];
                 break;
             case 1:
-                position.x = position.x + unk_754;
-                position.z = position.z + unk_750;
+                position.x = position.x + state_floats[4];
+                position.z = position.z + state_floats[3];
                 break;
             case 2:
-                position.x = position.x + unk_754;
-                unk_750 = unk_750 + unk_758;
-                position.z = position.z + unk_750;
-                unk_748 = sub_802ED3E4();
+                position.x = position.x + state_floats[4];
+                state_floats[3] = state_floats[3] + state_floats[5];
+                position.z = position.z + state_floats[3];
+                state_floats[1] = sub_802ED3E4();
                 break;
             case 3:
-                position.x = position.x + unk_754;
+                position.x = position.x + state_floats[4];
                 frame -= 0.19999999f;
-                unk_6EC.y = unk_6EC.y + unk_748;
-                unk_748 = unk_748 - unk_74C;
-                position.z = position.z + unk_750;
+                body_offset.y = body_offset.y + state_floats[1];
+                state_floats[1] = state_floats[1] - state_floats[2];
+                position.z = position.z + state_floats[3];
                 break;
             case 4:
-                position.x = position.x + unk_754;
+                position.x = position.x + state_floats[4];
                 update_wobble_angle();
                 motion_z.advance();
-                position.z = unk_750 - motion_z.travelled;
+                position.z = state_floats[3] - motion_z.travelled;
                 break;
             case 5:
-                position.x = position.x + unk_754;
+                position.x = position.x + state_floats[4];
                 update_wobble_angle();
                 motion_z.advance();
-                position.z = unk_750 - motion_z.travelled;
+                position.z = state_floats[3] - motion_z.travelled;
                 break;
             case 6:
                 update_wobble_angle();
                 if (motion_z.advance() == 3) {
-                    unk_728 = 2;
+                    state_step = 2;
                 }
-                position.z = unk_750 - motion_z.travelled;
+                position.z = state_floats[3] - motion_z.travelled;
                 if (requested_action == 1) {
                     state_flags |= 0x100;
                 }
@@ -2450,88 +2450,88 @@ void TBoss7DeRolLeC::handle_forward_jump_state(u32 event) {
         state_flags &= ~0x100;
         position_slot = 3;
         set_position_index(position_slot);
-        unk_728 = 0;
-        unk_730 = 0;
-        unk_72C = 0;
-        unk_744 = 0.0f;
-        unk_748 = 0.0f;
-        unk_74C = 0.0f;
-        unk_750 = 0.0f;
-        unk_734 = 0;
+        state_step = 0;
+        state_ints[1] = 0;
+        state_ints[0] = 0;
+        state_floats[0] = 0.0f;
+        state_floats[1] = 0.0f;
+        state_floats[2] = 0.0f;
+        state_floats[3] = 0.0f;
+        state_ints[2] = 0;
         break;
     case 2:
-        if (unk_728 == 3) {
+        if (state_step == 3) {
             set_state_and_send(2);
         }
         break;
     case 9:
-        if (unk_728 == 3) {
+        if (state_step == 3) {
             advance_action_sequence();
         }
         break;
     case 0:
         advance_animation();
-        switch (unk_728) {
+        switch (state_step) {
         case 0:
-            unk_730++;
-            if (unk_730 > 0x14) {
+            state_ints[1]++;
+            if (state_ints[1] > 0x14) {
                 set_field_b8(4);
-                unk_728 = 1;
+                state_step = 1;
             }
-            unk_74C -= 0.2f;
-            if (unk_74C < -7.0f) {
-                unk_74C = -7.0f;
+            state_floats[2] -= 0.2f;
+            if (state_floats[2] < -7.0f) {
+                state_floats[2] = -7.0f;
             }
-            position.z += unk_74C;
+            position.z += state_floats[2];
             break;
         case 1:
             if (!(motion_flags & 4)) {
-                unk_728 = 2;
+                state_step = 2;
             }
             break;
         case 2:
-            switch (unk_72C) {
+            switch (state_ints[0]) {
             case 0:
                 if (frame >= 10.5f) {
-                    unk_72C = 1;
-                    unk_750 = ((300.0f - position.z) + 49.102562f * -unk_74C) / 732.1581f;
-                    unk_734 = 0;
+                    state_ints[0] = 1;
+                    state_floats[3] = ((300.0f - position.z) + 49.102562f * -state_floats[2]) / 732.1581f;
+                    state_ints[2] = 0;
                 }
                 break;
             case 1:
                 if (frame >= 16.0f) {
-                    unk_72C = 2;
-                    unk_744 = (4.0f * (40.0f - position.y)) / 30.76923f;
-                    unk_748 = (2.0f * unk_744) / 30.76923f;
-                    unk_734 = 0;
+                    state_ints[0] = 2;
+                    state_floats[0] = (4.0f * (40.0f - position.y)) / 30.76923f;
+                    state_floats[1] = (2.0f * state_floats[0]) / 30.76923f;
+                    state_ints[2] = 0;
                 }
                 break;
             case 2:
                 if (frame >= 22.0f) {
-                    unk_72C = 3;
-                    unk_74C *= 0.5f;
-                    unk_750 = 0.0f;
+                    state_ints[0] = 3;
+                    state_floats[2] *= 0.5f;
+                    state_floats[3] = 0.0f;
                 }
                 break;
             case 3:
                 if (frame >= 29.0f) {
-                    unk_72C = 4;
+                    state_ints[0] = 4;
                 }
                 break;
             }
             if (requested_action != 1) {
                 if (is_passing_frame(4.0f) != 0 || is_passing_frame(22.0f) != 0) {
-                    play_sound_at(0x39905, &unk_50C[0]);
+                    play_sound_at(0x39905, &sound_origins[0]);
                 } else if (is_passing_frame(14.0f) != 0) {
-                    play_sound_at(0x39906, &unk_50C[0]);
+                    play_sound_at(0x39906, &sound_origins[0]);
                 }
             }
-            switch (unk_72C) {
+            switch (state_ints[0]) {
             case 1:
-                unk_734++;
-                if (frame >= 13.5f && unk_734 >= 2) {
+                state_ints[2]++;
+                if (frame >= 13.5f && state_ints[2] >= 2) {
                     Vec v;
-                    unk_734 = 0;
+                    state_ints[2] = 0;
                     VecCopy(&v, &position);
                     v.x = 50.0f * calc_elapsed_scaled() + v.x;
                     v.y = -5.0f;
@@ -2541,12 +2541,12 @@ void TBoss7DeRolLeC::handle_forward_jump_state(u32 event) {
                 break;
             case 2:
             case 3:
-                unk_734++;
-                if (unk_734 >= 2) {
+                state_ints[2]++;
+                if (state_ints[2] >= 2) {
                     f32 f = frame;
                     if (f >= 21.0f && f <= 26.0f) {
                         Vec v;
-                        unk_734 = 0;
+                        state_ints[2] = 0;
                         VecCopy(&v, &position);
                         v.x = 50.0f * calc_elapsed_scaled() + v.x;
                         v.y = -5.0f;
@@ -2556,40 +2556,40 @@ void TBoss7DeRolLeC::handle_forward_jump_state(u32 event) {
                 }
                 break;
             }
-            switch (unk_72C) {
+            switch (state_ints[0]) {
             case 0:
-                unk_74C -= 0.2f;
-                if (unk_74C < -7.0f) {
-                    unk_74C = -7.0f;
+                state_floats[2] -= 0.2f;
+                if (state_floats[2] < -7.0f) {
+                    state_floats[2] = -7.0f;
                 }
-                position.z += unk_74C;
+                position.z += state_floats[2];
                 break;
             case 1:
-                unk_74C += unk_750;
-                position.z += unk_74C;
-                unk_744 = sub_802ED3E4();
+                state_floats[2] += state_floats[3];
+                position.z += state_floats[2];
+                state_floats[0] = sub_802ED3E4();
                 break;
             case 2:
-                position.z += unk_74C;
-                unk_6EC.y += unk_744;
-                unk_744 -= unk_748;
+                position.z += state_floats[2];
+                body_offset.y += state_floats[0];
+                state_floats[0] -= state_floats[1];
                 frame -= 0.105000004f;
                 break;
             case 3:
             case 4:
-                if (unk_750 <= 0.0f) {
-                    unk_74C -= 0.2f;
-                    if (unk_74C <= 0.0f) {
-                        unk_750 = 1.0f;
+                if (state_floats[3] <= 0.0f) {
+                    state_floats[2] -= 0.2f;
+                    if (state_floats[2] <= 0.0f) {
+                        state_floats[3] = 1.0f;
                         motion_z.set_move_params(7.0f, fabs_float(500.0f - position.z), 0.2f, 0.05f);
-                        unk_74C = position.z;
+                        state_floats[2] = position.z;
                     } else {
-                        position.z += unk_74C;
+                        position.z += state_floats[2];
                     }
                 } else if (motion_z.advance() == 3) {
-                    unk_728 = 3;
+                    state_step = 3;
                 } else {
-                    position.z = unk_74C - motion_z.travelled;
+                    position.z = state_floats[2] - motion_z.travelled;
                 }
                 update_wobble_angle();
                 break;
@@ -2613,19 +2613,19 @@ void TBoss7DeRolLeC::handle_bite_state(u32 event, s32 position_index) {
         state_flags &= ~0x100;
         position_slot = position_index;
         set_position_index(position_slot);
-        unk_744 = 0.0f;
-        unk_750 = 0.0f;
-        unk_74C = 0.0f;
-        unk_748 = 0.0f;
-        unk_754 = -0.2f;
-        unk_758 = 0.0f;
-        unk_75C = position.z;
-        unk_760 = 0.0f;
-        unk_72C = 0;
-        unk_728 = 0;
-        unk_730 = 0;
-        unk_784 = NULL;
-        unk_734 = 0;
+        state_floats[0] = 0.0f;
+        state_floats[3] = 0.0f;
+        state_floats[2] = 0.0f;
+        state_floats[1] = 0.0f;
+        state_floats[4] = -0.2f;
+        state_floats[5] = 0.0f;
+        state_floats[6] = position.z;
+        state_floats[7] = 0.0f;
+        state_ints[0] = 0;
+        state_step = 0;
+        state_ints[1] = 0;
+        state_emitter = NULL;
+        state_ints[2] = 0;
         break;
     case 2: {
         u32 f = debug_pad->unknown_08;
@@ -2651,69 +2651,69 @@ void TBoss7DeRolLeC::handle_bite_state(u32 event, s32 position_index) {
         break;
     case 0:
         advance_animation();
-        switch (unk_728) {
+        switch (state_step) {
         case 0:
-            unk_72C++;
-            if (unk_72C > 10) {
-                unk_72C = 0;
-                unk_728 = 1;
+            state_ints[0]++;
+            if (state_ints[0] > 10) {
+                state_ints[0] = 0;
+                state_step = 1;
                 if (position_slot == 0) {
                     set_field_b8(7);
-                    unk_744 = -1.0f;
+                    state_floats[0] = -1.0f;
                 } else {
                     set_field_b8(8);
-                    unk_744 = 1.0f;
+                    state_floats[0] = 1.0f;
                 }
             }
             break;
         case 1:
             if (!(motion_flags & 4)) {
-                unk_728 = 2;
+                state_step = 2;
             }
             break;
         case 2:
             if (frame >= 6.0f) {
-                unk_728 = 3;
-                unk_750 = 0.0f;
-                unk_748 = position.x;
-                unk_74C = (100.0f * unk_744 - unk_748) / 7.0f;
-                unk_754 = -(unk_758 / 7.0f);
-                unk_75C = position.z;
-                unk_758 = 0.0f;
+                state_step = 3;
+                state_floats[3] = 0.0f;
+                state_floats[1] = position.x;
+                state_floats[2] = (100.0f * state_floats[0] - state_floats[1]) / 7.0f;
+                state_floats[4] = -(state_floats[5] / 7.0f);
+                state_floats[6] = position.z;
+                state_floats[5] = 0.0f;
             }
             break;
         case 3:
             if (frame >= 13.0f) {
-                unk_728 = 4;
-                unk_750 = 0.0f;
-                unk_748 = 100.0f * unk_744;
-                unk_74C = (135.0f * unk_744 - unk_748) / 7.0f;
-                unk_75C = position.z;
-                unk_754 = (2.0f * (10.0f - position.z)) / 144.0f;
-                unk_758 = 0.0f;
+                state_step = 4;
+                state_floats[3] = 0.0f;
+                state_floats[1] = 100.0f * state_floats[0];
+                state_floats[2] = (135.0f * state_floats[0] - state_floats[1]) / 7.0f;
+                state_floats[6] = position.z;
+                state_floats[4] = (2.0f * (10.0f - position.z)) / 144.0f;
+                state_floats[5] = 0.0f;
             }
             break;
         case 4:
             if (frame >= 20.0f) {
-                unk_728 = 5;
-                unk_750 = 0.0f;
-                unk_748 = 135.0f * unk_744;
-                unk_74C = (100.0f * unk_744 - unk_748) / 5.0f;
-                unk_760 = (1280.0f * -unk_744) / 5.0f;
+                state_step = 5;
+                state_floats[3] = 0.0f;
+                state_floats[1] = 135.0f * state_floats[0];
+                state_floats[2] = (100.0f * state_floats[0] - state_floats[1]) / 5.0f;
+                state_floats[7] = (1280.0f * -state_floats[0]) / 5.0f;
             }
             break;
         case 5:
             if (frame >= 25.0f) {
                 s32 i;
-                unk_728 = 6;
+                state_step = 6;
                 TCameraCtrl::set_shake_preset(1);
                 if (position_slot == 0) {
                     TObjBoss7Tunnel::start_sway_negative_x();
                 } else {
                     TObjBoss7Tunnel::start_sway_positive_x();
                 }
-                play_sound_at(0x3A107, &unk_50C[0]);
-                new TUnk_804F1C88(this, &unk_4DC[0]);
+                play_sound_at(0x3A107, &sound_origins[0]);
+                new TUnk_804F1C88(this, &part_points[0]);
                 state_flags |= 0x200;
                 for (i = 0; i < 4; i++) {
                     tentacles[i]->sub_802F0B58();
@@ -2723,69 +2723,69 @@ void TBoss7DeRolLeC::handle_bite_state(u32 event, s32 position_index) {
         case 6:
             break;
         }
-        unk_730++;
-        if (unk_728 != 0 && unk_728 != 1) {
-            if (frame >= 15.0f && frame <= 17.0f && unk_730 >= 2) {
+        state_ints[1]++;
+        if (state_step != 0 && state_step != 1) {
+            if (frame >= 15.0f && frame <= 17.0f && state_ints[1] >= 2) {
                 Vec v;
                 f32 s;
-                unk_730 = 0;
-                VecCopy(&v, &unk_4DC[0]);
+                state_ints[1] = 0;
+                VecCopy(&v, &part_points[0]);
                 s = 50.0f * random_ratio();
-                v.x = v.x - unk_744 * s;
+                v.x = v.x - state_floats[0] * s;
                 v.y = -5.0f;
                 v.z += 40.0f;
                 spawn_particle_201(&v);
             }
             if (is_passing_frame(15.0f) != 0) {
-                play_sound_at(0x39905, &unk_50C[0]);
+                play_sound_at(0x39905, &sound_origins[0]);
             }
-            p_ = unk_784;
+            p_ = state_emitter;
             if (p_ == NULL) {
-                unk_784 = create_particle_emitter(&position, 0x161);
-                if (unk_784 != NULL) {
-                    unk_784->enable();
+                state_emitter = create_particle_emitter(&position, 0x161);
+                if (state_emitter != NULL) {
+                    state_emitter->enable();
                 }
             } else if (frame >= 24.0f && frame <= 30.0f) {
                 s32 r;
-                unk_734++;
-                r = unk_734 % 4;
+                state_ints[2]++;
+                r = state_ints[2] % 4;
                 if (r == 0) {
-                    unk_784->set_position(&unk_3EC[7]);
+                    state_emitter->set_position(&node_positions[7]);
                 } else if (r == 2) {
-                    unk_784->set_position(&unk_3EC[8]);
+                    state_emitter->set_position(&node_positions[8]);
                 } else {
-                    unk_784->enable();
+                    state_emitter->enable();
                 }
             } else {
                 p_->enable();
             }
         }
-        switch (unk_728) {
+        switch (state_step) {
         case 0:
         case 1:
         case 2:
-            unk_758 = unk_758 + unk_754;
-            if (unk_758 < -7.0f) {
-                unk_758 = -7.0f;
+            state_floats[5] = state_floats[5] + state_floats[4];
+            if (state_floats[5] < -7.0f) {
+                state_floats[5] = -7.0f;
             }
-            position.z = position.z + unk_758;
+            position.z = position.z + state_floats[5];
             break;
         case 3: {
             f32 t = frame - 6.0f;
-            position.x = unk_74C * t + unk_748;
-            { f32 h_ = 0.5f * unk_754; position.z = t * (h_ * t + -7.0f) + unk_75C; }
+            position.x = state_floats[2] * t + state_floats[1];
+            { f32 h_ = 0.5f * state_floats[4]; position.z = t * (h_ * t + -7.0f) + state_floats[6]; }
             if (is_passing_frame(8.5f) != 0) {
-                play_sound_at(0x39906, &unk_50C[0]);
+                play_sound_at(0x39906, &sound_origins[0]);
             }
             break;
         }
         case 4: {
             f32 t = frame - 13.0f;
-            position.x = unk_74C * t + unk_748;
-            { f32 h_ = 0.5f * unk_754; position.z = t * (h_ * t) + unk_75C; }
-            unk_6EC.y = 28.0f * t;
-            if (unk_6EC.y > 4.0f) {
-                unk_6EC.y = 4.0f;
+            position.x = state_floats[2] * t + state_floats[1];
+            { f32 h_ = 0.5f * state_floats[4]; position.z = t * (h_ * t) + state_floats[6]; }
+            body_offset.y = 28.0f * t;
+            if (body_offset.y > 4.0f) {
+                body_offset.y = 4.0f;
             }
             break;
         }
@@ -2793,11 +2793,11 @@ void TBoss7DeRolLeC::handle_bite_state(u32 event, s32 position_index) {
             f32 t = frame - 20.0f;
             f32 t2;
             f32 d;
-            position.x = unk_74C * t + unk_748;
+            position.x = state_floats[2] * t + state_floats[1];
             t2 = frame - 13.0f;
-            { f32 h_ = 0.5f * unk_754; d = t2 * (h_ * t2); }
-            position.z = unk_75C + d;
-            rotation_z = unk_760 * t;
+            { f32 h_ = 0.5f * state_floats[4]; d = t2 * (h_ * t2); }
+            position.z = state_floats[6] + d;
+            rotation_z = state_floats[7] * t;
             break;
         }
         case 6:
@@ -2806,9 +2806,9 @@ void TBoss7DeRolLeC::handle_bite_state(u32 event, s32 position_index) {
         break;
     case 5:
         state_flags &= ~4;
-        if (unk_784 != NULL) {
-            unk_784->queue_destruction();
-            unk_784 = NULL;
+        if (state_emitter != NULL) {
+            state_emitter->queue_destruction();
+            state_emitter = NULL;
         }
         break;
     }
@@ -2834,14 +2834,14 @@ void TBoss7DeRolLeC::handle_tentacle_attack_state(u32 event, s32 position_index)
         } else {
             set_field_b8(0xA);
         }
-        unk_728 = 0;
-        unk_72C = 0;
-        unk_730 = 0;
-        unk_734 = 0xB4;
-        unk_738 = 0x78;
+        state_step = 0;
+        state_ints[0] = 0;
+        state_ints[1] = 0;
+        state_ints[2] = 0xB4;
+        state_ints[3] = 0x78;
         break;
     case 2:
-        if (unk_728 == 3) {
+        if (state_step == 3) {
             if (position_slot == 0) {
                 set_state_and_send(0x15);
             } else {
@@ -2850,25 +2850,25 @@ void TBoss7DeRolLeC::handle_tentacle_attack_state(u32 event, s32 position_index)
         }
         break;
     case 9:
-        if (unk_728 == 3) {
+        if (state_step == 3) {
             advance_action_sequence();
         }
         break;
     case 0:
         advance_animation();
-        switch (unk_728) {
+        switch (state_step) {
         case 0:
-            unk_72C++;
-            if (unk_72C > 0x28) {
-                unk_728 = 1;
-                unk_72C = 0;
-                unk_730 = 0;
+            state_ints[0]++;
+            if (state_ints[0] > 0x28) {
+                state_step = 1;
+                state_ints[0] = 0;
+                state_ints[1] = 0;
             }
             break;
         case 1:
-            unk_72C++;
-            if (unk_72C >= unk_734) {
-                unk_72C = 0;
+            state_ints[0]++;
+            if (state_ints[0] >= state_ints[2]) {
+                state_ints[0] = 0;
                 if (enemy_has_live_target() != 0) {
                     VecCopy(&v, &current_target->position);
                 } else {
@@ -2879,25 +2879,25 @@ void TBoss7DeRolLeC::handle_tentacle_attack_state(u32 event, s32 position_index)
                     v.z = r * cos_table_lookup(ang);
                     TObjBoss2Tunnel::adjust_to_ground(&v, &v);
                 }
-                tentacles[unk_730]->start_attack_at_position((u8 *)&v, unk_738);
-                unk_730++;
-                if (unk_730 >= 4) {
-                    unk_72C = 0;
-                    unk_728 = 2;
+                tentacles[state_ints[1]]->start_attack_at_position((u8 *)&v, state_ints[3]);
+                state_ints[1]++;
+                if (state_ints[1] >= 4) {
+                    state_ints[0] = 0;
+                    state_step = 2;
                 }
             }
             break;
         case 2:
             ok = 1;
-            unk_72C++;
+            state_ints[0]++;
             for (i = 0; i < 4; i++) {
                 if (tentacles[i]->is_attack_finished() == 0) {
                     ok = 0;
                     break;
                 }
             }
-            if (ok != 0 || unk_72C > 0x258) {
-                unk_728 = 3;
+            if (ok != 0 || state_ints[0] > 0x258) {
+                state_step = 3;
             }
             break;
         }
@@ -2928,65 +2928,65 @@ void TBoss7DeRolLeC::handle_roll_dive_state(u32 event, s32 position_index) {
         position_slot = position_index;
         set_swim_direction(position_slot);
         if (position_slot == 0) {
-            unk_748 = -1.0f;
+            state_floats[1] = -1.0f;
             set_field_b8(9);
         } else {
-            unk_748 = 1.0f;
+            state_floats[1] = 1.0f;
             set_field_b8(0xA);
         }
-        unk_728 = 0;
-        unk_72C = 0;
-        unk_744 = 0.0f;
-        unk_750 = -1.0f;
-        unk_74C = 0.0f;
-        unk_73C = 0x500;
+        state_step = 0;
+        state_ints[0] = 0;
+        state_floats[0] = 0.0f;
+        state_floats[3] = -1.0f;
+        state_floats[2] = 0.0f;
+        state_ints[4] = 0x500;
         TObjBoss7Tunnel::clear_flags_0x3000();
         state_flags &= 0xFFFFFDFF;
         break;
     case 2:
-        if (unk_728 == 2) {
+        if (state_step == 2) {
             set_state_and_send(2);
         }
         break;
     case 9:
-        if (unk_728 == 2) {
+        if (state_step == 2) {
             advance_action_sequence();
         }
         break;
     case 0:
         advance_animation();
-        switch (unk_728) {
+        switch (state_step) {
         case 0:
-            unk_74C += 0.2f;
-            position.z -= unk_74C;
-            unk_744 += 0.08f;
-            position.x += unk_744 * unk_748;
-            unk_750 += 0.1f;
-            unk_6EC.y -= unk_750;
-            unk_73C += 256.0f;
-            if (unk_73C >= 16384.0f) {
-                unk_73C = 0x4000;
+            state_floats[2] += 0.2f;
+            position.z -= state_floats[2];
+            state_floats[0] += 0.08f;
+            position.x += state_floats[0] * state_floats[1];
+            state_floats[3] += 0.1f;
+            body_offset.y -= state_floats[3];
+            state_ints[4] += 256.0f;
+            if (state_ints[4] >= 16384.0f) {
+                state_ints[4] = 0x4000;
             }
-            rotation_z = unk_73C * -unk_748;
-            if (unk_72C == 0 && unk_73C >= 0x2200) {
-                unk_72C = 1;
-                play_sound_at(0x39906, &unk_50C[0]);
+            rotation_z = state_ints[4] * -state_floats[1];
+            if (state_ints[0] == 0 && state_ints[4] >= 0x2200) {
+                state_ints[0] = 1;
+                play_sound_at(0x39906, &sound_origins[0]);
             }
-            if (unk_6EC.y < -137.0f) {
-                unk_728 = 1;
+            if (body_offset.y < -137.0f) {
+                state_step = 1;
                 set_position_index(position_slot);
-                unk_6EC.y = -137.0f;
+                body_offset.y = -137.0f;
                 set_field_b8(1);
-                unk_750 = 0.0f;
+                state_floats[3] = 0.0f;
                 state_flags &= ~4;
                 state_flags |= 0x100;
             }
             break;
         case 1:
-            unk_6EC.y += 2.0f;
-            if (unk_6EC.y >= 0.0f) {
-                unk_6EC.y = 0.0f;
-                unk_728 = 2;
+            body_offset.y += 2.0f;
+            if (body_offset.y >= 0.0f) {
+                body_offset.y = 0.0f;
+                state_step = 2;
             }
             break;
         }
@@ -3011,12 +3011,12 @@ void TBoss7DeRolLeC::handle_photon_pad_spawn_state(u32 event, s32 position_index
         state_flags &= ~0x100;
         position_slot = position_index;
         set_position_index(position_slot);
-        unk_728 = 0;
-        unk_72C = 0;
-        unk_744 = -1000.0f;
-        unk_704++;
-        if (unk_704 >= 3) {
-            unk_704 = 0;
+        state_step = 0;
+        state_ints[0] = 0;
+        state_floats[0] = -1000.0f;
+        photon_pad_level++;
+        if (photon_pad_level >= 3) {
+            photon_pad_level = 0;
         }
         return;
     case 2:
@@ -3033,22 +3033,22 @@ void TBoss7DeRolLeC::handle_photon_pad_spawn_state(u32 event, s32 position_index
         break;
     case 0:
         advance_animation();
-        switch (unk_72C) {
+        switch (state_ints[0]) {
         case 0:
             if (!(motion_flags & 4)) {
-                spawn_photon_pad(unk_728, unk_704);
-                unk_72C = 1;
+                spawn_photon_pad(state_step, photon_pad_level);
+                state_ints[0] = 1;
                 return;
             }
             break;
         case 1:
-            joint = unk_728;
+            joint = state_step;
             if (joint_positions[joint].y < joint_positions[joint + 1].y) {
-                unk_728 = joint + 1;
-                if ((f32)unk_728 >= 4.0f) {
-                    unk_72C = 2;
+                state_step = joint + 1;
+                if ((f32)state_step >= 4.0f) {
+                    state_ints[0] = 2;
                 }
-                spawn_photon_pad(unk_728, unk_704);
+                spawn_photon_pad(state_step, photon_pad_level);
             }
             break;
         }
@@ -3069,8 +3069,8 @@ void TBoss7DeRolLeC::handle_ceiling_attack_state(u32 event) {
         set_field_b8(0xC);
         position_slot = 3;
         set_position_index(position_slot);
-        unk_728 = 0;
-        unk_724 = 0;
+        state_step = 0;
+        laser_shot_count = 0;
         return;
     case 2:
         if (requested_action == 0xF) {
@@ -3085,10 +3085,10 @@ void TBoss7DeRolLeC::handle_ceiling_attack_state(u32 event) {
         break;
     case 0:
         advance_animation();
-        unk_728++;
+        state_step++;
         f = frame;
-        if ((f >= 10.0f) && (f <= 14.0f) && ((f32)unk_728 >= 3.0f)) {
-            unk_728 = 0;
+        if ((f >= 10.0f) && (f <= 14.0f) && ((f32)state_step >= 3.0f)) {
+            state_step = 0;
             VecCopy(&v, &position);
             v.x = 30.0f * calc_elapsed_scaled() + v.x;
             v.y = -5.0f;
@@ -3096,7 +3096,7 @@ void TBoss7DeRolLeC::handle_ceiling_attack_state(u32 event) {
             spawn_particle_201(&v);
         }
         if (is_passing_frame(10.0f) != 0) {
-            play_sound_at(0x39905, &unk_50C[0]);
+            play_sound_at(0x39905, &sound_origins[0]);
         }
         break;
     }
@@ -3105,7 +3105,7 @@ void TBoss7DeRolLeC::handle_ceiling_attack_state(u32 event) {
 void TBoss7DeRolLeC::handle_laser_attack_state(u32 event) {
     Vec from;
     CsnHit *hit;
-    Vec *aim = &unk_76C;
+    Vec *aim = &state_vectors[0];
     Vec *beam_end;
     switch (event) {
     case 4:
@@ -3116,19 +3116,19 @@ void TBoss7DeRolLeC::handle_laser_attack_state(u32 event) {
         position_slot = 3;
         set_position_index(position_slot);
         fill_value_array(attack_history);
-        unk_728 = 0;
-        unk_72C = 0;
-        unk_730 = 0;
-        unk_73C = 0;
-        unk_748 = 0.0f;
+        state_step = 0;
+        state_ints[0] = 0;
+        state_ints[1] = 0;
+        state_ints[4] = 0;
+        state_floats[1] = 0.0f;
         aim->x = 0.0f;
         aim->y = 0.0f;
         aim->z = 0.0f;
-        unk_784 = NULL;
+        state_emitter = NULL;
         return;
     case 2:
-        if (unk_728 == 4) {
-            if (unk_724 >= 4) {
+        if (state_step == 4) {
+            if (laser_shot_count >= 4) {
                 set_state_and_send(0x19);
             } else {
                 set_state_and_send(0x18);
@@ -3136,20 +3136,20 @@ void TBoss7DeRolLeC::handle_laser_attack_state(u32 event) {
         }
         break;
     case 9:
-        if (unk_728 == 4) {
+        if (state_step == 4) {
             advance_action_sequence();
             return;
         }
         break;
     case 0:
         advance_animation();
-        unk_7A0 = 6;
-        switch (unk_728) {
+        splash_joint = 6;
+        switch (state_step) {
         case 0:
-            unk_72C++;
-            if (unk_72C >= 0x14) {
-                unk_72C = 0;
-                unk_728 = 1;
+            state_ints[0]++;
+            if (state_ints[0] >= 0x14) {
+                state_ints[0] = 0;
+                state_step = 1;
                 fill_value_array(attack_history);
                 set_field_b8(0xD);
                 if (enemy_check_target_valid() != 0) {
@@ -3159,74 +3159,74 @@ void TBoss7DeRolLeC::handle_laser_attack_state(u32 event) {
                     aim->y = 0.0f;
                     aim->z = 0.0f;
                 }
-                if (unk_7A8 != NULL) {
-                    unk_7A8->queue_destruction();
+                if (laser_ptcl != NULL) {
+                    laser_ptcl->queue_destruction();
                 }
-                unk_7A8 = new TBoss7LaserPtcl(this, (TBoss7LaserPtclVector *)&unk_4DC[0], (TBoss7LaserPtclVector *)aim);
+                laser_ptcl = new TBoss7LaserPtcl(this, (TBoss7LaserPtclVector *)&part_points[0], (TBoss7LaserPtclVector *)aim);
                 calc_offset_position();
                 turn_on_laser_light();
-                play_sound_at(0x39E0F, &unk_50C[0]);
+                play_sound_at(0x39E0F, &sound_origins[0]);
                 return;
             }
             break;
         case 1:
-            if (unk_7A8 != NULL) {
-                unk_7A8->calc_position((u8 *)&unk_4DC[0], (u8 *)&unk_4DC[1]);
+            if (laser_ptcl != NULL) {
+                laser_ptcl->calc_position((u8 *)&part_points[0], (u8 *)&part_points[1]);
             }
-            if (12.0f < frame && unk_7A8 != NULL) {
-                unk_7A8->destroy_particles();
+            if (12.0f < frame && laser_ptcl != NULL) {
+                laser_ptcl->destroy_particles();
             }
             calc_offset_position();
             if (13.0f <= frame) {
                 frame = 13.0f;
-                unk_728 = 2;
-                if (unk_7A8 != NULL) {
-                    unk_7A8->init_laser();
+                state_step = 2;
+                if (laser_ptcl != NULL) {
+                    laser_ptcl->init_laser();
                 }
-                play_sound_at(0x3A310, &unk_50C[0]);
+                play_sound_at(0x3A310, &sound_origins[0]);
                 return;
             }
             break;
         case 2:
-            beam_end = &unk_778;
+            beam_end = &state_vectors[1];
             frame = 13.0f;
-            if (unk_7A8 != NULL) {
-                unk_7A8->calc_position((u8 *)&unk_4DC[0], (u8 *)&unk_4DC[1]);
-                unk_7A8->calc_world_position(beam_end);
-                calc_laser_ray_hit_point((u8 *)unk_7A8, (u8 *)&from);
+            if (laser_ptcl != NULL) {
+                laser_ptcl->calc_position((u8 *)&part_points[0], (u8 *)&part_points[1]);
+                laser_ptcl->calc_world_position(beam_end);
+                calc_laser_ray_hit_point((u8 *)laser_ptcl, (u8 *)&from);
             }
             hit = csnVector(&from, beam_end, 0x16EF);
             if (hit != NULL) {
                 VecCopy(beam_end, &hit->contact->point);
-                if (unk_71C == NULL) {
-                    unk_71C = new TUnk_804E4788(this, 6, 0x208);
+                if (hit_trail == NULL) {
+                    hit_trail = new TUnk_804E4788(this, 6, 0x208);
                 } else {
-                    unk_71C->push_ring_point(beam_end);
+                    hit_trail->push_ring_point(beam_end);
                 }
-                if (unk_720 == NULL) {
-                    unk_720 = new TUnk_804E4788(this, 0xF, 0x209);
+                if (hit_trail_long == NULL) {
+                    hit_trail_long = new TUnk_804E4788(this, 0xF, 0x209);
                 } else {
-                    unk_720->push_ring_point(beam_end);
+                    hit_trail_long->push_ring_point(beam_end);
                 }
             }
             {
                 Boss7AttackParams params = boss7_laser_particle_params;
-                params.field_4 = unk_620->unk_00;
+                params.field_4 = boss_params->laser_power;
                 TObjEneDD::setup_instance((saddr)this, (saddr)beam_end, (u8 *)&params, (saddr)attack_history);
             }
-            if (unk_7A8 != NULL) {
-                if (unk_7A8->is_state_2() != 0) {
-                    unk_728 = 3;
+            if (laser_ptcl != NULL) {
+                if (laser_ptcl->is_state_2() != 0) {
+                    state_step = 3;
                     return;
                 }
             } else {
-                unk_728 = 3;
+                state_step = 3;
                 return;
             }
             break;
         case 3:
             if (get_flag_b4() != 0) {
-                unk_728 = 4;
+                state_step = 4;
                 return;
             }
             break;
@@ -3236,23 +3236,23 @@ void TBoss7DeRolLeC::handle_laser_attack_state(u32 event) {
         pick_random_target();
         return;
     case 5:
-        unk_724++;
+        laser_shot_count++;
         turn_off_laser_light();
-        if (unk_784 != NULL) {
-            unk_784->queue_destruction();
-            unk_784 = NULL;
+        if (state_emitter != NULL) {
+            state_emitter->queue_destruction();
+            state_emitter = NULL;
         }
-        if (unk_71C != NULL) {
-            unk_71C->queue_destruction();
-            unk_71C = NULL;
+        if (hit_trail != NULL) {
+            hit_trail->queue_destruction();
+            hit_trail = NULL;
         }
-        if (unk_720 != NULL) {
-            unk_720->queue_destruction();
-            unk_720 = NULL;
+        if (hit_trail_long != NULL) {
+            hit_trail_long->queue_destruction();
+            hit_trail_long = NULL;
         }
-        if (unk_7A8 != NULL) {
-            unk_7A8->queue_destruction();
-            unk_7A8 = NULL;
+        if (laser_ptcl != NULL) {
+            laser_ptcl->queue_destruction();
+            laser_ptcl = NULL;
         }
         break;
     }
@@ -3284,7 +3284,7 @@ void TBoss7DeRolLeC::sub_802E8EEC(u32 event, s32) {
     case 0:
         advance_animation();
         if (is_passing_frame(8.0f) != 0) {
-            play_sound_at(0x39906, &unk_50C[0]);
+            play_sound_at(0x39906, &sound_origins[0]);
         }
         break;
     }
@@ -3297,7 +3297,7 @@ void TBoss7DeRolLeC::handle_deep_sink_state(u32 event) {
         state_flags &= ~0x100;
         sub_802ECC44();
         rotation_x = 0;
-        unk_6EC.y = 0.0f;
+        body_offset.y = 0.0f;
         return;
     case 9:
         if (requested_action == 1) {
@@ -3305,12 +3305,12 @@ void TBoss7DeRolLeC::handle_deep_sink_state(u32 event) {
         }
         return;
     case 8:
-        if (unk_6EC.y < -200.0f) {
+        if (body_offset.y < -200.0f) {
             set_state_and_send(0x1C);
         }
         return;
     case 0:
-        unk_6EC.y -= 2.0f;
+        body_offset.y -= 2.0f;
         return;
     case 1: return;
     case 2: return;
@@ -3333,11 +3333,11 @@ void TBoss7DeRolLeC::handle_death_state(u32 event) {
         position_slot = 3;
         set_position_index(position_slot);
         rotation_x = 0;
-        unk_6EC.y = 0.0f;
-        unk_728 = 0;
-        unk_72C = 0;
-        unk_73C = 0;
-        unk_6FC = 0;
+        body_offset.y = 0.0f;
+        state_step = 0;
+        state_ints[0] = 0;
+        state_ints[4] = 0;
+        body_hp = 0;
         for (i = 0; i < 4; i++) {
             tentacles[i]->speed_up_sway();
         }
@@ -3364,14 +3364,14 @@ void TBoss7DeRolLeC::handle_death_state(u32 event) {
         }
         break;
     case 9:
-        if (unk_728 == 1) {
+        if (state_step == 1) {
             set_state_and_send(0x1D);
         }
         break;
     case 0:
         advance_animation();
         if (get_scripted_camera_playback()->flags & 1) {
-            unk_728 = 1;
+            state_step = 1;
             TWindowCtrl::init_all_slots2();
             restore_player_cameras();
         }
@@ -3382,7 +3382,7 @@ void TBoss7DeRolLeC::handle_death_state(u32 event) {
         }
         if (is_passing_frame(20.0f) != 0) {
             destroy_child();
-            unk_7B0 = spawn_continuous_particle_effect_with_flags(&unk_7B4, 0x20F, 0x40);
+            aimed_emitter = spawn_continuous_particle_effect_with_flags(&emitter_points[0], 0x20F, 0x40);
         }
         if (is_passing_frame(123.0f) != 0) {
             destroy_child();
@@ -3439,21 +3439,21 @@ void TBoss7DeRolLeC::handle_crawfish_spawn_state(u32 event, s32 variant) {
     s32 index;
     switch (event) {
     case 4:
-        unk_72C = 9;
-        unk_728 = 0;
-        unk_730 = 0;
+        state_ints[0] = 9;
+        state_step = 0;
+        state_ints[1] = 0;
         set_field_b8(1);
         return;
     case 0:
         advance_animation();
-        index = unk_728;
-        if (index < unk_72C) {
-            if (unk_730 <= 0) {
-                unk_728 = index + 1;
+        index = state_step;
+        if (index < state_ints[0]) {
+            if (state_ints[1] <= 0) {
+                state_step = index + 1;
                 try_spawn_pattern_crawfish(variant, index);
-                unk_730 = 5;
+                state_ints[1] = 5;
             } else {
-                unk_730--;
+                state_ints[1]--;
             }
             return;
         }
@@ -3473,7 +3473,7 @@ void TBoss7DeRolLeC::handle_crawfish_spawn_state(u32 event, s32 variant) {
 void TBoss7DeRolLeC::handle_crawfish_drain_state(u32 event) {
     switch (event) {
     case 4:
-        unk_728 = play_mode;
+        state_step = play_mode;
         play_mode = 1;
         return;
     case 0:
@@ -3483,7 +3483,7 @@ void TBoss7DeRolLeC::handle_crawfish_drain_state(u32 event) {
         }
         return;
     case 5:
-        play_mode = unk_728;
+        play_mode = state_step;
         return;
     case 1: return;
     case 2: return;
@@ -3498,11 +3498,11 @@ void TBoss7DeRolLeC::handle_crawfish_drain_state(u32 event) {
 void TBoss7DeRolLeC::handle_wait_state(u32 event) {
     switch (event) {
     case 4:
-        unk_728 = boss7_derolle_c_difficulty_actions[game_difficulty_selection][action_index].param * 30;
+        state_step = boss7_derolle_c_difficulty_actions[game_difficulty_selection][action_index].param * 30;
         return;
     case 0:
         advance_animation();
-        if (unk_728-- == 0) {
+        if (state_step-- == 0) {
             advance_action_sequence();
         }
         return;
@@ -3536,14 +3536,14 @@ void TBoss7DeRolLeC::handle_tentacle_volley_state(u32 event, s32 position_index)
         } else {
             set_field_b8(0xA);
         }
-        unk_728 = 0;
-        unk_72C = 0;
-        unk_730 = 0;
-        unk_734 = 0xB4;
-        unk_738 = 0x78;
+        state_step = 0;
+        state_ints[0] = 0;
+        state_ints[1] = 0;
+        state_ints[2] = 0xB4;
+        state_ints[3] = 0x78;
         return;
     case 2:
-        if (unk_728 == 3) {
+        if (state_step == 3) {
             if (position_slot == 0) {
                 set_state_and_send(0x15);
             } else {
@@ -3552,26 +3552,26 @@ void TBoss7DeRolLeC::handle_tentacle_volley_state(u32 event, s32 position_index)
         }
         return;
     case 9:
-        if (unk_728 == 3) {
+        if (state_step == 3) {
             advance_action_sequence();
         }
         return;
     case 0:
         advance_animation();
-        switch (unk_728) {
+        switch (state_step) {
         case 0:
-            unk_72C++;
-            if (unk_72C > boss7_derolle_c_difficulty_actions[game_difficulty_selection][action_index].param * 0x1E) {
-                unk_728 = 1;
-                unk_72C = 0;
-                unk_730 = 0;
+            state_ints[0]++;
+            if (state_ints[0] > boss7_derolle_c_difficulty_actions[game_difficulty_selection][action_index].param * 0x1E) {
+                state_step = 1;
+                state_ints[0] = 0;
+                state_ints[1] = 0;
             }
             break;
         case 1:
-            unk_72C++;
-            if (unk_72C >= unk_734) {
-                if (unk_730 == 0) {
-                    unk_72C = 0;
+            state_ints[0]++;
+            if (state_ints[0] >= state_ints[2]) {
+                if (state_ints[1] == 0) {
+                    state_ints[0] = 0;
                     if (enemy_has_live_target() != 0) {
                         VecCopy(&v, &current_target->position);
                     } else {
@@ -3583,26 +3583,26 @@ void TBoss7DeRolLeC::handle_tentacle_volley_state(u32 event, s32 position_index)
                         TObjBoss2Tunnel::adjust_to_ground(&v, &v);
                     }
                     for (j = 0; j != 4; j++) {
-                        tentacles[j]->start_attack_at_position((u8 *)&v, unk_738);
+                        tentacles[j]->start_attack_at_position((u8 *)&v, state_ints[3]);
                     }
-                    unk_730 = 1;
-                    unk_72C = 0;
+                    state_ints[1] = 1;
+                    state_ints[0] = 0;
                 } else {
-                    unk_728 = 2;
+                    state_step = 2;
                 }
             }
             break;
         case 2:
             ok = 1;
-            unk_72C++;
+            state_ints[0]++;
             for (i = 0; i < 4; i++) {
                 if (tentacles[i]->is_attack_finished() == 0) {
                     ok = 0;
                     break;
                 }
             }
-            if (ok != 0 || unk_72C > 600) {
-                unk_728 = 3;
+            if (ok != 0 || state_ints[0] > 600) {
+                state_step = 3;
             }
             break;
         }
@@ -3669,8 +3669,8 @@ void TBoss7DeRolLeC::handle_tentacle_needle_barrage_state(u32 event) {
     case 4:
         set_field_b8(1);
         set_position_index(9);
-        unk_728 = 20;
-        unk_72C = 12;
+        state_step = 20;
+        state_ints[0] = 12;
         id = 0;
         n = 0;
         while (n != 4) {
@@ -3680,22 +3680,22 @@ void TBoss7DeRolLeC::handle_tentacle_needle_barrage_state(u32 event) {
         }
         break;
     case 9:
-        if (unk_72C == 0) {
+        if (state_ints[0] == 0) {
             advance_action_sequence();
         }
         break;
     case 0:
         advance_animation();
-        if (unk_72C > 0) {
-            if (unk_728 == 0) {
-                unk_728 = 20;
-                unk_72C--;
-                player = (u8 *)get_player_by_client_id(needle_targets[unk_72C & 3]);
+        if (state_ints[0] > 0) {
+            if (state_step == 0) {
+                state_step = 20;
+                state_ints[0]--;
+                player = (u8 *)get_player_by_client_id(needle_targets[state_ints[0] & 3]);
                 if (player != NULL) {
                     new TBoss7TentacleNeedle(this, (Vec *)(player + 0x38));
                 }
             } else {
-                unk_728--;
+                state_step--;
             }
         }
         break;
@@ -3755,11 +3755,11 @@ void TBoss7DeRolLeC::reset_node_transforms() {
     boss7_derolle_c_node_index = 0;
     boss7_derolle_c_draw_state_flags = this->state_flags;
     boss7_derolle_c_body_point_index = 0;
-    boss7_derolle_c_body_point_cursor = unk_3EC;
+    boss7_derolle_c_body_point_cursor = node_positions;
     boss7_derolle_c_tentacle_matrix_cursor = tentacle_matrices;
-    boss7_derolle_c_node_matrix_cursor = unk_6D4;
-    boss7_derolle_c_part_points = unk_4DC;
-    boss7_derolle_c_emitter_points = &unk_7B4;
+    boss7_derolle_c_node_matrix_cursor = node_matrices;
+    boss7_derolle_c_part_points = part_points;
+    boss7_derolle_c_emitter_points = &emitter_points[0];
 }
 
 void TBoss7DeRolLeC::render() {
@@ -3782,14 +3782,14 @@ void TBoss7DeRolLeC::render() {
         TObjEneDD::clear_global_flag_400();
         TParticleCtrl::begin_effect_render();
         push_matrix();
-        if (this->unk_7AC != 0) {
+        if (this->node_recorder != 0) {
             if (this->state_flags & 0x40) {
                 boss7_derolle_c_hideable_node->child = &boss7_derolle_light_pool[0];
             } else {
                 boss7_derolle_c_hideable_node->child = boss7_derolle_c_hideable_node_child;
             }
             TObjPlayer::draw_effect();
-            ((TObjPlayer *)(this->unk_7AC))->draw_node_tree_if_visible();
+            ((TObjPlayer *)(this->node_recorder))->draw_node_tree_if_visible();
         }
         pop_matrix();
         TParticleCtrl::end_effect_render();
@@ -3955,22 +3955,22 @@ void TBoss7DeRolLeC::calc_joint_positions() {
     Vec *out;
     s32 i;
     out = joint_positions;
-    VecCopy(&v, &unk_3EC[0]);
-    vec3_add_to(&v, &unk_3EC[9]);
+    VecCopy(&v, &node_positions[0]);
+    vec3_add_to(&v, &node_positions[9]);
     v.x *= 0.5f;
     v.y *= 0.5f;
     v.z *= 0.5f;
     VecCopy(&out[0], &v);
-    VecCopy(&v, &unk_3EC[9]);
-    vec3_add_to(&v, &unk_3EC[11]);
+    VecCopy(&v, &node_positions[9]);
+    vec3_add_to(&v, &node_positions[11]);
     v.x *= 0.5f;
     v.y *= 0.5f;
     v.z *= 0.5f;
     VecCopy(&out[1], &v);
     out += 2;
     for (i = 0; i < 8; i++, out++) {
-        VecCopy(&v, &unk_3EC[i + 11]);
-        vec3_add_to(&v, &unk_3EC[i + 12]);
+        VecCopy(&v, &node_positions[i + 11]);
+        vec3_add_to(&v, &node_positions[i + 12]);
         v.x *= 0.5f;
         v.y *= 0.5f;
         v.z *= 0.5f;
@@ -3979,22 +3979,22 @@ void TBoss7DeRolLeC::calc_joint_positions() {
 }
 
 void TBoss7DeRolLeC::destroy_child() {
-    if (unk_7B0 != NULL) {
-        unk_7B0->queue_destruction();
-        unk_7B0 = NULL;
+    if (aimed_emitter != NULL) {
+        aimed_emitter->queue_destruction();
+        aimed_emitter = NULL;
     }
 }
 
 void TBoss7DeRolLeC::update_attached_orientation() {
-    if (unk_7B0 != NULL) {
-        Vec d = unk_7B4;
+    if (aimed_emitter != NULL) {
+        Vec d = emitter_points[0];
         Boss7Angles ang;
-        subtract_vector(&d, &unk_7C0);
+        subtract_vector(&d, &emitter_points[1]);
         ang.x = -(s32)(10430.38043493439 * atan2_float(d.y, newton_sqrtf(d.x * d.x + d.z * d.z))) - 0x4000;
         ang.y = (s32)(10430.38043493439 * atan2_float(d.x, d.z));
         ang.z = 0;
-        unk_7B0->set_position(&unk_7B4);
-        unk_7B0->set_direction(&ang);
+        aimed_emitter->set_position(&emitter_points[0]);
+        aimed_emitter->set_direction(&ang);
     }
 }
 
