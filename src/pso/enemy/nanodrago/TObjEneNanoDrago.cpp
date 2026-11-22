@@ -70,7 +70,7 @@ LAYOUT_ASSERT(NanoDrago_hpmax_offset, offsetof(TObjEneNanoDrago, hpmax) == 0x2b8
 LAYOUT_ASSERT(NanoDrago_hp_offset, offsetof(TObjEneNanoDrago, hp) == 0x32c);
 LAYOUT_ASSERT(NanoDrago_params_offset, offsetof(TObjEneNanoDrago, movementParameters) == 0x350);
 LAYOUT_ASSERT(NanoDrago_state_offset, offsetof(TObjEneNanoDrago, state) == 0x37c);
-LAYOUT_ASSERT(NanoDrago_flags388_offset, offsetof(TObjEneNanoDrago, m_388) == 0x388);
+LAYOUT_ASSERT(NanoDrago_flags388_offset, offsetof(TObjEneNanoDrago, behavior_flags) == 0x388);
 LAYOUT_ASSERT(NanoDrago_accum_offset, offsetof(TObjEneNanoDrago, circlingAngle) == 0x3d0);
 LAYOUT_ASSERT(NanoDrago_t_offset, offsetof(TObjEneNanoDrago, wanderDistance) == 0x3d4);
 LAYOUT_ASSERT(NanoDrago_speed_offset, offsetof(TObjEneNanoDrago, speed) == 0x3d8);
@@ -205,7 +205,7 @@ TObjEneNanoDrago::TObjEneNanoDrago(TObject *parent, void *setData) : TObjEnemyCu
     VecCopy((Vec *)(&home_position), (const Vec *)(&position));
     VecCopy((Vec *)(&moveDestination), (const Vec *)(&position));
     if ((s32)parameters[0] == 1) {
-        m_388 |= 0x40000;
+        behavior_flags |= 0x40000;
         if (parameters[1] < 1.0f) {
             parameters[1] = 50.0f;
         }
@@ -215,7 +215,7 @@ TObjEneNanoDrago::TObjEneNanoDrago(TObject *parent, void *setData) : TObjEnemyCu
     alternateBeam = 0;
     set_param(0xF);
     sinkingOffset = 0.0f;
-    if (*(s16 *)((s8 *)setData + 0xA) != 0 && !(m_388 & 0x40000)) {
+    if (*(s16 *)((s8 *)setData + 0xA) != 0 && !(behavior_flags & 0x40000)) {
         start_appear();
     }
     flightHeight = 0.0f;
@@ -285,7 +285,7 @@ void TObjEneNanoDrago::run_task() {
     VecCopy((Vec *)(&body_center), (const Vec *)(&position));
     body_center.y = (f32) (body_center.y + (15.0f + flightHeight));
     bodies[0].offset.y = (f32) (15.0f + flightHeight);
-    if (!(m_388 & 0x40000)) {
+    if (!(behavior_flags & 0x40000)) {
         submit_cursor_candidate(this, -1);
         minimap_render_dot(&position, -0x5DB4, 1, 0);
     }
@@ -361,7 +361,7 @@ void TObjEneNanoDrago::render() {
     if (is_split_screen() != 0) {
         cameraIndex = TCameraCtrl::get_camera_mode();
     }
-    if (!(actorFlags & 0x02000000) && (viewDetail = classify_actor_view_detail(150.0f, 400.0f, 20.0f), viewDetail != 0) && ((TObjPlayer::check_demo_mode() == 1) || !(m_388 & 0x40000))) {
+    if (!(actorFlags & 0x02000000) && (viewDetail = classify_actor_view_detail(150.0f, 400.0f, 20.0f), viewDetail != 0) && ((TObjPlayer::check_demo_mode() == 1) || !(behavior_flags & 0x40000))) {
         saved_model_render_flags = model_render_flags;
         fade = &cameraFades[cameraIndex];
         fade->update();
@@ -384,7 +384,7 @@ void TObjEneNanoDrago::render() {
         model_render_flags &= 0xFFFFFBFF;
         if (TObjPlayer::check_demo_mode() == 1) {
             draw_chunk_object(model);
-        } else if (m_388 & 4) {
+        } else if (behavior_flags & 4) {
             if (appearFade.has_visible_opacity() != 0) {
                 appearFade.set_flags_and_apply_damage_color();
                 if (viewDetail == 1) {
@@ -419,7 +419,7 @@ void TObjEneNanoDrago::render() {
 void TObjEneNanoDrago::run_demo_task() {
   }
 void TObjEneNanoDrago::update_idle_state() {
-    if ((m_388) & 0x40000) {
+    if ((behavior_flags) & 0x40000) {
         return;
     }
     switch ((state)) {
@@ -428,7 +428,7 @@ void TObjEneNanoDrago::update_idle_state() {
     case 0:
         requested_action = 1;
         (state) = 1;
-        m_384 = 0x96;
+        state_timer = 0x96;
         clear_flags_30();
     case 1:
         advance_animation();
@@ -436,11 +436,11 @@ void TObjEneNanoDrago::update_idle_state() {
         if (is_passing_frame(4.0f) != 0 || is_passing_frame(20.0f) != 0) {
             play_sound_effect(0x4003AD23, &position, 0, 0);
         }
-        m_384 = m_384 - 1;
-        if (m_384 <= 0) {
+        state_timer = state_timer - 1;
+        if (state_timer <= 0) {
             requested_action = 0;
             (state) = 2;
-            m_384 = 0x5A;
+            state_timer = 0x5A;
         }
         check_object_collisions();
         apply_actor_gravity(this, 0, 0.0f);
@@ -448,8 +448,8 @@ void TObjEneNanoDrago::update_idle_state() {
     case 2:
         advance_animation();
         check_object_collisions();
-        m_384 = m_384 - 1;
-        if (m_384 <= 0) {
+        state_timer = state_timer - 1;
+        if (state_timer <= 0) {
             (state) = 0;
         }
         break;
@@ -457,15 +457,15 @@ void TObjEneNanoDrago::update_idle_state() {
 }
 void TObjEneNanoDrago::run_hit_reaction() {
     this->set_state(4);
-    m_380 = (s32) m_378;
-    m_378 = 4;
-    m_388 = (s32) (m_388 | 0x10000 | 1);
+    previous_action = (s32) resume_action;
+    resume_action = 4;
+    behavior_flags = (s32) (behavior_flags | 0x10000 | 1);
 }
 void TObjEneNanoDrago::run_death_reaction() {
     this->set_state(5);
-    m_380 = (s32) m_378;
-    m_378 = 5;
-    m_388 = (s32) (m_388 | 1);
+    previous_action = (s32) resume_action;
+    resume_action = 5;
+    behavior_flags = (s32) (behavior_flags | 1);
 }
 
 #pragma push
@@ -477,7 +477,7 @@ void TObjEneNanoDrago::update_circling_state() {
     case -1:
         break;
     case 0:
-        (m_388) &= ~0x00040000;
+        (behavior_flags) &= ~0x00040000;
         clear_flags_30();
         requested_action = 1;
         circlingAngle = 0;
@@ -553,7 +553,7 @@ void TObjEneNanoDrago::update_single_beam_state() {
         break;
     case 0:
         clear_flags_30();
-        m_384 = 0x5A;
+        state_timer = 0x5A;
         if (!(actorFlags & 0x01000000)) {
             requested_action = 2;
         } else {
@@ -561,7 +561,7 @@ void TObjEneNanoDrago::update_single_beam_state() {
         }
         state = 1;
         advance_animation();
-        m_388 = (s32) (m_388 & 0xFFFBFFFF);
+        behavior_flags = (s32) (behavior_flags & 0xFFFBFFFF);
         break;
     case 3:
     case 2:
@@ -599,15 +599,15 @@ void TObjEneNanoDrago::update_single_beam_state() {
             apply_actor_gravity(this, 0, 0.0f);
         }
         update_collisions();
-        remainingFrames = m_384 - 1;
-        m_384 = remainingFrames;
+        remainingFrames = state_timer - 1;
+        state_timer = remainingFrames;
         if (remainingFrames <= 0) {
             state = 4;
         }
         break;
     case 4:
         if (actorFlags & 0x01000000) {
-            m_378 = 0;
+            resume_action = 0;
             this->update_if_active(0xB);
             return;
         }
@@ -627,14 +627,14 @@ void TObjEneNanoDrago::update_multi_beam_state() {
         }
         if (r > 0) {
             requested_action = 2;
-            m_384 = 0x5A;
+            state_timer = 0x5A;
             state = 1;
         } else if (actorFlags & 0x01000000) {
             this->update_if_active(0xB);
         } else {
             this->update_if_active(0);
         }
-        m_388 &= ~0x40000;
+        behavior_flags &= ~0x40000;
         break;
     case 1:
     case 2:
@@ -662,9 +662,9 @@ void TObjEneNanoDrago::update_multi_beam_state() {
         advance_animation();
         apply_actor_gravity(this, 0, 0.0f);
         update_collisions();
-        m_384--;
-        if (m_384 <= 0) {
-            m_384 = 0x2D;
+        state_timer--;
+        if (state_timer <= 0) {
+            state_timer = 0x2D;
             requested_action = 1;
             state = 4;
         }
@@ -680,8 +680,8 @@ void TObjEneNanoDrago::update_multi_beam_state() {
         if (find_nearest_visible_player(this, NULL, 50.0f) != 0xFFFF) {
             this->update_if_active(0xB);
         } else {
-            m_384--;
-            if (m_384 <= 0) {
+            state_timer--;
+            if (state_timer <= 0) {
                 this->update_if_active(0);
             }
         }
@@ -697,10 +697,10 @@ void TObjEneNanoDrago::update_flight_state() {
     case 0:
         state = 1;
         if (actorFlags & 0x01000000) {
-            if (m_388 & 0x40000) {
+            if (behavior_flags & 0x40000) {
                 VecCopy((Vec *)(&moveDestination), (const Vec *)(&home_position));
                 calc_velocity_toward_destination(this, position, moveDestination, speed);
-                m_388 &= ~0x40000;
+                behavior_flags &= ~0x40000;
                 clear_flags_30();
                 flightHeight = 50.0f;
             } else {
@@ -793,7 +793,7 @@ void TObjEneNanoDrago::update_flight_state() {
             flightHeight = 0.0f;
         }
         bodies[1].flags &= ~1;
-        m_388 &= ~0x40000;
+        behavior_flags &= ~0x40000;
         break;
     }
 }
@@ -830,7 +830,7 @@ void TObjEneNanoDrago::update_growth_state() {
         break;
     case -1:
         scale.x = scale.y;
-        (m_388) &= 0xFFFDFFFE;
+        (behavior_flags) &= 0xFFFDFFFE;
         (next_action) = 1;
         break;
     }
@@ -874,8 +874,8 @@ void TObjEneNanoDrago::update_knockback_state() {
     case -1:
         retaliate = 0;
         actorFlags = (s32) (actorFlags & 0xFFFFFDFF);
-        m_388 = (s32) (m_388 & 0xFFFFFFFE);
-        m_378 = 1;
+        behavior_flags = (s32) (behavior_flags & 0xFFFFFFFE);
+        resume_action = 1;
         previousHp = referenceHp;
         if (((s32) (previousHp - hp) > (s32) (previousHp / 4)) && !(actorFlags & 2)) {
             entity = (uaddr)find_entity_by_id(attacker_id);
@@ -891,7 +891,7 @@ void TObjEneNanoDrago::update_knockback_state() {
             next_action = 0xA;
         } else if (actorFlags & 0x01000000) {
             this->update_if_active(0xB);
-            m_378 = (s32) m_380;
+            resume_action = (s32) previous_action;
         } else {
             this->update_if_active(0);
         }
@@ -1007,9 +1007,9 @@ void TObjEneNanoDrago::spawn_targeted_beam(s32 targetIndex) {
     }
 }
 void TObjEneNanoDrago::request_growth() {
-    if (!(m_388 & 0x20000)) {
+    if (!(behavior_flags & 0x20000)) {
         this->update_if_active(0xC);
-        m_388 = (s32) (m_388 | 0x20000 | 1);
+        behavior_flags = (s32) (behavior_flags | 0x20000 | 1);
     }
 }
 void TObjEneNanoDrago::update_proximity_state() {
@@ -1018,7 +1018,7 @@ void TObjEneNanoDrago::update_proximity_state() {
         if (is_actor_cadence_frame(0x1E) != 0) {
             if (find_nearest_visible_player(this, NULL, ((NanoDragoMovementParams *)movementParameters)->detectionRadius) != 0xFFFF) {
                 select_nearest_target(((NanoDragoMovementParams *)movementParameters)->detectionRadius);
-                if (m_388 & 0x40000) {
+                if (behavior_flags & 0x40000) {
                     begin_hidden_flight();
                 } else {
                     this->update_if_active(1);
@@ -1031,7 +1031,7 @@ void TObjEneNanoDrago::update_proximity_state() {
     case 1:
         if (find_nearest_visible_player(this, NULL, 50.0f) != 0xFFFF) {
             this->update_if_active(0xB);
-            m_378 = 1;
+            resume_action = 1;
         } else if (find_nearest_visible_player(this, NULL, 50.0f + ((NanoDragoMovementParams *)movementParameters)->detectionRadius) == 0xFFFF) {
             this->update_if_active(0);
         }
@@ -1051,7 +1051,7 @@ void TObjEneNanoDrago::begin_hidden_flight() {
     VecCopy((Vec *)&prev_position, (const Vec *)&position);
     actorFlags |= 0x01000000;
     this->update_if_active(0xB);
-    m_378 = 1;
+    resume_action = 1;
     refresh_collision_body_centers();
 }
 void TObjEneNanoDrago::trigger_hit_camera_shake(u32 victim) {
@@ -1066,7 +1066,7 @@ void TObjEneNanoDrago::update_fade_in_state() {
 
     switch (state) {
     case 0:
-        m_388 = (s32) (m_388 | 4);
+        behavior_flags = (s32) (behavior_flags | 4);
         flags = actorFlags | 0x04000000;
         actorFlags = flags;
         requested_action = 0;
@@ -1081,8 +1081,8 @@ void TObjEneNanoDrago::update_fade_in_state() {
         update_collisions();
         return;
     case -1:
-        stateFlags = m_388;
-        m_388 = (s32) (stateFlags & ~5);
+        stateFlags = behavior_flags;
+        behavior_flags = (s32) (stateFlags & ~5);
         actorFlags = (s32) (actorFlags & 0xFBFFFFFF);
         this->update_if_active(0);
         break;

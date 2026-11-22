@@ -102,7 +102,7 @@ void TObjEneBalClaw::render_scaled(s32 shadow) {
 }
 
 void TObjEneBalClaw::update_wobble() {
-    if (m_388 & 0x20000) {
+    if (behavior_flags & 0x20000) {
         wobble_angle = wobble_angle + 0x200;
         wobble_offset = 5.0f * sin_table_lookup(wobble_angle);
         return;
@@ -116,7 +116,7 @@ void TObjEneBalClaw::update_claw_angle() {
 
     if (!(actorFlags & 0x800)) {
         bodies->flags &= ~6;
-        if (m_388 & 0x10000) {
+        if (behavior_flags & 0x10000) {
             if (hover_height < hover_height_max) {
                 hover_height += 1.0f;
                 return;
@@ -138,7 +138,7 @@ void TObjEneBalClaw::update_claw_angle() {
 
 void TObjEneBalClaw::run_hit_reaction() {
     set_state(4);
-    m_388 |= 1;
+    behavior_flags |= 1;
 }
 
 void TObjEneBalClaw::free_resources() {
@@ -203,7 +203,7 @@ TObjEneBalClaw::TObjEneBalClaw(TObject *parent) : TObjEnemyCustom(parent) {
     wobble_angle = 0;
     wobble_offset = 0.0f;
     clear_attack_flag();
-    m_388 |= 0x20000;
+    behavior_flags |= 0x20000;
 }
 
 void TObjEneBalClaw::run_miss_reaction() {
@@ -217,6 +217,6 @@ s32 TObjEneBalClaw::is_target_in_attack_range() {
 }
 
 void TObjEneBalClaw::clear_attack_flag() {
-    m_388 &= ~0x10000;
+    behavior_flags &= ~0x10000;
 }
 

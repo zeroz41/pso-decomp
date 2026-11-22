@@ -50,12 +50,12 @@ static void collect_visible_subtree(NJS_OBJECT *node);
 TObjEnemyCustom::TObjEnemyCustom(TObject *parent) : TObjEnemy(parent) {
     m_name = TObjEnemyCustom_name;
     next_action = 0;
-    m_378 = 0;
+    resume_action = 0;
     state = 0;
-    m_380 = 0;
+    previous_action = 0;
     resetTimer = 15;
     timer = resetTimer;
-    m_388 = 0;
+    behavior_flags = 0;
 }
 
 TObjEnemyCustom::~TObjEnemyCustom() {
@@ -220,7 +220,7 @@ void TObjEnemyCustom::update_state_machine() {
 
 void TObjEnemyCustom::run_hit_reaction() {
     this->set_state(4);
-    m_388 |= 1;
+    behavior_flags |= 1;
 }
 
 void TObjEnemyCustom::update_knockback_state() {
@@ -242,7 +242,7 @@ void TObjEnemyCustom::update_knockback_state() {
         break;
     case -1:
         actorFlags &= ~0x200;
-        m_388 &= ~1;
+        behavior_flags &= ~1;
         referenceHp = hp;
         next_action = 1;
         break;
@@ -251,12 +251,12 @@ void TObjEnemyCustom::update_knockback_state() {
 
 void TObjEnemyCustom::run_death_reaction() {
     this->set_state(5);
-    m_388 |= 1;
+    behavior_flags |= 1;
 }
 
 void TObjEnemyCustom::start_appear() {
     this->set_state(7);
-    m_388 |= 1;
+    behavior_flags |= 1;
 }
 
 void TObjEnemyCustom::update_dying_state() {

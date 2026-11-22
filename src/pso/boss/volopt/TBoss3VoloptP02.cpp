@@ -253,7 +253,7 @@ void TBoss3VoloptP02::init_params() {
             part_hp[i] = part_params[6 + i];
             part_hp_max[i] = part_hp[i];
         }
-        m_388 |= 0x400000;
+        behavior_flags |= 0x400000;
     }
     obj_setFlags30(this, 0x8000);
     wave_delays[2] = 0;
@@ -384,7 +384,7 @@ void TBoss3VoloptP02::run_task() {
                     state = -1;
                     run_state();
                 }
-                m_380 = mode;
+                previous_action = mode;
                 mode = next_action;
                 state = 0;
             }
@@ -443,36 +443,36 @@ void TBoss3VoloptP02::render() {
 }
 
 void TBoss3VoloptP02::set_action(u16 target_id) {
-    if ((obj_testFlags30(0x800) == 0) && !(m_388 & 0x20000) && (mode != 2)) {
+    if ((obj_testFlags30(0x800) == 0) && !(behavior_flags & 0x20000) && (mode != 2)) {
         check_and_notify();
         targetId = target_id;
-        m_388 &= ~1;
+        behavior_flags &= ~1;
         run_attack_action();
     }
 }
 
 void TBoss3VoloptP02::check_and_trigger() {
-    if ((obj_testFlags30(0x800) == 0) && !(m_388 & 0x40000)) {
+    if ((obj_testFlags30(0x800) == 0) && !(behavior_flags & 0x40000)) {
         check_and_notify();
-        m_388 &= ~1;
+        behavior_flags &= ~1;
         this->update_if_active(0xB);
     }
 }
 
 void TBoss3VoloptP02::set_motion(u16 target_id) {
-    if ((obj_testFlags30(0x800) == 0) && !(m_388 & 0x10000) && (mode != 9)) {
+    if ((obj_testFlags30(0x800) == 0) && !(behavior_flags & 0x10000) && (mode != 9)) {
         targetId = target_id;
-        m_388 &= ~1;
+        behavior_flags &= ~1;
         this->update_if_active(9);
     }
 }
 
 void TBoss3VoloptP02::set_action_wait(u16 target_id) {
-    if ((obj_testFlags30(0x800) == 0) && !(m_388 & 0x80000) && (mode != 0xA)) {
+    if ((obj_testFlags30(0x800) == 0) && !(behavior_flags & 0x80000) && (mode != 0xA)) {
         check_and_notify();
         if (target_id != 0xFFFF) {
             targetId = target_id;
-            m_388 &= ~1;
+            behavior_flags &= ~1;
             this->update_if_active(0xA);
         }
     }
@@ -502,8 +502,8 @@ void TBoss3VoloptP02::update_state() {
         hit_timer = remaining;
         if (remaining <= 0) {
             actorFlags &= ~0x200;
-            m_388 &= ~1;
-            next = m_380;
+            behavior_flags &= ~1;
+            next = previous_action;
             next_action = next;
             mode = next;
             state = saved_state;
@@ -536,7 +536,7 @@ void TBoss3VoloptP02::update_attack() {
     Vec pos;
     Vec out;
     s32 i;
-    if (m_388 & 0x20000) {
+    if (behavior_flags & 0x20000) {
         next_action = 0;
     }
     target = get_player_by_client_id(targetId);
@@ -689,7 +689,7 @@ void TBoss3VoloptP02::update_front_attack() {
     s32 duration;
     s32 i;
 
-    if (m_388 & 0x10000) {
+    if (behavior_flags & 0x10000) {
         next_action = 0;
     }
     duration = max_s32(TBoss3VoloptP02::get_int_param(4) + 120, 10);
@@ -697,7 +697,7 @@ void TBoss3VoloptP02::update_front_attack() {
     switch ((s32)state) {
     case 0:
         this->requested_action = 0;
-        m_388 &= ~0x300000;
+        behavior_flags &= ~0x300000;
         for (i = 0; i < 5; i++) {
             chain_nodes_a[i]->evalflags |= 8;
             chain_nodes_b[i]->evalflags |= 8;
@@ -739,7 +739,7 @@ void TBoss3VoloptP02::update_front_attack() {
                 emitter = NULL;
             }
             new TUnk_80484A94(this, &v, targetId);
-            m_388 |= 0x100000;
+            behavior_flags |= 0x100000;
             this->requested_action = 6;
             state = 3;
             play_sound_effect(0x4003A81C, &position, 0, 0);
@@ -747,8 +747,8 @@ void TBoss3VoloptP02::update_front_attack() {
         break;
     }
     case 3:
-        if (!(m_388 & 0x100000)) {
-            if (m_388 & 0x200000) {
+        if (!(behavior_flags & 0x100000)) {
+            if (behavior_flags & 0x200000) {
                 state = 4;
                 play_sound_effect(0x4003A80B, &position, 0, 0);
             } else {
@@ -860,7 +860,7 @@ void TBoss3VoloptP02::update_back_attack() {
     s32 n;
     s32 i;
 
-    if (m_388 & 0x80000) {
+    if (behavior_flags & 0x80000) {
         next_action = 0;
     }
     target = get_player_by_client_id(targetId);
@@ -945,7 +945,7 @@ void TBoss3VoloptP02::update_back_attack() {
 #pragma pop
 
 void TBoss3VoloptP02::update_pillar_heal_state() {
-    if (m_388 & 0x40000) {
+    if (behavior_flags & 0x40000) {
         next_action = 0;
     }
     switch ((s32)state) {
@@ -1057,7 +1057,7 @@ void TBoss3VoloptP02::update_fade_state() {
         position.y = 25.0f * -((0.025641026f * this->frame) - 1.0f);
         if (this->frame >= 38.0f) {
             position.y = 0.0f;
-            m_388 &= ~1;
+            behavior_flags &= ~1;
             run_idle_action();
             break;
         }
@@ -1165,7 +1165,7 @@ void TBoss3Volopt::create_cage(u16 target_id) {
     target = get_player_by_client_id(targetId);
     if (target != 0) {
         new TObjVoloptCage(this, target_id, volopt_cage_id, volopt_cage_group);
-        m_388 |= 0x200000;
+        behavior_flags |= 0x200000;
     }
 }
 
@@ -1186,9 +1186,9 @@ void TBoss3VoloptP02::reset_visual_state() {
 #pragma opt_dead_assignments off
 void TBoss3VoloptP02::spawn_breakup_models() {
     Vec pos;
-    u32 flags = m_388;
+    u32 flags = behavior_flags;
     if (!(flags & 0x10000)) {
-        m_388 = flags | 0x10000;
+        behavior_flags = flags | 0x10000;
         render_anim_model_at_pos();
         get_anim_node_position(2, &pos);
         TBoss3Volopt::create_breakup_mdl((saddr)breakup_models[0], (saddr)&part_breakup_params, texlist, (saddr)&pos, rotation_y);
@@ -1205,9 +1205,9 @@ void TBoss3VoloptP02::spawn_breakup_models() {
 #pragma opt_dead_assignments off
 void TBoss3VoloptP02::break_off_part_b() {
     Vec pos;
-    u32 flags = m_388;
+    u32 flags = behavior_flags;
     if (!(flags & 0x20000)) {
-        m_388 = flags | 0x20000;
+        behavior_flags = flags | 0x20000;
         bodies[1].flags &= ~0x10000001;
         render_anim_model_at_pos();
         get_anim_node_position(0x32, &pos);
@@ -1224,9 +1224,9 @@ void TBoss3VoloptP02::break_off_part_b() {
 #pragma opt_dead_assignments off
 void TBoss3VoloptP02::break_off_part_c() {
     Vec pos;
-    u32 flags = m_388;
+    u32 flags = behavior_flags;
     if (!(flags & 0x40000)) {
-        m_388 = flags | 0x40000;
+        behavior_flags = flags | 0x40000;
         bodies[2].flags &= ~0x10000001;
         render_anim_model_at_pos();
         get_anim_node_position(0x22, &pos);
@@ -1239,9 +1239,9 @@ void TBoss3VoloptP02::break_off_part_c() {
 
 void TBoss3VoloptP02::trigger_breakup() {
     Vec pos;
-    u32 flags = m_388;
+    u32 flags = behavior_flags;
     if (!(flags & 0x80000)) {
-        m_388 = flags | 0x80000;
+        behavior_flags = flags | 0x80000;
         bodies[3].flags &= ~0x10000001;
         render_anim_model_at_pos();
         get_anim_node_position(0x29, &pos);
@@ -1252,26 +1252,26 @@ void TBoss3VoloptP02::trigger_breakup() {
 }
 
 // Not called anywhere in the game, so the linker drops it. It is the per-part
-// form of TObjEneDubchik::apply_broken_part_visibility (same m_388 broken-part
+// form of TObjEneDubchik::apply_broken_part_visibility (same behavior_flags broken-part
 // bits, same hide_model_nodes/show_model_nodes pair), and its use of three .bss
 // statics is what makes this file's .bss pool before load_resources does.
 void TBoss3VoloptP02::apply_broken_part_visibility() {
-    if (m_388 & 0x10000) {
+    if (behavior_flags & 0x10000) {
         hide_model_nodes((NJS_OBJECT **)breakup_flags_a);
     } else {
         show_model_nodes((NJS_OBJECT **)breakup_flags_a);
     }
-    if (m_388 & 0x20000) {
+    if (behavior_flags & 0x20000) {
         hide_model_nodes((NJS_OBJECT **)breakup_flags_b);
     } else {
         show_model_nodes((NJS_OBJECT **)breakup_flags_b);
     }
-    if (m_388 & 0x40000) {
+    if (behavior_flags & 0x40000) {
         hide_model_nodes((NJS_OBJECT **)breakup_flags_c);
     } else {
         show_model_nodes((NJS_OBJECT **)breakup_flags_c);
     }
-    if (m_388 & 0x80000) {
+    if (behavior_flags & 0x80000) {
         hide_model_nodes((NJS_OBJECT **)breakup_flags_d);
     } else {
         show_model_nodes((NJS_OBJECT **)breakup_flags_d);
@@ -1362,7 +1362,7 @@ extern "C" void handle_6x18_vol_opt2_boss_actions(VoloptPartsMessage *message) {
         }
         bit = 0x10000;
         for (j = 0; j < 4; j++) {
-            if (!(boss->m_388 & bit) && boss->part_hp[j] <= 0) {
+            if (!(boss->behavior_flags & bit) && boss->part_hp[j] <= 0) {
                 switch (j) {
                 case 0:
                     boss->spawn_breakup_models();
@@ -1491,7 +1491,7 @@ f32 TBoss3VoloptP02::receive_physical_attack(void *source, f32 damage) {
     s32 i;
     for (i = 0; i < 4; i++) {
         if (bodies[i].flags & 0x04000000) {
-            m_388 |= mask;
+            behavior_flags |= mask;
         }
         mask <<= 1;
     }
@@ -1503,7 +1503,7 @@ f32 TBoss3VoloptP02::receive_direct_attack(void *source, DirectAttackPayload pay
     s32 i;
     for (i = 0; i < 4; i++) {
         if (bodies[i].flags & 0x04000000) {
-            m_388 |= mask;
+            behavior_flags |= mask;
         }
         mask <<= 1;
     }
@@ -1536,10 +1536,10 @@ void TBoss3VoloptP02::copy_phase2_positions_to_global(const VoloptPhase2Message 
 }
 
 void TBoss3VoloptP02::apply_hit_reaction(f32 delay) {
-    if ((obj_testFlags30(0x800) == 0) && !(m_388 & 0x20000) && (mode != 0xC)) {
+    if ((obj_testFlags30(0x800) == 0) && !(behavior_flags & 0x20000) && (mode != 0xC)) {
         check_and_notify();
         ring_radius = 55.0f + delay;
-        m_388 &= ~1;
+        behavior_flags &= ~1;
         this->update_if_active(0xC);
     }
 }
@@ -1553,7 +1553,7 @@ void TBoss3VoloptP02::update_ring_attack() {
     s32 j;
     s32 k;
 
-    if (m_388 & 0x20000) {
+    if (behavior_flags & 0x20000) {
         next_action = 0;
     }
     switch ((s32)state) {
@@ -1724,7 +1724,7 @@ void TBoss3VoloptP02::distribute_part_damage() {
     s32 dmg;
     u32 mask;
     actorFlags &= ~0x200000;
-    flags = m_388;
+    flags = behavior_flags;
     if (flags & 0x400000) {
         n = 0;
         bit = 0x800000;
@@ -1741,8 +1741,8 @@ void TBoss3VoloptP02::distribute_part_damage() {
             dmg = (n + (referenceHp - hp) - 1) / n;
             dmg = dmg > 0 ? dmg : 0;
             for (i = 0; i < 4; i++) {
-                if (m_388 & mask) {
-                    m_388 &= ~mask;
+                if (behavior_flags & mask) {
+                    behavior_flags &= ~mask;
                     s16 *p = &part_hp[i];
                     v = *p - dmg;
                     *p = v > 0 ? v : 0;

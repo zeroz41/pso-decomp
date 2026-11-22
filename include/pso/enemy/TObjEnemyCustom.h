@@ -45,11 +45,13 @@ struct TObjEnemyCustom : public TObjEnemy {
     virtual void render();
     virtual void run_task();
     s32 next_action;
-    u32 m_378;
+    u32 resume_action;  // the action to go back to after a reaction (Gyaranzo update_if_active(resume_action))
     u32 state;
-    u32 m_380;
-    s32 m_384;
-    u32 m_388;
+    u32 previous_action;  // set_state stores the mode it leaves
+    s32 state_timer;  // frames left in the current state
+    // Bit 0 locks the action (hit, death and appear set it, update_if_active then
+    // requests nothing); the other bits belong to each subclass.
+    u32 behavior_flags;
     void update_if_active(s32 action);
     void set_state(s32 action);
     void update_dying_state();

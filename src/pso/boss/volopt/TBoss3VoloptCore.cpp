@@ -73,13 +73,13 @@ extern saddr player_battle_param_table[];
 void TObjEnemyCustom::set_state(s32 action) {
     s16 current = mode;
     if (current != action) {
-        m_380 = current;
+        previous_action = current;
         next_action = action;
     }
 }
 
 void TObjEnemyCustom::update_if_active(s32 action) {
-    if (!(m_388 & 1)) {
+    if (!(behavior_flags & 1)) {
         set_state(action);
     }
 }
@@ -134,7 +134,7 @@ void TBoss3VoloptCore::init_params() {
     update_prev_position();
     ((TBoss3Volopt *)this)->reset_photon_effect();
     load_entry_params_volopt(0x18);
-    m_388 |= 0x10000;
+    behavior_flags |= 0x10000;
     orbit_angle = 0;
     bodies->flags |= 0xC00;
     run_idle_action();
@@ -247,7 +247,7 @@ void TBoss3VoloptCore::render() {
         model_render_flags &= ~0x400;
         post_translate_matrix(&position.x);
         rotate_matrix_x(0, rotation_x);
-        if (m_388 & 0x10000) {
+        if (behavior_flags & 0x10000) {
             rotate_matrix_y(0, facing_angle);
             scale_matrix(0, 1.0f, 1.0f, 0.05f);
             rotate_matrix_y(0, rotation_y - facing_angle);
@@ -270,10 +270,10 @@ void TBoss3VoloptCore::update_charge_state() {
     target = (u8 *)get_player_by_client_id(targetId);
     switch (state) {
     case 0:
-        m_388 &= ~0x10000;
+        behavior_flags &= ~0x10000;
         this->requested_action = 0;
         rotation_x = 0;
-        if ((s32)m_380 == 4) {
+        if ((s32)previous_action == 4) {
             state = charge_step;
         } else {
             VecCopy(&home_pos, &position);
@@ -338,7 +338,7 @@ void TBoss3VoloptCore::update_grabbed_state() {
     switch (state) {
     case 0:
         if (obj_testFlags30(0x02000000) != 0) {
-            m_388 |= 0x40000;
+            behavior_flags |= 0x40000;
         }
         obj_clearFlags30(0x02200200);
         referenceHp = hp;
@@ -353,16 +353,16 @@ void TBoss3VoloptCore::update_grabbed_state() {
     case 1:
         advance_animation();
         if (this->action_flags != 8) {
-            m_388 &= ~1;
-            if (m_388 & 0x40000) {
+            behavior_flags &= ~1;
+            if (behavior_flags & 0x40000) {
                 set_grabbed_state(0xF);
             } else {
-                this->update_if_active(m_380);
+                this->update_if_active(previous_action);
             }
         }
         return;
     case -1:
-        m_388 &= ~0x40000;
+        behavior_flags &= ~0x40000;
         break;
     }
 }
@@ -429,11 +429,11 @@ void TBoss3VoloptCore::update_state_spin() {
     switch (state) {
     case 0:
         actorFlags |= 0x40000;
-        m_388 |= 0x20000;
+        behavior_flags |= 0x20000;
         orbit_angle = 0x4000;
         sweep_angle = -0x1555;
         targetId = 0xFFFF;
-        m_388 |= 0x10000;
+        behavior_flags |= 0x10000;
         this->requested_action = 0;
         rotation_x = 0;
         update_orbit_position();
@@ -445,7 +445,7 @@ void TBoss3VoloptCore::update_state_spin() {
         advance_animation();
         if (--timer <= 0) {
             actorFlags &= ~0x40000;
-            m_388 &= ~1;
+            behavior_flags &= ~1;
             run_idle_action();
         }
         break;
@@ -461,7 +461,7 @@ s32 TBoss3VoloptCore::calc_spin_value() {
 void TBoss3VoloptCore::update_orbit_position() {
     f32 radius;
     s32 offset = ((u16)orbit_angle % 10922) - 0x1555;
-    if (m_388 & 0x20000) {
+    if (behavior_flags & 0x20000) {
         orbit_radius = 134.0f / cos_table_lookup(offset);
         position.y = 50.0f;
     } else {
@@ -514,13 +514,13 @@ s32 TBoss3VoloptCore::calc_hit_zone_index() {
 
 void TBoss3VoloptCore::set_boss_target_pos(s32 slot, s32 moves, s32 delay_frames) {
     if (obj_testFlags30(0x800) == 0) {
-        m_388 |= 0x20000;
+        behavior_flags |= 0x20000;
         target_slot = slot;
         moves_left = moves;
         delay = delay_frames;
         boss3_volopt_core_active_flag = 0;
         alloc_boss_target_slot();
-        m_388 &= ~1;
+        behavior_flags &= ~1;
         run_move_action();
     }
 }
@@ -528,7 +528,7 @@ void TBoss3VoloptCore::set_boss_target_pos(s32 slot, s32 moves, s32 delay_frames
 void TBoss3VoloptCore::update_orbit_state() {
     switch (state) {
     case 0:
-        m_388 |= 0x10000;
+        behavior_flags |= 0x10000;
         this->requested_action = 0;
         rotation_x = 0;
         state = 1;
@@ -568,7 +568,7 @@ void TBoss3VoloptCore::update_orbit_state() {
 void TBoss3VoloptCore::update_orbit_end_state() {
     switch (state) {
     case 0:
-        m_388 |= 0x10000;
+        behavior_flags |= 0x10000;
         this->requested_action = 0;
         timer = 5;
         effect = NULL;
@@ -644,7 +644,7 @@ void TBoss3VoloptCore::update_topple_state() {
     case -1:
         break;
     case 0:
-        m_388 |= 0x10000;
+        behavior_flags |= 0x10000;
         this->requested_action = 0;
         if (angle_difference_abs(rotation_y, facing_angle - 0x4000) <= core_turn_angle_limit) {
             state = 3;

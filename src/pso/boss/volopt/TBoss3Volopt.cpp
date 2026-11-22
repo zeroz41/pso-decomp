@@ -241,19 +241,19 @@ BOOL TBoss3VoloptCore::is_mode_0() {
 }
 
 BOOL TBoss3VoloptP02::can_action_wait() {
-    return !(m_388 & 0x80000);
+    return !(behavior_flags & 0x80000);
 }
 
 BOOL TBoss3VoloptP02::can_action() {
-    return !(m_388 & 0x20000);
+    return !(behavior_flags & 0x20000);
 }
 
 BOOL TBoss3VoloptP02::can_trigger() {
-    return !(m_388 & 0x40000);
+    return !(behavior_flags & 0x40000);
 }
 
 BOOL TBoss3VoloptP02::can_set_motion() {
-    return !(m_388 & 0x10000);
+    return !(behavior_flags & 0x10000);
 }
 
 BOOL TBoss3VoloptP02::is_mode_0() {
@@ -261,7 +261,7 @@ BOOL TBoss3VoloptP02::is_mode_0() {
 }
 
 int TBoss3VoloptP01::is_broken() {
-    return (m_388 >> 18) & 1;
+    return (behavior_flags >> 18) & 1;
 }
 
 void TObject::pause_update() {
@@ -963,7 +963,7 @@ void TBoss3Volopt::update_intro_cutscene() {
                 hiraisin->set_flag_08000000();
             }
         }
-        m_384 = 0xD2;
+        state_timer = 0xD2;
         TFogCtrl::apply_all(0xA, 0);
         first.index = 0;
         first.bank = 1;
@@ -975,8 +975,8 @@ void TBoss3Volopt::update_intro_cutscene() {
         state = 1;
     case 1:
         play_persistent_sound(0x4003B202, this, 0, 0, 0);
-        if (--m_384 <= 0) {
-            m_384 = 0x3C;
+        if (--state_timer <= 0) {
+            state_timer = 0x3C;
             state = 2;
             TFogCtrl::update_all(0);
             second.index = 0;
@@ -994,12 +994,12 @@ void TBoss3Volopt::update_intro_cutscene() {
             if (core != NULL) {
                 core->start_appear();
             }
-            m_384 = 0x5A;
+            state_timer = 0x5A;
             state = 3;
         }
         break;
     case 3:
-        if (--m_384 <= 0) {
+        if (--state_timer <= 0) {
             next_action = 2;
         }
         break;
@@ -1041,7 +1041,7 @@ void TBoss3Volopt::update_phase1() {
         }
         break;
     case 2: {
-        m_384 = 0x96;
+        state_timer = 0x96;
         start_camera_shake(0xB4, 0.03f);
         for (i = 0; i < 6; i++) {
             TObject *p01 = (TObject *)find_entity_by_id(volopt_target_entity_ids[i]);
@@ -1057,7 +1057,7 @@ void TBoss3Volopt::update_phase1() {
         start_rumble();
     }
     case 3:
-        if (--m_384 <= 0) {
+        if (--state_timer <= 0) {
             state = 4;
         }
         angle = (s32)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand())));
@@ -1104,12 +1104,12 @@ void TBoss3Volopt::update_phase2_intro() {
         return;
     case 1:
         if (volopt_fade_in_done == 1) {
-            m_384 = 0x96;
+            state_timer = 0x96;
             state = 2;
         }
         return;
     case 2:
-        if (--m_384 <= 0) {
+        if (--state_timer <= 0) {
             restore_player_cameras();
             state = 3;
             return;

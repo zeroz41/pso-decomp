@@ -136,5 +136,5 @@ f32 TObjVoloptCage::get_float_param(s32 index) {
 }
 
 void clear_cage_shot_in_flight(TObjEnemyCustom *boss) {
-    boss->m_388 &= ~0x100000;
+    boss->behavior_flags &= ~0x100000;
 }

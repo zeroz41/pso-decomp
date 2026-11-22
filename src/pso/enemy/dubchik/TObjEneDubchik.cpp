@@ -453,7 +453,7 @@ void TObjEneDubchik::render() {
             model_render_flags &= 0xFFFFFBFF;
             if (TObjPlayer::check_demo_mode() == 1) {
                 draw_chunk_object(model);
-            } else if (m_388 & 4) {
+            } else if (behavior_flags & 4) {
                 if (fade.has_visible_opacity() != 0) {
                     fade.set_flags_and_apply_damage_color();
                     visible = 1;
@@ -546,9 +546,9 @@ void TObjEneDubchik::update_chase() {
     case -1:
         break;
     case 0:
-        m_388 |= 0x01800000;
+        behavior_flags |= 0x01800000;
         clear_flags_30();
-        if ((s32)m_380 != 0) {
+        if ((s32)previous_action != 0) {
             if (TObjEneDD::check_v2_mode() == 0) {
                 if (collapsed != 0) {
                     action = 7;
@@ -658,15 +658,15 @@ void TObjEneDubchik::update_knockback() {
         }
         break;
     case 4:
-        m_384--;
-        if (m_384 <= 0) {
+        state_timer--;
+        if (state_timer <= 0) {
             state = -1;
         }
         break;
     case -1:
         clear_flag_04000000();
         obj_clearFlags30(0x200);
-        m_388 &= ~1;
+        behavior_flags &= ~1;
         referenceHp = hp;
         update_if_active(1);
         return;
@@ -679,14 +679,14 @@ void TObjEneDubchik::update_knockback() {
 void TObjEneDubchik::update_fall_apart() {
     s32 i;
 
-    if (m_388 & 0x02000000) {
+    if (behavior_flags & 0x02000000) {
         update_dying();
         return;
     }
     switch ((s32)state) {
     case 0:
         actorFlags &= ~0x200000;
-        m_388 &= ~0x800000;
+        behavior_flags &= ~0x800000;
         set_invuln_flags();
         requested_action = 4;
         enemy_set_heading_velocity(-7.0f, this, rotation_y);
@@ -694,7 +694,7 @@ void TObjEneDubchik::update_fall_apart() {
         for (i = 0; i < 3; i++) {
             if (parts[i] == NULL && random_ratio() >= 0.5f) {
                 parts[i] = new TUnk_80491478(i, this, (s32)variant != 0 ? dubchik_variant_texlist : dubchik_texlist, &part_offsets[i]);
-                m_388 |= 0x20000 << i;
+                behavior_flags |= 0x20000 << i;
             }
         }
         play_sound_effect(remap_sound_for_area(0x4003A806), &position, 0, 0);
@@ -719,15 +719,15 @@ void TObjEneDubchik::update_fall_apart() {
             } else {
                 velocity.x = velocity.z = 0.0f;
                 collapsed = 1;
-                m_384 = get_int_parameter(0);
+                state_timer = get_int_parameter(0);
                 state = 2;
             }
         }
         break;
     }
     case 2:
-        m_384--;
-        if (m_384 <= 0) {
+        state_timer--;
+        if (state_timer <= 0) {
             s32 j;
             for (j = 0; j < 3; j++) {
                 if (parts[j] != NULL) {
@@ -750,7 +750,7 @@ void TObjEneDubchik::update_fall_apart() {
                 part_hit[k] = 1;
                 parts[k]->cancel_action();
             }
-            m_388 |= 0x800000;
+            behavior_flags |= 0x800000;
             state = 3;
         }
         break;
@@ -764,7 +764,7 @@ void TObjEneDubchik::update_fall_apart() {
                 if (parts[i]->get_action_priority() != 0) {
                     parts[i]->queue_destruction();
                     parts[i] = NULL;
-                    m_388 &= ~(0x20000 << i);
+                    behavior_flags &= ~(0x20000 << i);
                 } else {
                     all_done = 0;
                 }
@@ -785,7 +785,7 @@ void TObjEneDubchik::update_fall_apart() {
             obj_clearFlags30(0xA00);
             hp = referenceHp = hpmax;
             clear_harmful_statuses();
-            m_388 &= ~1;
+            behavior_flags &= ~1;
             update_if_active(1);
             clear_flag_04000000();
         }
@@ -1009,8 +1009,8 @@ void TObjEneDubchik::update_timed_state() {
     s16 t;
     switch ((s32)state) {
     case 0:
-        requested_action = (m_388 & 0x1000000) ? 0 : 5;
-        m_388 |= 0x800000;
+        requested_action = (behavior_flags & 0x1000000) ? 0 : 5;
+        behavior_flags |= 0x800000;
         state = 1;
     case 1:
         if (!(actorFlags & 0x800000)) {
@@ -1034,7 +1034,7 @@ void TObjEneDubchik::update_timed_state() {
 void TObjEneDubchik::update_appear() {
     switch (state) {
     case 0:
-        m_388 |= 4;
+        behavior_flags |= 4;
         actorFlags |= 0x04000000;
         requested_action = 5;
         advance_animation();
@@ -1047,7 +1047,7 @@ void TObjEneDubchik::update_appear() {
         }
         return;
     case -1:
-        m_388 &= ~5;
+        behavior_flags &= ~5;
         actorFlags &= 0xFBFFFFFF;
         update_if_active(0);
         break;
@@ -1091,7 +1091,7 @@ void TObjEneDubchik::update_return_home() {
         if (xz_distance_squared(&position, &home_position) < 100.0f) {
             requested_action = 5;
             advance_animation();
-            m_388 &= 0xFE7FFFFF;
+            behavior_flags &= 0xFE7FFFFF;
             update_if_active(0);
         }
         return;
@@ -1099,7 +1099,7 @@ void TObjEneDubchik::update_return_home() {
 }
 
 void TObjEneDubchik::start_dying() {
-    m_388 |= 0x02000000;
+    behavior_flags |= 0x02000000;
     obj_setFlags30(this, 0x800U);
 }
 
@@ -1119,17 +1119,17 @@ void TObjEneDubchik::render_model_and_set_attach_points() {
 
 void TObjEneDubchik::apply_broken_part_visibility() {
     u8 *g = (u8 *)dubchik_base_params_by_variant;
-    if (m_388 & 0x20000) {
+    if (behavior_flags & 0x20000) {
         hide_model_nodes((NJS_OBJECT **)(g + 0x68));
     } else {
         show_model_nodes((NJS_OBJECT **)(g + 0x68));
     }
-    if (m_388 & 0x40000) {
+    if (behavior_flags & 0x40000) {
         hide_model_nodes((NJS_OBJECT **)(g + 0x78));
     } else {
         show_model_nodes((NJS_OBJECT **)(g + 0x78));
     }
-    if (m_388 & 0x80000) {
+    if (behavior_flags & 0x80000) {
         hide_model_nodes((NJS_OBJECT **)(g + 0xA8));
     } else {
         show_model_nodes((NJS_OBJECT **)(g + 0xA8));
@@ -1154,17 +1154,17 @@ s32 TObjEneDubchik::update_movement_status() {
 
 void TObjEneDubchik::clear_state7_flag() {
     if (next_action == 7) {
-        m_388 &= 0xFFFFFFFE;
+        behavior_flags &= 0xFFFFFFFE;
         update_if_active(0);
     }
 }
 
 void TObjEneDubchik::set_flag_start_effect() {
-    u32 flags = m_388;
+    u32 flags = behavior_flags;
     if (!(flags & 0x04000000)) {
-        m_388 = flags | 0x04000000;
-        m_388 |= 1;
-        m_388 &= 0xFF7FFFFF;
+        behavior_flags = flags | 0x04000000;
+        behavior_flags |= 1;
+        behavior_flags &= 0xFF7FFFFF;
         timer = 0x1E;
         create_dead_spot(&body_center, timer, 2.0f);
     }

@@ -19,9 +19,9 @@ struct TObjEneBalClaw : public TObjEnemyCustom {
     s32 range_band;           // 0 near, 1 mid, 2 far: the target's xz distance band, with hysteresis
     TUnk_80490470 fade;
     f32 hover_height_min;     // hover_height sinks to this (25 body, 15 claw)
-    f32 hover_height_max;     // and rises to this while m_388 bit 0x10000 is set (40)
+    f32 hover_height_max;     // and rises to this while behavior_flags bit 0x10000 is set (40)
     f32 hover_height;         // height of the model and collision body above the floor
-    s32 wobble_angle;         // advanced 0x200 a frame while m_388 bit 0x20000 is set
+    s32 wobble_angle;         // advanced 0x200 a frame while behavior_flags bit 0x20000 is set
     void set_model(s32 index);  // models[index] of the Bal Claw BML: 0 bal_body, 1 bcbody, 2 claw_body
     void render_scaled(s32 shadow);
     void update_wobble();

@@ -141,7 +141,7 @@ void TObjEneBalClawClaw::run_task() {
         run_demo_task();
         return;
     }
-    flags = m_388;
+    flags = behavior_flags;
     if (flags & 0x20000000) {
         update_if_active(0xA);
     } else if (flags & 0x10000000) {
@@ -160,7 +160,7 @@ void TObjEneBalClawClaw::run_task() {
     target = (u8 *)find_active_entity_by_id(targetId);
     release_destroyed_target();
     update_state();
-    flags = m_388;
+    flags = behavior_flags;
     if (!(flags & 0x10000000)) {
         if (flags & 0x20000000) {
             wobble_offset = (0.2f + wobble_offset < 10.0f) ? 0.2f + wobble_offset : 10.0f;
@@ -351,7 +351,7 @@ void TObjEneBalClawClaw::update_damage() {
         play_persistent_sound(0x4003B235, (saddr)this, (uaddr)&position, 0, 0);
         if (action_flags != 8) {
             actorFlags &= ~0x200;
-            m_388 &= ~1;
+            behavior_flags &= ~1;
             referenceHp = hp;
             reset_active_state();
         }
@@ -394,7 +394,7 @@ void TObjEneBalClawClaw::update_attack() {
             return;
         }
         clear_attack_flag();
-        m_388 &= ~8;
+        behavior_flags &= ~8;
         state = requested_action = 1;
         break;
     case 1: {
@@ -421,7 +421,7 @@ void TObjEneBalClawClaw::update_attack() {
             if (((TObjChara *)target)->select_melee_contact_body(this, 1.0f) != 0) {
                 ((TObjChara *)target)->apply_knockback_from_attacker((u8 *)this, 3.0f);
                 ((TObjChara *)target)->receive_physical_attack(this, 1.0f);
-                m_388 |= 8;
+                behavior_flags |= 8;
             }
         }
         if (action_flags != 4) {
@@ -449,7 +449,7 @@ void TObjEneBalClawClaw::update_appear() {
 
     switch (state) {
     case 0:
-        m_388 |= 4;
+        behavior_flags |= 4;
         flags = actorFlags | 0x04000000;
         actorFlags = flags;
         requested_action = 0;
@@ -460,15 +460,15 @@ void TObjEneBalClawClaw::update_appear() {
         advance_animation();
         apply_actor_gravity(this, NULL, 0.0f);
         if (fade.advance_toward_max() == 1) {
-            old = m_388;
+            old = behavior_flags;
             cleared = old & ~5;
-            m_388 = cleared;
+            behavior_flags = cleared;
             state = -1;
             reset_active_state();
         }
         return;
     case -1:
-        m_388 &= ~5;
+        behavior_flags &= ~5;
         actorFlags &= 0xFBFFFFFF;
         break;
     }
@@ -514,7 +514,7 @@ void TObjEneBalClawClaw::render() {
                 post_translate_matrix(&position.x);
                 rotate_matrix_x(0, rotation_x);
                 rotate_matrix_y(0, rotation_y);
-                if (m_388 & 4) {
+                if (behavior_flags & 4) {
                     if (fade.has_visible_opacity() != 0) {
                         fade.set_flags_and_apply_damage_color();
                         visible = 1;
@@ -584,13 +584,13 @@ s32 TObjEneBalClawClaw::check_active() {
     if (actorFlags & 0xA00) {
         return 0;
     }
-    return (u32)__cntlzw(m_388 & 0x10000000) >> 5;
+    return (u32)__cntlzw(behavior_flags & 0x10000000) >> 5;
 }
 
 void TObjEneBalClawClaw::join_body(u16 body_id) {
     this->body_id = body_id;
     targetId = body_id;
-    m_388 |= 0x20000000;
+    behavior_flags |= 0x20000000;
     actorFlags &= 0xFFFBFFFF;
     target_distance_sq = 100000.0f;
     update_if_active(0xA);
@@ -598,7 +598,7 @@ void TObjEneBalClawClaw::join_body(u16 body_id) {
 }
 
 void TObjEneBalClawClaw::clear_flag() {
-    m_388 &= 0xDFFFFFFF;
+    behavior_flags &= 0xDFFFFFFF;
     reset_active_state();
 }
 
@@ -636,12 +636,12 @@ void TObjEneBalClawClaw::load_params() {
 
 void TObjEneBalClawClaw::attach() {
     obj_setFlags30(this, 0x04040000);
-    m_388 &= 0xDFFFFFFF;
-    m_388 |= 0x10000000;
+    behavior_flags &= 0xDFFFFFFF;
+    behavior_flags |= 0x10000000;
 }
 
 void TObjEneBalClawClaw::detach() {
-    m_388 &= 0xEFFFFFFF;
+    behavior_flags &= 0xEFFFFFFF;
     obj_clearFlags30(0x06040000);
     next_action = 0xB;
 }
@@ -653,13 +653,13 @@ void TObjEneBalClawClaw::update_drop() {
     case 0:
         requested_action = 0;
         fade.reset_color();
-        m_388 |= 4;
+        behavior_flags |= 4;
         state = 1;
     case 1:
         advance_animation();
         apply_actor_gravity(this, NULL, 0.0f);
         if (fade.decay_value_toward_floor() == 1) {
-            m_388 &= ~4;
+            behavior_flags &= ~4;
             obj_setFlags30(this, 0x02000000);
             state = 2;
         }
@@ -673,16 +673,16 @@ void TObjEneBalClawClaw::run_active_state() {
     switch (state) {
     case 0:
         fade.reset_obstruction_fade();
-        m_388 |= 5;
+        behavior_flags |= 5;
         state = 1;
     case 1:
         if (fade.advance_toward_max() == 1) {
-            m_388 &= ~5;
+            behavior_flags &= ~5;
             reset_active_state();
         }
         return;
     case -1:
-        m_388 &= ~4;
+        behavior_flags &= ~4;
         break;
     }
 }

@@ -198,7 +198,7 @@ TObjEneMe1GiGue::TObjEneMe1GiGue(TObject *parent, void *set_data) : TObjEnemyCus
         entryHeight = 0.0f;
     }
     if ((s32)parameters[0] >= 1) {
-        m_388 |= 0x40000;
+        behavior_flags |= 0x40000;
         if (parameters[1] < 1.0f) {
             parameters[1] = 50.0f;
         }
@@ -209,7 +209,7 @@ TObjEneMe1GiGue::TObjEneMe1GiGue(TObject *parent, void *set_data) : TObjEnemyCus
     set_param(0x37);
     sinkingOffset = 0.0f;
     volleyCount = 0;
-    if (m_388 & 0x40000) {
+    if (behavior_flags & 0x40000) {
         init_move();
     } else {
         start_appear();
@@ -295,7 +295,7 @@ void TObjEneMe1GiGue::run_task() {
     VecCopy(&body_center, &position);
     body_center.y += 15.0f + flightHeight;
     bodies[0].offset.y = 25.0f + flightHeight;
-    if (!(m_388 & 0x40000)) {
+    if (!(behavior_flags & 0x40000)) {
         submit_cursor_candidate(this, -1);
         minimap_render_dot(&position, -0x5DB4, 1, 0);
     }
@@ -374,7 +374,7 @@ void TObjEneMe1GiGue::render() {
     if (vis == 0) {
         return;
     }
-    if (TObjPlayer::check_demo_mode() != 1 && (m_388 & 0x40000)) {
+    if (TObjPlayer::check_demo_mode() != 1 && (behavior_flags & 0x40000)) {
         return;
     }
     saved_model_render_flags = model_render_flags;
@@ -395,7 +395,7 @@ void TObjEneMe1GiGue::render() {
     model_render_flags &= ~0x400;
     if (TObjPlayer::check_demo_mode() == 1) {
         draw_chunk_object(model);
-    } else if (m_388 & 4) {
+    } else if (behavior_flags & 4) {
         if (appearFade.has_visible_opacity() != 0) {
             appearFade.set_flags_and_apply_damage_color();
             if (vis == 1) {
@@ -437,7 +437,7 @@ void TObjEneMe1GiGue::render() {
 void TObjEneMe1GiGue::run_demo_task() {  }
 
 void TObjEneMe1GiGue::update_idle_state() {
-    if (m_388 & 0x40000) {
+    if (behavior_flags & 0x40000) {
         return;
     }
     switch (state) {
@@ -446,16 +446,16 @@ void TObjEneMe1GiGue::update_idle_state() {
     case 0:
         requested_action = 1;
         state = 1;
-        m_384 = 150;
+        state_timer = 150;
         clear_flags_30();
     case 1:
         advance_animation();
         move_around_center(&home_position, parameters[1]);
-        m_384 -= 1;
-        if (m_384 <= 0) {
+        state_timer -= 1;
+        if (state_timer <= 0) {
             requested_action = 0;
             state = 2;
-            m_384 = 90;
+            state_timer = 90;
         }
         check_object_collisions();
         check_enemy_body_collisions(this);
@@ -467,8 +467,8 @@ void TObjEneMe1GiGue::update_idle_state() {
         check_object_collisions();
         check_enemy_body_collisions(this);
         update_enemy_collision_flags();
-        m_384 -= 1;
-        if (m_384 <= 0) {
+        state_timer -= 1;
+        if (state_timer <= 0) {
             state = 0;
         }
         break;
@@ -485,23 +485,23 @@ void TObjEneMe1GiGue::run_hit_reaction() {
         return;
     }
     set_state(4);
-    m_380 = m_378;
-    m_378 = 4;
-    m_388 |= 0x10000 | 1;
+    previous_action = resume_action;
+    resume_action = 4;
+    behavior_flags |= 0x10000 | 1;
 }
 
 void TObjEneMe1GiGue::run_death_reaction() {
     set_state(5);
-    m_380 = m_378;
-    m_378 = 5;
-    m_388 |= 1;
+    previous_action = resume_action;
+    resume_action = 5;
+    behavior_flags |= 1;
 }
 
 void TObjEneMe1GiGue::update_circling_state() {
     actorFlags &= ~0x01000000;
     switch (state) {
     case 0:
-        m_388 &= ~0x00040000;
+        behavior_flags &= ~0x00040000;
         clear_flags_30();
         requested_action = 1;
         circlingAngle = 0;
@@ -567,21 +567,21 @@ void TObjEneMe1GiGue::update_missile_state() {
     switch (state) {
     case 0:
         clear_flags_30();
-        m_384 = attackDuration;
-        if (m_384 <= 40) {
-            m_384 = 40;
+        state_timer = attackDuration;
+        if (state_timer <= 40) {
+            state_timer = 40;
         }
         if (!(actorFlags & 0x01000000)) {
             requested_action = 2;
             goto start;
         }
         update_if_active(13);
-        m_388 &= ~0x40000;
+        behavior_flags &= ~0x40000;
         break;
     start:
         state = 1;
         advance_animation();
-        m_388 &= ~0x40000;
+        behavior_flags &= ~0x40000;
         break;
     case 1:
     case 2:
@@ -618,15 +618,15 @@ void TObjEneMe1GiGue::update_missile_state() {
             apply_actor_gravity(this, 0, 0.0f);
         }
         update_collisions();
-        if (--m_384 <= 0) {
+        if (--state_timer <= 0) {
             state = 4;
         }
         break;
     case 4:
         if (actorFlags & 0x01000000) {
-            m_378 = 0;
+            resume_action = 0;
             update_if_active(13);
-        } else if (!(m_388 & 0x80000) && random_ratio() <= barrierChance) {
+        } else if (!(behavior_flags & 0x80000) && random_ratio() <= barrierChance) {
             update_if_active(12);
         } else {
             update_if_active(0);
@@ -652,19 +652,19 @@ void TObjEneMe1GiGue::update_multi_shot_state() {
         }
         if (count > 0) {
             requested_action = 3;
-            m_384 = attackDuration;
-            if (m_384 <= 20) {
-                m_384 = 20;
+            state_timer = attackDuration;
+            if (state_timer <= 20) {
+                state_timer = 20;
             }
             state = 1;
         } else if (actorFlags & 0x01000000) {
             update_if_active(13);
-        } else if (!(m_388 & 0x80000) && random_ratio() <= barrierChance) {
+        } else if (!(behavior_flags & 0x80000) && random_ratio() <= barrierChance) {
             update_if_active(12);
         } else {
             update_if_active(0);
         }
-        m_388 &= ~0x40000;
+        behavior_flags &= ~0x40000;
         break;
     case 1:
     case 2:
@@ -689,11 +689,11 @@ void TObjEneMe1GiGue::update_multi_shot_state() {
         advance_animation();
         apply_actor_gravity(this, 0, 0.0f);
         update_collisions();
-        m_384--;
-        if (m_384 <= 0) {
+        state_timer--;
+        if (state_timer <= 0) {
             volleyCount++;
             if (volleyCount >= 3) {
-                m_384 = 45;
+                state_timer = 45;
                 requested_action = 1;
                 state = 4;
             } else {
@@ -707,9 +707,9 @@ void TObjEneMe1GiGue::update_multi_shot_state() {
         advance_animation();
         apply_actor_gravity(this, 0, 0.0f);
         update_collisions();
-        m_384--;
-        if (m_384 <= 0) {
-            if (!(m_388 & 0x80000) && random_ratio() <= barrierChance) {
+        state_timer--;
+        if (state_timer <= 0) {
+            if (!(behavior_flags & 0x80000) && random_ratio() <= barrierChance) {
                 update_if_active(12);
             } else {
                 update_if_active(0);
@@ -738,7 +738,7 @@ void TObjEneMe1GiGue::update_technique_state() {
         } else {
             update_if_active(0);
         }
-        m_388 &= ~0x40000;
+        behavior_flags &= ~0x40000;
         break;
     case 1:
     case 2:
@@ -775,14 +775,14 @@ void TObjEneMe1GiGue::action() {
     switch (state) {
     case 0:
         clear_flags_30();
-        m_388 &= ~0x40000;
+        behavior_flags &= ~0x40000;
         requested_action = 1;
         state = 1;
         return;
     case 1:
         TObjEneMe1GiGueBarrier::create(this, this);
         state = 2;
-        m_384 = 45;
+        state_timer = 45;
         advance_animation();
         apply_actor_gravity(this, 0, 0.0f);
         update_collisions();
@@ -792,8 +792,8 @@ void TObjEneMe1GiGue::action() {
         advance_animation();
         apply_actor_gravity(this, 0, 0.0f);
         update_collisions();
-        m_384 = m_384 - 1;
-        if (m_384 <= 0) {
+        state_timer = state_timer - 1;
+        if (state_timer <= 0) {
             update_if_active(0);
         }
     case -1:
@@ -897,7 +897,7 @@ void TObjEneMe1GiGue::update_rush_attack() {
             this->actorFlags &= ~0x1000000;
             this->velocity.y = 0.0f;
             if (this->requested_action != 8) {
-                if (!(this->m_388 & 0x80000) && this->random_ratio() <= this->barrierChance) {
+                if (!(this->behavior_flags & 0x80000) && this->random_ratio() <= this->barrierChance) {
                     this->update_if_active(12);
                 } else {
                     this->update_if_active(0);
@@ -924,7 +924,7 @@ void TObjEneMe1GiGue::update_rush_attack() {
             this->flightHeight = 0.0f;
         }
         this->bodies[1].flags &= ~1;
-        this->m_388 &= ~0x40000;
+        this->behavior_flags &= ~0x40000;
         this->approachCount = 0;
         break;
     }
@@ -968,8 +968,8 @@ void TObjEneMe1GiGue::update_hit_reaction() {
     case -1:
         retaliate = 0;
         actorFlags &= ~0x200;
-        m_388 &= ~1;
-        m_378 = 1;
+        behavior_flags &= ~1;
+        resume_action = 1;
         ref_hp = referenceHp;
         if (ref_hp - hp > ref_hp / 4 && !(actorFlags & 2)) {
             entity = (saddr)find_entity_by_id(attacker_id);
@@ -985,7 +985,7 @@ void TObjEneMe1GiGue::update_hit_reaction() {
             next_action = 9;
         } else if (actorFlags & 0x01000000) {
             update_if_active(13);
-            m_378 = m_380;
+            resume_action = previous_action;
         } else {
             update_if_active(0);
         }
@@ -1038,7 +1038,7 @@ void TObjEneMe1GiGue::update_proximity_state() {
         if (is_actor_cadence_frame(30) != 0) {
             if (find_nearest_visible_player(this, NULL, ((EnemyMoveParams *)movementParameters)->max_distance) != 0xFFFF) {
                 find_target_in_range(((EnemyMoveParams *)movementParameters)->max_distance);
-                if (m_388 & 0x40000) {
+                if (behavior_flags & 0x40000) {
                     init_move();
                 } else {
                     update_if_active(1);
@@ -1052,7 +1052,7 @@ void TObjEneMe1GiGue::update_proximity_state() {
                 update_if_active(11);
             } else {
                 update_if_active(13);
-                m_378 = 1;
+                resume_action = 1;
             }
         } else if (find_nearest_visible_player(this, NULL, 50.0f + ((EnemyMoveParams *)movementParameters)->max_distance) == 0xFFFF) {
             update_if_active(0);
@@ -1067,7 +1067,7 @@ void TObjEneMe1GiGue::init_move() {
     VecCopy(&prev_position, &position);
     actorFlags |= 0x01000000;
     update_if_active(14);
-    m_378 = 1;
+    resume_action = 1;
     refresh_collision_body_centers();
 }
 
@@ -1093,7 +1093,7 @@ void TObjEneMe1GiGue::update_landing_state() {
     case 0:
         VecCopy(&moveDestination, &home_position);
         calc_velocity_toward_destination(this, position, moveDestination, moveSpeed);
-        m_388 &= ~0x40000;
+        behavior_flags &= ~0x40000;
         clear_flags_30();
         flightHeight = entryHeight;
         requested_action = 7;
@@ -1137,7 +1137,7 @@ void TObjEneMe1GiGue::init() {
 
     switch (state) {
     case 0:
-        m_388 |= 4;
+        behavior_flags |= 4;
         flags = actorFlags | 0x04000000;
         actorFlags = flags;
         requested_action = 0;
@@ -1153,8 +1153,8 @@ void TObjEneMe1GiGue::init() {
         update_collisions();
         return;
     case -1:
-        flags = m_388;
-        m_388 = flags & ~5;
+        flags = behavior_flags;
+        behavior_flags = flags & ~5;
         actorFlags &= ~0x04000000;
         update_if_active(0);
         return;
@@ -1265,15 +1265,15 @@ s32 TObjEneMe1GiGue::update_action_hold_status() {
 }
 
 void TObjEneMe1GiGue::clear_state7_flag() {
-    s32 flags = m_388;
+    s32 flags = behavior_flags;
     if (flags & 0x40000) {
-        m_388 = flags & ~0x40000;
+        behavior_flags = flags & ~0x40000;
         VecCopy(&position, &home_position);
         project_actor_to_ground(this, &position, 0);
         return;
     }
     if (next_action == 7) {
-        m_388 = flags & ~1;
+        behavior_flags = flags & ~1;
         update_if_active(0);
     }
 }
@@ -1312,14 +1312,14 @@ done:
     return (u8)r;
 }
 
-void TObjEneMe1GiGue::set_barrier_active() { m_388 |= 0x80000; }
+void TObjEneMe1GiGue::set_barrier_active() { behavior_flags |= 0x80000; }
 
-void TObjEneMe1GiGue::clear_barrier_active() { m_388 &= ~0x80000; }
+void TObjEneMe1GiGue::clear_barrier_active() { behavior_flags &= ~0x80000; }
 
 
 f32 TObjEneMe1GiGue::receive_physical_attack(void *attacker, f32 power) {
     f32 damage = 0.0f;
-    if (m_388 & 0x80000) {
+    if (behavior_flags & 0x80000) {
         show_miss_popup(&body_center.x);
         set_state(10);
     } else {
@@ -1330,7 +1330,7 @@ f32 TObjEneMe1GiGue::receive_physical_attack(void *attacker, f32 power) {
 
 f32 TObjEneMe1GiGue::receive_direct_attack(void *attacker, DirectAttackPayload hit, void *source, s32, s32) {
     f32 damage = 0.0f;
-    if (m_388 & 0x80000) {
+    if (behavior_flags & 0x80000) {
         show_miss_popup(&body_center.x);
         set_state(10);
     } else {
@@ -1341,7 +1341,7 @@ f32 TObjEneMe1GiGue::receive_direct_attack(void *attacker, DirectAttackPayload h
 
 f32 TObjEneMe1GiGue::receive_weapon_special_attack(void *attacker, void *weapon) {
     f32 damage = 0.0f;
-    if (m_388 & 0x80000) {
+    if (behavior_flags & 0x80000) {
         show_miss_popup(&body_center.x);
         set_state(10);
     } else {

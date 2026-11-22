@@ -304,7 +304,7 @@ void TObjEneDarkGunner::set_fields_24_34_from_global(void *a1) {
     this->texlist = (saddr)get_bml_texlist(TObjEneDarkGunner__bml_resource, (s32)(saddr)a1);
 }
 
-int TObjEneDarkGunner::is_death_gunner() { return (m_388 >> 26) & 0x1; }
+int TObjEneDarkGunner::is_death_gunner() { return (behavior_flags >> 26) & 0x1; }
 
 s32 TObjEneDarkGunner::get_int_parameter(s32 index) {
     return TObjEneDarkGunner__behavior_params->int_params[index];
@@ -353,7 +353,7 @@ TObjEneDarkGunner::TObjEneDarkGunner(TObject *parent, void *set_data) : TObjEnem
     tp = tpmax;
     referenceHp = hp;
     update_prev_position();
-    m_388 = 0x550000;
+    behavior_flags = 0x550000;
     obj_setFlags30(this, 0x04040000);
     rotation_z = 0x8000;
     render_y_offset = 0.0f;
@@ -455,14 +455,14 @@ void TObjEneDarkGunner::run_task() {
     }
     update_attack_stat_status();
     update_defense_stat_status();
-    if ((m_388 & 0x400000) && obj_testFlags30(0x22) == 0) {
+    if ((behavior_flags & 0x400000) && obj_testFlags30(0x22) == 0) {
         s32 phase = material_phase;
         material_phase = phase + 0x800;
         bodies->unk_28 = get_int_parameter(2);
     } else {
         bodies->unk_28 = 0.0f;
     }
-    if ((m_388 & 0x800000) && obj_testFlags30(0x22) == 0) {
+    if ((behavior_flags & 0x800000) && obj_testFlags30(0x22) == 0) {
         if (glow_emitter == NULL) {
             glow_emitter = create_particle_emitter(&body_center, 0xDB);
         } else {
@@ -472,7 +472,7 @@ void TObjEneDarkGunner::run_task() {
         ((TObject *)glow_emitter)->queue_destruction();
         glow_emitter = NULL;
     }
-    if ((m_388 & 0x200000) && obj_testFlags30(0x22) == 0) {
+    if ((behavior_flags & 0x200000) && obj_testFlags30(0x22) == 0) {
         if (trail_emitter == NULL) {
             if (is_death_gunner() != 0) {
                 trail_emitter = create_particle_emitter(&shadow_pos, 0xD9);
@@ -503,14 +503,14 @@ void TObjEneDarkGunner::run_task() {
     update_prev_position();
     body_center.y += render_y_offset;
     VecCopy(&center, &shadow_pos);
-    if (m_388 & 0x80000) {
+    if (behavior_flags & 0x80000) {
         render_y_offset = fmin_800A28A4(0.5f + render_y_offset, 10.0f);
     } else {
         render_y_offset = fmax_800A28A4(render_y_offset - 0.5f, 0.0f);
     }
     update_hover();
     bodies->offset.y = 4.0f + render_y_offset;
-    if ((actor_frame_tick & 3) == 0 && (m_388 & 0x400000) && obj_testFlags30(0x22) == 0 &&
+    if ((actor_frame_tick & 3) == 0 && (behavior_flags & 0x400000) && obj_testFlags30(0x22) == 0 &&
         classify_actor_view_detail(150.0f, 400.0f, 15.0f) != 0) {
         Vec p = position;
         p.y += render_y_offset;
@@ -534,7 +534,7 @@ extern "C" {
 void TObjEneDarkGunner::update_wait() {
     switch (state) {
     case 0:
-        if (m_388 & 0x10000) {
+        if (behavior_flags & 0x10000) {
             actorFlags |= 0x04040000;
             rotation_z = 0x8000;
             state = 1;
@@ -542,7 +542,7 @@ void TObjEneDarkGunner::update_wait() {
             requested_action = 0;
             state = 2;
         }
-        m_388 |= 0x400000;
+        behavior_flags |= 0x400000;
         advance_animation();
         break;
     case 1:
@@ -555,7 +555,7 @@ void TObjEneDarkGunner::update_wait() {
 void TObjEneDarkGunner::start_move() {
     if (!(actorFlags & 0x800)) {
         update_if_active(1);
-        m_388 |= 0x20000;
+        behavior_flags |= 0x20000;
     }
 }
 }
@@ -568,10 +568,10 @@ void TObjEneDarkGunner::update_move() {
     obj_clearFlags30(0x40000);
     switch ((s32)state) {
     case 0:
-        m_388 &= ~0x00200000;
-        m_388 |= 0x400000;
-        if (m_388 & 0x10000) {
-            m_388 &= ~0x30000;
+        behavior_flags &= ~0x00200000;
+        behavior_flags |= 0x400000;
+        if (behavior_flags & 0x10000) {
+            behavior_flags &= ~0x30000;
             velocity.z = 0.0f;
             velocity.y = 0.0f;
             velocity.x = 0.0f;
@@ -610,18 +610,18 @@ void TObjEneDarkGunner::update_move() {
         bodies->flags &= ~4;
         bodies->flags |= 2;
         advance_animation();
-        if (m_388 & 0x20000) {
-            m_388 &= ~0x20000;
-            m_388 |= 0x80000;
-            if (m_388 & 0x40000) {
-                m_388 &= ~0x40000;
+        if (behavior_flags & 0x20000) {
+            behavior_flags &= ~0x20000;
+            behavior_flags |= 0x80000;
+            if (behavior_flags & 0x40000) {
+                behavior_flags &= ~0x40000;
                 state = 4;
             } else {
                 spin_count = 0;
                 state = 6;
             }
         } else {
-            m_388 &= ~0x80000;
+            behavior_flags &= ~0x80000;
         }
         break;
     case 6:
@@ -649,7 +649,7 @@ void TObjEneDarkGunner::update_move() {
         move_distance += move_speed;
         move_speed = fmax_800A2390(-0.2f + move_speed, 0.5f);
         if (move_distance >= get_float_parameter(1)) {
-            m_388 &= ~0x80000;
+            behavior_flags &= ~0x80000;
             state = 3;
         }
         play_persistent_sound(0x4003AD28, (saddr)this, (uaddr)&position, 0, 0);
@@ -682,7 +682,7 @@ void TObjEneDarkGunner::update_attack() {
     switch ((s32)state) {
     case 0:
         actorFlags |= 0x200000;
-        m_388 &= 0xFFB7FFFF;
+        behavior_flags &= 0xFFB7FFFF;
         attack_count = 0;
         requested_action = 3;
         play_sound_effect(0x4003B52F, &position, 0, 0);
@@ -694,7 +694,7 @@ void TObjEneDarkGunner::update_attack() {
             hover_speed = 1.6088889f;
         }
         if (requested_action != 4) break;
-        m_388 |= 0x200000;
+        behavior_flags |= 0x200000;
         attack_timer = get_int_parameter(0);
         state = 2;
         play_sound_effect(0x4003B52A, &position, 0, 0);
@@ -713,7 +713,7 @@ void TObjEneDarkGunner::update_attack() {
         hover_speed = 1.6088889f;
         if (--attack_timer > 0) break;
         attack_timer = 4;
-        m_388 &= ~0x200000;
+        behavior_flags &= ~0x200000;
         {
             s32 i;
             for (i = 0; i < 4; i++) {
@@ -759,7 +759,7 @@ void TObjEneDarkGunner::update_attack() {
         update_if_active(1);
         break;
     case -1:
-        m_388 &= ~0x200000;
+        behavior_flags &= ~0x200000;
         actorFlags &= ~0x200000;
         {
             s32 i;
@@ -804,7 +804,7 @@ void TObjEneDarkGunner::update_damage() {
     switch ((s32)state) {
     case 0:
         actorFlags = actorFlags & 0xFFDFFFFF;
-        if (m_388 & 0x800000) {
+        if (behavior_flags & 0x800000) {
             requested_action = 9;
         } else {
             requested_action = 5;
@@ -815,7 +815,7 @@ void TObjEneDarkGunner::update_damage() {
             velocity.x = (velocity.x * limit) / speed;
             velocity.z = (velocity.z * limit) / speed;
         }
-        if (m_388 & 0x400000) {
+        if (behavior_flags & 0x400000) {
             spawn_particle_effect(&body_center, 0xD7);
         }
         pad_39e = 0;
@@ -839,13 +839,13 @@ void TObjEneDarkGunner::update_damage() {
         update_collisions();
         if (action_flags != 8U) {
             obj_clearFlags30(0x40300);
-            m_388 = m_388 & 0xFF7FFFFE;
+            behavior_flags = behavior_flags & 0xFF7FFFFE;
             referenceHp = hp;
             start_move();
         }
         break;
     case -1:
-        m_388 = m_388 & 0xFFFFFFFE;
+        behavior_flags = behavior_flags & 0xFFFFFFFE;
         break;
     }
     minimap_render_dot(&position, -0x5DB4, 1, 0);
@@ -853,7 +853,7 @@ void TObjEneDarkGunner::update_damage() {
 }
 
 void TObjEneDarkGunner::update_dying() {
-    m_388 &= 0xFF07FFFF;
+    behavior_flags &= 0xFF07FFFF;
     switch ((s32)state) {
     case 0:
         requested_action = 7;
@@ -861,7 +861,7 @@ void TObjEneDarkGunner::update_dying() {
         send_entity_set_flags();
         render_control.start_fade_out();
         fn_800D911C(&body_center);
-        m_388 |= 4;
+        behavior_flags |= 4;
         play_sound_effect(0x4003AD37, &position, 0, 0);
         state = 1;
         break;
@@ -897,7 +897,7 @@ void TObjEneDarkGunner::render() {
             translate_matrix(0, position.x, position.y + render_y_offset, position.z);
             rotate_matrix_z(0, rotation_z);
             rotate_matrix_y(0, rotation_y);
-            if (m_388 & 0x400000) {
+            if (behavior_flags & 0x400000) {
                 f32 s;
                 model_render_flags |= 0x820;
                 set_chunk_material_override_pair(0xFF00, 0x800);
@@ -911,7 +911,7 @@ void TObjEneDarkGunner::render() {
             } else {
                 TObjFish::set_global_param(texlist);
             }
-            if (m_388 & 4) {
+            if (behavior_flags & 4) {
                 if (render_control.has_visible_opacity() != 0) {
                     render_control.set_flags_and_apply_damage_color();
                     visible = 1;
@@ -934,7 +934,7 @@ void TObjEneDarkGunner::render() {
             } else {
                 draw_motion_model();
             }
-            if (m_388 & 0x400000) {
+            if (behavior_flags & 0x400000) {
                 set_constant_material((const NJS_ARGB *)dark_gunner_constant_material);
                 set_chunk_material_override_pair(0xFF00, 0);
             }
@@ -943,7 +943,7 @@ void TObjEneDarkGunner::render() {
             render_shadow();
             restore_scene_lighting();
             TParticleCtrl::end_effect_render();
-            cancel = view == 1 && (m_388 & 0x200000) && obj_testFlags30(0x22) == 0;
+            cancel = view == 1 && (behavior_flags & 0x200000) && obj_testFlags30(0x22) == 0;
             for (i = 0; i < 4; i++) {
                 if (children[i] != NULL) {
                     if (cancel) {
@@ -1009,7 +1009,7 @@ void TObjEneDarkGunner::update_state_machine() {
     s16 left;
     switch ((s32)state) {
     case 0:
-        m_388 = m_388 | 1;
+        behavior_flags = behavior_flags | 1;
         obj_clearFlags30(0x100);
         timer = resetTimer;
         requested_action = 0;
@@ -1025,7 +1025,7 @@ void TObjEneDarkGunner::update_state_machine() {
         timer = left - 1;
         if (left < 0) {
             referenceHp = hp;
-            m_388 = m_388 & 0xFFFFFFFE;
+            behavior_flags = behavior_flags & 0xFFFFFFFE;
             start_move();
         }
         break;
@@ -1087,7 +1087,7 @@ void TObjEneDarkGunner::update_state() {
 }
 
 void TObjEneDarkGunner::start_hide() {
-    if (!(actorFlags & 0x800) && !(m_388 & 0x800000)) {
+    if (!(actorFlags & 0x800) && !(behavior_flags & 0x800000)) {
         update_if_active(6);
     }
 }
@@ -1098,8 +1098,8 @@ void TObjEneDarkGunner::update_hide_sequence() {
     switch ((s32)state) {
     case 0:
         obj_clearFlags30(0x240300);
-        m_388 |= 0x800000;
-        m_388 &= ~0x480000;
+        behavior_flags |= 0x800000;
+        behavior_flags &= ~0x480000;
         this->requested_action = 8;
         hide_timer = get_int_parameter(1);
         state = 1;
@@ -1116,7 +1116,7 @@ void TObjEneDarkGunner::update_hide_sequence() {
         }
         break;
     case -1:
-        m_388 &= 0xFF7FFFFF;
+        behavior_flags &= 0xFF7FFFFF;
         break;
     }
     minimap_render_dot(&this->position, -0x5DB4, 1, 0);
@@ -1128,8 +1128,8 @@ void TObjEneDarkGunner::update_return_home() {
     case -1:
         break;
     case 0:
-        m_388 &= ~0x200000;
-        m_388 |= 0x480000;
+        behavior_flags &= ~0x200000;
+        behavior_flags |= 0x480000;
         requested_action = 0;
         state = 1;
     case 1: {
@@ -1140,7 +1140,7 @@ void TObjEneDarkGunner::update_return_home() {
         calc_velocity_toward_destination(this, position, home_position, get_float_parameter(0));
         move_with_wall_slide((u8 *)this);
         if (xz_distance_squared(&position, &home_position) <= 100.0f) {
-            m_388 &= ~0x80000;
+            behavior_flags &= ~0x80000;
             return_home_or_wait();
         }
         break;
@@ -1230,12 +1230,12 @@ s32 TObjEneDarkGunner::update_movement_status() {
 void TObjEneDarkGunner::clear_state7_flag() {  }
 
 void TObjEneDarkGunner::become_death_gunner() {
-    m_388 |= 0x04000000;
+    behavior_flags |= 0x04000000;
     set_param(0x23);
 }
 
 void TObjEneDarkGunner::become_dark_gunner() {
-    m_388 &= ~0x04000000;
+    behavior_flags &= ~0x04000000;
     set_param(0x22);
 }
 }

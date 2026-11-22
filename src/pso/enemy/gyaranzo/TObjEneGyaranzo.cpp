@@ -338,21 +338,21 @@ void TObjEneGyaranzo::sub_800D37F4() {
                     }
                     if (targetId != 0xFFFF) {
                         update_if_active(next);
-                        m_378 = 2;
+                        resume_action = 2;
                     }
                     break;
                 case 1:
                     targetId = target_ids[1];
                     if (targetId != 0xFFFF) {
                         update_if_active(9);
-                        m_378 = 2;
+                        resume_action = 2;
                     }
                     break;
                 case 2:
                     targetId = target_ids[0];
                     if (targetId != 0xFFFF) {
                         update_if_active(9);
-                        m_378 = 2;
+                        resume_action = 2;
                     }
                     break;
                 }
@@ -409,7 +409,7 @@ void TObjEneGyaranzo::render() {
             rotate_matrix_y(0, rotation_y);
             if (TObjPlayer::check_demo_mode() == 1) {
                 draw_chunk_object(model);
-            } else if (m_388 & 4) {
+            } else if (behavior_flags & 4) {
                 if (appear_fade.has_visible_opacity() != 0) {
                     appear_fade.set_flags_and_apply_damage_color();
                     if (detail == 1) {
@@ -499,7 +499,7 @@ void TObjEneGyaranzo::update_chase_target() {
         }
         break;
     case -1:
-        update_if_active(m_378);
+        update_if_active(resume_action);
         break;
     }
 }
@@ -525,9 +525,9 @@ void TObjEneGyaranzo::run_hit_reaction() {
         }
         referenceHp = hp;
         play_sound_effect(remap_sound_for_area(0x4003AD0F), &position, 0, 0);
-        if (!(m_388 & 0x40000)) {
+        if (!(behavior_flags & 0x40000)) {
             set_state(4);
-            m_388 |= 1;
+            behavior_flags |= 1;
             return;
         }
         obj_clearFlags30(0x200200);
@@ -561,7 +561,7 @@ void TObjEneGyaranzo::update_damaged() {
     }
     case -1:
         actorFlags &= ~0x200;
-        m_388 &= ~1;
+        behavior_flags &= ~1;
         next_action = 1;
         break;
     }
@@ -569,7 +569,7 @@ void TObjEneGyaranzo::update_damaged() {
 
 void TObjEneGyaranzo::run_death_reaction() {
     set_state(5);
-    m_388 |= 1;
+    behavior_flags |= 1;
 }
 
 void TObjEneGyaranzo::update_death_breakup() {
@@ -619,7 +619,7 @@ void TObjEneGyaranzo::update_aim_and_fire() {
     s32 aimed;
     switch ((s32)state) {
     case 0:
-        m_388 |= 0x40000;
+        behavior_flags |= 0x40000;
         requested_action = 0;
         state = 1;
     case 1:
@@ -657,7 +657,7 @@ void TObjEneGyaranzo::update_aim_and_fire() {
         }
         break;
     case -1:
-        m_388 &= ~0x40000;
+        behavior_flags &= ~0x40000;
         break;
     }
     advance_animation();
@@ -888,7 +888,7 @@ void TObjEneGyaranzo::select_targets() {
 void TObjEneGyaranzo::update_fade_in() {
     switch ((s32)state) {
     case 0:
-        m_388 |= 4;
+        behavior_flags |= 4;
         actorFlags |= 0x04000000;
         requested_action = 0;
         TBoss3Volopt__sub_800D8D88((saddr)&body_center);
@@ -901,7 +901,7 @@ void TObjEneGyaranzo::update_fade_in() {
         }
         return;
     case -1:
-        m_388 &= ~5;
+        behavior_flags &= ~5;
         actorFlags &= ~0x04000000;
         update_if_active(0);
         break;
@@ -959,7 +959,7 @@ s32 TObjEneGyaranzo::update_movement_status() {
 
 void TObjEneGyaranzo::clear_flag_and_update() {
     if (next_action == 7) {
-        m_388 &= ~1;
+        behavior_flags &= ~1;
         update_if_active(0);
     }
 }

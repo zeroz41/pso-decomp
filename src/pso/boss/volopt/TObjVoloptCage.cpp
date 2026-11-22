@@ -113,7 +113,7 @@ void TObjVoloptCage::update_collision_state() {
         if ((timer -= 1) <= 0) {
             actorFlags &= ~0x200;
             referenceHp = hp;
-            m_388 &= ~1;
+            behavior_flags &= ~1;
             run_move_action();
         }
         break;
@@ -158,7 +158,7 @@ void TObjVoloptCage::update_rise() {
         if (position.y >= 0.0f) {
             position.y = 0.0f;
             countdown = TBoss3VoloptP02::get_int_param(4) + 450;
-            m_388 &= ~1;
+            behavior_flags &= ~1;
             run_move_action();
         }
         break;

@@ -267,10 +267,10 @@ void TBoss3VoloptMonitor::run_task() {
             anim_timer = 3;
             if (++anim_frame >= 8) {
                 anim_frame = 0;
-                if (m_388 & 0x10000) {
-                    m_388 &= ~0x10000;
+                if (behavior_flags & 0x10000) {
+                    behavior_flags &= ~0x10000;
                 } else if (3.0517578e-05f * (f32)rand() <= 0.1f) {
-                    m_388 |= 0x10000;
+                    behavior_flags |= 0x10000;
                 }
             }
         }
@@ -334,7 +334,7 @@ void TBoss3VoloptMonitor::render() {
             } else {
                 set_model(volopt_monitor_models[0][variant]);
                 frame = anim_frame;
-                if (m_388 & 0x10000) {
+                if (behavior_flags & 0x10000) {
                     frame += MONITOR_SCREEN_NOISE;
                 }
             }
@@ -356,10 +356,10 @@ void TBoss3VoloptMonitor::update_hit() {
     case -1:
         break;
     case 0:
-        m_388 |= 1;
+        behavior_flags |= 1;
         anim_timer = 3;
         anim_frame = 0;
-        m_388 |= 0x10000;
+        behavior_flags |= 0x10000;
         play_sound_effect(0x4003BC03, &position, 0, 0);
         damage_player_if_aligned();
         referenceHp = hp;
@@ -370,7 +370,7 @@ void TBoss3VoloptMonitor::update_hit() {
         if (--timer <= 0) {
             obj_clearFlags30(0x200200);
             this->update_if_active(0);
-            m_388 &= ~1;
+            behavior_flags &= ~1;
         }
         break;
     }
@@ -450,7 +450,7 @@ void TBoss3VoloptMonitor::update_wait() {
 }
 
 void TBoss3VoloptMonitor::damage_player_if_aligned() {
-    if (!(m_388 & 0x40000) && vol_opt_active_hit_zone >= 0 && vol_opt_active_hit_zone / 4 == slot / 4) {
+    if (!(behavior_flags & 0x40000) && vol_opt_active_hit_zone >= 0 && vol_opt_active_hit_zone / 4 == slot / 4) {
         TBoss3VoloptCore::link_photon(attacker_id, 0);
     }
 }
@@ -465,7 +465,7 @@ void TBoss3VoloptMonitor::spawn_effects() {
 }
 
 void TBoss3VoloptMonitor::set_hit_flags_and_notify() {
-    m_388 |= 0x40000;
+    behavior_flags |= 0x40000;
     obj_setFlags30(this, 0x800);
     run_death_reaction();
 }

@@ -21,7 +21,7 @@ extern NJS_TEXLIST *dubchik_texlist;
 struct TObjEneDubchikBehaviorParams {
     f32 float_params[6]; // 0/4 scratch01/02 motion speed, 1/5 attack range (whole/collapsed), 2 collapsed chase
                          // speed, 3 walk02 motion speed
-    s32 int_params[4];   // 0 m_384 on collapsing, 1 shoot delay, 2 knockback timer, 3 shot power
+    s32 int_params[4];   // 0 state_timer on collapsing, 1 shoot delay, 2 knockback timer, 3 shot power
 };
 
 class TObjEneDubchik : public TObjEnemyCustom {

@@ -299,7 +299,7 @@ int TEnding__sub_8008D5B8(void) {  return ending_frame_counter; }
 void TObjEneBalClaw::clear_flag_in_state7() {
     u8 *arg0 = (u8 *)this;
     if (this->next_action == 7) {
-        this->m_388 = (s32) (this->m_388 & 0xFFFFFFFE);
+        this->behavior_flags = (s32) (this->behavior_flags & 0xFFFFFFFE);
         ((TObjEnemyCustom *)arg0)->update_if_active(0);
     }
 }

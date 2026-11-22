@@ -117,7 +117,7 @@ void TBoss3VoloptHiraisin::update_descend() {
     case -1:
         break;
     case 0:
-        m_388 |= 1;
+        behavior_flags |= 1;
         this->requested_action = 0;
         advance_animation();
         position.y = 80.0f;
@@ -130,7 +130,7 @@ void TBoss3VoloptHiraisin::update_descend() {
         position.y -= 0.5f;
         if (position.y <= 50.0f) {
             position.y = 50.0f;
-            m_388 &= ~1;
+            behavior_flags &= ~1;
             actorFlags &= ~0x40000;
             run_move_action();
         }
@@ -146,7 +146,7 @@ void TBoss3VoloptHiraisin::start_attack() {
                                      (saddr)get_bml_texlist((BmlResource *)volopt_hiraisin_resources, 0x10), (saddr)&body_center, rotation_y);
     trigger_dell_biter_events(&body_center);
     play_sound_effect(0x4001C112, &position, 0, 0);
-    m_388 &= ~1;
+    behavior_flags &= ~1;
     max_hp = hpmax;
     referenceHp = max_hp;
     hp = max_hp;
@@ -216,7 +216,7 @@ void TBoss3VoloptHiraisin::update_hit() {
         if (this->action_flags != 8) {
             referenceHp = hp;
             actorFlags &= ~0x200;
-            m_388 &= ~1;
+            behavior_flags &= ~1;
             run_move_action();
         }
         break;
