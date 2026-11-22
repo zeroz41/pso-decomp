@@ -21,6 +21,8 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/enemy/recon/TObjEneRecon.h"
 #include "pso/system/task/TObject.h"
+#include "pso/map/CsnQuery.h"
+#include "pso/system/MatrixOps.h"
 
 
 #pragma readonly_strings on
@@ -95,15 +97,11 @@ extern "C" {
 s32 VecCopy__FP3VecPC3Vec(void *, void *, int);
 s16 get_entity_id(int);
 s32 fn_8031B618(Obj_8031B618 *self);
-u32 csnVector(void *, void *, int);
 s32 project_actor_to_ground(void *, void *, void *);
 s32 TObjEneRecon__sub_8031C250(u32);
-s32 vec3_add_to(void *, void *);
 extern s32 lbl_805D5868;
 
 
-s32 rotate_matrix_z(int, int);
-s32 rotate_matrix_x(void *, s32);
 s32 scale_current_matrix(void *);
 BmlResource *recon_bomb_bml_resource;
 f32 TObjEneRecon__sub_8031C2BC(int);

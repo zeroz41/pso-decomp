@@ -15,6 +15,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/task/TObject.h"
+#include "pso/boss/goldragon/TBoss8Dragon_802F3348.h"
 
 __declspec(section ".data") const char *bm_obj_boss8_demoroom_model_names[2] = { "fe_obj_cyl_soto.nj", NULL };
 const char *bm_obj_boss8_demoroom_motion_names[1] = { NULL };
@@ -25,7 +26,6 @@ const char *TObjBoss8DemoRoom__name = "TObjBoss8DemoRoom";
 
 extern "C" {
 
-u32 TBoss8Dragon__sub_802F3348(s32);
 s32 TBoss8Dragon__sub_802FCCBC();
 
 void * TObjBoss8DemoRoom__shared_resource_object;

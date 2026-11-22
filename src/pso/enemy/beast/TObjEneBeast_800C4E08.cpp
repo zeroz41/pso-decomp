@@ -23,6 +23,8 @@
 
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/TObjControl.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/map/CsnQuery.h"
 
 
 extern const Vec lbl_8043BC68 = { 0.0f, 0.0f, 0.0f };
@@ -70,7 +72,6 @@ s32 approach_angle_limited(s32 from, s32 to, s32 max_step);
 s32 project_actor_to_ground(void *, void *, int);
 s32 minimap_render_dot(void *, int, int, int);
 s32 vec3_add_to(void *, void *);
-s32 rotate_matrix_y(int, int);
 s32 subtract_vector(void *, void *);
 }
 extern Vec scratch_vec;
@@ -637,7 +638,6 @@ void TUnk_80493450::run_idle_action() {
     }
 }
 
-u32 csnVector(void *, void *, s32);
 extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 }

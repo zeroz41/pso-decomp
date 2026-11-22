@@ -66,6 +66,7 @@
 #include "pso/ui/TLevelSelect.h"
 #include "pso/player/TObjPlayer_80052374.h"
 #include "pso/player/TObjPlayer_803E1A58.h"
+#include "pso/system/MatrixOps.h"
 
 
 struct Obj_8005683C;
@@ -73,7 +74,6 @@ struct Obj_8005683C;
 struct Obj_80055BC0 { u8 pad[0x450]; Vec f450; Vec f45c; };
 
 extern "C" {
-s32 vec3_add_to(void *, void *);
 f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
 f32 atan2_float(f32 y, f32 x);

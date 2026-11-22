@@ -14,6 +14,7 @@
 #include "pso/unk/TLobby_803255F8.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/math/MatrixTransforms.h"
 
 
 struct Ent_80325248 { u8 b[0xC]; };
@@ -48,7 +49,6 @@ struct L1_80325070 { u8 pad[8]; L2_80325070 *a; u8 pad2[8]; L2_80325070 *b; };
 
 extern "C" {
 void eval_bezier_curve__12TBoss8DragonFPviiPvf(void *, void *, s32, void *, f32);
-void subtract_vector(void *, void *);
 extern s32 __vt__25TBoss5GryphonLightningEff[];
 const char *lbl_805D4188 = "TBoss5GryphonLightningEff";
 Self_8032537C *__ct__25TBoss5GryphonLightningEffFv(Self_8032537C *self, void *parent, void *a, void *b, f32 x0, f32 x1, f32 scale);

@@ -148,6 +148,7 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 #include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/object/TObjControl.h"
+#include "pso/math/MatrixTransforms.h"
 
 // Step of a De Rol Le C action sequence: the action id and its parameter, a
 // duration in seconds (the timer compares against param * 30) or the
@@ -476,8 +477,6 @@ extern "C" {
 f32 atan2_float(f32 y, f32 x);
 
 f32 newton_sqrtf(f32);
-
-f32 subtract_vector(void *, void *);
 
 
 

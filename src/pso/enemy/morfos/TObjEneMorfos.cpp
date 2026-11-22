@@ -47,6 +47,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
+#include "pso/network/IPv6.h"
 // .rodata holds the table strings, the class name, the 803350AC binding template, then the Vecs in
 // reverse .text order and the doubles in .text order: deferred codegen, functions written last to first.
 #pragma defer_codegen on

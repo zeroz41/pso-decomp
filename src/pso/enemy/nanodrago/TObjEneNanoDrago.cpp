@@ -74,7 +74,6 @@ LAYOUT_ASSERT(NanoDrago_toggle_offset, offsetof(TObjEneNanoDrago, alternateBeam)
 
 void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
 extern "C" f32 atan2_float(f32 y, f32 x);
-extern "C" void check_enemy_body_collisions(void *arg0);
 
 extern "C" u32 get_player_by_client_id(s32);
 
@@ -88,7 +87,6 @@ extern "C" s32 construct_beam_effect__10TObjPlayerFPvPvPviPv(u32, void *, void *
 extern "C" s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 extern "C" s32 check_path_obstructed(void *, Vec *);
 extern "C" void calc_velocity_toward_destination(void *, Vec, Vec, f32);
-extern "C" void project_actor_to_ground(void *, void *, s32);
 extern "C" void TObjPlayer__sub_800D92BC(s32 point, s32 delay);
 
 #pragma push
@@ -116,6 +114,7 @@ inline f32 xz_length_squared(Vec *v) { return v->x * v->x + v->z * v->z; }
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/text_80086D50.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
 extern "C" s32 is_split_screen();
 extern "C" s32 restore_scene_lighting();
@@ -130,8 +129,6 @@ extern "C" saddr find_active_entity_by_id(int);
 
 int initialize_enemy_photon_effect(void *p);
 
-extern "C" s32 free_collision_body_parts(void *);
-extern "C" void init_collision_body_parts(void *, void *, s32);
 extern "C" s32 submit_cursor_candidate(void *, int);
 extern "C" s32 minimap_render_dot(void *, int, int, int);
 

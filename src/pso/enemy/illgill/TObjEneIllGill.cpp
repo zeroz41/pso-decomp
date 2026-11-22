@@ -48,6 +48,7 @@ extern "C" void render__15TObjIllGillKageFv();
 #include "pso/ui/TLevelSelect.h"
 #include "pso/math/ScratchVectors.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/math/MatrixTransforms.h"
 
 struct IllGillEffectRotation { s32 x, y, z; };
 
@@ -64,7 +65,6 @@ s32 angle_difference_abs(s32, s32);
 void *get_player_by_client_id(s32 i);
 s32 minimap_render_dot(void *, int, int, int);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-void subtract_vector(void *, void *);
 extern saddr tl_05;
 s32 obj_setFlags30(void *, int);
 

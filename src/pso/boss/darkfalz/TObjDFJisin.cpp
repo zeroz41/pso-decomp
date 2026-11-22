@@ -230,7 +230,6 @@ struct RecoveredFields_80051AD0_var_r31 {
 void get_current_matrix(void *m);
 int TObjDFTenchuFuru__matrix_node_index;
 extern "C" {
-s32 matrix_mult_vec(int, void *, void *);
 Vec lbl_804FF228;
 Vec lbl_804FF234;
 Mtx34 df_captured_matrix_pair[2];
@@ -254,6 +253,7 @@ LAYOUT_ASSERT(RecoveredFields_80051AD0_var_r31_30_offset, offsetof(RecoveredFiel
 #include "pso/boss/darkfalz/TObjDFUsoTower.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/unk/text_803D853C.h"
 
 extern u8 *camera_ctrl_instance;
 

@@ -59,6 +59,8 @@ extern BmlResourceDescriptor boss6_plot_falz_resource_descriptor;
 #include "pso/unk/text_80357058.h"
 #include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/system/TLoadCtrl_80227390.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/unk/text_803D853C.h"
 
 #pragma readonly_strings on
 const char *boss06_plotfalz_dat_model_names[15] = {
@@ -436,8 +438,6 @@ s32 subtract_vector(void *, const void *);
 void TBoss6PlotFalz__sub_802AB684(saddr arg0);
 f64 atan2_float(f32, f32);
 s32 get_nth_view_player_id__11TCameraCtrlFl();
-s32 vec3_add_to(void *, const void *);
-f32 vec3_dot(void *, void *);
 extern u8 *camera_ctrl_instance;
 s32 TBoss6PlotFalz__sub_802AB6CC(void *pos, f32 r);
 

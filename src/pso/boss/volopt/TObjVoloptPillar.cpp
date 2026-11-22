@@ -52,7 +52,6 @@ void TObjVoloptPillar::sub_80049FD8() {
 
 extern "C" {
 void post_translate_matrix(const Vec *v);
-extern GC_Mtx identity_matrix;
 }
 
 

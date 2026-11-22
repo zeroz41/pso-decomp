@@ -64,6 +64,7 @@
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/technique/TTecDeband.h"
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
+#include "pso/unk/text_803D853C.h"
 
 // load_resources fills these per kind (0 and 1) from TLobby::register_boss,
 // TLobby::dispatch_shared_handler_b, TLobby::register_object and
@@ -88,7 +89,6 @@ void move_with_wall_slide(u8 *arg0);
 
 extern "C" {
 void TObjEneMe3SinowZoa__sub_80316840(TObjEneMe3SinowZoa *self);
-void debug_printf_at(s32 id, const char *fmt, ...);
 s32 scale_matrix(int, f32, f32, f32);
 s32 post_translate_matrix(void *);
 s32 select_enemy_destination(void *, Vec, int);
@@ -96,7 +96,6 @@ s32 copy_position_if_valid__10TObjPlayerFii(void *, Vec);
 }
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
-s32 matrix_mult_vec(int, void *, void *);
 void TObjEneMe3SinowZoa__sub_80316C3C(TObjEneMe3SinowZoa *self, s32 mode);
 u16 get_entity_id(int);
 s32 check_move_collision__18TObjEneMe3SinowZoaFPvPv(TObjEneMe3SinowZoa *self, const Vec *pos);

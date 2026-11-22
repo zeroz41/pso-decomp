@@ -32,6 +32,7 @@
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/object/switch/TOSwitchItem.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/system/MatrixOps.h"
 
 
 LAYOUT_ASSERT(Thanks_current_motion, offsetof(TBoss6Thanks,current_motion)==0x20);
@@ -52,7 +53,6 @@ struct ThanksMotionHeader
 
 extern "C" {
 
-s32 scale_matrix(int, f32, f32, f32);
 s32 post_translate_matrix(const void *);
 
 }

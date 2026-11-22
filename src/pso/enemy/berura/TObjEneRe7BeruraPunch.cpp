@@ -16,6 +16,7 @@
 #include "pso/enemy/AttackTargetHistory.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/system/MatrixOps.h"
 
 #pragma readonly_strings on
 
@@ -49,7 +50,6 @@ s32 TObjEneRe7Berura__sub_80094D98();
 
 void TObjEneRe7Berura__sub_80094C68(TObjEneRe7Berura *self);
 s32 post_translate_matrix(void *);
-s32 scale_matrix(s32, f32, f32, f32);
 
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
@@ -191,7 +191,6 @@ CollisionBody TObjEneRe7BeruraPunch__collision_body_templates[2] = {
     {{0.0f, 0.0f, 0.0f}, 3.0f, 0.0f, 0, 0x9D03, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 extern const char *TObjEneRe7BeruraPunch__name;
-void vec3_add_to(void *, void *);
 
 void TObjEneRe7BeruraPunch__sub_800962F4(TObjEneRe7BeruraPunch *p);
 

@@ -31,6 +31,8 @@
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/unk/text_800870BC.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/npc/TNpcPlayer_800D87A8.h"
 
 static const char balclaw_body_class_name_text[] = "TObjEneBalClawBody";
 
@@ -70,24 +72,20 @@ extern void *tl_04;
 
 extern "C" {
 extern s32 lbl_805D5870;
-extern u8 identity_matrix[];
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 s32 TObjPlayer__sub_800A04F0(void *);
 s32 TObjPlayer__sub_800A0554(void *);
 s32 check_path_obstructed(void *, void *);
-TObjChara *find_active_entity_by_id(u16);
 s32 fn_80090464(void *, int);
 s32 minimap_render_dot(void *, int, int, int);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 s32 post_translate_matrix(void *);
 void queue_destruction__7TObjectFv(void *arg0);
-s32 rotate_matrix_x(s32, s32);
 s32 select_enemy_destination(void *, Vec, s32);
 void send_6x2F_change_player_hp(s32 arg0, s32 arg1, s32 arg2);
 s32 submit_cursor_candidate(void *, int, int, f32, f32);
 int update_if_active__15TObjEnemyCustomFl(void*, int);
-void vec3_add_to(Vec *, Vec *);
 }
 
 // Picks this part's model and texture list (index into the Bal Claw BML models).

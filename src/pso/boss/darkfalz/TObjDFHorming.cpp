@@ -39,6 +39,8 @@
 #include "pso/object/TObjControl.h"
 #include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/unk/TLobby_8030A834.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixVector.h"
 
 #pragma readonly_strings on
 
@@ -182,8 +184,6 @@ E_8004AB90 dark_falz_push_zone_table[3] = {
 
 
 extern "C" {
-s32 vec3_add_to(void *, void *);
-f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
 f32 xyz_distance(void *, void *);
 extern s32 lbl_805D5868;

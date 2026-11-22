@@ -21,6 +21,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/render/model_render_state.h"
 #include "pso/unk/text_803E2D70.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
 struct TBoss2MineMovement {
     f32 target_range;
@@ -60,8 +61,6 @@ f32 atan2_float(f32 y, f32 x);
 f32 newton_sqrtf(s32, f32, f32, f32);
 
 extern void *lbl_805D28BC;
-
-void free_collision_body_parts(void *);
 
 __declspec(section ".data") s32 boss2_mine_params[2] = { 0x11, 0x11 };
 

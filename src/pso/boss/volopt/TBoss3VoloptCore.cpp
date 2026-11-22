@@ -23,6 +23,7 @@
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/camera/TCameraCtrl_8006A03C.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 // The actors check_target_collision hits, with slot 25 as it is called here:
 // the base declares apply_knockback_from_attacker(u8 *) without the strength.
@@ -57,7 +58,6 @@ void set_matrix_identity(s32 matrix, f32 scale);
 void rotate_vector_by_matrix(saddr matrix, Vec *src, Vec *dst);
 void free_collision_body_parts(TObjEnemyCustom *object);
 void init_collision_body_parts(TObjEnemyCustom *object, TBoss3VoloptCoreBodyPart *parts, s32 count);
-void obj_setFlags30(TObjEnemyCustom *object, u32 flags);
 s32 obj_is_hit_receivable(u8 *arg0);
 }
 void reset_status_effect_row(u8 *row);

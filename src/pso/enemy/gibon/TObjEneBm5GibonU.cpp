@@ -56,6 +56,7 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/player/TPlyDispData.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/unk/text_80086D50.h"
+#include "pso/math/MatrixVector.h"
 
 // The motion-binding block TLobby::spawn_npc_enemy takes (same layout as GeeAnimationBinding).
 
@@ -475,7 +476,6 @@ s32 select_enemy_destination(void *, Vec, s32);
 void copy_position_if_valid__10TObjPlayerFii(void *, Vec);
 f32 newton_sqrtf(f32);
 void *spawn_directional_particle(void *pos, void *dir, s32 id);
-void rotate_vector_by_matrix(saddr, void *, void *);
 void subtract_vector(void *, void *);
 extern u8 identity_matrix[];
 extern saddr tl_07;
@@ -2529,6 +2529,7 @@ void TObjEneBm5GibonU::sub_800D10A0() {
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/enemy/sinowzoa/TObjEneMe3SinowZoa.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
 // The Gibbon's static data from TObjEneBm5GibonU__data_80500E78 on: the parameter tables, then
 // the two lists, each after the destructor-chain record __register_global_object fills in.
@@ -2545,12 +2546,10 @@ void TObjEneBm5GibonU__sub_800D1CF8(TObjEneBm5GibonUNode *self);
 void __register_global_object(void *obj, void *dtor, void *chain);
 void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
 void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
-void free_collision_body_parts(void *);
 void __dl__7TObjectFPv(void *);
 void __destroy_arr(void *, void *, u32, u32);
 void *__dt__15RenderFadeStateFv(void *arg0, s16 arg1);
 void __ct__12TObjEneDD_STFP7TObject(void *, s32, s32);
-void init_collision_body_parts(TObjCollidable *, const CollisionBody *, s32);
 void *__ct__14TObjCollidableFP7TObject(void *, s32);
 void __construct_array(void *, void *, void *, int, int);
 void __ct__15RenderFadeStateFv();

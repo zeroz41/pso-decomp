@@ -13,6 +13,9 @@
 #include "pso/boss/galgryphon/TBoss5GryphonLightningHorn.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixTransforms.h"
 
 #pragma readonly_strings on
 
@@ -36,12 +39,9 @@ typedef struct Wing_80326074 {
 } Wing_80326074;
 
 extern "C" {
-f32 vec3_dot(void *, void *);
 void apply_lightning_hit(s32, void *, f32);
 Ctl_80325F7C *get_player_by_client_id(s32);
 void project_point_onto_line(void *, void *, void *);
-void vec3_add_to(void *, void *);
-void subtract_vector(void *, void *);
 extern const f32 lbl_805D8D48;
 s32 TBoss5GryphonLightning__ct(f32);
 f32 sin_table_lookup(int);

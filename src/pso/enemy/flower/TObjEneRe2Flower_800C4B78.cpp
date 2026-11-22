@@ -20,6 +20,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/math/MatrixTransforms.h"
 
 
 typedef struct Coll_800C4A5C {
@@ -63,7 +64,6 @@ typedef struct Obj_800C55E0 {
 } Obj_800C55E0;
 
 extern "C" {
-s32 subtract_vector(void *, void *);
 
 void * player_render_texture_buffer;
 void release_texture_list(void *);

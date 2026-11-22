@@ -42,6 +42,7 @@ struct NJS_OBJECT;
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/TObjControl.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 struct Obj_800E9BCC {
     u8 pad0[0x38];
@@ -59,7 +60,6 @@ extern "C" {
 s32 project_actor_to_ground(TObjChara *actor, Vec *position, Vec *normal);
 
 
-f32 atan2_float(f32 y, f32 x);
 u32 csnLookAt(void *, void *);
 s32 vec3_add_to(void *, void *);
 f32 vector_length(void *);
@@ -102,7 +102,6 @@ S_800E80E8 * TObjPlayer__sub_800E80E8(S_800E80E8 *dst, S_800E80E8 *src);
 void TObjPlayer__sub_800E8128(NJS_OBJECT *);
 void TObjPlayer__sub_800E81A8(void);
 s16 check_player_field_7cc__15TObjEneSlimeOneFv();
-int get_entity_id(void *);
 void free_collision_body_parts(void *);
 s32 scale_matrix(int, f32, f32, f32);
 s32 rotate_matrix_z(int, int);

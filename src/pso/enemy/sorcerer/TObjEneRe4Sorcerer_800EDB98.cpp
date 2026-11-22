@@ -108,6 +108,7 @@ void TObjEneRe4Sorcerer__sub_800EFE30(void);
 #include "pso/technique/TTecResta.h"
 
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 extern "C" {
 void TObjEneRe4Sorcerer__sub_800EF214(TObjEneRe4Sorcerer *self);
 
@@ -188,8 +189,6 @@ void calc_wall_clamped_destination(void *self, void *arg1, f32 dx, f32 dz, f32 d
 void *destroy_buffer_pair(void *arg0, s16 arg1);
 extern "C" {
 s32 approach_angle_limited(s32, s32, s32);
-
-s32 free_collision_body_parts(void *);
 
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 

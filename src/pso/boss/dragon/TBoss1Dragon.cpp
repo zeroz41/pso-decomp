@@ -101,6 +101,7 @@ struct Obj_80021260;
 #include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/render/MaterialAlphaCompare.h"
 #include "pso/object/TObjControl.h"
+#include "pso/render/render_util.h"
 
 
 struct DragonCaptureVectors { DragonModelVector vectors[3]; };
@@ -178,7 +179,6 @@ s32 vec3_add_to(void *, void *);
 extern u8 *TBoss1Dragon__part_hp_stats[5];
 
 f32 newton_sqrtf(f32);
-f32 horizontal_distance_squared(void *, void *);
 
 void send_state_sync__12TBoss1DragonFPv(TBoss1Dragon *s);
 void TBoss1Dragon__sub_80028BE0(u8 *self);
@@ -545,8 +545,6 @@ void *lbl_80481280[107] = {
 
 void TBoss1Dragon__sub_800274A4(saddr self);
 
-s32 approach_angle_limited(s32 from, s32 to, s32 max_step);
-
 f32 atan2_float(f32 y, f32 x);
 void TBoss1Dragon__sub_80028AFC(TBoss1Dragon *);
 }
@@ -565,7 +563,6 @@ void update_from_data__12TBoss1DragonFv(void);
 void sweep_body_attack_spheres__12TBoss1DragonFv(u8 *dragon, f32 a, f32 b, f32 c);
 s32 check_flag_100__10TObjPlayerFPv();
 u8 *get_enemy_entity(u16 arg0);
-s32 angle_diff_s16(s32, s32);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 void *init_base__13TUnk_80481B34Fv(void *arg0);
 void __ct__13TUnk_804928CCFP7TObjectP8TObjBase(void *);

@@ -22,6 +22,8 @@
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/math/MatrixTransforms.h"
 
 struct RecoveredGlobal_8036D4E0_lbl_8047ACE8 {
     s32 value;
@@ -81,8 +83,6 @@ __declspec(section ".rodata") RecoveredGlobal_8036D4E0_lbl_8047ACE8 boss6_rock_c
     4, { 0x41, 0xA0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x41, 0xF0, 0x00, 0x00 }
 };
 const char *TBoss6RockChase__name = TBoss6RockChase__class_name_string;
-f32 vector_length(void *);
-int subtract_vector(void *, void *);
 extern RecoveredGlobal_8036D4E0_lbl_8047ACE8 boss6_rock_chase_model_radius_table;
 int post_translate_matrix(void*);
 int rotate_matrix_z(void*, void*);

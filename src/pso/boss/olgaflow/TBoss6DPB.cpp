@@ -20,6 +20,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/math/MatrixTransforms.h"
 
 struct V_8035D8B0 { s32 a; f32 b; s32 c; };
 
@@ -88,8 +90,6 @@ extern "C" {
 
 s32 play_sound_effect(s32, u32, int, s32);
 
-f32 vector_length(void *);
-void subtract_vector(void *, void *);
 }
 
 #pragma push

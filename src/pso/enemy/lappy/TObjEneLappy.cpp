@@ -218,6 +218,7 @@ VA
 #include <stddef.h>
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/enemy/AreaSoundRemap.h"
+#include "pso/npc/TNpcPlayer_800D87A8.h"
 struct VPad18 { char pad[0x18]; };
 
 struct VCls18 : VPad18 {
@@ -393,7 +394,6 @@ s32 rappy_alternate_texture_list;
 extern s32 model_render_flags;
 void render__12TObjEneLappyFv(u8 *arg0);
 void TObjPlayer__sub_800BFF54(void * _w0);
-u8 *find_active_entity_by_id(u16);
 s32 minimap_render_dot(void *, int, int, int);
 void run_task__12TObjEneLappyFv(u8 *arg0);
 s32 check_path_obstructed(void *, void *);

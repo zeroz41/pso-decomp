@@ -48,6 +48,8 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/text_80086D50.h"
 #include "pso/render/BlobShadow.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/math/MatrixVector.h"
 
 
 struct Stack_800DDFDC
@@ -186,7 +188,6 @@ struct Obj_800DD8AC { u8 pad0[0xB0]; u32 flags; u8 padb4[0xC0 - 0xB4]; f32 fc0; 
 
 
 extern "C" {
-s32 obj_setFlags30(void *, int);
 int TObjEnePanarms__sub_800E1D94(void *);
 s32 spawn_continuous_particle_with_direction(void *, void *, int, int);
 void *spawn_directional_particle(void *pos, void *dir, s32 id);
@@ -198,7 +199,6 @@ s32 TObjEnePanarms__sub_800DFB9C(void *);
 s32 TObjEnePanarms__sub_800DFBB0(void *);
 f32 atan2_float(f32 y, f32 x);
 s32 approach_angle_limited(s32, s32, s32);
-f32 vector_length(void *);
 void TObjEnePanarms__sub_800E1D38(void *arg0);
 s32 TObjEnePanarms__sub_800DE528(void *arg0, Vec *arg1);
 s32 subtract_vector(void *, void *);
@@ -229,7 +229,6 @@ struct VFade_800DEF5C {
 };
 
 extern "C" {
-s32 is_split_screen();
 extern s32 model_render_flags;
 extern s32 saved_model_render_flags;
 s32 minimap_render_dot(void *, s32, s32, s32);

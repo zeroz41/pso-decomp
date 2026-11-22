@@ -53,6 +53,9 @@ struct Pl_800D5614 { u8 pad0[0x38]; u8 pos[0xC]; };
 #include "pso/ui/TLevelSelect.h"
 #include "pso/unk/text_800D8830.h"
 #include "pso/math/ScratchVectors.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/map/CsnQuery.h"
+#include "pso/math/MatrixTransforms.h"
 
 #pragma readonly_strings on
 
@@ -481,7 +484,6 @@ uaddr TObjEneMerillLia__rock_param_table;
 uaddr TObjEneMerillLia__entry_params_resource;
 extern s32 game_difficulty_selection;
 void run_move_action__16TObjEneMerillLiaFv(Ene_800D51C8 *arg0);
-s32 obj_setFlags30(void *, s32);
 void beast_update_appear__16TObjEneMerillLiaFv(Ene_800D64F0 *arg0);
 void run_attack_action__16TObjEneMerillLiaFv(Ene_800D52DC *arg0);
 s32 minimap_render_dot(void *, int, int, int);
@@ -496,14 +498,12 @@ void beast_update_approach__16TObjEneMerillLiaFv(u8 *arg0);
 extern s32 actor_frame_tick;
 void spawn_ground_effect__16TObjEneMerillLiaFPv(u8 *motion);
 f32 enemy_backstep_from_point(void *, void *, f32);
-u32 csnVector(void *, void *, s32);
 void beast_update_group_chase__16TObjEneMerillLiaFv(Obj_800D6110 *arg0);
 f32 fabs_float(f32);
 f32 atan2_float(f32 y, f32 x);
 void link_chain_nodes__10TObjPlayerFPvPvPv(void *, void *, void *);
 s32 approach_angle_limited(s32, s32, s32);
 s32 project_actor_to_ground(void *, void *, s32);
-s32 subtract_vector(void *, void *);
 void TObjEneMerillLia__sub_800D5BCC(u8 *arg0);
 void * TObjEneMerillLia__create(void *arg0);
 void run_demo_task__16TObjEneMerillLiaFv(void);
@@ -515,7 +515,6 @@ void free_collision_body_parts(void *);
 void *TObjEneMerillLia__ct(void *, void *, void *);
 void *__dt__13TUnk_80493450Fv(void *arg0, s16 arg1);
 void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
-s32 is_split_screen(void);
 void TObjEneMerillLia__sub_800D6D64(void);
 
 extern "C" void vfunc_6__8TObjBaseFPsl();

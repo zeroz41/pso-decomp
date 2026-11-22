@@ -80,6 +80,7 @@ struct Type3MotionView { s32 kind, flags, motions[3]; };
 #include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
 #include "pso/player/TObjPlayer_80052374.h"
 #include "pso/player/TObjPlayer_803E1A58.h"
+#include "pso/math/MatrixVector.h"
 
 #pragma defer_codegen on
 
@@ -176,7 +177,6 @@ union TypedVector_80059B78 {
 extern "C" {
 saddr VecCopy__FP3VecPC3Vec(void *, void *);
 s32 vec3_add_to(void *, void *);
-f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
 f32 atan2_float(f32 y, f32 x);
 s32 pick_random_target_player__11TBoss4Type3Fv(void);
@@ -367,7 +367,6 @@ void __ct__7TObjectFP7TObject(void *);
 s32 create__9TTecMegidFllll(void *, Vec *, u8 *, s32);
 void TBoss6PlotFalz__sub_802AC008(f32 farg0, f32 hp_ratio);
 s32 matrix_mult_vec(int, void *, void *);
-void set_matrix_identity(u8 *arg0);
 f32 xyz_distance(Vec *, Vec *);
 
 extern void* __vt__13TObjBs4CutAtk[];

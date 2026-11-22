@@ -11,6 +11,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/math/MatrixVector.h"
 
 #pragma readonly_strings on
 
@@ -74,7 +75,6 @@ u8 *csnVector(f32 *, f32 *, s32);
 void init_collision_body_parts(void *, void *, int);
 void *__ct__14TObjCollidableFP7TObject(void *, void *);
 void __ct__7TObjectFP7TObject(void *, void *);
-f32 vector_length(Vec *);
 extern s32 __vt__12TNeedleShoot[];
 extern void *tl_06;
 TNeedleShoot_802A47C8 *TNeedleShoot__ct(TNeedleShoot_802A47C8 *self, s32 owner, Vec *from, Vec *to);

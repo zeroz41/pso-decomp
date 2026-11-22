@@ -67,6 +67,7 @@ struct VObj_80301690_80300CE4 : Base_80301690_80300CE4 {
 #include "pso/system/SoundEffect.h"
 #include "pso/unk/text_800D8830.h"
 #include "pso/object/TObjControl.h"
+#include "pso/math/MatrixTransforms.h"
 
 struct RecoveredGlobal_80300FC0_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
 LAYOUT_ASSERT(RecoveredGlobal_80300FC0_lbl_8058D490_size, sizeof(RecoveredGlobal_80300FC0_lbl_8058D490) == 0x30);
@@ -402,7 +403,6 @@ extern uaddr TObjEneDolmOlm__behavior_params_by_variant;
 s32 is_split_screen();
 s32 restore_scene_lighting();
 s32 select_actor_lighting(void *);
-s32 translate_matrix(int, f32, f32, f32);
 }
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
@@ -416,7 +416,6 @@ s32 get_entity_id(void *);
 f32 atan2_float(f32 y, f32 x);
 s32 angle_difference_abs(s32, s32);
 s32 minimap_render_dot(void *, int, int, int);
-void subtract_vector(void *, void *);
 extern const f64 lbl_804750C8[];
 }
 struct Elem_80301C3C { u8 pad[0xC]; f32 r; u8 pad2[0x1C]; };

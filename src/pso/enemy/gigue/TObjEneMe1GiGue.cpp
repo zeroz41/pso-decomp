@@ -48,6 +48,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
 s32 get_gigue_int_parameter(TObjEneMe1GiGue *, s32);
 f32 get_gigue_float_parameter(TObjEneMe1GiGue *, s32);
@@ -82,7 +83,6 @@ void TObjEneMe1GiGue__sub_802CC900(TObjEneMe1GiGue *gigue);
 void TObjEneMe1GiGue__sub_802CCBAC(TObjEneMe1GiGue *gigue);
 void TObjEneMe1GiGue__sub_802CD054(TObjEneMe1GiGue *gigue);
 TObjEneMe1GiGue *deleting_dtor__15TObjEneMe1GiGueFPvs(TObjEneMe1GiGue *self, s16 del);
-s32 project_actor_to_ground(void *, void *, s32);
 extern s32 registered_player_count;
 f32 atan2_float(f32 y, f32 x);
 s16 get_entity_id(void *);
@@ -95,7 +95,6 @@ s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
 s32 create__9TTecJelinFllll(void *, void *, void *, s32);
-void check_enemy_body_collisions(void *arg0);
 s32 check_path_obstructed(void *, Vec *);
 s32 enemy_turn_half_toward_dest(void *);
 s32 is_split_screen();
@@ -110,13 +109,11 @@ void TObjEneMe1GiGueBarrier__sub_80325CC0(void);
 extern void *tl_04;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
-void free_collision_body_parts(void *);
 void *__dt__15RenderFadeStateFv(void *arg0, s16 arg1);
 void *__dt__15TObjEnemyCustomFv(void *arg0, s16 arg1);
 void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
 s32 obj_setFlags30(void *, int);
 s32 __ct__15TObjEnemyCustomFP7TObject(void *, TObject *);
-s32 init_collision_body_parts(void *, void *, int);
 
 // The vtable entries, by their linker names.
 void receive_weapon_special_attack__15TObjEneMe1GiGueFPvPv();

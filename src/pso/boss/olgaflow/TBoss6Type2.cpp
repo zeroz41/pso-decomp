@@ -49,6 +49,8 @@
 #include "pso/boss/olgaflow/TBoss6Type2_8032E708.h"
 #include "pso/boss/olgaflow/TBoss6Type2_80356E50.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/player/TObjPlayer_803E1A58.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
 // One row per body motion. update_motion_tracks loops a mode 0 row, holds a
 // mode 2 row on its last frame and goes on to row `next`.
@@ -130,20 +132,17 @@ s32 submit_cursor_candidate(void *, int);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 void TBoss6Type2__sub_802BA7BC(u8 *o);
 void *get_player_by_client_id(s32 i);
-f32 xyz_distance(void *, void *);
 void TBoss6Type2__sub_802BA598(TBoss6Type2 *self, s32 elapsed, s32 duration);
 }
 void draw_model_blend_motion(void *model, void *motion, f32 blend_factor);
 extern "C" {
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
-s32 init_collision_body_parts(void *, void *, int);
 void TBoss6Type2__sub_802BA7B0(void* p);
 s32 TBoss6Type2__sub_802BB694(TBoss6Type2 *self);
 void TBoss6Type2__sub_802BB818(TBoss6Type2 *self, f32);
 void TBoss6Type2__sub_802BBC74(TBoss6Type2 *self);
 void TBoss4DarkFalz__sub_8004B4F0(void *dst, void *src);
-void free_collision_body_parts(void *);
 void set_screen_pos__11TBoss6Type2FPv(void *self);
 void TBoss6Type2__sub_802BE4E0(s32 *arg0, s32 *boss6_type2_zero_vec);
 void TBoss6Type2__sub_802BD938(TBoss6Type2 *self, u8 *arg1);
@@ -344,7 +343,6 @@ u16 obj_getArrU16_FC(void *obj, s32 i);
 u16 get_entity_id(void *);
 s32 is_split_screen();
 void request_follow_camera_offsets(void *arg0, void *arg1, u16 arg2);
-s32 project_actor_to_ground(void *, void *, int);
 f32 TBoss6PlotFalz__sub_802AB684(void *);
 void TBoss6PlotFalz__sub_802AC724(void *, void *);
 void world_to_grid_pos__11TBoss6Type2FPvPvPv(f32 *arg0, s8 *arg1, s8 *arg2);

@@ -34,6 +34,8 @@ struct Mine_80368C14 { u8 pad[0x38]; Vec pos; };
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixVector.h"
 
 #pragma readonly_strings on
 struct VBase_18_5673ef { char pad[0x18]; };
@@ -120,10 +122,8 @@ void *__vt__13TBoss6MagMine[11] = {
     (void *)0x0, (void *)0x0, (void *)0x803b, (void *)0x0,
     (void *)0x0, (void *)0x0, (void *)0x0,
 };
-void vec3_add_to(void *, void *);
 void vt2__13TBoss6MagMineFv(u8 *arg0);
 void vt1__13TBoss6MagMineFv(u8 *self);
-f32 vector_length(Vec *);
 void subtract_vector(Vec *, void *);
 void explode__13TBoss6MagMineFPv(Mine_80368C14 *o);
 s32 get_field_0x42c__13TBoss6MagMineFPv(void* p);

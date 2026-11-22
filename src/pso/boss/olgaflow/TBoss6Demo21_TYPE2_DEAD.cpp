@@ -31,6 +31,7 @@
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/math/MatrixVector.h"
 
 struct EmitterSchedule { s32 start; s32 end; s32 id; };
 
@@ -45,7 +46,6 @@ extern "C" {
 extern void *__vt__23TBoss6Demo21_TYPE2_DEAD[];
 void __ct__7TObjectFP7TObject(void *, TObject *);
 void vec3_add_to(void *, void *);
-f32 vector_length(void *);
 void subtract_vector(void *, void *);
 #define __vt__23TBoss6Demo21_TYPE2_DEAD ((u8 *)__vt__23TBoss6Demo21_TYPE2_DEAD)
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);

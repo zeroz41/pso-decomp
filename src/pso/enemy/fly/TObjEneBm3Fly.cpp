@@ -28,6 +28,10 @@
 #include "pso/enemy/moja/TObjEneMoja.h"
 #include "pso/unk/TLobby.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 #pragma defer_codegen on
 
@@ -43,19 +47,13 @@ u8 * lbl_805D50E8;
 Bm3FlyParameters * lbl_805D50EC;
 BmlResource * bm3_fly_nest_resources;
 TUnk_8048FA00 * TObjEneBm3Fly__breakup_model;
-s32 vec3_add_to(void *, void *);
-f32 vec3_dot(void *, void *);
-s32 subtract_vector(void *, void *);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 void TObjEneBm3Fly__play_orbit_flight_sound(TObjEneBm3Fly *fly);
 f32 calc_scaled_value__15TObjBoss2TunnelFlf(int, int, f32, f32);
 void TObjEneBm3Fly__sub_800B02C8(TObjEneBm3Fly *ene_bm3_fly, s32 msg);
-f32 atan2_float(f32, f32);
 extern const f32 lbl_805D9E80;
 s32 is_vec_xz_cross_negative(void *, void *);
 void TObjEneBm3Fly__sub_800B0F70(TObjEneBm3Fly *self, s32 msg);
-f32 fabs_float(f32);
-u16 get_entity_id(void *);
 void TObjEneBm3Fly__sub_800B0B20(TObjEneBm3Fly *ene_bm3_fly, s32 msg);
 void free_collision_body_parts(void *);
 extern void *tl_04;

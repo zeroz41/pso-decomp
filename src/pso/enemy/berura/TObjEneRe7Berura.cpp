@@ -39,6 +39,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/map/CsnQuery.h"
 
 #pragma defer_codegen on
 extern "C" {
@@ -96,7 +97,6 @@ s32 TObjEneRe7Berura__sub_80094DB4(TObjEneRe7Berura *);
 struct Mtx_8009503C { f32 m[3][4]; };
 extern "C" {
 s32 VecCopy__FP3VecPC3Vec(void *, void *);
-u32 csnLookAt(Vec *, Vec *);
 void TObjEneRe7Berura__sub_80093888(TObjEneRe7Berura *actor, s32 reason);
 
 
@@ -110,7 +110,6 @@ s32 TObjPlayer__sub_800A0554(void *);
 
 
 
-s32 clear_attack_receipts();
 s32 angle_diff_s16(s32);
 void free_collision_body_parts(void *);
 }

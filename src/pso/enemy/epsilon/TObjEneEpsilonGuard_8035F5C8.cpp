@@ -33,6 +33,7 @@ struct NJS_OBJECT;
 #include "pso/render/model_render_state.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/text_803D853C.h"
 
 #pragma inline_depth(1)
 // Joint index per guard slot and the joint-local point the guard angle is measured from (sub_803606A0).
@@ -48,7 +49,6 @@ u8 *lbl_805D6F88;
 EpsilonBodySharedParams *lbl_805D6F8C;
 extern "C" {
 
-s32 matrix_mult_vec(int, void *, void *);
 extern BmlResource *lbl_805D6FA0;
 s32 draw_chunk_object();
 void TObjEneEpsilonGuard__sub_80360BF8(TObjEneEpsilonBody *body, s32 reason);

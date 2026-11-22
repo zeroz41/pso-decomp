@@ -87,6 +87,7 @@
 #include "pso/object/TObjControl.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
+#include "pso/system/MatrixOps.h"
 
 #pragma readonly_strings on
 
@@ -295,15 +296,11 @@ s32 init_collision_body_parts(void *, void *, int);
 s32 project_actor_to_ground(void *, void *, int);
 
 
-s32 vec3_add_to(void *, void *);
-
 s32 matrix_mult_vec(int, void *, void *);
 
 f32 vector_length(void *);
 
 void rotate_vector_by_matrix(int, void *, void *);
-
-s32 rotate_matrix_z(int, int);
 
 
 s32 post_translate_matrix(s32);
@@ -399,8 +396,6 @@ void *lbl_804907AC[4] = {
 Vec lbl_804907BC[4] = {
     {0.0f, 10.0f, 2.0f}, {0.0f, 10.0f, -2.0f}, {2.0f, 10.0f, 0.0f}, {-2.0f, 10.0f, 0.0f},
 };
-
-extern u8 identity_matrix[];
 
 saddr lbl_805D5004;
 

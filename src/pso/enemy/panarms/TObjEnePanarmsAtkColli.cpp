@@ -15,6 +15,9 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/TObjControl.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/system/SoundEffect.h"
 
 // Stored in the object name field by the constructor.
 const char *TObjEnePanarmsAtkColli_class_name = "TObjEnePanarmsAtkColli";
@@ -108,8 +111,6 @@ extern s32 registered_player_count;
 void check_radius_collisions(Obj_800E35C8 *target);
 void fn_800E322C(void *p, void *t);
 void vec3_add_to(void *, void *);
-f32 vector_length(void *);
-void subtract_vector(void *, void *);
 ModelNodePositionCapture::ModelNodePositionCapture(const ModelNodePositionEntry *entries, Vec *positions) {
     this->entries = entries;
     this->positions = positions;
@@ -343,7 +344,6 @@ struct Obj_800E37E4 {
 
 extern "C" {
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-int play_sound_effect(s32, void *, void *, void *);
 
 void TObjEnePanarmsAtkColli::run_task() {
     u8 *self = (u8 *)this;

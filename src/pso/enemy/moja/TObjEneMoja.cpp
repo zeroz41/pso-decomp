@@ -45,12 +45,13 @@
 #include "pso/object/TObjControl.h"
 #include "pso/unk/text_80086D50.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/math/MatrixTransforms.h"
 
 void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
 extern "C" {
 s32 spawn_dead_spot_scale15(void *, int);
 s32 vec3_add_to(void *, void *);
-s32 rotate_vector_by_matrix(int, void *, void *);
 }
 extern u8 identity_matrix[];
 void move_with_wall_slide(u8 *arg0);
@@ -268,7 +269,6 @@ s32 check_path_obstructed(void *, void *);
 s32 get_entity_id(void *);
 s32 get_current_floor();
 u32 csnVector(void *, void *, int);
-s32 subtract_vector(void *, void *);
 extern s32 lbl_805D5870;
 s32 TObjPlayer__sub_800ACA0C(void *);
 
@@ -294,7 +294,6 @@ extern s32 lbl_805D5868;
 s32 update__15RenderFadeStateFv(void *, s32, s32, s32);
 s32 restore_scene_lighting(s32, s32);
 s32 select_actor_lighting(void *);
-s32 translate_matrix(saddr, f32, f32, f32);
 
 s32 draw_chunk_object(s32);
 extern s32 saved_model_render_flags;

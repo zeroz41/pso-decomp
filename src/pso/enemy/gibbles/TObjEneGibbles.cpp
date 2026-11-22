@@ -47,6 +47,7 @@ extern "C" void test_flag_1000__9TObjCharaFv();
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/camera/TCameraCtrl_8006A03C.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
 
 struct V_802DA7A4Base { u8 pad[0x14]; };
@@ -137,7 +138,6 @@ s16 get_attack_params_atp_min(void *);
 s32 get_current_floor();
 saddr get_enemy_entity();
 void check_enemy_body_collisions(void *arg0);
-s32 submit_cursor_candidate(void *, int);
 s32 minimap_render_dot(void *, int, int, int);
 s32 TObjEneGibbles__sub_802D9644(void *, s32, f32);
 void TObjEneGibbles__sub_802D8E8C(u8 *arg0);

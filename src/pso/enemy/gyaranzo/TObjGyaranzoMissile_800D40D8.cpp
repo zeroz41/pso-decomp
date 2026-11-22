@@ -20,6 +20,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/enemy/AreaSoundRemap.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/system/MatrixOps.h"
 
 struct D_800D40FC { u8 pad[0x18]; s32 arr[1]; };
 
@@ -83,11 +85,7 @@ s32 project_actor_to_ground(void *, void *, int);
 s32 obj_is_hit_receivable();
 void check_enemy_body_collisions(void *arg0);
 
-void rotate_vector_by_matrix(int, void *, void *);
-extern u8 identity_matrix[];
-
 s32 post_translate_matrix(void *);
-s32 rotate_matrix_x(s32, s32);
 
 void TObjEneGyaranzo::run_miss_reaction() {  }
 void TObjEneGyaranzo::run_move_action() {  }

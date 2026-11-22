@@ -83,6 +83,7 @@ struct RecoveredFields_8032F174_arg0
 
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/player/TObjPlayer_803E1A58.h"
 union MemberActionStorage_803301B8 { s32 words[3]; void (TBoss6Type2::*action)(); };
 
 struct T_8032E748 { u8 pad[0x380]; s32 phase; };
@@ -304,7 +305,6 @@ s32 calc_dir_angles__11TBoss6Type2FPvPvPvPv(void *self, s32 *arg1, s32 *arg2, Ve
 void *get_player_by_client_id(s32 i);
 f32 sin_table_lookup(void *);
 f32 cos_table_lookup(void *);
-f32 xyz_distance(void *, void *);
 
 s32 project_actor_to_ground(void *, void *, s32);
 void send_6xAD_grid_positions__11TBoss6Type2FUcll(s32, void *, s32);

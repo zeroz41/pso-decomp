@@ -21,6 +21,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/enemy/AreaSoundRemap.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/system/MatrixOps.h"
 
 
 CollisionBody gyaranzo_missile_collision_body_b = {{0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, 0, 0x8001, {0.0f, 0.0f, 0.0f}, 0.0f};
@@ -52,11 +53,9 @@ struct Col_800D4990 { u8 pad[0xC]; f32 radius; u8 pad10[0x18 - 0x10]; u32 flags;
 extern "C" {
 u16 get_entity_id(void *);
 s32 init_collision_body_parts(void *, void *, int);
-extern f32 identity_matrix[12];
 extern BmlResource *gyaranzo_bml_resource;
 extern saddr tl_04;
 s32 matrix_mult_vec(int, int, int);
-s32 rotate_matrix_x(int, int);
 extern f32 TObjGyaranzoMissile__speed_scale;
 void check_enemy_body_collisions(void *);
 Target_800D4990 *find_active_entity_by_id(u16);
@@ -65,7 +64,6 @@ s32 get_gyaranzo_missile_int_parameter(s32 i);
 void direction_to_rotation_xy(u8 *dir, s32 *rot_a, s32 *rot_b);
 extern "C" {
 s32 project_actor_to_ground(void *, void *, int);
-int vec3_add_to(void *, void *);
 extern const f32 TObjGyaranzoMissile__max_range;
 extern s32 gyaranzo_missile_volley_end_time;
 s32 post_translate_matrix(void *);

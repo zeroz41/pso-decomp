@@ -22,6 +22,10 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/MatrixOps.h"
 
 
 const char TBoss6GravBall__class_name_string[] = "TBoss6GravBall";
@@ -119,16 +123,12 @@ void TBoss6GravBall::render() {  }
 
 
 extern "C" {
-f32 vector_length(void *);
-void subtract_vector(void *, void *);
 
 
 void TBoss6GravBall__sub_803236F8(TBoss6GravBall *boss6_grav_ball);
 s32 project_actor_to_ground(void *, void *, int);
 
 
-u16 get_entity_id(void *);
-void vec3_add_to(void *, void *);
 void TBoss6PlotFalz__sub_802AC724(void *, void *);
 
 
