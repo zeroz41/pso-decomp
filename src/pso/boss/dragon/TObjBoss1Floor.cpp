@@ -72,7 +72,7 @@ void render__14TObjBoss1FloorFv(void) {
         model_render_flags = 1;
         set_draw_list_mask(3);
         TObjPlayer::draw_if_all_ready();
-        TObjFish::set_global_param(dragon_common_texture_list);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(dragon_common_texture_list));
         temp_r31 = (unsigned char *) (*(void **)((s8 *)(*(void **)((s8 *)lbl_805D4B50 + 0x42C)) + 0x58));
         render_projected_shadow_receiver((u8 *)(temp_r31 + 8), (saddr)(temp_r31 + 0x14));
         draw_ginja_model(*(void **)(temp_r31 + 4));
@@ -142,7 +142,7 @@ void TObjBoss1Floor__sub_8002CB78(void) {  }
 
 void TObjBoss1MokoHill_Solo::render() {
     u8 *self = (u8 *)this;
-    TObjFish::set_global_param(dragon_common_texture_list);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(dragon_common_texture_list));
     update_dragon_trail_uvs((u8 *)&this->m_28);
     push_matrix();
     translate_matrix(0, this->m_28, (f32) (*(f32 *)((s8 *)self + 0x34)), this->m_30);

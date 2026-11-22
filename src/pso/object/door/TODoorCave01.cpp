@@ -188,7 +188,7 @@ void TODoorCave01::update_door_switch_state() {
 void TODoorCave01::draw_switch_light(NJS_OBJECT *node, s32 lit) {
     u32 flags;
     NJS_OBJECT *child;
-    TObjFish::set_global_param((saddr)texture_lists[lit]);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texture_lists[lit]));
     push_matrix();
     translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
     draw_ginja_model((void *)node->model);
@@ -233,7 +233,7 @@ void TODoorCave01::render() {
                 node = node->sibling;
             } while (i < 4);
         } else {
-            TObjFish::set_global_param((saddr)texture_lists[1]);
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texture_lists[1]));
             draw_ginja_model_with_motion(model, motion, animation_frame);
         }
         pop_matrix();

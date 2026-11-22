@@ -606,7 +606,7 @@ void TObjGrass::render() {
         return;
     }
     select_actor_lighting((saddr)self);
-    TObjFish::set_global_param(*(s32 *)((s8 *)arg0 + 0x24));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(*(s32 *)((s8 *)arg0 + 0x24)));
     push_matrix();
     translate_matrix(0, (0.0f), *(f32 *)((s8 *)arg0 + 0x35C), (0.0f));
     post_translate_matrix(arg0 + 0x38);

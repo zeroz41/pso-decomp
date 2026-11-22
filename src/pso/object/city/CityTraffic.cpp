@@ -476,7 +476,7 @@ void TObjCityAirCar_Car::render() {
         if ((s32) this->m_9c != 0) {
             rotate_matrix_z(0, this->rotation_z);
         }
-        TObjFish::set_global_param((saddr)city_common_texture_list);
+        TObjFish::set_global_param(city_common_texture_list);
         draw_chunk_object(get_city_common_model(city_aircar_model_indices[this->m_9c]));
         TParticleCtrl::begin_effect_render();
         draw_ginja_object(get_city_common_model(city_air_car_model_index_table[this->m_9c]));
@@ -486,7 +486,7 @@ void TObjCityAirCar_Car::render() {
             if ((s32) this->m_a4 >= 0x14) {
                 texture_entries[2].global_index = texture_entries[0].global_index;
             }
-            TObjFish::set_global_param((saddr)city_air_car_model_handle);
+            TObjFish::set_global_param(city_air_car_model_handle);
             scroll_strip_uvs(air_car_buffer_pair_table[this->m_9c], *(s32 *)((s8 *)this + 0xA0), 0);
             draw_chunk_object((void *)city_air_car_model_resource->models[city_traffic_car_chunk_index_table[this->m_9c]].model);
             city_air_car_model_handle->entries[2].global_index = texture_index;

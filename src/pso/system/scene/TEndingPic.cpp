@@ -136,7 +136,7 @@ void TEndingPic::init_positions() {
 
 void TEndingPic::render() {
     if ((s32) TEndingPic__animation_state != 0) {
-        TObjFish::set_global_param(reinterpret_cast<saddr>(ending_pic_wall_texture_list));
+        TObjFish::set_global_param(ending_pic_wall_texture_list);
         draw_current_pic();
     }
 }

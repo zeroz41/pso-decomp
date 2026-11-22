@@ -268,11 +268,11 @@ block_4:
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param((saddr)boss_warp_base_textures);
+        TObjFish::set_global_param(boss_warp_base_textures);
         draw_ginja_object(boss_warp_base_model);
         if (model != NULL) {
             TParticleCtrl::begin_effect_render();
-            TObjFish::set_global_param((saddr)boss_warp_effect_textures);
+            TObjFish::set_global_param(boss_warp_effect_textures);
             draw_ginja_model_with_motion(model, motion, frame);
             TParticleCtrl::end_effect_render();
         }
@@ -883,10 +883,10 @@ block_4:
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param((saddr)model_handle);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(model_handle));
         draw_ginja_object(base_model);
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param((saddr)effect_textures);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(effect_textures));
         switch (state) {
         case 0:
             draw_ginja_model_with_motion(confirmation_model, motion, frame);

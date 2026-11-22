@@ -808,7 +808,7 @@ void TObjEneDolmOlm::render() {
     if (vis != 0 && ((TObjEneDolmOlm *)self)->render_model_if_visible() == 0) {
     select_actor_lighting(self);
     model_render_flags |= 1;
-    TObjFish::set_global_param(self->f24);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(self->f24));
     push_matrix();
     translate_matrix(0, 0.0f, self->f380, 0.0f);
     post_translate_matrix(self->pos);
@@ -888,7 +888,7 @@ void TObjEneDolmOlm::render() {
 s32 TObjEneDolmOlm::render_model_if_visible() {
     if ((s32)main_task.get_task_flags() & 0x20) {
         if (push_reflection_matrix((Vec *)(((u8 *)this) + 0x3D8)) != 0) {
-            TObjFish::set_global_param(this->texlist);
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
             push_matrix();
             post_translate_matrix((void *) (((u8 *)this) + 0x38));
             rotate_matrix_y(0, this->rotation_y);

@@ -44,7 +44,7 @@ void TObjBoss5Pillar::render() {
     u8 *self = (u8 *)this;
     if (TObjPlayer::is_any_teammate_in_state() == 0) {
         push_matrix();
-        TObjFish::set_global_param(boss5_common_texture_list);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(boss5_common_texture_list));
         post_translate_matrix((u8 *)&this->m_2c);
         if ((s32) this->m_1c != 3) {
             fn_8028ADDC((void *)this->m_48);

@@ -425,7 +425,7 @@ void TObjEnePanarms__sub_800DEEF8(TObjEnePanarms *self) {
     push_matrix();
     post_translate_matrix(&self->position.x);
     rotate_matrix_y(NULL, self->rotation_y);
-    TObjFish::set_global_param(self->texlist);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(self->texlist));
     self->m_39c->install();
     ((TObjMotion *)self)->draw();
     self->m_39c->clear();

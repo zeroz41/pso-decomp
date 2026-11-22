@@ -128,7 +128,7 @@ void TBoss6CrushRock::render() {
         rotate_matrix_y(NULL, angles.y);
         rotate_matrix_x(NULL, angles.x);
         rotate_matrix_z(NULL, angles.z);
-        TObjFish::set_global_param((saddr)texture_list);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texture_list));
         draw_ginja_object(model);
         pop_matrix();
     }

@@ -56,7 +56,7 @@ extern s32 tl_05;
 void TSceneSora::render() {
     if ((s32) TSceneSora__sky_active_flag != 0) {
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)TSceneSora__sky_bml_resource, 0));
+        TObjFish::set_global_param(get_bml_texlist((BmlResource *)TSceneSora__sky_bml_resource, 0));
         push_matrix();
         rotate_matrix_y(0, this->rotation_y);
         if (sky_motion != NULL) {

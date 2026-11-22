@@ -107,7 +107,7 @@ void draw_list_page_indicator(PageIndicator *self, WindowDrawContext *r) {
     pos.y = (r->y + r->h) - 22.0f;
     scale = (-1.0f) / (0.1495f + r->depth);
     begin_screen_draw(1);
-    TObjFish::set_global_param(lbl_805D63F0);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
     set_draw_texture_and_color(0, -1);
     fn_8026C708((u8 *)r, (f32)(4e+01f + pos.x), (f32)(2.0f + pos.y), (f32)scale, (f32)self->arrow_offset);
     fn_8026C664((u8 *)r, (f32)(pos.x - 69.0f), (f32)(2.0f + pos.y), (f32)scale, (f32)self->arrow_offset);

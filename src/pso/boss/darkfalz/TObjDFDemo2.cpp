@@ -59,7 +59,7 @@ TObjDFDemo2::TObjDFDemo2(TObject *parent, const Vec *position, s32 angle, s32 va
     VecCopy(&this->camera_position, position);
     this->angle = angle;
     this->variant = variant;
-    archive = reinterpret_cast<BmlResource *>(TBoss4Uro::get_instance_count());
+    archive = TBoss4Uro::get_instance_count();
     for (i = 0; i < 2; i++) {
         s32 t = boss4_zanzo_bml_index_table[i];
         k = t;
@@ -133,7 +133,7 @@ void TObjDFDemo2::render() {
     post_translate_matrix(&camera_position.x);
     rotate_matrix_y(0, angle);
     for (i = 0; i < 2; i++) {
-        TObjFish::set_global_param((saddr)(parts[i].texlist));
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(parts[i].texlist));
         draw_model_motion(parts[i].model, parts[i].motion, frame);
     }
     clear_motion_packed_rotation();

@@ -560,7 +560,7 @@ TBoss4Type3::TBoss4Type3(TObject *parent, s32 *arg2) : TObjEnemy(parent) {
     ((TObjChara *)self)->add_flags_2e4(8);
     self->f38C = arg2[0];
     ((TBoss4Type3 *)self)->apply_set_data(arg2 + 1);
-    self->archive = reinterpret_cast<BmlResource *>(TBoss4Uro::get_instance_count());
+    self->archive = TBoss4Uro::get_instance_count();
     self->f24 = 0;
     self->f34 = 0;
     VecCopy__FP3VecPC3Vec(self->v38, boss4_type3_start_position);
@@ -853,7 +853,7 @@ void TBoss4Type3::draw_model_set(const s32 *tbl, f32 t) {
     TObjEneRe4Sorcerer__sub_801E3F1C(0.0f, this->m_3dc);
     set_motion_packed_rotation();
     for (i = 0; i < 3; i++) {
-        TObjFish::set_global_param((saddr)(get_bml_texlist(this->archive, tbl[i])));
+        TObjFish::set_global_param(get_bml_texlist(this->archive, tbl[i]));
         off = i;
         ((ModelNodePositionCapture *)((saddr)this->render_lists[off]))->install();
         draw_model_motion((void *)(get_bml_model(this->archive, tbl[i])), (void *)(get_bml_motion(this->archive, TBoss4Type3__anim_state_table[this->m_3f0].motions[i])), this->m_3f4);

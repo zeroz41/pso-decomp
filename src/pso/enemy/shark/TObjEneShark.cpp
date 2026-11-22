@@ -378,7 +378,7 @@ void TObjEneShark::render() {
   }
   select_actor_lighting((saddr)self);
   model_render_flags |= 1;
-  TObjFish::set_global_param(*((s32 *) (((s8 *) self) + 0x24)));
+  TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(*((s32 *) (((s8 *) self) + 0x24))));
   push_matrix();
   translate_matrix(0, 0.0f, this->render_y_offset, 0.0f);
   post_translate_matrix((u8 *)&this->position);

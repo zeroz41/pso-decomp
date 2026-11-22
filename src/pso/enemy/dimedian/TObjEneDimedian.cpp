@@ -332,7 +332,7 @@ void TObjEneDimedian::render() {
         fading = ((RenderFadeState *)(&self->fades[mode]))->updateFromCamera((const f32*)(self->cam));
     }
     select_actor_lighting((saddr)self);
-    TObjFish::set_global_param(self->f24);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(self->f24));
     push_matrix();
     post_translate_matrix(self->pos);
     rotate_matrix_y(0, self->f60);

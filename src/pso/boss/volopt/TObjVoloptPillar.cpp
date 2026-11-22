@@ -71,12 +71,12 @@ void TObjVoloptPillar::render() {
         TObjPlayer::toggle_particle_effect();
         push_matrix();
         post_translate_matrix(&position);
-        TObjFish::set_global_param(volopt_pillar_textures);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(volopt_pillar_textures));
         draw_chunk_object((void *)volopt_pillar_model);
         pop_matrix();
         push_matrix();
         translate_matrix(0, position.x, start_y, position.z);
-        TObjFish::set_global_param(volopt_pillar_base_textures);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(volopt_pillar_base_textures));
         draw_chunk_object((void *)volopt_pillar_base_model);
         pop_matrix();
         restore_scene_lighting();

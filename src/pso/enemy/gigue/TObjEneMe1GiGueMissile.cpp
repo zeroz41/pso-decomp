@@ -90,7 +90,7 @@ void TObjEneMe1GiGueMissile::render() {
     post_translate_matrix(&pos.x);
     rotate_matrix_y(NULL, m_a4);
     rotate_matrix_x(NULL, m_a0);
-    TObjFish::set_global_param((saddr)lbl_805D6858->models[1].m_c);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D6858->models[1].m_c));
     set_motion_packed_rotation();
     draw_model_motion((void *)get_bml_model((BmlResource *)lbl_805D6858, 1), get_bml_motion(lbl_805D6858, 5), m_bc);
     clear_motion_packed_rotation();

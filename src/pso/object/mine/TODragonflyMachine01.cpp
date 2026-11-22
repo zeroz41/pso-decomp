@@ -110,7 +110,7 @@ void TODragonflyMachine01::render() {
             rotate_matrix_y(NULL, rotation_y);
             break;
         }
-        TObjFish::set_global_param(texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
         node_index = 0;
         node_yaw = animation_yaw;
         set_chunk_model_node_callback(rotate_animated_node);

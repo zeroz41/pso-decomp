@@ -37,7 +37,7 @@ s32 free_collision_body_parts(void *);
 void TObjTank::render() {
     GinjaTextureList *textures;
     if ((this->update_object_view_visibility(400.0f, 20.0f) != 0) && (textures = TObjTank__texture_list)) {
-        TObjFish::set_global_param((saddr)textures);
+        TObjFish::set_global_param(textures);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, this->rotation_y);

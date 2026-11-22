@@ -4,6 +4,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/GinjaTexture.h"
+#include "pso/render/RenderSbssGlobals.h"
 #include "pso/unk/TLobby_803DE778.h"
 #include "pso/unk/text_803DA798.h"
 #include <dolphin/os/OSCache.h>
@@ -51,7 +52,6 @@ struct B_803DAE1C { u32 a; u32 b; Obj_803DAD84 *c; };
 extern saddr record_array_ptr;
 extern "C" {
 s32 fn_803DB20C(void *);
-extern u8 *current_render_context;
 s32 TObjPlayer__sub_803DAD28(u32 arg0);
 extern S_803DA7E0 lbl_8058D470;
 void TObjPlayer__sub_803DAB7C(Obj_803DAB7C *self, s32 i, s32 j);
@@ -67,8 +67,8 @@ extern s32 player_ref_entry_active_count;
 s32 TObjPlayer__sub_803DAA70(u32 arg0, u32 arg1, s32 *arg2);
 s32 TObjPlayer__sub_803DAC48(Obj_803DAB7C *arg0, s32 arg1, u32 arg2, u32 arg3, s32 *arg4, s32 *arg5);
 s32 TObjPlayer__sub_803DAE1C(s32 arg0, s32 arg1, u32 arg2);
-s32 TObjFish::set_global_param(saddr texlist) {
-    *(s32 *)((s8 *)current_render_context + 0x20) = texlist;
+s32 TObjFish::set_global_param(GinjaTextureList *texlist) {
+    current_render_context->textures = texlist;
     return 1;
 }
 }
@@ -282,9 +282,9 @@ s32 TObjPlayer__sub_803DAD28(u32 arg0) {
     var_r4 += table_index * 0x18;
     var_r3 = (u8 *)(*(u8 **)((s8 *)var_r4 + 0xC));
     temp_r0 = (long) (var_r3 + 4);
-    var_r3 = current_render_context;
+    var_r3 = reinterpret_cast<u8 *>(current_render_context);
     *(s32 *)((s8 *)var_r3 + 8) = temp_r0;
-    var_r3 = current_render_context;
+    var_r3 = reinterpret_cast<u8 *>(current_render_context);
     *(s32 *)((s8 *)var_r3 + 0x18) = (s32) *(s32 *)((s8 *)var_r4 + 8);
     var_r3 = (u8 *)((void *)1);
     return 1;
@@ -312,7 +312,7 @@ s32 TObjPlayer__sub_803DAD84(struct Obj_803DAD84 *arg0, s32 size, u32 arg2) {
 struct Obj_803DAD84;
 s32 TObjPlayer__sub_803DAE1C(s32 arg0, s32 size, u32 arg2) {
     TObjPlayer__sub_803DA7E0();
-    s32 r = TObjPlayer__sub_803DAD84((**(B_803DAE1C ***)(current_render_context + 0x20))[arg0].c, size, arg2);
+    s32 r = TObjPlayer__sub_803DAD84((**(B_803DAE1C ***)(&current_render_context->textures))[arg0].c, size, arg2);
     if (r < 0) {
         lbl_8058D470.a = arg0;
     }

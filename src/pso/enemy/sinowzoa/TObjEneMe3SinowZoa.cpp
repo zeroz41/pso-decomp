@@ -1771,7 +1771,7 @@ void TObjEneMe3SinowZoa::render() {
             TObjEneDD::clear_global_flag_400();
         }
         TObjPlayer::toggle_particle_effect();
-        TObjFish::set_global_param(this->texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
         for (i = 0; i < 3; i++) {
             if (TObjEneMe3SinowZoa__material_color_pointers[i] != NULL) {
                 *TObjEneMe3SinowZoa__material_color_pointers[i] = this->m_3f8;
@@ -1826,7 +1826,7 @@ extern "C" {
 s32 TObjEneMe3SinowZoa::render_model_if_visible() {
     if ((s32)main_task.get_task_flags() & 0x20) {
         if (push_reflection_matrix(&this->m_3d4) != 0) {
-            TObjFish::set_global_param(this->texlist);
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
             push_matrix();
             post_translate_matrix(&this->position);
             translate_matrix(0, TObjEneMe3SinowZoa__data_805DF31C, this->m_3e4, TObjEneMe3SinowZoa__data_805DF31C);
@@ -1868,7 +1868,7 @@ void TObjEneMe3SinowZoa::render_demo() {
     }
     flag = sub_8031A454();
     if (update_object_view_visibility(lbl_805DF318, TObjEneMe3SinowZoa__data_805DF2F0) != 0) {
-        TObjFish::set_global_param(texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
         TObjPlayer::toggle_particle_effect();
         if (flag != 0) {
             NJS_TEXNAME *parts = ((NJS_TEXLIST *)texlist)->textures;

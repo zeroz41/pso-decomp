@@ -64,7 +64,7 @@ __declspec(section ".rodata") s32 lbl_8046FC8C[3] = { 1, 5, 0 };
 extern void *camera_ctrl_instance;
 saddr bg_lightning_texture_handle;
 
-void bind_lightning_texture(void) { TObjFish::set_global_param(bg_lightning_texture_handle); }
+void bind_lightning_texture(void) { TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(bg_lightning_texture_handle)); }
 
 #pragma push
 #pragma fp_contract on

@@ -15,7 +15,7 @@
 // Built with -inline off,deferred: functions are written last to first.
 
 extern "C" {
-extern char shared_capture_texture_list[];
+extern GinjaTextureList shared_capture_texture_list;
 void set_queued_main_phase(s32 arg0);
 void request_main_phase(s32 arg0);
 s32 queue_destruction__7TObjectFv();
@@ -61,8 +61,8 @@ void TObjPlayer::disable_keyboard_control() {
 
 void TUnk_804E71A0::render() {}
 
-char *get_shared_capture_texture_list(void) {
-    return shared_capture_texture_list;
+GinjaTextureList *get_shared_capture_texture_list(void) {
+    return &shared_capture_texture_list;
 }
 
 TUnk_804E70A8::~TUnk_804E70A8() {}

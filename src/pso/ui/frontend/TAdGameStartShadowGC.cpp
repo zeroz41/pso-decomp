@@ -32,7 +32,7 @@ void TAdGameStartShadowGC::sub_80320B38() {
     W_80320B38 *arg0 = (W_80320B38 *)this;
     u32 i;
     begin_screen_draw(1);
-    TObjFish::set_global_param((saddr)((void *)TAdGameStartShadowGC__texture_list));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((void *)TAdGameStartShadowGC__texture_list));
     set_draw_texture_and_color(0, arg0->tex);
     for (i = 0; i < 5; i++) {
         draw_textured_quad_at_depth((f32 *)&arg0->q[i], 0.74f);

@@ -99,7 +99,7 @@ void TObjWarpLobby::open_lobby_menu() {
 
 void TObjWarpLobby::render() {
     if ((show_beam != 0) && (this->update_object_view_visibility(4e+02f, 2e+01f) != 0)) {
-        TObjFish::set_global_param((saddr)lobby_warp_textures);
+        TObjFish::set_global_param(lobby_warp_textures);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);

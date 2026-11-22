@@ -155,7 +155,7 @@ void TObjDoorJung::render() {
                 set_ginja_model_texture_slot(reinterpret_cast<void *>(TObjDoorJung__child_table[j]), static_cast<u16>(lbl_805D5BE8));
             }
         }
-        TObjFish::set_global_param((saddr)(lbl_805D5BD4));
+        TObjFish::set_global_param(lbl_805D5BD4);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);

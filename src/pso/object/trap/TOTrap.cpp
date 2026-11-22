@@ -193,7 +193,7 @@ void TOTrap::render() {
             push_matrix();
             post_translate_matrix((u8 *)&this->position);
             rotate_matrix_y(0, this->rotation_y);
-            TObjFish::set_global_param(this->texlist);
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
             if (TObjPlayer::check_demo_mode() == 1) {
                 draw_chunk_object(this->model);
             } else {

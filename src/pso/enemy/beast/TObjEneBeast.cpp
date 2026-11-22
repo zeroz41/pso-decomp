@@ -282,7 +282,7 @@ void TObjEneBeast::render() {
     }
     saved_model_render_flags = model_render_flags;
     select_actor_lighting((saddr)((Obj_8009211C *)this));
-    TObjFish::set_global_param(((Obj_8009211C *)this)->f24);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(((Obj_8009211C *)this)->f24));
     push_matrix();
     translate_matrix(0, 0.0f, ((Obj_8009211C *)this)->f380, 0.0f);
     post_translate_matrix(((Obj_8009211C *)this)->f38);

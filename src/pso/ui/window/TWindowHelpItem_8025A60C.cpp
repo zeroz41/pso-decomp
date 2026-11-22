@@ -61,7 +61,7 @@ void render_item_rarity_stars(Item_8025A650 *item, Ctx_8025A650 *ctx) {
     }
     set_additive_blend();
     begin_screen_draw(1);
-    TObjFish::set_global_param(lbl_805D63F0);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
     set_draw_texture_and_color(1, -1);
     x = ctx->x + item->x;
     y = ctx->y + item->y;

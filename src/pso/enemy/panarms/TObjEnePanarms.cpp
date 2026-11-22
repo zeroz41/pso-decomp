@@ -629,7 +629,7 @@ void TObjEnePanBARA::render() {
     this->update_linked_effect();
 }
 
-void TObjEnePanBARA::draw() { push_matrix(); ((int (*)(void*))post_translate_matrix)((char*)this + 0x38); ((int (*)(void*, void*))rotate_matrix_y)((void*)0, *(void* *)&this->rotation_y); TObjFish::set_global_param((saddr)((GinjaTextureList *)(*(void* *)&this->texlist))); m_3dc->install(); TObjMotion::draw(); m_3dc->clear(); pop_matrix(); }
+void TObjEnePanBARA::draw() { push_matrix(); ((int (*)(void*))post_translate_matrix)((char*)this + 0x38); ((int (*)(void*, void*))rotate_matrix_y)((void*)0, *(void* *)&this->rotation_y); TObjFish::set_global_param((GinjaTextureList *)(*(void* *)&this->texlist)); m_3dc->install(); TObjMotion::draw(); m_3dc->clear(); pop_matrix(); }
 
 void TObjEnePanBARA::update_linked_effect() {
     u8 *self = (u8 *)this;

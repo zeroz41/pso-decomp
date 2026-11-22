@@ -22,7 +22,7 @@ void ModelNodeTables::destroy() {
 }
 
 void ModelNodeTables::init(const ModelNodeSpec *specs, s32 spec_count) {
-    saddr h;
+    BmlResource *h;
     s32 i;
     const ModelNodeSpec *r;
     s32 t;
@@ -42,7 +42,7 @@ void ModelNodeTables::init(const ModelNodeSpec *specs, s32 spec_count) {
     }
     for (i = 0; i < count; i++) {
         r = &specs[i];
-        t = (s32)find_model_node((saddr)get_bml_model((BmlResource *)h, r->model), r->node);
+        t = (s32)find_model_node((saddr)get_bml_model(h, r->model), r->node);
         p = (saddr)::operator new(0x14);
         if (p != 0) {
             p = (saddr)((TLobby *)p)->alloc_tables(t, r->count);

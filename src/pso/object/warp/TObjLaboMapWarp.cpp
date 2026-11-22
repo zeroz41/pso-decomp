@@ -560,7 +560,7 @@ void run_task__16TObjCityMainWarpFv(TObjCityMainWarp *city_main_warp) {
 
 void TObjCityMainWarp::render() {
     if (update_object_view_visibility(400.0f, 35.0f) != 0) {
-        TObjFish::set_global_param((saddr)city_common_texture_list);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(city_common_texture_list));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -626,7 +626,7 @@ void TObjCityAreaWarp::run_task() {
 
 void TObjCityAreaWarp::do_warp() {
     if (this->update_object_view_visibility(400.0f, 32.0f) != 0) {
-        TObjFish::set_global_param((saddr)city_common_texture_list);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(city_common_texture_list));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -700,7 +700,7 @@ void TObjCityMapWarp::run_task() {
 
 void TObjCityMapWarp::render() {
     if (this->update_object_view_visibility(400.0f, 32.0f) != 0) {
-        TObjFish::set_global_param((saddr)city_common_texture_list);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(city_common_texture_list));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -800,7 +800,7 @@ void TObjLaboMapWarp::render() {
     s32 temp_r31;
 
     if (this->update_object_view_visibility(400.0f, 32.0f) != 0) {
-        TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)TObjLaboMapWarp__resource_bundle, 1));
+        TObjFish::set_global_param(get_bml_texlist((BmlResource *)TObjLaboMapWarp__resource_bundle, 1));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);

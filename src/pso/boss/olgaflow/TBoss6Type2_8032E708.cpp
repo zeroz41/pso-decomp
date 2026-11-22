@@ -987,7 +987,7 @@ void TBoss6Mag::draw_model_motion_blend() {
     set_motion_packed_rotation();
     temp_r31 = (saddr)get_bml_texlist((BmlResource *)(*(saddr *)((s8 *)this + 0x374)), 1);
     bml_model = (saddr)get_bml_model((BmlResource *)(*(saddr *)((s8 *)this + 0x374)), 1);
-    TObjFish::set_global_param((saddr)(temp_r31));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(temp_r31));
     if ((0.0f) == *(f32 *)((s8 *)this + 0x3E8)) {
         ((ModelNodePositionCapture *)(*(saddr *)((s8 *)this + 0x458)))->install();
         draw_model_motion((void *)bml_model, (void *)(*(saddr *)((s8 *)this + 0x3DC)), *(f32 *)((s8 *)this + 0x3E0));

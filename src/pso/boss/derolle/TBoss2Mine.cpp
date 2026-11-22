@@ -388,7 +388,7 @@ void TBoss2Mine::render() {
         Vec shadow_scale = boss2_mine_shadow_scale;
         TObjEnemy::draw_ground_shadow(&shadow_scale, 0);
     }
-    TObjFish::set_global_param(texlist);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
     saved_model_render_flags = model_render_flags;
     TObjEneDD::clear_global_flag_400();
     TObjPlayer::toggle_particle_effect();

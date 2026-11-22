@@ -193,7 +193,7 @@ void TObjLaboDesignBase::draw_node_tree(NJS_OBJECT *node) {
 }
 
 void TObjLaboDesignBase::render_model() {
-    TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)model_resource, 0));
+    TObjFish::set_global_param(get_bml_texlist((BmlResource *)model_resource, 0));
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);

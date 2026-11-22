@@ -113,11 +113,11 @@ void TODoorCave02::render() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
         if ((s32)object_state == DOOR_CLOSED) {
-            TObjFish::set_global_param((saddr)texture_lists[door_flags & 1]);
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texture_lists[door_flags & 1]));
             draw_light(((NJS_OBJECT *)model)->child);
             draw_light(((NJS_OBJECT *)model)->child->sibling);
         } else {
-            TObjFish::set_global_param((saddr)texture_lists[1]);
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texture_lists[1]));
             draw_ginja_model_with_motion(model, motion, animation_frame);
         }
         pop_matrix();

@@ -71,9 +71,9 @@ void TODoorVoShip::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
         draw_chunk_model_with_shape_motion(model, motion, (NJS_MOTION *)shape_motion, (f32)animation_frame);
-        TObjFish::set_global_param(light_texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(light_texlist));
         u32 flags = model_render_flags;
         saved_model_render_flags = flags;
         model_render_flags = flags | 0x20;

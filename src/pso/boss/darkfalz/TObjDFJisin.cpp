@@ -324,7 +324,7 @@ void TObjDFUsoTower::render() {
         }
         push_matrix();
         post_translate_matrix(&this->position.x);
-        TObjFish::set_global_param(this->texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
         draw_ginja_object(this->model);
         pop_matrix();
         if (fade_alpha < 1.0f) {
@@ -364,12 +364,12 @@ void TObjPlayer::draw_player_model_by_id(s32 arg0, f32 alpha) {
     if (alpha < 1.0f) {
         TObjPlayer__sub_80052390(alpha);
     }
-    TObjFish::set_global_param(cf4);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(cf4));
     draw_chunk_object((void *)m34);
     if (m8b4 != 0U) {
         push_matrix();
         post_translate_matrix(&lbl_804FF234.x);
-        TObjFish::set_global_param(b88);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(b88));
         draw_chunk_object((void *)m8b4);
         pop_matrix();
     }
@@ -377,7 +377,7 @@ void TObjPlayer::draw_player_model_by_id(s32 arg0, f32 alpha) {
         TCharaMaking::enable_making();
         push_matrix();
         post_translate_matrix(&lbl_804FF228.x);
-        TObjFish::set_global_param(a1c);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(a1c));
         draw_chunk_object((void *)m8b0);
         pop_matrix();
         TCharaMaking::clear_flag_bit0();
@@ -389,7 +389,7 @@ void TObjPlayer::draw_player_model_by_id(s32 arg0, f32 alpha) {
         TCharaMaking::enable_making();
         push_matrix();
         post_translate_matrix(&lbl_804FF228.x);
-        TObjFish::set_global_param(a1c);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(a1c));
         TCharaMaking__draw_colored_hair(alpha, (s32)m8ac, (CharacterAppearanceFields *)(p + 0x85C), 0);
         pop_matrix();
         TCharaMaking::clear_flag_bit0();
@@ -402,12 +402,12 @@ void boss6type2_draw_models(s32 arg0, s32 arg1, s32 arg2, uaddr arg3, uaddr arg4
         if (alpha < 1.0f) {
             TObjPlayer__sub_80052390(alpha);
         }
-        TObjFish::set_global_param(arg0);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(arg0));
         draw_chunk_object((void *)arg3);
         if (arg6 != 0U) {
             push_matrix();
             post_translate_matrix(&lbl_804FF234.x);
-            TObjFish::set_global_param(arg2);
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(arg2));
             draw_chunk_object((void *)arg6);
             pop_matrix();
         }
@@ -415,7 +415,7 @@ void boss6type2_draw_models(s32 arg0, s32 arg1, s32 arg2, uaddr arg3, uaddr arg4
             TCharaMaking::enable_making();
             push_matrix();
             post_translate_matrix(&lbl_804FF228.x);
-            TObjFish::set_global_param(arg1);
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(arg1));
             draw_chunk_object((void *)arg4);
             pop_matrix();
             TCharaMaking::clear_flag_bit0();
@@ -427,7 +427,7 @@ void boss6type2_draw_models(s32 arg0, s32 arg1, s32 arg2, uaddr arg3, uaddr arg4
             TCharaMaking::enable_making();
             push_matrix();
             post_translate_matrix(&lbl_804FF228.x);
-            TObjFish::set_global_param(arg1);
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(arg1));
             TCharaMaking__draw_colored_hair(alpha, (s32)model, (CharacterAppearanceFields *)appearance, 0);
             pop_matrix();
             TCharaMaking::clear_flag_bit0();
@@ -465,20 +465,20 @@ void TObjPlayer::draw_player_model_by_client(u16 arg0, saddr arg1, f32 farg0, f3
     if (alpha < 1.0f) {
         TObjPlayer__sub_80052390(alpha);
     }
-    TObjFish::set_global_param((saddr)g);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(g));
     TObjDFTenchuFuru::register_callback();
     draw_model_motion((void *)f, (void *)arg1, farg0);
     TObjDFTenchuFuru__sub_80051A7C();
     if (d != 0) {
         push_matrix_from(df_captured_matrix_pair[1]);
-        TObjFish::set_global_param((saddr)e);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(e));
         draw_chunk_object((void *)d);
         pop_matrix();
     }
     if (a != 0) {
         TCharaMaking::enable_making();
         push_matrix_from(df_captured_matrix_pair[0]);
-        TObjFish::set_global_param((saddr)c);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(c));
         draw_chunk_object((void *)a);
         pop_matrix();
         TCharaMaking::clear_flag_bit0();
@@ -489,7 +489,7 @@ void TObjPlayer::draw_player_model_by_client(u16 arg0, saddr arg1, f32 farg0, f3
     if (b != 0) {
         TCharaMaking::enable_making();
         push_matrix_from(df_captured_matrix_pair[0]);
-        TObjFish::set_global_param((saddr)c);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(c));
         TCharaMaking__draw_colored_hair(alpha, b, (CharacterAppearanceFields *)(p + 0x85C), 0);
         pop_matrix();
         TCharaMaking::clear_flag_bit0();

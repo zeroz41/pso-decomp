@@ -974,7 +974,7 @@ void TObjEneGyaranzo::render() {
                 }
             }
             TObjPlayer__sub_800D2E8C((Ene_800D2E8C *) (this));
-            TObjFish::set_global_param(this->texlist);
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
             select_actor_lighting(this);
             TObjPlayer::toggle_particle_effect();
             push_matrix();

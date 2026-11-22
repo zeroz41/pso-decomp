@@ -43,7 +43,7 @@ void TObjBoss8Piller::render() {
         } else {
             var_r31 = *(s32 *)((s8 *)(*(void **)((s8 *)TObjBoss8Piller__shared_resource + 0x42C)) + 8);
         }
-        TObjFish::set_global_param((saddr)((void *) (*(saddr *)((s8 *)(*(void **)((s8 *)TObjBoss8Piller__shared_resource + 0x42C)) + 0xC))));
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((void *) (*(saddr *)((s8 *)(*(void **)((s8 *)TObjBoss8Piller__shared_resource + 0x42C)) + 0xC))));
         push_matrix();
         post_translate_matrix(self + 0x1C);
         scale_matrix(0, 1.0f, 1.0f, 1.0f);

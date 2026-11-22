@@ -176,7 +176,7 @@ void TObjContainerJung::vfunc_81() {
     if (jungle_container_archive != NULL) {
         switch (this->mode) {
         case 0:
-            TObjFish::set_global_param((saddr)jungle_container_textures);
+            TObjFish::set_global_param(jungle_container_textures);
             push_matrix();
             post_translate_matrix((u8 *)&this->position);
             rotate_matrix_y(0, this->rotation_y);
@@ -317,7 +317,7 @@ void TObjContainerJungEx::vfunc_81() {
 
     switch (this->mode) {
     case 0:
-        TObjFish::set_global_param((saddr)TObjContainerJungEx::get_textures(0));
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((saddr)TObjContainerJungEx::get_textures(0)));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -463,7 +463,7 @@ void TObjContainerJungEnemy::vfunc_81() {
 
     switch (this->mode) {
     case 0:
-        TObjFish::set_global_param(this->texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);

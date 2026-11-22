@@ -1487,7 +1487,7 @@ void TScene::render_map_sections() {
             TScene__render_callback();
         }
         if (*(void **)((u8 *)TScene__data_805D5FCC + 0x14) != NULL) {
-            TObjFish::set_global_param((saddr)(*(void **)((u8 *)TScene__data_805D5FCC + 0x14)));
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(*(void **)((u8 *)TScene__data_805D5FCC + 0x14)));
         }
         sec = TScene__data_805D5FCC->sections;
         prepare_ginja_model();
@@ -1591,7 +1591,7 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
                 } else {
                     play_reflection_particles(-1);
                 }
-                TObjFish::set_global_param((saddr)((void *)*(saddr *)((s8 *)TScene__data_805D5FCC + 0x14)));
+                TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((void *)*(saddr *)((s8 *)TScene__data_805D5FCC + 0x14)));
                 set_material_alpha_compare_reference(TScene__data_805D5FCC->flags);
                 draw_ginja_object(node);
                 reset_reflection_tev_stages();
@@ -1617,7 +1617,7 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
                 if (m != NULL) {
                     if (m->tex != NULL) {
                         enable_indirect_tev(tex = m->tex, m->f8, m->fE, 0);
-                        TObjFish::set_global_param((saddr)((void *)*(saddr *)((s8 *)TScene__data_805D5FCC + 0x14)));
+                        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((void *)*(saddr *)((s8 *)TScene__data_805D5FCC + 0x14)));
                         set_material_alpha_compare_reference(TScene__data_805D5FCC->flags);
                         draw_ginja_object(node);
                         disable_indirect_tev(tex, 0);
@@ -1715,7 +1715,7 @@ void TScene::render_animated_map_section(SceneMaterialSection *scene_material_se
         if (tex != 0)
         {
           enable_indirect_tev(texture = tex, m->f8, m->fE, 0);
-          TObjFish::set_global_param(TScene__data_805D5FCC->texlist);
+          TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TScene__data_805D5FCC->texlist));
           set_material_alpha_compare_reference(TScene__data_805D5FCC->flags);
           draw_ginja_model_with_motion(node, e->motion, e->frame);
           disable_indirect_tev(texture, 0);

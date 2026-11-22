@@ -97,7 +97,7 @@ void TDuelEffectString::render() {
     color = __cvt_fp2unsigned(4278190080.0f * alpha) | 0xFF0000 | 0xFFFF;
     set_additive_blend();
     begin_screen_draw(1);
-    TObjFish::set_global_param(lbl_805D63F0);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
     set_draw_texture_and_color(6, color);
     switch ((saddr)pad_24) {
     case 0:

@@ -219,7 +219,7 @@ void *__dt__9TBoss4UroFv(void *arg0, s16 arg1);
 s32 create__9TBoss4UroFi(s32 arg0);
 
 struct TBoss4Uro {
-    static saddr get_instance_count();
+    static BmlResource *get_instance_count();
     u8 pad0[0x38];
     Vec pos;
     u8 pad44[0x5C - 0x44];
@@ -349,7 +349,7 @@ s32 TBoss4Zako__ct(saddr arg0, saddr parent, saddr arg2) {
     fn_8005D6E4((u8 *)*(saddr *)((s8 *)THIS + 0x378));
     ((TBoss3Volopt *)THIS)->apply_set_data((s32 *)arg2 + 1);
     ((TBoss3Volopt *)THIS)->clear_lobby_object_state();
-    reinterpret_cast<TBoss4Zako *>(THIS)->archive = reinterpret_cast<BmlResource *>(TBoss4Uro::get_instance_count());
+    reinterpret_cast<TBoss4Zako *>(THIS)->archive = TBoss4Uro::get_instance_count();
     *(s32 *)((s8 *)THIS + 0x24) = 0;
     *(s32 *)((s8 *)THIS + 0x34) = 0;
     VecCopy__FP3VecPC3Vec(THIS + 0x44, VecCopy__FP3VecPC3Vec(THIS + 0x50, VecCopy__FP3VecPC3Vec(THIS + 0x74, THIS + 0x38)));

@@ -17,7 +17,7 @@ s32 post_translate_matrix(void *);
 s32 TObjEneRecobox::render_trap_model_if_visible() {
     if ((s32)main_task.get_task_flags() & 0x20) {
         if (push_reflection_matrix((Vec *)(((u8 *)this) + 0x3E4)) != 0) {
-            TObjFish::set_global_param(this->texlist);
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
             push_matrix();
             post_translate_matrix((void *) (((u8 *)this) + 0x38));
             rotate_matrix_y(0, this->rotation_y);

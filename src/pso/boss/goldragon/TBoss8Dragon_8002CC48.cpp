@@ -681,7 +681,7 @@ void TObjBoss1MokoHill_SoloM::render() {
     Ent_8002CE78 *p;
     s32 i;
     if (self->active != 0) {
-        TObjFish::set_global_param(dragon_common_texture_list);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(dragon_common_texture_list));
         update_dragon_trail_uvs((Obj_8002D4C0 *)((struct Obj_8002D4C0 *)dragon_trail_position_source));
         for (p = lbl_805D4B78, i = 0; i < lbl_805D4B74; i++, p++) {
             *p->dst = p->base + p->ofs;

@@ -39,7 +39,7 @@ void TObjEneMorfosArm::render() {
     push_matrix();
     post_translate_matrix((u8 *)&this->position);
     rotate_matrix_y(0, this->rotation_y);
-    TObjFish::set_global_param(this->texlist);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
     TObjPlayer::toggle_particle_effect();
     ((TObjMotion *)self)->draw();
     TParticleCtrl::end_effect_render();

@@ -247,7 +247,7 @@ void TAdMultiOkGC::draw_entry(int arg1) {
     e = (E_80306B04 *)this;
     if (e[arg1].flags & 2) {
         begin_screen_draw(1);
-        TObjFish::set_global_param(multi_confirm_texture_list);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(multi_confirm_texture_list));
         e += arg1;
         base = 0.0050000004f * (f32)arg1;
         for (i = 0; i < 5; i++) {

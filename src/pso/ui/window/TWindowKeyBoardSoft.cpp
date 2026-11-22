@@ -830,7 +830,7 @@ void TWindowKeyBoardSoft::sub_8026227C(WindowDrawContext *ctx) {
 
     cursor = this->sub_802605DC();
     begin_screen_draw(1);
-    TObjFish::set_global_param(lbl_805D63F0);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
     set_draw_texture_and_color(0, -1);
     for (j = 0; j < 7; j++) {
         for (i = 0; i < 16; i += count) {

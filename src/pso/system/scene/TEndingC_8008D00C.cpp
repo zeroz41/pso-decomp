@@ -61,7 +61,7 @@ s32 set_draw_texture_and_color(s32, s32, f32);
 }
 
 void TEndingC::render() {
-    TObjFish::set_global_param((saddr)&TEndingC__wall_texture_list_entry);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(&TEndingC__wall_texture_list_entry));
     begin_screen_draw(1);
     set_draw_texture_and_color(1, ((s32) (255.0f * primary_opacity) << 0x18) | 0xFF0000 | 0xFFFF, 255.0f);
     draw_textured_quad_at_depth((f32 *)(render_geometry + 0x0), 0.98f);

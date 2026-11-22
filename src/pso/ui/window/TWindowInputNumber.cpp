@@ -249,7 +249,7 @@ void draw_arrows__18TWindowInputNumberFv(TWindowInputNumber *self, Ctx_802563A0 
     y = ctx->y + digit->y;
     depth = -1.0f / (0.22424999f + ctx->depth);
     begin_screen_draw(1);
-    TObjFish::set_global_param(lbl_805D63F0);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
     set_draw_texture_and_color(0, -1);
     q.x = x;
     q.y = y - 15.0f;

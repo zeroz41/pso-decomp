@@ -82,7 +82,7 @@ void TObjEneRecon::render_shadows() {
     translate_matrix(0, *((f32 *) (((s8 *) this) + 0x38)), *((f32 *) (((s8 *) this) + 0x3C)), *((f32 *) (((s8 *) this) + 0x40)));
     rotate_matrix_zyx(0, this->rotation_x, this->rotation_y, this->rotation_z);
     scale_matrix(0, 1.5f, 1.5f, 1.5f);
-    TObjFish::set_global_param(temp_r30);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(temp_r30));
     draw_chunk_object((void *)bml_model);
     pop_matrix();
   }
@@ -95,7 +95,7 @@ void TObjEneRecon::render_demo() {
     u8 *self = (u8 *)this;
     if (this->update_object_view_visibility(400.0f, 15.0f) != 0) {
         ((TObjEneDD *)(self))->draw_ground_shadow(0, 0);
-        TObjFish::set_global_param(this->texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -111,7 +111,7 @@ void TObjEneRecon::render_demo() {
 s32 TObjEneRecon::render_model_if_visible() {
     if ((s32)main_task.get_task_flags() & 0x20) {
         if (push_reflection_matrix((Vec *)(((u8 *)this) + 0x41C)) != 0) {
-            TObjFish::set_global_param((int) (this->texlist));
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
             push_matrix();
             translate_matrix(0, (f32) (*(f32 *)((s8 *)((u8 *)this) + 0x38)), (f32) (*(f32 *)((s8 *)((u8 *)this) + 0x448)), (f32) (*(f32 *)((s8 *)((u8 *)this) + 0x40)));
             rotate_matrix_y(0, (int) (this->rotation_y));
@@ -186,7 +186,7 @@ void render__12TObjEneReconFv(u8 *ene_recon) {
                         ((TObjEneDD *)(ene_recon))->draw_ground_shadow(&v, 0);
                     }
                     ((TObjEneDD *)ene_recon)->update_secondary_light();
-                    TObjFish::set_global_param((int) (((TObjEneRecon *)ene_recon)->texlist));
+                    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(((TObjEneRecon *)ene_recon)->texlist));
                     push_matrix();
                     translate_matrix(0, (f32) (*(f32 *)((s8 *)ene_recon + 0x38)), (f32) (*(f32 *)((s8 *)ene_recon + 0x448)), (f32) (*(f32 *)((s8 *)ene_recon + 0x40)));
                     rotate_matrix_y(0, (int) (((TObjEneRecon *)ene_recon)->rotation_y));

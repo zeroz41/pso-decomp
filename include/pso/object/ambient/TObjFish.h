@@ -4,6 +4,7 @@
 #include "types.h"
 
 struct NJS_OBJECT;
+struct GinjaTextureList;
 #include "pso/object/base/TObjMotion.h"
 #include <stddef.h>
 
@@ -40,7 +41,7 @@ struct TObjFish : public TObjBase {
     static void reset_fish_globals();
     static void free_resource();
     static void load_area_resource();
-    static s32 set_global_param(saddr arg0);
+    static s32 set_global_param(GinjaTextureList *texlist);
 };
 
 LAYOUT_ASSERT(TObjFishEntry_size, sizeof(TObjFishEntry) == 0x44);

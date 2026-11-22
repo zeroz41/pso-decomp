@@ -204,7 +204,7 @@ void TUnk_804B2578::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param((saddr)turiten_singo_texture_lists[2]);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(turiten_singo_texture_lists[2]));
         if (model != NULL && current_motion != NULL) {
             draw_ginja_model_with_motion(model, current_motion, frame);
         }
@@ -216,7 +216,7 @@ void TUnk_804B2578::render() {
                 lit0 = level <= step;
                 lit1 = level <= 2.0f * step;
                 lit2 = level <= 3.0f * step;
-                TObjFish::set_global_param((saddr)turiten_singo_texture_lists[1]);
+                TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(turiten_singo_texture_lists[1]));
                 if (lit0 == 1) {
                     draw_ginja_model((void *)TOHangceilingCave01__model_root->child->model);
                 }
@@ -226,7 +226,7 @@ void TUnk_804B2578::render() {
                 if (lit2 == 1) {
                     draw_ginja_model((void *)TOHangceilingCave01__model_root->child->child->child->model);
                 }
-                TObjFish::set_global_param((saddr)turiten_singo_texture_lists[0]);
+                TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(turiten_singo_texture_lists[0]));
                 if (lit0 == 0) {
                     draw_ginja_model((void *)TOHangceilingCave01__model_root->child->model);
                 }
@@ -238,9 +238,9 @@ void TUnk_804B2578::render() {
                 }
             } else {
                 if (is_current_floor_switch_set((u16)switch_id) == 1) {
-                    TObjFish::set_global_param((saddr)turiten_singo_texture_lists[0]);
+                    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(turiten_singo_texture_lists[0]));
                 } else {
-                    TObjFish::set_global_param((saddr)turiten_singo_texture_lists[1]);
+                    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(turiten_singo_texture_lists[1]));
                 }
                 draw_ginja_object(TOHangceilingCave01__model_root);
             }

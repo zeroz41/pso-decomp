@@ -38,7 +38,7 @@ TObjDFDemoF::TObjDFDemoF(TObject *parent) : TObjBase(parent) {
 
     self = this;
     self->m_name = TObjDFDemoF__name;
-    archive = reinterpret_cast<BmlResource *>(TBoss4Uro::get_instance_count());
+    archive = TBoss4Uro::get_instance_count();
     for (i = 0; i < 3; i++) {
         s32 model_index = TObjDFDemoF__bml_model_id_table[i];
         motion_indices = lbl_80485834;

@@ -1213,7 +1213,7 @@ void TObjEneBm9Mericarol::render() {
         break;
     }
     saved_model_render_flags = model_render_flags;
-    TObjFish::set_global_param(texlist);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
@@ -1292,7 +1292,7 @@ void TObjEneBm9Mericarol::draw_color_variant() {
             ((NJS_TEXLIST *)texlist)->textures[2].texaddr = ((NJS_TEXLIST *)texlist)->textures[8].texaddr;
             break;
         }
-        TObjFish::set_global_param(texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);

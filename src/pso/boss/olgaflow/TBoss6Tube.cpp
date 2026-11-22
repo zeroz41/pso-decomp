@@ -86,7 +86,7 @@ void TBoss6Tube::render() {
         break;
     }
     start = lo - TBoss6Tube::scale_by_const(TBoss6Tube::calc_tube_progress(o->f28));
-    TObjFish::set_global_param((saddr)(boss6_tube_texture_list));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(boss6_tube_texture_list));
     set_draw_list_mask(3);
     for (i = 0; i < 3; i++) {
         for (y = start; y < hi; y += (8e+02f)) {

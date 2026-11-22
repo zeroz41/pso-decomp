@@ -76,7 +76,7 @@ TObjDFDemo1::TObjDFDemo1(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
     m_name = TObjDFDemo1__name;
     VecCopy(&this->pos, pos);
     this->angle = angle;
-    res = (BmlResource *)TBoss4Uro::get_instance_count();
+    res = TBoss4Uro::get_instance_count();
     for (i = 0; i < 6; i++) {
         int id = lbl_80485EB0[i];
         body_parts[i].model = (NJS_OBJECT *)get_bml_model(res, id);
@@ -201,7 +201,7 @@ void TObjDFDemo1::draw_fading_model() {
     rotate_matrix_y(NULL, angle);
     max = 30.0f;
     for (i = 0; i < 6; i++) {
-        TObjFish::set_global_param((saddr)(body_parts[i].texlist));
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(body_parts[i].texlist));
         f = frame;
         switch (i) {
         case 0:
@@ -264,7 +264,7 @@ void TObjDFDemo1::sub_8004E068() {
     post_translate_matrix(&pos.x);
     rotate_matrix_y(NULL, angle);
     for (j = 0; j < 2; j++) {
-        TObjFish::set_global_param((saddr)(zanzo_parts[j].texlist));
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(zanzo_parts[j].texlist));
         draw_model_motion(zanzo_parts[j].model, zanzo_parts[j].motion, frame);
     }
     clear_motion_packed_rotation();

@@ -476,7 +476,7 @@ void TObjTombstone::update_render_flags() {
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
-        TObjFish::set_global_param(this->texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
         draw_ginja_object(this->model);
         pop_matrix();
     }
