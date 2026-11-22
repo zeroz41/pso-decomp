@@ -57,7 +57,7 @@ struct NJS_OBJECT;
 
 extern "C" {
 extern void *slime_model_index_by_type[2];
-extern void *lbl_8049639C[28];
+extern void *slime_motion_action_table[28];
 
 struct SlimeSavedState {
     s32 flags;
@@ -130,10 +130,10 @@ __declspec(section ".data") void *slime_debug_label_table[2] = {
 __declspec(section ".data") void *slime_model_index_by_type[2] = {
     (void *)0x4, (void *)0x5,
 };
-CollisionBody lbl_80496370[1] = {
+CollisionBody slime_one_collision_body[1] = {
     { { 0.0f, 15.0f, 0.0f }, 7.5f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
-void *lbl_8049639C[28] = {
+void *slime_motion_action_table[28] = {
     (void *)0x10000, (void *)0xa, (void *)0x3f000000, (void *)0x0,
     (void *)0x20002, (void *)0xa, (void *)0x3f000000, (void *)0x0,
     (void *)0x10000, (void *)0xd, (void *)0x3f000000, (void *)0x0,
@@ -145,7 +145,7 @@ void *lbl_8049639C[28] = {
 /* State table of TObjEneSlimeOne: {enter, update} per state, indexed by state; built by the TU's __sinit. */
 typedef void (TObjEneSlimeOne::*SlimeOneStateFn)();
 struct SlimeOneState { SlimeOneStateFn enter; SlimeOneStateFn update; };
-static SlimeOneState lbl_80496574[15] = {
+static SlimeOneState slime_one_state_table[15] = {
     { &TObjEneSlimeOne::init_state, &TObjEneSlimeOne::update_wait_search },
     { &TObjEneSlimeOne::reset_display, &TObjEneSlimeOne::update_grow },
     { &TObjEneSlimeOne::init_slime_display, &TObjEneSlimeOne::update_shrink },
@@ -162,7 +162,7 @@ static SlimeOneState lbl_80496574[15] = {
     { &TObjEneSlimeOne::enter_death, &TObjEneSlimeOne::update_effect_fade_lifetime },
     { &TObjEneSlimeOne::enter_launched, &TObjEneSlimeOne::update_launched },
 };
-__declspec(section ".data") void *lbl_804966DC[2] = {
+__declspec(section ".data") void *slime_one_model_by_variant[2] = {
     (void *)0x0, (void *)0x2,
 };
 __declspec(section ".data") void *slime_tail_attack_id_pair[2] = {
@@ -171,10 +171,10 @@ __declspec(section ".data") void *slime_tail_attack_id_pair[2] = {
 __declspec(section ".data") void *TObjEneSlime__attack_target_param_table[2] = {
     (void *)0x30, (void *)0x34,
 };
-__declspec(section ".data") s32 lbl_804966F4[2] = {
+__declspec(section ".data") s32 slime_tail_model_by_target[2] = {
     1, 3,
 };
-__declspec(section ".data") s32 lbl_804966FC[2] = {
+__declspec(section ".data") s32 slime_tail_attack_param_ids[2] = {
     0x30, 0x34,
 };
 void *slime_tail_attack_zero_vec[3] = {
@@ -516,12 +516,12 @@ void TObjEneSlimeOne::initialize_slime_instance_state() {
     }
 
     s32 *variant = &actor->variant;
-    s32 id = ((s32 *)lbl_804966DC)[*variant];
+    s32 id = ((s32 *)slime_one_model_by_variant)[*variant];
     actor->texlist = (saddr)get_bml_texlist(actor->model_archive, id);
     actor->model = reinterpret_cast<void *>(get_bml_model(actor->model_archive, id));
     VecCopy(&actor->prev_position, VecCopy(&actor->home_position, VecCopy(&actor->center, &actor->position)));
-    actor->collision_body_parts = init_collision_body_parts(actor, lbl_80496370, 1);
-    actor->set_field_d8((saddr)lbl_8049639C);
+    actor->collision_body_parts = init_collision_body_parts(actor, slime_one_collision_body, 1);
+    actor->set_field_d8((saddr)slime_motion_action_table);
     actor->set_field_dc((saddr)actor->model_archive->motions);
     actor->set_animation(0);
     actor->set_field_b8(0);
@@ -569,7 +569,7 @@ void TObjEneSlimeOne::run_task() {
         }
         set_target_flag_bit0();
         {
-            SlimeOneState *tbl = lbl_80496574;
+            SlimeOneState *tbl = slime_one_state_table;
             SlimeOneStateFn a = tbl[this->state].update;
             if (a != 0) {}
             (this->*a)();
@@ -617,7 +617,7 @@ void TObjEneSlimeOne::render() {
 
 void TObjEneSlimeOne::set_state(s32 new_state) {
     this->state = new_state;
-    SlimeOneStateFn a = lbl_80496574[this->state].enter;
+    SlimeOneStateFn a = slime_one_state_table[this->state].enter;
     if (a != 0) {}
     (this->*a)();
 }
@@ -1422,11 +1422,11 @@ TObjEneSlimeTailAttack::TObjEneSlimeTailAttack(TObject *parent, const Vec *posit
     m_name = TObjEneSlimeTailAttack__name;
     this->owner = owner;
     BmlResource *resource = reinterpret_cast<BmlResource *>(TObjEneSlimeOne::get_instance());
-    u32 id = lbl_804966F4[this->owner->get_attack_target()];
+    u32 id = slime_tail_model_by_target[this->owner->get_attack_target()];
     texlist = (saddr)get_bml_texlist(resource, id);
     model = (void *)get_bml_model(resource, id);
-    action_table = (TObjMotionAction *)lbl_8049639C;
-    set_field_d8((saddr)lbl_8049639C);
+    action_table = (TObjMotionAction *)slime_motion_action_table;
+    set_field_d8((saddr)slime_motion_action_table);
     motion_list = resource->motions;
     set_field_dc((saddr)resource->motions);
     requested_action = 6;
@@ -1496,7 +1496,7 @@ s32 TObjEneSlimeTailAttack::apply_tail_hits() {
     }
     hit.kind = 0;
     result = 0;
-    hit.power = *(s16 *)TLobby::register_boss(lbl_804966FC[self->owner->get_attack_target()]);
+    hit.power = *(s16 *)TLobby::register_boss(slime_tail_attack_param_ids[self->owner->get_attack_target()]);
     id = find_nearest_visible_player(self, 0, 25.0f);
     if (id != 0xFFFF && id != self->last_hit_player) {
         e = get_player_by_client_id(id);
@@ -1664,6 +1664,5 @@ void get_slime_tail_pose(SlimeTailPose *dst) {
 }
 }
 
-#undef lbl_80496574
 #undef slime_tail_attack_id_pair
 #undef TObjEneSlime__attack_target_param_table
