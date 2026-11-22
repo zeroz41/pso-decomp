@@ -832,7 +832,7 @@ struct TLobby : public TObject {
     s32 add_trade_item(u32 arg1, s32 arg2);
     static void update_game_modes();
     void byteswap_trade_packet();
-    void prepare_and_send_trade_packet(void* a1);
+    void prepare_and_send_trade_packet(u32 client_id);
     s32 get_cell_address(s32 arg1, s32 arg2);
     s32 *get_state_table(s32 _w1);
     static void free_singleton_805D6C80();

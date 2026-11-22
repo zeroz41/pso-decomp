@@ -75,7 +75,7 @@ void TLobby::send_trade_proposal_modify() {
         if (((*(u8 *)&TLobby__trade_partner_client_id) && (*(u8 *)&TLobby__trade_partner_client_id)) && (*(u8 *)&TLobby__trade_partner_client_id))
         {
         }
-        ((TLobby *)(&stack.sp8))->prepare_and_send_trade_packet((void*)((s8) (*(u8 *)&TLobby__trade_partner_client_id)));
+        ((TLobby *)(&stack.sp8))->prepare_and_send_trade_packet(TLobby__trade_partner_client_id);
         TLobby__trade_proposal_state = 3;
       }
     }
@@ -613,7 +613,7 @@ void cancel_trade_for_member_out_of_range(s32 arg0) {
     packet.what = 7;
     packet.result = 0;
     packet.unknown_a1 = arg0;
-    ((TLobby *)(&packet.header))->prepare_and_send_trade_packet((void *)((s32) new_var));
+    ((TLobby *)(&packet.header))->prepare_and_send_trade_packet(new_var);
     if ((*(s8 *)&TLobby__trade_proposal_state) == 2) {
         TWindowTradeRequest::close_request_window();
         ((s32 (*)())reset__6TLobbyFv)();
@@ -627,7 +627,7 @@ void send_trade_busy_reply(saddr arg0) {
     build_6xA6_modify_trade_proposal((&packet.header));
     packet.what = 6;
     packet.result = 0;
-    ((TLobby *)(&packet.header))->prepare_and_send_trade_packet((void *)arg0);
+    ((TLobby *)(&packet.header))->prepare_and_send_trade_packet(arg0);
 }
 
 void TLobby::build_trade_item_list() {
@@ -673,7 +673,7 @@ void TLobby::send_modify_trade_proposal(s8 arg0, s32 arg1, s32 arg2) {
   if (((!(*(u8 *)&TLobby__trade_partner_client_id)) && (!(*(u8 *)&TLobby__trade_partner_client_id))) && (!(*(u8 *)&TLobby__trade_partner_client_id)))
   {
   }
-  ((TLobby *)(&stack.sp8))->prepare_and_send_trade_packet((void *)((s32) ((s8) (*(u8 *)&TLobby__trade_partner_client_id))));
+  ((TLobby *)(&stack.sp8))->prepare_and_send_trade_packet(TLobby__trade_partner_client_id);
 }
 
 void TLobby::send_trade_proposal_result(s8 arg0, s8 arg1) {
@@ -685,7 +685,7 @@ void TLobby::send_trade_proposal_result(s8 arg0, s8 arg1) {
   new_var = (s8) ((*(u8 *)&TLobby__trade_partner_client_id) & 0xFFFFFFFFFFFFFFFFu);
   packet.what = arg0;
   packet.result = arg1;
-  ((TLobby *)(&packet.header))->prepare_and_send_trade_packet((void *)((s32) new_var));
+  ((TLobby *)(&packet.header))->prepare_and_send_trade_packet(new_var);
 }
 
 void send_6xA6_modify_trade_proposal(saddr arg0) {
@@ -709,7 +709,7 @@ block_6:
         packet.what = 0;
         packet.result = 0;
         packet.amount = *(s32 *)((s8 *)temp_r3_2 + 0x20);
-        ((TLobby *)(&packet.header))->prepare_and_send_trade_packet((void *)arg0);
+        ((TLobby *)(&packet.header))->prepare_and_send_trade_packet(arg0);
         (*(u8 *)&TLobby__trade_partner_client_id) = (u8) arg0;
         (*(s8 *)&TLobby__trade_proposal_state) = 1;
     }

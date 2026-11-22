@@ -13,7 +13,7 @@ void TLobby__sub_802D39BC(void* p) { ((TLobby *)p)->close_trade_request(); }
 void TLobby__sub_802D39DC(void* p) { ((TLobby *)p)->reset_trade_state(); }
 void TLobby__sub_802D39FC(void* p) { ((TLobby *)p)->reset_trade_state(); }
 void TLobby::byteswap_trade_packet() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x8)); bswap_32((u32 *)((char*)this + 0xc)); }
-void TLobby::prepare_and_send_trade_packet(void* a1) { this->prepare_trade_packet(); send_subcommand_to_client((uaddr)a1); }
+void TLobby::prepare_and_send_trade_packet(u32 client_id) { this->prepare_trade_packet(); send_subcommand_to_client(client_id); }
 }
 void build_6xA6_modify_trade_proposal(void* p) { *(u8*)((char*)p + 0x0) = 166; *(u8*)((char*)p + 0x1) = 4; }
 
