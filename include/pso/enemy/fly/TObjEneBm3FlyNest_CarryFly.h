@@ -21,9 +21,9 @@ public:
     Vec *origin;    // 0x30
     Vec *target;    // 0x34
     s32 *arrived;   // 0x38
-    f32 unk_3C;     // 0x3C, set to 1.0f
+    f32 pad_3c;     // 0x3C, set to 1.0f
     s32 angle;      // 0x40
-    s32 unk_44;     // 0x44, set to 0
+    s32 pad_44;     // 0x44, set to 0
     AnimationMotion *motion;  // 0x48, drawn with draw_model_motion
     f32 frame;      // 0x4C
     Vec velocity;   // 0x50
