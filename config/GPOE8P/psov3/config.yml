@@ -16351,7 +16351,7 @@ force_active:
   - sub_80300764__21TAdMultiSelGameModeGCFv
   - apply_variant__14TObjEneDolmOlmFv
   - retarget_attacker__16TObjEneDellBiterFv
-  - sub_8030B818__18TObjLiveCameraCtrlFi
+  - turn_orbit_toward__18TObjLiveCameraCtrlFi
   - sub_8030CBD0__16TAdChrSelASlotGCFv
   - sub_8030CBD4__16TAdChrSelASlotGCFv
   - sub_8030CCE0__16TAdChrSelASlotGCFv
