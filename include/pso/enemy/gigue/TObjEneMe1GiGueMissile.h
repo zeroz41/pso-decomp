@@ -10,7 +10,7 @@ struct TObjEneMe1GiGueMissile : public TNeedleShoot {
     virtual void on_target_hit(void *);
     virtual void on_wall_hit();
     void explode(void *pos);
-    static void create(s32 owner, saddr from, saddr to, f32 farg0, f32 power);
+    static void create(s32 owner, saddr from, saddr to, f32 speed, f32 power);
     virtual void render();
     virtual void run_task();
     static void free_global();

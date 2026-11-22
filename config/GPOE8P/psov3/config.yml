@@ -1258,7 +1258,7 @@ force_active:
   - update_missile_state__15TObjEneMe1GiGueFv
   - update_circling_state__15TObjEneMe1GiGueFv
   - run_demo_task__15TObjEneMe1GiGueFv
-  - sub_802CDAE8__15TObjEneMe1GiGueFv
+  - update_attack__15TObjEneMe1GiGueFv
   - lbl_804949A0
   - lbl_804C5238
   - lbl_804FA528
@@ -16333,7 +16333,7 @@ force_active:
   - sub_802C2548__13TUnk_804E094CFv
   - sub_802C2A10__13TUnk_804E0988Fv
   - sub_802C2C48__13TUnk_804E0988Fv
-  - sub_802CACD8__15TObjEneMe1GiGueFv
+  - clear_state7_flag__15TObjEneMe1GiGueFv
   - update_proximity_state__15TObjEneMe1GiGueFv
   - update_idle_state__15TObjEneMe1GiGueFv
   - sub_802D4E08__23TAdSinglePlyChrSelectGCFv

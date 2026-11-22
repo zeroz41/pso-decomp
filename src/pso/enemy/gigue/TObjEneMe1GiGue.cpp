@@ -142,7 +142,7 @@ void TObjEneMe1GiGue::load_params_from_table(s32 i) {
     texlist = (saddr)gigue_resource->models[i].m_c;
 }
 
-void TObjEneMe1GiGue::sub_802CDAE8() {  }
+void TObjEneMe1GiGue::update_attack() {  }
 
 f32 get_gigue_float_parameter(TObjEneMe1GiGue *self, s32 i) {
     return TObjEneMe1GiGue__param_table->floats[i];
@@ -324,7 +324,7 @@ void TObjEneMe1GiGue::dispatch_state() {
         update_circling_state();
         return;
     case 2:
-        sub_802CDAE8();
+        update_attack();
         return;
     case 3:
         update_state_machine();
@@ -1258,13 +1258,13 @@ void TObjEneMe1GiGue::find_open_direction(Vec *dir) {
 
 s32 TObjEneMe1GiGue::update_action_hold_status() {
     if (TObjChara::update_action_hold_status() != 0) {
-        sub_802CACD8();
+        clear_state7_flag();
         return 1;
     }
     return 0;
 }
 
-void TObjEneMe1GiGue::sub_802CACD8() {
+void TObjEneMe1GiGue::clear_state7_flag() {
     s32 flags = m_388;
     if (flags & 0x40000) {
         m_388 = flags & ~0x40000;

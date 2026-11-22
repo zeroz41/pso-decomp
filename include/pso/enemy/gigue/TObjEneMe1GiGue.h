@@ -20,7 +20,7 @@ struct TObjEneMe1GiGue : public TObjEnemyCustom {
     TObjEneMe1GiGue(TObject *parent, void *set_data);
     virtual ~TObjEneMe1GiGue();
     void move_around_center(void *, f32);
-    void sub_802CACD8();
+    void clear_state7_flag(); // update_action_hold_status's hook, as TObjEneNanoDrago's
     virtual void run_task();
     virtual void render();
     void update_idle_state();
@@ -95,7 +95,7 @@ struct TObjEneMe1GiGue : public TObjEnemyCustom {
     void update_missile_state();
     void update_circling_state();
     void run_demo_task();
-    void sub_802CDAE8();
+    void update_attack();     // mode 2 (run_attack_action's); empty, the attacks are modes 9-11
 };
 
 LAYOUT_ASSERT(TObjEneMe1GiGue_size, sizeof(TObjEneMe1GiGue) == 0x458);
