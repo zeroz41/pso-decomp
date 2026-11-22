@@ -20,7 +20,6 @@
 #include "pso/unk/TLobby_80209BD8.h"
 #include "string.h"
 #include "pso/unk/TLobby_80207644.h"
-#include "pso/unk/TLobby_8020A188.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/unk/text_8020A2AC.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -532,12 +531,12 @@ void build_challenge_enemy_set(s32 floor) {
 
 extern "C" {
 
-void init_buffers__6TLobbyFii(s32 id, saddr arg1) {
+void TLobby::init_buffers(int id, u8 *quest) {
     Hdr_802095EC *items;
 
-    challenge_event_source = (u8 *)find_header_by_id__6TLobbyFPvi((Hdr_80209C58 *)arg1, id);
-    lbl_805D60AC = (u8 *)find_chunk_by_id__6TLobbyFPvi((Hdr_8020967C *)arg1, id);
-    items = find_type5_header__6TLobbyFPvi((Hdr_802095EC *)arg1, id);
+    challenge_event_source = (u8 *)find_header_by_id__6TLobbyFPvi((Hdr_80209C58 *)quest, id);
+    lbl_805D60AC = (u8 *)find_chunk_by_id__6TLobbyFPvi((Hdr_8020967C *)quest, id);
+    items = find_type5_header__6TLobbyFPvi((Hdr_802095EC *)quest, id);
     TLobby__item_data_table_buffer = (u8 *)items;
     if (challenge_event_source != NULL && lbl_805D60AC != NULL && items != NULL) {
         challenge_enemy_buffer = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(ChallengeEnemyBufferSize));

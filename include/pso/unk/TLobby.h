@@ -1057,7 +1057,7 @@ struct TLobby : public TObject {
     static void handle_warp_menu_input();
     static void increment_ref_and_set_flag(void *);
     static void init(void *);
-    static void init_buffers(int, int);
+    static void init_buffers(int floor, u8 *quest);
     static void *init_char_data(void*);
     static void init_player_entry(void *, void *);
     static void init_player_window_effect();
@@ -1078,7 +1078,7 @@ struct TLobby : public TObject {
     static void open_lobby_warp_menu();
     static void open_make_team_window(int);
     static void open_menu_window();
-    static void open_session(int);
+    static void open_session(const char *path);
     static void open_ship_block_select_menu(int, void *, void *);
     static void open_warp_menu();
     static s32 parse_aix_header(void *, int, void *);
@@ -1090,8 +1090,8 @@ struct TLobby : public TObject {
     static void process_deferred_player_setup();
     static void queue_static_object_destruction();
     static u8 read_byte_advance();
-    static void rebuild_all(int);
-    static void refresh_quest_list(int);
+    static void rebuild_all(u8 *quest);
+    static void refresh_quest_list(const char *path);
     static void remove_player(unsigned int, int, int);
     static s32 replace_file_extension(void *, void *, void *);
     static void request_game_list();
@@ -1141,7 +1141,7 @@ struct TLobby : public TObject {
     static void snapshot_player_card_status();
     static void update(void *);
     static void update();
-    static void update_and_reset(int);
+    static void update_and_reset(u8 *quest);
     static void update_block_jump_list();
     static void update_card_list_window();
     static void update_com_card_window();

@@ -4,6 +4,11 @@
 #include "types.h"
 
 struct TLobby;
+
+// The offline quest's file names (prepare_offline_quest_filenames).
+extern char offline_quest_filename_buffer_a[0x20];
+extern char offline_quest_filename_buffer_b[0x20];
+
 extern "C" {
 void TLobby__sub_801F3774(void);
 }

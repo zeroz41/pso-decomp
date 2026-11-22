@@ -31,7 +31,6 @@ struct Stack_801F3778 {
 
 extern "C" {
 extern s32 game_difficulty_selection;
-extern char offline_quest_filename_buffer_a[],offline_quest_filename_buffer_b[];
 
 void TLobby__sub_801F3774(void) {  }
 

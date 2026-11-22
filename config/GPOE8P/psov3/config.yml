@@ -9345,7 +9345,7 @@ force_active:
   - open_sell_window__20TShopItemTecSequenceFv
   - open_sell_window__22TShopEquipmentSequenceFv
   - open_sell_window__26TShopEquipmentGearSequenceFv
-  - open_session__6TLobbyFi
+  - open_session__6TLobbyFPCc
   - open_ship_block_select_menu__6TLobbyFiPvPv
   - open_status_window__19TWindowSubTradeMainFv
   - open_trade_equip_window__19TWindowSubTradeMainFv
@@ -13971,7 +13971,7 @@ force_active:
   - read_u16_le__9TLanguageFv
   - read_u32_le__9TLanguageFv
   - rebuildTechniqueList__19TWindowSubTechniqueFll
-  - rebuild_all__6TLobbyFi
+  - rebuild_all__6TLobbyFPUc
   - rebuild_area_keep_players__6TLobbyFv
   - rebuild_com_card_list__17TWindowSubComCardFii
   - rebuild_item_list__18TShopGetItemWindowFv
@@ -14065,7 +14065,7 @@ force_active:
   - refresh_names__15TObjDeadListWinFv
   - refresh_npc_view_actor_lost__FPv
   - refresh_palette_slots__21TWindowSubCustomEquipFv
-  - refresh_quest_list__6TLobbyFi
+  - refresh_quest_list__6TLobbyFPCc
   - refresh_split_screen_battle_alive_flags__FPv
   - refresh_submenu__15TWindowMainMenuFPv
   - refresh_target_marker__11TMainCursorFv
@@ -16684,7 +16684,7 @@ force_active:
   - update_all_parts__11TBoss6Type2FPv
   - update_all_slots__13TPhotonFarllaFv
   - update_and_destroy__13TUnk_804C349CFv
-  - update_and_reset__6TLobbyFi
+  - update_and_reset__6TLobbyFPUc
   - update_and_send_lobby__9TWindowDDFv
   - update_angle__13TObjEneMe1GeeFv
   - update_angle__17TObjEneMe1CanadinFv

@@ -3,13 +3,10 @@
 
 #include "types.h"
 
-extern "C" {
-s32 *fn_801F43A8(void);
-}
-
 // --- C functions defined in text_801F43A8.cpp ---
 extern "C" {
-s32 *fn_801F43A8(void);
+// The offline quest's second file name (offline_quest_filename_buffer_b).
+char *fn_801F43A8(void);
 }
 // --- end of C functions
 
