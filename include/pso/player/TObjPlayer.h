@@ -237,7 +237,7 @@ struct TObjPlayer : public TObjChara {
     u8 _pad748[0xC];
     void* m_754;
     u8 _pad758[0x6C];
-    void* m_7c4;
+    s8 trap_counts[4];  // per trap kind, refilled from the class table (refill_trap_counts)
     void* m_7c8;
     void* attack_state;  // the attack accuracy/damage-scale block
     u8 _pad7D0[0x58];

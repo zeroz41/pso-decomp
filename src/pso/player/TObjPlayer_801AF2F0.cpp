@@ -41,6 +41,7 @@
 #include "pso/player/PlayerActionPaletteState.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/unk/text_801C5470.h"
 #include <stddef.h>
 #include "pso/player/PlayerRequirementStats.h"
 #include "pso/player/TPlyDispData.h"
@@ -83,13 +84,6 @@
 #pragma readonly_strings on
 
 #define M0(x) virtual void m##x();
-struct Base_801AF2F0 { char pad[0x18]; };
-
-struct VObj_801AF2F0 : Base_801AF2F0 {
-    M0(0) M0(1) M0(2) M0(3) M0(4) M0(5) M0(6) M0(7) M0(8) M0(9)
-    M0(10) M0(11) M0(12) M0(13)
-    virtual s32 m14();
-};
 
 struct Base_801B9954 {
     s16 field[18];
@@ -109,78 +103,12 @@ struct Defense_801B9954 {
     s32 defense;
 };
 
-struct ItemBase_801B9954 { char pad[0x18]; };
-
-struct Item_801B9954 : ItemBase_801B9954 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void subtract_applied(Attack_801B9954 *, Defense_801B9954 *, Base_801B9954 *);
-};
-
 struct InventoryCreatePacket_801B849C {
     u8 command;
     u8 size;
     u16 actor;
     TItemData item;
     u32 flags;
-};
-
-struct VBase_801B96BC { char pad[0x18]; };
-
-struct VObj_801B96BC : VBase_801B96BC {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23(void *, void *, void *);
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual s8 m31();
 };
 
 struct Stats_801B96BC { s16 atp; s16 pad2[0x11]; };
@@ -317,26 +245,6 @@ typedef struct Msg_801CD6BC {
 
 struct L_801AF554 { u8 f0[2]; s16 f2; s8 f4; };
 
-struct B_801AF734 { u8 pad[0x18]; };
-
-struct V_801AF734 : B_801AF734 {
-    virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3();
-    virtual void v4(); virtual void v5(); virtual void v6(); virtual void v7();
-    virtual void v8(); virtual void v9(); virtual void v10(); virtual void v11();
-    virtual void v12(); virtual void v13(); virtual void *m14();
-};
-
-struct Base_801AF7E0 { u8 pad[0x18]; };
-
-struct TObjPlayer_801AF7E0 : Base_801AF7E0 {
-    virtual void v0();  virtual void v1();  virtual void v2();  virtual void v3();
-    virtual void v4();  virtual void v5();  virtual void v6();  virtual void v7();
-    virtual void v8();  virtual void v9();  virtual void v10(); virtual void v11();
-    virtual void v12(); virtual void v13(); virtual s32 v14();
-    u8 pad1[0x7C4 - 0x1C];
-    u8 slot[4];
-};
-
 struct VBase_801AFCF4 { u8 pad[8]; };
 
 struct VObj_801AFCF4 : VBase_801AFCF4 {
@@ -376,12 +284,6 @@ struct pkt_801B1674 {
     u16 player_id;
 };
 
-struct VBase_801B09A4 { char pad[0x18]; };
-
-struct VObj_801B09A4 : VBase_801B09A4 {
-    virtual void m0(s32);
-};
-
 struct Rec_801B09A4 { u8 bytes[0x42C]; };
 
 struct Pl_801B0B88 {
@@ -393,8 +295,6 @@ struct Pl_801B0B88 {
     u8 f7C8[0xd00 - 0x7c8];
     s32 fD00;
 };
-
-struct VBase_18 { char pad[0x18]; };
 
 struct pkt_801B1FA4 {
     u8 hdr[2];
@@ -434,62 +334,6 @@ struct Pkt_801B1EE0 {
 };
 
 struct Pair_801B2AE8 { u32 a; u32 b; };
-
-struct VBase_801B2AE8 { char pad[0x18]; };
-
-struct VObj_801B2AE8 : VBase_801B2AE8 {
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual void v5();
-    virtual void v6();
-    virtual void v7();
-    virtual void v8();
-    virtual void v9();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void v15();
-    virtual void v16();
-    virtual void v17();
-    virtual void v18();
-    virtual void v19();
-    virtual void v20();
-    virtual void v21();
-    virtual void v22();
-    virtual void v23();
-    virtual void v24();
-    virtual void v25();
-    virtual void v26();
-    virtual void v27();
-    virtual void v28();
-    virtual void v29();
-    virtual void v30();
-    virtual void v31();
-    virtual void v32();
-    virtual void v33();
-    virtual void v34();
-    virtual void v35();
-    virtual void v36();
-    virtual void v37();
-    virtual void v38();
-    virtual void v39();
-    virtual void v40();
-    virtual void v41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46(s32);
-    virtual void m47();
-    virtual void m48();
-    virtual void m49(Pair_801B2AE8);
-    virtual void m50(Pair_801B2AE8);
-};
 
 struct Pair_801B2AE8;
 
@@ -583,186 +427,16 @@ struct Eff_801B2D88 { u16 f0; u16 f2; u32 f4; u32 f8; };
 
 struct Pair_801B2D88 { u32 a; u32 b; };
 
-struct VBase_801B2CE4 { char pad[0x18]; };
-
-struct VObj_801B2CE4 : VBase_801B2CE4 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-};
-
 struct Eff_801B2CE4 { u16 f0; u16 f2; u32 f4; u32 f8; };
-
-struct VBase_801B3274 { char pad[0x18]; };
-
-struct VObj_801B3274 : VBase_801B3274 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20(); virtual void m21(); virtual void m22(); virtual void m23();
-    virtual void m24(); virtual void m25(); virtual void m26(); virtual void m27();
-    virtual void m28(); virtual void m29(); virtual void m30(); virtual void m31();
-    virtual void m32(); virtual void m33(); virtual void m34(); virtual void m35();
-    virtual void m36(); virtual void m37(); virtual void m38(); virtual void m39();
-    virtual void m40(); virtual void m41(); virtual void m42(); virtual void m43();
-    virtual void m44(); virtual void m45(); virtual void m46(); virtual void m47();
-    virtual void m48(); virtual void m49(); virtual void m50(); virtual void m51();
-    virtual void m52(); virtual void m53(); virtual void m54(); virtual void m55();
-    virtual void m56(); virtual void m57(); virtual void m58(); virtual void m59();
-    virtual void m60(); virtual void m61(); virtual void m62();
-};
-
-struct VBase_801B3DD4 { char pad[0x18]; };
-
-struct VObj_801B3DD4 : VBase_801B3DD4 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11(s32);
-};
 
 struct Player_801B3DD4 {
     u8 pad0[0x60];
     s32 f60;
 };
 
-struct Base_801B4340_801B3FD8 { char pad[0x18]; };
-
-struct VObj_801B4340_801B3FD8 : Base_801B4340_801B3FD8 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-};
-
 struct S801B4430_801b4430_801B3FD8 { s8 b[2]; s16 h; };
 
 struct S801B44EC_801b44ec_801B3FD8 { s8 b[2]; s16 h; };
-
-struct Base_801B4540_801B3FD8 { char pad[0x18]; };
-
-struct VObj_801B4540_801B3FD8 : Base_801B4540_801B3FD8 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20(); virtual void m21(); virtual void m22(); virtual void m23();
-    virtual void m24(); virtual void m25(); virtual void m26(); virtual void m27();
-    virtual void m28(); virtual void m29(); virtual void m30(); virtual void m31();
-    virtual void m32(); virtual void m33(); virtual void m34(); virtual void m35();
-    virtual void m36(); virtual void m37(); virtual void m38(); virtual void m39();
-    virtual void m40(); virtual void m41(); virtual void m42(); virtual void m43();
-    virtual void m44(); virtual void m45(); virtual void m46(); virtual void m47();
-    virtual void m48(); virtual void m49(); virtual void m50(); virtual void m51();
-    virtual void m52(); virtual void m53();
-};
 
 struct S801B4630_801B3FD8 { s8 b[2]; s16 h; };
 
@@ -929,20 +603,6 @@ struct Obj_801B5DDC {
     Vec f308;
 };
 
-struct Pad_801B5EA4 { u8 pad[0x18]; };
-
-struct Obj_801B5EA4 : Pad_801B5EA4 {
-    virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3();
-    virtual void v4(); virtual void v5(); virtual void v6(); virtual void v7();
-    virtual void v8(); virtual void v9(); virtual void v10(); virtual void v11();
-    virtual void v12(); virtual void v13(); virtual void v14(); virtual void v15();
-    virtual u32 v16(Vec *);
-    u8 pad1c[0x38 - 0x1C];
-    Vec pos;
-    u8 pad44[0x308 - 0x44];
-    Vec vel;
-};
-
 struct P_801B5FB0 { u8 pad[0x308]; f32 a; f32 pad30c; f32 b; };
 
 struct Pkt_801B6A5C {
@@ -967,18 +627,6 @@ struct Plr_801B6A5C {
 };
 
 struct Color_801B6964 { f32 r, g, b, a; };
-
-struct Base_801B6414_801B3FD8 { char pad[0x18]; };
-
-struct VObj_801B6414_801B3FD8 : Base_801B6414_801B3FD8 {
-    virtual void m0();
-    virtual void m1();  virtual void m2();  virtual void m3();  virtual void m4();
-    virtual void m5();  virtual void m6();  virtual void m7();  virtual void m8();
-    virtual void m9();  virtual void m10(); virtual void m11();
-    virtual void m12(s32);
-    virtual void m13();
-    virtual s32 m14();
-};
 
 struct VBase_18_c0d9f3
 {
@@ -1060,17 +708,6 @@ struct Obj_801B6CE0 {
 
 struct Buf1C { u8 pad[0x1C]; };
 
-struct VBase { u8 pad[0x18]; };
-
-struct VObj : VBase {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20(s32); virtual void m21(s32);
-};
-
 typedef struct VBase_18_c0d9f3 VBase_18_c0d9f3;
 
 typedef struct VObj_18_c0d9f3 VObj_18_c0d9f3;
@@ -1091,41 +728,6 @@ typedef struct Cmd_801B7D68 {
     u32 item_b;
 } Cmd_801B7D68;
 
-struct VBase_801B7EB8 { char pad[0x18]; };
-
-struct VObj_801B7EB8 : VBase_801B7EB8 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-};
-
 struct Pkt_801B7EB8 {
     u8 hdr[2];
     u16 client;
@@ -1142,78 +744,6 @@ struct Buf_801B802C {
 struct Ent_801B80C0 { u8 pad[0x14]; s32 f14; u8 pad18[0x1C - 0x18]; };
 
 struct S801B7F4C { s8 b[2]; s16 h; s32 w; };
-
-struct VBase_18_e9153c { char pad[0x18]; };
-
-struct VObj_18_e9153c : VBase_18_e9153c {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual s32 m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual s8 m31();
-};
-
-struct VObj_18_p65 : VBase_18 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual s32 m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual s8 m31();
-};
 
 typedef struct Pkt_801B8344 {
     u8 cmd;
@@ -1261,21 +791,6 @@ typedef struct Player_801B87E4 {
     void *inv;
 } Player_801B87E4;
 
-struct VBase_801B8AF8 { char pad[0x18]; };
-
-struct VObj_801B8AF8 : VBase_801B8AF8 {
-    virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3();
-    virtual void v4(); virtual void v5(); virtual void v6(); virtual void v7();
-    virtual void v8(); virtual void v9(); virtual void v10(); virtual void v11();
-    virtual void v12(); virtual void v13(); virtual void v14(); virtual void v15();
-    virtual void v16(); virtual void v17(); virtual void v18(); virtual void v19();
-    virtual void v20(); virtual void v21(); virtual void v22(); virtual void v23();
-    virtual void v24(); virtual void v25(); virtual void v26(); virtual void v27();
-    virtual void v28(); virtual void v29(); virtual void v30(); virtual void v31();
-    virtual void v32(); virtual void v33();
-    virtual s32 m34();
-};
-
 struct Item_801B8AF8 {
     u8 data[0xC];
     s32 id;
@@ -1308,61 +823,6 @@ struct Cmd_801B8DE8 { u8 hdr[2]; s16 id; s32 a; s32 b; };
 
 struct L_801B8D68 { u16 f0; u16 f2; s32 f4; s32 f8; };
 
-struct VObj_18_p72 : VBase_18 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual s32 m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual s32 m34();
-    virtual void m35();
-    virtual void m36(s32);
-};
-
-struct VBase_801B91F0 { char pad[0x18]; };
-
-struct VObj_801B91F0 : VBase_801B91F0 {
-    virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3();
-    virtual void v4(); virtual void v5(); virtual void v6(); virtual void v7();
-    virtual void v8(); virtual void v9(); virtual void v10(); virtual void v11();
-    virtual void v12(); virtual void v13(); virtual void v14(); virtual void v15();
-    virtual void v16(); virtual void v17(); virtual void v18(); virtual void v19();
-    virtual void v20(); virtual void v21(); virtual void v22(); virtual void v23();
-    virtual void v24(); virtual void v25(); virtual void v26(); virtual void v27();
-    virtual void v28(); virtual void v29(); virtual void v30(); virtual void v31();
-    virtual void v32(); virtual void v33();
-    virtual s32 m34();
-};
-
 struct Inv_801B91F0 {
     u8 pad0[0x1C];
     s16 count;
@@ -1381,68 +841,6 @@ struct Obj_801B92EC {
 };
 
 typedef struct Cmd_801B9634 { u8 hdr[2]; s16 client; s32 val; } Cmd_801B9634;
-
-struct Base_801B9CE0 { char pad[0x18]; };
-
-struct VObj_801B9CE0 : Base_801B9CE0 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-};
-
-struct Base_801B9D50 { char pad[0x18]; };
-
-struct VObj_801B9D50 : Base_801B9D50 {
-virtual void f13();
-virtual void f14();
-virtual void f15();
-virtual void f16();
-virtual void f17();
-virtual void f18();
-virtual void f19();
-virtual void f20();
-virtual void f21();
-virtual void f22();
-virtual void f23();
-virtual void f24();
-virtual void f25();
-virtual void f26();
-virtual void f27();
-virtual void f28();
-virtual void f29();
-virtual void f30();
-virtual void f31();
-    virtual void m19();
-virtual void f33();
-virtual void f34();
-virtual void f35();
-virtual void f36();
-virtual void f37();
-virtual void f38();
-virtual void f39();
-virtual void f40();
-virtual void f41();
-virtual void f42();
-virtual void f43();
-    virtual s32 m31();
-};
 
 typedef struct Msg_801B9E0C {
     u8 pad0[2];
@@ -2047,7 +1445,6 @@ s8 get_byte_173(void *);
 s32 TLobby__sub_801C2678();
 void fn_801C5420(void *, s32);
 int fn_801C543C(void*);
-s32 are_trap_counts_full(void *, void *, int);
 void TObjPlayer__sub_801C5780(void *, s32, s32);
 int reset_ring__10TObjPlayerFv(void*);
 int clear_target_lock__10TObjPlayerFv(void*);
@@ -3190,16 +2587,16 @@ void TObjPlayer::equip_item_to_slot(void *item, s32 slot) {
         }
         ((VObj_801B9F40 *)item)->m17((s8)slot);
     } else {
-        slot = ((VObj_801B9F40 *)item)->m31();
+        slot = ((TItem *)item)->get_attach_slot();
     }
     cur = (void *)TObjPlayer::get_slot_value((s32 *)p->slots, slot);
     if (cur == NULL) {
         ((void (*)(void *, s32, void *))set_equip_slot_entry)(p->slots, slot, item);
-        ((VObj_801B9F40 *)item)->m18();
+        ((TItem *)item)->equip();
     } else if (cur != item) {
         ((void (*)(void *, void *))unequip_item__10TObjPlayerFiPv)(this, cur);
         ((void (*)(void *, s32, void *))set_equip_slot_entry)(p->slots, slot, item);
-        ((VObj_801B9F40 *)item)->m18();
+        ((TItem *)item)->equip();
     }
     if (test_action_mask(2) != 0) {
         this->set_animation(((s16 (*)(void *))unequip_by_field326__10TObjPlayerFPv)(this));
@@ -3241,10 +2638,8 @@ void handle_6x26_unequip_item(void *arg0) {
 }
 
 void unequip_item__10TObjPlayerFiPv(saddr arg0, void *item) {
-    VObj_801B9D50 *self = (VObj_801B9D50 *)item;
-
-    ((s32 (*)(s32, s8, s32))set_equip_slot_entry)(arg0 + 0xD04, self->m31(), 0);
-    self->m19();
+    set_equip_slot_entry(arg0 + 0xD04, ((TItem *)item)->get_attach_slot(), 0);
+    ((TItem *)item)->unequip();
     if ((((TItem *)item)->get_item_type() == 1) && (((TItem *)item)->get_item_group() == 1)) {
         ((TObjPlayer *)arg0)->unequip_all_units();
     }
@@ -3262,8 +2657,8 @@ void TObjPlayer::unequip_all_units() {
     do {
         temp_r3 = (void *)TObjPlayer::get_slot_value((s32 *)(arg0 + 0xD04), var_r31);
         if (temp_r3 != NULL) {
-            ((s32 (*)(s32, s32, s32))set_equip_slot_entry)(arg0 + 0xD04, var_r31, 0);
-            ((VObj_801B9CE0*)temp_r3)->m19();
+            set_equip_slot_entry(arg0 + 0xD04, var_r31, 0);
+            ((TItem *)temp_r3)->unequip();
         }
         var_r31 += 1;
     } while (var_r31 <= 0xC);
@@ -3275,7 +2670,7 @@ s32 preview_equip_stats__10TObjPlayerFv(u8 *arg0, s16 *out, u8 *incoming) {
     Base_801B9954 b;
     Attack_801B9954 a;
     Defense_801B9954 d;
-    Item_801B9954 *prev;
+    TItem *prev;
     saddr slot;
     s32 atp;
     f32 rate;
@@ -3286,26 +2681,26 @@ s32 preview_equip_stats__10TObjPlayerFv(u8 *arg0, s16 *out, u8 *incoming) {
     ((TLobby *)(&d))->copy_entry(*(void **)(arg0 + 0x31C));
     switch (incoming[0]) {
     case 0:
-        prev = (Item_801B9954 *)TObjPlayer::get_item_field_6(arg0);
+        prev = TObjPlayer::get_item_field_6(arg0);
         break;
     case 1:
         if (incoming[1] == 1) {
-            prev = (Item_801B9954 *)((TItemData *)arg0)->get_item_field_2();
+            prev = (TItem *)((TItemData *)arg0)->get_item_field_2();
         } else if (incoming[1] == 2) {
-            prev = ((Item_801B9954 *)(void *)((TItemData *)arg0)->test_flag3());
+            prev = (TItem *)((TItemData *)arg0)->test_flag3();
         }
         break;
     case 2:
-        prev = ((Item_801B9954 *)(u8 *)((TObjPlayer *)arg0)->activate_d04_slot());
+        prev = (TItem *)((TObjPlayer *)arg0)->activate_d04_slot();
         break;
     }
     if (prev != NULL) {
-        prev->subtract_applied(&a, &d, &b);
-        if (((TItem *)prev)->get_item_type() == 1 && ((TItem *)prev)->get_item_group() == 1) {
+        prev->subtract_equip_stats(&a, (s16 *)&d, (s16 *)&b);
+        if (prev->get_item_type() == 1 && prev->get_item_group() == 1) {
             for (slot = 9; slot <= 12; slot++) {
-                Item_801B9954 *unit = ((Item_801B9954 *)TObjPlayer::get_slot_value((s32 *)(arg0 + 0xD04), slot));
+                TItem *unit = (TItem *)TObjPlayer::get_slot_value((s32 *)(arg0 + 0xD04), slot);
                 if (unit != NULL) {
-                    unit->subtract_applied(&a, &d, &b);
+                    unit->subtract_equip_stats(&a, (s16 *)&d, (s16 *)&b);
                 }
             }
         }
@@ -3343,7 +2738,7 @@ s32 preview_unequip_stats__10TObjPlayerFv(Self_801B96BC *self, Out_801B96BC *out
     u8 a[0x34];
     Stats_801B96BC c;
     u8 b[0x20];
-    VObj_801B96BC *owner;
+    TItem *owner;
     s32 i;
     s32 base;
     f32 k;
@@ -3352,22 +2747,22 @@ s32 preview_unequip_stats__10TObjPlayerFv(Self_801B96BC *self, Out_801B96BC *out
     if (node_3423 == 0U) {
         return 0;
     }
-    owner = ((VObj_801B96BC *)((TItemList *)node_3423)->get_owner_if_alive());
+    owner = (TItem *)((TItemList *)node_3423)->get_owner_if_alive();
     if (owner == NULL) {
         return 0;
     }
-    if (is_item_equipped((TItem *)owner) == 0 && ((TObjPlayer *)self)->get_equipped_item(owner->m31()) == NULL) {
+    if (is_item_equipped(owner) == 0 && ((TObjPlayer *)self)->get_equipped_item(owner->get_attach_slot()) == NULL) {
         return 1;
     }
     ((TLobby *)a)->copy_from((void *)self->f318);
     ((TLobby *)b)->copy_entry((void *)self->f31C);
     TLobby::copy_data(&c, (void *)self->f2B0);
-    owner->m23(a, b, &c);
-    if (((TItem *)owner)->get_item_type() == 1 && ((TItem *)owner)->get_item_group() == 1) {
+    owner->subtract_equip_stats(a, (s16 *)b, (s16 *)&c);
+    if (owner->get_item_type() == 1 && owner->get_item_group() == 1) {
         for (i = 9; i <= 12; i++) {
-            VObj_801B96BC *s = ((VObj_801B96BC *)TObjPlayer::get_slot_value((s32 *)self->fD04, i));
+            TItem *s = (TItem *)TObjPlayer::get_slot_value((s32 *)self->fD04, i);
             if (s != NULL) {
-                s->m23(a, b, &c);
+                s->subtract_equip_stats(a, (s16 *)b, (s16 *)&c);
             }
         }
     }
@@ -3502,7 +2897,7 @@ bool TObjPlayer::is_target_in_facing_cone(void *target_arg) {
 s32 TObjPlayer::can_inventory_accept_item(u8 *item) {
     s32 max;
     s32 n;
-    VObj_801B91F0 *owner;
+    TItem *owner;
     if (TItemData::lookup_item_def(item) != 0) {
         if (item[0] == 4) {
             return 1;
@@ -3514,12 +2909,12 @@ s32 TObjPlayer::can_inventory_accept_item(u8 *item) {
             }
             return ((TItemData *)item)->get_max_stack_size();
         }
-        owner = ((VObj_801B91F0 *)((TItemList *)node_3581)->get_owner_if_alive());
+        owner = (TItem *)((TItemList *)node_3581)->get_owner_if_alive();
         if (owner == NULL) {
             return 0;
         }
-        n = ((TItem *)owner)->get_max_stack_size();
-        n -= owner->m34();
+        n = owner->get_max_stack_size();
+        n -= owner->get_amount();
         max = ((TItemData *)item)->get_stack_count();
         return (n < max) ? 0 : n;
     }
@@ -3566,7 +2961,7 @@ u32 TObjPlayer::pickup_item(TItem *arg1) {
     saddr id;
     void *list;
     s32 n;
-    VObj_18_p72 *owner;
+    TItem *owner;
     u8 *inv;
     s16 idx;
     if (arg1 == NULL) {
@@ -3602,9 +2997,9 @@ u32 TObjPlayer::pickup_item(TItem *arg1) {
             if (n == 0) {
                 n = 1;
             }
-            owner = (VObj_18_p72 *)((TItemList *)id)->get_owner_if_alive();
+            owner = (TItem *)((TItemList *)id)->get_owner_if_alive();
             if (owner != NULL) {
-                owner->m36(n);
+                owner->add_amount(n);
             }
             arg1->destroy();
             return 0;
@@ -3688,7 +3083,7 @@ s32 TObjPlayer::count_items_of_type(s8 arg1, s8 arg2, s8 arg3) {
 
 void TObjPlayer::request_item_drop(s32 arg1, s32 arg2) {
     Item_801B8AF8 item;
-    VObj_801B8AF8 *owner;
+    TItem *owner;
     s32 id;
     if (check_player_action_allowed() != 0 &&
         (poll_memcard_result((s8)TAdSinglePlyChrSelectGC::get_chr_select_state()) != 0 ||
@@ -3700,16 +3095,16 @@ void TObjPlayer::request_item_drop(s32 arg1, s32 arg2) {
     if (node_3768 == 0) {
         return;
     }
-    owner = ((VObj_801B8AF8 *)((TItemList *)node_3768)->get_owner_if_alive());
+    owner = (TItem *)((TItemList *)node_3768)->get_owner_if_alive();
     if (owner == NULL) {
         return;
     }
     TObjPlayer::play_effect_default((int)this, 0x384);
     set_action_flag_2();
-    ((TItem *)owner)->copy_to_item_data((TItemData *)&item);
+    owner->copy_to_item_data((TItemData *)&item);
     ((TItemData *)&item)->set_stack_count(arg2);
     id = item.id;
-    if (owner->m34() - arg2 > 0) {
+    if (owner->get_amount() - arg2 > 0) {
         item.id = -1;
     }
     insert_item_node__10TObjPlayerFiiiii(*(s32 *)(((u8 *)this) + 0xD00) + 0x20, (void *)TObjPlayer__sub_801BF914(((u8 *)this) + 0x84C), this, &item, id);
@@ -3742,13 +3137,13 @@ s32 TObjPlayer::send_trap_packet(int arg1_) {
     if (((s32 (*)(void *))is_action_available__10TObjPlayerFi)(arg0) == 0) {
         return 0;
     }
-    if ((s8)((TObjPlayer *)(&this->m_7c4))->clamp_char_at(arg1) <= 0) {
+    if ((s8)((TObjPlayer *)trap_counts)->clamp_char_at(arg1) <= 0) {
         return 0;
     }
     ((TObjPlayer *)(&pkt))->init_trap_packet();
     pkt.client = (u16)get_entity_id(arg0);
     pkt.a = arg1;
-    pkt.b = (s8)((TObjPlayer *)(&this->m_7c4))->clamp_char_at(arg1);
+    pkt.b = (s8)((TObjPlayer *)trap_counts)->clamp_char_at(arg1);
     ((TObjPlayer *)(&pkt))->bswap_body_words_and_send();
     return 1;
 }
@@ -3902,10 +3297,10 @@ void handle_6x2B_create_inventory_item(saddr arg0) {
             }
             ((TItemData *)pkt.item)->decode_from_network();
             item = ((u8 * (*)(s32 *))create_item)((s32 *)pkt.item);
-            if ((item != NULL) && (((TObjPlayer *)player)->pickup_item((TItem *)item) != 0U) && (kind == 2) && (pkt.f19 != 0) && (TObjPlayer::get_slot_value((s32 *)(player + 0xD04), (((VObj_18_p65 *)item)->m31())) == 0U)) {
-                ((s32 (*)(void *, void *, int))set_equip_slot_entry)((void *)(player + 0xD04), (void *)(((VObj_18_p65 *)item)->m31()), (int)item);
+            if ((item != NULL) && (((TObjPlayer *)player)->pickup_item((TItem *)item) != 0U) && (kind == 2) && (pkt.f19 != 0) && (TObjPlayer::get_slot_value((s32 *)(player + 0xD04), ((TItem *)item)->get_attach_slot()) == 0U)) {
+                set_equip_slot_entry((saddr)(player + 0xD04), ((TItem *)item)->get_attach_slot(), (saddr)item);
                 ((TObjPlayer *)player)->set_flag_20000();
-                ((VObj_18_p65 *)item)->m18();
+                ((TItem *)item)->equip();
                 ((TObjPlayer *)player)->clear_flag_20000();
             }
         }
@@ -3953,10 +3348,10 @@ void bind_saved_inventory_equipment__10TObjPlayerFPvPvi(u8 *p, u8 *records, s32 
 void equip_saved_item_if_slot_empty__10TObjPlayerFPvPv(u8 *player, u8 *arg1) {
     saddr item;
     item = (saddr)create_item((TItemData *)(arg1 + 8));
-    if ((item != 0) && (((TObjPlayer *)player)->pickup_item((TItem *)item) != 0) && (*(s32 *)((s8 *)arg1 + 4) & 8) && (TObjPlayer::get_slot_value((s32 *)(player + 0xD04), (s32) ((VObj_18_e9153c *)(item))->m31()) == 0U)) {
-        set_equip_slot_entry((saddr)(player + 0xD04), (s32) ((VObj_18_e9153c *)(item))->m31(), item);
+    if ((item != 0) && (((TObjPlayer *)player)->pickup_item((TItem *)item) != 0) && (*(s32 *)((s8 *)arg1 + 4) & 8) && (TObjPlayer::get_slot_value((s32 *)(player + 0xD04), ((TItem *)item)->get_attach_slot()) == 0U)) {
+        set_equip_slot_entry((saddr)(player + 0xD04), ((TItem *)item)->get_attach_slot(), item);
         ((TObjPlayer *)player)->set_flag_20000();
-        ((VObj_18_e9153c *)(item))->m18();
+        ((TItem *)item)->equip();
         ((TObjPlayer *)player)->clear_flag_20000();
     }
 }
@@ -4028,7 +3423,7 @@ void handle_6x27_use_item(saddr arg0) {
         if ((temp_r3 != NULL) && ((node = ((TPlyItem *)(*(s32 *)((s8 *)temp_r3 + 0xD00)))->start_inventory_update(pkt.item)) != 0U)) {
             temp_r3_2 = (u8 *)((TItemList *)node)->get_owner_if_alive();
             if (temp_r3_2 != NULL) {
-                ((VObj_801B7EB8 *)temp_r3_2)->m29();
+                ((TItem *)temp_r3_2)->use();
             }
         }
     }
@@ -4460,7 +3855,7 @@ void TObjPlayer::check_level_up() {
                 do {
                     temp_r31 = (u8 *)TObjPlayer::get_slot_value((s32 *)this->equipped_items, var_r30);
                     if ((((s32 (*)(void))can_destroy_with_parents__10TObjPlayerFUi)() != 0) && (is_item_equipped((TItem *)temp_r31) != 0)) {
-                        ((VObj *)temp_r31)->m21(1);
+                        ((TItem *)temp_r31)->remove_equip_stats(1);
                     }
                     var_r30 += 1;
                 } while (var_r30 < 0xD);
@@ -4471,7 +3866,7 @@ void TObjPlayer::check_level_up() {
                 do {
                     temp_r30_2 = (u8 *)TObjPlayer::get_slot_value((s32 *)this->equipped_items, var_r31);
                     if ((((s32 (*)(void))can_destroy_with_parents__10TObjPlayerFUi)() != 0) && (is_item_equipped((TItem *)temp_r30_2) != 0)) {
-                        ((VObj *)temp_r30_2)->m20(1);
+                        ((TItem *)temp_r30_2)->add_equip_stats(1);
                     }
                     var_r31 += 1;
                 } while (var_r31 < 0xD);
@@ -4716,11 +4111,10 @@ void TObjPlayer::apply_battle_level_reset(s32 level) {
 }
 
 void TObjPlayer::update_aim_angle(s32 arg1) {
-    struct VObj_801B6414_801B3FD8 *obj = (struct VObj_801B6414_801B3FD8 *) this;
     s32 class_state_field;
 
-    class_state_field = this->get_class_state_field(TObjPlayer::clamp_index_to_max(arg1 + obj->m14()));
-    obj->m12(class_state_field - this->obj_getPtr2B0_1C());
+    class_state_field = this->get_class_state_field(TObjPlayer::clamp_index_to_max(arg1 + get_actor_level_index()));
+    add_actor_exp(class_state_field - this->obj_getPtr2B0_1C());
 }
 
 void TObjPlayer::recalc_stats() {
@@ -4837,9 +4231,9 @@ void damp_planar_velocity(P_801B5FB0 *p) {
 
 saddr TObjPlayer::resolve_move_collision() {
     Vec p;
-    p.x = ((Obj_801B5EA4 *)this)->pos.x + ((Obj_801B5EA4 *)this)->vel.x;
-    p.y = ((Obj_801B5EA4 *)this)->pos.y + ((Obj_801B5EA4 *)this)->vel.y;
-    p.z = ((Obj_801B5EA4 *)this)->pos.z + ((Obj_801B5EA4 *)this)->vel.z;
+    p.x = position.x + x_speed;
+    p.y = position.y + y_speed;
+    p.z = position.z + m_310;
     if (this->update_actor_ground_y_at(&p) == 0U) {
         clear_velocity((u8 *)this);
         return 1;
@@ -5564,9 +4958,8 @@ void handle_6x31_use_medical_center(void *arg0) {
 }
 
 void recover_full__10TObjPlayerFPv(void *player) {
-    struct VObj_801B4540_801B3FD8 *o = (struct VObj_801B4540_801B3FD8 *)player;
     ((s32 (*)(void))play_voice_pair__10TObjPlayerFPv)();
-    o->m53();
+    ((TObjPlayer *)player)->clear_all_status_effects();
     ((TObjBase *)player)->obj_clearFlags30((u32)0xE00);
     ((TObjPlayer *)player)->clear_state_flags(1);
 }
@@ -5622,9 +5015,8 @@ void handle_6xA1_revive_player_v3(void *arg0) {
 }
 
 void TObjPlayer::revive() {
-    struct VObj_801B4340_801B3FD8 *o = (struct VObj_801B4340_801B3FD8 *)this;
     ((s32 (*)(void))update_rotation__10TObjPlayerFv)();
-    o->m53();
+    clear_all_status_effects();
     obj_clearFlags30((u32)0xE00);
     clear_state_flags(1);
 }
@@ -5728,7 +5120,7 @@ s32 TObjPlayer::execute_palette_action(s32 arg1, void *arg2) {
             return 0;
         }
         if (is_target_valid() != 0) {
-            ((VObj_801B3DD4 *)arg2)->m11(get_entity_id(this));
+            ((TObjCollidable *)arg2)->interact(get_entity_id(this));
             return 1;
         }
         break;
@@ -6013,8 +5405,8 @@ void complete_deferred_player_death(void) {
     u8 lvl;
     s16 aim;
     u16 room;
-    VObj_801B3274 *p;
-    p = ((VObj_801B3274 * (*)(s32))get_player_by_client_id)(fn_801C1BA0());
+    TObjPlayer *p;
+    p = get_player_by_client_id(fn_801C1BA0());
     if (p == NULL) {
         return;
     }
@@ -6040,7 +5432,7 @@ void complete_deferred_player_death(void) {
         if ((lvl = (u8)((TLobby *)lobby_rule_settings)->get_clamped_level()) != 0 && (room == 0 || room == 0x1000)) {
             ((s32 (*)(void *, u8))TObjPlayer__sub_801AF554)(p, lvl);
         }
-        p->m62();
+        p->reset_pose();
         return;
     }
     if (TObjPlayer::is_camera_mode_active() != 0) {
@@ -6206,9 +5598,9 @@ void handle_6x0E_clear_negative_status_effects(s32 arg0) {
     ((void (*)(void *, s32))clear_negative_status_effects__10TObjPlayerFi)(&e, arg0);
     bswap_g_client_id_header(&e);
     if (validate_6x0E_clear_negative_status_effects((G_ClientIDHeader *)&e) != 0) {
-        VObj_801B2CE4 *p = (VObj_801B2CE4 *)((u32 (*)(s32))get_player_by_client_id)(e.f2);
+        TObjPlayer *p = get_player_by_client_id(e.f2);
         if (p != 0) {
-            p->m48();
+            p->clear_harmful_statuses();
         }
     }
 }
@@ -6268,14 +5660,14 @@ void dispatch_status_effect_msg__10TObjPlayerFUiPv(uaddr arg0, Pair_801B2AE8 *ms
     case 11:
         {
             Pair_801B2AE8 tmp = *msg;
-            ((VObj_801B2AE8 *)arg0)->m49(tmp);
+            ((TObjPlayer *)arg0)->apply_attack_stat_status(&tmp);
         }
         break;
     case 10:
     case 12:
         {
             Pair_801B2AE8 tmp2 = *msg;
-            ((VObj_801B2AE8 *)arg0)->m50(tmp2);
+            ((TObjPlayer *)arg0)->apply_defense_stat_status(&tmp2);
         }
         break;
     }
@@ -7057,7 +6449,7 @@ void TLobby::apply_battle_rules_to_players() {
     s32 lv;
     q = ((s32 *)&lobby_rule_settings);
     for (i = 0; i < 0xC; i++) {
-        p = (Pl_801B0B88 *)((VObj_801B09A4 * (*)(s32))get_player_by_client_id)(i);
+        p = (Pl_801B0B88 *)get_player_by_client_id(i);
         if (p == NULL) {
             continue;
         }
@@ -7184,20 +6576,18 @@ block_15:
 }
 
 void TLobby__sub_801B09A4(void) {
-    VObj_801B09A4 *players[12];
+    TObjPlayer *players[12];
     s32 i;
-    VObj_801B09A4 *p;
+    TObjPlayer *p;
     shared_state_flags |= 1;
     for (i = 0; i < 12; i++) {
         players[i] = NULL;
     }
     for (i = 0; i < 12; i++) {
-        p = ((VObj_801B09A4 * (*)(s32))get_player_by_client_id)(i);
+        p = get_player_by_client_id(i);
         if (p != NULL) {
             players[i] = p;
-            if (p != NULL) {
-                p->m0(1);
-            }
+            delete p;
         }
     }
     for (i = 0; i < 12; i++) {
@@ -7760,7 +7150,7 @@ s32 TObjPlayer::update_movement_by_screen() {
 }
 
 void TObjPlayer::refill_traps() {
-    refill_trap_counts((saddr)(((TObjPlayer_801AF7E0 *)this)->slot), this->get_actor_level_index(), ((s32 (*)(void))get_class_index__10TObjPlayerFv)());
+    refill_trap_counts((saddr)trap_counts, get_actor_level_index(), ((s32 (*)(void))get_class_index__10TObjPlayerFv)());
 }
 
 s32 TObjPlayer::is_alive_and_ready() {
@@ -7772,7 +7162,7 @@ s32 TObjPlayer::is_alive_and_ready() {
 }
 
 s32 TObjPlayer::are_traps_full() {
-    return are_trap_counts_full((u8 *)((V_801AF734 *)this) + 0x7C4, ((V_801AF734 *)this)->m14(), ((s32 (*)(void *))get_class_index__10TObjPlayerFv)(((V_801AF734 *)this))) != 0 ? 1 : 0;
+    return are_trap_counts_full(trap_counts, get_actor_level_index(), get_class_index()) != 0 ? 1 : 0;
 }
 
 s32 is_action_available__10TObjPlayerFi(saddr arg0) {
@@ -7856,7 +7246,7 @@ void TObjPlayer::update_facing_from_lock() {
 
 s32 calc_stat_threshold__10TObjPlayerFPv(void *player) {
     s32 var_r31;
-    var_r31 = ((VObj_801AF2F0*)player)->m14();
+    var_r31 = ((TObjPlayer *)player)->get_actor_level_index();
     if (var_r31 > 0x63) {
         var_r31 = 0x63;
     }
