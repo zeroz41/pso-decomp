@@ -89,25 +89,26 @@
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/render/model_render_state.h"
+#include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
+#include "pso/system/task/TMainTask.h"
 
 #pragma readonly_strings on
 
-void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
 extern "C" {
-s32 minimap_render_dot(void *, s32, s32, s32);
-
 s32 TObjPlayer__sub_800A3210(s32 i, s32 _w1, s32 _w2);
-
-s32 submit_cursor_candidate(void *, s32);
 
 }
 
-void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-
-extern s32 actor_frame_tick;
-
 struct G_800A3210 { u8 pad[0x18]; s32 arr[1]; };
 
 typedef struct XZ_800A1814 {
@@ -119,9 +120,6 @@ typedef struct Ofs_800A1814 {
 } Ofs_800A1814;
 
 struct Raw_800A10A0 { u8 b[12]; };
-s32 check_path_obstructed(void *, Vec *);
-
-f32 atan2_float(f32, f32);
 
 
 
@@ -136,35 +134,11 @@ f32 atan2_float(f32, f32);
 
 
 
-void TEneEffHamon__sub_800A380C(void);
 
-u8 * __ct__12TEneEffHamonFv(u8 *object, saddr arg1, s32 arg2, s32 arg3, f32 farg0);
-
-u8 *get_enemy_entity(u16 arg0);
-
-s32 free_collision_body_parts(void *);
-
-s32 init_collision_body_parts(void *, void *, int);
-
-s32 project_actor_to_ground(void *, void *, int);
-
-
-s32 matrix_mult_vec(int, void *, void *);
-
-f32 vector_length(void *);
-
-void rotate_vector_by_matrix(int, void *, void *);
-
-
-s32 post_translate_matrix(s32);
-
-void obj_setFlags30(void *, u32);
 
 }
 
-void move_with_wall_slide(u8 *arg0);
 
-int initialize_enemy_photon_effect(void *p);
 extern "C" {
 saddr TObjEneDarkGunner__base_params_by_variant[1];
 
@@ -191,7 +165,7 @@ void *bm_ene_darkgunner_resource_descriptor[4] = {
     (void *)"bm_ene_darkgunner.bml", (void *)&bm_ene_darkgunner_model_names, (void *)&bm_ene_darkgunner_motion_names, (void *)0x4000e,
 };
 
-void *lbl_80490668[56] = {
+void *dark_gunner_action_table[56] = {
     (void *)0x10000, (void *)0xd, (void *)0x3f800000, (void *)0x0,
     (void *)0x20000, (void *)0xb, (void *)0x3f4ccccd, (void *)0x1,
     (void *)0x20000, (void *)0x5, (void *)0x3f19999a, (void *)0x1,
@@ -217,34 +191,32 @@ struct MaterialColor {
     f32 b;
 };
 
-const NpcAnimationBinding dark_gunner_attack_binding_desc = { NULL, reinterpret_cast<TObjMotionAction *>(lbl_80490668), 0, 1, 14 };
+const NpcAnimationBinding dark_gunner_attack_binding_desc = { NULL, reinterpret_cast<TObjMotionAction *>(dark_gunner_action_table), 0, 1, 14 };
 
 const MaterialColor lbl_8043A668 = {0, 0.0f, 0.0f, 0.0f};
 
-const Vec lbl_8043A678 = {1.5f, 1.5f, 1.5f};
+const Vec dark_gunner_shadow_scale = {1.5f, 1.5f, 1.5f};
 
 const Ofs_800A1814 hamon_effect_offset_table = {{{-7.0f, -7.0f}, {-7.0f, 7.0f}, {7.0f, -7.0f}, {7.0f, 7.0f}}};
 
 const Vec lbl_8043A6A4 = {0.0f, 0.0f, 0.0f};
 
-void *lbl_80490748[14] = {
+void *dark_gunner_movement_params[14] = {
     (void *)0x42a00000, (void *)0x3e8e38e3, (void *)0x400, (void *)0x1e0000,
     (void *)0x0, (void *)0x1, (void *)0x0, (void *)0x42a00000,
     (void *)0x3e8e38e3, (void *)0x400, (void *)0x1e0000, (void *)0x0,
     (void *)0x1, (void *)0x0,
 };
 
-void *lbl_80490780[11] = {
-    (void *)0x0, (void *)0x40600000, (void *)0x0, (void *)0x41200000,
-    (void *)0x0, (void *)0x0, (void *)0x8003, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x0,
+CollisionBody dark_gunner_collision_bodies[1] = {
+    {{0.0f, 3.5f, 0.0f}, 10.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 
-void *lbl_804907AC[4] = {
+void *dark_gunner_constant_material[4] = {
     (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
 };
 
-Vec lbl_804907BC[4] = {
+Vec dark_gunner_child_local_offsets[4] = {
     {0.0f, 10.0f, 2.0f}, {0.0f, 10.0f, -2.0f}, {2.0f, 10.0f, 0.0f}, {-2.0f, 10.0f, 0.0f},
 };
 
@@ -262,7 +234,6 @@ extern s32 TObjEneDarkGunner__rcly_line_texlist;
 
 extern saddr TObjPlayer__shadow_chunk_object;
 
-extern void *tl_04;
 }
 
 #pragma push
@@ -282,23 +253,14 @@ extern int fold_flush_1;
 
 #pragma pop
 extern "C" {
-extern s32 saved_model_render_flags;
-
-extern u32 model_render_flags;
-
-void set_chunk_material_override_pair(s32 first, s32 second);
 
 
-
-f32 fabs_float(f32 x);
 
 extern s32 lbl_805D5020;
 
 extern saddr lbl_805D5024;
 
 extern saddr lbl_805D5028;
-
-void TObjPlayer__sub_8023DEE0(s16 *p, s16 a, s16 b, u16 id);
 
 void TObjPlayer__sub_800A04F0(void *);
 }
@@ -400,13 +362,13 @@ TObjEneDarkGunner::TObjEneDarkGunner(TObject *parent, void *set_data) : TObjEnem
     VecCopy(&move_destination, &position);
     set_fields_24_34_from_global((void *)1);
     motion_list = *(BmlMotionEntry **)((u8 *)player_effect_bml_resource + 0x430);
-    action_table = (TObjMotionAction *)lbl_80490668;
+    action_table = (TObjMotionAction *)dark_gunner_action_table;
     set_field_d8((saddr)action_table);
     requested_action = 0;
     set_animation(requested_action);
     set_field_b8(requested_action);
-    init_collision_body_parts(this, lbl_80490780, 1);
-    movementParameters = lbl_80490748;
+    init_collision_body_parts(this, dark_gunner_collision_bodies, 1);
+    movementParameters = dark_gunner_movement_params;
     bind_enemy_combat_stats((u8 *)TObjEneDarkGunner__base_params_by_variant[variant], (u8 *)TObjEneDarkGunner__attack_params_by_variant[variant], (u8 *)TObjEneDarkGunner__resistance_params_by_variant[variant]);
     init_scale_global();
     hp = hpmax;
@@ -486,7 +448,7 @@ void TObjEneDarkGunner::cleanup_effects() {
 }
 
 void *TObjEneDarkGunner::create(void *set_data) {
-    return new TObjEneDarkGunner((TObject *)tl_04, set_data);
+    return new TObjEneDarkGunner(tl_04, set_data);
 }
 }
 
@@ -995,7 +957,7 @@ void TObjEneDarkGunner::render() {
                 draw_motion_model();
             }
             if (m_388 & 0x400000) {
-                set_constant_material((const NJS_ARGB *)lbl_804907AC);
+                set_constant_material((const NJS_ARGB *)dark_gunner_constant_material);
                 set_chunk_material_override_pair(0xFF00, 0);
             }
             model_render_flags = saved_model_render_flags;
@@ -1014,7 +976,7 @@ void TObjEneDarkGunner::render() {
                 }
             }
             if (obj_testFlags30(0x800) == 0 && drawn != 0 && obj_testFlags30(0x800000) != 0) {
-                Vec offset = lbl_8043A678;
+                Vec offset = dark_gunner_shadow_scale;
                 draw_ground_shadow(&offset, 0);
             }
         }
@@ -1031,7 +993,7 @@ void TObjEneDarkGunner::render_shadow() {
             TObjFish::set_global_param(TObjEneDarkGunner__rcly_line_texlist);
         }
         push_matrix();
-        post_translate_matrix((saddr)&shadow_pos);
+        post_translate_matrix(&shadow_pos.x);
         draw_chunk_object((void *)TObjPlayer__shadow_chunk_object);
         pop_matrix();
     }
@@ -1106,7 +1068,7 @@ void TObjEneDarkGunner::sub_800A159C() {
     hover_height += hover_speed;
     hover_height = (hover_height < 0.0f) ? 0.0f : ((hover_height < 9.0f) ? hover_height : 9.0f);
     push_matrix_from(identity_matrix);
-    post_translate_matrix((saddr)&position);
+    post_translate_matrix(&position.x);
     rotate_matrix_z(0, rotation_z);
     rotate_matrix_y(0, rotation_y);
     Vec t = lbl_8043A6A4;
@@ -1115,7 +1077,7 @@ void TObjEneDarkGunner::sub_800A159C() {
     matrix_mult_vec(0, &t, &shadow_pos);
     if (mode == 2) {
         for (i = 0; i < 4; i++) {
-            matrix_mult_vec(0, &lbl_804907BC[i], &child_offsets[i]);
+            matrix_mult_vec(0, &dark_gunner_child_local_offsets[i], &child_offsets[i]);
         }
     }
     pop_matrix();
@@ -1187,7 +1149,7 @@ void TObjEneDarkGunner::update_hide_sequence() {
         m_388 &= 0xFF7FFFFF;
         break;
     }
-    minimap_render_dot((u8 *)&this->position, -0x5DB4, 1, 0);
+    minimap_render_dot(&this->position, -0x5DB4, 1, 0);
     submit_cursor_candidate(this, -1);
 }
 

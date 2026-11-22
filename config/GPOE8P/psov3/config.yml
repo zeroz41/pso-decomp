@@ -7785,9 +7785,9 @@ force_active:
   - lbl_8048D0B0
   - lbl_8048D108
   - lbl_8048D278
-  - lbl_80490668
-  - lbl_804907AC
-  - lbl_804907BC
+  - dark_gunner_action_table
+  - dark_gunner_constant_material
+  - dark_gunner_child_local_offsets
   - lbl_80490998
   - __vt__12TObjEneShark
   - __vt__14TObjEneBm5Wolf
