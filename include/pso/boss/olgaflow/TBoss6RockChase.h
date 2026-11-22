@@ -7,14 +7,21 @@
 struct GinjaTextureList;
 struct NJS_OBJECT;
 
+// The rock model a size kind draws and how far its landing hurts.
+struct TBoss6RockChaseKind {
+    s32 model;
+    f32 radius;
+};
+
+// A rock that drops on a player and crushes the floor where it lands.
 struct TBoss6RockChase : public TObjCollidable {
     TBoss6RockChase(TObject *parent, const Vec *position, s32 size_kind);
     virtual ~TBoss6RockChase();
     TObject *owner;
-    u32 m_b0;
-    u32 m_b4;
-    u8 _padB8[0x4];
-    u32 m_bc;
+    s32 size_kind;   // index into boss6_rock_chase_model_radius_table
+    s32 delay;       // frames before it starts to fall
+    f32 fall_speed;
+    s32 spin_speed;  // added to rotation_y every frame
     NJS_OBJECT *model;
     GinjaTextureList *textures;
     void damage_players_in_range();
@@ -24,9 +31,5 @@ struct TBoss6RockChase : public TObjCollidable {
 };
 
 LAYOUT_ASSERT(TBoss6RockChase_size, sizeof(TBoss6RockChase) == 0xC8);
-
-extern "C" {
-void *__dt__15TBoss6RockChaseFv(void *arg0, s16 arg1);
-}
 
 #endif

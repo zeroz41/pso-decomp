@@ -395,7 +395,7 @@ force_active:
   - TBoss6GravBall__sub_80323544
   - TBoss6GravBall__sub_803236F8
   - __ct__13TBoss6KakusanFP7TObjectP3VecP3VecUsf
-  - TBoss6Kakusan__sub_8032263C
+  - sub_8032263C__13TBoss6KakusanFv
   - __ct__13TUnk_804F322CFP7TObjectl
   - TBoss6MagMine__sub_80368AB8
   - TBoss6Mag__collision_body_parts

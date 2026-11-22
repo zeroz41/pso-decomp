@@ -6,6 +6,7 @@
 #include "pso/enemy/TObjEnemy.h"
 
 struct BmlResource;
+class TParticleCtrl;
 
 // What TBoss6Type1's mine attack (TBoss6Type1__sub_802B6504) hands TBoss6Mine::create: a 0x40-byte object
 // set entry copied from the mag mine's (TBoss4DarkFalz__sub_8004B4F0) followed by the mine's own spawn data.
@@ -37,12 +38,12 @@ struct TBoss6Mine : public TObjEnemy {
     TObjEnemy *owner;
     s32 heading;
     s32 state;
-    u32 m_384;
+    s32 damage; // boss parameter 0x2D, each player in the blast takes about this much
     s32 seed; // state of next_random_float's sequence
     s32 state_frames;
-    u32 m_390;
-    u32 m_394;
-    u32 m_398;
+    s32 yaw;   // turned towards its flight direction
+    s32 pitch; // tilted to the climb of its flight, at most 0x2000
+    s32 spin;  // spins 0x888 per frame while it flies
     f32 anim_frame;
     u32 rise_delay;
     u32 spread_frames;
@@ -51,7 +52,7 @@ struct TBoss6Mine : public TObjEnemy {
     Vec start_pos;
     Vec target_pos;
     f32 fade_amount;
-    void *emitter;
+    TParticleCtrl *emitter;
     void copy_pos();
     void draw();
     void update_facing_angles();
@@ -71,10 +72,5 @@ struct TBoss6Mine : public TObjEnemy {
 
 LAYOUT_ASSERT(TBoss6MineSetData_size, sizeof(TBoss6MineSetData) == 0x64);
 LAYOUT_ASSERT(TBoss6Mine_size, sizeof(TBoss6Mine) == 0x3D0);
-
-extern "C" {
-void *__dt__10TBoss6MineFv(void *arg0, s16 arg1);
-void explode_damage_players__10TBoss6MineFv(u8 *arg0);
-}
 
 #endif
