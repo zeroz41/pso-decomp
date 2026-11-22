@@ -93,7 +93,7 @@ extern NJS_OBJECT *debug_chunk_object;
 // TObjEneDD.cpp's view-detail distances.
 
 saddr recobox_boss_register_id;
-saddr lbl_805D6B14;
+saddr recobox_attack_params;
 saddr TObjEneRecobox__shared_object_handle;
 
 void *TObjEneRecobox__attack_params[7] = {
@@ -101,11 +101,11 @@ void *TObjEneRecobox__attack_params[7] = {
     (void *)0x0, (void *)0x0, (void *)0x0,
 };
 
-CollisionBody lbl_804EC684 = {
+CollisionBody recobox_collision_body = {
     {0.0f, 0.0f, 0.0f}, 10.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f,
 };
 
-const char *lbl_804EC6B0[7] = {
+const char *recobox_model_names[7] = {
     "me7_all.nj", "me7_box_all.nj", "bomb_body.nj", "b_parts_b_parts01.gj",
     "b_parts_b_parts02.gj", "b_parts_b_parts03.gj", NULL,
 };
@@ -116,11 +116,11 @@ const char *recobox_motion_name_table[11] = {
     "start_me7_all.njm", "wait_me7_all.njm", NULL,
 };
 
-BmlResourceDescriptor lbl_804EC6F8 = {
-    "bm_ene_recobox.bml", lbl_804EC6B0, recobox_motion_name_table, 6, 10,
+BmlResourceDescriptor recobox_bml_descriptor = {
+    "bm_ene_recobox.bml", recobox_model_names, recobox_motion_name_table, 6, 10,
 };
 
-const char *lbl_804EC708[7] = {
+const char *recobox_low_model_names[7] = {
     "lo_me7_all.nj", "lo_me7_box_all.nj", "bomb_body.nj", "b_parts_b_parts01.gj",
     "b_parts_b_parts02.gj", "b_parts_b_parts03.gj", NULL,
 };
@@ -131,8 +131,8 @@ const char *TObjEneRecobox__resource_bundle[11] = {
     "start_me7_all.njm", "wait_me7_all.njm", NULL,
 };
 
-BmlResourceDescriptor lbl_804EC750 = {
-    "bm_ene_recobox_low.bml", lbl_804EC708, TObjEneRecobox__resource_bundle, 6, 10,
+BmlResourceDescriptor recobox_low_bml_descriptor = {
+    "bm_ene_recobox_low.bml", recobox_low_model_names, TObjEneRecobox__resource_bundle, 6, 10,
 };
 
 const char *TObjEneRecobox_name_ref = "TObjEneRecobox";
@@ -147,7 +147,7 @@ TObjMotionAction TObjEneRecobox__animation_entries[4] = {
 
 Vec lbl_80543000;
 
-s32 lbl_805D6B1C;
+s32 recobox_behavior_params;
 
 BmlResource *TObjEneRecobox__static_instance;
 
@@ -166,21 +166,21 @@ void TObjEneRecobox::load_resources() {
     {
         BmlResource *res;
         if (is_split_screen() != 0) {
-            res = load_enemy_bml_resource(&lbl_804EC750);
+            res = load_enemy_bml_resource(&recobox_low_bml_descriptor);
         } else {
-            res = load_enemy_bml_resource(&lbl_804EC6F8);
+            res = load_enemy_bml_resource(&recobox_bml_descriptor);
         }
         TObjEneRecobox__static_instance = res;
     }
     recobox_boss_register_id = (saddr)TLobby::register_boss(0x41);
-    lbl_805D6B14 = (saddr)TLobby::dispatch_shared_handler_b(0x41);
+    recobox_attack_params = (saddr)TLobby::dispatch_shared_handler_b(0x41);
     TObjEneRecobox__shared_object_handle = (saddr)TLobby::register_object(0x41);
-    lbl_805D6B1C = (saddr)TLobby::dispatch_shared_handler_a(0x41);
+    recobox_behavior_params = (saddr)TLobby::dispatch_shared_handler_a(0x41);
     TObjEneRecon::load_resources();
     {
         NpcAnimationBinding binding = recobox_resource_binding_desc;
         binding.motions = TObjEneRecobox__static_instance->motions;
-        NpcModelRegistry::register_animated_chunk(0xD, TObjEneRecobox__static_instance->models[1].model, TObjEneRecobox__static_instance->models[1].m_c, &binding, lbl_804EC684.radius, 0.0f);
+        NpcModelRegistry::register_animated_chunk(0xD, TObjEneRecobox__static_instance->models[1].model, TObjEneRecobox__static_instance->models[1].m_c, &binding, recobox_collision_body.radius, 0.0f);
     }
 }
 
@@ -198,23 +198,23 @@ void TObjEneRecobox::release_static_instance() {
 
 BmlResource *TObjEneRecobox::get_bml_resource() { return TObjEneRecobox__static_instance; }
 
-u32 TObjEneRecobox::remap_area_sound_id(u32 arg0) {
+u32 TObjEneRecobox::remap_area_sound_id(u32 id) {
     u32 ret;
-    if (((s32)(arg0 & 0xBFFF00FF) >> 16 << 16) != 0x30000) {
-        return arg0;
+    if (((s32)(id & 0xBFFF00FF) >> 16 << 16) != 0x30000) {
+        return id;
     }
     ret = get_current_floor_area();
     switch (ret) {
     case 0x22:
-        ret = arg0 - 0x40010000 + 0x4E19;
+        ret = id - 0x40010000 + 0x4E19;
         break;
     case 0x23:
-        ret = arg0 - 0x40010000 + 0x4E28;
+        ret = id - 0x40010000 + 0x4E28;
         break;
     default:
-        return arg0;
+        return id;
     }
-    ret |= arg0 & 0x8FFFFF00;
+    ret |= id & 0x8FFFFF00;
     return ret;
 }
 
@@ -226,7 +226,7 @@ TObjEneRecobox::TObjEneRecobox(TObject *parent, void *set_data) : TObjEneDD_ST(p
     init_position_vectors();
     model = TObjEneRecobox__static_instance->models[1].model;
     texlist = (saddr)TObjEneRecobox__static_instance->models[1].m_c;
-    init_model(&lbl_804EC684, 1);
+    init_model(&recobox_collision_body, 1);
     body_center.y = 20.0f + position.y;
     update_body_colliders();
     set_field_d8((saddr)TObjEneRecobox__animation_entries);
@@ -234,12 +234,12 @@ TObjEneRecobox::TObjEneRecobox(TObject *parent, void *set_data) : TObjEneDD_ST(p
     requested_action = 0;
     set_animation(requested_action);
     set_field_b8(requested_action);
-    reset_hp((u8 *)recobox_boss_register_id, (u8 *)lbl_805D6B14, (u8 *)TObjEneRecobox__shared_object_handle);
+    reset_hp((u8 *)recobox_boss_register_id, (u8 *)recobox_attack_params, (u8 *)TObjEneRecobox__shared_object_handle);
     set_state_flag_4();
     movementParameters = TObjEneRecobox__attack_params;
     initialize_enemy_state(0x43);
     wall_reach = 10.0f;
-    sub_8031F800();
+    apply_set_parameters();
     n = ((s16 *)set_data)[1];
     if (n <= 1) {
         recon_total = 0;
@@ -303,13 +303,13 @@ void TObjEneRecobox::run_task() {
 void TObjEneRecobox::dispatch_action(u32 state, s32 reason) {
     switch (state) {
     case 0:
-        sub_8031F6C0(reason);
+        state_idle(reason);
         return;
     case 1:
         handle_state(reason);
         return;
     case 2:
-        sub_8031F600(reason);
+        state_closed(reason);
         return;
     case 3:
         update_state(reason);
@@ -318,7 +318,7 @@ void TObjEneRecobox::dispatch_action(u32 state, s32 reason) {
         handle_action_state(reason);
         return;
     case 5:
-        sub_8031F408(reason);
+        state_close(reason);
         return;
     case 6:
         handle_death_state(reason);
@@ -354,7 +354,7 @@ void TObjEneRecobox::update_body_colliders() {
     set_part_local_pos(&body_center, 0);
 }
 
-s32 TObjEneRecobox::sub_8031FACC() {
+s32 TObjEneRecobox::can_spawn_recons() {
     u8 r;
     s32 t;
     if (has_child_in_anim_5() == 1) {
@@ -369,16 +369,16 @@ s32 TObjEneRecobox::sub_8031FACC() {
 }
 
 s32 TObjEneRecobox::is_out_of_range() {
-    int var_r4;
+    int full;
 
     if (has_child_in_anim_5() == 1) {
         return 1;
     }
-    var_r4 = 0;
+    full = 0;
     if (live_recons >= recon_max || spawned_recons >= recon_total) {
-        var_r4 = 1;
+        full = 1;
     }
-    return (u8) var_r4;
+    return (u8) full;
 }
 
 void TObjEneRecobox::update_child_spawn() {
@@ -424,7 +424,7 @@ void TObjEneRecobox::update_child_spawn() {
 
 #pragma push
 #pragma opt_common_subs off
-void TObjEneRecobox::sub_8031F800() {
+void TObjEneRecobox::apply_set_parameters() {
     s32 n;
     mount_type = variant;
     if (mount_type <= 0) {
@@ -473,7 +473,7 @@ void TObjEneRecobox::handle_state(s32 reason) {
     }
 }
 
-void TObjEneRecobox::sub_8031F6C0(s32 reason) {
+void TObjEneRecobox::state_idle(s32 reason) {
     switch (reason) {
     case 4:
         status_flags |= 1;
@@ -489,7 +489,7 @@ void TObjEneRecobox::sub_8031F6C0(s32 reason) {
     }
 }
 
-void TObjEneRecobox::sub_8031F600(s32 reason) {
+void TObjEneRecobox::state_closed(s32 reason) {
     switch (reason) {
     case 4:
         status_flags &= ~1;
@@ -498,7 +498,7 @@ void TObjEneRecobox::sub_8031F600(s32 reason) {
         set_field_378(2);
         return;
     case 3:
-        if (acquire_target(500.0f) != 0 && sub_8031FACC() != 0) {
+        if (acquire_target(500.0f) != 0 && can_spawn_recons() != 0) {
             transition_enemy_state(3);
         }
         break;
@@ -553,7 +553,7 @@ void TObjEneRecobox::handle_action_state(s32 reason) {
     }
 }
 
-void TObjEneRecobox::sub_8031F408(s32 reason) {
+void TObjEneRecobox::state_close(s32 reason) {
     switch (reason) {
     case 4:
         status_flags &= ~1;
@@ -730,15 +730,15 @@ void TObjEneRecobox::remove_tracked_id(s32 id) {
     }
 }
 
-void TObjEneRecobox::update_if_800BB858() { if (get_target_info() != 0) { sub_8031F800(); } }
+void TObjEneRecobox::update_if_800BB858() { if (get_target_info() != 0) { apply_set_parameters(); } }
 
 
 void TObjEneRecobox::render() {
-    s32 temp_r30;
-    RenderFadeState *temp_r29;
+    s32 camera_fading;
+    RenderFadeState *camera_fade;
     s32 camera_mode;
-    s32 var_r28;
-    s32 var_r27;
+    s32 view_detail;
+    s32 fading_in;
     if (TObjPlayer::check_demo_mode() != 0) {
         draw_with_debug_info();
         return;
@@ -749,14 +749,14 @@ void TObjEneRecobox::render() {
     }
     if (!(status_flags & 1)) {
         if (TObjEneDD::is_main_phase_15() != 0) {
-            var_r28 = this->classify_actor_view_detail(25.0f + view_detail_near_depth, 50.0f + view_detail_far_depth, 120.0f);
+            view_detail = this->classify_actor_view_detail(25.0f + view_detail_near_depth, 50.0f + view_detail_far_depth, 120.0f);
         } else if (this->update_object_view_visibility(500.0f, 120.0f) != 0) {
-            var_r28 = 1;
+            view_detail = 1;
         } else {
-            var_r28 = 0;
+            view_detail = 0;
         }
-        if (var_r28 != 0) {
-            var_r27 = 0;
+        if (view_detail != 0) {
+            fading_in = 0;
             if (render_trap_model_if_visible() == 0) {
                 saved_model_render_flags = model_render_flags;
                 saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
@@ -769,7 +769,7 @@ void TObjEneRecobox::render() {
                             chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
                             return;
                         }
-                        var_r27 = 1;
+                        fading_in = 1;
                         this->fade.set_flags_and_apply_damage_color();
                         goto block_18;
                     }
@@ -779,17 +779,17 @@ void TObjEneRecobox::render() {
                     return;
                 }
 block_18:
-                temp_r29 = &this->fades[camera_mode];
-                temp_r29->update();
-                temp_r30 = temp_r29->updateFromCamera(&body_center.x);
-                if ((var_r27 == 0) && (temp_r30 != 0)) {
+                camera_fade = &this->fades[camera_mode];
+                camera_fade->update();
+                camera_fading = camera_fade->updateFromCamera(&body_center.x);
+                if ((fading_in == 0) && (camera_fading != 0)) {
                     if (defer_render() != 0) {
                         model_render_flags = saved_model_render_flags;
                         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
                         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
                         return;
                     }
-                    temp_r29->set_flags_and_apply_damage_color();
+                    camera_fade->set_flags_and_apply_damage_color();
                     goto block_23;
                 }
 block_23:
@@ -808,7 +808,7 @@ block_23:
                 }
                 TObjEneDD::clear_global_flag_400();
                 TObjPlayer::toggle_particle_effect();
-                if (var_r28 == 1) {
+                if (view_detail == 1) {
                     draw();
                 } else {
                     draw_motion_model();
@@ -816,10 +816,10 @@ block_23:
                 TParticleCtrl::end_effect_render();
                 pop_matrix();
                 update_primary_light();
-                if (var_r27 != 0) {
+                if (fading_in != 0) {
                     this->fade.clear_flag_and_notify();
-                } else if (temp_r30 != 0) {
-                    temp_r29->clear_flag_and_notify();
+                } else if (camera_fading != 0) {
+                    camera_fade->clear_flag_and_notify();
                 }
                 model_render_flags = saved_model_render_flags;
                 chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;

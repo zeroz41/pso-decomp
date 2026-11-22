@@ -8114,8 +8114,8 @@ force_active:
   - lbl_804E87F8
   - lbl_804E8838
   - lbl_804E8840
-  - lbl_804EC6B0
-  - lbl_804EC708
+  - recobox_model_names
+  - recobox_low_model_names
   - lbl_804ED690
   - lbl_804ED6DC
   - lbl_804ED728
@@ -8415,8 +8415,8 @@ force_active:
   - lbl_805D6980
   - lbl_805D6984
   - lbl_805D6AB0
-  - lbl_805D6B14
-  - lbl_805D6B1C
+  - recobox_attack_params
+  - recobox_behavior_params
   - lbl_805D6C80
   - lbl_805D6D80
   - lbl_805D6D84

@@ -23,15 +23,15 @@ struct TObjEneRecobox : public TObjEneDD_ST {
     virtual void update_if_800BB858();
     virtual void draw_with_debug_info();
     s32 render_trap_model_if_visible();
-    void sub_8031F800();
-    void sub_8031F6C0(s32 reason);
+    void apply_set_parameters();
+    void state_idle(s32 reason);
     void handle_state(s32 reason);
-    void sub_8031F600(s32 reason);
+    void state_closed(s32 reason);
     void update_state(s32 reason);
     void handle_action_state(s32 reason);
-    void sub_8031F408(s32 reason);
+    void state_close(s32 reason);
     void handle_death_state(s32 reason);
-    s32 sub_8031FACC();
+    s32 can_spawn_recons();
     void update_floor_probe();
     // Child bookkeeping: each Recon calls these on its owner box (the entity its 0x434 id names).
     void remove_tracked_id(s32 id);
@@ -61,7 +61,7 @@ struct TObjEneRecobox : public TObjEneDD_ST {
     s32 recon_total;              // Recons it may spawn in all (30, capped by its set-data id range)
     s32 recon_max;                // live Recons at once (debug "RECON MAX(Min:0 Max:6)")
     s32 pad_3FC[4];
-    u32 status_flags;             // bit 0 set while idle (sub_8031F6C0), cleared on activation
+    u32 status_flags;             // bit 0 set while idle (state_idle), cleared on activation
     s32 live_recons;              // Recons alive now (against recon_max)
     s32 spawned_recons;           // Recons spawned so far (against recon_total)
     u16 live_recon_ids[6];        // entity ids of the live Recons

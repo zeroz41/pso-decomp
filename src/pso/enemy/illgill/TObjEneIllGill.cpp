@@ -63,7 +63,7 @@ extern int enable_v2_features;
 extern "C" {
 BmlResource * illGillResource;
 saddr TObjEneIllGill__boss_registration_id;
-saddr lbl_805D6FD8;
+saddr TObjEneIllGill__resistance_params;
 IllGillAttackBehavior * illGillAttackBehavior;
 s32 illGillModelNodeIndex;
 }
@@ -108,7 +108,7 @@ CollisionBody illGillCollisionBody = {
 };
 AttackParams *ill_gill_combat_parameter_variants[4] = {0, 0, 0, 0};
 const char *TObjEneIllGill_class_name = "TObjEneIllGill";
-const NpcAnimationBinding lbl_8047A318 = { NULL, reinterpret_cast<TObjMotionAction *>(illGillActions), 0, 1, 10 };
+const NpcAnimationBinding illGillAnimBinding = { NULL, reinterpret_cast<TObjMotionAction *>(illGillActions), 0, 1, 10 };
 const Vec lbl_8047A328 = {0.0f, 0.0f, 0.0f};
 const char *TObjIllGillKage__class_name = "TObjIllGillKage";
 extern u8 lbl_804FF5E8[];
@@ -127,7 +127,7 @@ void TObjEneIllGill::load_shared_resources() {
     ill_gill_combat_parameter_variants[1] = (AttackParams *)TLobby::dispatch_shared_handler_b(0x27);
     ill_gill_combat_parameter_variants[2] = (AttackParams *)TLobby::dispatch_shared_handler_b(0x28);
     ill_gill_combat_parameter_variants[3] = (AttackParams *)TLobby::dispatch_shared_handler_b(0x29);
-    lbl_805D6FD8 = (saddr)TLobby::register_object(0x26);
+    TObjEneIllGill__resistance_params = (saddr)TLobby::register_object(0x26);
     illGillAttackBehavior = (IllGillAttackBehavior *)TLobby::dispatch_shared_handler_a(0x26);
     illGillModelNodeIndex = 0;
     q = &illGillWeaponEffectPosition;
@@ -139,7 +139,7 @@ void TObjEneIllGill::load_shared_resources() {
     q = &illGillChargeEffectPosition2;
     q->x = q->y = q->z = 0.0f;
     {
-        NpcAnimationBinding pos = lbl_8047A318;
+        NpcAnimationBinding pos = illGillAnimBinding;
         resource = illGillResource;
         pos.motions = reinterpret_cast<BmlMotionEntry *>(resource->motions);
         NpcModelRegistry::register_animated_chunk((s16)0x43, reinterpret_cast<void *>(resource->models->model), reinterpret_cast<void *>(((saddr)resource->models->m_c)), &pos, illGillCollisionBody.radius, 0.0f);
@@ -178,7 +178,7 @@ TObjEneIllGill::TObjEneIllGill(TObject *parent, void *setData) : TObjEnemy(paren
     register_object_by_id();
     movementParameters = &illGillMovement;
     attackType = 0;
-    this->bind_enemy_combat_stats((u8 *)TObjEneIllGill__boss_registration_id, (u8 *)ill_gill_combat_parameter_variants[attackType], (u8 *)lbl_805D6FD8);
+    this->bind_enemy_combat_stats((u8 *)TObjEneIllGill__boss_registration_id, (u8 *)ill_gill_combat_parameter_variants[attackType], (u8 *)TObjEneIllGill__resistance_params);
     deathTimer = 0;
     mode = 0;
     phase = 0;
@@ -572,9 +572,7 @@ void TObjEneIllGill::update_forward_movement() {
 
 void TObjEneIllGill::run_move_action() {
     TObjEneIllGill *enemy = this;
-    s16 temp_r0;
-    temp_r0 = enemy->mode;
-    if ((temp_r0 >= 3) || (temp_r0 < 1)) {
+    if (enemy->mode >= 3 || enemy->mode < 1) {
         enemy->requested_action = 1;
         enemy->mode = 2;
         enemy->phase = 0;
@@ -733,26 +731,26 @@ void TObjEneIllGill::run_attack_action() {
 
 void TObjEneIllGill::update_weapon_attack() {
     u8 *actor = (u8 *)this;
-    f32 temp_f1_2;
-    f32 temp_f31;
-    s32 temp_r30_2;
-    u16 temp_r3;
-    TParticleCtrl *temp_r3_10;
-    TParticleCtrl *temp_r3_11;
-    TParticleCtrl *temp_r3_12;
+    f32 special_param;
+    f32 damage;
+    s32 angle_left;
+    u16 target_id;
+    TParticleCtrl *primary;
+    TParticleCtrl *secondary;
+    TParticleCtrl *tertiary;
     u8 *player;
-    u8 *temp_r3_3;
-    u8 *temp_r6;
-    temp_r3 = this->targetId;
-    if (temp_r3 < 0x1000U) {
-        player = (u8 *)get_player_by_client_id(temp_r3);
+    u8 *hit_target;
+    u8 *chase_target;
+    target_id = this->targetId;
+    if (target_id < 0x1000U) {
+        player = (u8 *)get_player_by_client_id(target_id);
         if ((player != NULL) && (((TObjPlayer *)player)->get_floor() == get_current_floor())) {
             this->target = player;
         } else {
             this->target = NULL;
         }
-    } else if (temp_r3 < 0x4000U) {
-        this->target = get_enemy_entity(temp_r3);
+    } else if (target_id < 0x4000U) {
+        this->target = get_enemy_entity(target_id);
     } else {
         this->targetId = 0xFFFFU;
         this->target = NULL;
@@ -766,19 +764,19 @@ void TObjEneIllGill::update_weapon_attack() {
     default:
         this->phase = 0;
     case 0:
-        temp_r6 = this->target;
-        if (temp_r6 == NULL) {
+        chase_target = this->target;
+        if (chase_target == NULL) {
             this->actorFlags = (s32) (this->actorFlags & 0xFFDFFFFF);
             this->actionTimer = 0;
         } else {
-            Vec v = *(Vec *)((u8 *)&((TObjChara *)temp_r6)->body_center);
+            Vec v = *(Vec *)((u8 *)&((TObjChara *)chase_target)->body_center);
             subtract_vector(&v, &body_center);
-            temp_r30_2 = ((TObjEnemy *)actor)->turn_toward_direction((((IllGillMovementParameters *)movementParameters)->turn), &v);
+            angle_left = ((TObjEnemy *)actor)->turn_toward_direction((((IllGillMovementParameters *)movementParameters)->turn), &v);
             apply_actor_gravity((TObjEnemy *)actor, (s32 *)(0), 0.0f);
-            if (temp_r30_2 < ((AttackParams *)(this->m_318))->get_attack_angle()) {
+            if (angle_left < ((AttackParams *)(this->m_318))->get_attack_angle()) {
                 this->phase = 2;
-                temp_f1_2 = this->parameters[1];
-                if (0.0f == temp_f1_2) {
+                special_param = this->parameters[1];
+                if (0.0f == special_param) {
                     if (random_ratio() > 0.35f) {
                         if (random_ratio() > 0.5f) {
                             this->weaponSpecial = 1;
@@ -789,7 +787,7 @@ void TObjEneIllGill::update_weapon_attack() {
                         this->weaponSpecial = 3;
                     }
                 } else {
-                    this->weaponSpecial = (s32) temp_f1_2;
+                    this->weaponSpecial = (s32) special_param;
                 }
                 switch (this->weaponSpecial) {
                 case 1:
@@ -842,8 +840,8 @@ void TObjEneIllGill::update_weapon_attack() {
         }
         if (((TObjMotion *)actor)->is_passing_frame((f32)((f32) this->hitFrame)) != 0) {
             this->hitFrame = 0;
-            temp_r3_3 = this->target;
-            if ((temp_r3_3 != NULL) && (((TObjChara *)(temp_r3_3))->select_melee_contact_body(actor, 1.0f) != 0)) {
+            hit_target = this->target;
+            if ((hit_target != NULL) && (((TObjChara *)(hit_target))->select_melee_contact_body(actor, 1.0f) != 0)) {
                 switch (this->weaponSpecial) {
                 case 1:
                     ((TObjPlayer *)actor)->set_model_id(7);
@@ -866,23 +864,23 @@ void TObjEneIllGill::update_weapon_attack() {
                     play_sound_effect(0x40039E55, &position, 0, 0);
                     break;
                 default:
-                    temp_f31 = ((TObjChara *)(this->target))->receive_physical_attack(actor, 1.0f);
+                    damage = ((TObjChara *)(this->target))->receive_physical_attack(actor, 1.0f);
                     play_sound_effect(0x40039E54, &position, 0, 0);
-                    ((TObjChara *)(this->target))->apply_knockback_from_attacker(actor, temp_f31);
+                    ((TObjChara *)(this->target))->apply_knockback_from_attacker(actor, damage);
                     break;
                 }
             }
         }
-        temp_r3_10 = this->primaryEffect;
-        if ((temp_r3_10 != 0U) && (((TObject *)temp_r3_10)->all_parents_unqueued_for_destruction() != 0)) {
+        primary = this->primaryEffect;
+        if ((primary != 0U) && (((TObject *)primary)->all_parents_unqueued_for_destruction() != 0)) {
             ((TParticleCtrl *)this->primaryEffect)->set_position(&weaponEffectPosition);
         }
-        temp_r3_11 = this->secondaryEffect;
-        if ((temp_r3_11 != 0U) && (((TObject *)temp_r3_11)->all_parents_unqueued_for_destruction() != 0)) {
+        secondary = this->secondaryEffect;
+        if ((secondary != 0U) && (((TObject *)secondary)->all_parents_unqueued_for_destruction() != 0)) {
             ((TParticleCtrl *)this->secondaryEffect)->set_position(&weaponEffectPosition);
         }
-        temp_r3_12 = this->tertiaryEffect;
-        if ((temp_r3_12 != 0U) && (((TObject *)temp_r3_12)->all_parents_unqueued_for_destruction() != 0)) {
+        tertiary = this->tertiaryEffect;
+        if ((tertiary != 0U) && (((TObject *)tertiary)->all_parents_unqueued_for_destruction() != 0)) {
             ((TParticleCtrl *)this->tertiaryEffect)->set_position(&weaponEffectPosition);
         }
         if ((u32) this->action_flags != 4U) {
@@ -924,16 +922,13 @@ void TObjEneIllGill::run_miss_reaction() { obj_clearFlags30(256); }
 
 void TObjEneIllGill::sub_803669B0() {
     u8 *player = (u8 *)this;
-    s32 temp_r3;
     ((TObjBase *)player)->obj_clearFlags30((int)(0x04040000U));
     ((TObjMotion *)player)->advance_animation();
     if (!(this->actorFlags & 0x800000)) {
         apply_actor_gravity((TObjEnemy *)player, (s32 *)(0), (f32) (0.0f));
     }
     update_collisions();
-    temp_r3 = this->actionTimer;
-    this->actionTimer = (temp_r3 - 1);
-    if (temp_r3 < 0) {
+    if (actionTimer-- < 0) {
         this->actorFlags = (s32) (this->actorFlags & 0xFFFFFEFF);
         this->actionTimer = (s32) this->resetTimer;
         this->referenceHp = (s16) this->hp;
@@ -942,15 +937,10 @@ void TObjEneIllGill::sub_803669B0() {
 }
 
 void TObjEneIllGill::run_hit_reaction() {
-    s16 temp_r0;
-    void *temp_r3;
-
-    temp_r0 = this->requested_action;
-    if ((temp_r0 == 2) || (temp_r0 == 3)) {
+    if (requested_action == 2 || requested_action == 3) {
         this->referenceHp = (s16) this->hp;
         this->actorFlags = (s32) (this->actorFlags & 0xFFFFFDFF);
         this->hit_flags = 0;
-        temp_r3 = this->bodies;
         bodies->flags = (s32) (bodies->flags & 0xFBFFFFFF);
         return;
     }
@@ -992,12 +982,10 @@ void TObjEneIllGill::update_damage_recovery() {
 
 void TObjEneIllGill::run_death_reaction() {
     u8 *self = (u8 *)this;
-    u8 *temp_r5;
     if ((s16) this->mode != 8) {
         this->mode = 8;
         this->phase = 0;
         this->requested_action = 6;
-        temp_r5 = (u8 *)this->bodies;
         bodies->flags = (s32) (bodies->flags & 0xFFFF7FFE);
         this->free_resources();
         spawn_particle_effect(&body_center, 0xF2);
@@ -1008,7 +996,6 @@ void TObjEneIllGill::run_death_reaction() {
 
 void TObjEneIllGill::update_death_fall() {
     u8 *self = (u8 *)this;
-  s32 temp_r0_2;
   obj_setFlags30((void *) self, 0x04040000);
   ((TObjMotion *)self)->advance_animation();
   switch (this->phase)
@@ -1048,9 +1035,7 @@ void TObjEneIllGill::update_death_fall() {
     }
       break;
     case 4:
-      temp_r0_2 = (this->deathTimer) - 1;
-      this->deathTimer = temp_r0_2;
-      if (temp_r0_2 < 0)
+      if (--deathTimer < 0)
     {
       queue_destruction();
     }
@@ -1410,12 +1395,12 @@ void TObjEneIllGill::update_charge_attack() {
 TObjIllGillKage::TObjIllGillKage(saddr parent, uaddr target) : TObjBase((TObject *)parent) {
     m_name = TObjIllGillKage__class_name;
     if (target != 0U) {
-        VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(target + 0x38));
-        this->m_98 = get_entity_id((TObjBase *)target);
-        this->m_94 = 0xB4;
-        this->m_90 = 0;
+        VecCopy(&position, &((TObjBase *)target)->position);
+        this->target_id = get_entity_id((TObjBase *)target);
+        this->timer = 0xB4;
+        this->state = 0;
     } else {
-        this->m_98 = 0xFFFFU;
+        this->target_id = 0xFFFFU;
         ((TObject *)this)->queue_destruction();
     }
 }
@@ -1425,7 +1410,7 @@ TObjIllGillKage::~TObjIllGillKage() {}
 void TObjIllGillKage::render() {  }
 
 void TObjIllGillKage::run_task() {
-    switch (this->m_90) {
+    switch (this->state) {
     case 0:
         this->attack_target();
         return;
@@ -1441,20 +1426,17 @@ void TObjIllGillKage::run_task() {
 void TObjIllGillKage::attack_target() {
     saddr player;
 
-    this->m_90 = 1;
-    player = (saddr)get_player_by_client_id(this->m_98);
+    this->state = 1;
+    player = (saddr)get_player_by_client_id(this->target_id);
     if ((player != 0) && (TObjPlayer::is_locally_controlled((void *)player) != 0) && (((TObject *)player)->all_parents_unqueued_for_destruction() != 0) && (((TObjCollidable *)player)->obj_testFlags30(0x800) == 0)) {
-        TObjPlayer::play_effect(player, this->m_94, 3);
+        TObjPlayer::play_effect(player, this->timer, 3);
     }
 }
 
 void TObjIllGillKage::tick_persistent_sound() {
-    s32 temp_r3;
-    play_persistent_sound(0x4003A357, (saddr)this, (uaddr)(((u8 *)this) + 0x38), 0, 0);
-    temp_r3 = this->m_94;
-    this->m_94 = (temp_r3 - 1);
-    if (temp_r3 < 0) {
-        this->m_90 = 2;
+    play_persistent_sound(0x4003A357, (saddr)this, (uaddr)&position, 0, 0);
+    if (timer-- < 0) {
+        this->state = 2;
     }
 }
 
