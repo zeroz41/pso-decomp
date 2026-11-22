@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/system/ResourceFile.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/TLobby_801E43E4.h"
@@ -83,7 +84,6 @@ s32 get_entity_id(void *obj);
 f32 fabs_float(f32);
 s32 __dt__12TPlyCharDataFv(s32 arg0, s16 arg1);
 void * __ct__12TPlyCharDataFv(void *self);
-saddr find_active_entity_by_id(void *);
 f32 horizontal_distance_squared(void *, void *);
 void TNpcPlayer__sub_8014DC3C(void *, s32);
 void deliver_partner_chatter(TNpcPlayer *self);
@@ -93,7 +93,7 @@ s32 partner_probe_obstacles(Unk_8014F844 *view);
 s32 partition_sort_entries__10TNpcPlayerFiPvii(s32 self, Unk_8014F844Entry *a, s32 lo, s32 hi);
 s32 find_parts_in_range__10TNpcPlayerFPvPvif(Unk_8014F844 *view, void *pos, s32 id, f32 range);
 s32 scan_nearby_enemies__10TNpcPlayerFPvPvf(Unk_8014F844 *view, void *pos, f32 range);
-bool is_target_line_clear__10TNpcPlayerFPvUs(u8 *arg0, u16 arg1);
+bool is_target_line_clear__10TNpcPlayerFPvUs(u8 *arg0, u32 arg1);
 Unk_8014F844 * init_ai_state__10TNpcPlayerFPvi(Unk_8014F844 *self, s32 id);
 s32 try_update_target_flag__10TNpcPlayerFPvi(void *arg0, s32 arg1);
 s32 check_and_set_reached__10TNpcPlayerFPv(void *arg0);
@@ -1946,7 +1946,7 @@ s32 TNpcPlayer::check_return_to_leader() {
         if (t->m_0 != 0) {
             ((s32 (*)(void *, s32))increment_partner_counter)(m_5c, 5);
             if (((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(m_5c, 5, 3) != 0) {
-                o = ((u8 * (*)(int))find_active_entity_by_id)((u16)t->m_4[0].m_0);
+                o = (u8 *)find_active_entity_by_id(t->m_4[0].m_0);
                 m_80 &= ~0x8000;
                 if (o != 0) {
                     if (((f32 (*)(void *, void *))horizontal_distance_squared)(o + 0x38, &m_78->m_94->position) < ai_params.block_range * ai_params.block_range) {
@@ -1985,7 +1985,7 @@ s32 TNpcPlayer::choose_attack_target() {
     if (view->m_0 != 0) {
         for (i = 0; i < view->m_0; i++) {
             if (((s32 (*)(void *, u32))is_target_line_clear__10TNpcPlayerFPvUs)(m_78, view->m_4[i].m_0) != 0) {
-                tgt = ((TObjBase * (*)(int))find_active_entity_by_id)((u16)view->m_4[0].m_0);
+                tgt = (TObjBase *)find_active_entity_by_id(view->m_4[0].m_0);
                 ((void (*)(void *, u32, s32))TNpcPlayer__sub_80152A34)(m_78, view->m_4[i].m_0, view->m_4[i].m_4);
                 m_dc.x = tgt->position.x;
                 m_dc.y = m_78->m_94->body_center.y;
@@ -2055,7 +2055,7 @@ s32 TNpcPlayer::select_recovery_action(s32 arg1) {
     if (arg1 != 0 && tgt->m_0 != 0 && (flags & 2)) {
         ((s32 (*)(void *, s32))increment_partner_counter)(self->m_5c, 5);
         if (((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(self->m_5c, 5, 0x1E) != 0) {
-            ent = ((TObjBase * (*)(int))find_active_entity_by_id)((u16)tgt->m_4[0].m_0);
+            ent = (TObjBase *)find_active_entity_by_id(tgt->m_4[0].m_0);
             self->m_80 &= ~0x8000;
             if (ent != NULL) {
                 if (((f32 (*)(void *, void *))horizontal_distance_squared)(&ent->position, &self->m_78->m_94->position) < self->ai_params.block_range * self->ai_params.block_range) {
@@ -2404,7 +2404,7 @@ void partner_observe_surroundings(TNpcPlayer *npc_player) {
     obj_player = npc_player->m_74->m_94;
     npc_player->m_58 = horizontal_distance_squared(&obj_player->position, &npc_player->m_78->m_94->position);
     if (npc_player->m_84 != 0) {
-        ((s32 (*)(void *, void *, f32))try_update_target_flag__10TNpcPlayerFPvi)(npc_player->m_78, (void *)get_npc_type__10TNpcPlayerFPv(npc_player->m_74), npc_player->ai_params.enemy_lock_on_range);
+        ((s32 (*)(void *, s32, f32))try_update_target_flag__10TNpcPlayerFPvi)(npc_player->m_78, get_npc_type__10TNpcPlayerFPv(npc_player->m_74), npc_player->ai_params.enemy_lock_on_range);
     } else {
         ((s32 (*)(s32, f32))check_and_set_reached__10TNpcPlayerFPv)((saddr)npc_player->m_78, npc_player->ai_params.enemy_lock_on_range);
     }
@@ -2878,10 +2878,10 @@ void *TNpcPlayer::dt(s16 arg1) {
     return this;
 }
 
-bool is_target_line_clear__10TNpcPlayerFPvUs(u8 *arg0, u16 arg1) {
+bool is_target_line_clear__10TNpcPlayerFPvUs(u8 *arg0, u32 arg1) {
     Vec target;
     TObjPlayer *obj_player;
-    VecCopy(&target, &((TObjChara *)find_active_entity_by_id((void *)arg1))->body_center);
+    VecCopy(&target, &((TObjChara *)find_active_entity_by_id(arg1))->body_center);
     obj_player = ((Unk_8014F844 *)arg0)->m_94;
     target.y = obj_player->body_center.y;
     return csnVector(&obj_player->body_center, &target, 0x2100) == NULL;
