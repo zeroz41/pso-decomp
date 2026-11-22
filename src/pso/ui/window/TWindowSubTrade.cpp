@@ -132,7 +132,7 @@ void TWindowSubTrade::run_task() {
         this->m_1c = 2U;
     case 2:
         if (((TWindowMenu *)(this->m_player_list))->is_cancelled() != 0) {
-            parent_menu->vfunc_9();
+            parent_menu->on_submenu_closed();
             this->m_1c = 7U;
         } else if (((TWindowMenu *)(this->m_player_list))->is_decided() != 0) {
             this->m_1c = 3U;

@@ -9,10 +9,10 @@
 struct TWindowMainMenu1P : public TWindowMainMenu {
     TWindowMainMenu1P(TObject *parent, s32 client);
     virtual ~TWindowMainMenu1P();
-    virtual void vfunc_6();
-    virtual void vfunc_8();
-    virtual void vfunc_7();
-    virtual void vfunc_9();
+    virtual void open_main_menu();
+    virtual void close_main_menu();
+    virtual void on_menu_opened();
+    virtual void on_submenu_closed();
     void update_backdrop_transition();
     void render();
     void run_task();

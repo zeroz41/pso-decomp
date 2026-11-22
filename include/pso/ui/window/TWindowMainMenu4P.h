@@ -7,9 +7,9 @@
 struct TWindowMainMenu4P : public TWindowMainMenu {
     TWindowMainMenu4P(TObject *parent, s32 client);
     virtual ~TWindowMainMenu4P();
-    virtual void vfunc_6();
-    virtual void vfunc_8();
-    virtual void vfunc_9();
+    virtual void open_main_menu();
+    virtual void close_main_menu();
+    virtual void on_submenu_closed();
     void render();
     void run_task();
 };

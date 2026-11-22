@@ -64,7 +64,7 @@ void TWindowSubLog::run_task() {
     temp_r3 = (u8 *)this->m_24;
     if ((*(f32 *)((s8 *)temp_r3 + 0x3C) == *(f32 *)((s8 *)temp_r3 + 0x4C)) && ((TWindowShortListCtrl__check_controller_button(context, 2) != 0) || (test_controller_flag_4c_color((void *) ((u8 *)&controller_input_state.value + 0x160), 2) != 0))) {
         play_sound_effect(0x52F16, 0, 0, 0);
-        parent_menu->vfunc_9();
+        parent_menu->on_submenu_closed();
         parent_menu->clear_log_active();
     }
 }

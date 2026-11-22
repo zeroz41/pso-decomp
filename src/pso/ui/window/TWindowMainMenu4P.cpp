@@ -9,15 +9,15 @@
 extern "C" {
 void *get_player_by_client_id(s32 i);
 
-void TWindowMainMenu4P::vfunc_9() { if (close_active_submenu() != 0) { this->show_child_window(); } }
+void TWindowMainMenu4P::on_submenu_closed() { if (close_active_submenu() != 0) { this->show_child_window(); } }
 
-void TWindowMainMenu4P::vfunc_8() {
+void TWindowMainMenu4P::close_main_menu() {
     if (this->m_4c & 1) {
         TWindowMainMenu::close_and_clear_flags();
     }
 }
 
-void TWindowMainMenu4P::vfunc_6() {
+void TWindowMainMenu4P::open_main_menu() {
     u8 *arg0 = (u8 *)this;
     u8 *player;
     if (!(this->m_4c & 1)) {
@@ -28,7 +28,7 @@ void TWindowMainMenu4P::vfunc_6() {
             } else {
                 ((TWindowMainMenu *)arg0)->open((saddr)main_menu_4p_entries);
             }
-            this->vfunc_7();
+            this->on_menu_opened();
         }
     }
 }

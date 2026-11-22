@@ -17645,7 +17645,7 @@ force_active:
   - vfunc_6__16TODoorJungleMainFPsl
   - vfunc_6__17TAdExNetConfirmGCFv
   - vfunc_6__17TAdLicAgreementGCFv
-  - vfunc_6__17TWindowMainMenu4PFv
+  - open_main_menu__17TWindowMainMenu4PFv
   - vfunc_6__18TAdAgreementBaseGCFv
   - vfunc_6__18TAdTrialModemChkGCFv
   - vfunc_6__19TContainerAncient01FPsl
@@ -17710,7 +17710,7 @@ force_active:
   - vfunc_8__11TTecRaBartaFPv
   - vfunc_8__11TTecRaZondeFPv
   - vfunc_8__17TAdLicAgreementGCFv
-  - vfunc_8__17TWindowMainMenu4PFv
+  - close_main_menu__17TWindowMainMenu4PFv
   - vfunc_8__18TAdAgreementBaseGCFv
   - vfunc_8__20TAdSnAkPassConfirmGCFv
   - update_attack_trail__12TObjEneBeastFv
@@ -17749,7 +17749,7 @@ force_active:
   - vfunc_9__11TTecRaBartaFv
   - vfunc_9__12TNeedleShootFPv
   - vfunc_9__17TAdLicAgreementGCFv
-  - vfunc_9__17TWindowMainMenu4PFv
+  - on_submenu_closed__17TWindowMainMenu4PFv
   - vfunc_9__20TAdSnAkPassConfirmGCFv
   - vfunc_9__20TObjEneMe1Gee_NEEDLEFPv
   - vfunc_9__22TObjEneMe1GiGueMissileFPv

@@ -536,7 +536,7 @@ void TWindowSubTradeMain::run_task() {
             o->state = 0x19;
         } else if (o->card->is_child_visible() != 0) {
             if (((TWindowSubComCard *)(o->card))->get_slot_or_neg1() == 0) {
-                o->parent_menu->vfunc_9();
+                o->parent_menu->on_submenu_closed();
                 o->state = 0x22;
             } else {
                 o->state = 0x19;

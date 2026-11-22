@@ -116,9 +116,9 @@ int park_selection__15TWindowMainMenuFPv(void*);
 
 int test_keyboard_card_flag4(void* p) { return TWindowKeyBoardHard::test_card_flag((saddr)p, 4); }
 extern "C" {
-void TWindowMainMenu::vfunc_9() {  }
+void TWindowMainMenu::on_submenu_closed() {  }
 
-void TWindowMainMenu::vfunc_7() {  }
+void TWindowMainMenu::on_menu_opened() {  }
 
 TWindowMainMenu::TWindowMainMenu(TObject *parent, s32 client) : TObject(parent) {
     s32 i;
@@ -592,7 +592,7 @@ s32 TWindowMainMenu::close_active_submenu() {
     *(s32 *)((s8 *)this + 0x4C) = (s32) (*(s32 *)((s8 *)this + 0x4C) & 0xFFFFFFFB);
     destroy_submenu();
     if ((u32) *(u32 *)((s8 *)this + 0x5C) == 0U) {
-        this->vfunc_8();
+        this->close_main_menu();
         return 0;
     }
     *(s32 *)((s8 *)this + 0x48) = 0x1F;
@@ -615,7 +615,7 @@ void TWindowMainMenu::try_open_battle_menu(s16 key) {
         open_menu_with_entry(sp8);
         this->create_submenu(sp8);
         ((TObjPlayer *)player)->reset_equip_slots();
-        this->vfunc_7();
+        this->on_menu_opened();
     }
 }
 

@@ -3,7 +3,7 @@
 
 // Data-only unit (.data): TWindowMainMenu1P/4P and TWindowUserSort open these tables.
 // Main-menu tables (rows: item id, submenu table; 0x1F ends a table). Names inferred from their users:
-// TWindowMainMenu1P::vfunc_6 and TWindowMainMenu4P::vfunc_6 open the *_android tables when
+// TWindowMainMenu1P::open_main_menu and TWindowMainMenu4P::open_main_menu open the *_android tables when
 // TObjPlayer::is_android() holds; those lack item 3.
 TWindowMainMenuEntry main_menu_1p_item2_submenu[] = {
     {0x09}, {0x0B}, {0x17}, {0x1A}, {0x0C}, {0x0F}, {0x1F},

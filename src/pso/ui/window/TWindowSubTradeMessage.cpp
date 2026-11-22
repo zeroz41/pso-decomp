@@ -17,7 +17,7 @@ __declspec(section ".sdata") const char* TWindowSubTradeMessage__name[2] = {trad
 }
 
 void TWindowSubTradeMessage::finish() {
-    parentWindow->vfunc_9();
+    parentWindow->on_submenu_closed();
     state=2;
 }
 
@@ -44,7 +44,7 @@ void TWindowSubTradeMessage::run_task() {
         if(TWindowShortListCtrl__check_controller_button(controller_input_state[idx].buttons,2)!=0 ||
            test_controller_flag_4c_color(controller_input_state[4].buttons,2)!=0) {
             play_sound_effect(0x52F16,0,0,0);
-            parentWindow->vfunc_9();
+            parentWindow->on_submenu_closed();
             state=2;
         }
         break;

@@ -11,8 +11,8 @@ void TWindowMainMenu__sub_8024E3D0(void) {  }
 int TWindowMainMenu__sub_8024E3D4(void* p) { return (*(u32*)((char*)p + 0x4c) >> 3) & 0x1; }
 int TWindowMainMenu__sub_8024E3E0(void* p) { return *(u32*)((char*)p + 0x4c) & 0x1; }
 
-void TWindowMainMenu::vfunc_6() {  }
-void TWindowMainMenu::vfunc_8() {  }
+void TWindowMainMenu::open_main_menu() {  }
+void TWindowMainMenu::close_main_menu() {  }
 
 int TWindowMainMenu__sub_8024E3F4(void* p) { return (*(u16*)((char*)p + 0x1c) >> 6) & 0x1; }
 void TWindowMainMenu::set_entry_field_20(saddr arg0, s32 arg1) {
