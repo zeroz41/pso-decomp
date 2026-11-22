@@ -3,6 +3,7 @@
 
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/boss/darkfalz/TBoss4Fade.h"
+#include "pso/system/task/TMainTask.h"
 typedef struct Quad_803594EC
 {
   void *tex;
@@ -51,21 +52,11 @@ TBoss4Fade::~TBoss4Fade() {}
 
 #pragma readonly_strings on
 
-extern "C" {
-
-TObject *__ct__7TObjectFP7TObject(TObject *, TObject *);
-
-extern s32 __vt__10TBoss4Fade[];
 const char *TBoss4Fade__name = "TBoss4Fade";
 
-TBoss4Fade *__ct__10TBoss4FadeFv(TBoss4Fade *boss4_fade, TObject *parent) {
-    __ct__7TObjectFP7TObject(boss4_fade, parent);
-    *(s32 **)((s8 *)boss4_fade + 0x18) = __vt__10TBoss4Fade;
-    boss4_fade->m_name = TBoss4Fade__name;
-    boss4_fade->frames[0].active = 0;
-    boss4_fade->frames[1].active = 0;
-    boss4_fade->write_index = 0;
-    return boss4_fade;
-}
-
+TBoss4Fade::TBoss4Fade(TObject *parent) : TObject(parent) {
+    m_name = TBoss4Fade__name;
+    frames[0].active = 0;
+    frames[1].active = 0;
+    write_index = 0;
 }
