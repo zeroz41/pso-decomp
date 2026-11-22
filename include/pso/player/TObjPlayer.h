@@ -434,7 +434,6 @@ struct TObjPlayer : public TObjChara {
     int is_inactive();
     static void set_visibility_flags_by_count(void *arg0, s32 arg1);
     void init_position_vectors();
-    void trigger_targets_action();
     s16 get_field_2c8();
     void set_flag_start_effect();
     void clear_state7_flag();

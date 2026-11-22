@@ -259,12 +259,6 @@ f32 atan2_float(f32, f32);
 
 
 
-s32 trigger_targets_action__10TObjPlayerFv();
-
-void clear_lappy_flag_set_param(TObjEneLappy *ene_lappy);
-
-void fn_800A0FDC(TObjEneLappy *ene_lappy);
-
 void TObjPlayer__sub_800A100C(s32 _w0);
 
 
@@ -1073,10 +1067,12 @@ s32 TObjPlayer__sub_800A1FEC(void *arg0) {
 extern "C" {
 void TObjEneDarkGunner::run_hit_reaction() {
     s16 temp_r0;
+    TObjEneDarkGunCenter *center;
     temp_r0 = this->mode;
     if (temp_r0 != 4) {
-        if ((temp_r0 == 2) && (((TObjPlayer *)this)->is_flag_set_388_bit26() != 0) && (get_enemy_entity(*(u16 *)((s8 *)this + 0x428)) != 0U)) {
-            trigger_targets_action__10TObjPlayerFv();
+        if ((temp_r0 == 2) && (((TObjPlayer *)this)->is_flag_set_388_bit26() != 0) &&
+            (center = (TObjEneDarkGunCenter *)get_enemy_entity(center_id)) != NULL) {
+            center->trigger_targets_action();
             return;
         }
         this->set_state(4);
@@ -1539,13 +1535,13 @@ s32 TObjEneDarkGunner::update_movement_status() {
 
 void TObjPlayer__sub_800A100C(s32 _w0) {  }
 
-void fn_800A0FDC(TObjEneLappy *ene_lappy) {
-    ene_lappy->m_388 = (s32) (ene_lappy->m_388 | 0x04000000);
-    ene_lappy->set_param(0x23);
+void fn_800A0FDC(TObjEneDarkGunner *gunner) {
+    gunner->m_388 |= 0x04000000;
+    gunner->set_param(0x23);
 }
 
-void clear_lappy_flag_set_param(TObjEneLappy *ene_lappy) {
-    ene_lappy->m_388 = (s32) (ene_lappy->m_388 & 0xFBFFFFFF);
-    ene_lappy->set_param(0x22);
+void clear_lappy_flag_set_param(TObjEneDarkGunner *gunner) {
+    gunner->m_388 &= ~0x04000000;
+    gunner->set_param(0x22);
 }
 }

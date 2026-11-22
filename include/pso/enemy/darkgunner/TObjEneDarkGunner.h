@@ -32,7 +32,10 @@ struct TObjEneDarkGunner : public TObjEnemyCustom {
     void* child404;
     TUnk_80490470 render_control;
     s32 material_phase;
-    u8 unknown428[4];
+    u16 center_id;  // entity id of the TObjEneDarkGunCenter that links it
+    u8 pad_42a[2];
 };
+extern "C" const char *TObjEneDarkGunner__class_name;
+
 LAYOUT_ASSERT(DarkGunnerSize, sizeof(TObjEneDarkGunner)==0x42C);
 #endif

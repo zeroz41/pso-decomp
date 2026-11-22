@@ -120,49 +120,4 @@ TUnk_80490470::~TUnk_80490470() {}
 }
 
 
-struct Obj_800A0654 { u8 pad[0x37c]; s32 count; u8 pad2[4]; u16 ids[1]; };
-
-struct Obj_800A06B4 { u8 pad[0x37c]; s32 count; u8 pad2[4]; u16 ids[1]; };
-
-struct Obj_800A0728 { u8 pad[0x374]; s32 mode; s32 timer; s32 count; u8 pad2[4]; u16 ids[1]; };
-
-extern "C" {
-void TObjPlayer__sub_800A0654(Obj_800A0654 *self);
-s32 TObjPlayer__sub_800A06B4(Obj_800A06B4 *self);
-
 TUnk_80490470::TUnk_80490470() : MaterialColorFade(), phase(0.0f) {}
-void TObjPlayer__sub_800A0654(Obj_800A0654 *self) {
-    s32 i;
-    for (i = 0; i < self->count; i++) {
-        void *e = get_enemy_entity(self->ids[i]);
-        if (e != 0) {
-            ((TObjPlayer *)e)->apply_fall_damage_flag();
-        }
-    }
-}
-s32 TObjPlayer__sub_800A06B4(Obj_800A06B4 *self) {
-    s32 i;
-    for (i = 0; i < self->count; i++) {
-        void *e = get_enemy_entity(self->ids[i]);
-        if (e != 0) {
-            if (TObjPlayer__sub_800A1808(e) == 0) {
-                return 0;
-            }
-        }
-    }
-    return 1;
-}
-void TObjPlayer::trigger_targets_action() {
-    Obj_800A0728 *self = (Obj_800A0728 *)this;
-    s32 i;
-    self->timer = 0x78;
-    self->mode = 6;
-    for (i = 0; i < this->m_37c; i++) {
-        void *e = get_enemy_entity(self->ids[i]);
-        if (e != 0) {
-            ((TObjPlayer *)e)->trigger_action_if_not_flagged();
-        }
-    }
-}
-
-}

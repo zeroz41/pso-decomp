@@ -1155,7 +1155,7 @@ force_active:
   - __ct__22TObjEneBm5WolfListNodeFv
   - __ct__19TObjEneBm9MericarolFP7TObjectPv
   - __vt__19TObjEneBm9Mericarol
-  - TObjEneDarkGunCenter__sub_800A0B18
+  - sub_800A0B18__20TObjEneDarkGunCenterFv
   - TObjEneDelDepth_collision_body_parts
   - TObjEneDelDepth_motion_file_list
   - TObjEneDelDepth_motion_names
