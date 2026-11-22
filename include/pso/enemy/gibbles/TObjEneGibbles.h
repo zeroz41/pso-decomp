@@ -5,6 +5,8 @@
 struct NJS_OBJECT;
 #include <stddef.h>
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/render/RenderFadeState.h"
+#include "pso/render/TUnk_80494938.h"
 
 struct TObjEneGibbles : public TObjEnemy {
     virtual ~TObjEneGibbles();
@@ -47,7 +49,8 @@ struct TObjEneGibbles : public TObjEnemy {
     u8 unk_3B4[0x4];
     void * m_3b8;
     s32 m_3bc;
-    u8 unk_3C0[0x8C];
+    TUnk_80494938 fade;
+    RenderFadeState fades[4];
     static void set_min_clamped_entry_value(s32 arg0, s32 arg1, f32 fC);
     s32 spawn_ground_impact_effects(const Vec *pos, f32 scale);
     s32 spawn_ground_contact_effect();
