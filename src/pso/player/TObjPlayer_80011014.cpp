@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyMovement.h"
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
@@ -727,14 +728,8 @@ u16 fn_80010F4C(void* p);
 void record_attack_source(Obj_80010F54 *self, s32 id);
 s32 add_actor_tp_bonus(O_80011274 *self, s32 x);
 s32 add_actor_hp_bonus(O_80011378 *self, s32 x);
-f32 step_toward_destination__10TObjPlayerFPvPvf(Obj_80017804 *arg0, Vec *arg1, f32 farg0);
-f32 enemy_pursue_point(u8 *arg0, s32 arg1, Vec arg2, f32 farg0, f32 farg1);
-f32 enemy_backstep_from_point(Obj_80017ABC *arg0, Vec arg1, f32 farg0);
-void calc_velocity_toward_destination(Obj_800180E8 *self, Vec *pos, Vec *dest, f32 speed);
-s32 TObjPlayer__sub_800181DC(u8 *arg0, Vec arg1);
-s32 select_enemy_destination(Obj_800182A0 *self, Vec *arg1, int flags);
+s32 TObjPlayer__sub_800181DC(TObjChara *chara, Vec point);
 s32 check_path_obstructed(TObjChara *chara, Vec *target);
-s32 copy_position_if_valid__10TObjPlayerFii(s32 arg0, s32 arg1);
 void enemy_turn_half_toward_dest(TObjChara *chara);
 f32 TObjPlayer__sub_800192C4(Obj800192C4 *self, s32 i);
 int obj_getArrWord_254(ObjArr254* p, int i);
@@ -768,7 +763,7 @@ s32 angle_difference_abs(s32, s32);
 s32 lerp_angle_half__Fll(s32, s32);
 s32 approach_angle_limited(s32, s32, s32);
 void * find_entity_by_id(s32 id);
-s32 project_actor_to_ground(saddr, saddr, s32);
+s32 project_actor_to_ground(TObjCollidable *actor, Vec *pos, Vec *normal);
 s32 record_damage_stats__10TOMineTrapFUiUis(void *, void *, void *);
 s32 get_player_by_client_id(s32);
 int bswap_16__FPUs(void*);
@@ -1625,9 +1620,9 @@ void enemy_turn_half_toward_dest(TObjChara *chara) {
     angle_difference_abs(chara->rotation_y, a);
 }
 
-s32 copy_position_if_valid__10TObjPlayerFii(s32 arg0, s32 arg1) {
-    if (project_actor_to_ground(arg0, arg1, 0) != 0) {
-        VecCopy__FP3VecPC3Vec(arg0 + 0x290, arg0 + 0x38);
+s32 copy_position_if_valid(TObjChara *chara, Vec pos) {
+    if (project_actor_to_ground(chara, &pos, 0) != 0) {
+        VecCopy(&chara->move_origin, &chara->position);
         return 1;
     }
     return 0;
@@ -1656,64 +1651,64 @@ s32 check_path_obstructed(TObjChara *chara, Vec *arg1) {
     return 0;
 }
 
-s32 select_enemy_destination(Obj_800182A0 *self, Vec *move_destination, int flags) {
+s32 select_enemy_destination(TObjChara *chara, Vec dest, s32 flags) {
     Vec d;
     s32 a;
-    if (project_actor_to_ground((saddr)self, (saddr)move_destination, 0) != 0) {
-        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&d, move_destination);
+    if (project_actor_to_ground(chara, &dest, 0) != 0) {
+        VecCopy(&d, &dest);
         if (!(flags & 1)) {
-            d.y = self->pos.y;
+            d.y = chara->body_center.y;
         } else {
-            d.y += self->pos.y - self->f3C;
+            d.y += chara->body_center.y - chara->position.y;
         }
-        if (self->fA4 != NULL) {
-            subtract_vector(&d, &self->pos);
+        if (chara->bodies != NULL) {
+            subtract_vector(&d, &chara->body_center);
             a = (s32)(TObjPlayer__data_804340B8 * ((f64 (*)(f32, f32))atan2_float)(d.x, d.z));
             scratch_vec.x = scratch_vec.y = (0.0f);
-            scratch_vec.z = self->fA4->fC;
+            scratch_vec.z = chara->bodies->radius;
             push_matrix_from(&identity_matrix);
             rotate_matrix_y(0, a);
             rotate_vector_by_matrix(0, &scratch_vec, &scratch_vec);
             pop_matrix();
             vec3_add_to(&d, &scratch_vec);
-            vec3_add_to(&d, &self->pos);
+            vec3_add_to(&d, &chara->body_center);
         }
-        if (!(flags & 2) && check_path_obstructed((TObjChara *)self, (Vec *)&d) != 0) {
+        if (!(flags & 2) && check_path_obstructed(chara, &d) != 0) {
             return 0;
         }
-        if (!(flags & 4) && csnVector(&self->pos, &d, -1) != 0) {
+        if (!(flags & 4) && csnVector(&chara->body_center, &d, -1) != 0) {
             return 0;
         }
-        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->f29C, move_destination);
+        VecCopy(&chara->move_destination, &dest);
     return 1;
     }
     return 0;
 }
 
-s32 TObjPlayer__sub_800181DC(u8 *arg0, Vec arg1) {
+s32 TObjPlayer__sub_800181DC(TObjChara *chara, Vec point) {
     Vec d;
-    VecCopy__FP3VecPC3Vec((saddr) &d, (saddr) &arg1);
-    subtract_vector(&d, arg0 + 0x2FC);
+    VecCopy(&d, &point);
+    subtract_vector(&d, &chara->body_center);
     push_matrix_from(&identity_matrix);
     rotate_matrix_y(0, 0x8000);
     rotate_vector_by_matrix(0, &d, &d);
     pop_matrix();
     if ((1e-05f) < vec_squared_length(&d)) {
         normalize_vector(&d);
-        vec3_add_to(&d, arg0 + 0x2FC);
-        return ((s32 (*)(void *, Vec, int)) select_enemy_destination)(arg0, d, 1);
+        vec3_add_to(&d, &chara->body_center);
+        return select_enemy_destination(chara, d, 1);
     }
     return 0;
 }
 
-void calc_velocity_toward_destination(Obj_800180E8 *self, Vec *pos, Vec *dest, f32 speed) {
+void calc_velocity_toward_destination(TObjChara *chara, Vec from, Vec to, f32 speed) {
     Vec d;
     s32 a;
-    VecCopy__FP3VecPC3Vec((saddr)&d, (saddr)dest);
-    subtract_vector(&d, pos);
+    VecCopy(&d, &to);
+    subtract_vector(&d, &from);
     if (d.x * d.x + d.z * d.z < (1e-05f)) {
-        self->vz = (0.0f);
-        self->vx = (0.0f);
+        chara->velocity.z = (0.0f);
+        chara->velocity.x = (0.0f);
     } else {
         a = (s32)(TObjPlayer__data_804340B8 * ((f64 (*)(f32, f32))atan2_float)(d.x, d.z));
         d.z = speed;
@@ -1722,8 +1717,8 @@ void calc_velocity_toward_destination(Obj_800180E8 *self, Vec *pos, Vec *dest, f
         rotate_matrix_y(0, a);
         rotate_vector_by_matrix(0, &d, &d);
         pop_matrix();
-        self->vx = d.x;
-        self->vz = d.z;
+        chara->velocity.x = d.x;
+        chara->velocity.z = d.z;
     }
 }
 
@@ -1795,7 +1790,7 @@ void move_with_wall_slide(u8 *arg0) {
   VecCopy__FP3VecPC3Vec((saddr)&next, (saddr)&self->cur);
   vec3_add_to(&next, &self->vel);
   next.y += (1e+01f);
-  if ((csnVecterUnder(&next, 0xE0) == 0) && (project_actor_to_ground((saddr) self, (saddr)&next, 0) != 0))
+  if ((csnVecterUnder(&next, 0xE0) == 0) && (project_actor_to_ground((TObjChara *)arg0, &next, 0) != 0))
   {
     VecCopy__FP3VecPC3Vec((saddr)&self->pos, (saddr)&next);
   }
@@ -1803,15 +1798,15 @@ void move_with_wall_slide(u8 *arg0) {
 
 #pragma pop
 extern "C" {
-f32 update_enemy_wander_move(Obj_80017ABC *actor, Vec arg1, s32 arg2, f32 farg0) {
-    if (((TObjEneLappy *)(actor))->is_actor_cadence_frame(0x1E) != 0) {
-        if (((s32 (*)(void *, Vec, int)) select_enemy_destination)(actor, arg1, arg2) != 0) {
-            ((s32 (*)(void *, Vec)) copy_position_if_valid__10TObjPlayerFii)(actor, actor->cur);
+f32 update_enemy_wander_move(TObjEnemy *enemy, Vec dest, s32 flags, f32 speed) {
+    if (enemy->is_actor_cadence_frame(0x1E) != 0) {
+        if (select_enemy_destination(enemy, dest, flags) != 0) {
+            copy_position_if_valid(enemy, enemy->body_center);
         }
     }
-    ((void (*)(void *, Vec, Vec, f32)) calc_velocity_toward_destination)(actor, actor->home, actor->dest, farg0);
-    move_with_wall_slide((u8 *)actor);
-    return horizontal_distance_squared(&arg1, &actor->pos);
+    calc_velocity_toward_destination(enemy, enemy->move_origin, enemy->move_destination, speed);
+    move_with_wall_slide((u8 *)enemy);
+    return horizontal_distance_squared(&dest, &enemy->position);
 }
 
 f32 TObjEnemy::enemy_wander_home(f32 farg0, f32 farg1, f32 farg2, s32 turn) {
@@ -1831,10 +1826,7 @@ f32 TObjEnemy::enemy_wander_home(f32 farg0, f32 farg1, f32 farg2, s32 turn) {
         v.x *= farg1;
         v.z *= farg2;
         vec3_add_to(&v, (u8 *)&this->home_position);
-        {
-            Vec c = v;
-            select_enemy_destination((Obj_800182A0 *) arg0, (Vec *) &c, 1);
-        }
+        select_enemy_destination(this, v, 1);
         *(f32 *)((s8 *)arg0 + 0x308) = ((TObjEnemy *)arg0)->velocity.z = (0.0f);
         ((TObjEnemy *)arg0)->m_2ac = 0;
     } else {
@@ -1847,65 +1839,65 @@ f32 TObjEnemy::enemy_wander_home(f32 farg0, f32 farg1, f32 farg2, s32 turn) {
     return var_f31;
 }
 
-f32 enemy_backstep_from_point(Obj_80017ABC *actor, Vec arg1, f32 farg0) {
-    if (TObjPlayer__sub_800181DC((u8 *)((u8 *) actor), (Vec)(arg1)) != 0) {
-        ((s32 (*)(void *, Vec)) copy_position_if_valid__10TObjPlayerFii)(actor, actor->cur);
-        ((void (*)(void *, Vec, Vec, f32)) calc_velocity_toward_destination)(actor, actor->home, actor->dest, farg0);
-        move_with_wall_slide((u8 *)actor);
-        return horizontal_distance_squared(&arg1, &actor->pos);
+f32 enemy_backstep_from_point(TObjEnemy *enemy, Vec point, f32 speed) {
+    if (TObjPlayer__sub_800181DC(enemy, point) != 0) {
+        copy_position_if_valid(enemy, enemy->body_center);
+        calc_velocity_toward_destination(enemy, enemy->move_origin, enemy->move_destination, speed);
+        move_with_wall_slide((u8 *)enemy);
+        return horizontal_distance_squared(&point, &enemy->position);
     }
     return (0.0f);
 }
 
-f32 enemy_pursue_point(u8 *enemy, s32 turn, Vec arg2, f32 farg0, f32 farg1) {
+f32 enemy_pursue_point(TObjEnemy *enemy, s32 turn_speed, Vec point, f32 speed, f32 step) {
     f32 d0;
     f32 d1;
     f32 d2;
     s32 a;
     Vec d;
-    d0 = horizontal_distance_squared(enemy + 0x2FC, enemy + 0x290);
-    d1 = horizontal_distance_squared(enemy + 0x290, enemy + 0x29C);
-    d2 = horizontal_distance_squared(enemy + 0x2FC, enemy + 0x29C);
-    if (farg1 * farg1 <= d0 || d1 < (1e-05f) || d2 < (1e-05f) || ((TObjEnemy *)(enemy))->is_actor_cadence_frame(0x96) != 0) {
-        VecCopy__FP3VecPC3Vec((saddr)&d, (saddr)&arg2);
-        subtract_vector(&d, enemy + 0x2FC);
+    d0 = horizontal_distance_squared(&enemy->body_center, &enemy->move_origin);
+    d1 = horizontal_distance_squared(&enemy->move_origin, &enemy->move_destination);
+    d2 = horizontal_distance_squared(&enemy->body_center, &enemy->move_destination);
+    if (step * step <= d0 || d1 < (1e-05f) || d2 < (1e-05f) || enemy->is_actor_cadence_frame(0x96) != 0) {
+        VecCopy(&d, &point);
+        subtract_vector(&d, &enemy->body_center);
         a = (s32)(TObjPlayer__data_804340B8 * ((f64 (*)(f32, f32))atan2_float)(d.x, d.z));
-        d.z = farg1;
+        d.z = step;
         d.x = d.y = (0.0f);
         push_matrix_from(&identity_matrix);
         rotate_matrix_y(0, a);
         rotate_vector_by_matrix(0, &d, &d);
         pop_matrix();
-        vec3_add_to(&d, enemy + 0x2FC);
-        if (((s32 (*)(void *, Vec, int)) select_enemy_destination)(enemy, d, 1) != 0) {
-            ((s32 (*)(void *, Vec)) copy_position_if_valid__10TObjPlayerFii)(enemy, *(Vec *)(enemy + 0x2FC));
+        vec3_add_to(&d, &enemy->body_center);
+        if (select_enemy_destination(enemy, d, 1) != 0) {
+            copy_position_if_valid(enemy, enemy->body_center);
         }
     }
-    ((TObjEnemy *)enemy)->enemy_turn_toward_dest(turn);
-    enemy_set_heading_velocity(farg0, (TObjEnemy *)enemy, ((TObjEnemy *)enemy)->rotation_y);
-    move_with_wall_slide(enemy);
-    return horizontal_distance_squared(&arg2, enemy + 0x2FC);
+    enemy->enemy_turn_toward_dest(turn_speed);
+    enemy_set_heading_velocity(speed, enemy, enemy->rotation_y);
+    move_with_wall_slide((u8 *)enemy);
+    return horizontal_distance_squared(&point, &enemy->body_center);
 }
 
-f32 step_toward_destination__10TObjPlayerFPvPvf(Obj_80017804 *player, Vec *arg1, f32 farg0) {
-    VecCopy__FP3VecPC3Vec((saddr) &player->dest, (saddr) arg1);
-    VecCopy__FP3VecPC3Vec((saddr) &player->home, (saddr) &player->cur);
-    ((void (*)(void *, Vec, Vec, f32)) calc_velocity_toward_destination)(player, player->home, player->dest, farg0);
-    player->pos.x += player->vx;
-    player->pos.z += player->vz;
-    return horizontal_distance_squared(arg1, &player->pos);
+f32 step_toward_destination(TObjChara *chara, Vec dest, f32 speed) {
+    VecCopy(&chara->move_destination, &dest);
+    VecCopy(&chara->move_origin, &chara->body_center);
+    calc_velocity_toward_destination(chara, chara->move_origin, chara->move_destination, speed);
+    chara->position.x += chara->velocity.x;
+    chara->position.z += chara->velocity.z;
+    return horizontal_distance_squared(&dest, &chara->position);
 }
 
-f32 enemy_move_toward(u8 *enemy, s32 turn, Vec arg2, s32 arg3, f32 farg0) {
-    if (horizontal_distance_squared(enemy + 0x29C, enemy + 0x38) < (1e-05f) || ((TObjEnemy *)(enemy))->is_actor_cadence_frame(0x1E) != 0) {
-        if (((s32 (*)(void *, Vec, int)) select_enemy_destination)(enemy, arg2, arg3) != 0) {
-            ((s32 (*)(void *, Vec)) copy_position_if_valid__10TObjPlayerFii)(enemy, *(Vec *)(enemy + 0x2FC));
+f32 enemy_move_toward(TObjEnemy *enemy, s32 turn_speed, Vec dest, s32 flags, f32 speed) {
+    if (horizontal_distance_squared(&enemy->move_destination, &enemy->position) < (1e-05f) || enemy->is_actor_cadence_frame(0x1E) != 0) {
+        if (select_enemy_destination(enemy, dest, flags) != 0) {
+            copy_position_if_valid(enemy, enemy->body_center);
         }
     }
-    ((TObjEnemy *)enemy)->enemy_turn_toward_dest(turn);
-    enemy_set_heading_velocity(farg0, (TObjEnemy *)enemy, ((TObjEnemy *)enemy)->rotation_y);
-    move_with_wall_slide(enemy);
-    return horizontal_distance_squared(&arg2, enemy + 0x38);
+    enemy->enemy_turn_toward_dest(turn_speed);
+    enemy_set_heading_velocity(speed, enemy, enemy->rotation_y);
+    move_with_wall_slide((u8 *)enemy);
+    return horizontal_distance_squared(&dest, &enemy->position);
 }
 
 s32 TObjChara::is_target_in_attack_range() {

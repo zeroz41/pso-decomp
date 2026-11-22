@@ -65,6 +65,8 @@ void TObjPlayer__sub_800ACA0C(void *);
 extern "C" {
 f32 enemy_pursue_point(void *, s32, Vec *, void *, f32, f32);
 s32 select_enemy_destination(void *, Vec *, int);
+s32 copy_position_if_valid(saddr chara, saddr pos);
+void calc_velocity_toward_destination(TObjChara *chara, Vec from, Vec to, f32 speed);
 s32 minimap_render_dot(void *, int, int, int, f32);
 }
 
@@ -568,7 +570,7 @@ void TObjEneMoja::update_idle_state() {
         Vec dest = home_position;
         if (select_enemy_destination(this, &dest, 7) != 0) {
             Vec cur = body_center;
-            copy_position_if_valid__10TObjPlayerFii((saddr)this, (saddr)&cur);
+            copy_position_if_valid((saddr)this, (saddr)&cur);
         }
         switch (appearance) {
         case 0:
@@ -791,7 +793,7 @@ void TObjEneMoja::update_approach_state() {
             Vec v = ((TObjChara *)target)->body_center;
             if (select_enemy_destination(this, &v, 1) != 0) {
                 Vec v2 = body_center;
-                copy_position_if_valid__10TObjPlayerFii((saddr)this, (saddr)&v2);
+                copy_position_if_valid((saddr)this, (saddr)&v2);
             }
             }
             phase = 1;
@@ -869,7 +871,7 @@ s32 TObjEneMoja::is_target_in_attack_range() {
                         }
                         {
                             Vec v2 = body_center;
-                            ((s32 (*)(TObjEneMoja *, Vec *))copy_position_if_valid__10TObjPlayerFii)(this, &v2);
+                            ((s32 (*)(TObjEneMoja *, Vec *))copy_position_if_valid)(this, &v2);
                         }
                     }
                     break;
@@ -885,7 +887,7 @@ s32 TObjEneMoja::is_target_in_attack_range() {
                         }
                         {
                             Vec v2 = body_center;
-                            ((s32 (*)(TObjEneMoja *, Vec *))copy_position_if_valid__10TObjPlayerFii)(this, &v2);
+                            ((s32 (*)(TObjEneMoja *, Vec *))copy_position_if_valid)(this, &v2);
                         }
                     }
                     break;
@@ -1051,7 +1053,7 @@ void TObjEneMoja::update_technique_state() {
             Vec dest = ((TObjChara *)target)->body_center;
             if (select_enemy_destination(this, &dest, 1) != 0) {
                 Vec cur = body_center;
-                copy_position_if_valid__10TObjPlayerFii((saddr)this, (saddr)&cur);
+                copy_position_if_valid((saddr)this, (saddr)&cur);
                 a = enemy_turn_toward_dest(((MojaMovementParameters *)movementParameters)->unknown_08);
                 enemy_set_heading_velocity(((MojaMovementParameters *)movementParameters)->unknown_04, this, rotation_y);
                 move_with_wall_slide((u8 *)this);
@@ -1197,7 +1199,7 @@ void TObjEneMoja::update_attack_jump() {
                 Vec dest = ((TObjChara *)target)->body_center;
                 if (select_enemy_destination(this, &dest, 1) != 0) {
                     Vec pos = body_center;
-                    copy_position_if_valid__10TObjPlayerFii((saddr)this, (saddr)&pos);
+                    copy_position_if_valid((saddr)this, (saddr)&pos);
                     VecCopy(&delta, &move_destination);
                     subtract_vector(&delta, &body_center);
                     jumpSpeed = -20.0f + newton_sqrtf(delta.x * delta.x + delta.z * delta.z);

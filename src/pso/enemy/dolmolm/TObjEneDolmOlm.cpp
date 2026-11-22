@@ -205,7 +205,7 @@ void move_with_wall_slide(u8 *arg0);
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
 s32 select_enemy_destination(void *, void *, int);
-s32 copy_position_if_valid__10TObjPlayerFii(void *, void *);
+s32 copy_position_if_valid(void *, void *);
 extern uaddr dolm_olm_combat_stat_id_pair;
 extern uaddr TObjEneDolmOlm__shared_handler_ids;
 extern uaddr TObjEneDolmOlm__registered_object_ids;
@@ -743,7 +743,7 @@ void TObjEneDolmOlm__sub_80301C3C(u8 *self) {
                 Vec a = v;
                 if (select_enemy_destination(self, &a, 1) != 0) {
                     Vec b = *(Vec *)(self + 0x2FC);
-                    copy_position_if_valid__10TObjPlayerFii(self, &b);
+                    copy_position_if_valid(self, &b);
                 }
             }
             f = 4.0f * *(f32 *)((s8 *)self + 0x394);

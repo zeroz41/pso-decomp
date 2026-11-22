@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #pragma readonly_strings on
+#include "pso/enemy/EnemyMovement.h"
 #include "pso/unk/TUnk_804C8678.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/npc/TObjNpcBase_80149128.h"
@@ -90,7 +91,6 @@ void TObjNpcBase::setup_common() {
 
 extern "C" {
 s32 approach_angle_limited(s32, s32, s32);
-void select_enemy_destination(TObjEnemy *, Vec *, s32);
 f32 horizontal_distance_squared(Vec *, Vec *);
 void vec3_add_to(Vec *, Vec *);
 void rotate_vector_by_matrix(int, Vec *, Vec *);
@@ -312,8 +312,7 @@ void TObjNpcBase::update_wandering() {
         v.z = v.z * parameters[0];
         vec3_add_to(&v, &home_position);
         if (100.0f < horizontal_distance_squared(&v, &position)) {
-            Vec d = v;
-            select_enemy_destination(this, &d, 0);
+            select_enemy_destination(this, v, 0);
             velocity.x = velocity.z = 0.0f;
             phase = 1;
             request_action(1);

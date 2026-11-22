@@ -63,7 +63,7 @@ void check_enemy_body_collisions(void *arg0);
 s32 minimap_render_dot(void *, int, int, int);
 s32 enemy_move_toward(void *, s32, void *, int, f32);
 s32 select_enemy_destination(void *, Vec_802DA0BC *, int);
-s32 copy_position_if_valid__10TObjPlayerFii(s32 arg0, s32 arg1);
+s32 copy_position_if_valid(s32 arg0, s32 arg1);
 f32 horizontal_distance_squared(int, void *);
 extern u8 *TObjEneGibbles__ai_parameters;
 s32 is_split_screen();
@@ -1012,7 +1012,7 @@ void TObjEneGibbles::sub_802DA0BC() {
             this->phase = 1;
             {
                 Vec_802DA0BC v2 = *(Vec_802DA0BC *)(((u8 *)this) + 0x2FC);
-                copy_position_if_valid__10TObjPlayerFii((saddr)this, (saddr)&v2);
+                copy_position_if_valid((saddr)this, (saddr)&v2);
             }
             apply_actor_gravity((TObjEnemy *)this, (s32 *)(0), 0.0f);
             *(f32 *)((s8 *)((u8 *)this) + 0x3A0) = 0.0f;
@@ -1542,7 +1542,7 @@ void TObjEneGibbles::sub_802D8984() {
                     o->sub = 1;
                     {
                         Vec_802DA0BC q = o->f2FC;
-                        copy_position_if_valid__10TObjPlayerFii((saddr)o, (saddr)&q);
+                        copy_position_if_valid((saddr)o, (saddr)&q);
                     }
                     VecCopy((Vec *)&v, (const Vec *)((Vec *)&o->f29C));
                     subtract_vector(&v, &o->f2FC);

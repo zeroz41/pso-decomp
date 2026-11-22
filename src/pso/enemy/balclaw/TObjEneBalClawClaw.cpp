@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/enemy/EnemyMovement.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "types.h"
 #include "pso/npc/NpcModelRegistry.h"
@@ -37,7 +38,6 @@
 
 
 extern "C" {
-void select_enemy_destination(void *, Vec *, s32);
 void TObjPlayer__sub_800A04F0(void *);
 s32 TObjPlayer__sub_800A0554(void *);
 s32 submit_cursor_candidate(void *, int, int, f32, f32);
@@ -329,9 +329,7 @@ void TObjEneBalClawClaw::update_chase(void *p) {
             break;
         }
         play_persistent_sound(0x4003B235, (saddr)claw, (uaddr)&claw->position, 0, 0);
-        Vec target_pos = ((TObjChara *)claw->target)->body_center;
-        update_enemy_wander_move(claw, &target_pos, 1, (EnemyMoveParams *)claw->movementParameters,
-                                 ((EnemyMoveParams *)claw->movementParameters)->min_distance);
+        update_enemy_wander_move(claw, ((TObjChara *)claw->target)->body_center, 1, ((EnemyMoveParams *)claw->movementParameters)->min_distance);
         claw->turn_toward_direction(((EnemyMoveParams *)claw->movementParameters)->turn_speed, &claw->velocity);
         claw->advance_animation();
         apply_actor_gravity(claw, NULL, 0.0f);
@@ -417,8 +415,7 @@ void TObjEneBalClawClaw::sub_80090ECC() {
             TObjEneBalClawClaw::reset_active_state(this);
             return;
         }
-        Vec target_pos = ((TObjChara *)target)->body_center;
-        ((s32 (*)(void *, void *, int, f32))update_enemy_wander_move)(this, &target_pos, 1, 0.7f);
+        update_enemy_wander_move(this, ((TObjChara *)target)->body_center, 1, 0.7f);
         turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, &velocity);
         if (m_3c0 <= ((AttackParams *)m_318)->get_attack_range() * ((AttackParams *)m_318)->get_attack_range()) {
             state = requested_action = 2;
@@ -430,8 +427,7 @@ void TObjEneBalClawClaw::sub_80090ECC() {
             TObjEneBalClawClaw::reset_active_state(this);
             return;
         }
-        Vec target_pos = ((TObjChara *)target)->body_center;
-        ((s32 (*)(void *, void *, int, f32))update_enemy_wander_move)(this, &target_pos, 1, 0.7f);
+        update_enemy_wander_move(this, ((TObjChara *)target)->body_center, 1, 0.7f);
         turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, &velocity);
         if (is_passing_frame(8.0f) != 0) {
             play_sound_effect(0x4003B032, &position, 0, 0);
@@ -579,11 +575,8 @@ void TObjEneBalClawClaw::update_follow_parent(void *p) {
         claw->clear_attack_flag();
         claw->state = 1;
     case 1: {
-        Vec dest = parent->position;
-        select_enemy_destination(claw, &dest, 1);
-        Vec goal = parent->position;
-        claw->m_3c0 = update_enemy_wander_move(claw, &goal, 1, (EnemyMoveParams *)claw->movementParameters,
-                                               ((EnemyMoveParams *)claw->movementParameters)->min_distance);
+        select_enemy_destination(claw, parent->position, 1);
+        claw->m_3c0 = update_enemy_wander_move(claw, parent->position, 1, ((EnemyMoveParams *)claw->movementParameters)->min_distance);
         enemy_turn_half_toward_dest(claw);
         claw->advance_animation();
         apply_actor_gravity(claw, NULL, 0.0f);

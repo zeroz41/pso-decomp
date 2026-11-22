@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyMovement.h"
 #include "pso/system/BmlAccessors.h"
 #pragma defer_codegen on
 
@@ -120,9 +121,6 @@ typedef struct Ofs_800A1814 {
 } Ofs_800A1814;
 
 struct Raw_800A10A0 { u8 b[12]; };
-
-void calc_velocity_toward_destination(void *, Vec, Vec, f32);
-
 s32 check_path_obstructed(void *, Vec *);
 
 f32 atan2_float(f32, f32);

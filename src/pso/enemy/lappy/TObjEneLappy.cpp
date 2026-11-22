@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/enemy/EnemyMovement.h"
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/system/BmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
@@ -188,9 +189,6 @@ s32 get_entity_id(void *);
 extern f32 identity_matrix[3][4];
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
-s32 select_enemy_destination(void *, Vec *, s32);
-s32 enemy_backstep_from_point(void *, Vec *, f32);
-f32 update_enemy_wander_move(void *, Vec *, int, f32);
 f32 atan2_float(f32 y, f32 x);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 s32 obj_setFlags30(void *, s32);
@@ -556,8 +554,7 @@ void TObjEneLappy::update_moving() {
     if ((actorFlags & 0x1000) && !(m_374 & 2)) {
         chased = target;
         if (chased != NULL) {
-            Vec target1 = ((TObjChara *)chased)->body_center;
-            enemy_backstep_from_point(this, &target1, *(f32 *)((u8 *)movementParameters + 4));
+            enemy_backstep_from_point(this, ((TObjChara *)chased)->body_center, *(f32 *)((u8 *)movementParameters + 4));
             turn_toward_direction(*(s32 *)((u8 *)movementParameters + 8), &velocity);
             apply_actor_gravity(this, NULL, 0.0f);
             ((TObjPlayer *)this)->update_collisions();
@@ -570,8 +567,7 @@ void TObjEneLappy::update_moving() {
         case 0:
             chased = target;
             if (chased != NULL) {
-                Vec target2 = ((TObjChara *)chased)->body_center;
-                dist = update_enemy_wander_move(this, &target2, 1, *(f32 *)((u8 *)movementParameters + 4));
+                dist = update_enemy_wander_move(this, ((TObjChara *)chased)->body_center, 1, *(f32 *)((u8 *)movementParameters + 4));
                 if ((obj_testFlags30(2) == 0) && (dist < 10000.0f)) {
                     m_37a = 1;
                     pad_398 = 0;
@@ -592,8 +588,7 @@ void TObjEneLappy::update_moving() {
         case 1:
             chased = target;
             if (chased != NULL) {
-                Vec target3 = ((TObjChara *)chased)->body_center;
-                dist = update_enemy_wander_move(this, &target3, 1, *(f32 *)((u8 *)movementParameters + 4));
+                dist = update_enemy_wander_move(this, ((TObjChara *)chased)->body_center, 1, *(f32 *)((u8 *)movementParameters + 4));
                 if (dist > 22500.0f) {
                     m_37a = 0;
                 }
@@ -663,8 +658,7 @@ void TObjEneLappy::run_move_action() {
         if ((s16) this->mode != 1) {
             temp_r7 = this->target;
             if (temp_r7 != NULL) {
-                Vec sp8 = ((TObjChara *)temp_r7)->body_center;
-                if (select_enemy_destination(this, &sp8, 1) == 1) {
+                if (select_enemy_destination(this, ((TObjChara *)temp_r7)->body_center, 1) == 1) {
                     switch ((s8)this->m_378) {
                     case 0:
                         this->requested_action = 3;
@@ -742,8 +736,7 @@ void TObjEneLappy::update_idle_state(void *ov) {
         break;
     case 2: {
         self->advance_animation();
-        Vec v = self->home_position;
-        update_enemy_wander_move(self, &v, 7, *(f32 *)((u8 *)self->movementParameters + 4));
+        update_enemy_wander_move(self, self->home_position, 7, *(f32 *)((u8 *)self->movementParameters + 4));
         self->turn_toward_direction(*(s32 *)((u8 *)self->movementParameters + 8), &self->velocity);
         break;
     }

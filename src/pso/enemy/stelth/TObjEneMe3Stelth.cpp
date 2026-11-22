@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyMovement.h"
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -88,7 +89,6 @@ const char *TObjEneMe3StelthReal__class_name = stelth_real_class_name;
 
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
-s32 select_enemy_destination(void *, Vec *, int);
 extern StelthBehaviorParams *TObjEneMe3Stelth__behavior_params_by_variant[];
 extern CollisionBody TObjEneMe3Stelth__collision_body_template;
 BmlResource *TObjEneMe3Stelth__bml_resource;
@@ -1956,10 +1956,8 @@ void TObjEneMe3Stelth::sub_800F1098(s32 reason) {
                 break;
             }
             {
-                Vec dest = this->destination;
-                if (select_enemy_destination(this, &dest, 1) != 0) {
-                    Vec pos = this->body_center;
-                    copy_position_if_valid__10TObjPlayerFii((saddr)this, (saddr)&pos);
+                if (select_enemy_destination(this, this->destination, 1) != 0) {
+                    copy_position_if_valid(this, this->body_center);
                     this->body_center.y += 5.0f;
                     r = ((TObjEnemy *)this)->enemy_turn_toward_dest(((StelthMovementParams *)this->movementParameters)->turn);
                     enemy_set_heading_velocity(((StelthMovementParams *)this->movementParameters)->speed, this, this->rotation_y);

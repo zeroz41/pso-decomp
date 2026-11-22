@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyMovement.h"
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/system/BmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
@@ -94,8 +95,6 @@ void print_float_padded(s32 arg0, s32 prec, f32 val);
 void move_with_wall_slide(u8 *arg0);
 
 extern "C" {
-s32 select_enemy_destination(void *, Vec, int);
-s32 copy_position_if_valid__10TObjPlayerFii(void *, Vec);
 u16 get_entity_id(TObjBase *object);
 f32 fabs_float(f32);
 f32 atan2_float(f32, f32);
@@ -1971,7 +1970,7 @@ void TObjEneMe3SinowZoa::sub_803170F0(s32 mode) {
 }
 
 inline s32 approach_80316C3C(TObjEneMe3SinowZoa *self) {
-    copy_position_if_valid__10TObjPlayerFii(self, self->body_center);
+    copy_position_if_valid(self, self->body_center);
     self->body_center.y += TObjEneMe3SinowZoa__data_805DF308;
     return ((TObjEnemy *)self)->enemy_turn_toward_dest(((TObjEneMe3SinowZoaMoveParams *)self->movementParameters)->turn);
 }

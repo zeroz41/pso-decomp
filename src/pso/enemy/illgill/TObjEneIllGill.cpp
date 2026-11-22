@@ -68,7 +68,8 @@ IllGillAttackBehavior * illGillAttackBehavior;
 s32 illGillModelNodeIndex;
 }
 extern "C" {
-f32 step_toward_destination__10TObjPlayerFPvPvf(void *, Vec, f32);
+f32 step_toward_destination(void *, Vec, f32);
+s32 copy_position_if_valid(void *, Vec);
 f32 enemy_move_toward(void *, s32, Vec *, s32, f32, f32);
 s32 enemy_pursue_point(void *, s32, Vec *, f32, f32, f32);
 extern const char *TObjEneIllGill_model_file_list[2];
@@ -562,7 +563,7 @@ void TObjEneIllGill::update_forward_movement() {
     pop_matrices(1);
     vec3_add_to(&v, &home_position);
     this->body_center.y += 5.0f;
-    d = step_toward_destination__10TObjPlayerFPvPvf(player, v, 2.0f * ((IllGillMovementParameters *)movementParameters)->speed);
+    d = step_toward_destination(player, v, 2.0f * ((IllGillMovementParameters *)movementParameters)->speed);
     movement = (IllGillMovementParameters *)movementParameters;
     a = movement->range * movement->range;
     b = movement->speed * movement->speed;
@@ -1257,7 +1258,7 @@ void TObjEneIllGill::update_charge_attack() {
                     o->requested_action = 8;
                     obj_setFlags30(o, 0x4000000);
                     o->set_indexed_flags(0, 0x80);
-                    ((s32 (*)(void *, Vec))copy_position_if_valid__10TObjPlayerFii)(o, (*(&o->body_center)));
+                    ((s32 (*)(void *, Vec))copy_position_if_valid)(o, (*(&o->body_center)));
                     o->actionTimer = 10;
                     play_sound_effect(0x4003A34E, &o->position, 0, 0);
                 } else {

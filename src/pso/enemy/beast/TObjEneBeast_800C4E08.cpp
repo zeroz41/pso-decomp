@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyMovement.h"
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/player/PlayerAttackParams.h"
@@ -83,9 +84,7 @@ void move_with_wall_slide(u8 *arg0);
 extern "C" {
 s32 obj_setFlags30(void *, s32);
 u16 get_entity_id(void *);
-s32 enemy_move_toward(void *, s32, void *, int, f32);
 s32 get_current_floor(void);
-f32 enemy_backstep_from_point(void *, void *, f32);
 s32 angle_difference_abs(s32, s32);
 void TUnk_80493450::sub_800C4E08() {
     if (obj_testFlags30(0x100000) != 0) {
@@ -346,8 +345,7 @@ void TUnk_80493450::beast_update_group_chase() {
         break;
     }
     if (target != NULL) {
-        Vec v = ((TObjChara *)target)->body_center;
-        d = enemy_backstep_from_point(this, &v, m_398);
+        d = enemy_backstep_from_point(this, ((TObjChara *)target)->body_center, m_398);
         turn_toward_direction(((BeastMovementParams *)movementParameters)->turnSpeed, &velocity);
         r = m_398 + bodies->radius;
         if (d < r * r) {
@@ -393,8 +391,7 @@ void TUnk_80493450::beast_update_approach() {
             sub_800C4E08();
             ((TObjMotion *)self)->advance_animation();
             {
-                Vec sp8 = sp14;
-                enemy_move_toward(self, ((BeastMovementParams *)movementParameters)->turnSpeed, &sp8, 0, this->unk_394);
+                enemy_move_toward(this, ((BeastMovementParams *)movementParameters)->turnSpeed, sp14, 0, this->unk_394);
             }
             if (this->targetId == 0xFFFF) {
                 if (horizontal_distance_squared((u8 *)&this->move_destination, (u8 *)&this->position) < (r = this->unk_394 + this->bodies->radius) * r ||

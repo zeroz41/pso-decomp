@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyMovement.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/balclaw/TObjEneBalClawBody.h"
 #include "pso/enemy/dubchik/TObjEneDubchik.h"
@@ -143,10 +144,9 @@ void TObjEnemyCustom::update_wander_state() {
     case 1:
         advance_animation();
         if (target != NULL) {
-            Vec dest = ((TObjChara *)target)->body_center;
+            f32 distance = update_enemy_wander_move(this, ((TObjChara *)target)->body_center, 1,
+                                                    ((EnemyMoveParams *)movementParameters)->min_distance);
             EnemyMoveParams *params = (EnemyMoveParams *)movementParameters;
-            f32 distance = update_enemy_wander_move(this, &dest, 1, params, params->min_distance);
-            params = (EnemyMoveParams *)movementParameters;
             if (params->max_distance < distance || distance < params->min_distance) {
                 target = NULL;
             }

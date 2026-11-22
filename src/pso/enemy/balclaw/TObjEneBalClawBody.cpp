@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyMovement.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/npc/NpcModelRegistry.h"
@@ -78,7 +79,6 @@ s32 TObjPlayer__sub_800A04F0(void *);
 s32 TObjPlayer__sub_800A0554(void *);
 s32 fn_80090464(void *, int);
 void queue_destruction__7TObjectFv(void *arg0);
-s32 select_enemy_destination(void *, Vec, s32);
 void send_6x2F_change_player_hp(s32 arg0, s32 arg1, s32 arg2);
 s32 submit_cursor_candidate(void *, int, int, f32, f32);
 }
@@ -369,8 +369,7 @@ void TObjEneBalClawBody::sub_8008FAD0() {
         play_persistent_sound(0x4003B235, (saddr)body, (uaddr)&body->position, 0, 0);
         body->velocity.y = 0.0f;
         {
-            Vec pos = ((TObjChara *)body->target)->body_center;
-            ((s32 (*)(void *, Vec *, int, f32))update_enemy_wander_move)(body, &pos, 1, ((EnemyMoveParams *)body->movementParameters)->min_distance);
+            update_enemy_wander_move(body, ((TObjChara *)body->target)->body_center, 1, ((EnemyMoveParams *)body->movementParameters)->min_distance);
         }
         body->turn_toward_direction(((EnemyMoveParams *)body->movementParameters)->turn_speed, &body->velocity);
         body->advance_animation();
@@ -620,7 +619,7 @@ void TObjEneBalClawBody::sub_8008EDE8() {
             body->requested_action = 1;
             body->state = 1;
             if (select_enemy_destination(body, body->body_center, 1) != 0) {
-                ((void (*)(void *, Vec))copy_position_if_valid__10TObjPlayerFii)(body, body->body_center);
+                copy_position_if_valid(body, body->body_center);
             }
         } else {
             body->reset_enemy_state();

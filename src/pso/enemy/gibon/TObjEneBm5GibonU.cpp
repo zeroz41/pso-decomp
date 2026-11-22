@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyMovement.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
@@ -157,8 +158,6 @@ void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 void move_with_wall_slide(u8 *arg0);
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
-s32 select_enemy_destination(void *, Vec, s32);
-void copy_position_if_valid__10TObjPlayerFii(void *, Vec);
 f32 newton_sqrtf(f32);
 void *spawn_directional_particle(void *pos, void *dir, s32 id);
 void subtract_vector(void *, void *);
@@ -472,7 +471,7 @@ void TObjEneBm5GibonU::state_cast_technique(s32 msg) {
                 transition_enemy_state(8);
             } else {
                 if (select_enemy_destination(this, destination, 1) != 0) {
-                    copy_position_if_valid__10TObjPlayerFii(this, body_center);
+                    copy_position_if_valid(this, body_center);
                     r = enemy_turn_toward_dest(((TObjEneBm5GibonUMovementParameters *)movementParameters)->turn);
                     enemy_set_heading_velocity(((TObjEneBm5GibonUMovementParameters *)movementParameters)->speed, this, rotation_y);
                     move_with_wall_slide((u8 *)this);

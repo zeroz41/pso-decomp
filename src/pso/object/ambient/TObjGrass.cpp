@@ -267,7 +267,7 @@ extern "C" {
 s32 minimap_render_dot(void *, s32, s32, s32);
 void TObjGrass__sub_800BFB68(O_800BFB68 *self);
 s32 free_collision_body_parts(void *);
-f32 step_toward_destination__10TObjPlayerFPvPvf(void *, Vec, f32);
+f32 step_toward_destination(void *, Vec, f32);
 s32 obj_setFlags30(void *, u32);
 f32 vec3_add_to(void *, void *);
 extern u8 identity_matrix[];
@@ -296,7 +296,7 @@ f32 fabs_float(f32);
 s32 approach_angle_limited(s32, s32, s32);
 s32 project_actor_to_ground(void *, void *, s32);
 s32 select_enemy_destination(void *, Vec, int);
-s32 copy_position_if_valid__10TObjPlayerFii(void *, Vec);
+s32 copy_position_if_valid(void *, Vec);
 s32 obj_is_hit_receivable(void *);
 s32 is_split_screen();
 extern s32 local_client_id;
@@ -937,7 +937,7 @@ void TObjGrass::sub_800BE75C() {
     rotate_vector_by_matrix(0, &v, &v);
     pop_matrices(1);
     vec3_add_to(&v, o->mtx50);
-    d = step_toward_destination__10TObjPlayerFPvPvf(o, v, (2.0f) * o->range->hi);
+    d = step_toward_destination(o, v, (2.0f) * o->range->hi);
     lo2 = o->range->lo * o->range->lo;
     hi2 = o->range->hi * o->range->hi;
     if (lo2 < d || d < hi2) {
@@ -1258,7 +1258,7 @@ void TObjGrass::sub_800BD4D8() {
                     o->fb8 = 7;
                     obj_setFlags30(o, 0x4000000);
                     ((TObjCollidable *)o)->set_indexed_flags(0, 0x80);
-                    copy_position_if_valid__10TObjPlayerFii(o, o->p2fc);
+                    copy_position_if_valid(o, o->p2fc);
                     play_sound_effect(((TObjEnemy *)o)->remap_sound_for_area(0x4003A806), &o->pos, 0, 0);
                     TObjPlayer::play_effect_if_v2(-0x200);
                 } else {

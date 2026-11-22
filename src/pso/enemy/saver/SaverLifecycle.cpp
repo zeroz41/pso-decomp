@@ -504,7 +504,7 @@ f32 calc_xz_distance_sq(saddr arg0, uaddr arg1, void *arg2);
 
 s32 enemy_move_toward(void *, s32, Vec *, int, f32 *, f32);
 s32 select_enemy_destination(void *, Vec *, int);
-s32 copy_position_if_valid__10TObjPlayerFii(s32 arg0, s32 arg1);
+s32 copy_position_if_valid(s32 arg0, s32 arg1);
 #define turn_toward_target__12TObjEneSaverFv ((s32 (*)(void*))(turn_toward_target__12TObjEneSaverFv))
 f32 horizontal_distance_squared(int, void *);
 
@@ -676,7 +676,7 @@ void TObjEneSaver::sub_800A4D9C() {
             F(s16, 0x328) = 1;
             {
                 Vec pos = F(Vec, 0x2FC);
-                copy_position_if_valid__10TObjPlayerFii((saddr)self, (saddr)&pos);
+                copy_position_if_valid((saddr)self, (saddr)&pos);
             }
             VecCopy((Vec *)&d, (const Vec *)(self + 0x29C));
             subtract_vector(&d, (u8 *)&this->body_center);
@@ -1624,7 +1624,7 @@ void TObjEneSaver::update_move_toward_target() {
                 this->phase = 1;
                 {
                 Vec v2 = *(Vec *)(((u8 *)this) + 0x2FC);
-                copy_position_if_valid__10TObjPlayerFii((saddr)this, (saddr)&v2);
+                copy_position_if_valid((saddr)this, (saddr)&v2);
                 }
                 apply_actor_gravity((TObjEnemy *)(this), (s32 *)(0), 0.0f);
             }
