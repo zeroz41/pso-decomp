@@ -549,8 +549,7 @@ struct Boss6BodySpawnParams {
     u8 variant;
 };
 
-extern "C" {
-f32 xyz_distance(const void *, const void *);
+extern "C" f32 xyz_distance(const void *, const void *);
 
 void TBoss6PlotFalz::release_object() { if (tube != NULL) { tube->queue_destruction(); tube = NULL; } }
 
@@ -647,7 +646,6 @@ void TBoss6PlotFalz::set_fade_material_color(f32 f) {
     set_constant_material(&c);
 }
 
-}
 
 
 void set_chunk_blend(u32 x);
