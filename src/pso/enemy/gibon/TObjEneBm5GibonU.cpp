@@ -1,3 +1,4 @@
+#include "pso/math/AngleUnits.h"
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/system/EnemyBmlResource.h"
@@ -317,7 +318,7 @@ void TObjEneBm5GibonU::run_demo_task() {
 
     if (this->get_target_info() != 0) {
         temp_r31 = is_leader;
-        sub_800D10A0();
+        select_subtype();
         if (temp_r31 != is_leader) {
             if (temp_r31 != 0) {
                 forward_hit_to_enemy_list();
@@ -554,9 +555,9 @@ void TObjEneBm5GibonU::state_cast_technique(s32 msg) {
                     rotate_vector_by_matrix(0, &v, &v);
                     pop_matrices(1);
                     if (technique_type != 1) {
-                        ang[0] = (s32)(10430.38043493439 * atan2_float(v.z, newton_sqrtf(v.x * v.x + v.y * v.y)));
+                        ang[0] = (s32)(RADIANS_TO_ANGLE * atan2_float(v.z, newton_sqrtf(v.x * v.x + v.y * v.y)));
                         ang[1] = 0;
-                        ang[2] = -(s32)(10430.38043493439 * atan2_float(v.x, v.y));
+                        ang[2] = -(s32)(RADIANS_TO_ANGLE * atan2_float(v.x, v.y));
                         spawn_directional_particle(&p, ang, 0xCC);
                     }
                 }
@@ -595,7 +596,7 @@ void TObjEneBm5GibonU::sub_800CDB98(s32 msg) {
             s32 i;
             this->enemy_copy_target_destination();
             this->update_velocity();
-            this->m_528 = (s32)(10430.38043493439 * atan2_float(this->destination_direction.x, this->destination_direction.z));
+            this->m_528 = (s32)(RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z));
             for (i = 0; i < 3; i++) {
                 d = offs[i] * 0x1FFF;
                 ang = this->m_528 + 0x10000 + d - 0x8000;
@@ -680,7 +681,7 @@ void TObjEneBm5GibonU::sub_800CDB98(s32 msg) {
     }
 }
 
-void TObjEneBm5GibonU::sub_800CE060(s32 msg) {
+void TObjEneBm5GibonU::update_dying_state(s32 msg) {
     Vec sp14;
     Vec sp8;
     f32 k;
@@ -702,7 +703,7 @@ void TObjEneBm5GibonU::sub_800CE060(s32 msg) {
             for (n = ((TObjEneBm5GibonUList *)TObjEneBm5GibonU__node_list)->head; n != NULL; n = n->next) {
                 o = n->get_owner();
                 if (o != NULL && o->group_id == this->group_id) {
-                    o->sub_800D095C((s32)(k * this->random_ratio()) + 0x14, this->attacker_id);
+                    o->schedule_pack_reaction((s32)(k * this->random_ratio()) + 0x14, this->attacker_id);
                 }
             }
         }
@@ -743,7 +744,7 @@ void TObjEneBm5GibonU::sub_800CE060(s32 msg) {
                 this->move_clamped_on_ground(sp8.x, sp8.z, v);
             }
             if (this->is_passing_frame(26.0f) != 0) {
-                sub_800D0AE8(&sp8);
+                spawn_recoil_dust(&sp8);
             }
             this->velocity.x *= 0.8f;
             this->velocity.z *= 0.8f;
@@ -765,7 +766,7 @@ void TObjEneBm5GibonU::sub_800CE060(s32 msg) {
     }
 }
 
-void TObjEneBm5GibonU::sub_800CE370(s32 msg) {
+void TObjEneBm5GibonU::hurt_state(s32 msg) {
     Vec sp8;
     switch (msg) {
     case 4:
@@ -811,7 +812,7 @@ void TObjEneBm5GibonU::sub_800CE370(s32 msg) {
             this->rotation_y = approach_angle_limited(this->rotation_y, this->m_528, 0x300);
             this->rotation_y = (s16) this->rotation_y;
             if (this->is_passing_frame(26.0f) != 0) {
-                sub_800D0AE8(&sp8);
+                spawn_recoil_dust(&sp8);
             }
         }
         this->check_collisions();
@@ -860,7 +861,7 @@ void TObjEneBm5GibonU::action(s32 msg) {
     }
 }
 
-void TObjEneBm5GibonU::sub_800CE694(s32 msg) {
+void TObjEneBm5GibonU::repositioning_state(s32 msg) {
     Vec v;
     f32 dx;
     f32 dz;
@@ -942,7 +943,7 @@ void TObjEneBm5GibonU::sub_800CE694(s32 msg) {
 
 #pragma push
 #pragma fp_contract on
-void TObjEneBm5GibonU::sub_800CE978(s32 msg) {
+void TObjEneBm5GibonU::returning_state(s32 msg) {
     Vec dir;
     Vec diff;
     Vec *home = &this->m_54c;
@@ -1007,7 +1008,7 @@ void TObjEneBm5GibonU::sub_800CE978(s32 msg) {
 }
 #pragma pop
 
-void TObjEneBm5GibonU::sub_800CEBD8(s32 msg) {
+void TObjEneBm5GibonU::update_lunge(s32 msg) {
     f32 temp_f0;
     s32 temp_r4;
     switch (msg) {
@@ -1019,7 +1020,7 @@ void TObjEneBm5GibonU::sub_800CEBD8(s32 msg) {
         this->status_flags = temp_r4;
         this->substate = 0;
         this->state_timer = 0;
-        this->m_528 = sub_800D0968(temp_r4);
+        this->m_528 = calc_lunge_aim(temp_r4);
         this->m_52c = 0;
         {
             f32 lim = 40.0f;
@@ -1310,7 +1311,7 @@ void TObjEneBm5GibonU::run_idle_state(s32 msg) {
 
       }
 
-      rotation_y = approach_angle_limited(rotation_y, (s32) (10430.38043493439 * atan2_float(position.x - prev_position.x, position.z - prev_position.z)), 0x200);
+      rotation_y = approach_angle_limited(rotation_y, (s32) (RADIANS_TO_ANGLE * atan2_float(position.x - prev_position.x, position.z - prev_position.z)), 0x200);
       rotation_y = (s16) rotation_y;
       play_speed = 1.05f * current_speed;
       face_target();
@@ -1332,7 +1333,7 @@ void TObjEneBm5GibonU::run_idle_state(s32 msg) {
 }
 #pragma pop
 }
-void TObjEneBm5GibonU::sub_800CF4BC(s32 msg) {
+void TObjEneBm5GibonU::flanking_state(s32 msg) {
     s32 *rot = &this->m_528;
     Vec *vel = &this->m_540;
     Vec *dir = &this->m_54c;
@@ -1415,7 +1416,7 @@ void TObjEneBm5GibonU::sub_800CF4BC(s32 msg) {
     }
 }
 
-void TObjEneBm5GibonU::sub_800CF7CC(s32 msg) {
+void TObjEneBm5GibonU::chasing_state(s32 msg) {
     f32 temp_f1;
     f32 temp_f1_2;
     f32 temp_f1_3;
@@ -1482,7 +1483,7 @@ extern "C" {
 
 #pragma push
 #pragma fp_contract on
-void TObjEneBm5GibonU::sub_800CFA48(s32 msg) {
+void TObjEneBm5GibonU::roaming_state(s32 msg) {
     s32 angle;
     f32 radius;
     TObjChara *target;
@@ -1581,9 +1582,9 @@ void TObjEneBm5GibonU::sub_800CFA48(s32 msg) {
 }
 #pragma pop
 
-void TObjEneBm5GibonU::sub_800CFE30(s32) {  }
+void TObjEneBm5GibonU::empty_state(s32) {  }
 
-void TObjEneBm5GibonU::sub_800CFE34(s32 msg) {
+void TObjEneBm5GibonU::howling_state(s32 msg) {
     TObjEneBm5GibonUNode *n;
     TObjEneBm5GibonU *o;
     switch (msg) {
@@ -1629,7 +1630,7 @@ void TObjEneBm5GibonU::sub_800CFE34(s32 msg) {
     }
 }
 
-void TObjEneBm5GibonU::sub_800CFFBC(s32 msg) {
+void TObjEneBm5GibonU::standing_state(s32 msg) {
   switch (msg)
   {
     case 4:
@@ -1669,7 +1670,7 @@ void TObjEneBm5GibonU::sub_800CFFBC(s32 msg) {
   }
 }
 
-void TObjEneBm5GibonU::sub_800D00F0(s32 msg) {
+void TObjEneBm5GibonU::alerted_state(s32 msg) {
   switch (msg)
   {
     case 4:
@@ -1697,7 +1698,7 @@ void TObjEneBm5GibonU::sub_800D00F0(s32 msg) {
   }
 }
 
-void TObjEneBm5GibonU::sub_800D01DC(s32 msg) {
+void TObjEneBm5GibonU::sleeping_state(s32 msg) {
   u8 *entity;
   switch (msg)
   {
@@ -1774,7 +1775,7 @@ void TObjEneBm5GibonU::sub_800D02F8(s32 msg) {
 
 #pragma push
 #pragma fp_contract on
-void TObjEneBm5GibonU::sub_800D0420(s32 msg) {
+void TObjEneBm5GibonU::appearing_state(s32 msg) {
     Vec *home = &this->m_540;
     switch (msg) {
     case 4:
@@ -2034,7 +2035,7 @@ TObjEneBm5GibonU::TObjEneBm5GibonU(TObject *parent, void *set_data) : TObjEneDD_
     s32 b;
     this->m_name = TObjEneBm5GibonU__class_name;
     this->invoke_initialization_hook(set_data);
-    this->sub_800D10A0();
+    this->select_subtype();
     this->init_position_vectors();
     if (this->is_leader == 1) {
         this->init_model(&gibon_collision_body_templates[1], 1);
@@ -2185,7 +2186,7 @@ void TObjEneBm5GibonU::update_body_colliders() {
     *(f32 *)((s8 *)this->bodies + 4) = 10.0f;
 }
 
-void TObjEneBm5GibonU::sub_800D10A0() {
+void TObjEneBm5GibonU::select_subtype() {
     group_id = (s32)floor_to_float(parameters[0]);
     if (parameters[1] >= 1.0f) {
         appear_mode = 0;
@@ -2239,7 +2240,7 @@ void TObjEneBm5GibonU::face_target() {
     q.z = position.z + off.z;
     q.x = current_target->position.x - q.x;
     q.z = current_target->position.z - q.z;
-    turn_toward_angle((s32)(10430.38043493439 * atan2_float(q.x, q.z)));
+    turn_toward_angle((s32)(RADIANS_TO_ANGLE * atan2_float(q.x, q.z)));
 }
 
 #pragma push
@@ -2298,7 +2299,7 @@ void TObjEneBm5GibonU::calc_rotated_vector(s32 angle, Vec *out, s32 *rotation) {
     c = cos_table_lookup(angle);
     out->z = c * this->destination_direction.z - s * this->destination_direction.x;
     out->x = s * this->destination_direction.z + c * this->destination_direction.x;
-    *rotation = (s32)(10430.38043493439 * atan2_float(out->x, out->z));
+    *rotation = (s32)(RADIANS_TO_ANGLE * atan2_float(out->x, out->z));
 }
 #pragma pop
 
@@ -2353,7 +2354,7 @@ s32 TObjEneBm5GibonU::play_sound_variant() {
 
 #pragma push
 #pragma fp_contract on
-void TObjEneBm5GibonU::sub_800D0AE8(Vec *dir) {
+void TObjEneBm5GibonU::spawn_recoil_dust(Vec *dir) {
     Vec v;
     VecCopy(&v, &this->position);
     v.x = 5.0f * dir->x + v.x;
@@ -2370,7 +2371,7 @@ int TObjEneBm5GibonU::is_active() { return this->entity_id & 0x1; }
 
 #pragma push
 #pragma fp_contract on
-s32 TObjEneBm5GibonU::sub_800D0968(int) {
+s32 TObjEneBm5GibonU::calc_lunge_aim(int) {
     f32 temp_f4;
     f32 temp_f5;
     f32 var_f0;
@@ -2387,7 +2388,7 @@ s32 TObjEneBm5GibonU::sub_800D0968(int) {
         this->destination.x = (f32) (this->destination.x + ((2.0f * temp_f4) + (temp_f5 * var_f0)));
         this->destination.z = (f32) (this->destination.z + ((2.0f * temp_f5) - (temp_f4 * var_f0)));
         this->update_velocity();
-        return (s32) (10430.38043493439 * atan2_float((f64) this->destination_direction.x, (f64) this->destination_direction.z));
+        return (s32) (RADIANS_TO_ANGLE * atan2_float((f64) this->destination_direction.x, (f64) this->destination_direction.z));
     }
     this->destination_direction.x = sin_table_lookup(this->rotation_y);
     this->destination_direction.y = (f32) 0.0f;
@@ -2400,7 +2401,7 @@ s32 TObjEneBm5GibonU::sub_800D0968(int) {
 }
 #pragma pop
 
-void TObjEneBm5GibonU::sub_800D095C(s32 timer, u16 id) {
+void TObjEneBm5GibonU::schedule_pack_reaction(s32 timer, u16 id) {
     this->reaction_delay = timer;
     this->m_514 = id;
 }
@@ -2431,55 +2432,55 @@ void TObjEneBm5GibonU::dispatch_action(u32 state, s32 reason) {
         this->handle_state(reason);
         break;
     case 1:
-        sub_800D0420(reason);
+        appearing_state(reason);
         break;
     case 2:
         sub_800D02F8(reason);
         break;
     case 3:
-        sub_800D01DC(reason);
+        sleeping_state(reason);
         break;
     case 4:
-        sub_800CFE30(reason);
+        empty_state(reason);
         break;
     case 5:
-        sub_800D00F0(reason);
+        alerted_state(reason);
         break;
     case 6:
-        sub_800CFFBC(reason);
+        standing_state(reason);
         break;
     case 7:
-        sub_800CFE34(reason);
+        howling_state(reason);
         break;
     case 8:
-        sub_800CFA48(reason);
+        roaming_state(reason);
         break;
     case 9:
-        sub_800CF7CC(reason);
+        chasing_state(reason);
         break;
     case 10:
-        sub_800CF4BC(reason);
+        flanking_state(reason);
         break;
     case 11:
         this->run_idle_state(reason);
         break;
     case 12:
-        sub_800CEBD8(reason);
+        update_lunge(reason);
         break;
     case 13:
-        sub_800CE978(reason);
+        returning_state(reason);
         break;
     case 14:
-        sub_800CE694(reason);
+        repositioning_state(reason);
         break;
     case 15:
         action(reason);
         break;
     case 16:
-        sub_800CE370(reason);
+        hurt_state(reason);
         break;
     case 17:
-        sub_800CE060(reason);
+        update_dying_state(reason);
         break;
     case 18:
         this->handle_message(reason);

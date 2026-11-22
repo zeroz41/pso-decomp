@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/math/AngleUnits.h"
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/math/FloatRounding.h"
 #include "pso/npc/NpcModelRegistry.h"
@@ -450,7 +451,7 @@ void TObjEneMe1Canadin::update_hover_height() {
 }
 
 void TObjEneMe1Canadin::update_angle() {
-    rotation_y = approach_angle_limited(rotation_y, (s32) (10430.38043493439 * atan2_float(destination_direction.x, destination_direction.z)), 0x400);
+    rotation_y = approach_angle_limited(rotation_y, (s32) (RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z)), 0x400);
     rotation_y = (s32) (s16) rotation_y;
 }
 
@@ -1433,7 +1434,7 @@ void TObjEneMe1Canadin::fn_8009C91C(s32 arg1) {
                     c = normalize_vector_xz(&v);
                     self->move_to_wall_clamped_destination(v.x, v.z, c);
                 }
-                self->rotation_y = (s32)(10430.38043493439 * atan2_float(dir->x, dir->z)) + 0x8000;
+                self->rotation_y = (s32)(RADIANS_TO_ANGLE * atan2_float(dir->x, dir->z)) + 0x8000;
                 self->eff_light->push_history_entry(0.8f, self->node_points, self->core_color_packed);
                 break;
             }

@@ -1098,25 +1098,25 @@ force_active:
   - sub_800CCDE4__16TObjEneBm5GibonUFv
   - sub_800CCE28__16TObjEneBm5GibonUFv
   - sub_800CDB98__16TObjEneBm5GibonUFl
-  - sub_800CE060__16TObjEneBm5GibonUFl
-  - sub_800CE370__16TObjEneBm5GibonUFl
-  - sub_800CE694__16TObjEneBm5GibonUFl
-  - sub_800CE978__16TObjEneBm5GibonUFl
-  - sub_800CEBD8__16TObjEneBm5GibonUFl
-  - sub_800CF4BC__16TObjEneBm5GibonUFl
-  - sub_800CF7CC__16TObjEneBm5GibonUFl
-  - sub_800CFA48__16TObjEneBm5GibonUFl
-  - sub_800CFE30__16TObjEneBm5GibonUFl
-  - sub_800CFE34__16TObjEneBm5GibonUFl
-  - sub_800CFFBC__16TObjEneBm5GibonUFl
-  - sub_800D00F0__16TObjEneBm5GibonUFl
-  - sub_800D01DC__16TObjEneBm5GibonUFl
+  - update_dying_state__16TObjEneBm5GibonUFl
+  - hurt_state__16TObjEneBm5GibonUFl
+  - repositioning_state__16TObjEneBm5GibonUFl
+  - returning_state__16TObjEneBm5GibonUFl
+  - update_lunge__16TObjEneBm5GibonUFl
+  - flanking_state__16TObjEneBm5GibonUFl
+  - chasing_state__16TObjEneBm5GibonUFl
+  - roaming_state__16TObjEneBm5GibonUFl
+  - empty_state__16TObjEneBm5GibonUFl
+  - howling_state__16TObjEneBm5GibonUFl
+  - standing_state__16TObjEneBm5GibonUFl
+  - alerted_state__16TObjEneBm5GibonUFl
+  - sleeping_state__16TObjEneBm5GibonUFl
   - sub_800D02F8__16TObjEneBm5GibonUFl
-  - sub_800D0420__16TObjEneBm5GibonUFl
+  - appearing_state__16TObjEneBm5GibonUFl
   - dispatch_action__16TObjEneBm5GibonUFUll
-  - sub_800D095C__16TObjEneBm5GibonUFlUs
-  - sub_800D0968__16TObjEneBm5GibonUFi
-  - sub_800D0AE8__16TObjEneBm5GibonUFP3Vec
+  - schedule_pack_reaction__16TObjEneBm5GibonUFlUs
+  - calc_lunge_aim__16TObjEneBm5GibonUFi
+  - spawn_recoil_dust__16TObjEneBm5GibonUFP3Vec
   - __dt__16TObjEneBm5GibonUFv
   - __ct__20TObjEneBm5GibonUNodeFv
   - get_group_id__16TObjEneBm5GibonUFv
@@ -16212,7 +16212,7 @@ force_active:
   - sub_800CBE6C__13TObjEneMe1GeeFf
   - sub_800CBF58__13TObjEneMe1GeeFf
   - sub_800CC0C4__13TObjEneMe1GeeFv
-  - sub_800D10A0__16TObjEneBm5GibonUFv
+  - select_subtype__16TObjEneBm5GibonUFv
   - sub_800D4200__13TUnk_8049442CFv
   - sub_800D47B4__19TObjGyaranzoMissileFv
   - sub_800D5570__16TObjEneMerillLiaFv
