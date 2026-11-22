@@ -57,6 +57,8 @@ struct TObjEneBm9Mericarol : public TObjEneDD_ST {
     static void free_shared_instances();
     static void *create(void *set_data);
     static void update_particle_effect(NJS_OBJECT *);
+    // inferred: footstep sound plus splash or dust on frames 5, 15 and 25 of a step.
+    void sub_802CE510();
     void sub_802CE68C(Vec *out, s32 node);
     void sub_802CED40();
     s32 get_clamped_level();

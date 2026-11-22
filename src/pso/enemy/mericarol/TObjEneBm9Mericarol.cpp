@@ -52,16 +52,19 @@
 #include "pso/unk/text_802D1C84.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/player/TObjPlayer_800F0810.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/system/task/TMainTask.h"
 #pragma defer_codegen on
 
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
 struct Sub_800ACA10 { u8 pad[0x18]; s32 level; };
 
-extern "C" {
-void fn_802CE510(TObjEneBm9Mericarol *owner);
-void create__9TTecKafunFllllllff(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, f32 farg0, f32 farg1);
-}
+// TTecKafun::create's level comes before its value in the tree's declaration, but this
+// call evaluates the value first: the order of the real parameters is not settled.
+extern "C" void create__9TTecKafunFllllllff(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, f32 farg0, f32 farg1);
+
 
 // The motion-binding block TLobby::spawn_npc_enemy takes (same layout as
 // MojaAnimationBinding and GeeAnimationBinding).
@@ -72,11 +75,6 @@ extern const s32 lbl_804722E8[];
 extern const s32 lbl_804722F4[];
 extern const s32 lbl_80472300[];
 extern const s32 lbl_8047230C[];
-extern void *tl_04;
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-s32 free_collision_body_parts(void *);
-void init_collision_body_parts(void *, void *, s32);
-void TObjPlayer__sub_800F0928(void);
 }
 
 // inferred: the per-phase colour the constructor gives its two TUnk_80494968 effects.
@@ -184,7 +182,7 @@ void TObjEneBm9Mericarol::load_resources() {
 }
 
 void *TObjEneBm9Mericarol::create(void *set_data) {
-    return new TObjEneBm9Mericarol((TObject *)tl_04, set_data);
+    return new TObjEneBm9Mericarol(tl_04, set_data);
 }
 
 void TObjEneBm9Mericarol::free_shared_instances() {
@@ -796,7 +794,7 @@ void TObjEneBm9Mericarol::sub_802CF7B4(s32 reason) {
             check_collisions();
             return;
         case 1:
-            fn_802CE510(this);
+            sub_802CE510();
             hit_wall = 0;
             sync_center_position();
             if (this->enemy_probe_wall_ahead(destination_direction.x, destination_direction.z, 30.0f * m_444) != NULL) {
@@ -1327,21 +1325,21 @@ void TObjEneBm9Mericarol::sub_802CE68C(Vec *out, s32 node) {
     clear_motion_packed_rotation();
 }
 
-void fn_802CE510(TObjEneBm9Mericarol *owner) {
+void TObjEneBm9Mericarol::sub_802CE510() {
     Vec origin;
-    VecCopy(&origin, &owner->position);
+    VecCopy(&origin, &position);
     origin.y += 15.0f;
 
-    CsnHit *hit = csnVectorUnder(&origin, (CsnGroup **)&owner->m_120, 0x15);
+    CsnHit *hit = csnVectorUnder(&origin, (CsnGroup **)&m_120, 0x15);
     if (hit != NULL) {
         u32 surface_mask = hit->hit_mask & 4;
         if (surface_mask != 0) {
-            fn_800D8830(owner, &owner->position);
+            fn_800D8830(this, &position);
         } else {
-            play_persistent_sound(owner->remap_sound_for_area(0x3B211), (saddr)owner, (uaddr)&owner->position, 0, 0);
+            play_persistent_sound(remap_sound_for_area(0x3B211), (saddr)this, (uaddr)&position, 0, 0);
         }
-        if (owner->is_passing_frame(5.0f) != 0 || owner->is_passing_frame(15.0f) != 0 ||
-            owner->is_passing_frame(25.0f) != 0) {
+        if (is_passing_frame(5.0f) != 0 || is_passing_frame(15.0f) != 0 ||
+            is_passing_frame(25.0f) != 0) {
             if (surface_mask != 0) {
                 TParticleCtrl *spray = (TParticleCtrl *)spawn_particle_effect(&hit->contact[2].point, 0x49);
                 if (spray != NULL) {
@@ -1354,7 +1352,7 @@ void fn_802CE510(TObjEneBm9Mericarol *owner) {
                     ripple->set_scale(5.0f, 1.5f);
                 }
             } else {
-                TParticleCtrl *dust = (TParticleCtrl *)spawn_particle_effect(&owner->position, 0xF3);
+                TParticleCtrl *dust = (TParticleCtrl *)spawn_particle_effect(&position, 0xF3);
                 if (dust != NULL) {
                     dust->set_scale(5.0f, 2.0f);
                 }
