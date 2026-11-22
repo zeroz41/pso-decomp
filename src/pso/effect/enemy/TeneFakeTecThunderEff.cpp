@@ -6,6 +6,7 @@
 
 
 #include "types.h"
+#include "pso/render/GinjaView.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
@@ -48,8 +49,6 @@ struct Obj_800A4064 {
     s32 active;
 };
 
-typedef struct Cam_800A3D1C { u8 pad0[8]; f32 cx; f32 cy; u8 pad10[8]; f32 sw; f32 aspect; } Cam_800A3D1C;
-
 struct Vtx_800A3D1C { f32 x, y, z, u, v; u32 color; };
 
 struct Obj_800A3D1C {
@@ -76,7 +75,6 @@ s32 TObjPlayer__effect_count;
 extern const f32 lbl_805D99F8;
 extern const f32 lbl_805D9A04;
 extern const f32 lbl_805D9A08;
-extern Cam_800A3D1C screen_projection;
 extern const f32 lbl_805D99F0;
 extern const f32 lbl_805D99FC;
 extern const f32 lbl_805D9A00;
@@ -269,10 +267,10 @@ void TeneFakeTecThunderEff::render() {
     }
     saved_model_render_flags = model_render_flags;
     model_render_flags |= 0x10;
-    sw = screen_projection.sw;
-    cx = screen_projection.cx;
-    cy = screen_projection.cy;
-    sh = sw * (lbl_805D9A00 / (lbl_805D9A00 * screen_projection.aspect));
+    sw = screen_projection.distance;
+    cx = screen_projection.center_x;
+    cy = screen_projection.center_y;
+    sh = sw * (lbl_805D9A00 / (lbl_805D9A00 * screen_projection.width));
     color = o->color | 0xFFFFFF;
     for (i = 0; i < this->m_38; i++) {
         matrix_mult_vec(0, &o->pts[i], &v);

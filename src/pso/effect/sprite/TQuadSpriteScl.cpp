@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/render/GinjaView.h"
 #include "pso/effect/particle/ParticleDefinition.h"
 #include "pso/effect/sprite/TQuadSpriteScl.h"
 
@@ -37,9 +38,6 @@ typedef struct Self_801E58D8 {
     ParticleDefinition *definition;
 } Self_801E58D8;
 
-typedef struct Cam_801E58D8 { u8 pad0[8]; f32 cx; f32 cy; u8 pad10[8]; f32 sw; f32 aspect; } Cam_801E58D8;
-
-extern Cam_801E58D8 screen_projection;
 
 
 #pragma push
@@ -73,10 +71,10 @@ extern "C" void render__14TQuadSpriteSclFv(Self_801E58D8 *self) {
     } else {
         set_additive_blend();
     }
-    sw = screen_projection.sw;
-    cx = screen_projection.cx;
-    cy = screen_projection.cy;
-    sh = sw * (480.0f / (480.0f * screen_projection.aspect));
+    sw = screen_projection.distance;
+    cx = screen_projection.center_x;
+    cy = screen_projection.center_y;
+    sh = sw * (480.0f / (480.0f * screen_projection.width));
     begin_screen_draw(1);
     TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(self->definition->texlist));
     set_draw_texture_and_color(self->definition->texture, self->definition->color);

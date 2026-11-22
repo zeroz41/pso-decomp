@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/render/GinjaView.h"
 #include "pso/effect/particle/ParticleDefinition.h"
 #include "pso/effect/sprite/TQuadSpriteSclColRot.h"
 #include "pso/system/vector.h"
@@ -46,19 +47,9 @@ struct RotatedSpriteQuad {
     f32 m_3c;
 };
 
-struct SpriteCamera {
-    u8 pad0[8];
-    f32 cx;
-    f32 cy;
-    u8 pad10[8];
-    f32 sw;
-    f32 aspect;
-};
-
 extern "C" {
 
 void transform_point_by_current_matrix(Vec *in, Vec *out);
-extern SpriteCamera screen_projection;
 
 
 }
@@ -100,10 +91,10 @@ void TQuadSpriteSclColRot::render() {
     } else {
         set_additive_blend();
     }
-    sw = screen_projection.sw;
-    cx = screen_projection.cx;
-    cy = screen_projection.cy;
-    sh = sw * (480.0f / (480.0f * screen_projection.aspect));
+    sw = screen_projection.distance;
+    cx = screen_projection.center_x;
+    cy = screen_projection.center_y;
+    sh = sw * (480.0f / (480.0f * screen_projection.width));
     TParticleCtrl::begin_effect_render();
     begin_screen_draw(1);
     TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(definition->texlist));

@@ -6,6 +6,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
+#include "pso/render/GinjaView.h"
 #include "pso/effect/TEffect.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/system/vector.h"
@@ -42,15 +43,6 @@ struct Vtx_80086248 { f32 x, y, z, u, v; u32 color; };
 
 typedef struct Quad_80085EE4 { f32 x, y, z, ax, ay, bx, by, pad1C; f32 u, v, du, k0, k1, dv; f32 pad38[2]; } Quad_80085EE4;
 
-typedef struct Cam_80085EE4 {
-    u8 pad0[8];
-    f32 cx;
-    f32 cy;
-    u8 pad10[8];
-    f32 scale;
-    f32 aspect;
-} Cam_80085EE4;
-
 typedef struct Particle_80085EE4 {
     u8 pad0[0x70];
     Vec pos;
@@ -85,7 +77,6 @@ s32 emit_particle_strip_vertices(void *, int);
 void load_projected_texture_matrix(f32 farg0);
 void play_indirect_effect_recipe(u8 arg0, u16 sampler, s32 second);
 s32 set_texture_num(s32 i);
-extern Cam_80085EE4 screen_projection;
 
 
 THeap *TParticleCtrl__heap;
@@ -301,10 +292,10 @@ void TUnk_8048E778::draw_sprite_quad(s32 kind) {
     } else {
         set_additive_blend();
     }
-    sy = screen_projection.scale;
-    x = screen_projection.cx;
-    cy = screen_projection.cy;
-    sx = sy * (480.0f / (480.0f * screen_projection.aspect));
+    sy = screen_projection.distance;
+    x = screen_projection.center_x;
+    cy = screen_projection.center_y;
+    sx = sy * (480.0f / (480.0f * screen_projection.width));
     TParticleCtrl::begin_effect_render();
     begin_screen_draw(1);
     TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_804C5820[kind].texlist));
