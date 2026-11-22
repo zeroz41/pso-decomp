@@ -12,27 +12,28 @@ struct NJS_OBJECT;
 
 struct TObjEneBm5Wolf;
 
-struct TObjEneBm5WolfListNode {
-    TObjEneBm5WolfListNode *prev;
-    TObjEneBm5WolfListNode *next;
+struct TObjEneBm5WolfNode {
+    TObjEneBm5WolfNode *prev;
+    TObjEneBm5WolfNode *next;
     u16 entity_id;
 
-    TObjEneBm5WolfListNode();
-    ~TObjEneBm5WolfListNode();
-    void set_entity(TObjBase *object);
-    TObjEneBm5Wolf *get_wolf();
-    void push(TObjEneBm5WolfListNode **head, TObjEneBm5WolfListNode **tail);
-    void unlink(TObjEneBm5WolfListNode **head, TObjEneBm5WolfListNode **tail);
+    TObjEneBm5WolfNode();
+    ~TObjEneBm5WolfNode();
+    void set_owner(TObjEneBm5Wolf *owner);
+    TObjEneBm5Wolf *get_owner();
+    void append_to(TObjEneBm5WolfNode **head, TObjEneBm5WolfNode **tail);
+    void unlink_from(TObjEneBm5WolfNode **head, TObjEneBm5WolfNode **tail);
 };
 
 struct TObjEneBm5WolfList {
-    TObjEneBm5WolfListNode *head;
-    TObjEneBm5WolfListNode *tail;
+    TObjEneBm5WolfNode *head;
+    TObjEneBm5WolfNode *tail;
 
     TObjEneBm5WolfList *reset();
+    ~TObjEneBm5WolfList();
     void clear();
-    void add(TObjEneBm5WolfListNode *node);
-    void remove(TObjEneBm5WolfListNode *node);
+    void append(TObjEneBm5WolfNode *node);
+    void remove(TObjEneBm5WolfNode *node);
 };
 
 struct TObjEneBm5Wolf : public TObjEneDD_ST {
@@ -52,8 +53,8 @@ struct TObjEneBm5Wolf : public TObjEneDD_ST {
     void refresh_target();
     void roaming_state(int event);
     void choose_roaming_destination();
-    TObjEneBm5WolfListNode m_3c0;
-    TObjEneBm5WolfListNode m_3cc;
+    TObjEneBm5WolfNode m_3c0;
+    TObjEneBm5WolfNode m_3cc;
     s32 m_3d8;
     s32 m_3dc;
     u16 m_3e0;
@@ -153,9 +154,6 @@ LAYOUT_ASSERT(WolfOffset_nearTarget, offsetof(TObjEneBm5Wolf, nearTarget) == 0x4
 
 LAYOUT_ASSERT(TObjEneBm5Wolf_size, sizeof(TObjEneBm5Wolf) == 0x46C);
 
-extern "C" {
-s32 __dt__14TObjEneBm5WolfFis(s32 arg0, s16 arg1);
-}
 s32 actor_rand_int(saddr actor, s32 range);
 
 #endif

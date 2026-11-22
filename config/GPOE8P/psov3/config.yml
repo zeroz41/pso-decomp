@@ -1148,7 +1148,7 @@ force_active:
   - TObjEneBm5Wolf__pack_member_list
   - TObjEneBm5Wolf__spawn_timer
   - TObjEneBm5Wolf__stat_params
-  - __ct__22TObjEneBm5WolfListNodeFv
+  - __ct__18TObjEneBm5WolfNodeFv
   - __ct__19TObjEneBm9MericarolFP7TObjectPv
   - __vt__19TObjEneBm9Mericarol
   - sub_800A0B18__20TObjEneDarkGunCenterFv
@@ -2574,7 +2574,7 @@ force_active:
   - __dt__14TObjBgmColCtrlFv
   - __dt__14TObjBigTuitateFv
   - __dt__14TObjBoss1FloorFv
-  - __dt__14TObjEneBm5WolfFis
+  - __dt__18TObjEneBm5WolfListFv
   - __dt__14TObjEneBm5WolfFv
   - __dt__14TObjEneDolmOlmFv
   - __dt__14TObjEneIllGillFv
@@ -3988,7 +3988,7 @@ force_active:
   - apply_story_quest_unlock_rules__FPv
   - apply_symbol__20TWindowSubSymbolChatFv
   - apply_to_player__12TObjGrassWebFv
-  - add__18TObjEneBm5WolfListFP22TObjEneBm5WolfListNode
+  - append__18TObjEneBm5WolfListFP18TObjEneBm5WolfNode
   - apply_unit_effect_flags__12TItemProUnitFv
   - add_poison_immunity__18TItemLockCountCtrlFi
   - apply_unit_stat_bonus__9TItemDataFPviiPvPvPv
@@ -5641,7 +5641,7 @@ force_active:
   - destroy__12TPhotonPillaFPvs
   - destroy__12T_OWEHMS_ExpFs
   - destroy__13TPhotonFarllaFPvs
-  - __dt__22TObjEneBm5WolfListNodeFv
+  - __dt__18TObjEneBm5WolfNodeFv
   - __dt__15TORockJungleL01Fv
   - destroy__15TWindowHelpItemFPvs
   - __dt__20TObjEneBm5GibonUNodeFv
@@ -9415,7 +9415,7 @@ force_active:
   - play_se__13TBoss5GryphonFl
   - play_se_at_pos__12TBoss1DragonFl
   - play_sifta_cast_sound__9TTecSiftaFv
-  - get_wolf__22TObjEneBm5WolfListNodeFv
+  - get_owner__18TObjEneBm5WolfNodeFv
   - play_sound_events__10TObjCameraFv
   - play_sound_if_no_target__11TBoss6Type2Fv
   - play_sound_in_band__13TObjEneMorfosFv
@@ -13871,7 +13871,7 @@ force_active:
   - push_actors_out__12TBoss3VoloptFl
   - push_attack_target_entry__FP13PointerBufferPv
   - push_key_to_buffer__16KeyboardKeyStateFUc
-  - push__22TObjEneBm5WolfListNodeFPP22TObjEneBm5WolfListNodePP22TObjEneBm5WolfListNode
+  - append_to__18TObjEneBm5WolfNodeFPP18TObjEneBm5WolfNodePP18TObjEneBm5WolfNode
   - append_to__20TObjEneBm5GibonUNodeFPP20TObjEneBm5GibonUNodePP20TObjEneBm5GibonUNode
   - push_material_color_override__10TObjPlayerFffff
   - push_model_fade_color__10TObjPlayerFv
@@ -15469,7 +15469,7 @@ force_active:
   - set_entry_value_clamped__17TObjEneDf2BringerFlf
   - set_field48_clear_global__13TAdVIConfigGCFv
   - set_field4__6TSceneFv
-  - set_entity__22TObjEneBm5WolfListNodeFP8TObjBase
+  - set_owner__18TObjEneBm5WolfNodeFP14TObjEneBm5Wolf
   - set_owner__20TObjEneBm5GibonUNodeFP16TObjEneBm5GibonU
   - set_field90__15TPlyPhotonChairFl
   - set_field_100__11TCameraCtrlFl
@@ -16629,7 +16629,7 @@ force_active:
   - udp_socket_slots
   - ultimate_area_gsl_filename_table
   - unicode_to_UTF8
-  - unlink__22TObjEneBm5WolfListNodeFPP22TObjEneBm5WolfListNodePP22TObjEneBm5WolfListNode
+  - unlink_from__18TObjEneBm5WolfNodeFPP18TObjEneBm5WolfNodePP18TObjEneBm5WolfNode
   - unlink_from__20TObjEneBm5GibonUNodeFPP20TObjEneBm5GibonUNodePP20TObjEneBm5GibonUNode
   - unload_floor_resources__Fl
   - unload_texture__12TItemTexLoadFv
@@ -16642,7 +16642,7 @@ force_active:
   - update__12TObjWarpBossFv
   - update__13TObjEneBm3FlyFv
   - update__13TObjEneMe1GeeFv
-  - remove__18TObjEneBm5WolfListFP22TObjEneBm5WolfListNode
+  - remove__18TObjEneBm5WolfListFP18TObjEneBm5WolfNode
   - update__15PadRumbleEffectFv
   - update__15TObjEnemyCustomFv
   - update__28THunterGuildSeqOnline_ServerFv

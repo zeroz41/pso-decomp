@@ -136,7 +136,7 @@ u32 lbl_80500B6C[3];
 u32 TObjEneBm5Wolf__pack_member_list[5];
 u32 TObjEneBm5Wolf__instance_list[3];
 void __register_global_object(void *obj, void *dtor, void *chain);
-void __dl__FPv(void);
+void __dt__18TObjEneBm5WolfListFv();
 }
 
 __declspec(section ".ctors") static void *const __sinit_TObjEneBm5Wolf_cpp_ref = (void *)TObjEneBm5Wolf::register_global_objects;
@@ -149,19 +149,19 @@ s32 actor_rand_int(saddr actor, s32 range) {
 
 void TObjEneBm5Wolf::register_global_objects() {
     Globals_800B8A40 *g = (Globals_800B8A40 *)TObjEneBm5Wolf__stat_params;
-    __register_global_object(g->list0.reset(), (void *)__dt__14TObjEneBm5WolfFis, g->chain0);
-    __register_global_object(g->list1.reset(), (void *)__dt__14TObjEneBm5WolfFis, g->chain1);
+    __register_global_object(g->list0.reset(), (void *)__dt__18TObjEneBm5WolfListFv, g->chain0);
+    __register_global_object(g->list1.reset(), (void *)__dt__18TObjEneBm5WolfListFv, g->chain1);
 }
 
-TObjEneBm5WolfListNode::TObjEneBm5WolfListNode() {
+TObjEneBm5WolfNode::TObjEneBm5WolfNode() {
     prev = NULL;
     next = NULL;
     entity_id = 0xFFFF;
 }
 
-TObjEneBm5WolfListNode::~TObjEneBm5WolfListNode() {}
+TObjEneBm5WolfNode::~TObjEneBm5WolfNode() {}
 
-void TObjEneBm5WolfListNode::unlink(TObjEneBm5WolfListNode **head, TObjEneBm5WolfListNode **tail) {
+void TObjEneBm5WolfNode::unlink_from(TObjEneBm5WolfNode **head, TObjEneBm5WolfNode **tail) {
     if (prev != NULL) {
         prev->next = next;
     } else {
@@ -174,7 +174,7 @@ void TObjEneBm5WolfListNode::unlink(TObjEneBm5WolfListNode **head, TObjEneBm5Wol
     *tail = prev;
 }
 
-void TObjEneBm5WolfListNode::push(TObjEneBm5WolfListNode **head, TObjEneBm5WolfListNode **tail) {
+void TObjEneBm5WolfNode::append_to(TObjEneBm5WolfNode **head, TObjEneBm5WolfNode **tail) {
     if (*tail != NULL) {
         prev = *tail;
         (*tail)->next = this;
@@ -186,34 +186,29 @@ void TObjEneBm5WolfListNode::push(TObjEneBm5WolfListNode **head, TObjEneBm5WolfL
     next = NULL;
 }
 
-void TObjEneBm5WolfListNode::set_entity(TObjBase *object) {
-    entity_id = get_entity_id(object);
+void TObjEneBm5WolfNode::set_owner(TObjEneBm5Wolf *owner) {
+    entity_id = get_entity_id(owner);
 }
 
-TObjEneBm5Wolf *TObjEneBm5WolfListNode::get_wolf() {
+TObjEneBm5Wolf *TObjEneBm5WolfNode::get_owner() {
     return (TObjEneBm5Wolf *)find_entity_by_id(entity_id);
 }
 
 TObjEneBm5WolfList *TObjEneBm5WolfList::reset() { clear(); return this; }
 
-s32 __dt__14TObjEneBm5WolfFis(s32 arg0, s16 arg1) {
-    if ((arg0 != 0) && (arg1 > 0)) {
-        __dl__FPv();
-    }
-    return arg0;
-}
+TObjEneBm5WolfList::~TObjEneBm5WolfList() {}
 
 void TObjEneBm5WolfList::clear() {
     head = NULL;
     tail = NULL;
 }
 
-void TObjEneBm5WolfList::add(TObjEneBm5WolfListNode *node) {
-    node->push(&head, &tail);
+void TObjEneBm5WolfList::append(TObjEneBm5WolfNode *node) {
+    node->append_to(&head, &tail);
 }
 
-void TObjEneBm5WolfList::remove(TObjEneBm5WolfListNode *node) {
-    node->unlink(&head, &tail);
+void TObjEneBm5WolfList::remove(TObjEneBm5WolfNode *node) {
+    node->unlink_from(&head, &tail);
 }
 
 void TObjEneBm5Wolf::load_resources() {
@@ -264,7 +259,7 @@ void TObjEneBm5Wolf::release_global_805D5120() {
 }
 
 void TObjEneBm5Wolf::add_to_pack_member_list() {
-    ((TObjEneBm5WolfList *)TObjEneBm5Wolf__pack_member_list)->add(&this->m_3c0);
+    ((TObjEneBm5WolfList *)TObjEneBm5Wolf__pack_member_list)->append(&this->m_3c0);
 }
 
 void TObjEneBm5Wolf::remove_from_pack_member_list() {
@@ -272,7 +267,7 @@ void TObjEneBm5Wolf::remove_from_pack_member_list() {
 }
 
 void TObjEneBm5Wolf::add_to_instance_list() {
-    ((TObjEneBm5WolfList *)TObjEneBm5Wolf__instance_list)->add(&this->m_3cc);
+    ((TObjEneBm5WolfList *)TObjEneBm5Wolf__instance_list)->append(&this->m_3cc);
 }
 
 void TObjEneBm5Wolf::remove_from_instance_list() {
@@ -280,9 +275,9 @@ void TObjEneBm5Wolf::remove_from_instance_list() {
 }
 
 TObjEneBm5Wolf *TObjEneBm5Wolf::find_pack_leader(s32 id) {
-    TObjEneBm5WolfListNode *n;
+    TObjEneBm5WolfNode *n;
     for (n = ((TObjEneBm5WolfList *)TObjEneBm5Wolf__instance_list)->head; n != 0; n = n->next) {
-        TObjEneBm5Wolf *w = n->get_wolf();
+        TObjEneBm5Wolf *w = n->get_owner();
         if (w != 0 && w->m_3dc == id) {
             return w;
         }
@@ -315,10 +310,10 @@ TObjEneBm5Wolf::TObjEneBm5Wolf(TObject *parent, void *set_data) : TObjEneDD_ST(p
     wall_reach = 15.0f;
     enemy_init_acquire_period(0x14);
     enemy_init_validate_period(0x14);
-    m_3c0.set_entity(this);
+    m_3c0.set_owner(this);
     add_to_pack_member_list();
     if (m_3d8 != 0) {
-        m_3cc.set_entity(this);
+        m_3cc.set_owner(this);
         add_to_instance_list();
     }
     m_3e0 = 0xFFFF;
@@ -957,7 +952,7 @@ void TObjEneBm5Wolf::standing_state(s32 event) {
 }
 
 void TObjEneBm5Wolf::howling_state(s32 event) {
-    TObjEneBm5WolfListNode *p;
+    TObjEneBm5WolfNode *p;
     TObjEneBm5Wolf *r;
     switch (event) {
     case 4:
@@ -984,7 +979,7 @@ void TObjEneBm5Wolf::howling_state(s32 event) {
         }
         if (this->roamingSubstate == 0x3C) {
             for (p = ((TObjEneBm5WolfList *)TObjEneBm5Wolf__instance_list)->head; p != NULL; p = p->next) {
-                r = p->get_wolf();
+                r = p->get_owner();
                 if (this->m_3dc == ((TObjEneBm5Wolf *)r)->get_group_id()) {
                     r->set_attack_flag();
                 }
@@ -1743,7 +1738,7 @@ void TObjEneBm5Wolf::hurt_state(s32 event) {
 
 void TObjEneBm5Wolf::update_dying_state(s32 event) {
     s32 *tgt;
-    TObjEneBm5WolfListNode *n;
+    TObjEneBm5WolfNode *n;
     TObjEneBm5Wolf *e;
     f32 k;
     Vec pos;
@@ -1768,7 +1763,7 @@ void TObjEneBm5Wolf::update_dying_state(s32 event) {
         if (this->m_3d8 != 0) {
             k = 50.0f;
             for (n = ((TObjEneBm5WolfList *)TObjEneBm5Wolf__pack_member_list)->head; n != NULL; n = n->next) {
-                e = n->get_wolf();
+                e = n->get_owner();
                 if (e != NULL && e->m_3dc == this->m_3dc) {
                     ((TObjEneBm5Wolf *)e)->schedule_pack_reaction((s32)(k * this->random_ratio()) + 0x14, this->attacker_id);
                 }
