@@ -43,7 +43,7 @@ void TUnk_804E4AD4::draw_particle_effect() {
     TObjFish::set_global_param((saddr)boss7_common_texture_list);
     set_motion_packed_rotation();
 
-    draw_ginja_model_with_motion((void *)model, motion, frame);
+    draw_ginja_model_with_motion(model, motion, frame);
 
     clear_motion_packed_rotation();
     TParticleCtrl::end_effect_render();

@@ -513,7 +513,7 @@ void TObjBoss7TunnelCol::run_task() {  }
 void TObjBoss7TunnelCol::render() {  }
 
 TUnk_804E4AD4::TUnk_804E4AD4(TObject *parent, s32 kind) : TObject(parent) {
-    model = (saddr)get_bml_model(boss7_common_bml_resource, kind + 0x11);
+    model = get_bml_model(boss7_common_bml_resource, kind + 0x11);
     motion = get_bml_motion(boss7_common_bml_resource, kind);
     last_frame = (f32)motion->frameCount - 1.0f;
     frame = 0.0f;
