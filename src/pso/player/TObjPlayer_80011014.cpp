@@ -664,23 +664,6 @@ struct O_80019664 { u8 f0; u8 f1; u8 pad[2]; u16 f4; u8 f6; u8 f7; };
 struct Obj_80014B5C { u8 pad0[0x30]; u32 f30; u8 pad34[0x254 - 0x34]; u8 f254[0x330 - 0x254]; u32 f330; };
 struct StatStatusReceipt_80014E74 { s32 kind; f32 power; };
 
-typedef struct Elem_800162E0 {
-    u8 pad0[0x18];
-    s32 flags;
-    u8 pad1C[0x2C - 0x1C];
-} Elem_800162E0;
-
-typedef struct Obj_800162E0 {
-    u8 pad0[0x30];
-    s32 flags30;
-    u8 pad34[0xA4 - 0x34];
-    Elem_800162E0 *elems;
-    u8 padA8[0x2CC - 0xA8];
-    s16 val2CC;
-    u8 pad2CE[0x2DC - 0x2CE];
-    s32 flags2DC;
-} Obj_800162E0;
-
 struct Motion_80018990 { s16 f0; s16 f2; s16 f4; s16 f6; s16 f8; s16 fa; s16 fc; u8 padE[0x18 - 0xE]; s32 f18; };
 struct Bonus_80018990 { s16 f0; s16 f2; s16 f4; s16 f6; s16 f8; s16 fa; u8 padC[0x1C - 0xC]; s32 f1c; };
 
@@ -2274,20 +2257,20 @@ s32 TObjChara::try_start_action(s32 attacker, s32 collider) {
 }
 #pragma push
 #pragma fp_contract on
-s32 TObjChara::roll_physical_accuracy(void *arg1, s32 arg2, f32 farg0) {
+s32 TObjChara::roll_physical_accuracy(void *attacker, s32 collider, f32 accuracy) {
     f32 v;
 
-    if (arg1 == NULL) {
+    if (attacker == NULL) {
         return 0;
     }
     if (this->obj_testFlags30(0x04000800) == 0) {
-        v = (0.01f) * ((farg0 * (f32) ((TObjPlayer *)arg1)->get_ata()) - ((0.2f) * (f32) ((Obj_800162E0 *)this)->val2CC));
+        v = (0.01f) * ((accuracy * (f32) ((TObjPlayer *)attacker)->get_ata()) - ((0.2f) * (f32) evp));
         if ((0.0f) < v && this->random_ratio() <= v) {
-            ((Obj_800162E0 *)this)->elems[arg2].flags |= 0x04000000;
-            ((Obj_800162E0 *)this)->flags2DC |= 1;
+            bodies[collider].flags |= 0x04000000;
+            hit_flags |= 1;
             return 1;
         }
-        ((Obj_800162E0 *)this)->flags30 |= 0x100;
+        actorFlags |= 0x100;
     }
     return 0;
 }
