@@ -37,10 +37,10 @@
 #include "pso/unk/text_800C2A88.h"
 #include "pso/player/TObjPlayer_800F0810.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
+#include "pso/system/task/TMainTask.h"
 
 extern "C" {
 s32 TObjPlayer__sub_800C4A5C(int, void *, void *, int);
-s32 play_sound_effect(s32, void *, int, int);
 extern const f32 lbl_805D9FD8;
 extern const f32 lbl_805D9FDC;
 extern const f32 lbl_805D9FAC;
@@ -51,9 +51,9 @@ extern const f32 lbl_805D9FD4;
 
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/system/SoundEffect.h"
 extern "C" {
 extern const f32 lbl_805D9FF0;
-f32 atan2_float(f32 y, f32 x);
 }
 
 extern "C" {
@@ -105,7 +105,6 @@ BmlResource *re2_flower_bml_resource;
 s32 re2_flower_node_index;
 s32 re2_flower_node_yaw;
 f32 *re2_flower_node_points;
-extern void *tl_04;
 struct FlowerSetupData {
     f32 value00;
     u32 unknown04;
@@ -174,7 +173,7 @@ void load_re2_flower_resources(void) {
 }
 
 void *TObjEneRe2Flower::create(void *setData) {
-    return new TObjEneRe2Flower((TObject *)tl_04, setData);
+    return new TObjEneRe2Flower(tl_04, setData);
 }
 
 void TObjEneRe2Flower::destroy_instance() {

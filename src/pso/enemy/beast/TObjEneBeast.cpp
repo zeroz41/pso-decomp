@@ -247,11 +247,9 @@ void TObjEneBeast::render() {
 
 
 #include "pso/system/task/TObject_80019A50.h"
+#include "pso/system/task/TMainTask.h"
 
 
-extern "C" {
-extern void *tl_04;
-}
 const char *beast_model_name_table[4] = {
     "re8_b_beast_wola_body.nj", "re8_b_rdbeast_wola_body.nj", "re8_b_srdbeast_wola_body.nj", NULL,
 };
@@ -293,7 +291,7 @@ CollisionBody beast_collision_body_table[3] = {
 };
 
 void *TObjEneBeast::create(void *set_data) {
-    TObjControl *control = new TObjControl((TObject *)tl_04);
+    TObjControl *control = new TObjControl(tl_04);
     return new TObjEneBeast(control, set_data);
 }
 

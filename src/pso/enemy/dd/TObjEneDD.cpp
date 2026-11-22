@@ -27,7 +27,6 @@ const char *TObjEneDD_ST__name = "TObjEneDD_ST";
 extern "C" {
 u16 get_entity_id(void *);
 u32 csnLookAt(void *, void *);
-void *get_player_by_client_id(s32 i);
 }
 
 #include "pso/enemy/dd/TObjEneDD_800BABA4.h"
@@ -65,8 +64,6 @@ extern u8 *camera_ctrl_instance;
 int is_local_client_floor_leader(void*);
 int TObjPlayer__sub_801BA42C(void*);
 int freeze_all_players__10TObjPlayerFv(void*);
-extern s32 enable_v2_features;
-extern s32 game_difficulty_selection;
 }
 
 
@@ -95,7 +92,6 @@ extern int model_render_flags;
 
 #include <stddef.h>
 extern "C" {
-s32 all_parents_unqueued_for_destruction();
 TUnk_804928CC *obj_ene_dd_instance;
 }
 
@@ -147,6 +143,8 @@ int submit_cursor_candidate(void*, int);
 
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/player/PlayerSlots.h"
+#include "pso/network/TProtocol.h"
 
 extern "C" {
 s32 subtractive_rng_seed(void *, int);

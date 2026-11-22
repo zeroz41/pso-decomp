@@ -55,12 +55,10 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/render/model_render_state.h"
+#include "pso/system/MatrixStack.h"
 struct IllGillEffectRotation { s32 x, y, z; };
-extern "C" {
-}
 extern int enable_v2_features;
-extern "C" {
-}
 extern "C" {
 s32 select_enemy_destination(void *, Vec, int);
 BmlResource * illGillResource;
@@ -74,7 +72,6 @@ f32 step_toward_destination__10TObjPlayerFPvPvf(void *, Vec, f32);
 s32 check_path_obstructed(void *, void *);
 f32 enemy_move_toward(void *, s32, Vec *, s32, f32, f32);
 s32 enemy_pursue_point(void *, s32, Vec *, f32, f32, f32);
-s32 approach_angle_limited(s32, s32, s32);
 extern const char *TObjEneIllGill_model_file_list[2];
 extern const char *TObjEneIllGill_motion_name_table[11];
 Vec illGillWeaponEffectPosition;
@@ -119,14 +116,6 @@ const NpcAnimationBinding lbl_8047A318 = { NULL, reinterpret_cast<TObjMotionActi
 const Vec lbl_8047A328 = {0.0f, 0.0f, 0.0f};
 const char *TObjIllGillKage__class_name = "TObjIllGillKage";
 extern u8 lbl_804FF5E8[];
-void select_actor_lighting(s32 obj);
-void post_translate_matrix(void *);
-extern s32 saved_model_render_flags;
-extern s32 saved_chunk_polygon_flags_and_mask;
-extern s32 saved_chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_and_mask;
-extern s32 model_render_flags;
 }
 
 #pragma defer_codegen on
@@ -295,7 +284,7 @@ void TObjEneIllGill::render() {
         select_actor_lighting((saddr)self);
         TObjFish::set_global_param(this->texlist);
         push_matrix();
-        post_translate_matrix(&position);
+        post_translate_matrix(&position.x);
         rotate_matrix_y(0, this->rotation_y);
         scale_matrix(0, this->scale.x, this->scale.y, this->scale.z);
         illGillModelNodeIndex = 0;

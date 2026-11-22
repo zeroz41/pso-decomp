@@ -26,6 +26,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/system/task/TObject_80019A50.h"
 
 
 extern const Vec lbl_8043BC68 = { 0.0f, 0.0f, 0.0f };
@@ -82,7 +83,6 @@ void move_with_wall_slide(u8 *arg0);
 extern "C" {
 s32 obj_setFlags30(void *, s32);
 u16 get_entity_id(void *);
-int queue_destruction__7TObjectFv(void*);
 s32 enemy_move_toward(void *, s32, void *, int, f32);
 s32 get_current_floor(void);
 f32 enemy_backstep_from_point(void *, void *, f32);
@@ -166,7 +166,7 @@ void TUnk_80493450::beast_update_hurt() {
     VecCopy(&v, &body_center);
     scratch_vec.x = scratch_vec.y = BEAST_ZERO_VECTOR_COMPONENT;
     scratch_vec.z = get_collision_body_radius(0);
-    ((void (*)(void *, void *))push_matrix_from)(identity_matrix, &scratch_vec);
+    push_matrix_from(identity_matrix);
     rotate_matrix_y(0, -rotation_y);
     rotate_vector_by_matrix(0, &scratch_vec, &scratch_vec);
     pop_matrix();

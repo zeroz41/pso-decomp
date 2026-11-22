@@ -44,6 +44,8 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/system/task/TMainTask.h"
 
 extern "C" {
 s32 TObjPlayer__sub_800A0554(void *);
@@ -335,12 +337,9 @@ extern const u8 lbl_8043AAA4[26];
 }
 int initialize_enemy_photon_effect(void *p);
 extern "C" {
-void init_collision_body_parts(void *, void *, s32);
 extern const char *TObjEneDimedian_name_ref;
 
-void free_collision_body_parts(void *);
 
-extern void *tl_04;
 
 extern void *dimedian_model_name_table[4];
 extern void *dimedian_motion_name_table[13];
@@ -381,7 +380,7 @@ CollisionBody dimedian_collision_body_table[3] = {
 };
 
 void *TObjEneDimedian::create(void *arg2_) {
-    TObjControl *control = new TObjControl((TObject *)tl_04);
+    TObjControl *control = new TObjControl(tl_04);
     return new TObjEneDimedian(control, arg2_);
 }
 

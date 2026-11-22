@@ -70,11 +70,16 @@
 #include "pso/unk/text_800D8830.h"
 #include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/map/CsnQuery.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
+#include "pso/render/render_util.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/render/model_render_state.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/MatrixStack.h"
 
 
 extern "C" {
-f32 atan2_float(f32 y, f32 x);
-s32 approach_angle_limited(s32 from, s32 to, s32 max_step);
 saddr dellbiter_boss_stat_handle;
 saddr TObjEneDellBiter__shared_handler_param;
 saddr dellbiter_object_stat_handle;
@@ -85,27 +90,11 @@ s32 TObjEneDellBiter__demo_rotate_x_angle;
 Vec *TObjEneDellBiter__demo_script_cursor;
 saddr TObjEneDellBiter__scrolling_uv_polygon_list;
 s32 TObjEneDellBiter__last_uv_scroll_tick;
-s16 get_attack_params_atp_min(void *p);
-s32 obj_is_hit_receivable(u8 *arg0);
-u16 get_entity_id(void *);
-void obj_setFlags30(void *, s32);
-u32 csnLookAt(void *, void *);
-void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 angle);
 s32 TObjPlayer__sub_800A04F0(void *);
-void fn_800D8830(void *owner, void *pos);
-f32 horizontal_distance_squared(void *, void *);
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-void TObjPlayer__sub_8023DEE0(s16 *p, s16 a, s16 b, u16 id);
-s32 post_translate_matrix(void *);
 
 extern Vec dellbiter_demo_camera_vec;
-extern s32 actor_frame_tick;
-extern s32 game_difficulty_selection;
 
 extern "C" {
-s32 is_split_screen();
-extern s32 saved_model_render_flags;
-extern s32 model_render_flags;
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
 }
@@ -193,7 +182,7 @@ void TObjEneDellBiter::load_resources() {
 }
 
 void *TObjEneDellBiter::create(void *set_data) {
-    return new TObjEneDellBiter((TObject *)tl_04, set_data);
+    return new TObjEneDellBiter(tl_04, set_data);
 }
 
 void TObjEneDellBiter::destroy_static_instance() {
@@ -1516,7 +1505,7 @@ void TObjEneDellBiter::render() {
         TObjFish::set_global_param(texlist);
         if (draw != 0) {
             push_matrix();
-            post_translate_matrix(&position);
+            post_translate_matrix(&position.x);
             rotate_matrix_y(0, rotation_y);
             scale_matrix(0, 0.6f, 0.6f, 0.6f);
             set_chunk_model_node_callback(TObjEneDellBiter::step_demo_script);
@@ -1565,7 +1554,7 @@ void TObjEneDellBiter::render_demo() {
         TObjPlayer::toggle_particle_effect();
         TObjFish::set_global_param(texlist);
         push_matrix();
-        post_translate_matrix(&position);
+        post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         scale_matrix(0, 0.6f, 0.6f, 0.6f);
         set_motion_packed_rotation();
@@ -1582,7 +1571,7 @@ s32 TObjEneDellBiter::render_model_if_visible() {
         if (push_reflection_matrix(&reflection_position) != 0) {
             TObjFish::set_global_param(texlist);
             push_matrix();
-            post_translate_matrix(&position);
+            post_translate_matrix(&position.x);
             rotate_matrix_y(0, rotation_y);
             scale_matrix(0, 0.6f, 0.6f, 0.6f);
             this->draw();
