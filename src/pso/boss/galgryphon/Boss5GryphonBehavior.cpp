@@ -58,7 +58,6 @@
 #include "pso/boss/galgryphon/TBoss5GryphonTornado.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_801E43E4.h"
-#include "pso/unk/TLobby_803255F8.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/render/GinjaTexture.h"
@@ -579,7 +578,7 @@ void load_boss5_gryphon_resources(void) {
     TBoss5GryphonShockWave::select_particle_table();
     TBoss5GryphonTornado::select_particle_table();
     TBoss5GryphonSnarl::select_effect_table();
-    load_f512_inazuma();
+    TBoss5GryphonLightningEff::load_texture();
 }
 
 }
@@ -588,7 +587,7 @@ void *TBoss5Gryphon::create(void *data) {
 }
 
 void TBoss5Gryphon::cleanup() {
-    TLobby::free_char_select_singleton();
+    TBoss5GryphonLightningEff::release_texture();
     TBoss5GryphonSnarl::release_effect_table();
     TBoss5GryphonTornado::release_particle_table();
     TBoss5GryphonShockWave::release_particle_table();

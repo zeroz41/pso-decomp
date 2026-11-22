@@ -443,7 +443,6 @@ struct TLobby : public TObject {
     static s32 is_camera_ctrl_active();
     static s32 is_ready();
     static int get_online_ready_flag();
-    static void free_char_select_singleton();
     static void apply_state_6c84();
     static s32 test_flag_2_at_6c84();
     static void init_object_flag();

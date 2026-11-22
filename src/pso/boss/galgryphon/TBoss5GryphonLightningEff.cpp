@@ -12,32 +12,21 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/player/TObjPlayer.h"
 #include <stdlib.h>
-#include "pso/unk/TLobby_803255F8.h"
-#include "pso/unk/TLobby.h"
+#include "pso/render/GinjaTexture.h"
+#include "pso/render/model_render_state.h"
+#include "pso/system/TLanguage_801E4874.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/math/MatrixTransforms.h"
 
-
-struct Vtx_80325070 { u8 pad[0xC]; f32 u; f32 v; u8 pad2[4]; };
-
-struct Seg_80325070 { Vtx_80325070 a; Vtx_80325070 b; };
-
-struct L2_80325070 { u8 pad[0xC]; s32 *p; };
-
-struct L1_80325070 { u8 pad[8]; L2_80325070 *a; u8 pad2[8]; L2_80325070 *b; };
-
 extern "C" {
-const char *lbl_805D4188 = "TBoss5GryphonLightningEff";
-L1_80325070 **inazuma_texture_list;
+const char *gryphon_lightning_eff_name = "TBoss5GryphonLightningEff";
+GinjaTextureList *inazuma_texture_list;  // f512_inazuma.gvm: two bolt textures
 s32 project_lightning_points(void *, void *, void *, void *);
 
 void TBoss5GryphonLightningEff::set_two_sided() { this->two_sided = 1; }
 
-extern s32 saved_model_render_flags;
-extern s32 model_render_flags;
-
-s32 TBoss5GryphonLightningEff::calc_segment_uvs(void *p_) {
-    Seg_80325070 *p = (Seg_80325070 *)p_;
+s32 TBoss5GryphonLightningEff::calc_segment_uvs(void *vertices) {
+    LightningStripSegment *p = (LightningStripSegment *)vertices;
     s32 i;
     s16 flags;
     f32 base;
@@ -52,37 +41,37 @@ s32 TBoss5GryphonLightningEff::calc_segment_uvs(void *p_) {
     v0 = base / 512.0f;
     v1 = (64.0f + base) / 512.0f;
     for (i = 0; i < this->point_count; i++, p++) {
-        p->a.u = u / 512.0f;
-        p->a.v = v0;
-        p->b.u = u / 512.0f;
-        p->b.v = v1;
+        p->upper.u = u / 512.0f;
+        p->upper.v = v0;
+        p->lower.u = u / 512.0f;
+        p->lower.v = v1;
         u += step;
     }
     if (flags & 8) {
-        return *(*inazuma_texture_list)->a->p;
+        return inazuma_texture_list->entries[0].texture->surface->id;
     }
-    return *(*inazuma_texture_list)->b->p;
+    return inazuma_texture_list->entries[1].texture->surface->id;
 }
 
 void TBoss5GryphonLightningEff::render() {
-    char sp10C[0x270];
-    char pts_arg[0x9C];
-    char sp3C[0x34];
-    char sp8[0x34];
-    s32 temp_r4;
+    LightningStripSegment strip[13];
+    Vec points[13];
+    f32 widths[13];
+    f32 heights[13];
+    u32 flags;
 
-    temp_r4 = model_render_flags;
-    saved_model_render_flags = temp_r4;
-    model_render_flags = temp_r4 | 0x10;
+    flags = model_render_flags;
+    saved_model_render_flags = flags;
+    model_render_flags = flags | 0x10;
     TParticleCtrl::begin_effect_render();
     set_depth_buffer_settings_1();
     set_additive_blend();
-    project_lightning_points(this, pts_arg, sp3C, sp8);
-    build_lightning_strip((void *)sp10C, (void *)pts_arg, (f32 *)sp3C, (f32 *)sp8);
-    ((TWindowDD *)sp10C)->draw_transformed_primitive(this->point_count * 2, calc_segment_uvs(sp10C), 1);
+    project_lightning_points(this, points, widths, heights);
+    build_lightning_strip(strip, points, widths, heights);
+    ((TWindowDD *)strip)->draw_transformed_primitive(this->point_count * 2, calc_segment_uvs(strip), 1);
     if (this->two_sided == 1) {
-        build_lightning_strip((void *)sp10C, (void *)pts_arg, (f32 *)sp8, (f32 *)sp3C);
-        ((TWindowDD *)sp10C)->draw_transformed_primitive(this->point_count * 2, calc_segment_uvs(sp10C), 1);
+        build_lightning_strip(strip, points, heights, widths);
+        ((TWindowDD *)strip)->draw_transformed_primitive(this->point_count * 2, calc_segment_uvs(strip), 1);
     }
     set_default_alpha_blend();
     TParticleCtrl::end_effect_render();
@@ -111,7 +100,7 @@ TBoss5GryphonLightningEff::TBoss5GryphonLightningEff(TObject *parent, TBoss5Gryp
     Vec v;
     f32 denom;
     s32 i;
-    m_name = lbl_805D4188;
+    m_name = gryphon_lightning_eff_name;
     this->two_sided = 0;
     this->frame = 0;
     TBoss8Dragon::eval_bezier_curve(segments, segment_count, 0, &this->origin, from);
@@ -147,16 +136,14 @@ TBoss5GryphonLightningEff::TBoss5GryphonLightningEff(TObject *parent, TBoss5Gryp
 __declspec(section ".sdata2") extern const f32 gryphon_lightning_points_per_unit = 0.0625f;  // one bolt point per 16 units of length
 
 #pragma readonly_strings on
-    u8 *load_gvm_texture_file(s32 name);
-extern "C" {
-s32 release_texture_list(void*);
-}
 
-void TLobby::free_char_select_singleton() {
-    if ((uaddr) inazuma_texture_list != 0U) {
-        release_texture_list((void*)inazuma_texture_list);
+void TBoss5GryphonLightningEff::release_texture() {
+    if (inazuma_texture_list != NULL) {
+        release_texture_list(inazuma_texture_list);
         TAdSinglePlyChrSelectGC::safe_free((uaddr)inazuma_texture_list);
-        inazuma_texture_list = 0U;
+        inazuma_texture_list = NULL;
     }
 }
-void load_f512_inazuma(void) { (*(int *)&inazuma_texture_list) = (saddr)load_gvm_texture_file((saddr)(unsigned char *)"f512_inazuma.gvm"); }
+void TBoss5GryphonLightningEff::load_texture() {
+    inazuma_texture_list = (GinjaTextureList *)load_gvm_texture_file((saddr)"f512_inazuma.gvm");
+}
