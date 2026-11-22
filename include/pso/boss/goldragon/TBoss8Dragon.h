@@ -68,12 +68,12 @@ public:
     u32 flags;  // as TBoss1Dragon::flags: 0x40 makes run_task remove the dragon, 0x100 tested the same way
     TObject sub_tasks;  // the dragon's collider task hangs under it; run_task runs its tasks
     u32 m_3e0;
-    u32 m_3e4;
+    u32 phase;
     s32 m_3e8;
-    Vec pad_3EC[3];
-    Vec m_410;
-    Vec m_41c;
-    Vec m_428;
+    Vec breath_node_points[3];  // as TBoss1Dragon::breath_node_points
+    Vec breath_origin;  // the TBoss8DragonEffBreath and the fire bullets start here
+    Vec breath_direction;  // breath_node_points[1] - [0], the breath's direction
+    Vec breath_effect_position;
     Vec node_positions[0x22];  // the model's node positions; update_body_colliders reads seven
     f32 m_5cc;
     f32 m_5d0;
@@ -132,8 +132,8 @@ public:
     u32 m_858;
     s32 m_85c;
     s32 m_860;
-    f32 m_864;
-    f32 m_868;
+    f32 fallVelocity;
+    f32 rootHeight;
     f32 m_86c;
     f32 m_870;
     f32 m_874;
@@ -144,9 +144,7 @@ public:
     f32 m_888;
     f32 m_88c;
     s32 m_890;
-    TParticleCtrl *m_894;
-    TParticleCtrl *m_898;
-    TParticleCtrl *m_89c;
+    TParticleCtrl *breath_particles[3];  // as TBoss1Dragon::breath_particles
     s32 m_8a0;
     static void sync_target_pos(void *p);
     static s32 restore_target_pos(void *p);

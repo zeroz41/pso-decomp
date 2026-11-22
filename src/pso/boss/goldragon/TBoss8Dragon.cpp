@@ -678,14 +678,14 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     this->wall_reach = 20.0f;
     this->enemy_init_acquire_period(0xA);
     this->enemy_init_validate_period(0xA);
-    this->m_3e4 = 0;
+    this->phase = 0;
     this->flags |= 1;
     for (i = 0; i < 3; i++) {
-        VecCopy(&this->pad_3EC[i], &this->position);
+        VecCopy(&this->breath_node_points[i], &this->position);
     }
-    VecCopy(&this->m_410, &this->position);
-    VecCopy(&this->m_41c, &this->position);
-    VecCopy(&this->m_428, &this->position);
+    VecCopy(&this->breath_origin, &this->position);
+    VecCopy(&this->breath_direction, &this->position);
+    VecCopy(&this->breath_effect_position, &this->position);
     for (i = 0; i < 0x22; i++) {
         VecCopy(&this->node_positions[i], &this->position);
     }
@@ -741,8 +741,8 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     this->m_858 = 0;
     this->m_85c = 0;
     this->m_860 = 0;
-    this->m_864 = 0.0f;
-    this->m_868 = 0.0f;
+    this->fallVelocity = 0.0f;
+    this->rootHeight = 0.0f;
     this->m_86c = 0.0f;
     this->m_870 = 0.0f;
     this->m_874 = 0.0f;
@@ -753,9 +753,9 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     this->m_888 = 0.0f;
     this->m_88c = 0.0f;
     this->m_890 = 0;
-    this->m_894 = 0;
-    this->m_898 = 0;
-    this->m_89c = 0;
+    this->breath_particles[0] = 0;
+    this->breath_particles[1] = 0;
+    this->breath_particles[2] = 0;
     this->controller_input = &controller_input_state.controllers[2];
     this->m_6d4 = 0;
     this->mode = 0;
@@ -936,7 +936,7 @@ void TBoss8Dragon::select_next_action() {
         }
     } else {
         if (!(this->flags & 0x20) && (this->hp <= 0)) {
-            if ((s32) this->m_3e4 == 1) {
+            if ((s32) this->phase == 1) {
                 this->send_action_packet(0xC);
                 return;
             }
@@ -964,7 +964,7 @@ void TBoss8Dragon::check_death() {
         goto block_8;
     }
     if (!(this->flags & 0x20) && (this->hp <= 0)) {
-        if ((s32) this->m_3e4 == 1) {
+        if ((s32) this->phase == 1) {
             send_action_packet(0xC);
             return;
         }
@@ -1040,10 +1040,10 @@ void TBoss8Dragon::sub_802FC9D8() {
     f32 temp_f1;
     f32 temp_f2;
     temp_f2 = this->destination.x;
-    this->m_5cc = (f32) (temp_f2 - this->m_410.x);
+    this->m_5cc = (f32) (temp_f2 - this->breath_origin.x);
     this->m_5d0 = 0.0f;
     temp_f1 = this->destination.z;
-    this->m_5d4 = (f32) (temp_f1 - this->m_410.z);
+    this->m_5d4 = (f32) (temp_f1 - this->breath_origin.z);
     this->m_5d8 = normalize_vector_xz((Vec *)&this->m_5cc);
 }
 
@@ -1270,11 +1270,11 @@ void TBoss8Dragon::spawn_effect_if_in_band() {
     }
 }
 
-void TBoss8Dragon::reset_timer() { this->m_3e4 = 0; }
+void TBoss8Dragon::reset_timer() { this->phase = 0; }
 
-void TBoss8Dragon::set_state() { this->m_3e4 = 1; }
+void TBoss8Dragon::set_state() { this->phase = 1; }
 
-void TBoss8Dragon::set_action_state() { this->m_3e4 = 2; }
+void TBoss8Dragon::set_action_state() { this->phase = 2; }
 
 void TBoss8Dragon::set_active_flag() { this->flags = (this->flags | 0x1); this->position.y = 0.0f; }
 
@@ -1497,7 +1497,7 @@ s32 TBoss8Dragon::check_damage_reaction() {
     if ((s16) this->hp <= this->finalHpThreshold) {
         this->hp = this->finalHpThreshold;
         set_damage_phase_value(1);
-        if ((s32) *(s32 *)&this->m_3e4 == 0) {
+        if ((s32) *(s32 *)&this->phase == 0) {
             send_action_packet(0xD);
             return 1;
         }
@@ -2045,7 +2045,7 @@ void TBoss8Dragon::sub_802FA16C(s32 event) {
         this->flags = (s32) (this->flags & ~0x36);
         this->stateStep = 0;
         temp_f1 = *(f32 *)((s8 *)TBoss8Dragon__data_80541DDC[0] + 0x10);
-        this->m_864 = (f32) (5.0f + TObjBoss2Tunnel::calc_scaled_value((s32) (320.0f * temp_f1), temp_f1));
+        this->fallVelocity = (f32) (5.0f + TObjBoss2Tunnel::calc_scaled_value((s32) (320.0f * temp_f1), temp_f1));
         return;
     case 2:
     case 11:
@@ -2055,7 +2055,7 @@ void TBoss8Dragon::sub_802FA16C(s32 event) {
         temp_r4_2 = this->stateStep;
         var_r30 = 0;
         if ((temp_r4_2 >= 0x96) && (this->current_target != NULL)) {
-            if (this->destination_distance < this->m_864) {
+            if (this->destination_distance < this->fallVelocity) {
                 var_r30 = 1;
             } else if (this->is_near_target() != 0) {
                 var_r30 = 1;
@@ -2116,9 +2116,9 @@ void TBoss8Dragon::state_breath_attack(s32 event) {
         this->stateStep = 0;
         this->impactAge = 2;
         this->m_854 = 0;
-        this->m_894 = 0;
-        this->m_898 = 0;
-        this->m_89c = 0;
+        this->breath_particles[0] = 0;
+        this->breath_particles[1] = 0;
+        this->breath_particles[2] = 0;
         return;
     case 2:
     case 11:
@@ -2138,9 +2138,9 @@ void TBoss8Dragon::state_breath_attack(s32 event) {
         if (enemy_validate_retained_target(this) != 0) {
             this->enemy_copy_target_destination();
         } else {
-            this->destination.x = 115.0f * sin_table_lookup(this->rotation_y) + this->m_410.x;
+            this->destination.x = 115.0f * sin_table_lookup(this->rotation_y) + this->breath_origin.x;
             this->destination.y = this->position.y;
-            this->destination.z = 115.0f * cos_table_lookup(this->rotation_y) + this->m_410.z;
+            this->destination.z = 115.0f * cos_table_lookup(this->rotation_y) + this->breath_origin.z;
         }
         this->save_position();
         return;
@@ -2162,56 +2162,56 @@ void TBoss8Dragon::state_breath_attack(s32 event) {
             this->m_854++;
             if (this->m_854 >= 0x78) {
                 this->requested_action = 6;
-                if (this->m_894 != 0) {
-                    this->m_894->queue_destruction();
-                    this->m_894 = 0;
+                if (this->breath_particles[0] != 0) {
+                    this->breath_particles[0]->queue_destruction();
+                    this->breath_particles[0] = 0;
                 }
-                if (this->m_898 != 0) {
-                    this->m_898->queue_destruction();
-                    this->m_898 = 0;
+                if (this->breath_particles[1] != 0) {
+                    this->breath_particles[1]->queue_destruction();
+                    this->breath_particles[1] = 0;
                 }
-                if (this->m_89c != 0) {
-                    this->m_89c->queue_destruction();
-                    this->m_89c = 0;
+                if (this->breath_particles[2] != 0) {
+                    this->breath_particles[2]->queue_destruction();
+                    this->breath_particles[2] = 0;
                 }
                 this->stateStep = 2;
                 this->impactAge = 0;
             } else if (!(this->motion_flags & 4)) {
                 this->spawn_trap(0x4003AD0D);
-                direction_to_rotation_xz((u8 *)&m_41c, &rot.x, &rot.z);
+                direction_to_rotation_xz((u8 *)&breath_direction, &rot.x, &rot.z);
                 this->impactAge++;
                 if (this->impactAge >= 2) {
-                    new TBoss8DragonEffBreath(&sub_tasks, &m_410, &m_41c, m_75c, get_entity_id(((u8 *)this)));
+                    new TBoss8DragonEffBreath(&sub_tasks, &breath_origin, &breath_direction, m_75c, get_entity_id(((u8 *)this)));
                     this->impactAge = 0;
                 }
-                if (this->m_894 == 0) {
-                    this->m_894 = (TParticleCtrl *)spawn_particle_effect_with_rotation(&m_410, &rot, this->particle_ids[5], 0x40);
-                    if (this->m_894 != 0) {
-                        this->m_894->enable();
+                if (this->breath_particles[0] == 0) {
+                    this->breath_particles[0] = (TParticleCtrl *)spawn_particle_effect_with_rotation(&breath_origin, &rot, this->particle_ids[5], 0x40);
+                    if (this->breath_particles[0] != 0) {
+                        this->breath_particles[0]->enable();
                     }
                 } else {
-                    this->m_894->set_position((u8 *)&m_428);
-                    this->m_894->set_direction(&rot);
+                    this->breath_particles[0]->set_position((u8 *)&breath_effect_position);
+                    this->breath_particles[0]->set_direction(&rot);
                 }
-                if (this->m_898 == 0) {
+                if (this->breath_particles[1] == 0) {
                     if (this->particle_ids[6] != -1) {
-                        this->m_898 = (TParticleCtrl *)spawn_particle_effect_with_rotation(&m_410, &rot, this->particle_ids[6], 0x40);
+                        this->breath_particles[1] = (TParticleCtrl *)spawn_particle_effect_with_rotation(&breath_origin, &rot, this->particle_ids[6], 0x40);
                     }
-                    if (this->m_898 != 0) {
-                        this->m_898->enable();
+                    if (this->breath_particles[1] != 0) {
+                        this->breath_particles[1]->enable();
                     }
                 } else {
-                    this->m_898->set_position((u8 *)&m_428);
-                    this->m_898->set_direction(&rot);
+                    this->breath_particles[1]->set_position((u8 *)&breath_effect_position);
+                    this->breath_particles[1]->set_direction(&rot);
                 }
-                if (this->m_89c == 0) {
-                    this->m_89c = (TParticleCtrl *)spawn_particle_effect_with_rotation(&m_410, &rot, this->particle_ids[7], 0x40);
-                    if (this->m_89c != 0) {
-                        this->m_89c->enable();
+                if (this->breath_particles[2] == 0) {
+                    this->breath_particles[2] = (TParticleCtrl *)spawn_particle_effect_with_rotation(&breath_origin, &rot, this->particle_ids[7], 0x40);
+                    if (this->breath_particles[2] != 0) {
+                        this->breath_particles[2]->enable();
                     }
                 } else {
-                    this->m_89c->set_position((u8 *)&m_428);
-                    this->m_89c->set_direction(&rot);
+                    this->breath_particles[2]->set_position((u8 *)&breath_effect_position);
+                    this->breath_particles[2]->set_direction(&rot);
                 }
             }
             break;
@@ -2227,17 +2227,17 @@ void TBoss8Dragon::state_breath_attack(s32 event) {
         }
         break;
     case 5:
-        if (this->m_894 != 0) {
-            this->m_894->queue_destruction();
-            this->m_894 = 0;
+        if (this->breath_particles[0] != 0) {
+            this->breath_particles[0]->queue_destruction();
+            this->breath_particles[0] = 0;
         }
-        if (this->m_898 != 0) {
-            this->m_898->queue_destruction();
-            this->m_898 = 0;
+        if (this->breath_particles[1] != 0) {
+            this->breath_particles[1]->queue_destruction();
+            this->breath_particles[1] = 0;
         }
-        if (this->m_89c != 0) {
-            this->m_89c->queue_destruction();
-            this->m_89c = 0;
+        if (this->breath_particles[2] != 0) {
+            this->breath_particles[2]->queue_destruction();
+            this->breath_particles[2] = 0;
         }
         break;
     }
@@ -2417,7 +2417,7 @@ void TBoss8Dragon::state_turn_and_charge(s32 event) {
         init_acceleration_curve(&this->curve1, (f32)(16.0f), (f32)(-16.0f), (f32)((f32)diff), (f32)(s32)(256.0f * (2.0f + *(f32 *)(TBoss8Dragon__data_80541DDC[0] + 0x14))));
         this->m_85c = this->rotation_y;
         this->stateStep = 0;
-        this->m_864 = 0.0f;
+        this->fallVelocity = 0.0f;
         break;
     case 2:
         send_action_packet(26);
@@ -2445,24 +2445,24 @@ void TBoss8Dragon::state_turn_and_charge(s32 event) {
         sub_802FB09C();
         switch (this->stateStep) {
         case 0:
-            this->m_864 += 1.0f;
-            this->rotation_y = (s32)((f32)this->m_654 * sample_acceleration_curve(&this->curve1, this->m_864) + (f32)this->m_85c);
-            if (this->curve1.check_param_threshold(this->m_864) != 0) {
-                this->m_864 = 0.0f;
+            this->fallVelocity += 1.0f;
+            this->rotation_y = (s32)((f32)this->m_654 * sample_acceleration_curve(&this->curve1, this->fallVelocity) + (f32)this->m_85c);
+            if (this->curve1.check_param_threshold(this->fallVelocity) != 0) {
+                this->fallVelocity = 0.0f;
                 this->stateStep = 1;
             }
             break;
         case 1: {
-            f32 prev = sample_acceleration_curve(&this->curve0, this->m_864);
+            f32 prev = sample_acceleration_curve(&this->curve0, this->fallVelocity);
             f32 dlt;
             Vec v;
-            this->m_864 += 1.0f;
-            dlt = sample_acceleration_curve(&this->curve0, this->m_864) - prev;
+            this->fallVelocity += 1.0f;
+            dlt = sample_acceleration_curve(&this->curve0, this->fallVelocity) - prev;
             v.x = this->destination_direction.x * dlt;
             v.y = 0.0f;
             v.z = this->destination_direction.z * dlt;
             apply_ground_movement(&v);
-            if (this->curve0.check_param_threshold(this->m_864) != 0) {
+            if (this->curve0.check_param_threshold(this->fallVelocity) != 0) {
                 this->stateStep = 2;
             }
             break;
@@ -2489,7 +2489,7 @@ void TBoss8Dragon::sub_802F8F88(s32 event) {
         this->stateStep = 0;
         this->impactAge = 0;
         this->m_854 = 0;
-        this->m_894 = 0;
+        this->breath_particles[0] = 0;
         break;
     case 2:
     case 11:
@@ -2551,15 +2551,15 @@ void TBoss8Dragon::sub_802F8F88(s32 event) {
             if (this->is_passing_frame(14.0f) != 0 || this->is_passing_frame(53.0f) != 0) {
                 this->spawn_ground_effect();
             }
-            if (this->m_894 == 0) {
+            if (this->breath_particles[0] == 0) {
                 if (this->frame >= 20.0f) {
-                    this->m_894 = spawn_continuous_particle_effect_with_flags((void *)&m_410, this->particle_ids[8], (s32)(0x40));
+                    this->breath_particles[0] = spawn_continuous_particle_effect_with_flags((void *)&breath_origin, this->particle_ids[8], (s32)(0x40));
                 }
             } else if (this->frame <= 40.0f) {
-                this->m_894->set_position((u8 *)&m_410);
+                this->breath_particles[0]->set_position((u8 *)&breath_origin);
             } else {
-                this->m_894->queue_destruction();
-                this->m_894 = 0;
+                this->breath_particles[0]->queue_destruction();
+                this->breath_particles[0] = 0;
             }
             if (this->is_passing_frame(47.0f) != 0) {
                 Vec v;
@@ -2572,20 +2572,20 @@ void TBoss8Dragon::sub_802F8F88(s32 event) {
                 dir.y = 0.0f;
                 VecCopy(&v, (Vec *)d);
                 v.y = TBoss8Dragon__data_804744A8.y;
-                new TBoss8DragonEffBullet(&sub_tasks, &m_410, &v, m_75c, get_entity_id(((u8 *)this)));
+                new TBoss8DragonEffBullet(&sub_tasks, &breath_origin, &v, m_75c, get_entity_id(((u8 *)this)));
                 rotate_vec_xz(&dir, &rot, 0x1000);
                 VecCopy(&v, &position);
                 v.x += rot.x * len;
                 v.y = TBoss8Dragon__data_804744A8.y;
                 v.z += rot.z * len;
-                new TBoss8DragonEffBullet(&sub_tasks, &m_410, &v, m_75c, get_entity_id(((u8 *)this)));
+                new TBoss8DragonEffBullet(&sub_tasks, &breath_origin, &v, m_75c, get_entity_id(((u8 *)this)));
                 rotate_vec_xz(&dir, &rot, -0x1000);
                 VecCopy(&v, &position);
                 v.x += rot.x * len;
                 v.y = TBoss8Dragon__data_804744A8.y;
                 v.z += rot.z * len;
-                new TBoss8DragonEffBullet(&sub_tasks, &m_410, &v, m_75c, get_entity_id(((u8 *)this)));
-                spawn_particle_effect_with_flags((const Vec *)&m_410, this->particle_ids[9], 0x40);
+                new TBoss8DragonEffBullet(&sub_tasks, &breath_origin, &v, m_75c, get_entity_id(((u8 *)this)));
+                spawn_particle_effect_with_flags((const Vec *)&breath_origin, this->particle_ids[9], 0x40);
                 this->stateStep = 3;
                 this->m_854 = 0;
                 this->flags &= ~0x30;
@@ -2605,9 +2605,9 @@ void TBoss8Dragon::sub_802F8F88(s32 event) {
         }
         break;
     case 5:
-        if (this->m_894 != 0) {
-            this->m_894->queue_destruction();
-            this->m_894 = 0;
+        if (this->breath_particles[0] != 0) {
+            this->breath_particles[0]->queue_destruction();
+            this->breath_particles[0] = 0;
         }
         break;
     }
@@ -2633,7 +2633,7 @@ void TBoss8Dragon::sub_802F89F8(s32 event) {
         this->impactAge = 0;
         this->m_854 = 0;
         this->m_85c = 0;
-        this->m_864 = 13.0f;
+        this->fallVelocity = 13.0f;
         break;
     case 2:
     case 11:
@@ -2712,7 +2712,7 @@ void TBoss8Dragon::sub_802F89F8(s32 event) {
                     pos.y = 0.0f;
                     pos.z = 700.0f * (calc_random_ratio__10TObjPlayerFv(&this->m_764) - 0.5f);
                 }
-                new TBoss8DragonEffBullet(&sub_tasks, &m_410, &pos, this->m_75c, get_entity_id((u8 *)this));
+                new TBoss8DragonEffBullet(&sub_tasks, &breath_origin, &pos, this->m_75c, get_entity_id((u8 *)this));
             }
             this->rotation_x -= this->m_85c;
             break;
@@ -2746,11 +2746,11 @@ void TBoss8Dragon::sub_802F89F8(s32 event) {
             break;
         }
         if (this->stateStep == 1 || this->stateStep == 2) {
-            this->m_864 += lbl_805D69C0;
-            if (this->m_864 < 0.0f) {
-                this->m_864 = 0.0f;
+            this->fallVelocity += lbl_805D69C0;
+            if (this->fallVelocity < 0.0f) {
+                this->fallVelocity = 0.0f;
             }
-            this->position.y += this->m_864;
+            this->position.y += this->fallVelocity;
             if (this->position.y <= 180.0f) {
                 this->position.y = 180.0f;
             }
@@ -2835,7 +2835,7 @@ void TBoss8Dragon::sub_802F8578(s32 event) {
         this->activate_attack();
         this->flags |= 0x36;
         this->stateStep = 0;
-        this->m_864 = 0.0f;
+        this->fallVelocity = 0.0f;
         this->impactAge = 0;
         break;
     case 2:
@@ -3098,14 +3098,14 @@ void TBoss8Dragon::sub_802F7B70(s32 event) {
         this->destination_distance += 5.0f;
         sub_802FC060(this->m_85c);
         if (this->destination_distance < 50.0f) {
-            this->m_864 = this->m_868 = this->destination_distance / 60.0f;
+            this->fallVelocity = this->rootHeight = this->destination_distance / 60.0f;
             this->m_86c = 0.0f;
         } else {
             f32 t;
-            this->m_868 = 1.6666666f;
+            this->rootHeight = 1.6666666f;
             t = 2.0f * (50.0f - (this->destination_distance - 50.0f)) / 30.0f;
             this->m_86c = t / 30.0f;
-            this->m_864 = 1.6666666f - t;
+            this->fallVelocity = 1.6666666f - t;
         }
         break;
     case 2:
@@ -3160,8 +3160,8 @@ void TBoss8Dragon::sub_802F7B70(s32 event) {
             break;
         case 3: {
             Vec v;
-            this->m_864 += this->m_86c;
-            this->move_with_wall_stop(this->destination_direction.x, this->destination_direction.z, this->m_864);
+            this->fallVelocity += this->m_86c;
+            this->move_with_wall_stop(this->destination_direction.x, this->destination_direction.z, this->fallVelocity);
             eval_bezier_curve__12TBoss8DragonFPviiPvf(TBoss8Dragon__dive_height_curve, 3, 0, &v, (f32)this->impactAge / 60.0f);
             this->position.y = v.y;
             this->impactAge++;
@@ -3174,7 +3174,7 @@ void TBoss8Dragon::sub_802F7B70(s32 event) {
         case 4:
         case 5: {
             Vec v;
-            this->move_with_wall_stop(this->destination_direction.x, this->destination_direction.z, this->m_868);
+            this->move_with_wall_stop(this->destination_direction.x, this->destination_direction.z, this->rootHeight);
             this->rotation_x = approach_angle_limited(this->rotation_x, 0x4000, 0x400);
             if (this->m_860 < 0x2811) {
                 this->m_860 += 0x117;
@@ -3183,7 +3183,7 @@ void TBoss8Dragon::sub_802F7B70(s32 event) {
             eval_bezier_curve__12TBoss8DragonFPviiPvf(TBoss8Dragon__dive_height_curve, 3, 0, &v, (f32)this->impactAge / 60.0f);
             this->position.y = v.y;
             this->impactAge++;
-            if (this->m_410.y <= TBoss8Dragon__data_804744A8.y - 50.0f && this->stateStep == 4) {
+            if (this->breath_origin.y <= TBoss8Dragon__data_804744A8.y - 50.0f && this->stateStep == 4) {
                 this->stateStep = 5;
                 this->play_effect_sound(0x4003AD0F);
             }
@@ -3243,8 +3243,8 @@ void TBoss8Dragon::sub_802F7808(u32 event, s32 action) {
         fill_value_array(this->attack_history);
         this->stateStep = 0;
         this->impactAge = 0;
-        this->m_864 = 0.0f;
-        this->m_868 = this->calc_step_value();
+        this->fallVelocity = 0.0f;
+        this->rootHeight = this->calc_step_value();
         break;
     case 2:
     case 11:
@@ -3283,12 +3283,12 @@ void TBoss8Dragon::sub_802F7808(u32 event, s32 action) {
             }
             break;
         case 1:
-            this->m_864 += 0.1f;
-            if (this->m_864 > this->m_868) {
-                this->m_864 = this->m_868;
+            this->fallVelocity += 0.1f;
+            if (this->fallVelocity > this->rootHeight) {
+                this->fallVelocity = this->rootHeight;
             }
-            this->position.x = this->destination_direction.x * this->m_864 + this->position.x;
-            this->position.z = this->destination_direction.z * this->m_864 + this->position.z;
+            this->position.x = this->destination_direction.x * this->fallVelocity + this->position.x;
+            this->position.z = this->destination_direction.z * this->fallVelocity + this->position.z;
             ((void (*)(u8 *))TBoss8Dragon__sub_802FB300)((u8 *)this);
             this->impactAge++;
             if (this->impactAge > 10) {
@@ -3320,7 +3320,7 @@ void TBoss8Dragon::sub_802F75C8(s32 event) {
         this->disable_body_collision();
         this->stateStep = 0;
         this->impactAge = 0;
-        this->m_868 = this->calc_step_value();
+        this->rootHeight = this->calc_step_value();
         return;
     case 2:
     case 11:
@@ -3351,8 +3351,8 @@ void TBoss8Dragon::sub_802F75C8(s32 event) {
     case 0:
         this->update_velocity();
         this->rotation_y = approach_angle_limited((this->rotation_y), ((s32) (RADIANS_TO_ANGLE * atan2_float((f32) (this->destination_direction.x), (f32) (this->destination_direction.z)))), 0x600);
-        this->position.x = (f32) ((this->m_868 * sin_table_lookup((int) (this->rotation_y))) + this->position.x);
-        this->position.z = (f32) ((this->m_868 * cos_table_lookup((int) (this->rotation_y))) + this->position.z);
+        this->position.x = (f32) ((this->rootHeight * sin_table_lookup((int) (this->rotation_y))) + this->position.x);
+        this->position.z = (f32) ((this->rootHeight * cos_table_lookup((int) (this->rotation_y))) + this->position.z);
         ((s32 (*)(void *)) TBoss8Dragon__sub_802FB300)(this);
         this->impactAge = (s32) (this->impactAge + 1);
         if ((s32) this->impactAge > 0xA) {
@@ -3382,8 +3382,8 @@ void TBoss8Dragon::handle_spiral_state(s32 event) {
         fill_value_array(attack_history);
         this->stateStep = 0;
         this->impactAge = 0;
-        this->m_868 = this->calc_step_value();
-        this->m_864 = 2.5f * this->m_868;
+        this->rootHeight = this->calc_step_value();
+        this->fallVelocity = 2.5f * this->rootHeight;
         this->m_86c = 350.0f;
         this->m_85c = 0;
         break;
@@ -3418,7 +3418,7 @@ void TBoss8Dragon::handle_spiral_state(s32 event) {
             }
             break;
         case 1:
-            a = (s32)(RADIANS_TO_ANGLE * (this->m_864 / this->m_86c));
+            a = (s32)(RADIANS_TO_ANGLE * (this->fallVelocity / this->m_86c));
             this->m_85c += a;
             this->position.x = this->m_86c * sin_table_lookup(this->m_85c);
             this->position.z = this->m_86c * cos_table_lookup(this->m_85c);
@@ -3496,18 +3496,18 @@ void TBoss8Dragon::handle_leap_state(s32 event) {
                     v = 110.0f;
                 }
                 if (v <= 100.0f) {
-                    this->m_864 = 0.0f;
+                    this->fallVelocity = 0.0f;
                     this->rotation_x = 0;
                 } else {
                     f32 k = 37.333336f;
                     k += newton_sqrtf(298.6667f);
-                    this->m_864 = v / k;
-                    this->rotation_x = (s32)(RADIANS_TO_ANGLE * atan2_float(this->m_864, 15.0f));
+                    this->fallVelocity = v / k;
+                    this->rotation_x = (s32)(RADIANS_TO_ANGLE * atan2_float(this->fallVelocity, 15.0f));
                 }
                 this->rotation_y = (s32)(RADIANS_TO_ANGLE * atan2_float(d[0], d[2]));
-                this->m_868 = 15.0f;
-                d[0] *= this->m_864;
-                d[2] *= this->m_864;
+                this->rootHeight = 15.0f;
+                d[0] *= this->fallVelocity;
+                d[2] *= this->fallVelocity;
                 f32 step = -11.333333f;
                 this->position.x = d[0] * step + this->position.x;
                 this->position.z = d[2] * step + this->position.z;
@@ -3532,15 +3532,15 @@ void TBoss8Dragon::handle_leap_state(s32 event) {
             }
             break;
         case 3:
-            if (this->m_868 < 0.0f && this->position.y < 220.0f) {
+            if (this->rootHeight < 0.0f && this->position.y < 220.0f) {
                 this->stateStep = 4;
-                this->m_86c = this->m_868 * this->m_868 / 80.0f;
+                this->m_86c = this->rootHeight * this->rootHeight / 80.0f;
             }
             break;
         case 4:
-            if (this->m_868 > 0.0f) {
+            if (this->rootHeight > 0.0f) {
                 this->stateStep = 5;
-                this->m_868 = 0.0f;
+                this->rootHeight = 0.0f;
                 this->impactAge = 0;
             }
             break;
@@ -3548,22 +3548,22 @@ void TBoss8Dragon::handle_leap_state(s32 event) {
         switch (this->stateStep) {
         case 1:
             vec3_add_to((u8 *)&position, d);
-            this->position.y += this->m_868;
+            this->position.y += this->rootHeight;
             break;
         case 2:
             vec3_add_to((u8 *)&position, d);
-            this->m_868 += -0.4017857f;
-            this->position.y += this->m_868;
+            this->rootHeight += -0.4017857f;
+            this->position.y += this->rootHeight;
             break;
         case 3:
             this->advance_animation();
-            this->m_868 += -0.4017857f;
+            this->rootHeight += -0.4017857f;
             if (this->frame >= 15.0f) {
                 d[0] *= 0.98f;
                 d[2] *= 0.98f;
             }
             vec3_add_to((u8 *)&position, d);
-            this->position.y += this->m_868;
+            this->position.y += this->rootHeight;
             this->rotation_x = approach_angle_limited(this->rotation_x, 0, 0x80);
             break;
         case 4:
@@ -3571,8 +3571,8 @@ void TBoss8Dragon::handle_leap_state(s32 event) {
             if (this->requested_action == 0x10) {
                 this->spawn_effect_if_in_band();
             }
-            this->m_868 += this->m_86c;
-            this->position.y += this->m_868;
+            this->rootHeight += this->m_86c;
+            this->position.y += this->rootHeight;
             d[0] *= 0.98f;
             d[2] *= 0.98f;
             vec3_add_to((u8 *)&position, d);
@@ -3610,8 +3610,8 @@ void TBoss8Dragon::sub_802F6838(s32 event) {
         this->flags |= 0x36;
         this->stateStep = 0;
         this->impactAge = 0;
-        this->m_864 = 0.0f;
-        this->m_894 = 0;
+        this->fallVelocity = 0.0f;
+        this->breath_particles[0] = 0;
         play_cue_stream_file((saddr)"goldeath.adx");
         TWindowCtrl::init_all_slots();
         cam.bank = 2;
@@ -3647,17 +3647,17 @@ void TBoss8Dragon::sub_802F6838(s32 event) {
                 start_pad_rumble_all(0xA0, 0xF);
             }
             if (this->frame >= 25.0f && this->frame < 40.0f) {
-                direction_to_rotation_xz((u8 *)&m_41c, &r.x, &r.z);
-                if (this->m_894 == 0) {
-                    this->m_894 = (TParticleCtrl *)spawn_particle_effect_with_rotation(&m_410, &r, this->particle_ids[7], 0x40);
+                direction_to_rotation_xz((u8 *)&breath_direction, &r.x, &r.z);
+                if (this->breath_particles[0] == 0) {
+                    this->breath_particles[0] = (TParticleCtrl *)spawn_particle_effect_with_rotation(&breath_origin, &r, this->particle_ids[7], 0x40);
                 }
-                if (this->m_894 != 0) {
-                    this->m_894->set_position((u8 *)&m_428);
-                    this->m_894->set_direction(&r);
+                if (this->breath_particles[0] != 0) {
+                    this->breath_particles[0]->set_position((u8 *)&breath_effect_position);
+                    this->breath_particles[0]->set_direction(&r);
                 }
-            } else if (this->m_894 != 0) {
-                this->m_894->queue_destruction();
-                this->m_894 = 0;
+            } else if (this->breath_particles[0] != 0) {
+                this->breath_particles[0]->queue_destruction();
+                this->breath_particles[0] = 0;
             }
             if (this->is_passing_frame(57.0f) != 0) {
                 DragonAttackParams e = TBoss8Dragon__body_effect_parameters;
@@ -3711,9 +3711,9 @@ void TBoss8Dragon::sub_802F6838(s32 event) {
         this->vfunc_74(0);
         TWindowCtrl::init_all_slots2();
         restore_player_cameras();
-        if (this->m_894 != 0) {
-            this->m_894->queue_destruction();
-            this->m_894 = 0;
+        if (this->breath_particles[0] != 0) {
+            this->breath_particles[0]->queue_destruction();
+            this->breath_particles[0] = 0;
         }
         if (this->m_74c != 0) {
             release_grabbed_player();
@@ -4188,8 +4188,8 @@ void TBoss8Dragon::handle_walk_state(s32 event) {
         this->stateStep = 0x64;
         this->impactAge = 0;
         *(f32 *)((s8 *)temp_r30 + 4) = TBoss8Dragon__data_804744A8.y;
-        this->m_864 = 0.0f;
-        this->m_868 = 0.0f;
+        this->fallVelocity = 0.0f;
+        this->rootHeight = 0.0f;
         return;
     case 2:
     case 11:
@@ -4230,7 +4230,7 @@ void TBoss8Dragon::handle_walk_state(s32 event) {
         this->position.z = (f32) ((temp_f1 * speed) + this->position.z);
         temp_f31_2 = newton_sqrtf(horizontal_distance_squared(&this->position, (Vec *)temp_r30));
         VecCopy((Vec *)temp_r30, &this->position);
-        this->m_864 = (f32) (this->m_864 + temp_f31_2);
+        this->fallVelocity = (f32) (this->fallVelocity + temp_f31_2);
         break;
     }
 }
@@ -4299,7 +4299,7 @@ void TBoss8Dragon::sub_802F5644(s32 event) {
         this->flags = (s32) (this->flags & 0xFFFFFFF8);
         this->set_invulnerable();
         this->disable_body_collision();
-        this->m_864 = 0.0f;
+        this->fallVelocity = 0.0f;
         this->destination_direction.x = (f32) -this->position.x;
         this->destination_direction.y = 0.0f;
         this->destination_direction.z = (f32) -this->position.z;
@@ -4308,7 +4308,7 @@ void TBoss8Dragon::sub_802F5644(s32 event) {
         return;
     case 2:
     case 11:
-        if (this->m_868 >= 680.0f) {
+        if (this->rootHeight >= 680.0f) {
             send_action_packet(0x13);
         }
         return;
@@ -4319,14 +4319,14 @@ void TBoss8Dragon::sub_802F5644(s32 event) {
         copy_pos_to_field688();
         return;
     case 0:
-        this->m_864 += 0.1f;
-        if (this->m_864 > 12.0f) {
-            this->m_864 = 12.0f;
+        this->fallVelocity += 0.1f;
+        if (this->fallVelocity > 12.0f) {
+            this->fallVelocity = 12.0f;
         }
-        this->m_868 = (f32) (this->m_868 + this->m_864);
-        this->position.x = (f32) ((this->destination_direction.x * this->m_864) + this->position.x);
+        this->rootHeight = (f32) (this->rootHeight + this->fallVelocity);
+        this->position.x = (f32) ((this->destination_direction.x * this->fallVelocity) + this->position.x);
         temp_f2 = this->destination_direction.z;
-        temp_f1 = this->m_864;
+        temp_f1 = this->fallVelocity;
         this->position.z = (f32) ((temp_f2 * temp_f1) + this->position.z);
         ((s32 (*)(void *, f32, f32)) TBoss8Dragon__sub_802FB300)(this, temp_f1, temp_f2);
         break;
@@ -4351,7 +4351,7 @@ void TBoss8Dragon::sub_802F5434(s32 event) {
         this->flags = (this->flags | 0x100);
         this->stateStep = 0;
         temp_f1 = *(f32 *)((s8 *)TBoss8Dragon__data_80541DDC[0] + 0x10);
-        this->m_864 = (f32) (5.0f + TObjBoss2Tunnel::calc_scaled_value((s32) (320.0f * temp_f1), temp_f1));
+        this->fallVelocity = (f32) (5.0f + TObjBoss2Tunnel::calc_scaled_value((s32) (320.0f * temp_f1), temp_f1));
         return;
     case 2:
     case 11:
@@ -4421,7 +4421,7 @@ void TBoss8Dragon::sub_802F51DC(s32 event) {
         }
         this->flags = (s32) (this->flags | 0x100);
         temp_f1 = *(f32 *)((s8 *)TBoss8Dragon__data_80541DDC[0] + 0x10);
-        this->m_864 = (f32) (5.0f + TObjBoss2Tunnel::calc_scaled_value((s32) (320.0f * temp_f1), temp_f1));
+        this->fallVelocity = (f32) (5.0f + TObjBoss2Tunnel::calc_scaled_value((s32) (320.0f * temp_f1), temp_f1));
         this->play_effect_sound(0x4003A315);
         return;
     case 2:
