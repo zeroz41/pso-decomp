@@ -31,7 +31,6 @@ typedef struct Cfg_803CBA58 {
 
 extern "C" {
 s32 VIWaitForRetrace();
-s32 run_worker_callbacks_slot5__6TLobbyFv(int);
 extern s32 lbl_805D7540;
 
 Cfg_803CBA58 lbl_804F9D80 = {0};
@@ -141,7 +140,8 @@ void TLobby__sub_803CBA38(void) {
 
 void TLobby::worker_thread_loop() {
     while (lobby_worker_thread_run_flag == 1) {
-        if (((TLobby *)(lbl_805D75A4++))->run_worker_callbacks_slot5() == 0 || lbl_805D7598 == 1) {
+        lbl_805D75A4++;
+        if (TLobby::run_worker_callbacks_slot5() == 0 || lbl_805D7598 == 1) {
             if (lbl_805D7598 == 1) {
                 lbl_805D7598 = 0;
                 OSSetThreadPriority(&adxm_worker_thread, lbl_804F9D80.prio);

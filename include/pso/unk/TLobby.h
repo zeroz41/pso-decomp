@@ -600,7 +600,7 @@ struct TLobby : public TObject {
     s32 try_post_command(s32 arg1, s32 arg2, s32 arg3);
     s32 get_client_count();
     void clear_record_data();
-    void calc_adx_coeffs_at_offset(void *arg1, s32 arg2);
+    void calc_adx_coeffs_at_offset(s32 rate, s32 cutoff);
     static void clear_buffer_340();
     static void worker_thread_loop();
     static void wait_for_lock_release();
@@ -674,7 +674,7 @@ struct TLobby : public TObject {
 
     static void log_printf(const char *fmt, ...);
     static void init_callback_tables();
-    s32 run_worker_callbacks_slot5();
+    static s32 run_worker_callbacks_slot5();
     static s32 run_worker_callbacks_slot4();
     static s32 run_callbacks_group2();
     static void set_callback_params(AdxMessageCallback callback, s32 context);

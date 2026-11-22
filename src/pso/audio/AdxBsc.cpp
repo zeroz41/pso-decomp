@@ -339,7 +339,7 @@ s32 TRK__write_aram(void *arg0p, void *hdr, void *size) {
     if (((TLobby *)hdr)->parse_header_loop_points((saddr)size, (u16 *)&sp18, (u16 *)&sp14) < 0) {
         return 0;
     }
-    h->id->calc_adx_coeffs_at_offset((void *)h->rate, (s32)h->m_1C);
+    h->id->calc_adx_coeffs_at_offset(h->rate, h->m_1C);
     TLobby__sub_803CB570((u8 *)h->id, (u8 *)&sp18, (s16 *)&sp14);
     sub_803C46DC((u8 *)hdr, (saddr)size, &h->m_20, &h->m_24, &h->m_26, &h->m_28, &h->m_2C, &h->m_30, &h->m_34);
     h->m_A8 = 0;

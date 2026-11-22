@@ -124,9 +124,9 @@ void TLobby__sub_803CB570(u8 *arg0, u8 *arg1, s16 *arg2) {
 
 #pragma push
 #pragma fp_contract on
-void TLobby::calc_adx_coeffs_at_offset(void *arg1, s32 cutoff) {
+void TLobby::calc_adx_coeffs_at_offset(s32 rate, s32 cutoff) {
     saddr arg0 = (saddr)this;
-    calc_adx_predictor_coeffs(cutoff, (saddr)arg1, (s16 *)(arg0 + 0x30), (s16 *)(arg0 + 0x32));
+    calc_adx_predictor_coeffs(cutoff, rate, (s16 *)(arg0 + 0x30), (s16 *)(arg0 + 0x32));
 }
 #pragma pop
 
