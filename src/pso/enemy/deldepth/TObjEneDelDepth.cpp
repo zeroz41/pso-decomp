@@ -106,13 +106,13 @@ static const Vec full_scale = {1.0f, 1.0f, 1.0f};
 
 TObjEneDelDepth::ActionPair deldepth_actions[] = {
     { &TObjEneDelDepth::init_params, &TObjEneDelDepth::try_relocate_on_timer },
-    { &TObjEneDelDepth::init_draw_params, &TObjEneDelDepth::fn_80314EC4 },
+    { &TObjEneDelDepth::init_draw_params, &TObjEneDelDepth::update_surface },
     { &TObjEneDelDepth::init_draw_mode_and_motion, &TObjEneDelDepth::update_scale_pulse },
     { &TObjEneDelDepth::start_move_toward_player, &TObjEneDelDepth::update_movement },
     { &TObjEneDelDepth::enter_state8, &TObjEneDelDepth::update_state },
     { &TObjEneDelDepth::enter_appear_state, &TObjEneDelDepth::try_enter_appear },
-    { &TObjEneDelDepth::fn_80314500, &TObjEneDelDepth::fn_803142DC },
-    { &TObjEneDelDepth::init_depth, &TObjEneDelDepth::fn_803141A8 },
+    { &TObjEneDelDepth::enter_look_around, &TObjEneDelDepth::update_look_around },
+    { &TObjEneDelDepth::init_depth, &TObjEneDelDepth::update_spin_search },
     { &TObjEneDelDepth::setup_depth_draw, &TObjEneDelDepth::move_toward_target },
     { &TObjEneDelDepth::enter_attack_cast, &TObjEneDelDepth::update_attack_cast },
     { &TObjEneDelDepth::init_draw_state, &TObjEneDelDepth::update_bomb_drop },
@@ -253,7 +253,7 @@ void TObjEneDelDepth::run_task() {
         update_target_depth();
         return;
     }
-    this->sub_803152C0();
+    this->set_body_flag();
     fn = deldepth_actions[action].update;
     (void)(fn != NULL);
     (this->*fn)();
@@ -263,7 +263,7 @@ void TObjEneDelDepth::run_task() {
         submit_cursor_candidate(o, -1);
     }
     motionController->update_animation_frame();
-    this->sub_803152A0();
+    this->clear_body_flag_if_untargetable();
     if (this->action != 0xD) {
         minimap_render_dot(&o->body_center, -0x5DB4, 1, 0);
     }
@@ -273,7 +273,7 @@ void TObjEneDelDepth::run_task() {
 void TObjEneDelDepth::render() {
     TObjEneDelDepth *o = this;
     if (TObjPlayer::check_demo_mode() != 0) {
-        this->fn_80315518();
+        this->render_in_demo();
         return;
     }
     if (o->opacity <= 0.0f) {
@@ -326,7 +326,7 @@ s32 TObjEneDelDepth::draw_if_visible() {
     return 0;
 }
 
-void TObjEneDelDepth::fn_80315518() {  }
+void TObjEneDelDepth::render_in_demo() {  }
 
 void TObjEneDelDepth::set_action_state(s32 i) {
     TObjEneDelDepth::Action fn;
@@ -378,32 +378,28 @@ void TObjEneDelDepth::set_draw_mode(s32 mode) {
     }
 }
 
-void TObjEneDelDepth::sub_803152C0() {
-    CollisionBody *temp_r3;
-    temp_r3 = this->collisionBody;
-    temp_r3->flags = (s32) (temp_r3->flags | 1);
+void TObjEneDelDepth::set_body_flag() {
+    this->collisionBody->flags |= 1;
 }
 
-void TObjEneDelDepth::sub_803152A0() {
-    CollisionBody *temp_r3;
-    if ((s32) this->targetable == 0) {
-        temp_r3 = this->collisionBody;
-        temp_r3->flags = (s32) (temp_r3->flags & 0xFFFFFFFE);
+void TObjEneDelDepth::clear_body_flag_if_untargetable() {
+    if (this->targetable == 0) {
+        this->collisionBody->flags &= ~1;
     }
 }
 
 void TObjEneDelDepth::run_death_reaction() { if (this->action != 13) { set_action_state(13); } }
 
 void TObjEneDelDepth::run_hit_reaction() {
-    if ((s32) this->action != 0xC) {
-        this->actorFlags = (s32) (this->actorFlags & 0xFFFFFDFF);
+    if (this->action != 0xC) {
+        this->actorFlags &= ~0x200;
         this->set_action_state(0xC);
     }
 }
 
 void TObjEneDelDepth::run_miss_reaction() {
-    if ((s32) this->action != 0xB) {
-        this->actorFlags = (s32) (this->actorFlags & 0xFFFFFEFF);
+    if (this->action != 0xB) {
+        this->actorFlags &= ~0x100;
         this->set_action_state(0xB);
     }
 }
@@ -426,16 +422,10 @@ void TObjEneDelDepth::init_params() {
 
 void TObjEneDelDepth::try_relocate_on_timer() {
     u8 *self = (u8 *)this;
-    s32 temp_r0;
-    s32 temp_r0_2;
 
-    temp_r0 = this->timer - 1;
-    this->timer = temp_r0;
-    if (temp_r0 <= 0) {
+    if (--this->timer <= 0) {
         if (find_nearest_visible_player(reinterpret_cast<TObjChara *>(self), NULL, 200.0f) == 0xFFFF) {
-            temp_r0_2 = this->relocationAttempts + 1;
-            this->relocationAttempts = temp_r0_2;
-            if (temp_r0_2 >= 5) {
+            if (++this->relocationAttempts >= 5) {
                 this->position.x = (f32) this->home_position.x;
                 this->position.z = (f32) this->home_position.z;
                 this->relocationAttempts = 5;
@@ -457,7 +447,7 @@ void TObjEneDelDepth::init_draw_params() {
 
 #pragma push
 #pragma fp_contract on
-void TObjEneDelDepth::fn_80314EC4() {
+void TObjEneDelDepth::update_surface() {
     this->drawOffsetY = -2.5f * (1.0f - this->progress);
     this->drawScale.x = this->progress * (full_scale.x - flat_scale.x) + flat_scale.x;
     this->drawScale.y = this->progress * (full_scale.y - flat_scale.y) + flat_scale.y;
@@ -693,7 +683,7 @@ void TObjEneDelDepth::try_enter_appear() {
     }
 }
 
-void TObjEneDelDepth::fn_80314500() {
+void TObjEneDelDepth::enter_look_around() {
     targetPlayer = 0xFFFF;
     angle = ((s32)(4.0f * random_ratio()) + 4) << 16;
     timer = 0x7FFFFFFF;
@@ -707,7 +697,7 @@ void TObjEneDelDepth::fn_80314500() {
 
 #pragma push
 #pragma fp_contract on
-void TObjEneDelDepth::fn_803142DC() {
+void TObjEneDelDepth::update_look_around() {
     u8 *ene_del_depth = (u8 *)this;
     Vec v;
     Vec w;
@@ -761,7 +751,7 @@ void TObjEneDelDepth::init_depth() {
     this->set_draw_mode(2);
 }
 
-void TObjEneDelDepth::fn_803141A8() {
+void TObjEneDelDepth::update_spin_search() {
     TObjEneDelDepth *self = this;
     Vec sp;
     s32 r = 0;
@@ -826,11 +816,8 @@ void TObjEneDelDepth::init_draw_state() { this->timer = 30; this->attackTimer = 
 void TObjEneDelDepth::update_bomb_drop() {
     u8 *self = (u8 *)this;
     Vec out;
-    s32 temp_r0;
-    s32 temp_r0_2;
-    this->attackTimer = (this->attackTimer - 1);
-    temp_r0 = this->attackTimer;
-    if ((temp_r0 <= 0) && (temp_r0 == 0)) {
+    this->attackTimer--;
+    if (this->attackTimer <= 0 && this->attackTimer == 0) {
         set_motion_packed_rotation();
         push_matrix_from(identity_matrix);
         post_translate_matrix(&this->position.x);
@@ -847,9 +834,7 @@ void TObjEneDelDepth::update_bomb_drop() {
         play_sound_effect(0x4003A81D, (u8 *)&this->position, 0, 0);
         TObjEneDelDepthBomb::create(this, this, (Vec *)&out, TObjEneDelDepth__tune_params->techniqueLevel);
     }
-    temp_r0_2 = this->timer - 1;
-    this->timer = temp_r0_2;
-    if (temp_r0_2 <= 0) {
+    if (--this->timer <= 0) {
         if (get_flag_bit4() != 0) {
             this->set_action_state(7);
             return;
@@ -867,21 +852,16 @@ void TObjEneDelDepth::enter_attack_cast() {
 
 void TObjEneDelDepth::update_attack_cast() {
     u8 *self = (u8 *)this;
-    s32 temp_r0;
-    s32 temp_r0_2;
 
-    this->attackTimer = (this->attackTimer - 1);
-    temp_r0 = this->attackTimer;
-    if ((temp_r0 <= 0) && (temp_r0 == 0)) {
+    this->attackTimer--;
+    if (this->attackTimer <= 0 && this->attackTimer == 0) {
         if ((s32) game_difficulty_selection == 3) {
             TTecMegid::create_ex((saddr)self, (saddr)((u8 *)&this->position), (s32)((int)this->rotation_y), (s32)(TObjEneDelDepth__tune_params->techniqueLevel));
         } else {
             TTecBarta::create_ex(self, &this->position, this->rotation_y, TObjEneDelDepth__tune_params->techniqueLevel);
         }
     }
-    temp_r0_2 = this->timer - 1;
-    this->timer = temp_r0_2;
-    if (temp_r0_2 <= 0) {
+    if (--this->timer <= 0) {
         if (get_flag_bit4() != 0) {
             this->set_action_state(7);
             return;

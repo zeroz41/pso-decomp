@@ -6428,11 +6428,11 @@ force_active:
   - play_step_effect__16TObjEneDellBiterFv
   - fn_803059BC__16TObjEneDellBiterFPC3Vec
   - fn_80313268__19TObjEneDelDepthBombFv
-  - fn_803141A8__15TObjEneDelDepthFv
-  - fn_803142DC__15TObjEneDelDepthFv
-  - fn_80314500__15TObjEneDelDepthFv
-  - fn_80314EC4__15TObjEneDelDepthFv
-  - fn_80315518__15TObjEneDelDepthFv
+  - update_spin_search__15TObjEneDelDepthFv
+  - update_look_around__15TObjEneDelDepthFv
+  - enter_look_around__15TObjEneDelDepthFv
+  - update_surface__15TObjEneDelDepthFv
+  - render_in_demo__15TObjEneDelDepthFv
   - has_player_nearby__16TObjEneReconBombFv
   - __dt__14TObjEneRecoboxFv
   - fn_80327A38
@@ -16358,8 +16358,8 @@ force_active:
   - populate_slot_entries__16TAdChrSelASlotGCFv
   - push_plate_positions__16TAdChrSelASlotGCFv
   - show_no_card_message__16TAdChrSelASlotGCFv
-  - sub_803152A0__15TObjEneDelDepthFv
-  - sub_803152C0__15TObjEneDelDepthFv
+  - clear_body_flag_if_untargetable__15TObjEneDelDepthFv
+  - set_body_flag__15TObjEneDelDepthFv
   - state_fade_in__18TObjEneMe3SinowZoaFl
   - update_stealth_fade__18TObjEneMe3SinowZoaFv
   - sub_8032C0B4__14TAdYesNoBaseGCFv

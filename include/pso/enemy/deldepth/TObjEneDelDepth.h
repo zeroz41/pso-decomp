@@ -39,17 +39,17 @@ struct TObjEneDelDepth : public TObjEnemy {
     void enter_fall_to_ground();
     void update_death_fade();
     void enter_attack_cast();
-    void fn_803141A8();
-    void fn_803142DC();
-    void fn_80314500();
-    void fn_80314EC4();
+    void update_spin_search(); // action 7: spins until an enemy flagged ahead (500 units) is in line
+    void update_look_around(); // action 6: sweeps rotation_y looking for a player within 162.5 units
+    void enter_look_around(); // action 6 enter: random sweep angle and turn direction
+    void update_surface(); // action 1: grows from flat_scale to full_scale, then attacks or idles
     s32 adjust_height_to_ground();
-    void fn_80315518();
+    void render_in_demo(); // render() in demo mode; empty
     void set_action_state(s32);
     void set_draw_mode(s32);
     void set_depth_offset(s32, s32);
-    void sub_803152C0();
-    void sub_803152A0();
+    void set_body_flag(); // collisionBody flag 1, set before each update
+    void clear_body_flag_if_untargetable(); // clears it again after the update unless targetable
     virtual void run_death_reaction();
     virtual void run_hit_reaction();
     virtual void run_miss_reaction();
