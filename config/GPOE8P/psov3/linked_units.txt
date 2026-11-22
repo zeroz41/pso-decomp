@@ -255,7 +255,6 @@ pso/boss/galgryphon/TBoss5GryphonLightning.cpp
 pso/boss/galgryphon/TBoss5GryphonLightningEff.cpp
 pso/boss/galgryphon/TBoss5GryphonLightningHorn.cpp
 pso/boss/galgryphon/TBoss5GryphonLightningWing.cpp
-pso/boss/galgryphon/TBoss5GryphonLightningWing_80324D10.cpp
 pso/boss/galgryphon/TBoss5GryphonShockWave.cpp
 pso/boss/galgryphon/TBoss5GryphonSnarl.cpp
 pso/boss/galgryphon/TBoss5GryphonTornado.cpp
@@ -308,7 +307,6 @@ pso/boss/goldragon/TBoss8Dragon_80067034.cpp
 pso/boss/goldragon/TBoss8Dragon_800BC53C.cpp
 pso/boss/goldragon/TBoss8Dragon_8028A8F8.cpp
 pso/boss/goldragon/TBoss8Dragon_802F3348.cpp
-pso/boss/goldragon/TBoss8Dragon_80324D3C.cpp
 pso/boss/goldragon/TBoss8Dragon_80359A7C.cpp
 pso/boss/goldragon/TBoss8Dragon_8036AEF8.cpp
 pso/boss/dragon/TObjBoss1Crater.cpp
@@ -2210,7 +2208,6 @@ pso/unk/text_80309890.cpp
 pso/unk/text_803098DC.cpp
 pso/unk/text_80312C50.cpp
 pso/unk/text_80320358.cpp
-pso/boss/galgryphon/TBoss5GryphonLightning_80324E10.cpp
 pso/unk/text_80327844.cpp
 pso/object/mine/TOComputerMachine01_803278B0.cpp
 pso/unk/text_803279CC.cpp

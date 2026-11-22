@@ -9449,17 +9449,8 @@ pso/boss/olgaflow/TBoss6Mine.cpp:
 	.sbss       start:0x805D6C48 end:0x805D6C50
 	.sdata2     start:0x805DF580 end:0x805DF5E0
 
-pso/boss/galgryphon/TBoss5GryphonLightningWing_80324D10.cpp:
-	.text       start:0x80324D10 end:0x80324D3C
-
-pso/boss/goldragon/TBoss8Dragon_80324D3C.cpp:
-	.text       start:0x80324D3C end:0x80324E10
-
-pso/boss/galgryphon/TBoss5GryphonLightning_80324E10.cpp:
-	.text       start:0x80324E10 end:0x80324E90
-
 pso/boss/galgryphon/TBoss5GryphonLightning.cpp:
-	.text       start:0x80324E90 end:0x80325064
+	.text       start:0x80324D10 end:0x80325064
 	.rodata     start:0x804766B0 end:0x804766C8
 	.data       start:0x804ECCF8 end:0x804ECD10
 	.sdata      start:0x805D4180 end:0x805D4184
