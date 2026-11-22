@@ -75,11 +75,11 @@ s8 lbl_805D6970;
 // order of definition (and the vtables in .text order).
 #pragma defer_codegen on
 
-f32 TObjBoss7Tunnel::sub_802F2CBC() {
+f32 TObjBoss7Tunnel::get_segment_x() {
     return segment_x;
 }
 
-f32 TObjBoss7Tunnel::sub_802F2CB4() {
+f32 TObjBoss7Tunnel::get_scroll_speed() {
     return scroll_speed;
 }
 
@@ -87,9 +87,9 @@ void TObjBoss7Tunnel::copy_position(const Vec *position) {
     VecCopy(&kind4_position, position);
 }
 
-void TObjBoss7Tunnel::sub_802F2C84() { boss2_tunnel_state_flags = 0; }
+void TObjBoss7Tunnel::clear_state_flags() { boss2_tunnel_state_flags = 0; }
 
-void TObjBoss7Tunnel::sub_802F2C50() {
+void TObjBoss7Tunnel::create() {
     new TObjBoss7Tunnel(tl_04);
 }
 
@@ -336,7 +336,7 @@ void TObjBoss7Tunnel::render() {
 }
 
 s32 TObjBoss7Tunnel::check_both() {
-    s32 positive = sub_802F22F4();
+    s32 positive = is_swaying_positive_x();
     s32 negative = is_phase_active();
     return negative | positive;
 }
@@ -345,7 +345,7 @@ s32 TObjBoss7Tunnel::is_phase_active() {
     return (boss2_tunnel_state_flags >> 12) & 1;
 }
 
-s32 TObjBoss7Tunnel::sub_802F22F4() {
+s32 TObjBoss7Tunnel::is_swaying_positive_x() {
     return (boss2_tunnel_state_flags >> 13) & 1;
 }
 
@@ -366,7 +366,7 @@ void TObjBoss7Tunnel::set_flag_0x200() {
     clear_flags_0x3000();
 }
 
-void TObjBoss7Tunnel::sub_802F2278() { boss2_tunnel_state_flags |= 0x8; }
+void TObjBoss7Tunnel::set_flag_0x8() { boss2_tunnel_state_flags |= 0x8; }
 
 void TObjBoss7Tunnel::spawn(s32 kind, Vec *position) {
     new TUnk_804E4B24(effect_nodes, kind, position, half_length);
@@ -416,7 +416,7 @@ TUnk_804E4B24::TUnk_804E4B24(TObject *parent, s32 kind, Vec *pos, f32 half_lengt
     this->half_length = half_length;
     if (kind == 4) {
         controller->copy_position(&position);
-        TObjBoss7Tunnel::sub_802F2278();
+        TObjBoss7Tunnel::set_flag_0x8();
     }
     update_collision();
 }
@@ -424,8 +424,8 @@ TUnk_804E4B24::TUnk_804E4B24(TObject *parent, s32 kind, Vec *pos, f32 half_lengt
 TUnk_804E4B24::~TUnk_804E4B24() {}
 
 void TUnk_804E4B24::run_task() {
-    position.x = controller->sub_802F2CBC();
-    position.z = position.z - controller->sub_802F2CB4();
+    position.x = controller->get_segment_x();
+    position.z = position.z - controller->get_scroll_speed();
     if (kind == 4) {
         controller->copy_position(&position);
     }

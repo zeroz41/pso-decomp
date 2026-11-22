@@ -13,14 +13,14 @@
 #include "pso/unk/text_802F0E24.h"
 
 // Barba Ray's twin of TObjBoss2Tunnel_8003B1FC.cpp: the parent the tunnel's particles are handed
-// over to, created by sub_802F19C0.
-TObject *lbl_805D6960;
+// over to, created by create_parent_object.
+TObject *TObjBoss7Tunnel_parent_object;
 
 void TObjBoss7Tunnel::detach_children(TParticleCtrl *particle, const Vec *offset) {
     TUnk_8048E728 *child;
     while ((child = (TUnk_8048E728 *)particle->m_down) != NULL) {
         vec3_add_to(&child->step, offset);
-        child->set_parent(lbl_805D6960);
+        child->set_parent(TObjBoss7Tunnel_parent_object);
     }
 }
 
@@ -28,12 +28,12 @@ void TObjBoss7Tunnel::release_children(TParticleCtrl *particle, f32 speed) {
     TUnk_8048E728 *child;
     while ((child = (TUnk_8048E728 *)particle->m_down) != NULL) {
         child->step.z = child->step.z + speed;
-        child->set_parent(lbl_805D6960);
+        child->set_parent(TObjBoss7Tunnel_parent_object);
     }
 }
 
-void TObjBoss7Tunnel::sub_802F19C0() {
-    lbl_805D6960 = new TObject(tl_07);
+void TObjBoss7Tunnel::create_parent_object() {
+    TObjBoss7Tunnel_parent_object = new TObject(tl_07);
 }
 
 void TUnk_804E4AD4::draw_particle_effect() {

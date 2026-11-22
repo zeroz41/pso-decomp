@@ -143,12 +143,12 @@ void TObjBoss2Tunnel::set_global_flag_800() {
     TObjBoss2Tunnel__global_flags |= 0x800;
 }
 
-void TObjBoss2Tunnel::sub_8003C610() {
+void TObjBoss2Tunnel::start_sway_negative_x() {
     TObjBoss2Tunnel__global_flags |= 0x1000;
     TObjBoss2Tunnel__global_flags &= ~0x2000;
 }
 
-void TObjBoss2Tunnel::sub_8003C5F8() {
+void TObjBoss2Tunnel::start_sway_positive_x() {
     TObjBoss2Tunnel__global_flags |= 0x2000;
     TObjBoss2Tunnel__global_flags &= ~0x1000;
 }
@@ -259,7 +259,7 @@ void TObjBoss2Tunnel::restore_fog() {
 }
 
 
-s32 TObjBoss2Tunnel::sub_8003C21C() {
+s32 TObjBoss2Tunnel::current_texture_index() {
     if (texture_frame == 0) {
         return 0;
     }
@@ -269,7 +269,7 @@ s32 TObjBoss2Tunnel::sub_8003C21C() {
 s32 TObjBoss2Tunnel::is_swaying() {
     s32 right;
     s32 left;
-    right = sub_8003C1C8();
+    right = is_swaying_positive_x();
     left = is_flag_set();
     return left | right;
 }
@@ -278,7 +278,7 @@ s32 TObjBoss2Tunnel::is_flag_set() {
     return ((u32) TObjBoss2Tunnel__global_flags >> 0xCU) & 1;
 }
 
-s32 TObjBoss2Tunnel::sub_8003C1C8() {
+s32 TObjBoss2Tunnel::is_swaying_positive_x() {
     return ((u32) TObjBoss2Tunnel__global_flags >> 0xDU) & 1;
 }
 
@@ -562,7 +562,7 @@ void TObjBoss2Tunnel::render() {
     {
         GinjaTextureEntry *entries = boss2_common_texture_list->entries;
         saved = entries->texture;
-        entries->texture = entries[sub_8003C21C()].texture;
+        entries->texture = entries[current_texture_index()].texture;
     }
     TObjFish::set_global_param((saddr)boss2_common_texture_list);
     if (state == 0 || state == 1) {

@@ -2710,9 +2710,9 @@ void TBoss2DeRolLe::handle_bite_state(u32 reason, s32 side) {
                 state_step = 6;
                 TCameraCtrl::set_shake_preset(1);
                 if (position_index == 0) {
-                    TObjBoss2Tunnel::sub_8003C610();
+                    TObjBoss2Tunnel::start_sway_negative_x();
                 } else {
-                    TObjBoss2Tunnel::sub_8003C5F8();
+                    TObjBoss2Tunnel::start_sway_positive_x();
                 }
                 play_sound(0x4003A507, &sound_origins[0]);
                 for (i = 0; i < 4; i++) {

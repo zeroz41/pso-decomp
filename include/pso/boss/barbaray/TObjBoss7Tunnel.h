@@ -32,14 +32,14 @@ public:
     // Out-of-line helpers at the end of the tunnel file (0x802F2C90..0x802F2CC4),
     // called by its segments (TUnk_804E4B24).
     void copy_position(const Vec *position);
-    f32 sub_802F2CB4();
-    f32 sub_802F2CBC();
+    f32 get_scroll_speed();
+    f32 get_segment_x();
     // The tunnel's state flags (boss2_tunnel_state_flags): 0x1000 and 0x2000 pick the sway
     // direction (update_phase_motion swings to -x on 0x1000), 0x8 is set by the kind-4 segment.
     s32 check_both();
     s32 is_phase_active();
-    static s32 sub_802F22F4();
-    static void sub_802F2278();
+    static s32 is_swaying_positive_x();
+    static void set_flag_0x8();
     // Set 0x1000 (sway to -x) or 0x2000 (sway to +x) and clear the other (TBoss7DeRolLeC picks
     // by the side its position slot is on); clear_flags_0x3000 ends the sway.
     static void start_sway_negative_x();
@@ -49,10 +49,10 @@ public:
     static void clear_flags_0x3000();
     // Bit 0x8000: set when the tunnel reaches its end (phase 2, scroll_speed 0).
     static s32 has_stopped();
-    // Twins of TObjBoss2Tunnel's detach_children/release_children/sub_8003B2B0 (text_802F190C.cpp).
+    // Twins of TObjBoss2Tunnel's detach_children/release_children/create_parent_object (text_802F190C.cpp).
     static void detach_children(TParticleCtrl *particle, const Vec *offset);
     static void release_children(TParticleCtrl *particle, f32 speed);
-    static void sub_802F19C0();
+    static void create_parent_object();
     // Twin of TObjBoss2Tunnel::create_particle_effect (TObjBoss7RaftSplash.cpp).
     static void create_particle_effect(const void *position, s32 particle_index, f32 speed);
     // Twins of TObjBoss2CeilJunk::create_particle and TObjBoss2Tunnel::sub_8003B1D8: the
@@ -60,19 +60,19 @@ public:
     static void create_particle(const void *position, s32 particle_index);
     static void sub_802F18E8(TParticleCtrl *particle);
     // Clears boss2_tunnel_state_flags (init_scene_boss2_tunnel).
-    static void sub_802F2C84();
+    static void clear_state_flags();
     // Creates the tunnel under tl_04 (fn_802F1084).
-    static void sub_802F2C50();
+    static void create();
     // Empty (fn_802F105C).
     static void sub_802F2C4C();
-    // Size 0x94 (sub_802F2C50's operator new).
+    // Size 0x94 (create's operator new).
     s32 phase;          // index into run_task's phase handlers
     PiecewiseCurve curve; // update_phase_motion's sideways sway
     s32 sway_state;     // update_phase_motion's switch (0..3)
     f32 sway_sign;      // 1.0 or -1.0, the sway direction
-    f32 segment_x;      // sub_802F2CBC: a segment's position.x
+    f32 segment_x;      // get_segment_x: a segment's position.x
     f32 scroll_offset;  // update_spawn_timer adds scroll_speed, spawns a segment per 800
-    f32 scroll_speed;   // sub_802F2CB4: a segment's z step per frame
+    f32 scroll_speed;   // get_scroll_speed: a segment's z step per frame
     u8 pad_60[0x10];
     s32 spawn_index;    // update_spawn_timer's index into its spawn table
     s32 dust_timer;     // update_dust_spawn spawns a TObjBoss7Dust every 30 frames
