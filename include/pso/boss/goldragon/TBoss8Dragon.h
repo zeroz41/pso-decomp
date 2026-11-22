@@ -80,9 +80,9 @@ public:
     f32 m_668;
     f32 m_66c;
     f32 m_670;
-    u32 sequenceCursor;  // as TBoss1Dragon: sent in the 6xA8 packet, below 50 = first sequence
-    u16 hpThreshold;
-    u16 finalHpThreshold;  // hp is clamped to it, as in TBoss1Dragon
+    s32 sequenceCursor;  // as TBoss1Dragon: sent in the 6xA8 packet, below 50 = first sequence
+    s16 hpThreshold;
+    s16 finalHpThreshold;  // hp is clamped to it, as in TBoss1Dragon
     TBoss8DragonEffTail *tail;  // the TBoss8DragonEffTail the constructor creates
     AreaAttackHistory *attack_history;
     TObject *collider;  // the TBoss8DragonColli the constructor hangs under sub_tasks

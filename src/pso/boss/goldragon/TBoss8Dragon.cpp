@@ -884,8 +884,8 @@ void TBoss8Dragon::run_task() {
         if (this->m_74c != 0) {
             if ((s32) this->m_750 == (s32) local_client_id) {
                 if ((this->test_flag30_512() != 0) && (((TBoss8Dragon *)self)->is_health_low() != 0)) {
-                    if ((s16) this->hp < (s16) *(s16 *)&this->finalHpThreshold) {
-                        this->hp = *(s16 *)&this->finalHpThreshold;
+                    if ((s16) this->hp < this->finalHpThreshold) {
+                        this->hp = this->finalHpThreshold;
                     }
                     ((TObjEneDD *)self)->clear_attack_receipts();
                 }
@@ -898,8 +898,8 @@ void TBoss8Dragon::run_task() {
                 this->dispatch_action(this->mode, 0);
             } else {
                 if ((this->test_flag30_512() != 0) && (((TBoss8Dragon *)self)->is_health_low() != 0)) {
-                    if ((s16) this->hp < (s16) *(s16 *)&this->finalHpThreshold) {
-                        this->hp = *(s16 *)&this->finalHpThreshold;
+                    if ((s16) this->hp < this->finalHpThreshold) {
+                        this->hp = this->finalHpThreshold;
                     }
                     ((TObjEneDD *)self)->clear_attack_receipts();
                 }
@@ -909,14 +909,14 @@ void TBoss8Dragon::run_task() {
                 this->dispatch_action(this->mode, 0);
             }
         } else {
-            temp_r0_2 = *(s32 *)&this->m_3e0;
+            temp_r0_2 = this->m_3e0;
             if (temp_r0_2 != 1) {
                 if (temp_r0_2 == 2) {
                     this->dispatch_action(this->mode, 2);
                 } else {
                     if ((this->test_flag30_512() != 0) && (((TBoss8Dragon *)self)->is_health_low() != 0)) {
-                        if ((s16) this->hp < (s16) *(s16 *)&this->finalHpThreshold) {
-                            this->hp = *(s16 *)&this->finalHpThreshold;
+                        if ((s16) this->hp < this->finalHpThreshold) {
+                            this->hp = this->finalHpThreshold;
                         }
                         ((TObjEneDD *)self)->clear_attack_receipts();
                     }
@@ -926,8 +926,8 @@ void TBoss8Dragon::run_task() {
                 this->dispatch_action(this->mode, 0);
             } else {
                 if ((this->test_flag30_512() != 0) && (((TBoss8Dragon *)self)->is_health_low() != 0)) {
-                    if ((s16) this->hp < (s16) *(s16 *)&this->finalHpThreshold) {
-                        this->hp = *(s16 *)&this->finalHpThreshold;
+                    if ((s16) this->hp < this->finalHpThreshold) {
+                        this->hp = this->finalHpThreshold;
                     }
                     ((TObjEneDD *)self)->clear_attack_receipts();
                 }
@@ -1119,7 +1119,7 @@ void TBoss8Dragon::set_damage_phase_value(s32 arg1) {
 
 s32 TBoss8Dragon::is_health_low() {
     TBoss8Dragon * boss8_dragon = this;
-    return *(s32 *)&boss8_dragon->sequenceCursor < 0x32;
+    return boss8_dragon->sequenceCursor < 0x32;
 }
 
 u8 TBoss8Dragon__sub_802FC88C(void *arg0) {
@@ -1536,8 +1536,8 @@ s32 TBoss8Dragon::check_damage_reaction() {
     if (*(s32 *)&this->flags & 0x40) {
         return 0;
     }
-    if ((s16) this->hp <= (s16) *(s16 *)&this->finalHpThreshold) {
-        this->hp = *(s16 *)&this->finalHpThreshold;
+    if ((s16) this->hp <= this->finalHpThreshold) {
+        this->hp = this->finalHpThreshold;
         set_damage_phase_value(1);
         if ((s32) *(s32 *)&this->m_3e4 == 0) {
             send_action_packet(0xD);
