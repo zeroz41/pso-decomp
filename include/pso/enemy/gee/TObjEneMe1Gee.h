@@ -160,18 +160,18 @@ struct TObjEneMe1Gee : public TObjEneDD_ST {
     void state_high_appear(s32 mode);
     void sub_800CB4DC();
     void order_activation_now();
-    TObjChara *sub_800CB584();
+    TObjChara *get_attacking_target();  // current_target while status 0x40000 (set by the attack states) is on, else NULL; the leader counts members on its target (name inferred)
     s32 has_status_flag(s32 mask);
     int is_activated();
     void sub_800CB968();
-    s32 sub_800CBA80();
+    s32 is_hover_low();  // hover_offset < 20; gates the melee contact checks (name inferred)
     s32 find_attack_target(f32 *out, f32 range);
     void sub_800CBC04();
     void sub_800CBC1C();
     void climb_toward(f32 height);
     void climb_hover_y(f32 height);
     void calc_position(Vec *out);
-    static BmlResource *sub_800CC2BC();
+    static BmlResource *get_resource_bundle();  // returns TObjEneMe1Gee__resource_bundle
 };
 
 LAYOUT_ASSERT(TObjEneMe1Gee_size, sizeof(TObjEneMe1Gee) == 0x490);

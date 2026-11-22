@@ -312,7 +312,7 @@ void TObjEneMe1Gee::run_task() {
     this->render_minimap_dot();
 }
 
-BmlResource *TObjEneMe1Gee::sub_800CC2BC() { return TObjEneMe1Gee__resource_bundle; }
+BmlResource *TObjEneMe1Gee::get_resource_bundle() { return TObjEneMe1Gee__resource_bundle; }
 
 void TObjEneMe1Gee::refresh_target() {  }
 
@@ -525,7 +525,7 @@ s32 TObjEneMe1Gee::check_can_attack() {
     return in_range;
 }
 
-s32 TObjEneMe1Gee::sub_800CBA80() {
+s32 TObjEneMe1Gee::is_hover_low() {
     return this->hover_offset < 20.0f;
 }
 
@@ -675,7 +675,7 @@ s32 TObjEneMe1Gee::has_status_flag(s32 mask) {
     return (u8) ((this->status_flags & mask) != 0);
 }
 
-TObjChara *TObjEneMe1Gee::sub_800CB584() {
+TObjChara *TObjEneMe1Gee::get_attacking_target() {
     if (this->status_flags & 0x40000) {
         return this->current_target;
     }
@@ -1321,7 +1321,7 @@ void TObjEneMe1Gee::state_melee_attack(s32 mode) {
             this->update_angle();
             this->approach_hover_y(this->position.y + this->hover_height);
             if (this->destination_distance < 18.0f) {
-                if (this->sub_800CBA80() != 0) {
+                if (this->is_hover_low() != 0) {
                     this->stage_timer = 0;
                     this->stage = 3;
                 }
@@ -1360,7 +1360,7 @@ void TObjEneMe1Gee::state_melee_attack(s32 mode) {
                 }
             } else if (this->is_passing_frame(10.0f) != 0) {
                 this->attack_count++;
-                if (this->sub_800CBA80() != 0) {
+                if (this->is_hover_low() != 0) {
                     if (this->current_target->select_melee_contact_body(this, 1.0f) != 0) {
                         this->current_target->receive_physical_attack(this, 1.0f);
                         this->current_target->apply_knockback_from_attacker((u8 *)this, 3.0f);
@@ -1983,7 +1983,7 @@ int TUnk_8049387C::can_member_attack_target(TObjChara *) {
     s32 n = 0;
     s32 i;
     for (i = 0; i < this->member_count; i++) {
-        if (this->members[i]->sub_800CB584() == this->current_target) {
+        if (this->members[i]->get_attacking_target() == this->current_target) {
             n++;
         }
     }

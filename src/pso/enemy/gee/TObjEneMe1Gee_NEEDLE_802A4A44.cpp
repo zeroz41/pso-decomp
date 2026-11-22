@@ -113,5 +113,5 @@ void TObjEneMe1Gee__sub_802A4D4C(void) {
 }
 
 void TObjEneMe1Gee::cache_result_805D6660() {
-    me1gee_cached_model_handle = TObjEneMe1Gee::sub_800CC2BC();
+    me1gee_cached_model_handle = TObjEneMe1Gee::get_resource_bundle();
 }

@@ -132,7 +132,7 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
     void state_melee_attack(s32 msg);
     void state_ranged_attack(s32 msg);
     void state_appear(s32 msg);
-    s32 fn_8009E76C();
+    s32 is_hover_low();  // hover_offset < 20; gates the melee contact checks (name inferred)
     s32 find_attack_target(f32 *out, f32 squared_range);
     void fn_8009E930();
     void fn_8009E948();
@@ -145,7 +145,7 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
     void start_fade_sequence(s32 sequence);
     void fn_8009E1D4(Vec *pos);
     void order_activation_now();
-    TObjChara *fn_8009E300();
+    TObjChara *get_attacking_target();  // current_target while status 0x40000 (set by the attack states) is on, else NULL; the leader counts members on its target (name inferred)
     void wake_leader();
     void hover_toward(f32 height);
     void approach_hover_y(f32 height);

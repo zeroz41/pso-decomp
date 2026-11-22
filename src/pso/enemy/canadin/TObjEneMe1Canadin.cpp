@@ -543,7 +543,7 @@ void TObjEneMe1Canadin::advance_state_5_to_4() {
 }
 
 
-s32 TObjEneMe1Canadin::fn_8009E76C() {
+s32 TObjEneMe1Canadin::is_hover_low() {
     return hover_offset < 20.0f;
 }
 
@@ -668,7 +668,7 @@ void TObjEneMe1Canadin::set_out_fighter() {
 s32 TObjEneMe1Canadin::has_status_flag(s32 mask) {
     return (status_flags & mask) != 0;
 }
-TObjChara *TObjEneMe1Canadin::fn_8009E300() {
+TObjChara *TObjEneMe1Canadin::get_attacking_target() {
     if (status_flags & 0x40000) {
         return current_target;
     }
@@ -1286,7 +1286,7 @@ void TObjEneMe1Canadin::state_melee_attack(s32 msg) {
             this->update_angle();
             this->approach_hover_y(this->position.y + this->hover_height);
             if (this->destination_distance < 18.0f) {
-                if (this->fn_8009E76C() != 0) {
+                if (this->is_hover_low() != 0) {
                     this->stage_timer = 0;
                     this->stage = 3;
                 }
@@ -1313,7 +1313,7 @@ void TObjEneMe1Canadin::state_melee_attack(s32 msg) {
                 create_timed_particle_emitter(&v, 0x113, 0, 0x14);
             } else if (this->stage_timer == 25) {
                 this->attack_count++;
-                if (this->fn_8009E76C() != 0 && this->current_target->select_melee_contact_body(this, 1.0f) != 0) {
+                if (this->is_hover_low() != 0 && this->current_target->select_melee_contact_body(this, 1.0f) != 0) {
                     this->current_target->receive_physical_attack(this, 1.0f);
                     this->current_target->apply_knockback_from_attacker((u8 *)this, 3.0f);
                     if ((s32)is_player_entity_id(get_entity_id(this->current_target)) != 0 && is_target_android(this->current_target) != 0 && this->random_ratio() < 0.05f) {
@@ -2024,7 +2024,7 @@ int TObjEneMe1CanadinLeader::can_member_attack_target(TObjChara *) {
     s32 n = 0;
     s32 i;
     for (i = 0; i < member_count; i++) {
-        if (members[i]->fn_8009E300() == current_target) {
+        if (members[i]->get_attacking_target() == current_target) {
             n++;
         }
     }

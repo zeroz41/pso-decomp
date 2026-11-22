@@ -1226,7 +1226,7 @@ force_active:
   - state_melee_attack__17TObjEneMe1CanadinFl
   - state_ranged_attack__17TObjEneMe1CanadinFl
   - state_appear__17TObjEneMe1CanadinFl
-  - fn_8009E76C__17TObjEneMe1CanadinFv
+  - is_hover_low__17TObjEneMe1CanadinFv
   - find_attack_target__17TObjEneMe1CanadinFPff
   - fn_8009E930__17TObjEneMe1CanadinFv
   - fn_8009E948__17TObjEneMe1CanadinFv
@@ -1244,11 +1244,11 @@ force_active:
   - state_high_appear__13TObjEneMe1GeeFl
   - sub_800CB4DC__13TObjEneMe1GeeFv
   - order_activation_now__13TObjEneMe1GeeFv
-  - sub_800CB584__13TObjEneMe1GeeFv
+  - get_attacking_target__13TObjEneMe1GeeFv
   - has_status_flag__13TObjEneMe1GeeFl
   - is_activated__13TObjEneMe1GeeFv
   - sub_800CB968__13TObjEneMe1GeeFv
-  - sub_800CBA80__13TObjEneMe1GeeFv
+  - is_hover_low__13TObjEneMe1GeeFv
   - sub_800CBC04__13TObjEneMe1GeeFv
   - sub_800CBC1C__13TObjEneMe1GeeFv
   - climb_toward__13TObjEneMe1GeeFf
@@ -6359,7 +6359,7 @@ force_active:
   - fn_8007FE78
   - fn_8009BD00
   - order_activation_now__17TObjEneMe1CanadinFv
-  - fn_8009E300__17TObjEneMe1CanadinFv
+  - get_attacking_target__17TObjEneMe1CanadinFv
   - wake_leader__17TObjEneMe1CanadinFv
   - fn_800BC758
   - hit_enemy_near__22TObjEnePanarmsAtkColliFP3Vec
