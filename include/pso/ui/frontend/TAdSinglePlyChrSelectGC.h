@@ -7,6 +7,7 @@
 struct CreationTextureCacheEntry;
 class TAdGuideTxtGC;
 class TUnk_804E3008;
+class TPlyCharData;
 
 struct TCheckMemoryCard;
 
@@ -186,7 +187,7 @@ LAYOUT_ASSERT(TAdSinglePlyChrSelectGC_size, sizeof(TAdSinglePlyChrSelectGC) == 0
 // in definition order). The buffers hold heap addresses as words: every test of them against 0 is a cmplwi.
 extern uaddr card_character_save_buffer;
 extern uaddr secondary_card_character_save_buffer;
-extern uaddr selected_character_data;
+extern TPlyCharData *selected_character_data;
 extern uaddr active_character_save_record;
 extern uaddr guild_card_save_payload;
 extern uaddr system_save_payload;
