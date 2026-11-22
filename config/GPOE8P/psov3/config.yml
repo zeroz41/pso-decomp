@@ -1991,7 +1991,7 @@ force_active:
   - __ct__13TObjTombstoneFP7TObjectlPC19TObjTombstoneRecord
   - __ct__13TObjTreeLobbyFP7TObjectPv
   - __ct__13TObjWarnChimeFP7TObject
-  - __ct__13TUnk_80488B38Fv
+  - __ct__17TCameraDebugOrbitFv
   - __ct__15TCameraScriptedFv
   - __ct__13TUnk_8048DF58Fv
   - __ct__13TUnk_8049F038FP7TObjectsl
@@ -2380,10 +2380,10 @@ force_active:
   - __dt__13TUnk_80484AFCFv
   - __dt__13TUnk_804887C8Fv
   - __dt__19TCameraConversationFv
-  - __dt__13TUnk_80488B38Fv
+  - __dt__17TCameraDebugOrbitFv
   - __dt__15TCameraScriptedFv
-  - __dt__13TUnk_80488D70Fv
-  - __dt__13TUnk_80488DA0Fv
+  - __dt__18TCameraWatchPlayerFv
+  - __dt__16TCameraDebugViewFv
   - __dt__13TUnk_8048DF58Fv
   - __dt__13TUnk_8048E1A4Fv
   - __dt__13TUnk_8048E6A8Fv
@@ -3185,9 +3185,9 @@ force_active:
   - __vt__13TUnk_804887C8
   - __vt__13TUnk_80488A28
   - __vt__19TCameraConversation
-  - __vt__13TUnk_80488B38
+  - __vt__17TCameraDebugOrbit
   - __vt__15TCameraScripted
-  - __vt__13TUnk_80488DA0
+  - __vt__16TCameraDebugView
   - __vt__13TUnk_8048DF58
   - __vt__13TUnk_8048E1A4
   - __vt__13TUnk_8048E6A8
@@ -14862,9 +14862,9 @@ force_active:
   - run_task__13TUnk_80484AFCFv
   - run_task__13TUnk_804887C8Fv
   - run_task__19TCameraConversationFv
-  - run_task__13TUnk_80488B38Fv
+  - run_task__17TCameraDebugOrbitFv
   - run_task__15TCameraScriptedFv
-  - run_task__13TUnk_80488DA0Fv
+  - run_task__16TCameraDebugViewFv
   - run_task__13TUnk_8048E6A8Fv
   - run_task__13TUnk_8048E6DCFv
   - run_task__13TUnk_804909C4Fv
@@ -17612,7 +17612,7 @@ force_active:
   - vfunc_6__12TODoorCave01FPsl
   - display_shop_message__12TQuestListVMFll
   - vfunc_6__13TAdVIConfigGCFv
-  - vfunc_6__13TUnk_80488D70Fv
+  - vfunc_6__18TCameraWatchPlayerFv
   - vfunc_6__14TOTrapSeabed01FPsl
   - vfunc_6__15TOAttackableColFPsl
   - vfunc_6__15TODoorAncient08FPsl

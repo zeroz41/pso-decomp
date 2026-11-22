@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/camera/TCameraVolOpt.h"
+#include "pso/camera/TCameraVolOptFollow.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/camera/TCameraCtrl_801A6E60.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
@@ -27,7 +27,7 @@ void TUnk_80488A28::set_target(uaddr object) {
 
 #pragma push
 #pragma fp_contract on
-void TCameraVolOpt::update_target_follow() {
+void TCameraVolOptFollow::update_target_follow() {
     Vec dir;
     Vec *focus = TBoss3Volopt::get_camera_focus();
     if (focus != NULL) {
@@ -80,7 +80,7 @@ void TCameraVolOpt::update_target_follow() {
 }
 #pragma pop
 
-void TCameraVolOpt::update_follow_flags() {
+void TCameraVolOptFollow::update_follow_flags() {
     Vec to_target;
     m_38 = 0x15;
     m_58 = 1.65f;
@@ -99,11 +99,11 @@ void TCameraVolOpt::update_follow_flags() {
     VecCopy(&eye_offset, &camera_ctrl_default_offset_vecs[0]);
 }
 
-TUnk_80488A28 *TCameraVolOpt::create() {
-    return new TCameraVolOpt();
+TUnk_80488A28 *TCameraVolOptFollow::create() {
+    return new TCameraVolOptFollow();
 }
 
-void TCameraVolOpt::run_task() {
+void TCameraVolOptFollow::run_task() {
     m_38 = 0x15;
     if (test_previous_buttons_packed(&controller_input_state.controllers[0], 0x10000) != 0) {
         TUnk_80488E00::run_task();
@@ -113,9 +113,9 @@ void TCameraVolOpt::run_task() {
     m_38 = m_38 | 0x10;
 }
 
-TCameraVolOpt::~TCameraVolOpt() {}
+TCameraVolOptFollow::~TCameraVolOptFollow() {}
 
-TCameraVolOpt::TCameraVolOpt() {
+TCameraVolOptFollow::TCameraVolOptFollow() {
     m_38 = 21;
     m_58 = 0.65f;
     follow_state = 0;

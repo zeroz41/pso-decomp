@@ -9,6 +9,7 @@ public:
     TUnk_80488A28();
     virtual ~TUnk_80488A28();
     void set_target(uaddr);
+    void set_target_pos(Vec *pos);
     virtual void vfunc_6();
     virtual void reset_state();
     virtual void vfunc_8(void *);
@@ -22,7 +23,7 @@ public:
     s32 m_24;
     u8 unk_28[0x4];
     s32 m_2c;
-    s32 yaw; // inferred: the rotate_matrix_y angle TUnk_80488838 copies from the player's facing
+    s32 yaw; // inferred: the rotate_matrix_y angle TCameraOrbit copies from the player's facing
     s32 m_34;
     s32 m_38;
     Vec position;

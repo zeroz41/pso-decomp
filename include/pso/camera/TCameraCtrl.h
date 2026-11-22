@@ -131,7 +131,6 @@ struct TCameraCtrl : public TObject {
     // Transforms the vector at arg0 into view space, into arg1 (addresses as the symbol's ints).
     static void transform_to_view(int arg0, int arg1);
     static Vec get_target_position();
-    static void target_player0(int arg0);
     static s32 get_camera_no();
     static void set_mode(int a0);
     static void update_camera_state(f32 _w0, f32 _w1, f32 _w2);

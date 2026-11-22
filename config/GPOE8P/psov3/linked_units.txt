@@ -650,7 +650,7 @@ pso/camera/TCameraCtrl_80067FC0.cpp
 pso/camera/TCameraConversation.cpp
 pso/camera/CameraHelpers.cpp
 pso/camera/TCameraScripted.cpp
-pso/camera/TCameraCtrl_8006C7C4.cpp
+pso/camera/TCameraWatchPlayer.cpp
 pso/camera/TCameraCtrl_8006CC30.cpp
 pso/camera/TCameraCtrl_800766C4.cpp
 pso/camera/TCameraCtrl_801A2FE0.cpp
@@ -856,9 +856,9 @@ pso/unk/TLobby_80299B90.cpp
 pso/unk/TLobby_80299C4C.cpp
 pso/object/seabed/TObjSuisoChip_802A6080.cpp
 pso/unk/TLobby_802A7290.cpp
-pso/camera/TCameraVolOpt.cpp
-pso/unk/TUnk_80488B38.cpp
-pso/unk/TUnk_80488DA0.cpp
+pso/camera/TCameraVolOptFollow.cpp
+pso/camera/TCameraDebugOrbit.cpp
+pso/camera/TCameraDebugView.cpp
 pso/unk/TLobby_802AF5FC.cpp
 pso/unk/TLobby_802D1EFC.cpp
 pso/unk/TLobby_802D22F0.cpp
@@ -2310,7 +2310,7 @@ pso/weapon/TUnk_804A4548.cpp
 pso/weapon/TUnk_804A4648.cpp
 pso/weapon/TUnk_804A4848.cpp
 pso/weapon/TUnk_804A4948.cpp
-pso/unk/TUnk_80488838.cpp
+pso/camera/TCameraOrbit.cpp
 pso/weapon/TUnk_804A1668.cpp
 pso/weapon/TUnk_804A1760.cpp
 pso/weapon/TUnk_804A1858.cpp

@@ -3,9 +3,6 @@
 #include "pso/camera/TCameraCtrl_80067FC0.h"
 #include "pso/unk/TLobby_801E2F94.h"
 #include "pso/system/vector.h"
-#include "pso/unk/TUnk_80488838.h"
-
-#include "pso/unk/TUnk_80488DA0.h"
 #include "pso/unk/TUnk_80488E00.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/camera/CameraHelpers.h"

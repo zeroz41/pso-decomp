@@ -517,7 +517,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/map/area/AreaBoss02.cpp": {"cflags": _switch(cflags_pso, "-sdata 4")},
     "pso/map/area/AreaBoss05.cpp": {"cflags": _switch(cflags_pso, "-sdata 4")},
     # -sdata 4: the 8-byte camera bank list 0x80488B98 sits in .data, not .sdata.
-    "pso/camera/TCameraCtrl_8006C7C4.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly")},
+    "pso/camera/TCameraWatchPlayer.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly")},
     # -sdata 4: the 8-byte creation_sprite_table and ccconsole_pvm_file_name_table sit in .data while
     # the 4-byte ui_sprite_scale is in .sdata; the texture and pvm names sit in .rodata: readonly strings.
     "pso/ui/UISprite.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly")},
@@ -526,7 +526,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # The TBoss8DragonEffBullet constructor reaches each of its three .rodata particle tables with its own lis/addi: -pool off.
     "pso/boss/goldragon/TBoss8DragonEffBullet.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
     # run_task and get_target_position reach each .rodata object with its own lis/addi: -pool off.
-    "pso/unk/TUnk_80488DA0.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
+    "pso/camera/TCameraDebugView.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     "pso/effect/item/TItemEffBringer.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/item/TItemEffCane.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/item/TItemEffEquip.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
