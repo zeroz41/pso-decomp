@@ -9,7 +9,7 @@ struct TWindowSubItem : public TObject {
     u8 m_1c;
     u8 _pad1D[0x3];
     u32 m_20;
-    u32 m_24;
+    u32 client_id;
     u32 m_28;
     u32 m_2c;
     uaddr m_30;

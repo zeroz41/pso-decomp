@@ -260,8 +260,8 @@ void *TWindowSubItem__ct(TWindowSubItem *window_sub_item, s32 arg1, s32 arg2) {
     *(s32 **)((s8 *)window_sub_item + 0x18) = __vt__14TWindowSubItem;
     *(s32 *)((s8 *)window_sub_item + 0) = (saddr) TWindowSubItem__class_name;
     window_sub_item->m_2c = arg1;
-    window_sub_item->m_24 = arg2;
-    window_sub_item->m_30 = create_sub_item_list_window(get_window_layout_position(3), lbl_8044F998, window_sub_item->m_24);
+    window_sub_item->client_id = arg2;
+    window_sub_item->m_30 = create_sub_item_list_window(get_window_layout_position(3), lbl_8044F998, window_sub_item->client_id);
     TWindowSubEquip__sub_80263AF8(window_sub_item->m_2c, 0);
     set_depth__11TWindowBaseFf(window_sub_item->m_30);
     ((TWindowSubShortCutList *)(window_sub_item->m_30))->set_flag70_bit10();
@@ -551,7 +551,7 @@ void TWindowSubItem::render() {  }
 
 s32 TWindowSubItem::open_purpose_window(s32 arg1) {
     saddr titled_window_menu;
-    titled_window_menu = create_titled_window_menu(((int)get_window_layout_position(4)), 3, (saddr)TWindowSubStatusDisp::get_message_10(0x26), this->m_24);
+    titled_window_menu = create_titled_window_menu(((int)get_window_layout_position(4)), 3, (saddr)TWindowSubStatusDisp::get_message_10(0x26), this->client_id);
     if (arg1 == -0xFF) {
         TWindowSubItem::add_meseta_purpose_actions((saddr)this, titled_window_menu);
     } else if ((s32) (arg1 & 0xFFFFFFF0) == -0x10) {
@@ -569,7 +569,7 @@ s32 TWindowSubItem::open_purpose_window(s32 arg1) {
 
 s32 TWindowSubItem::create_menu_window() {
     saddr titled_window_menu;
-    titled_window_menu = create_titled_window_menu(((int)get_window_layout_position(6)), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x27), this->m_24);
+    titled_window_menu = create_titled_window_menu(((int)get_window_layout_position(6)), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x27), this->client_id);
     forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (saddr)TWindowSubStatusDisp::get_message_10(0x5D), 6, 0);
     forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (saddr)TWindowSubStatusDisp::get_message_10(0x5E), 6, 1);
     TWindowSubEquip__sub_80263AF8(this->m_2c, 2);
@@ -585,7 +585,7 @@ s32 TWindowSubItem::create_count_input(s32 maximum) {
 
     storage = __nw__7TObjectFUl(0x7C);
     if (storage != 0) {
-        storage = __ct__18TWindowInputNumberFPvllls(storage, get_window_layout_position(5), 1, maximum, 1, (s16) this->m_24);
+        storage = __ct__18TWindowInputNumberFPvllls(storage, get_window_layout_position(5), 1, maximum, 1, (s16) this->client_id);
     }
     ((TWindowInputNumber *)storage)->create((saddr)TWindowSubStatusDisp::get_message_10(0x28));
     TWindowSubEquip__sub_80263AF8(this->m_2c, 3);
@@ -648,7 +648,7 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, saddr list, saddr
       }
       else
       {
-        player = get_player_by_client_id(window_sub_item->m_24);
+        player = get_player_by_client_id(window_sub_item->client_id);
         if (player != 0)
         {
           if (((((TItem *)item)->check_equip_requirements((TObjPlayer *)player, (s16 *)(&sp8)) != 0) && (has_armor_with_unit_slot(window_sub_item, (TItem *)item) != 0)) && (get_current_floor_area() != AREA_LOBBY))
@@ -709,7 +709,7 @@ void TWindowSubItem::exec_item_command(saddr item_id, s32 arg2) {
     void *temp_r3_2;
     saddr t;
 
-    player = get_player_by_client_id(this->m_24);
+    player = get_player_by_client_id(this->client_id);
     if ((player != 0) && (temp_r3_2 = find_item_by_id(item_id), ((temp_r3_2 == NULL) == 0))) {
         switch (arg2) {
         case 3:
@@ -737,7 +737,7 @@ void TWindowSubItem::exec_item_command(saddr item_id, s32 arg2) {
 }
 
 void TWindowSubItem::close_windows(s32 arg1) {
-    if (get_player_by_client_id(this->m_24) != 0U) {
+    if (get_player_by_client_id(this->client_id) != 0U) {
         switch (arg1) {
         case 0:
             close_sub_window__10TObjPlayerFv();
@@ -762,7 +762,7 @@ void TWindowSubItem::close_windows(s32 arg1) {
 #pragma scheduling off
 void TWindowSubItem::use_selected_item() {
     s32 player;
-    player = get_player_by_client_id(this->m_24);
+    player = get_player_by_client_id(this->client_id);
     if (player != 0) {
         TObjPlayer__sub_801B7B58(player, (int) (((TWindowMenuIconLine *)this->m_30)->get_cursor_value()), ((TWindowSubItem *)(this->m_30))->get_selected_entry());
     }
@@ -773,7 +773,7 @@ s32 has_armor_with_unit_slot(TWindowSubItem *window_sub_item, TItem *item) {
     ItemData_80279754 d;
     saddr pl;
     uaddr armor;
-    pl = get_player_by_client_id(window_sub_item->m_24);
+    pl = get_player_by_client_id(window_sub_item->client_id);
     if (pl == 0) {
         return 0;
     }

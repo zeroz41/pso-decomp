@@ -12,7 +12,7 @@ void *get_player_by_client_id(s32 i);
 void TWindowSubEquip::update_displayed_item() {
     s32 temp_r3;
 
-    temp_r3 = ((TWindowMenuIconLine *)this->m_38)->get_cursor_value();
+    temp_r3 = ((TWindowMenuIconLine *)this->equip_kind_list)->get_cursor_value();
     if (temp_r3 != (s32) this->m_24) {
         this->m_24 = temp_r3;
         TWindowHelpItem__set_displayed_item_by_id((u8 *)this->m_30, temp_r3);
@@ -24,9 +24,9 @@ void TWindowSubEquip::update() {
     s32 var_r3;
     s32 slot;
 
-    player = (saddr)get_player_by_client_id(this->m_28);
+    player = (saddr)get_player_by_client_id(this->client_id);
     if (player != 0) {
-        slot = ((TWindowMenuIconLine *)this->m_34)->get_cursor_value();
+        slot = ((TWindowMenuIconLine *)this->equip_list)->get_cursor_value();
         TItem *item = (TItem *)TObjPlayer::get_slot_value((s32 *)(player + 0xD04), slot);
         if (item == NULL) {
             var_r3 = -1;

@@ -119,13 +119,13 @@ TWindowSubShortMail::TWindowSubShortMail(TObject *object, void *arg2) : TObject(
     this->m_54 = 0;
     this->m_58 = 0;
     this->m_38 = 0;
-    this->m_3c = 0;
+    this->message_window = 0;
     this->m_44 = 0;
     this->m_48 = 0;
     this->m_4c = 0;
-    this->m_5c = 0;
+    this->keyboard = 0;
     this->m_50 = 0;
-    this->m_24 = -1;
+    this->mail_id = -1;
     this->m_28 = -1;
     this->m_2c = 0;
     this->m_30 = 0;
@@ -138,9 +138,9 @@ TWindowSubShortMail::~TWindowSubShortMail() {
         ((TWindowSubComCard *)m_50)->close();
         m_50 = 0U;
     }
-    if (m_5c != 0U) {
-        ((TObject *)m_5c)->queue_destruction();
-        m_5c = 0U;
+    if (keyboard != 0U) {
+        ((TObject *)keyboard)->queue_destruction();
+        keyboard = 0U;
     }
     if (m_4c != 0U) {
         ((TWindowBase *)m_4c)->close();
@@ -154,9 +154,9 @@ TWindowSubShortMail::~TWindowSubShortMail() {
         ((TWindowBase *)m_44)->close();
         m_44 = 0U;
     }
-    if (m_3c != 0U) {
-        ((TWindowBase *)m_3c)->close();
-        m_3c = 0U;
+    if (message_window != 0U) {
+        ((TWindowBase *)message_window)->close();
+        message_window = 0U;
     }
     if (m_38 != 0U) {
         ((TWindowBase *)m_38)->close();
@@ -462,13 +462,13 @@ s32 TWindowSubShortMail::refresh_mail_list(void *arg1) {
     }
     if (n <= 0) {
         ((TWindowSubShortMail *)arg1)->advance_line(-1);
-        if (this->m_3c != 0) {
-            ((TWindowBase *)this->m_3c)->close();
-            this->m_3c = 0;
+        if (this->message_window != 0) {
+            ((TWindowBase *)this->message_window)->close();
+            this->message_window = 0;
         }
-    } else if (this->m_3c == 0) {
-        *(void * *)&this->m_3c = TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x9C)), (const f32 *)lbl_8044FACC, 1);
-        this->m_24 = -1;
+    } else if (this->message_window == 0) {
+        *(void * *)&this->message_window = TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x9C)), (const f32 *)lbl_8044FACC, 1);
+        this->mail_id = -1;
     }
     if (sel == -1) {
         ((TShopArmorListWindow *)arg1)->clamp_selection_to_valid_entry();
@@ -612,12 +612,12 @@ s32 TWindowSubShortMail::open_delete_confirm_dialog() {
 void TWindowSubShortMail::update_mail_count() {
     s32 temp_r3;
 
-    if ((u32) this->m_3c != 0U) {
+    if ((u32) this->message_window != 0U) {
         temp_r3 = ((TWindowMenuIconLine *)this->m_38)->get_cursor_value();
-        if ((s32) this->m_24 != temp_r3) {
-            this->m_24 = temp_r3;
-            if (TLobby::find_short_mail_by_id(this->m_24) != 0U) {
-                ((TWindowMessage *)(this->m_3c))->append_line(((s32 (*)()) TWindowSubShortMail::get_mail_ptr)(), 0x482);
+        if ((s32) this->mail_id != temp_r3) {
+            this->mail_id = temp_r3;
+            if (TLobby::find_short_mail_by_id(this->mail_id) != 0U) {
+                ((TWindowMessage *)(this->message_window))->append_line(((s32 (*)()) TWindowSubShortMail::get_mail_ptr)(), 0x482);
             }
         }
     }
@@ -629,7 +629,7 @@ void TWindowSubShortMail::close() {
     saddr temp_r30;
     s32 i;
 
-    src = (saddr)((TKeyBoardControl *)this->m_5c)->realloc_buffer();
+    src = (saddr)((TKeyBoardControl *)this->keyboard)->realloc_buffer();
     TWindowSubComCard::mask_profanity_words((char *)src, (char *)get_shared_text_buffer());
     TLobby::send_simple_mail(this->m_2c, (void *)(get_shared_text_buffer()));
     mem_free((void *)src);

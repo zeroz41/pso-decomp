@@ -52,26 +52,26 @@ s32 create_equip_list_window(void *, const NJS_POINT2 *, s32);
 TWindowSubEquip::TWindowSubEquip(saddr arg1, s32 arg2) : TObject((TObject *)((void *)arg1)) {
     void *p;
     m_name = TWindowSubEquip__class_name;
-    this->m_2c = arg1;
-    this->m_28 = arg2;
-    this->m_34 = create_equip_list_window(get_window_layout_position(0), &equip_list_window_size, this->m_28);
-    ((TWindowBase *)this->m_34)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)this->m_2c, 0));
-    ((TWindowSubShortCutList *)(this->m_34))->set_flag70_bit10();
+    this->parent = arg1;
+    this->client_id = arg2;
+    this->equip_list = create_equip_list_window(get_window_layout_position(0), &equip_list_window_size, this->client_id);
+    ((TWindowBase *)this->equip_list)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)this->parent, 0));
+    ((TWindowSubShortCutList *)(this->equip_list))->set_flag70_bit10();
     p = TObject::operator new(0xBC);
     if (p != 0) {
-        p = (void *)__ct__15TWindowHelpItemFPvUs(p, get_window_layout_position(2), this->m_28);
+        p = (void *)__ct__15TWindowHelpItemFPvUs(p, get_window_layout_position(2), this->client_id);
     }
     *(void **)((s8 *)this + 0x30) = p;
-    ((TWindowBase *)this->m_30)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)this->m_2c, 2));
-    this->m_38 = 0;
+    ((TWindowBase *)this->m_30)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)this->parent, 2));
+    this->equip_kind_list = 0;
     this->m_20 = -1;
     this->m_24 = -1;
     this->m_1c = 0;
 }
 
 TWindowSubEquip::~TWindowSubEquip() {
-    if (*(void **)((s8 *)this + 0x38) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x38)))->close(); this->m_38 = 0; }
-    if (*(void **)((s8 *)this + 0x34) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x34)))->close(); this->m_34 = 0; }
+    if (*(void **)((s8 *)this + 0x38) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x38)))->close(); this->equip_kind_list = 0; }
+    if (*(void **)((s8 *)this + 0x34) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x34)))->close(); this->equip_list = 0; }
     if (*(void **)((s8 *)this + 0x30) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x30)))->close(); this->m_30 = 0; }
 }
 
@@ -79,49 +79,49 @@ void TWindowSubEquip::run_task() {
     s32 temp_r3;
     s32 temp_r5;
     u8 temp_r0;
-    temp_r3 = is_player_input_active(this->m_28);
+    temp_r3 = is_player_input_active(this->client_id);
     temp_r0 = this->m_1c;
     switch ((s32) temp_r0) {
     case 0:
     case 1:
-        if ((u32) this->m_38 != 0U) {
-            TWindowSubEquip__sub_80263AF4(*(void * *)&this->m_2c, 1);
-            ((TWindowBase *)this->m_38)->close();
-            this->m_38 = 0U;
+        if ((u32) this->equip_kind_list != 0U) {
+            TWindowSubEquip__sub_80263AF4(*(void * *)&this->parent, 1);
+            ((TWindowBase *)this->equip_kind_list)->close();
+            this->equip_kind_list = 0U;
         }
         fn_80255A38(this->m_30);
         this->m_20 = -1;
         this->m_24 = -1;
-        ((TWindowSubEquip *)(this->m_34))->update_window();
-        ((TWindowMenuIconLine *)(this->m_34))->clear_decided();
-        ((TWindowSubMag *)(this->m_34))->start_scroll(188.0f);
+        ((TWindowSubEquip *)(this->equip_list))->update_window();
+        ((TWindowMenuIconLine *)(this->equip_list))->clear_decided();
+        ((TWindowSubMag *)(this->equip_list))->start_scroll(188.0f);
         this->m_1c = 2U;
     case 2:
         update();
-        if (((TWindowMenuIconLine *)(this->m_34))->is_cancelled() != 0) {
-            VObj_80277F4C *o = *(VObj_80277F4C * *)&this->m_2c;
+        if (((TWindowMenuIconLine *)(this->equip_list))->is_cancelled() != 0) {
+            VObj_80277F4C *o = *(VObj_80277F4C * *)&this->parent;
             o->v7();
             this->m_1c = 6U;
             return;
         }
-        if (((TWindowMenuIconLine *)(this->m_34))->is_decided() != 0) {
+        if (((TWindowMenuIconLine *)(this->equip_list))->is_decided() != 0) {
             this->m_1c = 3U;
         }
         break;
     case 3:
-        ((TWindowSubStatusDisp *)(this->m_34))->init_scroll_pos();
-        if ((u32) this->m_38 == 0U) {
-            this->m_38 = open_equip_kind_list(((TWindowMenuIconLine *)this->m_34)->get_cursor_value());
+        ((TWindowSubStatusDisp *)(this->equip_list))->init_scroll_pos();
+        if ((u32) this->equip_kind_list == 0U) {
+            this->equip_kind_list = open_equip_kind_list(((TWindowMenuIconLine *)this->equip_list)->get_cursor_value());
         }
-        ((TWindowMenuIconLine *)(this->m_38))->clear_decided();
+        ((TWindowMenuIconLine *)(this->equip_kind_list))->clear_decided();
         this->m_1c = 4U;
     case 4:
         update_displayed_item();
-        if (((TWindowMenuIconLine *)(this->m_38))->is_cancelled() != 0) {
+        if (((TWindowMenuIconLine *)(this->equip_kind_list))->is_cancelled() != 0) {
             this->m_1c = 1U;
             return;
         }
-        if (((TWindowMenuIconLine *)(this->m_38))->is_decided() != 0) {
+        if (((TWindowMenuIconLine *)(this->equip_kind_list))->is_decided() != 0) {
             this->m_1c = 5U;
             return;
         }
@@ -134,7 +134,7 @@ void TWindowSubEquip::run_task() {
             return;
         }
         void *selected_player;
-        if (((selected_player = get_player_by_client_id(this->m_28)) != 0U) && (TWindowSubItem::is_usable((saddr)selected_player) != 0)) {
+        if (((selected_player = get_player_by_client_id(this->client_id)) != 0U) && (TWindowSubItem::is_usable((saddr)selected_player) != 0)) {
             apply_slot_selection();
             this->m_1c = 1U;
         }
@@ -148,8 +148,8 @@ void TWindowSubEquip::render() {  }
 
 s32 TWindowSubEquip::open_equip_kind_list(u32 arg1) {
     saddr equip_kind_window;
-    equip_kind_window = create_equip_kind_window(get_window_layout_position(1), &equip_kind_window_size, this->m_28);
-    TWindowSubEquip__sub_80263AF8((u8 *)this->m_2c, 1);
+    equip_kind_window = create_equip_kind_window(get_window_layout_position(1), &equip_kind_window_size, this->client_id);
+    TWindowSubEquip__sub_80263AF8((u8 *)this->parent, 1);
     set_depth__11TWindowBaseFf(equip_kind_window);
     ((TWindowMenuIconLine *)equip_kind_window)->ensure_status_display((saddr) (TWindowSubStatusDisp::get_message_10(0x24)));
     ((TWindowSubShortCutList *)equip_kind_window)->set_flag70_bit10();
@@ -179,6 +179,6 @@ s32 TWindowSubEquip::open_equip_kind_list(u32 arg1) {
 
 void TWindowSubEquip::apply_slot_selection() {
     s32 temp_r31;
-    temp_r31 = ((TWindowMenuIconLine *)this->m_34)->get_cursor_value();
-    TWindowShortListCtrl::assign_shortcut(temp_r31, (int) (((TWindowMenuIconLine *)this->m_38)->get_cursor_value()), this->m_28);
+    temp_r31 = ((TWindowMenuIconLine *)this->equip_list)->get_cursor_value();
+    TWindowShortListCtrl::assign_shortcut(temp_r31, (int) (((TWindowMenuIconLine *)this->equip_kind_list)->get_cursor_value()), this->client_id);
 }

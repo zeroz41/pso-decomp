@@ -13,13 +13,13 @@ struct TWindowSubShortMail : public TObject {
     u8 m_1c;
     u8 _pad1D[0x3];
     uaddr m_20;
-    u32 m_24;
+    u32 mail_id;
     u32 m_28;
     u32 m_2c;
     u32 m_30;
     u32 m_34;
     uaddr m_38;
-    uaddr m_3c;
+    uaddr message_window;
     uaddr m_40;
     uaddr m_44;
     uaddr m_48;
@@ -27,7 +27,7 @@ struct TWindowSubShortMail : public TObject {
     uaddr m_50;
     uaddr m_54;
     uaddr m_58;
-    uaddr m_5c;
+    uaddr keyboard;
     static s32 is_active();
     void close();
     void update_mail_count();
