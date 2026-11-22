@@ -1446,7 +1446,7 @@ TObjChara::TObjChara(TObject *parent) : TObjMotion(parent) {
     reset_motion_fields();
     *(s32 *)((s8 *)this + 0x2B0) = 0;
     *(s32 *)((s8 *)this + 0x2A8) = 0;
-    this->m_314 = 0;
+    this->controller_input = NULL;
     this->m_318 = 0;
     *(s32 *)((s8 *)this + 0x31C) = 0;
     this->tp_bonus = 0;
@@ -4697,8 +4697,11 @@ s32 TObjPlayer::get_attacker_id() { return (u16)(this->attacker_id); }
 
 void TObjPlayer::set_attacker_id(u16 id) { this->attacker_id = id; }
 
-bool TObjChara::has_no_target() {
-    return this->target == 0;
+int TObjChara::has_no_target() {
+    if (this->target == NULL) {
+        return TRUE;
+    }
+    return FALSE;
 }
 
 int TObjChara::test_flag_256() { return this->obj_testFlags30(256); }

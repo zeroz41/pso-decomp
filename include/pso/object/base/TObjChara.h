@@ -5,6 +5,7 @@
 
 struct Vec;
 struct ActorParamBlock;
+struct ControllerInputContext;
 
 struct DirectAttackPayload {
     s32 kind;
@@ -66,7 +67,7 @@ public:
     virtual s32 try_start_action(s32, s32);
     virtual s32 roll_physical_accuracy(void *, s32, f32);
     virtual void refresh_target();
-    virtual bool has_no_target();
+    virtual int has_no_target();
     virtual s32 is_target_in_attack_range();
     virtual int test_flag_256();
     virtual int test_flag30_512();
@@ -239,7 +240,9 @@ public:
     };
     f32 y_speed;
     f32 m_310;
-    s32 m_314;
+    // The pad driving it in place of its AI; TObjControl::run_task reads the
+    // attack button and the stick (inferred).
+    ControllerInputContext *controller_input;
     uaddr m_318;  // the actor's AttackParams
     ActorParamBlock *param_block;  // get_actor_param_block
     u8 unk_320[0x2];

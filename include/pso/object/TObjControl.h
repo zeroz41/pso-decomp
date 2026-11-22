@@ -15,7 +15,6 @@ public:
 };
 
 extern "C" {
-void *TObjControl__ct(void *arg0);
 u8 *get_enemy_entity(u16 arg0);
 }
 

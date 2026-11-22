@@ -25,6 +25,10 @@
 
 #include "pso/unk/TLobby_800F7744.h"
 
+#include "pso/system/ControllerInputState.h"
+
+#include "pso/npc/TNpcPlayer_800D87A8.h"
+
 struct Ply_800F7118 {
     u8 pad0[0x28];
     s16 f28;
@@ -49,189 +53,15 @@ extern s32 lbl_805D5870;
 
 extern uaddr TObjPlayer__data_8050D460[];
 
-u8 *get_enemy_entity(u16 arg0);
-
-struct EnemyControlDispatchBase { char pad[0x18]; };
-
-struct EnemyControlDispatch : EnemyControlDispatchBase {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual s32 m26();
-    virtual s32 m27();
-    virtual s32 m28();
-    virtual s32 m29();
-    virtual s32 m30();
-    virtual s32 m31();
-    virtual s32 m32();
-    virtual void m33();
-    virtual s32 m34();
-    virtual void m35();
-    virtual s32 m36();
-    virtual s32 m37();
-    virtual s32 m38();
-    virtual s32 m39();
-    virtual s32 m40();
-    virtual s32 m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual s32 m56();
-    virtual s32 m57();
-    virtual s32 m58();
-    virtual s32 m59();
-    virtual s32 m60();
-    virtual s32 m61();
-};
-
 struct Msg_800F641C { u8 code; u8 size; u16 id; s32 arg; };
 
 struct Obj_800F641C { u8 pad[0x1c]; u16 id; };
 
 struct Hdr_800F6464 { u32 w; u16 x; s16 y; u32 z; };
 
-struct Base_800F6464 { u8 pad[0x18]; };
-
-struct Ene_800F6464 : Base_800F6464 {
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual void v5();
-    virtual void v6();
-    virtual void v7();
-    virtual void v8();
-    virtual void v9();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void v15();
-    virtual void v16();
-    virtual void v17();
-    virtual void v18();
-    virtual void v19();
-    virtual void v20();
-    virtual void v21();
-    virtual void v22();
-    virtual void v23();
-    virtual void v24();
-    virtual void v25();
-    virtual void v26();
-    virtual void v27();
-    virtual void v28();
-    virtual void v29();
-    virtual void v30();
-    virtual void v31();
-    virtual void v32();
-    virtual void v33();
-    virtual void v34();
-    virtual void v35();
-    virtual void v36();
-    virtual void v37();
-    virtual void v38();
-    virtual void v39();
-    virtual void v40();
-    virtual void v41();
-    virtual void v42();
-    virtual void v43();
-    virtual void v44();
-    virtual void v45();
-    virtual void v46();
-    virtual void v47();
-    virtual void v48();
-    virtual void v49();
-    virtual void v50();
-    virtual void v51();
-    virtual void v52();
-    virtual void v53();
-    virtual void v54();
-    virtual void v55();
-    virtual void v56();
-    virtual void v57();
-    virtual void v58();
-    virtual void v59();
-    virtual void v60();
-    virtual void v61();
-    virtual void v62();
-    virtual void v63();
-    virtual void v64();
-    virtual void v65();
-    virtual void v66();
-    virtual void v67();
-    virtual void v68();
-    virtual void v69();
-    virtual void v70();
-    virtual void v71();
-    virtual void v72();
-    virtual void v73();
-    virtual void v74();
-    virtual void v75();
-    virtual void v76();
-    virtual void v77();
-    virtual void m78(void *);
-};
-
 struct Msg_800F6464 { u8 pad0[2]; u16 f2; u16 f4; s16 f6; u32 f8; };
 
 struct Msg_800F62E0 { u8 pad0[2]; u16 id; s32 flags; };
-
-struct VBase_800F62E0 { char pad[0x18]; };
-
-struct Ene_800F62E0 : VBase_800F62E0 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20(); virtual void m21(); virtual void m22(); virtual void m23();
-    virtual void m24(); virtual void m25(); virtual void m26(); virtual void m27();
-    virtual void m28(); virtual void m29(); virtual void m30(); virtual void m31();
-    virtual void m32(); virtual void m33(); virtual void m34(); virtual void m35();
-    virtual void m36(); virtual void m37(); virtual void m38(); virtual void m39();
-    virtual void m40(); virtual void m41(); virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46(s32);
-    virtual void m47();
-};
 
 struct Pkt_800F65D0 {
     s32 id;
@@ -299,97 +129,9 @@ struct VObj_800F673C : VBase_800F673C {
     virtual void m48();
     virtual void m49(Pair_800F673C);
     virtual void m50(Pair_800F673C);
-    u8 pad1c[0x2B8 - 0x1C];
-    s16 f2B8;
-    u8 pad2ba[0x32C - 0x2BA];
-    s16 f32C;
 };
 
 struct Msg_800F673C { u32 flags; u8 pad4[2]; s16 f6; u8 b8; u8 b9; u8 bA; u8 bB; };
-
-struct Base_800F6960 { char pad[0x18]; };
-
-struct VObj_800F6960 : Base_800F6960 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-};
 
 typedef struct TObjPlayer_800F6B68 {
     u8 pad[0x2D6];
@@ -412,24 +154,6 @@ struct Node_800F6E2C {
     Node_800F6E2C *f344;
     Node_800F6E2C *f348;
     Node_800F6E2C *f34C;
-};
-
-struct VBase_800F6BF0 { u8 pad[0x18]; };
-
-struct Plr_800F6BF0 : VBase_800F6BF0 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12(s32);
 };
 
 f32 TObjPlayer__sub_800192C4(saddr, s32);
@@ -455,10 +179,6 @@ s32 get_current_floor();
 s32 is_quest_active();
 
 void subtractive_rng_seed(void *, s32);
-
-Ene_800F62E0 * find_active_entity_by_id(u16);
-
-void * __ct__11TObjControlFP7TObject(void *arg0);
 
 void handle_6x9C_set_enemy_low_game_flags_ultimate(Msg_800F62E0 *arg0);
 
@@ -486,11 +206,9 @@ s32 draw_player_status(void *, void *, const char *);
 
 s32 submit_cursor_candidate(void *, int);
 
-Plr_800F6BF0 * get_player_by_client_id(u16);
+TObjPlayer *get_player_by_client_id(u16);
 
 s32 minimap_render_dot(void *, int, int, int);
-
-void __ct__7TObjectFP7TObject(void *);
 
 s32 is_challenge_mode_active();
 }
@@ -498,8 +216,6 @@ s32 is_challenge_mode_active();
 void init_6x9C_enemy_low_game_flags_packet(u8 *arg0);
 
 extern Hdr_800F6464 *TLobby__data_805D6144;
-
-extern s32 __vt__11TObjControl[];
 
 extern u8 lobby_rule_settings[];
 
@@ -952,10 +668,10 @@ void TObjEnemy::update_prev_position() {
 #pragma pop
 void TObjEnemy::award_enemy_experience(s32 arg1) {
     s32 val;
-    Plr_800F6BF0 *p;
+    TObjPlayer *p;
 
     if ((u16)arg1 >= 0x1000 || (p = get_player_by_client_id(arg1)) == NULL ||
-        ((TObjCollidable *)p)->obj_testFlags30(0x800) != 0 || ((TObjPlayer *)p)->get_floor() != get_current_floor()) {
+        p->obj_testFlags30(0x800) != 0 || p->get_floor() != get_current_floor()) {
         return;
     }
     val = *(s32 *)(this->m_2b0 + 0x1C);
@@ -965,7 +681,7 @@ void TObjEnemy::award_enemy_experience(s32 arg1) {
             draw_player_status(p, p, "\tC1");
             draw_player_status(p, this, "\tC4");
         }
-        ((TObjPlayer *)p)->add_capped_counter_999(1);
+        p->add_capped_counter_999(1);
     } else {
         val *= 0.8f;
     }
@@ -976,7 +692,7 @@ void TObjEnemy::award_enemy_experience(s32 arg1) {
             val = (s32)((f32)val * TLobby__sub_800F7A6C());
         }
     }
-    p->m12(val);
+    p->add_actor_exp(val);
     create_font_small_task(((u8 *)this) + 0x2FC, 0xFFFF00FF, 0x14, 0x14, "EXP", val, get_entity_id(p));
 }
 
@@ -1045,15 +761,14 @@ void TObjEnemy::apply_set_data(void *arg1_arg) {
 }
 
 void TObjEnemy::apply_enemy_state(s32 *state) {
-    struct VObj_800F6960 *o = (struct VObj_800F6960 *)this;
-    o->m78();
+    apply_hit_message_flags(state);
 }
 
 void TObjEnemy::apply_hit_message_flags(void *arg1_arg) {
     Msg_800F673C *arg1 = (Msg_800F673C *)arg1_arg;
     s32 flags;
     Pair_800F673C p;
-    ((VObj_800F673C *)this)->f32C = ((VObj_800F673C *)this)->f2B8 - arg1->f6;
+    this->hp = this->hpmax - arg1->f6;
     if (game_difficulty_selection == 3) {
         flags = arg1->flags & ~0x3F;
     } else {
@@ -1152,7 +867,7 @@ void TObjEnemy::send_6x0A_enemy_state(void *state_in) {
 void handle_6x0A_update_enemy_state(Msg_800F6464 *arg0) {
     Hdr_800F6464 sp;
     u16 idx;
-    Ene_800F6464 *e;
+    TObjEnemy *e;
     ((TLobby *)arg0)->bswap_enemy_state();
     idx = arg0->f4;
     ((TLobby *)(&sp))->copy_header(&TLobby__data_805D6144[idx]);
@@ -1164,9 +879,9 @@ void handle_6x0A_update_enemy_state(Msg_800F6464 *arg0) {
         sp.w = arg0->f8;
     }
     apply_by_index__9TObjEnemyFs(idx, &sp);
-    e = ((Ene_800F6464 *)get_enemy_entity(arg0->f2));
+    e = (TObjEnemy *)get_enemy_entity(arg0->f2);
     if (e != NULL) {
-        e->m78(&sp);
+        e->apply_hit_message_flags(&sp);
     }
 }
 
@@ -1179,7 +894,7 @@ void TObjEnemy::send_6x9C_enemy_low_game_flags(s32 arg) {
 }
 
 void handle_6x9C_set_enemy_low_game_flags_ultimate(Msg_800F62E0 *arg0) {
-    Ene_800F62E0 *e;
+    TObjChara *e;
     s32 flags;
     if (arg0 == NULL) {
         return;
@@ -1194,89 +909,86 @@ void handle_6x9C_set_enemy_low_game_flags_ultimate(Msg_800F62E0 *arg0) {
     if (arg0->id >= 0x4000) {
         return;
     }
-    e = find_active_entity_by_id(arg0->id);
+    e = (TObjChara *)find_active_entity_by_id(arg0->id);
     if (e == NULL) {
         return;
     }
-    if (((TObject *)e)->all_parents_unqueued_for_destruction() == 0) {
+    if (e->all_parents_unqueued_for_destruction() == 0) {
         return;
     }
-    if (((TObjCollidable *)e)->obj_testFlags30(0x800) != 0) {
+    if (e->obj_testFlags30(0x800) != 0) {
         return;
     }
     flags = arg0->flags;
-    if (((TObjCollidable *)e)->obj_testFlags30(flags) != 0) {
+    if (e->obj_testFlags30(flags) != 0) {
         return;
     }
     obj_setFlags30(e, flags);
     switch (flags) {
     case 2:
-        e->m43();
+        e->apply_paralysis();
         break;
     case 3:
         break;
     case 4:
-        e->m47();
+        e->apply_shock_status();
         break;
     case 16:
-        e->m45();
+        e->apply_confusion_status();
         break;
     case 32:
-        e->m46(0);
+        e->apply_movement_ailment(0);
         break;
     }
 }
 
-void *__ct__11TObjControlFP7TObject(void *control) {
-    __ct__7TObjectFP7TObject(control);
-    *(s32 **)((s8 *)control + 0x18) = __vt__11TObjControl;
-    ((TObjControl *)control)->m_name = TObjControl__name;
-    ((TObjControl *)control)->m_decision_mode = 2;
-    ((TObjControl *)control)->m_reserved = 0;
-    return control;
+TObjControl::TObjControl(TObject *parent) : TObject(parent) {
+    m_name = TObjControl__name;
+    m_decision_mode = 2;
+    m_reserved = 0;
 }
 
 TObjControl::~TObjControl() {}
 
 void TObjControl::run_task() {
     s16 mode;
-    u8 *enemy;
-    u8 *control_record;
+    TObjChara *enemy;
+    ControllerInputContext *input;
 
-    enemy = (u8 *)m_down;
+    enemy = (TObjChara *)m_down;
     if (enemy == NULL) {
         queue_destruction();
         return;
     }
     if (TObjPlayer::check_demo_mode() == 0) {
-        if (((EnemyControlDispatch *)(enemy))->m31() != 0) {
-            ((TObject *)enemy)->resume_update();
-            ((EnemyControlDispatch *)(enemy))->m61();
+        if (enemy->has_flag_0x800() != 0) {
+            enemy->resume_update();
+            enemy->run_death_reaction();
             return;
         }
-        ((EnemyControlDispatch *)(enemy))->m39();
-        ((EnemyControlDispatch *)(enemy))->m40();
-        if (((EnemyControlDispatch *)(enemy))->m41() == 0) {
-            ((EnemyControlDispatch *)(enemy))->m36();
-            if ((((EnemyControlDispatch *)(enemy))->m34() != 0) || (((EnemyControlDispatch *)(enemy))->m38() != 0) || (((EnemyControlDispatch *)(enemy))->m37() != 0)) {
+        enemy->update_attack_stat_status();
+        enemy->update_defense_stat_status();
+        if (enemy->vfunc_43() == 0) {
+            enemy->update_flag30_timer();
+            if ((enemy->update_action_hold_status() != 0) || (enemy->update_shock_clock() != 0) || (enemy->update_movement_status() != 0)) {
                 submit_cursor_candidate(enemy, -1);
-                minimap_render_dot(enemy + 0x38, -0x5DB4, 1, 0);
-                ((EnemyControlDispatch *)(enemy))->m26();
-                ((TObject *)enemy)->pause_update();
+                minimap_render_dot(&enemy->position, -0x5DB4, 1, 0);
+                enemy->refresh_target();
+                enemy->pause_update();
                 return;
             }
-            ((TObject *)enemy)->resume_update();
+            enemy->resume_update();
         }
-        if (((EnemyControlDispatch *)(enemy))->m30() != 0) {
-            ((EnemyControlDispatch *)(enemy))->m60();
+        if (enemy->test_flag30_512() != 0) {
+            enemy->run_hit_reaction();
             return;
         }
-        if (((EnemyControlDispatch *)(enemy))->m29() != 0) {
-            ((EnemyControlDispatch *)(enemy))->m59();
+        if (enemy->test_flag_256() != 0) {
+            enemy->run_miss_reaction();
             return;
         }
-        if (!(*(s32 *)((s8 *)enemy + 0x30) & 0x600000)) {
-            if ((void *) *(u8 **)((s8 *)enemy + 0x314) != NULL) {
+        if (!(enemy->actorFlags & 0x600000)) {
+            if (enemy->controller_input != NULL) {
                 m_decision_mode = 0;
             } else {
                 m_decision_mode = 2;
@@ -1284,33 +996,33 @@ void TObjControl::run_task() {
             mode = m_decision_mode;
             switch (mode) {
             case 0:
-                control_record = (u8 *)(*(u8 **)((s8 *)enemy + 0x314));
-                if (*(s32 *)((s8 *)control_record + 8) & 4) {
-                    ((EnemyControlDispatch *)(enemy))->m58();
+                input = enemy->controller_input;
+                if (input->unknown_08 & 4) {
+                    enemy->run_attack_action();
                     return;
                 }
-                if (*(f32 *)((s8 *)control_record + 0x24) > 0.1f) {
-                    ((EnemyControlDispatch *)(enemy))->m57();
+                if (input->stick_magnitude > 0.1f) {
+                    enemy->run_move_action();
                     return;
                 }
-                ((EnemyControlDispatch *)(enemy))->m56();
+                enemy->run_idle_action();
                 break;
             case 1:
             case 2:
-                ((EnemyControlDispatch *)(enemy))->m26();
-                if (((EnemyControlDispatch *)(enemy))->m27() != 0) {
-                    ((EnemyControlDispatch *)(enemy))->m56();
+                enemy->refresh_target();
+                if (enemy->has_no_target() != 0) {
+                    enemy->run_idle_action();
                     return;
                 }
-                if (((EnemyControlDispatch *)(enemy))->m32() != 0) {
-                    ((EnemyControlDispatch *)(enemy))->m57();
+                if (enemy->test_flag_1000() != 0) {
+                    enemy->run_move_action();
                     return;
                 }
-                if (((EnemyControlDispatch *)(enemy))->m28() != 0) {
-                    ((EnemyControlDispatch *)(enemy))->m58();
+                if (enemy->is_target_in_attack_range() != 0) {
+                    enemy->run_attack_action();
                     return;
                 }
-                ((EnemyControlDispatch *)(enemy))->m57();
+                enemy->run_move_action();
                 break;
 
             }

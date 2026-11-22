@@ -47,7 +47,7 @@ void TObjPlayer::init_action_provider() {
     *(s16 *)&this->unk_3C0 = -1;
     *(f32 *)&this->m_3c4 = (f32) TObjPlayer__data_805DC278;
     ((TObjPlayer *)arg0)->set_battle_flag(0);
-    this->m_314 = 0;
+    this->controller_input = NULL;
     *(s32 *)&this->inventory_objects = 0;
     this->m_424 = 0;
     (*(s32 *)&this->joint_matrices) = 0;
