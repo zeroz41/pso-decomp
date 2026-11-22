@@ -31,16 +31,18 @@ struct TObjEneGibbles : public TObjEnemy {
     TObjEneGibbles(TObject *parent, void *setData);
     virtual void run_death_reaction();
     virtual ~TObjEneGibbles();
-    void sub_802D8580();
+    // the run_task mode handlers are named after the motions they request
+    // through gibbles_action_table (names inferred)
+    void state_guard();
     virtual void render();
     virtual void run_hit_reaction();
     virtual void run_task();
-    void sub_802DBC94(s32);
+    void select_model_record(s32 i);
     void update_wander();
-    void sub_802DA7A4();
-    void sub_802DA0BC();
-    void sub_802D8984();
-    void sub_802D8140();
+    void state_appear();
+    void state_chase_target();
+    void state_jump_attack();
+    void state_dead();
     virtual s32 update_action_hold_status();
     virtual s32 update_movement_status();
     virtual void run_idle_action();
@@ -102,19 +104,19 @@ struct TObjEneGibbles : public TObjEnemy {
     void turn_toward_target();
     void slam_damage_players(s32 node);
     // shakes the camera when the local player is in Gibbles' room (landing)
-    void sub_802D7A54();
+    void shake_camera_in_room();
     void sub_802D7E3C();
     void sub_802D8034();
     void render_and_get_joint_pos(Vec *out, s32 node);
-    void sub_802D8E8C();
-    void sub_802D9110();
-    s32 sub_802D9A04();
+    void state_punch();
+    void state_attack();
+    s32 landing_damage_players();
 };
 LAYOUT_ASSERT(TObjEneGibbles_size, sizeof(TObjEneGibbles) ==0x44C);
 
 void gibbles_render_node_callback(NJS_OBJECT *);
 // hit the players touching attack_colliders[0] (moved to joint 0x1F / 0x35);
-// arg 1 grows m_388 by the damage dealt
+// arg 1 grows armor by the damage dealt
 extern "C" {
 s32 TObjEneGibbles__sub_802D9644(void *self, s32 arg, f32 scale);
 s32 TObjEneGibbles__sub_802D9824(void *self, s32 arg, f32 scale);

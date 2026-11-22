@@ -126,7 +126,7 @@ s32 TObjEneGibbles__render_rotation_x;
 
 // The file is compiled -inline off,deferred, which emits the functions in the
 // reverse of the order they are written in.
-void TObjEneGibbles::sub_802DBC94(s32 i) {
+void TObjEneGibbles::select_model_record(s32 i) {
     model = TObjEneGibbles__resource_bundle->models[i].model;
     texlist = (saddr)TObjEneGibbles__resource_bundle->models[i].m_c;
 }
@@ -145,7 +145,7 @@ TObjEneGibbles::TObjEneGibbles(TObject *parent, void *setData) : TObjEnemy(paren
     variant = 0;
     set_param(0x3D);
     subtype = 0;
-    sub_802DBC94(variant);
+    select_model_record(variant);
     action_table = gibbles_action_table;
     set_field_d8((saddr)action_table);
     motion_list = TObjEneGibbles__resource_bundle->motions;
@@ -269,28 +269,28 @@ void TObjEneGibbles::run_task() {
             this->update_death_sequence();
             break;
         case 3:
-            this->sub_802DA0BC();
+            this->state_chase_target();
             break;
         case 4:
-            sub_802D9110();
+            state_attack();
             break;
         case 5:
-            sub_802D8E8C();
+            state_punch();
             break;
         case 6:
-            this->sub_802D8984();
+            this->state_jump_attack();
             break;
         case 7:
-            sub_802D8580();
+            state_guard();
             break;
         case 8:
             this->update_action_state();
             break;
         case 9:
-            this->sub_802D8140();
+            this->state_dead();
             break;
         case 10:
-            this->sub_802DA7A4();
+            this->state_appear();
             break;
         case 11:
             this->update_wander();
@@ -644,7 +644,7 @@ void TObjEneGibbles::update_wander() {
     submit_cursor_candidate(this, -1);
 }
 
-void TObjEneGibbles::sub_802DA7A4() {
+void TObjEneGibbles::state_appear() {
     this->actorFlags &= 0xFFDFFFFF;
     this->actorFlags |= 0x06040000;
     this->status_flags &= ~0x107;
@@ -782,7 +782,7 @@ void TObjEneGibbles::update_death_sequence() {
         if (is_passing_frame((this->frame_count - 1.0f) - this->play_speed) != 0) {
             this->jump_height = 0.0f;
             this->jump_speed = 0.0f;
-            switch (sub_802D9A04()) {
+            switch (landing_damage_players()) {
             case 0:
                 TObjEneGibbles__sub_800D8988(&position);
                 break;
@@ -791,7 +791,7 @@ void TObjEneGibbles::update_death_sequence() {
                 play_sound_effect(resolve_sound_id(0x3AD32), &position, 0, 0);
                 break;
             }
-            sub_802D7A54();
+            shake_camera_in_room();
             this->phase = 3;
         }
         break;
@@ -805,7 +805,7 @@ void TObjEneGibbles::update_death_sequence() {
     minimap_render_dot(&position, -0x5DB4, 1, 0);
 }
 
-void TObjEneGibbles::sub_802DA0BC() {
+void TObjEneGibbles::state_chase_target() {
     f32 d;
     s32 ok;
     this->bodies->flags |= 1;
@@ -982,7 +982,7 @@ void TObjEneGibbles::slam_damage_players(s32 node) {
 
 #pragma push
 #pragma opt_loop_invariants off
-s32 TObjEneGibbles::sub_802D9A04() {
+s32 TObjEneGibbles::landing_damage_players() {
     s32 i;
     TObjPlayer *pl;
 
@@ -1097,7 +1097,7 @@ extern "C" s32 TObjEneGibbles__sub_802D9644(void *self, s32 arg, f32 scale) {
     return done;
 }
 
-void TObjEneGibbles::sub_802D9110() {
+void TObjEneGibbles::state_attack() {
     bodies->flags |= 1;
     actorFlags &= 0xF9FBFFFF;
     u16 id = targetId;
@@ -1228,7 +1228,7 @@ void TObjEneGibbles::sub_802D9110() {
     submit_cursor_candidate(this, -1);
 }
 
-void TObjEneGibbles::sub_802D8E8C() {
+void TObjEneGibbles::state_punch() {
     TObjPlayer *p;
     u16 id;
     id = targetId;
@@ -1291,7 +1291,7 @@ void TObjEneGibbles::sub_802D8E8C() {
     minimap_render_dot(&position, -0x5DB4, 1, 0);
     submit_cursor_candidate(this, -1);
 }
-void TObjEneGibbles::sub_802D8984() {
+void TObjEneGibbles::state_jump_attack() {
     if (targetId < 0x1000) {
         TObjPlayer *p = get_player_by_client_id(targetId);
         if (p != NULL && p->get_floor() == get_current_floor()) {
@@ -1374,7 +1374,7 @@ void TObjEneGibbles::sub_802D8984() {
         if (is_passing_frame(frame_count - 1.0f - play_speed) != 0) {
             phase = 3;
             jump_height = 0.0f;
-            switch (sub_802D9A04()) {
+            switch (landing_damage_players()) {
             case 0:
                 TObjEneGibbles__sub_800D8988(&position);
                 break;
@@ -1387,7 +1387,7 @@ void TObjEneGibbles::sub_802D8984() {
             bodies->flags |= 1;
             status_flags &= ~0x10;
             requested_action = 6;
-            sub_802D7A54();
+            shake_camera_in_room();
         }
         break;
     case 3:
@@ -1451,7 +1451,7 @@ void TObjEneGibbles::run_miss_reaction() {
 
 #pragma push
 #pragma fp_contract on
-void TObjEneGibbles::sub_802D8580() {
+void TObjEneGibbles::state_guard() {
     this->advance_animation();
     this->clamp_angle(0);
     if (!(this->actorFlags & 0x800000)) {
@@ -1581,7 +1581,7 @@ void TObjEneGibbles::run_death_reaction() {
     }
 }
 
-void TObjEneGibbles::sub_802D8140() {
+void TObjEneGibbles::state_dead() {
     Vec point;
     switch (this->phase) {
     case 0:
@@ -1788,7 +1788,7 @@ s32 TObjEneGibbles::spawn_ground_impact_effects(const Vec *pos, f32 scale) {
     return 0;
 }
 
-void TObjEneGibbles::sub_802D7A54() {
+void TObjEneGibbles::shake_camera_in_room() {
     s16 t;
     s16 u;
     TObjPlayer *r;
