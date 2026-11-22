@@ -31,12 +31,9 @@
 
 
 
-extern "C" {
-s32 post_translate_matrix(void *);
-void draw_model_motion(void *model, void *motion, f32 frame);
-
-
-}
+#include "pso/system/MatrixStack.h"
+#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
 #include "pso/unk/SampledMotionPoints.h"
 
@@ -61,9 +58,6 @@ void draw_model_motion(void *model, void *motion, f32 frame);
 #include "pso/player/TUnk_804928CC.h"
 #include "pso/render/TUnk_80490470.h"
 
-extern "C" {
-s32 free_collision_body_parts(void *);
-}
 void bringer_render_node_callback(NJS_OBJECT *);
 extern "C" {
 void *bringer_init_params[7] = {
@@ -187,7 +181,6 @@ struct Pair_800993E8 { f32 a; u32 flags; };
 
 extern "C" {
 s32 rotate_xz_pair_by_angle(f32 *, f32 *, s32, f32, f32);
-void check_enemy_body_collisions(void *arg0);
 }
 
 
@@ -1036,7 +1029,7 @@ void TObjEneDf2Bringer::sub_80097E9C(s32 mode) {
             if (points != NULL) {
                 push_matrix();
                 set_matrix_identity(0);
-                post_translate_matrix(&position);
+                post_translate_matrix(&position.x);
                 rotate_matrix_y(0, rotation_y);
                 matrix_mult_vec(0, &points[2], &edge[0]);
                 matrix_mult_vec(0, &points[0], &edge[1]);
@@ -1393,7 +1386,7 @@ void TObjEneDf2Bringer::render() {
         }
         if (show != 0) {
             push_matrix();
-            post_translate_matrix(&position);
+            post_translate_matrix(&position.x);
             rotate_matrix_y(0, rotation_y);
             set_chunk_model_node_callback(bringer_render_node_callback);
             set_motion_packed_rotation();
@@ -1437,7 +1430,7 @@ void TObjEneDf2Bringer::render_demo() {
         TObjPlayer::toggle_particle_effect();
         TObjFish::set_global_param(texlist);
         push_matrix();
-        post_translate_matrix(&position);
+        post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         i = (s32)parameters[0];
         if (i < 0) {
