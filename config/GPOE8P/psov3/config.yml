@@ -7768,9 +7768,9 @@ force_active:
   - bm_modelparticle_gryphon_motion_names
   - bm_boss5_gryphon_model_names
   - bm_boss5_gryphon_motion_names
-  - lbl_8048802C
-  - lbl_804880AC
-  - lbl_804880B8
+  - boss5_gryphon_landing_bezier_points
+  - gryphon_left_horn_lightning_offset
+  - gryphon_right_horn_lightning_offset
   - lbl_80488A8C
   - lbl_80488AC0
   - lbl_8048D0B0
@@ -8344,7 +8344,7 @@ force_active:
   - boss1_dragon_fall_accel
   - lbl_805D4B90
   - lbl_805D4BE4
-  - lbl_805D4DC0
+  - boss5_gryphon_camera_player_distance
   - lbl_805D4EE0
   - TObjEneDarkGunner__base_params_by_variant
   - TObjEneDarkGunner__attack_params_by_variant
@@ -8557,32 +8557,32 @@ force_active:
   - gryphon_point_two
   - gryphon_roar_frame
   - gryphon_seventy_five
-  - lbl_805D8DC0
-  - lbl_805D8DC4
-  - lbl_805D8DC8
+  - gryphon_thirty_two_and_half
+  - gryphon_offscreen_drop
+  - gryphon_arena_radius_sq
   - gryphon_four
   - gryphon_fifty
-  - lbl_805D8DD4
-  - lbl_805D8DD8
+  - gryphon_three_hundred_sixty
+  - gryphon_three_quarter_turn
   - gryphon_seven
-  - lbl_805D8DE0
+  - gryphon_dive_roll_scale
   - gryphon_seventeen
-  - lbl_805D8DE8
-  - lbl_805D8DEC
+  - gryphon_point_two_eight
+  - gryphon_flight_height
   - gryphon_sixty
   - gryphon_twenty_five
   - gryphon_five
   - gryphon_nineteen
   - gryphon_fifteen
   - gryphon_three_quarters
-  - lbl_805D8E08
+  - gryphon_point_eight_six
   - gryphon_eleven
   - gryphon_ten
   - gryphon_nine
-  - lbl_805D8E18
-  - lbl_805D8E1C
+  - gryphon_two_point_three
+  - gryphon_nineteen_and_half
   - gryphon_sixty_seven
-  - lbl_805D8E24
+  - gryphon_eighty_one_and_half
   - lbl_805D9D70
   - lbl_805D9D88
   - lbl_805D9D90
