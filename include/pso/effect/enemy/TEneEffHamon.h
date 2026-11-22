@@ -3,21 +3,33 @@
 
 #include "pso/system/task/TObject.h"
 #include "types.h"
+#include "pso/system/NinjaTypes.h"
+#include <dolphin/mtx/GeoTypes.h>
 
+// One ripple ring of the Dark Gunner (spawn_hamon_effects): the fish model,
+// grown by scale_rate and faded by alpha_rate each frame once delay runs out.
 class TEneEffHamon : public TObject {
 public:
+    TEneEffHamon(const Vec *position, s32 duration, s32 delay, f32 size);
     virtual ~TEneEffHamon();
-    virtual void render();
     virtual void run_task();
-public:
+    virtual void render();
     static void init_fish_effects();
-};
+    // Empty; DarkGunner's cleanup_effects calls it after freeing its
+    // resources (inferred: the release counterpart of init_fish_effects).
+    static void sub_800A380C();
 
-extern "C" {
-void TEneEffHamon__sub_800A380C(void);
-u8 *__ct__12TEneEffHamonFv(u8 *arg0, saddr arg1, s32 arg2, s32 arg3, f32 farg0);
-void init_fish_effects__12TEneEffHamonFv(void);
-void run_task__12TEneEffHamonFv(u8 *arg0);
-}
+    Vec position;
+    s32 rotation_x;
+    s32 rotation_y;
+    s32 rotation_z;
+    f32 scale;
+    u8 pad_38[0x8];
+    f32 size;
+    f32 scale_rate;  // 1 / duration
+    f32 alpha_rate;  // -0.9 / duration
+    s32 delay;       // frames before it starts
+    NJS_ARGB color;
+};
 
 #endif

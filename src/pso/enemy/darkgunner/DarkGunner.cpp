@@ -439,7 +439,7 @@ void TObjEneDarkGunner::cleanup_effects() {
         TObjEneDarkGunner__effect_resource = 0U;
     }
     TObjPlayer::reset_effect_count();
-    TEneEffHamon__sub_800A380C();
+    TEneEffHamon::sub_800A380C();
 }
 
 void *TObjEneDarkGunner::create(void *set_data) {
@@ -1002,15 +1002,11 @@ void TObjEneDarkGunner::spawn_hamon_effects(s32 type, s32 variant, f32 scale) {
     Vec p;
     Ofs_800A1814 ofs = hamon_effect_offset_table;
     s32 i;
-    void *e;
     p.y = 0.01f + (position.y + render_y_offset);
     for (i = 0; i < 4; i++) {
         p.x = position.x + ofs.v[i].x;
         p.z = position.z + ofs.v[i].z;
-        e = TObject::operator new(0x60);
-        if (e != NULL) {
-            __ct__12TEneEffHamonFv((u8 *)e, (saddr)&p, type, variant, scale);
-        }
+        new TEneEffHamon(&p, type, variant, scale);
     }
 }
 }

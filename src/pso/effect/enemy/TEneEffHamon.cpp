@@ -23,27 +23,9 @@
 
 #pragma readonly_strings on
 
-struct RecoveredGlobal_800A38A4___vt__12TEneEffHamon {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-typedef struct Hamon_800A36A8 {
-    u8 pad0[0x1C];
-    u8 mtx1C[0x34 - 0x1C];
-    f32 scale;
-    u8 pad38[0x40 - 0x38];
-    f32 f40;
-    u8 pad44[0x4C - 0x44];
-    s32 delay;
-    u8 color50[0x10];
-} Hamon_800A36A8;
-
 typedef struct Cam_800A3D1C { u8 pad0[8]; f32 cx; f32 cy; u8 pad10[8]; f32 sw; f32 aspect; } Cam_800A3D1C;
 
 extern "C" {
-void __ct__7TObjectFP7TObject(void *, void *);
-extern RecoveredGlobal_800A38A4___vt__12TEneEffHamon __vt__12TEneEffHamon;
 const char *TEneEffHamon__name = "TEneEffHamon";
 s32 post_translate_matrix(void *);
 extern u8 chunk_material_color_half_alpha_f32[];
@@ -57,11 +39,11 @@ extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
-void render__12TEneEffHamonFv(Hamon_800A36A8 *o);
+}
 
-void render__12TEneEffHamonFv(Hamon_800A36A8 *o) {
+void TEneEffHamon::render() {
     f32 s;
-    if (o->delay > 0) {
+    if (delay > 0) {
         return;
     }
     saved_model_render_flags = model_render_flags;
@@ -71,10 +53,10 @@ void render__12TEneEffHamonFv(Hamon_800A36A8 *o) {
     model_render_flags |= 0x810;
     set_chunk_material_override_pair(0xFFFF00FF, 0x800);
     TObjFish::set_global_param(TEneEffHamon__fish_effect_param);
-    set_constant_material((const NJS_ARGB *)(((f32 *)o->color50)));
+    set_constant_material(&color);
     push_matrix();
-    post_translate_matrix(o->mtx1C);
-    s = o->f40 * o->scale;
+    post_translate_matrix(&position);
+    s = size * scale;
     scale_matrix(0, s, s, s);
     draw_chunk_object((void *)TEneEffHamon__fish_model);
     pop_matrix();
@@ -85,48 +67,41 @@ void render__12TEneEffHamonFv(Hamon_800A36A8 *o) {
     model_render_flags = saved_model_render_flags;
 }
 
-void run_task__12TEneEffHamonFv(u8 *arg0) {
-    s32 temp_r4;
-    temp_r4 = *(s32 *)((s8 *)arg0 + 0x4C);
-    if (temp_r4 > 0) {
-        *(s32 *)((s8 *)arg0 + 0x4C) = (temp_r4 - 1);
+void TEneEffHamon::run_task() {
+    s32 frames;
+    frames = delay;
+    if (frames > 0) {
+        delay = (frames - 1);
         return;
     }
-    *(f32 *)((s8 *)arg0 + 0x34) = (f32) (*(f32 *)((s8 *)arg0 + 0x34) + *(f32 *)((s8 *)arg0 + 0x44));
-    *(f32 *)((s8 *)arg0 + 0x50) = (f32) (*(f32 *)((s8 *)arg0 + 0x50) + *(f32 *)((s8 *)arg0 + 0x48));
-    if (*(f32 *)((s8 *)arg0 + 0x50) <= 0.0f) {
-        ((TObject *)arg0)->queue_destruction();
+    scale = (f32) (scale + scale_rate);
+    color.a = (f32) (color.a + alpha_rate);
+    if (color.a <= 0.0f) {
+        queue_destruction();
     }
 }
 
-void TEneEffHamon__sub_800A380C(void) {  }
+void TEneEffHamon::sub_800A380C() {  }
 
-    extern BmlResource *TObjEneDarkGunner__bml_resource;
+extern BmlResource *TObjEneDarkGunner__bml_resource;
 void TEneEffHamon::init_fish_effects() { TEneEffHamon__fish_model = (saddr)get_bml_model((BmlResource *)TObjEneDarkGunner__bml_resource, 3); TEneEffHamon__fish_effect_param = (saddr)get_bml_texlist((BmlResource *)TObjEneDarkGunner__bml_resource, 3); }
-
-}
 
 TEneEffHamon::~TEneEffHamon() {}
 
-u8 *__ct__12TEneEffHamonFv(u8 *object, saddr arg1, s32 arg2, s32 arg3, f32 farg0) {
-    __ct__7TObjectFP7TObject((void *)object, tl_06);
-    *(s32 **)((s8 *)object + 0x18) = &__vt__12TEneEffHamon.value;
-    ((TEneEffHamon *)object)->m_name = TEneEffHamon__name;
-    *(s32 *)((s8 *)object + 0x30) = 0;
-    *(s32 *)((s8 *)object + 0x2C) = 0;
-    *(s32 *)((s8 *)object + 0x28) = 0;
-    *(f32 *)((s8 *)object + 0x34) = 1.0f;
-    VecCopy((Vec *)(object + 0x1C), (const Vec *)(arg1));
-    *(f32 *)((s8 *)object + 0x40) = farg0;
-    *(f32 *)((s8 *)object + 0x50) = 0.9f;
-    *(f32 *)((s8 *)object + 0x54) = 1.0f;
-    *(f32 *)((s8 *)object + 0x58) = 1.0f;
-    *(f32 *)((s8 *)object + 0x5C) = 1.0f;
-    *(s32 *)((s8 *)object + 0x4C) = arg3;
-    if (arg2 <= 0) {
-        arg2 = 1;
+TEneEffHamon::TEneEffHamon(const Vec *position, s32 duration, s32 delay, f32 size) : TObject(tl_06) {
+    m_name = TEneEffHamon__name;
+    rotation_x = rotation_y = rotation_z = 0;
+    scale = 1.0f;
+    VecCopy(&this->position, position);
+    this->size = size;
+    color.a = 0.9f;
+    color.r = 1.0f;
+    color.g = 1.0f;
+    color.b = 1.0f;
+    this->delay = delay;
+    if (duration <= 0) {
+        duration = 1;
     }
-    *(f32 *)((s8 *)object + 0x44) = (f32) (1.0f / (f32) arg2);
-    *(f32 *)((s8 *)object + 0x48) = (f32) (-0.9f / (f32) arg2);
-    return object;
+    scale_rate = (f32) (1.0f / (f32) duration);
+    alpha_rate = (f32) (-0.9f / (f32) duration);
 }
