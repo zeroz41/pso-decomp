@@ -380,7 +380,7 @@ void TObjEneMe1GiGue::render() {
     }
     saved_model_render_flags = model_render_flags;
     if (cameraFade.updateFromCamera(&body_center.x) != 0) {
-        ((MaterialColorFade *)&cameraFade)->set_flags_and_apply_damage_color();
+        cameraFade.set_flags_and_apply_damage_color();
         if (defer_render() != 0) {
             model_render_flags = saved_model_render_flags;
             return;
@@ -397,8 +397,8 @@ void TObjEneMe1GiGue::render() {
     if (TObjPlayer::check_demo_mode() == 1) {
         draw_chunk_object(model);
     } else if (m_388 & 4) {
-        if (((MaterialColorFade *)&appearFade)->has_visible_opacity() != 0) {
-            ((MaterialColorFade *)&appearFade)->set_flags_and_apply_damage_color();
+        if (appearFade.has_visible_opacity() != 0) {
+            appearFade.set_flags_and_apply_damage_color();
             if (vis == 1) {
                 set_motion_packed_rotation();
                 draw();
@@ -408,7 +408,7 @@ void TObjEneMe1GiGue::render() {
                 draw_motion_model();
                 clear_motion_packed_rotation();
             }
-            ((MaterialColorFade *)&appearFade)->clear_flag_and_notify();
+            appearFade.clear_flag_and_notify();
         } else {
             ok = 0;
         }
@@ -431,7 +431,7 @@ void TObjEneMe1GiGue::render() {
         v.x = v.y = v.z = (1.0f - 0.01f * flightHeight) * (5.0f * scale.x);
         draw_ground_shadow(&v, 0);
     }
-    ((MaterialColorFade *)&cameraFade)->clear_flag_and_notify();
+    cameraFade.clear_flag_and_notify();
     model_render_flags = saved_model_render_flags;
 }
 
@@ -1147,7 +1147,7 @@ void TObjEneMe1GiGue::init() {
         state = 1;
     case 1:
         advance_animation();
-        if (((TUnk_80494938 *)&appearFade)->advance_toward_max() == 1) {
+        if (appearFade.advance_toward_max() == 1) {
             state = -1;
             play_sound_effect(TObjEneMe1GiGue::remap_sound_id(this, 0x3A345), &position, 0, 0);
         }
