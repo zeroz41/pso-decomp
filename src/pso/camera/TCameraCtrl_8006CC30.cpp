@@ -214,7 +214,6 @@ Vec follow_camera_offset_default[2] = {
     { 0.0f, 0.0f, 0.0f },
 };
 extern "C" {
-void get_camera_offsets__12TBoss8DragonFPvPv(Vec *, Vec *);
 s32 approach_angle_limited(s32, s32, s32);
 s32 check_flag_100__10TObjPlayerFPv(void *);
 void *TCameraCtrl__vt0(void);
@@ -622,7 +621,7 @@ void TUnk_80488E00::select_follow_camera_offsets() {
     } else if (area == AREA_GOL_DRAGON) {
         Vec b;
         Vec a;
-        get_camera_offsets__12TBoss8DragonFPvPv(&a, &b);
+        TBoss8Dragon::get_camera_offsets(&a, &b);
         request_follow_camera_offsets(&a, &b, 0xFFFF);
     } else {
         if (!(arg0->flags & 8)) {

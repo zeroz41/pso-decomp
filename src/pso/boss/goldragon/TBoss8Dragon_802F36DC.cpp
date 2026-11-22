@@ -8,7 +8,7 @@ u32 get_enemy_entity();
 
 extern uaddr boss8_dragon_leader_part;
 
-bool TBoss8Dragon::has_enough_enemies() {
+s32 TBoss8Dragon::has_enough_enemies() {
     s32 i;
     s32 count;
 
@@ -27,7 +27,7 @@ bool TBoss8Dragon::has_enough_enemies() {
         }
         i += 1;
     } while (i < 6);
-    return count >= 3;
+    return (count >= 3) ? 1 : 0;
 }
 
 }

@@ -6,7 +6,6 @@
 
 extern "C" {
 
-s32 eval_bezier_curve__12TBoss8DragonFPviiPvf(void *, int, int, void *, f32);
 int VecCopy__FP3VecPC3Vec(s32, s32, s32);
 
 void TBoss5GryphonLightningWing::copy_position(void *out) {
@@ -15,8 +14,8 @@ void TBoss5GryphonLightningWing::copy_position(void *out) {
 }
 
 void TBoss5GryphonLightningWing::update_wing_segments() {
-    eval_bezier_curve__12TBoss8DragonFPviiPvf(this->segments, this->segment_count, 0, &this->start, this->life_progress);
-    eval_bezier_curve__12TBoss8DragonFPviiPvf(this->segments, this->segment_count, 0, &this->end, this->grow_progress);
+    TBoss8Dragon::eval_bezier_curve(this->segments, this->segment_count, 0, &this->start, this->life_progress);
+    TBoss8Dragon::eval_bezier_curve(this->segments, this->segment_count, 0, &this->end, this->grow_progress);
     if (this->effects[0] != 0) {
         this->effects[0]->set_position(&this->start);
     }

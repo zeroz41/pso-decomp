@@ -2569,7 +2569,6 @@ void TBoss5Gryphon::fn_800610D0(s32 event) {
     }
 }
 
-s32 eval_bezier_curve__12TBoss8DragonFPviiPvf(void *, s32, s32, void *, f32);
 extern const f32 lbl_805D8E38;
 extern const f32 lbl_805D8E18;
 extern const f32 lbl_805D8E1C;
@@ -2680,7 +2679,7 @@ void TBoss5Gryphon::handle_descend_state(s32 arg1) {
         switch (*(s32 *)((s8 *)self + 0x6DC)) {
         case 0:
             move_along_angle(lbl_805D8E38, self->rotation_y);
-            eval_bezier_curve__12TBoss8DragonFPviiPvf(boss5_gryphon_descend_bezier_points, 4, 0, &out, ((TObjEneDD_ST *)self)->get_motion_frame() / lbl_805D8DE4);
+            TBoss8Dragon::eval_bezier_curve(boss5_gryphon_descend_bezier_points, 4, 0, &out, ((TObjEneDD_ST *)self)->get_motion_frame() / lbl_805D8DE4);
             *(f32 *)((s8 *)self + 0x3C) = out.y;
             if (((TObjMotion *)self)->is_passing_frame((f32)lbl_805D8DE4) != 0) {
                 ((TBoss5Gryphon *)self)->enter_ground_mode();
@@ -2895,7 +2894,7 @@ void TBoss5Gryphon::update_bezier_descent(s32 event) {
         switch (self->m_6dc) {
         case 0:
             move_along_angle(lbl_805D8E38, self->rotation_y);
-            eval_bezier_curve__12TBoss8DragonFPviiPvf(lbl_8048802C, 4, 0, &out, self->get_motion_frame() / 20.0f);
+            TBoss8Dragon::eval_bezier_curve(lbl_8048802C, 4, 0, &out, self->get_motion_frame() / 20.0f);
             self->position.y = out.y;
             if (((TObjMotion *)self)->is_passing_frame(20.0f) != 0) {
                 ((TBoss5Gryphon *)self)->enter_ground_mode();

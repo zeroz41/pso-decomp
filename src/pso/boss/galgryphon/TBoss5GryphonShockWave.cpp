@@ -5,6 +5,7 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/boss/galgryphon/TBoss5Gryphon.h"
+#include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8005D700.h"
 #include "pso/boss/galgryphon/TBoss5GryphonShockWave.h"
 #include "pso/boss/galgryphon/Boss5GryphonBehavior.h"
@@ -26,7 +27,6 @@ extern "C" {
 const s32 *gryphon_shockwave_particle_ids_ptr;
 
 u32 spawn_continuous_particle_effect_with_flags(void *, s32, s32);
-s32 eval_bezier_curve__12TBoss8DragonFPviiPvf(void *, s32, s32, void *, f32);
 s32 vec3_add_to(void *, s32);
 s32 subtract_vector(void *, void *);
 
@@ -46,7 +46,7 @@ void TBoss5GryphonShockWave::run_task() {
     case 0:
         *(s32 *)&this->m_1c = 1;
     case 1:
-        eval_bezier_curve__12TBoss8DragonFPviiPvf((u8 *)&this->m_40, 3, 0, (u8 *)&this->m_2c, (f32) *(s32 *)&this->m_20 / (f32) *(s32 *)&this->m_24);
+        TBoss8Dragon::eval_bezier_curve((u8 *)&this->m_40, 3, 0, (u8 *)&this->m_2c, (f32) *(s32 *)&this->m_20 / (f32) *(s32 *)&this->m_24);
         if ((u32) this->m_3c == 0U) {
             this->m_3c = spawn_continuous_particle_effect_with_flags((u8 *)&this->m_2c, gryphon_shockwave_particle_ids_ptr[0], 0x40);
         }
