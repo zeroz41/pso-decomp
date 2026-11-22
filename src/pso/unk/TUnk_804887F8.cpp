@@ -2,7 +2,7 @@
 #include "pso/camera/TCameraController.h"
 #include "pso/system/vector.h"
 #include "pso/unk/TUnk_804887F8.h"
-#include "pso/unk/TUnk_80488E00.h"
+#include "pso/camera/TCameraFollow.h"
 #include <stddef.h>
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
@@ -23,7 +23,7 @@ s16 get_entity_id(u32);
 void TCameraController::set_target(uaddr arg1) {
     *(u32 *)((s8 *)this + 0x1C) = arg1;
     if (arg1 != 0U) {
-        this->m_20 = get_entity_id(arg1);
+        this->actor_id = get_entity_id(arg1);
     }
 }
 
@@ -91,20 +91,20 @@ void TUnk_804887F8::update_target_follow() {
 void TUnk_804887F8::update_follow_flags() {
     u8 *arg0 = (u8 *)this;
     Vec stack;
-    this->m_38 = 0x15;
-    this->m_58 = 1.65f;
+    this->flags = 0x15;
+    this->eye_rate = 1.65f;
     stack.x = *(f32 *)((s8 *)camera_ctrl_instance + 0x184) - this->target.x;
     stack.y = *(f32 *)((s8 *)camera_ctrl_instance + 0x188) - this->target.y;
     stack.z = *(f32 *)((s8 *)camera_ctrl_instance + 0x18C) - *(f32 *)((s8 *)arg0 + 0x50);
     *(f32 *)((s8 *)arg0 + 0x5C) = (f32) ((0.7f * vector_length(&stack.x)) / 100.0f);
-    if (((TUnk_80488E00 *)arg0)->predict_obstruction() != 0) {
-        this->m_fc = (s32) (this->m_fc | 1);
+    if (((TCameraFollow *)arg0)->predict_obstruction() != 0) {
+        this->follow_flags = (s32) (this->follow_flags | 1);
     } else {
-        this->m_fc = (s32) (this->m_fc & 0xFFFFFFFE);
+        this->follow_flags = (s32) (this->follow_flags & 0xFFFFFFFE);
     }
-    this->m_e8 = 0.0f;
+    this->target_offset.x = 0.0f;
     *(f32 *)((s8 *)arg0 + 0xEC) = 19.8f;
-    this->m_f0 = -5.0f;
+    this->target_offset.z = -5.0f;
     VecCopy((Vec *)(arg0 + 0xDC), &camera_ctrl_default_offset_vecs[0]);
 }
 
@@ -117,24 +117,24 @@ void *TCameraCtrl__vt12(void) {
 extern u8 controller_input_state[];
 
 void TUnk_804887F8::run_task() {
-    m_38 = 0x15;
+    flags = 0x15;
     if (test_previous_buttons_packed(controller_input_state + 0x20, 0x10000) != 0) {
-        TUnk_80488E00::run_task();
+        TCameraFollow::run_task();
     } else {
         update_target_follow();
     }
-    m_38 = (s32) (m_38 | 0x10);
+    flags = (s32) (flags | 0x10);
 }
 
 TUnk_804887F8::~TUnk_804887F8() {}
 
 TUnk_804887F8::TUnk_804887F8() {
-    m_38 = 21;
-    m_58 = 0.65f;
+    flags = 21;
+    eye_rate = 0.65f;
     m_114 = 0;
     m_110 = 0;
 }
 
-void TUnk_80488E00::vfunc_14(s32 v) { this->m_10c = v; }
+void TCameraFollow::set_target_yaw(s32 v) { this->target_yaw = v; }
 
 }

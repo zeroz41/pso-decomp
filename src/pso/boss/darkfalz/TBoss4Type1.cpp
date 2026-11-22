@@ -58,7 +58,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/camera/TCameraCtrl_8006CC30.h"
+#include "pso/camera/TCameraFollow.h"
 #include "pso/boss/darkfalz/TObjDFJisin.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"

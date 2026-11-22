@@ -119,7 +119,6 @@ struct TCameraCtrl : public TObject {
     static void set_override_position_and_angle(u8 *arg0, s16 arg1);
     static void set_fixed_position_and_target(u8 *arg0, u8 *arg1);
     static void set_active_camera_flag();
-    void set_field_100(s32 v);
     static s32 get_screen_width();
     static s32 get_screen_height();
     static s32 should_update();

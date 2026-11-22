@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/TUnk_80488DA0.h"
-#include "pso/camera/TCameraCtrl_80067FC0.h"
+#include "pso/camera/TCameraController.h"
 #include "pso/camera/TCameraCtrl_8006C8E4.h"
 #include "pso/system/vector.h"
 
@@ -103,7 +103,7 @@ TUnk_80488DA0::~TUnk_80488DA0() {
 
 TUnk_80488DA0::TUnk_80488DA0() : TCameraController() {
     *(float*)((char*)this + 0x6c) = (2e+01f);
-    this->m_38 = 0;
+    this->flags = 0;
 }
 
 struct O_8006CC7C { u8 pad[0x1c]; Vec pos; };

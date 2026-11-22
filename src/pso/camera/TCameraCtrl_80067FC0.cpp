@@ -1,78 +1,40 @@
 #include "types.h"
 #include "pso/camera/TCameraController.h"
-#include "pso/camera/TCameraCtrl_80067FC0.h"
-#include "pso/unk/TLobby_801E2F94.h"
-#include "pso/system/vector.h"
-#include "pso/unk/TUnk_80488838.h"
-
-#include "pso/unk/TUnk_80488DA0.h"
-#include "pso/unk/TUnk_80488E00.h"
+#include "pso/camera/TCameraFollow.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/system/MatrixStack.h"
+#include "pso/camera/TCameraCtrl_803D6538.h"
+#include "pso/map/CsnQuery.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/system/vector.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/unk/TLobby_801E2F94.h"
+#include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/camera/CameraView.h"
 
-
-struct View_8006835C {
-    u8 pad0[0x178];
-    Vec pos;
-    Vec target;
-    u8 f190[4];
-    u8 f194[4];
+// TCameraCtrl__data_804FF634 as these functions read it.
+struct CameraViewport {
+    u8 pad_0[8];
+    f32 x;
+    f32 y;
+    u8 pad_10[0x30 - 0x10];
+    u8 scissor[4];
 };
 
-struct Flags_8006835C { u8 pad0[8]; u32 flags; };
-
-struct Scissor_8006835C { u8 pad0[8]; f32 x; f32 y; u8 pad10[0x30 - 0x10]; u8 f30[4]; };
-
-struct View_80068530 {
-    u8 pad0[0xD4];
-    Vec eye[4];
-    Vec look[4];
-    u8 pad134[0x178 - 0x134];
-    Vec pos;
-    Vec target;
-    u8 pad190[0x19C - 0x190];
-    s32 f19c;
-    Vec curPos;
-    Vec curTarget;
-    f32 f1b8;
-    f32 f1bc;
-};
-
-struct Cam_80068530 {
-    u8 pad0[0x3C];
-    Vec pos;
-    Vec target;
-    s32 f54;
-    f32 f58;
-    f32 f5c;
-};
-
-struct Obj_8006809C { u8 pad0[0x38]; f32 x; f32 y; f32 z; u8 pad44[0x60 - 0x44]; s32 angle; };
-
-struct Hit_8006809C { u8 pad0[4]; void *pos; };
-
-struct Cam_8006809C { u8 pad0[0x1C]; Obj_8006809C *obj; u8 pad20[0x60 - 0x20]; Vec out; };
-
-void direction_to_pitch_yaw(u8 *arg0, s32 *arg1, s32 *arg2);
-extern "C" {
-void GXSetScissorBoxOffset(s32, s32);
-extern Vec lbl_804FF5E8;
-extern Flags_8006835C TCameraCtrl__view_state;
-extern Scissor_8006835C TCameraCtrl__data_804FF634;
+extern CameraViewport TCameraCtrl__data_804FF634;
 extern u8 TCameraCtrl__up_vector[];
-extern View_8006835C *camera_ctrl_instance;
-void apply_camera_controller_pose(Cam_80068530 *arg0);
-s32 is_split_screen();
-f32 fabs_float();
-Hit_8006809C *csnVector(void *, void *, s32);
-}
-const Vec lbl_80438168 = {0.0f, 0.0f, -1.0f};
-const Vec lbl_80438174 = {0.0f, 0.0f, -1.0f};
+
+// <dolphin/gx/GXTransform.h> pulls in MSL's sqrt statics, which this object does not have.
+extern "C" void GXSetScissorBoxOffset(s32 x_off, s32 y_off);
+
+// Defined in TCameraCtrl_8006BCD8.cpp, which has no header.
+void direction_to_pitch_yaw(u8 *dir, s32 *pitch, s32 *yaw);
+
+static const Vec camera_forward_axis = {0.0f, 0.0f, -1.0f};
+static const Vec actor_forward_axis = {0.0f, 0.0f, -1.0f};
 
 static FollowCameraInitPose follow_camera_init_poses[4][3] = {
     {
@@ -103,45 +65,43 @@ FollowCameraInitPose *follow_camera_init_pose_table[4] = {
     follow_camera_init_poses[2],
     follow_camera_init_poses[3],
 };
-extern u8 identity_matrix[];
-void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
 
 #pragma push
 #pragma fp_contract on
-s32 TUnk_80488E00::predict_obstruction() {
-    Cam_8006809C *self = (Cam_8006809C *)this;
+// Probes from the eye towards where the actor is heading; on a hit, keeps the point
+// (pulled back 2 units) in obstruction_point.
+s32 TCameraController::predict_obstruction() {
     Vec dir;
     Vec probe;
-    Vec d;
-    Vec *tgt;
+    Vec moved;
+    Vec *prev;
     Vec *pos;
-    Vec *a;
-    Vec *b;
-    Hit_8006809C *hit;
+    Vec *eye;
+    Vec *look;
+    CsnHit *hit;
     f32 dist;
-    if (self->obj == NULL) {
+    if (this->actor == NULL) {
         return 0;
     }
-    tgt = (Vec *)((TCameraCtrl *)self->obj)->get_target_ptr();
-    pos = (Vec *)((TObjPlayer *)self->obj)->get_position_ptr();
-    d.x = pos->x - tgt->x;
-    d.y = pos->y - tgt->y;
-    d.z = pos->z - tgt->z;
-    dist = vector_length(&d);
+    prev = (Vec *)((TCameraCtrl *)this->actor)->get_target_ptr();
+    pos = (Vec *)this->actor->get_position_ptr();
+    moved.x = pos->x - prev->x;
+    moved.y = pos->y - prev->y;
+    moved.z = pos->z - prev->z;
+    dist = vector_length(&moved);
     if (dist < 1.0f) {
-        Vec v1 = lbl_80438168;
-        Vec v2 = lbl_80438174;
+        Vec camera_dir = camera_forward_axis;
+        Vec actor_dir = actor_forward_axis;
         push_matrix_from(identity_matrix);
-        rotate_matrix_y(0, *(s32 *) camera_ctrl_instance->f194);
-        matrix_mult_vec(0, &v1, &v1);
+        rotate_matrix_y(0, camera_ctrl_instance->yaw);
+        matrix_mult_vec(0, &camera_dir, &camera_dir);
         pop_matrices(1);
-        v1.y = 0.0f;
+        camera_dir.y = 0.0f;
         push_matrix_from(identity_matrix);
-        rotate_matrix_y(0, self->obj->angle);
-        matrix_mult_vec(0, &v2, &v2);
+        rotate_matrix_y(0, this->actor->rotation_y);
+        matrix_mult_vec(0, &actor_dir, &actor_dir);
         pop_matrices(1);
-        vec3_dot(&v1, &v2);
-        if (fabs_float() > 0.25f) {
+        if (fabs_float(vec3_dot(&camera_dir, &actor_dir)) > 0.25f) {
             dist = 0.0f;
         } else {
             dist *= 13.0f;
@@ -151,130 +111,130 @@ s32 TUnk_80488E00::predict_obstruction() {
     }
     if (is_split_screen() != 0) {
         s32 mode = TCameraCtrl::get_camera_mode();
-        View_80068530 *v = (View_80068530 *) camera_ctrl_instance;
-        a = &v->eye[mode];
-        b = &v->look[mode];
-        probe.y = v->look[mode].y;
+        CameraView *view = camera_ctrl_instance;
+        eye = &view->split_pos[mode];
+        look = &view->split_tgt[mode];
+        probe.y = view->split_tgt[mode].y;
     } else {
-        a = &camera_ctrl_instance->pos;
-        b = &camera_ctrl_instance->target;
-        probe.y = camera_ctrl_instance->target.y;
+        eye = &camera_ctrl_instance->pos;
+        look = &camera_ctrl_instance->tgt;
+        probe.y = camera_ctrl_instance->tgt.y;
     }
-    dir.x = a->x - b->x;
-    dir.y = a->y - b->y;
-    dir.z = a->z - b->z;
+    dir.x = eye->x - look->x;
+    dir.y = eye->y - look->y;
+    dir.z = eye->z - look->z;
     if (0.0f != vector_length(&dir)) {
         normalize_vector(&dir);
     }
-    probe.x = dist * dir.x + self->obj->x;
-    probe.z = dist * dir.z + self->obj->z;
+    probe.x = dist * dir.x + this->actor->position.x;
+    probe.z = dist * dir.z + this->actor->position.z;
     if (camera_ctrl_instance == NULL) {
         return 0;
     }
-    hit = csnVector(a, &probe, 0x100);
+    hit = csnVector(eye, &probe, 0x100);
     if (hit != NULL) {
-        VecCopy((Vec *)&self->out, (const Vec *)hit->pos);
-        self->out.x -= 2.0f * dir.x;
-        self->out.y -= 2.0f * dir.y;
-        self->out.z -= 2.0f * dir.z;
+        VecCopy(&this->obstruction_point, &hit->contact->point);
+        this->obstruction_point.x -= 2.0f * dir.x;
+        this->obstruction_point.y -= 2.0f * dir.y;
+        this->obstruction_point.z -= 2.0f * dir.z;
         return 1;
     }
     return 0;
 }
 #pragma pop
 
-void TCameraCtrl__sub_80068354(void) {  }
-void TCameraCtrl__sub_80068358(void) {  }
+void TCameraCtrl__sub_80068354() {  }
+void TCameraCtrl__sub_80068358(void *, void *, f32, f32) {  }
 
 void TCameraController::post_update_view() {
-    Vec e;
+    Vec look;
     Vec d;
     Vec *t;
-    d.x = camera_ctrl_instance->target.x - camera_ctrl_instance->pos.x;
-    d.y = camera_ctrl_instance->target.y - camera_ctrl_instance->pos.y;
-    d.z = camera_ctrl_instance->target.z - camera_ctrl_instance->pos.z;
+    d.x = camera_ctrl_instance->tgt.x - camera_ctrl_instance->pos.x;
+    d.y = camera_ctrl_instance->tgt.y - camera_ctrl_instance->pos.y;
+    d.z = camera_ctrl_instance->tgt.z - camera_ctrl_instance->pos.z;
     if (0.0f == vector_length(&d)) {
         normalize_vector(&d);
-        camera_ctrl_instance->target.x = camera_ctrl_instance->pos.x;
-        camera_ctrl_instance->target.y = camera_ctrl_instance->pos.y;
-        camera_ctrl_instance->target.z = 1.0f + camera_ctrl_instance->pos.z;
+        camera_ctrl_instance->tgt.x = camera_ctrl_instance->pos.x;
+        camera_ctrl_instance->tgt.y = camera_ctrl_instance->pos.y;
+        camera_ctrl_instance->tgt.z = 1.0f + camera_ctrl_instance->pos.z;
     } else if (0.0f == d.x && 0.0f == d.z) {
-        camera_ctrl_instance->target.z += 0.01f;
+        camera_ctrl_instance->tgt.z += 0.01f;
         d.z = 1.0f;
     }
-    direction_to_pitch_yaw((u8 *)&d, (s32 *)camera_ctrl_instance->f190, (s32 *)camera_ctrl_instance->f194);
+    direction_to_pitch_yaw((u8 *)&d, &camera_ctrl_instance->pitch, &camera_ctrl_instance->yaw);
     t = (Vec *)((TCameraCtrl *)camera_ctrl_instance)->get_target();
-    e.x = camera_ctrl_instance->target.x + t->x;
-    e.y = camera_ctrl_instance->target.y + t->y;
-    e.z = camera_ctrl_instance->target.z + t->z;
-    set_camera_look_at((u8 *)&camera_ctrl_instance->pos, (u8 *)&e, (u8 *)TCameraCtrl__up_vector);
+    look.x = camera_ctrl_instance->tgt.x + t->x;
+    look.y = camera_ctrl_instance->tgt.y + t->y;
+    look.z = camera_ctrl_instance->tgt.z + t->z;
+    set_camera_look_at((u8 *)&camera_ctrl_instance->pos, (u8 *)&look, TCameraCtrl__up_vector);
     lbl_804FF5E8.x = camera_ctrl_instance->pos.x;
     lbl_804FF5E8.y = camera_ctrl_instance->pos.y;
     lbl_804FF5E8.z = camera_ctrl_instance->pos.z;
     if (TCameraCtrl__view_state.flags & 0x200) {
         GXSetScissorBoxOffset((s32)-(TCameraCtrl__data_804FF634.x - 320.0f), (s32)-(TCameraCtrl__data_804FF634.y - 240.0f));
         TCameraCtrl__sub_801E32D8(TCameraCtrl__data_804FF634.x, TCameraCtrl__data_804FF634.y);
-        TCameraCtrl::set_viewport_scissor(2, TCameraCtrl__data_804FF634.f30);
+        TCameraCtrl::set_viewport_scissor(2, TCameraCtrl__data_804FF634.scissor);
     }
 }
 
-#define V ((View_80068530 *)camera_ctrl_instance)
-void apply_camera_controller_pose(Cam_80068530 *arg0) {
+// Copies the controller's pose into the view; with view flag 4 or 8 the view snaps to it.
+void apply_camera_controller_pose(TCameraController *controller) {
     s32 no;
-    s32 id;
     if ((TCameraCtrl__view_state.flags & 4) || (TCameraCtrl__view_state.flags & 8)) {
-        V->curPos.x = arg0->pos.x;
-        V->curPos.y = arg0->pos.y;
-        V->curPos.z = arg0->pos.z;
-        V->curTarget.x = arg0->target.x;
-        V->curTarget.y = arg0->target.y;
-        V->curTarget.z = arg0->target.z;
-        V->pos.x = V->curPos.x;
-        V->pos.y = V->curPos.y;
-        V->pos.z = V->curPos.z;
-        V->target.x = V->curTarget.x;
-        V->target.y = V->curTarget.y;
-        V->target.z = V->curTarget.z;
+        camera_ctrl_instance->eye.x = controller->position.x;
+        camera_ctrl_instance->eye.y = controller->position.y;
+        camera_ctrl_instance->eye.z = controller->position.z;
+        camera_ctrl_instance->at.x = controller->target.x;
+        camera_ctrl_instance->at.y = controller->target.y;
+        camera_ctrl_instance->at.z = controller->target.z;
+        camera_ctrl_instance->pos.x = camera_ctrl_instance->eye.x;
+        camera_ctrl_instance->pos.y = camera_ctrl_instance->eye.y;
+        camera_ctrl_instance->pos.z = camera_ctrl_instance->eye.z;
+        camera_ctrl_instance->tgt.x = camera_ctrl_instance->at.x;
+        camera_ctrl_instance->tgt.y = camera_ctrl_instance->at.y;
+        camera_ctrl_instance->tgt.z = camera_ctrl_instance->at.z;
         no = TCameraCtrl::get_camera_no();
-        VecCopy((Vec *)&V->eye[no], (const Vec *)&arg0->pos);
-        VecCopy((Vec *)&V->look[no], (const Vec *)&arg0->target);
+        VecCopy(&camera_ctrl_instance->split_pos[no], &controller->position);
+        VecCopy(&camera_ctrl_instance->split_tgt[no], &controller->target);
     } else {
-        V->curPos.x = arg0->pos.x;
-        V->curPos.y = arg0->pos.y;
-        V->curPos.z = arg0->pos.z;
-        V->curTarget.x = arg0->target.x;
-        V->curTarget.y = arg0->target.y;
-        V->curTarget.z = arg0->target.z;
+        camera_ctrl_instance->eye.x = controller->position.x;
+        camera_ctrl_instance->eye.y = controller->position.y;
+        camera_ctrl_instance->eye.z = controller->position.z;
+        camera_ctrl_instance->at.x = controller->target.x;
+        camera_ctrl_instance->at.y = controller->target.y;
+        camera_ctrl_instance->at.z = controller->target.z;
     }
-    V->f1b8 = arg0->f58;
-    V->f1bc = arg0->f5c;
-    if (V->f19c != arg0->f54) {
+    camera_ctrl_instance->eye_rate = controller->eye_rate;
+    camera_ctrl_instance->at_rate = controller->at_rate;
+    if (camera_ctrl_instance->fov != controller->projection_angle) {
         TCameraCtrl__view_state.flags |= 0x40;
-        V->f19c = arg0->f54;
+        camera_ctrl_instance->fov = controller->projection_angle;
     }
 }
 
 TCameraController::~TCameraController() {
 
 }
+
 TCameraController::TCameraController() : TObject(0) {
     this->position.x = 0.0f;
     this->position.y = 0.0f;
     this->position.z = 0.0f;
-    this->m_2c = 0;
-    *(s32 *)((s8 *)this + 0x30) = 0;
-    this->m_34 = 0;
+    this->pitch = 0;
+    this->yaw = 0;
+    this->roll = 0;
     this->target.x = 0.0f;
     this->target.y = 0.0f;
     this->target.z = 1.0f;
-    this->m_60 = 0.0f;
-    *(f32 *)((s8 *)this + 0x64) = 0.0f;
-    this->m_68 = 0.0f;
-    *(s32 *)((s8 *)this + 0x28) = 0;
-    this->m_24 = 0;
-    this->m_38 = 0;
-    this->m_58 = 0.0f;
-    *(f32 *)((s8 *)this + 0x5C) = 0.289f;
+    this->obstruction_point.x = 0.0f;
+    this->obstruction_point.y = 0.0f;
+    this->obstruction_point.z = 0.0f;
+    this->pad_28 = 0;
+    this->state = 0;
+    this->flags = 0;
+    this->eye_rate = 0.0f;
+    this->at_rate = 0.289f;
     this->projection_angle = 0x36C1;
-    this->m_20 = 0xFFFF;
+    this->actor_id = 0xFFFF;
 }
