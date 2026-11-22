@@ -1,5 +1,5 @@
-#ifndef PSO_ENEMY_TUNK_8048FE08_H
-#define PSO_ENEMY_TUNK_8048FE08_H
+#ifndef PSO_ENEMY_BRINGER_TOBJENEDF2BRINGER_EFF_TPABSORB1_H
+#define PSO_ENEMY_BRINGER_TOBJENEDF2BRINGER_EFF_TPABSORB1_H
 #include "types.h"
 #include "pso/player/TUnk_804928CC.h"
 
@@ -9,14 +9,14 @@ class AreaAttackHistory;
 // (setup_dir_shot) and that deals one hit per AreaAttackHistory entry. Its ctor names it with
 // bringer_tp_absorb_effect_name ("TObjEneDf2Bringer_Eff_TpAbsorb1"), shared with TUnk_8048FE64 and
 // TUnk_8048FE7C; the twin of TObjEneDellBiter_Eff_TpAbsorb1.
-class TUnk_8048FE08 : public TUnk_804928CC {
+class TObjEneDf2Bringer_Eff_TpAbsorb1 : public TUnk_804928CC {
 public:
-    TUnk_8048FE08(TObject *parent, TObjBase *owner, AreaAttackHistory *history);
-    virtual ~TUnk_8048FE08();
+    TObjEneDf2Bringer_Eff_TpAbsorb1(TObject *parent, TObjBase *owner, AreaAttackHistory *history);
+    virtual ~TObjEneDf2Bringer_Eff_TpAbsorb1();
     virtual void run_task();
     virtual void render();
     void setup_dir_shot(const Vec *origin, s32 angle, f32 attack_power);
-    void sub_8009A11C();
+    void deactivate();  // active = 0: a hit wall, a hit body or the timer stops the shot
     s32 active;
     s32 timer;  // frames left before the shot stops
     Vec direction;
@@ -25,6 +25,6 @@ public:
     f32 sample_distance;
     f32 power;
 };
-LAYOUT_ASSERT(TUnk_8048FE08_size, sizeof(TUnk_8048FE08) == 0xD4);
+LAYOUT_ASSERT(TObjEneDf2Bringer_Eff_TpAbsorb1_size, sizeof(TObjEneDf2Bringer_Eff_TpAbsorb1) == 0xD4);
 
 #endif

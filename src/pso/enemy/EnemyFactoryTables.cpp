@@ -94,7 +94,6 @@
 extern "C" {
 void* create__14TBoss4DarkFalzFl(void* placement);
 void* create__16TObjEneRe7BeruraFv(void* placement);
-void* create__17TObjEneDf2BringerFv(void* placement);
 void* create__14TObjEnePanarmsFl(void* placement);
 void* TObjEneMe3ShinowaMirage__sub_800E7B74(void* placement);
 void* create__12TObjEneSlimeFl(void* placement);
@@ -244,7 +243,7 @@ EnemyFactoryEntry enemy_factories_floor_09[10] = {
     { 0x00A0, create_ene_saver, 250000.0f, 0 },
     { 0x00A2, TObjEneDarkGunner::create, 250000.0f, 0 },
     { 0x00A3, TObjEneDarkGunCenter::create, 250000.0f, 0 },
-    { 0x00A4, create__17TObjEneDf2BringerFv, 250000.0f, 0 },
+    { 0x00A4, TObjEneDf2Bringer::create, 250000.0f, 0 },
     { 0x00A6, TObjEneDimedian::create, 250000.0f, 0 },
     { 0x00A7, TObjEneBalClawBody::create, 250000.0f, 4 },
     { 0x00A8, TObjEneBalClawClaw::create, 250000.0f, 0 },
@@ -257,7 +256,7 @@ EnemyFactoryEntry enemy_factories_floor_10[11] = {
     { 0x00A1, create__18TObjEneRe4SorcererFv, 250000.0f, 2 },
     { 0x00A2, TObjEneDarkGunner::create, 250000.0f, 0 },
     { 0x00A3, TObjEneDarkGunCenter::create, 250000.0f, 0 },
-    { 0x00A4, create__17TObjEneDf2BringerFv, 250000.0f, 0 },
+    { 0x00A4, TObjEneDf2Bringer::create, 250000.0f, 0 },
     { 0x00A5, create__16TObjEneRe7BeruraFv, 250000.0f, 0 },
     { 0x00A6, TObjEneDimedian::create, 250000.0f, 0 },
     { 0x00A7, TObjEneBalClawBody::create, 250000.0f, 4 },
@@ -326,7 +325,7 @@ EnemyFactoryEntry enemy_factories_floor_16[8] = {
     { 0x0060, TObjGrass::create, 250000.0f, 0 },
     { 0x0082, TObjEneMe3ShinowaMirage__sub_800E7B74, 250000.0f, 4 },
     { 0x00A0, create_ene_saver, 250000.0f, 0 },
-    { 0x00A4, create__17TObjEneDf2BringerFv, 250000.0f, 0 },
+    { 0x00A4, TObjEneDf2Bringer::create, 250000.0f, 0 },
     { 0x0033, TObjNpcEnemy__create, 250000.0f, 0 },
     { -1, 0, 250000.0f, 0 },
 };
@@ -337,7 +336,7 @@ EnemyFactoryEntry enemy_factories_floor_17[8] = {
     { 0x0060, TObjGrass::create, 250000.0f, 0 },
     { 0x0082, TObjEneMe3ShinowaMirage__sub_800E7B74, 250000.0f, 4 },
     { 0x00A0, create_ene_saver, 250000.0f, 0 },
-    { 0x00A4, create__17TObjEneDf2BringerFv, 250000.0f, 0 },
+    { 0x00A4, TObjEneDf2Bringer::create, 250000.0f, 0 },
     { 0x0033, TObjNpcEnemy__create, 250000.0f, 0 },
     { -1, 0, 250000.0f, 0 },
 };

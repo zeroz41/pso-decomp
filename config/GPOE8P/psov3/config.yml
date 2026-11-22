@@ -16174,9 +16174,9 @@ force_active:
   - update_wait__18TObjEneBalClawClawFv
   - update_attack_collision__21TObjEneRe7BeruraPunchFv
   - retarget_attacker__17TObjEneDf2BringerFv
-  - sub_8009A11C__13TUnk_8048FE08Fv
-  - sub_8009A598__13TUnk_8048FE7CFv
-  - sub_8009A640__13TUnk_8048FE7CFv
+  - deactivate__31TObjEneDf2Bringer_Eff_TpAbsorb1Fv
+  - update_vertex_colors__13TUnk_8048FE7CFv
+  - update_vertex_positions__13TUnk_8048FE7CFv
   - update_state__17TObjEneDarkGunnerFv
   - update_hover__17TObjEneDarkGunnerFv
   - sub_800A3290__13TUnk_804909C4FUs

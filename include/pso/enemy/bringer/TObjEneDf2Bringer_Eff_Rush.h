@@ -14,7 +14,7 @@ public:
     TObjChara *target;
     Vec direction;
     f32 strength;
-    s32 field_30;
+    s32 pad_30;  // zeroed by the ctor, never read (pad_30 in TObjEneDellBiter_Eff_Rush)
 };
 LAYOUT_ASSERT(TObjEneDf2Bringer_Eff_Rush_size, sizeof(TObjEneDf2Bringer_Eff_Rush) == 0x34);
 

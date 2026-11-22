@@ -8,7 +8,7 @@
 
 class AreaAttackHistory;
 class TUnk_804928CC;
-class TUnk_8048FE08;
+class TObjEneDf2Bringer_Eff_TpAbsorb1;
 class TUnk_80494968;
 class TParticleCtrl;
 
@@ -64,9 +64,9 @@ struct TObjEneDf2Bringer : public TObjEneDD_ST {
     s32 check_rush_hits();
     void update_attack_child();
     void init_enemy();
-    static void set_entry_value_clamped(s32 index, f32 farg0);
+    static void set_entry_value_clamped(s32 index, f32 speed);
     static void free_resources();
-    void *create();
+    static void *create(void *set_data);
     static void load_resources();
     void spawn_offset_particle();
     void spawn_particle_if_in_band();
@@ -83,7 +83,7 @@ struct TObjEneDf2Bringer : public TObjEneDD_ST {
     s32 hit_count;       // hits taken; 5 starts the shot (check_stage_advance)
     TUnk_804928CC *collider;  // built over the Bringer's collision bodies
     AreaAttackHistory *attack_history;
-    TUnk_8048FE08 *shot_launcher;
+    TObjEneDf2Bringer_Eff_TpAbsorb1 *shot_launcher;
     TUnk_80494968 *attack_trail;
     s32 texture_scroll;
     s32 step;
