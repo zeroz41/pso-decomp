@@ -104,12 +104,12 @@ void TWindowMeseta::run_task() {
 
 TWindowMeseta::~TWindowMeseta() {}
 #define self ((Meseta_80269244 *)this)
-TWindowMeseta::TWindowMeseta(saddr arg1, s32 arg2, s32 str)
-    : TWindowBase((u8 *)&TWindowMeseta__window_descriptor, (s16)arg2, (u8 *)arg1) {
+TWindowMeseta::TWindowMeseta(saddr parent, s32 client, s32 str)
+    : TWindowBase((u8 *)&TWindowMeseta__window_descriptor, (s16)client, (u8 *)parent) {
     Sub_80269244 *a;
     Sub_80269244 *b;
     m_name = TWindowMeseta__class_name;
-    self->x64 = arg2;
+    self->x64 = client;
     self->meseta = this->get_meseta_value();
     a = (Sub_80269244 *)get_array_entry(0);
     b = (Sub_80269244 *)get_array_entry(1);

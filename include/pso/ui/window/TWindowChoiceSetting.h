@@ -22,7 +22,7 @@ void TWindowMenuInfomation__ct(u8 *lobby, u32 rows);
 }
 s32 create_information_counter_window(s32 rows);
 extern "C" {
-void create_sub_window__20TWindowChoiceSettingFPvi(void *arg0, s32 arg1);
+void create_sub_window__20TWindowChoiceSettingFPvi(void *arg0, s32 title);
 }
 
 #endif

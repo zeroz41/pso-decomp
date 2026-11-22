@@ -549,7 +549,7 @@ void render__13TLockOnCursorFv(saddr arg0) {
 }
 #pragma pop
 
-void TLockOnCursor::renderSecondaryCursor(u8 *arg1, s32 arg2, s32 arg3) {
+void TLockOnCursor::renderSecondaryCursor(u8 *body, s32 type, s32 action) {
     const saddr arg0 = (saddr)this;
     f32 sp8[3];
     f32 temp_f31;
@@ -558,12 +558,12 @@ void TLockOnCursor::renderSecondaryCursor(u8 *arg1, s32 arg2, s32 arg3) {
     if (is_inactive() != 0) {
         player = (uaddr)get_player_by_client_id((get_target_id()));
         if (player != 0U) {
-            temp_r3_2 = check_visible__11TMainCursorFv((void *)(player + 0x500), (void *)player, arg2, arg3);
+            temp_r3_2 = check_visible__11TMainCursorFv((void *)(player + 0x500), (void *)player, type, action);
             if (temp_r3_2 != -1) {
                 TObjFish::set_global_param((saddr)&shared_effect_texture_list);
-                temp_f31 = *(f32 *)((s8 *)arg1 + 0xC);
+                temp_f31 = *(f32 *)((s8 *)body + 0xC);
                 push_matrix();
-                offset_point_toward_camera(arg1 + 0x1C, (u8 *)&sp8, (f32)temp_f31);
+                offset_point_toward_camera(body + 0x1C, (u8 *)&sp8, (f32)temp_f31);
                 translate_matrix_vec3((u8 *)(0), (u8 *)&sp8);
                 rotate_matrix_y(0, (int) (*(s32 *)((s8 *)camera_ctrl_instance + 0x194)));
                 TParticleCtrl::begin_effect_render();

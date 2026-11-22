@@ -780,7 +780,7 @@ TWindowMenu::~TWindowMenu() {
     mem_free(*(void **)((s8 *)this + 0x80));
 }
 
-TWindowMenu::TWindowMenu(u32 count, s32 arg2, saddr arg3) : TWindowAddition((u8 *)&lbl_804D05CC, (s16)arg2, (u8 *)arg3) {
+TWindowMenu::TWindowMenu(u32 count, s32 client, saddr parent) : TWindowAddition((u8 *)&lbl_804D05CC, (s16)client, (u8 *)parent) {
     #define window_menu ((u8 *)this)
     u32 i;
     u8 *p;
@@ -790,7 +790,7 @@ TWindowMenu::TWindowMenu(u32 count, s32 arg2, saddr arg3) : TWindowAddition((u8 
     *(u16 *)(window_menu + 0x76) = count;
     *(s16 *)(window_menu + 0x78) = 0;
     *(s16 *)(window_menu + 0x70) = 0;
-    *(s16 *)(window_menu + 0x20) = arg2;
+    *(s16 *)(window_menu + 0x20) = client;
     ((TWindowMenu *)window_menu)->reset_selection();
     *(u8 **)(window_menu + 0x80) = (u8 *)mem_alloc(count * 8);
     p = *(u8 **)(window_menu + 0x80);

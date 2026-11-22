@@ -553,13 +553,13 @@ void TWindowMenuIconLine::create_menu_scroll_bar() {
     }
 }
 
-void TWindowMenuIconLine::ensure_status_display(s32 arg1) {
+void TWindowMenuIconLine::ensure_status_display(s32 title) {
     uaddr var_r0;
 
     if ((uaddr) this->status_display == 0U) {
         var_r0 = (saddr)::operator new(0x24);
         if (var_r0 != 0U) {
-            var_r0 = (uaddr)((TWindowSubStatusDisp *)var_r0)->construct_type1_heading(arg1, this->client_index);
+            var_r0 = (uaddr)((TWindowSubStatusDisp *)var_r0)->construct_type1_heading(title, this->client_index);
         }
         *(u32 *)&this->status_display = var_r0;
         (this->window_flags) = (s32) ((this->window_flags) | 0x40);

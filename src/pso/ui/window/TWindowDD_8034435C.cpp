@@ -295,7 +295,7 @@ s16 TWindowDD__sub_80344774(u8 *window_dd, u32 arg1, s32 entry_id, s32 value_ind
     return v;
 }
 
-s32 format_message_text__9TWindowDDFPvPvUs(WordSelectMessage *src, char *window_dd, u16 arg2) {
+s32 format_message_text__9TWindowDDFPvPvUs(WordSelectMessage *src, char *window_dd, u16 player) {
     s32 k;
     s32 n;
     s32 m;
@@ -332,7 +332,7 @@ s32 format_message_text__9TWindowDDFPvPvUs(WordSelectMessage *src, char *window_
         if (n > 1) {
             struct { WordSelectMessage dd; u8 pad[0x10]; } tmp;
             TWindowDD__sub_80347758(src, &tmp.dd);
-            pos = format_message_text__9TWindowDDFPvPvUs(&tmp.dd, window_dd, arg2);
+            pos = format_message_text__9TWindowDDFPvPvUs(&tmp.dd, window_dd, player);
         } else {
             append_word_select_token(src->ids[0], window_dd, &pos);
         }
@@ -387,12 +387,12 @@ s32 format_message_text__9TWindowDDFPvPvUs(WordSelectMessage *src, char *window_
         TWindowDD__sub_80347474(src, k, window_dd, &pos);
         if (k == 0x2C4) {
             mode = 0;
-            i = TWindowDD::get_player_battle_flag_state(arg2);
+            i = TWindowDD::get_player_battle_flag_state(player);
         } else if (k == 0x2C7) {
             TWindowDD::append_char(0x2C, window_dd, &pos);
             TWindowDD::append_string(TWindowDD__data_805D6E28[0xA58 / 4], window_dd, &pos);
             mode = 2;
-            if (TWindowDD::get_player_battle_flag_state(arg2) == 2) {
+            if (TWindowDD::get_player_battle_flag_state(player) == 2) {
                 i = 3;
             } else {
                 i = 1;
@@ -482,7 +482,7 @@ s32 format_message_text__9TWindowDDFPvPvUs(WordSelectMessage *src, char *window_
     return pos;
 }
 
-s32 format_german_message__9TWindowDDFPvPvUs(WordSelectMessage *src, char *window_dd, u16 arg2) {
+s32 format_german_message__9TWindowDDFPvPvUs(WordSelectMessage *src, char *window_dd, u16 player) {
     s32 pos;
     s32 id;
     s32 kind;
@@ -520,7 +520,7 @@ s32 format_german_message__9TWindowDDFPvPvUs(WordSelectMessage *src, char *windo
         if (n > 1) {
             struct { WordSelectMessage dd; u8 pad[0x10]; } tmp;
             TWindowDD__sub_80347758(src, &tmp.dd);
-            pos = format_german_message__9TWindowDDFPvPvUs(&tmp.dd, window_dd, arg2);
+            pos = format_german_message__9TWindowDDFPvPvUs(&tmp.dd, window_dd, player);
         } else {
             append_word_select_token(src->ids[0], window_dd, &pos);
         }
@@ -594,14 +594,14 @@ s32 format_german_message__9TWindowDDFPvPvUs(WordSelectMessage *src, char *windo
         s3 = 0;
         if (id == 0x2C4) {
             mode = 0;
-            kind = TWindowDD::get_player_battle_flag_state(arg2);
+            kind = TWindowDD::get_player_battle_flag_state(player);
             s1 = (char *)get_word_select_token_text(id);
         } else if (id == 0x2C7) {
             append_word_select_token(id, window_dd, &pos);
             TWindowDD::append_char(0x2C, window_dd, &pos);
             mode = 2;
             {
-            s32 st = TWindowDD::get_player_battle_flag_state(arg2);
+            s32 st = TWindowDD::get_player_battle_flag_state(player);
             kind = 1;
             if (st == 2) {
                 kind = 3;
@@ -735,7 +735,7 @@ static inline void append_second_term(s32 id, s32 mode, char *window_dd, s32 *po
     }
 }
 
-s32 TWindowDD__sub_80345608(WordSelectMessage *src, char *window_dd, u16 arg2) {
+s32 TWindowDD__sub_80345608(WordSelectMessage *src, char *window_dd, u16 player) {
     s32 k;
     s32 n;
     s32 i;
@@ -771,7 +771,7 @@ s32 TWindowDD__sub_80345608(WordSelectMessage *src, char *window_dd, u16 arg2) {
         if (n > 1) {
             struct { WordSelectMessage dd; u8 pad[0x10]; } tmp;
             TWindowDD__sub_80347758(src, &tmp.dd);
-            pos = TWindowDD__sub_80345608(&tmp.dd, window_dd, arg2);
+            pos = TWindowDD__sub_80345608(&tmp.dd, window_dd, player);
         } else {
             append_word_select_token(src->ids[0], window_dd, &pos);
         }
@@ -827,12 +827,12 @@ s32 TWindowDD__sub_80345608(WordSelectMessage *src, char *window_dd, u16 arg2) {
         TWindowDD__sub_80347474(src, k, window_dd, &pos);
         if (k == 0x2C4) {
             mode = 0;
-            i = TWindowDD::get_player_battle_flag_state(arg2);
+            i = TWindowDD::get_player_battle_flag_state(player);
         } else if (k == 0x2C7) {
             mode = 2;
             TWindowDD::append_char(0x2C, window_dd, &pos);
             TWindowDD::append_string(TWindowDD__data_805D6E28[0xA8C / 4], window_dd, &pos);
-            if (TWindowDD::get_player_battle_flag_state(arg2) == 2) {
+            if (TWindowDD::get_player_battle_flag_state(player) == 2) {
                 i = 3;
             } else {
                 i = 1;

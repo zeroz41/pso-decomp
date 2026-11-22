@@ -138,8 +138,8 @@ void update_stat_line__20TWindowSubStatusDispFPvi(void *window_sub_status_disp, 
 
 void update_stat_line_if_positive__20TWindowSubStatusDispFPvi(void *arg0, s32 arg1);
 
-void update_stat_line_if_positive__20TWindowSubStatusDispFPvi(void *arg0, s32 arg1) {
-    if (arg1 > 0) {
+void update_stat_line_if_positive__20TWindowSubStatusDispFPvi(void *arg0, s32 count) {
+    if (count > 0) {
         ((void (*)(void *))update_stat_line__20TWindowSubStatusDispFPvi)(arg0);
     }
 }

@@ -203,15 +203,15 @@ s32 TWindowSubSymbolChatParts::calc_symbol_index() {
 
 #pragma push
 #pragma fp_contract on
-void TWindowSubSymbolChat::select_index_and_scroll(s32 arg1) {
+void TWindowSubSymbolChat::select_index_and_scroll(s32 symbol_index) {
     Win_80284D68 *arg0 = (Win_80284D68 *)this;
     NJS_POINT2 v;
 
-    if (arg1 >= arg0->count) {
-        arg1 = arg0->count - 1;
+    if (symbol_index >= arg0->count) {
+        symbol_index = arg0->count - 1;
     }
-    arg0->row = arg1 / 4;
-    arg0->col = arg1 % 4;
+    arg0->row = symbol_index / 4;
+    arg0->col = symbol_index % 4;
     arg0->pos.y = 16.0f + (40.0f * (f32)arg0->row + 9.0f);
     arg0->pos.y -= 81.0f;
     v.x = 0.0f;

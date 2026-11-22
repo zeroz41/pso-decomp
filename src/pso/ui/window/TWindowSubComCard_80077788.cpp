@@ -109,7 +109,7 @@ saddr TWindowSubComCard::get_chr_select() {
     return lbl_805D4E58;
 }
 
-void TWindowSubComCard__sub_800778B4(Out_800778B4 *arr, Tbl_800777C4 *arg1) {
+void TWindowSubComCard__sub_800778B4(Out_800778B4 *arr, Tbl_800777C4 *chr_select) {
     s32 i;
     s32 n;
     u16 id;
@@ -119,15 +119,15 @@ void TWindowSubComCard__sub_800778B4(Out_800778B4 *arr, Tbl_800777C4 *arg1) {
     S_80077840 tmp[5];
     copy_struct28__17TWindowSubComCardFii((saddr) tmp, (saddr) arr);
     TWindowSubComCard__sub_80077980((S_80077980 *) arr);
-    n = arg1->count;
+    n = chr_select->count;
     dst = arr;
-    e = arg1->e;
+    e = chr_select->e;
     i = 0;
     while (i < n) {
         if (e->a == 0) {
             id = dst->a = e->b;
             k = ((TWindowSubComCard *)tmp)->find_value_by_key(id);
-            dst->b = (u16) find_table_entry_id(arg1, id, k);
+            dst->b = (u16) find_table_entry_id(chr_select, id, k);
             dst++;
         }
         i++;

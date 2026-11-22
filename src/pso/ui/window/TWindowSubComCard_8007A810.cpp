@@ -397,19 +397,19 @@ void TWindowSubComCard__sub_8007B26C(O_8007B26C *self) {
 int clear(void* p) { return (saddr)memset(p, 0, 144); }
 
 void TWindowSubComCard::clear_and_init(void* a1) { clear(this); ((TLobby *)this)->fill_guild_card_from_char((saddr)a1); }
-s32 fn_8007B2E0(u8 *arg0, s32 id) {
+s32 fn_8007B2E0(u8 *ply_guild_card_tag, s32 id) {
     u8 *temp_r3;
     temp_r3 = (u8 *)(TLobby::find_short_mail_by_id(id));
     if (temp_r3 == NULL) {
         return 0;
     }
-    *(u8 *)((s8 *)arg0 + 0x8C) = (u8) (*(u8 *)((s8 *)arg0 + 0x8C) | 3);
-    ((s32 (*)(void *, int, int))strncpy)(arg0 + 8, (saddr) (fn_8007B83C(temp_r3)), 0x17);
-    *(s8 *)((s8 *)arg0 + 0x1F) = 0;
-    *(s8 *)((s8 *)arg0 + 0x8F) = 0xC;
-    *(s8 *)((s8 *)arg0 + 0x8E) = 0xA;
-    *(s8 *)((s8 *)arg0 + 0x8D) = 5;
-    *(s32 *)((s8 *)arg0 + 4) = TWindowSubShortMail__sub_8007B834(temp_r3);
+    *(u8 *)((s8 *)ply_guild_card_tag + 0x8C) = (u8) (*(u8 *)((s8 *)ply_guild_card_tag + 0x8C) | 3);
+    ((s32 (*)(void *, int, int))strncpy)(ply_guild_card_tag + 8, (saddr) (fn_8007B83C(temp_r3)), 0x17);
+    *(s8 *)((s8 *)ply_guild_card_tag + 0x1F) = 0;
+    *(s8 *)((s8 *)ply_guild_card_tag + 0x8F) = 0xC;
+    *(s8 *)((s8 *)ply_guild_card_tag + 0x8E) = 0xA;
+    *(s8 *)((s8 *)ply_guild_card_tag + 0x8D) = 5;
+    *(s32 *)((s8 *)ply_guild_card_tag + 4) = TWindowSubShortMail__sub_8007B834(temp_r3);
     return 1;
 }
 

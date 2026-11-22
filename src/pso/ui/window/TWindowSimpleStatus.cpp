@@ -424,7 +424,7 @@ void update_lockon_window(u8 *arg0) {
     ((TWindowLockOn *)temp_r31)->update_for_player_index(((TWindowSimpleStatus *)arg0)->get_width());
 }
 
-void update_photon_blast_player_marker(saddr arg0, s32 arg1) {
+void update_photon_blast_player_marker(saddr help, s32 arg1) {
     Slots_80270060 s;
     s32 type;
     u32 key;
@@ -446,28 +446,28 @@ void update_photon_blast_player_marker(saddr arg0, s32 arg1) {
         }
         switch (type) {
         case 5:
-            set_sprite_uv_from_pixels((u8 *)arg0, 0.0f, 173.0f);
+            set_sprite_uv_from_pixels((u8 *)help, 0.0f, 173.0f);
             break;
         case 4:
-            set_sprite_uv_from_pixels((u8 *)arg0, 34.0f, 173.0f);
+            set_sprite_uv_from_pixels((u8 *)help, 34.0f, 173.0f);
             break;
         case 3:
-            set_sprite_uv_from_pixels((u8 *)arg0, 68.0f, 173.0f);
+            set_sprite_uv_from_pixels((u8 *)help, 68.0f, 173.0f);
             break;
         case 1:
-            set_sprite_uv_from_pixels((u8 *)arg0, 102.0f, 173.0f);
+            set_sprite_uv_from_pixels((u8 *)help, 102.0f, 173.0f);
             break;
         case 2:
-            set_sprite_uv_from_pixels((u8 *)arg0, 136.0f, 173.0f);
+            set_sprite_uv_from_pixels((u8 *)help, 136.0f, 173.0f);
             break;
         case 0:
-            set_sprite_uv_from_pixels((u8 *)arg0, 170.0f, 173.0f);
+            set_sprite_uv_from_pixels((u8 *)help, 170.0f, 173.0f);
             break;
         default:
             if (((TLobby *)lobby_rule_settings)->get_rule_field_a() == 1 && (p = (u8 *)get_player_by_client_id(key)) != 0) {
                 key = TLobby__sub_801C19D0(p + 0x828) - 1;
             }
-            set_sprite_uv_from_pixels((u8 *)arg0, 34.0f * key, 202.0f);
+            set_sprite_uv_from_pixels((u8 *)help, 34.0f * key, 202.0f);
             break;
         }
     }
@@ -488,7 +488,7 @@ void update_status_help_item(saddr arg0) {
 #pragma fp_contract on
 #pragma opt_common_subs off
 extern "C" {
-void draw_photon_blast_gauge_ring(s32 arg0, Params_80270244 *arg1, const NJS_POINT2 *pos, f32 farg0, f32 farg1) {
+void draw_photon_blast_gauge_ring(s32 arg0, Params_80270244 *ctx, const NJS_POINT2 *pos, f32 farg0, f32 farg1) {
     NJS_POINT2 p;
     u32 n;
     if (farg0 > 500.0f) {
@@ -496,11 +496,11 @@ void draw_photon_blast_gauge_ring(s32 arg0, Params_80270244 *arg1, const NJS_POI
     }
     n = TWindowSubComCard::trunc_float(0.01f * farg0);
     farg0 -= 100.0f * n;
-    if (arg1->f30 >= 0) {
-        p.x = arg1->x + pos->x;
-        p.y = arg1->y + pos->y;
-        draw_photon_blast_fan(arg0, &p, arg1, photon_blast_gauge_ring_color_table[n], 0.0f, 0, 0xD700, farg1);
-        draw_photon_blast_fan(arg0, &p, arg1, photon_blast_gauge_ring_color_table[++n], 0.1f, 55040.0f - 0.01f * (55040.0f * farg0), 0xD700, farg1);
+    if (ctx->f30 >= 0) {
+        p.x = ctx->x + pos->x;
+        p.y = ctx->y + pos->y;
+        draw_photon_blast_fan(arg0, &p, ctx, photon_blast_gauge_ring_color_table[n], 0.0f, 0, 0xD700, farg1);
+        draw_photon_blast_fan(arg0, &p, ctx, photon_blast_gauge_ring_color_table[++n], 0.1f, 55040.0f - 0.01f * (55040.0f * farg0), 0xD700, farg1);
     }
 }
 }

@@ -899,7 +899,7 @@ void TWindowDD__sub_803489B8(WindowDrawContext *context, WindowVertex *vertices,
 }
 #pragma pop
 
-void TWindowDD__sub_80348A2C(WindowDrawContext *context, WindowVertex *arg1) {
+void TWindowDD__sub_80348A2C(WindowDrawContext *context, WindowVertex *vertices) {
   f32 temp_f0;
   f32 temp_f0_2;
   f32 temp_f1;
@@ -923,16 +923,16 @@ void TWindowDD__sub_80348A2C(WindowDrawContext *context, WindowVertex *arg1) {
   {
     var_f0 = lbl_805DFB1C;
   }
-  new_var2 = ((s8 *) ((0, arg1))) + 0x90;
-  *((f32 *) (((s8 *) arg1) + 0x18)) = temp_f2_2;
+  new_var2 = ((s8 *) ((0, vertices))) + 0x90;
+  *((f32 *) (((s8 *) vertices) + 0x18)) = temp_f2_2;
   temp_f1_2 = temp_f2_2 + var_f0;
   temp_f0_2 = temp_f4 - var_f0;
-  *((f32 *) (((s8 *) arg1) + 0)) = temp_f2_2;
-  *((f32 *) (((s8 *) arg1) + 0x48)) = temp_f1_2;
-  *((f32 *) (((s8 *) arg1) + 0x30)) = temp_f1_2;
-  new_var = (s8 *) arg1;
-  *((f32 *) (((s8 *) arg1) + 0x78)) = temp_f0_2;
-  *((f32 *) (((s8 *) arg1) + 0x60)) = temp_f0_2;
+  *((f32 *) (((s8 *) vertices) + 0)) = temp_f2_2;
+  *((f32 *) (((s8 *) vertices) + 0x48)) = temp_f1_2;
+  *((f32 *) (((s8 *) vertices) + 0x30)) = temp_f1_2;
+  new_var = (s8 *) vertices;
+  *((f32 *) (((s8 *) vertices) + 0x78)) = temp_f0_2;
+  *((f32 *) (((s8 *) vertices) + 0x60)) = temp_f0_2;
   *((f32 *)(new_var + 0xA8)) = temp_f4;
   *((f32 *) new_var2) = temp_f4;
 }

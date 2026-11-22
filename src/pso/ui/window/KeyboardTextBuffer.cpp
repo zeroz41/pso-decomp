@@ -8,14 +8,14 @@ u16 keyboard_dakuten_kana_sjis[20] = {33449, 33451, 33453, 33455, 33457, 33459, 
 u16 keyboard_handakuten_kana_sjis[6] = {33485, 33488, 33491, 33494, 33497, 0};
 u16 keyboard_small_kana_sjis[10] = {33440, 33442, 33444, 33446, 33448, 33474, 33506, 33508, 33510, 33517};
 
-void KeyboardTextBuffer::append_text(u8 *arg1) {
+void KeyboardTextBuffer::append_text(u8 *text) {
     u8 c;
 
-    if (arg1 == NULL) {
+    if (text == NULL) {
         return;
     }
-    while ((s8)*arg1 != 0) {
-        c = *arg1++;
+    while ((s8)*text != 0) {
+        c = *text++;
         if (would_overflow_with((s32)c) != 0) {
             break;
         }

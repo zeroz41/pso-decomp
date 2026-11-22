@@ -36,7 +36,7 @@ struct TWindowSubSymbolChat : public TObject {
     static unsigned char get_global_4e54();
     static void set_flag_bit1(s32 *arg0);
     s32 commit(s32 * _w1);
-    void select_index_and_scroll(s32 arg1);
+    void select_index_and_scroll(s32 symbol_index);
     void update_height();
     void open(s32 arg1);
     static void send_selected_symbol_chat(s32 *arg0);

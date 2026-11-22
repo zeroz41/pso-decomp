@@ -158,14 +158,14 @@ void draw_arrows__18TWindowInputNumberFv(TWindowInputNumber *, Ctx_802563A0 *, D
 extern s32 lbl_805D63F0;
 void __dl__7TObjectFPv(void *);
 
-void TWindowInputNumber::create(s32 arg1) {
+void TWindowInputNumber::create(s32 title) {
     uaddr var_r0;
 
     if ((u32) this->unknown70 == 0U) {
         var_r0 = (saddr)::operator new(0x24);
         if (var_r0 != 0U) {
             uaddr saved = var_r0;
-            var_r0 = (uaddr)((TWindowSubStatusDisp *)saved)->construct_type1_heading(arg1, this->client_index);
+            var_r0 = (uaddr)((TWindowSubStatusDisp *)saved)->construct_type1_heading(title, this->client_index);
         }
         this->unknown70 = var_r0;
         this->window_flags = (s32) (this->window_flags | 0x40);

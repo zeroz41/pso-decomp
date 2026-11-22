@@ -222,18 +222,18 @@ void *TWindowStatus__ct(void *window_status, saddr layout_pos, void *client, con
     return window_status;
 }
 
-saddr create_status_window(saddr arg0) {
+saddr create_status_window(saddr client) {
     saddr window_layout_position;
     saddr window_status;
     saddr var_r0;
     window_layout_position = get_window_layout_position(0x1C);
     if (is_split_screen() != 0) {
-        return (saddr)((TWindowSimpleStatus *)window_layout_position)->create((void *)arg0);
+        return (saddr)((TWindowSimpleStatus *)window_layout_position)->create((void *)client);
     }
     window_status = (saddr)TObject::operator new(0x78);
     var_r0 = window_status;
     if (var_r0 != 0) {
-        var_r0 = (saddr)TWindowStatus__ct((void *)window_status, window_layout_position, (void *)arg0, &status_window_settings);
+        var_r0 = (saddr)TWindowStatus__ct((void *)window_status, window_layout_position, (void *)client, &status_window_settings);
     }
     return var_r0;
 }

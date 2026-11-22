@@ -60,12 +60,12 @@ void TLobby::drain_deferred_packets() {
         deferred_packet_buffer_used += n;
     }
 }
-void copy_packet(packet *arg0) {
+void copy_packet(packet *pkt) {
     s32 len;
 
-    len = (u16) to_be_uint16_t__FUs(*(u16 *)((s8 *)arg0 + 2));
+    len = (u16) to_be_uint16_t__FUs(*(u16 *)((s8 *)pkt + 2));
     if (deferred_packet_buffer_used + len <= 0x10000) {
-        memcpy((void *)(deferred_packet_buffer + deferred_packet_buffer_used), arg0, len);
+        memcpy((void *)(deferred_packet_buffer + deferred_packet_buffer_used), pkt, len);
         deferred_packet_buffer_used += len;
     }
 }

@@ -94,13 +94,13 @@ block_4:
         }
     }
 }
-void create_sub_window__20TWindowChoiceSettingFPvi(void *arg0, s32 arg1) {
+void create_sub_window__20TWindowChoiceSettingFPvi(void *arg0, s32 title) {
     uaddr var_r0;
 
     if ((u32) *(u32 *)((s8 *)arg0 + 0x78) == 0U) {
         var_r0 = (saddr)::operator new(0x24);
         if (var_r0 != 0U) {
-            var_r0 = (uaddr)((TWindowSubStatusDisp *)var_r0)->construct_type1_heading(arg1, *(s16 *)((s8 *)arg0 + 0x20));
+            var_r0 = (uaddr)((TWindowSubStatusDisp *)var_r0)->construct_type1_heading(title, *(s16 *)((s8 *)arg0 + 0x20));
         }
         *(u32 *)((s8 *)arg0 + 0x78) = var_r0;
         *(s32 *)((s8 *)arg0 + 0x2C) = (s32) (*(s32 *)((s8 *)arg0 + 0x2C) | 0x40);

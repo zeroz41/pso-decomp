@@ -77,9 +77,9 @@ TWindowMessagePage::~TWindowMessagePage() {
 
 }
 
-TWindowMessagePage::TWindowMessagePage(s32 parent, s32 rows, s32 arg3) : TWindowMessage(parent, rows, arg3) {
+TWindowMessagePage::TWindowMessagePage(s32 parent, s32 rows, s32 client) : TWindowMessage(parent, rows, client) {
     this->m_name = TWindowMessagePage__name;
     *(s32 *)((s8 *)this + 0x90) = 0;
-    this->client_index = (s16) arg3;
+    this->client_index = (s16) client;
     this->m_94 = 0;
 }

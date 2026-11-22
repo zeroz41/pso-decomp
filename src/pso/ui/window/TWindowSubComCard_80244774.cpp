@@ -324,9 +324,9 @@ WindowDrawContext *TWindowBase::draw_default_entry() {
     return setup_window_draw_context((f32 *)fn_8026CB68());
 }
 
-void TWindowBase::set_depth(f32 farg0) {
+void TWindowBase::set_depth(f32 depth) {
     TWindowBase::sub_8026CC28();
-    this->sort_depth = farg0;
+    this->sort_depth = depth;
     resort_window_order();
 }
 

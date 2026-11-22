@@ -19,7 +19,7 @@ LAYOUT_ASSERT(TWindowSubGameEnd_size, sizeof(TWindowSubGameEnd) == 0x2C);
 extern "C" {
 void TLobby__sub_802796FC(void);
 void TLobby__sub_80279708(void);
-void *TWindowSubGameEnd__ct(TWindowSubGameEnd *window_sub_game_end, s32 arg1, s32 arg2);
+void *TWindowSubGameEnd__ct(TWindowSubGameEnd *window_sub_game_end, s32 arg1, s32 client_index);
 void *__dt__17TWindowSubGameEndFv(void *arg0, s16 arg1);
 }
 
@@ -27,7 +27,7 @@ void *__dt__17TWindowSubGameEndFv(void *arg0, s16 arg1);
 extern "C" {
 void TLobby__sub_802796FC(void);
 void TLobby__sub_80279708(void);
-void *TWindowSubGameEnd__ct(TWindowSubGameEnd *window_sub_game_end, s32 arg1, s32 arg2);
+void *TWindowSubGameEnd__ct(TWindowSubGameEnd *window_sub_game_end, s32 arg1, s32 client_index);
 }
 // --- end of C functions
 
