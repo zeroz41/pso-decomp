@@ -377,13 +377,13 @@ void TBoss4DarkFalz::update_intro_demo() {
     }
     if (state_timer == 0x2D) {
         if (intro_tower != NULL) {
-            intro_tower->sub_8004D9A0(1);
+            intro_tower->set_fade_state(1);
         }
         TObjDFDemo0::create(this);
     }
     if (state_timer == 0xB9) {
         if (intro_tower != NULL) {
-            intro_tower->sub_8004D9A0(2);
+            intro_tower->set_fade_state(2);
         }
         play_area_music("dark1.adx");
     }

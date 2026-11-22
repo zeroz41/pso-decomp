@@ -1364,7 +1364,7 @@ void handle_6x15_vol_opt_boss_actions(TBoss3VoloptActionPacket *packet) {
         for (i = 0; i < 6; i++) {
             TBoss3VoloptP01 *p01 = (TBoss3VoloptP01 *)find_entity_by_id(volopt_target_entity_ids[i]);
             if (p01 != NULL) {
-                p01->sub_80042F84();
+                p01->enter_state_machine();
             }
         }
         break;

@@ -6,7 +6,7 @@
 #include "dolphin/mtx.h"
 
 // The block TBoss4Type2::spawn_afterimages fills for each afterimage it spawns; TBoss4Zanzo
-// keeps a copy (fn_8005586C) and draws model/motion at pos until lifetime frames have passed.
+// keeps a copy (copy_zanzo_params) and draws model/motion at pos until lifetime frames have passed.
 struct TBoss4ZanzoParams {
     Vec pos;
     s32 rotation_y;
@@ -33,7 +33,7 @@ public:
 LAYOUT_ASSERT(TBoss4Zanzo_size, sizeof(TBoss4Zanzo) == 0x4C);
 
 extern "C" {
-void fn_8005586C(TBoss4ZanzoParams *dst, TBoss4ZanzoParams *src);
+void copy_zanzo_params(TBoss4ZanzoParams *dst, TBoss4ZanzoParams *src);
 }
 
 #endif

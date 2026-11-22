@@ -300,16 +300,16 @@ void TBoss3VoloptMonitor::run_task() {
 void TBoss3VoloptMonitor::dispatch_state() {
     switch (mode) {
     case 0:
-        sub_80041C78();
+        update_wait();
         return;
     case 1:
-        sub_80041D0C();
+        update_idle();
         return;
     case 4:
-        sub_80041E88();
+        update_hit();
         return;
     case 5:
-        sub_80041D3C();
+        update_destroyed();
         return;
     }
 }
@@ -351,7 +351,7 @@ void TBoss3VoloptMonitor::render() {
     }
 }
 
-void TBoss3VoloptMonitor::sub_80041E88() {
+void TBoss3VoloptMonitor::update_hit() {
     switch (state) {
     case -1:
         break;
@@ -376,7 +376,7 @@ void TBoss3VoloptMonitor::sub_80041E88() {
     }
 }
 
-void TBoss3VoloptMonitor::sub_80041D3C() {
+void TBoss3VoloptMonitor::update_destroyed() {
     s32 base;
     s32 all;
     s32 j;
@@ -420,7 +420,7 @@ void TBoss3VoloptMonitor::sub_80041D3C() {
     }
 }
 
-void TBoss3VoloptMonitor::sub_80041D0C() {
+void TBoss3VoloptMonitor::update_idle() {
     switch (state) {
     case -1:
         break;
@@ -433,7 +433,7 @@ void TBoss3VoloptMonitor::sub_80041D0C() {
     }
 }
 
-void TBoss3VoloptMonitor::sub_80041C78() {
+void TBoss3VoloptMonitor::update_wait() {
     switch (state) {
     case 0:
         actorFlags |= 0x02040000;

@@ -92,13 +92,13 @@ struct TBoss3VoloptP01 : public TObjEnemyCustom {
     BOOL is_mode_0();
     int is_broken();
     void get_node_position(s32 node, Vec *out);
-    void sub_80042F84();
+    void enter_state_machine();
     s32 update_sink();
     s32 update_rise();
     void start_rise();
     void update_attack();
     void run_state_machine();
-    void sub_80043758();
+    void update_idle();
     void update_breakup();
     void update_state();
     void sub_80043CA8();
@@ -107,7 +107,7 @@ struct TBoss3VoloptP01 : public TObjEnemyCustom {
     static void init_breakup_effect();
     static void *create(void *set_data);
     void init_params();
-    s32 sub_800443DC(s32 index);
+    s32 get_shared_value(s32 index);
     void load_model(s32 index);
 
     f32 y_offset;

@@ -1075,7 +1075,7 @@ TBoss4Zanzo *TBoss4Type2::create_zanzo(TObject *parent, TBoss4ZanzoParams *param
     return new TBoss4Zanzo(parent, params);
 }
 
-void fn_8005586C(TBoss4ZanzoParams *dst, TBoss4ZanzoParams *src) {
+void copy_zanzo_params(TBoss4ZanzoParams *dst, TBoss4ZanzoParams *src) {
     *(ByteBlock_C *)&dst->pos = *(ByteBlock_C *)&src->pos;  // copied as 12 bytes, not as floats
     dst->rotation_y = src->rotation_y;
     dst->texlist = src->texlist;
@@ -1089,7 +1089,7 @@ void fn_8005586C(TBoss4ZanzoParams *dst, TBoss4ZanzoParams *src) {
 
 TBoss4Zanzo::TBoss4Zanzo(TObject *parent, TBoss4ZanzoParams *params) : TObject(parent) {
     m_name = TBoss4Zanzo__name;
-    fn_8005586C(&this->params, params);
+    copy_zanzo_params(&this->params, params);
     age = 0;
 }
 

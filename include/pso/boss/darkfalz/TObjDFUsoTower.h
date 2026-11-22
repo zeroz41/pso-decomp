@@ -12,7 +12,7 @@ struct TObjDFUsoTower : public TObjBase {
     virtual void render();
     virtual void run_task();
     f32 fade_alpha;
-    void sub_8004D9A0(s32 state);
+    void set_fade_state(s32 state);
 };
 
 LAYOUT_ASSERT(TObjDFUsoTower_state_offset, offsetof(TObjDFUsoTower, fade_state) == 0x90);

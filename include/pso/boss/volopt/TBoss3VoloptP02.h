@@ -66,8 +66,8 @@ public:
     s16 collect_targets_in_front();
     void trigger_breakup();
     void apply_broken_part_visibility();
-    void fn_800456E4();
-    void fn_800457A0();
+    void break_off_part_c();
+    void break_off_part_b();
     void spawn_breakup_models();
     void reset_visual_state();
     void spawn_ambient_particles();
@@ -77,8 +77,8 @@ public:
     void fn_80046260();
     void check_and_notify();
     void fn_800465B0();
-    void fn_80046CB8();
-    void fn_800472D4();
+    void update_attack();
+    void update_idle();
     void update_state();
     void dispatch_state();
     void set_action_wait(u16 target_id);

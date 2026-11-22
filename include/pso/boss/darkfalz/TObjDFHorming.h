@@ -13,7 +13,7 @@ struct TObjDFHorming : public TObjChara {
     TObjDFHorming(TObject *parent, const Vec *position, u16 target_id);
     virtual ~TObjDFHorming();
     virtual void run_task();
-    void sub_8005076C();
+    void approach_target_height();
     void steer_homing_direction();
     void check_attack_trigger();
     static s32 is_boss_active();

@@ -312,7 +312,7 @@ void TObjPlayer::draw_player_model_by_client(u16 arg0, saddr arg1, f32 farg0, f3
     TObjFish::set_global_param((saddr)g);
     TObjDFTenchuFuru::register_callback();
     draw_model_motion((void *)f, (void *)arg1, farg0);
-    TObjDFTenchuFuru__sub_80051A7C();
+    TObjDFTenchuFuru::unregister_callback();
     if (d != 0) {
         push_matrix_from(df_captured_matrix_pair[1]);
         TObjFish::set_global_param((saddr)e);
@@ -380,7 +380,7 @@ void TObjDFTenchuFuru::register_callback() { TObjDFTenchuFuru__matrix_node_index
 }
 
 extern "C" {
-void TObjDFTenchuFuru__sub_80051A7C(void) { set_chunk_model_node_callback(0); }
+void TObjDFTenchuFuru::unregister_callback() { set_chunk_model_node_callback(0); }
 }
 
 extern "C" {
@@ -734,7 +734,7 @@ void TObjDFHorming::run_task() {
     VecCopy(&prev_position, &body_center);
     switch (state) {
     case 0:
-        sub_8005076C();
+        approach_target_height();
         break;
     case 1:
         steer_homing_direction();
@@ -783,7 +783,7 @@ void TObjDFHorming::run_task() {
 
 void TObjDFHorming::queue_destruction(TObject *object) { object->queue_destruction(); }
 
-void TObjDFHorming::sub_8005076C() {
+void TObjDFHorming::approach_target_height() {
     f32 dy;
     dy = target_position.y - body_center.y;
     if (dy > 0.0f) {

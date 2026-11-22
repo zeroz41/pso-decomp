@@ -25,6 +25,7 @@ public:
     static TObjDFTenchuFuru *create(TObject *parent, const Vec *position);
     static void capture_matrix_by_frame(NJS_OBJECT *);
     static void register_callback();
+    static void unregister_callback();
     void transform_node_tree();
     void draw_node_tree();
 };

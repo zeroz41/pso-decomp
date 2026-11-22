@@ -11,11 +11,11 @@ struct TBoss3VoloptHiraisin : public TObjEnemyCustom {
     virtual void run_task();
     virtual void render();
 
-    void sub_80040FDC();
+    void update_descend();
     void start_attack();
-    void sub_8004118C();
+    void update_hover();
     void update_drop();
-    void sub_80041314();
+    void update_hit();
     void dispatch_state();
     static void destroy();
     static void init_models();
@@ -25,7 +25,7 @@ struct TBoss3VoloptHiraisin : public TObjEnemyCustom {
     void load_params_from_table(s32 index);
     void clear_flag_08000000();
     void set_flag_08000000();
-    s32 sub_80040FCC();
+    s32 is_grounded();
 
     s32 hover_angle;
 };

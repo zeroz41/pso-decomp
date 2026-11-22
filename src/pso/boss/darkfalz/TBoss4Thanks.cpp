@@ -71,7 +71,7 @@ extern const Ent_8035C35C boss4_thanks_emitter_table[4] = {
 };
 f32 xyz_distance(void *, const void *);
 
-s32 fn_8035C2B4(void) {
+s32 TBoss4Thanks::is_story_flag_0x99_set() {
     return get_story_flag(0x99) != 0;
 }
 s32 TBoss4Thanks::is_door_0x97_open() {
@@ -252,7 +252,7 @@ void *TBoss4Thanks::create() {
 }
 
 s32 TBoss4Thanks::is_door_open_and_ready() {
-    if ((is_door_0x97_open() != 0) && (fn_8035C2B4() == 0)) {
+    if ((is_door_0x97_open() != 0) && (is_story_flag_0x99_set() == 0)) {
         return 1;
     }
     return 0;

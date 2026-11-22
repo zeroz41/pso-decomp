@@ -402,9 +402,9 @@ void TBoss3VoloptP02::run_task() {
 
 void TBoss3VoloptP02::run_state() {
     switch (mode) {
-    case 0: fn_800472D4(); return;
+    case 0: update_idle(); return;
     case 1: dispatch_state(); return;
-    case 2: fn_80046CB8(); return;
+    case 2: update_attack(); return;
     case 4: update_state(); return;
     case 5: update_death_sequence(); return;
     case 9: fn_800465B0(); return;
@@ -515,7 +515,7 @@ void TBoss3VoloptP02::update_state() {
     }
 }
 
-void TBoss3VoloptP02::fn_800472D4() {
+void TBoss3VoloptP02::update_idle() {
     switch (state) {
     case 0:
         actorFlags &= ~0x40000;
@@ -532,7 +532,7 @@ void TBoss3VoloptP02::fn_800472D4() {
 
 #pragma push
 #pragma opt_common_subs off
-void TBoss3VoloptP02::fn_80046CB8() {
+void TBoss3VoloptP02::update_attack() {
     Vec pos;
     Vec out;
     s32 i;
@@ -1203,7 +1203,7 @@ void TBoss3VoloptP02::spawn_breakup_models() {
 #pragma opt_common_subs off
 #pragma opt_propagation off
 #pragma opt_dead_assignments off
-void TBoss3VoloptP02::fn_800457A0() {
+void TBoss3VoloptP02::break_off_part_b() {
     Vec pos;
     u32 flags = m_388;
     if (!(flags & 0x20000)) {
@@ -1222,7 +1222,7 @@ void TBoss3VoloptP02::fn_800457A0() {
 #pragma opt_common_subs off
 #pragma opt_propagation off
 #pragma opt_dead_assignments off
-void TBoss3VoloptP02::fn_800456E4() {
+void TBoss3VoloptP02::break_off_part_c() {
     Vec pos;
     u32 flags = m_388;
     if (!(flags & 0x40000)) {
@@ -1368,10 +1368,10 @@ extern "C" void handle_6x18_vol_opt2_boss_actions(VoloptPartsMessage *message) {
                     boss->spawn_breakup_models();
                     break;
                 case 1:
-                    boss->fn_800457A0();
+                    boss->break_off_part_b();
                     break;
                 case 2:
-                    boss->fn_800456E4();
+                    boss->break_off_part_c();
                     break;
                 case 3:
                     boss->trigger_breakup();

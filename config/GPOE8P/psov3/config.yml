@@ -6317,16 +6317,16 @@ force_active:
   - fn_8003F468
   - fn_80042960__Fl
   - fn_80044680__15TBoss3VoloptP02Fv
-  - fn_800456E4__15TBoss3VoloptP02Fv
-  - fn_800457A0__15TBoss3VoloptP02Fv
+  - break_off_part_c__15TBoss3VoloptP02Fv
+  - break_off_part_b__15TBoss3VoloptP02Fv
   - fn_80046260__15TBoss3VoloptP02Fv
   - fn_800465B0__15TBoss3VoloptP02Fv
-  - fn_80046CB8__15TBoss3VoloptP02Fv
-  - fn_800472D4__15TBoss3VoloptP02Fv
+  - update_attack__15TBoss3VoloptP02Fv
+  - update_idle__15TBoss3VoloptP02Fv
   - fn_800499FC
   - fn_80049A0C
   - fn_8004D9A8
-  - fn_8005586C
+  - copy_zanzo_params
   - count_minion_spawned__14TBoss4DarkFalzFv
   - fn_8005EBDC__13TBoss5GryphonFPUcP22Boss5GryphonActionStep
   - run_action_script_step__13TBoss5GryphonFPsPUl
@@ -16145,17 +16145,17 @@ force_active:
   - sub_8003C21C__15TObjBoss2TunnelFv
   - sub_8003F81C__16TBoss3VoloptCoreFv
   - sub_80040558__16TBoss3VoloptCoreFv
-  - sub_80040FDC__20TBoss3VoloptHiraisinFv
-  - sub_8004118C__20TBoss3VoloptHiraisinFv
-  - sub_80041314__20TBoss3VoloptHiraisinFv
-  - sub_80041C78__19TBoss3VoloptMonitorFv
-  - sub_80041D0C__19TBoss3VoloptMonitorFv
-  - sub_80041D3C__19TBoss3VoloptMonitorFv
-  - sub_80041E88__19TBoss3VoloptMonitorFv
+  - update_descend__20TBoss3VoloptHiraisinFv
+  - update_hover__20TBoss3VoloptHiraisinFv
+  - update_hit__20TBoss3VoloptHiraisinFv
+  - update_wait__19TBoss3VoloptMonitorFv
+  - update_idle__19TBoss3VoloptMonitorFv
+  - update_destroyed__19TBoss3VoloptMonitorFv
+  - update_hit__19TBoss3VoloptMonitorFv
   - sub_800420D8__19TBoss3VoloptMonitorFv
-  - sub_80043758__15TBoss3VoloptP01Fv
+  - update_idle__15TBoss3VoloptP01Fv
   - sub_80043CA8__15TBoss3VoloptP01Fv
-  - sub_800443DC__15TBoss3VoloptP01Fl
+  - get_shared_value__15TBoss3VoloptP01Fl
   - sub_80049000__14TObjVoloptCageFv
   - reset_child_ids__14TBoss4DarkFalzFv
   - run_state_update__14TBoss4DarkFalzFv

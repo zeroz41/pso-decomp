@@ -43,7 +43,6 @@ public:
     f32 radius;
 };
 
-extern "C" void TObjDFTenchuFuru__sub_80051A7C(void);
 
 // Draws a player-like model set (body, two attached parts, hair) at alpha; used by TBoss6Type2.
 void boss6type2_draw_models(s32 arg0, s32 arg1, s32 arg2, uaddr arg3, uaddr arg4, u32 model, uaddr arg6, saddr appearance, f32 alpha);

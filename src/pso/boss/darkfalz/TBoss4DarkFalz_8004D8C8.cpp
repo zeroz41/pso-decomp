@@ -32,4 +32,4 @@ s32 TBoss4DarkFalz::get_live_minion_count() {
     return minions_spawned - minions_lost;
 }
 
-void TObjDFUsoTower::sub_8004D9A0(s32 state) { fade_state = state; }
+void TObjDFUsoTower::set_fade_state(s32 state) { fade_state = state; }

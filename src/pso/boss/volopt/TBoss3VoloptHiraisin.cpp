@@ -108,11 +108,11 @@ void TBoss3VoloptHiraisin::set_flag_08000000() {
     set_indexed_flags(0, 0x08000000);
 }
 
-s32 TBoss3VoloptHiraisin::sub_80040FCC() {
+s32 TBoss3VoloptHiraisin::is_grounded() {
     return (bodies->flags >> 1) & 1;
 }
 
-void TBoss3VoloptHiraisin::sub_80040FDC() {
+void TBoss3VoloptHiraisin::update_descend() {
     switch (state) {
     case -1:
         break;
@@ -155,7 +155,7 @@ void TBoss3VoloptHiraisin::start_attack() {
     sub_800C7860();
 }
 
-void TBoss3VoloptHiraisin::sub_8004118C() {
+void TBoss3VoloptHiraisin::update_hover() {
     switch (state) {
     case 0:
         this->requested_action = 0;
@@ -203,7 +203,7 @@ void TBoss3VoloptHiraisin::update_drop() {
     update_collisions();
 }
 
-void TBoss3VoloptHiraisin::sub_80041314() {
+void TBoss3VoloptHiraisin::update_hit() {
     switch (state) {
     case -1:
         break;
@@ -268,16 +268,16 @@ void TBoss3VoloptHiraisin::dispatch_state() {
     switch (mode) {
     case 0:
     case 1:
-        sub_8004118C();
+        update_hover();
         break;
     case 4:
-        sub_80041314();
+        update_hit();
         break;
     case 5:
         update_drop();
         break;
     case 7:
-        sub_80040FDC();
+        update_descend();
         break;
     }
 }

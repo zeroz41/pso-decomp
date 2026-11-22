@@ -93,7 +93,7 @@ void TBoss3VoloptP01::load_model(s32 index) {
     texlist = (saddr)TBoss3VoloptP01__resource_bundle->models[index].m_c;
 }
 
-s32 TBoss3VoloptP01::sub_800443DC(s32 index) {
+s32 TBoss3VoloptP01::get_shared_value(s32 index) {
     return volopt_p01_shared_handler_handle->values[index];
 }
 
@@ -238,7 +238,7 @@ void TBoss3VoloptP01::run_task() {
 
 void TBoss3VoloptP01::dispatch_state() {
     switch (mode) {
-    case 0: sub_80043758(); return;
+    case 0: update_idle(); return;
     case 2: update_attack(); return;
     case 4: update_state(); return;
     case 9: run_state_machine(); return;
@@ -306,7 +306,7 @@ void TBoss3VoloptP01::update_state() {
                 state = last_state;
             } else if (flags & 0x20000) {
                 m_388 = flags & ~1;
-                sub_80042F84();
+                enter_state_machine();
             } else {
                 play_sound_effect(0x4003A810, &position, 0xA, 0);
                 state = 2;
@@ -323,7 +323,7 @@ void TBoss3VoloptP01::update_state() {
                     run_attack_action();
                 } else if (flags & 0x20000) {
                     m_388 = flags & ~1;
-                    sub_80042F84();
+                    enter_state_machine();
                 } else {
                     play_sound_effect(0x4003A810, &position, 0xA, 0);
                     state = 2;
@@ -382,7 +382,7 @@ void TBoss3VoloptP01::update_breakup() {
     update_collisions();
 }
 
-void TBoss3VoloptP01::sub_80043758() {
+void TBoss3VoloptP01::update_idle() {
     switch (state) {
     case 0:
         actorFlags |= 0x40000;
@@ -671,7 +671,7 @@ s32 TBoss3VoloptP01::update_sink() {
 }
 #pragma pop
 
-void TBoss3VoloptP01::sub_80042F84() {
+void TBoss3VoloptP01::enter_state_machine() {
     if (obj_testFlags30(0x04000800) == 0) {
         this->update_if_active(9);
     }
@@ -739,7 +739,7 @@ s32 TBoss3VoloptP01::fire_zonde_at_players() {
     TTecZondeEff *bolt;
     DirectAttackPayload attack = volopt_p01_zonde_attack;
 
-    attack.power = sub_800443DC(0);
+    attack.power = get_shared_value(0);
     n = 0;
     for (i = 0; i < registered_player_count; i++) {
         player = TObjPlayer::get_player_data(i);
@@ -775,7 +775,7 @@ s32 TBoss3VoloptP01::fire_zonde_at_players() {
             if (bolt != NULL) {
                 bolt->construct((u8 *)tl_07, (u8 *)&pos, (u8 *)&to_hiraisin, len);
             }
-            if (hiraisin->sub_80040FCC() != 0) {
+            if (hiraisin->is_grounded() != 0) {
                 TBoss3VoloptActionPacket packet;
                 packet.init();
                 packet.id = entity_id;
