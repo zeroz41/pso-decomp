@@ -34,7 +34,6 @@
 struct Q_801681D0 { f32 w[4]; };
 
 extern s32 game_difficulty_selection;
-extern TCameraCtrl *camera_ctrl_instance;
 
 BmlResource *TOHangceilingCave01__model_archive;
 GinjaTextureList **turiten_singo_texture_lists;

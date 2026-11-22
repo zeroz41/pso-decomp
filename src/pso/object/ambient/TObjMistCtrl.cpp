@@ -25,7 +25,6 @@ extern "C" {
 s32 vec3_add_to(void *, void *);
 extern Vec lbl_804707E8;
 extern u8 identity_matrix[];
-extern TCameraCtrl *camera_ctrl_instance;
 void TObjMistCtrl::sub_802AF64C() {
     Obj_802AF64C *arg0 = (Obj_802AF64C *)this;
     Vec v = lbl_804707E8;

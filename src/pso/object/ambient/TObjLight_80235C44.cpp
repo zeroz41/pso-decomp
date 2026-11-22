@@ -120,7 +120,6 @@ TUnk_804CCAA8 *construct_actor_light_task(TUnk_804CCAA8 *light, NJS_ARGB *color,
 extern "C" {
 f32 vec_squared_length(void *, f32);
 }
-extern TCameraCtrl *camera_ctrl_instance;
 
 #pragma push
 #pragma fp_contract on

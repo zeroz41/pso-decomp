@@ -501,10 +501,6 @@ static inline void add_crawfish_slot_base(CrawfishSlotOffset &offset) {
 
 #pragma pop
 
-extern "C" {
-extern f32 lbl_804FF5E8[];
-}
-
 NJS_OBJECT boss7_derolle_light_pool[11];
 
 BmlResource *boss7_derolle_c_bml_resource; // loaded by load_resources

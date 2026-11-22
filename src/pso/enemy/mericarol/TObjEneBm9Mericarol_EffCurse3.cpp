@@ -10,8 +10,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
 
-extern "C" TCameraCtrl *camera_ctrl_instance;
-
 #pragma push
 #pragma fp_contract on
 void TObjEneBm9Mericarol_EffCurse3::run_task() {

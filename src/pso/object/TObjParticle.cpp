@@ -13,7 +13,6 @@ extern "C" {
 s32 is_split_screen(void);
 extern const char TObjParticle__class_name_string[] = "TObjParticle";
 const char *obj_particle_class_name = TObjParticle__class_name_string;
-extern TCameraCtrl *camera_ctrl_instance;
 }
 
 void TObjParticle::render() {

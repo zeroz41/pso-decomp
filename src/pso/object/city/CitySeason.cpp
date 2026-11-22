@@ -66,9 +66,6 @@ extern saddr lbl_805D5B3C;
 extern saddr lbl_805D5B40;
 extern GinjaTextureList *lbl_805D5B44;
 extern void *lbl_805D5B48;
-// Defined in TCameraCtrl.cpp.
-extern TCameraCtrl *camera_ctrl_instance;
-extern f32 lbl_804FF5E8[];
 
 // Defined in text_800F5BC0.cpp, which has no declaration of it yet.
 extern "C" void scroll_strip_uvs(void *strips, s16 u_offset, s16 v_offset);

@@ -67,7 +67,6 @@ s32 is_split_screen(void);
 u16 get_entity_id(void *);
 f32 xyz_distance_squared(void *, void *);
 Actor_80193FE8 *get_player_by_client_id(s32);
-extern TCameraCtrl *camera_ctrl_instance;
 
 const char *TObjLight__class_name = "TObjLight";
 

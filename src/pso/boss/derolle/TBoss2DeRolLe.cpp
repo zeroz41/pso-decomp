@@ -282,8 +282,6 @@ extern "C" {
 
 void *__ct__9TBoss2FinFv(void *, TObject *, Vec *, Vec *);
 
-extern f32 lbl_804FF5E8[];
-
 }
 
 void *TBoss2DeRolLe__base_params[1];

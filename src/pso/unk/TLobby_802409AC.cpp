@@ -683,8 +683,6 @@ void TLobby__sub_80241798(Sound_80241798 *arg0) {
 
 void TLobby__sub_80241A0C(void) {  }
 
-extern TCameraCtrl *camera_ctrl_instance;
-
 
 void send_sound_request_reverb(SoundRequestVoice *voice) {
     f32 request = voice->reverb;

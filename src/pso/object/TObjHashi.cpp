@@ -27,7 +27,6 @@
 
 // The BML resource loader and its deleting destructor (TLobby_8001EF5C) and
 // a model's texture list (TObjFish_8001ED90), still named after their units.
-extern TCameraCtrl *camera_ctrl_instance;
 
 // The unit's .sdata2 float pool (0x805DBE20-0x805DBE40) is still referenced
 // from the DOL: CW pools these in the order the functions need them, and no

@@ -87,7 +87,6 @@ const Row_80190AA0 *environment_sound_tables_by_area[36] = {
 };
 
 f32 xz_distance_squared(void *, void *);
-extern TCameraCtrl *camera_ctrl_instance;
 void run_task__14TObjEnvSoundExFv(Env_80190624 *o);
 void * TObjEnvSoundEx__create(void *arg0);
 

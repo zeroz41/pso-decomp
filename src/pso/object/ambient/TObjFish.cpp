@@ -108,7 +108,6 @@ extern const f32 lbl_80465D74[5][3] = { { 1.0f, 1.0f, 1.0f }, { 0.4f, 0.4f, 0.4f
 extern const f32 lbl_80465DB0[5][3] = { { 30.0f, 30.0f, 30.0f }, { 5.0f, 20.0f, 30.0f }, { 5.0f, 5.0f, 5.0f }, { 30.0f, 30.0f, 30.0f }, { 30.0f, 30.0f, 30.0f } };
 extern const char TObjFish__class_name_string[] = "TObjFish";
 #pragma pop
-extern TCameraCtrl *camera_ctrl_instance;
 
 #pragma push
 #pragma fp_contract on

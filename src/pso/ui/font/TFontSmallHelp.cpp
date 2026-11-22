@@ -30,7 +30,6 @@ static const Vec help_text_forward = {0.0f, 0.0f, -1.0f};
 
 extern "C" {
 extern s32 localized_alphabet_list;
-extern TCameraCtrl *camera_ctrl_instance;
 }
 
 void TWindowSubStatusDisp::render_forward() {

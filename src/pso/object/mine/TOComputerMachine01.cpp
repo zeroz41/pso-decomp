@@ -15,10 +15,6 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/unk/text_803D8F74.h"
 
-// TCameraCtrl.h does not declare the instance yet: 28 files that include it
-// still redeclare it with their own types.
-extern TCameraCtrl *camera_ctrl_instance;
-
 const char *bm_fs_obj_kenkyu_com_model_names[2] = { "fs_obj_kenkyu_com.gj", NULL };
 const char *bm_fs_obj_kenkyu_com_motion_names[1] = { NULL };
 BmlResourceDescriptor bm_fs_obj_kenkyu_com_resource_descriptor = {

@@ -25,8 +25,6 @@
 #include "pso/unk/text_803DA798.h"
 #include "pso/unk/text_803E29B0.h"
 
-extern TCameraCtrl *camera_ctrl_instance;
-
 // Per player class (in the order of the switch below): the footprint's
 // length, width and offset along the facing, before the height scaling.
 const Vec lbl_804707F8[12] = {

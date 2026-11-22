@@ -29,7 +29,6 @@ NJS_POINT3COL TObjRain__streak_line_list = {TObjRain__streak_points, TObjRain__s
 extern "C" {
 f32 xz_distance_squared(void *, void *);
 void draw_line_list(NJS_POINT3COL *, s32, s32);
-extern TCameraCtrl *camera_ctrl_instance;
 }
 
 void TObjRain::draw_streaks() {
