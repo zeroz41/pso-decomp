@@ -14,6 +14,7 @@
 #include "pso/npc/TObjNpcFemaleMacho.h"
 #include "pso/npc/TObjNpcFemaleOld.h"
 #include "pso/npc/TObjNpcFemaleTall.h"
+#include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/boss/volopt/TBoss3VoloptCore.h"
 #include "pso/boss/volopt/TBoss3VoloptP02.h"
@@ -90,7 +91,6 @@
 #include "pso/player/TObjPlayer.h"
 
 extern "C" {
-void* create__12TBoss1DragonFl(void* placement);
 void* create__14TBoss4DarkFalzFl(void* placement);
 void* create__18TObjEneBalClawClawFv(void* placement);
 void* create__16TObjEneRe7BeruraFv(void* placement);
@@ -268,7 +268,7 @@ EnemyFactoryEntry enemy_factories_floor_10[11] = {
 };
 
 EnemyFactoryEntry enemy_factories_floor_11[3] = {
-    { 0x00C0, create__12TBoss1DragonFl, 250000.0f, 0 },
+    { 0x00C0, TBoss1Dragon::create, 250000.0f, 0 },
     { 0x0033, TObjNpcEnemy__create, 250000.0f, 0 },
     { -1, 0, 250000.0f, 0 },
 };

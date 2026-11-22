@@ -292,7 +292,7 @@ force_active:
   - TBoss1DragonColli_sphere_chain_desc
   - TBoss1DragonEffTail__collision_body_templates
   - TBoss1DragonEffTail__name
-  - TBoss1Dragon__ct
+  - __ct__12TBoss1DragonFP7TObjectPv
   - TBoss1Dragon__data_80434E80
   - TBoss1Dragon__data_80480CE0
   - TBoss1Dragon__data_804FE17C
@@ -4585,7 +4585,6 @@ force_active:
   - boss1_dragon_bml_descriptor
   - boss1_dragon_capture_node_table
   - boss1_dragon_collision_body_parts
-  - boss1_dragon_death_cue_filename
   - boss1_dragon_gravity
   - boss1_dragon_ground_impact_params
   - boss1_dragon_init_params
@@ -5645,7 +5644,7 @@ force_active:
   - depth_buffer_config_copy
   - depth_buffer_settings
   - despawn_state__14TObjEneBm5WolfFl
-  - destroy__12TBoss1DragonFPvs
+  - __dt__12TBoss1DragonFv
   - destroy__12TPhotonGollaFPvs
   - destroy__12TPhotonPillaFPvs
   - destroy__12T_OWEHMS_ExpFs
@@ -7772,7 +7771,7 @@ force_active:
   - lbl_80480F88
   - lbl_80480F94
   - lbl_80481010
-  - lbl_80481280
+  - __vt__12TBoss1Dragon
   - lbl_80483480
   - lbl_80485550
   - lbl_80485590

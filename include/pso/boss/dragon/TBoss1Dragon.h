@@ -50,6 +50,7 @@ LAYOUT_ASSERT(DragonPositionKeySize, sizeof(DragonPositionKey) == 0x10);
 extern "C" void copy_model_node(u8 *dst, u8 *src);
 
 struct TBoss1Dragon : public TObjEneDD_ST {
+    TBoss1Dragon(TObject *parent, void *set_data);
     virtual ~TBoss1Dragon();
     void load_resources();
     void request_state_change(u32 state);
@@ -98,7 +99,7 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     static void setControlOverride(s16 controlId);
     static void requestActionRefresh();
     u32 flags;
-    u8 unknown3C4[0x3E0 - 0x3C4];
+    TObject unknown3C4;
     s32 m_3e0;
     s32 phase;
     Vec m_3e8[3];
@@ -219,7 +220,7 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     void check_death();
     void choose_next_action();
     static void free_resources();
-    static u8 *create(s32 arg0);
+    static void *create(void *set_data);
     static saddr get_instance();
     static void select_fireball_particle_table();
     void draw();

@@ -970,7 +970,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/npc/TObjNpcFemaleMacho.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/npc/TObjNpcFemaleOld.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/npc/TObjNpcFemaleTall.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/boss/dragon/TBoss1Dragon.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # -inline auto,deferred: .data holds the TBoss1Dragon vtable ahead of the jump tables and the
+    # TUnk_80481B34 vtable after them, so the source runs last function to first.
+    "pso/boss/dragon/TBoss1Dragon.cpp": {"cflags": _switch(cflags_pso, "-inline auto,deferred", "-str reuse,readonly")},
     "pso/technique/TTecBarta.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # consume_telepipe_arrival reaches each .rodata object with its own lis/addi (no shared base): -pool off.
     # -inline off,deferred: .data holds the TUnk_804CC9D4, TUnk_804CCA0C and TTecLuker vtables in the
