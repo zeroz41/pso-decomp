@@ -26,6 +26,8 @@
 #include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecAnti.h"
 #include "pso/technique/TTecCtrl.h"
+#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
+#include "pso/object/base/CollisionActorLookup.h"
 
 // ---- pso/unk/text_80232934
 
@@ -49,7 +51,6 @@ void draw_ginja_object(void);
 extern u8 technique_ringwave_texture_list[];
 
 // ---- pso/unk/text_80232AA4
-void *find_entity_by_id(u16 id);
 
 }
 
@@ -108,8 +109,6 @@ void __ct__7TObjectFP7TObject(void *self, void *parent);
 extern u8 __vt__13TUnk_804CC870[];
 
 Obj_80232B7C *construct_grants_flash(Obj_80232B7C *self, s32 id, void *parent, Vec *pos, f32 scale);
-
-void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 }
 
 // Per level tier (TObjPlayer::get_level_tier): the particle emitters TUnk_804CC888 keeps alive and
@@ -159,8 +158,8 @@ TUnk_804CC888::~TUnk_804CC888() {
 void TUnk_804CC888::run_task() {
     u32 i;
     s32 dir;
-    u8 *obj;
-    saddr r;
+    TObjCollidable *obj;
+    TParticleCtrl *r;
     void *p;
     ((Ctl_80232C50 *)this)->timer++;
     if (((Ctl_80232C50 *)this)->timer % 5 == 0) {
@@ -171,16 +170,16 @@ void TUnk_804CC888::run_task() {
     }
     if (((Ctl_80232C50 *)this)->timer >= 30) {
         for (i = 0; i < technique_effect_entry_table[((Ctl_80232C50 *)this)->kind].count; i++) {
-            obj = (u8 *)find_entity_by_id(((Ctl_80232C50 *)this)->id);
-            if (obj != 0) {
+            obj = find_entity_by_id(((Ctl_80232C50 *)this)->id);
+            if (obj != NULL) {
                 const SEnt_80232C50 *e = &technique_effect_entry_table[((Ctl_80232C50 *)this)->kind].ents[i];
                 if (e->flags & 0x20) {
-                    r = (saddr)spawn_particle_effect((const Vec *)(obj + 0x38), e->a);
-                    if (r != 0) {
-                        attach_particle_model((u8 *)r, (saddr)get_bml_model(technique_effect_bml, technique_effect_entry_table[((Ctl_80232C50 *)this)->kind].ents[i].flags >> 16), (saddr)lbl_805D63B0, 0, 1, 1.0f);
+                    r = spawn_particle_effect(&obj->position, e->a);
+                    if (r != NULL) {
+                        attach_particle_model(r, get_bml_model(technique_effect_bml, technique_effect_entry_table[((Ctl_80232C50 *)this)->kind].ents[i].flags >> 16), (GinjaTextureList *)lbl_805D63B0, NULL, 1, 1.0f);
                     }
                 } else {
-                    spawn_particle_effect((const Vec *)(obj + 0x38), e->a);
+                    spawn_particle_effect(&obj->position, e->a);
                 }
             }
         }
@@ -235,10 +234,10 @@ TUnk_804CC870::~TUnk_804CC870() {
 
 void TUnk_804CC870::run_task() {
     u8 *arg0 = (u8 *)this;
-    saddr entity;
-    entity = (saddr)find_entity_by_id((*(u16 *)((s8 *)arg0 + 0x1C)));
-    if (entity != 0) {
-        VecCopy((Vec *)(arg0 + 0x20), (const Vec *)(entity + 0x38));
+    TObjCollidable *entity;
+    entity = find_entity_by_id((*(u16 *)((s8 *)arg0 + 0x1C)));
+    if (entity != NULL) {
+        VecCopy((Vec *)(arg0 + 0x20), &entity->position);
     }
     this->m_48 = (this->m_48 + 1);
     if ((s32) this->m_48 >= 7) {
