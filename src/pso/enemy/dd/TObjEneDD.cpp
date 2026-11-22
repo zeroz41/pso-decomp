@@ -107,45 +107,8 @@ struct Obj_800BA200 { u8 pad[0x30]; u32 flags; u8 pad2[0xa4 - 0x34]; Part_800BA2
 struct Part_800BA244 { u8 pad[0x18]; u32 flags; u8 pad2[0x2c - 0x1c]; };
 struct Obj_800BA244 { u8 pad[0x30]; u32 flags; u8 pad2[0xa4 - 0x34]; Part_800BA244 *parts; s32 count; };
 extern "C" {
-struct EneDDBase2_800BA138 { char pad[0x18]; };
-struct EneDDObj2_800BA138 : EneDDBase2_800BA138 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15(void *, void *);
-    virtual void m16(void *, void *);
-};
-struct EneDDBase_800BA138 { char pad[0x18]; };
-struct EneDDObj_800BA138 : EneDDBase_800BA138 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12(void *, void *, void *);
-    virtual void m13(void *, void *, void *);
-};
 s32 all_parents_unqueued_for_destruction();
-u8 * obj_ene_dd_instance;
+TUnk_804928CC *obj_ene_dd_instance;
 }
 
 
@@ -169,111 +132,6 @@ void set_part_position__9TObjEneDDFPvPvi(Obj_800BA9BC *self, Vec *v, s32 i);
 }
 
 
-struct VBase_18_3f4583 { char pad[0x18]; };
-struct VObj_18_3f4583 : VBase_18_3f4583 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual void m84();
-    virtual void m85();
-    virtual void m86();
-    virtual void m87();
-    virtual void m88();
-    virtual void m89();
-    virtual void m90();
-    virtual void m91();
-    virtual void m92();
-    virtual void m93();
-    virtual void m94();
-    virtual void m95();
-    virtual void m96();
-    virtual void m97();
-    virtual void m98();
-    virtual void m99();
-    virtual void m100();
-    virtual void * m101();
-};
 extern "C" {
 f32 newton_sqrtf(f32);
 }
@@ -321,95 +179,6 @@ int submit_cursor_candidate(void*, int);
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
-struct VBase_18 { char pad[0x18]; };
-struct VObj_18 : VBase_18 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual s32 m84();
-    virtual s32 m85(s16, s32);
-};
 struct Obj_800BB88C {
     u8 pad0[0x28]; s16 f28; s16 f2a; u8 pad2c[0xc];
     f32 f38; f32 f3c; f32 f40; u8 pad44[0x18];
@@ -420,10 +189,6 @@ extern "C" {
 s32 subtractive_rng_seed(void *, int);
 int fn_800FD8A0(void*);
 extern s32 area_random_seed;
-struct Base_800BBDD4 { char pad[0x18]; };
-struct VObj_800BBDD4 : Base_800BBDD4 {
-    virtual void m0(int);
-};
 extern int lbl_805D5870;
 }
 
@@ -442,19 +207,12 @@ s32 tick_period_counter(s32 self, s32 *counter, s32 limit) {
 int TObjEneDD::get_enemy_count() {  return lbl_805D5870; }
 
 void TObjEneDD::create_instance() {
-    void *o;
-    o = TObject::operator new(0xB0);
-    if (o != NULL) {
-        o = __ct__13TUnk_804928CCFP7TObjectP8TObjBase((u8 *)o, 0, 0);
-    }
-    obj_ene_dd_instance = (u8 *)o;
+    obj_ene_dd_instance = new TUnk_804928CC(NULL, NULL);
 }
 
 void TObjEneDD::release_resource() {
     if (obj_ene_dd_instance != NULL) {
-        if (obj_ene_dd_instance != NULL) {
-            ((VObj_800BBDD4 *)obj_ene_dd_instance)->m0(1);
-        }
+        delete obj_ene_dd_instance;
         obj_ene_dd_instance = NULL;
     }
 }
@@ -514,10 +272,10 @@ s32 TObjEneDD::update_immobilizing_statuses() {
 }
 
 void TObjEneDD::update_action_state() {
-    if (((VObj_18 *)(this))->m84() == 0) {
-        ((VObj_18 *)(this))->m85(this->mode, 3);
+    if (has_action_state_changed() == 0) {
+        dispatch_action(mode, 3);
     }
-    ((VObj_18 *)(this))->m85(this->mode, 0);
+    dispatch_action(mode, 0);
     sub_800BBA0C();
 }
 
@@ -865,7 +623,7 @@ u8 *TObjEneDD::try_move_actor_xz_on_ground(u8 *shot) {
     f32 temp_f31;
     u8 *temp_r3;
     temp_f31 = *(f32 *)((s8 *)((u8 *)this) + 0x3C);
-    temp_r3 = (unsigned char *) (((VObj_18_3f4583 *)(this))->m101());
+    temp_r3 = snap_to_ground_at(shot);
     if (temp_r3 != NULL) {
         this->prev_position.x = (f32) *(f32 *)((s8 *)((u8 *)this) + 0x38);
         this->prev_position.y = temp_f31;
@@ -885,7 +643,7 @@ u8 *TObjEneDD::move_xz_on_ground(u8 *arg1) {
     f32 temp_f31;
     u8 *temp_r3;
     temp_f31 = *(f32 *)((s8 *)self + 0x3C);
-    temp_r3 = (unsigned char *) (((VObj_18_3f4583 *)(self))->m101());
+    temp_r3 = snap_to_ground_at(arg1);
     if (temp_r3 != NULL) {
         VecCopy((Vec *)(self + 0x248), (const Vec *)(*(saddr *)((s8 *)temp_r3 + 4) + 0xC));
     }
@@ -1109,15 +867,15 @@ int is_target_ranger(void* p) { return (((TObjPlayer *)p)->class_flags & CLASS_F
 int is_target_android(void* p) { return (((TObjPlayer *)p)->class_flags & CLASS_FLAG_ANDROID) != 0; }
 
 void TObjEneDD::setup_instance(saddr owner, saddr arg1, u8 *bytes, saddr attack_history) {
-    ((TUnk_804928CC *)obj_ene_dd_instance)->sub_800BC3E8((u8 *)owner);
-    ((TUnk_804928CC *)obj_ene_dd_instance)->set_position_from((void *)arg1);
-    *(f32 *)((s8 *)(*(void **)((s8 *)obj_ene_dd_instance + 0xA4)) + 0xC) = (f32) *(f32 *)((s8 *)bytes + 8);
-    *(s32 *)((s8 *)(*(void **)((s8 *)obj_ene_dd_instance + 0xA4)) + 0x18) = 0x9D03;
-    if (*(f32 *)((s8 *)bytes + 8) > 100.0f) {
-        ((EneDDObj_800BA138*)obj_ene_dd_instance)->m13(bytes + 0xC, (void*)bytes, (void*)attack_history);
+    obj_ene_dd_instance->sub_800BC3E8((u8 *)owner);
+    obj_ene_dd_instance->set_position_from((void *)arg1);
+    obj_ene_dd_instance->bodies->radius = *(f32 *)(bytes + 8);
+    obj_ene_dd_instance->bodies->flags = 0x9D03;
+    if (*(f32 *)(bytes + 8) > 100.0f) {
+        obj_ene_dd_instance->area_attack_deliver_direct(bytes + 0xC, (saddr)bytes, (void *)attack_history, *(f32 *)(bytes + 8));
         return;
     }
-    ((EneDDObj_800BA138*)obj_ene_dd_instance)->m12(bytes + 0xC, (void*)bytes, (void*)attack_history);
+    obj_ene_dd_instance->call_vt13_with_default(bytes + 0xC, bytes, attack_history);
 }
 
 void TObjEneDD::setup(void *p, saddr pos, saddr params) { TObjEneDD::setup_instance((saddr)p, pos, (u8 *)params, 0); }
@@ -1125,15 +883,15 @@ void TObjEneDD::setup(void *p, saddr pos, saddr params) { TObjEneDD::setup_insta
 void TObjEneDD__sub_800BA5A4(void* p, void* a1) { TObjEneDD::setup_instance((saddr)p, (saddr)((char*)p + 0x38), (u8 *)a1, (saddr)((void*)0)); }
 
 void TObjEneDD::emit_enemy_effect(void *ene_dd, void *pos, u8 *arg2, void *attack_history) {
-    ((TUnk_804928CC *)obj_ene_dd_instance)->sub_800BC3E8((u8 *)ene_dd);
-    ((TUnk_804928CC *)obj_ene_dd_instance)->set_position_from(pos);
-    *(f32 *)((s8 *)(*(void **)((s8 *)obj_ene_dd_instance + 0xA4)) + 0xC) = (f32) *(f32 *)((s8 *)arg2 + 8);
-    *(s32 *)((s8 *)(*(void **)((s8 *)obj_ene_dd_instance + 0xA4)) + 0x18) = 0x9D03;
-    if (*(f32 *)((s8 *)arg2 + 8) > 100.0f) {
-        ((EneDDObj2_800BA138*)obj_ene_dd_instance)->m16(arg2 + 0xC, attack_history);
+    obj_ene_dd_instance->sub_800BC3E8((u8 *)ene_dd);
+    obj_ene_dd_instance->set_position_from(pos);
+    obj_ene_dd_instance->bodies->radius = *(f32 *)(arg2 + 8);
+    obj_ene_dd_instance->bodies->flags = 0x9D03;
+    if (*(f32 *)(arg2 + 8) > 100.0f) {
+        obj_ene_dd_instance->area_attack_deliver_physical(arg2 + 0xC, attack_history, *(f32 *)(arg2 + 8));
         return;
     }
-    ((EneDDObj2_800BA138*)obj_ene_dd_instance)->m15(arg2 + 0xC, attack_history);
+    obj_ene_dd_instance->call_vt16_with_default(arg2 + 0xC, attack_history);
 }
 
 void TObjEneDD::emit_effect(void *p, saddr pos, saddr params) { TObjEneDD::emit_enemy_effect(p, (void *)pos, (u8 *)params, 0); }
