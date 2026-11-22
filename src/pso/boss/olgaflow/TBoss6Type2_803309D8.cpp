@@ -1,8 +1,10 @@
 #include "types.h"
-#include "pso/boss/olgaflow/TBoss6Type2_8032E708.h"
 #include "pso/boss/olgaflow/TBoss6Type2_803309D8.h"
 #include "pso/boss/olgaflow/TBoss6Type2.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/TObjControl.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/boss/olgaflow/TBoss6Mag.h"
 
 struct Base_803309D8 { char pad[0x18]; };
 struct VObj_803309D8 : Base_803309D8 {
@@ -16,26 +18,11 @@ struct VObj_803309D8 : Base_803309D8 {
     virtual void m7();
 };
 
-extern "C" {
-
-s32 __ct__11TObjControlFP7TObject(s32, s32);
-
-extern saddr tl_04;
-
-s32 TBoss6Type2::create_mag(saddr arg0) {
-    saddr var_r31;
-    saddr var_r4;
-
-    var_r31 = (saddr)TObject::operator new(0x45C);
-    if (var_r31 != 0) {
-        var_r4 = (saddr)TObject::operator new(0x20);
-        if (var_r4 != 0) {
-            var_r4 = __ct__11TObjControlFP7TObject(var_r4, tl_04);
-        }
-        var_r31 = (saddr)TBoss6Mag__ct((u8 *)var_r31, var_r4, (u8 *)arg0);
-    }
-    return var_r31;
+TBoss6Mag *TBoss6Type2::create_mag(TBoss6MagSpawnParams *params) {
+    return new TBoss6Mag(new TObjControl(tl_04), params);
 }
+
+extern "C" {
 
 void fn_80330A40(u8 *arg0) {
 

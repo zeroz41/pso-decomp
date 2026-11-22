@@ -433,10 +433,10 @@ force_active:
   - TBoss6Type2__sub_802BCC54
   - TBoss6Type2__sub_802BD938
   - TBoss6Type2__sub_802BE4E0
-  - TBoss6Type2__sub_8032EA10
-  - TBoss6Type2__sub_8032EAB8
+  - sub_8032EA10__9TBoss6MagFv
+  - sub_8032EAB8__9TBoss6MagFl
   - TBoss6Type2__sub_8032F2F0
-  - TBoss6Type2__sub_803300C8
+  - sub_803300C8__9TBoss6MagFv
   - TBoss7Crawfish__shared_resource
   - TBoss7LaserLight_name
   - __ct__18TBoss7PhotonBulletFP7TObjectP8TObjBasePC3VecPC3Vecf
@@ -3834,7 +3834,7 @@ force_active:
   - advance_past_disabled_menu_rows__11TWindowMenuFv
   - advance_path_position__14TBoss7TentacleFv
   - advance_phase__18TObjTailsTailsMoveFv
-  - advance_phase_counter__11TBoss6Type2Fv
+  - advance_phase_counter__9TBoss6MagFv
   - advance_phase_if_ready__14TBoss6PlotFalzFv
   - advance_plot_to_state2__11TBoss6Type1Fv
   - advance_pose_turn__14TObjEneBm5WolfFPvi
@@ -3924,7 +3924,7 @@ force_active:
   - apply_custom_shield_bonus__9TItemDataFlP9TItemDataP9TItemDataP10EquipStatsl
   - make_last_char_small_kana__18KeyboardTextBufferFv
   - apply_defense_stat_status__13TObjEneRe4BitFPv
-  - apply_direction_sign__11TBoss6Type2Ff
+  - apply_direction_sign__9TBoss6MagFf
   - apply_drop_restrictions
   - apply_equip_effects__14TItemEquipBaseFv
   - apply_feed__8TItemMagFP8MagStats
@@ -4770,7 +4770,7 @@ force_active:
   - calc_death_slide_speed__14TObjEneBm5WolfFPvf
   - calc_digit_count__18TWindowInputNumberFv
   - calc_digit_transform__17TDuelEffectNumberFlPfPfl
-  - calc_dir_angles__11TBoss6Type2FPvPvPvPv
+  - calc_dir_angles__9TBoss6MagFPlPlP3Vec
   - calc_distance_accuracy_penalty__11TOVS2Wall01FPvPvPvf
   - calc_distance_accuracy_penalty__13TUnk_8048E1A4FPvPvPvf
   - calc_distance_accuracy_penalty__15TOAttackableColFPvPvPvf
@@ -5284,7 +5284,7 @@ force_active:
   - commit_composition_text__19TWindowKeyBoardBaseFv
   - complete_and_destroy__13TOCtrlDubchikFv
   - compute_follow_target__11TCameraCtrlFv
-  - compute_random_dir_vec__11TBoss6Type2FlPUcll
+  - compute_random_dir_vec__9TBoss6MagFP3Vecll
   - compute_range_end__6TLobbyFlUl
   - compute_wave_offset__11TBoss4Type2Ff
   - computer_last_frame_tick__13TObjLobbyMain
@@ -5413,7 +5413,7 @@ force_active:
   - copy_save_data__23TAdSinglePlyChrSelectGCFii
   - copy_spawn_params__13TBoss5GryphonFPv
   - copy_stat_block__17TWindowSetLevelUpFl
-  - copy_state__11TBoss6Type2FPv
+  - copy_state__20TBoss6MagMotionTrackFP20TBoss6MagMotionTrack
   - copy_state__12TWindowTimerFPUc
   - copy_state__16TKeyBoardControlFPvPv
   - copy_state_block__6TLobbyFv
@@ -6454,8 +6454,8 @@ force_active:
   - fn_8031B618
   - fn_8031FE14
   - fn_80327A38
-  - fn_80330240
-  - fn_8033068C
+  - receive_direct_attack__9TBoss6MagFPv19DirectAttackPayloadPvll
+  - __dt__9TBoss6MagFv
   - fn_80339D78__9TSaveChCrFv
   - fn_803519FC
   - fn_80351A14
@@ -7179,7 +7179,7 @@ force_active:
   - init_result_state__18TChallenge4PResultFv
   - init_s_rank_knuckle__FPvlPv
   - init_scale_global__10TObjPlayerFv
-  - init_segment_angle_range__11TBoss6Type2Fv
+  - init_segment_angle_range__9TBoss6MagFv
   - init_segment_range__11TBoss6Type2Fv
   - init_segments__14TBoss7TentacleFv
   - init_selection__16TAdChrSelASlotGCFv
@@ -7237,7 +7237,7 @@ force_active:
   - init_window__22THunterGuildSeqOfflineFPv
   - init_window__22TShopEquipmentSequenceFPv
   - init_windows__23TAdSinglePlyChrSelectGCFi
-  - init_with_global_table__11TBoss6Type2Fv
+  - init_with_global_table__9TBoss6MagFv
   - init_work__11TBoss6Type1Fv
   - init_zeroed_object__10TObjPlayerFv
   - initialize__13TUnk_804A05C8FP15TItemHeapObjectUsll
@@ -8144,7 +8144,7 @@ force_active:
   - lbl_804ED77C
   - lbl_804ED990
   - lbl_804ED9C0
-  - lbl_804EDDEC
+  - __vt__9TBoss6Mag
   - lbl_804EE0C0
   - lbl_804EF1B8
   - lbl_804EF1DC
@@ -15277,7 +15277,7 @@ force_active:
   - save_if_dirty__9TSaveChCrFv
   - save_joint_matrix_callback__FP10NJS_OBJECT
   - save_position__10TBoss2MineFv
-  - save_position__10TObjPlayerFv
+  - save_position__9TBoss6MagFv
   - saved_card_disk_id
   - saved_depth_alpha_scene_state
   - saver_action_table
@@ -15578,7 +15578,7 @@ force_active:
   - set_particle_tint_color
   - set_password__17TAdEnterPPPPassGCFi
   - set_password__18TAdEnterPasswordGCFi
-  - set_path_points__11TBoss6Type2FPvPvi
+  - set_path_points__9TBoss6MagFP3Vecl
   - set_percentage_rows__15TWindowHelpItemFPvPvi
   - set_phase_555__11TBoss6Type1Fv
   - set_phase_90__11TBoss6Type1Fv
@@ -16007,7 +16007,7 @@ force_active:
   - spawn_fire_explosion_for_item__10TObjPlayerFll
   - spawn_freeze_shell_effect__9TObjCharaFUll
   - spawn_front_particle__16TObjEneDellBiterFv
-  - spawn_ground_effect__10TObjPlayerFPv
+  - run_hit_reaction__9TBoss6MagFv
   - spawn_ground_effect__16TObjEneMerillLiaFPv
   - spawn_ground_effects__14TObjEneDolmOlmFPvPv
   - spawn_ground_splash__13TBoss5GryphonFv
@@ -16075,7 +16075,7 @@ force_active:
   - start_invincibility__8TItemMagFv
   - start_line__15TAdDrawLineCtrlFl
   - start_lines_for_key__15TAdDrawLineCtrlFl
-  - start_mag_mines_state__11TBoss6Type2Fv
+  - start_mag_mines_state__9TBoss6MagFv
   - start_match__19TPlayerBattleCtrl4PFv
   - start_move_toward_player__15TObjEneDelDepthFv
   - start_phase1__12TBoss3VoloptFv
@@ -16132,7 +16132,7 @@ force_active:
   - stelth_projection_texture_handle
   - step_along_ground__10TObjPlayerFv
   - step_angle_clamped
-  - step_angle_toward__11TBoss6Type2Flll
+  - step_angle_toward__9TBoss6MagFlll
   - step_camera_scalar__FPCfPCfPff
   - step_cutscene_frame__10TObjPlayerFP10NJS_OBJECT
   - step_demo_script__16TObjEneDellBiterFP10NJS_OBJECT
@@ -16391,11 +16391,11 @@ force_active:
   - sub_8032E8DC__9TBoss6MagFv
   - sub_8033040C__9TBoss6MagFv
   - sub_8033645C__13TUnk_804EEF64Fv
-  - sub_80336F00__11TBoss6Type2Fv
-  - sub_80336FB8__11TBoss6Type2Fv
-  - sub_80337108__11TBoss6Type2Fv
-  - sub_80337160__11TBoss6Type2Fv
-  - sub_803371B4__11TBoss6Type2Fv
+  - sub_80336F00__9TBoss6MagFv
+  - sub_80336FB8__9TBoss6MagFv
+  - sub_80337108__9TBoss6MagFv
+  - sub_80337160__9TBoss6MagFv
+  - sub_803371B4__9TBoss6MagFv
   - sub_80339B94__9TSaveChCrFv
   - sub_80339CE4__9TSaveChCrFv
   - sub_80339DBC__9TSaveChCrFv
@@ -16532,7 +16532,7 @@ force_active:
   - texture_prs_stream_filename_buffer
   - throw_gogo_ball__12TWindowTimerFll
   - tick_attack_sequence__11TBoss6Type1Fv
-  - tick_attack_timer__11TBoss6Type2Fv
+  - tick_attack_timer__9TBoss6MagFv
   - tick_battle_music_timer
   - tick_countdown__11TBoss6Type1Fv
   - tick_display_timer__15TWindowHelpItemFPv
@@ -16680,7 +16680,7 @@ force_active:
   - update_ai__9TObjGrassFPv
   - update_ai_state__15TObjEneDelDepthFv
   - update_air_fire_state__12TBoss1DragonFUl
-  - update_all_parts__11TBoss6Type2FPv
+  - update_all_parts__9TBoss6MagFv
   - update_all_slots__13TPhotonFarllaFv
   - update_and_destroy__13TUnk_804C349CFv
   - update_and_reset__6TLobbyFPUc
@@ -16719,7 +16719,7 @@ force_active:
   - update_attack_parameters__16TObjEneNanoDragoFv
   - update_attack_pattern__19TObjEneEpsilonGuardFPv
   - update_attack_state__11TBoss6Type1Fv
-  - update_attack_state__11TBoss6Type2Fv
+  - update_attack_state__9TBoss6MagFv
   - update_attack_switch__11TBoss6Type2Fv
   - update_attack_timer2__11TBoss6Type1Fv
   - update_attack_timer__11TBoss6Type1Fv
@@ -16892,7 +16892,7 @@ force_active:
   - update_effect_params__10TTecDebandFv
   - update_effect_params__9TTecSiftaFv
   - update_effect_positions__9TBoss6MagFv
-  - update_effect_subsystems__11TBoss6Type2Fv
+  - update_effect_subsystems__9TBoss6MagFv
   - update_effects__13TUnk_804B8DD0Fv
   - update_elapsed_time__23TAdSinglePlyChrSelectGCFPv
   - update_emerge_state__16TObjEneMerillLiaFPv
@@ -17164,12 +17164,12 @@ force_active:
   - update_pulse_value__17TOSensorAncient01Fv
   - update_punch_attack__11TObjEneMojaFPv
   - update_radar_markers__11TBoss4Type3Fv
-  - update_ramp_timer__11TBoss6Type2Fv
+  - update_ramp_timer__9TBoss6MagFv
   - update_random_shake__14TBoss6PlotFalzFPv
   - update_reaction_animation__16TBoss3VoloptCoreFv
   - update_recoil_state__13TObjEneBm3FlyFl
   - update_records_in_range__6TSceneFv
-  - update_recover_timer__11TBoss6Type2Fv
+  - update_recover_timer__9TBoss6MagFv
   - update_reload_phase__19TPlayerBattleCtrl4PFv
   - update_render_flags__13TObjTombstoneFv
   - update_replenish__17TObjEneBm3FlyNestFv
@@ -17200,7 +17200,7 @@ force_active:
   - update_scroll_offset__19TWindowMenuIconLineFv
   - update_scroll_target_position__21TWindowSubComCardListFv
   - update_scroll_value__11TWindowMenuFv
-  - update_segment_angles__11TBoss6Type2Fv
+  - update_segment_angles__9TBoss6MagFv
   - update_segments__11TBoss6Type2Fv
   - update_segments__20TItemEffOrgaFlowShotFv
   - update_select_state__23TAdSinglePlyChrSelectGCFv

@@ -14,6 +14,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/olgaflow/TBoss6Rock.h"
 #include "pso/boss/olgaflow/TBoss6Type2.h"
+#include "pso/boss/olgaflow/TBoss6Mag.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/weapon/TItemAttackCol.h"
 #include "pso/player/TObjPlayer.h"
@@ -100,7 +101,7 @@ void handle_6xAD_olga_flow_subordinate_boss_actions(Pkt_803570E4 *pkt) {
             grid_to_world_pos__11TBoss6Type2FccPv(p[0], p[1], &v[i]);
             n++;
         }
-        TBoss6Type2::set_path_points_by_index(boss, v, n);
+        TBoss6Mag::set_path_points_by_index(boss, v, n);
     }
     for (j = 0; j < 0x40; j++) {
         if (pkt->d[j] >= 0 && j >= 7 && j <= 0x26) {

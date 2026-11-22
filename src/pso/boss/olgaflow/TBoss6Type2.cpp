@@ -46,7 +46,6 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
-#include "pso/boss/olgaflow/TBoss6Type2_8032E708.h"
 #include "pso/boss/olgaflow/TBoss6Type2_80356E50.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/player/TObjPlayer_803E1A58.h"
@@ -192,9 +191,9 @@ struct T2_802BB498 { u8 pad0[0x374]; s32 f374; };
 
 struct T2_802BB554 { u8 pad0[0x374]; s32 f374; };
 
-struct T2_802BB768 { u8 pad0[0x410]; uaddr f410; uaddr f414; };
+struct T2_802BB768 { u8 pad0[0x410]; TBoss6Mag *f410; TBoss6Mag *f414; };
 
-struct T2_802BB7C0 { u8 pad0[0x410]; uaddr f410; uaddr f414; };
+struct T2_802BB7C0 { u8 pad0[0x410]; TBoss6Mag *f410; TBoss6Mag *f414; };
 
 struct Ent_802BC050 { s16 f0; s16 v[5]; };
 
@@ -259,7 +258,6 @@ struct RecoveredFields_802BC754_temp_r3_4 {
 
 struct Obj_8004D8C8 { u8 pad[0x2D4]; u16 f2d4; u16 f2d6; };
 
-struct T2_802BD378 { u8 pad0[0x60]; s32 f60; u8 pad64[0x59C - 0x64]; Vec v[1]; };
 
 struct T2_802BD76C { u8 pad0[0x42C]; s32 f42C; };
 
@@ -362,9 +360,6 @@ void TBoss6Type2__sub_802BB768(T2_802BB768 *self);
 void TBoss6Type2__sub_802BB7C0(T2_802BB7C0 *self);
 s32 calc_field4f0_delta__11TBoss6Type2FPv(void *self);
 void TBoss6Type2__sub_802BCC54(void *, int);
-void TBoss6Type2__sub_802BD340(void);
-void TBoss6Type2__sub_802BD378(T2_802BD378 *arg0, s32 arg1, void *arg2, s32 *arg3);
-void TBoss6Type2__sub_8032E708(void *p, s32 v);
 s32 spawn_flow_soul__11TBoss6Type2Fiii(saddr parent, saddr pos, saddr state_duration);
 f32 vec3_add_to(void *, void *);
 f32 vector_length(Vec *);
@@ -391,25 +386,6 @@ LAYOUT_ASSERT(TypedVector_802BA6DC_size, sizeof(TypedVector_802BA6DC) == 12);
 
 LAYOUT_ASSERT(TypedVector_802BAA74_size, sizeof(TypedVector_802BAA74) == 12);
 
-struct MagParams_802BB818 {
-    s16 x;
-    u8 pad02[4];
-    u16 z;
-    s16 active;
-    u8 pad0A[6];
-    Vec pos;
-    u8 pad1C[0x24];
-    TBoss6Type2 *owner;
-    Vec origin;
-    s32 rotation_y;
-    s32 index;
-    s32 flags;
-    s32 variant;
-};
-
-struct Mags_802BB818 { u8 pad[0x410]; TBoss6Type2 *mags[2]; };
-
-saddr create_mag__11TBoss6Type2Fl(MagParams_802BB818 *params);
 
 s32 matrix_mult_vec(int, void *, void *);
 void set_matrix_identity(u8 *arg0);
@@ -612,8 +588,8 @@ void TBoss6Type2::parse_action_packet(void *packet) {
     if ((u16) this->m_46a >= 4U) {
         this->m_46a = 0xFFFFU;
     }
-    ((TBoss6Type2 *)this->m_410[0])->set_action_field_0x408(this->m_468);
-    ((TBoss6Type2 *)this->m_410[1])->set_action_field_0x408(this->m_46a);
+    this->m_410[0]->set_action_field_0x408(this->m_468);
+    this->m_410[1]->set_action_field_0x408(this->m_46a);
 }
 
 void TBoss6Type2::send_action_packet(s8 arg1) {
@@ -836,10 +812,10 @@ void TBoss6Type2::set_target_state(s32 arg1, s32 arg2) {
         set_state_0x34();
     }
     if (this->m_410[0] != 0) {
-        ((TBoss6Type2 *)this->m_410[0])->set_target_nodes((void*)this->m_2e4, (void*)(*(saddr *)&this->m_42c));
+        this->m_410[0]->set_target_nodes(this->m_2e4, this->m_42c);
     }
     if (this->m_410[1] != 0) {
-        ((TBoss6Type2 *)this->m_410[1])->set_target_nodes((void*)this->m_2e4, (void*)(*(saddr *)&this->m_42c));
+        this->m_410[1]->set_target_nodes(this->m_2e4, this->m_42c);
     }
 }
 
@@ -941,9 +917,9 @@ void TBoss6Type2::get_phase_values(u16 *a, u16 *b, u16 *out) {
 
 s32 TBoss6Type2::get_rotation_timer() { return this->m_418; }
 
-void TBoss6Type2__sub_802BD378(T2_802BD378 *arg0, s32 arg1, void *arg2, s32 *arg3) {
-    VecCopy((Vec *)(arg2), (const Vec *)(&arg0->v[arg1 + 0xE - 0]));
-    *arg3 = arg0->f60;
+void TBoss6Type2::sub_802BD378(s32 index, Vec *pos, s32 *rotation) {
+    VecCopy(pos, &m_59c[index + 0xE]);
+    *rotation = rotation_y;
 }
 
 void TBoss6Type2::apply_damage(s32 diff) {
@@ -952,7 +928,7 @@ void TBoss6Type2::apply_damage(s32 diff) {
     }
 }
 
-void TBoss6Type2__sub_802BD340(void) {  }
+void TBoss6Type2::sub_802BD340() {  }
 
 void TBoss6Type2::copy_pos_59c(saddr arg1) {
     saddr self = (saddr)this;
@@ -1735,7 +1711,7 @@ s32 TBoss6Type2::push_players_away(void *target, f32 range) {
 }
 
 void TBoss6Type2__sub_802BB818(TBoss6Type2 *self, f32) {
-    MagParams_802BB818 params;
+    TBoss6MagSpawnParams params;
     s16 x;
     u16 z;
     s32 i;
@@ -1754,29 +1730,29 @@ void TBoss6Type2__sub_802BB818(TBoss6Type2 *self, f32) {
         params.index = i;
         params.x = x + lbl_8047133C[i];
         params.z = z + lbl_8047133C[i];
-        ((Mags_802BB818 *)self)->mags[i] = (TBoss6Type2 *)create_mag__11TBoss6Type2Fl(&params);
+        self->m_410[i] = TBoss6Type2::create_mag(&params);
     }
-    if (((Mags_802BB818 *)self)->mags[0] == 0 || ((Mags_802BB818 *)self)->mags[1] == 0) {
+    if (self->m_410[0] == 0 || self->m_410[1] == 0) {
         return;
     }
-    ((Mags_802BB818 *)self)->mags[0]->set_anim_frame((saddr)((Mags_802BB818 *)self)->mags[1]);
-    ((Mags_802BB818 *)self)->mags[1]->set_anim_frame((saddr)((Mags_802BB818 *)self)->mags[0]);
+    self->m_410[0]->set_anim_frame(self->m_410[1]);
+    self->m_410[1]->set_anim_frame(self->m_410[0]);
 }
 
 void TBoss6Type2__sub_802BB7C0(T2_802BB7C0 *self) {
     if (self->f410 == 0 || self->f414 == 0) {
         return;
     }
-    TBoss6Type2__sub_8032E708((void *)self->f410, 0);
-    TBoss6Type2__sub_8032E708((void *)self->f414, 0);
+    self->f410->sub_8032E708(0);
+    self->f414->sub_8032E708(0);
 }
 
 void TBoss6Type2__sub_802BB768(T2_802BB768 *self) {
     if (self->f410 == 0 || self->f414 == 0) {
         return;
     }
-    TBoss6Type2__sub_8032E708((void *)self->f410, 1);
-    TBoss6Type2__sub_8032E708((void *)self->f414, 1);
+    self->f410->sub_8032E708(1);
+    self->f414->sub_8032E708(1);
 }
 
 #pragma push
