@@ -83,18 +83,32 @@ def plural(n: int, one: str, many: str | None = None) -> str:
     return f"{n:,} {one if n == 1 else many or one + 's'}"
 
 
+def before_after(base: int, head: int) -> str:
+    return f"{base:,} → **{head:,}**" if head != base else f"{head:,}"
+
+
+def examples(value: object) -> str:
+    """`a`, `b` for an example listing several spellings; one span when a comma is inside parentheses."""
+    pieces = str(value or "")[:80].split(", ")
+    if any(piece.count("(") != piece.count(")") for piece in pieces):
+        pieces = [", ".join(pieces)]
+    return ", ".join(filter(None, (code(piece, 60) for piece in pieces)))
+
+
 def quality_table(rows: list[dict], categories: bool = True) -> list[str]:
-    """One row per check; with categories, the category is named on its first row."""
-    out = ["| Category " * categories + "| Check | Looks like | Removed | Added | Net | Total |",
-           "|---" * categories + "|---|---|---:|---:|---:|---:|"]
+    """One row per check: what it finds with an example, the tree's count before and after the pull request, and
+    what the pull request's lines removed and added. With categories, each category opens with a heading row."""
+    out = ["| Check | Before → after | Removed | Added |", "|---|---|---:|---:|"]
     last = None
     for row in rows:
         base, head, added, removed = counts(row, "base", "head", "added", "removed")
         category = text(row.get("category") or row.get("group"), 60)
-        cell = ("| " + ("" if category == last else f"**{category}**") + " ") * categories
-        out.append(f"{cell}| {text(row.get('name') or row.get('key'), 80)} | {code(row.get('example'), 60)} "
-                   f"| {removed:,} | {added:,} | {signed(head - base)} | {head:,} |")
+        if categories and category != last:
+            out.append(f"| **{category}** | | | |")
         last = category
+        example = examples(row.get("example"))
+        name = text(row.get("name") or row.get("key"), 80) + (f" ({example})" if example else "")
+        out.append(f"| {name} | {before_after(base, head)} | {removed:,} | {added:,} |")
     return out
 
 
@@ -124,7 +138,7 @@ def render_quality(quality: dict | None, repo: str) -> list[str]:
               f"{plural(files, 'changed source file')}; the tree goes from {base:,} to {after:,}."]
     if debt:
         lines += [""] + quality_table(debt)
-        lines.append(f"| **Total debt** | | | **{removed:,}** | **{added:,}** | {signed(after - base)} | **{after:,}** |")
+        lines.append(f"| **Total debt** | **{base:,} → {after:,}** | **{removed:,}** | **{added:,}** |")
     if owned:
         lines += ["", "**Members in the wrong class**, read from the class declarations (not in the total):", ""]
         lines += quality_table(owned, categories=False)
