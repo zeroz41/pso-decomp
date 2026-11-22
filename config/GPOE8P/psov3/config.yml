@@ -1406,8 +1406,8 @@ force_active:
   - __ct__18TObjLazerFenceNormFP7TObjectPv
   - __ct__9TObjLightFP7TObjectPUc
   - TObjLight__data_80506370
-  - TObjLight__data_8050637C
-  - TObjLight__data_805068FC
+  - TObjLight__actor_light_table
+  - TObjLight__light_table
   - TObjLight__data_80506A5C
   - TObjLight__data_805DB088
   - sub_80133714__13TUnk_804A6F78Fv
