@@ -20,6 +20,8 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/object/base/CollisionActorLookup.h"
 
 #pragma readonly_strings on
 
@@ -42,7 +44,6 @@ struct Self_801AE744 {
 };
 
 extern "C" {
-s32 rotate_matrix_y(int, int);
 s32 post_translate_matrix(void *);
 extern NJS_ARGB saved_model_draw_color;
 extern NJS_ARGB model_material_color;
@@ -52,7 +53,6 @@ extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
-void *find_entity_by_id(u16 id);
 TObjMotionAction photon_blast_youlla_params[2] = {
     {3, 0, 7, 1.0f, 0},
     {1, 0, 14, 1.0f, 0},

@@ -26,6 +26,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/map/CsnGroundQuery.h"
+#include "pso/unk/text_803D8DE0.h"
 
 struct E_800D7FD4 { u8 pad[0x14]; u32 col; };
 
@@ -58,7 +59,6 @@ f32 vec3_add_to(void *, void *);
 extern const f32 lbl_805DA380;
 u32 __cvt_fp2unsigned(f32);
 void run_task__9TDeadSpotFv(Obj_800D8228 *arg0);
-s32 fn_803D8DE0(int, void *, void *, int);
 s32 rotate_matrix_z(int, int);
 s32 rotate_matrix_x(int, int);
 

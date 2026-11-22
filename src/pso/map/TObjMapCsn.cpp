@@ -6,6 +6,9 @@
 #include "pso/map/TMapCsnCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/MatrixOps.h"
 
 const char *TMapCsnCtrl__class_name = "TMapCsnCtrl";
 
@@ -25,11 +28,8 @@ Vec map_csn_box_face_normals[8] = {
 s32 map_csn_collision_flag_table[5] = {0, 0x8000, 0x8900, 0x800, 0x2000};
 
 extern "C" {
-s32 matrix_mult_vec(int, void *, void *);
 s32 translate_matrix_vec3(int, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
-s32 rotate_matrix_y(int, int);
-extern s32 identity_matrix[];
 
 void TObjMapCsn::render() {  }
 

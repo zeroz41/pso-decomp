@@ -205,8 +205,6 @@ saddr TContainerAncient01__open_effect_table[2];
 
 void TContainerAncient01__sub_8018A584(Obj_8018A584 *self, f32 range);
 
-void *get_player_by_client_id(s32 i);
-
 extern s32 registered_player_count;
 
 BmlResource *TContainerAncient01__sub_8018BE90(void);
@@ -317,6 +315,7 @@ s32 reset_state__19TContainerAncient01Fv();
 
 #include "pso/item/TUnk_804B97C0.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/PlayerSlots.h"
 
 struct B_8018BE30 { u8 pad[0x18]; };
 

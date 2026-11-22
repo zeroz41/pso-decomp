@@ -19,6 +19,7 @@
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/system/SoundEffect.h"
 
 struct Obj_8010A1D0 {
     u8 pad0[0x18];
@@ -54,7 +55,6 @@ extern "C" {
 s32 is_item_area_enabled(s32 area);
 void *get_player_by_client_id(s32 i);
 
-void play_sound_effect(s32, void *, s32, s32);
 void run_task__14TItemEffShieldFv(Shield_8010A4C0 *self);
 }
 

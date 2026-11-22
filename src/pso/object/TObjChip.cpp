@@ -27,6 +27,7 @@ void set_color_blend_mode(int, int, int, int, s32, s32);
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/text_803D853C.h"
 
 struct Base_801809C4_801809B4 { char pad[0x18]; };
 struct VObj_801809C4_801809B4 : Base_801809C4_801809B4 {
@@ -183,7 +184,6 @@ extern void *__vt__8TObjChip[];
 u8 *__ct__8TObjChipFP7TObjectP19TObjChipSpawnParams(u8 *arg0, u8 *arg1, u8 *arg2);
 u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
 s32 post_translate_matrix(void *);
-void matrix_mult_vec(int, Vec *, Vec *);
 void project_world_to_screen(int, Vec *, NJS_POINT2 *, Vec *);
 extern Vec camera_right;
 s32 vfunc_10__8TObjChipFP3Vec(s32 arg0, Vec *arg1, f32 farg0, f32 farg1);

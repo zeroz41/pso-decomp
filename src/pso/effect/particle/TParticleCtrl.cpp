@@ -21,6 +21,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/unk/text_803D8F74.h"
 
 #pragma defer_codegen on
 
@@ -93,7 +94,6 @@ s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__13TUnk_8048E6A8[];
 extern s32 __vt__13TUnk_8048E6DC[];
 s32 lbl_805D2930 = 1;
-s32 rotate_matrix_y(int, s32);
 extern u8 *camera_ctrl_instance;
 u32 csnVector(void *, void *, int);
 f32 vec3_dot(void *, void *);

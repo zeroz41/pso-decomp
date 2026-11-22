@@ -27,6 +27,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/unk/text_803D8F74.h"
 
 struct Stack_801ABBAC {
     s32 sp8;
@@ -115,7 +116,6 @@ void *find_entity_by_id(u16 id);
 u8 *TPhotonMagicSquare__ct(u8 *arg0, saddr arg1, s32 arg2, saddr arg3, s32 arg4, f32 farg0);
 
 s32 scroll_strip_uvs(void *, s16, int);
-s32 rotate_matrix_y(int, int);
 s32 post_translate_matrix(void *);
 extern NJS_ARGB saved_model_draw_color;
 extern NJS_ARGB model_material_color;

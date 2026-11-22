@@ -13,6 +13,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
+#include "pso/math/MatrixVector.h"
 
 #pragma readonly_strings on
 
@@ -96,7 +97,6 @@ struct Obj_800A39A8 {
     s32 n;
 };
 
-f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
 s32 normalize_vector_safe__FP3Vec(Vec *);
 extern const f32 lbl_805D99F4;

@@ -17,6 +17,10 @@
 #include "pso/technique/TTecBarta.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/TLobby_80226070.h"
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/system/MatrixOps.h"
 
 struct RecoveredFields_80235348_arg0
 {
@@ -164,10 +168,6 @@ s32 play_sound_effect(s32, s32, s32, s32);
 }
 u32 get_technique_caster_flags(s32 technique, u16 actor);
 extern "C" {
-void *find_entity_by_id(u16);
-void rotate_matrix_y(s32, s32);
-void matrix_mult_vec(s32, Vec *, Vec *);
-extern u8 identity_matrix[];
 void run_task__9TTecMegidFv(Obj_80235740 *self);
 
 void *spawn_particle_effect_with_rotation(void *, void *, u32, u16);

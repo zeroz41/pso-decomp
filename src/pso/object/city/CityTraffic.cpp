@@ -34,6 +34,7 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/TLobby_80226070.h"
+#include "pso/math/MatrixTransforms.h"
 
 
 extern "C" {
@@ -122,7 +123,6 @@ extern "C" {
 void __ct__7TObjectFP7TObject(void *);
 extern u8 __vt__19TObjCityAirCar_Ctrl[];
 s32 alloc_tables__6TLobbyFll(s32, s32, s32, BmlModelEntry *);
-void subtract_vector(Vec *, Vec *);
 BmlResource *city_air_car_model_resource;
 GinjaTextureList *city_air_car_model_handle;
 }

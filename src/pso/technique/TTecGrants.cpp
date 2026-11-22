@@ -9,6 +9,7 @@
 #include <stddef.h>
 #include "pso/technique/TTecLuker.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/object/base/CollisionActorLookup.h"
 extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 struct RecoveredFields_80238D10_arg0
@@ -51,7 +52,6 @@ struct VObj_802386F8 : VBase_802386F8 {
 };
 
 extern "C" {
-void *find_entity_by_id(u16 id);
 u8 * __ct__13TUnk_804CC888FPUclP7TObject(void *, s32, s32, s32);
 extern s32 tl_07;
 void run_task__10TTecGrantsFv(TTecGrants *arg0);

@@ -19,6 +19,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/quest/TQuestListVM_8007EAF8.h"
 
 extern "C" {
 extern "C" void apply_floor_set_rows__11TSetManagerFv();
@@ -347,9 +348,6 @@ void TLobby::free_resources() {
     }
 }
 
-extern "C" {
-void *TQuestVmDownLoadServer__sub_8007EBDC(s32, s32);
-}
 void arrive_floor_population(void) {
     s32 index;
     LobbyFloorRows *floor;

@@ -21,6 +21,9 @@
 #include <stdlib.h>
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/map/CsnQuery.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/system/MatrixOps.h"
 
 const char *bm_butterfly_lobby_model_names[3] = {"lobby_chou00_bule.gj", "lobby_chou01_red.gj", NULL};
 const char *bm_butterfly_lobby_motion_names[2] = {"lobby_chou00_bule.njm", NULL};
@@ -52,12 +55,7 @@ struct Butterfly_80350BC4 {
 };
 
 extern "C" {
-u32 csnVector(void *, void *, int);
-void rotate_vector_by_matrix(int, void *, void *);
-extern u8 identity_matrix[];
 s32 post_translate_matrix(void *);
-s32 scale_matrix(int, f32, f32, f32);
-s32 rotate_matrix_x(int, int);
 
 BmlResource *lobby_butterfly_bml_resource;
 

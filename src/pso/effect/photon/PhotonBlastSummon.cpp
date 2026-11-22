@@ -32,6 +32,9 @@ struct NJS_OBJECT;
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/camera/TCameraCtrl_800687BC.h"
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/unk/text_803D8F74.h"
 
 struct RecoveredGlobal_801A7310_TCameraCtrl__data_804FF628 {
     s32 value;
@@ -201,9 +204,6 @@ extern "C" {
 void update_photon_blast_camera_pose(struct PbCamera_801A73B0 *self);
 extern Vec lbl_80446A44;
 extern struct Reg_801A7578 photon_blast_joint_origins[];
-void *find_entity_by_id(u16 id);
-void matrix_mult_vec(s32, Vec *, Vec *);
-void rotate_matrix_y(s32, s32);
 void update_photon_blast_camera_pose(struct PbCamera_801A73B0 *self) {
     struct PbCameraParams_801A73B0 parameters;
     approach_vector_fixed_distance(&self->position, &self->destination_position, &self->position, 0.48f);

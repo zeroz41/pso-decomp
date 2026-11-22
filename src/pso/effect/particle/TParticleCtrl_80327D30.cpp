@@ -21,6 +21,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/MatrixOps.h"
 #pragma defer_codegen on
 
 struct Vtx_80327D30 { f32 x, y, z, u, v; u32 color; };
@@ -35,8 +37,6 @@ extern s32 __vt__13TUnk_804ED5B0[];
 s32 __ct__7TObjectFP7TObject(void *, void *);
 s32 GXSetNumTexGens(int);
 s32 GXSetNumTevStages(int);
-s32 rotate_matrix_y(int, int);
-s32 rotate_matrix_x(int, int);
 s32 post_translate_matrix(void *);
 s32 emit_particle_strip_vertices(void *, int);
 extern u8 *camera_ctrl_instance;

@@ -6,7 +6,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
-extern "C" void *__ct__16TargetCursorListFv(void *list);
+#include "pso/player/TargetCursorList.h"
 
 struct Rec_80127694 {
     s32 kind;

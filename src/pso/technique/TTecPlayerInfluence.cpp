@@ -16,6 +16,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/technique/TTecCtrl.h"
+#include "pso/player/PlayerSlots.h"
 struct Owner_80237310
 {
   u8 pad[0x30];
@@ -118,7 +119,6 @@ void free_collision_body_parts(void *);
 
 List_802370D8 *find_support_technique_contact_for_target__10TObjPlayerFl(void *, u32);
 List_802370D8 *gather_contacts_for_self__10TObjPlayerFl(void *, u32);
-void *get_player_by_client_id(s32 i);
 void deliver_technique_to_party_targets(Obj_802370D8 *arg0);
 void spawn_support_tec_range_effect(Tec_80236EE8 *self);
 }

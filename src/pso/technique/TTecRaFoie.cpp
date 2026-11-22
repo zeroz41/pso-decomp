@@ -152,6 +152,8 @@ void TTecRaFoie::vfunc_8(void *) {
 #include "pso/technique/TTecAnti.h"
 
 #include "pso/technique/TechniqueParams.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/unk/text_803D8F74.h"
 struct Stack_80238388 {
     s32 sp8;
     s32 spC;
@@ -175,8 +177,6 @@ struct RaFoie_802381F8 {
 };
 
 extern "C" {
-void scale_matrix(s32, f32, f32, f32);
-void rotate_matrix_y(s32, s32);
 void post_translate_matrix(void *);
 void draw_ginja_object(void);
 extern u8 *camera_ctrl_instance;

@@ -12,6 +12,8 @@
 #include "pso/system/vector.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/effect/item/TItemEffLavis.h"
+#include "pso/player/TObjPlayer_803E1A58.h"
 
 struct Hit_80124C90 { u8 pad0[4]; Vec *pos; };
 
@@ -31,11 +33,9 @@ Hit_80124C90 *csnVector(void *, void *, int);
 }
 void spawn_item_attacker(s32 arg0, u32 arg1, s32 arg2, u8 *arg3);
 extern "C" {
-void create_lavis_shot(void *, void *, void *, f32);
 f32 *get_weapon_range_record(void *, s32);
 void *get_captured_target_entry(void *, s32);
 s32 transform_point_by_current_matrix(void *, void *);
-f32 xyz_distance(void *, void *);
 void TUnk_804A2260::sub_80124C90() {
     Me_80124C90 *me = (Me_80124C90 *)this;
     void *ext;

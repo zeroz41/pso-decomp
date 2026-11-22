@@ -38,6 +38,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/unk/text_8024ACEC.h"
 #include "pso/render/ModelDrawContext.h"
+#include "pso/unk/text_803D8F74.h"
 const char *lbl_805D32B8 = "TObjCityMainWarpChallenge";
 static const char lbl_80444A44[] = "<- NEXT STAGE No.%d";
 static const char lbl_80444A58[] = "<- KEY ID : %d";
@@ -52,7 +53,6 @@ void fn_80248994(TWindowBase *list, u32 color, s32 pos);
 void request_active_window_close(void);
 extern s32 city_main_warp_destination_id;
 s32 post_translate_matrix(void *);
-s32 rotate_matrix_y(s32, s32);
 extern saddr camera_ctrl_instance;
 
 TObjCityMainWarpChallenge::TObjCityMainWarpChallenge(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {

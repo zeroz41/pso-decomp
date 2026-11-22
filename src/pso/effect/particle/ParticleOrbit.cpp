@@ -154,7 +154,6 @@ struct OIVec_8008B060 { s32 x, y, z; };
 
 extern "C" {
 s32 append_node_to_tail__13TParticleCtrlFPvPv(s32, void *);
-s32 rotate_matrix_y(s32, s32);
 extern u8 *camera_ctrl_instance;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
@@ -224,6 +223,7 @@ extern const f32 TParticleCtrl__data_805D94E4;
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/unk/text_803D8F74.h"
 
 
 u8 *create_orbit_particle(u8 *arg0, u8 *pos, u8 *dir, s32 parent, u16 flags, s16 target_id) {

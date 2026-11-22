@@ -20,6 +20,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/task/TObject.h"
+#include "pso/unk/text_803D8F74.h"
 
 #pragma readonly_strings on
 
@@ -37,7 +38,6 @@ s32 __ct__14TObjCollidableFP7TObject(void *, int);
 extern s32 __vt__6TOBind[];
 const char *lbl_805D2EA8 = "TOBind";
 extern s32 tl_05;
-s32 rotate_matrix_y(s32, s32);
 
 void TOBind::render() {
     if (this->update_object_view_visibility(draw_distance, this->m_d4) != 0) {

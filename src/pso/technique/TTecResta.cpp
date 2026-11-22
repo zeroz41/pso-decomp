@@ -16,6 +16,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/object/base/CollisionActorLookup.h"
 extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 #pragma readonly_strings on
@@ -115,7 +116,6 @@ Row_8023967C TTecResta__self_recovery_effect_table[3] = {
 void __ct__7TObjectFP7TObject(void *, void *);
 void set_owner_id__13TParticleCtrlFUs(void *, s32);
 Resta_8023967C *construct_self_recovery__9TTecRestaFPvPviPv(Resta_8023967C *self, Vec *pos, s32 owner, void *parent);
-void *find_entity_by_id(u16 id);
 void deliver_technique_to_party_targets(void *);
 void run_task__9TTecRestaFv(Resta_802399F8 *self);
 s32 is_split_screen(void);

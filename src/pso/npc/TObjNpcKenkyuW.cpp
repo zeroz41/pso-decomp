@@ -18,6 +18,8 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/object/base/CollisionActorLookup.h"
 
 #pragma readonly_strings on
 
@@ -73,10 +75,8 @@ extern "C" {
 
 
 s32 obj_is_hit_receivable(u8 *arg0);
-void vector_length(void *);
 s32 get_entity_id(void *);
 TechniqueContactList *TObjPlayer__sub_802A3DE8(Obj_802A3DE8 *self, void *src);
-void *find_entity_by_id(u16 id);
 TechniqueContactList *TObjPlayer__sub_802A3FDC(Obj_802A3FDC *self, void *src);
 void TObjPlayer__sub_802A445C(TNeedleShoot *self, int arg1);
 

@@ -138,7 +138,6 @@ struct Part_800890F4 {
 
 extern "C" {
 f32 vec_squared_length(u8 *arg0);
-s32 rotate_matrix_y(s32, s32);
 void project_world_to_screen(int, void *, void *);
 s32 post_translate_matrix(void *);
 void rotate_vector_by_current_matrix(void *, void *);
@@ -217,6 +216,7 @@ extern const f32 TParticleCtrl__data_805D94E4;
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/ModelDrawContext.h"
+#include "pso/unk/text_803D8F74.h"
 
 u8 *create_ballistic_particle(u8 *arg0, u8 *pos, u8 *dir, s32 parent, u16 flags, s16 target_id) {
     return (u8 *)new TUnk_8048E778(arg0, pos, dir, parent, flags, target_id);

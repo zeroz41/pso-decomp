@@ -21,6 +21,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/render/render_util.h"
 
 
 static const f32 lbl_805DC888[1] = {1.0f};
@@ -56,7 +57,6 @@ extern s32 __vt__13TUnk_804CCAA8[];
 
 void publish_actor_light_scalars(u32 arg0, f32 farg0, f32 farg1);
 void publish_light_direction_color(u32 id, void *dir, void *color);
-s32 approach_vector_fixed_distance(void *, void *, void *, f32);
 extern Base_80235C44 TObjLight__scene_light_state;
 
 #pragma push

@@ -27,6 +27,8 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/effect/photon/TPhotonLaser.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/effect/photon/TPhotonMagicSquare_801ACE1C.h"
+#include "pso/object/base/CollisionActorLookup.h"
 
 typedef struct { f32 x; f32 y; f32 z; } Vec3;
 
@@ -65,8 +67,6 @@ extern const PhotonLaserParams photon_pilla_laser_packet = {
 };
 extern void *photon_pilla_laser_offset_table[];
 
-u8 *TPhotonMagicSquare__ct(u8 *arg0, saddr arg1, s32 arg2, saddr arg3, s32 arg4, f32 farg0);
-void *find_entity_by_id(u16 id);
 u32 get_entity_id();
 
 void TPhotonPilla::sub_801ADC7C() { this->m_180 = 0.0f; *(float*)((char*)this + 0x184) = 0.0f; this->m_188 = 0.0f; *(float*)((char*)this + 0x18c) = 0.0f; }

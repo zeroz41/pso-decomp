@@ -10,6 +10,7 @@
 #include "pso/player/TObjPlayer.h"
 
 #include "pso/system/task/TObject.h"
+#include "pso/object/base/CollisionActorLookup.h"
 extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 #pragma readonly_strings on
@@ -70,7 +71,6 @@ struct Obj_8022F588 { u8 pad[0x1C]; u8 *source; u8 pad20[0x74 - 0x20]; f32 power
 
 extern "C" {
 saddr get_entity_id(int);
-void *find_entity_by_id(u16 id);
 s32 deliver_technique_to_party_targets(void *);
 void run_task__10TTecDebandFv(Deband_8022F73C *self);
 s32 is_split_screen();

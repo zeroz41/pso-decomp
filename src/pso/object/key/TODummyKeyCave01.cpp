@@ -22,6 +22,7 @@
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/unk/text_803D8F74.h"
 
 const char *TODummyKeyCave01__class_name = "TODummyKeyCave01";
 const char *TODummyKeyCave01Sound__class_name = "TODummyKeyCave01Sound";
@@ -67,7 +68,6 @@ struct Obj_80165C84 {
 };
 
 extern "C" {
-s32 rotate_matrix_y(s32, s32);
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
 extern u8 chunk_material_color_half_alpha_f32[];

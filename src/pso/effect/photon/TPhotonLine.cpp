@@ -12,6 +12,8 @@ const char *TPhotonLine__class_name = "TPhotonLine";
 
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/system/MatrixOps.h"
 
 struct Line_801ACD14 {
     const char *f0;
@@ -53,7 +55,6 @@ struct Line_801ACB14 {
 };
 
 extern "C" {
-void *find_entity_by_id(u16);
 void init_collision_body_parts(void *, void *, s32);
 CollisionBody photon_line_collision_body_part[1] = {
     { { 0.0f, 0.0f, 0.0f }, 30.0f, 30.0f, 1, 0x8007, { 0.0f, 0.0f, 0.0f }, 0.0f },
@@ -63,7 +64,6 @@ u16 get_entity_id(void *);
 }
 void queue_photon_blast_hit(u32 identity, s32 kind, s32 allow_duplicate, f32 scale);
 extern "C" {
-void vec3_add_to(Vec *, Vec *);
 void run_task__11TPhotonLineFv(Line_801ACB14 *self);
 s32 free_collision_body_parts(void *);
 

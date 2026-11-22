@@ -43,6 +43,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/math/MatrixVector.h"
 
 
 saddr lbl_805D5140;
@@ -265,7 +266,6 @@ s32 free_collision_body_parts(void *);
 f32 step_toward_destination__10TObjPlayerFPvPvf(void *, Vec, f32);
 s32 obj_setFlags30(void *, u32);
 f32 vec3_add_to(void *, void *);
-s32 rotate_vector_by_matrix(int, void *, void *);
 extern u8 identity_matrix[];
 u16 find_nearest_visible_player(void *, int, f32);
 s32 check_path_obstructed(void *, void *);

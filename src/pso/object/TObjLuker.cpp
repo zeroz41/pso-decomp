@@ -26,6 +26,7 @@
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 
 #pragma readonly_strings on
@@ -103,7 +104,6 @@ s32 TTecLuker__sub_8023401C(void *);
 s32 get_entity_id(int);
 s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0);
 s32 get_main_phase();
-s32 mark_area_change_pending();
 s32 send_6x21_inter_level_warp(int, void *);
 s32 init_fields__9TTecLukerFs(void *, int);
 extern s32 lbl_805D55C0;

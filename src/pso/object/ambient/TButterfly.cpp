@@ -15,6 +15,7 @@
 #include <stdlib.h>
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/math/MatrixVector.h"
 
 __declspec(section ".data") const char *bm_o_abe_butterfly_model_names[2] = { "abecyou_fe_obj001_cyou.gj", NULL };
 __declspec(section ".data") const char *bm_o_abe_butterfly_motion_names[2] = { "abecyou2_fe_obj001_cyou.njm", NULL };
@@ -43,7 +44,6 @@ struct Butterfly_8017EA74 {
 };
 
 extern "C" {
-void rotate_vector_by_matrix(void *, Vec *, Vec *);
 
 BmlResource *butterfly_bml_resource;
 

@@ -31,6 +31,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern NJS_ARGB debug_color_green_half_alpha;
 extern NJS_ARGB debug_color_purple_half_alpha;
@@ -43,7 +44,6 @@ void debug_draw_uniform_scaled(const Vec *pos, const NJS_ARGB *color, CollisionB
 extern s8 controller_input_state[];
 int check_flag_100__10TObjPlayerFPv(void *player);
 void enable_action_input__10TObjPlayerFPv(void *p);
-u16 get_entity_id(void *);
 void *TObjQuestCol__create(void *arg0);
 void *TObjQuestColA__create(void *arg0);
 void *TObjQuestColALock2__create(void *arg0);

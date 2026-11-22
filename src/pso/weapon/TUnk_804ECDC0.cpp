@@ -5,6 +5,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/technique/TTecSlicer.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 
 typedef struct SlicerLaunchData_8012D9C8 {
@@ -16,7 +17,6 @@ typedef struct SlicerLaunchData_8012D9C8 {
 
 void init_slicer_launch_state(void *arg0);
 extern "C" {
-u16 get_entity_id(void *);
 s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
 s16 get_validated_attack_stage(u8 *arg0);
 void get_weapon_color__11TItemWeaponFPv(f32 *, void *);

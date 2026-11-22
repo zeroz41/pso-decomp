@@ -23,6 +23,7 @@
 #include "pso/technique/TTecSlicer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
 
 typedef struct { f32 r, g, b, a; } Col_8023B220;
@@ -119,7 +120,6 @@ typedef struct TObjPlayer_8023B454 {
 } TObjPlayer_8023B454;
 
 extern "C" {
-void *resolve_hittable_target(u16 actorId, s16 collider);
 s32 get_next_captured_target(TTecSlicerTargets_8023B454 *self, Vec *out_pos, u16 *out_id, s8 *out_part, f32 *out_f) {
     TObjPlayer_8023B454 *hit;
     s32 found;
@@ -170,6 +170,8 @@ void fn_8023B590(TTecSlicerTargets_8023B454 *o, u16 v, s8 b) {
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
+#include "pso/player/PlayerSlots.h"
+#include "pso/math/MatrixVector.h"
 
 
 struct RecoveredFields_8023B770_var_r29
@@ -315,7 +317,6 @@ struct Slicer_8023BBB4 {
 
 extern "C" {
 s32 subtract_vector(s32, s32);
-void *get_player_by_client_id(s32 i);
 
 void destroy_if_set__10TTecSlicerFv(u32);
 
@@ -323,7 +324,6 @@ f32 *get_weapon_range_record(s32, s32);
 s8 get_captured_target_collider_index(s32);
 s32 get_captured_target_entry(s32, s32);
 s32 get_captured_target_count(s32);
-f32 vector_length(void *);
 u32 csnVector(s32, s32, s32);
 
 TTecSlicerTargets_8023B454::TTecSlicerTargets_8023B454() { count = 0; idx = 0; }

@@ -17,6 +17,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/lab/TObjLaboDesignBase.h"
 #include "pso/map/TObjMapCsn.h"
+#include "pso/unk/text_803D8F74.h"
 
 
 #pragma readonly_strings on
@@ -35,8 +36,6 @@ void *TObjLaboDesignBase__sub_80364D38(void *arg0);
 void *alloc_and_construct__18TObjLaboDesignBaseFPv(void *arg0);
 void *create_instance__18TObjLaboDesignBaseFPv(void *arg0);
 
-
-s32 rotate_matrix_y(int, int);
 
 
 const char *lbl_805D4488[1] = {0};

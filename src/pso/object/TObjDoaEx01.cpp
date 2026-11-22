@@ -23,6 +23,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/unk/text_803D8F74.h"
 
 __declspec(section ".data") const char *fs_obj_ex_doa01_model_names[2] = { "fs_obj_ex_doa01.gj", NULL };
 __declspec(section ".data") const char *fs_obj_ex_doa01_motion_names[2] = { "fs_obj_ex_doa01.njm", NULL };
@@ -158,7 +159,6 @@ extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 saddr get_bml_motion(saddr, s32);
 
-s32 rotate_matrix_y(s32, s32);
 s32 draw_ginja_model_with_motion(saddr, s32, f32);
 
 void TObjDoaEx01::draw_object_tree(saddr arg1) {

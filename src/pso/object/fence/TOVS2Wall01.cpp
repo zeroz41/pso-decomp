@@ -43,6 +43,7 @@
 
 #include "pso/system/SoundEffect.h"
 #include "pso/object/fence/WallHitPacket.h"
+#include "pso/unk/TLobby_801F3A24.h"
 
 const char *bm_o_vs2_motion_names[1] = { NULL };
 
@@ -86,7 +87,6 @@ struct WallSetEntry { u8 unk_0[4]; s16 m_4; };
 struct Ent_8017B9B0 { s16 a; s16 b; };
 
 extern "C" {
-extern Ent_8017B9B0 *quest_object_entries;
 
 void TOVS2Wall01__sub_8017B9AC(void *) {  }
 

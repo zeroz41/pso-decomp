@@ -171,6 +171,7 @@ struct Cam_8006D9F0 : CamBase_8006D9F0 {
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_8006E82C.h"
+#include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 struct Rec_8006E310 { u8 pad0[0x20]; u8 pad20[0x30]; };
 
 extern Vec TCameraCtrl__override_position;
@@ -217,7 +218,6 @@ void get_camera_offsets__12TBoss8DragonFPvPv(Vec *, Vec *);
 s32 approach_angle_limited(s32, s32, s32);
 s32 check_flag_100__10TObjPlayerFPv(void *);
 void *TCameraCtrl__vt0(void);
-void *TKeyBoardControl__sub_803DEB74(s32);
 
 
 void TCameraCtrl::reset_to_local_player() {

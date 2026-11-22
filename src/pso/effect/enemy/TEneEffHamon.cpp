@@ -18,6 +18,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/system/MatrixOps.h"
 
 
 #pragma readonly_strings on
@@ -44,7 +45,6 @@ extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_800A38A4___vt__12TEneEffHamon __vt__12TEneEffHamon;
 const char *TEneEffHamon__name = "TEneEffHamon";
-s32 scale_matrix(int, f32, f32, f32);
 s32 post_translate_matrix(void *);
 extern u8 chunk_material_color_half_alpha_f32[];
 extern u8 saved_model_draw_color[];

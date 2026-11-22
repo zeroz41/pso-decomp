@@ -20,6 +20,7 @@
 #include <stdlib.h>
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/unk/text_803D8F74.h"
 
 #pragma readonly_strings on
 
@@ -35,7 +36,6 @@ NJS_OBJECT *light_machine_ginja_model_handle;
 GinjaTextureList *light_machine_ginja_param;
 const char *TOLightMachine01__name = "TOLightMachine01";
 s32 post_translate_matrix(void *);
-s32 rotate_matrix_y(s32, s32);
 
 void TOLightMachine01::run_task() {
     this->m_a8 = (s32) (this->m_a8 + this->m_a4);

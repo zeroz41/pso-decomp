@@ -18,6 +18,7 @@
 #include "pso/player/TUnk_804B6C24.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/switch/TSwitch.h"
+#include "pso/object/base/CollisionActorLookup.h"
 
 
 #pragma readonly_strings on
@@ -67,7 +68,6 @@ void TOAttackableCol__sub_80157C20(void* p, s32 v);
 s32 TOAttackableCol__sub_80157C28(void* p);
 s32 free_collision_body_parts(void *);
 int clear_player_status_flag__14TObjCollidableFlUl(void*, int, int);
-void *find_entity_by_id(u16 id);
 extern SetEntry_80157454 *quest_object_entries;
 
 void TOAttackableCol__sub_80157310(void * _w0) {  }
