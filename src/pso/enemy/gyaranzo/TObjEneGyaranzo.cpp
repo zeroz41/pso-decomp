@@ -1003,7 +1003,7 @@ void TObjEneGyaranzo::sub_800D2900() {
                 p.pos[2] = v.z;
                 p.pad_38[0] = *(f32 *)((s8 *)((u8 *)this) + 0x3C);
                 p.model = ((s32 *)&gyaranzo_resource_ptrs)[idx];
-                p.textures = (s32)gyaranzo_bml_resource->models[3].m_c;
+                p.textures = (saddr)gyaranzo_bml_resource->models[3].m_c;
                 obj = TObject::operator new(0x234);
                 if (obj != NULL) {
                     __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)obj, tl_05, (u8 *)&p);
