@@ -157,6 +157,10 @@ const NpcAnimationBinding recobox_resource_binding_desc = { NULL, TObjEneRecobox
 
 #pragma dont_inline off
 #pragma inline_depth(4)
+void *TObjEneRecon::get_field_38_ptr() {
+    return &position;
+}
+
 void TObjEneRecobox::load_resources() {
     lbl_80543000.x = 0.0f;
     lbl_80543000.y = 0.0f;
@@ -881,4 +885,18 @@ void TObjEneRecobox::draw_with_debug_info() {
 }
 #pragma pop
 
-
+s32 TObjEneRecobox::render_trap_model_if_visible() {
+    if ((s32)main_task.get_task_flags() & 0x20) {
+        if (push_reflection_matrix(&floor_point) != 0) {
+            TObjFish::set_global_param(texlist);
+            push_matrix();
+            post_translate_matrix(&position.x);
+            rotate_matrix_y(0, rotation_y);
+            draw();
+            pop_matrix();
+            restore_render_scissor(1);
+        }
+        return 1;
+    }
+    return 0;
+}

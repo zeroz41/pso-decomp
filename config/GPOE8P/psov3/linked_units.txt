@@ -454,9 +454,7 @@ pso/enemy/berura/TObjEneRe7Berura_803E4CE0.cpp
 pso/enemy/recon/TObjEneRecon.cpp
 pso/enemy/recon/TObjEneReconBomb.cpp
 pso/enemy/recon/TObjEneRecon_80302DB0.cpp
-pso/enemy/recon/TObjEneRecobox_8031E800.cpp
 pso/enemy/recon/TObjEneRecobox_8031F800.cpp
-pso/enemy/recon/TObjEneRecon_80320350.cpp
 pso/enemy/saver/TObjEneSaver.cpp
 pso/enemy/shark/TObjEneShark.cpp
 pso/enemy/slime/TObjEneSlimeOne_800EC394.cpp
