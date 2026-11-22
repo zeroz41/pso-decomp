@@ -28,7 +28,6 @@ const char *TBoss6CrushRock__name = TBoss6CrushRock__class_name_string;
 const char *TBoss6CrushPtcl__name = TBoss6CrushPtcl__class_name_string;
 
 extern "C" {
-extern saddr TBoss6PlotFalz__instance;
 // Keep the retail allocation and constructor calls separate.
 TBoss6CrushRock *__ct__15TBoss6CrushRockFP7TObjectPC3Vecl(
     TBoss6CrushRock *rock, TObject *parent, const Vec *point, saddr model_index);

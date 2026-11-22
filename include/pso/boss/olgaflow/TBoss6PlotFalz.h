@@ -152,6 +152,12 @@ struct TBoss6PlotFalz : public TObjEnemy {
 // The two Olga Flow bodies of the running fight, NULL when there is none.
 extern TBoss6Type1 *TBoss6PlotFalz__type1_instance;
 extern TBoss6Type2 *TBoss6PlotFalz__type2_instance;
+// The running TBoss6PlotFalz (set by its constructor, cleared by its destructor).
+extern saddr TBoss6PlotFalz__instance;
+// Client ids in descending hp order (sort_active_players, get_sorted_player).
+extern u16 boss6_plot_falz_player_order_table[];
+// 1 on the main floor phase 0xF or in split screen (update_active_flag, get_phase).
+extern s32 plot_falz_phase;
 
 extern "C" {
 void TBoss6PlotFalz__sub_802AC008(f32 fade, f32 hp_ratio);
