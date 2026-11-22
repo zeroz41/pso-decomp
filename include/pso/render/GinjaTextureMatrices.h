@@ -2,6 +2,7 @@
 #define PSO_RENDER_GINJATEXTUREMATRICES_H
 #include "types.h"
 #include "pso/system/ModelDrawCallback.h"
+#include "pso/render/RenderSbssGlobals.h"
 
 typedef f32 GinjaMatrix[3][4];
 struct GinjaModelQueue {
@@ -9,7 +10,6 @@ struct GinjaModelQueue {
     u32 count;
     ModelDrawCallback draw;
 };
-extern GinjaMatrix* current_matrix;
 extern u32 model_render_flags;
 extern GinjaModelQueue model_draw_queue_state;
 extern GinjaMatrix model_draw_queue_texture_matrices[10];

@@ -6,6 +6,7 @@
 #include "types.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/render/RenderSbssGlobals.h"
 
 typedef s32 (*RecoveredCallback_92513335c3ed)(void *);
 typedef void (*RecoveredCallback_2be3cacebb2e)(void);
@@ -39,7 +40,6 @@ void select_render_context(s32 arg0);
 s32 queue_model_draw_matrix(int, void *);
 }
 s32 model_node_callback;
-extern saddr current_matrix;
 void draw_ginja_motion_node_tree(u8 *arg0);
 void flush_model_draw_queue(void);
 extern "C" {

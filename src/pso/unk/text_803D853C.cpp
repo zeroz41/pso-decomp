@@ -19,6 +19,7 @@
 #include "pso/unk/text_803D8030.h"
 #include "pso/npc/TObjNpcEnemy_803D8090.h"
 #include "pso/npc/TObjNpcEnemy.h"
+#include "pso/render/RenderSbssGlobals.h"
 
 
 char *debug_text_pool_cursor;
@@ -118,7 +119,6 @@ void print_float_padded(s32 arg0, s32 prec, f32 val) {
 }
 
 extern "C" {
-extern saddr current_matrix;
 void rotate_matrix_z(void *, s32);
 void rotate_matrix_x(void *, s32);
 void rotate_matrix_y(void *, s32);
@@ -236,7 +236,7 @@ void matrix_mult_vec_array(f32 (*m)[4], const Vec *src, Vec *dst, u32 count) {
 #pragma scheduling off
 #pragma peephole off
 void get_current_matrix(void *m) {
-    void *src = (*(void * *)&current_matrix);
+    void *src = current_matrix;
     if (m == 0) {
         m = src;
     }

@@ -2,12 +2,12 @@
 #include "pso/math/InverseTrig.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/render/RenderSbssGlobals.h"
 
 struct Matrix34 { f32 elements[3][4]; };
 struct ReflectionPlane { f32 origin[3]; f32 normal[3]; };
 
 extern "C" {
-extern uaddr current_matrix;
 void PSMTXRotRad(Matrix34*, char, f32);
 f32 PSMTXConcat(int, int, int);
 void rotate_matrix_y(Matrix34* matrix, s32 angle);

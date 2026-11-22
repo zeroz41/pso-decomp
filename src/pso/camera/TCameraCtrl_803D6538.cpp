@@ -6,6 +6,7 @@
 #include <stddef.h>
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/render/RenderSbssGlobals.h"
 
 struct G_803D6688 { f32 f0, f4, pad8[2], f10, f14, f18, f1c, f20, f24; };
 
@@ -13,7 +14,6 @@ extern "C" {
 extern f32 camera_clip_parameters[];
 extern G_803D6688 lbl_8058D4F8;
 void C_MTXLookAt(void *, void *, void *, void *);
-extern u8 *current_matrix;
 s32 translate_matrix(saddr, f32, f32, f32);
 void set_matrix_identity(u8 *arg0);
 }

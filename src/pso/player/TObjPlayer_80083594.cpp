@@ -161,6 +161,7 @@ extern s32 __vt__13TUnk_8048E5DC[];
 #include "pso/system/scene/TScene_800838C4.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/system/main_loop.h"
+#include "pso/render/RenderSbssGlobals.h"
 
 extern "C" {
 s32 __ct__7TObjectFP7TObject(void *, void *);
@@ -203,7 +204,6 @@ void calc_projection_screen_offset(f32 *arg0, f32 *arg1);
 f32 calc_camera_fov_degrees(void);
 void load_current_pos_matrix(s32 arg0);
 void load_current_tex_matrix(s32 i);
-extern GC_Mtx *current_matrix;
 
 struct Stack_80083914 {
     f32 sp8;

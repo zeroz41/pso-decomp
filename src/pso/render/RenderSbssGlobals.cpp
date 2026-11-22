@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/render/RenderSbssGlobals.h"
 
 // Data-only unit split off the shared render/geometry small statics at 0x805D7748.
 // Plain uninitialized globals (-sdata 8) land in .sbss in source order; the
@@ -13,9 +14,9 @@ u32 lbl_805D775C;
 u32 lbl_805D7760;
 u32 record_array_count;
 u32 record_array_ptr;
-u32 matrix_stack_limit;
-u32 matrix_stack_base;
-u32 current_matrix;
+GC_Mtx *matrix_stack_limit;
+GC_Mtx *matrix_stack_base;
+GC_Mtx *current_matrix;
 u32 lbl_805D7778;
 u32 lbl_805D777C;
 u32 chunk_polygon_flags_or_mask;

@@ -1,0 +1,13 @@
+#ifndef PSO_RENDER_RENDERSBSSGLOBALS_H
+#define PSO_RENDER_RENDERSBSSGLOBALS_H
+
+#include "types.h"
+#include <dolphin/mtx/GeoTypes.h>
+
+// The matrix stack, set up in the locked cache by init_matrix_stack: its first
+// slot, the slot on top and the last slot a push may use.
+extern GC_Mtx *matrix_stack_base;
+extern GC_Mtx *current_matrix;
+extern GC_Mtx *matrix_stack_limit;
+
+#endif

@@ -8,6 +8,7 @@
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/unk/TLobby_803DE778.h"
+#include "pso/render/RenderSbssGlobals.h"
 
 struct Ent_803DEBC8 { u32 mask; u32 val; };
 
@@ -44,9 +45,6 @@ extern f32 light_position_distance;
 extern s32 gx_chan_ctrl_light_mask;
 void GXInitLightAttnK(void *, f32, f32, f32);
 extern u8 identity_matrix[];
-extern u32 matrix_stack_limit;
-extern uaddr matrix_stack_base;
-extern u32 current_matrix;
 void PSMTXIdentity(void *);
 extern Pad_803DEA18 TKeyBoardControl_prev_pad_state[4];
 s32 PADReset(u32);
@@ -186,11 +184,11 @@ void TKeyBoardControl::clamp_axes() {
 }
 
 void TObjPlayer::init_matrix_stack(s32 arg0, s32 arg1) {
-    matrix_stack_base = 0xE0000000;
-    current_matrix = 0xE0000000;
-    matrix_stack_limit = (arg1 - 1) * 0x30 + 0xE0000000;
+    matrix_stack_base = (GC_Mtx *)0xE0000000;
+    current_matrix = (GC_Mtx *)0xE0000000;
+    matrix_stack_limit = (GC_Mtx *)0xE0000000 + (arg1 - 1);
     PSMTXIdentity(identity_matrix == 0 ? (u8 *)0xE0000000 : identity_matrix);
-    move_data((void *)(matrix_stack_base), (const void *)(identity_matrix), 0x30);
+    move_data(matrix_stack_base, identity_matrix, 0x30);
 }
 
 void init_light_globals(s32, s32) {
