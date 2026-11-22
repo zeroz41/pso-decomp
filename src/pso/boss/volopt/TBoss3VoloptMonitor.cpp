@@ -382,11 +382,11 @@ void TBoss3VoloptMonitor::sub_80041E88() {
         play_sound_effect(0x4003BC03, &position, 0, 0);
         damage_player_if_aligned();
         referenceHp = hp;
-        *(s16 *)&timer = 3;
+        timer = 3;
         state = 1;
         break;
     case 1:
-        if (--*(s16 *)&timer <= 0) {
+        if (--timer <= 0) {
             obj_clearFlags30(0x200200);
             this->update_if_active(0);
             m_388 &= ~1;
@@ -458,7 +458,7 @@ void TBoss3VoloptMonitor::sub_80041C78() {
         actorFlags |= 0x02040000;
         state = 1;
     case 1:
-        if (--*(s16 *)&timer <= 0) {
+        if (--timer <= 0) {
             run_move_action();
         }
         break;

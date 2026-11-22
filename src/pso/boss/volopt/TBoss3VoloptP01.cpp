@@ -352,8 +352,8 @@ void TBoss3VoloptP01::update_breakup() {
         ((TBoss3VoloptP01Collision *)bodies)->flags |= 0x1000;
         this->requested_action = 4;
         state = 1;
-        *(s16 *)&timer = 0x5A;
-        TObjPlayer::spawn_effect_f8((saddr)&body_center, *(s16 *)&timer);
+        timer = 0x5A;
+        TObjPlayer::spawn_effect_f8((saddr)&body_center, timer);
         if (is_primary != 0) {
             volopt_breakup_flag = 1;
             TBoss3VoloptCore::link_photon(attacker_id, 0);
@@ -362,8 +362,8 @@ void TBoss3VoloptP01::update_breakup() {
         state = 1;
     case 1:
         advance_animation();
-        (*(s16 *)&timer)--;
-        if (*(s16 *)&timer < 0) {
+        timer--;
+        if (timer < 0) {
             TBoss3Volopt::create_breakup_mdl((saddr)TBoss3VoloptP01__breakup_model, (saddr)&volopt_p01_breakup_params, texlist, (saddr)&body_center, rotation_y);
             ((TObjPlayer *)&body_center)->trigger_dell_biter_events();
             m_388 |= 0x40000;
@@ -500,7 +500,7 @@ void TBoss3VoloptP01::update_attack() {
             start_rise();
             m_388 |= 0x10000;
             shutter->open();
-            *(s16 *)&timer = 0x14;
+            timer = 0x14;
             resume_state = 1;
             state = 1;
             push_nearby_players();
@@ -515,7 +515,7 @@ void TBoss3VoloptP01::update_attack() {
         break;
     case 1:
         set_flags_30();
-        if (--*(s16 *)&timer <= 0) {
+        if (--timer <= 0) {
             play_sound_effect(0x4003A306, &position, 0xA, 0);
             state = 2;
         }
@@ -576,11 +576,11 @@ void TBoss3VoloptP01::update_attack() {
             cast_count++;
         }
         m_388 &= ~0x10000;
-        *(s16 *)&timer = 0x78;
+        timer = 0x78;
         state = 8;
     case 8:
-        (*(s16 *)&timer)--;
-        if (*(s16 *)&timer <= 0) {
+        timer--;
+        if (timer <= 0) {
             state = 9;
         }
         break;

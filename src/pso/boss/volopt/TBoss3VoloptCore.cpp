@@ -457,11 +457,11 @@ void TBoss3VoloptCore::update_state_spin() {
         update_orbit_position();
         facing_angle = calc_spin_value();
         rotation_y = facing_angle;
-        *(s16 *)&timer = 0x5A;
+        timer = 0x5A;
         state = 1;
     case 1:
         advance_animation();
-        if (--*(s16 *)&timer <= 0) {
+        if (--timer <= 0) {
             actorFlags &= ~0x40000;
             m_388 &= ~1;
             run_idle_action();
@@ -588,18 +588,18 @@ void TBoss3VoloptCore::sub_8003F81C() {
     case 0:
         m_388 |= 0x10000;
         this->requested_action = 0;
-        *(s16 *)&timer = 5;
+        timer = 5;
         effect = NULL;
         state = 1;
     case 1:
         rotation_y = approach_angle_limited(rotation_y, facing_angle - 0x8000, core_turn_angle_limit);
         if (angle_difference_abs(rotation_y, facing_angle - 0x8000) <= core_turn_angle_limit) {
-            *(s16 *)&timer = (TBoss3Volopt::is_v2_mode() != 0) ? 5 : 0x1E;
+            timer = (TBoss3Volopt::is_v2_mode() != 0) ? 5 : 0x1E;
             state = 2;
         }
         break;
     case 2:
-        if (--*(s16 *)&timer <= 0) {
+        if (--timer <= 0) {
             Vec pos = *&position;
             pos.y -= 20.0f;
             effect = create_particle_emitter(&pos, 0x31);
@@ -608,7 +608,7 @@ void TBoss3VoloptCore::sub_8003F81C() {
         }
         break;
     case 3:
-        if (--*(s16 *)&timer < 0) {
+        if (--timer < 0) {
             boss3_volopt_core_active_flag = 1;
             run_idle_action();
         }
