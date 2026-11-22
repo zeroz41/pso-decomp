@@ -68,7 +68,7 @@ extern "C" {
 u8 *alloc_from_buffer(void *self, s16 arg1);
 s32 clear_socket_slot(s16 i);
 s32 configure_mode_by_type(void *self, s16 type);
-void chap_input(void *self, saddr arg1);
+void chap_input(void *self, saddr source);
 void free_field_98(void *self);
 void free_field_98_and_clear(void *self);
 s16 get_checked_status_value(s16 arg0);
@@ -83,7 +83,7 @@ void init_net_state_c(void);
 s32 init_net_subsystem_block(void);
 s32 mark_ready(void *self);
 s32 mark_sub_ready(void *obj);
-s16 parse_lcp_option(saddr arg0, u8 *arg1, u8 *arg2, u8 *arg3, s16 arg4);
+s16 parse_lcp_option(saddr arg0, u8 *opts, u8 *arg2, u8 *hdr, s16 arg4);
 void queue_command_81(void);
 s32 read_2_bytes(void *self, void *src);
 void reset_connection_slot(void *self);

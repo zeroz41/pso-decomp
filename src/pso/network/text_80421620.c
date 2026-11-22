@@ -267,10 +267,10 @@ s32 TLobby__sub_804219D0(saddr arg0, saddr arg1, saddr arg2) {
     return result;
 }
 
-s32 net_add_ipv4_route(saddr arg0, saddr arg1, saddr gateway) {
+s32 net_add_ipv4_route(saddr dst, saddr mask, saddr gateway) {
     s32 result;
     lock_mutex(network_dispatch_state.lock_handle);
-    result = NetIPv4AddRoute((void *)arg0, (void *)arg1, (void *)gateway, 1, (int) (0U), (int) (0U));
+    result = NetIPv4AddRoute((void *)dst, (void *)mask, (void *)gateway, 1, (int) (0U), (int) (0U));
     unlock_mutex(network_dispatch_state.lock_handle);
     return result;
 }
@@ -377,7 +377,7 @@ s16 udp_send(s32 h, u32 *src, u32 *dst, u16 port, u32 *opt, s8 n, send_buffs *bu
     return r;
 }
 
-s16 udp_open(void *src, s32 sport, void *dst, s32 dport, s32 arg4, NetUdpReceiveCallback cb) {
+s16 udp_open(void *src, s32 sport, void *dst, s32 dport, s32 eventCallback, NetUdpReceiveCallback cb) {
     u8 any[0x14];
     s16 h;
     s16 r;
@@ -403,7 +403,7 @@ s16 udp_open(void *src, s32 sport, void *dst, s32 dport, s32 arg4, NetUdpReceive
         unlock_mutex(network_dispatch_state.lock_handle);
         return r;
     }
-    r = NetUdpConnect(h, (NetworkAddress*)dst, dport, arg4, (uaddr)cb);
+    r = NetUdpConnect(h, (NetworkAddress*)dst, dport, eventCallback, (uaddr)cb);
     if (r < 0) {
         NetUdpClose(h);
         unlock_mutex(network_dispatch_state.lock_handle);
@@ -759,7 +759,7 @@ s32 tcp_abort(s32 a) {
     return r;
 }
 
-s32 TLobby__sub_80422AB8(s16 idx, TcpAcceptCallback cb, s16 code, s32 name, s32 arg4, s32 arg5) {
+s32 TLobby__sub_80422AB8(s16 idx, TcpAcceptCallback cb, s16 code, s32 name, s32 local_port, s32 remote_port) {
     TcpTcb *s = tcp_protocol_state.tcbs;
     s16 i2;
     s16 v;
@@ -772,7 +772,7 @@ s32 TLobby__sub_80422AB8(s16 idx, TcpAcceptCallback cb, s16 code, s32 name, s32 
         } else {
             v = code;
         }
-        cb(v, i2, name, arg5);
+        cb(v, i2, name, remote_port);
         s->accept_cb = 0;
     } else {
         s->waits[3].status = code;

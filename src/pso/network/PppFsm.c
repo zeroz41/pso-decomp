@@ -233,19 +233,19 @@ static inline s16 read_packet_header(PppHeader *dst, void *src, s32 with_ext) {
 #pragma opt_common_subs on
 #pragma dont_inline off
 #pragma inline_depth(4)
-void TLobby__sub_803FDBF8(PppFsm *fsm, void *arg1)
+void TLobby__sub_803FDBF8(PppFsm *fsm, void *payload)
 {
     PppHeader hdr;
     s16 rc;
     u8 *newbuf;
     u8 *dp;
 
-    rc = read_packet_header(&hdr, &arg1, 0);
+    rc = read_packet_header(&hdr, &payload, 0);
     if (rc != 0) {
         return;
     }
     hdr.len -= 4;
-    TLobby__sub_80401CAC((PppFrame **)&arg1, hdr.len);
+    TLobby__sub_80401CAC((PppFrame **)&payload, hdr.len);
     switch (hdr.code) {
     case 1:
         switch (fsm->state) {
@@ -264,14 +264,14 @@ void TLobby__sub_803FDBF8(PppFsm *fsm, void *arg1)
             }
         case 2:
         case 4:
-            if (fsm->proto->f2C(fsm, &hdr, arg1) == 0) {
+            if (fsm->proto->f2C(fsm, &hdr, payload) == 0) {
                 fsm->state = 4;
             } else {
                 fsm->state = 2;
             }
             break;
         case 3:
-            if (fsm->proto->f2C(fsm, &hdr, arg1) == 0) {
+            if (fsm->proto->f2C(fsm, &hdr, payload) == 0) {
                 lobby_timer_stop(&fsm->timer);
                 fsm->proto->f1C(fsm, fsm->proto);
                 fsm->state = 5;
@@ -290,12 +290,12 @@ void TLobby__sub_803FDBF8(PppFsm *fsm, void *arg1)
     case 2:
         switch (fsm->state) {
         case 2:
-            if (fsm->proto->f30(fsm, &hdr, arg1) == 0) {
+            if (fsm->proto->f30(fsm, &hdr, payload) == 0) {
                 fsm->state = 3;
             }
             break;
         case 4:
-            if (fsm->proto->f30(fsm, &hdr, arg1) == 0) {
+            if (fsm->proto->f30(fsm, &hdr, payload) == 0) {
                 lobby_timer_stop(&fsm->timer);
                 fsm->proto->f1C(fsm, fsm->proto);
                 fsm->state = 5;
@@ -329,7 +329,7 @@ void TLobby__sub_803FDBF8(PppFsm *fsm, void *arg1)
         switch (fsm->state) {
         case 2:
         case 4:
-            if (fsm->proto->f34(fsm, &hdr, arg1) == 0) {
+            if (fsm->proto->f34(fsm, &hdr, payload) == 0) {
                 if (fsm->retries != 0) {
                     fsm->retries--;
                     lobby_timer_start((u8 *)&fsm->timer);
@@ -364,7 +364,7 @@ void TLobby__sub_803FDBF8(PppFsm *fsm, void *arg1)
         switch (fsm->state) {
         case 2:
         case 4:
-            if (fsm->proto->f38(fsm, &hdr, arg1) == 0) {
+            if (fsm->proto->f38(fsm, &hdr, payload) == 0) {
                 if (fsm->retries != 0) {
                     fsm->retries--;
                     lobby_timer_start((u8 *)&fsm->timer);
@@ -460,7 +460,7 @@ void TLobby__sub_803FDBF8(PppFsm *fsm, void *arg1)
     case 9:
         switch (fsm->state) {
         case 5:
-            ppp_fsm_send_packet(fsm, 10, hdr.id, arg1);
+            ppp_fsm_send_packet(fsm, 10, hdr.id, payload);
             break;
         case 2:
         case 3:
@@ -482,13 +482,13 @@ void TLobby__sub_803FDBF8(PppFsm *fsm, void *arg1)
     case 0:
     default:
         hdr.len += 4;
-        newbuf = alloc_from_buffer(arg1, 4);
+        newbuf = alloc_from_buffer(payload, 4);
         dp = ((PppFrame *)newbuf)->data;
         *dp++ = hdr.code;
         *dp++ = hdr.id;
         write_network_u16_be(dp, hdr.len);
-        arg1 = newbuf;
-        ppp_fsm_send_packet(fsm, 7, hdr.id, arg1);
+        payload = newbuf;
+        ppp_fsm_send_packet(fsm, 7, hdr.id, payload);
         switch (fsm->state) {
         case 6:
             break;

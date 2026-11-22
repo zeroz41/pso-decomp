@@ -178,7 +178,7 @@ s32 mark_sub_ready(void *obj) {
 
 struct O_80400ACC;
 
-void chap_input(void *self, saddr arg1) {
+void chap_input(void *self, saddr source) {
     u8 *arg0 = (u8 *)self;
     PppHeader hdr;
     u8 temp_r0;
@@ -189,15 +189,15 @@ void chap_input(void *self, saddr arg1) {
     u8 *temp_r30_3;
     u8 *temp_r30_4;
 
-    if (TLobby__sub_803FE8BC((u8 *)&hdr, &arg1) != -1) {
+    if (TLobby__sub_803FE8BC((u8 *)&hdr, &source) != -1) {
         hdr.len -= 4;
-        TLobby__sub_80401CAC((PppFrame **)&arg1, hdr.len);
+        TLobby__sub_80401CAC((PppFrame **)&source, hdr.len);
         switch (hdr.code) {
         case 1:
-            chap_recv_challenge((PppFsm *)arg0, &hdr, (PppFrame *)arg1);
+            chap_recv_challenge((PppFsm *)arg0, &hdr, (PppFrame *)source);
             return;
         case 2:
-            if (chap_recv_response((void *)arg0, (void *)&hdr, (int)arg1) == 0) {
+            if (chap_recv_response((void *)arg0, (void *)&hdr, (int)source) == 0) {
                 if (lbl_805D7A90 & 2) {
                     temp_r30 = (u8 *)(*(u8 **)((s8 *)arg0 + 0xC));
                     lobby_timer_stop((void *) (arg0 + 0x10));
@@ -417,8 +417,8 @@ extern s16 chap_recv_response(PppFsm *c, u8 *hdr, int v) {
 #pragma opt_common_subs on
 #pragma opt_propagation off
 #pragma opt_lifetimes off
-inline PppChap *chap_options(PppFsm *arg0) {
-    return (PppChap *)arg0->opts;
+inline PppChap *chap_options(PppFsm *connection) {
+    return (PppChap *)connection->opts;
 }
 
 void chap_recv_challenge(PppFsm *connection, PppHeader *header, PppFrame *source) {

@@ -390,19 +390,19 @@ s32 TQuestVmDownLoadServer__sub_801F8538(void *data, s32 size) {
     }
     return crc ^ 0xFFFFFFFF;
 }
-s32 TQuestVmDownLoadServer::verify_checksum(const void *arg0, s32 arg1) {
+s32 TQuestVmDownLoadServer::verify_checksum(const void *arg0, s32 size) {
   s32 temp_r31;
   void *temp_r3;
   s32 temp_r29;
-  temp_r3 = TQuestVmDownLoadServer::alloc(arg1);
+  temp_r3 = TQuestVmDownLoadServer::alloc(size);
   if (temp_r3 == 0)
   {
     return 0;
   }
-  move_data((void *)(temp_r3), (const void *)((const void *)arg0), (u32)arg1);
+  move_data((void *)(temp_r3), (const void *)((const void *)arg0), (u32)size);
   temp_r29 = *((s32 *) (((s8 *) temp_r3) + 4));
   *((s32 *) (((s8 *) temp_r3) + 4)) = 0;
-  temp_r31 = TQuestVmDownLoadServer__sub_801F8538(temp_r3, arg1);
+  temp_r31 = TQuestVmDownLoadServer__sub_801F8538(temp_r3, size);
   TAdSinglePlyChrSelectGC::safe_free((uaddr)temp_r3);
   return ((u32) __cntlzw((u32) (temp_r31 - temp_r29))) >> 5;
 }

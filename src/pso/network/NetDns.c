@@ -1661,33 +1661,33 @@ s16 TLobby__sub_8040C978(void *arg)
   return i;
 }
 
-s32 dns_compare_addr(DnsAddr *arg0, DnsAddr *arg1) {
+s32 dns_compare_addr(DnsAddr *node, DnsAddr *rec) {
     s32 var_r5;
     u8 *var_r3;
     u8 *right;
-    switch (arg0->rtype) {
+    switch (node->rtype) {
     case DNS_TYPE_A:
-        if ((u16) arg1->rtype != DNS_TYPE_A) {
+        if ((u16) rec->rtype != DNS_TYPE_A) {
             var_r3 = (u8 *)((void *)-1);
             return -1;
         }
-        switch ((s32) arg0->addr.family) {
+        switch ((s32) node->addr.family) {
         case 4:
-            if ((u32) arg1->addr.family != 4U) {
+            if ((u32) rec->addr.family != 4U) {
                 var_r3 = (u8 *)((void *)-1);
                 return -1;
             }
-            var_r3 = arg0->addr.address;
-            right = arg1->addr.address;
+            var_r3 = node->addr.address;
+            right = rec->addr.address;
             var_r5 = 4;
             return NetMemcmp(var_r3, right, 4);
         case 6:
-            if ((u32) arg1->addr.family != 6U) {
+            if ((u32) rec->addr.family != 6U) {
                 var_r3 = (u8 *)((void *)-1);
                 return -1;
             }
-            var_r3 = arg0->addr.address;
-            right = arg1->addr.address;
+            var_r3 = node->addr.address;
+            right = rec->addr.address;
             var_r5 = 0x10;
             return NetMemcmp(var_r3, right, 0x10);
         default:
@@ -1697,27 +1697,27 @@ s32 dns_compare_addr(DnsAddr *arg0, DnsAddr *arg1) {
         }
         break;
     case DNS_TYPE_AAAA:
-        if ((u16) arg1->rtype != DNS_TYPE_AAAA) {
+        if ((u16) rec->rtype != DNS_TYPE_AAAA) {
             var_r3 = (u8 *)((void *)-1);
             return -1;
         }
-        switch ((s32) arg0->addr.family) {
+        switch ((s32) node->addr.family) {
         case 4:
-            if ((u32) arg1->addr.family != 4U) {
+            if ((u32) rec->addr.family != 4U) {
                 var_r3 = (u8 *)((void *)-1);
                 return -1;
             }
-            var_r3 = arg0->addr.address;
-            right = arg1->addr.address;
+            var_r3 = node->addr.address;
+            right = rec->addr.address;
             var_r5 = 4;
             return NetMemcmp(var_r3, right, 4);
         case 6:
-            if ((u32) arg1->addr.family != 6U) {
+            if ((u32) rec->addr.family != 6U) {
                 var_r3 = (u8 *)((void *)-1);
                 return -1;
             }
-            var_r3 = arg0->addr.address;
-            right = arg1->addr.address;
+            var_r3 = node->addr.address;
+            right = rec->addr.address;
             var_r5 = 0x10;
             return NetMemcmp(var_r3, right, 0x10);
         default:

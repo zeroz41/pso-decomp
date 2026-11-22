@@ -91,8 +91,8 @@ s32 TLobby__sub_80407418(s16 id) {
     return 0;
 }
 
-s16 forward_net_op(s16 idx, u8 *name, u8 *arg2) {
-    return arp_resolve_and_send(idx, name, arg2);
+s16 forward_net_op(s16 idx, u8 *name, u8 *pkt) {
+    return arp_resolve_and_send(idx, name, pkt);
 }
 
 s16 forward_net_op_5args(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s32 arg5, s16 arg6, s32 arg7) {

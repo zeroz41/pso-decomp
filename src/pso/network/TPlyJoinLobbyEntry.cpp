@@ -619,9 +619,9 @@ void TLobby::update_idle_timeout(void *object) {
     }
 }
 
-u8 *init_idle_timeout_timer(u8 *arg0, saddr arg1) {
+u8 *init_idle_timeout_timer(u8 *arg0, saddr parent) {
     s32 sp8;
-    __ct__7TObjectFP7TObject((void *)arg0, (void *)arg1);
+    __ct__7TObjectFP7TObject((void *)arg0, (void *)parent);
     *(void ***)((s8 *)arg0 + 0x18) = lbl_804A7008;
     getDateStamp((DateStamp *)(&sp8));
     DateToSeconds((DateStamp *)(&sp8), (int *)(arg0 + 0x1C));
@@ -1039,13 +1039,13 @@ void show_card_list_message(void *msg) {
 #pragma pop
 
 #pragma defer_codegen on
-void TLobby::show_seq_phase_message(int arg0) {
+void TLobby::show_seq_phase_message(int id) {
     if ((*(u32 *)&(*(u32 *)&(*(u32 *)&TLobby__current_dialog_window))) == 0) {
         NJS_POINT2 tmp = lbl_8043EDE8[0];
         (*(u32 *)&(*(u32 *)&(*(u32 *)&TLobby__current_dialog_window))) = (uaddr)create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0xc1), &tmp);
         ((TWindowBase *)(*(uaddr *)&(*(u32 *)&(*(u32 *)&TLobby__current_dialog_window))))->set_depth(lbl_805DB0B8);
     }
-    ((TWindowMessage *)(*(uaddr *)&(*(u32 *)&(*(u32 *)&TLobby__current_dialog_window))))->append_line((int)(TLobby::get_seq_phase(arg0)), (int)1);
+    ((TWindowMessage *)(*(uaddr *)&(*(u32 *)&(*(u32 *)&TLobby__current_dialog_window))))->append_line((int)(TLobby::get_seq_phase(id)), (int)1);
 }
 
 void show_dialog_value_line(saddr arg0) {
@@ -1891,10 +1891,10 @@ void TLobby::close_and_set_state_12() {
     ((s32 (*)())TLobby::init_player_window_effect)();
     TLobby__data_805D5594 = 0x12;
 }
-void TLobby::send_room_change(int arg0) {
+void TLobby::send_room_change(int idx) {
     TLobby__data_805D5588 = 1;
     ((s32 (*)())TLobby::init_player_window_effect)();
-    ((TProtocol *)(TLobby__protocol_instance))->send_room_change(arg0);
+    ((TProtocol *)(TLobby__protocol_instance))->send_room_change(idx);
     TLobby__data_805D5594 = 0x13;
 }
 void TLobby::open_city_warp_menu() {
@@ -2836,12 +2836,12 @@ void TLobby::run_join_lobby_connect(int arg0) {
 
 void *__vt__6TLobby[6] = { 0, 0, (void *)__dt__6TLobbyFv, (void *)run_task__6TLobbyFv, (void *)render__6TLobbyFv, (void *)render_shadows__7TObjectFv };
 
-u8 *TLobby__ct(u8 *object, void *arg1) {
+u8 *TLobby__ct(u8 *object, void *parent) {
     s32 *access_key;
     s32 *password;
     TProtocol *protocol;
 
-    __ct__7TObjectFP7TObject(object, arg1);
+    __ct__7TObjectFP7TObject(object, parent);
     *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__6TLobby;
     TLobby__sub_8013A16C();
     ((TObject *)object)->m_name = lobby_class_name;

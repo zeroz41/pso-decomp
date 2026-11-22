@@ -54,7 +54,7 @@ struct TLobby : public TObject {
     void set_challenge_record_page(s32 v);
     static void update_quest_challenge_state(void *arg0_);
     s32 destroy_on_phase_change();
-    void copy_challenge_settings(u8 *arg1);
+    void copy_challenge_settings(u8 *settings);
     static void calc_joyboot_checksum();
     static s32 start_gba_joyboot();
     static void set_send_buffer(u8 *arg0, s32 arg1);
@@ -858,7 +858,7 @@ struct TLobby : public TObject {
     static void clear_flag400();
     static void check_flags_and_proceed();
     static void cancel_trade();
-    static s32 show_event_message(s32 arg0, s32 arg1, s32 arg2);
+    static s32 show_event_message(s32 client_id, s32 arg1, s32 code);
     void build_trade_item_list();
     static void send_modify_trade_proposal(s8 arg0, s32 arg1, s32 arg2);
     static void send_trade_proposal_result(s8 arg0, s8 arg1);

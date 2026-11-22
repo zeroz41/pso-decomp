@@ -165,7 +165,7 @@ typedef struct Ipv4IfaceAddrRecord {
     u8 pad10[0xC];
 } Ipv4IfaceAddrRecord;
 LAYOUT_ASSERT(Ipv4IfaceAddrRecord_size_check, sizeof(Ipv4IfaceAddrRecord) == 0x1C);
-extern s32 copy_ipv4_interface_addresses(s16 idx, NetBufferRef *out, s16 len, s32 arg3) {
+extern s32 copy_ipv4_interface_addresses(s16 idx, NetBufferRef *out, s16 len, s32 buf) {
     s16 TLobby__sub_80409EB0(s16 arg0, s32 arg1); /* declared s16 here; the definition returns s32 */
     Ipv4RoutingState *g = &ipv4_address_routing_state;
     Ipv4Iface *ifc;
@@ -211,7 +211,7 @@ extern s32 copy_ipv4_interface_addresses(s16 idx, NetBufferRef *out, s16 len, s3
         len -= sizeof(rec);
     }
     if (TLobby__sub_80409EB0(idx, ifc->handle) <= 6) {
-        TLobby__sub_80409E18(idx, ifc->handle, arg3);
+        TLobby__sub_80409E18(idx, ifc->handle, buf);
     }
     return count;
 }
@@ -668,8 +668,8 @@ s16 ipv4_iface_for_address(u32 ip) {
     return -1;
 }
 
-s16 NetIPv4IsLoopback(s32 arg0) {
-    if ((u32) ((arg0 & 0xFF000000) + 0x81000000) == 0U) {
+s16 NetIPv4IsLoopback(s32 address) {
+    if ((u32) ((address & 0xFF000000) + 0x81000000) == 0U) {
         return 1;
     }
     return 0;
@@ -695,8 +695,8 @@ s16 NetIPv4IsBroadcast(u32 arg0, s16 arg1) {
     return 0;
 }
 
-s16 NetIPv4IsUnspecified(u32 arg0) {
-    if (arg0 == 0U) {
+s16 NetIPv4IsUnspecified(u32 address) {
+    if (address == 0U) {
         return 1;
     }
     return 0;
@@ -704,12 +704,12 @@ s16 NetIPv4IsUnspecified(u32 arg0) {
 
 #pragma push
 #pragma opt_common_subs on
-s16 NetIPv4IsInterfaceUp(s16 arg0) {
+s16 NetIPv4IsInterfaceUp(s16 iface) {
     Ipv4Iface *ifc;
-    if ((arg0 < 0) || (arg0 >= ipv4_address_routing_state.nifaces)) {
+    if ((iface < 0) || (iface >= ipv4_address_routing_state.nifaces)) {
         ifc = NULL;
     } else {
-        ifc = &ipv4_address_routing_state.ifaces[arg0];
+        ifc = &ipv4_address_routing_state.ifaces[iface];
         if (ifc->state != 1) {
             ifc = NULL;
         }

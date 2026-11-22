@@ -317,11 +317,11 @@ void TLobby__sub_80429648(void) {
     EXIUnlock(0);
 }
 
-void start_exi_dma_read(u16 arg0) {
+void start_exi_dma_read(u16 reg) {
     u32 len;
     s32 cmd;
     len = (exi_dma_read_length + 0x1F) & ~0x1F;
-    cmd = ((arg0 << 8) & 0xFFFF00) | 0x80000000;
+    cmd = ((reg << 8) & 0xFFFF00) | 0x80000000;
     EXISelect(0, 2, 5);
     EXIImm(0, &cmd, 4, 1, 0);
     EXISync(0);
@@ -815,7 +815,7 @@ u32 TLobby__sub_8042BA8C(void *addr) {
     return hash;
 }
 
-void enable_network_multicast_address(void *arg0) {
+void enable_network_multicast_address(void *address) {
   u8 val0;
   u8 val1;
   u8 val2;
@@ -831,7 +831,7 @@ void enable_network_multicast_address(void *arg0) {
   s32 isDefault;
   int filter_bits;
   isDefault = 0;
-  if (memcmp(arg0, lbl_805D4830, 6) == 0)
+  if (memcmp(address, lbl_805D4830, 6) == 0)
   {
     isDefault = 1;
   }
@@ -864,7 +864,7 @@ void enable_network_multicast_address(void *arg0) {
   }
   else
   {
-    bit = (u16)TLobby__sub_8042BA8C(arg0);
+    bit = (u16)TLobby__sub_8042BA8C(address);
     addr = ((u32) ((u16) (((u8) (bit / 8)) + 0x26))) << 8;
     read_command = addr | 0x80000000;
     cmd2 = read_command;

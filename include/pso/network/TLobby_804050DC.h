@@ -57,7 +57,7 @@ s32 close_connection_by_index(s16 i);
 NetPacket *alloc_free_entry(void);
 void release_entry(NetPacket *pkt);
 s32 call_entry_callback(s16 i, s16 arg);
-s16 call_handler_by_index(s16 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+s16 call_handler_by_index(s16 arg0, s32 arg1, s32 detail, s32 first, s32 second);
 s32 clear_table_entry_locked(s16 arg0);
 void init_net_block_18A0(void);
 s16 invoke_socket_callback(s16 i, s32 arg);
@@ -100,12 +100,12 @@ s16 AT_IP_SetSrcFromDst(Out_8040D95C *arg0, In_8040D95C *arg1);
 s16 is_multicast_address(NetworkAddress *addr, s16 arg1);
 s16 is_addr_unspecified(u8 *arg0);
 s16 AT_IP4_IsReachable(u32 arg0, u32 arg1);
-s16 TLobby__sub_8040DA54(u8 *arg0, u8 *arg1);
+s16 TLobby__sub_8040DA54(u8 *dst, u8 *src);
 s16 AT_IP4_Send(NetPacket *pkt, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, u8 proto);
 s16 AT_IP4_Forward(u32 dst, u32 src, u8 *pkt, s16 len, s16 iface);
 s16 AT_IP4_PktSend(NetPacket *self, u32 key, s16 id);
 s16 AT_IP4_SrcAddrSel(u32 *out, u32 dst, s16 c);
-s16 TLobby__sub_80410A98(saddr arg0, void *arg1, void *arg2, void *arg3, void *arg4);
+s16 TLobby__sub_80410A98(saddr pkt, void *dst, void *src, void *arg3, void *arg4);
 extern NetPacketPool lobby_udp_socket_table;
 /* Shared by the modules cut out of this unit; each is defined in the file named in its comment. */
 u16 packet_ones_complement_sum(struct NetPacket *, s16); /* TLobby_804050DC.c */

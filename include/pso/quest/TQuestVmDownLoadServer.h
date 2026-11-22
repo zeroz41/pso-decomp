@@ -94,14 +94,14 @@ public:
     static void invalidate_entries_by_id(s32 id);
     static void clear_entries_by_id(s32 id);
     static s32 release_ref_slot(u32 arg0);
-    static s32 set_slot_values_for_indices(s32 *arg0, s32 arg1, u32 arg2);
+    static s32 set_slot_values_for_indices(s32 *ids, s32 arg1, u32 arg2);
     s32 get_max_size_of_indices(s32 arg1);
     static u32 acquire_slot_entry(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
     static void retry_seek_active_entries();
     static void set_active();
     static s32 match_prefix_length(const u8 *a, const u8 *b, s32 n);
-    static s32 count_matching_name_prefix(s32 arg0, u8 *arg1);
-    s32 is_char_allowed(s16 arg1);
+    static s32 count_matching_name_prefix(s32 idx, u8 *name);
+    s32 is_char_allowed(s16 len);
     static s32 read_ask_header();
     static void init_page_cache();
     static s32 seek_or_reopen(int arg0);
@@ -110,7 +110,7 @@ public:
     static void unescape_copy_string(u8 *arg0, u8 *arg1, u8 *arg2);
     static s32 count_entries_until_terminator(const u8 *p, const u8 *end);
     static void copy_sjis_string(u8 *arg0, u8 *arg1);
-    static s32 calc_sjis_string_width(u8 *arg0);
+    static s32 calc_sjis_string_width(u8 *text);
     s32 calc_text_length();
     s32 calc_message_length();
     static u8 *get_buffer_ptr(s32 arg0);
@@ -121,16 +121,16 @@ public:
     static QuestDownloadTextNode *build_text_node_chain(void *record, const QuestDownloadItemNode *source, s32 length,
                                                          QuestDownloadTextNode **head, QuestDownloadTextNode **tail);
     static u16 jis_to_sjis(u16 arg0);
-    static s32 is_valid_sjis_code(u16 arg0);
+    static s32 is_valid_sjis_code(u16 ch);
     static s32 is_download_command(u16 arg0, s32 arg1);
     static s32 encode_char_with_attr(u16 *out, u16 ch, s32 attr);
     static s32 is_sjis_lead_byte(u8 arg0);
     static void push_download_entry(void *storage);
     static void init_block_free_list();
     static s32 calc_item_cost_bonus(u8 kind, u8 v, u8 w, s32 base, s32 add);
-    static s32 calc_pair_cost_bonus(u8 arg0, u8 arg1, s32 arg2);
-    static s32 calc_item_entry_cost_extra(u8 arg0, u8 arg1, u8 arg2, s32 arg3);
-    static void reset_slot_chain_timers(s32 arg0);
+    static s32 calc_pair_cost_bonus(u8 arg0, u8 bk, s32 extra);
+    static s32 calc_item_entry_cost_extra(u8 arg0, u8 arg1, u8 bk, s32 extra);
+    static void reset_slot_chain_timers(s32 pos);
     static s32 select_best_slot_entry(s32 idx, s32 max, s32 want);
     static s32 sum_entry_sizes(s32 start, s32 n);
     static const u8 *find_keyword_entry(u16 *start, u16 *end);
@@ -145,7 +145,7 @@ public:
     static u8 *get_cached_page(s32 page);
     s32 lookup_name_entry(s16 name_len, Out_803E8C2C *out);
     void append_message_text(s32 size, Req_803EEF2C *msg, u8 attr);
-    static QuestDownloadItemNode *build_item_list(s32 arg0, Hdr_803EA384 *arg1);
+    static QuestDownloadItemNode *build_item_list(s32 start, Hdr_803EA384 *arg1);
     static s32 count_fitting_entries(QuestDownloadTextNode *arg0);
     s32 find_symbol_entry(s16 len, Info_803F0138 *out);
 };

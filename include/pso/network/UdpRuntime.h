@@ -72,7 +72,7 @@ s32 NetUdpClose(s16 handle);
 s16 NetUdpConnect(s16 handle, NetworkAddress* remoteAddress, s32 port,
                   s32 eventCallback, u32 receiveCallback);
 s16 udp_open(void *src, s32 sport, void *dst, s32 dport, s32 eventCallback, NetUdpReceiveCallback callback);
-s32 TLobby__sub_80420D38(u16 arg0, u8 arg1);
+s32 TLobby__sub_80420D38(u16 src_port, u8 code);
 s16 NetUdpCreate(void);
 s16 NetUdpBind(s16 handle, NetworkAddress* localAddress, s32 port);
 u16 NetUdpAllocateEphemeralPort(void);

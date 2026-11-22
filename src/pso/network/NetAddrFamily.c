@@ -92,9 +92,9 @@ s16 AT_IP_SetSrcFromDst(Out_8040D95C *out_8040_d95_c, In_8040D95C *in_8040_d95_c
     }
 }
 
-s16 TLobby__sub_8040DA54(u8 *arg0, u8 *arg1) {
-    NetworkAddress *a = (NetworkAddress *)arg0;
-    NetworkAddress *b = (NetworkAddress *)arg1;
+s16 TLobby__sub_8040DA54(u8 *dst, u8 *src) {
+    NetworkAddress *a = (NetworkAddress *)dst;
+    NetworkAddress *b = (NetworkAddress *)src;
     switch (a->family) {
     case 4:
         return AT_IP4_IsReachable(a->ipv4, b->ipv4);

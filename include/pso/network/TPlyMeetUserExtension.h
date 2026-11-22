@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void bswap__21TPlyMeetUserExtensionFv(saddr arg0);
+void bswap__21TPlyMeetUserExtensionFv(saddr extension);
 }
 
 #endif

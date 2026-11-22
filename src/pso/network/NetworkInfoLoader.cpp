@@ -255,7 +255,7 @@ void update_network_info_load(void) {
 
 #pragma push
 #pragma scheduling off
-s32 request_network_info_exists(s32 arg0) {
+s32 request_network_info_exists(s32 channel) {
     NetworkInfoLoadState *s;
     switch (get_network_config_mode()) {
     case 0:
@@ -273,7 +273,7 @@ s32 request_network_info_exists(s32 arg0) {
     }
     s->request_kind = 1;
     s->phase = 1;
-    s->card_channel = arg0;
+    s->card_channel = channel;
     s->result = 200;
     return 0;
 }
@@ -420,18 +420,18 @@ char lbl_804FCF18[] = "isao.net\x83\x81\x81\x5B\x83\x8B\x83\x41\x83\x4A\x83\x45\
 
 s32 get_network_config_mode(void) { return get_or_set_network_config_mode(4); }
 
-s32 get_or_set_network_config_mode(s32 arg0) {
-    if (arg0 < 4) {
-        network_config_mode = arg0;
+s32 get_or_set_network_config_mode(s32 mode) {
+    if (mode < 4) {
+        network_config_mode = mode;
     }
     return network_config_mode;
 }
 
 s32 get_network_config_backup_mode(void) { return get_or_set_network_config_backup_mode(2); }
 
-s32 get_or_set_network_config_backup_mode(s32 arg0) {
-    if (arg0 < 2) {
-        TAdPlayerLoadGC__player_load_value = arg0;
+s32 get_or_set_network_config_backup_mode(s32 mode) {
+    if (mode < 2) {
+        TAdPlayerLoadGC__player_load_value = mode;
     }
     return TAdPlayerLoadGC__player_load_value;
 }
@@ -442,9 +442,9 @@ s32 get_network_config_card_channel(void) {
     return network_config_card_channel;
 }
 
-void set_network_config_card_channel(s32 arg0) {
+void set_network_config_card_channel(s32 channel) {
     if (get_network_config_mode() >= 1) {
-        network_config_card_channel = arg0;
+        network_config_card_channel = channel;
         init_network_config_defaults();
     }
 }

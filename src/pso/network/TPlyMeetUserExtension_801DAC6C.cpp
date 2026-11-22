@@ -71,12 +71,12 @@ struct VObjDA : BaseDA {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-Ext_801DAC6C *__as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(Ext_801DAC6C *arg0, const Ext_801DAC6C *arg1) {
-    arg0->tags = arg1->tags;
-    arg0->m = arg1->m;
-    arg0->a = arg1->a;
-    arg0->b = arg1->b;
-    return arg0;
+Ext_801DAC6C *__as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(Ext_801DAC6C *ext, const Ext_801DAC6C *arg1) {
+    ext->tags = arg1->tags;
+    ext->m = arg1->m;
+    ext->a = arg1->a;
+    ext->b = arg1->b;
+    return ext;
 }
 
 void handle_cmd_9A__9TProtocolFR6packet(u8 *arg0, s32 *arg1) {

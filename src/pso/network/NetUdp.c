@@ -44,16 +44,16 @@ s16 init_ucb_entries(void) {
     udp_runtime_state.ephemeralPortStart = 0x400;
     return 0;
 }
-s32 TLobby__sub_80420D38(u16 arg0, u8 arg1) {
+s32 TLobby__sub_80420D38(u16 src_port, u8 code) {
     s16 i;
     UdpControlBlock *e;
     UdpRuntimeState *g = &udp_runtime_state;
     for (i = 0, e = g->entries; i < g->count; i++, e++) {
-        if (e->active != 0 && e->localPort == arg0) {
+        if (e->active != 0 && e->localPort == src_port) {
             s16 f = 0;
-            if ((u8)(arg1 - 2) <= 1) {
+            if ((u8)(code - 2) <= 1) {
                 f = 0x81;
-            } else if (arg1 <= 1) {
+            } else if (code <= 1) {
                 f = 0x80;
             }
             if (f != 0) {
@@ -76,7 +76,7 @@ inline void add_item_80420FC8(NetPacket *pkt, void *data, s32 len) {
     pkt->fragment_count++;
 }
 
-s16 udp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, s16 arg3) {
+s16 udp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, s16 iface) {
     u8 sp20[8];
     Hdr_80420DE4 hdr;
     UdpRuntimeState *g;
@@ -127,13 +127,13 @@ s16 udp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, s16 arg3
         i++;
         e++;
     }
-    if (is_multicast_address(dst, arg3) == 1) {
+    if (is_multicast_address(dst, iface) == 1) {
         return 0;
     }
     return -2;
 }
 
-s16 udp_sendto(s16 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, u16 port, saddr arg5) {
+s16 udp_sendto(s16 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, u16 port, saddr opt) {
     s16 r;
     UdpControlBlock *e;
     if (id < 0 || id >= udp_runtime_state.count) {
@@ -170,7 +170,7 @@ s16 udp_sendto(s16 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst,
     add_item_80420FC8(pkt, &e->sourcePort, 8);
     e->checksum = 0;
     e->checksum = TLobby__sub_8040D8F0(src, dst, 0x11, pkt, 1);
-    return dispatch_by_addr_family((saddr)pkt, dst, src, (u8 *)(arg5 + 4), (void *)(arg5 + 4), (void *)0x11);
+    return dispatch_by_addr_family((saddr)pkt, dst, src, (u8 *)(opt + 4), (void *)(opt + 4), (void *)0x11);
 }
 #pragma pop
 

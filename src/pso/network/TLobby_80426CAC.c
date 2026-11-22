@@ -358,23 +358,23 @@ s16 write_empty_tlv_header(u8 **p, PppoeSlot *e) {
 
 #pragma push
 #pragma opt_common_subs off
-s16 write_pppoe_ac_name_tag(u8 **arg0, u8 *arg1) {
+s16 write_pppoe_ac_name_tag(u8 **cursor, u8 *slot) {
 typedef struct Fields_arg1 { u8 pad_0[58]; char name[1]; } Fields_arg1;
     s16 sp12;
     s16 sp10;
     s16 temp_r3;
-    if ((u8) ((Fields_arg1*)arg1)->name[0] == 0) {
+    if ((u8) ((Fields_arg1*)slot)->name[0] == 0) {
         return 0;
     }
     sp12 = 0x102;
-    NetMemcpy(*arg0, (&sp12), 2);
-    *arg0 += 2;
-    temp_r3 = NetStringLength(((Fields_arg1*)arg1)->name);
+    NetMemcpy(*cursor, (&sp12), 2);
+    *cursor += 2;
+    temp_r3 = NetStringLength(((Fields_arg1*)slot)->name);
     sp10 = temp_r3;
-    NetMemcpy(*arg0, (&sp10), 2);
-    *arg0 += 2;
-    NetMemcpy(*arg0, ((Fields_arg1*)arg1)->name, (temp_r3));
-    *arg0 += temp_r3;
+    NetMemcpy(*cursor, (&sp10), 2);
+    *cursor += 2;
+    NetMemcpy(*cursor, ((Fields_arg1*)slot)->name, (temp_r3));
+    *cursor += temp_r3;
     return temp_r3 + 4;
 }
 #pragma pop
@@ -589,8 +589,8 @@ s16 handle_pppoe_discovery_frame(u8 *frame, u16 frame_len) {
     return ret;
 }
 
-s32 skip_pppoe_tags(s32 arg0, u8 *arg1, u16 arg2) {
-    u8 *p = arg1;
+s32 skip_pppoe_tags(s32 slot, u8 *tags, u16 arg2) {
+    u8 *p = tags;
     u16 len = arg2;
     u16 a;
     u16 b;
@@ -779,11 +779,11 @@ PppoeSlot *find_pppoe_slot_by_session_id(u8 *frame, u16 frame_len) {
     return ret;
 }
 
-s16 get_pppoe_session_id(s16 arg0) {
-    if ((arg0 < 0) || (arg0 >= 1)) {
+s16 get_pppoe_session_id(s16 slot) {
+    if ((slot < 0) || (slot >= 1)) {
         return -1;
     }
-    return lobby_pppoe_slot_table.slots[arg0].state;
+    return lobby_pppoe_slot_table.slots[slot].state;
 }
 
 #pragma push

@@ -23,8 +23,8 @@ extern TAdScrollWinGC *lobby_scroll_text_window;
 extern "C" {
 extern s32 TLobby__date_seconds;
 extern s32 TLobby__event_theme_id;
-u8 *TLobby__ct(u8 *arg0, void *arg1);
-u8 *init_idle_timeout_timer(u8 *arg0, saddr arg1);
+u8 *TLobby__ct(u8 *arg0, void *parent);
+u8 *init_idle_timeout_timer(u8 *arg0, saddr parent);
 void TLobby__sub_80135FFC(void);
 void TLobby__sub_801371B0(s32 arg0);
 void TLobby__sub_80137228(s32 arg0);

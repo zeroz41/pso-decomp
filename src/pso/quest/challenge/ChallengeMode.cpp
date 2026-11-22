@@ -607,71 +607,71 @@ void *lbl_8048D108[6] = {
 
 void __dt__7TObjectFv(void *, s32);
 
-Obj_80070774 *TLobby__sub_80070774(Obj_80070774 *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        arg0->vt = lbl_8048D108;
+Obj_80070774 *TLobby__sub_80070774(Obj_80070774 *object, s16 arg1) {
+    if (object != NULL) {
+        object->vt = lbl_8048D108;
         TObjTombstone::destroy();
-        ((void (*)(void *))clear_four_slots__6TLobbyFv)(arg0);
+        ((void (*)(void *))clear_four_slots__6TLobbyFv)(object);
         ((TLobby *)challenge_mode_state)->copy_challenge_settings((u8 *)challenge_settings_defaults);
         challenge_task = 0;
-        __dt__7TObjectFv(arg0, 0);
+        __dt__7TObjectFv(object, 0);
         if (arg1 > 0) {
-            TObject::operator delete(arg0);
+            TObject::operator delete(object);
         }
     }
-    return arg0;
+    return object;
 }
 
-void TLobby::copy_challenge_settings(u8 *arg1) {
+void TLobby::copy_challenge_settings(u8 *settings) {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r6;
     u8 *temp_r8;
-    *(s32 *)&this->m_name = (s32) *(s32 *)((s8 *)arg1 + 0);
-    *(f32 *)&this->m_flags = (f32) *(f32 *)((s8 *)arg1 + 4);
-    *(s32 *)&this->m_prev = (s32) *(s32 *)((s8 *)arg1 + 8);
-    *(s32 *)&this->m_next = (s32) *(s32 *)((s8 *)arg1 + 0xC);
-    *(s32 *)&this->m_up = (s32) *(s32 *)((s8 *)arg1 + 0x10);
-    *(s32 *)&this->m_down = (s32) *(s32 *)((s8 *)arg1 + 0x14);
-    *(s32 *)((s8 *)arg0 + 0x18) = (s32) *(s32 *)((s8 *)arg1 + 0x18);
-    *(s32 *)((s8 *)arg0 + 0x1C) = (s32) *(s32 *)((s8 *)arg1 + 0x1C);
-    *(s32 *)((s8 *)arg0 + 0x20) = (s32) *(s32 *)((s8 *)arg1 + 0x20);
-    *(s32 *)((s8 *)arg0 + 0x24) = (s32) *(s32 *)((s8 *)arg1 + 0x24);
-    *(s32 *)((s8 *)arg0 + 0x28) = (s32) *(s32 *)((s8 *)arg1 + 0x28);
-    *(s32 *)((s8 *)arg0 + 0x2C) = (s32) *(s32 *)((s8 *)arg1 + 0x2C);
-    *(s32 *)((s8 *)arg0 + 0x30) = (s32) *(s32 *)((s8 *)arg1 + 0x30);
-    *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)arg1 + 0x34);
-    *(ByteBlock_10 *)((saddr) arg0 + 0x38) = *(const ByteBlock_10 *)((saddr) arg1 + 0x38);
-    *(s32 *)((s8 *)arg0 + 0x48) = (s32) *(s32 *)((s8 *)arg1 + 0x48);
-    *(s32 *)((s8 *)arg0 + 0x4C) = (s32) *(s32 *)((s8 *)arg1 + 0x4C);
-    *(ByteBlock_8 *)((saddr) arg0 + 0x50) = *(const ByteBlock_8 *)((saddr) arg1 + 0x50);
+    *(s32 *)&this->m_name = (s32) *(s32 *)((s8 *)settings + 0);
+    *(f32 *)&this->m_flags = (f32) *(f32 *)((s8 *)settings + 4);
+    *(s32 *)&this->m_prev = (s32) *(s32 *)((s8 *)settings + 8);
+    *(s32 *)&this->m_next = (s32) *(s32 *)((s8 *)settings + 0xC);
+    *(s32 *)&this->m_up = (s32) *(s32 *)((s8 *)settings + 0x10);
+    *(s32 *)&this->m_down = (s32) *(s32 *)((s8 *)settings + 0x14);
+    *(s32 *)((s8 *)arg0 + 0x18) = (s32) *(s32 *)((s8 *)settings + 0x18);
+    *(s32 *)((s8 *)arg0 + 0x1C) = (s32) *(s32 *)((s8 *)settings + 0x1C);
+    *(s32 *)((s8 *)arg0 + 0x20) = (s32) *(s32 *)((s8 *)settings + 0x20);
+    *(s32 *)((s8 *)arg0 + 0x24) = (s32) *(s32 *)((s8 *)settings + 0x24);
+    *(s32 *)((s8 *)arg0 + 0x28) = (s32) *(s32 *)((s8 *)settings + 0x28);
+    *(s32 *)((s8 *)arg0 + 0x2C) = (s32) *(s32 *)((s8 *)settings + 0x2C);
+    *(s32 *)((s8 *)arg0 + 0x30) = (s32) *(s32 *)((s8 *)settings + 0x30);
+    *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)settings + 0x34);
+    *(ByteBlock_10 *)((saddr) arg0 + 0x38) = *(const ByteBlock_10 *)((saddr) settings + 0x38);
+    *(s32 *)((s8 *)arg0 + 0x48) = (s32) *(s32 *)((s8 *)settings + 0x48);
+    *(s32 *)((s8 *)arg0 + 0x4C) = (s32) *(s32 *)((s8 *)settings + 0x4C);
+    *(ByteBlock_8 *)((saddr) arg0 + 0x50) = *(const ByteBlock_8 *)((saddr) settings + 0x50);
     {
-        const ByteBlock_1C4 *src = (const ByteBlock_1C4 *)(arg1 + 0x58);
+        const ByteBlock_1C4 *src = (const ByteBlock_1C4 *)(settings + 0x58);
         ByteBlock_1C4 *dst = (ByteBlock_1C4 *)(arg0 + 0x58);
         *dst = *src;
     }
     temp_r8 = (arg0 + 0x218);
-    temp_r6 = (arg1 + 0x218);
+    temp_r6 = (settings + 0x218);
     *(ByteBlock_54 *)((saddr) temp_r8 + 4) = *(const ByteBlock_54 *)((saddr) temp_r6 + 4);
-    *(ByteBlock_410 *)((arg0 + 0x26C) + 4) = *(const ByteBlock_410 *)((arg1 + 0x26C) + 4);
-    *(ByteBlock_10 *)((saddr) arg0 + 0x680) = *(const ByteBlock_10 *)((saddr) arg1 + 0x680);
+    *(ByteBlock_410 *)((arg0 + 0x26C) + 4) = *(const ByteBlock_410 *)((settings + 0x26C) + 4);
+    *(ByteBlock_10 *)((saddr) arg0 + 0x680) = *(const ByteBlock_10 *)((saddr) settings + 0x680);
 }
 
 struct Obj_80070944 { s32 f0; u8 pad4[0x14]; void *vt; s32 f1C, f20, f24, f28, f2C; };
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 lbl_805D2850;
 
-Obj_80070944 *TChallenge__ct(Obj_80070944 *arg0, void *parent) {
-    __ct__7TObjectFP7TObject(arg0, parent);
-    arg0->vt = lbl_8048D108;
-    arg0->f0 = lbl_805D2850;
+Obj_80070944 *TChallenge__ct(Obj_80070944 *challenge_task, void *parent) {
+    __ct__7TObjectFP7TObject(challenge_task, parent);
+    challenge_task->vt = lbl_8048D108;
+    challenge_task->f0 = lbl_805D2850;
     ((TLobby *)challenge_mode_state)->copy_challenge_settings((u8 *)challenge_settings_defaults);
-    ((void (*)(void *))TLobby__sub_80070358)(arg0);
-    TLobby::send_challenge_records((uaddr)arg0);
-    arg0->f20 = 0;
-    arg0->f24 = 0;
-    arg0->f28 = 1;
-    arg0->f2C = 0;
-    arg0->f1C = 0;
-    return arg0;
+    ((void (*)(void *))TLobby__sub_80070358)(challenge_task);
+    TLobby::send_challenge_records((uaddr)challenge_task);
+    challenge_task->f20 = 0;
+    challenge_task->f24 = 0;
+    challenge_task->f28 = 1;
+    challenge_task->f2C = 0;
+    challenge_task->f1C = 0;
+    return challenge_task;
 }
 }

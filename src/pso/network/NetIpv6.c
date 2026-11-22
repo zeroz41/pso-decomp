@@ -529,7 +529,7 @@ s16 ipv6_process_options(u8* p, s16 n, u8* self, s16 c, s16 d) {
     return 0;
 }
 
-s16 TLobby__sub_80410A98(saddr arg0, void *arg1, void *arg2, void *arg3, void *arg4)
+s16 TLobby__sub_80410A98(saddr pkt, void *dst, void *src, void *arg3, void *arg4)
 {
   u8 tmp[12];
   volatile struct 
@@ -545,14 +545,14 @@ s16 TLobby__sub_80410A98(saddr arg0, void *arg1, void *arg2, void *arg3, void *a
   Ipv6Route *p;
   u8 *q;
   s16 TLobby__sub_804136AC(s16); /* declared s16 here; the definition returns s32 */
-  p = TLobby__sub_80413264(arg1, arg2);
+  p = TLobby__sub_80413264(dst, src);
   if (p == ((void *) 0))
   {
     return -6;
   }
   if (p->type == 1)
   {
-    q = (u8 *) arg1;
+    q = (u8 *) dst;
   }
   else
   {
@@ -568,13 +568,13 @@ s16 TLobby__sub_80410A98(saddr arg0, void *arg1, void *arg2, void *arg3, void *a
   rec.h = ((u8 *) arg3)[0];
   rec.y = ((u8 *) arg3)[8];
   rec.d = (u8) ((saddr) arg4);
-  NetMemcpy(buf1, arg2, 0x10);
-  NetMemcpy(buf2, arg1, 0x10);
+  NetMemcpy(buf1, src, 0x10);
+  NetMemcpy(buf2, dst, 0x10);
   if ((!NetIPv6IsMulticast(q)) && TLobby__sub_804136AC(p->iface))
   {
-    return TLobby__sub_80415D0C((NetPacket *) arg0, new_var, (NetIPv6SendParameters *) buf1, p->iface);
+    return TLobby__sub_80415D0C((NetPacket *) pkt, new_var, (NetIPv6SendParameters *) buf1, p->iface);
   }
-  return TLobby__sub_80410BA8((void *) arg0, buf1, p->iface, (void *) 0);
+  return TLobby__sub_80410BA8((void *) pkt, buf1, p->iface, (void *) 0);
 }
 
 s16 TLobby__sub_80410D6C(u8 *ctx, u8 *hdr, s16 a5, s32 a6, u32 len);

@@ -220,7 +220,7 @@ void pap_input(PppFsm *self, PppFrame *source) {
 
 #pragma pop
 
-s32 TLobby__sub_80403168(u8 *arg0, u8 *arg1, u8 *ppp_fsm) {
+s32 TLobby__sub_80403168(u8 *arg0, u8 *pap_password, u8 *ppp_fsm) {
     Names_80403168 *g;
     PapOptions *opts;
     u32 n;
@@ -233,11 +233,11 @@ s32 TLobby__sub_80403168(u8 *arg0, u8 *arg1, u8 *ppp_fsm) {
     }
     NetMemcpy(g->a, arg0, n);
     g->a[n] = 0;
-    m = NetStringLength((const char *)(arg1));
+    m = NetStringLength((const char *)(pap_password));
     if (m >= 0x80) {
         m = 0x7F;
     }
-    NetMemcpy(g->b, arg1, m);
+    NetMemcpy(g->b, pap_password, m);
     g->b[m] = 0;
     opts->peer_id = g->a;
     opts->password = g->b;

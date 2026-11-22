@@ -472,15 +472,15 @@ s16 recv_lcp_config_request(PppFsm *fsm, PppHeader *msg, u32 src) {
 #define rd16_804012E0(src) (ppp_buffer_read((void *)(src), lcp_read_value_buffer, 2) != 2 ? -1 : read_network_u16_be(lcp_read_value_buffer))
 #define rd32_804012E0(src) (ppp_buffer_read((void *)(src), lcp_read_value_buffer, 4) != 4 ? 0 : TLobby__sub_80402AFC(lcp_read_value_buffer))
 #define rd8_804012E0(src) (ppp_buffer_read((void *)(src), lobby_read_byte_buffer, 1) != 1 ? -1 : (s16)lobby_read_byte_buffer[0])
-s16 parse_lcp_option(saddr arg0, u8 *arg1, u8 *arg2, u8 *arg3, s16 arg4) {
+s16 parse_lcp_option(saddr arg0, u8 *opts, u8 *arg2, u8 *hdr, s16 arg4) {
     s16 len;
     s16 res;
     s32 t;
     s16 lim;
     LcpSide *side = (LcpSide *)arg2;
     res = 2;
-    len = arg3[1] - 2;
-    switch (arg3[0]) {
+    len = hdr[1] - 2;
+    switch (hdr[0]) {
     case 1:
         side->got.mru = rd16_804012E0(arg0);
         len -= 2;
@@ -525,7 +525,7 @@ s16 parse_lcp_option(saddr arg0, u8 *arg1, u8 *arg2, u8 *arg3, s16 arg4) {
                 side->got.auth_proto = 0xC023;
                 side->got.chap_alg = 0;
                 res = 3;
-                arg3[1] = 4;
+                hdr[1] = 4;
                 while (len > 0) {
                     len--;
                     if (rd8_804012E0(arg0) == -1) {
@@ -549,7 +549,7 @@ s16 parse_lcp_option(saddr arg0, u8 *arg1, u8 *arg2, u8 *arg3, s16 arg4) {
     case 5:
         side->got.magic = rd32_804012E0(arg0);
         len -= 4;
-        if (side->got.magic == 0 || ((LcpOpts *)arg1)->remote.got.magic == ((LcpOpts *)arg1)->local.got.magic) {
+        if (side->got.magic == 0 || ((LcpOpts *)opts)->remote.got.magic == ((LcpOpts *)opts)->local.got.magic) {
             get_time_ms(&t);
             res = 3;
             side->got.magic += t;
@@ -574,7 +574,7 @@ s16 parse_lcp_option(saddr arg0, u8 *arg1, u8 *arg2, u8 *arg3, s16 arg4) {
         res = 4;
         break;
     }
-    if (arg3[0] > 8 || !(side->mask & (1 << arg3[0]))) {
+    if (hdr[0] > 8 || !(side->mask & (1 << hdr[0]))) {
         res = 4;
     }
     if (len < 0) {
