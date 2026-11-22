@@ -1,3 +1,4 @@
+#include "pso/animation/MotionContext.h"
 #include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/player/TObjPlayer_800666B0.h"
@@ -80,7 +81,6 @@ struct Stack_8006C28C {
     u8 out[0x2C];
 };
 
-void sample_camera_motion(u8 *arg0, saddr arg1, u8 *arg2, f32 farg0);
 extern "C" {
 f32 vec_squared_length(u8 *arg0);
 }
@@ -96,7 +96,7 @@ void TUnk_80488B68::run_task() {
     st.ptrs[1] = &st.v;
     st.ptrs[2] = &st.sp54;
     st.ptrs[3] = &st.sp58;
-    sample_camera_motion((u8 *)st.out, (saddr)s->motion, (u8 *)st.ptrs, (f32)((f32)s->frame));
+    sample_camera_motion((CameraMotionPose *)st.out, (NJS_MOTION *)s->motion, (CameraMotionTargets *)st.ptrs, (f32)((f32)s->frame));
     s->projection = scripted_camera_projection_angle;
     set_camera_capture_overlay_alpha(0x8F);
     if (s->mode->flags & 4) {

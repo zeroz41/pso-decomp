@@ -1,6 +1,5 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/camera/TCameraCtrl_803D749C.h"
 #include "pso/system/ModelDrawCallback.h"
 #include "pso/animation/MotionContext.h"
 #include "types.h"

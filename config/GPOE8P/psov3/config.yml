@@ -1603,9 +1603,9 @@ force_active:
   - __sinit_TObjPlayer_80354EC8_cpp
   - TObjPlayer__sub_80355098
   - TObjPlayer__sub_80363C5C
-  - TObjPlayer__sub_803D6C1C
-  - TObjPlayer__sub_803D7FD0
-  - TObjPlayer__sub_803D7FD8
+  - sample_motion_value_channel__FPv
+  - sample_absent_vector_channel__FPv
+  - sample_absent_angle_channel__FPv
   - TObjPlayer__sub_803D9C60
   - TObjPlayer__sub_803DA808
   - TObjPlayer__sub_803DA84C
@@ -4186,7 +4186,7 @@ force_active:
   - biri_ball_model_names
   - biri_ball_motion_names
   - bishi_spawn_offset_table
-  - blend_motion_poses__FPvPvPvPvPv
+  - blend_motion_poses__FP10NJS_OBJECTPfPlPfPf
   - blocking_vsync__6TLobbyFPv
   - bm3_fly_collider_params
   - bm3_fly_decision_row
@@ -4820,7 +4820,7 @@ force_active:
   - decode_target__20Boss6Type2FlowActionFP20Boss6Type2MoveTarget
   - call_null__12TBoss8DragonFv
   - call_state_action__14TBoss6PlotFalzFv
-  - camera_motion_context_table
+  - motion_contexts
   - camera_slot_positions
   - camera_slot_scan_index__10TObjCamera
   - can_action__15TBoss3VoloptP02Fv
@@ -6201,7 +6201,7 @@ force_active:
   - find_index_in_table__11TBoss6Type2FUl
   - find_indirect_effect_ctrl__Fl
   - find_material_entry_by_id__6TSceneFPvUs
-  - find_motion_key_partition_u16__FPUcUlUlUl
+  - find_motion_key_partition_u16__FPCvUlUlUl
   - find_nearest_enemy__15TObjEnemyCustomFP3Vecf
   - refresh_target__12TObjEneSaverFv
   - find_open_direction__15TObjEneMe1GiGueFP3Vec
@@ -7244,7 +7244,7 @@ force_active:
   - interact_player_neg1__11TOVS2Wall01Fv
   - interp_position_between_nodes__11TBoss4Type3Fv
   - interpolate_along_curve__18TObjTailsTailsMoveFPf
-  - interpolate_motion_quaternion_keys__FUlUllf
+  - interpolate_motion_quaternion_keys__FPCvUlfPv
   - invoke_callback_16C_and_destroy__23TShopJudgmentItemWindowFv
   - invoke_callback_170_and_destroy__23TShopJudgmentItemWindowFv
   - invoke_callback_174_and_destroy__23TShopJudgmentItemWindowFv

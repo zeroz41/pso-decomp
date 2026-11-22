@@ -338,7 +338,6 @@ s32 release_texture_list(void*);
 u8 *load_gvm_texture_file(saddr arg0);
 struct Pl_802C26E4;
 struct Ent_802C26E4;
-s32 sample_motion_node_transform(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
 
 #include "pso/ui/frontend/TAdStorySelectGC.h"
 #include "pso/object/base/TObjMotion.h"
@@ -389,7 +388,7 @@ s32 sample_clamped_path_position(void *arg0, saddr arg1, void *motion, saddr arg
     frame = (f32)temp_r7;
   }
   bind_motion_context((NJS_MOTION *)motion, frame);
-  sample_motion_node_transform((void *)arg1, (void *)arg3, (void *)sp24, (void *)sp18, (void *)sp8);
+  sample_motion_node_transform((NJS_OBJECT *)arg1, (f32 *)arg3, sp24, (f32 *)sp18, (f32 *)sp8);
   return var_r31;
 }
 #pragma pop

@@ -39,7 +39,6 @@ void compose_motion_node_matrix(void *arg0);
 extern "C" {
 void update_render_state__10TObjPlayerFv(s32 *, s32 *);
 }
-void find_motion_key_interval(void *, s32, s32 count, f32 t, void *, void *, void *);
 extern u32 *lbl_805D7778;
 
 #pragma push

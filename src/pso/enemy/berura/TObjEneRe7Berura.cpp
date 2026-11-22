@@ -49,7 +49,6 @@
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/player/TObjPlayer_801542CC.h"
-#include "pso/camera/TCameraCtrl_803D749C.h"
 #include "pso/unk/text_800F5BC0.h"
 #include "pso/unk/text_803E2F28.h"
 

@@ -25,7 +25,7 @@ void TObjPlayer::render_model_tree(void *model) {
     node = (NJS_OBJECT *)model;
     do {
         push_matrix();
-        ((TObjPlayer *)node)->apply_motion_node_transform();
+        apply_motion_node_transform(node);
         if (model_node_callback != NULL) {
             model_node_callback(node);
         }
