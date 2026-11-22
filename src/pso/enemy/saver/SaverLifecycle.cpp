@@ -27,6 +27,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 #include "pso/system/vector.h"
+#include "pso/player/TObjPlayer_800A7764.h"
 
 #include "pso/render/TUnk_80490470.h"
 
@@ -59,7 +60,6 @@
 #include "pso/render/model_render_state.h"
 
 extern "C" {
-void TObjPlayer__sub_800A7774(void *p, Vec *v);
 void calc_velocity_toward_destination(TObjChara *chara, Vec from, Vec to, f32 speed);
 s32 select_enemy_destination(TObjChara *chara, Vec dest, s32 flags);
 f32 enemy_move_toward(TObjEnemy *enemy, s32 turn_speed, Vec dest, s32 flags, f32 *params, f32 speed);

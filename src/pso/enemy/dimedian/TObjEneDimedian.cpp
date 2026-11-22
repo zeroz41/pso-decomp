@@ -14,6 +14,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/player/TObjPlayer_800A7764.h"
+#include "pso/system/vector.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/dimedian/TObjEneDimedian.h"
@@ -54,11 +55,10 @@ extern SampledMotionPoints *lbl_805D5088;
 extern saddr dimedian_resource_handles[];
 extern s32 dimedian_last_draw_tick[];
 
-int VecCopy__FP3VecPC3Vec(void*);
 
 s16 TObjPlayer::get_atp() { return this->atp; }
 s16 TObjPlayer::get_atp_range() { return this->atp_range; }
-int TObjPlayer__sub_800A7774(void* p) { return VecCopy__FP3VecPC3Vec((char*)p + 0x38); }
+void TObjPlayer__sub_800A7774(TObjBase *object, const Vec *position) { VecCopy(&object->position, position); }
 
 void TObjMotion::sub_800A7798(f32 farg0) {
     this->override_speed = farg0;
