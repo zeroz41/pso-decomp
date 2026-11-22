@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/player/TObjPlayer_800666B0.h"
 #include "pso/unk/TUnk_80488B68.h"
-#include "pso/camera/TCameraCtrl_80067FC0.h"
+#include "pso/camera/TCameraController.h"
 #include "pso/camera/TCameraCtrl_8006C254.h"
 #include "pso/unk/TUnk_80488B38.h"
 
@@ -162,8 +162,8 @@ TUnk_80488B68::~TUnk_80488B68() {
 
 }
 
-TUnk_80488B68::TUnk_80488B68() : TUnk_80488A28() {
-    this->m_38 = 0;
+TUnk_80488B68::TUnk_80488B68() : TCameraController() {
+    this->flags = 0;
     scripted_camera_projection_angle = 0;
     TCameraCtrl__saved_projection_angle = 0;
     *(unsigned char *)&this->unk_99 = 0;

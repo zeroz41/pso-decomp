@@ -6,7 +6,7 @@
 #include "pso/unk/TUnk_80488DA0.h"
 #include "pso/system/vector.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/unk/TUnk_80488A28.h"
+#include "pso/camera/TCameraController.h"
 #include "pso/camera/CameraViewParams.h"
 #include "pso/system/PadRumble.h"
 #include "pso/player/TObjPlayer.h"
@@ -24,7 +24,8 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/camera/TCameraCtrl_80067654.h"
+#include "pso/camera/TCameraVolOpt.h"
+#include "pso/camera/TCameraFollow.h"
 #include "pso/camera/TCameraCtrl_8006782C.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/map/CsnQuery.h"
@@ -73,36 +74,27 @@ extern SceneProjectionState scene_projection_state;
 s32 camera_renderer_setup_nop(void *, int);
 s32 fn_803D64F8(void *);
 extern s32 TCameraCtrl__saved_projection_angle;
-void apply_camera_controller_pose(TUnk_80488A28 *controller);
-void TCameraCtrl__sub_80068354(void);
-void TCameraCtrl__sub_80068358(CameraViewParams *, CameraViewState *, f32, f32);
 f32 rotate_vector_by_current_matrix(void *, void *);
-void *TCameraCtrl__vt0(void);
 void *TCameraCtrl__vt4(void);
 void *TCameraCtrl__vt5(void);
 extern int camera_split_screen_selector;
 extern int quest_active_flag;
 }
 
-// update_active_controller passes the first-frame pass (0 or 1) to the
-// controller's slot-6 virtual, which TUnk_80488A28 still declares without it.
-struct CameraControllerPass : TObject {
-    virtual void apply_camera_params(s32 pass);
-};
-
 void reset_cameras_to_actor(void *actor, s32 view_unused);
 void select_camera_controller(s32 index);
 
 typedef void *(*CameraControllerFactory)(void);
 
-TUnk_80488A28 *camera_controller_registry[13] = {
+TCameraController *camera_controller_registry[13] = {
     NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
 };
 // One factory per registry slot; the constructor fills the registry from them.
 CameraControllerFactory lbl_80488A8C[13] = {
-    &TCameraCtrl__vt0, &TCameraCtrl__vt0, &TCameraCtrl__vt0, &TCameraCtrl__vt0,
+    (CameraControllerFactory)&TCameraFollow::create, (CameraControllerFactory)&TCameraFollow::create,
+    (CameraControllerFactory)&TCameraFollow::create, (CameraControllerFactory)&TCameraFollow::create,
     &TCameraCtrl__vt4, &TCameraCtrl__vt5, &TCameraCtrl__vt6, &TCameraCtrl__vt7,
-    (CameraControllerFactory)&CreationCamera::create, &TCameraCtrl__vt9, &TCameraCtrl__vt10, &TCameraCtrl__vt11,
+    (CameraControllerFactory)&CreationCamera::create, &TCameraCtrl__vt9, &TCameraCtrl__vt10, (CameraControllerFactory)&TCameraVolOpt::create,
     &TCameraCtrl__vt12,
 };
 
@@ -124,7 +116,7 @@ extern "C" int is_float_nonfinite(f32 value) {
 extern "C" int is_quest_active(void) { return quest_active_flag; }
 s32 TMainTask::get_task_flags() { return task_flags; }
 
-extern "C" u16 TCameraCtrl__sub_8006B358(TUnk_80488A28 *controller) { return controller->m_20; }
+extern "C" u16 TCameraCtrl__sub_8006B358(TCameraController *controller) { return controller->actor_id; }
 void TCameraCtrl::set_target_coords(int x, int y) { TCameraCtrl__viewport_x = x; TCameraCtrl__viewport_y = y; }
 void TCameraCtrl::set_target(int width, int height) { TCameraCtrl__viewport_size = width; TCameraCtrl__viewport_height = height; }
 int TCameraCtrl::get_camera_id() { return TCameraCtrl__camera_id; }
@@ -207,7 +199,7 @@ TCameraCtrl::TCameraCtrl(TObject *parent) : TObject(parent) {
     pad_80 = 0.0f;
     {
         for (k = 0; k < 13; k++) {
-            camera_controller_registry[TCameraCtrl__view_state.controller_count++] = (TUnk_80488A28 *)lbl_80488A8C[k]();
+            camera_controller_registry[TCameraCtrl__view_state.controller_count++] = (TCameraController *)lbl_80488A8C[k]();
         }
     }
     TCameraCtrl__view_state.controller = 0;
@@ -388,7 +380,7 @@ void TCameraCtrl::update_target_from_state() {
 void TCameraCtrl::update_active_controller() {
     s32 flags;
     s32 snap;
-    TUnk_80488A28 *controller;
+    TCameraController *controller;
     s32 camera_no;
     if (TCameraCtrl__view_state.controller != 0) {
         camera_no = 0;
@@ -403,9 +395,9 @@ void TCameraCtrl::update_active_controller() {
             controller->run_task();
         }
         if (TCameraCtrl__view_state.flags & 2) {
-            ((CameraControllerPass *)controller)->apply_camera_params(0);
+            controller->apply_camera_params(0);
         } else if (TCameraCtrl__view_state.flags & 0x80) {
-            ((CameraControllerPass *)controller)->apply_camera_params(1);
+            controller->apply_camera_params(1);
         }
         apply_camera_controller_pose(controller);
         snap = 0;
@@ -420,10 +412,10 @@ void TCameraCtrl::update_active_controller() {
         if (snap != 0) {
             update_position();
         } else {
-            if (controller->m_38 & 1) {
+            if (controller->flags & 1) {
                 resolve_anchor_obstruction(controller);
             }
-            flags = controller->m_38;
+            flags = controller->flags;
             if (flags & 4) {
                 update_pose_smoothing();
             } else if (flags & 8) {
@@ -431,7 +423,7 @@ void TCameraCtrl::update_active_controller() {
             } else {
                 update_position();
             }
-            if (controller->m_38 & 1) {
+            if (controller->flags & 1) {
                 clamp_to_target_obstruction(controller);
             }
             update_shake();
@@ -445,7 +437,7 @@ void TCameraCtrl::update_active_controller() {
 }
 
 void select_camera_controller(s32 index) {
-    TUnk_80488A28 *controller;
+    TCameraController *controller;
     TCameraCtrl__view_state.controller = index;
     controller = camera_controller_registry[(u8)index];
     if (controller != NULL) {
@@ -472,7 +464,7 @@ void TCameraCtrl::select_active_controller(s8 index) {
     f32 target_x;
     f32 target_y;
     f32 target_z;
-    TUnk_80488A28 *controller;
+    TCameraController *controller;
     TCameraCtrl__view_state.controller = index;
     controller = camera_controller_registry[(u8)index];
     if (controller != NULL) {
@@ -508,7 +500,7 @@ void reset_cameras_to_actor(void *actor, s32 view_unused) {
     s32 view = 0;
     u16 entity_id;
     s32 count = 0;
-    TUnk_80488A28 *controller;
+    TCameraController *controller;
     s32 id;
     s32 i;
     if (actor == 0) {
@@ -536,7 +528,7 @@ void reset_cameras_to_actor(void *actor, s32 view_unused) {
             camera_ctrl_instance->focus_actor = actor;
         }
         controller->set_target((uaddr)actor);
-        controller->vfunc_8(actor);
+        controller->reset_to_actor((TObjPlayer *)actor);
         if (is_split_screen() != 0) {
             TCameraCtrl__view_state.flags |= 0x800;
             if (is_boss_area() == 0) {
@@ -553,7 +545,7 @@ void reset_cameras_to_actor(void *actor, s32 view_unused) {
     controller = camera_controller_registry[view];
     if (controller != NULL) {
         controller->set_target((uaddr)actor);
-        controller->vfunc_8(actor);
+        controller->reset_to_actor((TObjPlayer *)actor);
     }
     if (camera_ctrl_instance != NULL) {
         VecCopy(&camera_ctrl_instance->split_pos[view], &controller->position);
@@ -738,7 +730,7 @@ void TCameraCtrl::reset_view_flags() {
 }
 
 s32 activate_camera_mode(s32 index) {
-    TUnk_80488A28 *controller;
+    TCameraController *controller;
     if (TCameraCtrl__view_state.flags & 4) {
         return 0;
     }
@@ -797,7 +789,7 @@ s32 TCameraCtrl::release_photon_blast_camera() {
 }
 #pragma pop
 void set_active_camera_pose_from_params(CameraParams *params) {
-    TUnk_80488A28 *controller;
+    TCameraController *controller;
     if ((TCameraCtrl__view_state.flags & 8) || (TCameraCtrl__view_state.flags & 4)) {
         controller = camera_controller_registry[TCameraCtrl__view_state.controller];
         if (controller != NULL) {
@@ -812,7 +804,7 @@ void set_active_camera_pose_from_params(CameraParams *params) {
     }
 }
 void set_active_camera_pose(Vec *position, Vec *target) {
-    TUnk_80488A28 *controller;
+    TCameraController *controller;
     if ((TCameraCtrl__view_state.flags & 8) || (TCameraCtrl__view_state.flags & 4)) {
         controller = camera_controller_registry[TCameraCtrl__view_state.controller];
         if (controller != NULL) {
@@ -866,7 +858,7 @@ void TCameraCtrl::update_position() {
 
 void TCameraCtrl::update_target_smoothing() {
     s32 view;
-    TUnk_80488A28 *controller;
+    TCameraController *controller;
     pos.x = eye.x;
     pos.y = eye.y;
     pos.z = eye.z;
@@ -880,13 +872,13 @@ void TCameraCtrl::update_target_smoothing() {
         split_look[view].z = pos.z;
     }
     controller = camera_controller_registry[TCameraCtrl__view_state.controller];
-    if (controller != NULL && !(controller->m_38 & 0x10)) {
+    if (controller != NULL && !(controller->flags & 0x10)) {
         tgt.y = at.y;
     }
     approach_camera_vector(&tgt, &at, at_rate);
 }
 
-void TCameraCtrl::clamp_to_target_obstruction(TUnk_80488A28 *controller) {
+void TCameraCtrl::clamp_to_target_obstruction(TCameraController *controller) {
     s32 n;
     CsnHit *hit;
     s32 *hit_flag;
@@ -928,7 +920,7 @@ void TCameraCtrl::clamp_to_target_obstruction(TUnk_80488A28 *controller) {
     }
 }
 
-void TCameraCtrl::resolve_anchor_obstruction(TUnk_80488A28 *controller) {
+void TCameraCtrl::resolve_anchor_obstruction(TCameraController *controller) {
     Vec d;
     s32 n;
     s32 *hit_flag;
@@ -1137,7 +1129,7 @@ u16 TCameraCtrl::get_camera_target_id(s32 view) {
     u16 id;
     s32 index;
     void *actor;
-    TUnk_80488A28 *controller;
+    TCameraController *controller;
     if (is_split_screen() != 0) {
         id = 0xFFFF;
         if (view < 0) {
@@ -1382,4 +1374,4 @@ extern "C" void TCameraCtrl__sub_800687C8(void) {
 }
 void *TCameraCtrl::get_target_ptr() { return (char *)this + 0x44; }
 
-void TUnk_80488A28::run_task() {}
+void TCameraController::run_task() {}

@@ -288,7 +288,7 @@ int TObjPlayer__sub_801C7098(void* p);
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
 
-#include "pso/camera/TCameraCtrl_8006CC30.h"
+#include "pso/camera/TCameraFollow.h"
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 chunk_polygon_flags_or_mask;
 

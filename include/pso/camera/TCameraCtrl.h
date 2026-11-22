@@ -6,7 +6,7 @@
 
 #include <dolphin/mtx/GeoTypes.h>
 
-class TUnk_80488A28;
+class TCameraController;
 
 // The request a scripted or event camera hands over (get_params, and the
 // buffer set_active_camera_pose_from_params reads): where to put the eye,
@@ -120,8 +120,8 @@ public:
     static void set_viewport_scissor(int mode, void *rect);
     Vec *get_target();
     // The controller driving the view is passed along but not read.
-    void resolve_anchor_obstruction(TUnk_80488A28 *controller);
-    void clamp_to_target_obstruction(TUnk_80488A28 *controller);
+    void resolve_anchor_obstruction(TCameraController *controller);
+    void clamp_to_target_obstruction(TCameraController *controller);
     void update_target_smoothing();
     void update_position();
     void update_pose_smoothing();
@@ -138,7 +138,6 @@ public:
     static void set_override_position_and_angle(u8 *position, s16 angle);
     static void set_fixed_position_and_target(u8 *position, u8 *target);
     static void set_active_camera_flag();
-    void set_field_100(s32 v);
     static s32 get_screen_width();
     static s32 get_screen_height();
     static s32 should_update();

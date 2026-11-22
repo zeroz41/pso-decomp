@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/TUnk_80488B38.h"
-#include "pso/camera/TCameraCtrl_80067FC0.h"
+#include "pso/camera/TCameraController.h"
 
 #include "pso/unk/TUnk_80488B68.h"
 #include "pso/unk/TUnk_80488B08.h"
@@ -65,10 +65,10 @@ void TUnk_80488B38::run_task() {
         arg0->dist = 300.0f;
     }
     arg0->pitch += sx * 3;
-    this->m_2c += sy * 3;
-    r = arg0->dist * cos_table_lookup(this->m_2c);
+    this->pitch += sy * 3;
+    r = arg0->dist * cos_table_lookup(this->pitch);
     arg0->eye.x = r * sin_table_lookup(arg0->pitch) + arg0->at.x;
-    arg0->eye.y = arg0->at.y - arg0->dist * sin_table_lookup(this->m_2c);
+    arg0->eye.y = arg0->at.y - arg0->dist * sin_table_lookup(this->pitch);
     arg0->eye.z = r * cos_table_lookup(arg0->pitch) + arg0->at.z;
 }
 #pragma pop
@@ -79,9 +79,9 @@ TUnk_80488B38::~TUnk_80488B38() {
 }
 
 struct CameraMotionData;
-TUnk_80488B38::TUnk_80488B38() : TUnk_80488A28() {
+TUnk_80488B38::TUnk_80488B38() : TCameraController() {
     *(float *)&this->unk_6C = 10.0f;
-    this->m_38 = 0;
+    this->flags = 0;
 }
 
 #pragma push

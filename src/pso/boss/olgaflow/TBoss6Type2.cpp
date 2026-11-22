@@ -61,7 +61,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/camera/TCameraCtrl_8006CC30.h"
+#include "pso/camera/TCameraFollow.h"
 #include "pso/network/client_id.h"
 #include "pso/unk/text_803D853C.h"
 

@@ -78,9 +78,9 @@ s32 __ct__7TObjectFP7TObject(void *, void *);
 extern const s32 __vt__13TUnk_80488AD8[];
 extern uaddr camera_ctrl_instance;
 
-extern unsigned char TCameraCtrl__override_flags;
+extern unsigned char camera_override_flags;
 
-s32 TCameraCtrl__sub_8006BADC(void) { return TCameraCtrl__override_flags; }
+s32 TCameraCtrl__sub_8006BADC(void) { return camera_override_flags; }
 
 Vec *TCameraCtrl__sub_8006BAC8(O_8006BAC8 *self, s32 i) {
     return &self->arr[i];
@@ -92,8 +92,8 @@ Vec *TCameraCtrl__sub_8006BAB4(O_8006BAB4 *self, s32 i) {
 
 }
 
-TUnk_80488B08::TUnk_80488B08() : TUnk_80488A28() {
-    m_38 = 4;
+TUnk_80488B08::TUnk_80488B08() : TCameraController() {
+    flags = 4;
     TCameraCtrl__fixed_npc_camera_active = 0;
 }
 
@@ -103,7 +103,7 @@ TUnk_80488B08::~TUnk_80488B08() {
 
 void TUnk_80488B08::run_task() {  }
 
-void TUnk_80488B08::vfunc_6() {
+void TUnk_80488B08::apply_camera_params(s32) {
     void *temp_r3;
 
     if ((u32) camera_ctrl_instance != 0U) {
@@ -115,7 +115,7 @@ void TUnk_80488B08::vfunc_6() {
         this->position.y = (f32) *(f32 *)((s8 *)temp_r3 + 0x20);
         this->position.z = (f32) *(f32 *)((s8 *)temp_r3 + 0x24);
         this->projection_angle = (s32) (182.04445f * (f32) *(s32 *)((s8 *)temp_r3 + 0x14));
-        this->m_58 = (f32) *(f32 *)((s8 *)temp_r3 + 0x10);
+        this->eye_rate = (f32) *(f32 *)((s8 *)temp_r3 + 0x10);
     }
 }
 

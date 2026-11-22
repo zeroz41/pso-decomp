@@ -9,7 +9,7 @@
 #include "pso/camera/CameraHelpers.h"
 #include <stddef.h>
 #include "pso/object/key/TOKeyMachine01.h"
-#include "pso/camera/TCameraCtrl_80067FC0.h"
+#include "pso/camera/TCameraController.h"
 #include "pso/camera/TCameraCtrl_8006C580.h"
 #include "pso/system/memory.h"
 
@@ -74,7 +74,7 @@ void *TCameraCtrl__vt10(void) {
     return o;
 }
 
-void TUnk_80488D70::vfunc_6() {
+void TUnk_80488D70::apply_camera_params(s32) {
     void *temp_r31;
     void *player;
 
@@ -88,7 +88,7 @@ void TUnk_80488D70::vfunc_6() {
             this->position.x = (f32) *(f32 *)((s8 *)temp_r31 + 0x1C);
             this->position.y = (f32) *(f32 *)((s8 *)temp_r31 + 0x20);
             this->position.z = (f32) *(f32 *)((s8 *)temp_r31 + 0x24);
-            this->m_58 = (f32) *(f32 *)((s8 *)temp_r31 + 0x10);
+            this->eye_rate = (f32) *(f32 *)((s8 *)temp_r31 + 0x10);
         }
     }
 }
@@ -100,13 +100,13 @@ TUnk_80488D70::~TUnk_80488D70() {
 }
 
 extern "C" {
-int __ct__13TUnk_80488A28Fv(void);
+int __ct__17TCameraControllerFv(void);
 }
 
 void *TUnk_80488D70::init_subobject() {
-    ((void (*)(void *))__ct__13TUnk_80488A28Fv)(this);
+    ((void (*)(void *))__ct__17TCameraControllerFv)(this);
     *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_80488D70;
-    this->m_38 = 4;
+    this->flags = 4;
     return this;
 }
 

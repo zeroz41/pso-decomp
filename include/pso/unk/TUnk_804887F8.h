@@ -1,9 +1,9 @@
 #ifndef PSO_UNK_TUNK_804887F8_H
 #define PSO_UNK_TUNK_804887F8_H
 #include "types.h"
-#include "pso/unk/TUnk_80488E00.h"
+#include "pso/camera/TCameraFollow.h"
 
-class TUnk_804887F8 : public TUnk_80488E00 {
+class TUnk_804887F8 : public TCameraFollow {
 public:
     TUnk_804887F8();
     virtual ~TUnk_804887F8();

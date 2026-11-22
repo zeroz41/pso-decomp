@@ -7,7 +7,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/camera/CameraHelpers.h"
 #include <stddef.h>
-#include "pso/camera/TCameraCtrl_80067FC0.h"
+#include "pso/camera/TCameraController.h"
 #include "pso/camera/TCameraCtrl_8006C580.h"
 #include "pso/system/memory.h"
 #include "pso/unk/TUnk_80488D70.h"

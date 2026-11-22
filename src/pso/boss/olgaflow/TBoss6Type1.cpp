@@ -54,7 +54,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/camera/TCameraCtrl_8006CC30.h"
+#include "pso/camera/TCameraFollow.h"
 
 
 

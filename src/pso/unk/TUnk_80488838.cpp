@@ -2,8 +2,8 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/TUnk_80488838.h"
-#include "pso/unk/TUnk_80488E00.h"
-#include "pso/camera/TCameraCtrl_80067FC0.h"
+#include "pso/camera/TCameraFollow.h"
+#include "pso/camera/TCameraController.h"
 #include "pso/unk/TUnk_80488DA0.h"
 #include "pso/system/ControllerInputState.h"
 
@@ -67,11 +67,11 @@ void TUnk_80488838::update_orbit_camera() {
             this->m_70 = d;
         }
         arg0->pitch += sx * 3;
-        this->m_2c += sy * 3;
+        this->pitch += sy * 3;
     }
-    r = this->m_70 * cos_table_lookup(this->m_2c);
+    r = this->m_70 * cos_table_lookup(this->pitch);
     arg0->eye.x = r * sin_table_lookup(arg0->pitch) + arg0->at.x;
-    arg0->eye.y = arg0->at.y - this->m_70 * sin_table_lookup(this->m_2c);
+    arg0->eye.y = arg0->at.y - this->m_70 * sin_table_lookup(this->pitch);
     arg0->eye.z = r * cos_table_lookup(arg0->pitch) + arg0->at.z;
 }
 #pragma pop
@@ -109,8 +109,8 @@ void TCameraCtrl::target_player0(int controller) {
 
 void TUnk_80488838::reset_state() {
     m_70 = 25.0f;
-    m_2c = 0;
-    m_34 = 0;
+    pitch = 0;
+    roll = 0;
     TCameraCtrl::target_player0((saddr)this);
     reset_behind_player();
 }
@@ -121,8 +121,8 @@ void TUnk_80488838::run_task() { TCameraCtrl::target_player0((saddr)this); this-
 
 TUnk_80488838::~TUnk_80488838() {}
 
-TUnk_80488838::TUnk_80488838() : TUnk_80488A28() {
-    m_38 = 0;
+TUnk_80488838::TUnk_80488838() : TCameraController() {
+    flags = 0;
     controller = &controller_input_state.controllers[0];
     reset_state();
 }
