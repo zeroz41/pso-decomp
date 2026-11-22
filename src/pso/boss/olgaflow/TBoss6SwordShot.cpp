@@ -25,7 +25,8 @@
 
 
 const char TBoss6SwordWave__class_name_string[] = "TBoss6SwordWave";
-const Vec lbl_80479388 = {-10000.0f, 0.0f, 0.0f};
+// The arena centre (boss6_arena_center); the wave ring only sparks within the 400-unit arena radius of it.
+const Vec sword_wave_arena_center = {-10000.0f, 0.0f, 0.0f};
 const char TBoss6SwordShot__class_name_string[] = "TBoss6SwordShot";
 const char *TBoss6SwordWave__name = TBoss6SwordWave__class_name_string;
 const char *TBoss6SwordShot__name = TBoss6SwordShot__class_name_string;
@@ -258,7 +259,7 @@ void TBoss6SwordWave::spawn_wave_ring_particles() {
             Vec v = position;
             v.x += outer_radius * sin_table_lookup(angle);
             v.z += outer_radius * cos_table_lookup(angle);
-            if (!(xyz_distance(&v, (Vec *)&lbl_80479388) > 400.0f)) {
+            if (!(xyz_distance(&v, (Vec *)&sword_wave_arena_center) > 400.0f)) {
                 spawn_particle_effect_with_flags(&v, 0x212, 0x40);
                 if (owner->get_rotation_timer() == 0) {
                     spawn_particle_effect(&v, 0x213);
