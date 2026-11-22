@@ -16,8 +16,11 @@ struct TObjEneDolmOlm : public TUnk_80493450 {
     virtual void run_task();
     virtual void render();
     s32 render_model_if_visible();
-    void check_path_ahead(s32, f32);
+    s32 check_path_ahead(s32 angle, f32 speed);
     void sub_80301148();
+    void sub_80301C3C();
+    void sub_8030177C();
+    void spawn_ground_effects(Vec *pos);
     virtual void run_attack_action();
     virtual void run_idle_action();
     virtual void run_move_action();
@@ -33,12 +36,11 @@ struct TObjEneDolmOlm : public TUnk_80493450 {
     virtual void update_attack_trail();
     TUnk_80494938 fade;
     TUnk_80494968 *attack_traces[2]; // driven by update_attack_trail
-    u8 unk_3CC[0x4];
-    f32 m_3d0;
-    u8 unk_3D4[0x4];
-    void* m_3d8;
-    u8 _pad3DC[0x8];
-    u32 m_3e4;
+    f32 retreat_chance;        // 0.3 + parameters[2]: select_post_attack_mode's odds of mode 10 (sub_80301C3C)
+    f32 special_attack_chance; // 0.3 + parameters[3]: run_attack_action's odds of mode 11 (sub_8030177C)
+    f32 retreat_distance;      // how far sub_80301C3C has backed away; it stops at 50
+    Vec floor_point;           // the floor hit under it, or its position off a reflecting floor
+    u32 floor_flags;           // the floor hit's flags; 0x4000 is a reflecting floor
     void load_params_from_table(s32 i);
     static void load_shared_resources();
     static void free_shared_resources();
@@ -50,11 +52,32 @@ struct TObjEneDolmOlm : public TUnk_80493450 {
 
 LAYOUT_ASSERT(TObjEneDolmOlm_size, sizeof(TObjEneDolmOlm) == 0x3E8);
 
+struct BmlResource;
+struct SampledMotionPoints;
+struct TObjMotionAction;
+
+// What TLobby::dispatch_shared_handler_a(0x4E / 0x4F) gives each variant.
+struct DolmOlmBehaviorParams {
+    f32 params[4];     // the ctor copies them to m_398, m_3a0, unk_39C and unk_3A4
+    f32 special_range; // how near the target has to be for mode 11 (sub_8030177C)
+    f32 pad_14;
+    s32 special_angle; // how far off its heading the target may be for mode 11's hit
+    s32 special_power; // mode 11's hit passes 30 times this to TObjPlayer::play_effect
+};
+
 extern "C" {
 s32 TObjEneDolmOlm__sub_80300CF0(void);
-void TObjEneDolmOlm__sub_8030177C(void *arg0_);
-void TObjEneDolmOlm__sub_80301C3C(u8 *self);
-void run_task__14TObjEneDolmOlmFv(u8 *arg0_);
 }
+
+extern BmlResource *TObjEneDolmOlm__resource_bundle;
+extern SampledMotionPoints *TObjEneDolmOlm__data_805D6A14; // the left attack's (action 3) trail samples
+extern SampledMotionPoints *TObjEneDolmOlm__data_805D6A18; // the right attack's (action 4) trail samples
+extern u8 **dolm_olm_combat_stat_id_pair;
+extern u8 **TObjEneDolmOlm__shared_handler_ids;
+extern u8 **TObjEneDolmOlm__registered_object_ids;
+extern DolmOlmBehaviorParams **TObjEneDolmOlm__behavior_params_by_variant;
+extern s32 TObjEneDolmOlm__effect_render_state;
+extern TObjMotionAction TObjEneDolmOlm__param_table[13];
+extern const char *obj_ene_dolm_olm_class_name;
 
 #endif

@@ -1168,8 +1168,8 @@ force_active:
   - TObjEneDimedian__boss_objects
   - __ct__15TObjEneDimedianFP7TObjectPv
   - TObjEneDolmOlm__param_table
-  - TObjEneDolmOlm__sub_8030177C
-  - TObjEneDolmOlm__sub_80301C3C
+  - sub_8030177C__14TObjEneDolmOlmFv
+  - sub_80301C3C__14TObjEneDolmOlmFv
   - __ct__19TObjEneEpsilonGuardFP7TObjectP18TObjEneEpsilonBodyllPC3Vecl
   - TObjEneEpsilonGuard__debug_line_list
   - TObjEneEpsilonGuard__model_desc
@@ -15995,7 +15995,7 @@ force_active:
   - spawn_front_particle__16TObjEneDellBiterFv
   - run_hit_reaction__9TBoss6MagFv
   - spawn_ground_effect__16TObjEneMerillLiaFPv
-  - spawn_ground_effects__14TObjEneDolmOlmFPvPv
+  - spawn_ground_effects__14TObjEneDolmOlmFP3Vec
   - spawn_ground_splash__13TBoss5GryphonFv
   - spawn_hamon_effects__17TObjEneDarkGunnerFllf
   - spawn_hit_effects__11TBoss6Type2Fv
