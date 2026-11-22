@@ -40,6 +40,8 @@ struct NJS_OBJECT;
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/boss/dragon/TObjBoss1Crater.h"
+#include "pso/boss/dragon/TBoss1DragonDemo.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/dragon/TBoss1DragonEffTail.h"
@@ -104,7 +106,6 @@ struct Glob_800267B8 { u8 *value; u8 remaining[0x8]; };
 extern f32 lbl_805D4AF8;
 extern f32 boss1_dragon_gravity;
 extern const f32 lbl_805D4B40;
-extern saddr tl_05;
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
 void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);
 extern "C" {
@@ -112,9 +113,7 @@ void rotate_vec_xz(void *, void *, s32);
 s32 get_current_floor();
 uaddr get_player_by_client_id(s32);
 extern s32 lbl_805D4B24;
-u8 *__ct__16TBoss1DragonDemoFv(u8 *object, saddr parent, s32 demo, f32 farg0);
 s32 play_sound_effect(s32, s32, s32, s32);
-extern saddr tl_01;
 s32 set_scripted_camera_pose(void *, void *, void *);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 angle);
 s32 vec3_add_to(void *, void *);
@@ -144,8 +143,6 @@ extern u8 *camera_ctrl_instance;
 extern s32 saved_model_render_flags;
 struct G_80025C68 { u8 *value; u8 remaining[0x8]; };
 extern "C" {
-extern saddr tl_04;
-extern saddr tl_02;
 extern s32 TBoss1Dragon__data_805D4B38;
 extern DragonModelVector lbl_804FE188;
 extern DragonCaptureVectors lbl_804FE194;
@@ -734,7 +731,7 @@ void TBoss1Dragon::load_resources() {
 #pragma pop
 void *TBoss1Dragon::create(void *set_data) {
     set_story_flag_or_send_quest_flag(0x16);
-    return new TBoss1Dragon((TObject *)tl_04, set_data);
+    return new TBoss1Dragon(tl_04, set_data);
 }
 
 void TBoss1Dragon::free_resources() {
@@ -848,7 +845,7 @@ TBoss1Dragon::TBoss1Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     for (i = 0; i < 12; i++) {
         this->m_6a8[i] = (0.0f);
     }
-    this->m_6d8 = new TObjBoss1MokoHill_SoloM((TObject *)tl_05, (u8 *)&this->position, (saddr)&this->rotation_y);
+    this->m_6d8 = new TObjBoss1MokoHill_SoloM(tl_05, (u8 *)&this->position, (saddr)&this->rotation_y);
     this->m_6dc = 0;
     for (j = 0; j < 4; j++) {
         this->viewFade[j].activate_and_dispatch();
@@ -3642,7 +3639,7 @@ void TBoss1Dragon::update_dive_state(u32 reason) {
             vel.x = sn * s;
             vel.y = rand_range(10.0f, (4.0f));
             vel.z = cs * s;
-            mem = (u8 *)new TObjBoss1Rock((TObject *)(void *)tl_05, &pos, &vel);
+            mem = (u8 *)new TObjBoss1Rock(tl_05, &pos, &vel);
             ((TBoss1Dragon *)((u8 *)this))->heightOffset = ((TBoss1Dragon *)((u8 *)this))->heightOffset + ((TBoss1Dragon *)((u8 *)this))->m_888;
             ((TObjEneDD *)((u8 *)this))->move_with_wall_stop(((TBoss1Dragon *)((u8 *)this))->destination_direction.x, ((TBoss1Dragon *)((u8 *)this))->destination_direction.z, ((TBoss1Dragon *)((u8 *)this))->m_884);
             ((TBoss1Dragon *)((u8 *)this))->height = ((TBoss1Dragon *)((u8 *)this))->position.y + ((TBoss1Dragon *)((u8 *)this))->heightOffset;
@@ -4846,7 +4843,6 @@ void TBoss1Dragon::update_wander_state(s32 arg1) {
 
 void TBoss1Dragon::update_appearance_state(u32 reason) {
     s32 *demo = &this->m_870;
-    u8 *p;
     switch (reason) {
     case ENEMY_STATE_ENTER:
         this->requested_action = 0;
@@ -4872,10 +4868,7 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
         this->m_86c = 0;
         this->impactAge = 0;
         *demo = 1;
-        p = (u8 *)TObject::operator new(0x28);
-        if (p != NULL) {
-            __ct__16TBoss1DragonDemoFv(p, tl_01, (saddr) demo, (0.5f));
-        }
+        new TBoss1DragonDemo(tl_01, demo, 0.5f);
         this->requested_action = 25;
         TWindowCtrl::init_all_slots();
         this->get_target_state_b();
