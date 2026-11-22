@@ -14,45 +14,33 @@
 
 #pragma readonly_strings on
 
-struct RecoveredGlobal_802F2D8C___vt__16TBoss8DragonDemo {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 struct Obj_8002B118 { u8 pad[0x1c]; void *colli[3]; };
 
 extern "C" {
-s32 __ct__7TObjectFP7TObject(void *, void *);
-extern RecoveredGlobal_802F2D8C___vt__16TBoss8DragonDemo __vt__16TBoss8DragonDemo;
 extern const char *TBoss8DragonDemo__name;
 
 void TBoss8DragonDemo::render() {  }
 
 void TBoss8DragonDemo::run_task() {
-    u8 *self = (u8 *)this;
-    if ((get_scripted_camera_playback()->flags & 1) || ((s32) **(s32 **)((s8 *)self + 0x24) == 0)) {
+    if ((get_scripted_camera_playback()->flags & 1) || *this->flag == 0) {
         restore_player_cameras();
-        ((TObject *)self)->queue_destruction();
+        queue_destruction();
     }
 }
-LAYOUT_ASSERT(RecoveredGlobal_802F2D8C___vt__16TBoss8DragonDemo_size, sizeof(RecoveredGlobal_802F2D8C___vt__16TBoss8DragonDemo) == 0x18);
 TBoss8DragonDemo::~TBoss8DragonDemo() {}
-u8 *__ct__16TBoss8DragonDemoFv(u8 *object, saddr parent, s32 flag, f32 farg0) {
+TBoss8DragonDemo::TBoss8DragonDemo(TObject *parent, s32 *flag, f32 frame_step) : TObject(parent) {
     CameraPlayback playback;
-    __ct__7TObjectFP7TObject((void *)object, (void *)parent);
-    *(s32 **)((s8 *)object + 0x18) = &__vt__16TBoss8DragonDemo.value;
-    *(s32 *)((s8 *)object + 0) = (saddr) ((saddr)TBoss8DragonDemo__name);
-    *(f32 *)((s8 *)object + 0x1C) = farg0;
-    *(f32 *)((s8 *)object + 0x20) = 0.0f;
-    *(s32 *)((s8 *)object + 0x24) = flag;
+    m_name = TBoss8DragonDemo__name;
+    this->frame_step = frame_step;
+    this->frame = 0.0f;
+    this->flag = flag;
     playback.bank = 1;
     playback.index = 0;
     playback.flags = 0;
-    playback.frame = *(f32 *)((s8 *)object + 0x20);
-    playback.frame_step = *(f32 *)((s8 *)object + 0x1C);
+    playback.frame = this->frame;
+    playback.frame_step = this->frame_step;
     activate_camera_mode(5);
     playback.cache_target_and_forward(0x3333);
-    return object;
 }
 void TBoss8Dragon::update_colli_parts() {
     Obj_8002B118 *self = (Obj_8002B118 *)this;

@@ -67,6 +67,7 @@
 #include "pso/unk/text_800870BC.h"
 #include "pso/object/TObjControl.h"
 #include "pso/boss/goldragon/TBoss8Dragon_802F3AB4.h"
+#include "pso/boss/goldragon/TBoss8DragonDemo.h"
 #include "pso/boss/dragon/TBoss1Dragon.h"
 
 struct Rot_802F9D08 { s32 x, y, z; };
@@ -428,7 +429,6 @@ struct Drg_802F4DD4 {
     u8 pad85C[0x894 - 0x85C];
     void *demo;
 };
-u8 *__ct__16TBoss8DragonDemoFv(u8 *object, saddr parent, s32 flag, f32 farg0);
 struct Obj_802FAC08;
 struct Rot_802F6838 { s32 x, y, z; };
 s32 restore_player_cameras(void);
@@ -4543,7 +4543,6 @@ void TBoss8Dragon::sub_802F4DD4(s32 event) {
 
     switch (event) {
     case 4: {
-        void *p;
         o->fB8 = 0;
         ((TBoss8Dragon *)o)->reset_timer();
         ((TObjMotion *)o)->advance_animation();
@@ -4552,10 +4551,7 @@ void TBoss8Dragon::sub_802F4DD4(s32 event) {
         o->step = 0;
         o->f850 = 0;
         *flag = 1;
-        p = TObject::operator new(0x28);
-        if (p != 0) {
-            __ct__16TBoss8DragonDemoFv((u8 *)p, (saddr)tl_01, (saddr)flag, 0.5f);
-        }
+        new TBoss8DragonDemo(tl_01, flag, 0.5f);
         o->fB8 = 0x1A;
         TWindowCtrl::init_all_slots();
         ((TObjEneDD *)o)->get_target_state_b();
