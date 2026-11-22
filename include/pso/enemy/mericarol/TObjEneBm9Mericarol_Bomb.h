@@ -9,7 +9,7 @@ class TObjEneBm9Mericarol;
 
 class TObjEneBm9Mericarol_Bomb : public TUnk_804928CC {
 public:
-    TObjEneBm9Mericarol_Bomb(TObjEneBm9Mericarol *owner, Vec *start, Vec *target, f32 farg0, f32 farg1, s32 arg4);
+    TObjEneBm9Mericarol_Bomb(TObjEneBm9Mericarol *owner, Vec *start, Vec *target, f32 farg0, f32 speed, s32 final_blast);
     virtual ~TObjEneBm9Mericarol_Bomb();
     virtual void render();
     virtual void run_task();
@@ -29,7 +29,7 @@ public:
     s32 age;                   // frames alive; destroyed at 150
     s32 state;
     s32 phase_effect_id;       // 0x208..0x20A by the owner's phase
-    s32 m_108;
+    s32 final_blast;           // phase 0: upgrades attack_type to 0x12 when the bomb lands
     s32 shadow_visible;
     TParticleCtrl *effect;     // particle 0x207, follows pos
     TParticleCtrl *phase_effect;
