@@ -4828,7 +4828,7 @@ force_active:
   - calc_spherical_camera_position__14CreationCameraFv
   - calc_spin_value__16TBoss3VoloptCoreFv
   - calc_target_vector__12TBoss1DragonFPv
-  - calc_text_pos__10TAdTitleGCFlPUcl
+  - calc_text_pos__10TAdTitleGCFPfPCc
   - calc_time_from_hms__6TLobbyFv
   - calc_trap_count__16TOTrapAncient02RFv
   - calc_tube_progress__10TBoss6TubeFl

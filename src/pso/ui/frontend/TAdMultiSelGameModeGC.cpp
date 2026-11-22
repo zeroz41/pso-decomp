@@ -1,3 +1,5 @@
+#include "pso/ui/frontend/TAdTitleGC.h"
+#include "pso/ui/frontend/TAdRayGC.h"
 #include "pso/ui/frontend/TAdGuideTxtGC.h"
 #include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "types.h"
@@ -82,8 +84,6 @@ s32 is_multiplayer_character_slot_selected(s32 arg0);
 extern "C" {
 Ent_80300850 *get_char_table_entry__23TAdSinglePlyChrSelectGCFi(int);
 void __ct__7TObjectFP7TObject(void *);
-void __ct__8TAdRayGCFv(void *, void *);
-void __ct__10TAdTitleGCFP7TObjectl(void *, void *, s32);
 void __ct__13TAdTitleTexGCFv(void *, void *);
 extern void *__vt__21TAdMultiSelGameModeGC[];
 saddr lbl_805D69F4;
@@ -333,12 +333,8 @@ Obj_8030095C *__ct__21TAdMultiSelGameModeGCFv(Obj_8030095C *self, s32 parent, s3
     }
     new TAdBackGC((TObject *)self);
     new TAdBackTxtGC((TObject *)self);
-    if ((p = TObject::operator new(0x24)) != NULL) {
-        __ct__8TAdRayGCFv(p, self);
-    }
-    if ((p = TObject::operator new(0x138)) != NULL) {
-        __ct__10TAdTitleGCFP7TObjectl(p, self, 0xE);
-    }
+    new TAdRayGC((TObject *)self);
+    new TAdTitleGC((TObject *)self, 0xE);
     if ((p = TObject::operator new(0x9C)) != NULL) {
         __ct__13TAdTitleTexGCFv(p, self);
     }

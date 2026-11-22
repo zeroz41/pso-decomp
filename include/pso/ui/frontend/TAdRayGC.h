@@ -6,17 +6,18 @@
 
 class TAdRayGC : public TObject {
 public:
+    TAdRayGC(TObject *parent);
     virtual ~TAdRayGC();
     virtual void run_task();
     virtual void render();
 public:
     static void draw_ray_quads(s32 arg0, u8 *arg1, void *arg2, s32 arg3);
     static void destroy_instance();
+    s32 state;   // 0x1C: 0 left ray, 1 both, 2 right ray; run_task advances it by frames
+    s32 frames;  // 0x20: frames since the ray started; picks the ray texture
 };
 
-extern "C" {
-void *__ct__8TAdRayGCFv(void *arg0);
-}
+LAYOUT_ASSERT(TAdRayGC_size, sizeof(TAdRayGC) == 0x24);
 
 void register_texture_f128_ray(void);
 

@@ -1,4 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/frontend/TAdTitleGC.h"
+#include "pso/ui/frontend/TAdRayGC.h"
 #include "pso/ui/frontend/TAdGuideTxtGC.h"
 #include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "pso/ui/TLevelSelect.h"
@@ -46,8 +48,6 @@ extern u8 controller_input_state[];
 extern u8 controller_physical_port_bank[];
 s32 game_difficulty_selection;
 void __ct__7TObjectFP7TObject(void *, void *);
-void __ct__8TAdRayGCFv(void *, void *);
-void __ct__10TAdTitleGCFP7TObjectl(void *, void *, int);
 void __ct__13TAdTitleTexGCFv(void *, void *);
 void __ct__14TAdSelectTxtGCFP7TObjectP18TAdSelectTxtLayoutl(void *, void *, void *, int);
 extern u8 __vt__12TLevelSelect[];
@@ -112,12 +112,8 @@ Self_8013319C *__ct__12TLevelSelectFv(Self_8013319C *self) {
     }
     new TAdBackGC((TObject *)self);
     new TAdBackTxtGC((TObject *)self);
-    if ((p = TObject::operator new(0x24)) != NULL) {
-        __ct__8TAdRayGCFv(p, self);
-    }
-    if ((p = TObject::operator new(0x138)) != NULL) {
-        __ct__10TAdTitleGCFP7TObjectl(p, self, 2);
-    }
+    new TAdRayGC((TObject *)self);
+    new TAdTitleGC((TObject *)self, 2);
     if ((p = TObject::operator new(0x9C)) != NULL) {
         __ct__13TAdTitleTexGCFv(p, self);
     }

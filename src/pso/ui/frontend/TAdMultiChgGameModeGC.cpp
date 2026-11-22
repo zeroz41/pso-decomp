@@ -1,3 +1,5 @@
+#include "pso/ui/frontend/TAdTitleGC.h"
+#include "pso/ui/frontend/TAdRayGC.h"
 #include "pso/ui/frontend/TAdGuideTxtGC.h"
 #include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "pso/ui/frontend/TAdSelectTxtGC.h"
@@ -38,8 +40,6 @@ struct Obj_802FFE58 {
 extern "C" {
 s32 lbl_805D69E8;
 void __ct__7TObjectFP7TObject(void *);
-void __ct__8TAdRayGCFv(void *, void *);
-void __ct__10TAdTitleGCFP7TObjectl(void *, void *, s32);
 
 void __ct__13TAdTitleTexGCFv(void *, void *);
 extern void *__vt__21TAdMultiChgGameModeGC[];
@@ -114,12 +114,8 @@ Obj_802FFE58 *__ct__21TAdMultiChgGameModeGCFv(Obj_802FFE58 *self) {
     self->f2C = 0;
     new TAdBackGC((TObject *)self);
     new TAdBackTxtGC((TObject *)self);
-    if ((p = TObject::operator new(0x24)) != NULL) {
-        __ct__8TAdRayGCFv(p, self);
-    }
-    if ((p = TObject::operator new(0x138)) != NULL) {
-        __ct__10TAdTitleGCFP7TObjectl(p, self, 0xF);
-    }
+    new TAdRayGC((TObject *)self);
+    new TAdTitleGC((TObject *)self, 0xF);
     {
         Txt_802FFE58 txt = multi_chg_game_mode_text_layout;
         new TAdSelectTxtGC((TObject *)self, &txt.v[0], 0xC);

@@ -1,4 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/frontend/TAdTitleGC.h"
+#include "pso/ui/frontend/TAdRayGC.h"
 #include "pso/ui/frontend/TAdGuideTxtGC.h"
 #include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "pso/ui/frontend/TAdStorySelectGC.h"
@@ -38,8 +40,6 @@ extern "C" {
 void play_sound_effect(s32, s32, s32, s32);
 extern u8 controller_input_state[];
 void __ct__7TObjectFP7TObject(void *, void *);
-void __ct__8TAdRayGCFv(void *, void *);
-void __ct__10TAdTitleGCFP7TObjectl(void *, void *, s32);
 void __ct__13TAdTitleTexGCFv(void *, void *);
 extern void *__vt__16TAdStorySelectGC[];
 Self_802C3400 *__ct__16TAdStorySelectGCFv(Self_802C3400 *self, void *parent);
@@ -100,14 +100,8 @@ Self_802C3400 *__ct__16TAdStorySelectGCFv(Self_802C3400 *self, void *parent) {
     }
     p = new TAdBackGC((TObject *)self);
     p = new TAdBackTxtGC((TObject *)self);
-    p = TObject::operator new(0x24);
-    if (p != NULL) {
-        __ct__8TAdRayGCFv(p, self);
-    }
-    p = TObject::operator new(0x138);
-    if (p != NULL) {
-        __ct__10TAdTitleGCFP7TObjectl(p, self, 1);
-    }
+    new TAdRayGC((TObject *)self);
+    new TAdTitleGC((TObject *)self, 1);
     p = TObject::operator new(0x9C);
     if (p != NULL) {
         __ct__13TAdTitleTexGCFv(p, self);

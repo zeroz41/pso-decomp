@@ -1,3 +1,5 @@
+#include "pso/ui/frontend/TAdTitleGC.h"
+#include "pso/ui/frontend/TAdRayGC.h"
 #include "pso/ui/frontend/TAdGuideTxtGC.h"
 #include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "pso/ui/frontend/TAdSelectGameModeGC.h"
@@ -44,8 +46,6 @@ extern "C" {
 s32 free_sub_ctrls__19TAdSelectGameModeGCFv();
 s32 play_sound_effect(int, int, int, int);
 void __ct__7TObjectFP7TObject(void *, void *);
-void __ct__8TAdRayGCFv(void *, void *);
-void *__ct__10TAdTitleGCFP7TObjectl(void *, void *, int);
 void __ct__13TAdTitleTexGCFv(void *, void *);
 extern s32 __vt__19TAdSelectGameModeGC[];
 int sync_char_select_state__10TObjPlayerFv(void*);
@@ -108,12 +108,8 @@ u8 *__ct__19TAdSelectGameModeGCFv(u8 *arg0, void *parent) {
     *(void **)((s8 *)arg0 + 0x20) = 0;
     new TAdBackGC((TObject *)arg0);
     new TAdBackTxtGC((TObject *)arg0);
-    if ((p = TObject::operator new(0x24)) != 0) {
-        __ct__8TAdRayGCFv(p, arg0);
-    }
-    if ((p = TObject::operator new(0x138)) != 0) {
-        __ct__10TAdTitleGCFP7TObjectl(p, arg0, 4);
-    }
+    new TAdRayGC((TObject *)arg0);
+    new TAdTitleGC((TObject *)arg0, 4);
     if ((p = TObject::operator new(0x9C)) != 0) {
         __ct__13TAdTitleTexGCFv(p, arg0);
     }
