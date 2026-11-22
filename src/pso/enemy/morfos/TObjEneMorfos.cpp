@@ -50,6 +50,14 @@
 #include "pso/network/IPv6.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/animation/ActorAnimationState.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/unk/text_803E2F28.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/render/render_util.h"
+#include "pso/render/model_render_state.h"
 // .rodata holds the table strings, the class name, the 803350AC binding template, then the Vecs in
 // reverse .text order and the doubles in .text order: deferred codegen, functions written last to first.
 #pragma defer_codegen on
@@ -68,8 +76,6 @@ static const s32 morfos_object_ids[1] = { 0x40 };
 static const s32 morfos_handler_a_ids[1] = { 0x40 };
 
 extern "C" {
-extern s32 actor_frame_tick;
-s32 post_translate_matrix(void *);
 // check_value_in_range called on int arguments: the u16 prototype adds a clrlwi per argument at both calls.
 s32 check_value_in_range__13TObjEneMorfosFPvUsUsUs(void *, int, int, int);
 }
@@ -84,42 +90,6 @@ s32 check_value_in_range__13TObjEneMorfosFPvUsUsUs(void *, int, int, int);
 
 
 
-extern "C" {
-f32 atan2_float(f32, f32);
-s32 play_sound_effect(s32, u32, s16, s32);
-s32 is_split_screen();
-extern s32 saved_model_render_flags;
-extern s32 model_render_flags;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-u16 get_entity_id(void *);
-s32 angle_difference_abs(s32, s32);
-s32 angle_diff_s16(s32);
-s32 free_collision_body_parts(void *);
-void subtract_vector(void *, void *);
-}
-void draw_chunk_model(void *arg0);
 
 extern BmlResource *TObjEneMorfos__instance;
 extern s32 TObjEneMorfos__phase;
@@ -384,7 +354,7 @@ s32 TObjEneMorfos::approach_value(s32 goal, s32 max_step) {
     s32 var_r31;
 
     var_r31 = 0;
-    temp_r3 = angle_diff_s16(this->rotation_y);
+    temp_r3 = angle_diff_s16(this->rotation_y, goal);
     if (temp_r3 > max_step) {
         this->rotation_y = (s32) (this->rotation_y + max_step);
     } else if (temp_r3 < (s32) -max_step) {
@@ -478,7 +448,7 @@ s32 TObjEneMorfos::select_target_in_view() {
 
 void TObjEneMorfos::play_sound_in_band() {
     if ((this->is_passing_frame(4.0f) != 0) || (this->is_passing_frame(20.0f) != 0)) {
-        play_sound_effect(0x4003A823, (uaddr)&position, 0, 0);
+        play_sound_effect(0x4003A823, &position, 0, 0);
     }
 }
 
@@ -774,7 +744,7 @@ void TObjEneMorfos::state_beam(s32 ev) {
             step = 0;
             this->counter = 0;
             this->requested_action = 0;
-            play_sound_effect(0x4003A528, (uaddr)&position, 0, 0);
+            play_sound_effect(0x4003A528, &position, 0, 0);
             return;
         }
         step = 6;
@@ -803,7 +773,7 @@ void TObjEneMorfos::state_beam(s32 ev) {
             break;
         case 2:
             if (this->is_passing_frame(6.0f) != 0) {
-                play_sound_effect(0x4003AD24, (uaddr)&position, 0, 0);
+                play_sound_effect(0x4003AD24, &position, 0, 0);
                 new TUnk_804EF130(node_points, (u16)(this->target_angle + 0x8000), this);
                 step = 3;
             }
@@ -827,7 +797,7 @@ void TObjEneMorfos::state_beam(s32 ev) {
                     if ((s32) this->counter >= 2) {
                         this->target_angle = (s32) (10430.38043493439 * atan2_float(this->destination_direction.x, destination_direction.z));
                         step = 5;
-                        play_sound_effect(0x4003A528, (uaddr)&position, 0, 0);
+                        play_sound_effect(0x4003A528, &position, 0, 0);
                     } else {
                         this->requested_action = 0;
                         step = 4;
@@ -847,7 +817,7 @@ void TObjEneMorfos::state_beam(s32 ev) {
                     this->update_velocity();
                     this->target_angle = (s32) (u16) ((s32) (10430.38043493439 * atan2_float(this->destination_direction.x, destination_direction.z)) + 0x8000);
                     step = 0;
-                    play_sound_effect(0x4003A528, (uaddr)&position, 0, 0);
+                    play_sound_effect(0x4003A528, &position, 0, 0);
                 } else {
                     step = 6;
                 }
@@ -943,7 +913,7 @@ void TObjEneMorfos::state_rotating_projectile_burst(s32 ev) {
             break;
         case 3:
             if (is_passing_frame(6.0f) != 0) {
-                play_sound_effect(0x4003AD24, (uaddr)&position, 0, 0);
+                play_sound_effect(0x4003AD24, &position, 0, 0);
                 new TUnk_804EF130(node_points, (u16)(rotation_y + 0x8000), this);
                 step = 4;
             }
@@ -1015,7 +985,7 @@ void TObjEneMorfos::state_attack(s32 ev) {
                 if (this->approach_value((s32) (10430.38043493439 * atan2_float(this->destination_direction.x, destination_direction.z)), TObjEneMorfos__param_table->attack_turn_step) != 0) {
                     step = 1;
                     this->requested_action = 1;
-                    play_sound_effect(0x4003A725, (uaddr)&position, 0, 0);
+                    play_sound_effect(0x4003A725, &position, 0, 0);
                     TObjEneMorfosArm::create((void *)this, (void *)this);
                 } else if (destination_distance >= 30.0f) {
                     step = 3;
@@ -1132,7 +1102,7 @@ void TObjEneMorfos::state_death(s32 ev) {
         this->counter = 0;
         step = 0;
         wall_fade.init_death_params();
-        play_sound_effect(0x4003A626, (uaddr)&position, 0, 0);
+        play_sound_effect(0x4003A626, &position, 0, 0);
         return;
     case 3:
         if ((s32) this->counter == 2) {
@@ -1148,7 +1118,7 @@ void TObjEneMorfos::state_death(s32 ev) {
             temp_r30 = wall_fade.decay_value_toward_floor();
             if ((this->get_flag_b4() != 0) && (temp_r30 != 0)) {
                 fn_800D911C(&position);
-                play_sound_effect(0x4003A830, (uaddr)&position, 0, 0);
+                play_sound_effect(0x4003A830, &position, 0, 0);
                 body_fade.start_fade_out();
                 morfos_flags = (s32) (morfos_flags | 2);
                 this->counter = 1;
@@ -1195,7 +1165,7 @@ void TObjEneMorfos::render_part(s32 idx, s32 mode) {
     TObjFish::set_global_param(this->texlist);
     TObjPlayer::toggle_particle_effect();
     push_matrix();
-    post_translate_matrix(&position);
+    post_translate_matrix(&position.x);
     rotate_matrix_y(0, this->rotation_y);
     TObjEneMorfos__phase = 0;
     TObjEneMorfos__camera_path_cursor = node_points;
@@ -1271,7 +1241,7 @@ s32 TObjEneMorfos::render_model_if_visible() {
         if (push_reflection_matrix(&reflection_point) != 0) {
             TObjFish::set_global_param(this->texlist);
             push_matrix();
-            post_translate_matrix(&position);
+            post_translate_matrix(&position.x);
             rotate_matrix_y(0, this->rotation_y);
             this->draw();
             pop_matrix();
@@ -1291,7 +1261,7 @@ void TObjEneMorfos::draw_body() {
     if ((s32)main_task.get_task_flags() & 0x200) {
         TObjFish::set_global_param((saddr)TObjEneMorfos__instance->models[2].m_c);
         push_matrix();
-        post_translate_matrix(node_points);
+        post_translate_matrix(&node_points[0].x);
         rotate_matrix_y(0, (int) (rotation_y));
         if (morfos_flags & 2) {
             if (wall_fade.has_visible_opacity() != 0) {
@@ -1379,7 +1349,7 @@ void TObjEneMorfos::render_demo() {
         TObjPlayer::toggle_particle_effect();
         TObjFish::set_global_param(texlist);
         push_matrix();
-        post_translate_matrix(&position);
+        post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         idx = (s32)parameters[0];
         if (idx < 0) {

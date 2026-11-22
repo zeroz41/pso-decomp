@@ -18,22 +18,21 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/unk/text_800870BC.h"
+#include "pso/render/NinjaUtil.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
 extern "C" {
-f32 xz_distance_squared(void *, void *);
 extern const f32 morfos_projectile_speed;
 extern const f32 morfos_param_table_speed_copy;
-void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 }
 
 void TUnk_804EF130::hit_target_in_range(TObjChara *target, TObjCollidable *owner) {
     Vec v = pos;
     subtract_vector(&v, &vel);
     if (target != 0 && target != owner && !(target->actorFlags & 0x04000A00)) {
-        if (!(xz_distance_squared(&v, (u8 *)target + 0x2FC) > (1.5f * morfos_projectile_speed) * (1.5f * morfos_projectile_speed))) {
+        if (!(xz_distance_squared(&v, &target->body_center) > (1.5f * morfos_projectile_speed) * (1.5f * morfos_projectile_speed))) {
             DirectAttackPayload hit = {0, morfos_param_table_speed_copy};
             target->receive_direct_attack(owner, hit, 0, -1, -1);
         }

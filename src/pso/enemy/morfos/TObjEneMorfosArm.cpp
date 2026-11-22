@@ -2,7 +2,6 @@
 #include "types.h"
 #include "pso/system/BmlResource.h"
 #include "pso/enemy/morfos/TObjEneMorfosArm.h"
-#include "pso/enemy/morfos/TObjEneMorfosArm_80335218.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
@@ -15,6 +14,8 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/enemy/morfos/TObjEneMorfos.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 #pragma readonly_strings on
 
@@ -23,10 +24,9 @@ const char *TObjEneMorfosArm__name = "TObjEneMorfosArm";
 TObjMotionAction morfos_arm_motion_params[1] = {
     { MOTION_MODE_ONCE, 0, 0, 0.7f, 0x4 },
 };
-u16 get_entity_id(void *);
 extern const char *TObjEneMorfosArm__name;
 BmlResource *TObjEneMorfosArm__parent_morfos_instance;
-s32 post_translate_matrix(void *);
+}
 
 void TObjEneMorfosArm::render() {
     if (TObjEneMorfosArm__parent_morfos_instance == NULL) {
@@ -34,7 +34,7 @@ void TObjEneMorfosArm::render() {
         return;
     }
     push_matrix();
-    post_translate_matrix((u8 *)&this->position);
+    post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
     TObjFish::set_global_param(this->texlist);
     TObjPlayer::toggle_particle_effect();
@@ -56,7 +56,6 @@ void TObjEneMorfosArm::run_task() {
     }
 }
 
-}
 TObjEneMorfosArm::~TObjEneMorfosArm() {
 
 }
