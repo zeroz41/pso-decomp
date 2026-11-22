@@ -412,7 +412,7 @@ u8 *TLobby__quest_script_read_ptr;
 void append_split_screen_hero_name(void) {
     char buf[0x40];
     if (is_split_screen() == 1) {
-        sprintf(buf, "%s", get_split_screen_character_name());
+        sprintf(buf, "%s", get_active_character_name());
     } else {
         sprintf(buf, "%s", TLobby__sub_800713C8());
     }
