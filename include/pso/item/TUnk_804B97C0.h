@@ -5,14 +5,15 @@
 
 class TUnk_804B97C0 : public TObjCollidable {
 public:
+    TUnk_804B97C0(TObject *parent);
     virtual ~TUnk_804B97C0();
     virtual void vfunc_14();
     virtual void vfunc_15();
-    void*init_positions();
     virtual void render();
     virtual void run_task();
-    u8 unk_AC[0x4];
-    float m_b0;
+    // The far_depth and radius render passes to update_object_view_visibility.
+    f32 view_far_depth;
+    f32 view_radius;
 };
 
 #endif

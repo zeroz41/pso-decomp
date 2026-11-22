@@ -4,14 +4,11 @@
 
 #include "pso/object/container/TObjContainerIdo.h"
 
-extern "C" {
-int __ct__14TObjCollidableFP7TObject(void);
-extern s32 __vt__13TUnk_804B97C0[];
-
-}
 TUnk_804B97C0::~TUnk_804B97C0() {
 
 }
 
-void*TUnk_804B97C0::init_positions() { __ct__14TObjCollidableFP7TObject(); *(int*)((char*)this + 0x18) = (int)((unsigned char *)&__vt__13TUnk_804B97C0); *(float *)&this->unk_AC = 400.0f; this->m_b0 = 10.0f; return this; }
-
+TUnk_804B97C0::TUnk_804B97C0(TObject *parent) : TObjCollidable(parent) {
+    view_far_depth = 400.0f;
+    view_radius = 10.0f;
+}

@@ -2,7 +2,6 @@
 #include "pso/system/BmlAccessors.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/render/RenderFadeState.h"
-#include "pso/object/container/TObjContainerIdo_8018BEE4.h"
 #include "pso/object/container/TObjContainerIdo.h"
 #include "pso/system/vector.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -27,6 +26,18 @@
 #include "pso/system/SoundEffect.h"
 #include <stdlib.h>
 #include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/render/NinjaUtil.h"
+#include "pso/render/GinjaTexture.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/object/switch/TSwitch.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/player/TObjPlayer_803E1A58.h"
+#include "pso/system/TLanguage_801E4874.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
@@ -40,47 +51,36 @@ CollisionBody container_ido_collision_parts[] = { { { 0.0f, 0.0f, 0.0f }, 20.0f,
 const char *obj_container_ido_class_name = "TObjContainerIdo";
 }
 
-extern "C" {
-void __ct__15RenderFadeStateFv(void *);
-s32 init_collision_body_parts(void *, void *, int);
-
-f32 xyz_distance_squared(u8 *arg0, u8 *arg1);
-void matrix_mult_vec(int, void *, void *);
-void project_world_to_screen(int, void *, void *, void *);
-extern Vec camera_right;
 extern u8 *camera_ctrl_instance;
-
-s32 free_collision_body_parts(void *);
 
 #pragma push
 #pragma fp_contract on
-s32 TObjContainerIdo::update_object_view_visibility(f32 farg0, f32 farg1) {
-    u8 *arg0 = (u8 *)this;
+s32 TObjContainerIdo::update_object_view_visibility(f32 far_depth, f32 radius) {
     Vec p;
     f32 out[2];
-    matrix_mult_vec(0, (u8 *)&this->m_c0, &p);
-    if (xyz_distance_squared((u8 *)&this->position, camera_ctrl_instance + 0x178) < farg1 * farg1) {
+    matrix_mult_vec(0, &home_position, &p);
+    if (xyz_distance_squared(&position, (Vec *)(camera_ctrl_instance + 0x178)) < radius * radius) {
         return 1;
     }
-    if (p.z + farg1 / 2.0f > 0.0f) {
+    if (p.z + radius / 2.0f > 0.0f) {
         return 0;
     }
-    if (p.z < -farg0) {
+    if (p.z < -far_depth) {
         return 0;
     }
     if (p.x < 0.0f) {
-        p.x = camera_right.x * farg1 + *(f32 *)((s8 *)arg0 + 0x38);
-        p.y = camera_right.y * farg1 + *(f32 *)((s8 *)arg0 + 0x3C);
-        p.z = camera_right.z * farg1 + *(f32 *)((s8 *)arg0 + 0x40);
-        project_world_to_screen(0, &p, out, &camera_right);
+        p.x = camera_right[0] * radius + position.x;
+        p.y = camera_right[1] * radius + position.y;
+        p.z = camera_right[2] * radius + position.z;
+        project_world_to_screen(0, &p, out);
         if (out[0] < 0.0f) {
             return 0;
         }
     } else {
-        p.x = *(f32 *)((s8 *)arg0 + 0x38) - camera_right.x * farg1;
-        p.y = *(f32 *)((s8 *)arg0 + 0x3C) - camera_right.y * farg1;
-        p.z = *(f32 *)((s8 *)arg0 + 0x40) - camera_right.z * farg1;
-        project_world_to_screen(0, &p, out, &camera_right);
+        p.x = position.x - camera_right[0] * radius;
+        p.y = position.y - camera_right[1] * radius;
+        p.z = position.z - camera_right[2] * radius;
+        project_world_to_screen(0, &p, out);
         if (out[0] > 6.4e+02f) {
             return 0;
         }
@@ -89,148 +89,111 @@ s32 TObjContainerIdo::update_object_view_visibility(f32 farg0, f32 farg1) {
 }
 #pragma pop
 
-struct VMem_8018C06C {
-    char pad[0x14];
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-};
-
-s32 post_translate_matrix(void *);
-s32 rotate_matrix_x(s32, s32);
-
 BmlResource *container_ido_model_archive;
+GinjaTextureList *container_ido_textures;
 
-void render__16TObjContainerIdoFv(u8 *container_ido) {
-    s32 var_r31;
+void TObjContainerIdo::render() {
+    s32 fading;
 
-    if (((TObjContainerIdo *)container_ido)->update_object_view_visibility(4e+02f, 2e+02f) != 0) {
-        var_r31 = 0;
+    if (update_object_view_visibility(4e+02f, 2e+02f) != 0) {
+        fading = 0;
         if (TRaderMapCore::is_not_split_screen() == 0) {
-            var_r31 = ((RenderFadeState*)(container_ido + 0xF0))->updateFromCamera((const f32*)(container_ido + 0x38));
+            fading = fade.updateFromCamera(&position.x);
         }
-        if (var_r31 != 0) {
-            ((VMem_8018C06C*)(container_ido + 0xF0))->m6();
+        if (fading != 0) {
+            fade.set_flags_and_apply_damage_color();
         }
         {
-            extern GinjaTextureList *container_ido_textures;
             GinjaTextureList *textures = container_ido_textures;
             if (textures != NULL) {
                 TObjFish::set_global_param((saddr)textures);
             }
         }
         push_matrix();
-        post_translate_matrix(container_ido + 0xC0);
-        rotate_matrix_y(0, ((TObjContainerIdo *)container_ido)->rotation_y);
-        rotate_matrix_x(0, ((TObjContainerIdo *)container_ido)->rotation_x);
-        draw_ginja_object((void *)get_bml_model((BmlResource *)container_ido_model_archive, 0));
+        post_translate_matrix(&home_position.x);
+        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_x(0, rotation_x);
+        draw_ginja_object((void *)get_bml_model(container_ido_model_archive, 0));
         pop_matrix();
         push_matrix();
-        post_translate_matrix(container_ido + 0x38);
-        rotate_matrix_y(0, ((TObjContainerIdo *)container_ido)->rotation_y);
-        rotate_matrix_x(0, ((TObjContainerIdo *)container_ido)->rotation_x);
-        draw_ginja_object((void *)get_bml_model((BmlResource *)container_ido_model_archive, 1));
+        post_translate_matrix(&position.x);
+        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_x(0, rotation_x);
+        draw_ginja_object((void *)get_bml_model(container_ido_model_archive, 1));
         pop_matrix();
-        if (var_r31 != 0) {
-            ((VMem_8018C06C*)(container_ido + 0xF0))->m7();
+        if (fading != 0) {
+            fade.clear_flag_and_notify();
         }
     }
 }
 
-struct Ido_8018C18C {
-    u8 pad0[0x38];
-    Vec pos;
-    u8 pad44[0x5C - 0x44];
-    s32 f5c;
-    s32 f60;
-    u8 pad64[0xC0 - 0x64];
-    Vec c0;
-    s32 ids[4];
-    s32 dc;
-    u32 e0;
-    f32 e4;
-    f32 e8;
-    f32 ec;
-    u8 f0[4];
-};
-u8 is_current_floor_switch_set(s32 id);
-f32 xyz_distance(void *, void *);
-void rotate_vector_by_matrix(int, void *, void *);
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-extern u8 identity_matrix[];
-
 #pragma push
 #pragma fp_contract on
-void run_task__16TObjContainerIdoFv(Ido_8018C18C *self) {
+void TObjContainerIdo::run_task() {
     f32 prev;
     u32 old;
     s32 i;
 
-    prev = self->e4;
-    old = self->e0 & 0xF;
-    self->e4 = 0.0f;
-    for (i = 0; i < self->dc; i++) {
-        if (is_current_floor_switch_set((u16)self->ids[i]) == 1) {
-            self->e0 |= 1 << i;
-            self->e4 += self->e8;
+    prev = target_distance;
+    old = state & 0xF;
+    target_distance = 0.0f;
+    for (i = 0; i < switch_count; i++) {
+        if (is_current_floor_switch_set((u16)switch_ids[i]) == 1) {
+            state |= 1 << i;
+            target_distance += step_distance;
         } else {
-            self->e0 &= ~(1 << i);
+            state &= ~(1 << i);
         }
     }
-    if ((old ^ (self->e0 & 0xF)) != 0) {
-        if (prev - self->e4 < 0.0f) {
-            self->e0 &= ~0x02000000;
-            self->e0 &= ~0x01000000;
+    if ((old ^ (state & 0xF)) != 0) {
+        if (prev - target_distance < 0.0f) {
+            state &= ~0x02000000;
+            state &= ~0x01000000;
         } else {
-            self->e0 |= 0x02000000;
-            self->e0 &= ~0x01000000;
+            state |= 0x02000000;
+            state &= ~0x01000000;
         }
     }
-    self->e0 &= ~0x04000000;
-    if (self->e0 & 0x02000000) {
-        if (xyz_distance(&self->c0, &self->pos) > self->e4) {
+    state &= ~0x04000000;
+    if (state & 0x02000000) {
+        if (xyz_distance(&home_position, &position) > target_distance) {
             Vec v = { 0.0f, 0.0f, 0.0f };
-            v.z = -self->ec;
-            push_matrix_from(identity_matrix);
-            rotate_matrix_y(0, self->f60);
-            rotate_matrix_x(0, self->f5c);
+            v.z = -speed;
+            push_matrix_from(&identity_matrix);
+            rotate_matrix_y(0, rotation_y);
+            rotate_matrix_x(0, rotation_x);
             rotate_vector_by_matrix(0, &v, &v);
             pop_matrix();
-            self->pos.x -= v.x;
-            self->pos.y -= v.y;
-            self->pos.z -= v.z;
-            self->e0 |= 0x04000000;
-            play_persistent_sound(0x4B717, (saddr)self, (uaddr)&self->pos, 0, 0);
-        } else if (!(self->e0 & 0x01000000)) {
-            play_sound_effect(0x4C118, &self->pos, 0, 0);
-            self->e0 |= 0x01000000;
+            position.x -= v.x;
+            position.y -= v.y;
+            position.z -= v.z;
+            state |= 0x04000000;
+            play_persistent_sound(0x4B717, (saddr)this, (uaddr)&position, 0, 0);
+        } else if (!(state & 0x01000000)) {
+            play_sound_effect(0x4C118, &position, 0, 0);
+            state |= 0x01000000;
         }
     } else {
-        if (xyz_distance(&self->c0, &self->pos) < self->e4) {
+        if (xyz_distance(&home_position, &position) < target_distance) {
             Vec w = { 0.0f, 0.0f, 0.0f };
-            w.z = -self->ec;
-            push_matrix_from(identity_matrix);
-            rotate_matrix_y(0, self->f60);
-            rotate_matrix_x(0, self->f5c);
+            w.z = -speed;
+            push_matrix_from(&identity_matrix);
+            rotate_matrix_y(0, rotation_y);
+            rotate_matrix_x(0, rotation_x);
             rotate_vector_by_matrix(0, &w, &w);
             pop_matrix();
-            self->pos.x += w.x;
-            self->pos.y += w.y;
-            self->pos.z += w.z;
-            self->e0 |= 0x04000000;
-            play_persistent_sound(0x4B717, (saddr)self, (uaddr)&self->pos, 0, 0);
-        } else if (!(self->e0 & 0x01000000)) {
-            play_sound_effect(0x4C118, &self->pos, 0, 0);
-            self->e0 |= 0x01000000;
+            position.x += w.x;
+            position.y += w.y;
+            position.z += w.z;
+            state |= 0x04000000;
+            play_persistent_sound(0x4B717, (saddr)this, (uaddr)&position, 0, 0);
+        } else if (!(state & 0x01000000)) {
+            play_sound_effect(0x4C118, &position, 0, 0);
+            state |= 0x01000000;
         }
     }
-    if (!(self->e0 & 0x08000000) && (self->e0 & 0x04000000)) {
-        if (3.0517578e-05f * (f32)rand() < 0.4f && ((TObjContainerIdo *)self)->update_object_view_visibility(4e+02f, 1e+02f) != 0) {
+    if (!(state & 0x08000000) && (state & 0x04000000)) {
+        if (3.0517578e-05f * (f32)rand() < 0.4f && update_object_view_visibility(4e+02f, 1e+02f) != 0) {
             Vec a;
             Vec b;
             Vec out;
@@ -240,10 +203,10 @@ void run_task__16TObjContainerIdoFv(Ido_8018C18C *self) {
             b.x = (-1e+01f);
             b.y = 2.0f;
             b.z = 3e+01f * (3.0517578e-05f * (f32)rand()) - 15.0f;
-            push_matrix_from(identity_matrix);
-            post_translate_matrix(&self->pos);
-            rotate_matrix_y(0, self->f60);
-            rotate_matrix_x(0, self->f5c);
+            push_matrix_from(&identity_matrix);
+            post_translate_matrix(&position.x);
+            rotate_matrix_y(0, rotation_y);
+            rotate_matrix_x(0, rotation_x);
             matrix_mult_vec(0, &a, &out);
             spawn_particle_effect(&out, 0x42);
             matrix_mult_vec(0, &b, &out);
@@ -251,29 +214,12 @@ void run_task__16TObjContainerIdoFv(Ido_8018C18C *self) {
             pop_matrix();
         }
     }
-    ((RenderFadeState *)self->f0)->update();
+    fade.update();
 }
 #pragma pop
 
-
-void *TObjContainerIdo::create(void *arg0) {
-    void *o = TObject::operator new(0x10C);
-    if (o != NULL) {
-        o = TObjContainerIdo__ct((u8 *)o, (saddr)tl_05, (saddr)arg0);
-    }
-    return o;
-}
-
-}
-
-struct Ido_8018C7BC { u8 pad[0xCC]; s32 ids[4]; };
-
-GinjaTextureList *container_ido_textures;
-u8 * load_gvm_texture_file(saddr);
-extern s32 __vt__16TObjContainerIdo[];
-extern "C" {
-s32 release_texture_list(void*);
-void *__dt__15RenderFadeStateFv(void *arg0, s16 arg1);
+void *TObjContainerIdo::create(void *set) {
+    return new TObjContainerIdo(tl_05, set);
 }
 
 void TObjContainerIdo::free_resources() {
@@ -283,57 +229,50 @@ void TObjContainerIdo::free_resources() {
         container_ido_textures = NULL;
     }
     if (container_ido_model_archive != NULL) {
-        delete (BmlResource *)container_ido_model_archive;
+        delete container_ido_model_archive;
         container_ido_model_archive = NULL;
     }
 }
 
 void TObjContainerIdo::load_resources() {
-    BmlResource *archive = new BmlResource(5, (BmlResourceDescriptor *)&container_ido_resource_descriptor, 0, 0, NULL);
+    BmlResource *archive = new BmlResource(5, &container_ido_resource_descriptor, 0, 0, NULL);
     container_ido_model_archive = archive;
     container_ido_textures = (GinjaTextureList *)load_gvm_texture_file((saddr)"obj_containerido.GVM");
 }
 
 TObjContainerIdo::~TObjContainerIdo() {
-    this->unregister_object_by_id();
+    unregister_object_by_id();
     free_collision_body_parts(this);
-    __dt__15RenderFadeStateFv((s8 *)this + 0xF0, -1);
 }
 
-
-u8 *TObjContainerIdo__ct(u8 *arg0, saddr arg1, saddr arg2) {
+TObjContainerIdo::TObjContainerIdo(TObject *parent, void *set) : TUnk_804B97C0(parent) {
     s32 i;
-    ((TUnk_804B97C0 *)arg0)->init_positions();
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TObjContainerIdo;
-    __ct__15RenderFadeStateFv((arg0 + 0xF0));
-    ((TObjContainerIdo *)arg0)->m_name = obj_container_ido_class_name;
-    ((TObjContainerIdo *)(arg0))->apply_object_set_data((void *)arg2);
-    VecCopy((Vec *)(arg0 + 0xC0), (const Vec *)(arg0 + 0x38));
-    VecCopy((Vec *)(arg0 + 0xB4), (const Vec *)(arg0 + 0x38));
-    *(f32 *)&((TObjContainerIdo *)arg0)->m_b0 = 1e+02f;
-    *(s32 *)&((TObjContainerIdo *)arg0)->m_dc = *(s32 *)((s8 *)arg0 + 0x88);
-    if (*(s32 *)&((TObjContainerIdo *)arg0)->m_dc < 1) {
-        *(s32 *)&((TObjContainerIdo *)arg0)->m_dc = 1;
+    m_name = obj_container_ido_class_name;
+    apply_object_set_data(set);
+    VecCopy(&home_position, &position);
+    VecCopy(&m_b4, &position);
+    view_radius = 1e+02f;
+    switch_count = set_params[1];
+    if (switch_count < 1) {
+        switch_count = 1;
     }
-    if (*(s32 *)&((TObjContainerIdo *)arg0)->m_dc > 4) {
-        *(s32 *)&((TObjContainerIdo *)arg0)->m_dc = 4;
+    if (switch_count > 4) {
+        switch_count = 4;
     }
-    for (i = 0; i < *(s32 *)&((TObjContainerIdo *)arg0)->m_dc; i++) {
-        ((Ido_8018C7BC *)arg0)->ids[i] = ((TObjContainerIdo *)arg0)->set_params[0] + i;
+    for (i = 0; i < switch_count; i++) {
+        switch_ids[i] = set_params[0] + i;
     }
-    ((TObjContainerIdo *)arg0)->m_e0 = 0;
-    if (*(s32 *)&((TObjContainerIdo *)arg0)->set_params[2] != 0) {
-        ((TObjContainerIdo *)arg0)->m_e0 |= 0x08000000;
+    state = 0;
+    if (set_params[2] != 0) {
+        state |= 0x08000000;
     } else {
-        ((TObjContainerIdo *)arg0)->m_e0 &= ~0x08000000;
+        state &= ~0x08000000;
     }
-    *(f32 *)((s8 *)arg0 + 0xE4) = 0.0f;
-    ((TObjContainerIdo *)arg0)->m_e8 = ((TObjContainerIdo *)arg0)->scale.x / *(s32 *)&((TObjContainerIdo *)arg0)->m_dc;
-    *(f32 *)((s8 *)arg0 + 0xEC) = ((TObjContainerIdo *)arg0)->scale.y;
-    ((RenderFadeState *)(arg0 + 0xF0))->activate_and_dispatch();
-    init_collision_body_parts(arg0, container_ido_collision_parts, 1);
-    ((TObjContainerIdo *)arg0)->actorFlags |= 0x40000000;
-    ((TObjPlayer *)arg0)->register_object_by_id();
-    return arg0;
+    target_distance = 0.0f;
+    step_distance = scale.x / switch_count;
+    speed = scale.y;
+    fade.activate_and_dispatch();
+    init_collision_body_parts(this, container_ido_collision_parts, 1);
+    actorFlags |= 0x40000000;
+    register_object_by_id();
 }
-
