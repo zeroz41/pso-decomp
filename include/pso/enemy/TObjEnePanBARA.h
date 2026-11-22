@@ -28,6 +28,7 @@ public:
     void sub_800E1D94();
     void sub_800E1E14();
     s32 sub_800E2FB4();
+    s32 sub_800E1774();
     s32 is_below_half_hp();
     s32 sub_800E2E68();
     s32 sub_800E2E54();

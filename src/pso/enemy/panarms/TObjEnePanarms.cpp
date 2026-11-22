@@ -45,7 +45,6 @@ extern "C" {
 s32 angle_diff_s16(s32, s32);
 s32 vec3_add_to(void *, void *);
 s32 subtract_vector(void *, void *);
-s32 TObjEnePanarms__sub_800E1774(void *);
 
 
 struct Stack_800E0950 {
@@ -752,20 +751,19 @@ s32 try_move_with_detour__14TObjEnePanarmsFPvPv(u8 *player, Vec_800E18B0 *arg1) 
 #pragma auto_inline off
 #pragma dont_inline off
 
-s32 TObjEnePanarms__sub_800E1774(void * self_) {
-    f32 vec[3];
-    s32 pos;
+s32 TObjEnePanBARA::sub_800E1774() {
+    Vec direction;
     s32 ret;
 
-    if ((s32)((TObjEnePanBARA *)self_)->get_state_flag() != 0) {
-        ret = ((TObjEnePanBARA *)self_)->partner->sub_800E2FB4() == 0
-            && (*(s32*)(((u8*)self_) + 0x3b8) = pos = ((TObjEnePanBARA *)self_)->find_nearest_enemy_with_flag_alt_target(reinterpret_cast<Vec *>(vec), lbl_8043CD80[*(s32 *)((u8 *)self_ + 0x380)])) != 0xffff
-            && angle_difference_abs(*(s32*)(((u8*)self_) + 0x60), (s32)(10430.38043493439 * ((f64 (*)(f32, f32))atan2_float)(vec[0], vec[2]))) < 0x400;
+    if (get_state_flag() != 0) {
+        ret = partner->sub_800E2FB4() == 0
+            && (target_id = find_nearest_enemy_with_flag_alt_target(&direction, lbl_8043CD80[half_index])) != 0xffff
+            && angle_difference_abs(rotation_y, (s32)(10430.38043493439 * ((f64 (*)(f32, f32))atan2_float)(direction.x, direction.z))) < 0x400;
         return (u8)ret;
     } else {
-        ret = ((TObjEnePanBARA *)self_)->partner->sub_800E2FB4() == 0
-            && (*(s32*)(((u8*)self_) + 0x3b8) = pos = (u16)find_nearest_visible_player(reinterpret_cast<TObjChara *>(self_), reinterpret_cast<Vec *>(vec), lbl_8043CD80[*(s32 *)((u8 *)self_ + 0x380)])) != 0xffff
-            && angle_difference_abs(*(s32*)(((u8*)self_) + 0x60), (s32)(10430.38043493439 * ((f64 (*)(f32, f32))atan2_float)(vec[0], vec[2]))) < 0x400;
+        ret = partner->sub_800E2FB4() == 0
+            && (target_id = find_nearest_visible_player(this, &direction, lbl_8043CD80[half_index])) != 0xffff
+            && angle_difference_abs(rotation_y, (s32)(10430.38043493439 * ((f64 (*)(f32, f32))atan2_float)(direction.x, direction.z))) < 0x400;
         return (u8)ret;
     }
 }
@@ -959,7 +957,7 @@ void TObjEnePanBARA::sub_800E10D0() {
         set_state(0x10);
         return;
     }
-    if (TObjEnePanarms__sub_800E1774((u8 *)this) != 0) {
+    if (sub_800E1774() != 0) {
         e = (u8 *)find_entity_by_id(this->target_id);
         if (e != NULL && horizontal_distance_squared(e + 0x38, (u8 *)this + 0x38) < 756.25f) {
             set_state(0xA);
