@@ -2219,7 +2219,7 @@ pso/unk/text_8035B00C.cpp
 pso/unk/text_8035B6B0.cpp
 pso/unk/text_8035B750.cpp
 pso/unk/text_8035D444.cpp
-pso/unk/text_803626A8.cpp
+pso/enemy/epsilon/TObjEneEpsilon.cpp
 pso/weapon/TUnk_804F26E0.cpp
 pso/unk/text_8036A3CC.cpp
 pso/network/PSOV3Encryption_8036AE2C.cpp

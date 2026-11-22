@@ -10498,7 +10498,7 @@ pso/enemy/epsilon/TObjEneEpsilonGuard_8035F5C8.cpp:
 	.sbss       start:0x805D6F80 end:0x805D6FA0
 	.sdata2     start:0x805E0208 end:0x805E0248
 
-pso/unk/text_803626A8.cpp:
+pso/enemy/epsilon/TObjEneEpsilon.cpp:
 	.text       start:0x803626A8 end:0x80362C28
 	.rodata     start:0x80479EA0 end:0x80479FC8
 	.data       start:0x804F24E8 end:0x804F26E0

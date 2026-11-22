@@ -1446,7 +1446,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/boss/galgryphon/TBoss5GryphonColli.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # .data holds __vt__19TObjBoss8PillerCtrl ahead of run_task's jump table: deferred generation of the last-to-first source.
     "pso/boss/goldragon/TObjBoss8PillerCtrl.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
-    "pso/unk/text_803626A8.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/enemy/epsilon/TObjEneEpsilon.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # -sdata 4: the 8-byte name tables sit in .data while 4-byte objects sit in .sdata.
     "pso/unk/text_8035B750.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
     # -fp_contract on: fn_80293D84 fuses each hexagon vertex's scale and offset into fmadds; no other
