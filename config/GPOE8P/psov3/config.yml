@@ -1333,16 +1333,16 @@ force_active:
   - TObjEneRe4Sorcerer__data_805DA790
   - TObjEneRe4Sorcerer__data_805DA794
   - TObjEneRe4Sorcerer__sub_800ED47C
-  - sub_800EE0F8__18TObjEneRe4SorcererFl
-  - sub_800EE1CC__18TObjEneRe4SorcererFl
-  - sub_800EE7DC__18TObjEneRe4SorcererFl
-  - sub_800EEC00__18TObjEneRe4SorcererFl
-  - sub_800EEDE4__18TObjEneRe4SorcererFl
-  - sub_800EEFE4__18TObjEneRe4SorcererFl
+  - update_damage_state__18TObjEneRe4SorcererFl
+  - update_cure_state__18TObjEneRe4SorcererFl
+  - update_attack_state__18TObjEneRe4SorcererFl
+  - update_fade_out_state__18TObjEneRe4SorcererFl
+  - update_enter_state__18TObjEneRe4SorcererFl
+  - update_hidden_state__18TObjEneRe4SorcererFl
   - sub_800EF214__18TObjEneRe4SorcererFv
-  - sub_800EF7C8__18TObjEneRe4SorcererFv
-  - sub_800EF844__18TObjEneRe4SorcererFv
-  - sub_800EF95C__18TObjEneRe4SorcererFf
+  - enable_hits__18TObjEneRe4SorcererFv
+  - disable_hits__18TObjEneRe4SorcererFv
+  - warp_around_target__18TObjEneRe4SorcererFf
   - sub_800EFE30__18TObjEneRe4SorcererFv
   - dispatch_action__18TObjEneRe4SorcererFUll
   - TObjEneRe7BeruraPunch__collision_body_templates
@@ -16914,7 +16914,7 @@ force_active:
   - update_fade_state__15TBoss3VoloptP02Fv
   - update_fall__10TBoss6RockFv
   - update_fall_to_ground__15TObjEneDelDepthFv
-  - update_farthest_target__18TObjEneRe4SorcererFlPf
+  - update_farthest_target__18TObjEneRe4SorcererFP9TObjCharaPf
   - update_field_40__15TFontSmallLobbyFv
   - update_flag_0x3C0__17TObjEneDf2BringerFv
   - update_flags
