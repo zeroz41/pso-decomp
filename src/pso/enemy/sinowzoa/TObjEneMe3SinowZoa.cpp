@@ -62,6 +62,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/technique/TTecRaBarta.h"
 #include "pso/npc/TNpcPlayer.h"
+#include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/technique/TTecDeband.h"
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/unk/text_803D853C.h"
@@ -97,7 +98,7 @@ s32 copy_position_if_valid__10TObjPlayerFii(void *, Vec);
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
 void TObjEneMe3SinowZoa__sub_80316C3C(TObjEneMe3SinowZoa *self, s32 mode);
-u16 get_entity_id(int);
+u16 get_entity_id(TObjBase *object);
 s32 check_move_collision__18TObjEneMe3SinowZoaFPvPv(TObjEneMe3SinowZoa *self, const Vec *pos);
 f32 fabs_float(f32);
 s32 TObjEneMe3SinowZoa__sub_800D72A4(TUnk_80494938 *fade);
@@ -2140,13 +2141,13 @@ s32 check_move_collision__18TObjEneMe3SinowZoaFPvPv(TObjEneMe3SinowZoa *self, co
     self->check_collisions();
     self->update_enemy_collision_flags();
     if (body->flags & 0x80000) {
-        if (((TNpcPlayer *)(get_entity_id((int)self->current_target)))->get_valid_target_player() == 0) {
+        if (get_valid_target_player(get_entity_id(self->current_target)) == 0) {
             VecCopy(&self->position, &sp8);
             TObjPlayer::init_all_slots();
             return 1;
         }
     }
-    if ((body->flags & 0x100000) && ((TNpcPlayer *)self->entity_id)->get_valid_target_player() == 0) {
+    if ((body->flags & 0x100000) && get_valid_target_player(self->entity_id) == 0) {
         VecCopy(&self->position, &sp8);
         TObjPlayer::init_all_slots();
         return 1;

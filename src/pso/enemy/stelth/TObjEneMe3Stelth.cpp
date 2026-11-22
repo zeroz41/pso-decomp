@@ -73,6 +73,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/npc/TNpcPlayer.h"
+#include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/technique/TTecDeband.h"
 #include "pso/ui/TLevelSelect.h"
 
@@ -2057,12 +2058,12 @@ s32 TObjEneMe3Stelth__sub_800F0F84(TObjEneMe3Stelth *stelth, Vec *pos) {
     VecCopy(&stelth->position, pos);
     TObjPlayer::init_all_slots();
     stelth->check_collisions();
-    if ((body->flags & 0x80000) && ((TNpcPlayer *)(get_entity_id(stelth->current_target)))->get_valid_target_player() == 0) {
+    if ((body->flags & 0x80000) && get_valid_target_player(get_entity_id(stelth->current_target)) == 0) {
         VecCopy(&stelth->position, &sp);
         TObjPlayer::init_all_slots();
         return 1;
     }
-    if ((body->flags & 0x100000) && ((TNpcPlayer *)stelth->entity_id)->get_valid_target_player() == 0) {
+    if ((body->flags & 0x100000) && get_valid_target_player(stelth->entity_id) == 0) {
         VecCopy(&stelth->position, &sp);
         TObjPlayer::init_all_slots();
         return 1;
