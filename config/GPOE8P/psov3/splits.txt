@@ -1740,7 +1740,7 @@ pso/enemy/gibon/GibonData.cpp:
 	.rodata     start:0x8043BF30 end:0x8043BF50
 
 pso/enemy/gibon/TObjEneBm5GibonU.cpp:
-	.text       start:0x800CCB24 end:0x800D1E4C
+	.text       start:0x800CCB24 end:0x800D1D80
 	.ctors      start:0x80433F5C end:0x80433F60
 	.rodata     start:0x8043BF50 end:0x8043C100
 	.data       start:0x80493CA0 end:0x80494104
@@ -1750,7 +1750,7 @@ pso/enemy/gibon/TObjEneBm5GibonU.cpp:
 	.sdata2     start:0x805DA158 end:0x805DA258
 
 pso/enemy/gyaranzo/TObjEneGyaranzo.cpp:
-	.text       start:0x800D1E4C end:0x800D40D8
+	.text       start:0x800D1D80 end:0x800D40D8
 	.rodata     start:0x8043C100 end:0x8043C440
 	.data       start:0x80494108 end:0x804943FC
 	.bss        start:0x80500ED0 end:0x80500F80

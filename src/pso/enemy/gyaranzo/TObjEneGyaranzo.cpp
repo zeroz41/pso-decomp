@@ -1337,3 +1337,25 @@ void update_walk_to_target__10TObjPlayerFPv(Ene_800D1E4C *arg0) {
 
 }
 
+s32 TObjEneGyaranzo::update_shock_clock() {
+    if (TObjChara::update_shock_clock() != 0) {
+        clear_flag_and_update();
+        return 1;
+    }
+    return 0;
+}
+
+s32 TObjEneGyaranzo::update_movement_status() {
+    if (TObjChara::update_movement_status() != 0) {
+        clear_flag_and_update();
+        return 1;
+    }
+    return 0;
+}
+
+void TObjEneGyaranzo::clear_flag_and_update() {
+    if ((s32)next_action == 7) {
+        m_388 &= ~1;
+        update_if_active(0);
+    }
+}
