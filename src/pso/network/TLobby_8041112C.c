@@ -26,7 +26,6 @@ s16 TLobby__sub_80413F0C(); /* declared without a parameter list; the definition
 
 s32 TLobby__sub_80409E18(s16 arg0, s32 arg1, s32 arg2);
 
-s32 TLobby__sub_80409EB0(s16 arg0, s32 arg1);
 
 /* Inline the helpers below; this applies to the rest of the file. */
 #pragma dont_inline off
@@ -594,7 +593,7 @@ extern s32 TLobby__sub_80412058(s16 id, u8 *self, s32 len, u8 *out) {
         n++;
         len -= 0x1C;
     }
-    if ((s16)TLobby__sub_80409EB0(id, *(s16 *)(ent + offsetof(Ipv6Iface, handle))) <= 6) {
+    if (TLobby__sub_80409EB0(id, *(s16 *)(ent + offsetof(Ipv6Iface, handle))) <= 6) {
         TLobby__sub_80409E18(id, *(s16 *)(ent + offsetof(Ipv6Iface, handle)), (saddr)out);
     }
     return i;
@@ -1703,7 +1702,6 @@ inline Ipv6Iface *find_80414504(s16 id) {
 s16 NetIPv6GetInterfaceLinkLayerAddress(s32 arg0, s16 arg1, s16 id) {
     Ipv6Iface *e;
     s16 r;
-    s16 TLobby__sub_80409EB0(s16 arg0, s32 arg1); /* declared s16 here; the definition returns s32 */
 
     e = find_80414504(id);
     if (e == NULL) {

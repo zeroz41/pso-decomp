@@ -128,7 +128,7 @@ s16 TLobby__sub_80409CE0(s16 idx, s32 handle, s32 op, void *addr);
 s16 TLobby__sub_80409D7C(s16 idx, s32 handle, s32 op, void *addr);
 s16 TLobby__sub_8040A0C0(s16 idx, void *dst);
 s32 TLobby__sub_80409E18(s16, s32, s32);
-s32 TLobby__sub_80409EB0(s16, s32);
+s16 TLobby__sub_80409EB0(s16, s32);
 /* ICMP (src/pso/network/NetIcmp.c). */
 s16 icmp_input(u8 *self, u32 d, u32 c);
 s16 icmp_send_error(u8 *p, u8 *b, s16 x, s16 id);
