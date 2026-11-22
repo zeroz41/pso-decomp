@@ -538,7 +538,7 @@ void TObjEneMe3SinowZoa::sub_8031A6A0() {
                 }
             }
         }
-        ((s32 (*)(int, void *, int, int))play_sound_effect)(0x4003AA2B, &position, 0, 0);
+        play_sound_effect(0x4003AA2B, &position, 0, 0);
     }
 }
 

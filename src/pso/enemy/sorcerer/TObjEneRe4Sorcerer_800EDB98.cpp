@@ -465,7 +465,7 @@ s32 TObjEneRe4Sorcerer::select_attack_target(f32 farg0, f32 farg1) {
     f32 d;
     f32 best;
     s32 first;
-    s32 id;
+    u16 id;
     TObjChara *p;
     s32 n;
     int i;
@@ -483,17 +483,17 @@ s32 TObjEneRe4Sorcerer::select_attack_target(f32 farg0, f32 farg1) {
             if (p != this && p != o1 && p != o2 && ((TObjBase *)p)->is_alive() != 0) {
                 d = horizontal_distance_squared(&this->body_center, &p->position);
                 if (d < best && csnLookAt(&this->body_center, &p->body_center) == 0) {
-                    id = ((s32 (*)(void *))get_entity_id)(p);
+                    id = get_entity_id(p);
                     best = d;
                 }
             }
         }
-        if (((s32 (*)(void *, s32))enemy_bind_or_clear_target)(this, id) != 0) {
+        if (enemy_bind_or_clear_target(this, id) != 0) {
             return 1;
         }
     }
     {
-    TObjChara *q; s32 tA; s32 tB; s32 j; s32 m; f32 e;
+    TObjChara *q; u16 tA; u16 tB; s32 j; s32 m; f32 e;
     tA = 0xFFFF;
     tB = tA;
     m = TLobby::get_game_mode();
@@ -504,20 +504,20 @@ s32 TObjEneRe4Sorcerer::select_attack_target(f32 farg0, f32 farg1) {
             if (is_target_ranger(q) != 0) {
                 if (e < farg0 && is_target_unobstructed_from((TObjEneDD *)this, (TObjChara *)q) != 0) {
                     farg0 = e;
-                    tA = ((s32 (*)(void *))get_entity_id)(q);
+                    tA = get_entity_id(q);
                 }
             } else if (e < farg1 && is_target_unobstructed_from((TObjEneDD *)this, (TObjChara *)q) != 0) {
                 farg1 = e;
-                tB = ((s32 (*)(void *))get_entity_id)(q);
+                tB = get_entity_id(q);
             }
         }
     }
-    if ((u16)tA != 0xFFFF) {
-        ((void (*)(void *, s32))enemy_set_target_id)(this, tA);
+    if (tA != 0xFFFF) {
+        enemy_set_target_id(this, tA);
         return 1;
     }
-    if ((u16)tB != 0xFFFF) {
-        ((void (*)(void *, s32))enemy_set_target_id)(this, tB);
+    if (tB != 0xFFFF) {
+        enemy_set_target_id(this, tB);
         return 1;
     }
     }
