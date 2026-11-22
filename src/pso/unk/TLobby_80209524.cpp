@@ -446,7 +446,7 @@ void build_challenge_enemy_set(s32 floor) {
             TLobby__sub_802097B0(event.room);
             while (enemies-- > 0) {
                 u8 *placement = challenge_enemy_buffer + enemyOffset;
-                if (pick_random_slot__6TLobbyFPv(reinterpret_cast<s16 *>(placement)) == 0) {
+                if (TLobby::pick_random_slot(reinterpret_cast<s16 *>(placement)) == 0) {
                     reinterpret_cast<SpawnRecord_8020A9C4 *>(challenge_enemy_buffer + enemyOffset)->wave = wave;
                     reinterpret_cast<SpawnRecord_8020A9C4 *>(challenge_enemy_buffer + enemyOffset)->room = event.room;
                     ++enemyCount;
@@ -534,8 +534,8 @@ extern "C" {
 void TLobby::init_buffers(int id, u8 *quest) {
     Hdr_802095EC *items;
 
-    challenge_event_source = (u8 *)find_header_by_id__6TLobbyFPvi((Hdr_80209C58 *)quest, id);
-    lbl_805D60AC = (u8 *)find_chunk_by_id__6TLobbyFPvi((Hdr_8020967C *)quest, id);
+    challenge_event_source = (u8 *)TLobby::find_header_by_id((Hdr_80209C58 *)quest, id);
+    lbl_805D60AC = (u8 *)TLobby::find_chunk_by_id((Hdr_8020967C *)quest, id);
     items = find_type5_header__6TLobbyFPvi((Hdr_802095EC *)quest, id);
     TLobby__item_data_table_buffer = (u8 *)items;
     if (challenge_event_source != NULL && lbl_805D60AC != NULL && items != NULL) {
@@ -1151,7 +1151,7 @@ s32 TLobby::init_floor_enemy_count(s32 arg0, u8 *arg1, u32 size) {
 }
 
 s32 TLobby::load_object_set_entries(s32 arg0, u8 *rows, u32 arg2) {
-    if (load_floor_enemy_group_entries__6TLobbyFiPvUi(arg0, (FloorObjectSetRow *)rows, arg2) == 1) {
+    if (TLobby::load_floor_enemy_group_entries(arg0, (FloorObjectSetRow *)rows, arg2) == 1) {
         TLobby__data_80513C80[arg0] = arg2 / 68U;
         return 1;
     }

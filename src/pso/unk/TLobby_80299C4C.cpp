@@ -182,7 +182,7 @@ void send_giveup_to_all_players__6TLobbyFv(void) {
 }
 
     extern saddr local_client_id;
-void close_giveup_window__6TLobbyFPv(void* a0) { TWindowCtrl::suppress_slot(local_client_id); play_effect_all_players__6TLobbyFPv(a0); }
+void close_giveup_window__6TLobbyFPv(void* a0) { TWindowCtrl::suppress_slot(local_client_id); TLobby::play_effect_all_players(a0); }
 
 void play_all_players_effect__6TLobbyFPv(void* a0) { TObjPlayer__sub_8024ABDC((local_client_id)); TLobby::play_effect_all_players(a0); }
 

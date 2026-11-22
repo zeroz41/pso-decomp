@@ -240,8 +240,8 @@ void TLobby::send_45_and_close_windows(void * _w0) {
     TWindowCtrl::unsuppress_slot(local_client_id);
     TLobby__sub_8024AC20(local_client_id);
 }
-void TLobby::show_ctrl_and_play_effect(void* a0) { TWindowCtrl::suppress_slot(*(int *)&local_client_id); play_player_default_effect__6TLobbyFv((saddr)a0); }
-void TLobby::play_default_effect(void* a0) { TObjPlayer__sub_8024ABDC(((*(int *)&local_client_id))); play_player_default_effect__6TLobbyFv((saddr)a0); }
+void TLobby::show_ctrl_and_play_effect(void* a0) { TWindowCtrl::suppress_slot(*(int *)&local_client_id); ((TLobby *)a0)->play_player_default_effect(); }
+void TLobby::play_default_effect(void* a0) { TObjPlayer__sub_8024ABDC(((*(int *)&local_client_id))); ((TLobby *)a0)->play_player_default_effect(); }
 void play_player_default_effect__6TLobbyFv(s32 _w0) {
     saddr player;
     player = get_player_by_client_id(local_client_id);

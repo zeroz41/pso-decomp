@@ -203,7 +203,6 @@ void run_task__19TPlayerBattleCtrl4PFv(TPlayerBattleCtrl4P *self);
 void render__7TObjectFv();
 void render_shadows__7TObjectFv();
 // Japanese text (shift-JIS)
-void *get_char_index__23TAdSinglePlyChrSelectGCFUi(u32 arg0);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 void export_character_data__10TObjPlayerFPvPv(u8 *arg0, u8 *arg1);
 const char *TPlayerBattleCtrl4P__message_table_language0[7] = {
@@ -260,7 +259,7 @@ TPlayerBattleCtrl4P* TPlayerBattleCtrl4P::construct(TObject* parent) {
     for (i = 0; i < 4; i++) {
         saddr pl = (saddr)get_player_by_client_id(i);
         if (pl != 0) {
-            export_character_data__10TObjPlayerFPvPv((u8 *)pl, (u8 *)(get_char_index__23TAdSinglePlyChrSelectGCFUi((u32)i)));
+            export_character_data__10TObjPlayerFPvPv((u8 *)pl, (u8 *)(TAdSinglePlyChrSelectGC::get_char_index((u32)i)));
         }
     }
     TPlayerBattleCtrl4P__instance = this;

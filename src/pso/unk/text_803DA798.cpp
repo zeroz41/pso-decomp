@@ -60,7 +60,6 @@ s32 TObjPlayer__sub_803DB23C(void *);
 s32 TObjPlayer__sub_803DB244(void);
 s32 TObjPlayer__sub_803DAD84(struct Obj_803DAD84 *arg0, s32 arg1, u32 arg2);
 s32 TObjPlayer__sub_803DA104(int);
-s32 find_free_slot__10TObjPlayerFPvPv(void *, void *);
 void TObjPlayer__sub_803DAD24(void);
 s32 TObjPlayer__sub_803DA8E4(u32 arg0, u32 arg1, s32 arg2, s32 *arg3);
 s32 TObjPlayer__sub_803D9DA8(int, void *);
@@ -157,7 +156,7 @@ s32 TObjPlayer__sub_803DA8E4(u32 arg0, u32 arg1, s32 arg2, s32 *arg3) {
         }
         r = TObjPlayer::find_record_index(arg0, arg1);
         if (r < 0) {
-            slot = find_free_slot__10TObjPlayerFPvPv(&sp8, NULL);
+            slot = TObjPlayer::find_free_slot(&sp8, NULL);
             if (slot < 0) {
                 return -1;
             }
@@ -189,7 +188,7 @@ s32 TObjPlayer__sub_803DAA70(u32 arg0, u32 arg1, s32 *arg2) {
     u8 *spC;
     s32 *sp8;
     s32 temp_r3;
-    temp_r3 = find_free_slot__10TObjPlayerFPvPv(&spC, &sp8);
+    temp_r3 = TObjPlayer::find_free_slot(&spC, &sp8);
     if (temp_r3 < 0) {
         return -1;
     }

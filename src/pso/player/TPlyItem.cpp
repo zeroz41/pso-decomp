@@ -56,7 +56,6 @@ struct Req_801D3780 {
 };
 struct Ground_801D3C38 { u8 pad0[4]; Vec *pos; };
 extern "C" {
-void send_6x29_delete_item__10TObjPlayerFPvii(void *, s32, s32);
 s32 poll_memcard_result(saddr);
 // The callers sign-extend the result (extsb), the header's member returns u8.
 extern void *tl_07;
@@ -756,7 +755,7 @@ saddr reset(void* p) { return (saddr)memset(p, 0, 28); }
 s32 fn_801D4270(s32 id) {
     s32 i;
     u8 *p;
-    void *list = (void *)get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF);
+    void *list = (void *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF);
     if ((uaddr)list == 0) {
         return 0;
     }
@@ -775,7 +774,7 @@ void remove_list_entry_by_id(s32 arg0) {
     s32 n;
     Ent_801D41B4 *p;
     s32 rem;
-    cnt = ((u8 *)get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF));
+    cnt = ((u8 *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
     if (cnt != NULL) {
         p = ((Ent_801D41B4 *)((TObjPlayer *)cnt)->get_ptr_4());
         n = *cnt;
@@ -996,11 +995,11 @@ void TUnk_804C4468::run_task() {
             if (r->id == -1) {
                 if (r->source == -1) {
                     drop_stacked_item((TItemData *)r->item, get_client_id(), (f32 *)get_ptr_0x44__9TItemListFPv(this));
-                    send_6x29_delete_item__10TObjPlayerFPvii(player, r->source, r->extra);
+                    TObjPlayer::send_6x29_delete_item(player, r->source, r->extra);
                     TObjPlayer::send_code_45_1((saddr)player);
                 } else {
                     drop_stacked_item((TItemData *)r->item, get_client_id(), (f32 *)get_ptr_0x44__9TItemListFPv(this));
-                    send_6x29_delete_item__10TObjPlayerFPvii(player, r->source, ((TItemData *)r->item)->get_stack_count());
+                    TObjPlayer::send_6x29_delete_item(player, r->source, ((TItemData *)r->item)->get_stack_count());
                     TObjPlayer::send_code_45_1((saddr)player);
                 }
             } else {

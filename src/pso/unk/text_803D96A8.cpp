@@ -30,7 +30,6 @@ s32 fn_803DA12C(u8 *, s32, s32, s32);
 extern G_803D9DA8 lbl_8058D470;
 s32 TObjPlayer__sub_803D9DA8(A_803D9DA8 *arg0, B_803D9DA8 *arg1);
 void rotate_matrix_x(Matrix34* matrix, s32 angle);
-s32 find_free_slot__10TObjPlayerFPvPv(void *, int);
 s32 TObjPlayer__sub_803DAD24(int, int);
 extern s32 record_array_ptr;
 
@@ -261,7 +260,7 @@ s32 TObjPlayer__sub_803D9E38(s32 *arg0, u32 idx, s32 *arg2, u32 *arg3) {
         *(s32 *)((s8 *)arg2 + 0) = *(s32 *)((s8 *)(*(s32 **)((s8 *)temp_r29 + 0xC)) + 0);
         record_index = TObjPlayer::find_record_index((int) (*(s32 *)((s8 *)arg2 + 0)), (int) (*(u32 *)((s8 *)arg3 + 0)));
         if (record_index < 0) {
-            if (find_free_slot__10TObjPlayerFPvPv(&sp8, 0) < 0) {
+            if (TObjPlayer::find_free_slot(&sp8, 0) < 0) {
                 return -1;
             }
             *(s32 *)((s8 *)temp_r31 + 8) = sp8;

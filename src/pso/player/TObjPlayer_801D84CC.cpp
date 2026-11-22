@@ -44,7 +44,6 @@ struct VObj_84_801d859c_801D84CC : VObj_84Base_801d859c_801D84CC {
 };
 
 s32 advance_item_id_counter();
-void send_6x29_delete_item__10TObjPlayerFPvii(void *obj, s32 a, s32 b);
 void set_equip_slot_entry(saddr arg0, s32 arg1, s32 arg2);
 u16 get_entity_id(void *);
 
@@ -59,7 +58,7 @@ void process_trade_target__10TObjPlayerFiPv(saddr arg0, void *player) {
         s32 val_ext = (s32)val;
         TItem *slot_item = (TItem *)TObjPlayer::get_slot_value((s32 *)(arg0 + 0xD04), val_ext);
         if (slot_item != NULL) {
-            send_6x29_delete_item__10TObjPlayerFPvii((void *)arg0, slot_item->get_item_id(), 1);
+            TObjPlayer::send_6x29_delete_item((void *)arg0, slot_item->get_item_id(), 1);
             set_equip_slot_entry(arg0 + 0xD04, val_ext, 0);
         }
         if (((TObjPlayer *)arg0)->pickup_item((TItem *)item) != 0U) {

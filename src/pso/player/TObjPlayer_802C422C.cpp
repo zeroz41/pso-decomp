@@ -28,9 +28,8 @@ s32 sync_state__10TObjPlayerFi(saddr arg0) {
     return 1;
 }
 
-s32 get_char_index__23TAdSinglePlyChrSelectGCFUi(u32 arg0);
 
-void TObjPlayer::sync_char_select_state() { get_char_index__23TAdSinglePlyChrSelectGCFUi((uaddr)(65535)); ((int (*)(void))sync_state__10TObjPlayerFi)(); }
+void TObjPlayer::sync_char_select_state() { TAdSinglePlyChrSelectGC::get_char_index((uaddr)(65535)); ((int (*)(void))sync_state__10TObjPlayerFi)(); }
 
 void *get_player_by_client_id(s32 i);
 
@@ -90,7 +89,7 @@ s32 TObjPlayer__sub_802A1018();
 int init_action_config__10TObjPlayerFv(void*);
 int set_palette_entry__20TWindowActionPaletteFlllll(void*);
 
-void TObjPlayer::init_battle_selection() { get_char_index__23TAdSinglePlyChrSelectGCFUi((uaddr)(65535)); ((int (*)(void))update_battle__10TObjPlayerFi)(); }
+void TObjPlayer::init_battle_selection() { TAdSinglePlyChrSelectGC::get_char_index((uaddr)(65535)); ((int (*)(void))update_battle__10TObjPlayerFi)(); }
 
 void export_player_record__10TObjPlayerFPvPv(TObjPlayer *arg0, u8 *arg1) {
     E_802C4698 *e;

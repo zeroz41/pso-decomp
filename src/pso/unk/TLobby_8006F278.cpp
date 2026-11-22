@@ -334,7 +334,7 @@ s32 mix_seed_checked__6TLobbyFi(s32 seed) {
 s32 TLobby::get_slot_clamped(u32 id) {
     s32 var_r3;
 
-    var_r3 = decode_slot__6TLobbyFUi(id);
+    var_r3 = TLobby::decode_slot(id);
     if (var_r3 < 0) {
         var_r3 = 0;
     }
