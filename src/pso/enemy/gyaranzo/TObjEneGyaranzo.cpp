@@ -142,7 +142,7 @@ saddr gyaranzo_boss_stats_ptr_b;
 
 saddr gyaranzo_object_handle;
 
-saddr gyaranzo_missile_param_table;
+GyaranzoParameters *gyaranzo_missile_param_table;
 
 f32 lbl_805D51F0;
 
@@ -234,7 +234,7 @@ void TLobby::load_gyaranzo_resources() {
     gyaranzo_boss_stats_handle = (saddr)TLobby::register_boss(0x1D);
     gyaranzo_boss_stats_ptr_b = (saddr)TLobby::dispatch_shared_handler_b(0x1D);
     gyaranzo_object_handle = (saddr)TLobby::register_object(0x1D);
-    gyaranzo_missile_param_table = (saddr)TLobby::dispatch_shared_handler_a(0x1D);
+    gyaranzo_missile_param_table = (GyaranzoParameters *)TLobby::dispatch_shared_handler_a(0x1D);
     {
         NpcAnimationBinding pos = { NULL, reinterpret_cast<TObjMotionAction *>(gyaranzo_action_table), 0, 1, 8 };
         pos.motions = gyaranzo_bml_resource->motions;

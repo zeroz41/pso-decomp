@@ -16213,7 +16213,7 @@ force_active:
   - sub_800CBF58__13TObjEneMe1GeeFf
   - sub_800CC0C4__13TObjEneMe1GeeFv
   - select_subtype__16TObjEneBm5GibonUFv
-  - sub_800D4200__13TUnk_8049442CFv
+  - explode__13TUnk_8049442CFv
   - sub_800D47B4__19TObjGyaranzoMissileFv
   - update_fade_in__16TObjEneMerillLiaFv
   - sub_800D741C__13TUnk_80494938Fv
@@ -16943,7 +16943,7 @@ force_active:
   - update_ground_check__15TObjEneDelDepthFv
   - update_ground_effect__11TObjEneMojaFv
   - update_ground_effects__13TBoss5GryphonFv
-  - update_ground_fall__13TUnk_8049442CFPlf
+  - update_ground_fall__13TUnk_8049442CFP3Vecf
   - update_ground_lightning_attack__13TBoss5GryphonFl
   - update_ground_pursuit__13TBoss5GryphonFl
   - update_growth_state__16TObjEneNanoDragoFv

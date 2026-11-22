@@ -70,7 +70,13 @@ LAYOUT_ASSERT(TObjEneGyaranzo_target_ids, offsetof(TObjEneGyaranzo, target_ids) 
 
 extern BmlResource *gyaranzo_bml_resource;
 
-// Entries of the Gyaranzo parameter table (TLobby::dispatch_shared_handler_a(0x1D)).
+// The Gyaranzo parameter table (TLobby::dispatch_shared_handler_a(0x1D)).
+struct GyaranzoParameters {
+    f32 floats[6];
+    s32 ints[4];
+};
+extern GyaranzoParameters *gyaranzo_missile_param_table;
+// Entries of gyaranzo_missile_param_table.
 f32 get_gyaranzo_missile_float_parameter(s32 i);
 s32 get_gyaranzo_missile_int_parameter(s32 i);
 
