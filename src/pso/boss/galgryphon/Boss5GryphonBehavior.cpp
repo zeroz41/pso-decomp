@@ -94,13 +94,19 @@ f32 calc_random_ratio__10TObjPlayerFv(void *);
 s32 subtractive_rng_seed(void *, s32);
 struct P_8005F740 { u8 pad[0x30]; };
 struct ByteBlock_10 { u8 bytes[0x10]; };
-struct P_80064AB0 { u16 a; u16 id; u32 kind; f32 x; f32 z; };
+// The 6x9F subcommand send_target_update sends: a 4-word header-plus-target record.
+struct Boss5GryphonTargetPacket {
+    u8 command;
+    u8 size;
+    u16 id;
+    u32 kind;
+    f32 x;
+    f32 z;
+    void init_header();
+};
 f32 newton_sqrtf(f32);
-void TBoss8Dragon__sub_8005E17C(NJS_OBJECT *);
-void TBoss8Dragon__sub_8005F684(TBoss5Gryphon *self, void *params);
 void trigger_effect__12TBoss8DragonFPvi(void *arg0, s32 arg1);
 void apply_remote_action__13TBoss5GryphonFPvPv(u8 *ene_dd, u8 *boss8_dragon);
-void TBoss8Dragon__sub_800660A4(void *);
 s32 __ct__17TBoss5GryphonDemoFP7TObjectlf(void *, s32, void *, f32);
 s32 init_motion_record(s32);
 void TBoss8Dragon__sub_80067074(saddr arg0, saddr prm);
@@ -450,7 +456,10 @@ void fn_800660B8(u8 *arg0) {
     *(s32 *)((s8 *)arg0 + 0xB0) = (s32) (*(s32 *)((s8 *)arg0 + 0xB0) | 1);
 }
 
-void TBoss8Dragon__sub_800660A4(void* p) { *(u8*)((char*)p + 0x0) = 159; *(u8*)((char*)p + 0x1) = 4; }
+void Boss5GryphonTargetPacket::init_header() {
+    command = 0x9F;
+    size = 4;
+}
 
 }
 void TBoss8Dragon::bswap_boss_actions() {
@@ -989,8 +998,8 @@ void apply_remote_action__13TBoss5GryphonFPvPv(u8 *ene_dd, u8 *boss8_dragon) {
 
 }
 void TBoss5Gryphon::send_target_update() {
-    P_80064AB0 p;
-    TBoss8Dragon__sub_800660A4(&p);
+    Boss5GryphonTargetPacket p;
+    p.init_header();
     p.id = entity_id;
     p.kind = target_id;
     p.x = destination.x;
@@ -3187,7 +3196,7 @@ void TBoss5Gryphon::flush_pending_effect() {
     if ((this->flags & 2) && this->motion >= &this->motions[1]) {
         ((TBoss8Dragon *)(&p))->init_color();
         ((void (*)(void *, void *))trigger_effect__12TBoss8DragonFPvi)(this, &p);
-        TBoss8Dragon__sub_8005F684(this, &p);
+        fill_action_steps(&p);
         this->flags &= ~2;
         copy_spawn_params(&p);
     }
@@ -3198,26 +3207,26 @@ void trigger_effect__12TBoss8DragonFPvi(void *arg0, s32 arg1) {
     init_motion_record(arg1 + 0x14);
 }
 
-void TBoss8Dragon__sub_8005F684(TBoss5Gryphon *self, void *params) {
+void TBoss5Gryphon::fill_action_steps(void *packet) {
     s32 i;
     u8 *out;
 
-    if (self->script_entry == NULL) {
-        self->update_target_from_state();
+    if (script_entry == NULL) {
+        update_target_from_state();
     }
-    out = (u8 *)params + 0x14;
+    out = (u8 *)packet + 0x14;
     for (i = 0; i < 1;) {
-        u32 *entry = (u32 *)self->script_entry;
+        u32 *entry = (u32 *)script_entry;
         if (*entry == 0x21) {
-            self->choose_next_action(entry);
+            choose_next_action(entry);
             continue;
         }
-        if (self->run_action_script_step((s16 *)out, entry) != 0) {
+        if (run_action_script_step((s16 *)out, entry) != 0) {
             break;
         }
         i++;
         out += 0x14;
-        self->script_entry++;
+        script_entry++;
     }
 }
 
@@ -3252,7 +3261,7 @@ void TBoss5Gryphon::play_animation_index(s32 index) {
     temp_r5 = *(s32 *)((s8 *)((u8 *)this) + 0x778);
     this->script_entry = *(Boss5GryphonActionStep **)((s8 *)temp_r5 + (index * 4));
     ((s32 (*)(void *, void *, int))trigger_effect__12TBoss8DragonFPvi)(this, &sp8, temp_r5);
-    TBoss8Dragon__sub_8005F684(this, &sp8);
+    fill_action_steps(&sp8);
     this->copy_spawn_params(&sp8);
 }
 
@@ -3660,7 +3669,7 @@ s32 TBoss5Gryphon::is_sphere_in_camera_cone(Vec *point, f32 radius) {
 
 #pragma pop
 extern "C" {
-void TBoss8Dragon__sub_8005E17C(NJS_OBJECT *) {
+void TBoss5Gryphon::capture_bone_node(NJS_OBJECT *) {
     Vec *pos;
     if ((s32) boss5_gryphon_render_node_index == boss5_gryphon_bone_capture_node_indices[boss5_gryphon_bone_capture_index]) {
         pos = boss5_gryphon_bone_capture_output;
@@ -3677,7 +3686,7 @@ void TBoss5Gryphon::draw_body() {
     boss5_gryphon_bone_capture_index = 0;
     boss5_gryphon_bone_capture_output = this->bone_positions;
     boss5_gryphon_render_flags = this->flags;
-    set_chunk_model_node_callback(TBoss8Dragon__sub_8005E17C);
+    set_chunk_model_node_callback(capture_bone_node);
     push_matrix();
     set_motion_packed_rotation();
     post_translate_matrix(&this->position);

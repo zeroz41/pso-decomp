@@ -445,12 +445,12 @@ force_active:
   - fn_8005DC0C__13TBoss5GryphonFv
   - TBoss8Dragon__sub_8005DF60
   - fn_8005E040__13TBoss5GryphonFv
-  - TBoss8Dragon__sub_8005E17C
+  - capture_bone_node__13TBoss5GryphonFP10NJS_OBJECT
   - fn_8005E1E8__13TBoss5GryphonFP3Vecf
   - fn_8005E39C__13TBoss5GryphonFv
   - fn_8005E9D8__13TBoss5GryphonFP22Boss5GryphonActionStepl
   - fn_8005EAD0__13TBoss5GryphonFP22Boss5GryphonActionStepl
-  - TBoss8Dragon__sub_8005F684
+  - fill_action_steps__13TBoss5GryphonFPv
   - fn_8005FAE0__13TBoss5GryphonFv
   - fn_8005FB90__13TBoss5GryphonFv
   - fn_80063EF4__13TBoss5GryphonFv

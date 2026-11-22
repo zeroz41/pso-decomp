@@ -6,6 +6,8 @@
 #include "pso/render/RenderFadeState.h"
 #include <stddef.h>
 
+struct NJS_OBJECT;
+
 class AreaAttackHistory;
 class TParticleCtrl;
 class TBoss5GryphonDemo;
@@ -176,6 +178,8 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     void render_model();
     void copy_bone_positions();
     void draw_body();
+    // draw_body's chunk-node callback: stores the view position of each boss5_gryphon_bone_capture_node_indices node.
+    static void capture_bone_node(NJS_OBJECT *node);
     void free_parts();
     void update_particle_positions();
     void destroy_parts();
@@ -218,6 +222,7 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     f32 random_in_range(f32 min, f32 range);
     f32 random_float_in_table_range(Boss5GryphonActionStep *step, s32 i);
     s32 run_action_script_step(s16 *out, u32 *entry);
+    void fill_action_steps(void *packet);  // runs the action script into the 6xA0 packet's step list
     static void copy_angle_state(void *gryphon, void *dst, void *src);
     void update_target_from_state();
     void choose_next_action(u32 *entry);

@@ -9,7 +9,6 @@ struct GinjaTextureList;
 struct TBoss5Gryphon;
 struct TBoss8Dragon;
 extern "C" {
-void TBoss8Dragon__sub_8005E17C(NJS_OBJECT *);
 void apply_remote_action__13TBoss5GryphonFPvPv(u8 *ene_dd, u8 *boss8_dragon);
 }
 void handle_6x9F_gal_gryphon_boss_actions(void *boss8_dragon);
