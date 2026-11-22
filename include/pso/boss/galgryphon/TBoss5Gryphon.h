@@ -86,7 +86,7 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     void* m_4c4;
     u8 _pad4C8[0x18];
     u32 m_4e0;
-    s32 m_4e4;
+    s32 flight_mode;  // 0 ground, 2 low flight, 3 offscreen (the enter_*_mode setters), 1 set_flag_4e4
     Vec body_points[10];  // update_local_colliders_from_world turns them into body offsets
     void* m_560;
     u8 _pad564[0x8];

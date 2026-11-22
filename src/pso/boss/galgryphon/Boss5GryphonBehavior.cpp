@@ -1792,7 +1792,7 @@ void choose_next_action__13TBoss5GryphonFPvPv(u8 *arg0, u32 *entry) {
 void TBoss5Gryphon::update_target_from_state() {
     s32 temp_r0;
 
-    temp_r0 = this->m_4e4;
+    temp_r0 = this->flight_mode;
     switch (temp_r0) {
     default:
     case 0:
@@ -1825,7 +1825,7 @@ void set_animation_by_state__12TBoss8DragonFPv(TBoss5Gryphon *gryphon) {
     s32 temp_r0;
 
     gryphon->m_4c0 |= 8;
-    temp_r0 = gryphon->m_4e4;
+    temp_r0 = gryphon->flight_mode;
     switch (temp_r0) {
     default:
     case 0:
@@ -2022,7 +2022,7 @@ void TBoss5Gryphon::fn_8005FD34(s32 event) {
     TBoss5Gryphon *self = this;
     switch (event) {
     case ENEMY_STATE_ENTER:
-        switch (self->m_4e4) {
+        switch (self->flight_mode) {
         case 0:
             self->requested_action = 0;
             break;
@@ -2036,7 +2036,7 @@ void TBoss5Gryphon::fn_8005FD34(s32 event) {
         break;
     case ENEMY_STATE_UPDATE:
         self->advance_animation();
-        switch (self->m_4e4) {
+        switch (self->flight_mode) {
         case 0:
             break;
         case 1:
@@ -4436,14 +4436,14 @@ void TBoss5Gryphon::set_ground_height() { this->position.y = lbl_805D8D84; }
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void TBoss5Gryphon::enter_offscreen_mode() { this->m_4e4 = 3; }
+void TBoss5Gryphon::enter_offscreen_mode() { this->flight_mode = 3; }
 #pragma pop
 
 #pragma push
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void TBoss5Gryphon::enter_low_flight_mode() { this->m_4e4 = 2; }
+void TBoss5Gryphon::enter_low_flight_mode() { this->flight_mode = 2; }
 #pragma pop
 
 #pragma push
@@ -4457,7 +4457,7 @@ void TBoss8Dragon::set_flag_4e4(void* p) { *(s32*)((char*)p + 0x4e4) = 1; }
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void TBoss5Gryphon::enter_ground_mode() { this->m_4e4 = 0; }
+void TBoss5Gryphon::enter_ground_mode() { this->flight_mode = 0; }
 #pragma pop
 
 #pragma push
@@ -4538,7 +4538,7 @@ void TBoss5Gryphon::update_body_colliders() {
             }
         }
     }
-    if (m_4e4 == 2) {
+    if (flight_mode == 2) {
         bodies[0].flags |= 0x300;
         bodies[1].flags |= 0x300;
         bodies[2].flags |= 0x300;
@@ -4800,7 +4800,7 @@ TBoss5Gryphon *TBoss5Gryphon__ct(TBoss5Gryphon *self, void *parent, void *data) 
         init_motion_record((saddr)&((Obj_80065658 *)self)->motions[i]);
     }
     self->motion = ((Obj_80065658 *)self)->motions;
-    self->m_4e4 = 0;
+    self->flight_mode = 0;
     for (i = 0; i < 15; i++) {
         VecCopy__FP3VecPC3Vec(&((Obj_80065658 *)self)->f3c0[i], &self->position);
     }
@@ -4943,7 +4943,7 @@ void load_boss5_gryphon_resources(void) {
 void TBoss5Gryphon::fill_follow_camera_params(u8 *arg1, u8 *arg2) {
     *(f32 *)((s8 *)arg1 + 0) = 0.0f;
     *(f32 *)((s8 *)arg2 + 0) = 0.0f;
-    switch (this->m_4e4) {
+    switch (this->flight_mode) {
     default:
     case 2:
     case 0:
