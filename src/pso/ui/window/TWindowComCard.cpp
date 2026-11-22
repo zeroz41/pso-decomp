@@ -347,7 +347,7 @@ void TWindowComCard__sub_80249D7C(u8 *arg0, s32 count) {
 #include "pso/ui/window/TWindowTradeRequest.h"
 #include "pso/system/NinjaTypes.h"
 
-struct Obj054_80249DE4 *TWindowCtrl__active_window;
+TWindowCtrl *TWindowCtrl__active_window;
 u16 lbl_805D63FC;
 extern "C" {
 typedef struct Parent_80249ED8 {
@@ -369,7 +369,6 @@ typedef struct Win_80249ED8 {
     s32 mode;
 } Win_80249ED8;
 
-struct Obj054_80249DE4 { char pad[0x38]; uaddr field38; };
 
 void request_active_window_close(void);
 
@@ -423,19 +422,19 @@ Win_80249ED8 *TWindowComCard__sub_80249ED8(Win_80249ED8 *o, Parent_80249ED8 *par
 
 void TWindowTradeRequest::close_request_window() {
     lbl_805D63FC &= 0xFFFFFFF7;
-    TWindowCtrl *controller = reinterpret_cast<TWindowCtrl *>(TWindowCtrl__active_window);
+    TWindowCtrl *controller = TWindowCtrl__active_window;
     if (controller != NULL) {
         TWindowTradeRequest *request = controller->trade_request;
         if (request != NULL) {
             request->queue_destruction();
-            reinterpret_cast<TWindowCtrl *>(TWindowCtrl__active_window)->trade_request = NULL;
+            TWindowCtrl__active_window->trade_request = NULL;
         }
     }
 }
 
 void request_active_window_close(void) {
-    if ((TWindowCtrl__active_window != NULL) && (TWindowCtrl__active_window->field38 != 0U)) {
-        ((TWindowCtrl *)((void*)TWindowCtrl__active_window->field38))->set_flag1e_bit8();
+    if ((TWindowCtrl__active_window != NULL) && (TWindowCtrl__active_window->m_38 != 0U)) {
+        ((TWindowCtrl *)TWindowCtrl__active_window->m_38)->set_flag1e_bit8();
     }
 }
 

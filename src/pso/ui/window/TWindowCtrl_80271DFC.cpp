@@ -3,17 +3,16 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/window/TWindowCtrl.h"
 
-extern void *TWindowCtrl__active_window;
 
 void TWindowCtrl::set_flag_bit0() {
-    if ((void *) TWindowCtrl__active_window != NULL) {
-        *(u16 *)((s8 *)TWindowCtrl__active_window + 0x1C) = (u16) (*(u16 *)((s8 *)TWindowCtrl__active_window + 0x1C) | 1);
+    if (TWindowCtrl__active_window != NULL) {
+        TWindowCtrl__active_window->flags |= 1;
     }
 }
 
 void TWindowCtrl::clear_active_flag() {
-    if ((void *) TWindowCtrl__active_window != NULL) {
-        *(u16 *)((s8 *)TWindowCtrl__active_window + 0x1C) = (u16) (*(u16 *)((s8 *)TWindowCtrl__active_window + 0x1C) & 0xFFFE);
+    if (TWindowCtrl__active_window != NULL) {
+        TWindowCtrl__active_window->flags &= ~1;
     }
 }
 

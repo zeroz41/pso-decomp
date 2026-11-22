@@ -12,7 +12,6 @@
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/ui/window/TObjResultWin.h"
-#include "pso/unk/text_8024450C.h"
 #include "pso/ui/window/TWindowRoom.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -41,7 +40,7 @@ void TWindowArea::run_task() { ((TWindowDD *)this)->initialize_subwindow(); this
 
 #pragma push
 #pragma fp_contract on
-s32 create_window_area(void) {
+TWindowArea *create_window_area() {
     TWindowArea *object;
     u8 *temp_r31;
     object = new TWindowArea();
@@ -49,22 +48,22 @@ s32 create_window_area(void) {
     fn_8024450C(reinterpret_cast<saddr>(object));
     temp_r31 = (u8 *)((TWindowRoom *)object)->get_title_entry();
     *(f32 *)((s8 *)temp_r31 + 8) = 80.0f - 0.5f * (f32) calc_text_width((char *)(((TWindowSubComCard *)temp_r31)->get_field_20()));
-    return reinterpret_cast<saddr>(object);
+    return object;
 }
 #pragma pop
 
 extern "C" {
 #pragma push
 #pragma fp_contract on
-s32 create_area_window(saddr str) {
+TWindowArea *create_area_window(void *text) {
     TWindowArea *object;
     u8 *title_entry;
     object = new TWindowArea();
-    ((TWindowSubStatusDisp *)object)->set_entry_display_value(str);
+    ((TWindowSubStatusDisp *)object)->set_entry_display_value((saddr)text);
     fn_802449E0((u8 *)object);
     title_entry = reinterpret_cast<u8 *>(object->get_title_entry());
-    *(f32 *)((s8 *)title_entry + 8) = 80.0f - 0.5f * (f32) calc_text_width((char *)(str));
-    return reinterpret_cast<saddr>(object);
+    *(f32 *)((s8 *)title_entry + 8) = 80.0f - 0.5f * (f32) calc_text_width((char *)text);
+    return object;
 }
 #pragma pop
 }

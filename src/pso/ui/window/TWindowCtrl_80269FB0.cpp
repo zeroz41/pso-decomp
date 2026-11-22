@@ -1,10 +1,10 @@
 #include "types.h"
-#include "pso/ui/window/TWindowCtrl.h"
+#include "pso/ui/window/TWindowBase.h"
 
-void TWindowCtrl::set_position(void *arg1) {
-    if ((*(f32 *)&this->m_30 != *(f32 *)((s8 *)arg1 + 0)) || (*(f32 *)&this->m_34 != *(f32 *)((s8 *)arg1 + 4))) {
-        *(f32 *)&this->m_30 = *(f32 *)((s8 *)arg1 + 0);
-        *(f32 *)&this->m_34 = (f32) *(f32 *)((s8 *)arg1 + 4);
-        this->m_50 = 3;
+void TWindowBase::set_position(f32 *pos) {
+    if ((this->target_position[0] != pos[0]) || (this->target_position[1] != pos[1])) {
+        this->target_position[0] = pos[0];
+        this->target_position[1] = pos[1];
+        this->tween_ticks = 3;
     }
 }

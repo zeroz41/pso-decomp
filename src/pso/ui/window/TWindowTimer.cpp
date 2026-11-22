@@ -139,16 +139,16 @@ void TWindowTimer::draw_tab(s32 arg0, saddr arg1) {
     draw_window_tab((void *)arg1, (void *)(arg1 + 0x10), 3, -64.0f);
 }
 
-s32 TWindowTimer::create() {
+TWindowTimer *TWindowTimer::create() {
     TWindowTimer *window_timer = new TWindowTimer();
     init_timer_window_layout(window_timer);
-    return (saddr)window_timer;
+    return window_timer;
 }
 
-s32 TWindowTimer::create_alt() {
+TWindowTimer *TWindowTimer::create_alt() {
     TWindowTimer *window_timer = new TWindowTimer();
     init_timer_window_layout_alt(window_timer);
-    return (saddr)window_timer;
+    return window_timer;
 }
 
 void TWindowTimer::render() {

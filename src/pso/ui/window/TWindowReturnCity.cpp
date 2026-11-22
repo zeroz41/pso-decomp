@@ -150,16 +150,15 @@ void TWindowReturnCity__sub_8026D4BC(void) {  }
 
 void TWindowReturnCity__sub_8026D4C0(void) { TWindowReturnCity__client_scan_index = 4; }
 
-extern void *TWindowCtrl__active_window;
 
 void TWindowReturnCity::clear_flag_bit5() {
-    if ((void *) TWindowCtrl__active_window != NULL) {
-        *(u16 *)((s8 *)TWindowCtrl__active_window + 0x1C) = (u16) (*(u16 *)((s8 *)TWindowCtrl__active_window + 0x1C) & 0xFFFFFFDF);
+    if (TWindowCtrl__active_window != NULL) {
+        TWindowCtrl__active_window->flags &= ~0x20;
     }
 }
 
 void TWindowCtrl__sub_8026D4E8(void) {
-    if ((void *) TWindowCtrl__active_window != NULL) {
-        *(u16 *)((s8 *)TWindowCtrl__active_window + 0x1C) = (u16) (*(u16 *)((s8 *)TWindowCtrl__active_window + 0x1C) | 0x20);
+    if (TWindowCtrl__active_window != NULL) {
+        TWindowCtrl__active_window->flags |= 0x20;
     }
 }

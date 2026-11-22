@@ -6,31 +6,36 @@
 #include "pso/system/task/TObject.h"
 
 struct TWindowTradeRequest;
+struct TWindowTimer;
+class TWindowArea;
+struct TWindowMessageLog;
+struct TWindowSimpleStatus;
 
 struct TWindowCtrl : public TObject {
     TWindowCtrl(TObject *parent);
     virtual ~TWindowCtrl();
-    u16 m_1c;
+    u16 flags;
     u16 m_1e;
     u16 m_20;
-    u16 m_22;
+    s16 submit_cooldown;
     u32 m_24;
-    u16 m_28;
+    u16 window_id;
     u8 _pad2A[0x2];
     uaddr m_2c;
-    uaddr m_30;
-    uaddr m_34;
+    TWindowTimer *m_30;
+    TWindowArea *m_34;
     uaddr m_38;
-    u32 m_3c;
+    uaddr m_3c;
     TWindowTradeRequest *trade_request;
-    u32 m_44;
+    TWindowMessageLog *message_log;
     u8 unk_48[0x8];
     s32 m_50;
     u8 unk_54[0x1D];
     u8 m_71;
     u8 unk_72[0x4];
     u16 m_76;
-    u8 unk_78[0x1C];
+    TWindowSimpleStatus *simple_status[3];
+    u8 unk_84[0x10];
     void* m_94;
     virtual void run_task();
     virtual void render();
@@ -106,8 +111,7 @@ struct TWindowCtrl : public TObject {
     void update_child_window_visibility();
     void update_trade_window_visibility();
     void run_all_updates();
-    void set_position(void *arg1);
-    static s32 get_field44();
+    static TWindowMessageLog *get_field44();
     static void set_flag_active();
     static void clear_flag_8();
     static void set_flag_bit0();
@@ -127,6 +131,8 @@ struct TWindowCtrl : public TObject {
 
 LAYOUT_ASSERT(WindowCtrlTradeRequestOffset, offsetof(TWindowCtrl, trade_request) == 0x40);
 LAYOUT_ASSERT(TWindowCtrl_size, sizeof(TWindowCtrl) == 0xE8);
+
+extern TWindowCtrl *TWindowCtrl__active_window;
 
 
 #endif

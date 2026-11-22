@@ -264,9 +264,9 @@ void post_chat_log_message(u16 arg0, s32 *shared_text_buffer) {
     shared_text_buffer = (s32 *) get_shared_text_buffer();
     chat_log_add_line((const char *)shared_text_buffer);
     {
-        uaddr tmp_ad = TWindowCtrl::get_field44();
-        if (tmp_ad != 0U) {
-            ((TWindowMessageLog *)tmp_ad)->append_line((saddr) shared_text_buffer);
+        TWindowMessageLog *log = TWindowCtrl::get_field44();
+        if (log != NULL) {
+            log->append_line((saddr) shared_text_buffer);
         }
     }
 }
@@ -315,22 +315,20 @@ TWindowMessageLog::~TWindowMessageLog() {
     TWindowCtrl__sub_8026AD60();
 }
 TWindowMessageLog::TWindowMessageLog(s32 parent, s32 client) : TWindowMessage(parent, 0x1E, client) {
-    #define window_message_log this
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8026ABA8, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_8026ABA8, spC) == 0x4);
     Stack_8026ABA8 stack;
     f32 temp_f1;
     s32 temp_r3;
-    *(s32 *)((s8 *)window_message_log + 0) = (s32) ((saddr)TWindowMessageLog__name);
-    TWindowCtrl__sub_8026AD78((saddr)window_message_log);
-    temp_f1 = window_message_log->target_size[0] - 8.0f;
+    *(s32 *)((s8 *)this + 0) = (s32) ((saddr)TWindowMessageLog__name);
+    TWindowCtrl__sub_8026AD78(this);
+    temp_f1 = this->target_size[0] - 8.0f;
     stack.spC = 0.0f;
     stack.sp8 = temp_f1;
-    *(s32 *)((s8 *)window_message_log + 0x90) = reinterpret_cast<saddr>(new Scroll_8026D790(&stack.sp8));
-    window_message_log->window_flags = (s32) (window_message_log->window_flags | 0x80);
-    window_message_log->m_94 = (f32) 0.0f;
-    window_message_log->load_chat_history();
-    #undef window_message_log
+    *(s32 *)((s8 *)this + 0x90) = reinterpret_cast<saddr>(new Scroll_8026D790(&stack.sp8));
+    this->window_flags = (s32) (this->window_flags | 0x80);
+    this->m_94 = (f32) 0.0f;
+    this->load_chat_history();
 }
 
 }

@@ -11,6 +11,7 @@
 #include "pso/ui/chat/TWindowChat.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowTimer.h"
+#include "pso/ui/window/TWindowArea.h"
 #include "pso/object/switch/TOChatSensorCapture.h"
 
 #include "pso/player/TObjPlayer.h"
@@ -43,7 +44,6 @@ struct Ply_8024AA08 { u8 pad[0xDB0]; u32 f; };
 
 extern "C" {
 s32 TWindowCtrl__sub_8024A314(void);
-extern void *TWindowCtrl__active_window;
 void TLobby__sub_8024AAA0(s32 arg0, s32 arg1);
 u32 get_window__11TWindowCtrlFl(void);
 s32 update_field28__15TWindowCtrlMainFv(u32 a0 = 0, s32 a1 = 0);
@@ -61,17 +61,15 @@ s32 find_farthest_balloon_slot__11TWindowCtrlFPvUs(Ctrl_8024A714 *ctrl, u16 spea
 void *acquire_balloon_slot__11TWindowCtrlFPviiPv(Ctrl_8024A928 *self, s32 player, s32 flags, void *local);
 s32 obj_is_hit_receivable();
 void get_speaker_balloon_anchor__11TWindowCtrlFPviPvPv(Ctrl_8024A928 *arg0, s32 arg1, f32 *arg2, s32 *arg3);
-u32 create_area_window();
 }
-s32 create_window_area(void);
 
 extern "C" {
 
 bool TWindowCtrl__sub_8024A1A8(void) {
-    if ((void *) (*(u8 * *)&TWindowCtrl__active_window) == NULL) {
+    if (TWindowCtrl__active_window == NULL) {
         return 0;
     }
-    return *(s32 *)((s8 *)(*(u8 * *)&TWindowCtrl__active_window) + 0x3C) != 0;
+    return TWindowCtrl__active_window->m_3c != 0;
 }
 
 void TWindowCtrl::call_window_method_with_default_vec(s32 client_id) {
@@ -80,8 +78,8 @@ void TWindowCtrl::call_window_method_with_default_vec(s32 client_id) {
 }
 
 void TWindowCtrl::set_field22() {
-    if ((void *) TWindowCtrl__active_window != NULL) {
-        *(s16 *)((s8 *)TWindowCtrl__active_window + 0x22) = 0x2D;
+    if (TWindowCtrl__active_window != NULL) {
+        TWindowCtrl__active_window->submit_cooldown = 0x2D;
     }
 }
 
@@ -91,91 +89,89 @@ void TWindowCtrl__sub_8024A228(saddr client_id) {
 }
 
 bool TWindowCtrl::is_submit_cooldown_clear() {
-    if ((void *) (*(u8 * *)&TWindowCtrl__active_window) == NULL) {
+    if (TWindowCtrl__active_window == NULL) {
         return 0;
     }
-    return *(s16 *)((s8 *)(*(u8 * *)&TWindowCtrl__active_window) + 0x22) <= 0;
+    return TWindowCtrl__active_window->submit_cooldown <= 0;
 }
 
 void TWindowCtrl::update_focused() {
-    if (((void *) TWindowCtrl__active_window != NULL) && ((u32) *(u32 *)((s8 *)TWindowCtrl__active_window + 0x38) != 0U)) {
-        ((TWindowChat *)(*(uaddr *)((s8 *)TWindowCtrl__active_window + 0x38)))->update();
+    if ((TWindowCtrl__active_window != NULL) && (TWindowCtrl__active_window->m_38 != 0U)) {
+        ((TWindowChat *)TWindowCtrl__active_window->m_38)->update();
     }
 }
 
 s32 TWindowCtrl::get_active_sub() {
-    if ((void *) TWindowCtrl__active_window == NULL) {
+    if (TWindowCtrl__active_window == NULL) {
         return 0;
     }
-    if ((u32) *(u32 *)((s8 *)TWindowCtrl__active_window + 0x38) == 0U) {
+    if (TWindowCtrl__active_window->m_38 == 0U) {
         return 0;
     }
-    return TWindowCtrl__sub_8024C5C4(*(TWindowChat **)((s8 *)TWindowCtrl__active_window + 0x38));
+    return TWindowCtrl__sub_8024C5C4((TWindowChat *)TWindowCtrl__active_window->m_38);
 }
 
 s32 TWindowCtrl__sub_8024A314(void) {
-    if ((void *) TWindowCtrl__active_window == NULL) {
+    if (TWindowCtrl__active_window == NULL) {
         return 0;
     }
-    if ((u32) *(u32 *)((s8 *)TWindowCtrl__active_window + 0x38) == 0U) {
+    if (TWindowCtrl__active_window->m_38 == 0U) {
         return 0;
     }
-    return TWindowCtrl__sub_8024701C(*reinterpret_cast<TWindowChat **>(reinterpret_cast<u8 *>(TWindowCtrl__active_window) + 0x38));
+    return TWindowCtrl__sub_8024701C((TWindowChat *)TWindowCtrl__active_window->m_38);
 }
 
 void TWindowCtrl::open_status_111() {
-    if (((void *) TWindowCtrl__active_window != NULL) && ((u32) *(u32 *)((s8 *)TWindowCtrl__active_window + 0x34) == 0U)) {
-        TWindowSubStatusDisp::get_message_10(0x111);
-        *(u32 *)((s8 *)TWindowCtrl__active_window + 0x34) = create_area_window();
+    if ((TWindowCtrl__active_window != NULL) && (TWindowCtrl__active_window->m_34 == NULL)) {
+        TWindowCtrl__active_window->m_34 = create_area_window(TWindowSubStatusDisp::get_message_10(0x111));
     }
 }
 
 void TWindowCtrl::open_status_112() {
-    if (((void *) TWindowCtrl__active_window != NULL) && ((u32) *(u32 *)((s8 *)TWindowCtrl__active_window + 0x34) == 0U)) {
-        TWindowSubStatusDisp::get_message_10(0x112);
-        *(u32 *)((s8 *)TWindowCtrl__active_window + 0x34) = create_area_window();
+    if ((TWindowCtrl__active_window != NULL) && (TWindowCtrl__active_window->m_34 == NULL)) {
+        TWindowCtrl__active_window->m_34 = create_area_window(TWindowSubStatusDisp::get_message_10(0x112));
     }
 }
 
 void TWindowCtrl::close_active_window() {
-    if (((void *) TWindowCtrl__active_window != NULL) && ((u32) *(u32 *)((s8 *)TWindowCtrl__active_window + 0x34) != 0U)) {
-        ((TWindowBase *)(*(void **)((s8 *)TWindowCtrl__active_window + 0x34)))->close();
-        *(u32 *)((s8 *)TWindowCtrl__active_window + 0x34) = 0U;
+    if ((TWindowCtrl__active_window != NULL) && (TWindowCtrl__active_window->m_34 != NULL)) {
+        TWindowCtrl__active_window->m_34->close();
+        TWindowCtrl__active_window->m_34 = NULL;
     }
 }
 
 void TWindowCtrl::ensure_initialized() {
-    if (((void *) TWindowCtrl__active_window != NULL) && ((u32) *(u32 *)((s8 *)TWindowCtrl__active_window + 0x34) == 0U)) {
-        *(u32 *)((s8 *)TWindowCtrl__active_window + 0x34) = create_window_area();
+    if ((TWindowCtrl__active_window != NULL) && (TWindowCtrl__active_window->m_34 == NULL)) {
+        TWindowCtrl__active_window->m_34 = create_window_area();
     }
 }
 
 void TWindowCtrl::create_timer() {
-    if (((void *) TWindowCtrl__active_window != NULL) && ((u32) *(u32 *)((s8 *)TWindowCtrl__active_window + 0x30) == 0U)) {
-        *(u32 *)((s8 *)TWindowCtrl__active_window + 0x30) = TWindowTimer::create();
+    if ((TWindowCtrl__active_window != NULL) && (TWindowCtrl__active_window->m_30 == NULL)) {
+        TWindowCtrl__active_window->m_30 = TWindowTimer::create();
     }
 }
 
 void TWindowCtrl::set_timer_window_time(u32 secs) {
-    uaddr temp_r3;
-    if ((void *) (*(u8 * *)&TWindowCtrl__active_window) != NULL) {
-        temp_r3 = *(u32 *)((s8 *)(*(u8 * *)&TWindowCtrl__active_window) + 0x30);
-        if (temp_r3 != 0U) {
-            ((TWindowTimer *)temp_r3)->set_time(secs);
+    TWindowTimer *timer;
+    if (TWindowCtrl__active_window != NULL) {
+        timer = TWindowCtrl__active_window->m_30;
+        if (timer != NULL) {
+            timer->set_time(secs);
         }
     }
 }
 
 void TWindowCtrl::close_timer_window() {
-    if (((void *) TWindowCtrl__active_window != NULL) && ((u32) *(u32 *)((s8 *)TWindowCtrl__active_window + 0x30) != 0U)) {
-        ((TWindowBase *)(*(void **)((s8 *)TWindowCtrl__active_window + 0x30)))->close();
-        *(u32 *)((s8 *)TWindowCtrl__active_window + 0x30) = 0U;
+    if ((TWindowCtrl__active_window != NULL) && (TWindowCtrl__active_window->m_30 != NULL)) {
+        TWindowCtrl__active_window->m_30->close();
+        TWindowCtrl__active_window->m_30 = NULL;
     }
 }
 
 void TWindowCtrl::create_alt_timer() {
-    if (((void *) TWindowCtrl__active_window != NULL) && ((u32) *(u32 *)((s8 *)TWindowCtrl__active_window + 0x30) == 0U)) {
-        *(u32 *)((s8 *)TWindowCtrl__active_window + 0x30) = TWindowTimer::create_alt();
+    if ((TWindowCtrl__active_window != NULL) && (TWindowCtrl__active_window->m_30 == NULL)) {
+        TWindowCtrl__active_window->m_30 = TWindowTimer::create_alt();
     }
 }
 
@@ -326,7 +322,7 @@ void *acquire_balloon_slot__11TWindowCtrlFPviiPv(Ctrl_8024A928 *self, s32 player
 void *TWindowCtrl::show_chat_balloon(s32 player, s32 flags, void *text, void *local) {
     Ctrl_8024A928 *self = (Ctrl_8024A928 *)this;
     u32 i;
-    if ((*(Ctrl_8024A928 * *)&TWindowCtrl__active_window) == 0) {
+    if (TWindowCtrl__active_window == NULL) {
         return 0;
     }
     if (flags & 8) {
@@ -340,7 +336,7 @@ void *TWindowCtrl::show_chat_balloon(s32 player, s32 flags, void *text, void *lo
             }
         }
     }
-    return acquire_balloon_slot__11TWindowCtrlFPviiPv((Ctrl_8024A928 *)((*(Ctrl_8024A928 * *)&TWindowCtrl__active_window)), player, flags, local);
+    return acquire_balloon_slot__11TWindowCtrlFPviiPv((Ctrl_8024A928 *)TWindowCtrl__active_window, player, flags, local);
 }
 
 void TWindowCtrl::handle_chat_message(char *arg1) {

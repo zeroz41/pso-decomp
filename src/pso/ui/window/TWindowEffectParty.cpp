@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/window/TWindowCtrl.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/window/TWindowEffectParty.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
@@ -14,7 +15,6 @@
 #include "pso/ui/window/WindowLayout.h"
 
 
-struct Obj_8024FB80 { u8 pad[0x78]; void *arr[1]; };
 
 struct Pos_8024FAD8 { s32 a, b, c; };
 extern "C" {
@@ -22,7 +22,6 @@ extern const f64 lbl_8044ECF0;
 void *__ct__18TWindowEffectPartyFP7TObjectScScPv(void *, void *, u16, u16, s32);
 extern s32 local_client_id;
 f32 get_scale__15TWindowCtrlMainFv(s32);
-extern Obj_8024FB80 *TWindowCtrl__active_window;
 extern const char *TWindowEffectParty__name;
 }
 
@@ -31,7 +30,7 @@ extern const char *TWindowEffectParty__name;
 #pragma fp_contract on
 void *TWindowCtrl__sub_8024FB80(s8 i) {
     if (TWindowCtrl__active_window == 0) return 0;
-    return TWindowCtrl__active_window->arr[i];
+    return TWindowCtrl__active_window->simple_status[i];
 }
 
 TWindowEffectParty::TWindowEffectParty(TObject *object, s8 arg2, s8 arg3, void *idx) : TObject(object) {

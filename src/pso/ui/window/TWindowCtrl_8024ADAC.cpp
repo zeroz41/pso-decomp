@@ -3,17 +3,16 @@
 #include "pso/ui/window/TWindowCtrl_8024ADAC.h"
 #include "pso/ui/window/TWindowCtrl.h"
 
-extern void *TWindowCtrl__active_window;
 
 void TWindowCtrl::set_flag_bit2() {
-    if ((void *) TWindowCtrl__active_window != NULL) {
-        *(u16 *)((s8 *)TWindowCtrl__active_window + 0x1C) = (u16) (*(u16 *)((s8 *)TWindowCtrl__active_window + 0x1C) | 4);
+    if (TWindowCtrl__active_window != NULL) {
+        TWindowCtrl__active_window->flags |= 4;
     }
 }
 
 void TWindowCtrl::clear_flag_bit2() {
-    if ((void *) TWindowCtrl__active_window != NULL) {
-        *(u16 *)((s8 *)TWindowCtrl__active_window + 0x1C) = (u16) (*(u16 *)((s8 *)TWindowCtrl__active_window + 0x1C) & 0xFFFFFFFB);
+    if (TWindowCtrl__active_window != NULL) {
+        TWindowCtrl__active_window->flags &= ~4;
     }
 }
 
