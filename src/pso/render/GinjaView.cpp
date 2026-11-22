@@ -18,7 +18,7 @@ void TCameraCtrl::update_camera_state(f32 x, f32 y, f32 z) {
 void TCameraCtrl::look_at_position(f32 x, f32 y, f32 z) {
     u8 eye[0x14];
     Vec target;
-    TCameraCtrl__sub_803D65F8(eye);
+    get_look_at_eye(eye);
     target.x = x;
     target.y = y;
     target.z = z;
@@ -33,7 +33,7 @@ void TCameraCtrl::translate_view_negated(f32 x, f32 y, f32 z) {
 }
 #pragma pop
 
-void TCameraCtrl__sub_803D65F8(u8 *eye) {
+void get_look_at_eye(u8 *eye) {
 }
 
 #pragma push

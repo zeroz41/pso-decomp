@@ -476,7 +476,7 @@ force_active:
   - TCameraCtrl__sub_8006B798
   - TCameraCtrl__sub_8006CC30
   - TCameraCtrl__sub_8006E804
-  - TCameraCtrl__sub_803D65F8
+  - get_look_at_eye__FPUc
   - TCameraCtrl__view_matrices
   - TCameraCtrl__view_matrix
   - TCameraCtrl__viewport_height
