@@ -16318,20 +16318,20 @@ force_active:
   - sub_802B0808__14TBoss6PlotFalzFv
   - sub_802B08F0__14TBoss6PlotFalzFv
   - sub_802B0A34__14TBoss6PlotFalzFv
-  - sub_802B245C__11TBoss6Type1Fv
-  - sub_802B24B4__11TBoss6Type1Fv
-  - sub_802B2724__11TBoss6Type1Fv
-  - sub_802B2A94__11TBoss6Type1Fv
-  - sub_802B2CB4__11TBoss6Type1Fv
-  - sub_802B2D68__11TBoss6Type1Fv
-  - sub_802B2F00__11TBoss6Type1Fv
-  - sub_802B3178__11TBoss6Type1Fv
-  - sub_802B31E4__11TBoss6Type1Fv
-  - sub_802B3320__11TBoss6Type1Fv
-  - sub_802B343C__11TBoss6Type1Fv
-  - sub_802B3564__11TBoss6Type1Fv
-  - sub_802B381C__11TBoss6Type1Fv
-  - sub_802B3B94__11TBoss6Type1Fv
+  - update_cenbtm_d__11TBoss6Type1Fv
+  - act_cenbtm_d__11TBoss6Type1Fv
+  - update_tkof_centop__11TBoss6Type1Fv
+  - update_down_centop__11TBoss6Type1Fv
+  - act_centop_u__11TBoss6Type1Fv
+  - act_centop_d__11TBoss6Type1Fv
+  - idle_chal_float__11TBoss6Type1Fv
+  - act_scream__11TBoss6Type1Fv
+  - update_fllsr_mv__11TBoss6Type1Fv
+  - act_fllsr_mv__11TBoss6Type1Fv
+  - update_sword_ud__11TBoss6Type1Fv
+  - update_sword_mv__11TBoss6Type1Fv
+  - update_kakusan__11TBoss6Type1Fv
+  - update_appear__11TBoss6Type1Fv
   - sub_802BA078__11TBoss6Type2Fv
   - sub_802BB498__11TBoss6Type2Fv
   - sub_802BB554__11TBoss6Type2Fv

@@ -787,9 +787,9 @@ void TBoss6Type1::load_params_from_table() {
     if ((f32) this->center_damage <= 0.0f) {
         this->center_damage = (s32) TBoss6Type1__param_table[3];
     }
-    this->m_4a4 = (s32) *(f32 *)((s8 *)temp_r3 + 0x14);
-    if ((f32) this->m_4a4 <= 0.0f) {
-        this->m_4a4 = (s32) TBoss6Type1__param_table[10];
+    this->float_time = (s32) *(f32 *)((s8 *)temp_r3 + 0x14);
+    if ((f32) this->float_time <= 0.0f) {
+        this->float_time = (s32) TBoss6Type1__param_table[10];
     }
     this->m_48c = (s32) *(s32 *)((s8 *)temp_r3 + 0x18);
     if ((s32) this->m_48c <= 0) {
@@ -807,17 +807,17 @@ void TBoss6Type1::load_params_from_table() {
     if ((s32) this->delta_threshold <= 0) {
         this->delta_threshold = (s32) TBoss6Type1__param_table[7];
     }
-    this->m_49c = (s32) *(s32 *)((s8 *)temp_r3 + 0x28);
-    if ((s32) this->m_49c <= 0) {
-        this->m_49c = (s32) TBoss6Type1__param_table[8];
+    this->laser_charge_time = (s32) *(s32 *)((s8 *)temp_r3 + 0x28);
+    if ((s32) this->laser_charge_time <= 0) {
+        this->laser_charge_time = (s32) TBoss6Type1__param_table[8];
     }
     this->laser_fire_time = (s32) *(s32 *)((s8 *)temp_r3 + 0x2C);
     if (this->laser_fire_time <= 0) {
         this->laser_fire_time = (s32) TBoss6Type1__param_table[9];
     }
-    this->pad_4a8 = (s32) *(f32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x2F)) + 0x14);
-    if ((f32) this->pad_4a8 <= 0.0f) {
-        this->pad_4a8 = (s32) TBoss6Type1__param_table[11];
+    this->low_hp_float_time = (s32) *(f32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x2F)) + 0x14);
+    if ((f32) this->low_hp_float_time <= 0.0f) {
+        this->low_hp_float_time = (s32) TBoss6Type1__param_table[11];
     }
 }
 
@@ -1214,7 +1214,7 @@ void TBoss6Type1::sub_802B6C30() {
     Vec d0;
     Vec q2;
     Vec q1;
-    if (0.0f == m_4dc) {
+    if (0.0f == laser_scale) {
         return;
     }
     n = TLobby::get_game_mode();
@@ -1234,12 +1234,12 @@ void TBoss6Type1::sub_802B6C30() {
     p3 = &pts[3];
     p2 = &pts[2];
     p1 = &pts[1];
-    A.x = m_4dc * (a->x - mid.x) + mid.x;
-    A.y = m_4dc * (a->y - mid.y) + mid.y;
-    A.z = m_4dc * (a->z - mid.z) + mid.z;
-    B.x = m_4dc * (b->x - mid.x) + mid.x;
-    B.y = m_4dc * (b->y - mid.y) + mid.y;
-    B.z = m_4dc * (b->z - mid.z) + mid.z;
+    A.x = laser_scale * (a->x - mid.x) + mid.x;
+    A.y = laser_scale * (a->y - mid.y) + mid.y;
+    A.z = laser_scale * (a->z - mid.z) + mid.z;
+    B.x = laser_scale * (b->x - mid.x) + mid.x;
+    B.y = laser_scale * (b->y - mid.y) + mid.y;
+    B.z = laser_scale * (b->z - mid.z) + mid.z;
     for (i = 0; i < n; i++) {
         pl = TObjPlayer::get_player_data(i);
         if (TBoss6PlotFalz::is_active(pl) == 0) {
@@ -1500,24 +1500,24 @@ void TBoss6Type1::sub_802B6504() {
 }
 
 void TBoss6Type1::increase_field_clamped_max() {
-    this->m_4dc += 0.033333335f;
-    if (this->m_4dc > 1.0f) {
-        this->m_4dc = 1.0f;
+    this->laser_scale += 0.033333335f;
+    if (this->laser_scale > 1.0f) {
+        this->laser_scale = 1.0f;
     }
 }
 void TBoss6Type1::decrease_field_clamped_min() {
-    this->m_4dc += -0.13333334f;
-    if (this->m_4dc < 0.0f) {
-        this->m_4dc = 0.0f;
+    this->laser_scale += -0.13333334f;
+    if (this->laser_scale < 0.0f) {
+        this->laser_scale = 0.0f;
     }
 }
 
 void TBoss6Type1::reset_param() {
-    this->m_4dc = 0.0f;
+    this->laser_scale = 0.0f;
 }
-// Draws bml model 0 at node_points[7], turned to face the viewing player and scaled by m_4dc.
+// Draws bml model 0 at node_points[7], turned to face the viewing player and scaled by laser_scale.
 void TBoss6Type1::sub_802B626C() {
-    if (this->m_4dc != 0.0f) {
+    if (this->laser_scale != 0.0f) {
         saddr fish = (saddr)get_bml_texlist((BmlResource *)this->bml_resource, 0);
         saddr model = (saddr)get_bml_model((BmlResource *)this->bml_resource, 0);
         s32 pitch = 0;
@@ -1528,10 +1528,10 @@ void TBoss6Type1::sub_802B626C() {
         static f32 s_grow_end = 0.1f;
         f32 width = s_min_width;
         f32 height;
-        if (this->m_4dc < s_grow_end) {
-            height = this->m_4dc / s_grow_end;
+        if (this->laser_scale < s_grow_end) {
+            height = this->laser_scale / s_grow_end;
         } else {
-            width = (this->m_4dc - s_grow_end) / (1.0f - s_grow_end) * (s_max_width - s_min_width) + s_min_width;
+            width = (this->laser_scale - s_grow_end) / (1.0f - s_grow_end) * (s_max_width - s_min_width) + s_min_width;
             height = 1.0f;
         }
         TObjPlayer *player = get_player_by_client_id(
@@ -1788,7 +1788,7 @@ void TBoss6Type1::sub_802B5AB0() {
 void TBoss6Type1::sub_802B59CC() {
     Vec eye = TBoss6Type1__data_80470FB4;
     Vec target = lbl_80470FC0;
-    f32 t = m_4dc;
+    f32 t = laser_scale;
     if (t > 0.0f) {
         eye.x += t * lbl_80470FCC.x;
         eye.y += t * lbl_80470FCC.y;

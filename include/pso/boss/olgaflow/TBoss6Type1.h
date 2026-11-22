@@ -86,10 +86,10 @@ struct TBoss6Type1 : public TObjEnemy {
     s32 pad_490;
     s32 m_494;
     s32 delta_threshold;  // is_field4b0_delta_reached compares calc_field4b0_delta() with it
-    s32 m_49c;
+    s32 laser_charge_time;  // FLLSR_MV: frames before the laser fires (act_fllsr_mv adds it to the duration)
     s32 laser_fire_time;
-    s32 m_4a4;
-    s32 pad_4a8;
+    s32 float_time;  // RND_FLOAT duration (init_attack_timers)
+    s32 low_hp_float_time;  // RND_FLOAT duration once low_hp_flag is set
     s32 low_hp_flag;  // set_flag_on_threshold sets it once hp_ratio drops below a third
     s32 latched_hp;  // latch_phase_counter stores hp; calc_field4b0_delta returns the damage since
     f32 damage_step_scale;  // check_field4b0_threshold: damage since the latch vs this * m_494, then * 1.5
@@ -101,7 +101,7 @@ struct TBoss6Type1 : public TObjEnemy {
     Vec prev_effect_point; // effect_points[1] of the previous frame, name inferred
     f32 hit_flash;  // run_hit_reaction sets 1, run_task fades it out over 15 updates
     f32 hp_ratio;   // hp / referenceHp, run_task
-    f32 m_4dc;
+    f32 laser_scale;  // grows to 1 while the FLLSR_MV laser fires; scales the beam drawn at node_points[7]
     s32 timer_limit;    // is_timer_expired: 0 or less never runs
     s32 timer_elapsed;  // counts up to timer_limit
     f32 sway_offset;    // update_sway eases it toward its target
@@ -207,20 +207,20 @@ struct TBoss6Type1 : public TObjEnemy {
     void choose_next_action();
     void init_attack_timers();
     void init_effect_slot_1();
-    void sub_802B245C();
-    void sub_802B24B4();
-    void sub_802B2724();
-    void sub_802B2A94();
-    void sub_802B2CB4();
-    void sub_802B2D68();
-    void sub_802B2F00();
-    void sub_802B3178();
-    void sub_802B31E4();
-    void sub_802B3320();
-    void sub_802B343C();
-    void sub_802B3564();
-    void sub_802B381C();
-    void sub_802B3B94();
+    void update_cenbtm_d();
+    void act_cenbtm_d();
+    void update_tkof_centop();
+    void update_down_centop();
+    void act_centop_u();
+    void act_centop_d();
+    void idle_chal_float();
+    void act_scream();
+    void update_fllsr_mv();
+    void act_fllsr_mv();
+    void update_sword_ud();
+    void update_sword_mv();
+    void update_kakusan();
+    void update_appear();
     void draw_model();
     void render();
     void release_map_csn();
