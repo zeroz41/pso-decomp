@@ -14,6 +14,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/epsilon/TObjEneEpsilonGuard.h"
+#include "pso/unk/text_803626A8.h"
 #include "pso/enemy/epsilon/TObjEneEpsilonBody.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/system/BmlResourceDescriptor.h"
