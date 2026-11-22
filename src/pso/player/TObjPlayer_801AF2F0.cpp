@@ -1246,7 +1246,6 @@ Obj_801B4FD8 * init_player_join_record(Obj_801B4FD8 *self);
 void handle_6x2D_release_hold(void *arg0);
 void handle_6x2C_impose_hold(saddr arg0);
 void send_6x2C_impose_hold(saddr arg0, Vec *pos, s16 arg2, s16 arg3, f32 radius);
-int check_flag_100__10TObjPlayerFPv(void* p);
 void *TObjPlayer__sub_801B57E8(TObjPlayer *player);
 s32 is_action_channel_available__10TObjPlayerFii(saddr arg0, s32 arg1);
 void TObjPlayer__sub_801B5A44(saddr arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
@@ -4309,7 +4308,7 @@ void TObjPlayer::select_contextual_pickup_action() {
                                 }
                             } else {
                                 type = 0;
-                                if (check_flag_100__10TObjPlayerFPv(this) == 0 && ((TObjPlayer *)(((u8 *)this) + 0x550))->check_action_usable(4) != 0) {
+                                if (is_controls_locked() == 0 && ((TObjPlayer *)(((u8 *)this) + 0x550))->check_action_usable(4) != 0) {
                                     play_sound_effect(0x3816, (saddr)((TObjPlayer *)ent)->get_position_ptr(), 0, 1);
                                 }
                             }
@@ -4464,7 +4463,7 @@ void TObjPlayer::reset_equip_slots() { mask_action_buttons((char*)this + 0x550, 
 
 void TObjPlayer::init_parts() { fn_8019DD24((char*)this + 0x550, (uaddr)((void*)1030)); ((TChallenge4PResult *)this)->get_player_rank(); this->clear_state_flags(256); }
 
-int check_flag_100__10TObjPlayerFPv(void* p) { return ((TObjPlayer *)p)->check_flag(256); }
+s32 TObjPlayer::is_controls_locked() { return check_flag(256); }
 
 int TObjPlayer::has_valid_handle() { return ((TObjPlayer *)(*(void**)((char*)this + 0x380)))->is_handle_valid(); }
 
@@ -4852,7 +4851,7 @@ s32 TObjPlayer::is_target_valid() {
     if ((uaddr) this->m_424 == 0U) {
         return 0;
     }
-    if (((u16) this->interactor != 0xFFFF) || (((s32 (*)(void))check_flag_100__10TObjPlayerFPv)() != 0) || (((TMainCursor *)(this->m_424))->is_cursor_clear() == 0) || (this->check_flag_0x40000000() != 0) || (test_action_mask(0x1E) == 0)) {
+    if (((u16) this->interactor != 0xFFFF) || (is_controls_locked() != 0) || (((TMainCursor *)(this->m_424))->is_cursor_clear() == 0) || (this->check_flag_0x40000000() != 0) || (test_action_mask(0x1E) == 0)) {
         return 0;
     }
     return 1;
@@ -4879,7 +4878,7 @@ s32 TObjPlayer::can_use_action() {
     if (((TObjPlayer *)((saddr)this + 0x550))->check_action_usable(0x200) == 0) {
         return 0;
     }
-    if (((s32 (*)(s32))check_flag_100__10TObjPlayerFPv)((saddr)this) != 0) {
+    if (is_controls_locked() != 0) {
         return 0;
     }
     if (this->test_action_mask(0x200) != 0) {
@@ -5231,7 +5230,7 @@ s32 TObjPlayer::dispatch_palette_action(u32 act) {
 }
 
 s32 TObjPlayer::can_use_camera_field() {
-    if ((((s32 (*)(void))check_flag_100__10TObjPlayerFPv)() != 0) || (this->get_camera_field() == 0) || (is_current_area_item_enabled() == 0)) {
+    if ((is_controls_locked() != 0) || (this->get_camera_field() == 0) || (is_current_area_item_enabled() == 0)) {
         return 0;
     }
     return 1;

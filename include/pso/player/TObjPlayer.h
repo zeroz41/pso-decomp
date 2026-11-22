@@ -390,6 +390,8 @@ struct TObjPlayer : public TObjChara {
     static saddr get_battle_param(int a0);
     s32 check_player_flag1();
     s32 check_flag(s32 arg1);
+    // Set while a menu window holds the player's input, with the action buttons masked.
+    s32 is_controls_locked();
     static void sync_player_globals();
     static void begin_alpha_blend(f32 alpha);
     void*get_position_ptr();

@@ -98,7 +98,6 @@ void *create_window_menu_default(void *p, s32 a);
 s32 get_floor_destination_name(s32 f);
 void hide_part__9TObjLukerFPvUs(Obj_801A0C38 *self, u16 i);
 f32 horizontal_distance_squared(void *, void *);
-s32 check_flag_100__10TObjPlayerFPv(void *);
 s32 play_persistent_sound(int, void *, void *, int, int);
 s32 TTecLuker__sub_8023401C(void *);
 s32 get_entity_id(int);
@@ -212,7 +211,7 @@ s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range) {
         if (p != NULL) {
             pos = p->pos;
             if (!(p->flags & 0x800)) {
-                if (check_flag_100__10TObjPlayerFPv(p) == 1) {
+                if (((TObjPlayer *)p)->is_controls_locked() == 1) {
                     ret = 0;
                 }
                 if (horizontal_distance_squared(arg0, pos) > range) {
@@ -265,7 +264,7 @@ s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0) {
             if (p != 0U) {
                 if (horizontal_distance_squared((void *)(arg0 + 0x38), (void *)(p + 0x38)) < (farg0 * farg0)) {
                     found = 1;
-                    if ((p != 0U) && (check_flag_100__10TObjPlayerFPv((void *)p) == 0)) {
+                    if ((p != 0U) && (((TObjPlayer *)p)->is_controls_locked() == 0)) {
                         ((TObjLuker *)arg0)->show_part((int) (get_entity_id(p)));
                     }
                 } else {
@@ -275,7 +274,7 @@ s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0) {
         }
         for (saddr i = 0; i < 4; i++) {
             p = PBC_801A10A0(i);
-            if ((p != 0U) && (check_flag_100__10TObjPlayerFPv((void *)p) == 1)) {
+            if ((p != 0U) && (((TObjPlayer *)p)->is_controls_locked() == 1)) {
                 C38_801A10A0((void *)arg0, (int) (get_entity_id((int)p)));
             }
         }
@@ -286,7 +285,7 @@ s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0) {
         }
         if (found != 0) {
             if (p != 0U) {
-                if (check_flag_100__10TObjPlayerFPv((void *)p) == 0) {
+                if (((TObjPlayer *)p)->is_controls_locked() == 0) {
                     ((TObjLuker *)arg0)->show_part((int) (get_entity_id(p)));
                 } else {
                     C38_801A10A0((void *)arg0, (int) (get_entity_id((int)p)));
@@ -416,7 +415,7 @@ void TObjLuker::run_task() {
                         }
                     } else {
                         p = PBC_801A1418(local_client_id);
-                        if (p != NULL && check_flag_100__10TObjPlayerFPv(p) == 0 &&
+                        if (p != NULL && ((TObjPlayer *)p)->is_controls_locked() == 0 &&
                             TWindowShortListCtrl__check_controller_button(controller_input_state[sp8].btn, 4) != 0) {
                             flag = 1;
                         }

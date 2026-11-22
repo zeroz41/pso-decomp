@@ -147,7 +147,6 @@ THunterGuildWarning::THunterGuildWarning(TObject *object, void *arg2) : TObject(
 
 extern "C" {
 TObjPlayer *get_player_by_client_id(s32 id);
-int check_flag_100__10TObjPlayerFPv(void *p);
 f32 xz_distance_squared(const f32 *a, const f32 *b);
 
 #pragma push
@@ -168,7 +167,7 @@ s32 TPlayerBattleCtrl4P::fn_80211B10(s32 id) {
     for (i = 0; i < 4; i++) {
         if (client_id != i) {
             TObjPlayer *other = get_player_by_client_id(i);
-            if (other != NULL && check_flag_100__10TObjPlayerFPv(other) != 0) {
+            if (other != NULL && other->is_controls_locked() != 0) {
                 result = 3;
             }
         }

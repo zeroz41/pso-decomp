@@ -113,7 +113,6 @@ extern "C" {
 
 s32 get_current_floor();
 void free_collision_body_parts(void *);
-s32 check_flag_100__10TObjPlayerFPv();
 }
 
 extern BmlResource *boss8_dragon_resource;
@@ -1732,7 +1731,8 @@ void TBoss8Dragon::calc_velocity_from_angle() {
 }
 
 s32 TBoss8Dragon::mask_flags(s32 input_flags, s32 mask) {
-    if ((get_player_by_client_id(local_client_id) == 0U) || (check_flag_100__10TObjPlayerFPv() != 0)) {
+    TObjPlayer *player = get_player_by_client_id(local_client_id);
+    if ((player == NULL) || (player->is_controls_locked() != 0)) {
         input_flags &= 0xFFFCF9F9;
     }
     return input_flags & mask;

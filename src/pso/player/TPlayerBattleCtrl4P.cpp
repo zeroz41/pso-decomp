@@ -167,7 +167,6 @@ void TLobby__sub_801036CC();
 void TLobby__sub_8020BC50();
 void TKeyBoardControl__sub_8000F950(void);
 s32 reset_players();
-s32 check_flag_100__10TObjPlayerFPv();
 char team_matchup_message_buffer[256];
 }
     extern int evt2_random_enemies_mode;
@@ -623,7 +622,8 @@ void TPlayerBattleCtrl4P::close_rematch_menu() {
 #pragma pop
 
 void TPlayerBattleCtrl4P::wait_for_rematch_menu_button() {
-    if ((get_player_by_client_id(local_client_id) != 0U) && (check_flag_100__10TObjPlayerFPv() == 0) && (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 6) != 0)) {
+    TObjPlayer *player = (TObjPlayer *)get_player_by_client_id(local_client_id);
+    if ((player != NULL) && (player->is_controls_locked() == 0) && (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 6) != 0)) {
         set_score((saddr)((5)));
     }
 }

@@ -14,6 +14,7 @@
 #include "pso/unk/text_8024AD30.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/PlayerSlots.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "types.h"
@@ -33,11 +34,9 @@ const char *window_chat_type_name_pointer = "TWindowChat";
 extern "C" {
 saddr TAdSinglePlyChrSelectGC__sub_80076D9C(saddr arg0, saddr arg1);
 int get_chat_shortcut(s32 arg0);
-void *get_player_by_client_id(s32 client);
 extern s32 local_client_id;
 saddr fn_8002AE08(s32);
 void send_chat_shortcut(s32);
-s32 check_flag_100__10TObjPlayerFPv();
 extern u8 controller_input_state[];
 s32 __nw__7TObjectFUl(int);
 saddr get_window_layout_position(int);
@@ -171,10 +170,11 @@ void TWindowChat::handle_dpad_shortcuts() {
     if (TWindowShortListCtrl__check_controller_button(pad, 0xF0) == 0) {
         return;
     }
-    if (get_player_by_client_id(local_client_id) == NULL) {
+    TObjPlayer *player = get_player_by_client_id(local_client_id);
+    if (player == NULL) {
         return;
     }
-    if (check_flag_100__10TObjPlayerFPv() != 0) {
+    if (player->is_controls_locked() != 0) {
         return;
     }
     if (test_previous_buttons_packed(pad, fn_8002AE08(local_client_id)) == 0) {

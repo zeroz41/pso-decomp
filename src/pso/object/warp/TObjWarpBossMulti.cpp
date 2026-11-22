@@ -115,7 +115,6 @@ extern u32 player_slot_table[];
 extern s32 lbl_805D55C0;
 
 
-int check_flag_100__10TObjPlayerFPv(void *p);
 
 
 }
@@ -765,7 +764,7 @@ void TObjWarpBoss::update_warp_boss_visibility() {
     if ((player != NULL) && (player->has_flag_0x800() != 0)) {
         var_r30 = 0;
     }
-    if ((player != NULL) && (check_flag_100__10TObjPlayerFPv(player) != 0)) {
+    if ((player != NULL) && (player->is_controls_locked() != 0)) {
         var_r30 = 0;
     }
     if (var_r30 == 0) {

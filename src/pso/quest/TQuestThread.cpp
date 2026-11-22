@@ -23,6 +23,7 @@
 #include "pso/unk/TUnk_804C8678.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/player/TUnk_804B6C24.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowCtrl_8024B1A0.h"
 #include "pso/ui/window/TWindowMakeTeam.h"
@@ -60,7 +61,6 @@ struct ByteBlock_20 { u8 bytes[0x20]; };
 struct ByteBlock_100 { u8 bytes[0x100]; };
 
 extern "C" {
-int check_flag_100__10TObjPlayerFPv(void *p);
 void *get_window_layout_position(s32);
 void TQuestThread__sub_801F5D88(void);
 void __dt__16TObjItemOKWindowFv();
@@ -310,8 +310,8 @@ void TQuestThreadBoard::run_task() {
         TQuestThread::queue_destruction(parent);
         break;
     case QST_WAIT_MESSAGE: {
-        void *player = get_player_by_client_id(local_client_id);
-        if (player != NULL && check_flag_100__10TObjPlayerFPv(player) == 0 &&
+        TObjPlayer *player = get_player_by_client_id(local_client_id);
+        if (player != NULL && player->is_controls_locked() == 0 &&
             TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 4) != 0) {
             u16 id = TWindowCtrl::get_window_id();
             if (is_actor_speech_balloon_done(id) == 0) {
@@ -500,8 +500,8 @@ void TQuestThread::run_task() {
         queue_destruction(parent);
         break;
     case QST_WAIT_MESSAGE: {
-        void *player = get_player_by_client_id(local_client_id);
-        if (player != NULL && check_flag_100__10TObjPlayerFPv(player) == 0 &&
+        TObjPlayer *player = get_player_by_client_id(local_client_id);
+        if (player != NULL && player->is_controls_locked() == 0 &&
             TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 4) != 0) {
             u16 id = TWindowCtrl::get_window_id();
             if (is_actor_speech_balloon_done(id) == 0) {

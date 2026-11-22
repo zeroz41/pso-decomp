@@ -4,6 +4,7 @@
 #include "pso/item/shop/TShopGenerator.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TObject.h"
 
@@ -72,7 +73,6 @@ f32 vec3_dot(void *, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
 s32 get_entity_id(s32);
 int is_flag_400_set__10TObjPlayerFPv(void *p);
-int check_flag_100__10TObjPlayerFPv(void *p);
 s32 poll_memcard_result(saddr);
 extern u8 controller_input_state[];
 extern s32 lbl_805D55C0;
@@ -142,7 +142,7 @@ void TShopGenerator::run_task() {
             if (is_slot_active(get_entity_id(p)) == 1) continue;
             if (TMedicalCenterMes::get_slot_flag(get_entity_id(p)) == 1) continue;
             if (is_flag_400_set__10TObjPlayerFPv((void *)p) == 1) continue;
-            if (check_flag_100__10TObjPlayerFPv((void *)p) == 1) continue;
+            if (((TObjPlayer *)p)->is_controls_locked() == 1) continue;
             get_slot_flag = service->get_slot_flag;
             if (get_slot_flag((u16)TShopGenerator__sub_80222DAC(get_entity_id(p))) == 1) continue;
             if (TWindowShortListCtrl__check_controller_button(controller_input_state + ((TRaderMapCore *)p)->get_map_id() * 0x50 + 0x20, 4) == 0) continue;
@@ -156,7 +156,7 @@ void TShopGenerator::run_task() {
         if (is_slot_active(get_entity_id(q)) == 1) return;
         if (TMedicalCenterMes::get_slot_flag(get_entity_id(q)) == 1) return;
         if (is_flag_400_set__10TObjPlayerFPv((void *)q) == 1) return;
-        if (check_flag_100__10TObjPlayerFPv((void *)q) == 1) return;
+        if (((TObjPlayer *)q)->is_controls_locked() == 1) return;
         if (is_no_service_active(this, q) == 0) return;
         get_slot_flag2 = service->get_slot_flag;
         if (get_slot_flag2((u16)TShopGenerator__sub_80222DAC(get_entity_id(q))) == 1) return;

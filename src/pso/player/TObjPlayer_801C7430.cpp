@@ -1072,7 +1072,6 @@ int is_flag_400_set__10TObjPlayerFPv(void *p);
 void enable_action_input__10TObjPlayerFPv(void *p);
 void TObjPlayer__sub_801B4430(saddr arg0);
 void send_code_49_1__10TObjPlayerFi(saddr arg0);
-s32 check_flag_100__10TObjPlayerFPv(void *);
 u16 TObjPlayer__sub_801B5AF8(void *, s32);
 u32 resolve_move_collision__10TObjPlayerFv(void *);
 s32 damp_planar_velocity();
@@ -1512,7 +1511,7 @@ void TObjPlayer__sub_801C7874(u8 *player) {
     Pkt_801C7874 b;
     s32 target;
     f32 amount;
-    if (check_flag_100__10TObjPlayerFPv(player) == 0 && ((Player_801C7874 *)player)->f328 != 0 &&
+    if (((TObjPlayer *)player)->is_controls_locked() == 0 && ((Player_801C7874 *)player)->f328 != 0 &&
         (((TObjPlayer *)(player + 0x550))->check_action_usable(2) != 0 ||
          (((TObjPlayer *)player)->is_action_flag_28() == 0 && TKeyBoardControl__sub_801A58B0() != 0 && TKeyBoardControl::is_key_down(0x24) != 0) ||
          (((TObjPlayer *)player)->is_action_flag_28() != 0 && TKeyBoardControl__sub_801A58B0() != 0 && TKeyBoardControl::is_key_down(0x18) != 0))) {
@@ -1525,7 +1524,7 @@ void TObjPlayer__sub_801C7874(u8 *player) {
         ((s32 (*)(void *))TObjPlayer__sub_801D109C)(player + 0x34C);
         return;
     }
-    if (check_flag_100__10TObjPlayerFPv(player) == 0 && ((TObjPlayer *)(player + 0x550))->check_action_usable(4) != 0) {
+    if (((TObjPlayer *)player)->is_controls_locked() == 0 && ((TObjPlayer *)(player + 0x550))->check_action_usable(4) != 0) {
         if (player == NULL || ((TObjChara *)player)->obj_isState2_324() == 0) {
             ((s32 (*)(void *))TObjPlayer__sub_801D1090)(player + 0x34C);
             ((s32 (*)(void *))TObjPlayer__sub_801D1144)(&a);
@@ -1593,10 +1592,10 @@ s16 TObjPlayer::select_idle_action() {
         return -1;
     }
     if ((TObjPlayer::get_hold_effect_count() == 0) && (TFontSmallLobby::is_lobby_floor_15() != 0)) {
-        if (((TKeyBoardControl__sub_801A58B0() != 0) && (TKeyBoardControl::is_key_down(0x24) != 0)) || ((check_flag_100__10TObjPlayerFPv(this) == 0) && (((TObjPlayer *)(arg0 + 0x550))->try_ground_action(0x400) != 0) && (((TObjPlayer *)(arg0 + 0x550))->check_action_usable(4) != 0))) {
+        if (((TKeyBoardControl__sub_801A58B0() != 0) && (TKeyBoardControl::is_key_down(0x24) != 0)) || ((is_controls_locked() == 0) && (((TObjPlayer *)(arg0 + 0x550))->try_ground_action(0x400) != 0) && (((TObjPlayer *)(arg0 + 0x550))->check_action_usable(4) != 0))) {
             return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m65();
         }
-        if (((TKeyBoardControl__sub_801A58B0() != 0) && (TKeyBoardControl::is_key_down(0x18) != 0)) || ((check_flag_100__10TObjPlayerFPv(this) == 0) && (((TObjPlayer *)(arg0 + 0x550))->try_ground_action(0x400) != 0) && (((TObjPlayer *)(arg0 + 0x550))->check_action_usable(2) != 0))) {
+        if (((TKeyBoardControl__sub_801A58B0() != 0) && (TKeyBoardControl::is_key_down(0x18) != 0)) || ((is_controls_locked() == 0) && (((TObjPlayer *)(arg0 + 0x550))->try_ground_action(0x400) != 0) && (((TObjPlayer *)(arg0 + 0x550))->check_action_usable(2) != 0))) {
             return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m66();
         }
         if (TKeyBoardControl__sub_801A58B0() != 0) {
@@ -3027,7 +3026,7 @@ void TObjPlayer::check_reopen_return_city_window() {
   {
     this->m_36c = 0U;
   }
-  if (((((((TObjPlayer *)(arg0 + 0x550))->check_action_usable(4) != 0) && (TObjPlayer::is_camera_mode_active() == 0)) && (TTecCtrl::is_technique_ready() == 0)) && ((TObjPlayer::check_camera_mode() == 0) || ((TObjPlayer::check_camera_mode() != 0) && (get_main_phase() == 0xF)))) && (check_flag_100__10TObjPlayerFPv(this) == 0))
+  if (((((((TObjPlayer *)(arg0 + 0x550))->check_action_usable(4) != 0) && (TObjPlayer::is_camera_mode_active() == 0)) && (TTecCtrl::is_technique_ready() == 0)) && ((TObjPlayer::check_camera_mode() == 0) || ((TObjPlayer::check_camera_mode() != 0) && (get_main_phase() == 0xF)))) && (is_controls_locked() == 0))
   {
     this->create_return_city_window();
   }
@@ -3793,7 +3792,7 @@ void TObjPlayer::send_6x37_photon_blast() {
 
 s32 TObjPlayer::check_conditions() {
     saddr arg0 = (saddr)this;
-    if ((this->obj_testFlags30(0x20006) != 0) || (this->test_action_mask(0x11E) == 0) || (TObjPlayer__sub_801C1F50((void *)(arg0 + 0x4AC)) == 0) || (((TObjPlayer *)(arg0 + 0x4AC))->check_flag_clear() == 0) || ((TObjPlayer::is_locally_controlled(this) != 0) && ((((s32 (*)(s32))check_flag_100__10TObjPlayerFPv)(arg0) != 0) || (this->get_camera_field() == 0))) || (((s32 (*)(s32))reset_volopt_state__10TObjPlayerFv)(arg0) == 0)) {
+    if ((this->obj_testFlags30(0x20006) != 0) || (this->test_action_mask(0x11E) == 0) || (TObjPlayer__sub_801C1F50((void *)(arg0 + 0x4AC)) == 0) || (((TObjPlayer *)(arg0 + 0x4AC))->check_flag_clear() == 0) || ((TObjPlayer::is_locally_controlled(this) != 0) && ((is_controls_locked() != 0) || (this->get_camera_field() == 0))) || (((s32 (*)(s32))reset_volopt_state__10TObjPlayerFv)(arg0) == 0)) {
         return 0;
     }
     return 1;
@@ -4206,7 +4205,7 @@ void TObjPlayer::pay_tp_and_send_6x48_cast() {
 }
 
 s32 TObjPlayer::try_camera_action(saddr arg0, s32 arg1) {
-    if ((TObjPlayer::is_locally_controlled((void *)arg0) != 0) && ((((s32 (*)(s32))check_flag_100__10TObjPlayerFPv)(arg0) != 0) || (((TObjPlayer *)arg0)->get_camera_field() == 0))) {
+    if ((TObjPlayer::is_locally_controlled((void *)arg0) != 0) && ((((TObjPlayer *)arg0)->is_controls_locked() != 0) || (((TObjPlayer *)arg0)->get_camera_field() == 0))) {
         return 0;
     }
     return ((s32 (*)(s32, s32))can_start_technique__10TObjPlayerFPvi)(arg0, arg1);
@@ -5010,7 +5009,7 @@ block_5:
 }
 
 s32 TObjPlayer::can_perform_physical_action() {
-    if ((this->obj_testFlags30(0x20006) != 0) || (this->obj_testFlags30(0x02000000) != 0) || (this->check_flag(2) != 0) || (this->test_action_mask(0x548000) != 0) || ((TObjPlayer::is_locally_controlled(this) != 0) && ((check_flag_100__10TObjPlayerFPv(this) != 0) || (this->get_camera_field() == 0))) || (reset_volopt_state__10TObjPlayerFv(this) == 0)) {
+    if ((this->obj_testFlags30(0x20006) != 0) || (this->obj_testFlags30(0x02000000) != 0) || (this->check_flag(2) != 0) || (this->test_action_mask(0x548000) != 0) || ((TObjPlayer::is_locally_controlled(this) != 0) && ((is_controls_locked() != 0) || (this->get_camera_field() == 0))) || (reset_volopt_state__10TObjPlayerFv(this) == 0)) {
         return 0;
     }
     return 1;

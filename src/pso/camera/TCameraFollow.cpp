@@ -44,7 +44,6 @@ __declspec(section ".rodata") Vec follow_camera_reset_eye_offset = { 0.0f, 0.0f,
 
 u8 camera_override_flags;
 
-extern "C" s32 check_flag_100__10TObjPlayerFPv(void *);
 
 // A pair like the (a, b) offsets request_follow_camera_offsets takes; only the first is read.
 Vec follow_camera_offset_default[2] = {
@@ -701,7 +700,7 @@ void TCameraFollow::run_task() {
     case 1:
         i = TCameraCtrl::get_nth_view_player_id(TCameraCtrl::get_camera_no());
         player = get_player_by_client_id(i);
-        if ((player != NULL && check_flag_100__10TObjPlayerFPv(player) == 0) || TWindowCtrl::get_flag_bit3() == 1) {
+        if ((player != NULL && player->is_controls_locked() == 0) || TWindowCtrl::get_flag_bit3() == 1) {
             i = get_camera_reset_button(i);
             if ((TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[((TRaderMapCore *)player)->get_map_id()], i) != 0 && close_up == 0) || recenter_requested != 0) {
                 recenter_requested = 0;

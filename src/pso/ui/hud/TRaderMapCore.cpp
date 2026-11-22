@@ -266,7 +266,6 @@ s32 init_radar_floor_flags(s32 floor, RadarInitMap_801F9474 *map);
 void* __ct__5THeapFUli(void*, u32, s32);
 void TRaderMapCore__sub_801F95CC(void);
 void GXSetScissor(u32, u32, u32, u32);
-int check_flag_100__10TObjPlayerFPv(void *p);
 void *get_player_by_client_id(s32 i);
 f32 xz_distance_squared(void *, void *);
 extern Gate_801FA1E0 TRaderMapCore__marker_buffer[128];
@@ -655,7 +654,7 @@ void TRaderMapCore::update_pan_zoom_input() {
     s32 k;
     for (i = 0; i < 4; i++) {
         p = (uaddr)get_player_by_client_id(i);
-        if (p != 0 && check_flag_100__10TObjPlayerFPv((void *)p) != 0) {
+        if (p != 0 && ((TObjPlayer *)p)->is_controls_locked() != 0) {
             return;
         }
     }
@@ -728,7 +727,7 @@ s32 TRaderMapCore::is_render_admitted(void *arg1) {
         if (((TObjPlayer *)(((Radar_801FADF0 *)this)->f184))->is_body_collision_inactive() != 0) {
             return 0;
         }
-        if (check_flag_100__10TObjPlayerFPv((void *)(((Radar_801FADF0 *)this)->f184)) != 0 && TRaderMapCore__view_mode != 1) {
+        if (((TObjPlayer *)(((Radar_801FADF0 *)this)->f184))->is_controls_locked() != 0 && TRaderMapCore__view_mode != 1) {
             return 0;
         }
     } else {
@@ -746,7 +745,7 @@ s32 TRaderMapCore::is_render_admitted(void *arg1) {
     }
     for (i = 0; i < 4; i++) {
         p = (uaddr)get_player_by_client_id(i);
-        if (p != 0 && check_flag_100__10TObjPlayerFPv((void *)p) != 0 && (saddr)arg1 == 2) {
+        if (p != 0 && ((TObjPlayer *)p)->is_controls_locked() != 0 && (saddr)arg1 == 2) {
             return 0;
         }
     }

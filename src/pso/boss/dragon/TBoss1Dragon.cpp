@@ -271,7 +271,6 @@ static Vec boss1_dragon_held_camera_targets[4] = {
     {300.0f, 120.0f, 50.0f},
 };
 f32 atan2_float(f32 y, f32 x);
-s32 check_flag_100__10TObjPlayerFPv();
 void subtractive_rng_seed(void *, u32);
 f32 calc_random_ratio__10TObjPlayerFv(void *);
 }
@@ -2154,7 +2153,8 @@ void TBoss1Dragon::updateFacingPosition() {
 }
 
 s32 TBoss1Dragon::filter_input_flags(s32 input_flags, s32 mask) {
-    if ((get_player_by_client_id(local_client_id) == NULL) || (check_flag_100__10TObjPlayerFPv() != 0)) {
+    TObjPlayer *player = get_player_by_client_id(local_client_id);
+    if ((player == NULL) || (player->is_controls_locked() != 0)) {
         input_flags &= 0xFFFCF9F9;
     }
     return input_flags & mask;

@@ -163,7 +163,6 @@ struct Target_8013B70C {
 
 extern "C" {
 extern u8 shared_effect_texture_list[];
-s32 check_flag_100__10TObjPlayerFPv(void *);
 s32 play_sound_effect(s32, void *, s32, s32);
 
 extern "C" void render__7TObjectFv();
@@ -221,7 +220,6 @@ s32 quick_sort_partition__11TMainCursorFiPvii(saddr self, Ent_8013C678 *a, s32 l
 void TMainCursor__sub_8013F170(void *p, s32 v);
 void clear_target_cursor_list(void *p);
 
-s32 check_flag_100__10TObjPlayerFPv(void *player);
 s32 is_key_machine_ready__10TObjPlayerFv();
 s32 TMainCursor__sub_8013E2A0(void *list);
 s16 TMainCursor__sub_8013E298(void *entry);
@@ -926,7 +924,7 @@ void TMainCursor::bind_action_channels() {
     if (player == 0) {
         return;
     }
-    if (check_flag_100__10TObjPlayerFPv((void *)player) != 0 && ((TMainCursor *)(&self->channel))->is_channel_active() != 0) {
+    if (((TObjPlayer *)player)->is_controls_locked() != 0 && ((TMainCursor *)(&self->channel))->is_channel_active() != 0) {
         type = get_action_palette_tag_mode(&self->channel);
         enabled = get_action_palette_tag_slot(&self->channel);
         if (is_current_area_item_enabled() == 0) {
@@ -1432,7 +1430,7 @@ void TMainCursor::validate_target() {
             this->update_target_sub();
             return;
         }
-        if (check_flag_100__10TObjPlayerFPv(t) == 0 && ((TObjCollidable *)t)->obj_testFlags30(0x20006) != 0) {
+        if (((TObjPlayer *)t)->is_controls_locked() == 0 && ((TObjCollidable *)t)->obj_testFlags30(0x20006) != 0) {
             this->update_target_sub();
             return;
         }

@@ -7,7 +7,6 @@ extern "C" {
 
 s32 get_game_play_mode();
 s32 reset_volopt_state__10TObjPlayerFv(s32);
-int check_flag_100__10TObjPlayerFPv(void *p);
 void *get_player_by_client_id(s32 i);
 s32 TObjPlayer__sub_80354C7C(s32);
 s32 is_local_client();
@@ -43,7 +42,7 @@ s32 TObjPlayer::is_player_valid_target(s32 client_index) {
         return 0;
     }
     temp_r31 = (saddr)get_player_by_client_id((u16) client_index);
-    if ((TObjPlayer__sub_80354C7C(client_index) == 0) || (check_flag_100__10TObjPlayerFPv((void *)temp_r31) != 0) || (reset_volopt_state__10TObjPlayerFv(temp_r31) == 0)) {
+    if ((TObjPlayer__sub_80354C7C(client_index) == 0) || (((TObjPlayer *)temp_r31)->is_controls_locked() != 0) || (reset_volopt_state__10TObjPlayerFv(temp_r31) == 0)) {
         return 0;
     }
     return 1;

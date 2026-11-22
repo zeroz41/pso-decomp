@@ -16,7 +16,6 @@
 #pragma readonly_strings on
 
 extern "C" {
-s32 check_flag_100__10TObjPlayerFPv();
 const char *TObjInfoCol__class_name = "TObjInfoCol";
 
 void TObjInfoCol::bswap_6x78() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); bswap_32((u32 *)((char*)this + 0x8)); }
@@ -34,12 +33,12 @@ s32 TObjInfoCol::is_target_in_range(f32 radius_squared) {
 
 void TObjInfoCol::run_task() {
     f32 radius = interaction_radius;
-    uaddr player;
+    TObjPlayer *player;
     if (is_target_in_range(radius * radius) == 1 &&
         TWindowShortListCtrl__check_controller_button((u8 *)&controller_input_state + 0x20, 4) != 0 &&
-        ((player = (uaddr)get_player_by_client_id(local_client_id), player == 0) ||
-         check_flag_100__10TObjPlayerFPv() == 0) &&
-        (player == 0 || ((TObjPlayer *)player)->is_inactive() != 0) &&
+        ((player = get_player_by_client_id(local_client_id)) == NULL ||
+         player->is_controls_locked() == 0) &&
+        (player == NULL || player->is_inactive() != 0) &&
         TLobby::is_idle() != 0) {
         open_lobby_warp_menu__6TLobbyFv();
     }

@@ -153,7 +153,6 @@ void update_fade_in__14TObjWarpStringFPv(u8 *arg0);
 u8 * __ct__14TObjWarpStringFv(u8 *arg0, u8 *arg1, saddr arg2, s16 arg3);
 s32 can_warp__11TObjMapWarpFlUs(void *, u16);
 void TObjAreaWarpQuest__sub_8019DCD8(TObjPlayer *, s32);
-int check_flag_100__10TObjPlayerFPv(void *p);
 void send_6x21_inter_level_warp(void *obj, s32 value);
 void __ct__7TObjectFP7TObject(void *, void *);
 void *destroy__13TAdVIConfigGCFPvs(void *arg0, s16 arg1);
@@ -318,7 +317,7 @@ TObjWarpBase::~TObjWarpBase() {
 TObjPlayer *find_warp_player_in_range(TObjWarpBase *warp, u16 client_id, f32 range) {
     TObjPlayer *player = get_player_by_client_id(client_id);
     if ((player != NULL) && (xz_distance_squared(&warp->position, &player->position) < (range * range))) {
-        if (check_flag_100__10TObjPlayerFPv(player) == 1) {
+        if (player->is_controls_locked() == 1) {
             return NULL;
         }
         return player;
@@ -346,7 +345,7 @@ s32 TObjWarpBase::is_warp_enabled() {
     u32 id = this->user_client_id;
 
     player = NULL;
-    if ((id != 0xFFFF) && ((player = get_player_by_client_id(id), ((player == NULL) != 0)) || (check_flag_100__10TObjPlayerFPv(player) != 0))) {
+    if ((id != 0xFFFF) && ((player = get_player_by_client_id(id), ((player == NULL) != 0)) || (((TObjPlayer *)player)->is_controls_locked() != 0))) {
         return 0U;
     }
     if ((s32) quest_warp_enabled == 0) {
@@ -442,7 +441,7 @@ u8 TObjMapWarp::can_warp(s32 arg0, u16 arg1) {
 
     id = arg1;
     player = NULL;
-    if ((id != 0xFFFF) &&((player = get_player_by_client_id(id), ((player == NULL) != 0)) || (check_flag_100__10TObjPlayerFPv(player) != 0))) {
+    if ((id != 0xFFFF) &&((player = get_player_by_client_id(id), ((player == NULL) != 0)) || (((TObjPlayer *)player)->is_controls_locked() != 0))) {
         return 0U;
     }
     if ((s32) quest_warp_enabled == 0) {
@@ -633,7 +632,7 @@ s32 TObjAreaWarp::is_warp_enabled() {
     if (TRaderMapCore::is_not_split_screen() == 1) {
         var_r31 = 0;
 loop_2:
-        if (((player = get_player_by_client_id(var_r31)) != 0) && (check_flag_100__10TObjPlayerFPv(player) != 0)) {
+        if (((player = get_player_by_client_id(var_r31)) != 0) && (((TObjPlayer *)player)->is_controls_locked() != 0)) {
             return 0;
         }
         var_r31 += 1;
