@@ -583,11 +583,11 @@ void TBoss6Type2::set_target_state(s32 arg1, s32 arg2) {
     s32 temp_r30;
 
     temp_r31 = this->m_2e4;
-    temp_r30 = *(s32 *)&this->variant;
+    temp_r30 = this->variant;
     this->m_2e4 = TBoss6Type2::get_table_entry(arg1);
-    *(s32 *)&this->variant = arg2;
+    this->variant = arg2;
     update_segments();
-    if ((temp_r31 != (u32) this->m_2e4) || (temp_r30 != (s32) *(s32 *)&this->variant)) {
+    if ((temp_r31 != (u32) this->m_2e4) || (temp_r30 != (s32) this->variant)) {
         set_state_0x34();
     }
     if (this->mags[0] != 0) {
@@ -627,7 +627,7 @@ void TBoss6Type2::run_hit_reaction() {
     }
 }
 
-void TBoss6Type2::run_death_reaction() { if (*(int *)&action_state != 35) { set_action_state(35); } }
+void TBoss6Type2::run_death_reaction() { if ((s32)action_state != 35) { set_action_state(35); } }
 
 f32 TBoss6Type2::receive_physical_attack(void *att, f32 scale) {
     s32 var_r31;
@@ -1245,7 +1245,7 @@ void TBoss6Type2::update_segments() {
     this->params_copy.values[3] = temp_r0;
     this->params_copy.values[2] = temp_r0;
     this->params_copy.values[1] = temp_r0;
-    switch (*(s32 *)&this->variant) {
+    switch ((s32)this->variant) {
     case 1:
         this->params_copy.values[1] = (s16) this->m_456;
         break;
