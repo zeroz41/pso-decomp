@@ -17,6 +17,7 @@ public:
 
 extern "C" {
 void TBoss1DragonColli__sub_8002B35C(void *p);
+TObject *TBoss1Dragon__sub_8002B108(TBoss1DragonColli *self, s32 i);
 void draw__17TBoss1DragonColliFPvPv(void *p, void *a1, void *a2);
 }
 

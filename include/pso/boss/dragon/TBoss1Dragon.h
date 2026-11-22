@@ -241,6 +241,21 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     void clear_work();
     f32 calc_burrow_speed();
     void calc_target_vector();
+    s32 check_parts_visible(TObjCollidable *parts);
+    s32 is_sphere_visible(Vec *center, f32 radius);
+    s32 check_attack_ready();
+    void sweep_head_fall_spheres_late();
+    void update_from_data();
+    void sweep_body_attack_spheres(f32 a, f32 b, f32 c);
+    void apply_landing_attack();
+    void send_state_sync();
+    void spawn_trap(s32 id);
+    void play_se_at_pos(s32 id);
+    s32 select_forward_target();
+    s32 choose_burrow_ring_destination(Vec *out);
+    s32 is_destination_ahead();
+    void calc_follow_camera_offsets(Vec *eye, Vec *target);
+    void play_sound_if_in_band();
 };
 
 #include <stddef.h>

@@ -328,7 +328,7 @@ force_active:
   - TBoss1Dragon__sub_800277D8
   - TBoss1Dragon__sub_80028AFC
   - TBoss1Dragon__sub_80028B28
-  - TBoss1Dragon__sub_80028BE0
+  - play_sound_if_in_band__12TBoss1DragonFv
   - TBoss2Joint__param_table
   - TBoss2Joint__sub_80036940
   - __ct__18TBoss2PhotonBulletFP7TObjectP8TObjBaseP3VecP3Vecf
@@ -3949,7 +3949,7 @@ force_active:
   - apply_knockback_from_attacker__15TOAttackableColFPUcf
   - apply_knockback_from_attacker__19TContainerAncient01FPUcf
   - apply_knockback_from_attacker__20TContainerAncient01RFPUcf
-  - apply_landing_attack__12TBoss1DragonFi
+  - apply_landing_attack__12TBoss1DragonFv
   - apply_lightning_effect__26TBoss5GryphonLightningWingFv
   - apply_loaded_character__23TAdSinglePlyChrSelectGCFi
   - apply_lookup_entry_effect__12TObjEneSaverFv
@@ -4782,7 +4782,7 @@ force_active:
   - calc_drop_rarity__9TItemDropFiiPv
   - calc_duel_number_uv__FlPUcl
   - calc_field4f0_delta__11TBoss6Type2FPv
-  - calc_follow_camera_offsets__12TBoss1DragonFv
+  - calc_follow_camera_offsets__12TBoss1DragonFP3VecP3Vec
   - calc_follow_goal__10TNpcPlayerFv
   - calc_follow_position__11TCameraCtrlFv
   - calc_forward_point__12TBoss1DragonFPfPf
@@ -4991,7 +4991,7 @@ force_active:
   - check_and_set_reached__10TNpcPlayerFPv
   - check_any_player_in_range__12TObjRaderColFPv
   - check_attack_hits__19TObjEneBm9MericarolFv
-  - check_attack_ready__12TBoss1DragonFPv
+  - check_attack_ready__12TBoss1DragonFv
   - check_battle_end__6TLobbyFv
   - check_beam_player_hits__13TBoss6KakusanFv
   - check_bin_model_loaded__6TLobbyFPvPv
@@ -5032,7 +5032,7 @@ force_active:
   - check_open_trigger__20TContainerAncient01RFv
   - check_owner__13TObjTombstoneFv
   - check_page_cross__23TAdSinglePlyChrSelectGCFiiii
-  - check_parts_visible__12TBoss1DragonFiPv
+  - check_parts_visible__12TBoss1DragonFP14TObjCollidable
   - check_path_ahead__14TObjEneDolmOlmFlf
   - check_phase_advance__12TBoss1DragonFv
   - check_player_contact__14TOTrapChainSawFv
@@ -5065,7 +5065,7 @@ force_active:
   - choose_attack__13TObjEneBm3FlyFPv
   - choose_attack_heading_sector__11TBoss4Type3Fv
   - choose_attack_target__10TNpcPlayerFv
-  - choose_burrow_ring_destination__12TBoss1DragonFPvPv
+  - choose_burrow_ring_destination__12TBoss1DragonFP3Vec
   - choose_next_action__11TBoss4Type2Fv
   - choose_next_action__11TBoss6Type1Fv
   - choose_next_action__12TBoss1DragonFv
@@ -7296,7 +7296,7 @@ force_active:
   - is_confirm_pressed__8TOKeyColFv
   - is_controller_animated__8TFogCtrlFll
   - is_dead__12TBoss3VoloptFv
-  - is_destination_ahead__12TBoss1DragonFPv
+  - is_destination_ahead__12TBoss1DragonFv
   - is_done__16TObjItemOKWindowFv
   - is_downloadable_new_entry__12TQuestListVMFP14QuestBinHeader
   - is_duplicate_shop_armor
@@ -7370,7 +7370,7 @@ force_active:
   - is_signboard_texture_buffer_missing__Fv
   - is_slot_active__14TShopGeneratorFi
   - is_sound_enabled__12TObjEnvSoundFPvl
-  - is_sphere_visible__12TBoss1DragonFf
+  - is_sphere_visible__12TBoss1DragonFP3Vecf
   - is_split_screen__10TObjPlayerFv
   - is_stat_over_limit__6TLobbyFl
   - is_state_zero_unless_0x2C8__9TWindowDDFl
@@ -9426,7 +9426,7 @@ force_active:
   - play_player_default_effect__6TLobbyFv
   - play_proximity_effect__14TObjEneBm5WolfFv
   - play_se__13TBoss5GryphonFl
-  - play_se_at_pos__12TBoss1DragonFii
+  - play_se_at_pos__12TBoss1DragonFl
   - play_sifta_cast_sound__9TTecSiftaFv
   - play_sound__14TObjEneBm5WolfFPv
   - play_sound_events__10TObjCameraFv
@@ -15325,7 +15325,7 @@ force_active:
   - select_camera_controller__Fl
   - select_death_direction__14TObjEneBm5WolfFPvPv
   - select_farthest_visible_player__16TObjEneDellBiterFv
-  - select_forward_target__12TBoss1DragonFPv
+  - select_forward_target__12TBoss1DragonFv
   - select_item_icon__20TWindowSubStatusDispFPviUcUci
   - select_lobby_pigeon_model__13TUnk_804E0898Fv
   - select_melee_contact_body__11TOVS2Wall01FPvf
@@ -15401,7 +15401,7 @@ force_active:
   - send_state__12TODoorCave01FPv
   - send_state_change__15TOAttackableColFUs
   - send_state_if_dirty__17TWindowSubComCardFv
-  - send_state_sync__12TBoss1DragonFPv
+  - send_state_sync__12TBoss1DragonFv
   - send_subordinate_actions__11TBoss6Type2Flllll
   - send_swapped_telepipe_packet__9TTecLukerFv
   - send_switch_changed__11TOKeyCave01Fl
@@ -16048,7 +16048,7 @@ force_active:
   - spawn_sub_objects__15TBoss3VoloptP02Fv
   - spawn_targeted_beam__16TObjEneNanoDragoFl
   - spawn_title_screen__12TAdDialingGCFv
-  - spawn_trap__12TBoss1DragonFii
+  - spawn_trap__12TBoss1DragonFl
   - spawn_trap_by_stat__9TBoss6MagFv
   - spawn_wave_ring_particles__15TBoss6SwordWaveFv
   - split_bit_index__15TBoss6SwordWaveFlUcPvPv
@@ -16450,7 +16450,7 @@ force_active:
   - swap__24TBoss3VoloptAttackPacketFv
   - swap__25TBoss3VoloptTargetsPacketFv
   - swap__26TBoss3VoloptPositionPacketFv
-  - sweep_body_attack_spheres__12TBoss1DragonFv
+  - sweep_body_attack_spheres__12TBoss1DragonFfff
   - sweep_death_body_attack__12TBoss1DragonFv
   - sweep_head_fall_spheres_late__12TBoss1DragonFv
   - switch_state__14TBoss7TentacleFv
