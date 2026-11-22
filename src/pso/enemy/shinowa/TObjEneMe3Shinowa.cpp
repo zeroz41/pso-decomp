@@ -445,7 +445,7 @@ s32 TObjEneMe3Shinowa::check_in_range(f32) {
     return 1;
 }
 #pragma pop
-void TObjEneMe3Shinowa::vfunc_105() {
+void TObjEneMe3Shinowa::apply_sword_hits() {
     s32 late_hit;
     late_hit = is_passing_frame(19.0f);
     if ((is_passing_frame(9.0f) != 0) || (late_hit != 0)) {
@@ -578,7 +578,7 @@ void TObjEneMe3Shinowa::select_gold_or_normal_variant() {
     kind_index = 0;
 }
 
-void TObjEneMe3Shinowa::sub_800E6F0C() {
+void TObjEneMe3Shinowa::cast_resta() {
     saddr f = TObjEneDD::clamp_frame_index(TObjEneMe3ShinowaMirage__mirage_info_table[this->kind_index]->support_tech_level);
     TTecResta::create(this, &this->position, f);
 }
@@ -589,31 +589,31 @@ void TObjEneMe3Shinowa::dispatch_action(u32 state, s32 reason) {
         action(reason);
         return;
     case 1:
-        sub_800E6BB8(reason);
+        state_fade_appear(reason);
         return;
     case 2:
-        sub_800E69F0((s32)reason);
+        state_t_wait((s32)reason);
         return;
     case 3:
-        sub_800E66FC(reason);
+        state_drop_appear(reason);
         return;
     case 4:
         state_chase_target(reason);
         return;
     case 5:
-        sub_800E5F64((s32)reason);
+        state_f_attack((s32)reason);
         return;
     case 6:
-        sub_800E5CE4((s32)reason);
+        state_sword_attack((s32)reason);
         return;
     case 7:
-        sub_800E5950((s32)reason);
+        state_backstep((s32)reason);
         return;
     case 8:
-        sub_800E54E8(reason);
+        state_scatter(reason);
         return;
     case 11:
-        sub_800E5220(reason);
+        state_wait(reason);
         return;
     case 9:
         sub_800E50D8(reason);
@@ -622,19 +622,19 @@ void TObjEneMe3Shinowa::dispatch_action(u32 state, s32 reason) {
         state_cast_support(reason);
         return;
     case 12:
-        sub_800E4FE8(reason);
+        state_damage(reason);
         return;
     case 13:
         state_break_apart(reason);
         return;
     case 14:
-        vfunc_114(reason);
+        state_split_mirages(reason);
         return;
     case 15:
-        vfunc_115(reason);
+        state_fade_out(reason);
         return;
     case 16:
-        vfunc_116(reason);
+        state_toggle_cloak(reason);
     default:
         return;
     }
@@ -678,7 +678,7 @@ void TObjEneMe3Shinowa::action(s32 mode) {
     }
 }
 
-void TObjEneMe3Shinowa::sub_800E6BB8(s32 reason) {
+void TObjEneMe3Shinowa::state_fade_appear(s32 reason) {
     Vec pos;
     f32 y;
     switch (reason) {
@@ -703,7 +703,7 @@ void TObjEneMe3Shinowa::sub_800E6BB8(s32 reason) {
     }
 }
 
-void TObjEneMe3Shinowa::sub_800E69F0(s32 reason) {
+void TObjEneMe3Shinowa::state_t_wait(s32 reason) {
     s32 step;
     s32 ene_dd_st;
     switch (reason) {
@@ -762,7 +762,7 @@ void TObjEneMe3Shinowa::sub_800E69F0(s32 reason) {
     }
 }
 
-void TObjEneMe3Shinowa::sub_800E66FC(s32 reason) {
+void TObjEneMe3Shinowa::state_drop_appear(s32 reason) {
     f32 new_node_y;
     f32 node_world_y;
 
@@ -888,7 +888,7 @@ void TObjEneMe3Shinowa::state_chase_target(s32 mode) {
     }
 }
 
-void TObjEneMe3Shinowa::sub_800E5F64(s32 reason) {
+void TObjEneMe3Shinowa::state_f_attack(s32 reason) {
     Vec sp20;
     Vec sp14;
     Vec v;
@@ -1019,7 +1019,7 @@ void TObjEneMe3Shinowa::sub_800E5F64(s32 reason) {
     }
 }
 #pragma pop
-void TObjEneMe3Shinowa::sub_800E5CE4(s32 reason) {
+void TObjEneMe3Shinowa::state_sword_attack(s32 reason) {
     s32 angle;
     TObjEneMe3ShinowaParams *info;
     switch (reason) {
@@ -1045,7 +1045,7 @@ void TObjEneMe3Shinowa::sub_800E5CE4(s32 reason) {
         this->advance_animation();
         switch (this->state_step) {
         case 0:
-            this->vfunc_105();
+            this->apply_sword_hits();
             if (this->frame < 20.0f) {
                 if (((TObjEneEpsilon *)this)->update_death_check() != 0) {
                     this->enemy_copy_target_destination();
@@ -1083,7 +1083,7 @@ void TObjEneMe3Shinowa::sub_800E5CE4(s32 reason) {
     }
 }
 
-void TObjEneMe3Shinowa::sub_800E5950(s32 reason) {
+void TObjEneMe3Shinowa::state_backstep(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 2;
@@ -1161,7 +1161,7 @@ void TObjEneMe3Shinowa::sub_800E5950(s32 reason) {
     }
 }
 
-void TObjEneMe3Shinowa::sub_800E54E8(s32 reason) {
+void TObjEneMe3Shinowa::state_scatter(s32 reason) {
     Vec save_pos;
     Vec save_center;
     Vec dest;
@@ -1309,7 +1309,7 @@ void TObjEneMe3Shinowa::state_cast_support(s32 reason) {
         switch (state_step) {
         case 0:
             if (get_flag_b4() != 0) {
-                sub_800E6F0C();
+                cast_resta();
                 if (TObjEneDD::check_v2_mode() != 0) {
                     state_step = 2;
                 } else {
@@ -1337,7 +1337,7 @@ void TObjEneMe3Shinowa::state_cast_support(s32 reason) {
     }
 }
 
-void TObjEneMe3Shinowa::sub_800E5220(s32 reason) {
+void TObjEneMe3Shinowa::state_wait(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 8;
@@ -1406,7 +1406,7 @@ void TObjEneMe3Shinowa::sub_800E50D8(s32 reason) {
     }
 }
 
-void TObjEneMe3Shinowa::sub_800E4FE8(s32 reason) {
+void TObjEneMe3Shinowa::state_damage(s32 reason) {
     Vec dir;
     f32 len;
     switch (reason) {
@@ -1490,11 +1490,11 @@ void TObjEneMe3Shinowa::state_break_apart(s32 reason) {
     }
 }
 #pragma pop
-void TObjEneMe3Shinowa::vfunc_114(s32) {  }
+void TObjEneMe3Shinowa::state_split_mirages(s32) {  }
 
-void TObjEneMe3Shinowa::vfunc_115(s32) {  }
+void TObjEneMe3Shinowa::state_fade_out(s32) {  }
 
-void TObjEneMe3Shinowa::vfunc_116(s32) {  }
+void TObjEneMe3Shinowa::state_toggle_cloak(s32) {  }
 
 void TObjEneMe3ShinowaMirage::advance_camera_ctrl_step(NJS_OBJECT *) {
     if ((s32) TObjEneMe3ShinowaMirage__render_node_index == 1) {
@@ -1717,7 +1717,7 @@ void TObjEneMe3ShinowaReal::spawn_mirages() {
 }
 #pragma push
 #pragma fp_contract on
-void TObjEneMe3ShinowaReal::vfunc_114(s32 mode) {
+void TObjEneMe3ShinowaReal::state_split_mirages(s32 mode) {
     s32 i;
     s32 n;
     Vec pos;
@@ -1786,7 +1786,7 @@ void TObjEneMe3ShinowaReal::vfunc_114(s32 mode) {
     }
 }
 
-void TObjEneMe3ShinowaReal::vfunc_116(s32 mode) {
+void TObjEneMe3ShinowaReal::state_toggle_cloak(s32 mode) {
     Vec pos;
     u32 flags;
     TParticleCtrl *emitter;
@@ -1923,7 +1923,7 @@ void TObjEneMe3ShinowaMirage::run_hit_reaction() {
     clear_attack_receipts();
 }
 
-void TObjEneMe3ShinowaMirage::vfunc_105() {  }
+void TObjEneMe3ShinowaMirage::apply_sword_hits() {  }
 
 s32 TObjEneMe3ShinowaMirage::can_hit_same_target() { return 0; }
 
@@ -1986,7 +1986,7 @@ void TObjEneMe3ShinowaMirage::render() {
     }
 }
 
-void TObjEneMe3ShinowaMirage::vfunc_115(s32 mode) {
+void TObjEneMe3ShinowaMirage::state_fade_out(s32 mode) {
     switch (mode) {
     case 4:
         behavior_flags &= ~3;

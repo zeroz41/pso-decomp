@@ -9,8 +9,8 @@ struct TObjEneMe3ShinowaMirage;
 struct TObjEneMe3ShinowaReal : public TObjEneMe3Shinowa {
     TObjEneMe3ShinowaReal(TObject *parent, void *set_data);
     virtual ~TObjEneMe3ShinowaReal();
-    virtual void vfunc_114(s32);
-    virtual void vfunc_116(s32);
+    virtual void state_split_mirages(s32);
+    virtual void state_toggle_cloak(s32);
     virtual void select_next_attack_state();
     virtual void on_target_lost();
     void consume_spawn_request();

@@ -36,7 +36,7 @@ struct TObjEneMe3Shinowa : public TObjEneDD_ST {
     virtual void dispatch_action(u32 state, s32 reason);
     virtual void update_body_colliders();
     virtual void check_collisions();
-    virtual void vfunc_105();
+    virtual void apply_sword_hits();  // inferred: hits at frames 9 and 19 of the sword motion; empty on mirages
     virtual s32 can_hit_same_target();
     virtual void select_next_attack_state();
     virtual void update_player_state_default();
@@ -45,9 +45,11 @@ struct TObjEneMe3Shinowa : public TObjEneDD_ST {
     virtual void on_target_lost();
     virtual void apply_effect_pair();
     virtual void action(s32);
-    virtual void vfunc_114(s32);
-    virtual void vfunc_115(s32);
-    virtual void vfunc_116(s32);
+    // inferred: states 14-16. 14 plays the transform motion and sends the mirages out (Real), 15 fades a mirage out
+    // and parks it (Mirage), 16 plays the transform motion and toggles the cloak (behavior_flags 0x80000, Real).
+    virtual void state_split_mirages(s32);
+    virtual void state_fade_out(s32);
+    virtual void state_toggle_cloak(s32);
     virtual void update_mirage();
     virtual void render_demo();
     void init_enemy();
@@ -56,7 +58,7 @@ struct TObjEneMe3Shinowa : public TObjEneDD_ST {
     s32 is_mirage_enabled();
     s32 is_gold_enabled();
     void select_gold_or_normal_variant();
-    void sub_800E6BB8(s32);
+    void state_fade_appear(s32);
     void run_death_reaction();
     void run_hit_reaction();
     void run_miss_reaction();
@@ -76,8 +78,8 @@ struct TObjEneMe3Shinowa : public TObjEneDD_ST {
     s32 target_angle;
     f32 move_speed;
     f32 m_414;
-    Vec start_position;  // position on entering sub_800E54E8
-    TParticleCtrl *particle_emitters[2];  // particles 0x115 / 0x116 of sub_800E54E8
+    Vec start_position;  // position on entering state_scatter
+    TParticleCtrl *particle_emitters[2];  // particles 0x115 / 0x116 of state_scatter
     void copy_position_vector();
     void fn_800E762C();
     s32 check_in_range(f32);
@@ -85,16 +87,19 @@ struct TObjEneMe3Shinowa : public TObjEneDD_ST {
     void state_cast_support(s32 reason);
     void state_chase_target(s32 mode);
     void update_by_distance();
-    void sub_800E4FE8(s32 reason);
+    // inferred: state handlers named after the motion they request (action table -> bm_ene_me3_shinowa_motion_names):
+    // fade_appear/drop_appear apper, t_wait t_wait, f_attack f_attack, sword_attack sword, backstep backstep,
+    // wait wait, damage damage; scatter spreads each body by its mirage_index from start_position.
+    void state_damage(s32 reason);
     void sub_800E50D8(s32 reason);
-    void sub_800E5220(s32 reason);
-    void sub_800E54E8(s32 reason);
-    void sub_800E5CE4(s32 reason);
-    void sub_800E5F64(s32 reason);
-    void sub_800E66FC(s32 reason);
-    void sub_800E69F0(s32 reason);
-    void sub_800E6F0C();
-    void sub_800E5950(s32 reason);
+    void state_wait(s32 reason);
+    void state_scatter(s32 reason);
+    void state_sword_attack(s32 reason);
+    void state_f_attack(s32 reason);
+    void state_drop_appear(s32 reason);
+    void state_t_wait(s32 reason);
+    void cast_resta();
+    void state_backstep(s32 reason);
     void sub_800E7268();
 };
 
