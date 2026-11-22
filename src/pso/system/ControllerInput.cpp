@@ -1,4 +1,6 @@
 #include "types.h"
+#include <dolphin/os/OSResetSW.h>
+#include <dolphin/pad.h>
 #include "pso/system/ControllerInput.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/system/main_loop.h"
@@ -11,6 +13,8 @@
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/system/data/pso_date.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 const u32 input_button_mask_table[14] = {
     0x10, 0x20, 0x40, 0x80, 0x100000, 0x200000, 0x400000, 0x800000,
@@ -23,18 +27,10 @@ u8 controller_reset_requested;
 s8 keyboard_reset_button_pressed;
 s8 pad_recalibration_hold_frames[4];
 extern "C" {
-s32 is_split_screen();
-s32 DVDCheckDisk();
+BOOL DVDCheckDisk();
 extern s32 lbl_805D49B4;
 s32 func_801A5E54__Fv(void);
-s32 PADRecalibrate(u32);
-extern u32 pad_recalibration_counters[];
-void update_pad_recalibration(void);
-f64 atan2_float(f32, f32);
-f32 newton_sqrtf(f32);
-void bind_controller_devices(void);
 }
-void reset_system();
 
 struct Kb_801A6910 {
     u32 f0;
@@ -56,7 +52,6 @@ s32 lbl_805D34C8 = 1;
 ControllerInputState controller_input_state;
 ControllerInputState controller_physical_port_bank;
 u32 pad_recalibration_counters[4];
-s32 OSGetResetButtonState();
 
 void TKeyBoardControl::reset() { controller_reset_requested = 0; }
 
@@ -124,7 +119,6 @@ void update_state_from_input__16TKeyBoardControlFPv(u8 key) {
     hardware_keyboard_state.sub_801323C8(key);
 }
 
-extern s32 actor_frame_tick;
 
 s32 TKeyBoardControl::check_input_angle() {
     s32 temp_r4_2;
@@ -479,7 +473,6 @@ struct Rec_801A67A4
 
 extern "C" {
 void copy_state__16TKeyBoardControlFPvPv(Rec_801A67A4 *arg0, Rec_801A67A4 *arg1);
-s32 is_split_screen(void);
 
 void bind_controller_devices(void) {
     PadSlot *slot;
