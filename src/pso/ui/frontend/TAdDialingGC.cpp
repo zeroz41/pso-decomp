@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/frontend/TAdTitleGC.h"
-#include "pso/render/ColorLineList.h"
 #include "types.h"
 #include "pso/render/Draw2D.h"
 #include "pso/system/ControllerInputState.h"
@@ -125,26 +124,26 @@ void TAdDialingGC::draw_if_flag_set() {
 
 // Draws a flat dark-blue quad of `size` (w, h) at `origin` (x, y) (one 2D polygon, four points).
 void draw_dialing_rectangle(const NJS_POINT2 *origin, const NJS_POINT2 *size) {
-    ColorLineVertex pos[4];
-    ColorLineList poly;
-    u32 col[4];
-    poly.verts = pos;
-    poly.colors = col;
-    poly.unk_8 = 0;
-    poly.count = 4;
-    poly.verts[0].x = origin->x;
-    poly.verts[0].y = origin->y;
-    poly.colors[0] = 0x8F;
-    poly.verts[1].x = origin->x;
-    poly.verts[1].y = origin->y + size->y;
-    poly.colors[1] = 0x8F;
-    poly.verts[2].x = origin->x + size->x;
-    poly.verts[2].y = origin->y + size->y;
-    poly.colors[2] = 0x8F;
-    poly.verts[3].x = origin->x + size->x;
-    poly.verts[3].y = origin->y;
-    poly.colors[3] = 0x8F;
-    draw_polygon_2d(reinterpret_cast<NJS_POINT2COL *>(&poly), 4, 7, -120.0f);
+    NJS_POINT2 pos[4];
+    NJS_POINT2COL poly;
+    NJS_COLOR col[4];
+    poly.p = pos;
+    poly.col = col;
+    poly.tex = NULL;
+    poly.num = 4;
+    poly.p[0].x = origin->x;
+    poly.p[0].y = origin->y;
+    poly.col[0].color = 0x8F;
+    poly.p[1].x = origin->x;
+    poly.p[1].y = origin->y + size->y;
+    poly.col[1].color = 0x8F;
+    poly.p[2].x = origin->x + size->x;
+    poly.p[2].y = origin->y + size->y;
+    poly.col[2].color = 0x8F;
+    poly.p[3].x = origin->x + size->x;
+    poly.p[3].y = origin->y;
+    poly.col[3].color = 0x8F;
+    draw_polygon_2d(&poly, 4, 7, -120.0f);
 }
 
 void TAdDialingGC__sub_80328B20(TAdDialingGC *) {}

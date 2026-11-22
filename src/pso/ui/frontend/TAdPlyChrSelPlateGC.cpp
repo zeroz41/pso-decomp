@@ -1,7 +1,6 @@
 #include "types.h"
 #include "pso/render/ColorCopy.h"
 #include "pso/render/Draw2D.h"
-#include "pso/render/ColorLineList.h"
 #include <stddef.h>
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/ui/frontend/TAdPlyChrSelPlateGC.h"
@@ -17,35 +16,35 @@ const char *TAdPlyChrSelPlateGC__name = "TAdPlyChrSelPlateGC";
 #pragma push
 #pragma fp_contract on
 void draw_selection_plate(TAdPlyChrSelPlateGC *plate, NJS_POINT2 *pos, NJS_COLOR color, u32 depth) {
-    ColorLineList fan;
-    ColorLineVertex *xyp;
-    u32 col[4];
-    ColorLineVertex xy[4];
+    NJS_POINT2COL fan;
+    NJS_POINT2 *xyp;
+    NJS_COLOR col[4];
+    NJS_POINT2 xy[4];
     f32 y;
     f32 x;
 
     x = pos->x;
     y = pos->y;
-    fan.colors = col;
+    fan.col = col;
     xyp = xy;
     if ((!&color && !&color) && !&color) {
     }
-    fan.verts = xyp;
-    fan.unk_8 = 0;
-    fan.count = 4;
-    fan.verts[0].x = x;
-    fan.verts[0].y = y;
-    copy4(&fan.colors[0], &color);
-    fan.verts[1].x = fan.verts[0].x;
-    fan.verts[1].y = fan.verts[0].y + plate->plate_size.y;
-    copy4(&fan.colors[1], &color);
-    fan.verts[2].x = fan.verts[0].x + plate->plate_size.x;
-    fan.verts[2].y = fan.verts[0].y + plate->plate_size.y;
-    copy4(&fan.colors[2], &color);
-    fan.verts[3].x = fan.verts[0].x + plate->plate_size.x;
-    fan.verts[3].y = fan.verts[0].y;
-    copy4(&fan.colors[3], &color);
-    draw_polygon_2d(reinterpret_cast<NJS_POINT2COL *>(&fan), 4, 7, 0.001f * (f32)depth + (-30.0f));
+    fan.p = xyp;
+    fan.tex = NULL;
+    fan.num = 4;
+    fan.p[0].x = x;
+    fan.p[0].y = y;
+    copy4(&fan.col[0], &color);
+    fan.p[1].x = fan.p[0].x;
+    fan.p[1].y = fan.p[0].y + plate->plate_size.y;
+    copy4(&fan.col[1], &color);
+    fan.p[2].x = fan.p[0].x + plate->plate_size.x;
+    fan.p[2].y = fan.p[0].y + plate->plate_size.y;
+    copy4(&fan.col[2], &color);
+    fan.p[3].x = fan.p[0].x + plate->plate_size.x;
+    fan.p[3].y = fan.p[0].y;
+    copy4(&fan.col[3], &color);
+    draw_polygon_2d(&fan, 4, 7, 0.001f * (f32)depth + (-30.0f));
 }
 #pragma pop
 
