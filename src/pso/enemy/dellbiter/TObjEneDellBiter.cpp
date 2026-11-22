@@ -487,7 +487,7 @@ s32 TObjEneDellBiter::fn_803059BC(const Vec *origin) {
     void *e;
     VecCopy(&pos, origin);
     pos.y += 15.0f;
-    hit = csnVectorUnder(&pos, (CsnGroup **)&m_120, 0x4007);
+    hit = csnVectorUnder(&pos, (CsnGroup **)&ground_cache, 0x4007);
     if (hit != NULL) {
         flags_3c4 = hit->contact[0].flags;
         if (flags_3c4 & 0x4000) {

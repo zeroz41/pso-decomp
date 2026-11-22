@@ -617,7 +617,7 @@ void TObjEneDelDepth::update_movement() {
             if (ang == 1) {
                 CsnHit *u;
                 p.y += 10.0f;
-                u = csnVectorUnder(&p, (CsnGroup **)&self->m_120, 0x16EF);
+                u = csnVectorUnder(&p, (CsnGroup **)&self->ground_cache, 0x16EF);
                 if (u != 0 && (u->contact->flags & 0xE0) == 0) {
                     break;
                 }
@@ -1051,7 +1051,7 @@ void TObjEneDelDepth::update_ground_check() {
     if ((actor_frame_tick % 5) == 0) {
         VecCopy(&point, &position);
         point.y += 15.0f;
-        hit = csnVectorUnder((Vec *)&point, (CsnGroup **)&m_120, 0x4000);
+        hit = csnVectorUnder((Vec *)&point, (CsnGroup **)&ground_cache, 0x4000);
         if (hit != NULL) {
             groundFlags = hit->contact->flags;
             VecCopy(&groundPoint, &hit->contact->point);

@@ -304,7 +304,7 @@ void TObjEneMerillLia::run_task() {
     update_prev_position();
     ((TBoss3VoloptHiraisin *)this)->copy_position();
     submit_cursor_candidate(this, -1);
-    m_2b4 += 1.0f;
+    frame_timer += 1.0f;
 }
 
 void TObjEneMerillLia::select_hurt_action() {
@@ -999,7 +999,7 @@ void TObjEneMerillLia::select_subtype() {
 }
 
 s32 TObjEneMerillLia::get_clamped_level() {
-    player_stats *p = (player_stats *)m_2b0;
+    player_stats *p = (player_stats *)stat_block;
     s32 v = 0;
     if (p != 0) {
         v = p->level;
@@ -1022,7 +1022,7 @@ void TObjEneMerillLia::spawn_death_effect() {
     Vec stack;
     stack.x = 0.0f;
     stack.y = 10.0f;
-    stack.z = 0.5f * ((player_stats *)m_2b0)->proportions;
+    stack.z = 0.5f * ((player_stats *)stat_block)->proportions;
     push_matrix_from(identity_matrix);
     rotate_matrix_y(0, rotation_y);
     rotate_vector_by_matrix(0, &stack, &stack);
@@ -1062,7 +1062,7 @@ void TObjEneMerillLia::spawn_ground_effect() {
     CsnHit *hit;
     VecCopy(&pos, &position);
     pos.y += 15.0f;
-    hit = csnVectorUnder(&pos, (CsnGroup **)&m_120, 5);
+    hit = csnVectorUnder(&pos, (CsnGroup **)&ground_cache, 5);
     if ((hit != NULL) && (hit->hit_mask & 4)) {
         if (((s32)((f32)actor_frame_tick * (3.0517578125e-05f * (f32)rand())) % 5) == 0) {
             particle = spawn_particle_effect(&hit->contact[2].point, 0x49);

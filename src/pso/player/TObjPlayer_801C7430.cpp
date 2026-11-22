@@ -2573,7 +2573,7 @@ void TObjPlayer::init_action() {
     clear_velocity(arg0);
     this->protection.set_frames(0x12C);
     this->phase = 0;
-    this->m_2b4 = 44.0f;
+    this->frame_timer = 44.0f;
     this->set_attacker_id(0xFFFF);
     this->set_action_state(0x12, (s16) ((s32 (*)(void))ret_801D26AC)());
     fn_800660B8();
@@ -2669,18 +2669,18 @@ void TObjPlayer::update_timer_action() {
 
     switch (this->phase) {
     case 0:
-        temp_f1 = this->m_2b4 - 1.0f;
-        this->m_2b4 = temp_f1;
+        temp_f1 = this->frame_timer - 1.0f;
+        this->frame_timer = temp_f1;
         if (temp_f1 < 0.0f) {
             this->phase = 1;
             TObjMotion::init(this->get_idle_animation());
             set_action_flag_40();
-            this->m_2b4 = 24.0f;
+            this->frame_timer = 24.0f;
         }
         break;
     case 1:
-        temp_f1_2 = this->m_2b4 - 1.0f;
-        this->m_2b4 = temp_f1_2;
+        temp_f1_2 = this->frame_timer - 1.0f;
+        this->frame_timer = temp_f1_2;
         if (temp_f1_2 < 0.0f) {
             ((s32 (*)(void))clear_status_bit6__10TObjPlayerFPv)();
             this->protection.set_frames((saddr)this->get_getup_protection_ticks());
@@ -3082,12 +3082,12 @@ void TObjPlayer::update_fall_reaction() {
         }
         if (this->motion_flags & 0x10) {
             this->phase = 1;
-            this->m_2b4 = 30.0f;
+            this->frame_timer = 30.0f;
         }
         break;
     case 1:
-        temp_f1 = this->m_2b4 - 1.0f;
-        this->m_2b4 = temp_f1;
+        temp_f1 = this->frame_timer - 1.0f;
+        this->frame_timer = temp_f1;
         if (temp_f1 < 0.0f) {
             this->phase = 2;
             this->requested_action = ((s16 (*)(void))query_child_state2__10TObjPlayerFPv)();

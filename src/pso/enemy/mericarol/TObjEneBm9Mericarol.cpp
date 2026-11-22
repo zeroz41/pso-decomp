@@ -1092,7 +1092,7 @@ void TObjEneBm9Mericarol::state_cast_technique(s32 reason) {
 }
 
 s32 TObjEneBm9Mericarol::get_clamped_level() {
-    player_stats *p = (player_stats *)m_2b0;
+    player_stats *p = (player_stats *)stat_block;
     s32 v = 0;
     if (p != 0) {
         v = p->level;
@@ -1313,7 +1313,7 @@ void TObjEneBm9Mericarol::play_step_effect() {
     VecCopy(&origin, &position);
     origin.y += 15.0f;
 
-    CsnHit *hit = csnVectorUnder(&origin, (CsnGroup **)&m_120, 0x15);
+    CsnHit *hit = csnVectorUnder(&origin, (CsnGroup **)&ground_cache, 0x15);
     if (hit != NULL) {
         u32 surface_mask = hit->hit_mask & 4;
         if (surface_mask != 0) {

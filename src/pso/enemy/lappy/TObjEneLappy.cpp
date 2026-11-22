@@ -784,9 +784,9 @@ void TObjEneLappy::refresh_target() {
     f32 d;
     if (is_actor_cadence_frame(0x1E) != 0) {
         if (actorFlags & 0x1000) {
-            if ((m_2b4 -= 1.0f) < 0.0f) {
+            if ((frame_timer -= 1.0f) < 0.0f) {
                 targetId = 0xFFFFU;
-                m_2b4 = 0.0f;
+                frame_timer = 0.0f;
             } else {
                 targetId = find_nearest_visible_player(this, NULL, ((LappyMovementParameters *)movementParameters)->target_range);
             }

@@ -458,12 +458,12 @@ u8 *TObjEneDD::snap_to_ground_at(u8 *dest) {
     Vec probe;
     CsnHit *hit;
     probe.x = target->x;
-    probe.y = target->y + *(f32 *)(this->m_2b0 + 0x10);
+    probe.y = target->y + *(f32 *)(this->stat_block + 0x10);
     probe.z = target->z;
-    if (csnVectorUnder(&probe, (CsnGroup **)&this->m_120, 0xE0) != NULL) {
+    if (csnVectorUnder(&probe, (CsnGroup **)&this->ground_cache, 0xE0) != NULL) {
         return NULL;
     }
-    hit = csnVectorUnder(&probe, (CsnGroup **)&m_120, 0x15);
+    hit = csnVectorUnder(&probe, (CsnGroup **)&ground_cache, 0x15);
     if (hit == NULL) {
         return NULL;
     }

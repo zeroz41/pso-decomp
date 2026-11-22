@@ -1551,7 +1551,7 @@ void TObjEneMe3Stelth::state_warp(s32 reason) {
                         q.z += p.z - this->current_target->position.z;
                         if (check_move_collision(&q) == 0 &&
                             csnVector(&this->current_target->position, &q, 0x88E0) == 0 &&
-                            csnVectorUnder(&p, (CsnGroup **)&this->m_120, 0x15) != 0 &&
+                            csnVectorUnder(&p, (CsnGroup **)&this->ground_cache, 0x15) != 0 &&
                             ((TScene *)(&p))->find_section_at_position() == this->room) {
                             VecCopy(&this->position, &p);
                             this->rotation_y = ang + 0xC000;
@@ -2109,7 +2109,7 @@ s32 TObjEneMe3Stelth::try_spawn_ground_effect(const Vec *origin) {
     CsnHit *hit;
     VecCopy(&pos, origin);
     pos.y += 15.0f;
-    hit = csnVectorUnder(&pos, (CsnGroup **)&m_120, 0x15);
+    hit = csnVectorUnder(&pos, (CsnGroup **)&ground_cache, 0x15);
     if (hit != NULL && (hit->hit_mask & 4)) {
         effect = spawn_particle_effect(&hit->contact[2].point, 0x49);
         if (effect != NULL) {

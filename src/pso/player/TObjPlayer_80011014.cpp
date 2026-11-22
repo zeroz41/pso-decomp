@@ -1210,7 +1210,7 @@ s16 obj_getS16_2BA(u8* p) {
 }
 
 int TObjChara::obj_getPtr2B0_1C() {
-    return *(int*)(this->m_2b0 + 0x1c);
+    return *(int*)(this->stat_block + 0x1c);
 }
 
 int obj_getPtr2B0_20(u8* p) {
@@ -1376,7 +1376,7 @@ void TObjChara::reset_motion_fields() {
     this->ground_normal.x = this->ground_normal.z = (0.0f);
     ground_normal.y = (1.0f);
     this->m_2ac = 0;
-    this->m_2b4 = (0.0f);
+    this->frame_timer = (0.0f);
     this->attacker_id = 0xFFFF;
     this->hit_flags = 0;
     this->phase = self->f32a = 0;
@@ -1392,11 +1392,11 @@ u8 *TObjChara::update_actor_ground_y() {
     CsnHit *hit;
     u8 *temp_r6;
     stack.x = *(f32 *)((s8 *)((u8 *)this) + 0x38);
-    temp_r6 = this->m_2b0;
+    temp_r6 = this->stat_block;
     temp_f1 = *(f32 *)((s8 *)((u8 *)this) + 0x3C);
     stack.y = temp_f1 + *(f32 *)((s8 *)temp_r6 + 0x10);
     stack.z = *(f32 *)((s8 *)((u8 *)this) + 0x40);
-    hit = csnVectorUnder(&stack, (CsnGroup **)&m_120, 0x15);
+    hit = csnVectorUnder(&stack, (CsnGroup **)&ground_cache, 0x15);
     if (hit == NULL) {
         return NULL;
     }
@@ -1410,11 +1410,11 @@ u8 *TObjChara::update_actor_ground_y_at(Vec *pos) {
     CsnHit *hit;
     u8 *temp_r6;
     stack.x = pos->x;
-    temp_r6 = this->m_2b0;
+    temp_r6 = this->stat_block;
     temp_f1 = pos->y;
     stack.y = temp_f1 + *(f32 *)((s8 *)temp_r6 + 0x10);
     stack.z = pos->z;
-    hit = csnVectorUnder(&stack, (CsnGroup **)&m_120, 0x15);
+    hit = csnVectorUnder(&stack, (CsnGroup **)&ground_cache, 0x15);
     if (hit == NULL) {
         return NULL;
     }
@@ -1426,9 +1426,9 @@ u8 *TObjChara::update_actor_ground_y_at(Vec *pos) {
 #pragma fp_contract on
 void TObjChara::calc_attach_pos() {
     u8 *arg0 = (u8 *)this;
-    if ((void *) this->m_2b0 != NULL) {
+    if ((void *) this->stat_block != NULL) {
         this->body_center.x = (f32) this->position.x;
-        this->body_center.y = (f32) (((0.5f) * *(f32 *)(this->m_2b0 + 0x10)) + this->position.y);
+        this->body_center.y = (f32) (((0.5f) * *(f32 *)(this->stat_block + 0x10)) + this->position.y);
         this->body_center.z = (f32) this->position.z;
         return;
     }
@@ -2879,7 +2879,7 @@ void TObjChara::apply_knockback_from_attacker(u8 *arg1, f32) {
         this->velocity.z = (0.0f);
         return;
     }
-    scale = 10.0f + (10.0f - *(f32 *)(this->m_2b0 + 0x14));
+    scale = 10.0f + (10.0f - *(f32 *)(this->stat_block + 0x14));
     if (scale < 0.0f) {
         scale = 0.0f;
     }
@@ -4008,9 +4008,9 @@ s32 TObjChara::add_actor_exp(s32 arg1) {
   u8 *temp_r3;
   int new_var;
   u8 *temp_r6;
-  temp_r6 = this->m_2b0;
+  temp_r6 = this->stat_block;
   *((s32 *) (((s8 *) temp_r6) + 0x1C)) = (s32) ((*((s32 *) (((s8 *) temp_r6) + 0x1C))) + arg1);
-  temp_r3 = this->m_2b0;
+  temp_r3 = this->stat_block;
   new_var = 0x05F5E0FF;
   if (new_var < ((s32) (*((s32 *) (((s8 *) temp_r3) + 0x1C)))))
   {
@@ -4023,9 +4023,9 @@ s32 TObjChara::add_actor_exp(s32 arg1) {
 s32 TObjChara::consume_timer_field(s32 arg1) {
     u8 *temp_r4;
     u8 *temp_r5;
-    temp_r5 = this->m_2b0;
+    temp_r5 = this->stat_block;
     *(s32 *)((s8 *)temp_r5 + 0x1C) = (s32) (*(s32 *)((s8 *)temp_r5 + 0x1C) - arg1);
-    temp_r4 = this->m_2b0;
+    temp_r4 = this->stat_block;
     if ((s32) *(s32 *)((s8 *)temp_r4 + 0x1C) < 0) {
         *(s32 *)((s8 *)temp_r4 + 0x1C) = 0;
         return 0;
@@ -4042,17 +4042,17 @@ s32 TObjPlayer::add_capped_counter_999(s32 arg1) {
     return 1;
 }
 
-s32 TObjChara::get_actor_level_index() { return *(s32*)((char*)this->m_2b0 + 0x18); }
+s32 TObjChara::get_actor_level_index() { return *(s32*)((char*)this->stat_block + 0x18); }
 
 s32 TObjPlayer::add_meseta(s32 amount) {
   TObjPlayer* self = this;
   s32 limit = 999999;
   int maximum;
-  ((ActorMesetaView *) self->m_2b0)->meseta += amount;
+  ((ActorMesetaView *) self->stat_block)->meseta += amount;
   maximum = limit;
-  if (maximum < ((ActorMesetaView *) self->m_2b0)->meseta)
+  if (maximum < ((ActorMesetaView *) self->stat_block)->meseta)
   {
-    ((ActorMesetaView *) self->m_2b0)->meseta = maximum;
+    ((ActorMesetaView *) self->stat_block)->meseta = maximum;
     return 0;
   }
   return 1;

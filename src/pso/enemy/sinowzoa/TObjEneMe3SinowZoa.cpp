@@ -1666,7 +1666,7 @@ void TObjEneMe3SinowZoa::state_warp(s32 mode) {
                         tmp.z += pos.z - this->current_target->position.z;
                         if (check_move_collision(&tmp) == 0 &&
                             csnVector(&this->current_target->position, &tmp, 0x88E0) == 0 &&
-                            csnVectorUnder(&pos, (CsnGroup **)&this->m_120, 0x15) != 0 &&
+                            csnVectorUnder(&pos, (CsnGroup **)&this->ground_cache, 0x15) != 0 &&
                             this->room == ((TScene *)(&pos))->find_section_at_position()) {
                             VecCopy(&this->position, &pos);
                             this->rotation_y = ang + 0xC000;
@@ -2177,7 +2177,7 @@ s32 TObjEneMe3SinowZoa::check_floor_contact(const Vec *origin) {
     void *p;
     VecCopy(&v, origin);
     v.y += 15.0f;
-    hit = csnVectorUnder(&v, (CsnGroup **)&this->m_120, 0x4007);
+    hit = csnVectorUnder(&v, (CsnGroup **)&this->ground_cache, 0x4007);
     if (hit != NULL) {
         this->floor_flags = hit->contact->flags;
         if (this->floor_flags & 0x4000) {

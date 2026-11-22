@@ -357,7 +357,7 @@ void TObjEneMoja::run_task() {
         (this->actorFlags) = (s32) ((this->actorFlags) & 0xFFDFFFFF);
         this->target = NULL;
     }
-    minimap_render_dot((u8 *)&this->position, -0x5DB4, 1, 0, this->m_2b4++);
+    minimap_render_dot((u8 *)&this->position, -0x5DB4, 1, 0, this->frame_timer++);
 }
 
 void TObjEneMoja::render() {
@@ -1354,7 +1354,7 @@ void TObjEneMoja::update_death_state() {
     if (is_passing_frame(27.0f) != 0) {
         v.x = 0.0f;
         v.y = 10.0f;
-        v.z = 0.5f * *(f32 *)(this->m_2b0 + 0x10);
+        v.z = 0.5f * *(f32 *)(this->stat_block + 0x10);
         push_matrix_from(identity_matrix);
         rotate_matrix_y(0, this->rotation_y);
         rotate_vector_by_matrix(0, &v, &v);

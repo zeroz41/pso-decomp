@@ -149,7 +149,7 @@ s32 TObjEneBm5GibonU__render_joint_y_rotation;
 extern "C" {
 
 s32 TObjEneBm5GibonU::get_clamped_level() {
-    player_stats *p = (player_stats *)m_2b0;
+    player_stats *p = (player_stats *)stat_block;
     s32 v = 0;
     if (p != 0) {
         v = p->level;
@@ -203,7 +203,7 @@ void TObjEneBm5GibonU::spawn_landing_effect(Vec *pos) {
     void *p;
     VecCopy(&v, pos);
     v.y += 15.0f;
-    hit = csnVectorUnder(&v, (CsnGroup **)&m_120, 5);
+    hit = csnVectorUnder(&v, (CsnGroup **)&ground_cache, 5);
     if (hit != NULL && (hit->hit_mask & 4)) {
         p = spawn_particle_effect(&hit->contact[2].point, 0x49);
         if (p != NULL) {
@@ -604,7 +604,7 @@ void TObjEneBm5GibonU::backjump_state(s32 msg) {
                         VecCopy(&v, (const Vec *)&this->body_center);
                         v.x += dx;
                         v.z += dz;
-                        if (csnVectorUnder(&v, (CsnGroup **)&this->m_120, 0x15) != 0) {
+                        if (csnVectorUnder(&v, (CsnGroup **)&this->ground_cache, 0x15) != 0) {
                             this->destination_direction.x = sin_table_lookup(ang);
                             this->destination_direction.y = 0.0f;
                             this->destination_direction.z = cos_table_lookup(ang);
@@ -908,7 +908,7 @@ void TObjEneBm5GibonU::repositioning_state(s32 msg) {
                     VecCopy(&v, &this->body_center);
                     v.x += dx;
                     v.z += dz;
-                    if (csnVectorUnder(&v, (CsnGroup **)&this->m_120, 0x15) != NULL) {
+                    if (csnVectorUnder(&v, (CsnGroup **)&this->ground_cache, 0x15) != NULL) {
                         this->substate = 1;
                         this->requested_action = 0x10;
                         this->destination_direction.x = sin_table_lookup(this->target_heading);

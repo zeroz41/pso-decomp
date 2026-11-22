@@ -619,7 +619,7 @@ void TBoss4Type2::choose_action_after_move() {
 }
 
 void TBoss4Type2::apply_resta_heal() {
-    s16 power = *(s16 *)(m_2b0 + 2);
+    s16 power = *(s16 *)(stat_block + 2);
     drain_player_hp(target_player, (power / 5) + (s32)TTecResta::calc_heal_amount(*(s32 *)((s8 *)TLobby::dispatch_shared_handler_a(0x37) + 0x1C)));
 }
 

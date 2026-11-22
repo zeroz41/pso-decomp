@@ -266,7 +266,7 @@ void TObjEneIllGill::run_task() {
     o->update_prev_position();
     ((TBoss3VoloptHiraisin *)o)->copy_position();
     submit_cursor_candidate(o, -1);
-    o->m_2b4 += 1.0f;
+    o->frame_timer += 1.0f;
 }
 
 void TObjEneIllGill::render() {

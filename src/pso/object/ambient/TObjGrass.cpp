@@ -590,7 +590,7 @@ void TObjGrass::run_task() {
     ((TObjEnemy *)arg0)->update_prev_position();
     ((TBoss3VoloptHiraisin *)arg0)->copy_position();
     submit_cursor_candidate(arg0, -1);
-    this->m_2b4 += (1.0f);
+    this->frame_timer += (1.0f);
 }
 
 void TObjGrass::render() {

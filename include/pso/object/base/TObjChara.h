@@ -7,6 +7,7 @@ struct Vec;
 struct ActorParamBlock;
 struct ControllerInputContext;
 struct AttackParams;
+struct CsnGroup;
 
 struct DirectAttackPayload {
     s32 kind;
@@ -128,81 +129,43 @@ public:
     void request_box_item_drop(const Vec *position, s32 random_item);
     virtual void *get_center();
     virtual void reset_motion_fields();
-    int m_fc;
-    u8 unk_100[0x3];
+    u8 pad_FC[0x7];
     u8 m_103;
-    void* m_104;
-    s32 m_108;
-    u8 unk_10C[0xA];
+    u8 pad_104[0x12];
     s16 m_116;
     u8 unk_118[0x2];
     s16 m_11a;
     s16 m_11c;
-    u8 unk_11E[0x1];
+    u8 pad_11E[0x1];
     u8 m_11f;
-    void* m_120;
-    u8 unk_124[0x4];
-    void * m_128;
-    u8 unk_12C[0xF];
+    CsnGroup *ground_cache;  // csnVectorUnder's cached candidate groups for ground probes
+    u8 pad_124[0x17];
     u8 m_13b;
-    u8 unk_13C[0x14];
-    f32 m_150;
-    u8 unk_154[0x3];
+    u8 pad_13C[0x1B];
     u8 m_157;
-    u8 unk_158[0x18];
-    s32 m_170;
-    u8 unk_174[0x10];
+    u8 pad_158[0x2C];
     s32 m_184;
-    u8 unk_188[0x7];
+    u8 pad_188[0x7];
     u8 m_18f;
-    u8 unk_190[0x8];
-    s16 m_198;
-    u8 unk_19A[0x11];
+    u8 pad_190[0x1B];
     u8 m_1ab;
-    u8 unk_1AC[0xC];
-    u32 m_1b8;
-    u8 unk_1BC[0x4];
-    s32 m_1c0;
+    u8 pad_1AC[0x18];
     TObject *unk_1C4;
-    int m_1c8;
+    u8 pad_1C8[0x4];
     u8 unk_1CC[0x2];
-    s16 m_1ce;
-    u8 unk_1D0[0x2];
-    u8 m_1d2;
-    u8 unk_1D3[0x11];
-    float m_1e4;
-    u8 unk_1E8[0x4];
-    s32 * m_1ec;
-    u8 unk_1F0[0x4];
-    s32 * m_1f4;
+    u8 pad_1CE[0x2A];
     u8 unk_1F8[0x4];
-    s32 m_1fc;
-    u8 unk_200[0x4];
-    s32 m_204;
-    u8 unk_208[0x4];
-    s32 m_20c;
-    u8 unk_210[0x4];
-    s32 m_214;
-    u8 unk_218[0x4];
-    s32 m_21c;
-    u8 unk_220[0x4];
-    f32 m_224;
-    u8 unk_228[0x4];
-    void* m_22c;
-    u8 unk_230[0x18];
+    u8 pad_1FC[0x4C];
     Vec ground_normal;
-    u8 unk_254[0x20];
-    void* m_274;
-    u8 unk_278[0x8];
-    void* m_280;
+    u8 pad_254[0x30];
     u8 unk_284[0x8];
-    u32 m_28c;
+    u8 pad_28C[0x4];
     Vec move_origin;  // where the current move started (calc_velocity_toward_destination's from)
     Vec move_destination;  // where the current move goes
     u8 *target;
     u32 m_2ac;
-    u8 * m_2b0;
-    f32 m_2b4;
+    u8 *stat_block;  // the stat block get_stats returns (ATP, MST, EVP, HP, DFP, ATA, LCK; proportions at +0x10)
+    f32 frame_timer;  // frames counted up or down by the current behaviour
     s16 hpmax;
     s16 tpmax;
     s16 hp_bonus;  // what items add to the HP maximum (add_actor_hp_bonus)
@@ -223,17 +186,17 @@ public:
     u16 attacker_id;  // entity id of whoever last hit it; 6x89 sets a player's killer
     u16 m_2d6;
     u16 m_2d8;
-    u8 unk_2DA[0x2];
+    u8 pad_2DA[0x2];
     // Bit 1: hit by a ranged attack (calc_distance_accuracy_penalty); bit 2: a
     // Recon whose Recobox died. Cleared with the attack receipts.
     u32 hit_flags;
-    void* m_2e0;
+    u8 pad_2E0[0x4];
     u32 target_attribute_mask;  // 1 native, 2 A.Beast, 4 machine (androids), 8 dark: what a weapon's attribute bonus targets
-    u8 unk_2E8[0x2];
+    u8 pad_2E8[0x2];
     s16 m_2ea;
-    u8 unk_2EC[0x2];
+    u8 pad_2EC[0x2];
     s16 m_2ee;
-    u8 unk_2F0[0x2];
+    u8 pad_2F0[0x2];
     s16 m_2f2;
     s16 m_2f4;
     s16 m_2f6;
@@ -247,11 +210,11 @@ public:
     AttackParams *attack_params;
     ActorParamBlock *param_block;  // get_actor_param_block
     u8 unk_320[0x2];
-    s16 m_322;
+    u8 pad_322[0x2];
     s16 control_state;  // who drives it: 6 a script, 7 a fixed pose
     s16 mode;
     s16 phase;
-    u8 unk_32A[0x2];
+    u8 pad_32A[0x2];
     s16 hp;
     u16 tp;
     u8 unk_330[0x4];

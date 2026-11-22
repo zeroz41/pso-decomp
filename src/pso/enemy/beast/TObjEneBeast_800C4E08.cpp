@@ -732,6 +732,6 @@ void TUnk_80493450::run_task() {
     update_prev_position();
     ((TBoss3VoloptHiraisin *)this)->copy_position();
     submit_cursor_candidate(this, -1);
-    m_2b4 += BEAST_FRAME_INCREMENT;
+    frame_timer += BEAST_FRAME_INCREMENT;
 }
 

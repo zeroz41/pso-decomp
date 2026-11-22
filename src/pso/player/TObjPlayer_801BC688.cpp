@@ -40,7 +40,7 @@ void TObjPlayer::init_action_provider() {
     *(s32 *)&this->unk_370 = 0;
     this->reset_entrance_id();
     ((TObjPlayer *)(arg0 + 0x66C))->set_vec3_const();
-    *(f32 *)&this->m_2b4 = (f32) TObjPlayer__data_805DC278;
+    *(f32 *)&this->frame_timer = (f32) TObjPlayer__data_805DC278;
     *(s32 *)&this->m_334 = 0;
     this->set_input_mode(0);
     this->set_move_mode(0);

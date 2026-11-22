@@ -821,7 +821,7 @@ void TObjEneSaver::run_task() {
     update_prev_position();
     ((TBoss3VoloptHiraisin *)this)->copy_position();
     update_particle_effect();
-    m_2b4 += 1.0f;
+    frame_timer += 1.0f;
 }
 
 void TObjEneSaver::render() {

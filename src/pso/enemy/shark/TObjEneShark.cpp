@@ -82,7 +82,7 @@ void TObjEneShark::spawn_death_effect() {
     Vec stack;
     stack.x = 0.0f;
     stack.y = 10.0f;
-    stack.z = 0.5f * *(f32 *)(m_2b0 + 0x10);
+    stack.z = 0.5f * *(f32 *)(stat_block + 0x10);
     push_matrix_from(&identity_matrix);
     rotate_matrix_y(0, rotation_y);
     rotate_vector_by_matrix(0, &stack, &stack);
@@ -507,7 +507,7 @@ struct Sub_800ACA10 { u8 pad[0x18]; s32 level; };
 
 s32 TObjEneMoja::calc_technique_level() {
     TObjEneMoja *self = this;
-    Sub_800ACA10 *p = *(Sub_800ACA10 * *)&self->m_2b0;
+    Sub_800ACA10 *p = *(Sub_800ACA10 * *)&self->stat_block;
     s32 v = 0;
     if (p != 0) {
         v = p->level;

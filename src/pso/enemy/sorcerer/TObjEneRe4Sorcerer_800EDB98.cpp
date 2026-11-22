@@ -552,7 +552,7 @@ void TObjEneRe4Sorcerer::warp_around_target(f32 speed) {
     t.x = out.x;
     t.y = 10.0f + out.y;
     t.z = out.z;
-    if (csnVectorUnder(&t, (CsnGroup **)&this->m_120, 0xE0) == 0) {
+    if (csnVectorUnder(&t, (CsnGroup **)&this->ground_cache, 0xE0) == 0) {
         VecCopy(&this->position, &out);
     }
     this->update_ground_contact();

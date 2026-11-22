@@ -85,7 +85,7 @@ void TObjEneBeast::spawn_death_effect() {
     Vec stack;
     stack.x = 0.0f;
     stack.y = 1e+01f;
-    stack.z = 0.5f * *(f32 *)(this->m_2b0 + 0x10);
+    stack.z = 0.5f * *(f32 *)(this->stat_block + 0x10);
     push_matrix_from(&identity_matrix);
     rotate_matrix_y(0, this->rotation_y);
     rotate_vector_by_matrix(0, &stack, &stack);
