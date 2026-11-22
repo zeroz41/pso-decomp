@@ -1990,7 +1990,6 @@ pso/unk/text_8004D9A8.cpp
 pso/unk/text_80052420.cpp
 pso/unk/text_80066F10.cpp
 pso/unk/text_80066F5C.cpp
-pso/unk/text_8006E82C.cpp
 pso/unk/text_8006EF80.cpp
 pso/unk/text_8006EF90.cpp
 pso/unk/text_80071A9C.cpp

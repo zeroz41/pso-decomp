@@ -35,7 +35,7 @@ __declspec(section ".rodata") Vec follow_camera_reset_eye_offset = { 0.0f, 0.0f,
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803D853C.h"
-#include "pso/unk/text_8006E82C.h"
+#include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/camera/CameraView.h"
@@ -709,7 +709,7 @@ void TCameraFollow::run_task() {
         i = TCameraCtrl::get_nth_view_player_id(TCameraCtrl::get_camera_no());
         player = get_player_by_client_id(i);
         if ((player != NULL && check_flag_100__10TObjPlayerFPv(player) == 0) || TWindowCtrl::get_flag_bit3() == 1) {
-            i = fn_8006E82C(i);
+            i = get_camera_reset_button(i);
             if ((TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[((TRaderMapCore *)player)->get_map_id()], i) != 0 && close_up == 0) || recenter_requested != 0) {
                 recenter_requested = 0;
                 yaw = this->actor->rotation_y + 0x8000;
@@ -777,6 +777,10 @@ void FollowCameraSlot::clear() {
     pad_0[3] = 0.0f;
     pad_0[4] = 0.0f;
     pad_0[5] = 0.0f;
+}
+
+s32 get_camera_reset_button(s32 client_id) {
+    return TWindowKeyBoardHard::test_card_flag_2(client_id) ? 0x10000 : 0x20000;
 }
 
 Vec camera_override_position = { 0.0f, 0.0f, 0.0f };

@@ -79,6 +79,9 @@ extern u16 camera_override_client_id;
 void end_conversation_camera();
 void begin_conversation_camera();
 s32 conversation_camera_obstructed(TCameraFollow *camera, s32 heading);
+// The pad button that turns the follow camera back behind client_id's player; which of
+// the two depends on that player's card flag 2.
+s32 get_camera_reset_button(s32 client_id);
 // Eases the follow camera to these offsets from the player, turned by the player's
 // facing (the local player's, or client_id's in split screen).
 void request_follow_camera_offsets(Vec *target_offset, Vec *eye_offset, u16 client_id);

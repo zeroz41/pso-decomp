@@ -786,15 +786,12 @@ pso/unk/TUnk_80488DA0.cpp:
 	.sdata2     start:0x805D9040 end:0x805D904C
 
 pso/camera/TCameraFollow.cpp:
-	.text       start:0x8006CCEC end:0x8006E82C
+	.text       start:0x8006CCEC end:0x8006E85C
 	.rodata     start:0x80438528 end:0x80438548
 	.data       start:0x80488DD0 end:0x80488E40
 	.sdata      start:0x805D2840 end:0x805D2848
 	.sbss       start:0x805D4E20 end:0x805D4E28
 	.sdata2     start:0x805D9050 end:0x805D90B8
-
-pso/unk/text_8006E82C.cpp:
-	.text       start:0x8006E82C end:0x8006E85C
 
 pso/ui/window/TWindowCtrl_8006E85C.cpp:
 	.text       start:0x8006E85C end:0x8006E8F0
