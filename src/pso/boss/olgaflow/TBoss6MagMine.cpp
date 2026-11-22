@@ -38,66 +38,6 @@ struct Mine_80368C14 { u8 pad[0x38]; Vec pos; };
 #include "pso/math/MatrixVector.h"
 
 #pragma readonly_strings on
-struct VBase_18_5673ef { char pad[0x18]; };
-
-struct VObj_18_5673ef : VBase_18_5673ef {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual s32 m21(void *, s32 *, s32, s32, s32);
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual s32 m45();
-    virtual s32 m46(s32);
-    virtual s32 m47();
-};
-
-struct Stack_80368AB8 {
-    s32 sp8;
-    f32 spC;
-    s32 sp10;
-    f32 sp14;
-};
-
 struct Key_80369228 { s32 a; s16 b; s16 c; s32 d; s32 e; };
 
 struct M_80368CE4 { u8 pad[0x384]; Vec home; };
@@ -128,7 +68,7 @@ void subtract_vector(Vec *, void *);
 void explode__13TBoss6MagMineFPv(Mine_80368C14 *o);
 s32 get_field_0x42c__13TBoss6MagMineFPv(void* p);
 int TBoss6PlotFalz__sub_8036964C(void);
-void TBoss6MagMine__sub_80368AB8(u8 *arg0, u8 *pl);
+void TBoss6MagMine__sub_80368AB8(u8 *arg0, TObjPlayer *pl);
 saddr VecCopy__FP3VecPC3Vec(saddr, saddr);
 s32 init_collision_body_parts(void *, void *, int);
 const char *lbl_805D44B0 = "TBoss6MagMine";
@@ -175,12 +115,8 @@ void TUnk_804F322C::update_linked_state() {
 
 void TUnk_804F322C::render() { push_matrix(); post_translate_matrix((char*)this + 0x38); rotate_matrix_y((void*)0, *(void**)((char*)this + 0x3ac)); update_linked_state(); pop_matrix(); }
 
-void TBoss6MagMine__sub_80368AB8(u8 *arg0, u8 *pl) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80368AB8, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_80368AB8, spC) == 0x4);
-    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_80368AB8, sp10) == 0x8);
-    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_80368AB8, sp14) == 0xC);
-    Stack_80368AB8 stack;
+void TBoss6MagMine__sub_80368AB8(u8 *arg0, TObjPlayer *pl) {
+    DirectAttackPayload attack;
     s32 temp_r3;
     s32 temp_r3_2;
     saddr var_r31;
@@ -200,21 +136,19 @@ void TBoss6MagMine__sub_80368AB8(u8 *arg0, u8 *pl) {
     }
     switch (var_r31) {
     case 2:
-        ((VObj_18_5673ef *)(pl))->m46(0);
+        pl->apply_movement_ailment(0);
         return;
     case 3:
-        ((VObj_18_5673ef *)(pl))->m47();
+        pl->apply_shock_status();
         return;
     case 18:
-        ((VObj_18_5673ef *)(pl))->m45();
+        pl->apply_confusion_status();
         return;
     default:
-        temp_r3_2 = TBoss6PlotFalz::rand_vary_count((int) (*(s32 *)((s8 *)arg0 + 0x39C)), (f32) (0.1f));
-        stack.sp8 = 1;
-        stack.sp10 = 1;
-        stack.sp14 = (f32) temp_r3_2;
-        *(s32 *)&stack.spC = *(s32 *)&stack.sp14;
-        ((VObj_18_5673ef *)(pl))->m21(arg0, &stack.sp8, 0, -1, -1);
+        temp_r3_2 = TBoss6PlotFalz::rand_vary_count(*(s32 *)((s8 *)arg0 + 0x39C), 0.1f);
+        attack.kind = 1;
+        attack.power = temp_r3_2;
+        pl->receive_direct_attack(arg0, attack, 0, -1, -1);
         return;
     }
 }
@@ -223,13 +157,13 @@ void explode__13TBoss6MagMineFPv(Mine_80368C14 *o) {
     s32 n = TLobby::get_game_mode();
     s32 i;
     for (i = 0; i < n; i++) {
-        u8 *pl = (u8 *)TObjPlayer::get_player_data(i);
-        if (TBoss6PlotFalz::is_active((TObjPlayer *)pl) != 0 && TObjPlayer::is_locally_controlled(pl) != 0) {
+        TObjPlayer *pl = TObjPlayer::get_player_data(i);
+        if (TBoss6PlotFalz::is_active(pl) != 0 && TObjPlayer::is_locally_controlled(pl) != 0) {
             Vec v = o->pos;
-            subtract_vector(&v, pl + 0x38);
+            subtract_vector(&v, &pl->position);
             v.y = 0.0f;
             if (!(vector_length(&v) > 22.5f)) {
-                TBoss6MagMine__sub_80368AB8((u8 *)o, (u8 *)pl);
+                TBoss6MagMine__sub_80368AB8((u8 *)o, pl);
             }
         }
     }

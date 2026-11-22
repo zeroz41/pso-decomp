@@ -61,6 +61,7 @@ extern BmlResourceDescriptor boss6_plot_falz_resource_descriptor;
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D853C.h"
+#include "pso/player/PlayerSlots.h"
 
 #pragma readonly_strings on
 const char *boss06_plotfalz_dat_model_names[15] = {
@@ -158,7 +159,6 @@ struct Color_802ABF44 { f32 a, b, c, d; };
 
 extern "C" {
 s16 get_entity_id(void *);
-u8 *get_player_by_client_id(s32);
 extern uaddr TBoss6PlotFalz__type1_instance;
 extern uaddr TBoss6PlotFalz__type2_instance;
 extern s32 saved_model_render_flags;
@@ -174,84 +174,6 @@ void set_chunk_material_override_pair(int, int, s32, s32);
 
 struct Player_802AAE78 { u8 pad[0x32C]; s16 f32c; };
 
-struct VBase_18_a328de { char pad[0x18]; };
-
-struct VObj_18_a328de : VBase_18_a328de {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual s32 m73();
-};
 
 extern "C" {
 extern u16 boss6_plot_falz_player_order_table[];
@@ -273,27 +195,26 @@ void update_random_shake__14TBoss6PlotFalzFPv(TBoss6PlotFalz_802AACF4 *o) {
 }
 #pragma pop
 
-s32 TBoss6PlotFalz::damage_player_hp(s32 arg0, u32 arg1) {
+s32 TBoss6PlotFalz::damage_player_hp(s32 client, u32 damage) {
     u32 v;
-    u8 *p;
+    TObjPlayer *p;
     s32 hp;
     u16 id;
-    id = arg0;
-    v = arg1;
-    if (id == 0xFFFF || (p = get_player_by_client_id(id)) == NULL || TBoss6PlotFalz::is_active((TObjPlayer *)p) == 0) {
+    id = client;
+    v = damage;
+    if (id == 0xFFFF || (p = get_player_by_client_id(id)) == NULL || TBoss6PlotFalz::is_active(p) == 0) {
         return 0;
     }
-    hp = ((TObjChara *)p)->get_actor_hp();
+    hp = p->get_actor_hp();
     if ((u32)hp < v) {
         v = hp;
     }
-    if (((TObjChara *)p)->obj_isState2_324() != 0) {
+    if (p->obj_isState2_324() != 0) {
         return v;
     }
     hp -= v;
-    send_6x2F_change_player_hp(0xFFFF, arg0, hp);
-    TObjPlayer::calc_photon_blast_charge(p, v);
-    ((VObj_18_a328de *)p)->m73();
+    send_6x2F_change_player_hp(0xFFFF, client, hp);
+    p->gain_photon_blast_charge(TObjPlayer::calc_photon_blast_charge(p, v));
     return v;
 }
 
