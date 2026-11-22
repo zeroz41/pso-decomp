@@ -47,20 +47,6 @@ typedef struct Src_800DC4B4 {
     f32 pos[3];
 } Src_800DC4B4;
 
-struct Me_800DC648 {
-    u8 pad0[0xAC];
-    Vec pos;
-    Vec vel;
-    u8 padC4[0xDC - 0xC4];
-    f32 timer;
-    void *link0;
-    void *link1;
-    Vec prev;
-    s32 trail;
-    s32 cnt;
-    u16 owner;
-};
-
 struct Ang_800DC83C { s32 x, y, z; };
 
 extern "C" {
