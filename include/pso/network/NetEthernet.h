@@ -17,7 +17,7 @@ typedef struct EthDriver {
     s32 (*add_multicast)(s16 dev, void *addr);       /* 0x0C */
     s32 (*remove_multicast)(s16 dev, void *addr);    /* 0x10 */
     s16 (*get_address)(s16 dev, void *addr);         /* 0x14: returns the address length (6) */
-    s32 (*send)(s16 dev, s32 frame, s16 len);        /* 0x18 */
+    s32 (*send)(s16 dev, u8 *frame, s16 len);        /* 0x18 */
 } EthDriver;
 
 /* A driver as registered with the dispatcher. */

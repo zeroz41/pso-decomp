@@ -16,12 +16,13 @@ extern "C" {
 s16 initialize_network_packet_pool(void);
 extern NetworkPacketBufferDescriptor network_packet_buffer_descriptors[NETWORK_PACKET_BUFFER_COUNT];
 extern u8 network_packet_buffers[NETWORK_PACKET_BUFFER_COUNT][NETWORK_PACKET_BUFFER_BYTES];
-void clear_message_entry(s32 address);
-void release_entry_by_id(u32 address);
+/* packet: an address inside one of the pool's buffers. */
+void clear_message_entry(u8 *packet);
+void release_entry_by_id(u8 *packet);
 u8 *TLobby__sub_8042558C(u32 size);
 u8 *TLobby__sub_80425640(u32 size);
-NetworkPacketBufferDescriptor *TLobby__sub_804256B8(u32 address);
-NetworkPacketBufferDescriptor *find_entry_by_address(s32 address);
+NetworkPacketBufferDescriptor *TLobby__sub_804256B8(u8 *packet);
+NetworkPacketBufferDescriptor *find_entry_by_address(u8 *packet);
 void cancel_alarm_a(void);
 #ifdef __cplusplus
 }

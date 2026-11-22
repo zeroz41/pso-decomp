@@ -21,11 +21,11 @@ s16 TLobby__sub_803F96AC(u32*);
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-static inline NetworkPacketBufferDescriptor *find_804253F8(u32 arg0) {
+static inline NetworkPacketBufferDescriptor *find_804253F8(u8 *packet) {
     s32 i;
     for (i = 0; i < 0x20; i++) {
-        if (network_packet_buffer_descriptors[i].in_use != 0 && (uaddr)network_packet_buffer_descriptors[i].data <= arg0 &&
-            arg0 < (uaddr)network_packet_buffer_descriptors[i].data + 0x600) {
+        if (network_packet_buffer_descriptors[i].in_use != 0 && network_packet_buffer_descriptors[i].data <= packet &&
+            packet < network_packet_buffer_descriptors[i].data + 0x600) {
             break;
         }
     }
@@ -35,11 +35,11 @@ static inline NetworkPacketBufferDescriptor *find_804253F8(u32 arg0) {
     return &network_packet_buffer_descriptors[i];
 }
 
-void clear_message_entry(s32 a) {
+void clear_message_entry(u8 *packet) {
     NetworkPacketBufferDescriptor *entry;
     u8 unused[8];
     lock_mutex((saddr)network_packet_mutex);
-    entry = find_entry_by_address(a);
+    entry = find_entry_by_address(packet);
     unlock_mutex((saddr)network_packet_mutex);
     if (entry != NULL) {
         entry->in_use = 0;
@@ -47,8 +47,8 @@ void clear_message_entry(s32 a) {
     }
 }
 
-void release_entry_by_id(u32 arg0) {
-    NetworkPacketBufferDescriptor *e = find_804253F8(arg0);
+void release_entry_by_id(u8 *packet) {
+    NetworkPacketBufferDescriptor *e = find_804253F8(packet);
     if (e != NULL) {
         e->in_use = 0;
         e->queued_length = 0;
@@ -101,19 +101,19 @@ u8 *TLobby__sub_80425640(u32 size) {
     return buf;
 }
 
-NetworkPacketBufferDescriptor *TLobby__sub_804256B8(u32 addr) {
+NetworkPacketBufferDescriptor *TLobby__sub_804256B8(u8 *packet) {
     NetworkPacketBufferDescriptor *e;
     lock_mutex((saddr)network_packet_mutex);
-    e = find_804253F8(addr);
+    e = find_804253F8(packet);
     unlock_mutex((saddr)network_packet_mutex);
     return e;
 }
 #pragma pop
 
-NetworkPacketBufferDescriptor *find_entry_by_address(s32 arg0) {
+NetworkPacketBufferDescriptor *find_entry_by_address(u8 *packet) {
     s32 i;
     for (i = 0; i < 32; i++) {
-        if (((NetworkPacketBufferDescriptor *)&network_packet_buffer_descriptors)[i].in_use != 0 && (uaddr)((NetworkPacketBufferDescriptor *)&network_packet_buffer_descriptors)[i].data <= (u32)arg0 && (u32)arg0 < (uaddr)((NetworkPacketBufferDescriptor *)&network_packet_buffer_descriptors)[i].data + 0x600) {
+        if (network_packet_buffer_descriptors[i].in_use != 0 && network_packet_buffer_descriptors[i].data <= packet && packet < network_packet_buffer_descriptors[i].data + 0x600) {
             break;
         }
     }

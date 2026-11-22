@@ -58,7 +58,7 @@ extern u8 pppoe_message_queue[];
 
 extern u8 lbl_805CF240[];
 
-PppoeSlot *find_pppoe_slot_by_session_id(saddr arg0, u16 arg1);
+PppoeSlot *find_pppoe_slot_by_session_id(u8 *frame, u16 frame_len);
 s16 TLobby__sub_8042787C(PppoeSlot *e, u8 *p, u16 len);
 s16 TLobby__sub_80426D80(PppoeSlot *e);
 s32 TLobby__sub_80426574(s32);
@@ -66,7 +66,7 @@ s16 TLobby__sub_80426EB8(PppoeSlot *e);
 s16 TLobby__sub_804270C0(u8 *self);
 PppoeSlot *TLobby__sub_80427B6C(u8 *p, u16 len);
 void TLobby__sub_80427378(PppoeSlot *e);
-s16 handle_pppoe_discovery_frame(saddr, u16);
+s16 handle_pppoe_discovery_frame(u8 *frame, u16 frame_len);
 s16 TLobby__sub_80427988(PppoeSlot *e, u8 *p, u16 len);
 
 #define arg0 ((s32)argp)
@@ -492,9 +492,9 @@ inline s16 send_frame(PppoeSlot *e, u16 len) {
 }
 
 // PPPoE discovery receive: PADO (7) / PADS (0x65) / PADT (0xA7) by the code byte of the header.
-s16 handle_pppoe_discovery_frame(saddr frame, u16 frame_len) {
+s16 handle_pppoe_discovery_frame(u8 *frame, u16 frame_len) {
     s16 ret = -1;
-    u8 *base = (u8 *)frame + 0xe;
+    u8 *base = frame + 0xe;
     u8 *sub = base + 6;
     s32 pad[2];
     u8 cmd;
@@ -518,7 +518,7 @@ s16 handle_pppoe_discovery_frame(saddr frame, u16 frame_len) {
             break;
         }
         p->timeout = 0;
-        NetMemcpy((u8 *)p + 0x826, (void *)frame, frame_len);
+        NetMemcpy((u8 *)p + 0x826, frame, frame_len);
         *(u16 *)((u8 *)p + 0xe10) = frame_len;
         ret = TLobby__sub_80427988(p, (u8 *)p + 0x83a, id);
         if (ret <= 0) {
@@ -753,14 +753,14 @@ done:
     return ret;
 }
 
-PppoeSlot *find_pppoe_slot_by_session_id(saddr arg0, u16 arg1) {
+PppoeSlot *find_pppoe_slot_by_session_id(u8 *frame, u16 frame_len) {
     u16 id;
     PppoeSlot *ret;
     s16 i;
-    if (arg1 < 0x14U) {
+    if (frame_len < 0x14U) {
         return NULL;
     }
-    NetMemcpy(&id, (void *)(arg0 + 0x10), 2);
+    NetMemcpy(&id, frame + 0x10, 2);
     if (id == 0) {
         return NULL;
     }
@@ -802,7 +802,7 @@ static inline void check_80427D40(void) {
 }
 s16 pppoe_recv_packet(void *buf, u16 bufLen, u16 *outLen) {
     u16 type;
-    saddr pkt;
+    u8 *pkt;
     u16 id;
     s32 padA;
     u16 len;
@@ -817,19 +817,19 @@ s16 pppoe_recv_packet(void *buf, u16 bufLen, u16 *outLen) {
         }
         return 0;
     }
-    NetMemcpy(&type, (u8 *)pkt + 0xC, 2);
+    NetMemcpy(&type, pkt + 0xC, 2);
     if (type != 0x8863 && type != 0x8864) {
         ret = 0;
-    } else if (NetMemcmp((void *)pkt, lobby_pppoe_slot_table.mac, 6) != 0) {
+    } else if (NetMemcmp(pkt, lobby_pppoe_slot_table.mac, 6) != 0) {
         ret = 0;
-    } else if (((u8 *)pkt)[0xE] != 0x11) {
+    } else if (pkt[0xE] != 0x11) {
         ret = 0;
     } else if (type == 0x8863) {
         ret = handle_pppoe_discovery_frame(pkt, id);
     } else {
         ret = 0;
-        NetMemcpy(&len, (u8 *)pkt + 0x12, 2);
-        src = (u8 *)pkt + 0x14;
+        NetMemcpy(&len, pkt + 0x12, 2);
+        src = pkt + 0x14;
         if (buf != NULL && len <= bufLen) {
             e = find_pppoe_slot_by_session_id(pkt, id);
             if (e != NULL && e->state == 4) {

@@ -19,11 +19,11 @@ void dispatch_received_ethernet_frame(struct EthernetReceiveFilter *filter, void
 void reset_message_thread(void);
 void update_exi_status(void);
 s16 post_send_message(void *data, u16 len);
-s32 post_message(void *queue, s32 address, s32 arg, s32 by_address);
+s32 post_message(void *queue, u8 *packet, s32 length, s32 by_address);
 void message_thread_loop(void);
-void clear_message_entry_wrapper(s32 id);
-u16 recv_pppoe_message(saddr *id, u16 *len);
-s32 queue_timeout_message(s16 channel, s32 id, s16 timeout);
+void clear_message_entry_wrapper(u8 *packet);
+u16 recv_pppoe_message(u8 **packet, u16 *len);
+s32 queue_timeout_message(s16 channel, u8 *packet, s16 timeout);
 s32 get_local_address(s16 channel, void *address);
 s32 consume_item_count_by_id(s16 channel, void *address);
 s32 add_multicast_address(s16 channel, void *address);

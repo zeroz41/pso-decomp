@@ -213,7 +213,7 @@ s32 send_ethernet_frame(s16 idx, s16 mode, u8 *addr, void *pkt) {
     EthLink *c;
     EthSocket *e;
     s16 len;
-    s32 (*fn)(s16, s32, s16);
+    s32 (*fn)(s16, u8 *, s16);
     g = &lbl_805C1AD8;
 
     if (idx < 0 || idx >= g->nsockets) {
@@ -266,7 +266,7 @@ s32 send_ethernet_frame(s16 idx, s16 mode, u8 *addr, void *pkt) {
     NetMemcpy(c->frame, &hdr, sizeof(hdr));
     len = TLobby__sub_804098B4(pkt);
     if (len > 0x5DC) {
-        clear_message_entry((saddr)c->frame);
+        clear_message_entry(c->frame);
         return -2;
     }
     TLobby__sub_80409908(c->frame + sizeof(EthernetFrameHeader), pkt);
@@ -275,9 +275,9 @@ s32 send_ethernet_frame(s16 idx, s16 mode, u8 *addr, void *pkt) {
     }
     fn = g->drivers[e->dev].send;
     if (fn != NULL) {
-        fn(c->dev, (saddr)c->frame, len + 0xE);
+        fn(c->dev, c->frame, len + 0xE);
     } else {
-        clear_message_entry((saddr)c->frame);
+        clear_message_entry(c->frame);
         return -0x111;
     }
     return 0;
