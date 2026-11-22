@@ -6,7 +6,10 @@
 #include "pso/render/TUnk_80494938.h"
 
 struct TObjEneMerillLia : public TUnk_80493450 {
+    TObjEneMerillLia(TObject *parent, void *setData);
     virtual ~TObjEneMerillLia();
+    static void *create(void *arg0);
+    virtual void beast_idle_update();
     virtual void beast_update_hurt();
     virtual void run_task();
     virtual void render();
@@ -38,24 +41,19 @@ struct TObjEneMerillLia : public TUnk_80493450 {
     static void destroy_rocks();
     void load_entry_params(s32 i);
     f32 m_3c4;
-    u8 unk_3C8[0x8];
+    f32 unk_3C8;
+    f32 unk_3CC;
     f32 m_3d0;
-    u8 unk_3D4[0x4];
+    f32 unk_3D4;
     s16 m_3d8;
-    u8 unk_3DA[0x2];
+    u8 pad_3DA[0x2];
 };
 
 LAYOUT_ASSERT(TObjEneMerillLia_size, sizeof(TObjEneMerillLia) == 0x3DC);
 
 extern "C" {
-void *TObjEneMerillLia__create(void *arg0);
-void *TObjEneMerillLia__ct(void *arg0v, void *arg1, void *arg2);
 void TObjEneMerillLia__sub_800D4EC8(saddr arg0);
 void TObjEneMerillLia__sub_800D501C(saddr self);
-void TObjEneMerillLia__sub_800D5BCC(u8 *arg0);
-void *__dt__16TObjEneMerillLiaFPvs(void *arg0, s16 arg1);
-void render__16TObjEneMerillLiaFv(u8 *arg0);
-void run_task__16TObjEneMerillLiaFv(u8 *arg0);
 void spawn_ground_effect__16TObjEneMerillLiaFPv(u8 *motion);
 }
 

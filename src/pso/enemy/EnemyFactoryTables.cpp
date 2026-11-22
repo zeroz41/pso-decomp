@@ -420,7 +420,7 @@ EnemyFactoryEntry enemy_factories_floors_19_20[9] = {
 
 EnemyFactoryEntry enemy_factories_floors_23_24_25_26_27[12] = {
     { 0x00D4, create_real__16TObjEneMe3StelthFv, 250000.0f, 4 },
-    { 0x00D5, TObjEneMerillLia__create, 250000.0f, 0 },
+    { 0x00D5, TObjEneMerillLia::create, 250000.0f, 0 },
     { 0x00D6, TObjEneBm9Mericarol::create, 250000.0f, 0 },
     { 0x00D7, TObjEneBm5GibonU::create, 250000.0f, 0 },
     { 0x00D8, TObjEneGibbles::create, 250000.0f, 0 },
@@ -436,7 +436,7 @@ EnemyFactoryEntry enemy_factories_floors_23_24_25_26_27[12] = {
 EnemyFactoryEntry enemy_factories_floor_34[9] = {
     { 0x00DD, TObjEneDolmOlm__create, 250000.0f, 0 },
     { 0x00DF, TObjEneRecobox::create, 250000.0f, 0 },
-    { 0x00D5, TObjEneMerillLia__create, 250000.0f, 0 },
+    { 0x00D5, TObjEneMerillLia::create, 250000.0f, 0 },
     { 0x00D7, TObjEneBm5GibonU::create, 250000.0f, 0 },
     { 0x00D9, TObjEneMe1Gee::create, 250000.0f, 0 },
     { 0x0033, TObjNpcEnemy__create, 250000.0f, 0 },

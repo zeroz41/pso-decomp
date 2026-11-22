@@ -1309,10 +1309,10 @@ force_active:
   - TObjEneMe3Stelth__sub_800F3FE4
   - TObjEneMe3Stelth__sub_800F4C10
   - TObjEneMe3Stelth__trail_buffer
-  - TObjEneMerillLia__ct
+  - __ct__16TObjEneMerillLiaFP7TObjectPv
   - TObjEneMerillLia__sub_800D4EC8
   - TObjEneMerillLia__sub_800D501C
-  - TObjEneMerillLia__sub_800D5BCC
+  - beast_idle_update__16TObjEneMerillLiaFv
   - TObjEneMorfosArm__name
   - __ct__13TObjEneMorfosFP7TObjectPv
   - TObjEneMorfos__sub_80332DBC
@@ -2698,7 +2698,7 @@ force_active:
   - __dt__16TObjDFTenchuFuruFv
   - __dt__16TObjEneBm5GibonUFis
   - __dt__16TObjEneDellBiterFv
-  - __dt__16TObjEneMerillLiaFPvs
+  - __dt__16TObjEneMerillLiaFv
   - __dt__16TObjEneMorfosArmFv
   - __dt__16TObjEneNanoDragoFv
   - __dt__16TObjEneRe7BeruraFv
@@ -7828,7 +7828,7 @@ force_active:
   - lbl_80494520
   - lbl_8049452C
   - lbl_80494570
-  - lbl_80494728
+  - __vt__16TObjEneMerillLia
   - lbl_80496368
   - lbl_804966FC
   - lbl_80496C68
