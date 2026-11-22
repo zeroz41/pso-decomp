@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/camera/TCameraController.h"
 
-// One per split-screen view; the constructor clears all four.
+// Four records the constructor clears; nothing else reads or writes them.
 struct FollowCameraSlot {
     void clear();
     f32 pad_0[6];

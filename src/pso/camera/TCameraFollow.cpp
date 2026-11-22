@@ -23,8 +23,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixStack.h"
 
-// Eye offsets init_pose and reset_to_actor turn by the actor's facing. The original
-// copies them as writable data, so they are not const here.
+// Eye offsets behind the actor that init_pose and reset_to_actor turn by its facing.
 __declspec(section ".rodata") Vec follow_camera_init_eye_offset = { 0.0f, 0.0f, 45.42f };
 __declspec(section ".rodata") Vec follow_camera_reset_eye_offset = { 0.0f, 0.0f, 45.42f };
 
@@ -46,8 +45,9 @@ __declspec(section ".rodata") Vec follow_camera_reset_eye_offset = { 0.0f, 0.0f,
 u8 camera_override_flags;
 
 
-// A pair like the (a, b) offsets request_follow_camera_offsets takes; only the first is read.
-Vec follow_camera_offset_default[2] = {
+// select_follow_camera_offsets's eye offset behind the actor outside the boss arenas (the
+// first row; the second is never read).
+Vec follow_camera_default_eye_offsets[2] = {
     { 0.0f, 25.43f, 45.42f },
     { 0.0f, 0.0f, 0.0f },
 };
@@ -447,9 +447,9 @@ void TCameraFollow::select_follow_camera_offsets() {
             this->target_offset.x = 0.0f;
             this->target_offset.y = 19.8f;
             this->target_offset.z = -5.0f;
-            this->eye_offset.x = follow_camera_offset_default[0].x;
-            this->eye_offset.y = follow_camera_offset_default[0].y;
-            this->eye_offset.z = follow_camera_offset_default[0].z;
+            this->eye_offset.x = follow_camera_default_eye_offsets[0].x;
+            this->eye_offset.y = follow_camera_default_eye_offsets[0].y;
+            this->eye_offset.z = follow_camera_default_eye_offsets[0].z;
             if (is_split_screen() != 0 && TCameraCtrl::get_camera_id() == 2) {
                 this->eye_offset.z *= 1.4f;
                 this->eye_offset.y *= 0.9f;
