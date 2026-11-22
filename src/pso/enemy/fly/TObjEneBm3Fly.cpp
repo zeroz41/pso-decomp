@@ -334,7 +334,7 @@ void TObjEneBm3Fly::update_dd_flag(f32 x, f32 z, f32 speed) {
 
 void TObjEneBm3Fly::update_state_flag() {
 
-    if (TObjEneEpsilon__sub_800B92F8((u8 *)this, ((Bm3FlyMovementParameters *)this->movementParameters)->unknown_08, lbl_805D50EC->unknown_00) != 0) {
+    if (TObjEneEpsilon__sub_800B92F8(this, ((Bm3FlyMovementParameters *)this->movementParameters)->unknown_08, lbl_805D50EC->unknown_00) != 0) {
         this->m_428 |= 2;
         return;
     }

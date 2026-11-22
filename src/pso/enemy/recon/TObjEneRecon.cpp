@@ -1566,7 +1566,7 @@ void TObjEneRecon::update_collide_flag() {
     void *temp_r5;
 
     temp_r5 = this->movementParameters;
-    if (TObjEneEpsilon__sub_800B92F8((u8 *)this, *(s32 *)((s8 *)temp_r5 + 8), *TObjEneRecon__data_805D6AFC) != 0) {
+    if (TObjEneEpsilon__sub_800B92F8(this, *(s32 *)((s8 *)temp_r5 + 8), *TObjEneRecon__data_805D6AFC) != 0) {
         *(s32 *)((s8 *)this + 0x444) = (s32) (*(s32 *)((s8 *)this + 0x444) | 2);
         return;
     }

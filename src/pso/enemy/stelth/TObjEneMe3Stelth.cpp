@@ -986,7 +986,7 @@ void TObjEneMe3Stelth::state_chase_target(s32 arg1) {
                 turn_toward_target_direction(0x500);
                 update_ground_contact();
             } else {
-                enemy_turn_and_move_on_ground((u8 *)this, 0x500, m_430);
+                enemy_turn_and_move_on_ground(this, 0x500, m_430);
             }
             check_collisions();
         }

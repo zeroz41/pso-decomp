@@ -1229,7 +1229,7 @@ void TObjEneMe1Canadin::fn_8009D320(s32 arg1) {
             } else {
                 self->advance_state_5_to_4();
             }
-            TObjEneEpsilon__sub_800B92F8((u8 *)self, 0x200, 0.5f);
+            TObjEneEpsilon__sub_800B92F8(self, 0x200, 0.5f);
             break;
         case 2:
             self->update_velocity();
@@ -1438,7 +1438,7 @@ void TObjEneMe1Canadin::fn_8009CC74(s32 arg1) {
                 if (self->destination_distance > 40.0f) {
                     self->m_470 = 1;
                 }
-                TObjEneEpsilon__sub_800B92AC((u8 *)self, 0x200, self->m_468->m_0);
+                TObjEneEpsilon__sub_800B92AC(self, 0x200, self->m_468->m_0);
             }
             self->noop();
             break;
@@ -1735,7 +1735,7 @@ void TObjEneMe1Canadin::fn_8009C2EC(s32 arg1) {
         }
         self->update_velocity();
         TObjEneMe1Canadin__sub_8009EB98(self, self->position.y + self->m_3EC);
-        TObjEneEpsilon__sub_800B92AC((u8 *)self, 0x200, 0.68f);
+        TObjEneEpsilon__sub_800B92AC(self, 0x200, 0.68f);
         self->rotation_z += 0x2000;
         self->m_470++;
         if (self->m_470 >= 0x96) {

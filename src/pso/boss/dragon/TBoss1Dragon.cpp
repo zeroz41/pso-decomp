@@ -3654,11 +3654,11 @@ void TBoss1Dragon::update_walking_state(u32 reason) {
             ((TObjEneDD *)self)->move_to_shot_position(sin_table_lookup(this->rotation_y), cos_table_lookup(this->rotation_y), scale);
         } else if (!(v < (9.0f))) {
             if (v < 19.0f) {
-                TObjEneEpsilon__sub_800B9384(self, iscale, scale);
+                TObjEneEpsilon__sub_800B9384(this, iscale, scale);
             } else if (v < (24.0f)) {
                 ((TObjEneDD *)self)->move_to_shot_position(sin_table_lookup(this->rotation_y), cos_table_lookup(this->rotation_y), scale);
             } else if (!(v < (30.0f))) {
-                TObjEneEpsilon__sub_800B9384(self, iscale, scale);
+                TObjEneEpsilon__sub_800B9384(this, iscale, scale);
             }
         }
         break;

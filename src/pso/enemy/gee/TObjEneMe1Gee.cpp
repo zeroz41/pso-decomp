@@ -1145,7 +1145,7 @@ void TObjEneMe1Gee::sub_800CA454(s32 mode) {
                 this->m_434 = 2;
                 this->m_3c8 |= 0x40000;
             }
-            TObjEneEpsilon__sub_800B92F8((u8 *)this, 0x200, 0.5f);
+            TObjEneEpsilon__sub_800B92F8(this, 0x200, 0.5f);
             break;
         case 2:
             this->update_velocity();
@@ -1361,7 +1361,7 @@ void TObjEneMe1Gee::sub_800C9DF8(s32 mode) {
                 if (this->destination_distance > 40.0f) {
                     this->m_434 = 1;
                 }
-                TObjEneEpsilon__sub_800B92AC((u8 *)this, 0x200, this->m_42c->m_0);
+                TObjEneEpsilon__sub_800B92AC(this, 0x200, this->m_42c->m_0);
             }
             break;
         case 3:

@@ -4768,11 +4768,11 @@ void update_movement__12TBoss8DragonFPv(u8 *arg0) {
         ((TObjEneDD *)arg0)->move_to_shot_position(sin_table_lookup(((TBoss8Dragon *)arg0)->rotation_y), cos_table_lookup(((TBoss8Dragon *)arg0)->rotation_y), scale);
     } else if (!(v < 9.0f)) {
         if (v < 19.0f) {
-            TObjEneEpsilon__sub_800B9384((arg0), iscale, scale);
+            TObjEneEpsilon__sub_800B9384((TBoss8Dragon *)arg0, iscale, scale);
         } else if (v < 24.0f) {
             ((TObjEneDD *)arg0)->move_to_shot_position(sin_table_lookup(((TBoss8Dragon *)arg0)->rotation_y), cos_table_lookup(((TBoss8Dragon *)arg0)->rotation_y), scale);
         } else if (!(v < 30.0f)) {
-            TObjEneEpsilon__sub_800B9384((arg0), iscale, scale);
+            TObjEneEpsilon__sub_800B9384((TBoss8Dragon *)arg0, iscale, scale);
         }
     }
     d.x = *(f32 *)((s8 *)arg0 + 0x38) - old.x;

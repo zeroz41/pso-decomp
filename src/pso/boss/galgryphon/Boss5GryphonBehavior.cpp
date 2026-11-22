@@ -3879,12 +3879,12 @@ void TBoss5Gryphon::update_ground_pursuit(s32 arg1) {
         TBoss8Dragon__sub_800648C8((u8 *)self);
         spd = ((TObjEneDD_ST *)self)->get_motion_frame();
         if (spd < lbl_805D8DCC) {
-            TObjEneEpsilon__sub_800B9384((u8 *)self, 0x100, lbl_805D8EB4);
+            TObjEneEpsilon__sub_800B9384(this, 0x100, lbl_805D8EB4);
         } else if (!(spd < lbl_805D8E10)) {
             if (spd < lbl_805D8E5C) {
-                TObjEneEpsilon__sub_800B9384((u8 *)self, 0x100, lbl_805D8EB4);
+                TObjEneEpsilon__sub_800B9384(this, 0x100, lbl_805D8EB4);
             } else if (!(spd < lbl_805D8DF4)) {
-                TObjEneEpsilon__sub_800B9384((u8 *)self, 0x100, lbl_805D8EB4);
+                TObjEneEpsilon__sub_800B9384(this, 0x100, lbl_805D8EB4);
             }
         }
         break;

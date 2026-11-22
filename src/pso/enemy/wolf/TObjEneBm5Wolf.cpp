@@ -1101,7 +1101,7 @@ void TObjEneBm5Wolf::roaming_state(int event) {
             }
             this->play_speed = (f32) (1.1f * this->currentSpeed);
             temp_f1_2 = this->currentSpeed;
-            enemy_turn_and_move_on_ground((u8 *)this, (s32)(512.0f * temp_f1_2), (f32)temp_f1_2);
+            enemy_turn_and_move_on_ground(this, (s32)(512.0f * temp_f1_2), (f32)temp_f1_2);
             break;
         case 1:
             play_footsteps();
@@ -1114,7 +1114,7 @@ void TObjEneBm5Wolf::roaming_state(int event) {
             }
             this->play_speed = (f32) (1.1f * this->currentSpeed);
             temp_f1_3 = this->currentSpeed;
-            enemy_turn_and_move_on_ground((u8 *)this, (s32)(512.0f * temp_f1_3), (f32)temp_f1_3);
+            enemy_turn_and_move_on_ground(this, (s32)(512.0f * temp_f1_3), (f32)temp_f1_3);
             break;
         case 2:
             this->requested_action = 0;
@@ -1177,12 +1177,12 @@ void TObjEneBm5Wolf::chasing_state(s32 event) {
                 this->currentSpeed *= 0.9f;
                 this->play_speed = (f32) (0.8f * this->currentSpeed);
                 temp_f1 = this->currentSpeed;
-                enemy_turn_and_move_on_ground((u8 *)this, (768.0f * temp_f1), temp_f1);
+                enemy_turn_and_move_on_ground(this, (768.0f * temp_f1), temp_f1);
             } else {
                 approach_target(0.1f);
                 this->play_speed = (f32) (0.8f * this->currentSpeed);
                 temp_f1_2 = this->currentSpeed;
-                enemy_turn_and_move_on_ground((u8 *)this, (768.0f * temp_f1_2), temp_f1_2);
+                enemy_turn_and_move_on_ground(this, (768.0f * temp_f1_2), temp_f1_2);
             }
             turn_pose_to_target();
             this->check_collisions();
@@ -1588,7 +1588,7 @@ void TObjEneBm5Wolf::returning_state(s32 event) {
             this->update_velocity();
             approach_target(0.2f);
             this->play_speed = 1.1f * this->currentSpeed;
-            enemy_turn_and_move_on_ground((u8 *)this, 0x500, this->currentSpeed);
+            enemy_turn_and_move_on_ground(this, 0x500, this->currentSpeed);
             this->turn_pose_to_target();
             this->check_collisions();
         }

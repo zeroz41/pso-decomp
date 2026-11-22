@@ -1075,7 +1075,7 @@ void TObjEneMe3SinowZoa::state_chase_target(s32 arg1) {
                 this->turn_toward_target_direction(0x500);
                 this->update_ground_contact();
             } else {
-                enemy_turn_and_move_on_ground((u8 *)this, 0x500, this->m_440);
+                enemy_turn_and_move_on_ground(this, 0x500, this->m_440);
             }
             this->check_collisions();
         }

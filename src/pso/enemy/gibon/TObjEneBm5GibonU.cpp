@@ -1323,7 +1323,7 @@ void TObjEneBm5GibonU__sub_800CE978(TObjEneBm5GibonU *self, s32 msg) {
             self->update_velocity();
             self->approach_target(0.2f);
             self->play_speed = 1.05f * self->m_498;
-            enemy_turn_and_move_on_ground((u8 *)self, 0x500, self->m_498);
+            enemy_turn_and_move_on_ground(self, 0x500, self->m_498);
             self->face_target();
             self->check_collisions();
             self->update_enemy_collision_flags();
@@ -1784,11 +1784,11 @@ void TObjEneBm5GibonU__sub_800CF7CC(TObjEneBm5GibonU *self, s32 msg) {
             }
             temp_f1 = self->frame;
             if ((temp_f1 >= 10.0f) && (temp_f1 <= 18.0f)) {
-                enemy_turn_and_move_on_ground((u8 *)self, (768.0f * self->m_498), 1.0f);
+                enemy_turn_and_move_on_ground(self, (768.0f * self->m_498), 1.0f);
             } else {
                 self->m_498 *= 0.9f;
                 temp_f1_2 = self->m_498;
-                enemy_turn_and_move_on_ground((u8 *)self, (768.0f * temp_f1_2), temp_f1_2);
+                enemy_turn_and_move_on_ground(self, (768.0f * temp_f1_2), temp_f1_2);
             }
             self->m_49c += self->m_498;
             if (self->m_49c >= 50.0f) {
@@ -1874,7 +1874,7 @@ void TObjEneBm5GibonU__sub_800CFA48(TObjEneBm5GibonU *self, s32 msg) {
                 self->m_530 = 2.0f + TObjBoss2Tunnel::calc_scaled_value(0x200, self->m_494);
             }
             self->play_speed = 1.05f * self->m_498;
-            enemy_turn_and_move_on_ground((u8 *)self, 512.0f * self->m_498, self->m_498);
+            enemy_turn_and_move_on_ground(self, 512.0f * self->m_498, self->m_498);
             break;
         case 1:
             TObjEneBm5GibonU__sub_800CCE28(self);
@@ -1886,7 +1886,7 @@ void TObjEneBm5GibonU__sub_800CFA48(TObjEneBm5GibonU *self, s32 msg) {
                 self->requested_action = 0;
             }
             self->play_speed = 1.05f * self->m_498;
-            enemy_turn_and_move_on_ground((u8 *)self, 512.0f * self->m_498, self->m_498);
+            enemy_turn_and_move_on_ground(self, 512.0f * self->m_498, self->m_498);
             break;
         case 2:
             self->requested_action = 0;

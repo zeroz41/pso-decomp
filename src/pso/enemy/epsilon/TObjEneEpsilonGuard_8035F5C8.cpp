@@ -413,7 +413,7 @@ void TObjEneEpsilonGuard__sub_803616E4(TObjEneEpsilonBody *body, s32 reason) {
                 body->turn_toward_target_direction(body->turn_step);
                 body->update_ground_contact();
             } else {
-                enemy_turn_and_move_on_ground((u8 *)body, body->turn_step, body->move_speed);
+                enemy_turn_and_move_on_ground(body, body->turn_step, body->move_speed);
             }
             if (body->target_player != 0xFFFF) {
                 TObjPlayer *player = TObjPlayer::get_player_data(body->target_player);

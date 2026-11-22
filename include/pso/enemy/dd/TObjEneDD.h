@@ -5,6 +5,7 @@
 #include "pso/enemy/TObjEnemy.h"
 
 struct CsnHit;
+class TObjEneDD_ST;
 
 struct TObjEneDD : public TObjEnemy {
     TObjEneDD(TObject *parent);
@@ -123,13 +124,13 @@ int is_target_android(void *p);
 int is_target_ranger(void *p);
 void TBoss8Dragon__sub_800BB650(void *p, void *q);
 void TBoss8Dragon__sub_800BB7D4(void *self, int id);
-u8 *TObjEneEpsilon__sub_800B92AC(u8 *ene_epsilon, s32 arg1, f32 farg0);
-u8 *TObjEneEpsilon__sub_800B92F8(u8 *ene_epsilon, s32 arg1, f32 farg0);
-u8 *TObjEneEpsilon__sub_800B9384(u8 *self, s32 iscale, f32 scale);
+u8 *TObjEneEpsilon__sub_800B92AC(TObjEneDD_ST *self, s32 arg1, f32 farg0);
+u8 *TObjEneEpsilon__sub_800B92F8(TObjEneDD_ST *self, s32 arg1, f32 farg0);
+u8 *TObjEneEpsilon__sub_800B9384(TObjEneDD_ST *self, s32 iscale, f32 scale);
 void TBoss8Dragon__sub_800BB7D8(void *self, s32 id, f32 scale);
 void TBoss8Dragon__sub_800BB7DC(void *self);
 }
-u8 *enemy_turn_and_move_on_ground(u8 *self, s32 arg1, f32 currentSpeed);
+u8 *enemy_turn_and_move_on_ground(TObjEneDD_ST *self, s32 arg1, f32 currentSpeed);
 
 void set_collider_contact_high(u8 *arg0);
 void set_collider_contact_low(u8 *arg0);
