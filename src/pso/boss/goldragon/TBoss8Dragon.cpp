@@ -717,10 +717,10 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     this->tail = new TBoss8DragonEffTail(this, &this->node_positions[15]);
     this->attack_history = new AreaAttackHistory(4);
     this->collider = new TBoss8DragonColli(&this->sub_tasks);
-    this->m_688 = 0.0f;
-    this->m_68c = 0.0f;
-    this->m_690 = 0.0f;
-    this->m_694 = 0.0f;
+    this->destinationX = 0.0f;
+    this->destinationZ = 0.0f;
+    this->savedX = 0.0f;
+    this->savedZ = 0.0f;
     this->sector_count = 0;
     this->m_69c = 0;
     for (i = 0; i < 0xC; i++) {
@@ -1359,8 +1359,8 @@ void TBoss8Dragon::apply_6xA8_action(u8 *packet) {
     s16 action;
     enemy_set_target_id(this, (u16)*(s32 *)(packet + 8));
     this->sequenceCursor = *(s16 *)(packet + 6);
-    this->m_690 = *(f32 *)(packet + 0xC);
-    this->m_694 = *(f32 *)(packet + 0x10);
+    this->savedX = *(f32 *)(packet + 0xC);
+    this->savedZ = *(f32 *)(packet + 0x10);
     this->dispatch_action(*(s16 *)(packet + 4), 7);
     set_mode_params__12TBoss8DragonFSc(this, packet[0x14]);
     action = *(s16 *)(packet + 4);
@@ -1377,8 +1377,8 @@ void TBoss8Dragon::send_6xA8_action() {
     p.b = this->mode;
     p.c = this->sequenceCursor;
     p.d = this->target_id;
-    p.e = this->m_688;
-    p.f = this->m_68c;
+    p.e = this->destinationX;
+    p.f = this->destinationZ;
     t = 0.000030517578f * (f32)rand();
     p.g = (s8)(3.0f * t);
     ((TBoss8Dragon *)(&p))->send_swapped_packet();
@@ -1395,36 +1395,36 @@ void TBoss8Dragon::send_action_packet(int action) {
     p.c = ((TBoss8Dragon *)boss8_dragon)->sequenceCursor;
     p.d = ((TBoss8Dragon *)boss8_dragon)->target_id;
     p.e = *(f32 *)((s8 *)boss8_dragon + 0x688);
-    p.f = ((TBoss8Dragon *)boss8_dragon)->m_68c;
+    p.f = ((TBoss8Dragon *)boss8_dragon)->destinationZ;
     t = 0.000030517578f * (f32)rand();
     p.g = (s8)(3.0f * t);
     ((TBoss8Dragon *)(&p))->send_swapped_packet();
 }
 
 void TBoss8Dragon::sync_target_pos() {
-    this->destination.x = this->m_690;
-    this->destination.z = this->m_694;
+    this->destination.x = this->savedX;
+    this->destination.z = this->savedZ;
 }
 
-void TBoss8Dragon::sub_802FBBC8(s32 *arg1) {
-    *arg1 = (s32) this->m_690;
+void TBoss8Dragon::copySavedX(s32 *x) {
+    *x = (s32) this->savedX;
 }
 
 void TBoss8Dragon::restore_target_pos() {
-    this->position.x = this->m_690;
-    this->position.z = this->m_694;
+    this->position.x = this->savedX;
+    this->position.z = this->savedZ;
 }
 
-void TBoss8Dragon::save_position() { this->m_688 = this->destination.x; this->m_68c = this->destination.z; }
+void TBoss8Dragon::save_position() { this->destinationX = this->destination.x; this->destinationZ = this->destination.z; }
 
 void TBoss8Dragon::set_speed(s32 arg1) {
-    this->m_688 = (f32) arg1;
-    this->m_68c = 0.0f;
+    this->destinationX = (f32) arg1;
+    this->destinationZ = 0.0f;
 }
 
 void TBoss8Dragon::copy_pos_to_field688() {
-    this->m_688 = this->position.x;
-    this->m_68c = this->position.z;
+    this->destinationX = this->position.x;
+    this->destinationZ = this->position.z;
 }
 
 #pragma push
@@ -2646,8 +2646,8 @@ void TBoss8Dragon::sub_802F89F8(s32 event) {
         break;
     case 7:
         {
-            u32 seed = (u32)(s32)(100.0f * this->m_690);
-            s32 low = (s32)(100.0f * this->m_694);
+            u32 seed = (u32)(s32)(100.0f * this->savedX);
+            s32 low = (s32)(100.0f * this->savedZ);
             seed *= 0x10000UL;
             seed |= (u32)low & 0xFFFFUL;
             subtractive_rng_seed(&this->m_764, seed);
@@ -3933,7 +3933,7 @@ void TBoss8Dragon::sub_802F610C(s32 event) {
         }
         break;
     case 7:
-        sub_802FBBC8(p);
+        copySavedX(p);
         return;
     case 6:
         this->set_speed(this->rotation_y);
@@ -4100,7 +4100,7 @@ void TBoss8Dragon::sub_802F5CC8(s32 event) {
         }
         break;
     case 7:
-        sub_802FBBC8(p);
+        copySavedX(p);
         return;
     case 6:
         this->set_speed(*p);
@@ -4217,7 +4217,7 @@ void TBoss8Dragon::handle_walk_state(s32 event) {
         }
         break;
     case 7:
-        sub_802FBBC8(&this->rotation_y);
+        copySavedX(&this->rotation_y);
         return;
     case 6:
         this->set_speed(this->rotation_y);
@@ -4257,16 +4257,16 @@ void TBoss8Dragon::sub_802F57E4(s32 event) {
         }
         return;
     case 7:
-        this->m_758 = (s32) this->m_690;
-        if (this->m_694 > 0.0f) {
+        this->m_758 = (s32) this->savedX;
+        if (this->savedZ > 0.0f) {
             this->m_85c = 0x180;
             return;
         }
         this->m_85c = -0x180;
         return;
     case 6:
-        this->m_688 = (f32) (65536.0f * random_ratio());
-        this->m_68c = calc_elapsed_scaled();
+        this->destinationX = (f32) (65536.0f * random_ratio());
+        this->destinationZ = calc_elapsed_scaled();
         return;
     case 0:
         this->m_758 = (s32) (this->m_758 + this->m_85c);
@@ -4653,7 +4653,7 @@ void TBoss8Dragon::sub_802F4B90(s32 event) {
         }
         break;
     case 7:
-        sub_802FBBC8(p);
+        copySavedX(p);
         break;
     case 6: {
         u32 v = 4294967296.0f * (0.000030517578f * (f32)rand());

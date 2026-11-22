@@ -818,8 +818,8 @@ TBoss1Dragon::TBoss1Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     this->m_5e8.x = (0.0f);
     this->m_5e8.y = (0.0f);
     this->m_5e8.z = (0.0f);
-    this->m_5f4.reset_coords();
-    this->m_618.reset_coords();
+    this->curve0.reset_coords();
+    this->curve1.reset_coords();
     VecCopy(&this->m_63c, &this->position);
     VecCopy(&this->m_648, &this->position);
     this->m_654 = 0;
@@ -2795,10 +2795,10 @@ void TBoss1Dragon::update_flight_state(u32 reason) {
         this->update_velocity();
         switch (TBoss1Dragon::isV2Mode()) {
         case 0:
-            init_acceleration_curve(&this->m_5f4, (0.1f), (-0.1f), this->destination_distance, (2.0f));
+            init_acceleration_curve(&this->curve0, (0.1f), (-0.1f), this->destination_distance, (2.0f));
             break;
         case 1:
-            init_acceleration_curve(&this->m_5f4, (0.1f), (-0.1f), this->destination_distance, *(f32 *)((s8 *)(*(G_80025C68 *)&TBoss1Dragon__data_804FE17C).value + 0x14));
+            init_acceleration_curve(&this->curve0, (0.1f), (-0.1f), this->destination_distance, *(f32 *)((s8 *)(*(G_80025C68 *)&TBoss1Dragon__data_804FE17C).value + 0x14));
             break;
         }
         VecCopy(base, &this->position);
@@ -2811,10 +2811,10 @@ void TBoss1Dragon::update_flight_state(u32 reason) {
         }
         switch (TBoss1Dragon::isV2Mode()) {
         case 0:
-            init_acceleration_curve(&this->m_618, 16.0f, (-16.0f), (f32)var, 512.0f);
+            init_acceleration_curve(&this->curve1, 16.0f, (-16.0f), (f32)var, 512.0f);
             break;
         case 1:
-            init_acceleration_curve(&this->m_618, 16.0f, (-16.0f), (f32)var, (f32)(s32)(256.0f * *(f32 *)((s8 *)(*(G_80025C68 *)&TBoss1Dragon__data_804FE17C).value + 0x14)));
+            init_acceleration_curve(&this->curve1, 16.0f, (-16.0f), (f32)var, (f32)(s32)(256.0f * *(f32 *)((s8 *)(*(G_80025C68 *)&TBoss1Dragon__data_804FE17C).value + 0x14)));
             break;
         }
         this->m_874 = this->rotation_y;
@@ -2848,19 +2848,19 @@ void TBoss1Dragon::update_flight_state(u32 reason) {
         switch (this->stateStep) {
         case 0:
             this->fallVelocity += (1.0f);
-            t = sample_acceleration_curve(&this->m_618, this->fallVelocity);
+            t = sample_acceleration_curve(&this->curve1, this->fallVelocity);
             this->rotation_y = (s32)((f32)this->airTurnDirection * t + (f32)this->m_874);
-            if (this->m_618.check_param_threshold(this->fallVelocity) != 0) {
+            if (this->curve1.check_param_threshold(this->fallVelocity) != 0) {
                 this->fallVelocity = (0.0f);
                 this->stateStep = 1;
             }
             break;
         case 1:
             this->fallVelocity += (1.0f);
-            t = sample_acceleration_curve(&this->m_5f4, this->fallVelocity);
+            t = sample_acceleration_curve(&this->curve0, this->fallVelocity);
             this->position.x = this->destination_direction.x * t + base->x;
             this->position.z = this->destination_direction.z * t + base->z;
-            if (this->m_5f4.check_param_threshold(this->fallVelocity) != 0) {
+            if (this->curve0.check_param_threshold(this->fallVelocity) != 0) {
                 this->stateStep = 2;
             }
             break;

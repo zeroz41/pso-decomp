@@ -56,7 +56,7 @@ public:
     void sub_802FB09C();
     void sub_802FB778();
     void sub_802FB70C();
-    void sub_802FBBC8(s32 *arg1);
+    void copySavedX(s32 *x);
     void calc_target_vector();
     void init_air_turn(s32 targetAngle);
     s32 advance_air_turn();
@@ -103,10 +103,10 @@ public:
     TBoss8DragonEffTail *tail;  // the TBoss8DragonEffTail the constructor creates
     AreaAttackHistory *attack_history;
     TObject *collider;  // the TBoss8DragonColli the constructor hangs under sub_tasks
-    f32 m_688;
-    f32 m_68c;
-    f32 m_690;
-    f32 m_694;
+    f32 destinationX;
+    f32 destinationZ;
+    f32 savedX;
+    f32 savedZ;
     s32 sector_count;  // how many of sector_radii choose_burrow_ring_destination has filled
 
     u32 m_69c;

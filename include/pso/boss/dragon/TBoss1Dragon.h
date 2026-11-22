@@ -114,8 +114,8 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     f32 defaultHeightOffset;
     f32 m_5e4;
     Vec m_5e8;
-    AccelerationCurve m_5f4;
-    AccelerationCurve m_618;
+    AccelerationCurve curve0;  // as TBoss8Dragon::curve0
+    AccelerationCurve curve1;
     Vec m_63c;
     Vec m_648;
     s32 m_654;
