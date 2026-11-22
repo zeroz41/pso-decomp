@@ -70,16 +70,24 @@ CollisionBody balclaw_body_collision = {{0.0f, 18.0f, 0.0f}, 5.0f, 0.0f, 0, 0x80
 u8 *balclaw_body_base_params[2];
 u8 *balclaw_body_attack_params[2];
 u8 *balclaw_body_resistance_params[2];
-u8 *balclaw_body_behavior_params[2];
+BalClawBehaviorParams *balclaw_body_behavior_params[2];
 const char *balclaw_body_class_name = balclaw_body_class_name_text;
 
 
 extern "C" {
-s32 fn_80090464(void *, int);
 void queue_destruction__7TObjectFv(void *arg0);
 void send_6x2F_change_player_hp(s32 arg0, s32 arg1, s32 arg2);
 s32 submit_cursor_candidate(void *, int, int, f32, f32);
 }
+
+// int_params[0] is the hp percent at which the body turns on its target (update_damage).
+s32 TObjEneBalClawBody::get_int_parameter(s32 i) {
+    return balclaw_body_behavior_params[variant]->int_params[i];
+}
+
+int TObjEneBalClawBody::get_flag_0x388_b24() { return (m_388 >> 24) & 0x1; }
+
+void TObjEneBalClaw::set_attack_distance_flag() { this->m_388 |= 0x10000; }
 
 // Picks this part's model and texture list (index into the Bal Claw BML models).
 void TObjEneBalClaw::set_model(s32 i) {
@@ -162,7 +170,7 @@ void TObjEneBalClawBody::run_task() {
     f32 center_y;
     CollisionBody *body;
 
-    sub_8008D68C();
+    scroll_part_uvs();
     if (TObjPlayer::check_demo_mode() == 1) {
         load_params();
         run_demo_task();
@@ -411,7 +419,7 @@ void TObjEneBalClawBody::update_damage() {
             body->actorFlags &= ~0x200;
             body->m_388 &= ~1;
             if (body->get_flag_0x388_b24() == 0) {
-                percent = fn_80090464(body, 0);
+                percent = body->get_int_parameter(0);
                 if (percent <= 0) {
                     percent = 0xA;
                 }
@@ -1161,8 +1169,12 @@ void TObjEneBalClawBody::run_idle_action() {
 void TObjEneBalClawBody::load_params() {
 }
 
-void TObjEneBalClawClaw::spawn_child_enemy() {
+// Registers the combined body's model (bcbody) and action table with the NPC model registry.
+void TObjEneBalClawBody::load_resources() {
     NpcAnimationBinding params = { reinterpret_cast<BmlMotionEntry *>(balclaw_bml_resource->motions), reinterpret_cast<TObjMotionAction *>(balclaw_body_actions), 0, 1, 12 };
     NpcModelRegistry::register_animated_chunk(0x13, reinterpret_cast<void *>(balclaw_bml_resource->models[1].model), reinterpret_cast<void *>(balclaw_bml_resource->models[1].m_c), &params,
                             balclaw_body_collision.radius, 15.0f);
+}
+
+void TObjEneBalClawBody::free_resources() {
 }

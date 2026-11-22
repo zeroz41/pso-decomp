@@ -11,6 +11,7 @@ struct TObjEneBalClawBody : public TObjEneBalClaw {
     virtual ~TObjEneBalClawBody();
     void sub_800C73F4();
     int get_flag_0x388_b24();
+    s32 get_int_parameter(s32 i);  // balclaw_body_behavior_params[variant]->int_params[i]
     virtual void run_task();
     virtual void render();
     virtual void run_attack_action();
@@ -35,6 +36,8 @@ struct TObjEneBalClawBody : public TObjEneBalClaw {
     void update_state();
     void update_wait();
     static void *create(void *set_data);
+    static void load_resources();  // registers the bcbody model for the NPC model registry
+    static void free_resources();
     f32 target_distance_sq;  // xz distance squared to the target
     u32 child_ids[4];  // entity ids of the claws; the dtor destroys the first child_count of them
     s32 form_timer;  // frames since the last merge/split (not counted while idle or returning home)

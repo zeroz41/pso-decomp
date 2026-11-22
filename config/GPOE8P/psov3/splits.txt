@@ -1359,7 +1359,7 @@ pso/system/scene/TEndingC_8008D00C.cpp:
 	.sdata2     start:0x805D95C0 end:0x805D95FC
 
 pso/enemy/balclaw/TObjEneBalClaw.cpp:
-	.text       start:0x8008D68C end:0x8008DC18
+	.text       start:0x8008D68C end:0x8008DC14
 	.rodata     start:0x80439910 end:0x80439B40
 	.data       start:0x8048EB78 end:0x8048EDE8
 	.bss        start:0x805006F8 end:0x805007A8
@@ -1368,24 +1368,15 @@ pso/enemy/balclaw/TObjEneBalClaw.cpp:
 	.sdata2     start:0x805D9600 end:0x805D9614
 
 pso/enemy/balclaw/TObjEneBalClawBody.cpp:
-	.text       start:0x8008DC18 end:0x80090448
+	.text       start:0x8008DC14 end:0x80090488
 	.rodata     start:0x80439B40 end:0x80439B78
 	.data       start:0x8048EDE8 end:0x8048F08C
 	.bss        start:0x805007A8 end:0x805007C8
 	.sdata      start:0x805D2970 end:0x805D2974
 	.sdata2     start:0x805D9618 end:0x805D9688
 
-pso/player/TObjPlayer_80090448.cpp:
-	.text       start:0x80090448 end:0x80090464
-
-pso/unk/text_80090464.cpp:
-	.text       start:0x80090464 end:0x80090488
-
-pso/unk/text_80090488.cpp:
-	.text       start:0x80090488 end:0x8009048C
-
 pso/enemy/balclaw/TObjEneBalClawClaw.cpp:
-	.text       start:0x8009048C end:0x80091CCC
+	.text       start:0x80090488 end:0x80091CCC
 	.rodata     start:0x80439B78 end:0x80439B9C
 	.data       start:0x8048F090 end:0x8048F2C8
 	.sdata      start:0x805D2978 end:0x805D297C

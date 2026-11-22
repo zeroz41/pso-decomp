@@ -34,8 +34,8 @@ struct TObjEneBalClawClaw : public TObjEneBalClaw {
     void update_state();
     static TObjEneBalClawClaw *create_from_body(TObjEneBalClawBody *body, u16 id, s32 index, const Vec *pos, s32 rot_y, s32 hp);
     static void *create(void *set_data);
-    static void spawn_child_enemy();
-    static void sub_8008DC14();
+    static void load_resources();  // registers the claw model for the NPC model registry
+    static void free_resources();
     f32 target_distance_sq;  // xz distance squared to where it is moving (the body while following it)
     u8 pad_3c4[0x2];
     u16 body_id;  // entity id of the body it follows
@@ -50,8 +50,5 @@ struct TObjEneBalClawClaw : public TObjEneBalClaw {
 
 LAYOUT_ASSERT(TObjEneBalClawClaw_size, sizeof(TObjEneBalClawClaw) == 0x428);
 
-extern "C" {
-void spawn_lobby_npc_enemy(void);
-}
 
 #endif

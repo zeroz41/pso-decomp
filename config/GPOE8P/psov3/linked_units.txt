@@ -1690,7 +1690,6 @@ pso/player/TObjPlayer_8007B4F8.cpp
 pso/player/TObjPlayer_80080750.cpp
 pso/player/TObjPlayer_80083594.cpp
 pso/player/TObjPlayer_80084B84.cpp
-pso/player/TObjPlayer_80090448.cpp
 pso/player/TObjPlayer_80092A7C.cpp
 pso/player/TObjPlayer_80099EF8.cpp
 pso/player/TUnk_80491460.cpp
@@ -2017,8 +2016,6 @@ pso/unk/text_80086FE0.cpp
 pso/unk/text_800870BC.cpp
 pso/unk/text_800871A0.cpp
 pso/unk/text_80087278.cpp
-pso/unk/text_80090464.cpp
-pso/unk/text_80090488.cpp
 pso/enemy/beast/TObjEneBeast_80092AE0.cpp
 pso/unk/text_800C2A88.cpp
 pso/unk/text_800C2CE0.cpp

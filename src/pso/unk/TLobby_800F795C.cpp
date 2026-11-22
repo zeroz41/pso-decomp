@@ -18,7 +18,6 @@
 #include "pso/npc/TUnk_804A9F50.h"
 #include "pso/enemy/dubchik/TObjEneDubchik.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
-#include "pso/unk/text_80090488.h"
 #include "pso/enemy/canadin/TObjEneMe1Canadin.h"
 #include "pso/unk/text_8035B6B0.h"
 #include "pso/unk/text_8035B750.h"
@@ -39,6 +38,7 @@
 
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/enemy/balclaw/TObjEneBalClaw.h"
+#include "pso/enemy/balclaw/TObjEneBalClawBody.h"
 #include "pso/enemy/balclaw/TObjEneBalClawClaw.h"
 #include "pso/enemy/beast/TObjEneBeast.h"
 #include "pso/enemy/fly/TObjEneBm3FlyNest.h"
@@ -330,8 +330,8 @@ FloorResourceCallbacks floor_resource_callbacks_selector_08[11] = {
     { TObjEneRe7Berura::load_static_resources, TObjEneRe7Berura::destroy_children },
     { TLobby::load_dimedian_resources, TObjEneDimedian::free_boss_objects },
     { TObjEneBalClaw::load_resources, TObjEneBalClaw::free_resources },
-    { TObjEneBalClawClaw::spawn_child_enemy, TObjEneBalClawClaw::sub_8008DC14 },
-    { spawn_lobby_npc_enemy, fn_80090488 },
+    { TObjEneBalClawBody::load_resources, TObjEneBalClawBody::free_resources },
+    { TObjEneBalClawClaw::load_resources, TObjEneBalClawClaw::free_resources },
     { reset_camera_override, restore_cameras_if_overridden },
     { 0, 0 },
 };

@@ -28,7 +28,7 @@ struct TObjEneBalClaw : public TObjEnemyCustom {
     void update_claw_angle();
     static void free_resources();
     static void load_resources();
-    static void sub_8008D68C();
+    static void scroll_part_uvs();  // once a frame: scrolls the UVs of the 7 balclaw_parts
     void clear_flag_in_state7();
     f32 wobble_offset;        // 5 * sin(wobble_angle), added to hover_height
 };
@@ -38,6 +38,12 @@ LAYOUT_ASSERT(TObjEneBalClaw_size, sizeof(TObjEneBalClaw) == 0x3C0);
 struct BmlResource;
 struct BmlMotionEntry;
 struct NJS_OBJECT;
+
+// The record TLobby::dispatch_shared_handler_a(31 body, 32 claw) returns (DarkGunner's layout).
+struct BalClawBehaviorParams {
+    f32 float_params[6];
+    s32 int_params[4];  // body: 0 hp percent at which it turns on its target
+};
 
 // A movement row TObjEnemy::movementParameters points at.
 struct BalClawMovement {
@@ -67,11 +73,11 @@ extern NJS_OBJECT *balclaw_arm_part_models[4][11];
 extern u8 *balclaw_body_base_params[];
 extern u8 *balclaw_body_attack_params[];
 extern u8 *balclaw_body_resistance_params[];
-extern u8 *balclaw_body_behavior_params[];
+extern BalClawBehaviorParams *balclaw_body_behavior_params[];
 // The same for the claws (TObjEneBalClawClaw::init binds them).
 extern u8 *balclaw_claw_base_params[];
 extern u8 *balclaw_claw_attack_params[];
 extern u8 *balclaw_claw_resistance_params[];
-extern u8 *balclaw_claw_behavior_params[];
+extern BalClawBehaviorParams *balclaw_claw_behavior_params[];
 
 #endif

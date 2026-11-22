@@ -58,7 +58,7 @@ extern void *tl_04;
 u8 *balclaw_claw_base_params[1];
 u8 *balclaw_claw_attack_params[1];
 u8 *balclaw_claw_resistance_params[1];
-u8 *balclaw_claw_behavior_params[1];
+BalClawBehaviorParams *balclaw_claw_behavior_params[1];
 
 const char *balclaw_claw_class_name = "TObjEneBalClawClaw";
 
@@ -142,7 +142,7 @@ void TObjEneBalClawClaw::run_task() {
     u32 flags;
     CollisionBody *body;
     TObjBase *parent;
-    sub_8008D68C();
+    scroll_part_uvs();
     if (TObjPlayer::check_demo_mode() == 1) {
         load_params();
         run_demo_task();
@@ -722,10 +722,14 @@ void TObjEneBalClawClaw::update_retreat() {
     }
 }
 
-void spawn_lobby_npc_enemy(void) {
+// Registers the claw model (claw_body) and action table with the NPC model registry.
+void TObjEneBalClawClaw::load_resources() {
     NpcAnimationBinding binding = { reinterpret_cast<BmlMotionEntry *>(balclaw_bml_resource->motions), reinterpret_cast<TObjMotionAction *>(balclaw_claw_model_node_desc), 0, 1, 7 };
     BmlModelEntry *models;
     models = balclaw_bml_resource->models;
     NpcModelRegistry::register_animated_chunk(0x14, reinterpret_cast<void *>(models[2].model), reinterpret_cast<void *>(models[2].m_c), &binding,
                             TObjEneBalClawClaw__collision_body_template.radius, 15.0f);
+}
+
+void TObjEneBalClawClaw::free_resources() {
 }

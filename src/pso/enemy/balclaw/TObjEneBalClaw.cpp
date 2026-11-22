@@ -13,10 +13,10 @@ struct BalClawPartEntry {
     s16 *plist;
     s16 model_index;
     s16 part_index;
-    s16 m_8;
-    s16 m_a;
-    s16 m_c;
-    s16 m_e;
+    s16 uv_scroll_u;  // added to the u of the texture_id strips once a frame
+    s16 uv_scroll_v;
+    s16 texture_id;
+    s16 pad_e;
 };
 
 static const char balclaw_body_model[] = "re6_b_bal_body.nj";
@@ -76,13 +76,13 @@ extern s32 actor_frame_tick;
 
 
 
-void TObjEneBalClaw::sub_8008D68C() {
+void TObjEneBalClaw::scroll_part_uvs() {
     s32 i;
     if (balclaw_last_shared_update_frame != actor_frame_tick) {
         balclaw_last_shared_update_frame = actor_frame_tick;
         for (i = 0; i < 7; i++) {
             BalClawPartEntry *e = &balclaw_parts[i];
-            TObjPlayer__sub_8023DEE0(e->plist, e->m_8, e->m_a, e->m_c);
+            TObjPlayer__sub_8023DEE0(e->plist, e->uv_scroll_u, e->uv_scroll_v, e->texture_id);
         }
     }
 }
@@ -182,13 +182,13 @@ void TObjEneBalClaw::load_resources() {
         balclaw_body_base_params[n] = (u8 *)TLobby::register_boss(31);
         balclaw_body_attack_params[n] = (u8 *)TLobby::dispatch_shared_handler_b(31);
         balclaw_body_resistance_params[n] = (u8 *)TLobby::register_object(31);
-        balclaw_body_behavior_params[n] = (u8 *)TLobby::dispatch_shared_handler_a(31);
+        balclaw_body_behavior_params[n] = (BalClawBehaviorParams *)TLobby::dispatch_shared_handler_a(31);
     }
     for (n = 0; n < 1; n++) {
         balclaw_claw_base_params[n] = (u8 *)TLobby::register_boss(32);
         balclaw_claw_attack_params[n] = (u8 *)TLobby::dispatch_shared_handler_b(32);
         balclaw_claw_resistance_params[n] = (u8 *)TLobby::register_object(32);
-        balclaw_claw_behavior_params[n] = (u8 *)TLobby::dispatch_shared_handler_a(32);
+        balclaw_claw_behavior_params[n] = (BalClawBehaviorParams *)TLobby::dispatch_shared_handler_a(32);
     }
 }
 
@@ -220,5 +220,3 @@ void TObjEneBalClaw::clear_attack_flag() {
     m_388 &= ~0x10000;
 }
 
-void TObjEneBalClawClaw::sub_8008DC14() {
-}
