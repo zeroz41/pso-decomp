@@ -47,6 +47,7 @@
 #include "pso/ui/frontend/TAdEnterPPPPassGC.h"
 #include "pso/ui/frontend/TAdEnterPasswordGC.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
+#include "pso/ui/frontend/TAdEp3Exist.h"
 #include "pso/ui/frontend/TAdGameStartGC.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC_8023F4E4.h"
@@ -68,7 +69,6 @@
 #include "pso/ui/frontend/TAdTitleTexGC.h"
 
 extern "C" {
-void *TAdEp3Exist__ct(void *, TObject *);
 void *__ct__17TAdExNetConfirmGCFP7TObject(void *, TObject *);
 void *__ct__17TAdLicAgreementGCFP7TObject(void *, TObject *);
 void *__ct__13TUnk_804F3A20FP7TObject(void *, TObject *);
@@ -482,11 +482,7 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
         game_mode_scene_instance = (TObject *)p;
         break;
     case 28:
-        p = TObject::operator new(0x38);
-        if (p != NULL) {
-            p = TAdEp3Exist__ct(p, tl_01);
-        }
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = new TAdEp3Exist(tl_01);
         break;
     case 1:
         p = TObject::operator new(0x28);
