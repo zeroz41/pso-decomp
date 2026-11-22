@@ -13,6 +13,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
+#include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 
 #pragma readonly_strings on
@@ -75,7 +76,7 @@ void TWindowSubGameEnd::run_task() {
                         ((THunterGuildSeqOffline *)obj)->init((void *)tl_00, (void *)((void *)TKeyBoardControl::init_char_select));
                     }
                     fn_8024AB54(this->m_20);
-                    send_logout__6TLobbyFv();
+                    TLobby::send_logout();
                     window_sub_game_end_active_flag = 1;
                 }
                 this->m_1c = 2;

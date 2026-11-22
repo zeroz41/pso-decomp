@@ -232,7 +232,7 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {(FloorResourceCallback)TLobby__sub_8001DC04, (FloorResourceCallback)TLobby::forward_8001DBD8},
     {(FloorResourceCallback)TLobby__sub_8034C3A4, (FloorResourceCallback)TLobby__sub_8034C384},
     {(FloorResourceCallback)TWindowGetComCard__sub_8007B67C, (FloorResourceCallback)TWindowGetComCard__sub_8007B65C},
-    {(FloorResourceCallback)TLobby__sub_8024285C, (FloorResourceCallback)TLobby::reset_state},
+    {(FloorResourceCallback)TLobby__sub_8024285C, (FloorResourceCallback)(void (*)(void *))TLobby::reset_state},
     {clear_received_symbol_chat, TLobby__sub_80077608},
     {TLobby__sub_80077BAC, TLobby::free_static_windows},
     {TWindowDD__sub_80344114, TWindowDD::free_buffers},

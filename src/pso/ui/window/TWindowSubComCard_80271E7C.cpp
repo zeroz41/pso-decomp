@@ -77,7 +77,6 @@ extern "C" {
 s32 *get_selected_guild_card_record(void);
 extern "C" {
 void set_value_by_key(void *, u16, s32);
-s32 open_hard_keyboard__6TLobbyFPv(void *);
 int get_card_entry__17TWindowSubComCardFi(void);
 saddr get_window_layout_position(s32 a0 = 0);
 
@@ -1419,7 +1418,7 @@ s32 TWindowSubComCard::create_entry_list_window() {
     Ent_80272CB0 *e;
     List_80272CB0 *l;
     card = (u8 *)get_character_save_record(0xFFFF);
-    hard = open_hard_keyboard__6TLobbyFPv(*(void **)(((u8 *)this) + 0x20));
+    hard = TLobby::open_hard_keyboard(*(void **)(((u8 *)this) + 0x20));
     w = create_choice_setting_window__17TWindowSubComCardFiii((s32)(get_window_layout_position(0x8C)), (saddr)com_card_entry_list_size, 6);
     create_sub_window__20TWindowChoiceSettingFPvi((void *)w, (saddr)((void*)TWindowSubStatusDisp::get_message_10(0x6D)));
     ((TWindowSubComCard *)w)->update_next_entry((saddr)((void*)TWindowSubStatusDisp::get_message_10(0x6D)), (saddr)this->get_message_10(hard), 0);
@@ -1458,7 +1457,7 @@ s32 TWindowSubComCard::create_option_list_window(saddr arg1, s32 key) {
     if (key == 0) {
         TObjCityMainWarp::forward_trade_action_default((void *)win, (saddr)this->get_message_10(0), 6, 0);
         TObjCityMainWarp::forward_trade_action_default((void *)win, (saddr)this->get_message_10(1), 6, 1);
-        ((TWindowSubComCardList *)win)->set_selected_index(open_hard_keyboard__6TLobbyFPv((void *)this->m_20));
+        ((TWindowSubComCardList *)win)->set_selected_index(TLobby::open_hard_keyboard((void *)this->m_20));
     } else {
         sel = ((TWindowSubComCard *)arg1)->find_value_by_key(key);
         cs = (ChrSel_80272B60 *)TWindowSubComCard::get_chr_select();
@@ -1762,7 +1761,7 @@ u8 *TWindowSubComCard::find_entry_rest(void *arg1_arg, s32 idx) {
 void TWindowSubComCard::sub_80271F04(void *arr, s32 key, saddr arg3) {
     s32 i;
     if (key == 0) {
-        if (arg3 != open_hard_keyboard__6TLobbyFPv(*(void **)(((u8 *)this) + 0x20))) {
+        if (arg3 != TLobby::open_hard_keyboard(*(void **)(((u8 *)this) + 0x20))) {
             ((u8 *)this)[0x1D] |= 1;
             ((TWindowSubComCard *)(*(void **)(((u8 *)this) + 0x20)))->set_com_param(arg3);
             ((TWindowMakeTeam *)(*(void **)(((u8 *)this) + 0x7C)))->set_entry_string_by_id(this->get_message_10(arg3), 0);

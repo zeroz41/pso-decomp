@@ -30,6 +30,7 @@ struct GcrnaStream;
 
 struct TObjTombstone;
 struct TObjTombstoneSpot;
+class TPlyJoinLobbyEntry;
 
 struct TLobby : public TObject {
     // Whether a challenge-mode task is running.
@@ -37,7 +38,7 @@ struct TLobby : public TObject {
     static int is_flag_set(void *p);
     virtual ~TLobby();
     void try_close(void *);
-    void on_game_player_add(int, int, int);
+    static void on_game_player_add(int, int, int);
     static void forward_8024273C(void *p);
     void close_window();
     static s32 get_filtered_event_theme();
@@ -973,7 +974,7 @@ struct TLobby : public TObject {
     void update_battle_intro();
     // Members other code calls by their mangled names.
     static s32 add_entry(int, int, int);
-    static void add_lobby_members(void *, int, s16, int);
+    static void add_lobby_members(TPlyJoinLobbyEntry *, int, int, int);
     static void *adxf_open(unsigned int, int);
     static s32 adxf_open_file(int, void *, int, void *);
     static void *adxstm_open_fname_range(void *, int, int, int, int);
@@ -994,10 +995,11 @@ struct TLobby : public TObject {
     static s32 check_team_balance(void *, int);
     static void check_valid_state(int);
     static void clear_four_slots();
-    static int close_all_windows(void*);
+    static void close_all_windows(void *);
     static void close_all_windows();
     static void close_and_send_text_list();
     static void close_and_set_state_12();
+    static void close_and_set_state_13(int msg);
     static void close_com_card_window();
     static void close_giveup_window(void*);
     static void close_menu_windows();
@@ -1031,13 +1033,13 @@ struct TLobby : public TObject {
     static void get_menu_field_280();
     static void *get_player_entry(int, int);
     static s32 get_progress_info(void *, void *, void *, void *);
-    static saddr get_seq_phase(void*);
+    static saddr get_seq_phase(int);
     static void handle_com_card();
     static void handle_comcard_window();
     static void handle_create_game_window();
     static void handle_game_join(void *);
     static void handle_game_list_select();
-    static void handle_lobby_enter(void *, int, int, int, int, int, int, int);
+    static void handle_lobby_enter(TPlyJoinLobbyEntry *, int, int, int, int, int, int, int);
     static void handle_login_result(unsigned int);
     static void handle_regist_check(int);
     static void handle_register_name_result(int);
@@ -1070,7 +1072,7 @@ struct TLobby : public TObject {
     static void on_lobby_player_add(int, int);
     static void open_city_warp_menu();
     static void open_download_list_window(int, void *);
-    static void open_hard_keyboard(void*);
+    static s32 open_hard_keyboard(void*);
     static void open_information_list(int, void *);
     static void open_keyboard_window();
     static void open_lobby_warp_menu();
@@ -1097,6 +1099,7 @@ struct TLobby : public TObject {
     static void reset();
     static void reset_camera_if_fullscreen(void*);
     static void reset_random_enemies_mode();
+    static void reset_state(int msg);
     static void reset_state_flags();
     static void retire_lobby_player(int, int);
     static void return_to_main_menu();

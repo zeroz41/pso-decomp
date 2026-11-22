@@ -118,11 +118,12 @@ void handle_cmd_9B__9TProtocolFR6packet(u8 *arg0, Regist_801DAD38 *arg1) {
     }
 }
 
-s32 socket_set_server_info(u8 *socket, saddr arg1, saddr arg2, saddr arg3, saddr arg4, saddr arg5, s32 arg6) {
+s32 socket_set_server_info(u8 *socket, const char *arg1, const char *arg2, const char *serial, const char *access_key,
+                           const char *host, u16 port) {
     s32 temp_r31;
 
-    temp_r31 = ((TSocket *)socket)->resolve_domain((char *)arg5);
-    set_port__7TSocketFUl(socket, arg6);
+    temp_r31 = ((TSocket *)socket)->resolve_domain((char *)host);
+    set_port__7TSocketFUl(socket, port);
     if (temp_r31 != 0) {
         return 2;
     }
@@ -130,10 +131,10 @@ s32 socket_set_server_info(u8 *socket, saddr arg1, saddr arg2, saddr arg3, saddr
     memset(socket + 0x3EC9, 0, 0x11);
     memset(socket + 0x3F8A, 0, 0x11);
     memset(socket + 0x3F9B, 0, 0x11);
-    strncpy((char *)(socket + 0x3EB8), (const char *)arg1, 8);
-    strncpy((char *)(socket + 0x3EC9), (const char *)arg2, 0xC);
-    strncpy((char *)(socket + 0x3F8A), (const char *)arg3, 8);
-    strncpy((char *)(socket + 0x3F9B), (const char *)arg4, 0xC);
+    strncpy((char *)(socket + 0x3EB8), arg1, 8);
+    strncpy((char *)(socket + 0x3EC9), arg2, 0xC);
+    strncpy((char *)(socket + 0x3F8A), serial, 8);
+    strncpy((char *)(socket + 0x3F9B), access_key, 0xC);
     if (((VObjDA *)socket)->m4() < 0) {
         return 1;
     }

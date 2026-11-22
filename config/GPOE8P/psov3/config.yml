@@ -3783,7 +3783,7 @@ force_active:
   - add_instance__16TObjEneMe3StelthFv
   - add_iq__8MagStatsFl
   - add_item_purpose_actions__FP14TWindowSubItemll
-  - add_lobby_members__6TLobbyFPvisi
+  - add_lobby_members__6TLobbyFP18TPlyJoinLobbyEntryiii
   - add_mag_stat_bonuses__9TItemDataFv
   - add_meseta_purpose_actions__14TWindowSubItemFll
   - add_mind__8MagStatsFs
@@ -5231,7 +5231,7 @@ force_active:
   - close_and_play_effect__6TLobbyFii
   - close_and_send_text_list__6TLobbyFv
   - close_and_set_state_12__6TLobbyFv
-  - close_and_set_state_13__6TLobbyFv
+  - close_and_set_state_13__6TLobbyFi
   - close_child__20TWindowSubSymbolChatFv
   - close_com_card_window__6TLobbyFv
   - close_download__22TQuestVmDownLoadServerFv
@@ -6733,7 +6733,7 @@ force_active:
   - get_selected_blast__13TWindowSubMagFv
   - get_selected_entry__14TWindowSubItemFv
   - get_selected_guild_card_record__Fv
-  - get_seq_phase__6TLobbyFPv
+  - get_seq_phase__6TLobbyFi
   - get_serial_access_field_118__23TAdSinglePlyChrSelectGCFPv
   - get_serial_result__22TAdEnterSerialAccessGCFv
   - get_serial_text__22TAdEnterSerialAccessGCFii
@@ -6863,7 +6863,7 @@ force_active:
   - handle_input_window_result__24TShopEquipmentSellWindowFv
   - handle_judge_confirm__23TShopJudgmentItemWindowFv
   - handle_load_result__23TAdSinglePlyChrSelectGCFv
-  - handle_lobby_enter__6TLobbyFPviiiiiii
+  - handle_lobby_enter__6TLobbyFP18TPlyJoinLobbyEntryiiiiiii
   - handle_login_result__6TLobbyFUi
   - handle_loss_sequence__18TObjChallengeRetryFv
   - handle_lr_input__19TWindowSoundBalanceFv
@@ -14669,7 +14669,7 @@ force_active:
   - reset_state__15TFontSmallLobbyFv
   - reset_state__16KeyboardKeyStateFv
   - reset_state__19TContainerAncient01Fv
-  - reset_state__6TLobbyFv
+  - reset_state__6TLobbyFi
   - reset_state_clear_status__16TObjEneMerillLiaFv
   - reset_state_fields__9TObjEneDDFv
   - reset_telepipe_record
