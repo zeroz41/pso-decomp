@@ -101,9 +101,6 @@ struct TObjEneBm5GibonU : public TObjEneDD_ST {
     void unlink_list_node(void ***head, void **tail);
     static s32 destroy(s32 arg0, s16 arg1);
     static void register_global_objects();
-    void clear_flag_and_update();
-    s32 check_and_update();
-    s32 try_activate();
     s32 get_clamped_level();
     s32 check_hit_sphere(int angle, f32 scale);
     int get_attack_state(void * _w1);

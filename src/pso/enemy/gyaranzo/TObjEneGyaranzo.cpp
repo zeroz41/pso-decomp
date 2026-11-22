@@ -37,13 +37,9 @@
 
 #include "pso/unk/text_803D96A8.h"
 
-extern "C" void has_flag_0x800__9TObjCharaFv();
 
-extern "C" void test_flag30_512__9TObjCharaFv();
 
-extern "C" void test_flag_1000__9TObjCharaFv();
 
-extern "C" void test_flag_256__9TObjCharaFv();
 
 #include "pso/system/vector.h"
 
@@ -58,6 +54,8 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/system/BmlResourceDescriptor.h"
 
 #include "pso/render/TUnk_80494938.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/TObjControl.h"
 
 #include <stddef.h>
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
@@ -237,7 +235,6 @@ u16 get_entity_id(void *);
 s32 subtract_vector(void *, void *);
 
 
-extern s32 registered_player_count;
 
 extern s32 lbl_805D5870;
 
@@ -342,7 +339,6 @@ struct Res_800D3C04 { u8 pad0[0x38]; s32 r38; NJS_TEXLIST *texlist; u8 pad40[8];
 
 struct Area_800D3C04 { u8 pad0[0x42C]; Res_800D3C04 *res; BmlMotionEntry *motions; };
 
-struct Obj_800D3E54 { u8 pad0[0x18]; void *vt; };
 
 
 
@@ -361,9 +357,7 @@ s32 get_bml_motion(u32, int);
 
 
 
-void __dt__15TObjEnemyCustomFv(void *, int);
 
-s32 __ct__15TObjEnemyCustomFP7TObject(void *);
 
 #define update_walk_to_target__10TObjPlayerFPv ((s32 (*)(void *))update_walk_to_target__10TObjPlayerFPv)
 void TObjPlayer__sub_800D2E8C(Ene_800D2E8C *self);
@@ -378,16 +372,11 @@ void render__15TObjEneGyaranzoFv(u8 *arg0);
 
 void run_task__15TObjEneGyaranzoFv(u8 *arg0);
 
-Obj_800D3E54 * fn_800D3E54(Obj_800D3E54 *arg0, s16 arg1);
-
-u8 *TObjEneGyaranzo__ct(TObjEneGyaranzo *self, s32 arg1, u8 *arg2);
-
-s32 __dt__13TUnk_80494938Fv(void *, s16);
 
 
-void __dt__15RenderFadeStateFv();
 
-void __ct__15RenderFadeStateFv(void *);
+
+
 
 void create_dead_spot__10TObjPlayerFllf(void *, s32, f32);
 
@@ -398,23 +387,18 @@ int initialize_enemy_photon_effect(void *p);
 
 extern "C" {
 
-void * __ct__11TObjControlFP7TObject(void *, void *);
 
 s32 restore_scene_lighting();
 
 s32 select_actor_lighting(void *);
 
-s32 free_collision_body_parts(void *);
 
-s32 init_collision_body_parts(void *, void *, int);
 
 s32 minimap_render_dot(void *, s32, s32, s32);
 
 
 
-void __destroy_arr(void *, void *, int, int);
 
-s32 __construct_array(void *, void *, void *, int, int);
 
 
 s32 post_translate_matrix(void *);
@@ -443,149 +427,6 @@ extern s32 model_render_flags;
 
 extern void *tl_04;
 
-void get_anim_node_position__15TObjEnemyCustomFlP3Vec();
-
-void vfunc_6__8TObjBaseFPsl();
-
-void refresh_target__15TObjEnemyCustomFv();
-
-void run_miss_reaction__15TObjEneGyaranzoFv();
-
-void run_move_action__15TObjEneGyaranzoFv();
-
-void is_target_in_attack_range__15TObjEneGyaranzoFv();
-
-void run_idle_action__15TObjEneGyaranzoFv();
-
-void has_no_target__9TObjCharaFv();
-
-void recalc_stats__9TObjCharaFv();
-
-void consume_timer_field__9TObjCharaFl();
-
-void deliver_attack_hits__9TObjCharaFf();
-
-void vfunc_66__9TObjCharaFv();
-
-void apply_slow_status__9TObjCharaFv();
-
-void vfunc_43__9TObjCharaFv();
-
-void update_actor_ground_y_at__9TObjCharaFP3Vec();
-
-void interact__14TObjCollidableFl();
-
-void vfunc_74__9TObjEnemyFl();
-
-void apply_hit_message_flags__9TObjEnemyFPv();
-
-void add_actor_exp__9TObjCharaFl();
-
-void apply_action_hold_status__9TObjCharaFf();
-
-void apply_anti_technique__9TObjCharaFl();
-
-void apply_attack_stat_status__9TObjCharaFPv();
-
-void apply_confusion_status__9TObjCharaFv();
-
-void apply_knockback_from_attacker__9TObjCharaFPUcf();
-
-void apply_movement_ailment__9TObjCharaFl();
-
-void apply_object_set_data__8TObjBaseFPv();
-
-void apply_paralysis__9TObjCharaFv();
-
-void apply_poison_status__9TObjCharaFv();
-
-void apply_set_data__9TObjEnemyFPv();
-
-void apply_shock_status__9TObjCharaFv();
-
-void apply_switch_attack__9TObjCharaFv();
-
-void calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf();
-
-void apply_enemy_state__15TObjEnemyCustomFPl();
-
-void check_and_update__16TObjEneBm5GibonUFv();
-
-void classify_actor_view_detail__8TObjBaseFfff();
-
-void clear_all_status_effects__9TObjCharaFv();
-
-void clear_harmful_statuses__9TObjCharaFv();
-
-void cure_paralysis__9TObjCharaFv();
-
-void cure_poison_ailment__9TObjCharaFv();
-
-void enemy_spawn_jellen_effect__9TObjCharaFv();
-
-void enemy_spawn_zalure_effect__9TObjCharaFv();
-
-void vfunc_78__9TObjCharaFl();
-
-void gain_photon_blast_chain_charge__9TObjCharaFv();
-
-void spend_photon_blast_charge__9TObjCharaFf();
-
-void gain_photon_blast_charge__9TObjCharaFf();
-
-void clear_lobby_object_state__9TObjEnemyFv();
-
-void get_center__9TObjCharaFv();
-
-void get_actor_level_index__9TObjCharaFv();
-
-void get_name__9TObjEnemyFv();
-
-void get_pos__9TObjCharaFl();
-
-void is_actor_cadence_frame__9TObjCharaFl();
-
-void receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll();
-
-void receive_physical_attack__9TObjCharaFPvf();
-
-void receive_weapon_special_attack__9TObjCharaFPvPv();
-
-void apply_defense_stat_status__9TObjCharaFPv();
-
-void render_shadows__9TObjEnemyFv();
-
-void reset_motion_fields__9TObjCharaFv();
-
-void reset_pose__9TObjCharaFv();
-
-void roll_physical_accuracy__9TObjCharaFPvlf();
-
-void select_melee_contact_body__9TObjCharaFPvf();
-
-void trigger_switch_attack__9TObjCharaFv();
-
-void try_activate__16TObjEneBm5GibonUFv();
-
-void try_start_action__9TObjCharaFll();
-
-void update_action_hold_status__9TObjCharaFv();
-
-void update_slow_status__9TObjCharaFv();
-
-void update_actor_ground_y__9TObjCharaFv();
-
-void update_attack_stat_status__9TObjCharaFv();
-
-void update_defense_stat_status__9TObjCharaFv();
-
-void update_flag30_timer__9TObjCharaFv();
-
-void run_attack_action__15TObjEnemyCustomFv();
-
-void update_object_view_visibility__8TObjBaseFff();
-
-void update_poison_status__9TObjCharaFv();
 
 const char *bm_ene_gyaranzo_model_names[8] = {
     "me4_y_hahen01.nj", "me4_y_hahen02.nj", "me4_y_hahen03.nj", "me4_y_me4.nj",
@@ -620,10 +461,8 @@ void *lbl_804941DC[7] = {
     (void *)0x0, (void *)0x1, (void *)0x0,
 };
 
-void *lbl_804941F8[11] = {
-    (void *)0x0, (void *)0x41900000, (void *)0x0, (void *)0x41900000,
-    (void *)0x0, (void *)0x0, (void *)0x8003, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x0,
+CollisionBody lbl_804941F8[1] = {
+    {{0.0f, 18.0f, 0.0f}, 18.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 
 void *gyaranzo_resource_index_table[11] = {
@@ -642,29 +481,6 @@ void *gyaranzo_death_breakup_params[7] = {
     (void *)0x3df5c28f, (void *)0x3f0ccccd, (void *)0x3f000000,
 };
 
-void *gyaranzo_actor_vtable_ops[83] = {
-    (void *)0x0, (void *)0x0, (void *)&fn_800D3E54, (void *)&run_task__15TObjEneGyaranzoFv,
-    (void *)&render__15TObjEneGyaranzoFv, (void *)&render_shadows__9TObjEnemyFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
-    (void *)&reset_motion_fields__9TObjCharaFv, (void *)&get_center__9TObjCharaFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
-    (void *)&get_name__9TObjEnemyFv, (void *)&interact__14TObjCollidableFl, (void *)&add_actor_exp__9TObjCharaFl, (void *)&consume_timer_field__9TObjCharaFl,
-    (void *)&get_actor_level_index__9TObjCharaFv, (void *)&update_actor_ground_y__9TObjCharaFv, (void *)&update_actor_ground_y_at__9TObjCharaFP3Vec, (void *)&is_actor_cadence_frame__9TObjCharaFl,
-    (void *)&select_melee_contact_body__9TObjCharaFPvf, (void *)&calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf, (void *)&receive_physical_attack__9TObjCharaFPvf, (void *)&receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll,
-    (void *)&receive_weapon_special_attack__9TObjCharaFPvPv, (void *)&apply_knockback_from_attacker__9TObjCharaFPUcf, (void *)&try_start_action__9TObjCharaFll, (void *)&roll_physical_accuracy__9TObjCharaFPvlf,
-    (void *)&refresh_target__15TObjEnemyCustomFv, (void *)&has_no_target__9TObjCharaFv, (void *)&is_target_in_attack_range__15TObjEneGyaranzoFv, (void *)&test_flag_256__9TObjCharaFv,
-    (void *)&test_flag30_512__9TObjCharaFv, (void *)&has_flag_0x800__9TObjCharaFv, (void *)&test_flag_1000__9TObjCharaFv, (void *)&update_poison_status__9TObjCharaFv,
-    (void *)&update_action_hold_status__9TObjCharaFv, (void *)&update_slow_status__9TObjCharaFv, (void *)&update_flag30_timer__9TObjCharaFv, (void *)&check_and_update__16TObjEneBm5GibonUFv,
-    (void *)&try_activate__16TObjEneBm5GibonUFv, (void *)&update_attack_stat_status__9TObjCharaFv, (void *)&update_defense_stat_status__9TObjCharaFv, (void *)&vfunc_43__9TObjCharaFv,
-    (void *)&apply_poison_status__9TObjCharaFv, (void *)&apply_paralysis__9TObjCharaFv, (void *)&apply_slow_status__9TObjCharaFv, (void *)&apply_confusion_status__9TObjCharaFv,
-    (void *)&apply_movement_ailment__9TObjCharaFl, (void *)&apply_shock_status__9TObjCharaFv, (void *)&clear_harmful_statuses__9TObjCharaFv, (void *)&apply_attack_stat_status__9TObjCharaFPv,
-    (void *)&apply_defense_stat_status__9TObjCharaFPv, (void *)&cure_poison_ailment__9TObjCharaFv, (void *)&cure_paralysis__9TObjCharaFv, (void *)&clear_all_status_effects__9TObjCharaFv,
-    (void *)&apply_action_hold_status__9TObjCharaFf, (void *)&apply_anti_technique__9TObjCharaFl, (void *)&run_idle_action__15TObjEneGyaranzoFv, (void *)&run_move_action__15TObjEneGyaranzoFv,
-    (void *)&run_attack_action__15TObjEnemyCustomFv, (void *)&run_miss_reaction__15TObjEneGyaranzoFv, (void *)&run_hit_reaction__15TObjEneGyaranzoFv, (void *)&run_death_reaction__15TObjEneGyaranzoFv,
-    (void *)&reset_pose__9TObjCharaFv, (void *)&get_anim_node_position__15TObjEnemyCustomFlP3Vec, (void *)&vfunc_66__9TObjCharaFv, (void *)&deliver_attack_hits__9TObjCharaFf,
-    (void *)&get_pos__9TObjCharaFl, (void *)&apply_switch_attack__9TObjCharaFv, (void *)&enemy_spawn_jellen_effect__9TObjCharaFv, (void *)&trigger_switch_attack__9TObjCharaFv,
-    (void *)&enemy_spawn_zalure_effect__9TObjCharaFv, (void *)&recalc_stats__9TObjCharaFv, (void *)&vfunc_74__9TObjEnemyFl, (void *)&gain_photon_blast_charge__9TObjCharaFf,
-    (void *)&spend_photon_blast_charge__9TObjCharaFf, (void *)&gain_photon_blast_chain_charge__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl, (void *)&apply_enemy_state__15TObjEnemyCustomFPl,
-    (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv,
-};
 
 #define gyaranzo_death_breakup_params ((u8 *)gyaranzo_death_breakup_params)
 #define gyaranzo_flagged_resource_index_table ((s16 *)gyaranzo_flagged_resource_index_table)
@@ -695,70 +511,50 @@ s32 gyaranzo_breakup_model_obj;
 
 s32 gyaranzo_missile_volley_end_time;
 
-u8 *TObjEneGyaranzo__ct(TObjEneGyaranzo *self, s32 arg1, u8 *arg2) {
-    s16 temp_r6;
-    s32 temp_r5;
+TObjEneGyaranzo::TObjEneGyaranzo(TObject *parent, void *set_data) : TObjEnemyCustom(parent) {
     s32 i;
-    s32 var_r31;
 
-    ((void (*)(void *, s32, void *)) __ct__15TObjEnemyCustomFP7TObject)(self, arg1, arg2);
-    *(u8 **)((s8 *)self + 0x18) = (u8 *) ((void * *)gyaranzo_actor_vtable_ops);
-    __ct__13TUnk_80494938Fv(((u8 *)self + 0x3D0));
-    __construct_array((u8 *)self + 0x3EC, &__ct__15RenderFadeStateFv, &__dt__15RenderFadeStateFv, 0x1C, 4);
-    *(s32 *)((s8 *)self + 0) = (saddr)TObjEneGyaranzo__class_name;
-    ((TObjEneGyaranzo *)(self))->apply_set_data(arg2);
-    VecCopy((Vec *)((u8 *)self + 0x290), (const Vec *)(VecCopy((Vec *)((u8 *)self + 0x29C), (const Vec *)((u8 *)self + 0x38))));
-    *(s32 *)((s8 *)self + 0xDC) = (s32) *(s32 *)((s8 *)(*(u8 * *)&gyaranzo_bml_resource) + 0x430);
-    self->action_table = gyaranzo_action_table;
-    ((TObjMotion *)self)->set_field_d8((saddr)self->action_table);
-    init_collision_body_parts(self, (void *) lbl_804941F8, 1);
-    self->variant = 0;
-    self->movementParameters = (u8 *) lbl_804941DC;
-    ((TObjEnemy *)self)->bind_enemy_combat_stats((u8 *)gyaranzo_boss_stats_handle, (u8 *)gyaranzo_boss_stats_ptr_b, (u8 *)gyaranzo_object_handle);
-    ((TObjEneGyaranzo *)self)->init_params_from_table();
-    self->requested_action = 0;
-    ((TObjMotion *)self)->set_animation(self->requested_action);
-    ((TObjMotion *)self)->set_field_b8(self->requested_action);
-    self->hp = (s16) self->hpmax;
-    self->tp = (s16) self->tpmax;
-    self->referenceHp = (s16) self->hp;
-    temp_r6 = self->hp;
-    temp_r5 = temp_r6 / 3;
-    self->m_3b0 = temp_r5;
-    self->m_38c = 0;
-    self->m_3a8 = 0;
-    self->m_3ac = 0;
-    self->m_3b4 = 0;
-    self->m_3b8 = 0;
-    ((TObjEnemy *)self)->set_param(0x19);
-    ((TObjChara *)self)->add_flags_2e4(4);
-    ((TObjEnemy *)self)->update_prev_position();
-    initialize_enemy_photon_effect(self);
-    self->actorFlags = (s32) (self->actorFlags | 0x40000);
-    *(s32 *)((s8 *)self + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&gyaranzo_bml_resource) + 0x42C)) + 0x38);
-    self->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&gyaranzo_bml_resource) + 0x42C)) + 0x3C);
-    if (*(s16 *)((s8 *)arg2 + 0xA) != 0) {
-        ((TObjEnemyCustom *)self)->sub_800C7860();
+    m_name = TObjEneGyaranzo__class_name;
+    apply_set_data(set_data);
+    VecCopy((Vec *)&m_290, VecCopy((Vec *)&m_29c, &position));
+    motion_list = ((BmlResource *)gyaranzo_bml_resource)->motions;
+    action_table = gyaranzo_action_table;
+    set_field_d8((saddr)action_table);
+    init_collision_body_parts(this, lbl_804941F8, 1);
+    variant = 0;
+    movementParameters = (u8 *)lbl_804941DC;
+    bind_enemy_combat_stats((u8 *)gyaranzo_boss_stats_handle, (u8 *)gyaranzo_boss_stats_ptr_b, (u8 *)gyaranzo_object_handle);
+    init_params_from_table();
+    requested_action = 0;
+    set_animation(requested_action);
+    set_field_b8(requested_action);
+    hp = hpmax;
+    tp = tpmax;
+    referenceHp = hp;
+    m_3b0 = hp / 3;
+    m_38c = 0;
+    m_3a8 = 0;
+    m_3ac = 0;
+    m_3b4 = 0;
+    m_3b8 = 0;
+    set_param(0x19);
+    add_flags_2e4(4);
+    update_prev_position();
+    initialize_enemy_photon_effect(this);
+    actorFlags |= 0x40000;
+    model = ((BmlResource *)gyaranzo_bml_resource)->models[3].model;
+    texlist = (saddr)((BmlResource *)gyaranzo_bml_resource)->models[3].m_c;
+    if (*(s16 *)((u8 *)set_data + 0xA) != 0) {
+        sub_800C7860();
     }
     for (i = 0; i < 4; i++) {
-        self->m_3ec[i].activate_and_dispatch();
+        m_3ec[i].activate_and_dispatch();
     }
-    ((TObjEneGyaranzo *)(self))->clear_lobby_object_state();
-    return (u8 *)self;
+    clear_lobby_object_state();
 }
 
-Obj_800D3E54 *fn_800D3E54(Obj_800D3E54 *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        arg0->vt = gyaranzo_actor_vtable_ops;
-        free_collision_body_parts(arg0);
-        __destroy_arr((u8 *)arg0 + 0x3EC, (void *)__dt__15RenderFadeStateFv, 0x1C, 4);
-        __dt__13TUnk_80494938Fv((u8 *)arg0 + 0x3D0, -1);
-        __dt__15TObjEnemyCustomFv(arg0, 0);
-        if (arg1 > 0) {
-            TObject::operator delete(arg0);
-        }
-    }
-    return arg0;
+TObjEneGyaranzo::~TObjEneGyaranzo() {
+    free_collision_body_parts(this);
 }
 
 #define AREA ((Area_800D3C04 *)gyaranzo_bml_resource)
@@ -814,18 +610,9 @@ void TObjEneGyaranzo::free_static_instances() {
     }
 }
 
-void *TObjEneGyaranzo::create(void *arg0) {
-    void *o;
-    void *o2;
-    o = TObject::operator new(0x20);
-    if (o != NULL) {
-        o = __ct__11TObjControlFP7TObject(o, tl_04);
-    }
-    o2 = TObject::operator new(0x45C);
-    if (o2 != NULL) {
-        o2 = ((void * (*)(void *, void *, void *))TObjEneGyaranzo__ct)(o2, o, arg0);
-    }
-    return o2;
+void *TObjEneGyaranzo::create(void *set) {
+    TObjControl *control = new TObjControl((TObject *)tl_04);
+    return new TObjEneGyaranzo(control, set);
 }
 
 void TObjEneGyaranzo::run_task() {

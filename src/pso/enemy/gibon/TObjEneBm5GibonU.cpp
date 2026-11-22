@@ -29,6 +29,7 @@ struct NJS_OBJECT;
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/gibon/TObjEneBm5GibonU.h"
+#include "pso/enemy/gyaranzo/TObjEneGyaranzo.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D96A8.h"
@@ -2895,21 +2896,21 @@ void TObjEneBm5GibonU::register_global_objects() {
 s32 TObjEneBm5GibonU__sub_800D1D70(TObjEneBm5GibonU *self) { return self->m_46c; }
 Vec *TObjEneBm5GibonU__sub_800D1D78(TObjEneBm5GibonU *self) { return &self->m_47c; }
 
-void TObjEneBm5GibonU::clear_flag_and_update() {
-    if (previous_mode == 7) {
-        active_flags &= ~1;
-        ((TObjEnemyCustom *)this)->update_if_active(0);
+void TObjEneGyaranzo::clear_flag_and_update() {
+    if ((s32)next_action == 7) {
+        m_388 &= ~1;
+        update_if_active(0);
     }
 }
 
-s32 TObjEneBm5GibonU::check_and_update() {
+s32 TObjEneGyaranzo::update_movement_status() {
     if (TObjChara::update_movement_status() != 0) {
         clear_flag_and_update();
         return 1;
     }
     return 0;
 }
-s32 TObjEneBm5GibonU::try_activate() {
+s32 TObjEneGyaranzo::update_shock_clock() {
     if (TObjChara::update_shock_clock() != 0) {
         clear_flag_and_update();
         return 1;

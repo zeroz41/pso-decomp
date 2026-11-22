@@ -8,6 +8,7 @@
 #include "pso/render/TUnk_80494938.h"
 
 struct TObjEneGyaranzo : public TObjEnemyCustom {
+    TObjEneGyaranzo(TObject *parent, void *set_data);
     virtual ~TObjEneGyaranzo();
     void sub_800D2A68();
     void select_targets();
@@ -22,6 +23,9 @@ struct TObjEneGyaranzo : public TObjEnemyCustom {
     virtual s32 is_target_in_attack_range();
     virtual void run_move_action();
     virtual void run_miss_reaction();
+    virtual s32 update_movement_status();
+    virtual s32 update_shock_clock();
+    void clear_flag_and_update();
     void spawn_missile();
     u32 m_38c;
     u8 _pad390[0x18];
