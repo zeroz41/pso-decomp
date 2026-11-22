@@ -416,7 +416,7 @@ s32 TLobby__sub_803FA318(PppFsm *self, PppHeader *src, s32 h) {
 }
 #pragma pop
 
-s32 NetIPv6CPParseConfigureOption(void *self, u8 *out, u8 *src, u8 *c, s16 flag);
+s16 NetIPv6CPParseConfigureOption(void *self, u8 *out, u8 *src, u8 *c, s16 flag);
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
@@ -530,7 +530,6 @@ s32 TLobby__sub_803FA7B0(PppFsm *self, PppHeader *src, void *h)
   s16 state;
   s16 res;
   u8 *new_var;
-  s16 NetIPv6CPParseConfigureOption(void *self, u8 *out, u8 *src, u8 *c, s16 flag); /* declared s16 here; the definition returns s32 */
   self = self;
   new_var = (u8 *)self->opts;
   m = new_var;
@@ -591,9 +590,9 @@ s32 TLobby__sub_803FA7B0(PppFsm *self, PppHeader *src, void *h)
   return (s16) (2 != state);
 }
 #pragma pop
-s32 NetIPv6CPParseConfigureOption(void *self, u8 *out, u8 *src, u8 *c, s16 flag) {
+s16 NetIPv6CPParseConfigureOption(void *self, u8 *out, u8 *src, u8 *c, s16 flag) {
     s16 rem;
-    s32 r = 2;
+    s16 r = 2;
     u32 idx;
     rem = c[1] - 2;
     switch (c[0]) {
