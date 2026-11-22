@@ -45,18 +45,6 @@ struct NJS_OBJECT;
 #include "pso/object/TObjControl.h"
 #include "pso/player/TObjPlayer_80011014.h"
 
-struct Obj_800E9BCC {
-    u8 pad0[0x38];
-    f32 pos[3];
-    f32 prev[3];
-    u8 pad50[0x60 - 0x50];
-    s32 rotation_y;
-    u8 pad64[0x390 - 0x64];
-    s32 state_timer;
-    u8 pad394[0x3CC - 0x394];
-    s32 target_client_id;
-};
-
 extern "C" {
 s32 project_actor_to_ground(TObjChara *actor, Vec *position, Vec *normal);
 
@@ -345,27 +333,23 @@ void TObjEneSlime::free_instance() {
     }
 }
 
-#define ene_slime this
 TObjEneSlime::TObjEneSlime(TObject *parent, u8 *set_data) : TObjEnemy(parent) {
-    s32 temp_r0;
-    *(s32 *)((s8 *)ene_slime + 0) = (saddr) TObjEneSlime__name;
-    ((TObjEneSlime *)(ene_slime))->apply_set_data(set_data);
-    ((TObjEneSlime *)(ene_slime))->clear_lobby_object_state();
-    ((TBoss3Volopt *)ene_slime)->reset_photon_effect();
-    TBoss4DarkFalz__sub_8004B4F0(&ene_slime->spawn_template, (set_data));
-    ene_slime->child_limit = (s32) *(s16 *)((s8 *)set_data + 2);
-    temp_r0 = ene_slime->child_limit;
-    if (temp_r0 < 1) {
+    m_name = TObjEneSlime__name;
+    apply_set_data(set_data);
+    clear_lobby_object_state();
+    ((TBoss3Volopt *)this)->reset_photon_effect();
+    TBoss4DarkFalz__sub_8004B4F0(&spawn_template, set_data);
+    child_limit = *(s16 *)(set_data + 2);
+    if (child_limit < 1) {
         if (TObjPlayer::check_demo_mode() != 0) {
-            ene_slime->child_limit = 3;
+            child_limit = 3;
         }
-    } else if (temp_r0 > 4) {
-        ene_slime->child_limit = 4;
+    } else if (child_limit > 4) {
+        child_limit = 4;
     }
-    ene_slime->actorFlags = (s32) (ene_slime->actorFlags | 0x02000000);
-    ene_slime->init_slots();
+    actorFlags |= 0x02000000;
+    init_slots();
 }
-#undef ene_slime
 
 TObjEneSlime::~TObjEneSlime() {
     this->release_split_slimes();
@@ -725,18 +709,12 @@ void TObjEneSlimeOne::set_display_mode(s32 mode) {
 }
 
 void TObjEneSlimeOne::set_target_flag_bit0() {
-    void *temp_r3;
-
-    temp_r3 = this->collision_body_parts;
-    *(s32 *)((s8 *)temp_r3 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3 + 0x18) | 1);
+    collision_body_parts->flags |= 1;
 }
 
 void TObjEneSlimeOne::clear_child_flag() {
-    void *temp_r3;
-
     if ((s32) this->m_3ec == 0) {
-        temp_r3 = this->collision_body_parts;
-        *(s32 *)((s8 *)temp_r3 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3 + 0x18) & 0xFFFFFFFE);
+        collision_body_parts->flags &= ~1;
     }
 }
 
@@ -750,24 +728,22 @@ f32 TObjEneSlimeOne::receive_direct_attack(void *attacker, DirectAttackPayload p
     return 0.0f;
 }
 
-void TObjEneSlimeOne::run_death_reaction() { if (*(int *)&this->state != 13) { set_state((saddr)((void*)((void*)13))); } }
+void TObjEneSlimeOne::run_death_reaction() { if ((s32) this->state != 13) { set_state(13); } }
 
 void TObjEneSlimeOne::run_hit_reaction() {
-    u8 *self = (u8 *)this;
     if ((s32) this->state != 0xC) {
         if (((s32) this->attacker_id < (s32) registered_player_count) && (((u32 (*)(void))get_player_by_client_id)() != 0U) && (check_player_field_7cc__15TObjEneSlimeOneFv() == 2) && (parent_slime != NULL) && (parent_slime->all_parents_unqueued_for_destruction() != 0)) {
             parent_slime->try_spawn_child((u8 *)&this->position);
         }
         this->actorFlags = (s32) (this->actorFlags & 0xFFFFFDFF);
-        ((TObjEneSlimeOne *)self)->set_state((saddr)((void*)(0xC)));
+        set_state(0xC);
     }
 }
 
 void TObjEneSlimeOne::run_miss_reaction() {
-    u8 *self = (u8 *)this;
     if ((s32) this->state != 0xB) {
         this->actorFlags = (s32) (this->actorFlags & 0xFFFFFEFF);
-        ((TObjEneSlimeOne *)self)->set_state((saddr)((void*)(0xB)));
+        set_state(0xB);
     }
 }
 
@@ -786,14 +762,14 @@ void TObjEneSlimeOne::update_wait_search() {
             temp_r0_2 = this->m_3c8 + 1;
             this->m_3c8 = temp_r0_2;
             if (temp_r0_2 >= 5) {
-                *(f32 *)((s8 *)this + 0x38) = (f32) *(f32 *)((s8 *)this + 0x50);
-                *(f32 *)((s8 *)this + 0x40) = (f32) *(f32 *)((s8 *)this + 0x58);
+                position.x = home_position.x;
+                position.z = home_position.z;
                 this->m_3c8 = 5;
             }
             this->set_random_timer_15();
             return;
         }
-        this->set_state((saddr)((void*)(1)));
+        this->set_state(1);
     }
 }
 
@@ -831,7 +807,7 @@ void TObjEneSlimeOne::sub_800EA820() {
     }
 }
 
-void TObjEneSlimeOne::init_slime_display() { *(float*)((char*)this + 0x398) = 1.0f; this->draw_offset_y = 0.0f; set_display_mode(0); animation->set_state(7); }
+void TObjEneSlimeOne::init_slime_display() { this->m_398 = 1.0f; this->draw_offset_y = 0.0f; set_display_mode(0); animation->set_state(7); }
 void TObjEneSlimeOne::sub_800EA678() {
     f32 temp_f1;
     f32 temp_f1_2;
@@ -875,8 +851,8 @@ void TObjEneSlimeOne::sub_800EA56C() {
         ((TObjEneSlimeOne *)actor)->set_state(2);
         return;
     }
-    normalize_vector((Vec *)(actor + 0x3B8));
-    *(f32 *)((s8 *)actor + 0x398) = ((20.0f * ((TObjChara *)actor)->random_ratio()) + 50.0f);
+    normalize_vector(&this->movement_direction);
+    this->m_398 = ((20.0f * ((TObjChara *)actor)->random_ratio()) + 50.0f);
     this->alpha = (f32) 1.0f;
     ((TObjEneSlimeOne *)actor)->animation->set_state(8);
     set_display_mode(1);
@@ -975,7 +951,7 @@ void TObjEneSlimeOne::update_dive_timer() {
 void TObjEneSlimeOne::sub_800EA120() {
   unsigned int new_var;
   this->target_client_id = 0xFFFF;
-  *((s32 *) (((s8 *) ((u8 *)this)) + 0x39C)) = (s32) ((((s32) (4.0f * this->random_ratio())) + 4) << 0x10);
+  this->motion_phase = (s32) ((((s32) (4.0f * this->random_ratio())) + 4) << 0x10);
   this->state_timer = 0x7FFFFFFF;
   this->turn_speed = 0x400;
   new_var = 1;
@@ -993,7 +969,7 @@ void TObjEneSlimeOne::sub_800E9EFC() {
     u16 r;
     s32 n;
 
-    f = sin_table_lookup(*(s32 *)((s8 *)((u8 *)this) + 0x39C));
+    f = sin_table_lookup(this->motion_phase);
     if (f < 0.0f) {
         f = 0.0f;
     }
@@ -1002,14 +978,14 @@ void TObjEneSlimeOne::sub_800E9EFC() {
         r = find_nearest_visible_player(this, &sp14, 162.5f);
         if (r != 0xFFFF &&
             angle_difference_abs(this->rotation_y, (s32)(10430.38043493439 * atan2_float(sp14.x, sp14.z))) < 0x1C71) {
-            *(s32 *)((s8 *)((u8 *)this) + 0x39C) = 0;
+            this->motion_phase = 0;
             this->target_client_id = r;
         }
     }
-    *(s32 *)((s8 *)((u8 *)this) + 0x39C) -= 0x600;
-    if (*(s32 *)((s8 *)((u8 *)this) + 0x39C) <= 0) {
+    this->motion_phase -= 0x600;
+    if (this->motion_phase <= 0) {
         n = (f32)*(u32 *)((s8 *)(get_bml_motion(model_archive, 10)) + 4) / 0.5f;
-        *(s32 *)((s8 *)((u8 *)this) + 0x39C) = 0;
+        this->motion_phase = 0;
         if (this->target_client_id != 0xFFFF) {
             sp8.x = 1.0f;
             sp8.y = 0.0f;
@@ -1066,16 +1042,15 @@ void TObjEneSlimeOne::sub_800E9BCC() {
     v[0] = 1.0f;
     v[1] = 0.0f;
     v[2] = 0.0f;
-    Obj_800E9BCC *o = (Obj_800E9BCC *)this;
-    if (o->target_client_id != 0xFFFF) {
-        TObjPlayer::calc_distance_to_client((saddr)o, (u16)o->target_client_id, (uaddr)v);
+    if (target_client_id != 0xFFFF) {
+        TObjPlayer::calc_distance_to_client((saddr)this, (u16)target_client_id, (uaddr)v);
     }
     t = (s32) (10430.38043493439 * atan2_float(v[0], v[2]));
-    o->rotation_y = approach_angle_limited(o->rotation_y, t, 0x200);
-    if (angle_difference_abs(o->rotation_y, t) < 0x200) {
-        o->state_timer = 0;
+    rotation_y = approach_angle_limited(rotation_y, t, 0x200);
+    if (angle_difference_abs(rotation_y, t) < 0x200) {
+        state_timer = 0;
     }
-    VecCopy((Vec *)o->prev, (const Vec *)o->pos);
+    VecCopy(&prev_position, &position);
     if (vector_length(v) <= 0.01f) {
         v[0] = 1.0f;
         v[1] = 0.0f;
@@ -1086,20 +1061,20 @@ void TObjEneSlimeOne::sub_800E9BCC() {
     v[0] *= 0.2f;
     v[1] *= 0.2f;
     v[2] *= 0.2f;
-    vec3_add_to(o->pos, v);
-    if (project_actor_to_ground(this, &position, 0) == 0 || csnLookAt(o->prev, o->pos) != 0) {
-        VecCopy((Vec *)o->pos, (const Vec *)o->prev);
+    vec3_add_to(&position, v);
+    if (project_actor_to_ground(this, &position, 0) == 0 || csnLookAt(&prev_position, &position) != 0) {
+        VecCopy(&position, &prev_position);
     }
-    if (--o->state_timer <= 0) {
-        if (vector_length(v) > 50.0f || ((TObjChara *)o)->random_ratio() < 0.45f) {
-            ((TObjEneSlimeOne *)o)->set_state(9);
+    if (--state_timer <= 0) {
+        if (vector_length(v) > 50.0f || random_ratio() < 0.45f) {
+            set_state(9);
         } else {
-            ((TObjEneSlimeOne *)o)->set_state(10);
+            set_state(10);
         }
     }
 }
 
-void TObjEneSlimeOne::begin_appear() { *(int*)((char*)this + 0x390) = 90; effect_timer = 19; animation->set_state(3); set_display_mode(2); }
+void TObjEneSlimeOne::begin_appear() { this->state_timer = 90; effect_timer = 19; animation->set_state(3); set_display_mode(2); }
 
 void TObjEneSlimeOne::update_water_bomb_timer() {
     s32 temp_r0;
@@ -1110,7 +1085,7 @@ void TObjEneSlimeOne::update_water_bomb_timer() {
     if (temp_r0 > 0) {
         spawn_particle_effect(&body_center, 0xFF);
     } else if (temp_r0 == 0) {
-        ((s32 (*)(s32, void *, s32, s32))play_sound_effect)(0x4003A017, ((u8 *)this) + 0x38, 0, 0);
+        play_sound_effect(0x4003A017, &position, 0, 0);
         spawn_particle_effect(&body_center, 0xE2);
         TObjEneSlimeWaterBomb::create(this, this);
     }
@@ -1166,7 +1141,7 @@ void TObjEneSlimeOne::start_tail_attack() {
             return;
         }
         n--;
-        ((void (*)(void *, void *))vec3_add_to)(&pos, &dir);
+        vec3_add_to(&pos, &dir);
     }
     this->state_timer = 0x5A;
     animation->set_state(0);
@@ -1185,7 +1160,7 @@ void TObjEneSlimeOne::tick_timer() {
     }
 }
 
-void TObjEneSlimeOne::reset_display_state() { *(float*)((char*)this + 0x3b0) = 1.0f; this->draw_scale.y = 1.0f; this->draw_scale.x = 1.0f; effect_timer = 0; animation->set_state(4); set_display_mode(2); }
+void TObjEneSlimeOne::reset_display_state() { this->draw_scale.z = 1.0f; this->draw_scale.y = 1.0f; this->draw_scale.x = 1.0f; effect_timer = 0; animation->set_state(4); set_display_mode(2); }
 
 void TObjEneSlimeOne::update_tick() {
     s32 temp_r3;
@@ -1205,11 +1180,11 @@ void TObjEneSlimeOne::update_tick() {
 }
 
 void TObjEneSlimeOne::init_split_effect() {
-    *(f32 *)((s8 *)((u8 *)this) + 0x3B0) = 1.0f;
+    this->draw_scale.z = 1.0f;
     this->draw_scale.y = 1.0f;
     this->draw_scale.x = 1.0f;
     spawn_particle_effect(&body_center, 0xCE);
-    play_sound_effect(0x4003A61A, ((u8 *)this) + 0x38, 0, 0);
+    play_sound_effect(0x4003A61A, &position, 0, 0);
     animation->set_state(5);
     set_display_mode(0);
 }
@@ -1224,12 +1199,12 @@ void TObjEneSlimeOne::sub_800E95F4() {
     if (parent_slime != NULL && parent_slime->all_parents_unqueued_for_destruction() != 0) {
         parent_slime->release_child_slot(entity_id);
     }
-    *(f32 *)((s8 *)((u8 *)this) + 0x3B0) = 1.0f;
+    this->draw_scale.z = 1.0f;
     this->draw_scale.y = 1.0f;
     this->draw_scale.x = 1.0f;
     this->state_timer = 5;
     ((TObjPlayer *)this)->refresh_lobby_state();
-    ((s32 (*)(s32, u32, s16, s32))play_sound_effect)(0x4003A81B, (uaddr)&position, 0, 0);
+    play_sound_effect(0x4003A81B, &position, 0, 0);
     spawn_particle_effect(&body_center, 0xFE);
     animation->set_state(5);
     set_display_mode(0);
@@ -1247,7 +1222,7 @@ extern "C" {
 
 
 void TObjEneSlimeOne::sub_800E9538() {
-    *(s32 *)((s8 *)((u8 *)this) + 0x3E8) = (saddr)create_particle_emitter((((u8 *)this) + 0x38), 0xE1);
+    this->particle = (TParticleCtrl *)create_particle_emitter(&position, 0xE1);
     this->draw_offset_y = -2.5f;
     this->draw_scale.z = 0.0f;
     this->draw_scale.y = 0.0f;
@@ -1362,7 +1337,7 @@ void TObjEneSlimeOne::sub_800E9090() {
     }
     TObjPlayer::push_material_color_override(s, -1.0f, 0.0f, 1.0f);
     push_matrix();
-    ((void (*)(void *))post_translate_matrix)(&c);
+    post_translate_matrix(&c);
     rotate_matrix_y(0, ang);
     scale_matrix_vec3((u8 *)(0), (u8 *)&b);
     t = slime_tail_attack_id_pair[self->variant];
@@ -1703,7 +1678,7 @@ void TObjEneSlimeTailAttack::draw_stretched_segment(void *arg1, void *arg2, f32 
     f32 saved;
     Vec d;
     VecCopy((Vec *)&d, (const Vec *)((Vec *)arg2));
-    ((s32 (*)(void *, void *))subtract_vector)(&d, ((Vec *)arg1));
+    subtract_vector(&d, ((Vec *)arg1));
     len = vector_length(&d);
     push_matrix();
     k = 0.5f * (1.0f + t);
