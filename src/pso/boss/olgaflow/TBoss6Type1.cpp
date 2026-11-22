@@ -148,26 +148,6 @@ public:
     s32 f4C4;
 };
 
-struct V3_802B6B34 { s32 x; f32 y; s32 z; };
-
-union Val_802B6B34 { f32 f; s32 i; };
-
-struct Arg_802B6B34 { s32 kind; Val_802B6B34 v; };
-
-struct Base_802B6B34 { u8 pad[0x18]; };
-
-struct Player_802B6B34 : Base_802B6B34 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20();
-    virtual void m21(void *, Arg_802B6B34 *, s32, s32, s32);
-    u8 pad1c[0x38 - 0x1C];
-    V3_802B6B34 pos;
-};
-
 struct Boss_802B6B34 { u8 pad[0x488]; s32 f488; };
 
 struct Boss_802B73AC {
@@ -205,38 +185,6 @@ struct Boss_802B7B44 {
     s32 f4EC;
     s32 f4F0;
     s32 f4F4;
-};
-
-struct Player_802B6B34;
-
-struct V3_802B6C30 { s32 x; f32 y; s32 z; };
-
-union Val_802B6C30 { f32 f; s32 i; };
-
-struct Arg_802B6C30 { s32 kind; Val_802B6C30 v; };
-
-struct Base_802B6C30 { u8 pad[0x18]; };
-
-struct Player_802B6C30 : Base_802B6C30 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20();
-    virtual void m21(void *, Arg_802B6C30 *, s32, s32, s32);
-    u8 pad1c[0x38 - 0x1C];
-    V3_802B6C30 pos;
-};
-
-struct ArgPair_802B6C30 {
-    Arg_802B6C30 a[2];
-    inline ArgPair_802B6C30(s32 r) {
-        a[0].kind = 0;
-        a[1].kind = 0;
-        a[1].v.f = (f32)r;
-        a[0].v.i = a[1].v.i;
-    }
 };
 
 struct Line_802B6C30 { Vec p; Vec d; };
@@ -391,15 +339,6 @@ s32 TBoss6Type1__ct(saddr, saddr, saddr);
 s32 __ct__11TObjControlFP7TObject(s32, s32);
 #define VLEN(p) ((f32 (*)(void *))vector_length)(p)
 
-struct ArgPair_802B7530 {
-    Arg_802B6B34 a[2];
-    inline ArgPair_802B7530(s32 r) {
-        a[0].kind = 0;
-        a[1].kind = 0;
-        a[1].v.f = (f32)r;
-        a[0].v.i = a[1].v.i;
-    }
-};
 struct W3_802B7530 { s32 x, y, z; };
 struct Line_802B7530 { Vec p; Vec d; };
 struct Boss_802B7530 {
@@ -434,89 +373,6 @@ extern "C" {
 
 extern saddr tl_04;
 
-struct VBase_18_f05d67 { char pad[0x18]; };
-struct VObj_18_f05d67 : VBase_18_f05d67 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual s32 m79(void *);
-};
 
 struct Arr_802B93C4 { u8 pad[0x378]; s32 arr[32]; };
 struct Tmp_802B93C4 { s32 a; s16 b; s16 c; u8 pad[0x10]; };
@@ -648,7 +504,7 @@ s32 TBoss6Type1__ct(saddr arg0_, saddr parent, saddr arg2_) {
     *(const char **)((s8 *)self + 0) = TBoss6Type1__name;
     ((TObjChara *)self)->add_flags_2e4(8);
     *(s32 *)((s8 *)self + 0x3F8) = arg2[0];
-    ((VObj_18_f05d67 *)(self))->m79(arg2 + 1);
+    ((TObjEnemy *)self)->apply_set_data(arg2 + 1);
     if (((TObjEnemy *)self)->exchange_object_state(&tmp, 1) != 0) {
         tmp.a = 0;
         tmp.c = 0;
@@ -1441,10 +1297,10 @@ void TBoss6Type1::update_beam_attack() {
     ((TBoss6Type1 *)self)->init_parts();
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
-        Player_802B6B34 *p = (Player_802B6B34 *)TObjPlayer::get_player_data(i);
-        if (TBoss6PlotFalz::is_active((TObjPlayer *)p) != 0) {
+        TObjPlayer *p = TObjPlayer::get_player_data(i);
+        if (TBoss6PlotFalz::is_active(p) != 0) {
             Vec *a = &self->a;
-            VecCopy((Vec *)&v, (const Vec *)&p->pos);
+            VecCopy(&v, &p->position);
             v.y = 0.0f;
             VecCopy((Vec *)&w, (const Vec *)&self->b);
             subtract_vector(&w, a);
@@ -1464,7 +1320,11 @@ void TBoss6Type1::update_beam_attack() {
                 A.y = 0.0f;
                 B.y = 0.0f;
                 if (!(vec3_dot(&A, &B) > 0.0f)) {
-                    p->m21(self, ArgPair_802B7530(TBoss6PlotFalz::rand_vary_count(self->f47C, 0.1f)).a, 0, -1, -1);
+                    DirectAttackPayload attack;
+                    s32 power = TBoss6PlotFalz::rand_vary_count(self->f47C, 0.1f);
+                    attack.kind = 0;
+                    attack.power = power;
+                    p->receive_direct_attack(self, attack, 0, -1, -1);
                 }
             }
         }
@@ -1616,7 +1476,7 @@ void TBoss6Type1__sub_802B6C30(TBoss6Type1 *self) {
     Vec *pA;
     Vec *pB;
     s32 i;
-    Player_802B6C30 *pl;
+    TObjPlayer *pl;
     s32 inside;
     Vec *a;
     Vec *b;
@@ -1664,8 +1524,8 @@ void TBoss6Type1__sub_802B6C30(TBoss6Type1 *self) {
     B.y = self->m_4dc * (b->y - mid.y) + mid.y;
     B.z = self->m_4dc * (b->z - mid.z) + mid.z;
     for (i = 0; i < n; i++) {
-        pl = ((Player_802B6C30 *)TObjPlayer::get_player_data(i));
-        if (TBoss6PlotFalz::is_active((TObjPlayer *)pl) == 0) {
+        pl = TObjPlayer::get_player_data(i);
+        if (TBoss6PlotFalz::is_active(pl) == 0) {
             continue;
         }
         inside = 1;
@@ -1680,7 +1540,7 @@ void TBoss6Type1__sub_802B6C30(TBoss6Type1 *self) {
             VecCopy((Vec *)&e, (const Vec *)&pts[j + 1]);
             subtract_vector(&e, &pts[j]);
             e.y = 0.0f;
-            VecCopy((Vec *)&f, (const Vec *)&pl->pos);
+            VecCopy(&f, &pl->position);
             subtract_vector(&f, &pts[j]);
             e.y = 0.0f;
             vec3_cross(&e, &f, &c);
@@ -1694,11 +1554,15 @@ void TBoss6Type1__sub_802B6C30(TBoss6Type1 *self) {
         if (inside == 0) {
             continue;
         }
-        pl->m21(self, ArgPair_802B6C30(TBoss6PlotFalz::rand_vary_count(self->m_484, 0.1f)).a, 0, -1, -1);
+        DirectAttackPayload attack;
+        s32 power = TBoss6PlotFalz::rand_vary_count(self->m_484, 0.1f);
+        attack.kind = 0;
+        attack.power = power;
+        pl->receive_direct_attack(self, attack, 0, -1, -1);
         VecCopy((Vec *)&d0, (const Vec *)pA);
         subtract_vector(&d0, pB);
         d0.y = 0.0f;
-        VecCopy((Vec *)&d3, (const Vec *)&pl->pos);
+        VecCopy(&d3, &pl->position);
         d3.y = 0.0f;
         line.p.x = 0.5f * (A.x + B.x);
         line.p.y = 0.0f;
@@ -1721,17 +1585,17 @@ void TBoss6Type1__sub_802B6C30(TBoss6Type1 *self) {
         m.x *= t;
         m.z *= t;
         VecCopy((Vec *)&q2, (const Vec *)pA);
-        subtract_vector(&q2, &pl->pos);
+        subtract_vector(&q2, &pl->position);
         q2.y = 0.0f;
         VecCopy((Vec *)&q1, (const Vec *)pB);
-        subtract_vector(&q1, &pl->pos);
+        subtract_vector(&q1, &pl->position);
         q1.y = 0.0f;
         t = VLEN(&q1);
         if (VLEN(&q2) > t) {
             m.x *= -1.0f;
             m.z *= -1.0f;
         }
-        vec3_add_to(&m, &pl->pos);
+        vec3_add_to(&m, &pl->position);
         if (project_actor_to_ground((TObjChara *)self, (Vec *)&m, 0) == 0) {
             m.y = 0.0f;
             if (VLEN(&m) <= 0.00001f) {
@@ -1749,21 +1613,19 @@ void TBoss6Type1__sub_802B6C30(TBoss6Type1 *self) {
 void TBoss6Type1::damage_players_in_range() {
     s32 n;
     s32 i;
-    Player_802B6B34 *p;
+    TObjPlayer *p;
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
-        p = (Player_802B6B34 *)TObjPlayer::get_player_data(i);
-        if (TBoss6PlotFalz::is_active((TObjPlayer *)p) != 0) {
-            V3_802B6B34 v = p->pos;
+        p = TObjPlayer::get_player_data(i);
+        if (TBoss6PlotFalz::is_active(p) != 0) {
+            Vec v = p->position;
             v.y = 0.0f;
             if (!(((f32 (*)(void *))vector_length)(&v) > 10.0f)) {
-                Arg_802B6B34 a[2];
-                s32 r = TBoss6PlotFalz::rand_vary_count(((Boss_802B6B34 *)this)->f488, 0.1f);
-                a[0].kind = 1;
-                a[1].kind = 1;
-                a[1].v.f = (f32)r;
-                a[0].v.i = a[1].v.i;
-                p->m21(this, a, 0, -1, -1);
+                DirectAttackPayload attack;
+                s32 power = TBoss6PlotFalz::rand_vary_count(((Boss_802B6B34 *)this)->f488, 0.1f);
+                attack.kind = 1;
+                attack.power = power;
+                p->receive_direct_attack(this, attack, 0, -1, -1);
             }
         }
     }
@@ -2159,7 +2021,7 @@ void fire_at_all_players__11TBoss6Type1FPvf(Boss_802B5AD4 *self, f32 dy) {
     Vec out;
     s32 n;
     s32 i;
-    Player_802B6B34 *p;
+    TObjPlayer *p;
     f32 h;
     f32 dist;
     f32 a;
@@ -2174,10 +2036,10 @@ void fire_at_all_players__11TBoss6Type1FPvf(Boss_802B5AD4 *self, f32 dy) {
         me.y += dy;
     }
     for (i = 0; i < n; i++) {
-        p = (Player_802B6B34 *)TObjPlayer::get_player_data(i);
+        p = TObjPlayer::get_player_data(i);
         VecCopy((Vec *)&ofs, (const Vec *)&TBoss6Type1__data_80470FB4);
         if (p == 0) continue;
-        VecCopy((Vec *)&pp, (const Vec *)((u8 *)p + 0x38));
+        VecCopy(&pp, &p->position);
         pp.y += ofs.y;
         VecCopy((Vec *)&d, (const Vec *)&me);
         subtract_vector(&d, &pp);

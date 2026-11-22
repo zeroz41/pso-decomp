@@ -41,20 +41,6 @@ struct W_80356D10 { s32 w[1]; };
 
 struct Wave_803564F4 { u8 pad0[0x20]; Vec pos; u8 x2C[4]; u8 x30[0x24]; f32 radius; };
 
-struct Pair_8035663C { s32 a; f32 b; };
-
-struct VBase_8035663C { char pad[0x18]; };
-
-struct VObj_8035663C : VBase_8035663C {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20();
-    virtual void m21(TObject *, Pair_8035663C, int, int, int);
-};
-
 extern "C" {
 u8 test_rock_bit__15TBoss6SwordWaveFiUc(saddr arg0, u8 arg1);
 void set_bit__15TBoss6SwordWaveFiUc(saddr arg0, u8 arg1);
@@ -194,7 +180,7 @@ void TBoss6SwordWave::check_player_hits() {
     void *a = (void *)this;
     s32 n;
     s32 i;
-    VObj_8035663C *pl;
+    TObjPlayer *pl;
     u8 *arg0 = (u8 *)a;
     u8 t;
     s32 v;
@@ -202,9 +188,9 @@ void TBoss6SwordWave::check_player_hits() {
     Vec dir;
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
-        pl = (VObj_8035663C *)TObjPlayer::get_player_data(i);
-        if (TBoss6PlotFalz::is_active((TObjPlayer *)pl) != 0) {
-            VecCopy((Vec *)&dir, (const Vec *)((u8 *)pl + 0x38));
+        pl = TObjPlayer::get_player_data(i);
+        if (TBoss6PlotFalz::is_active(pl) != 0) {
+            VecCopy(&dir, &pl->position);
             subtract_vector(&dir, arg0 + 0x20);
             dir.y = 0.0f;
             d = vector_length(&dir);
@@ -220,11 +206,11 @@ void TBoss6SwordWave::check_player_hits() {
             if (((TBoss6Type2 *)owner)->get_rotation_timer() != 0) {
                 v = (s32)((f32)v * *(f32 *)((s8 *)arg0 + 0x60));
             }
-            Pair_8035663C pr;
+            DirectAttackPayload attack;
             s32 r = TBoss6PlotFalz::rand_vary_count(v, 0.1f);
-            pr.a = 0;
-            pr.b = (f32)r;
-            pl->m21(owner, pr, 0, -1, -1);
+            attack.kind = 0;
+            attack.power = r;
+            pl->receive_direct_attack(owner, attack, 0, -1, -1);
         }
     }
 }
