@@ -457,7 +457,6 @@ void create_boss8_piller_ctrl(saddr arg0, s32 arg1, f32 boss8_piller_ctrl);
 extern "C" {
 s32 __ct__14SubtractiveRngFv(void *arg0);
 void *TBoss8Dragon__sub_802F3C24(void *object, void *set_data);
-void *TBoss8DragonEffTail__ct(void *, void *, void *);
 void get_camera_offsets__12TBoss8DragonFPvPv(Vec *arg0, Vec *arg1);
 }
 void handle_6xA8_gol_dragon_boss_actions(void *boss8_dragon);
@@ -694,7 +693,6 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     u32 sp8[4];
     s32 i;
     s32 j;
-    void *p;
     u8 *q;
     u8 *cfg;
 
@@ -764,11 +762,7 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     q = *(u8 **)((s8 *)this + 0x2B0);
     *(f32 *)((s8 *)q + 0x10) = 10.0f;
     TBoss8Dragon__sub_802FC850((TBoss8Dragon *)(u8 *)this);
-    p = TObject::operator new(0xCC);
-    if (p != NULL) {
-        p = TBoss8DragonEffTail__ct(p, this, &this->node_positions[15]);
-    }
-    this->tail = (TBoss8DragonEffTail *)p;
+    this->tail = new TBoss8DragonEffTail(this, &this->node_positions[15]);
     this->attack_history = new AreaAttackHistory(4);
     this->collider = new TBoss8DragonColli(&this->sub_tasks);
     this->m_688 = 0.0f;
@@ -2180,9 +2174,9 @@ void TBoss8Dragon::state_breath_attack(s32 event) {
         this->m_84c = 0;
         this->m_850 = 2;
         this->m_854 = 0;
-        F(void *, 0x894) = 0;
-        F(void *, 0x898) = 0;
-        F(void *, 0x89C) = 0;
+        this->m_894 = 0;
+        this->m_898 = 0;
+        this->m_89c = 0;
         return;
     case 2:
     case 11:
@@ -2226,17 +2220,17 @@ void TBoss8Dragon::state_breath_attack(s32 event) {
             this->m_854++;
             if (this->m_854 >= 0x78) {
                 this->requested_action = 6;
-                if (F(void *, 0x894) != 0) {
-                    ((TObject *)(F(void *, 0x894)))->queue_destruction();
-                    F(void *, 0x894) = 0;
+                if (this->m_894 != 0) {
+                    this->m_894->queue_destruction();
+                    this->m_894 = 0;
                 }
-                if (F(void *, 0x898) != 0) {
-                    ((TObject *)(F(void *, 0x898)))->queue_destruction();
-                    F(void *, 0x898) = 0;
+                if (this->m_898 != 0) {
+                    this->m_898->queue_destruction();
+                    this->m_898 = 0;
                 }
-                if (F(void *, 0x89C) != 0) {
-                    ((TObject *)(F(void *, 0x89C)))->queue_destruction();
-                    F(void *, 0x89C) = 0;
+                if (this->m_89c != 0) {
+                    this->m_89c->queue_destruction();
+                    this->m_89c = 0;
                 }
                 this->m_84c = 2;
                 this->m_850 = 0;
@@ -2248,34 +2242,34 @@ void TBoss8Dragon::state_breath_attack(s32 event) {
                     new TBoss8DragonEffBreath(&sub_tasks, &m_410, &m_41c, m_75c, get_entity_id(((u8 *)this)));
                     this->m_850 = 0;
                 }
-                if (F(void *, 0x894) == 0) {
-                    F(void *, 0x894) = spawn_particle_effect_with_rotation(&m_410, &rot, *(s32 *)((s8 *)(F(u8 *, 0x760)) + 0x14), 0x40);
-                    if (F(void *, 0x894) != 0) {
-                        ((TParticleCtrl *)(F(void *, 0x894)))->enable();
+                if (this->m_894 == 0) {
+                    this->m_894 = (TParticleCtrl *)spawn_particle_effect_with_rotation(&m_410, &rot, this->m_760[5], 0x40);
+                    if (this->m_894 != 0) {
+                        this->m_894->enable();
                     }
                 } else {
-                    ((TParticleCtrl *)F(void *, 0x894))->set_position((u8 *)&m_428);
-                    ((TParticleCtrl *)(F(void *, 0x894)))->set_direction(&rot);
+                    this->m_894->set_position((u8 *)&m_428);
+                    this->m_894->set_direction(&rot);
                 }
-                if (F(void *, 0x898) == 0) {
-                    if (*(s32 *)((s8 *)(F(u8 *, 0x760)) + 0x18) != -1) {
-                        F(void *, 0x898) = spawn_particle_effect_with_rotation(&m_410, &rot, *(s32 *)((s8 *)(F(u8 *, 0x760)) + 0x18), 0x40);
+                if (this->m_898 == 0) {
+                    if (this->m_760[6] != -1) {
+                        this->m_898 = (TParticleCtrl *)spawn_particle_effect_with_rotation(&m_410, &rot, this->m_760[6], 0x40);
                     }
-                    if (F(void *, 0x898) != 0) {
-                        ((TParticleCtrl *)(F(void *, 0x898)))->enable();
+                    if (this->m_898 != 0) {
+                        this->m_898->enable();
                     }
                 } else {
-                    ((TParticleCtrl *)F(void *, 0x898))->set_position((u8 *)&m_428);
-                    ((TParticleCtrl *)(F(void *, 0x898)))->set_direction(&rot);
+                    this->m_898->set_position((u8 *)&m_428);
+                    this->m_898->set_direction(&rot);
                 }
-                if (F(void *, 0x89C) == 0) {
-                    F(void *, 0x89C) = spawn_particle_effect_with_rotation(&m_410, &rot, *(s32 *)((s8 *)(F(u8 *, 0x760)) + 0x1C), 0x40);
-                    if (F(void *, 0x89C) != 0) {
-                        ((TParticleCtrl *)(F(void *, 0x89C)))->enable();
+                if (this->m_89c == 0) {
+                    this->m_89c = (TParticleCtrl *)spawn_particle_effect_with_rotation(&m_410, &rot, this->m_760[7], 0x40);
+                    if (this->m_89c != 0) {
+                        this->m_89c->enable();
                     }
                 } else {
-                    ((TParticleCtrl *)F(void *, 0x89C))->set_position((u8 *)&m_428);
-                    ((TParticleCtrl *)(F(void *, 0x89C)))->set_direction(&rot);
+                    this->m_89c->set_position((u8 *)&m_428);
+                    this->m_89c->set_direction(&rot);
                 }
             }
             break;
@@ -2291,17 +2285,17 @@ void TBoss8Dragon::state_breath_attack(s32 event) {
         }
         break;
     case 5:
-        if (F(void *, 0x894) != 0) {
-            ((TObject *)(F(void *, 0x894)))->queue_destruction();
-            F(void *, 0x894) = 0;
+        if (this->m_894 != 0) {
+            this->m_894->queue_destruction();
+            this->m_894 = 0;
         }
-        if (F(void *, 0x898) != 0) {
-            ((TObject *)(F(void *, 0x898)))->queue_destruction();
-            F(void *, 0x898) = 0;
+        if (this->m_898 != 0) {
+            this->m_898->queue_destruction();
+            this->m_898 = 0;
         }
-        if (F(void *, 0x89C) != 0) {
-            ((TObject *)(F(void *, 0x89C)))->queue_destruction();
-            F(void *, 0x89C) = 0;
+        if (this->m_89c != 0) {
+            this->m_89c->queue_destruction();
+            this->m_89c = 0;
         }
         break;
     }
@@ -2553,7 +2547,7 @@ void TBoss8Dragon::sub_802F8F88(s32 event) {
         this->m_84c = 0;
         this->m_850 = 0;
         this->m_854 = 0;
-        F(u32, 0x894) = 0;
+        this->m_894 = 0;
         break;
     case 2:
     case 11:
@@ -2615,15 +2609,15 @@ void TBoss8Dragon::sub_802F8F88(s32 event) {
             if (this->is_passing_frame(14.0f) != 0 || this->is_passing_frame(53.0f) != 0) {
                 this->spawn_ground_effect();
             }
-            if (F(u32, 0x894) == 0) {
+            if (this->m_894 == 0) {
                 if (this->frame >= 20.0f) {
-                    F(u32, 0x894) = (uaddr)spawn_continuous_particle_effect_with_flags((void *)&m_410, (saddr)((void *)*(saddr *)((s8 *)(F(u8 *, 0x760)) + 0x20)), (s32)(0x40));
+                    this->m_894 = spawn_continuous_particle_effect_with_flags((void *)&m_410, this->m_760[8], (s32)(0x40));
                 }
             } else if (this->frame <= 40.0f) {
-                ((TParticleCtrl *)F(void *, 0x894))->set_position((u8 *)&m_410);
+                this->m_894->set_position((u8 *)&m_410);
             } else {
-                ((TObject *)(F(void *, 0x894)))->queue_destruction();
-                F(u32, 0x894) = 0;
+                this->m_894->queue_destruction();
+                this->m_894 = 0;
             }
             if (this->is_passing_frame(47.0f) != 0) {
                 Vec v;
@@ -2649,7 +2643,7 @@ void TBoss8Dragon::sub_802F8F88(s32 event) {
                 v.y = TBoss8Dragon__data_804744A8.y;
                 v.z += rot.z * len;
                 new TBoss8DragonEffBullet(&sub_tasks, &m_410, &v, m_75c, get_entity_id(((u8 *)this)));
-                spawn_particle_effect_with_flags((const Vec *)&m_410, (saddr)((void *)*(saddr *)((s8 *)(F(u8 *, 0x760)) + 0x24)), 0x40);
+                spawn_particle_effect_with_flags((const Vec *)&m_410, this->m_760[9], 0x40);
                 this->m_84c = 3;
                 this->m_854 = 0;
                 this->m_3c0 &= ~0x30;
@@ -2669,9 +2663,9 @@ void TBoss8Dragon::sub_802F8F88(s32 event) {
         }
         break;
     case 5:
-        if (F(u32, 0x894) != 0) {
-            ((TObject *)(F(void *, 0x894)))->queue_destruction();
-            F(u32, 0x894) = 0;
+        if (this->m_894 != 0) {
+            this->m_894->queue_destruction();
+            this->m_894 = 0;
         }
         break;
     }
@@ -3675,7 +3669,7 @@ void TBoss8Dragon::sub_802F6838(s32 event) {
         this->m_84c = 0;
         this->m_850 = 0;
         this->m_864 = 0.0f;
-        *(void **)((s8 *)this + 0x894) = 0;
+        this->m_894 = 0;
         play_cue_stream_file((saddr)"goldeath.adx");
         TWindowCtrl::init_all_slots();
         cam.bank = 2;
@@ -3712,16 +3706,16 @@ void TBoss8Dragon::sub_802F6838(s32 event) {
             }
             if (this->frame >= 25.0f && this->frame < 40.0f) {
                 direction_to_rotation_xz((u8 *)&m_41c, &r.x, &r.z);
-                if (*(void **)((s8 *)this + 0x894) == 0) {
-                    *(void **)((s8 *)this + 0x894) = spawn_particle_effect_with_rotation(&m_410, &r, *(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x760)) + 0x1C), 0x40);
+                if (this->m_894 == 0) {
+                    this->m_894 = (TParticleCtrl *)spawn_particle_effect_with_rotation(&m_410, &r, this->m_760[7], 0x40);
                 }
-                if (*(void **)((s8 *)this + 0x894) != 0) {
-                    ((TParticleCtrl *)*(void **)((s8 *)this + 0x894))->set_position((u8 *)&m_428);
-                    ((TParticleCtrl *)(*(void **)((s8 *)this + 0x894)))->set_direction(&r);
+                if (this->m_894 != 0) {
+                    this->m_894->set_position((u8 *)&m_428);
+                    this->m_894->set_direction(&r);
                 }
-            } else if (*(void **)((s8 *)this + 0x894) != 0) {
-                ((TObject *)(*(void **)((s8 *)this + 0x894)))->queue_destruction();
-                *(void **)((s8 *)this + 0x894) = 0;
+            } else if (this->m_894 != 0) {
+                this->m_894->queue_destruction();
+                this->m_894 = 0;
             }
             if (this->is_passing_frame(57.0f) != 0) {
                 DragonAttackParams e = TBoss8Dragon__body_effect_parameters;
@@ -3732,9 +3726,9 @@ void TBoss8Dragon::sub_802F6838(s32 event) {
                 reset_hp((u8 *)0, (u8 *)(TBoss8Dragon__data_80541DC8[4]), (u8 *)0);
                 emit_effect(&v, &e, 0);
                 reset_hp((u8 *)0, (u8 *)(TBoss8Dragon__data_80541DC8[0]), (u8 *)0);
-                spawn_particle_effect_with_flags(&v, (saddr)((void *)*(saddr *)((s8 *)(*(u8 **)((s8 *)this + 0x760)) + 8)), (s32)(0x40));
-                if (*(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x760)) + 0xC) != -1) {
-                    spawn_particle_effect_with_flags(&position, (saddr)((void *)*(saddr *)((s8 *)(*(u8 **)((s8 *)this + 0x760)) + 0xC)), 0x40);
+                spawn_particle_effect_with_flags(&v, this->m_760[2], (s32)(0x40));
+                if (this->m_760[3] != -1) {
+                    spawn_particle_effect_with_flags(&position, this->m_760[3], 0x40);
                 }
             }
             if (this->is_passing_frame(88.0f) != 0) {
@@ -3746,9 +3740,9 @@ void TBoss8Dragon::sub_802F6838(s32 event) {
                 reset_hp((u8 *)0, (u8 *)(TBoss8Dragon__data_80541DC8[4]), (u8 *)0);
                 emit_effect(&v, &e, 0);
                 reset_hp((u8 *)0, (u8 *)(TBoss8Dragon__data_80541DC8[0]), (u8 *)0);
-                spawn_particle_effect_with_flags(&v, (saddr)((void *)*(saddr *)((s8 *)(*(u8 **)((s8 *)this + 0x760)) + 8)), (s32)(0x40));
-                if (*(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x760)) + 0xC) != -1) {
-                    spawn_particle_effect_with_flags(&position, (saddr)((void *)*(saddr *)((s8 *)(*(u8 **)((s8 *)this + 0x760)) + 0xC)), 0x40);
+                spawn_particle_effect_with_flags(&v, this->m_760[2], (s32)(0x40));
+                if (this->m_760[3] != -1) {
+                    spawn_particle_effect_with_flags(&position, this->m_760[3], 0x40);
                 }
             }
             if (this->is_passing_frame(97.0f) != 0) {
@@ -3775,9 +3769,9 @@ void TBoss8Dragon::sub_802F6838(s32 event) {
         this->vfunc_74(0);
         TWindowCtrl::init_all_slots2();
         restore_player_cameras();
-        if (*(void **)((s8 *)this + 0x894) != 0) {
-            ((TObject *)(*(void **)((s8 *)this + 0x894)))->queue_destruction();
-            *(void **)((s8 *)this + 0x894) = 0;
+        if (this->m_894 != 0) {
+            this->m_894->queue_destruction();
+            this->m_894 = 0;
         }
         if (this->m_74c != 0) {
             release_grabbed_player();
