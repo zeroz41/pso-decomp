@@ -476,7 +476,7 @@ void TLockOnCursor::reset_and_spawn_cursors() {
     saddr arg0 = (saddr)this;
     flags.reset();
     for (i = 0; i < 4; i++) {
-        ((TMainCursor *)&unk_5c[i])->reset_state();
+        ((TMainCursor *)&action_slots[i])->reset_state();
     }
     unk_4ec.reset_state();
     TLockOnCursor__sub_8013EC1C(&unk_508);
@@ -984,7 +984,7 @@ TUnk_8013EFB8 *TLockOnCursor::find_by_pos(s16 mode, s16 kind) {
     TUnk_8013EFB8 *slot;
 
     i = 0;
-    slot = unk_5c;
+    slot = action_slots;
 loop_1:
     if ((mode == (s32) get_cursor_palette_mode(slot)) && (kind == (s32) ((TMainCursor *)slot)->get_active()) && (((TMainCursor *)slot)->get_selected_entry() != 0)) {
         return slot;

@@ -119,7 +119,7 @@ struct TLockOnCursor : public TObject {
     TUnk_8013F0A0 unk_24;
     TUnk_8013F08C unk_3c;
     TUnk_804A7254 unk_48;
-    TUnk_8013EFB8 unk_5c[4];
+    TUnk_8013EFB8 action_slots[4]; // inferred: one action palette tag and its targets each (find_by_pos)
     TUnk_8013EF6C unk_4ec;
     TUnk_8013EF3C unk_508;
     TUnk_8013EF0C nearest_target;
