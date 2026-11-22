@@ -22,10 +22,6 @@ struct TObjEneMe3ShinowaMirage : public TObjEneMe3Shinowa {
     void run_death_reaction();
     void run_hit_reaction();
     static void advance_camera_ctrl_step(NJS_OBJECT *);
-    void state_break_apart(s32 reason);
-    void state_cast_support(s32 reason);
-    void state_chase_target(s32 arg1);
-    void update_by_distance();
     void render();
     void clear_mirage();
     void set_flag_0x100();

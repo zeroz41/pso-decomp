@@ -81,6 +81,23 @@ struct TObjEneMe3Shinowa : public TObjEneDD_ST {
     TParticleCtrl *m_424;
     TParticleCtrl *m_428;
     void copy_position_vector();
+    void fn_800E762C();
+    s32 check_in_range(f32);
+    void state_break_apart(s32 reason);
+    void state_cast_support(s32 reason);
+    void state_chase_target(s32 arg1);
+    void update_by_distance();
+    void sub_800E4FE8(s32 reason);
+    void sub_800E50D8(s32 reason);
+    void sub_800E5220(s32 reason);
+    void sub_800E54E8(s32 reason);
+    void sub_800E5CE4(s32 reason);
+    void sub_800E5F64(s32 reason);
+    void sub_800E66FC(s32 reason);
+    void sub_800E69F0(s32 reason);
+    void sub_800E6F0C();
+    void sub_800E5950(s32 reason);
+    void sub_800E7268();
 };
 
 LAYOUT_ASSERT(TObjEneMe3Shinowa_m_3e8, offsetof(TObjEneMe3Shinowa, m_3e8) == 0x3E8);

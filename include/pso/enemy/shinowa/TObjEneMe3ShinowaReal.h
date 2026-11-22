@@ -21,6 +21,7 @@ struct TObjEneMe3ShinowaReal : public TObjEneMe3Shinowa {
     void try_spawn_mirages();
     TObjEneMe3ShinowaReal *create();
     u16 m_42c[4];
+    u16 get_target_id();
 };
 
 LAYOUT_ASSERT(TObjEneMe3ShinowaReal_size, sizeof(TObjEneMe3ShinowaReal) == 0x434);
