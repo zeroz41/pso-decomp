@@ -18,6 +18,7 @@ typedef struct Ipv4ProtocolState Ipv4ProtocolState;
 typedef struct N_80405298 N_80405298;
 typedef struct In_8040D95C In_8040D95C;
 typedef struct Out_8040D95C Out_8040D95C;
+typedef void (*Fn_8040881C)(void); /* a link-layer driver entry (NetHandlerTable.c) */
 /* A raw IPv4 socket: ipv4_input hands it every packet of its protocol. */
 struct Ipv4RawSocket {
     u8 tag[3];                  /* 0x00: "IP4" */
@@ -81,7 +82,7 @@ s16 ipv4_iface_for_address(u32 ip);
 s32 TLobby__sub_8040DD68(void);
 s32 shutdown_ipv4_routing(void);
 s32 NetIPv6Shutdown(void);
-s16 TLobby__sub_80409A3C(u8 *arg0, s16 arg1);
+s16 TLobby__sub_80409A3C(Fn_8040881C *fns, s16 kind);
 void lobby_timer_stop(void *arg0);
 s16 AT_IP_GetMssFromDstSrc(u8 *arg0, u8 *arg1);
 void netbuf_copy_by_ref(void *a, void *b, s32 v);
@@ -112,7 +113,6 @@ u16 packet_ones_complement_sum(struct NetPacket *, s16); /* TLobby_804050DC.c */
 s32 dispatch_slot_a(s16, s32);                       /* NetArp.c */
 s32 dispatch_slot_b(s16, s32);                       /* NetArp.c */
 s16 forward_net_op(s16, u8 *, u8 *);                 /* NetArp.c */
-typedef void (*Fn_8040881C)(void);                   /* a link-layer driver entry (NetHandlerTable.c) */
 s16 *get_active_entry_by_index(s16);                 /* NetIpv4Route.c */
 Ipv4Route *AT_IP4_RouteSearch(u32, u32);             /* NetIpv4Route.c */
 s16 NetIPv4IsInterfaceUp(s16);                       /* NetIpv4Route.c */

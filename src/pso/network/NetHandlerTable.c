@@ -133,12 +133,12 @@ s32 clear_table_entry_locked(s16 arg0) {
     return ret;
 }
 
-s16 TLobby__sub_80409A3C(u8 *fns, s16 kind) {
-    s16 temp_r31;
+s16 TLobby__sub_80409A3C(Fn_8040881C *fns, s16 kind) {
+    s16 id;
     lock_mutex(network_dispatch_state.lock_handle);
-    temp_r31 = TLobby__sub_8040A2BC((Fn_8040881C *)(fns), kind);
+    id = TLobby__sub_8040A2BC(fns, kind);
     unlock_mutex(network_dispatch_state.lock_handle);
-    return temp_r31;
+    return id;
 }
 
 s32 TLobby__sub_80409AA8(void) {
