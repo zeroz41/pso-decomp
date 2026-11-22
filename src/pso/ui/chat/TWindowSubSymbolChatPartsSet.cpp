@@ -215,7 +215,6 @@ extern s32 __vt__28TWindowSubSymbolChatPartsSet[];
 T_802869BC *TWindowSubSymbolChatPartsSet__ct(T_802869BC *self, void *parent, s16 arg2, s32 arg3, s32 arg4);
 void TWindowSubSymbolChatFaceType__sub_80283C84(void *, void *, f32, f32);
 
-void render__28TWindowSubSymbolChatPartsSetFv(TWindowSubSymbolChatPartsSet *arg0);
 s32 play_sound_effect(s32, s32, s32, s32);
 
 void TWindowSubSymbolChatPartsSet::draw_selected_part_cursor(void *ctx) {
@@ -365,33 +364,33 @@ void TWindowSubSymbolChatPartsSet::handle_cursor_input() {
     }
 }
 
-void render__28TWindowSubSymbolChatPartsSetFv(TWindowSubSymbolChatPartsSet *window_sub_symbol_chat_parts_set) {
+void TWindowSubSymbolChatPartsSet::render() {
     NJS_POINT2 sp10;
     NJS_POINT2 sp8;
     f32 ctx;
     u8 *c_arg;
 
-    c_arg = reinterpret_cast<u8 *>(reinterpret_cast<TWindowBase *>(window_sub_symbol_chat_parts_set)->draw_default_entry());
+    c_arg = reinterpret_cast<u8 *>(draw_default_entry());
     copy_vec2((&sp10), c_arg + 0x10);
     copy_vec2((&sp8), c_arg + 0x28);
     if ((s32) *(s32 *)((s8 *)c_arg + 0x30) < 0) {
-        *(f32 *)((s8 *)c_arg + 0x28) = (f32) ((f32) *(s32 *)&window_sub_symbol_chat_parts_set->open_tick / 7.5f);
+        *(f32 *)((s8 *)c_arg + 0x28) = (f32) ((f32) *(s32 *)&this->open_tick / 7.5f);
         *(f32 *)((s8 *)c_arg + 0x2C) = (f32) *(f32 *)((s8 *)c_arg + 0x28);
     }
-    ((TWindowBase *)window_sub_symbol_chat_parts_set)->draw_quest_message_frame((void *)c_arg);
-    *(f32 *)((s8 *)c_arg + 0x10) = (f32) (*(f32 *)((s8 *)c_arg + 0x10) + *(f32 *)((s8 *)window_sub_symbol_chat_parts_set + 0x8C));
-    *(f32 *)((s8 *)c_arg + 0x14) = (f32) (*(f32 *)((s8 *)c_arg + 0x14) + window_sub_symbol_chat_parts_set->m_90);
-    *(f32 *)((s8 *)c_arg + 0x28) = (f32) (*(f32 *)((s8 *)c_arg + 0x28) * *(f32 *)((s8 *)window_sub_symbol_chat_parts_set + 0x94));
+    draw_quest_message_frame((void *)c_arg);
+    *(f32 *)((s8 *)c_arg + 0x10) = (f32) (*(f32 *)((s8 *)c_arg + 0x10) + *(f32 *)((s8 *)this + 0x8C));
+    *(f32 *)((s8 *)c_arg + 0x14) = (f32) (*(f32 *)((s8 *)c_arg + 0x14) + this->m_90);
+    *(f32 *)((s8 *)c_arg + 0x28) = (f32) (*(f32 *)((s8 *)c_arg + 0x28) * *(f32 *)((s8 *)this + 0x94));
     ctx = *(f32 *)((s8 *)c_arg + 0x2C);
-    *(f32 *)((s8 *)c_arg + 0x2C) = (f32) (ctx * *(f32 *)((s8 *)window_sub_symbol_chat_parts_set + 0x94));
+    *(f32 *)((s8 *)c_arg + 0x2C) = (f32) (ctx * *(f32 *)((s8 *)this + 0x94));
     draw_visible_window_entries(
-        reinterpret_cast<const void *>(window_sub_symbol_chat_parts_set),
-        reinterpret_cast<const WindowLayoutEntries *>((u8 *)window_sub_symbol_chat_parts_set + 0x24),
+        this,
+        &this->entry_list,
         reinterpret_cast<WindowDrawContext *>(c_arg));
-    window_sub_symbol_chat_parts_set->draw_selected_part_cursor(c_arg);
+    this->draw_selected_part_cursor(c_arg);
     copy_vec2((c_arg + 0x10), &sp10);
     copy_vec2((c_arg + 0x28), &sp8);
-    window_sub_symbol_chat_parts_set->m_88->forward_render(c_arg);
+    this->m_88->forward_render(c_arg);
 }
 
 LAYOUT_ASSERT(RecoveredGlobal_80286824_lbl_8050E208_size, sizeof(RecoveredGlobal_80286824_lbl_8050E208) == 0x1B0);

@@ -17,7 +17,6 @@ u8 *create_yes_no_window(s32 position, s32 id, uaddr yes_text, uaddr no_text);
 void fn_80266378(s32 arg0);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 u8 *init_shop_judgment_window(void *p);
-void render__11TWindowMenuFv(TWindowMenu *arg0);
 }
 
 #endif

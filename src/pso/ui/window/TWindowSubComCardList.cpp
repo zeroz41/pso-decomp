@@ -32,26 +32,25 @@ const char *TWindowSubComCardList__class_name = "TWindowSubComCardList";
 extern "C" {
 extern s32 local_client_id;
 s32 count_leading_active__17TWindowSubComCardFPvi(s32, s32);
-void render__21TWindowSubComCardListFv(TWindowSubComCardList *arg0);
 void __dl__7TObjectFPv(void *);
 void *__dt__11TWindowMenuFv(void *arg0, s16 arg1);
 
-void render__21TWindowSubComCardListFv(TWindowSubComCardList *arg0) {
-    saddr window_key_board_soft;
+void TWindowSubComCardList::render() {
+    saddr ctx;
 
-    window_key_board_soft = reinterpret_cast<saddr>(arg0->get_draw_context());
-    ((TWindowBase *)arg0)->draw_window_frame((void *)window_key_board_soft);
+    ctx = reinterpret_cast<saddr>(this->get_draw_context());
+    draw_window_frame((void *)ctx);
     draw_visible_window_entries(
-        reinterpret_cast<const void *>(arg0),
-        reinterpret_cast<const WindowLayoutEntries *>((u8 *)arg0 + 0x24),
-        reinterpret_cast<WindowDrawContext *>(window_key_board_soft));
-    ((TWindowMenu *)arg0)->render_selected_entry(window_key_board_soft);
-    arg0->draw_card_list_selection((u8 *)window_key_board_soft);
-    if (arg0->m_88 != 0) {
-        arg0->m_88->forward_render((void *)(window_key_board_soft));
+        this,
+        &this->entry_list,
+        reinterpret_cast<WindowDrawContext *>(ctx));
+    ((TWindowMenu *)this)->render_selected_entry(ctx);
+    this->draw_card_list_selection((u8 *)ctx);
+    if (this->m_88 != 0) {
+        this->m_88->forward_render((void *)(ctx));
     }
-    if (arg0->m_8c != 0) {
-        draw_list_page_indicator(arg0->m_8c, reinterpret_cast<WindowDrawContext *>(window_key_board_soft));
+    if (this->m_8c != 0) {
+        draw_list_page_indicator(this->m_8c, reinterpret_cast<WindowDrawContext *>(ctx));
     }
 }
 

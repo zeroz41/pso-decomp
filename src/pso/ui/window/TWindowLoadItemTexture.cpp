@@ -75,23 +75,23 @@ void *TWindowLoadItemTexture::create(void *client) {
     return o;
 }
 
-void render__22TWindowLoadItemTextureFv(TWindowLoadItemTexture *window_base) {
+void TWindowLoadItemTexture::render() {
     saddr temp_r31;
 
-    if ((s32) window_base->m_60 == 1) {
-        window_base->m_70 = (uaddr)(*(TItemTexLoad**)((s8 *)window_base + 0x6C))->ready_texture_list();
-        if ((u32) window_base->m_70 != 0U) {
-            fn_8026287C((u8 *)window_base);
-            window_base->m_60 = 1U;
+    if ((s32) this->m_60 == 1) {
+        this->m_70 = (uaddr)(*(TItemTexLoad**)((s8 *)this + 0x6C))->ready_texture_list();
+        if ((u32) this->m_70 != 0U) {
+            fn_8026287C((u8 *)this);
+            this->m_60 = 1U;
         }
     }
-    temp_r31 = reinterpret_cast<saddr>(((TWindowBase *)window_base)->setup_window_draw_context((f32 *)((u8 *)window_base + 0x64)));
-    if (window_base->m_61 & 1) {
-        ((TWindowBase *)window_base)->draw_window_frame((void *)temp_r31);
+    temp_r31 = reinterpret_cast<saddr>(setup_window_draw_context((f32 *)((u8 *)this + 0x64)));
+    if (this->m_61 & 1) {
+        draw_window_frame((void *)temp_r31);
     }
     draw_visible_window_entries(
-        reinterpret_cast<const void *>(window_base),
-        reinterpret_cast<const WindowLayoutEntries *>((u8 *)window_base + 0x24),
+        this,
+        &this->entry_list,
         reinterpret_cast<WindowDrawContext *>(temp_r31));
 }
 

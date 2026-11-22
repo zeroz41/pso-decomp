@@ -104,7 +104,6 @@ u8 * create_yes_no_window(s32 arg0, s32 arg1, uaddr arg2, uaddr arg3);
 u8 * init_shop_judgment_window(void* p);
 saddr create_window_menu_default(saddr pos, s32 entries);
 saddr create_titled_window_menu_default(saddr pos, s32 entries, saddr title);
-void render__11TWindowMenuFv(TWindowMenu *arg0);
 s32 clamp_list_scroll_offset(int, void *, void *);
 s32 draw_window_scrollbar(s32, s32, void *);
 }
@@ -705,24 +704,24 @@ void TWindowMenu::render_selected_entry(saddr window_key_board_soft) {
     }
 }
 
-void render__11TWindowMenuFv(TWindowMenu *arg0) {
-    saddr window_key_board_soft;
+void TWindowMenu::render() {
+    saddr ctx;
 
-    window_key_board_soft = reinterpret_cast<saddr>(arg0->get_draw_context());
-    ((TWindowBase *)arg0)->draw_window_frame((void *)window_key_board_soft);
+    ctx = reinterpret_cast<saddr>(this->get_draw_context());
+    draw_window_frame((void *)ctx);
     draw_visible_window_entries(
-        reinterpret_cast<const void *>(arg0),
-        reinterpret_cast<const WindowLayoutEntries *>((u8 *)arg0 + 0x24),
-        reinterpret_cast<WindowDrawContext *>(window_key_board_soft));
-    if (!(arg0->m_70 & 0x80)) {
-        arg0->render_selected_entry(window_key_board_soft);
-        arg0->draw_selected_bar((u8 *)window_key_board_soft);
+        this,
+        &this->entry_list,
+        reinterpret_cast<WindowDrawContext *>(ctx));
+    if (!(this->m_70 & 0x80)) {
+        this->render_selected_entry(ctx);
+        this->draw_selected_bar((u8 *)ctx);
     }
-    if (arg0->m_88 != 0) {
-        arg0->m_88->forward_render((void *)(window_key_board_soft));
+    if (this->m_88 != 0) {
+        this->m_88->forward_render((void *)(ctx));
     }
-    if ((u32) arg0->m_84 != 0U) {
-        draw_window_scrollbar(arg0->m_84, window_key_board_soft, (u8 *)arg0 + 0x68);
+    if ((u32) this->m_84 != 0U) {
+        draw_window_scrollbar(this->m_84, ctx, (u8 *)this + 0x68);
     }
 }
 
