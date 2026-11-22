@@ -31,14 +31,14 @@ struct TObjEnePanarms : public TObjEnemy {
     s32 state; // index into the TU's {enter, update} state table
     Vec move_velocity; // added to position every frame (0x378)
     f32 ground_y; // height of the ground under the body (snap_to_ground); hidden, it waits 39.6 below it
-    s32 m_388;
-    s32 m_38c;
+    s32 state_timer; // countdown of the current state (wait_frames hidden, 0xA4 dead, 0x5A arm attacks)
+    s32 step_right; // toggled by enter_move: 1 steps right (walkr), 0 left (walkl); picks the next state
     CollisionBody *collision_body_parts; // init_collision_body_parts / free_collision_body_parts
     TParticleCtrl *particle_handles[2]; // released by destroy_handles
-    ModelNodePositionCapture *m_39c;
+    ModelNodePositionCapture *node_capture; // panarms_model_node_desc -> draw_positions
     Vec draw_positions[5];
-    s32 pad_3dc; // 1 from enter_idle, 0 while hidden
-    s32 pad_3e0; // 1 from enter_idle, 0 while hidden
+    s32 visible; // nonzero: drawn, animated, targetable and on the minimap (run_task, render)
+    s32 shadow_visible; // render draws the shadow; cleared while hidden and as the body sinks dead
     TObjEnePanBARA *halves[2]; // create_bara(index 0 / 1)
     s32 attack_count; // bit 0 / bit 1 pick the next arm attack
     s32 spin_count;
