@@ -165,6 +165,11 @@ struct TBoss6Type2 : public TObjEnemy
     TParticleCtrl *particle_emitters[14];
 
     void update_lower_contact_delta();
+    void set_screen_pos();
+    s32 calc_field4f0_delta();
+    s32 snap_to_ground();
+    void request_player_camera_offsets(f32 a, f32 b);
+    void init_parts();
     s32 turn_toward_target_position();
     static u8 *create_dpb(saddr parent, saddr position, f32 farg0);
     s32 get_phase();
@@ -192,7 +197,7 @@ struct TBoss6Type2 : public TObjEnemy
     void spawn_rocks_around_players();
     static void drop_random_rocks(s32 arg0, s32 force);
     static void request_default_follow_camera();
-    static void init_range();
+    void init_range();
     void update_target();
     s32 push_players_away(void *target, f32 range);
     void set_owner_flag_bit0();

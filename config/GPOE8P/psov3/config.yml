@@ -4780,7 +4780,7 @@ force_active:
   - calc_drop_offset__9TItemDropFl
   - calc_drop_rarity__9TItemDropFiiPv
   - calc_duel_number_uv__FlPUcl
-  - calc_field4f0_delta__11TBoss6Type2FPv
+  - calc_field4f0_delta__11TBoss6Type2Fv
   - calc_follow_camera_offsets__12TBoss1DragonFP3VecP3Vec
   - calc_follow_goal__10TNpcPlayerFv
   - calc_follow_position__11TCameraCtrlFv
@@ -7157,7 +7157,7 @@ force_active:
   - init_params_from_position__16TObjEneMerillLiaFv
   - init_particle_effect__10TObjPlayerFv
   - init_particle_obj__13TParticleCtrlFll
-  - init_parts__11TBoss6Type2FPv
+  - init_parts__11TBoss6Type2Fv
   - init_parts__13TObjTombstoneFv
   - init_parts__13TUnk_804A7488Fv
   - init_plate_rects__20TAdChrSelMovePlateGCFv
@@ -14584,7 +14584,7 @@ force_active:
   - request_game_list__6TLobbyFv
   - request_game_mode_transition__11TAdEp3ExistFv
   - request_menu__16TQuestListOnlineFv
-  - request_player_camera_offsets__11TBoss6Type2FPvff
+  - request_player_camera_offsets__11TBoss6Type2Fff
   - request_scene_change__11TAdEp3ExistFv
   - request_scene_change_vt__21TAdMultiChgGameModeGCFv
   - request_split_screen_battle_event__FPv
@@ -15599,7 +15599,7 @@ force_active:
   - set_result_flag__12TBoss1DragonFll
   - set_scale__13TUnk_804B2578Ff
   - set_scene_light_diffuse__FPv
-  - set_screen_pos__11TBoss6Type2FPv
+  - set_screen_pos__11TBoss6Type2Fv
   - set_script_id__15TOQuestTalkBaseFl
   - set_selected_card__17TWindowSubComCardFl
   - set_selection_index__18TObjItemNameSelectFi
@@ -15750,7 +15750,7 @@ force_active:
   - slow_curse_timer_ct__FlUlUslf
   - smpcmp
   - snap_to_ground__13TUnk_80494E10FP3Vec
-  - snap_to_ground__11TBoss6Type2FPv
+  - snap_to_ground__11TBoss6Type2Fv
   - snap_to_ground__13TObjEneMorfosFll
   - snap_to_ground__21TObjEneRe7BeruraPunchFv
   - snap_to_ground__5TItemFv

@@ -124,7 +124,6 @@ s32 TBoss6Type2__sub_802BB694(TBoss6Type2 *self);
 void TBoss6Type2__sub_802BB818(TBoss6Type2 *self, f32);
 void TBoss6Type2__sub_802BBC74(TBoss6Type2 *self);
 void TBoss4DarkFalz__sub_8004B4F0(void *dst, void *src);
-void set_screen_pos__11TBoss6Type2FPv(TBoss6Type2 *self);
 void TBoss6Type2__sub_802BE4E0(s32 *arg0, s32 *boss6_type2_zero_vec);
 void TBoss6Type2__sub_802BD938(TBoss6Type2 *self, u8 *arg1);
 
@@ -133,14 +132,6 @@ struct Stack_802B9D90
 {
   s32 sp8;
   s32 spC;
-};
-
-
-struct V3_802B9C00 { s32 x, y, z; };
-
-struct T1_802B9C00 {
-    u8 pad0[0x38];
-    V3_802B9C00 pos;
 };
 
 
@@ -166,20 +157,16 @@ f32 TBoss6PlotFalz__sub_802AB684(void *);
 void TBoss6PlotFalz__sub_802AC724(void *, void *);
 void world_to_grid_pos__11TBoss6Type2FPvPvPv(f32 *arg0, s8 *arg1, s8 *arg2);
 void grid_to_world_pos__11TBoss6Type2FccPv(s8 arg0, s8 arg1, f32 *arg2);
-void init_parts__11TBoss6Type2FPv(saddr self);
 void TBoss6Type2__sub_802B9D6C(TBoss6Type2 *self);
 s32 grab_player__11TBoss6Type2FPvUs(u8 *self, u16 arg1);
 s32 TBoss6Type2__sub_802BA944(TBoss6Type2 *o);
 s32 TBoss6Type2__sub_802BA9E4(TBoss6Type2 *self);
-s32 snap_to_ground__11TBoss6Type2FPv(TBoss6Type2 *self);
 void TBoss6Type2__sub_802BAD04(saddr parent);
-void request_player_camera_offsets__11TBoss6Type2FPvff(TBoss6Type2 *, f32, f32);
 f32 fabs_float(f32);
 void TBoss6Type2__sub_802BB4DC(TBoss6Type2 *self);
 void TBoss6Type2__sub_802BB5B4(TBoss6Type2 *self, u16 *first, u16 *second);
 void TBoss6Type2__sub_802BB768(TBoss6Type2 *self);
 void TBoss6Type2__sub_802BB7C0(TBoss6Type2 *self);
-s32 calc_field4f0_delta__11TBoss6Type2FPv(TBoss6Type2 *self);
 void TBoss6Type2__sub_802BCC54(TBoss6Type2 *, int);
 s32 spawn_flow_soul__11TBoss6Type2Fiii(saddr parent, saddr pos, saddr state_duration);
 f32 vec3_add_to(void *, void *);
@@ -319,7 +306,7 @@ TBoss6Type2::TBoss6Type2(TObject *parent, saddr *params) : TObjEnemy(parent) {
     m_46c = -1;
     m_470 = 0;
     load_battle_params();
-    set_screen_pos__11TBoss6Type2FPv(this);
+    set_screen_pos();
     copy_anim_state();
     reset_attack_counter();
     reset_indices();
@@ -347,7 +334,7 @@ TBoss6Type2::TBoss6Type2(TObject *parent, saddr *params) : TObjEnemy(parent) {
 
 TBoss6Type2::~TBoss6Type2() {
     s32 i;
-    init_parts__11TBoss6Type2FPv((saddr)this);
+    init_parts();
     reset_counters();
     TBoss6Rock__sub_80354A44();
     for (i = 0; i < 2; i++) {
@@ -1035,16 +1022,16 @@ void TBoss6Type2::load_battle_params() {
     }
 }
 
-void set_screen_pos__11TBoss6Type2FPv(TBoss6Type2 *self) {
+void TBoss6Type2::set_screen_pos() {
     f32 walk_speed;
     f32 turn_speed;
 
-    if ((s32)self->m_424 != 0) {
-        walk_speed = 0.28f * self->m_4e0;
-        turn_speed = 0.28f * self->m_4e4;
+    if ((s32)this->m_424 != 0) {
+        walk_speed = 0.28f * this->m_4e0;
+        turn_speed = 0.28f * this->m_4e4;
     } else {
-        walk_speed = 0.28f * self->m_4d8;
-        turn_speed = 0.28f * self->m_4dc;
+        walk_speed = 0.28f * this->m_4d8;
+        turn_speed = 0.28f * this->m_4dc;
     }
     TBoss6Type2__motion_table[2].speed = walk_speed;
     TBoss6Type2__motion_table[3].speed = walk_speed;
@@ -1055,8 +1042,8 @@ void TBoss6Type2::copy_anim_state() {
     m_4f0 = hp;
 }
 
-s32 calc_field4f0_delta__11TBoss6Type2FPv(TBoss6Type2 *self) {
-    return self->m_4f0 - self->hp;
+s32 TBoss6Type2::calc_field4f0_delta() {
+    return this->m_4f0 - this->hp;
 }
 
 void TBoss6Type2::reset_attack_counter() {
@@ -1645,12 +1632,12 @@ void TBoss6Type2::sub_802BB498() {
         TBoss6Type2::request_default_follow_camera();
         break;
     default:
-        TBoss6Type2::init_range();
+        init_range();
         break;
     }
 }
 
-void request_player_camera_offsets__11TBoss6Type2FPvff(TBoss6Type2 *self, f32 a, f32 b) {
+void TBoss6Type2::request_player_camera_offsets(f32 a, f32 b) {
     Vec pp;
     Vec me;
     Vec off;
@@ -1683,7 +1670,7 @@ void request_player_camera_offsets__11TBoss6Type2FPvff(TBoss6Type2 *self, f32 a,
             VecCopy(&off, &lbl_80471344);
             VecCopy(&pp, &p->position);
             pp.y += off.y;
-            VecCopy(&me, &self->position);
+            VecCopy(&me, &this->position);
             me.y += a + t;
             VecCopy(&d, &me);
             subtract_vector(&d, &pp);
@@ -1726,7 +1713,7 @@ void request_player_camera_offsets__11TBoss6Type2FPvff(TBoss6Type2 *self, f32 a,
 }
 
 void TBoss6Type2::init_range() {
-    ((void (*)(f32, f32))request_player_camera_offsets__11TBoss6Type2FPvff)(100.0f, -125.0f);
+    request_player_camera_offsets(100.0f, -125.0f);
 }
 
 void TBoss6Type2::request_default_follow_camera() {
@@ -1840,17 +1827,17 @@ void TBoss6Type2__sub_802BAD04(saddr parent) {
     }
 }
 
-s32 snap_to_ground__11TBoss6Type2FPv(TBoss6Type2 *self) {
+s32 TBoss6Type2::snap_to_ground() {
     Vec p;
     f32 t;
-    VecCopy(&p, &self->position);
+    VecCopy(&p, &this->position);
     p.y += 10.0f;
-    if (project_actor_to_ground(self, &p, 0) != 0) {
-        VecCopy(&self->position, &p);
-        self->position.y = 0.0f;
+    if (project_actor_to_ground(this, &p, 0) != 0) {
+        VecCopy(&this->position, &p);
+        this->position.y = 0.0f;
         return 0;
     }
-    VecCopy(&p, &self->position);
+    VecCopy(&p, &this->position);
     p.x -= -10000.0f;
     p.y = 0.0f;
     t = 398.0f;
@@ -1859,15 +1846,15 @@ s32 snap_to_ground__11TBoss6Type2FPv(TBoss6Type2 *self) {
         normalize_vector(&d);
         for (; t > 0.0f; t += -2.0f) {
             p.x = t * d.x + -10000.0f;
-            p.y = 10.0f + self->position.y;
+            p.y = 10.0f + this->position.y;
             p.z = t * d.z;
-            if (project_actor_to_ground(self, &p, 0) != 0) {
+            if (project_actor_to_ground(this, &p, 0) != 0) {
                 break;
             }
         }
     }
-    VecCopy(&self->position, &p);
-    self->position.y = 0.0f;
+    VecCopy(&this->position, &p);
+    this->position.y = 0.0f;
     return 1;
 }
 
@@ -1905,7 +1892,7 @@ s32 TBoss6Type2::turn_toward_target_position() {
 void TBoss6Type2::trigger_screen_pos() {
     if (((s32) this->m_424 == 0) && (this->m_500 < 0.33333334f)) {
         this->m_424 = 1;
-        ((s32 (*)(void))set_screen_pos__11TBoss6Type2FPv)();
+        set_screen_pos();
     }
 }
 
@@ -1935,7 +1922,7 @@ s32 TBoss6Type2::is_phase_complete() {
     if ((s32) this->m_418 == 0) {
         return 0;
     }
-    if (((s32 (*)(void))calc_field4f0_delta__11TBoss6Type2FPv)() >= (s32) *(s32 *)((s8 *)this + 0x4C4)) {
+    if (calc_field4f0_delta() >= m_4c4) {
         return 1;
     }
     if ((TBoss6PlotFalz::get_phase() == 0) && ((s32) this->m_420 >= 8)) {
@@ -1952,7 +1939,7 @@ s32 TBoss6Type2::is_ready_to_attack() {
     if (is_normal_difficulty() != 0) {
         return 0;
     }
-    temp = calc_field4f0_delta__11TBoss6Type2FPv(this);
+    temp = calc_field4f0_delta();
     return *(s32 *)((s8 *)this + 0x4C0) <= temp ? 1 : 0;
 }
 
@@ -2001,7 +1988,10 @@ void TBoss6Type2::update_lower_contact_delta() {
     VecCopy((Vec *)(&previous_lower_contact), (const Vec *)(&sp20));
 }
 
-void TBoss6Type2::update_zako() { ((int (*)(void*, void*))vec3_add_to)((char*)this + 0x38, (char*)this + 0x524); ((int (*)(void*))snap_to_ground__11TBoss6Type2FPv)(this); }
+void TBoss6Type2::update_zako() {
+    vec3_add_to(&position, &lower_contact_delta);
+    snap_to_ground();
+}
 
 void TBoss6Type2__sub_802BA598(TBoss6Type2 *self, s32 elapsed, s32 duration) {
     f32 t = 1.0f - (f32)elapsed / (f32)duration;
@@ -2280,11 +2270,11 @@ void TBoss6Type2__sub_802B9D6C(TBoss6Type2 *self) {
     for (i = 0; i < 14; i++) self->particle_emitters[i] = 0;
 }
 
-void init_parts__11TBoss6Type2FPv(saddr self) {
+void TBoss6Type2::init_parts() {
     s32 var_r31;
     var_r31 = 0;
     do {
-        ((TBoss6Type2 *)self)->destroy_part(var_r31);
+        destroy_part(var_r31);
         var_r31 += 1;
     } while (var_r31 < 0xE);
 }
@@ -2306,13 +2296,11 @@ void TBoss6Type2::update_part_positions() {
 }
 
 void TBoss6Type2::spawn_particle_slot(s32 arg1) {
-    u8 *self = (u8 *)this;
-    u8 *p = self + arg1 * 4;
-    if (*(u32 *)(p + 0x77C) == 0U) {
-        V3_802B9C00 v = ((T1_802B9C00 *)self)->pos;
-        *(u32 *)(p + 0x77C) = (uaddr)create_particle_emitter(&v, TBoss6Type2__particle_attachment_table[arg1].a);
-        if (*(u32 *)(p + 0x77C) != 0U) {
-            ((TParticleCtrl *)(*(uaddr *)(p + 0x77C)))->set_flags(0x40);
+    if (particle_emitters[arg1] == 0) {
+        Vec v = position;
+        particle_emitters[arg1] = create_particle_emitter(&v, TBoss6Type2__particle_attachment_table[arg1].a);
+        if (particle_emitters[arg1] != 0) {
+            particle_emitters[arg1]->set_flags(0x40);
         }
     }
 }
