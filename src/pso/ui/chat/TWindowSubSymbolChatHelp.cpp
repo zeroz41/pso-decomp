@@ -9,7 +9,7 @@
 #include "pso/object/ambient/TObjFish.h"
 
 #include "pso/unk/WindowLayoutRecord.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/ui/window/WindowLayout.h"
 
 struct Quad_8028429C { f32 x, y, x2, y2, u0, v0, u1, v1; };

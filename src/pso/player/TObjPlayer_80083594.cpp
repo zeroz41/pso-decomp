@@ -30,7 +30,7 @@ void set_camera_capture_flags_bit2(void);
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/ui/frontend/TAdSelectCurGC_801A6E20.h"
+#include "pso/system/ControllerInput.h"
 
 struct Stack_80082C30 {
     f32 sp8;

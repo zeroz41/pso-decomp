@@ -4,7 +4,6 @@
 #include "pso/system/main_loop.h"
 #include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
-#include "pso/ui/keyboard/KeyboardInputQueries.h"
 #include "pso/ui/keyboard/KeyboardKeyState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/hud/TRaderMapCore.h"

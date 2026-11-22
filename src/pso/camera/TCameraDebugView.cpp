@@ -1,11 +1,10 @@
 #include "types.h"
 #include "pso/camera/TCameraDebugView.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/ui/frontend/TAdSelectCurGC_801A6E20.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/system/vector.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/unk/text_803D853C.h"
 
 #pragma inline_depth(1)

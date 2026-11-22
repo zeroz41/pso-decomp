@@ -36,7 +36,7 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/window/TWindowOptionCtrl_8026C52C.h"
 #include "pso/math/TMath.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
 #include "pso/unk/TLobby_80132ED0.h"

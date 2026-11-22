@@ -22,7 +22,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
 #include "pso/item/TItemData.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/unk/TLobby_80132ED0.h"

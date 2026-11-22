@@ -9,7 +9,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 #include "pso/player/TObjPlayer.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/unk/TLobby.h"
 #include "pso/network/client_id.h"
 

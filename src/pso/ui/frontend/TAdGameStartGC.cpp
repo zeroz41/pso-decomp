@@ -8,7 +8,7 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/object/ending/TObjOnlineEndingHexLine.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 

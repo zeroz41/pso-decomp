@@ -22,7 +22,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 #include "pso/system/TLoadCtrl_80227390.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/TUnk_804DC7C4.h"

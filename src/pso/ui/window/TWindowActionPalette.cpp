@@ -24,7 +24,7 @@
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include <stddef.h>
-#include "pso/ui/frontend/TAdSelectCurGC_801A6E20.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 #include "pso/ui/window/WindowLayout.h"
 

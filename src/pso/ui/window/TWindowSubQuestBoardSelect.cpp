@@ -14,7 +14,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/ui/window/WindowLayout.h"
 
 #pragma push

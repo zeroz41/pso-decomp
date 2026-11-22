@@ -10,7 +10,7 @@
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/ui/window/PageIndicator.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 
 struct Stack_8026C708
 {

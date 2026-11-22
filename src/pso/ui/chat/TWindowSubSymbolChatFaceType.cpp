@@ -12,7 +12,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"

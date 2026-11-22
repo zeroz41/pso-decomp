@@ -13,9 +13,7 @@
 #include "pso/ui/chat/TWindowChat.h"
 #include "pso/ui/frontend/TAdScrollWinGC.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
-#include "pso/ui/hud/TLoadingCur_801A6DE0.h"
-#include "pso/ui/frontend/TAdSelectCurGC_801A6E20.h"
+#include "pso/system/ControllerInput.h"
 
 #pragma readonly_strings on
 

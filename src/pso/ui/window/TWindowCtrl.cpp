@@ -20,7 +20,7 @@
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/map/FloorArea.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/unk/TLobby.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"

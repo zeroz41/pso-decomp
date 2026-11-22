@@ -18,7 +18,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/unk/text_8024AB98.h"

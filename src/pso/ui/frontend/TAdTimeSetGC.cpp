@@ -31,7 +31,7 @@
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/unk/text_8023F160.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/system/vector.h"
 
 // Functions and data of other units that have no shared declaration with the signature these calls use.

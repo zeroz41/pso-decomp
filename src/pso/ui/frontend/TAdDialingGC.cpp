@@ -17,7 +17,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/unk/text_8014618C.h"
 #include "pso/unk/TLobby.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include <stdio.h>
 
 struct Stack_803286AC {

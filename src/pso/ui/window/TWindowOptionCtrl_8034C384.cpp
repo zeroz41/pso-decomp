@@ -11,7 +11,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 
 extern "C" {
 saddr get_localized_text_entry(s32);

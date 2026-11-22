@@ -27,7 +27,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowInputNumber.h"
 #include "pso/ui/city/TShopArmorListWindow.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TPlyItem.h"
 

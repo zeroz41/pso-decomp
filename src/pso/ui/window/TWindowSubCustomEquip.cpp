@@ -14,7 +14,7 @@
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/WindowLayoutRecord.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/system/vector.h"

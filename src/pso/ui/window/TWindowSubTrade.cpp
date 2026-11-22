@@ -5,7 +5,7 @@
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 class TChCrTagPlBack;

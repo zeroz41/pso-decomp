@@ -58,8 +58,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 
 #include "pso/system/NinjaTypes.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
-#include "pso/ui/frontend/TAdSelectCurGC_801A6E20.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/unk/TLobby_803DE778.h"
 
 // Two debug chunk models other units draw with draw_chunk_object: debug_chunk_object (TObjEneBm3FlyNest,

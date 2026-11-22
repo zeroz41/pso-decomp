@@ -1,7 +1,7 @@
 #ifndef PSO_UI_KEYBOARD_TKEYBOARDCONTROL_80131C58_H
 #define PSO_UI_KEYBOARD_TKEYBOARDCONTROL_80131C58_H
 
-#include "pso/ui/keyboard/KeyboardInputQueries.h"
+#include "pso/system/ControllerInput.h"
 #include "types.h"
 
 struct TKeyBoardControl;

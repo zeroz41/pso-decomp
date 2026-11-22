@@ -25,7 +25,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801334D4.h"
 #include "pso/ui/frontend/TAdSelectTxtGC.h"
 #include "pso/ui/window/TWindowMenu.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
 

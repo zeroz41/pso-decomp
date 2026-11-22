@@ -16,11 +16,10 @@
 #include "pso/render/render_util.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/ui/frontend/TAdSelectCurGC_801A6E20.h"
 
 // Eye offsets init_pose and reset_to_actor turn by the actor's facing. The original
 // copies them as writable data, so they are not const here.

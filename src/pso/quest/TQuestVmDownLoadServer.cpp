@@ -18,7 +18,7 @@
 
 
 #include "types.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"

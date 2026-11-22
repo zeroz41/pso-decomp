@@ -4,7 +4,7 @@
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowMainMenu_802AD538.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"

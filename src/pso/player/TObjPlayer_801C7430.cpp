@@ -1,6 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/player/PlayerSlots.h"
-#include "pso/ui/keyboard/KeyboardInputQueries.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/technique/TTecCtrl.h"

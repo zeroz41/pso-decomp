@@ -22,7 +22,7 @@
 #include "pso/ui/frontend/TAdSubPlyItemGC.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/system/vector.h"
 
 static const ChrSelPlateLayout chr_sel_b_slot_plate_layout = { 180.0f, 38.0f, { 0xBC, 0x98, 0x36, 0x00 }, 0 };

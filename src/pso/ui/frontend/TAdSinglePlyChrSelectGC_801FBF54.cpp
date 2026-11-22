@@ -29,7 +29,7 @@
 #include "pso/ui/Language.h"
 #include "pso/map/FloorArea.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"

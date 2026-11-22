@@ -20,7 +20,7 @@
 #include "pso/camera/CreationCamera.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/math/AngleLookup.h"
 
 
@@ -67,7 +67,6 @@ struct Out_80069F20 {
 };
 
 #include <stddef.h>
-#include "pso/ui/frontend/TAdSelectCurGC_801A6E20.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/MatrixOps.h"

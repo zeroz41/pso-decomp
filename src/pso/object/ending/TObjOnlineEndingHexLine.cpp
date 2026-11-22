@@ -8,7 +8,7 @@
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
 #include "pso/render/render_util.h"
-#include "pso/ui/frontend/TAdSelectCurGC_801A6E20.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/system/vector.h"
 #include "pso/ui/frontend/TAdGameStartGC.h"
 #include "pso/network/client_id.h"

@@ -17,7 +17,7 @@
 #include "pso/quest/TQuestThread.h"
 #include "pso/map/FloorArea.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/player/TObjPlayer_801D84A8.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"

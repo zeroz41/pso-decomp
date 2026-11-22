@@ -15,7 +15,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"

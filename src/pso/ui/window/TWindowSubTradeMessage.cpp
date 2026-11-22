@@ -5,7 +5,7 @@
 #include "pso/unk/text_802D298C.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/ui/window/WindowLayout.h"
 struct TradeMessageInput { u8 base[0x20]; u8 buttons[0x30]; };
 extern "C" {

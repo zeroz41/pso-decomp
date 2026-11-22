@@ -9,7 +9,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/ui/frontend/TAdPlyChrSelPlateGC.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include <stdio.h>
 #include <string.h>
