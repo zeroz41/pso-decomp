@@ -98,8 +98,6 @@ extern "C" {
 void TBoss8Dragon__sub_802FC500(u8 *boss8_dragon);
 u16 get_entity_id(u8 *);
 f32 newton_sqrtf(f32);
-void TBoss8Dragon__sub_802FB1B0(TBoss8Dragon *dragon, int x, f32 c);
-void TBoss8Dragon__sub_802FB220(void *o, int x, u32 a);
 
 }
 u8 *boss8_dragon_part_hp_stats[5];
@@ -1515,18 +1513,18 @@ void TBoss8Dragon::setup_breath_instance(Vec *pos, u32 kind, AreaAttackHistory *
     setup_instance((saddr)pos, &s, history);
 }
 
-void TBoss8Dragon__sub_802FB220(void *o, int x, u32 a) {
+void TBoss8Dragon::sub_802FB220(Vec *pos, u32 kind) {
     DragonAttackParams s = boss8_dragon_fireball_impact_params;
     s.field_4 = boss8_dragon_behavior_params[0]->values[1];
-    s.field_0 = a;
-    ((TBoss8Dragon *)o)->setup_instance(x, &s, 0);
+    s.field_0 = kind;
+    this->setup_instance((saddr)pos, &s, 0);
 }
 
-void TBoss8Dragon__sub_802FB1B0(TBoss8Dragon *dragon, int x, f32 c) {
+void TBoss8Dragon::sub_802FB1B0(Vec *pos, f32 radius) {
     DragonAttackParams s = boss8_dragon_pillar_attack_params;
-    s.field_8 = c;
+    s.field_8 = radius;
     s.field_4 = boss8_dragon_behavior_params[0]->values[2];
-    dragon->setup_instance(x, &s, dragon->attack_history);
+    this->setup_instance((saddr)pos, &s, this->attack_history);
 }
 
 void TBoss8Dragon::emit_effect(void *pos, void *params, AreaAttackHistory *history) {

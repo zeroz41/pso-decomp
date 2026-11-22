@@ -4,6 +4,7 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/boss/goldragon/TObjBoss8Piller.h"
+#include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
@@ -30,7 +31,6 @@ const char *TObjBoss8Piller__class_name = "TObjBoss8Piller";
 extern "C" {
 
 BmlResource *TObjBoss8Piller__shared_resource;
-s32 TBoss8Dragon__sub_802FB1B0(int, f32, void *);
 s32 post_translate_matrix(void *);
 
 
@@ -53,12 +53,12 @@ void TObjBoss8Piller::render() {
     }
 }
 void TObjBoss8Piller::run_task() {
-    u32 enemy_entity;
+    TBoss8Dragon *dragon;
     u32 last_frame;
     this->frame += 1.0f;
-    enemy_entity = (uaddr)get_enemy_entity(this->dragon_id);
-    if (enemy_entity != 0U) {
-        TBoss8Dragon__sub_802FB1B0(enemy_entity, 25.0f, &this->position);
+    dragon = (TBoss8Dragon *)get_enemy_entity(this->dragon_id);
+    if (dragon != NULL) {
+        dragon->sub_802FB1B0(&this->position, 25.0f);
     }
     last_frame = this->motion->frameCount - 1;
     if (this->frame >= (f32)last_frame) {
