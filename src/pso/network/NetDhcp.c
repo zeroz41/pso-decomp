@@ -28,7 +28,6 @@ typedef struct Req_804250A8 {
 
 typedef struct P_8042315C { s32 type; s32 a; s32 b; s32 c; s32 pad10; s16 n; s16 m; s32 d; s32 pad1C; } P_8042315C;
 
-s16 udp_send(s32 h, u32 *src, u32 *dst, u16 port, u32 *opt, s8 n, send_buffs *bufs);
 s16 TLobby__sub_80422F70(s16 iface, void *hdr_src, s32 len, void *buf);
 s16 TLobby__sub_8042315C(s16 iface, void *req);
 DhcpClientBuffers lbl_805C1E00;
@@ -373,8 +372,8 @@ s32 dhcp_release_step(void) {
     s32 now;
     P_8042315C opt;
     send_buffs buf;
-    u32 dst[5];
-    u32 src[5];
+    NetworkAddress dst;
+    NetworkAddress src;
     s32 len;
     u32 pad[3];
     s16 sock;
@@ -408,15 +407,15 @@ s32 dhcp_release_step(void) {
             break;
         }
         len = build_dhcp_release((u8 *)&lbl_805C1E00.outgoing);
-        src[0] = 4;
-        dst[0] = 4;
-        src[1] = 0;
-        dst[1] = -1;
+        src.family = 4;
+        dst.family = 4;
+        src.ipv4 = 0;
+        dst.ipv4 = 0xFFFFFFFF;
         sock = dhcp_socket;
         len = len > 300 ? len : 300;
         buf.len = len;
         buf.buff = (u8 *)&lbl_805C1E00.outgoing;
-        if (udp_send(sock, src, dst, 0x43, NULL, 1, &buf) < 0) {
+        if (udp_send(sock, &src, &dst, 0x43, NULL, 1, &buf) < 0) {
             udp_close(dhcp_socket);
             dhcp_socket = -1;
             if (dhcp_state == 1 || dhcp_state == 2 || dhcp_state == 6) {
@@ -450,8 +449,8 @@ s32 dhcp_request_step(void) {
     s32 now;
     s32 x;
     send_buffs buf;
-    u32 dst[5];
-    u32 src[5];
+    NetworkAddress dst;
+    NetworkAddress src;
     u32 pad[3];
     s32 len;
     s16 sock;
@@ -478,14 +477,14 @@ s32 dhcp_request_step(void) {
             id = -1;
         }
         sock = dhcp_socket;
-        dst[0] = 4;
-        src[0] = 4;
-        src[1] = 0;
-        dst[1] = id;
+        dst.family = 4;
+        src.family = 4;
+        src.ipv4 = 0;
+        dst.ipv4 = id;
         len = len > 300 ? len : 300;
         buf.len = len;
         buf.buff = (u8 *)&lbl_805C1E00.outgoing;
-        if (udp_send(sock, src, dst, 0x43, NULL, 1, &buf) < 0) {
+        if (udp_send(sock, &src, &dst, 0x43, NULL, 1, &buf) < 0) {
             udp_close(dhcp_socket);
             dhcp_socket = -1;
             if (dhcp_state == 1 || dhcp_state == 2 || dhcp_state == 6) {
@@ -573,8 +572,8 @@ s32 dhcp_discover_step(void) {
     u32 buf[2];
     u32 pad1[1];
     send_buffs rd;
-    u32 dst[5];
-    u32 src[5];
+    NetworkAddress dst;
+    NetworkAddress src;
     s32 len;
     s16 sock;
     u32 pad[4];
@@ -621,15 +620,15 @@ s32 dhcp_discover_step(void) {
     case 1:
         len = build_dhcp_discover_packet((u8 *)&lbl_805C1E00.outgoing);
         dhcp_reply_received = 0;
-        src[0] = 4;
-        dst[0] = 4;
-        src[1] = 0;
-        dst[1] = -1;
+        src.family = 4;
+        dst.family = 4;
+        src.ipv4 = 0;
+        dst.ipv4 = 0xFFFFFFFF;
         sock = dhcp_socket;
         len = len > 300 ? len : 300;
         rd.len = len;
         rd.buff = (u8 *)&lbl_805C1E00.outgoing;
-        if (udp_send(sock, src, dst, 0x43, NULL, 1, &rd) < 0) {
+        if (udp_send(sock, &src, &dst, 0x43, NULL, 1, &rd) < 0) {
             udp_close(dhcp_socket);
             dhcp_socket = -1;
             if (dhcp_state == 1 || dhcp_state == 2 || dhcp_state == 6) {

@@ -13,7 +13,7 @@ typedef struct Hdr_80420DE4 { u16 src; u16 dst; u16 len; u16 sum; } Hdr_80420DE4
 void TLobby__sub_803F87C8(u8 *arg0);
 void TLobby__sub_803F87C4(void *cfg);
 s16 TLobby__sub_8040D8F0(void *, void *, int, void *, int);
-s16 udp_sendto(s16 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, u16 port, saddr arg5);
+s16 udp_sendto(s16 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, u16 port, UdpSendOptions *opt);
 s16 TLobby__sub_80421F10(void *, void *, void *, u16, s32, s16);
 s16 udp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, s16 arg3);
 UdpRuntimeState udp_runtime_state;
@@ -133,7 +133,7 @@ s16 udp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, s16 ifac
     return -2;
 }
 
-s16 udp_sendto(s16 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, u16 port, saddr opt) {
+s16 udp_sendto(s16 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, u16 port, UdpSendOptions *opt) {
     s16 r;
     UdpControlBlock *e;
     if (id < 0 || id >= udp_runtime_state.count) {
@@ -170,7 +170,7 @@ s16 udp_sendto(s16 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst,
     add_item_80420FC8(pkt, &e->sourcePort, 8);
     e->checksum = 0;
     e->checksum = TLobby__sub_8040D8F0(src, dst, 0x11, pkt, 1);
-    return dispatch_by_addr_family(pkt, dst, src, (u8 *)(opt + 4), (u8 *)(opt + 4), 0x11);
+    return dispatch_by_addr_family(pkt, dst, src, opt->ipv4, &opt->ipv6, 0x11);
 }
 #pragma pop
 

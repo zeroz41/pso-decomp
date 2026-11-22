@@ -302,11 +302,11 @@ s32 udp_close(s32 a) {
     return r;
 }
 
-s16 udp_sendto(s32 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, u16 port, saddr opt); /* declared here with an s32 handle; the definition takes s16 */
+s16 udp_sendto(s32 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, u16 port, UdpSendOptions *opt); /* declared here with an s32 handle; the definition takes s16 */
 
-s16 udp_send(s32 h, u32 *src, u32 *dst, u16 port, u32 *opt, s8 n, send_buffs *bufs) {
-    u32 any_addr[5];
-    u32 any_opt[4];
+s16 udp_send(s32 h, NetworkAddress *src, NetworkAddress *dst, u16 port, UdpSendOptions *opt, s8 n, send_buffs *bufs) {
+    NetworkAddress any_addr;
+    UdpSendOptions any_opt;
     u16 i;
     NetPacket *pkt;
     s16 r;
@@ -314,24 +314,24 @@ s16 udp_send(s32 h, u32 *src, u32 *dst, u16 port, u32 *opt, s8 n, send_buffs *bu
         return -4;
     }
     h = h & ~SOCKET_TAG_MASK;
-    NetMemset(any_addr, 0, 0x14);
+    NetMemset(&any_addr, 0, sizeof(NetworkAddress));
     if (dst != NULL) {
-        if (*dst == 0) {
+        if (dst->family == 0) {
             return -2;
         }
     } else {
-        dst = any_addr;
+        dst = &any_addr;
     }
     if (src == NULL) {
-        src = any_addr;
+        src = &any_addr;
     }
-    if (opt != NULL && *opt != 0) {
-        if (*opt != *dst) {
+    if (opt != NULL && opt->family != 0) {
+        if (opt->family != dst->family) {
             return -2;
         }
     } else {
-        NetMemset(any_opt, 0, 0x10);
-        opt = any_opt;
+        NetMemset(&any_opt, 0, sizeof(UdpSendOptions));
+        opt = &any_opt;
     }
     lock_mutex(network_dispatch_state.lock_handle);
     if (n > 3) {
@@ -366,7 +366,7 @@ s16 udp_send(s32 h, u32 *src, u32 *dst, u16 port, u32 *opt, s8 n, send_buffs *bu
         unlock_mutex(network_dispatch_state.lock_handle);
         return 0;
     }
-    r = udp_sendto(h, pkt, (NetworkAddress *)src, (NetworkAddress *)dst, port, (saddr)opt);
+    r = udp_sendto(h, pkt, src, dst, port, opt);
     release_entry(pkt);
     unlock_mutex(network_dispatch_state.lock_handle);
     return r;
