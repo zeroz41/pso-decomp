@@ -1358,10 +1358,10 @@ force_active:
   - TObjEneRe7Berura__data_805007D4
   - TObjEneRe7Berura__vt85
   - TObjEneRecobox__attack_params
-  - TObjEneRecobox__ct
+  - __ct__14TObjEneRecoboxFP7TObjectPv
   - TObjEneRecobox__resource_bundle
   - TObjEneRecobox__shared_object_handle
-  - TObjEneRecobox__vtable
+  - __vt__14TObjEneRecobox
   - TObjEneReconBomb__name
   - TObjEneRecon__ai_parameters
   - set_reflection_scissor__FPvl
@@ -5739,7 +5739,7 @@ force_active:
   - dispatch_reaction_state__16TBoss3VoloptCoreFv
   - dispatch_received_ethernet_frame__FPvPvPv
   - dispatch_select_phase__16TKeyBoardControlFv
-  - dispatch_state__14TObjEneRecoboxFiUii
+  - dispatch_action__14TObjEneRecoboxFUll
   - dispatch_state__13TUnk_804B5BA8Fv
   - dispatch_action__14TObjEneBm5WolfFUll
   - dispatch_state__15TBoss3VoloptP01Fv
@@ -6451,7 +6451,7 @@ force_active:
   - fn_80314EC4__15TObjEneDelDepthFv
   - fn_80315518__15TObjEneDelDepthFv
   - fn_8031B618
-  - fn_8031FE14
+  - __dt__14TObjEneRecoboxFv
   - fn_80327A38
   - receive_direct_attack__9TBoss6MagFPv19DirectAttackPayloadPvll
   - __dt__9TBoss6MagFv

@@ -4,10 +4,12 @@
 #include "types.h"
 
 struct NJS_OBJECT;
+struct TObjEneRecobox;
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/render/TUnk_80494938.h"
 
 struct TObjEneRecon : public TObjEneDD_ST {
+    TObjEneRecon(TObject *parent, TObjEneRecobox *owner, u16 id, s32 index, Vec *pos, Vec *dir);
     virtual ~TObjEneRecon();
     virtual s32 acquire_target(f32);
     s32 render_model_if_visible();
@@ -24,30 +26,13 @@ struct TObjEneRecon : public TObjEneDD_ST {
     void refresh_target();
     void render();
     void run_task();
-    u8 pad_3C0[0x30];
-    void* m_40c;
-    u8 _pad410[0x8];
-    u32 m_418;
-    u8 _pad41C[0xC];
-    void* m_428;
-    u8 _pad42C[0x8];
-    u16 m_434;
-    u8 _pad436[0x2];
-    void* m_438;
-    u8 _pad43C[0x8];
-    u32 m_444;
-    u8 _pad448[0x30];
-    u32 m_478;
-    u32 m_47c;
-    void* m_480;
-    u8 _pad484[0x10];
-    u32 m_494;
     f32 get_field_4d4();
     f32 get_field_4d0();
     void render_shadows();
     static void advance_intro_stage(NJS_OBJECT *);
     void update_ground_probe();
-    u8 is_anim_5();
+    s32 is_anim_5();
+    u16 sub_8031D878();
     void spawn_trap_a();
     void spawn_trap_b();
     f32 approach_value(f32 farg0, f32 farg1);
@@ -55,16 +40,9 @@ struct TObjEneRecon : public TObjEneDD_ST {
     void update_position_from_offsets();
     void init_state();
     static void release_static_instance();
-    static void *create(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
+    static TObjEneRecon *create(TObjEneRecobox *owner, u16 id, s32 index, Vec *pos, Vec *dir);
     static void load_resources();
     void*get_field_38_ptr();
-    u8 unk_47C[0x4];
-    TUnk_80494938 fade;
-    u8 unk_49C[0x34];
-    f32 m_4d0;
-    u8 unk_4D4[0x4];
-    s32 m_4d8;
-    u8 unk_4DC[0x8];
     s32 calc_scaled_value();
     void handle_message(s32 arg1);
     void retarget();
@@ -74,6 +52,28 @@ struct TObjEneRecon : public TObjEneDD_ST {
     void set_orbit_destination(s32 arg1);
     void advance_field398();
     void sync_height();
+
+    u8 pad_3C0[0x58];
+    s32 floor_flags;              // flags of the floor under it (update_ground_probe); 0x4000 = reflective
+    Vec floor_point;              // that floor point
+    Vec spawn_direction;          // the box's launch direction (ctor)
+    u16 owner_id;                 // entity id of the TObjEneRecobox that spawned it
+    u8 pad_436[0x2];
+    Vec owner_position;           // where that box stood at the spawn
+    u32 m_444;
+    u8 pad_448[0x18];
+    f32 offset_max;               // orbit height over the box: 45 + 2x + the box's recon_offset_max
+    f32 pad_464;
+    f32 rotate_rad;               // orbit radius: 50 + 5x + the box's recon_rotate_rad
+    u8 pad_46C[0xC];
+    TObject *m_478;
+    u8 pad_47C[0x4];
+    TUnk_80494938 fade;
+    u8 pad_49C[0x34];
+    f32 m_4d0;
+    u8 pad_4D4[0x4];
+    s32 m_4d8;
+    u8 pad_4DC[0x8];
 };
 
 LAYOUT_ASSERT(TObjEneRecon_size, sizeof(TObjEneRecon) == 0x4E4);

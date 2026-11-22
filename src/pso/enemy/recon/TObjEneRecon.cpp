@@ -242,9 +242,9 @@ void TObjEneRecon::update_ground_probe() {
         temp_r3 = (u8 *)(csnVectorUnder((Vec *)&stack.sp8, (CsnGroup **)&this->m_120, 0x4000));
         if (temp_r3 != NULL) {
             *(s32 *)((s8 *)self + 0x418) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)temp_r3 + 4)) + 0x18);
-            VecCopy((Vec *)&this->m_438, (const Vec *)(*(u8 **)((s8 *)temp_r3 + 4)));
+            VecCopy(&floor_point, (const Vec *)(*(u8 **)((s8 *)temp_r3 + 4)));
         } else {
-            VecCopy((Vec *)&this->m_438, (const Vec *)&this->position);
+            VecCopy(&floor_point, &position);
         }
     }
     if (*(s32 *)((s8 *)self + 0x418) & 0x4000) {
@@ -252,8 +252,8 @@ void TObjEneRecon::update_ground_probe() {
     }
 }
 
-u8 TObjEneRecon::is_anim_5() {
-    return (u8) (this->mode == 5);
+s32 TObjEneRecon::is_anim_5() {
+    return (u8) (mode == 5);
 }
 
 struct T_8031C250 { u8 pad[0x326]; s16 state; };
@@ -446,7 +446,6 @@ void TObjEneRecon__sub_8031C624(u8 *arg0, s32 reason) {
 extern "C" {
 
 void run_task__12TObjEneReconFPvi(u8 *target, s32 reason);
-s32 remove_tracked_target__14TObjEneRecoboxFPvPv(int, void *);
 
 void run_task__12TObjEneReconFPvi(u8 *target, s32 reason) {
     saddr entity;
@@ -473,7 +472,7 @@ void run_task__12TObjEneReconFPvi(u8 *target, s32 reason) {
         }
         if (((TObjEneRecon *)target)->fade.decay_value_toward_floor() != 0) {
             *(s32 *)((s8 *)target + 0x444) = (s32) (*(s32 *)((s8 *)target + 0x444) | 1);
-            remove_tracked_target__14TObjEneRecoboxFPvPv(entity, target);
+            ((TObjEneRecobox *)entity)->remove_tracked_target((TObjEneRecon *)target);
             ((TObject *)target)->queue_destruction();
         }
     case 5:
@@ -918,9 +917,9 @@ void TObjEneRecon::spawn_trap_b() {
     play_persistent_sound((TObjEneRecobox::remap_area_sound_id(0x4003B206)), (arg0), (arg0 + 0x38), 0, 0);
 }
 
-u16 TObjEneRecon__sub_8031D878(void *arg0) {
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x474) != 0) {
-        return *(u16 *)((s8 *)arg0 + 0x38C);
+u16 TObjEneRecon::sub_8031D878() {
+    if (*(s32 *)((s8 *)this + 0x474) != 0) {
+        return target_id;
     }
     return 0xFFFFU;
 }
@@ -1185,8 +1184,6 @@ TObjMotionAction TObjEneRecon__animation_entries[6] = {
     { 3, 4, 6, 0.6f, 0 },
     { 1, 5, 7, 0.7f, 0 },
 };
-extern void *__vt__12TObjEneRecon[];
-#define __vt__12TObjEneRecon ((s32 *)__vt__12TObjEneRecon)
 }
 
 #pragma defer_codegen on
@@ -1220,15 +1217,8 @@ void TObjEneRecon::load_resources() {
 }
 
 
-u8 *TObjEneRecon__ct(u8 *ene_recon, s32 arg1, saddr arg2, s32 arg3, s32 arg4, saddr arg5, saddr arg6);
-
-void *TObjEneRecon::create(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4) {
-    void *o;
-    o = TObject::operator new(0x4E4);
-    if (o != NULL) {
-        o = TObjEneRecon__ct((u8 *)o, (saddr)tl_04, (saddr)arg0, (saddr)arg1, (saddr)arg2, (saddr)arg3, (saddr)arg4);
-    }
-    return o;
+TObjEneRecon *TObjEneRecon::create(TObjEneRecobox *owner, u16 id, s32 index, Vec *pos, Vec *dir) {
+    return new TObjEneRecon(tl_04, owner, id, index, pos, dir);
 }
 
 }
@@ -1241,29 +1231,22 @@ void TObjEneRecon::release_static_instance() {
     }
 }
 
-extern "C" {
-
-s32 __ct__12TObjEneDD_STFP7TObject();
-
-
-u8 *TObjEneRecon__ct(u8 *ene_recon, s32 arg1, saddr arg2, s32 arg3, s32 arg4, saddr arg5, saddr arg6) {
-    __ct__12TObjEneDD_STFP7TObject();
-    *(s32 **)((s8 *)ene_recon + 0x18) = __vt__12TObjEneRecon;
-    __ct__13TUnk_80494938Fv((ene_recon + 0x480));
-    *(s32 *)((s8 *)ene_recon + 0) = (saddr) TObjEneRecon_name_ref;
-    *(s16 *)((s8 *)ene_recon + 0x434) = get_entity_id((void *)arg2);
-    ((TObjEneDD *)ene_recon)->init_common_from((u8 *)arg2);
-    ((TObjEneRecon *)ene_recon)->entity_id = arg3;
-    ((TObjEneRecon *)ene_recon)->set_index = arg4;
-    VecCopy((Vec *)(ene_recon + 0x38), (const Vec *)(arg5));
-    VecCopy((Vec *)(ene_recon + 0x438), (const Vec *)(arg2 + 0x38));
-    VecCopy((Vec *)(ene_recon + 0x428), (const Vec *)(arg6));
-    ((TObjEneRecon *)ene_recon)->init_state();
-    *(f32 *)((s8 *)ene_recon + 0x460) = (f32) (*(f32 *)((s8 *)ene_recon + 0x460) + ((TObjEneRecon *)arg2)->get_field_4d0());
-    *(f32 *)((s8 *)ene_recon + 0x468) = (f32) (*(f32 *)((s8 *)ene_recon + 0x468) + ((TObjEneRecon *)arg2)->get_field_4d4());
-    *(s32 *)((s8 *)ene_recon + 0x80) = 0;
-    return ene_recon;
+TObjEneRecon::TObjEneRecon(TObject *parent, TObjEneRecobox *owner, u16 id, s32 index, Vec *pos, Vec *dir) : TObjEneDD_ST(parent) {
+    m_name = TObjEneRecon_name_ref;
+    owner_id = get_entity_id(owner);
+    init_common_from((u8 *)owner);
+    entity_id = id;
+    set_index = index;
+    VecCopy(&position, pos);
+    VecCopy(&owner_position, &owner->position);
+    VecCopy(&spawn_direction, dir);
+    init_state();
+    offset_max += ((TObjEneRecon *)owner)->get_field_4d0();
+    rotate_rad += ((TObjEneRecon *)owner)->get_field_4d4();
+    set_entry = 0;
 }
+
+extern "C" {
 
 void obj_setFlags30(void *, u32);
 void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
@@ -1343,7 +1326,10 @@ void TObjEneRecon::init_state() {
 TObjEneRecon::~TObjEneRecon() {
     this->send_entity_set_flags();
     free_collision_body_parts(this);
-    if (*(void **)((s8 *)this + 0x478) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x478)))->queue_destruction(); this->m_494 = 0; }
+    if (m_478 != NULL) {
+        m_478->queue_destruction();
+        m_478 = NULL;
+    }
 }
 
 
