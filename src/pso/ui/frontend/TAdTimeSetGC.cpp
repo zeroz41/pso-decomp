@@ -884,7 +884,7 @@ void TAdTimeSetGC::sub_802E18C8() {
 }
 
 s32 TAdTimeSetGC::sub_802E1868() {
-    if (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[0], 4) != 0 ||
+    if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 4) != 0 ||
         test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0) {
         return 1;
     }

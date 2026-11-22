@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/item/TUnk_804F112C.h"
-#include "pso/item/armor/TItemProShield.h"
+#include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TMainTask.h"
@@ -40,7 +40,7 @@ void TUnk_804F112C::fn_80353134() {
 }
 
 void TUnk_804F112C::update_shield() {
-    add_actor_hp((u8 *)owner, ((TItemProShield *)owner)->get_field_2b8());
+    add_actor_hp((u8 *)owner, ((TObjChara *)owner)->get_hpmax());
 }
 
 void TUnk_804F112C::fn_80353194() {

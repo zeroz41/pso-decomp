@@ -16,7 +16,6 @@ void TLobby__sub_8022804C(void);
 void TLobby__sub_8022809C(void);
 void apply_clamped_field_27c__6TLobbyFv(void);
 }
-void clear_work_buffer(u8 *arg0);
 extern "C" {
 void get_menu_field_280__6TLobbyFv(void);
 int get_music_base_gain(void);

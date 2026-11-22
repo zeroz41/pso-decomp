@@ -34,7 +34,7 @@ const ModelNodeSpec TObjDFDemo0__model_node_entries[7] = {
 extern "C" {
 
 s32 post_translate_matrix(void *);
-extern void *lbl_80485550[3];
+extern Vec df_demo0_model_offset;
 
 struct O_8004D9A8 { u8 pad0[0xBC]; saddr bc[6]; s32 d4[6]; saddr ec[6]; f32 f104; f32 f108; f32 f10c; };
 void fn_8004D9A8(u8 *arg0) {
@@ -48,7 +48,7 @@ void fn_8004D9A8(u8 *arg0) {
         }
         push_matrix();
         set_motion_packed_rotation();
-        post_translate_matrix(lbl_80485550);
+        post_translate_matrix(&df_demo0_model_offset);
         for (i = 0; i < 6; i++) {
             s = o->f108;
             if (i == 0 || i == 1) {
@@ -85,18 +85,15 @@ void *TObjDFDemo0__entry_table[30] = {
     (void *)0x14d, (void *)0x92, (void *)0xc8, (void *)0x0,
     (void *)0x0, (void *)0xc2f00000,
 };
-void *lbl_804854D8[6] = {
-    (void *)0x50, (void *)0x4e, (void *)0x19, (void *)0x19,
-    (void *)0x19, (void *)0x18,
-};
-Vec lbl_804854F0 = {0.0f, 0.0f, -120.0f};
-CameraAngles lbl_804854FC = {0, 0, 0};
-CameraPlayback lbl_80485508 = {0, 1, 0, 0.0f, 0.5f};
-void *lbl_80485514[15] = {
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x41f00000,
-    (void *)0x0, (void *)0x42700000, (void *)0x0, (void *)0x42700000,
-    (void *)0x0, (void *)0xc1f00000, (void *)0x0, (void *)0x42700000,
-    (void *)0x0, (void *)0x42f00000, (void *)0x0,
+// The motions of the six body models.
+s32 df_demo0_body_motion_ids[6] = {0x50, 0x4E, 0x19, 0x19, 0x19, 0x18};
+// Where the demo plays out: the camera looks from it, effects gather on it and sounds play from it.
+Vec df_demo0_center = {0.0f, 0.0f, -120.0f};
+CameraAngles df_demo0_camera_angles = {0, 0, 0};
+CameraPlayback df_demo0_camera_playback = {0, 1, 0, 0.0f, 0.5f};
+// Offsets from df_demo0_center of the bursts spawned on frames 0x8C-0x90, one per frame.
+Vec df_demo0_burst_offsets[5] = {
+    {0.0f, 0.0f, 0.0f}, {30.0f, 0.0f, 60.0f}, {0.0f, 60.0f, 0.0f}, {-30.0f, 0.0f, 60.0f}, {0.0f, 120.0f, 0.0f},
 };
 void TBoss3Volopt__sub_8004DA7C(u8 *self) {
     s32 i;
@@ -122,7 +119,7 @@ void TBoss3Volopt__sub_8004DA7C(u8 *self) {
                 u8 *p = (u8 *)((Self_8004DA7C *)self)->p[i];
                 if (p != NULL) {
                     Vec a = *(Vec *)(p + 0x60);
-                    Vec b = lbl_804854F0;
+                    Vec b = df_demo0_center;
                     subtract_vector(&b, &a);
                     b.y = (0.0f);
                     normalize_vector(&b);
@@ -140,8 +137,8 @@ void TBoss3Volopt__sub_8004DA7C(u8 *self) {
         s32 t = *(s32 *)((s8 *)self + 0x90);
         if (t >= 0x8C && t < 0x91) {
             void *p;
-            Vec c = lbl_804854F0;
-            vec3_add_to(&c, &((Vec *)lbl_80485514)[t - 0x8C]);
+            Vec c = df_demo0_center;
+            vec3_add_to(&c, &df_demo0_burst_offsets[t - 0x8C]);
             p = spawn_particle_effect(&c, 0x14A);
             if (p != NULL) {
                 ((TParticleCtrl *)p)->set_flags(0x40);
@@ -167,29 +164,29 @@ void TBoss3Volopt__sub_8004DA7C(u8 *self) {
     }
     switch (*(s32 *)((s8 *)self + 0x90)) {
     case 0:
-        play_sound_effect(0x4003BC07, &lbl_804854F0, 0, 1);
-        play_sound_effect(0x3C604, &lbl_804854F0, 0, 1);
+        play_sound_effect(0x4003BC07, &df_demo0_center, 0, 1);
+        play_sound_effect(0x3C604, &df_demo0_center, 0, 1);
         start_pad_rumble_all(0xC0, 0xF);
         break;
     case 0x50:
         play_sound_effect(0x3A805, 0, 0, 0);
     case 0x64:
     case 0x78:
-        play_sound_effect(0x4003D006, &lbl_804854F0, 0, 1);
+        play_sound_effect(0x4003D006, &df_demo0_center, 0, 1);
         start_pad_rumble_all(0xC0, 0xF);
         break;
     case 0x8C:
-        play_sound_effect(0x36408, &lbl_804854F0, 0, 1);
+        play_sound_effect(0x36408, &df_demo0_center, 0, 1);
         start_pad_rumble_all(0xC0, 0xF);
         break;
     case 0x92:
-        play_sound_effect(0x3DA03, &lbl_804854F0, 0, 1);
+        play_sound_effect(0x3DA03, &df_demo0_center, 0, 1);
         break;
     case 0xAA:
-        play_sound_effect(0x40039E09, &lbl_804854F0, 0, 1);
+        play_sound_effect(0x40039E09, &df_demo0_center, 0, 1);
         break;
     case 0xC8:
-        play_sound_effect(0x40039E21, &lbl_804854F0, 0, 1);
+        play_sound_effect(0x40039E21, &df_demo0_center, 0, 1);
         start_pad_rumble_all(0xC0, 0xF);
         break;
     }
@@ -199,9 +196,8 @@ void TBoss3Volopt__sub_8004DA7C(u8 *self) {
     }
 }
 
-void *lbl_80485550[3] = {
-    (void *)0x0, (void *)0x0, (void *)0xc2f00000,
-};
+// The translation applied before drawing the body models.
+Vec df_demo0_model_offset = {0.0f, 0.0f, -120.0f};
 }
 
 struct S_8004DE44 {
@@ -298,7 +294,7 @@ Obj_8004DEE0 *TObjDFDemo0__ct(void *arg0, void *parent) {
             self->fbc[0][i] = (saddr)get_bml_model(h, t);
         }
         self->fbc[1][i] = (saddr)get_bml_texlist(h, k);
-        self->fbc[2][i] = reinterpret_cast<saddr>(get_bml_motion(h, ((s32 *)lbl_804854D8)[i]));
+        self->fbc[2][i] = reinterpret_cast<saddr>(get_bml_motion(h, df_demo0_body_motion_ids[i]));
     }
     self->f104 = (-0.5f);
     self->f108 = (-0.5f);
@@ -307,10 +303,10 @@ Obj_8004DEE0 *TObjDFDemo0__ct(void *arg0, void *parent) {
     }
     self->node_tables.init(TObjDFDemo0__model_node_entries, 7);
     activate_camera_mode(5);
-    set_scripted_camera_origin(&lbl_804854F0, &lbl_804854F0, &lbl_804854FC);
-    lbl_80485508.play(0x416C);
+    set_scripted_camera_origin(&df_demo0_center, &df_demo0_center, &df_demo0_camera_angles);
+    df_demo0_camera_playback.play(0x416C);
     self->f10c = (0.0f);
-    play_sound_effect(0x40039E21, &lbl_804854F0, 0, 1);
+    play_sound_effect(0x40039E21, &df_demo0_center, 0, 1);
     self->f90 = 0;
     return self;
 }

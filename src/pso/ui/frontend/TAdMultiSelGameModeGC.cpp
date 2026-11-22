@@ -73,7 +73,6 @@ typedef struct Arr3_803001B4 { s32 v[3]; } Arr3_803001B4;
 extern "C" {
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 create_window_menu_default(void *, u32);
-extern u8 controller_input_state[];
 
 static const TAdSelectTxtLayout lbl_80474E40[7] = {
     { -1, 133.0f, 145.0f }, { -1, 111.0f, 197.0f }, { -1, 89.0f, 250.0f }, { -1, 148.0f, 301.0f },
@@ -219,8 +218,8 @@ void TAdMultiSelGameModeGC::sub_80300648() {
         menu->queue_destruction();
         menu = NULL;
     }
-    if (TWindowShortListCtrl__check_controller_button(&controller_input_state[0x20], 2) != 0 ||
-        test_controller_flag_4c_color(&controller_input_state[0x160], 2) != 0) {
+    if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0 ||
+        test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0) {
         state = 3;
     } else if (cursor->confirmation_result() == 1) {
         switch (cursor->selection_index()) {

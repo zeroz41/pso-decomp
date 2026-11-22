@@ -76,7 +76,5 @@ extern f32 creation_view_shift;
 void set_creation_projection_center(f32 shift);
 void begin_creation_view();
 void end_creation_view();
-u32 get_character_creation_selected_entry_id();
-char *get_split_screen_character_name();
 
 #endif

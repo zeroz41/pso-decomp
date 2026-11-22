@@ -9,6 +9,7 @@
 #include "pso/system/memory.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/TLobby.h"
+#include "pso/map/TSetManager.h"
 #include "pso/unk/TLobby_8007C550.h"
 #include "pso/unk/text_80209584.h"
 #include "pso/system/byteswap.h"
@@ -39,6 +40,7 @@
 #include "pso/unk/text_8020B5CC.h"
 #include "pso/unk/TLobby_803DE778.h"
 #include <stdlib.h>
+#include "pso/unk/TLobby_800F8AA8.h"
 
 // ---- pso/unk/TLobby_80209524
 
@@ -760,8 +762,6 @@ s32 load_object_set_file(s32 idx, const char *filename) {
 }
 
 extern s16 TLobby__data_805D6134;
-extern s32 TLobby__data_805D6148;
-extern s32 TLobby__data_805D614C;
 
 void load_map_set_data(s32 idx, const char *filename) {
     map_set_data_handle_a = 0;
@@ -776,9 +776,9 @@ void load_map_set_data(s32 idx, const char *filename) {
         load_object_set_file(idx, filename);
         load_enemy_set_file(idx, filename);
         advance_object_id_counter((u16) map_object_id_counter);
-        TLobby__data_805D6148 = map_set_object_id_counter;
+        object_condition_count = map_set_object_id_counter;
         advance_enemy_id_counter((u16) map_set_enemy_id_counter);
-        TLobby__data_805D614C = TLobby__next_enemy_set_actor_id;
+        enemy_condition_count = TLobby__next_enemy_set_actor_id;
         TLobby::free_data_60F0();
         TLobby__data_805D6134 |= 1;
     }
@@ -903,7 +903,6 @@ int TLobby::init_sub_state() { return clear_record_flags_b(); }
 struct Rec_8020AD40 { u8 pad0[2]; s16 f2; u8 pad4[0x40]; };
 
 extern "C" {
-s32 is_area_transfer_pending();
 }
 
 s32 load_area_object_set(s32 arg0, saddr lobby, s32 terrain, s32 entities) {
@@ -975,7 +974,7 @@ block_6:
     var_r31 += 1;
     if (var_r31 >= 0x12) {
         advance_enemy_id_counter(((u16) map_set_enemy_id_counter));
-        TLobby__data_805D614C = TLobby__next_enemy_set_actor_id;
+        enemy_condition_count = TLobby__next_enemy_set_actor_id;
         TLobby::sum_floor_enemy_counts();
         return 1;
     }
@@ -997,7 +996,7 @@ block_6:
     var_r31 += 1;
     if (var_r31 >= 0x12) {
         advance_object_id_counter(((u16) map_object_id_counter));
-        TLobby__data_805D6148 = map_set_object_id_counter;
+        object_condition_count = map_set_object_id_counter;
         TLobby__sub_8020B308();
         return 1;
     }

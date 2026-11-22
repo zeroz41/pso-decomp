@@ -5,10 +5,10 @@
 #include "pso/player/TObjPlayer_801A5AEC.h"
 #include "pso/system/main_loop.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 
 extern "C" {
 u8 main_menu_scene_active_flag;
-s32 set_copy_clear_color_argb(s32, s32, s32);
 
 void TKeyBoardControl::update_main_menu_scene() {
     set_copy_clear_color_argb(0, 0, 0xFF);

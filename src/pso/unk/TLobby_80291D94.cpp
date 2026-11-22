@@ -15,6 +15,7 @@
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TPlyCharData.h"
+#include "pso/player/TObjPlayer_801BDF5C.h"
 #include "pso/object/TObjTombstone.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/FloorArea.h"
@@ -464,18 +465,6 @@ void TLobby::update_challenge_timer(s32 arg0) {
 #undef lbl_804DB1F0
 #undef TLobby__sub_80292DA0
 
-struct PBase_80292730 { u8 pad[0x18]; };
-
-struct Pl_80292730 : PBase_80292730 {
-    virtual void v0(int);
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual void v5();
-    virtual void v6();
-};
-
 struct Hdr_80292730 { u32 w[2]; };
 
 struct Info_80292730 { u8 pad0[0x31]; u8 cls; u8 pad32[2]; u32 flags; u8 pad38[0x50 - 0x38]; };
@@ -487,8 +476,6 @@ struct Tbl_80292730 { s32 f0; s32 f4; s32 f8; Entry_80292730 *entries; };
 
 extern "C" {
 void copy_player_visual_record(void *, void *);
-#define get_player_by_client_id ((Pl_80292730 * (*)(s32))get_player_by_client_id)
-Pl_80292730 *create_player_object(s32, s32, void *);
 void clamp_and_set_unit_value__10TObjPlayerFiUci(void *, u8, s16);
 void send_command__10TNpcPlayerFlScllPSc(u8, s32, s32, s32, void *);
 
@@ -518,7 +505,7 @@ void TLobby::rebuild_players_for_stage(s32 arg0) {
     Vec pos;
     Hdr_80292730 hdr;
     s32 i;
-    Pl_80292730 *p;
+    TObjPlayer *p;
     Tbl_80292730 *tbl;
     s32 map;
     Entry_80292730 *e;
@@ -526,16 +513,14 @@ void TLobby::rebuild_players_for_stage(s32 arg0) {
         return;
     }
     for (i = 0; i < 4; i++) {
-        p = get_player_by_client_id(i);
+        p = (TObjPlayer *)get_player_by_client_id(i);
         ((TObjPlayer *)(&hdr))->clear_header_struct();
         if (p != NULL) {
             VecCopy((Vec *)&pos, (const Vec *)((u8 *)p + 0x38));
             copy_player_visual_record(&info, (u8 *)p + 0x85C);
             ((TLobby *)(&hdr))->copy_header_struct((u8 *)p + 0xDAC);
             map = ((TRaderMapCore *)p)->get_map_id();
-            if (p != NULL) {
-                p->v0(1);
-            }
+            delete p;
             switch (info.flags & 0xE0) {
             case 0x20:
                 tbl = (Tbl_80292730 *)TLobby::get_stage_table_entry(0, arg0);
@@ -555,15 +540,15 @@ void TLobby::rebuild_players_for_stage(s32 arg0) {
                 copy_player_visual_record(&cd.m_disp_part2, &info);
                 TObjPlayer::begin_action_state(&cd);
                 send_command__10TNpcPlayerFlScllPSc(info.cls, tbl->f4, tbl->f8, tbl->f0, &cd);
-                p = create_player_object(i, map, &cd);
+                p = (TObjPlayer *)create_player_object(i, map, (u8 *)&cd);
                 if (p == NULL) {
                     return;
                 }
             }
             ((TLobby *)((u8 *)p + 0xDAC))->copy_header_struct(&hdr);
-            ((TObjBase *)p)->set_position_from(&pos);
-            ((TObjBase *)p)->save_previous_position();
-            p->v6();
+            p->set_position_from(&pos);
+            p->save_previous_position();
+            p->reset_motion_fields();
             ((TObjPlayer *)((u8 *)p + 0x428))->set_all_technique_levels((void *)0xFF);
             if (tbl->entries != NULL) {
                 for (e = tbl->entries; e->id != 0xFF; e++) {
@@ -576,8 +561,6 @@ void TLobby::rebuild_players_for_stage(s32 arg0) {
 }
 
 }
-
-#undef get_player_by_client_id
 
 struct Ent_80292AB4 { s32 id; s32 mask; u8 pad[0x14]; };
 

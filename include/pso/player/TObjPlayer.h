@@ -571,6 +571,7 @@ struct TObjPlayer : public TObjChara {
     void clear_flag_4000_callback();
     void clear_flag_4000();
     void set_flag_4000();
+    s32 is_flag_4000_set();
     void set_battle_flag(s32 v);
     s32 get_anim_id();
     int check_flag_0x40000000();
@@ -1353,7 +1354,7 @@ struct TObjPlayer : public TObjChara {
     void send_respawn_position();
     void init_battle();
     void reset_area_entry_state();
-    u8 *construct_player_instance(saddr arg1, s16 arg2, s32 arg3, u8 *arg4);
+    u8 *construct_player_instance(saddr arg1, s32 slot, s32 role, u8 *record);
     void*init_pair();
     u8 *copy_hold_params(u8 *arg1);
     void init_cmd_6x24();
@@ -1553,7 +1554,8 @@ struct TObjPlayer : public TObjChara {
     static s32 fill_player_record(void *, void *);
     s32 foreach_player();
     static void begin_action_state(void *);
-    s32 for_each_player_slot();
+    // Calls callback with each occupied entry of the player table.
+    static void for_each_player_slot(void (*callback)(void *));
     static void send_code50_packet(int);
     static void hit_object_in_radius(void *, void *, void *);
     static void draw_strip_pos_normal(void *, void *, unsigned int);

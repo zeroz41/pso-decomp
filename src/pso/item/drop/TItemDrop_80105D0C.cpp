@@ -307,9 +307,9 @@ void TItemDrop::count_unit_star_buckets() {
     }
 }
 void TItemDrop::refresh_drop_table_if_changed() {
-    if (item_drop_cached_offset != TItemDrop::calc_drop_offset(((TFontSmallTask *)&TLobby__data_805011D8)->get_task_id()) ||
+    if (item_drop_cached_offset != TItemDrop::calc_drop_offset(leader_selection.get_section_id()) ||
         TItemDrop__drop_table_mode_flags != get_drop_table_mode_flags()) {
-        TItemDrop__section_id = ((TFontSmallTask *)&TLobby__data_805011D8)->get_task_id();
+        TItemDrop__section_id = leader_selection.get_section_id();
         load_drop_tables();
     }
 }

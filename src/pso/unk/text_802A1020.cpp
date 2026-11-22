@@ -14,6 +14,7 @@
 #include "pso/system/main_loop.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/Language.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 
 typedef struct Entry_802A1020 {
     const char *file;
@@ -31,7 +32,6 @@ s32 init_fresh_character_card();
 void TKeyBoardControl__sub_8000F90C(s32 arg0);
 void set_queued_main_phase(s32 arg0);
 void reset_controller_input_state(void);
-s32 set_copy_clear_color_argb(s32, s32, s32);
 u8 *__ct__6TMovieFP7TObjectPSclll(void *, void *, const char *, void (*)(s32), s32, s32, s32);
 }
 void process_async_file_reads(void);

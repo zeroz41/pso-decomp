@@ -1992,7 +1992,6 @@ s32 get_field_118__22TAdEnterSerialAccessGCFv();
 void TLobby__sub_80269C90(void);
 void TLobby__sub_80269CA4(s32);
 void func_803DCDFC__Fv(void);
-extern u8 controller_input_state[];
 extern RecoveredGlobal_801FF200_lbl_80513910 chr_select_serial_seeds;
 extern void *tl_01;
 s32 save_character_to_card__23TAdSinglePlyChrSelectGCFv(void);
@@ -2081,7 +2080,7 @@ s32 save_character_to_card__23TAdSinglePlyChrSelectGCFv(void) {
             controller_stuff();
             TLobby::wait_ready_loop();
             render_frame__23TAdSinglePlyChrSelectGCFv();
-            if (func_801A5E54__Fv() != 0 || TWindowShortListCtrl__check_controller_button(&controller_input_state[0x20], 8) != 0) {
+            if (func_801A5E54__Fv() != 0 || test_pressed_buttons_packed(&controller_input_state.controllers[0], 8) != 0) {
                 if (check != NULL) {
             delete check;
         }
@@ -2166,7 +2165,7 @@ s32 save_character_to_card__23TAdSinglePlyChrSelectGCFv(void) {
             controller_stuff();
             TLobby::wait_ready_loop();
             render_frame__23TAdSinglePlyChrSelectGCFv();
-            if (func_801A5E54__Fv() != 0 || TWindowShortListCtrl__check_controller_button(&controller_input_state[0x20], 0x60E) != 0) {
+            if (func_801A5E54__Fv() != 0 || test_pressed_buttons_packed(&controller_input_state.controllers[0], 0x60E) != 0) {
                 break;
             }
             render_tick();

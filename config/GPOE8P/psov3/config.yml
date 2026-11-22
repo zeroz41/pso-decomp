@@ -14623,8 +14623,8 @@ force_active:
   - reset_inactive_keys__16KeyboardKeyStateFv
   - reset_indices__11TBoss6Type2Fv
   - reset_keys__16KeyboardKeyStateFv
-  - reset_leader_selection__FPv
-  - reset_leader_selection_static__6TLobbyFv
+  - __ct__15LeaderSelectionFv
+  - __sinit_TFontSmallTask_cpp
   - set_core_color__17TObjEneMe1CanadinFPC8NJS_ARGB
   - reset_matrix__13TObjTombstoneFv
   - reset_obstruction_fade__13TUnk_80490470Fv

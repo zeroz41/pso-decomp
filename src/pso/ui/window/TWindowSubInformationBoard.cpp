@@ -29,7 +29,6 @@ struct L_8034CDE0 { u8 f0; u8 n; u8 pad2[2]; I_8034CDE0 items[1]; };
 extern "C" {
 s32 play_sound_effect(int, int, int, int);
 s32 set_info_board_text__6TLobbyFv();
-extern s32 controller_input_state[];
 saddr get_window_layout_position(s32);
 s32 __nw__7TObjectFUl(s32);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
@@ -112,7 +111,7 @@ void TWindowSubInformationBoard::run_task() {
         TLobby::init_once_data((uaddr)((void *) ((u8 *)arg0 + 0x40)));
         this->m_1c = 4U;
     case 4:
-        if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)controller_input_state + 0x20), 2) != 0) || (test_controller_flag_4c_color((void *) ((u8 *)controller_input_state + 0x160), 2) != 0)) {
+        if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
             play_sound_effect(0x52F16, 0, 0, 0);
             this->m_1c = 5U;
         }

@@ -119,7 +119,6 @@ struct MenuWindowLayout {
 };
 MenuWindowLayout lbl_804D05A8 = {1, 0, {3, {0.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, 0}};
 WindowDescriptor lbl_804D05CC = {{0.0f, 0.0f}, 50050.0f, &lbl_804D05A8, 3};
-extern s8 controller_input_state[];
 const char *lbl_805D3960 = "TWindowMenu";
 extern s32 actor_frame_tick;
 
@@ -722,9 +721,9 @@ void TWindowMenu::render() {
 void TWindowMenu::run_task() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r30;
-    u8 *input;
-    u8 *temp_r29_2;
-    u8 *context;
+    ControllerInputContext *input;
+    ControllerInputContext *temp_r29_2;
+    ControllerInputContext *context;
 
     ((TWindowMenu *)this)->layout_entries();
     if (!(*(s32 *)&this->window_flags & 2)) {
@@ -733,15 +732,15 @@ void TWindowMenu::run_task() {
     if ((((TWindowMenu *)arg0)->sub_80266BB8() == 0) && (((TWindowMenu *)arg0)->is_decided() == 0) && ((s32) *(s32 *)&this->open_tick > 2) && (is_window_display_enabled() != 0) && (((TWindowBase *)arg0)->sub_80244994() != 0)) {
         temp_r30 = is_player_input_active((this->client_index));
         if (this->m_70 & 0x10) {
-            input = (u8 *)controller_input_state + (temp_r30 * 0x50) + 0x20;
-            if ((test_buttons_press_or_repeat((saddr)input, 0x10, 6, 1) != 0) || (is_locked(0x10) != 0)) {
+            input = &controller_input_state.controllers[temp_r30];
+            if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (is_locked(0x10) != 0)) {
                 move_cursor_prev();
             }
-            if ((test_buttons_press_or_repeat((saddr)input, 0x20, 6, 1) != 0) || (is_locked(0x20) != 0)) {
+            if ((test_buttons_press_or_repeat(input, 0x20, 6, 1) != 0) || (is_locked(0x20) != 0)) {
                 select_next_item();
             }
         } else {
-            temp_r29_2 = (u8 *)controller_input_state + (temp_r30 * 0x50) + 0x20;
+            temp_r29_2 = &controller_input_state.controllers[temp_r30];
             if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)temp_r29_2, 0x10, 6, 1) != 0) || (is_locked(0x10) != 0)) {
                 move_cursor_prev();
             }
@@ -749,11 +748,11 @@ void TWindowMenu::run_task() {
                 select_next_item();
             }
         }
-        context = (u8 *)controller_input_state + (temp_r30 * 0x50) + 0x20;
-        if ((TWindowShortListCtrl__check_controller_button(context, 4) != 0) || (((TWindowMenu *)arg0)->test_menu_flag(4) != 0)) {
+        context = &controller_input_state.controllers[temp_r30];
+        if ((test_pressed_buttons_packed(context, 4) != 0) || (((TWindowMenu *)arg0)->test_menu_flag(4) != 0)) {
             confirm_selection();
         }
-        if ((TWindowShortListCtrl__check_controller_button(context, 2) != 0) || (((TWindowMenu *)arg0)->test_menu_flag(2) != 0)) {
+        if ((test_pressed_buttons_packed(context, 2) != 0) || (((TWindowMenu *)arg0)->test_menu_flag(2) != 0)) {
             set_active_flag();
         }
     }
@@ -818,14 +817,14 @@ s32 TWindowMenu::test_menu_flag(s32 buttons) {
     if (this->m_70 & 0x200) {
         return 0U;
     }
-    return test_controller_flag_4c_color((u8 *)&controller_input_state + 0x160, buttons);
+    return test_controller_flag_4c_color(&controller_input_state.keyboard, buttons);
 }
 
 s32 TWindowMenu::is_locked(s32 buttons) {
     if (this->m_70 & 0x200) {
         return 0;
     }
-    return test_buttons_press_or_repeat((saddr)(controller_input_state + 0x160), (s32)buttons, 6, 1);
+    return test_buttons_press_or_repeat(&controller_input_state.keyboard, (s32)buttons, 6, 1);
 }
 
 int TWindowMenu::sub_80266BB8() { return (this->m_70 >> 6) & 0x1; }

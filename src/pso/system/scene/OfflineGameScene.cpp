@@ -101,12 +101,10 @@
 #include "pso/quest/QuestOpcodeHandlers.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/object/door/TODoorBase.h"
+#include "pso/unk/TLobby_800F8AA8.h"
+#include "pso/player/TObjPlayer_801BDF5C.h"
 
 extern "C" {
-s32 set_copy_clear_color_argb(s32, s32, s32);
-u8 *create_player_object(s32 slot, s32 role, u8 *record);
-s32 is_area_transfer_pending(void);
-void apply_phase_keyboard_mode(void);
 }
 
 void TLobby::reset_keyboard_input() { TKeyBoardControl::reset(); TKeyBoardControl__sub_8000F92C(); clear_keyboard_key_state(); TKeyBoardControl__sub_8000F95C(); TLobby::clear_counter(); }
@@ -179,7 +177,7 @@ void TLobby::reset_quest_state() {
 
 void TAdSelectGameModeGC::enable_camera() { set_view_count(1); TCameraCtrl::set_camera_id(1); TCameraCtrl::reset_mode(); }
 
-void TAdSelectGameModeGC::free_sub_ctrls() { set_view_count((saddr)this); TCameraCtrl::set_camera_id((saddr)this); }
+void set_split_screen_views(int count) { set_view_count(count); TCameraCtrl::set_camera_id(count); }
 
 s32 TCameraCtrl::get_camera_no() {
     if (is_split_screen() != 0) {
@@ -234,7 +232,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {(FloorResourceCallback)TLobby__sub_8001DC04, (FloorResourceCallback)TLobby::forward_8001DBD8},
     {(FloorResourceCallback)TLobby__sub_8034C3A4, (FloorResourceCallback)TLobby__sub_8034C384},
     {(FloorResourceCallback)TWindowGetComCard__sub_8007B67C, (FloorResourceCallback)TWindowGetComCard__sub_8007B65C},
-    {(FloorResourceCallback)TLobby__sub_8024285C, (FloorResourceCallback)(void (*)(void *))TLobby::reset_state},
+    {TLobby__sub_8024285C, TLobby::reset_state},
     {clear_received_symbol_chat, TLobby__sub_80077608},
     {TLobby__sub_80077BAC, TLobby::free_static_windows},
     {TLobby::init_char_slots, TLobby__sub_801C3A40},
@@ -307,7 +305,7 @@ void TLobby::reload_offline_area() {
             p->set_parent(tl_03);
             p->reset_motion_fields();
             rebuild_player_inventory(p);
-            ((TObjPlayer *)fn_801B309C)->for_each_player_slot();
+            TObjPlayer::for_each_player_slot(recover_player_full);
         }
     }
     load_battle_param_entry();
@@ -380,7 +378,7 @@ void TLobby::rebuild_area_keep_players() {
             p->set_parent(tl_03);
             p->reset_motion_fields();
             rebuild_player_inventory(p);
-            ((TObjPlayer *)fn_801B309C)->for_each_player_slot();
+            TObjPlayer::for_each_player_slot(recover_player_full);
         }
     }
     TQuestThread::create_for_floor();
@@ -407,7 +405,7 @@ void run_offline_area_transfer(void) {
     TLobby::create_map_csn_ctrl();
     TParticleCtrl::create_quad_sprites();
     TLoadCtrl::start_loading(2);
-    find_leader_section_id(&TLobby__data_805011D8, TLobby__designated_client_id);
+    leader_selection.find_leader_section_id(TLobby__designated_client_id);
     load_area_scene_and_init((u8 *)&floor_transition_state);
     unlock_main_warp_destination(get_current_floor());
     TLoadCtrl::cleanup_scene();
@@ -450,8 +448,8 @@ void run_offline_game_frame(void) {
     func_803DCDFC();
     controller_stuff();
     TKeyBoardControl::update_input_frame();
-    TLobby__sub_8007EB20("Condition E%d", TLobby__data_805D614C * 0xC);
-    TLobby__sub_8007EB20("Condition O%d", TLobby__data_805D6148 * 4);
+    TLobby__sub_8007EB20("Condition E%d", enemy_condition_count * 0xC);
+    TLobby__sub_8007EB20("Condition O%d", object_condition_count * 4);
     if (is_split_screen() != 0) {
         run_split_screen_frame();
     } else {
@@ -482,8 +480,8 @@ void run_offline_transfer_frame(void) {
     func_803DCDFC();
     controller_stuff();
     TKeyBoardControl::update_input_frame();
-    TLobby__sub_8007EB20("Condition E%d", TLobby__data_805D614C * 0xC);
-    TLobby__sub_8007EB20("Condition O%d", TLobby__data_805D6148 * 4);
+    TLobby__sub_8007EB20("Condition E%d", enemy_condition_count * 0xC);
+    TLobby__sub_8007EB20("Condition O%d", object_condition_count * 4);
     if (is_split_screen() != 0) {
         run_split_screen_frame();
     } else {
@@ -615,7 +613,7 @@ void init_offline_game_scene(void) {
     local_client_id = 0;
     TLobby__designated_client_id = 0;
     TLobby__sub_801A2DF4();
-    find_leader_section_id(&TLobby__data_805011D8, TLobby__designated_client_id);
+    leader_selection.find_leader_section_id(TLobby__designated_client_id);
     load_area_scene_and_init((u8 *)&floor_transition_state);
     TLoadCtrl::cleanup_scene();
     main_task.begin_frame();

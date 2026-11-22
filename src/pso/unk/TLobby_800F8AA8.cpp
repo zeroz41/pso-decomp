@@ -816,19 +816,18 @@ void TLobby::reset_keyboard_state() { area_transfer_pending_flag = 0; TKeyBoardC
 
 void TLobby__sub_800F8AD0(void) {
     if ((u32) main_phase_deferred_callback != 0U) {
-        (*(s8 *)&area_transfer_pending_flag) = 1;
+        area_transfer_pending_flag = 1;
     }
 }
-
-bool is_area_transfer_pending(void) {
-    return (*(u8 *)&(*(s8 *)&area_transfer_pending_flag)) != 0;
 }
+
+s32 is_area_transfer_pending() { return area_transfer_pending_flag ? 1 : 0; }
 
 void TLobby::clear_callback_and_reset_keyboard() { TLobby::set_keyboard_mode(0); TKeyBoardControl::reset(); }
 
 #define main_phase_deferred_callback (*(s32 (**)())&main_phase_deferred_callback)
 
-void apply_phase_keyboard_mode(void) {
+void apply_phase_keyboard_mode() {
     switch (get_main_phase()) {
     case 15:
         if (is_quest_active() != 0) {
@@ -854,6 +853,7 @@ void apply_phase_keyboard_mode(void) {
     }
 }
 
+extern "C" {
 void TLobby__sub_800F8BD8(void) { TKeyBoardControl::reset(); TKeyBoardControl__sub_8000F92C(); }
 
 void TLobby::invoke_callback() {

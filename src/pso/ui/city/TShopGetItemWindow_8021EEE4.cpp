@@ -57,7 +57,7 @@ void init_shop_world_context(void) {
     if ((s32) shop_world_player_level > 0xC7) {
         shop_world_player_level = 0xC7;
     }
-    temp_r3_3 = ((TFontSmallTask *)&TLobby__data_805011D8)->get_task_id();
+    temp_r3_3 = leader_selection.get_section_id();
     lbl_805D6238 = temp_r3_3;
     if (temp_r3_3 < 0) {
         lbl_805D6238 = 0;

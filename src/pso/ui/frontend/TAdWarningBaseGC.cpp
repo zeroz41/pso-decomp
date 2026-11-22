@@ -16,8 +16,6 @@ static const f32 lbl_8047733C[2] = {548.0f, 220.0f};
 
 extern "C" {
 void play_sound_effect(int, int, int, int);
-extern u8 controller_input_state[];
-extern u8 controller_physical_port_bank[];
 
     extern int aram_request_busy_flag;
 void clear_aram_request_busy(void) { aram_request_busy_flag = 0; }
@@ -35,8 +33,8 @@ saddr TAdWarningBaseGC::sub_8032D214() {
 }
 
 void TAdWarningBaseGC::vfunc_8() {
-    u8 *a;
-    u8 *b;
+    ControllerInputContext *a;
+    ControllerInputContext *b;
     prev_state = state;
     switch (state) {
     case 0:
@@ -48,9 +46,9 @@ void TAdWarningBaseGC::vfunc_8() {
         state = 2;
         break;
     case 2:
-        if (TWindowShortListCtrl__check_controller_button(a = controller_physical_port_bank + 0x20, 4) != 0 ||
-            test_controller_flag_4c_color(b = controller_input_state + 0x160, 4) != 0 ||
-            TWindowShortListCtrl__check_controller_button(a, 2) != 0 ||
+        if (test_pressed_buttons_packed(a = &controller_physical_port_bank.controllers[0], 4) != 0 ||
+            test_controller_flag_4c_color(b = &controller_input_state.keyboard, 4) != 0 ||
+            test_pressed_buttons_packed(a, 2) != 0 ||
             test_controller_flag_4c_color(b, 2) != 0) {
             state = 3;
             next_state = 4;

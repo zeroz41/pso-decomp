@@ -1062,7 +1062,6 @@ s32 accumulate_damage_stats_at_76c(s32, s32, s32);
 s32 fn_801B0480(int, void *, int);
 s32 draw_player_status(void *, void *, const char *);
 s32 reset_volopt_state__10TObjPlayerFv(void *obj);
-s32 for_each_player_slot__10TObjPlayerFv(s32 *);
 s32 is_in_tl03_state__10TObjPlayerFv(void *);
 void send_6x2F_change_player_hp(s32 arg0, s32 arg1, s32 arg2);
 s16 calc_scaled_value__10TObjPlayerFii(void *, int);
@@ -3715,7 +3714,7 @@ f32 TObjPlayer::calc_photon_blast_charge(void *player, s32 damage) {
 }
 
 void release_all_players_control_lock(void) {
-    for_each_player_slot__10TObjPlayerFv((s32 *)release_control_lock__10TObjPlayerFPv);
+    TObjPlayer::for_each_player_slot(release_control_lock__10TObjPlayerFPv);
 }
 
 void release_photon_blast_player_holds(u16 *p) {

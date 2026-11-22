@@ -35,7 +35,7 @@ s32 update_body_parts__10TObjPlayerFv(void *, void *);
 extern s32 __vt__10TObjPlayer[];
 extern const char *lbl_805D3530;
 
-u8 *TObjPlayer::construct_player_instance(saddr arg1, s16 arg2, s32 role, u8 *arg4) {
+u8 *TObjPlayer::construct_player_instance(saddr arg1, s32 slot, s32 role, u8 *arg4) {
     __ct__9TObjCharaFP7TObject();
     *(s32 **)((s8 *)((u8 *)this) + 0x18) = __vt__10TObjPlayer;
     ((TObjPlayer *)(((u8 *)this) + 0x340))->init_subobject();
@@ -75,7 +75,7 @@ u8 *TObjPlayer::construct_player_instance(saddr arg1, s16 arg2, s32 role, u8 *ar
     ((TObjPlayer *)(((u8 *)this) + 0xDAC))->clear_header_struct();
     *(s32 *)((s8 *)((u8 *)this) + 0) = (saddr) lbl_805D3530;
     this->init_action_provider();
-    this->entity_id = arg2;
+    this->entity_id = slot;
     this->setup_control_role(role);
     update_body_parts__10TObjPlayerFv(this, arg4 + 0x370);
     sub_801BEE2C((s16)(*(u8 *)((s8 *)arg4 + 1)));

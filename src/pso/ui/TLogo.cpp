@@ -25,14 +25,12 @@
 #include "pso/map/area/AreaScene.h"
 #include "pso/unk/text_803DCDFC.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/unk/TLobby_800F8AA8.h"
 
 
 extern "C" {
 s32 TKeyBoardControl__sub_8000F90C(int);
-s32 is_area_transfer_pending();
-s32 apply_phase_keyboard_mode();
 s32 reset_controller_input_state();
-s32 set_copy_clear_color_argb(int, int, int);
 s32 __ct__15TWindowCtrlMainFv(u32);
 extern u8 default_scene_light_config[];
 void request_main_phase(s32 arg0);

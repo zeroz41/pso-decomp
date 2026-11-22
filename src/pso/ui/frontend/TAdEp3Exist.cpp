@@ -61,8 +61,6 @@ saddr get_localized_text_entry(s32 arg0, s32 arg1);
 u32 calc_text_width(char *s);
 
 void TAdEp3Exist__sub_8036F0AC(TAdEp3Exist *p);
-extern u8 controller_input_state[];
-extern u8 controller_physical_port_bank[];
 int prs_read_control_bit(Obj_8036F4DC *arg0);
 void TAdEp3Exist__sub_8036F5A4(void* p);
 s32 prs_decompress(Prs_8036F5B0 *c, u8 *src, s32 arg2, s32 arg3);
@@ -104,8 +102,8 @@ void TAdEp3Exist::run_task() {
                 next_state = 4;
                 break;
             }
-        } else if (TWindowShortListCtrl__check_controller_button(controller_physical_port_bank + 0x20, 2) != 0 ||
-                   test_controller_flag_4c_color(controller_input_state + 0x160, 2) != 0) {
+        } else if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0 ||
+                   test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0) {
             state = 2;
             next_state = 5;
         }

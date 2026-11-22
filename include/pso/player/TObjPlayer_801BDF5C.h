@@ -33,9 +33,11 @@ u8 TObjPlayer__sub_801BEBE4(void *p);
 u8 TObjPlayer__sub_801BEC10(void *p);
 u8 TObjPlayer__sub_801BEC3C(void *p);
 void __sinit_TObjPlayer_801BDF5C_cpp(void);
-u8 *create_player_object(s16 slot, s32 role, u8 *arg2);
 s32 destroy_char_data__10TObjPlayerFis(saddr arg0, s16 arg1);
 }
 // --- end of C functions
+
+// Allocates and constructs the player for client slot from a character record.
+u8 *create_player_object(s32 slot, s32 role, u8 *record);
 
 #endif

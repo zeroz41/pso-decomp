@@ -17,7 +17,6 @@
 #include "pso/item/TItemLoad_8010FDF0.h"
 #include "pso/item/mag/TItemMagGrowEff.h"
 #include "pso/item/mag/TItemMagSub.h"
-#include "pso/item/armor/TItemProShield.h"
 #include "pso/map/FloorArea.h"
 #include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -938,7 +937,7 @@ s8 TItemMag::collect_owner_events() {
     }
     loss = 0;
     hp = ((TObjChara *)owner)->get_actor_hp();
-    max_hp = ((TItemProShield *)owner)->get_field_2b8();
+    max_hp = ((TObjChara *)owner)->get_hpmax();
     events = 0;
     if (owner_watch.hp != hp) {
         if (hp < owner_watch.hp) {
