@@ -9,6 +9,8 @@ struct NJS_OBJECT;
 #include "pso/render/TUnk_80494938.h"
 
 struct TObjEneGibbles : public TObjEnemy {
+    TObjEneGibbles(TObject *parent, void *setData);
+    virtual void run_death_reaction();
     virtual ~TObjEneGibbles();
     void sub_802D8580();
     virtual void render();
@@ -28,11 +30,11 @@ struct TObjEneGibbles : public TObjEnemy {
     virtual void run_attack_action();
     virtual int test_flag_256();
     virtual void run_miss_reaction();
-    virtual void run_death_reaction();
+    virtual void refresh_target();
     void *get_center();
     u32 resolve_sound_id(u32 sound_id);
     s32 m_374;
-    u8 unk_378[0x4];
+    u32 target_class_mask;  // the player classes it prefers (1 << m_39c), tested in refresh_target
     s16 m_37c;
     u8 unk_37E[0x2];
     s32 m_380;
@@ -46,8 +48,9 @@ struct TObjEneGibbles : public TObjEnemy {
     s32 m_39c;
     u8 unk_3A0[0x10];
     u8 * m_3b0;
-    u8 unk_3B4[0x4];
-    void * m_3b8;
+    // (name inferred) one-body collidables built from lbl_804E296C's second and
+    // third bodies; sub_802D9644/sub_802D9824 move [0] to a joint and hit with it
+    TObjCollidable *attack_colliders[2];
     s32 m_3bc;
     TUnk_80494938 fade;
     RenderFadeState fades[4];
@@ -75,19 +78,15 @@ struct TObjEneGibbles : public TObjEnemy {
 LAYOUT_ASSERT(TObjEneGibbles_size, sizeof(TObjEneGibbles) ==0x44C);
 
 extern "C" {
-u8 *TObjEneGibbles__ct(u8 *arg0, void *parent, saddr arg2);
 void TObjEneGibbles__sub_802D7A54(void *arg0);
 void TObjEneGibbles__sub_802D7E3C(void);
 void TObjEneGibbles__sub_802D8034(void);
 void TObjEneGibbles__sub_802D8E8C(u8 *arg0);
 s32 TObjEneGibbles__sub_802D9A04(void *target);
-void render__14TObjEneGibblesFv(TObjEneGibbles *arg0);
 }
 void gibbles_render_node_callback(NJS_OBJECT *);
 extern "C" {
 void render_and_get_joint_pos__14TObjEneGibblesFPvii(u8 *enemy, saddr arg1, s32 arg2);
-void run_task__14TObjEneGibblesFv(TObjEneGibbles *arg0);
-void slam_damage_players__14TObjEneGibblesFl(s32 target, s32 arg1);
 }
 
 #endif
