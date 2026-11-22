@@ -1516,14 +1516,14 @@ force_active:
   - sub_8008E098__18TObjEneBalClawBodyFv
   - __dt__12TObjEneBeastFv
   - TObjPlayer__sub_800A100C
-  - TObjPlayer__sub_800A16C4
+  - sub_800A16C4__17TObjEneDarkGunnerFv
   - TObjPlayer__sub_800A1974
-  - TObjPlayer__sub_800A1978
-  - TObjPlayer__sub_800A1C84
-  - TObjPlayer__sub_800A1D70
-  - TObjPlayer__sub_800A2390
-  - TObjPlayer__sub_800A27CC
-  - TObjPlayer__sub_800A28A4
+  - render__17TObjEneDarkGunnerFv
+  - update_dying__17TObjEneDarkGunnerFv
+  - update_damage__17TObjEneDarkGunnerFv
+  - update_move__17TObjEneDarkGunnerFv
+  - sub_800A27CC__17TObjEneDarkGunnerFv
+  - run_task__17TObjEneDarkGunnerFv
   - __dt__17TObjEneDarkGunnerFv
   - __ct__17TObjEneDarkGunnerFP7TObjectPv
   - TObjPlayer__sub_800A3200

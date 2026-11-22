@@ -273,8 +273,6 @@ struct TObjPlayer : public TObjChara {
     void* m_dac;
     static void draw_area_chunk_objects();
     static void copy_screen_to_texture(s32 mode, void *src);
-    void clear_counter();
-    void set_cancel_flag();
     static void reset_effect_count();
     static void step_cutscene_frame(NJS_OBJECT *);
     void enter_state_8();

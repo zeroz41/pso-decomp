@@ -61,7 +61,7 @@ TUnk_80491478::TUnk_80491478(s32 index, TObjEneDubchik *parent, NJS_TEXLIST *tex
     }
     m_d0 = effect;
     if (m_d0 != NULL) {
-        ((TObjPlayer *)m_d0)->clear_counter();
+        ((TeneFakeTecThunderEff *)m_d0)->clear_counter();
     }
 }
 
@@ -157,7 +157,7 @@ s32 TUnk_80491478::get_action_priority() {
 void TUnk_80491478::cancel_action() {
     if (get_action_priority() != 1) {
         if (m_d0 != NULL) {
-            ((TObjPlayer *)m_d0)->set_cancel_flag();
+            ((TeneFakeTecThunderEff *)m_d0)->set_cancel_flag();
         }
         m_ae = 2;
     }

@@ -8,6 +8,8 @@ public:
     virtual ~TeneFakeTecThunderEff();
     virtual void render();
     virtual void run_task();
+    void set_cancel_flag();
+    void clear_counter();
     u8 unk_1C[0x1C];
     s32 m_38;
     u8 unk_3C[0x2EC];

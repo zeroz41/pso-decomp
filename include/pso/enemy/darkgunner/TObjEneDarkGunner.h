@@ -5,12 +5,19 @@
 #include "pso/render/TUnk_80490470.h"
 
 class TObject;
+class TParticleCtrl;
+class TeneFakeTecThunderEff;
 
 struct TObjEneDarkGunner : public TObjEnemyCustom {
     TObjEneDarkGunner(TObject *parent, void *set_data);
     virtual ~TObjEneDarkGunner();
     static void *create(void *set_data);
     void sub_800A27CC();
+    void update_move();     // mode 1: drop, spin and glide (drop/move motions)
+    void update_attack();   // mode 2: attack/await/pullback, fires the thunder shots
+    void sub_800A16C4();    // mode 3
+    void update_damage();   // mode 4: damage/duckdame motions
+    void update_dying();    // mode 5: die motion, then the death fade
     virtual void run_task();
     virtual void render();
     void set_fields_24_34_from_global(void*);
@@ -48,9 +55,9 @@ struct TObjEneDarkGunner : public TObjEnemyCustom {
     s32 attack_count;
     Vec shadow_pos;  // above position by 5 + hover_height; render_shadow draws here
     Vec child_offsets[4];
-    void* children[4];
-    void* child400;
-    void* child404;
+    TeneFakeTecThunderEff *children[4];  // the beams update_attack spawns at child_offsets
+    TParticleCtrl *trail_emitter;  // particle 0xD9/0xD4 at shadow_pos while m_388 & 0x200000
+    TParticleCtrl *glow_emitter;   // particle 0xDB at body_center while m_388 & 0x800000
     TUnk_80490470 render_control;
     s32 material_phase;
     u16 center_id;  // entity id of the TObjEneDarkGunCenter that links it
