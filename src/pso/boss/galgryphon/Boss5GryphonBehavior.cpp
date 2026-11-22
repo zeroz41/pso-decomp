@@ -1810,16 +1810,16 @@ void TBoss5Gryphon::update_target_from_state() {
     switch (temp_r0) {
     default:
     case 0:
-        this->m_774 = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)this + 0x778)) + 0x40);
+        this->m_774 = *(u8 **)((s8 *)(*(void **)((s8 *)this + 0x778)) + 0x40);
         return;
     case 1:
-        this->m_774 = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)this + 0x778)) + 8);
+        this->m_774 = *(u8 **)((s8 *)(*(void **)((s8 *)this + 0x778)) + 8);
         return;
     case 3:
-        this->m_774 = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)this + 0x778)) + 0x60);
+        this->m_774 = *(u8 **)((s8 *)(*(void **)((s8 *)this + 0x778)) + 0x60);
         return;
     case 2:
-        this->m_774 = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)this + 0x778)) + 0x5C);
+        this->m_774 = *(u8 **)((s8 *)(*(void **)((s8 *)this + 0x778)) + 0x5C);
         return;
     }
 }
@@ -1829,7 +1829,7 @@ void TBoss5Gryphon::play_animation_index(s32 arg1) {
     saddr temp_r5;
     ((TBoss8Dragon *)(&sp8))->init_color();
     temp_r5 = *(s32 *)((s8 *)((u8 *)this) + 0x778);
-    this->m_774 = (s32) *(s32 *)((s8 *)temp_r5 + (arg1 * 4));
+    this->m_774 = *(u8 **)((s8 *)temp_r5 + (arg1 * 4));
     ((s32 (*)(void *, void *, int))trigger_effect__12TBoss8DragonFPvi)(this, &sp8, temp_r5);
     TBoss8Dragon__sub_8005F684(this, &sp8);
     this->copy_spawn_params(&sp8);
@@ -1865,7 +1865,7 @@ void TBoss8Dragon__sub_8005F684(TBoss5Gryphon *self, void *params) {
     s32 i;
     u8 *out;
 
-    if ((u32 *)self->m_774 == NULL) {
+    if (self->m_774 == NULL) {
         self->update_target_from_state();
     }
     out = (u8 *)params + 0x14;

@@ -109,7 +109,7 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     u32 m_72c;
     u32 m_730;
     u8 _pad734[0x40];
-    u32 m_774;
+    u8 *m_774;  // the action script entry being run; steps 0x48 bytes
     u32 m_778;
     void render_nodes_with_flag();
     void render_with_fade(s32 arg1);
