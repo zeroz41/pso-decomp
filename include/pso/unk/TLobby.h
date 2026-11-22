@@ -372,7 +372,6 @@ struct TLobby : public TObject {
     static void set_menu_index_main(u8 *arg0);
     static void refresh_render_state();
     static void wait_for_sound_init();
-    void add_token(const char *src);
     void trim_whitespace();
     s32 get_id();
     static void clear_flag_bit2();
@@ -818,8 +817,6 @@ struct TLobby : public TObject {
     static void update_guild_or_quest_phase();
     static void free_window();
     void swap_item_data(s32 *arg1);
-    void tokenize_args(char *s);
-    void parse_csv_line(char *s);
     static void store_challenge_seeds(s32 seed);
     static void refresh_lobby_state();
     static s32 init_particle_model();

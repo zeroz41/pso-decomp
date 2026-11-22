@@ -279,7 +279,6 @@ int TObjPlayer__sub_801C7098(void* p);
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/vector.h"
-#include "pso/item/armor/TItemProShield.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/system/byteswap.h"
@@ -955,7 +954,7 @@ void set_params__10TObjPlayerFPvPvPviPv(void *arg0, void *arg1, void *stats, sad
 
 void init_shield_params(void *out, void *player, void *stats, saddr level, void *extra) {
     set_params__10TObjPlayerFPvPvPviPv(out, player, stats, level, extra);
-    *(s16 *)((s8 *)out + 0x16) = ((TItemProShield *)player)->get_field_2b8();
+    *(s16 *)((s8 *)out + 0x16) = ((TObjChara *)player)->get_hpmax();
     *(s16 *)((s8 *)out + 0x18) = obj_getS16_2BA((u8 *)player);
 }
 

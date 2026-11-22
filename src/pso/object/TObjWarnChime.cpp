@@ -1,6 +1,5 @@
 #include "pso/object/TObjWarnChime.h"
 #include "pso/object/base/TObjChara.h"
-#include "pso/item/armor/TItemProShield.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/SoundEffect.h"
@@ -62,7 +61,7 @@ void TObjWarnChime::update_player_hp_ratios() {
             continue;
         }
         cur = ((TObjChara *)p)->get_actor_hp();
-        max = ((TItemProShield *)p)->get_field_2b8();
+        max = ((TObjChara *)p)->get_hpmax();
         if (0.0f == cur) {
             m_player_hp_ratios[i] = 1.0f;
             continue;
@@ -121,3 +120,5 @@ TObjWarnChime::TObjWarnChime(TObject* parent) : TObject(parent) {
 TObjWarnChime* TObjWarnChime::create(TObject* parent) {
     return new TObjWarnChime(parent);
 }
+
+s16 TObjChara::get_hpmax() { return hpmax; }

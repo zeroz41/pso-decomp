@@ -18,7 +18,6 @@
 #include "pso/object/collision/TObjFogCollisionPoison.h"
 
 #include "pso/enemy/dd/TObjEneDD.h"
-#include "pso/item/armor/TItemProShield.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowCtrl.h"
@@ -2740,7 +2739,7 @@ s32 partner_view_update_conditions(u8 *arg0) {
     s32 var_r31;
     var_r31 = 0;
     temp_f31 = (f32)((TObjChara *)view->m_94)->get_actor_hp();
-    temp_f1 = temp_f31 / (f32)((TItemProShield *)view->m_94)->get_field_2b8();
+    temp_f1 = temp_f31 / (f32)((TObjChara *)view->m_94)->get_hpmax();
     if (view->m_8c & 2) {
         if (temp_f1 <= 0.25f) {
             var_r31 = 1;
@@ -2782,7 +2781,7 @@ s32 partner_view_update_hp_change(void *arg0) {
     s16 temp_r3;
     s16 temp_r4;
     temp_r31 = ((TObjChara *)((Unk_8014F844 *)arg0)->m_94)->get_actor_hp();
-    temp_r3 = ((TItemProShield *)((Unk_8014F844 *)arg0)->m_94)->get_field_2b8();
+    temp_r3 = ((TObjChara *)((Unk_8014F844 *)arg0)->m_94)->get_hpmax();
     if (((Unk_8014F844 *)arg0)->m_88 <= 0) {
         ((Unk_8014F844 *)arg0)->m_88 = temp_r31;
         return 0;

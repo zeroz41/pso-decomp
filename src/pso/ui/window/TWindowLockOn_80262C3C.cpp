@@ -361,7 +361,7 @@ void TWindowLockOn::update_for_enemy(TObjChara *enemy) {
     tween_ticks = 0;
     p = (LockOnEntryText *)get_array_entry(7);
     p->w = target_size[0] - 28.0f;
-    p->cur = (f32)((TItemProShield *)enemy)->get_field_2b8();
+    p->cur = (f32)enemy->get_hpmax();
     p->max = (f32)((LockOnEnemyView *)enemy)->hp_max;
     p = (LockOnEntryText *)get_array_entry(8);
     p->w = target_size[0] - 28.0f;
@@ -396,7 +396,7 @@ void TWindowLockOn::refresh_enemy_statuses() {
     } while (i < 4);
     {
         g = (LockOnGauge *)get_array_entry(7);
-        g->cur = ((TItemProShield *)enemy)->get_field_2b8();
+        g->cur = ((TObjChara *)enemy)->get_hpmax();
         g->max = enemy->hp_max;
         ((TWindowHelpItem *)g)->set_flag0_bit2();
     }

@@ -7,7 +7,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
-#include "pso/item/armor/TItemProShield.h"
 #include "pso/map/FloorArea.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -138,7 +137,7 @@ void TOHealGeneral::find_heal_target() {
             continue;
         }
         heal_target = id;
-        if (((TObjChara *)player)->get_actor_hp() < ((TItemProShield *)player)->get_field_2b8() ||
+        if (((TObjChara *)player)->get_actor_hp() < ((TObjChara *)player)->get_hpmax() ||
             get_actor_tp((u8 *)player) < obj_getS16_2BA((u8 *)player) ||
             (u32)player->get_recovery_need_flags() != 0 ||
             (player->is_alive_and_ready() != 0 && player->are_traps_full() == 0)) {

@@ -972,14 +972,14 @@ pso/object/TObjTombstone.cpp:
 	.sdata2     start:0x805D9170 end:0x805D91C0
 
 pso/object/TObjWarnChime.cpp:
-	.text       start:0x800766D4 end:0x80076B5C
+	.text       start:0x800766D4 end:0x80076B64
 	.rodata     start:0x80438818 end:0x80438830
 	.data       start:0x8048D348 end:0x8048D360
 	.sdata      start:0x805D28A0 end:0x805D28A8
 	.sdata2     start:0x805D91C0 end:0x805D91D0
 
-pso/item/armor/TItemProShield_80076B5C.cpp:
-	.text       start:0x80076B5C end:0x80076BBC
+pso/system/TTokenList.cpp:
+	.text       start:0x80076B64 end:0x80076BBC
 
 pso/ui/frontend/TAdPlayerLoadGC_80076BBC.cpp:
 	.text       start:0x80076BBC end:0x80076BC4

@@ -1,55 +1,34 @@
 #include "types.h"
 #include <string.h>
-#include "pso/unk/TLobby_80228818.h"
 #include "pso/unk/TLobby.h"
-#include "pso/item/TUnk_804CC048.h"
+#include "pso/system/TTokenList.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/unk/TLobby_800FD78C.h"
-
-struct O_80228A74 { u8 pad[0x1c]; char names[1][0x20]; };
-
-struct P_80228A74 { u8 pad[0x109c]; s32 count; };
-
-struct L_8022884C { u8 pad[0x109c]; s32 count; s32 hi; s32 lo; };
-
-extern "C" {
-s32 debug_printf_at(u32, void *, ...);
-}
+#include "pso/unk/text_803D853C.h"
 
 Obj_80515BA0::Obj_80515BA0() {
     init_range(0);
 }
 
 
-#pragma push
-#pragma opt_propagation off
-void TUnk_804CC048::render() {
-    L_8022884C *self = (L_8022884C *)this;
-    s32 off;
+void TTokenList::render() {
     s32 i;
-    s32 t;
-    i = 0;
-    off = 0;
-    while (i < self->count) {
-        t = off + 0x1c;
-        debug_printf_at((self->hi << 16) | (self->lo + i), (u8 *)self + t);
-        i++;
-        off += 0x20;
+    for (i = 0; i < count; i++) {
+        debug_printf_at((x << 16) | (y + i), tokens[i]);
     }
 }
-#pragma pop
 
-void TLobby::tokenize_args(char *s) {
+void TTokenList::tokenize_args(char *s) {
     char *start;
     s32 quoted;
-    clear_work_buffer((u8 *)this);
+    clear();
     start = s;
     quoted = 0;
     for (;;) {
         switch (*s) {
         case 0:
-            this->add_token(start);
+            add_token(start);
             return;
         case '"':
             if (quoted) {
@@ -69,7 +48,7 @@ void TLobby::tokenize_args(char *s) {
             } else {
                 *s = 0;
                 s++;
-                this->add_token(start);
+                add_token(start);
                 start = s;
             }
             break;
@@ -80,16 +59,16 @@ void TLobby::tokenize_args(char *s) {
     }
 }
 
-void TLobby::parse_csv_line(char *s) {
+void TTokenList::parse_csv_line(char *s) {
     char *start;
     s32 quoted;
-    clear_work_buffer((u8 *)this);
+    clear();
     start = s;
     quoted = 0;
     for (;;) {
         switch (*s) {
         case 0:
-            this->add_token(start);
+            add_token(start);
             return;
         case '"':
             if (quoted) {
@@ -110,7 +89,7 @@ void TLobby::parse_csv_line(char *s) {
             } else {
                 *s = 0;
                 s++;
-                this->add_token(start);
+                add_token(start);
                 start = s;
             }
             break;
@@ -121,21 +100,20 @@ void TLobby::parse_csv_line(char *s) {
     }
 }
 
-void TLobby::add_token(const char *src) {
-    O_80228A74 *self = (O_80228A74 *)this;
-    strcpy(self->names[((P_80228A74 *)self)->count++], src);
+void TTokenList::add_token(const char *src) {
+    strcpy(tokens[count++], src);
 }
 
-void clear_work_buffer(u8 *arg0) {
-    memset(arg0 + 0x1C, 0, 0x1000);
-    *(s32 *)((s8 *)arg0 + 0x109C) = 0;
+void TTokenList::clear() {
+    memset(tokens, 0, sizeof(tokens));
+    count = 0;
 }
 
-TUnk_804CC048::TUnk_804CC048(TObject *parent, void *arg2, void *arg3) : TObject(parent) {
-    *(void **)((s8 *)this + 0x10A0) = arg2;
-    m_10a4 = arg3;
-    memset((char *)this + 0x1C, 0, 0x1000);
-    m_109c = 0;
+TTokenList::TTokenList(TObject *parent, s32 x, s32 y) : TObject(parent) {
+    this->x = x;
+    this->y = y;
+    memset(tokens, 0, sizeof(tokens));
+    count = 0;
 }
 void TLobby::trim_whitespace() {
     char *s = (char *)this;
