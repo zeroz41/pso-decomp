@@ -269,7 +269,6 @@ extern u32 model_render_flags;
 // ---- folded from src/pso/enemy/TObjEneSlime_800EBBC8.cpp ----
 
 
-#include "pso/enemy/slime/TObjEneSlime_800EBBC8.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
 
 
