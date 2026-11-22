@@ -1702,7 +1702,7 @@ void TBoss1Dragon::apply_foot_attack_pair_1() {
 void TBoss1Dragon::apply_landing_attack() {
     DragonAttackParams stack;
     TBoss1Dragon__sub_80027A80(&stack, &boss1_dragon_attack_sphere_params);
-    stack.field_8 = boss1_dragon_behavior_params[0]->landing_attack_power;
+    stack.radius = boss1_dragon_behavior_params[0]->landing_attack_power;
     this->reload_stats_for_phase((saddr)boss1_dragon_behavior_params[0]);
     switch (TBoss1Dragon::isV2Mode()) {
     case 0:
@@ -1739,7 +1739,7 @@ void TBoss1Dragon::sweep_body_attack_spheres(f32 a, f32 b, f32 c) {
     f32 s1;
     f32 d;
 
-    fx.field_8 = a - (2.0f);
+    fx.radius = a - (2.0f);
     fill_value_array(this->attack_history);
     s0 = sin_table_lookup(this->rotation_y);
     s1 = cos_table_lookup(this->rotation_y);
@@ -1806,7 +1806,7 @@ void TBoss1Dragon::apply_ground_impact_attack() {
 #pragma scheduling off
 void TBoss1Dragon__sub_80027A80(DragonAttackParams *destination, const DragonAttackParams *source) {
     __memcpy(destination, source, 8);
-    destination->field_8 = source->field_8;
+    destination->radius = source->radius;
     // Character views start at the complete objects, not a smaller member.
     __memcpy(reinterpret_cast<u8 *>(destination) + 12,
         reinterpret_cast<const u8 *>(source) + 12, 8);
@@ -1825,7 +1825,7 @@ void TBoss1Dragon::sweep_death_body_attack() {
     fill_value_array(this->attack_history);
     TBoss1Dragon__sub_80027A80(&params, &TBoss1Dragon__head_fall_effect_params);
     VecCopy(&pos, &this->node_positions[12]);
-    params.field_8 = (15.0f);
+    params.radius = (15.0f);
     switch (TBoss1Dragon::isV2Mode()) {
     case 0:
         TObjEneDD::emit_enemy_effect(this, &pos, (u8 *)&params, this->attack_history);
@@ -1834,7 +1834,7 @@ void TBoss1Dragon::sweep_death_body_attack() {
         this->emit_v2_enemy_effect(&pos, (u8 *)&params, this->attack_history);
         break;
     }
-    params.field_8 = (12.0f);
+    params.radius = (12.0f);
     pts[0] = &this->node_positions[7];
     pts[1] = &this->node_positions[9];
     for (i = 0; i < 2; i++) {
@@ -1847,7 +1847,7 @@ void TBoss1Dragon::sweep_death_body_attack() {
             break;
         }
     }
-    params.field_8 = 11.0f;
+    params.radius = 11.0f;
     pts[0] = &this->node_positions[14];
     pts[1] = &this->node_positions[15];
     pts[2] = &this->node_positions[16];
@@ -1870,7 +1870,7 @@ void TBoss1Dragon::apply_trail_attack() {
     TObjBoss1MokoHill_SoloM *moko_hill = this->moko_hill;
     if ((moko_hill != NULL) && (moko_hill->is_dragon_trail_damaging() != 0)) {
         DragonAttackParams params = dragon_breath_attack_params;
-        params.field_4 = boss1_dragon_behavior_params[0]->trail_attack_power;
+        params.power = boss1_dragon_behavior_params[0]->trail_attack_power;
         switch (TBoss1Dragon::isV2Mode()) {
         case 0:
             TObjEneDD::setup_instance(this, &this->position, &params, this->attack_history);
@@ -1884,8 +1884,8 @@ void TBoss1Dragon::apply_trail_attack() {
 
 void TBoss1Dragon::deliver_breath_attack(saddr position, saddr attack_history) {
     DragonAttackParams params = dragon_fireball_attack_params;
-    params.field_4 = boss1_dragon_behavior_params[0]->breath_attack_power;
-    params.field_0 = this->attack_kind;
+    params.power = boss1_dragon_behavior_params[0]->breath_attack_power;
+    params.kind = this->attack_kind;
     switch (TBoss1Dragon::isV2Mode()) {
     case 0:
         TObjEneDD::setup_instance(this, (Vec *)position, &params, (AreaAttackHistory *)attack_history);
@@ -1898,8 +1898,8 @@ void TBoss1Dragon::deliver_breath_attack(saddr position, saddr attack_history) {
 
 void TBoss1Dragon::apply_fireball_impact_damage(saddr position) {
     DragonAttackParams params = dragon_fireball_impact_damage_params;
-    params.field_4 = boss1_dragon_behavior_params[0]->fireball_impact_power;
-    params.field_0 = this->attack_kind;
+    params.power = boss1_dragon_behavior_params[0]->fireball_impact_power;
+    params.kind = this->attack_kind;
     switch (TBoss1Dragon::isV2Mode()) {
     case 0:
         TObjEneDD::setup(this, (Vec *)position, &params);
@@ -4026,7 +4026,7 @@ void TBoss1Dragon::update_death_state(u32 reason) {
             }
             if (this->is_passing_frame((f32)(57.0f)) != 0) {
                 DragonAttackParams eff1 = TBoss1Dragon__head_fall_effect_params;
-                eff1.field_8 = 12.0f;
+                eff1.radius = 12.0f;
                 VecCopy(&v, &boss1_dragon_death_impact_point_a);
                 rotate_xz_pair_by_angle(&v.x, &v.z, this->rotation_y);
                 vec3_add_to(&v, &this->position);
@@ -4044,7 +4044,7 @@ void TBoss1Dragon::update_death_state(u32 reason) {
             }
             if (this->is_passing_frame((f32)(88.0f)) != 0) {
                 DragonAttackParams eff2 = TBoss1Dragon__head_fall_effect_params;
-                eff2.field_8 = 25.0f;
+                eff2.radius = 25.0f;
                 VecCopy(&v, &boss1_dragon_death_impact_point_b);
                 rotate_xz_pair_by_angle(&v.x, &v.z, this->rotation_y);
                 vec3_add_to(&v, &this->position);

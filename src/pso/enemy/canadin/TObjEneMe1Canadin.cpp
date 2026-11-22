@@ -12,6 +12,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
+#include "pso/boss/DragonAttackParams.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/player/TObjPlayer.h"
@@ -74,16 +75,6 @@ u32 TObjEneMe1Canadin__render_node_index;
 Vec *TObjEneMe1Canadin__render_point_cursor;
 
 
-// The attack block TObjEneDD::setup_instance delivers: radius sizes the hit body, recoil and contact_flags
-// go to area_attack_deliver_direct (bit 0: player bodies, bit 1: enemy bodies).
-struct CanadinAttackParams {
-    s32 kind;
-    f32 power;
-    f32 radius;
-    f32 recoil;
-    s32 contact_flags;
-};
-
 
 TUnk_8048FA00 *canadin_leader_breakup_model;
 TUnk_8048FA00 *canadin_breakup_model;
@@ -135,8 +126,8 @@ const char *canadin_leader_fade_sequence_table[5] = {
     "abaaabababbac",
     "ababababaabbaabbababaabaabaaabbbbc",
 };
-const CanadinAttackParams canadin_discharge_attack_params = { 3, 5.0f, 3.0f, 3.0f, 1 };
-const CanadinAttackParams canadin_self_destruct_attack_params = { 3, 10.0f, 20.0f, 3.0f, 1 };
+const DragonAttackParams canadin_discharge_attack_params = { 3, 5.0f, 3.0f, 3.0f, 1 };
+const DragonAttackParams canadin_self_destruct_attack_params = { 3, 10.0f, 20.0f, 3.0f, 1 };
 const char *TObjEneMe1Canadin__class_name = "TObjEneMe1Canadin";
 const char *TObjEneMe1CanadinLeader__class_name = "TObjEneMe1CanadinLeader";
 saddr canadin_boss_stat_handle_table[3];
@@ -707,9 +698,9 @@ void TObjEneMe1Canadin::set_flag3c8_bit40() { status_flags |= 0x40; }
 
 
 void TObjEneMe1Canadin::deliver_discharge_attack(Vec *pos) {
-    CanadinAttackParams params = canadin_discharge_attack_params;
+    DragonAttackParams params = canadin_discharge_attack_params;
     params.power = kind_params->ranged_power;
-    TObjEneDD::setup(this, pos, (DragonAttackParams *)&params);
+    TObjEneDD::setup(this, pos, &params);
 }
 
 // The state names are read from the bodies and shared with the Gee's twin states (Gee state n + 1
@@ -1590,7 +1581,7 @@ void TObjEneMe1Canadin::state_self_destruct(s32 msg) {
         this->rotation_z += 0x2000;
         this->stage++;
         if (this->stage >= 0x96) {
-            CanadinAttackParams c = canadin_self_destruct_attack_params;
+            DragonAttackParams c = canadin_self_destruct_attack_params;
             TObjEneMe1CanadinParams *t = this->kind_params;
             c.power = t->self_destruct_power;
             TObjEneDD__sub_800BA5A4(this, &c);

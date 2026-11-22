@@ -1396,7 +1396,7 @@ void TBoss8Dragon::apply_foot_attack_pair_1() { apply_foot_step_attack(1); }
 void TBoss8Dragon::sub_802FB778() {
     DragonAttackParams stack;
     TBoss1Dragon__sub_80027A80(&stack, &boss8_dragon_attack_sphere_params);
-    stack.field_8 = boss8_dragon_behavior_params[0]->values[3];
+    stack.radius = boss8_dragon_behavior_params[0]->values[3];
     sub_802FBEA4();
     this->get_state_flags(&stack);
     this->reload_boss_stats();
@@ -1476,15 +1476,15 @@ void TBoss8Dragon::emit_body_effects() {
     fill_value_array(this->attack_history);
     TBoss1Dragon__sub_80027A80(&e, &TBoss8Dragon__body_effect_parameters);
     VecCopy(&v, (Vec *)(((u8 *)this) + 0x4C4));
-    e.field_8 = 15.0f;
+    e.radius = 15.0f;
     emit_effect(&v, &e, this->attack_history);
-    e.field_8 = 12.0f;
+    e.radius = 12.0f;
     pts[0] = (Vec *)((u8 *)this + 0x488);
     pts[1] = (Vec *)((u8 *)this + 0x4A0);
     for (i = 0; i < 2; i++) {
         emit_effect(pts[i], &e, this->attack_history);
     }
-    e.field_8 = 11.0f;
+    e.radius = 11.0f;
     pts[0] = (Vec *)((u8 *)this + 0x4DC);
     pts[1] = (Vec *)((u8 *)this + 0x4E8);
     pts[2] = (Vec *)((u8 *)this + 0x4F4);
@@ -1499,22 +1499,22 @@ void TBoss8Dragon__sub_802FB300(void) {  }
 
 void TBoss8Dragon::setup_breath_instance(Vec *pos, u32 kind, AreaAttackHistory *history) {
     DragonAttackParams s = TBoss8Dragon__breath_params;
-    s.field_4 = boss8_dragon_behavior_params[0]->values[0];
-    s.field_0 = kind;
+    s.power = boss8_dragon_behavior_params[0]->values[0];
+    s.kind = kind;
     setup_instance(pos, &s, history);
 }
 
 void TBoss8Dragon::sub_802FB220(Vec *pos, u32 kind) {
     DragonAttackParams s = boss8_dragon_fireball_impact_params;
-    s.field_4 = boss8_dragon_behavior_params[0]->values[1];
-    s.field_0 = kind;
+    s.power = boss8_dragon_behavior_params[0]->values[1];
+    s.kind = kind;
     this->setup_instance(pos, &s, 0);
 }
 
 void TBoss8Dragon::sub_802FB1B0(Vec *pos, f32 radius) {
     DragonAttackParams s = boss8_dragon_pillar_attack_params;
-    s.field_8 = radius;
-    s.field_4 = boss8_dragon_behavior_params[0]->values[2];
+    s.radius = radius;
+    s.power = boss8_dragon_behavior_params[0]->values[2];
     this->setup_instance(pos, &s, this->attack_history);
 }
 
@@ -3501,7 +3501,7 @@ void TBoss8Dragon::update_death_state(s32 event) {
             }
             if (this->is_passing_frame(57.0f) != 0) {
                 DragonAttackParams e = TBoss8Dragon__body_effect_parameters;
-                e.field_8 = 12.0f;
+                e.radius = 12.0f;
                 VecCopy(&v, &boss8_dragon_death_impact_point_a);
                 rotate_xz_pair_by_angle(&v.x, &v.z, this->rotation_y);
                 vec3_add_to(&v, &position);
@@ -3515,7 +3515,7 @@ void TBoss8Dragon::update_death_state(s32 event) {
             }
             if (this->is_passing_frame(88.0f) != 0) {
                 DragonAttackParams e = TBoss8Dragon__body_effect_parameters;
-                e.field_8 = 25.0f;
+                e.radius = 25.0f;
                 VecCopy(&v, &boss8_dragon_death_impact_point_b);
                 rotate_xz_pair_by_angle(&v.x, &v.z, this->rotation_y);
                 vec3_add_to(&v, &position);

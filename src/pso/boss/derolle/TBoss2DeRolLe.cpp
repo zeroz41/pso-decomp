@@ -32,6 +32,7 @@ struct NJS_OBJECT;
 
 #include "pso/system/PadRumble.h"
 
+#include "pso/boss/DragonAttackParams.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 
 #include "pso/enemy/dd/TObjEneDD_ST.h"
@@ -135,17 +136,6 @@ struct NJS_OBJECT;
 
 #include <stddef.h>
 
-// inferred: the five-word effect descriptor emit_effect and setup_instance read (an id word,
-// three floats, a trailing word); setup_instance gives the hit body `radius`, and
-// handle_laser_attack_state patches `power` per spawn
-struct DeRolLeEffectParams {
-    s32 pad_00;
-    f32 power;
-    f32 radius;
-    f32 pad_0C;
-    s32 pad_10;
-};
-
 // The model nodes whose positions derolle_capture_node_points records into node_positions, -1 ended.
 const s32 derolle_position_node_ids[21] = {
     0x18, 0x1A, 0x1C, 0x1D, 0x1E, 0x1F, 0x22, 0x45, 0x4A, 0x5F, 0x60,
@@ -159,7 +149,7 @@ const Vec TBoss2DeRolLe__position_point_table[4] = {
     {0.0f, 7.0f, -250.0f},
 };
 
-const DeRolLeEffectParams derolle_effect_params = {0, 0.0f, 8.0f, 5.0f, 1};
+const DragonAttackParams derolle_effect_params = {0, 0.0f, 8.0f, 5.0f, 1};
 
 // inferred: the five mine positions load_resources grounds into TBoss2DeRolLe__mine_ground_targets
 const Vec derolle_mine_offsets[5] = {
@@ -171,7 +161,7 @@ const Vec derolle_mine_offsets[5] = {
 };
 
 // inferred: the effect handle_laser_attack_state spawns where the laser hits
-const DeRolLeEffectParams derolle_laser_hit_effect_params = {0, 120.0f, 16.0f, 20.0f, 1};
+const DragonAttackParams derolle_laser_hit_effect_params = {0, 120.0f, 16.0f, 20.0f, 1};
 
 s32 de_rol_le_base_param_ids[1] = {0xF};
 
@@ -3430,9 +3420,9 @@ void TBoss2DeRolLe::handle_laser_attack_state(u32 reason) {
                     }
                 }
                 {
-                    DeRolLeEffectParams r = derolle_laser_hit_effect_params;
+                    DragonAttackParams r = derolle_laser_hit_effect_params;
                     r.power = derolle_params[0]->laser_power;
-                    TObjEneDD::setup_instance(this, hit, (DragonAttackParams *)&r, attack_history);
+                    TObjEneDD::setup_instance(this, hit, &r, attack_history);
                 }
             }
             spawn_trap(0x4003B00A, this, hit);

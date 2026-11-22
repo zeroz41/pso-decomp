@@ -56,6 +56,7 @@ struct NJS_OBJECT;
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/boss/barbaray/TObjBoss7Tunnel.h"
 
+#include "pso/boss/DragonAttackParams.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 
 #include "pso/enemy/dd/TObjEneDD_ST.h"
@@ -162,18 +163,6 @@ struct Boss7ActionStep {
     s32 param;
 };
 
-// Attack/effect parameter record passed to TObjEneDD::emit_effect /
-// setup_instance (type name inferred; same shape as TBoss1Dragon's). setup_instance
-// gives the hit body `radius`; the laser hit patches `power` per spawn (as the
-// TBoss2DeRolLe twin does with its laser_power).
-struct Boss7AttackParams {
-    s32 pad_00;
-    f32 power;
-    f32 radius;
-    f32 pad_0C;
-    s32 pad_10;
-};
-
 extern const s32 boss7_derolle_c_body_point_node_ids[21] = {0x18, 0x1a, 0x1c, 0x1d, 0x1e, 0x1f, 0x22, 0x45, 0x4a, 0x5f, 0x60, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, -1};
 
 extern const Vec boss7_derolle_c_position_points[10] = {
@@ -189,9 +178,9 @@ extern const Vec boss7_derolle_c_position_points[10] = {
     {0.0f, -100.0f, 25.0f}
 };
 
-extern const Boss7AttackParams boss7_derolle_c_hit_effect_params = {0, 0.0f, 8.0f, 5.0f, 1};
+extern const DragonAttackParams boss7_derolle_c_hit_effect_params = {0, 0.0f, 8.0f, 5.0f, 1};
 
-extern const Boss7AttackParams boss7_laser_particle_params = {0, 120.0f, 16.0f, 20.0f, 1};
+extern const DragonAttackParams boss7_laser_particle_params = {0, 120.0f, 16.0f, 20.0f, 1};
 
 extern const Boss7ActionStep boss7_derolle_c_actions_normal[68] = {
     {1, 0}, {3, 0}, {8, 0}, {15, 0}, {3, 0}, {40, 0}, {60, 0}, {50, 0},
@@ -3136,9 +3125,9 @@ void TBoss7DeRolLeC::handle_laser_attack_state(u32 event) {
                 }
             }
             {
-                Boss7AttackParams params = boss7_laser_particle_params;
+                DragonAttackParams params = boss7_laser_particle_params;
                 params.power = boss_params->laser_power;
-                TObjEneDD::setup_instance(this, beam_end, (DragonAttackParams *)&params, attack_history);
+                TObjEneDD::setup_instance(this, beam_end, &params, attack_history);
             }
             if (laser_ptcl != NULL) {
                 if (laser_ptcl->is_state_2() != 0) {

@@ -809,13 +809,13 @@ int is_target_android(void* p) { return (((TObjPlayer *)p)->class_flags & CLASS_
 void TObjEneDD::setup_instance(TObjBase *owner, Vec *pos, DragonAttackParams *params, AreaAttackHistory *attack_history) {
     obj_ene_dd_instance->set_owner(owner);
     obj_ene_dd_instance->set_position_from(pos);
-    obj_ene_dd_instance->bodies->radius = params->field_8;
+    obj_ene_dd_instance->bodies->radius = params->radius;
     obj_ene_dd_instance->bodies->flags = 0x9D03;
-    if (params->field_8 > 100.0f) {
-        obj_ene_dd_instance->area_attack_deliver_direct(&params->field_C, (saddr)params, attack_history, params->field_8);
+    if (params->radius > 100.0f) {
+        obj_ene_dd_instance->area_attack_deliver_direct(&params->recoil, (saddr)params, attack_history, params->radius);
         return;
     }
-    obj_ene_dd_instance->call_vt13_with_default(&params->field_C, params, (saddr)attack_history);
+    obj_ene_dd_instance->call_vt13_with_default(&params->recoil, params, (saddr)attack_history);
 }
 
 void TObjEneDD::setup(TObjBase *owner, Vec *pos, DragonAttackParams *params) { TObjEneDD::setup_instance(owner, pos, params, NULL); }

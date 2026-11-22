@@ -1071,7 +1071,7 @@ void TBoss5Gryphon::run_default_state() { query_default(); attack_default(); }
 void TBoss5Gryphon::emit_landing_impact() {
     DragonAttackParams stack;
     TBoss1Dragon__sub_80027A80(&stack, &boss5_gryphon_params_b);
-    stack.field_8 = *(f32 *)((s8 *)boss5_gryphon_behavior_params[2] + 0x10);
+    stack.radius = *(f32 *)((s8 *)boss5_gryphon_behavior_params[2] + 0x10);
     reload_stats_for_phase(boss5_gryphon_behavior_params[2]);
     TBoss8Dragon__sub_80067074((saddr)&position, (saddr)&stack);
     emit_effect_at_position(&stack);
@@ -1118,7 +1118,7 @@ void TBoss5Gryphon::emit_wing_attacks() {
     reset_hp(NULL, (u8 *)boss5_gryphon_attack_params[3], NULL);
     p = pts;
     for (i = 0; i < 5; i++) {
-        fx.field_8 = gryphon_effect_scale_table[i];
+        fx.radius = gryphon_effect_scale_table[i];
         TBoss8Dragon__sub_800670E0((saddr)p, &fx);
         TObjEneDD::emit_enemy_effect(this, (void *)p++, (u8 *)&fx, attack_history);
         TBoss8Dragon__sub_800670E0((saddr)p, &fx);
@@ -1134,11 +1134,11 @@ void TBoss5Gryphon::emit_flight_body_attacks() {
     fill_value_array(attack_history);
     reset_hp(NULL, (u8 *)boss5_gryphon_attack_params[3], NULL);
     point = &bone_positions[11];
-    prm.field_8 = gryphon_thirty;
+    prm.radius = gryphon_thirty;
     TBoss8Dragon__sub_800670E0((saddr)point, &prm);
     TObjEneDD::emit_enemy_effect(this, point, (u8 *)&prm, attack_history);
     point = &bone_positions[0];
-    prm.field_8 = gryphon_fifty;
+    prm.radius = gryphon_fifty;
     TBoss8Dragon__sub_800670E0((saddr)point, &prm);
     TObjEneDD::emit_enemy_effect(this, point, (u8 *)&prm, attack_history);
     reset_hp(NULL, (u8 *)boss5_gryphon_attack_params[0], NULL);
@@ -1176,28 +1176,28 @@ void TBoss5Gryphon::emit_ground_contact_attack() {
 
 void TBoss5Gryphon::apply_shockwave_hit(TBoss5Gryphon *owner, Vec *pos) {
     DragonAttackParams desc = gryphon_shockwave_hit_params;
-    desc.field_4 = *(f32 *)((s8 *)boss5_gryphon_behavior_params[2] + 4);
+    desc.power = *(f32 *)((s8 *)boss5_gryphon_behavior_params[2] + 4);
     TBoss8Dragon__sub_80067074((saddr)pos, (saddr)&desc);
     TObjEneDD::setup_instance(owner, pos, &desc, NULL);
 }
 
 void TBoss5Gryphon::apply_tornado_hit(TBoss5Gryphon *owner, Vec *pos) {
     DragonAttackParams desc = gryphon_tornado_hit_params;
-    desc.field_4 = *(f32 *)((s8 *)boss5_gryphon_behavior_params[2] + 8);
+    desc.power = *(f32 *)((s8 *)boss5_gryphon_behavior_params[2] + 8);
     TObjEneDD::setup_instance(owner, pos, &desc, NULL);
 }
 
 void TBoss5Gryphon::apply_snarl_hit(TBoss5Gryphon *owner, Vec *pos, f32 inner, f32 scale) {
     DragonAttackParams desc = gryphon_snarl_hit_params;
-    desc.field_4 = *(f32 *)boss5_gryphon_behavior_params[2] * scale;
-    desc.field_8 = inner;
+    desc.power = *(f32 *)boss5_gryphon_behavior_params[2] * scale;
+    desc.radius = inner;
     TObjEneDD::setup_instance(owner, pos, &desc, NULL);
 }
 
 void TBoss5Gryphon::apply_lightning_hit(TBoss5Gryphon *owner, Vec *pos, f32 inner) {
     DragonAttackParams desc = gryphon_lightning_hit_params;
-    desc.field_4 = *(f32 *)((s8 *)boss5_gryphon_behavior_params[2] + 0xC);
-    desc.field_8 = inner;
+    desc.power = *(f32 *)((s8 *)boss5_gryphon_behavior_params[2] + 0xC);
+    desc.radius = inner;
     TObjEneDD::setup_instance(owner, pos, &desc, NULL);
 }
 void TBoss5Gryphon::spawn_ground_splash() {
