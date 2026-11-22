@@ -1742,7 +1742,7 @@ void TWindowSubComCard::init_layout(void) {
     card_slot = TWindowSubComCard::get_card_slot(0);
     TWindowSubComCard::create_card_list(get_window_layout_position(0x91), card_slot, 0x1C, 1);
 }
-void *TWindowSubComCard::send_command(s32 index) {
+void *TWindowSubComCard::send_command(saddr index) {
     return TWindowComCard::create((void *)(get_window_layout_position(0x86)), (void *)index);
 }
 u8 *TWindowSubComCard::apply_selection(s32 index) {
