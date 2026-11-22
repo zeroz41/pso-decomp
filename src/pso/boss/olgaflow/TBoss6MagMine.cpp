@@ -32,6 +32,7 @@ struct Mine_80368C14 { u8 pad[0x38]; Vec pos; };
 #include "pso/object/ambient/TObjFish.h"
 
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/unk/text_803D8F74.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
 #include "pso/system/MatrixOps.h"
@@ -79,18 +80,17 @@ void vt4__13TBoss6MagMineFv(void* p);
 void copy_pos__13TBoss6MagMineFi(s32 self);
 int post_translate_matrix(void*);
 void free_collision_body_parts(void *);
-int rotate_matrix_y(void*, void*);
 
 void TUnk_804F322C::run_death_reaction() {
-    if ((s32) *(s32 *)((s8 *)this + 0x390) != 4) {
-        *(s32 *)((s8 *)this + 0x390) = 4;
+    if (state != 4) {
+        state = 4;
     }
 }
 
 void TUnk_804F322C::run_hit_reaction() {
     u8 *self = (u8 *)this;
     *(s32 *)((s8 *)self + 0x30) = (s32) (*(s32 *)((s8 *)self + 0x30) & 0xFFFFFDFF);
-    *(f32 *)((s8 *)self + 0x3A8) = (f32) 1.0f;
+    hit_flash = 1.0f;
 }
 
 void copy_pos__13TBoss6MagMineFi(s32 self) {
@@ -103,17 +103,17 @@ void TUnk_804F322C::update_linked_state() {
     saddr bml_model;
 
     set_motion_packed_rotation();
-    temp_r31 = (saddr)get_bml_texlist((BmlResource *)(*(saddr *)((s8 *)this + 0x374)), 2);
-    bml_model = (saddr)get_bml_model((BmlResource *)(*(saddr *)((s8 *)this + 0x374)), 2);
-    bml_motion = get_bml_motion((BmlResource *)(*(saddr *)((s8 *)this + 0x374)), 0);
+    temp_r31 = (saddr)get_bml_texlist(archive, 2);
+    bml_model = (saddr)get_bml_model(archive, 2);
+    bml_motion = get_bml_motion(archive, 0);
     TObjFish::set_global_param((saddr)(temp_r31));
-    TBoss6PlotFalz__sub_802AC008(*(f32 *)((s8 *)this + 0x3A8), 0.0f);
-    draw_model_motion((void *)bml_model, (void *)bml_motion, *(f32 *)((s8 *)this + 0x398));
+    TBoss6PlotFalz__sub_802AC008(hit_flash, 0.0f);
+    draw_model_motion((void *)bml_model, (void *)bml_motion, motion_frame);
     TBoss6PlotFalz::update_camera_target();
     clear_motion_packed_rotation();
 }
 
-void TUnk_804F322C::render() { push_matrix(); post_translate_matrix((char*)this + 0x38); rotate_matrix_y((void*)0, *(void**)((char*)this + 0x3ac)); update_linked_state(); pop_matrix(); }
+void TUnk_804F322C::render() { push_matrix(); post_translate_matrix(&position); rotate_matrix_y(NULL, angle_y); update_linked_state(); pop_matrix(); }
 
 void TBoss6MagMine__sub_80368AB8(u8 *arg0, TObjPlayer *pl) {
     DirectAttackPayload attack;
@@ -335,7 +335,7 @@ void TUnk_804F322C::run_task() {
 
 }
 TUnk_804F322C::~TUnk_804F322C() {
-    if (*(void **)((s8 *)this + 0x3B0) != NULL) { TParticleCtrl::release(*(void **)((s8 *)this + 0x3B0)); *(s32 *)((s8 *)this + 0x3B0) = 0; }
+    if (particle_emitter != NULL) { TParticleCtrl::release(particle_emitter); particle_emitter = NULL; }
     free_collision_body_parts(this);
 }
 
@@ -360,7 +360,7 @@ TUnk_804F322C::TUnk_804F322C(TObject *parent, saddr arg2) : TObjEnemy(parent) {
         key.c = 0;
         ((TObjEnemy *)self)->exchange_object_state(&key, 0);
     }
-    *(saddr *)((s8 *)self + 0x374) = (saddr)TBoss6PlotFalz::get_scene_archive();
+    archive = (BmlResource *)TBoss6PlotFalz::get_scene_archive();
     ((TBoss3Volopt *)self)->texlist = 0;
     *(s32 *)((s8 *)self + 0x34) = 0;
     VecCopy__FP3VecPC3Vec((saddr)self + 0x44, VecCopy__FP3VecPC3Vec((saddr)self + 0x50, VecCopy__FP3VecPC3Vec((saddr)self + 0x74, (saddr)self + 0x38)));
@@ -373,31 +373,31 @@ TUnk_804F322C::TUnk_804F322C(TObject *parent, saddr arg2) : TObjEnemy(parent) {
     ((TBoss3Volopt *)self)->reset_photon_effect();
     ((TObjEnemy *)self)->set_param(0);
     d = (u8 *)TLobby::dispatch_shared_handler_a(0x2D);
-    *(s32 *)((s8 *)self + 0x39C) = (s32) *(f32 *)((s8 *)d + 4);
-    if ((f32) *(s32 *)((s8 *)self + 0x39C) <= 0.0f) {
-        *(s32 *)((s8 *)self + 0x39C) = 0x14;
+    attack_power = (s32) *(f32 *)((s8 *)d + 4);
+    if ((f32) attack_power <= 0.0f) {
+        attack_power = 0x14;
     }
-    *(s32 *)((s8 *)self + 0x3A0) = (s32) *(f32 *)((s8 *)d + 8);
-    if ((f32) *(s32 *)((s8 *)self + 0x3A0) < 0.0f || *(s32 *)((s8 *)self + 0x3A0) > 0x64) {
-        *(s32 *)((s8 *)self + 0x3A0) = 0;
+    status_chance = (s32) *(f32 *)((s8 *)d + 8);
+    if ((f32) status_chance < 0.0f || status_chance > 0x64) {
+        status_chance = 0;
     }
     ((TBoss3Volopt *)self)->core_slot = (u16) (((TBoss3Volopt *)self)->entity_id + (s32) (10.0f * (*(f32 *)((s8 *)self + 0x38) + *(f32 *)((s8 *)self + 0x40)))) % 100;
-    *(f32 *)((s8 *)self + 0x3A8) = 0.0f;
-    *(f32 *)((s8 *)self + 0x398) = 1.0f;
-    *(s32 *)((s8 *)self + 0x394) = 0;
-    *(s32 *)((s8 *)self + 0x390) = 0;
+    hit_flash = 0.0f;
+    motion_frame = 1.0f;
+    state_timer = 0;
+    state = 0;
     VecCopy__FP3VecPC3Vec((saddr)self + 0x378, (saddr)self + 0x384);
-    subtract_vector((Vec *) (self + 0x378), self + 0x38);
-    *(f32 *)((s8 *)self + 0x37C) = 0.0f;
-    if (vector_length((Vec *) (self + 0x378)) <= 1e-05f) {
-        *(f32 *)((s8 *)self + 0x378) = 1.0f;
+    subtract_vector(&velocity, &position);
+    velocity.y = 0.0f;
+    if (vector_length(&velocity) <= 1e-05f) {
+        velocity.x = 1.0f;
     }
-    normalize_vector((Vec *)(self + 0x378));
-    *(f32 *)((s8 *)self + 0x378) *= 4.166667f;
-    *(f32 *)((s8 *)self + 0x380) *= 4.166667f;
-    *(u32 *)((s8 *)self + 0x3B0) = (uaddr)create_particle_emitter(self + 0x38, 0x146);
-    if (*(u32 *)((s8 *)self + 0x3B0) != 0U) {
-        ((TParticleCtrl *)(*(void **)((s8 *)self + 0x3B0)))->set_flags(0x40);
+    normalize_vector(&velocity);
+    velocity.x *= 4.166667f;
+    velocity.z *= 4.166667f;
+    particle_emitter = create_particle_emitter(&position, 0x146);
+    if (particle_emitter != NULL) {
+        particle_emitter->set_flags(0x40);
     }
 }
 #undef self
