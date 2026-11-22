@@ -158,7 +158,6 @@ void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32
 extern "C" {
 
 void rotate_vec_xz(void *, void *, s32);
-void prepare_flight_destination__12TBoss1DragonFPv(u8 *self);
 
 s32 get_current_floor();
 uaddr get_player_by_client_id(s32);
@@ -169,7 +168,6 @@ s32 play_cue_stream_file(void *, int);
 extern saddr tl_01;
 extern const u8 boss1_dragon_death_cue_filename[];
 
-s32 VecCopy__FP3VecPC3Vec(s32, s32);
 s32 set_scripted_camera_pose(void *, void *, void *);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 angle);
 s32 vec3_add_to(void *, void *);
@@ -529,7 +527,6 @@ f32 calc_random_ratio__10TObjPlayerFv(void *);
 extern const f32 TBoss1Dragon__gravity_accel;
 void compose_motion_node_matrix(void *arg0);
 void disable_dragon_blocking_bodies(TBoss1DragonColli *self);
-void get_dragon_follow_camera_offsets(u8 *eye, u8 *target);
 s32 is_dragon_trail_damaging(u8 *arg0);
 
 void handle_6x12_dragon_boss_actions(TObjPlayer *arg0);
@@ -684,14 +681,14 @@ void TBoss1Dragon::render() {
                     Vec delta;
                     Vec *points[4];
                     Vec probe;
-                    VecCopy__FP3VecPC3Vec((saddr) &origin, (saddr)(camera_ctrl_instance + 0x178));
+                    VecCopy(&origin, (Vec *)(camera_ctrl_instance + 0x178));
                     origin.y = (0.0f);
-                    VecCopy__FP3VecPC3Vec((saddr) &delta, (saddr)(ent + 0x38));
+                    VecCopy(&delta, &((TObjBase *)ent)->position);
                     subtract_vector(&delta, &origin);
                     delta.y = (0.0f);
                     dist = normalize_vector_xz((Vec *)&delta);
-                    VecCopy__FP3VecPC3Vec((saddr) &lbl_804FE1D0, (saddr) &origin);
-                    VecCopy__FP3VecPC3Vec((saddr) &lbl_804FE1DC, (saddr) &delta);
+                    VecCopy(&lbl_804FE1D0, &origin);
+                    VecCopy(&lbl_804FE1DC, &delta);
                     *(f32 *) &boss1_dragon_visibility_distance = dist;
                     points[0] = &this->m_430[3];
                     points[1] = &this->m_430[4];
@@ -760,10 +757,10 @@ void TBoss1Dragon::render() {
         ((TBoss1Dragon *)((u8 *)this))->draw();
         this->update_object_view_visibility((1000.0f), (1000.0f));
     }
-    VecCopy__FP3VecPC3Vec((saddr) &this->m_40c, (saddr) &this->m_3e8[0]);
-    VecCopy__FP3VecPC3Vec((saddr) &this->m_418, (saddr) &this->m_3e8[1]);
+    VecCopy(&this->m_40c, &this->m_3e8[0]);
+    VecCopy(&this->m_418, &this->m_3e8[1]);
     subtract_vector(&this->m_418, &this->m_40c);
-    VecCopy__FP3VecPC3Vec((saddr) &this->m_424, (saddr) &this->m_3e8[2]);
+    VecCopy(&this->m_424, &this->m_3e8[2]);
     saved_model_render_flags = model_render_flags;
     model_render_flags = saved_model_render_flags | 0x400;
     ((TObject *)&this->unknown3C4)->render_nodes();
@@ -1286,7 +1283,7 @@ void TBoss1Dragon::handle_walk_state(u32 reason) {
         this->flags = this->flags & 0xFFFFFC7F;
         this->set_invulnerable();
         this->disable_body_collision();
-        VecCopy__FP3VecPC3Vec((saddr)home, (saddr)&this->position);
+        VecCopy(home, &this->position);
         this->stateStep = 0x64;
         this->impactAge = 0;
         home->y = TBoss1Dragon__data_80434E80.y;
@@ -1333,7 +1330,7 @@ void TBoss1Dragon::handle_walk_state(u32 reason) {
         this->position.z = dz * factor + this->position.z;
         horizontal_distance_squared(&this->position, home);
         dx = ((f32 (*)(void))newton_sqrtf)();
-        VecCopy__FP3VecPC3Vec((saddr)home, (saddr)&this->position);
+        VecCopy(home, &this->position);
         this->fallVelocity = this->fallVelocity + dx;
         return;
     case 5:
@@ -1851,7 +1848,7 @@ void TBoss1Dragon::update_death_state(u32 arg1) {
             if (((TObjMotion *)((u8 *)this))->is_passing_frame((f32)(57.0f)) != 0) {
                 eff1 = *(const Eff_80022EE0 *)&TBoss1Dragon__head_fall_effect_params;
                 *(f32 *)&eff1.w[2] = (12.0f);
-                ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&v, (void *)&lbl_80434EC8);
+                VecCopy(&v, &lbl_80434EC8);
                 rotate_xz_pair_by_angle(&v.x, &v.z, ((TBoss1Dragon *)((u8 *)this))->rotation_y);
                 vec3_add_to(&v, &((TBoss1Dragon *)((u8 *)this))->position);
                 reset_hp((u8 *)0, TBoss1Dragon__part_hp_stats[4], (u8 *)0);
@@ -1869,7 +1866,7 @@ void TBoss1Dragon::update_death_state(u32 arg1) {
             if (((TObjMotion *)((u8 *)this))->is_passing_frame((f32)(88.0f)) != 0) {
                 eff2 = *(const Eff_80022EE0 *)&TBoss1Dragon__head_fall_effect_params;
                 *(f32 *)&eff2.w[2] = (25.0f);
-                ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&v, (void *)&lbl_80434ED4);
+                VecCopy(&v, &lbl_80434ED4);
                 rotate_xz_pair_by_angle(&v.x, &v.z, ((TBoss1Dragon *)((u8 *)this))->rotation_y);
                 vec3_add_to(&v, &((TBoss1Dragon *)((u8 *)this))->position);
                 reset_hp((u8 *)0, TBoss1Dragon__part_hp_stats[4], (u8 *)0);
@@ -2000,7 +1997,7 @@ void TBoss1Dragon::update_emergence_state(u32 reason) {
                 this->clear_invulnerable();
                 this->enable_body_collision();
                 this->setActive();
-                this->spawn_impact_crater((saddr)&this->position);
+                this->spawn_impact_crater(&this->position);
                 this->apply_ground_impact_attack();
                 this->play_se_at_pos(0x4003AD0F);
             }
@@ -2166,13 +2163,12 @@ void TBoss1Dragon::handle_spiral_state(u32 reason) {
 }
 #pragma pop
 
-#define VecCopy__FP3VecPC3Vec ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)
 
 #pragma push
 #pragma fp_contract on
 void TBoss1Dragon::update_burrow_outward_run(u32 reason) {
     u8 *self = (u8 *)this;
-    u8 sp8[0xC];
+    Vec offset;
     switch (reason) {
     case ENEMY_STATE_ENTER:
         this->clear_intangible();
@@ -2197,8 +2193,8 @@ void TBoss1Dragon::update_burrow_outward_run(u32 reason) {
         ((TBoss1Dragon *)self)->request_state_change(0x1B);
         break;
     case 9:
-        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(sp8, (u8 *)&this->position);
-        if (normalize_vector_xz((Vec *)sp8) > (350.0f)) {
+        VecCopy(&offset, &this->position);
+        if (normalize_vector_xz(&offset) > (350.0f)) {
             next_sequence_action();
         }
         break;
@@ -2245,7 +2241,7 @@ void TBoss1Dragon::update_burrow_outward_run(u32 reason) {
 void TBoss1Dragon::update_burrow_inward_run(u32 reason, s32 state) {
     f32 factor;
     s32 temp_r30;
-    struct { f32 x, y, z; } v;
+    Vec v;
     f32 temp_f1;
     f32 temp_f1_2;
     f32 temp_f2;
@@ -2281,9 +2277,9 @@ void TBoss1Dragon::update_burrow_inward_run(u32 reason, s32 state) {
             return;
         }
         if ((s32) this->stateStep == 1) {
-            VecCopy__FP3VecPC3Vec(&v, (void *)&this->position);
+            VecCopy(&v, &this->position);
             v.y = (0.0f);
-            if (normalize_vector_xz((Vec *)&v) < (50.0f)) {
+            if (normalize_vector_xz(&v) < (50.0f)) {
                 next_sequence_action();
             }
         }
@@ -2334,7 +2330,6 @@ void TBoss1Dragon::update_burrow_inward_run(u32 reason, s32 state) {
     }
 }
 #pragma pop
-#undef VecCopy__FP3VecPC3Vec
 
 #pragma push
 #pragma fp_contract on
@@ -2471,7 +2466,7 @@ void TBoss1Dragon::update_dive_state(u32 reason) {
                 ((TBoss1Dragon *)((u8 *)this))->flags &= ~0x100;
             }
             if (((TBoss1Dragon *)((u8 *)this))->heightOffset - ((TBoss1Dragon *)((u8 *)this))->defaultHeightOffset <= (0.0f) && ((TBoss1Dragon *)((u8 *)this))->m_8a8 == 0) {
-                ((TBoss1Dragon *)((u8 *)this))->spawn_impact_crater((saddr)&((TBoss1Dragon *)((u8 *)this))->position);
+                ((TBoss1Dragon *)((u8 *)this))->spawn_impact_crater(&((TBoss1Dragon *)((u8 *)this))->position);
                 ((TBoss1Dragon *)((u8 *)this))->apply_ground_impact_attack();
                 ((TBoss1Dragon *)((u8 *)this))->m_8a8 = 1;
                 ((TBoss1Dragon *)(((u8 *)this)))->set_invulnerable();
@@ -2895,7 +2890,7 @@ void TBoss1Dragon::update_spinning_projectile_attack(u32 reason) {
                 if ((self->m_86c & 1) == 0) {
                     TObjPlayer *player = (TObjPlayer *)get_player_by_client_id((u16)((self->m_86c >> 1) % 4));
                     if (((TObjBase *)player)->is_alive() != 0) {
-                        VecCopy__FP3VecPC3Vec((saddr)&position, (saddr)&player->position);
+                        VecCopy(&position, &player->position);
                         position.x += (100.0f) *
                             (calc_random_ratio__10TObjPlayerFv(self->randomState) - (0.5f));
                         position.z += (100.0f) *
@@ -2977,7 +2972,6 @@ void TBoss1Dragon::update_spinning_projectile_attack(u32 reason) {
 }
 #pragma pop
 
-#define VecCopy__FP3VecPC3Vec ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)
 #pragma push
 #pragma fp_contract on
 void TBoss1Dragon::update_air_fire_state(u32 reason) {
@@ -3028,7 +3022,7 @@ void TBoss1Dragon::update_air_fire_state(u32 reason) {
             this->stateStep = 1;
             if (this->m_760 != 0) {
                 this->m_874 = (s16)this->rotation_y;
-                VecCopy__FP3VecPC3Vec(tgt, (u8 *)&this->position);
+                VecCopy(tgt, &this->position);
                 tgt->x = 125.0f * sin_table_lookup(this->m_874) + tgt->x;
                 tgt->y = (0.0f);
                 tgt->z = 125.0f * cos_table_lookup(this->m_874) + tgt->z;
@@ -3072,21 +3066,21 @@ void TBoss1Dragon::update_air_fire_state(u32 reason) {
                 this->m_8ac = 0;
             }
             if (((TObjMotion *)self)->is_passing_frame(47.0f) != 0) {
-                VecCopy__FP3VecPC3Vec(&d, tgt);
+                VecCopy(&d, tgt);
                 subtract_vector(&d, (u8 *)&this->position);
                 dist = normalize_vector_xz((Vec *)&d);
                 d.y = (0.0f);
-                VecCopy__FP3VecPC3Vec(&dest, tgt);
+                VecCopy(&dest, tgt);
                 dest.y = TBoss1Dragon__data_80434E80.y;
                 new TBoss1DragonEffBullet((TObject *)this->unknown3C4, &this->m_40c, &dest);
                 rotate_vec_xz(&d, &out, 0x1000);
-                VecCopy__FP3VecPC3Vec(&dest, (u8 *)&this->position);
+                VecCopy(&dest, &this->position);
                 dest.x = out.x * dist + dest.x;
                 dest.y = TBoss1Dragon__data_80434E80.y;
                 dest.z = out.z * dist + dest.z;
                 new TBoss1DragonEffBullet((TObject *)this->unknown3C4, &this->m_40c, &dest);
                 rotate_vec_xz(&d, &out, -0x1000);
-                VecCopy__FP3VecPC3Vec(&dest, (u8 *)&this->position);
+                VecCopy(&dest, &this->position);
                 dest.x = out.x * dist + dest.x;
                 dest.y = TBoss1Dragon__data_80434E80.y;
                 dest.z = out.z * dist + dest.z;
@@ -3119,19 +3113,17 @@ void TBoss1Dragon::update_air_fire_state(u32 reason) {
     }
 }
 #pragma pop
-#undef VecCopy__FP3VecPC3Vec
 
-#define prepare_flight_destination__12TBoss1DragonFPv ((s32 (*)(void *, void *))prepare_flight_destination__12TBoss1DragonFPv)
 #pragma push
 #pragma fp_contract on
 void TBoss1Dragon::update_flight_state(u32 reason) {
     u8 *self = (u8 *)this;
-    f32 *base;
+    Vec *base;
     s32 var;
     s32 old;
     f32 t;
 
-    base = (f32 *)&this->m_890;
+    base = &this->m_890;
     switch (reason) {
     case ENEMY_STATE_ENTER:
         this->requested_action = 0x10;
@@ -3149,7 +3141,7 @@ void TBoss1Dragon::update_flight_state(u32 reason) {
             init_acceleration_curve(&this->m_5f4, (0.1f), (-0.1f), this->destination_distance, *(f32 *)((s8 *)(*(G_80025C68 *)&TBoss1Dragon__data_804FE17C).value + 0x14));
             break;
         }
-        VecCopy__FP3VecPC3Vec((saddr)base, (saddr)&this->position);
+        VecCopy(base, &this->position);
         var = angle_diff_s16(this->rotation_y, (s32)(boss1_dragon_angle_units_per_radian * atan2_float(this->destination_direction.x, this->destination_direction.z)));
         if (var >= 0) {
             this->airTurnDirection = 1;
@@ -3186,7 +3178,7 @@ void TBoss1Dragon::update_flight_state(u32 reason) {
         this->restoreTargetPosition();
         break;
     case 6:
-        prepare_flight_destination__12TBoss1DragonFPv(self, (u8 *)&this->destination.x);
+        this->prepare_flight_destination(&this->destination);
         ((TBoss1Dragon *)self)->saveTargetDestination();
         break;
     case ENEMY_STATE_UPDATE:
@@ -3206,8 +3198,8 @@ void TBoss1Dragon::update_flight_state(u32 reason) {
         case 1:
             this->fallVelocity += (1.0f);
             t = sample_acceleration_curve(&this->m_5f4, this->fallVelocity);
-            this->position.x = this->destination_direction.x * t + base[0];
-            this->position.z = this->destination_direction.z * t + base[2];
+            this->position.x = this->destination_direction.x * t + base->x;
+            this->position.z = this->destination_direction.z * t + base->z;
             if (this->m_5f4.check_param_threshold(this->fallVelocity) != 0) {
                 this->stateStep = 2;
             }
@@ -3215,12 +3207,11 @@ void TBoss1Dragon::update_flight_state(u32 reason) {
         }
         break;
     case ENEMY_STATE_LEAVE:
-        VecCopy__FP3VecPC3Vec((saddr)&this->m_5e8, (saddr)&this->destination_direction);
+        VecCopy(&this->m_5e8, &this->destination_direction);
         break;
     }
 }
 #pragma pop
-#undef prepare_flight_destination__12TBoss1DragonFPv
 
 void TBoss1Dragon::update_lift_state(u32 reason) {
     u8 *arg0 = (u8 *)this;
@@ -3922,7 +3913,7 @@ void TBoss1Dragon::hold_captured_player() {
             ((TObjPlayer *)temp_r3)->start_freeze();
             ((ProtectionTimer *)(temp_r3 + 0x644))->set_frames(0x14);
             ((TObjPlayer *)temp_r3)->actorFlags = (s32) (((TObjPlayer *)temp_r3)->actorFlags & 0xFFEFFFDF);
-            VecCopy__FP3VecPC3Vec((saddr)(temp_r3 + 0x38), (saddr)&this->position);
+            VecCopy(&((TObjPlayer *)temp_r3)->position, &this->position);
             *(f32 *)((s8 *)temp_r3 + 0x3C) = (f32) (*(f32 *)((s8 *)temp_r3 + 0x3C) - 200.0f);
             ((TObjPlayer *)temp_r3)->rotation_y = (s32) this->rotation_y;
             return;
@@ -4091,7 +4082,7 @@ void TBoss1Dragon::sweep_death_body_attack() {
     reset_hp((u8 *)0, TBoss1Dragon__part_hp_stats[4], (u8 *)0);
     fill_value_array(this->m_688);
     TBoss1Dragon__sub_80027A80(&params, &TBoss1Dragon__head_fall_effect_params);
-    VecCopy__FP3VecPC3Vec((saddr)&pos, (saddr)&this->m_430[12]);
+    VecCopy(&pos, &this->m_430[12]);
     params.field_8 = (15.0f);
     switch (TBoss1Dragon::isV2Mode()) {
     case 0:
@@ -4183,12 +4174,12 @@ void TBoss1Dragon::sweep_body_attack_spheres(f32 a, f32 b, f32 c) {
     fill_value_array(this->m_688);
     s0 = sin_table_lookup(this->rotation_y);
     s1 = cos_table_lookup(this->rotation_y);
-    ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&base, &this->position);
+    VecCopy(&base, &this->position);
     base.x = (-4.0f) * s1 + base.x;
     base.y = (0.0f);
     base.z = base.z - (-4.0f) * s0;
     d = (0.5f) * (b + c);
-    ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&pos, &base);
+    VecCopy(&pos, &base);
     pos.x += s0 * d;
     pos.z += s1 * d;
     spawn_particle_effect_with_flags(&pos, this->effectResource->particle_ids[3], 0x40);
@@ -4199,7 +4190,7 @@ void TBoss1Dragon::sweep_body_attack_spheres(f32 a, f32 b, f32 c) {
     a = a * factor;
     b = (0.5f) * ((0.5f) * a);
     while (d > c) {
-        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&pos, &base);
+        VecCopy(&pos, &base);
         pos.x += s0 * d;
         pos.z += s1 * d;
         switch (TBoss1Dragon::isV2Mode()) {
@@ -4295,10 +4286,10 @@ void TBoss1Dragon::clear_work() {
 
 #pragma push
 #pragma fp_contract on
-void TBoss1Dragon::spawn_impact_crater(s32 arg1) {
+void TBoss1Dragon::spawn_impact_crater(Vec *pos) {
     Vec position;
     s32 temp_r5;
-    VecCopy__FP3VecPC3Vec((saddr)&position.x, arg1);
+    VecCopy(&position, pos);
     temp_r5 = this->m_6a4;
     if (temp_r5 < 0xC) {
         position.y += 0.05f * (f32) temp_r5;
@@ -4668,7 +4659,7 @@ s32 TBoss1Dragon::select_forward_target() {
     for (i = 0; i < count; i++) {
         p = (u8 *)TObjPlayer::get_player_data(i);
         if (((TObjBase *)p)->is_alive() != 0) {
-            ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&delta, p + 0x38);
+            VecCopy(&delta, &((TObjBase *)p)->position);
             subtract_vector(&delta, &this->position);
             normalize_vector_xz((Vec *)&delta);
             if (vec3_dot(&delta, &fwd) > cutoff) {
@@ -4688,16 +4679,16 @@ s32 TBoss1Dragon::select_forward_target() {
     return 1;
 }
 
-void prepare_flight_destination__12TBoss1DragonFPv(u8 *self) {
-    if (((TBoss1Dragon *)self)->is_primary_sequence() != 0) {
-        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(self + 0x394, self + 0x38);
-        ((TBoss1Dragon *)self)->destination.y = (f32) (0.0f);
-        normalize_vector_xz((Vec *)(self + 0x394));
-        ((TBoss1Dragon *)self)->destination.x *= -100.0f;
-        ((TBoss1Dragon *)self)->destination.z *= -100.0f;
+void TBoss1Dragon::prepare_flight_destination(Vec *dest) {
+    if (this->is_primary_sequence() != 0) {
+        VecCopy(&this->destination, &this->position);
+        this->destination.y = 0.0f;
+        normalize_vector_xz(&this->destination);
+        this->destination.x *= -100.0f;
+        this->destination.z *= -100.0f;
         return;
     }
-    ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(self + 0x394, (void *)&TBoss1Dragon__data_80434E80);
+    VecCopy(&this->destination, &TBoss1Dragon__data_80434E80);
 }
 
 s32 TBoss1Dragon::choose_burrow_ring_destination(Vec *out) {
@@ -4752,7 +4743,7 @@ s32 TBoss1Dragon::select_air_fire_target(void *out_) {
         return 0;
     }
     if (count == 1) {
-        ((s32 (*)(Vec *, Vec *))VecCopy__FP3VecPC3Vec)(arg1, &list[0]->position);
+        VecCopy(arg1, &list[0]->position);
     } else {
         range = (100.0f);
         best = 0;
@@ -4780,7 +4771,7 @@ s32 TBoss1Dragon::select_air_fire_target(void *out_) {
             for (k = 0; k < count; k++) {
                 if (top < list[k]->hp) {
                     top = list[k]->hp;
-                    ((s32 (*)(Vec *, Vec *))VecCopy__FP3VecPC3Vec)(arg1, &list[k]->position);
+                    VecCopy(arg1, &list[k]->position);
                 }
             }
         }
@@ -4841,7 +4832,7 @@ s32 TBoss1Dragon::is_destination_ahead() {
     Vec unused;
 
     this->calc_forward_point(&pt.x, &pt.z);
-    VecCopy__FP3VecPC3Vec((saddr) &diff, (saddr)&this->destination.x);
+    VecCopy(&diff, &this->destination);
     subtract_vector(&diff, &pt);
     return normalize_vector_xz((Vec *)&diff) <= (35.0f);
 }
@@ -4878,13 +4869,13 @@ void TBoss1Dragon::update_body_colliders() {
     s32 i;
     Coll_80029408 *c;
     p = pts;
-    VecCopy__FP3VecPC3Vec((saddr)p++, (saddr)this->m_430);
-    VecCopy__FP3VecPC3Vec((saddr)p++, (saddr)&this->m_430[5]);
-    VecCopy__FP3VecPC3Vec((saddr)p++, (saddr)&this->m_430[3]);
-    VecCopy__FP3VecPC3Vec((saddr)p++, (saddr)&this->m_430[1]);
-    VecCopy__FP3VecPC3Vec((saddr)p++, (saddr)&this->m_430[32]);
-    VecCopy__FP3VecPC3Vec((saddr)p++, (saddr)&this->m_430[12]);
-    VecCopy__FP3VecPC3Vec((saddr)p, (saddr)&this->m_430[17]);
+    VecCopy(p++, this->m_430);
+    VecCopy(p++, &this->m_430[5]);
+    VecCopy(p++, &this->m_430[3]);
+    VecCopy(p++, &this->m_430[1]);
+    VecCopy(p++, &this->m_430[32]);
+    VecCopy(p++, &this->m_430[12]);
+    VecCopy(p, &this->m_430[17]);
     update_local_colliders_from_world(this, pts);
     lim = (30.0f);
     i = 0;
@@ -4913,9 +4904,8 @@ void TBoss1Dragon::update_body_colliders() {
 }
 
 void TBoss1Dragon::update_position_history() {
-    s32 self = (saddr)this;
-    VecCopy__FP3VecPC3Vec(self + 0x2FC, self + 0x430);
-    VecCopy__FP3VecPC3Vec(self + 0x74, self + 0x2FC);
+    VecCopy(&this->body_center, &this->m_430[0]);
+    VecCopy(&this->center, &this->body_center);
 }
 
 void TBoss1Dragon::run_miss_reaction() {  }
@@ -5102,7 +5092,7 @@ void TBoss1Dragon::run_task() {
     ((TBoss1Dragon *)self)->update_position_history();
     ((TObjEnemy *)self)->submit_default_cursor_candidate();
     add_radar_scaled_marker(&this->position, -0x5DB4, 1, 1, (f32) (((2.0f))));
-    VecCopy__FP3VecPC3Vec((saddr)&this->m_648, (saddr)&this->body_center);
+    VecCopy(&this->m_648, &this->body_center);
     if (temp_r30_2 == 0) {
         ((TObject *)&this->unknown3C4)->run_tasks();
     }
@@ -5194,13 +5184,13 @@ u8 *TBoss1Dragon__ct(TBoss1Dragon *self, void *arg1, void *set_data) {
     self->phase = 0;
     self->flags |= 0x100;
     for (i = 0; i < 3; i++) {
-        VecCopy__FP3VecPC3Vec((saddr)&self->m_3e8[i], (saddr)&self->position);
+        VecCopy(&self->m_3e8[i], &self->position);
     }
-    VecCopy__FP3VecPC3Vec((saddr)&self->m_40c, (saddr)&self->position);
-    VecCopy__FP3VecPC3Vec((saddr)&self->m_418, (saddr)&self->position);
-    VecCopy__FP3VecPC3Vec((saddr)&self->m_424, (saddr)&self->position);
+    VecCopy(&self->m_40c, &self->position);
+    VecCopy(&self->m_418, &self->position);
+    VecCopy(&self->m_424, &self->position);
     for (i = 0; i < 0x22; i++) {
-        VecCopy__FP3VecPC3Vec((saddr)&self->m_430[i], (saddr)&self->position);
+        VecCopy(&self->m_430[i], &self->position);
     }
     self->m_5c8.x = (0.0f);
     self->m_5c8.y = (0.0f);
@@ -5215,8 +5205,8 @@ u8 *TBoss1Dragon__ct(TBoss1Dragon *self, void *arg1, void *set_data) {
     self->m_5e8.z = (0.0f);
     self->m_5f4.reset_coords();
     self->m_618.reset_coords();
-    VecCopy__FP3VecPC3Vec((saddr)&self->m_63c, (saddr)&self->position);
-    VecCopy__FP3VecPC3Vec((saddr)&self->m_648, (saddr)&self->position);
+    VecCopy(&self->m_63c, &self->position);
+    VecCopy(&self->m_648, &self->position);
     self->m_654 = 0;
     self->airTurnVelocity = 0;
     self->airTurnDirection = 1;
@@ -5517,13 +5507,13 @@ void TBoss1Dragon::calc_follow_camera_offsets(Vec *eye, Vec *target) {
 }
 #pragma pop
 
-void get_dragon_follow_camera_offsets(u8 *eye, u8 *target) {
+void get_dragon_follow_camera_offsets(Vec *eye, Vec *target) {
     if ((void *) (*(u8 * *)&TBoss1Dragon__data_805D4B2C) == NULL) {
-        VecCopy__FP3VecPC3Vec((saddr)eye, (saddr)boss1_dragon_follow_camera_offsets);
-        VecCopy__FP3VecPC3Vec((saddr)target, (saddr)lbl_804811CC);
+        VecCopy(eye, boss1_dragon_follow_camera_offsets);
+        VecCopy(target, lbl_804811CC);
         return;
     }
-    ((TBoss1Dragon *)TBoss1Dragon__data_805D4B2C)->calc_follow_camera_offsets((Vec *)eye, (Vec *)target);
+    ((TBoss1Dragon *)TBoss1Dragon__data_805D4B2C)->calc_follow_camera_offsets(eye, target);
 }
 
 saddr TBoss1Dragon::get_instance() {

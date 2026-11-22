@@ -2,6 +2,7 @@
 #include "pso/unk/TUnk_80488A28.h"
 #include "pso/system/vector.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
+#include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -206,7 +207,6 @@ extern FollowView *camera_ctrl_instance;
 s32 conversation_camera_obstructed(FollowController *self,s32 heading);
 void apply_follow_camera_offsets(void *arg0, void *arg1, s32 arg2, u16 arg3);
 s32 approach_camera_scalar(f32 *arg0, f32 *target, f32 farg0);
-void get_dragon_follow_camera_offsets(u8 *arg0, u8 *arg1);
 // inferred: 0x18 bytes in the DOL and only the first vector is read; a pair like the (a, b) offsets that
 // request_follow_camera_offsets takes.
 Vec follow_camera_offset_default[2] = {
@@ -610,9 +610,9 @@ void TUnk_80488E00::select_follow_camera_offsets() {
         Vec a0;
         Vec b1;
         Vec a1;
-        get_dragon_follow_camera_offsets((u8 *)&a0, (u8 *)&b0);
+        get_dragon_follow_camera_offsets(&a0, &b0);
         request_follow_camera_offsets(&a0, &b0, 0xFFFF);
-        get_dragon_follow_camera_offsets((u8 *)&a1, (u8 *)&b1);
+        get_dragon_follow_camera_offsets(&a1, &b1);
         request_follow_camera_offsets(&a1, &b1, 0xFFFF);
     } else if (area == AREA_GAL_GRYPHON) {
         Vec b;

@@ -198,7 +198,7 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     void update_switch_attack();
     void apply_ground_impact_attack();
     void apply_head_fall_attack();
-    void spawn_impact_crater(s32 arg1);
+    void spawn_impact_crater(Vec *pos);
     s32 check_phase_advance();
     s32 update_max_hp_phase();
     void set_params(void *arg1);
@@ -254,6 +254,7 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     s32 select_forward_target();
     s32 choose_burrow_ring_destination(Vec *out);
     s32 is_destination_ahead();
+    void prepare_flight_destination(Vec *dest);
     void calc_follow_camera_offsets(Vec *eye, Vec *target);
     void play_sound_if_in_band();
     void handle_walk_state(u32 reason);
@@ -272,6 +273,8 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     void sub_80028AFC();
     void sub_80028B28();
 };
+
+void get_dragon_follow_camera_offsets(Vec *eye, Vec *target);
 
 #include <stddef.h>
 #define DRAGON_OFFSET(member, offset) \

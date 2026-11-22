@@ -13864,7 +13864,7 @@ force_active:
   - post_aram_request__16TAdWarningBaseGCFii
   - post_message__6TLobbyFlll
   - pppoe_discovery_name_storage
-  - prepare_flight_destination__12TBoss1DragonFPv
+  - prepare_flight_destination__12TBoss1DragonFP3Vec
   - prepare_heavy_attack_particles__FPUc
   - prepare_save_data__23TAdSinglePlyChrSelectGCFv
   - present_frame_and_wait_vsync__Fv
@@ -16016,7 +16016,7 @@ force_active:
   - spawn_hit_particles__10TObjPlayerFiPv
   - spawn_hit_particles_at__10TObjPlayerFiii
   - spawn_hit_particles_at_vec__10TObjPlayerFiii
-  - spawn_impact_crater__12TBoss1DragonFl
+  - spawn_impact_crater__12TBoss1DragonFP3Vec
   - spawn_item__10TObjPlayerFi
   - spawn_item_follow_effect__FlUlll
   - spawn_landing_effect__16TObjEneBm5GibonUFP3Vec
