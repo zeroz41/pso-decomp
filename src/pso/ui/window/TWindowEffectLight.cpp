@@ -51,50 +51,43 @@ TWindowEffectLight::TWindowEffectLight(void *position, s16 arg2, u32 id) : TObje
 TWindowEffectLight::~TWindowEffectLight() {}
 
 
-void run_task__18TWindowEffectLightFv(void *arg0) {
-    s32 temp_r4;
-
-    temp_r4 = *(s16 *)((s8 *)arg0 + 0x26) + 1;
-    *(s16 *)((s8 *)arg0 + 0x26) = temp_r4;
-    if ((s16)temp_r4 >= 8) {
-        ((TObject *)arg0)->queue_destruction();
+void TWindowEffectLight::run_task() {
+    if (++this->age >= 8) {
+        queue_destruction();
     }
 }
 
-void render__18TWindowEffectLightFv(u8 *window_effect_light) {
-  s16 temp_r0;
-  temp_r0 = 0x28;
-  if ((is_window_display_enabled() != 0) && ((is_split_screen() == 0) || (((s32) (*((s32 *) (((s8 *) window_effect_light) + temp_r0)))) == ((s32) TCameraCtrl::get_nth_view_player_id(TCameraCtrl::get_camera_no())))))
+void TWindowEffectLight::render() {
+  if ((is_window_display_enabled() != 0) && ((is_split_screen() == 0) || ((s32)this->player_id == (s32)TCameraCtrl::get_nth_view_player_id(TCameraCtrl::get_camera_no()))))
   {
     TParticleCtrl::begin_effect_render();
     TCameraCtrl::restore_full_screen_view();
     set_additive_blend();
     begin_screen_draw(1);
     TObjFish::set_global_param(lbl_805D63F0);
-    temp_r0 = *((s16 *) (((s8 *) window_effect_light) + 0x24));
     {
-      switch (temp_r0)
+      switch (this->effect_kind)
       {
         case 0:
-          ((TWindowEffectLight *)window_effect_light)->draw_outline_quad(0xAA0E);
+          draw_outline_quad(0xAA0E);
           break;
         case 1:
-          ((TWindowEffectLight *)window_effect_light)->draw_outline_quad(0xFF2417);
+          draw_outline_quad(0xFF2417);
           break;
         case 2:
-          ((TWindowEffectLight *)window_effect_light)->draw_outline_quad(0xFFFFFF);
+          draw_outline_quad(0xFFFFFF);
           break;
         case 3:
-          ((TWindowEffectLight *)window_effect_light)->sub_802AD040(20.0f);
+          sub_802AD040(20.0f);
           break;
         case 4:
-          ((TWindowEffectLight *)window_effect_light)->sub_802AD040(39.0f);
+          sub_802AD040(39.0f);
           break;
         case 5:
-          ((TWindowEffectLight *)window_effect_light)->sub_802AD040(77.0f);
+          sub_802AD040(77.0f);
           break;
         case 6:
-          ((TWindowEffectLight *)window_effect_light)->sub_802AD040(191.0f);
+          sub_802AD040(191.0f);
           break;
       }
     }
