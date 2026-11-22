@@ -651,7 +651,7 @@ s32 TObjEnePanBARA::try_move_with_detour(Vec *delta) {
         if (project_actor_to_ground(this, &p, 0) != 0 && csnLookAt(&position, &p) == NULL) {
             VecCopy(&prev_position, &position);
             VecCopy(&position, &p);
-            ((TObjPlayer *)this)->update_collisions();
+            update_collisions();
             return 1;
         }
         ang = i << 12;

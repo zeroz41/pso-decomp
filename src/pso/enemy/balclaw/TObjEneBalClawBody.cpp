@@ -374,7 +374,7 @@ void TObjEneBalClawBody::sub_8008FAD0() {
         body->turn_toward_direction(((EnemyMoveParams *)body->movementParameters)->turn_speed, &body->velocity);
         body->advance_animation();
         apply_actor_gravity(body, NULL, 0.0f);
-        ((TObjPlayer *)body)->update_collisions();
+        body->update_collisions();
         break;
     case -1:
         break;
@@ -406,7 +406,7 @@ void TObjEneBalClawBody::sub_8008F910() {
         body->velocity.x *= 0.9f;
         body->velocity.z *= 0.9f;
         apply_actor_gravity(body, NULL, 0.0f);
-        ((TObjPlayer *)body)->update_collisions();
+        body->update_collisions();
         if (body->action_flags != 8U) {
             next_mode = 0;
             body->referenceHp = body->hp;
@@ -602,7 +602,7 @@ void TObjEneBalClawBody::sub_8008F1DC() {
     }
     body->advance_animation();
     apply_actor_gravity(body, NULL, 0.0f);
-    ((TObjPlayer *)body)->check_object_collisions();
+    body->check_object_collisions();
     check_enemy_body_collisions(body);
 }
 
@@ -684,7 +684,7 @@ void TObjEneBalClawBody::sub_8008EDE8() {
     }
     body->advance_animation();
     apply_actor_gravity(body, NULL, 0.0f);
-    ((TObjPlayer *)body)->update_collisions();
+    body->update_collisions();
 }
 
 void TObjPlayer::set_visibility_flags_by_count(void *arg0, s32 arg1) {
@@ -1105,7 +1105,7 @@ void TObjEneBalClawBody::update_move_to_target() {
         }
         self->advance_animation();
         apply_actor_gravity(self, NULL, 0.0f);
-        ((TObjPlayer *)self)->update_collisions();
+        self->update_collisions();
         break;
     }
     }

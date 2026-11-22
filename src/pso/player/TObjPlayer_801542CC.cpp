@@ -1138,7 +1138,7 @@ void TObjCollidable::check_object_collisions() {
         }
     }
 }
-void TObjPlayer::update_collisions() { check_object_collisions(); check_enemy_body_collisions(this); }
+void TObjCollidable::update_collisions() { check_object_collisions(); check_enemy_body_collisions(this); }
 void TObjCollidable::clear_collision_bodies() {
     body_flags = NULL;
     bodies = NULL;

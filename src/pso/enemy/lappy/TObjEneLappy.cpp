@@ -415,7 +415,7 @@ void TObjEneLappy::update_hurt() {
     velocity.x *= 0.5f;
     velocity.z *= 0.5f;
     apply_actor_gravity(this, NULL, 0.0f);
-    ((TObjPlayer *)this)->update_collisions();
+    update_collisions();
     if (this->action_flags != 8U) {
         this->actorFlags &= ~0x200;
         this->referenceHp = this->hp;
@@ -452,7 +452,7 @@ void TObjEneLappy::update_invuln_timer() {
     if (!(this->actorFlags & 0x800000)) {
         apply_actor_gravity((TObjEnemy *)self, (s32 *)NULL, 0.0f);
     }
-    ((TObjPlayer *)self)->update_collisions();
+    update_collisions();
     temp_r4 = this->timer;
     this->timer = (temp_r4 - 1);
     if (temp_r4 < 0) {
@@ -521,7 +521,7 @@ void TObjEneLappy::update_attacking() {
         }
         break;
     }
-    ((TObjPlayer *)this)->update_collisions();
+    update_collisions();
 }
 
 void TObjEneLappy::run_attack_action() {
@@ -557,7 +557,7 @@ void TObjEneLappy::update_moving() {
             enemy_backstep_from_point(this, ((TObjChara *)chased)->body_center, *(f32 *)((u8 *)movementParameters + 4));
             turn_toward_direction(*(s32 *)((u8 *)movementParameters + 8), &velocity);
             apply_actor_gravity(this, NULL, 0.0f);
-            ((TObjPlayer *)this)->update_collisions();
+            update_collisions();
             return;
         }
     }
@@ -647,7 +647,7 @@ block_47:
     }
 block_48:
     apply_actor_gravity(this, NULL, 0.0f);
-    ((TObjPlayer *)this)->update_collisions();
+    update_collisions();
 }
 
 void TObjEneLappy::run_move_action() {

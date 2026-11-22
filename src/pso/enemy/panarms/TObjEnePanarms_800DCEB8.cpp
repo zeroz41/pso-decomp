@@ -563,7 +563,7 @@ s32 try_warp_to_position__14TObjEnePanarmsFPvPv(u8 *player, Vec *pos) {
             } while (i < 0x10);
         }
     }
-    ((TObjPlayer *)player)->update_collisions();
+    ((TObjCollidable *)player)->update_collisions();
     return ok;
 }
 #pragma pop

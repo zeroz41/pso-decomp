@@ -195,7 +195,7 @@ void TBoss4Zako::run_task() {
         if (sub_8005D698() != 0) {
             if (surfaced != 0) {
                 collision->flags |= 1;
-                ((TObjPlayer *)this)->update_collisions();
+                update_collisions();
                 submit_cursor_candidate(this, -1);
                 minimap_render_dot(&body_center, -0x5DB4, 1, 0);
             } else {
@@ -466,7 +466,7 @@ void TBoss4Uro::run_task() {
         apply_contact_damage();
         update_prev_position();
         if (sub_8005D698() != 0) {
-            ((TObjPlayer *)this)->update_collisions();
+            update_collisions();
             submit_cursor_candidate(this, -1);
             minimap_render_dot(&body_center, -0x5DB4, 1, 0);
         }
@@ -668,7 +668,7 @@ void TBoss4Bishi::run_task() {
         apply_contact_damage();
         update_prev_position();
         if (sub_8005D698() != 0) {
-            ((TObjPlayer *)this)->update_collisions();
+            update_collisions();
             submit_cursor_candidate(this, -1);
             minimap_render_dot(&body_center, -0x5DB4, 1, 0);
         }

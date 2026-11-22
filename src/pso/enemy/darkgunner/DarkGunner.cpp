@@ -733,7 +733,7 @@ void TObjEneDarkGunner::update_move() {
     case -1:
         break;
     }
-    ((TObjPlayer *)this)->update_collisions();
+    update_collisions();
     minimap_render_dot(&position, -0x5DB4, 1, 0);
     submit_cursor_candidate(this, -1);
 }
@@ -841,7 +841,7 @@ void TObjEneDarkGunner::update_attack() {
     obj_clearFlags30(0x40000);
     advance_animation();
     apply_actor_gravity(this, NULL, 0.0f);
-    ((TObjPlayer *)this)->update_collisions();
+    update_collisions();
     minimap_render_dot(&position, -23988, 1, 0);
     submit_cursor_candidate(this, -1);
 }
@@ -901,7 +901,7 @@ void TObjEneDarkGunner::update_damage() {
         }
         }
         apply_actor_gravity(this, NULL, 0.0f);
-        ((TObjPlayer *)this)->update_collisions();
+        update_collisions();
         if (action_flags != 8U) {
             obj_clearFlags30(0x40300);
             m_388 = m_388 & 0xFF7FFFFE;
@@ -1089,7 +1089,7 @@ void TObjEneDarkGunner::sub_800A16C4() {
         if (!(actorFlags & 0x800000)) {
             apply_actor_gravity(this, NULL, 0.0f);
         }
-        ((TObjPlayer *)this)->update_collisions();
+        update_collisions();
         left = timer;
         timer = left - 1;
         if (left < 0) {
@@ -1181,7 +1181,7 @@ void TObjEneDarkGunner::update_hide_sequence() {
         if (!(this->actorFlags & 0x800000)) {
             apply_actor_gravity(this, (s32 *)(0), 0.0f);
         }
-        ((TObjPlayer *)this)->update_collisions();
+        update_collisions();
         temp_r3 = hide_timer - 1;
         hide_timer = (s16) temp_r3;
         if ((s16) temp_r3 <= 0) {

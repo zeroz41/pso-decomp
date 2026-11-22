@@ -359,7 +359,7 @@ void TBoss4Type3::run_task() {
     advance_afterimage();
     if (node != 17) {
         collision->flags |= 1;
-        ((TObjPlayer *)this)->update_collisions();
+        update_collisions();
         submit_cursor_candidate(this, -1);
     } else {
         collision->flags &= ~1;

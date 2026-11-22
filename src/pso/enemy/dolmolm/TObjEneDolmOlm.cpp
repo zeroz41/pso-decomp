@@ -563,7 +563,7 @@ void TObjEneDolmOlm::sub_80301C3C() {
         sub_800C4E08();
         break;
     }
-    ((TObjPlayer *)this)->update_collisions();
+    update_collisions();
     minimap_render_dot(&position, -0x5DB4, 1, 0);
     obj_clearFlags30(0x200000);
 }
@@ -673,7 +673,7 @@ void TObjEneDolmOlm::sub_8030177C() {
         clear_player_status_flag(0, 0xA000000);
         break;
     }
-    ((TObjPlayer *)this)->update_collisions();
+    update_collisions();
     minimap_render_dot(&position, -0x5DB4, 1, 0);
 }
 #pragma pop

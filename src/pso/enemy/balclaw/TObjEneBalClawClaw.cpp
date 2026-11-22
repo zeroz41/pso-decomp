@@ -333,7 +333,7 @@ void TObjEneBalClawClaw::update_chase(void *p) {
         claw->turn_toward_direction(((EnemyMoveParams *)claw->movementParameters)->turn_speed, &claw->velocity);
         claw->advance_animation();
         apply_actor_gravity(claw, NULL, 0.0f);
-        ((TObjPlayer *)claw)->update_collisions();
+        claw->update_collisions();
         break;
     }
     case -1:
@@ -360,7 +360,7 @@ void TObjEneBalClawClaw::sub_80091200() {
         velocity.x *= 0.9f;
         velocity.z *= 0.9f;
         apply_actor_gravity(this, NULL, 0.0f);
-        ((TObjPlayer *)this)->update_collisions();
+        update_collisions();
         play_persistent_sound(0x4003B235, (saddr)this, (uaddr)&position, 0, 0);
         if (action_flags != 8) {
             actorFlags &= ~0x200;
@@ -452,7 +452,7 @@ void TObjEneBalClawClaw::sub_80090ECC() {
     }
     advance_animation();
     apply_actor_gravity(this, NULL, 0.0f);
-    ((TObjPlayer *)this)->update_collisions();
+    update_collisions();
 }
 
 void TObjEneBalClawClaw::action(void *p) {
@@ -580,7 +580,7 @@ void TObjEneBalClawClaw::update_follow_parent(void *p) {
         enemy_turn_half_toward_dest(claw);
         claw->advance_animation();
         apply_actor_gravity(claw, NULL, 0.0f);
-        ((TObjPlayer *)claw)->check_object_collisions();
+        claw->check_object_collisions();
         break;
     }
     }
@@ -724,7 +724,7 @@ void TObjEneBalClawClaw::update_chase_state() {
         turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, &velocity);
         advance_animation();
         apply_actor_gravity(this, NULL, 0.0f);
-        ((TObjPlayer *)this)->update_collisions();
+        update_collisions();
         break;
     }
 }

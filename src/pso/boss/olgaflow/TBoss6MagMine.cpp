@@ -242,7 +242,7 @@ void TBoss6MagMine::run_task() {
     }
     copy_pos();
     if (state == 2) {
-        ((TObjPlayer *)this)->update_collisions();
+        update_collisions();
         submit_cursor_candidate(this, -1);
     }
     if (state != 0) {

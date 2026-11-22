@@ -257,7 +257,7 @@ void TBoss4Type2::run_task() {
     advance_afterimage();
     if (0.0f == beam_ratio) {
         collision_body_parts->flags |= 1;
-        ((TObjPlayer *)this)->update_collisions();
+        update_collisions();
         submit_cursor_candidate(this, -1);
     } else {
         collision_body_parts->flags &= ~1;

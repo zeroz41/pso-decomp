@@ -736,7 +736,7 @@ void TObjPlayer__sub_800D3314(u8 *arg0) {
             ((TObjEnemyCustom *)arg0)->get_anim_node_position(0x27, (Vec *)&v);
             spawn_particle_effect(&v, 0xF3);
         }
-        ((TObjPlayer *)arg0)->update_collisions();
+        ((TObjCollidable *)arg0)->update_collisions();
         if (*(u32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xA4)) + 0x18) & 0x380000) {
             *(s32 *)((s8 *)arg0 + 0x37C) = -1;
         } else if (*(f32 *)((s8 *)arg0 + 0x39C) >= *(f32 *)((s8 *)arg0 + 0x3A0)) {
@@ -806,7 +806,7 @@ void TObjPlayer__sub_800D30A8(Obj_800D30A8 *enemy) {
         enemy->vel.x *= 0.5f;
         enemy->vel.z *= 0.5f;
         apply_actor_gravity((TObjEnemy *)enemy, (s32 *)(0), 0.0f);
-        ((TObjPlayer *)enemy)->update_collisions();
+        ((TObjCollidable *)enemy)->update_collisions();
         if (enemy->fB4 != 8) {
             enemy->state = -1;
         }
@@ -1208,7 +1208,7 @@ void TObjEneGyaranzo::update_walk_to_target() {
         calc_velocity_toward_destination(this, move_origin, move_destination, ((EnemyMoveParams *)movementParameters)->min_distance);
         turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, &velocity);
         move_with_wall_slide((u8 *)this);
-        ((TObjPlayer *)(u8 *)this)->update_collisions();
+        update_collisions();
         if (xz_distance_squared(&position, &home_position) <= 100.0f) {
             update_if_active(0);
         }

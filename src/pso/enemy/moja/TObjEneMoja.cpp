@@ -822,7 +822,7 @@ void TObjEneMoja::update_approach_state() {
         break;
     }
     advance_animation();
-    ((TObjPlayer *)this)->update_collisions();
+    update_collisions();
 }
 
 s32 TObjEneMoja::is_target_in_attack_range() {
@@ -1011,7 +1011,7 @@ void TObjEneMoja::update_punch_attack() {
         break;
     }
     apply_actor_gravity(this, 0, 0.0f);
-    ((TObjPlayer *)this)->update_collisions();
+    update_collisions();
 }
 
 #pragma push
@@ -1177,7 +1177,7 @@ void TObjEneMoja::update_technique_state() {
         break;
     }
     apply_actor_gravity(this, (s32 *)(0), 0.0f);
-    ((TObjPlayer *)this)->update_collisions();
+    update_collisions();
 }
 #pragma pop
 
@@ -1284,7 +1284,7 @@ void TObjEneMoja::update_invincibility() {
     if (!(actorFlags & 0x800000)) {
         apply_actor_gravity(this, 0, 0.0f);
     }
-    ((TObjPlayer *)this)->update_collisions();
+    update_collisions();
     t = timer;
     timer = t - 1;
     if (t < 0) {
@@ -1322,7 +1322,7 @@ void TObjEneMoja::update_ground_effect() {
     velocity.z = 0.0f;
     velocity.x = 0.0f;
     apply_actor_gravity(this, 0, 0.0f);
-    ((TObjPlayer *)this)->update_collisions();
+    update_collisions();
     if (action_flags != 8U) {
         actorFlags &= 0xFBFFF9FF;
         bodies->flags &= 0xFBFFFFFF;

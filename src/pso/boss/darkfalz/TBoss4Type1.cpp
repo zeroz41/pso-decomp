@@ -461,7 +461,7 @@ void TBoss4Type1::run_task() {
     update_boss4_phase_timer();
     snapshot_position();
     sub_80053D4C();
-    ((TObjPlayer *)this)->update_collisions();
+    update_collisions();
     submit_cursor_candidate(this, -1);
     sub_80053670();
     sub_80053440();

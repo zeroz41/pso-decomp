@@ -258,7 +258,7 @@ void TObjEneDelDepth::run_task() {
     (void)(fn != NULL);
     (this->*fn)();
     ((TObjEnemy *)o)->update_prev_position();
-    ((TObjPlayer *)o)->update_collisions();
+    o->update_collisions();
     if (this->targetable != 0) {
         submit_cursor_candidate(o, -1);
     }
@@ -557,7 +557,7 @@ void TObjEneDelDepth::update_movement() {
     s32 rot;
     if ((actor_frame_tick % 5) == 0) {
         TObjPlayer::init_all_slots();
-        ((TObjPlayer *)self)->check_object_collisions();
+        self->check_object_collisions();
         for (i = 0; i < 16; i++) {
             pl = (TObjChara *)TObjPlayer::get_battle_param(i);
             if (pl == 0) {

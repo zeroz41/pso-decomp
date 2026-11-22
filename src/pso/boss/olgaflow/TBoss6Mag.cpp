@@ -209,7 +209,7 @@ void TBoss6Mag::run_task() {
         update_motion_playback();
         save_position();
         if (attackable != 0) {
-            ((TObjPlayer *)this)->update_collisions();
+            update_collisions();
             submit_cursor_candidate(this, -1);
         }
         TBoss6Rock::break_rocks_in_radius(&position, 10.0f);

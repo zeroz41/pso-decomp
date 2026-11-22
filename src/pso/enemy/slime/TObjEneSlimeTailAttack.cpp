@@ -631,7 +631,7 @@ void TObjEneSlimeOne::run_task() {
             (this->*a)();
         }
         update_prev_position();
-        ((TObjPlayer *)this)->update_collisions();
+        update_collisions();
         if ((s32)this->m_3ec != 0) {
             submit_cursor_candidate(this, -1);
         }

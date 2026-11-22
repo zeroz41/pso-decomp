@@ -291,7 +291,7 @@ void TObjNpcBase::update_conversation() {
         m_3b0 = 0;
         break;
     }
-    ((TObjPlayer *)this)->update_collisions();
+    update_collisions();
 }
 
 void TObjNpcBase::update_wandering() {
@@ -347,7 +347,7 @@ void TObjNpcBase::update_wandering() {
         }
         break;
     }
-    ((TObjPlayer *)this)->update_collisions();
+    update_collisions();
 }
 
 void TObjNpcBase::update_standing() {

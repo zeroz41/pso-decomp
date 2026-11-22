@@ -458,7 +458,7 @@ void TOMine::follow_target() {
     stack.z *= 2.0f;
   }
   vec3_add_to((u8 *)&this->position, &stack.x);
-  ((TObjPlayer *)arg0)->update_enemy_collision_flags();
+  update_enemy_collision_flags();
   temp_f2 = *((f32 *) (((s8 *) arg0) + 0x48));
   *((f32 *) (((s8 *) arg0) + 0x3C)) = (f32) ((0.5f * ((25.0f + (*((f32 *) ((this->target) + 0x3C)))) - temp_f2)) + temp_f2);
   ((TObjChara *)arg0)->calc_attach_pos();

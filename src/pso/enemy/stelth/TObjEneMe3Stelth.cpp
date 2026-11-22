@@ -2024,7 +2024,7 @@ void TObjEneMe3Stelth::sub_800F1098(s32 reason) {
     case 5:
         break;
     }
-    ((TObjPlayer *)this)->update_collisions();
+    update_collisions();
 }
 s32 TObjEneMe3Stelth::sub_800F0F84(Vec *pos) {
     CollisionBody *body;

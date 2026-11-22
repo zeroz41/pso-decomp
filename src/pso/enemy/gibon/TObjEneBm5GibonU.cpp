@@ -577,7 +577,7 @@ void TObjEneBm5GibonU::state_cast_technique(s32 msg) {
     case 5:
         break;
     }
-    ((TObjPlayer *)this)->update_collisions();
+    update_collisions();
 }
 
 void TObjEneBm5GibonU::sub_800CDB98(s32 msg) {
@@ -916,7 +916,7 @@ void TObjEneBm5GibonU::sub_800CE694(s32 msg) {
             this->attack_collider->position.x = this->position.x + dx;
             this->attack_collider->position.y = this->position.y;
             this->attack_collider->position.z = this->position.z + dz;
-            ((TObjPlayer *)this->attack_collider)->update_collisions();
+            this->attack_collider->update_collisions();
             if (!(this->attack_collider->bodies->flags & 0x380000)) {
                 dx *= 2.0f;
                 dz *= 2.0f;

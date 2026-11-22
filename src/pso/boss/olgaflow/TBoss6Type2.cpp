@@ -740,7 +740,7 @@ void TBoss6Type2::run_task() {
     advance_position();
     this->sub_802BBE20();
     update_parts_flags();
-    ((TObjPlayer *)this)->update_collisions();
+    update_collisions();
     submit_cursor_candidate(this, -1);
     add_radar_scaled_marker(&this->position, -0x5DB4, 1, 1, 4.0f);
     apply_rock_hits_to_players();

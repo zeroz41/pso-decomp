@@ -1607,7 +1607,7 @@ void TObjEneBm5Wolf::repositioning_state(s32 event) {
             this->attack_collider->position.x = this->position.x + dx;
             this->attack_collider->position.y = this->position.y;
             this->attack_collider->position.z = this->position.z + dz;
-            ((TObjPlayer *)(this->attack_collider))->update_collisions();
+            this->attack_collider->update_collisions();
             if (!(this->attack_collider->bodies->flags & 0x380000)) {
                 dx *= 2.0f;
                 dz *= 2.0f;

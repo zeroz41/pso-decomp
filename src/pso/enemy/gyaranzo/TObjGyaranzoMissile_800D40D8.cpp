@@ -141,7 +141,7 @@ void TUnk_8049442C::sub_800D4200() {
     self = (u8 *)find_entity_by_id(*(u16 *)((s8 *)arg0 + 0xD8));
     (*(Info_800D4200 * *)&((TUnk_8049442C *)arg0)->bodies)->xc = 5.0f;
     TObjPlayer::init_all_slots();
-    ((TObjPlayer *)arg0)->check_object_collisions();
+    ((TObjCollidable *)arg0)->check_object_collisions();
     check_enemy_body_collisions(arg0);
     if ((((TUnk_8049442C *)arg0)->bodies)->flags & 0x180000) {
         for (i = 0; i < 0x10; i++) {
@@ -215,7 +215,7 @@ void TUnk_8049442C::run_task() {
         if (self->fEC > 0) {
             self->fEC--;
         } else {
-            ((TObjPlayer *)self)->update_collisions();
+            ((TObjCollidable *)self)->update_collisions();
             if (self->info->flags & 0x380000) {
                 ((TUnk_8049442C *)self)->sub_800D4200();
                 break;

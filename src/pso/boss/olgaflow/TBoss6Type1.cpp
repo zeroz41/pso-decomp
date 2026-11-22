@@ -593,7 +593,7 @@ void TBoss6Type1::run_task() {
     update_position();
     update_part_positions();
     update_parts_flags();
-    ((TObjPlayer *)this)->update_collisions();
+    update_collisions();
     submit_cursor_candidate(this, -1);
     add_radar_scaled_marker(&this->node_points[1], -0x5DB4, 1, 1, 5.0f);
     sub_802B5CB4();

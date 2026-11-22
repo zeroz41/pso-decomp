@@ -1112,7 +1112,7 @@ extern "C" void TObjPlayer__sub_800A8C4C(u8 *actor) {
     case 1:
         ((TObjMotion *)actor)->advance_animation();
         apply_actor_gravity((TObjEnemy *)((u8 *)((void *)actor)), (s32 *)(0), 0.0f);
-        ((TObjPlayer *)actor)->check_object_collisions();
+        ((TObjCollidable *)actor)->check_object_collisions();
         check_enemy_body_collisions((TObjCollidable *)actor);
         if (*(s16 *)((s8 *)actor + 0x392) != 0) {
             var_f31 = ((TObjEneDubchik *)actor)->sub_800AAF78(2);

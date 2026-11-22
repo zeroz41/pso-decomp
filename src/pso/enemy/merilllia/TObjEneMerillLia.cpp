@@ -621,8 +621,8 @@ void TObjEneMerillLia::beast_update_approach() {
         }
         break;
     }
-    ((TObjPlayer *)self)->update_collisions();
-    ((TObjPlayer *)self)->update_enemy_collision_flags();
+    ((TObjCollidable *)self)->update_collisions();
+    ((TObjCollidable *)self)->update_enemy_collision_flags();
     minimap_render_dot((u8 *)&this->position, -0x5DB4, 1, 0);
     ((TObjBase *)self)->obj_clearFlags30(0x200000);
 }
@@ -696,8 +696,8 @@ void TObjEneMerillLia::beast_update_group_chase() {
                 self->f328 = 2;
                 self->f374 = 0;
             }
-            ((TObjPlayer *)self)->update_collisions();
-            ((TObjPlayer *)self)->update_enemy_collision_flags();
+            ((TObjCollidable *)self)->update_collisions();
+            ((TObjCollidable *)self)->update_enemy_collision_flags();
             if (self->model->flags & 0x380000) {
                 self->f328 = 2;
                 self->f374 = 0;
@@ -754,8 +754,8 @@ void TObjEneMerillLia::beast_update_group_chase() {
         }
         break;
     }
-    ((TObjPlayer *)self)->update_collisions();
-    ((TObjPlayer *)self)->update_enemy_collision_flags();
+    ((TObjCollidable *)self)->update_collisions();
+    ((TObjCollidable *)self)->update_enemy_collision_flags();
     minimap_render_dot(&self->pos, -0x5DB4, 1, 0);
 }
 #pragma pop
@@ -901,7 +901,7 @@ void TObjEneMerillLia::beast_update_hurt() {
         *(f32 *)((s8 *)((u8 *)this) + 0x310) = 0.0f;
         *(f32 *)((s8 *)((u8 *)this) + 0x308) = 0.0f;
     }
-    ((TObjPlayer *)((u8 *)this))->update_collisions();
+    update_collisions();
     this->update_enemy_collision_flags();
     if (this->is_passing_frame(0.0f) != 0) {
         this->play_hurt_sound();
@@ -969,8 +969,8 @@ void TObjEneMerillLia::update_kafun_attack(void *p) {
         }
         break;
     }
-    ((TObjPlayer *)arg0)->update_collisions();
-    ((TObjPlayer *)arg0)->update_enemy_collision_flags();
+    ((TObjCollidable *)arg0)->update_collisions();
+    ((TObjCollidable *)arg0)->update_enemy_collision_flags();
     minimap_render_dot(arg0 + 0x38, -0x5DB4, 1, 0);
 }
 #undef arg0
@@ -1006,8 +1006,8 @@ void TObjEneMerillLia::update_emerge_state(void *ov) {
         *(s16 *)((s8 *)arg0 + 0xB8) = 1;
         break;
     }
-    ((TObjPlayer *)arg0)->update_collisions();
-    ((TObjPlayer *)arg0)->update_enemy_collision_flags();
+    ((TObjCollidable *)arg0)->update_collisions();
+    ((TObjCollidable *)arg0)->update_enemy_collision_flags();
     minimap_render_dot(arg0 + 0x38, -0x5DB4, 1, 0);
 }
 #undef arg0

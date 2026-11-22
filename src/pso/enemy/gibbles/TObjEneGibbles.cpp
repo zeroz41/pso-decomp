@@ -786,11 +786,11 @@ void TObjEneGibbles::update_wander() {
     var_r3 = var_r31;
     ((TObjCollidable *)var_r3)->refresh_collision_body_centers();
     var_r3 = var_r31;
-    ((TObjPlayer *)var_r3)->check_object_collisions();
+    ((TObjCollidable *)var_r3)->check_object_collisions();
     var_r3 = var_r31;
     check_enemy_body_collisions((var_r3));
     var_r3 = var_r31;
-    ((TObjPlayer *)var_r3)->update_enemy_collision_flags();
+    ((TObjCollidable *)var_r3)->update_enemy_collision_flags();
     var_r3 = var_r31;
     var_r4 = (u8 *)((void *)0x200000);
     ((TObjBase *)var_r3)->obj_clearFlags30(0x200000);
@@ -1423,9 +1423,9 @@ void TObjEneGibbles::sub_802D9110() {
     play_distance_sound();
     advance_animation();
     clamp_angle(0);
-    ((TObjPlayer *)this)->check_object_collisions();
+    check_object_collisions();
     check_enemy_body_collisions(this);
-    ((TObjPlayer *)this)->update_enemy_collision_flags();
+    update_enemy_collision_flags();
     minimap_render_dot(&position, -0x5DB4, 1, 0);
     submit_cursor_candidate(this, -1);
 }
@@ -1487,9 +1487,9 @@ void TObjEneGibbles::sub_802D8E8C() {
         actorFlags &= 0xFFDFFFFF;
         break;
     }
-    ((TObjPlayer *)this)->check_object_collisions();
+    check_object_collisions();
     check_enemy_body_collisions(this);
-    ((TObjPlayer *)this)->update_enemy_collision_flags();
+    update_enemy_collision_flags();
     minimap_render_dot(&position, -0x5DB4, 1, 0);
     submit_cursor_candidate(this, -1);
 }
@@ -1706,9 +1706,9 @@ void TObjEneGibbles::sub_802D8580() {
         this->m_374 &= ~0x20;
         break;
     }
-    ((TObjPlayer *)this)->check_object_collisions();
+    check_object_collisions();
     check_enemy_body_collisions(this);
-    ((TObjPlayer *)this)->update_enemy_collision_flags();
+    update_enemy_collision_flags();
     minimap_render_dot((u8 *)this + 0x38, -0x5DB4, 1, 0);
     this->actorFlags &= 0xFFDFFFFF;
 }
@@ -1779,9 +1779,9 @@ void TObjEneGibbles::update_action_state() {
         }
         break;
     }
-    ((TObjPlayer *)self)->check_object_collisions();
+    ((TObjCollidable *)self)->check_object_collisions();
     check_enemy_body_collisions((self));
-    ((TObjPlayer *)self)->update_enemy_collision_flags();
+    ((TObjCollidable *)self)->update_enemy_collision_flags();
     minimap_render_dot((void *) (self + 0x38), -0x5DB4, 1, 0);
     submit_cursor_candidate(self, -1);
     (this->actorFlags) = (s32) ((this->actorFlags) & 0xFFDFFFFF);

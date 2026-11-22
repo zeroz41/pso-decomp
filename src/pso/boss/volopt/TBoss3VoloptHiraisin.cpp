@@ -199,7 +199,7 @@ void TBoss3VoloptHiraisin::update_drop() {
     case 3:
         break;
     }
-    ((TObjPlayer *)this)->update_collisions();
+    update_collisions();
 }
 
 void TBoss3VoloptHiraisin::sub_80041314() {

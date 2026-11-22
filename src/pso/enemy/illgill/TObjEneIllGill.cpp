@@ -649,7 +649,7 @@ void TObjEneIllGill::update_chase_target() {
             play_sound_effect(0x4003A34D, &position, 0, 0);
         }
     }
-    ((TObjPlayer *)self)->update_collisions();
+    update_collisions();
     minimap_render_dot(&position, -0x5DB4, 1, 0);
 }
 
@@ -912,7 +912,7 @@ void TObjEneIllGill::update_weapon_attack() {
         }
         break;
     }
-    ((TObjPlayer *)actor)->update_collisions();
+    update_collisions();
     minimap_render_dot(&position, -0x5DB4, 1, 0);
 }
 
@@ -941,7 +941,7 @@ void TObjEneIllGill::sub_803669B0() {
     if (!(this->actorFlags & 0x800000)) {
         apply_actor_gravity((TObjEnemy *)player, (s32 *)(0), (f32) (0.0f));
     }
-    ((TObjPlayer *)player)->update_collisions();
+    update_collisions();
     temp_r3 = this->actionTimer;
     this->actionTimer = (temp_r3 - 1);
     if (temp_r3 < 0) {
@@ -981,7 +981,7 @@ void TObjEneIllGill::update_damage_recovery() {
     this->velocity.z = 0.0f;
     this->velocity.x = 0.0f;
     apply_actor_gravity((TObjEnemy *)self, (s32 *)(0), 0.0f);
-    ((TObjPlayer *)self)->update_collisions();
+    update_collisions();
     if (((TObjMotion *)self)->is_passing_frame(30.0f) != 0) {
         play_sound_effect(0x4003A350, &position, 0, 0);
     }
@@ -1197,7 +1197,7 @@ void TObjEneIllGill::update_shadow_attack() {
         }
         break;
     }
-    ((TObjPlayer *)enemy)->update_collisions();
+    ((TObjCollidable *)enemy)->update_collisions();
     minimap_render_dot(&position, -0x5DB4, 1, 0);
 }
 
