@@ -16,6 +16,7 @@
 #include "pso/quest/TQuestListVM.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/map/TSetManager.h"
 
 struct QuestObjRow_801F3AD8 {
     u8 pad0[2];
@@ -313,8 +314,6 @@ extern s32 map_set_object_id_counter;
 extern s32 TLobby__next_enemy_set_actor_id;
 extern s32 map_object_id_counter;
 extern s32 map_set_enemy_id_counter;
-extern s32 TLobby__data_805D6148;
-extern s32 TLobby__data_805D614C;
 
 void TLobby::setup_quest_list() {
     map_set_object_id_counter = 0;
@@ -340,8 +339,8 @@ void TLobby::setup_quest_list() {
     }
     advance_object_id_counter((u16) map_object_id_counter);
     advance_enemy_id_counter((u16) map_set_enemy_id_counter);
-    TLobby__data_805D6148 = map_set_object_id_counter;
-    TLobby__data_805D614C = TLobby__next_enemy_set_actor_id;
+    object_condition_count = map_set_object_id_counter;
+    enemy_condition_count = TLobby__next_enemy_set_actor_id;
     TLobby__sub_8020B308(map_set_object_id_counter);
     TLobby::sum_floor_enemy_counts();
 }

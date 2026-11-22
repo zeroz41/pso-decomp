@@ -56,8 +56,8 @@ FloorObjectSetRow *TLobby__data_805D6138;
 EnemySetRecord *TLobby__data_805D613C;
 QuestObjectEntry *quest_object_entries;
 EnemyStateRecord *TLobby__data_805D6144;
-s32 TLobby__data_805D6148;
-s32 TLobby__data_805D614C;
+s32 object_condition_count;
+s32 enemy_condition_count;
 
 void TSetManager__sub_8020D7D4(void) {  }
 typedef void (TSetManager::*Pmf_8020D7D8)();
@@ -254,8 +254,8 @@ void clear_floor_population(void) {
             TLobby__data_805D6144[i].drop_id = n++ + 0x100;
         }
     }
-    TLobby__data_805D6148 = 0;
-    TLobby__data_805D614C = 0;
+    object_condition_count = 0;
+    enemy_condition_count = 0;
     floor_decoration_rows = 0;
     TLobby__data_805D6124 = 0;
     TLobby__data_805D6120 = 0;
@@ -432,8 +432,8 @@ void init_item_drop_tables(void) {
     for (i = 0; i < 0xB50; i++) {
         TLobby__data_805D6144[i].drop_id = k++ + 0x100;
     }
-    TLobby__data_805D6148 = 0;
-    TLobby__data_805D614C = 0;
+    object_condition_count = 0;
+    enemy_condition_count = 0;
     floor_decoration_rows = 0;
     TLobby__data_805D6124 = 0;
     TLobby__data_805D6120 = 0;

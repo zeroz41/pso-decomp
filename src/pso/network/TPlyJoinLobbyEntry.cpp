@@ -59,6 +59,7 @@
 #include "pso/unk/text_8013ADD0.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/font/TFontSmallTask.h"
+#include "pso/map/TSetManager.h"
 
 struct Entry_8013634C {
     u8 tag[8];
@@ -357,8 +358,6 @@ s32 has_window_task_root();
 extern s32 TLobby__data_805D4E30;
 extern u32 *quest_object_entries;
 extern S12_801358B4 *TLobby__data_805D6144;
-extern u32 TLobby__data_805D6148;
-extern u32 TLobby__data_805D614C;
 extern const char TLobby__data_805DB0B0[4];
 extern const Pair_80135E7C lbl_8043EE18[1];
 extern const Pair_80135E7C lbl_8043EE20[1];
@@ -806,7 +805,7 @@ void handle_6x6C_sync_game_state(Pkt_801357F8 *arg0) {
             ::operator delete(p);
             n = r >> 2;
             p = quest_object_entries;
-            TLobby__data_805D6148 = n;
+            object_condition_count = n;
             for (i = 0; i < n; i++) {
                 bswap_object_source_record(&p[i]);
             }
@@ -828,7 +827,7 @@ void handle_6x6B_sync_game_state(Pkt_801358B4 *arg0) {
             ::operator delete(p);
             n = r / 12;
             p = TLobby__data_805D6144;
-            TLobby__data_805D614C = n;
+            enemy_condition_count = n;
             for (i = 0; i < n; i++) {
                 ((TLobby *)(&p[i]))->bswap_6x6B();
             }
@@ -926,7 +925,7 @@ void TLobby::send_compressed_packet_6c() {
         tmp = ::operator new(0x7230);
         if (tmp != NULL) {
             src = quest_object_entries;
-            size = TLobby__data_805D6148 * 4;
+            size = object_condition_count * 4;
             n = size / 4;
             p = (u32 *)mem_alloc(size);
             memcpy(p, src, size);
@@ -962,7 +961,7 @@ void TLobby::send_cmd_6B() {
         tmp = ::operator new(0x7230);
         if (tmp != NULL) {
             src = TLobby__data_805D6144;
-            size = TLobby__data_805D614C * sizeof(S12_801358B4);
+            size = enemy_condition_count * sizeof(S12_801358B4);
             n = size / sizeof(S12_801358B4);
             p = (S12_801358B4 *)mem_alloc((s32)(n * sizeof(S12_801358B4)));
             memcpy(p, src, size);

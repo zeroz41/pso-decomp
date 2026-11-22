@@ -450,8 +450,8 @@ void run_offline_game_frame(void) {
     func_803DCDFC();
     controller_stuff();
     TKeyBoardControl::update_input_frame();
-    TLobby__sub_8007EB20("Condition E%d", TLobby__data_805D614C * 0xC);
-    TLobby__sub_8007EB20("Condition O%d", TLobby__data_805D6148 * 4);
+    TLobby__sub_8007EB20("Condition E%d", enemy_condition_count * 0xC);
+    TLobby__sub_8007EB20("Condition O%d", object_condition_count * 4);
     if (is_split_screen() != 0) {
         run_split_screen_frame();
     } else {
@@ -482,8 +482,8 @@ void run_offline_transfer_frame(void) {
     func_803DCDFC();
     controller_stuff();
     TKeyBoardControl::update_input_frame();
-    TLobby__sub_8007EB20("Condition E%d", TLobby__data_805D614C * 0xC);
-    TLobby__sub_8007EB20("Condition O%d", TLobby__data_805D6148 * 4);
+    TLobby__sub_8007EB20("Condition E%d", enemy_condition_count * 0xC);
+    TLobby__sub_8007EB20("Condition O%d", object_condition_count * 4);
     if (is_split_screen() != 0) {
         run_split_screen_frame();
     } else {
