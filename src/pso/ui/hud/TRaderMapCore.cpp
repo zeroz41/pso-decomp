@@ -314,7 +314,6 @@ void GXSetViewport(f32, f32, f32, f32, f32, f32);
 int __dt__5THeapFv(void*, void*);
 s32 is_card_flag_set__19TWindowKeyBoardHardFv(u16);
 }
-void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
 
 #define MAP_801F9C54 ((struct Map_801F9C54 *) TRaderMapCore__floor_map_resource)
 
@@ -1517,7 +1516,7 @@ void setup_overhead_projection__13TRaderMapCoreFv(s32 arg0, Cam_801F9314 *arg1) 
     rotate_vector_by_matrix(0, &up, &up);
     pop_matrix();
     set_perspective_projection_from_fov((182.04445f * radar_overhead_projection_scale), 1.1333334f, 1.0f, 10000.0f);
-    set_camera_look_at((u8 *)&eye, (u8 *)&at, (u8 *)&up);
+    set_camera_look_at(&eye, &at, &up);
 }
 #pragma fp_contract on
 

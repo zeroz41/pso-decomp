@@ -154,7 +154,7 @@ void TCameraController::post_update_view() {
     look.x = camera_ctrl_instance->tgt.x + t->x;
     look.y = camera_ctrl_instance->tgt.y + t->y;
     look.z = camera_ctrl_instance->tgt.z + t->z;
-    set_camera_look_at((u8 *)&camera_ctrl_instance->pos, (u8 *)&look, (u8 *)&TCameraCtrl::up_vector);
+    set_camera_look_at(&camera_ctrl_instance->pos, &look, &TCameraCtrl::up_vector);
     ninja_camera.px = camera_ctrl_instance->pos.x;
     ninja_camera.py = camera_ctrl_instance->pos.y;
     ninja_camera.pz = camera_ctrl_instance->pos.z;

@@ -9,21 +9,21 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
 
-f32 camera_look_at_up_vector[3] = {0.0f, 1.0f, 0.0f};
+Vec camera_look_at_up_vector = {0.0f, 1.0f, 0.0f};
 
 void update_camera_state(f32 x, f32 y, f32 z) {
     translate_view_negated(x, y, z);
 }
 
 void look_at_position(f32 x, f32 y, f32 z) {
-    u8 eye[0x14];
+    Vec eye;
     Vec target;
-    get_look_at_eye(eye);
+    get_look_at_eye(&eye);
     target.x = x;
     target.y = y;
     target.z = z;
     set_matrix_identity(NULL);
-    set_camera_look_at(eye, (u8 *)&target, (u8 *)camera_look_at_up_vector);
+    set_camera_look_at(&eye, &target, &camera_look_at_up_vector);
 }
 
 #pragma push
@@ -33,13 +33,13 @@ void translate_view_negated(f32 x, f32 y, f32 z) {
 }
 #pragma pop
 
-void get_look_at_eye(u8 *eye) {
+void get_look_at_eye(Vec *eye) {
 }
 
 #pragma push
 #pragma scheduling off
-void set_camera_look_at(u8 *eye, u8 *target, u8 *up) {
-    C_MTXLookAt(*current_matrix, (Vec *)eye, (Vec *)up, (Vec *)target);
+void set_camera_look_at(const Vec *eye, const Vec *target, const Vec *up) {
+    C_MTXLookAt(*current_matrix, eye, up, target);
 }
 #pragma pop
 

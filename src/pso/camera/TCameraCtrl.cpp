@@ -238,7 +238,7 @@ void TCameraCtrl::setup_default_view(void *offset_arg) {
         pat->z += 1.0f;
     }
     set_perspective_projection_from_fov(fov, 1.1333334f, 1.0f, 21000.0f);
-    set_camera_look_at((u8 *)&eye_pos, (u8 *)&at_pos, (u8 *)&TCameraCtrl::up_vector);
+    set_camera_look_at(&eye_pos, &at_pos, &TCameraCtrl::up_vector);
 }
 
 

@@ -45,12 +45,10 @@ extern int opening_movie_selector;
 extern unsigned char main_menu_scene_active_flag;
 
 const char *TMovie__name = "TMovie";
-// inferred: the eye, target and up vectors run_task passes to set_camera_look_at
+// The eye, target and up of the view a movie plays in.
 static const Vec movie_camera_eye = {0.0f, 0.0f, 0.0f};
 static const Vec movie_camera_target = {0.0f, 0.0f, 1.0f};
 static const Vec movie_camera_up = {0.0f, 1.0f, 0.0f};
-
-void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
 
 TMovie *TMovie::close(TMovie *movie, short dealloc) {
     if (movie != NULL) {
@@ -430,7 +428,7 @@ void TMovie::run_task() {
             Vec at = movie_camera_target;
             Vec up = movie_camera_up;
             set_perspective_projection_from_fov(0x4B, 1.1333334f, 1.0f, 21000.0f);
-            set_camera_look_at((u8 *)&eye, (u8 *)&at, (u8 *)&up);
+            set_camera_look_at(&eye, &at, &up);
             this->player->update_stop();
             if (txt != NULL) {
                 txt->m1();

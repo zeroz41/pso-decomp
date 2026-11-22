@@ -476,7 +476,7 @@ force_active:
   - TCameraCtrl__sub_8006B798
   - TCameraCtrl__sub_8006CC30
   - clear__16FollowCameraSlotFv
-  - get_look_at_eye__FPUc
+  - get_look_at_eye__FP3Vec
   - view_matrices__11TCameraCtrl
   - view_matrix__11TCameraCtrl
   - viewport_height__11TCameraCtrl

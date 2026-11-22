@@ -125,12 +125,11 @@ extern u8 controller_physical_port_bank[];
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/camera/CameraViewParams.h"
 #include "pso/camera/CameraHelpers.h"
+#include "pso/render/GinjaView.h"
 
 extern "C" {
 s32 GXSetZMode(int, int, int);
 }
-void set_perspective_projection_from_fov(s32 arg0, f32 farg0, f32 farg1, f32 farg2);
-void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
 extern uaddr camera_render_target_singleton;
 void load_list_texture(s32 idx, s32 wrapS, s32 wrapT, s32 map);
 
@@ -244,7 +243,6 @@ void set_ginja_draw_flags(s32 arg0);
 void set_light_ambient_color(f32 r, f32 g, f32 b);
 void submit_light0(s32 arg0, s32 arg1);
 void load_gx_light_slot(s32 arg0);
-extern s32 scene_projection_state[];
 extern u8 *active_gx_render_mode;
 void capture_viewport_texture(void);
 void setup_blended_textured_draw(void);
@@ -593,7 +591,7 @@ void end_shadow_map_pass() {
         GXSetCopyFilter((int) (*(u8 *)((s8 *)temp_r31 + 0x19)), temp_r31 + 0x1A, (int) (get_display_copy_filter()), temp_r31 + 0x32);
         GXSetViewport(0.0f, 0.0f, 640.0f, 480.0f, 0.0f, 1.0f);
         GXSetScissor(0, 0, 0x280, 0x1E0);
-        GXSetProjection(scene_projection_state, 0);
+        GXSetProjection(scene_projection_state.matrix, 0);
         set_light_ambient_color(0.3f, 0.3f, 0.3f);
         submit_light0(0, 1);
         load_gx_light_slot(0);
@@ -828,7 +826,7 @@ void TLiveCameraView::render_shadows() {
         GXSetScissor(0, 0, 0x280, 0x1E0);
         Vec up = {0.0f, 1.0f, 0.0f};
         set_perspective_projection_from_fov((camera_ctrl_instance->fov), 1.1333334f, 1.0f, 21000.0f);
-        set_camera_look_at((u8 *)&eye, (u8 *)&target, (u8 *)&up);
+        set_camera_look_at(&eye, &target, &up);
         if (camera_ctrl_instance != NULL) {
             Vec dir;
             s32 pitch;
