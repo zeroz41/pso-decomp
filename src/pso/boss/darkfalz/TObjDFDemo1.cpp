@@ -48,7 +48,7 @@ struct DFDemo1NodeColor {
 };
 
 // TBoss4Type1's body models and TBoss4Zanzo's model table.
-extern s32 lbl_80485EB0[6];
+extern s32 boss4_type1_model_ids[6];
 extern s32 boss4_zanzo_bml_index_table[];
 #include "pso/render/model_render_state.h"
 // Defined after the constructor: it follows the constructor's angle template in .rodata.
@@ -78,7 +78,7 @@ TObjDFDemo1::TObjDFDemo1(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
     this->angle = angle;
     res = (BmlResource *)TBoss4Uro::get_instance_count();
     for (i = 0; i < 6; i++) {
-        int id = lbl_80485EB0[i];
+        int id = boss4_type1_model_ids[i];
         body_parts[i].model = (NJS_OBJECT *)get_bml_model(res, id);
         body_parts[i].texlist = (GinjaTextureList *)get_bml_texlist(res, id);
         body_parts[i].motion = get_bml_motion(res, lbl_804855F0[i]);

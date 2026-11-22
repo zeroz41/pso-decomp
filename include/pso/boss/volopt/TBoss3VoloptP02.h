@@ -130,7 +130,7 @@ public:
     s32 ring_phase;
 };
 
-extern BmlResource *lbl_805D4CE4;
+extern BmlResource *volopt_p02_resources;
 extern VoloptP02Params *volopt_p02_params;
 
 LAYOUT_ASSERT(TBoss3VoloptP02_size, sizeof(TBoss3VoloptP02) == 0x510);

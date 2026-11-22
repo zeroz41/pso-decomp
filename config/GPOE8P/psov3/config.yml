@@ -7770,8 +7770,8 @@ force_active:
   - lbl_804856C0
   - lbl_80485798
   - lbl_80486868
-  - lbl_80487090
-  - lbl_80487100
+  - boss4_type3_body_node_captures
+  - boss4_type3_wing_node_captures
   - lbl_80487150
   - bm_modelparticle_gryphon_motion_names
   - bm_boss5_gryphon_model_names

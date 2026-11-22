@@ -41,7 +41,7 @@ void create_breakup_mdl__12TBoss3VoloptFlllll(TBreakUpMdlPieces *model, VoloptBr
                                               Vec *pos, s32 angle);
 }
 
-extern BmlResource *lbl_805D4CE4;
+extern BmlResource *volopt_p02_resources;
 
 
 static const char *TObjVoloptCage_name = "TObjVoloptCage";
@@ -282,7 +282,7 @@ TObjVoloptCage::TObjVoloptCage(TObjEnemy *boss, u16 target, u16 id, s32 group) :
     actorFlags &= ~0xA00;
     next_action = 7;
     mode = 7;
-    volopt_cage_textures = (saddr)lbl_805D4CE4->models[0x12].m_c;
+    volopt_cage_textures = (saddr)volopt_p02_resources->models[0x12].m_c;
     status = 0;
 }
 

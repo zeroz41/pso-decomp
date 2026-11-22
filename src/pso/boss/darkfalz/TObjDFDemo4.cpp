@@ -68,7 +68,7 @@ TObjDFDemo4::TObjDFDemo4(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
         zanzo_parts[i].motion = get_bml_motion(res, lbl_80485720[i]);
     }
     for (i = 0; i < 3; i++) {
-        int id = lbl_80486FB0[i];
+        int id = boss4_type3_model_ids[i];
         body_parts[i].model = (NJS_OBJECT *)get_bml_model(res, id);
         body_parts[i].texlist = (GinjaTextureList *)get_bml_texlist(res, id);
         body_parts[i].motion = get_bml_motion(res, lbl_80485728[i]);

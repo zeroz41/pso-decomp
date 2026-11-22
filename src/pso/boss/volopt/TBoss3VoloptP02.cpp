@@ -155,7 +155,7 @@ static void *shared_handler_b;
 static void *object_handle;
 VoloptP02Params *volopt_p02_params;
 static s32 *part_params;
-BmlResource *lbl_805D4CE4;
+BmlResource *volopt_p02_resources;
 static TUnk_8048FA00 *breakup_model;
 static NjObject *model_node_44;
 static NjObject *model_node_39;
@@ -199,8 +199,8 @@ s32 TObjVoloptCage::get_int_param(s32 index) {
 }
 
 void TBoss3VoloptP02::load_params_from_table(s32 index) {
-    model = (void *)lbl_805D4CE4->models[index].model;
-    texlist = (saddr)lbl_805D4CE4->models[index].m_c;
+    model = (void *)volopt_p02_resources->models[index].model;
+    texlist = (saddr)volopt_p02_resources->models[index].m_c;
 }
 
 f32 TBoss3VoloptP02::get_float_param(s32 index) {
@@ -219,7 +219,7 @@ TBoss3VoloptP02::TBoss3VoloptP02(TObject *parent, void *set_data) : TObjEnemyCus
 void TBoss3VoloptP02::init_params() {
     s32 i;
     m_name = TBoss3VoloptP02_name;
-    motion_list = lbl_805D4CE4->motions;
+    motion_list = volopt_p02_resources->motions;
     action_table = action_entries;
     set_field_d8((saddr)action_table);
     init_collision_body_parts(this, collision_bodies, 5);
@@ -287,10 +287,10 @@ void TBoss3VoloptP02::load_resources() {
     s32 j;
     s32 n;
 
-    lbl_805D4CE4 = boss3_volopt_resources;
-    model = new TUnk_8048FA00((saddr)lbl_805D4CE4->models[19].model);
+    volopt_p02_resources = boss3_volopt_resources;
+    model = new TUnk_8048FA00((saddr)volopt_p02_resources->models[19].model);
     breakup_model = model;
-    root = (saddr)lbl_805D4CE4->models[20].model;
+    root = (saddr)volopt_p02_resources->models[20].model;
     ((NjObject *)find_model_node(root, 0x44))->evalflags |= 8;
     ((NjObject *)find_model_node(root, 0x39))->evalflags |= 8;
     ((NjObject *)find_model_node(root, 0x27))->evalflags |= 8;
@@ -304,7 +304,7 @@ void TBoss3VoloptP02::load_resources() {
         model = new TUnk_8048FA00((saddr)nodes[j]);
         breakup_models[j] = model;
     }
-    root = (saddr)lbl_805D4CE4->models[19].model;
+    root = (saddr)volopt_p02_resources->models[19].model;
     for (i = 0; i < 5; i++) {
         parts[i] = (NjObject *)find_model_node(root, part_breakup_node_ids[i]);
     }

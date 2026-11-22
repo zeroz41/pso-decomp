@@ -83,11 +83,11 @@ struct TBoss4Type1 : public TObjEnemy
 
     // Field names inferred from their uses in TBoss4Type1.cpp; the twin TBoss4Type2 corroborates
     // owner/archive/collision_body_parts, grid_*, hit, half_hp, hit_flash, hp_ratio and anim*.
-    s32 state;                    // row of the lbl_80485C48 state table (set_state)
+    s32 state;                    // row of the boss4_type1_states state table (set_state)
     ModelNodeTables model_nodes;
     TBoss4DarkFalz *owner;        // params[0], the Dark Falz that spawns it; run_task waits on it
     BmlResource *archive;
-    CollisionBody *collision_body_parts; // init_collision_body_parts(lbl_80485E2C, 3)
+    CollisionBody *collision_body_parts; // init_collision_body_parts(boss4_type1_collision_body_desc, 3)
     s32 state_timer;              // frames left in the current state
     f32 move_ratio;               // calc_wave_offset of the move progress, 0 at prev_slot
     s32 slot;                     // one of the four stand positions (boss4_type2_motion_vec_table)

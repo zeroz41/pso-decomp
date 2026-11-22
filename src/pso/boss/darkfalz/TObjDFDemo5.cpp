@@ -49,7 +49,7 @@ TObjDFDemo5::TObjDFDemo5(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
     this->angle = angle;
     res = (BmlResource *)TBoss4Uro::get_instance_count();
     for (i = 0; i < 3; i++) {
-        id = lbl_80486FB0[i];
+        id = boss4_type3_model_ids[i];
         parts[i].model = (NJS_OBJECT *)get_bml_model(res, id);
         parts[i].texlist = (GinjaTextureList *)get_bml_texlist(res, id);
         parts[i].motion = get_bml_motion(res, lbl_804857E8[i]);

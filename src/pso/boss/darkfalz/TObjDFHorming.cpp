@@ -738,8 +738,8 @@ TBoss4Type1 *TBoss4DarkFalz__type1_instance;
 TBoss4Type2 *TBoss4DarkFalz__type2_instance;
 TBoss4Type3 *TBoss4DarkFalz__type3_instance;
 s32 dark_falz_form_index;
-s32 lbl_805D4D6C;
-s32 lbl_805D4D70;
+s32 boss4_type2_rafoie_level;
+s32 boss4_type2_rabarta_level;
 s32 dark_falz_controller_instance;
 TBoss4DarkFalz::~TBoss4DarkFalz() {
     s32 temp_r0;
@@ -812,13 +812,13 @@ TBoss4DarkFalz::TBoss4DarkFalz(TObject *parent, TBoss4DarkFalzSetEntry *set_data
     init_music_sequencer(4);
     dark_falz_form_index = 0;
     roar_timer = 0;
-    lbl_805D4D6C = ((TBoss4Type2Params *)TLobby::dispatch_shared_handler_a(0x36))->rafoie_level;
-    if (lbl_805D4D6C < 0 || lbl_805D4D6C > 0xE) {
-        lbl_805D4D6C = 0;
+    boss4_type2_rafoie_level = ((TBoss4Type2Params *)TLobby::dispatch_shared_handler_a(0x36))->rafoie_level;
+    if (boss4_type2_rafoie_level < 0 || boss4_type2_rafoie_level > 0xE) {
+        boss4_type2_rafoie_level = 0;
     }
-    lbl_805D4D70 = ((TBoss4Type2Params *)TLobby::dispatch_shared_handler_a(0x36))->rabarta_level;
-    if (lbl_805D4D70 < 0 || lbl_805D4D70 > 0xE) {
-        lbl_805D4D70 = 0;
+    boss4_type2_rabarta_level = ((TBoss4Type2Params *)TLobby::dispatch_shared_handler_a(0x36))->rabarta_level;
+    if (boss4_type2_rabarta_level < 0 || boss4_type2_rabarta_level > 0xE) {
+        boss4_type2_rabarta_level = 0;
     }
     push_players_out_of_zone(0);
     state_index = -1;

@@ -95,7 +95,7 @@ extern Cam_800531C8 *camera_ctrl_instance;
 const char *TBoss4Type1__name = "TBoss4Type1";
 f32 lbl_80485AE0[10] = { 0.0f, 0.0f, 0.0f, 25.0f, 2.0f, 25.0f, 0.5f, 0.5f, 0.5f, 0.5f };
 s32 lbl_80485B08[2] = { 0xFB, 0xFC };
-TBoss4Type1State lbl_80485C48[11] = {
+TBoss4Type1State boss4_type1_states[11] = {
     { "APPEAR", 0, &TBoss4Type1::init_appear_state, &TBoss4Type1::check_state_if_idle, &TBoss4Type1::update_appear },
     { "WAITNEXT", 0, 0, &TBoss4Type1::update_flag800_state, 0 },
     { "MOVESTNDPOS", 0, &TBoss4Type1::init_movestndpos_state, &TBoss4Type1::update_state_transition, &TBoss4Type1::update_move_stnd_pos },
@@ -108,12 +108,12 @@ TBoss4Type1State lbl_80485C48[11] = {
     { "BEAM_R", 12, &TBoss4Type1::init_child_and_set_timer, &TBoss4Type1::update_scale_state, &TBoss4Type1::update_tech_charge },
     { "TENCHU", 13, &TBoss4Type1::init_timer, &TBoss4Type1::advance_tenchu, &TBoss4Type1::update_tenchu },
 };
-CollisionBody lbl_80485E2C[3] = {
+CollisionBody boss4_type1_collision_body_desc[3] = {
     { { 135.0f, 25.0f, 0.0f }, 30.0f, 0.0f, 0, 0x801B, { 0.0f, 0.0f, 0.0f }, 0.0f },
     { { 0.0f, 25.0f, 135.0f }, 30.0f, 0.0f, 0, 0x801B, { 0.0f, 0.0f, 0.0f }, 0.0f },
     { { -135.0f, 25.0f, 0.0f }, 30.0f, 0.0f, 0, 0x801B, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
-s32 lbl_80485EB0[6] = { 9, 7, 5, 4, 6, 3 };
+s32 boss4_type1_model_ids[6] = { 9, 7, 5, 4, 6, 3 };
 TBoss4Type1Motion boss4_type1_motion_states[15] = {
     { 0, 0, { 0x50, 0x4e, 0x4d, 0x4d, 0x4d, 0x4c } },
     { 1, 0, { 0x50, 0x4e, 0x15, 0x15, 0x15, 0x14 } },
@@ -146,7 +146,7 @@ ModelNodePositionEntry lbl_80486120[3] = {
     {-1, {0.0f, 0.0f, 0.0f}},
 };
 Vec lbl_80486150 = { 0.0f, 0.0f, -120.0f };
-TBoss4Type1AttackTables lbl_8048615C = {
+TBoss4Type1AttackTables boss4_type1_attack_tables = {
     { 0x0, 0xc000, 0x8000, 0x4000 },
     { 0.25f, 0.25f, 0.5f }, { 8, 9, 10 },
     { 0.5f, 0.5f }, { 8, 9 },
@@ -366,7 +366,7 @@ TBoss4Type1::TBoss4Type1(TObject *parent, TBoss4FormSetData *set_data) : TObjEne
     VecCopy(&position, &lbl_80486150);
     rotation_y = 0;
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
-    collision_body_parts = init_collision_body_parts(this, lbl_80485E2C, 3);
+    collision_body_parts = init_collision_body_parts(this, boss4_type1_collision_body_desc, 3);
     VecCopy(&body_center, &position);
     velocity.x = velocity.y = velocity.z = 0.0f;
     target = 0;
@@ -449,12 +449,12 @@ void TBoss4Type1::run_death_reaction() {
 void TBoss4Type1::run_task() {
     void (TBoss4Type1::*act)();
     if (owner->is_floor_leader() != 0) {
-        act = lbl_80485C48[state].update_idle;
+        act = boss4_type1_states[state].update_idle;
         if (act) {
             (this->*act)();
         }
     }
-    act = lbl_80485C48[state].update;
+    act = boss4_type1_states[state].update;
     if (act) {
         (this->*act)();
     }
@@ -540,14 +540,14 @@ void TBoss4Type1::set_motion_index(s32 index) {
 
 #pragma push
 #pragma opt_propagation off
-// Body parts 2..4 are the three heads (lbl_80485EB0 models 5, 4, 6), each with a node capture.
+// Body parts 2..4 are the three heads (boss4_type1_model_ids models 5, 4, 6), each with a node capture.
 void TBoss4Type1::draw_parts() {
     s32 i;
     s32 head;
     NJS_OBJECT *body_model;
     set_motion_packed_rotation();
     for (i = 0; i < 6; i++) {
-        TObjFish::set_global_param((saddr)(get_bml_texlist(archive, lbl_80485EB0[i])));
+        TObjFish::set_global_param((saddr)(get_bml_texlist(archive, boss4_type1_model_ids[i])));
         switch (i) {
         case 2:
         case 3:
@@ -555,18 +555,18 @@ void TBoss4Type1::draw_parts() {
             TBoss6PlotFalz__sub_802AC008(hit_flash, hp_ratio);
             head = i - 2;
             node_captures[head]->install();
-            body_model = get_bml_model(archive, lbl_80485EB0[i]);
+            body_model = get_bml_model(archive, boss4_type1_model_ids[i]);
             draw_model_motion((void *)body_model, (void *)get_bml_motion(archive, boss4_type1_motion_states[anim].motions[i]), anim_frame);
             node_captures[head]->clear();
             TBoss6PlotFalz::update_camera_target();
             break;
         case 5:
             core_capture->install();
-            draw_model_motion((void *)get_bml_model(archive, lbl_80485EB0[i]), (void *)get_bml_motion(archive, boss4_type1_motion_states[anim].motions[i]), anim_frame);
+            draw_model_motion((void *)get_bml_model(archive, boss4_type1_model_ids[i]), (void *)get_bml_motion(archive, boss4_type1_motion_states[anim].motions[i]), anim_frame);
             core_capture->clear();
             break;
         default:
-            draw_model_motion((void *)get_bml_model(archive, lbl_80485EB0[i]), (void *)get_bml_motion(archive, boss4_type1_motion_states[anim].motions[i]), anim_frame);
+            draw_model_motion((void *)get_bml_model(archive, boss4_type1_model_ids[i]), (void *)get_bml_motion(archive, boss4_type1_motion_states[anim].motions[i]), anim_frame);
             break;
         }
     }
@@ -576,7 +576,7 @@ void TBoss4Type1::draw_parts() {
 
 #pragma pop
 s32 TBoss4Type1::calc_slot_angle(s32 slot, s32 turn) {
-    return lbl_8048615C.slot_angles[slot] + (turn - 1) * 0x4000;
+    return boss4_type1_attack_tables.slot_angles[slot] + (turn - 1) * 0x4000;
 }
 
 void TBoss4Type1::set_state(s32 next_state) {
@@ -592,8 +592,8 @@ void TBoss4Type1::set_state(s32 next_state) {
         }
     }
     collider_count = 5;
-    set_motion_index(lbl_80485C48[state].motion);
-    void (TBoss4Type1::*f)() = lbl_80485C48[state].enter;
+    set_motion_index(boss4_type1_states[state].motion);
+    void (TBoss4Type1::*f)() = boss4_type1_states[state].enter;
     if (f) {
         (this->*f)();
     }

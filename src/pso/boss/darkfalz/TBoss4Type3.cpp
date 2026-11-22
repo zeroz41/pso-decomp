@@ -123,7 +123,7 @@ TBoss4Type3State boss4_type3_states[17] = {
 CollisionBody boss4_type3_collision_body_desc[1] = {
     {{0.0f, 20.0f, 0.0f}, 45.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
-s32 lbl_80486FB0[3] = {0xc, 0xd, 0xd};
+s32 boss4_type3_model_ids[3] = {0xc, 0xd, 0xd};
 s32 boss4_type3_index_table[3] = {0xe, 0xf, 0xf};
 Type3MotionView TBoss4Type3__anim_state_table[10] = {
     { 0, 0, 83, 84, 85 },
@@ -137,7 +137,7 @@ Type3MotionView TBoss4Type3__anim_state_table[10] = {
     { 2, 0, 14, 15, 16 },
     { 1, 0, 19, 84, 85 },
 };
-ModelNodePositionEntry lbl_80487090[7] = {
+ModelNodePositionEntry boss4_type3_body_node_captures[7] = {
     {0x38, {0.0f, 0.0f, 0.0f}},
     {0x34, {0.0f, 0.0f, 0.0f}},
     {0x35, {0.0f, 0.0f, 0.0f}},
@@ -146,14 +146,14 @@ ModelNodePositionEntry lbl_80487090[7] = {
     {0x39, {0.0f, 0.0f, 0.0f}},
     {-1, {0.0f, 0.0f, 0.0f}},
 };
-ModelNodePositionEntry lbl_80487100[3] = {
+ModelNodePositionEntry boss4_type3_wing_node_captures[3] = {
     {0xB, {0.0f, 0.0f, 0.0f}},
     {0xC, {0.0f, 0.0f, 0.0f}},
     {-1, {0.0f, 0.0f, 0.0f}},
 };
 Vec boss4_type3_start_position = {10000.0f, -10.0f, 0.0f};
 const ModelNodePositionEntry *boss4_type3_effect_desc_ptr_table[3] = {
-    lbl_80487090, lbl_80487100, lbl_80487100,
+    boss4_type3_body_node_captures, boss4_type3_wing_node_captures, boss4_type3_wing_node_captures,
 };
 __declspec(section ".data") s32 boss4_type3_run_task_params[2] = {0x34, 0x35};
 Vec lbl_80487150 = {0.0f, 0.0f, 0.0f};
@@ -255,7 +255,7 @@ TBoss4Type3::TBoss4Type3(TObject *parent, TBoss4FormSetData *set_data) : TObjEne
         render_lists[i] = ModelNodePositionCapture::create(boss4_type3_effect_desc_ptr_table[i], node_positions[i]);
     }
     set_motion_packed_rotation();
-    body = (NJS_OBJECT *)get_bml_model(archive, lbl_80486FB0[0]);
+    body = (NJS_OBJECT *)get_bml_model(archive, boss4_type3_model_ids[0]);
     trail_samples[0] = new SampledMotionPoints(2, 3.0f, 9.0f, 0.6f);
     trail_samples[0]->sample_two_nodes(body, (NJS_MOTION *)get_bml_motion(archive, TBoss4Type3__anim_state_table[3].motions[0]), 0x16, 0x17);
     trails[0] = TUnk_80494968::create(0xA0303030, 0xFFFF0088);
@@ -396,7 +396,7 @@ void TBoss4Type3::run_task() {
     }
     p = new SampledMotionPoints(2, lim, lim, 0.6f);
     set_motion_packed_rotation();
-    p->sample((NJS_OBJECT *)get_bml_model(archive, lbl_80486FB0[0]), (NJS_MOTION *)get_bml_motion(archive, TBoss4Type3__anim_state_table[anim].motions[0]), boss4_type3_run_task_params, NULL);
+    p->sample((NJS_OBJECT *)get_bml_model(archive, boss4_type3_model_ids[0]), (NJS_MOTION *)get_bml_motion(archive, TBoss4Type3__anim_state_table[anim].motions[0]), boss4_type3_run_task_params, NULL);
     clear_motion_packed_rotation();
     e = p->lookup(lim);
     push_matrix();
@@ -509,7 +509,7 @@ void TBoss4Type3::draw_model_set(const s32 *tbl, f32 t) {
     }
     if (t < 1.0f) {
         TObjPlayer__sub_80052390(t);
-    } else if (tbl == lbl_80486FB0) {
+    } else if (tbl == boss4_type3_model_ids) {
         TBoss6PlotFalz__sub_802AC008(hit_flash, hp_ratio);
     }
     model_render_flags |= 0x20000;
@@ -527,7 +527,7 @@ void TBoss4Type3::draw_model_set(const s32 *tbl, f32 t) {
         TObjPlayer::sync_player_globals();
         return;
     }
-    if (tbl == lbl_80486FB0) {
+    if (tbl == boss4_type3_model_ids) {
         TBoss6PlotFalz::update_camera_target();
     }
 }
@@ -540,12 +540,12 @@ void TBoss4Type3::draw_faded_models() {
     Pair_8005A438 a;
     Words_8005A438 tmp;
     Pair_8005A438 *pb = &b;
-    a.p = lbl_80486FB0;
+    a.p = boss4_type3_model_ids;
     a.f = fade;
     b.p = boss4_type3_index_table;
     b.f = 1.0f - a.f;
     if (a.f < 0.5f) {
-        tmp.p = lbl_80486FB0;
+        tmp.p = boss4_type3_model_ids;
         tmp.w = *(u32 *)&a.f;
         ((TBoss4Type3 *)(&a))->copy_pair(pb);
         ((TBoss4Type3 *)pb)->copy_pair(&tmp);

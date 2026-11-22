@@ -19,7 +19,7 @@ public:
     virtual void render();
 
     TParticleCtrl *particle_emitters[4];
-    // Models from lbl_80485EB0 (TBoss4Type1's body models), drawn fading out.
+    // Models from boss4_type1_model_ids (TBoss4Type1's body models), drawn fading out.
     DarkFalzScenePart body_parts[6];
     // Models from boss4_zanzo_bml_index_table, drawn fading in.
     DarkFalzScenePart zanzo_parts[2];
