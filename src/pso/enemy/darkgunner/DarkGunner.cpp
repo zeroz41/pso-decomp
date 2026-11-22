@@ -270,12 +270,11 @@ inline f32 fmax_800A28A4(f32 a, f32 b) {
 }
 
 #pragma pop
+f32 dark_gunner_shot_speed;
+
 extern "C" {
 
-
 void load_darkgunner_effect_resources();
-
-f32 dark_gunner_shot_speed;
 
 BmlResource *TObjEneDarkGunner__bml_resource; // bm_ene_darkgunner.bml
 
