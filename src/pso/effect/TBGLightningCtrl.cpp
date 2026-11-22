@@ -21,6 +21,7 @@ public:
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/camera/TCameraCtrl.h"
 
 struct Vtx_802A9D40 { f32 x, y, z, u, v; s32 c; };
 
@@ -61,7 +62,6 @@ const char *TBGLightning__name = TBGLightning__class_name_string;
 __declspec(section ".rodata") extern const char TBGLightningCtrl__class_name_string[] = "TBGLightningCtrl";
 const char *TBGLightningCtrl__name = TBGLightningCtrl__class_name_string;
 __declspec(section ".rodata") s32 lbl_8046FC8C[3] = { 1, 5, 0 };
-extern void *camera_ctrl_instance;
 saddr bg_lightning_texture_handle;
 
 void bind_lightning_texture(void) { TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(bg_lightning_texture_handle)); }
@@ -232,12 +232,12 @@ void fn_802A9F48(Obj_802A9F48 *self, Vec *dir) {
 
 void render__12TBGLightningFv(s32 arg0) {
     Vec stack;
-    s32 temp_r31;
+    s32 angle;
     if (TMainTask::get_render_pass() != 0) {
-        temp_r31 = *(s32 *)((s8 *)camera_ctrl_instance + 0x194) + 0x4000;
-        stack.x = sin_table_lookup(temp_r31);
+        angle = camera_ctrl_instance->yaw + 0x4000;
+        stack.x = sin_table_lookup(angle);
         stack.y = (-1.0f);
-        stack.z = cos_table_lookup(temp_r31);
+        stack.z = cos_table_lookup(angle);
         TParticleCtrl::begin_effect_render();
         set_additive_blend();
         ((s32 (*)(s32, f32 *))fn_802A9F48)(arg0, &stack.x);

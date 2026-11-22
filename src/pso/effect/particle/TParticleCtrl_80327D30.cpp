@@ -23,6 +23,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/camera/TCameraCtrl.h"
 #pragma defer_codegen on
 
 struct Vtx_80327D30 { f32 x, y, z, u, v; u32 color; };
@@ -39,7 +40,6 @@ s32 GXSetNumTexGens(int);
 s32 GXSetNumTevStages(int);
 s32 post_translate_matrix(void *);
 s32 emit_particle_strip_vertices(void *, int);
-extern u8 *camera_ctrl_instance;
 }
 
 u8 *construct_indirect_effect_task(u8 *arg0, s32 kind, s32 arg2, u8 *parent) {
@@ -156,8 +156,8 @@ void TUnk_804ED598::render() {
         TParticleCtrl::begin_effect_render();
         push_matrix();
         post_translate_matrix(o->pos);
-        rotate_matrix_y(0, *(s32 *)(camera_ctrl_instance + 0x194));
-        rotate_matrix_x(0, *(s32 *)(camera_ctrl_instance + 0x190));
+        rotate_matrix_y(0, camera_ctrl_instance->yaw);
+        rotate_matrix_x(0, camera_ctrl_instance->pitch);
         load_projected_texture_matrix(1.1333334f);
         TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_804C5820[9].texlist));
         set_texture_num(o->f31);

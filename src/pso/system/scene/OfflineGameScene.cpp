@@ -1,28 +1,37 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/scene/OfflineGameScene.h"
 #include "pso/unk/TUnk_804C8678.h"
-#include "pso/system/task/TMainTask.h"
 #include "types.h"
-#include "pso/unk/text_801A3014.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby_800FD78C.h"
+#include "pso/unk/TLobby_8030A6A8.h"
+#include "pso/object/switch/TSwitch.h"
+#include "pso/object/warp/TObjLaboMapWarp_80185248.h"
+#include "pso/unk/TLobby.h"
+#include "pso/ui/keyboard/TKeyBoardControl.h"
+#include "pso/npc/TNpcPlayer.h"
+#include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/technique/TTecLuker.h"
+#include "pso/object/door/TObjDoor.h"
+#include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/ui/frontend/TAdSelectGameModeGC.h"
+#include "pso/network/client_id.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/system/main_loop.h"
 #include "pso/system/vector.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/frontend/TAdSelectGameModeGC.h"
 #include "pso/ui/frontend/TAdStorySelectGC.h"
-#include "pso/system/task/TObject.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/scene/TScene.h"
-#include "pso/unk/TLobby.h"
-#include "pso/camera/TCameraCtrl.h"
-#include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/system/TLoadCtrl.h"
 #include "pso/quest/TQuestListVM.h"
-#include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/map/FloorArea.h"
-#include "pso/player/TObjPlayer_80011014.h"
 #include "pso/map/FloorResourceCallbacks.h"
 #include "pso/ui/frontend/TAdSelectGameModeGC_802C4748.h"
 #include "pso/unk/TLobby_802A7290.h"
@@ -43,7 +52,6 @@
 #include "pso/unk/TLobby_8020B03C.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
 #include "pso/ui/window/TWindowDD.h"
-#include "pso/object/switch/TSwitch.h"
 #include "pso/ui/city/TShopGetItemWindow_8021F0A4.h"
 #include "pso/ui/city/TShopGetItemWindow_8021F074.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
@@ -63,65 +71,100 @@
 #include "pso/ui/window/TWindowSubStatusDisp_8036D774.h"
 #include "pso/boss/olgaflow/TBoss6Type2_8036DC80.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
+#include "pso/player/TPlyCharData.h"
+#include "pso/player/PlayerSlots.h"
+#include "pso/object/warp/ForestWarpResources.h"
 
 
-struct VBase_801A33DC { char pad[0x18]; };
+s32 is_multiplayer_character_slot_selected(s32);
+extern "C" {
+s32 create_player_object(s32, s32, u32);
+extern s32 local_client_id;
+s32 reset_quest_result_callbacks__22THunterGuildSeqOfflineFPv();
 
-struct VObj_801A33DC : VBase_801A33DC {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-};
+void TLobby::reset_keyboard_input() { TKeyBoardControl::reset(); TKeyBoardControl__sub_8000F92C(); clear_keyboard_key_state(); TKeyBoardControl__sub_8000F95C(); TLobby::clear_counter(); }
+void TLobby::shutdown_keyboard_control() { TKeyBoardControl::reset(); TLobby::reset_quest_state(); TKeyBoardControl__sub_8000F92C(); clear_keyboard_key_state(); TKeyBoardControl__sub_8000F95C(); TLobby::clear_counter(); }
+void TLobby__sub_801A2DF4(void) {  }
+void TLobby__sub_801A2DF8(void) {  }
+void TLobby__sub_801A2DFC(void) {  }
 
-struct Obj_801A33DC { u8 data[0x20]; };
+void TLobby__sub_801A2E00(void) {
+    if (TRaderMapCore::is_not_split_screen() == 1) {
+        switch (get_game_play_mode()) {
+        case 1:
+        case 2: {
+            s32 i;
+            for (i = 0; i < 4; i++) {
+                TObjPlayer *player = get_player_by_client_id(i);
+                if (player != NULL) {
+                    delete player;
+                }
+            }
+            TLobby::apply_char_to_players();
+            break;
+        }
+        }
+    }
+}
+}
 
-struct VBase_801A3014 { char pad[0x18]; };
+void TLobby::apply_char_to_players() {
+    s32 slot;
+    u32 char_index;
+    u32 local_char_index;
+    if (is_split_screen() != 0) {
+        slot = 0;
+        do {
+            if (is_multiplayer_character_slot_selected(slot) != 0) {
+                char_index = (u32)TAdSinglePlyChrSelectGC::get_char_index(slot);
+                if (char_index != 0U) {
+                    create_player_object(slot, player_control_role_base + slot, char_index);
+                }
+            }
+            slot += 1;
+        } while (slot < 4);
+        return;
+    }
+    local_char_index = (u32)TAdSinglePlyChrSelectGC::get_char_index(local_client_id);
+    if (local_char_index != 0U) {
+        create_player_object(0, player_control_role_base, local_char_index);
+    }
+}
+void TLobby::reset_quest_state() {
+    TRaderMapCore::free_map_data();
+    clear_switch_table();
+    TTecLuker::apply_all_players();
+    TLobby::reset_item_id_counters();
+    TLobby::reset_floor_items();
+    TNpcPlayer::enable_all_battle_ctrl();
+    if (quest_mission_manager != NULL) {
+        quest_mission_manager->queue_destruction();
+    }
+    clear_enabled_main_warps();
+    reset_quest_result_callbacks__22THunterGuildSeqOfflineFPv();
+    TLobby::clear_counter();
+    TLobby::reset_door_state();
+    TObjDoor::reset_instance();
+    TLobby::set_cleanup_flag();
+    TLobby::reset_quest_counter();
+    TLobby::clear_quest_state();
+}
 
-struct VObj_801A3014 : VBase_801A3014 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-};
 
-struct Obj_801A3014 { u8 data[0x20]; };
+void TAdSelectGameModeGC::enable_camera() { TLobby__sub_801A3B90(1); TCameraCtrl::set_camera_id(1); TCameraCtrl::reset_mode(); }
 
-struct VBase_801A31D8 { char pad[0x18]; };
+void TAdSelectGameModeGC::free_sub_ctrls() { TLobby__sub_801A3B90((saddr)this); TCameraCtrl::set_camera_id((saddr)this); }
 
-struct VObj_801A31D8 : VBase_801A31D8 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-};
+s32 TCameraCtrl::get_camera_no() {
+    if (is_split_screen() != 0) {
+        return get_camera_mode();
+    }
+    return local_client_id;
+}
 
-struct Obj_801A31D8 { u8 data[0x20]; };
 
-struct VBase_801A37D0 { char pad[0x18]; };
-
-struct VObj_801A37D0 : VBase_801A37D0 {
-    virtual void m0();
-    virtual void m1();
-};
-
-struct PVB_801A39BC { char pad[0x18]; };
-
-struct PV_801A39BC : PVB_801A39BC {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); virtual void m4(); virtual void m5(); virtual void m6();
-};
 
 extern "C" {
-s32 TLobby__sub_801A3B98();
 void TLobby__sub_802075F4(void);
 void TWindowCtrlMain__sub_8024D838(void);
 void TObjPlayer__sub_80156934(void);
@@ -190,32 +233,21 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {clear_boss6_player_snapshots, NULL},
 };
 extern "C" {
-void __dt__7TObjectFv(void *, int);
 void find_leader_section_id(void *, s32);
 void unlock_main_warp_destination(s32);
 void reset_controller_input_state();
 void load_area_scene_and_init(void *);
-void __ct__7TObjectFP7TObject(void *, void *);
 s32 is_area_transfer_pending();
 s32 apply_phase_keyboard_mode();
-s32 TLobby__sub_801A2E00();
 s32 rebuild_player_inventory(void *);
 s32 get_game_play_mode();
-s32 TKeyBoardControl__sub_8000F95C();
-s32 clear_keyboard_key_state();
-s32 request_main_phase(s32);
 void TLobby__sub_8007EB20(const char *, ...);
 s8 func_801A5E54__Fv();
 s32 func_803DCDFC__Fv();
 s32 TLobby__sub_8006EF90();
 s32 TWindowCtrlMain__sub_8024CB7C();
 s32 TWindowCtrlMain__sub_8024CB8C();
-s32 TKeyBoardControl__sub_8000F90C(s32);
-s32 set_queued_main_phase(s32);
 s32 run_load_callback_table(void *, s32);
-s32 TLobby__sub_801A2DF4();
-s32 TLobby__sub_801A2DF8();
-s32 TLobby__sub_801A2DFC();
 s32 TObjPlayer__sub_801B1BA4();
 s32 TObjPlayer__sub_801B1C8C();
 s32 set_copy_clear_color_argb(s32, s32, s32);
@@ -246,20 +278,19 @@ extern s32 TLobby__lobby_state_flags;
 
 
 void TLobby::reload_offline_area() {
-    Obj_801A3014 holder;
-    void *p;
+    TObject holder;
+    TObjPlayer *p;
     s32 i;
     s32 j;
-    __ct__7TObjectFP7TObject(&holder, NULL);
     process_pending_resources();
     reset_controller_input_state();
     render_tick();
     render_tick();
     TLobby__sub_801A2E00();
     for (i = 0; i < TLobby::get_game_mode(); i++) {
-        void *q = TObjPlayer::get_player_data(i);
+        TObjPlayer *q = TObjPlayer::get_player_data(i);
         if (q != NULL) {
-            ((TObject *)q)->set_parent((TObject *)(&holder));
+            q->set_parent(&holder);
         }
     }
     if (TRaderMapCore::is_not_split_screen() == 1) {
@@ -303,23 +334,21 @@ void TLobby::reload_offline_area() {
     for (j = 0; j < TLobby::get_game_mode(); j++) {
         p = TObjPlayer::get_player_data(j);
         if (p != NULL) {
-            ((TObject *)p)->set_parent((TObject *)tl_03);
-            ((VObj_801A3014 *)p)->m6();
+            p->set_parent(tl_03);
+            p->reset_motion_fields();
             rebuild_player_inventory(p);
             ((TObjPlayer *)fn_801B309C)->for_each_player_slot();
         }
     }
     load_battle_param_entry();
     update_main_warp_visible_mask(0);
-    __dt__7TObjectFv(&holder, -1);
 }
 
 void TLobby::rebuild_area_keep_players() {
-    Obj_801A31D8 holder;
+    TObject holder;
     s32 i;
     s32 j;
-    void *p;
-    __ct__7TObjectFP7TObject(&holder, NULL);
+    TObjPlayer *p;
     process_pending_resources();
     reset_controller_input_state();
     render_tick();
@@ -327,9 +356,9 @@ void TLobby::rebuild_area_keep_players() {
     TObjPlayer::refresh_player_lobby_headers();
     TObjPlayer::create_active_players();
     for (i = 0; i < TLobby::get_game_mode(); i++) {
-        void *q = TObjPlayer::get_player_data(i);
+        TObjPlayer *q = TObjPlayer::get_player_data(i);
         if (q != NULL) {
-            ((TObject *)q)->set_parent((TObject *)(&holder));
+            q->set_parent(&holder);
         }
     }
     main_task.delete_layer_children();
@@ -358,8 +387,8 @@ void TLobby::rebuild_area_keep_players() {
     TQuestThread::create_by_mode();
     clear_quest_floor_designations();
     {
-        void *t = new TQuestThread(quest_mission_manager, 0);
-        ((VObj_801A31D8 *)t)->m1();
+        TQuestThread *thread = new TQuestThread(quest_mission_manager, 0);
+        thread->run_task();
     }
     TLobby::set_enemy_mode_flag();
     TLobby::init_limits();
@@ -378,30 +407,28 @@ void TLobby::rebuild_area_keep_players() {
     for (j = 0; j < TLobby::get_game_mode(); j++) {
         p = TObjPlayer::get_player_data(j);
         if (p != NULL) {
-            ((TObject *)p)->set_parent((TObject *)tl_03);
-            ((VObj_801A31D8 *)p)->m6();
+            p->set_parent(tl_03);
+            p->reset_motion_fields();
             rebuild_player_inventory(p);
             ((TObjPlayer *)fn_801B309C)->for_each_player_slot();
         }
     }
     TQuestThread::create_for_floor();
-    __dt__7TObjectFv(&holder, -1);
 }
 
 void run_offline_area_transfer(void) {
-    Obj_801A33DC holder;
+    TObject holder;
     s32 i;
-    void *p;
+    TObjPlayer *p;
     s32 j;
-    __ct__7TObjectFP7TObject(&holder, NULL);
     process_pending_resources();
     reset_controller_input_state();
     render_tick();
     render_tick();
     for (i = 0; i < TLobby::get_game_mode(); i++) {
-        void *q = TObjPlayer::get_player_data(i);
+        TObjPlayer *q = TObjPlayer::get_player_data(i);
         if (q != NULL) {
-            ((TObject *)q)->set_parent((TObject *)(&holder));
+            q->set_parent(&holder);
         }
     }
     main_task.delete_layer_children();
@@ -420,15 +447,14 @@ void run_offline_area_transfer(void) {
     for (j = 0; j < TLobby::get_game_mode(); j++) {
         p = TObjPlayer::get_player_data(j);
         if (p != NULL) {
-            ((TObject *)p)->set_parent((TObject *)tl_03);
-            ((VObj_801A33DC *)p)->m6();
+            p->set_parent(tl_03);
+            p->reset_motion_fields();
         }
     }
     TQuestThread::create_for_floor();
     if (quest_area_manager != NULL) {
         new TQuestThread(quest_area_manager, 0);
     }
-    __dt__7TObjectFv(&holder, -1);
 }
 
 void TLobby::teardown_scene() {
@@ -548,7 +574,7 @@ void run_split_screen_frame(void) {
                     main_task.run_task();
                     TWindowSubStatusDisp::draw_split_screen_hud();
                 } else if (camera_ctrl_instance != NULL) {
-                    ((VObj_801A37D0 *)camera_ctrl_instance)->m1();
+                    camera_ctrl_instance->run_task();
                 }
                 TCameraCtrl::set_split_viewport(TCameraCtrl::get_camera_id(), i);
                 forward_clear_split_screen_fog();
@@ -584,7 +610,7 @@ void dispatch_offline_main_frame(void) {
 void init_offline_game_scene(void) {
     s32 game_mode;
     s32 i;
-    void *player_data;
+    TObjPlayer *player_data;
     lbl_805D5CE0 = 0;
     TLobby__lobby_state_flags = 0;
     set_copy_clear_color_argb(0, 0, 0);
@@ -629,7 +655,7 @@ void init_offline_game_scene(void) {
     for (i = 0; i < game_mode; i++) {
         player_data = TObjPlayer::get_player_data(i);
         if (player_data != NULL) {
-            ((PV_801A39BC *)player_data)->m6();
+            player_data->reset_motion_fields();
         }
     }
     TObjPlayer__sub_801B1BA4();
@@ -647,3 +673,67 @@ void init_offline_game_scene(void) {
     set_queued_main_phase(0xE);
     render_tick();
 }
+
+
+    extern int quest_active_flag;
+void TLobby::clear_counter() { quest_active_flag = 0; }
+
+int camera_split_screen_selector = 1;
+void TLobby__sub_801A3B90(int a0) { camera_split_screen_selector = a0; }
+
+void TLobby__sub_801A3B98(void) { camera_split_screen_selector = 1; }
+
+    extern int lobby_online_ready_flag;
+void TLobby::clear_quest_state() { lobby_online_ready_flag = 0; }
+
+    extern int scene_resource_index;
+void TScene::set_scene(int a0) { scene_resource_index = a0; }
+
+
+// The global character record. The original's static initializer precedes this
+// file's inline copies, which a compiler-generated one never does, so the
+// initializer is spelled out.
+struct DestructorChain {
+    DestructorChain *next;
+    void *destructor;
+    void *object;
+};
+extern "C" {
+static void __sinit_OfflineGameScene_cpp();
+TPlyCharData *__ct__12TPlyCharDataFv(TPlyCharData *self);
+void __dt__12TPlyCharDataFv(TPlyCharData *self, s16 mode);
+void *__register_global_object(void *object, void *destructor, void *chain);
+}
+#pragma push
+#pragma suppress_init_code on
+#pragma no_static_dtors on
+static DestructorChain global_character_data_dtor_chain;
+TPlyCharData TPlyCharData__global_character_data;
+#pragma pop
+__declspec(section ".ctors") static void *const offline_game_scene_initializer = (void *)__sinit_OfflineGameScene_cpp;
+
+static void __sinit_OfflineGameScene_cpp() {
+    __register_global_object(__ct__12TPlyCharDataFv(&TPlyCharData__global_character_data),
+        (void *)__dt__12TPlyCharDataFv, &global_character_data_dtor_chain);
+}
+
+extern int switch_doors_force_closed;
+extern s32 TObjDoor__data_805D5BC8;
+
+void TLobby::reset_quest_counter() { lobby_quest_progress_flag = 0; }
+
+void TLobby::set_cleanup_flag() { quest_warp_enabled = 1; }
+
+void TObjDoor::reset_instance() {
+    TObjDoor__data_805D5BC8 = 0;
+}
+
+void TLobby::reset_door_state() { switch_doors_force_closed = 0; }
+
+inline void TCameraCtrl::reset_mode() { camera_mode = 0; }
+
+inline void TCameraCtrl::set_camera_id(int id) { camera_id = id; }
+
+inline void TCameraCtrl::set_mode(int mode) { camera_mode = mode; }
+
+inline s8 TCameraCtrl::get_view_state() { return camera_ctrl_view_state_byte; }

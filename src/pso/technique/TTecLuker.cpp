@@ -36,6 +36,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/camera/TCameraCtrl.h"
 
 struct Stack_802340E4 {
     s32 sp8;
@@ -134,7 +135,6 @@ void handle_6x68_set_telepipe_state(Pkt_802341B0 *pkt);
 s32 send_6x21_inter_level_warp(void *, s32);
 s32 play_persistent_sound(s32, void *, void *, s32, s32);
 f32 horizontal_distance_squared(void *, void *);
-extern saddr camera_ctrl_instance;
 s32 free_collision_body_parts(void *);
 s32 submit_cursor_candidate(void *, s32);
 }
@@ -553,7 +553,7 @@ void TUnk_804CCA0C::run_task() {
     }
     return;
   }
-  if (horizontal_distance_squared(&pos, (void *)(camera_ctrl_instance + 0x178)) >= 102400.0f)
+  if (horizontal_distance_squared(&pos, &camera_ctrl_instance->pos) >= 102400.0f)
   {
     for (i = 0; i < 3; i++)
     {

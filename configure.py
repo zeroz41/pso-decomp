@@ -913,7 +913,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # load_texture_pvm_file reaches each .rodata object with its own lis/addi (no shared base): -pool off.
     "pso/unk/TLobby_801E43E4.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
-    "pso/unk/text_801A3014.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/system/scene/OfflineGameScene.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/unk/TLobby_801A3C48.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # run_task reaches each of its four .rodata initialiser templates with its own lis/addi: -pool off.
     "pso/unk/TUnk_804C2298.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
