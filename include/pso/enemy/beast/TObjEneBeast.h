@@ -6,6 +6,7 @@
 #include "pso/render/RenderFadeState.h"
 
 class TObject;
+class TUnk_80494968;
 
 struct TObjEneBeast : public TUnk_80493450 {
     TObjEneBeast(TObject *parent, void *set_data);
@@ -20,7 +21,7 @@ struct TObjEneBeast : public TUnk_80493450 {
     void play_alert_sound();
     void spawn_death_effect();
     void update_attack_trail();
-    TObject *m_3a8[2];
+    TUnk_80494968 *m_3a8[2];
     RenderFadeState m_3b0[4];
     void select_subtype();
     static void *create(void *set_data);
