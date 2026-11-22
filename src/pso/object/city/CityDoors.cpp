@@ -46,7 +46,6 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/PlayerSlots.h"
 
-extern "C" {
 extern const char city_door_asset_de_obj_bigbeam_gj[];
 __declspec(section ".rodata") const char city_door_asset_de_obj_bigbeam_gj[] ATTRIBUTE_ALIGN(4) = "de_obj_bigbeam.gj";
 extern const char city_door_asset_de_obj_citybeam_gj[];
@@ -139,7 +138,6 @@ extern const char TObjCityDoor_Med__class_name[];
 __declspec(section ".rodata") const char TObjCityDoor_Med__class_name[] ATTRIBUTE_ALIGN(4) = "TObjCityDoor_Med";
 extern const char TObjCityDoor_Lobby__class_name[];
 __declspec(section ".rodata") const char TObjCityDoor_Lobby__class_name[] ATTRIBUTE_ALIGN(4) = "TObjCityDoor_Lobby";
-}
 
 struct CityDoorClassTag { const char *value; u32 padding; };
 __declspec(section ".sdata") extern const char *TObjCityDoor_Shop__name;
