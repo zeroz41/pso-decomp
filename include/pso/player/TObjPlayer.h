@@ -1584,4 +1584,8 @@ void set_flag_400000(TObjPlayer *player);
 // The owner joint each item attach slot hangs the equipped model from
 // (TItemEquipBase::set_attach_slot); defined with the player.
 extern s16 item_equip_attach_equip_flag_table[];
+
+// The demo camera check_demo_mode tests; TCameraDebugView looks at its entry of
+// demo_camera_controller_table.
+extern s16 demo_camera_controller_index;
 #endif

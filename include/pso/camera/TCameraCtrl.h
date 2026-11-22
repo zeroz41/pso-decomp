@@ -181,7 +181,6 @@ public:
     static s32 get_mode(void *p);
     // Transforms the vector at src into view space, into dst.
     static void transform_to_view(const Vec *src, Vec *dst);
-    static Vec get_target_position();
     static s32 get_camera_no();
     static void set_mode(int mode);
     static void reset_mode();

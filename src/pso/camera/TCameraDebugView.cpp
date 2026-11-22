@@ -1,6 +1,8 @@
 #include "types.h"
 #include "pso/camera/TCameraDebugView.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/ControllerInputState.h"
@@ -33,7 +35,7 @@ void TCameraDebugView::run_task() {
             projection_angle -= 0xB6;
         }
     }
-    VecCopy(&focus, &(const Vec &)TCameraCtrl::get_target_position());
+    VecCopy(&focus, &(const Vec &)get_target_position());
     set_target_pos(&focus);
     if (test_previous_buttons_packed(pad, 0x200) != 0) {
         if (test_previous_buttons_packed(pad, 0x10) != 0) {
@@ -73,15 +75,11 @@ TCameraDebugView::TCameraDebugView() {
     flags = 0;
 }
 
-struct O_8006CC7C { u8 pad[0x1c]; Vec pos; };
-extern O_8006CC7C *demo_camera_controller_table[];
-extern s16 demo_camera_controller_index;
-
-Vec TCameraCtrl::get_target_position() {
+Vec TCameraDebugView::get_target_position() {
     Vec def = default_target_position;
-    O_8006CC7C *o = demo_camera_controller_table[demo_camera_controller_index];
-    if (o != 0) {
-        return o->pos;
+    CameraParams *camera = demo_camera_controller_table[demo_camera_controller_index];
+    if (camera != 0) {
+        return camera->position;
     }
     return def;
 }
