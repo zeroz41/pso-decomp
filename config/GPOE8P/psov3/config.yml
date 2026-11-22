@@ -8171,8 +8171,8 @@ force_active:
   - lbl_804FE188
   - lbl_804FE194
   - lbl_804FE1B8
-  - lbl_804FE1D0
-  - lbl_804FE1DC
+  - boss1_dragon_reference_pos_vec
+  - boss1_dragon_forward_reference_vec
   - lbl_804FF67C
   - lbl_804FF82C
   - lbl_805007C8

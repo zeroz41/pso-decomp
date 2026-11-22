@@ -115,7 +115,6 @@ void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32
 extern "C" {
 s32 get_current_floor();
 extern s32 lbl_805D4B24;
-s32 set_scripted_camera_pose(void *, void *, void *);
 extern u8 *TBoss1Dragon__part_hp_stats[5];
 f32 newton_sqrtf(f32);
 extern saddr TBoss1Dragon__data_804FE17C[3];
@@ -124,8 +123,11 @@ u8 *find_entity_by_id(s32);
 }
 void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 void dragon_capture_node_points(NJS_OBJECT *);
-extern Vec lbl_804FE1D0;
-extern Vec lbl_804FE1DC;
+// The camera's xz position and its normalized xz direction to the camera target, set by render before it
+// tests the model's points with is_sphere_visible (twins of boss8_dragon_reference_pos_vec and
+// dragon_forward_reference_vec).
+extern Vec boss1_dragon_reference_pos_vec;
+extern Vec boss1_dragon_forward_reference_vec;
 extern uaddr TBoss1Dragon__data_805D4B08;
 extern s32 TBoss1Dragon__data_805D4B0C;
 extern Vec *TBoss1Dragon__data_805D4B14;
@@ -329,6 +331,7 @@ struct Pkt_800284B4 {
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
+#include "pso/camera/CameraHelpers.h"
 extern "C" {
 void TBoss1Dragon__sub_8002AB6C(u8 *self);
 void copy_model_node(u8 *dst, u8 *arg1);
@@ -338,8 +341,8 @@ DragonModelVector lbl_804FE188;
 DragonCaptureVectors lbl_804FE194;
 DragonModelState lbl_804FE1B8;
 }
-Vec lbl_804FE1D0;
-Vec lbl_804FE1DC;
+Vec boss1_dragon_reference_pos_vec;
+Vec boss1_dragon_forward_reference_vec;
 extern s32 registered_player_count;
 extern s16 TCameraCtrl__camera_mode;
 extern "C" {
@@ -4058,7 +4061,7 @@ void TBoss1Dragon::update_death_state(u32 arg1) {
             cam.frame_step = (0.5f);
             activate_camera_mode(5);
             cam.cache_target_and_forward(0x31C7);
-            set_scripted_camera_pose(&this->position, &this->position, &this->rotation_x);
+            set_scripted_camera_pose(&this->position, &this->position, (CameraAngles *)&this->rotation_x);
             break;
         case 1:
             cam.index = 1;
@@ -4068,7 +4071,7 @@ void TBoss1Dragon::update_death_state(u32 arg1) {
             cam.frame_step = (0.5f);
             activate_camera_mode(5);
             cam.cache_target_and_forward(0x3333);
-            set_scripted_camera_pose(&this->position, &this->position, &this->rotation_x);
+            set_scripted_camera_pose(&this->position, &this->position, (CameraAngles *)&this->rotation_x);
             break;
         }
         break;
@@ -5099,10 +5102,10 @@ s32 TBoss1Dragon::is_sphere_visible(Vec *center, f32 radius) {
     f32 temp_f1;
     VecCopy(&delta, center);
     delta.y = 0.0f;
-    subtract_vector(&delta, &lbl_804FE1D0);
+    subtract_vector(&delta, &boss1_dragon_reference_pos_vec);
     temp_f1 = normalize_vector_xz(&delta);
     if ((temp_f1 + radius) < boss1_dragon_visibility_distance) {
-        if (vec3_dot(&delta, &lbl_804FE1DC) >= (temp_f1 * ((1.0f) / newton_sqrtf((f32) ((temp_f1 * temp_f1) + (radius * radius)))))) {
+        if (vec3_dot(&delta, &boss1_dragon_forward_reference_vec) >= (temp_f1 * ((1.0f) / newton_sqrtf((f32) ((temp_f1 * temp_f1) + (radius * radius)))))) {
             return 1;
         }
     }
@@ -5242,8 +5245,8 @@ void TBoss1Dragon::render() {
                     subtract_vector(&delta, &origin);
                     delta.y = (0.0f);
                     dist = normalize_vector_xz((Vec *)&delta);
-                    VecCopy(&lbl_804FE1D0, &origin);
-                    VecCopy(&lbl_804FE1DC, &delta);
+                    VecCopy(&boss1_dragon_reference_pos_vec, &origin);
+                    VecCopy(&boss1_dragon_forward_reference_vec, &delta);
                     *(f32 *) &boss1_dragon_visibility_distance = dist;
                     points[0] = &this->node_positions[3];
                     points[1] = &this->node_positions[4];

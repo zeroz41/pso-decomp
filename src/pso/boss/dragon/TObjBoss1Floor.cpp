@@ -3,7 +3,6 @@
 #include "pso/boss/dragon/TObjBoss1Floor.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/boss/dragon/TObjBoss1Crater_8002C6B4.h"
-#include "pso/boss/dragon/TObjBoss1Floor_8002C838.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_8002C190.h"
@@ -35,33 +34,19 @@
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
 #include "pso/system/scene/TScene_800838C4.h"
 
-struct Obj_8002CACC { s32 f0; u8 pad4[0x14]; void *vt; f32 f1c; f32 f20; f32 f24; s32 f28[4]; };
-
-typedef struct Player_8002C968 {
-    u8 pad0[0x38];
-    Vec pos;
-} Player_8002C968;
-
-typedef struct Floor_8002C968 {
-    u8 pad0[0x28];
-    void *objs[4];
-} Floor_8002C968;
-
-struct Obj_8002CA38 { u8 pad[0x28]; uaddr slot[4]; };
-
 extern "C" {
 const char *TObjBoss1Floor__name = "TObjBoss1Floor";
-void run_task__14TObjBoss1FloorFv(Floor_8002C968 *self);
 void TObjBoss1Floor__sub_8002CB40(void);
 void TObjBoss1Floor__sub_8002CB78(void);
+}
 
 void TLobby::update_boss1_objects() { TObjBoss1MokoHill_SoloM::free_resources(); TObjBoss1Rock__sub_8002E3CC(); TObjBoss1Crater__sub_8002C7B4(); TObjBoss1Floor__sub_8002CB40(); TLobby::free_char_select(); }
 void TLobby::forward_floor_2CB44() { TObjBoss1Floor::create_instance(); }
 void TLobby::init_bosses() { load_dragon_ground_assets(); TObjBoss1Floor__sub_8002CB78(); TObjBoss1Crater__sub_8002C7B8(); TObjBoss1Rock__sub_8002E3D0(); TObjBoss1MokoHill_SoloM::load_resources(); }
 
-extern s32 dragon_common_texture_list;
+extern "C" s32 dragon_common_texture_list;
 
-void render__14TObjBoss1FloorFv(void) {
+void TObjBoss1Floor::render() {
     u32 temp_r3;
     NJS_OBJECT *floor;
 
@@ -85,59 +70,56 @@ void render__14TObjBoss1FloorFv(void) {
     }
 }
 
-void run_task__14TObjBoss1FloorFv(Floor_8002C968 *self) {
+void TObjBoss1Floor::run_task() {
     s32 i;
-    Player_8002C968 *pl;
+    TObjPlayer *player;
     if (TObjEneDD::check_v2_mode() != 0) {
         for (i = 0; i < 4; i++) {
-            pl = (Player_8002C968 *)get_player_by_client_id(i);
-            if (pl != NULL) {
-                Vec pos = pl->pos;
+            player = get_player_by_client_id(i);
+            if (player != NULL) {
+                Vec pos = player->position;
                 pos.y -= 4.0f;
-                if (self->objs[i] == NULL) {
-                    self->objs[i] = create_particle_emitter(&pos, 0x144);
+                if (this->player_emitters[i] == NULL) {
+                    this->player_emitters[i] = create_particle_emitter(&pos, 0x144);
                 } else {
-                    ((TParticleCtrl *)self->objs[i])->set_position(&pos);
+                    this->player_emitters[i]->set_position(&pos);
                 }
-            } else if (self->objs[i] != NULL) {
-                ((TObject *)self->objs[i])->queue_destruction();
-                self->objs[i] = NULL;
+            } else if (this->player_emitters[i] != NULL) {
+                this->player_emitters[i]->queue_destruction();
+                this->player_emitters[i] = NULL;
             }
         }
     }
 }
 
-}
 TObjBoss1Floor::~TObjBoss1Floor() {
     s32 i;
     for (i = 0; i * 0x10 != 0; i++) {
-        if (((Obj_8002CA38 *)this)->slot[i] != 0) {
-            ((TObject *)(((Obj_8002CA38 *)this)->slot[i]))->queue_destruction();
-            ((Obj_8002CA38 *)this)->slot[i] = 0;
+        if (this->player_emitters[i] != NULL) {
+            this->player_emitters[i]->queue_destruction();
+            this->player_emitters[i] = NULL;
         }
     }
 }
 TObjBoss1Floor::TObjBoss1Floor(TObject *parent) : TObject(parent) {
     s32 i;
     m_name = TObjBoss1Floor__name;
-    ((Obj_8002CACC *)this)->f1c = 0.0f;
-    ((Obj_8002CACC *)this)->f20 = 0.0f;
-    ((Obj_8002CACC *)this)->f24 = 0.0f;
+    this->position.x = 0.0f;
+    this->position.y = 0.0f;
+    this->position.z = 0.0f;
     for (i = 0; i < 4; i++) {
-        ((Obj_8002CACC *)this)->f28[i] = 0;
+        this->player_emitters[i] = NULL;
     }
 }
 
-extern "C" {
-
-void TObjBoss1Floor__sub_8002CB40(void) {  }
+extern "C" void TObjBoss1Floor__sub_8002CB40(void) {  }
 
 
 void TObjBoss1Floor::create_instance() {
     void* obj = new TObjBoss1Floor((TObject *)tl_02);
 }
 
-void TObjBoss1Floor__sub_8002CB78(void) {  }
+extern "C" void TObjBoss1Floor__sub_8002CB78(void) {  }
 
 
 void TObjBoss1MokoHill_Solo::render() {
@@ -159,6 +141,4 @@ void TObjBoss1MokoHill_Solo::render() {
         draw_chunk_object(dragon_ground_resource->models[3].model);
     }
     pop_matrix();
-}
-
 }
