@@ -188,6 +188,7 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     void fn_8006426C();
     void fn_8006435C();
     void fn_8006442C();
+    void fn_80064AB0();
 };
 
 LAYOUT_ASSERT(TBoss5Gryphon_size, sizeof(TBoss5Gryphon) == 0x77C);

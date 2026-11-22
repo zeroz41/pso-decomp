@@ -293,8 +293,6 @@ struct Obj_80060F4C {
 struct ByteBlock_10 { u8 bytes[0x10]; };
 
 
-struct O_80064AB0 { u8 pad[0x1c]; u16 id; u8 pad2[0x38c - 0x1e]; u16 kind; u8 pad3[6]; f32 x; u8 pad4[4]; f32 z; };
-
 struct P_80064AB0 { u16 a; u16 id; u32 kind; f32 x; f32 z; };
 
 
@@ -355,7 +353,6 @@ f32 TBoss8Dragon__sub_8005EAD0(void *self, void *arg1, int arg2);
 void TBoss8Dragon__sub_8005F684(TBoss5Gryphon *self, void *params);
 void trigger_effect__12TBoss8DragonFPvi(void *arg0, s32 arg1);
 void apply_shockwave_hit(s32 arg0, s32 arg1);
-void TBoss8Dragon__sub_80064AB0(O_80064AB0 *self);
 void apply_remote_action__13TBoss5GryphonFPvPv(u8 *ene_dd, u8 *boss8_dragon);
 void run_miss_reaction__13TBoss5GryphonFv(void);
 void run_hit_reaction__13TBoss5GryphonFv(void);
@@ -1806,7 +1803,7 @@ void TBoss5Gryphon::refresh_target_periodically() {
         } else {
             this->set_target_destination(&lbl_80437938);
         }
-        ((s32 (*)(void *))TBoss8Dragon__sub_80064AB0)(this);
+        fn_80064AB0();
     }
     this->targetRefreshCounter = (this->targetRefreshCounter + 1);
 }
@@ -4212,13 +4209,13 @@ void TBoss5Gryphon::copy_spawn_params(void* a1) { *(short*)((char*)a1 + 0x2) = t
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void TBoss8Dragon__sub_80064AB0(O_80064AB0 *self) {
+void TBoss5Gryphon::fn_80064AB0() {
     P_80064AB0 p;
     TBoss8Dragon__sub_800660A4(&p);
-    p.id = self->id;
-    p.kind = self->kind;
-    p.x = self->x;
-    p.z = self->z;
+    p.id = entity_id;
+    p.kind = target_id;
+    p.x = destination.x;
+    p.z = destination.z;
     ((TBoss8Dragon *)(&p))->send_boss_actions();
 }
 #pragma pop
