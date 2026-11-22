@@ -44,6 +44,7 @@
 #include "pso/ui/window/TWindowRoom.h"
 #include "pso/ui/Language.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/player/TPlyInventory.h"
@@ -281,19 +282,14 @@ struct Card_80138B7C { u8 b[0x98]; };
 struct Lobby_80138B7C { u8 pad[0x2C68]; Card_80138B7C cards[1]; };
 struct GLE_80138D3C_80137188 { char pad[0x1c]; };
 struct GBig_80138D3C_80137188 { char pad[0x1da8]; GLE_80138D3C_80137188 arr[1]; };
-struct Pad_80139094 { u8 pad[0x10]; u32 flags; };
-struct Pad_80139104 { u8 pad[0x10]; u32 flags; };
 struct Ent_80139104 { u8 b[0x1C]; };
 struct Lst_80139104 { u8 pad[0x1DA8]; Ent_80139104 e[1]; };
-struct Pad_801391BC { u8 pad[0x10]; u32 flags; };
 struct Ent_801391BC { u8 b[0x1C]; };
 struct Lst_801391BC { u8 pad[0x1DA8]; Ent_801391BC e[1]; };
 struct Ent_801392F8 { u8 b[0x1B]; u8 flags; };
 struct Lst_801392F8 { u8 pad[0x1920]; s32 count; u8 pad2[0x1DA8 - 0x1924]; Ent_801392F8 e[1]; };
-struct Pad_801392F8 { u8 pad[0x10]; u32 flags; };
 struct GameListEntry_80139538_80137188 { char pad[0x1C]; };
 struct Root_80139538_80137188 { char pad[0x1DA8]; struct GameListEntry_80139538_80137188 entries[1]; };
-struct Pad_801395D8 { u8 pad[0x10]; u32 flags; };
 struct Ent_801395D8 { u8 b[0x1C]; };
 struct Lst_801395D8 { u8 pad[0x1DA8]; Ent_801395D8 e[1]; };
 struct Flag_80139690 { u8 pad[0x2A]; s8 flag; };
@@ -413,8 +409,6 @@ void TQuestListOnline__sub_8013ACF4(s32);
 s32 send_lobby_arrow__9TProtocolFUc(TProtocol *, s32);
 s32 clear_lobby_flag__10TObjPlayerFPv();
 extern s32 lbl_805DB0B4;
-extern s8 controller_input_state[];
-s32 reset_controller_input_state();
 void *__ct__16TPlyGuildCardTagFv(void *self);
 void set_queued_main_phase(s32);
 void request_main_phase(s32);
@@ -1162,7 +1156,7 @@ void TLobby::handle_team_select() {
             ((s32 (*)())TLobby::close_and_set_state_12)();
             return;
         }
-        if ((*(Pad_801395D8 **)controller_input_state)->flags & 0x400) {
+        if (controller_input_state.sources[0]->pressed & 0x400) {
             idx = ((TWindowMenuIconLine *)TLobby__list_window)->get_cursor_value();
             ((TProtocol *)((*(Lst_801395D8 * *)&(*(struct Root_80139538_80137188 * *)&(*(struct Root_80139538_80137188 * *)&(*(struct Root_80139538_80137188 * *)&TLobby__protocol_instance))))))->send_info(*(TPlyGuildCardTag *)(&(*(Lst_801395D8 * *)&(*(struct Root_80139538_80137188 * *)&(*(struct Root_80139538_80137188 * *)&(*(struct Root_80139538_80137188 * *)&TLobby__protocol_instance))))->e[idx]));
         }
@@ -1259,7 +1253,7 @@ void TLobby::update_game_list_menu() {
             TLobby::close_all_windows();
             return;
         }
-        if ((*(Pad_801392F8 **)controller_input_state)->flags & 0x400) {
+        if (controller_input_state.sources[0]->pressed & 0x400) {
             lobby_selected_game_list_index = ((TWindowMenuIconLine *)TLobby__list_window)->get_cursor_value();
             if (lobby_selected_game_list_index < (*(Lst_801392F8 **)&TLobby__protocol_instance)->count) {
                 ((TProtocol *)((*(Lst_801392F8 **)&TLobby__protocol_instance)))->send_info(*(TPlyGuildCardTag *)(&(*(Lst_801392F8 **)&TLobby__protocol_instance)->e[lobby_selected_game_list_index]));
@@ -1300,7 +1294,7 @@ void TLobby::update_ship_select_window() {
             TLobby::close_and_set_state_12();
             return;
         }
-        if ((*(Pad_801391BC **)controller_input_state)->flags & 0x400) {
+        if (controller_input_state.sources[0]->pressed & 0x400) {
             idx = ((TWindowMenuIconLine *)TLobby__list_window)->get_cursor_value();
             ((TProtocol *)((*(Lst_801391BC * *)&TLobby__protocol_instance)))->send_info(*(TPlyGuildCardTag *)(&(*(Lst_801391BC * *)&TLobby__protocol_instance)->e[idx]));
         }
@@ -1317,7 +1311,7 @@ void TLobby::update_block_jump_list() {
             TLobby::close_and_set_state_12();
             return;
         }
-        if ((*(Pad_80139104 **)controller_input_state)->flags & 0x400) {
+        if (controller_input_state.sources[0]->pressed & 0x400) {
             idx = ((TWindowMenuIconLine *)TLobby__list_window)->get_cursor_value();
             ((TProtocol *)((*(Lst_80139104 * *)&TLobby__protocol_instance)))->send_info(*(TPlyGuildCardTag *)(&(*(Lst_80139104 * *)&TLobby__protocol_instance)->e[idx]));
         }
@@ -1325,7 +1319,7 @@ void TLobby::update_block_jump_list() {
 }
 
 void queue_join_entry_exit_on_input(void *self) {
-    if (((*(Pad_80139094 **)controller_input_state)->flags & 8) || TLobby__join_lobby_idle_timer++ > 0xe10) {
+    if ((controller_input_state.sources[0]->pressed & 8) || TLobby__join_lobby_idle_timer++ > 0xe10) {
         TAdSinglePlyChrSelectGC::init();
         set_queued_main_phase(2);
         request_main_phase(0x12);
@@ -1334,7 +1328,7 @@ void queue_join_entry_exit_on_input(void *self) {
 }
 void TLobby::update() {
     if ((u32) TLobby__join_entry_window_obj != 0U) {
-        if (TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 8) != 0) {
+        if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 8) != 0) {
             if (((TWindowMessagePage *)TLobby__join_entry_window_obj)->is_message_window_ready() == 0) {
                 ((TWindowMessage *)TLobby__join_entry_window_obj)->complete_reveal();
             } else {
@@ -1480,7 +1474,7 @@ void TLobby::update_card_list_window() {
             return;
         }
     }
-    btn = (*(u32 **)controller_input_state)[4];
+    btn = controller_input_state.sources[0]->pressed;
     if (btn & 0x400) {
         Entry_80138B7C e2;
         sel = ((TWindowMenuIconLine *)TLobby__list_window)->get_cursor_value();
@@ -1500,7 +1494,7 @@ void TLobby::update_short_list() {
     void *context;
 
     if (TLobby__download_list_window != NULL) {
-        context = controller_input_state + 0x20;
+        context = &controller_input_state.controllers[0];
         if (TWindowShortListCtrl__check_controller_button(context, 4) != 0) {
             if (((TWindowMessagePage *)TLobby__download_list_window)->is_message_window_ready() == 0) {
                 ((TWindowMessage *)TLobby__download_list_window)->complete_reveal();
@@ -1523,7 +1517,7 @@ void TLobby::handle_short_list_input() {
     void *context;
 
     if ((u32) TLobby__join_entry_window_obj != 0U) {
-        context = controller_input_state + 0x20;
+        context = &controller_input_state.controllers[0];
         if (TWindowShortListCtrl__check_controller_button(context, 4) != 0) {
             if (((TWindowMessagePage *)TLobby__join_entry_window_obj)->is_message_window_ready() == 0) {
                 ((TWindowMessage *)TLobby__join_entry_window_obj)->complete_reveal();
@@ -1544,7 +1538,7 @@ void TLobby::handle_short_list_input() {
 }
 void TLobby::update_scroll_close() {
     if (lobby_scroll_text_window != NULL) {
-        if (TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 0xE) != 0) {
+        if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 0xE) != 0) {
             lobby_scroll_text_window->close();
             lobby_scroll_text_window = NULL;
             ((s32 (*)())TLobby::destroy_lobby_ui)();

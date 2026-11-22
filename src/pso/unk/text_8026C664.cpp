@@ -132,21 +132,15 @@ void decay_page_arrow_offset(PageIndicator *o) {
 #pragma pop
 
 
-struct Pad_8026C9DC {
-    u8 pad0[0x20];
-    u8 buttons[0x30];
-};
-
 extern "C" {
 void play_sound_effect(s32, s32, s32, s32);
-extern Pad_8026C9DC controller_input_state[];
 
 s32 handle_list_page_flip_input(PageIndicator *page_indicator) {
     void *pad;
     s8 cur;
     decay_page_arrow_offset(page_indicator);
     cur = page_indicator->page;
-    pad = controller_input_state[is_player_input_active(page_indicator->input_port)].buttons;
+    pad = &controller_input_state.controllers[is_player_input_active(page_indicator->input_port)];
     if (TWindowShortListCtrl__check_controller_button(pad, 0x30000) == 0) {
         return 0;
     }

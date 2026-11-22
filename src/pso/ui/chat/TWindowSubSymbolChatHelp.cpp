@@ -47,7 +47,6 @@ WindowDescriptor symbol_chat_help_window_layout = {
 };
 
 extern "C" {
-extern s8 controller_input_state[];
 int TWindowSubSymbolChatHelp__sub_80247EE8(int);
 void draw_help_icon__24TWindowSubSymbolChatHelpFiPvii(s32 arg0, Win_802845EC *arg1, s32 arg2, s32 arg3);
 
@@ -204,7 +203,7 @@ void TWindowSubSymbolChatHelp::handle_toggle_input() {
     void *context;
 
     if (this->m_60 & 4) {
-        context = controller_input_state + 0x20;
+        context = &controller_input_state.controllers[0];
         if (TWindowShortListCtrl__check_controller_button(context, 0x10000) != 0) {
             temp_r3 = *(s32 * *)&this->m_6c;
             if ((s32) *temp_r3 != 0) {
@@ -230,7 +229,7 @@ void TWindowSubSymbolChatHelp::handle_page_input() {
   int new_var;
   u8 temp_r3;
   new_var = 0x200;
-  if (((this->m_60) & 2) && (TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&controller_input_state + 0x20)), new_var) != 0))
+  if (((this->m_60) & 2) && (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], new_var) != 0))
   {
     *((u8 *) (*((u8 **) (((s8 *) arg0) + 0x64)))) += 1;
     temp_r4_2 = (u8 *) (*((u8 **) (((s8 *) arg0) + 0x64)));

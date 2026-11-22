@@ -58,8 +58,6 @@ struct VObj_8027B888 : VBase_8027B888 {
     virtual void m7();
 };
 
-struct Pad_8027B888 { u8 pad[0x20]; u8 sub[0x30]; };
-
 struct TWindowSubMag_8027B888 {
     u8 pad0[0x1C];
     u8 state;
@@ -111,7 +109,6 @@ extern const f32 lbl_8044F9E8[2] = {144.0f, 68.0f};
 extern const f32 lbl_8044F9F0[2] = {206.0f, 184.0f};
 extern const f32 lbl_8044F9F8[2] = {308.0f, 124.0f};
 extern const f32 lbl_8044FA00[2] = {214.0f, 184.0f};
-extern Pad_8027B888 controller_input_state[];
 void *TWindowSubMag__ct(TWindowSubMag *arg0, s32 arg1, s32 arg2);
 }
 s32 get_help_text_string(s32 arg0);
@@ -306,8 +303,8 @@ void TWindowSubMag::run_task() {
         }
         break;
     case 7:
-        if (TWindowShortListCtrl__check_controller_button(controller_input_state[port].sub, 2) != 0 ||
-            test_controller_flag_4c_color(controller_input_state[4].sub, 2) != 0) {
+        if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[port], 2) != 0 ||
+            test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0) {
             play_sound_effect(0x52F16, 0, 0, 0);
             self->state = 5;
         } else if (TWindowSubItem::is_usable((saddr)player) != 0) {

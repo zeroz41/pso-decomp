@@ -296,11 +296,10 @@ s32 has_window_task_root();
 
 s32 check_flag_100__10TObjPlayerFPv();
 
-extern s8 controller_input_state[];
 
 void TObjChallenge4PRetry::update_challenge_4p_retry() {
     ((s32 (*)())play_all_players_effect__6TLobbyFPv)();
-    if ((get_player_by_client_id(local_client_id) != 0U) && (check_flag_100__10TObjPlayerFPv() == 0) && (TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 4) != 0)) {
+    if ((get_player_by_client_id(local_client_id) != 0U) && (check_flag_100__10TObjPlayerFPv() == 0) && (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 4) != 0)) {
         ((s32 (*)(void *))send_giveup_to_all_players__6TLobbyFv)(this);
         TLobby::close_giveup_window(this);
         this->state = 2;

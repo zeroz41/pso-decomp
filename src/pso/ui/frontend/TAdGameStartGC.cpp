@@ -65,7 +65,6 @@ extern s32 __vt__14TAdGameStartGC[];
 extern void *ad_game_start_name_ptr[2];
 Obj_802E6750 *__ct__14TAdGameStartGCFv(Obj_802E6750 *arg0);
 void destroy_windows__14TAdGameStartGCFPv(Obj_802E6380 *o);
-extern u8 controller_physical_port_bank[];
 
 void bswap_6x92__14TAdGameStartGCFPv(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_32((u32 *)((char*)p + 0x4)); bswap_32((u32 *)((char*)p + 0x8)); }
 void send_6x92__14TAdGameStartGCFPv(void* p) { bswap_6x92__14TAdGameStartGCFPv(p); send_subcommand((u8 *)p); }
@@ -164,7 +163,7 @@ void create_effects__14TAdGameStartGCFPv(u8 *parent) {
 void run_task__14TAdGameStartGCFv(u8 *arg0) {
     GS_802E655C *gs = (GS_802E655C *) arg0;
     saddr sub;
-    u8 *pad;
+    ControllerInputContext *pad;
     if (gs->active != 0) {
         gs->count++;
         if (gs->count < 8) {
@@ -178,7 +177,7 @@ void run_task__14TAdGameStartGCFv(u8 *arg0) {
             destroy_windows__14TAdGameStartGCFPv((Obj_802E6380 *) arg0);
             return;
         }
-        pad = controller_physical_port_bank + TAdMultiPlyChrSelectGC::get_clamped_cursor() * 0x50 + 0x20;
+        pad = &controller_physical_port_bank.controllers[TAdMultiPlyChrSelectGC::get_clamped_cursor()];
         if (TWindowShortListCtrl__check_controller_button(pad, 4) != 0) {
             destroy_windows__14TAdGameStartGCFPv((Obj_802E6380 *) arg0);
         }

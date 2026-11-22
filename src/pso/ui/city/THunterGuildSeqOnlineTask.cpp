@@ -64,13 +64,12 @@ void *get_window_layout_position(s32);
 extern u8 *TLobby__protocol_instance;
 extern s32 quest_download_received_bytes;
 extern s32 quest_download_graph_current_bytes;
-extern s32 controller_input_state[];
 }
 
 void THunterGuildSeqOnlineTask::run_task() {
-    u8 *p;
+    ControllerInputContext *p;
     if (TQuestListOnline__quest_info_window != 0) {
-        p = (u8 *)controller_input_state + 0x20;
+        p = &controller_input_state.controllers[0];
         if (TWindowShortListCtrl__check_controller_button(p, 4) != 0 ||
             TWindowShortListCtrl__check_controller_button(p, 2) != 0) {
             TQuestListOnline__quest_info_window->close();

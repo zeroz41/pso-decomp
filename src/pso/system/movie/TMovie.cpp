@@ -37,8 +37,6 @@ s8 func_801A5E54__Fv();
 void func_803DCDFC__Fv(void);
 }
 
-extern s8 controller_input_state[];
-extern s8 controller_physical_port_bank[];
 extern saddr video_initial_draw_framebuffer;
 extern saddr video_initial_display_framebuffer;
 extern int opening_movie_selector;
@@ -332,7 +330,7 @@ s32 TMovie::check_skip_input() {
     }
     switch (get_opening_movie_purpose()) {
     case 0:
-        context = controller_physical_port_bank + 0x20;
+        context = &controller_physical_port_bank.controllers[0];
         if (TWindowShortListCtrl__check_controller_button(context, 4) != 0) goto block_fn_8000F91C;
         if (TWindowShortListCtrl__check_controller_button(context, 2) != 0) goto block_fn_8000F91C;
         if (TWindowShortListCtrl__check_controller_button(context, 0x400) != 0) goto block_fn_8000F91C;
@@ -344,7 +342,7 @@ s32 TMovie::check_skip_input() {
         if (TWindowShortListCtrl__check_controller_button(context, 0x80) != 0) goto block_fn_8000F91C;
         if (TWindowShortListCtrl__check_controller_button(context, 0x20000) != 0) goto block_fn_8000F91C;
         if (TWindowShortListCtrl__check_controller_button(context, 0x10000) != 0) goto block_fn_8000F91C;
-        context = controller_input_state + 0x160;
+        context = &controller_input_state.keyboard;
         if (test_controller_flag_4c_color(context, 4) != 0) goto block_fn_8000F91C;
         if (test_controller_flag_4c_color(context, 2) != 0) goto block_fn_8000F91C;
         if (TLobby::run_disk_error_check() == 0) goto block_fn_8000F91C;
@@ -358,10 +356,10 @@ block_fn_8000F91C:
         if (TKeyBoardControl::check_reset_button() != 0) {
             var_r30 = 1;
         }
-        context = controller_physical_port_bank + 0x20;
+        context = &controller_physical_port_bank.controllers[0];
         if (TWindowShortListCtrl__check_controller_button(context, 2) != 0) goto block_call_func;
         if (TWindowShortListCtrl__check_controller_button(context, 8) != 0) goto block_call_func;
-        context = controller_input_state + 0x160;
+        context = &controller_input_state.keyboard;
         if (test_controller_flag_4c_color(context, 4) != 0) goto block_call_func;
         if (test_controller_flag_4c_color(context, 2) != 0) goto block_call_func;
         if (TLobby::run_disk_error_check() == 0) goto block_call_func;

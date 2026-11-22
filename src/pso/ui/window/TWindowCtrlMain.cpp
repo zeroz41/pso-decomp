@@ -96,7 +96,6 @@ void TWindowCtrlMain__sub_8024D85C(void* p);
 bool TWindowCtrlMain__sub_8024D868(u8 *arg0);
 }
 void load_hud_palette_textures(void);
-struct Pad_8024DCE8 { u8 pad[0x20]; u8 btn[0x30]; };
 struct WBase_8024DCE8 { u8 pad[0x18]; };
 struct W_8024DCE8 : WBase_8024DCE8 {
     virtual void m0();
@@ -113,7 +112,6 @@ s32 bind_target__13TWindowLockOnFUs(void *, s32);
 u32 create_for_target__13TWindowLockOnFlUs(int, s32);
 s32 fn_8002AE08(void *p);
 u16 get_current_target_id__10TObjPlayerFv();
-extern Pad_8024DCE8 controller_input_state[];
 int TWindowMainMenu__sub_8024E3F4(void *p);
 void TWindowCtrl__sub_8024DAAC(void *arg0);
 s32 TWindowMainMenu__sub_8024E3E0(void *);
@@ -273,7 +271,7 @@ void TWindowCtrl::update_main_menu_request() {
     {
         s32 idx = is_player_input_active(this->m_24);
         key = ((s16 (*)(void *))TKeyBoardControl::get_function_key_menu)(this);
-        if (TWindowShortListCtrl__check_controller_button(controller_input_state[idx].btn, 0x108) == 0 && key == 0x1F) {
+        if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[idx], 0x108) == 0 && key == 0x1F) {
             return;
         }
     }
@@ -320,7 +318,7 @@ void TWindowCtrl::show_active_window() {
 void TWindowCtrl::update_short_list_request() {
     s32 idx;
     u16 id;
-    u8 *btn;
+    ControllerInputContext *btn;
     if (*(void **)((s8 *)this + 0x3C) != NULL && ((TObject *)(*(void **)((s8 *)this + 0x3C)))->all_parents_unqueued_for_destruction() == 0) {
         *(void **)((s8 *)this + 0x3C) = NULL;
     }
@@ -341,7 +339,7 @@ void TWindowCtrl::update_short_list_request() {
                     *(void **)((s8 *)this + 0x3C) = NULL;
                 }
             } else if (*(void **)((s8 *)this + 0x3C) == NULL && is_enabled() == 0) {
-                if (test_previous_buttons_packed(btn = controller_input_state[idx].btn, fn_8002AE08((void *)(*(saddr *)&this->m_24))) != 0 &&
+                if (test_previous_buttons_packed(btn = &controller_input_state.controllers[idx], fn_8002AE08((void *)(*(saddr *)&this->m_24))) != 0 &&
                     TWindowShortListCtrl__check_controller_button(btn, 0x200) != 0) {
                     *(void **)((s8 *)this + 0x3C) = new TWindowShortListCtrl(this, *(s32 *)&this->m_24);
                 }

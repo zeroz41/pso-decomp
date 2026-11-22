@@ -275,7 +275,6 @@ s32 get_map_id__13TRaderMapCoreFv();
 s32 THunterGuildSeqOffline__sub_80211FEC(s32);
 s32 THunterGuildSeqOffline__sub_80212000(s32);
 s32 THunterGuildSeqOffline__sub_80212060(s32);
-extern u8 controller_input_state[][0x50];
 extern s32 lbl_805D55C0;
 s32 TLobby__sub_80211D58(s32 arg0) {
     s32 kind;
@@ -295,7 +294,7 @@ s32 TLobby__sub_80211D58(s32 arg0) {
             kind = TPlayerBattleCtrl4P::fn_80211B10(player);
             if (kind != 0) {
                 if (get_player_by_client_id((u16)player) != NULL) {
-                    if (TWindowShortListCtrl__check_controller_button(&controller_input_state[get_map_id__13TRaderMapCoreFv()][0x20], 4) != 0 &&
+                    if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[get_map_id__13TRaderMapCoreFv()], 4) != 0 &&
                         THunterGuildWarning::is_active() == 0) {
                         switch (kind) {
                         case 1:

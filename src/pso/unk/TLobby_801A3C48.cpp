@@ -142,7 +142,6 @@ s32 TLobby__sub_8013A23C(s32 arg0);
 s32 __dt__7TObjectFv(void *, s32);
 s32 find_leader_section_id(void *, s32);
 s32 unlock_main_warp_destination();
-int reset_controller_input_state(void);
 s32 TObjPlayer__sub_801B1BA4();
 s32 TObjPlayer__sub_801B1C8C();
 void *get_player_by_client_id(s32);

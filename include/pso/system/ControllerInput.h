@@ -2,8 +2,7 @@
 #define PSO_SYSTEM_CONTROLLERINPUT_H
 
 #include "types.h"
-
-struct ControllerInputContext;
+#include "pso/system/ControllerInputState.h"
 
 // Pad button bits, one per hold counter of a ControllerInputContext.
 extern const u32 input_button_mask_table[14];
@@ -12,7 +11,12 @@ void init_stick_escape_detector(void *detector, void *target);
 void accumulate_key_bits(s32 key, s32 *bits);
 void update_button_hold_counter(void *pad, void *counter, int mask, int held);
 
+void controller_stuff();
+
 extern "C" {
+void bind_controller_devices(void);
+void reset_controller_input_state(void);
+void update_pad_recalibration(void);
 s32 TKeyBoardControl__sub_801A58B0(void);
 s32 TKeyBoardControl__sub_801A58D8(void);
 void update_state_from_input__16TKeyBoardControlFPv(u8 key);

@@ -136,11 +136,6 @@ void TWindowSubSymbolChat::init_symbol_layout(s32 *arg1) {
 }
 
 
-struct RecoveredGlobal_80286824_lbl_8050E208 {
-    s32 value;
-    u8 remaining[0x1AC];
-};
-
 struct Set_8028625C {
     u8 pad0[0x69];
     s8 mode;
@@ -206,7 +201,6 @@ struct Pt_80286120 { u8 pad[8]; f32 f8; f32 fc; };
 struct Ps_80286120 { u8 pad[0x69]; s8 f69; u8 pad6a[0xA]; s32 f74; };
 
 extern "C" {
-extern RecoveredGlobal_80286824_lbl_8050E208 controller_input_state;
 void setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(void *, void *, void *, u16, s32, s32, s32, s32);
 s32 update_visibility__28TWindowSubSymbolChatPartsSetFv(void *, s16);
 extern s32 __vt__28TWindowSubSymbolChatPartsSet[];
@@ -290,7 +284,7 @@ void TWindowSubSymbolChatPartsSet::toggle_selected_part() {
     switch (arg0->f69) {
     case 0:
     case 2:
-        if (arg0->f78 < 12 && TWindowShortListCtrl__check_controller_button(((u8 *)&controller_input_state.value + 0x20), 0x400) != 0) {
+        if (arg0->f78 < 12 && TWindowShortListCtrl__check_controller_button((&controller_input_state.controllers[0]), 0x400) != 0) {
             if (*arg0->f84 != 0) {
                 *arg0->f84 = 0;
             } else {
@@ -310,18 +304,18 @@ void TWindowSubSymbolChatPartsSet::handle_cursor_input() {
     u8 temp_r0;
     void *camera_ctrl;
     Win_802864C4 *w = (Win_802864C4 *)this;
-    camera_ctrl = (u8 *)&controller_input_state.value + 0x20;
-    if ((test_previous_buttons_packed(camera_ctrl, 0xF0) != 0) || (test_previous_buttons_color((u8 *)&controller_input_state.value + 0x160, 0xF0) != 0)) {
-        if ((test_previous_buttons_packed(camera_ctrl, 0x80) != 0) || (test_previous_buttons_color((u8 *)&controller_input_state.value + 0x160, 0x80) != 0)) {
+    camera_ctrl = &controller_input_state.controllers[0];
+    if ((test_previous_buttons_packed(camera_ctrl, 0xF0) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0xF0) != 0)) {
+        if ((test_previous_buttons_packed(camera_ctrl, 0x80) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x80) != 0)) {
             *(s16 *)&this->m_6a = (s16) (*(s16 *)&this->m_6a + 1);
         }
-        if ((test_previous_buttons_packed(camera_ctrl, 0x40) != 0) || (test_previous_buttons_color((u8 *)&controller_input_state.value + 0x160, 0x40) != 0)) {
+        if ((test_previous_buttons_packed(camera_ctrl, 0x40) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x40) != 0)) {
             *(s16 *)&this->m_6a = (s16) (*(s16 *)&this->m_6a - 1);
         }
-        if ((test_previous_buttons_packed(camera_ctrl, 0x10) != 0) || (test_previous_buttons_color((u8 *)&controller_input_state.value + 0x160, 0x10) != 0)) {
+        if ((test_previous_buttons_packed(camera_ctrl, 0x10) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x10) != 0)) {
             *(s16 *)&this->m_6c = (s16) (*(s16 *)&this->m_6c - 1);
         }
-        if ((test_previous_buttons_packed(camera_ctrl, 0x20) != 0) || (test_previous_buttons_color((u8 *)&controller_input_state.value + 0x160, 0x20) != 0)) {
+        if ((test_previous_buttons_packed(camera_ctrl, 0x20) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x20) != 0)) {
             *(s16 *)&this->m_6c = (s16) (*(s16 *)&this->m_6c + 1);
         }
         switch ((s8)w->f69) {
@@ -391,7 +385,6 @@ void TWindowSubSymbolChatPartsSet::render() {
     this->m_88->forward_render(c_arg);
 }
 
-LAYOUT_ASSERT(RecoveredGlobal_80286824_lbl_8050E208_size, sizeof(RecoveredGlobal_80286824_lbl_8050E208) == 0x1B0);
 void TWindowSubSymbolChatPartsSet::run_task() {
     u8 *arg0 = (u8 *)this;
     if (!(this->window_flags & 2)) {
@@ -399,10 +392,10 @@ void TWindowSubSymbolChatPartsSet::run_task() {
     }
     if (((TWindowSubSymbolChatPartsSet *)arg0)->is_active() == 0) {
         handle_cursor_input();
-        if ((TWindowShortListCtrl__check_controller_button((u8 *)&controller_input_state.value + 0x20, 4) != 0) || (test_controller_flag_4c_color((void *) ((u8 *)&controller_input_state.value + 0x160), 4) != 0)) {
+        if ((TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
             handle_decide();
         }
-        if ((TWindowShortListCtrl__check_controller_button((u8 *)&controller_input_state.value + 0x20, 2) != 0) || (test_controller_flag_4c_color((void *) ((u8 *)&controller_input_state.value + 0x160), 2) != 0)) {
+        if ((TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
             handle_cancel();
         }
     }
