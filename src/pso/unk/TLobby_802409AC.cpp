@@ -1153,10 +1153,10 @@ s32 TLobby::remove_com_card_by_id(u32 arg0) {
     return 7;
 }
 
-void TLobby::reset_state_805D63DC(void*) { com_card_entry_count = 0; TLobby::clear_flag_bit2(); }
+void TLobby::reset_com_card_list() { com_card_entry_count = 0; TLobby::clear_flag_bit2(); }
 
-void TLobby::reset_state(void* p) { TLobby::reset_state_805D63DC(p); }
-void TLobby__sub_8024285C(void* p) { TLobby::reset_state_805D63DC(p); }
+void TLobby::reset_state() { TLobby::reset_com_card_list(); }
+void TLobby__sub_8024285C(void) { TLobby::reset_com_card_list(); }
 
 
 void *construct_guild_card_tag_array(void *p);

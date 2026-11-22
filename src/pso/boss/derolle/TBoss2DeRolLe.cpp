@@ -1855,7 +1855,7 @@ void TBoss2DeRolLe::handle_intro_camera_state(u32 reason) {
             cam.frame = 0.0f;
             cam.frame_step = 0.8f;
             activate_camera_mode(5);
-            cam.cache_target_and_forward(0x1C71);
+            cam.play(0x1C71);
         } else {
             cam2.index = 0;
             cam2.bank = 1;
@@ -1863,7 +1863,7 @@ void TBoss2DeRolLe::handle_intro_camera_state(u32 reason) {
             cam2.frame = 0.0f;
             cam2.frame_step = 0.8f;
             activate_camera_mode(5);
-            cam2.cache_target_and_forward(0x1C71);
+            cam2.play(0x1C71);
         }
         TWindowCtrl::init_all_slots();
         get_target_state_b();
@@ -3567,8 +3567,8 @@ void TBoss2DeRolLe::handle_death_state(u32 reason) {
         cam.frame = 0.0f;
         cam.frame_step = 0.7f;
         activate_camera_mode(5);
-        cam.cache_target_and_forward(0x2AAA);
-        set_scripted_camera_pose(&position, &position, (CameraAngles *)&rotation_x);
+        cam.play(0x2AAA);
+        set_scripted_camera_origin(&position, &position, (CameraAngles *)&rotation_x);
         break;
     case 2:
         if (debug_pad->pressed_buttons & 0x400) {

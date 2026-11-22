@@ -49,6 +49,7 @@
 #include "pso/ui/window/TWindowReturnCity.h"
 #include "pso/system/task/TObject.h"
 #include "pso/camera/TCineCtrl.h"
+#include "pso/unk/TLobby_800F8AA8.h"
 
 void load_particle_entry_resources(void);
 void init_partner_dialogue(void);
@@ -200,8 +201,6 @@ s32 TLobby::run_lobby_load_tables() {
     return 1;
 }
 
-s32 is_area_transfer_pending();
-s32 apply_phase_keyboard_mode();
 s32 load_area_gsl();
 s32 close_gsl_archive();
 

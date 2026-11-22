@@ -78,7 +78,6 @@ extern "C" {
 void *ct__13TUnk_804F01A8Fv(void *arg0);
 void play_sound_effect(int, int, int, int);
 void set_field_value__17TWindowOptionCtrlFls(s32 arg0, s16 arg1);
-extern u8 controller_input_state[];
 extern s32 __vt__17TWindowOptionCtrl[];
 void __ct__7TObjectFP7TObject(void *);
 }
@@ -406,8 +405,8 @@ void TWindowOptionCtrl::run_task() {
         ((TWindowOptionCtrl *)(self->f28))->open();
         self->state = 0x1A;
     case 26:
-        if (TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 6) != 0 ||
-            test_controller_flag_4c_color(controller_input_state + 0x160, 6) != 0) {
+        if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 6) != 0 ||
+            test_controller_flag_4c_color(&controller_input_state.keyboard, 6) != 0) {
             play_sound_effect(0x52F16, 0, 0, 0);
             self->state = 1;
         }

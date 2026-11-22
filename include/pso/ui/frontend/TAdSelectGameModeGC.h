@@ -14,7 +14,6 @@ public:
 public:
     static int get_mode_data();
     static void enable_camera();
-    void free_sub_ctrls();
     virtual void render();
     static void call_enable_camera(void* p);
 

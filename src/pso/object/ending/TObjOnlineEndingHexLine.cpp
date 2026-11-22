@@ -58,7 +58,6 @@ void *__vt__23TObjOnlineEndingHexLine[6] = {
 };
 
 extern Param_802E5CB0 online_ending_hex_line_state;
-extern u8 controller_input_state[];
 extern s32 __vt__23TObjOnlineEndingHexMove[];
 
 s32 draw_color_lines(Desc_802E55B8 *, s32, s32, f32);
@@ -403,7 +402,7 @@ void TObjOnlineEndingHexMove::run_task() {
         timer = 0;
     }
     if (timer == 0) {
-        pad = controller_input_state + 0x20;
+        pad = &controller_input_state.controllers[0];
         if (test_previous_buttons_packed(pad, 0x30000) != 0) {
             TAdGameStartGC__sub_802E6368(&pkt);
             pkt.idx = local_client_id % 4;

@@ -467,7 +467,7 @@ force_active:
   - TBoss8Dragon__sub_800BB650
   - get_part_set_index__13TUnk_804E4BF0Fl
   - is_hiding_camera_target__12TBoss8DragonFv
-  - TBoss8Dragon__sub_8030B80C
+  - get_player_target__18TObjLiveCameraCtrlFv
   - TBoss8Dragon__sub_8036AF50
   - TCameraCtrl__sub_800677D4
   - clear_pose_snap_flags__11TCameraCtrlFv
@@ -476,7 +476,7 @@ force_active:
   - TCameraCtrl__sub_8006B798
   - TCameraCtrl__sub_8006CC30
   - clear__16FollowCameraSlotFv
-  - get_look_at_eye__FPUc
+  - get_look_at_eye__FP3Vec
   - view_matrices__11TCameraCtrl
   - view_matrix__11TCameraCtrl
   - viewport_height__11TCameraCtrl
@@ -4818,11 +4818,11 @@ force_active:
   - calc_wall_slide_destination__FP9TObjEneDDP3Vecfff
   - calc_xz_direction_to__16TObjEneBm5GibonUFP3VecP3Vec
   - decode_target__20Boss6Type2FlowActionFP20Boss6Type2MoveTarget
-  - call_null__12TBoss8DragonFv
+  - get_boss_target__18TObjLiveCameraCtrlFv
   - call_state_action__14TBoss6PlotFalzFv
   - motion_contexts
-  - camera_slot_positions
-  - camera_slot_scan_index__10TObjCamera
+  - camera_lamp_positions
+  - node_scan_index__10TObjCamera
   - can_action__15TBoss3VoloptP02Fv
   - can_action_wait__15TBoss3VoloptP02Fv
   - can_attack_target__13TObjEneBm3FlyFv
@@ -6735,7 +6735,7 @@ force_active:
   - get_table_entry__19TContainerAncient01Fi
   - get_table_entry_by_clamped_index__10TObjPlayerFv
   - get_table_value__19TAdPlyPltAnimCtrlGCFi
-  - get_target_position__16TCameraDebugViewFv
+  - get_demo_camera_position__16TCameraDebugViewFv
   - get_texlist__23TObjSeabedSuisoBrakableFi
   - get_total_materials_used__Fl
   - get_type__15TFontSmallLobbyFPv
@@ -14623,8 +14623,8 @@ force_active:
   - reset_inactive_keys__16KeyboardKeyStateFv
   - reset_indices__11TBoss6Type2Fv
   - reset_keys__16KeyboardKeyStateFv
-  - reset_leader_selection__FPv
-  - reset_leader_selection_static__6TLobbyFv
+  - __ct__15LeaderSelectionFv
+  - __sinit_TFontSmallTask_cpp
   - set_core_color__17TObjEneMe1CanadinFPC8NJS_ARGB
   - reset_matrix__13TObjTombstoneFv
   - reset_obstruction_fade__13TUnk_80490470Fv
@@ -16728,7 +16728,7 @@ force_active:
   - state_move_forward__17TObjEneMe1CanadinFl
   - update_by_state__9TTecMegidFv
   - update_camera_facing_offset__11TLoadingCurFv
-  - update_camera_slots__10TObjCameraFP10NJS_OBJECT
+  - record_lamp_positions__10TObjCameraFP10NJS_OBJECT
   - update_camera_vec_by_stage__9TObjGrassFP10NJS_OBJECT
   - update_capture__11TBoss4Type3Fv
   - update_capture__14TObjVoloptCageFv

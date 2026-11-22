@@ -17,7 +17,8 @@ struct CameraMotionDirectory {
 // A camera bank file of a floor (CommonCam.rel, Bo01OpCam.rel...). The flags apply to
 // every motion in it: 4 the motion is in world space (else relative to the
 // scripted camera's origin and yaw), 0x80 look along the motion from 40 units
-// behind it, 0x20 loop.
+// behind it, 0x20 loop. The banks set 0x8 or 0x40 as well, which nothing reads,
+// and none sets 0x80 or 0x20.
 struct CameraBankFile {
     const char *filename;
     u32 flags;
@@ -62,7 +63,7 @@ struct CameraMotionSample {
 };
 
 // Camera mode 5: plays a motion of a loaded camera bank (boss intros and
-// deaths), started through CameraPlayback::cache_target_and_forward.
+// deaths), started through CameraPlayback::play.
 class TCameraScripted : public TCameraController {
 public:
     TCameraScripted();
@@ -71,7 +72,7 @@ public:
     virtual void post_update_view();
     virtual void run_task();
     Vec position_origin;
-    Vec target_origin;
+    Vec target_origin; // set with position_origin, never read
     CameraAngles angles;
     NJS_MOTION *motion;
     CameraBankFile *bank_file;

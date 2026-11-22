@@ -20,7 +20,8 @@ void unequip_item__10TObjPlayerFiPv(saddr player, void *item);
 void rebuild_player_inventory(void *player);
 void TObjPlayer__sub_801B1BA4(void);
 void TObjPlayer__sub_801B1C8C(void);
-int fn_801B309C(void *p);
+// Restores the player to full health and clears its status effects.
+void recover_player_full(void *player);
 }
 
 #endif

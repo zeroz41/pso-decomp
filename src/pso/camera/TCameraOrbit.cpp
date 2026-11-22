@@ -1,3 +1,4 @@
+// The player 0 orbit camera (mode 7), and TCameraController::set_target_pos.
 #include "types.h"
 #include "pso/camera/TCameraOrbit.h"
 #include "pso/math/AngleLookup.h"
@@ -16,7 +17,6 @@ TCameraController *TCameraOrbit::create() {
 #pragma push
 #pragma fp_contract on
 void TCameraOrbit::update_orbit_camera() {
-    ControllerInputContext *pad = controller;
     f32 new_distance = distance;
     u32 buttons = pad->buttons;
     s16 stick_x = pad->stick_x;
@@ -65,7 +65,7 @@ void TCameraOrbit::reset_behind_player() {
     }
 }
 
-void TCameraOrbit::target_player0() {
+void TCameraOrbit::follow_player0() {
     Vec focus;
     TObjPlayer *player;
     player = get_player_by_client_id(0);
@@ -81,12 +81,12 @@ void TCameraOrbit::reset_state() {
     distance = 25.0f;
     pitch = 0;
     roll = 0;
-    target_player0();
+    follow_player0();
     reset_behind_player();
 }
 
 void TCameraOrbit::run_task() {
-    target_player0();
+    follow_player0();
     update_orbit_camera();
 }
 
@@ -94,7 +94,7 @@ TCameraOrbit::~TCameraOrbit() {}
 
 TCameraOrbit::TCameraOrbit() {
     flags = 0;
-    controller = &controller_input_state.controllers[0];
+    pad = &controller_input_state.controllers[0];
     reset_state();
 }
 

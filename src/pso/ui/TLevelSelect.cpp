@@ -45,8 +45,6 @@ struct Poss_8013319C { NJS_POINT2 p[4]; };
 const char *level_select_class_name = "TLevelSelect";
 
 extern "C" {
-extern u8 controller_input_state[];
-extern u8 controller_physical_port_bank[];
 s32 game_difficulty_selection;
 void __ct__7TObjectFP7TObject(void *, void *);
 void __ct__14TAdSelectTxtGCFP7TObjectP18TAdSelectTxtLayoutl(void *, void *, void *, int);
@@ -87,8 +85,8 @@ void TLevelSelect::run_task() {
         break;
     case 0:
     default:
-        if (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank[0x20], 2) != 0 ||
-            test_controller_flag_4c_color(&controller_input_state[0x160], 2) != 0) {
+        if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0 ||
+            test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0) {
             ((TObject *)self)->queue_destruction();
             TAdMultiChgGameModeGC::set_game_mode_changed();
         }

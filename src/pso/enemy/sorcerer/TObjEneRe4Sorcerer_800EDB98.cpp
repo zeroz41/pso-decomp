@@ -88,7 +88,6 @@ s32 scroll_strip_uvs(int, int, int);
 
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 
-#include "pso/item/armor/TItemProShield.h"
 
 #include "pso/technique/TTecGiBarta.h"
 #include "pso/technique/TTecGiZonde.h"
@@ -619,9 +618,9 @@ void TObjEneRe4Sorcerer::enable_hits() {
 
 s32 TObjEneRe4Sorcerer::check_shield(TObjChara *target) {
     if (TObjEneDD::check_v2_mode() != 0) {
-        return target->hp < ((TItemProShield *)target)->get_field_2b8();
+        return target->hp < target->get_hpmax();
     }
-    return target->hp < (((TItemProShield *)target)->get_field_2b8() / 4);
+    return target->hp < (target->get_hpmax() / 4);
 }
 
 s32 TObjEneRe4Sorcerer::update_farthest_target(TObjChara *player, f32 *farthest) {

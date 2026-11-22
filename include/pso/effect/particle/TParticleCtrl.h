@@ -78,6 +78,10 @@ void *__dt__13TUnk_8048E6A8Fv(void *arg0, s16 arg1);
 void *__dt__13TUnk_8048E6DCFv(void *arg0, s16 arg1);
 }
 
+// Sets the colour the frame is cleared to from a packed ARGB value, with depth cleared to the far plane. Only the
+// colour is read.
+void set_copy_clear_color_argb(u32 argb, s32, s32);
+
 // Colour channel scaled by the fade alpha; nothing below zero, at most alpha.
 inline f32 fade_particle_channel(f32 c, f32 alpha) {
     return (c < 0.0f) ? 0.0f : alpha * ((c < 1.0f) ? c : 1.0f);

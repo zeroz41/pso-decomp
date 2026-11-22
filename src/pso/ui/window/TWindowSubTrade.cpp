@@ -75,7 +75,6 @@ extern s32 local_client_id;
 s32 is_trade_range_bit_set(s32 client);
 TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *);
 s32 play_sound_effect(int, int, int, int);
-extern s32 controller_input_state[];
 }
 
 // Built with deferred code generation (the vtable precedes run_task's jump
@@ -112,7 +111,6 @@ TWindowSubTrade::~TWindowSubTrade() {
 void TWindowSubTrade::run_task() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r30;
-    s32 temp_r5;
     temp_r30 = is_player_input_active((this->m_20));
     switch (this->m_1c) {
     case 0:
@@ -168,8 +166,7 @@ void TWindowSubTrade::run_task() {
         send_6xA6_modify_trade_proposal((this->m_24));
         this->m_1c = 6U;
     case 6:
-        temp_r5 = temp_r30 * 0x50;
-        if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)(((u8 *)controller_input_state + temp_r5)) + 0x20), 2) != 0) || (test_controller_flag_4c_color((void *) ((u8 *)controller_input_state + 0x160), 2) != 0)) {
+        if ((test_pressed_buttons_packed(&controller_input_state.controllers[temp_r30], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
             play_sound_effect(0x52F16, 0, 0, 0);
             TLobby::cancel_trade();
             this->m_1c = 1U;

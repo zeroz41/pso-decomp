@@ -52,7 +52,7 @@ void init_pad_binding(u8 *arg0, s16 arg1, s16 arg2) {
     *(s16 *)((s8 *)arg0 + 2) = arg2;
     *(s32 *)((s8 *)arg0 + 4) = -1;
     *(s32 *)((s8 *)arg0 + 8) = -1;
-    *(u8 **)((s8 *)arg0 + 0xC) = (unsigned char *) ((void *) ((u8 *)&controller_input_state + (*(s16 *)((s8 *)arg0 + 2) * 0x50) + 0x20));
+    *(u8 **)((s8 *)arg0 + 0xC) = (u8 *)&controller_input_state.controllers[*(s16 *)((s8 *)arg0 + 2)];
     ((TObjPlayer *)(arg0 + 0x10))->reset_state_block();
 }
 

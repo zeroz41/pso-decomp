@@ -96,7 +96,6 @@ void run_game_frame(void) {
 
 extern "C" {
 void run_load_callback_table(void *, int);
-void set_copy_clear_color_argb(int, int, int);
 }
 extern u8 default_scene_light_config[];
 extern s32 ending_scene_active;

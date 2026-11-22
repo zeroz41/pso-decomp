@@ -31,6 +31,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/system/vector.h"
+#include "pso/render/NinjaUtil.h"
 #include <string.h>
 #include "pso/unk/text_803D96A8.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -54,10 +55,6 @@ extern s32 boss_area_id_table[];
 
 extern s32 item_disabled_area_table[];
 
-struct Rec_80203510 { s32 id; f32 pos[3]; u8 pad[0xC]; f32 radius; u8 pad2[0x14]; };
-
-
-struct Root_80203510 { u8 pad[8]; s16 count; u8 pad2[6]; Rec_80203510 *recs; };
 
 
 struct Inner_802040D4 { u8 pad[0x20]; f32 radius; };
@@ -124,16 +121,11 @@ void matrix_mult_vec(int, void *, void *);
 
 bool is_in_view_depth__6TSceneFf(f32 farg0);
 
-f32 xyz_distance_squared(u8 *arg0, u8 *arg1);
-
-
 f32 vec3_dot(void *, void *);
 
 f32 project_point_onto_line(void *, void *, void *);
 
 s32 TScene__sub_80204024(f32 thr, s32 unused, void *a, void *b, Vec *c);
-
-f32 xz_distance_squared(void *, void *);
 
 s32 TScene__sub_802040D4(void *arg0, Obj_802040D4 *o, f32 f0, f32 f1);
 
@@ -459,19 +451,19 @@ s32 is_current_area_item_enabled() {
     return is_item_area_enabled(get_current_floor_area());
 }
 
-s32 TScene::find_section_at_position() {
-    Rec_80203510 *r;
+s32 find_section_at_position(Vec *pos) {
+    SceneMaterialSection *r;
     s32 best = -1;
     s32 i;
     f32 bestd;
-    if ((*(Root_80203510 * *)&TScene__data_805D5FCC) == NULL) {
+    if (TScene__data_805D5FCC == NULL) {
         return -1;
     }
     bestd = 1000000000.0f;
-    r = (*(Root_80203510 * *)&TScene__data_805D5FCC)->recs;
-    for (i = 0; i < (*(Root_80203510 * *)&TScene__data_805D5FCC)->count; i++, r++) {
+    r = TScene__data_805D5FCC->sections;
+    for (i = 0; i < TScene__data_805D5FCC->count; i++, r++) {
         if (r->id >= 0) {
-            f32 d = xyz_distance_squared((u8 *)this, (u8 *)r->pos);
+            f32 d = xyz_distance_squared(pos, (Vec *)r->position);
             if (!(d > r->radius * r->radius) && d < bestd) {
                 bestd = d;
                 best = r->id;
@@ -481,12 +473,12 @@ s32 TScene::find_section_at_position() {
     return best;
 }
 
-s32 TScene::get_player_ctrl_field(u16 arg0) {
-    uaddr player;
+s32 TScene::find_player_section(u16 client_id) {
+    TObjPlayer *player;
 
-    player = (uaddr)get_player_by_client_id((arg0));
-    if (player != 0U) {
-        return ((TScene *)(player + 0x38))->find_section_at_position();
+    player = (TObjPlayer *)get_player_by_client_id(client_id);
+    if (player != NULL) {
+        return find_section_at_position(&player->position);
     }
     return -1;
 }
@@ -2034,7 +2026,7 @@ void TScene::update_room_visibility_from_camera() {
     s32 sec;
     s32 i;
     f32 d;
-    sec = ((TScene *)&camera_ctrl_instance->pos)->find_section_at_position();
+    sec = find_section_at_position(&camera_ctrl_instance->pos);
     if (sec < 0) {
         sub_80204D7C();
         return;
@@ -2058,7 +2050,7 @@ void TScene::update_room_visibility_from_camera() {
     for (j = 0; j < e->n; j++) {
         room = find_scene_room_by_id(ids[e->start + j]);
         if (room != NULL) {
-            d = xz_distance_squared(room->position, &camera_ctrl_instance->pos);
+            d = xz_distance_squared((const Vec *)room->position, &camera_ctrl_instance->pos);
             if (d < room->radius * room->radius) {
                 room->flags |= 0x10000;
             } else {
@@ -2117,7 +2109,7 @@ void TScene::update_records_in_range() {
     r2 = r * r;
     for (; i < (*(Root_8020430C * *)&TScene__data_805D5FCC)->count; i++, off += 0x34) {
         Rec_8020430C *rec = (Rec_8020430C *)((u8 *)(*(Root_8020430C * *)&TScene__data_805D5FCC)->recs + off);
-        if (xz_distance_squared(&v, rec->pos) < r2) {
+        if (xz_distance_squared(&v, (const Vec *)rec->pos) < r2) {
             rec->flags |= 0x10000;
         } else {
             rec->flags &= ~0x10000;
@@ -2162,7 +2154,7 @@ bool is_in_view_depth__6TSceneFf(f32 farg0) {
 s32 TScene__sub_802040D4(void *arg0, Obj_802040D4 *o, f32 f0, f32 f1) {
     if (o->inner != NULL && camera_ctrl_instance != NULL) {
         void *p = o->pos;
-        if (xz_distance_squared(&camera_ctrl_instance->pos, p) < o->inner->radius * o->inner->radius) {
+        if (xz_distance_squared(&camera_ctrl_instance->pos, (const Vec *)p) < o->inner->radius * o->inner->radius) {
             return 1;
         }
         return ((s32 (*)(void *, void *, f32, f32))is_in_view_depth__6TSceneFf)(arg0, p, f0, f1);

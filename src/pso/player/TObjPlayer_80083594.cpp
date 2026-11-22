@@ -116,26 +116,22 @@ Vec shadow_light_position = {0.0f, 0.0f, 0.0f};
 extern "C" {
 extern s32 lbl_805D63F0;
 void TObjPlayer__sub_80082C30(void);
-extern u8 controller_physical_port_bank[];
 }
 
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/TUnk_8048E5DC.h"
+#include "pso/camera/TLiveCameraView.h"
 #include <stddef.h>
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/camera/CameraViewParams.h"
 #include "pso/camera/CameraHelpers.h"
+#include "pso/render/GinjaView.h"
 
 extern "C" {
 s32 GXSetZMode(int, int, int);
 }
-void set_perspective_projection_from_fov(s32 arg0, f32 farg0, f32 farg1, f32 farg2);
-void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
 extern uaddr camera_render_target_singleton;
 void load_list_texture(s32 idx, s32 wrapS, s32 wrapT, s32 map);
-extern s32 __vt__13TUnk_8048E5DC[];
 
-#include "pso/unk/text_800832EC.h"
 #include "pso/player/TObjPlayer_80083B38.h"
 #include "pso/player/TObjPlayer_800847A8.h"
 #include "pso/system/memory.h"
@@ -810,36 +806,33 @@ void TObjPlayer::free_singleton() {
     }
 }
 
-u8 *fn_800832EC(u8 *arg0, saddr parent, s32 arg2, saddr arg3, saddr arg4, f32 farg0) {
-    __ct__7TObjectFP7TObject((void *)arg0, (void *)parent);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_8048E5DC;
-    ((TUnk_8048E5DC *)arg0)->m_38 = farg0;
-    VecCopy((Vec *)(arg0 + 0x20), (const Vec *)(arg3));
-    VecCopy((Vec *)(arg0 + 0x2C), (const Vec *)(arg4));
-    *(s8 *)((s8 *)arg0 + 0x1C) = 0;
-    return arg0;
+TLiveCameraView::TLiveCameraView(TObject *parent, s32 id, const Vec *eye, const Vec *target, f32 value)
+    : TObject(parent) {
+    pad_38 = value;
+    VecCopy(&this->eye, eye);
+    VecCopy(&this->target, target);
+    flags = 0;
 }
 
-TUnk_8048E5DC::~TUnk_8048E5DC() {}
+TLiveCameraView::~TLiveCameraView() {}
 
 #pragma push
 #pragma opt_common_subs off
-void TUnk_8048E5DC::render_shadows() {
-    u8 *arg0 = (u8 *)this;
+void TLiveCameraView::render_shadows() {
     if (is_split_screen() == 0) {
         TCameraCtrl::restore_full_screen_view();
         GXSetViewport(0.0f, 0.0f, 640.0f, 480.0f, 0.0f, 1.0f);
         GXSetScissor(0, 0, 0x280, 0x1E0);
         Vec up = {0.0f, 1.0f, 0.0f};
         set_perspective_projection_from_fov((camera_ctrl_instance->fov), 1.1333334f, 1.0f, 21000.0f);
-        set_camera_look_at((u8 *)&this->m_20, (u8 *)&this->unk_2C, (u8 *)&up);
+        set_camera_look_at(&eye, &target, &up);
         if (camera_ctrl_instance != NULL) {
             Vec dir;
             s32 pitch;
             s32 yaw;
-            dir.x = *(f32 *)&this->unk_2C - this->m_20;
-            dir.y = this->m_30 - *(f32 *)&this->unk_24;
-            dir.z = *(f32 *)((s8 *)arg0 + 0x34) - this->m_28;
+            dir.x = target.x - eye.x;
+            dir.y = target.y - eye.y;
+            dir.z = target.z - eye.z;
             direction_to_pitch_yaw(&dir, &pitch, &yaw);
             TCameraCtrl::calc_axes_from_angles((saddr)camera_ctrl_instance, pitch, yaw);
         }
@@ -864,20 +857,20 @@ void TUnk_8048E5DC::render_shadows() {
 }
 
 #pragma pop
-void TUnk_8048E5DC::run_task() {  }
+void TLiveCameraView::run_task() {}
 
-void TUnk_8048E5DC::render() {  }
+void TLiveCameraView::render() {}
 
-void TCameraCtrl::update_single_screen() {
+void TLiveCameraView::bind_texture() {
     if ((is_split_screen() == 0) && ((u32) camera_render_target_singleton != 0U)) {
         TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(camera_render_target_singleton + 0x1C));
         load_list_texture(0, 0, 0, 0);
     }
 }
 
-void TCameraCtrl::copy_position_vectors(void *first, void *second) {
-    VecCopy((Vec *)((char *)this + 32), (const Vec *)first);
-    VecCopy((Vec *)((char *)this + 44), (const Vec *)second);
+void TLiveCameraView::set_view(const Vec *eye, const Vec *target) {
+    VecCopy(&this->eye, eye);
+    VecCopy(&this->target, target);
 }
 
 void calc_projection_screen_offset(f32 *arg0, f32 *arg1) {
@@ -911,7 +904,7 @@ void TObjPlayer::copy_screen_to_texture(s32 mode, void *src) {
         GXSetTexCopyDst(0x100, 0xC0, 4, 0);
         GXCopyTex(shared_capture_texture_list.entries->texture->surface->pixels, 1);
         GXPixModeSync();
-        cam = controller_physical_port_bank + 0x110;
+        cam = &controller_physical_port_bank.controllers[3];
         a.x = 192.0f;
         a.y = 144.0f;
         b.x = 256.0f;
@@ -936,7 +929,7 @@ void TObjPlayer::copy_screen_to_texture(s32 mode, void *src) {
         GXSetTexCopyDst(0x280, 0x1E0, 4, 0);
         GXCopyTex(shared_capture_texture_list.entries->texture->surface->pixels, 1);
         GXPixModeSync();
-        cam = controller_physical_port_bank + 0x110;
+        cam = &controller_physical_port_bank.controllers[3];
         a.x = 192.0f;
         a.y = 144.0f;
         b.x = 256.0f;
@@ -957,13 +950,9 @@ void TObjPlayer::copy_screen_to_texture(s32 mode, void *src) {
     }
 }
 
-extern "C" void TObjPlayer__sub_80082CCC(void* effect) {
-    *(reinterpret_cast<u8*>(effect) + 0x1C) &= ~0x4;
-}
+void TLiveCameraView::enable() { flags &= ~4; }
 
-extern "C" void TObjPlayer__sub_80082CBC(void* effect) {
-    *(reinterpret_cast<u8*>(effect) + 0x1C) |= 0x4;
-}
+void TLiveCameraView::disable() { flags |= 4; }
 
 #pragma push
 #pragma opt_common_subs off

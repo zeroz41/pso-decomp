@@ -31,8 +31,8 @@ __declspec(section ".data") const char *fe_obj_cam_model_names[2] = { "fe_obj_ca
 __declspec(section ".data") const char *fe_obj_cam_motion_names[2] = { "fe_obj_cam840_841.njm", NULL };
 BmlResourceDescriptor fe_obj_cam_resource_descriptor = { "fe_obj_cam.bml", fe_obj_cam_model_names, fe_obj_cam_motion_names, 1, 1 };
 
-// The model nodes that carry a lamp, one per light (update_camera_slots).
-const s32 camera_slot_id_table[8] = { 3, 6, 9, 12, 15, 18, 21, 24 };
+// The model nodes that carry a lamp, one per light.
+const s32 camera_lamp_node_ids[8] = { 3, 6, 9, 12, 15, 18, 21, 24 };
 
 // Two sounds a side, relative to the camera; init_sound_events places them.
 const CameraSoundEvent camera_sound_events[8] = {
@@ -48,11 +48,11 @@ const CameraSoundEvent camera_sound_events[8] = {
 
 const char *obj_camera_class_name = "TObjCamera";
 
-const StarLightParameters camera_object_init_params = { 2.5f, 15.0f, { { 0x00, 0xFF, 0x00, 0x00 } }, 0, 10.0f };
+const StarLightParameters camera_lamp_params = { 2.5f, 15.0f, { { 0x00, 0xFF, 0x00, 0x00 } }, 0, 10.0f };
 
-Vec camera_slot_positions[8];
+Vec camera_lamp_positions[8];
 BmlResource *TObjCamera::model_resource;
-s32 TObjCamera::camera_slot_scan_index;
+s32 TObjCamera::node_scan_index;
 
 void TObjCamera::play_sound_events() {
     s32 i;
@@ -84,15 +84,15 @@ void TObjCamera::init_sound_events() {
     }
 }
 
-void TObjCamera::update_camera_slots(NJS_OBJECT *node) {
+void TObjCamera::record_lamp_positions(NJS_OBJECT *node) {
     s32 i;
     for (i = 0; i < 8; i++) {
-        if (camera_slot_scan_index == camera_slot_id_table[i]) {
+        if (node_scan_index == camera_lamp_node_ids[i]) {
             Vec v = { 0.0f, 0.0f, 0.0f };
-            forward_transform_to_view(&v, &camera_slot_positions[i]);
+            forward_transform_to_view(&v, &camera_lamp_positions[i]);
         }
     }
-    camera_slot_scan_index += 1;
+    node_scan_index += 1;
 }
 
 #pragma push
@@ -132,16 +132,16 @@ void TObjCamera::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
-        camera_slot_scan_index = 0;
-        set_model_node_callback(TObjCamera::update_camera_slots);
-        draw_ginja_model_with_motion((void *)get_bml_model(model_resource, 0),
+        node_scan_index = 0;
+        set_model_node_callback(TObjCamera::record_lamp_positions);
+        draw_ginja_model_with_motion(get_bml_model(model_resource, 0),
                                      get_bml_motion(model_resource, 0), animation_frame);
         set_model_node_callback(0);
         pop_matrix();
         if (lights_visible != 0) {
             for (i = 0; i < 8; i++) {
                 if (lights[i] != NULL) {
-                    lights[i]->copy_position(&camera_slot_positions[i]);
+                    lights[i]->copy_position(&camera_lamp_positions[i]);
                 }
             }
         }
@@ -190,7 +190,7 @@ TObjCamera::~TObjCamera() {}
 TObjCamera::TObjCamera(TObject *parent, void *set_data) : TObjMapObject(parent) {
     s32 i;
     m_name = obj_camera_class_name;
-    StarLightParameters params = camera_object_init_params;
+    StarLightParameters params = camera_lamp_params;
     apply_object_set_data(set_data);
     animation_frame = 0.0f;
     animation_step = 0.8f;
@@ -220,6 +220,6 @@ void TObjCamera::free_resources() {
 }
 
 void TObjCamera::load_resources() {
-    camera_slot_scan_index = 0;
+    node_scan_index = 0;
     model_resource = new BmlResource(1, &fe_obj_cam_resource_descriptor, 0, 0, NULL);
 }

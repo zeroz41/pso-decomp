@@ -153,7 +153,6 @@ typedef struct InNum_802561E8 {
 struct Win_80256354 { u8 p0[0x62]; s8 f62; u8 p63[5]; s32 f68; };
 
 extern "C" {
-extern s8 controller_input_state[];
 void draw_arrows__18TWindowInputNumberFv(TWindowInputNumber *, Ctx_802563A0 *, Digit_802561E8 *, int);
 extern s32 lbl_805D63F0;
 void __dl__7TObjectFPv(void *);
@@ -308,9 +307,9 @@ void TWindowInputNumber::run_task() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r30;
     uaddr temp_r3;
-    u8 *input;
-    u8 *temp_r29_2;
-    u8 *context;
+    ControllerInputContext *input;
+    ControllerInputContext *temp_r29_2;
+    ControllerInputContext *context;
 
     temp_r30 = is_player_input_active(((s32) *(s16 *)((s8 *)arg0 + 0x20)));
     if (!(*(s32 *)((s8 *)arg0 + 0x2C) & 2)) {
@@ -318,21 +317,21 @@ void TWindowInputNumber::run_task() {
     }
     if ((((TWindowInputNumber *)arg0)->is_confirmed() == 0) && !(*(u16 *)((s8 *)arg0 + 0x60) & 0x40) && (((TWindowBase *)arg0)->sub_80244994() != 0)) {
         if (*(u16 *)((s8 *)arg0 + 0x60) & 0x10) {
-            input = (u8 *)controller_input_state + (temp_r30 * 0x50) + 0x20;
-            if ((test_buttons_press_or_repeat((saddr)input, 0x10, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x10) != 0)) {
+            input = &controller_input_state.controllers[temp_r30];
+            if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x10) != 0)) {
                 ((TWindowInputNumber *)arg0)->update_value();
             }
-            if ((test_buttons_press_or_repeat((saddr)input, 0x20, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x20) != 0)) {
+            if ((test_buttons_press_or_repeat(input, 0x20, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x20) != 0)) {
                 ((TWindowInputNumber *)arg0)->update();
             }
-            if ((test_buttons_press_or_repeat((saddr)input, 0x40, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x40) != 0)) {
+            if ((test_buttons_press_or_repeat(input, 0x40, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x40) != 0)) {
                 ((TWindowInputNumber *)arg0)->move_cursor_next();
             }
-            if ((test_buttons_press_or_repeat((saddr)input, 0x80, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x80) != 0)) {
+            if ((test_buttons_press_or_repeat(input, 0x80, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x80) != 0)) {
                 ((TWindowInputNumber *)arg0)->handle_decrement();
             }
         } else {
-            temp_r29_2 = (u8 *)controller_input_state + (temp_r30 * 0x50) + 0x20;
+            temp_r29_2 = &controller_input_state.controllers[temp_r30];
             if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)temp_r29_2, 0x10, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x10) != 0)) {
                 ((TWindowInputNumber *)arg0)->update_value();
             }
@@ -346,11 +345,11 @@ void TWindowInputNumber::run_task() {
                 ((TWindowInputNumber *)arg0)->handle_decrement();
             }
         }
-        context = (u8 *)controller_input_state + (temp_r30 * 0x50) + 0x20;
-        if ((TWindowShortListCtrl__check_controller_button(context, 4) != 0) || (((TWindowInputNumber *)arg0)->test_input_flag(4) != 0)) {
+        context = &controller_input_state.controllers[temp_r30];
+        if ((test_pressed_buttons_packed(context, 4) != 0) || (((TWindowInputNumber *)arg0)->test_input_flag(4) != 0)) {
             ((TWindowInputNumber *)arg0)->confirm_input();
         }
-        if ((TWindowShortListCtrl__check_controller_button(context, 2) != 0) || (((TWindowInputNumber *)arg0)->test_input_flag(2) != 0)) {
+        if ((test_pressed_buttons_packed(context, 2) != 0) || (((TWindowInputNumber *)arg0)->test_input_flag(2) != 0)) {
             ((TWindowInputNumber *)arg0)->mark_confirmed();
         }
     }
@@ -390,12 +389,12 @@ s32 TWindowInputNumber::test_input_flag(s32 buttons) {
     if (this->inputFlags & 0x20) {
         return 0U;
     }
-    return test_controller_flag_4c_color((u8 *)&controller_input_state + 0x160, buttons);
+    return test_controller_flag_4c_color(&controller_input_state.keyboard, buttons);
 }
 
 s32 TWindowInputNumber::is_locked(s32 buttons) {
     if (this->inputFlags & 0x20) {
         return 0;
     }
-    return test_buttons_press_or_repeat((saddr)(controller_input_state + 0x160), (s32)buttons, 6, 1);
+    return test_buttons_press_or_repeat(&controller_input_state.keyboard, (s32)buttons, 6, 1);
 }

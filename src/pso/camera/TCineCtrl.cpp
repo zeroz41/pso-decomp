@@ -2,9 +2,6 @@
 #include "pso/render/Draw2D.h"
 #include "pso/camera/TCineCtrl.h"
 #include "pso/render/ModelDrawContext.h"
-
-#include "pso/ui/charcreate/TObjCMHairMenu.h"
-
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TMainTask.h"
 

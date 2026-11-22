@@ -57,7 +57,6 @@ void play_player_default_effect__6TLobbyFv(s32 _w0);
 s32 play_sound_effect(s32, s32, s32, s32);
 void play_cue_stream_file(saddr name);
 s32 challenge_retry_cmd_table[3] = { 1, 0, 0 };
-extern s8 controller_input_state[];
 __declspec(section ".data") f32 challenge_retry_window_pos[2] = { 360.0f, 125.0f };
 
 const char *TObjChallengeRetry__class_name = "TObjChallengeRetry";
@@ -316,7 +315,7 @@ void TObjChallengeRetry::update_challenge_retry() {
         return;
     }
 block_6:
-    if ((var_r31 != 0) || (TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 2) != 0)) {
+    if ((var_r31 != 0) || (test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0)) {
         close_window_2c();
         TLobby::send_45_and_close_windows(this);
         TLobby::play_default_effect(this);
@@ -327,7 +326,7 @@ void TObjChallengeRetry::handle_challenge_retry_confirm() {
     TObjPlayer *player;
     TLobby::play_default_effect(this);
     player = (TObjPlayer *)get_player_by_client_id(local_client_id);
-    if ((player != NULL) && (player->is_controls_locked() == 0) && (TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 4) != 0)) {
+    if ((player != NULL) && (player->is_controls_locked() == 0) && (test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0)) {
         TLobby::send_45_and_close_windows(this);
         TLobby::show_ctrl_and_play_effect(this);
         this->state = 2;

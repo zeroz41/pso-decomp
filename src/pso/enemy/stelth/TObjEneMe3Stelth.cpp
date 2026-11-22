@@ -1042,7 +1042,7 @@ void TObjEneMe3Stelth::state_f_attack(s32 reason) {
                     v.y += 20.0f;
                     v.z += this->destination_direction.z * t;
                     if (csnVecterUnder(&v, 0x15) != 0) {
-                        if (this->room == ((TScene *)(&v))->find_section_at_position()) {
+                        if (this->room == find_section_at_position(&v)) {
                             this->state_step = 3;
                             this->state_values[0] = (this->destination_distance - 20.0f) / 12.857143f;
                             this->set_invulnerable();
@@ -1552,7 +1552,7 @@ void TObjEneMe3Stelth::state_warp(s32 reason) {
                         if (check_move_collision(&q) == 0 &&
                             csnVector(&this->current_target->position, &q, 0x88E0) == 0 &&
                             csnVectorUnder(&p, (CsnGroup **)&this->ground_cache, 0x15) != 0 &&
-                            ((TScene *)(&p))->find_section_at_position() == this->room) {
+                            find_section_at_position(&p) == this->room) {
                             VecCopy(&this->position, &p);
                             this->rotation_y = ang + 0xC000;
                             break;

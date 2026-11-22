@@ -68,6 +68,8 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007CF0C.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/ui/font/TFontSmallTask.h"
+#include "pso/unk/TLobby_800F8AA8.h"
 
 
 struct Pair_801A3CFC { s32 f0; s32 f4; };
@@ -123,7 +125,6 @@ struct Pl_801A40D8 : PlB_801A40D8 {
 };
 
 extern "C" {
-s32 reset_quest_result_callbacks__22THunterGuildSeqOfflineFv();
 void clear_enabled_main_warps(void);
     extern int challenge_task_created;
 int TKeyBoardControl__sub_8000F95C(void);
@@ -140,16 +141,12 @@ extern s32 lbl_805D5718;
 void __construct_array(void *, void *, int, int, int);
 s32 TLobby__sub_8013A23C(s32 arg0);
 s32 __dt__7TObjectFv(void *, s32);
-s32 find_leader_section_id(void *, s32);
 s32 unlock_main_warp_destination();
-int reset_controller_input_state(void);
 s32 TObjPlayer__sub_801B1BA4();
 s32 TObjPlayer__sub_801B1C8C();
 void *get_player_by_client_id(s32);
 s32 load_area_scene_and_init(void *);
 s32 __ct__7TObjectFP7TObject(void *, s32);
-s32 is_area_transfer_pending();
-s32 apply_phase_keyboard_mode();
 s32 run_load_callback_table(void *, s32);
 void TLobby__sub_801A3E94(void);
 s32 TAdDialingGC__sub_801A4C90();
@@ -161,7 +158,6 @@ s32 TLobby__sub_80146908();
 void TLobby__sub_801A3CF8(void);
 int TLobby__sub_801A3E8C(void);
 u32 TAdDialingGC__sub_801A4C9C();
-s32 set_copy_clear_color_argb(int, int, int);
 s32 TGameProtocol__ct(void *, void *);
 s32 TLobby__sub_801F3774();
 s32 TLobby__sub_8020A6B0(int);
@@ -174,7 +170,6 @@ void TWindowCtrlMain__sub_8024D838(void);
 void TObjPlayer__sub_80156934(void);
 void TRaderMapCore__sub_801F95CC(void);
 void TWindowDD__sub_80344114(void);
-void THunterGuildSeqOffline__sub_80213410(void);
 void TQuestThread__sub_801F5D88(void);
 void TLobby__sub_8029B2A4(void);
 void reset_globals(void);
@@ -215,14 +210,14 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {init_switch_table, clear_switch_table},
     {TLobby::load_freeze_ice_resource, TLobby::destroy_global_singleton},
     {reset_shop_stock_and_params, clear_all_shop_stock},
-    {(FloorResourceCallback)THunterGuildSeqOffline::reset_quest_result_callbacks, THunterGuildSeqOffline__sub_80213410},
+    {THunterGuildSeqOffline::reset_quest_result_callbacks, THunterGuildSeqOffline__sub_80213410},
     {TQuestThread::clear_all_floor_handlers, TQuestThread__sub_801F5D88},
     {TObjCityMainWarp::reset, TObjCityMainWarp__sub_80186AB8},
     {(FloorResourceCallback)TLobby__sub_80225C64, (FloorResourceCallback)TLobby__sub_80225C44},
     {(FloorResourceCallback)TLobby__sub_8001DC04, (FloorResourceCallback)TLobby::forward_8001DBD8},
     {(FloorResourceCallback)TLobby__sub_8034C3A4, (FloorResourceCallback)TLobby__sub_8034C384},
     {(FloorResourceCallback)TWindowGetComCard__sub_8007B67C, (FloorResourceCallback)TWindowGetComCard__sub_8007B65C},
-    {(FloorResourceCallback)TLobby__sub_8024285C, (FloorResourceCallback)(void (*)(void *))TLobby::reset_state},
+    {TLobby__sub_8024285C, TLobby::reset_state},
     {clear_received_symbol_chat, TLobby__sub_80077608},
     {TLobby__sub_80077BAC, TLobby::free_static_windows},
     {TWindowDD__sub_80344114, TWindowDD::free_buffers},
@@ -269,7 +264,6 @@ void clear_resource_load_tasks(void);
 extern s32 local_client_id;
 void process_pending_resources(void);
 void clear_quest_floor_designations(void);
-extern u8 TLobby__data_805011D8[];
 s32 start_quest_mission(void);
 extern u8 game_variations[];
 s32 change_floor_reload_area(void);
@@ -336,7 +330,7 @@ void reload_lobby_floor_scene(void) {
     TLobby::send_game_character();
     render_tick();
     render_tick();
-    find_leader_section_id(TLobby__data_805011D8, TLobby__designated_client_id);
+    leader_selection.find_leader_section_id(TLobby__designated_client_id);
     TLobby::free_objects();
     main_task.delete_layer_children();
     main_task.resume_layers();
@@ -458,7 +452,7 @@ void TLobby::free_objects() {
         quest_mission_manager->queue_destruction();
     }
     clear_enabled_main_warps();
-    reset_quest_result_callbacks__22THunterGuildSeqOfflineFv();
+    THunterGuildSeqOffline::reset_quest_result_callbacks();
     TLobby::clear_counter();
     TLobby::reset_door_state();
     TObjDoor::reset_instance();
@@ -482,7 +476,7 @@ s32 start_quest_mission(void) {
     reset_controller_input_state();
     render_tick();
     render_tick();
-    find_leader_section_id(TLobby__data_805011D8, TLobby__designated_client_id);
+    leader_selection.find_leader_section_id(TLobby__designated_client_id);
     for (i = 0; i < 12; i++) {
         p = (VObj_18_801A4268 *) get_player_by_client_id(i);
         if (p != NULL) {
@@ -545,7 +539,7 @@ s32 change_floor_reload_area(void) {
     reset_controller_input_state();
     render_tick();
     render_tick();
-    find_leader_section_id(TLobby__data_805011D8, TLobby__designated_client_id);
+    leader_selection.find_leader_section_id(TLobby__designated_client_id);
     for (i = 0; i < 12; i++) {
         p = (VObj_18_801A441C *) get_player_by_client_id(i);
         if (p != NULL) {

@@ -501,7 +501,7 @@ pso/item/TItemObject.cpp
 pso/item/armor/TItemProArmor.cpp
 pso/item/armor/TItemProArmorParticle.cpp
 pso/item/armor/TItemProShield.cpp
-pso/item/armor/TItemProShield_80076B5C.cpp
+pso/system/TTokenList.cpp
 pso/item/armor/TItemProUnit.cpp
 pso/item/TItemReverseTech.cpp
 pso/item/TItemReverseTechCtrl.cpp
@@ -1208,7 +1208,6 @@ pso/ui/window/TWindowCtrlSdata2.cpp
 pso/ui/window/TWindowCtrl.cpp
 pso/ui/window/TWindowCtrlMain.cpp
 pso/ui/window/TWindowCtrlMain_800FC91C.cpp
-pso/ui/window/TWindowCtrl_8006E85C.cpp
 pso/ui/window/TWindowCtrl_80145A28.cpp
 pso/ui/window/TWindowCtrl_801FBA28.cpp
 pso/ui/window/TWindowCtrl_8024A054.cpp

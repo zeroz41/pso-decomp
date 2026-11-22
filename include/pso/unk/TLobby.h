@@ -127,7 +127,6 @@ struct TLobby : public TObject {
     static void advance_state_if_flag_set();
     static s32 check_challenge_time_range(s32 clear_time);
     void set_name_string();
-    void decode_obfuscated_string(void *arg1, int arg2);
     static void encode_name_xor(u8 *dst, u8 *src, s32 n);
     static s32 get_valid_slot(int id);
     static s32 get_slot_clamped(u32 id);
@@ -373,7 +372,6 @@ struct TLobby : public TObject {
     static void set_menu_index_main(u8 *arg0);
     static void refresh_render_state();
     static void wait_for_sound_init();
-    void add_token(const char *src);
     void trim_whitespace();
     s32 get_id();
     static void clear_flag_bit2();
@@ -610,7 +608,6 @@ struct TLobby : public TObject {
     s32 get_battle_ctrl_default();
     static s32 find_free_chat_log_slot();
     static void apply_menu_cursor_selection();
-    static void reset_leader_selection_static();
     static u8 *get_stage_table_entry(s32 arg0, s32 arg1);
     static s32 get_online_result_value();
     static void send_challenge_retry_cmd(s32 arg0);
@@ -745,7 +742,8 @@ struct TLobby : public TObject {
     static void release_menu_font();
     static void load_font_texture();
     static void reset_state_byte();
-    static void reset_state(void *p);
+    // Empties the com card list on floor load and unload.
+    static void reset_state();
     static s32 create_file_load_entry(saddr arg0, s32 arg1, u32 arg2, saddr src, void **arg4);
     static s32 request_file_read(saddr arg0, s32 arg1, s32 *arg2, void **arg3);
     static void reset_lobby_state();
@@ -819,8 +817,6 @@ struct TLobby : public TObject {
     static void update_guild_or_quest_phase();
     static void free_window();
     void swap_item_data(s32 *arg1);
-    void tokenize_args(char *s);
-    void parse_csv_line(char *s);
     static void store_challenge_seeds(s32 seed);
     static void refresh_lobby_state();
     static s32 init_particle_model();
@@ -949,7 +945,8 @@ struct TLobby : public TObject {
     char *build_text_from_comma_list();
     static void remove_com_card_entry(s32 arg0);
     static s32 remove_com_card_by_id(u32 arg0);
-    static void reset_state_805D63DC(void*);
+    // Empties the com card list and clears its flag.
+    static void reset_com_card_list();
     void set_split_screen_name();
     static void create_singleton(void *arg0);
     static s32 check_all_battle_flags(void *);

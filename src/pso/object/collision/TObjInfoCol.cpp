@@ -35,7 +35,7 @@ void TObjInfoCol::run_task() {
     f32 radius = interaction_radius;
     TObjPlayer *player;
     if (is_target_in_range(radius * radius) == 1 &&
-        TWindowShortListCtrl__check_controller_button((u8 *)&controller_input_state + 0x20, 4) != 0 &&
+        test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0 &&
         ((player = get_player_by_client_id(local_client_id)) == NULL ||
          player->is_controls_locked() == 0) &&
         (player == NULL || player->is_inactive() != 0) &&

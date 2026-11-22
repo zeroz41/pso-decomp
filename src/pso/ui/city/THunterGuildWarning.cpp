@@ -273,7 +273,6 @@ s32 get_nth_view_player_id__11TCameraCtrlFl(s32);
 s32 THunterGuildSeqOffline__sub_80211FEC(s32);
 s32 THunterGuildSeqOffline__sub_80212000(s32);
 s32 THunterGuildSeqOffline__sub_80212060(s32);
-extern u8 controller_input_state[][0x50];
 extern s32 lbl_805D55C0;
 s32 TLobby__sub_80211D58(s32 arg0) {
     s32 kind;
@@ -294,7 +293,7 @@ s32 TLobby__sub_80211D58(s32 arg0) {
             if (kind != 0) {
                 TObjPlayer *view_player = get_player_by_client_id((u16)player);
                 if (view_player != NULL) {
-                    if (TWindowShortListCtrl__check_controller_button(&controller_input_state[view_player->get_controller_port()][0x20], 4) != 0 &&
+                    if (test_pressed_buttons_packed(&controller_input_state.controllers[view_player->get_controller_port()], 4) != 0 &&
                         THunterGuildWarning::is_active() == 0) {
                         switch (kind) {
                         case 1:

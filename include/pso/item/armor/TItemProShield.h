@@ -64,7 +64,6 @@ struct TItemProShield : public TItemEquipBase {
     void apply_shield_effect_flags();
     // Draws item_model at the owner's joint.
     void draw_at_joint(s32 joint);
-    s16 get_field_2b8();
 
     static ShieldEffectEntry *shield_table;
 

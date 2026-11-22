@@ -15,6 +15,10 @@ s32 mix_seed__6TLobbyFUs(u16 arg0);
 s32 mix_seed_checked__6TLobbyFi(s32 seed);
 }
 
+// Decodes a stored name (each byte is the running sum of the previous ones
+// xored with 0x7F) into dst, at most length - 1 characters plus a terminator.
+void decode_obfuscated_string(char *dst, const void *src, int length);
+
 // lobby_name_string_buffer: layout known from its uses only.
 struct LobbyNameStringBuffer { s32 value; u8 remaining[0x1C]; };
 extern LobbyNameStringBuffer lobby_name_string_buffer;

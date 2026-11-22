@@ -5,7 +5,7 @@
 
 extern "C" {
 
-s32 construct_player_instance__10TObjPlayerFlslPUc(s32, s32, u16, s32, s32);
+s32 construct_player_instance__10TObjPlayerFlllPUc(s32, s32, u16, s32, s32);
 
 extern s32 tl_03;
 
@@ -15,7 +15,7 @@ s32 TObjPlayer::create(u32 slot, saddr player) {
 
     var_r30 = (saddr)TObject::operator new(0xDB8);
     if (var_r30 != 0) {
-        var_r30 = construct_player_instance__10TObjPlayerFlslPUc(var_r30, tl_03, (u16)slot, get_field_0_s32((void *)player), (saddr)((TObjPlayer *)player)->get_char_data());
+        var_r30 = construct_player_instance__10TObjPlayerFlllPUc(var_r30, tl_03, (u16)slot, get_field_0_s32((void *)player), (saddr)((TObjPlayer *)player)->get_char_data());
     }
     ((TLobby *)(var_r30 + 0xDAC))->copy_header_struct((void*)(((TObjPlayer *)player)->get_sub_obj()));
     return var_r30;

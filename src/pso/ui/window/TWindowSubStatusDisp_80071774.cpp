@@ -3,6 +3,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80071774.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/TLobby.h"
+#include "pso/unk/TLobby_8006F278.h"
 
 struct RecoveredGlobal_80071820_lbl_804FF820 {
     s32 value;
@@ -56,7 +57,7 @@ s32 *TWindowSubStatusDisp__sub_80071820(uaddr arg0) {
     if (arg0 == 0U) {
         return &lbl_805D2858;
     }
-    ((TLobby *)(&lbl_804FF820.value))->decode_obfuscated_string((void *)(arg0 + 0xD8), 0xC);
+    decode_obfuscated_string((char *)&lbl_804FF820.value, (void *)(arg0 + 0xD8), 0xC);
     return &lbl_804FF820.value;
 }
 

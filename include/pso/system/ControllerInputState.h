@@ -6,23 +6,27 @@
 
 struct ControllerInputContext {
     u32 buttons;
-    u32 flags_04;
-    u32 pressed_buttons;  // set the frame a button goes down (controller_stuff's edge bits)
-    u8 unknown_0c[0x8];
-    // Analog stick, signed (inferred: scaled into a turn rate by TAdLdQuestPrtGC).
+    u32 not_held;  // ~buttons
+    u32 pressed_buttons;  // set the frame a button goes down
+    u32 released;
+    u16 trigger_r;
+    u16 trigger_l;
+    // Main analog stick, signed.
     s16 stick_x;
     s16 stick_y;
-    /* PADStatus-style sticks (field names from the pad copy loop at 0x801A5F1C) */
+    // C stick, signed.
     s16 cstick_x;
     s16 cstick_y;
-    // Stick directions (atan2 of the sticks plus the camera's yaw, from controller_stuff).
+    // Stick directions: atan2 of each stick plus the camera's yaw.
     s32 stick_angle;
     s32 cstick_angle;
-    f32 stick_magnitude;  // inferred: TObjWarpBoss::sub_8019E418 cancels the warp prompt above 0.25
+    f32 stick_magnitude;
     f32 cstick_magnitude;
     s16 hold_frames[14];  // frames each input_button_mask_table button has been held
-    u32 previous_buttons;
-    u32 flags_4c;
+    // buttons plus the stick directions as digital bits (main stick 0x100000-0x800000,
+    // C stick 0x04000000-0x20000000), and the bits of it that went down this frame.
+    u32 held_with_sticks;
+    u32 pressed_with_sticks;
 };
 
 struct PadSlot;
@@ -38,9 +42,7 @@ LAYOUT_ASSERT(ControllerInputContext_size, sizeof(ControllerInputContext) == 0x5
 LAYOUT_ASSERT(ControllerInputState_controllers_offset, offsetof(ControllerInputState, controllers) == 0x20);
 LAYOUT_ASSERT(ControllerInputState_size, sizeof(ControllerInputState) == 0x1B0);
 
-extern "C" {
 extern ControllerInputState controller_input_state;
 extern ControllerInputState controller_physical_port_bank;
-}
 
 #endif

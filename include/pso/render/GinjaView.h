@@ -54,12 +54,12 @@ extern const f32 screen_half_scale;
 extern const f32 projection_unit;
 extern const f32 screen_aspect_ratio;
 
-extern f32 camera_look_at_up_vector[3];
+extern Vec camera_look_at_up_vector;
 
 // Would fill the eye look_at_position views from; empty, so the eye is left
 // as it is.
-void get_look_at_eye(u8 *eye);
-void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
+void get_look_at_eye(Vec *eye);
+void set_camera_look_at(const Vec *eye, const Vec *target, const Vec *up);
 // Moves the view to x, y, z (translate_view_negated).
 void update_camera_state(f32 x, f32 y, f32 z);
 // Points the view from the current eye at x, y, z.

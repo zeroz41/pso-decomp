@@ -1,4 +1,7 @@
+#define PSO_SDK_COMPACT_MATH
 #include "types.h"
+#include <dolphin/gx/GXTransform.h>
+#undef PSO_SDK_COMPACT_MATH
 #include "pso/camera/TCameraController.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/camera/TCameraFollow.h"
@@ -17,8 +20,6 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
 
-// <dolphin/gx/GXTransform.h> pulls in MSL's sqrt statics, which this object does not have.
-extern "C" void GXSetScissorBoxOffset(s32 x_off, s32 y_off);
 
 static const Vec camera_forward_axis = {0.0f, 0.0f, -1.0f};
 static const Vec actor_forward_axis = {0.0f, 0.0f, -1.0f};
@@ -154,7 +155,7 @@ void TCameraController::post_update_view() {
     look.x = camera_ctrl_instance->tgt.x + t->x;
     look.y = camera_ctrl_instance->tgt.y + t->y;
     look.z = camera_ctrl_instance->tgt.z + t->z;
-    set_camera_look_at((u8 *)&camera_ctrl_instance->pos, (u8 *)&look, (u8 *)&TCameraCtrl::up_vector);
+    set_camera_look_at(&camera_ctrl_instance->pos, &look, &TCameraCtrl::up_vector);
     ninja_camera.px = camera_ctrl_instance->pos.x;
     ninja_camera.py = camera_ctrl_instance->pos.y;
     ninja_camera.pz = camera_ctrl_instance->pos.z;

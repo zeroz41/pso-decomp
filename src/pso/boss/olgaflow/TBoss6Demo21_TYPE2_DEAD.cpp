@@ -338,8 +338,8 @@ TBoss6Demo21_TYPE2_DEAD::TBoss6Demo21_TYPE2_DEAD(TBoss6PlotFalz *plot, const Vec
     capture_8 = ModelNodePositionCapture::create(boss6_type2_death_effect_desc_b, &effect_position_8);
     capture_13 = ModelNodePositionCapture::create(boss6_type2_death_effect_desc_c, trail_positions);
     activate_camera_mode(5);
-    set_scripted_camera_pose(&camera_position, &camera_position, &boss6_type2_dead_camera_angles);
-    boss6_type2_dead_camera_script.cache_target_and_forward(0x416C);
+    set_scripted_camera_origin(&camera_position, &camera_position, &boss6_type2_dead_camera_angles);
+    boss6_type2_dead_camera_script.play(0x416C);
     for (i = 0; i < 4; i++) {
         emitters[i] = NULL;
     }

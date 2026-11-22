@@ -70,9 +70,9 @@ TObjDFDemo2::TObjDFDemo2(TObject *parent, const Vec *position, s32 angle, s32 va
     {
         CameraAngles p = df_demo2_zero_camera_angles;
         p.yaw = this->angle;
-        set_scripted_camera_pose(&this->camera_position, &this->camera_position, &p);
+        set_scripted_camera_origin(&this->camera_position, &this->camera_position, &p);
     }
-    df_demo2_camera_playback.cache_target_and_forward(0x4444);
+    df_demo2_camera_playback.play(0x4444);
     play_sound_effect(0x4003A325, &this->camera_position, 0, 1);
     this->timer = 0;
 }

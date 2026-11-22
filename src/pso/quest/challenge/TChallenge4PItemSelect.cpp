@@ -62,7 +62,6 @@ struct W_8034B694 { u8 pad0[0x34]; E_8034B694 e[1]; u8 pad48[0x70 - 0x48]; Q_803
 
 extern "C" {
 
-extern u8 controller_input_state[];
 
 
 void obj_set_flag_20000(TObjPlayer *);
@@ -130,7 +129,6 @@ void TChallenge4PResult::run_task() {
 
 void TChallenge4PResult::update_input() {
     s32 temp_r3;
-    s32 temp_r5;
     uaddr p;
     TObjPlayer *player;
 
@@ -146,8 +144,7 @@ void TChallenge4PResult::update_input() {
         }
         player = get_player_by_client_id(this->slot_index);
         if (player != NULL) {
-            temp_r5 = player->get_controller_port() * 0x50;
-            if (TWindowShortListCtrl__check_controller_button(controller_input_state + temp_r5 + 0x20, 4) != 0) {
+            if (test_pressed_buttons_packed(&controller_input_state.controllers[player->get_controller_port()], 4) != 0) {
                 this->state_1c = 1;
             }
         } else {
@@ -186,12 +183,10 @@ void TChallenge4PResult::handle_result_code() {
     }
 }
 void TChallenge4PResult::update_wait_input() {
-    s32 temp_r5;
     TObjPlayer *player;
     player = get_player_by_client_id(this->slot_index);
     if (player != NULL) {
-        temp_r5 = player->get_controller_port() * 0x50;
-        if (TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&controller_input_state + temp_r5 + 0x20)), 4) != 0) {
+        if (test_pressed_buttons_packed(&controller_input_state.controllers[player->get_controller_port()], 4) != 0) {
             this->state_1c = 3;
         }
     } else {

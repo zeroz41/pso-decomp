@@ -295,13 +295,12 @@ void TObjChallenge4PRetry::handle_retry_menu_select() {
 s32 has_window_task_root();
 
 
-extern s8 controller_input_state[];
 
 void TObjChallenge4PRetry::update_challenge_4p_retry() {
     TObjPlayer *player;
     ((s32 (*)())play_all_players_effect__6TLobbyFPv)();
     player = (TObjPlayer *)get_player_by_client_id(local_client_id);
-    if ((player != NULL) && (player->is_controls_locked() == 0) && (TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 4) != 0)) {
+    if ((player != NULL) && (player->is_controls_locked() == 0) && (test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0)) {
         ((s32 (*)(void *))send_giveup_to_all_players__6TLobbyFv)(this);
         TLobby::close_giveup_window(this);
         this->state = 2;

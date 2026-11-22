@@ -37,20 +37,16 @@ s8 func_801A5E54__Fv();
 void func_803DCDFC__Fv(void);
 }
 
-extern s8 controller_input_state[];
-extern s8 controller_physical_port_bank[];
 extern saddr video_initial_draw_framebuffer;
 extern saddr video_initial_display_framebuffer;
 extern int opening_movie_selector;
 extern unsigned char main_menu_scene_active_flag;
 
 const char *TMovie__name = "TMovie";
-// inferred: the eye, target and up vectors run_task passes to set_camera_look_at
+// The eye, target and up of the view a movie plays in.
 static const Vec movie_camera_eye = {0.0f, 0.0f, 0.0f};
 static const Vec movie_camera_target = {0.0f, 0.0f, 1.0f};
 static const Vec movie_camera_up = {0.0f, 1.0f, 0.0f};
-
-void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
 
 TMovie *TMovie::close(TMovie *movie, short dealloc) {
     if (movie != NULL) {
@@ -318,7 +314,7 @@ loop_1:
 }
 
 s32 TMovie::check_skip_input() {
-    void *context;
+    ControllerInputContext *context;
     s32 var_r30;
 
     if (TAdEndText__sub_8001B41C() != 0) {
@@ -332,19 +328,19 @@ s32 TMovie::check_skip_input() {
     }
     switch (get_opening_movie_purpose()) {
     case 0:
-        context = controller_physical_port_bank + 0x20;
-        if (TWindowShortListCtrl__check_controller_button(context, 4) != 0) goto block_fn_8000F91C;
-        if (TWindowShortListCtrl__check_controller_button(context, 2) != 0) goto block_fn_8000F91C;
-        if (TWindowShortListCtrl__check_controller_button(context, 0x400) != 0) goto block_fn_8000F91C;
-        if (TWindowShortListCtrl__check_controller_button(context, 0x200) != 0) goto block_fn_8000F91C;
-        if (TWindowShortListCtrl__check_controller_button(context, 8) != 0) goto block_fn_8000F91C;
-        if (TWindowShortListCtrl__check_controller_button(context, 0x10) != 0) goto block_fn_8000F91C;
-        if (TWindowShortListCtrl__check_controller_button(context, 0x20) != 0) goto block_fn_8000F91C;
-        if (TWindowShortListCtrl__check_controller_button(context, 0x40) != 0) goto block_fn_8000F91C;
-        if (TWindowShortListCtrl__check_controller_button(context, 0x80) != 0) goto block_fn_8000F91C;
-        if (TWindowShortListCtrl__check_controller_button(context, 0x20000) != 0) goto block_fn_8000F91C;
-        if (TWindowShortListCtrl__check_controller_button(context, 0x10000) != 0) goto block_fn_8000F91C;
-        context = controller_input_state + 0x160;
+        context = &controller_physical_port_bank.controllers[0];
+        if (test_pressed_buttons_packed(context, 4) != 0) goto block_fn_8000F91C;
+        if (test_pressed_buttons_packed(context, 2) != 0) goto block_fn_8000F91C;
+        if (test_pressed_buttons_packed(context, 0x400) != 0) goto block_fn_8000F91C;
+        if (test_pressed_buttons_packed(context, 0x200) != 0) goto block_fn_8000F91C;
+        if (test_pressed_buttons_packed(context, 8) != 0) goto block_fn_8000F91C;
+        if (test_pressed_buttons_packed(context, 0x10) != 0) goto block_fn_8000F91C;
+        if (test_pressed_buttons_packed(context, 0x20) != 0) goto block_fn_8000F91C;
+        if (test_pressed_buttons_packed(context, 0x40) != 0) goto block_fn_8000F91C;
+        if (test_pressed_buttons_packed(context, 0x80) != 0) goto block_fn_8000F91C;
+        if (test_pressed_buttons_packed(context, 0x20000) != 0) goto block_fn_8000F91C;
+        if (test_pressed_buttons_packed(context, 0x10000) != 0) goto block_fn_8000F91C;
+        context = &controller_input_state.keyboard;
         if (test_controller_flag_4c_color(context, 4) != 0) goto block_fn_8000F91C;
         if (test_controller_flag_4c_color(context, 2) != 0) goto block_fn_8000F91C;
         if (TLobby::run_disk_error_check() == 0) goto block_fn_8000F91C;
@@ -358,10 +354,10 @@ block_fn_8000F91C:
         if (TKeyBoardControl::check_reset_button() != 0) {
             var_r30 = 1;
         }
-        context = controller_physical_port_bank + 0x20;
-        if (TWindowShortListCtrl__check_controller_button(context, 2) != 0) goto block_call_func;
-        if (TWindowShortListCtrl__check_controller_button(context, 8) != 0) goto block_call_func;
-        context = controller_input_state + 0x160;
+        context = &controller_physical_port_bank.controllers[0];
+        if (test_pressed_buttons_packed(context, 2) != 0) goto block_call_func;
+        if (test_pressed_buttons_packed(context, 8) != 0) goto block_call_func;
+        context = &controller_input_state.keyboard;
         if (test_controller_flag_4c_color(context, 4) != 0) goto block_call_func;
         if (test_controller_flag_4c_color(context, 2) != 0) goto block_call_func;
         if (TLobby::run_disk_error_check() == 0) goto block_call_func;
@@ -430,7 +426,7 @@ void TMovie::run_task() {
             Vec at = movie_camera_target;
             Vec up = movie_camera_up;
             set_perspective_projection_from_fov(0x4B, 1.1333334f, 1.0f, 21000.0f);
-            set_camera_look_at((u8 *)&eye, (u8 *)&at, (u8 *)&up);
+            set_camera_look_at(&eye, &at, &up);
             this->player->update_stop();
             if (txt != NULL) {
                 txt->m1();

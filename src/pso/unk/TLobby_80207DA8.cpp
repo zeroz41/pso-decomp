@@ -20,6 +20,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/system/byteswap.h"
 #include <string.h>
+#include "pso/unk/TLobby_800F8AA8.h"
 
 
 extern char floor_map_name_acity00[];
@@ -323,7 +324,6 @@ typedef FloorLifecycleEntry E_80207F80;
 typedef FloorLifecycleCallback Fn_80208020;
 typedef FloorLifecycleEntry E_80208020;
 extern "C" {
-s32 is_area_transfer_pending();
 void run_floor_cleanup_callbacks__6TLobbyFi(s32 arg0);
 s32 bswap_16__FPUs(u16 *, s32);
 s32 bswap_32__FPUl(s32 *, s32);

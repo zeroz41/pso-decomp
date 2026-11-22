@@ -63,8 +63,8 @@ TObjDFDemo5::TObjDFDemo5(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
     {
         CameraPlayback playback = {0, 4, 0, 0.0f, 0.5f};
         CameraAngles angles = {0, this->angle, 0};
-        set_scripted_camera_pose(&this->pos, &this->pos, &angles);
-        playback.cache_target_and_forward(0x416C);
+        set_scripted_camera_origin(&this->pos, &this->pos, &angles);
+        playback.play(0x416C);
     }
     node_list0 = ModelNodePositionCapture::create(df_demo5_emitter_node_entries, emitter_positions);
     node_list1 = ModelNodePositionCapture::create(df_demo5_tail_node_entries, &tail_position);

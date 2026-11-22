@@ -1,3 +1,5 @@
+// The Vol Opt camera (mode 11), and the TCameraController virtuals that do
+// nothing.
 #include "types.h"
 #include "pso/camera/TCameraVolOpt.h"
 #include "pso/camera/TCameraController.h"
@@ -14,7 +16,7 @@ void TCameraController::reset_to_actor_offset(TObjPlayer *, Vec *) {  }
 void TCameraController::reset_to_actor(TObjPlayer *) {  }
 void TCameraController::init_pose() {  }
 
-TCameraVolOpt *TCameraVolOpt::create() {
+TCameraController *TCameraVolOpt::create() {
     return new TCameraVolOpt();
 }
 

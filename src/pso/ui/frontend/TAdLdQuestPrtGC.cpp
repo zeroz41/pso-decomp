@@ -24,7 +24,7 @@ void TAdLdQuestPrtGC::render() {
 
 void TAdLdQuestPrtGC::run_task() {
     u32 i;
-    if (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[0], 4) != 0 ||
+    if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 4) != 0 ||
         test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0) {
         tint_timer = 0;
         tint_index++;

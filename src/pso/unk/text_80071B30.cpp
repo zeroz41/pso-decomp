@@ -6,6 +6,8 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TPlyCharData.h"
+#include "pso/player/TObjPlayer_801BDF5C.h"
+#include "pso/player/PlayerSlots.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/unk/TLobby.h"
 
@@ -23,25 +25,11 @@ typedef ChallengeTechniqueLevel Pair_80071BC0;
 
 typedef ChallengeStageStart Tbl_80071BC0;
 
-struct PBase_80071BC0 { u8 pad[0x18]; };
-
-struct Plr_80071BC0 : PBase_80071BC0 {
-    virtual void m0(s32);
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-};
-
 extern "C" {
 s32 *TWindowSubStatusDisp__sub_8006F0D8(void *);
 extern u8 challenge_mode_state[];
 void copy_player_visual_record(void *, void *);
-Plr_80071BC0 *get_player_by_client_id(s32);
-Plr_80071BC0 *create_player_object(s32, s32, TPlyCharData *);
-void clamp_and_set_unit_value__10TObjPlayerFiUci(Plr_80071BC0 *, u8, s16);
+void clamp_and_set_unit_value__10TObjPlayerFiUci(TObjPlayer *, u8, s16);
 void send_command__10TNpcPlayerFlScllPSc(u8, s32, s32, s32, TPlyCharData *);
 extern s32 local_client_id;
 s32 TLobby__sub_80071B30(s32 arg0, s32 slot) {
@@ -66,7 +54,7 @@ void TObjPlayer::rebuild_players_for_stage(s32 arg0) {
     Vec pos;
     Chr_80071BC0 chr;
     s32 i;
-    Plr_80071BC0 *p;
+    TObjPlayer *p;
     Tbl_80071BC0 *t;
     Pair_80071BC0 *e;
     if (arg0 < 0 || arg0 >= 0x10) {
@@ -82,9 +70,7 @@ void TObjPlayer::rebuild_players_for_stage(s32 arg0) {
             VecCopy((Vec *)&pos, (const Vec *)((u8 *)p + 0x38));
             copy_player_visual_record(&chr, (u8 *)p + 0x85c);
             ((TLobby *)(&hdr))->copy_header_struct((u8 *)p + 0xdac);
-            if (p != NULL) {
-                p->m0(1);
-            }
+            delete p;
             switch (chr.f34 & 0xe0) {
             case 0x20:
                 t = &hunter_stage_start_parameters[arg0];
@@ -105,18 +91,18 @@ void TObjPlayer::rebuild_players_for_stage(s32 arg0) {
                 TObjPlayer::begin_action_state(&cd);
                 send_command__10TNpcPlayerFlScllPSc(chr.f31, t->item_count, (saddr)t->items, t->level, &cd);
                 if (i == local_client_id) {
-                    p = create_player_object(i, 0, &cd);
+                    p = (TObjPlayer *)create_player_object(i, 0, (u8 *)&cd);
                 } else {
-                    p = create_player_object(i, 4, &cd);
+                    p = (TObjPlayer *)create_player_object(i, 4, (u8 *)&cd);
                 }
                 if (p == NULL) {
                     return;
                 }
             }
             ((TLobby *)((u8 *)p + 0xdac))->copy_header_struct(&hdr);
-            ((TObjBase *)p)->set_position_from(&pos);
-            ((TObjBase *)p)->save_previous_position();
-            p->m6();
+            p->set_position_from(&pos);
+            p->save_previous_position();
+            p->reset_motion_fields();
             ((TObjPlayer *)((u8 *)p + 0x428))->set_all_technique_levels((void *)0xff);
             if (t->techniques != NULL) {
                 for (e = t->techniques; e->level != 0xff; e++) {
