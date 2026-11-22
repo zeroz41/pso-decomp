@@ -22,8 +22,5 @@ struct TWindowShortCut : public TWindowBase {
 
 LAYOUT_ASSERT(TWindowShortCut_size, sizeof(TWindowShortCut) == 0x74);
 
-extern "C" {
-void render__15TWindowShortCutFv(u8 *arg0);
-}
 
 #endif

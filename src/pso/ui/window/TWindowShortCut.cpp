@@ -181,15 +181,12 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
 #pragma pop
 
 
-void render__15TWindowShortCutFv(u8 *arg0) {
+void TWindowShortCut::render() {
     saddr ctx;
-    ctx = reinterpret_cast<saddr>(reinterpret_cast<TWindowBase *>(arg0)->draw_default_entry());
-    ((TWindowBase *)arg0)->draw_window_frame((void *)ctx);
-    draw_visible_window_entries(
-        reinterpret_cast<const void *>(arg0),
-        reinterpret_cast<const WindowLayoutEntries *>(arg0 + 0x24),
-        reinterpret_cast<WindowDrawContext *>(ctx));
-    ((TWindowSubStatusDisp *)((void *)((saddr) (((TWindowShortCut *)arg0)->heading))))->forward_render((void *)(ctx));
+    ctx = reinterpret_cast<saddr>(draw_default_entry());
+    draw_window_frame((void *)ctx);
+    draw_visible_window_entries(this, &this->entry_list, reinterpret_cast<WindowDrawContext *>(ctx));
+    ((TWindowSubStatusDisp *)this->heading)->forward_render((void *)ctx);
 }
 
 void TWindowShortCut::run_task() { ((TWindowSubStatusDisp *)(this->heading))->update_subwindow(); ((TWindowDD *)this)->initialize_subwindow(); update_fade(); update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((char*)this + 0x24)); }
