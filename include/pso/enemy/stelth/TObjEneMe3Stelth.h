@@ -45,17 +45,21 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     virtual s32 check_flag();
     virtual void on_target_lost();
     virtual void vfunc_112();
-    virtual void vfunc_113(s32);
+    // State 0 (the ctor enters it, state_vanish ends in it): back at home_position, intangible,
+    // then fade_in or ambush after 5 steps (fade_in_start).
+    virtual void state_reset(s32);
     virtual void setup_move();
     virtual void draw_with_debug_info();
     void copy_pos_with_height_offset();
     void setup_move_bounds();
     f32 get_node_world_y();
     s32 test_body_collision(s32, f32);
-    s32 sub_800F4850();
+    // starts_stealthed: parameters[0] < 2. is_alternate_variant: texture_variant >= 1 (alternate
+    // texture list, knocks the weapon off, casts Barta); init_variant applies it.
+    s32 starts_stealthed();
     s32 is_angle_in_range();
-    s32 sub_800F47D4();
-    void sub_800F4758();
+    s32 is_alternate_variant();
+    void init_variant();
     void state_fade_in(s32);
     void run_death_reaction();
     void run_hit_reaction();
@@ -113,8 +117,9 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     void state_backstep(s32 reason);
     void state_stealth_on(s32 mode);
     void state_wait(s32 mode);
-    void sub_800F0C90();
-    s32 sub_800F0F84(Vec *pos);
+    // Ground effects on motion frames 12 and 28 (state_chase_target, state_sword).
+    void spawn_footstep_effects();
+    s32 check_move_collision(Vec *pos);
     void state_cast_barta(s32 reason);
     void state_stealth_off(s32 reason);
     void state_warp(s32 reason);
@@ -122,7 +127,8 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     void state_sword(s32 reason);
     void state_f_attack(s32 reason);
     void state_ambush(s32 reason);
-    s32 sub_800F4C10(f32);
+    // The target is within 20 in height, 25 away and in front: state_chase_target goes to state_sword.
+    s32 is_in_sword_range(f32);
     void state_vanish(s32 reason);
     void draw_model();
 };

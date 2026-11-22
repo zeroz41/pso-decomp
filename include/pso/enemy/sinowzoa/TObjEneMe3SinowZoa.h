@@ -35,21 +35,23 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     virtual f32 receive_direct_attack(void *source, DirectAttackPayload payload, void *collider, s32, s32);
     virtual s32 acquire_target(f32);
     virtual void dispatch_action(u32 state, s32 reason);
-    void sub_8031AC74();
+    void update_stealth_fade(); // run_task: material fade toward visible while actorFlags 0x24 is set, else toward the stealth state
     void state_fade_in(s32);
     virtual void run_task();
     virtual void render();
     s32 check_body_collision_at(s32 angle, f32 distance);
-    s32 sub_8031A4D0();
+    // starts_stealthed: parameters[0] < 2. is_alternate_variant: texture_variant >= 1 (alternate
+    // texture list, knocks the weapon off, casts Barta); init_variant applies it.
+    s32 starts_stealthed();
     s32 is_outside_visible_range();
-    s32 sub_8031A454();
-    void sub_8031A3D8();
+    s32 is_alternate_variant();
+    void init_variant();
     s32 render_model_if_visible();
     virtual void update_body_colliders();
     virtual void set_intangible();
     virtual void clear_intangible();
     virtual void check_collisions();
-    virtual void sub_8031A6A0();
+    virtual void attack_and_unequip();
     virtual s32 is_target_in_range();
     virtual void select_next_attack_state();
     virtual void vfunc_108();
@@ -57,8 +59,10 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     virtual s32 try_run_effect_m7();
     virtual void on_target_lost();
     virtual void vfunc_112();
-    virtual void action(s32);
-    virtual void action();
+    // State 0 (the ctor enters it, state_vanish ends in it): back at home_position, intangible,
+    // then fade_in or ambush after 5 steps (fade_in_start).
+    virtual void state_reset(s32 mode);
+    virtual void setup_move();
     virtual void render_demo();
     void run_death_reaction();
     void run_hit_reaction();
@@ -119,7 +123,8 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     // in floor_resource_callbacks.
     static void load_resources();
     static void free_resources();
-    void sub_80316840();
+    // Ground effects on motion frames 12 and 28 (state_chase_target, state_sword).
+    void spawn_footstep_effects();
     void spawn_ground_effect_on_frame_23();
     void state_cast_barta(s32 mode);
     void state_stealth_off(s32 mode);
@@ -133,7 +138,8 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     void state_f_attack(s32 mode);
     void state_appear(s32 mode);
     void state_ambush(s32 mode);
-    s32 sub_8031A820(f32);
+    // The target is within 20 in height, 25 away and in front: state_chase_target goes to state_sword.
+    s32 is_in_sword_range(f32);
     s32 check_move_collision(const Vec *pos);
     void cast_technique();
 };

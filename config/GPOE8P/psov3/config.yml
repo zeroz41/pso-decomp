@@ -1277,7 +1277,7 @@ force_active:
   - state_f_attack__18TObjEneMe3SinowZoaFl
   - state_appear__18TObjEneMe3SinowZoaFl
   - state_ambush__18TObjEneMe3SinowZoaFl
-  - sub_8031A820__18TObjEneMe3SinowZoaFf
+  - is_in_sword_range__18TObjEneMe3SinowZoaFf
   - TObjEneMe3Stelth__alternate_texture_list
   - TObjEneMe3Stelth__attack_params_by_variant
   - TObjEneMe3Stelth__base_params_by_variant
@@ -1292,7 +1292,7 @@ force_active:
   - state_sword__16TObjEneMe3StelthFl
   - state_f_attack__16TObjEneMe3StelthFl
   - state_ambush__16TObjEneMe3StelthFl
-  - sub_800F4C10__16TObjEneMe3StelthFf
+  - is_in_sword_range__16TObjEneMe3StelthFf
   - TObjEneMe3Stelth__trail_buffer
   - __ct__16TObjEneMerillLiaFP7TObjectPv
   - play_kafun_sound__16TObjEneMerillLiaFv
@@ -16226,9 +16226,9 @@ force_active:
   - sub_800EA820__15TObjEneSlimeOneFv
   - hide__13TObjEneRe4BitFv
   - state_fade_in__16TObjEneMe3StelthFl
-  - sub_800F4758__16TObjEneMe3StelthFv
-  - sub_800F47D4__16TObjEneMe3StelthFv
-  - sub_800F4850__16TObjEneMe3StelthFv
+  - init_variant__16TObjEneMe3StelthFv
+  - is_alternate_variant__16TObjEneMe3StelthFv
+  - starts_stealthed__16TObjEneMe3StelthFv
   - sub_800F8250__13TUnk_80499988Ff
   - sub_800FEC40__17TObjEZBoneRotBaseFPUc
   - sub_800FED0C__17TObjEZBoneRotBaseFv
@@ -16361,7 +16361,7 @@ force_active:
   - sub_803152A0__15TObjEneDelDepthFv
   - sub_803152C0__15TObjEneDelDepthFv
   - state_fade_in__18TObjEneMe3SinowZoaFl
-  - sub_8031AC74__18TObjEneMe3SinowZoaFv
+  - update_stealth_fade__18TObjEneMe3SinowZoaFv
   - sub_8032C0B4__14TAdYesNoBaseGCFv
   - sub_8032D214__16TAdWarningBaseGCFv
   - sub_8032E294__13TUnk_804EDD44Fv
