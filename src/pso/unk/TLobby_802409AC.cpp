@@ -144,15 +144,13 @@ s32 sndFXKeyOff(int);
 s32 OSDisableInterrupts(void);
 s32 OSRestoreInterrupts(s32);
 void TLobby__sub_80240F3C(SoundRequestVoice *);
-}
-void calc_sound_spatial_params(SoundRequestVoice *);
-extern "C" {
 u32 sndFXStartParaInfo(u16, u8, u8, u8, Params_80240B64 *);
 u32 sndFXCheck(u32);
 extern s8 TLobby__data_805434A8[];
 extern s32 TLobby__lobby_state_flags;
 void TLobby__sub_80241798(Sound_80241798 *arg0);
 }
+void calc_sound_spatial_params(SoundRequestVoice *);
 void send_voice_controller_updates(u8 *arg0);
 
 s32 set_voice_pitch_slide(u8 *arg0, s32 arg1, s32 arg2) {

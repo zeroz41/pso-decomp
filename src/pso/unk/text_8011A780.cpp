@@ -340,7 +340,7 @@ void TLobby::reset_item_id_counters() {
     }
 }
 
-extern "C" {
+
 TItemIdCounters::~TItemIdCounters() {
     mem_free((void *)item_sync_counter_table);
     item_sync_counter_table = 0;
@@ -386,4 +386,3 @@ void TLobby::copy_short_fields(void *arg1) {
     *(u16 *)((s8 *)this + 2) = (u16) *(u16 *)((s8 *)arg1 + 2);
 }
 
-}

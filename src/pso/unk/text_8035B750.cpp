@@ -9,7 +9,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
-extern "C" {
+
 struct Obj_8035B788;
 Obj_8035B788 * lbl_805D6F50;
 
@@ -23,7 +23,6 @@ void fn_8035B750(void) {
 const char *bm_ene_npc_nights_model_names[2] = { "npc_nights_body.nj", NULL };
 const char *bm_ene_npc_nights_motion_names[3] = { "fly_npc_nights_body.njm", "uki_npc_nights_body.njm", NULL };
 BmlResourceDescriptor nights_npc_resource_descriptor = { "bm_ene_npc_nights.bml", bm_ene_npc_nights_model_names, bm_ene_npc_nights_motion_names, 1, 2 };
-}
 
 // inferred: the action table both nights NPC spawn bindings point at (motion 0 fly, motion 1 uki)
 static TObjMotionAction nights_npc_actions[2] = {
@@ -36,7 +35,7 @@ struct Inner_8035B788 { u8 pad[8]; s32 x8; NJS_TEXLIST *texlist; };
 
 struct Obj_8035B788 { u8 pad[0x42C]; Inner_8035B788 *x42c; s32 x430; };
 
-extern "C" {
+
 // inferred: spawn bindings of the two nights NPCs (TLobby::spawn_npc_enemy 0x11 and 0x12)
 const NpcAnimationBinding lbl_804798CC = { NULL, reinterpret_cast<TObjMotionAction *>(nights_npc_actions), 1, 1, 2 };
 const NpcAnimationBinding lbl_804798DC = { NULL, reinterpret_cast<TObjMotionAction *>(nights_npc_actions), 0, 0, 2 };
@@ -55,4 +54,3 @@ void fn_8035B788(void) {
     }
 }
 
-}

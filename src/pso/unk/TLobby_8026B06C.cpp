@@ -11,7 +11,7 @@ void TWindowMessageQuest::set_frame_mode(s32 mode) {
 }
 }
 
-extern "C" int dispatch_message_window_text(TWindowMessageQuest *window, s32 text, s32 flags) {
+int dispatch_message_window_text(TWindowMessageQuest *window, s32 text, s32 flags) {
     switch (window->frame_mode) {
     case 0:
         return append_message_window_line(window, text, flags, 0xFF000000);
@@ -23,7 +23,7 @@ extern "C" int dispatch_message_window_text(TWindowMessageQuest *window, s32 tex
     }
 }
 
-extern "C" TWindowMessageQuest *create_quest_message_window_at(const NJS_POINT2 *position, const NJS_POINT2 *extent) {
+TWindowMessageQuest *create_quest_message_window_at(const NJS_POINT2 *position, const NJS_POINT2 *extent) {
     TLobby__sub_80269DA4(extent, 1);
     return new TWindowMessageQuest(reinterpret_cast<saddr>(position));
 }

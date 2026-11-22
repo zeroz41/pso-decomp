@@ -243,7 +243,7 @@ s32 TLobby::set_flag_bit0(s32 arg0) {
 
 struct TextBuilderBuffer { s32 value; u8 remaining[0xFC]; };
 extern TextBuilderBuffer text_builder_buffer;
-extern "C" {
+
 
 s32 TLobby::is_active() {
     return *((s8* (*)(void))get_card_window_area__6TLobbyFv)() == 0 ? 0 : 1;
@@ -298,7 +298,6 @@ struct File_8001DC30
   Sw_8001DC30 sw[4][0x60];
   Pair_8001DC30 pairs[4][0x60];
 };
-}
 void load_battle_param_entry(void) {
   s32 idx;
   const char *name;

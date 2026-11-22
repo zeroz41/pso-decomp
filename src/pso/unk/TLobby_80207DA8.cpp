@@ -275,7 +275,7 @@ __declspec(section ".data") const char *lbl_804C9268[2] = { floor_map_name_aboss
 FloorSceneEntry floor_scene_table[36] = { { lbl_804C90E0, 1 }, { lbl_804C90E8, 1 }, { lbl_804C90F0, 1 }, { lbl_804C90F8, 6 }, { lbl_804C9128, 5 }, { lbl_804C9150, 6 }, { lbl_804C9180, 6 }, { lbl_804C91B0, 6 }, { lbl_804C91E0, 5 }, { lbl_804C9208, 5 }, { lbl_804C9230, 5 }, { lbl_804C9258, 1 }, { lbl_804C9260, 1 }, { lbl_804C9268, 1 }, { lbl_804C8DF0, 1 }, { lbl_804C8DF8, 15 }, { lbl_804C8E70, 3 }, { lbl_804C8E88, 3 }, { lbl_804C8EA0, 1 }, { lbl_804C8ED8, 3 }, { lbl_804C8EF0, 3 }, { lbl_804C8EA8, 3 }, { lbl_804C8EC0, 3 }, { lbl_804C8F08, 1 }, { lbl_804C8F10, 1 }, { lbl_804C8F18, 1 }, { lbl_804C8F20, 3 }, { lbl_804C8F38, 1 }, { lbl_804C8F70, 3 }, { lbl_804C8F88, 3 }, { lbl_804C8FA0, 1 }, { lbl_804C8FA8, 1 }, { lbl_804C8FB0, 1 }, { lbl_804C8FB8, 1 }, { lbl_804C8F40, 1 }, { lbl_804C8F48, 5 } };
 const char *forest_rel_filename_table[6] = { "SetDataTableOff.rel", "SetDataTableOffUlti.rel", "SetDataTableOn.rel", "SetDataTableOnUlti.rel", "SetDataTable_TGS2001.rel", 0 };
 saddr get_floor_scene_table(s32 arg0);
-extern "C" {
+
 void TLobby__sub_80207E44(void);
 
 void randomize_adventure_maps(void);
@@ -298,7 +298,6 @@ s32 TLobby::is_scene_ready() {
 void TLobby__sub_80207E24(void* p, s32 size) { ((TLobby *)p)->copy_table_entries(size); }
 void TLobby__sub_80207E44(void) {  }
 void TLobby__sub_80207E48(void) { randomize_adventure_maps(); }
-}
 s32 lookup_floor_map_selection(s32 floor, FloorMapSelection *selection) {
     return get_floor_map_selection(floor, selection);
 }
@@ -311,16 +310,11 @@ saddr get_floor_scene_table(s32 area) {
     }
     return (saddr)lbl_804C8FC0[area].names;
 }
-extern "C" {
 
 
 void TLobby::reset_story_select(void* p) { TLobby::reset_story_select(); }
 void TLobby__sub_80207F10(void) { TLobby::reset_story_select(); }
-}
-
-extern "C" {
 s32 get_current_floor();
-}
 void bswap_enemy_set_row(void *arg0);
 void bswap_enemy_set_row_fields(void *arg0);
 void swap_object_row_endian(void *arg0);
@@ -516,7 +510,7 @@ struct Pkt_8020851C {
     u8 e;
 };
 
-extern "C" {
+
 void set_destroy_event__6TLobbyFi(int a0);
 
 void TLobby::load_item_data() {
@@ -549,7 +543,6 @@ int wave_event_stop_requested;
 s32 wave_event_trigger_count;
 s32 wave_event_first_switch_set;
 void TLobby::relink_objects(s16 a, s16 b) { link_matching_objects(a, b); wave_event_stop_requested = 1; }
-}
 extern s32 local_client_id;
 void send_6x67_wave_trigger_event(s32 arg0);
 void send_6x05_wave_set_switch(s16 arg0);
@@ -670,9 +663,8 @@ u16 read_stream_u16(void) {
 
 unsigned char read_stream_u8(void);
 #define wave_event_stop_requested (*(s32 *)&wave_event_stop_requested)
-extern "C" {
+
 s32 run_wave_event_actions(void);
-}
 
 #define wave_event_stream_base (*(unsigned char * *)&wave_event_stream_base)
 #define wave_event_stream_cursor (*(int *)&wave_event_stream_cursor)
@@ -691,6 +683,5 @@ s32 run_wave_event_actions(void) {
 
 #undef wave_event_stream_base
 #undef wave_event_stream_cursor
-extern "C" {
+
 void TLobby__sub_80208884(void *a0) { wave_event_stream_base = *(s32 *)((char *)a0 + 0x0); wave_event_stream_cursor = *(s32 *)((char *)a0 + 0x4); }
-}

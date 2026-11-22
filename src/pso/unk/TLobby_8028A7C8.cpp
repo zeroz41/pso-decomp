@@ -6,7 +6,6 @@
 #include "pso/unk/text_8028A820.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
-extern "C" {
 
 BmlResource *green_door_bml_resource;
 GinjaTextureList *green_door_texture_handle;
@@ -23,4 +22,3 @@ void TLobby::free_shared_objects() {
     }
 }
 
-}

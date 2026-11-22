@@ -6,7 +6,7 @@
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/ui/window/TWindowBase.h"
+
 
 extern "C" {
 s32 is_player_input_active(s32 param_1);

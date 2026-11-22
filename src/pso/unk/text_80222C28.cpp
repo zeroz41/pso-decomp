@@ -8,9 +8,8 @@
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *text_shop_rel_name_table[6] = { "TextShopJapanese.rel", "TextShopEnglish.rel", "TextShopGerman.rel", "TextShopFrench.rel", "TextShopSpanish.rel", NULL };
-}
 const char *quest_and_shop_error_text = "Error";
 // Text groups of the loaded TextShop*.rel: (*lbl_805D6258)[group][index] is a string.
 const char ****lbl_805D6258;
@@ -49,7 +48,7 @@ saddr get_shop_text(s32 index) {
     return (saddr)quest_and_shop_error_text;
 }
 
-extern "C" {
+
 void TLobby::free_singleton() {
     if ((uaddr) lbl_805D6258 != 0U) {
         TLobby::free_nodes_with_id((uaddr)((void*)lbl_805D6258));
@@ -73,4 +72,3 @@ s32 TShopGenerator__sub_80222DAC(s32 client) {
 #pragma scheduling off
 #pragma pop
 
-}

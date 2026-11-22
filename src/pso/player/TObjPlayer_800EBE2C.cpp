@@ -2,7 +2,6 @@
 #include "types.h"
 #include "pso/enemy/slime/TObjEneSlimeTailAttack.h"
 
-extern "C" {
 
 int TObjEneSlimeTailAttack::find_nearest_enemy_with_flag(f32 range) {
     s32 target_id;
@@ -12,4 +11,3 @@ int TObjEneSlimeTailAttack::find_nearest_enemy_with_flag(f32 range) {
     return static_cast<u16>(target_id);
 }
 
-}

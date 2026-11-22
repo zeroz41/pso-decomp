@@ -541,7 +541,7 @@ void set_sound_slot_special_scale(s32 slot, f32 scale) {
 f32 TLobby::get_field_2a4() { return *(f32*)((char*)this + 0x2a4); }
 s32 TLobby::get_field_0x280() { return *(s32*)((char*)this + 0x280); }
 void TLobby::set_menu_index(s32 v) { *(s32*)((char*)this + 0x280) = v; }
-extern "C" {
+
 void SoundControlState::set_output_mode(s32 mode) {
     switch (mode) {
     case 0:
@@ -586,18 +586,16 @@ s32 TLobby__sub_8023F880(s32 arg0) {
   }
   return -9;
 }
-}
 void fade_out_sound_slot(s32 slot, s32 step) {
     if (slot < 0 || slot >= 32) return;
     ((void (*)(void*, s32))start_voice_fade)(&lbl_805162EC[slot], step);
 }
-extern "C" {
+
 void set_sound_slot_pitch(s32 slot, s32 pitch, s32 duration) {
     if (slot < 0 || slot >= 0x20) {
         return;
     }
     set_voice_pitch_slide((u8 *)&lbl_805162EC[slot], (s32)((u32)pitch << 13) / 3072, duration);
-}
 }
 #pragma push
 #pragma opt_common_subs on
@@ -882,13 +880,9 @@ struct Mgr_802405B0 {
 extern "C" {
 s32 sndPopGroup();
 s32 OSGetTick();
-}
-s32 update_sound_frame(SoundControlState *self);
-extern "C" {
-
 int TLobby__sub_802401C8(SoundControlState *self) { return 0; }
 }
-
+s32 update_sound_frame(SoundControlState *self);
 s32 update_sound_frame(SoundControlState *self) {
     s32 t;
     s32 i;

@@ -5,7 +5,7 @@
 
 struct O_801BEC50 { u16 a; u16 b; f32 x; f32 y; f32 z; };
 
-extern "C" {
+
 extern const f32 TObjPlayer__data_805DC278;
 int TPlyPhotonChair::is_mounted() { return (*(u32*)((char*)this + 0x334) >> 26) & 0x1; }
 
@@ -23,4 +23,3 @@ void PlayerNpcControl::reset() {
 
 s32 TObjPlayer::get_entrance_id() { return *(s32*)((char*)this + 0x3c8); }
 
-}

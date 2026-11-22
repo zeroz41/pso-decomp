@@ -5,7 +5,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/Language.h"
 
-extern "C" {
+
 extern u8 *TLobby__protocol_instance;
 void __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void *arg0, void *src) {
     *(u8 *)((s8 *)arg0 + 0) = (u8) *(u8 *)((s8 *)src + 0);
@@ -36,4 +36,3 @@ void TLobby::fill_guild_card_from_char(s32 arg1) {
     }
 }
 
-}

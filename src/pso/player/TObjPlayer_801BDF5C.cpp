@@ -131,7 +131,7 @@ u8 lobby_rule_settings[0x24];
 u8 lbl_8050EA64[0xC];
 u8 TObjPlayer__char_data_array[0x42C * 0xC];
 
-extern "C" {
+
 void __sinit_TObjPlayer_801BDF5C_cpp(void) {
     __construct_array(TObjPlayer__arrival_override_table, (void *)TObjPlayer__sub_801BFF80, NULL, 0x14, 0xC);
     ((TObjPlayer *)lobby_rule_settings)->reset_lobby_settings();
@@ -143,7 +143,6 @@ void TObjPlayer::destroy_char_data_array() {
     __destroy_arr(TObjPlayer__char_data_array, (void *)destroy_char_data__10TObjPlayerFis, 0x42c, 0xc);
 }
 
-}
 
 __declspec(section ".ctors") static void *const __sinit_TObjPlayer_801BDF5C_cpp_ref = (void *)__sinit_TObjPlayer_801BDF5C_cpp;
 

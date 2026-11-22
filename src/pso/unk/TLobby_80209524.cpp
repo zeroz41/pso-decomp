@@ -689,12 +689,9 @@ void TLobby__sub_8020A6B0(s32 player) {
 
 // ---- pso/unk/TLobby_8020A744
 
-extern "C" {
-
 
 void TLobby::init_sub_objects() { TLobby::init_sub_state(); TLobby::rebuild_entry(); }
 
-}
 
 // ---- pso/unk/text_8020A768
 struct Ent_8020A768 { s16 a; s16 b; u8 pad[0x48 - 4]; };
@@ -897,12 +894,9 @@ s32 load_area_enemy_set(s32 arg0, s32 arg1, s32 terrain, s32 entities) {
 
 // ---- pso/unk/TLobby_8020AD20
 
-extern "C" {
-
 
 int TLobby::init_sub_state() { return clear_record_flags_b(); }
 
-}
 
 // ---- pso/unk/text_8020AD40
 
@@ -1012,7 +1006,6 @@ block_6:
 
 // ---- pso/unk/TLobby_8020B03C
 
-extern "C" {
 
 void TLobby::free_data_60F0() {
     if (TLobby__map_set_file_buffer != NULL) {
@@ -1033,7 +1026,6 @@ s32 TLobby::init_handle(s32 size) {
     return 0;
 }
 
-}
 
 void clear_map_set_data(void) {
     map_set_object_id_counter = 0;
@@ -1163,11 +1155,7 @@ int TLobby::get_object_type(int a0) {  return TLobby__data_80513CC8[a0]; }
 
 int TLobby::get_obj_table_entry(int a0) {  return TLobby__data_80513C80[a0]; }
 
-}
-
 // ---- pso/unk/text_8020B47C
-
-extern "C" {
 // Copies the received object and enemy set flags of every floor into the floor tables.
 void TLobby__sub_8020B47C(FloorSetFlagsHeader *block) {
     s32 j;
@@ -1210,7 +1198,7 @@ void TLobby__sub_8020B47C(FloorSetFlagsHeader *block) {
 
 // ---- pso/unk/TLobby_8020B588
 
-extern "C" void swap_floor_set_flags_header(FloorSetFlagsHeader *header) {
+void swap_floor_set_flags_header(FloorSetFlagsHeader *header) {
     bswap_32(&header->object_offset);
     bswap_32(reinterpret_cast<u32 *>(&header->object_count));
     bswap_32(&header->enemy_offset);

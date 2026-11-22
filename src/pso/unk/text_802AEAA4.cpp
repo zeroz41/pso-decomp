@@ -2,8 +2,6 @@
 #include "types.h"
 
 
-extern "C" {
-
 void TAdSelectCurGC::update_texture_rectangles(s32 frame) {
     s32 i;
     for (i = 0; i < static_cast<s32>(entry_count); i++) {
@@ -38,5 +36,4 @@ void TAdSelectCurGC::update_texture_rectangles(s32 frame) {
             break;
         }
     }
-}
 }

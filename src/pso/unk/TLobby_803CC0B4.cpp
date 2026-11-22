@@ -3,7 +3,6 @@
 #include "pso/audio/GcrnaStream.h"
 #include "pso/unk/TLobby.h"
 
-extern "C" {
 
 GcrnaStream *TLobby::run_step_5210(SjRingBuffer **inputs, s32 channels) {
     return GCRNA_Create(inputs, channels);
@@ -21,4 +20,3 @@ void TLobby__sub_803CC114(void) {
     gcrna_initialize();
 }
 
-}

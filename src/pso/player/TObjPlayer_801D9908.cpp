@@ -1,8 +1,6 @@
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
 
-extern "C" {
-
 
 u8 TObjPlayer::clamp_to_max(saddr arg0, u8 arg1, u8 arg2) {
     u8 var_r3;
@@ -17,4 +15,3 @@ u8 TObjPlayer::clamp_to_max(saddr arg0, u8 arg1, u8 arg2) {
     return var_r3;
 }
 
-}

@@ -6,7 +6,7 @@
 
 struct A_8029A9B8 { u8 pad[0x20]; f32 f20; };
 
-extern "C" {
+
 void draw_chcr_tag_heading_frame(void) {
     vec2f pos;
     pos.x = 62.0f;
@@ -26,4 +26,3 @@ void TChCrEffTag::draw_chcr_tag_frame() {
     TChCrEffWall::draw_default_sprite(0x35, &sp10, -3.0625f);
 }
 
-}

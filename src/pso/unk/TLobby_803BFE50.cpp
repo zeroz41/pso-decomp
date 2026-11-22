@@ -645,9 +645,6 @@ void TLobby__sub_803C133C(Snd_803C0BE8 *arg0) {
     }
 }
 
-}
-
-extern "C" {
 s32 sub_803C1668(AdxbDecoder *h, u8 *buf, s32 len) {
     s16 n;
     h->m_02 = 1;

@@ -39,11 +39,10 @@ s32 is_special_sound_id(u32 x) {
     }
     return 0;
 }
-extern "C" {
+
 
 void apply_clamped_field_27c__6TLobbyFv(f32 value) {
     ((TLobby *)(&sound_control_state))->set_clamped_field27c(value);
-}
 }
 
 void handle_6xB2_play_sound_from_player(void *command) {
@@ -83,11 +82,10 @@ void TLobby::set_mode(s32 mode) {
     }
     sound_control_state.set_output_mode(mode);
 }
-extern "C" {
+
 
 void get_menu_field_280__6TLobbyFv(void) {
     ((TLobby *)&sound_control_state)->get_field_0x280();
-}
 }
 
 void TLobby::set_menu_index_main(u8 *arg0) {
@@ -95,9 +93,8 @@ void TLobby::set_menu_index_main(u8 *arg0) {
 }
 
 void release_sound_with_fade(s32 slot) { fade_out_sound_slot(slot, 64); }
-extern "C" {
+
 void TLobby__sub_80227D38(void) { TLobby::fade_voice_channels(0); }
-}
 
 s32 normalize_sound_request(u32 id, s32 actor, saddr position, s32 arg3, s32 arg4) {
     s32 r;
@@ -186,11 +183,10 @@ s32 play_packed_sound_once(u32 id, saddr position, s32 arg2, s32 arg3) {
     }
     return -1;
 }
-extern "C" {
+
 
 void is_sound_enabled(void) {
     sound_control_state.is_ready();
-}
 }
 
 

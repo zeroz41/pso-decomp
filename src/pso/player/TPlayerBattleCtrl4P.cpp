@@ -525,7 +525,7 @@ void TPlayerBattleCtrl4P::wait_before_recording_results() {
 
 #pragma optimization_level 1
 
-extern "C" s32 check_player_flag1__10TObjPlayerFv();
+s32 check_player_flag1__10TObjPlayerFv();
 
 void TPlayerBattleCtrl4P::open_result_windows() {
   u32 var_r31;

@@ -2,8 +2,6 @@
 #include "pso/object/ambient/TObjMistCtrl.h"
 #include "pso/unk/TLobby.h"
 
-extern "C" {
-
 
 void *TLobby::create_mist_ctrl(void *parent, void *arg1) {
     void *o;
@@ -11,4 +9,3 @@ void *TLobby::create_mist_ctrl(void *parent, void *arg1) {
     return o;
 }
 
-}

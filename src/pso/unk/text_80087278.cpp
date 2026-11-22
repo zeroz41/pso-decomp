@@ -5,7 +5,6 @@
 #include "pso/system/task/TObject.h"
 
 
-extern "C" {
 extern s32 particle_pool_limit;
 
 #pragma push
@@ -72,4 +71,3 @@ TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx
     }
 }
 
-}

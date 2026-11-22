@@ -594,7 +594,6 @@ void TObjPlayer::set_scale_xyz(f32 farg0) {
 
 void*TObjPlayer::init_pair() { TObjPlayer__sub_801BFE88((u8 *)this); TObjPlayer__sub_801BFE88((u8 *)((char*)this + 0xc)); return this; }
 
-extern "C" {
 
 void TObjPlayer__sub_801BFE88(u8 *arg0) {
     *(f32 *)((s8 *)arg0 + 8) = (f32) TObjPlayer__data_805DC278;
@@ -609,7 +608,6 @@ s32 TObjPlayer::init_state() {
     return p;
 }
 
-}
 
 void TObjPlayer__sub_801BFED4(void* p) { *(s32*)((char*)p + 0x4) = -1; }
 s32 TObjPlayer::setup_state() {

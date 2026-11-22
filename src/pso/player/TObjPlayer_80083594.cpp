@@ -129,14 +129,9 @@ struct G_80082FCC { s32 value; s32 v4; f32 f8; f32 fC; };
 
 extern "C" {
 s32 TCameraCtrl__sub_80068EF0();
-}
-
-void direction_to_pitch_yaw(u8 *arg0, s32 *arg1, s32 *arg2);
-
-extern "C" {
 s32 GXSetZMode(int, int, int);
 }
-
+void direction_to_pitch_yaw(u8 *arg0, s32 *arg1, s32 *arg2);
 void set_perspective_projection_from_fov(s32 arg0, f32 farg0, f32 farg1, f32 farg2);
 void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
 extern u8 *camera_ctrl_instance;
@@ -651,7 +646,7 @@ f32 calc_camera_fov_degrees(void) {
 #pragma push
 #pragma opt_common_subs off
 
-extern "C" {
+
 void render_projected_shadow_receiver(u8 *arg0, saddr arg1) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80083914, sp8) == 0x0);
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_80083914, sp10) == 0x8);
@@ -681,18 +676,13 @@ void render_projected_shadow_receiver(u8 *arg0, saddr arg1) {
         set_ginja_post_texgen_count(((int) (1U)));
     }
 }
-}
-
 #pragma pop
-
-extern "C" {
 void TScene::apply_single_screen_state() {
     if ((is_split_screen() == 0) && (TObjPlayer::check_all_players_ready() != 0)) {
         model_render_flags &= 0xFFF7FFFF;
         set_ginja_post_tev_stage_count(0);
         set_ginja_post_texgen_count(0);
     }
-}
 }
 
 void load_projection_tex_matrix(saddr rotation_y) {
@@ -777,7 +767,7 @@ void reset_particle_tev() {
     }
 }
 
-extern "C" {
+
 void *TUnk_8048E5F4::init_subobject(void *parent, void *flags) {
     __ct__7TObjectFP7TObject(this, parent);
     *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_8048E5F4;
@@ -844,7 +834,6 @@ u8 *fn_800832EC(u8 *arg0, saddr parent, s32 arg2, saddr arg3, saddr arg4, f32 fa
     VecCopy((Vec *)(arg0 + 0x2C), (const Vec *)(arg4));
     *(s8 *)((s8 *)arg0 + 0x1C) = 0;
     return arg0;
-}
 }
 
 TUnk_8048E5DC::~TUnk_8048E5DC() {}

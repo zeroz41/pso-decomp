@@ -29,19 +29,19 @@
 #include "pso/unk/text_800C7FEC.h"
 #include <string.h>
 #include "pso/ui/Language.h"
-#include "pso/map/FloorArea.h"
+
 #include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer.h"
+
 #include "pso/player/TUnk_804B6C24.h"
-#include "pso/system/task/TObject.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+
+
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 // The placement ordinals show_score_results prints; their strings open the unit's .sdata2.
 #pragma push
 char *lobby_rank_ordinal_text_table[] = {"1st", "2nd", "3rd", "4th"};
 
-extern "C" {
+
 void *TLobby__battle_mode_data_ptr;
 s32 lbl_805D5D9C;
 s32 TLobby__battle_config_ptr;
@@ -55,7 +55,6 @@ u8 TLobby__battle_player_ready_flags[4];
 s32 TLobby__battle_ctrl_default_value;
 f32 lbl_805D5DC4;
 f32 lbl_805D5DC8;
-}
 
 typedef struct Lobby_801C2898 {
     u8 pad0[0x268];
@@ -149,9 +148,6 @@ extern "C" {
 u16 get_entity_id(void *);
 
 void build_6x7D_set_battle_mode_data(void *);
-extern u8 lobby_rule_settings[];
-extern s32 TLobby__battle_team_table[];
-extern saddr local_client_id;
 
 struct Lobby_801C484C;
 s32 calc_player_rankings__6TLobbyFPv(Lobby_801C484C *);
@@ -190,9 +186,6 @@ void TObjEneRe4Sorcerer__sub_801E3F14(s32);
 void TObjEneRe4Sorcerer__sub_801E3F18(void);
 extern s32 TDeadSpot__class_name;
 
-}
-void reset_cameras_to_actor(void *actor, s32 arg1);
-extern "C" {
 s32 TObjPlayer__send_selected_spawn_position(s32, u16);
 extern u16 battle_mode_data_table[];
 extern saddr tl_05;
@@ -208,7 +201,7 @@ void clear_trap_counts(s8 *arg0);
 extern saddr tl_00;
 extern saddr tl_01;
 }
-
+void reset_cameras_to_actor(void *actor, s32 arg1);
 struct Stack_801C3CFC {
     s32 sp8;
     s8 spC;
@@ -356,13 +349,10 @@ void handle_6x7E(void);
 void TLobby__sub_801C38A4(void);
 void TLobby__sub_801B09A4(void);
 
-extern saddr tl_00;
 
 void end_player_keyboard_hold(saddr arg0);
-extern saddr local_client_id;
 
 void begin_player_keyboard_hold(saddr arg0);
-extern saddr local_client_id;
 void request_active_window_close(void);
 s32 TLobby__sub_801C417C(void);
 void __destroy_new_array(void *, void *);
@@ -376,12 +366,9 @@ void init_char_data__10TObjPlayerFv(void);
 
 void *get_window_layout_position(s32);
 extern Flags_801C3AF4 *controller_input_state[];
-extern saddr local_client_id;
 void TLobby__sub_801C3AF4(Lobby_801C3AF4 *self);
 
-extern s32 TLobby__battle_team_table[];
 
-extern saddr local_client_id;
 void handle_6x7D_set_battle_mode_data(Pkt_801C374C *pkt);
 s64 OSGetTime();
 
@@ -399,14 +386,10 @@ s32 check_flag_100__10TObjPlayerFPv(void *);
 void record_local_battle_placement(void *);
 
 void *create_window_menu_default(void *, int);
-extern Flags_801C3AF4 *controller_input_state[];
 
-extern saddr local_client_id;
-extern s32 TLobby__designated_client_id;
 void update_duel_result__6TLobbyFPv(u8 *arg0);
 
 
-extern s32 battle_intro_value_table[];
 extern char battle_intro_message_buffer[];
 
 void TLobby__sub_801C36E4(void *arg0, void *arg1);
@@ -447,20 +430,13 @@ void record_local_battle_placement(void *arg0);
 
 #define G28 (((u32 *)controller_input_state)[10])
 
-}
-
-extern "C" {
-
-
 void update_player_battle_ctrl_state(void *arg0);
 
 void fn_801C4CE0(TPlayerBattleCtrl *player_battle_ctrl);
 
 }
 
-extern "C" {
 extern s32 lbl_805D55C0;
-}
 void *TPlayerBattleCtrl__ct(void *player_battle_ctrl, s32 _w1);
 
 Ent_801C26A8 TLobby__duel_result_table[4];

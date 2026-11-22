@@ -4,10 +4,9 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 
-extern "C" {
+
 u8 *fn_802754EC(saddr parent) {
     fn_80266378(7);
     return (u8 *)new TWindowSubComCardList((void *)parent);
 }
 
-}

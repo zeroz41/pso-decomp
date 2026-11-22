@@ -3,8 +3,6 @@
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_800FA848.h"
 
-extern "C" {
-
 
 void TLobby::add_named_entry(s32 arg0, saddr arg1) {
     u8 *var_r31;
@@ -18,4 +16,3 @@ void TLobby::add_named_entry(s32 arg0, saddr arg1) {
     *(s32 *)((s8 *)var_r31 + 0x64) = arg0;
 }
 
-}

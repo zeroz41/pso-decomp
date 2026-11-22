@@ -14,8 +14,6 @@
 #include "pso/object/trap/TOTrapAncient01.h"
 #include "pso/player/TObjPlayer_80011014.h"
 
-extern "C" {
-
 
 s8 sound_mode_value = 1;
 s32 last_sound_effect_slot = -1;
@@ -26,7 +24,6 @@ void TObjPlayer::play_effect_if_v2(s32 pitch) {
     }
 }
 
-}
 
 struct SndEnt_8022675C {
     s32 flags;
@@ -88,10 +85,6 @@ void TLobby::init_layout_positions() {
     TLobby::reset_global();
 }
 s32 OSSetSoundMode(int);
-}
-extern SndEnt_8022675C lbl_805145F0[];
-void release_sound_with_fade(s32 slot);
-extern "C" {
 void stop_sound_request(s32 idx);
 u32 OSGetSoundMode();
 int TLobby__sub_80227D38(void);
@@ -135,12 +128,13 @@ void set_sound_pitch_request(s32 slot, s32 pitch, s32 duration) {
         set_sound_slot_pitch(slot, pitch, duration);
     }
 }
-
 }
+extern SndEnt_8022675C lbl_805145F0[];
+void release_sound_with_fade(s32 slot);
 // Defined here: CodeWarrior emits it in definition order, and its .sdata2 slot
 // (0x805DC748) lies between update_music_stream_gain's literal and the 0.0 below.
 const u32 lbl_805DC748 = 1;
-extern "C" {
+
 void stop_sound_request(s32 idx) {
     if (lbl_805D62B0 != 0 && idx >= 0 && idx < 0x28) {
         release_sound_with_fade(idx);
@@ -205,7 +199,6 @@ void TLobby__sub_8022644C(void) {
         lbl_805145F0[i].timer = 0;
         lbl_805145F0[i].src = 0;
     }
-}
 }
 s32 check_sound_admission_range(const Vec *pos);
 extern "C" {
@@ -343,11 +336,6 @@ s32 play_sound_effect(s32 id, Vec *src, s32 a2, s32 flags) {
     }
     return -1;
 }
-}
-
-
-extern uaddr camera_ctrl_instance;
-extern "C" {
 void *get_player_by_client_id(s32 i);
 s32 TLobby__sub_8023F880(s32 arg0);
 
@@ -367,7 +355,7 @@ void clear_sound_listener_position(void) {
 
 f32 xz_distance_squared(const Vec *a, const Vec *b);
 }
-
+extern uaddr camera_ctrl_instance;
 s32 check_sound_admission_range(const Vec *pos) {
     if (pos == NULL) {
         return 0;

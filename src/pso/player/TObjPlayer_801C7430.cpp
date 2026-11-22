@@ -347,7 +347,6 @@ typedef struct Player_801C8B5C {
 } Player_801C8B5C;
 
 
-
 typedef struct MsgA_801C9400 {
     u8 pad0[2];
     s16 f2;
@@ -1042,10 +1041,6 @@ s32 check_value_equals__13TUnk_804B6C24CFl(saddr, void *);
 s32 init_entry_fields__6TLobbyFiii(int, int, void *, int);
 s32 spawn_appearance_effect__10TObjPlayerFUs();
 s32 get_captured_target_count(s32 *arg0);
-}
-void increment_burst_counter(u8 *arg0);
-s32 get_burst_counter(void *);
-extern "C" {
 s32 copy_attack_targets(void *, void *);
 int TObjPlayer__sub_8012AF00(void*);
 s32 publish_actor_light_scalars(u16, f32, f32);
@@ -1233,9 +1228,6 @@ void release_control_lock__10TObjPlayerFPv(void* p);
 void TObjPlayer__sub_801D0F70(void* p);
 int copy_position__10TObjPlayerFPv(void* p);
 void update_player_action_palette(TObjPlayer *player, u8 slot);
-}
-int is_android_player(void* p);
-extern "C" {
 void TObjPlayer__sub_801D1024(void* p, s32 v);
 void TObjPlayer__sub_801D102C(void* p, s32 v);
 s32 TObjPlayer__sub_801D1034(void* p);
@@ -1323,6 +1315,9 @@ s32 construct_revival_particle_effect(void *, void *, s32);
 void TObjPlayer__sub_8024ABDC(saddr arg0);
 void TLobby__sub_8024AC20(saddr arg0);
 }
+void increment_burst_counter(u8 *arg0);
+s32 get_burst_counter(void *);
+int is_android_player(void* p);
 void reset_cameras_to_actor(void *actor, s32 arg1);
 void bswap_6x45_packet(void *p);
 void bswap_6x44_packet(void *p);
@@ -1366,17 +1361,6 @@ s32 validate_6x4B_hit_by_enemy(void *);
 s32 validate_6x48_cast_technique_complete(void *);
 s32 validate_6x8D_set_technique_level_override(void *);
 s32 validate_6x46_attack_finished(void *);
-}
-s32 validate_6x45_attack(G_ClientIDHeader *packet);
-s32 validate_6x44_attack(G_ClientIDHeader *packet);
-s32 validate_6x43_attack(G_ClientIDHeader *packet);
-s32 validate_6x42_move_to_position(G_ClientIDHeader *packet);
-s32 validate_6x40_walk_to_position(G_ClientIDHeader *packet);
-s32 validate_6x3F_set_position(G_ClientIDHeader *packet);
-s32 validate_6x3E_stop_at_position(G_ClientIDHeader *packet);
-s32 validate_6x37_photon_blast(G_ClientIDHeader *packet);
-s32 validate_6x33_revive_player(G_ClientIDHeader *packet);
-extern "C" {
 void __construct_array(void *, void *, int, int, int);
 f32 cos_table_lookup(s32);
 
@@ -2762,9 +2746,16 @@ void handle_6x89_set_killer_entity_id(void *command) {
         }
     }
 }
-
 }
-
+s32 validate_6x45_attack(G_ClientIDHeader *packet);
+s32 validate_6x44_attack(G_ClientIDHeader *packet);
+s32 validate_6x43_attack(G_ClientIDHeader *packet);
+s32 validate_6x42_move_to_position(G_ClientIDHeader *packet);
+s32 validate_6x40_walk_to_position(G_ClientIDHeader *packet);
+s32 validate_6x3F_set_position(G_ClientIDHeader *packet);
+s32 validate_6x3E_stop_at_position(G_ClientIDHeader *packet);
+s32 validate_6x37_photon_blast(G_ClientIDHeader *packet);
+s32 validate_6x33_revive_player(G_ClientIDHeader *packet);
 void init_subobject(TObjPlayer *player) {
     if (player != NULL) {
         player->run_action_state_phase(0xF, 0);
@@ -6078,7 +6069,7 @@ void update_player_action_palette(TObjPlayer *player, u8 slot) {
 }
 
 int is_android_player(void* p) { return (((TObjPlayer *)p)->class_flags & CLASS_FLAG_ANDROID) != 0; }
-extern "C" {
+
 
 void TObjPlayer__sub_801D1024(void* p, s32 v) { *(s32*)((char*)p + 0x10) = v; }
 
@@ -6435,7 +6426,6 @@ extern int fold_flush_12;
 #pragma pop
 
 void TObjPlayer__sub_801D1F44(void* p) { *(s16*)((char*)p + 0x6) = 0; *(s16*)((char*)p + 0x4) = 0; *(s16*)((char*)p + 0x2) = 0; *(u8*)((char*)p + 0x1) = 0; *(u8*)((char*)p + 0x0) = 0; }
-}
 
 void send_photon_blast_targets_packet(u8 *player) {
     *(s8 *)((s8 *)player + 1) = (s8) ((((u32)TObjPlayer__sub_801D2004((u8 *)(player))) >> 2U) & 0x3F);

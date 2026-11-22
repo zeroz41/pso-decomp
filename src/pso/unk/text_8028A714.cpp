@@ -4,7 +4,6 @@
 #include "pso/unk/text_8028A714.h"
 #include "pso/unk/text_8028A820.h"
 
-extern "C" {
 
 u8 *fn_8028A714(s32 arg0) {
     if (green_door_bml_resource != NULL) {
@@ -25,4 +24,3 @@ u8 *fn_8028A78C(s32 arg0) {
     return NULL;
 }
 
-}

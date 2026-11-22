@@ -2662,9 +2662,6 @@ int TLobby__sub_802A7278(s32 a0);
 void set_motion_variant(void *p, s32 _w1);
 s32 matches_loaded_motion(void *, s32, s32);
 void TLobby__sub_802A7640(void);
-}
-void disable_and_free_boss4rock_buffer(void);
-extern "C" {
 int is_valid_player_motion_variant(s32 a0 = 0);
 int TLobby__sub_802A7278(s32 a0 = 0);
 
@@ -2748,16 +2745,16 @@ void TLobby__sub_802A7640(void) {
     }
 }
 }
+void disable_and_free_boss4rock_buffer(void);
 void TLobby::alloc_boss4rock_buffer() {
     player_action_motion_buffer = (saddr)mem_alloc(0x100000);
 }
 // inferred: unload half of enable_and_refresh in ending_scene_callbacks (frees what alloc_boss4rock_buffer allocated)
 void disable_and_free_boss4rock_buffer(void) { TLobby__sub_802A7640(); TLobby::set_photon_chair_flag(0); }
 void TLobby::enable_and_refresh() { TLobby::set_photon_chair_flag(1); TLobby::alloc_boss4rock_buffer(); }
-extern "C" {
+
 TUnk_804DDBF0::~TUnk_804DDBF0() {}
 TUnk_804DDBF0::TUnk_804DDBF0() {}
 s32 *TUnk_804DDBF0::get_state_table(s32) { return (s32 *)pad_C; }
 int TUnk_804DDBF0::vfunc_76() { return (saddr)pad_C; }
-}
 int TUnk_804DDBF0::vfunc_4() {  return (*(int *)&player_action_motion_buffer); }

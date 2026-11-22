@@ -12,9 +12,6 @@
 extern const char gcci_version_string[] = "\nGCCI Ver.1.07 Build:Jun 13 2002 19:00:24\n";
 
 
-
-
-
 extern "C" {
 s32 fileio_error_context;
 CvFsErrorCallback fileio_error_callback;
@@ -467,9 +464,6 @@ s32 gcCiGetFileSize(char *name) {
     return size;
 }
 
-}
-
-extern "C" {
 // Installs the error callback and its context (inferred: CRI's gcCiEntryErrFunc, by its device interface slot).
 void set_fileio_error_callback(CvFsErrorCallback callback, s32 context) {
     fileio_error_callback = callback;

@@ -4,7 +4,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
 
-extern "C" {
+
 void TAdSelectCurGC::draw_quads() {
     u32 i;
     for (i = 0; i < entry_count; i++) {
@@ -18,4 +18,3 @@ void TAdSelectCurGC::draw_quads() {
     }
 }
 
-}

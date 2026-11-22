@@ -22,8 +22,6 @@ struct ChallengeSettingsDefaults { s32 value; u8 remaining[0x68C]; };
 extern ChallengeSettingsDefaults challenge_settings_defaults;
 extern s32 challenge_mode_state[];
 
-extern "C" {
-
 
 extern uaddr challenge_task;
 extern s32 challenge_task_created;
@@ -49,7 +47,6 @@ void TLobby::copy_state_block() {
     *(ByteBlock_690 *)&challenge_mode_state = *(const ByteBlock_690 *)(&challenge_settings_defaults.value);
 }
 
-}
 
 __declspec(section ".ctors") static void *const __sinit_TLobby_80070A00_80070A00_cpp_ref = (void *)TLobby::copy_state_block;
 
@@ -438,9 +435,6 @@ s32 *TLobby__sub_800713C8(void) {
     decode_obfuscated_string__6TLobbyFPvi((void *)&lbl_804FF82C.value, (void *)(character_save_record + 0x229C), 0xC, character_save_record);
     return &lbl_804FF82C.value;
 }
-}
-
-extern "C" {
 #define challenge_mode_state (*(s8 (*)[1])challenge_mode_state)
 s32 add_entry__6TLobbyFiii(saddr arg0, saddr arg1, s32 arg2);
 

@@ -10,8 +10,6 @@
 #include "pso/player/TObjPlayer_801BCD28.h"
 #include "pso/system/task/TObject.h"
 
-extern "C" {
-
 
 extern "C" {
 
@@ -22,9 +20,6 @@ void TObjPlayer::init_battle() {
     ((TObjPlayer *)(arg0 + 0x634))->enter_battle_state();
 }
 
-}
-
-extern "C" {
 extern s32 update_photon_chair__10TObjPlayerFv[];
 }
 
@@ -40,7 +35,6 @@ void TObjPlayer::reset_area_entry_state() {
 
 void TObjPlayer::destroy_owned_object() { if (*(unsigned int *)&this->unk_548 != 0) { ((TObject *)(*(void* *)&this->unk_548))->queue_destruction(); *(int *)&this->unk_548 = 0; } }
 
-}
 
 typedef struct E12_801BC948 { u8 b[12]; } E12_801BC948;
 

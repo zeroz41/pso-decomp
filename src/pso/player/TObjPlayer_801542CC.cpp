@@ -100,7 +100,7 @@ struct Obj_801547E0;
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/map/CsnGroundQuery.h"
+
 union ObjectSavedState_801548A8 {
     u32 word;
     struct { s16 flags; s16 source; } halves;
@@ -160,12 +160,6 @@ void free_collision_body_parts(G_80156720 *arg0);
 u16 get_entity_id(int);
 u16 TObjRoomId__sub_801A1DB8(u16);
 s32 project_actor_to_ground(Obj_80156844 *self, Vec *pos, Vec *normal);
-}
-s32 test_collider_sphere_overlap_xz(Vec, const CollisionBody *body, CollisionSphere *out);
-extern saddr player_battle_param_table[];
-s32 resolve_actor_sphere_contact(u8 *arg0, s32 arg1, saddr arg2);
-s32 respond_to_body_contact(u8 *arg0, uaddr arg1, u8 *arg2);
-extern "C" {
 void TObjPlayer__sub_801542F4(saddr a);
 void reset_global_table(void);
 s32 obj_is_hit_receivable(u8 *arg0);
@@ -360,7 +354,10 @@ void *resolve_hittable_target(u16 actorId, s16 collider) {
     return target;
 }
 }
-
+s32 test_collider_sphere_overlap_xz(Vec, const CollisionBody *body, CollisionSphere *out);
+extern saddr player_battle_param_table[];
+s32 resolve_actor_sphere_contact(u8 *arg0, s32 arg1, saddr arg2);
+s32 respond_to_body_contact(u8 *arg0, uaddr arg1, u8 *arg2);
 void handle_6x0B_update_object_state(G_UpdateObjectState_6x0B *packet) {
     ObjectSavedState_801548A8 state;
     ObjectSavedState_801548A8 fallback;
@@ -449,7 +446,7 @@ void TObjCollidable::register_object_by_id() {
 
 #define o ((Obj_80154B60 *)ov)
 #define TBL ((Obj_80154B60 **)TObjPlayer__data_8050D460)
-extern "C" {
+
 u16 register_entity_by_id(void *ov) {
     u16 id;
     s32 lo;
@@ -625,7 +622,6 @@ u8 * TObjPlayer__sub_80155028(saddr arg0, saddr arg1) {
     *(ByteBlock_60 *)(arg0) = *(const ByteBlock_60 *)(arg1);
     return (u8 *)arg0;
 }
-}
 
 s32 test_collider_sphere_overlap_xz(Vec, const CollisionBody *body, CollisionSphere *out) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80155050, sp8) == 0x0);
@@ -799,7 +795,7 @@ s32 respond_to_body_contact(u8 *actor, uaddr other, u8 *contact) {
     }
     return 0;
 }
-extern "C" {
+
 
 s32 TObjPlayer::check_flag_pair(s32 arg0, s32 arg1) {
     if (((arg0 & 0x2000) && (arg1 & 0x100)) || ((arg0 & 0x100) && (arg1 & 0x2000))) {
@@ -1257,7 +1253,6 @@ s32 TObjCollidable::access_object_saved_state(void *lobby, s16 arg2) {
         ((TLobby *)lobby)->copy_short_fields((void *) (quest_object_entries + (temp_r31 * 4)));
     }
     return 1;
-}
 }
 
 saddr TObjPlayer__data_8050D460[0x18C];

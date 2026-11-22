@@ -4,7 +4,7 @@
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/ChunkMaterialState.h"
-#include "pso/unk/TLobby_800FD78C.h"
+
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "types.h"
 #include <stdlib.h>

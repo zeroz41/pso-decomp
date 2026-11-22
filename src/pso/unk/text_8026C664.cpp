@@ -63,9 +63,6 @@ void fn_8026C708(u8 *arg0, f32 farg0, f32 farg1, f32 farg2, f32 arrow_offset) {
   draw_textured_quad_at_depth(&stack.sp8, farg2);
 }
 
-}
-
-extern "C" {
 u32 calc_text_width(void);
 u8 get_font_char_advance(void);
 u16 map_char_to_font_code(u16 c);
@@ -75,7 +72,7 @@ void text_builder_append(u8 *str);
 void text_builder_reset(void);
 extern s32 lbl_805D63F0;
 
-extern "C" {
+
 s32 fn_8026C7AC(void *arg0, s8 arg1) {
     *(s8 *)((s8 *)arg0 + 0) = 0;
     *(s8 *)((s8 *)arg0 + 1) = arg1;
@@ -126,11 +123,7 @@ void draw_list_page_indicator(PageIndicator *self, WindowDrawContext *r) {
     text_builder_append_int(self->count);
     draw_window_text((f32 *)&pos, (const char *)(get_shared_text_buffer()), -1, 0, (f32)1e+05f);
 }
-}
 #pragma pop
-
-extern "C" {
-
 #pragma push
 #pragma fp_contract on
 void decay_page_arrow_offset(PageIndicator *o) {
@@ -138,7 +131,6 @@ void decay_page_arrow_offset(PageIndicator *o) {
 }
 #pragma pop
 
-}
 
 struct Pad_8026C9DC {
     u8 pad0[0x20];

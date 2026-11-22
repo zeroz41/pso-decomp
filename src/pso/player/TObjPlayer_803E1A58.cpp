@@ -100,7 +100,7 @@ void calc_sphere_bounds(CollisionSphere *sphere, Vec *min, Vec *max) {
 
 // {0.0f, 1.0f} pair in .sdata; the assembly below loads only the 1.0f. A lone 0.0f would go to .sbss,
 // so the zero word before it is the pair's first element.
-extern "C" f32 lbl_805D46E8[2] = {0.0f, 1.0f};
+f32 lbl_805D46E8[2] = {0.0f, 1.0f};
 
 asm void translate_current_matrix_ps(f32 x, f32 y, f32 z) {
 #include "orig_asm/pso/player/TObjPlayer_803E1A58/translate_current_matrix_ps.inc"
@@ -167,7 +167,7 @@ void TObjPlayer::reload_texture(saddr arg1, u32 arg2, void *arg3) {
 }
 
 // The second {0.0f, 1.0f} pair (TObjPlayer__sub_803E1F60 loads the 1.0f).
-extern "C" f32 lbl_805D46F8[2] = {0.0f, 1.0f};
+f32 lbl_805D46F8[2] = {0.0f, 1.0f};
 
 asm void TObjPlayer__sub_803E1F60(void) {
 #include "orig_asm/pso/player/TObjPlayer_803E1A58/TObjPlayer__sub_803E1F60.inc"

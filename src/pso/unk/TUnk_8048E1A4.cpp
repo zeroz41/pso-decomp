@@ -350,7 +350,7 @@ TUnk_8048E1A4::TUnk_8048E1A4(u8 *chara, u8 *arg2) : TObjChara((TObject *)((void 
         queue_destruction();
     }
 }
-extern "C" {
+
 #pragma pop
 
 s32 TUnk_8048E1A4::select_melee_contact_body(void *, f32) { return 1; }
@@ -362,7 +362,6 @@ f32 TUnk_8048E1A4::receive_direct_attack(void *, DirectAttackPayload, void *, s3
 
 f32 TUnk_8048E1A4::receive_weapon_special_attack(void *, void *) {
     return 0.0f;
-}
 }
 
 __declspec(section ".data") const char *bm_eff_ice_model_names[3] = { "ice_break_root.gj", "ice_root.gj", NULL };

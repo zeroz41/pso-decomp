@@ -8,7 +8,7 @@
 THeap *TAdScrollWinGC__chat_log_heap;
 char *chat_last_line_buffer;
 
-extern "C" {
+
 extern void *chat_log_lines[];
 void fn_8026A14C(void) {
     s32 i;
@@ -72,4 +72,3 @@ void fn_8026A1C4(char *dst, char *src, s32 size) {
     }
 }
 
-}

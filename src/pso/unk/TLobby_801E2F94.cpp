@@ -1,7 +1,7 @@
 #include "pso/render/TriangleFan3D.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/animation/MotionContext.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+
 #include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
 #include "pso/camera/TCameraCtrl_803D749C.h"
 #include "pso/unk/TLobby_80227AA0.h"
@@ -174,11 +174,9 @@ struct Lines_801E341C {
 extern "C" {
 void GXBegin(s32, s32, u16);
 void GXSetLineWidth(s32, s32);
-}
-void reset_line_width(void);
-extern "C" {
 void draw_line_list(Lines_801E341C *l, s32 n, u32 flags);
 }
+void reset_line_width(void);
 void setup_opaque_color_draw(void);
 void setup_blended_textured_draw(void);
 void load_context_texture_obj(void);

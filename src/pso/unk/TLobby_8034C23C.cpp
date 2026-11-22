@@ -7,7 +7,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/network/TProtocol.h"
 
-extern "C" {
+
 extern s32 info_board_state_flags;
 extern u32 information_board_response_buffer;
 
@@ -46,4 +46,3 @@ void TLobby::set_info_board_text() {
 }
 void TLobby::reset_info_board() { (*(int *)&info_board_state_flags) = 0; (*(int *)&information_board_response_buffer) = 0; }
 
-}

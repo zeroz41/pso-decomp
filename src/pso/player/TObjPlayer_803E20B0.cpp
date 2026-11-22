@@ -7,7 +7,7 @@
 #undef PSO_SDK_COMPACT_MATH
 #include <dolphin/mtx.h>
 
-extern "C" {
+
 typedef struct Cam_803E20B0 { u8 pad0[0x4C]; f32 f4C; u8 pad50[4]; f32 f54; } Cam_803E20B0;
 typedef struct Vp_803E20B0 { u8 pad0[4]; u16 w; u16 h; } Vp_803E20B0;
 
@@ -27,7 +27,6 @@ void TObjPlayer::load_screen_space_matrix() {
     m[1][2] = (0.5f * (f32)(-active_gx_render_mode->h)) * z;
     GXLoadPosMtxImm(m, 0);
     GXSetCurrentMtx(0);
-}
 }
 
 #pragma push

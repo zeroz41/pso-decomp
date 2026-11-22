@@ -151,9 +151,8 @@ void TUnk_804EFA88::run_task() {
     this->entry_count = 0;
 }
 
-extern "C" {
+
 TUnk_804EFA88 *lbl_805D6DA0;
-}
 
 TUnk_804EFA88::~TUnk_804EFA88() {
     if (this->entries != NULL) {

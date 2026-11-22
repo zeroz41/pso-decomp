@@ -67,7 +67,7 @@ void (*mwPlyGetInputSj_hook)();
 void (*mwPlyGetSfdHn_hook)();
 #pragma pop
 
-extern "C" {
+
 RelModuleBuffer *destroy_rel_module(RelModuleBuffer *module, s16 should_delete) {
     if (module != NULL) {
         OSModuleHeader *image = get_rel_module_image(module);
@@ -121,5 +121,4 @@ RelModuleBuffer *load_rel_module(RelModuleBuffer *module, const char *filename) 
 
 OSModuleHeader *get_rel_module_image(RelModuleBuffer *module) {
     return module->image;
-}
 }

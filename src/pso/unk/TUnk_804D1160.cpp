@@ -90,11 +90,7 @@ void __ct__7TObjectFP7TObject(void *, void *);
 void *get_window_layout_position(s32);
 extern s32 __vt__13TUnk_804D1160[];
 extern const f32 lbl_8044F718[2] = {190.0f, 168.0f};
-}
-
 #define self ((Equip_80275CB0 *)arg0)
-
-extern "C" {
 void *TWindowSubEquip__sub_80275CB0(void *arg0, void *arg1, s32 arg2) {
     void *p;
     __ct__7TObjectFP7TObject(arg0, arg1);

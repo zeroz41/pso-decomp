@@ -48,9 +48,8 @@
 
 // One TU from 0x800F8A0C: the "" lbl_805D2B10 points at opens the .sdata2 pool at 0x805DA910
 // (after the 4-byte pad that 8-aligns a TU start), then copy_name's "..", then this file's floats.
-extern "C" {
+
 const char *lbl_805D2B10 = "";
-}
 
 // The parent of every loaded resource file (TUnk_8049C658): __sinit constructs it and
 // registers its destructor, then gives disc_read_filename its empty name.
@@ -976,14 +975,9 @@ void TLobby::reset_state_byte() {
     }
 }
 
-}
-
 #pragma pop
 
 #pragma push
-
-extern "C" {
-
 void TLobby::wait_ready_loop() {
     (*(s8 *)&lobby_wait_ready_flag) = 0;
 loop_1:
@@ -1135,8 +1129,6 @@ s32 TLobby::run_disk_error_check() {
 }
 #pragma pop
 
-}
-
 #pragma pop
 
 #undef pending_file_read_flush_requested
@@ -1144,7 +1136,6 @@ s32 TLobby::run_disk_error_check() {
 // .text 0x800F93B4-0x800F9F4C: the GSL archive close hook, the resource load tasks (TUnk_8049C658
 // children of resource_load_task_root, one per relocatable data file), the quest and text
 // archive decryption, the disc-file wrappers and TLobby::run_frame; __sinit closes the TU.
-extern "C" {
 void subtractive_rng_seed(s32 *rng, u32 seed);
 extern s32 lbl_805D49B4;
 extern int TAdPlayerLoadGC__load_state;
@@ -1156,7 +1147,7 @@ void fn_800F93B4(char *filename, GslArchiveEntry *entries, s32 count) {
 
 TUnk_8049C658::~TUnk_8049C658() {}
 
-extern "C" {
+
 saddr TItemDrop__sub_800F9448(saddr data, s32 size) {
     TUnk_8049C658 file;
 
@@ -1183,7 +1174,6 @@ saddr load_relocatable_file(saddr name, saddr buffer) {
 void free_data_file(void *p) { TAdSinglePlyChrSelectGC::safe_free((uaddr)p); }
 
 void *load_data_file(const char *path) { return load_disc_file(path); }
-}
 
 void TLobby::free_nodes_with_id(uaddr root) {
     TUnk_8049C658 *file = (TUnk_8049C658 *)resource_load_task_root.m_down;
@@ -1252,7 +1242,7 @@ s32 TLobby::alloc_download_quest(s32 size, s32 *out_size) {
     return ret;
 }
 
-extern "C" {
+
 saddr load_encrypted_text_archive(char *name, s32 *out_size) {
     s32 size;
     s32 h;
@@ -1334,7 +1324,6 @@ void *TLobby__sub_800F9A60(const char *name, u8 *data, s32 size) {
     file->size = size;
     return apply_rel_relocations(file);
 }
-}
 
 saddr create_named_object(saddr name) {
     s32 size = get_resource_file_size((const char *)name);
@@ -1356,7 +1345,7 @@ void clear_resource_load_tasks(void) {
     resource_load_task_root.delete_children();
 }
 
-extern "C" {
+
 void *apply_pointer_relocations(TUnk_8049C658 *file, RelFileTrailer *relocs) {
     u32 i;
     u32 n = relocs->reloc_count;
@@ -1390,7 +1379,6 @@ void *apply_rel_relocations(TUnk_8049C658 *file) {
     file->root = (void *)(trailer->root_offset + (uaddr)file->data);
     return file->root;
 }
-}
 
 TUnk_8049C658::TUnk_8049C658(TObject *parent) : TObject(parent) {}
 
@@ -1421,7 +1409,7 @@ s32 get_resource_file_size(const char *filename) {
     return TGStream::get_resource_file_size(filename);
 }
 
-extern "C" {
+
 s32 get_disc_file_size(const char *filename) {
     AdxfHandle *handle = ADXF_Open(filename, 0);
     if (handle == NULL) {
@@ -1471,12 +1459,10 @@ void TLobby::run_frame() {
     TLobby__sub_803382E4();
     render_tick();
 }
-}
 
 void TAdPlayerLoadGC::set_state(int state) { TAdPlayerLoadGC__load_state = state; }
 
-extern "C" {
+
 TObject *TLoadCtrl__sub_800F9F00(void) {
     return (TObject *)TLoadCtrl__fade_task;
-}
 }

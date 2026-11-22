@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/unk/text_8010F168.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-extern "C" {
+
 // inferred: counts the {load, unload} pairs up to the null pair and builds a 0x10-byte set over them.
 s32 create_load_unload_set(ItemClassLoadUnloadEntry *arg0) {
     s32 found;
@@ -28,4 +28,3 @@ s32 create_load_unload_set(ItemClassLoadUnloadEntry *arg0) {
     return 0;
 }
 
-}

@@ -308,11 +308,9 @@ int selected_episode;
 void randomize_adventure_maps(void);
 void TLobby__sub_80207BB0(void);
 s32 get_game_play_mode();
-}
-s32 get_boss_warp_destination(void);
-extern "C" {
 s32 get_floor_map_terrain(s32 arg0);
 }
+s32 get_boss_warp_destination(void);
 saddr story_select_pending_state = -1;
 int story_select_current = -1;
 void TLobby::backup_story_select() { selected_episode = story_select_current; }

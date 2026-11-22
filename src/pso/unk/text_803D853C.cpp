@@ -217,12 +217,10 @@ void matrix_mult_vec(f32 (*m)[4], const Vec *src, Vec *dst) {
     }
     PSMTXMultVec(m, src, dst);
 }
-}
 #pragma pop
 
 #pragma push
 #pragma scheduling off
-extern "C" {
 void matrix_mult_vec_array(f32 (*m)[4], const Vec *src, Vec *dst, u32 count) {
     if (m == NULL) {
         m = (f32 (*)[4])current_matrix;
@@ -293,7 +291,7 @@ void rotate_matrix_yxz(saddr matrix, s32 arg1, s32 arg2, s32 arg3) {
     }
 }
 typedef f32 Mtx_803D8B5C[3][4];
-extern "C" {
+
 void scale_matrix(f32 (*m)[4], f32 sx, f32 sy, f32 sz) {
     Mtx_803D8B5C tmp;
     f32 (*t)[4];
@@ -301,7 +299,6 @@ void scale_matrix(f32 (*m)[4], f32 sx, f32 sy, f32 sz) {
     else t = m;
     PSMTXScale(tmp, sx, sy, sz);
     PSMTXConcat(t, tmp, t);
-}
 }
 
 u8 debug_font_texture_i4[DEBUG_FONT_TEXTURE_BYTES] ATTRIBUTE_ALIGN(32) = {

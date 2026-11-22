@@ -10,7 +10,7 @@ s32 player_node_matrix_cursor;
 s32 player_node_matrix_count;
 saddr node_matrix_array_base;
 ChunkModelNodeCallback player_apply_callback_fn;
-extern "C" {
+
 
 void process_node_callback(NJS_OBJECT *node) {
     if ((s32) player_node_matrix_cursor < (s32) player_node_matrix_count) {
@@ -48,4 +48,3 @@ void TObjPlayer::draw_node_tree(void *arg1) {
     } while (var_r30 != NULL);
 }
 
-}

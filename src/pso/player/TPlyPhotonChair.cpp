@@ -22,10 +22,8 @@
 #include "pso/system/vector.h"
 #include "pso/system/task/TObject.h"
 
-extern "C" {
 extern void *__vt__13TUnk_804A7478[];
 extern void *__vt__13TUnk_804A7488[];
-}
 
 extern const char *bm_ply_photon_chair_model_names[3];
 extern const char *bm_ply_photon_chair_motion_names[3];

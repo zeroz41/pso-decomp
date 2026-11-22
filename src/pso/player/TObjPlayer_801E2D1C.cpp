@@ -14,12 +14,8 @@
 
 
 void end_ginja_model_draw();
-extern "C" {
-extern s32 (*model_node_callback)(void *);
-}
-void compose_motion_node_matrix(void *arg0);
-extern "C" {
 
+extern s32 (*model_node_callback)(void *);
 void TObjPlayer::render_model_tree(void *model) {
     Mtx34 sp38;
     Mtx34 sp8;
@@ -46,9 +42,7 @@ void TObjPlayer::render_model_tree(void *model) {
         var_r31 = *(void **)((s8 *)var_r31 + 0x30);
     } while (var_r31 != NULL);
 }
-
-}
-
+void compose_motion_node_matrix(void *arg0);
 void draw_ginja_motion(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame) {
     ModelDrawContext *g;
     bind_motion_context((NJS_MOTION *)motion, frame);

@@ -350,14 +350,11 @@ s32 TLobby::pop_byte() {
 
 // ---- pso/unk/text_8020EEFC
 
-#include "pso/unk/text_8020EEFC.h"
 
-extern "C" {
 void shuffle_shop_pool_n_times(void *pool, s32 times) {
     while (times-- > 0) {
         shuffle_shop_pool(pool);
     }
-}
 }
 void shuffle_shop_pool(void *pool_) {
     ShopPool *pool = (ShopPool *)pool_;

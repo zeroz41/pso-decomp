@@ -245,7 +245,7 @@ void TUnk_804CC870::render() {
     model_render_flags = saved_model_render_flags;
 }
 
-extern "C" {
+
 void TTecGrants::init_parameters() {
     TechniqueParams *params = calc_technique_parameters(9, m_78, 0xFFFF);
     ((TechniqueParams *)&m_88)->copy(params);
@@ -259,7 +259,6 @@ void TTecGrants::init_parameters() {
     }
 }
 
-}
 
 #pragma defer_codegen off
 

@@ -81,10 +81,6 @@ void TObjPlayer::place_on_area_entry() {
         }
     }
 }
-}
-
-extern "C" {
-
 void TObjPlayer__sub_801BEEAC(u8 *arg0, u8 *arg1);
 void TObjPlayer__sub_801BEEE0(void *p, void *q);
 void TObjPlayer__sub_801BEF30(void *p, void *q);

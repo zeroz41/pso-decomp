@@ -97,7 +97,7 @@
 
 #include "pso/item/TItemReverseTech.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/map/CsnGroundQuery.h"
+
 
 struct VBase_800172CC { u8 pad[0x18]; };
 
@@ -728,17 +728,9 @@ u16 fn_80010F4C(void* p);
 void record_attack_source(Obj_80010F54 *self, s32 id);
 s32 add_actor_tp_bonus(O_80011274 *self, s32 x);
 s32 add_actor_hp_bonus(O_80011378 *self, s32 x);
-}
-
-void apply_actor_gravity(TObjEnemy *arg0, s32 *arg1, f32 farg0);
-extern "C" {
 f32 step_toward_destination__10TObjPlayerFPvPvf(Obj_80017804 *arg0, Vec *arg1, f32 farg0);
 f32 enemy_pursue_point(u8 *arg0, s32 arg1, Vec arg2, f32 farg0, f32 farg1);
 f32 enemy_backstep_from_point(Obj_80017ABC *arg0, Vec arg1, f32 farg0);
-}
-
-void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
-extern "C" {
 void calc_velocity_toward_destination(Obj_800180E8 *self, Vec *pos, Vec *dest, f32 speed);
 s32 TObjPlayer__sub_800181DC(u8 *arg0, Vec arg1);
 s32 select_enemy_destination(Obj_800182A0 *self, Vec *arg1, int flags);
@@ -844,8 +836,10 @@ const s16 poison_damage_bonus_by_difficulty[4] = {0, 2, 5, 10};
 // inferred: the zero vector find_nearest_visible_player starts its player-distance vector from
 const Vec nearest_player_zero_vec = {0.0f, 0.0f, 0.0f};
 
+static const f32 lbl_805D7D3C = 65536.0f;
 }
-
+void apply_actor_gravity(TObjEnemy *arg0, s32 *arg1, f32 farg0);
+void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 void spawn_confusion_feedback_effect(saddr arg0, s32 arg1);
 void spawn_paralysis_feedback_effect(saddr arg0, s32 arg1);
 s32 is_entity_locally_controlled(s32 id);
@@ -854,10 +848,6 @@ void obj_clearArrS16_FC(ObjArrFC* p, int i);
 f64 fabs_double(f64 x);
 void *create_oneshot_particle_emitter(void *pos, void *dir, s32 id, s32 flags);
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
-extern "C" {
-static const f32 lbl_805D7D3C = 65536.0f;
-}
-
 #pragma push
 #pragma fp_contract on
 #pragma push
@@ -1056,10 +1046,9 @@ extern const double lbl_80434090;
 
 #pragma pop
 
-extern "C" {
+
 struct ObjFlags;
 struct O_800194AC;
-}
 
 void clear_ground_candidates(CsnGroup **candidates) {
     s32 i;
@@ -1090,7 +1079,7 @@ f32 newton_sqrtf(f32 x) {
 
 #pragma pop
 f64 fabs_double(f64 x) { return __fabs(x); }
-extern "C" {
+
 f32 atan2_float(f32 y, f32 x) {
     return (f32) atan2((f64) y, (f64) x);
 }
@@ -1195,18 +1184,12 @@ s32 AttackParams::get_attack_angle() { return attack_angle; }
 s32 TObjChara::get_attack_angle() { return ((AttackParams *)(this->m_318))->get_attack_angle(); }
 
 s16 TObjPlayer::get_ata() { return this->m_2d0; }
-}
-
 #pragma push
 #pragma scheduling off
-extern "C" {
 int TObjPlayer__sub_8001943C(ObjArr254_p53* p, int i) {
     return p->arr[i].w;
 }
-}
-
 #pragma pop
-extern "C" {
 s16 TObjChara::test_immunity_flags(s32 arg1) {
     return (s16) (this->m_11c & arg1);
 }
@@ -1226,7 +1209,6 @@ void TObjPlayer__sub_800193FC(O_800193FC *self, s32 i, s32 v) {
 s16 get_attack_params_atp_min(void* p) { return *(s16*)((char*)p + 0x0); }
 
 s16 TObjChara::get_actor_attack_params_atp_min() { return get_attack_params_atp_min((void*)this->m_318); }
-}
 
 #pragma push
 #pragma scheduling off
@@ -2007,10 +1989,7 @@ s32 TObjChara::vfunc_43() {
     }
     return 0;
 }
-}
-
 #undef VCOPY
-extern "C" {
 s32 TObjChara::update_poison_status() {
     s32 dmg;
 
@@ -2313,11 +2292,8 @@ s32 TObjChara::try_start_action(s32 arg1, s32 collider) {
     ((TObjPlayer *)this)->show_miss_for_collider(collider);
     return 0;
 }
-}
-
 #pragma push
 #pragma fp_contract on
-extern "C" {
 s32 TObjChara::roll_physical_accuracy(void *arg1, s32 arg2, f32 farg0) {
     f32 v;
 
@@ -3946,11 +3922,8 @@ s32 TObjectV8047c128_subtract_hp(u8 *owner, s16 arg1) {
   }
   return 1;
 }
-}
-
 #pragma push
 #pragma scheduling off
-extern "C" {
 s32 add_actor_hp(u8 *arg0, s16 amount) {
     s16 temp_r4;
     s16 temp_r0;
@@ -3964,10 +3937,7 @@ s32 add_actor_hp(u8 *arg0, s16 amount) {
     }
     return 1;
 }
-}
-
 #pragma pop
-extern "C" {
 void TObjPlayer::set_hp_clamped(s16 arg1) {
     u8 *arg0 = (u8 *)this;
     this->hp = arg1;

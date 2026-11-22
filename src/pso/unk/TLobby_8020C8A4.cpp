@@ -27,8 +27,6 @@ struct VObj : VBase {
     virtual void m76(); virtual void m77(s32);
 };
 
-extern "C" {
-
 
 extern s32 TLobby__data_805D60FC;
 extern s32 TLobby__data_805D6144;
@@ -72,4 +70,3 @@ s32 TLobby::link_matching_objects(s16 arg0, s16 arg1) {
     return var_r30;
 }
 
-}

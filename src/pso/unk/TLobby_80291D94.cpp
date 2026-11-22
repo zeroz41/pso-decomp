@@ -176,10 +176,6 @@ void TLobby__sub_80291DF8(s32 v) {
     }
 }
 
-}
-
-extern "C" {
-
 void TLobby__sub_80291EAC(s32 arg0);
 s32 TLobby::get_normalized_mode() {
     if (((s32 (*)())is_challenge_mode_active)() == 0) {

@@ -5,7 +5,7 @@
 #include "pso/ui/window/TWindowMakeTeam.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 
-extern "C" {
+
 extern const char lbl_805DB070 = '.';
 void TLobby::debug_print(const char *fmt, ...) {}
 
@@ -72,4 +72,3 @@ int TLobby::compare_file_extension(const char *ext) {
     return -1;
 }
 
-}

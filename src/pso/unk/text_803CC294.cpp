@@ -20,7 +20,7 @@ struct Ent_803CD5C4 {
     u8 pad_0[4]; s32 f4; s32 f8; u16 fc; u8 pad_e[0x114 - 0xE]; s16 f114; s16 arr[1];
 };
 
-extern "C" {
+
 extern Ent_803CC294 *afs_archive_toc_table[];
 extern s32 lobby_adxf_current_file_id;
 extern s32 lobby_afs_toc_entry_index;
@@ -30,7 +30,6 @@ u8 *lbl_805D75F0;
 extern s32 adxf_log_write_index;
 extern s32 lbl_805D75E4;
 
-}
 
 // Command history: one entry per call (phase 0) and per return (phase 1) of an ADXF command.
 template <typename LastArgument>

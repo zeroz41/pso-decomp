@@ -17,7 +17,7 @@ struct CachedChunkVertex {
 LAYOUT_ASSERT(ColoredChunkVertexSize, sizeof(ColoredChunkVertex) == 0x10);
 LAYOUT_ASSERT(CachedChunkVertexSize, sizeof(CachedChunkVertex) == 0x20);
 
-extern "C" void cache_chunk_vertex_colors(ChunkVertexJob *job, GC_Mtx *) {
+void cache_chunk_vertex_colors(ChunkVertexJob *job, GC_Mtx *) {
     s32 count = job->count;
     const ColoredChunkVertex *src = reinterpret_cast<const ColoredChunkVertex *>(job->src);
     CachedChunkVertex *dst = reinterpret_cast<CachedChunkVertex *>(job->dst);

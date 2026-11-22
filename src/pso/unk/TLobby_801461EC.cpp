@@ -54,16 +54,10 @@ s32 TLobby__sub_8014618C(void);
 void TLobby__sub_8014672C(s32 *arg0);
 s32 TLobby__sub_80146588(s32 *arg0);
 u8 *TLobby__sub_80146D14(void);
-}
-char *get_modem_phone_number(s32 idx);
-extern "C" {
 char *TLobby__sub_80146D44(void);
 char *TLobby__sub_80146D50(s32 idx);
 s32 TLobby__sub_801466F4(u32 arg0);
 s32 TLobby__sub_80145EE4(void);
-}
-s32 connect_pppoe(s32 *);
-extern "C" {
 s32 TLobby__sub_801465C0(s32 *);
 void fn_80147A68(void);
 void TLobby__sub_804073B8(void);
@@ -72,6 +66,8 @@ s16 TLobby__sub_8042315C(s16, void *);
 s32 lobby_net_session_id = -1;
 s32 TLobby__sub_801478C4(s32 arg0);
 }
+char *get_modem_phone_number(s32 idx);
+s32 connect_pppoe(s32 *);
 s32 connect_modem(s32 idx, s16 id);
 extern s32 actor_frame_tick;
 
@@ -143,12 +139,6 @@ int TLobby__sub_8014677C(void);
 s32 TLobby__sub_80145A94(void);
 s32 TLobby__sub_80145DB4(s32 arg0);
 s32 TLobby__sub_80147284();
-}
-s32 init_struct(u8 *arg0);
-s32 init_work(s32 arg0, u8 *arg1);
-s32 get_network_config_buffer_size(s32 mode);
-s8 func_801A5E54();
-extern "C" {
 s32 TLobby__sub_804219D0(saddr, saddr, saddr);
 s32 net_add_ipv4_route(saddr, saddr, saddr);
 int xmalloc__FUl(void);
@@ -163,6 +153,10 @@ AccountEntry lobby_account_entries[3]; /* cleared by TLobby::init_account_entrie
 u32 lbl_8050CCE8[73];
 __declspec(section ".data") s32 lbl_8050CE0C[2];
 }
+s32 init_struct(u8 *arg0);
+s32 init_work(s32 arg0, u8 *arg1);
+s32 get_network_config_buffer_size(s32 mode);
+s8 func_801A5E54();
 char lbl_8050CE14[0x20];
 char lbl_8050CE34[0x20];
 u8 lbl_8050CE54[0x114];
@@ -304,7 +298,7 @@ s32 connect_pppoe(s32 *out_value) {
     }
 }
 
-extern "C" {
+
 s32 TLobby__sub_80146588(s32 *arg0) {
     lobby_local_ip_addr = *(s32 *)((s8 *)&lbl_8050CCE8 + 4);
     *(s32 *)((s8 *)arg0 + 0) = *(s32 *)((s8 *)&lbl_8050CCE8 + 8);
@@ -376,7 +370,6 @@ s32 TLobby::query_task_active() {
 }
 
 int TLobby__sub_8014677C(void) { return TLobby__sub_80145DB4(1); }
-}
 int TLobby::get_link_status_value() { return TLobby__sub_80145DB4(4); }
 
 int get_link_status() {
@@ -556,7 +549,7 @@ void TLobby::set_ppp_password(saddr src) {
     strncpy((char *)temp_r31, (const char *)src, 0x1F);
 }
 
-extern "C" {
+
 u8 *TLobby__sub_80146D14(void) {
     TLobby__sub_8014618C();
     TLobby::is_state_active();
@@ -647,7 +640,6 @@ void TLobby::load_network_configs() {
 #undef A_80146D7C
 #undef C_80146D7C
 void TLobby__sub_8014715C(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); }
-}
 void TLobby::teardown_boss2() {
     if ((s32) lbl_805D570C != 0) {
         clear_all_used_records();
@@ -932,7 +924,7 @@ s32 connect_modem(s32 idx, s16 id) {
         return 4;
     }
 }
-extern "C" {
+
 
 s32 TLobby__sub_801478C4(s32 id) {
     s32 count;
@@ -977,7 +969,6 @@ void TLobby::init_account_entries() {
 void fn_80147A60(int a0) { keyboard_buffer_cursor = a0; }
 
 void fn_80147A68(void) { keyboard_buffer_cursor = 0; }
-}
 char *get_ppp_password_buffer(void) {
     return (char *)&ppp_password_buffer.value;
 }

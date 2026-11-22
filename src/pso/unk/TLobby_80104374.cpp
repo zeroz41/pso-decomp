@@ -754,9 +754,8 @@ struct MagData_80104DAC { u8 b[0x10]; };
 struct Rec_80104DAC { u8 pad0[6]; u8 b6; u8 b7; u8 b8; u8 b9; u8 bA; u8 bB; u8 bC; };
 
 Rec_80104DAC *find_item_combination_recipe(u8 *, void *);
-extern "C" {
+
 void *lookup_item_pmt_record(u8 *);
-}
 
 s32 TItemData::is_item_usable(saddr arg0, u8 *item) {
     if (TItemData::is_wrapped(item) != 0) {

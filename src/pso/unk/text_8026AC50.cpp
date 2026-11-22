@@ -2,7 +2,7 @@
 #include "pso/unk/text_8026AC50.h"
 #include "pso/unk/text_8026A14C.h"
 #include "pso/system/THeap.h"
-extern "C" {
+
 extern u32 chat_log_lines[];
 void fn_8026AC50(void) {
     s32 i;
@@ -22,4 +22,3 @@ void fn_8026AC50(void) {
     TAdScrollWinGC__chat_log_heap = NULL;
 }
 
-}

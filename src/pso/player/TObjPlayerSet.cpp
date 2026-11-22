@@ -6,7 +6,6 @@
 #include "pso/system/task/TObject.h"
 
 
-extern "C" {
 #pragma push
 #pragma readonly_strings on
 const char *TObjPlayer__player_set_class_name = "TObjPlayerSet";
@@ -21,7 +20,6 @@ void *TObjPlayerSet::create(void *set_data) {
     return new TObjPlayerSet((TObject *)tl_06, set_data);
 }
 
-}
 TObjPlayerSet::~TObjPlayerSet() {
 
 }

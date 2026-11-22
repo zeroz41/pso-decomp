@@ -5,8 +5,6 @@
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_800FA848.h"
 
-extern "C" {
-
 
 struct Ent_800fa164;
 
@@ -45,4 +43,3 @@ s32 TLobby::create_file_load_entry(saddr arg0, s32 arg1, u32 arg2, saddr src, vo
     return 0;
 }
 
-}
