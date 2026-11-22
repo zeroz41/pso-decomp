@@ -770,7 +770,7 @@ s32 TItemData::is_item_usable(saddr arg0, u8 *item) {
     return (u8)((u8) (find_eligible_combination_recipe(arg0, item) != 0));
 }
 #define o ((Obj_80104DAC *)arg0)
-saddr find_eligible_combination_recipe(s32 arg0, u8 *item) {
+saddr find_eligible_combination_recipe(saddr arg0, u8 *item) {
     ItemData_80104DAC d;
     ItemData_80104DAC d2;
     MagData_80104DAC mag;
