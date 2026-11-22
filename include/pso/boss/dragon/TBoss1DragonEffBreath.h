@@ -8,7 +8,7 @@
 class AreaAttackHistory;
 
 struct TBoss1DragonEffBreath : public TObject {
-    TBoss1DragonEffBreath(TObject *parent, void *initial_position, void *direction);
+    TBoss1DragonEffBreath(TObject *parent, Vec *initial_position, Vec *direction);
     virtual ~TBoss1DragonEffBreath();
     Vec position;
     Vec velocity;
@@ -18,9 +18,5 @@ struct TBoss1DragonEffBreath : public TObject {
 };
 
 LAYOUT_ASSERT(TBoss1DragonEffBreath_size, sizeof(TBoss1DragonEffBreath) == 0x38);
-
-extern "C" {
-void *__dt__21TBoss1DragonEffBreathFv(void *arg0, s16 arg1);
-}
 
 #endif

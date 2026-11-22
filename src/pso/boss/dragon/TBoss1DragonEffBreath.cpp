@@ -28,11 +28,11 @@ TBoss1DragonEffBreath::~TBoss1DragonEffBreath() {
     attack_history = NULL;
 }
 
-TBoss1DragonEffBreath::TBoss1DragonEffBreath(TObject *parent, void *initial_position,
-                                          void *direction) : TObject(parent) {
+TBoss1DragonEffBreath::TBoss1DragonEffBreath(TObject *parent, Vec *initial_position,
+                                             Vec *direction) : TObject(parent) {
     m_name = TBoss1DragonEffBreath__name;
-    VecCopy(&position, (const Vec *)initial_position);
-    VecCopy(&velocity, (const Vec *)direction);
+    VecCopy(&position, initial_position);
+    VecCopy(&velocity, direction);
     velocity.x *= 5.0f;
     velocity.y *= 5.0f;
     velocity.z *= 5.0f;

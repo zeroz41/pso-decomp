@@ -41,6 +41,7 @@ struct NJS_OBJECT;
 #include "pso/unk/text_803D96A8.h"
 #include "pso/boss/dragon/TObjBoss1Crater.h"
 #include "pso/boss/dragon/TBoss1DragonDemo.h"
+#include "pso/boss/dragon/TBoss1DragonEffBreath.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -307,7 +308,6 @@ static Vec boss1_dragon_held_camera_targets[4] = {
 f32 atan2_float(f32 y, f32 x);
 s32 enable_dragon_blocking_bodies(TBoss1DragonColli *, void *, int);
 extern const f32 lbl_805D4AF0;
-s32 __ct__21TBoss1DragonEffBreathFP7TObjectPvPv(void *, void *, void *, void *);
 s32 check_flag_100__10TObjPlayerFPv();
 u8 *get_enemy_entity(u16 arg0);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
@@ -2608,10 +2608,7 @@ void TBoss1Dragon::update_breath_attack_state(u32 reason) {
                 direction_to_rotation_xz((u8 *)&this->m_418, &rotation.x, &rotation.z);
                 this->impactAge = (this->impactAge + 1);
                 if ((s32) this->impactAge >= 2) {
-                    u8 *o = (u8 *)TObject::operator new(0x38);
-                    if (o != 0) {
-                        __ct__21TBoss1DragonEffBreathFP7TObjectPvPv(o, (u8 *)&this->unknown3C4, &this->m_40c, &this->m_418);
-                    }
+                    new TBoss1DragonEffBreath(&this->unknown3C4, &this->m_40c, &this->m_418);
                     this->impactAge = 0;
                 }
                 if (this->m_8ac == 0) {
