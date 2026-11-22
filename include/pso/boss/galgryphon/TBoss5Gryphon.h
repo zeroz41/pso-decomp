@@ -69,7 +69,6 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     virtual void render_shadows();
     virtual void run_demo_task();
     virtual void render_demo();
-    virtual void vfunc_106();
     virtual void clear_harmful_statuses();
     virtual void apply_shock_status();
     virtual void apply_movement_ailment(s32);
