@@ -7,6 +7,7 @@
 #include <dolphin/mtx/GeoTypes.h>
 
 class TCameraController;
+struct CameraViewParams;
 
 // The request a scripted or event camera hands over (get_params, and the
 // buffer set_active_camera_pose_from_params reads): where to put the eye,
@@ -98,6 +99,35 @@ public:
     // Copy of pos taken whenever the position snaps.
     Vec look;
 
+    // Registry index of the active controller and the pending view requests.
+    static CameraViewState view_state;
+    // The viewport and projection in use, and the copy restore_full_screen_view
+    // keeps while the full screen is shown.
+    static CameraViewParams view_params;
+    static CameraViewParams saved_view_params;
+    static Vec up_vector;
+    // The view matrix, and one per split-screen view.
+    static CameraMatrix view_matrix;
+    static CameraMatrix view_matrices[4];
+    // The GX viewport and scissor box.
+    static s16 viewport_width;
+    static s16 viewport_height;
+    static s16 viewport_x;
+    static s16 viewport_y;
+    static s32 pose_snap_flags;
+    static int camera_id;
+    static s16 camera_mode;
+    // Set when the restored view's center is off the screen center.
+    static s16 view_offset_active;
+
+    static void reset_up_vector();
+    static void clear_pose_snap_flags();
+    static s32 is_view_offset();
+    // Bit 0x400 of view_state.flags.
+    static s32 is_view_override_active();
+    // The active controller's registry index.
+    static u16 get_active_controller();
+
     static s32 get_camera_mode();
     void*get_target_ptr();
     static void copy_vec_to_default(const Vec *up);
@@ -182,13 +212,7 @@ extern f32 camera_right[3];
 
 extern "C" {
 int is_quest_active(void);
-// The active controller's registry index.
-u16 TCameraCtrl__sub_8006A5DC(void);
-void TCameraCtrl__sub_800687C8(void);
-void TCameraCtrl__sub_800689E8(void);
-s32 TCameraCtrl__sub_800689F4(void);
 f32 TCameraCtrl__sub_80068A04(s32 view);
-s32 TCameraCtrl__sub_80069304(void);
 // Forces registry controller `index` until restore_player_cameras; 0 if a
 // mode is already forced.
 s32 activate_camera_mode(s32 index);

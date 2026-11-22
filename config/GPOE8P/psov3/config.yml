@@ -470,17 +470,17 @@ force_active:
   - TBoss8Dragon__sub_8030B80C
   - TBoss8Dragon__sub_8036AF50
   - TCameraCtrl__sub_800677D4
-  - TCameraCtrl__sub_800689E8
+  - clear_pose_snap_flags__11TCameraCtrlFv
   - __dt__11TCameraCtrlFv
   - TCameraCtrl__sub_8006B358
   - TCameraCtrl__sub_8006B798
   - TCameraCtrl__sub_8006CC30
   - clear__16FollowCameraSlotFv
   - TCameraCtrl__sub_803D65F8
-  - TCameraCtrl__view_matrices
-  - TCameraCtrl__view_matrix
-  - TCameraCtrl__viewport_height
-  - TCameraCtrl__viewport_size
+  - view_matrices__11TCameraCtrl
+  - view_matrix__11TCameraCtrl
+  - viewport_height__11TCameraCtrl
+  - viewport_width__11TCameraCtrl
   - TChCrEffCtrlPl__name
   - TChCrEffTagStr__name
   - TChCrEffTag__name
@@ -7770,7 +7770,7 @@ force_active:
   - boss5_gryphon_landing_bezier_points
   - gryphon_left_horn_lightning_offset
   - gryphon_right_horn_lightning_offset
-  - lbl_80488A8C
+  - camera_controller_factories
   - __vt__11TCameraCtrl
   - lbl_8048D0B0
   - lbl_8048D108
@@ -8163,7 +8163,7 @@ force_active:
   - boss1_dragon_capture_chunk_model
   - boss1_dragon_reference_pos_vec
   - boss1_dragon_forward_reference_vec
-  - lbl_804FF67C
+  - saved_view_params__11TCameraCtrl
   - lbl_804FF82C
   - lbl_805007C8
   - canadin_shared_handler_b_table
@@ -8272,7 +8272,7 @@ force_active:
   - TBoss5GryphonColli__name
   - TBoss5GryphonDemo__name
   - TBoss5GryphonSnarl__name
-  - lbl_805D283C
+  - camera_ctrl_class_name
   - TObjEneRe7BeruraPunch__name
   - lbl_805D2A50
   - TObjEneRe2Flower_EffCurse3__name

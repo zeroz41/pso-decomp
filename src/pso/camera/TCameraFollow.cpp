@@ -47,7 +47,6 @@ u8 camera_override_flags;
 // TObjPlayer_801AF2F0.cpp without a header declaration that fits these calls.
 void reset_cameras_to_actor(void *actor, s32 flags);
 extern TCameraCtrl *camera_ctrl_instance;
-extern CameraViewState TCameraCtrl__view_state;
 extern f32 lbl_804FF5E8[10];
 s32 approach_camera_scalar(f32 *value, f32 *target, f32 rate);
 extern "C" void camera_renderer_setup_nop(void *, s32);
@@ -226,11 +225,11 @@ void apply_follow_camera_offsets(Vec *target_offset, Vec *eye_offset, s32 angle,
     TObjPlayer *player;
     s32 i;
     s32 yaw;
-    if (TCameraCtrl__view_state.controller <= 2 || TCameraCtrl__view_state.controller == 3) {
+    if (TCameraCtrl::view_state.controller <= 2 || TCameraCtrl::view_state.controller == 3) {
         if (is_split_screen() != 0) {
             if (client_id == 0xFFFF) {
                 for (i = 0; i < 4; i++) {
-                    camera = (TCameraFollow *)camera_controller_registry[TCameraCtrl__view_state.controller + i];
+                    camera = (TCameraFollow *)camera_controller_registry[TCameraCtrl::view_state.controller + i];
                     player = get_player_by_client_id(TCameraCtrl::get_nth_view_player_id(i));
                     yaw = angle;
                     if (player != 0) {
@@ -240,9 +239,9 @@ void apply_follow_camera_offsets(Vec *target_offset, Vec *eye_offset, s32 angle,
                 }
                 return;
             }
-            camera = (TCameraFollow *)camera_controller_registry[TCameraCtrl__view_state.controller + client_id];
+            camera = (TCameraFollow *)camera_controller_registry[TCameraCtrl::view_state.controller + client_id];
         } else {
-            camera = (TCameraFollow *)camera_controller_registry[TCameraCtrl__view_state.controller];
+            camera = (TCameraFollow *)camera_controller_registry[TCameraCtrl::view_state.controller];
         }
         if (camera != 0) {
             camera->set_pos_target(target_offset, eye_offset, angle);
@@ -252,8 +251,8 @@ void apply_follow_camera_offsets(Vec *target_offset, Vec *eye_offset, s32 angle,
 
 void TCameraCtrl::set_active_camera_flag() {
     TCameraFollow *camera;
-    if (TCameraCtrl__view_state.controller == 0) {
-        camera = (TCameraFollow *)camera_controller_registry[TCameraCtrl__view_state.controller];
+    if (TCameraCtrl::view_state.controller == 0) {
+        camera = (TCameraFollow *)camera_controller_registry[TCameraCtrl::view_state.controller];
         if (camera != NULL) {
             camera->recenter_requested = 1;
         }
@@ -262,8 +261,8 @@ void TCameraCtrl::set_active_camera_flag() {
 
 void end_conversation_camera() {
     TCameraFollow *camera;
-    if (TCameraCtrl__view_state.controller == 0) {
-        camera = (TCameraFollow *)camera_controller_registry[TCameraCtrl__view_state.controller];
+    if (TCameraCtrl::view_state.controller == 0) {
+        camera = (TCameraFollow *)camera_controller_registry[TCameraCtrl::view_state.controller];
         if (camera != NULL) {
             camera->set_close_up(0);
         }
@@ -308,8 +307,8 @@ void begin_conversation_camera() {
     s32 side;
     TCameraFollow *camera;
     TObjPlayer *actor;
-    if (TCameraCtrl__view_state.controller == 0) {
-        camera = (TCameraFollow *)camera_controller_registry[TCameraCtrl__view_state.controller];
+    if (TCameraCtrl::view_state.controller == 0) {
+        camera = (TCameraFollow *)camera_controller_registry[TCameraCtrl::view_state.controller];
         camera->set_close_up(1);
         actor = camera->actor;
         if (actor != NULL) {

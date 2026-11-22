@@ -37,14 +37,8 @@ struct NJS_OBJECT;
 #include "pso/network/client_id.h"
 #include "pso/player/PlayerSlots.h"
 
-struct RecoveredGlobal_801A7310_TCameraCtrl__data_804FF628 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
 extern "C" {
 s32 set_scripted_camera_pose(int, int, void *);
-extern RecoveredGlobal_801A7310_TCameraCtrl__data_804FF628 TCameraCtrl__view_state;
 extern u32 lbl_805D5D20;
 }
 s32 photon_blast_joint_index;
@@ -136,7 +130,7 @@ void TUnk_804C3248::begin_photon_summon_camera(s8 arg1) {
     playback.flags = 0;
     playback.frame = 0.0f;
     playback.frame_step = 1.0f;
-    if ((*(s32 *)((s8 *)&TCameraCtrl__view_state.value + 8) & 4) || (*(s32 *)((s8 *)&TCameraCtrl__view_state.value + 8) & 8)) {
+    if ((TCameraCtrl::view_state.flags & 4) || (TCameraCtrl::view_state.flags & 8)) {
         TCameraCtrl::select_active_controller(5);
     }
     playback.cache_target_and_forward(0x4222);
@@ -423,7 +417,7 @@ void TUnk_804C3248::update_state() {
         ((s32 (*)(f32))update_photon_blast_camera_pose)(1.0f);
         return;
     case 1:
-        if ((get_scripted_camera_playback()->flags & 1) || (TCameraCtrl__sub_8006A5DC() != 5)) {
+        if ((get_scripted_camera_playback()->flags & 1) || (TCameraCtrl::get_active_controller() != 5)) {
             queue_destruction();
         }
         return;

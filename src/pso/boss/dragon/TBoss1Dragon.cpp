@@ -302,7 +302,6 @@ DragonModelState boss1_dragon_capture_chunk_model;
 Vec boss1_dragon_reference_pos_vec;
 Vec boss1_dragon_forward_reference_vec;
 extern s32 registered_player_count;
-extern s16 TCameraCtrl__camera_mode;
 extern "C" {
 f64 floor(f64);
 }
@@ -406,7 +405,7 @@ f32 floor_to_float(f32 value) {
 int TObjEneDD::get_flag_b4() { return (this->motion_flags >> 4) & 0x1; }
 
 s32 TCameraCtrl::get_camera_mode() {
-    return TCameraCtrl__camera_mode;
+    return TCameraCtrl::camera_mode;
 }
 
 s32 TLobby::get_game_mode() {

@@ -24,7 +24,6 @@ const char *lbl_805D4340 = "TAdFloorLoadCamGC";
 f32 vec_squared_length(u8 *arg0);
 extern Pad_8034BE5C controller_physical_port_bank;
 extern const f32 lbl_805DFDB8;
-void TCameraCtrl__sub_800687C8(void);
 
 u16 fn_8034BE30(void* p) { return *(u16*)((char*)p + 0x24); }
 void fn_8034BE38(void* p) { *(u32*)((char*)p + 0x334) &= 0xbfffffff; }
@@ -96,7 +95,7 @@ void TAdFloorLoadCamGC::run_task() {
 
 }
 TAdFloorLoadCamGC::~TAdFloorLoadCamGC() {
-    TCameraCtrl__sub_800687C8();
+    TCameraCtrl::reset_up_vector();
 }
 TAdFloorLoadCamGC::TAdFloorLoadCamGC(TObject *object, void *arg2) : TObject(object) {
     m_name = lbl_805D4340;

@@ -123,8 +123,7 @@ extern u8 controller_physical_port_bank[];
 #include "pso/unk/TUnk_8048E5DC.h"
 #include <stddef.h>
 #include "pso/camera/TCameraCtrl.h"
-
-struct G_80082FCC { s32 value; s32 v4; f32 f8; f32 fC; };
+#include "pso/camera/CameraViewParams.h"
 
 extern "C" {
 s32 TCameraCtrl__sub_80068EF0();
@@ -135,7 +134,6 @@ void set_perspective_projection_from_fov(s32 arg0, f32 farg0, f32 farg1, f32 far
 void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
 extern u8 *camera_ctrl_instance;
 extern uaddr camera_render_target_singleton;
-extern G_80082FCC TCameraCtrl__data_804FF634;
 void load_list_texture(s32 idx, s32 wrapS, s32 wrapT, s32 map);
 extern s32 __vt__13TUnk_8048E5DC[];
 
@@ -693,7 +691,7 @@ void load_projection_tex_matrix(saddr rotation_y) {
         push_matrix();
         rotate_matrix_y(0, (void *)rotation_y);
         temp_f31 = (f32) (0.0054931640625 * calc_camera_fov_degrees());
-        if (TCameraCtrl__sub_800689F4() != 0) {
+        if (TCameraCtrl::is_view_offset() != 0) {
             C_MTXLightPerspective(sp10, temp_f31, 1.1333334f, 0.5f, -0.5f, (f32) (0.5f - spC), (f32) (0.5f - sp8));
         } else {
             C_MTXLightPerspective(sp10, temp_f31, 1.1333334f, 0.5f, -0.5f, 0.5f, 0.5f);
@@ -715,7 +713,7 @@ void load_projected_texture_matrix(f32 aspect) {
         calc_projection_screen_offset(&stack.spC, &stack.sp8);
         push_matrix();
         temp_f31 = (f32) (0.0054931640625 * calc_camera_fov_degrees());
-        if (TCameraCtrl__sub_800689F4() != 0) {
+        if (TCameraCtrl::is_view_offset() != 0) {
             C_MTXLightPerspective(stack.sp10, temp_f31, aspect, 0.5f, -0.5f, (f32) (0.5f - stack.spC), (f32) (0.5f - stack.sp8));
         } else {
             C_MTXLightPerspective(stack.sp10, temp_f31, aspect, 0.5f, -0.5f, 0.5f, 0.5f);
@@ -895,8 +893,8 @@ void TCameraCtrl::copy_position_vectors(void *first, void *second) {
 }
 
 void calc_projection_screen_offset(f32 *arg0, f32 *arg1) {
-    f32 dx = TCameraCtrl__data_804FF634.f8;
-    f32 y = TCameraCtrl__data_804FF634.fC;
+    f32 dx = TCameraCtrl::view_params.center_x;
+    f32 y = TCameraCtrl::view_params.center_y;
     f32 dy;
     dx -= 320.0f;
     dy = y - 240.0f;

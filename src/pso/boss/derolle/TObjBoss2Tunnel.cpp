@@ -862,7 +862,7 @@ s32 take_snapshot(void) {
     if (TQuestListVM::get_quest_bin() != NULL) {
         return 0;
     }
-    if (TCameraCtrl__sub_80069304() != 0) {
+    if (TCameraCtrl::is_view_override_active() != 0) {
         return 0;
     }
     if (is_split_screen() != 0) {

@@ -11,6 +11,7 @@
 #include "pso/ui/window/TWindowFukidasi.h"
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/camera/CameraViewParams.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
@@ -157,12 +158,6 @@ struct Ent_802511E4 {
     f32 pos[3];
 };
 
-struct Cam_802511E4 {
-    u8 pad0[8];
-    f32 x;
-    f32 y;
-};
-
 struct Fuki_80251594 {
     u8 pad0[0x30];
     f32 rect[2];
@@ -215,7 +210,6 @@ void rotate_vector_by_matrix(saddr, void *, void *);
 void rotate_matrix_y(s32, s32);
 void rotate_matrix_z(s32, s32);
 void rotate_matrix_x(s32, s32);
-extern Cam_802511E4 TCameraCtrl__data_804FF634;
 __declspec(section ".rodata") extern const char TWindowFukidasi__class_name_string[] = "TWindowFukidasi";
 }
 
@@ -997,8 +991,8 @@ s32 TUnk_804CF0B8::project_anchor(f32 *pos, f32 *out) {
         out[1] -= (f32)TCameraCtrl::get_screen_width();
         out[1] /= TCameraCtrl::get_fov();
     }
-    out[0] += TCameraCtrl__data_804FF634.x - 320.0f;
-    out[1] += TCameraCtrl__data_804FF634.y - 240.0f;
+    out[0] += TCameraCtrl::view_params.center_x - 320.0f;
+    out[1] += TCameraCtrl::view_params.center_y - 240.0f;
     return 1;
 }
 

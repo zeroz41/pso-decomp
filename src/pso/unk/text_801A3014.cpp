@@ -555,7 +555,7 @@ void run_split_screen_frame(void) {
     } else {
         for (i = 0; i < TCameraCtrl::get_camera_id(); i++) {
             TCameraCtrl::set_mode(i);
-            if (TCameraCtrl__sub_8006A5DC() != 5 && TCameraCtrl__sub_8006A5DC() != 9) {
+            if (TCameraCtrl::get_active_controller() != 5 && TCameraCtrl::get_active_controller() != 9) {
                 if (i == 0) {
                     main_task.run_task();
                     TWindowSubStatusDisp::draw_split_screen_hud();

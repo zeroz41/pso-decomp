@@ -5,6 +5,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/camera/CameraViewParams.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/system/vector.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
@@ -28,7 +29,6 @@ extern "C" {
 void post_translate_matrix(void *);
 f32 xyz_distance(void *, void *);
 void TObjPlayer__sub_8030A9B0();
-extern u32 TCameraCtrl__data_804FF634[18];
 void TCameraCtrl__sub_8030ABF4();
 }
 
@@ -163,7 +163,7 @@ __declspec(section ".sdata2") const f32 zako_fade_color = -1.0f;
 void TCameraCtrl__sub_8030ABF4(void) {
     if (boss4_zako_draw_buffers[TBoss4ZakoDraw__draw_buffer_index].count != 0) {
         // The camera owner stores the viewport rectangle at byte offset 0x30.
-        void *rect = &TCameraCtrl__data_804FF634[12];
+        void *rect = TCameraCtrl::view_params.pad_30;
         if (is_split_screen() == 0) {
             TCameraCtrl::set_viewport_scissor(2, rect);
         }

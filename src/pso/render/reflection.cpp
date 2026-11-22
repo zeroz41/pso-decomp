@@ -330,7 +330,7 @@ void TObjPlayer::setup_projection_texture(Vec *, SceneSectionAngles *, u32 flags
         if (flags & 0x80) {
             push_matrix();
             fov_y = (f32) (lbl_80465E18 * calc_camera_fov_degrees());
-            if (TCameraCtrl__sub_800689F4() != 0) {
+            if (TCameraCtrl::is_view_offset() != 0) {
                 C_MTXLightPerspective(sp10, fov_y, 1.1333334f, 0.5f, -0.5f, (f32) (0.5f - spC), (f32) (0.5f - sp8));
             } else {
                 C_MTXLightPerspective(sp10, fov_y, 1.1333334f, 0.5f, -0.5f, 0.5f, 0.5f);

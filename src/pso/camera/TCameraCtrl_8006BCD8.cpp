@@ -178,7 +178,7 @@ CameraPlayback* get_scripted_camera_playback() {
     ScriptedCameraState* camera = (ScriptedCameraState*)camera_controller_registry[5];
     if (camera != NULL) {
         CameraPlayback* playback = &camera->playback;
-        if (TCameraCtrl__sub_8006A5DC() != 5) {
+        if (TCameraCtrl::get_active_controller() != 5) {
             playback->flags |= 1;
         }
         return playback;
