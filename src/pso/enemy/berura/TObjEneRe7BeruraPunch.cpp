@@ -18,6 +18,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/render/model_render_state.h"
+#include "pso/system/MatrixStack.h"
 
 #pragma readonly_strings on
 
@@ -39,9 +40,10 @@ void TObjEneRe7BeruraPunch::apply_hit_if_active(void *target, f32 *hit) {
     }
 }
 
-struct Pair_80096150 { f32 a; s32 b; };
+// the contact attack update_attack_collision hands call_vt16_with_default
+// (layout as DelbiterContactAttack; name inferred)
+struct BeruraPunchContactAttack { f32 power; s32 flags; };
 
-extern "C" s32 post_translate_matrix(void *);
 
 void TObjEneRe7BeruraPunch::render() {
 
@@ -58,7 +60,7 @@ void TObjEneRe7BeruraPunch::render() {
         TObjEneDD::draw_oriented_shadow(&position, &ground_normal, 0, NULL);
         TObjPlayer::toggle_particle_effect();
         push_matrix();
-        post_translate_matrix(&this->position);
+        post_translate_matrix(&this->position.x);
         translate_matrix(0, 0.0f, this->height, 0.0f);
         rotate_matrix_y(0, this->rotation_y);
         scale_matrix(0, this->scale, this->scale, 1.0f);
@@ -143,11 +145,11 @@ s32 TObjEneRe7BeruraPunch::update_attack_collision() {
     if (owner != 0) {
         owner->reload_stats_from_tables();
     }
-    Pair_80096150 p = { 3.0f, 3 };
+    BeruraPunchContactAttack attack = { 3.0f, 3 };
     if (TObjEneDD::check_v2_mode() != 0) {
-        p.b &= ~2;
+        attack.flags &= ~2;
     }
-    this->call_vt16_with_default(&p, this->attack_history);
+    this->call_vt16_with_default(&attack, this->attack_history);
     if (owner != 0) {
         owner->reload_base_stats();
     }
@@ -179,7 +181,6 @@ CollisionBody TObjEneRe7BeruraPunch__collision_body_templates[2] = {
     {{0.0f, 0.0f, 0.0f}, 3.0f, 0.0f, 0, 0x9D03, {0.0f, 0.0f, 0.0f}, 0.0f},
     {{0.0f, 0.0f, 0.0f}, 3.0f, 0.0f, 0, 0x9D03, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
-extern const char *TObjEneRe7BeruraPunch__name;
 
 void TObjEneRe7BeruraPunch::deactivate() { this->state = 0; }
 

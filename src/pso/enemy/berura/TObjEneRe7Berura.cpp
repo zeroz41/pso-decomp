@@ -82,7 +82,7 @@ extern TObjMotionAction TObjEneRe7Berura__animation_definitions[];
 }
 
 
-struct Mtx_8009503C { f32 m[3][4]; };
+
 extern "C" {
 s32 TObjPlayer__sub_800A0554(void *);
 // TObjPlayer::copy_matrix/concat_matrix take uaddr; the (uaddr)&m spelling
@@ -467,7 +467,7 @@ s32 TObjEneRe7Berura::is_arm_ready() {
 }
 
 s32 TObjEneRe7Berura::collect_node_matrices(NJS_OBJECT *obj, s32 idx) {
-    Mtx_8009503C m;
+    Mtx34 m;
     u32 flags;
     do {
         push_matrix();
@@ -490,7 +490,7 @@ s32 TObjEneRe7Berura::collect_node_matrices(NJS_OBJECT *obj, s32 idx) {
         }
         if (idx >= berura_attack_node_range_start && idx <= berura_attack_node_range_end) {
             u8 *p = TObjEneRe7Berura__node_matrix_cursor;
-            TObjEneRe7Berura__node_matrix_cursor = p + sizeof(Mtx_8009503C);
+            TObjEneRe7Berura__node_matrix_cursor = p + sizeof(Mtx34);
             get_current_matrix(p);
         }
         idx++;
@@ -520,7 +520,7 @@ void TObjEneRe7Berura::draw_node_tree(NJS_OBJECT *obj) {
     do {
         push_matrix();
         matrix = TObjEneRe7Berura__node_matrix_cursor;
-        TObjEneRe7Berura__node_matrix_cursor = matrix + sizeof(Mtx_8009503C);
+        TObjEneRe7Berura__node_matrix_cursor = matrix + sizeof(Mtx34);
         TObjPlayer::concat_matrix(0, (uaddr)matrix);
         flags = obj->evalflags;
         if (!(flags & NJD_EVAL_HIDE)) {
@@ -557,48 +557,48 @@ void TObjEneRe7Berura::reset_turn_total() {
 }
 
 s32 TObjEneRe7Berura::step_toward_target(s32 angle, s32 max_step) {
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 temp_r3;
-    s32 var_r31;
+    s32 total_pos;
+    s32 total_neg;
+    s32 diff;
+    s32 reached;
 
-    var_r31 = 0;
-    temp_r3 = angle_diff_s16(this->rotation_y, angle);
-    if (temp_r3 > max_step) {
-        this->rotation_y = (s32) (this->rotation_y + max_step);
-        temp_r0 = this->turn_total;
-        if (temp_r0 < 0) {
+    reached = 0;
+    diff = angle_diff_s16(this->rotation_y, angle);
+    if (diff > max_step) {
+        this->rotation_y += max_step;
+        total_pos = this->turn_total;
+        if (total_pos < 0) {
             this->turn_total = 0;
         } else {
-            this->turn_total = (s32) (temp_r0 + max_step);
+            this->turn_total = total_pos + max_step;
         }
-    } else if (temp_r3 < (s32) -max_step) {
-        this->rotation_y = (s32) (this->rotation_y - max_step);
-        temp_r0_2 = this->turn_total;
-        if (temp_r0_2 > 0) {
+    } else if (diff < -max_step) {
+        this->rotation_y -= max_step;
+        total_neg = this->turn_total;
+        if (total_neg > 0) {
             this->turn_total = 0;
         } else {
-            this->turn_total = (s32) (temp_r0_2 - max_step);
+            this->turn_total = total_neg - max_step;
         }
     } else {
         this->rotation_y = angle;
-        var_r31 = 1;
+        reached = 1;
     }
-    return var_r31;
+    return reached;
 }
 
 s32 TObjEneRe7Berura::is_over_limit() {
-    int var_r4;
-    s32 temp_r5;
-    s32 temp_r0;
+    int over;
+    s32 total;
+    s32 limit;
 
-    temp_r5 = this->turn_total;
-    var_r4 = 0;
-    temp_r0 = this->turn_limit;
-    if ((temp_r5 >= temp_r0) || (temp_r5 <= (s32) -temp_r0)) {
-        var_r4 = 1;
+    total = this->turn_total;
+    over = 0;
+    limit = this->turn_limit;
+    if ((total >= limit) || (total <= -limit)) {
+        over = 1;
     }
-    return (u8)((u8) var_r4);
+    return (u8)over;
 }
 
 s32 TObjEneRe7Berura::get_dizzy_duration() {
@@ -694,14 +694,14 @@ void TObjEneRe7Berura::handle_message_transition(s32 msg) {
 }
 
 void TObjEneRe7Berura::state_attack(s32 reason) {
-    s32 temp_r5;
+    s32 flags;
 
     switch (reason) {
     case 4:
         requested_action = 0;
         set_intangible();
-        temp_r5 = status_flags;
-        status_flags = temp_r5 & ~5;
+        flags = status_flags;
+        status_flags = flags & ~5;
         status_flags = status_flags | 2;
         this->set_field_378(3);
         TObjPlayer__sub_800A0554(&body_fade);
@@ -724,10 +724,10 @@ void TObjEneRe7Berura::state_attack(s32 reason) {
 }
 
 void TObjEneRe7Berura::update_emerge_state(s32 reason) {
-    s32 temp_r3;
-    s32 temp_r3_2;
-    s32 var_r4;
-    s32 var_r4_2;
+    s32 fade_bits;
+    s32 fade_bits_2;
+    s32 alpha;
+    s32 grey;
     switch (reason) {
     case 4:
         requested_action = 0;
@@ -756,15 +756,15 @@ void TObjEneRe7Berura::update_emerge_state(s32 reason) {
             }
             break;
         case 1:
-            temp_r3 = counter;
-            if (!(temp_r3 & 1)) {
-                var_r4 = node2_color >> 0x18U;
-                var_r4 += 0x20;
-                if (var_r4 >= 0xFF) {
-                    counter = temp_r3 | 1;
-                    var_r4 = 0xFF;
+            fade_bits = counter;
+            if (!(fade_bits & 1)) {
+                alpha = node2_color >> 0x18U;
+                alpha += 0x20;
+                if (alpha >= 0xFF) {
+                    counter = fade_bits | 1;
+                    alpha = 0xFF;
                 }
-                node2_color = (var_r4 << 24) | (node2_color & 0xFFFFFF);
+                node2_color = (alpha << 24) | (node2_color & 0xFFFFFF);
             }
             if (!(counter & 2)) {
                 accum += 0.5f;
@@ -774,15 +774,15 @@ void TObjEneRe7Berura::update_emerge_state(s32 reason) {
                     texture_scroll_speed = 0xC;
                 }
             }
-            temp_r3_2 = counter;
-            if (!(temp_r3_2 & 4)) {
-                var_r4_2 = node1_color & 0xFF;
-                var_r4_2 += 0x20;
-                if (var_r4_2 >= 0xFF) {
-                    counter = temp_r3_2 | 4;
-                    var_r4_2 = 0xFF;
+            fade_bits_2 = counter;
+            if (!(fade_bits_2 & 4)) {
+                grey = node1_color & 0xFF;
+                grey += 0x20;
+                if (grey >= 0xFF) {
+                    counter = fade_bits_2 | 4;
+                    grey = 0xFF;
                 }
-                node1_color = var_r4_2 | ((var_r4_2 << 0x10) | 0xFF000000 | (var_r4_2 << 8));
+                node1_color = grey | ((grey << 0x10) | 0xFF000000 | (grey << 8));
             }
             play_persistent_sound(remap_sound_for_area(0x4003C61E), (saddr)this, (uaddr)&position, 0, 0);
             TObjPlayer::play_effect_if_v2(-0x100);
@@ -1076,10 +1076,7 @@ void TObjEneRe7Berura::update_punch_state(s32 reason) {
 }
 
 void TObjEneRe7Berura::update_melee_state(s32 reason) {
-    Vec sp2C;
-    Vec sp20;
-    Vec sp14;
-    Vec sp8;
+    Vec trail_points[4];
     s32 i;
     Vec *entry;
 
@@ -1151,10 +1148,10 @@ void TObjEneRe7Berura::update_melee_state(s32 reason) {
                 set_matrix_identity(NULL);
                 post_translate_matrix(&position.x);
                 rotate_matrix_y(NULL, rotation_y);
-                matrix_mult_vec_array(NULL, entry, &sp8, 4);
+                matrix_mult_vec_array(NULL, entry, trail_points, 4);
                 pop_matrix();
-                attack_trails[0]->vfunc_6(&sp8, &sp14);
-                attack_trails[1]->vfunc_6(&sp20, &sp2C);
+                attack_trails[0]->vfunc_6(&trail_points[0], &trail_points[1]);
+                attack_trails[1]->vfunc_6(&trail_points[2], &trail_points[3]);
             }
             if (get_flag_b4() != 0) {
                 step = 2;

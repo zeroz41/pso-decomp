@@ -17,7 +17,7 @@ struct Bm3FlyMovementParameters {
     u32 unknown_0C[4];
 };
 
-// The block TLobby::dispatch_shared_handler_a(0) returns; the fly's load_resources keeps it in lbl_805D50EC.
+// The block TLobby::dispatch_shared_handler_a(0) returns; the fly's load_resources keeps it in bm3_fly_lobby_params.
 struct Bm3FlyParameters {
     f32 unknown_00;
     u8 unknown_04[0x18];
