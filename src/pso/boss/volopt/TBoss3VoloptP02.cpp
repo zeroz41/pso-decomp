@@ -49,30 +49,23 @@
 #include "pso/render/render_util.h"
 #include "pso/camera/TCameraCtrl_8006A03C.h"
 #include "pso/ui/font/TFontSmallTask.h"
+#include "pso/camera/CameraHelpers.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/render/model_render_state.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/ui/hud/TRaderMapCore.h"
 
 extern "C" {
-void *find_entity_by_id(u16 id);
-s32 post_translate_matrix(void *);
-extern s32 model_render_flags;
-void free_collision_body_parts(void *);
-void init_collision_body_parts(void *, void *, s32);
 s32 play_persistent_sound(s32, void *, void *, s16, s32);
-extern s32 actor_frame_tick;
-s32 minimap_render_dot(void *, s32, s16, s32);
-s32 submit_cursor_candidate(void *, int);
-void subtract_vector(void *, void *);
-extern s32 registered_player_count;
-u16 TObjRoomId__sub_801A1DB8(void);
-void vec3_add_to(void *, void *);
 s32 restore_player_cameras(void);
 s32 activate_camera_mode(int, f32);
-void start_camera_shake(s32 id, f32 v);
-s32 set_scripted_camera_pose(void *, void *, void *);
-u8 *get_scripted_camera_playback(s16);
 void TObjPlayer__sub_801BA42C(void);
+u16 TObjRoomId__sub_801A1DB8(void);
 u8 *get_player_by_client_id(s32);
-extern u8 identity_matrix[];
-void TBoss3Volopt__sub_800FD344(s32 arg0, s32 arg1, s32 arg2, void *str, void *arg4);
+s32 submit_cursor_candidate(void *, int);
 }
 
 void reset_status_effect_row(u8 *row);
@@ -102,13 +95,6 @@ struct VoloptMovementParams {
     u32 pad_18;
 };
 
-struct VoloptCollisionBody {
-    f32 offset[3];
-    f32 radius;
-    u32 pad_10[2];
-    u32 flags;
-    u32 pad_1C[4];
-};
 
 struct VoloptBreakupParams {
     s32 count;
@@ -134,12 +120,12 @@ static TObjMotionAction action_entries[9] = {
     {2, 0, 13, 0.6f, 1},
 };
 static VoloptMovementParams movement_params = {150.0f, 0.5555555f, 0x400, 0x1E0000, 0, 1, 0};
-static VoloptCollisionBody collision_bodies[5] = {
-    {{0.0f, 23.0f, 29.0f}, 10.0f, {0, 0}, 0x8003, {0, 0, 0, 0}},
-    {{36.0f, 26.0f, 0.0f}, 15.0f, {0, 0}, 0x8003, {0, 0, 0, 0}},
-    {{-36.0f, 26.0f, 0.0f}, 15.0f, {0, 0}, 0x8003, {0, 0, 0, 0}},
-    {{0.0f, 25.0f, -35.0f}, 18.0f, {0, 0}, 0x8003, {0, 0, 0, 0}},
-    {{0.0f, 26.0f, 0.0f}, 24.0f, {0, 0}, 0x8003, {0, 0, 0, 0}},
+static CollisionBody collision_bodies[5] = {
+    {{0.0f, 23.0f, 29.0f}, 10.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
+    {{36.0f, 26.0f, 0.0f}, 15.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
+    {{-36.0f, 26.0f, 0.0f}, 15.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
+    {{0.0f, 25.0f, -35.0f}, 18.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
+    {{0.0f, 26.0f, 0.0f}, 24.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 static f32 pulse_color_start[3] = {0.0f, 178.0f, 255.0f};
 static f32 pulse_color_end[3] = {255.0f, 0.0f, 0.0f};
@@ -441,7 +427,7 @@ void TBoss3VoloptP02::render() {
         TObjPlayer::toggle_particle_effect();
         push_matrix();
         model_render_flags &= ~0x400;
-        post_translate_matrix(&position);
+        post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         if (TObjPlayer::check_demo_mode() == 1) {
             draw_chunk_object(model);
@@ -739,7 +725,7 @@ void TBoss3VoloptP02::fn_800465B0() {
     case 2: {
         Vec v = {0.0f, 30.0f, 35.0f};
         push_matrix_from(identity_matrix);
-        post_translate_matrix(&position);
+        post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         matrix_mult_vec(0, &v, &v);
         pop_matrix();
@@ -800,7 +786,7 @@ void TBoss3VoloptP02::fn_800465B0() {
         if (--timer <= 0) {
             Vec v = {0.0f, 30.0f, 35.0f};
             push_matrix_from(identity_matrix);
-            post_translate_matrix(&position);
+            post_translate_matrix(&position.x);
             rotate_matrix_y(0, rotation_y);
             matrix_mult_vec(0, &v, &v);
             pop_matrix();
@@ -1104,13 +1090,14 @@ void TBoss3VoloptP02::update_death_sequence() {
         activate_camera_mode(5, 0.0f);
         cam.cache_target_and_forward(0x160A);
         rotation_y = 0;
-        set_scripted_camera_pose(&boss3_volopt_spawn_pos, &boss3_volopt_spawn_pos, &rotation_x);
+        set_scripted_camera_pose(&boss3_volopt_spawn_pos, &boss3_volopt_spawn_pos, (CameraAngles *)&rotation_x);
         TObjPlayer::freeze_all_players();
         TWindowCtrl::init_all_slots();
         state = 2;
         break;
     case 2:
-        if ((*(u16 *)(get_scripted_camera_playback(timer--) + 2) & 1) || timer < 0) {
+        timer--;
+        if ((get_scripted_camera_playback()->flags & 1) || timer < 0) {
             restore_player_cameras();
             TWindowCtrl::init_all_slots2();
             TObjPlayer__sub_801BA42C();
