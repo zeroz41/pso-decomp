@@ -359,7 +359,7 @@ void TObjChallengeRetry::sub_8007313C() {
     block_4:
     if (has_window_task_root() != 0)
     {
-      ((s32 (*)(void *))play_player_default_effect__6TLobbyFv)((void *) ((u8 *)this));
+      ((TLobby *)this)->play_player_default_effect();
       var_r31 = 1;
       var_r30 = new_var;
       loop_6:
@@ -386,7 +386,7 @@ void TObjChallengeRetry::sub_8007313C() {
           return;
         }
         TLobby::send_45_and_close_windows((void *) ((u8 *)this));
-        ((s32 (*)(void *))play_player_default_effect__6TLobbyFv)((void *) ((u8 *)this));
+        ((TLobby *)this)->play_player_default_effect();
         sub_80072BB0();
         this->state = 3;
       }

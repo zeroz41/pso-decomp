@@ -168,7 +168,6 @@ s32 respond_to_body_contact(u8 *arg0, uaddr arg1, u8 *arg2);
 extern "C" {
 void TObjPlayer__sub_801542F4(saddr a);
 void reset_global_table(void);
-u8 test_elt_flag__13TUnk_80493450Fll(void *arg0, s32 arg1, s32 arg2);
 s32 obj_is_hit_receivable(u8 *arg0);
 void *resolve_hittable_target(u16 actorId, s16 collider);
 u16 register_entity_by_id(void*);
@@ -352,7 +351,7 @@ void *resolve_hittable_target(u16 actorId, s16 collider) {
     if (((TObject *)target)->all_parents_unqueued_for_destruction() == 0 || ((TObjCollidable *)target)->obj_testFlags30(0x04040800) != 0) {
         return NULL;
     }
-    if (((s32 (*)(void *, s32, s32))test_elt_flag__13TUnk_80493450Fll)(target, collider, 1) == 0) {
+    if (((TUnk_80493450 *)target)->test_elt_flag(collider, 1) == 0) {
         return NULL;
     }
     if (obj_is_hit_receivable((u8 *)target) == 0) {

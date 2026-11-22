@@ -1115,10 +1115,10 @@ void init_player_entry__6TLobbyFPvPv(u8 *arg0, u8 *arg1) {
     }
     *(s8 *)((s8 *)arg0 + 0x18) = 0;
     p = ((TLobby *)(arg1 + 0x1C))->build_text_from_comma_list();
-    p = ((void* (*)(void*, void*))parse_csv_token__6TLobbyFPvPv)(p, arg0 + 0x19);
-    p = ((void* (*)(void*, void*))parse_csv_token__6TLobbyFPvPv)(p, arg0 + 0x2A);
-    p = ((void* (*)(void*, void*))parse_csv_token__6TLobbyFPvPv)(p, arg0 + 0x2A);
-    ((void* (*)(void*, void*))parse_csv_token__6TLobbyFPvPv)(p, arg0 + 0x3B);
+    p = TLobby::parse_csv_token(p, arg0 + 0x19);
+    p = TLobby::parse_csv_token(p, arg0 + 0x2A);
+    p = TLobby::parse_csv_token(p, arg0 + 0x2A);
+    TLobby::parse_csv_token(p, arg0 + 0x3B);
 }
 
 void TLobby::remove_com_card_entry(s32 arg0) {

@@ -1063,7 +1063,6 @@ s32 play_weapon_hit_sound(void *);
 void apply_camera_shake__10TObjPlayerFiii(TObjPlayer *player, TObjChara *target, s32 damage);
 u8 * find_entity_by_id(s32);
 s32 TObjPlayer__sub_801AF290(void *p);
-s16 get_handle_value__10TObjPlayerFv();
 s32 is_on_current_floor__10TObjPlayerFi();
 s32 get_trap_type__10TOMineTrapFv(int);
 s32 accumulate_damage_stats_at_76c(s32, s32, s32);
@@ -5069,7 +5068,7 @@ void TObjPlayer::apply_movement_if_ready() {
 void TObjPlayer::update_anim_action() {
     u8 *arg0 = (u8 *)this;
     get_item_field_6(this);
-    if (((s16 (*)(void *))get_handle_value__10TObjPlayerFv)(arg0) != 8) {
+    if (((TObjPlayer *)arg0)->get_handle_value() != 8) {
         if (is_passing_frame(select_normal_attack_marker()) != 0) {
             send_attack_target_packet();
             ((TObjPlayer *)(arg0 + 0x7CC))->increment_strike_counter();

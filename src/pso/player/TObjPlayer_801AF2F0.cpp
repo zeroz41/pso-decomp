@@ -1141,7 +1141,6 @@ void restore_scene_lighting(void);
 void select_actor_lighting(saddr obj);
 void publish_actor_light_scalars(u16, f32, f32);
 void TObjPlayer__sub_8013A748(void *);
-void try_add_target_candidate__11TMainCursorFPvPvPvPv(void *c, void *self, void *owner, void *p);
 u16 get_id__11TMainCursorFv(void* p);
 s32 TMainCursor__sub_80154098(int, int, int);
 s32 TMainCursor__sub_801540B8(int, int, int);
@@ -1818,7 +1817,7 @@ void TObjPlayer__sub_801BBB70(void) {  }
 void TObjPlayer::setup_fresh_player_state(u8 *arg1) {
     this->hp = (s16) this->hpmax;
     this->tp = (s16) this->tpmax;
-    if ((this->obj_isState2_324() != 0) && (((s32 (*)(void))is_lobby_floor_15__15TFontSmallLobbyFv)() == 0) && (TObjPlayer::check_camera_mode() == 0)) {
+    if ((this->obj_isState2_324() != 0) && (TFontSmallLobby::is_lobby_floor_15() == 0) && (TObjPlayer::check_camera_mode() == 0)) {
         deactivate_body_collision();
     }
     if (this->is_android() != 0) {
@@ -1847,7 +1846,7 @@ void TObjPlayer::sub_801BB950() {
       this->set_action_provider_variant((s16)((void *) ((s16) (((VObj_18_9c7036 *)(temp_r3))->m41()))));
     }
   }
-  if ((TObjPlayer::is_locally_controlled(this) != 0) && (((s32 (*)(void))is_lobby_floor_15__15TFontSmallLobbyFv)() == 0))
+  if ((TObjPlayer::is_locally_controlled(this) != 0) && (TFontSmallLobby::is_lobby_floor_15() == 0))
   {
     if (is_current_area_item_enabled() == 0)
     {
@@ -1857,7 +1856,7 @@ void TObjPlayer::sub_801BB950() {
     ((TFontSmallLobby *)(arg0 + 0x4AC))->update_if_ready();
     TObjPlayer::update_photon_blast_state();
   }
-  if (((s32 (*)(void))is_lobby_floor_15__15TFontSmallLobbyFv)() != 0)
+  if (TFontSmallLobby::is_lobby_floor_15() != 0)
   {
     temp_r3_2 = this->m_54c;
     if ((temp_r3_2 != 0U) && (((s32 (*)(int, void *))check_value_equals__13TUnk_804B6C24CFl)((int) temp_r3_2, (void *) TFontSmallLobby__name) != 0))
@@ -2337,7 +2336,7 @@ void handle_6x1F_set_player_floor(void *command) {
             VecCopy((Vec *)m3.vec, (const Vec *)pl->pos);
             m3.ang = pl->ang;
             ((TObjPlayer *)(&m3))->send_player_floor_packet_u32x5();
-            if (((s32 (*)(void))is_lobby_floor_15__15TFontSmallLobbyFv)() != 0) {
+            if (TFontSmallLobby::is_lobby_floor_15() != 0) {
                 ((TObjPlayer *)(&m2))->build_6xAE_set_animation_state_packet();
                 m2.id = get_entity_id(pl);
                 m2.f8 = TObjPlayer__sub_801BEB0C(pl);
@@ -2375,7 +2374,7 @@ void handle_6xAE_set_animation_state(void *command) {
     ((TObjPlayer *)(&m))->bswap_pkt_u16x2_u32x2();
     if (validate_6xAE_set_animation_state(&m) != 0) {
         p = get_player_by_client_id(m.slot);
-        if (p != NULL && ((s32 (*)(void))is_lobby_floor_15__15TFontSmallLobbyFv)() != 0 && ((TObjPlayer *)p)->test_action_mask(0x01000000) == 0 && (m.flags & 0x04000000)) {
+        if (p != NULL && TFontSmallLobby::is_lobby_floor_15() != 0 && ((TObjPlayer *)p)->test_action_mask(0x01000000) == 0 && (m.flags & 0x04000000)) {
             ((TObjPlayer *)p)->set_state_flags(m.flags & 0x1C000000);
             ((TObjPlayer *)p)->run_action_state_phase(0x18, 0);
         }
@@ -3053,7 +3052,7 @@ void handle_6xAC(void *command) {
     ((TObjPlayer *)(&sp8))->byteswap_data();
     if (validate_6xAC((G_ClientIDHeader *)&sp8) != 0) {
         saddr p = ((s32 (*)(s32))get_player_by_client_id)(sp8.f2);
-        if (p != 0 && ((s32 (*)(void))is_lobby_floor_15__15TFontSmallLobbyFv)() == 0) {
+        if (p != 0 && TFontSmallLobby::is_lobby_floor_15() == 0) {
             ((void (*)(void *, void *, s32))dispatch_input__10TObjPlayerFPvii)((void *)p, sp8.f8, sp8.f4);
         }
     }
@@ -3378,7 +3377,7 @@ void rebuild_player_inventory(void *arg0) {
 s32 try_send_6x27_use_item(void *player, s32 arg1) {
     struct S801B7F4C sp8;
     void *temp;
-    if (((s32 (*)(void))is_lobby_floor_15__15TFontSmallLobbyFv)() != 0) {
+    if (TFontSmallLobby::is_lobby_floor_15() != 0) {
         return 0;
     }
     void *node_4064 = ((TPlyItem *)(*(s32 *)((s8 *)player + 0xD00)))->start_inventory_update(arg1);
@@ -4790,7 +4789,7 @@ void submit_target_to_player_cursor(void *target, s32 id) {
         for (i = 0; i < 4; i++) {
             entry = &player->cursor->slots[i];
             if (((TMainCursor *)entry)->get_selected_entry() != 0) {
-                try_add_target_candidate__11TMainCursorFPvPvPvPv(entry, target, player, &player->cursor->f510);
+                TMainCursor::try_add_target_candidate(entry, target, player, &player->cursor->f510);
             }
         }
     }
@@ -4809,7 +4808,7 @@ void submit_cursor_candidate(void *self) {
                 for (j = 0; j < 4; j++) {
                     Cursor_801B4A18 *c = &o->menu->cursors[j];
                     if (((TMainCursor *)c)->get_selected_entry() != 0) {
-                        try_add_target_candidate__11TMainCursorFPvPvPvPv(c, self, o, (u8 *)o->menu + 0x510);
+                        TMainCursor::try_add_target_candidate(c, self, o, (u8 *)o->menu + 0x510);
                     }
                 }
             }
@@ -6087,7 +6086,7 @@ void foreach_player__10TObjPlayerFv(s32 (*arg0)(u32)) {
 s32 reset_volopt_state__10TObjPlayerFv(TObjPlayer *player) { return is_item_area_enabled(player->get_area()); }
 
 void TObjPlayer::play_phase_transition_sound(saddr arg0) {
-    if (((get_main_phase() == 0xE) || (get_main_phase() == 0xF)) && (((s32 (*)(void))is_lobby_floor_15__15TFontSmallLobbyFv)() != 0)) {
+    if (((get_main_phase() == 0xE) || (get_main_phase() == 0xF)) && (TFontSmallLobby::is_lobby_floor_15() != 0)) {
         draw_chunk_object((void *)arg0);
         return;
     }
@@ -7158,7 +7157,7 @@ int TObjPlayer__sub_801AF694(void* p) { return fn_801C543C((char*)p + 0x7c4); }
 u32 TObjPlayer::set_lobby_marker(s32 arg1) {
     u32 temp;
 
-    if (((s32 (*)(void))is_lobby_floor_15__15TFontSmallLobbyFv)() == 0) {
+    if (TFontSmallLobby::is_lobby_floor_15() == 0) {
         return 0U;
     }
     temp = *(u32 *)((s8 *)this + 0x3B8);
