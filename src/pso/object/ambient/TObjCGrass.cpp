@@ -10,6 +10,7 @@
 #include "pso/system/BmlResourceLoad.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/system/vector.h"
+#include "pso/enemy/wolf/TObjEneBm5Wolf.h"
 
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/unk/TLobby.h"
@@ -45,7 +46,7 @@ TObjMotionAction cgrass_action_desc[1] = {{1, 0, 0, 4.0f, 1}};
 const char *TObjCGrass__name = "TObjCGrass";
 const NpcAnimationBinding cgrass_anim_binding = {NULL, cgrass_action_desc, 0, 0, 1};
 
-void* fn_800B8B00(void* p) { return (char*)p + 0x3e8; }
+Vec *TObjEneBm5Wolf::get_spawn_position() { return &spawn_position; }
 
 void TObjCGrass::render() {
     s32 i;

@@ -219,8 +219,6 @@ Vec dark_gunner_child_local_offsets[4] = {
 
 TObjEneDarkGunnerBehaviorParams *TObjEneDarkGunner__behavior_params;
 
-extern f32 player_scale_factor;
-
 extern BmlResource *TObjEneDarkGunner__bml_resource;
 
 extern uaddr TObjEneDarkGunner__effect_resource;
@@ -277,7 +275,7 @@ extern "C" {
 
 void load_darkgunner_effect_resources();
 
-f32 player_scale_factor;
+f32 dark_gunner_shot_speed;
 
 BmlResource *TObjEneDarkGunner__bml_resource; // bm_ene_darkgunner.bml
 
@@ -1149,7 +1147,7 @@ void TObjEneDarkGunner::update_return_home() {
 }
 
 void TObjEneDarkGunner::load_params() {
-    player_scale_factor = get_float_parameter(3);
+    dark_gunner_shot_speed = get_float_parameter(3);
 }
 }
 

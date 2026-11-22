@@ -768,7 +768,7 @@ void TObjEneBm5Wolf::anchor_state(s32 event) {
         if ((this->is_leader != 0) || (leader == 0)) {
             VecCopy(&this->group_anchor, (const Vec *)&this->spawn_position);
         } else {
-            VecCopy(&this->group_anchor, (const Vec *)(fn_800B8B00(leader)));
+            VecCopy(&this->group_anchor, leader->get_spawn_position());
         }
         this->state_timer = (this->state_timer + 1);
         break;

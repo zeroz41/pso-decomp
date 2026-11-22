@@ -19,8 +19,6 @@
 #include "pso/system/vector.h"
 #include "pso/unk/text_800870BC.h"
 
-extern f32 player_scale_factor;
-
 CollisionBody dark_gunner_shot_collision_body[] = {
     {{0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f}
 };
@@ -82,7 +80,7 @@ TUnk_804909C4::~TUnk_804909C4() {
 TUnk_804909C4::TUnk_804909C4(u8 *owner, saddr start, saddr target) : TObjCollidable(tl_04) {
     CsnHit *wall;
     init_collision_body_parts(this, dark_gunner_shot_collision_body, 1);
-    bodies->radius = 0.75f * player_scale_factor;
+    bodies->radius = 0.75f * dark_gunner_shot_speed;
     owner_id = get_entity_id((TObjBase *)owner);
     trail_particle_id = ((TObjEneDarkGunner *)owner)->is_death_gunner() != 0 ? 0xDA : 0xD5;
     room = ((TObjBase *)owner)->room;
@@ -90,7 +88,7 @@ TUnk_804909C4::TUnk_804909C4(u8 *owner, saddr start, saddr target) : TObjCollida
     VecCopy(&velocity, (const Vec *)target);
     subtract_vector(&velocity, (const Vec *)start);
     velocity.y = 0.0f;
-    vec_set_length(&velocity, player_scale_factor);
+    vec_set_length(&velocity, dark_gunner_shot_speed);
     trail_rotation[0] = 0;
     trail_rotation[1] = (s32)(RADIANS_TO_ANGLE * atan2_float(velocity.x, velocity.z)) + 0x4000;
     trail_rotation[2] = 0x4000;
@@ -102,8 +100,8 @@ TUnk_804909C4::TUnk_804909C4(u8 *owner, saddr start, saddr target) : TObjCollida
         wall = csnVector(&position, &end, -1);
     }
     if (wall != NULL) {
-        lifetime = (s32)(vec_xz_distance(&position, &wall->contact->point) / player_scale_factor);
+        lifetime = (s32)(vec_xz_distance(&position, &wall->contact->point) / dark_gunner_shot_speed);
     } else {
-        lifetime = (s32)(500.0f / player_scale_factor);
+        lifetime = (s32)(500.0f / dark_gunner_shot_speed);
     }
 }

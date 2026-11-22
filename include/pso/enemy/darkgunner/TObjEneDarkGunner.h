@@ -10,7 +10,7 @@ class TeneFakeTecThunderEff;
 
 // The record TLobby::dispatch_shared_handler_a(30) returns (TObjEneDarkGunner__behavior_params).
 struct TObjEneDarkGunnerBehaviorParams {
-    f32 float_params[6]; // get_float_parameter: 0 move speed, 1 move distance, 2 damage limit, 3 player_scale_factor
+    f32 float_params[6]; // get_float_parameter: 0 move speed, 1 move distance, 2 damage limit, 3 dark_gunner_shot_speed
     s32 int_params[4];   // get_int_parameter: 0 attack timer, 1 hide timer, 2 bodies->unk_28 while behavior_flags bit 22, 3 TUnk_804909C4 t.b
 };
 
@@ -49,7 +49,7 @@ struct TObjEneDarkGunner : public TObjEnemyCustom {
     static void cleanup_effects();
     static f32 get_float_parameter(s32 index); // f32 entries of the gunner's behavior params
     static s32 get_int_parameter(s32 index); // its s32 entries, from +0x18
-    void load_params();     // player_scale_factor from float param 3
+    void load_params();     // dark_gunner_shot_speed from float param 3
     void run_demo_task();
     void clear_state7_flag(); // empty here; the hook TObjEneDubchik::clear_state7_flag fills
     void become_death_gunner(); // the gun center's selected gunner: behavior_flags bit 26, param 0x23
@@ -79,4 +79,7 @@ struct TObjEneDarkGunner : public TObjEnemyCustom {
 extern "C" const char *TObjEneDarkGunner__class_name;
 
 LAYOUT_ASSERT(DarkGunnerSize, sizeof(TObjEneDarkGunner)==0x42C);
+// The shot speed per frame (float param 3, set by load_params); the shot (TUnk_804909C4) moves by it.
+extern f32 dark_gunner_shot_speed;
+
 #endif
