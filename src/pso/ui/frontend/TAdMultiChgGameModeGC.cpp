@@ -32,7 +32,7 @@ s32 lbl_805D69E8;
 }
 s32 is_multiplayer_character_slot_selected(s32 arg0);
 extern "C" {
-s32 TAdMultiPlyChrSelectGC__sub_802C658C(s32 arg0);
+s32 TAdMultiPlyChrSelectGC__get_multiplayer_character_slot(s32 arg0);
 const char *TAdMultiChgGameModeGC__name = "TAdMultiChgGameModeGC";
 
 static const Txt_802FFE58 multi_chg_game_mode_text_layout = { { { -1, 223.0f, 169.0f }, { -1, 193.0f, 221.0f }, { -1, 163.0f, 273.0f } } };
@@ -47,7 +47,7 @@ s32 TAdMultiChgGameModeGC::check_players_ready(void * _w0) {
 
     var_r31 = 0U;
 loop_1:
-    if ((is_multiplayer_character_slot_selected(var_r31) != 0) && (TAdMultiPlyChrSelectGC__sub_802C658C(var_r31) > 3)) {
+    if ((is_multiplayer_character_slot_selected(var_r31) != 0) && (TAdMultiPlyChrSelectGC__get_multiplayer_character_slot(var_r31) > 3)) {
         return 1;
     }
     var_r31 += 1;

@@ -62,7 +62,7 @@ void TAdSelectGameModeGC__sub_802C478C(void) {
             TAdSelectGameModeGC::enable_camera();
             return;
         case 1:
-            ((s32)TAdMultiPlyChrSelectGC__sub_802C6558());
+            ((s32)TAdMultiPlyChrSelectGC__count_selected_slots());
             free_sub_ctrls__19TAdSelectGameModeGCFv();
             return;
         }

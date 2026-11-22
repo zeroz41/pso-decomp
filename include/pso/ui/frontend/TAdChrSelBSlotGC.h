@@ -17,7 +17,7 @@ struct G_8030E3BC;
 struct TAdChrSelBSlotGC : public TObject {
     TAdChrSelBSlotGC(TObject *parent);
     virtual ~TAdChrSelBSlotGC();
-    void sub_8030FE04();
+    void clear_all_fields();
     virtual void render();
     virtual void run_task();
     // state, prev_state, state_frames: names inferred from run_task (same layout as TAdChrSelASlotGC)
@@ -26,8 +26,8 @@ struct TAdChrSelBSlotGC : public TObject {
     s32 state_frames; // 0x24
     void create_children();
     static void render(void *self);
-    s32 is_slot_state_one(u32 i);
-    G_8030E3BC *sub_8030E3BC(s32 index, s32 slot, void *pos);
+    s32 is_character_transferred(u32 i);
+    G_8030E3BC *build_slot_entry(s32 index, s32 slot, void *pos);
     void sub_8030E458();
     void set_load_state();
     void init();
@@ -41,24 +41,24 @@ struct TAdChrSelBSlotGC : public TObject {
     s32 is_state_closing();
     void enter_state17();
     void sub_8030E620();
-    void sub_8030E624();
+    void populate_slot_entries();
     void reset_plate_positions();
-    void sub_8030E768();
-    void sub_8030E824();
-    void sub_8030E8E0();
-    void sub_8030E99C();
-    void sub_8030EA58();
-    void sub_8030EB14();
-    void sub_8030EBD0();
+    void show_pso12_character_message();
+    void show_character_data_corrupt_message();
+    void show_no_system_file_message();
+    void show_system_file_corrupt_message();
+    void show_no_character_data_message();
+    void show_character_file_corrupt_message();
+    void wait_format_failed_dismiss();
     void check_cancel_and_close();
     void update_slot_state();
     void update_card_select();
-    void sub_8030EF74();
+    void show_not_formatted_message();
     void update_card_confirm();
-    void sub_8030F13C();
-    void sub_8030F228();
-    void sub_8030F2E4();
-    void sub_8030F3A0();
+    void show_format_prompt();
+    void show_card_damaged_message();
+    void show_card_incompatible_message();
+    void show_unsupported_device_message();
     void close_windows();
     void reset_windows();
     static TAdChrSelBSlotGC *create(void *arg0);

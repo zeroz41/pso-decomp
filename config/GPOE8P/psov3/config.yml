@@ -126,13 +126,13 @@ force_active:
   - TAdBackTxtGC_backtext_tex_list
   - TAdChrMoveEffectGC__class_name
   - TAdChrMoveEffectGC__sub_80349194
-  - sub_8030C45C__16TAdChrSelASlotGCFllPv
-  - sub_8030E3BC__16TAdChrSelBSlotGCFllPv
-  - sub_8030EF74__16TAdChrSelBSlotGCFv
-  - sub_8030F13C__16TAdChrSelBSlotGCFv
-  - sub_8030F228__16TAdChrSelBSlotGCFv
-  - sub_8030F2E4__16TAdChrSelBSlotGCFv
-  - sub_8030F3A0__16TAdChrSelBSlotGCFv
+  - build_slot_entry__16TAdChrSelASlotGCFllPv
+  - build_slot_entry__16TAdChrSelBSlotGCFllPv
+  - show_not_formatted_message__16TAdChrSelBSlotGCFv
+  - show_format_prompt__16TAdChrSelBSlotGCFv
+  - show_card_damaged_message__16TAdChrSelBSlotGCFv
+  - show_card_incompatible_message__16TAdChrSelBSlotGCFv
+  - show_unsupported_device_message__16TAdChrSelBSlotGCFv
   - TAdChrSelSlotGC__name
   - sub_802C754C__15TAdChrSelSlotGCFl
   - TAdDialingGC__sub_803284F8
@@ -16378,9 +16378,9 @@ force_active:
   - sub_8030CBD0__16TAdChrSelASlotGCFv
   - sub_8030CBD4__16TAdChrSelASlotGCFv
   - sub_8030CCE0__16TAdChrSelASlotGCFv
-  - sub_8030CCE4__16TAdChrSelASlotGCFv
-  - sub_8030CEEC__16TAdChrSelASlotGCFv
-  - sub_8030D5DC__16TAdChrSelASlotGCFv
+  - populate_slot_entries__16TAdChrSelASlotGCFv
+  - push_plate_positions__16TAdChrSelASlotGCFv
+  - show_no_card_message__16TAdChrSelASlotGCFv
   - sub_803152A0__15TObjEneDelDepthFv
   - sub_803152C0__15TObjEneDelDepthFv
   - sub_80319E74__18TObjEneMe3SinowZoaFl

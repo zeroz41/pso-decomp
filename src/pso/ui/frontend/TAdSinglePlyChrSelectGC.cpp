@@ -290,7 +290,7 @@ void TAdSinglePlyChrSelectGC::handle_menu_selection() {
             return;
         case 3:
             ((TWindowOptionCtrl *)(*(saddr *)&this->unk_38))->open();
-            *(TWindowMessageYesNo **)&this->unk_50 = ((TAdChrSelASlotGC *)this->m_28)->sub_8030C978((saddr)&single_chr_select_message_pos, 0);
+            *(TWindowMessageYesNo **)&this->unk_50 = ((TAdChrSelASlotGC *)this->m_28)->open_replace_character_prompt((saddr)&single_chr_select_message_pos, 0);
             *(s32 *)&this->m_20 = 0xA;
             return;
         }
@@ -362,7 +362,7 @@ void TAdSinglePlyChrSelectGC::handle_slot_selection() {
         load_tables();
         reinterpret_cast<TAdSelectCurGC *>((*(saddr *)&this->m_2c))->selection_index();
         if (is_slot_active__23TAdSinglePlyChrSelectGCFUi() != 0) {
-            if (((TAdChrSelASlotGC *)this->m_28)->sub_8030C3C0((u32)(reinterpret_cast<TAdSelectCurGC *>((*(saddr *)&this->m_2c))->selection_index())) != 0) {
+            if (((TAdChrSelASlotGC *)this->m_28)->is_character_transferred((u32)(reinterpret_cast<TAdSelectCurGC *>((*(saddr *)&this->m_2c))->selection_index())) != 0) {
                 this->m_54 = (uaddr)new TAdFadeGC(tl_fade, NULL);
                 *(u32 *)&this->unk_48 = ((TAdChrSelASlotGC *)this->m_28)->open_yes_no_window((saddr)&single_chr_select_yes_no_pos, 0);
                 *(s32 *)&this->m_20 = 7;
@@ -372,7 +372,7 @@ void TAdSinglePlyChrSelectGC::handle_slot_selection() {
             *(s32 *)&this->m_20 = 6;
             return;
         }
-        this->m_44 = (saddr)((TAdChrSelASlotGC *)this->m_28)->sub_8030CA84((saddr)&single_chr_select_slot_message_pos);
+        this->m_44 = (saddr)((TAdChrSelASlotGC *)this->m_28)->open_create_character_prompt((saddr)&single_chr_select_slot_message_pos);
         *(s32 *)&this->m_20 = 8;
     }
 }
@@ -446,7 +446,7 @@ void TAdSinglePlyChrSelectGC::sub_802D4730() {
         temp_r0 = *(s32 *)((s8 *)arg0 + 0x1C) + 1;
         *(s32 *)((s8 *)arg0 + 0x1C) = temp_r0;
         if ((temp_r0 > 0xA) && ((u32) *(u32 *)((s8 *)arg0 + 0x40) == 0U)) {
-            *(TWindowBase **)((s8 *)arg0 + 0x40) = ((TAdChrSelASlotGC *)(*(saddr *)((s8 *)arg0 + 0x28)))->sub_8030CB08(0, 0x18);
+            *(TWindowBase **)((s8 *)arg0 + 0x40) = ((TAdChrSelASlotGC *)(*(saddr *)((s8 *)arg0 + 0x28)))->create_slot_message_window(0, 0x18);
         }
     }
 }
@@ -478,7 +478,7 @@ void TAdSinglePlyChrSelectGC::sub_802D486C() {
         temp_r0 = *(s32 *)((s8 *)arg0 + 0x1C) + 1;
         *(s32 *)((s8 *)arg0 + 0x1C) = temp_r0;
         if ((temp_r0 > 0xA) && (*(u32 *)((s8 *)arg0 + 0x3C) == 0U)) {
-            *(TWindowBase **)((s8 *)arg0 + 0x3C) = ((TAdChrSelASlotGC *)(*(saddr *)((s8 *)arg0 + 0x28)))->sub_8030CB08(0, 0x16);
+            *(TWindowBase **)((s8 *)arg0 + 0x3C) = ((TAdChrSelASlotGC *)(*(saddr *)((s8 *)arg0 + 0x28)))->create_slot_message_window(0, 0x16);
         }
     }
 }

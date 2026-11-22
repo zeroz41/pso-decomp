@@ -58,8 +58,8 @@ extern u8 player_number_text_buffer[];
 
 s32 is_multiplayer_character_slot_selected(s32 arg0);
 extern "C" {
-s32 TAdMultiPlyChrSelectGC__sub_802C6558();
-s32 TAdMultiPlyChrSelectGC__sub_802C658C(s32 arg0);
+s32 TAdMultiPlyChrSelectGC__count_selected_slots();
+s32 TAdMultiPlyChrSelectGC__get_multiplayer_character_slot(s32 arg0);
 }
 
 u8 player_number_text_buffer[0x80];
@@ -95,7 +95,7 @@ struct Stack_802DDF40 {
 };
 
 extern "C" {
-saddr TAdMultiPlyChrSelectGC__sub_802C6920(void);
+saddr TAdMultiPlyChrSelectGC__get_last_selected_player(void);
 u32 __ct__9TAdFadeGCFP7TObjectPv(u32, TObject *, s32);
 s32 *TAdSinglePlyChrSelectGC__sub_801FE3E4(u32 i);
 s32 TAdSinglePlyChrSelectGC__sub_801FE800(u32 i);
@@ -111,8 +111,8 @@ struct Stack_802DE7D0 {
 extern "C" {
 s32 *TAdSinglePlyChrSelectGC__sub_801FE4BC(u32 i);
 s32 is_slot_active__23TAdSinglePlyChrSelectGCFUi(u32 arg0);
-void TAdMultiPlyChrSelectGC__sub_802C561C(TAdChrSelPlyPlateGC *);
-void TAdMultiPlyChrSelectGC__sub_802C5688(TAdChrSelPlyPlateGC *);
+void TAdChrSelPlyPlateGC__start_selected_slot_anim(TAdChrSelPlyPlateGC *);
+void TAdChrSelPlyPlateGC__select_slot_at_cursor(TAdChrSelPlyPlateGC *);
 extern s32 lbl_80472850[];
 extern s32 lbl_80472858[];
 s32 destroy_windows__14TAdGameStartGCFPv(s32);
@@ -120,7 +120,7 @@ void clear_slot_body__23TAdSinglePlyChrSelectGCFi(s32 i);
 struct MultiPlayChrSelectSlotPositions { s32 value; u8 remaining[0x14]; };
 
 extern MultiPlayChrSelectSlotPositions multi_play_chr_select_slot_positions;
-s32 TAdMultiPlyChrSelectGC__sub_802C6848(s32);
+s32 TAdMultiPlyChrSelectGC__is_controller_connected(s32);
 }
 
 struct I2_802DF9B4 { s32 a, b; };
@@ -312,7 +312,7 @@ void TAdMultiPlyChrSelectGC::handle_event(s32 arg1) {
 
     switch (arg1) {
     case 10:
-        temp_r3 = (void *)TAdMultiPlyChrSelectGC__sub_802C6920();
+        temp_r3 = (void *)TAdMultiPlyChrSelectGC__get_last_selected_player();
         TAdMultiPlyChrSelectGC::split_slot_index((saddr)temp_r3, &sp14, &sp10);
         TAdMultiPlyChrSelectGC::init();
         player_plate->set_cursor_column(sp14);
@@ -320,8 +320,8 @@ void TAdMultiPlyChrSelectGC::handle_event(s32 arg1) {
         this->m_9c = 1;
         return;
     case 4:
-        if (is_slot_active__23TAdSinglePlyChrSelectGCFUi(TAdMultiPlyChrSelectGC__sub_802C658C(TAdMultiPlyChrSelectGC__sub_802C6920())) == 0) {
-            temp_r3 = (void *)TAdMultiPlyChrSelectGC__sub_802C6920();
+        if (is_slot_active__23TAdSinglePlyChrSelectGCFUi(TAdMultiPlyChrSelectGC__get_multiplayer_character_slot(TAdMultiPlyChrSelectGC__get_last_selected_player())) == 0) {
+            temp_r3 = (void *)TAdMultiPlyChrSelectGC__get_last_selected_player();
             TAdMultiPlyChrSelectGC::split_slot_index((saddr)temp_r3, &spC, &sp8);
             TAdMultiPlyChrSelectGC::init();
             player_plate->set_cursor_column(spC);
@@ -369,7 +369,7 @@ void TAdMultiPlyChrSelectGC::create_widgets() {
     NJS_POINT2 v = lbl_80472848[0];
     v.x = multi_chr_select_widget_layout[0].x;
     v.y = multi_chr_select_widget_layout[0].y;
-    player_plate = fn_802C6F20(tl_02, (vec2f *)&v);
+    player_plate = TAdChrSelPlyPlateGC__create_singleton(tl_02, (vec2f *)&v);
     TAdMultiPlyChrSelectGC::get_move_effect((saddr)tl_clipout);
 }
 
@@ -377,7 +377,7 @@ void TAdMultiPlyChrSelectGC::run_task() {
     TAdMultiPlyChrSelectGC *self = this;
     TAdMultiChgGameModeGC::set_default_camera();
     self->m_3c = 1;
-    if (self->mode != 1 && TAdMultiPlyChrSelectGC__sub_802C6848(0) == 0) {
+    if (self->mode != 1 && TAdMultiPlyChrSelectGC__is_controller_connected(0) == 0) {
         self->m_3c = 0;
         self->guide->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x1F, 0xB)));
         self->guide->set_line(1, "");
@@ -390,10 +390,10 @@ void TAdMultiPlyChrSelectGC::run_task() {
         case 0:
         case 2:
             if (self->state >= 0xC && self->state < 0x19) {
-                if (TAdMultiPlyChrSelectGC__sub_802C6558() > 0) {
+                if (TAdMultiPlyChrSelectGC__count_selected_slots() > 0) {
                     if (self->m_40 == 0) {
-                        if (TAdMultiPlyChrSelectGC__sub_802C6848(TAdMultiPlyChrSelectGC__sub_802C6920()) != 0) {
-                            self->guide->set_line(0, reinterpret_cast<const char *>(TAdMultiPlyChrSelectGC::format_player_number_text((saddr)self, (s32)(TAdMultiPlyChrSelectGC__sub_802C6920()))));
+                        if (TAdMultiPlyChrSelectGC__is_controller_connected(TAdMultiPlyChrSelectGC__get_last_selected_player()) != 0) {
+                            self->guide->set_line(0, reinterpret_cast<const char *>(TAdMultiPlyChrSelectGC::format_player_number_text((saddr)self, (s32)(TAdMultiPlyChrSelectGC__get_last_selected_player()))));
                             self->guide->set_line(1, "");
                         } else {
                             self->guide->set_line(0, "");
@@ -410,7 +410,7 @@ void TAdMultiPlyChrSelectGC::run_task() {
                     self->guide->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x1F, 0xD)));
                     self->guide->set_line(1, reinterpret_cast<const char *>(get_localized_text_entry(0x1F, 0xE)));
                 }
-            } else if (self->state >= 3 && TAdMultiPlyChrSelectGC__sub_802C6848(TAdMultiPlyChrSelectGC::get_clamped_cursor()) != 0) {
+            } else if (self->state >= 3 && TAdMultiPlyChrSelectGC__is_controller_connected(TAdMultiPlyChrSelectGC::get_clamped_cursor()) != 0) {
                 if (self->m_40 == 0) {
                     self->sub_802DC118(TAdMultiPlyChrSelectGC::get_clamped_cursor());
                 } else {
@@ -517,7 +517,7 @@ void TAdMultiPlyChrSelectGC::update_state_serial() {
             this->state = 0x1B;
             return;
         }
-        if (TAdMultiPlyChrSelectGC__sub_802C6558() < 1) {
+        if (TAdMultiPlyChrSelectGC__count_selected_slots() < 1) {
             play_sound_effect(0x52F16, 0, 0, 0);
             this->state = 0x1B;
             return;
@@ -539,7 +539,7 @@ block_19:
 void TAdMultiPlyChrSelectGC::sub_802DEDA8() {
     s32 var_r30;
     ((TAdMultiPlyChrSelectGC *)(*(saddr *)((s8 *)this + 0x60)))->set_index_and_close_status(0);
-    if ((TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[0], 2) != 0) && (TAdMultiPlyChrSelectGC::get_chr_select_state() == 0) && (TAdMultiPlyChrSelectGC__sub_802C6558() < 1)) {
+    if ((TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[0], 2) != 0) && (TAdMultiPlyChrSelectGC::get_chr_select_state() == 0) && (TAdMultiPlyChrSelectGC__count_selected_slots() < 1)) {
         play_sound_effect(0x52F16, 0, 0, 0);
         this->state = 0x1B;
         return;
@@ -550,29 +550,29 @@ void TAdMultiPlyChrSelectGC::sub_802DEDA8() {
         return;
     }
     player_plate->reset_cursor_state();
-    TAdMultiPlyChrSelectGC__sub_802C5A44(player_plate, &TAdMultiPlyChrSelectGC__character_slot_positions.value, 0);
-    TAdMultiPlyChrSelectGC__sub_802C5A44(player_plate, (void *) ((u8 *)&TAdMultiPlyChrSelectGC__character_slot_positions.value + 8), 0);
-    TAdMultiPlyChrSelectGC__sub_802C5A44(player_plate, (void *) ((u8 *)&TAdMultiPlyChrSelectGC__character_slot_positions.value + 0x10), 0);
-    TAdMultiPlyChrSelectGC__sub_802C5A44(player_plate, (void *) ((u8 *)&TAdMultiPlyChrSelectGC__character_slot_positions.value + 0x18), 0);
-    TAdMultiPlyChrSelectGC__sub_802C5A44(player_plate, &multi_play_chr_select_slot_positions.value, 1);
-    TAdMultiPlyChrSelectGC__sub_802C5A44(player_plate, (void *) ((u8 *)&multi_play_chr_select_slot_positions.value + 8), 1);
-    TAdMultiPlyChrSelectGC__sub_802C5A44(player_plate, (void *) ((u8 *)&multi_play_chr_select_slot_positions.value + 0x10), 1);
+    TAdChrSelPlyPlateGC__add_slot_position(player_plate, &TAdMultiPlyChrSelectGC__character_slot_positions.value, 0);
+    TAdChrSelPlyPlateGC__add_slot_position(player_plate, (void *) ((u8 *)&TAdMultiPlyChrSelectGC__character_slot_positions.value + 8), 0);
+    TAdChrSelPlyPlateGC__add_slot_position(player_plate, (void *) ((u8 *)&TAdMultiPlyChrSelectGC__character_slot_positions.value + 0x10), 0);
+    TAdChrSelPlyPlateGC__add_slot_position(player_plate, (void *) ((u8 *)&TAdMultiPlyChrSelectGC__character_slot_positions.value + 0x18), 0);
+    TAdChrSelPlyPlateGC__add_slot_position(player_plate, &multi_play_chr_select_slot_positions.value, 1);
+    TAdChrSelPlyPlateGC__add_slot_position(player_plate, (void *) ((u8 *)&multi_play_chr_select_slot_positions.value + 8), 1);
+    TAdChrSelPlyPlateGC__add_slot_position(player_plate, (void *) ((u8 *)&multi_play_chr_select_slot_positions.value + 0x10), 1);
     player_plate->set_cursor_fields(0, 1);
     var_r30 = 0;
     do {
         if (is_multiplayer_character_slot_selected(var_r30) != 0) {
-            if (is_slot_active__23TAdSinglePlyChrSelectGCFUi(TAdMultiPlyChrSelectGC__sub_802C658C(var_r30)) == 0) {
+            if (is_slot_active__23TAdSinglePlyChrSelectGCFUi(TAdMultiPlyChrSelectGC__get_multiplayer_character_slot(var_r30)) == 0) {
                 TAdMultiPlyChrSelectGC::reset_slot_selections();
             }
         }
         var_r30 += 1;
     } while (var_r30 < 4);
-    TAdMultiPlyChrSelectGC__sub_802C6660(player_plate);
+    TAdChrSelPlyPlateGC__show_selected_slot_tags(player_plate);
     this->state = 3;
 }
 
 void TAdMultiPlyChrSelectGC::update_button_input() {
-    if ((TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[0], 2) != 0) && (TAdMultiPlyChrSelectGC::get_chr_select_state() == 0) && (TAdMultiPlyChrSelectGC__sub_802C6558() < 1)) {
+    if ((TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[0], 2) != 0) && (TAdMultiPlyChrSelectGC::get_chr_select_state() == 0) && (TAdMultiPlyChrSelectGC__count_selected_slots() < 1)) {
         play_sound_effect(0x52F16, 0, 0, 0);
         this->state = 0x1B;
         return;
@@ -582,7 +582,7 @@ void TAdMultiPlyChrSelectGC::update_button_input() {
         this->state = 0;
         return;
     }
-    if (TAdMultiPlyChrSelectGC__sub_802C6848(0) == 0) {
+    if (TAdMultiPlyChrSelectGC__is_controller_connected(0) == 0) {
         if (this->guide_state != 0) {
             this->guide_state = 0;
             guide->set_line(0, reinterpret_cast<const char *>((get_localized_text_entry(0x1F, 0xB))));
@@ -627,15 +627,15 @@ void TAdMultiPlyChrSelectGC::sub_802DE7D0() {
         ((TObject *)(*(void **)((s8 *)this + 0x74)))->queue_destruction();
         this->m_74 = 0U;
     }
-    if (TAdMultiPlyChrSelectGC__sub_802C6558() > 0) {
-        var_r3 = TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[TAdMultiPlyChrSelectGC__sub_802C6920()], 2);
+    if (TAdMultiPlyChrSelectGC__count_selected_slots() > 0) {
+        var_r3 = TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[TAdMultiPlyChrSelectGC__get_last_selected_player()], 2);
     } else {
         var_r3 = TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[((s32)TAdMultiPlyChrSelectGC::get_clamped_cursor())], 2);
     }
     if (var_r3 != 0) {
         play_sound_effect(0x52F16, 0, 0, 0);
-        if (TAdMultiPlyChrSelectGC__sub_802C6558() > 0) {
-            TAdMultiPlyChrSelectGC::split_slot_index(TAdMultiPlyChrSelectGC__sub_802C6920(), &stack.spC, &stack.sp8);
+        if (TAdMultiPlyChrSelectGC__count_selected_slots() > 0) {
+            TAdMultiPlyChrSelectGC::split_slot_index(TAdMultiPlyChrSelectGC__get_last_selected_player(), &stack.spC, &stack.sp8);
             TAdMultiPlyChrSelectGC::init();
             player_plate->set_cursor_column(stack.spC);
             player_plate->set_active_card_slot(stack.sp8);
@@ -647,8 +647,8 @@ void TAdMultiPlyChrSelectGC::sub_802DE7D0() {
     } else {
         var_r30 = 0;
         do {
-            if ((is_multiplayer_character_slot_selected(var_r30) != 0) && (TAdMultiPlyChrSelectGC__sub_802C6848(var_r30) == 0)) {
-                TAdMultiPlyChrSelectGC__sub_802C65C0(var_r30);
+            if ((is_multiplayer_character_slot_selected(var_r30) != 0) && (TAdMultiPlyChrSelectGC__is_controller_connected(var_r30) == 0)) {
+                TAdMultiPlyChrSelectGC__deselect_slot(var_r30);
             }
             var_r30 += 1;
         } while (var_r30 < 4);
@@ -678,7 +678,7 @@ void TAdMultiPlyChrSelectGC::sub_802DE7D0() {
                     play_sound_effect(0x52D01, 0, 0, 0);
                     player_plate->capture_card_index();
                     player_plate->restore_selection();
-                    TAdMultiPlyChrSelectGC__sub_802C5688(player_plate);
+                    TAdChrSelPlyPlateGC__select_slot_at_cursor(player_plate);
                     if (this->a_slot != NULL) {
                         this->a_slot->queue_destruction();
                         this->a_slot = NULL;
@@ -691,7 +691,7 @@ void TAdMultiPlyChrSelectGC::sub_802DE7D0() {
                 return;
             }
             if (is_slot_active__23TAdSinglePlyChrSelectGCFUi(temp_r30) != 0) {
-                if (this->a_slot->sub_8030C3C0(player_plate->get_active_card_slot()) != 0) {
+                if (this->a_slot->is_character_transferred(player_plate->get_active_card_slot()) != 0) {
                     var_r0 = reinterpret_cast<uaddr>(TObject::operator new(0x38));
                     if (var_r0 != 0U) {
                         var_r0 = __ct__9TAdFadeGCFP7TObjectPv(var_r0, tl_fade, 0);
@@ -702,22 +702,22 @@ void TAdMultiPlyChrSelectGC::sub_802DE7D0() {
                     return;
                 }
                 play_sound_effect(0x52D01, 0, 0, 0);
-                TAdMultiPlyChrSelectGC__sub_802C561C(player_plate);
-                TAdMultiPlyChrSelectGC__sub_802C5688(player_plate);
+                TAdChrSelPlyPlateGC__start_selected_slot_anim(player_plate);
+                TAdChrSelPlyPlateGC__select_slot_at_cursor(player_plate);
                 this->state = 0x19;
                 return;
             }
-            *(TWindowMessageYesNo **)((s8 *)this + 0x90) = this->a_slot->sub_8030CA84((saddr)lbl_80472858);
+            *(TWindowMessageYesNo **)((s8 *)this + 0x90) = this->a_slot->open_create_character_prompt((saddr)lbl_80472858);
             this->state = 4;
             return;
         }
-        if ((player_plate->get_field_0x530() != 0) && (TAdMultiPlyChrSelectGC__sub_802C6558() > 1) && (is_multiplayer_character_slot_selected(0) != 0)) {
+        if ((player_plate->get_field_0x530() != 0) && (TAdMultiPlyChrSelectGC__count_selected_slots() > 1) && (is_multiplayer_character_slot_selected(0) != 0)) {
             this->next_state = 0x1C;
             this->state = 0x1A;
             this->exit_action = 1;
             return;
         }
-        if ((TAdMultiPlyChrSelectGC::count_ready() == TAdMultiPlyChrSelectGC__sub_802C6558()) && (is_multiplayer_character_slot_selected(0) != 0) && (TAdMultiPlyChrSelectGC__sub_802C6558() > 1)) {
+        if ((TAdMultiPlyChrSelectGC::count_ready() == TAdMultiPlyChrSelectGC__count_selected_slots()) && (is_multiplayer_character_slot_selected(0) != 0) && (TAdMultiPlyChrSelectGC__count_selected_slots() > 1)) {
             this->next_state = 0x1C;
             this->state = 0x1A;
             this->exit_action = 1;
@@ -732,7 +732,7 @@ void TAdMultiPlyChrSelectGC::update_card_confirm() {
         this->state = 0;
         return;
     }
-    if (TAdMultiPlyChrSelectGC__sub_802C6848(TAdMultiPlyChrSelectGC::get_clamped_cursor()) == 0) {
+    if (TAdMultiPlyChrSelectGC__is_controller_connected(TAdMultiPlyChrSelectGC::get_clamped_cursor()) == 0) {
         player_plate->set_state_ready();
         this->state = 3;
         return;
@@ -750,8 +750,8 @@ void TAdMultiPlyChrSelectGC::update_card_confirm() {
             return;
         case 0:
             play_sound_effect(0x52D01, 0, 0, 0);
-            TAdMultiPlyChrSelectGC__sub_802C561C(player_plate);
-            TAdMultiPlyChrSelectGC__sub_802C5688(player_plate);
+            TAdChrSelPlyPlateGC__start_selected_slot_anim(player_plate);
+            TAdChrSelPlyPlateGC__select_slot_at_cursor(player_plate);
             lbl_805D68C8 = 1;
             if ((u32) *(u32 *)((s8 *)this + 0x90) != 0U) {
                 ((TWindowSubComCard *)(*(void **)((s8 *)this + 0x90)))->close();
@@ -773,7 +773,7 @@ void TAdMultiPlyChrSelectGC::update_state_option() {
         this->state = 0;
         return;
     }
-    if (TAdMultiPlyChrSelectGC__sub_802C6848(TAdMultiPlyChrSelectGC::get_clamped_cursor()) == 0) {
+    if (TAdMultiPlyChrSelectGC__is_controller_connected(TAdMultiPlyChrSelectGC::get_clamped_cursor()) == 0) {
         player_plate->set_state_ready();
         this->state = 3;
         return;
@@ -788,15 +788,15 @@ void TAdMultiPlyChrSelectGC::update_state_option() {
         switch (selected_menu_value) {
         case 0:
             play_sound_effect(0x52D01, 0, 0, 0);
-            TAdMultiPlyChrSelectGC__sub_802C561C(player_plate);
-            TAdMultiPlyChrSelectGC__sub_802C5688(player_plate);
+            TAdChrSelPlyPlateGC__start_selected_slot_anim(player_plate);
+            TAdChrSelPlyPlateGC__select_slot_at_cursor(player_plate);
             this->state = 0x19;
             return;
         case 1:
             play_sound_effect(0x52D01, 0, 0, 0);
             player_plate->capture_card_index();
             player_plate->restore_selection();
-            TAdMultiPlyChrSelectGC__sub_802C5688(player_plate);
+            TAdChrSelPlyPlateGC__select_slot_at_cursor(player_plate);
             player_plate->set_state_ready();
             if (this->a_slot != NULL) {
                 this->a_slot->queue_destruction();
@@ -828,7 +828,7 @@ void TAdMultiPlyChrSelectGC::update_card_select() {
         this->state = 0;
         return;
     }
-    if (TAdMultiPlyChrSelectGC__sub_802C6848(TAdMultiPlyChrSelectGC::get_clamped_cursor()) == 0) {
+    if (TAdMultiPlyChrSelectGC__is_controller_connected(TAdMultiPlyChrSelectGC::get_clamped_cursor()) == 0) {
         player_plate->set_state_ready();
         this->state = 3;
         return;
@@ -874,7 +874,7 @@ void TAdMultiPlyChrSelectGC::update() {
         this->state = 0;
         return;
     }
-    if (TAdMultiPlyChrSelectGC__sub_802C6848(TAdMultiPlyChrSelectGC::get_clamped_cursor()) == 0) {
+    if (TAdMultiPlyChrSelectGC__is_controller_connected(TAdMultiPlyChrSelectGC::get_clamped_cursor()) == 0) {
         player_plate->set_state_ready();
         this->state = 3;
         return;
@@ -967,9 +967,9 @@ void TAdMultiPlyChrSelectGC::reset_to_select() {
             effect->clear_entries();
         }
     }
-    if (TAdMultiPlyChrSelectGC__sub_802C6558() > 0) {
-        if ((is_slot_active__23TAdSinglePlyChrSelectGCFUi(TAdMultiPlyChrSelectGC__sub_802C658C(TAdMultiPlyChrSelectGC__sub_802C6920())) == 0) || (this->m_54 == 0)) {
-            TAdMultiPlyChrSelectGC::split_slot_index(TAdMultiPlyChrSelectGC__sub_802C6920(), &stack.spC, &stack.sp8);
+    if (TAdMultiPlyChrSelectGC__count_selected_slots() > 0) {
+        if ((is_slot_active__23TAdSinglePlyChrSelectGCFUi(TAdMultiPlyChrSelectGC__get_multiplayer_character_slot(TAdMultiPlyChrSelectGC__get_last_selected_player())) == 0) || (this->m_54 == 0)) {
+            TAdMultiPlyChrSelectGC::split_slot_index(TAdMultiPlyChrSelectGC__get_last_selected_player(), &stack.spC, &stack.sp8);
             TAdMultiPlyChrSelectGC::init();
             player_plate->set_cursor_column(stack.spC);
             player_plate->set_active_card_slot(stack.sp8);
@@ -991,9 +991,9 @@ void TAdMultiPlyChrSelectGC::reset_to_select() {
     this->a_slot = TAdMultiPlyChrSelectGC::get_or_create_slot_window(this, 1);
     player_plate->set_select_mode(0);
     player_plate->set_state_ready();
-    if ((((TAdMultiPlyChrSelectGC *)(*(saddr *)&this->unk_78))->get_ready_state() == 0) && (TAdMultiPlyChrSelectGC__sub_802C6558() > 1) && (is_multiplayer_character_slot_selected(0) != 0)) {
+    if ((((TAdMultiPlyChrSelectGC *)(*(saddr *)&this->unk_78))->get_ready_state() == 0) && (TAdMultiPlyChrSelectGC__count_selected_slots() > 1) && (is_multiplayer_character_slot_selected(0) != 0)) {
         temp_r31 = TAdMultiPlyChrSelectGC::count_ready();
-        temp_r3 = TAdMultiPlyChrSelectGC__sub_802C6558();
+        temp_r3 = TAdMultiPlyChrSelectGC__count_selected_slots();
         if (temp_r3 != temp_r31) {
             create_effects__14TAdGameStartGCFPv((u8 *)(*(saddr *)&this->unk_78));
         }
@@ -1082,10 +1082,10 @@ void TAdMultiPlyChrSelectGC::sub_802DDBA8() {
         this->state = 0xC;
         return;
     }
-    TAdMultiPlyChrSelectGC__sub_802C5A44(player_plate, &multi_chr_select_item_rect_table[0], 2);
-    TAdMultiPlyChrSelectGC__sub_802C5A44(player_plate, &multi_chr_select_item_rect_table[1], 2);
-    TAdMultiPlyChrSelectGC__sub_802C5A44(player_plate, &multi_chr_select_item_rect_table[2], 2);
-    TAdMultiPlyChrSelectGC__sub_802C5A44(player_plate, &multi_chr_select_item_rect_table[3], 2);
+    TAdChrSelPlyPlateGC__add_slot_position(player_plate, &multi_chr_select_item_rect_table[0], 2);
+    TAdChrSelPlyPlateGC__add_slot_position(player_plate, &multi_chr_select_item_rect_table[1], 2);
+    TAdChrSelPlyPlateGC__add_slot_position(player_plate, &multi_chr_select_item_rect_table[2], 2);
+    TAdChrSelPlyPlateGC__add_slot_position(player_plate, &multi_chr_select_item_rect_table[3], 2);
     this->state = 0xE;
 }
 
@@ -1152,7 +1152,7 @@ void TAdMultiPlyChrSelectGC::update_select() {
     if (player_plate->get_selection() != 0) {
         load_tables(temp_r30);
         if (TAdSinglePlyChrSelectGC__sub_801FE800(temp_r30) != 0) {
-            if (this->b_slot->is_slot_state_one(temp_r30) == 0) {
+            if (this->b_slot->is_character_transferred(temp_r30) == 0) {
                 *(void **)&this->unk_88 = create_confirm_window(player_plate->get_instance());
                 this->state = 0xF;
                 return;
@@ -1189,7 +1189,7 @@ void TAdMultiPlyChrSelectGC::update_state_wait_card() {
         this->state = 0xC;
         return;
     }
-    if (TAdMultiPlyChrSelectGC__sub_802C6848(get_card_instance()->get_instance()) == 0) {
+    if (TAdMultiPlyChrSelectGC__is_controller_connected(get_card_instance()->get_instance()) == 0) {
         player_plate->set_state_ready();
         this->state = 0xC;
         return;
@@ -1245,7 +1245,7 @@ void TAdMultiPlyChrSelectGC::update_card_select_state() {
         this->state = 0xC;
         return;
     }
-    if (TAdMultiPlyChrSelectGC__sub_802C6848(get_card_instance()->get_instance()) == 0) {
+    if (TAdMultiPlyChrSelectGC__is_controller_connected(get_card_instance()->get_instance()) == 0) {
         player_plate->set_state_ready();
         this->state = 0xE;
         return;
@@ -1508,9 +1508,9 @@ void TAdMultiPlyChrSelectGC::update_confirm_start() {
     s32 temp_r31;
     s32 temp_r3;
 
-    if ((((TAdMultiPlyChrSelectGC *)(*(saddr *)&this->unk_78))->get_ready_state() == 0) && (TAdMultiPlyChrSelectGC__sub_802C6558() > 1) && (is_multiplayer_character_slot_selected(0) != 0)) {
+    if ((((TAdMultiPlyChrSelectGC *)(*(saddr *)&this->unk_78))->get_ready_state() == 0) && (TAdMultiPlyChrSelectGC__count_selected_slots() > 1) && (is_multiplayer_character_slot_selected(0) != 0)) {
         temp_r31 = TAdMultiPlyChrSelectGC::count_ready();
-        temp_r3 = TAdMultiPlyChrSelectGC__sub_802C6558();
+        temp_r3 = TAdMultiPlyChrSelectGC__count_selected_slots();
         if (temp_r3 != temp_r31) {
             create_effects__14TAdGameStartGCFPv((u8 *)(*(saddr *)&this->unk_78));
         }
@@ -1608,13 +1608,13 @@ void TAdMultiPlyChrSelectGC::sub_802DCA20() {
         return;
     }
     player_plate->reset_cursor_state();
-    TAdMultiPlyChrSelectGC__sub_802C5A44(player_plate, &TAdMultiPlyChrSelectGC__character_slot_positions.value, 1);
-    TAdMultiPlyChrSelectGC__sub_802C5A44(player_plate, (void *) ((u8 *)&TAdMultiPlyChrSelectGC__character_slot_positions.value + 8), 1);
-    TAdMultiPlyChrSelectGC__sub_802C5A44(player_plate, (void *) ((u8 *)&TAdMultiPlyChrSelectGC__character_slot_positions.value + 0x10), 1);
-    TAdMultiPlyChrSelectGC__sub_802C5A44(player_plate, &multi_chr_select_item_rect_table[0], 2);
-    TAdMultiPlyChrSelectGC__sub_802C5A44(player_plate, &multi_chr_select_item_rect_table[1], 2);
-    TAdMultiPlyChrSelectGC__sub_802C5A44(player_plate, &multi_chr_select_item_rect_table[2], 2);
-    TAdMultiPlyChrSelectGC__sub_802C5A44(player_plate, &multi_chr_select_item_rect_table[3], 2);
+    TAdChrSelPlyPlateGC__add_slot_position(player_plate, &TAdMultiPlyChrSelectGC__character_slot_positions.value, 1);
+    TAdChrSelPlyPlateGC__add_slot_position(player_plate, (void *) ((u8 *)&TAdMultiPlyChrSelectGC__character_slot_positions.value + 8), 1);
+    TAdChrSelPlyPlateGC__add_slot_position(player_plate, (void *) ((u8 *)&TAdMultiPlyChrSelectGC__character_slot_positions.value + 0x10), 1);
+    TAdChrSelPlyPlateGC__add_slot_position(player_plate, &multi_chr_select_item_rect_table[0], 2);
+    TAdChrSelPlyPlateGC__add_slot_position(player_plate, &multi_chr_select_item_rect_table[1], 2);
+    TAdChrSelPlyPlateGC__add_slot_position(player_plate, &multi_chr_select_item_rect_table[2], 2);
+    TAdChrSelPlyPlateGC__add_slot_position(player_plate, &multi_chr_select_item_rect_table[3], 2);
     this->state = 0x1F;
 }
 
@@ -1872,7 +1872,7 @@ void TAdMultiPlyChrSelectGC::sub_802DC118(s32 arg1) {
     if (guide != NULL) {
         switch (arg1) {
         case -1:
-            if (TAdMultiPlyChrSelectGC__sub_802C6558() == TAdMultiPlyChrSelectGC::count_ready()) {
+            if (TAdMultiPlyChrSelectGC__count_selected_slots() == TAdMultiPlyChrSelectGC::count_ready()) {
                 guide->set_line(0, "");
                 guide->set_line(1, "");
                 return;
@@ -1881,7 +1881,7 @@ void TAdMultiPlyChrSelectGC::sub_802DC118(s32 arg1) {
             guide->set_line(1, "");
             break;
         default:
-            if (TAdMultiPlyChrSelectGC__sub_802C6558() == TAdMultiPlyChrSelectGC::count_ready()) {
+            if (TAdMultiPlyChrSelectGC__count_selected_slots() == TAdMultiPlyChrSelectGC::count_ready()) {
                 guide->set_line(0, "");
                 guide->set_line(1, "");
                 return;
@@ -1914,10 +1914,10 @@ s32 TAdMultiPlyChrSelectGC::get_state_result() {
 void TAdMultiPlyChrSelectGC::collect_player_slots() {
     CharacterSelectionRequest request;
     u32 i;
-    request.count = TAdMultiPlyChrSelectGC__sub_802C6558();
+    request.count = TAdMultiPlyChrSelectGC__count_selected_slots();
     for (i = 0; i < 4; i++) {
         if (is_multiplayer_character_slot_selected(i) != 0) {
-            request.card_slots[i] = TAdMultiPlyChrSelectGC__sub_802C658C(i);
+            request.card_slots[i] = TAdMultiPlyChrSelectGC__get_multiplayer_character_slot(i);
             request.player_ids[i] = i;
         } else {
             request.card_slots[i] = -1;
