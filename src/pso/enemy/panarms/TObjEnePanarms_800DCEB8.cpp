@@ -154,7 +154,7 @@ extern const s32 lbl_8043CD0C[3] = { 3, 4, 0 };
 /* State table of TObjEnePanarms: {enter, update} per state, indexed by state; filled by the TU's __sinit. */
 typedef void (TObjEnePanarms::*PanarmsStateFn)();
 struct PanarmsState { PanarmsStateFn enter; PanarmsStateFn update; };
-extern PanarmsState lbl_8049515C[14];
+extern PanarmsState panarms_state_table[14];
 // The original's static initializer sits before the weak copies of the inline accessors this unit
 // emits (0x800DFB00-0x800DFBD0), which no compiler-generated __sinit reproduces, so it is spelled out.
 extern "C" {
@@ -250,37 +250,37 @@ void TObjEnePanarms::init(s16 action) {
 }
 
 static void __sinit_TObjEnePanarms_800DCEB8_cpp() {
-    lbl_8049515C[0].enter = &TObjEnePanarms::enter_idle;
-    lbl_8049515C[0].update = &TObjEnePanarms::try_activate;
-    lbl_8049515C[1].enter = &TObjEnePanarms::enter_wait_hidden;
-    lbl_8049515C[1].update = &TObjEnePanarms::update_wait_hidden;
-    lbl_8049515C[2].enter = &TObjEnePanarms::set_hidden_flags;
-    lbl_8049515C[2].update = &TObjEnePanarms::update_fall;
-    lbl_8049515C[3].enter = &TObjEnePanarms::enter_move;
-    lbl_8049515C[3].update = &TObjEnePanarms::update_move;
-    lbl_8049515C[4].enter = &TObjEnePanarms::enter_dead;
-    lbl_8049515C[4].update = &TObjEnePanarms::update_dead;
-    lbl_8049515C[5].enter = &TObjEnePanarms::set_state_flags_6;
-    lbl_8049515C[5].update = &TObjEnePanarms::update_particle_emitters_set2;
-    lbl_8049515C[6].enter = &TObjEnePanarms::enter_arm_attack_0;
-    lbl_8049515C[6].update = &TObjEnePanarms::update_destroy_child;
-    lbl_8049515C[7].enter = &TObjEnePanarms::set_flags_and_field_b8;
-    lbl_8049515C[7].update = &TObjEnePanarms::update_particle_emitters;
-    lbl_8049515C[8].enter = &TObjEnePanarms::enter_arm_attack_1;
-    lbl_8049515C[8].update = &TObjEnePanarms::update_wait_then_set_state;
-    lbl_8049515C[9].enter = &TObjEnePanarms::enter_split;
-    lbl_8049515C[9].update = &TObjEnePanarms::update_hit_effect;
-    lbl_8049515C[10].enter = &TObjEnePanarms::enter_separated;
-    lbl_8049515C[10].update = &TObjEnePanarms::update_separated_parts;
-    lbl_8049515C[11].enter = &TObjEnePanarms::merge_halves;
-    lbl_8049515C[11].update = &TObjEnePanarms::update_timed_action;
-    lbl_8049515C[12].enter = &TObjEnePanarms::enter_rejoin;
-    lbl_8049515C[12].update = &TObjEnePanarms::update_state_effect;
-    lbl_8049515C[13].enter = &TObjEnePanarms::enter_down_state;
-    lbl_8049515C[13].update = &TObjEnePanarms::update_spin;
+    panarms_state_table[0].enter = &TObjEnePanarms::enter_idle;
+    panarms_state_table[0].update = &TObjEnePanarms::try_activate;
+    panarms_state_table[1].enter = &TObjEnePanarms::enter_wait_hidden;
+    panarms_state_table[1].update = &TObjEnePanarms::update_wait_hidden;
+    panarms_state_table[2].enter = &TObjEnePanarms::set_hidden_flags;
+    panarms_state_table[2].update = &TObjEnePanarms::update_fall;
+    panarms_state_table[3].enter = &TObjEnePanarms::enter_move;
+    panarms_state_table[3].update = &TObjEnePanarms::update_move;
+    panarms_state_table[4].enter = &TObjEnePanarms::enter_dead;
+    panarms_state_table[4].update = &TObjEnePanarms::update_dead;
+    panarms_state_table[5].enter = &TObjEnePanarms::set_state_flags_6;
+    panarms_state_table[5].update = &TObjEnePanarms::update_particle_emitters_set2;
+    panarms_state_table[6].enter = &TObjEnePanarms::enter_arm_attack_0;
+    panarms_state_table[6].update = &TObjEnePanarms::update_destroy_child;
+    panarms_state_table[7].enter = &TObjEnePanarms::set_flags_and_field_b8;
+    panarms_state_table[7].update = &TObjEnePanarms::update_particle_emitters;
+    panarms_state_table[8].enter = &TObjEnePanarms::enter_arm_attack_1;
+    panarms_state_table[8].update = &TObjEnePanarms::update_wait_then_set_state;
+    panarms_state_table[9].enter = &TObjEnePanarms::enter_split;
+    panarms_state_table[9].update = &TObjEnePanarms::update_hit_effect;
+    panarms_state_table[10].enter = &TObjEnePanarms::enter_separated;
+    panarms_state_table[10].update = &TObjEnePanarms::update_separated_parts;
+    panarms_state_table[11].enter = &TObjEnePanarms::merge_halves;
+    panarms_state_table[11].update = &TObjEnePanarms::update_timed_action;
+    panarms_state_table[12].enter = &TObjEnePanarms::enter_rejoin;
+    panarms_state_table[12].update = &TObjEnePanarms::update_state_effect;
+    panarms_state_table[13].enter = &TObjEnePanarms::enter_down_state;
+    panarms_state_table[13].update = &TObjEnePanarms::update_spin;
 }
 
-static PanarmsState lbl_8049515C[14] = {};
+static PanarmsState panarms_state_table[14] = {};
 /* Model nodes the constructor hands to ModelNodePositionCapture::create. */
 ModelNodePositionEntry panarms_model_node_desc[6] = {
     { 0x35 }, { 0x22 }, { 0x38 }, { 0x46 }, { 0x3b }, { -1 },
@@ -395,7 +395,7 @@ void TObjEnePanarms::run_task() {
         set_state(0);
     }
     sub_800DE390();
-    update = lbl_8049515C[this->state].update;
+    update = panarms_state_table[this->state].update;
     if (update) {
         (this->*update)();
         if (*(s32 *)&this->m_3dc != 0) {
@@ -509,7 +509,7 @@ void TObjEnePanarms::set_state(s32 next) {
         return;
     }
     destroy_handles();
-    PanarmsStateFn enter = lbl_8049515C[this->state].enter;
+    PanarmsStateFn enter = panarms_state_table[this->state].enter;
     if (enter) {
         (this->*enter)();
     }
