@@ -368,11 +368,11 @@ s32 TObjWarpBase::is_warp_enabled() {
 }
 
 s32 TObjWarpBase::vfunc_17() {
-    return TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 4);
+    return test_pressed_buttons_packed(&controller_input_state.controllers[0], 4);
 }
 
 s32 TObjWarpBase::vfunc_18(s32 client_id) {
-    return TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[client_id], 4);
+    return test_pressed_buttons_packed(&controller_input_state.controllers[client_id], 4);
 }
 
 const char *TObjMapWarp__name = "TObjMapWarp";

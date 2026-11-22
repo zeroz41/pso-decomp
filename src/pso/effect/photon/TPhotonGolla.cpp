@@ -333,7 +333,7 @@ void TPhotonGolla::run_task() {
     *(s16 *)((s8 *)arg0 + 0x14C) = (s16) (*(s16 *)((s8 *)arg0 + 0x14C) + 0xF);
     *(s16 *)((s8 *)arg0 + 0x14C) = (s16) (u8) *(s16 *)((s8 *)arg0 + 0x14C);
     if ((s32) *(s32 *)&this->unk_1C8 == 0x50) {
-        VecCopy((Vec *)(arg0 + 0x1AC), &this->m_148[2].pos);
+        VecCopy((Vec *)(arg0 + 0x1AC), &this->attachments[2].pos);
         spawn_particle_effect((const Vec *)(arg0 + 0x1AC), 0x133);
         TPhotonGolla::spawn_concentrate(arg0);
     }

@@ -67,7 +67,6 @@ int qst_label_address(int label);
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/item/TItem.h"
 
-#include "pso/item/armor/TItemProShield.h"
 #include "pso/quest/TQuestBgmCtrl.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
@@ -105,6 +104,7 @@ int qst_label_address(int label);
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/camera/TCameraFollow.h"
 #include "pso/camera/TCameraPan.h"
+#include "pso/system/TTokenList.h"
 u8 *qst_code;
 s32 *qst_function_table;
 s32 *qst_registers;
@@ -412,7 +412,7 @@ u8 *TLobby__quest_script_read_ptr;
 void append_split_screen_hero_name(void) {
     char buf[0x40];
     if (is_split_screen() == 1) {
-        sprintf(buf, "%s", get_split_screen_character_name());
+        sprintf(buf, "%s", get_active_character_name());
     } else {
         sprintf(buf, "%s", TLobby__sub_800713C8());
     }
@@ -719,24 +719,12 @@ struct Card_801EA0F0 {
     u16 stats[7];
 };
 
-struct VBase_18_801EB10C { char pad[0x18]; };
-
-struct Card_801EB10C : VBase_18_801EB10C {
-    virtual void m0(s32);
-};
-
 struct Tag_801EB10C {
     u8 pad0[8];
     s32 id;
     char name[0x10];
     u8 pad1c[4];
     char text[0x200];
-};
-
-struct VBase_18_801EBD40 { char pad[0x18]; };
-
-struct Card_801EBD40 : VBase_18_801EBD40 {
-    virtual void m0(s32);
 };
 
 struct Item_801EBF30 {
@@ -832,22 +820,6 @@ struct Item_801EEE68 {
 };
 
 struct Item_801EE77C;
-
-struct VBase_18 { char pad[0x18]; };
-
-struct VObj_18 : VBase_18 {
-    virtual void m0(int);
-    char pad2[0x1080];
-    s32 f109c;
-};
-
-struct Base_801F1A0C { u8 pad[0x18]; };
-
-struct List_801F1A0C : Base_801F1A0C {
-    virtual ~List_801F1A0C();
-    char names[0x84][0x20];
-    s32 count;
-};
 
 struct Pair_801F1838 { s32 a; s32 b; };
 
@@ -967,7 +939,6 @@ s32 play_sound_effect(int, int, int, int);
 void play_cue_stream_file(saddr name);
 int TLobby__sub_802272B4(void*);
 int TLobby__sub_8022733C(void*);
-Card_801EB10C * __ct__13TUnk_804CC048FP7TObjectPvPv(void *, void *, void *, void *);
 void * __nw__7TObjectFUl(u32);
 void request_active_window_close(void);
 s32 close_windows_by_flags__11TWindowCtrlFUs(int, void *);
@@ -1319,7 +1290,7 @@ void qst_op_get_player_hp_tp(void) {
     u8 *player = (u8 *)get_player_by_client_id(qst_args[0]);
     u8 i = qst_args[1];
     if (player != NULL) {
-        qst_registers[i++] = ((TItemProShield *)player)->get_field_2b8();
+        qst_registers[i++] = ((TObjChara *)player)->get_hpmax();
         qst_registers[i++] = ((TObjChara *)player)->get_actor_hp();
         qst_registers[i++] = obj_getS16_2BA(player);
         qst_registers[i] = get_actor_tp(player);
@@ -2595,31 +2566,24 @@ void qst_op_get_game_version(s32 reg) {
 void qst_op_send_mail(void) {
     Tag_801EB10C tag;
     char buf[0x400];
-    Card_801EB10C *card;
+    TTokenList *fields;
     u8 i = (u32)qst_args[0];
     char *src = *(char **)&qst_args[1];
     ((TLobby *)((saddr)&tag))->init_guild_card_tag();
-    card = (Card_801EB10C *)__nw__7TObjectFUl(0x10A8);
-    if (card != NULL) {
-        card = __ct__13TUnk_804CC048FP7TObjectPvPv(card, 0, 0, 0);
-    }
+    fields = new TTokenList(NULL, 0, 0);
     strncpy(buf, (const char *)src, 0x3FF);
     ((TLobby *)buf)->trim_whitespace();
-    ((TLobby *)card)->tokenize_args(buf);
-    if (*(s32 *)((u8 *)card + 0x109C) > 2) {
-        if (card != NULL) {
-            card->m0(1);
-        }
+    fields->tokenize_args(buf);
+    if (fields->count > 2) {
+        delete fields;
     } else {
         tag.id = qst_registers[i];
-        strncpy(tag.name, (const char *)((u8 *)card + 0x1C), 0xF);
+        strncpy(tag.name, fields->tokens[0], 0xF);
         tag.name[0xF] = 0;
-        strncpy(tag.text, (const char *)((u8 *)card + 0x3C), 0x1FF);
+        strncpy(tag.text, fields->tokens[1], 0x1FF);
         tag.text[0x1FF] = 0;
         try_close__6TLobbyFPv(&tag);
-        if (card != NULL) {
-            card->m0(1);
-        }
+        delete fields;
     }
 }
 
@@ -2907,26 +2871,21 @@ void qst_op_enable_stealth_suit_effect(s32 slot_reg) {
 
 void qst_op_set_cmode_rank_override(void) {
     char buf[0x200];
-    Card_801EBD40 *card;
+    TTokenList *fields;
     s32 arg = (u32)qst_args[0];
     char *src = *(char **)&qst_args[1];
-    card = (Card_801EBD40 *)__nw__7TObjectFUl(0x10A8);
-    if (card != NULL) {
-        card = ((Card_801EBD40 *)__ct__13TUnk_804CC048FP7TObjectPvPv(card, 0, 0, 0));
-    }
+    fields = new TTokenList(NULL, 0, 0);
     strncpy(buf, (const char *)src, 0x1FF);
     ((TLobby *)buf)->trim_whitespace();
-    ((TLobby *)card)->tokenize_args((char *)(buf));
-    if (*(s32 *)((u8 *)card + 0x109C) == 2) {
+    fields->tokenize_args(buf);
+    if (fields->count == 2) {
         if (is_split_screen() == 1) {
-            TLobby__sub_80292268((u8 *)card + 0x1C, (u8 *)card + 0x3C, arg);
+            TLobby__sub_80292268(fields->tokens[0], fields->tokens[1], arg);
         } else {
-            add_entry__6TLobbyFiii((u8 *)card + 0x1C, (u8 *)card + 0x3C, arg);
+            add_entry__6TLobbyFiii(fields->tokens[0], fields->tokens[1], arg);
         }
     }
-    if (card != NULL) {
-        card->m0(1);
-    }
+    delete fields;
 }
 
 void qst_op_dark_falz_is_dead(s32 reg) {
@@ -4282,22 +4241,17 @@ void qst_op_npc_text() {
 
 void qst_op_nop_A0_debug(void) {
     char buf[0x200];
-    VObj_18 *o;
+    TTokenList *fields;
     void *s = *(void **)&qst_args[1];
-    o = (VObj_18 *)((void * (*)(u32, void *))__nw__7TObjectFUl)(0x10A8, qst_args);
-    if (o != NULL) {
-        o = ((VObj_18 * (*)(void *, void *, void *, void *))__ct__13TUnk_804CC048FP7TObjectPvPv)(o, 0, 0, 0);
-    }
+    fields = new TTokenList(NULL, 0, 0);
     buf[0x1FF] = 0;
     ((void (*)(void *, void *, int))strncpy)(buf, s, 0x1FF);
     ((TLobby *)buf)->trim_whitespace();
-    ((TLobby *)o)->parse_csv_line(buf);
-    if (o->f109c != 2) {
+    fields->parse_csv_line(buf);
+    if (fields->count != 2) {
         while (1) {}
     }
-    if (o != NULL) {
-        o->m0(1);
-    }
+    delete fields;
 }
 void qst_op_cine_disable(void) { TCineCtrl::begin_letterbox_hide(NULL); }
 
@@ -4545,7 +4499,7 @@ void qst_op_p_hpstat(void) {
     obj = (void *)((saddr)get_player_by_client_id(player));
     if (obj != NULL) {
         hp = ((TObjChara *)obj)->get_actor_hp();
-        if (hp / ((TItemProShield *)obj)->get_field_2b8() < limit) {
+        if (hp / ((TObjChara *)obj)->get_hpmax() < limit) {
             qst_registers[reg] = 1;
             return;
         }
@@ -5088,22 +5042,19 @@ void qst_op_fadein(void) { TLobby::set_fade_params((saddr)((void*)0)); qst_suspe
 
 void qst_op_list(void) {
     char *text;
-    List_801F1A0C *list;
+    TTokenList *list;
     u8 idx;
     s32 i;
     char buf[0x200];
     idx = (u32)qst_args[0];
     text = *(char **)&qst_args[1];
-    list = (List_801F1A0C *)__nw__7TObjectFUl(0x10A8);
-    if (list != 0) {
-        list = (List_801F1A0C *)((void * (*)(void *, void *, void *, void *))__ct__13TUnk_804CC048FP7TObjectPvPv)(list, 0, 0, 0);
-    }
+    list = new TTokenList(NULL, 0, 0);
     ((char * (*)(char *, const char *, u32))strncpy)(buf, text, 0x1FF);
     ((TLobby *)buf)->trim_whitespace();
-    ((TLobby *)list)->tokenize_args(buf);
+    list->tokenize_args(buf);
     qst_list_window = (void *)(saddr)create_window_menu_default(get_window_layout_position(0x37), list->count);
     for (i = 0; i < list->count; i++) {
-        TObjCityMainWarp::forward_trade_action_default(qst_list_window, (saddr)list->names[i], 7, (int)i);
+        TObjCityMainWarp::forward_trade_action_default(qst_list_window, (saddr)list->tokens[i], 7, (int)i);
     }
     ((TWindowMenu *)qst_list_window)->calc_window_size();
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(qst_list_window));

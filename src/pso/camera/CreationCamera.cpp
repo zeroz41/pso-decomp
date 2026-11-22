@@ -6,17 +6,18 @@
 #include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/ui/charcreate/CharacterCreationModels.h"
 #include "pso/unk/TLobby.h"
+#include "pso/unk/TLobby_8006F278.h"
 #include "pso/ui/charcreate/TObjCMMainMenu.h"
 #include "pso/ui/charcreate/TObjCMProportion.h"
 #include "pso/render/render_util.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 
-static char split_screen_character_name[12];
+static char active_character_name[12];
 
-char *get_split_screen_character_name() {
-    saddr record = get_character_save_record(0xFFFF);
-    ((TLobby *)split_screen_character_name)->decode_obfuscated_string((void *)(record + 0x229C), 12);
-    return split_screen_character_name;
+char *get_active_character_name() {
+    CharacterSaveRecord *record = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
+    decode_obfuscated_string(active_character_name, record->name, 12);
+    return active_character_name;
 }
 
 u32 get_character_creation_selected_entry_id() {

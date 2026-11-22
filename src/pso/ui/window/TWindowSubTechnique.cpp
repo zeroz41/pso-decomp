@@ -139,8 +139,6 @@ struct Tech_802870C4 {
     void *help;
 };
 
-struct Pad_802870C4 { u8 pad[0x20]; u8 m20[0x30]; };
-
 extern u8 *text_language_group_table;
 extern "C" {
 saddr get_technique_description_text(s32 arg0);
@@ -154,7 +152,6 @@ s32 try_equip_item__10TObjPlayerFii(saddr, s32);
 void play_sound_effect(s32, s32, s32, s32);
 // set_depth__11TWindowBaseFf declared above
 void *create_title_window__19TWindowSubTechniqueFv(void *, s32);
-extern Pad_802870C4 controller_input_state[];
 void *TWindowSubTechnique__ct(TWindowSubTechnique *arg0, s32 arg1, s32 arg2);
 s32 __ct__7TObjectFP7TObject();
 }
@@ -287,8 +284,8 @@ void TWindowSubTechnique::run_task() {
     case 5:
         ((TObjPlayer *)ply)->update_cursor((s16)((TWindowMenu *)self->sel)->get_selected_value());
         if (TWindowSubTechnique::is_technique_available((s16)((TWindowMenu *)self->sel)->get_selected_value(), self->player) == 0 ||
-            TWindowShortListCtrl__check_controller_button(controller_input_state[port].m20, 2) != 0 ||
-            test_controller_flag_4c_color(controller_input_state[4].m20, 2) != 0) {
+            test_pressed_buttons_packed(&controller_input_state.controllers[port], 2) != 0 ||
+            test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0) {
             play_sound_effect(0x52F16, 0, 0, 0);
             ((TWindowSubTechnique *)self)->rebuildTechniqueList((saddr)(self->sel), (s32)(((TWindowMenu *)self->list)->get_selected_value()));
             self->state = 1;

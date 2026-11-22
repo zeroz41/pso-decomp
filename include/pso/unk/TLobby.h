@@ -127,7 +127,6 @@ struct TLobby : public TObject {
     static void advance_state_if_flag_set();
     static s32 check_challenge_time_range(s32 clear_time);
     void set_name_string();
-    void decode_obfuscated_string(void *arg1, int arg2);
     static void encode_name_xor(u8 *dst, u8 *src, s32 n);
     static s32 get_valid_slot(int id);
     static s32 get_slot_clamped(u32 id);
@@ -373,7 +372,6 @@ struct TLobby : public TObject {
     static void set_menu_index_main(u8 *arg0);
     static void refresh_render_state();
     static void wait_for_sound_init();
-    void add_token(const char *src);
     void trim_whitespace();
     s32 get_id();
     static void clear_flag_bit2();
@@ -819,8 +817,6 @@ struct TLobby : public TObject {
     static void update_guild_or_quest_phase();
     static void free_window();
     void swap_item_data(s32 *arg1);
-    void tokenize_args(char *s);
-    void parse_csv_line(char *s);
     static void store_challenge_seeds(s32 seed);
     static void refresh_lobby_state();
     static s32 init_particle_model();

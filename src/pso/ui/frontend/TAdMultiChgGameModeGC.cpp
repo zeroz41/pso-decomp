@@ -62,7 +62,7 @@ void TAdMultiChgGameModeGC::run_task() {
     if (prev_selection != selection) {
         guide_text->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x21, selection)));
     }
-    if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 2) != 0 ||
+    if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0 ||
         test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0) {
         request_scene_change();
     } else if (select_cursor->confirmation_result() == 1) {

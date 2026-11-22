@@ -10,7 +10,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/technique/TTecReverser.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/item/armor/TItemProShield.h"
+#include "pso/object/base/TObjChara.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/system/byteswap.h"
@@ -872,7 +872,7 @@ void TLobby__sub_8034DAA0(s32 arg0, u32 arg1) {
         break;
     }
     case 10:
-        ((TObjPlayer *)p)->set_hp_clamped(((TItemProShield *)p)->get_field_2b8());
+        ((TObjPlayer *)p)->set_hp_clamped(((TObjChara *)p)->get_hpmax());
         break;
     case 11:
         set_tp__10TObjPlayerFs(p, obj_getS16_2BA(p));

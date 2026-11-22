@@ -1,3 +1,7 @@
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/gx/GXTransform.h>
+#include <dolphin/gx/GXCull.h>
+#undef PSO_SDK_COMPACT_MATH
 #include "pso/ui/frontend/CharacterSelectionRequest.h"
 #include "types.h"
 #include "pso/camera/TCameraFixed.h"
@@ -25,6 +29,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/camera/TCameraVolOpt.h"
 #include "pso/camera/TCameraFollow.h"
 #include "pso/camera/TCameraVolOptFollow.h"
@@ -50,15 +55,6 @@ CameraViewParams TCameraCtrl::saved_view_params;
 Vec TCameraCtrl::up_vector;
 CameraMatrix TCameraCtrl::view_matrix;
 CameraMatrix TCameraCtrl::view_matrices[4];
-
-extern "C" {
-// The SDK's GX headers come with <dolphin/types.h>, whose math inlines add
-// sqrt constants this unit does not have.
-void GXSetViewport(f32 left, f32 top, f32 wd, f32 ht, f32 nearz, f32 farz);
-void GXSetScissor(u32 left, u32 top, u32 wd, u32 ht);
-void GXSetScissorBoxOffset(s32 x_off, s32 y_off);
-void rotate_vector_by_current_matrix(const Vec *src, Vec *dst);
-}
 
 s16 TCameraCtrl::viewport_width = 640;
 s16 TCameraCtrl::viewport_height = 480;
@@ -594,7 +590,7 @@ void TCameraCtrl::cycle_spectate_target() {
     }
     pad = &controller_input_state.controllers[1];
     if (test_previous_buttons_packed(pad, 0x20000) == 0 ||
-        TWindowShortListCtrl__check_controller_button(pad, 0x10) == 0 ||
+        test_pressed_buttons_packed(pad, 0x10) == 0 ||
         test_previous_buttons_packed(pad, 0x10000) == 0 ||
         (local = get_player_by_client_id(local_client_id)) == 0 ||
         (tries = 0, TCameraCtrl::view_state.controller != 0) ||

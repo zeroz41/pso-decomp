@@ -725,7 +725,6 @@ void draw_shadow_on_ground(u8 *arg0) {
 #pragma pop
 
 #define bswap_6x79_gogo_ball__12TWindowTimerFi ((s32 (*)(void))bswap_6x79_gogo_ball__12TWindowTimerFi)
-#define controller_input_state (*(s32 (*)[1])&controller_input_state)
 #define gogo_ball_configuration (*(u8 (*)[1])&gogo_ball_configuration)
 
 void TObjPlayer__sub_801994DC(saddr arg0, void *arg1, void *arg2, s32 angle, void *arg4, f32 farg0) {
@@ -820,13 +819,13 @@ void TWindowTimer::copy_state(u8 *arg1) {
 }
 
 void TUnk_804B8E00::run_task() {
-    u8 *pad;
+    ControllerInputContext *pad;
     s32 m;
     s32 r;
     s32 idx;
 
-    pad = (u8 *)controller_input_state + 0x20;
-    if (test_previous_buttons_packed(pad, 0x10000) != 0 && TWindowShortListCtrl__check_controller_button(pad, 0x400) != 0) {
+    pad = &controller_input_state.controllers[0];
+    if (test_previous_buttons_packed(pad, 0x10000) != 0 && test_pressed_buttons_packed(pad, 0x400) != 0) {
         TWindowTimer::set_timer_value(1, 0);
         TWindowTimer::set_timer_value(0, 0);
     }
@@ -863,7 +862,6 @@ void TUnk_804B8E00::render() {
 }
 
 #undef bswap_6x79_gogo_ball__12TWindowTimerFi
-#undef controller_input_state
 #undef gogo_ball_configuration
 #pragma pool_data off
 void TLanguage::load_lobby_textures() {
@@ -922,7 +920,7 @@ void TWindowTimer::throw_gogo_ball(s32 ang, s32 time) {
     stack.sp10 = ang;
     stack.sp14 = *(f32 *)((s8 *)((u8 *)this) + 0);
     stack.sp18 = *(f32 *)((s8 *)((u8 *)this) + 8);
-    if (test_previous_buttons_packed((void *) ((u8 *)&controller_input_state + 0x20), 4) != 0) {
+    if (test_previous_buttons_packed(&controller_input_state.controllers[0], 4) != 0) {
         play_sound_effect(0x4001A311, this, 0, 0);
         stack.sp1C = 1;
     } else {
