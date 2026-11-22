@@ -98,12 +98,18 @@ void TObjPlayer__sub_80312E98(void *o, u16 id) {
     saddr i;
     for (i = 0; i < n; i++) {
         if (id == ((u16)((TObjPlayer *)(TObjPlayer::get_element(o, i)))->get_section_id())) {
-            ((TObjPlayer *)o)->process_indexed_element((saddr)((void*)((void *)i)));
+            ((TObjPlayer *)o)->process_indexed_element(i);
         }
     }
 }
 
-void TObjPlayer::process_all_elements() { { int n = TObjPlayer__sub_803131AC(this); int i; for (i = 0; i < n; i++) { process_indexed_element((saddr)((void*)i)); } } }
+void TObjPlayer::process_all_elements() {
+    int n = TObjPlayer__sub_803131AC(this);
+    int i;
+    for (i = 0; i < n; i++) {
+        process_indexed_element(i);
+    }
+}
 
 void append_photon_blast_request(saddr arg0, s16 arg1, s16 arg2) {
     saddr temp_r3;
