@@ -760,12 +760,12 @@ pso/unk/TUnk_80488B38.cpp:
 	.data       start:0x80488B38 end:0x80488B68
 	.sdata2     start:0x805D9008 end:0x805D9014
 
-pso/camera/TCameraCtrl_8006BCD8.cpp:
+pso/camera/CameraHelpers.cpp:
 	.text       start:0x8006BCD8 end:0x8006C254
 	.rodata     start:0x804383D0 end:0x804383EC
 	.sdata2     start:0x805D9018 end:0x805D9024
 
-pso/camera/TCameraCtrl_8006C254.cpp:
+pso/camera/TCameraScripted.cpp:
 	.text       start:0x8006C254 end:0x8006C7C4
 	.rodata     start:0x804383F0 end:0x804383F8
 	.data       start:0x80488B68 end:0x80488B98

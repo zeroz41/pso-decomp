@@ -8,6 +8,7 @@
 #include "pso/unk/TUnk_80488DA0.h"
 #include "pso/unk/TUnk_80488E00.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/camera/CameraHelpers.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_803D96A8.h"
@@ -58,7 +59,6 @@ struct Hit_8006809C { u8 pad0[4]; void *pos; };
 
 struct Cam_8006809C { u8 pad0[0x1C]; Obj_8006809C *obj; u8 pad20[0x60 - 0x20]; Vec out; };
 
-void direction_to_pitch_yaw(u8 *arg0, s32 *arg1, s32 *arg2);
 extern "C" {
 void GXSetScissorBoxOffset(s32, s32);
 extern Vec lbl_804FF5E8;
@@ -202,7 +202,7 @@ void TUnk_80488A28::post_update_view() {
         camera_ctrl_instance->target.z += 0.01f;
         d.z = 1.0f;
     }
-    direction_to_pitch_yaw((u8 *)&d, (s32 *)camera_ctrl_instance->f190, (s32 *)camera_ctrl_instance->f194);
+    direction_to_pitch_yaw(&d, (s32 *)camera_ctrl_instance->f190, (s32 *)camera_ctrl_instance->f194);
     t = (Vec *)((TCameraCtrl *)camera_ctrl_instance)->get_target();
     e.x = camera_ctrl_instance->target.x + t->x;
     e.y = camera_ctrl_instance->target.y + t->y;

@@ -2,33 +2,31 @@
 #include "pso/camera/TCameraCtrl_8006C7C4.h"
 #include "pso/unk/TUnk_80488D70.h"
 #include "pso/unk/TUnk_80488B38.h"
-#include "pso/unk/TUnk_80488B68.h"
+#include "pso/camera/TCameraScripted.h"
 #include "pso/system/vector.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/camera/CameraHelpers.h"
 #include <stddef.h>
 #include "pso/object/key/TOKeyMachine01.h"
 #include "pso/camera/TCameraCtrl_80067FC0.h"
-#include "pso/camera/TCameraCtrl_8006C580.h"
 #include "pso/system/memory.h"
 
 #include "pso/system/scene/TScene.h"
-#include "pso/camera/TCameraCtrl_8006C254.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
 
-static Entry_8006C6CC lbl_80488B98[1] = { { "CommonCam.rel", 0x48 } };
-static Entry_8006C6CC lbl_80488BA0[3] = { { "CommonCam.rel", 0x48 }, { "Bo01OpCam.rel", 0xC }, { "Bo01EnCam.rel", 0x48 } };
-static Entry_8006C6CC lbl_80488BB8[3] = { { "CommonCam.rel", 0x48 }, { "Bo02OpCam.rel", 0xC }, { "Bo02EnCam.rel", 0x48 } };
-static Entry_8006C6CC lbl_80488BD0[3] = { { "CommonCam.rel", 0x48 }, { "Bo03OpCam.rel", 0xC }, { "Bo03EnCam.rel", 0x48 } };
-static Entry_8006C6CC lbl_80488BE8[2] = { { "Bo04OpCam.rel", 0x48 }, { "CommonCam.rel", 0x48 } };
-static Entry_8006C6CC lbl_80488BF8[3] = { { "CommonCam.rel", 0x48 }, { "Bo05OpCam.rel", 0xC }, { "Bo05EnCam.rel", 0x48 } };
-static Entry_8006C6CC lbl_80488C10[2] = { { "CommonCam.rel", 0x48 }, { "Bo06OpCam.rel", 0x48 } };
-static Entry_8006C6CC lbl_80488C20[3] = { { "CommonCam.rel", 0x48 }, { "Bo07OpCam.rel", 0xC }, { "Bo07EnCam.rel", 0xC } };
-static Entry_8006C6CC lbl_80488C38[3] = { { "CommonCam.rel", 0x48 }, { "Bo08OpCam.rel", 0xC }, { "Bo08EnCam.rel", 0x48 } };
+static CameraBankFile lbl_80488B98[1] = { { "CommonCam.rel", 0x48 } };
+static CameraBankFile lbl_80488BA0[3] = { { "CommonCam.rel", 0x48 }, { "Bo01OpCam.rel", 0xC }, { "Bo01EnCam.rel", 0x48 } };
+static CameraBankFile lbl_80488BB8[3] = { { "CommonCam.rel", 0x48 }, { "Bo02OpCam.rel", 0xC }, { "Bo02EnCam.rel", 0x48 } };
+static CameraBankFile lbl_80488BD0[3] = { { "CommonCam.rel", 0x48 }, { "Bo03OpCam.rel", 0xC }, { "Bo03EnCam.rel", 0x48 } };
+static CameraBankFile lbl_80488BE8[2] = { { "Bo04OpCam.rel", 0x48 }, { "CommonCam.rel", 0x48 } };
+static CameraBankFile lbl_80488BF8[3] = { { "CommonCam.rel", 0x48 }, { "Bo05OpCam.rel", 0xC }, { "Bo05EnCam.rel", 0x48 } };
+static CameraBankFile lbl_80488C10[2] = { { "CommonCam.rel", 0x48 }, { "Bo06OpCam.rel", 0x48 } };
+static CameraBankFile lbl_80488C20[3] = { { "CommonCam.rel", 0x48 }, { "Bo07OpCam.rel", 0xC }, { "Bo07EnCam.rel", 0xC } };
+static CameraBankFile lbl_80488C38[3] = { { "CommonCam.rel", 0x48 }, { "Bo08OpCam.rel", 0xC }, { "Bo08EnCam.rel", 0x48 } };
 
 // Camera path banks per floor area (get_current_floor_area()), read by TCameraCtrl::load_camera_banks.
-Bank_8006C6CC camera_path_bank_table[36] = {
+CameraBankList camera_path_bank_table[36] = {
     { NULL, 0 }, { lbl_80488B98, 1 }, { lbl_80488B98, 1 }, { lbl_80488B98, 1 },
     { lbl_80488B98, 1 }, { lbl_80488B98, 1 }, { lbl_80488B98, 1 }, { lbl_80488B98, 1 },
     { lbl_80488B98, 1 }, { lbl_80488B98, 1 }, { lbl_80488B98, 1 }, { lbl_80488BA0, 3 },

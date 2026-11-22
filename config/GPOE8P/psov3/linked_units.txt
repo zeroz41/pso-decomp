@@ -648,8 +648,8 @@ pso/camera/TCameraCtrl.cpp
 pso/camera/TCameraCtrl_80067654.cpp
 pso/camera/TCameraCtrl_80067FC0.cpp
 pso/camera/TCameraConversation.cpp
-pso/camera/TCameraCtrl_8006BCD8.cpp
-pso/camera/TCameraCtrl_8006C254.cpp
+pso/camera/CameraHelpers.cpp
+pso/camera/TCameraScripted.cpp
 pso/camera/TCameraCtrl_8006C7C4.cpp
 pso/camera/TCameraCtrl_8006CC30.cpp
 pso/camera/TCameraCtrl_800766C4.cpp
