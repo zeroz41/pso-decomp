@@ -184,7 +184,7 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     void handle_state(u32 arg1);
     void update_fade_state(u32 reason);
     void update_burrow_outward_run(u32 reason);
-    void update_roar_state(u32 arg1);
+    void update_roar_state(u32 reason);
     void update_stretch_state(u32 reason);
     void update_head_down_attack_state(u32 reason);
     void update_flight_state(u32 reason);
@@ -211,10 +211,10 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     void init_air_turn(s32 targetAngle);
     void set_result_flag(s32 arg1, s32 arg2);
     void play_nearby_se();
-    s32 select_air_fire_target(void *out_);
+    s32 select_air_fire_target(Vec *out);
     f32 sample_root_height();
     void calc_forward_point(f32 *arg1, f32 *arg2);
-    static void update_linked_epsilon_position();
+    s32 update_linked_epsilon_position();
     void update_position_history();
     void check_death();
     void choose_next_action();

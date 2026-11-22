@@ -15318,7 +15318,7 @@ force_active:
   - seed_download_rng__Fl
   - seek_gvrt_chunk__6TLobbyFv
   - select_action_by_distance__16TObjEneMerillLiaFv
-  - select_air_fire_target__12TBoss1DragonFPv
+  - select_air_fire_target__12TBoss1DragonFP3Vec
   - select_and_advance__20TShopItemTecSequenceFPv
   - select_attack_by_range__16TObjEneBm5GibonUFv
   - select_attack_target__18TObjEneRe4SorcererFiff
