@@ -636,7 +636,7 @@ TBoss5Gryphon::TBoss5Gryphon(TObject *parent, void *data) : TObjEneDD_ST(parent)
     VecCopy(&this->pad_56C, &this->position);
     *(f32 *)(*(u8 **)((u8 *)this + 0x2B0) + 0x10) = gryphon_ten;
     this->attack_history = new AreaAttackHistory(4);
-    this->demo = (TBoss5GryphonDemo *)new TBoss5GryphonColli(&this->sub_tasks);
+    this->collider = new TBoss5GryphonColli(&this->sub_tasks);
     for (i = 0; i < 4; i++) {
         this->renderFadeStates[i].activate_and_dispatch();
     }
@@ -691,9 +691,9 @@ TBoss5Gryphon::~TBoss5Gryphon() {
             this->parts[i] = 0;
         }
     }
-    if (this->demo != 0) {
-        delete this->demo;
-        this->demo = 0;
+    if (this->collider != 0) {
+        delete this->collider;
+        this->collider = 0;
     }
     if (this->attack_history != 0) {
         delete this->attack_history;
@@ -2529,7 +2529,7 @@ void TBoss5Gryphon::update_crouch_in(s32 event) {
         self->advance_animation();
         self->emit_ground_contact_attack();
         if (((TObjMotion *)self)->is_passing_frame(gryphon_seven) != 0) {
-            self->demo->draw_linked_model(&self->position, self->rotation_y);
+            self->collider->enable_blocking_bodies(&self->position, self->rotation_y);
         }
         if (((TObjMotion *)self)->is_passing_frame(gryphon_one) != 0) {
             self->play_se(0x40032D0E);
@@ -2539,7 +2539,7 @@ void TBoss5Gryphon::update_crouch_in(s32 event) {
         }
         break;
     case ENEMY_STATE_LEAVE:
-        self->demo->get_state();
+        self->collider->disable_blocking_bodies();
         break;
     case 10:
     case 11:
@@ -2556,14 +2556,14 @@ void TBoss5Gryphon::update_crouch(s32 event) {
         self->clear_intangible();
         ((TBoss5Gryphon *)self)->enter_ground_mode();
         ((TBoss5Gryphon *)self)->set_ground_height();
-        self->demo->draw_linked_model(&self->position, self->rotation_y);
+        self->collider->enable_blocking_bodies(&self->position, self->rotation_y);
         break;
     case ENEMY_STATE_UPDATE:
         self->advance_animation();
         self->emit_ground_contact_attack();
         break;
     case ENEMY_STATE_LEAVE:
-        self->demo->get_state();
+        self->collider->disable_blocking_bodies();
         break;
     case 10:
     case 11:
@@ -2580,20 +2580,20 @@ void TBoss5Gryphon::update_crouch_out(s32 event) {
         self->clear_intangible();
         ((TBoss5Gryphon *)self)->enter_ground_mode();
         ((TBoss5Gryphon *)self)->set_ground_height();
-        self->demo->draw_linked_model(&self->position, self->rotation_y);
+        self->collider->enable_blocking_bodies(&self->position, self->rotation_y);
         break;
     case ENEMY_STATE_UPDATE:
         self->advance_animation();
         self->emit_ground_contact_attack();
         if (((TObjMotion *)self)->is_passing_frame(gryphon_five) != 0) {
-            self->demo->get_state();
+            self->collider->disable_blocking_bodies();
         }
         if (self->is_motion_finished() != 0) {
             self->advance_motion_entry();
         }
         break;
     case ENEMY_STATE_LEAVE:
-        self->demo->get_state();
+        self->collider->disable_blocking_bodies();
         break;
     case 10:
     case 11:
@@ -2640,7 +2640,7 @@ void TBoss5Gryphon::update_ground_lightning_attack(s32 event) {
         self->clear_intangible();
         ((TBoss5Gryphon *)self)->enter_ground_mode();
         ((TBoss5Gryphon *)self)->set_ground_height();
-        self->demo->draw_linked_model(&self->position, self->rotation_y);
+        self->collider->enable_blocking_bodies(&self->position, self->rotation_y);
         self->lightning.frame = 0;
         push_matrix();
         set_matrix_identity(NULL);
@@ -2675,7 +2675,7 @@ void TBoss5Gryphon::update_ground_lightning_attack(s32 event) {
             self->lightning.horns[0]->queue_destruction();
             self->lightning.horns[0] = NULL;
         }
-        self->demo->get_state();
+        self->collider->disable_blocking_bodies();
         break;
     case 10:
     case 11:

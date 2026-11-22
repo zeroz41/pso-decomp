@@ -8,6 +8,10 @@ public:
     TBoss5GryphonLightningHorn(TObject *parent, Vec *pos, s32 rotation_y);
     virtual ~TBoss5GryphonLightningHorn();
     void rebuild_lightning_segments();
+    // Moves to onto the segment from + dir * [0, dist] when it lies outside it; 1 when it moved.
+    s32 clamp_to_segment(Vec *from, Vec *dir, Vec *to, f32 dist);
+    // Hits every player at the closest point of the bolt's ground line.
+    void apply_lightning_effect();
     virtual void run_task();
     virtual void render();
     void queue_destruction();
@@ -18,8 +22,5 @@ public:
 };
 
 extern const char *TBoss5GryphonLightningHorn__name;
-
-// Called by TBoss5GryphonLightningHorn::run_task with the horn.
-extern "C" void fn_80325F7C(void *self);
 
 #endif

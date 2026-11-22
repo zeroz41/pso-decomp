@@ -377,7 +377,7 @@ force_active:
   - TBoss4Zako_movement_speed_step
   - TBoss4Zako_one_third
   - TBoss4Zanzo__name
-  - TBoss5GryphonDemo__sub_8006626C
+  - disable__20TBoss5GryphonColli_CFv
   - TBoss5GryphonDemo__sub_800663DC
   - TBoss5GryphonSnarl__effect_table
   - __ct__15TBoss6CrushPtclFP7TObjectP3Vec
@@ -5145,7 +5145,7 @@ force_active:
   - clear_charge_hits__14TObjEneIllGillFv
   - clear_child_flag__15TObjEneSlimeOneFv
   - clear_counter__6TLobbyFPv
-  - clear_entry_flags__20TBoss5GryphonColli_CFv
+  - clear_segment_flags__20TBoss5GryphonColli_CFv
   - clear_episode1_quest_availability__FPv
   - clear_error_callback__6TLobbyFv
   - clear_error_callback_state__6TLobbyFv
@@ -5868,7 +5868,7 @@ force_active:
   - render__15TObjEneMe1GiGueFv
   - draw_model__15TObjLazerFence4Fv
   - draw_model__16TObjEneMe3StelthFv
-  - draw_model__17TBoss5GryphonDemoFPvl
+  - enable_at__20TBoss5GryphonColli_CFP3Vecl
   - draw_model__18TObjLazerFenceNormFv
   - draw_model__8TObjDoorFPv
   - draw_model_and_lights__20TODoorFourLightRuinsFPv
@@ -6757,7 +6757,7 @@ force_active:
   - grass_render_vec
   - gray_out_unusable_entries__14TWindowSubItemFv
   - group_selection_area_id_table
-  - gryphon_demo_collision_body_desc
+  - TBoss5GryphonColli_sphere_chain_desc
   - gryphon_particle_enable_pos
   - gryphon_particle_position_vec
   - gryphon_shockwave_particle_ids_ptr
@@ -8268,7 +8268,7 @@ force_active:
   - TBoss4Zako__name
   - TBoss4Uro__name
   - TBoss4Bishi__name
-  - lbl_805D2808
+  - TBoss5GryphonColli_C__name
   - TBoss5GryphonColli__name
   - TBoss5GryphonDemo__name
   - TBoss5GryphonSnarl__name
@@ -15406,7 +15406,7 @@ force_active:
   - set_action_state__15TObjEneDelDepthFl
   - set_active_flag__11TWindowChatFv
   - set_active_flag__11TWindowMenuFv
-  - set_all_entry_flags__17TBoss5GryphonDemoFv
+  - set_segment_flags__20TBoss5GryphonColli_CFv
   - set_segment_flags__19TBoss8DragonColli_CFv
   - set_alt_model_flag__10TObjPlayerFv
   - set_amount__11TItemObjectFl

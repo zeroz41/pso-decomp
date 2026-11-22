@@ -15,58 +15,19 @@
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/unk/text_803D8F74.h"
 
 
 #pragma readonly_strings on
 
-extern "C" {
-s32 gryphon_demo_collision_body_desc[11] = { 0, 0, 0, 0x3F800000, 0, 0, 0x8003, 0, 0, 0, 0 };
+CollisionBody TBoss5GryphonColli_sphere_chain_desc = {
+    {0.0f, 0.0f, 0.0f}, 1.0f, 0.0f, 0, 0x8003,
+};
 
-const char *lbl_805D2808 = "TBoss5GryphonColli_C";
+const char *TBoss5GryphonColli_C__name = "TBoss5GryphonColli_C";
 const char *TBoss5GryphonColli__name = "TBoss5GryphonColli";
-
-}
-
-extern "C" {
-extern const char *TBoss5GryphonColli__name;
-
-}
-
-struct E_8006633C { u8 pad[0x18]; u32 flags; u8 pad2[0x10]; };
-
-struct O_8006633C { u8 pad[0xa4]; E_8006633C *entries; s32 count; };
-
-struct Seg_800663DC {
-    f32 f0;
-    f32 f4;
-    f32 f8;
-    f32 fc;
-    u8 pad10[8];
-    s32 flags;
-    u8 pad1c[0x10];
-};
-
-struct Obj_800663DC {
-    s32 f0;
-    u8 pad4[0x14];
-    void *vt;
-    s16 f1c;
-    u8 pad1e[0xA4 - 0x1E];
-    Seg_800663DC *segs;
-    s32 count;
-    u8 posbuf[0xC];
-};
-
-extern "C" {
-extern s32 gryphon_demo_collision_body_desc[];
-extern const char *lbl_805D2808;
-
-void TBoss5GryphonDemo__sub_8006626C(void* p);
-int matrix_mult_vec(void*, void*, void*);
-int post_translate_matrix(void*);
-int rotate_matrix_y(void*, s32);
-
-}
 
 // Written last to first: the unit is generated deferred (see configure.py).
 
@@ -76,9 +37,9 @@ TBoss5GryphonColli_C::TBoss5GryphonColli_C(TObject *parent, s32 count, const Vec
     f32 z;
     CollisionBody *body;
     s32 i;
-    m_name = lbl_805D2808;
+    m_name = TBoss5GryphonColli_C__name;
     entity_id = TLobby::alloc_actor_ids(0);
-    VecCopy(&base_position, pos);
+    VecCopy(&local_position, pos);
     body_count = count;
     bodies = (CollisionBody *)mem_alloc(body_count * sizeof(CollisionBody));
     step = 2.0f * len;
@@ -87,7 +48,7 @@ TBoss5GryphonColli_C::TBoss5GryphonColli_C(TObject *parent, s32 count, const Vec
     i = 0;
     z = len * (body_count - 1);
     for (; i < body_count; i++) {
-        copy_collision_body(body, (const CollisionBody *)gryphon_demo_collision_body_desc);
+        copy_collision_body(body, &TBoss5GryphonColli_sphere_chain_desc);
         body->offset.x = zero;
         body->offset.y = zero;
         body->offset.z = z;
@@ -98,7 +59,7 @@ TBoss5GryphonColli_C::TBoss5GryphonColli_C(TObject *parent, s32 count, const Vec
     }
     refresh_collision_body_centers();
     register_entity_by_id(this);
-    clear_entry_flags();
+    clear_segment_flags();
 }
 
 TBoss5GryphonColli_C::~TBoss5GryphonColli_C() {
@@ -106,24 +67,35 @@ TBoss5GryphonColli_C::~TBoss5GryphonColli_C() {
     free_collision_body_parts(this);
 }
 
-void TBoss5GryphonDemo::set_all_entry_flags() {
-    O_8006633C *self = (O_8006633C *)this;
-    s32 i;
-    for (i = 0; i < self->count; i++) {
-        self->entries[i].flags |= 1;
-    }
-}
-
-void TBoss5GryphonColli_C::clear_entry_flags() {
-    Obj_800663DC *self = (Obj_800663DC *)this;
+void TBoss5GryphonColli_C::set_segment_flags() {
     s32 i;
     for (i = 0; i < this->body_count; i++) {
-        self->segs[i].flags &= ~1;
+        this->bodies[i].flags |= 1;
     }
 }
 
-void TBoss5GryphonDemo::draw_model(void* a1, s32 a2) { push_matrix(); set_matrix_identity((u8 *)((void*)0)); post_translate_matrix(a1); rotate_matrix_y((void*)0, a2); matrix_mult_vec((void*)0, (char*)this + 0xac, (char*)this + 0x38); pop_matrix(); *(s32*)((char*)this + 0x60) = a2; ((TObjCollidable *)this)->refresh_collision_body_centers(); set_all_entry_flags(); }
-void TBoss5GryphonDemo__sub_8006626C(void* p) { ((TBoss5GryphonColli_C *)p)->clear_entry_flags(); }
+void TBoss5GryphonColli_C::clear_segment_flags() {
+    s32 i;
+    for (i = 0; i < this->body_count; i++) {
+        this->bodies[i].flags &= ~1;
+    }
+}
+
+// Places the chain at local_position from pos turned by angle and enables its bodies.
+void TBoss5GryphonColli_C::enable_at(Vec *pos, s32 angle) {
+    push_matrix();
+    set_matrix_identity(NULL);
+    post_translate_matrix(&pos->x);
+    rotate_matrix_y(NULL, angle);
+    matrix_mult_vec(NULL, &this->local_position, &this->position);
+    pop_matrix();
+    this->rotation_y = angle;
+    this->refresh_collision_body_centers();
+    this->set_segment_flags();
+}
+
+void TBoss5GryphonColli_C::disable() { this->clear_segment_flags(); }
+
 void TBoss5GryphonColli_C::render() {  }
 
 TBoss5GryphonColli::TBoss5GryphonColli(TObject *parent) : TObject(parent) {
@@ -144,5 +116,6 @@ TBoss5GryphonColli::~TBoss5GryphonColli() {
     }
 }
 
-void TBoss5GryphonDemo::draw_linked_model(void* position, s32 yaw) { ((TBoss5GryphonDemo *)(((TBoss5GryphonColli*)this)->objects[0]))->draw_model(position, yaw); }
-int TBoss5GryphonDemo::get_state() { return ((int (*)(void*))TBoss5GryphonDemo__sub_8006626C)(*(void**)((char*)this + 0x1c)); }
+void TBoss5GryphonColli::enable_blocking_bodies(Vec *pos, s32 angle) { this->objects[0]->enable_at(pos, angle); }
+
+void TBoss5GryphonColli::disable_blocking_bodies() { this->objects[0]->disable(); }

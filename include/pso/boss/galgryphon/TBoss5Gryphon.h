@@ -11,7 +11,7 @@ struct NJS_OBJECT;
 
 class AreaAttackHistory;
 class TParticleCtrl;
-class TBoss5GryphonDemo;
+class TBoss5GryphonColli;
 class TBoss5GryphonLightningHorn;
 struct Boss5GryphonActionStep;
 struct G_GalGryphonBossActions_6x9F;
@@ -126,7 +126,7 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     Vec sound_origin;  // projected from the camera each frame; sounds play from it
     Vec pad_56C;
     AreaAttackHistory *attack_history;
-    TBoss5GryphonDemo *demo;
+    TBoss5GryphonColli *collider;
     RenderFadeState renderFadeStates[4];
     const s32 *effect_ids;
     u8 rng[0xE8];

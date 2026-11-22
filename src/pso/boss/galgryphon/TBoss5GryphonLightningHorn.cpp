@@ -18,33 +18,14 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/player/PlayerSlots.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_803E18C0.h"
 
 #pragma readonly_strings on
 
 const char *TBoss5GryphonLightningHorn__name = "TBoss5GryphonLightningHorn";
-
-struct Ray_80325F7C { Vec o; Vec d; };
-
-struct Ctl_80325F7C { u8 pad[0x38]; Vec pos; };
-
-typedef struct Seg_80326074 { Vec pos; f32 pad; } Seg_80326074;
-
-typedef struct Hit_80326074 { u8 pad[4]; f32 *pos; } Hit_80326074;
-
-typedef struct Wing_80326074 {
-    u8 pad0[0x48];
-    Seg_80326074 segs[4];
-    u8 pad88[8];
-    s32 n;
-    u8 pad94[4];
-    Vec vel;
-} Wing_80326074;
-
-extern "C" {
-Ctl_80325F7C *get_player_by_client_id(s32);
-void project_point_onto_line(void *, void *, void *);
-f32 sin_table_lookup(int);
-f32 cos_table_lookup(int, f32, f32);
 
 void TBoss5GryphonLightningHorn::queue_destruction() { TObject::queue_destruction(); }
 
@@ -63,7 +44,7 @@ void TBoss5GryphonLightningHorn::queue_destruction() { TObject::queue_destructio
         to->z = dir->z * dist + from->z; \
         return 1; \
     }
-s32 TObjPlayer__sub_80325D58(void *self, Vec *from, Vec *dir, Vec *to, f32 dist) {
+s32 TBoss5GryphonLightningHorn::clamp_to_segment(Vec *from, Vec *dir, Vec *to, f32 dist) {
     Vec d;
     Vec n;
     f32 t;
@@ -72,11 +53,11 @@ s32 TObjPlayer__sub_80325D58(void *self, Vec *from, Vec *dir, Vec *to, f32 dist)
     d.z = to->z - from->z;
     t = vec3_dot(dir, &d);
     if (0.0f > t) {
-        VecCopy((Vec *)to, (const Vec *)from);
+        VecCopy(to, from);
         return 1;
     }
     if (1.0f != t) {
-        VecCopy((Vec *)&n, (const Vec *)&d);
+        VecCopy(&n, &d);
         normalize_vector(&n);
         if (1.0f != vec3_dot(dir, &n)) {
             STEP_80325D58()
@@ -88,84 +69,81 @@ s32 TObjPlayer__sub_80325D58(void *self, Vec *from, Vec *dir, Vec *to, f32 dist)
 #undef STEP_80325D58
 #pragma pop
 
-void fn_80325F7C(void *self) {
-    Ray_80325F7C ray;
+void TBoss5GryphonLightningHorn::apply_lightning_effect() {
+    Line_803E18C0 ray;
     Vec pos;
     Vec wing;
     Vec hit;
     Vec dir;
     TBoss5Gryphon *inst;
     s32 i;
-    Ctl_80325F7C *c;
+    TObjPlayer *c;
     inst = TBoss5Gryphon::get_instance();
     if (inst != NULL) {
         i = 0;
         do {
             c = get_player_by_client_id(i);
             if (c != 0) {
-                ((TBoss5GryphonLightningHorn *)self)->get_start_position(&pos);
-                ((TBoss5GryphonLightningHorn *)self)->get_end_position(&wing);
+                get_start_position(&pos);
+                get_end_position(&wing);
                 ray.o.x = pos.x;
-                ray.o.y = c->pos.y;
+                ray.o.y = c->position.y;
                 ray.o.z = pos.z;
                 ray.d.x = wing.x - pos.x;
                 ray.d.y = 0.0f;
                 ray.d.z = wing.z - pos.z;
-                project_point_onto_line(&c->pos, &ray, &hit);
+                project_point_onto_line(&c->position, &ray, &hit);
                 dir.x = ray.d.x;
                 dir.y = ray.d.y;
                 dir.z = ray.d.z;
-                TObjPlayer__sub_80325D58(self, (Vec *)&pos, (Vec *)&dir, (Vec *)&hit,
-                                         normalize_vector_safe(&dir));
+                clamp_to_segment(&pos, &dir, &hit, normalize_vector_safe(&dir));
                 TBoss5Gryphon::apply_lightning_hit(inst, &hit, 6.0f);
             }
             i++;
         } while (i < 4);
     }
 }
-}
 
 #pragma push
 #pragma fp_contract on
 void TBoss5GryphonLightningHorn::rebuild_lightning_segments() {
-    Wing_80326074 *self = (Wing_80326074 *)this;
     Vec q;
     Vec p;
     Vec d;
-    Hit_80326074 *hit;
+    CsnHit *hit;
     f32 h;
     f32 len;
     s32 i;
     f32 r;
     this->get_end_position(&p);
-    p.x += self->vel.x;
-    p.y += self->vel.y;
-    p.z += self->vel.z;
+    p.x += velocity.x;
+    p.y += velocity.y;
+    p.z += velocity.z;
     p.y = 60.0f;
-    hit = (Hit_80326074 *)csnVecterUnder(&p, 0x16EF);
-    if (hit == NULL || (h = hit->pos[1]) > gryphon_max_floor_height) {
+    hit = csnVecterUnder(&p, 0x16EF);
+    if (hit == NULL || (h = hit->contact->point.y) > gryphon_max_floor_height) {
         this->get_end_position(&p);
-        self->vel.x *= 0.5f;
-        self->vel.y *= 0.5f;
-        self->vel.z *= 0.5f;
+        velocity.x *= 0.5f;
+        velocity.y *= 0.5f;
+        velocity.z *= 0.5f;
     } else {
         p.y = h;
     }
     this->get_start_position(&q);
-    VecCopy((Vec *)&d, (const Vec *)&p);
+    VecCopy(&d, &p);
     subtract_vector(&d, &q);
-    len = normalize_vector_safe(&d) / (self->n - 1);
+    len = normalize_vector_safe(&d) / (segment_count - 1);
     d.x *= len;
     d.y *= len;
     d.z *= len;
-    VecCopy((Vec *)&p, (const Vec *)&q);
-    for (i = 0; i < self->n; i++) {
-        VecCopy((Vec *)&self->segs[i].pos, (const Vec *)&p);
+    VecCopy(&p, &q);
+    for (i = 0; i < segment_count; i++) {
+        VecCopy(&segments[i].pos, &p);
         vec3_add_to(&p, &d);
     }
     r = 25.0f * ((1.0f / 32768.0f) * (f32)rand()) + 10.0f;
-    for (i = 1; i < self->n - 1; i++) {
-        self->segs[i].pos.y += r;
+    for (i = 1; i < segment_count - 1; i++) {
+        segments[i].pos.y += r;
     }
     this->update_endpoints();
 }
@@ -175,7 +153,7 @@ void TBoss5GryphonLightningHorn::render() {}
 
 void TBoss5GryphonLightningHorn::run_task() {
     rebuild_lightning_segments();
-    fn_80325F7C(this);
+    apply_lightning_effect();
     spawn_gryphon_lightning();
 }
 
@@ -183,13 +161,11 @@ TBoss5GryphonLightningHorn::~TBoss5GryphonLightningHorn() {}
 
 
 TBoss5GryphonLightningHorn::TBoss5GryphonLightningHorn(TObject *parent, Vec *pos, s32 rotation_y) : TBoss5GryphonLightning(parent, pos, 10.0f) {
-    f32 temp_f1;
     m_name = TBoss5GryphonLightningHorn__name;
     this->rotation_y = rotation_y;
-    temp_f1 = 5.0f * sin_table_lookup(this->rotation_y);
-    this->velocity.x = temp_f1;
-    this->velocity.y = 0.0f;
-    this->velocity.z = 5.0f * cos_table_lookup(this->rotation_y, temp_f1, 5.0f);
+    velocity.x = 5.0f * sin_table_lookup(this->rotation_y);
+    velocity.y = 0.0f;
+    velocity.z = 5.0f * cos_table_lookup(this->rotation_y);
     this->grow_progress = 1.0f;
     this->segment_count = 4;
 }
@@ -197,13 +173,13 @@ TBoss5GryphonLightningHorn::TBoss5GryphonLightningHorn(TObject *parent, Vec *pos
 TBoss5GryphonLightningHorn *TBoss5GryphonLightningHorn::spawn_ground_lightning(TObject *parent, Vec *pos, s32 rotation_y) {
     Vec position;
     f32 ground_height;
-    u8* collision;
+    CsnHit *hit;
     VecCopy(&position, pos);
-    collision = (u8 *)csnVecterUnder(&position, 0x16EF);
-    if (collision == NULL) {
+    hit = csnVecterUnder(&position, 0x16EF);
+    if (hit == NULL) {
         position.y = gryphon_max_floor_height;
     } else {
-        ground_height = *(f32*)((s8 *)(*(u8**)((s8 *)collision + 4)) + 4);
+        ground_height = hit->contact->point.y;
         if (ground_height > gryphon_max_floor_height) {
             position.y = gryphon_max_floor_height;
         } else {
