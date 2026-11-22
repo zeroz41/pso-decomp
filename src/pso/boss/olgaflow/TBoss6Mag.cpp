@@ -92,14 +92,14 @@ extern "C" s32 is_local_client_floor_leader();
 #pragma dont_inline off
 #pragma readonly_strings on
 
-const char *lbl_805D4220 = "TBoss6Mag";
+const char *boss6_mag_name = "TBoss6Mag";
 extern const TBoss6MagEmitter TBoss6Type2__effect_emitter_id_table[4] = { {555, -1}, {556, -1}, {537, -1}, {542, 0} };
-extern const ModelNodePositionEntry lbl_804773DC[2] = {{3}, {-1}};
-extern const TBoss6MagTarget lbl_804773FC = { 0xFFFF, 1 };
+extern const ModelNodePositionEntry boss6_mag_capture_nodes[2] = {{3}, {-1}};
+extern const TBoss6MagTarget boss6_mag_initial_target = { 0xFFFF, 1 };
 extern const TBoss6MagMotion boss6_type2_zero_vec3_block = { 0 };
 extern const TBoss6MagMotionTrack boss6_type2_initial_state = { NULL, 0.0f, 0.0f, 0.0f, 0.06666667f, NULL, 0.0f };
-extern const s32 lbl_80477444[3] = { -0x2000, 0, 0x2000 };
-extern const TBoss6MagRamp lbl_80477450 = { 0.0f, 0.0f };
+extern const s32 boss6_mag_rock_spread_angles[3] = { -0x2000, 0, 0x2000 };
+extern const TBoss6MagRamp boss6_mag_zero_ramp = { 0.0f, 0.0f };
 CollisionBody TBoss6Mag__collision_body_parts[1] = {
     { { 0.0f, 0.0f, 0.0f }, 30.0f, 0.0f, 0, 0x807B, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
@@ -114,7 +114,7 @@ __declspec(section ".data") TBoss6Mag *TBoss6Type2__instance_slots[2] = {
     NULL, NULL,
 };
 
-void TBoss6Mag__sub_803309C4(TBoss6MagTarget *dst, TBoss6MagTarget *src) {
+void copy_mag_target(TBoss6MagTarget *dst, TBoss6MagTarget *src) {
     dst->client_id = src->client_id;
     dst->on_shoulder = src->on_shoulder;
 }
@@ -123,7 +123,7 @@ TBoss6Mag::TBoss6Mag(TObject *parent, TBoss6MagSpawnParams *params) : TObjEnemy(
     TBoss6MagStateRecord record;
     f32 *tuning;
     s32 param_index;
-    m_name = lbl_805D4220;
+    m_name = boss6_mag_name;
     owner = params->owner;
     VecCopy(&position, &params->origin);
     rotation_y = params->rotation_y;
@@ -158,9 +158,9 @@ TBoss6Mag::TBoss6Mag(TObject *parent, TBoss6MagSpawnParams *params) : TObjEnemy(
     add_flags_2e4(params->flags);
     segment_variant = params->variant;
     init_segment_angle_range();
-    sub_803300C8();
-    capture = ModelNodePositionCapture::create(lbl_804773DC, node_positions);
-    TBoss6Mag__sub_803309C4(&chase_target, (TBoss6MagTarget *)&lbl_804773FC);
+    init_motion_state();
+    capture = ModelNodePositionCapture::create(boss6_mag_capture_nodes, node_positions);
+    copy_mag_target(&chase_target, (TBoss6MagTarget *)&boss6_mag_initial_target);
     tuning = (f32 *)TLobby::dispatch_shared_handler_a(0x2E);
     dead_duration = (s32)tuning[0];
     if ((f32)dead_duration <= 0.0f) {
@@ -175,7 +175,7 @@ TBoss6Mag::TBoss6Mag(TObject *parent, TBoss6MagSpawnParams *params) : TObjEnemy(
     hp_ratio = 1.0f;
     fade = 0.0f;
     sync_hp();
-    sub_8032EA10();
+    clear_particle_emitters();
     set_action(0);
 }
 
@@ -221,13 +221,13 @@ void TBoss6Mag::run_task() {
         decay_glow_and_calc_hp_ratio();
         sync_hp_apply_damage();
         spawn_trap_by_stat();
-        sub_8032E8DC();
+        update_state_effects();
         update_effect_positions();
         frame_counter = frame_counter + 1;
     }
 }
 
-void TBoss6Mag::render() { sub_8033040C(); }
+void TBoss6Mag::render() { render_body_effects(); }
 
 void TBoss6Mag::spawn_trap_by_stat() {
     s32 sound_id;
@@ -242,7 +242,7 @@ void TBoss6Mag::spawn_trap_by_stat() {
     play_persistent_sound(sound_id, (saddr)this, (uaddr)&position, 0, 0);
 }
 
-void TBoss6Mag::sub_8033040C() {
+void TBoss6Mag::render_body_effects() {
     f32 flash;
     f32 fade_amount;
     s32 tinted;
@@ -289,7 +289,7 @@ void TBoss6Mag::run_death_reaction() {
     case 5:
         return;
     default:
-        owner->sub_802BD340();
+        owner->on_mag_dead();
         hit_flash = 1.0f;
         set_action(4);
         play_sound_effect(0x69E17, &position, 0, 0);
@@ -346,7 +346,7 @@ void TBoss6MagMotionTrack::copy_state(TBoss6MagMotionTrack *src) {
     prev_frame = src->prev_frame;
 }
 
-void TBoss6Mag::sub_803300C8() {
+void TBoss6Mag::init_motion_state() {
     AnimationMotion *bml_motion;
     motion_state.copy_from(&boss6_type2_zero_vec3_block);
     motion_state.track.copy_state((TBoss6MagMotionTrack *)&boss6_type2_initial_state);
@@ -524,13 +524,13 @@ void TBoss6Mag::update_segment_angles() {
     m_2fa = param_copy.values[4];
 }
 
-s32 TBoss6Mag::sub_8032FB84() {
+s32 TBoss6Mag::snap_to_shoulder() {
     Vec v;
     s32 t;
     if (owner == NULL) {
         return 0;
     }
-    owner->sub_802BD378(index, &v, &t);
+    owner->get_shoulder_point(index, &v, &t);
     v.y += 35.0f;
     VecCopy(&position, &v);
     rotation_y = t;
@@ -552,7 +552,7 @@ s32 TBoss6Mag::fly_toward_target() {
     if (owner == NULL) {
         return 0;
     }
-    owner->sub_802BD378(index, &tgt, &t);
+    owner->get_shoulder_point(index, &tgt, &t);
     tgt.y += 35.0f;
     VecCopy(&d, &tgt);
     subtract_vector(&d, &position);
@@ -677,7 +677,7 @@ void TBoss6Mag::apply_random_drift() {
     vec3_add_to(&position, &v);
 }
 
-void TBoss6Mag::sub_8032F5C4() {
+void TBoss6Mag::revive() {
     actorFlags &= ~0xA00;
     hp = initial_hp;
     sync_hp();
@@ -692,7 +692,7 @@ void TBoss6Mag::spawn_falling_rocks() {
     s32 ang;
     f32 r;
     for (i = 0; i < 3; i++) {
-        ang = rotation_y + lbl_80477444[i] + (s32)(4096.0f * (0.5f - 3.0517578e-05f * (f32)rand()));
+        ang = rotation_y + boss6_mag_rock_spread_angles[i] + (s32)(4096.0f * (0.5f - 3.0517578e-05f * (f32)rand()));
         r = 40.0f * (3.0517578e-05f * (f32)rand()) + 80.0f;
         p = &pts[i];
         VecCopy(p, &node_positions[0]);
@@ -734,13 +734,13 @@ void TBoss6Mag::spawn_mag_mines() {
     }
 }
 
-void TBoss6Type2__sub_8032F2F0(TBoss6MagRamp *dst, TBoss6MagRamp *src) {
+void copy_mag_ramp(TBoss6MagRamp *dst, TBoss6MagRamp *src) {
     dst->aim = src->aim;
     dst->charge = src->charge;
 }
 
 void TBoss6Mag::init_with_global_table() {
-    TBoss6Type2__sub_8032F2F0(&ramp, (TBoss6MagRamp *)&lbl_80477450);
+    copy_mag_ramp(&ramp, (TBoss6MagRamp *)&boss6_mag_zero_ramp);
 }
 
 void TBoss6Mag::update_rotation_ramp() {
@@ -958,7 +958,7 @@ f32 TBoss6Mag::apply_direction_sign(f32 value) {
     return value;
 }
 
-s32 TBoss6Mag::sub_8032EAB8(s32 turn) {
+s32 TBoss6Mag::apply_direction_sign(s32 turn) {
     if (index == 0) {
         return turn;
     }
@@ -967,18 +967,18 @@ s32 TBoss6Mag::sub_8032EAB8(s32 turn) {
 
 s32 TBoss6Mag::step_angle_toward(s32 from, s32 to, s32 turn) {
     s32 next;
-    sub_8032EAB8(turn);
+    apply_direction_sign(turn);
     if (angle_difference_abs(to, from) <= turn) {
         return to;
     }
-    next = from + sub_8032EAB8(turn);
+    next = from + apply_direction_sign(turn);
     if (angle_difference_abs(to, next) <= turn) {
         return to;
     }
     return next;
 }
 
-void TBoss6Mag::sub_8032EA10() {
+void TBoss6Mag::clear_particle_emitters() {
     s32 i;
     for (i = 0; i < 4; i++) {
         emitters[i] = NULL;
@@ -994,7 +994,7 @@ void TBoss6Mag::update_all_parts() {
     } while (i < 4);
 }
 
-void TBoss6Mag::sub_8032E8DC() {
+void TBoss6Mag::update_state_effects() {
     switch (owner->get_state()) {
     case 14:
     case 24:
@@ -1076,5 +1076,5 @@ void TBoss6Mag::set_target_nodes(u32 flags, s32 variant) { m_2e4 = flags; segmen
 
 void TBoss6Mag::set_action_field_0x408(u16 client_id) { chase_target.client_id = client_id; }
 
-void TBoss6Mag::sub_8032E708(s32 on_shoulder) { chase_target.on_shoulder = on_shoulder; }
+void TBoss6Mag::set_on_shoulder(s32 on_shoulder) { chase_target.on_shoulder = on_shoulder; }
 

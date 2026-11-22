@@ -424,18 +424,18 @@ force_active:
   - TBoss6Type2__instance_slots
   - clear_particle_emitters__11TBoss6Type2Fv
   - reset_lower_contact__11TBoss6Type2Fv
-  - sub_802BA7BC__11TBoss6Type2Fv
-  - sub_802BB4DC__11TBoss6Type2Fv
+  - update_leg_ground_effects__11TBoss6Type2Fv
+  - clear_head_aim__11TBoss6Type2Fv
   - pick_action_clients__11TBoss6Type2FPUsPUs
   - create_mags__11TBoss6Type2Ff
-  - TBoss6Type2__sub_802BBE20
+  - update_collision_bodies__11TBoss6Type2Fv
   - change_motion__11TBoss6Type2Fl
   - pick_walk_target__11TBoss6Type2FP14Boss6GridBytes
   - TBoss6Type2__sub_802BE4E0
-  - sub_8032EA10__9TBoss6MagFv
-  - sub_8032EAB8__9TBoss6MagFl
-  - TBoss6Type2__sub_8032F2F0
-  - sub_803300C8__9TBoss6MagFv
+  - clear_particle_emitters__9TBoss6MagFv
+  - apply_direction_sign__9TBoss6MagFl
+  - copy_mag_ramp__FP13TBoss6MagRampP13TBoss6MagRamp
+  - init_motion_state__9TBoss6MagFv
   - TBoss7Crawfish__shared_resource
   - TBoss7LaserLight_name
   - __ct__18TBoss7PhotonBulletFP7TObjectP8TObjBasePC3VecPC3Vecf
@@ -3819,7 +3819,7 @@ force_active:
   - advance_past_disabled_menu_rows__11TWindowMenuFv
   - advance_path_position__14TBoss7TentacleFv
   - advance_phase__18TObjTailsTailsMoveFv
-  - advance_phase_counter__9TBoss6MagFv
+  - update_start__9TBoss6MagFv
   - advance_phase_if_ready__14TBoss6PlotFalzFv
   - advance_plot_to_state2__11TBoss6Type1Fv
   - advance_pose_turn__14TObjEneBm5WolfFPvi
@@ -7728,10 +7728,10 @@ force_active:
   - dolmolm_model_name_lo_abgc01l_wola_body_nj
   - bm_ene_abgc01_wola_body_low_bml_filename
   - lbl_804750C8
-  - lbl_804773DC
-  - lbl_804773FC
-  - lbl_80477444
-  - lbl_80477450
+  - boss6_mag_capture_nodes
+  - boss6_mag_initial_target
+  - boss6_mag_rock_spread_angles
+  - boss6_mag_zero_ramp
   - lbl_80477DEC
   - lbl_80477E30
   - lbl_80477E3C
@@ -8326,7 +8326,7 @@ force_active:
   - TBoss8DragonDemo__name
   - TObjEneMe1GiGueBarrier__name
   - TAdDialingGC__name
-  - lbl_805D4220
+  - boss6_mag_name
   - lbl_805D42D8
   - TItemEffPG__name
   - TBoss5GryphonLightningWing__name
@@ -16052,7 +16052,7 @@ force_active:
   - start_invincibility__8TItemMagFv
   - start_line__15TAdDrawLineCtrlFl
   - start_lines_for_key__15TAdDrawLineCtrlFl
-  - start_mag_mines_state__9TBoss6MagFv
+  - act_shoot__9TBoss6MagFv
   - start_match__19TPlayerBattleCtrl4PFv
   - start_move_toward_player__15TObjEneDelDepthFv
   - start_phase1__12TBoss3VoloptFv
@@ -16323,10 +16323,10 @@ force_active:
   - update_sword_mv__11TBoss6Type1Fv
   - update_kakusan__11TBoss6Type1Fv
   - update_appear__11TBoss6Type1Fv
-  - sub_802BA078__11TBoss6Type2Fv
-  - sub_802BB498__11TBoss6Type2Fv
-  - sub_802BB554__11TBoss6Type2Fv
-  - sub_802BC124__11TBoss6Type2Fv
+  - damage_possessed_player__11TBoss6Type2Fv
+  - update_camera__11TBoss6Type2Fv
+  - update_head_aim__11TBoss6Type2Fv
+  - decay_glow_and_calc_hp_ratio__11TBoss6Type2Fv
   - sub_802C1660__13TUnk_804E08D4Fv
   - sub_802C1BFC__13TUnk_804E0910Fv
   - sub_802C1E34__13TUnk_804E0910Fv
@@ -16365,14 +16365,14 @@ force_active:
   - sub_8032C0B4__14TAdYesNoBaseGCFv
   - sub_8032D214__16TAdWarningBaseGCFv
   - sub_8032E294__13TUnk_804EDD44Fv
-  - sub_8032E8DC__9TBoss6MagFv
-  - sub_8033040C__9TBoss6MagFv
+  - update_state_effects__9TBoss6MagFv
+  - render_body_effects__9TBoss6MagFv
   - sub_8033645C__13TUnk_804EEF64Fv
-  - sub_80336F00__9TBoss6MagFv
-  - sub_80336FB8__9TBoss6MagFv
-  - sub_80337108__9TBoss6MagFv
-  - sub_80337160__9TBoss6MagFv
-  - sub_803371B4__9TBoss6MagFv
+  - act_revival__9TBoss6MagFv
+  - act_dead__9TBoss6MagFv
+  - act_chase_pl__9TBoss6MagFv
+  - act_set_shoulder__9TBoss6MagFv
+  - act_start__9TBoss6MagFv
   - sub_80339B94__9TSaveChCrFv
   - sub_80339CE4__9TSaveChCrFv
   - sub_80339DBC__9TSaveChCrFv
@@ -16509,7 +16509,7 @@ force_active:
   - texture_prs_stream_filename_buffer
   - throw_gogo_ball__12TWindowTimerFll
   - tick_attack_sequence__11TBoss6Type1Fv
-  - tick_attack_timer__9TBoss6MagFv
+  - update_shoot__9TBoss6MagFv
   - tick_battle_music_timer
   - tick_countdown__11TBoss6Type1Fv
   - tick_display_timer__15TWindowHelpItemFPv
@@ -16696,7 +16696,7 @@ force_active:
   - update_attack_parameters__16TObjEneNanoDragoFv
   - update_attack_pattern__18TObjEneEpsilonBodyFv
   - update_attack_state__11TBoss6Type1Fv
-  - update_attack_state__9TBoss6MagFv
+  - update_set_shoulder__9TBoss6MagFv
   - update_attack_switch__11TBoss6Type2Fv
   - update_attack_timer2__11TBoss6Type1Fv
   - update_attack_timer__11TBoss6Type1Fv
@@ -16869,7 +16869,7 @@ force_active:
   - update_effect_params__10TTecDebandFv
   - update_effect_params__9TTecSiftaFv
   - update_effect_positions__9TBoss6MagFv
-  - update_effect_subsystems__9TBoss6MagFv
+  - update_chase_pl__9TBoss6MagFv
   - update_effects__13TUnk_804B8DD0Fv
   - update_elapsed_time__23TAdSinglePlyChrSelectGCFPv
   - update_burrow__16TObjEneMerillLiaFv
@@ -17141,12 +17141,12 @@ force_active:
   - update_pulse_value__17TOSensorAncient01Fv
   - update_punch_attack__11TObjEneMojaFv
   - update_radar_markers__11TBoss4Type3Fv
-  - update_ramp_timer__9TBoss6MagFv
+  - update_dead__9TBoss6MagFv
   - update_random_shake__14TBoss6PlotFalzFv
   - update_reaction_animation__16TBoss3VoloptCoreFv
   - update_recoil_state__13TObjEneBm3FlyFl
   - update_records_in_range__6TSceneFv
-  - update_recover_timer__9TBoss6MagFv
+  - update_revival__9TBoss6MagFv
   - update_reload_phase__19TPlayerBattleCtrl4PFv
   - update_render_flags__13TObjTombstoneFv
   - update_replenish__17TObjEneBm3FlyNestFv

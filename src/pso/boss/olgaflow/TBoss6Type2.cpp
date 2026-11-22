@@ -262,7 +262,7 @@ TBoss6Type2::TBoss6Type2(TObject *parent, saddr *params) : TObjEnemy(parent) {
     hp_ratio = 1.0f;
     turn_sound_played = 0;
     create_mags(0.0f);
-    sub_802BB768();
+    call_mags_to_shoulders();
     TBoss6Rock::create_rock_pool(this);
     reset_lower_contact();
     TBoss6Type2::capture_player_snapshots();
@@ -621,7 +621,7 @@ f32 TBoss6Type2::receive_physical_attack(void *att, f32 scale) {
     if (hurt != 0) {
         return TObjChara::receive_physical_attack(att, scale);
     }
-    sub_802BA078();
+    damage_possessed_player();
     spawn_hit_effects();
     return 0.0f;
 }
@@ -637,7 +637,7 @@ f32 TBoss6Type2::receive_direct_attack(void *attacker, DirectAttackPayload msg, 
         if (msg.kind == (s32)variant) {
             break;
         }
-        sub_802BA078();
+        damage_possessed_player();
         spawn_hit_effects();
         return 0.0f;
     }
@@ -655,7 +655,7 @@ void TBoss6Type2::get_phase_values(u16 *a, u16 *b, u16 *out) {
 
 s32 TBoss6Type2::get_rotation_timer() { return this->berserk; }
 
-void TBoss6Type2::sub_802BD378(s32 index, Vec *pos, s32 *rotation) {
+void TBoss6Type2::get_shoulder_point(s32 index, Vec *pos, s32 *rotation) {
     VecCopy(pos, &node_positions[index + 0xE]);
     *rotation = rotation_y;
 }
@@ -666,7 +666,7 @@ void TBoss6Type2::apply_damage(s32 diff) {
     }
 }
 
-void TBoss6Type2::sub_802BD340() {  }
+void TBoss6Type2::on_mag_dead() {  }
 
 void TBoss6Type2::copy_pos_59c(Vec *out) {
     VecCopy(out, &node_positions[0]);
@@ -698,17 +698,17 @@ void TBoss6Type2::run_task() {
     }
     update_motion_tracks();
     advance_position();
-    this->sub_802BBE20();
+    this->update_collision_bodies();
     update_parts_flags();
     update_collisions();
     submit_cursor_candidate(this, -1);
     add_radar_scaled_marker(&this->position, -0x5DB4, 1, 1, 4.0f);
     apply_rock_hits_to_players();
-    sub_802BB498();
-    sub_802BC124();
+    update_camera();
+    decay_glow_and_calc_hp_ratio();
     scroll_strips.scroll_strips_uv(8, 0);
     TObjPlayer__sub_8023DEE0((s16 *)(*(saddr *)((s8 *)(*(u8 **)((s8 *)(find_model_node((uaddr)get_bml_model(archive, 1), 1)) + 4)) + 4)), 8, 0, 0);
-    sub_802BB554();
+    update_head_aim();
     copy_vec_array();
     if ((s32) this->berserk != 0) {
         play_persistent_sound(0x4006B00C, (saddr)this, (uaddr)&position, 0, 0);
@@ -716,7 +716,7 @@ void TBoss6Type2::run_task() {
     update_countdown();
     update_possess_target();
     update_footstep_effects();
-    sub_802BA7BC();
+    update_leg_ground_effects();
     update_part_positions();
     this->prev_hp = (s32) this->hp;
 }
@@ -1158,7 +1158,7 @@ s32 TBoss6Type2::choose_turn_motion() {
     return motion;
 }
 
-void TBoss6Type2::sub_802BC124() {
+void TBoss6Type2::decay_glow_and_calc_hp_ratio() {
     this->hit_flash += -0.06666667f;
     if (this->hit_flash < 0.0f) {
         this->hit_flash = 0.0f;
@@ -1233,7 +1233,7 @@ void TBoss6Type2::advance_position() {
     body_center.y += 30.0f;
 }
 
-void TBoss6Type2::sub_802BBE20() {
+void TBoss6Type2::update_collision_bodies() {
     Vec v;
     s32 i;
     Vec *base;
@@ -1445,20 +1445,20 @@ void TBoss6Type2::create_mags(f32) {
     mags[1]->set_anim_frame(mags[0]);
 }
 
-void TBoss6Type2::sub_802BB7C0() {
+void TBoss6Type2::release_mags() {
     if (mags[0] == 0 || mags[1] == 0) {
         return;
     }
-    mags[0]->sub_8032E708(0);
-    mags[1]->sub_8032E708(0);
+    mags[0]->set_on_shoulder(0);
+    mags[1]->set_on_shoulder(0);
 }
 
-void TBoss6Type2::sub_802BB768() {
+void TBoss6Type2::call_mags_to_shoulders() {
     if (mags[0] == 0 || mags[1] == 0) {
         return;
     }
-    mags[0]->sub_8032E708(1);
-    mags[1]->sub_8032E708(1);
+    mags[0]->set_on_shoulder(1);
+    mags[1]->set_on_shoulder(1);
 }
 
 #pragma push
@@ -1472,7 +1472,7 @@ u16 TBoss6Type2::pick_target_client() {
     }
     if ((s32)berserk == 0) {
         for (i = 0; i < count; i++) {
-            id = TBoss6PlotFalz__sub_802AAE48(i);
+            id = TBoss6PlotFalz::get_sorted_player(i);
             if (TBoss6Type2::is_player_in_rock_area(id) == 0) {
                 break;
             }
@@ -1482,7 +1482,7 @@ u16 TBoss6Type2::pick_target_client() {
         }
     } else {
         for (i = count - 1; i >= 0; i--) {
-            id = TBoss6PlotFalz__sub_802AAE48(i);
+            id = TBoss6PlotFalz::get_sorted_player(i);
             if (TBoss6Type2::is_player_in_rock_area(id) == 0) {
                 break;
             }
@@ -1503,8 +1503,8 @@ void TBoss6Type2::pick_action_clients(u16 *first, u16 *second) {
         return;
     }
     if ((s32)berserk == 0) {
-        u16 id0 = TBoss6PlotFalz__sub_802AAE48(0);
-        u16 id1 = TBoss6PlotFalz__sub_802AAE48(1);
+        u16 id0 = TBoss6PlotFalz::get_sorted_player(0);
+        u16 id1 = TBoss6PlotFalz::get_sorted_player(1);
         if (random_factor & 1) {
             *first = id0;
             *second = id1;
@@ -1523,11 +1523,11 @@ void TBoss6Type2::pick_action_clients(u16 *first, u16 *second) {
             }
         }
     } else {
-        *first = *second = TBoss6PlotFalz__sub_802AAE48(count - 1);
+        *first = *second = TBoss6PlotFalz::get_sorted_player(count - 1);
     }
 }
 
-void TBoss6Type2::sub_802BB554() {
+void TBoss6Type2::update_head_aim() {
     switch ((s32)action_state) {
     case 3:
     case 6: case 7: case 8: case 9: case 10: case 11:
@@ -1535,7 +1535,7 @@ void TBoss6Type2::sub_802BB554() {
         this->update_target();
         break;
     default:
-        sub_802BB4DC();
+        clear_head_aim();
         break;
     }
 }
@@ -1549,9 +1549,9 @@ void TBoss6Type2::update_target() {
     this->aim_toward_point(NULL);
 }
 
-void TBoss6Type2::sub_802BB4DC() { aim_toward_point(NULL); }
+void TBoss6Type2::clear_head_aim() { aim_toward_point(NULL); }
 
-void TBoss6Type2::sub_802BB498() {
+void TBoss6Type2::update_camera() {
     switch ((s32)action_state) {
     case 0xE:
     case 0x1C:
@@ -1865,7 +1865,7 @@ s32 TBoss6Type2::is_ready_to_attack() {
     return berserk_damage <= temp ? 1 : 0;
 }
 
-void TBoss6Type2::sub_802BA7BC() {
+void TBoss6Type2::update_leg_ground_effects() {
     f32 k = 20.0f;
     s32 i = 0;
     do {
@@ -2069,7 +2069,7 @@ void TBoss6Type2::reset_fish_fields() {
 
 #pragma push
 #pragma opt_common_subs off
-void TBoss6Type2::sub_802BA078() {
+void TBoss6Type2::damage_possessed_player() {
     TObjPlayer *p;
     if (possessed_client != 0xFFFF) {
         p = get_player_by_client_id(possessed_client);

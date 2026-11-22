@@ -65,6 +65,7 @@ struct TBoss6PlotFalz : public TObjEnemy {
     static TBoss6Type2 *get_type2();
     static s32 damage_player_hp(s32 client, u32 damage);
     static s32 sort_active_players();
+    static u16 get_sorted_player(s32 i);  // i-th client id of sort_active_players' order
     static u16 pick_random_active_player();
     int is_idle();
     TBoss6PlotFalzSetEntry *get_set_entry();
@@ -154,7 +155,6 @@ extern TBoss6Type2 *TBoss6PlotFalz__type2_instance;
 
 extern "C" {
 void TBoss6PlotFalz__sub_802AC008(f32 fade, f32 hp_ratio);
-u16 TBoss6PlotFalz__sub_802AAE48(s32 i);
 }
 
 extern "C" {

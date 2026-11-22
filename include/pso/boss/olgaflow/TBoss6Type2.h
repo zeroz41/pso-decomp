@@ -58,7 +58,7 @@ struct Boss6Type2MoveTarget {
 
 struct TBoss6Type2 : public TObjEnemy
 {
-    void sub_802BBE20();
+    void update_collision_bodies();
     TBoss6Type2(TObject *parent, saddr *params);
     virtual ~TBoss6Type2();
     virtual void run_task();
@@ -75,13 +75,13 @@ struct TBoss6Type2 : public TObjEnemy
     virtual void run_hit_reaction();
     virtual void run_death_reaction();
     s32 is_active();
-    void sub_802BC124();
-    void sub_802BB554();
-    void sub_802BB498();
+    void decay_glow_and_calc_hp_ratio();
+    void update_head_aim();
+    void update_camera();
     void update_possess_target();
     void restore_target_player_state();
     void reset_fish_fields();
-    void sub_802BA078();
+    void damage_possessed_player();
     void aim_toward_point(void *target);
     void render_body_effects();
     s32 action_state;  // row of boss6_type2_battle_actions (set_action_state)
@@ -273,8 +273,8 @@ struct TBoss6Type2 : public TObjEnemy
     void tick_timer_460();
     void select_attack_state();
     static TBoss6Mag *create_mag(TBoss6MagSpawnParams *params);
-    void sub_802BD340();
-    void sub_802BD378(s32 index, Vec *pos, s32 *rotation);
+    void on_mag_dead();
+    void get_shoulder_point(s32 index, Vec *pos, s32 *rotation);
     static void send_6xAD_grid_positions(s32 index, saddr points, s32 count);
     static void send_subordinate_actions(s32 kind, saddr ids, s32 n, s32 force, s32 unused);
     static TBoss6EffFlowSoul *create_flow_soul(TObject *parent, Vec *pos, s32 player, s32 duration);
@@ -310,15 +310,15 @@ struct TBoss6Type2 : public TObjEnemy
     void change_motion(s32 motion);
     void spawn_sword_wave();
     void create_mags(f32);
-    void sub_802BB7C0();
-    void sub_802BB768();
+    void release_mags();
+    void call_mags_to_shoulders();
     u16 pick_target_client();
     void pick_action_clients(u16 *first, u16 *second);
-    void sub_802BB4DC();
+    void clear_head_aim();
     void create_dpbs();
     s32 should_back_jump();
     s32 should_use_dpb();
-    void sub_802BA7BC();
+    void update_leg_ground_effects();
     void reset_lower_contact();
     void move_to_arena_center(s32 timer, s32 duration);
     void clear_particle_emitters();

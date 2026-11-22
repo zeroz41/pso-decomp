@@ -100,7 +100,7 @@ void TBoss6Type2::reset_state_timers() {
     s32 duration = info_stat_duration;
     state_duration = duration;
     state_timer = duration;
-    sub_802BB768();
+    call_mags_to_shoulders();
 }
 
 void TBoss6Type2::update_info_stat() {
@@ -165,7 +165,7 @@ void TBoss6Type2::init_attack_params() {
         last_walk_def = 0;
         break;
     }
-    sub_802BB7C0();
+    release_mags();
     switch ((s32) action_state) {
     case 5:
         spawn_particle_slot(0xD);
@@ -187,7 +187,7 @@ void TBoss6Type2::reset_timers_and_spawn_particle() {
     state_duration = 0x4B;
     state_timer = 0x4B;
     turn_done = 0;
-    sub_802BB7C0();
+    release_mags();
     switch (action_state) {
     case 9:
     case 10:
@@ -262,7 +262,7 @@ void TBoss6Type2::init_timers_and_copy_pos() {
     VecCopy(&move_origin, &position);
     iai_count = 0;
     if ((s32) berserk == 0) {
-        sub_802BB768();
+        call_mags_to_shoulders();
     }
 }
 
@@ -305,10 +305,10 @@ void TBoss6Type2::init_attack_timers() {
     state_timer = 0xB4;
     play_sound_effect(0x4006970E, &position, 0, 1);
     if ((s32) berserk == 0) {
-        sub_802BB7C0();
+        release_mags();
         return;
     }
-    sub_802BB768();
+    call_mags_to_shoulders();
 }
 
 void TBoss6Type2::update_state_34() { if (state_timer == 34) { drop_random_rocks(0); } }
@@ -425,7 +425,7 @@ void TBoss6Type2::spawn_death_soul() {
     berserk_wait_count = 0;
     play_sound_effect(0x68A25, &position, 0, 1);
     spawn_particle_slot(6);
-    sub_802BB768();
+    call_mags_to_shoulders();
     if (possess_target != 0xFFFF) {
         create_flow_soul(this, &node_positions[11], possess_target, state_duration);
         TBoss6EffHyoui::create(possess_target, 0, state_duration);
@@ -467,7 +467,7 @@ void TBoss6Type2::act_bsk_again() {
     state_duration = duration;
     state_timer = duration;
     play_sound_effect(0x68A25, &position, 0, 1);
-    sub_802BB768();
+    call_mags_to_shoulders();
     if (possess_target != 0xFFFF) {
         create_flow_soul(this, &node_positions[11], possess_target, state_duration);
         TBoss6EffHyoui::create(possess_target, 0, state_duration);
@@ -501,7 +501,7 @@ void TBoss6Type2::start_flow_soul_effect() {
     state_timer = duration;
     play_sound_effect(0x68A25, &position, 0, 1);
     spawn_particle_slot(7);
-    sub_802BB768();
+    call_mags_to_shoulders();
     if (possessed_client != 0xFFFF) {
         player = get_player_by_client_id(possessed_client);
         if (player != NULL) {
@@ -605,7 +605,7 @@ void TBoss6Type2::act_b_walk() {
     state_duration = 0x4B;
     state_timer = 0x4B;
     turn_done = 0;
-    sub_802BB768();
+    call_mags_to_shoulders();
 }
 
 void TBoss6Type2::idle_b_walk() {

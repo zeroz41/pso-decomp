@@ -69,7 +69,7 @@ struct TBoss6Mag : public TObjEnemy {
     virtual void run_hit_reaction();
     virtual void run_death_reaction();
 
-    void sub_8032E708(s32 on_shoulder);
+    void set_on_shoulder(s32 on_shoulder);
     void set_action_field_0x408(u16 client_id);
     void set_target_nodes(u32 flags, s32 variant);
     void set_anim_frame(TBoss6Mag *partner);
@@ -77,11 +77,11 @@ struct TBoss6Mag : public TObjEnemy {
     void destroy_part_object(s32 index);
     void ensure_particle_emitter(s32 index);
     void update_effect_positions();
-    void sub_8032E8DC();
+    void update_state_effects();
     void update_all_parts();
-    void sub_8032EA10();
+    void clear_particle_emitters();
     s32 step_angle_toward(s32 from, s32 to, s32 turn);
-    s32 sub_8032EAB8(s32 turn);
+    s32 apply_direction_sign(s32 turn);
     f32 apply_direction_sign(f32 value);
     void enforce_min_distance();
     void push_out_from_points();
@@ -96,11 +96,11 @@ struct TBoss6Mag : public TObjEnemy {
     void set_path_points(Vec *points, s32 count);
     static void set_path_points_by_index(s32 index, Vec *points, s32 count);
     void spawn_falling_rocks();
-    void sub_8032F5C4();
+    void revive();
     void apply_random_drift();
     void turn_toward_target();
     s32 fly_toward_target();
-    s32 sub_8032FB84();
+    s32 snap_to_shoulder();
     void update_segment_angles();
     void init_segment_angle_range();
     void decay_glow_and_calc_hp_ratio();
@@ -109,24 +109,24 @@ struct TBoss6Mag : public TObjEnemy {
     void draw_model_motion_blend();
     void change_motion(s32 motion);
     void update_motion_playback();
-    void sub_803300C8();
+    void init_motion_state();
     void set_action(s32 action);
     void save_position();
-    void sub_8033040C();
+    void render_body_effects();
     void spawn_trap_by_stat();
 
-    void update_recover_timer();
-    void sub_80336F00();
-    void update_ramp_timer();
-    void sub_80336FB8();
-    void tick_attack_timer();
-    void start_mag_mines_state();
-    void update_effect_subsystems();
-    void sub_80337108();
-    void update_attack_state();
-    void sub_80337160();
-    void advance_phase_counter();
-    void sub_803371B4();
+    void update_revival();
+    void act_revival();
+    void update_dead();
+    void act_dead();
+    void update_shoot();
+    void act_shoot();
+    void update_chase_pl();
+    void act_chase_pl();
+    void update_set_shoulder();
+    void act_set_shoulder();
+    void update_start();
+    void act_start();
 
     BmlResource *scene_archive;
     TBoss6Type2 *owner;
@@ -177,9 +177,7 @@ struct TBoss6MagAction {
 
 extern TBoss6MagAction boss6_type2_action_table[6];
 
-extern "C" {
-void TBoss6Type2__sub_8032F2F0(TBoss6MagRamp *dst, TBoss6MagRamp *src);
-void TBoss6Mag__sub_803309C4(TBoss6MagTarget *dst, TBoss6MagTarget *src);
-}
+void copy_mag_ramp(TBoss6MagRamp *dst, TBoss6MagRamp *src);
+void copy_mag_target(TBoss6MagTarget *dst, TBoss6MagTarget *src);
 
 #endif
