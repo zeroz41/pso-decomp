@@ -1161,8 +1161,8 @@ force_active:
   - TObjEneDelDepth_motion_names
   - TObjEneDellBiter__param_table
   - TObjEneDellBiter__resource_descriptor
-  - TObjEneDf2Bringer__sub_80097620
-  - TObjEneDf2Bringer__sub_80097714
+  - sub_80097620__17TObjEneDf2BringerFl
+  - sub_80097714__17TObjEneDf2BringerFl
   - TObjEneDf2Bringer__sub_80097820
   - TObjEneDf2Bringer__sub_80097E9C
   - TObjEneDf2Bringer__sub_8009813C

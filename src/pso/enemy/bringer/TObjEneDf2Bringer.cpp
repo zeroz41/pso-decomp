@@ -60,15 +60,12 @@ void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 #include "pso/player/TUnk_804928CC.h"
 #include "pso/render/TUnk_80490470.h"
 
-struct Bringer_80097714;
 struct Bringer_800993E8;
 struct Obj_80098EFC;
 struct Obj_80098FF4;
 extern "C" {
 s32 free_collision_body_parts(void *);
 void render__17TObjEneDf2BringerFv(u8 *arg0);
-void TObjEneDf2Bringer__sub_80097620(u8 *arg0, s32 arg1);
-void TObjEneDf2Bringer__sub_80097714(Bringer_80097714 *obj, s32 mode);
 void TObjEneDf2Bringer__sub_80097820(u8 *arg0, s32 arg1);
 void action__17TObjEneDf2BringerFPvi(u8 *arg0, s32 arg1);
 void TObjEneDf2Bringer__sub_80097E9C(u8 *arg0, s32 arg1);
@@ -145,218 +142,6 @@ void *lbl_8048FAF8[44] = {
 #define lbl_8048FAF8 (*(RecoveredGlobal_8031B170_lbl_804E8880 *)lbl_8048FAF8)
 
 }
-
-struct VBase_18_beae68 { char pad[0x18]; };
-
-struct VObj_18_beae68 : VBase_18_beae68 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual void m84();
-    virtual void m85();
-    virtual void m86();
-    virtual void m87();
-    virtual void m88();
-    virtual void m89();
-    virtual void m90();
-    virtual void m91();
-    virtual s32 m92();
-};
-
-struct VBase_14_c1c33b { char pad[0x14]; };
-
-struct VObj_14_c1c33b : VBase_14_c1c33b {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual s32 m4();
-};
-
-struct BringerBase_80097714 { char pad[0x18]; };
-
-struct Bringer_80097714 : BringerBase_80097714 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual void m84();
-    virtual void m85();
-    virtual void m86();
-    virtual void m87();
-};
-
-struct Fields_80097714 {
-    u8 pad0[0xB8];
-    s16 fieldB8;
-    u8 padBA[0x308 - 0xBA];
-    Vec vel;
-    u8 pad314[0x378 - 0x314];
-    s32 field378;
-    u8 pad37C[0x484 - 0x37C];
-    s32 timer;
-};
 
 struct VB2_800987E8 { u8 pad0[0x14]; };
 
@@ -1490,10 +1275,10 @@ void TObjEneDf2Bringer::dispatch_action(u32 state, s32 reason) {
         TObjEneDf2Bringer__sub_80097820((u8 *)this, reason);
         return;
     case 9:
-        TObjEneDf2Bringer__sub_80097714((Bringer_80097714 *)this, reason);
+        this->sub_80097714(reason);
         return;
     case 10:
-        TObjEneDf2Bringer__sub_80097620((u8 *)this, reason);
+        this->sub_80097620(reason);
     default:
         return;
     }
@@ -2077,57 +1862,56 @@ void TObjEneDf2Bringer__sub_80097820(u8 *arg0, s32 arg1) {
 }
 
 #undef F_8009
-void TObjEneDf2Bringer__sub_80097714(Bringer_80097714 *obj, s32 mode) {
-    Fields_80097714 *self = (Fields_80097714 *)obj;
+void TObjEneDf2Bringer::sub_80097714(s32 mode) {
     Vec v;
     f32 speed;
     switch (mode) {
     case 4:
-        self->fieldB8 = 6;
-        ((TObjMotion *)self)->advance_animation();
-        ((TObjEneDD_ST *)self)->set_active();
+        this->requested_action = 6;
+        this->advance_animation();
+        this->set_active();
         break;
     case 3:
-        if (((TObjEneDD *)self)->get_flag_b4() != 0 &&
-            ((TObjEneDf2Bringer *)self)->check_stage_advance() == 0) {
-            ((TObjEneDD *)self)->transition_enemy_state(self->field378);
+        if (this->get_flag_b4() != 0 && this->check_stage_advance() == 0) {
+            this->transition_enemy_state(this->next_mode);
         }
         break;
     case 0:
-        (((TObjMotion *)self)->advance_animation());
-        self->timer--;
-        VecCopy((Vec *)&v, (const Vec *)&self->vel);
-        speed = normalize_vector_xz((Vec *)(&v));
-        ((TObjEneDD *)self)->move_clamped_on_ground(v.x, v.z, speed);
-        self->vel.x *= 0.8f;
-        self->vel.z *= 0.8f;
-        obj->m87();
+        this->advance_animation();
+        this->pad_484--;
+        // x_speed, y_speed and m_310 are the velocity vector
+        VecCopy(&v, (const Vec *)&this->x_speed);
+        speed = normalize_vector_xz(&v);
+        this->move_clamped_on_ground(v.x, v.z, speed);
+        this->x_speed *= 0.8f;
+        this->m_310 *= 0.8f;
+        this->check_collisions();
         break;
     case 5:
-        ((TObjEneDD *)self)->clear_attack_receipts();
-        ((TObjEneDD *)self)->clear_field_388();
+        this->clear_attack_receipts();
+        this->clear_field_388();
         break;
     }
 }
 
-void TObjEneDf2Bringer__sub_80097620(u8 *arg0, s32 arg1) {
-    switch (arg1) {
+void TObjEneDf2Bringer::sub_80097620(s32 mode) {
+    switch (mode) {
     case 4:
-        ((TObjEnemy *)arg0)->requested_action = 0xA;
-        *(s32 *)((s8 *)arg0 + 0x3C0) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C0) & 0xFFFFFFFC);
-        *(s32 *)((s8 *)arg0 + 0x3C0) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C0) | 2);
-        ((VObj_18_beae68 *)(arg0))->m92();
-        ((TObjEnemy *)arg0)->refresh_and_send_entity_flags();
-        fn_800D911C((Vec *)(arg0 + 0x2FC));
-        TObjPlayer__sub_800A04F0(arg0 + 0x3C4);
-        play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003A511), arg0 + 0x38, 0, 0);
+        this->requested_action = 0xA;
+        this->pad_3C0 &= ~3;
+        this->pad_3C0 |= 2;
+        this->disable_body_collision();
+        this->refresh_and_send_entity_flags();
+        fn_800D911C(&this->body_center);
+        TObjPlayer__sub_800A04F0(&this->pad_3C4);
+        play_sound_effect(this->remap_sound_for_area(0x4003A511), &this->position, 0, 0);
         TObjPlayer::play_effect_if_v2(-0x200);
         return;
     case 0:
-        (((TObjMotion *)arg0)->advance_animation());
-        if (((VObj_14_c1c33b *)(arg0 + (964)))->m4() != 0) {
-            TObjPlayer::apply_effect_variant_b((saddr)(arg0 + 0x38), 0);
-            ((TObject *)arg0)->queue_destruction();
+        this->advance_animation();
+        if (this->pad_3C4.decay_value_toward_floor() != 0) {
+            TObjPlayer::apply_effect_variant_b((saddr)&this->position, 0);
+            this->queue_destruction();
         }
     case 3:
     case 5:
