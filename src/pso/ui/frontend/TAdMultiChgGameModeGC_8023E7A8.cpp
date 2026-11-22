@@ -76,6 +76,7 @@
 #include "pso/ui/frontend/TAdPsoPassSaveGC.h"
 #include "pso/ui/TUnk_804F3A20.h"
 #include "pso/ui/frontend/TAdStorySelectGC.h"
+#include "pso/ui/frontend/TAdSelectGameModeGC.h"
 
 extern "C" {
 u8 *TAdSinglePlyChrSelectGC__ct(u8 *arg0, void *parent);
@@ -356,11 +357,7 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
         game_mode_scene_instance = new TAdStorySelectGC(tl_01);
         break;
     case 5:
-        p = TObject::operator new(0x24);
-        if (p != NULL) {
-            p = __ct__19TAdSelectGameModeGCFv((u8 *)p, (void *)tl_01);
-        }
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = new TAdSelectGameModeGC(tl_01);
         break;
     case 6:
         game_mode_scene_instance = new TAdSinglePlyChrSelectGC(tl_01);
