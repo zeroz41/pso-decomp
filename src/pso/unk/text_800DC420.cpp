@@ -61,7 +61,6 @@ extern s32 local_client_id;
 void hit_object_in_radius__10TObjPlayerFPvPvPv(Src_800DC4B4 *arg0, Obj_800DC4B4 *obj, void *attacker);
 u32 csnVector(void *, void *, int);
 s32 vec3_add_to(void *, void *);
-extern s32 registered_player_count;
 f32 atan2_float(f32, f32);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);

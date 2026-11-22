@@ -499,7 +499,6 @@ struct VObj_18_217cff : VBase_18_217cff {
 extern "C" {
 s32 TObjPlayer__sub_800A0554(void *);
 f32 calc_distance_to_client__10TObjPlayerFlUsUl(void *, u16, void *);
-extern s32 registered_player_count;
 
 f32 calc_xz_distance_sq(saddr arg0, uaddr arg1, void *arg2);
 

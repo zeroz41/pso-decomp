@@ -637,7 +637,6 @@ void TUnk_80493450::run_idle_action() {
     }
 }
 
-extern s32 registered_player_count;
 }
 u16 get_enemy_target_id(void *p);
 

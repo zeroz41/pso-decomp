@@ -275,7 +275,6 @@ s32 check_path_obstructed(void *, void *);
 s32 get_entity_id(void *);
 s32 get_current_floor();
 s32 subtract_vector(void *, void *);
-extern s32 registered_player_count;
 void TObjGrass__sub_800BCA2C(void *);
 s32 scale_matrix(int, f32, f32, f32);
 s32 post_translate_matrix(void *);
