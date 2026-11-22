@@ -323,7 +323,7 @@ void *TObjLiveMonitor::create(TObject *parent) {
 TObjLiveMonitor::TObjLiveMonitor(TObject *parent) : TObject(parent) {
     m_name = TObjLiveMonitor__name;
     model = get_bml_model(live_monitor_shared_resource, 1);
-    texlist = (u32)get_bml_texlist(live_monitor_shared_resource, 0);
+    texlist = (uaddr)get_bml_texlist(live_monitor_shared_resource, 0);
     screen = 5;
     screen_timer = 0;
 }
