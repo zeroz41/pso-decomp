@@ -9,6 +9,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
+#include "pso/camera/TCameraCtrl.h"
 
 const u32 input_button_mask_table[14] = {
     0x10, 0x20, 0x40, 0x80, 0x100000, 0x200000, 0x400000, 0x800000,
@@ -55,7 +56,6 @@ struct Set_801A5F1C {
 };
 
 
-struct Obj_801A5F1C { u8 pad0[0x94]; s32 base[4]; };
 
 s8 lbl_805D5D08;
 u8 lbl_805D5D09;
@@ -74,7 +74,6 @@ f32 newton_sqrtf(f32);
 void bind_controller_devices(void);
 }
 void reset_system();
-extern u8 *camera_ctrl_instance;
 
 struct Kb_801A6910 {
     u32 f0;
@@ -449,11 +448,11 @@ void controller_stuff(void) {
                     map_c_stick_to_buttons((ControllerInputContext *)pad, pad->cx, pad->cy, old);
                     if (camera_ctrl_instance != NULL) {
                         if (is_split_screen() != 0) {
-                            a = ((Obj_801A5F1C *)camera_ctrl_instance)->base[i] + (s32)(10430.38043493439 * atan2_float(fx, fy));
-                            b = ((Obj_801A5F1C *)camera_ctrl_instance)->base[i] + (s32)(10430.38043493439 * atan2_float(gx, gy));
+                            a = camera_ctrl_instance->view_yaw[i] + (s32)(10430.38043493439 * atan2_float(fx, fy));
+                            b = camera_ctrl_instance->view_yaw[i] + (s32)(10430.38043493439 * atan2_float(gx, gy));
                         } else {
-                            a = *(s32 *)(camera_ctrl_instance + 0x94) + (s32)(10430.38043493439 * atan2_float(fx, fy));
-                            b = *(s32 *)(camera_ctrl_instance + 0x94) + (s32)(10430.38043493439 * atan2_float(gx, gy));
+                            a = camera_ctrl_instance->view_yaw[0] + (s32)(10430.38043493439 * atan2_float(fx, fy));
+                            b = camera_ctrl_instance->view_yaw[0] + (s32)(10430.38043493439 * atan2_float(gx, gy));
                         }
                     } else {
                         a = (s32)(10430.38043493439 * atan2_float(fx, fy));

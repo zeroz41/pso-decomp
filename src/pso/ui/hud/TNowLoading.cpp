@@ -12,6 +12,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
+#include "pso/camera/TCameraCtrl.h"
 
 typedef struct Cam_8001D3A8 {
     Vec eye;
@@ -30,8 +31,6 @@ typedef struct TNowLoading_8001D3A8 {
 volatile s32 aram_dma_pending;
 
 extern "C" {
-extern f32 lbl_804FF5E8[];
-extern u32 camera_ctrl_instance;
 void DCInvalidateRange(void *, u32);
 void ARQPostRequest(void *, uaddr, u32, u32, uaddr, uaddr, u32, void *);
 const char *TNowLoading__class_name = "TNowLoading";
@@ -53,7 +52,7 @@ void TNowLoading::run_task() {
     uaddr temp_r3_6;
     uaddr temp_r3_7;
     uaddr temp_r3_8;
-    if ((u32) camera_ctrl_instance == 0U) {
+    if (camera_ctrl_instance == NULL) {
         *(f32 *)&this->m_2c = (f32) ((65.0f * *(f32 *)((s8 *)&lbl_804FF5E8 + 0xC)) + *(f32 *)((s8 *)&lbl_804FF5E8 + 0));
         *(f32 *)&this->unk_30 = (f32) ((65.0f * *(f32 *)((s8 *)&lbl_804FF5E8 + 0x10)) + *(f32 *)((s8 *)&lbl_804FF5E8 + 4));
         this->m_34 = (f32) ((65.0f * *(f32 *)((s8 *)&lbl_804FF5E8 + 0x14)) + *(f32 *)((s8 *)&lbl_804FF5E8 + 8));
