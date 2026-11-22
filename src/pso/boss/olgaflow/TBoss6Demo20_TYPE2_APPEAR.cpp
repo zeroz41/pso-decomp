@@ -163,29 +163,25 @@ void TBoss6Demo20_TYPE2_APPEAR::draw_fading_model_pair() {
     }
 }
 
-void render__25TBoss6Demo20_TYPE2_APPEARFv(void* p) { ((TBoss6Demo20_TYPE2_APPEAR *)p)->draw_model_12(); ((TBoss6Demo20_TYPE2_APPEAR *)p)->draw_fading_model_4(); ((TBoss6Demo20_TYPE2_APPEAR *)p)->draw_fading_model_pair(); ((TBoss6Demo20_TYPE2_APPEAR *)p)->draw_fading_model_1_pair(); }
-
 }
 
-extern "C" {
-s32 __dt__7TObjectFv(void *, int);
-extern saddr __vt__25TBoss6Demo20_TYPE2_APPEAR[];
-TBoss6Demo20_TYPE2_APPEAR *__dt__25TBoss6Demo20_TYPE2_APPEARFv(TBoss6Demo20_TYPE2_APPEAR *self, s16 arg1);
+void TBoss6Demo20_TYPE2_APPEAR::render() {
+    draw_model_12();
+    draw_fading_model_4();
+    draw_fading_model_pair();
+    draw_fading_model_1_pair();
+}
 
-extern const Ent_8033D6DC boss6_type2_appear_particle_schedule[];
-
-void run_task__25TBoss6Demo20_TYPE2_APPEARFv(TBoss6Demo20_TYPE2_APPEAR *self);
-
-void run_task__25TBoss6Demo20_TYPE2_APPEARFv(TBoss6Demo20_TYPE2_APPEAR *self) {
+void TBoss6Demo20_TYPE2_APPEAR::run_task() {
     s32 i;
-    if ((self->frame += 0.7f) > 284.0f) {
-        self->frame = 284.0f;
+    if ((frame += 0.7f) > 284.0f) {
+        frame = 284.0f;
     }
-    self->secondary_frame += 0.8f;
-    if (self->secondary_frame >= 30.0f) {
-        self->secondary_frame -= 30.0f;
+    secondary_frame += 0.8f;
+    if (secondary_frame >= 30.0f) {
+        secondary_frame -= 30.0f;
     }
-    switch (self->timer) {
+    switch (timer) {
     case 0xE:
         play_sound_effect(0x40039E28, 0, 0, 0);
         break;
@@ -199,11 +195,11 @@ void run_task__25TBoss6Demo20_TYPE2_APPEARFv(TBoss6Demo20_TYPE2_APPEAR *self) {
         play_sound_effect(0x40031C2B, 0, 0, 0);
         break;
     }
-    play_persistent_sound(0x4003C627, (saddr)self, 0, 0, 0);
-    switch (self->timer) {
+    play_persistent_sound(0x4003C627, (saddr)this, 0, 0, 0);
+    switch (timer) {
     case 0xB9:
-        spawn_particle_effect_with_flags(&self->effect_positions[3], 0x220, 0x40);
-        spawn_particle_effect_with_flags(&self->effect_positions[7], 0x220, 0x40);
+        spawn_particle_effect_with_flags(&effect_positions[3], 0x220, 0x40);
+        spawn_particle_effect_with_flags(&effect_positions[7], 0x220, 0x40);
         break;
     case 0xED:
         spawn_particle_effect_with_flags(&boss6_type2_appear_origin, 0x221, 0x40);
@@ -212,27 +208,27 @@ void run_task__25TBoss6Demo20_TYPE2_APPEARFv(TBoss6Demo20_TYPE2_APPEAR *self) {
     }
     for (i = 0; i < 9; i++) {
         const Ent_8033D6DC *e = &boss6_type2_appear_particle_schedule[i];
-        if (self->timer >= e->start && self->timer < e->end) {
+        if (timer >= e->start && timer < e->end) {
             const Vec *p = &boss6_type2_appear_origin;
             if (e->src == -2) {
                 p = &boss6_type2_appear_offset_particle_origin;
             } else if (e->src >= 0) {
-                p = &self->effect_positions[e->src];
+                p = &effect_positions[e->src];
             }
-            if (self->emitters[i] == NULL) {
-                self->emitters[i] = create_particle_emitter(p, e->id);
-                if (self->emitters[i] != NULL) {
-                    self->emitters[i]->set_flags(0x40);
+            if (emitters[i] == NULL) {
+                emitters[i] = create_particle_emitter(p, e->id);
+                if (emitters[i] != NULL) {
+                    emitters[i]->set_flags(0x40);
                 }
             } else {
-                self->emitters[i]->set_position(const_cast<Vec *>(p));
+                emitters[i]->set_position(const_cast<Vec *>(p));
             }
-        } else if (self->emitters[i] != NULL) {
-            TParticleCtrl::release(self->emitters[i]);
-            self->emitters[i] = NULL;
+        } else if (emitters[i] != NULL) {
+            TParticleCtrl::release(emitters[i]);
+            emitters[i] = NULL;
         }
     }
-    switch (self->timer) {
+    switch (timer) {
     case 5:
     case 0x32:
     case 0x78:
@@ -243,50 +239,36 @@ void run_task__25TBoss6Demo20_TYPE2_APPEARFv(TBoss6Demo20_TYPE2_APPEAR *self) {
         start_pad_rumble_all(0xC0, 0xF);
         break;
     }
-    self->timer++;
-    if (self->timer >= 0x197 || self->plot->get_scene_state() != 5) {
-        self->queue_destruction();
+    timer++;
+    if (timer >= 0x197 || plot->get_scene_state() != 5) {
+        queue_destruction();
     }
 }
 
-TBoss6Demo20_TYPE2_APPEAR *__dt__25TBoss6Demo20_TYPE2_APPEARFv(TBoss6Demo20_TYPE2_APPEAR *self, s16 arg1) {
+TBoss6Demo20_TYPE2_APPEAR::~TBoss6Demo20_TYPE2_APPEAR() {
     s32 i;
-    if (self != 0) {
-        *(void **)((u8 *)self + 0x18) = __vt__25TBoss6Demo20_TYPE2_APPEAR;
-        for (i = 0; i < 9; i++) {
-            if (self->emitters[i] != 0) {
-                TParticleCtrl::release(self->emitters[i]);
-                self->emitters[i] = 0;
-            }
-        }
-        restore_player_cameras();
-        TBoss6PlotFalz::refresh_players_equipment();
-        if (self->capture != 0) {
-            ModelNodePositionCapture::destroy((ModelNodePositionCapture *)self->capture);
-            self->capture = 0;
-        }
-        __dt__7TObjectFv(self, 0);
-        if (arg1 > 0) {
-            TObject::operator delete(self);
+    for (i = 0; i < 9; i++) {
+        if (emitters[i] != 0) {
+            TParticleCtrl::release(emitters[i]);
+            emitters[i] = 0;
         }
     }
-    return self;
-}
-
+    restore_player_cameras();
+    TBoss6PlotFalz::refresh_players_equipment();
+    if (capture != 0) {
+        ModelNodePositionCapture::destroy(capture);
+        capture = 0;
+    }
 }
 
 #include "pso/camera/TCameraCtrl.h"
 
+extern s32 lbl_804DF614[]; // model ids, defined in TBoss6Type1.cpp
 extern "C" {
-void __ct__7TObjectFP7TObject(void *, TObject *);
-extern const ModelNodePositionEntry boss6_type2_appear_model_node_descriptors[];
-extern const Vec lbl_80478058;
-extern const CameraAngles lbl_80478064;
-extern const CameraPlayback boss6_type2_appear_camera_script;
-extern s32 lbl_804DF614[];
 __declspec(section ".data") extern s32 boss6_type2_appear_motion_indices[];
 struct AppearanceClassTag { const char *value; u32 padding; };
 __declspec(section ".sdata") extern AppearanceClassTag TBoss6Demo20_TYPE2_APPEAR__name;
+}
 
 #pragma push
 #pragma opt_lifetimes off
@@ -294,54 +276,46 @@ __declspec(section ".sdata") extern AppearanceClassTag TBoss6Demo20_TYPE2_APPEAR
 #pragma opt_loop_invariants off
 #pragma opt_common_subs off
 #pragma opt_propagation off
-TBoss6Demo20_TYPE2_APPEAR *TBoss6Demo20_TYPE2_APPEAR__ct(TBoss6Demo20_TYPE2_APPEAR *demo, TBoss6PlotFalz *plot) {
+TBoss6Demo20_TYPE2_APPEAR::TBoss6Demo20_TYPE2_APPEAR(TBoss6PlotFalz *plot) : TObject(plot) {
     s32 v;
     BmlResource *archive;
     saddr i;
-    __ct__7TObjectFP7TObject(demo, plot);
-    *(saddr **)((s8 *)demo + 0x18) = __vt__25TBoss6Demo20_TYPE2_APPEAR;
-    demo->m_name = TBoss6Demo20_TYPE2_APPEAR__name.value;
-    demo->plot = plot;
+    m_name = TBoss6Demo20_TYPE2_APPEAR__name.value;
+    this->plot = plot;
     archive = TBoss6PlotFalz::get_scene_archive();
     for (i = 0; i < 2; i++) {
         {
             s32 t = lbl_804DF614[i];
             v = t;
-            demo->opening_parts[i].model = (NJS_OBJECT *)get_bml_model(archive, t);
+            opening_parts[i].model = (NJS_OBJECT *)get_bml_model(archive, t);
         }
-        demo->opening_parts[i].texture = (GinjaTextureList *)get_bml_texlist(archive, v);
-        demo->opening_parts[i].motion = get_bml_motion(archive, boss6_type2_appear_motion_indices[i]);
+        opening_parts[i].texture = (GinjaTextureList *)get_bml_texlist(archive, v);
+        opening_parts[i].motion = get_bml_motion(archive, boss6_type2_appear_motion_indices[i]);
     }
-    demo->model4.model = (NJS_OBJECT *)get_bml_model(archive, 4);
-    demo->model4.texture = (GinjaTextureList *)get_bml_texlist(archive, 4);
-    demo->model4.motion = get_bml_motion(archive, 0x20);
-    demo->model1.model = (NJS_OBJECT *)get_bml_model(archive, 1);
-    demo->model1.texture = (GinjaTextureList *)get_bml_texlist(archive, 1);
-    demo->model1.motion = get_bml_motion(archive, 0x36);
-    demo->model12.model = (NJS_OBJECT *)get_bml_model(archive, 0xC);
-    demo->model12.texture = (GinjaTextureList *)get_bml_texlist(archive, 0xC);
-    demo->model12.motion = get_bml_motion(archive, 0x22);
-    demo->capture = ModelNodePositionCapture::create(boss6_type2_appear_model_node_descriptors, (Vec *)demo->effect_positions);
+    model4.model = (NJS_OBJECT *)get_bml_model(archive, 4);
+    model4.texture = (GinjaTextureList *)get_bml_texlist(archive, 4);
+    model4.motion = get_bml_motion(archive, 0x20);
+    model1.model = (NJS_OBJECT *)get_bml_model(archive, 1);
+    model1.texture = (GinjaTextureList *)get_bml_texlist(archive, 1);
+    model1.motion = get_bml_motion(archive, 0x36);
+    model12.model = (NJS_OBJECT *)get_bml_model(archive, 0xC);
+    model12.texture = (GinjaTextureList *)get_bml_texlist(archive, 0xC);
+    model12.motion = get_bml_motion(archive, 0x22);
+    capture = ModelNodePositionCapture::create(boss6_type2_appear_model_node_descriptors, effect_positions);
     for (i = 0; i < 9; i++) {
-        demo->emitters[i] = 0;
+        emitters[i] = 0;
     }
     activate_camera_mode(5);
     set_scripted_camera_pose(&lbl_80478058, &lbl_80478058, &lbl_80478064);
     boss6_type2_appear_camera_script.cache_target_and_forward(0x416C);
-    demo->frame = 0.0f;
-    demo->secondary_frame = 0.0f;
-    demo->timer = 0;
-    return demo;
-}
+    frame = 0.0f;
+    secondary_frame = 0.0f;
+    timer = 0;
 }
 #pragma pop
 
 TBoss6Demo20_TYPE2_APPEAR *TBoss6Demo20_TYPE2_APPEAR::create(TBoss6PlotFalz *plot) {
-    TBoss6Demo20_TYPE2_APPEAR *demo = (TBoss6Demo20_TYPE2_APPEAR *)TObject::operator new(sizeof(TBoss6Demo20_TYPE2_APPEAR));
-    if (demo != NULL) {
-        demo = TBoss6Demo20_TYPE2_APPEAR__ct(demo, plot);
-    }
-    return demo;
+    return new TBoss6Demo20_TYPE2_APPEAR(plot);
 }
 
 void initialize_boss6_type2_appear_particle_origin(void) {
@@ -356,10 +330,5 @@ __declspec(section ".ctors") static void *const __sinit_text_8033DA94_cpp_ref = 
 __declspec(section ".data") Vec boss6_type2_appear_offset_particle_origin = {0.0f, 0.0f, 0.0f};
 extern "C" {
 __declspec(section ".data") s32 boss6_type2_appear_motion_indices[2] = {31, 33};
-void render_shadows__7TObjectFv(void *);
-saddr __vt__25TBoss6Demo20_TYPE2_APPEAR[7] = {0, 0,
-    (saddr)__dt__25TBoss6Demo20_TYPE2_APPEARFv,
-    (saddr)run_task__25TBoss6Demo20_TYPE2_APPEARFv, (saddr)render__25TBoss6Demo20_TYPE2_APPEARFv,
-    (saddr)render_shadows__7TObjectFv, 0};
 __declspec(section ".sdata") AppearanceClassTag TBoss6Demo20_TYPE2_APPEAR__name = {TBoss6Demo20_TYPE2_APPEAR__class_name, 0};
 }
