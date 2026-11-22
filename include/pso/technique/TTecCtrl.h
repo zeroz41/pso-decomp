@@ -19,7 +19,8 @@ public:
 // technic.bml (the technique effects' models and motions) and technic.gvm (their textures), loaded by
 // load_technique_resources.
 extern BmlResource *technique_effect_bml;
-extern void **lbl_805D63B0;
+struct GinjaTextureList;
+extern GinjaTextureList *lbl_805D63B0;
 
 extern "C" {
 void TLobby__sub_8022F068(void);

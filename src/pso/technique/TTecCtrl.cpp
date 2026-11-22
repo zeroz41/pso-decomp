@@ -3,6 +3,7 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecCtrl.h"
+#include "pso/render/GinjaMaterialState.h"
 #include "pso/technique/TechniqueParams.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/technique/TechniqueBoost.h"
@@ -184,7 +185,7 @@ u8 *load_gvm_texture_file(saddr arg0);
 void reset_telepipe_visit_counts(void);
 s8 lbl_805D63A8;
 BmlResource *technique_effect_bml;
-void **lbl_805D63B0;
+GinjaTextureList *lbl_805D63B0;
 extern s32 __vt__8TTecCtrl[];
 
 #define ONE_SLOT()                                                                       \
@@ -224,21 +225,21 @@ extern s32 __vt__8TTecCtrl[];
 
 void load_technique_resources(void) {
     technique_effect_bml = new BmlResource(1, &technique_resource_descriptor, 0, 0, NULL);
-    lbl_805D63B0 = (void **)load_gvm_texture_file((saddr)"technic.gvm");
+    lbl_805D63B0 = (GinjaTextureList *)load_gvm_texture_file((saddr)"technic.gvm");
     bind_gvm_texture_list("technic_pt", ((u8 *)&technique_ringwave_texture_list));
     TTecZondeEff::init_resources();
 }
 
 void TLobby__sub_8022F068(void) {
-    u8 *temp_r4;
+    GinjaTextureEntry *entries;
     clear_zonde_beam_vertex_pointer();
     if ((u32) *(u32 *)((s8 *)technique_ringwave_texture_list.value + 8) != 0U) {
         release_texture_list(&technique_ringwave_texture_list.value, (saddr) technique_ringwave_texture_list.value);
     }
     if (lbl_805D63B0 != NULL) {
-        temp_r4 = (u8 *)(*lbl_805D63B0);
-        if ((u32) *(u32 *)((s8 *)temp_r4 + 8) != 0U) {
-            release_texture_list(lbl_805D63B0, (saddr) temp_r4);
+        entries = lbl_805D63B0->entries;
+        if (entries->texture != NULL) {
+            release_texture_list(lbl_805D63B0, (saddr) entries);
         }
         TAdSinglePlyChrSelectGC::safe_free((uaddr) lbl_805D63B0);
         lbl_805D63B0 = NULL;

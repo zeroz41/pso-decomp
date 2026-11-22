@@ -126,7 +126,7 @@ void TTecRaFoie::vfunc_8(void *) {
         } else {
             emitter = spawn_particle_effect(&target, 0x1A);
             if (emitter != NULL) {
-                attach_particle_model((u8 *)emitter, get_bml_model(technique_effect_bml, 9), (GinjaTextureList *)lbl_805D63B0, 0, 1, 1.0f);
+                attach_particle_model((u8 *)emitter, get_bml_model(technique_effect_bml, 9), lbl_805D63B0, 0, 1, 1.0f);
             }
         }
         spawn_particle_effect(&target, 0x3A);
@@ -140,7 +140,7 @@ void TTecRaFoie::vfunc_8(void *) {
             spawn_particle_effect(&point, 0x39);
             emitter = spawn_particle_effect(&point, 0x1A);
             if (emitter != NULL) {
-                attach_particle_model((u8 *)emitter, get_bml_model(technique_effect_bml, 9), (GinjaTextureList *)lbl_805D63B0, 0, 1, 1.0f);
+                attach_particle_model((u8 *)emitter, get_bml_model(technique_effect_bml, 9), lbl_805D63B0, 0, 1, 1.0f);
             }
         }
     }
