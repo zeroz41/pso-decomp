@@ -151,29 +151,16 @@ extern const s32 lbl_8043CCFC[2] = { 1, 2 };
 extern const s32 lbl_8043CD04[2] = { 0x10a, 0x107 };
 extern const s32 lbl_8043CD0C[3] = { 3, 4, 0 };
 
-/* State table of TObjEnePanarms: {enter, update} per state, indexed by state; built by the TU's __sinit. */
+/* State table of TObjEnePanarms: {enter, update} per state, indexed by state; filled by the TU's __sinit. */
 typedef void (TObjEnePanarms::*PanarmsStateFn)();
 struct PanarmsState { PanarmsStateFn enter; PanarmsStateFn update; };
-static PanarmsState lbl_8049515C[14] = {
-    { &TObjEnePanarms::enter_idle, &TObjEnePanarms::try_activate },
-    { &TObjEnePanarms::enter_wait_hidden, &TObjEnePanarms::update_wait_hidden },
-    { &TObjEnePanarms::set_hidden_flags, &TObjEnePanarms::update_fall },
-    { &TObjEnePanarms::enter_move, &TObjEnePanarms::update_move },
-    { &TObjEnePanarms::enter_dead, &TObjEnePanarms::update_dead },
-    { &TObjEnePanarms::set_state_flags_6, &TObjEnePanarms::update_particle_emitters_set2 },
-    { &TObjEnePanarms::enter_arm_attack_0, &TObjEnePanarms::update_destroy_child },
-    { &TObjEnePanarms::set_flags_and_field_b8, &TObjEnePanarms::update_particle_emitters },
-    { &TObjEnePanarms::enter_arm_attack_1, &TObjEnePanarms::update_wait_then_set_state },
-    { &TObjEnePanarms::enter_split, &TObjEnePanarms::update_hit_effect },
-    { &TObjEnePanarms::enter_separated, &TObjEnePanarms::update_separated_parts },
-    { &TObjEnePanarms::merge_halves, &TObjEnePanarms::update_timed_action },
-    { &TObjEnePanarms::enter_rejoin, &TObjEnePanarms::update_state_effect },
-    { &TObjEnePanarms::enter_down_state, &TObjEnePanarms::update_spin },
-};
-/* Model nodes the constructor hands to ModelNodePositionCapture::create. */
-ModelNodePositionEntry panarms_model_node_desc[6] = {
-    { 0x35 }, { 0x22 }, { 0x38 }, { 0x46 }, { 0x3b }, { -1 },
-};
+extern PanarmsState lbl_8049515C[14];
+// The original's static initializer sits before the weak copies of the inline accessors this unit
+// emits (0x800DFB00-0x800DFBD0), which no compiler-generated __sinit reproduces, so it is spelled out.
+extern "C" {
+static void __sinit_TObjEnePanarms_800DCEB8_cpp();
+}
+__declspec(section ".ctors") static void *const panarms_body_global_initializer = (void *)__sinit_TObjEnePanarms_800DCEB8_cpp;
 
 
 struct Sub_800DD690 { u8 b[0xC]; };
@@ -225,6 +212,78 @@ struct PanarmsParams {
     u8 unk_4[0x14];
     s32 search_range;
     s32 wait_frames;
+};
+
+extern "C" {
+void fn_800660B8(u8 *arg0);
+}
+
+// Out-of-line copies of inline accessors; defined first because the unit is emitted backwards.
+int TObjEnePanarms::get_state_flag() { return (this->actorFlags >> 4) & 0x1; }
+
+s32 TObjEnePanBARA::is_dead() {
+    return (u8)(state == 8);
+}
+
+s32 TObjEnePanBARA::sub_800DFB9C() {
+    return (u8)(state == 0xB);
+}
+
+int TObjEnePanBARA::sub_800DFB74() {
+    u8 result = 0;
+    if (state == 4 && action_timer < 0) {
+        result = 1;
+    }
+    return result;
+}
+
+int TObjEnePanBARA::get_state_flag() { return (this->actorFlags >> 4) & 0x1; }
+
+s32 TObjEnePanBARA::is_dying() {
+    return state == 7 || state == 8;
+}
+
+void TObjEnePanarms::init(s16 action) {
+    fn_800660B8((u8 *)this);
+    change_action(action);
+    sub_8002AE64();
+}
+
+static void __sinit_TObjEnePanarms_800DCEB8_cpp() {
+    lbl_8049515C[0].enter = &TObjEnePanarms::enter_idle;
+    lbl_8049515C[0].update = &TObjEnePanarms::try_activate;
+    lbl_8049515C[1].enter = &TObjEnePanarms::enter_wait_hidden;
+    lbl_8049515C[1].update = &TObjEnePanarms::update_wait_hidden;
+    lbl_8049515C[2].enter = &TObjEnePanarms::set_hidden_flags;
+    lbl_8049515C[2].update = &TObjEnePanarms::update_fall;
+    lbl_8049515C[3].enter = &TObjEnePanarms::enter_move;
+    lbl_8049515C[3].update = &TObjEnePanarms::update_move;
+    lbl_8049515C[4].enter = &TObjEnePanarms::enter_dead;
+    lbl_8049515C[4].update = &TObjEnePanarms::update_dead;
+    lbl_8049515C[5].enter = &TObjEnePanarms::set_state_flags_6;
+    lbl_8049515C[5].update = &TObjEnePanarms::update_particle_emitters_set2;
+    lbl_8049515C[6].enter = &TObjEnePanarms::enter_arm_attack_0;
+    lbl_8049515C[6].update = &TObjEnePanarms::update_destroy_child;
+    lbl_8049515C[7].enter = &TObjEnePanarms::set_flags_and_field_b8;
+    lbl_8049515C[7].update = &TObjEnePanarms::update_particle_emitters;
+    lbl_8049515C[8].enter = &TObjEnePanarms::enter_arm_attack_1;
+    lbl_8049515C[8].update = &TObjEnePanarms::update_wait_then_set_state;
+    lbl_8049515C[9].enter = &TObjEnePanarms::enter_split;
+    lbl_8049515C[9].update = &TObjEnePanarms::update_hit_effect;
+    lbl_8049515C[10].enter = &TObjEnePanarms::enter_separated;
+    lbl_8049515C[10].update = &TObjEnePanarms::update_separated_parts;
+    lbl_8049515C[11].enter = &TObjEnePanarms::merge_halves;
+    lbl_8049515C[11].update = &TObjEnePanarms::update_timed_action;
+    lbl_8049515C[12].enter = &TObjEnePanarms::enter_rejoin;
+    lbl_8049515C[12].update = &TObjEnePanarms::update_state_effect;
+    lbl_8049515C[13].enter = &TObjEnePanarms::enter_down_state;
+    lbl_8049515C[13].update = &TObjEnePanarms::update_spin;
+}
+
+static PanarmsState lbl_8049515C[14] = {};
+/* Model nodes the constructor hands to ModelNodePositionCapture::create. */
+ModelNodePositionEntry panarms_model_node_desc[6] = {
+    { 0x35 }, { 0x22 }, { 0x38 }, { 0x46 }, { 0x3b }, { -1 },
 };
 
 s32 TObjEnePanarms::create(saddr setData) {

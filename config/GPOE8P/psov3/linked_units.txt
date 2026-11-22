@@ -434,8 +434,6 @@ pso/enemy/morfos/TObjEneMorfos_80337500.cpp
 pso/enemy/nanodrago/TObjEneNanoDrago.cpp
 pso/enemy/panarms/TObjEnePanarmsAtkColli.cpp
 pso/enemy/panarms/TObjEnePanarms_800DCEB8.cpp
-pso/enemy/panarms/TObjEnePanarms_800DFB00.cpp
-pso/enemy/panarms/TObjEnePanarms_800DFB74.cpp
 pso/enemy/panarms/TObjEnePanarms_800F5E90.cpp
 pso/enemy/flower/FlowerRe2Data.cpp
 pso/enemy/flower/TObjEneRe2Flower.cpp
