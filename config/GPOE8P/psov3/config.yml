@@ -3980,7 +3980,7 @@ force_active:
   - apply_room_transform_to_enemy_rows
   - apply_room_transform_to_object_rows
   - apply_rule_configuration__19TPlayerBattleCtrl4PFl
-  - apply_selection__17TWindowSubComCardFi
+  - apply_selection__17TWindowSubComCardFl
   - apply_settings__12TAdTimeSetGCFv
   - apply_shield_effect_flags__14TItemProShieldFv
   - apply_shock_status__12TBoss1DragonFv

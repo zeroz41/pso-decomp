@@ -78,8 +78,6 @@ s32 *get_selected_guild_card_record(void);
 extern "C" {
 void set_value_by_key(void *, u16, s32);
 s32 open_hard_keyboard__6TLobbyFPv(void *);
-void apply_selection__17TWindowSubComCardFi(s32 arg0);
-void send_command__17TWindowSubComCardFi(saddr arg0);
 int get_card_entry__17TWindowSubComCardFi(void);
 saddr get_window_layout_position(s32 a0 = 0);
 
@@ -469,7 +467,7 @@ void TWindowSubComCard::run_task() {
         }
         if ((u32) this->m_74 == 0U) {
             this->m_24 = ((TWindowMenu *)this->m_84)->get_selected_value();
-            this->m_74 = ((u32 (*)(int))send_command__17TWindowSubComCardFi)(this->m_24);
+            this->m_74 = (uaddr)send_command(this->m_24);
         }
         fn_80244958(this->message_window, (int) (get_window_layout_position(0x99)));
         ((TWindowLockOn *)(this->message_window))->request_close();
@@ -623,7 +621,7 @@ void TWindowSubComCard::run_task() {
         }
         if ((u32) this->m_74 == 0U) {
             this->m_24 = ((TWindowMenu *)this->m_84)->get_selected_value();
-            this->m_74 = ((u32 (*)(int))send_command__17TWindowSubComCardFi)(this->m_24);
+            this->m_74 = (uaddr)send_command(this->m_24);
         }
         ((TWindowSubComCard *)(this->m_84))->set_display_page();
         ((TWindowSubComCard *)(this->m_84))->clear_flag_and_release();
@@ -989,7 +987,7 @@ void TWindowSubComCard::run_task() {
         }
         if ((u32) this->m_74 == 0U) {
             this->m_24 = ((TWindowMenu *)this->m_84)->get_selected_value();
-            this->m_74 = ((u32 (*)(int))apply_selection__17TWindowSubComCardFi)(this->m_24);
+            this->m_74 = (uaddr)apply_selection(this->m_24);
         }
         ((TWindowSubComCard *)(this->m_84))->clear_flag_and_release();
         this->state = 0x3CU;
@@ -1060,7 +1058,7 @@ void TWindowSubComCard::run_task() {
         }
         if ((u32) this->m_74 == 0U) {
             this->m_24 = ((TWindowMenu *)this->m_84)->get_selected_value();
-            this->m_74 = ((u32 (*)(int))send_command__17TWindowSubComCardFi)(this->m_24);
+            this->m_74 = (uaddr)send_command(this->m_24);
         }
         ((TWindowSubComCard *)(this->m_84))->clear_flag_and_release();
         this->state = 0x42U;
@@ -1744,14 +1742,14 @@ void TWindowSubComCard::init_layout(void) {
     card_slot = TWindowSubComCard::get_card_slot(0);
     TWindowSubComCard::create_card_list(get_window_layout_position(0x91), card_slot, 0x1C, 1);
 }
-void send_command__17TWindowSubComCardFi(saddr arg0) {
-    TWindowComCard::create((void *)(get_window_layout_position(0x86)), (void *)arg0);
+void *TWindowSubComCard::send_command(s32 index) {
+    return TWindowComCard::create((void *)(get_window_layout_position(0x86)), (void *)index);
 }
-void apply_selection__17TWindowSubComCardFi(s32 arg0) {
+u8 *TWindowSubComCard::apply_selection(s32 index) {
     s32 card_slot;
 
     card_slot = TWindowSubComCard::get_card_slot(0);
-    TWindowComCard::create_for_card(get_window_layout_position(0x92), arg0, card_slot);
+    return TWindowComCard::create_for_card(get_window_layout_position(0x92), index, card_slot);
 }
 
 void *TWindowSubComCard::get_message_10(s32 index) { return TWindowSubStatusDisp::get_message_10(index + 0xa6); }

@@ -90,7 +90,6 @@ struct ShortMail_8027EF98 {
 };
 
 extern "C" {
-void *send_command__17TWindowSubComCardFi(saddr);
 void update_display_value__17TWindowSubComCardFUiUiPv(uaddr arg0, uaddr arg1, s32 *arg2);
 s32 TWindowSubShortMail__sub_8007B834(void *);
 void TWindowSubShortMail__sub_8027E620(void *p);
@@ -210,7 +209,7 @@ void TWindowSubShortMail::run_task() {
         }
         if (o->w58 == NULL) {
             o->f28 = ((TWindowMenu *)o->w54)->get_selected_value();
-            o->w58 = send_command__17TWindowSubComCardFi(o->f28);
+            o->w58 = TWindowSubComCard::send_command(o->f28);
         }
         ((TWindowSubComCard *)(o->w54))->clear_flag_and_release();
         o->state = 4;
