@@ -45,7 +45,7 @@ struct TObjEneDD : public TObjEnemy {
     int get_flag_b4();
     f32 calc_elapsed_scaled();
     static void init_lights();
-    static s32 clamp_frame_index(s32 arg0);
+    static s32 clamp_frame_index(s32 frame);
     static s32 check_v2_mode();
     int get_target_state_a();
     int get_target_state_b();
@@ -62,7 +62,7 @@ struct TObjEneDD : public TObjEnemy {
     void reset_hp(u8 *base_stats, u8 *attack_stats, u8 *resistance_stats);
     void initialize_enemy_state(s32 parameter);
     s32 get_random_scaled();
-    f32 rand_range(f32 farg0, f32 farg1);
+    f32 rand_range(f32 low, f32 high);
     void set_state_8();
     void set_state_flag_4();
     void set_state_flag_2();
@@ -71,24 +71,24 @@ struct TObjEneDD : public TObjEnemy {
     static void inflict_poison(TObjChara *attacker, TObjChara *target);
     void emit_effect_at_position(void* a1);
     static void emit_effect(void *p, saddr pos, saddr params);
-    static void emit_enemy_effect(void *ene_dd, void *pos, u8 *arg2, void *attack_history);
+    static void emit_enemy_effect(void *ene_dd, void *pos, u8 *params, void *attack_history);
     static void setup(void *p, saddr pos, saddr params);
-    static void setup_instance(saddr owner, saddr arg1, u8 *bytes, saddr attack_history);
+    static void setup_instance(saddr owner, saddr pos, u8 *bytes, saddr attack_history);
     s32 is_target_unobstructed(saddr from);
     s32 is_valid_target();
     void transform_part_positions();
     void init_model(CollisionBody *bodies, s32 count);
     void clear_field_388();
-    int has_move_failures(s32 arg1);
+    int has_move_failures(s32 limit);
     CsnHit *enemy_probe_wall_ahead(f32 dx, f32 dz, f32 dist);
     void calc_shot_position(u8 *, f32, f32, f32);
     u8 *try_move_actor_xz_on_ground(u8 *);
     void move_to_wall_clamped_destination(f32 dx, f32 dz, f32 dist);
     u8 *move_with_wall_slide_commit(f32 dx, f32 dz, f32 dist);
-    void move_with_wall_stop(f32 dx, f32 dz, f32 farg2);
+    void move_with_wall_stop(f32 dx, f32 dz, f32 dist);
     void move_clamped_on_ground(f32 dx, f32 dz, f32 dist);
     void move_with_wall_slide_on_ground(f32 dx, f32 dz, f32 dist);
-    void move_to_shot_position(f32 dx, f32 dz, f32 farg2);
+    void move_to_shot_position(f32 dx, f32 dz, f32 dist);
     // Fills enemy_target_candidate_table for actor; returns how many it found.
     static s32 collect_target_candidates(TObjEneDD *actor, f32 range);
     static void create_instance();
@@ -132,7 +132,7 @@ u16 enemy_find_nearest_player_in_range(u8 *self, f32 range);
 s32 is_player_entity_id(u16 id);
 int TObjEneDD__sub_800BA804(u16 id);
 s32 pack_debug_text_position(s32 x, s32 y);
-void project_sound_origin_from_camera(saddr arg0, u8 *boss2_tunnel, f32 farg0);
+void project_sound_origin_from_camera(saddr source, u8 *out, f32 distance);
 void TObjEneDD__sub_800BA378(TObjChara *attacker, TObjChara *target);
 void TObjEneDD__sub_800BA438(TObjChara *attacker, TObjChara *target);
 void TObjEneDD__sub_800BA5A4(void *p, void *a1);
@@ -140,18 +140,18 @@ int is_target_android(void *p);
 int is_target_ranger(void *p);
 void TBoss8Dragon__sub_800BB650(TargetCandidate *dst, TargetCandidate *src);
 void TBoss8Dragon__sub_800BB7D4(void *self, int id);
-u8 *TObjEneEpsilon__sub_800B92AC(TObjEneDD_ST *self, s32 arg1, f32 farg0);
-u8 *TObjEneEpsilon__sub_800B92F8(TObjEneDD_ST *self, s32 arg1, f32 farg0);
+u8 *TObjEneEpsilon__sub_800B92AC(TObjEneDD_ST *self, s32 max_step, f32 distance);
+u8 *TObjEneEpsilon__sub_800B92F8(TObjEneDD_ST *self, s32 max_step, f32 distance);
 u8 *TObjEneEpsilon__sub_800B9384(TObjEneDD_ST *self, s32 iscale, f32 scale);
 void TBoss8Dragon__sub_800BB7D8(void *self, s32 id, f32 scale);
 void TBoss8Dragon__sub_800BB7DC(void *self);
 }
-u8 *enemy_turn_and_move_on_ground(TObjEneDD_ST *self, s32 arg1, f32 currentSpeed);
+u8 *enemy_turn_and_move_on_ground(TObjEneDD_ST *self, s32 max_step, f32 currentSpeed);
 
-void set_collider_contact_high(u8 *arg0);
-void set_collider_contact_low(u8 *arg0);
-void update_collider_contact_by_height(u8 *arg0, f32 farg0);
-u16 enemy_nearest_visible_player_sq(u8 *arg0, f32 farg0);
+void set_collider_contact_high(u8 *body);
+void set_collider_contact_low(u8 *body);
+void update_collider_contact_by_height(u8 *body, f32 height);
+u16 enemy_nearest_visible_player_sq(u8 *self, f32 range);
 s32 tick_period_counter(s32 self, s32 *counter, s32 limit);
 
 #endif
