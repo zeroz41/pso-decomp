@@ -16,6 +16,8 @@ public:
     virtual void vfunc_8(void *);
     virtual void vfunc_9();
     void find_area_contact(saddr);
+    saddr collect_body_contacts(TObjCollidable *target, CollisionBody *body, void *player);
+    saddr collect_body_contacts_for_target(saddr player);
     void apply_technique_to_area_targets();
     void sub_8022C008();
     void count_if_within_range();

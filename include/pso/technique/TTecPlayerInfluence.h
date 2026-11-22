@@ -4,12 +4,15 @@
 #include "types.h"
 #include "pso/effect/TEffect.h"
 
+class TObjCollidable;
+
 struct TTecPlayerInfluence : public TEffect {
     TTecPlayerInfluence(void *owner, void *pos, s32 level);
     virtual ~TTecPlayerInfluence();
     virtual void tick_lifetime();
     virtual void vfunc_7(void *);
     void sub_80237258();
+    saddr find_support_technique_contact_for_target(saddr player);
     u8 unk_70[0x4];
     f32 m_74;
     u8 unk_78[0x4];
@@ -30,7 +33,7 @@ struct TTecPlayerInfluence : public TEffect {
     u32 m_c4;
     u32 m_c8;
     u8 _padCC[0x10];
-    u32 m_dc;
+    TObjCollidable *target;
     virtual void render();
     virtual void run_task();
 };

@@ -13,6 +13,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/effect/TUnk_804CCC68.h"
 #include "pso/effect/TUnk_804CC148.h"
+#include "pso/technique/TTecPlayerInfluence.h"
 #include "pso/technique/TechniqueContact.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TLobby.h"
@@ -273,10 +274,10 @@ TechniqueContactQueryResults technique_contact_query_results;
 
 void resetTechniqueContactQuery();
 
-saddr find_support_technique_contact(void *self, int target, void *_w2, void *_w3);
+saddr find_support_technique_contact(void *self, TObjCollidable *target, void *_w2, void *_w3);
 saddr find_area_technique_contact(TUnk_804CC148 *self, TObjCollidable *target, CollisionBody *body, void *arg3);
 
-saddr find_support_technique_contact(void *self, int target, void *_w2, void *_w3) {
+saddr find_support_technique_contact(void *self, TObjCollidable *target, void *_w2, void *_w3) {
     Vec pos;
     f32 range;
     s32 i;
@@ -289,14 +290,14 @@ saddr find_support_technique_contact(void *self, int target, void *_w2, void *_w
     }
     VecCopy((Vec *)&pos, (const Vec *)((u8 *)self + 0x20));
     resetTechniqueContactQuery();
-    if ((u32)target == 0) {
+    if (target == NULL) {
         return (saddr)&technique_contact_query_results;
     }
-    VecCopy((Vec *)((u8 *)target + 0x38), (const Vec *)&pos);
+    VecCopy(&target->position, &pos);
     for (i = TLobby::get_game_mode(); i < TLobby::get_lobby_flag(); i++) {
         pd = (PlayerData_80236154 *)TObjPlayer::get_player_data(i);
         if (pd != 0 && (pd->flags & 0x20000000)) {
-            c = (Contact_80236154 *)((TObjCollidable *)target)->find_actor_body_contact((u8 *)pd, range);
+            c = (Contact_80236154 *)target->find_actor_body_contact((u8 *)pd, range);
             if (c != 0 && ((c->flags & 1) || !(c->flags & 0x02000000))) {
                 ((List_80236154 *)&technique_contact_query_results)->bodies[((List_80236154 *)&technique_contact_query_results)->count] = c;
                 ((List_80236154 *)&technique_contact_query_results)->actors[((List_80236154 *)&technique_contact_query_results)->count] = pd;
@@ -371,7 +372,7 @@ saddr find_area_technique_contact(TUnk_804CC148 *self, TObjCollidable *target, C
     return (saddr)&technique_contact_query_results;
 }
 
-saddr TObjPlayer::collect_body_contacts(int target, void *_w2, void *player) {
+saddr TUnk_804CC148::collect_body_contacts(TObjCollidable *target, CollisionBody *body, void *player) {
     Vec pos;
     PD_802364D8 *e;
     PD_802364D8 *pd;
@@ -380,12 +381,12 @@ saddr TObjPlayer::collect_body_contacts(int target, void *_w2, void *player) {
     s32 ok;
     Contact_802364D8 *c;
     s32 j;
-    VecCopy((Vec *)&pos, (const Vec *)((u8 *)this + 0x20));
+    VecCopy(&pos, &position);
     resetTechniqueContactQuery();
-    if ((u32)target == 0) {
+    if (target == NULL) {
         return (saddr)&technique_contact_query_results;
     }
-    VecCopy((Vec *)((u8 *)target + 0x38), (const Vec *)&pos);
+    VecCopy(&target->position, &pos);
     if (get_entity_id(player) < 4) {
         n = TLobby::get_lobby_flag();
         for (i = 0; i < n; i++) {
@@ -400,7 +401,7 @@ saddr TObjPlayer::collect_body_contacts(int target, void *_w2, void *player) {
                     }
                 }
                 if (ok != 0 && ((pd->flags & 0x20000000) || (pd->flags & 0x10000000))) {
-                    c = (Contact_802364D8 *)((TObjCollidable *)target)->find_actor_body_contact((u8 *)pd, 1e+04f);
+                    c = (Contact_802364D8 *)target->find_actor_body_contact((u8 *)pd, 1e+04f);
                     if (c != 0 && ((c->flags & 1) || !(c->flags & 0x02000000))) {
                         ((List_802364D8 *)&technique_contact_query_results)->bodies[((List_802364D8 *)&technique_contact_query_results)->count] = c;
                         ((List_802364D8 *)&technique_contact_query_results)->actors[((List_802364D8 *)&technique_contact_query_results)->count] = pd;
@@ -416,7 +417,7 @@ saddr TObjPlayer::collect_body_contacts(int target, void *_w2, void *player) {
         for (j = 0; j < 4; j++) {
             e = (PD_802364D8 *)find_entity_by_id(j);
             if (e != 0 && get_entity_id(e) != get_entity_id(player) && (e->flags & 0x10000000)) {
-                c = (Contact_802364D8 *)((TObjCollidable *)target)->find_actor_body_contact((u8 *)e, 1e+04f);
+                c = (Contact_802364D8 *)target->find_actor_body_contact((u8 *)e, 1e+04f);
                 if (c != 0) {
                     ((List_802364D8 *)&technique_contact_query_results)->bodies[((List_802364D8 *)&technique_contact_query_results)->count] = c;
                     ((List_802364D8 *)&technique_contact_query_results)->actors[((List_802364D8 *)&technique_contact_query_results)->count] = e;
@@ -435,13 +436,12 @@ void TUnk_804CC148::find_area_contact(saddr arg1) {
     find_area_technique_contact(this, this->m_e8, &this->collisionBody, (void *)arg1);
 }
 
-void TObjPlayer::collect_body_contacts_for_target(saddr player) {
-    collect_body_contacts((int)(this->blend.motion[1]), (u8 *)&this->previous_action, (void *)player);
+saddr TUnk_804CC148::collect_body_contacts_for_target(saddr player) {
+    return collect_body_contacts(m_e8, &collisionBody, (void *)player);
 }
 
-void TObjPlayer::find_support_technique_contact_for_target(saddr arg1) {
-    u8 *arg0 = (u8 *)this;
-    find_support_technique_contact((void *)arg0, (int)this->motion_list, (u8 *)&this->motion_flags, (void *)arg1);
+saddr TTecPlayerInfluence::find_support_technique_contact_for_target(saddr player) {
+    return find_support_technique_contact(this, target, &m_b0, (void *)player);
 }
 
 void TObjPlayer::gather_contacts_for_self(s32 arg1) {

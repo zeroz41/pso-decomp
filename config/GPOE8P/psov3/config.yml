@@ -5272,7 +5272,7 @@ force_active:
   - close_with_callback__22TChallenge4PItemSelectFv
   - cmicon_instance
   - collect_beam_targets__16TObjEneNanoDragoFv
-  - collect_body_contacts__10TObjPlayerFiPvPv
+  - collect_body_contacts__13TUnk_804CC148FP14TObjCollidableP13CollisionBodyPv
   - collect_candidate_players__12TBoss3VoloptFv
   - collect_hit_targets__12TPhotonGollaFPv
   - collect_node_matrices__16TObjEneRe7BeruraFPvi
@@ -6233,7 +6233,7 @@ force_active:
   - find_player_texture_name_ordinal__FPUc
   - find_random_player__12TBoss3VoloptFv
   - find_strongest_player__12TBoss3VoloptFv
-  - find_support_technique_contact__FPviPvPv
+  - find_support_technique_contact__FPvP14TObjCollidablePvPv
   - find_table_entry_id
   - find_target_player__16TOTrapAncient02RFv
   - find_target_player__6TOMineFv

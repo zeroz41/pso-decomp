@@ -116,7 +116,6 @@ void move_ground_technique_projectile(void *p);
 extern "C" {
 s32 get_type__10TObjPlayerFPv(void *);
 List_8022BD74 *find_area_contact__13TUnk_804CC148Fl(Tec_8022BD74 *, void *);
-List_8022BD74 *collect_body_contacts_for_target__10TObjPlayerFl(Tec_8022BD74 *, void *);
 s32 play_sound_effect(s32, s32, s32, s32);
 
 void TTecBarta::update_technique_by_state() {
@@ -337,12 +336,12 @@ void TUnk_804CC148::apply_technique_to_area_targets() {
     }
     if (get_entity_id(((Tec_8022BD74 *)this)->owner) < 4) {
         if (get_type__10TObjPlayerFPv((u8 *)((Tec_8022BD74 *)this)->owner + 0x828) != 0) {
-            list = collect_body_contacts_for_target__10TObjPlayerFl(((Tec_8022BD74 *)this), ((Tec_8022BD74 *)this)->owner);
+            list = (List_8022BD74 *)collect_body_contacts_for_target((saddr)((Tec_8022BD74 *)this)->owner);
         } else {
             list = find_area_contact__13TUnk_804CC148Fl(((Tec_8022BD74 *)this), ((Tec_8022BD74 *)this)->owner);
         }
     } else {
-        list = collect_body_contacts_for_target__10TObjPlayerFl(((Tec_8022BD74 *)this), ((Tec_8022BD74 *)this)->owner);
+        list = (List_8022BD74 *)collect_body_contacts_for_target((saddr)((Tec_8022BD74 *)this)->owner);
     }
     for (i = 0; i < list->count; i++) {
         if (TObjPlayer::is_valid_and_active(list->ids[i]) != 0) {

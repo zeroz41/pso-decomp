@@ -117,7 +117,6 @@ void *__ct__14TObjCollidableFP7TObject(void *, void *);
 const char *lbl_805D37F0 = "TTecPlayerInfluence";
 void free_collision_body_parts(void *);
 
-List_802370D8 *find_support_technique_contact_for_target__10TObjPlayerFl(void *, u32);
 List_802370D8 *gather_contacts_for_self__10TObjPlayerFl(void *, u32);
 void deliver_technique_to_party_targets(Obj_802370D8 *arg0);
 void spawn_support_tec_range_effect(Tec_80236EE8 *self);
@@ -222,7 +221,7 @@ void deliver_technique_to_party_targets(Obj_802370D8 *arg0) {
     if (get_entity_id(*(void **)((s8 *)arg0 + 0x1C)) < 4) {
         list = gather_contacts_for_self__10TObjPlayerFl(arg0, *(u32 *)((s8 *)arg0 + 0x1C));
     } else {
-        list = find_support_technique_contact_for_target__10TObjPlayerFl(arg0, *(u32 *)((s8 *)arg0 + 0x1C));
+        list = (List_802370D8 *)((TTecPlayerInfluence *)arg0)->find_support_technique_contact_for_target(*(u32 *)((s8 *)arg0 + 0x1C));
     }
     for (i = 0; i < list->count; i++) {
         if (TObjPlayer::is_valid_and_active(list->items[i]) != 0) {
