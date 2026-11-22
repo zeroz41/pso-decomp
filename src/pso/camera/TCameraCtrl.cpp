@@ -216,8 +216,8 @@ s16 TCameraCtrl__camera_mode;
 s16 TCameraCtrl__data_805D4E0A;
 void set_perspective_projection_from_fov(s32 arg0, f32 farg0, f32 farg1, f32 farg2);
 extern "C" {
-s32 get_entity_id(void *);
-s32 TCameraCtrl__sub_8006B358(void *p);
+u16 get_entity_id(void *);
+u16 TCameraCtrl__sub_8006B358(void *p);
 extern void *camera_controller_registry[13];
 void TCameraCtrl__sub_801E32D8(f32, f32);
 s32 matrix_mult_vec(int, void *, void *);
@@ -474,7 +474,7 @@ int is_float_nonfinite(f32 farg0) {
 int is_quest_active(void) {  return quest_active_flag; }
 s32 TMainTask::get_task_flags() { return task_flags; }
 
-s32 TCameraCtrl__sub_8006B358(void *p) { return *(u16*)((char*)p + 0x20); }
+u16 TCameraCtrl__sub_8006B358(void *p) { return *(u16*)((char*)p + 0x20); }
 void TCameraCtrl::set_target_coords(int a0, int a1) { TCameraCtrl__viewport_x = a0; TCameraCtrl__viewport_y = a1; }
 void TCameraCtrl::set_target(int a0, int a1) { TCameraCtrl__viewport_size = a0; TCameraCtrl__viewport_height = a1; }
 int TCameraCtrl::get_camera_id() {  return TCameraCtrl__camera_id; }
@@ -1626,8 +1626,8 @@ void transform_to_view__11TCameraCtrlFii(saddr arg0, saddr arg1) {
     pop_matrix();
 }
 
-s32 TCameraCtrl::get_camera_target_id(s32 arg0) {
-    s32 var_r31;
+u16 TCameraCtrl::get_camera_target_id(s32 arg0) {
+    u16 var_r31;
     s32 var_r3;
     void *temp_r3;
     void *temp_r3_2;

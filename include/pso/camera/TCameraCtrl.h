@@ -92,7 +92,7 @@ struct TCameraCtrl : public TObject {
     static f32 get_view_scale();
     void copy_view_state(saddr src);
     static void restore_full_screen_view();
-    static s32 get_camera_target_id(s32 arg0);
+    static u16 get_camera_target_id(s32 arg0);
     static void apply_split_screen_view_matrix();
     static s32 *get_view_matrix();
     static void create();

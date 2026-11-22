@@ -9,6 +9,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 struct NJS_OBJECT;
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/object/base/CollisionActorLookup.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/derolle/AccelerationCurve.h"
 #include "pso/boss/TUnk_80481B34.h"
@@ -119,7 +120,6 @@ extern u8 *TBoss1Dragon__part_hp_stats[5];
 f32 newton_sqrtf(f32);
 extern saddr TBoss1Dragon__data_804FE17C[3];
 s32 is_split_screen();
-u8 *find_entity_by_id(s32);
 }
 void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 void dragon_capture_node_points(NJS_OBJECT *);
@@ -5181,7 +5181,7 @@ void TBoss1Dragon::render() {
     RenderFadeState *ch;
     s32 visible;
     s16 state;
-    u8 *ent;
+    TObjCollidable *ent;
     s32 hit;
     f32 dist;
     view = 0;
@@ -5241,7 +5241,7 @@ void TBoss1Dragon::render() {
                     Vec probe;
                     VecCopy(&origin, (Vec *)(camera_ctrl_instance + 0x178));
                     origin.y = (0.0f);
-                    VecCopy(&delta, &((TObjBase *)ent)->position);
+                    VecCopy(&delta, &ent->position);
                     subtract_vector(&delta, &origin);
                     delta.y = (0.0f);
                     dist = normalize_vector_xz((Vec *)&delta);
