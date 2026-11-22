@@ -86,7 +86,6 @@
 struct Cfg_80064F50 { u8 pad[0x18]; s32 i18; s32 i1C; s32 i20; s32 i24; };
 extern "C" {
 s32 TBoss8Dragon__sub_800670E0(int, void *);
-u8 *__ct__22TBoss5GryphonShockWaveFP7TObjectlPUcPUcls(u8 *arg0, u8 *arg1_parent, s32 arg2, u8 *arg3, u8 *arg4, s32 arg5, s16 arg6);
 f64 atan2_float(f32, f32);
 s32 restore_player_cameras(void);
 s32 activate_camera_mode(s32 mode);
@@ -1431,7 +1430,6 @@ void TBoss5Gryphon::update_shockwave_attack(u32 event) {
     Vec pos;
     Vec vel;
     f32 speed;
-    void *p;
     switch (event) {
     case ENEMY_STATE_ENTER:
         this->requested_action = 0x18;
@@ -1479,11 +1477,8 @@ void TBoss5Gryphon::update_shockwave_attack(u32 event) {
                 vel.x = lbl_805D8EA0 * sin_table_lookup(this->rotation_y);
                 vel.y = 0.5f * -(self->bone_positions[11].y - lbl_80437938.y);
                 vel.z = lbl_805D8EA0 * cos_table_lookup(this->rotation_y);
-                p = TObject::operator new(0x70);
-                if (p != NULL) {
-                    ((void (*)(void *, void *, void *, void *, void *, void *, u16))__ct__22TBoss5GryphonShockWaveFP7TObjectlPUcPUcls)(
-                        p, &self->sub_tasks, self, &self->bone_positions[11], &pos, &vel, self->target_id);
-                }
+                new TBoss5GryphonShockWave(&self->sub_tasks, self, &self->bone_positions[11], &pos, &vel,
+                                           self->target_id);
                 spawn_particle_effect_with_flags(&self->bone_positions[11], self->effect_ids[4], 0x40);
                 self->work.step = 2;
             }
