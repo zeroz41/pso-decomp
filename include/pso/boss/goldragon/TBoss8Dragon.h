@@ -44,9 +44,14 @@ public:
     virtual int run_demo_task();
     virtual void draw_motion_model();
 
-    void get_render_position(u8 *);
+    void get_render_position(Vec *pos);
     s32 hasActiveRenderFade();
     s32 sub_802F46F4();
+    // As TBoss1Dragon::is_sphere_visible: the sphere lies in the cone from the camera towards its target.
+    s32 is_sphere_visible(Vec *center, f32 radius);
+    // One of four model nodes stands between the camera and its target (name inferred: draw_with_fade fades
+    // the dragon out while it does).
+    s32 is_hiding_camera_target();
     void update_damage_threshold();
     void sub_802FBEA4();
     void sub_802FBE3C();
@@ -61,14 +66,14 @@ public:
     void init_air_turn(s32 targetAngle);
     s32 advance_air_turn();
     s32 choose_burrow_ring_destination(f32 *out);
-    s32 sub_802FC674(f32 *out);
+    s32 select_air_fire_target(Vec *out);  // as TBoss1Dragon::select_air_fire_target
     s32 sub_802FABB4();
     s32 is_secondary_sequence();
 
     u32 flags;  // as TBoss1Dragon::flags: 0x40 makes run_task remove the dragon, 0x100 tested the same way
     TObject sub_tasks;  // the dragon's collider task hangs under it; run_task runs its tasks
     u32 m_3e0;
-    u32 phase;
+    s32 phase;
     s32 m_3e8;
     Vec breath_node_points[3];  // as TBoss1Dragon::breath_node_points
     Vec breath_origin;  // the TBoss8DragonEffBreath and the fire bullets start here
@@ -83,10 +88,8 @@ public:
     Vec m_5e0;
     AccelerationCurve curve0;  // fed to init_acceleration_curve / sample_acceleration_curve
     AccelerationCurve curve1;
-    void* m_634;
-    u8 _pad638[0x8];
-    void* m_640;
-    u8 _pad644[0x8];
+    Vec sound_origin;  // project_sound_origin_from_camera's result; the dragon's sounds play from it
+    Vec last_body_center;  // body_center, copied at the end of each run_task
     u32 m_64c;
     s32 airTurnVelocity;
     s32 airTurnDirection;
@@ -137,9 +140,7 @@ public:
     f32 m_86c;
     f32 m_870;
     f32 m_874;
-    f32 m_878;
-    f32 m_87c;
-    f32 m_880;
+    Vec m_878;  // the current action's point or step; TBoss1Dragon::m_890 is the twin
     f32 m_884;
     f32 m_888;
     f32 m_88c;
@@ -250,7 +251,7 @@ public:
     s32 is_closest_part();
     s32 push_apart_from_parts();
     s32 is_near_other_part();
-    void draw_with_fade(saddr pos, s32 view);
+    void draw_with_fade(Vec *pos, s32 view);
     void draw();
 
     // Per-action event handlers, run by dispatch_action (vtable slot 87).
@@ -302,12 +303,10 @@ LAYOUT_ASSERT(TBoss8DragonSize, sizeof(TBoss8Dragon) == 0x8A4);
 LAYOUT_ASSERT(TBoss8DragonSubTasksOffset, offsetof(TBoss8Dragon, sub_tasks) == 0x3C4);
 LAYOUT_ASSERT(TBoss8DragonAfterFadeOffset, offsetof(TBoss8Dragon, m_74c) == 0x74C);
 
-// boss8_dragon_reference_pos_vec: layout known from its uses only.
-struct Boss8DragonReferencePosVec { s32 value; u8 remaining[0x8]; };
-extern Boss8DragonReferencePosVec boss8_dragon_reference_pos_vec;
-// dragon_forward_reference_vec: layout known from its uses only.
-struct DragonForwardReferenceVec { s32 value; u8 remaining[0x8]; };
-extern DragonForwardReferenceVec dragon_forward_reference_vec;
+// The camera's xz position and its normalized xz direction to the camera target, which the visibility test
+// TBoss8Dragon::is_hiding_camera_target sets before it tests the model's points.
+extern Vec boss8_dragon_reference_pos_vec;
+extern Vec dragon_forward_reference_vec;
 // lbl_80541DE8: layout known from its uses only.
 struct RecoveredGlobal_lbl_80541DE8 { Vec value; };
 extern RecoveredGlobal_lbl_80541DE8 lbl_80541DE8;
