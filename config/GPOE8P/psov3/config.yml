@@ -395,13 +395,13 @@ force_active:
   - TBoss6GravBall__sub_803236F8
   - __ct__13TBoss6KakusanFP7TObjectP3VecP3VecUsf
   - sub_8032263C__13TBoss6KakusanFv
-  - __ct__13TUnk_804F322CFP7TObjectl
-  - TBoss6MagMine__sub_80368AB8
+  - __ct__13TBoss6MagMineFP7TObjectP19Boss6MagMineSetData
+  - damage_player__13TBoss6MagMineFP10TObjPlayer
   - TBoss6Mag__collision_body_parts
   - __ct__10TBoss6MineFP7TObjectP17TBoss6MineSetData
   - TBoss6PlotFalz__ct
   - TBoss6PlotFalz__fade_amount
-  - TBoss6PlotFalz__sub_8036964C
+  - get_type2__14TBoss6PlotFalzFv
   - __ct__15TBoss6RockChaseFP7TObjectPC3Vecl
   - TBoss6RockChase__data_805E03B8
   - TBoss6Rock__data_805D6EF0
@@ -2524,7 +2524,7 @@ force_active:
   - __dt__13TUnk_804F1C88Fv
   - __dt__13TUnk_804F29F8Fv
   - __dt__13TUnk_804F2A10Fv
-  - __dt__13TUnk_804F322CFv
+  - __dt__13TBoss6MagMineFv
   - __dt__13TUnk_804F3428Fv
   - __dt__13TUnk_804F3640Fv
   - __dt__13TUnk_804F3A20Fv
@@ -3129,7 +3129,7 @@ force_active:
   - __vt__13TAdVIConfigGC
   - __vt__13TBoss5Gryphon
   - __vt__13TBoss6Kakusan
-  - __vt__13TBoss6MagMine
+  - TBoss6MagMine__collision_body_parts
   - __vt__13TItemAttacker
   - __vt__13TItemEffArmor
   - __vt__13TItemEffEquip
@@ -3291,7 +3291,7 @@ force_active:
   - __vt__13TUnk_804F1320
   - __vt__13TUnk_804F29F8
   - __vt__13TUnk_804F2A10
-  - __vt__13TUnk_804F322C
+  - __vt__13TBoss6MagMine
   - __vt__13TUnk_804F3428
   - __vt__13TUnk_804F3640
   - __vt__13TUnk_804F3A20
@@ -5388,7 +5388,7 @@ force_active:
   - copy_pair__6TLobbyFPvPv
   - copy_params__12TBoss1DragonFPv
   - copy_pos__10TBoss6MineFv
-  - copy_pos__13TBoss6MagMineFi
+  - copy_pos__13TBoss6MagMineFv
   - copy_pos__13TObjEneMe1GeeFv
   - copy_pos__13TObjEneRe4BitFv
   - copy_pos__17TObjEneBm3FlyNestFv
@@ -5446,7 +5446,7 @@ force_active:
   - create__12TBGLightningFiif
   - create__12TChCrTagNameFl
   - create__12T_OWEHMS_ExpFP10TObjPlayer
-  - create__13TBoss6MagMineFi
+  - create__13TBoss6MagMineFP19Boss6MagMineSetData
   - create__13TObjBs4CutAtkFP7TObjectll
   - create__13TObjDFRecBallFP7TObjectPC3VecPC3Vec
   - create__13TObjEneMe1GeeFP13TObjEneMe1GeeP3VecUsl
@@ -6109,7 +6109,7 @@ force_active:
   - exit_keyboard_mode__21TAdMultiSelGameModeGCFv
   - expand_message_substitutions
   - expire_weapon_casing__FPv
-  - explode__13TBoss6MagMineFPv
+  - explode__13TBoss6MagMineFv
   - explode__22TObjEneMe1GiGueMissileFPv
   - explode_and_destroy__13TUnk_80484AFCFv
   - explode_damage_players__10TBoss6MineFv
@@ -6637,7 +6637,7 @@ force_active:
   - get_evp__17PlayerAttackStateFv
   - get_falz_phase__10TObjPlayerFv
   - get_field_04__6TLobbyFv
-  - get_field_0x42c__13TBoss6MagMineFPv
+  - get_variant__11TBoss6Type2Fv
   - get_field_2__9TTecLukerFPv
   - prompt_was_accepted__16TCheckMemoryCardFv
   - get_field_cc__19TWindowSubShortMailFPv
@@ -7339,7 +7339,7 @@ force_active:
   - is_photon_blast_presentation_admitted__FUlPv
   - is_any_city_player_in_range__13TUnk_804B5BA8FPC3Vecf
   - is_player_in_range__10TObjRoomIdFUsf
-  - is_player_in_range__13TBoss6MagMineFPv
+  - is_player_in_range__13TBoss6MagMineFv
   - is_player_in_range__15TORainbowCave01Ff
   - is_player_in_range__9TObjLukerFv
   - is_player_in_rock_area__11TBoss6Type2FUs
@@ -14212,7 +14212,7 @@ force_active:
   - render__13TUnk_804F1280Fv
   - render__13TUnk_804F1C88Fv
   - render__13TUnk_804F2A10Fv
-  - render__13TUnk_804F322CFv
+  - render__13TBoss6MagMineFv
   - render__13TWindowStatusFv
   - render__13TWindowSubLogFv
   - render__14TAdFloorLoadGCFv
@@ -14915,7 +14915,7 @@ force_active:
   - run_task__13TUnk_804F1C88Fv
   - run_task__13TUnk_804F29F8Fv
   - run_task__13TUnk_804F2A10Fv
-  - run_task__13TUnk_804F322CFv
+  - run_task__13TBoss6MagMineFv
   - run_task__13TUnk_804F3428Fv
   - run_task__13TUnk_804F3640Fv
   - run_task__13TUnk_804F3A20Fv
@@ -17018,7 +17018,7 @@ force_active:
   - update_line_timers__14TWindowMessageFv
   - update_linked_epsilon_position__12TBoss1DragonFv
   - update_linked_ground_position__13TBoss5GryphonFv
-  - update_linked_state__13TUnk_804F322CFv
+  - update_linked_state__13TBoss6MagMineFv
   - update_list__24TShopEquipmentListWindowFPv
   - update_list_scroll__22TWindowSubCustomSelectFv
   - update_live_camera__18TObjLiveCameraCtrlFv
@@ -17566,7 +17566,7 @@ force_active:
   - run_hit_reaction__13TObjEneBm3FlyFv
   - run_hit_reaction__13TObjEneMorfosFv
   - run_hit_reaction__13TObjEneRe4BitFv
-  - run_hit_reaction__13TUnk_804F322CFv
+  - run_hit_reaction__13TBoss6MagMineFv
   - run_hit_reaction__14TObjEneBm5WolfFv
   - run_hit_reaction__14TObjEneIllGillFv
   - run_hit_reaction__15TObjEneDelDepthFv
@@ -17593,7 +17593,7 @@ force_active:
   - run_death_reaction__13TObjEneBm3FlyFv
   - run_death_reaction__13TObjEneMorfosFv
   - run_death_reaction__13TObjEneRe4BitFv
-  - run_death_reaction__13TUnk_804F322CFv
+  - run_death_reaction__13TBoss6MagMineFv
   - run_death_reaction__14TBoss4DarkFalzFv
   - run_death_reaction__14TObjEneBm5WolfFv
   - run_death_reaction__14TObjEneIllGillFv
@@ -17745,13 +17745,13 @@ force_active:
   - volopt_p02_params
   - vsUpdateBuffer
   - update_rise_state__11TBoss4BishiFv
-  - vt0__13TBoss6MagMineFv
+  - state_0__13TBoss6MagMineFv
   - vt1__11TBoss4BishiFv
-  - vt1__13TBoss6MagMineFv
+  - state_1__13TBoss6MagMineFv
   - update_sink_state__11TBoss4BishiFv
-  - vt2__13TBoss6MagMineFv
-  - vt3__13TBoss6MagMineFv
-  - vt4__13TBoss6MagMineFv
+  - state_2__13TBoss6MagMineFv
+  - state_3__13TBoss6MagMineFv
+  - state_4__13TBoss6MagMineFv
   - vt4__17TChCrTagPlGraphicFv
   - vt4__9TBoss4UroFv
   - update_sink_state__9TBoss4UroFv

@@ -285,6 +285,7 @@ struct TBoss6Type2 : public TObjEnemy
     static void *create_flow_soul(void *parent, void *pos, s32 player, s32 duration);
     static void capture_player_snapshots();
     s32 get_state();
+    s32 get_variant();
     void apply_rock_hits_to_players();
     void get_phase_values(u16 *a, u16 *b, u16 *out);
     void send_state_action_packet();

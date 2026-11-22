@@ -159,7 +159,6 @@ struct Color_802ABF44 { f32 a, b, c, d; };
 extern "C" {
 s16 get_entity_id(void *);
 extern uaddr TBoss6PlotFalz__type1_instance;
-extern uaddr TBoss6PlotFalz__type2_instance;
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;

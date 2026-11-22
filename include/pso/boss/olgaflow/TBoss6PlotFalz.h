@@ -15,6 +15,7 @@ s32 TBoss6Type1__sub_802ABDEC(s32 seed);
 
 struct BmlResource;
 class TBoss4Fade;
+struct TBoss6Type2;
 
 struct TBoss6PlotFalz : public TObjEnemy {
     TBoss6PlotFalz(TObject *parent, void *set_data);
@@ -38,6 +39,7 @@ struct TBoss6PlotFalz : public TObjEnemy {
     u32 m_3d8;
     u32 m_3dc;
     static s32 get_hp();
+    static TBoss6Type2 *get_type2();
     static s32 damage_player_hp(s32 client, u32 damage);
     static s32 sort_active_players();
     static u16 pick_random_active_player();
@@ -115,6 +117,9 @@ struct TBoss6PlotFalz : public TObjEnemy {
     void sub_802B0A34();
     static void update_active_flag();
 };
+
+// The Olga Flow (TBoss6Type2) of the running fight, 0 when there is none.
+extern uaddr TBoss6PlotFalz__type2_instance;
 
 extern "C" {
 void TBoss6PlotFalz__sub_802AC008(f32 a, f32 b);

@@ -730,7 +730,7 @@ void TBoss6Mag::spawn_mag_mines() {
     const Vec *origin = &node_positions[0];
     s32 i;
     for (i = 0; i < mine_count; i++) {
-        spawn_mag_mine_at__13TBoss6MagMineFPvPv(origin, &mine_targets[i]);
+        TBoss6MagMine::spawn_mag_mine_at(origin, &mine_targets[i]);
     }
 }
 
