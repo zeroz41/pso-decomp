@@ -1413,7 +1413,7 @@ void *TObjPlayer__sub_801C1A00(void *p);
 s32 TObjPlayer__sub_801C1AC8(void *);
 s32 TObjPlayer__sub_801C1B0C(void *, int);
 s32 fn_801C1B88(void *p);
-f32 get_lock_target_distance_sq(s32, u32);
+f32 get_lock_target_distance_sq(void *p);
 u16 get_lock_target_id(void *p);
 s32 fn_801C1BA0();
 s32 is_action_channel_active(s32, s32);
@@ -2825,7 +2825,7 @@ s32 TObjPlayer::update_target_lock() {
         return 0;
     }
     lock_target_id = get_lock_target_id(&cursor->nearest_target);
-    lock_target_distance_sq = get_lock_target_distance_sq((s32)&this->lock_on_cursor->nearest_target, (u32)this->lock_on_cursor);
+    lock_target_distance_sq = get_lock_target_distance_sq(&this->lock_on_cursor->nearest_target);
     fn_801C1B88(&this->lock_on_cursor->nearest_target);
     if (!(this->actorFlags & 0x100000)) {
         if ((u16) lock_target_id == 0xFFFF) {

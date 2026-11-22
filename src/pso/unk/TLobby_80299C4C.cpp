@@ -107,7 +107,7 @@ const char *TObjChallenge4PRetry__class_name = "TObjChallenge4PRetry";
 
 s32 TLobby__sub_8024AC20(int);
 s32 TLobby__sub_80292F5C();
-s32 get_player_by_client_id(int);
+saddr get_player_by_client_id(int);
 saddr get_message_text(s32);
 saddr get_window_layout_position(s32);
 void TObjPlayer__sub_8024ABDC(saddr arg0);

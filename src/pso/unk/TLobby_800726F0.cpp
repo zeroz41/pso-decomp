@@ -47,7 +47,7 @@ s32 TLobby__sub_8006FBE4();
 saddr get_message_text(s32);
 saddr get_window_layout_position(s32);
 void TLobby__sub_8024AC20(saddr arg0);
-s32 get_player_by_client_id(s32);
+saddr get_player_by_client_id(s32);
 extern saddr local_client_id;
 void TObjPlayer__sub_8024ABDC(saddr arg0);
 extern s32 TLobby__designated_client_id;

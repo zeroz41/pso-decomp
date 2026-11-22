@@ -1042,7 +1042,7 @@ s32 get_captured_target_count(s32 *arg0);
 s32 copy_attack_targets(void *, void *);
 int TObjPlayer__sub_8012AF00(void*);
 s32 publish_actor_light_scalars(u16, f32, f32);
-s32 canSetMenuCursorAction(s32, void *, s32, u8);
+s32 canSetMenuCursorAction(void *, void *, s32, u8);
 void TMainCursor__sub_8013DFC4(u8 *arg0);
 u8 get_cursor_palette_mode(void *);
 s32 approach_angle_adaptive(s32, s32);
@@ -4097,7 +4097,7 @@ void TObjPlayer::update_cursor(s32 parameter) {
     TLockOnCursor *cursor;
 
     cursor = this->lock_on_cursor;
-    if ((cursor != NULL) && (canSetMenuCursorAction((s32)&cursor->palette_override, this, 3, (u8) parameter) != 0)) {
+    if ((cursor != NULL) && (canSetMenuCursorAction(&cursor->palette_override, this, 3, (u8) parameter) != 0)) {
         set_action_palette_tag_mode(&lock_on_cursor->palette_override, 3);
         set_action_palette_tag_slot(&lock_on_cursor->palette_override, static_cast<u8>(parameter));
         TMainCursor__sub_8013DFC4((u8 *)&this->lock_on_cursor->palette_override);
