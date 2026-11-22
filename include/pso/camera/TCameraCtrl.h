@@ -133,7 +133,6 @@ public:
     static u16 get_active_controller();
 
     static s32 get_camera_mode();
-    void*get_target_ptr();
     static void copy_vec_to_default(const Vec *up);
     static void sync_split_view_slots(s32 view, s32 all_views);
     static s32 get_split_screen_view_index(u16 id);

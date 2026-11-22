@@ -336,7 +336,7 @@ void TCameraFollow::update_follow_motion_state() {
     Vec *pos;
     TLockOnCursor *cursor;
     TObjPlayer *player;
-    prev = (Vec *)((TCameraCtrl *)this->actor)->get_target_ptr();
+    prev = this->actor->get_prev_position_ptr();
     pos = (Vec *)this->actor->get_position_ptr();
     if (prev == NULL || pos == NULL) {
         return;
@@ -604,7 +604,7 @@ void TCameraFollow::compute_follow_target() {
     f32 x;
     f32 y;
     f32 z;
-    prev = (Vec *)((TCameraCtrl *)this->actor)->get_target_ptr();
+    prev = this->actor->get_prev_position_ptr();
     pos = (Vec *)this->actor->get_position_ptr();
     d.x = pos->x - prev->x;
     d.y = pos->y - prev->y;

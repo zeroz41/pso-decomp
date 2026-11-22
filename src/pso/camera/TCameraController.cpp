@@ -70,7 +70,7 @@ s32 TCameraController::predict_obstruction() {
     if (this->actor == NULL) {
         return 0;
     }
-    prev = (Vec *)((TCameraCtrl *)this->actor)->get_target_ptr();
+    prev = this->actor->get_prev_position_ptr();
     pos = (Vec *)this->actor->get_position_ptr();
     moved.x = pos->x - prev->x;
     moved.y = pos->y - prev->y;

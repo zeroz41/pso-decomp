@@ -393,6 +393,8 @@ struct TObjPlayer : public TObjChara {
     static void sync_player_globals();
     static void begin_alpha_blend(f32 alpha);
     void*get_position_ptr();
+    // Where the player stood before this frame's move.
+    Vec *get_prev_position_ptr();
     void clear_header_struct();
     void clear_velocity_vectors();
     static void set_com_card_window(s32 arg0);
