@@ -64,30 +64,30 @@ struct TObjEneBm5GibonU : public TObjEneDD_ST {
     TObjEneBm5GibonUNode m_3cc;
     TUnk_80494938 m_3d8;
     RenderFadeState m_3f4[4];
-    s32 m_464;
-    s32 m_468;
-    s32 m_46c;
-    s32 m_470;
-    u16 m_474;
+    s32 is_leader;   // render_debug "L/M:LEADER" / "MEMBER"
+    s32 technique_type; // state_cast_technique switch, case 1 casts GiBarta
+    s32 group_id;    // render_debug "GROUP:%2d"
+    s32 appear_mode; // render_debug 1 = "SPOT APPEAR", else "JUMP APPEAR"
+    u16 leader_id;
     u8 _pad476[0x2];
-    s32 m_478;
-    Vec m_47c;
-    Vec m_488;
-    f32 m_494;
-    f32 m_498;
+    s32 turn_offset;
+    Vec spawn_position;
+    Vec group_anchor;
+    f32 desired_speed;
+    f32 current_speed;
     f32 m_49c;
     f32 m_4a0;
     f32 m_4a4;
     f32 m_4a8;
-    s32 m_4ac;
+    s32 status_flags;
     TargetCursorList targets;
-    TObjCollidable *m_50c;
-    s32 m_510;
+    TObjCollidable *attack_collider;
+    s32 reaction_delay;
     u16 m_514;
     u8 _pad516[0x2];
-    s32 m_518;
-    s32 m_51c;
-    s32 m_520;
+    s32 substate;
+    s32 state_timer;
+    s32 random_phase;
     s32 m_524;
     s32 m_528;
     s32 m_52c;
@@ -100,7 +100,7 @@ struct TObjEneBm5GibonU : public TObjEneDD_ST {
     f32 m_558;
     f32 m_55c;
     f32 m_560;
-    s32 m_564;
+    s32 near_target;
     void forward_hit_to_node_list();
     void init_child_node();
     static void release_static_resource();
@@ -157,15 +157,15 @@ struct TObjEneBm5GibonU : public TObjEneDD_ST {
     void sub_800D0AE8(Vec *dir);
     f32 calc_xz_direction_to(Vec *target, Vec *dir);
     void calc_rotated_vector(s32 angle, Vec *out, s32 *rotation);
-    s32 sub_800D1D70();
+    s32 get_group_id();
     Vec *sub_800D1D78();
 };
 
 LAYOUT_ASSERT(TObjEneBm5GibonU_size, sizeof(TObjEneBm5GibonU) == 0x568);
 LAYOUT_ASSERT(TObjEneBm5GibonU_m_3c0, offsetof(TObjEneBm5GibonU, m_3c0) == 0x3C0);
 LAYOUT_ASSERT(TObjEneBm5GibonU_m_3d8, offsetof(TObjEneBm5GibonU, m_3d8) == 0x3D8);
-LAYOUT_ASSERT(TObjEneBm5GibonU_m_464, offsetof(TObjEneBm5GibonU, m_464) == 0x464);
-LAYOUT_ASSERT(TObjEneBm5GibonU_m_564, offsetof(TObjEneBm5GibonU, m_564) == 0x564);
+LAYOUT_ASSERT(TObjEneBm5GibonU_m_464, offsetof(TObjEneBm5GibonU, is_leader) == 0x464);
+LAYOUT_ASSERT(TObjEneBm5GibonU_m_564, offsetof(TObjEneBm5GibonU, near_target) == 0x564);
 
 
 #endif

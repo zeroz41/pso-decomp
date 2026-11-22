@@ -4958,7 +4958,7 @@ unlink_from__20TObjEneBm5GibonUNodeFPP20TObjEneBm5GibonUNodePP20TObjEneBm5GibonU
 __dt__20TObjEneBm5GibonUNodeFv = .text:0x800D1CBC; // type:function size:0x3C
 __ct__20TObjEneBm5GibonUNodeFv = .text:0x800D1CF8; // type:function size:0x1C
 register_global_objects__16TObjEneBm5GibonUFv = .text:0x800D1D14; // type:function size:0x5C
-sub_800D1D70__16TObjEneBm5GibonUFv = .text:0x800D1D70; // type:function size:0x8
+get_group_id__16TObjEneBm5GibonUFv = .text:0x800D1D70; // type:function size:0x8
 sub_800D1D78__16TObjEneBm5GibonUFv = .text:0x800D1D78; // type:function size:0x8
 clear_flag_and_update__15TObjEneGyaranzoFv = .text:0x800D1D80; // type:function size:0x3C
 update_movement_status__15TObjEneGyaranzoFv = .text:0x800D1DBC; // type:function size:0x48

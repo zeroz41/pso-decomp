@@ -1119,7 +1119,7 @@ force_active:
   - sub_800D0AE8__16TObjEneBm5GibonUFP3Vec
   - __dt__16TObjEneBm5GibonUFv
   - __ct__20TObjEneBm5GibonUNodeFv
-  - sub_800D1D70__16TObjEneBm5GibonUFv
+  - get_group_id__16TObjEneBm5GibonUFv
   - sub_800D1D78__16TObjEneBm5GibonUFv
   - TObjEneBm5Wolf__bml_resource
   - TObjEneBm5Wolf__collider_params

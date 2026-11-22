@@ -201,7 +201,7 @@ s32 TObjEneBm5GibonU::check_hit_sphere(int angle, f32 scale) {
     check_collisions();
     update_enemy_collision_flags();
     hit = (body->flags & 0x380000) != 0;
-    if (m_464 == 1) {
+    if (is_leader == 1) {
         copy_collision_body(body, &gibon_collision_body_templates[1]);
     } else {
         copy_collision_body(body, &gibon_collision_body_templates[0]);
@@ -224,12 +224,12 @@ int TObjEneBm5GibonU::spawn_landing_effect(Vec *pos) {
         p = spawn_particle_effect(&hit->contact[2].point, 0x49);
         if (p != NULL) {
             attach_particle_model((u8 *)p, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, 1.0f);
-            if (m_464 == 1) {
+            if (is_leader == 1) {
                 ((TParticleCtrl *)p)->set_scale(1.5f, 1.0f);
             }
         }
         p = spawn_particle_effect(&hit->contact[2].point, 0xA4);
-        if (p != NULL && m_464 == 1) {
+        if (p != NULL && is_leader == 1) {
             ((TParticleCtrl *)p)->set_scale(1.5f, 1.0f);
         }
         return fn_800D88E4(&position);
@@ -266,13 +266,13 @@ void TObjEneBm5GibonU::render_debug() {
     AnimationMotion *motion;
     TObjEneBm5GibonU *other;
     if (this->get_target_info() != 0) {
-        debug_printf_at(pack_debug_text_position(0, 2), "GROUP:%2d", m_46c);
-        if (m_470 == 1) {
+        debug_printf_at(pack_debug_text_position(0, 2), "GROUP:%2d", group_id);
+        if (appear_mode == 1) {
             debug_printf_at(pack_debug_text_position(0, 3), "SPOT APPEAR");
         } else {
             debug_printf_at(pack_debug_text_position(0, 3), "JUMP APPEAR");
         }
-        if (m_464 != 0) {
+        if (is_leader != 0) {
             debug_printf_at(pack_debug_text_position(0, 9), "L/M:LEADER");
         } else {
             debug_printf_at(pack_debug_text_position(0, 9), "L/M:MEMBER");
@@ -287,7 +287,7 @@ void TObjEneBm5GibonU::render_debug() {
         push_matrix();
         post_translate_matrix(&position);
         rotate_matrix_y(0, rotation_y);
-        if (m_464 == 1) {
+        if (is_leader == 1) {
             scale_matrix(0, 1.5f, 1.5f, 1.5f);
         } else {
             scale_matrix(0, 2.0f, 2.0f, 2.0f);
@@ -313,7 +313,7 @@ void TObjEneBm5GibonU::render_debug() {
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }
-    other = TObjEneBm5GibonU::find_enemy_by_id(m_46c);
+    other = TObjEneBm5GibonU::find_enemy_by_id(group_id);
     if (other != 0) {
         debug_draw_line(&body_center, &other->body_center, 0xFFC0C0C0, 0xFF6060FF);
         return;
@@ -328,9 +328,9 @@ void TObjEneBm5GibonU::run_demo_task() {
     s32 temp_r31;
 
     if (this->get_target_info() != 0) {
-        temp_r31 = m_464;
+        temp_r31 = is_leader;
         sub_800D10A0();
-        if (temp_r31 != m_464) {
+        if (temp_r31 != is_leader) {
             if (temp_r31 != 0) {
                 forward_hit_to_enemy_list();
             } else {
@@ -354,9 +354,9 @@ void TObjEneBm5GibonU::render() {
     if (is_split_screen() != 0) {
         cam = TCameraCtrl::get_camera_mode();
     }
-    if (!(m_4ac & 2) && this->mode != 0x12) {
+    if (!(status_flags & 2) && this->mode != 0x12) {
         fade = 0;
-        if (m_464 != 0) {
+        if (is_leader != 0) {
             m_3f4[cam].update();
             fade = m_3f4[cam].updateFromCamera(&body_center.x);
         }
@@ -393,13 +393,13 @@ void TObjEneBm5GibonU::render() {
             post_translate_matrix(&position);
             rotate_matrix_y(0, this->rotation_y);
             translate_matrix(0, 0.0f, 0.0f, -10.0f);
-            if (m_464 == 1) {
+            if (is_leader == 1) {
                 scale_matrix(0, 1.5f, 1.5f, 1.5f);
             } else {
                 scale_matrix(0, 2.0f, 2.0f, 2.0f);
             }
             TObjEneBm5GibonU__render_node_index = 0;
-            TObjEneBm5GibonU__render_joint_y_rotation = -(m_478 / 2);
+            TObjEneBm5GibonU__render_joint_y_rotation = -(turn_offset / 2);
             set_chunk_model_node_callback(TObjEneBm5GibonU::advance_anim_frame);
             TObjEneDD::clear_global_flag_400();
             TObjPlayer::toggle_particle_effect();
@@ -456,18 +456,18 @@ void TObjEneBm5GibonU::state_cast_technique(s32 msg) {
         requested_action = 0;
         set_field_378(14);
         clear_intangible();
-        m_4ac &= ~2;
+        status_flags &= ~2;
         enemy_copy_target_destination();
-        m_518 = 0;
+        substate = 0;
         break;
     case 3:
-        if (m_518 == 2) {
+        if (substate == 2) {
             transition_enemy_state(8);
         }
         break;
     case 0:
         update_prev_position();
-        if (m_518 != 1) {
+        if (substate != 1) {
             if (current_target == 0) {
                 transition_enemy_state(8);
             } else {
@@ -482,7 +482,7 @@ void TObjEneBm5GibonU::state_cast_technique(s32 msg) {
                     r = turn_toward_direction(((TObjEneBm5GibonUMovementParameters *)movementParameters)->turn, &v);
                 }
                 if (r < 0x100) {
-                    m_518 = 1;
+                    substate = 1;
                     requested_action = 13;
                 } else {
                     requested_action = 1;
@@ -491,7 +491,7 @@ void TObjEneBm5GibonU::state_cast_technique(s32 msg) {
         } else {
             advance_animation();
             if (get_flag_b4() != 0) {
-                m_518 = 2;
+                substate = 2;
             }
             if (is_passing_frame(15.0f) != 0) {
                 p.x = 0.0f;
@@ -510,7 +510,7 @@ void TObjEneBm5GibonU::state_cast_technique(s32 msg) {
                     r = ((AttackParams *)m_318)->get_attack_angle();
                 }
                 if (game_difficulty_selection == 3) {
-                    switch (m_468) {
+                    switch (technique_type) {
                     case 1:
                         if (r < ((AttackParams *)m_318)->get_attack_angle() / 2 && current_target != 0) {
                             TTecMegid::create((saddr)this, (saddr)&p, (saddr)&destination, (s32)(get_clamped_level()));
@@ -546,7 +546,7 @@ void TObjEneBm5GibonU::state_cast_technique(s32 msg) {
                         break;
                     }
                 } else {
-                    switch (m_468) {
+                    switch (technique_type) {
                     case 1:
                         TTecGiBarta::create_ex(this, &p, rotation_y, get_clamped_level());
                         break;
@@ -565,7 +565,7 @@ void TObjEneBm5GibonU::state_cast_technique(s32 msg) {
                     rotate_matrix_y(0, rotation_y);
                     rotate_vector_by_matrix(0, &v, &v);
                     pop_matrices(1);
-                    if (m_468 != 1) {
+                    if (technique_type != 1) {
                         ang[0] = (s32)(10430.38043493439 * atan2_float(v.z, newton_sqrtf(v.x * v.x + v.y * v.y)));
                         ang[1] = 0;
                         ang[2] = -(s32)(10430.38043493439 * atan2_float(v.x, v.y));
@@ -588,8 +588,8 @@ void TObjEneBm5GibonU::sub_800CDB98(s32 msg) {
         this->requested_action = 0xC;
         this->set_field_378(0xE);
         this->clear_intangible();
-        this->m_4ac &= ~2;
-        this->m_518 = 0;
+        this->status_flags &= ~2;
+        this->substate = 0;
         this->m_52c = 0;
         offs[0] = (s32)(3.0f * this->random_ratio()) - 1;
         offs[1] = (s32)(2.0f * this->random_ratio()) - 1;
@@ -631,12 +631,12 @@ void TObjEneBm5GibonU::sub_800CDB98(s32 msg) {
                 }
             }
         }
-        this->m_498 = this->m_494 = this->destination_distance / 33.0f;
-        this->m_518 = 0;
+        this->current_speed = this->desired_speed = this->destination_distance / 33.0f;
+        this->substate = 0;
         this->set_invulnerable();
         break;
     case 3:
-        if (this->m_518 == 1) {
+        if (this->substate == 1) {
             if (this->random_ratio() < this->m_4a8) {
                 this->transition_enemy_state(0x14);
             } else {
@@ -645,11 +645,11 @@ void TObjEneBm5GibonU::sub_800CDB98(s32 msg) {
         }
         break;
     case 0:
-        switch (this->m_518) {
+        switch (this->substate) {
         case 0:
             this->advance_animation();
             if (this->get_flag_b4() != 0) {
-                this->m_518 = 1;
+                this->substate = 1;
             }
             sub_800CCD8C();
             if (this->is_passing_frame(8.0f) != 0) {
@@ -659,7 +659,7 @@ void TObjEneBm5GibonU::sub_800CDB98(s32 msg) {
                 this->clear_invulnerable();
                 TObjPlayer::init_all_slots();
                 this->check_object_collisions();
-                if (this->m_50c->bodies->flags & 0x80000) {
+                if (this->attack_collider->bodies->flags & 0x80000) {
                     s32 i;
                     for (i = 0; i < 16; i++) {
                         TObjPlayer *p = (TObjPlayer *)TObjPlayer::get_battle_param(i);
@@ -678,7 +678,7 @@ void TObjEneBm5GibonU::sub_800CDB98(s32 msg) {
             this->rotation_y = (s16)this->rotation_y;
             this->turn_toward_angle(this->rotation_y);
             if (this->frame <= 33.0f) {
-                this->move_with_wall_slide_on_ground(this->destination_direction.x, this->destination_direction.z, this->m_498);
+                this->move_with_wall_slide_on_ground(this->destination_direction.x, this->destination_direction.z, this->current_speed);
             }
             break;
         }
@@ -705,15 +705,15 @@ void TObjEneBm5GibonU::sub_800CE060(s32 msg) {
         play_sound_effect(this->remap_sound_for_area(0x3A826), &this->position, 0, 0);
         this->requested_action = 0xB;
         TBoss8Dragon__sub_800BB7D4(this, 0xF1);
-        this->m_518 = 0;
+        this->substate = 0;
         this->m_530 = this->calc_anim_speed(this->action_table[7].speed);
         this->m_538 = 0.0f;
         this->wall_reach = 0.0f;
-        if (this->m_464 != 0) {
+        if (this->is_leader != 0) {
             k = 50.0f;
             for (n = ((TObjEneBm5GibonUList *)TObjEneBm5GibonU__node_list)->head; n != NULL; n = n->next) {
                 o = n->get_owner();
-                if (o != NULL && o->m_46c == this->m_46c) {
+                if (o != NULL && o->group_id == this->group_id) {
                     o->sub_800D095C((s32)(k * this->random_ratio()) + 0x14, this->attacker_id);
                 }
             }
@@ -721,23 +721,23 @@ void TObjEneBm5GibonU::sub_800CE060(s32 msg) {
         this->set_active();
         return;
     case 3:
-        if (this->m_518 == 2) {
+        if (this->substate == 2) {
             this->transition_enemy_state(0x12);
         }
     case 1:
         return;
     case 0:
-        switch (this->m_518) {
+        switch (this->substate) {
         case 0:
             this->advance_animation();
             if (this->get_flag_b4() != 0) {
-                this->m_518 = 1;
+                this->substate = 1;
                 sp14.x = 0.0f;
                 sp14.y = 0.0f;
                 sp14.z = -10.0f;
                 rotate_xz_pair_by_angle(&sp14.x, &sp14.z, this->rotation_y);
                 vec3_add_to(&sp14, &this->position);
-                if (this->m_464 == 1) {
+                if (this->is_leader == 1) {
                     spawn_dead_spot_scale15((saddr)&sp14, 0x32);
                 } else {
                     TObjPlayer::spawn_dead_spot_type2((saddr)&sp14, 0x32);
@@ -766,7 +766,7 @@ void TObjEneBm5GibonU::sub_800CE060(s32 msg) {
             this->position.y -= 0.1f;
             this->m_538 += 0.1f;
             if (this->m_538 > 20.0f) {
-                this->m_518 = 2;
+                this->substate = 2;
             }
             break;
         }
@@ -783,10 +783,10 @@ void TObjEneBm5GibonU::sub_800CE370(s32 msg) {
     case 4:
         this->clear_intangible();
         TBoss8Dragon__sub_800BB7D4(this, 0xF1);
-        this->m_51c = 0;
+        this->state_timer = 0;
         this->m_528 = 0;
         this->requested_action = 6;
-        this->m_518 = 0;
+        this->substate = 0;
         if (this->referenceHp - this->hp < 0x14) {
             play_sound_effect(this->remap_sound_for_area(0x3A824), &this->position, 0, 0);
         }
@@ -814,7 +814,7 @@ void TObjEneBm5GibonU::sub_800CE370(s32 msg) {
             f32 v = normalize_vector_xz(&sp8);
             this->move_with_wall_slide_on_ground(sp8.x, sp8.z, v);
         }
-        if (this->m_518 == 0) {
+        if (this->substate == 0) {
             this->velocity.x *= 0.5f;
             this->velocity.z *= 0.5f;
         } else {
@@ -844,8 +844,8 @@ void TObjEneBm5GibonU::action(s32 msg) {
         this->clear_intangible();
         this->set_field_378(8);
         this->requested_action = 9;
-        this->m_518 = 0;
-        TObjEneBm5GibonU::find_enemy_by_id(this->m_46c);
+        this->substate = 0;
+        TObjEneBm5GibonU::find_enemy_by_id(this->group_id);
         return;
     case 3:
         if (this->get_flag_b4() != 0) {
@@ -859,8 +859,8 @@ void TObjEneBm5GibonU::action(s32 msg) {
         if (this->is_passing_frame(10.0f) != 0) {
             play_sound_effect(this->remap_sound_for_area(0x3AA22), &this->position, 0, 0);
         }
-        this->m_518++;
-        temp_r0 = this->m_518;
+        this->substate++;
+        temp_r0 = this->substate;
         if (temp_r0 == 0x1E) {
             this->damage_linked_entity_type10();
         } else if (temp_r0 == 0x28) {
@@ -881,12 +881,12 @@ void TObjEneBm5GibonU::sub_800CE694(s32 msg) {
         this->requested_action = 0;
         this->set_field_378(0xE);
         this->clear_intangible();
-        this->m_518 = 0;
+        this->substate = 0;
         this->m_528 = 0;
-        this->m_51c = 0;
+        this->state_timer = 0;
         break;
     case 3:
-        if (this->m_518 == 2) {
+        if (this->substate == 2) {
             if (this->current_target != NULL) {
                 this->transition_enemy_state(0xB);
             } else {
@@ -898,27 +898,27 @@ void TObjEneBm5GibonU::sub_800CE694(s32 msg) {
         break;
     case 0:
         this->advance_animation();
-        switch (this->m_518) {
+        switch (this->substate) {
         case 0:
-            this->m_528 = ((this->m_51c >> 1) << 0xC) + 0x1800;
-            if (this->m_51c & 1) {
+            this->m_528 = ((this->state_timer >> 1) << 0xC) + 0x1800;
+            if (this->state_timer & 1) {
                 this->m_528 = -this->m_528;
             }
             if (this->is_active() == 0) {
                 this->m_528 = -this->m_528;
             }
             this->m_528 += this->rotation_y;
-            (this->m_51c)++;
-            if (this->m_51c > 8) {
-                this->m_518 = 2;
+            (this->state_timer)++;
+            if (this->state_timer > 8) {
+                this->substate = 2;
             }
             dx = 16.0f * sin_table_lookup(this->m_528);
             dz = 16.0f * cos_table_lookup(this->m_528);
-            this->m_50c->position.x = this->position.x + dx;
-            this->m_50c->position.y = this->position.y;
-            this->m_50c->position.z = this->position.z + dz;
-            ((TObjPlayer *)this->m_50c)->update_collisions();
-            if (!(this->m_50c->bodies->flags & 0x380000)) {
+            this->attack_collider->position.x = this->position.x + dx;
+            this->attack_collider->position.y = this->position.y;
+            this->attack_collider->position.z = this->position.z + dz;
+            ((TObjPlayer *)this->attack_collider)->update_collisions();
+            if (!(this->attack_collider->bodies->flags & 0x380000)) {
                 dx *= 2.0f;
                 dz *= 2.0f;
                 if (((TObjEneDD *)this)->enemy_probe_wall_ahead(dx, dz, 1.0f) == NULL) {
@@ -926,7 +926,7 @@ void TObjEneBm5GibonU::sub_800CE694(s32 msg) {
                     v.x += dx;
                     v.z += dz;
                     if (csnVectorUnder(&v, (CsnGroup **)&this->m_120, 0x15) != NULL) {
-                        this->m_518 = 1;
+                        this->substate = 1;
                         this->requested_action = 0x10;
                         this->destination_direction.x = sin_table_lookup(this->m_528);
                         this->destination_direction.y = 0.0f;
@@ -938,7 +938,7 @@ void TObjEneBm5GibonU::sub_800CE694(s32 msg) {
         case 1:
             if (this->get_flag_b4() != 0) {
                 this->update_target();
-                this->m_518 = 2;
+                this->substate = 2;
             }
             sub_800CCDE4();
             this->move_with_wall_slide_on_ground(this->destination_direction.x, this->destination_direction.z, 1.8f);
@@ -965,8 +965,8 @@ void TObjEneBm5GibonU::sub_800CE978(s32 msg) {
         this->requested_action = 1;
         this->set_field_378(0xD);
         this->clear_intangible();
-        this->m_494 = 1.6f;
-        this->m_518 = 0;
+        this->desired_speed = 1.6f;
+        this->substate = 0;
         VecCopy(home, &this->position);
         TObjBoss2Tunnel::calc_scaled_value(0x200, 1.6f);
         this->m_52c = this->rotation_y;
@@ -989,7 +989,7 @@ void TObjEneBm5GibonU::sub_800CE978(s32 msg) {
         this->m_528 += this->m_52c;
         return;
     case 3:
-        if (this->current_target == NULL || this->m_518 > 0x96) {
+        if (this->current_target == NULL || this->substate > 0x96) {
             this->transition_enemy_state(8);
             return;
         }
@@ -999,7 +999,7 @@ void TObjEneBm5GibonU::sub_800CE978(s32 msg) {
     case 5:
         return;
     case 0:
-        (this->m_518)++;
+        (this->substate)++;
         this->advance_animation();
         if (((TObjEneEpsilon *)this)->update_death_check() != 0) {
             sub_800CCE28();
@@ -1008,8 +1008,8 @@ void TObjEneBm5GibonU::sub_800CE978(s32 msg) {
             this->destination.z = 90.0f * cos_table_lookup(this->m_528) + home->z;
             this->update_velocity();
             this->approach_target(0.2f);
-            this->play_speed = 1.05f * this->m_498;
-            enemy_turn_and_move_on_ground(this, 0x500, this->m_498);
+            this->play_speed = 1.05f * this->current_speed;
+            enemy_turn_and_move_on_ground(this, 0x500, this->current_speed);
             this->face_target();
             this->check_collisions();
             this->update_enemy_collision_flags();
@@ -1027,10 +1027,10 @@ void TObjEneBm5GibonU::sub_800CEBD8(s32 msg) {
         this->requested_action = 0xA;
         this->set_field_378(0xE);
         this->clear_intangible();
-        temp_r4 = this->m_4ac & 0xFFFFFFFD;
-        this->m_4ac = temp_r4;
-        this->m_518 = 0;
-        this->m_51c = 0;
+        temp_r4 = this->status_flags & 0xFFFFFFFD;
+        this->status_flags = temp_r4;
+        this->substate = 0;
+        this->state_timer = 0;
         this->m_528 = sub_800D0968(temp_r4);
         this->m_52c = 0;
         {
@@ -1040,23 +1040,23 @@ void TObjEneBm5GibonU::sub_800CEBD8(s32 msg) {
             }
         }
         temp_f0 = this->destination_distance / 14.666667f;
-        this->m_494 = temp_f0;
-        this->m_498 = temp_f0;
-        this->m_564 = 0;
+        this->desired_speed = temp_f0;
+        this->current_speed = temp_f0;
+        this->near_target = 0;
         return;
     case 3:
-        if ((s32) this->m_518 == 1) {
+        if ((s32) this->substate == 1) {
             this->transition_enemy_state(0xE);
         }
         break;
     case 5:
         break;
     case 0:
-        switch (this->m_518) {
+        switch (this->substate) {
         case 0:
             (this->advance_animation());
             if (this->get_flag_b4() != 0) {
-                this->m_518 = 1;
+                this->substate = 1;
             }
             sub_800CCD8C();
             if (this->is_passing_frame(8.0f) != 0) {
@@ -1066,14 +1066,14 @@ void TObjEneBm5GibonU::sub_800CEBD8(s32 msg) {
                 play_sound_effect(this->remap_sound_for_area(0x3A529), &this->position, 0, 0);
             }
             if (this->is_passing_frame(22.0f) != 0) {
-                this->m_564 = 0;
+                this->near_target = 0;
                 if (enemy_validate_retained_target(this) != 0) {
                     if (this->current_target->select_melee_contact_body(this, 1.0f) != 0) {
                         this->current_target->receive_physical_attack(this, 1.0f);
                         this->current_target->apply_knockback_from_attacker((u8 *)this, 7.0f);
-                        this->m_564 = 1;
+                        this->near_target = 1;
                         if ((TObjEneDD::check_v2_mode() != 0) && (this->random_ratio() <= 0.1f)) {
-                            if ((s32) this->m_464 != 0) {
+                            if ((s32) this->is_leader != 0) {
                                 TObjEneDD__sub_800BA378(this, this->current_target);
                             } else {
                                 TObjEneDD::send_damage_message(this, this->current_target);
@@ -1087,10 +1087,10 @@ void TObjEneBm5GibonU::sub_800CEBD8(s32 msg) {
             this->rotation_y = (s32) (s16) this->rotation_y;
             this->turn_toward_angle(this->rotation_y);
             if (this->frame <= 28.0f) {
-                this->move_with_wall_slide_on_ground(this->destination_direction.x, this->destination_direction.z, this->m_498);
-            } else if ((s32) this->m_564 == 0) {
-                this->m_498 *= 0.8f;
-                this->move_with_wall_slide_on_ground(this->destination_direction.x, this->destination_direction.z, this->m_498);
+                this->move_with_wall_slide_on_ground(this->destination_direction.x, this->destination_direction.z, this->current_speed);
+            } else if ((s32) this->near_target == 0) {
+                this->current_speed *= 0.8f;
+                this->move_with_wall_slide_on_ground(this->destination_direction.x, this->destination_direction.z, this->current_speed);
             }
             break;
         }
@@ -1114,10 +1114,10 @@ void TObjEneBm5GibonU::run_idle_state(s32 msg) {
       requested_action = 1;
       set_field_378(0xB);
       clear_intangible();
-      m_494 = 0.7f;
-      m_518 = 0;
-      m_51c = 0;
-      m_520 = 0 & 0xFFFF;
+      desired_speed = 0.7f;
+      substate = 0;
+      state_timer = 0;
+      random_phase = 0 & 0xFFFF;
       m_524 = 0;
       m_528 = 0;
       m_530 = 0.0f;
@@ -1137,9 +1137,9 @@ void TObjEneBm5GibonU::run_idle_state(s32 msg) {
       transition_enemy_state(8);
       break;
     }
-      if (m_518 > 0x1C2)
+      if (substate > 0x1C2)
     {
-      m_518 = 0;
+      substate = 0;
       if (random_ratio() < 0.5f)
       {
         if (random_ratio() < m_4a0)
@@ -1153,7 +1153,7 @@ void TObjEneBm5GibonU::run_idle_state(s32 msg) {
       }
     }
     else
-      if (m_518 > 0x2D)
+      if (substate > 0x2D)
     {
       f32 dz = position.z - current_target->position.z;
       f32 dx = position.x - current_target->position.x;
@@ -1198,11 +1198,11 @@ void TObjEneBm5GibonU::run_idle_state(s32 msg) {
       advance_animation();
       if (((TObjEneEpsilon *)this)->update_death_check() != 0)
     {
-      if (m_520 == 0)
+      if (random_phase == 0)
       {
         Vec fwd;
         Vec to;
-        m_520 = 1;
+        random_phase = 1;
         VecCopy(a, &current_target->position);
         m_530 = calc_xz_direction_to(a, b);
         m_534 = rand_range(50.0f, 80.0f);
@@ -1221,7 +1221,7 @@ void TObjEneBm5GibonU::run_idle_state(s32 msg) {
           m_528 = 1;
         }
       }
-      m_518++;
+      substate++;
       sub_800CCE28();
       if (m_524 > 0)
       {
@@ -1254,11 +1254,11 @@ void TObjEneBm5GibonU::run_idle_state(s32 msg) {
           m_530 = tgt;
         }
       }
-      switch (m_520)
+      switch (random_phase)
       {
         case 1:
         {
-          m_494 = 0.7f;
+          desired_speed = 0.7f;
           approach_target(0.12f);
           calc_xz_direction_to(&((TObjEneBm5GibonU *)this)->m_540, b);
           if (m_528 >= 0)
@@ -1279,21 +1279,21 @@ void TObjEneBm5GibonU::run_idle_state(s32 msg) {
           {
             clear_field_388();
           }
-          move_with_wall_slide_on_ground(fx, fz, m_498);
+          move_with_wall_slide_on_ground(fx, fz, current_speed);
           if (has_move_failures(10) != 0)
           {
-            m_51c = 0;
-            m_520 = 2;
+            state_timer = 0;
+            random_phase = 2;
           }
           break;
         }
 
         case 2:
         {
-          m_494 = 0.5f;
+          desired_speed = 0.5f;
           approach_target(0.12f);
-          m_51c++;
-          if (m_51c >= 0x28)
+          state_timer++;
+          if (state_timer >= 0x28)
           {
             ang = rotation_y;
           }
@@ -1305,17 +1305,17 @@ void TObjEneBm5GibonU::run_idle_state(s32 msg) {
           fx = cos_table_lookup(ang);
           if (has_move_failures(2) != 0)
           {
-            m_51c = 0;
+            state_timer = 0;
             set_active();
           }
           else
           {
             clear_field_388();
           }
-          move_with_wall_slide_on_ground(fz, fx, m_498);
-          if (m_51c >= 0x50)
+          move_with_wall_slide_on_ground(fz, fx, current_speed);
+          if (state_timer >= 0x50)
           {
-            m_520 = 0;
+            random_phase = 0;
           }
           break;
         }
@@ -1324,7 +1324,7 @@ void TObjEneBm5GibonU::run_idle_state(s32 msg) {
 
       rotation_y = approach_angle_limited(rotation_y, (s32) (10430.38043493439 * atan2_float(position.x - prev_position.x, position.z - prev_position.z)), 0x200);
       rotation_y = (s16) rotation_y;
-      play_speed = 1.05f * m_498;
+      play_speed = 1.05f * current_speed;
       face_target();
       check_collisions();
       update_enemy_collision_flags();
@@ -1354,9 +1354,9 @@ void TObjEneBm5GibonU::sub_800CF4BC(s32 msg) {
         this->requested_action = 3;
         this->set_field_378(0xA);
         this->clear_intangible();
-        this->m_494 = 2.0f;
-        this->m_518 = 0;
-        this->m_51c = 0;
+        this->desired_speed = 2.0f;
+        this->substate = 0;
+        this->state_timer = 0;
         calc_rotated_vector(0x1C71, dir, rot);
         VecCopy(vel, dir);
         this->m_52c = *rot;
@@ -1366,7 +1366,7 @@ void TObjEneBm5GibonU::sub_800CF4BC(s32 msg) {
             this->transition_enemy_state(8);
             return;
         }
-        if (this->m_518 == 1) {
+        if (this->substate == 1) {
             this->transition_enemy_state(0x14);
             return;
         }
@@ -1389,11 +1389,11 @@ void TObjEneBm5GibonU::sub_800CF4BC(s32 msg) {
         if (this->is_passing_frame(10.0f) != 0) {
             this->enemy_copy_target_destination();
             this->update_velocity();
-            if (this->m_51c == 0) {
-                this->m_51c = 1;
+            if (this->state_timer == 0) {
+                this->state_timer = 1;
                 calc_rotated_vector(-0x1C71, dir, rot);
             } else {
-                this->m_51c = 0;
+                this->state_timer = 0;
                 calc_rotated_vector(0x1C71, dir, rot);
             }
         }
@@ -1404,20 +1404,20 @@ void TObjEneBm5GibonU::sub_800CF4BC(s32 msg) {
         this->rotation_y = approach_angle_limited(this->rotation_y, this->m_52c, 0x800);
         this->rotation_y = (s16)this->rotation_y;
         if (this->is_passing_frame(18.0f) != 0) {
-            this->m_498 = 6.0f;
+            this->current_speed = 6.0f;
         }
         t = this->frame;
         if (t >= 10.0f && t <= 18.0f) {
             this->move_with_wall_slide_on_ground(vel->x, vel->z, 1.0f);
         } else {
-            this->m_498 *= 0.9f;
-            this->move_with_wall_slide_on_ground(vel->x, vel->z, this->m_498);
+            this->current_speed *= 0.9f;
+            this->move_with_wall_slide_on_ground(vel->x, vel->z, this->current_speed);
         }
-        this->m_49c += this->m_498;
+        this->m_49c += this->current_speed;
         if (this->m_49c >= 50.0f) {
             this->m_49c -= 50.0f;
             if (this->random_ratio() < this->m_4a4) {
-                this->m_518 = 1;
+                this->substate = 1;
             }
         }
         this->face_target();
@@ -1436,15 +1436,15 @@ void TObjEneBm5GibonU::sub_800CF7CC(s32 msg) {
         this->requested_action = 2;
         this->set_field_378(9);
         this->clear_intangible();
-        this->m_494 = 1.6f;
-        this->m_518 = 0;
+        this->desired_speed = 1.6f;
+        this->substate = 0;
         return;
     case 3:
         if (this->current_target == NULL) {
             this->transition_enemy_state(8);
         } else if (this->has_move_failures(0xA) != 0) {
             this->transition_enemy_state(0xA);
-        } else if ((s32) this->m_518 == 1) {
+        } else if ((s32) this->substate == 1) {
             this->transition_enemy_state(0x14);
         } else if ((this->is_passing_frame((f32) (this->frame_count - 1.0001f)) != 0) && (this->destination_distance < 90.0f)) {
             this->transition_enemy_state(0xB);
@@ -1465,21 +1465,21 @@ void TObjEneBm5GibonU::sub_800CF7CC(s32 msg) {
             this->enemy_copy_target_destination();
             this->update_velocity();
             if (this->is_passing_frame(18.0f) != 0) {
-                this->m_498 = 4.0f;
+                this->current_speed = 4.0f;
             }
             temp_f1 = this->frame;
             if ((temp_f1 >= 10.0f) && (temp_f1 <= 18.0f)) {
-                enemy_turn_and_move_on_ground(this, (768.0f * this->m_498), 1.0f);
+                enemy_turn_and_move_on_ground(this, (768.0f * this->current_speed), 1.0f);
             } else {
-                this->m_498 *= 0.9f;
-                temp_f1_2 = this->m_498;
+                this->current_speed *= 0.9f;
+                temp_f1_2 = this->current_speed;
                 enemy_turn_and_move_on_ground(this, (768.0f * temp_f1_2), temp_f1_2);
             }
-            this->m_49c += this->m_498;
+            this->m_49c += this->current_speed;
             if (this->m_49c >= 50.0f) {
                 this->m_49c -= 50.0f;
                 if (this->random_ratio() < this->m_4a4) {
-                    this->m_518 = 1;
+                    this->substate = 1;
                 }
             }
             this->face_target();
@@ -1507,21 +1507,21 @@ void TObjEneBm5GibonU::sub_800CFA48(s32 msg) {
         this->requested_action = 1;
         this->set_field_378(8);
         this->clear_intangible();
-        this->m_51c = 0;
-        this->m_518 = 0;
-        this->m_520 = actor_rand_int((saddr)this, 0x14);
-        this->m_564 = 0;
+        this->state_timer = 0;
+        this->substate = 0;
+        this->random_phase = actor_rand_int((saddr)this, 0x14);
+        this->near_target = 0;
         angle = (s32)(65536.0f * this->random_ratio());
         radius = 120.0f * this->random_ratio();
-        this->destination.x = radius * sin_table_lookup(angle) + this->m_488.x;
-        this->destination.z = radius * cos_table_lookup(angle) + this->m_488.z;
-        this->m_494 = 0.7f * this->random_ratio() + 0.3f;
-        this->m_498 = 0.0f;
-        this->m_530 = 2.0f + TObjBoss2Tunnel::calc_scaled_value(0x200, this->m_494);
+        this->destination.x = radius * sin_table_lookup(angle) + this->group_anchor.x;
+        this->destination.z = radius * cos_table_lookup(angle) + this->group_anchor.z;
+        this->desired_speed = 0.7f * this->random_ratio() + 0.3f;
+        this->current_speed = 0.0f;
+        this->m_530 = 2.0f + TObjBoss2Tunnel::calc_scaled_value(0x200, this->desired_speed);
         this->update_velocity();
         break;
     case 3:
-        if (this->m_564 != 0) {
+        if (this->near_target != 0) {
             this->select_attack_by_range();
         }
         break;
@@ -1537,51 +1537,51 @@ void TObjEneBm5GibonU::sub_800CFA48(s32 msg) {
             dist = dx * dx;
             dist += dz * dz;
             if (dist < 22500.0f) {
-                this->m_564 = 1;
+                this->near_target = 1;
             }
             this->face_target();
         } else {
             this->turn_toward_angle(this->rotation_y);
         }
-        switch (this->m_518) {
+        switch (this->substate) {
         case 0:
             sub_800CCE28();
             this->update_velocity();
             this->approach_target(0.05f);
-            this->m_51c += 1;
-            if (this->destination_distance < this->m_530 || this->m_51c > 100) {
-                this->m_518 = 1;
-                this->m_494 = 0.0f;
+            this->state_timer += 1;
+            if (this->destination_distance < this->m_530 || this->state_timer > 100) {
+                this->substate = 1;
+                this->desired_speed = 0.0f;
             } else if (this->has_move_failures(0x14) != 0) {
-                this->m_51c = 0;
+                this->state_timer = 0;
                 this->pick_wander_destination();
-                this->m_494 = this->rand_range(0.3f, 1.0f);
-                this->m_530 = 2.0f + TObjBoss2Tunnel::calc_scaled_value(0x200, this->m_494);
+                this->desired_speed = this->rand_range(0.3f, 1.0f);
+                this->m_530 = 2.0f + TObjBoss2Tunnel::calc_scaled_value(0x200, this->desired_speed);
             }
-            this->play_speed = 1.05f * this->m_498;
-            enemy_turn_and_move_on_ground(this, 512.0f * this->m_498, this->m_498);
+            this->play_speed = 1.05f * this->current_speed;
+            enemy_turn_and_move_on_ground(this, 512.0f * this->current_speed, this->current_speed);
             break;
         case 1:
             sub_800CCE28();
             this->update_velocity();
             this->approach_target(0.020000001f);
-            if (this->m_498 <= 0.1f) {
-                this->m_518 = 2;
-                this->m_51c = this->rand_range(240.0f, 360.0f);
+            if (this->current_speed <= 0.1f) {
+                this->substate = 2;
+                this->state_timer = this->rand_range(240.0f, 360.0f);
                 this->requested_action = 0;
             }
-            this->play_speed = 1.05f * this->m_498;
-            enemy_turn_and_move_on_ground(this, 512.0f * this->m_498, this->m_498);
+            this->play_speed = 1.05f * this->current_speed;
+            enemy_turn_and_move_on_ground(this, 512.0f * this->current_speed, this->current_speed);
             break;
         case 2:
             this->requested_action = 0;
-            this->m_51c -= 1;
-            if (this->m_51c <= 0) {
+            this->state_timer -= 1;
+            if (this->state_timer <= 0) {
                 this->pick_wander_destination();
-                this->m_494 = this->rand_range(0.3f, 1.0f);
-                this->m_498 = 0.0f;
-                this->m_530 = 2.0f + TObjBoss2Tunnel::calc_scaled_value(0x200, this->m_494);
-                this->m_518 = 0;
+                this->desired_speed = this->rand_range(0.3f, 1.0f);
+                this->current_speed = 0.0f;
+                this->m_530 = 2.0f + TObjBoss2Tunnel::calc_scaled_value(0x200, this->desired_speed);
+                this->substate = 0;
                 this->requested_action = 1;
             }
             this->update_ground_contact();
@@ -1604,7 +1604,7 @@ void TObjEneBm5GibonU::sub_800CFE34(s32 msg) {
         this->requested_action = 0xE;
         this->set_field_378(8);
         this->set_intangible();
-        this->m_518 = 0;
+        this->substate = 0;
         break;
     case 3:
         if (this->get_flag_b4() != 0) {
@@ -1614,15 +1614,15 @@ void TObjEneBm5GibonU::sub_800CFE34(s32 msg) {
     case 5:
         break;
     case 0:
-        (this->m_518)++;
+        (this->substate)++;
         this->advance_animation();
         if (this->is_passing_frame(20.0f) != 0) {
             play_sound_effect(this->remap_sound_for_area(0x3A523), &this->position, 0, 0);
         }
-        if (this->m_518 == 0x3C) {
+        if (this->substate == 0x3C) {
             for (n = ((TObjEneBm5GibonUList *)TObjEneBm5GibonU__enemy_list)->head; n != NULL; n = n->next) {
                 o = n->get_owner();
-                if (this->m_46c == o->sub_800D1D70()) {
+                if (this->group_id == o->get_group_id()) {
                     o->set_flag();
                 }
             }
@@ -1631,7 +1631,7 @@ void TObjEneBm5GibonU::sub_800CFE34(s32 msg) {
             if (this->requested_action == 0xE) {
                 this->face_target();
             } else {
-                this->m_478 = 0;
+                this->turn_offset = 0;
             }
         } else {
             this->play_sound_variant();
@@ -1649,10 +1649,10 @@ void TObjEneBm5GibonU::sub_800CFFBC(s32 msg) {
       this->requested_action = 5;
       this->set_field_378(8);
       (this->set_intangible());
-      this->m_518 = 0;
+      this->substate = 0;
       return;
     case 3:
-      if ((this->m_518) > 0x3C)
+      if ((this->substate) > 0x3C)
     {
       this->transition_enemy_state(8);
     }
@@ -1660,7 +1660,7 @@ void TObjEneBm5GibonU::sub_800CFFBC(s32 msg) {
       return;
       return;
     case 0:
-      this->m_518 = (s32) ((this->m_518) + 1);
+      this->substate = (s32) ((this->substate) + 1);
       this->advance_animation();
       if (this->is_passing_frame(20.0f) != 0)
     {
@@ -1689,19 +1689,19 @@ void TObjEneBm5GibonU::sub_800D00F0(s32 msg) {
       *((s16 *) (((s8 *) this) - -0xB8)) = 4;
       this->set_field_378(5);
       (this->set_intangible());
-      this->m_518 = (s32) (((s32) (60.0f * this->random_ratio())) + 0xA);
+      this->substate = (s32) (((s32) (60.0f * this->random_ratio())) + 0xA);
       return;
       return;
-      this->m_518 = (s32) (((s32) (60.0f * this->random_ratio())) + 0xA);
+      this->substate = (s32) (((s32) (60.0f * this->random_ratio())) + 0xA);
     case 3:
-      if ((this->m_518) <= 0)
+      if ((this->substate) <= 0)
     {
       this->set_anim_by_state();
     }
     case 5:
       return;
     case 0:
-      this->m_518 = (s32) ((this->m_518) - 1);
+      this->substate = (s32) ((this->substate) - 1);
       this->play_sound_variant();
       this->advance_animation();
       (this->update_ground_contact());
@@ -1719,11 +1719,11 @@ void TObjEneBm5GibonU::sub_800D01DC(s32 msg) {
       this->set_field_378(3);
       (this->clear_intangible());
       ((TObjEneDD_ST *)(this))->enemy_clear_target();
-      this->m_478 = 0;
-      this->m_4ac = (s32) ((this->m_4ac) & 0xFFFFFFFE);
+      this->turn_offset = 0;
+      this->status_flags = (s32) ((this->status_flags) & 0xFFFFFFFE);
       return;
     case 3:
-      if ((this->m_4ac) & 1)
+      if ((this->status_flags) & 1)
     {
       this->transition_enemy_state(5);
       return;
@@ -1732,7 +1732,7 @@ void TObjEneBm5GibonU::sub_800D01DC(s32 msg) {
     {
       this->enemy_copy_target_destination();
       this->set_anim_by_state();
-      entity = (u8 *) find_entity_by_id(this->m_474);
+      entity = (u8 *) find_entity_by_id(this->leader_id);
       if (entity != 0)
       {
         ((TObjEneBm5GibonU *)entity)->set_flag();
@@ -1747,7 +1747,7 @@ void TObjEneBm5GibonU::sub_800D01DC(s32 msg) {
       return;
       return;
     case 5:
-      this->m_4ac = (s32) ((this->m_4ac) & 0xFFFFFFFE);
+      this->status_flags = (s32) ((this->status_flags) & 0xFFFFFFFE);
       break;
   }
 }
@@ -1759,9 +1759,9 @@ void TObjEneBm5GibonU::sub_800D02F8(s32 msg) {
         this->requested_action = 0;
         this->set_field_378(8);
         this->set_intangible();
-        this->m_4ac &= ~3;
+        this->status_flags &= ~3;
         ((TObjEneDD_ST *)(this))->enemy_clear_target();
-        this->m_478 = 0;
+        this->turn_offset = 0;
         VecCopy(home, &this->position);
         this->m_3d8.start_fade_in();
         play_area_sound_effect(&this->position);
@@ -1794,9 +1794,9 @@ void TObjEneBm5GibonU::sub_800D0420(s32 msg) {
         this->requested_action = 0xF;
         this->set_field_378(8);
         this->set_intangible();
-        this->m_4ac = (s32) (this->m_4ac & 0xFFFFFFFC);
+        this->status_flags = (s32) (this->status_flags & 0xFFFFFFFC);
         ((TObjEneDD_ST *)(this))->enemy_clear_target();
-        this->m_478 = 0;
+        this->turn_offset = 0;
         VecCopy(home, &this->position);
         this->position.x -= 100.0f * sin_table_lookup(this->rotation_y);
         this->position.z -= 100.0f * cos_table_lookup(this->rotation_y);
@@ -1841,15 +1841,15 @@ void TObjEneBm5GibonU::handle_state(s32 arg1) {
   switch (arg1)
   {
     case 4:
-      m_51c = 0;
+      state_timer = 0;
       set_field_378(0);
       set_intangible();
-      m_4ac |= 2;
+      status_flags |= 2;
       return;
     case 3:
-      if (m_51c > 0)
+      if (state_timer > 0)
     {
-      if (m_470 < 1)
+      if (appear_mode < 1)
       {
         transition_enemy_state(1);
         return;
@@ -1859,20 +1859,20 @@ void TObjEneBm5GibonU::handle_state(s32 arg1) {
     case 5:
       return;
     case 0:
-      other = TObjEneBm5GibonU::find_enemy_by_id(m_46c);
+      other = TObjEneBm5GibonU::find_enemy_by_id(group_id);
       if (other)
     {
-      m_474 = get_entity_id((saddr) other);
+      leader_id = get_entity_id((saddr) other);
     }
-      if (m_464 != 0 || other == NULL)
+      if (is_leader != 0 || other == NULL)
     {
-      VecCopy(&m_488, &m_47c);
+      VecCopy(&group_anchor, &spawn_position);
     }
     else
     {
-      VecCopy(&m_488, other->sub_800D1D78());
+      VecCopy(&group_anchor, other->sub_800D1D78());
     }
-      m_51c++;
+      state_timer++;
       break;
   }
 }
@@ -1910,9 +1910,9 @@ void __dt__20TObjEneBm5GibonUListFv();
 
 #pragma defer_codegen on
 
-Vec *TObjEneBm5GibonU::sub_800D1D78() { return &this->m_47c; }
+Vec *TObjEneBm5GibonU::sub_800D1D78() { return &this->spawn_position; }
 
-s32 TObjEneBm5GibonU::sub_800D1D70() { return this->m_46c; }
+s32 TObjEneBm5GibonU::get_group_id() { return this->group_id; }
 
 #pragma push
 #pragma opt_propagation off
@@ -2047,7 +2047,7 @@ TObjEneBm5GibonU *TObjEneBm5GibonU::find_enemy_by_id(s32 id) {
     TObjEneBm5GibonUNode *n;
     for (n = ((TObjEneBm5GibonUList *)TObjEneBm5GibonU__enemy_list)->head; n != 0; n = n->next) {
         TObjEneBm5GibonU *e = n->get_owner();
-        if (e != 0 && e->m_46c == id) {
+        if (e != 0 && e->group_id == id) {
             return e;
         }
     }
@@ -2061,7 +2061,7 @@ TObjEneBm5GibonU::TObjEneBm5GibonU(TObject *parent, void *set_data) : TObjEneDD_
     this->invoke_initialization_hook(set_data);
     this->sub_800D10A0();
     this->init_position_vectors();
-    if (this->m_464 == 1) {
+    if (this->is_leader == 1) {
         this->init_model(&gibon_collision_body_templates[1], 1);
     } else {
         this->init_model(&gibon_collision_body_templates[0], 1);
@@ -2071,11 +2071,11 @@ TObjEneBm5GibonU::TObjEneBm5GibonU(TObject *parent, void *set_data) : TObjEneDD_
     this->requested_action = 0;
     this->set_animation(this->requested_action);
     this->set_field_b8(this->requested_action);
-    b = this->m_464 ? 1 : 0;
+    b = this->is_leader ? 1 : 0;
     this->reset_hp(TObjEneBm5GibonU__data_80500E78[b], lbl_80500E80[b], lbl_80500E88[b]);
     this->set_state_flag_1();
     this->movementParameters = &TObjEneBm5GibonU__movement_parameters;
-    if (this->m_464 != 0) {
+    if (this->is_leader != 0) {
         this->initialize_enemy_state(0x3C);
     } else {
         this->initialize_enemy_state(0x3B);
@@ -2085,25 +2085,25 @@ TObjEneBm5GibonU::TObjEneBm5GibonU(TObject *parent, void *set_data) : TObjEneDD_
     this->enemy_init_validate_period(0x14);
     m_3c0.set_owner(this);
     this->init_child_node();
-    if (this->m_464 != 0) {
+    if (this->is_leader != 0) {
         m_3cc.set_owner(this);
         this->init_child_from_list();
     }
-    this->m_474 = 0xFFFF;
-    this->m_478 = 0;
-    VecCopy(&this->m_47c, &this->position);
-    VecCopy(&this->m_488, &this->position);
-    this->m_494 = 0.0f;
-    this->m_498 = 0.0f;
-    this->m_4ac = 0;
-    this->m_50c = new TObjCollidable(NULL);
-    init_collision_body_parts(this->m_50c, &gibon_collision_body_templates[2], 1);
-    this->m_510 = 0;
+    this->leader_id = 0xFFFF;
+    this->turn_offset = 0;
+    VecCopy(&this->spawn_position, &this->position);
+    VecCopy(&this->group_anchor, &this->position);
+    this->desired_speed = 0.0f;
+    this->current_speed = 0.0f;
+    this->status_flags = 0;
+    this->attack_collider = new TObjCollidable(NULL);
+    init_collision_body_parts(this->attack_collider, &gibon_collision_body_templates[2], 1);
+    this->reaction_delay = 0;
     this->m_514 = 0xFFFF;
     this->set_colliders_contact_low();
-    this->m_518 = 0;
-    this->m_51c = 0;
-    this->m_520 = 0;
+    this->substate = 0;
+    this->state_timer = 0;
+    this->random_phase = 0;
     this->m_524 = 0;
     this->m_528 = 0;
     this->m_52c = 0;
@@ -2120,7 +2120,7 @@ TObjEneBm5GibonU::TObjEneBm5GibonU(TObject *parent, void *set_data) : TObjEneDD_
     this->m_558 = 0.0f;
     this->m_55c = 0.0f;
     this->m_560 = 0.0f;
-    this->m_564 = 0;
+    this->near_target = 0;
     this->update_center_position();
     this->update_body_colliders();
     this->transform_part_positions();
@@ -2132,13 +2132,13 @@ TObjEneBm5GibonU::TObjEneBm5GibonU(TObject *parent, void *set_data) : TObjEneDD_
 }
 
 TObjEneBm5GibonU::~TObjEneBm5GibonU() {
-    if (m_50c != NULL) {
-        free_collision_body_parts(m_50c);
-        delete m_50c;
-        m_50c = NULL;
+    if (attack_collider != NULL) {
+        free_collision_body_parts(attack_collider);
+        delete attack_collider;
+        attack_collider = NULL;
     }
     forward_hit_to_node_list();
-    if (m_464 != 0) {
+    if (is_leader != 0) {
         forward_hit_to_enemy_list();
     }
     free_collision_body_parts(this);
@@ -2153,15 +2153,15 @@ void TObjEneBm5GibonU::run_task() {
         this->run_demo_task();
         return;
     }
-    partner = (TObject *)find_entity_by_id(m_474);
+    partner = (TObject *)find_entity_by_id(leader_id);
     if (partner != NULL) {
         partner->all_parents_unqueued_for_destruction();
     }
     if (this->update_status_effects() != 4) {
-        temp_r3 = this->m_510;
+        temp_r3 = this->reaction_delay;
         if (temp_r3 != 0) {
-            this->m_510 = (temp_r3 - 1);
-            if ((s32) this->m_510 == 0) {
+            this->reaction_delay = (temp_r3 - 1);
+            if ((s32) this->reaction_delay == 0) {
                 temp_r0 = this->mode;
                 if ((temp_r0 != 0x11) && (temp_r0 != 0x12)) {
                     transition_enemy_state(0xF);
@@ -2211,20 +2211,20 @@ void TObjEneBm5GibonU::update_body_colliders() {
 }
 
 void TObjEneBm5GibonU::sub_800D10A0() {
-    m_46c = (s32)floor_to_float(parameters[0]);
+    group_id = (s32)floor_to_float(parameters[0]);
     if (parameters[1] >= 1.0f) {
-        m_470 = 0;
+        appear_mode = 0;
     } else {
-        m_470 = 1;
+        appear_mode = 1;
     }
     if (variant >= 1) {
-        m_464 = 1;
-        m_468 = 1;
+        is_leader = 1;
+        technique_type = 1;
         model = (void *)TObjEneBm5GibonU__model_archive->models[1].model;
         texlist = (saddr)TObjEneBm5GibonU__model_archive->models[1].m_c;
     } else {
-        m_464 = 0;
-        m_468 = 0;
+        is_leader = 0;
+        technique_type = 0;
         model = (void *)TObjEneBm5GibonU__model_archive->models[0].model;
         texlist = (saddr)TObjEneBm5GibonU__model_archive->models[0].m_c;
     }
@@ -2241,18 +2241,18 @@ void TObjEneBm5GibonU::turn_toward_angle(s32 angle) {
     } else if (d < -0x3000) {
         d = -0x3000;
     }
-    if (this->m_478 * d >= 0) {
-        this->m_478 = approach_angle_limited(this->m_478, d, 0x400);
-    } else if (this->m_478 * angle_diff_s16(this->m_478, d) >= 0) {
-        if (this->m_478 >= 0) {
-            this->m_478 -= 0x400;
+    if (this->turn_offset * d >= 0) {
+        this->turn_offset = approach_angle_limited(this->turn_offset, d, 0x400);
+    } else if (this->turn_offset * angle_diff_s16(this->turn_offset, d) >= 0) {
+        if (this->turn_offset >= 0) {
+            this->turn_offset -= 0x400;
         } else {
-            this->m_478 += 0x400;
+            this->turn_offset += 0x400;
         }
     } else {
-        this->m_478 = approach_angle_limited(this->m_478, d, 0x400);
+        this->turn_offset = approach_angle_limited(this->turn_offset, d, 0x400);
     }
-    this->m_478 = (s16)this->m_478;
+    this->turn_offset = (s16)this->turn_offset;
 }
 
 void TObjEneBm5GibonU::face_target() {
@@ -2273,14 +2273,14 @@ void TObjEneBm5GibonU::pick_wander_destination() {
     Vec v;
     f32 d;
     Hit_800D0E14 *hit;
-    v.x = this->position.x - this->m_488.x;
+    v.x = this->position.x - this->group_anchor.x;
     v.y = 0.0f;
-    v.z = this->position.z - this->m_488.z;
+    v.z = this->position.z - this->group_anchor.z;
     normalize_vector_xz(&v);
     rotate_xz_pair_by_angle(&v.x, &v.z, (s32)(32768.0f * this->random_ratio()) + 0x4000);
     d = 120.0f * this->rand_range(0.3f, 1.0f);
-    this->destination.x = v.x * d + this->m_488.x;
-    this->destination.z = v.z * d + this->m_488.z;
+    this->destination.x = v.x * d + this->group_anchor.x;
+    this->destination.z = v.z * d + this->group_anchor.z;
     hit = csnVector(&this->body_center, &this->destination, 0x88E0);
     if (hit != NULL) {
         v.x = hit->pos->x - this->position.x;
@@ -2296,18 +2296,18 @@ void TObjEneBm5GibonU::approach_target(f32 step) {
     f32 target;
     f32 speed;
 
-    speed = m_498;
-    target = m_494;
+    speed = current_speed;
+    target = desired_speed;
     if (speed != target) {
         if (speed > target) {
-            m_498 = speed - step;
-            if (m_498 < m_494) {
-                m_498 = m_494;
+            current_speed = speed - step;
+            if (current_speed < desired_speed) {
+                current_speed = desired_speed;
             }
         } else {
-            m_498 = speed + step;
-            if (m_498 > m_494) {
-                m_498 = m_494;
+            current_speed = speed + step;
+            if (current_speed > desired_speed) {
+                current_speed = desired_speed;
             }
         }
     }
@@ -2337,7 +2337,7 @@ void TObjEneBm5GibonU::select_attack_by_range() {
 }
 
 void TObjEneBm5GibonU::set_anim_by_state() {
-    if ((s32) m_464 != 0) {
+    if ((s32) is_leader != 0) {
         transition_enemy_state(7);
         return;
     }
@@ -2360,17 +2360,17 @@ f32 TObjEneBm5GibonU::calc_xz_direction_to(Vec *target, Vec *dir) {
 }
 #pragma pop
 
-void TObjEneBm5GibonU::set_flag() { m_4ac |= 0x1; }
+void TObjEneBm5GibonU::set_flag() { status_flags |= 0x1; }
 
 s32 TObjEneBm5GibonU::update_target() {
-    if (this->m_464 != 0) {
+    if (this->is_leader != 0) {
         return this->select_and_apply_target(350.0f);
     }
     return this->select_and_apply_target(250.0f);
 }
 
 s32 TObjEneBm5GibonU::play_sound_variant() {
-    if ((s32) m_464 != 0) {
+    if ((s32) is_leader != 0) {
         return this->update_linked_position(350.0f);
     }
     return this->update_linked_position(250.0f);
@@ -2426,12 +2426,12 @@ s32 TObjEneBm5GibonU::sub_800D0968(int) {
 #pragma pop
 
 void TObjEneBm5GibonU::sub_800D095C(s32 timer, u16 id) {
-    this->m_510 = timer;
+    this->reaction_delay = timer;
     this->m_514 = id;
 }
 
 void TObjEneBm5GibonU::damage_linked_entity_type10() {
-    u8 *r = (u8 *)find_entity_by_id(m_474);
+    u8 *r = (u8 *)find_entity_by_id(leader_id);
     if (r != 0) {
         DirectAttackPayload d;
         d.kind = 10;
@@ -2441,7 +2441,7 @@ void TObjEneBm5GibonU::damage_linked_entity_type10() {
 }
 
 void TObjEneBm5GibonU::damage_linked_entity() {
-    u8 *r = (u8 *)find_entity_by_id(m_474);
+    u8 *r = (u8 *)find_entity_by_id(leader_id);
     if (r != 0) {
         DirectAttackPayload d;
         d.kind = 9;
