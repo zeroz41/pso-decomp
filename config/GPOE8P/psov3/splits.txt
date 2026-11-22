@@ -9333,17 +9333,9 @@ pso/player/TPlayerBattleCtrl4P.cpp:
 	.sbss       start:0x805D6AA8 end:0x805D6AC0
 	.sdata2     start:0x805DF228 end:0x805DF248
 
-pso/enemy/deldepth/DelDepthData.cpp:
-	.rodata     start:0x80475BD8 end:0x80475DD8
-	.sdata      start:0x805D4118 end:0x805D4120
-	.sbss       start:0x805D6AC0 end:0x805D6AC8
-
 pso/unk/text_80312C50.cpp:
 	.text       start:0x80312C50 end:0x803130BC
 	.sdata2     start:0x805DF248 end:0x805DF24C
-
-pso/enemy/deldepth/DelDepthConstants.cpp:
-	.sdata2     start:0x805DF250 end:0x805DF2E4
 
 pso/player/TObjPlayer_803130BC.cpp:
 	.text       start:0x803130BC end:0x80313268
@@ -9351,8 +9343,11 @@ pso/player/TObjPlayer_803130BC.cpp:
 pso/enemy/deldepth/TObjEneDelDepth.cpp:
 	.text       start:0x80313268 end:0x8031623C
 	.ctors      start:0x80433FE4 end:0x80433FE8
-	.rodata     start:0x80475DD8 end:0x80475DE8
+	.rodata     start:0x80475BD8 end:0x80475DE8
 	.data       start:0x804E80C0 end:0x804E875C
+	.sdata      start:0x805D4118 end:0x805D4120
+	.sbss       start:0x805D6AC0 end:0x805D6AC8
+	.sdata2     start:0x805DF250 end:0x805DF2E4
 
 pso/enemy/deldepth/TObjEneDelDepthAccessors.cpp:
 	.text       start:0x8031623C end:0x8031624C

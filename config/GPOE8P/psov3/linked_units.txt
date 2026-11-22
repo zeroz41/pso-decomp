@@ -369,8 +369,6 @@ pso/enemy/AreaSoundRemap.cpp
 pso/enemy/bringer/BringerEffects.cpp
 pso/enemy/canadin/CanadinEffects.cpp
 pso/enemy/darkgunner/DarkGunner.cpp
-pso/enemy/deldepth/DelDepthConstants.cpp
-pso/enemy/deldepth/DelDepthData.cpp
 pso/enemy/deldepth/DelDepthMotion.cpp
 pso/enemy/EnemyFactoryTables.cpp
 pso/effect/enemy/TeneFakeTecThunderEffSdata2.cpp

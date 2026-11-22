@@ -1152,9 +1152,6 @@ force_active:
   - __ct__19TObjEneBm9MericarolFP7TObjectPv
   - __vt__19TObjEneBm9Mericarol
   - sub_800A0B18__20TObjEneDarkGunCenterFv
-  - TObjEneDelDepth_collision_body_parts
-  - TObjEneDelDepth_motion_file_list
-  - TObjEneDelDepth_motion_names
   - TObjEneDellBiter__param_table
   - TObjEneDellBiter__resource_descriptor
   - sub_80097620__17TObjEneDf2BringerFl
@@ -7739,8 +7736,6 @@ force_active:
   - dolmolm_model_name_lo_abgc01l_wola_body_nj
   - bm_ene_abgc01_wola_body_low_bml_filename
   - lbl_804750C8
-  - TObjEneDelDepth__class_name_string
-  - TObjEneDelDepthBomb__class_name_string
   - lbl_804773DC
   - lbl_804773FC
   - lbl_80477444
