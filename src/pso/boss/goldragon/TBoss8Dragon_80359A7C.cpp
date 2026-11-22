@@ -27,9 +27,9 @@ void TUnk_804F1A78::run_task() {
         this->TObject::queue_destruction();
         return;
     }
-    if (this->m_74c != 0) {
+    if (this->player_controlled != 0) {
         this->freeze_player_at_self();
-        this->m_754 = this->m_754 + 1;
+        this->controlTimer = this->controlTimer + 1;
     } else if ((TObjEneDD::is_main_phase_15() != 0) && (this->m_6d4 == 0)) {
         old_state = this->m_3e0;
         if (this->update_lobby_state() != 0) {
@@ -51,8 +51,8 @@ void TUnk_804F1A78::run_task() {
         } else {
             this->actorFlags &= ~0x800;
         }
-        if (this->m_74c != 0) {
-            if (this->m_750 == local_client_id) {
+        if (this->player_controlled != 0) {
+            if (this->target_client_id == local_client_id) {
                 if (boss8_dragon_player_control == 0) {
                     this->release_grabbed_player();
                 } else {

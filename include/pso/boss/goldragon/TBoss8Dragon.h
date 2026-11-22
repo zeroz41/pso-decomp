@@ -46,7 +46,7 @@ public:
 
     void get_render_position(Vec *pos);
     s32 hasActiveRenderFade();
-    s32 sub_802F46F4();
+    s32 is_any_fade_visible();  // one of renderFadeStates still has visible opacity
     // As TBoss1Dragon::is_sphere_visible: the sphere lies in the cone from the camera towards its target.
     s32 is_sphere_visible(Vec *center, f32 radius);
     // One of four model nodes stands between the camera and its target (name inferred: draw_with_fade fades
@@ -114,21 +114,18 @@ public:
 
     u32 m_69c;
     f32 sector_radii[12];  // one random radius per 30-degree sector, picked by choose_burrow_ring_destination
-    u32 m_6d0;
+    s32 burrow_run_count;  // 0 on the first update_burrow_inward_run, +1 on each after it; calc_step_value speeds up with it
     s32 m_6d4;
     ControllerInputContext *controller_input;  // points into controller_input_state.controllers
     RenderFadeState renderFadeStates[4];
-    s32 m_74c;
-    u16 m_750;
+    s32 player_controlled;  // 1 while a player steers the dragon (select_freeze_target, boss8_dragon_player_control)
+    u16 target_client_id;  // as TBoss1Dragon::target_client_id: the steering player, frozen at the dragon
     u8 _pad752[0x2];
-    s32 m_754;
-    u32 m_758;
+    s32 controlTimer;  // as TBoss1Dragon::controlTimer: frames of player control
+    u32 facingAngle;  // as TBoss1Dragon::facingAngle: the angle state_circle_flight circles on
     s32 m_75c;
     const s32 *particle_ids;  // TBoss1Dragon reads the same ids through effectResource->particle_ids
-    void* m_764;
-    u8 unk_768[0xC];
-    saddr m_774;
-    u8 unk_778[0xD4];
+    u32 randomState[58];  // a SubtractiveRng, as TBoss1Dragon::randomState
     s32 stateStep;  // step and frame counter of the current action, as in TBoss1Dragon
     s32 impactAge;
     s32 action_frames;
@@ -254,45 +251,60 @@ public:
     void draw();
 
     // Per-action event handlers, run by dispatch_action (vtable slot 87).
-    void sub_802F4B90(s32 event);
-    void action(s32 event);
-    void sub_802F4DD4(s32 event);
+    // Mode 43: underground until no part is left; leaving it rings the dragon and its parts (place_parts_in_ring).
+    void update_parts_burrow_state(s32 event);
+    // Mode 31, as TBoss1Dragon::wait_for_players: stands until a player has been present 150 frames.
+    void wait_for_players(s32 event);
+    // Mode 30, as TBoss1Dragon::update_appearance_state: the opening demo (bossopgc motion, TBoss8DragonDemo).
+    void update_appearance_state(s32 event);
     void update_wander_state(s32 event);
-    void sub_802F51DC(s32 event);
-    void sub_802F5434(s32 event);
-    void sub_802F5644(s32 event);
-    void sub_802F57E4(s32 event);
+    // Mode 40: walks (motion walk) while the render fades come back.
+    void update_appear_walk_state(s32 event);
+    // Mode 39: walks (motion walk) while the render fades go out.
+    void update_vanish_walk_state(s32 event);
+    // Mode 38, as TBoss1Dragon::handle_fall_state: underground run to the arena centre, then mode 19.
+    void handle_fall_state(s32 event);
+    // Mode 37, as TBoss1Dragon::state_circle_flight: circles underground, then mode 38.
+    void state_circle_flight(s32 event);
     void handle_walk_state(s32 event);
-    void sub_802F5BA0(s32 event);
-    void sub_802F5CC8(s32 event);
-    void sub_802F5F64(s32 event);
-    void sub_802F610C(s32 event);
-    void sub_802F645C(s32 event);
-    void sub_802F6618(s32 event);
+    // Modes 24-28 run while a player steers the dragon (player_controlled): stand, walk, hover, flight, burrow.
+    void update_controlled_burrow_state(s32 event);
+    void update_controlled_flight_state(s32 event);
+    void update_controlled_hover_state(s32 event);
+    void update_controlled_walk_state(s32 event);
+    void update_controlled_stand_state(s32 event);
+    // Mode 23, after update_fade_state: the dead motion while the render fades go out, then the dragon is removed.
+    void update_fade_out_state(s32 event);
     void update_fade_state(s32 event);
     void update_death_state(s32 event);
     void handle_leap_state(s32 event);
     void handle_spiral_state(s32 event);
     void update_burrow_outward_run(s32 event);
-    void action_17(s32 event);
-    void sub_802F7B4C(s32 event);
+    // Modes 16 and 17: update_burrow_inward_run for the first run and for each run after it.
+    void update_burrow_repeat_run(s32 event);
+    void update_burrow_first_run(s32 event);
     void update_burrow_inward_run(u32 event, s32 action);
     void update_dive_state(s32 event);
     void state_roar(s32 event);
     void update_stretch_state(s32 event);
     void update_head_down_attack_state(s32 event);
     void update_fall_state(s32 event);
-    void sub_802F87EC(s32 event);
-    void sub_802F89F8(s32 event);
+    // Mode 42: update_fall_state near the target while the render fades come back.
+    void update_appear_fall_state(s32 event);
+    // Mode 35, as TBoss1Dragon::update_spinning_projectile_attack (tukomi, then tobidasi).
+    void update_spinning_projectile_attack(s32 event);
     void update_air_fire_state(s32 event);
     void state_turn_and_charge(s32 event);
     void update_lift_state(s32 event);
-    void sub_802F9A4C(s32 event);
+    // Mode 41: update_lift_state while the render fades go out.
+    void update_vanish_lift_state(s32 event);
     void handle_tail_attack_state(s32 event);
     void state_breath_attack(s32 event);
     void update_walking_state(s32 event);
-    void sub_802FA374(s32 event);
-    void sub_802FA478(s32 event);
+    // Mode 1: the stand motion; a controller sends it to modes 3, 5 or 25.
+    void update_stand_state(s32 event);
+    // Mode 0: no motion of its own; the next choice picks the next action (mode 24 when controlled).
+    void update_idle_state(s32 event);
 };
 
 #include <stddef.h>
@@ -300,7 +312,7 @@ LAYOUT_ASSERT(TBoss8DragonFadeStride, sizeof(RenderFadeState) == 0x1C);
 LAYOUT_ASSERT(TBoss8DragonFadeOffset, offsetof(TBoss8Dragon, renderFadeStates) == 0x6DC);
 LAYOUT_ASSERT(TBoss8DragonSize, sizeof(TBoss8Dragon) == 0x8A4);
 LAYOUT_ASSERT(TBoss8DragonSubTasksOffset, offsetof(TBoss8Dragon, sub_tasks) == 0x3C4);
-LAYOUT_ASSERT(TBoss8DragonAfterFadeOffset, offsetof(TBoss8Dragon, m_74c) == 0x74C);
+LAYOUT_ASSERT(TBoss8DragonAfterFadeOffset, offsetof(TBoss8Dragon, player_controlled) == 0x74C);
 
 // The camera's xz position and its normalized xz direction to the camera target, which the visibility test
 // TBoss8Dragon::is_hiding_camera_target sets before it tests the model's points.
