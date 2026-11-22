@@ -14,6 +14,7 @@ class TBoss1DragonColli;
 class TUnk_80481B34;
 class TObjBoss1MokoHill_SoloM;
 class TObjChara;
+struct ControllerInputContext;
 
 struct DragonModelVector { f32 x, y, z; };
 struct DragonModelAngles { s32 x, y, z; };
@@ -29,16 +30,6 @@ struct DragonModelNode {
 };
 
 struct DragonEffectResource { saddr particle_ids[8]; };
-
-// The controller block init_control_mode points at (a ControllerInputContext of controller_input_state).
-struct DragonControllerInput {
-    u8 pad_0[0x8];
-    s32 flags;  // the pressed buttons filter_input_flags masks
-    u8 pad_c[0x1C - 0xC];
-    s32 stick_angle;  // the heading the controlled walk and flight steer to
-    u8 pad_20[0x4];
-    f32 stick_magnitude;  // above 0.1 the controlled states start moving
-};
 
 struct DragonPositionKey { s32 frame; DragonModelVector value; };
 struct DragonMotionData { DragonPositionKey *positionKeys; };
@@ -148,7 +139,7 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     TObjBoss1MokoHill_SoloM *moko_hill; // the mound that follows the Dragon underground
     s32 burrow_run_count;  // burrow runs so far; calc_burrow_speed grows with it
     s32 lobby_state_locked;  // while set, run_task stops refreshing lobby_state
-    DragonControllerInput *controller_input;
+    ControllerInputContext *controller_input;  // controller_input_state.controllers[2], [0] once init_control_mode runs
     RenderFadeState viewFade[4];
     s32 pad_758;
     s32 pad_75c;
@@ -230,8 +221,8 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     void update_burrow_inward_run(u32 reason, s32 state);
     void release_held_player();
     void init_control_mode();
-    void apply_fireball_impact_damage(saddr position);
-    void deliver_breath_attack(saddr position, saddr attack_history);
+    void apply_fireball_impact_damage(Vec *position);
+    void deliver_breath_attack(Vec *position, AreaAttackHistory *attack_history);
     void sweep_death_body_attack();
     void apply_foot_step_attack(int side);
     void next_sequence_action();
@@ -272,7 +263,7 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     f32 clamp_step_in_radius(f32 dir_x, f32 dir_z, f32 step);
     void update_flap_effect();
     void apply_trail_attack();
-    void setup_v2_instance(Vec *position, u8 *params, s32 history);
+    void setup_v2_instance(Vec *position, u8 *params, saddr history);
     void emit_v2_effect_at_position(void *params);
     void emit_v2_enemy_effect(Vec *position, u8 *params, AreaAttackHistory *history);
     void set_burrow_height();

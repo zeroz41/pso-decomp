@@ -24,6 +24,7 @@ struct NJS_OBJECT;
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/system/byteswap.h"
+#include "pso/system/ControllerInputState.h"
 #include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/boss/dragon/TObjBoss1Rock.h"
@@ -127,7 +128,6 @@ void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 void dragon_capture_node_points(NJS_OBJECT *);
 extern u8 *camera_ctrl_instance;
 extern "C" {
-extern u8 controller_input_state[];
 u16 get_entity_id(void *);
 extern const Vec boss1_dragon_arena_center = {0.0f, 0.0f, 0.0f};
 extern const DragonAttackParams boss1_dragon_attack_sphere_params = {0, 0.0f, 30.0f, 7.0f, 1};
@@ -831,7 +831,7 @@ TBoss1Dragon::TBoss1Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     this->breath_particles[0] = 0;
     this->breath_particles[1] = 0;
     this->breath_particles[2] = 0;
-    this->controller_input = (DragonControllerInput *)(controller_input_state + 0xC0);
+    this->controller_input = &controller_input_state.controllers[2];
     this->lobby_state_locked = 0;
     this->mode = 0;
     if (TObjEneDD::is_main_phase_15() != 0) {
@@ -1882,30 +1882,30 @@ void TBoss1Dragon::apply_trail_attack() {
     }
 }
 
-void TBoss1Dragon::deliver_breath_attack(saddr position, saddr attack_history) {
+void TBoss1Dragon::deliver_breath_attack(Vec *position, AreaAttackHistory *attack_history) {
     DragonAttackParams params = dragon_fireball_attack_params;
     params.power = boss1_dragon_behavior_params[0]->breath_attack_power;
     params.kind = this->attack_kind;
     switch (TBoss1Dragon::isV2Mode()) {
     case 0:
-        TObjEneDD::setup_instance(this, (Vec *)position, &params, (AreaAttackHistory *)attack_history);
+        TObjEneDD::setup_instance(this, position, &params, attack_history);
         return;
     case 1:
-        this->setup_v2_instance((Vec *)position, (u8 *)&params, attack_history);
+        this->setup_v2_instance(position, (u8 *)&params, (saddr)attack_history);
         return;
     }
 }
 
-void TBoss1Dragon::apply_fireball_impact_damage(saddr position) {
+void TBoss1Dragon::apply_fireball_impact_damage(Vec *position) {
     DragonAttackParams params = dragon_fireball_impact_damage_params;
     params.power = boss1_dragon_behavior_params[0]->fireball_impact_power;
     params.kind = this->attack_kind;
     switch (TBoss1Dragon::isV2Mode()) {
     case 0:
-        TObjEneDD::setup(this, (Vec *)position, &params);
+        TObjEneDD::setup(this, position, &params);
         return;
     case 1:
-        this->setup_v2_instance((Vec *)position, (u8 *)&params, 0);
+        this->setup_v2_instance(position, (u8 *)&params, 0);
         return;
     }
 }
@@ -1925,7 +1925,7 @@ void TBoss1Dragon::emit_v2_effect_at_position(void *params) {
     this->emit_v2_enemy_effect(&this->position, (u8 *)params, NULL);
 }
 
-void TBoss1Dragon::setup_v2_instance(Vec *position, u8 *params, s32 history) {
+void TBoss1Dragon::setup_v2_instance(Vec *position, u8 *params, saddr history) {
     ((TUnk_804928CC *)this->attack_collider)->set_position_from(position);
     this->attack_collider->bodies->radius = *(f32 *)(params + 8);
     this->attack_collider->bodies->flags = 0x9D03;
@@ -1978,7 +1978,7 @@ void TBoss1Dragon::init_control_mode() {
         return;
     }
     this->controlTimer = 0x96;
-    this->controller_input = (DragonControllerInput *)(controller_input_state + 0x20);
+    this->controller_input = &controller_input_state.controllers[0];
     if (TObjEneDD::is_main_phase_15() != 0) {
         if (boss1_dragon_control_client_id == 0xFFFF) {
             id = this->find_player_on_floor();
@@ -2136,7 +2136,7 @@ s32 TBoss1Dragon::check_attack_ready() {
     u8 ready;
 
     ready = 0;
-    if (((s32) this->controlTimer >= 0x96) && (this->filter_input_flags(this->controller_input->flags, 0x400) != 0)) {
+    if (((s32) this->controlTimer >= 0x96) && (this->filter_input_flags(this->controller_input->pressed_buttons, 0x400) != 0)) {
         ready = 1;
     }
     return ready;
@@ -2146,7 +2146,7 @@ s32 TBoss1Dragon::check_can_attack() {
     u8 can_attack;
 
     can_attack = 0;
-    if ((this->filter_input_flags(this->controller_input->flags, 0x400) != 0) && (this->is_secondary_sequence() != 0)) {
+    if ((this->filter_input_flags(this->controller_input->pressed_buttons, 0x400) != 0) && (this->is_secondary_sequence() != 0)) {
         can_attack = 1;
     }
     return can_attack;
@@ -2298,11 +2298,11 @@ void TBoss1Dragon::update_stand_state(u32 reason) {
         return;
     case 2:
     case 11:
-        if (this->filter_input_flags(this->controller_input->flags, 4) != 0) {
+        if (this->filter_input_flags(this->controller_input->pressed_buttons, 4) != 0) {
             this->request_state_change(3);
             return;
         }
-        if (this->filter_input_flags(this->controller_input->flags, 0x400) != 0) {
+        if (this->filter_input_flags(this->controller_input->pressed_buttons, 0x400) != 0) {
             this->request_state_change(5);
             return;
         }
@@ -3223,7 +3223,7 @@ void TBoss1Dragon::update_head_down_attack_state(u32 reason) {
         this->play_se_at_pos(0x4003AD06);
         return;
     case 11:
-        if (((s32) this->stateStep >= 0x96) && (this->filter_input_flags(this->controller_input->flags, 2) != 0)) {
+        if (((s32) this->stateStep >= 0x96) && (this->filter_input_flags(this->controller_input->pressed_buttons, 2) != 0)) {
             this->stateStep = 0x1C2;
         }
         if (((s32) this->impactAge == 2) && (this->get_flag_b4() != 0)) {
@@ -4143,7 +4143,7 @@ void TBoss1Dragon::update_fade_state(u32 reason) {
 
 void TBoss1Dragon::update_controlled_stand_state(u32 reason) {
 
-    DragonControllerInput *in;
+    ControllerInputContext *in;
     s32 flags;
 
     switch (reason) {
@@ -4160,11 +4160,11 @@ void TBoss1Dragon::update_controlled_stand_state(u32 reason) {
             this->request_state_change(0x18);
             return;
         }
-        if (this->filter_input_flags(in->flags, 4) != 0) {
+        if (this->filter_input_flags(in->pressed_buttons, 4) != 0) {
             this->request_state_change(3);
             return;
         }
-        if (this->filter_input_flags(this->controller_input->flags, 2) != 0) {
+        if (this->filter_input_flags(this->controller_input->pressed_buttons, 2) != 0) {
             this->request_state_change(4);
             return;
         }
@@ -4172,7 +4172,7 @@ void TBoss1Dragon::update_controlled_stand_state(u32 reason) {
             this->request_state_change(5);
             return;
         }
-        if (this->filter_input_flags(this->controller_input->flags, fn_8002AE08(boss1_dragon_control_client_id)) != 0) {
+        if (this->filter_input_flags(this->controller_input->pressed_buttons, fn_8002AE08(boss1_dragon_control_client_id)) != 0) {
             this->request_state_change(9);
         }
         return;
@@ -4182,7 +4182,7 @@ void TBoss1Dragon::update_controlled_stand_state(u32 reason) {
             this->request_state_change(0x18);
             return;
         }
-        flags = in->flags;
+        flags = in->pressed_buttons;
         if (flags & 4) {
             this->request_state_change(3);
             return;
@@ -4216,7 +4216,7 @@ void TBoss1Dragon::update_controlled_walk_state(u32 reason) {
     f32 step;
     f32 frame;
     s32 input_flags;
-    DragonControllerInput *input;
+    ControllerInputContext *input;
     s32 *saved = &this->action_angle;
 
     switch (reason) {
@@ -4234,7 +4234,7 @@ void TBoss1Dragon::update_controlled_walk_state(u32 reason) {
             this->request_state_change(0x17);
             return;
         }
-        input_flags = this->controller_input->flags;
+        input_flags = this->controller_input->pressed_buttons;
         if (input_flags & 4) {
             this->request_state_change(3);
             return;
@@ -4252,11 +4252,11 @@ void TBoss1Dragon::update_controlled_walk_state(u32 reason) {
             this->request_state_change(0x17);
             return;
         }
-        if (this->filter_input_flags(this->controller_input->flags, 4) != 0) {
+        if (this->filter_input_flags(this->controller_input->pressed_buttons, 4) != 0) {
             this->request_state_change(3);
             return;
         }
-        if (this->filter_input_flags(this->controller_input->flags, 2) != 0) {
+        if (this->filter_input_flags(this->controller_input->pressed_buttons, 2) != 0) {
             this->request_state_change(4);
             return;
         }
@@ -4264,7 +4264,7 @@ void TBoss1Dragon::update_controlled_walk_state(u32 reason) {
             this->request_state_change(5);
             return;
         }
-        if (this->filter_input_flags(this->controller_input->flags, fn_8002AE08(boss1_dragon_control_client_id)) != 0) {
+        if (this->filter_input_flags(this->controller_input->pressed_buttons, fn_8002AE08(boss1_dragon_control_client_id)) != 0) {
             this->request_state_change(9);
             return;
         }
@@ -4320,7 +4320,7 @@ void TBoss1Dragon::update_controlled_walk_state(u32 reason) {
 
 void TBoss1Dragon::update_controlled_hover_state(u32 reason) {
 
-    DragonControllerInput *in;
+    ControllerInputContext *in;
     s32 flags;
 
     switch (reason) {
@@ -4332,7 +4332,7 @@ void TBoss1Dragon::update_controlled_hover_state(u32 reason) {
         this->flags = this->flags & ~0xE80;
         return;
     case 11:
-        if (this->controlTimer > 0x1C2 || this->filter_input_flags(this->controller_input->flags, 2) != 0) {
+        if (this->controlTimer > 0x1C2 || this->filter_input_flags(this->controller_input->pressed_buttons, 2) != 0) {
             this->request_state_change(8);
             return;
         }
@@ -4341,7 +4341,7 @@ void TBoss1Dragon::update_controlled_hover_state(u32 reason) {
             this->request_state_change(0x1A);
             return;
         }
-        if (this->filter_input_flags(in->flags, 4) != 0) {
+        if (this->filter_input_flags(in->pressed_buttons, 4) != 0) {
             this->request_state_change(7);
             return;
         }
@@ -4355,7 +4355,7 @@ void TBoss1Dragon::update_controlled_hover_state(u32 reason) {
             this->request_state_change(0x1A);
             return;
         }
-        flags = in->flags;
+        flags = in->pressed_buttons;
         if (flags & 4) {
             this->request_state_change(7);
             return;
@@ -4390,7 +4390,7 @@ void TBoss1Dragon::update_controlled_flight_state(u32 reason) {
     f32 dir_z;
     f32 step;
     s32 input_flags;
-    DragonControllerInput *input;
+    ControllerInputContext *input;
     s32 *saved = &this->action_angle;
 
     switch (reason) {
@@ -4404,7 +4404,7 @@ void TBoss1Dragon::update_controlled_flight_state(u32 reason) {
         this->impactAge = 0;
         return;
     case 11:
-        if (((s32) this->controlTimer > 0x1C2) || (this->filter_input_flags(this->controller_input->flags, 2) != 0)) {
+        if (((s32) this->controlTimer > 0x1C2) || (this->filter_input_flags(this->controller_input->pressed_buttons, 2) != 0)) {
             this->request_state_change(8);
             return;
         }
@@ -4412,7 +4412,7 @@ void TBoss1Dragon::update_controlled_flight_state(u32 reason) {
             this->request_state_change(0x19);
             return;
         }
-        if (this->filter_input_flags(this->controller_input->flags, 4) != 0) {
+        if (this->filter_input_flags(this->controller_input->pressed_buttons, 4) != 0) {
             this->request_state_change(7);
             return;
         }
@@ -4425,7 +4425,7 @@ void TBoss1Dragon::update_controlled_flight_state(u32 reason) {
             this->request_state_change(0x19);
             return;
         }
-        input_flags = this->controller_input->flags;
+        input_flags = this->controller_input->pressed_buttons;
         if (input_flags & 4) {
             this->request_state_change(7);
             return;
@@ -4479,7 +4479,7 @@ void TBoss1Dragon::update_controlled_flight_state(u32 reason) {
 }
 
 void TBoss1Dragon::handle_state(u32 reason) {
-    DragonControllerInput *input;
+    ControllerInputContext *input;
 
     switch (reason) {
     case 4:
@@ -4499,7 +4499,7 @@ void TBoss1Dragon::handle_state(u32 reason) {
             this->request_state_change(0x1C);
             return;
         }
-        if (input->flags & 2) {
+        if (input->pressed_buttons & 2) {
             this->request_state_change(0x13);
             return;
         }
@@ -4528,7 +4528,7 @@ void TBoss1Dragon::handle_walk_state(u32 reason) {
     f32 dx;
     f32 dz;
     Vec *home;
-    DragonControllerInput *in;
+    ControllerInputContext *in;
 
     home = &this->action_point;
     switch (reason) {
@@ -4555,7 +4555,7 @@ void TBoss1Dragon::handle_walk_state(u32 reason) {
             this->request_state_change(0x1B);
             return;
         }
-        if (this->controller_input->flags & 2) {
+        if (this->controller_input->pressed_buttons & 2) {
             this->request_state_change(0x13);
         }
         return;
@@ -4616,7 +4616,7 @@ void TBoss1Dragon::state_circle_flight(u32 reason) {
         return;
     case 2:
     case 11:
-        if (((s32) this->stateStep >= 0x1C2) || (this->filter_input_flags(this->controller_input->flags, 0x400) != 0)) {
+        if (((s32) this->stateStep >= 0x1C2) || (this->filter_input_flags(this->controller_input->pressed_buttons, 0x400) != 0)) {
             this->request_state_change(0x25);
         }
         return;

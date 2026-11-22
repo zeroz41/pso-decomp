@@ -59,7 +59,7 @@ void TBoss1DragonEffBullet::run_task() {
                 trail = NULL;
             }
             play_sound_effect(0x4003AD0C, &position, 0, 0);
-            ((TBoss1Dragon *)TBoss1Dragon::get_instance())->apply_fireball_impact_damage((saddr)&position);
+            ((TBoss1Dragon *)TBoss1Dragon::get_instance())->apply_fireball_impact_damage(&position);
         }
         if (lifetime <= 2) {
             spawn_particle_effect_with_flags(&position, dragon_fireball_particle_ids[2], 0x40);
