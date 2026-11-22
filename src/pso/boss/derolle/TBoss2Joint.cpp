@@ -112,7 +112,7 @@ void TBoss2Joint::start_flash(s32 kind) {
 }
 
 // Breaks the shell: marks it broken, reloads the broken stats and throws the breakup pieces.
-s32 TBoss2Joint::break_shell() {
+void TBoss2Joint::break_shell() {
     joint_flags |= SHELL_BROKEN;
     reload_stats_keep_hp_tp((u8 *)TLobby::register_boss(TBoss2Joint__param_table[1]),
                             (u8 *)TLobby::dispatch_shared_handler_b(TBoss2Joint__attack_stats[1]),

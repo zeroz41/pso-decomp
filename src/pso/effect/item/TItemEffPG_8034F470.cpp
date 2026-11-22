@@ -126,7 +126,7 @@ void TUnk_804F0A00::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
     desc->flags |= 0x80;
 }
 
-s32 TObjPlayer::spawn_fire_explosion(uaddr a0, saddr a1) {
+void TObjPlayer::spawn_fire_explosion(uaddr a0, saddr a1) {
     Desc_8011E5C4 info;
     void *o;
     TObjPlayer__sub_802E449C(&info);
