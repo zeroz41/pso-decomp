@@ -175,7 +175,7 @@ TCameraCtrl::TCameraCtrl(TObject *parent) : TObject(parent) {
     params.pad_04 = 0;
     params.pad_08 = 0;
     params.pad_0C = 0.0f;
-    params.pad_10 = 0.0f;
+    params.eye_rate = 0.0f;
     params.projection_angle = 0;
     params.pad_44 = 0;
     params.pad_18 = 0.0f;
@@ -711,7 +711,7 @@ void TCameraCtrl::reset_view_flags() {
     camera_ctrl_instance->params.pad_04 = 0;
     camera_ctrl_instance->params.pad_08 = 0;
     camera_ctrl_instance->params.pad_0C = zero;
-    camera_ctrl_instance->params.pad_10 = zero;
+    camera_ctrl_instance->params.eye_rate = zero;
     camera_ctrl_instance->params.projection_angle = 0;
     camera_ctrl_instance->params.pad_44 = 0;
     camera_ctrl_instance->params.pad_18 = zero;

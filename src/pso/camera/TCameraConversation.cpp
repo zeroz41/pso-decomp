@@ -41,27 +41,16 @@ const NpcCameraDestination fixed_npc_camera_destination_table[20] = {
     {-9953.2f, 42.4f, -168.1f, -9924.0f, 50.0f, -183.9f},
 };
 
-struct O_8006BAC8 { u8 pad[0xd4]; Vec arr[1]; };
-
-struct O_8006BAB4 { u8 pad[0x104]; Vec arr[1]; };
-
 s32 fixed_npc_camera_active;
-
-extern "C" {
-Vec *TCameraCtrl__sub_8006BAB4(O_8006BAB4 *self, s32 i);
-Vec *TCameraCtrl__sub_8006BAC8(O_8006BAC8 *self, s32 i);
-}
 
 s32 get_camera_override_flags() { return camera_override_flags; }
 
-extern "C" {
-Vec *TCameraCtrl__sub_8006BAC8(O_8006BAC8 *self, s32 i) {
-    return &self->arr[i];
+Vec *TCameraCtrl::get_split_pos(s32 view) {
+    return &split_pos[view];
 }
 
-Vec *TCameraCtrl__sub_8006BAB4(O_8006BAB4 *self, s32 i) {
-    return &self->arr[i];
-}
+Vec *TCameraCtrl::get_split_tgt(s32 view) {
+    return &split_tgt[view];
 }
 
 TCameraFixed::TCameraFixed() : TCameraController() {
@@ -76,18 +65,18 @@ TCameraFixed::~TCameraFixed() {
 void TCameraFixed::run_task() {}
 
 void TCameraFixed::apply_camera_params(s32) {
-    void *params;
+    CameraParams *params;
 
     if (camera_ctrl_instance != NULL) {
         params = camera_ctrl_instance->get_params();
-        target.x = *(f32 *)((s8 *)params + 0x28);
-        target.y = *(f32 *)((s8 *)params + 0x2C);
-        target.z = *(f32 *)((s8 *)params + 0x30);
-        position.x = *(f32 *)((s8 *)params + 0x1C);
-        position.y = *(f32 *)((s8 *)params + 0x20);
-        position.z = *(f32 *)((s8 *)params + 0x24);
-        projection_angle = (s32)(182.04445f * (f32) * (s32 *)((s8 *)params + 0x14));
-        eye_rate = *(f32 *)((s8 *)params + 0x10);
+        target.x = params->target.x;
+        target.y = params->target.y;
+        target.z = params->target.z;
+        position.x = params->position.x;
+        position.y = params->position.y;
+        position.z = params->position.z;
+        projection_angle = (s32)(182.04445f * (f32)params->projection_angle);
+        eye_rate = params->eye_rate;
     }
 }
 
@@ -148,9 +137,9 @@ TCameraConversation::TCameraConversation(s32 view, s32 destination, TObject *par
     this->destination = destination;
     activate_camera_mode(9);
     if (is_split_screen() != 0) {
-        Vec *split_position = TCameraCtrl__sub_8006BAC8((O_8006BAC8 *)camera_ctrl_instance, view);
+        Vec *split_position = camera_ctrl_instance->get_split_pos(view);
         VecCopy(&position, split_position);
-        VecCopy(&target, TCameraCtrl__sub_8006BAB4((O_8006BAB4 *)camera_ctrl_instance, view));
+        VecCopy(&target, camera_ctrl_instance->get_split_tgt(view));
     } else {
         VecCopy(&position, &camera_ctrl_instance->pos);
         VecCopy(&target, &camera_ctrl_instance->tgt);

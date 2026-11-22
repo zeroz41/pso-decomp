@@ -17,8 +17,8 @@ struct CameraParams {
     s32 pad_04;
     s32 pad_08;
     f32 pad_0C;
-    f32 pad_10;
-    s32 projection_angle;
+    f32 eye_rate; // the event camera's eye_rate (TCameraFixed, TCameraWatchPlayer)
+    s32 projection_angle; // in degrees
     f32 pad_18;
     Vec position;
     Vec target;
@@ -158,6 +158,9 @@ public:
     static s32 release_photon_blast_camera();
     void reset_view_flags();
     CameraParams *get_params();
+    // The eye and target of split-screen view `view`.
+    Vec *get_split_pos(s32 view);
+    Vec *get_split_tgt(s32 view);
     static void set_shake_preset(s32 preset);
     void cycle_spectate_target();
     static void update_active_player();

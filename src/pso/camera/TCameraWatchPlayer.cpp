@@ -33,7 +33,7 @@ TCameraController *TCameraWatchPlayer::create() {
 }
 
 void TCameraWatchPlayer::apply_camera_params(s32) {
-    void *params;
+    CameraParams *params;
     TObjPlayer *player;
 
     if (camera_ctrl_instance != NULL) {
@@ -43,10 +43,10 @@ void TCameraWatchPlayer::apply_camera_params(s32) {
             target.x = player->position.x;
             target.y = 19.8f + player->position.y;
             target.z = player->position.z;
-            position.x = *(f32 *)((s8 *)params + 0x1C);
-            position.y = *(f32 *)((s8 *)params + 0x20);
-            position.z = *(f32 *)((s8 *)params + 0x24);
-            eye_rate = *(f32 *)((s8 *)params + 0x10);
+            position.x = params->position.x;
+            position.y = params->position.y;
+            position.z = params->position.z;
+            eye_rate = params->eye_rate;
         }
     }
 }
