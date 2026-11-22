@@ -59,8 +59,6 @@ extern const Vec lbl_8043BC68 = { 0.0f, 0.0f, 0.0f };
 #define BEAST_NEAR_TARGET_MOVEMENT_RATE 0.4f
 #define BEAST_ZERO_VECTOR_COMPONENT 0.0f
 
-struct Sub350_800C57F0 { char pad[8]; void *p8; };
-struct Ctl_800C5B10 { u8 pad[8]; void *field_8; };
 
 extern "C" {
 s32 check_path_obstructed(void *, void *);
@@ -250,7 +248,7 @@ void TUnk_80493450::beast_update_attack() {
         break;
     }
     apply_actor_gravity(this, 0, BEAST_GROUND_HEIGHT_OFFSET);
-    enemy_turn_toward_dest(((s32 *)movementParameters)[2]);
+    enemy_turn_toward_dest(((BeastMovementParams *)movementParameters)->turnSpeed);
     ((TObjPlayer *)this)->update_collisions();
     minimap_render_dot(&position, -0x5DB4, 1, 0);
 }
@@ -349,7 +347,7 @@ void TUnk_80493450::beast_update_group_chase() {
     if (target != NULL) {
         Vec v = ((TObjChara *)target)->body_center;
         d = enemy_backstep_from_point(this, &v, m_398);
-        turn_toward_direction((saddr)((Sub350_800C57F0 *)movementParameters)->p8, (Vec *)&x_speed);
+        turn_toward_direction(((BeastMovementParams *)movementParameters)->turnSpeed, (Vec *)&x_speed);
         r = m_398 + bodies->radius;
         if (d < r * r) {
             mode = 3;
@@ -395,7 +393,7 @@ void TUnk_80493450::beast_update_approach() {
             ((TObjMotion *)self)->advance_animation();
             {
                 Vec sp8 = sp14;
-                enemy_move_toward(self, *(s32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 8), &sp8, 0, this->unk_394);
+                enemy_move_toward(self, ((BeastMovementParams *)movementParameters)->turnSpeed, &sp8, 0, this->unk_394);
             }
             if (this->targetId == 0xFFFF) {
                 if (horizontal_distance_squared((u8 *)&this->m_29c, (u8 *)&this->position) < (r = this->unk_394 + this->bodies->radius) * r ||
@@ -431,7 +429,7 @@ void TUnk_80493450::update_turn_toward_target() {
             Vec d;
             VecCopy(&d, &((TObjChara *)self->target)->body_center);
             subtract_vector(&d, &self->body_center);
-            ang = self->turn_toward_direction((saddr)((Ctl_800C5B10 *)self->movementParameters)->field_8, &d);
+            ang = self->turn_toward_direction(((BeastMovementParams *)self->movementParameters)->turnSpeed, &d);
             if (d.x * d.x + d.z * d.z < BEAST_GROUP_APPROACH_DISTANCE_SQ || self->children == 0) {
                 self->mode = 3;
                 self->phase = 1;
@@ -549,7 +547,7 @@ void TUnk_80493450::beast_idle_update() {
         if (project_actor_to_ground(self, &lbl_8050BF00, 0) == 1) {
             this->requested_action = 2;
             VecCopy(&this->position, &lbl_8050BF00);
-            this->rotation_y = approach_angle_limited(this->rotation_y, angle, *(s32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 8));
+            this->rotation_y = approach_angle_limited(this->rotation_y, angle, ((BeastMovementParams *)movementParameters)->turnSpeed);
             goto end;
         }
         r = fabs_float(scratch_vec.z);
@@ -568,7 +566,7 @@ void TUnk_80493450::beast_idle_update() {
         if (project_actor_to_ground(self, &lbl_8050BF00, 0) == 1) {
             this->requested_action = 2;
             VecCopy(&this->position, &lbl_8050BF00);
-            this->rotation_y = approach_angle_limited(this->rotation_y, angle, *(s32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 8));
+            this->rotation_y = approach_angle_limited(this->rotation_y, angle, ((BeastMovementParams *)movementParameters)->turnSpeed);
             goto end;
         }
         r = fabs_float(scratch_vec.z);
@@ -587,13 +585,13 @@ void TUnk_80493450::beast_idle_update() {
         if (project_actor_to_ground(self, &lbl_8050BF00, 0) == 1) {
             this->requested_action = 2;
             VecCopy(&this->position, &lbl_8050BF00);
-            this->rotation_y = approach_angle_limited(this->rotation_y, angle2, *(s32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 8));
+            this->rotation_y = approach_angle_limited(this->rotation_y, angle2, ((BeastMovementParams *)movementParameters)->turnSpeed);
         } else {
             this->requested_action = 2;
         }
     } else if (*(s32 *)&this->m_37c == 0 && BEAST_MIN_WANDER_RANGE < *(f32 *)((s8 *)self + 0x358)) {
         this->requested_action = 2;
-        ((TObjEnemy *)(self))->enemy_wander_home(*(f32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 4), *(f32 *)((s8 *)self + 0x358), *(f32 *)((s8 *)self + 0x358), *(s32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 8));
+        ((TObjEnemy *)(self))->enemy_wander_home(*(f32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 4), *(f32 *)((s8 *)self + 0x358), *(f32 *)((s8 *)self + 0x358), ((BeastMovementParams *)movementParameters)->turnSpeed);
     } else {
         this->request_stand_action();
     }
@@ -661,7 +659,7 @@ void TUnk_80493450::refresh_target() {
             self->m_374 = 0;
             obj_setFlags30(self, 0x1000);
         } else {
-            self->targetId = find_nearest_visible_player(reinterpret_cast<TObjChara *>(self), NULL, *(f32 *)self->movementParameters);
+            self->targetId = find_nearest_visible_player(reinterpret_cast<TObjChara *>(self), NULL, ((BeastMovementParams *)self->movementParameters)->detectionRadius);
         }
     } else if (self->obj_testFlags30(0x10) != 0) {
         if (self->is_actor_cadence_frame(0x1E) != 0) {
