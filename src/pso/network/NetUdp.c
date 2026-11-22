@@ -170,7 +170,7 @@ s16 udp_sendto(s16 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst,
     add_item_80420FC8(pkt, &e->sourcePort, 8);
     e->checksum = 0;
     e->checksum = TLobby__sub_8040D8F0(src, dst, 0x11, pkt, 1);
-    return dispatch_by_addr_family((saddr)pkt, dst, src, (u8 *)(opt + 4), (void *)(opt + 4), (void *)0x11);
+    return dispatch_by_addr_family(pkt, dst, src, (u8 *)(opt + 4), (u8 *)(opt + 4), 0x11);
 }
 #pragma pop
 

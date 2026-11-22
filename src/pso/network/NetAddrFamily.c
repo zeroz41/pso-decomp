@@ -28,13 +28,13 @@ u16 calc_pseudo_header_checksum(s32 src, s32 dst, s8 proto, void *pkt, s16 flag)
 #pragma dont_inline off
 #pragma inline_depth(4)
 
-s16 dispatch_by_addr_family(saddr rec, NetworkAddress *arg1, NetworkAddress *arg2, u8 *arg3, void *arg4, void *proto) {
-    s16 AT_IP4_Send(NetPacket *pkt, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, void *proto); /* declared with a void * protocol here; the definition takes u8 */
-    switch (arg2->family) {
+s16 dispatch_by_addr_family(NetPacket *pkt, NetworkAddress *dst, NetworkAddress *src, u8 *ip4_opts, u8 *ip6_opts,
+                            u8 proto) {
+    switch (src->family) {
     case 4:
-        return AT_IP4_Send((NetPacket *)rec, arg1->ipv4, arg2->ipv4, arg3[0], arg3[1], arg3[2], proto);
+        return AT_IP4_Send(pkt, dst->ipv4, src->ipv4, ip4_opts[0], ip4_opts[1], ip4_opts[2], proto);
     case 6:
-        return TLobby__sub_80410A98(rec, arg1->address, arg2->address, arg4, proto);
+        return TLobby__sub_80410A98((saddr)pkt, dst->address, src->address, ip6_opts, proto);
     case 0:
     default:
         return -2;

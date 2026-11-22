@@ -529,52 +529,35 @@ s16 ipv6_process_options(u8* p, s16 n, u8* self, s16 c, s16 d) {
     return 0;
 }
 
-s16 TLobby__sub_80410A98(saddr pkt, void *dst, void *src, void *arg3, void *arg4)
-{
-  u8 tmp[12];
-  volatile struct 
-  {
-    s32 x;
-    s16 h;
-    u8 y;
-    u8 d;
-  } rec;
-  u8 *new_var;
-  u8 buf2[16];
-  u8 buf1[16];
-  Ipv6Route *p;
-  u8 *q;
-  s16 TLobby__sub_804136AC(s16); /* declared s16 here; the definition returns s32 */
-  p = TLobby__sub_80413264(dst, src);
-  if (p == ((void *) 0))
-  {
-    return -6;
-  }
-  if (p->type == 1)
-  {
-    q = (u8 *) dst;
-  }
-  else
-  {
-    q = p->gateway;
-  }
-  if (arg3 == ((void *) 0))
-  {
-    NetMemset(tmp, 0, 0xc);
-    arg3 = tmp;
-  }
-  rec.x = *((s32 *) (((u8 *) arg3) + 4));
-  new_var = q;
-  rec.h = ((u8 *) arg3)[0];
-  rec.y = ((u8 *) arg3)[8];
-  rec.d = (u8) ((saddr) arg4);
-  NetMemcpy(buf1, src, 0x10);
-  NetMemcpy(buf2, dst, 0x10);
-  if ((!NetIPv6IsMulticast(q)) && TLobby__sub_804136AC(p->iface))
-  {
-    return TLobby__sub_80415D0C((NetPacket *) pkt, new_var, (NetIPv6SendParameters *) buf1, p->iface);
-  }
-  return TLobby__sub_80410BA8((void *) pkt, buf1, p->iface, (void *) 0);
+s16 TLobby__sub_80410A98(saddr pkt, void *dst, void *src, u8 *opts, u8 proto) {
+    u8 defaults[12];
+    NetIPv6SendParameters params;
+    Ipv6Route *route;
+    u8 *next_hop;
+
+    route = TLobby__sub_80413264(dst, src);
+    if (route == NULL) {
+        return -6;
+    }
+    if (route->type == 1) {
+        next_hop = dst;
+    } else {
+        next_hop = route->gateway;
+    }
+    if (opts == NULL) {
+        NetMemset(defaults, 0, sizeof(defaults));
+        opts = defaults;
+    }
+    params.flow_label = *(u32 *)(opts + 4);
+    params.traffic_class_bits = opts[0];
+    params.hop_limit = opts[8];
+    params.next_header = proto;
+    NetMemcpy(&params.source, src, sizeof(params.source));
+    NetMemcpy(&params.destination, dst, sizeof(params.destination));
+    if (!NetIPv6IsMulticast(next_hop) && TLobby__sub_804136AC(route->iface)) {
+        return TLobby__sub_80415D0C((NetPacket *)pkt, next_hop, &params, route->iface);
+    }
+    return TLobby__sub_80410BA8((void *)pkt, &params, route->iface, NULL);
 }
 
 s16 TLobby__sub_80410D6C(u8 *ctx, u8 *hdr, s16 a5, s32 a6, u32 len);

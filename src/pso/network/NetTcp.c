@@ -640,7 +640,7 @@ send:
             tp->snd_max = tp->snd_nxt + len;
         }
         {
-            s16 rc = dispatch_by_addr_family((saddr)m, (NetworkAddress *)tp->remote, (NetworkAddress *)tp->local, tp->f2D6, tp->f2DC, (void *)6);
+            s16 rc = dispatch_by_addr_family(m, (NetworkAddress *)tp->remote, (NetworkAddress *)tp->local, tp->f2D6, tp->f2DC, 6);
             release_entry(m);
             if (rc < 0) {
                 return rc;
@@ -737,7 +737,7 @@ s32 TLobby__sub_8041B3D4(void* a, void* b, s16 c, s16 d, s32 e, s32 f, u8 g_m) {
     set_value_and_enable(&pkt->fragments[0].buffer, (saddr)&hdr);
     src.h1 = ((s16)TLobby__sub_8040D8F0(b, a, (s8)(6), (u8 *)pkt, (s16)(1)));
     NetMemcpy(ph, &src.h1, 2);
-    if (dispatch_by_addr_family((saddr)pkt, (NetworkAddress *)a, (NetworkAddress *)b, buf + 4, buf + 4, (void *)6) < 0) {
+    if (dispatch_by_addr_family(pkt, (NetworkAddress *)a, (NetworkAddress *)b, buf + 4, buf + 4, 6) < 0) {
         release_entry(pkt);
         return -1;
     }
