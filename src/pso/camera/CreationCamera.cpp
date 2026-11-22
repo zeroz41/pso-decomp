@@ -6,6 +6,7 @@
 #include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/ui/charcreate/CharacterCreationModels.h"
 #include "pso/unk/TLobby.h"
+#include "pso/unk/TLobby_8006F278.h"
 #include "pso/ui/charcreate/TObjCMMainMenu.h"
 #include "pso/ui/charcreate/TObjCMProportion.h"
 #include "pso/render/render_util.h"
@@ -15,7 +16,7 @@ static char split_screen_character_name[12];
 
 char *get_split_screen_character_name() {
     saddr record = get_character_save_record(0xFFFF);
-    ((TLobby *)split_screen_character_name)->decode_obfuscated_string((void *)(record + 0x229C), 12);
+    decode_obfuscated_string(split_screen_character_name, (void *)(record + 0x229C), 12);
     return split_screen_character_name;
 }
 

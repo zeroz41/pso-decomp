@@ -152,10 +152,10 @@ void TLobby__sub_8006F48C(void) {
         return;
     }
     if (TBL_8006F48C.count > 0) {
-        ((TLobby *)cur)->decode_obfuscated_string(win->name, 12);
+        decode_obfuscated_string(cur, win->name, 12);
         for (i = 0; i < TBL_8006F48C.count; i++) {
             e = &TBL_8006F48C.entries[i];
-            ((TLobby *)key)->decode_obfuscated_string(e, 12);
+            decode_obfuscated_string(key, e, 12);
             if (strncmp(key, cur, 12) == 0) {
                 strncpy(win->name, e->name, 11);
                 win->term = 0;
@@ -244,12 +244,12 @@ s32 TLobby__sub_8006F6B0(s32 clear_time) {
     best_time = &((s32 *)TWindowSubStatusDisp__sub_8006F0D8(client_data, TWindowSubStatusDisp::RECORD_SET_CURRENT))[challenge_mode_state.value];
     flags = TWindowSubStatusDisp__sub_8006F134(client_data, TWindowSubStatusDisp::RECORD_SET_CURRENT);
     rec.previous.time = TLobby::get_valid_slot(*best_time);
-    ((TLobby *)rec.previous.award_name)->decode_obfuscated_string(client_data + 0xD8, 12);
+    decode_obfuscated_string(rec.previous.award_name, client_data + 0xD8, 12);
     rec.previous.rank = ((s32 (*)(u32))TLobby::get_slot_clamped)(flags[1]);
     record_data = (u8 *)get_character_save_record(0xFFFF) + 0x21C4;
     flags = TWindowSubStatusDisp__sub_8006F134(record_data, TWindowSubStatusDisp::RECORD_SET_CURRENT);
     rec.current.time = clear_time;
-    ((TLobby *)rec.current.award_name)->decode_obfuscated_string(record_data + 0xD8, 12);
+    decode_obfuscated_string(rec.current.award_name, record_data + 0xD8, 12);
     rec.current.rank = ((s32 (*)(u32))TLobby::get_slot_clamped)(flags[1]);
     TObjResultWin::create(&rec);
     ret = result;
@@ -264,10 +264,10 @@ void TLobby::set_name_string() {
     *(s8 *)((s8 *)&lobby_name_string_buffer.value + 0x1F) = 0;
 }
 
-void TLobby::decode_obfuscated_string(void *arg1, int arg2) {
-    u8 *dst = (u8 *)this;
-    u8 *src = (u8 *)arg1;
-    s32 n = arg2;
+void decode_obfuscated_string(char *dst, const void *src, int length) {
+    u8 *out = (u8 *)dst;
+    const u8 *in = (const u8 *)src;
+    s32 n = length;
     u8 c;
     s32 i;
     if (n < 1) {
@@ -275,19 +275,19 @@ void TLobby::decode_obfuscated_string(void *arg1, int arg2) {
     } else if (n > 0x20) {
         n = 0x20;
     }
-    for (i = 0; i < n - 1; i++, src++, dst++) {
-        c = *src;
+    for (i = 0; i < n - 1; i++, in++, out++) {
+        c = *in;
         if ((s8)c == 0) {
-            *dst = 0;
+            *out = 0;
             return;
         }
         if (i == 0) {
-            *dst = c ^ 0x7F;
+            *out = c ^ 0x7F;
         } else {
-            *dst = dst[-1] + (s8)(c ^ 0x7F);
+            *out = out[-1] + (s8)(c ^ 0x7F);
         }
     }
-    *dst = 0;
+    *out = 0;
 }
 
 void TLobby::encode_name_xor(u8 *dst, u8 *src, s32 n) {

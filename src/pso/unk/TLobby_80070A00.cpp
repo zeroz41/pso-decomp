@@ -1,6 +1,7 @@
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/ui/window/TObjDeadListWin.h"
 #include "pso/unk/TLobby.h"
+#include "pso/unk/TLobby_8006F278.h"
 #include "pso/unk/text_8026A14C.h"
 #include "pso/object/TObjTombstone.h"
 
@@ -186,7 +187,6 @@ extern "C" {
 void *get_player_by_client_id(s32 i);
 s32 TLobby__sub_80070F4C(void);
 s32 TLobby__sub_80070FD8(void);
-s32 decode_obfuscated_string__6TLobbyFPvi(void *, void *, int, int);
 u8 lbl_804FF820[0xC];
 RecoveredGlobal_800713C8_lbl_804FF82C lbl_804FF82C;
 s32 *TLobby__sub_800713C8(void);
@@ -432,7 +432,7 @@ s32 TLobby__sub_800712D8(s32 idx, s32 value, s32 arg) {
 s32 *TLobby__sub_800713C8(void) {
     saddr character_save_record;
     character_save_record = get_character_save_record(0xFFFFU);
-    decode_obfuscated_string__6TLobbyFPvi((void *)&lbl_804FF82C.value, (void *)(character_save_record + 0x229C), 0xC, character_save_record);
+    decode_obfuscated_string((char *)&lbl_804FF82C.value, (void *)(character_save_record + 0x229C), 0xC);
     return &lbl_804FF82C.value;
 }
 #define challenge_mode_state (*(s8 (*)[1])challenge_mode_state)

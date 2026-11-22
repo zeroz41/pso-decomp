@@ -127,7 +127,6 @@ struct TLobby : public TObject {
     static void advance_state_if_flag_set();
     static s32 check_challenge_time_range(s32 clear_time);
     void set_name_string();
-    void decode_obfuscated_string(void *arg1, int arg2);
     static void encode_name_xor(u8 *dst, u8 *src, s32 n);
     static s32 get_valid_slot(int id);
     static s32 get_slot_clamped(u32 id);
