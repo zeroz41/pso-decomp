@@ -8,7 +8,7 @@
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/boss/derolle/AccelerationCurve.h"
 
-struct AreaAttackHistory;
+class AreaAttackHistory;
 struct TBoss8DragonEffTail;
 class TParticleCtrl;
 struct ControllerInputContext;
@@ -84,7 +84,7 @@ public:
     u16 m_678;
     u16 m_67a;
     TBoss8DragonEffTail *tail;  // the TBoss8DragonEffTail the constructor creates
-    u32 attack_history;  // the AreaAttackHistory the constructor creates
+    AreaAttackHistory *attack_history;
     TObject *collider;  // the TBoss8DragonColli the constructor hangs under sub_tasks
     f32 m_688;
     f32 m_68c;
@@ -153,9 +153,9 @@ public:
     void freeze_player_at_self();
     static u16 find_player_on_floor(void *arg0);
     void spawn_ground_effect();
-    int setup_instance(int _w1, void * _w2, int _w3);
+    int setup_instance(int _w1, void * _w2, AreaAttackHistory *history);
     void setup_breath_instance(Vec *pos, u32 kind, AreaAttackHistory *history);
-    void emit_effect(void *pos, void *params, saddr history);
+    void emit_effect(void *pos, void *params, AreaAttackHistory *history);
     static void init_state(saddr arg0);
     static int set_state_1(void* p);
     static int check_condition_default(void* p);

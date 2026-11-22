@@ -81,7 +81,6 @@ s32 TObjEneDellBiter__demo_rotate_x_angle;
 Vec *TObjEneDellBiter__demo_script_cursor;
 saddr TObjEneDellBiter__scrolling_uv_polygon_list;
 s32 TObjEneDellBiter__last_uv_scroll_tick;
-void fill_value_array(saddr address);
 s16 get_attack_params_atp_min(void *p);
 s32 obj_is_hit_receivable(u8 *arg0);
 u16 get_entity_id(void *);
@@ -988,7 +987,7 @@ void TObjEneDellBiter::fn_803044AC(s32 reason) {
         field_4d0 = 0;
         field_4dc = TObjEneDellBiter__movement_params->rush_speed;
         field_4e0 = 0.0f;
-        fill_value_array((saddr)attack_history);
+        fill_value_array(attack_history);
         this->set_active();
         break;
     case 3:
@@ -1096,7 +1095,7 @@ void TObjEneDellBiter::fn_803042B0(s32 reason) {
         this->set_field_378(5);
         flags = (s32) (flags & 0xFFFFFFFC);
         flags = (s32) (flags | 4);
-        fill_value_array(((saddr)attack_history));
+        fill_value_array(attack_history);
         saver->clear_segments();
         state_timer = 0;
         field_4d0 = 0;

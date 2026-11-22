@@ -9,7 +9,6 @@
 
 
 extern "C" {
-void fill_value_array(saddr address);
 
 s32 attack_target_history_add(saddr object, saddr target) {
     if ((fn_800BC758((u8 *)object) != 0) && (((s32)attack_target_history_contains((void*)((void *)((void *)object)), (void*)((void *)((void *)target)))) == 0)) {
@@ -32,7 +31,7 @@ PointerBuffer::PointerBuffer(s32 capacity, void *empty) {
     this->empty = empty;
     count = 0;
     this->capacity = capacity;
-    fill_value_array((saddr)this);
+    fill_value_array(this);
 }
 
 PointerBuffer::~PointerBuffer() {

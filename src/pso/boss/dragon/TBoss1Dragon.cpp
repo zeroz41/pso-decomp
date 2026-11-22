@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/enemy/AttackTargetHistory.h"
 #include "pso/boss/DragonAttackParams.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/system/BmlResourceLoader.h"
@@ -546,7 +547,6 @@ void *lbl_80481280[107] = {
     (void *)&acquire_target__12TObjEneDD_STFf, (void *)&run_demo_task__12TBoss1DragonFv, (void *)&render_low_detail__12TBoss1DragonFv,
 };
 
-void fill_value_array(saddr);
 s32 update_local_colliders_from_world(void *, void *);
 void TBoss1Dragon__sub_800274A4(saddr arg0);
 
@@ -2165,7 +2165,7 @@ void TBoss1Dragon__sub_80023A2C(TBoss1Dragon *arg0, u32 arg1) {
         arg0->flags = (s32) (arg0->flags & 0xFFFFFC7F);
         ((TBoss1Dragon *)(arg0))->set_invulnerable();
         ((TBoss1Dragon *)(arg0))->disable_body_collision();
-        fill_value_array((saddr)arg0->m_688);
+        fill_value_array(arg0->m_688);
         arg0->stateStep = 0;
         arg0->impactAge = 0;
         arg0->rootHeight = ((TBoss1Dragon *)arg0)->calc_burrow_speed();
@@ -2335,7 +2335,7 @@ void TBoss1Dragon::update_burrow_inward_run(u32 arg1, s32 arg2) {
         } else {
             this->m_6dc = (this->m_6dc + 1);
         }
-        fill_value_array((saddr)this->m_688);
+        fill_value_array(this->m_688);
         this->stateStep = 0;
         this->impactAge = 0;
         this->fallVelocity = (f32) (0.0f);
@@ -4166,7 +4166,7 @@ void TBoss1Dragon::sweep_death_body_attack() {
     s32 i;
     s32 off;
     reset_hp((u8 *)0, TBoss1Dragon__part_hp_stats[4], (u8 *)0);
-    fill_value_array((saddr)this->m_688);
+    fill_value_array(this->m_688);
     TBoss1Dragon__sub_80027A80(&params, &TBoss1Dragon__head_fall_effect_params);
     VecCopy__FP3VecPC3Vec((saddr)&pos, (saddr)&this->m_430[12]);
     params.field_8 = (15.0f);
@@ -4257,7 +4257,7 @@ void sweep_body_attack_spheres__12TBoss1DragonFv(u8 *arg0, f32 a, f32 b, f32 c) 
     f32 d;
 
     fx.field_8 = a - (2.0f);
-    fill_value_array((saddr)((TBoss1Dragon *)arg0)->m_688);
+    fill_value_array(((TBoss1Dragon *)arg0)->m_688);
     s0 = sin_table_lookup(((TObjEneDD *)arg0)->rotation_y);
     s1 = cos_table_lookup(((TObjEneDD *)arg0)->rotation_y);
     ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&base, &((TBoss1Dragon *)arg0)->position);
@@ -4342,7 +4342,7 @@ void TBoss1Dragon::apply_foot_step_attack(int arg1) {
     Vec *a;
     Vec *b;
 
-    fill_value_array((saddr)this->m_688);
+    fill_value_array(this->m_688);
     if (arg1 == 0) {
         a = &this->m_430[5];
         b = &this->m_430[6];
@@ -5778,16 +5778,12 @@ void TLobby::copy_header(void *arg1) {
     *(u8 *)((s8 *)this + 0xB) = (u8) *(u8 *)((s8 *)arg1 + 0xB);
 }
 
-struct O_8002B094 { s32 *arr; s32 val; s32 f8; s32 count; };
-
-
-void fill_value_array(saddr address) {
-    O_8002B094 *self = (O_8002B094 *)address;
+void fill_value_array(PointerBuffer *buffer) {
     s32 i;
-    for (i = 0; i < self->count; i++) {
-        self->arr[i] = self->val;
+    for (i = 0; i < buffer->capacity; i++) {
+        buffer->entries[i] = buffer->empty;
     }
-    self->f8 = 0;
+    buffer->count = 0;
 }
 
 extern f32 lbl_805D9E80;

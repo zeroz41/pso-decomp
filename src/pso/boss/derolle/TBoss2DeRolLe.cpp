@@ -286,7 +286,6 @@ extern "C" {
 
 void *__ct__9TBoss2FinFv(void *, TObject *, Vec *, Vec *);
 
-void fill_value_array(AreaAttackHistory *history);
 
 
 void update_local_colliders_from_world(TObjEneDD *self, Vec *offsets);

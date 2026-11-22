@@ -21,7 +21,7 @@ struct TBoss1DragonEffTail : public TUnk_804928CC {
     virtual void render();
     void enable();
     void disable();
-    int is_visible();
+    void is_visible();
 };
 
 LAYOUT_ASSERT(TBoss1DragonEffTail_size, sizeof(TBoss1DragonEffTail) == 0xCC);

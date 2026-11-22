@@ -61,7 +61,6 @@ extern "C" {
 extern s32 game_difficulty_selection;
 void vec3_add_to(Vec *dst, const Vec *src);
 void TBoss8Dragon__sub_800BB7D4(TObjEneBm9Mericarol *self, s32 arg1);
-void fill_value_array(saddr address);
 s32 approach_angle_limited(s32 from, s32 to, s32 max_step);
 s32 angle_difference_abs(s32 a, s32 b);
 void fn_802CE510(TObjEneBm9Mericarol *owner);
@@ -767,7 +766,7 @@ void TObjEneBm9Mericarol::sub_802CF7B4(s32 arg1) {
         m_498 = 0xA;
         m_4a4 = m_444;
         m_4a8 = 0.0f;
-        fill_value_array((saddr)m_488);
+        fill_value_array(m_488);
         set_active();
         return;
     case 3:

@@ -197,7 +197,6 @@ extern const char *TObjEneRe7BeruraPunch__name;
 void vec3_add_to(void *, void *);
 
 void TObjEneRe7BeruraPunch__sub_800962F4(TObjEneRe7BeruraPunch *p);
-void fill_value_array(saddr address);
 
 void TObjEneRe7BeruraPunch__sub_800962F4(TObjEneRe7BeruraPunch *p) { p->m_b4 = 0; }
 
@@ -227,7 +226,7 @@ void TObjEneRe7BeruraPunch::snap_to_ground() {
 }
 
 void TObjEneRe7BeruraPunch::reset() {
-    fill_value_array((saddr)this->attack_history);
+    fill_value_array(this->attack_history);
     this->m_f4 = 1.0f;
     this->m_f8.reset_color();
     this->m_118 = 0;

@@ -156,7 +156,6 @@ extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
-void fill_value_array(saddr);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 
@@ -896,7 +895,7 @@ void TObjEneDf2Bringer::sub_8009813C(s32 mode) {
         pad_4AC = 0;
         pad_4B0 = 0;
         pad_4BC = TObjEneDf2Bringer__data_805D4FB4->rush_speed;
-        fill_value_array((saddr)attack_history);
+        fill_value_array(attack_history);
         set_active();
         break;
     case 3:
@@ -1007,7 +1006,7 @@ void TObjEneDf2Bringer::sub_80097E9C(s32 mode) {
         set_field_378(4);
         pad_3C0 &= ~3;
         pad_3C0 |= 4;
-        fill_value_array((saddr)attack_history);
+        fill_value_array(attack_history);
         pad_4A4->clear_segments();
         pad_4AC = 0;
         pad_4B0 = 0;

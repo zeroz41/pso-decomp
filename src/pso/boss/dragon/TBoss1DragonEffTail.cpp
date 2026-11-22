@@ -69,7 +69,6 @@ CollisionBody TBoss1DragonEffTail__collision_body_templates[17] = {
 };
 void TBoss1Dragon__sub_8002AB6C(u8 *arg0);
 s32 matrix_mult_vec(int, void *, void *);
-int fill_value_array(void*);
 
 void TBoss1DragonEffTail::render() {  }
 
@@ -128,7 +127,7 @@ void TBoss1DragonEffTail::apply_hit_if_active(void *arg1, f32 *) {
 
 void TBoss1DragonEffTail::enable() { this->m_bc = 1; is_visible(); }
 void TBoss1DragonEffTail::disable() { this->m_bc = 0; is_visible(); }
-int TBoss1DragonEffTail::is_visible() { return fill_value_array(attack_history); }
+void TBoss1DragonEffTail::is_visible() { fill_value_array(attack_history); }
 
 TBoss1DragonEffTail::~TBoss1DragonEffTail() {
     delete attack_history;

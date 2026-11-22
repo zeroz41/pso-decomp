@@ -100,7 +100,6 @@ void TBoss8Dragon__sub_802FBA1C(TBoss8Dragon *arg0);
 void spawn_trap__12TBoss8DragonFii(s32 arg0, s32 arg1);
 void TBoss8Dragon__sub_802FC850(TBoss8Dragon *dragon);
 f32 atan2_float(f32 y, f32 x);
-void fill_value_array(saddr);
 void TBoss8Dragon__sub_802FB300(void);
 s32 approach_angle_limited(s32 from, s32 to, s32 max_step);
 u8 TBoss8Dragon__sub_802FABB4(void *arg0);
@@ -210,7 +209,6 @@ void TObjEneEpsilon__sub_800B9384(u8 *arg0, s32 arg1, f32 farg0);
 int emit_effect_at_position__9TObjEneDDFPv(void*);
 int setup_instance__9TObjEneDDFllPUcl(void*);
 s32 update_local_colliders_from_world(void *, void *);
-s32 __dt__17AreaAttackHistoryFv(s32 arg0, s16 arg1);
 u8 *get_enemy_entity(u16 arg0);
 void free_collision_body_parts(void *);
 s32 check_flag_100__10TObjPlayerFPv();
@@ -435,7 +433,7 @@ struct Drg_802F4DD4 {
     u8 pad474[4];
     f32 f478;
     u8 pad47C[0x680 - 0x47C];
-    s32 f680;
+    AreaAttackHistory *attack_history;
     u8 pad684[0x760 - 0x684];
     Info_802F4DD4 *info;
     u8 pad764[0x84C - 0x764];
@@ -467,7 +465,6 @@ f32 calc_random_ratio__10TObjPlayerFv(void *);
 void create_boss8_piller_ctrl(saddr arg0, s32 arg1, f32 farg0);
 extern "C" {
 s32 __ct__14SubtractiveRngFv(void *arg0);
-u8 *__ct__17AreaAttackHistoryFl(u8 *arg0, s32 arg1);
 void *TBoss8Dragon__sub_802F3C24(void *arg0, void *arg1);
 void *TBoss8DragonEffTail__ct(void *, void *, void *);
 void get_camera_offsets__12TBoss8DragonFPvPv(Vec *arg0, Vec *arg1);
@@ -783,11 +780,7 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
         p = TBoss8DragonEffTail__ct(p, this, &this->node_positions[15]);
     }
     this->tail = (TBoss8DragonEffTail *)p;
-    p = ::operator new(0x10);
-    if (p != NULL) {
-        p = __ct__17AreaAttackHistoryFl((u8 *)p, 4);
-    }
-    this->attack_history = (uaddr)p;
+    this->attack_history = new AreaAttackHistory(4);
     this->collider = new TBoss8DragonColli(&this->sub_tasks);
     *(f32 *)((s8 *)this + 0x688) = 0.0f;
     this->m_68c = 0.0f;
@@ -861,9 +854,9 @@ TBoss8Dragon::~TBoss8Dragon() {
         delete collider;
         collider = NULL;
     }
-    if (attack_history != 0) {
-        __dt__17AreaAttackHistoryFv(attack_history, 1);
-        attack_history = 0;
+    if (attack_history != NULL) {
+        delete attack_history;
+        attack_history = NULL;
     }
     if (tail != NULL) {
         delete tail;
@@ -1605,7 +1598,7 @@ void TBoss8Dragon__sub_802FB828(u8 *ene_dd, s32 arg1) {
     DragonAttackParams eff = boss8_dragon_breath_eff_params;
     u8 *a;
     u8 *b;
-    ((s32 (*)(s32))fill_value_array)(*(s32 *)(ene_dd + 0x680));
+    fill_value_array(((TBoss8Dragon *)ene_dd)->attack_history);
     if (arg1 == 0) {
         a = ene_dd + 0x470;
         b = ene_dd + 0x47C;
@@ -1614,8 +1607,8 @@ void TBoss8Dragon__sub_802FB828(u8 *ene_dd, s32 arg1) {
         b = ene_dd + 0x464;
     }
     ((TObjEneDD *)ene_dd)->reset_hp((u8 *)0, (u8 *)(TBoss8Dragon__data_80541DC8[0]), (u8 *)0);
-    ((TBoss8Dragon *)ene_dd)->emit_effect(a, &eff, *(s32 *)(ene_dd + 0x680));
-    ((TBoss8Dragon *)ene_dd)->emit_effect(b, &eff, *(s32 *)(ene_dd + 0x680));
+    ((TBoss8Dragon *)ene_dd)->emit_effect(a, &eff, ((TBoss8Dragon *)ene_dd)->attack_history);
+    ((TBoss8Dragon *)ene_dd)->emit_effect(b, &eff, ((TBoss8Dragon *)ene_dd)->attack_history);
     ((TObjEneDD *)ene_dd)->reset_hp((u8 *)0, (u8 *)(TBoss8Dragon__data_80541DC8[0]), (u8 *)0);
     spawn_particle_effect_with_flags((const Vec *)b, (saddr)(*(void **)(*(u8 **)(ene_dd + 0x760) + 0x10)), (s32)(0x40));
 }
@@ -1651,7 +1644,7 @@ void TBoss8Dragon::draw_beam_segments(f32 a, f32 b, f32 c) {
     u8 *ene_dd = (u8 *)this;
 
     *(f32 *)((s8 *)&fx + 8) = a - 2.0f;
-    fill_value_array(*(s32 *)((s8 *)ene_dd + 0x680));
+    fill_value_array(((TBoss8Dragon *)ene_dd)->attack_history);
     sn = sin_table_lookup(((TObjEneDD *)ene_dd)->rotation_y);
     cs = cos_table_lookup(((TObjEneDD *)ene_dd)->rotation_y);
     VecCopy__FP3VecPC3Vec(&v1, ene_dd + 0x38);
@@ -1672,7 +1665,7 @@ void TBoss8Dragon::draw_beam_segments(f32 a, f32 b, f32 c) {
         VecCopy__FP3VecPC3Vec(&v2, &v1);
         v2.x = sn * d + v2.x;
         v2.z = cs * d + v2.z;
-        ((TBoss8Dragon *)ene_dd)->emit_effect(&v2, &fx, *(s32 *)((s8 *)ene_dd + 0x680));
+        ((TBoss8Dragon *)ene_dd)->emit_effect(&v2, &fx, ((TBoss8Dragon *)ene_dd)->attack_history);
         d -= a;
         push_matrix();
         post_translate_matrix(&v2);
@@ -1732,7 +1725,7 @@ void TBoss8Dragon::setup_breath_instance(Vec *pos, u32 kind, AreaAttackHistory *
     DragonAttackParams s = TBoss8Dragon__breath_params;
     s.field_4 = (*(G_802FB290 *)&TBoss8Dragon__data_80541DDC).value->f[0];
     s.field_0 = kind;
-    setup_instance((saddr)pos, &s, (saddr)history);
+    setup_instance((saddr)pos, &s, history);
 }
 
 void TBoss8Dragon__sub_802FB220(void *o, int x, u32 a) {
@@ -1749,13 +1742,13 @@ void TBoss8Dragon__sub_802FB1B0(TBoss8Dragon *dragon, int x, f32 c) {
     dragon->setup_instance(x, &s, dragon->attack_history);
 }
 
-void TBoss8Dragon::emit_effect(void *pos, void *params, saddr history) {
-    TObjEneDD::emit_enemy_effect(this, pos, (u8 *)params, (void *)history);
+void TBoss8Dragon::emit_effect(void *pos, void *params, AreaAttackHistory *history) {
+    TObjEneDD::emit_enemy_effect(this, pos, (u8 *)params, history);
 }
 
 int get_state_flags__12TBoss8DragonFPv(void* p) { return emit_effect_at_position__9TObjEneDDFPv(p); }
 
-int TBoss8Dragon::setup_instance(int _w1, void * _w2, int _w3) { return setup_instance__9TObjEneDDFllPUcl(this); }
+int TBoss8Dragon::setup_instance(int _w1, void * _w2, AreaAttackHistory *history) { return setup_instance__9TObjEneDDFllPUcl(this); }
 
 void TBoss8Dragon::spawn_ground_effect() {
     Stack_802FB0DC stack;
@@ -3462,7 +3455,7 @@ void TBoss8Dragon::handle_spiral_state(s32 event) {
         F(s32, 0x3C0) &= ~7;
         this->set_invulnerable();
         this->disable_body_collision();
-        fill_value_array(F(s32, 0x680));
+        fill_value_array(attack_history);
         F(s32, 0x84C) = 0;
         F(s32, 0x850) = 0;
         F(f32, 0x868) = this->calc_step_value();
@@ -3604,7 +3597,7 @@ void TBoss8Dragon::handle_leap_state(s32 event) {
                 this->enable_body_collision();
                 this->set_state();
                 TBoss8Dragon::init_state((saddr)((u8 *)this));
-                fill_value_array(F(s32, 0x680));
+                fill_value_array(attack_history);
                 create_boss8_piller_ctrl((saddr)((u8 *)&position), (s32)(((s32 (*)(void *))get_entity_id)(this)), 100.0f);
                 this->play_effect_sound(0x4003AD0F);
             }
@@ -4636,7 +4629,7 @@ void TBoss8Dragon::sub_802F4DD4(s32 event) {
                     v.x = 0.5f * (o->f458 + o->f470);
                     v.y = 0.0f;
                     v.z = 0.5f * (o->f460 + o->f478);
-                    fill_value_array(o->f680);
+                    fill_value_array(o->attack_history);
                     create_boss8_piller_ctrl((saddr)&v, (s32)(((s32 (*)(void *))get_entity_id)(o)), 100.0f);
                     spawn_particle_effect_with_flags(&o->pos, o->info->a, 0x40);
                     if (o->info->b != -1) {

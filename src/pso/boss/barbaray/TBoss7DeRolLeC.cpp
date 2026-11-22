@@ -632,7 +632,6 @@ struct Fish_802E8B50 {
 
 
 extern "C" {
-void fill_value_array(saddr address);
 
 
 
@@ -914,7 +913,7 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
     laser_light_pos.y = 0.0f;
     laser_light_pos.z = 0.0f;
     attack_history = new AreaAttackHistory(4);
-    fill_value_array((saddr)attack_history);
+    fill_value_array(attack_history);
     unk_71C = NULL;
     unk_720 = NULL;
     for (s32 i = 0; i < 3; i++) {
@@ -3272,7 +3271,7 @@ void TBoss7DeRolLeC::handle_laser_attack_state(u32 event) {
         set_field_b8(0xF);
         position_slot = 3;
         set_position_index(position_slot);
-        fill_value_array((saddr)attack_history);
+        fill_value_array(attack_history);
         unk_728 = 0;
         unk_72C = 0;
         unk_730 = 0;
@@ -3307,7 +3306,7 @@ void TBoss7DeRolLeC::handle_laser_attack_state(u32 event) {
             if (unk_72C >= 0x14) {
                 unk_72C = 0;
                 unk_728 = 1;
-                fill_value_array((saddr)attack_history);
+                fill_value_array(attack_history);
                 set_field_b8(0xD);
                 if (enemy_check_target_valid() != 0) {
                     VecCopy(aim, &current_target->position);

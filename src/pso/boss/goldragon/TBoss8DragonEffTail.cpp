@@ -113,7 +113,6 @@ extern "C" {
 EffTail_8002C06C *TBoss8DragonEffTail__ct(EffTail_8002C06C *arg0, saddr arg1, s32 arg2);
 void matrix_mult_vec(s32, void *, void *);
 s32 release_texture_list(void*);
-int fill_value_array(void*);
 
 void fn_802FE48C(void) {  }
 void TBoss8DragonEffTail::render() {  }
@@ -170,7 +169,7 @@ void TBoss8DragonEffTail::apply_hit_if_active(void *arg1_arg, f32 *) {
 
 void TBoss8DragonEffTail::enable() { this->m_bc = 1; get_state(); }
 void TBoss8DragonEffTail::disable() { this->m_bc = 0; get_state(); }
-int TBoss8DragonEffTail::get_state() { return fill_value_array(attack_history); }
+void TBoss8DragonEffTail::get_state() { fill_value_array(attack_history); }
 
 TBoss8DragonEffTail::~TBoss8DragonEffTail() {
     delete attack_history;
