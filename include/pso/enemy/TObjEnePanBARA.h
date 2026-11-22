@@ -36,7 +36,12 @@ public:
     s32 is_phase_12();
     virtual void run_task();
     virtual void render();
-    void calc_part_position(u8 *, s32 *);
+    // The half's place beside the body (pos) and its facing (rotation, may be NULL).
+    void calc_part_position(Vec *pos, s32 *rotation);
+    void calc_default_part_position();
+    // Moves by delta; when the ground or a wall stops it, retries with delta turned
+    // 22.5, -45, 67.5, ... degrees. Nonzero when the half moved.
+    s32 try_move_with_detour(Vec *delta);
     virtual void run_death_reaction();
     virtual void run_hit_reaction();
     virtual void run_miss_reaction();

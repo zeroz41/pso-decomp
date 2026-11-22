@@ -7,6 +7,7 @@
 
 class ModelNodePositionCapture;
 class TObjEnePanBARA;
+struct BmlResource;
 class TParticleCtrl;
 
 /* One state's motion of the Pan Arms body: motion indexes bm7_s_paa_body_motion_names
@@ -29,15 +30,15 @@ struct TObjEnePanarms : public TObjEnemy {
     void run_miss_reaction();
     s32 state; // index into the TU's {enter, update} state table
     Vec move_velocity; // added to position every frame (0x378)
-    u8 unk_384[0x4];
+    f32 ground_y; // height of the ground under the body (snap_to_ground); hidden, it waits 39.6 below it
     s32 m_388;
     s32 m_38c;
     CollisionBody *collision_body_parts; // init_collision_body_parts / free_collision_body_parts
     TParticleCtrl *particle_handles[2]; // released by destroy_handles
     ModelNodePositionCapture *m_39c;
     Vec draw_positions[5];
-    void* m_3dc;
-    u8 unk_3E0[0x4];
+    s32 pad_3dc; // 1 from enter_idle, 0 while hidden
+    s32 pad_3e0; // 1 from enter_idle, 0 while hidden
     TObjEnePanBARA *halves[2]; // create_bara(index 0 / 1)
     s32 attack_count; // bit 0 / bit 1 pick the next arm attack
     s32 spin_count;
@@ -93,5 +94,8 @@ struct TObjEnePanarms : public TObjEnemy {
     static void free_data();
     static void load_and_spawn_npc();
 };
+
+// The Pan Arms bml (models and motions of the body and both halves).
+extern BmlResource *TObjEnePanarms__entry_params_resource;
 
 #endif
