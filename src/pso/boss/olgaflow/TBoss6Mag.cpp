@@ -68,11 +68,10 @@ struct TBoss6MagMotionBlend {
 
 // The record exchange_object_state reads and writes.
 struct TBoss6MagStateRecord {
-    s32 a;
-    s16 b;
-    s16 c;
-    s32 d;
-    s32 e;
+    s32 flags;
+    s16 pad_04;
+    s16 value;
+    s32 pad_08;
 };
 
 // copy_vec3 copies the motion track as one block of words, which a struct with float members does not give.
@@ -131,8 +130,8 @@ TBoss6Mag::TBoss6Mag(TObject *parent, TBoss6MagSpawnParams *params) : TObjEnemy(
     TBoss6Type2__instance_slots[index] = this;
     apply_set_data(params);
     if (exchange_object_state(&record, 1) != 0) {
-        record.a = 0;
-        record.c = 0;
+        record.flags = 0;
+        record.value = 0;
         exchange_object_state(&record, 0);
     }
     scene_archive = TBoss6PlotFalz::get_scene_archive();

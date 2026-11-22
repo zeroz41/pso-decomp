@@ -4647,7 +4647,7 @@ force_active:
   - boss6_type2_hit_check_value_table
   - boss6_type2_hit_effect_node_table
   - boss6_type2_initial_state
-  - boss6_type2_motion_param_table
+  - boss6_type2_leg_effect_table
   - boss6_type2_motion_table
   - boss6_type2_player_snapshot_table
   - boss6_type2_zero_vec3_block

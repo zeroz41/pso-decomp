@@ -41,12 +41,12 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 
 #pragma readonly_strings on
+// The record exchange_object_state reads and writes.
 struct TBoss6MagMineStateRecord {
-    s32 a;
-    s16 b;
-    s16 c;
-    s32 d;
-    s32 e;
+    s32 flags;
+    s16 pad_04;
+    s16 value;
+    s32 pad_08;
 };
 
 CollisionBody TBoss6MagMine__collision_body_parts[1] = {
@@ -286,8 +286,8 @@ TBoss6MagMine::TBoss6MagMine(TObject *parent, Boss6MagMineSetData *set_data) : T
     add_flags_2e4(8);
     apply_set_data(set_data);
     if (exchange_object_state(&record, 1) != 0) {
-        record.a = 0;
-        record.c = 0;
+        record.flags = 0;
+        record.value = 0;
         exchange_object_state(&record, 0);
     }
     archive = TBoss6PlotFalz::get_scene_archive();

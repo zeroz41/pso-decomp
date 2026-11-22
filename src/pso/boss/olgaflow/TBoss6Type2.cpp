@@ -102,28 +102,20 @@ TBoss6Type2Motion TBoss6Type2__motion_table[15] = {
 Vec lbl_804DFAC4 = { 0.0f, 34.8f, -5.0f };
 Vec lbl_804DFAD0 = { 0.0f, 10.43f, 70.42f };
 
-struct T2_802BB498;
-
-
-struct Obj_802B9D6C;
-
-struct Tmp_802BE0D4 { s32 a; s16 b; s16 c; u8 pad[0x10]; };
+// The record exchange_object_state reads and writes.
+struct TBoss6Type2StateRecord { s32 flags; s16 pad_04; s16 value; s32 pad_08; };
 
 
 
 extern "C" {
 void TBoss6Type2__sub_802BE4E0(s32 *arg0, s32 *boss6_type2_zero_vec);
 
-struct Ent_802BA7BC { s32 idx; s32 arg; f32 lo; };
+// One leg contact for update_leg_ground_effects: its node, the particle slot it drives and
+// the node height above which (up to 20 units) the slot's dust stays alive.
+struct Boss6Type2LegEffect { s32 node; s32 particle_slot; f32 ground_height; };
 
 
 struct ByteBlock_C { u8 bytes[0xc]; };
-
-
-struct Type2ActionSendStorage {
-    OlgaFlowType2ActionMsg message;
-    u8 stack_padding[4];
-};
 
 
 u16 obj_getArrU16_FC(void *obj, s32 i);
@@ -138,7 +130,7 @@ extern const f32 boss6_type2_chg_to_cmn_speed = 0.6f;
 extern const f32 boss6_type2_b_wait_speed = 0.6f;
 
 extern const s32 boss6_type2_hit_check_value_table[] = { 1, 13, 24, 26 };
-extern const Ent_802BA7BC boss6_type2_motion_param_table[] = {
+extern const Boss6Type2LegEffect boss6_type2_leg_effect_table[] = {
     { 3, 3, 11.0f }, { 4, 4, 9.0f }, { 5, 5, 5.0f }, { 8, 0, 11.0f }, { 9, 1, 9.0f }, { 10, 2, 5.0f },
 };
 extern const s32 boss6_type2_hit_effect_node_table[] = { 4, 9, 11, 0 };
@@ -187,16 +179,16 @@ void TBoss6Type2__sub_802BE4E0(s32 *arg0, s32 *boss6_type2_zero_vec) {
 #pragma push
 #pragma opt_common_subs off
 TBoss6Type2::TBoss6Type2(TObject *parent, saddr *params) : TObjEnemy(parent) {
-    Tmp_802BE0D4 tmp;
+    TBoss6Type2StateRecord record;
     s32 i;
     s32 id;
     m_name = TBoss6Type2__name;
     plot_falz = (TBoss6PlotFalz *)params[0];
     apply_set_data(params + 1);
-    if (exchange_object_state(&tmp, 1) != 0) {
-        tmp.a = 0;
-        tmp.c = 0;
-        exchange_object_state(&tmp, 0);
+    if (exchange_object_state(&record, 1) != 0) {
+        record.flags = 0;
+        record.value = 0;
+        exchange_object_state(&record, 0);
     }
     archive = TBoss6PlotFalz::get_scene_archive();
     texlist = 0;
@@ -348,18 +340,18 @@ void TBoss6Type2::send_action_packet(s32 action) {
 }
 
 void TBoss6Type2::send_action_packet_if_idle(s32 action, Boss6GridBytes *grid) {
-    Type2ActionSendStorage storage;
+    OlgaFlowType2ActionMsg message;
     const s8 *bytes;
     s32 i;
-    if (reinterpret_cast<TBoss6PlotFalz *>(plot_falz)->is_idle() != 0) {
-        storage.message.initialize();
-        build_state_packet(&storage.message);
+    if (plot_falz->is_idle() != 0) {
+        message.initialize();
+        build_state_packet(&message);
         bytes = &grid->grid_x;
-        storage.message.flow.action = action;
+        message.flow.action = action;
         for (i = 1; i < 4; i++) {
-            reinterpret_cast<u8 *>(&storage.message)[i + 4] = *bytes++;
+            (&message.flow.action)[i] = *bytes++;
         }
-        storage.message.send();
+        message.send();
     }
 }
 
@@ -1864,16 +1856,16 @@ s32 TBoss6Type2::is_ready_to_attack() {
 }
 
 void TBoss6Type2::update_leg_ground_effects() {
-    f32 k = 20.0f;
+    f32 band = 20.0f;
     s32 i = 0;
     do {
-        const Ent_802BA7BC *e = &boss6_type2_motion_param_table[i];
-        f32 lo = e->lo;
-        f32 v = node_positions[e->idx].y;
-        if (v < lo || v > k + lo) {
-            destroy_part(e->arg);
+        const Boss6Type2LegEffect *e = &boss6_type2_leg_effect_table[i];
+        f32 ground = e->ground_height;
+        f32 height = node_positions[e->node].y;
+        if (height < ground || height > band + ground) {
+            destroy_part(e->particle_slot);
         } else {
-            spawn_particle_slot(e->arg);
+            spawn_particle_slot(e->particle_slot);
         }
         i++;
     } while (i < 6);

@@ -154,7 +154,7 @@ struct ByteBlock_C_boss6_1 { u8 bytes[0xc]; };
 
 
 // The record exchange_object_state reads and writes.
-struct TBoss6Type1StateRecord { s32 flags; s16 pad_04; s16 value; u8 pad_08[0x10]; };
+struct TBoss6Type1StateRecord { s32 flags; s16 pad_04; s16 value; s32 pad_08; };
 
 
 // The class name and the tables TBoss6Type1's code reads, in .rodata order.
@@ -374,7 +374,7 @@ void TBoss6Type1::send_6xA4_action(s32 t, const Boss6Type1AttackTarget *src) {
         message.flow.action = t;
         bytes = reinterpret_cast<const s8 *>(src);
         for (i = 1; i < 4; i++) {
-            reinterpret_cast<u8 *>(&message)[i + 4] = *bytes++;
+            (&message.flow.action)[i] = *bytes++;
         }
         message.send();
     }

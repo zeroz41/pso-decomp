@@ -355,14 +355,18 @@ void TBoss6PlotFalz::spawn_player_hit_effects() {
 }
 
 }
-struct Msg_802AB490 { s32 a, b, c; };
-extern "C" {
+// The record exchange_object_state reads and writes.
+struct TBoss6PlotFalzStateRecord {
+    s32 flags;
+    s16 pad_04;
+    s16 value;
+    s32 pad_08;
+};
 
 void TBoss6PlotFalz::award_exp_and_destroy() {
-    u8 *self = (u8 *)this;
     TBoss6PlotFalz::spawn_player_hit_effects();
     if (is_split_screen() != 0) {
-        ((TObjEnemy *)self)->distribute_experience();
+        distribute_experience();
     } else {
         TObjPlayer *pl = get_player_by_client_id(local_client_id);
         if (pl != NULL) {
@@ -372,13 +376,13 @@ void TBoss6PlotFalz::award_exp_and_destroy() {
             VecCopy(&body_center, &saved);
         }
     }
-    Msg_802AB490 m;
-    m.a = 0x800;
-    ((TObjEnemy *)self)->send_6x0A_enemy_state(&m);
-    ((TObjEnemy *)self)->exchange_object_state(&m, 0);
-    this->apply_enemy_state((s32 *)&m);
-    ((TObjEnemy *)self)->send_entity_set_flags();
-    ((TObject *)self)->queue_destruction();
+    TBoss6PlotFalzStateRecord record;
+    record.flags = 0x800;
+    send_6x0A_enemy_state(&record);
+    exchange_object_state(&record, 0);
+    apply_enemy_state(&record.flags);
+    send_entity_set_flags();
+    queue_destruction();
 }
 
 void TBoss6PlotFalz::apply_fade_alpha(s32 color, f32 alpha) {
@@ -527,8 +531,6 @@ void TBoss6PlotFalz::queue_instance_destruction() {
         TBoss6PlotFalz__type1_instance->queue_destruction();
         TBoss6PlotFalz__type1_instance = NULL;
     }
-}
-
 }
 
 
@@ -875,13 +877,6 @@ void TBoss6PlotFalz::move_player_to(TObjPlayer *player, Vec *pos) {
 }
 
 
-typedef struct Loc_802AC9EC {
-    s32 a;
-    s16 b;
-    s16 c;
-    s32 d;
-    s32 e;
-} Loc_802AC9EC;
 
 
 
@@ -968,7 +963,7 @@ TBoss6PlotFalz::~TBoss6PlotFalz() {
 #pragma push
 #pragma opt_common_subs off
 TBoss6PlotFalz::TBoss6PlotFalz(TObject *parent, void *set_data) : TObjEnemy(parent) {
-    Loc_802AC9EC sp8;
+    TBoss6PlotFalzStateRecord record;
     saddr temp_r30;
     saddr temp_r29;
     saddr temp_r6;
@@ -979,10 +974,10 @@ TBoss6PlotFalz::TBoss6PlotFalz(TObject *parent, void *set_data) : TObjEnemy(pare
     apply_set_data(set_data);
     copy_set_entry(&set_entry, set_data);
     set_entry.kind = 0;
-    if (exchange_object_state(&sp8, 1) != 0) {
-        sp8.a = 0;
-        sp8.c = 0;
-        exchange_object_state(&sp8, 0);
+    if (exchange_object_state(&record, 1) != 0) {
+        record.flags = 0;
+        record.value = 0;
+        exchange_object_state(&record, 0);
     }
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
     VecCopy(&body_center, &position);

@@ -47,7 +47,8 @@
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 
 #pragma readonly_strings on
-struct Tmp_80324A00 { s32 a; u8 pad4[2]; s16 b; u8 pad8[8]; };
+// The record exchange_object_state reads and writes.
+struct TBoss6MineStateRecord { s32 flags; s16 pad_04; s16 value; s32 pad_08; };
 
 static CollisionBody TBoss6Mine__collision_body_template[1] = {
     {{0.0f, 0.0f, 0.0f}, 15.0f, 0.0f, 0, 0x801B, {0.0f, 0.0f, 0.0f}, 0.0f},
@@ -341,7 +342,7 @@ extern saddr tl_04;
 #pragma push
 #pragma fp_contract on
 TBoss6Mine::TBoss6Mine(TObject *parent, TBoss6MineSetData *set_data) : TObjEnemy(parent) {
-    Tmp_80324A00 tmp;
+    TBoss6MineStateRecord record;
     f32 f;
     m_name = lbl_805D4178;
     owner = set_data->owner;
@@ -351,10 +352,10 @@ TBoss6Mine::TBoss6Mine(TObject *parent, TBoss6MineSetData *set_data) : TObjEnemy
     seed = set_data->seed;
     add_flags_2e4(8);
     apply_set_data(set_data);
-    if (exchange_object_state(&tmp, 1) != 0) {
-        tmp.a = 0;
-        tmp.b = 0;
-        exchange_object_state(&tmp, 0);
+    if (exchange_object_state(&record, 1) != 0) {
+        record.flags = 0;
+        record.value = 0;
+        exchange_object_state(&record, 0);
     }
     scene_archive = TBoss6PlotFalz::get_scene_archive();
     texlist = 0;
