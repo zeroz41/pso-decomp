@@ -742,11 +742,11 @@ force_active:
   - TLogo__sub_8013F808
   - TMainCursor__ct
   - copy_action_entry
-  - TMainCursor__sub_8013E17C
-  - TMainCursor__sub_8013E184
-  - TMainCursor__sub_8013E18C
-  - TMainCursor__sub_8013E194
-  - TMainCursor__sub_8013E1C0
+  - TMainCursor__set_published_target_dist
+  - TMainCursor__get_candidate_target_dist
+  - TMainCursor__set_published_target_id
+  - TMainCursor__get_candidate_target_id
+  - TMainCursor__set_end_task
   - TMainCursor__sub_8013E290
   - matches_id
   - TMainCursor__sub_8013E4A0
