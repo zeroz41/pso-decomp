@@ -33,7 +33,6 @@
 
 #include "pso/render/RenderFadeState.h"
 #include "pso/system/task/TObject.h"
-extern "C" void has_flag_0x800__9TObjCharaFv();
 
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -352,8 +351,6 @@ void TObjEneBeast::render() {
 
 
 #include "pso/system/task/TObject_80019A50.h"
-
-extern "C" void test_flag_256__13TUnk_80493450Fv();
 
 
 struct Ent_8009241C { u8 pad0[0xC]; f32 radius; u8 pad10[0x2C - 0x10]; };

@@ -35,7 +35,6 @@ struct Mine_80368C14 { u8 pad[0x38]; Vec pos; };
 #include "pso/enemy/dd/TObjEneDD.h"
 
 #pragma readonly_strings on
-extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
 struct VBase_18_5673ef { char pad[0x18]; };
 
 struct VObj_18_5673ef : VBase_18_5673ef {

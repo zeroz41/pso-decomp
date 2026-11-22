@@ -38,8 +38,6 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/unk/text_803D96A8.h"
 
-extern "C" void has_flag_0x800__9TObjCharaFv();
-
 extern const char TObjBs4CutAtk_type_name[] = "TObjBs4CutAtk";
 extern const char TBoss4Type3_type_name[] = "TBoss4Type3";
 extern const char boss4_type3_state_name_appear[] = "APPEAR";

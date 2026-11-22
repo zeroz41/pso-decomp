@@ -654,8 +654,6 @@ void draw_chunk_model(void *arg0);
 extern BmlResource *TObjEneMorfos__instance;
 extern s32 TObjEneMorfos__phase;
 extern Vec *TObjEneMorfos__camera_path_cursor;
-extern s32 __dt__15RenderFadeStateFv[];
-extern s32 __ct__15RenderFadeStateFv[];
 extern s16 *lbl_805D6D20;
 extern s16 *lbl_805D6D24;
 extern s32 lbl_805D6D28;

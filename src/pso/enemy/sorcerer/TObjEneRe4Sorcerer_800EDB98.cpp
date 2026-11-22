@@ -44,8 +44,6 @@
 
 #include "pso/player/TObjPlayer_80011014.h"
 
-extern "C" void *__ct__12TObjEneDD_STFP7TObject(void *);
-
 #include "types.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/AreaSound.h"
@@ -57,8 +55,6 @@ extern "C" void *__ct__12TObjEneDD_STFP7TObject(void *);
 #include "pso/system/BmlResourceDescriptor.h"
 
 #include "pso/math/AngleUnits.h"
-
-extern "C" void has_flag_0x800__9TObjCharaFv();
 
 #include "pso/effect/particle/TParticleCtrl.h"
 

@@ -56,8 +56,6 @@
 #include "pso/system/task/TObject.h"
 
 
-extern "C" void has_flag_0x800__9TObjCharaFv();
-
 #include "pso/system/vector.h"
 
 #include "pso/render/TUnk_80490470.h"

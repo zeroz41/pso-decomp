@@ -39,7 +39,6 @@
 #include "pso/math/InverseTrig.h"
 
 #pragma readonly_strings on
-extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
 struct Stack_803242C0 {
     f32 sp8;
     f32 spC;

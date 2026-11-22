@@ -29,7 +29,6 @@ struct NJS_OBJECT;
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 
 
-extern "C" void has_flag_0x800__9TObjCharaFv();
 #include "pso/system/vector.h"
 
 #include <stddef.h>

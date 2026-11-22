@@ -1126,7 +1126,6 @@ void handle_6xA3_olga_flow_boss_actions(game_command_header *command) {
 }
 
 }
-void build_6xA3_olga_flow_boss_actions(void *);
 
 
 void TBoss6PlotFalz::send_6xA3_action(s8 phase) {

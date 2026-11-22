@@ -15,7 +15,6 @@
 #include <stdlib.h>
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer.h"
-extern "C" void *__ct__14TObjCollidableFP7TObject(TObjCollidable *, TObject *);
 
 #include <stddef.h>
 
