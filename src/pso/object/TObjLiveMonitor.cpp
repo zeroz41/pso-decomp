@@ -194,38 +194,38 @@ void TObjLiveCameraCtrl::update_live_camera() {
     case 1:
         player = (u8 *)(get_player_by_client_id((s32) *(u16 *)((s8 *)arg0 + 0x24)));
         if (player != NULL) {
-            this->vector_34[0] = (f32) ((3e+01f * sin_table_lookup((int) (this->m_28))) + *(f32 *)((s8 *)player + 0x38));
+            this->vector_34[0] = (f32) ((3e+01f * sin_table_lookup((int) (this->orbit_angle))) + *(f32 *)((s8 *)player + 0x38));
             this->vector_34[1] = (f32) (*(f32 *)((s8 *)player + 0x3C) + this->pad_30);
-            this->vector_34[2] = (f32) ((3e+01f * cos_table_lookup((int) (this->m_28))) + *(f32 *)((s8 *)player + 0x40));
+            this->vector_34[2] = (f32) ((3e+01f * cos_table_lookup((int) (this->orbit_angle))) + *(f32 *)((s8 *)player + 0x40));
             this->vector_40[0] = (f32) *(f32 *)((s8 *)player + 0x38);
             this->vector_40[1] = (f32) (*(f32 *)((s8 *)player + 0x3C) + this->pad_30);
             this->vector_40[2] = (f32) *(f32 *)((s8 *)player + 0x40);
-            this->m_28 = (s32) (this->m_28 + this->pad_2c);
+            this->orbit_angle = (s32) (this->orbit_angle + this->pad_2c);
         }
         return;
     case 2:
         temp_r3_2 = (u8 *)(get_player_by_client_id((s32) *(u16 *)((s8 *)arg0 + 0x24)));
         if (temp_r3_2 != NULL) {
-            this->vector_34[0] = (f32) ((45.42f * sin_table_lookup((int) (this->m_28))) + *(f32 *)((s8 *)temp_r3_2 + 0x38));
+            this->vector_34[0] = (f32) ((45.42f * sin_table_lookup((int) (this->orbit_angle))) + *(f32 *)((s8 *)temp_r3_2 + 0x38));
             this->vector_34[1] = (f32) (25.43f + *(f32 *)((s8 *)temp_r3_2 + 0x3C));
-            this->vector_34[2] = (f32) ((45.42f * cos_table_lookup((int) (this->m_28))) + *(f32 *)((s8 *)temp_r3_2 + 0x40));
-            this->vector_40[0] = (f32) (((-5.0f) * sin_table_lookup((int) (this->m_28))) + *(f32 *)((s8 *)temp_r3_2 + 0x38));
+            this->vector_34[2] = (f32) ((45.42f * cos_table_lookup((int) (this->orbit_angle))) + *(f32 *)((s8 *)temp_r3_2 + 0x40));
+            this->vector_40[0] = (f32) (((-5.0f) * sin_table_lookup((int) (this->orbit_angle))) + *(f32 *)((s8 *)temp_r3_2 + 0x38));
             this->vector_40[1] = (f32) (19.8f + *(f32 *)((s8 *)temp_r3_2 + 0x3C));
-            this->vector_40[2] = (f32) (((-5.0f) * cos_table_lookup((int) (this->m_28))) + *(f32 *)((s8 *)temp_r3_2 + 0x40));
-            ((TObjLiveCameraCtrl *)arg0)->sub_8030B818((int)((int) (*(s32 *)((s8 *)temp_r3_2 + 0x60) - 0x8000)));
+            this->vector_40[2] = (f32) (((-5.0f) * cos_table_lookup((int) (this->orbit_angle))) + *(f32 *)((s8 *)temp_r3_2 + 0x40));
+            ((TObjLiveCameraCtrl *)arg0)->turn_orbit_toward((int)((int) (*(s32 *)((s8 *)temp_r3_2 + 0x60) - 0x8000)));
             return;
         }
         break;
     case 3:
         enemy_entity = (u8 *)(get_enemy_entity(*(u16 *)((s8 *)arg0 + 0x24)));
         if ((enemy_entity != NULL) && (*(f32 *)((s8 *)enemy_entity + 0x3C) >= 0.0f)) {
-            this->vector_34[0] = (f32) ((5e+01f * sin_table_lookup((int) (this->m_28))) + *(f32 *)((s8 *)enemy_entity + 0x38));
+            this->vector_34[0] = (f32) ((5e+01f * sin_table_lookup((int) (this->orbit_angle))) + *(f32 *)((s8 *)enemy_entity + 0x38));
             this->vector_34[1] = (f32) (1.2e+02f + *(f32 *)((s8 *)enemy_entity + 0x3C));
-            this->vector_34[2] = (f32) ((5e+01f * cos_table_lookup((int) (this->m_28))) + *(f32 *)((s8 *)enemy_entity + 0x40));
-            this->vector_40[0] = (f32) (((-1.2e+02f) * sin_table_lookup((int) (this->m_28))) + *(f32 *)((s8 *)enemy_entity + 0x38));
+            this->vector_34[2] = (f32) ((5e+01f * cos_table_lookup((int) (this->orbit_angle))) + *(f32 *)((s8 *)enemy_entity + 0x40));
+            this->vector_40[0] = (f32) (((-1.2e+02f) * sin_table_lookup((int) (this->orbit_angle))) + *(f32 *)((s8 *)enemy_entity + 0x38));
             this->vector_40[1] = (f32) (2e+01f + *(f32 *)((s8 *)enemy_entity + 0x3C));
-            this->vector_40[2] = (f32) (((-1.2e+02f) * cos_table_lookup((int) (this->m_28))) + *(f32 *)((s8 *)enemy_entity + 0x40));
-            ((TObjLiveCameraCtrl *)arg0)->sub_8030B818((int)((int) (*(s32 *)((s8 *)enemy_entity + 0x60) - 0x8000)));
+            this->vector_40[2] = (f32) (((-1.2e+02f) * cos_table_lookup((int) (this->orbit_angle))) + *(f32 *)((s8 *)enemy_entity + 0x40));
+            ((TObjLiveCameraCtrl *)arg0)->turn_orbit_toward((int)((int) (*(s32 *)((s8 *)enemy_entity + 0x60) - 0x8000)));
             return;
         }
         break;
@@ -268,7 +268,7 @@ void TObjLiveCameraCtrl::choose_next_camera_shot() {
     case 1:
         this->pad_1e = 1.8e+02f * (r = calc_random_ratio__10TObjPlayerFv(this->rng), r) + 1.8e+02f;
         *(u16 *)((s8 *)arg0 + 0x24) = ((int (*)(void *))TBoss8Dragon__sub_8030B80C)(arg0);
-        this->m_28 = 65535.0f * calc_random_ratio__10TObjPlayerFv(this->rng);
+        this->orbit_angle = 65535.0f * calc_random_ratio__10TObjPlayerFv(this->rng);
         this->pad_2c = 2.0f * (8e+01f * (calc_random_ratio__10TObjPlayerFv(this->rng) - 0.5f));
         this->pad_30 = 15.0f * (r = calc_random_ratio__10TObjPlayerFv(this->rng), r) + 5.0f;
         break;
@@ -277,7 +277,7 @@ void TObjLiveCameraCtrl::choose_next_camera_shot() {
         *(u16 *)((s8 *)arg0 + 0x24) = ((int (*)(void *))TBoss8Dragon__sub_8030B80C)(arg0);
         p = (u8 *)get_player_by_client_id(*(u16 *)((s8 *)arg0 + 0x24));
         if (p != NULL) {
-            this->m_28 = *(s32 *)((s8 *)p + 0x60) - 0x8000;
+            this->orbit_angle = *(s32 *)((s8 *)p + 0x60) - 0x8000;
         }
         break;
     case 3:
@@ -285,15 +285,15 @@ void TObjLiveCameraCtrl::choose_next_camera_shot() {
         *(u16 *)((s8 *)arg0 + 0x24) = ((u16 (*)(void *))call_null__12TBoss8DragonFv)(arg0);
         p = get_enemy_entity(*(u16 *)((s8 *)arg0 + 0x24));
         if (p != NULL) {
-            this->m_28 = *(s32 *)((s8 *)p + 0x60) - 0x8000;
+            this->orbit_angle = *(s32 *)((s8 *)p + 0x60) - 0x8000;
         }
         break;
     case 4:
         this->pad_1e = 1.2e+02f * (r = calc_random_ratio__10TObjPlayerFv(this->rng), r) + 1.2e+02f;
-        this->m_28 = 65535.0f * calc_random_ratio__10TObjPlayerFv(this->rng);
-        this->vector_34[0] = 3.6e+02f * sin_table_lookup(this->m_28);
+        this->orbit_angle = 65535.0f * calc_random_ratio__10TObjPlayerFv(this->rng);
+        this->vector_34[0] = 3.6e+02f * sin_table_lookup(this->orbit_angle);
         this->vector_34[1] = 2.5e+02f;
-        this->vector_34[2] = 3.6e+02f * cos_table_lookup(this->m_28);
+        this->vector_34[2] = 3.6e+02f * cos_table_lookup(this->orbit_angle);
         this->vector_40[0] = 0.0f;
         this->vector_40[1] = 0.0f;
         this->vector_40[2] = 0.0f;
@@ -303,12 +303,12 @@ void TObjLiveCameraCtrl::choose_next_camera_shot() {
 
 #pragma pop
 
-void TObjLiveCameraCtrl::sub_8030B818(int _w1) {
+void TObjLiveCameraCtrl::turn_orbit_toward(int _w1) {
   s32 temp_r0;
   s32 var_r3;
   s32 new_var;
   f32 f;
-  new_var = angle_diff_s16(this->m_28);
+  new_var = angle_diff_s16(this->orbit_angle);
   f = (f32) new_var;
   temp_r0 = (s32) (f *= 0.05f);
   if (temp_r0 < (-0x280))
@@ -323,7 +323,7 @@ void TObjLiveCameraCtrl::sub_8030B818(int _w1) {
       var_r3 = temp_r0;
     }
   }
-  this->m_28 = (s32) ((this->m_28) + var_r3);
+  this->orbit_angle = (s32) ((this->orbit_angle) + var_r3);
 }
 
 int TBoss8Dragon__sub_8030B80C(void) {  return (local_client_id & 0xffff); }

@@ -1,7 +1,6 @@
 #include "types.h"
 #include "pso/camera/TCameraScripted.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/camera/TCameraCtrl_803D6538.h"
 #include "pso/item/drop/TItemDrop_800F93F0.h"
 #include "pso/map/FloorArea.h"
 #include "pso/math/MatrixVector.h"
@@ -27,11 +26,11 @@ void TCameraScripted::run_task() {
     Vec forward;
     Vec offset;
     Vec direction;
-    sample.channels[0] = &sample.position;
-    sample.channels[1] = &sample.direction;
-    sample.channels[2] = &sample.roll;
-    sample.channels[3] = &sample.channel_3;
-    sample_camera_motion(sample.defaults, (saddr)motion, (u8 *)sample.channels, playback.frame);
+    sample.channels.pos = &sample.position;
+    sample.channels.vector = &sample.direction;
+    sample.channels.roll = &sample.roll;
+    sample.channels.angle = &sample.angle;
+    sample_camera_motion(&sample.defaults, motion, &sample.channels, playback.frame);
     projection_angle = scripted_camera_projection_angle;
     set_camera_capture_overlay_alpha(0x8F);
     if (bank_file->flags & 4) {
@@ -81,12 +80,12 @@ void TCameraScripted::run_task() {
         target.z = direction.z + position.z;
     }
     playback.frame += playback.frame_step;
-    if (playback.frame > (motion->frame_count - 1) || playback.frame >= 5e+03f) {
+    if (playback.frame > (motion->nbFrame - 1) || playback.frame >= 5e+03f) {
         if (bank_file->flags & 0x20) {
             playback.frame = 0.0f;
             return;
         }
-        playback.frame = (motion->frame_count - 1);
+        playback.frame = (motion->nbFrame - 1);
         playback.flags |= 1;
     }
 }

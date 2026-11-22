@@ -61,7 +61,7 @@
 #include "pso/math/AngleUnits.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/npc/TObjNpcEnemy_803D8090.h"
-#include "pso/camera/TCameraCtrl_803D6538.h"
+#include "pso/render/GinjaView.h"
 
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"

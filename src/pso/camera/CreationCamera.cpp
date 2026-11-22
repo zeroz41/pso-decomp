@@ -11,13 +11,6 @@
 #include "pso/render/render_util.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 
-// Per class, the range (in tens of units) the review camera's look-at height
-// is picked from by the character's height setting.
-struct CreationHeightBounds {
-    f32 minimum;
-    f32 maximum;
-};
-
 static char split_screen_character_name[12];
 
 char *get_split_screen_character_name() {

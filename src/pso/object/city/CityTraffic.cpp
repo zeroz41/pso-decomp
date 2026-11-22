@@ -23,7 +23,7 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/animation/MotionContext.h"
-#include "pso/camera/TCameraCtrl_803D6538.h"
+#include "pso/render/GinjaView.h"
 #include "pso/unk/text_80184C2C.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -168,11 +168,11 @@ void measure_traffic_path_lengths(void) {
     frame = 0.0f;
     f32 total = frame;
     bind_motion_context((NJS_MOTION *)m, frame);
-    sample_motion_node_transform((void *)(get_city_common_model(city_aircar_model_indices[i])), (void *)&prev, (void *)&a, (void *)&b, (void *)&q);
+    sample_motion_node_transform(get_city_common_model(city_aircar_model_indices[i]), &prev.x, (s32 *)&a, &b.x, (f32 *)&q);
     for (frame += 0.5f; frame < end; frame += 0.5f)
     {
       bind_motion_context((NJS_MOTION *)m, frame);
-      sample_motion_node_transform((void *)(get_city_common_model(city_aircar_model_indices[i])), (void *)&cur, (void *)&a2, (void *)&b2, (void *)&q2);
+      sample_motion_node_transform(get_city_common_model(city_aircar_model_indices[i]), &cur.x, (s32 *)&a2, &b2.x, (f32 *)&q2);
       subtract_vector(&prev, &cur);
       total += normalize_vector_safe(&prev);
       VecCopy((Vec *)&prev, (const Vec *)&cur);
@@ -229,7 +229,7 @@ s32 sample_aircar_path_position(s32 arg0, void *arg1, f32 frame) {
     }
     bind_motion_context((NJS_MOTION *)m, frame);
     void *t = ((void * (*)(s32))get_city_common_model)(city_aircar_model_indices[arg0]);
-    sample_motion_node_transform(t, arg1, &sp24, &sp18, &sp8);
+    sample_motion_node_transform((NJS_OBJECT *)t, (f32 *)arg1, (s32 *)&sp24, &sp18.x, sp8);
     return r;
 }
 

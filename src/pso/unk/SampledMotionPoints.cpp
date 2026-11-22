@@ -2,7 +2,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/unk/text_803D853C.h"
 #include "types.h"
-#include "pso/camera/TCameraCtrl_803D6538.h"
+#include "pso/render/GinjaView.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
 #include "pso/animation/MotionContext.h"

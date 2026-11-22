@@ -129,7 +129,6 @@ extern u8 controller_physical_port_bank[];
 struct G_80082FCC { s32 value; s32 v4; f32 f8; f32 fC; };
 
 extern "C" {
-s32 TCameraCtrl__sub_80068EF0();
 s32 GXSetZMode(int, int, int);
 }
 void set_perspective_projection_from_fov(s32 arg0, f32 farg0, f32 farg1, f32 farg2);

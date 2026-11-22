@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/camera/TCameraCtrl_803D6538.h"
+#include "pso/render/GinjaView.h"
 #include "pso/camera/TCameraScripted.h"
 #include "pso/map/FloorArea.h"
 #include "pso/math/MatrixVector.h"

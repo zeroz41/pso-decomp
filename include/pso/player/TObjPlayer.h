@@ -296,9 +296,6 @@ struct TObjPlayer : public TObjChara {
     void call_callback_1ec(saddr arg1, saddr arg2);
     void copy_wall_polygon(u8 *arg1);
     static void copy_matrix(uaddr arg0, uaddr arg1);
-    static s32 run_next_key_callback(saddr arg0);
-    static s32 sample_next_quaternion_key(saddr arg0);
-    void apply_motion_node_transform();
     void bswap_change_hp_packet();
     void init_6x2F_packet_header();
     void byteswap_packet_body();

@@ -134,7 +134,7 @@ struct TCameraCtrl : public TObject {
     static void set_mode(int a0);
     static void update_camera_state(f32 _w0, f32 _w1, f32 _w2);
     static void look_at_position(f32 farg0, f32 farg1, f32 farg2);
-    static s32 translate_view_negated(f32 x, f32 y, f32 z);
+    static void translate_view_negated(f32 x, f32 y, f32 z);
     static void set_clamped_offsets(f32 farg0, f32 farg1);
     void update_projection_params();
     static void concat_matrix(uaddr arg0, uaddr arg1);
@@ -167,6 +167,8 @@ extern "C" {
 int is_quest_active(void);
 // The first view state word.
 u16 TCameraCtrl__sub_8006A5DC(void);
+// Restores the saved view after a full-screen 2D pass.
+void TCameraCtrl__sub_80068EF0(void);
 }
 
 #endif

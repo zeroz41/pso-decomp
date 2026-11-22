@@ -4,18 +4,14 @@
 #include "pso/camera/TCameraController.h"
 #include "pso/camera/CameraAngles.h"
 #include "pso/camera/CameraPlayback.h"
+#include "pso/system/NinjaTypes.h"
+#include "pso/animation/MotionContext.h"
 #include <dolphin/mtx.h>
-
-// One camera motion of a loaded bank file.
-struct CameraMotionData {
-    void *keys;
-    u32 frame_count;
-};
 
 // The root of a loaded camera bank file: its motions, indexed by
 // CameraPlayback::index.
 struct CameraMotionDirectory {
-    CameraMotionData **motions;
+    NJS_MOTION **motions;
 };
 
 // A camera bank file of a floor (CommonCam.rel, Bo01OpCam.rel...). The flags apply to
@@ -50,12 +46,14 @@ extern s32 scripted_camera_projection_angle;
 
 // What sample_camera_motion fills: a pointer per channel, then the channels.
 struct CameraMotionSample {
-    void *channels[4];
+    CameraMotionTargets channels;
     Vec position;
     Vec direction;
     s32 roll;
-    Vec channel_3;
-    u8 defaults[0x2C]; // copied to a channel the motion has no keys for
+    s32 angle;
+    u8 pad_30[0x8];
+    CameraMotionPose defaults; // copied to a channel the motion has no keys for
+    u8 pad_58[0xC];
 };
 
 // Camera mode 5: plays a motion of a loaded camera bank (boss intros and
@@ -70,7 +68,7 @@ public:
     Vec position_origin;
     Vec target_origin;
     CameraAngles angles;
-    CameraMotionData *motion;
+    NJS_MOTION *motion;
     CameraBankFile *bank_file;
     CameraPlayback playback;
 };

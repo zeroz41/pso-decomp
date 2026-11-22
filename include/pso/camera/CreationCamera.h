@@ -18,6 +18,13 @@ enum CreationCameraMode {
     CREATION_CAMERA_MANUAL
 };
 
+// Per class, the range (in tens of units) the review camera's look-at height
+// is picked from by the character's height setting.
+struct CreationHeightBounds {
+    f32 minimum;
+    f32 maximum;
+};
+
 // The camera controller of the character creation screens: it circles the
 // character at `distance`, looking at `target` from `pitch` and `yaw`.
 class CreationCamera : public TCameraController {

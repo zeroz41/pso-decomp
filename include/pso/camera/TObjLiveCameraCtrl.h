@@ -8,7 +8,8 @@ class TObjLiveCameraCtrl : public TObject {
 public:
     TObjLiveCameraCtrl(TObject *parent);
     virtual ~TObjLiveCameraCtrl();
-    void sub_8030B818(int);
+    // Turns orbit_angle toward angle, at most 0x280 a call.
+    void turn_orbit_toward(int angle);
     virtual void run_task();
     // The three steps run_task calls on this.
     void update_toggle_state();
@@ -18,7 +19,7 @@ public:
     s16 pad_1e;
     s32 pad_20;
     u8 pad_24[0x4];
-    s32 m_28;
+    s32 orbit_angle;  // around the followed player or enemy
     s32 pad_2c;
     f32 pad_30;
     f32 vector_34[3];
@@ -28,7 +29,7 @@ public:
     u8 rng[0xE8];  // a SubtractiveRng: the ctor runs __ct__14SubtractiveRngFv on it
 
 public:
-    static s32 get_table_entry(s32 arg0);
+    static s32 get_table_entry(s32 index);
 };
 
 #include <stddef.h>
