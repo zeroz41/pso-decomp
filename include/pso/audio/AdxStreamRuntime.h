@@ -15,7 +15,7 @@ typedef struct Ent_803C9608 {
     u8 pad_2[0x4 - 0x2];
     saddr f4;
     AdxStreamFile *f8;
-    s32 fC;
+    saddr fC;
     u8 pad_10[0x18 - 0x10];
     SjRingBuffer *f18[2]; // one per channel; 2 is inferred (stereo), the code only proves the index
     u8 pad_20[0x48 - 0x20];

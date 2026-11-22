@@ -31,7 +31,7 @@ struct VT_803CB20C {
 struct Strm_803CB20C { VT_803CB20C *vt; };
 
 struct Obj_803CB20C {
-    u8 pad0[2]; u8 f2; u8 pad3; s32 f4; u32 f8; u8 padC[8]; Strm_803CB20C *f14;
+    u8 pad0[2]; u8 f2; u8 pad3; saddr f4; u32 f8; u8 padC[8]; Strm_803CB20C *f14;
     u8 pad18[0x4C - 0x18]; s32 f4C; s32 f50; u8 pad54[0x6C - 0x54]; s8 f6C;
     u8 pad6D[0x90 - 0x6D]; s32 f90;
 };
@@ -44,11 +44,11 @@ s32 TLobby__sub_803CC030(int, int);
 s32 dispatch_packet__6TLobbyFv(int, int);
 void TLobby__sub_803CB194(void *context);
 void audio_stream_start(u8 *arg0);
-s32 TLobby__sub_803CBF50(void *);
+s32 TLobby__sub_803CBF50(saddr, s32, s32);
 void TLobby__sub_803CA8B4(Ent_803C9608 *);
 
 s32 TLobby__sub_803C9740(u8 *arg0);
-s32 trigger_sub_task__6TLobbyFv(int);
+s32 trigger_sub_task__6TLobbyFv(saddr, s32);
 s32 set_field_44__6TLobbyFl(int, int);
 s32 set_field_40__6TLobbyFl(int, int);
 s32 set_field_3c__6TLobbyFl(int, int);
@@ -69,9 +69,9 @@ struct Strm_803CAB38 {
     s8 f1;
     u8 f2;
     s8 f3;
-    s32 f4;
+    saddr f4;
     AdxStreamFile *f8;
-    s32 fc;
+    saddr fc;
     u8 pad10[0x28];
     s32 f38;
     s16 f3c_pad;
@@ -130,8 +130,8 @@ inline void prep_803CA8B4(Ent_803C9608 *self) {
 }
 // Inferred: CRI adxt_stat_playing (start playback once enough is decoded; pad the end with silence).
 inline void dec_803CA8B4(Ent_803C9608 *self) {
-    s32 rna = self->fC;
-    s32 sjd = self->f4;
+    saddr rna = self->fC;
+    saddr sjd = self->f4;
     s32 i;
     s32 avail;
     s32 nbyte;
@@ -201,8 +201,6 @@ void TLobby__sub_803CA8B4(Ent_803C9608 *self) {
 
 void adxt_stat_decinfo(Strm_803CAB38 *self) {
 #define arg0 ((u8 *)self)
-    s32 TLobby__sub_803CBF50(s32, s32, s32);
-    s32 trigger_sub_task__6TLobbyFv(int, int);
     saddr t = self->f4;
     s32 k;
     s32 n1;
@@ -416,7 +414,7 @@ void TLobby__sub_803CB194(void *context) {
     s32 temp_r3;
     u8 *lobby;
     lobby = (u8 *)(*(u8 **)((s8 *)arg0 + 8));
-    temp_r3 = ((TLobby *)(*(s32 *)((s8 *)arg0 + 4)))->send_with_offset4_alt();
+    temp_r3 = ((TLobby *)(*(saddr *)((s8 *)arg0 + 4)))->send_with_offset4_alt();
     if ((s8) *(u8 *)((s8 *)arg0 + 0x6C) == 0) {
         set_field_3c__6TLobbyFl((int) (*(s32 *)((s8 *)arg0 + 4)), -1);
         set_scroll_position__6TLobbyFl(*(AdxStreamFile **)(arg0 + 8), 0x7FFFFFFF);
@@ -430,7 +428,7 @@ void adxt_trap_entry_update__6TLobbyFPv(Obj_803CB20C *arg0) {
     Strm_803CB20C *s;
     s32 off;
     s32 total;
-    s32 id;
+    saddr id;
     s32 c;
     id = arg0->f4;
     s = arg0->f14;
