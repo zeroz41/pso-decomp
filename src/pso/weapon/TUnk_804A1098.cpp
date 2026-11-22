@@ -74,7 +74,7 @@ void TUnk_804A1098::update_weapon() {
     }
 }
 
-void TUnk_804A1098::vfunc_57() { roll_technique(); roll_technique(); }
+void TUnk_804A1098::on_equipped() { roll_technique(); roll_technique(); }
 
 TUnk_804A1098::~TUnk_804A1098() {}
 

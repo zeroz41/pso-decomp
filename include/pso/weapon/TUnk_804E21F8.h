@@ -11,7 +11,7 @@ public:
     virtual void emit_marker_effects();
     virtual void reserved_53();
     virtual void update_weapon();
-    virtual void vfunc_57();
+    virtual void on_equipped();
     virtual void init_weapon_effect_descriptor(Desc_8011E5C4 *desc);
     virtual void vfunc_62(Vec *pos);
     void sub_802D577C();

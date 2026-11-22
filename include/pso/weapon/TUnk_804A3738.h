@@ -9,7 +9,7 @@
 // objects. Made by yamigarasu_create.
 class TUnk_804A3738 : public TItemWeapon {
 public:
-    virtual void vfunc_57();
+    virtual void on_equipped();
     virtual ~TUnk_804A3738();
     TUnk_804A3738(TObject *parent, u8 *item);
 };

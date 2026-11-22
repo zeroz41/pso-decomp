@@ -14,7 +14,7 @@ public:
     virtual void emit_marker_effects();
     virtual void update_idle();
     virtual void update_attack();
-    virtual void vfunc_57();
+    virtual void on_equipped();
     virtual void vfunc_60();
     TUnk_804A5F18(TObject *parent, u8 *item);
     virtual ~TUnk_804A5F18();

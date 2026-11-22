@@ -29,7 +29,7 @@ void TUnk_804A5F18::update_attack() {
     TObjPlayer::add_angle_clamped(&rotation_x, -1820, 0);
 }
 
-void TUnk_804A5F18::vfunc_57() {
+void TUnk_804A5F18::on_equipped() {
     roll_technique();
     roll_technique();
 }

@@ -19,8 +19,8 @@ public:
     virtual void update_attack();
     virtual void emit_marker_effects();
     virtual void update_weapon();
-    virtual void vfunc_57();
-    virtual void vfunc_58();
+    virtual void on_equipped();
+    virtual void on_unequipped();
     virtual void vfunc_60();
     void psycho_wand_roll_extra();
 

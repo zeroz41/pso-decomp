@@ -9,7 +9,7 @@ public:
     TUnk_804A2960(TObject *parent, u8 *item);
     virtual ~TUnk_804A2960();
     virtual void emit_marker_effects();
-    virtual void vfunc_57();
+    virtual void on_equipped();
     virtual void init_weapon_effect_descriptor(Desc_8011E5C4 *desc);
 
     s32 unk_1f8;     // 10 for item index 1, else 1; the descriptor's +0x10

@@ -13,7 +13,7 @@ public:
     virtual void update_idle();
     virtual void vfunc_60();
     virtual void update_attack();
-    virtual void vfunc_57();
+    virtual void on_equipped();
     virtual void emit_marker_effects();
     TUnk_804A5838(TObject *parent, u8 *item);
     virtual ~TUnk_804A5838();

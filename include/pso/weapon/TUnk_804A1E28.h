@@ -9,8 +9,8 @@ public:
     virtual void update_idle();
     virtual void update_attack();
     virtual void update_weapon();
-    virtual void vfunc_57();
-    virtual void vfunc_58();
+    virtual void on_equipped();
+    virtual void on_unequipped();
     virtual void vfunc_60();
     TUnk_804A1E28(TObject *parent, u8 *item);
     s32 scale_step;   // 0..7, index into the cane's x/y/z scale tables (vfunc_60)

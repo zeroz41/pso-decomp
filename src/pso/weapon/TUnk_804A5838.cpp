@@ -69,7 +69,7 @@ void TUnk_804A5838::update_attack() {
 }
 #pragma pop
 
-void TUnk_804A5838::vfunc_57() {
+void TUnk_804A5838::on_equipped() {
     if (effect_objects != NULL) {
         if (get_item_index() == 0) {
             new TUnk_804A0688(effect_objects, get_owner_client(), 0x96);

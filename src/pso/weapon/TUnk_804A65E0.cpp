@@ -51,7 +51,7 @@ void TUnk_804A65E0::emit_marker_effects() {
 
 }
 
-void TUnk_804A65E0::vfunc_57() {
+void TUnk_804A65E0::on_equipped() {
     roll_technique();
     roll_technique();
 }

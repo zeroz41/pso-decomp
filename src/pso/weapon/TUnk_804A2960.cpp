@@ -131,7 +131,7 @@ void TUnk_804A2960::emit_marker_effects() {
 }
 
 // Starts the freeze curse timer on the equip effect objects.
-void TUnk_804A2960::vfunc_57() {
+void TUnk_804A2960::on_equipped() {
     if (effect_objects != NULL) {
         new TUnk_804A05E8(effect_objects, get_owner_client(), 0xE10, 0.25f);
     }
@@ -159,7 +159,7 @@ TItem *frozen_shooter_create(u8 *item) {
     return NULL;
 }
 
-// This object's copy of the freeze curse timer's constructor (vfunc_57
+// This object's copy of the freeze curse timer's constructor (on_equipped
 // calls it first).
 TUnk_804A05E8::TUnk_804A05E8(TItemHeapObject *parent, u16 client, s32 period, f32 rate)
     : TItemTimerEvent(parent, client, period) {

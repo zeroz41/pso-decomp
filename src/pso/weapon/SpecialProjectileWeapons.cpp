@@ -250,7 +250,7 @@ void TUnk_804A204C::reserved_53() {
     }
 }
 
-void TUnk_804A204C::vfunc_57() {
+void TUnk_804A204C::on_equipped() {
     m_204 = -1;
     if (effect_objects != NULL) {
         new TUnk_804A0668(effect_objects, get_owner_client(), 0x5A);

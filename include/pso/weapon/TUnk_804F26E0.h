@@ -7,8 +7,8 @@ class TUnk_804F26E0 : public TUnk_804A4948 {
 public:
     TUnk_804F26E0(TObject *parent, u8 *item);
     virtual ~TUnk_804F26E0();
-    virtual void vfunc_57();  // equip hook: sets the owner's EVP
-    virtual void vfunc_58();
+    virtual void on_equipped();  // equip hook: sets the owner's EVP
+    virtual void on_unequipped();
     virtual void vfunc_62();  // marker effect at the owner's knuckle joint
 };
 

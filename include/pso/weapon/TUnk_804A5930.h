@@ -12,7 +12,7 @@ class TUnk_804A5930 : public TItemWeapon {
 public:
     virtual void use();
     virtual void update_weapon();
-    virtual void vfunc_57();
+    virtual void on_equipped();
     virtual ~TUnk_804A5930();
     TUnk_804A5930(TObject *parent, u8 *item);
 

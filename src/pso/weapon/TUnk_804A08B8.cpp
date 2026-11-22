@@ -17,7 +17,7 @@ void TUnk_804A08B8::emit_marker_effects() {
 
 // Starts a 90-frame timer event on the effect objects (named
 // marina_bag_start_regen before; vtable slot 57).
-void TUnk_804A08B8::vfunc_57() {
+void TUnk_804A08B8::on_equipped() {
     if (effect_objects != NULL) {
         new TUnk_804A0648(effect_objects, get_owner_client(), 0x5A);
     }

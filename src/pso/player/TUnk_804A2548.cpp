@@ -49,7 +49,7 @@ TUnk_804A2564::TUnk_804A2564(TObject *parent, u8 *item) : TItemWeapon(parent, it
 
 TUnk_804A2564::~TUnk_804A2564() {}
 
-void TUnk_804A2564::vfunc_57() { reload_timer = 0; }
+void TUnk_804A2564::on_equipped() { reload_timer = 0; }
 
 void TUnk_804A2564::update_weapon() {
     if (reload_timer > 0) {

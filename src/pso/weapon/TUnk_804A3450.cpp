@@ -6,7 +6,7 @@
 #include "pso/technique/TTecZarua.h"
 #include "pso/system/task/TMainTask.h"
 
-void TUnk_804A3450::vfunc_57() {
+void TUnk_804A3450::on_equipped() {
     roll_technique();
     roll_technique();
 }

@@ -16,7 +16,7 @@ void TUnk_804A67D0::vfunc_60() {
 
 // Starts a 90-frame timer event on the effect objects (named
 // madam_umbrella_start_regen before; vtable slot 57).
-void TUnk_804A67D0::vfunc_57() {
+void TUnk_804A67D0::on_equipped() {
     if (effect_objects != NULL) {
         new TUnk_804A0628(effect_objects, get_owner_client(), 0x5A);
     }

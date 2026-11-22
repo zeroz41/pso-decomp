@@ -107,8 +107,8 @@ void TUnk_804A2678::emit_marker_effects() {
         ((TItemWeapon *)this)->update_active_game_effect();
     }
 }
-void TUnk_804A2678::vfunc_58() { floor_area = -1; }
-void TUnk_804A2678::vfunc_57() {
+void TUnk_804A2678::on_unequipped() { floor_area = -1; }
+void TUnk_804A2678::on_equipped() {
     floor_area = -1;
     if (effect_objects != NULL) {
         new TUnk_804A0688(effect_objects, get_owner_client(), 0x5A);

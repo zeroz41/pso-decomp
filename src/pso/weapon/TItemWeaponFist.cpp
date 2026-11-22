@@ -15,14 +15,14 @@
 // ---- pso/unk/text_80126740
 
 
-void TUnk_804A2B98::vfunc_58() {
+void TUnk_804A2B98::on_unequipped() {
     ((PlayerAttackState *)((u8 *)this->owner + 0x7CC))->set_evp(1.0f);
 }
 
 // ---- pso/player/TObjPlayer_801267C4
 
 
-void TUnk_804A2B98::vfunc_57() {
+void TUnk_804A2B98::on_equipped() {
     f32 var_f31;
     u8 temp_r3;
 

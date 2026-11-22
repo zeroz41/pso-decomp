@@ -134,11 +134,11 @@ TItem *create_psycho_wand(u8 *item) {
     return NULL;
 }
 
-void TUnk_804A4F60::vfunc_57() {
+void TUnk_804A4F60::on_equipped() {
     last_tp = -1;
 }
 
-void TUnk_804A4F60::vfunc_58() {
+void TUnk_804A4F60::on_unequipped() {
     last_tp = -1;
 }
 

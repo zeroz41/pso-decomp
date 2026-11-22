@@ -14,12 +14,12 @@ s16 get_validated_attack_stage(u8 *arg0);
 extern s32 knuckle_marker_joint_table[];
 }
 
-void TUnk_804F26E0::vfunc_58() {
+void TUnk_804F26E0::on_unequipped() {
     ((PlayerAttackState *)(*(saddr *)&this->owner + 0x7CC))->set_evp(1.0f);
 }
 
 // S-rank knuckle equip hook (was s_rank_knuckle_equip): sets the owner's EVP.
-void TUnk_804F26E0::vfunc_57() {
+void TUnk_804F26E0::on_equipped() {
     ((PlayerAttackState *)(*(saddr *)&this->owner + 0x7CC))->set_evp(1.2f);
 }
 

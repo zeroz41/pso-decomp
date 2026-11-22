@@ -44,6 +44,7 @@ struct NJS_OBJECT;
 #include "pso/system/task/TObject.h"
 #include "pso/item/TItemHeapObject.h"
 #include "pso/unk/TLobby_80226070.h"
+#include "pso/system/SoundEffect.h"
 
 
 // ---- pso/item/WeaponAttackActions
@@ -83,70 +84,6 @@ struct Stack_8011E56C {
     f32 spC;
 };
 
-struct VBase18c_8011e6e8 { char pad[0x18]; };
-
-struct VObj18c_8011e6e8 : VBase18c_8011e6e8 {
-    virtual s32 m0();  virtual s32 m1();  virtual s32 m2();
-    virtual s32 m3();  virtual s32 m4();  virtual s32 m5();
-    virtual s32 m6();  virtual s32 m7();  virtual s32 m8();
-    virtual s32 m9();  virtual s32 m10(); virtual s32 m11();
-    virtual s32 m12(); virtual s32 m13(); virtual s32 m14();
-    virtual s32 m15(); virtual s32 m16(); virtual s32 m17();
-    virtual s32 m18(); virtual s32 m19(); virtual s32 m20();
-    virtual s32 m21(); virtual s32 m22(); virtual s32 m23();
-    virtual s32 m24(); virtual s32 m25(); virtual s32 m26();
-    virtual s32 m27(); virtual s32 m28(); virtual s32 m29();
-    virtual s32 m30(); virtual s32 m31(); virtual s32 m32();
-    virtual s32 m33(); virtual s32 m34(); virtual s32 m35();
-    virtual s32 m36(); virtual s32 m37(); virtual s32 m38();
-    virtual s32 m39(); virtual s32 m40(); virtual s32 m41();
-    virtual s32 m42(); virtual s32 m43(); virtual s32 m44();
-    virtual s32 m45(); virtual s32 m46(); virtual s32 m47();
-    virtual s32 m48(); virtual s32 m49(); virtual s32 m50();
-    virtual s32 m51(); virtual s32 m52(); virtual s32 m53();
-    virtual s32 m54(); virtual s32 m55(); virtual s32 m56();
-    virtual s32 m57(); virtual s32 m58(); virtual s32 m59();
-    virtual s32 m60(); virtual s32 m61(); virtual s32 m62();
-    virtual s32 m63(s32, void *);
-};
-
-struct Base_8011E828 { char pad[0x18]; };
-
-struct VObj_8011E828 : Base_8011E828 {
-    virtual void m0();   virtual void m1();   virtual void m2();   virtual void m3();
-    virtual void m4();   virtual void m5();   virtual void m6();   virtual void m7();
-    virtual void m8();   virtual void m9();   virtual void m10();  virtual void m11();
-    virtual void m12();  virtual void m13();  virtual void m14();  virtual void m15();
-    virtual void m16();  virtual void m17();  virtual void m18();  virtual void m19();
-    virtual void m20();  virtual void m21();  virtual void m22();  virtual void m23();
-    virtual void m24();  virtual void m25();  virtual void m26();  virtual void m27();
-    virtual void m28();  virtual void m29();  virtual void m30();  virtual void m31();
-    virtual void m32();  virtual s32 m33();
-};
-
-struct Base_8011E77C { char pad[0x18]; };
-
-struct VObj_8011E77C : Base_8011E77C {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20(); virtual void m21(); virtual void m22(); virtual void m23();
-    virtual void m24(); virtual void m25(); virtual void m26(); virtual void m27();
-    virtual void m28(); virtual void m29(); virtual void m30(); virtual void m31();
-    virtual void m32(); virtual void m33(); virtual void m34(); virtual void m35();
-    virtual void m36(); virtual void m37(); virtual void m38(); virtual void m39();
-    virtual void m40(); virtual void m41(); virtual void m42(); virtual void m43();
-    virtual void m44(); virtual void m45(); virtual void m46(); virtual void m47();
-    virtual void m48(); virtual void m49(); virtual void m50(); virtual void m51();
-    virtual void m52(); virtual void m53(); virtual void m54(); virtual void m55();
-    virtual void m56(); virtual void m57(); virtual void m58(); virtual void m59();
-    virtual void m60(); virtual void m61(); virtual void m62(); virtual void m63();
-    virtual void m64(); virtual void m65(); virtual void m66(); virtual void m67();
-    virtual void m68(); virtual void m69(); virtual void m70(); virtual void m71();
-};
-
 struct Pl_8011E950 {
     u8 pad0[0x174];
     u32 x174;
@@ -156,85 +93,11 @@ struct Pl_8011E950 {
 };
 
 
-struct Obj_8011F474 { u8 pad0[0x38]; f32 pos[3]; };
-
-struct Base_8011F474 { u8 pad0[0x18]; };
-
-struct Pl_8011F474 : Base_8011F474 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void on_near(Obj_8011F474 *, Obj_8011F474 *, s16, s16);
-};
-
-struct PlSelf_8011F474 : Pl_8011F474 {
-    u8 pad1C[0xF0 - 0x1C];
-    Obj_8011F474 *owner;
-};
-
 struct ShotVector { f32 x,y,z; };
 
 struct ShotPayload { s32 reserved,kind,weapon; s16 source,target,collider,pad; f32 damage; };
 
 struct Rec_8011F108 { u8 pad0[0xC]; f32 c; u8 pad1[0xC]; ShotVector pos; u8 pad2[4]; };
-
-struct Obj_8011F474;
 
 struct Part_8011EDFC { u8 pad0[0x1C]; Vec pos; u8 pad28[4]; };
 
@@ -265,7 +128,7 @@ u8 * csnVector(void *, void *, s32);
 f32 get_attack_accuracy_scale(s16 *arg0);
 void TObjPlayer__sub_80121228(void *p, u32 v);
 f32 horizontal_distance_squared(void *, void *);
-Obj_8011F474 * resolve_hittable_target(s32, s32);
+TObjChara *resolve_hittable_target(s32, s32);
 s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
 void * __ct__17TItemEffectWeaponFll(void *, u32, u32);
 u32 __cvt_fp2unsigned(f32);
@@ -337,9 +200,9 @@ void TItemWeapon::vfunc_60() {  }
 
 void TItemWeapon::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {}
 
-void TItemWeapon::vfunc_58() {  }
+void TItemWeapon::on_unequipped() {  }
 
-void TItemWeapon::vfunc_57() {  }
+void TItemWeapon::on_equipped() {  }
 
 void TItemWeapon::update_weapon() {  }
 
@@ -377,14 +240,11 @@ void TObjPlayer::set_flag_8_if_check_passes() {
 }
 
 void *TItemWeapon::get_center() {
-    u8 *arg0 = (u8 *)this;
-    u8 *temp_r3;
-
-    temp_r3 = (unsigned char *) (this->owner);
-    if (temp_r3 != NULL) {
-        ((VObj18c_8011e6e8 *) temp_r3)->m63(0x30, arg0 + 0x1AC);
+    TObjPlayer *player = owner;
+    if (player != NULL) {
+        player->get_anim_node_position(0x30, &held_position);
     }
-    return arg0 + 0x1AC;
+    return &held_position;
 }
 
 void TObjPlayer::call_callback_1ec(saddr arg1, saddr arg2) {
@@ -403,7 +263,7 @@ void TItemWeapon::apply_model_params() {
     get_weapon_special_type_amount((this->special_selector) & 0x3F, &spA, &sp8);
     ((TObjPlayer *)(this->owner))->set_model_id(spA);
     ((TObjPlayer *)(this->owner))->set_model_param(sp8);
-    ((VObj_8011E77C *)(this->owner))->m71();
+    owner->recalc_stats();
 }
 
 s32 TItemWeapon::is_identified() {
@@ -415,11 +275,10 @@ s32 TItemWeapon::is_identified() {
 }
 
 void TItemWeapon::refresh_special() {
-    struct VObj_8011E828 *o = (struct VObj_8011E828 *)this;
-    if (o->m33() == 0) {
-        ((TItemWeapon *)o)->special_selector = ((TItemWeapon *)o)->special_selector & 0x7F;
+    if (is_identified() == 0) {
+        special_selector = special_selector & 0x7F;
     }
-    ((TItemWeapon *)o)->apply_model_params();
+    apply_model_params();
 }
 
 void TItemWeapon::update_trail_slot(s32 slot) {
@@ -643,7 +502,7 @@ s32 TItemWeapon::launch_shot(u8 *arg1, s32 i, s32 arg3, s32 arg4) {
             ShotVector endpoint = *(ShotVector *)arg1;
             if (i < get_captured_target_count((s32 *)temp_r3)) {
                 temp_r22 = (u8 *)get_captured_target_entry(temp_r3,i);
-                var_r29 = (u8 *)(((Obj_8011F474 *(*)(s32, s16))resolve_hittable_target)(((s32 (*)(void *))get_uid__10TObjPlayerFv)(temp_r22),get_captured_target_collider_index(temp_r22)));
+                var_r29 = (u8 *)(((TObjChara *(*)(s32, s16))resolve_hittable_target)(((s32 (*)(void *))get_uid__10TObjPlayerFv)(temp_r22),get_captured_target_collider_index(temp_r22)));
                 if (var_r29 != NULL) {
                     temp_r22_2 = (u8 *)&(*(Rec_8011F108 **)((s8 *)var_r29 + 0xA4))[get_captured_target_collider_index(temp_r22)];
                     VecCopy((Vec *)(&endpoint.x), (const Vec *)((void *) &((Rec_8011F108 *)temp_r22_2)->pos));
@@ -709,77 +568,39 @@ s32 TItemWeapon::launch_shot(u8 *arg1, s32 i, s32 arg3, s32 arg4) {
 }
 
 void TUnk_804A69DC::for_each_target_in_range(f32 range) {
-    Obj_8011F474 *obj;
+    TObjChara *target;
     u16 uid;
     void *state;
     s32 i;
-    void *ent;
-    s32 id;
-    s32 ready;
+    void *entry;
+    s32 body;
+    s32 attack_kind;
     if (is_active_in_game() != 0) {
         remap_extra_attack_type();
-        state = ((TObjPlayer *)(this->owner))->get_extended_state();
+        state = owner->get_extended_state();
         if (state != NULL) {
             for (i = 0; i != get_captured_target_count((s32 *)state); i++) {
-                ent = get_captured_target_entry(state, i);
-                uid = ((TObjPlayer *)ent)->get_uid();
-                id = get_captured_target_collider_index(ent);
-                obj = resolve_hittable_target(uid, id);
-                if (obj != NULL && horizontal_distance_squared(((PlSelf_8011F474 *)this)->owner->pos, obj->pos) < range) {
-                    ready = this->owner->is_status_subsystem_ready();
-                    ((TObjPlayer *)(this->owner))->query_extended_state();
-                    ((PlSelf_8011F474 *)this)->on_near(((PlSelf_8011F474 *)this)->owner, obj, ready, id);
+                entry = get_captured_target_entry(state, i);
+                uid = ((TObjPlayer *)entry)->get_uid();
+                body = get_captured_target_collider_index(entry);
+                target = resolve_hittable_target(uid, body);
+                if (target != NULL && horizontal_distance_squared(&owner->position, &target->position) < range) {
+                    attack_kind = owner->is_status_subsystem_ready();
+                    deliver_hit(owner, target, attack_kind, body, owner->query_extended_state());
                 }
             }
         }
-        this->restore_action_type();
+        restore_action_type();
     }
 }
 
 // ---- pso/player/TObjPlayer_8011F578
 
-struct Base_8011F5E0 { char pad[0x18]; };
-struct VObj_8011F5E0 : Base_8011F5E0 {
-    virtual void v0();
-#define VV(n) virtual void v##n();
-VV(1)VV(2)VV(3)VV(4)VV(5)VV(6)VV(7)VV(8)VV(9)VV(10)
-VV(11)VV(12)VV(13)VV(14)VV(15)VV(16)VV(17)VV(18)VV(19)VV(20)
-VV(21)VV(22)VV(23)VV(24)VV(25)VV(26)VV(27)VV(28)VV(29)VV(30)
-VV(31)VV(32)VV(33)VV(34)VV(35)VV(36)VV(37)VV(38)VV(39)VV(40)
-VV(41)VV(42)VV(43)VV(44)VV(45)VV(46)VV(47)VV(48)VV(49)VV(50)
-VV(51)VV(52)VV(53)VV(54)VV(55)VV(56)VV(57)VV(58)VV(59)VV(60)
-VV(61)VV(62)VV(63)VV(64)
-#undef VV
-    virtual void v67(f32);
-};
-
-
-struct Base_8011F578 { char pad[0x18]; };
-struct VObj_8011F578 : Base_8011F578 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20(); virtual void m21(); virtual void m22(); virtual void m23();
-    virtual void m24(); virtual void m25(); virtual void m26(); virtual void m27();
-    virtual void m28(); virtual void m29(); virtual void m30(); virtual void m31();
-    virtual void m32(); virtual void m33(); virtual void m34(); virtual void m35();
-    virtual void m36(); virtual void m37(); virtual void m38(); virtual void m39();
-    virtual void m40(); virtual void m41(); virtual void m42(); virtual void m43();
-    virtual void m44(); virtual void m45(); virtual void m46(); virtual void m47();
-    virtual void m48(); virtual void m49(); virtual void m50(); virtual void m51();
-    virtual void m52(); virtual void m53(); virtual void m54(); virtual void m55();
-    virtual void m56(); virtual void m57(); virtual void m58(); virtual void m59();
-    virtual void m60(); virtual void m61(); virtual void m62(); virtual void m63();
-    virtual void m64(); virtual void m65(f32);
-};
-
 void TUnk_804A4D70::apply_scale_if_active(f32 farg0) {
 
     if (this->is_active_in_game() != 0) {
         this->remap_extra_attack_type();
-        ((VObj_8011F578 *)(this->owner))->m65(farg0);
+        owner->deliver_attack_hits(farg0);
         this->restore_action_type();
     }
 }
@@ -788,10 +609,10 @@ extern const f32 lbl_805DAC9C;
 
 void TItemWeapon::update_active_game_effect() {
 
-    if (((TItemWeapon *)this)->is_active_in_game() != 0) {
-        ((TItemWeapon *)this)->remap_extra_attack_type();
-        ((VObj_8011F5E0 *)(*(void * *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1]))->v67(lbl_805DAC9C);
-        ((TItemWeapon *)this)->restore_action_type();
+    if (is_active_in_game() != 0) {
+        remap_extra_attack_type();
+        owner->deliver_attack_hits(lbl_805DAC9C);
+        restore_action_type();
     }
 }
 
@@ -827,85 +648,6 @@ s32 TItemWeapon::is_active_in_game() {
 }
 
 // ---- pso/unk/text_8011F710
-
-struct VBase_18_f8c4e0 { char pad[0x18]; };
-
-struct VObj_18_f8c4e0 : VBase_18_f8c4e0 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual s32 m19(void *, s32, s32, f32);
-    virtual f32 m20(void *, f32);
-    virtual void m21();
-    virtual s32 m22(void *, s32);
-    virtual s32 m23(void *, f32);
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual s32 m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual s32 m73();
-};
 
 struct Stack_8011F7CC {
     s8 sp8;
@@ -955,53 +697,50 @@ u32 TItemWeapon::get_attack_flags() {
     return flags;
 }
 
-void TItemWeapon::deliver_hit(s32 arg1, u8 *arg2, s32 arg3, s32 arg4, f32 farg0) {
+void TItemWeapon::deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 attack_kind, s32 body, f32 scale) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8011F7CC, sp8) == 0x0);
     LAYOUT_ASSERT(sp9_offset, offsetof(Stack_8011F7CC, sp9) == 0x1);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_8011F7CC, spC) == 0x4);
     LAYOUT_ASSERT(sp14_offset, offsetof(Stack_8011F7CC, sp14) == 0xC);
     LAYOUT_ASSERT(sp18_offset, offsetof(Stack_8011F7CC, sp18) == 0x10);
     Stack_8011F7CC stack;
-    f32 attack_accuracy_scale;
-    f32 var_f31_2;
-    s32 temp_r31;
+    f32 accuracy;
+    f32 damage_dealt;
     s32 damage;
-    u8 *temp_r3;
+    TObjPlayer *player;
     if (get_mode() == 2) {
-        temp_r3 = (u8 *)this->owner;
-        if ((temp_r3 != NULL) && (arg2 != NULL)) {
-            attack_accuracy_scale = get_attack_accuracy_scale((s16 *)(temp_r3 + 0x7CC));
-            if ((arg3 == 2) && (this->is_identified() == 0)) {
-                attack_accuracy_scale *= lbl_805DAC94;
+        player = owner;
+        if ((player != NULL) && (target != NULL)) {
+            accuracy = get_attack_accuracy_scale((s16 *)((u8 *)player + 0x7CC));
+            if ((attack_kind == 2) && (is_identified() == 0)) {
+                accuracy *= lbl_805DAC94;
             }
-            temp_r31 = arg4 * 0x2C;
-            if (((VObj_18_f8c4e0 *)(arg2))->m19(this->owner, *(s32 *)((s8 *)arg2 + 0xA4) + temp_r31, 0, attack_accuracy_scale) != 0) {
-                var_f31_2 = lbl_805DAC98;
-                switch (arg3) {
+            if (target->calc_distance_accuracy_penalty(owner, &target->bodies[body], NULL, accuracy) != 0) {
+                damage_dealt = lbl_805DAC98;
+                switch (attack_kind) {
                 case 0:
-                    var_f31_2 = ((VObj_18_f8c4e0 *)(arg2))->m20(this->owner, farg0);
+                    damage_dealt = target->receive_physical_attack(owner, scale);
                     break;
                 case 1:
-                    var_f31_2 = ((VObj_18_f8c4e0 *)(arg2))->m20(this->owner, farg0);
-                    ((VObj_18_f8c4e0 *)(arg2))->m23(this->owner, lbl_805DAC94 * var_f31_2);
+                    damage_dealt = target->receive_physical_attack(owner, scale);
+                    target->apply_knockback_from_attacker((u8 *)owner, lbl_805DAC94 * damage_dealt);
                     break;
                 case 2:
-                    ((VObj_18_f8c4e0 *)(arg2))->m22(this->owner, *(s32 *)((s8 *)arg2 + 0xA4) + temp_r31);
+                    target->receive_weapon_special_attack(owner, &target->bodies[body]);
                     break;
                 }
                 if (hit_callback != NULL) {
-                    hit_callback((saddr)tl_05, this, get_entity_id(arg2), arg4);
+                    hit_callback((saddr)tl_05, this, get_entity_id(target), body);
                 }
-                damage = (s32) var_f31_2;
-                TObjPlayer::calc_photon_blast_charge(this->owner, damage);
-                ((VObj_18_f8c4e0 *)(this->owner))->m73();
-                apply_camera_shake__10TObjPlayerFiii((saddr)this->owner, (saddr)arg2, (s32)damage);
+                damage = (s32)damage_dealt;
+                owner->gain_photon_blast_charge(TObjPlayer::calc_photon_blast_charge(owner, damage));
+                apply_camera_shake__10TObjPlayerFiii((saddr)owner, (saddr)target, damage);
                 ((TObjPlayer *)(&stack.sp8))->reset_status_block();
-                stack.sp8 = this->get_item_group();
-                stack.sp9 = this->get_item_index();
-                stack.spC = (u8 *)this->owner;
-                stack.sp14 = arg2;
-                stack.sp18 = arg4;
+                stack.sp8 = get_item_group();
+                stack.sp9 = get_item_index();
+                stack.spC = (u8 *)owner;
+                stack.sp14 = (u8 *)target;
+                stack.sp18 = body;
                 play_weapon_hit_sound(&stack.sp8);
             }
         }
@@ -1395,104 +1134,17 @@ struct Ctl_80120568 : Ctl_80120568B {
     virtual u32 m64(s32);
 };
 
-struct Pl_80120568B { char pad[0x18]; };
-
-struct Pl_80120568 : Pl_80120568B {
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual void v5();
-    virtual void v6();
-    virtual void v7();
-    virtual void v8();
-    virtual void v9();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void v15();
-    virtual void v16();
-    virtual void v17();
-    virtual void v18();
-    virtual void v19();
-    virtual void v20();
-    virtual void v21();
-    virtual void v22();
-    virtual void v23();
-    virtual void v24();
-    virtual void v25();
-    virtual void v26();
-    virtual void v27();
-    virtual void v28();
-    virtual void v29();
-    virtual void v30();
-    virtual s8 m31();
-    virtual void v32();
-    virtual void v33();
-    virtual void v34();
-    virtual void v35();
-    virtual void v36();
-    virtual void v37();
-    virtual void v38();
-    virtual void v39();
-    virtual void v40();
-    virtual void v41();
-    virtual void v42();
-    virtual void v43();
-    virtual void v44();
-    virtual void v45();
-    virtual void v46();
-    virtual void v47();
-    virtual void v48();
-    virtual void v49();
-    virtual void v50();
-    virtual void v51();
-    virtual void v52();
-    virtual void v53();
-    virtual void v54();
-    virtual void v55();
-    virtual void m56();
-    u8 pad[0xF0-0x1C+0x0];
-    Ctl_80120568 *ctl;
-};
-
-struct VBase_8012065C { u8 pad[0x18]; };
-
-struct Player_8012065C : VBase_8012065C {
-    virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3();
-    virtual void v4(); virtual void v5(); virtual void v6(); virtual void v7();
-    virtual void v8(); virtual void v9(); virtual void v10(); virtual void v11();
-    virtual void v12(); virtual void v13(); virtual void v14(); virtual void v15();
-    virtual void v16(); virtual void v17(); virtual void v18(); virtual void v19();
-    virtual void v20(); virtual void v21(); virtual void v22(); virtual void v23();
-    virtual void v24(); virtual void v25(); virtual void v26(); virtual void v27();
-    virtual void v28(); virtual void v29(); virtual void v30(); virtual void v31();
-    virtual void v32(); virtual void v33(); virtual void v34(); virtual void v35();
-    virtual void v36(); virtual void v37(); virtual void v38(); virtual void v39();
-    virtual void v40();
-    virtual u8 v41();
-    virtual void v42(); virtual void v43(); virtual void v44(); virtual void v45();
-    virtual void v46(); virtual void v47(); virtual void v48(); virtual void v49();
-    virtual void v50(); virtual void v51(); virtual void v52(); virtual void v53();
-    virtual void v54(); virtual void v55(); virtual void v56();
-    virtual void v57();
-};
 
 extern "C" {
-s32 play_sound_effect(s32, s32, s32, s32);
 void set_flag_8_if_check_passes__10TObjPlayerFv();
 
 void TItemWeapon::on_unequip() {
-    Pl_80120568 *arg0 = (Pl_80120568 *)this;
-    if (arg0->ctl->m64(arg0->m31()) == 0) {
-        ((TObjPlayer *)(arg0->ctl))->set_action_provider_variant(0);
+    if (((Ctl_80120568 *)owner)->m64(get_attach_slot()) == 0) {
+        owner->set_action_provider_variant(0);
     }
-    arg0->m56();
-    ((TItemEquipBase *)arg0)->clear_technique_boosts();
-    ((TItemWeapon *)arg0)->clear_weapon_flags(0x03000000);
+    on_unequipped();
+    clear_technique_boosts();
+    clear_weapon_flags(0x03000000);
 }
 
 void TItemWeapon::apply_owner_bonuses() {
@@ -1506,49 +1158,46 @@ void TItemWeapon::apply_owner_bonuses() {
     }
 }
 void TItemWeapon::on_equip() {
-    Player_8012065C *arg0 = (Player_8012065C *)this;
-    if (test_flags_any((s32 *)((u8 *)arg0 + 0x178), 1) != 0) {
-        if (!(((TItem *)arg0)->get_item_flags() & 0x20) && is_current_area_item_enabled() != 0) {
-            ((TObjPlayer *)(*(void **)((s8 *)arg0 + 0xF0)))->set_action_provider_variant(arg0->v41());
+    if (test_flags_any((s32 *)&effect_flags, 1) != 0) {
+        if (!(get_item_flags() & 0x20) && is_current_area_item_enabled() != 0) {
+            owner->set_action_provider_variant(get_motion_type());
         }
-        ((TItemWeapon *)arg0)->clear_weapon_flags(0x100);
-        if (((TItem *)arg0)->is_hidden() != 0 || ((TObjChara *)*(saddr *)((s8 *)arg0 + 0xF0))->is_in_fixed_pose() != 0) {
-            ((TItemWeapon *)arg0)->set_weapon_flags(8);
+        clear_weapon_flags(0x100);
+        if (is_hidden() != 0 || owner->is_in_fixed_pose() != 0) {
+            set_weapon_flags(8);
         } else {
-            TItemAttacker::spawn_item_timer((TObject *)arg0, (ItemTimerCallback)set_flag_8_if_check_passes__10TObjPlayerFv, 0x14);
-            TItemEffEquip::create((void *)tl_05, (void *)(get_entity_id(*(void **)((s8 *)arg0 + 0xF0))), (void *)0x30, (void *)0x9D, (void *)0x9E);
-            if (((TItemWeapon *)arg0)->test_weapon_flags(0x200) != 0U) {
-                TItemEffEquip::create((void *)tl_05, (void *)(get_entity_id(*(void **)((s8 *)arg0 + 0xF0))), (void *)0x23, (void *)0x9D, (void *)0x9E);
+            TItemAttacker::spawn_item_timer(this, (ItemTimerCallback)set_flag_8_if_check_passes__10TObjPlayerFv, 0x14);
+            TItemEffEquip::create((void *)tl_05, (void *)(get_entity_id(owner)), (void *)0x30, (void *)0x9D, (void *)0x9E);
+            if (test_weapon_flags(0x200) != 0U) {
+                TItemEffEquip::create((void *)tl_05, (void *)(get_entity_id(owner)), (void *)0x23, (void *)0x9D, (void *)0x9E);
             }
-            set_sound_pitch_request(play_sound_effect(0x4000B20A, *(s32 *)((s8 *)arg0 + 0xF0) + 0x38, 0, 0), 0x300, 0);
+            set_sound_pitch_request(play_sound_effect(0x4000B20A, &owner->position, 0, 0), 0x300, 0);
         }
     } else {
-        ((TObjPlayer *)(*(void **)((s8 *)arg0 + 0xF0)))->set_action_provider_variant(0);
-        ((TItemWeapon *)arg0)->set_weapon_flags(0x100);
-        ((TItemWeapon *)arg0)->set_weapon_flags(8);
+        owner->set_action_provider_variant(0);
+        set_weapon_flags(0x100);
+        set_weapon_flags(8);
     }
-    arg0->v55();
-    ((TItemWeapon *)arg0)->clear_weapon_flags(0x03000000);
+    on_equipped();
+    clear_weapon_flags(0x03000000);
 }
 
 // ---- pso/player/TObjPlayer_801207E8
 typedef struct { f32 sp8; f32 spC; f32 sp10; } FloatTriplet;
 
 
-struct VObj_104_801207e8 { char pad[0x18]; virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7(); virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11(); virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15(); virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19(); virtual void m20(); virtual void m21(); virtual void m22(); virtual void m23(); virtual void m24(); virtual void m25(); virtual void m26(); virtual void m27(); virtual void m28(); virtual void m29(); virtual void m30(); virtual void m31(); virtual void m32(); virtual void m33(); virtual void m34(); virtual void m35(); virtual void m36(); virtual void m37(); virtual void m38(); virtual void m39(); virtual void m40(); virtual void m41(); virtual void m42(); virtual void m43(); virtual void m44(); virtual void m45(); virtual void m46(); virtual void m47(); virtual void m48(); virtual void m49(); virtual void m50(); virtual void m51(); virtual void m52(); virtual void m53(); virtual void m54(); virtual void m55(); virtual void m56(); virtual void m57(); virtual void m58(); virtual void m59(); virtual void m60(); virtual void m61(); virtual void m62(); virtual void m63(s32); };
-
 s32 TItemWeapon::get_joint_position(s32 joint, void *out) {
     FloatTriplet floats;
-    void *temp_r3;
+    TObjPlayer *player;
 
-    temp_r3 = owner;
-    if (temp_r3 == NULL) {
+    player = owner;
+    if (player == NULL) {
         return 0;
     }
     if (joint == -1) {
-        ((VObj_104_801207e8 *)temp_r3)->m63(0x30);
+        player->get_anim_node_position(0x30, (Vec *)out);
     } else if (joint == -2) {
-        ((VObj_104_801207e8 *)temp_r3)->m63(0x23);
+        player->get_anim_node_position(0x23, (Vec *)out);
     } else if (item_model != NULL) {
         floats.sp10 = lbl_805DAC98;
         floats.spC = lbl_805DAC98;
@@ -1559,7 +1208,7 @@ s32 TItemWeapon::get_joint_position(s32 joint, void *out) {
         transform_point_by_current_matrix(&floats.sp8, out);
         pop_matrix();
     } else {
-        ((VObj_104_801207e8 *)temp_r3)->m63(0x30);
+        player->get_anim_node_position(0x30, (Vec *)out);
     }
     return 1;
 }
