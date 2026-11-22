@@ -222,10 +222,10 @@ void TObjBs4CutAtk::run_task() {
 void TObjBs4CutAtk::render() {  }
 
 s32 TBoss4Type3::create(saddr arg0) {
-    return (saddr)new TBoss4Type3(new TObjControl(tl_04), (s32 *)arg0);
+    return (saddr)new TBoss4Type3(new TObjControl(tl_04), (saddr *)arg0);
 }
 
-TBoss4Type3::TBoss4Type3(TObject *parent, s32 *arg2) : TObjEnemy(parent) {
+TBoss4Type3::TBoss4Type3(TObject *parent, saddr *arg2) : TObjEnemy(parent) {
     s32 i;
     NJS_OBJECT *body;
 

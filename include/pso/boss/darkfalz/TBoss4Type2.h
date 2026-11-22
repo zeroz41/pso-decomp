@@ -138,7 +138,7 @@ public:
     s32 move_frames;
     s32 move_turn_frames;
     s32 stop_action;                 // the MD_STOP action a beam, tenchu or recover ends in
-    s32 resta_level;
+    saddr resta_level;               // level argument of TTecResta::create
     TParticleCtrl *parts[8];         // particle emitters, released by the dt
     ModelNodePositionCapture *node_capture;
     Vec node_positions[3];           // node_capture's captured node positions

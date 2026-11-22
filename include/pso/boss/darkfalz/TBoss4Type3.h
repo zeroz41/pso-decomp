@@ -21,7 +21,7 @@ struct TBoss4DarkFalz;
 
 // Dark Falz's third form. Field names are inferred from their uses in TBoss4Type3.cpp.
 struct TBoss4Type3 : public TObjEnemy {
-    TBoss4Type3(TObject *parent, s32 *arg2);
+    TBoss4Type3(TObject *parent, saddr *arg2);
     virtual ~TBoss4Type3();
     virtual void render();
     virtual void run_hit_reaction();
