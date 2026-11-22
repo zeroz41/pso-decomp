@@ -26,6 +26,8 @@
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
 #include "pso/system/task/TObject.h"
+#include "pso/boss/goldragon/TBoss8Dragon_802F3348.h"
+#include "pso/unk/TLobby_8007C550.h"
 
 #pragma defer_codegen on
 
@@ -65,7 +67,6 @@ extern void *tl_05;
 int get_global_part_count__12TBoss8DragonFl(void*);
 s32 angle_diff_s16(int);
 void *get_player_by_client_id(s32 i);
-s32 TBoss8Dragon__sub_802F3348(s32 arg0);
 s32 TBoss8Dragon__sub_802FCCBC(TBoss8Dragon *boss8_dragon);
 f32 calc_random_ratio__10TObjPlayerFv(void *);
 void TObjPlayer__sub_80082CBC(void *effect);
@@ -90,7 +91,6 @@ struct Cam_8030BED4 {
 extern "C" {
 s32 get_current_floor();
 void subtractive_rng_seed(void *, s32);
-s32 __ct__14SubtractiveRngFv(void *);
 u8 *fn_800832EC(u8 *arg0, saddr arg1, s32 arg2, saddr arg3, saddr arg4, f32 farg0);
 extern s32 tl_particlemodel;
 }

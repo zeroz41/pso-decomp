@@ -31,14 +31,12 @@
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/unk/text_800870BC.h"
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/player/TObjPlayer_801D2E20.h"
 
 TItem *create_guardianna(u8 *item);
 
 const char *item_wpn_card_effect_class_name = "TItemWpnCardEffect";
 
-extern "C" {
-s16 get_validated_attack_stage(u8 *arg0);
-}
 
 
 extern "C" {

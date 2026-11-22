@@ -40,6 +40,7 @@ struct game_command_header;
 
 #include "pso/player/TUnk_804B6C24.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/unk/TLobby_8001D6A0.h"
 
 // ---- declarations carried over from the fragment TOMineTrapDisp_8016EDC8.cpp
 extern "C" {
@@ -94,7 +95,6 @@ extern u8 chunk_material_color_half_alpha_f32[];
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 // ---- declarations carried over from the fragment text_8016F1C0.cpp
-s32 *get_shared_text_buffer(void);
 void text_builder_append(u8 *str);
 s32 is_split_screen();
 extern s32 local_client_id;

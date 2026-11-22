@@ -23,6 +23,8 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/effect/particle/ParticleBallistic.h"
+#include "pso/effect/particle/ParticleOrbit.h"
 
 
 struct O_80087638 { u8 pad[0x2e]; u16 x2e; };
@@ -180,8 +182,6 @@ extern uaddr TParticleCtrl__texture_list;
 s32 mem_alloc(s32);
 // particle_pool_limit: declared s32 above (part 1)
 // particle_global_entry_table: declared s32 above (part 1)
-u8 *create_ballistic_particle(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, u16 arg4, s16 arg5);
-u8 *create_orbit_particle(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, u16 arg4, s16 arg5);
 extern u8 *camera_ctrl_instance;
 void VecCopy__FP3VecPC3Vec(void *, const void *);
 void TParticleCtrl__sub_800884F0(void *p, void *dir);

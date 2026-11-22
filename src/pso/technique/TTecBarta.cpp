@@ -16,6 +16,9 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/unk/text_800871A0.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 
 struct HitInfo_8022B8F4 { s32 type; f32 power; };
 
@@ -80,7 +83,6 @@ struct Tec_8022BD74 {
 };
 
 extern "C" {
-void mem_free(void *p);
 u16 get_entity_id(void *);
 
 void *find_entity_by_id(u16 id);
@@ -112,9 +114,6 @@ const TechniqueEmitterSourceTable TTecBarta__emitter_bands[6] = {
 const char *TTecBarta__class_name = "TTecBarta";
 void move_ground_technique_projectile(void *p);
 extern "C" {
-void *spawn_continuous_particle_with_direction(void *pos, void *dir, s32 id);
-TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
-void *mem_alloc(u32 size);
 s32 get_type__10TObjPlayerFPv(void *);
 List_8022BD74 *find_area_contact__13TUnk_804CC148Fl(Tec_8022BD74 *, void *);
 List_8022BD74 *collect_body_contacts_for_target__10TObjPlayerFl(Tec_8022BD74 *, void *);

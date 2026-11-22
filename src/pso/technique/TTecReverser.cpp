@@ -14,6 +14,7 @@
 #include "pso/technique/TTecAnti.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
+#include "pso/unk/text_803D853C.h"
 extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 #pragma readonly_strings on
@@ -59,7 +60,6 @@ Entry_80239E44 revival_particle_table[3] = {
     {0x2D, 1, 0x37, 0},
 };
 Obj_80239E44 *construct_revival_particle_effect(Obj_80239E44 *self, Player_80239E44 *player, void *parent);
-void debug_printf_at(s32 id, const char *fmt, ...);
 s32 get_type__10TObjPlayerFPv(void *p);
 
 }

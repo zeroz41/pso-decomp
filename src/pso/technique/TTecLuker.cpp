@@ -27,6 +27,8 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/map/CsnGroundQuery.h"
+#include "pso/unk/TLobby_80207644.h"
+#include "pso/unk/text_80087278.h"
 
 struct Stack_802340E4 {
     s32 sp8;
@@ -130,11 +132,9 @@ s32 matrix_mult_vec(int, void *, void *);
 s32 rotate_matrix_y(int, s32);
 s32 mark_area_change_pending();
 s32 send_6x21_inter_level_warp(void *, s32);
-s32 get_floor_map_terrain(s32);
 s32 play_persistent_sound(s32, void *, void *, s32, s32);
 f32 horizontal_distance_squared(void *, void *);
 extern saddr camera_ctrl_instance;
-TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *, s32, s32);
 s32 free_collision_body_parts(void *);
 s32 submit_cursor_candidate(void *, s32);
 }

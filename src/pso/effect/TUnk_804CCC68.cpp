@@ -10,6 +10,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/map/CsnQuery.h"
+#include "pso/render/render_util.h"
 
 
 struct RecoveredFields_8023A510_arg0 {
@@ -35,7 +36,6 @@ struct RecoveredFields_8023A510_arg0 {
 extern "C" {
 s32 check_technique_projectile_wall_hit__13TUnk_804CCC68Fv(void *, f32, f32);
 f32 fabs_float(f32);
-s32 angle_difference_abs(s32 a, s32 b);
 void step_ground_technique_projectile(RecoveredFields_8023A510_arg0 *arg0);
 }
 void direction_to_rotation_xy(u8 *arg0, s32 *arg1, s32 *arg2);

@@ -17,6 +17,7 @@
 
 #include "pso/player/TUnk_804B6C24.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/object/switch/TSwitch.h"
 
 
 #pragma readonly_strings on
@@ -58,7 +59,6 @@ struct Obj_801575AC {
 extern "C" {
 void *fn_80157CA8(void *arg0);
 void TOAttackableCol__sub_80157310(void *_w0);
-u8 is_current_floor_switch_set(s32 id);
 u16 get_entity_id(void *);
 s32 obj_setFlags30(void *, int);
 s32 init_collision_body_parts(void *, void *, int);

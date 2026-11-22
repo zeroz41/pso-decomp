@@ -14,6 +14,7 @@
 #include "pso/system/scene/TScene.h"
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/math/MatrixVector.h"
 
 #pragma push
 #pragma fp_contract on
@@ -42,7 +43,6 @@ LAYOUT_ASSERT(ScriptedCameraTargetOffset, offsetof(ScriptedCameraState, target_o
 LAYOUT_ASSERT(ScriptedCameraYawOffset, offsetof(ScriptedCameraState, angles) + offsetof(CameraAngles, yaw) == 0x88);
 LAYOUT_ASSERT(ScriptedCameraPlaybackOffset, offsetof(ScriptedCameraState, playback) == 0x98);
 extern "C" {
-f32 vector_length(const Vec*);
 void approach_vector_fixed_distance(const Vec*, const Vec*, Vec*, f32);
 
 u16 TCameraCtrl__sub_8006A5DC();

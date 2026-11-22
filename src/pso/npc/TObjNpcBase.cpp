@@ -32,6 +32,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/camera/TCameraCtrl_8006CC30.h"
 
 extern "C" {
 const char *TObjNpcBase__name = "TObjNpcBase";
@@ -98,8 +99,6 @@ void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 void move_with_wall_slide(u8 *arg0);
 u8 *create_conversation_camera(s32 arg0);
 extern "C" {
-void end_conversation_camera(void);
-void begin_conversation_camera(void);
 s32 angle_difference_abs(s32, s32);
 s32 subtract_vector(Vec *, Vec *);
 extern s32 local_client_id;

@@ -28,6 +28,7 @@
 #include "pso/system/ControllerInputState.h"
 
 #include "pso/npc/TNpcPlayer_800D87A8.h"
+#include "pso/camera/TCameraCtrl.h"
 
 struct Ply_800F7118 {
     u8 pad0[0x28];
@@ -175,8 +176,6 @@ s32 is_split_screen();
 
 s32 get_current_floor();
 
-
-s32 is_quest_active();
 
 void subtractive_rng_seed(void *, s32);
 

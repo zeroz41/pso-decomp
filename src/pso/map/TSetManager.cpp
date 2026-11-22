@@ -18,6 +18,7 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
 extern "C" void apply_floor_set_rows__11TSetManagerFv();
@@ -89,7 +90,6 @@ void *TSetManager__ct(void *set_manager, void *parent) {
     return set_manager;
 }
 
-s32 get_current_floor(void);
 LobbyPoolEntry TLobby__data_80513A40[18];
 LobbyFloorRows TLobby__floor_enemy_group_table[18];
 s32 TLobby__data_80513C80[18];
