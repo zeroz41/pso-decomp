@@ -571,19 +571,19 @@ void TCameraFollow::init_pose() {
             VecCopy(&this->position, &follow_camera_init_pose_table[0][0].pos);
             VecCopy(&this->target, &follow_camera_init_pose_table[0][0].target);
             this->fov = follow_camera_init_pose_table[0][0].fov;
-            set_clamped_offsets(follow_camera_init_pose_table[0][0].near_clip, follow_camera_init_pose_table[0][0].far_clip);
+            set_clip_planes(follow_camera_init_pose_table[0][0].near_clip, follow_camera_init_pose_table[0][0].far_clip);
             break;
         case AREA_LOBBY:
             VecCopy(&this->position, &follow_camera_init_pose_table[0][1].pos);
             VecCopy(&this->target, &follow_camera_init_pose_table[0][1].target);
             this->fov = follow_camera_init_pose_table[0][1].fov;
-            set_clamped_offsets(follow_camera_init_pose_table[0][1].near_clip, follow_camera_init_pose_table[0][1].far_clip);
+            set_clip_planes(follow_camera_init_pose_table[0][1].near_clip, follow_camera_init_pose_table[0][1].far_clip);
             break;
         case AREA_PIONEER2_EP2:
             VecCopy(&this->position, &follow_camera_init_pose_table[0][2].pos);
             VecCopy(&this->target, &follow_camera_init_pose_table[0][2].target);
             this->fov = follow_camera_init_pose_table[0][2].fov;
-            set_clamped_offsets(follow_camera_init_pose_table[0][2].near_clip, follow_camera_init_pose_table[0][2].far_clip);
+            set_clip_planes(follow_camera_init_pose_table[0][2].near_clip, follow_camera_init_pose_table[0][2].far_clip);
             break;
         }
     }

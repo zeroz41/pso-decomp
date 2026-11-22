@@ -61,18 +61,6 @@ public:
 
 LAYOUT_ASSERT(TCameraFollow_size, sizeof(TCameraFollow) == 0x110);
 
-// Fallback follow-camera pose per floor area (Pioneer 2 Ep1, Lobby, Pioneer 2 Ep2), applied by
-// init_pose when there is no local player; one row per camera.
-struct FollowCameraInitPose {
-    Vec pos;
-    Vec target;
-    s32 fov;  // 0x3555 = 75 degrees
-    f32 near_clip;        // TCameraCtrl::set_clamped_offsets clamps both to [-65535, -1]
-    f32 far_clip;
-};
-
-extern FollowCameraInitPose *follow_camera_init_pose_table[4];
-
 // Pose overrides the quest camera opcodes set (bit 1: fixed position and target,
 // bit 2: position looking at camera_override_client_id's player).
 extern u8 camera_override_flags;

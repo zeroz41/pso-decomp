@@ -68,7 +68,7 @@ void look_at_position(f32 x, f32 y, f32 z);
 void translate_view_negated(f32 x, f32 y, f32 z);
 // Sets the near and far clip planes (negative view-space z), each clamped to
 // [-65535, -1].
-void set_clamped_offsets(f32 near_z, f32 far_z);
+void set_clip_planes(f32 near_z, f32 far_z);
 // Resets camera to the origin, looking down -z with a 60-degree view angle
 // and clip planes at -1 and -60000 (the Ninja SDK's njInitCamera).
 void init_ninja_camera(struct NJS_CAMERA *camera);

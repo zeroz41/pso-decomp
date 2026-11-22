@@ -48,7 +48,7 @@ void set_camera_look_at(u8 *eye, u8 *target, u8 *up) {
 #pragma scheduling off
 
 // Clip distances come in as negative view-space z, clamped to [-65535, -1].
-void set_clamped_offsets(f32 near_z, f32 far_z) {
+void set_clip_planes(f32 near_z, f32 far_z) {
     if (near_z > -1.0f) {
         near_z = -1.0f;
     }

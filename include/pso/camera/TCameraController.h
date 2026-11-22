@@ -53,6 +53,19 @@ public:
 
 LAYOUT_ASSERT(TCameraController_size, sizeof(TCameraController) == 0x6C);
 
+// The pose TCameraFollow::init_pose gives the follow camera when there is no local
+// player, per floor area (Pioneer 2 Ep1, Lobby, Pioneer 2 Ep2).
+struct FollowCameraInitPose {
+    Vec pos;
+    Vec target;
+    s32 fov;        // 0x3555 = 75 degrees
+    f32 near_clip;  // set_clip_planes clamps both to [-65535, -1]
+    f32 far_clip;
+};
+
+// Four identical rows of those poses; init_pose reads row 0.
+extern FollowCameraInitPose *follow_camera_init_pose_table[4];
+
 // Copies the controller's pose into TCameraCtrl's view.
 void apply_camera_controller_pose(TCameraController *controller);
 
