@@ -99,7 +99,6 @@ void apply_snarl_hit(s32 owner, s32 pos, f32 inner, f32 scale);
 struct P_8005F740 { u8 pad[0x30]; };
 struct ByteBlock_10 { u8 bytes[0x10]; };
 struct P_80064AB0 { u16 a; u16 id; u32 kind; f32 x; f32 z; };
-struct Seg_80063CDC { f32 x, y, z, w; };
 f32 newton_sqrtf(f32);
 void TBoss8Dragon__sub_8005E17C(NJS_OBJECT *);
 void TBoss8Dragon__sub_8005F684(TBoss5Gryphon *self, void *params);
@@ -116,8 +115,6 @@ s32 draw__10TObjMotionFv(void *);
 u8 * find_entity_by_id();
 void free_collision_body_parts(void *);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-void TBoss5GryphonLightningEff__sub_80325064(void *p);
-void * __ct__25TBoss5GryphonLightningEffFv(void *, void *, void *, s32, f32, f32, f32);
 s32 spawn_lightning_wing__12TBoss8DragonFiiiiii(saddr self, saddr pos, saddr mid, saddr arg3, saddr arg4, saddr arg5);
 f32 vec3_dot(void *, void *);
 void subtract_vector(void *, void *);
@@ -1228,34 +1225,31 @@ void TBoss5Gryphon::fn_80063EF4() {
 #pragma push
 #pragma fp_contract on
 void TBoss5Gryphon::spawn_lightning_effect() {
-    Seg_80063CDC segs[3];
+    TBoss5GryphonLightningSegment segs[3];
     s32 a;
     s32 b;
-    void *o;
+    TBoss5GryphonLightningEff *eff;
 
     a = (s32)(65536.0f * (gryphon_random_unit_scale * (f32)rand()));
     b = (s32)(65536.0f * (gryphon_random_unit_scale * (f32)rand()));
-    segs[0].x = gryphon_seventy * sin_table_lookup(a) + this->position.x;
-    segs[0].y = 0.0f;
-    segs[0].z = gryphon_seventy * cos_table_lookup(a) + this->position.z;
+    segs[0].pos.x = gryphon_seventy * sin_table_lookup(a) + this->position.x;
+    segs[0].pos.y = 0.0f;
+    segs[0].pos.z = gryphon_seventy * cos_table_lookup(a) + this->position.z;
     segs[0].w = 0.0f;
-    segs[2].x = gryphon_seventy * sin_table_lookup(b) + this->position.x;
-    segs[2].y = 0.0f;
-    segs[2].z = gryphon_seventy * cos_table_lookup(b) + this->position.z;
+    segs[2].pos.x = gryphon_seventy * sin_table_lookup(b) + this->position.x;
+    segs[2].pos.y = 0.0f;
+    segs[2].pos.z = gryphon_seventy * cos_table_lookup(b) + this->position.z;
     segs[2].w = 0.0f;
     a = (s32)(0.5f * (f32)(a + b));
     if (gryphon_random_unit_scale * (f32)rand() > 0.5f) {
         a += 0x8000;
     }
-    segs[1].x = gryphon_seventy * sin_table_lookup(a) + this->position.x;
-    segs[1].y = gryphon_ten;
-    segs[1].z = gryphon_seventy * cos_table_lookup(a) + this->position.z;
+    segs[1].pos.x = gryphon_seventy * sin_table_lookup(a) + this->position.x;
+    segs[1].pos.y = gryphon_ten;
+    segs[1].pos.z = gryphon_seventy * cos_table_lookup(a) + this->position.z;
     segs[1].w = 0.0f;
-    o = TObject::operator new(0x264);
-    if (o != NULL) {
-        o = __ct__25TBoss5GryphonLightningEffFv(o, this, segs, 3, 0.0f, gryphon_one, 8.0f);
-    }
-    TBoss5GryphonLightningEff__sub_80325064(o);
+    eff = new TBoss5GryphonLightningEff(this, segs, 3, 0.0f, gryphon_one, 8.0f);
+    eff->set_two_sided();
 }
 
 #pragma pop

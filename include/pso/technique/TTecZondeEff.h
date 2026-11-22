@@ -3,6 +3,7 @@
 
 #include "pso/system/task/TObject.h"
 #include "types.h"
+#include <dolphin/mtx/GeoTypes.h>
 
 class TTecZondeEff : public TObject {
 public:
@@ -19,6 +20,23 @@ public:
     static void init_resources();
 public:
     u8 *construct(u8 *parent, u8 *arg2, u8 *arg3, f32 farg0);
+
+    Vec origin;
+    Vec direction;  // unit vector from origin to the far end; length holds the distance
+    f32 length;
+    s32 point_count;  // at most 13
+    Vec base_points[13];
+    Vec points[13];
+    Vec jitter_dirs[13];
+    f32 widths[13];
+    f32 scale;
+    s32 timer;
+    u32 power;
+    s32 idx;
+    u32 decay;
+    s32 start;
+    s16 frame;  // the texture row (frame & 7) and texture (frame & 8)
+    s16 active;
 };
 
 extern "C" {
