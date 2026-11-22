@@ -1753,10 +1753,10 @@ void TObjEneSlimeTailAttack::draw_blob_shadows() {
 void TObjPlayer__sub_800E81A8(void) { lbl_805D52B4 = 0; }
 void TObjPlayer__sub_800E8128(NJS_OBJECT *) {
     if ((s32) (*(s32 *)&lbl_805D52B4) == 7) {
-        TCameraCtrl::transform_to_view((int)&slime_tail_attack_zero_vec, (int)&lbl_80501010.value);
+        TCameraCtrl::transform_to_view((saddr)&slime_tail_attack_zero_vec, (saddr)&lbl_80501010.value);
     }
     if (((s32) (*(s32 *)&lbl_805D52B4) >= 4) && ((s32) (*(s32 *)&lbl_805D52B4) < 8)) {
-        TCameraCtrl::transform_to_view((int)&slime_tail_attack_transform, (int)((u8 *)&lbl_80501010.value + (((*(s32 *)&lbl_805D52B4) - 4) * 0xC) + 0xC));
+        TCameraCtrl::transform_to_view((saddr)&slime_tail_attack_transform, (saddr)((u8 *)&lbl_80501010.value + (((*(s32 *)&lbl_805D52B4) - 4) * 0xC) + 0xC));
     }
     (*(s32 *)&lbl_805D52B4) += 1;
 }
