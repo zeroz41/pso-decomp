@@ -85,28 +85,32 @@
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
+#include "pso/camera/TCameraCtrl_800687BC.h"
+#include "pso/unk/TLobby_802268F4.h"
+#include "pso/camera/TCameraCtrl_8006A03C.h"
+#include "pso/object/TObjControl.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/render/MaterialAlphaCompare.h"
+#include "pso/render/ChunkMaterialState.h"
+#include "pso/render/model_render_state.h"
+#include "pso/render/GinjaTextureMatrices.h"
+#include "pso/unk/TLobby_8007C550.h"
+#include "pso/system/task/TMainTask.h"
+// TObjPlayer_80011014.h declares these too, but its calc_random_ratio prototype takes no rng.
 extern "C" {
-s32 TBoss8Dragon__sub_800670E0(int, void *);
 f64 atan2_float(f32, f32);
-s32 restore_player_cameras(void);
-s32 activate_camera_mode(s32 mode);
+f32 newton_sqrtf(f32);
+s32 is_split_screen();
+f32 fabs_float(f32);
+s32 TBoss8Dragon__sub_800670E0(int, void *);
 void set_scripted_camera_pose(void *, void *, void *);
-void play_cue_stream_file(saddr name);
 f32 calc_random_ratio__10TObjPlayerFv(void *);
 s32 subtractive_rng_seed(void *, s32);
-f32 newton_sqrtf(f32);
-s32 __ct__17TBoss5GryphonDemoFP7TObjectlf(void *, s32, void *, f32);
 void TBoss8Dragon__sub_80067074(saddr arg0, saddr prm);
-void start_camera_shake(s32 id, f32 v);
-u8 *get_enemy_entity(u16 arg0);
-u8 * find_entity_by_id();
-void free_collision_body_parts(void *);
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-f32 vec3_dot(void *, void *);
-void subtract_vector(void *, void *);
-s32 post_translate_matrix(void *);
-void set_material_alpha_compare_reference(s32 reference);
-void set_chunk_material_override_pair(s32 arg0, s32 arg1);
 }
 const char *bm_modelparticle_gryphon_model_names[4] = {
     "boss_rock.gj", "fe_obj001_iwaware_01.gj", "fe_obj001_iwaware_02.gj", NULL,
@@ -211,8 +215,8 @@ const s32 boss5_gryphon_point_index_table[5] = { 1, 2, 12, 13, 0 };
 saddr boss5_gryphon_attack_params[5];
 Boss5GryphonParams *boss5_gryphon_behavior_params[3];
 Vec boss5_gryphon_bone_capture_origin;
-u8 boss5_gryphon_camera_pos_vec[0xC];
-u8 boss5_gryphon_direction_vec[0x10];
+Vec boss5_gryphon_camera_pos_vec;
+u8 boss5_gryphon_direction_vec[0x10];  // a Vec; the split end counts the 4 bytes of .bss alignment after it
 extern const f32 lbl_805D9E80;
 // Set up by this file's static initializer (the last function in the object): 3x and 2x the enemies'
 // per-frame gravity (TObjEneDD's -0.1f), the pair TBoss1Dragon names lift and gravity accel.
@@ -231,12 +235,6 @@ TBoss5Gryphon *boss5_gryphon_instance;
 f32 boss5_gryphon_camera_player_distance;  // blocks_camera_view: camera to player, xz
 extern "C" {
 extern u8 *camera_ctrl_instance;
-extern s32 saved_model_render_flags;
-extern s32 model_render_flags;
-extern saddr tl_01;
-s32 is_split_screen();
-void matrix_mult_vec(s32 mtx, void *in, void *out);
-f32 fabs_float(f32);
 void *boss5_gryphon_action_table[108] = {
     (void *)0x10000, (void *)0x9, (void *)0x3f4ccccd, (void *)0x0,
     (void *)0x10000, (void *)0xb, (void *)0x3f000000, (void *)0x0,
@@ -274,8 +272,8 @@ void *gryphon_follow_camera_target_offset[3] = {
 };
 extern void *boss5_gryphon_landing_bezier_points[16];
 extern void *boss5_gryphon_descend_bezier_points[16];
-extern void *gryphon_left_horn_lightning_offset[3];
-extern void *gryphon_right_horn_lightning_offset[3];
+extern Vec gryphon_left_horn_lightning_offset;
+extern Vec gryphon_right_horn_lightning_offset;
 extern void *gryphon_particle_enable_pos[3];
 extern void *gryphon_particle_position_vec[3];
 #define gryphon_particle_enable_pos ((u8 *)gryphon_particle_enable_pos)
@@ -344,12 +342,8 @@ void *boss5_gryphon_descend_bezier_points[16] = {
     (void *)0x0, (void *)0x43998000, (void *)0x0, (void *)0x0,
     (void *)0x0, (void *)0x42820000, (void *)0x0, (void *)0x0,
 };
-void *gryphon_left_horn_lightning_offset[3] = {
-    (void *)0xc1c80000, (void *)0x0, (void *)0x428a0000,
-};
-void *gryphon_right_horn_lightning_offset[3] = {
-    (void *)0x41980000, (void *)0x0, (void *)0x428a0000,
-};
+Vec gryphon_left_horn_lightning_offset = { -25.0f, 0.0f, 69.0f };
+Vec gryphon_right_horn_lightning_offset = { 19.0f, 0.0f, 69.0f };
 typedef void (TBoss5Gryphon::*ScriptAction)(Boss5GryphonMotionEntry *, Boss5GryphonActionStep *);
 }
 #pragma push
@@ -397,7 +391,6 @@ inline s32 initial_angle_800623E4(TBoss5Gryphon *self) {
 #define F(t, o) (*(t *)(arg0 + (o)))
 }
 extern "C" {
-void __ct__14SubtractiveRngFv(void *);
 // Ids resolved into boss5_gryphon_base_params / boss5_gryphon_resistance_params by the resource loader.
 s32 boss5_gryphon_base_param_ids[1] = { 0x1E };
 s32 boss5_gryphon_resistance_param_ids[1] = { 0x1E };
@@ -1644,7 +1637,6 @@ void TBoss5Gryphon::update_death_state(u32 event) {
 void TBoss5Gryphon::update_demo_state(u32 event) {
     s32 *demo_flag = &this->work.demo_flag;
     Vec pos;
-    void *obj;
     switch (event) {
     case ENEMY_STATE_ENTER:
         this->requested_action = 0;
@@ -1666,10 +1658,7 @@ void TBoss5Gryphon::update_demo_state(u32 event) {
         this->work.substep = 0;
         this->work.timer = 0;
         *demo_flag = 1;
-        obj = TObject::operator new(0x28);
-        if (obj != NULL) {
-            __ct__17TBoss5GryphonDemoFP7TObjectlf(obj, tl_01, demo_flag, gryphon_one);
-        }
+        new TBoss5GryphonDemo(tl_01, demo_flag, gryphon_one);
         this->requested_action = 0x19;
         TWindowCtrl::init_all_slots();
         this->get_target_state_b();
@@ -2656,10 +2645,10 @@ void TBoss5Gryphon::update_ground_lightning_attack(s32 event) {
         self->lightning.frame = 0;
         push_matrix();
         set_matrix_identity(NULL);
-        post_translate_matrix(&self->position);
+        post_translate_matrix(&self->position.x);
         rotate_matrix_y(0, self->rotation_y);
-        matrix_mult_vec(0, gryphon_left_horn_lightning_offset, &left);
-        matrix_mult_vec(0, gryphon_right_horn_lightning_offset, &right);
+        matrix_mult_vec(NULL, &gryphon_left_horn_lightning_offset, &left);
+        matrix_mult_vec(NULL, &gryphon_right_horn_lightning_offset, &right);
         pop_matrix();
         self->lightning.horns[0] = TBoss5GryphonLightningHorn::spawn_ground_lightning(self, &left, self->rotation_y);
         self->lightning.horns[1] = TBoss5GryphonLightningHorn::spawn_ground_lightning(self, &right, self->rotation_y);
@@ -3616,11 +3605,11 @@ s32 TBoss5Gryphon::is_sphere_in_camera_cone(Vec *point, f32 radius) {
     f32 cos_limit;
     VecCopy(&dir, point);
     dir.y = 0.0f;
-    subtract_vector(&dir, (Vec *)boss5_gryphon_camera_pos_vec);
+    subtract_vector(&dir, &boss5_gryphon_camera_pos_vec);
     dist = normalize_vector_xz(&dir);
     if (dist + radius < boss5_gryphon_camera_player_distance) {
         cos_limit = dist * (gryphon_one / newton_sqrtf(dist * dist + radius * radius));
-        if (vec3_dot(&dir, boss5_gryphon_direction_vec) >= cos_limit) {
+        if (vec3_dot(&dir, (Vec *)boss5_gryphon_direction_vec) >= cos_limit) {
             return 1;
         }
     }
@@ -3649,7 +3638,7 @@ void TBoss5Gryphon::draw_body() {
     set_chunk_model_node_callback(capture_bone_node);
     push_matrix();
     set_motion_packed_rotation();
-    post_translate_matrix(&this->position);
+    post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
     rotate_matrix_x(0, this->rotation_x);
     rotate_matrix_z(0, this->rotation_z);
@@ -3703,7 +3692,7 @@ void TBoss5Gryphon::render_model() {
     void *body_model;
 
     push_matrix();
-    post_translate_matrix(&this->position);
+    post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
     rotate_matrix_x(0, this->rotation_x);
     rotate_matrix_z(0, this->rotation_z);
@@ -3731,7 +3720,7 @@ void TBoss5Gryphon::render_with_fade(s32 fade_index) {
         fade->set_flags_and_apply_damage_color();
     }
     push_matrix();
-    post_translate_matrix(&this->position);
+    post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
     rotate_matrix_x(0, this->rotation_x);
     rotate_matrix_z(0, this->rotation_z);
@@ -3750,7 +3739,7 @@ s32 TBoss5Gryphon::blocks_camera_view() {
     Vec cam;
     Vec dir;
     f32 len;
-    u8 *pl;
+    TObjCollidable *pl;
     s32 i;
     if (camera_ctrl_instance == 0) {
         return 0;
@@ -3764,18 +3753,17 @@ s32 TBoss5Gryphon::blocks_camera_view() {
     if (flight_mode != 0) {
         return 0;
     }
-    TCameraCtrl::get_camera_target_id(-1);
-    pl = find_entity_by_id();
+    pl = find_entity_by_id(TCameraCtrl::get_camera_target_id(-1));
     if (pl == 0) {
         return 0;
     }
     VecCopy(&cam, (Vec *)(camera_ctrl_instance + 0x178));
     cam.y = 0.0f;
-    VecCopy(&dir, (Vec *)(pl + 0x38));
+    VecCopy(&dir, &pl->position);
     subtract_vector(&dir, &cam);
     dir.y = 0.0f;
     len = normalize_vector_xz(&dir);
-    VecCopy((Vec *)boss5_gryphon_camera_pos_vec, &cam);
+    VecCopy(&boss5_gryphon_camera_pos_vec, &cam);
     VecCopy((Vec *)boss5_gryphon_direction_vec, &dir);
     boss5_gryphon_camera_player_distance = len;
     for (i = 0; i < 4; i++) {
@@ -3883,7 +3871,7 @@ void TBoss5Gryphon::render_demo() {
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
         TObjFish::set_global_param(this->texlist);
         push_matrix();
-        post_translate_matrix(&this->position);
+        post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         push_matrix();
         scale_matrix(0, 8.0f, 2.0f, 8.0f);
