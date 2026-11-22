@@ -155,7 +155,6 @@ public:
     static s32 copy_pos_to_field688(void *p);
     void spawn_switch_attack();
     void spawn_attack_effect();
-    void copy_action_state(u8 *arg1);
     static void capture_node_points(NJS_OBJECT *);
     void calc_velocity_from_angle();
     f32 clamp_step_in_radius(f32 a, f32 b, f32 s);
@@ -225,12 +224,6 @@ public:
     static void clear_player_control();
     static NJS_OBJECT *clone_node_tree(NJS_OBJECT *src, NJS_OBJECT *dst, NJS_CNK_MODEL *model);
     static void *create(void *set_data);
-    void init_color();
-    void send_spawn_params_packet();
-    void byteswap_action_packet();
-    void byteswap_record();
-    void send_boss_actions();
-    void bswap_boss_actions();
     s32 is_within_xz_distance(u8 *arg1, f32 off);
     f32 calc_sq_offset(f32 farg0);
     void noop();
