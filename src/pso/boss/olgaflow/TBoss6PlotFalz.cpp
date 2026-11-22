@@ -286,7 +286,6 @@ s32 TBoss6PlotFalz::is_active(TObjPlayer *player) {
 #define update_random_shake__14TBoss6PlotFalzFPv ((s32 (*)(void *))update_random_shake__14TBoss6PlotFalzFPv)
 
 extern "C" {
-void TBoss6EmptyWarp__sub_802B1004(void *p);
 
 s32 TBoss6PlotFalz::is_state_1f(TObjPlayer *player) {
     if (player == NULL || player->get_area() != AREA_OLGA_FLOW) {
@@ -313,8 +312,8 @@ void TBoss6PlotFalz::call_state_action() {
 
 void TBoss6PlotFalz::set_state_2() { *(s32*)((char*)this + 0x3d4) = 0; *(s32*)((char*)this + 0x3d8) = 2; }
 void TBoss6PlotFalz::reset_state() { *(s32*)((char*)this + 0x3d4) = 0; *(s32*)((char*)this + 0x3d8) = 0; }
-void TBoss6PlotFalz::activate_warp() { void* m = *(void**)((char*)this + 0x384); if (m) ((TBoss6EmptyWarp *)m)->activate_warp(); }
-void TBoss6PlotFalz::free_child() { void* m = *(void**)((char*)this + 0x384); if (m) TBoss6EmptyWarp__sub_802B1004(m); }
+void TBoss6PlotFalz::activate_warp() { if (tube) tube->activate_warp(); }
+void TBoss6PlotFalz::free_child() { if (tube) tube->sub_802B1004(); }
 void TBoss6PlotFalz::set_state(s32 arg1) {
     if (arg1 < 0 || arg1 >= 9) {
         return;
@@ -588,7 +587,7 @@ struct Boss6BodySpawnParams {
 extern "C" {
 f32 xyz_distance(const void *, const void *);
 
-void TBoss6PlotFalz::release_object() { if (*(unsigned int*)((char*)this + 0x384) != 0) { ((TObject *)(*(void**)((char*)this + 0x384)))->queue_destruction(); *(int*)((char*)this + 0x384) = 0; } }
+void TBoss6PlotFalz::release_object() { if (tube != NULL) { tube->queue_destruction(); tube = NULL; } }
 
 s32 TBoss6PlotFalz::get_target_pos_a(Vec *position) {
     if (TBoss6PlotFalz__type2_instance == NULL) {
@@ -636,8 +635,8 @@ void TBoss6PlotFalz::spawn_type1() {
 }
 
 void TBoss6PlotFalz::ensure_field384() {
-    if ((u32) *(u32 *)((s8 *)this + 0x384) == 0U) {
-        *(void **)((s8 *)this + 0x384) = TBoss6Tube::create(this);
+    if (tube == NULL) {
+        tube = TBoss6Tube::create(this);
     }
 }
 
@@ -1096,7 +1095,7 @@ TBoss6PlotFalz::TBoss6PlotFalz(TObject *parent, void *set_data) : TObjEnemy(pare
     m_3d4 = 0;
     m_3d8 = 0;
     fade = create_boss4_fade();
-    *(s32 *)((s8 *)this + 0x384) = 0;
+    tube = NULL;
     ensure_field384();
     TBoss6PlotFalz__type1_instance = NULL;
     TBoss6PlotFalz__type2_instance = NULL;

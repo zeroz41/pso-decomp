@@ -21,7 +21,10 @@ struct TBoss6Tube : public TObject {
     void update_wobble();
     void spawn_trap();
     void update_timer();
-    static void *create(void *parent);
+    static TBoss6Tube *create(void *parent);
+    void activate_warp();
+    void sub_802B1004();
+    static s32 sub_802B1018();
     static void free_resources();
     static void load_resources();
 };

@@ -8472,14 +8472,14 @@ pso/boss/olgaflow/TBoss6PlotFalz_802B0228.cpp:
 	.sdata2     start:0x805DE218 end:0x805DE228
 
 pso/boss/olgaflow/TBoss6EmptyWarp_802B0E2C.cpp:
-	.text       start:0x802B0DCC end:0x802B1020
+	.text       start:0x802B0DCC end:0x802B0FC8
 	.rodata     start:0x804709C0 end:0x804709F8
 	.data       start:0x804DE840 end:0x804DE878
 	.sdata      start:0x805D3E90 end:0x805D3E98
 	.sdata2     start:0x805DE228 end:0x805DE22C
 
 pso/boss/olgaflow/TBoss6Tube.cpp:
-	.text       start:0x802B1020 end:0x802B17D4
+	.text       start:0x802B0FC8 end:0x802B17D4
 	.rodata     start:0x804709F8 end:0x80470A80
 	.data       start:0x804DE878 end:0x804DE8B0
 	.sdata      start:0x805D3E98 end:0x805D3EA0

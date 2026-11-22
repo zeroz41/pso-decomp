@@ -81,11 +81,4 @@ void *TBoss6EmptyWarp::create() {
     return new TBoss6EmptyWarp((TObject *)tl_02);
 }
 
-void TBoss6EmptyWarp::activate_warp() {
-    *(s32 *)&this->unk_1C = 1;
-    play_sound_effect(0x4003351F, 0, 0, 0);
-}
-void TBoss6EmptyWarp__sub_802B1004(void* p) { *(s32*)((char*)p + 0x20) = 0; *(s32*)((char*)p + 0x1c) = 2; }
-int TBoss6EmptyWarp__sub_802B1018(void) { return 0; }
-
 }

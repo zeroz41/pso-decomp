@@ -10,7 +10,6 @@ struct TBoss6EmptyWarp : public TObject {
     void render();
     void run_task();
     static void *create();
-    void activate_warp();
     static void init_warp();
     u8 unk_1C[0x4];
 };

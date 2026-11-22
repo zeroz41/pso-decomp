@@ -228,7 +228,7 @@ void OlgaFlowActionMsg::send() {
 
 void OlgaFlowActionMsg::swap_entity_id() { header.bswap(); }
 int TBoss6PlotFalz::is_idle() { return phase_state == 0; }
-void *TBoss6PlotFalz::get_mag_mine_ptr() { return unk_384 + 4; }
+void *TBoss6PlotFalz::get_mag_mine_ptr() { return pad_388; }
 void TBoss6Type1::clear_harmful_statuses() {  }
 void TBoss6Type1::apply_shock_status() {  }
 void TBoss6Type1::apply_movement_ailment(s32) {  }

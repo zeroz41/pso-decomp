@@ -15,6 +15,7 @@ s32 TBoss6Type1__sub_802ABDEC(s32 seed);
 
 struct BmlResource;
 class TBoss4Fade;
+struct TBoss6Tube;
 struct TBoss6Type1;
 struct TBoss6Type2;
 
@@ -31,7 +32,8 @@ struct TBoss6PlotFalz : public TObjEnemy {
     u8 m_37c;
     u8 unk_37D[0x3];
     TBoss4Fade *fade;
-    u8 unk_384[0x6];
+    TBoss6Tube *tube;  // the warp tube; ensure_field384 creates it
+    u8 pad_388[0x2];
     s16 m_38a;
     u8 unk_38C[0x40];
     s32 m_3cc;

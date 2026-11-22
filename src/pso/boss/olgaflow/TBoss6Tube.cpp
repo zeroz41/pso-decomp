@@ -12,7 +12,6 @@
 #include "pso/math/MatrixTransforms.h"
 #include <stdlib.h>
 #include "pso/unk/text_803D96A8.h"
-#include "pso/boss/olgaflow/TBoss6EmptyWarp_802B0E2C.h"
 #include "pso/boss/olgaflow/TBoss6Tube_802B15F4.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -41,6 +40,20 @@ s32 TBoss6Tube__previous_scroll_phase;
 f32 TBoss6Tube__scroll_delta;
 void draw_ginja_object(void);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
+
+// run_task's state 1: spawn the trap and run sub_802B1218.
+void TBoss6Tube::activate_warp() {
+    m_1c = 1;
+    play_sound_effect(0x4003351F, 0, 0, 0);
+}
+
+// run_task's state 2: update_wobble.
+void TBoss6Tube::sub_802B1004() {
+    m_20 = 0;
+    m_1c = 2;
+}
+
+s32 TBoss6Tube::sub_802B1018() { return 0; }
 
 void TBoss6Tube::render() {
     TBoss6Tube_802B1020 *o = (TBoss6Tube_802B1020 *)this;
@@ -168,7 +181,7 @@ void TBoss6Tube::update_timer() {
 
 void TBoss6Tube::run_task() {
 
-    if ((TBoss6EmptyWarp__sub_802B1018() == 0) && (TObjEneDD::query_teammate_state() == 0)) {
+    if ((sub_802B1018() == 0) && (TObjEneDD::query_teammate_state() == 0)) {
         switch (this->m_1c) {
         case 0:
             update_timer();
@@ -205,7 +218,7 @@ extern "C" {
 s32 release_texture_list(void*);
 }
 
-void *TBoss6Tube::create(void *parent) {
+TBoss6Tube *TBoss6Tube::create(void *parent) {
     return new TBoss6Tube((TObject *)parent);
 }
 
