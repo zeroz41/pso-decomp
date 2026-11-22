@@ -7458,8 +7458,8 @@ force_active:
   - boss1_dragon_death_impact_point_b
   - dark_falz_player_ring_center_origin
   - df_demo1_strip_specs
-  - lbl_80437384
-  - lbl_804373A4
+  - df_demo2_zero_camera_angles
+  - df_demo3_zero_camera_angles
   - lbl_80438528
   - lbl_80438534
   - lbl_80439494
@@ -7759,12 +7759,12 @@ force_active:
   - df_demo1_zanzo_motion_ids
   - df_demo1_camera_playback
   - df_demo1_node_colors
-  - lbl_804856C0
-  - lbl_80485798
-  - lbl_80486868
+  - df_demo3_node_capture_entries
+  - df_demo5_emitter_node_entries
+  - boss4_type2_node_capture_entries
   - boss4_type3_body_node_captures
   - boss4_type3_wing_node_captures
-  - lbl_80487150
+  - boss4_type3_zero_vec
   - bm_modelparticle_gryphon_motion_names
   - bm_boss5_gryphon_model_names
   - bm_boss5_gryphon_motion_names

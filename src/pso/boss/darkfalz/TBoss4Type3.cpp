@@ -155,7 +155,7 @@ const ModelNodePositionEntry *boss4_type3_effect_desc_ptr_table[3] = {
     boss4_type3_body_node_captures, boss4_type3_wing_node_captures, boss4_type3_wing_node_captures,
 };
 __declspec(section ".data") s32 boss4_type3_run_task_params[2] = {0x34, 0x35};
-Vec lbl_80487150 = {0.0f, 0.0f, 0.0f};
+Vec boss4_type3_zero_vec = {0.0f, 0.0f, 0.0f};
 Vec boss4_type3_default_position = {10000.0f, -10.0f, 0.0f};
 Vec boss4_type3_interp_origin_vec = {10000.0f, 300.0f, 0.0f};
 u32 boss4_type3_radar_marker_colors[4] = {0xffff0000, 0xff00ff00, 0xffffff00, 0xff0000ff};
@@ -600,7 +600,7 @@ void TBoss4Type3::copy_positions_to_parts() {
         }
     }
     if (captured_player == 0xFFFF) {
-        effect_parts[7]->set_position(&lbl_80487150);
+        effect_parts[7]->set_position(&boss4_type3_zero_vec);
     } else {
         effect_parts[7]->set_position(&node_positions[0][5]);
     }

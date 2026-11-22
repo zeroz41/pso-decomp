@@ -40,9 +40,9 @@ s32 vec3_add_to(void *, void *);
 f32 vector_length(void *);
 
 const char *TObjDFDemo3__name = "TObjDFDemo3";
-__declspec(section ".rodata") CameraAngles lbl_804373A4 = {0, 0, 0};
-ModelNodePositionEntry lbl_804856C0[2] = {{0}, {-1}};
-CameraPlayback lbl_804856E0 = {0, 6, 0, 0.0f, 1.0f};
+__declspec(section ".rodata") CameraAngles df_demo3_zero_camera_angles = {0, 0, 0};
+ModelNodePositionEntry df_demo3_node_capture_entries[2] = {{0}, {-1}};
+CameraPlayback df_demo3_camera_playback = {0, 6, 0, 0.0f, 1.0f};
 
 TObjDFDemo3 *TObjDFDemo3::create(TObject *parent, const Vec *position, s32 angle) {
     return new TObjDFDemo3(parent, position, angle);
@@ -72,13 +72,13 @@ TObjDFDemo3::TObjDFDemo3(TObject *parent, const Vec *position, s32 angle) : TObj
     this->emitters[0] = NULL;
     activate_camera_mode(5);
     {
-        CameraAngles c = lbl_804373A4;
+        CameraAngles c = df_demo3_zero_camera_angles;
         c.yaw = this->angle;
         const Vec *camera_position = &this->camera_position;
         set_scripted_camera_pose(camera_position, camera_position, &c);
     }
-    lbl_804856E0.cache_target_and_forward(0x1555);
-    this->node_list = ModelNodePositionCapture::create(lbl_804856C0, &this->emitter_position);
+    df_demo3_camera_playback.cache_target_and_forward(0x1555);
+    this->node_list = ModelNodePositionCapture::create(df_demo3_node_capture_entries, &this->emitter_position);
     this->timer = 0;
 }
 

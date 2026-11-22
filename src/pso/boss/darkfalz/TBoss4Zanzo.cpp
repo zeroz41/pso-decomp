@@ -118,7 +118,7 @@ TBoss4Type2Motion TBoss4Type2__attack_pattern_table[10] = {
     {0, 0, 0x52, 0x51}, {2, 0, 0xd, 0xc}, {1, 0, 0x12, 0x11}, {2, 5, 0x31, 0x30}, {2, 0, 0x33, 0x32},
     {2, 0, 0x3f, 0x3e}, {2, 0, 0x3, 0x2}, {2, 0, 0x7, 0x6}, {2, 9, 0x52, 0x44}, {2, 0, 0x52, 0x3e},
 };
-ModelNodePositionEntry lbl_80486868[4] = {
+ModelNodePositionEntry boss4_type2_node_capture_entries[4] = {
     {0xF, {0.0f, 0.0f, 0.0f}},
     {0x55, {0.0f, 0.0f, 0.0f}},
     {0x6B, {0.0f, 0.0f, 0.0f}},
@@ -176,7 +176,7 @@ TBoss4Type2::TBoss4Type2(TObject *parent, TBoss4FormSetData *set_data) : TObjEne
     anim_looped = 0;
     anim_speed = 0.4f;
     anim_frame = 0.0f;
-    node_capture = ModelNodePositionCapture::create(lbl_80486868, node_positions);
+    node_capture = ModelNodePositionCapture::create(boss4_type2_node_capture_entries, node_positions);
     for (i = 0; i < 2; i++) {
         parts[i] = create_particle_emitter(&position, boss4_type2_emitter_ids[i]);
     }

@@ -79,8 +79,10 @@ __declspec(section ".data") YutaiRange yutai_scale_range = {2.0f, 1.0f};
 __declspec(section ".data") YutaiRange yutai_weight_range = {0.0f, 0.75f};
 
 int TObjDFTenchuFuru::matrix_node_index;
-Vec lbl_804FF228;
-Vec lbl_804FF234;
+// World positions transform_node_tree captures at player nodes 0x3B (where the head and hair are drawn)
+// and 0x3A (the attachment part).
+Vec dark_falz_head_node_position;
+Vec dark_falz_part_node_position;
 Mtx34 df_captured_matrix_pair[2];
 
 #include "pso/render/GinjaMaterial.h"
@@ -201,7 +203,7 @@ void TObjPlayer::draw_player_model_by_id(s32 client_id, f32 alpha) {
     draw_chunk_object(body);
     if (attachment != 0U) {
         push_matrix();
-        post_translate_matrix(&lbl_804FF234.x);
+        post_translate_matrix(&dark_falz_part_node_position.x);
         TObjFish::set_global_param(attachment_textures);
         draw_chunk_object((void *)attachment);
         pop_matrix();
@@ -209,7 +211,7 @@ void TObjPlayer::draw_player_model_by_id(s32 client_id, f32 alpha) {
     if (head != NULL) {
         TCharaMaking::enable_making();
         push_matrix();
-        post_translate_matrix(&lbl_804FF228.x);
+        post_translate_matrix(&dark_falz_head_node_position.x);
         TObjFish::set_global_param(head_textures);
         draw_chunk_object(head);
         pop_matrix();
@@ -221,7 +223,7 @@ void TObjPlayer::draw_player_model_by_id(s32 client_id, f32 alpha) {
     if (hair != NULL) {
         TCharaMaking::enable_making();
         push_matrix();
-        post_translate_matrix(&lbl_804FF228.x);
+        post_translate_matrix(&dark_falz_head_node_position.x);
         TObjFish::set_global_param(head_textures);
         TCharaMaking__draw_colored_hair(alpha, (saddr)hair, (CharacterAppearanceFields *)player->name, 0);
         pop_matrix();
@@ -239,7 +241,7 @@ void boss6type2_draw_models(s32 body_texlist, s32 head_texlist, s32 part_texlist
         draw_chunk_object((void *)body);
         if (part != 0U) {
             push_matrix();
-            post_translate_matrix(&lbl_804FF234.x);
+            post_translate_matrix(&dark_falz_part_node_position.x);
             TObjFish::set_global_param(part_texlist);
             draw_chunk_object((void *)part);
             pop_matrix();
@@ -247,7 +249,7 @@ void boss6type2_draw_models(s32 body_texlist, s32 head_texlist, s32 part_texlist
         if (head != 0U) {
             TCharaMaking::enable_making();
             push_matrix();
-            post_translate_matrix(&lbl_804FF228.x);
+            post_translate_matrix(&dark_falz_head_node_position.x);
             TObjFish::set_global_param(head_texlist);
             draw_chunk_object((void *)head);
             pop_matrix();
@@ -259,7 +261,7 @@ void boss6type2_draw_models(s32 body_texlist, s32 head_texlist, s32 part_texlist
         if (hair != 0U) {
             TCharaMaking::enable_making();
             push_matrix();
-            post_translate_matrix(&lbl_804FF228.x);
+            post_translate_matrix(&dark_falz_head_node_position.x);
             TObjFish::set_global_param(head_texlist);
             TCharaMaking__draw_colored_hair(alpha, (s32)hair, (CharacterAppearanceFields *)appearance, 0);
             pop_matrix();
@@ -343,10 +345,10 @@ void TObjDFTenchuFuru::transform_node_tree(NJS_OBJECT *node) {
         scale_current_matrix(node->scl);
         switch (matrix_node_index) {
         case 0x3B:
-            matrix_mult_vec(0, &dark_falz_jisin_zero_vec, &lbl_804FF228);
+            matrix_mult_vec(0, &dark_falz_jisin_zero_vec, &dark_falz_head_node_position);
             break;
         case 0x3A:
-            matrix_mult_vec(0, &dark_falz_jisin_zero_vec, &lbl_804FF234);
+            matrix_mult_vec(0, &dark_falz_jisin_zero_vec, &dark_falz_part_node_position);
             break;
         }
         matrix_node_index += 1;
