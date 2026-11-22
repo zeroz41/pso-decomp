@@ -267,8 +267,8 @@ void TTecResta::vfunc_7(void *arg1_arg) {
 }
 #pragma pop
 
-void TTecResta::create(void *owner, void *pos, void *level) {
-    new TTecResta(owner, pos, (saddr)level);
+void TTecResta::create(void *owner, void *pos, s32 level) {
+    new TTecResta(owner, pos, level);
 }
 
 void TTecResta::create(void *source, void *origin, void *targets, s32 level) {

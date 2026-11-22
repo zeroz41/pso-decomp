@@ -13,7 +13,7 @@ void TUnk_804A5F18::emit_marker_effects() {
         if (((TItemWeapon *)this)->get_tp() == 0) {
             TTecDeband::create(owner, &owner->position, 2);
         } else {
-            TTecSifta::create(owner, &owner->position, (void *)2);
+            TTecSifta::create(owner, &owner->position, 2);
         }
         roll_technique();
         return;

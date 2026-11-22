@@ -313,8 +313,8 @@ struct Self_80237A94 {
     void **objs;
 };
 
-void TTecRaBarta::create(void *source, void *origin, void *pos, void *level) {
-    new TTecRaBarta((saddr)source, (Vec *)origin, (Vec *)pos, (saddr)level);
+void TTecRaBarta::create(void *source, void *origin, void *pos, s32 level) {
+    new TTecRaBarta((saddr)source, (Vec *)origin, (Vec *)pos, level);
 }
 
 void TTecRaBarta::create(void *source, void *origin, s32 level) {

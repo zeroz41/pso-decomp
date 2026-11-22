@@ -837,9 +837,9 @@ void TBoss4Type2::beam_update() {
         p.x += 20.0f * beam_side.x;
         p.z += 20.0f * beam_side.z;
         if (idx == 0) {
-            TTecRaBarta::create(this, &p, &p, (void *)((TBoss4Type2Params *)TLobby::dispatch_shared_handler_a(0x36))->rabarta_level);
+            TTecRaBarta::create(this, &p, &p, ((TBoss4Type2Params *)TLobby::dispatch_shared_handler_a(0x36))->rabarta_level);
         } else {
-            ((TTecRaFoie *)this)->create(&p, &p, (void *)((TBoss4Type2Params *)TLobby::dispatch_shared_handler_a(0x36))->rafoie_level);
+            ((TTecRaFoie *)this)->create(&p, &p, ((TBoss4Type2Params *)TLobby::dispatch_shared_handler_a(0x36))->rafoie_level);
         }
         add_radar_scaled_marker(&p, -0x5DB4, 1, 1, 2.5f);
         beam_side.x *= -1.0f;
@@ -1067,7 +1067,7 @@ void TBoss4Type2::md_recover_update() {
     }
     if (--action_timer < 0) {
         play_sound_effect(0x4003AD1A, &position, 0, 1);
-        TTecResta::create(this, &position, (void *)resta_level);
+        TTecResta::create(this, &position, resta_level);
         change_action(stop_action);
     }
 }

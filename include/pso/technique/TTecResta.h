@@ -17,7 +17,7 @@ struct TTecResta : public TTecPlayerInfluence {
     int init_cast();
     static f32 calc_heal_amount(s32 level);
     void init_parameters();
-    static void create(void *arg0, void *arg1, void *arg2);
+    static void create(void *arg0, void *arg1, s32 level);
     static void create(void *source, void *origin, void *targets, s32 level);
     virtual void render();
 };

@@ -765,7 +765,7 @@ s32 TObjEneRe4Sorcerer::cast_resta() {
         } else {
             spell_data = &position;
         }
-        TTecResta::create(this, spell_data, (void *)TObjEneDD::clamp_frame_index(sorcerer_behavior_params[8]));
+        TTecResta::create(this, spell_data, TObjEneDD::clamp_frame_index(sorcerer_behavior_params[8]));
         return 1;
     }
     return 0;

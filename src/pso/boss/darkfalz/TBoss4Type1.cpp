@@ -1378,10 +1378,10 @@ void TBoss4Type1::update_tech_charge() {
         play_sound_effect(0x4003A813, (u8 *)this + 0x38, 0, 1);
         if (idx == 0) {
             TBoss4Type2Params *params = (TBoss4Type2Params *)TLobby::dispatch_shared_handler_a(0x36);
-            TTecRaBarta::create(this, (u8 *)this + 0x3B8, (u8 *)this + 0x3B8, (void *)params->rabarta_level);
+            TTecRaBarta::create(this, (u8 *)this + 0x3B8, (u8 *)this + 0x3B8, params->rabarta_level);
         } else {
             TBoss4Type2Params *params = (TBoss4Type2Params *)TLobby::dispatch_shared_handler_a(0x36);
-            ((TTecRaFoie *)this)->create((u8 *)this + 0x3B8, (u8 *)this + 0x3B8, (void *)params->rafoie_level);
+            ((TTecRaFoie *)this)->create((u8 *)this + 0x3B8, (u8 *)this + 0x3B8, params->rafoie_level);
         }
         start_pad_rumble_all(0xC0, 0xF);
     }

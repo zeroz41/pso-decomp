@@ -657,14 +657,14 @@ void cast_technique__18TObjEneMe3SinowZoaFPv(u8 *self) {
     lv = TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)self)->m_3c8]->m_18);
     if (((TObjEneMe3SinowZoa *)self)->sub_8031A454() != 0) {
         if (game_difficulty_selection == 3) {
-            TTecSifta::create((void *)self, self + 0x38, (void *)(TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)self)->m_3c8]->m_18)));
+            TTecSifta::create((void *)self, self + 0x38, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)self)->m_3c8]->m_18));
             TTecDeband::create(self, &((TObjEneMe3SinowZoa *)self)->position, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)self)->m_3c8]->m_18));
         } else {
             TTecZarua::create_instance((saddr)self, (Vec *)(self + 0x38), (Vec *)(self + 0x38), TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)self)->m_3c8]->m_18));
             create__9TTecJelinFllll(self, self + 0x38, self + 0x38, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)self)->m_3c8]->m_18));
         }
     } else {
-        TTecResta::create(self, &((TObjEneMe3SinowZoa *)self)->position, (void *)lv);
+        TTecResta::create(self, &((TObjEneMe3SinowZoa *)self)->position, lv);
     }
 }
 
@@ -1453,7 +1453,7 @@ void TObjEneMe3SinowZoa__sub_80318564(TObjEneMe3SinowZoa *self, s32 mode) {
         case 3:
             (self->m_438)++;
             if ((self->m_438) == 5) {
-                TTecSifta::create(self, &self->position, (void *)(TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[(self->m_3c8)]->m_18)));
+                TTecSifta::create(self, &self->position, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[(self->m_3c8)]->m_18));
             } else if ((self->m_438) == 0xA) {
                 TTecDeband::create(self, &self->position, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[(self->m_3c8)]->m_18));
                 if ((self->m_3cc) & 0x100000) {
@@ -2094,7 +2094,7 @@ void TObjEneMe3SinowZoa__sub_80316C3C(TObjEneMe3SinowZoa *self, s32 mode) {
                 }
                 if (angle < ((AttackParams *)self->m_318)->attack_angle / 2 && self->current_target != NULL) {
                     if (game_difficulty_selection == 3) {
-                        TTecRaBarta::create((void *)self, (void *)(&out), (void *)(&self->position), (void *)(TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[self->m_3c8]->m_24)));
+                        TTecRaBarta::create((void *)self, (void *)(&out), (void *)(&self->position), TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[self->m_3c8]->m_24));
                     } else {
                         TTecGiBarta::create_ex(self, &out, self->rotation_y, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[self->m_3c8]->m_24));
                     }

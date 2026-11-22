@@ -1473,7 +1473,7 @@ void TObjEnePanBARA::sub_800DFE08() {
         if ((var_r5 < 0) || (var_r5 > 0xE)) {
             var_r5 = 0;
         }
-        TTecResta::create((void *)this, &position, (void *)var_r5);
+        TTecResta::create((void *)this, &position, var_r5);
         play_sound_effect(this->remap_sound_for_area(0x4003BC31), &position, 0, 0);
     }
     if (*(s32 *)((s8 *)this + 0xB0) & 0x10) {

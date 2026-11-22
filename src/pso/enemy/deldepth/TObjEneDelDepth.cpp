@@ -1250,7 +1250,7 @@ void TObjEneDelDepthBomb::run_task() {
         Vec impact;
         VecCopy(&impact, &position);
         impact.y += TObjEneDelDepth__data_805DF268;
-        TTecRaBarta::create(source, &position, &impact, (void *)techniqueLevel);
+        TTecRaBarta::create(source, &position, &impact, techniqueLevel);
         this->queue_destruction();
     }
 }

@@ -596,7 +596,7 @@ void TObjEneMe3Shinowa::select_gold_or_normal_variant() {
 
 void TObjEneMe3ShinowaMirage__sub_800E6F0C(TObjEneMe3Shinowa *shinowa) {
     saddr f = TObjEneDD::clamp_frame_index(TObjEneMe3ShinowaMirage__mirage_info_table[shinowa->m_3c0]->m_18);
-    TTecResta::create(shinowa, &shinowa->position, (void *)f);
+    TTecResta::create(shinowa, &shinowa->position, f);
 }
 
 void TObjEneMe3Shinowa::dispatch_action(u32 state, s32 reason) {
@@ -1341,7 +1341,7 @@ void TObjEneMe3ShinowaMirage::state_cast_support(s32 reason) {
         case 2:
             m_408++;
             if (m_408 == 5) {
-                TTecSifta::create(this, &position, (void *)(TObjEneDD::clamp_frame_index(TObjEneMe3ShinowaMirage__mirage_info_table[m_3c0]->m_18)));
+                TTecSifta::create(this, &position, TObjEneDD::clamp_frame_index(TObjEneMe3ShinowaMirage__mirage_info_table[m_3c0]->m_18));
             } else if (m_408 == 0xA) {
                 TTecDeband::create(this, &position, (s32)(TObjEneDD::clamp_frame_index(TObjEneMe3ShinowaMirage__mirage_info_table[m_3c0]->m_18)));
                 m_404 = 1;

@@ -851,13 +851,13 @@ void TItemMag::cast_support_technique(s32 technique) {
     }
     switch (technique) {
     case 13:
-        TTecSifta::create(owner, &owner->position, (void *)level);
+        TTecSifta::create(owner, &owner->position, level);
         break;
     case 10:
         TTecDeband::create(owner, &owner->position, level);
         break;
     case 15:
-        TTecResta::create(owner, &owner->position, (void *)level);
+        TTecResta::create(owner, &owner->position, level);
         break;
     case 17: {
         TargetCursorList targets;

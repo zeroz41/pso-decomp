@@ -593,7 +593,7 @@ void TObjEneMe3Stelth::sub_800F4758() {
 }
 void TObjEneMe3Stelth::create_resta_effect() {
     saddr f = TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[this->m_3c8]->support_tech_level);
-    TTecResta::create((void *)this, (u8 *)&this->position, (void *)f);
+    TTecResta::create((void *)this, (u8 *)&this->position, f);
 }
 void TObjEneMe3Stelth::dispatch_action(u32 state, s32 reason) {
     switch (state) {
@@ -1317,7 +1317,7 @@ void TObjEneMe3Stelth::update_state_resta_cast(s32 reason) {
         case 2:
             m_428++;
             if (m_428 == 5) {
-                TTecSifta::create((void *)this, (u8 *)&position, (void *)(TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[m_3c8]->support_tech_level)));
+                TTecSifta::create((void *)this, (u8 *)&position, TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[m_3c8]->support_tech_level));
             } else if (m_428 == 0xA) {
                 TTecDeband::create(this, (u8 *)&position, (s32)(TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[m_3c8]->support_tech_level)));
                 m_424 = 1;
@@ -2024,7 +2024,7 @@ void TObjEneMe3Stelth__sub_800F1098(TObjEneMe3Stelth *stelth, s32 reason) {
                 }
                 if (r < ((s32 *)stelth->m_318)[3] / 2 && stelth->current_target != NULL) {
                     if (game_difficulty_selection == 3) {
-                        ((TTecRaFoie *)stelth)->create(&out, (u8 *)&stelth->destination, (void *)TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[stelth->m_3c8]->attack_tech_level));
+                        ((TTecRaFoie *)stelth)->create(&out, (u8 *)&stelth->destination, TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[stelth->m_3c8]->attack_tech_level));
                     } else {
                         TTecGiFoie::create(stelth, &out, TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[stelth->m_3c8]->attack_tech_level));
                     }

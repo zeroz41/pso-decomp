@@ -19,7 +19,7 @@ struct TTecRaFoie : public TUnk_804CC148 {
     void calc_area_parameters();
     virtual void render();
     void update_detonation(void *arg1);
-    void create(void *origin, void *pos, void *level);
+    void create(void *origin, void *pos, s32 level);
     static void create_ex(void *source, void *origin, void *targets, s32 level);
 };
 
