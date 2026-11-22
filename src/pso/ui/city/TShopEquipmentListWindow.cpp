@@ -266,7 +266,7 @@ void TShopEquipmentListWindow::create_buy_list_windows(void *p) {
             ((TWindowCost *)c)->set_cost(W->recs[0].price);
         }
     }
-    ((TShopEquipmentListWindow *)p)->vfunc_6(0xB, 1);
+    ((TShopEquipmentListWindow *)p)->display_shop_message(0xB, 1);
 }
 }
 
@@ -320,19 +320,19 @@ void TShopEquipmentListWindow::handle_selection() {
         play_sound_effect(0x52D01, 0, 0, 0);
         switch (check_purchase_eligibility()) {
         case 0:
-            vfunc_6(0xF, 1);
+            display_shop_message(0xF, 1);
             ((TShopWindowBase *)w)->set_field_20(5);
             break;
         case 1:
-            vfunc_6(0x19, 1);
+            display_shop_message(0x19, 1);
             ((TShopWindowBase *)w)->set_field_20(6);
             break;
         case 2:
-            vfunc_6(0x12, 1);
+            display_shop_message(0x12, 1);
             ((TShopWindowBase *)w)->set_field_20(7);
             break;
         case 3:
-            vfunc_6(0x11, 1);
+            display_shop_message(0x11, 1);
             ((TShopWindowBase *)w)->set_field_20(7);
             break;
         case 4:
@@ -344,7 +344,7 @@ void TShopEquipmentListWindow::handle_selection() {
 
 void TShopEquipmentListWindow::handle_select() {
     if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
-        vfunc_6(0xB, 1);
+        display_shop_message(0xB, 1);
         ((TWindowMenuIconLine *)(this->m_30))->clear_decided();
         this->TShopWindowBase::set_field_20(1);
     }
@@ -352,7 +352,7 @@ void TShopEquipmentListWindow::handle_select() {
 
 void TShopEquipmentListWindow::handle_confirm() {
     if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
-        vfunc_6(0xB, 1);
+        display_shop_message(0xB, 1);
         ((TWindowMenuIconLine *)(this->m_30))->clear_decided();
         this->TShopWindowBase::set_field_20(1);
     }
@@ -453,7 +453,7 @@ void TShopEquipmentListWindow::handle_equip_offer() {
         r = ((TWindowMenu *)w->win)->get_selected_value();
         if (r == 0 && w->list != NULL) {
             if (w->flag != 0) {
-                ((TShopEquipmentListWindow *)w)->vfunc_6(0x18, 1);
+                ((TShopEquipmentListWindow *)w)->display_shop_message(0x18, 1);
                 ((TWindowBase *)w->win)->close();
                 w->win = (void *)create_yes_no_window(get_window_layout_position(0x2B), get_entity_id(w->player), 0, 0);
                 sc = ((TShopWindowBase *)w)->get_scale();
@@ -498,10 +498,10 @@ void TShopEquipmentListWindow::update_list(void *arg1) {
     }
 }
 
-void TShopEquipmentListWindow::vfunc_6(s32 id, s32 flags) {
+void TShopEquipmentListWindow::display_shop_message(s32 id, s32 flags) {
     TShopWindowBase *sequence = this->sequence;
     if (sequence != NULL) {
-        sequence->vfunc_6(id, flags);
+        sequence->display_shop_message(id, flags);
     }
 }
 

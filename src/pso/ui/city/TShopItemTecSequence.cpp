@@ -141,7 +141,7 @@ void TShopItemTecSequence::open_greeting() {
     pos[0] = 332.0f;
     pos[1] = 80.0f;
     create_message_window(get_window_layout_position(0x2C, 332.0f), (saddr)pos);
-    vfunc_6(0x2E, 1);
+    display_shop_message(0x2E, 1);
     meseta_window = (TWindowBase *)create_meseta_window((u16)get_child_field1c());
     set_field_20(2);
     counter_camera = set_service_counter_camera(this, 5);
@@ -162,7 +162,7 @@ void TShopItemTecSequence::update_buy_sell_choice() {
     if (choice_menu != NULL && choice_menu->is_decided() != 0) {
         r = choice_menu->get_selected_value();
         if (r == 0) {
-            vfunc_6(0xB, 1);
+            display_shop_message(0xB, 1);
             set_field_20(3);
             choice_menu->close();
             choice_menu = NULL;
@@ -176,7 +176,7 @@ void TShopItemTecSequence::update_buy_sell_choice() {
         }
     }
     if (choice_menu != NULL && choice_menu->is_cancelled() != 0) {
-        vfunc_6(0x2C, 1);
+        display_shop_message(0x2C, 1);
         set_field_20(7);
         choice_menu->close();
         choice_menu = NULL;
@@ -208,21 +208,21 @@ void TShopItemTecSequence::close_if_done() {
 
 void TShopItemTecSequence::handle_select() {
     if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
-        vfunc_6(lbl_805D6248, 1);
+        display_shop_message(lbl_805D6248, 1);
         set_field_20(lbl_805D624C);
     }
 }
 
 void close__20TShopItemTecSequenceFPv(TShopWindowBase *window) {
     if (window != NULL) {
-        window->vfunc_6(0x1A, 1);
+        window->display_shop_message(0x1A, 1);
         window->set_field_20(2);
     }
 }
 
 void select_and_advance__20TShopItemTecSequenceFPv(TShopWindowBase *window) {
     if (window != NULL) {
-        window->vfunc_6(0x1B, 1);
+        window->display_shop_message(0x1B, 1);
         window->set_field_20(6);
         lbl_805D6248 = 0x1A;
         lbl_805D624C = 2;

@@ -17634,7 +17634,7 @@ force_active:
   - vfunc_6__11TTecRaZondeFPv
   - vfunc_6__12TNeedleShootFv
   - vfunc_6__12TODoorCave01FPsl
-  - vfunc_6__12TQuestListVMFll
+  - display_shop_message__12TQuestListVMFll
   - vfunc_6__13TAdVIConfigGCFv
   - vfunc_6__13TUnk_80488D70Fv
   - vfunc_6__14TOTrapSeabed01FPsl

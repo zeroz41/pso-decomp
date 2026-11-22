@@ -110,7 +110,7 @@ void TShopGetItemWindow::rebuild_item_list() {
     m_54 = 1;
     m_50 = TCheckRoomSequence::get_room_table_entry(x = sub_8022397C());
     if (m_50 == 0) {
-        vfunc_6(0x3E, 1);
+        display_shop_message(0x3E, 1);
         set_field_20(6);
         if (m_28 != NULL) {
             m_28->reset_list();
@@ -261,7 +261,7 @@ void TShopGetItemWindow::handle_withdraw_confirm() {
                     record.set_stack_count(m_54);
                 }
                 if (m_24->can_inventory_accept_item((u8 *)&record) == 0) {
-                    vfunc_6(0x4B, 1);
+                    display_shop_message(0x4B, 1);
                     set_field_20(6);
                 } else {
                     m_24->request_inventory_item(&record);
@@ -297,9 +297,9 @@ void TShopGetItemWindow::close() {
     set_field_20(1);
 }
 
-void TShopGetItemWindow::vfunc_6(s32 id, s32 flags) {
+void TShopGetItemWindow::display_shop_message(s32 id, s32 flags) {
     if (this->m_5c != NULL) {
-        this->m_5c->vfunc_6(id, flags);
+        this->m_5c->display_shop_message(id, flags);
     }
 }
 

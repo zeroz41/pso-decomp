@@ -119,14 +119,14 @@ void TShopDeleteItemWindow::sub_80337E2C() {
     base = sub_8022397C();
     m_58 = TCheckRoomSequence::get_room_table_entry(base);
     if (m_58 == 0) {
-        vfunc_6(0x3E, 1);
+        display_shop_message(0x3E, 1);
         set_field_20(6);
         if (m_30 != NULL) {
             m_30->reset_list();
         }
         return;
     }
-    vfunc_6(0x4C, 1);
+    display_shop_message(0x4C, 1);
     if (m_30 == NULL) {
         TItemData item;
         s32 count;
@@ -224,7 +224,7 @@ void TShopDeleteItemWindow::update_item_select(void *arg0) {
                 ((TWindowSubComCardList *)self->m_34)->set_selected_index(1);
                 ((TWindowAddition *)self->m_34)->set_position_xy(self->get_scale(), self->get_scale());
                 self->set_field_20(3);
-                self->vfunc_6(0x4D, 1);
+                self->display_shop_message(0x4D, 1);
             }
         }
     }
@@ -247,7 +247,7 @@ void TShopDeleteItemWindow::handle_number_input() {
         ((TWindowBase *)m_38)->close();
         m_38 = NULL;
         set_field_20(3);
-        vfunc_6(0x4D, 1);
+        display_shop_message(0x4D, 1);
         return;
     }
     if (m_38 != NULL && ((TShopEquipmentSellWindow *)m_38)->is_confirmed() != 0) {
@@ -300,13 +300,13 @@ void TShopDeleteItemWindow::destroy() {
         m_30->clear_decided();
     }
     set_field_20(1);
-    vfunc_6(0x4C, 1);
+    display_shop_message(0x4C, 1);
 }
 
-void TShopDeleteItemWindow::vfunc_6(s32 id, s32 flags) {
+void TShopDeleteItemWindow::display_shop_message(s32 id, s32 flags) {
     TShopWindowBase *owner = m_64;
     if (owner != NULL) {
-        owner->vfunc_6(id, flags);
+        owner->display_shop_message(id, flags);
     }
 }
 

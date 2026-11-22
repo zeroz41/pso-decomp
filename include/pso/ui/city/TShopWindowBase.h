@@ -7,9 +7,9 @@ class TShopWindowBase : public TObject {
 public:
     TShopWindowBase(TObject *parent);
     virtual ~TShopWindowBase();
-    virtual void vfunc_6(s32 id, s32 flags);
+    virtual void display_shop_message(s32 id, s32 flags);
     virtual void display_message(const char *text, s32 flags);
-    virtual void vfunc_8(s32 id, s32 flags);
+    virtual void send_message(s32 id, s32 flags);
     virtual void display_guild_message(s32 index, s32 flags);
     virtual int vfunc_10();
     virtual void vfunc_11();

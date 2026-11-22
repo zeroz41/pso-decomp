@@ -122,7 +122,7 @@ void TShopEquipmentGearSequence::open_greeting() {
     pos[0] = 332.0f;
     pos[1] = 80.0f;
     create_message_window(get_window_layout_position(0x2C, 332.0f), (saddr)pos);
-    vfunc_6(0x2b, 1);
+    display_shop_message(0x2b, 1);
     meseta_window = (TWindowBase *)create_meseta_window((s32)(unsigned short)get_child_field1c());
     set_field_20(2);
     counter_camera = set_service_counter_camera(this, 0x4);
@@ -160,7 +160,7 @@ void TShopEquipmentGearSequence::update_buy_sell_choice(void *self) {
         }
     }
     if (sequence->choice_menu != NULL && sequence->choice_menu->is_cancelled() != 0) {
-        sequence->vfunc_6(0x2C, 1);
+        sequence->display_shop_message(0x2C, 1);
         sequence->set_field_20(6);
         sequence->choice_menu->close();
         sequence->choice_menu = NULL;
@@ -192,21 +192,21 @@ void TShopEquipmentGearSequence::try_close() {
 
 void TShopEquipmentGearSequence::handle_confirm() {
     if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
-        vfunc_6(lbl_805D6218, 1);
+        display_shop_message(lbl_805D6218, 1);
         set_field_20(lbl_805D621C);
     }
 }
 
 void TShopEquipmentGearSequence::enter_quest_list(TShopWindowBase *sequence) {
     if (sequence != NULL) {
-        sequence->vfunc_6(0x1A, 1);
+        sequence->display_shop_message(0x1A, 1);
         sequence->set_field_20(2);
     }
 }
 
 void TShopEquipmentGearSequence::open_gear_shop(TShopWindowBase *sequence) {
     if (sequence != NULL) {
-        sequence->vfunc_6(0x1B, 1);
+        sequence->display_shop_message(0x1B, 1);
         sequence->set_field_20(7);
         lbl_805D6218 = 0x1A;
         lbl_805D621C = 2;

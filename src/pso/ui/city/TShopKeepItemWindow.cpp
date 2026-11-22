@@ -125,7 +125,7 @@ void TShopKeepItemWindow::rebuild_item_list() {
     if (this->entry_count != 0) {
         set_field_20(1);
     } else {
-        vfunc_6(0x49, 1);
+        display_shop_message(0x49, 1);
         set_field_20(7);
         return;
     }
@@ -195,7 +195,7 @@ void TShopKeepItemWindow::handle_deposit_list_select() {
             count = 0;
         }
         if (count == 0) {
-            vfunc_6(0x3C, 1);
+            display_shop_message(0x3C, 1);
             set_field_20(7);
             return;
         }
@@ -205,7 +205,7 @@ void TShopKeepItemWindow::handle_deposit_list_select() {
     case 2:
     default:
         if (bank_has_free_row(bank) == 0) {
-            vfunc_6(0x3C, 1);
+            display_shop_message(0x3C, 1);
             set_field_20(7);
             return;
         }
@@ -276,7 +276,7 @@ void TShopKeepItemWindow::handle_deposit_confirm() {
                 set_field_20(0);
                 return;
             }
-            vfunc_6(0x3C, 1);
+            display_shop_message(0x3C, 1);
             play_sound_effect(0x53F06, 0, 0, 0);
             ((TWindowBase *)this->confirm_window)->close();
             this->confirm_window = 0;
@@ -327,10 +327,10 @@ void TShopKeepItemWindow::close_with_cancel_callback() {
     queue_destruction();
 }
 
-void TShopKeepItemWindow::vfunc_6(s32 id, s32 flags) {
+void TShopKeepItemWindow::display_shop_message(s32 id, s32 flags) {
     TShopWindowBase *owner = this->message_window;
     if (owner != NULL) {
-        owner->vfunc_6(id, flags);
+        owner->display_shop_message(id, flags);
     }
 }
 

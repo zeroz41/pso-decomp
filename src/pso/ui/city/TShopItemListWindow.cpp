@@ -272,11 +272,11 @@ void TShopItemListWindow::handle_tool_list_select(void *p) {
         play_sound_effect(0x52D01, 0, 0, 0);
         switch (((TShopItemListWindow *)W)->check_purchase_eligibility()) {
         case 0:
-            ((TShopItemListWindow *)p)->vfunc_6(0xF, 1);
+            ((TShopItemListWindow *)p)->display_shop_message(0xF, 1);
             ((TShopWindowBase *)W)->set_field_20(5);
             break;
         case 1:
-            ((TShopItemListWindow *)p)->vfunc_6(0x19, 1);
+            ((TShopItemListWindow *)p)->display_shop_message(0x19, 1);
             ((TShopWindowBase *)W)->set_field_20(6);
             break;
         case 2:
@@ -291,7 +291,7 @@ void TShopItemListWindow::handle_tool_list_select(void *p) {
 
 void TShopItemListWindow::update() {
     if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
-        vfunc_6(0xB, 1);
+        display_shop_message(0xB, 1);
         ((TWindowMenuIconLine *)(this->item_list))->clear_decided();
         set_field_20(1);
     }
@@ -299,7 +299,7 @@ void TShopItemListWindow::update() {
 
 void TShopItemListWindow::handle_confirm() {
     if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
-        vfunc_6(0xB, 1);
+        display_shop_message(0xB, 1);
         ((TWindowMenuIconLine *)(this->item_list))->clear_decided();
         set_field_20(1);
     }
@@ -419,10 +419,10 @@ void TShopItemListWindow::handle_amount_confirm() {
     }
 }
 
-void TShopItemListWindow::vfunc_6(s32 id, s32 flags) {
+void TShopItemListWindow::display_shop_message(s32 id, s32 flags) {
     TShopWindowBase *sequence = this->sequence;
     if (sequence != NULL) {
-        sequence->vfunc_6(id, flags);
+        sequence->display_shop_message(id, flags);
     }
 }
 

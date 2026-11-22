@@ -65,7 +65,7 @@ void TShopSequence::display_guild_message(s32 index, s32 flags) {
     }
 }
 
-void TShopSequence::vfunc_8(s32 id, s32 flags) {
+void TShopSequence::send_message(s32 id, s32 flags) {
     if (message_window != NULL) {
         send_message__24TMessageWindowControllerFll(message_window);
     }
@@ -77,7 +77,7 @@ void TShopSequence::display_message(const char *text, s32 flags) {
     }
 }
 
-void TShopSequence::vfunc_6(s32 id, s32 flags) {
+void TShopSequence::display_shop_message(s32 id, s32 flags) {
     if (message_window != NULL) {
         format_shop_message__24TMessageWindowControllerFll(message_window);
     }

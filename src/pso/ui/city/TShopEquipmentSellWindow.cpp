@@ -231,7 +231,7 @@ void TShopEquipmentSellWindow::build_sell_list() {
         }
         return;
     }
-    ((TShopEquipmentSellWindow *)self)->vfunc_6(0xC, 1);
+    ((TShopEquipmentSellWindow *)self)->display_shop_message(0xC, 1);
     ((TShopWindowBase *)self)->set_field_20(1);
     if (self->list_win == NULL) {
         self->list_win = create_item_list_window(get_shop_text(self->text), self->count, get_entity_id((saddr)self->owner));
@@ -397,7 +397,7 @@ void TShopEquipmentSellWindow::handle_sell_confirm() {
                 ((TShopWindowBase *)w)->set_field_20(0);
                 return;
             }
-            ((TShopEquipmentSellWindow *)w)->vfunc_6(0x1C, 1);
+            ((TShopEquipmentSellWindow *)w)->display_shop_message(0x1C, 1);
             ((TWindowBase *)w->card)->close();
             w->card = NULL;
             ((TShopWindowBase *)w)->set_field_20(4);
@@ -419,15 +419,15 @@ void TShopEquipmentSellWindow::handle_sell_confirm() {
 
 void TShopEquipmentSellWindow::update() {
     if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
-        vfunc_6(0xc, 1);
+        display_shop_message(0xc, 1);
         set_field_20(5);
     }
 }
 
-void TShopEquipmentSellWindow::vfunc_6(s32 id, s32 flags) {
+void TShopEquipmentSellWindow::display_shop_message(s32 id, s32 flags) {
     TShopWindowBase *sequence = this->sequence;
     if (sequence != NULL) {
-        sequence->vfunc_6(id, flags);
+        sequence->display_shop_message(id, flags);
     }
 }
 

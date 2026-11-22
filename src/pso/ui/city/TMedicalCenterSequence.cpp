@@ -153,7 +153,7 @@ void TMedicalCenterSequence::open_greeting_window() {
     pos[0] = 332.0f;
     pos[1] = 80.0f;
     create_message_window(get_window_layout_position(0x2C, 332.0f), (saddr)pos);
-    vfunc_6(0x1F, 1);
+    display_shop_message(0x1F, 1);
     m_2c = (TWindowBase *)create_meseta_window(get_child_field1c());
     set_field_20(2);
     counter_camera = set_service_counter_camera(this, 0);
@@ -196,7 +196,7 @@ void TMedicalCenterSequence::handle_window_result() {
 
 void TMedicalCenterSequence::exec_heal() {
     if (obj_getPtr2B0_20(player) < 0xA) {
-        vfunc_6(0xF, 1);
+        display_shop_message(0xF, 1);
         set_field_20(0xA);
         return;
     }
@@ -208,23 +208,23 @@ void TMedicalCenterSequence::exec_heal() {
     }
     player->send_field_state();
     try_spend_actor_meseta(player, 0xA);
-    vfunc_6(0x22, 1);
+    display_shop_message(0x22, 1);
     set_field_20(0xA);
 }
 
 void TMedicalCenterSequence::show_declined() {
-    vfunc_6(0x24, 1);
+    display_shop_message(0x24, 1);
     set_field_20(8);
 }
 
 void TMedicalCenterSequence::show_already_healthy() {
-    vfunc_6(0x21, 1);
+    display_shop_message(0x21, 1);
     set_field_20(8);
 }
 
 void TMedicalCenterSequence::show_fee_prompt() {
     u16 id;
-    vfunc_6(0x20, 1);
+    display_shop_message(0x20, 1);
     id = get_entity_id(player);
     m_30 = (TWindowMenu *)create_yes_no_window(((s32 (*)(int))get_window_layout_position)(0x2B), id, 0, 0);
     ((TWindowAddition *)m_30)->set_position_xy(get_scale(), get_scale());
@@ -233,7 +233,7 @@ void TMedicalCenterSequence::show_fee_prompt() {
 
 void TMedicalCenterSequence::handle_window_input() {
     if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
-        vfunc_6(0x22, 1);
+        display_shop_message(0x22, 1);
         set_field_20(0xa);
     }
 }

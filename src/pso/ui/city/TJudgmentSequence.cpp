@@ -44,7 +44,7 @@ void TJudgmentSequence__sub_80215BCC(TShopWindowBase *window) {
 
 void TJudgmentSequence__sub_80215BF8(TShopWindowBase *window) {
     if (window != NULL) {
-        window->vfunc_8(0xD, 1);
+        window->send_message(0xD, 1);
         window->set_field_20(4);
     }
 }
@@ -82,7 +82,7 @@ void TJudgmentSequence::setup_counter_camera() {
     pos[1] = 80.0f;
     x = 332.0f;
     create_message_window(get_window_layout_position(0x2C, x), (saddr)pos);
-    vfunc_8(1, 1);
+    send_message(1, 1);
     m_2c = (TWindowBase *)create_meseta_window(((s32)get_child_field1c()) & 0xFFFF);
     set_field_20(2);
     counter_camera = set_service_counter_camera(this, 2);
@@ -154,5 +154,5 @@ void TJudgmentSequence__sub_80216058(void) {
     }
 }
 
-void TShopWindowBase::vfunc_8(s32 id, s32 flags) {  }
+void TShopWindowBase::send_message(s32 id, s32 flags) {  }
 }

@@ -746,9 +746,9 @@ s32 TQuestListVM::update_load_status() {
     return 0;
 }
 
-void TQuestListVM::vfunc_6(s32 id, s32 flags) {
+void TQuestListVM::display_shop_message(s32 id, s32 flags) {
     if (owner != NULL) {
-        owner->vfunc_6(id, flags);
+        owner->display_shop_message(id, flags);
     }
 }
 
