@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pso/network/TcpSendQueue.h"
 #include "pso/network/IPv6Send.h"
+#include "pso/network/SocketEvents.h"
 
 typedef struct TcpTcb TcpTcb;
 
@@ -126,8 +127,8 @@ struct TcpTcb {
     s16 f2C4;
     s16 pending;
     void (*accept_cb)(s16, s16, s32, s32); /* callback of the waits[3] operation */
-    s32 accept_ctx; /* handed to the accepted TCB's event_ctx */
-    s32 event_ctx; /* passed to NetDispatchSocketEvent */
+    NetSocketEventCallback accept_ctx; /* handed to the accepted TCB's event_ctx */
+    NetSocketEventCallback event_ctx; /* passed to NetDispatchSocketEvent */
     s16 keepidle; /* keepalive time set by option 8; 0 uses tcp_protocol_state.keepidle */
     u8 f2D6[3];
     u8 pad2D9[3];

@@ -372,7 +372,7 @@ s16 udp_send(s32 h, NetworkAddress *src, NetworkAddress *dst, u16 port, UdpSendO
     return r;
 }
 
-s16 udp_open(void *src, s32 sport, void *dst, s32 dport, s32 eventCallback, NetUdpReceiveCallback cb) {
+s16 udp_open(void *src, s32 sport, void *dst, s32 dport, NetSocketEventCallback eventCallback, NetUdpReceiveCallback cb) {
     u8 any[0x14];
     s16 h;
     s16 r;
@@ -866,7 +866,7 @@ s16 tcp_create(void) {
     return handle;
 }
 
-void NetDispatchSocketEvent(s16 v, saddr cb_, s32 type, s16 code) {
+void NetDispatchSocketEvent(s16 v, NetSocketEventCallback cb, s32 type, s16 code) {
     s16 validate_tcp_handle(s16 handle);
     TcpTcb *s;
     switch ((s16)type) {
@@ -901,8 +901,8 @@ void NetDispatchSocketEvent(s16 v, saddr cb_, s32 type, s16 code) {
     default:
         return;
     }
-    if ((void *)cb_ != NULL) {
-        ((void (*)(s16, s16))cb_)(v, code);
+    if (cb != NULL) {
+        cb(v, code);
     }
 }
 

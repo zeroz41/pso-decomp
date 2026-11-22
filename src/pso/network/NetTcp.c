@@ -1206,7 +1206,7 @@ retry:
         case 6:
         case 9:
             *(s16 *)(found + offsetof(TcpTcb, t_state)) = 0;
-            NetDispatchSocketEvent(TCP_IDX(found), *(s32 *)(found + offsetof(TcpTcb, event_ctx)), 3, 4);
+            NetDispatchSocketEvent(TCP_IDX(found), *(NetSocketEventCallback *)(found + offsetof(TcpTcb, event_ctx)), 3, 4);
             set_thread_state_and_resume(TCP_IDX(found), ((TcpTcb *)found)->send_done, -5);
             set_slot_state_and_resume(TCP_IDX(found), ((TcpTcb *)found)->recv_done, -5);
             if (TLobby__sub_8041B5C0((TcpTcb *)found) != 0) {
@@ -1216,7 +1216,7 @@ retry:
         case 7:
         case 8:
         case 10:
-            NetDispatchSocketEvent(TCP_IDX(found), *(s32 *)(found + offsetof(TcpTcb, event_ctx)), 3, 4);
+            NetDispatchSocketEvent(TCP_IDX(found), *(NetSocketEventCallback *)(found + offsetof(TcpTcb, event_ctx)), 3, 4);
             ((TcpTcb *)found)->flags |= 0x80;
             TLobby__sub_8041B5C0((TcpTcb *)found);
             goto drop;

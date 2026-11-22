@@ -184,7 +184,7 @@ s32 NetUdpClose(s16 id) {
     entry->active = 0;
     return 0;
 }
-s16 NetUdpConnect(s16 id, NetworkAddress* remoteAddress, s32 port, s32 eventCallback, u32 receiveCallback) {
+s16 NetUdpConnect(s16 id, NetworkAddress* remoteAddress, s32 port, NetSocketEventCallback eventCallback, u32 receiveCallback) {
     UdpControlBlock* entry;
     if (id < 0 || id >= udp_runtime_state.count) return -4;
     entry = udp_runtime_state.entries;

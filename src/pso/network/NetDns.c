@@ -17,7 +17,7 @@
 #include "pso/network/TLobby_8041112C.h"
 #include "pso/network/text_80421620.h"
 /* The object header the stack's records share (laid out like TObject's fields). */
-void complete_pending_request(s16 id);
+void complete_pending_request(s16 id, s16 event);
 void tick_connection_timeouts(void);
 s32 append_to_list(DnsHost *o, DnsAddr *n);
 NetworkAddress *find_next_active_record(DnsQuery *a);
@@ -312,7 +312,7 @@ static inline DnsQuery *dns_alloc_query(DnsResolverState *g) {
     return e;
 }
 static inline s16 dns_open_socket(DnsQuery *e) {
-    e->socket = udp_open(0, 0, 0, 0x35, (s32)complete_pending_request, AT_DNS_UdpReceiver);
+    e->socket = udp_open(0, 0, 0, 0x35, complete_pending_request, AT_DNS_UdpReceiver);
     return e->socket;
 }
 static inline s16 dns_send_query(DnsQuery *e, NetworkAddress *dst) {
@@ -781,7 +781,7 @@ inline DnsQuery *find_8040B654(s16 id) {
     return NULL;
 }
 
-void complete_pending_request(s16 id) {
+void complete_pending_request(s16 id, s16 event) {
     DnsQuery *e;
 
     if ((e = find_8040B654(id)) != NULL) {
