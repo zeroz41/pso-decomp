@@ -1236,21 +1236,21 @@ void TBoss5Gryphon::spawn_lightning_effect() {
 
     a = (s32)(65536.0f * (gryphon_random_unit_scale * (f32)rand()));
     b = (s32)(65536.0f * (gryphon_random_unit_scale * (f32)rand()));
-    segs[0].x = gryphon_seventy * sin_table_lookup(a) + *(f32 *)((s8 *)((u8 *)this) + 0x38);
+    segs[0].x = gryphon_seventy * sin_table_lookup(a) + this->position.x;
     segs[0].y = 0.0f;
-    segs[0].z = gryphon_seventy * cos_table_lookup(a) + *(f32 *)((s8 *)((u8 *)this) + 0x40);
+    segs[0].z = gryphon_seventy * cos_table_lookup(a) + this->position.z;
     segs[0].w = 0.0f;
-    segs[2].x = gryphon_seventy * sin_table_lookup(b) + *(f32 *)((s8 *)((u8 *)this) + 0x38);
+    segs[2].x = gryphon_seventy * sin_table_lookup(b) + this->position.x;
     segs[2].y = 0.0f;
-    segs[2].z = gryphon_seventy * cos_table_lookup(b) + *(f32 *)((s8 *)((u8 *)this) + 0x40);
+    segs[2].z = gryphon_seventy * cos_table_lookup(b) + this->position.z;
     segs[2].w = 0.0f;
     a = (s32)(0.5f * (f32)(a + b));
     if (gryphon_random_unit_scale * (f32)rand() > 0.5f) {
         a += 0x8000;
     }
-    segs[1].x = gryphon_seventy * sin_table_lookup(a) + *(f32 *)((s8 *)((u8 *)this) + 0x38);
+    segs[1].x = gryphon_seventy * sin_table_lookup(a) + this->position.x;
     segs[1].y = gryphon_ten;
-    segs[1].z = gryphon_seventy * cos_table_lookup(a) + *(f32 *)((s8 *)((u8 *)this) + 0x40);
+    segs[1].z = gryphon_seventy * cos_table_lookup(a) + this->position.z;
     segs[1].w = 0.0f;
     o = TObject::operator new(0x264);
     if (o != NULL) {
@@ -2717,7 +2717,7 @@ void TBoss5Gryphon::update_ground_lightning_attack(s32 event) {
             apply_lightning_hit((saddr)self, (saddr)&self->position, gryphon_sixty);
         }
         if (*(s32 *)((u8 *)boss5_gryphon_behavior_params[2] + 0x28) >= 4 && self->lightning.frame % 20 == 0) {
-            TBoss8Dragon__sub_8005D9BC((u8 *)self, (self->lightning.frame / 20) & 1 ? 0 : 1, gryphon_four * calc_random_ratio__10TObjPlayerFv(self->rng));
+            self->fire_horn_lightning((self->lightning.frame / 20) & 1 ? 0 : 1, gryphon_four * calc_random_ratio__10TObjPlayerFv(self->rng));
         }
         self->spawn_ancient_trap(0x40032D11);
         self->lightning.frame++;
@@ -3124,17 +3124,15 @@ void TBoss5Gryphon::fn_8005FB90() {
 }
 
 void TBoss5Gryphon::advance_motion_timer() {
-    int temp_r4;
-    void *temp_r5;
-    void *temp_r4b;
+    int timer;
+    Boss5GryphonMotionEntry *entry;
 
     if ((s16) this->mode != 4) {
-        temp_r5 = *(void **)((s8 *)this + 0x4BC);
-        temp_r4 = (s16) *(s16 *)((s8 *)temp_r5 + 2);
-        if (temp_r4 > 0) {
-            *(s16 *)((s8 *)temp_r5 + 2) = (temp_r4 - 1);
-            temp_r4b = *(void **)((s8 *)this + 0x4BC);
-            if (*(s16 *)((s8 *)temp_r4b + 2) == 0) {
+        entry = this->motion;
+        timer = entry->timer;
+        if (timer > 0) {
+            entry->timer = timer - 1;
+            if (this->motion->timer == 0) {
                 advance_motion_entry();
             }
         }
@@ -3142,12 +3140,9 @@ void TBoss5Gryphon::advance_motion_timer() {
 }
 
 void TBoss5Gryphon::advance_motion_entry() {
-    s16 *ptr;
-    ptr = (s16 *) (*(saddr *)((s8 *)this + 0x4BC) + 0x14);
-    *(s32 *)((s8 *)this + 0x4BC) = (saddr) ptr;
-    ptr = (s16 *) *(saddr *)((s8 *)this + 0x4BC);
-    if ((s16) this->mode != *ptr) {
-        transition_enemy_state(*ptr);
+    this->motion++;
+    if ((s16) this->mode != this->motion->state) {
+        transition_enemy_state(this->motion->state);
     }
 }
 
@@ -3760,7 +3755,7 @@ void TBoss5Gryphon::render_model() {
     u8 *temp_r4;
 
     push_matrix();
-    post_translate_matrix((void *) (((u8 *)this) + 0x38));
+    post_translate_matrix(&this->position);
     rotate_matrix_y(0, this->rotation_y);
     rotate_matrix_x(0, this->rotation_x);
     rotate_matrix_z(0, this->rotation_z);
@@ -3857,44 +3852,45 @@ void TBoss5Gryphon::render_nodes_with_flag() {
 #pragma push
 #pragma fp_contract on
 extern "C" {
-void TBoss8Dragon__sub_8005D9BC(u8 *arg0, s32 arg1, s32 arg2) {
+// Strikes a lightning wing from the left or right horn at a player in its arc, else at the ground beside the boss.
+void TBoss5Gryphon::fire_horn_lightning(s32 left, s32 client_id) {
     Vec pos;
     Vec mid;
     Vec out;
     Vec tmp;
     f32 r;
     s32 ang;
-    u8 *p;
+    CsnHit *hit;
 
-    r = calc_random_ratio__10TObjPlayerFv(arg0 + 0x5F4);
+    r = calc_random_ratio__10TObjPlayerFv(this->rng);
     r = 100.0f * r + 100.0f;
-    ang = (s32)(45056.0f * calc_random_ratio__10TObjPlayerFv(arg0 + 0x5F4) + (f32)*(s32 *)((s8 *)arg0 + 0x60));
-    if (arg1 != 0) {
-        if (*(u32 *)((s8 *)arg0 + 0x6DC) == 0) return;
-        copy_position__26TBoss5GryphonLightningWingFPv((void *)(*(uaddr *)((s8 *)arg0 + 0x6DC)), &pos);
+    ang = (s32)(45056.0f * calc_random_ratio__10TObjPlayerFv(this->rng) + (f32)this->rotation_y);
+    if (left != 0) {
+        if (this->lightning.horns[0] == NULL) return;
+        copy_position__26TBoss5GryphonLightningWingFPv(this->lightning.horns[0], &pos);
     } else {
-        if (*(u32 *)((s8 *)arg0 + 0x6E0) == 0) return;
-        copy_position__26TBoss5GryphonLightningWingFPv((void *)(*(uaddr *)((s8 *)arg0 + 0x6E0)), &pos);
+        if (this->lightning.horns[1] == NULL) return;
+        copy_position__26TBoss5GryphonLightningWingFPv(this->lightning.horns[1], &pos);
     }
-    if (((TBoss5Gryphon *)arg0)->get_player_pos_in_arc(arg1, arg2, &pos, &out) == 0) {
-        if (arg1 != 0) {
+    if (this->get_player_pos_in_arc(left, client_id, &pos, &out) == 0) {
+        if (left != 0) {
             ang += 20480.0f;
         }
-        out.x = r * sin_table_lookup(ang) + *(f32 *)((s8 *)arg0 + 0x38);
-        out.y = *(f32 *)((s8 *)arg0 + 0x3C);
-        out.z = r * cos_table_lookup(ang) + *(f32 *)((s8 *)arg0 + 0x40);
+        out.x = r * sin_table_lookup(ang) + this->position.x;
+        out.y = this->position.y;
+        out.z = r * cos_table_lookup(ang) + this->position.z;
         VecCopy(&tmp, &out);
-        p = (u8 *)csnVecterUnder(&tmp, 0x16EF);
-        if (p == NULL || *(f32 *)((s8 *)(*(u8 **)((s8 *)p + 4)) + 4) > 6.0f) {
-            out.x = 100.0f * sin_table_lookup(ang) + *(f32 *)((s8 *)arg0 + 0x38);
-            out.y = *(f32 *)((s8 *)arg0 + 0x3C);
-            out.z = 100.0f * cos_table_lookup(ang) + *(f32 *)((s8 *)arg0 + 0x40);
+        hit = csnVecterUnder(&tmp, 0x16EF);
+        if (hit == NULL || hit->contact->point.y > 6.0f) {
+            out.x = 100.0f * sin_table_lookup(ang) + this->position.x;
+            out.y = this->position.y;
+            out.z = 100.0f * cos_table_lookup(ang) + this->position.z;
         }
     }
     mid.x = 0.5f * (pos.x + out.x);
     mid.y = 250.0f + pos.y;
     mid.z = 0.5f * (pos.z + out.z);
-    spawn_lightning_wing__12TBoss8DragonFiiiiii((saddr)arg0, (saddr)&pos, (saddr)&mid, (saddr)&out, 0x14, 0x11);
+    spawn_lightning_wing__12TBoss8DragonFiiiiii((saddr)this, (saddr)&pos, (saddr)&mid, (saddr)&out, 0x14, 0x11);
 }
 }
 s32 TBoss5Gryphon::get_player_pos_in_arc(s32 left, s32 client_id, Vec *org, Vec *out) {

@@ -9,7 +9,6 @@ struct GinjaTextureList;
 struct TBoss5Gryphon;
 struct TBoss8Dragon;
 extern "C" {
-void TBoss8Dragon__sub_8005D9BC(u8 *arg0, s32 arg1, s32 arg2);
 void TBoss8Dragon__sub_8005E17C(NJS_OBJECT *);
 void apply_lightning_hit(s32 owner, s32 pos, f32 inner);
 void apply_tornado_hit(s32 owner, saddr pos);

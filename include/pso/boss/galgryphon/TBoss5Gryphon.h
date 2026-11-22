@@ -216,6 +216,7 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     void update_target_from_state();
     void choose_next_action(u32 *entry);
     s32 get_player_pos_in_arc(s32 left, s32 client_id, Vec *org, Vec *out);
+    void fire_horn_lightning(s32 left, s32 client_id);
     void play_animation_index(s32 index);
     void flush_pending_effect();
     void scale_size(f32 scale, f32 scale_y, f32 turn_scale);
