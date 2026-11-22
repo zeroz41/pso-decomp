@@ -12,7 +12,7 @@
 
 extern "C" {
 extern s32 local_client_id;
-extern s32 TBoss8Dragon__data_805D69B8;
+extern s32 boss8_dragon_player_control;
 
 void TUnk_804F1A78::run_task() {
     s16 mode;
@@ -54,7 +54,7 @@ void TUnk_804F1A78::run_task() {
         }
         if (this->m_74c != 0) {
             if (this->m_750 == local_client_id) {
-                if (TBoss8Dragon__data_805D69B8 == 0) {
+                if (boss8_dragon_player_control == 0) {
                     this->release_grabbed_player();
                 } else {
                     this->check_death();
@@ -62,7 +62,7 @@ void TUnk_804F1A78::run_task() {
                 this->dispatch_action(this->mode, 8);
                 this->dispatch_action(this->mode, 0);
             } else {
-                if (TBoss8Dragon__data_805D69B8 == 0) {
+                if (boss8_dragon_player_control == 0) {
                     this->release_grabbed_player();
                 }
                 this->dispatch_action(this->mode, 0);

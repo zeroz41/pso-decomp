@@ -305,11 +305,16 @@ LAYOUT_ASSERT(TBoss8DragonAfterFadeOffset, offsetof(TBoss8Dragon, m_74c) == 0x74
 // TBoss8Dragon::is_hiding_camera_target sets before it tests the model's points.
 extern Vec boss8_dragon_reference_pos_vec;
 extern Vec dragon_forward_reference_vec;
-// lbl_80541DE8: layout known from its uses only.
-struct RecoveredGlobal_lbl_80541DE8 { Vec value; };
-extern RecoveredGlobal_lbl_80541DE8 lbl_80541DE8;
-// lbl_80541DF4: layout known from its uses only.
-struct RecoveredGlobal_lbl_80541DF4 { Vec value; Vec unkC; Vec unk18; };
-extern RecoveredGlobal_lbl_80541DF4 lbl_80541DF4;
+// What TBoss8Dragon::update_camera_script turns into view space: the origin of each listed node, and
+// three points on the breath node (into breath_node_points).
+extern Vec boss8_dragon_node_origin;
+extern Vec boss8_dragon_breath_local_points[3];
+
+// A tuning record of TLobby::dispatch_shared_handler_a (ids 0x11-0x13 for the Gol Dragon): six floats,
+// then six words, each read per id.
+struct Boss8DragonParams {
+    f32 values[6];
+    s32 ints[6];
+};
 
 #endif
