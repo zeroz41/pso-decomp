@@ -35,7 +35,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
@@ -906,7 +906,7 @@ void TObjPlayer::step_cutscene_frame(NJS_OBJECT *) {
         saver_particle_node_position.pos.x = 0.0f;
         saver_particle_node_position.pos.y = 0.0f;
         saver_particle_node_position.pos.z = 0.0f;
-        TObjBoss2Tunnel::transform_vec_by_camera((saddr)&ninja_camera, (saddr)&saver_particle_node_position.pos, (saddr)&saver_particle_node_position.pos);
+        transform_vec_by_camera(&ninja_camera, &saver_particle_node_position.pos, &saver_particle_node_position.pos);
     }
     saver_render_node_index += 1;
 }

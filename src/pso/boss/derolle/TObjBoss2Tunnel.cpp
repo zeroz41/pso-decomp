@@ -324,14 +324,19 @@ f32 normalize_vector_xz(Vec *vector) {
 
 #pragma pop
 
-void TObjBoss2Tunnel::render(void* a1) { push_matrix(); TObjPlayer::invert_matrix_in_place((uaddr)((void*)0)); get_current_matrix(a1); pop_matrix(); }
+void store_inverse_current_matrix(NJS_CAMERA *camera, CameraMatrix *view) {
+    push_matrix();
+    TObjPlayer::invert_matrix_in_place(0);
+    get_current_matrix(view);
+    pop_matrix();
+}
 
 #pragma push
 #pragma fp_contract on
-void TObjBoss2Tunnel::transform_vec_by_camera(saddr camera, saddr in, saddr out) {
+void transform_vec_by_camera(NJS_CAMERA *camera, const Vec *in, Vec *out) {
     push_matrix();
     TCameraCtrl::concat_matrix(0, (uaddr)TCameraCtrl::get_view_matrix());
-    matrix_mult_vec(NULL, (const Vec *)in, (Vec *)out);
+    matrix_mult_vec(NULL, in, out);
     pop_matrix();
 }
 

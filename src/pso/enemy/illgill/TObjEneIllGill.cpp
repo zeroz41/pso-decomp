@@ -29,7 +29,7 @@
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/enemy/sinowzoa/TObjEneMe3SinowZoa.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
@@ -1050,28 +1050,28 @@ void TObjEneIllGill::capture_effect_positions(NJS_OBJECT *) {
         v->x = 0.0f;
         v->y = 0.0f;
         v->z = 0.0f;
-        TObjBoss2Tunnel::transform_vec_by_camera((saddr)&ninja_camera, (saddr)v, (saddr)v);
+        transform_vec_by_camera(&ninja_camera, v, v);
         break;
     case 44:
         v = &illGillShadowEffectPosition;
         v->x = 0.0f;
         v->y = 0.0f;
         v->z = 0.0f;
-        TObjBoss2Tunnel::transform_vec_by_camera((saddr)&ninja_camera, (saddr)v, (saddr)v);
+        transform_vec_by_camera(&ninja_camera, v, v);
         break;
     case 40:
         v = &illGillChargeEffectPosition1;
         v->x = 0.0f;
         v->y = 0.0f;
         v->z = 0.0f;
-        TObjBoss2Tunnel::transform_vec_by_camera((saddr)&ninja_camera, (saddr)v, (saddr)v);
+        transform_vec_by_camera(&ninja_camera, v, v);
         break;
     case 27:
         v = &illGillChargeEffectPosition2;
         v->x = 0.0f;
         v->y = 0.0f;
         v->z = 0.0f;
-        TObjBoss2Tunnel::transform_vec_by_camera((saddr)&ninja_camera, (saddr)v, (saddr)v);
+        transform_vec_by_camera(&ninja_camera, v, v);
         break;
     }
     illGillModelNodeIndex++;

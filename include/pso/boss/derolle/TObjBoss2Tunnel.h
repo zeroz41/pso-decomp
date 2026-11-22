@@ -120,8 +120,6 @@ struct TObjBoss2Tunnel : public TObject {
     static s32 adjust_to_ground(const Vec *from, Vec *out);
     static s32 turn_toward_angle_limited(s32 angle, s32 cur, s32 target, s32 step, s32 limit);
     static f32 calc_scaled_value(s32 angle, f32 length);
-    static void transform_vec_by_camera(saddr camera, saddr in, saddr out);
-    void render(void* a1);
     static void enable_and_trigger();
     static void reset_player_state();
     static void create_particle_effect(const void *position, s32 particle_index, f32 speed);

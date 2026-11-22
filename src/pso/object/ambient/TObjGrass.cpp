@@ -28,7 +28,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/enemy/sinowzoa/TObjEneMe3SinowZoa.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
@@ -1565,7 +1565,7 @@ void TObjGrass::update_camera_vec_by_stage(NJS_OBJECT *) {
         grass_camera_vec.x = (0.0f);
         v->y = (0.0f);
         v->z = (0.0f);
-        TObjBoss2Tunnel::transform_vec_by_camera((saddr)&ninja_camera, (saddr)v, (saddr)v);
+        transform_vec_by_camera(&ninja_camera, v, v);
         break;
     case 0x32:
         break;
@@ -1576,7 +1576,7 @@ void TObjGrass::update_camera_vec_by_stage(NJS_OBJECT *) {
         grass_render_vec.x = (0.0f);
         v->y = (0.0f);
         v->z = (0.0f);
-        TObjBoss2Tunnel::transform_vec_by_camera((saddr)&ninja_camera, (saddr)v, (saddr)v);
+        transform_vec_by_camera(&ninja_camera, v, v);
         break;
     case 0x3F:
         break;
@@ -1587,7 +1587,7 @@ void TObjGrass::update_camera_vec_by_stage(NJS_OBJECT *) {
         grass_origin_vec.x = (0.0f);
         v->y = (0.0f);
         v->z = (0.0f);
-        TObjBoss2Tunnel::transform_vec_by_camera((saddr)&ninja_camera, (saddr)v, (saddr)v);
+        transform_vec_by_camera(&ninja_camera, v, v);
         break;
     }
     TObjGrass__render_node_index++;

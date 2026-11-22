@@ -18,7 +18,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/camera/CreationCamera.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/ControllerInputState.h"
@@ -290,15 +290,15 @@ void TCameraCtrl::run_task() {
     }
     if (is_split_screen() != 0) {
         if (TCameraCtrl::view_state.controller == 5) {
-            ((TObjBoss2Tunnel *)&ninja_camera)->render(&TCameraCtrl::view_matrices[TCameraCtrl::get_camera_no()]);
+            store_inverse_current_matrix(&ninja_camera, &TCameraCtrl::view_matrices[TCameraCtrl::get_camera_no()]);
             for (i = 1; i < 4; i++) {
                 copy_view_params(&TCameraCtrl::view_matrices[i], &TCameraCtrl::view_matrices[0]);
             }
         } else {
-            ((TObjBoss2Tunnel *)&ninja_camera)->render(&TCameraCtrl::view_matrices[TCameraCtrl::get_camera_no()]);
+            store_inverse_current_matrix(&ninja_camera, &TCameraCtrl::view_matrices[TCameraCtrl::get_camera_no()]);
         }
     } else {
-        ((TObjBoss2Tunnel *)&ninja_camera)->render(&TCameraCtrl::view_matrix);
+        store_inverse_current_matrix(&ninja_camera, &TCameraCtrl::view_matrix);
     }
     calc_rotated_axes();
 }
