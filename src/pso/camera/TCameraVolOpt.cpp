@@ -1,3 +1,5 @@
+// The Vol Opt camera (mode 11), and the TCameraController virtuals that do
+// nothing.
 #include "types.h"
 #include "pso/camera/TCameraVolOpt.h"
 #include "pso/camera/TCameraController.h"

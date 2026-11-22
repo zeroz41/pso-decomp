@@ -1,3 +1,4 @@
+// The player 0 orbit camera (mode 7), and TCameraController::set_target_pos.
 #include "types.h"
 #include "pso/camera/TCameraOrbit.h"
 #include "pso/math/AngleLookup.h"

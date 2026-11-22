@@ -1,3 +1,5 @@
+// The Vol Opt follow camera (mode 12), TCameraController::set_target and
+// TCameraFollow::set_target_yaw.
 #include "types.h"
 #include "pso/camera/TCameraVolOptFollow.h"
 #include "pso/camera/TCameraCtrl.h"

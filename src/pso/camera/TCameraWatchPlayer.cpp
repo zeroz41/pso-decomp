@@ -1,3 +1,5 @@
+// The player 0 watch camera (mode 10), and the scripted camera's banks per
+// floor area.
 #include "types.h"
 #include "pso/camera/TCameraWatchPlayer.h"
 #include "pso/camera/TCameraCtrl.h"
