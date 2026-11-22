@@ -178,12 +178,12 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     s32 ground_impact_done;  // the dive has made its crater and ground impact
     TParticleCtrl *breath_particles[3];  // breath and fire particles kept at breath_effect_position / breath_origin
     s32 lobby_state_changed;  // lobby_state became 0; the burrow states then move to the next action
-    void wait_for_players(s32 arg1);
+    void wait_for_players(s32 reason);
     void update_appearance_state(u32 reason);
-    void update_wander_state(s32 arg1);
+    void update_wander_state(s32 reason);
     void handle_fall_state(u32 reason);
     void state_circle_flight(u32 reason);
-    void handle_state(u32 arg1);
+    void handle_state(u32 reason);
     void update_fade_state(u32 reason);
     void update_burrow_outward_run(u32 reason);
     void update_roar_state(u32 reason);
@@ -196,7 +196,7 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     void update_walking_state(u32 reason);
     s32 check_can_attack();
     void hold_captured_player();
-    static u16 find_player_on_floor(void *arg0);
+    u16 find_player_on_floor();
     void update_switch_attack();
     void apply_ground_impact_attack();
     void apply_head_fall_attack();
@@ -206,17 +206,17 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     void set_params(void *arg1);
     void copy_params(void *arg1);
     void reload_impact_stats();
-    void reload_stats_for_phase(int _w1);
+    void reload_stats_for_phase(int);
     void reset_tail_hp();
     void reload_difficulty_stats();
     f32 get_crater_attack_power();  // 0.666 of the first parameter block's power at +4 (TObjBoss1Crater's hits)
     s32 advance_air_turn();
     void init_air_turn(s32 targetAngle);
-    void set_result_flag(s32 arg1, s32 arg2);
+    void set_air_turn_direction(s32 angle, s32 target_angle);
     void play_nearby_se();
     s32 select_air_fire_target(Vec *out);
     f32 sample_root_height();
-    void calc_forward_point(f32 *arg1, f32 *arg2);
+    void calc_forward_point(f32 *x, f32 *z);
     s32 update_linked_epsilon_position();
     void update_position_history();
     void check_death();
@@ -229,18 +229,18 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     void update_burrow_inward_run(u32 reason, s32 state);
     void release_held_player();
     void init_control_mode();
-    void apply_fireball_impact_damage(saddr arg1);
+    void apply_fireball_impact_damage(saddr position);
     void deliver_breath_attack(saddr position, s32 attack_history);
     void sweep_death_body_attack();
-    void apply_foot_step_attack(int arg1);
+    void apply_foot_step_attack(int side);
     void next_sequence_action();
     void receive_state_request(u8 *arg1);
     void update_air_fire_state(u32 reason);
     void remap_sequence_after_recovery();
     void update_emergence_state(u32 reason);
-    void update_death_state(u32 arg1);
+    void update_death_state(u32 reason);
     void update_dive_state(u32 reason);
-    static s32 filter_input_flags(s32 arg1, s32 arg2, s32 arg3);
+    s32 filter_input_flags(s32 input_flags, s32 mask);
     void clear_work();
     f32 calc_burrow_speed();
     void calc_target_vector();
@@ -261,20 +261,21 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     void calc_follow_camera_offsets(Vec *eye, Vec *target);
     void play_sound_if_in_band();
     void handle_walk_state(u32 reason);
-    void sub_800224A4(u32 reason);
-    void sub_80022740(u32 reason);
-    void sub_800228E8(u32 reason);
-    void sub_80022C38(u32 reason);
+    void update_controlled_flight_state(u32 reason);
+    void update_controlled_hover_state(u32 reason);
+    void update_controlled_walk_state(u32 reason);
+    void update_controlled_stand_state(u32 reason);
     void handle_spiral_state(u32 reason);
-    void sub_80026B98(u32 reason);
-    void sub_80026C98(u32 reason);
-    f32 clamp_step_in_radius(f32 farg0, f32 farg1, f32 farg2);
-    void sub_800274A4();
-    void sub_80027514(Vec *position, u8 *params, s32 history);
-    void sub_80027590(void *params);
-    void sub_800275BC(Vec *position, u8 *params, AreaAttackHistory *history);
-    void sub_80028AFC();
-    void sub_80028B28();
+    void update_stand_state(u32 reason);
+    void update_start_state(u32 reason);
+    f32 clamp_step_in_radius(f32 dir_x, f32 dir_z, f32 step);
+    void update_flap_effect();
+    void apply_trail_attack();
+    void setup_v2_instance(Vec *position, u8 *params, s32 history);
+    void emit_v2_effect_at_position(void *params);
+    void emit_v2_enemy_effect(Vec *position, u8 *params, AreaAttackHistory *history);
+    void set_burrow_height();
+    void set_flight_height();
 };
 
 void get_dragon_follow_camera_offsets(Vec *eye, Vec *target);

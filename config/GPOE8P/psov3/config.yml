@@ -313,21 +313,21 @@ force_active:
   - TBoss1Dragon__head_fall_effect_params
   - boss1_dragon_part_hp_stats
   - handle_walk_state__12TBoss1DragonFUl
-  - sub_800224A4__12TBoss1DragonFUl
-  - sub_80022740__12TBoss1DragonFUl
-  - sub_800228E8__12TBoss1DragonFUl
-  - sub_80022C38__12TBoss1DragonFUl
+  - update_controlled_flight_state__12TBoss1DragonFUl
+  - update_controlled_hover_state__12TBoss1DragonFUl
+  - update_controlled_walk_state__12TBoss1DragonFUl
+  - update_controlled_stand_state__12TBoss1DragonFUl
   - handle_spiral_state__12TBoss1DragonFUl
-  - sub_80026B98__12TBoss1DragonFUl
-  - sub_80026C98__12TBoss1DragonFUl
+  - update_stand_state__12TBoss1DragonFUl
+  - update_start_state__12TBoss1DragonFUl
   - clamp_step_in_radius__12TBoss1DragonFfff
-  - sub_800274A4__12TBoss1DragonFv
-  - sub_80027514__12TBoss1DragonFP3VecPUcl
-  - sub_80027590__12TBoss1DragonFPv
-  - sub_800275BC__12TBoss1DragonFP3VecPUcP17AreaAttackHistory
-  - TBoss1Dragon__sub_800277D8
-  - sub_80028AFC__12TBoss1DragonFv
-  - sub_80028B28__12TBoss1DragonFv
+  - update_flap_effect__12TBoss1DragonFv
+  - setup_v2_instance__12TBoss1DragonFP3VecPUcl
+  - emit_v2_effect_at_position__12TBoss1DragonFPv
+  - emit_v2_enemy_effect__12TBoss1DragonFP3VecPUcP17AreaAttackHistory
+  - apply_trail_attack__12TBoss1DragonFv
+  - set_burrow_height__12TBoss1DragonFv
+  - set_flight_height__12TBoss1DragonFv
   - play_sound_if_in_band__12TBoss1DragonFv
   - TBoss2Joint__param_table
   - TBoss2Joint__sub_80036940
@@ -6180,7 +6180,7 @@ force_active:
   - file_integrity_table
   - fill_list_entry__6TLobbyFPvPv
   - fill_range__16Boss6WaveArcMaskFll
-  - filter_input_flags__12TBoss1DragonFiii
+  - filter_input_flags__12TBoss1DragonFll
   - send_6xB2_play_sound__FP16G_PlaySound_6xB2
   - find_active_pad_rumble_effect_by_id__FUl
   - find_archive_entry__6TLobbyFPvPvPvPv
@@ -6211,7 +6211,7 @@ force_active:
   - find_pack_leader__14TObjEneBm5WolfFi
   - find_parts_in_range__10TNpcPlayerFPvPvif
   - find_placement_obstruction
-  - find_player_on_floor__12TBoss1DragonFPv
+  - find_player_on_floor__12TBoss1DragonFv
   - find_player_texture_name_ordinal__FPUc
   - find_random_player__12TBoss3VoloptFv
   - find_strongest_player__12TBoss3VoloptFv
@@ -15575,7 +15575,7 @@ force_active:
   - set_random_timer__15TObjEneSlimeOneFll
   - set_rate_from_divisor__13TUnk_80490470Fl
   - set_rate_from_divisor__13TUnk_80494938Fl
-  - set_result_flag__12TBoss1DragonFll
+  - set_air_turn_direction__12TBoss1DragonFll
   - set_scale__13TUnk_804B2578Ff
   - set_scene_light_diffuse__13TUnk_804A6F90Fv
   - set_screen_pos__11TBoss6Type2Fv
