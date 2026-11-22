@@ -1195,8 +1195,8 @@ force_active:
   - sub_803610D0__18TObjEneEpsilonBodyFl
   - sub_803616E4__18TObjEneEpsilonBodyFl
   - sub_80361C70__18TObjEneEpsilonBodyFl
-  - TObjEneEpsilonGuard__vt21
-  - TObjEneEpsilonGuard__vt85
+  - TObjEneEpsilonGuard__receive_direct_attack
+  - TObjEneEpsilonGuard__dispatch_action
   - TObjEneIllGill_class_name
   - TObjEneIllGill_model_file_list
   - TObjEneIllGill_motion_name_table

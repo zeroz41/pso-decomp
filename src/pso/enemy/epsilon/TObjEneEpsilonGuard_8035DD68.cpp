@@ -65,7 +65,7 @@ f32 TObjEneEpsilonGuard::receive_physical_attack(void *, f32) {
     try_apply_damage(&body_center, 0);
     return 0.0f;
 }
-f32 TObjEneEpsilonGuard__vt21(TObjEneEpsilonGuard *guard, void *attacker, DirectAttackPayload *msg, void *body, s32 tech, s32 flags) {
+f32 TObjEneEpsilonGuard__receive_direct_attack(TObjEneEpsilonGuard *guard, void *attacker, DirectAttackPayload *msg, void *body, s32 tech, s32 flags) {
     if (msg->kind == 0x14) {
         return guard->TObjChara::receive_direct_attack(attacker, *msg, body, tech, flags);
     }
@@ -593,7 +593,7 @@ void TObjEneEpsilonGuard::update_center_position() {
 }
 void TObjEneEpsilonGuard::update_body_colliders() { set_part_local_pos(&body_center, 0); }
 
-void TObjEneEpsilonGuard__vt85(TObjEneEpsilonGuard *guard, s32 state, s32 msg);
+void TObjEneEpsilonGuard__dispatch_action(TObjEneEpsilonGuard *guard, s32 state, s32 msg);
 void run_task__19TObjEneEpsilonGuardFv(u8 *arg0);
 extern BmlResource *lbl_805D6FA0;
 s32 __ct__14TObjEneEpsilonFP7TObject();
@@ -708,7 +708,7 @@ void *__vt__19TObjEneEpsilonGuard[105] = {
     (void *)&reset_motion_fields__9TObjCharaFv, (void *)&get_center__9TObjCharaFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
     (void *)&get_name__9TObjEnemyFv, (void *)&interact__14TObjCollidableFl, (void *)&add_actor_exp__9TObjCharaFl, (void *)&consume_timer_field__9TObjCharaFl,
     (void *)&get_actor_level_index__9TObjCharaFv, (void *)&update_actor_ground_y__9TObjCharaFv, (void *)&update_actor_ground_y_at__9TObjCharaFP3Vec, (void *)&is_actor_cadence_frame__9TObjCharaFl,
-    (void *)&select_melee_contact_body__9TObjCharaFPvf, (void *)&calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf, (void *)&receive_physical_attack__19TObjEneEpsilonGuardFPvf, (void *)&TObjEneEpsilonGuard__vt21,
+    (void *)&select_melee_contact_body__9TObjCharaFPvf, (void *)&calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf, (void *)&receive_physical_attack__19TObjEneEpsilonGuardFPvf, (void *)&TObjEneEpsilonGuard__receive_direct_attack,
     (void *)&receive_weapon_special_attack__19TObjEneEpsilonGuardFPvPv, (void *)&apply_knockback_from_attacker__9TObjCharaFPUcf, (void *)&try_start_action__9TObjCharaFll, (void *)&roll_physical_accuracy__9TObjCharaFPvlf,
     (void *)&refresh_target__19TObjEneEpsilonGuardFv, (void *)&has_no_target__9TObjCharaFv, (void *)&is_target_in_attack_range__14TObjEneEpsilonFv, (void *)&test_flag_256__9TObjCharaFv,
     (void *)&test_flag30_512__9TObjCharaFv, (void *)&has_flag_0x800__9TObjCharaFv, (void *)&test_flag_1000__9TObjCharaFv, (void *)&update_poison_status__9TObjCharaFv,
@@ -724,7 +724,7 @@ void *__vt__19TObjEneEpsilonGuard[105] = {
     (void *)&enemy_spawn_zalure_effect__9TObjCharaFv, (void *)&recalc_stats__9TObjCharaFv, (void *)&vfunc_74__9TObjEnemyFl, (void *)&gain_photon_blast_charge__9TObjCharaFf,
     (void *)&spend_photon_blast_charge__9TObjCharaFf, (void *)&gain_photon_blast_chain_charge__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl, (void *)&apply_enemy_state__9TObjEneDDFPl,
     (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv, (void *)&update_status_effects__12TObjEneDD_STFv,
-    (void *)&update_immobilizing_statuses__9TObjEneDDFv, (void *)&update_action_state__9TObjEneDDFv, (void *)&has_action_state_changed__9TObjEneDDFv, (void *)&TObjEneEpsilonGuard__vt85,
+    (void *)&update_immobilizing_statuses__9TObjEneDDFv, (void *)&update_action_state__9TObjEneDDFv, (void *)&has_action_state_changed__9TObjEneDDFv, (void *)&TObjEneEpsilonGuard__dispatch_action,
     (void *)&update_body_colliders__19TObjEneEpsilonGuardFv, (void *)&check_collisions__19TObjEneEpsilonGuardFv, (void *)&vfunc_90__9TObjEneDDFv, (void *)&set_invulnerable__9TObjEneDDFv,
     (void *)&clear_invulnerable__9TObjEneDDFv, (void *)&enable_body_collision__9TObjEneDDFv, (void *)&disable_body_collision__9TObjEneDDFv, (void *)&set_intangible__9TObjEneDDFv,
     (void *)&clear_intangible__9TObjEneDDFv, (void *)&set_colliders_contact_high__9TObjEneDDFv, (void *)&set_colliders_contact_low__9TObjEneDDFv, (void *)&is_confused__9TObjEneDDFv,
@@ -755,7 +755,7 @@ void TObjEneEpsilonGuard::run_death_reaction() {  }
 void TObjEneEpsilonGuard::refresh_target() {  }
 
 
-void TObjEneEpsilonGuard__vt85(TObjEneEpsilonGuard *guard, s32 state, s32 msg) {
+void TObjEneEpsilonGuard__dispatch_action(TObjEneEpsilonGuard *guard, s32 state, s32 msg) {
     switch (state) {
     case 0:
         guard->handle_event(msg);
