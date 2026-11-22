@@ -280,7 +280,7 @@ static void __sinit_TObjEnePanarms_800DCEB8_cpp() {
     panarms_state_table[13].update = &TObjEnePanarms::update_spin;
 }
 
-static PanarmsState panarms_state_table[14] = {};
+PanarmsState panarms_state_table[14] = {};
 /* Model nodes the constructor hands to ModelNodePositionCapture::create. */
 ModelNodePositionEntry panarms_model_node_desc[6] = {
     { 0x35 }, { 0x22 }, { 0x38 }, { 0x46 }, { 0x3b }, { -1 },
