@@ -337,7 +337,7 @@ void qst_op_get_difficulty_level_v1(s32 reg);
 void qst_op_setevt();
 void qst_op_getmtime(int a0);
 void qst_op_winset_time(s32 reg);
-int qst_op_show_timer(void *p);
+void qst_op_show_timer(void *p);
 void qst_op_find_inventory_item_ex(u8 regs, u8 dst);
 void qst_op_del_obj_param(s32 reg);
 int qst_op_clr_qt_cancel(void);

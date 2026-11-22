@@ -984,7 +984,6 @@ Card_801EB10C * __ct__13TUnk_804CC048FP7TObjectPvPv(void *, void *, void *, void
 u8 is_current_floor_switch_set(s32 id);
 void * __nw__7TObjectFUl(u32);
 void request_active_window_close(void);
-int create_alt_timer__11TWindowCtrlFv(void*);
 void TObjPlayer__sub_8024ABDC(saddr arg0);
 void TLobby__sub_8024AC20(saddr arg0);
 s32 close_windows_by_flags__11TWindowCtrlFUs(int, void *);
@@ -3961,7 +3960,7 @@ void qst_op_winset_time(s32 reg) {
 
 void qst_op_winend_time(void* p) { TWindowCtrl::close_timer_window(); }
 
-int qst_op_show_timer(void *p) { return create_alt_timer__11TWindowCtrlFv(p); }
+void qst_op_show_timer(void *p) { TWindowCtrl::create_alt_timer(); }
 
 void qst_op_masterkey_off() { TLobby::reset_door_state(); TObjDoor::reset_instance(); }
 
