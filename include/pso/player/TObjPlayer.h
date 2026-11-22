@@ -423,14 +423,6 @@ struct TObjPlayer : public TObjChara {
     static void set_visibility_flags_by_count(void *arg0, s32 arg1);
     void init_position_vectors();
     s16 get_field_2c8();
-    void set_flag_start_effect();
-    void clear_state7_flag();
-    void update_timed_state();
-    void run_synced_state_handler();
-    static void *create_dubchik(void *arg0);
-    static void free_effect_resources();
-    void clear_flag_04000000();
-    void set_invuln_flags();
     static void update_effect_sequence(NJS_OBJECT *);
     static void toggle_particle_effect();
     static void create_dead_spot(saddr arg0, s32 arg1, f32 farg0);
