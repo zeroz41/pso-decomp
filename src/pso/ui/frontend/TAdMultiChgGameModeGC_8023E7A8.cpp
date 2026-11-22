@@ -76,13 +76,13 @@
 #include "pso/ui/frontend/TAdPsoPassSaveGC.h"
 #include "pso/ui/TUnk_804F3A20.h"
 #include "pso/ui/frontend/TAdStorySelectGC.h"
+#include "pso/ui/frontend/TAdMultiSelGameModeGC.h"
 #include "pso/ui/frontend/TAdSelectGameModeGC.h"
 
 extern "C" {
 u8 *TAdSinglePlyChrSelectGC__ct(u8 *arg0, void *parent);
 void *construct_title_scene__13TUnk_804EEF64Fv(void *, TObject *);
 void *__ct__12TLevelSelectFv(void *);
-void *__ct__21TAdMultiSelGameModeGCFv(void *, TObject *, s32);
 void TCameraCtrl__ct(void *, void *);
 s32 is_area_transfer_pending(void);
 void apply_phase_keyboard_mode(void);
@@ -377,18 +377,10 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
         game_mode_scene_instance = new TAdMultiChgGameModeGC(tl_01);
         break;
     case 12:
-        p = TObject::operator new(0x44);
-        if (p != NULL) {
-            p = __ct__21TAdMultiSelGameModeGCFv(p, tl_01, 0);
-        }
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = new TAdMultiSelGameModeGC(tl_01, 0);
         break;
     case 13:
-        p = TObject::operator new(0x44);
-        if (p != NULL) {
-            p = __ct__21TAdMultiSelGameModeGCFv(p, tl_01, 1);
-        }
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = new TAdMultiSelGameModeGC(tl_01, 1);
         break;
     case 14:
         game_mode_scene_instance = TAdMultiPlyChrSelectGC::get_or_create(tl_01, 1);

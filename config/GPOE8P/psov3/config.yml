@@ -6683,7 +6683,7 @@ force_active:
   - get_mail_ptr__19TWindowSubShortMailFPv
   - get_material_index__18TPlayerLobbyMarkerFv
   - get_material_limit_for_class__Fl
-  - get_max_difficulty_for_party_level__Fv
+  - get_max_difficulty_for_party_level__21TAdMultiSelGameModeGCFv
   - get_max_tp__13TUnk_8049FE00Fv
   - get_message_10__17TWindowSubComCardFl
   - get_model__13TUnk_804A7488Fv
@@ -7335,7 +7335,7 @@ force_active:
   - is_mode_0__15TBoss3VoloptP02Fv
   - is_mode_0__16TBoss3VoloptCoreFv
   - is_mode_bit6__11TWindowChatFv
-  - is_mode_entry_enabled__21TAdMultiSelGameModeGCFPvlUl
+  - is_mode_entry_enabled__21TAdMultiSelGameModeGCFlUl
   - is_move_done__24TObjWaitEntryHairMoveSimFv
   - is_name_too_long__6TLobbyFPv
   - is_no_service_active__14TShopGeneratorFPvl
