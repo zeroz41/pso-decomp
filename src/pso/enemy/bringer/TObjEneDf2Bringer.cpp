@@ -457,15 +457,6 @@ Vec bringer_camera_ctrl_target_vec;
 #undef F
 #undef PRM
 #undef F_8009
-struct SubBase_80098970 { char pad[0x14]; };
-struct SubObj_80098970 : SubBase_80098970 {
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual s32 v3();
-    virtual void v4();
-    virtual s32 v5();
-};
 
 
 struct Obj_80098FF4 {
@@ -1288,13 +1279,13 @@ void TObjEneDf2Bringer::handle_state(s32 arg1) {
     switch (arg1) {
     case 4:
         this->set_field_378(0);
-        *(s32 *)((s8 *)this + 0x4AC) = 0;
+        this->pad_4AC = 0;
         return;
     case 3:
         this->transition_enemy_state(1);
         return;
     case 0:
-        *(s32 *)((s8 *)this + 0x4AC) = (s32) (*(s32 *)((s8 *)this + 0x4AC) + 1);
+        this->pad_4AC++;
     case 5:
         return;
     }
@@ -1321,55 +1312,53 @@ void TObjEneDf2Bringer__sub_80098BAC(u8 *ene_dd_st, s32 arg1) {
 }
 
 void TObjEneDf2Bringer::exec(s32 arg1) {
-    u8 *arg0 = (u8 *)this;
-
     switch (arg1) {
     case 4:
         this->requested_action = 1;
-        ((TObjEneDD *)arg0)->set_field_378(4);
-        *(s32 *)((s8 *)arg0 + 0x3C0) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C0) & 0xFFFFFFFE);
-        *(s32 *)((s8 *)arg0 + 0x3C0) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C0) | 2);
+        this->set_field_378(4);
+        this->pad_3C0 &= ~1;
+        this->pad_3C0 |= 2;
         this->set_intangible();
-        ((SubObj_80098970 *)(arg0 + 0x3C4))->v3();
-        *(s32 *)((s8 *)arg0 + 0x4AC) = 0;
-        *(s32 *)((s8 *)arg0 + 0x4B0) = 0;
-        play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x3640D), arg0 + 0x38, 0, 0);
-        VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(arg0 + 0x50));
-        VecCopy((Vec *)(arg0 + 0x44), (const Vec *)(arg0 + 0x38));
-        VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(arg0 + 0x38));
-        *(s32 *)((s8 *)arg0 + 0x494) = 0;
-        *(s32 *)((s8 *)arg0 + 0x48C) = 0;
+        this->pad_3C4.reset_obstruction_fade();
+        this->pad_4AC = 0;
+        this->pad_4B0 = 0;
+        play_sound_effect(this->remap_sound_for_area(0x3640D), &this->position, 0, 0);
+        VecCopy(&this->position, &this->home_position);
+        VecCopy(&this->prev_position, &this->position);
+        VecCopy(&this->body_center, &this->position);
+        this->pad_494 = 0;
+        this->pad_48C = 0;
         return;
     case 3:
-        if ((s32) *(s32 *)((s8 *)arg0 + 0x4B0) == 2) {
-            ((TObjEneDD *)arg0)->transition_enemy_state(4);
+        if (this->pad_4B0 == 2) {
+            this->transition_enemy_state(4);
         }
         return;
     case 0:
         advance_animation();
-        ((TObjEneDD_ST *)arg0)->update_linked_position(300.0f);
-        *(s32 *)((s8 *)arg0 + 0x4AC) = (s32) (*(s32 *)((s8 *)arg0 + 0x4AC) + 1);
-        switch (*(s32 *)((s8 *)arg0 + 0x4B0)) {
+        this->update_linked_position(300.0f);
+        this->pad_4AC++;
+        switch (this->pad_4B0) {
         case 0:
-            if ((s32) *(s32 *)((s8 *)arg0 + 0x4AC) > 0x14) {
-                *(s32 *)((s8 *)arg0 + 0x4B0) = 1;
+            if (this->pad_4AC > 0x14) {
+                this->pad_4B0 = 1;
                 this->requested_action = 3;
-                play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003B40E), arg0 + 0x38, 0, 0);
+                play_sound_effect(this->remap_sound_for_area(0x4003B40E), &this->position, 0, 0);
                 TObjPlayer::play_effect_if_v2(-0x200);
             }
-            ((TObjEneDf2Bringer *)arg0)->spawn_particle_if_in_band();
-            ((TObjEneDD *)arg0)->move_with_wall_slide_on_ground(*(f32 *)((s8 *)arg0 + 0x3A0), *(f32 *)((s8 *)arg0 + 0x3A8), 1.2f);
-            TObjEneDf2Bringer__sub_80098EB4((saddr)arg0);
+            this->spawn_particle_if_in_band();
+            this->move_with_wall_slide_on_ground(this->destination_direction.x, this->destination_direction.z, 1.2f);
+            TObjEneDf2Bringer__sub_80098EB4((saddr)this);
             break;
         case 1:
-            ((TObjEneDf2Bringer *)arg0)->update_if_in_band();
-            if (((TObjEneDD *)arg0)->get_flag_b4() != 0) {
-                *(s32 *)((s8 *)arg0 + 0x4B0) = 2;
+            this->update_if_in_band();
+            if (this->get_flag_b4() != 0) {
+                this->pad_4B0 = 2;
             }
             break;
         }
-        if (((SubObj_80098970 *)(arg0 + 0x3C4))->v5() != 0) {
-            *(s32 *)((s8 *)arg0 + 0x3C0) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C0) & 0xFFFFFFFD);
+        if (this->pad_3C4.advance_toward_max() != 0) {
+            this->pad_3C0 &= ~2;
             this->clear_intangible();
             this->check_collisions();
             return;
