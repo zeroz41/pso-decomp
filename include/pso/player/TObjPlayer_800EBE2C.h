@@ -4,13 +4,8 @@
 #include "types.h"
 
 extern "C" {
-void TObjPlayer__sub_800EBE48(f32 farg0);
+// TObjPlayer::push_material_color_override with a black colour: fades what is drawn next to alpha.
+void push_material_fade(f32 alpha);
 }
-
-// --- C functions defined in TObjPlayer_800EBE2C.cpp ---
-extern "C" {
-void TObjPlayer__sub_800EBE48(f32 farg0);
-}
-// --- end of C functions
 
 #endif

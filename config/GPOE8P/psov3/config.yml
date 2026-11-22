@@ -1532,7 +1532,6 @@ force_active:
   - capture_slime_tail_node
   - reset_slime_tail_node_index
   - TObjPlayer__sub_800E85BC
-  - TObjPlayer__sub_800EBE48
   - TObjPlayer__sub_800F083C
   - TObjPlayer__sub_800F08AC
   - TObjPlayer__sub_800FF1FC
@@ -13865,6 +13864,7 @@ force_active:
   - append_to__18TObjEneBm5WolfNodeFPP18TObjEneBm5WolfNodePP18TObjEneBm5WolfNode
   - append_to__20TObjEneBm5GibonUNodeFPP20TObjEneBm5GibonUNodePP20TObjEneBm5GibonUNode
   - push_material_color_override__10TObjPlayerFffff
+  - push_material_fade
   - push_model_fade_color__10TObjPlayerFv
   - push_nearby_players__15TBoss3VoloptP01Fv
   - push_players_away__11TBoss6Type2FPvf

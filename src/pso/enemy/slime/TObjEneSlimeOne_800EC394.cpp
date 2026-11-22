@@ -25,8 +25,8 @@ extern f32 slime_one_animation_end_frame;
 void draw_chunk_model_with_shape_motion(void *child, void *motion, NJS_MOTION *shape, f32 frame);
 extern s32 slime_one_part_texture_index_table[];
 extern s32 model_render_flags;
+#include "pso/player/TObjPlayer_801D2E20.h"
 extern "C" {
-int get_validated_attack_stage(void*);
 
 s32 TObjEneSlimeOne::get_attack_target() { return variant; }
 
@@ -59,7 +59,7 @@ int TObjEneSlimeOne::find_nearest_enemy_with_flag(Vec *direction, f32 range) {
 
 void TObjEneSlimeOne::clear_parent_slime() { parent_slime = NULL; }
 
-int TObjEneSlimeOne::check_player_field_7cc() { return get_validated_attack_stage((char*)this + 0x7cc); }
+s16 TObjPlayer::get_attack_stage() { return get_validated_attack_stage((u8 *)&attack_state); }
 
 extern f32 TObjEneSlimeOne__target_depth;
 extern u8 TObjEneSlimeOne__target_depth_initialized;

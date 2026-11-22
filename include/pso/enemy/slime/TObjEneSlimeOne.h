@@ -51,7 +51,6 @@ struct TObjEneSlimeOne : public TObjEnemy {
     static saddr get_instance();
     int is_timer_active();
     int find_nearest_enemy_with_flag(Vec *direction, f32 range);
-    int check_player_field_7cc();
     void copy_position();
     void clear_parent_slime();
     void set_random_timer_15();

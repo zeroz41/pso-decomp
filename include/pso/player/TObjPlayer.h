@@ -9,6 +9,7 @@ struct NJS_OBJECT;
 #include "pso/player/PlayerScaleState.h"
 #include "pso/player/RenderMaterialState.h"
 #include "pso/object/base/TObjChara.h"
+#include "pso/player/PlayerAttackController.h"
 
 struct TItemData;
 struct SceneSectionAngles;
@@ -241,8 +242,8 @@ struct TObjPlayer : public TObjChara {
     u8 _pad758[0x6C];
     s8 trap_counts[4];  // per trap kind, refilled from the class table (refill_trap_counts)
     void* m_7c8;
-    void* attack_state;  // the attack accuracy/damage-scale block
-    u8 _pad7D0[0x58];
+    PlayerAttackController attack_state;  // the attack accuracy/damage-scale block
+    u8 _pad7EC[0x3C];
     void* m_828;
     u8 _pad82C[0x4];
     void* m_830;
@@ -434,6 +435,8 @@ struct TObjPlayer : public TObjChara {
     void copy_vec3(void* q);
     static void init_render_globals();
     static void push_material_color_override(f32 farg0, f32 farg1, f32 farg2, f32 farg3);
+    // get_validated_attack_stage of attack_state: the pending stage, 0 when it is not valid.
+    s16 get_attack_stage();
     static void update_lights();
     static void clear_alt_model_flag();
     static void set_alt_model_flag();
