@@ -293,25 +293,25 @@ force_active:
   - TBoss1DragonEffTail__collision_body_templates
   - TBoss1DragonEffTail__name
   - __ct__12TBoss1DragonFP7TObjectPv
-  - boss1_dragon_arena_origin
+  - boss1_dragon_arena_center
   - boss1_dragon_primary_sequence_table
-  - boss1_dragon_params
+  - boss1_dragon_behavior_params
   - boss1_dragon_base_params
   - boss1_dragon_resistance_params
   - boss1_dragon_resource
-  - boss1_dragon_capture_node_counter
-  - boss1_dragon_capture_breath_points
-  - boss1_dragon_capture_table_index
-  - boss1_dragon_capture_node_positions
+  - boss1_dragon_capture_node
+  - boss1_dragon_breath_points_out
+  - boss1_dragon_capture_cursor
+  - boss1_dragon_capture_points_out
   - boss1_dragon_capture_flags
-  - boss1_dragon_model_nodes
-  - boss1_dragon_instance
-  - boss1_dragon_control_override_active
-  - boss1_dragon_control_override_id
+  - boss1_dragon_capture_model
+  - boss1_dragon_main_instance
+  - boss1_dragon_player_control
+  - boss1_dragon_control_client_id
   - TBoss1Dragon__foot_step_attack_params
   - TBoss1Dragon__gravity_accel
   - TBoss1Dragon__head_fall_effect_params
-  - TBoss1Dragon__part_hp_stats
+  - boss1_dragon_part_hp_stats
   - handle_walk_state__12TBoss1DragonFUl
   - sub_800224A4__12TBoss1DragonFUl
   - sub_80022740__12TBoss1DragonFUl
@@ -4583,7 +4583,7 @@ force_active:
   - boss1_dragon_init_params
   - boss1_dragon_normal_action_table
   - boss1_dragon_normal_particle_table
-  - boss1_dragon_resistance_param_ids
+  - boss1_dragon_behavior_param_ids
   - boss1_dragon_resistance_stat_indices
   - boss1_dragon_sequence_remap_table
   - boss1_dragon_visibility_distance
@@ -7462,8 +7462,8 @@ force_active:
   - lazer_fence_norm_episode2_resource_descriptor
   - lazer_fence_sw_collision_body_part
   - lazer_fence_sw_ginja_model_table
-  - boss1_dragon_death_first_fall_offset
-  - boss1_dragon_death_second_fall_offset
+  - boss1_dragon_death_impact_point_a
+  - boss1_dragon_death_impact_point_b
   - dark_falz_player_ring_center_origin
   - lbl_80437328
   - lbl_80437384
@@ -8167,9 +8167,9 @@ force_active:
   - lbl_804F7130
   - lbl_804F7168
   - lbl_804F9E60
-  - boss1_dragon_capture_local_origin
+  - boss1_dragon_node_origin
   - boss1_dragon_breath_local_points
-  - boss1_dragon_model_clone_state
+  - boss1_dragon_capture_chunk_model
   - boss1_dragon_reference_pos_vec
   - boss1_dragon_forward_reference_vec
   - lbl_804FF67C
@@ -8346,10 +8346,10 @@ force_active:
   - lbl_805D49A4
   - boss1_dragon_lift_accel
   - boss1_dragon_dive_accel
-  - boss1_dragon_breath_capture_node
+  - boss1_dragon_breath_node
   - boss1_dragon_model_node_count
-  - boss1_dragon_action_refresh_requested
-  - boss1_dragon_spin_attack_accel
+  - boss1_dragon_hold_mode
+  - boss1_dragon_fall_accel
   - lbl_805D4B90
   - lbl_805D4BE4
   - lbl_805D4DC0
