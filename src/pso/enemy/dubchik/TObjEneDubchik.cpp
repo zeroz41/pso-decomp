@@ -108,13 +108,12 @@ __declspec(section ".data") saddr lbl_805009A0[2];
 __declspec(section ".data") saddr lbl_805009A8[2];
 __declspec(section ".data") saddr lbl_805009B0[2];
 saddr lbl_805009B8[20];
-u8 lbl_80500A08[0x10];
-u8 lbl_80500A18[0x30];
-u8 lbl_80500A48[0xA8];
+NJS_OBJECT *lbl_80500A08[4];
+NJS_OBJECT *lbl_80500A18[12];
+NJS_OBJECT *lbl_80500A48[42];
 __declspec(section ".data") saddr lbl_80500AF0[2];
 __declspec(section ".data") saddr lbl_80500AF8[2];
 
-#define lbl_805009A0 ((u8 *)lbl_805009A0)
 
 
 const char *bm_ene_dubchik_model_names[] = {
@@ -257,7 +256,7 @@ TObjEneDubchik::TObjEneDubchik(TObject *parent, void *set_data) : TObjEnemyCusto
     set_field_d8((saddr)action_table);
     init_collision_body_parts(this, dubchik_collision_body, 1);
     movementParameters = &dubchik_movement;
-    bind_enemy_combat_stats((u8 *)((saddr *)lbl_805009A0)[variant], (u8 *)lbl_805009A8[variant], (u8 *)lbl_805009B0[variant]);
+    bind_enemy_combat_stats((u8 *)lbl_805009A0[variant], (u8 *)lbl_805009A8[variant], (u8 *)lbl_805009B0[variant]);
     sub_800A8B8C();
     requested_action = 5;
     set_animation(requested_action);
@@ -354,7 +353,7 @@ void TObjEneDubchik::load_resources() {
     t[1] = (saddr)p;
     ((SampledMotionPoints *)t[1])->sample_two_nodes((NJS_OBJECT *)get_bml_model((BmlResource *)dubchik_resource, 0), (NJS_MOTION *)get_bml_motion((BmlResource *)dubchik_resource, 7), 0x2E, 0x32);
     for (i = 0; i < 2; i++) {
-        ((saddr *)lbl_805009A0)[i] = (saddr)TLobby::register_boss(i + 0x1B);
+        lbl_805009A0[i] = (saddr)TLobby::register_boss(i + 0x1B);
         lbl_805009A8[i] = (saddr)TLobby::dispatch_shared_handler_b(i + 0x1B);
         lbl_805009B0[i] = (saddr)TLobby::register_object(i + 0x1B);
         lbl_805009B8[i] = (saddr)TLobby::dispatch_shared_handler_a(i + 0x1B);
@@ -363,9 +362,9 @@ void TObjEneDubchik::load_resources() {
     for (i = 0; i < 3; i++) {
         nodes[i] = (Node_800AA82C *)find_model_node(mdl, player_model_node_index_pair[i]);
     }
-    collect_visible_nodes((NJS_OBJECT *)nodes[0], (NJS_OBJECT **)lbl_80500A08);
-    collect_visible_nodes((NJS_OBJECT *)nodes[1], (NJS_OBJECT **)lbl_80500A18);
-    collect_visible_nodes((NJS_OBJECT *)nodes[2], (NJS_OBJECT **)lbl_80500A48);
+    collect_visible_nodes((NJS_OBJECT *)nodes[0], lbl_80500A08);
+    collect_visible_nodes((NJS_OBJECT *)nodes[1], lbl_80500A18);
+    collect_visible_nodes((NJS_OBJECT *)nodes[2], lbl_80500A48);
     {
         Ids_800AA82C ids = {{0x1E, 0x1F}};
         NpcAnimationBinding d = { NULL, reinterpret_cast<TObjMotionAction *>(&lbl_804910F4), 0, 1, 20 };
@@ -1154,7 +1153,7 @@ void TObjEneDubchik::render_model_and_set_attach_points() {
 }
 
 void TObjEneDubchik::sub_800A8A7C() {
-    u8 *g = lbl_805009A0;
+    u8 *g = (u8 *)lbl_805009A0;
     if (m_388 & 0x20000) {
         hide_model_nodes((NJS_OBJECT **)(g + 0x68));
     } else {
