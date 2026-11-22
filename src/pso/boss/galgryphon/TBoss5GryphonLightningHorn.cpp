@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include <stdlib.h>
 #include <stddef.h>
 #include <dolphin/mtx.h>
@@ -39,7 +40,6 @@ typedef struct Wing_80326074 {
 } Wing_80326074;
 
 extern "C" {
-void apply_lightning_hit(s32, void *, f32);
 Ctl_80325F7C *get_player_by_client_id(s32);
 void project_point_onto_line(void *, void *, void *);
 extern const f32 lbl_805D8D48;
@@ -94,11 +94,11 @@ void fn_80325F7C(void *self) {
     Vec wing;
     Vec hit;
     Vec dir;
-    s32 inst;
+    TBoss5Gryphon *inst;
     s32 i;
     Ctl_80325F7C *c;
-    inst = TBoss8Dragon::get_instance_count();
-    if (inst != 0) {
+    inst = TBoss5Gryphon::get_instance();
+    if (inst != NULL) {
         i = 0;
         do {
             c = get_player_by_client_id(i);
@@ -117,7 +117,7 @@ void fn_80325F7C(void *self) {
                 dir.z = ray.d.z;
                 TObjPlayer__sub_80325D58(self, (Vec *)&pos, (Vec *)&dir, (Vec *)&hit,
                                          normalize_vector_safe(&dir));
-                apply_lightning_hit(inst, &hit, 6.0f);
+                TBoss5Gryphon::apply_lightning_hit(inst, &hit, 6.0f);
             }
             i++;
         } while (i < 4);

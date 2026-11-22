@@ -108,7 +108,7 @@ void TBoss5GryphonTornado::run_task() {
             this->state = 2;
             this->timer = 0;
         }
-        apply_tornado_hit(TBoss8Dragon::get_instance_count(), (saddr)&this->position);
+        TBoss5Gryphon::apply_tornado_hit(TBoss5Gryphon::get_instance(), &this->position);
         sub_803554F0((u8 *)&v);
         this->velocity.x = 0.01f * v.x + this->velocity.x;
         this->velocity.z = 0.01f * v.z + this->velocity.z;

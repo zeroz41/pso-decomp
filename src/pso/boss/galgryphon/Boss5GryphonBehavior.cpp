@@ -93,8 +93,6 @@ void set_scripted_camera_pose(void *, void *, void *);
 void play_cue_stream_file(saddr name);
 f32 calc_random_ratio__10TObjPlayerFv(void *);
 s32 subtractive_rng_seed(void *, s32);
-void apply_lightning_hit(s32 owner, s32 pos, f32 inner);
-void apply_snarl_hit(s32 owner, s32 pos, f32 inner, f32 scale);
 struct P_8005F740 { u8 pad[0x30]; };
 struct ByteBlock_10 { u8 bytes[0x10]; };
 struct P_80064AB0 { u16 a; u16 id; u32 kind; f32 x; f32 z; };
@@ -102,7 +100,6 @@ f32 newton_sqrtf(f32);
 void TBoss8Dragon__sub_8005E17C(NJS_OBJECT *);
 void TBoss8Dragon__sub_8005F684(TBoss5Gryphon *self, void *params);
 void trigger_effect__12TBoss8DragonFPvi(void *arg0, s32 arg1);
-void apply_shockwave_hit(s32 owner, s32 pos);
 void apply_remote_action__13TBoss5GryphonFPvPv(u8 *ene_dd, u8 *boss8_dragon);
 void TBoss8Dragon__sub_800660A4(void *);
 s32 __ct__17TBoss5GryphonDemoFP7TObjectlf(void *, s32, void *, f32);
@@ -504,7 +501,7 @@ void TBoss5Gryphon::apply_paralysis() {  }
 
 void TBoss5Gryphon::apply_poison_status() {  }
 
-int TBoss8Dragon::get_instance_count() { return (saddr)boss5_gryphon_instance; }
+TBoss5Gryphon *TBoss5Gryphon::get_instance() { return boss5_gryphon_instance; }
 
 extern "C" {
 const Vec *get_arena_center(void) {
@@ -1169,34 +1166,31 @@ void TBoss5Gryphon::fn_800641A8() {
     }
 }
 
-extern "C" {
-void apply_shockwave_hit(s32 owner, s32 pos) {
+void TBoss5Gryphon::apply_shockwave_hit(TBoss5Gryphon *owner, Vec *pos) {
     DragonAttackParams desc = lbl_80437D68;
     desc.field_4 = *(f32 *)((s8 *)boss5_gryphon_behavior_params[2] + 4);
-    TBoss8Dragon__sub_80067074(pos, (saddr)&desc);
-    TObjEneDD::setup_instance(owner, pos, (u8 *)&desc, 0);
+    TBoss8Dragon__sub_80067074((saddr)pos, (saddr)&desc);
+    TObjEneDD::setup_instance((saddr)owner, (saddr)pos, (u8 *)&desc, 0);
 }
 
-void apply_tornado_hit(s32 owner, saddr pos) {
+void TBoss5Gryphon::apply_tornado_hit(TBoss5Gryphon *owner, Vec *pos) {
     DragonAttackParams desc = lbl_80437D7C;
     desc.field_4 = *(f32 *)((s8 *)boss5_gryphon_behavior_params[2] + 8);
-    TObjEneDD::setup_instance(owner, pos, (u8 *)&desc, 0);
+    TObjEneDD::setup_instance((saddr)owner, (saddr)pos, (u8 *)&desc, 0);
 }
 
-void apply_snarl_hit(s32 owner, s32 pos, f32 inner, f32 scale) {
+void TBoss5Gryphon::apply_snarl_hit(TBoss5Gryphon *owner, Vec *pos, f32 inner, f32 scale) {
     DragonAttackParams desc = lbl_80437D90;
     desc.field_4 = *(f32 *)boss5_gryphon_behavior_params[2] * scale;
     desc.field_8 = inner;
-    TObjEneDD::setup_instance(owner, pos, (u8 *)&desc, 0);
+    TObjEneDD::setup_instance((saddr)owner, (saddr)pos, (u8 *)&desc, 0);
 }
 
-void apply_lightning_hit(s32 owner, s32 pos, f32 inner) {
+void TBoss5Gryphon::apply_lightning_hit(TBoss5Gryphon *owner, Vec *pos, f32 inner) {
     DragonAttackParams desc = lbl_80437DA4;
     desc.field_4 = *(f32 *)((s8 *)boss5_gryphon_behavior_params[2] + 0xC);
     desc.field_8 = inner;
-    TObjEneDD::setup_instance(owner, pos, (u8 *)&desc, 0);
-}
-
+    TObjEneDD::setup_instance((saddr)owner, (saddr)pos, (u8 *)&desc, 0);
 }
 void TBoss5Gryphon::spawn_ground_splash() {
     Vec pos;
@@ -2701,7 +2695,7 @@ void TBoss5Gryphon::update_ground_lightning_attack(s32 event) {
         self->fn_800641A8();
         if (*(s32 *)((u8 *)boss5_gryphon_behavior_params[2] + 0x28) >= 2) {
             self->spawn_lightning_effect();
-            apply_lightning_hit((saddr)self, (saddr)&self->position, gryphon_sixty);
+            apply_lightning_hit(self, &self->position, gryphon_sixty);
         }
         if (*(s32 *)((u8 *)boss5_gryphon_behavior_params[2] + 0x28) >= 4 && self->lightning.frame % 20 == 0) {
             self->fire_horn_lightning((self->lightning.frame / 20) & 1 ? 0 : 1, gryphon_four * calc_random_ratio__10TObjPlayerFv(self->rng));

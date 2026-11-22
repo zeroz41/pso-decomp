@@ -10,9 +10,6 @@ struct TBoss5Gryphon;
 struct TBoss8Dragon;
 extern "C" {
 void TBoss8Dragon__sub_8005E17C(NJS_OBJECT *);
-void apply_lightning_hit(s32 owner, s32 pos, f32 inner);
-void apply_tornado_hit(s32 owner, saddr pos);
-void apply_shockwave_hit(s32 owner, s32 pos);
 void apply_remote_action__13TBoss5GryphonFPvPv(u8 *ene_dd, u8 *boss8_dragon);
 void calc_attack_params__12TBoss8DragonFiPvi(s32 arg0, u8 *arg1, s32 arg2);
 void calc_product_and_ratio__12TBoss8DragonFiPvi(s32 arg0, u8 *arg1, s32 arg2);

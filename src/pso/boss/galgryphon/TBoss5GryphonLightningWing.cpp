@@ -7,6 +7,7 @@
 #include "pso/boss/galgryphon/TBoss5GryphonLightning.h"
 
 #include "types.h"
+#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/task/TObject.h"
 
@@ -42,17 +43,16 @@ struct Wing_80351C18 {
 extern "C" {
 s32 __ct__22TBoss5GryphonLightningFP7TObjectP3Vecf(f32);
 extern u8 __vt__26TBoss5GryphonLightningWing[];
-void apply_lightning_hit(s32 owner, Vec *pos, f32 inner);
 }
 
 void TBoss5GryphonLightningWing::apply_lightning_effect() {
     Vec pos;
-    s32 owner;
+    TBoss5Gryphon *owner;
 
-    owner = TBoss8Dragon::get_instance_count();
-    if (owner != 0) {
+    owner = TBoss5Gryphon::get_instance();
+    if (owner != NULL) {
         this->get_end_position(&pos);
-        apply_lightning_hit(owner, &pos, 10.0f);
+        TBoss5Gryphon::apply_lightning_hit(owner, &pos, 10.0f);
     }
 }
 

@@ -80,6 +80,12 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     TBoss5Gryphon(TObject *parent, void *data);
     virtual ~TBoss5Gryphon();
     int get_flag_bit6();
+    static TBoss5Gryphon *get_instance();  // the gryphon of the running fight, NULL without one
+    // Hit descriptors of the gryphon's attacks, set up at pos on owner's behalf.
+    static void apply_lightning_hit(TBoss5Gryphon *owner, Vec *pos, f32 inner);
+    static void apply_snarl_hit(TBoss5Gryphon *owner, Vec *pos, f32 inner, f32 scale);
+    static void apply_tornado_hit(TBoss5Gryphon *owner, Vec *pos);
+    static void apply_shockwave_hit(TBoss5Gryphon *owner, Vec *pos);
     virtual void render();
     virtual void dispatch_action(u32 state, s32 event);
     void state_action_noop();

@@ -64,7 +64,7 @@ void TBoss5GryphonShockWave::run_task() {
         }
         spawn_particle_effect_with_flags(&this->position, gryphon_shockwave_particle_ids_ptr[2], 0x40);
         play_sound_effect(0x40033C13, &this->position, 0, 0);
-        apply_shockwave_hit(TBoss8Dragon::get_instance_count(), (saddr)&this->position);
+        TBoss5Gryphon::apply_shockwave_hit(TBoss5Gryphon::get_instance(), &this->position);
         spawn_gryphon_tornado((saddr)this->m_up, (saddr)this->owner, &this->position, this->target_client_id);
         this->state = 3;
         this->queue_destruction();
