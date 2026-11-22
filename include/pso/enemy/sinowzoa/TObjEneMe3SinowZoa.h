@@ -130,6 +130,8 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     void sub_80319748(s32 mode);
     void sub_80319B8C(s32 mode);
     s32 sub_8031A820(f32);
+    s32 check_move_collision(const Vec *pos);
+    void cast_technique();
 };
 
 LAYOUT_ASSERT(TObjEneMe3SinowZoa_m_3c0_offset, offsetof(TObjEneMe3SinowZoa, stealthed) == 0x3C0);

@@ -121,6 +121,8 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     void sub_800F348C(s32 reason);
     void sub_800F3FE4(s32 reason);
     s32 sub_800F4C10(f32);
+    void action(s32 reason);
+    void draw_model();
 };
 
 LAYOUT_ASSERT(TObjEneMe3StelthFadeOffset, offsetof(TObjEneMe3Stelth, fade) == 0x404);

@@ -114,7 +114,6 @@ extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
 
 
-void action__16TObjEneMe3StelthFPvi(TObjEneMe3Stelth *stelth, s32 reason);
 }
 void move_with_wall_slide(u8 *arg0);
 extern "C" {
@@ -181,8 +180,8 @@ TObjMotionAction TObjEneMe3Stelth__animation_descriptors[13] = {
 
 
 
-void draw_model__16TObjEneMe3StelthFPv(TObjEneMe3Stelth *stelth) {
-    stelth->draw_ginja_motion_model();
+void TObjEneMe3Stelth::draw_model() {
+    this->draw_ginja_motion_model();
 }
 void TObjEneDD_ST::sub_800F5874(s32 arg1) {
     this->m_11c = (s16) (this->m_11c | arg1);
@@ -629,7 +628,7 @@ void TObjEneMe3Stelth::dispatch_action(u32 state, s32 reason) {
         handle_message(reason);
         break;
     case 10:
-        action__16TObjEneMe3StelthFPvi(this, reason);
+        action(reason);
         break;
     case 11:
         update_state_resta_cast(reason);
@@ -1360,41 +1359,41 @@ void TObjEneMe3Stelth::handle_message(s32 mode) {
 }
 
 
-void action__16TObjEneMe3StelthFPvi(TObjEneMe3Stelth *stelth, s32 reason) {
+void TObjEneMe3Stelth::action(s32 reason) {
 
     switch (reason) {
     case 4:
-        stelth->requested_action = 8;
-        stelth->set_field_378(6);
-        stelth->set_intangible();
-        stelth->behavior_flags &= ~3;
-        stelth->behavior_flags |= 4;
-        stelth->fade.reset_color();
-        stelth->state_step = 1;
+        this->requested_action = 8;
+        this->set_field_378(6);
+        this->set_intangible();
+        this->behavior_flags &= ~3;
+        this->behavior_flags |= 4;
+        this->fade.reset_color();
+        this->state_step = 1;
         return;
     case 3:
-        if (stelth->state_step == 2) {
-            stelth->transition_enemy_state(0);
+        if (this->state_step == 2) {
+            this->transition_enemy_state(0);
         }
         return;
     case 0:
-        stelth->advance_animation();
-        switch (stelth->state_step) {
+        this->advance_animation();
+        switch (this->state_step) {
         case 0:
-            if (stelth->get_flag_b4() != 0) {
-                stelth->state_step = 1;
+            if (this->get_flag_b4() != 0) {
+                this->state_step = 1;
             }
             break;
         case 1:
-            if (stelth->fade.decay_value_toward_floor() != 0) {
-                stelth->state_step = 2;
+            if (this->fade.decay_value_toward_floor() != 0) {
+                this->state_step = 2;
             }
             break;
         }
-        stelth->update_ground_contact();
+        this->update_ground_contact();
         return;
     case 5:
-        stelth->behavior_flags &= ~4;
+        this->behavior_flags &= ~4;
         break;
     }
 }
@@ -1715,7 +1714,7 @@ void TObjEneMe3Stelth::render() {
             if (mode == 1) {
                 draw_ginja_motion_model();
             } else {
-                draw_model__16TObjEneMe3StelthFPv(this);
+                draw_model();
             }
             if (stealthed != 0) {
                 set_ginja_draw_list_mask(2);

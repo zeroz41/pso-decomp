@@ -97,7 +97,6 @@ s32 copy_position_if_valid__10TObjPlayerFii(void *, Vec);
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
 u16 get_entity_id(TObjBase *object);
-s32 check_move_collision__18TObjEneMe3SinowZoaFPvPv(TObjEneMe3SinowZoa *self, const Vec *pos);
 f32 fabs_float(f32);
 s32 TObjEneMe3SinowZoa__sub_800D72A4(TUnk_80494938 *fade);
 s32 TBoss3Volopt__sub_800D8D88(void *, f32);
@@ -641,19 +640,19 @@ void TObjEneMe3SinowZoa::sub_8031A3D8() {
     this->kind_index = 0;
 }
 
-void cast_technique__18TObjEneMe3SinowZoaFPv(u8 *self) {
+void TObjEneMe3SinowZoa::cast_technique() {
     saddr lv;
-    lv = TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)self)->kind_index]->m_18);
-    if (((TObjEneMe3SinowZoa *)self)->sub_8031A454() != 0) {
+    lv = TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[kind_index]->m_18);
+    if (sub_8031A454() != 0) {
         if (game_difficulty_selection == 3) {
-            TTecSifta::create((void *)self, self + 0x38, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)self)->kind_index]->m_18));
-            TTecDeband::create(self, &((TObjEneMe3SinowZoa *)self)->position, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)self)->kind_index]->m_18));
+            TTecSifta::create(this, &position, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[kind_index]->m_18));
+            TTecDeband::create(this, &position, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[kind_index]->m_18));
         } else {
-            TTecZarua::create_instance((saddr)self, (Vec *)(self + 0x38), (Vec *)(self + 0x38), TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)self)->kind_index]->m_18));
-            create__9TTecJelinFllll(self, self + 0x38, self + 0x38, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[((TObjEneMe3SinowZoa *)self)->kind_index]->m_18));
+            TTecZarua::create_instance((saddr)this, &position, &position, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[kind_index]->m_18));
+            create__9TTecJelinFllll(this, &position, &position, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[kind_index]->m_18));
         }
     } else {
-        TTecResta::create(self, &((TObjEneMe3SinowZoa *)self)->position, lv);
+        TTecResta::create(this, &position, lv);
     }
 }
 
@@ -1425,7 +1424,7 @@ void TObjEneMe3SinowZoa::sub_80318564(s32 mode) {
             }
         case 1:
             if (this->get_flag_b4() != 0) {
-                cast_technique__18TObjEneMe3SinowZoaFPv((u8 *)this);
+                cast_technique();
                 if (TObjEneDD::check_v2_mode() != 0) {
                     (this->state_step) = 3;
                 } else if ((this->behavior_flags) & 0x100000) {
@@ -1705,7 +1704,7 @@ void TObjEneMe3SinowZoa::sub_80317B50(s32 mode) {
                         VecCopy(&tmp, &pos);
                         tmp.x += pos.x - this->current_target->position.x;
                         tmp.z += pos.z - this->current_target->position.z;
-                        if (check_move_collision__18TObjEneMe3SinowZoaFPvPv(this, &tmp) == 0 &&
+                        if (check_move_collision(&tmp) == 0 &&
                             csnVector(&this->current_target->position, &tmp, 0x88E0) == 0 &&
                             csnVectorUnder(&pos, (CsnGroup **)&this->m_120, 0x15) != 0 &&
                             this->room == ((TScene *)(&pos))->find_section_at_position()) {
@@ -2116,33 +2115,33 @@ void TObjEneMe3SinowZoa::sub_80316C3C(s32 mode) {
     ((TObjPlayer *)this)->update_collisions();
 }
 
-s32 check_move_collision__18TObjEneMe3SinowZoaFPvPv(TObjEneMe3SinowZoa *self, const Vec *pos) {
+s32 TObjEneMe3SinowZoa::check_move_collision(const Vec *pos) {
     CollisionBody *body;
     u32 r;
     u32 saved;
     Vec sp8;
-    body = self->bodies;
+    body = this->bodies;
     saved = body->flags;
     body->flags = 0x9D01U;
-    VecCopy(&sp8, &self->position);
-    VecCopy(&self->position, pos);
+    VecCopy(&sp8, &this->position);
+    VecCopy(&this->position, pos);
     TObjPlayer::init_all_slots();
-    self->check_collisions();
-    self->update_enemy_collision_flags();
+    this->check_collisions();
+    this->update_enemy_collision_flags();
     if (body->flags & 0x80000) {
-        if (get_valid_target_player(get_entity_id(self->current_target)) == 0) {
-            VecCopy(&self->position, &sp8);
+        if (get_valid_target_player(get_entity_id(this->current_target)) == 0) {
+            VecCopy(&this->position, &sp8);
             TObjPlayer::init_all_slots();
             return 1;
         }
     }
-    if ((body->flags & 0x100000) && get_valid_target_player(self->entity_id) == 0) {
-        VecCopy(&self->position, &sp8);
+    if ((body->flags & 0x100000) && get_valid_target_player(this->entity_id) == 0) {
+        VecCopy(&this->position, &sp8);
         TObjPlayer::init_all_slots();
         return 1;
     }
     r = (body->flags & 0x200000) != 0;
-    VecCopy(&self->position, &sp8);
+    VecCopy(&this->position, &sp8);
     TObjPlayer::init_all_slots();
     copy_collision_body(body, &sinow_zoa_collision_parts);
     body->flags = saved;

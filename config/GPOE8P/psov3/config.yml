@@ -3761,7 +3761,7 @@ force_active:
   - action__14TObjEneBm5WolfFl
   - action__15TObjEneMe1GiGueFv
   - action__16TObjEneBm5GibonUFPvi
-  - action__16TObjEneMe3StelthFPvi
+  - action__16TObjEneMe3StelthFl
   - action__17TObjEneDf2BringerFl
   - action__17TObjEneMe1CanadinFl
   - action__18TObjEneBalClawClawFPv
@@ -4875,7 +4875,7 @@ force_active:
   - cast_resta__18TObjEneRe4SorcererFv
   - cast_support_technique__8TItemMagFl
   - cast_tech_on_players__15TBoss3VoloptP01Fv
-  - cast_technique__18TObjEneMe3SinowZoaFPv
+  - cast_technique__18TObjEneMe3SinowZoaFv
   - cast_technique__18TObjEneRe4SorcererFv
   - cave_rock_collision_body_templates
   - cave_rock_resource_bundle
@@ -5884,7 +5884,7 @@ force_active:
   - draw_model__12TObjComputerFv
   - render__15TObjEneMe1GiGueFv
   - draw_model__15TObjLazerFence4Fv
-  - draw_model__16TObjEneMe3StelthFPv
+  - draw_model__16TObjEneMe3StelthFv
   - draw_model__17TBoss5GryphonDemoFPvl
   - draw_model__18TObjLazerFenceNormFv
   - draw_model__8TObjDoorFPv
