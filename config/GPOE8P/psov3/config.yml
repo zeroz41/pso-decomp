@@ -355,7 +355,7 @@ force_active:
   - TBoss4DarkFalz__name
   - spawn_defeat_effects__14TBoss4DarkFalzFv
   - TBoss4DarkFalz__sub_801D94C0
-  - TBoss4Thanks__sub_8035C480
+  - clear_particle_emitters__12TBoss4ThanksFv
   - TBoss4Type2__attack_pattern_table
   - __ct__11TBoss4Type2FP7TObjectP17TBoss4FormSetData
   - send_random_action__11TBoss4Type2Fll

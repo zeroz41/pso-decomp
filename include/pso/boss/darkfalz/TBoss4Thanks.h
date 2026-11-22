@@ -7,6 +7,7 @@
 struct NJS_OBJECT;
 struct GinjaTextureList;
 struct AnimationMotion;
+class TParticleCtrl;
 
 struct TBoss4Thanks : public TObject {
     TBoss4Thanks(TObject *);
@@ -21,7 +22,7 @@ struct TBoss4Thanks : public TObject {
     NJS_OBJECT *model;
     GinjaTextureList *texture_list;
     AnimationMotion *motions[2];
-    void *particle_emitters[4];
+    TParticleCtrl *particle_emitters[4];
     // int: the body widens a bool (clrlwi) and its callers test r3 with a plain cmpwi.
     static s32 is_door_0x97_open();
     // Story flag 0x99 (153, set by dispatch_main_phase_153) test next to is_door_0x97_open().
@@ -30,6 +31,7 @@ struct TBoss4Thanks : public TObject {
     static void dispatch_main_phase();
     void update_particle_emitters();
     void destroy_effects();
+    void clear_particle_emitters();
     static int is_player_nearby(void *);
     void update_fade_out();
     void advance_thanks_state();

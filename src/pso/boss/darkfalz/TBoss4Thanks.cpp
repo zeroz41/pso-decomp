@@ -32,15 +32,7 @@
 #include "pso/ui/TLevelSelect.h"
 
 
-struct O_8035C480 { u8 pad[0x44]; s32 arr[4]; };
-
-struct E_8035C424 { void *p; };
-
-struct W_8035C424 { u8 pad0[0x44]; E_8035C424 e[4]; };
-
 struct Ent_8035C35C { s32 id; s32 lo; s32 hi; };
-
-struct Obj_8035C35C { u8 pad[0x30]; s32 x30; u8 pad34[0x10]; void *p[4]; };
 
 struct Anim_8035C6FC
 {
@@ -59,8 +51,8 @@ struct Thanks_8035C6FC
   Anim_8035C6FC *anim[4];
 };
 
+
 extern "C" {
-void TBoss4Thanks__sub_8035C480(saddr arg0);
 const char *TBoss4Thanks__class_name = "TBoss4Thanks";
 // Position of the emitters and of the proximity check (x, y, z).
 extern const f32 boss4_thanks_position[3] = {-9860.0f, 29.0f, -238.9f};
@@ -82,42 +74,39 @@ void TBoss4Thanks::dispatch_main_phase() { set_story_flag_or_send_quest_flag(151
 
 
 void TBoss4Thanks::update_particle_emitters() {
-    Obj_8035C35C *o = (Obj_8035C35C *)this;
     s32 i;
     for (i = 0; i < 4; i++) {
         const Ent_8035C35C *e = &boss4_thanks_emitter_table[i];
         if (this->fade_frame >= e->lo && this->fade_frame <= e->hi) {
-            if (o->p[i] == NULL) {
-                o->p[i] = create_particle_emitter((void *)boss4_thanks_position, e->id);
-                if (o->p[i] != NULL) {
-                    ((TParticleCtrl *)(o->p[i]))->set_flags(0x40);
+            if (particle_emitters[i] == NULL) {
+                particle_emitters[i] = create_particle_emitter((void *)boss4_thanks_position, e->id);
+                if (particle_emitters[i] != NULL) {
+                    particle_emitters[i]->set_flags(0x40);
                 }
             }
         } else {
-            if (o->p[i] != NULL) {
-                TParticleCtrl::release(o->p[i]);
-                o->p[i] = NULL;
+            if (particle_emitters[i] != NULL) {
+                TParticleCtrl::release(particle_emitters[i]);
+                particle_emitters[i] = NULL;
             }
         }
     }
 }
 
 void TBoss4Thanks::destroy_effects() {
-    W_8035C424 *self = (W_8035C424 *)this;
     s32 i;
     for (i = 0; i < 4; i++) {
-        if (self->e[i].p != NULL) {
-            TParticleCtrl::release(self->e[i].p);
-            self->e[i].p = NULL;
+        if (particle_emitters[i] != NULL) {
+            TParticleCtrl::release(particle_emitters[i]);
+            particle_emitters[i] = NULL;
         }
     }
 }
 
-void TBoss4Thanks__sub_8035C480(saddr arg0) {
-    O_8035C480 *self = (O_8035C480 *)arg0;
+void TBoss4Thanks::clear_particle_emitters() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        self->arr[i] = 0;
+        particle_emitters[i] = NULL;
     }
 }
 
@@ -222,18 +211,18 @@ void TBoss4Thanks::run_task() {
 
 TBoss4Thanks::~TBoss4Thanks() {
     TBoss4Thanks::dispatch_main_phase_153();
-    ((TBoss4Thanks *)this)->destroy_effects();
+    destroy_effects();
 }
 
 TBoss4Thanks::TBoss4Thanks(TObject *parent) : TObject(parent) {
     BmlResource *archive;
-    *(s32 *)((s8 *)this + 0) = (saddr) TBoss4Thanks__class_name;
+    m_name = TBoss4Thanks__class_name;
     archive = reinterpret_cast<BmlResource *>(TBoss4Uro::get_instance_count());
     this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(archive, 1));
     this->texture_list = reinterpret_cast<GinjaTextureList *>(get_bml_texlist(archive, 1));
     motions[0] = get_bml_motion(archive, 0x46);
     motions[1] = get_bml_motion(archive, 0x47);
-    TBoss4Thanks__sub_8035C480((saddr)((saddr) ((u8 *)this)));
+    clear_particle_emitters();
     this->state = 0;
     this->next_motion = 0;
     this->current_motion = 0;
