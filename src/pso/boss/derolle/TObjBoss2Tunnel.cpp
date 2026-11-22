@@ -61,7 +61,7 @@
 #include "pso/unk/TLobby_803DE778.h"
 
 // Two debug chunk models other units draw with draw_chunk_object: debug_chunk_object (TObjEneBm3FlyNest,
-// TObjEneRecobox, and TObjHMS_EZRope_Player through lbl_8048DEF4) and lbl_805D28BC (TBoss1Dragon, TBoss2Mine,
+// TObjEneRecobox, and TObjHMS_EZRope_Player through debug_chunk_b_object) and lbl_805D28BC (TBoss1Dragon, TBoss2Mine,
 // TObjFogCollision, TBoss8Dragon). Each is a strip list, an NJD_CV_VN vertex list, an NJS_CNK_MODEL and its NJS_OBJECT.
 struct DebugChunkVertexVN {
     f32 pos[3];
@@ -195,11 +195,11 @@ static DebugChunkVertices58 debug_chunk_b_vertices = {
     0x000000FF,
 };
 static NJS_CNK_MODEL debug_chunk_b_model = {&debug_chunk_b_vertices, debug_chunk_b_strips, {0.0f, 0.0f, 0.0f}, 7.071068f};
-NJS_OBJECT lbl_8048DEF4 = {
+NJS_OBJECT debug_chunk_b_object = {
     NJD_EVAL_UNIT_POS | NJD_EVAL_UNIT_ANG | NJD_EVAL_UNIT_SCL | NJD_EVAL_BREAK, &debug_chunk_b_model,
     {0.0f, 0.0f, 0.0f}, {0, 0, 0}, {1.0f, 1.0f, 1.0f}, NULL, NULL,
 };
-NJS_OBJECT *debug_chunk_object = &lbl_8048DEF4;
+NJS_OBJECT *debug_chunk_object = &debug_chunk_b_object;
 NJS_OBJECT *lbl_805D28BC = &debug_chunk_a_object;
 
 struct Quad_8007D828 { f32 x0; f32 y0; f32 x1; f32 y1; f32 u0; f32 v0; f32 u1; f32 v1; };
@@ -255,16 +255,16 @@ void *TObjBoss2Tunnel__snapshot_buffer;
 s32 TObjBoss2Tunnel__snapshot_saved_flag;
 
 // The snapshot's memory card file: name, comment and icon; screen.bin is the same capture on disc.
-const char TObjBoss2Tunnel__data_80438A08[32] = "PSO_SCREEN";
+const char snapshot_card_filename[32] = "PSO_SCREEN";
 const char snapshot_card_title[36] = "SNAPSHOT_FILE"; // inferred: copied into the card header's title
 const u8 snapshot_card_icon[16] = {0x35, 0x04, 0x08, 0x1A, 0x0A, 0x07, 0x57, 0x54, 0x54, 0x54}; // inferred: copied into the card header's icon
 const char screen_binary_filename_string[] = "screen.bin";
 const char *screen_binary_filename = screen_binary_filename_string;
 // Centre of the capture frame, moved with the C stick.
-NJS_POINT2 TObjBoss2Tunnel__data_8048DF2C = {320.0f, 240.0f};
+NJS_POINT2 snapshot_frame_center = {320.0f, 240.0f};
 
 // Fills in the 6xB2 header: subcommand 0xB2, size 3 (in words).
-void TObjBoss2Tunnel__sub_8007EAE4(G_PlaySound_6xB2 *cmd) {
+void init_6xB2_play_sound(G_PlaySound_6xB2 *cmd) {
     cmd->header.subcommand = 0xB2;
     cmd->header.size = 3;
 }
@@ -685,9 +685,9 @@ s32 PiecewiseCurve::advance(f32 *out) {
 }
 
 void TObjBoss2Tunnel::reset_state() {
-    TObjBoss2Tunnel__data_8048DF2C.x = 320.0f;
+    snapshot_frame_center.x = 320.0f;
     boss2_tunnel_state_flag = 0;
-    TObjBoss2Tunnel__data_8048DF2C.y = 240.0f;
+    snapshot_frame_center.y = 240.0f;
     TObjBoss2Tunnel__snapshot_buffer = 0;
     TObjBoss2Tunnel__snapshot_state = 0;
     TObjBoss2Tunnel__snapshot_saved_flag = 0;
@@ -697,7 +697,7 @@ void TObjBoss2Tunnel::reset_state() {
 void TObjBoss2Tunnel__sub_8007DD24(void) {  }
 
 /* Moves the capture frame with the C stick and keeps it on screen. */
-void TObjBoss2Tunnel__sub_8007DB80(void) {
+void move_snapshot_frame(void) {
     s16 stick_x = controller_physical_port_bank.controllers[3].cstick_x;
     s16 stick_y = controller_physical_port_bank.controllers[3].cstick_y;
     f32 magnitude = controller_physical_port_bank.controllers[3].cstick_magnitude;
@@ -707,20 +707,20 @@ void TObjBoss2Tunnel__sub_8007DB80(void) {
         s16 dy = stick_y * speed;
         dx = dx + dx % 4;
         dy = dy + dy % 4;
-        TObjBoss2Tunnel__data_8048DF2C.x += dx;
-        TObjBoss2Tunnel__data_8048DF2C.y += dy;
+        snapshot_frame_center.x += dx;
+        snapshot_frame_center.y += dy;
     }
-    if (TObjBoss2Tunnel__data_8048DF2C.x - 128.0f <= 0.0f) {
-        TObjBoss2Tunnel__data_8048DF2C.x = 128.0f;
+    if (snapshot_frame_center.x - 128.0f <= 0.0f) {
+        snapshot_frame_center.x = 128.0f;
     }
-    if (128.0f + TObjBoss2Tunnel__data_8048DF2C.x >= 640.0f) {
-        TObjBoss2Tunnel__data_8048DF2C.x = 512.0f;
+    if (128.0f + snapshot_frame_center.x >= 640.0f) {
+        snapshot_frame_center.x = 512.0f;
     }
-    if (TObjBoss2Tunnel__data_8048DF2C.y - 96.0f <= 0.0f) {
-        TObjBoss2Tunnel__data_8048DF2C.y = 96.0f;
+    if (snapshot_frame_center.y - 96.0f <= 0.0f) {
+        snapshot_frame_center.y = 96.0f;
     }
-    if (96.0f + TObjBoss2Tunnel__data_8048DF2C.y >= 480.0f) {
-        TObjBoss2Tunnel__data_8048DF2C.y = 384.0f;
+    if (96.0f + snapshot_frame_center.y >= 480.0f) {
+        snapshot_frame_center.y = 384.0f;
     }
 }
 
@@ -739,39 +739,39 @@ void draw_snapshot_capture_overlay(void) {
     v[1].x = 640.0f;
     v[1].y = 0.0f;
     v[2].x = 0.0f;
-    v[2].y = TObjBoss2Tunnel__data_8048DF2C.y - 96.0f;
+    v[2].y = snapshot_frame_center.y - 96.0f;
     v[3].x = 640.0f;
-    v[3].y = TObjBoss2Tunnel__data_8048DF2C.y - 96.0f;
+    v[3].y = snapshot_frame_center.y - 96.0f;
     TObjBoss2Tunnel::sub_803E2D10(1);
     TObjBoss2Tunnel::draw_projected_quads(v, 4);
     TObjBoss2Tunnel::reset_player_state();
     v[0].x = 0.0f;
-    v[0].y = TObjBoss2Tunnel__data_8048DF2C.y - 96.0f;
-    v[1].x = TObjBoss2Tunnel__data_8048DF2C.x - 128.0f;
-    v[1].y = TObjBoss2Tunnel__data_8048DF2C.y - 96.0f;
+    v[0].y = snapshot_frame_center.y - 96.0f;
+    v[1].x = snapshot_frame_center.x - 128.0f;
+    v[1].y = snapshot_frame_center.y - 96.0f;
     v[2].x = 0.0f;
     v[2].y = 480.0f;
-    v[3].x = TObjBoss2Tunnel__data_8048DF2C.x - 128.0f;
+    v[3].x = snapshot_frame_center.x - 128.0f;
     v[3].y = 480.0f;
     TObjBoss2Tunnel::sub_803E2D10(1);
     TObjBoss2Tunnel::draw_projected_quads(v, 4);
     TObjBoss2Tunnel::reset_player_state();
-    v[0].x = 128.0f + TObjBoss2Tunnel__data_8048DF2C.x;
-    v[0].y = TObjBoss2Tunnel__data_8048DF2C.y - 96.0f;
+    v[0].x = 128.0f + snapshot_frame_center.x;
+    v[0].y = snapshot_frame_center.y - 96.0f;
     v[1].x = 640.0f;
-    v[1].y = TObjBoss2Tunnel__data_8048DF2C.y - 96.0f;
-    v[2].x = 128.0f + TObjBoss2Tunnel__data_8048DF2C.x;
-    v[2].y = 96.0f + TObjBoss2Tunnel__data_8048DF2C.y;
+    v[1].y = snapshot_frame_center.y - 96.0f;
+    v[2].x = 128.0f + snapshot_frame_center.x;
+    v[2].y = 96.0f + snapshot_frame_center.y;
     v[3].x = 640.0f;
-    v[3].y = 96.0f + TObjBoss2Tunnel__data_8048DF2C.y;
+    v[3].y = 96.0f + snapshot_frame_center.y;
     TObjBoss2Tunnel::sub_803E2D10(1);
     TObjBoss2Tunnel::draw_projected_quads(v, 4);
     TObjBoss2Tunnel::reset_player_state();
-    v[0].x = TObjBoss2Tunnel__data_8048DF2C.x - 128.0f;
-    v[0].y = 96.0f + TObjBoss2Tunnel__data_8048DF2C.y;
+    v[0].x = snapshot_frame_center.x - 128.0f;
+    v[0].y = 96.0f + snapshot_frame_center.y;
     v[1].x = 640.0f;
-    v[1].y = 96.0f + TObjBoss2Tunnel__data_8048DF2C.y;
-    v[2].x = TObjBoss2Tunnel__data_8048DF2C.x - 128.0f;
+    v[1].y = 96.0f + snapshot_frame_center.y;
+    v[2].x = snapshot_frame_center.x - 128.0f;
     v[2].y = 480.0f;
     v[3].x = 640.0f;
     v[3].y = 480.0f;
@@ -781,19 +781,19 @@ void draw_snapshot_capture_overlay(void) {
     TObjFish::set_global_param(lbl_805D63F0);
     set_draw_texture_and_color(1, -1);
     begin_screen_draw(1);
-    q.x0 = TObjBoss2Tunnel__data_8048DF2C.x - 27.0f;
-    q.y0 = TObjBoss2Tunnel__data_8048DF2C.y - 27.0f;
-    q.x1 = TObjBoss2Tunnel__data_8048DF2C.x;
-    q.y1 = TObjBoss2Tunnel__data_8048DF2C.y;
+    q.x0 = snapshot_frame_center.x - 27.0f;
+    q.y0 = snapshot_frame_center.y - 27.0f;
+    q.x1 = snapshot_frame_center.x;
+    q.y1 = snapshot_frame_center.y;
     q.u0 = 0.31764707f;
     q.v0 = 0.494117647f;
     q.u1 = 0.423529416f;
     q.v1 = 0.600000024f;
     draw_textured_quad_at_depth((f32 *)&q, 0.5f);
-    q.x0 = TObjBoss2Tunnel__data_8048DF2C.x;
-    q.y0 = TObjBoss2Tunnel__data_8048DF2C.y - 27.0f;
-    q.x1 = 27.0f + TObjBoss2Tunnel__data_8048DF2C.x;
-    q.y1 = TObjBoss2Tunnel__data_8048DF2C.y;
+    q.x0 = snapshot_frame_center.x;
+    q.y0 = snapshot_frame_center.y - 27.0f;
+    q.x1 = 27.0f + snapshot_frame_center.x;
+    q.y1 = snapshot_frame_center.y;
     q.u0 = 0.31764707f;
     q.v0 = 0.494117647f;
     q.u1 = 0.423529416f;
@@ -801,10 +801,10 @@ void draw_snapshot_capture_overlay(void) {
     q.u0 = 0.423529416f;
     q.u1 = 0.31764707f;
     draw_textured_quad_at_depth((f32 *)&q, 0.5f);
-    q.x0 = TObjBoss2Tunnel__data_8048DF2C.x - 27.0f;
-    q.y0 = TObjBoss2Tunnel__data_8048DF2C.y;
-    q.x1 = TObjBoss2Tunnel__data_8048DF2C.x;
-    q.y1 = 27.0f + TObjBoss2Tunnel__data_8048DF2C.y;
+    q.x0 = snapshot_frame_center.x - 27.0f;
+    q.y0 = snapshot_frame_center.y;
+    q.x1 = snapshot_frame_center.x;
+    q.y1 = 27.0f + snapshot_frame_center.y;
     q.u0 = 0.31764707f;
     q.v0 = 0.494117647f;
     q.u1 = 0.423529416f;
@@ -812,10 +812,10 @@ void draw_snapshot_capture_overlay(void) {
     q.v0 = 0.600000024f;
     q.v1 = 0.494117647f;
     draw_textured_quad_at_depth((f32 *)&q, 0.5f);
-    q.x0 = TObjBoss2Tunnel__data_8048DF2C.x;
-    q.y0 = TObjBoss2Tunnel__data_8048DF2C.y;
-    q.x1 = 27.0f + TObjBoss2Tunnel__data_8048DF2C.x;
-    q.y1 = 27.0f + TObjBoss2Tunnel__data_8048DF2C.y;
+    q.x0 = snapshot_frame_center.x;
+    q.y0 = snapshot_frame_center.y;
+    q.x1 = 27.0f + snapshot_frame_center.x;
+    q.y1 = 27.0f + snapshot_frame_center.y;
     q.u0 = 0.31764707f;
     q.v0 = 0.494117647f;
     q.u1 = 0.423529416f;
@@ -830,7 +830,7 @@ void draw_snapshot_capture_overlay(void) {
 }
 
 /* Takes a snapshot of the screen with the C stick frame and saves it to the memory card. */
-s32 TObjBoss2Tunnel__sub_8007D1D0(void) {
+s32 take_snapshot(void) {
     static char buffer_owner[] = "GetFrameBuffer";
     SnapshotFrameBuffer *frame;
     ScreenSnapshot *snap;
@@ -876,7 +876,7 @@ s32 TObjBoss2Tunnel__sub_8007D1D0(void) {
     pad = (PadSlot *)TKeyBoardControl__sub_803DEB74(0x12);
     if (test_previous_buttons_packed(&controller_physical_port_bank.controllers[3], 0x20000) != 0) {
         if (boss2_tunnel_state_flag == 0) {
-            TObjBoss2Tunnel__sub_8007DB80();
+            move_snapshot_frame();
             draw_snapshot_capture_overlay();
         }
     } else if (boss2_tunnel_state_flag == 0) {
@@ -912,7 +912,7 @@ s32 TObjBoss2Tunnel__sub_8007D1D0(void) {
     boss2_tunnel_state_flag = 0;
     filter = get_display_copy_filter();
     set_display_copy_filter(0);
-    TObjPlayer::copy_screen_to_texture(mode, &TObjBoss2Tunnel__data_8048DF2C);
+    TObjPlayer::copy_screen_to_texture(mode, &snapshot_frame_center);
     set_display_copy_filter(filter);
     render_tick();
     if (TLobby::tmp_buf_is_free() != 0) {
@@ -972,14 +972,14 @@ s32 TObjBoss2Tunnel__sub_8007D1D0(void) {
         *sum = calc_crc32_bitwise((u8 *)snap, sizeof(ScreenSnapshot));
         TAdPlayerLoadGC::build_save_file_image(frame->save_image, &card);
         TAdPlayerLoadGC__sub_801E14E4(&card);
-        TObjBoss2Tunnel__sub_8007EAE4(&cmd);
+        init_6xB2_play_sound(&cmd);
         cmd.floor = get_current_floor_area();
         cmd.unused = 0;
         cmd.client_id = local_client_id;
         cmd.sound_id = 0x52B20;
         send_6xB2_play_sound(&cmd);
         if (memcard_check_snapshot(0, NULL) != 0) {
-            if (TAdSinglePlyChrSelectGC::load_player(1, (saddr)TObjBoss2Tunnel__data_80438A08, (saddr)frame->save_image, 0xF) == 0) {
+            if (TAdSinglePlyChrSelectGC::load_player(1, (saddr)snapshot_card_filename, (saddr)frame->save_image, 0xF) == 0) {
                 t = 0.0f;
                 graph = (TDLGraph *)TDLGraph::create();
                 if (get_main_phase() == 0xF) {
@@ -1072,7 +1072,7 @@ s32 memcard_check_snapshot(s32 for_save, s32 *error) {
         }
         return 0;
     }
-    card_file = TAdPlayerLoadGC::find_card_file(1, TObjBoss2Tunnel__data_80438A08);
+    card_file = TAdPlayerLoadGC::find_card_file(1, snapshot_card_filename);
     if (card_file == 0) {
         if (error != NULL) {
             *error = 1;
@@ -1199,7 +1199,7 @@ s32 TObjBoss2Tunnel::save_snapshot_to_card() {
     c.size = 0x1818C;
     TAdPlayerLoadGC::build_save_file_image(TObjBoss2Tunnel__snapshot_buffer, &c);
     TAdPlayerLoadGC__sub_801E14E4(&c);
-    if (TAdSinglePlyChrSelectGC::load_player(1, (saddr)TObjBoss2Tunnel__data_80438A08, (saddr)TObjBoss2Tunnel__snapshot_buffer, 0xF) != 0) {
+    if (TAdSinglePlyChrSelectGC::load_player(1, (saddr)snapshot_card_filename, (saddr)TObjBoss2Tunnel__snapshot_buffer, 0xF) != 0) {
         return 0;
     }
     lbl_805D49B4 = 1;
@@ -1211,7 +1211,7 @@ s32 save_screen_snapshot(void) {
     if (memcard_check_snapshot(1, 0) == 0) {
         return 0;
     }
-    if (TAdSinglePlyChrSelectGC::load_player_slot(1, TObjBoss2Tunnel__data_80438A08, TObjBoss2Tunnel__snapshot_buffer) != 0) {
+    if (TAdSinglePlyChrSelectGC::load_player_slot(1, snapshot_card_filename, TObjBoss2Tunnel__snapshot_buffer) != 0) {
         return 0;
     }
     TObjBoss2Tunnel__snapshot_state = 2;
@@ -1321,7 +1321,7 @@ void TObjBoss2Tunnel::show_message_and_wait(s32 message) {
 }
 
 void TObjBoss2Tunnel::poll_pso_screen_load() {
-    TAdPlayerLoadGC::delete_memcard_file(1, (const char *)(((u8 *)&TObjBoss2Tunnel__data_80438A08)));
+    TAdPlayerLoadGC::delete_memcard_file(1, (const char *)(((u8 *)&snapshot_card_filename)));
 }
 
 s32 TObjBoss2Tunnel::run_confirm_message_loop() {

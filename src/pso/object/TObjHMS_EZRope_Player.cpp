@@ -78,7 +78,7 @@ struct Obj_800FF2D0 {
 extern "C" {
 void *TObjEZRopeBase__ct(void *);
 extern f32 ezrope_chunk_material_color_table[];
-extern u8 lbl_8048DEF4[];
+extern u8 debug_chunk_b_object[];
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;
@@ -242,7 +242,7 @@ void TObjHMS_EZRope_Player::sub_800FF2D0() {
             translate_matrix_vec3((u8 *)(0), (u8 *)&b->pos);
             s = 0.2f * b->scale;
             scale_matrix(0, s, s, s);
-            draw_chunk_object(lbl_8048DEF4);
+            draw_chunk_object(debug_chunk_b_object);
             pop_matrix();
         }
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;

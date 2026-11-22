@@ -19,7 +19,8 @@ struct TBoss7TentacleNeedle : public TObject {
     void restart_particle_effect();
     void advance_anim_time_wrapped(f32 step);
     s32 advance_toward_limit(f32 step);
-    void sub_802EF954();
+    // state 3: plays the sink motion out, then destroys the needle (name inferred from the body).
+    void update_sink();
     void damage_nearby_players();
     void update_retract_state();
     void advance_needle_timer();

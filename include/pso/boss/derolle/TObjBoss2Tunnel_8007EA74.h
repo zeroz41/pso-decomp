@@ -5,8 +5,9 @@
 
 struct G_PlaySound_6xB2;
 void send_6xB2_play_sound(G_PlaySound_6xB2 *cmd);
+// Fills in the 6xB2 header: subcommand 0xB2, size 3 words.
+void init_6xB2_play_sound(G_PlaySound_6xB2 *cmd);
 extern "C" {
-void TObjBoss2Tunnel__sub_8007EAE4(G_PlaySound_6xB2 *cmd);
 void bswap_6xB2_play_sound(G_PlaySound_6xB2 *cmd);
 }
 

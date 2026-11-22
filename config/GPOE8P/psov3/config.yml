@@ -441,14 +441,6 @@ force_active:
   - __ct__18TBoss7PhotonBulletFP7TObjectP8TObjBasePC3VecPC3Vecf
   - TBoss7Tentacle__needle_offsets
   - TBoss7Tentacle__segment_offsets
-  - TBoss7Tentacle__sub_802EF954
-  - TBoss7Tentacle__sub_802F0608
-  - TBoss7Tentacle__sub_802F0918
-  - TBoss7Tentacle__sub_802F09B4
-  - TBoss7Tentacle__sub_802F09C8
-  - TBoss7Tentacle__sub_802F0A14
-  - TBoss7Tentacle__sub_802F0A2C
-  - TBoss7Tentacle__sub_802F0A44
   - fire_horn_lightning__13TBoss5GryphonFll
   - fn_8005DC0C__13TBoss5GryphonFv
   - TBoss8Dragon__sub_8005DF60
@@ -931,8 +923,8 @@ force_active:
   - TObjBoss2Tunnel__snapshot_buffer
   - TObjBoss2Tunnel__snapshot_saved_flag
   - TObjBoss2Tunnel__snapshot_state
-  - TObjBoss2Tunnel__sub_8007DB80
-  - TObjBoss2Tunnel__sub_8007EAE4
+  - move_snapshot_frame__Fv
+  - init_6xB2_play_sound__FP16G_PlaySound_6xB2
   - __ct__13TUnk_804E4AD4FP7TObjectl
   - TObjBoss2Tunnel__sub_802F2A2C
   - __ct__19TObjBoss5PillarCtrlFP7TObject
@@ -16349,8 +16341,8 @@ force_active:
   - sub_802D7444__12TObjNpcEnemyFv
   - sub_802E0784__13TUnk_804E3008Fv
   - sub_802E1F14__12TAdTimeSetGCFv
-  - sub_802F09EC__14TBoss7TentacleFv
-  - sub_802F09FC__14TBoss7TentacleFv
+  - enter_sway__14TBoss7TentacleFv
+  - request_strike__14TBoss7TentacleFv
   - sub_802F23FC__15TObjBoss7TunnelFv
   - sub_802F2400__15TObjBoss7TunnelFv
   - sub_802F273C__15TObjBoss7TunnelFv

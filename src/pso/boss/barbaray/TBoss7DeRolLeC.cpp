@@ -2716,7 +2716,7 @@ void TBoss7DeRolLeC::handle_bite_state(u32 event, s32 position_index) {
                 new TUnk_804F1C88(this, &part_points[0]);
                 state_flags |= 0x200;
                 for (i = 0; i < 4; i++) {
-                    tentacles[i]->sub_802F0B58();
+                    tentacles[i]->raise();
                 }
             }
             break;
@@ -2907,7 +2907,7 @@ void TBoss7DeRolLeC::handle_tentacle_attack_state(u32 event, s32 position_index)
         break;
     case 5:
         for (j = 0; j < 4; j++) {
-            tentacles[j]->sub_802F0AF0();
+            tentacles[j]->drop_back();
         }
         break;
     }
@@ -2920,7 +2920,7 @@ void TBoss7DeRolLeC::handle_roll_dive_state(u32 event, s32 position_index) {
     switch (event) {
     case 4:
         for (s32 i = 0; i < 4; i++) {
-            tentacles[i]->sub_802F0AF0();
+            tentacles[i]->drop_back();
         }
         clear_all_intangible();
         state_flags |= 4;
@@ -3612,7 +3612,7 @@ void TBoss7DeRolLeC::handle_tentacle_volley_state(u32 event, s32 position_index)
         return;
     case 5:
         for (k = 0; k < 4; k++) {
-            tentacles[k]->sub_802F0AF0();
+            tentacles[k]->drop_back();
         }
         return;
     case 1:
