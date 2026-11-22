@@ -222,7 +222,7 @@ void load_floor_sound_bank(s32 arg0) {
             ((TLobby *)((void *)&sound_control_state))->validate_and_set_selection((int)temp_r31);
             do {
                 TLobby::run_disk_error_check();
-                TLobby__sub_803CB81C();
+                exec_adx_server();
                 TLobby::run_frame();
             } while (sound_control_state.is_ready() == 0);
             TLobby__sub_80226B64(0);
@@ -249,7 +249,7 @@ void TLobby::wait_for_sound_init() {
     do {
         TLobby__sub_803382E4();
         TLobby::run_disk_error_check();
-        TLobby__sub_803CB81C();
+        exec_adx_server();
         render_tick();
     } while (((s32 (*)())is_sound_enabled)() == 0);
 }

@@ -56,9 +56,9 @@ void set_dvd_synchronous_read_mode(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern "C" {
 
 void setup_adx_file_systems(s32 *arg0) {
-    cvFsEntryErrFunc(TLobby__sub_803CB7F8, 0);
+    cvFsEntryErrFunc(fs_error_notify, 0);
     cvFsAddDev(const_cast<char *>("MFS"), mfci_get_interface, 0);
-    cvFsEntryErrFunc(TLobby__sub_803CB7F8, 0);
+    cvFsEntryErrFunc(fs_error_notify, 0);
     cvFsAddDev(const_cast<char *>("GCD"), initialize_dvd_file_driver, 0);
     cvFsSetDefDev(const_cast<char *>("GCD"));
     if (arg0 != NULL) {
@@ -68,19 +68,19 @@ void setup_adx_file_systems(s32 *arg0) {
     }
 }
 
-void TLobby__sub_803CB7F8(s32, const char *message, void *) {
+void fs_error_notify(s32, const char *message, void *) {
     TLobby::notify_error(message);
 }
 
 static const char *const volatile lbl_805E0D78 = "\nADXGC Ver.1.10 Build:Jun 13 2002 19:01:41\n";
 
-void TLobby__sub_803CB81C(void) {
+void exec_adx_server(void) {
     lbl_805E0D78;
     TLobby__sub_803C9608();
     ADXT_ExecFsSvr();
 }
 
-s32 TLobby__sub_803CB844(void) {
+s32 is_adxm_initialized(void) {
     return lbl_805D7590 != 0;
 }
 
@@ -91,12 +91,12 @@ u8 adxm_worker_stack[ADXM_WORKER_STACK_BYTES];
 u8 adxm_vblank_stack[ADXM_VBLANK_STACK_BYTES];
 u8 adxm_busy_wait_stack[ADXM_BUSY_WAIT_STACK_BYTES];
 
-void TLobby__sub_803CB858(Cfg_803CBA58 *cfg) {
+void init_runtime_threads(Cfg_803CBA58 *cfg) {
     lbl_805E0D78;
     if (lbl_805D7590 == 0) {
         TLobby::init_callback_tables();
         TLobby__sub_803D33E4(__OSCallResetFunctions, 0);
-        TLobby__sub_803D33D4(fn_803CBCA0, 0);
+        TLobby__sub_803D33D4(adxm_svm_unlock_callback, 0);
         if (cfg == NULL) {
             lbl_804F9D80.pad_0c = 16;
             lbl_804F9D80.prio0 = 1;
@@ -109,7 +109,7 @@ void TLobby__sub_803CB858(Cfg_803CBA58 *cfg) {
         OSCreateThread(&adxm_busy_wait_thread, (void *(*)(void *))TLobby::wait_for_lock_release, NULL,
                        adxm_busy_wait_stack + sizeof(adxm_busy_wait_stack), sizeof(adxm_busy_wait_stack),
                        lbl_804F9D80.busy_wait_prio, 1);
-        OSCreateThread(&adxm_vblank_thread, (void *(*)(void *))TLobby__sub_803CBB14, NULL,
+        OSCreateThread(&adxm_vblank_thread, (void *(*)(void *))vblank_thread_loop, NULL,
                        adxm_vblank_stack + sizeof(adxm_vblank_stack), sizeof(adxm_vblank_stack),
                        lbl_804F9D80.vblank_prio, 1);
         OSCreateThread(&adxm_worker_thread, (void *(*)(void *))TLobby::worker_thread_loop, NULL,
@@ -130,11 +130,11 @@ void TLobby__sub_803CB858(Cfg_803CBA58 *cfg) {
     lbl_805D7590++;
 }
 
-void TLobby__sub_803CBA18(AdxMessageCallback callback, s32 context) {
+void adxm_set_error_callback(AdxMessageCallback callback, s32 context) {
     TLobby::set_callback_params(callback, context);
 }
 
-void TLobby__sub_803CBA38(void) {
+void exec_vsync_servers(void) {
     TLobby::run_callbacks_group2();
 }
 
@@ -155,7 +155,7 @@ void TLobby::worker_thread_loop() {
     lbl_805D75BC = 1;
 }
 
-void TLobby__sub_803CBB14(void) {
+void vblank_thread_loop(void) {
     while (lbl_805D75B8 == 1) {
         VIWaitForRetrace();
         lbl_805D75A0++;
@@ -195,7 +195,7 @@ void TLobby::adxm_goto_mwidle_border(s32) {
     }
     OSSetThreadPriority(&adxm_worker_thread, lbl_804F9D80.prio);
 }
-void fn_803CBCA0(s32) {
+void adxm_svm_unlock_callback(s32) {
     OSThread *t;
     if (--lbl_805D7594 == 0) {
         t = OSGetCurrentThread();

@@ -108,9 +108,9 @@ const s32 shop_technique_pool_table[19] = {
 extern "C" {
 void roll_shop_technique_level(Obj_80223EE0 *arg0, s32 arg1);
 void push_shop_pool_entry(void *, u8);
-s32 TLobby__sub_80223DD8(Item_802242F8 *, s32);
-s32 TLobby__sub_80223E64(Item_802242F8 *, s32);
-s32 fn_80223B98(s32 arg0) {
+s32 shop_stock_lacks_technique(Item_802242F8 *, s32);
+s32 shop_stock_lacks_tool(Item_802242F8 *, s32);
+s32 get_shop_technique_pool_count(s32 arg0) {
     if ((arg0 >= 1) && (arg0 <= 0xA)) {
         return 4;
     }
@@ -132,7 +132,7 @@ s32 fn_80223B98(s32 arg0) {
     return -1;
 }
 
-s32 fn_80223C28(s32 arg0) {
+s32 get_shop_rare_tool_pool_count(s32 arg0) {
     if ((arg0 >= 1) && (arg0 <= 0xA)) {
         return 0;
     }
@@ -177,7 +177,7 @@ s32 classify_tool_shop_level_bracket(s32 arg0) {
     return -1;
 }
 
-s32 TLobby__sub_80223D48(s32 arg0) {
+s32 get_tool_pool_table_row(s32 arg0) {
     if ((arg0 >= 1) && (arg0 <= 0xA)) {
         return 0;
     }
@@ -198,7 +198,7 @@ s32 TLobby__sub_80223D48(s32 arg0) {
     }
     return -1;
 }
-s32 TLobby__sub_80223DD8(Item_802242F8 *item, s32 shop) {
+s32 shop_stock_lacks_technique(Item_802242F8 *item, s32 shop) {
     Item_802242F8 *stock = ((Item_802242F8 **)&shop_tool_stock_buffers)[shop];
     s32 i = 0;
     while (i++ < shop_tool_stock_counts[shop]) {
@@ -210,7 +210,7 @@ s32 TLobby__sub_80223DD8(Item_802242F8 *item, s32 shop) {
     return 1;
 }
 
-s32 TLobby__sub_80223E64(Item_802242F8 *item, s32 shop) {
+s32 shop_stock_lacks_tool(Item_802242F8 *item, s32 shop) {
     Item_802242F8 *stock = ((Item_802242F8 **)&shop_tool_stock_buffers)[shop];
     s32 i = 0;
     while (i++ < shop_tool_stock_counts[shop]) {
@@ -224,7 +224,7 @@ s32 TLobby__sub_80223E64(Item_802242F8 *item, s32 shop) {
 
 void roll_shop_technique_level(Obj_80223EE0 *arg0, s32 arg1) {
     Tbl_80223EE0 *t = ((Tbl_80223EE0 **)lobby_tool_random_rel)[2];
-    s32 idx = TLobby__sub_80223D48(shop_tool_stock_level);
+    s32 idx = get_tool_pool_table_row(shop_tool_stock_level);
     Ent_80223EE0 *e;
     s32 level;
     idx *= t->count;
@@ -278,10 +278,10 @@ void generate_shop_technique_pool(s32 shop) {
     s32 c;
     u8 k;
     arr = ((Item_802242F8 **)&shop_tool_stock_buffers)[shop];
-    n = fn_80223B98(shop_tool_stock_level);
+    n = get_shop_technique_pool_count(shop_tool_stock_level);
     if (n > 0) {
         ((TLobby *)(&ctr))->reset_counter_64();
-        i = TLobby__sub_80223D48(shop_tool_stock_level);
+        i = get_tool_pool_table_row(shop_tool_stock_level);
         t = ((Tbl_8022403C **)lobby_tool_random_rel)[1];
         e = &t->base[i * t->count];
         c = 0;
@@ -302,7 +302,7 @@ void generate_shop_technique_pool(s32 shop) {
                 it.b[1] = 2;
                 it.b[4] = shop_technique_pool_table[b];
                 roll_shop_technique_level((Obj_80223EE0 *)&it, b);
-                if (TLobby__sub_80223DD8(&it, shop) == 1) {
+                if (shop_stock_lacks_technique(&it, shop) == 1) {
                     ((TItemData *)(&arr[shop_tool_stock_counts[shop]++]))->copy_from((TItemData *)(&it));
                     i++;
                 }
@@ -325,10 +325,10 @@ void generate_shop_rare_tool_pool(s32 shop) {
     s32 c;
     u8 k;
     arr = ((Item_802242F8 **)&shop_tool_stock_buffers)[shop];
-    n = fn_80223C28(shop_tool_stock_level);
+    n = get_shop_rare_tool_pool_count(shop_tool_stock_level);
     if (n > 0) {
         ((TLobby *)(&ctr))->reset_counter_64();
-        i = TLobby__sub_80223D48(shop_tool_stock_level);
+        i = get_tool_pool_table_row(shop_tool_stock_level);
         t = ((Tbl_80224190 **)lobby_tool_random_rel)[1];
         e = &t->base[i * t->count];
         c = 0;
@@ -354,7 +354,7 @@ void generate_shop_rare_tool_pool(s32 shop) {
                     it.b[0] = 3;
                     it.b[1] = shop_tool_group_subtype_table[b].a;
                     it.b[2] = shop_tool_group_subtype_table[b].b;
-                    if (TLobby__sub_80223E64(&it, shop) == 1) {
+                    if (shop_stock_lacks_tool(&it, shop) == 1) {
                         ((TItemData *)(&arr[shop_tool_stock_counts[shop]++]))->copy_from((TItemData *)(&it));
                         j++;
                     }

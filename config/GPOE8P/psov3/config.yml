@@ -575,16 +575,16 @@ force_active:
   - TItemEffNeedle__class_name
   - __ct__20TItemEffOrgaFlowShotFP7TObjectP10S_80357734
   - TItemEffectWeapon__class_name
-  - TItemEquipBase__sub_80119100
-  - TItemEquipBase__sub_80119168
-  - TItemEquipBase__sub_8011919C
-  - TItemEquipBase__sub_801191D0
+  - remove_freeze_immunity
+  - remove_slow_immunity
+  - remove_shock_immunity
+  - remove_paralysis_immunity
   - __ct__13TUnk_804C4468FP7TObjectlP8TObjBasePC3VecSc
   - TItemList__sub_801D58C8
-  - TItemLockCountCtrl__sub_80119238
-  - TItemLockCountCtrl__sub_8011926C
-  - TItemLockCountCtrl__sub_801192A0
-  - TItemLockCountCtrl__sub_8011933C
+  - remove_status_cleanse
+  - add_freeze_immunity
+  - add_confusion_immunity
+  - add_paralysis_immunity
   - TItemMagGrowEff_name
   - TItemMagSub_name
   - TItemMoney__name
@@ -691,9 +691,9 @@ force_active:
   - append_message_char__FSc
   - begin_message_substitution
   - TLobby__sub_802232F8
-  - TLobby__sub_80223D48
-  - TLobby__sub_80223DD8
-  - TLobby__sub_80223E64
+  - get_tool_pool_table_row
+  - shop_stock_lacks_technique
+  - shop_stock_lacks_tool
   - TLobby__sub_80224840
   - TLobby__sub_80225A08
   - TLobby__sub_80225C8C
@@ -3913,7 +3913,7 @@ force_active:
   - apply_attack_params__16TObjEneRe7BeruraFiPv
   - apply_attack_stat_status__13TObjEneRe4BitFPv
   - apply_balance__19TWindowSoundBalanceFPv
-  - apply_battle_ctrl_effect__Fi
+  - add_shock_immunity__Fi
   - apply_blend_mode_1__10TObjPlayerFv
   - apply_bonuses
   - apply_clamped_mode_param__12TObjEneSharkFv
@@ -3997,7 +3997,7 @@ force_active:
   - apply_to_player__12TObjGrassWebFv
   - apply_to_position__14TObjEneBm5WolfFPv
   - apply_unit_effect_flags__12TItemProUnitFv
-  - apply_unit_immunity__18TItemLockCountCtrlFi
+  - add_poison_immunity__18TItemLockCountCtrlFi
   - apply_unit_stat_bonus__9TItemDataFPviiPvPvPv
   - apply_use_effect__11TItemObjectFv
   - apply_use_effect__13TUnk_8049F770Fv
@@ -6380,7 +6380,7 @@ force_active:
   - release_child_slot__12TObjEneSlimeFl
   - load_unload_set_shuffle_order
   - load_unload_set_init_order
-  - fn_80119204
+  - remove_poison_immunity
   - init_6x91_subcommand
   - fn_801811FC
   - fn_80181204
@@ -6408,8 +6408,8 @@ force_active:
   - reset_download_graph__Fv
   - sub_80214058__28THunterGuildSeqOnline_ServerFv
   - sub_80214254__28THunterGuildSeqOnline_ServerFv
-  - fn_80223B98
-  - fn_80223C28
+  - get_shop_technique_pool_count
+  - get_shop_rare_tool_pool_count
   - fn_80235078
   - fn_8024450C
   - fn_80248324
@@ -9181,8 +9181,8 @@ force_active:
   - notify_close__22THunterGuildSeqOfflineFv
   - notify_player__17TObjWarpBossMultiFPvl
   - notify_quest_list_vm__18TCheckRoomSequenceFPv
-  - notify_stealth_enemies_08__Fi
-  - notify_stealth_enemies_10__Fi
+  - add_slow_immunity__Fi
+  - remove_confusion_immunity__Fi
   - npc_base_collision_body_desc
   - npc_bringer_animation_table
   - npc_hosa2_resource_descriptor
@@ -15442,7 +15442,7 @@ force_active:
   - set_attack_flag__17TObjEneMe1CanadinFv
   - set_attack_pattern_by_index__11TBoss4Type2Fl
   - set_bank_panel_art__20TWindowActionPaletteFUs
-  - set_battle_ctrl_flag30__18TItemLockCountCtrlFi
+  - add_status_cleanse__18TItemLockCountCtrlFi
   - set_bit__15TBoss6SwordWaveFiUc
   - set_blast_level__16PhotonBlastGaugeFsSc
   - set_boss4_state__12TObjEneLappyFv
@@ -17810,11 +17810,11 @@ force_active:
   - TLobby__sub_803C5E58
   - TLobby__sub_803C5E68
   - TObjPlayer__sub_80079108
-  - TObjPlayer__sub_8007910C
-  - TObjPlayer__sub_80079110
-  - TObjPlayer__sub_80079114
-  - TObjPlayer__sub_80079120
-  - TObjPlayer__sub_80079124
+  - csn_debug_hook_contact_color
+  - csn_debug_hook_hit_record
+  - csn_debug_hook_group_list
+  - csn_debug_hook_origin_vector
+  - csn_debug_hook_segment
   - TObjPlayer__sub_80079DE0
   - adx_stream_ring_buffer
   - adx_stream_ring_buffer_storage
@@ -17858,7 +17858,7 @@ force_active:
   - "apply_if_v2__6TLobbyFv"
   - "check_packet_header_8001__6TLobbyFPUslPl"
   - "set_rate_mode__6TLobbyFl"
-  - "TLobby__sub_803CBA18"
+  - "adxm_set_error_callback"
   - __ct__10TOMineTrapFP8TObjBasess
   - find_target_in_range__10TOMineTrapFv
   - is_target_in_list__6TOMineFPv

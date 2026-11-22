@@ -47,14 +47,14 @@ s32 get_csn_group_flags(u8 arg0) {
 }
 
 void TObjPlayer__sub_80079108(void) {  }
-void TObjPlayer__sub_8007910C(CsnContact *contact, NJS_ARGB *color) {  }
-void TObjPlayer__sub_80079110(CsnHit *hit) {  }
-void TObjPlayer__sub_80079114(CsnGroup *const *groups) {  }
+void csn_debug_hook_contact_color(CsnContact *contact, NJS_ARGB *color) {  }
+void csn_debug_hook_hit_record(CsnHit *hit) {  }
+void csn_debug_hook_group_list(CsnGroup *const *groups) {  }
 // inferred: name - every caller passes its own function name ("csnLookAt()", ...)
-void TObjPlayer__sub_80079118(const char *name) {  }
+void csn_debug_hook_query_name(const char *name) {  }
 void TObjPlayer__sub_8007911C(void) {  }
-void TObjPlayer__sub_80079120(saddr _w0) {  }
-void TObjPlayer__sub_80079124(void * _w0, void * _w1) {  }
+void csn_debug_hook_origin_vector(saddr _w0) {  }
+void csn_debug_hook_segment(void * _w0, void * _w1) {  }
 
 #pragma push
 #pragma fp_contract on
@@ -271,8 +271,8 @@ s32 evaluate_ground_triangles(Vec *origin_arg, u32 mask_arg, CsnGroup **list_arg
         hit->normal.z = nz;
         hit->flags = poly->flags;
       }
-      TObjPlayer__sub_80079110(hdr);
-      TObjPlayer__sub_8007910C(hit, &debug_color_blue);
+      csn_debug_hook_hit_record(hdr);
+      csn_debug_hook_contact_color(hit, &debug_color_blue);
     }
 
   }
@@ -344,7 +344,7 @@ s32 query_segment_wall_meshes(Vec *from, Vec *to, u32 mask, CsnGroup **groups) {
     s32 n;
     Vec *vertices;
     CsnFace *face;
-    TObjPlayer__sub_80079124(from, to);
+    csn_debug_hook_segment(from, to);
     csn_query_hit_buffer = &lbl_80500140;
     csn_query_hit_buffer->hit_mask = 0;
     wall_query_hit_result = csn_query_hit_buffer->contact;
@@ -594,7 +594,7 @@ CsnGroup *TObjPlayer__sub_80079DE0(Vec *a, Vec *b) {
         }
     }
     *dst = NULL;
-    TObjPlayer__sub_80079114(csn_query_groups);
+    csn_debug_hook_group_list(csn_query_groups);
     return csn_query_groups[0];
 }
 
@@ -711,7 +711,7 @@ CsnGroup *query_collision_segment_groups(Vec *a, Vec *b, u32 mask) {
         }
     }
     *dst = NULL;
-    TObjPlayer__sub_80079114(csn_query_groups);
+    csn_debug_hook_group_list(csn_query_groups);
     return csn_query_groups[0];
 }
 
@@ -722,7 +722,7 @@ void *query_prepared_wall_polygons(void *self) {
     if (select_deepest_wall_ray((WallRayQuery *)self, (WallRayResult *)r) == 0) {
         r = 0;
     }
-    TObjPlayer__sub_80079118("csnCheckPluralVectorPolyBuff()");
+    csn_debug_hook_query_name("csnCheckPluralVectorPolyBuff()");
     return r;
 }
 
@@ -735,7 +735,7 @@ WallRayResult *query_wall_radial(WallRayQuery *query) {
     } else if (select_deepest_wall_ray(query, r) == 0) {
         r = 0;
     }
-    TObjPlayer__sub_80079118("csnCheckPluralVector()");
+    csn_debug_hook_query_name("csnCheckPluralVector()");
     return r;
 }
 
@@ -743,13 +743,13 @@ CsnHit *csnLookAt(const Vec *from, const Vec *to) {
     CsnHit *hit;
     TObjPlayer__sub_8007911C();
     hit = &lbl_80500140;
-    TObjPlayer__sub_80079124((void *)from, (void *)to);
+    csn_debug_hook_segment((void *)from, (void *)to);
     if (TObjPlayer__sub_80079DE0((Vec *)from, (Vec *)to) == NULL) {
         hit = NULL;
     } else if (check_line_hits_walls((Vec *)from, (Vec *)to, 0x8000, csn_query_groups) == 0) {
         hit = NULL;
     }
-    TObjPlayer__sub_80079118("csnLookAt()");
+    csn_debug_hook_query_name("csnLookAt()");
     return hit;
 }
 
@@ -757,7 +757,7 @@ CsnHit *csnVectorUnder(Vec *origin, CsnGroup **cached_groups, u32 mask) {
     CsnHit *hit;
     TObjPlayer__sub_80079108();
     TObjPlayer__sub_8007911C();
-    TObjPlayer__sub_80079120((saddr)origin);
+    csn_debug_hook_origin_vector((saddr)origin);
     hit = &lbl_80500140;
     if (*cached_groups == NULL) {
         if (refill_csn_candidate_cache(origin, cached_groups, mask) == NULL) {
@@ -776,21 +776,21 @@ CsnHit *csnVectorUnder(Vec *origin, CsnGroup **cached_groups, u32 mask) {
         }
     }
 done:
-    TObjPlayer__sub_80079118("csnVectorUnder(Use Buffer)");
+    csn_debug_hook_query_name("csnVectorUnder(Use Buffer)");
     return hit;
 }
 CsnHit *csnVecterUnder(Vec *origin, u32 mask) {
     CsnHit *hit;
     TObjPlayer__sub_80079108();
     TObjPlayer__sub_8007911C();
-    TObjPlayer__sub_80079120((saddr)origin);
+    csn_debug_hook_origin_vector((saddr)origin);
     hit = &lbl_80500140;
     if (select_ground_query_groups(origin, mask) == NULL) {
         hit = NULL;
     } else if (evaluate_ground_triangles(origin, mask, csn_query_groups) == 0) {
         hit = NULL;
     }
-    TObjPlayer__sub_80079118("csnVecterUnder()");
+    csn_debug_hook_query_name("csnVecterUnder()");
     return hit;
 }
 
@@ -804,7 +804,7 @@ CsnHit *csnVector(const Vec *from, const Vec *to, u32 mask) {
     } else if (query_segment_wall_meshes((Vec *)from, (Vec *)to, mask, csn_query_groups) == 0) {
         hit = NULL;
     }
-    TObjPlayer__sub_80079118("csnVector()");
+    csn_debug_hook_query_name("csnVector()");
     return hit;
 }
 
@@ -823,7 +823,7 @@ void __construct_array(void *, void *, s32, s32, s32);
 extern "C" {
 
 void __sinit_CsnQuery_cpp(void) {
-    __construct_array(lbl_804FF9C0, (void *)TObjPlayer__sub_8007A7B8, 0, 0x1C, 0x20);
+    __construct_array(lbl_804FF9C0, (void *)init_csn_contact, 0, 0x1C, 0x20);
     TObjMapCsn::init_and_return((saddr)&lbl_80500140);
     ((TObjMapCsn *)&csn_query_map_object)->init();
 }
@@ -842,18 +842,18 @@ TMapCsnCtrl *TObjMapCsn::get_collision_controller() {
 }
 void*TObjMapCsn::init() { TObjMapCsn::init_and_return((saddr)this); *(int *)&this->m_prev = -1; *(float *)&this->m_next = -1.0f; return this; }
 saddr TObjMapCsn::init_and_return(saddr arg0) {
-    fn_8007A7A0((u8 *)arg0);
+    init_csn_hit((u8 *)arg0);
     return arg0;
 }
 
 
-void fn_8007A7A0(u8 *arg0) {
+void init_csn_hit(u8 *arg0) {
     *(s32 *)((s8 *)arg0 + 0) = 0;
     *(u8 **)((s8 *)arg0 + 4) = lbl_804FF9C0;
 }
 
 
-s32 TObjPlayer__sub_8007A7B8(saddr arg0) {
+s32 init_csn_contact(saddr arg0) {
     ((TObjPlayer *)arg0)->clear_velocity_vectors();
     return arg0;
 }

@@ -38,13 +38,13 @@ CsnHit *csnLookAt(const Vec *from, const Vec *to);
 
 extern "C" {
 void TObjPlayer__sub_80079108(void);
-void TObjPlayer__sub_8007910C(CsnContact *contact, NJS_ARGB *color);
-void TObjPlayer__sub_80079110(CsnHit *hit);
-void TObjPlayer__sub_80079114(CsnGroup *const *groups);
-void TObjPlayer__sub_80079118(const char *name);
+void csn_debug_hook_contact_color(CsnContact *contact, NJS_ARGB *color);
+void csn_debug_hook_hit_record(CsnHit *hit);
+void csn_debug_hook_group_list(CsnGroup *const *groups);
+void csn_debug_hook_query_name(const char *name);
 void TObjPlayer__sub_8007911C(void);
-void TObjPlayer__sub_80079120(saddr _w0);
-void TObjPlayer__sub_80079124(void *_w0, void *_w1);
+void csn_debug_hook_origin_vector(saddr _w0);
+void csn_debug_hook_segment(void *_w0, void *_w1);
 s32 get_csn_group_flags(u8 arg0);
 s32 calc_segment_xz_distance_sq(Vec *c, Vec *o, Vec *e, Vec *d, f32 radius, f32 hsq, f32 inv);
 s32 select_deepest_wall_ray(WallRayQuery *query, WallRayResult *result);

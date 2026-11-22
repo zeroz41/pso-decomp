@@ -89,11 +89,11 @@ s32 TLobby::get_state_zero(s32) {
 }
 
 s32 TLobby::process_connection_state(s32) {
-    if (TLobby__sub_803CB844() == 1) {
+    if (is_adxm_initialized() == 1) {
         lsc_poll_all();
         TLobby__sub_803CE240();
     } else {
-        TLobby__sub_803CBA38();
+        exec_vsync_servers();
         lsc_poll_all();
         TLobby__sub_803CE240();
     }

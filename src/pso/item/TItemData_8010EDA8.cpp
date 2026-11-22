@@ -8,7 +8,7 @@ extern "C" {
 extern u8 *text_language_group_table;
 s32 get_class_index__10TObjPlayerFv(void *);
 
-void TItemData__sub_8010EDA8(void *res, s32 amount) {
+void add_elt_resist(void *res, s32 amount) {
     *(s16 *)((s8 *)res + 8) = (s16) (*(s16 *)((s8 *)res + 8) + amount);
 }
 
@@ -16,7 +16,7 @@ void TItemData::add_quantity(s32 amount) {
     *(s16 *)((s8 *)this + 0xA) = (s16) (*(s16 *)((s8 *)this + 0xA) + amount);
 }
 
-void TItemData__sub_8010EDC8(void *res, s32 amount) {
+void add_eth_resist(void *res, s32 amount) {
     *(s16 *)((s8 *)res + 6) = (s16) (*(s16 *)((s8 *)res + 6) + amount);
 }
 
@@ -36,11 +36,11 @@ void TItemData::add_bonus(s16 amount) {
     *(s32 *)((s8 *)this + 0x1C) = (s32) (*(s32 *)((s8 *)this + 0x1C) + amount);
 }
 
-void TItemData__sub_8010EE1C(void *arg0, s16 arg1) {
+void subtract_dfp(void *arg0, s16 arg1) {
     *(s32 *)((s8 *)arg0 + 0x1C) = (s32) (*(s32 *)((s8 *)arg0 + 0x1C) - arg1);
 }
 
-void TItemData__sub_8010EE30(s16 *arg0, s32 arg1) {
+void subtract_stat_ptr(s16 *arg0, s32 arg1) {
     *arg0 -= arg1;
 }
 

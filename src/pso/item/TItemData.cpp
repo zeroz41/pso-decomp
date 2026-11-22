@@ -220,9 +220,9 @@ void TItemData::apply_custom_shield_bonus(saddr player, TItemData *a, TItemData 
             case 7:
                 b->adjust_count(amount);
                 TItemData__sub_8010EDD8(b, amount);
-                TItemData__sub_8010EDC8(b, amount);
+                add_eth_resist(b, amount);
                 b->add_quantity(amount);
-                TItemData__sub_8010EDA8(b, amount);
+                add_elt_resist(b, amount);
                 break;
             }
         }
@@ -278,10 +278,10 @@ void apply_bonuses(u8 *item, s32 arg1, u8 *a, u8 *b, Stats_8010BA9C *st) {
             ((AttackParams *)a)->sub_ata((s16)(bn->val * 10));
             break;
         case 11:
-            TItemData__sub_8010EE30((s16 *)b, bn->val);
+            subtract_stat_ptr((s16 *)b, bn->val);
             break;
         case 12:
-            TItemData__sub_8010EE1C(b, bn->val);
+            subtract_dfp(b, bn->val);
             break;
         case 13:
             st->x2 -= bn->val;
@@ -296,8 +296,8 @@ void apply_bonuses(u8 *item, s32 arg1, u8 *a, u8 *b, Stats_8010BA9C *st) {
             ((AttackParams *)a)->sub_atp_min(bn->val);
             ((AttackParams *)a)->sub_atp_max(bn->val);
             ((AttackParams *)a)->sub_ata((s16)(bn->val * 10));
-            TItemData__sub_8010EE30((s16 *)b, bn->val);
-            TItemData__sub_8010EE1C(b, bn->val);
+            subtract_stat_ptr((s16 *)b, bn->val);
+            subtract_dfp(b, bn->val);
             st->x2 -= bn->val;
             st->xC -= bn->val;
             break;
@@ -371,10 +371,10 @@ void apply_unit_stat_bonus__9TItemDataFPviiPvPvPv(void *self, s32 arg1, s32 arg2
         TItemData__sub_8010EDD8(res, amount);
         break;
     case 11:
-        TItemData__sub_8010EDC8(res, amount);
+        add_eth_resist(res, amount);
         break;
     case 12:
-        TItemData__sub_8010EDA8(res, amount);
+        add_elt_resist(res, amount);
         break;
     case 13:
         ((TItemData *)res)->add_quantity(amount);
@@ -382,8 +382,8 @@ void apply_unit_stat_bonus__9TItemDataFPviiPvPvPv(void *self, s32 arg1, s32 arg2
     case 14:
         ((TItemData *)res)->adjust_count(amount);
         TItemData__sub_8010EDD8(res, amount);
-        TItemData__sub_8010EDC8(res, amount);
-        TItemData__sub_8010EDA8(res, amount);
+        add_eth_resist(res, amount);
+        add_elt_resist(res, amount);
         ((TItemData *)res)->add_quantity(amount);
         break;
     }
@@ -407,8 +407,8 @@ void add_shield_stat_contribution__9TItemDataFPviiPv(u8 *self, s32 player, s32 u
             ((TItemData *)out)->add_bonus(parm->x8 + b06);
             ((TItemData *)out)->adjust_count(parm->x11);
             TItemData__sub_8010EDD8(out, parm->x13);
-            TItemData__sub_8010EDC8(out, parm->x12);
-            TItemData__sub_8010EDA8(out, parm->x15);
+            add_eth_resist(out, parm->x12);
+            add_elt_resist(out, parm->x15);
             ((TItemData *)out)->add_quantity(parm->x14);
         }
     }
@@ -432,8 +432,8 @@ void add_armor_stat_contribution__9TItemDataFPviiPv(u8 *self, s32 player, s32 un
             ((TItemData *)out)->add_bonus(dfp + dfpBonus);
             ((TItemData *)out)->adjust_count(parm->x11);
             TItemData__sub_8010EDD8(out, parm->x13);
-            TItemData__sub_8010EDC8(out, parm->x12);
-            TItemData__sub_8010EDA8(out, parm->x15);
+            add_eth_resist(out, parm->x12);
+            add_elt_resist(out, parm->x15);
             ((TItemData *)out)->add_quantity(parm->x14);
         }
     }
