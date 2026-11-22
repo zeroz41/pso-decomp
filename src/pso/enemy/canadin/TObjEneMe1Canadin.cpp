@@ -653,13 +653,13 @@ void TObjEneMe1Canadin::apply_model_color() {
 int TObjEneMe1Canadin::has_no_members() { return 1; }
 
 
-void TObjEneMe1Canadin::update_photon_target() {
+void TObjEneMe1Canadin::wake_leader() {
     if (mode == 2) {
         leader = (TObjEneMe1Canadin *)find_entity_by_id(leader_id);
-        leader->fn_8009E2DC();
+        leader->order_activation_now();
     }
 }
-int TObjEneMe1Canadin::fn_8009E36C() { return (status_flags >> 15) & 0x1; }
+int TObjEneMe1Canadin::is_activated() { return (status_flags >> 15) & 0x1; }
 void TObjEneMe1Canadin::set_in_fighter() {
     status_flags |= 0x100;
     status_flags &= ~0x200;
@@ -683,21 +683,21 @@ void TObjEneMe1Canadin::remove_member(uaddr) {  }
 int TObjEneMe1Canadin::can_member_attack_target(TObjChara *) { return 1; }
 
 
-void TObjEneMe1Canadin::fn_8009E2DC() {
+void TObjEneMe1Canadin::order_activation_now() {
     attack_delay = 0;
     status_flags |= 1;
 }
 
-void TObjEneMe1Canadin::set_leader_index(TObjChara *target, s32 index) {
+void TObjEneMe1Canadin::order_activation(TObjChara *target, s32 index) {
     set_target_player(target);
     attack_delay = index;
     status_flags |= 1;
 }
 
-void TObjEneMe1Canadin::set_attack_flag() { status_flags |= 0x2; }
+void TObjEneMe1Canadin::start_formation() { status_flags |= 0x2; }
 
 
-void TObjEneMe1Canadin::set_flag3c8_bit4() { status_flags |= 0x4; }
+void TObjEneMe1Canadin::order_attack() { status_flags |= 0x4; }
 
 void TObjEneMe1Canadin::set_flag3c8_bit8() { status_flags |= 0x8; }
 
@@ -717,43 +717,50 @@ void TObjEneMe1Canadin::fn_8009E1D4(Vec *pos) {
     TObjEneDD::setup(this, (saddr)pos, (saddr)&params);
 }
 
+// The state names are read from the bodies and shared with the Gee's twin states (Gee state n + 1
+// from state 2 on; the Gee has a second appear state at 2, the Canadin a self-destruct at 10):
+// spawn (spawns the members), appear (fade-in), hover (until the leader orders the activation, status 1),
+// activate (after attack_delay the core lights up, status 0x8000), rise (to upper_hover_height),
+// formation (waits for the leader's attack order, status 4), ranged/melee attack, orbit (circles the
+// target, orbit_angle_step), regroup (back to home_position, tells the leader, status 8), self-destruct
+// (spins 150 frames, hp = 0), vanish, return home, motion test (steps through every action), move forward.
 void TObjEneMe1Canadin::dispatch_action(u32 which, s32 arg) {
     switch (which) {
     case 0:
-        handle_state(arg);
+        state_spawn(arg);
         break;
     case 1:
-        fn_8009DE90(arg);
+        state_appear(arg);
         break;
     case 2:
-        action(arg);
+        state_hover(arg);
         break;
     case 3:
-        vfunc_110(arg);
+        state_activate(arg);
         break;
     case 4:
-        vfunc_111(arg);
+        state_rise(arg);
         break;
     case 5:
-        move(arg);
+        state_formation(arg);
         break;
     case 6:
-        fn_8009D320(arg);
+        state_ranged_attack(arg);
         break;
     case 7:
-        fn_8009CC74(arg);
+        state_melee_attack(arg);
         break;
     case 8:
-        fn_8009C91C(arg);
+        state_orbit(arg);
         break;
     case 9:
-        run_task(arg);
+        state_regroup(arg);
         break;
     case 10:
-        fn_8009C2EC(arg);
+        state_self_destruct(arg);
         break;
     case 11:
-        fn_8009C178(arg);
+        state_vanish(arg);
         break;
     case 12:
         hurt_state(arg);
@@ -762,18 +769,18 @@ void TObjEneMe1Canadin::dispatch_action(u32 which, s32 arg) {
         state_dead(arg);
         break;
     case 14:
-        fn_8009BFF8(arg);
+        state_return_home(arg);
         break;
     case 16:
-        update_walk_animation(arg);
+        state_motion_test(arg);
         break;
     case 17:
-        update_by_state(arg);
+        state_move_forward(arg);
         break;
     }
 }
 
-void TObjEneMe1Canadin::handle_state(s32 msg) {
+void TObjEneMe1Canadin::state_spawn(s32 msg) {
     switch (msg) {
     case 4:
         requested_action = 0;
@@ -804,7 +811,7 @@ void TObjEneMe1Canadin::handle_state(s32 msg) {
 }
 
 
-void TObjEneMe1Canadin::fn_8009DE90(s32 msg) {
+void TObjEneMe1Canadin::state_appear(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 0;
@@ -835,7 +842,7 @@ void TObjEneMe1Canadin::fn_8009DE90(s32 msg) {
     }
 }
 
-void TObjEneMe1Canadin::action(s32 msg) {
+void TObjEneMe1Canadin::state_hover(s32 msg) {
     s32 temp_r3;
 
     switch (msg) {
@@ -877,7 +884,7 @@ void TObjEneMe1Canadin::action(s32 msg) {
     }
 }
 
-void TObjEneMe1Canadin::vfunc_110(s32 msg) {
+void TObjEneMe1Canadin::state_activate(s32 msg) {
     s32 temp_r3;
     f32 temp_f1;
 
@@ -930,7 +937,7 @@ void TObjEneMe1Canadin::vfunc_110(s32 msg) {
                 status_flags |= 0x8000;
                 switch (kind) {
                 case 0:
-                    this->set_attack_flag();
+                    this->start_formation();
                 case 1:
                     stage = 3;
                     break;
@@ -951,7 +958,7 @@ void TObjEneMe1Canadin::vfunc_110(s32 msg) {
     }
 }
 
-void TObjEneMe1Canadin::vfunc_111(s32 msg) {
+void TObjEneMe1Canadin::state_rise(s32 msg) {
     switch (msg) {
     case 4:
         advance_state_5_to_4();
@@ -979,7 +986,7 @@ void TObjEneMe1Canadin::vfunc_111(s32 msg) {
     }
 }
 
-void TObjEneMe1Canadin::move(s32 msg) {
+void TObjEneMe1Canadin::state_formation(s32 msg) {
     s32 temp_r3;
 
     switch (msg) {
@@ -1047,7 +1054,7 @@ void TObjEneMe1Canadin::move(s32 msg) {
 
 #pragma push
 #pragma fp_contract on
-void TObjEneMe1Canadin::fn_8009D320(s32 msg) {
+void TObjEneMe1Canadin::state_ranged_attack(s32 msg) {
     Vec *pos;
     pos = &this->m_490;
     switch (msg) {
@@ -1186,7 +1193,7 @@ void TObjEneMe1Canadin::fn_8009D320(s32 msg) {
 #pragma push
 #pragma fp_contract on
 #pragma optimization_level 3
-void TObjEneMe1Canadin::fn_8009CC74(s32 msg) {
+void TObjEneMe1Canadin::state_melee_attack(s32 msg) {
     switch (msg) {
     case 4:
         this->advance_state_4_to_5();
@@ -1361,7 +1368,7 @@ void TObjEneMe1Canadin::fn_8009CC74(s32 msg) {
 #pragma pop
 #pragma push
 #pragma fp_contract on
-void TObjEneMe1Canadin::fn_8009C91C(s32 msg) {
+void TObjEneMe1Canadin::state_orbit(s32 msg) {
     Vec *dir = &this->m_490;
     switch (msg) {
     case 4:
@@ -1454,7 +1461,7 @@ void TObjEneMe1Canadin::fn_8009C91C(s32 msg) {
 }
 #pragma pop
 
-void TObjEneMe1Canadin::run_task(s32 msg) {
+void TObjEneMe1Canadin::state_regroup(s32 msg) {
     switch (msg) {
     case 4:
         advance_state_5_to_4();
@@ -1496,7 +1503,7 @@ void TObjEneMe1Canadin::hurt_state(s32 msg) {
     case 4:
         this->requested_action = this->move_action;
         this->advance_animation();
-        this->update_photon_target();
+        this->wake_leader();
         this->status_flags &= ~0x400000;
         this->clear_intangible();
         this->actorFlags &= ~0x1000000;
@@ -1566,7 +1573,7 @@ void TObjEneMe1Canadin::hurt_state(s32 msg) {
         break;
     }
 }
-void TObjEneMe1Canadin::fn_8009C2EC(s32 msg) {
+void TObjEneMe1Canadin::state_self_destruct(s32 msg) {
     switch (msg) {
     case 4:
         this->advance_state_4_to_5();
@@ -1618,7 +1625,7 @@ void TObjEneMe1Canadin::fn_8009C2EC(s32 msg) {
         break;
     }
 }
-void TObjEneMe1Canadin::fn_8009C178(s32 msg) {
+void TObjEneMe1Canadin::state_vanish(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 0;
@@ -1647,7 +1654,7 @@ void TObjEneMe1Canadin::fn_8009C178(s32 msg) {
         return;
     }
 }
-void TObjEneMe1Canadin::fn_8009BFF8(s32 msg) {
+void TObjEneMe1Canadin::state_return_home(s32 msg) {
 
     switch (msg) {
     case 4:
@@ -1716,7 +1723,7 @@ void TObjEneMe1Canadin::state_dead(s32 msg) {
     }
 }
 
-void TObjEneMe1Canadin::update_walk_animation(s32 msg) {
+void TObjEneMe1Canadin::state_motion_test(s32 msg) {
     switch (msg) {
     case 4:
         requested_action = 0;
@@ -1739,7 +1746,7 @@ void TObjEneMe1Canadin::update_walk_animation(s32 msg) {
     }
 }
 
-void TObjEneMe1Canadin::update_by_state(s32 msg) {
+void TObjEneMe1Canadin::state_move_forward(s32 msg) {
 
     switch (msg) {
     case 4:
@@ -2080,7 +2087,7 @@ void TObjEneMe1CanadinLeader::update_formation_state() {
             copy_argb(&this->core_color, (NJS_ARGB *)&canadin_formation_reset_vec4);
             for (i = 0; i < this->member_count; i++) {
                 if (this->members[i]->has_status_flag(0x200) != 0) {
-                    this->members[i]->set_flag3c8_bit4();
+                    this->members[i]->order_attack();
                 }
             }
         }
@@ -2101,7 +2108,7 @@ void TObjEneMe1CanadinLeader::update_formation_state() {
             this->formation_state = 6;
             for (i = 0; i < this->member_count; i++) {
                 if (this->members[i]->has_status_flag(0x100) != 0) {
-                    this->members[i]->set_flag3c8_bit4();
+                    this->members[i]->order_attack();
                 }
             }
         }
@@ -2129,7 +2136,7 @@ void TObjEneMe1CanadinLeader::update_formation_state() {
     }
 }
 
-void TObjEneMe1CanadinLeader::vfunc_110(s32 arg1) {
+void TObjEneMe1CanadinLeader::state_activate(s32 arg1) {
     s32 k;
     s32 i;
     s32 j;
@@ -2145,7 +2152,7 @@ void TObjEneMe1CanadinLeader::vfunc_110(s32 arg1) {
         core_color.b = p[3];
         stage = 0;
         for (k = 2, i = 0; i < member_count; k += 2, i++) {
-            members[i]->set_leader_index(current_target, k);
+            members[i]->order_activation(current_target, k);
         }
         break;
     }
@@ -2172,15 +2179,15 @@ void TObjEneMe1CanadinLeader::vfunc_110(s32 arg1) {
             if (fade_mode == 0) {
                 status_flags |= 0x8000;
                 for (j = 0; j < member_count; j++) {
-                    if (members[j]->fn_8009E36C() == 0) {
+                    if (members[j]->is_activated() == 0) {
                         break;
                     }
                 }
                 if (j == member_count) {
-                    set_attack_flag();
+                    start_formation();
                     s32 m;
                     for (m = 0; m < member_count; m++) {
-                        members[m]->set_attack_flag();
+                        members[m]->start_formation();
                     }
                 }
             }
@@ -2196,7 +2203,7 @@ void TObjEneMe1CanadinLeader::vfunc_110(s32 arg1) {
     }
 }
 
-void TObjEneMe1CanadinLeader::vfunc_111(s32 mode) {
+void TObjEneMe1CanadinLeader::state_rise(s32 mode) {
     switch (mode) {
     case 4:
         advance_state_5_to_4();

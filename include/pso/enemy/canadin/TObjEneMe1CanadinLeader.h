@@ -14,8 +14,8 @@ struct TObjEneMe1CanadinLeader : public TObjEneMe1Canadin {
     virtual void spawn_members();
     virtual s32 check_retreat_trigger();
     virtual int has_no_members();
-    virtual void vfunc_110(s32);
-    virtual void vfunc_111(s32);
+    virtual void state_activate(s32);
+    virtual void state_rise(s32);
     virtual void state_dead(s32);
     virtual void apply_model_color();
     virtual int can_member_attack_target(TObjChara *);

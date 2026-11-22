@@ -648,14 +648,14 @@ void TObjEneMe1Gee::apply_model_color() {
 
 int TObjEneMe1Gee::has_no_members() { return 1; }
 
-void TObjEneMe1Gee::update_photon_target() {
+void TObjEneMe1Gee::wake_leader() {
     if ((s16) this->mode == 3) {
         this->leader = (TObjEneMe1Gee *)find_entity_by_id(this->leader_id);
-        this->leader->sub_800CB560();
+        this->leader->order_activation_now();
     }
 }
 
-int TObjEneMe1Gee::sub_800CB628() { return (this->status_flags >> 15) & 0x1; }
+int TObjEneMe1Gee::is_activated() { return (this->status_flags >> 15) & 0x1; }
 
 void TObjEneMe1Gee::set_low_appear() {
     this->status_flags |= 0x02000000;
@@ -692,20 +692,20 @@ void TObjEneMe1Gee::remove_member(uaddr) {  }
 
 int TObjEneMe1Gee::can_member_attack_target(TObjChara *) { return 1; }
 
-void TObjEneMe1Gee::sub_800CB560() {
+void TObjEneMe1Gee::order_activation_now() {
     this->attack_delay = 0;
     this->status_flags |= 1;
 }
 
-void TObjEneMe1Gee::set_state_flag(TObjChara *target, s32 arg2) {
+void TObjEneMe1Gee::order_activation(TObjChara *target, s32 arg2) {
     this->set_target_player(target);
     this->attack_delay = arg2;
     this->status_flags |= 1;
 }
 
-void TObjEneMe1Gee::set_flag3c8_bit2() { this->status_flags |= 0x2; }
+void TObjEneMe1Gee::start_formation() { this->status_flags |= 0x2; }
 
-void TObjEneMe1Gee::set_flag3c8_bit4() { this->status_flags |= 0x4; }
+void TObjEneMe1Gee::order_attack() { this->status_flags |= 0x4; }
 
 void TObjEneMe1Gee::set_flag3c8_bit8() { this->status_flags |= 0x8; }
 
@@ -715,43 +715,46 @@ void TObjEneMe1Gee::sub_800CB4DC() {
 
 void TObjEneMe1Gee::set_flag3c8_bit40() { this->status_flags |= 0x40; }
 
+// The state names are read from the bodies and shared with the Canadin's twin states (see
+// TObjEneMe1Canadin::dispatch_action); spawn picks appear for "TYPE:LOW APPEAR" (0x02000000), else
+// high_appear, which climbs at appear_speed.
 void TObjEneMe1Gee::dispatch_action(u32 state, s32 mode) {
     switch (state) {
     case 0:
-        state_attack_loop(mode);
+        state_spawn(mode);
         break;
     case 1:
-        state_move(mode);
+        state_appear(mode);
         break;
     case 2:
-        sub_800CAFD8(mode);
+        state_high_appear(mode);
         break;
     case 3:
         state_hover(mode);
         break;
     case 4:
-        vfunc_110(mode);
+        state_activate(mode);
         break;
     case 5:
-        vfunc_111(mode);
+        state_rise(mode);
         break;
     case 6:
-        state_attack(mode);
+        state_formation(mode);
         break;
     case 7:
-        sub_800CA454(mode);
+        state_ranged_attack(mode);
         break;
     case 8:
-        sub_800C9DF8(mode);
+        state_melee_attack(mode);
         break;
     case 9:
-        sub_800C9A94(mode);
+        state_orbit(mode);
         break;
     case 10:
-        sub_800C9964(mode);
+        state_regroup(mode);
         break;
     case 12:
-        sub_800C9580(mode);
+        state_vanish(mode);
         break;
     case 13:
         hurt_state(mode);
@@ -763,15 +766,15 @@ void TObjEneMe1Gee::dispatch_action(u32 state, s32 mode) {
         state_return_home(mode);
         break;
     case 17:
-        handle_event(mode);
+        state_motion_test(mode);
         break;
     case 18:
-        state_orbit(mode);
+        state_move_forward(mode);
         break;
     }
 }
 
-void TObjEneMe1Gee::state_attack_loop(s32 mode) {
+void TObjEneMe1Gee::state_spawn(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 0;
@@ -804,7 +807,7 @@ void TObjEneMe1Gee::state_attack_loop(s32 mode) {
     }
 }
 
-void TObjEneMe1Gee::state_move(s32 msg) {
+void TObjEneMe1Gee::state_appear(s32 msg) {
 
     switch (msg) {
     case 4:
@@ -835,7 +838,7 @@ void TObjEneMe1Gee::state_move(s32 msg) {
     }
 }
 
-void TObjEneMe1Gee::sub_800CAFD8(s32 mode) {
+void TObjEneMe1Gee::state_high_appear(s32 mode) {
     Vec pos;
     switch (mode) {
     case 4:
@@ -925,7 +928,7 @@ void TObjEneMe1Gee::state_hover(s32 mode) {
     }
 }
 
-void TObjEneMe1Gee::vfunc_110(s32 msg) {
+void TObjEneMe1Gee::state_activate(s32 msg) {
     s32 temp_r3;
 
     switch (msg) {
@@ -974,7 +977,7 @@ void TObjEneMe1Gee::vfunc_110(s32 msg) {
                 this->status_flags |= 0x8000;
                 switch (this->kind) {
                 case 0:
-                    this->set_flag3c8_bit2();
+                    this->start_formation();
                 case 1:
                     this->stage = 3;
                     break;
@@ -995,7 +998,7 @@ void TObjEneMe1Gee::vfunc_110(s32 msg) {
     }
 }
 
-void TObjEneMe1Gee::vfunc_111(s32 msg) {
+void TObjEneMe1Gee::state_rise(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 0;
@@ -1022,7 +1025,7 @@ void TObjEneMe1Gee::vfunc_111(s32 msg) {
     }
 }
 
-void TObjEneMe1Gee::state_attack(s32 msg) {
+void TObjEneMe1Gee::state_formation(s32 msg) {
     s32 temp_r3;
 
     switch (msg) {
@@ -1088,7 +1091,7 @@ void TObjEneMe1Gee::state_attack(s32 msg) {
 #pragma fp_contract on
 #pragma opt_common_subs off
 #pragma pool_data off
-void TObjEneMe1Gee::sub_800CA454(s32 mode) {
+void TObjEneMe1Gee::state_ranged_attack(s32 mode) {
     Vec *dir = &this->m_454;
     switch (mode) {
     case 4:
@@ -1228,7 +1231,7 @@ void TObjEneMe1Gee::sub_800CA454(s32 mode) {
 }
 #pragma push
 #pragma fp_contract on
-void TObjEneMe1Gee::sub_800C9DF8(s32 mode) {
+void TObjEneMe1Gee::state_melee_attack(s32 mode) {
     f32 dist;
 
     switch (mode) {
@@ -1401,7 +1404,7 @@ void TObjEneMe1Gee::sub_800C9DF8(s32 mode) {
 #pragma pop
 #pragma push
 #pragma fp_contract on
-void TObjEneMe1Gee::sub_800C9A94(s32 mode) {
+void TObjEneMe1Gee::state_orbit(s32 mode) {
     Vec *dir = &this->m_454;
     switch (mode) {
     case 4:
@@ -1493,7 +1496,7 @@ void TObjEneMe1Gee::sub_800C9A94(s32 mode) {
     }
 }
 #pragma pop
-void TObjEneMe1Gee::sub_800C9964(s32 mode) {
+void TObjEneMe1Gee::state_regroup(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 0;
@@ -1531,7 +1534,7 @@ void TObjEneMe1Gee::hurt_state(s32 mode) {
     case 4:
         this->requested_action = 3;
         this->advance_animation();
-        this->update_photon_target();
+        this->wake_leader();
         this->status_flags &= ~0x400000;
         this->clear_intangible();
         this->actorFlags &= ~0x1000000;
@@ -1600,7 +1603,7 @@ void TObjEneMe1Gee::hurt_state(s32 mode) {
 }
 #pragma push
 #pragma opt_common_subs off
-void TObjEneMe1Gee::sub_800C9580(s32 mode) {
+void TObjEneMe1Gee::state_vanish(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 0;
@@ -1694,7 +1697,7 @@ void TObjEneMe1Gee::state_dead(s32 msg) {
     }
 }
 
-void TObjEneMe1Gee::handle_event(s32 msg) {
+void TObjEneMe1Gee::state_motion_test(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 0;
@@ -1717,7 +1720,7 @@ void TObjEneMe1Gee::handle_event(s32 msg) {
     }
 }
 
-void TObjEneMe1Gee::state_orbit(s32 msg) {
+void TObjEneMe1Gee::state_move_forward(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 0;
@@ -1916,8 +1919,8 @@ void TUnk_8049387C::select_next_attack_state() {
 }
 
 // dead-stripped: only its literals survive. 10.0f (.sdata2 0x805DA0B8) is pooled after spawn_members'
-// 0.0f and before render_demo's 400.0f, ahead of its first live user sub_800C9DF8 (deferred codegen
-// runs this file bottom-up). Minimal body after sub_800C9DF8's frame-10 hit check; name inferred.
+// 0.0f and before render_demo's 400.0f, ahead of its first live user state_melee_attack (deferred codegen
+// runs this file bottom-up). Minimal body after state_melee_attack's frame-10 hit check; name inferred.
 static s32 is_hit_frame(TUnk_8049387C *gee) {
     return gee->is_passing_frame(10.0f);
 }
@@ -2040,7 +2043,7 @@ void TUnk_8049387C::update_formation_state() {
             copy_argb(&this->core_color, (NJS_ARGB *)&TObjEneMe1Gee__data_8043BDB0);
             for (i = 0; i < this->member_count; i++) {
                 if (this->members[i]->has_status_flag(0x200) != 0) {
-                    this->members[i]->set_flag3c8_bit4();
+                    this->members[i]->order_attack();
                 }
             }
         }
@@ -2060,7 +2063,7 @@ void TUnk_8049387C::update_formation_state() {
             this->formation_state = 6;
             for (i = 0; i < this->member_count; i++) {
                 if (this->members[i]->has_status_flag(0x100) != 0) {
-                    this->members[i]->set_flag3c8_bit4();
+                    this->members[i]->order_attack();
                 }
             }
         }
@@ -2084,7 +2087,7 @@ void TUnk_8049387C::update_formation_state() {
     }
 }
 
-void TUnk_8049387C::vfunc_110(s32 msg) {
+void TUnk_8049387C::state_activate(s32 msg) {
     s32 k;
     s32 i;
     s32 j;
@@ -2100,7 +2103,7 @@ void TUnk_8049387C::vfunc_110(s32 msg) {
         this->core_color.b = TObjEneMe1Gee__data_8043BDB0.b;
         this->stage = 0;
         for (k = 2, i = 0; i < this->member_count; k += 2, i++) {
-            this->members[i]->set_state_flag(this->current_target, k);
+            this->members[i]->order_activation(this->current_target, k);
         }
         break;
     case 3:
@@ -2125,14 +2128,14 @@ void TUnk_8049387C::vfunc_110(s32 msg) {
             if (this->fade_mode == 0) {
                 this->status_flags |= 0x8000;
                 for (j = 0; j < this->member_count; j++) {
-                    if (this->members[j]->sub_800CB628() == 0) {
+                    if (this->members[j]->is_activated() == 0) {
                         break;
                     }
                 }
                 if (j == this->member_count) {
-                    this->set_flag3c8_bit2();
+                    this->start_formation();
                     for (m = 0; m < this->member_count; m++) {
-                        this->members[m]->set_flag3c8_bit2();
+                        this->members[m]->start_formation();
                     }
                 }
             }
@@ -2148,7 +2151,7 @@ void TUnk_8049387C::vfunc_110(s32 msg) {
     }
 }
 
-void TUnk_8049387C::vfunc_111(s32 msg) {
+void TUnk_8049387C::state_rise(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 0;

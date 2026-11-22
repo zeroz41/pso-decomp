@@ -15,8 +15,8 @@ public:
     virtual int can_member_attack_target(TObjChara *target);
     virtual void apply_model_color();
     virtual int has_no_members();
-    virtual void vfunc_110(s32);
-    virtual void vfunc_111(s32);
+    virtual void state_activate(s32);
+    virtual void state_rise(s32);
     virtual void state_dead(s32);
     void update_formation_state();
     s32 member_total;

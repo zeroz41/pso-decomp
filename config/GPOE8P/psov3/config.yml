@@ -1200,32 +1200,32 @@ force_active:
   - TObjEneLappy__resource_name_table
   - __ct__23TObjEneMe1CanadinLeaderFP7TObjectPv
   - fn_8009E258__17TObjEneMe1CanadinFv
-  - set_flag3c8_bit4__17TObjEneMe1CanadinFv
+  - order_attack__17TObjEneMe1CanadinFv
   - has_status_flag__17TObjEneMe1CanadinFl
   - set_out_fighter__17TObjEneMe1CanadinFv
   - set_in_fighter__17TObjEneMe1CanadinFv
-  - fn_8009E36C__17TObjEneMe1CanadinFv
+  - is_activated__17TObjEneMe1CanadinFv
   - start_fade_sequence__17TObjEneMe1CanadinFl
   - select_next_attack_state__23TObjEneMe1CanadinLeaderFv
   - select_model__23TObjEneMe1CanadinLeaderFv
   - spawn_members__23TObjEneMe1CanadinLeaderFv
   - check_retreat_trigger__23TObjEneMe1CanadinLeaderFv
   - has_no_members__23TObjEneMe1CanadinLeaderFv
-  - vfunc_110__23TObjEneMe1CanadinLeaderFl
-  - vfunc_111__23TObjEneMe1CanadinLeaderFl
+  - state_activate__23TObjEneMe1CanadinLeaderFl
+  - state_rise__23TObjEneMe1CanadinLeaderFl
   - state_dead__23TObjEneMe1CanadinLeaderFl
   - apply_model_color__23TObjEneMe1CanadinLeaderFv
   - can_member_attack_target__23TObjEneMe1CanadinLeaderFP9TObjChara
   - remove_member__23TObjEneMe1CanadinLeaderFUl
   - TObjEneMe1Canadin__render_point_cursor
-  - fn_8009BFF8__17TObjEneMe1CanadinFl
-  - fn_8009C178__17TObjEneMe1CanadinFl
-  - fn_8009C2EC__17TObjEneMe1CanadinFl
+  - state_return_home__17TObjEneMe1CanadinFl
+  - state_vanish__17TObjEneMe1CanadinFl
+  - state_self_destruct__17TObjEneMe1CanadinFl
   - hurt_state__17TObjEneMe1CanadinFl
-  - fn_8009C91C__17TObjEneMe1CanadinFl
-  - fn_8009CC74__17TObjEneMe1CanadinFl
-  - fn_8009D320__17TObjEneMe1CanadinFl
-  - fn_8009DE90__17TObjEneMe1CanadinFl
+  - state_orbit__17TObjEneMe1CanadinFl
+  - state_melee_attack__17TObjEneMe1CanadinFl
+  - state_ranged_attack__17TObjEneMe1CanadinFl
+  - state_appear__17TObjEneMe1CanadinFl
   - fn_8009E76C__17TObjEneMe1CanadinFv
   - find_attack_target__17TObjEneMe1CanadinFPff
   - fn_8009E930__17TObjEneMe1CanadinFv
@@ -1236,17 +1236,17 @@ force_active:
   - __ct__13TObjEneMe1GeeFP7TObjectP13TObjEneMe1GeeP3VecUsl
   - TObjEneMe1Gee__fade_command_streams
   - run_task__13TUnk_8049387CFv
-  - sub_800C9580__13TObjEneMe1GeeFl
+  - state_vanish__13TObjEneMe1GeeFl
   - hurt_state__13TObjEneMe1GeeFl
-  - sub_800C9A94__13TObjEneMe1GeeFl
-  - sub_800C9DF8__13TObjEneMe1GeeFl
-  - sub_800CA454__13TObjEneMe1GeeFl
-  - sub_800CAFD8__13TObjEneMe1GeeFl
+  - state_orbit__13TObjEneMe1GeeFl
+  - state_melee_attack__13TObjEneMe1GeeFl
+  - state_ranged_attack__13TObjEneMe1GeeFl
+  - state_high_appear__13TObjEneMe1GeeFl
   - sub_800CB4DC__13TObjEneMe1GeeFv
-  - sub_800CB560__13TObjEneMe1GeeFv
+  - order_activation_now__13TObjEneMe1GeeFv
   - sub_800CB584__13TObjEneMe1GeeFv
   - has_status_flag__13TObjEneMe1GeeFl
-  - sub_800CB628__13TObjEneMe1GeeFv
+  - is_activated__13TObjEneMe1GeeFv
   - sub_800CB968__13TObjEneMe1GeeFv
   - sub_800CBA80__13TObjEneMe1GeeFv
   - sub_800CBC04__13TObjEneMe1GeeFv
@@ -3756,7 +3756,7 @@ force_active:
   - action__16TObjEneBm5GibonUFl
   - state_vanish__16TObjEneMe3StelthFl
   - update_stagger_state__17TObjEneDf2BringerFl
-  - action__17TObjEneMe1CanadinFl
+  - state_hover__17TObjEneMe1CanadinFl
   - action__18TObjEneBalClawClawFPv
   - action__18TObjEneEpsilonBodyFl
   - action_destroy__19TObjEneEpsilonGuardFl
@@ -6358,9 +6358,9 @@ force_active:
   - copy_graph_sample__FP14TDLGraphSampleP14TDLGraphSample
   - fn_8007FE78
   - fn_8009BD00
-  - fn_8009E2DC__17TObjEneMe1CanadinFv
+  - order_activation_now__17TObjEneMe1CanadinFv
   - fn_8009E300__17TObjEneMe1CanadinFv
-  - update_photon_target__17TObjEneMe1CanadinFv
+  - wake_leader__17TObjEneMe1CanadinFv
   - fn_800BC758
   - hit_enemy_near__22TObjEnePanarmsAtkColliFP3Vec
   - hit_player__22TObjEnePanarmsAtkColliFP9TObjChara
@@ -6838,7 +6838,7 @@ force_active:
   - handle_equip_offer__24TShopEquipmentListWindowFv
   - handle_equip_prompt__23TShopJudgmentItemWindowFv
   - handle_error_ack__18TCheckRoomSequenceFPv
-  - handle_event__13TObjEneMe1GeeFl
+  - state_motion_test__13TObjEneMe1GeeFl
   - handle_event__13TObjEneRe4BitFl
   - handle_event__19TObjEneEpsilonGuardFl
   - handle_event__22TAdMultiPlyChrSelectGCFl
@@ -6898,7 +6898,7 @@ force_active:
   - handle_state__12TBoss1DragonFUl
   - handle_state__16TObjEneBm5GibonUFl
   - handle_state__17TObjEneDf2BringerFl
-  - handle_state__17TObjEneMe1CanadinFl
+  - state_spawn__17TObjEneMe1CanadinFl
   - handle_state__18TObjEneRe4SorcererFl
   - handle_state__6TLobbyFi
   - handle_state_init__6TLobbyFPv
@@ -9068,7 +9068,7 @@ force_active:
   - morfos_resource_descriptor
   - __ct__13TUnk_804ED1A0FP7TObjectPUc
   - motorcycle_resource_descriptor
-  - move__17TObjEneMe1CanadinFl
+  - state_formation__17TObjEneMe1CanadinFl
   - move_along_angle__13TBoss5GryphonFfl
   - move_around_center__15TObjEneMe1GiGueFPvPvf
   - move_cursor_prev__11TWindowMenuFv
@@ -14842,7 +14842,7 @@ force_active:
   - run_task__13TObjDFRecBallFv
   - run_task__13TObjDFRecoverFv
   - run_task__13TObjEneBm3FlyFv
-  - sub_800C9964__13TObjEneMe1GeeFl
+  - state_regroup__13TObjEneMe1GeeFl
   - run_task__13TObjEneMorfosFv
   - run_task__13TObjEneRe4BitFv
   - run_task__13TObjHashiBaseFv
@@ -15071,7 +15071,7 @@ force_active:
   - run_task__17TObjCityDoor_WarpFv
   - run_task__17TObjEneBm3FlyNestFv
   - run_task__17TObjEneDf2BringerFv
-  - run_task__17TObjEneMe1CanadinFl
+  - state_regroup__17TObjEneMe1CanadinFl
   - run_task__17TObjParticleLobbyFv
   - run_task__17TObjVoloptShutterFv
   - run_task__17TObjWarpBossMultiFv
@@ -15424,7 +15424,7 @@ force_active:
   - set_anim_state__15TAdPlyPltAnimGCFl
   - set_animation_by_state__13TBoss5GryphonFv
   - set_attack_flag__14TObjEneBm5WolfFv
-  - set_attack_flag__17TObjEneMe1CanadinFv
+  - start_formation__17TObjEneMe1CanadinFv
   - set_attack_pattern_by_index__11TBoss4Type2Fl
   - set_bank_panel_art__20TWindowActionPaletteFUs
   - add_status_cleanse__18TItemLockCountCtrlFi
@@ -15480,10 +15480,10 @@ force_active:
   - set_fields_554__11TBoss6Type2Fv
   - set_flag1e_bit80__18TWindowSubShortCutFv
   - set_flag3c8_bit20__17TObjEneMe1CanadinFv
-  - set_flag3c8_bit2__13TObjEneMe1GeeFv
+  - start_formation__13TObjEneMe1GeeFv
   - set_flag3c8_bit40__13TObjEneMe1GeeFv
   - set_flag3c8_bit40__17TObjEneMe1CanadinFv
-  - set_flag3c8_bit4__13TObjEneMe1GeeFv
+  - order_attack__13TObjEneMe1GeeFv
   - set_flag3c8_bit8__13TObjEneMe1GeeFv
   - set_flag3c8_bit8__17TObjEneMe1CanadinFv
   - set_log_active__15TWindowMainMenuFv
@@ -15524,7 +15524,7 @@ force_active:
   - set_keyboard_mode__6TLobbyFi
   - set_labels__19TWindowSubTradeMainFl
   - set_launch_midpoint__10TTecSlicerFPvPvPv
-  - set_leader_index__17TObjEneMe1CanadinFP9TObjCharal
+  - order_activation__17TObjEneMe1CanadinFP9TObjCharal
   - set_lobby_map_state_code__Fl
   - set_low_flight_height__13TBoss5GryphonFv
   - set_mag_mode__13TWindowSubMagFl
@@ -15608,7 +15608,7 @@ force_active:
   - set_state_after_message__12TQuestListVMFl
   - set_state_by_distance__10TBoss2MineFl
   - set_state_by_timer__14TObjEneBm5WolfFi
-  - set_state_flag__13TObjEneMe1GeeFP9TObjCharal
+  - order_activation__13TObjEneMe1GeeFP9TObjCharal
   - set_state_flags__18TObjEneRe4SorcererFPv
   - set_state_ready__15TPlyPhotonChairFv
   - set_subs_visible__8TItemMagFl
@@ -16081,9 +16081,9 @@ force_active:
   - state_6__10TBoss6MineFv
   - state_7__10TBoss6MineFv
   - state_appear__13TObjEneMorfosFl
-  - state_attack__13TObjEneMe1GeeFl
+  - state_formation__13TObjEneMe1GeeFl
   - state_attack__16TObjEneRe7BeruraFl
-  - state_attack_loop__13TObjEneMe1GeeFl
+  - state_spawn__13TObjEneMe1GeeFl
   - state_cast_technique__16TObjEneBm5GibonUFl
   - state_chase__16TObjEneMe3StelthFl
   - state_chase__18TObjEneMe3SinowZoaFl
@@ -16098,8 +16098,8 @@ force_active:
   - state_initial_emit__17TObjEneBm3FlyNestFl
   - state_knockback__18TObjEneMe3SinowZoaFl
   - state_move__13TBoss5GryphonFl
-  - state_move__13TObjEneMe1GeeFl
-  - state_orbit__13TObjEneMe1GeeFl
+  - state_appear__13TObjEneMe1GeeFl
+  - state_move_forward__13TObjEneMe1GeeFl
   - state_orbit__19TObjEneEpsilonGuardFl
   - state_patrol__13TObjEneMorfosFl
   - state_return_home__13TObjEneMe1GeeFl
@@ -16733,7 +16733,7 @@ force_active:
   - update_buy_sell_choice__22TShopEquipmentSequenceFv
   - update_buy_sell_choice__26TShopEquipmentGearSequenceFPv
   - apply_parameters__17TObjEneMe1CanadinFv
-  - update_by_state__17TObjEneMe1CanadinFl
+  - state_move_forward__17TObjEneMe1CanadinFl
   - update_by_state__9TTecMegidFv
   - update_camera_facing_offset__11TLoadingCurFv
   - update_camera_slots__10TObjCameraFP10NJS_OBJECT
@@ -17123,7 +17123,7 @@ force_active:
   - update_phase_timer__11TBoss4Type2Fv
   - update_phase_timer__11TBoss4Type3Fv
   - update_photon_mylla__16TObjEneBm5GibonUFPv
-  - update_photon_target__13TObjEneMe1GeeFv
+  - wake_leader__13TObjEneMe1GeeFv
   - update_pillar_heal_state__15TBoss3VoloptP02Fv
   - update_play_time__23TAdSinglePlyChrSelectGCFv
   - update_player_battle_ctrl_state
@@ -17351,7 +17351,7 @@ force_active:
   - update_wait_input__18TChallenge4PResultFv
   - update_wait_search__15TObjEneSlimeOneFv
   - update_wait_switch__19TObjLazerFenceExtraFv
-  - update_walk_animation__17TObjEneMe1CanadinFl
+  - state_motion_test__17TObjEneMe1CanadinFl
   - update_walking_state__12TBoss1DragonFUl
   - update_wander_state__12TBoss1DragonFl
   - update_wander_state__15TObjEnemyCustomFv
@@ -17418,8 +17418,8 @@ force_active:
   - vfunc_10__13TAdVIConfigGCFv
   - vfunc_10__16TAdPsoPassSaveGCFv
   - vfunc_10__20TAdSnAkPassConfirmGCFv
-  - vfunc_110__13TUnk_8049387CFl
-  - vfunc_111__13TUnk_8049387CFl
+  - state_activate__13TUnk_8049387CFl
+  - state_rise__13TUnk_8049387CFl
   - state_dead__13TUnk_8049387CFl
   - apply_model_color__13TUnk_8049387CFv
   - can_member_attack_target__13TUnk_8049387CFP9TObjChara
