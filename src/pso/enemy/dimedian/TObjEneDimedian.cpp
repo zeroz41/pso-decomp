@@ -142,7 +142,7 @@ void TObjEneDimedian::update_attack_trail() {
     rotate_matrix_y(0, this->rotation_y);
     matrix_mult_vec_array(NULL, e, &a, 2);
     pop_matrix();
-    eff = m_3c4[idx];
+    eff = attack_trails[idx];
     if (eff != NULL) {
         eff->vfunc_6(&a, &b);
     }
@@ -150,7 +150,7 @@ void TObjEneDimedian::update_attack_trail() {
 
 void TObjEneDimedian::beast_retire_corpse() {
     this->m_390 = 1;
-    if (m_3a8.decay_value_toward_floor() == 1) {
+    if (body_fade.decay_value_toward_floor() == 1) {
         queue_destruction();
     }
 }
@@ -184,13 +184,13 @@ void TObjEneDimedian::beast_update_appear() {
         if (this->m_390 == 1) {
             this->phase = 1;
             play_area_se_with_particle(&position);
-            TObjPlayer__sub_800A0554(&m_3a8);
+            TObjPlayer__sub_800A0554(&body_fade);
         } else {
             this->phase = 2;
         }
         break;
     case 1:
-        if (m_3a8.advance_toward_max() == 1) {
+        if (body_fade.advance_toward_max() == 1) {
             this->phase = 2;
             this->m_390 = 0;
         }
@@ -222,8 +222,8 @@ void TObjEneDimedian::render() {
     }
     fading = 0;
     if (TObjEneDD::check_v2_mode() != 0) {
-        m_3cc[camera].update();
-        fading = m_3cc[camera].updateFromCamera(&body_center.x);
+        camera_fades[camera].update();
+        fading = camera_fades[camera].updateFromCamera(&body_center.x);
     }
     select_actor_lighting((saddr)this);
     TObjFish::set_global_param(texlist);
@@ -245,11 +245,11 @@ void TObjEneDimedian::render() {
         }
         TObjPlayer::toggle_particle_effect();
         if (m_390 == 1) {
-            if (m_3a8.has_visible_opacity() != 0) {
+            if (body_fade.has_visible_opacity() != 0) {
                 saved_model_render_flags = model_render_flags;
                 saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
                 saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
-                m_3a8.set_flags_and_apply_damage_color();
+                body_fade.set_flags_and_apply_damage_color();
                 d = 1;
                 if (defer_render() != 0) {
                     d = 0;
@@ -257,7 +257,7 @@ void TObjEneDimedian::render() {
                 if (d != 0) {
                     draw();
                 }
-                m_3a8.clear_flag_and_notify();
+                body_fade.clear_flag_and_notify();
                 chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
                 chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
                 model_render_flags = saved_model_render_flags;
@@ -265,7 +265,7 @@ void TObjEneDimedian::render() {
         } else {
             doDraw = 1;
             if (fading != 0) {
-                m_3cc[camera].set_flags_and_apply_damage_color();
+                camera_fades[camera].set_flags_and_apply_damage_color();
                 if (defer_render() != 0) {
                     doDraw = 0;
                 }
@@ -278,7 +278,7 @@ void TObjEneDimedian::render() {
                 }
             }
             if (fading != 0) {
-                m_3cc[camera].clear_flag_and_notify();
+                camera_fades[camera].clear_flag_and_notify();
             }
         }
         TParticleCtrl::end_effect_render();
@@ -548,15 +548,15 @@ TObjEneDimedian::TObjEneDimedian(TObject *parent, void *set_data) : TUnk_8049345
             break;
         }
     }
-    m_3c4[0] = TUnk_80494968::create(0xA0303030, color);
-    m_3c4[1] = TUnk_80494968::create(0xA0303030, color);
+    attack_trails[0] = TUnk_80494968::create(0xA0303030, color);
+    attack_trails[1] = TUnk_80494968::create(0xA0303030, color);
     m_390 = 1;
     m_398 = dimedian_buffer_ptr[subtype][0];
     m_3a0 = dimedian_buffer_ptr[subtype][1];
     unk_39C = dimedian_buffer_ptr[subtype][2];
     unk_3A4 = dimedian_buffer_ptr[subtype][3];
     for (i = 0; i < 4; i++) {
-        m_3cc[i].activate_and_dispatch();
+        camera_fades[i].activate_and_dispatch();
     }
     clear_lobby_object_state();
 }
@@ -564,9 +564,9 @@ TObjEneDimedian::TObjEneDimedian(TObject *parent, void *set_data) : TUnk_8049345
 TObjEneDimedian::~TObjEneDimedian() {
     s32 i;
     for (i = 0; i < 2; i++) {
-        if (m_3c4[i] != NULL) {
-            m_3c4[i]->queue_destruction();
-            m_3c4[i] = NULL;
+        if (attack_trails[i] != NULL) {
+            attack_trails[i]->queue_destruction();
+            attack_trails[i] = NULL;
         }
     }
     unlink_enemy_group_relations();

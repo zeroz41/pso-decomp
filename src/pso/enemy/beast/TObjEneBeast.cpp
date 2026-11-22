@@ -123,7 +123,7 @@ void TObjEneBeast::update_attack_trail() {
             rotate_matrix_y(0, this->rotation_y);
             matrix_mult_vec_array(NULL, entry, &pos, 2);
             pop_matrix();
-            eff = m_3a8[idx];
+            eff = attack_trails[idx];
             if (eff != NULL) {
                 eff->vfunc_6(&pos, &dir);
             }
@@ -198,8 +198,8 @@ void TObjEneBeast::render() {
     }
     fade = 0;
     if (TObjEneDD::check_v2_mode() != 0) {
-        m_3b0[cam].update();
-        fade = m_3b0[cam].updateFromCamera(&body_center.x);
+        camera_fades[cam].update();
+        fade = camera_fades[cam].updateFromCamera(&body_center.x);
     }
     saved_model_render_flags = model_render_flags;
     select_actor_lighting((saddr)this);
@@ -214,7 +214,7 @@ void TObjEneBeast::render() {
         TObjPlayer::toggle_particle_effect();
         doDraw = 1;
         if (fade != 0) {
-            m_3b0[cam].set_flags_and_apply_damage_color();
+            camera_fades[cam].set_flags_and_apply_damage_color();
             if (defer_render() != 0) {
                 doDraw = 0;
             }
@@ -228,7 +228,7 @@ void TObjEneBeast::render() {
         }
         TParticleCtrl::end_effect_render();
         if (fade != 0) {
-            m_3b0[cam].clear_flag_and_notify();
+            camera_fades[cam].clear_flag_and_notify();
         }
     }
     pop_matrix();
@@ -428,15 +428,15 @@ TObjEneBeast::TObjEneBeast(TObject *parent, void *set_data) : TUnk_80493450(pare
     add_flags_2e4(1);
     obj_setFlags30(this, 0x40000);
     unk_380 = 0.0f;
-    m_3a8[0] = TUnk_80494968::create(0xA0303030, 0xFF303030);
-    m_3a8[1] = TUnk_80494968::create(0xA0303030, 0xFF303030);
+    attack_trails[0] = TUnk_80494968::create(0xA0303030, 0xFF303030);
+    attack_trails[1] = TUnk_80494968::create(0xA0303030, 0xFF303030);
     m_398 = boss4_rock_shared_handler_ids[subtype][0];
     m_3a0 = boss4_rock_shared_handler_ids[subtype][1];
     unk_39C = boss4_rock_shared_handler_ids[subtype][2];
     unk_3A4 = boss4_rock_shared_handler_ids[subtype][3];
     m_390 = 1;
     for (i = 0; i < 4; i++) {
-        m_3b0[i].activate_and_dispatch();
+        camera_fades[i].activate_and_dispatch();
     }
     clear_lobby_object_state();
 }
@@ -444,9 +444,9 @@ TObjEneBeast::TObjEneBeast(TObject *parent, void *set_data) : TUnk_80493450(pare
 TObjEneBeast::~TObjEneBeast() {
     s32 i;
     for (i = 0; i < 2; i++) {
-        if (m_3a8[i] != NULL) {
-            m_3a8[i]->queue_destruction();
-            m_3a8[i] = NULL;
+        if (attack_trails[i] != NULL) {
+            attack_trails[i]->queue_destruction();
+            attack_trails[i] = NULL;
         }
     }
     unlink_enemy_group_relations();
