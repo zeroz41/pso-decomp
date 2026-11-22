@@ -43,7 +43,7 @@ void TObjPlayer__sub_8013A820(void *arg0, void *arg1);
 s32 __ct__13GameListEntryFv(s32 arg0);
 s32 __dt__18TPlyJoinLobbyEntryFv(saddr arg0, s16 arg1);
 u8 *__dt__6TLobbyFv(u8 *arg0, s16 arg1);
-void bswap_and_send_extended_subcommand(void *p, void *a1);
+void bswap_and_send_extended_subcommand(void *p, u32 size);
 void bswap_extended_subcommand_header(void *p);
 u8 *copy_player_data__9TProtocolFPvPv(u8 *arg0, u8 *arg1);
 }

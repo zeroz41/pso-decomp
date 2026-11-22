@@ -663,7 +663,7 @@ void handle_6x71_unblock_game_join(void) {
         for (i = 0; i < 4; i++) {
             if (pend[i] != 0) {
                 TLobby::send_6x70_player_data(i);
-                if (((void *(*)(s32))get_player_by_client_id)(i) == NULL) {
+                if (get_player_by_client_id(i) == NULL) {
                     e = (LEntry_801352C0 *)TLobby__data_80506A6C;
                     e += i;
                     p = create_player_object(i, 4, e->body);
@@ -723,7 +723,7 @@ void TLobby::send_6x70_player_data(int arg0) {
         *(s8 *)((s8 *)temp_r3 + 1) = 0;
         *(s16 *)((s8 *)temp_r3 + 2) = (s16) local_client_id;
         *(s32 *)((s8 *)temp_r3 + 4) = 0x494;
-        bswap_and_send_extended_subcommand(temp_r3, (void *)arg0);
+        bswap_and_send_extended_subcommand(temp_r3, arg0);
         mem_free(temp_r3);
     }
 }
@@ -876,7 +876,7 @@ void TLobby::send_6x6E_sync_game_state(int arg0) {
         buf->flag = 0;
         buf->f2 = 0;
         buf->len = ((len + 3) & ~3) + 8;
-        bswap_and_send_extended_subcommand(buf, (void *)arg0);
+        bswap_and_send_extended_subcommand(buf, arg0);
         mem_free(buf);
     }
 }
@@ -906,7 +906,7 @@ void TLobby::send_6x6D_item_state() {
         buf->flag = 0;
         buf->f2 = 0;
         buf->len = ((len + 3) & ~3) + 8;
-        bswap_and_send_extended_subcommand(buf, (void *)arg0);
+        bswap_and_send_extended_subcommand(buf, arg0);
         mem_free(buf);
     }
 }
@@ -941,7 +941,7 @@ void TLobby::send_compressed_packet_6c() {
             buf->flag = 0;
             buf->f2 = 0;
             buf->len = ((len + 3) & ~3) + 8;
-            bswap_and_send_extended_subcommand(buf, (void *)arg0);
+            bswap_and_send_extended_subcommand(buf, arg0);
         }
         mem_free(buf);
     }
@@ -977,7 +977,7 @@ void TLobby::send_cmd_6B() {
             buf->flag = 0;
             buf->f2 = 0;
             buf->len = ((len + 3) & ~3) + 8;
-            bswap_and_send_extended_subcommand(buf, (void *)arg0);
+            bswap_and_send_extended_subcommand(buf, arg0);
         }
         mem_free(buf);
     }
@@ -1499,7 +1499,7 @@ void TLobby::update_card_list_window() {
 void TLobby::update_short_list() {
     void *context;
 
-    if ((u32) TLobby__download_list_window != 0U) {
+    if (TLobby__download_list_window != NULL) {
         context = controller_input_state + 0x20;
         if (TWindowShortListCtrl__check_controller_button(context, 4) != 0) {
             if (((TWindowMessagePage *)TLobby__download_list_window)->is_message_window_ready() == 0) {
@@ -1556,15 +1556,15 @@ void TLobby::update_scroll_close() {
     }
 }
 void TLobby::close_all_windows() {
-    if ((u32) TLobby__card_list_window != 0U) {
+    if (TLobby__card_list_window != NULL) {
         ((TWindowBase *)TLobby__card_list_window)->close();
         TLobby__card_list_window = 0U;
     }
-    if ((u32) TLobby__download_list_window != 0U) {
+    if (TLobby__download_list_window != NULL) {
         ((TWindowBase *)TLobby__download_list_window)->close();
         TLobby__download_list_window = 0U;
     }
-    if ((u32) TLobby__list_window != 0U) {
+    if (TLobby__list_window != NULL) {
         ((TWindowBase *)TLobby__list_window)->close();
         TLobby__list_window = 0U;
     }
@@ -1930,14 +1930,14 @@ void TLobby::update_com_card_window() {
     }
 }
 void TLobby::init_player_window_effect() {
-    TObjPlayer *player = (TObjPlayer *)((u32 (*)(s32))get_player_by_client_id)(local_client_id);
+    TObjPlayer *player = get_player_by_client_id(local_client_id);
     if (player != 0) {
         player->init_effect_5f0();
     }
     TWindowCtrl::suppress_slot(local_client_id);
 }
 void TLobby::update_player_window() {
-    if (((u32 (*)(s32))get_player_by_client_id)(local_client_id) != 0U) {
+    if (get_player_by_client_id(local_client_id) != NULL) {
         clear_lobby_flag__10TObjPlayerFPv();
     }
     TWindowCtrl::unsuppress_slot(local_client_id);
@@ -1987,19 +1987,19 @@ u8 *__dt__6TLobbyFv(u8 *object, s16 arg1) {
     return object;
 }
 void TLobby::destroy_all_objects() {
-    if ((u32) TLobby__card_list_window != 0U) {
+    if (TLobby__card_list_window != NULL) {
         ((void (*)(void*))queue_destruction__7TObjectFv)((void*)TLobby__card_list_window);
         TLobby__card_list_window = 0U;
     }
-    if ((u32) TLobby__download_list_window != 0U) {
+    if (TLobby__download_list_window != NULL) {
         ((void (*)(void*))queue_destruction__7TObjectFv)((void*)TLobby__download_list_window);
         TLobby__download_list_window = 0U;
     }
-    if ((u32) TLobby__list_window != 0U) {
+    if (TLobby__list_window != NULL) {
         ((void (*)(void*))queue_destruction__7TObjectFv)((void*)TLobby__list_window);
         TLobby__list_window = 0U;
     }
-    if ((u32) lobby_player_construction_window != 0U) {
+    if (lobby_player_construction_window != NULL) {
         ((void (*)(void*))queue_destruction__7TObjectFv)((void*)lobby_player_construction_window);
         lobby_player_construction_window = 0U;
     }
@@ -2521,7 +2521,7 @@ void construct_lobby_players(Rec_801378AC *records, s32 count, int self_id, s32 
 
     for (i = 0; i < count; i++) {
         if (self_id == ((Entry_8013634C *)records)[i].client_id) {
-            if (((void *(*)(s32))get_player_by_client_id)(self_id) == NULL) {
+            if (get_player_by_client_id(self_id) == NULL) {
                 plr = create_player_object(self_id, 0, (void *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
                 ((TLobby *)(plr + 0xDAC))->copy_header_struct(&((Entry_8013634C *)records)[i]);
                 ((Plr_80136080 *)plr)->m6();
@@ -2534,7 +2534,7 @@ void construct_lobby_players(Rec_801378AC *records, s32 count, int self_id, s32 
     }
     for (j = 0; j < count; j++) {
         if (self_id != ((Entry_8013634C *)records)[j].client_id) {
-            if (((void *(*)(s32))get_player_by_client_id)(((Entry_8013634C *)records)[j].client_id) == NULL) {
+            if (get_player_by_client_id(((Entry_8013634C *)records)[j].client_id) == NULL) {
                 plr = create_player_object(((Entry_8013634C *)records)[j].client_id, 4, ((Entry_8013634C *)records)[j].char_data);
                 ((TLobby *)(plr + 0xDAC))->copy_header_struct(&((Entry_8013634C *)records)[j]);
                 ((Plr_80136080 *)plr)->m6();
@@ -2597,7 +2597,7 @@ void TLobby::on_game_player_add(int arg0, int arg1, int arg2) {
     render_tick();
     main_task.toggle_pause_layers();
     TLobby__designated_client_id = arg1;
-    p = ((Obj_801361E8 *(*)(void *))get_player_by_client_id)((void *)e.client_id);
+    p = (Obj_801361E8 *)get_player_by_client_id(e.client_id);
     if (p != NULL) {
         for (n = game_protocol_instance->head; n != NULL; n = n->next) {
             if (n->id == e.client_id) {
@@ -2617,9 +2617,9 @@ void TLobby::on_game_player_add(int arg0, int arg1, int arg2) {
         send_6x6F_quest_flags(e.client_id);
         ((TLobby *)(e.client_id))->send_6x71_to_player();
     }
-    if (((u8 *(*)(void *))get_player_by_client_id)((void *)local_client_id) != NULL) {
+    if (get_player_by_client_id(local_client_id) != NULL) {
         TLobby::send_6x70_player_data(e.client_id);
-        if (((u8 *(*)(void *))get_player_by_client_id)((void *)e.client_id) == NULL) {
+        if (get_player_by_client_id(e.client_id) == NULL) {
             plr = create_player_object(e.client_id, 4, e.char_data);
             ((TLobby *)(plr + 0xDAC))->copy_header_struct(&e);
             ((Plr_80136080 *)plr)->m6();
@@ -2844,7 +2844,7 @@ u8 *TLobby__ct(u8 *object, void *arg1) {
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__6TLobby;
     TLobby__sub_8013A16C();
-    *(s32 *)((s8 *)object + 0) = (s32) lobby_class_name;
+    ((TObject *)object)->m_name = lobby_class_name;
     TLobby__join_lobby_controller = (TLobby *)object;
     TLobby__card_list_window = 0;
     TLobby__download_list_window = 0;
@@ -3014,7 +3014,7 @@ void TLobby::set_player_count(int a0) { lobby_player_count = a0; }
 #pragma auto_inline off
 #pragma dont_inline off
 
-void bswap_and_send_extended_subcommand(void* p, void* a1) { bswap_extended_subcommand_header(p); ((TLobby *)p)->send_command((uaddr)a1); }
+void bswap_and_send_extended_subcommand(void *p, u32 size) { bswap_extended_subcommand_header(p); ((TLobby *)p)->send_command(size); }
 
 void bswap_extended_subcommand_header(void* p) { TLobby::bswap_header_fields((saddr)p); }
 void TLobby::bswap_header_fields(int arg0) {
