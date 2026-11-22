@@ -1054,9 +1054,9 @@ force_active:
   - TObjEneBalClawClaw__collision_body_template
   - TObjEneBalClawClaw__ct
   - sub_80090824__18TObjEneBalClawClawFv
-  - TObjEneBalClawClaw__sub_80090ECC
-  - TObjEneBalClawClaw__sub_80091134
-  - TObjEneBalClawClaw__sub_80091200
+  - sub_80090ECC__18TObjEneBalClawClawFv
+  - sub_80091134__18TObjEneBalClawClawFv
+  - sub_80091200__18TObjEneBalClawClawFv
   - sub_800914A4__18TObjEneBalClawClawFv
   - __ct__18TObjEneBalClawClawFP7TObjectP18TObjEneBalClawBodyUslPC3Vecll
   - __ct__18TObjEneBalClawClawFP7TObjectPv

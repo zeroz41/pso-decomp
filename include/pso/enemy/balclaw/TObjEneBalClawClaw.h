@@ -17,6 +17,9 @@ struct TObjEneBalClawClaw : public TObjEneBalClaw {
     void sub_80090D3C();
     void sub_80090798();
     void sub_80090A10(Vec *pos, s32 rot_y, s16 hp);
+    void sub_80090ECC();
+    void sub_80091134();
+    void sub_80091200();
     virtual void run_idle_action();
     void sub_80090824();
     void sub_800914A4();
