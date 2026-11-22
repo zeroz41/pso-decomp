@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+struct TWindowMainMenu;
+
 struct TWindowSubShortCut : public TObject {
     TWindowSubShortCut(TObject *object, void *arg2);
     virtual ~TWindowSubShortCut();
@@ -13,7 +15,7 @@ struct TWindowSubShortCut : public TObject {
     u16 m_1e;
     uaddr m_20;
     uaddr m_24;
-    uaddr m_28;
+    TWindowMainMenu *parent_menu;
     uaddr com_card_list;
     uaddr menu;
     uaddr confirm_window;

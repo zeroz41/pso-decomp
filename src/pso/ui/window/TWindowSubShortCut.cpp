@@ -4,6 +4,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowShortCut.h"
 #include "pso/ui/window/TWindowSubShortCut.h"
+#include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -29,19 +30,6 @@ struct TWindowShortCut;
 
 struct Win_8027DBB8 { u8 pad[0x20]; saddr f20; };
 
-struct VBase_18_204a81 { char pad[0x18]; };
-
-struct VObj_18_204a81 : VBase_18_204a81 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual s32 m7();
-};
-
 extern "C" {
 saddr get_window_layout_position(s32 a0);
 s32 clear_chat_shortcut();
@@ -61,7 +49,7 @@ void TWindowChat::set_flag1e_bit80() { flags |= 0x80; }
 
 TWindowSubShortCut::TWindowSubShortCut(TObject *object, void *arg2) : TObject(object) {
     this->m_name = TWindowSubShortCut__class_name;
-    *(void **)((s8 *)this + 0x28) = object;
+    parent_menu = static_cast<TWindowMainMenu *>(object);
     *(void **)((s8 *)this + 0x20) = arg2;
     this->com_card_list = 0;
     this->menu = 0;
@@ -110,7 +98,7 @@ void TWindowSubShortCut::run_task() {
         this->state = 2U;
     case 2:
         if (((TWindowMenuIconLine *)(this->com_card_list))->is_cancelled() != 0) {
-            ((VObj_18_204a81 *)(this->m_28))->m7();
+            parent_menu->on_submenu_closed();
             this->state = 0xBU;
             return;
         }

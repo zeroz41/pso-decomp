@@ -14,6 +14,7 @@
 #include "pso/ui/window/TWindowSubShortCutList.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
+#include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowMakeTeam.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/ui/window/TWindowShortListCtrl.h"
@@ -96,18 +97,6 @@ extern s32 local_client_id;
 
 struct Win_80282600 { u8 pad[0x20]; s32 sel; };
 
-struct VBase_18_204a81 { char pad[0x18]; };
-
-struct VObj_18_204a81 : VBase_18_204a81 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual s32 m7();
-};
 #pragma pop
 #pragma push
 #pragma inline_depth(1)
@@ -183,7 +172,7 @@ s32 *TWindowSubSymbolChat__sub_8028379C(void) {
 
 TWindowSubSymbolChat::TWindowSubSymbolChat(TObject *parent, s32 client) : TObject(parent) {
     m_name = TWindowSubSymbolChat__class_name;
-    m_2c = (uaddr)parent;
+    parent_menu = static_cast<TWindowMainMenu *>(parent);
     m_24 = client;
     m_30 = 0;
     m_34 = 0;
@@ -293,7 +282,7 @@ void TWindowSubSymbolChat::run_task() {
     case 2:
         ((TWindowSubSymbolChat *)(this->m_30))->set_from_key((int) (((TWindowMenu *)this->m_38)->get_selected_value()));
         if (((TWindowMenu *)(this->m_38))->is_cancelled() != 0) {
-            ((VObj_18_204a81 *)(this->m_2c))->m7();
+            parent_menu->on_submenu_closed();
             this->m_1c = 0x2AU;
             return;
         }

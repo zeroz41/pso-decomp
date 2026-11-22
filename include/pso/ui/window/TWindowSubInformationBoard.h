@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+struct TWindowMainMenu;
+
 struct TWindowSubInformationBoard : public TObject {
     TWindowSubInformationBoard(TObject *object, void *arg2);
     virtual ~TWindowSubInformationBoard();
@@ -12,7 +14,7 @@ struct TWindowSubInformationBoard : public TObject {
     u8 _pad1D[0x3];
     u32 m_20;
     u32 shown_index;    // index set_page/set_message_index last showed; -1 after a new message window
-    uaddr m_28;
+    TWindowMainMenu *parent_menu;
     uaddr menu_window;    // create_info_board_menu (TWindowMenu)
     uaddr page_menu;      // sub_8034CDE0: one entry per info-board page, picks set_page
     uaddr message_window; // TWindowMessage::create (open_card_info_window, show_card_a7)

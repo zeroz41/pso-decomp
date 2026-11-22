@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+struct TWindowMainMenu;
+
 struct TWindowSubSymbolChat : public TObject {
     TWindowSubSymbolChat(TObject *parent, s32 client);
     virtual ~TWindowSubSymbolChat();
@@ -15,7 +17,7 @@ struct TWindowSubSymbolChat : public TObject {
     uaddr m_20;
     u32 m_24;
     uaddr m_28;
-    uaddr m_2c;
+    TWindowMainMenu *parent_menu;
     uaddr m_30;
     uaddr m_34;
     uaddr m_38;

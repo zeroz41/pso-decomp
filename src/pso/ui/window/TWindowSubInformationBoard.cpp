@@ -6,6 +6,7 @@
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/window/TWindowSubInformationBoard.h"
+#include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
@@ -20,19 +21,6 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-
-struct VBase_18_204a81 { char pad[0x18]; };
-
-struct VObj_18_204a81 : VBase_18_204a81 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual s32 m7();
-};
 
 struct I_8034CDE0 { u8 pad[0x10]; s8 f10; u8 pad11[0xBC - 0x11]; };
 
@@ -57,7 +45,7 @@ TWindowSubInformationBoard::TWindowSubInformationBoard(TObject *object, void *ar
     this->m_name = lbl_805D4348;
     *(void **)((s8 *)this + 0x20) = arg2;
     this->shown_index = -1;
-    *(void **)((s8 *)this + 0x28) = object;
+    parent_menu = static_cast<TWindowMainMenu *>(object);
     this->menu_window = 0;
     this->page_menu = 0;
     this->message_window = 0;
@@ -110,7 +98,7 @@ void TWindowSubInformationBoard::run_task() {
     case 2:
         set_message_index(((TWindowShortListCtrl *)this->menu_window)->get_cursor_pos());
         if (((TWindowMenu *)(this->menu_window))->is_cancelled() != 0) {
-            ((VObj_18_204a81 *)(this->m_28))->m7();
+            parent_menu->on_submenu_closed();
             this->m_1c = 0xCU;
         } else if (((TWindowMenu *)(this->menu_window))->is_decided() != 0) {
             if ((u32) this->message_window != 0U) {
