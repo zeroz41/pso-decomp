@@ -4,7 +4,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/object/base/TObjMotion.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/system/vector.h"
@@ -16,10 +16,10 @@ const Vec camera_ctrl_default_offset_vecs[2] = {
     {0.0f, 30.0f, 40.0f},
 };
 
-void TCameraController::set_target(uaddr object) {
-    actor = (TObjPlayer *)object;
-    if (object != 0U) {
-        actor_id = get_entity_id((TObjBase *)object);
+void TCameraController::set_target(TObjPlayer *object) {
+    actor = object;
+    if (object != NULL) {
+        actor_id = get_entity_id(object);
     }
 }
 

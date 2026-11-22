@@ -13,7 +13,7 @@ class TCameraController : public TObject {
 public:
     TCameraController();
     virtual ~TCameraController();
-    void set_target(uaddr actor);
+    void set_target(TObjPlayer *actor);
     void set_target_pos(Vec *pos);
     s32 predict_obstruction();
     // Called the first frame after a view reset (pass 0) and two frames later (pass 1).

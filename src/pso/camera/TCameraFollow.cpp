@@ -646,7 +646,7 @@ void TCameraFollow::run_task() {
     u32 actor_flags;
     this->actor = get_player_by_client_id(actor_id);
     if (this->actor == NULL) {
-        set_target((uaddr)get_player_by_client_id(local_client_id));
+        set_target(get_player_by_client_id(local_client_id));
         flags = 0;
         return;
     }
@@ -752,7 +752,7 @@ TCameraFollow::TCameraFollow() {
     target_offset.y = 0.0f;
     target_offset.z = 0.0f;
     flags = 5;
-    set_target((uaddr)get_player_by_client_id(local_client_id));
+    set_target(get_player_by_client_id(local_client_id));
     init_pose();
     close_up = 0;
     recenter_requested = 0;

@@ -48,5 +48,5 @@ TCameraVolOpt::~TCameraVolOpt() {
 
 TCameraVolOpt::TCameraVolOpt() : TCameraController() {
     this->flags = 5;
-    this->set_target((uaddr)get_player_by_client_id(0));
+    this->set_target(get_player_by_client_id(0));
 }

@@ -521,7 +521,7 @@ void reset_cameras_to_actor(void *actor, s32 view_unused) {
         if (is_split_screen() == 0) {
             camera_ctrl_instance->focus_actor = actor;
         }
-        controller->set_target((uaddr)actor);
+        controller->set_target((TObjPlayer *)actor);
         controller->reset_to_actor((TObjPlayer *)actor);
         if (is_split_screen() != 0) {
             TCameraCtrl::view_state.flags |= 0x800;
@@ -538,7 +538,7 @@ void reset_cameras_to_actor(void *actor, s32 view_unused) {
     }
     controller = camera_controller_registry[view];
     if (controller != NULL) {
-        controller->set_target((uaddr)actor);
+        controller->set_target((TObjPlayer *)actor);
         controller->reset_to_actor((TObjPlayer *)actor);
     }
     if (camera_ctrl_instance != NULL) {
