@@ -54,6 +54,8 @@ public:
     void show_miss_popup(const float *);
     void try_apply_damage(const Vec *pos, s32 damage);
     s32 subtract_actor_tp(s32);
+    // Spends dmg of its TP (subtract_actor_tp) unless it is in state 2; 0 when it cannot act.
+    s32 check_can_act(s32 dmg);
     void sub_80010DE8(u16, u8, u8);
     s16 clamp_hp();
     void spawn_freeze_shell_effect(u32, s32);

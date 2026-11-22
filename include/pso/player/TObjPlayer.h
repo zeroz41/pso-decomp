@@ -403,9 +403,6 @@ struct TObjPlayer : public TObjChara {
     static s32 is_locally_controlled(void *player);
     static TItem *get_item_field_6(void *player);
     static TObjPlayer *get_player_data(int index);
-    // Spends dmg of the chara's TP (subtract_actor_tp) unless it is in state 2; 0 when it cannot act.
-    // The player comes in as an int (check_can_act__10TObjPlayerFii).
-    static s32 check_can_act(int player, int dmg);
     void queue_destruction();
     s32 test_action_mask(s32 arg1);
     s32 test_action_4();

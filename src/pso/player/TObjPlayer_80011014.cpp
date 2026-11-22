@@ -3952,11 +3952,11 @@ int TObjPlayer::get_hp_material_points() {
   return 0xFAU;
 }
 
-s32 TObjPlayer::check_can_act(int player, int dmg) {
-    if (((TObjChara *)player)->obj_isState2_324() != 0) {
+s32 TObjChara::check_can_act(s32 dmg) {
+    if (obj_isState2_324() != 0) {
         return 0;
     }
-    return ((TObjChara *)player)->subtract_actor_tp(dmg);
+    return subtract_actor_tp(dmg);
 }
 
 s32 TObjChara::subtract_actor_tp(s32 x) {
