@@ -1014,13 +1014,12 @@ void TBoss8Dragon__sub_8005D9BC(u8 *arg0, s32 arg1, s32 arg2) {
 #pragma pop
 
 void TBoss5Gryphon::render_nodes_with_flag() {
-    saddr self = (saddr)this;
     s32 temp_r4;
 
     temp_r4 = model_render_flags;
     saved_model_render_flags = temp_r4;
     model_render_flags = temp_r4 | 0x400;
-    ((TObject *)(self + 0x4C4))->render_nodes();
+    this->sub_tasks.render_nodes();
     model_render_flags = saved_model_render_flags;
 }
 
@@ -2005,7 +2004,7 @@ void TBoss5Gryphon::update_roar_state(s32 event) {
             pos.x = 0.5f * (bones[1].x + bones[2].x);
             pos.y = 0.5f * (bones[1].y + bones[2].y);
             pos.z = 0.5f * (bones[1].z + bones[2].z);
-            new TBoss5GryphonSnarl((TObject *)&self->m_4c4, &pos);
+            new TBoss5GryphonSnarl(&self->sub_tasks, &pos);
             TCameraCtrl::set_shake_preset(1);
             self->play_se(0x40032306);
         }
@@ -4582,7 +4581,7 @@ void TBoss5Gryphon::run_task() {
     add_radar_scaled_marker(&this->position, -0x5DB4, 1, 1, 2.0f);
     VecCopy((Vec *)(&this->m_56c), &this->body_center);
     if (temp_r31_2 == 0) {
-        ((TObject *)(self + 0x4C4))->run_tasks();
+        this->sub_tasks.run_tasks();
     }
     project_sound_origin_from_camera((saddr)(self + 0x38), (u8 *)(self + 0x560), lbl_805D8DAC);
     for (i = 0; i < 4; i++) {
@@ -4642,7 +4641,7 @@ TBoss5Gryphon *TBoss5Gryphon__ct(TBoss5Gryphon *self, void *parent, void *data) 
 
     __ct__12TObjEneDD_STFP7TObject(self, parent, data);
     ((Obj_80065658 *)self)->vt = __vt__13TBoss5Gryphon;
-    __ct__7TObjectFP7TObject(&self->m_4c4, 0);
+    __ct__7TObjectFP7TObject(&self->sub_tasks, 0);
     __construct_array(self->renderFadeStates, (void *)__ct__15RenderFadeStateFv, (void *)__dt__15RenderFadeStateFv, 0x1C, 4);
     __ct__14SubtractiveRngFv(self->rng);
     self->m_name = boss5_gryphon_type_name_pointer;
@@ -4703,7 +4702,7 @@ TBoss5Gryphon *TBoss5Gryphon__ct(TBoss5Gryphon *self, void *parent, void *data) 
     VecCopy((Vec *)(&self->m_56c), &self->position);
     *(f32 *)(*(u8 **)((u8 *)self + 0x2B0) + 0x10) = lbl_805D8E10;
     self->attack_history = new AreaAttackHistory(4);
-    self->demo = (TBoss5GryphonDemo *)new TBoss5GryphonColli((TObject *)&self->m_4c4);
+    self->demo = (TBoss5GryphonDemo *)new TBoss5GryphonColli(&self->sub_tasks);
     for (i = 0; i < 4; i++) {
         self->renderFadeStates[i].activate_and_dispatch();
     }
