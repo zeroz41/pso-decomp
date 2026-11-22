@@ -58,22 +58,28 @@ struct NJS_OBJECT;
 #include "pso/math/MatrixVector.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
+#include "pso/render/render_util.h"
+#include "pso/render/BlobShadow.h"
+#include "pso/player/TObjPlayer_800D8FDC.h"
+#include "pso/enemy/wolf/TObjEneBm5Wolf.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/text_800D8830.h"
+#include "pso/map/CsnQuery.h"
+#include "pso/enemy/TObjEnemyCustom.h"
+#include "pso/enemy/sinowzoa/TObjEneMe3SinowZoa.h"
+#include "pso/enemy/panarms/TObjEnePanarms.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/system/MatrixStack.h"
 
 // The motion-binding block TLobby::spawn_npc_enemy takes (same layout as GeeAnimationBinding).
 
 extern "C" {
-s32 debug_draw_line(void *, void *, u32, u32);
-s32 scale_matrix(s32, f32, f32, f32);
-s32 translate_matrix(saddr, f32, f32, f32);
-s32 post_translate_matrix(void *);
-void draw_model_motion(void *model, void *motion, f32 frame);
-s32 approach_angle_limited(s32, s32, s32);
 extern const s32 lbl_8043BF30[];
 extern const s32 lbl_8043BF38[];
 extern const s32 lbl_8043BF40[];
 extern const s32 lbl_8043BF48[];
-f32 atan2_float(f32 y, f32 x);
-s32 get_entity_id(int);
 BmlResource * TObjEneBm5GibonU__model_archive;
 #pragma push
 TObjEneBm5GibonUMovementParameters TObjEneBm5GibonU__movement_parameters = {
@@ -140,28 +146,10 @@ __declspec(section ".data") u32 TObjEneBm5GibonU__enemy_list[3];
 #pragma push
 
 extern "C" {
-extern s32 game_difficulty_selection;
-s32 fn_800D88E4(void *);
-s32 is_split_screen();
-s32 draw_blob_shadow(s32);
-s32 rotate_matrix_z(s32, s32);
-s32 rotate_matrix_x(s32, s32);
 s32 TObjEneBm5GibonU__render_node_index;
 s32 TObjEneBm5GibonU__render_joint_y_rotation;
-extern const f32 lbl_805D9E84;
-extern const f32 lbl_805D9E88;
-void spawn_dead_spot_scale15(s32 point, s32 delay);
-s32 vec3_add_to(void *, void *);
-s32 obj_is_hit_receivable(u8 *arg0);
 }
-void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
-void move_with_wall_slide(u8 *arg0);
-void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
-f32 newton_sqrtf(f32);
-void *spawn_directional_particle(void *pos, void *dir, s32 id);
-void subtract_vector(void *, void *);
-extern u8 identity_matrix[];
 
 s32 TObjEneBm5GibonU::get_clamped_level() {
     player_stats *p = (player_stats *)m_2b0;
@@ -210,9 +198,9 @@ s32 TObjEneBm5GibonU::check_hit_sphere(int angle, f32 scale) {
     return hit;
 }
 
-int TObjEneBm5GibonU::get_attack_state(void *pos) { return spawn_landing_effect((Vec *)pos); }
+void TObjEneBm5GibonU::get_attack_state(void *pos) { spawn_landing_effect((Vec *)pos); }
 
-int TObjEneBm5GibonU::spawn_landing_effect(Vec *pos) {
+void TObjEneBm5GibonU::spawn_landing_effect(Vec *pos) {
     Vec v;
     CsnHit *hit;
     void *p;
@@ -231,9 +219,10 @@ int TObjEneBm5GibonU::spawn_landing_effect(Vec *pos) {
         if (p != NULL && is_leader == 1) {
             ((TParticleCtrl *)p)->set_scale(1.5f, 1.0f);
         }
-        return fn_800D88E4(&position);
+        fn_800D88E4(&position);
+        return;
     }
-    return play_sound_effect(remap_sound_for_area(0x3BC21), &position, 0, 0);
+    play_sound_effect(remap_sound_for_area(0x3BC21), &position, 0, 0);
 }
 
 #pragma push
@@ -284,7 +273,7 @@ void TObjEneBm5GibonU::render_debug() {
         draw_ground_shadow(0, 0);
         TObjFish::set_global_param(texlist);
         push_matrix();
-        post_translate_matrix(&position);
+        post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         if (is_leader == 1) {
             scale_matrix(0, 1.5f, 1.5f, 1.5f);
@@ -370,7 +359,7 @@ void TObjEneBm5GibonU::render() {
             if (this->mode != 0x11) {
                 direction_to_rotation_xz((u8 *)&ground_normal, &rot[0], &rot[2]);
                 push_matrix();
-                post_translate_matrix(&position);
+                post_translate_matrix(&position.x);
                 translate_matrix(0, 0.0f, 0.3f, 0.0f);
                 rotate_matrix_z(0, rot[2]);
                 rotate_matrix_x(0, rot[0]);
@@ -389,7 +378,7 @@ void TObjEneBm5GibonU::render() {
             } else if (fade != 0) {
                 m_3f4[cam].set_flags_and_apply_damage_color();
             }
-            post_translate_matrix(&position);
+            post_translate_matrix(&position.x);
             rotate_matrix_y(0, this->rotation_y);
             translate_matrix(0, 0.0f, 0.0f, -10.0f);
             if (is_leader == 1) {
@@ -522,7 +511,7 @@ void TObjEneBm5GibonU::state_cast_technique(s32 msg) {
                         if (r < ((AttackParams *)m_318)->get_attack_angle() / 2 && current_target != 0) {
                             clear_target_cursor_list(&targets);
                             targets.count = 1;
-                            targets.records[0].id = get_entity_id((saddr)current_target);
+                            targets.records[0].id = get_entity_id(current_target);
                             targets.records[0].flag = 0;
                             TTecGiZonde::create(this, &p, &targets, get_clamped_level());
                         } else {
@@ -1489,7 +1478,6 @@ void TObjEneBm5GibonU::sub_800CF7CC(s32 msg) {
     }
 }
 }
-s32 actor_rand_int(saddr actor, s32 range);
 extern "C" {
 
 #pragma push
@@ -1861,7 +1849,7 @@ void TObjEneBm5GibonU::handle_state(s32 arg1) {
       other = TObjEneBm5GibonU::find_enemy_by_id(group_id);
       if (other)
     {
-      leader_id = get_entity_id((saddr) other);
+      leader_id = get_entity_id(other);
     }
       if (is_leader != 0 || other == NULL)
     {
@@ -1880,16 +1868,6 @@ void TObjEneBm5GibonU::handle_state(s32 arg1) {
 
 #pragma pop
 
-typedef struct Hit_800D0E14 {
-    u32 flags;
-    Vec *pos;
-} Hit_800D0E14;
-
-#include "pso/enemy/TObjEnemyCustom.h"
-#include "pso/enemy/sinowzoa/TObjEneMe3SinowZoa.h"
-#include "pso/enemy/panarms/TObjEnePanarms.h"
-#include "pso/player/TObjPlayer_801542CC.h"
-
 // The Gibbon's static data from TObjEneBm5GibonU__data_80500E78 on: the parameter tables, then
 // the two lists, each after the destructor-chain record __register_global_object fills in.
 struct TObjEneBm5GibonUStaticData {
@@ -1901,8 +1879,6 @@ struct TObjEneBm5GibonUStaticData {
 };
 
 extern "C" {
-Hit_800D0E14 *csnVector(void *, void *, s32);
-s32 angle_diff_s16(s32, s32);
 void __register_global_object(void *obj, void *dtor, void *chain);
 void __dt__20TObjEneBm5GibonUListFv();
 }
@@ -1957,7 +1933,7 @@ void TObjEneBm5GibonUNode::append_to(TObjEneBm5GibonUNode **head, TObjEneBm5Gibo
 }
 
 void TObjEneBm5GibonUNode::set_owner(TObjEneBm5GibonU *owner) {
-    entity_id = get_entity_id((saddr)owner);
+    entity_id = get_entity_id(owner);
 }
 
 TObjEneBm5GibonU *TObjEneBm5GibonUNode::get_owner() {
@@ -2271,7 +2247,7 @@ void TObjEneBm5GibonU::face_target() {
 void TObjEneBm5GibonU::pick_wander_destination() {
     Vec v;
     f32 d;
-    Hit_800D0E14 *hit;
+    CsnHit *hit;
     v.x = this->position.x - this->group_anchor.x;
     v.y = 0.0f;
     v.z = this->position.z - this->group_anchor.z;
@@ -2282,8 +2258,8 @@ void TObjEneBm5GibonU::pick_wander_destination() {
     this->destination.z = v.z * d + this->group_anchor.z;
     hit = csnVector(&this->body_center, &this->destination, 0x88E0);
     if (hit != NULL) {
-        v.x = hit->pos->x - this->position.x;
-        v.z = hit->pos->z - this->position.z;
+        v.x = hit->contact->point.x - this->position.x;
+        v.z = hit->contact->point.z - this->position.z;
         d = normalize_vector_xz(&v) - 25.0f;
         this->destination.x = v.x * d + this->position.x;
         this->destination.z = v.z * d + this->position.z;

@@ -56,24 +56,21 @@
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/render/model_render_state.h"
+#include "pso/system/MatrixStack.h"
 
 
 extern "C" {
-void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
-s32 post_translate_matrix(void *);
 // inferred: the BML resource load_resources reads through bm_ene_me1_mb_resource_descriptor
 BmlResource *bm_ene_me1_mb_resource;
 // inferred: node counter of the render callback (TObjEneDf2Bringer__render_node_index twin)
 u32 TObjEneMe1Canadin__render_node_index;
 Vec *TObjEneMe1Canadin__render_point_cursor;
-extern s32 saved_model_render_flags;
-extern s32 model_render_flags;
-extern const f32 lbl_805D9E84;
-extern const f32 lbl_805D9E88;
-f32 atan2_float(f32 y, f32 x);
-void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 angle);
-f32 subtract_vector(void *, void *);
-u32 __cvt_fp2unsigned(f32);
 
 
 struct CanadinBehaviorParams {
@@ -84,10 +81,6 @@ struct CanadinBehaviorParams {
     s32 m_10;
 };
 
-f32 newton_sqrtf(f32);
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-s32 matrix_mult_vec(int, Vec *, Vec *);
-s32 rotate_vector_by_matrix(int, Vec *, Vec *);
 
 TUnk_8048FA00 *lbl_805D4FDC;
 TUnk_8048FA00 *lbl_805D4FE0;
@@ -647,10 +640,10 @@ void TObjEneMe1Canadin::reset_map_core(void *color) {
 }
 
 void TObjEneMe1Canadin::pack_color_rgba() {
-    core_color_packed = ((u8) __cvt_fp2unsigned(255.0f * core_color.g) << 24)
-        | ((u8) __cvt_fp2unsigned(255.0f * core_color.b) << 16)
-        | ((u8) __cvt_fp2unsigned(0.8f * (255.0f * core_color.a)) << 8)
-        | (u8) __cvt_fp2unsigned(255.0f * core_color.r);
+    core_color_packed = ((u8)(u32)(255.0f * core_color.g) << 24)
+        | ((u8)(u32)(255.0f * core_color.b) << 16)
+        | ((u8)(u32)(0.8f * (255.0f * core_color.a)) << 8)
+        | (u8)(u32)(255.0f * core_color.r);
 }
 
 void TObjEneMe1Canadin::apply_model_color() {
@@ -1836,7 +1829,7 @@ void TObjEneMe1Canadin::render() {
         TObjPlayer::toggle_particle_effect();
         apply_model_color();
         push_matrix();
-        post_translate_matrix(&position);
+        post_translate_matrix(&position.x);
         translate_matrix(0, 0.0f, hover_offset, 0.0f);
         rotate_matrix_y(0, rotation_y);
         temp_r0 = mode;
@@ -1910,7 +1903,7 @@ void TObjEneMe1Canadin::render_canadin_model_with_debug_type() {
         TObjPlayer::toggle_particle_effect();
         TObjFish::set_global_param(texlist);
         push_matrix();
-        post_translate_matrix(&position);
+        post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         TObjEneDD::clear_global_flag_400();
         draw_chunk_object((void *)model);

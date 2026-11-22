@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
+#include "pso/system/task/TMainTask.h"
 #include "pso/system/EnemyBmlResource.h"
 #include <stddef.h>
 #include <stdlib.h>
@@ -49,6 +50,15 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/render/model_render_state.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/player/TObjPlayer_800F0810.h"
+#include "pso/system/MatrixStack.h"
 
 #pragma defer_codegen on
 extern "C" {
@@ -112,28 +122,10 @@ static saddr gee_shared_handler_b_table[3];
 static saddr gee_object_handle_table[3];
 static TObjEneMe1GeeParams *gee_shared_handler_a_table[3];
 static f32 gee_camera_ctrl_vec[4];
-f32 atan2_float(f32 y, f32 x);
-void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 angle);
-s32 play_sound_effect(s32, u32, s16, s32);
-f32 subtract_vector(void *, void *);
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-void matrix_mult_vec(void *, Vec *, Vec *);
-s32 post_translate_matrix(void *);
-s16 get_entity_id(void *);
 
-f32 newton_sqrtf(f32);
 
-void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
-extern s32 saved_model_render_flags;
-extern s32 model_render_flags;
-extern const f32 lbl_805D9E84;
-extern const f32 lbl_805D9E88;
 
-void TBoss3Volopt__sub_800D8D88(saddr);
 
-extern void *tl_04;
-s32 is_split_screen();
-s32 TObjPlayer__sub_800F0928(s32);
 extern s32 lbl_8043BCD8[];
 extern s32 lbl_8043BCE4[];
 extern s32 lbl_8043BCF0[];
@@ -168,7 +160,7 @@ void TObjEneMe1Gee::load_resources() {
     TObjEneMe1Gee__data_805D51C4 = p;
     t = ((s32 *)((NJS_OBJECT *)find_model_node((saddr)TObjEneMe1Gee__resource_bundle->models->model, 4))->model)[1];
     gee_resource_bundle_ptr = t + 4;
-    TObjPlayer__sub_800F0928(t);
+    TObjPlayer__sub_800F0928();
     {
         NpcAnimationBinding sp8 = { NULL, reinterpret_cast<TObjMotionAction *>(TObjEneMe1Gee__motion_parameters), 0, 0, 4 };
         sp8.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneMe1Gee__resource_bundle->motions);
@@ -177,11 +169,11 @@ void TObjEneMe1Gee::load_resources() {
 }
 
 void *TObjEneMe1Gee::create(void *set_data) {
-    return new TObjEneMe1Gee((TObject *)tl_04, set_data, 0);
+    return new TObjEneMe1Gee(tl_04, set_data, 0);
 }
 
 TObjEneMe1Gee *TObjEneMe1Gee::create(TObjEneMe1Gee *leader, Vec *pos, u16 id, s32 index) {
-    return new TObjEneMe1Gee((TObject *)tl_04, leader, pos, id, index);
+    return new TObjEneMe1Gee(tl_04, leader, pos, id, index);
 }
 
 void TObjEneMe1Gee::free_globals() {
@@ -1172,7 +1164,7 @@ void TObjEneMe1Gee::sub_800CA454(s32 mode) {
                     this->particle_emitter->queue_destruction();
                     this->particle_emitter = NULL;
                 }
-                play_sound_effect(this->handle_message(0x3AD17), (uaddr)&this->body_center, 0, 0);
+                play_sound_effect(this->handle_message(0x3AD17), &this->body_center, 0, 0);
             } else {
                 play_persistent_sound((s32)(this->handle_message(0x3A914)), (saddr)this, (uaddr)&this->body_center, 0, 0);
             }
@@ -1187,7 +1179,7 @@ void TObjEneMe1Gee::sub_800CA454(s32 mode) {
                 this->attack_count++;
                 this->advance_animation();
                 push_matrix_from(identity_matrix);
-                post_translate_matrix(&this->position);
+                post_translate_matrix(&this->position.x);
                 rotate_matrix_y(0, this->rotation_y);
                 set_motion_packed_rotation();
                 this->calc_joint_matrices(this->stage_timer);
@@ -1306,7 +1298,7 @@ void TObjEneMe1Gee::sub_800C9DF8(s32 mode) {
                 f32 k;
                 this->enemy_copy_target_destination();
                 this->update_velocity();
-                play_sound_effect(this->handle_message(0x3AD13), (uaddr)&this->body_center, 0, 0);
+                play_sound_effect(this->handle_message(0x3AD13), &this->body_center, 0, 0);
                 k = 956.25f;
                 inv = 1.0f / newton_sqrtf(k);
                 k *= inv;
@@ -1355,7 +1347,7 @@ void TObjEneMe1Gee::sub_800C9DF8(s32 mode) {
         case 3:
             this->requested_action = 1;
             this->stage = 4;
-            play_sound_effect(this->handle_message(0x3AD15), (uaddr)&this->body_center, 0, 0);
+            play_sound_effect(this->handle_message(0x3AD15), &this->body_center, 0, 0);
         case 4:
             this->enemy_copy_target_destination();
             this->update_velocity();
@@ -1457,7 +1449,7 @@ void TObjEneMe1Gee::sub_800C9A94(s32 mode) {
                     this->m_448 = 0.125f * (this->upper_hover_height - this->hover_offset);
                     this->m_450 = 0.125f * (70.0f - this->destination_distance);
                     this->m_44c = this->destination_distance;
-                    play_sound_effect(this->handle_message(0x3AD13), (uaddr)&this->body_center, 0, 0);
+                    play_sound_effect(this->handle_message(0x3AD13), &this->body_center, 0, 0);
                 }
                 this->stage_timer++;
                 if (this->stage_timer >= 8) {
@@ -1687,7 +1679,7 @@ void TObjEneMe1Gee::state_dead(s32 arg1) {
             this->leader->remove_member((uaddr)this);
         }
         TBoss3Volopt::create_breakup_mdl((saddr)TObjEneMe1Gee__data_805D51C4, 0, this->texlist, (saddr)&this->body_center, this->rotation_y);
-        play_sound_effect(this->handle_message(0x3A843), (uaddr)&this->position, 0, 0);
+        play_sound_effect(this->handle_message(0x3A843), &this->position, 0, 0);
         this->status_flags |= 0x400000;
         this->actorFlags |= 0x01000000;
         VecCopy(&pos, &this->body_center);
@@ -1793,7 +1785,7 @@ void TObjEneMe1Gee::render() {
         TObjPlayer::toggle_particle_effect();
         this->apply_model_color();
         push_matrix();
-        post_translate_matrix(&this->position);
+        post_translate_matrix(&this->position.x);
         translate_matrix(0, 0.0f, this->hover_offset, 0.0f);
         rotate_matrix_y(0, this->rotation_y);
         temp_r0 = this->mode;
@@ -1877,7 +1869,7 @@ void TObjEneMe1Gee::render_demo() {
         TObjPlayer::toggle_particle_effect();
         TObjFish::set_global_param(this->texlist);
         push_matrix();
-        post_translate_matrix((u8 *)&this->position);
+        post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         TObjEneDD::clear_global_flag_400();
         draw_chunk_object(this->model);
