@@ -19,6 +19,7 @@ struct AttackParams {
     u8 pad_14[0x1C];
 
     f32 get_attack_range();
+    void set_attack_range(f32 range);
     s32 get_attack_angle();
     f32 get_damage_radius();
 

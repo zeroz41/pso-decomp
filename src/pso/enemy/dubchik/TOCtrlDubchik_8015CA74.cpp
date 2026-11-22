@@ -48,7 +48,6 @@ static const char *TOCtrlDubchik__name = "TOCtrlDubchik";
 
 extern "C" {
 extern uaddr TOCtrlDubchik__shared_resource;
-void dubchik_start_dying(u8 *arg0);
 
 void TOCtrlDubchik::apply_knockback_from_attacker(u8 *, f32) {  }
 
@@ -320,7 +319,7 @@ void TOCtrlDubchik::sub_8015CA74() {
         p = (u8 *)TObjPlayer::get_player_data(i);
         if (p != NULL && p != self && ((TUnk_804B6C24 *)p)->check_value_equals((saddr)TObjEneDubchik__class_name) != 0 &&
             *(s32 *)(p + 0x368) == 0 && *(s16 *)(self + 0x28) == *(s16 *)(p + 0x28)) {
-            dubchik_start_dying(p);
+            ((TObjEneDubchik *)p)->start_dying();
         }
     }
 }

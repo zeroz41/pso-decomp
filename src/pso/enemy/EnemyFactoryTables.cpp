@@ -85,6 +85,7 @@
 #include "pso/enemy/flower/TObjEneRe2Flower.h"
 #include "pso/enemy/shark/TObjEneShark.h"
 #include "pso/enemy/dubchik/TOCtrlDubchik.h"
+#include "pso/enemy/dubchik/TObjEneDubchik.h"
 #include "pso/enemy/darkgunner/TObjEneDarkGunner.h"
 #include "pso/npc/TObjNpcCloakroomBase.h"
 #include "pso/object/ambient/TObjGrass.h"
@@ -219,7 +220,7 @@ EnemyFactoryEntry enemy_factories_floor_05[8] = {
 };
 
 EnemyFactoryEntry enemy_factories_floors_06_07[8] = {
-    { 0x0080, TObjPlayer::create_dubchik, 250000.0f, 0 },
+    { 0x0080, TObjEneDubchik::create, 250000.0f, 0 },
     { 0x0081, TObjEneGyaranzo::create, 250000.0f, 0 },
     { 0x0082, TObjEneMe3ShinowaMirage__sub_800E7B74, 250000.0f, 4 },
     { 0x0083, TObjEneMe1Canadin::create, 250000.0f, 0 },
@@ -386,7 +387,7 @@ EnemyFactoryEntry enemy_factories_floor_18[39] = {
 
 EnemyFactoryEntry enemy_factories_floor_21[8] = {
     { 0x0085, TOCtrlDubchik::create, 250000.0f, 0 },
-    { 0x0080, TObjPlayer::create_dubchik, 250000.0f, 0 },
+    { 0x0080, TObjEneDubchik::create, 250000.0f, 0 },
     { 0x0081, TObjEneGyaranzo::create, 250000.0f, 0 },
     { 0x0043, TObjEneBm5Wolf::create, 250000.0f, 0 },
     { 0x0065, create__14TObjEnePanarmsFl, 250000.0f, 2 },
@@ -397,7 +398,7 @@ EnemyFactoryEntry enemy_factories_floor_21[8] = {
 
 EnemyFactoryEntry enemy_factories_floor_22[8] = {
     { 0x0085, TOCtrlDubchik::create, 250000.0f, 0 },
-    { 0x0080, TObjPlayer::create_dubchik, 250000.0f, 0 },
+    { 0x0080, TObjEneDubchik::create, 250000.0f, 0 },
     { 0x0043, TObjEneBm5Wolf::create, 250000.0f, 0 },
     { 0x0065, create__14TObjEnePanarmsFl, 250000.0f, 2 },
     { 0x00A0, create_ene_saver, 250000.0f, 0 },

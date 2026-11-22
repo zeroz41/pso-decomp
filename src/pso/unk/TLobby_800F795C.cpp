@@ -16,7 +16,7 @@
 #include "pso/npc/TUnk_804A8640.h"
 #include "pso/npc/TUnk_804A92A8.h"
 #include "pso/npc/TUnk_804A9F50.h"
-#include "pso/player/TObjPlayer_800A894C.h"
+#include "pso/enemy/dubchik/TObjEneDubchik.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/unk/text_80090488.h"
 #include "pso/enemy/canadin/TObjEneMe1Canadin.h"
@@ -315,7 +315,7 @@ FloorResourceCallbacks floor_resource_callbacks_selector_05[12] = {
 FloorResourceCallbacks floor_resource_callbacks_selectors_06_07[9] = {
     { load_corpse_mark_resource, TObjPlayer::destroy_static_lobby },
     { TObjEneDD::create_instance, TObjEneDD::release_resource },
-    { TObjPlayer__sub_800AA82C, TObjPlayer::free_effect_resources },
+    { TObjEneDubchik::load_resources, TObjEneDubchik::free_resources },
     { TLobby::load_gyaranzo_resources, TObjEneGyaranzo::free_static_instances },
     { load_shinowa_mirage_resources, TObjEneMe3ShinowaMirage::free_shared_resources },
     { TObjEneMe1Canadin::load_resources, TObjEneMe1Canadin::free_resources },
@@ -482,7 +482,7 @@ FloorResourceCallbacks floor_resource_callbacks_selector_18[29] = {
 FloorResourceCallbacks floor_resource_callbacks_selector_21[9] = {
     { load_corpse_mark_resource, TObjPlayer::destroy_static_lobby },
     { TObjEneDD::create_instance, TObjEneDD::release_resource },
-    { TObjPlayer__sub_800AA82C, TObjPlayer::free_effect_resources },
+    { TObjEneDubchik::load_resources, TObjEneDubchik::free_resources },
     { TOCtrlDubchik::load_shared_resource, TOCtrlDubchik::destroy_instance },
     { TLobby::load_gyaranzo_resources, TObjEneGyaranzo::free_static_instances },
     { TObjEneBm5Wolf::load_resources, TObjEneBm5Wolf::release_global_805D5120 },
@@ -494,7 +494,7 @@ FloorResourceCallbacks floor_resource_callbacks_selector_21[9] = {
 FloorResourceCallbacks floor_resource_callbacks_selector_22[9] = {
     { load_corpse_mark_resource, TObjPlayer::destroy_static_lobby },
     { TObjEneDD::create_instance, TObjEneDD::release_resource },
-    { TObjPlayer__sub_800AA82C, TObjPlayer::free_effect_resources },
+    { TObjEneDubchik::load_resources, TObjEneDubchik::free_resources },
     { TOCtrlDubchik::load_shared_resource, TOCtrlDubchik::destroy_instance },
     { TObjEneBm5Wolf::load_resources, TObjEneBm5Wolf::release_global_805D5120 },
     { TObjEnePanarms::load_and_spawn_npc, TObjEnePanarms::free_data },
