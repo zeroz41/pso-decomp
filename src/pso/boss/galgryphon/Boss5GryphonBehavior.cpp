@@ -379,33 +379,27 @@ void set_material_alpha_compare_reference(s32 reference);
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
 }
 
-void *lbl_80487848[4] = {
-    (void *)"boss_rock.gj", (void *)"fe_obj001_iwaware_01.gj", (void *)"fe_obj001_iwaware_02.gj", (void *)0x0,
+const char *bm_modelparticle_gryphon_model_names[4] = {
+    "boss_rock.gj", "fe_obj001_iwaware_01.gj", "fe_obj001_iwaware_02.gj", NULL,
 };
-void *lbl_80487858[2] = {
-    (void *)"boss_rock.njm", (void *)0x0,
+const char *bm_modelparticle_gryphon_motion_names[2] = {
+    "boss_rock.njm", NULL,
 };
 // Resource descriptor passed to load_enemy_bml_resource for boss5_gryphon_bml_resource.
-void *boss5_gryphon_bml_desc[4] = {
-    (void *)"bm_modelparticle_gryphon.bml", (void *)&lbl_80487848, (void *)&lbl_80487858, (void *)0x30001,
+BmlResourceDescriptor boss5_gryphon_bml_desc = {
+    "bm_modelparticle_gryphon.bml", bm_modelparticle_gryphon_model_names, bm_modelparticle_gryphon_motion_names, 3, 1,
 };
 // Ids resolved into boss5_gryphon_attack_params / boss5_gryphon_behavior_params by the resource loader.
 s32 boss5_gryphon_attack_param_ids[5] = { 0x1E, 0x1F, 0x20, 0x21, 0x22 };
 s32 boss5_gryphon_behavior_param_ids[3] = { 0x1E, 0x1F, 0x20 };
-void *lbl_80487890[3] = {
-    (void *)0x0, (void *)0x0, (void *)0x0,
-};
-void *lbl_8048789C[3] = {
-    (void *)0x0, (void *)0x1, (void *)0x2,
-};
-void *lbl_804878A8[3] = {
-    (void *)0x0, (void *)0x0, (void *)0x0,
-};
+s32 boss5_gryphon_base_stat_indices[3] = { 0, 0, 0 };
+s32 boss5_gryphon_attack_stat_indices[3] = { 0, 1, 2 };
+s32 boss5_gryphon_resistance_stat_indices[3] = { 0, 0, 0 };
 void *lbl_804878B4[7] = {
     (void *)0x43610000, (void *)0x0, (void *)0x600, (void *)0x0,
     (void *)0x0, (void *)0x0, (void *)0x0,
 };
-void *lbl_804878D0[110] = {
+void *boss5_gryphon_collision_body_parts[110] = {
     (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x41200000,
     (void *)0x0, (void *)0x0, (void *)0x8003, (void *)0x0,
     (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
@@ -441,22 +435,22 @@ extern const s32 lbl_80437958[9] = { 0x220, 0x221, 0x222, 0x202, 0x200, 0x207, 0
 extern const s32 boss5_gryphon_bone_capture_node_indices[16] = {
     4, 11, 27, 43, 46, 47, 48, 66, 69, 70, 71, 95, 128, 144, 159, 999,
 };
-void *lbl_80487A88[5] = {
-    (void *)"boss5_s_body.nj", (void *)"boss5_ss_body.nj", (void *)"lo_boss5_s_body.nj", (void *)"lo_boss5_ss_body.nj",
-    (void *)0x0,
+const char *bm_boss5_gryphon_model_names[5] = {
+    "boss5_s_body.nj", "boss5_ss_body.nj", "lo_boss5_s_body.nj", "lo_boss5_ss_body.nj",
+    NULL,
 };
-void *lbl_80487A9C[28] = {
-    (void *)"fly_boss5_s_body.njm", (void *)"hoe_boss5_s_body.njm", (void *)"kakuin_boss5_s_body.njm", (void *)"kakuland_boss5_s_body.njm",
-    (void *)"kakuout_boss5_s_body.njm", (void *)"kaku_boss5_s_body.njm", (void *)"land_boss5_s_body.njm", (void *)"op_boss5_s_body.njm",
-    (void *)"shot_boss5_s_body.njm", (void *)"stand_boss5_s_body.njm", (void *)"takeoff_boss5_s_body.njm", (void *)"walk_boss5_s_body.njm",
-    (void *)"huseout_boss5_s_body.njm", (void *)"houko_boss5_s_body.njm", (void *)"huse_boss5_s_body.njm", (void *)"husein_boss5_s_body.njm",
-    (void *)"dead_boss5_s_body.njm", (void *)"kiri_boss5_s_body.njm", (void *)"kiriland_boss5_s_body.njm", (void *)"kirin_boss5_s_body.njm",
-    (void *)"kiriout_boss5_s_body.njm", (void *)"run_boss5_s_body.njm", (void *)"runin_boss5_s_body.njm", (void *)"runout_boss5_s_body.njm",
-    (void *)"tuno_boss5_s_body.njm", (void *)"tunoin_boss5_s_body.njm", (void *)"tunout_boss5_s_body.njm", (void *)0x0,
+const char *bm_boss5_gryphon_motion_names[28] = {
+    "fly_boss5_s_body.njm", "hoe_boss5_s_body.njm", "kakuin_boss5_s_body.njm", "kakuland_boss5_s_body.njm",
+    "kakuout_boss5_s_body.njm", "kaku_boss5_s_body.njm", "land_boss5_s_body.njm", "op_boss5_s_body.njm",
+    "shot_boss5_s_body.njm", "stand_boss5_s_body.njm", "takeoff_boss5_s_body.njm", "walk_boss5_s_body.njm",
+    "huseout_boss5_s_body.njm", "houko_boss5_s_body.njm", "huse_boss5_s_body.njm", "husein_boss5_s_body.njm",
+    "dead_boss5_s_body.njm", "kiri_boss5_s_body.njm", "kiriland_boss5_s_body.njm", "kirin_boss5_s_body.njm",
+    "kiriout_boss5_s_body.njm", "run_boss5_s_body.njm", "runin_boss5_s_body.njm", "runout_boss5_s_body.njm",
+    "tuno_boss5_s_body.njm", "tunoin_boss5_s_body.njm", "tunout_boss5_s_body.njm", NULL,
 };
 // Resource descriptor passed to load_enemy_bml_resource for boss5_gryphon_body_bml_resource.
-void *boss5_gryphon_body_bml_desc[4] = {
-    (void *)"bm_boss5_gryphon.bml", (void *)&lbl_80487A88, (void *)&lbl_80487A9C, (void *)0x4001b,
+BmlResourceDescriptor boss5_gryphon_body_bml_desc = {
+    "bm_boss5_gryphon.bml", bm_boss5_gryphon_model_names, bm_boss5_gryphon_motion_names, 4, 27,
 };
 extern const char boss5_gryphon_type_name[] = "TBoss5Gryphon";
 extern const s32 gryphon_part_attack_index_table[4] = { 1, 2, 12, 13 };
@@ -827,7 +821,7 @@ void update_object_view_visibility__8TObjBaseFff();
 extern "C" {
 void update_poison_status__9TObjCharaFv();
 }
-void *lbl_80487B1C[108] = {
+void *boss5_gryphon_action_table[108] = {
     (void *)0x10000, (void *)0x9, (void *)0x3f4ccccd, (void *)0x0,
     (void *)0x10000, (void *)0xb, (void *)0x3f000000, (void *)0x0,
     (void *)0x30000, (void *)0x1, (void *)0x3edc28f6, (void *)0x0,
@@ -4291,12 +4285,12 @@ void handle_6x9F_gal_gryphon_boss_actions(void *boss8_dragon) {
 extern "C" {
 
 void TBoss5Gryphon::reload_stats_for_phase(void *) {
-    this->reload_stats_keep_hp_tp((u8 *)(boss5_gryphon_base_params[((s32 *)lbl_80487890)[2]]), (u8 *)(boss5_gryphon_attack_params[((s32 *)lbl_8048789C)[2]]), (u8 *)(boss5_gryphon_resistance_params[((s32 *)lbl_804878A8)[2]]));
+    this->reload_stats_keep_hp_tp((u8 *)(boss5_gryphon_base_params[boss5_gryphon_base_stat_indices[2]]), (u8 *)(boss5_gryphon_attack_params[boss5_gryphon_attack_stat_indices[2]]), (u8 *)(boss5_gryphon_resistance_params[boss5_gryphon_resistance_stat_indices[2]]));
 }
 
 void TBoss5Gryphon::reload_stats_for_type() {
     saddr arg0 = (saddr)this;
-    ((TObjEneDD *)arg0)->reload_stats_keep_hp_tp((u8 *)(boss5_gryphon_base_params[*(s32 *)((s8 *)&lbl_80487848 + 0x48)]), (u8 *)(boss5_gryphon_attack_params[*(s32 *)((s8 *)&lbl_80487848 + 0x54)]), (u8 *)(boss5_gryphon_resistance_params[*(s32 *)((s8 *)&lbl_80487848 + 0x60)]));
+    ((TObjEneDD *)arg0)->reload_stats_keep_hp_tp((u8 *)(boss5_gryphon_base_params[boss5_gryphon_base_stat_indices[0]]), (u8 *)(boss5_gryphon_attack_params[boss5_gryphon_attack_stat_indices[0]]), (u8 *)(boss5_gryphon_resistance_params[boss5_gryphon_resistance_stat_indices[0]]));
 }
 #pragma pop
 
@@ -4667,14 +4661,14 @@ TBoss5Gryphon *TBoss5Gryphon__ct(TBoss5Gryphon *self, void *parent, void *data) 
         self->model = *(void **)(*(u8 **)(boss5_gryphon_body_bml_resource + 0x42C) + 0x8);
     }
     self->texlist = *(s32 *)(*(u8 **)(boss5_gryphon_body_bml_resource + 0x42C) + 0xC);
-    ((TObjEneDD *)self)->init_model((CollisionBody *)lbl_804878D0, (s32)10);
+    ((TObjEneDD *)self)->init_model((CollisionBody *)boss5_gryphon_collision_body_parts, (s32)10);
     self->motion_flags = 0;
-    self->set_field_d8((saddr)lbl_80487B1C);
+    self->set_field_d8((saddr)boss5_gryphon_action_table);
     self->set_field_dc(*(s32 *)(boss5_gryphon_body_bml_resource + 0x430));
     self->requested_action = 0;
     self->set_animation(self->requested_action);
     self->set_field_b8(self->requested_action);
-    ((TObjEneDD *)self)->reset_hp((u8 *)(boss5_gryphon_base_params[*(s32 *)lbl_80487890]), (u8 *)(boss5_gryphon_attack_params[*(s32 *)lbl_8048789C]), (u8 *)(boss5_gryphon_resistance_params[*(s32 *)lbl_804878A8]));
+    ((TObjEneDD *)self)->reset_hp((u8 *)(boss5_gryphon_base_params[boss5_gryphon_base_stat_indices[0]]), (u8 *)(boss5_gryphon_attack_params[boss5_gryphon_attack_stat_indices[0]]), (u8 *)(boss5_gryphon_resistance_params[boss5_gryphon_resistance_stat_indices[0]]));
     self->set_state_flag_2();
     *(void **)((u8 *)self + 0x350) = lbl_804878B4;
     ((TObjEneDD *)self)->initialize_enemy_state(77);
@@ -4795,8 +4789,8 @@ void *TBoss5Gryphon::create(void *arg0) {
 void load_boss5_gryphon_resources(void) {
     switch (TBoss8Dragon__sub_8005D700()) {
     case 0:
-        boss5_gryphon_body_bml_resource = (u8 *)load_enemy_bml_resource((BmlResourceDescriptor *)boss5_gryphon_body_bml_desc);
-        boss5_gryphon_bml_resource = load_enemy_bml_resource((BmlResourceDescriptor *)boss5_gryphon_bml_desc);
+        boss5_gryphon_body_bml_resource = (u8 *)load_enemy_bml_resource(&boss5_gryphon_body_bml_desc);
+        boss5_gryphon_bml_resource = load_enemy_bml_resource(&boss5_gryphon_bml_desc);
         boss5_gryphon_texture_list = (GinjaTextureList *)load_gvm_texture_file((saddr)"modelparticle_gryphon.gvm");
         break;
     }

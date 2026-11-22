@@ -7774,9 +7774,9 @@ force_active:
   - lbl_80487090
   - lbl_80487100
   - lbl_80487150
-  - lbl_80487858
-  - lbl_80487A88
-  - lbl_80487A9C
+  - bm_modelparticle_gryphon_motion_names
+  - bm_boss5_gryphon_model_names
+  - bm_boss5_gryphon_motion_names
   - lbl_8048802C
   - lbl_804880AC
   - lbl_804880B8
