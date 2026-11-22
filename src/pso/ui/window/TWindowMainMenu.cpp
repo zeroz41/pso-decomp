@@ -272,7 +272,6 @@ void TWindowMainMenu::create_submenu(u32 id) {
     s32 temp_r3_18;
     saddr window_sub_game_end;
     saddr temp_r3_2;
-    saddr window_sub_equip;
     saddr window_sub_item;
     saddr window_sub_mag;
     s32 temp_r3_9;
@@ -286,7 +285,6 @@ void TWindowMainMenu::create_submenu(u32 id) {
     s32 var_r0_18;
     s32 var_r0_19;
     s32 var_r0_2;
-    s32 var_r0_3;
     s32 var_r0_4;
     s32 var_r0_5;
     s32 var_r0_9;
@@ -308,12 +306,7 @@ void TWindowMainMenu::create_submenu(u32 id) {
         return;
     case 9:
     case 10:
-        window_sub_equip = ((saddr)TObject::operator new(0x3C));
-        var_r0_3 = window_sub_equip;
-        if (var_r0_3 != 0) {
-            var_r0_3 = (saddr)__ct__15TWindowSubEquipFll((TWindowSubEquip *)((u8 *)window_sub_equip), (saddr)this, this->client_index);
-        }
-        this->m_20 = var_r0_3;
+        this->m_20 = (saddr)new TWindowSubEquip(this, this->client_index);
         return;
     case 11:
         window_sub_item = ((saddr)TObject::operator new(0x44));

@@ -1,5 +1,6 @@
 #include "types.h"
 #include "pso/ui/window/TWindowSubEquip.h"
+#include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowShortListCtrl.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -24,14 +25,6 @@ static const NJS_POINT2 equip_list_window_size = {308.0f, 184.0f};
 static const NJS_POINT2 equip_kind_window_size = {308.0f, 124.0f};
 
 
-struct VBase_80277F4C { u8 pad[0x18]; };
-
-class VObj_80277F4C : public VBase_80277F4C {
-public:
-    virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3();
-    virtual void v4(); virtual void v5(); virtual void v6(); virtual void v7();
-};
-
 extern "C" {
 s32 set_depth__11TWindowBaseFf(int);
 f32 TWindowSubEquip__sub_80263AF8(u8 *arg0, u32 arg1);
@@ -49,11 +42,11 @@ s32 create_equip_list_window(void *, const NJS_POINT2 *, s32);
 
 // Built with deferred code generation (the vtable precedes the switch table
 // in .data), so the functions are written from the last one back.
-TWindowSubEquip::TWindowSubEquip(saddr arg1, s32 arg2) : TObject((TObject *)((void *)arg1)) {
+TWindowSubEquip::TWindowSubEquip(TWindowMainMenu *parent, s32 client) : TObject(parent) {
     void *p;
     m_name = TWindowSubEquip__class_name;
-    this->parent = arg1;
-    this->client_id = arg2;
+    this->parent = parent;
+    this->client_id = client;
     this->equip_list = create_equip_list_window(get_window_layout_position(0), &equip_list_window_size, this->client_id);
     ((TWindowBase *)this->equip_list)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)this->parent, 0));
     ((TWindowSubShortCutList *)(this->equip_list))->set_flag70_bit10();
@@ -83,7 +76,7 @@ void TWindowSubEquip::run_task() {
     case 0:
     case 1:
         if ((u32) this->equip_kind_list != 0U) {
-            TWindowSubEquip__sub_80263AF4(*(void * *)&this->parent, 1);
+            TWindowSubEquip__sub_80263AF4(this->parent, 1);
             ((TWindowBase *)this->equip_kind_list)->close();
             this->equip_kind_list = 0U;
         }
@@ -97,8 +90,7 @@ void TWindowSubEquip::run_task() {
     case 2:
         update();
         if (((TWindowMenuIconLine *)(this->equip_list))->is_cancelled() != 0) {
-            VObj_80277F4C *o = *(VObj_80277F4C * *)&this->parent;
-            o->v7();
+            this->parent->on_submenu_closed();
             this->m_1c = 6U;
             return;
         }
