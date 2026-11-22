@@ -34,8 +34,6 @@ extern "C" {
 // TNpcPlayer_800D87A8.h declares it without the id its definition passes through.
 TObjBase *find_active_entity_by_id(u16 id);
 extern Mtx34 identity_matrix;
-extern s32 local_client_id;
-extern s32 TLobby__designated_client_id;
 extern s32 lbl_805D5870;
 }
 

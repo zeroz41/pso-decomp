@@ -83,7 +83,6 @@ void TObjEneMe1GiGue__sub_802CC900(TObjEneMe1GiGue *gigue);
 void TObjEneMe1GiGue__sub_802CCBAC(TObjEneMe1GiGue *gigue);
 void TObjEneMe1GiGue__sub_802CD054(TObjEneMe1GiGue *gigue);
 TObjEneMe1GiGue *deleting_dtor__15TObjEneMe1GiGueFPvs(TObjEneMe1GiGue *self, s16 del);
-extern s32 registered_player_count;
 f32 atan2_float(f32 y, f32 x);
 s16 get_entity_id(void *);
 }

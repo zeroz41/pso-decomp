@@ -221,7 +221,6 @@ u8 *TBoss1Dragon__ct(TBoss1Dragon *, void *, void *);
 extern saddr tl_04;
 extern saddr tl_02;
 extern s32 TBoss1Dragon__data_805D4B38;
-extern s32 local_client_id;
 void run_task__12TBoss1DragonFv(u8 *arg0);
 extern DragonModelVector lbl_804FE188;
 extern DragonCaptureVectors lbl_804FE194;
