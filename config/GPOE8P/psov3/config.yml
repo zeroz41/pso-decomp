@@ -3922,7 +3922,7 @@ force_active:
   - apply_equip_effects__14TItemEquipBaseFv
   - apply_feed__8TItemMagFP8MagStats
   - apply_fog_entry__FPv
-  - apply_follow_camera_offsets__FPvPvlUs
+  - apply_follow_camera_offsets__FP3VecP3VeclUs
   - apply_foot_attack_pair_0__12TBoss1DragonFv
   - apply_foot_attack_pair_1__12TBoss1DragonFv
   - apply_foot_step_attack__12TBoss1DragonFi
@@ -15573,7 +15573,7 @@ force_active:
   - set_pick_up__12CursorActionFv
   - set_player_id__11TPlayerSoulFUs
   - set_player_room_control_flag__FP10TObjPlayer
-  - set_pos_target__11TCameraCtrlFPvPvl
+  - set_pos_target__13TUnk_80488E00FP3VecP3Vecl
   - set_position__15TWindowQuantityFl
   - set_primary_p01s__12TBoss3VoloptFl
   - set_quest_label__15TOQuestTalkBaseFl

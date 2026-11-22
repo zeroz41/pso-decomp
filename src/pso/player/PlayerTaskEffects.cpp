@@ -119,7 +119,6 @@ void restore_shrunken_font__10TObjPlayerFv(PlayerRestoreSizePacket*, const Playe
 void bswap_g_client_id_header(void *p);
 int validate_6x88_restore_shrunken_player(PlayerRestoreSizePacket*);
 void handle_6x88_restore_shrunken_player(const PlayerRestoreSizePacket* input);
-void request_follow_camera_offsets(void *arg0, void *arg1, u16 arg2);
 void update_player_scale_camera(PlayerScaleState *state);
 }
 
@@ -303,6 +302,7 @@ int TObjPlayer__sub_801C7098(void* p);
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
 
+#include "pso/camera/TCameraCtrl_8006CC30.h"
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 chunk_polygon_flags_or_mask;
 
@@ -661,7 +661,7 @@ extern "C" {
 void update_player_scale_camera(PlayerScaleState *state) {
   TObjPlayer__sub_801C6FE0(state->camera_position, 0.0f, 0.6f * (25.43f * state->get_scalar()), 45.42f * state->get_scalar());
   TObjPlayer__sub_801C6FE0(state->camera_target, 0.0f, 19.8f * state->get_scalar(), -5.0f);
-  request_follow_camera_offsets(((f32* (*)(f32*))TObjPlayer__sub_801C6FDC)(state->camera_target), ((f32* (*)(f32*))TObjPlayer__sub_801C6FDC)(state->camera_position), 0xFFFF);
+  request_follow_camera_offsets(((Vec *(*)(f32 *))TObjPlayer__sub_801C6FDC)(state->camera_target), ((Vec *(*)(f32 *))TObjPlayer__sub_801C6FDC)(state->camera_position), 0xFFFF);
 }
 
 }
