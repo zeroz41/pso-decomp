@@ -316,7 +316,7 @@ loop_1:
 }
 
 s32 TMovie::check_skip_input() {
-    void *context;
+    ControllerInputContext *context;
     s32 var_r30;
 
     if (TAdEndText__sub_8001B41C() != 0) {

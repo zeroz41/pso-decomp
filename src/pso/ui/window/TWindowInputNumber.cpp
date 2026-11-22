@@ -318,16 +318,16 @@ void TWindowInputNumber::run_task() {
     if ((((TWindowInputNumber *)arg0)->is_confirmed() == 0) && !(*(u16 *)((s8 *)arg0 + 0x60) & 0x40) && (((TWindowBase *)arg0)->sub_80244994() != 0)) {
         if (*(u16 *)((s8 *)arg0 + 0x60) & 0x10) {
             input = &controller_input_state.controllers[temp_r30];
-            if ((test_buttons_press_or_repeat((saddr)input, 0x10, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x10) != 0)) {
+            if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x10) != 0)) {
                 ((TWindowInputNumber *)arg0)->update_value();
             }
-            if ((test_buttons_press_or_repeat((saddr)input, 0x20, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x20) != 0)) {
+            if ((test_buttons_press_or_repeat(input, 0x20, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x20) != 0)) {
                 ((TWindowInputNumber *)arg0)->update();
             }
-            if ((test_buttons_press_or_repeat((saddr)input, 0x40, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x40) != 0)) {
+            if ((test_buttons_press_or_repeat(input, 0x40, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x40) != 0)) {
                 ((TWindowInputNumber *)arg0)->move_cursor_next();
             }
-            if ((test_buttons_press_or_repeat((saddr)input, 0x80, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x80) != 0)) {
+            if ((test_buttons_press_or_repeat(input, 0x80, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x80) != 0)) {
                 ((TWindowInputNumber *)arg0)->handle_decrement();
             }
         } else {
@@ -396,5 +396,5 @@ s32 TWindowInputNumber::is_locked(s32 buttons) {
     if (this->inputFlags & 0x20) {
         return 0;
     }
-    return test_buttons_press_or_repeat((saddr)&controller_input_state.keyboard, (s32)buttons, 6, 1);
+    return test_buttons_press_or_repeat(&controller_input_state.keyboard, (s32)buttons, 6, 1);
 }

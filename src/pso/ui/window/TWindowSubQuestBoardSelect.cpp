@@ -46,7 +46,6 @@ struct Lines_8027D444 {
     s32 count;
 };
 
-struct Ent_8027D6A0 { u8 pad0[0x20]; u8 f20[0x30]; };
 
 struct Win_8027D6A0 { u8 pad0[0x61]; s8 f61; };
 
@@ -220,22 +219,21 @@ void TWindowSubQuestBoardSelect::handle_decide() {
 }
 
 
-#define TBL_8027D6A0 ((Ent_8027D6A0 *)&controller_input_state)
 void TWindowSubQuestBoardSelect::handle_page_input() {
     Win_8027D6A0 *self = (Win_8027D6A0 *)this;
-    void *p;
+    ControllerInputContext *p;
     s8 d;
     if (this->is_shortcut_active() == 0 &&
-        (test_buttons_press_or_repeat((saddr)(p = TBL_8027D6A0[0].f20), 0xC0, 6, 1) != 0 ||
-        test_buttons_press_or_repeat((saddr)TBL_8027D6A0[4].f20, 0xC0, 6, 1) != 0)) {
+        (test_buttons_press_or_repeat((p = &controller_input_state.controllers[0]), 0xC0, 6, 1) != 0 ||
+        test_buttons_press_or_repeat(&controller_input_state.keyboard, 0xC0, 6, 1) != 0)) {
         play_sound_effect(0x54100, 0, 0, 0);
         d = 0;
-        if (test_buttons_press_or_repeat((saddr)p, 0x80, 6, 1) != 0 ||
-            test_buttons_press_or_repeat((saddr)TBL_8027D6A0[4].f20, 0x80, 6, 1) != 0) {
+        if (test_buttons_press_or_repeat(p, 0x80, 6, 1) != 0 ||
+            test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x80, 6, 1) != 0) {
             d = 1;
         }
-        if (test_buttons_press_or_repeat((saddr)p, 0x40, 6, 1) != 0 ||
-            test_buttons_press_or_repeat((saddr)TBL_8027D6A0[4].f20, 0x40, 6, 1) != 0) {
+        if (test_buttons_press_or_repeat(p, 0x40, 6, 1) != 0 ||
+            test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x40, 6, 1) != 0) {
             d--;
         }
         if (d != 0) {

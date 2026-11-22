@@ -218,7 +218,7 @@ void TWindowKeyBoardSoft::sub_80260760(s32 key, s32 *count, u32 *color) {
 #pragma push
 #pragma fp_contract on
 void TWindowKeyBoardSoft::sub_80260808(s32 port) {
-    if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + (port * 0x50) + 0x20), 2) != 0) && (m_control != NULL)) {
+    if ((TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[port], 2) != 0) && (m_control != NULL)) {
         this->m_60 = (s32) (this->m_60 & 0xFFFFFFEF);
         play_sound_effect(0x52F16, 0, 0, 0);
         m_control->handle_backspace();
@@ -230,7 +230,7 @@ LAYOUT_ASSERT(RecoveredFields_8026088C_arg0_60_offset, offsetof(RecoveredFields_
 LAYOUT_ASSERT(RecoveredFields_8026088C_arg0_6C_offset, offsetof(RecoveredFields_8026088C_arg0, field_6C) == 0x6C);
 void TWindowKeyBoardSoft::update_keyboard_child_input_from_controller(s32 port) {
     uaddr temp_r3;
-    if (TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&controller_input_state + (port * 0x50) + 0x20)), 0x400) != 0) {
+    if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[port], 0x400) != 0) {
         temp_r3 = ((RecoveredFields_8026088C_arg0 *)((u8 *)this))->field_6C;
         if (temp_r3 != 0U) {
             ((TWindowKeyBoardBase *)temp_r3)->update_input_state2();
@@ -276,7 +276,7 @@ void TWindowKeyBoardSoft::sub_80260904(s32 port) {
     };
     u16 code;
 
-    if (TWindowShortListCtrl__check_controller_button((u8 *)&controller_input_state + port * 0x50 + 0x20, 4) == 0) {
+    if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[port], 4) == 0) {
         return;
     }
     if (kb->child == NULL) {
@@ -328,9 +328,9 @@ void TWindowKeyBoardSoft::sub_80260E30(s32 port) {
     KeyCursor_80260E30 *kb = (KeyCursor_80260E30 *)this;
     s8 dx = 0;
     s8 dy = 0;
-    s32 input;
+    ControllerInputContext *input;
     if (kb->flags & 2) {
-        input = (saddr)((u8 *)&controller_input_state + port * 0x50 + 0x20);
+        input = &controller_input_state.controllers[port];
         if (test_buttons_press_or_repeat(input, 0xF0, 6, 2) == 0) {
             return;
         }
@@ -347,20 +347,20 @@ void TWindowKeyBoardSoft::sub_80260E30(s32 port) {
             dx++;
         }
     } else {
-        input = (saddr)((u8 *)&controller_input_state + port * 0x50 + 0x20);
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(input, 0xF0, 6, 2) == 0) {
+        input = &controller_input_state.controllers[port];
+        if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)input, 0xF0, 6, 2) == 0) {
             return;
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(input, 0x10, 6, 2) != 0) {
+        if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)input, 0x10, 6, 2) != 0) {
             dy = -1;
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(input, 0x20, 6, 2) != 0) {
+        if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)input, 0x20, 6, 2) != 0) {
             dy++;
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(input, 0x40, 6, 2) != 0) {
+        if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)input, 0x40, 6, 2) != 0) {
             dx = -1;
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(input, 0x80, 6, 2) != 0) {
+        if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)input, 0x80, 6, 2) != 0) {
             dx++;
         }
     }
@@ -441,8 +441,8 @@ void TWindowKeyBoardSoft::update_focus_flags() {
 void TWindowKeyBoardSoft::handle_page_cycle_input(s32 port) {
     s32 spC;
     s32 sp8;
-    u8 *temp_r30;
-    temp_r30 = (u8 *)&controller_input_state + (port * 0x50) + 0x20;
+    ControllerInputContext *temp_r30;
+    temp_r30 = &controller_input_state.controllers[port];
     if (TWindowShortListCtrl__check_controller_button(temp_r30, 0x30000) != 0) {
         play_sound_effect(0x54100, 0, 0, 0);
         calc_cursor_step(&spC, &sp8);

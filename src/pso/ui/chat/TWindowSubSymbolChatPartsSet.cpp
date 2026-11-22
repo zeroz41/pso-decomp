@@ -284,7 +284,7 @@ void TWindowSubSymbolChatPartsSet::toggle_selected_part() {
     switch (arg0->f69) {
     case 0:
     case 2:
-        if (arg0->f78 < 12 && TWindowShortListCtrl__check_controller_button((&controller_input_state.controllers[0]), 0x400) != 0) {
+        if (arg0->f78 < 12 && TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 0x400) != 0) {
             if (*arg0->f84 != 0) {
                 *arg0->f84 = 0;
             } else {

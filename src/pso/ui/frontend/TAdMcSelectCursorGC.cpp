@@ -3,6 +3,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/frontend/TAdMcSelectCursorGC_8032A610.h"
 #include "pso/render/render_util.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/player/TObjPlayer_8023E480.h"
@@ -42,8 +43,6 @@ extern "C" {
 void __ct__7TObjectFP7TObject(void *, s32);
 const char *TAdMcSelectCursorGC__class_name = "TAdMcSelectCursorGC";
 void play_sound_effect(s32, s32, s32, s32);
-extern u8 controller_input_state[];
-extern u8 controller_physical_port_bank[];
 void restore_saved_depth_alpha_state(void);
 
 s32 TAdMcSelectCursorGC__texture_entry;
@@ -87,16 +86,16 @@ void TAdMcSelectCursorGC::run_task() {
     s32 i;
     if (self->f1C == 0) {
         t = TAdMcSelectCursorGC::get_cursor_type(1 - self->f20);
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)(controller_physical_port_bank + 0x20), 0x80, 6, 1) != 0 ||
-            test_buttons_press_or_repeat((saddr)(controller_input_state + 0x160), 0x80, 6, 1) != 0) {
+        if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)&controller_physical_port_bank.controllers[0], 0x80, 6, 1) != 0 ||
+            test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x80, 6, 1) != 0) {
             if (TAdMcSelectCursorGC__sub_8032A6D8((void *)t) >= 4) {
                 self->f20++;
                 if (self->f20 > 1) {
                     self->f20 = 1;
                 }
             }
-        } else if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)(controller_physical_port_bank + 0x20), 0x40, 6, 1) != 0 ||
-                    test_buttons_press_or_repeat((saddr)(controller_input_state + 0x160), 0x40, 6, 1) != 0) &&
+        } else if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)&controller_physical_port_bank.controllers[0], 0x40, 6, 1) != 0 ||
+                    test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x40, 6, 1) != 0) &&
                    TAdMcSelectCursorGC__sub_8032A6D8((void *)t) >= 4) {
             self->f20--;
             if (self->f20 < 0) {

@@ -9,7 +9,7 @@
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 
 void toggle_help_window_on_button(uaddr arg0, s32 client_index) {
-    if ((is_split_screen() != 0) && (arg0 != 0U) && (TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + (is_player_input_active(client_index) * 0x50) + 0x20), 0x400) != 0)) {
+    if ((is_split_screen() != 0) && (arg0 != 0U) && (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[is_player_input_active(client_index)], 0x400) != 0)) {
         if (((TWindowBase *)arg0)->sub_80246948() != 0) {
             window_request_show((void *)arg0);
             return;

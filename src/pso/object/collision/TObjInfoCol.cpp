@@ -36,7 +36,7 @@ void TObjInfoCol::run_task() {
     f32 radius = interaction_radius;
     uaddr player;
     if (is_target_in_range(radius * radius) == 1 &&
-        TWindowShortListCtrl__check_controller_button((u8 *)&controller_input_state + 0x20, 4) != 0 &&
+        TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 4) != 0 &&
         ((player = (uaddr)get_player_by_client_id(local_client_id), player == 0) ||
          check_flag_100__10TObjPlayerFPv() == 0) &&
         (player == 0 || ((TObjPlayer *)player)->is_inactive() != 0) &&

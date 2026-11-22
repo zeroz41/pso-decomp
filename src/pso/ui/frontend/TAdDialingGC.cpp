@@ -387,7 +387,7 @@ void TAdDialingGC::update_selection() {
 }
 
 s32 TAdDialingGC__sub_803284F8(s32 _w0) {
-    if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + 0x20), 0x706) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 0x606) != 0)) {
+    if ((TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 0x706) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 0x606) != 0)) {
         return 1;
     }
     return 0;

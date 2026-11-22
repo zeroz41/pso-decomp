@@ -69,20 +69,20 @@ extern s32 lbl_805D63F0;
 typedef struct Stack_80283F38 Stack_80283F38;
 
 void TWindowSubSymbolChatFaceType::handle_input() {
-    u8 *input;
-    input = (u8 *)&controller_input_state + 0x20;
-    if ((test_buttons_press_or_repeat((saddr)input, 0xF0, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0xF0, 6, 1) != 0)) {
+    ControllerInputContext *input;
+    input = &controller_input_state.controllers[0];
+    if ((test_buttons_press_or_repeat(input, 0xF0, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0xF0, 6, 1) != 0)) {
         play_sound_effect(0x54100, 0U, 0, 0);
-        if ((test_buttons_press_or_repeat((saddr)input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0x10, 6, 1) != 0)) {
+        if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
             this->m_62 = (this->m_62 - 1);
         }
-        if ((test_buttons_press_or_repeat((saddr)input, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0x20, 6, 1) != 0)) {
+        if ((test_buttons_press_or_repeat(input, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
             this->m_62 = (this->m_62 + 1);
         }
-        if ((test_buttons_press_or_repeat((saddr)input, 0x80, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0x80, 6, 1) != 0)) {
+        if ((test_buttons_press_or_repeat(input, 0x80, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x80, 6, 1) != 0)) {
             this->m_61 = (this->m_61 + 1);
         }
-        if ((test_buttons_press_or_repeat((saddr)input, 0x40, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0x40, 6, 1) != 0)) {
+        if ((test_buttons_press_or_repeat(input, 0x40, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x40, 6, 1) != 0)) {
             this->m_61 = (this->m_61 - 1);
         }
         if ((s8) this->m_61 < 0) {
@@ -196,17 +196,17 @@ void TWindowSubSymbolChatFaceType::render() {
 }
 void TWindowSubSymbolChatFaceType::run_task() {
     TWindowSubSymbolChatFaceType *window_sub_symbol_chat_face_type = this;
-    u8 *context;
+    ControllerInputContext *context;
     if (!(*(s32 *)&window_sub_symbol_chat_face_type->window_flags & 2)) {
         window_sub_symbol_chat_face_type->open_tick = 0x01000000;
     }
     if (window_sub_symbol_chat_face_type->is_open() == 0) {
         window_sub_symbol_chat_face_type->handle_input();
-        context = (u8 *)&controller_input_state + 0x20;
-        if ((TWindowShortListCtrl__check_controller_button(context, 4) != 0) || (test_controller_flag_4c_color((void *) ((u8 *)&controller_input_state + 0x160), 4) != 0)) {
+        context = &controller_input_state.controllers[0];
+        if ((TWindowShortListCtrl__check_controller_button(context, 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
             window_sub_symbol_chat_face_type->confirm_selection();
         }
-        if ((TWindowShortListCtrl__check_controller_button(context, 2) != 0) || (test_controller_flag_4c_color((void *) ((u8 *)&controller_input_state + 0x160), 2) != 0)) {
+        if ((TWindowShortListCtrl__check_controller_button(context, 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
             window_sub_symbol_chat_face_type->close_when_chat_closed();
         }
     }

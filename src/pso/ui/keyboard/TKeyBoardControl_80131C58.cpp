@@ -21,11 +21,9 @@ void TKeyBoardControl::render() {}
 
 void TKeyBoardControl::run_task() {
     s32 port;
-    s32 offset;
     port = is_player_input_active(m_1e);
     if (m_1c & 1) {
-        offset = port * 0x50;
-        if (TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + offset + 0x20), 0x200) != 0) {
+        if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[port], 0x200) != 0) {
             m_1c = (u16) (m_1c & 0xFFFE);
             m_hard->sub_8025EC04();
             if (m_soft != NULL) {

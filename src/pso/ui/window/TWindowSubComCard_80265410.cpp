@@ -733,10 +733,10 @@ void TWindowMenu::run_task() {
         temp_r30 = is_player_input_active((this->client_index));
         if (this->m_70 & 0x10) {
             input = &controller_input_state.controllers[temp_r30];
-            if ((test_buttons_press_or_repeat((saddr)input, 0x10, 6, 1) != 0) || (is_locked(0x10) != 0)) {
+            if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (is_locked(0x10) != 0)) {
                 move_cursor_prev();
             }
-            if ((test_buttons_press_or_repeat((saddr)input, 0x20, 6, 1) != 0) || (is_locked(0x20) != 0)) {
+            if ((test_buttons_press_or_repeat(input, 0x20, 6, 1) != 0) || (is_locked(0x20) != 0)) {
                 select_next_item();
             }
         } else {
@@ -824,7 +824,7 @@ s32 TWindowMenu::is_locked(s32 buttons) {
     if (this->m_70 & 0x200) {
         return 0;
     }
-    return test_buttons_press_or_repeat((saddr)&controller_input_state.keyboard, (s32)buttons, 6, 1);
+    return test_buttons_press_or_repeat(&controller_input_state.keyboard, (s32)buttons, 6, 1);
 }
 
 int TWindowMenu::sub_80266BB8() { return (this->m_70 >> 6) & 0x1; }

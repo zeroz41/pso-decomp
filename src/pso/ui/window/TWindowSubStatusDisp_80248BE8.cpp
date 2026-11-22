@@ -53,29 +53,29 @@ void TWindowCheckBox::run_task() {
     s32 temp_r31;
     uaddr temp_r3;
     uaddr temp_r3_2;
-    u8 *input;
-    u8 *temp_r29_2;
-    u8 *context;
+    ControllerInputContext *input;
+    ControllerInputContext *temp_r29_2;
+    ControllerInputContext *context;
     temp_r31 = is_player_input_active(((s32) this->client_index));
     if ((((TWindowMenuIconLine *)arg0)->get_flag() == 0) && (((TWindowMenuIconLine *)arg0)->is_decided() == 0) && (((TWindowBase *)arg0)->sub_80244994() != 0)) {
         if (*(u16 *)((s8 *)arg0 + 0x70) & 0x10) {
-            input = (u8 *)&controller_input_state + (temp_r31 * 0x50) + 0x20;
-            if ((test_buttons_press_or_repeat((saddr)input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0x10, 6, 1) != 0)) {
+            input = &controller_input_state.controllers[temp_r31];
+            if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
                 ((TWindowMenuIconLine *)arg0)->move_cursor();
             }
-            if ((test_buttons_press_or_repeat((saddr)input, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0x20, 6, 1) != 0)) {
+            if ((test_buttons_press_or_repeat(input, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
                 ((TWindowMenuIconLine *)arg0)->move_cursor_next();
             }
         } else {
-            temp_r29_2 = (u8 *)&controller_input_state + (temp_r31 * 0x50) + 0x20;
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)temp_r29_2, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0x10, 6, 1) != 0)) {
+            temp_r29_2 = &controller_input_state.controllers[temp_r31];
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)temp_r29_2, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
                 ((TWindowMenuIconLine *)arg0)->move_cursor();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)temp_r29_2, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0x20, 6, 1) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)temp_r29_2, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
                 ((TWindowMenuIconLine *)arg0)->move_cursor_next();
             }
         }
-        context = (u8 *)&controller_input_state + (temp_r31 * 0x50) + 0x20;
+        context = &controller_input_state.controllers[temp_r31];
         if ((TWindowShortListCtrl__check_controller_button(context, 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
             ((TWindowCheckBox *)arg0)->sync_level_field();
         }

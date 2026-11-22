@@ -77,7 +77,7 @@ void TAdSelectGameModeGC::run_task() {
         guide->set_line(1, reinterpret_cast<const char *>(get_localized_text_entry(0x15, cursor->selection_index() + 1)));
     }
     TAdSelectGameModeGC__cached_mode_value = cursor->selection_index();
-    if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_physical_port_bank + 0x20), 2) != 0) || (test_controller_flag_4c_color((void *) ((u8 *)&controller_input_state + 0x160), 2) != 0)) {
+    if ((TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
         TAdMultiChgGameModeGC::request_scene_change();
         return;

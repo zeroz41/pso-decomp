@@ -811,7 +811,7 @@ s32 TRaderMapCore::pack_color_bits(s32 input, s32 mask) {
 
 extern "C" {
 
-s32 TRaderMapCore__sub_801A6D00(void *pad, s32 mask) {
+s32 TRaderMapCore__sub_801A6D00(ControllerInputContext *pad, s32 mask) {
     return (mask & 0xFFFFFF0F) | ((mask << 0x16) & 0x3C000000);
 }
 
@@ -819,24 +819,24 @@ s32 pack_flags__13TRaderMapCoreFii(s32 pad, s32 mask) {
     return (mask & 0xFF0FFFFF) | ((mask << 0x16) & 0x3C000000);
 }
 
-s32 test_flags_04_packed(void *pad, s32 mask) {
-    return (((ControllerInputContext *)pad)->flags_04 & pack_flags__13TRaderMapCoreFii((saddr)pad, mask)) != 0;
+s32 test_flags_04_packed(ControllerInputContext *pad, s32 mask) {
+    return (pad->flags_04 & pack_flags__13TRaderMapCoreFii((saddr)pad, mask)) != 0;
 }
 
-s32 test_controller_flag_4c_color(void *pad, s32 mask) {
-    return (((ControllerInputContext *)pad)->flags_4c & TRaderMapCore::pack_color_bits((saddr)pad, mask)) != 0;
+s32 test_controller_flag_4c_color(ControllerInputContext *pad, s32 mask) {
+    return (pad->flags_4c & TRaderMapCore::pack_color_bits((saddr)pad, mask)) != 0;
 }
 
 s32 TWindowShortListCtrl__check_controller_button(void *pad, s32 mask) {
     return (((ControllerInputContext *)pad)->flags_4c & pack_flags__13TRaderMapCoreFii((saddr)pad, mask)) != 0;
 }
 
-s32 test_previous_buttons_color(void *pad, s32 mask) {
-    return (((ControllerInputContext *)pad)->previous_buttons & TRaderMapCore::pack_color_bits((saddr)pad, mask)) != 0;
+s32 test_previous_buttons_color(ControllerInputContext *pad, s32 mask) {
+    return (pad->previous_buttons & TRaderMapCore::pack_color_bits((saddr)pad, mask)) != 0;
 }
 
-s32 test_previous_buttons_remapped(void *pad, s32 mask) {
-    return (((ControllerInputContext *)pad)->previous_buttons & TRaderMapCore__sub_801A6D00(pad, mask)) != 0;
+s32 test_previous_buttons_remapped(ControllerInputContext *pad, s32 mask) {
+    return (pad->previous_buttons & TRaderMapCore__sub_801A6D00(pad, mask)) != 0;
 }
 
 s32 test_previous_buttons_packed(void *pad, s32 mask) {
@@ -857,9 +857,9 @@ s32 TRaderMapCore::apply_packed_flags(saddr input, s32 buttons, s32 delay, s32 p
 
 extern "C" {
 
-s32 test_buttons_press_or_repeat(saddr input, s32 buttons, s32 delay, s32 period) {
-    u32 mask = pack_flags__13TRaderMapCoreFii(input, buttons);
-    return input_press_or_repeat((ControllerInputContext *)input, mask, delay, period);
+s32 test_buttons_press_or_repeat(ControllerInputContext *pad, s32 buttons, s32 delay, s32 period) {
+    u32 mask = pack_flags__13TRaderMapCoreFii((saddr)pad, buttons);
+    return input_press_or_repeat(pad, mask, delay, period);
 }
 
 s32 check_packed_flag_match(ControllerInputContext *pad, u32 mask, s32 delay, s32 period) {

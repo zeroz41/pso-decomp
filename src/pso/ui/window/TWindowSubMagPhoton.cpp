@@ -98,7 +98,6 @@ s32 init_photon_blast_entries__19TWindowSubMagPhotonFv(void *, int);
 extern s32 __vt__19TWindowSubMagPhoton[];
 u8 *TWindowSubMagPhoton__ct(TWindowSubMagPhoton *arg0, saddr arg1, s32 arg2, s32 arg3);
 s32 play_sound_effect(s32, s32, s32, s32);
-s32 test_buttons_press_or_repeat(void *, int, int, int);
 void draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(void *, void *, int, f32);
 }
 extern "C" {
@@ -118,20 +117,20 @@ void TWindowSubMagPhoton::play_open_sound() {
 void TWindowSubMagPhoton::update_selection_input() {
     u8 temp_r3;
     u8 temp_r3_2;
-    u8 *window_choice_setting;
-    window_choice_setting = (u8 *)&controller_input_state + (is_player_input_active(((s32) this->client_index)) * 0x50) + 0x20;
-    if ((test_buttons_press_or_repeat(window_choice_setting, 0xF0, 6, 1) != 0) || (test_buttons_press_or_repeat((void *) ((u8 *)&controller_input_state + 0x160), 0xF0, 6, 1) != 0)) {
+    ControllerInputContext *window_choice_setting;
+    window_choice_setting = &controller_input_state.controllers[is_player_input_active(((s32) this->client_index))];
+    if ((test_buttons_press_or_repeat(window_choice_setting, 0xF0, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0xF0, 6, 1) != 0)) {
         play_sound_effect(0x54100, (s32)(0U), 0, 0);
-        if ((test_buttons_press_or_repeat(window_choice_setting, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat((void *) ((u8 *)&controller_input_state + 0x160), 0x10, 6, 1) != 0)) {
+        if ((test_buttons_press_or_repeat(window_choice_setting, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
             this->m_61 = (this->m_61 + 1);
         }
-        if ((test_buttons_press_or_repeat(window_choice_setting, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat((void *) ((u8 *)&controller_input_state + 0x160), 0x20, 6, 1) != 0)) {
+        if ((test_buttons_press_or_repeat(window_choice_setting, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
             this->m_61 = (this->m_61 - 1);
         }
-        if ((test_buttons_press_or_repeat(window_choice_setting, 0x80, 6, 1) != 0) || (test_buttons_press_or_repeat((void *) ((u8 *)&controller_input_state + 0x160), 0x80, 6, 1) != 0)) {
+        if ((test_buttons_press_or_repeat(window_choice_setting, 0x80, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x80, 6, 1) != 0)) {
             this->m_61 = (this->m_61 + 1);
         }
-        if ((test_buttons_press_or_repeat(window_choice_setting, 0x40, 6, 1) != 0) || (test_buttons_press_or_repeat((void *) ((u8 *)&controller_input_state + 0x160), 0x40, 6, 1) != 0)) {
+        if ((test_buttons_press_or_repeat(window_choice_setting, 0x40, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x40, 6, 1) != 0)) {
             this->m_61 = (this->m_61 - 1);
         }
         temp_r3 = this->m_61;
@@ -165,11 +164,11 @@ void TWindowSubMagPhoton::render() {
 void TWindowSubMagPhoton::run_task() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r31;
-    u8 *context;
+    ControllerInputContext *context;
     temp_r31 = is_player_input_active(((s32) this->client_index));
     if (((TWindowSubMagPhoton *)arg0)->get_active_flag() == 0) {
         update_selection_input();
-        context = (u8 *)&controller_input_state + (temp_r31 * 0x50) + 0x20;
+        context = &controller_input_state.controllers[temp_r31];
         if ((TWindowShortListCtrl__check_controller_button(context, 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
             play_open_sound();
         }
