@@ -52,7 +52,7 @@ struct TWindowCtrl : public TObject {
     static void close_active_window();
     static void ensure_initialized();
     static void create_timer();
-    void set_timer_window_time();
+    static void set_timer_window_time(u32 secs);
     static void close_timer_window();
     static void create_alt_timer();
     static char *skip_name_prefix(void *self, char *s);

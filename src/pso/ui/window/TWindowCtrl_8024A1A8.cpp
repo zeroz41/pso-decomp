@@ -157,8 +157,7 @@ void TWindowCtrl::create_timer() {
     }
 }
 
-void TWindowCtrl::set_timer_window_time() {
-    s32 secs = (saddr)this;
+void TWindowCtrl::set_timer_window_time(u32 secs) {
     uaddr temp_r3;
     if ((void *) (*(u8 * *)&TWindowCtrl__active_window) != NULL) {
         temp_r3 = *(u32 *)((s8 *)(*(u8 * *)&TWindowCtrl__active_window) + 0x30);

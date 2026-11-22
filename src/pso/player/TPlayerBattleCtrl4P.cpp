@@ -446,7 +446,7 @@ void TPlayerBattleCtrl4P::update_battle_time_and_rankings() {
     secs = (OSGetTime() - battle_start_ticks) / (*(u32 *)0x800000F8 / 4);
     r = battle_duration - secs;
     remaining_seconds = r > 0 ? r : 0;
-    ((TWindowCtrl *)remaining_seconds)->set_timer_window_time();
+    TWindowCtrl::set_timer_window_time(remaining_seconds);
     if (remaining_seconds == 0) {
         set_split_screen_battle_phase(3);
         return;
@@ -733,7 +733,7 @@ void TPlayerBattleCtrl4P::init_battle() {
     u8 *p;
     ((Ctl_8031171C *)this)->f244 = get_split_screen_battle_timer_limit((u8 *)((Ctl_8031171C *)this));
     TWindowCtrl::create_alt_timer();
-    ((TWindowCtrl *)(((Ctl_8031171C *)this)->f244))->set_timer_window_time();
+    TWindowCtrl::set_timer_window_time(((Ctl_8031171C *)this)->f244);
     TOMineTrap::destroy_matching_traps();
     this->apply_rule_configuration(1);
     for (i = 0; i < 4; i++) {

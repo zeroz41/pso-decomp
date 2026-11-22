@@ -984,7 +984,6 @@ Card_801EB10C * __ct__13TUnk_804CC048FP7TObjectPvPv(void *, void *, void *, void
 u8 is_current_floor_switch_set(s32 id);
 void * __nw__7TObjectFUl(u32);
 void request_active_window_close(void);
-s32 set_timer_window_time__11TWindowCtrlFv(int, void *);
 int create_alt_timer__11TWindowCtrlFv(void*);
 void TObjPlayer__sub_8024ABDC(saddr arg0);
 void TLobby__sub_8024AC20(saddr arg0);
@@ -3957,7 +3956,7 @@ void qst_op_set_quest_board_handler(void) {
 void qst_op_getmtime(int a0) { qst_registers[(unsigned char)(a0)] = TLobby__sub_803DF1CC(); }
 
 void qst_op_winset_time(s32 reg) {
-    set_timer_window_time__11TWindowCtrlFv((int) (qst_registers[(u8)reg]), qst_registers);
+    TWindowCtrl::set_timer_window_time(qst_registers[(u8)reg]);
 }
 
 void qst_op_winend_time(void* p) { TWindowCtrl::close_timer_window(); }

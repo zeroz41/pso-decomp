@@ -678,7 +678,7 @@ void TLobby::update_timed_wait() {
         secs = (OSGetTime() - ((Lobby_801C484C *)this)->start) / (*(u32 *)0x800000F8 / 4);
         rem = ((Lobby_801C484C *)this)->limit - secs;
         ((Lobby_801C484C *)this)->remain = rem > 0 ? rem : 0;
-        ((TWindowCtrl *)(((Lobby_801C484C *)this)->remain))->set_timer_window_time();
+        TWindowCtrl::set_timer_window_time(((Lobby_801C484C *)this)->remain);
         if (((Lobby_801C484C *)this)->remain == 0) {
             ((Lobby_801C484C *)this)->result = 3;
             TLobby::send_battle_mode_params(3, 0, 0);
@@ -1380,7 +1380,7 @@ void TPlayerBattleCtrl::init_battle_round() {
   s32 i;
   this->m_3c = TLobby__sub_801C417C();
   TWindowCtrl::create_alt_timer();
-  ((TWindowCtrl *)(this->m_3c))->set_timer_window_time();
+  TWindowCtrl::set_timer_window_time(this->m_3c);
   TOMineTrap::destroy_matching_traps();
   char_select_slot = TAdSinglePlyChrSelectGC::get_char_select_slot();
   char_select_slot = char_select_slot + 1;

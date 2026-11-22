@@ -17,7 +17,7 @@ const char *TObjCHTimeWin__class_name = "TObjCHTimeWin";
 
 void TObjCHTimeWin::run_task() {
     if (timer_created != 0) {
-        ((TWindowCtrl *)TObjCHTimeWin__timer_value)->set_timer_window_time();
+        TWindowCtrl::set_timer_window_time(TObjCHTimeWin__timer_value);
         return;
     }
     if (has_window_task_root() == 1) {
@@ -26,7 +26,7 @@ void TObjCHTimeWin::run_task() {
     }
 }
 
-void TObjCHTimeWin::init_timer(void) { TWindowCtrl::create_alt_timer(); ((TWindowCtrl *)TObjCHTimeWin__timer_value)->set_timer_window_time(); }
+void TObjCHTimeWin::init_timer(void) { TWindowCtrl::create_alt_timer(); TWindowCtrl::set_timer_window_time(TObjCHTimeWin__timer_value); }
 
 TObjCHTimeWin::~TObjCHTimeWin() {}
 
