@@ -305,8 +305,8 @@ TBoss6Demo20_TYPE2_APPEAR::TBoss6Demo20_TYPE2_APPEAR(TBoss6PlotFalz *plot) : TOb
         emitters[i] = 0;
     }
     activate_camera_mode(5);
-    set_scripted_camera_pose(&boss6_type2_appear_camera_position, &boss6_type2_appear_camera_position, &boss6_type2_appear_camera_angles);
-    boss6_type2_appear_camera_script.cache_target_and_forward(0x416C);
+    set_scripted_camera_origin(&boss6_type2_appear_camera_position, &boss6_type2_appear_camera_position, &boss6_type2_appear_camera_angles);
+    boss6_type2_appear_camera_script.play(0x416C);
     frame = 0.0f;
     secondary_frame = 0.0f;
     timer = 0;

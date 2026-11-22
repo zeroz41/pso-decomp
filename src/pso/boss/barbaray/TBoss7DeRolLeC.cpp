@@ -1794,7 +1794,7 @@ void TBoss7DeRolLeC::handle_intro_camera_state(u32 event) {
                 cam.frame = 0.0f;
                 cam.frame_step = 0.7f;
                 activate_camera_mode(5);
-                cam.cache_target_and_forward(0x1C71);
+                cam.play(0x1C71);
                 state_ints[0] = 1;
             }
         } else {
@@ -3262,7 +3262,7 @@ void TBoss7DeRolLeC::handle_death_state(u32 event) {
             cam.frame = 0.0f;
             cam.frame_step = 0.7f;
             activate_camera_mode(5);
-            cam.cache_target_and_forward(0x1C71);
+            cam.play(0x1C71);
         }
         break;
     case 2:

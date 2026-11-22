@@ -132,8 +132,8 @@ void TUnk_804C3248::begin_photon_summon_camera(s8 arg1) {
     if ((TCameraCtrl::view_state.flags & 4) || (TCameraCtrl::view_state.flags & 8)) {
         TCameraCtrl::select_active_controller(5);
     }
-    playback.cache_target_and_forward(0x4222);
-    set_scripted_camera_pose(&this->position, &this->position, (CameraAngles *)&this->rotation_x);
+    playback.play(0x4222);
+    set_scripted_camera_origin(&this->position, &this->position, (CameraAngles *)&this->rotation_x);
     *(s32 *)((s8 *)arg0 + 0xFC) = 1;
 }
 

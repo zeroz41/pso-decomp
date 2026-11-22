@@ -1,3 +1,5 @@
+// The fixed camera (mode 9), the conversation camera that drives it, and the
+// quest cam_pan camera.
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/camera/TCameraConversation.h"
@@ -154,6 +156,7 @@ TCameraConversation::~TCameraConversation() {
 }
 
 void TCameraConversation::run_task() {
+    // Once there, approach_camera_vector copies the pose back into the table row.
     approach_camera_vector(&position, (Vec *)&fixed_npc_camera_destination_table[destination].position, 0.725f);
     approach_camera_vector(&target, (Vec *)&fixed_npc_camera_destination_table[destination].target, 0.725f);
     fixed_npc_camera_active = 1;

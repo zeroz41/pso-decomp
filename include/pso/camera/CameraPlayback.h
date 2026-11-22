@@ -4,8 +4,16 @@
 #include "types.h"
 #include <stddef.h>
 
+// A motion of a loaded camera bank for the scripted camera to play.
 struct CameraPlayback {
-    void cache_target_and_forward(s32 angle) const;
+    enum Flag {
+        // The motion has played to its end (or another camera mode took over).
+        FLAG_DONE = 1
+    };
+
+    // Starts the scripted camera on this motion at projection_angle, keeping the
+    // camera's current angle in saved_projection_angle.
+    void play(s32 projection_angle) const;
 
     u8 bank;
     u8 index;

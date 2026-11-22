@@ -1564,8 +1564,8 @@ void TBoss5Gryphon::update_death_state(u32 event) {
             cam.frame = 0.0f;
             cam.frame_step = 0.5f;
             activate_camera_mode(5);
-            cam.cache_target_and_forward(0x31C7);
-            set_scripted_camera_pose(&self->position, &self->position, (CameraAngles *)&this->rotation_x);
+            cam.play(0x31C7);
+            set_scripted_camera_origin(&self->position, &self->position, (CameraAngles *)&this->rotation_x);
             break;
         }
         return;

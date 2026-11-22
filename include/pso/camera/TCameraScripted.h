@@ -63,7 +63,7 @@ struct CameraMotionSample {
 };
 
 // Camera mode 5: plays a motion of a loaded camera bank (boss intros and
-// deaths), started through CameraPlayback::cache_target_and_forward.
+// deaths), started through CameraPlayback::play.
 class TCameraScripted : public TCameraController {
 public:
     TCameraScripted();
@@ -72,7 +72,7 @@ public:
     virtual void post_update_view();
     virtual void run_task();
     Vec position_origin;
-    Vec target_origin;
+    Vec target_origin; // set with position_origin, never read
     CameraAngles angles;
     NJS_MOTION *motion;
     CameraBankFile *bank_file;

@@ -1,3 +1,5 @@
+// Camera math helpers, and the scripted camera's view update and playback
+// entry points.
 #include "types.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -70,7 +72,7 @@ s32 approach_camera_angle(s32 angle, s32 target, s32 rate) {
     return approach_angle_limited(angle, target, rate * 0x7F);
 }
 
-void set_scripted_camera_pose(const Vec *position, const Vec *target, const CameraAngles *angles) {
+void set_scripted_camera_origin(const Vec *position, const Vec *target, const CameraAngles *angles) {
     TCameraScripted *camera = (TCameraScripted *)camera_controller_registry[5];
     if (camera != NULL) {
         VecCopy(&camera->position_origin, position);
@@ -96,15 +98,15 @@ void TCameraScripted::post_update_view() {
     ninja_camera.pz = camera_ctrl_instance->pos.z;
 }
 
-void CameraPlayback::cache_target_and_forward(s32 angle) const {
+void CameraPlayback::play(s32 projection_angle) const {
     if (camera_ctrl_instance != NULL) {
         saved_projection_angle = camera_ctrl_instance->fov;
-        scripted_camera_projection_angle = angle;
+        scripted_camera_projection_angle = projection_angle;
     }
-    configure_scripted_camera_playback((CameraPlayback *)this, angle);
+    configure_scripted_camera_playback((CameraPlayback *)this, projection_angle);
 }
 
-void configure_scripted_camera_playback(CameraPlayback *playback, s32 angle) {
+void configure_scripted_camera_playback(CameraPlayback *playback, s32 projection_angle) {
     TCameraScripted *camera = (TCameraScripted *)camera_controller_registry[5];
     if (camera != NULL) {
         camera->playback.index = playback->index;
@@ -122,7 +124,7 @@ CameraPlayback *get_scripted_camera_playback() {
     if (camera != NULL) {
         CameraPlayback *playback = &camera->playback;
         if (TCameraCtrl::get_active_controller() != 5) {
-            playback->flags |= 1;
+            playback->flags |= CameraPlayback::FLAG_DONE;
         }
         return playback;
     }

@@ -45,7 +45,7 @@ TBoss5GryphonDemo::TBoss5GryphonDemo(TObject *parent, s32 *done_flag, f32 frame_
         c.frame = this->frame;
         c.frame_step = this->frame_step;
         activate_camera_mode(5);
-        c.cache_target_and_forward(0x238E);
+        c.play(0x238E);
         break;
     }
 }

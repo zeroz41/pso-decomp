@@ -3973,8 +3973,8 @@ void TBoss1Dragon::update_death_state(u32 reason) {
             cam.frame = (0.0f);
             cam.frame_step = (0.5f);
             activate_camera_mode(5);
-            cam.cache_target_and_forward(0x31C7);
-            set_scripted_camera_pose(&this->position, &this->position, (CameraAngles *)&this->rotation_x);
+            cam.play(0x31C7);
+            set_scripted_camera_origin(&this->position, &this->position, (CameraAngles *)&this->rotation_x);
             break;
         case 1:
             cam.index = 1;
@@ -3983,8 +3983,8 @@ void TBoss1Dragon::update_death_state(u32 reason) {
             cam.frame = (0.0f);
             cam.frame_step = (0.5f);
             activate_camera_mode(5);
-            cam.cache_target_and_forward(0x3333);
-            set_scripted_camera_pose(&this->position, &this->position, (CameraAngles *)&this->rotation_x);
+            cam.play(0x3333);
+            set_scripted_camera_origin(&this->position, &this->position, (CameraAngles *)&this->rotation_x);
             break;
         }
         break;

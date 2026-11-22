@@ -307,8 +307,8 @@ Obj_8004DEE0 *TObjDFDemo0__ct(void *arg0, void *parent) {
     }
     self->node_tables.init(TObjDFDemo0__model_node_entries, 7);
     activate_camera_mode(5);
-    set_scripted_camera_pose(&lbl_804854F0, &lbl_804854F0, &lbl_804854FC);
-    lbl_80485508.cache_target_and_forward(0x416C);
+    set_scripted_camera_origin(&lbl_804854F0, &lbl_804854F0, &lbl_804854FC);
+    lbl_80485508.play(0x416C);
     self->f10c = (0.0f);
     play_sound_effect(0x40039E21, &lbl_804854F0, 0, 1);
     self->f90 = 0;

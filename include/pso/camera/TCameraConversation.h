@@ -30,6 +30,9 @@ public:
 };
 LAYOUT_ASSERT(TCameraConversation_size, sizeof(TCameraConversation) == 0x38);
 
+// camera_override_flags (TCameraFollow.h).
+s32 get_camera_override_flags();
+
 // The local player's conversation camera, or NULL in split screen.
 TCameraConversation *create_conversation_camera(s32 destination);
 

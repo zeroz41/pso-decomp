@@ -81,8 +81,8 @@ TObjDFDemo4::TObjDFDemo4(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
         CameraPlayback playback = *intro_camera_playback();
         CameraAngles angles = *intro_camera_angles();
         angles.yaw = this->angle;
-        set_scripted_camera_pose(&this->pos, &this->pos, &angles);
-        playback.cache_target_and_forward(0x416C);
+        set_scripted_camera_origin(&this->pos, &this->pos, &angles);
+        playback.play(0x416C);
     }
     node_list = ModelNodePositionCapture::create(df_demo4_node_capture_entries, node_positions);
     timer = 0;
@@ -148,7 +148,7 @@ void TObjDFDemo4::run_task() {
         CameraAngles angles = {0, 0, 0};
         VecCopy(&pos, &p);
         angle = 0;
-        set_scripted_camera_pose(&pos, &pos, &angles);
+        set_scripted_camera_origin(&pos, &pos, &angles);
     }
     if ((frame += 0.5f) > 119.0f) {
         frame = 119.0f;

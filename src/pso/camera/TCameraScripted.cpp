@@ -86,7 +86,7 @@ void TCameraScripted::run_task() {
             return;
         }
         playback.frame = (motion->nbFrame - 1);
-        playback.flags |= 1;
+        playback.flags |= CameraPlayback::FLAG_DONE;
     }
 }
 #pragma pop
