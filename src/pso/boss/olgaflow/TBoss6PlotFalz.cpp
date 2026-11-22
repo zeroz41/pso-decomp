@@ -156,11 +156,14 @@ const char *boss06_plotfalz_dat_motion_names[63] = {
 BmlResourceDescriptor boss6_plot_falz_resource_descriptor = { "boss06_plotfalz_dat.bml", boss06_plotfalz_dat_model_names, boss06_plotfalz_dat_motion_names, 14, 62 };
 const char *TBoss6PlotFalz__name = "TBoss6PlotFalz";
 f32 TBoss6PlotFalz__fade_amount = -1.0f;
-const Vec lbl_8047059C = { -10000.0f, 0.0f, 0.0f };
-const Vec lbl_804705A8 = { -10000.0f, 10.0f, 0.0f };
-const Vec lbl_804705B4 = { 0.0f, 0.0f, 0.0f };
-const Vec lbl_804705C0 = { 0.0f, 0.0f, 0.0f };
-const Vec lbl_804705CC = { -10000.0f, 0.0f, 0.0f };
+// warp_nearby_players carries players within 150 of warp_origin to the same offset from the
+// arena center; place_players_in_warp_circle rings them around warp_circle_center; the default
+// targets are what get_target_pos_b/_a return while Type1/Type2 is gone.
+const Vec boss6_plot_falz_arena_center = { -10000.0f, 0.0f, 0.0f };
+const Vec boss6_plot_falz_warp_circle_center = { -10000.0f, 10.0f, 0.0f };
+const Vec boss6_plot_falz_warp_origin = { 0.0f, 0.0f, 0.0f };
+const Vec boss6_plot_falz_type1_default_target = { 0.0f, 0.0f, 0.0f };
+const Vec boss6_plot_falz_type2_default_target = { -10000.0f, 0.0f, 0.0f };
 
 extern "C" {
 
@@ -406,7 +409,7 @@ s32 TBoss6PlotFalz::rand_vary_count(s32 base, f32 spread) {
 f32 TBoss6PlotFalz::arena_center_distance(const Vec *pos) {
     Vec d;
     VecCopy(&d, pos);
-    subtract_vector(&d, &lbl_8047059C);
+    subtract_vector(&d, &boss6_plot_falz_arena_center);
     d.y = 0.0f;
     return vector_length(&d);
 }
@@ -553,7 +556,7 @@ void TBoss6PlotFalz::release_object() { if (tube != NULL) { tube->queue_destruct
 
 s32 TBoss6PlotFalz::get_target_pos_a(Vec *position) {
     if (TBoss6PlotFalz__type2_instance == NULL) {
-        VecCopy(position, &lbl_804705CC);
+        VecCopy(position, &boss6_plot_falz_type2_default_target);
         return 0;
     }
     VecCopy(position, &TBoss6PlotFalz__type2_instance->position);
@@ -562,7 +565,7 @@ s32 TBoss6PlotFalz::get_target_pos_a(Vec *position) {
 
 s32 TBoss6PlotFalz::get_target_pos_b(Vec *position) {
     if (TBoss6PlotFalz__type1_instance == NULL) {
-        VecCopy(position, &lbl_804705C0);
+        VecCopy(position, &boss6_plot_falz_type1_default_target);
         return 0;
     }
     VecCopy(position, &TBoss6PlotFalz__type1_instance->position);
@@ -779,11 +782,11 @@ void TBoss6PlotFalz::warp_nearby_players() {
     for (i = registered_player_count + registered_enemy_count; i < lbl_805D5868; i++) {
         p = TObjPlayer::get_player_data(i);
         if (p != NULL && p->bodies != NULL && (p->bodies->flags & 0x20000)
-            && !(xyz_distance(&lbl_804705B4, &p->position) > 150.0f)
-            && !(xyz_distance(&lbl_8047059C, &p->position) <= 300.0f)) {
+            && !(xyz_distance(&boss6_plot_falz_warp_origin, &p->position) > 150.0f)
+            && !(xyz_distance(&boss6_plot_falz_arena_center, &p->position) <= 300.0f)) {
             VecCopy(&v, &p->position);
-            subtract_vector(&v, &lbl_804705B4);
-            vec3_add_to(&v, &lbl_8047059C);
+            subtract_vector(&v, &boss6_plot_falz_warp_origin);
+            vec3_add_to(&v, &boss6_plot_falz_arena_center);
             v.y = 7.5f;
             VecCopy(&p->position, &v);
             p->refresh_collision_body_centers();
@@ -820,7 +823,7 @@ void place_players_in_warp_circle(void) {
     for (i = 0; i < registered_player_count; i++) {
         void *p = TObjPlayer::get_player_data(i);
         if (p != NULL && ((TObjPlayer *)p)->get_area() == 0x1F) {
-            Vec pos = lbl_804705A8;
+            Vec pos = boss6_plot_falz_warp_circle_center;
             pos.x += 350.0f * sin_table_lookup(ang);
             pos.z += 350.0f * cos_table_lookup(ang);
             ((TObjMotion *)p)->set_position_from(&pos);

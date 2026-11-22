@@ -52,8 +52,8 @@ const Ent_8033D6DC boss6_type2_appear_particle_schedule[9] = {
     {294, 357, 556, 0},
     {100, 157, 377, -2}
 };
-const Vec lbl_80478058 = {-10000.0f, 0.0f, 0.0f};
-const CameraAngles lbl_80478064 = {0, 0, 0};
+const Vec boss6_type2_appear_camera_position = {-10000.0f, 0.0f, 0.0f};
+const CameraAngles boss6_type2_appear_camera_angles = {0, 0, 0};
 const CameraPlayback boss6_type2_appear_camera_script = {1, 3, 0, 0.0f, 0.7f};
 
 void TBoss6Demo20_TYPE2_APPEAR::draw_model_12() {
@@ -306,7 +306,7 @@ TBoss6Demo20_TYPE2_APPEAR::TBoss6Demo20_TYPE2_APPEAR(TBoss6PlotFalz *plot) : TOb
         emitters[i] = 0;
     }
     activate_camera_mode(5);
-    set_scripted_camera_pose(&lbl_80478058, &lbl_80478058, &lbl_80478064);
+    set_scripted_camera_pose(&boss6_type2_appear_camera_position, &boss6_type2_appear_camera_position, &boss6_type2_appear_camera_angles);
     boss6_type2_appear_camera_script.cache_target_and_forward(0x416C);
     frame = 0.0f;
     secondary_frame = 0.0f;

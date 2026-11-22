@@ -27,11 +27,11 @@
 
 
 extern "C" {
-extern Vec lbl_80477DEC;
+extern Vec boss6_type1_appear_origin;
 extern ModelNodePositionEntry boss6_type1_appear_node_desc[];
 extern Boss6StripDesc boss6_type1_appear_model_node_descriptors[];
-extern CameraAngles lbl_80477E30;
-extern CameraPlayback lbl_80477E3C;
+extern CameraAngles boss6_type1_appear_camera_angles;
+extern CameraPlayback boss6_type1_appear_camera_script;
 extern s32 boss6_type1_part_model_ids[];
 extern s32 boss6_type1_appear_motion_indices[];
 struct AppearanceClassTag { const char *value; u32 padding; };
@@ -44,7 +44,7 @@ __declspec(section ".sdata2") extern const AppearanceZero lbl_805DFA50;
 void TBoss6Demo10_TYPE1_APPEAR::draw_parts() {
     push_matrix();
     set_motion_packed_rotation();
-    post_translate_matrix(&lbl_80477DEC.x);
+    post_translate_matrix(&boss6_type1_appear_origin.x);
     TObjFish::set_global_param((saddr)(parts[0].texture));
     draw_model_motion(parts[0].model, parts[0].motion, frame);
     TObjFish::set_global_param((saddr)(parts[1].texture));
@@ -160,8 +160,8 @@ TBoss6Demo10_TYPE1_APPEAR::TBoss6Demo10_TYPE1_APPEAR(TBoss6PlotFalz *plot) : TOb
     emitter = NULL;
     scroll_strips.build_tables(boss6_type1_appear_model_node_descriptors, 2);
     activate_camera_mode(5);
-    set_scripted_camera_pose(&lbl_80477DEC, &lbl_80477DEC, &lbl_80477E30);
-    lbl_80477E3C.cache_target_and_forward(0x416C);
+    set_scripted_camera_pose(&boss6_type1_appear_origin, &boss6_type1_appear_origin, &boss6_type1_appear_camera_angles);
+    boss6_type1_appear_camera_script.cache_target_and_forward(0x416C);
     frame = lbl_805DFA50.value;
     timer = 0;
 }
@@ -172,11 +172,11 @@ TBoss6Demo10_TYPE1_APPEAR *TBoss6Demo10_TYPE1_APPEAR::create(TBoss6PlotFalz *plo
 
 extern const char TBoss6Demo10_TYPE1_APPEAR__class_name[];
 __declspec(section ".rodata") const char TBoss6Demo10_TYPE1_APPEAR__class_name[] ATTRIBUTE_ALIGN(4) = "TBoss6Demo10_TYPE1_APPEAR";
-__declspec(section ".rodata") Vec lbl_80477DEC = {0.0f, 25.0f, 75.0f};
+__declspec(section ".rodata") Vec boss6_type1_appear_origin = {0.0f, 25.0f, 75.0f};
 __declspec(section ".rodata") ModelNodePositionEntry boss6_type1_appear_node_desc[] = {{0}, {-1}};
 __declspec(section ".rodata") Boss6StripDesc boss6_type1_appear_model_node_descriptors[] = {{3, 1, 0}, {6, 1, 0}};
-__declspec(section ".rodata") CameraAngles lbl_80477E30 = {0, 0, 0};
-__declspec(section ".rodata") CameraPlayback lbl_80477E3C = {1, 2, 0, 0.0f, 0.7f};
+__declspec(section ".rodata") CameraAngles boss6_type1_appear_camera_angles = {0, 0, 0};
+__declspec(section ".rodata") CameraPlayback boss6_type1_appear_camera_script = {1, 2, 0, 0.0f, 0.7f};
 s32 boss6_type1_appear_motion_indices[] = {35, 36};
 __declspec(section ".sdata") AppearanceClassTag TBoss6Demo10_TYPE1_APPEAR__name = {TBoss6Demo10_TYPE1_APPEAR__class_name, 0};
 __declspec(section ".sdata2") const AppearanceZero lbl_805DFA50 = {0.0f, 0};

@@ -99,8 +99,8 @@ TBoss6Type2Motion TBoss6Type2__motion_table[15] = {
 };
 
 // The two offsets request_default_follow_camera hands to request_follow_camera_offsets.
-Vec lbl_804DFAC4 = { 0.0f, 34.8f, -5.0f };
-Vec lbl_804DFAD0 = { 0.0f, 10.43f, 70.42f };
+Vec boss6_type2_follow_camera_position = { 0.0f, 34.8f, -5.0f };
+Vec boss6_type2_follow_camera_target = { 0.0f, 10.43f, 70.42f };
 
 // The record exchange_object_state reads and writes.
 struct TBoss6Type2StateRecord { s32 flags; s16 pad_04; s16 value; s32 pad_08; };
@@ -1633,7 +1633,7 @@ void TBoss6Type2::init_range() {
 }
 
 void TBoss6Type2::request_default_follow_camera() {
-    request_follow_camera_offsets(&lbl_804DFAC4, &lbl_804DFAD0, 0xFFFFU);
+    request_follow_camera_offsets(&boss6_type2_follow_camera_position, &boss6_type2_follow_camera_target, 0xFFFFU);
 }
 
 void TBoss6Type2::drop_random_rocks(s32 force) {

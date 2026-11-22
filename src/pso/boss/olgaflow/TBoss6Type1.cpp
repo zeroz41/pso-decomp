@@ -120,8 +120,8 @@ Boss6Type1MotionSet TBoss6Type1__motion_set_table[21] = {
     {2, 2, 44, 15},
 };
 
-const s8 lbl_805DE2C8[2] = { 0x12, 0x0A };
-const s8 lbl_805DE2CC[2] = { 0x12, -2 };
+const s8 boss6_type1_low_attack_heights[2] = { 0x12, 0x0A };
+const s8 boss6_type1_mid_attack_heights[2] = { 0x12, -2 };
 static const s32 boss6_type1_slot_count = 24;
 static const s32 boss6_type1_sway_target_min = 256;
 static const s32 boss6_type1_sway_target_range = 64;
@@ -205,7 +205,7 @@ const Vec boss6_type1_zero_offset = {0.0f, 0.0f, 0.0f};
 const u32 boss6_type1_trail_point_offsets[7] = {
     0xFFFF4000, 0xFFFFFF60, 0xFFFFFF60, 0xFFFF4000, 0xFFFFFF60, 0xFFFFFF60, 0xFFFF4000,
 };
-const u32 lbl_80470FAC[2] = {0xFFFF4000, 0xFFFFFFC0};
+const u32 boss6_type1_effect_point_colors[2] = {0xFFFF4000, 0xFFFFFFC0};
 const Vec boss6_type1_camera_eye = {0.0f, 19.8f, -5.0f};
 const Vec boss6_type1_camera_target = {0.0f, 25.43f, 45.42f};
 const Vec boss6_type1_laser_camera_eye_shift = {0.0f, -5.0f, 5.0f};
@@ -419,7 +419,7 @@ void TBoss6Type1::randomize_attack(Boss6Type1AttackTarget *atk) {
         atk->height = w;
         return;
     }
-    tab = is_low() != 0 ? lbl_805DE2C8 : lbl_805DE2CC;
+    tab = is_low() != 0 ? boss6_type1_low_attack_heights : boss6_type1_mid_attack_heights;
     u = tab[0];
     if (0.000030517578f * (f32)rand() < 0.5f) {
         u = tab[1];
@@ -1586,7 +1586,7 @@ void TBoss6Type1::update_effect_points() {
     VecCopy(&points[0], (const Vec *)&arm_node_positions[5]);
     VecCopy(&points[1], (const Vec *)&arm_node_positions[6]);
     set_part_default_value(&points[1]);
-    effect_point_receiver->set_effect_points(points, lbl_80470FAC);
+    effect_point_receiver->set_effect_points(points, boss6_type1_effect_point_colors);
 }
 
 void TBoss6Type1::set_part_default_value(Vec *point) { point->y = 10.0f; }

@@ -37,16 +37,16 @@
 struct EmitterSchedule { s32 start; s32 end; s32 id; };
 
 extern "C" const char TBoss6Demo21_TYPE2_DEAD__class_name_string[] = "TBoss6Demo21_TYPE2_DEAD";
-extern "C" const Vec lbl_804780A0 = {-10000.0f, 0.0f, 0.0f};
-extern "C" const Vec lbl_804780AC = {0.0f, 0.0f, -142.0f};
-extern "C" const Vec lbl_804780B8 = {0.0f, -2.0f, 6.4f};
+extern "C" const Vec boss6_type2_dead_origin = {-10000.0f, 0.0f, 0.0f};
+extern "C" const Vec boss6_type2_dead_burst_offset = {0.0f, 0.0f, -142.0f};
+extern "C" const Vec boss6_type2_dead_final_offset = {0.0f, -2.0f, 6.4f};
 extern "C" const ModelNodePositionEntry boss6_type2_death_effect_desc_a[] = {{0x24}, {-1}};
 extern "C" const ModelNodePositionEntry boss6_type2_death_effect_desc_b[] = {{0x19}, {-1}};
 extern "C" const ModelNodePositionEntry boss6_type2_death_effect_desc_c[] = {{2}, {3}, {-1}};
-extern "C" const CameraAngles lbl_80478134 = {0, 0, 0};
-extern "C" const CameraPlayback lbl_80478140 = {1, 1, 0, 0.0f, 0.7f};
+extern "C" const CameraAngles boss6_type2_dead_camera_angles = {0, 0, 0};
+extern "C" const CameraPlayback boss6_type2_dead_camera_script = {1, 1, 0, 0.0f, 0.7f};
 extern "C" const EmitterSchedule boss6_type2_death_emitter_ranges[4] = {{0, 0x8E, 0x228}, {0xFA, 0x13A, 0x22A}, {0x11D, 0x1AC, 0x22E}, {0xF2, 0x13A, 0x179}};
-extern "C" const u32 lbl_8047817C[3] = {0xffff4000, 0xffffff60, 0xffff4000};
+extern "C" const u32 boss6_type2_dead_trail_colors[3] = {0xffff4000, 0xffffff60, 0xffff4000};
 extern "C" const char *TBoss6Demo21_TYPE2_DEAD__name = TBoss6Demo21_TYPE2_DEAD__class_name_string;
 #pragma pool_data off
 void TBoss6Demo21_TYPE2_DEAD::draw_model_13() {
@@ -194,7 +194,7 @@ void TBoss6Demo21_TYPE2_DEAD::run_task() {
     case 0xAE:
     case 0xCF: {
         Vec p = camera_position;
-        vec3_add_to(&p, &lbl_804780AC);
+        vec3_add_to(&p, &boss6_type2_dead_burst_offset);
         spawn_particle_effect_with_flags(&p, 0x221, 0x40);
         spawn_particle_effect_with_flags(&p, 0x22F, 0x40);
         break;
@@ -204,7 +204,7 @@ void TBoss6Demo21_TYPE2_DEAD::run_task() {
         break;
     case 0x23A: {
         Vec p = camera_position;
-        vec3_add_to(&p, &lbl_804780B8);
+        vec3_add_to(&p, &boss6_type2_dead_final_offset);
         spawn_particle_effect_with_flags(&p, 0xA4, 0x40);
         spawn_particle_effect_with_flags(&p, 0xE3, 0x40);
         break;
@@ -244,14 +244,14 @@ void TBoss6Demo21_TYPE2_DEAD::run_task() {
         points[1].x *= 0.5f;
         points[1].y *= 0.5f;
         points[1].z *= 0.5f;
-        trail_effect->set_effect_points(points, lbl_8047817C);
+        trail_effect->set_effect_points(points, boss6_type2_dead_trail_colors);
     }
     if (timer == 0x23A) {
         s32 n = TLobby::get_game_mode();
         Vec c;
         s32 i;
         VecCopy(&c, &camera_position);
-        vec3_add_to(&c, &lbl_804780B8);
+        vec3_add_to(&c, &boss6_type2_dead_final_offset);
         for (i = 0; i < n; i++) {
             TObjPlayer *p = TObjPlayer::get_player_data(i);
             if (TObjPlayer::is_locally_controlled(p) != 0 && TBoss6PlotFalz::is_state_1f(p) != 0) {
@@ -312,9 +312,9 @@ TBoss6Demo21_TYPE2_DEAD::TBoss6Demo21_TYPE2_DEAD(TBoss6PlotFalz *plot, const Vec
     s32 i;
     m_name = TBoss6Demo21_TYPE2_DEAD__name;
     this->plot = plot;
-    VecCopy(&camera_position, &lbl_804780A0);
+    VecCopy(&camera_position, &boss6_type2_dead_origin);
     VecCopy(&delta, target);
-    subtract_vector(&delta, &lbl_804780A0);
+    subtract_vector(&delta, &boss6_type2_dead_origin);
     delta.y = 0.0f;
     if (vector_length(&delta) > 60.0f) {
         normalize_vector(&delta);
@@ -339,8 +339,8 @@ TBoss6Demo21_TYPE2_DEAD::TBoss6Demo21_TYPE2_DEAD(TBoss6PlotFalz *plot, const Vec
     capture_8 = ModelNodePositionCapture::create(boss6_type2_death_effect_desc_b, &effect_position_8);
     capture_13 = ModelNodePositionCapture::create(boss6_type2_death_effect_desc_c, trail_positions);
     activate_camera_mode(5);
-    set_scripted_camera_pose(&camera_position, &camera_position, &lbl_80478134);
-    lbl_80478140.cache_target_and_forward(0x416C);
+    set_scripted_camera_pose(&camera_position, &camera_position, &boss6_type2_dead_camera_angles);
+    boss6_type2_dead_camera_script.cache_target_and_forward(0x416C);
     for (i = 0; i < 4; i++) {
         emitters[i] = NULL;
     }

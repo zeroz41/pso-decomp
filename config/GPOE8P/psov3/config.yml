@@ -7732,16 +7732,16 @@ force_active:
   - boss6_mag_initial_target
   - boss6_mag_rock_spread_angles
   - boss6_mag_zero_ramp
-  - lbl_80477DEC
-  - lbl_80477E30
-  - lbl_80477E3C
+  - boss6_type1_appear_origin
+  - boss6_type1_appear_camera_angles
+  - boss6_type1_appear_camera_script
   - TBoss6Demo21_TYPE2_DEAD__class_name_string
-  - lbl_804780A0
-  - lbl_804780AC
-  - lbl_804780B8
-  - lbl_80478134
-  - lbl_80478140
-  - lbl_8047817C
+  - boss6_type2_dead_origin
+  - boss6_type2_dead_burst_offset
+  - boss6_type2_dead_final_offset
+  - boss6_type2_dead_camera_angles
+  - boss6_type2_dead_camera_script
+  - boss6_type2_dead_trail_colors
   - lbl_80478B48
   - lbl_80478B54
   - lbl_8047B928
