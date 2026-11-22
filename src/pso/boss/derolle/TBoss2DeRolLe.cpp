@@ -285,34 +285,15 @@ const char *boss2_de_rol_le_class_name = "TBoss2DeRolLe";
 #include <stddef.h>
 #include "pso/player/TObjPlayer_8002E784.h"
 #include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight.h"
+#include "pso/object/TUnk_804A6F78.h"
 
 extern "C" {
 
 void *__ct__9TBoss2FinFv(void *, TObject *, Vec *, Vec *);
 
-
-
 extern f32 lbl_804FF5E8[];
-
-s32 TObjLight__sub_801337F8(s32);
-
-extern saddr current_scene_light;
-
-
-}
-
-// TObjLight__scene_light_state as render uses it: the scene light's colour.
-struct SceneLightColor { u8 pad_00[0x24]; NJS_ARGB color; };
-
-extern "C" {
-
-s32 TObjLight__sub_801336DC(s32);
-
-s32 TObjLight__sub_8013379C(s32, void *);
-
-extern SceneLightColor TObjLight__scene_light_state;
-
-extern s32 lbl_805D5564;
 
 }
 
@@ -3838,14 +3819,14 @@ void TBoss2DeRolLe::render() {
         TObjLight__scene_light_state.color.r = 0.3f;
         TObjLight__scene_light_state.color.g = 0.4f;
         TObjLight__scene_light_state.color.b = 0.5f;
-        TObjLight__sub_8013379C(current_scene_light, &TObjLight__scene_light_state);
-        TObjLight__sub_801336DC(lbl_805D5564);
+        current_scene_light->sub_8013379C(&TObjLight__scene_light_state);
+        lbl_805D5564->sub_801336DC();
     }
     this->draw();
     copy_argb(col, &saved);
     }
     set_chunk_model_node_callback(NULL);
-    TObjLight__sub_801337F8(current_scene_light);
+    current_scene_light->sub_801337F8();
     pop_matrix();
     chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
     chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
@@ -3935,7 +3916,7 @@ void TBoss2DeRolLe::render_body() {
     TObjFish::set_global_param(this->texlist);
     draw_model_motion(model, motion, frame);
     set_chunk_model_node_callback(NULL);
-    TObjLight__sub_801337F8(current_scene_light);
+    current_scene_light->sub_801337F8();
     pop_matrix();
 }
 

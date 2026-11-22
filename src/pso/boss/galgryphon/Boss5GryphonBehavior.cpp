@@ -82,6 +82,8 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/render/MaterialAlphaCompare.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/boss/galgryphon/TBoss5GryphonColli.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight.h"
 
 
 #pragma inline_depth(1)
@@ -362,7 +364,6 @@ void start_camera_shake(s32 id, f32 v);
 void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
 void *__dt__15RenderFadeStateFv(void *arg0, s16 arg1);
 u8 *get_enemy_entity(u16 arg0);
-s32 TObjLight__sub_801337F8(void *);
 s32 draw__10TObjMotionFv(void *);
 u8 * find_entity_by_id();
 void free_collision_body_parts(void *);
@@ -498,7 +499,6 @@ Obj_80065658 *boss5_gryphon_instance;
 f32 lbl_805D4DC0;
 extern "C" {
 extern u8 *camera_ctrl_instance;
-extern saddr current_scene_light;
 extern s32 saved_model_render_flags;
 extern const float lbl_805D8D84;
 extern const f32 lbl_805D8D8C;
@@ -925,7 +925,7 @@ void TBoss5Gryphon::render_demo() {
             }
         }
         draw_model_motion((void *)o->f34, c, f);
-        TObjLight__sub_801337F8((void *)current_scene_light);
+        current_scene_light->sub_801337F8();
         pop_matrix();
     }
 #undef o
@@ -1088,7 +1088,7 @@ void TBoss5Gryphon::render_with_fade(s32 arg1) {
     TObjPlayer::toggle_particle_effect();
     draw();
     TParticleCtrl::end_effect_render();
-    TObjLight__sub_801337F8((void *)current_scene_light);
+    current_scene_light->sub_801337F8();
     pop_matrix();
     set_chunk_material_override_pair(0xFF00, 0);
     set_material_alpha_compare_reference(0xBF);

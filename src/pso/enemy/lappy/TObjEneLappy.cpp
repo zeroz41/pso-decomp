@@ -219,6 +219,7 @@ VA
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/enemy/AreaSoundRemap.h"
 #include "pso/npc/TNpcPlayer_800D87A8.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
 struct VPad18 { char pad[0x18]; };
 
 struct VCls18 : VPad18 {
@@ -381,8 +382,6 @@ void run_miss_reaction__12TObjEneLappyFv(void *arg0);
 void run_attack_action__12TObjEneLappyFv(void *arg0);
 s32 TObjEneDD__sub_800B9B24(f32);
 s32 is_item_light_interaction_blocked();
-s32 restore_scene_lighting();
-s32 select_actor_lighting(void *);
 f32 post_translate_matrix(void *);
 s32 draw_chunk_object(int);
 s32 lappy_variant_id;

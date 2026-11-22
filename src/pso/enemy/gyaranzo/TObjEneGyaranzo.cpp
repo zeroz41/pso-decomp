@@ -270,6 +270,7 @@ s32 get_gyaranzo_missile_int_parameter(s32 i);
 
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
 
 struct Obj_800D30A8 {
     u8 pad0[0x30];
@@ -387,9 +388,7 @@ int initialize_enemy_photon_effect(void *p);
 extern "C" {
 
 
-s32 restore_scene_lighting();
 
-s32 select_actor_lighting(void *);
 
 
 

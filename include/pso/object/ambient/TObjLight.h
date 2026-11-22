@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
+struct TObjLightSceneLightState;
+
 struct TObjLight : public TObjBase {
     TObjLight(TObject *parent, u8 *set_data);
     virtual ~TObjLight();
@@ -25,7 +27,9 @@ struct TObjLight : public TObjBase {
     void*init_light(int a1);
     void unregister_and_free();
     static uaddr alloc_light_slot();
+    void sub_8013379C(TObjLightSceneLightState *state);
     void init_directional_light();
+    void sub_801337F8();
     static void free_shared_data();
     static void apply_distant_light();
     void set_light(void *arg1, f32 farg0);

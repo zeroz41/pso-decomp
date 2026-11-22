@@ -1410,8 +1410,8 @@ force_active:
   - TObjLight__data_805068FC
   - TObjLight__data_80506A5C
   - TObjLight__data_805DB088
-  - TObjLight__sub_80133714
-  - TObjLight__sub_8013397C
+  - sub_80133714__13TUnk_804A6F78Fv
+  - sub_8013397C__13TUnk_804A6F90Fv
   - __ct__13TUnk_804A6F90FP7TObject
   - TObjLiveCamera__ct
   - __ct__9TObjLukerFP7TObjectPv
@@ -15586,7 +15586,7 @@ force_active:
   - set_rate_from_divisor__13TUnk_80494938Fl
   - set_result_flag__12TBoss1DragonFll
   - set_scale__13TUnk_804B2578Ff
-  - set_scene_light_diffuse__FPv
+  - set_scene_light_diffuse__13TUnk_804A6F90Fv
   - set_screen_pos__11TBoss6Type2Fv
   - set_script_id__15TOQuestTalkBaseFl
   - set_selected_card__17TWindowSubComCardFl
@@ -16422,8 +16422,8 @@ force_active:
   - submit_cursor_and_notify__16TOTrapAncient02RFv
   - submit_keyboard_input__11TWindowChatFv
   - submit_particle_quad__FPvPfPfl
-  - submit_scene_ambient_color__Fv
-  - submit_scene_light_direction__FPv
+  - submit_scene_ambient_color__13TUnk_804A6F78Fv
+  - submit_scene_light_direction__13TUnk_804A6F90Fv
   - submit_selected_item__22TChallenge4PItemSelectFv
   - subtract_network_queue_timeout__Fl
   - subtractive_rng_refill

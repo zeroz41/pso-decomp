@@ -56,8 +56,8 @@ struct TObjEneDD : public TObjEnemy {
     static void clear_global_flag_400();
     void draw_ground_shadow(const Vec *scale, s32 forceDraw);
     static void draw_oriented_shadow(const Vec *position, const Vec *normal, saddr angle, const Vec *scale);
-    int update_primary_light();
-    int update_secondary_light();
+    void update_primary_light();
+    void update_secondary_light();
     void reload_stats_keep_hp_tp(u8 *base_stats, u8 *attack_stats, u8 *resistance_stats);
     void reset_hp(u8 *base_stats, u8 *attack_stats, u8 *resistance_stats);
     void initialize_enemy_state(s32 parameter);

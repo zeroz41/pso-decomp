@@ -373,7 +373,7 @@ void TObjEneMoja::render() {
     if (vis == 0) {
         return;
     }
-    select_actor_lighting((saddr)this);
+    select_actor_lighting(this);
     TObjFish::set_global_param(texlist);
     id = model_render_flags;
     fade = &unknown_39C[cam];

@@ -15,11 +15,8 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/text_803D96A8.h"
-
-extern "C" {
-s32 TObjLight__sub_801337F8(s32);
-extern saddr current_scene_light;
-}
+#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight.h"
 
 const char *TBoss2Fin__name = "TBoss2Fin";
 // The pull run_task() hands to the rope update every frame.
@@ -70,7 +67,7 @@ void TBoss2Fin::render() {
             pop_matrix();
         }
     }
-    TObjLight__sub_801337F8(current_scene_light);
+    current_scene_light->sub_801337F8();
 }
 
 void TBoss2Fin::run_task() {

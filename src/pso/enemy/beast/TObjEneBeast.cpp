@@ -202,7 +202,7 @@ void TObjEneBeast::render() {
         fade = camera_fades[cam].updateFromCamera(&body_center.x);
     }
     saved_model_render_flags = model_render_flags;
-    select_actor_lighting((saddr)this);
+    select_actor_lighting(this);
     TObjFish::set_global_param(texlist);
     push_matrix();
     translate_matrix(0, 0.0f, unk_380, 0.0f);

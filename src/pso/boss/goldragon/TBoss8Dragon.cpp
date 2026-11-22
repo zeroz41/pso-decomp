@@ -73,6 +73,8 @@
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight.h"
 
 struct Rot_802F9D08 { s32 x, y, z; };
 
@@ -450,8 +452,6 @@ typedef struct A_802F3D6C { u8 pad0[4]; s32 idx; u8 pad8[8]; } A_802F3D6C;
 typedef struct Anim_802F3D6C { u8 pad0[4]; u32 nframes; } Anim_802F3D6C;
 typedef struct B_802F3D6C { u8 pad0[4]; Anim_802F3D6C *anim; } B_802F3D6C;
 extern "C" {
-void TObjLight__sub_801337F8(s32);
-extern saddr current_scene_light;
 extern s32 model_render_flags;
 // (from _802F3CA0)
 extern s32 saved_model_render_flags;
@@ -4925,7 +4925,7 @@ void TBoss8Dragon::draw_with_fade(saddr pos, s32 view) {
         ((TObjMotion *)((u8 *)this))->draw();
         init_tev_swap();
         TParticleCtrl::end_effect_render();
-        TObjLight__sub_801337F8(current_scene_light);
+        current_scene_light->sub_801337F8();
         pop_matrix();
         set_chunk_material_override_pair(0xFF00, 0);
         set_material_alpha_compare_reference(0xBF);
@@ -5030,7 +5030,7 @@ void TBoss8Dragon::draw_motion_model() {
         set_motion_packed_rotation();
         draw_model_motion((void *)(*(saddr *)(self + 0x34)), anim, f);
         clear_motion_packed_rotation();
-        TObjLight__sub_801337F8(current_scene_light);
+        current_scene_light->sub_801337F8();
         pop_matrix();
     }
 }

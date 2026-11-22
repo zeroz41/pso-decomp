@@ -387,7 +387,7 @@ void TObjEneMe1GiGue::render() {
         }
     }
     TObjFish::set_global_param(texlist);
-    select_actor_lighting((saddr)this);
+    select_actor_lighting(this);
     TObjPlayer::toggle_particle_effect();
     ok = 1;
     push_matrix();

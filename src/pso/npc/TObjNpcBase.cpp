@@ -429,7 +429,7 @@ extern s32 model_render_flags;
 
 void TObjNpcBase::render() {
     if ((update_object_view_visibility(m_398, m_39c) != 0) && (m_390 == 1)) {
-        select_actor_lighting((saddr) this);
+        select_actor_lighting(this);
         model_render_flags |= 1;
         TObjFish::set_global_param(texlist);
         push_matrix_from(0);

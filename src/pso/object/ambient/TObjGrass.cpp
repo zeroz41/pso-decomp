@@ -47,6 +47,7 @@
 #include "pso/network/TProtocol.h"
 #include "pso/math/ScratchVectors.h"
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
 
 
 saddr lbl_805D5140;
@@ -379,8 +380,6 @@ struct VObj_18_ca64a0 : VBase_18_ca64a0 {
     virtual void m8();
     virtual s32 m9(f32, f32, f32);
 };
-void restore_scene_lighting(void);
-void select_actor_lighting(saddr obj);
 void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
@@ -604,7 +603,7 @@ void TObjGrass::render() {
     if (*(s32 *)((s8 *)arg0 + 0x3A8) == 0) {
         return;
     }
-    select_actor_lighting((saddr)self);
+    select_actor_lighting(this);
     TObjFish::set_global_param(*(s32 *)((s8 *)arg0 + 0x24));
     push_matrix();
     translate_matrix(0, (0.0f), *(f32 *)((s8 *)arg0 + 0x35C), (0.0f));

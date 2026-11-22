@@ -67,7 +67,7 @@ static CollisionBody volopt_pillar_collision_body[1] = {
 void TObjVoloptPillar::render() {
     f32 scale;
     if (update_object_view_visibility(400.0f, 40.0f) != 0) {
-        select_actor_lighting((saddr)this);
+        select_actor_lighting(this);
         TObjPlayer::toggle_particle_effect();
         push_matrix();
         post_translate_matrix(&position);

@@ -423,7 +423,7 @@ void TBoss3VoloptP02::render() {
             fade.set_flags_and_apply_damage_color();
         }
         TObjFish::set_global_param(texlist);
-        select_actor_lighting((saddr)this);
+        select_actor_lighting(this);
         TObjPlayer::toggle_particle_effect();
         push_matrix();
         model_render_flags &= ~0x400;

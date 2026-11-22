@@ -469,7 +469,7 @@ void TObjEneDubchik::render() {
     if (!(actorFlags & 0x02000000)) {
         detail = classify_actor_view_detail(120.0f, 400.0f, 20.0f);
         if (detail != 0) {
-            select_actor_lighting((saddr)this);
+            select_actor_lighting(this);
             TObjPlayer::toggle_particle_effect();
             if (collapsed != 0) {
                 TObjFish::set_global_param((saddr)dubchik_texlist);

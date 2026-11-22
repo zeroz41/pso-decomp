@@ -62,11 +62,11 @@ struct NJS_OBJECT;
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TUnk_804928CC.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight.h"
 extern "C" {
-void TObjLight__sub_801337F8(s32);
 s32 scale_matrix(s32, f32, f32, f32);
 s32 post_translate_matrix(void *);
-extern saddr current_scene_light;
 extern s32 model_render_flags;
 }
 struct ByteBlock_C { u8 bytes[0xc]; };
@@ -5329,7 +5329,7 @@ void TBoss1Dragon::render() {
             ((TObjMotion *)((u8 *)this))->draw();
             TParticleCtrl::end_effect_render();
             set_chunk_model_node_callback(NULL);
-            TObjLight__sub_801337F8(current_scene_light);
+            current_scene_light->sub_801337F8();
             pop_matrix();
         }
         set_chunk_material_override_pair(0xFF00, 0);
@@ -5413,7 +5413,7 @@ void TBoss1Dragon::render_low_detail() {
         }
     }
     draw_model_motion(self->model, m, frame);
-    TObjLight__sub_801337F8(current_scene_light);
+    current_scene_light->sub_801337F8();
     pop_matrix();
 }
 

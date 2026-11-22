@@ -20,9 +20,10 @@
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight.h"
 
 extern "C" {
-void TObjLight__sub_801337F8(s32);
 s32 rotate_matrix_z(int, int);
 void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 s32 rotate_matrix_x(int, int);
@@ -35,7 +36,6 @@ void scale_matrix(int, f32, f32, f32);
 void rotate_matrix_by_node_angles(void *angles, s32 mode);
 void scale_current_matrix(Vec *scale);
 f32 vec3_add_to(void *, void *);
-extern saddr current_scene_light;
 extern u32 model_render_flags;
 extern u32 saved_model_render_flags;
 extern const f32 breakup_unit;
@@ -238,7 +238,7 @@ void TUnk_804820A8::render() {
         node = node->sibling;
         p++;
     }
-    TObjLight__sub_801337F8(current_scene_light);
+    current_scene_light->sub_801337F8();
 }
 
 void TObjPlayer__sub_8002E7C8(void) {
@@ -345,7 +345,7 @@ void TUnk_80482090::render() {
         }
     }
     pop_matrix();
-    TObjLight__sub_801337F8(current_scene_light);
+    current_scene_light->sub_801337F8();
 }
 
 }

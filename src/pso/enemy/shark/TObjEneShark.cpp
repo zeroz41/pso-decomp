@@ -220,7 +220,7 @@ void TObjEneShark::render() {
     f->update();
     fade = f->updateFromCamera(&body_center.x);
   }
-  select_actor_lighting((saddr)this);
+  select_actor_lighting(this);
   model_render_flags |= 1;
   TObjFish::set_global_param(texlist);
   push_matrix();

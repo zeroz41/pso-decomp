@@ -520,7 +520,7 @@ void TObjEneBalClawClaw::render() {
         if (detail != 0) {
             shadow = 1;
             TObjFish::set_global_param(texlist);
-            select_actor_lighting((saddr)this);
+            select_actor_lighting(this);
             TObjPlayer::toggle_particle_effect();
             push_matrix();
             model_render_flags &= 0xFFFFFBFF;

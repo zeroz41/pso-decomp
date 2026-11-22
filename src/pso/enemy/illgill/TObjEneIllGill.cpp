@@ -281,7 +281,7 @@ void TObjEneIllGill::render() {
     }
     this->viewDetail = classify_actor_view_detail(250.0f, 500.0f, 40.0f);
     if (this->viewDetail != 0) {
-        select_actor_lighting((saddr)self);
+        select_actor_lighting(this);
         TObjFish::set_global_param(this->texlist);
         push_matrix();
         post_translate_matrix(&position.x);

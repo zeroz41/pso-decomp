@@ -46,13 +46,8 @@ extern const f32 lbl_805D9E80 = -0.1f;
 extern const f32 lbl_805D9E84 = 310.0f;
 extern const f32 lbl_805D9E88 = 155.0f;
 #include "pso/enemy/dd/TObjEneDD_800B9AF8.h"
-
-extern "C" {
-int TObjLight__sub_801337F8(void*);
-int TObjLight__sub_801337FC(void*);
-extern saddr lbl_805D555C;
-extern saddr current_scene_light;
-}
+#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight.h"
 
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
@@ -79,8 +74,6 @@ struct Stack_800B9D94 {
 };
 extern "C" {
 s32 minimap_render_dot(void *, int, int, int);
-int restore_scene_lighting(void*);
-int select_actor_lighting(void*);
 extern int model_render_flags;
 }
 
@@ -972,9 +965,9 @@ void TObjEneDD::reload_stats_keep_hp_tp(u8 *base_stats, u8 *attack_stats, u8 *re
     *(s16 *)&this->tp = d;
 }
 
-int TObjEneDD::update_secondary_light() { return select_actor_lighting(this); }
+void TObjEneDD::update_secondary_light() { select_actor_lighting(this); }
 
-int TObjEneDD::update_primary_light() { return restore_scene_lighting(this); }
+void TObjEneDD::update_primary_light() { restore_scene_lighting(); }
 
 void TObjEneDD::draw_oriented_shadow(const Vec *position, const Vec *normal, saddr angle, const Vec *scale) {
     Stack_800B9D94 stack;
@@ -1058,7 +1051,7 @@ s32 TObjEneDD::clamp_frame_index(s32 frame) {
 
 void TObjEneDD__sub_800B9B24(void) {  }
 
-void TObjEneDD::init_lights() { TObjLight__sub_801337F8((void*)current_scene_light); TObjLight__sub_801337FC((void*)lbl_805D555C); }
+void TObjEneDD::init_lights() { current_scene_light->sub_801337F8(); TObjLight__sub_801337FC(lbl_805D555C); }
 
 
 TObjEneDD_ST::TObjEneDD_ST(TObject *parent) : TObjEneDD(parent) {

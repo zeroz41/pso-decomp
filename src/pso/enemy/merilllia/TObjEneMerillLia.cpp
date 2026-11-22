@@ -517,7 +517,7 @@ void TObjEneMerillLia::render() {
   if (temp_r3 != 0)
   {
     saved_model_render_flags = model_render_flags;
-    select_actor_lighting((saddr)this);
+    select_actor_lighting(this);
     TObjFish::set_global_param((int) ((RecoveredFields_800D6810_arg0 *) ((u8 *)this))->field_24);
     push_matrix();
     translate_matrix(0, 0.0f, (f32) ((RecoveredFields_800D6810_arg0 *) ((u8 *)this))->field_380, 0.0f);

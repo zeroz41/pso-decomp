@@ -52,6 +52,7 @@
 #include "pso/object/TObjControl.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
 
 struct RecoveredGlobal_80300FC0_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
 LAYOUT_ASSERT(RecoveredGlobal_80300FC0_lbl_8058D490_size, sizeof(RecoveredGlobal_80300FC0_lbl_8058D490) == 0x30);
@@ -183,8 +184,6 @@ f32 horizontal_distance_squared(void *, void *);
 void *get_player_by_client_id(s32 i);
 extern uaddr TObjEneDolmOlm__behavior_params_by_variant;
 s32 is_split_screen();
-s32 restore_scene_lighting();
-s32 select_actor_lighting(void *);
 }
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
@@ -571,7 +570,7 @@ void TObjEneDolmOlm::render() {
     }
     vis = classify_actor_view_detail(200.0f, 400.0f, 30.0f);
     if (vis != 0 && ((TObjEneDolmOlm *)self)->render_model_if_visible() == 0) {
-    select_actor_lighting(self);
+    select_actor_lighting(this);
     model_render_flags |= 1;
     TObjFish::set_global_param(self->f24);
     push_matrix();

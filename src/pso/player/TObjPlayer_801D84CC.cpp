@@ -18,6 +18,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
 
 struct Stack_801D8664 {
     s8 sp8;
@@ -80,8 +81,6 @@ void TObjPlayer__sub_801D8664(s32 arg0, s8 arg1, s8 arg2) {
     process_trade_target__10TObjPlayerFiPv(arg0, &stack.sp8);
 }
 
-void restore_scene_lighting(void);
-void select_actor_lighting(saddr obj);
 s32 TObjPlayer__sub_801BAC48(void *);
 }
 saddr player_ending_motion_object;
@@ -104,7 +103,7 @@ TUnk_804C4540 *TUnk_804C4540::create(TPlyCharData *data) {
 
 void TUnk_804C4540::render() {
     if ((obj_testFlags30(0x02000000) == 0) && ((s32)m_cfc == 0)) {
-        select_actor_lighting((saddr)this);
+        select_actor_lighting(this);
         push_matrix();
         translate_matrix_vec3(0, (u8 *)&position);
         rotate_matrix_y(0, rotation_y);

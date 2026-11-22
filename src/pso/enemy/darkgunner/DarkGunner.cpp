@@ -295,9 +295,7 @@ extern u32 model_render_flags;
 
 void set_chunk_material_override_pair(s32 first, s32 second);
 
-void restore_scene_lighting(void);
 
-void select_actor_lighting(s32 obj);
 
 f32 fabs_float(f32 x);
 
@@ -957,7 +955,7 @@ void TObjEneDarkGunner::render() {
     if (obj_testFlags30(0x02000000) == 0) {
         view = classify_actor_view_detail(150.0f, 400.0f, 15.0f);
         if (view != 0) {
-            select_actor_lighting((saddr)this);
+            select_actor_lighting(this);
             TObjPlayer::toggle_particle_effect();
             drawn = 1;
             push_matrix();

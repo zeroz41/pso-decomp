@@ -476,7 +476,7 @@ void TObjEneGibbles::render() {
     if (vis != 0) {
         this->fades[cam].update();
         fade = this->fades[cam].updateFromCamera((const f32*)((u8 *)this + 0x2FC));
-        select_actor_lighting((saddr)this);
+        select_actor_lighting(this);
         TObjFish::set_global_param(this->texlist);
         push_matrix_from(0);
         VecCopy((Vec *)&v, (const Vec *)((Vec *)((u8 *)this + 0x38)));
