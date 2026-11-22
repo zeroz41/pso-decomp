@@ -1191,7 +1191,7 @@ force_active:
   - lappy_ap_hw_motion_names
   - lappy_hw_motion_names
   - __ct__23TObjEneMe1CanadinLeaderFP7TObjectPv
-  - fn_8009E258__17TObjEneMe1CanadinFv
+  - release_from_formation__17TObjEneMe1CanadinFv
   - order_attack__17TObjEneMe1CanadinFv
   - has_status_flag__17TObjEneMe1CanadinFl
   - set_out_fighter__17TObjEneMe1CanadinFv
@@ -1220,8 +1220,8 @@ force_active:
   - state_appear__17TObjEneMe1CanadinFl
   - is_hover_low__17TObjEneMe1CanadinFv
   - find_attack_target__17TObjEneMe1CanadinFPff
-  - fn_8009E930__17TObjEneMe1CanadinFv
-  - fn_8009E948__17TObjEneMe1CanadinFv
+  - clear_melee_body_flags__17TObjEneMe1CanadinFv
+  - set_melee_body_flags__17TObjEneMe1CanadinFv
   - hover_toward__17TObjEneMe1CanadinFf
   - approach_hover_y__17TObjEneMe1CanadinFf
   - TObjEneMe1Gee_NEEDLE__name
@@ -7466,8 +7466,8 @@ force_active:
   - lbl_804394A4
   - lbl_804394BC
   - lbl_804394D4
-  - lbl_8043AAA4
-  - lbl_8043AD10
+  - dimedian_a_bml_filename
+  - shark_model_name_bm1f_s_wala_body_nj
   - shark_model_name_bm1tl_s_wala_body_nj
   - shark_model_name_bm1_s_wala_body_nj
   - shark_motion_name_appear_bm1_s_wala_body_njm
@@ -8358,7 +8358,7 @@ force_active:
   - saver_attack_trail_points
   - saver_jump_trail_points
   - saver_nail_trail_points
-  - lbl_805D5074
+  - dimedian_attack_stat_table
   - bm3_fly_nest_base_stats
   - bm3_fly_nest_attack_stats
   - bm3_fly_nest_resist_stats

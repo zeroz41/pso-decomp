@@ -355,7 +355,7 @@ void TObjEneShark::render() {
   }
 }
 
-__declspec(section ".rodata") char lbl_8043AD10[] = "bm1f_s_wala_body.nj";
+__declspec(section ".rodata") char shark_model_name_bm1f_s_wala_body_nj[] = "bm1f_s_wala_body.nj";
 __declspec(section ".rodata") char shark_model_name_bm1tl_s_wala_body_nj[] = "bm1tl_s_wala_body.nj";
 __declspec(section ".rodata") char shark_model_name_bm1_s_wala_body_nj[] = "bm1_s_wala_body.nj";
 __declspec(section ".rodata") char shark_motion_name_appear_bm1_s_wala_body_njm[] = "appear_bm1_s_wala_body.njm";
@@ -374,7 +374,7 @@ __declspec(section ".rodata") char bm_ene_bm1_shark_bml_filename[] = "bm_ene_bm1
 __declspec(section ".rodata") char TObjEneShark__class_name_string[] = "TObjEneShark";
 
 const char *bm_ene_bm1_shark_model_names[4] = {
-    lbl_8043AD10, shark_model_name_bm1tl_s_wala_body_nj, shark_model_name_bm1_s_wala_body_nj, NULL,
+    shark_model_name_bm1f_s_wala_body_nj, shark_model_name_bm1tl_s_wala_body_nj, shark_model_name_bm1_s_wala_body_nj, NULL,
 };
 const char *bm_ene_bm1_shark_motion_names[13] = {
     shark_motion_name_appear_bm1_s_wala_body_njm, shark_motion_name_atackl_bm1_s_wala_body_njm, shark_motion_name_atackr_bm1_s_wala_body_njm, shark_motion_name_damage_bm1_s_wala_body_njm,
@@ -398,17 +398,14 @@ TObjMotionAction TObjEneShark__action_table[11] = {
     { 3, 0, 4, 0.6f, 0x10 },
     { 2, 0, 6, 0.6f, 0x20 },
 };
-// Per-subtype movement parameters (0x1C bytes each) the ctor points movementParameters at.
-void *lbl_804915B4[21] = {
-    (void *)0x43610000, (void *)0x3f400000, (void *)0x400, (void *)0x0,
-    (void *)0x1e0000, (void *)0x1, (void *)0x0, (void *)0x437a0000,
-    (void *)0x3f666666, (void *)0x400, (void *)0x0, (void *)0x1e0000,
-    (void *)0x1, (void *)0x0, (void *)0x43960000, (void *)0x3f800000,
-    (void *)0x400, (void *)0x0, (void *)0x1e0000, (void *)0x1,
-    (void *)0x0,
+// Per-subtype movement parameters the ctor points movementParameters at.
+BeastMovementParams shark_movement_params[3] = {
+    {225.0f, 0.75f, 0x400, {0, 0x1E0000, 1, 0}},
+    {250.0f, 0.9f, 0x400, {0, 0x1E0000, 1, 0}},
+    {300.0f, 1.0f, 0x400, {0, 0x1E0000, 1, 0}},
 };
 // Per-subtype collision body the ctor hands init_collision_body_parts.
-CollisionBody lbl_80491608[3] = {
+CollisionBody shark_collision_body_table[3] = {
     { { 0.0f, 12.5f, 0.0f }, 7.0f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
     { { 0.0f, 12.5f, 0.0f }, 7.0f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
     { { 0.0f, 15.0f, 0.0f }, 8.0f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
@@ -555,9 +552,9 @@ TObjEneShark::TObjEneShark(TObject *parent, void *setData) : TUnk_80493450(paren
     requested_action = 0;
     set_animation(requested_action);
     set_field_b8(requested_action);
-    init_collision_body_parts(this, &lbl_80491608[subtype], 1);
+    init_collision_body_parts(this, &shark_collision_body_table[subtype], 1);
     bind_enemy_combat_stats((u8 *)TObjEneShark__resource_node[subtype], (u8 *)TObjEneShark__resource_buf[subtype], (u8 *)shark_resource_data[subtype]);
-    movementParameters = (u8 *)lbl_804915B4 + subtype * 0x1C;
+    movementParameters = &shark_movement_params[subtype];
     referenceHp = hp;
     update_prev_position();
     ((TBoss3VoloptHiraisin *)this)->copy_position();

@@ -49,8 +49,8 @@
 #include "pso/system/task/TMainTask.h"
 
 extern "C" {
-extern SampledMotionPoints *dimedian_type3_object;
-extern SampledMotionPoints *lbl_805D5088;
+extern SampledMotionPoints *dimedian_attack_left_trail;
+extern SampledMotionPoints *dimedian_attack_right_trail;
 
 extern saddr dimedian_resource_handles[];
 extern s32 dimedian_last_draw_tick[];
@@ -123,11 +123,11 @@ void TObjEneDimedian::update_attack_trail() {
     }
     switch (this->requested_action) {
     case 3:
-        e = dimedian_type3_object->lookup(this->frame);
+        e = dimedian_attack_left_trail->lookup(this->frame);
         idx = 0;
         break;
     case 4:
-        e = lbl_805D5088->lookup(this->frame);
+        e = dimedian_attack_right_trail->lookup(this->frame);
         idx = 1;
         break;
     default:
@@ -332,7 +332,7 @@ extern "C" const char dimedian_class_name[16] = "TObjEneDimedian";
 
 
 extern "C" {
-extern const u8 lbl_8043AAA4[26];
+extern const u8 dimedian_a_bml_filename[26];
 }
 int initialize_enemy_photon_effect(void *p);
 extern "C" {
@@ -384,7 +384,7 @@ void *TObjEneDimedian::create(void *arg2_) {
 }
 
 u8 **dimedian_boss_object_buf;
-u8 **lbl_805D5074;
+u8 **dimedian_attack_stat_table;
 u8 **TObjEneDimedian__boss_objects;
 f32 **dimedian_buffer_ptr;
 extern BmlResource *dimedian_resource_ptr;
@@ -394,9 +394,9 @@ void TObjEneDimedian::free_boss_objects() {
         mem_free(dimedian_boss_object_buf);
         dimedian_boss_object_buf = NULL;
     }
-    if (lbl_805D5074 != NULL) {
-        mem_free(lbl_805D5074);
-        lbl_805D5074 = NULL;
+    if (dimedian_attack_stat_table != NULL) {
+        mem_free(dimedian_attack_stat_table);
+        dimedian_attack_stat_table = NULL;
     }
     if (TObjEneDimedian__boss_objects != NULL) {
         mem_free(TObjEneDimedian__boss_objects);
@@ -406,13 +406,13 @@ void TObjEneDimedian::free_boss_objects() {
         mem_free(dimedian_buffer_ptr);
         dimedian_buffer_ptr = NULL;
     }
-    if (lbl_805D5088 != NULL) {
-        delete lbl_805D5088;
-        lbl_805D5088 = NULL;
+    if (dimedian_attack_right_trail != NULL) {
+        delete dimedian_attack_right_trail;
+        dimedian_attack_right_trail = NULL;
     }
-    if (dimedian_type3_object != NULL) {
-        delete dimedian_type3_object;
-        dimedian_type3_object = NULL;
+    if (dimedian_attack_left_trail != NULL) {
+        delete dimedian_attack_left_trail;
+        dimedian_attack_left_trail = NULL;
     }
     if (dimedian_resource_ptr != NULL) {
         delete dimedian_resource_ptr;
@@ -426,7 +426,7 @@ void TLobby::load_dimedian_resources() {
     void *p;
     s32 i;
     if (TObjEneDD::check_v2_mode() != 0) {
-        dimedian_resource_ptr = load_enemy_bml_resource_named((BmlResourceDescriptor *)dimedian_resource_descriptor, (const char *)lbl_8043AAA4);
+        dimedian_resource_ptr = load_enemy_bml_resource_named((BmlResourceDescriptor *)dimedian_resource_descriptor, (const char *)dimedian_a_bml_filename);
     } else {
         p = new BmlResource(1, (BmlResourceDescriptor *)dimedian_resource_descriptor, 0, 0, NULL);
         dimedian_resource_ptr = (BmlResource *)p;
@@ -438,20 +438,20 @@ void TLobby::load_dimedian_resources() {
     dimedian_last_draw_tick[0] = 0;
     dimedian_last_draw_tick[1] = 0;
     dimedian_last_draw_tick[2] = 0;
-    dimedian_type3_object = new SampledMotionPoints(2, 7.0f, 12.0f, 1.0f);
-    lbl_805D5088 = new SampledMotionPoints(2, 7.0f, 12.0f, 1.0f);
-    dimedian_type3_object->sample_two_nodes(dimedian_resource_ptr->models->model, (NJS_MOTION *)dimedian_resource_ptr->motions[dimedian_action_table[3].motion].motion, 5, 8);
-    lbl_805D5088->sample_two_nodes(dimedian_resource_ptr->models->model, (NJS_MOTION *)dimedian_resource_ptr->motions[dimedian_action_table[4].motion].motion, 0xA, 0xD);
+    dimedian_attack_left_trail = new SampledMotionPoints(2, 7.0f, 12.0f, 1.0f);
+    dimedian_attack_right_trail = new SampledMotionPoints(2, 7.0f, 12.0f, 1.0f);
+    dimedian_attack_left_trail->sample_two_nodes(dimedian_resource_ptr->models->model, (NJS_MOTION *)dimedian_resource_ptr->motions[dimedian_action_table[3].motion].motion, 5, 8);
+    dimedian_attack_right_trail->sample_two_nodes(dimedian_resource_ptr->models->model, (NJS_MOTION *)dimedian_resource_ptr->motions[dimedian_action_table[4].motion].motion, 0xA, 0xD);
     dimedian_boss_object_buf = (u8 **)mem_alloc(0xC);
-    lbl_805D5074 = (u8 **)mem_alloc(0xC);
+    dimedian_attack_stat_table = (u8 **)mem_alloc(0xC);
     TObjEneDimedian__boss_objects = (u8 **)mem_alloc(0xC);
     dimedian_buffer_ptr = (f32 **)mem_alloc(0xC);
     dimedian_boss_object_buf[0] = (u8 *)TLobby::register_boss(0x53);
     dimedian_boss_object_buf[1] = (u8 *)TLobby::register_boss(0x54);
     dimedian_boss_object_buf[2] = (u8 *)TLobby::register_boss(0x55);
-    lbl_805D5074[0] = (u8 *)TLobby::dispatch_shared_handler_b(0x5A);
-    lbl_805D5074[1] = (u8 *)TLobby::dispatch_shared_handler_b(0x5B);
-    lbl_805D5074[2] = (u8 *)TLobby::dispatch_shared_handler_b(0x5C);
+    dimedian_attack_stat_table[0] = (u8 *)TLobby::dispatch_shared_handler_b(0x5A);
+    dimedian_attack_stat_table[1] = (u8 *)TLobby::dispatch_shared_handler_b(0x5B);
+    dimedian_attack_stat_table[2] = (u8 *)TLobby::dispatch_shared_handler_b(0x5C);
     TObjEneDimedian__boss_objects[0] = (u8 *)TLobby::register_object(0x52);
     TObjEneDimedian__boss_objects[1] = (u8 *)TLobby::register_object(0x53);
     TObjEneDimedian__boss_objects[2] = (u8 *)TLobby::register_object(0x54);
@@ -467,7 +467,7 @@ void TLobby::load_dimedian_resources() {
         }
     }
 }
-extern "C" __declspec(section ".rodata") const u8 lbl_8043AAA4[26] = "bm_ene_df3_dimedian_a.bml";
+extern "C" __declspec(section ".rodata") const u8 dimedian_a_bml_filename[26] = "bm_ene_df3_dimedian_a.bml";
 }
 
 extern "C" {
@@ -477,8 +477,8 @@ s32 dimedian_last_draw_tick[3];
 const char *TObjEneDimedian_name_ref = dimedian_class_name;
 
 BmlResource *dimedian_resource_ptr;
-SampledMotionPoints *dimedian_type3_object;
-SampledMotionPoints *lbl_805D5088;
+SampledMotionPoints *dimedian_attack_left_trail;
+SampledMotionPoints *dimedian_attack_right_trail;
 }
 
 #pragma defer_codegen on
@@ -503,7 +503,7 @@ TObjEneDimedian::TObjEneDimedian(TObject *parent, void *set_data) : TUnk_8049345
     set_animation(requested_action);
     set_field_b8(requested_action);
     init_collision_body_parts(this, &dimedian_collision_body_table[subtype], 1);
-    bind_enemy_combat_stats(dimedian_boss_object_buf[subtype], lbl_805D5074[subtype], TObjEneDimedian__boss_objects[subtype]);
+    bind_enemy_combat_stats(dimedian_boss_object_buf[subtype], dimedian_attack_stat_table[subtype], TObjEneDimedian__boss_objects[subtype]);
     movementParameters = &dimedian_movement_params[subtype];
     referenceHp = hp;
     update_prev_position();

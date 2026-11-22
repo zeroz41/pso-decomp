@@ -72,10 +72,10 @@ const char *TObjEneGibbles__motion_names_and_resource_descriptor[11] = {
     "jump_gibb_body.njm", "kamae_gibb_body.njm", "landing_gibb_body.njm", "punch_gibb_body.njm",
     "wait_gibb_body.njm", "walk_gibb_body.njm", NULL,
 };
-BmlResourceDescriptor lbl_804E285C = {
+BmlResourceDescriptor bm_ene_gibbles_resource_descriptor = {
     "bm_ene_gibbles.bml", TObjEneGibbles__model_filenames, TObjEneGibbles__motion_names_and_resource_descriptor, 1, 10,
 };
-__declspec(section ".data") const char *lbl_804E286C[2] = {
+__declspec(section ".data") const char *bm_ene_gibbles_low_model_names[2] = {
     "lo_gibb_body.nj", NULL,
 };
 const char *gibbles_motion_name_table[11] = {
@@ -83,8 +83,8 @@ const char *gibbles_motion_name_table[11] = {
     "jump_gibb_body.njm", "kamae_gibb_body.njm", "landing_gibb_body.njm", "punch_gibb_body.njm",
     "wait_gibb_body.njm", "walk_gibb_body.njm", NULL,
 };
-BmlResourceDescriptor lbl_804E28A0 = {
-    "bm_ene_gibbles_low.bml", lbl_804E286C, gibbles_motion_name_table, 1, 10,
+BmlResourceDescriptor bm_ene_gibbles_low_resource_descriptor = {
+    "bm_ene_gibbles_low.bml", bm_ene_gibbles_low_model_names, gibbles_motion_name_table, 1, 10,
 };
 // actions/action_count hold gibbles_action_table and its 10 entries (same layout as GeeAnimationBinding)
 TObjMotionAction gibbles_action_table[10] = {
@@ -104,10 +104,10 @@ const NpcAnimationBinding gibbles_resource_binding_desc = { NULL, gibbles_action
 const Vec lbl_80472768 = {0.0f, 0.0f, 0.0f};
 const Vec lbl_80472774 = {0.0f, 0.0f, 0.0f};
 const Vec gibbles_joint_zero_vec = {0.0f, 0.0f, 0.0f};
-GibblesMoveParams lbl_804E2950 = {
+GibblesMoveParams gibbles_move_params = {
     250.0f, 1.25f, 0x400, {0, 0x64, 0, 0},
 };
-CollisionBody lbl_804E296C[3] = {
+CollisionBody gibbles_collision_bodies[3] = {
     { { 0.0f, 15.0f, 0.0f }, 15.0f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
     { { 0.0f, 0.0f, 0.0f }, 15.0f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
     { { 0.0f, 0.0f, 0.0f }, 30.0f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
@@ -148,10 +148,10 @@ TObjEneGibbles::TObjEneGibbles(TObject *parent, void *setData) : TObjEnemy(paren
     requested_action = 0;
     set_animation(requested_action);
     set_field_b8(requested_action);
-    init_collision_body_parts(this, lbl_804E296C, 1);
+    init_collision_body_parts(this, gibbles_collision_bodies, 1);
     attack_kind = 0;
     combo_count = 0;
-    movementParameters = &lbl_804E2950;
+    movementParameters = &gibbles_move_params;
     bind_enemy_combat_stats((u8 *)gibbles_boss_stat_handle, (u8 *)gibbles_combat_stat_entries[attack_kind], (u8 *)gibbles_combat_stats_handle);
     referenceHp = hp;
     update_position();
@@ -166,9 +166,9 @@ TObjEneGibbles::TObjEneGibbles(TObject *parent, void *setData) : TObjEnemy(paren
     armor_state = 0x101;
     reported_armor_state = 0x101;
     attack_colliders[0] = new TObjCollidable(NULL);
-    init_collision_body_parts(attack_colliders[0], &lbl_804E296C[1], 1);
+    init_collision_body_parts(attack_colliders[0], &gibbles_collision_bodies[1], 1);
     attack_colliders[1] = new TObjCollidable(NULL);
-    init_collision_body_parts(attack_colliders[1], &lbl_804E296C[2], 1);
+    init_collision_body_parts(attack_colliders[1], &gibbles_collision_bodies[2], 1);
     fade.reset_obstruction_fade();
     for (i = 0; i < 4; i++) {
         fades[i].activate_and_dispatch();
@@ -193,10 +193,10 @@ TObjEneGibbles::~TObjEneGibbles() {
 void TObjEneGibbles::load_resources() {
     BmlResource *p;
     if (is_split_screen() != 0) {
-        p = new BmlResource(1, &lbl_804E28A0, 0, 0, NULL);
+        p = new BmlResource(1, &bm_ene_gibbles_low_resource_descriptor, 0, 0, NULL);
         TObjEneGibbles__resource_bundle = p;
     } else {
-        p = new BmlResource(1, &lbl_804E285C, 0, 0, NULL);
+        p = new BmlResource(1, &bm_ene_gibbles_resource_descriptor, 0, 0, NULL);
         TObjEneGibbles__resource_bundle = p;
     }
     TObjEneGibbles__render_node_index = 0;
@@ -210,7 +210,7 @@ void TObjEneGibbles::load_resources() {
     TObjEneGibbles__ai_parameters = (GibblesAiParams *)TLobby::dispatch_shared_handler_a(0x3D);
     NpcAnimationBinding s = gibbles_resource_binding_desc;
     s.motions = TObjEneGibbles__resource_bundle->motions;
-    NpcModelRegistry::register_animated_chunk(0x44, TObjEneGibbles__resource_bundle->models->model, TObjEneGibbles__resource_bundle->models->m_c, &s, lbl_804E296C[0].radius, 0.0f);
+    NpcModelRegistry::register_animated_chunk(0x44, TObjEneGibbles__resource_bundle->models->model, TObjEneGibbles__resource_bundle->models->m_c, &s, gibbles_collision_bodies[0].radius, 0.0f);
 }
 
 void TObjEneGibbles::free_static() {

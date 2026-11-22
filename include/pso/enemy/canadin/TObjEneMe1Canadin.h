@@ -135,9 +135,9 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
     void state_appear(s32 msg);
     s32 is_hover_low();  // hover_offset < 20; gates the melee contact checks (name inferred)
     s32 find_attack_target(f32 *out, f32 squared_range);
-    void fn_8009E930();
-    void fn_8009E948();
-    void fn_8009E258();
+    void clear_melee_body_flags();
+    void set_melee_body_flags();
+    void release_from_formation();
     void order_attack();
     s32 has_status_flag(s32 mask);
     void set_out_fighter();
