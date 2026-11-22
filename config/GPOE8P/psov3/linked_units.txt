@@ -2223,7 +2223,6 @@ pso/unk/text_80349B8C.cpp
 pso/unk/text_8034D3D0.cpp
 pso/item/TUnk_804F112C.cpp
 pso/unk/text_80355C1C.cpp
-pso/unk/text_80356E30.cpp
 pso/unk/text_80357058.cpp
 pso/unk/text_8035AF18.cpp
 pso/unk/text_8035B00C.cpp

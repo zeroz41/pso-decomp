@@ -1,7 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/text_80087278.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/text_80356E30.h"
 #include "pso/boss/olgaflow/TBoss6SwordWave.h"
 #include "pso/boss/olgaflow/TBoss6SwordShot.h"
 #include "pso/system/task/TObject.h"
@@ -35,6 +34,13 @@ const char *TBoss6SwordShot__name = TBoss6SwordShot__class_name_string;
 // written last address first.
 #pragma defer_codegen on
 
+void Boss6WaveArcMask::clear_all() {
+    s32 i;
+    for (i = 0; i < 8; i++) {
+        words[i] = 0;
+    }
+}
+
 void Boss6WaveArcMask::set_bit(s32 bit) {
     s32 word;
     s32 shift;
@@ -48,7 +54,7 @@ void Boss6WaveArcMask::fill_range(s32 start_angle, s32 end_angle) {
     if (bit > end) {
         end += 0x100;
     }
-    fn_80356E30(words);
+    clear_all();
     while (bit <= end) {
         set_bit(bit);
         bit++;

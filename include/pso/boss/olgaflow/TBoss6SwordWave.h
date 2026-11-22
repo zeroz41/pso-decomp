@@ -15,6 +15,7 @@ struct Boss6WaveArcMask {
     void clear_bit(s32 bit);
     void fill_range(s32 start_angle, s32 end_angle);
     void set_bit(s32 bit);
+    void clear_all();
 
     s32 words[8];
 };
