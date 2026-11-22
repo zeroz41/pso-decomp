@@ -37,6 +37,3 @@ extern const s32 lbl_805DF2D4 = 0x500;
 extern const f32 lbl_805DF2D8 = 20.0f;
 extern const f32 lbl_805DF2DC = 0.6f;
 extern const f32 lbl_805DF2E0 = -1.0f;
-extern const f32 lbl_805DF2E4 = 0.0f;
-extern const f32 lbl_805DF2E8 = 1.0f;
-extern const f32 lbl_805DF2EC = 0.0f;

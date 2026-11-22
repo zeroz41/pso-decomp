@@ -40,8 +40,4 @@ const char *TObjEneDelDepth__name = TObjEneDelDepth__class_name_string;
 const char *TObjEneDelDepthBomb__name = TObjEneDelDepthBomb__class_name_string;
 DelDepthParameters *TObjEneDelDepth__tune_params;
 BmlResource *TObjEneDelDepth__shared_resource;
-f32 lbl_805D6AC8;
-u8 TObjEneDelDepth__state_complete_flag;
-f32 TObjEneDelDepth__animation_end_frame;
-u8 TObjEneDelDepth__animation_end_frame_initialized;
 
