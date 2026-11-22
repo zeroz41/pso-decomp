@@ -1369,7 +1369,7 @@ force_active:
   - __ct__12TObjEneSaverFP7TObjectPv
   - __vt__12TObjEneSaver
   - TObjEneShark__action_table
-  - TObjEneShark__ct
+  - __ct__12TObjEneSharkFP7TObjectPv
   - __ct__15TObjEneSlimeOneFP7TObjectP12TObjEneSlimePvPC3Vec
   - project_to_ground__15TObjEneSlimeOneFv
   - TObjEneSlimeOne__target_depth
@@ -7800,7 +7800,7 @@ force_active:
   - lbl_804907AC
   - lbl_804907BC
   - lbl_80490998
-  - lbl_8049168C
+  - __vt__12TObjEneShark
   - __vt__14TObjEneBm5Wolf
   - lbl_80492BE4
   - lbl_80492C20
