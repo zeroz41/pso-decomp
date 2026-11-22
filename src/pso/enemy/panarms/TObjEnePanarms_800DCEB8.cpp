@@ -213,26 +213,11 @@ void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 typedef struct Stack_800DDFDC Stack_800DDFDC;
 
 
-// The camera-obstruction fade (vtable __vt__15RenderFadeState) keeps its vtable pointer at +0x14.
-struct VFade_800DEF5C {
-    u8 pad[0x14];
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void begin_draw();
-    virtual void end_draw();
-};
-
 extern "C" {
 extern s32 model_render_flags;
 extern s32 saved_model_render_flags;
 s32 minimap_render_dot(void *, s32, s32, s32);
 }
-
-struct Obj_800DEF5C { u8 pad[0x400]; RenderFadeState fades[4]; };
 
 /* The 0x40-byte set entry the constructor copies for each half it creates. */
 struct PanarmsSetEntry {
@@ -396,10 +381,10 @@ void TObjEnePanarms::render() {
     }
     TObjPlayer::toggle_particle_effect();
     saved_model_render_flags = model_render_flags;
-    fade = &((Obj_800DEF5C *)this)->fades[cam];
+    fade = &this->fades[cam];
     fade->update();
     if (fade->updateFromCamera(&this->body_center.x) != 0) {
-        ((VFade_800DEF5C *)fade)->begin_draw();
+        fade->set_flags_and_apply_damage_color();
         draw = 1;
         if (defer_render() != 0) {
             draw = 0;
@@ -407,7 +392,7 @@ void TObjEnePanarms::render() {
         if (draw != 0) {
             TObjEnePanarms__sub_800DEEF8(this);
         }
-        ((VFade_800DEF5C *)fade)->end_draw();
+        fade->clear_flag_and_notify();
     } else {
         model_render_flags |= 0x01000000;
         TObjEnePanarms__sub_800DEEF8(this);

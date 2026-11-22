@@ -59,125 +59,13 @@ struct Stack_800E0950 {
 
 typedef struct { f32 x, y, z; } Vec_800E0A44;
 
-struct Base_800E1D38_800E158C { char pad[0x18]; };
-
-struct VObj_800E1D38_800E158C : Base_800E1D38_800E158C {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-};
-
 typedef struct { f32 x, y, z; } Vec_800E1A44;
-
-struct Hit_800E1608 { s32 a; f32 b; };
-
-struct VBase_18_b27ba1 { char pad[0x18]; };
-
-struct VObj_18_b27ba1 : VBase_18_b27ba1 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual s32 m21(void *, Hit_800E1608 *, s32, s32, s32);
-};
 
 struct Prm_800E1608 { u8 pad[0x1c]; s32 x1c; s32 x20; };
 
 typedef struct { f32 x, y, z; } Vec_800E18B0;
 
 struct Obj_800E1E74 { u8 pad[0x30]; u32 flags; u8 pad2[0x378 - 0x34]; s32 state; };
-
-struct VBase_14_aa9368 { char pad[0x14]; };
-
-struct VObj_14_aa9368 : VBase_14_aa9368 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual s32 m6();
-    virtual s32 m7();
-    s32 f18;
-};
-
-struct Obj_800E20D0 { u8 pad[0x3EC]; VObj_14_aa9368 fades[2]; };
 
 struct Tgt_800E2200 { u8 pad[0x38]; f32 x; f32 y; f32 z; };
 
@@ -285,9 +173,9 @@ const s32 lbl_8043CD78[2] = {-10558, 10558};
 const f32 lbl_8043CD80[2] = {100.0f, 80.0f};
 
 // attack_target_player copies these (not indexed).
-const Hit_800E1608 lbl_8043CD88[1] = {{0, 0.0f}};
+const DirectAttackPayload lbl_8043CD88[1] = {{0, 0.0f}};
 
-const Hit_800E1608 lbl_8043CD90[1] = {{0, 0.0f}};
+const DirectAttackPayload lbl_8043CD90[1] = {{0, 0.0f}};
 
 const f32 lbl_8043CD98[2] = {0.6f, 0.3f};
 
@@ -591,7 +479,7 @@ void TObjEnePanBARA::run_task() {
 void TObjEnePanBARA::render() {
     s32 temp_r4;
     s32 camera_mode;
-    VObj_14_aa9368 *temp_r31;
+    RenderFadeState *temp_r31;
     s32 var_r30;
     if ((this->update_object_view_visibility(500.0f, 20.0f) == 0) || ((s32) this->m_384 == 0)) {
         *(f32 *)&this->unk_3AC = 0.0f;
@@ -607,10 +495,10 @@ void TObjEnePanBARA::render() {
     temp_r4 = model_render_flags;
     saved_model_render_flags = temp_r4;
     model_render_flags = temp_r4 | 0x01000000 | 1;
-    temp_r31 = &((Obj_800E20D0 *) ((u8 *)this))->fades[camera_mode];
-    update__15RenderFadeStateFv((saddr)temp_r31, (int)temp_r4);
-    if (((RenderFadeState *)temp_r31)->updateFromCamera((const f32*)(((u8 *)this) + 0x2FC)) != 0) {
-        temp_r31->m6();
+    temp_r31 = &this->fades[camera_mode];
+    temp_r31->update();
+    if (temp_r31->updateFromCamera((const f32*)(((u8 *)this) + 0x2FC)) != 0) {
+        temp_r31->set_flags_and_apply_damage_color();
         var_r30 = 1;
         if (defer_render() != 0) {
             var_r30 = 0;
@@ -618,7 +506,7 @@ void TObjEnePanBARA::render() {
         if (var_r30 != 0) {
             this->draw();
         }
-        temp_r31->m7();
+        temp_r31->clear_flag_and_notify();
     } else {
         this->draw();
     }
@@ -745,8 +633,7 @@ void TObjEnePanBARA::reset_split() {
 #pragma auto_inline off
 #pragma dont_inline off
 void TObjEnePanarms__sub_800E1D38(void *arg0) {
-    struct VObj_800E1D38_800E158C *o = (struct VObj_800E1D38_800E158C *)arg0;
-    o->m61();
+    ((TObjChara *)arg0)->run_death_reaction();
 }
 #pragma pop
 
@@ -915,12 +802,9 @@ void TObjEnePanBARA::attack_target_player(s32 arg1) {
     t = (u8 *)get_player_by_client_id(arg1);
     if (t != NULL) {
         if (this->m_380 == 0) {
-            Hit_800E1608 tmp = lbl_8043CD88[0];
-            tmp.b = this->m_464;
-            {
-                Hit_800E1608 h = tmp;
-                ((VObj_18_b27ba1 *)t)->m21(this, &h, 0, -1, -1);
-            }
+            DirectAttackPayload attack = lbl_8043CD88[0];
+            attack.power = this->m_464;
+            ((TObjChara *)t)->receive_direct_attack(this, attack, NULL, -1, -1);
             return;
         }
         sc = random_ratio();
@@ -940,10 +824,7 @@ void TObjEnePanBARA::attack_target_player(s32 arg1) {
             TTecZarua::create_instance((saddr)this, (Vec *)(((u8 *)this) + 0x2FC), (Vec *)(t + 0x2FC), (s32)lv);
             return;
         }
-        {
-            Hit_800E1608 h2 = lbl_8043CD90[0];
-            ((VObj_18_b27ba1 *)t)->m21(this, &h2, 0, -1, -1);
-        }
+        ((TObjChara *)t)->receive_direct_attack(this, lbl_8043CD90[0], NULL, -1, -1);
     }
 }
 #pragma pop

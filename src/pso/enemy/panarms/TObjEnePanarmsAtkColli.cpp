@@ -26,71 +26,9 @@ __declspec(section ".data") s32 TObjEnePanarmsAtkColli__type_index_table[2] = {1
 Vec panarms_atk_zero_vec = {0.0f, 0.0f, 0.0f};
 
 
-struct Base_800E32C0 { u8 pad[0x18]; };
+struct Obj_800E32C0 { u8 pad0[0x10]; s32 f10; u8 pad1[0x388-0x14]; TObjChara *f388; f32 f38C; };
 
-struct Pair_800E32C0 { s32 a; f32 b; };
-
-struct V_800E32C0 : Base_800E32C0 {
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual void v5();
-    virtual void v6();
-    virtual void v7();
-    virtual void v8();
-    virtual void v9();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void v15();
-    virtual void v16();
-    virtual void v17();
-    virtual void v18();
-    virtual void v19();
-    virtual void v20();
-    virtual f32 m21(s32, void *, s32, s32, s32);
-    virtual void v22();
-    virtual void m23(void *);
-};
-
-struct Obj_800E32C0 { u8 pad0[0x10]; s32 f10; u8 pad1[0x388-0x14]; V_800E32C0 *f388; f32 f38C; };
-
-struct Base_800E3374 { u8 pad[0x18]; };
-
-struct Pair_800E3374 { s32 a; f32 b; };
-
-struct V_800E3374 : Base_800E3374 {
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual void v5();
-    virtual void v6();
-    virtual void v7();
-    virtual void v8();
-    virtual void v9();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void v15();
-    virtual void v16();
-    virtual void v17();
-    virtual void v18();
-    virtual void v19();
-    virtual void v20();
-    virtual f32 m21(s32, void *, s32, s32, s32);
-    virtual void v22();
-    virtual void m23(void *);
-};
-
-struct Obj_800E3374 { u8 pad0[0x10]; s32 f10; u8 pad1[0x384-0x14]; V_800E3374 *f384; u8 pad2[4]; f32 f38C; };
+struct Obj_800E3374 { u8 pad0[0x10]; s32 f10; u8 pad1[0x384-0x14]; TObjChara *f384; u8 pad2[4]; f32 f38C; };
 
 struct Obj_800E35C8 { u8 pad0[0x38]; Vec pos; u8 pad1[0x378 - 0x44]; f32 f378; };
 
@@ -101,9 +39,9 @@ struct Obj_800E3428 { u8 pad0[0x38]; Vec pos; Vec dir; u8 pad1[0x378 - 0x50]; f3
 struct Obj_800E322C { u8 pad0[0x10]; u32 f10; u8 pad1[0x38 - 0x14]; Vec pos; u8 pad2[0x378 - 0x44]; f32 f378; };
 
 extern "C" {
-__declspec(section ".rodata") Pair_800E3374 lbl_8043CDF0[] = { 0 };
-__declspec(section ".rodata") Pair_800E32C0 lbl_8043CDF8[] = { 0 };
-void fn_800E3374(Obj_800E3374 *target, V_800E3374 *arg1);
+__declspec(section ".rodata") DirectAttackPayload lbl_8043CDF0[] = { 0 };
+__declspec(section ".rodata") DirectAttackPayload lbl_8043CDF8[] = { 0 };
+void fn_800E3374(Obj_800E3374 *target, TObjChara *arg1);
 f32 horizontal_distance_squared(void *, void *);
 extern s32 registered_player_count;
 void check_radius_collisions(Obj_800E35C8 *target);
@@ -129,32 +67,30 @@ void fn_800E322C(void *p, void *t) {
     VecCopy((Vec *)&target->pos, (const Vec *)t);
     if ((r = find_nearest_hittable_enemy__10TObjPlayerFiPvf(reinterpret_cast<saddr>(target), NULL, target->f378)) != 0xFFFF) {
         if ((ent = (uaddr)get_enemy_entity(r)) != 0 && ent != target->f10) {
-            ((TObjEnePanarmsAtkColli *)target)->sub_800E32C0((V_800E32C0 *)ent);
+            ((TObjEnePanarmsAtkColli *)target)->sub_800E32C0((TObjChara *)ent);
         }
     }
     VecCopy((Vec *)&target->pos, (const Vec *)&sp);
 }
 
 void TObjEnePanarmsAtkColli::sub_800E32C0(void *ent) {
-    Pair_800E32C0 sp10 = lbl_8043CDF8[0];
-    Pair_800E32C0 sp8;
-    sp10.b = ((Obj_800E32C0 *)this)->f38C;
-    if (((Obj_800E32C0 *)this)->f388 != ((V_800E32C0 *)ent)) {
-        sp8.a = sp10.a; *(s32 *)&sp8.b = *(s32 *)&sp10.b;
-        if (0.0f != ((V_800E32C0 *)ent)->m21(((Obj_800E32C0 *)this)->f10, &sp8, 0, -1, -1)) {
-            ((V_800E32C0 *)ent)->m23(this);
+    DirectAttackPayload attack = lbl_8043CDF8[0];
+    attack.power = ((Obj_800E32C0 *)this)->f38C;
+    if (((Obj_800E32C0 *)this)->f388 != (TObjChara *)ent) {
+        f32 damage = ((TObjChara *)ent)->receive_direct_attack((void *)((Obj_800E32C0 *)this)->f10, attack, NULL, -1, -1);
+        if (0.0f != damage) {
+            ((TObjChara *)ent)->apply_knockback_from_attacker((u8 *)this, damage);
         }
-        ((Obj_800E32C0 *)this)->f388 = ((V_800E32C0 *)ent);
+        ((Obj_800E32C0 *)this)->f388 = (TObjChara *)ent;
     }
 }
-void fn_800E3374(Obj_800E3374 *target, V_800E3374 *arg1) {
-    Pair_800E3374 sp10 = lbl_8043CDF0[0];
-    Pair_800E3374 sp8;
-    sp10.b = target->f38C;
+void fn_800E3374(Obj_800E3374 *target, TObjChara *arg1) {
+    DirectAttackPayload attack = lbl_8043CDF0[0];
+    attack.power = target->f38C;
     if (target->f384 != arg1) {
-        sp8.a = sp10.a; *(s32 *)&sp8.b = *(s32 *)&sp10.b;
-        if (0.0f != arg1->m21(target->f10, &sp8, 0, -1, -1)) {
-            arg1->m23(target);
+        f32 damage = arg1->receive_direct_attack((void *)target->f10, attack, NULL, -1, -1);
+        if (0.0f != damage) {
+            arg1->apply_knockback_from_attacker((u8 *)target, damage);
         }
         target->f384 = arg1;
     }
@@ -185,7 +121,7 @@ void sweep_segment_collisions(Obj_800E3428 *self) {
             Vec v = self->pos;
             for (dist = 0.0f; dist < len; ) {
                 if (!(horizontal_distance_squared(&v, (u8 *)p + 0x2FC) > lim)) {
-                    fn_800E3374((Obj_800E3374 *)self, (V_800E3374 *)p);
+                    fn_800E3374((Obj_800E3374 *)self, (TObjChara *)p);
                     break;
                 }
                 dist += self->f378;
@@ -213,114 +149,13 @@ void check_radius_collisions(Obj_800E35C8 *target) {
     for (i = 0; i < registered_player_count; i++) {
         p = (Player_800E35C8 *)TObjPlayer::get_player_data(i);
         if (p != NULL && !(p->f30 & 0x02000A00) && !(horizontal_distance_squared(&target->pos, (u8 *) p + 0x2FC) > lim)) {
-            fn_800E3374((Obj_800E3374 *)(target), (V_800E3374 *)(p));
+            fn_800E3374((Obj_800E3374 *)(target), (TObjChara *)(p));
         }
     }
     fn_800E322C(target, &target->pos);
 }
 
 }
-
-struct VBase_18_beae68
-{
-  char pad[0x18];
-};
-
-struct VObj_18_beae68 : VBase_18_beae68 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual void m84();
-    virtual void m85();
-    virtual void m86();
-    virtual void m87();
-    virtual void m88();
-    virtual void m89();
-    virtual void m90();
-    virtual void m91();
-    virtual s32 m92();
-};
 
 struct Obj_800E37E4 {
     const char *name;
@@ -372,8 +207,6 @@ TObjEnePanarmsAtkColli::~TObjEnePanarmsAtkColli() {
 
 }
 
-typedef struct VBase_18_beae68 VBase_18_beae68;
-typedef struct VObj_18_beae68 VObj_18_beae68;
 
 #define self ((Obj_800E37E4 *)this)
 extern const f32 lbl_805DA5A8 = 10.0f;
