@@ -50,12 +50,6 @@ volatile PPCWGPipe GXWGFifo : 0xCC008000;
 
 typedef struct Vtx_803E36C4 { f32 x, y, z, nx, ny, nz; u32 pad[2]; } Vtx_803E36C4;
 
-struct Sub_803E3B6C { u8 pad[0xC]; u8 *q; };
-
-struct Rec_803E3B6C { u8 pad[8]; Sub_803E3B6C *p; };
-
-struct Holder_803E3B6C { Rec_803E3B6C *recs; };
-
 typedef f32 Mtx_803E4354[3][4];
 extern "C" {
 void GXSetNumTexGens(u8);
@@ -100,7 +94,6 @@ void draw_strip_pos_normal__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E36C4 *verts, 
 void draw_triangle_strips__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E36C4 *verts, u32 info);
 s32 GXSetBlendMode(int, int, int, int);
 extern s32 material_alpha_compare_reference;
-extern u8 *current_render_context;
 void GXSetVtxAttrFmt(int, int, int, int, u8);
 void draw_chunk_textured_strips(s16 *list, Vtx_803E36C4 *verts, u32 info, s32 large);
 struct ChunkModel_803E44D4 { u32 *vertices; s16 *polygons; };
@@ -602,9 +595,9 @@ void set_chunk_blend_depth_mode(s32 header, s32 arg1) {
     s32 temp_r30;
     s32 temp_r29;
     u32 var_r28;
-    u8 *temp_r4;
+    GinjaSurfaceState *alpha_surface;
     u32 id;
-    u8 *temp_r3;
+    GinjaSurfaceState *zcomp_surface;
     u32 var_r6;
     if ((u32) (header & 8) != 0) {
         var_r31 = 1;
@@ -623,7 +616,7 @@ void set_chunk_blend_depth_mode(s32 header, s32 arg1) {
     } else if (var_r31 != 0) {
         var_r6 = 0;
         var_r28 = 1U;
-        temp_r4 = (u8 *)((*(Holder_803E3B6C **)(current_render_context + 0x20))->recs[chunk_texture_record_index].p->q);
+        alpha_surface = current_render_context->textures->entries[chunk_texture_record_index].texture->surface;
         id = model_render_flags;
         if (((u32) (id & 0x10) != 0) && (1.0f != model_material_color.a)) {
             var_r28 = 0U;
@@ -631,9 +624,9 @@ void set_chunk_blend_depth_mode(s32 header, s32 arg1) {
         if (((u32) (id & 0x20) != 0) && (0.0f != model_material_color.a)) {
             var_r28 = 0U;
         }
-        if ((u32) *(u32 *)((s8 *)temp_r4 + 4) == 0xEU) {
+        if (alpha_surface->format == 0xEU) {
             if ((u32) (id & 0x400000) != 0) {
-                if ((u32) (*(s32 *)((s8 *)temp_r4 + 0x1C) & 0x40000000) != 0) {
+                if ((u32) (alpha_surface->flags & 0x40000000) != 0) {
                     var_r6 |= texture_alpha_reason;
                 }
             } else {
@@ -681,8 +674,8 @@ void set_chunk_blend_depth_mode(s32 header, s32 arg1) {
         if ((u32) chunk_render_flags != 0) {
             chunk_render_flags |= 0x400;
         }
-        temp_r3 = (u8 *)((*(Holder_803E3B6C **)(current_render_context + 0x20))->recs[chunk_texture_record_index].p->q);
-        if (((u32) *(u32 *)((s8 *)temp_r3 + 4) == 0xEU) && ((u32) (*(s32 *)((s8 *)temp_r3 + 0x1C) & 0x40000000) != 0)) {
+        zcomp_surface = current_render_context->textures->entries[chunk_texture_record_index].texture->surface;
+        if ((zcomp_surface->format == 0xEU) && ((u32) (zcomp_surface->flags & 0x40000000) != 0)) {
             set_chunk_alpha_compare_ref(0x1F);
             GXSetBlendMode(0, temp_r30, temp_r29, 0);
             GXSetZCompLoc(0);
