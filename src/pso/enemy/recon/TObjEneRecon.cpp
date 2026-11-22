@@ -226,22 +226,17 @@ void TObjEneRecon::advance_intro_stage(NJS_OBJECT *) {
 
 void TObjEneRecon::run_demo_task() {  }
 
-struct Stack_8031C190 {
-    s32 sp8;
-    f32 spC;
-};
-
 extern s32 actor_frame_tick;
 void TObjEneRecon::update_ground_probe() {
-    Stack_8031C190 stack;
-    u8 *temp_r3;
+    Vec probe;
+    CsnHit *hit;
     if ((actor_frame_tick % 5) == 0) {
-        VecCopy((Vec *)&stack.sp8, (const Vec *)&this->position);
-        stack.spC += 15.0f;
-        temp_r3 = (u8 *)(csnVectorUnder((Vec *)&stack.sp8, (CsnGroup **)&this->m_120, 0x4000));
-        if (temp_r3 != NULL) {
-            floor_flags = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)temp_r3 + 4)) + 0x18);
-            VecCopy(&floor_point, (const Vec *)(*(u8 **)((s8 *)temp_r3 + 4)));
+        VecCopy(&probe, &position);
+        probe.y += 15.0f;
+        hit = csnVectorUnder(&probe, (CsnGroup **)&m_120, 0x4000);
+        if (hit != NULL) {
+            floor_flags = hit->contact->flags;
+            VecCopy(&floor_point, &hit->contact->point);
         } else {
             VecCopy(&floor_point, &position);
         }
@@ -745,65 +740,54 @@ void TObjEneRecon::sub_8031CF30(s32 reason) {
 }
 
 void TObjEneRecon::sub_8031D380(s32 reason) {
-  s32 temp_r4;
-  switch (reason)
-  {
+    switch (reason) {
     case 4:
-      requested_action = 1;
-      (clear_intangible());
-      recon_flags = (s32) ((recon_flags) & 0xFFFFFFFE);
-      recon_flags = (s32) ((recon_flags) | 2);
-      actorFlags = (s32) ((actorFlags) | 0x01000000);
-      return;
+        requested_action = 1;
+        clear_intangible();
+        recon_flags &= ~1;
+        recon_flags |= 2;
+        actorFlags |= 0x01000000;
+        return;
     case 3:
-      if (((s32) (acquire_counter)) >= 0x96)
-    {
-      transition_enemy_state(5);
-    }
+        if (acquire_counter >= 0x96) {
+            transition_enemy_state(5);
+        }
     case 5:
-      return;
+        return;
     case 0:
-      advance_animation();
-      if ((((TObjEneEpsilon *)this)->update_death_check() != 0) || ((acquire_target((200.0f))) != 0))
-    {
-      transition_enemy_state(4);
+        advance_animation();
+        if (((TObjEneEpsilon *)this)->update_death_check() != 0 || acquire_target(200.0f) != 0) {
+            transition_enemy_state(4);
+        } else {
+            acquire_counter++;
+        }
+        sync_height();
+        update_velocity();
+        rotation_y = (u16)(rotation_y + 0x400);
+        check_collisions();
+        spawn_trap_b();
+        break;
     }
-    else
-    {
-      acquire_counter = (s32) ((acquire_counter) + 1);
-    }
-      sync_height();
-      update_velocity();
-      temp_r4 = rotation_y;
-      rotation_y = (s32) ((u16)(temp_r4 + 0x400));
-      (check_collisions());
-      spawn_trap_b();
-      break;
-  }
-  return;
 }
+
 void TObjEneRecon::sub_8031D4B0(s32 reason) {
-    f32 temp_f1;
-    f32 temp_f1_2;
-    f32 temp_f1_3;
-    f32 temp_f2;
-    f32 temp_f2_2;
-    f32 temp_f2_3;
-    f32 temp_f2_5;
-    f32 temp_f31;
+    f32 dx;
+    f32 dz;
+    f32 speed_sq;
+    f32 dy;
     switch (reason) {
     case 4:
         this->requested_action = 1;
         this->set_intangible();
-        recon_flags = (s32) (recon_flags & 0xFFFFFFFE);
-        recon_flags = (s32) (recon_flags | 2);
-        actorFlags = (actorFlags | 0x01000000);
+        recon_flags &= ~1;
+        recon_flags |= 2;
+        actorFlags |= 0x01000000;
         state_step = 0;
-        this->rotation_y = (s32) (10430.38043493439 * atan2_float((f32) (spawn_direction.x), (f32) (spawn_direction.z)));
+        this->rotation_y = 10430.38043493439 * atan2_float(spawn_direction.x, spawn_direction.z);
         enemy_clear_target();
         break;
     case 3:
-        if ((s32) state_step == 2) {
+        if (state_step == 2) {
             transition_enemy_state(1);
         }
         break;
@@ -811,22 +795,22 @@ void TObjEneRecon::sub_8031D4B0(s32 reason) {
         break;
     case 0:
         advance_animation();
-        temp_f1 = spawn_direction.x;
-        temp_f2 = spawn_direction.z;
-        temp_f31 = (temp_f1 * temp_f1) + (temp_f2 * temp_f2);
-        move_with_wall_slide_on_ground(temp_f1, temp_f2, temp_f31);
+        dx = spawn_direction.x;
+        dz = spawn_direction.z;
+        speed_sq = dx * dx + dz * dz;
+        move_with_wall_slide_on_ground(dx, dz, speed_sq);
         switch (state_step) {
         case 0:
-            hover_height = (f32) (hover_height + spawn_direction.y);
+            hover_height += spawn_direction.y;
             if (hover_height == offset_max) {
                 state_step = 1;
             } else {
                 spawn_direction.x *= 0.95f;
                 spawn_direction.z *= 0.95f;
                 if (hover_height > offset_max) {
-                    temp_f2_2 = spawn_direction.y;
-                    if (temp_f2_2 > -0.3f) {
-                        spawn_direction.y = (f32) (temp_f2_2 - 0.1f);
+                    dy = spawn_direction.y;
+                    if (dy > -0.3f) {
+                        spawn_direction.y = dy - 0.1f;
                         if (spawn_direction.y < -0.3f) {
                             spawn_direction.y = -0.3f;
                         }
@@ -836,13 +820,11 @@ void TObjEneRecon::sub_8031D4B0(s32 reason) {
                             spawn_direction.y = -0.3f;
                         }
                     }
-                    temp_f1_2 = hover_height;
-                    temp_f2_3 = offset_max;
-                    if ((temp_f1_2 + spawn_direction.y) < temp_f2_3) {
-                        spawn_direction.y = (f32) (temp_f2_3 - temp_f1_2);
+                    if (hover_height + spawn_direction.y < offset_max) {
+                        spawn_direction.y = offset_max - hover_height;
                     }
                 } else {
-                    if ((spawn_direction.y) < 0.3f) {
+                    if (spawn_direction.y < 0.3f) {
                         spawn_direction.y += 0.1f;
                         if (spawn_direction.y > 0.3f) {
                             spawn_direction.y = 0.3f;
@@ -853,16 +835,14 @@ void TObjEneRecon::sub_8031D4B0(s32 reason) {
                             spawn_direction.y = 0.3f;
                         }
                     }
-                    temp_f1_3 = hover_height;
-                    temp_f2_5 = offset_max;
-                    if ((temp_f1_3 + spawn_direction.y) > temp_f2_5) {
-                        spawn_direction.y = (f32) (temp_f2_5 - temp_f1_3);
+                    if (hover_height + spawn_direction.y > offset_max) {
+                        spawn_direction.y = offset_max - hover_height;
                     }
                 }
             }
             break;
         case 1:
-            if (temp_f31 <= 0.010000001f) {
+            if (speed_sq <= 0.010000001f) {
                 state_step = 2;
             } else {
                 spawn_direction.x *= 0.95f;
@@ -871,8 +851,8 @@ void TObjEneRecon::sub_8031D4B0(s32 reason) {
             break;
         }
         update_flag_0x444();
-        prev_position.x = (f32) body_center.x;
-        prev_position.z = (f32) body_center.z;
+        prev_position.x = body_center.x;
+        prev_position.z = body_center.z;
         clamp_min_height();
         this->update_body_colliders();
         break;
@@ -905,27 +885,6 @@ u16 TObjEneRecon::sub_8031D878() {
 
 }
 
-struct Recon_8031D898 {
-    u8 pad0[0x38C];
-    u16 target;
-    u8 pad38E[0x434 - 0x38E];
-    u16 owner;
-    u8 pad436[0x470 - 0x436];
-    s32 f470;
-    s32 f474;
-};
-
-struct Recon_8031D994 {
-    u8 pad0[0x38C];
-    u16 target;
-    u8 pad38E[0x434 - 0x38E];
-    u16 owner;
-    u8 pad436[0x46C - 0x436];
-    s32 f46C;
-    s32 f470;
-    s32 f474;
-};
-
 extern "C" {
 f32 fabs_float(f32);
 
@@ -935,28 +894,28 @@ void TObjEneRecon::retarget() {
     s32 n;
     u16 id;
     s32 i;
-    p = find_entity_by_id(((Recon_8031D898 *)this)->owner);
+    p = find_entity_by_id(owner_id);
     if (p == 0) {
         queue_destruction();
         return;
     }
-    if (((TObjEneRecobox *)p)->is_below_child_limit(((Recon_8031D898 *)this)->target) != 0) {
-        ((Recon_8031D898 *)this)->f470 = 0;
+    if (((TObjEneRecobox *)p)->is_below_child_limit(target_id) != 0) {
+        orbit_since_bomb = 0;
         transition_enemy_state(3);
         return;
     }
     n = collect_enemy_target_candidates(this, hits, 10000.0f);
     for (i = 0; i < n; i++) {
         id = hits[i].id;
-        if (id != ((Recon_8031D898 *)this)->target && ((TObjEneRecobox *)p)->is_below_child_limit(id) != 0) {
-            ((Recon_8031D898 *)this)->f470 = 0;
+        if (id != target_id && ((TObjEneRecobox *)p)->is_below_child_limit(id) != 0) {
+            orbit_since_bomb = 0;
             enemy_set_target_id(this, id);
             transition_enemy_state(3);
             return;
         }
     }
     transition_enemy_state(4);
-    ((Recon_8031D898 *)this)->f474 = 0;
+    attacking = 0;
 }
 
 void TObjEneRecon::select_next_target() {
@@ -965,28 +924,28 @@ void TObjEneRecon::select_next_target() {
     s32 n;
     u16 id;
     s32 i;
-    p = find_entity_by_id(((Recon_8031D994 *)this)->owner);
+    p = find_entity_by_id(owner_id);
     if (p == 0) {
         queue_destruction();
         return;
     }
-    if (((TObjEneRecobox *)p)->is_below_child_limit(((Recon_8031D994 *)this)->target) != 0) {
-        ((Recon_8031D994 *)this)->f46C = 0;
+    if (((TObjEneRecobox *)p)->is_below_child_limit(target_id) != 0) {
+        orbit_since_strike = 0;
         transition_enemy_state(2);
         return;
     }
     n = collect_enemy_target_candidates(this, hits, 10000.0f);
     for (i = 0; i < n; i++) {
         id = hits[i].id;
-        if (id != ((Recon_8031D994 *)this)->target && ((TObjEneRecobox *)p)->is_below_child_limit(id) != 0) {
-            ((Recon_8031D994 *)this)->f46C = 0;
+        if (id != target_id && ((TObjEneRecobox *)p)->is_below_child_limit(id) != 0) {
+            orbit_since_strike = 0;
             enemy_set_target_id(this, id);
             transition_enemy_state(2);
             return;
         }
     }
     transition_enemy_state(4);
-    ((Recon_8031D994 *)this)->f474 = 0;
+    attacking = 0;
 }
 
 s32 TObjEneRecon::sub_8031DA90() {
@@ -1056,26 +1015,21 @@ void TObjEneRecon::check_collisions() {
 #pragma opt_propagation off
 #pragma opt_dead_assignments off
 void TObjEneRecon::clamp_min_height() {
-  f32 new_var;
-  f32 temp_f2;
-  new_var = hover_height;
-  temp_f2 = position.y;
-  if ((new_var - temp_f2) < 5.0f)
-  {
-    hover_height = (f32) (5.0f + temp_f2);
-  }
-  body_center.y = (f32) (hover_height);
+    f32 height = hover_height;
+    f32 ground = position.y;
+    if (height - ground < 5.0f) {
+        hover_height = 5.0f + ground;
+    }
+    body_center.y = hover_height;
 }
 #pragma pop
 
 extern "C" {
 
-s32 VecCopy__FP3VecPC3Vec(void *, void *, void *);
-
 void TObjEneRecon::update_position_from_offsets() {
-    body_center.x = (f32) position.x;
-    body_center.z = (f32) position.z;
-    VecCopy__FP3VecPC3Vec(&center, &body_center, this);
+    body_center.x = position.x;
+    body_center.z = position.z;
+    VecCopy(&center, &body_center);
 }
 
 }
@@ -1085,51 +1039,46 @@ extern "C" {
 
 
 void TObjEneRecon::update_collide_flag() {
-    void *temp_r5;
-
-    temp_r5 = this->movementParameters;
-    if (TObjEneEpsilon__sub_800B92F8(this, *(s32 *)((s8 *)temp_r5 + 8), TObjEneRecon__data_805D6AFC->collide_distance) != 0) {
-        recon_flags = (s32) (recon_flags | 2);
+    if (TObjEneEpsilon__sub_800B92F8(this, ((ReconMoveParams *)movementParameters)->turn_speed, TObjEneRecon__data_805D6AFC->collide_distance) != 0) {
+        recon_flags |= 2;
         return;
     }
-    recon_flags = (s32) (recon_flags & 0xFFFFFFFD);
+    recon_flags &= ~2;
 }
 
 void TObjEneRecon::set_flag2(f32 x, f32 z, f32 r) {
     if (this->move_with_wall_slide_commit(x, z, r) != 0U) {
-        recon_flags = (s32) (recon_flags | 2);
+        recon_flags |= 2;
         return;
     }
-    recon_flags = (s32) (recon_flags & 0xFFFFFFFD);
+    recon_flags &= ~2;
 }
 
 void TObjEneRecon::update_flag_0x444() {
     if (update_ground_contact() != 0U) {
-        recon_flags = (s32) (recon_flags | 2);
+        recon_flags |= 2;
         return;
     }
-    recon_flags = (s32) (recon_flags & 0xFFFFFFFD);
+    recon_flags &= ~2;
 }
-
-void enemy_copy_target_destination__12TObjEneDD_STFv(void *);
 
 #pragma push
 #pragma fp_contract on
-void TObjEneRecon::set_orbit_destination(s32 arg1) {
+void TObjEneRecon::set_orbit_destination(s32 angle) {
     enemy_copy_target_destination();
-    destination.x = (f32) ((rotate_rad * sin_table_lookup(arg1)) + destination.x);
-    destination.y = (f32) offset_max;
-    destination.z = (f32) ((rotate_rad * cos_table_lookup(arg1)) + destination.z);
+    destination.x = rotate_rad * sin_table_lookup(angle) + destination.x;
+    destination.y = offset_max;
+    destination.z = rotate_rad * cos_table_lookup(angle) + destination.z;
 }
 #pragma pop
 
 void TObjEneRecon::advance_field398() {
-    ((s32 (*)())enemy_copy_target_destination__12TObjEneDD_STFv)();
-    destination.y = (f32) (destination.y + strike_height);
+    enemy_copy_target_destination();
+    destination.y = destination.y + strike_height;
 }
 void TObjEneRecon::sync_height() {
-    ((s32 (*)())enemy_copy_target_destination__12TObjEneDD_STFv)();
-    destination.y = (f32) offset_max;
+    enemy_copy_target_destination();
+    destination.y = offset_max;
 }
 void TObjEneRecon::run_miss_reaction() {  }
 void TObjEneRecon::run_hit_reaction() { if (this->mode != 6) { transition_enemy_state(6); } }

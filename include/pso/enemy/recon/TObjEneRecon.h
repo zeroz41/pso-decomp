@@ -82,7 +82,7 @@ struct TObjEneRecon : public TObjEneDD_ST {
     void select_next_target();
     void update_collide_flag();
     void set_flag2(f32 x, f32 z, f32 r);
-    void set_orbit_destination(s32 arg1);
+    void set_orbit_destination(s32 angle);
     void advance_field398();
     void sync_height();
 
