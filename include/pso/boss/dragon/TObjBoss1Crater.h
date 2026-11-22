@@ -26,6 +26,8 @@ LAYOUT_ASSERT(TObjBoss1Crater_size, sizeof(TObjBoss1Crater) == 0xCC);
 
 extern "C" {
 void *__dt__15TObjBoss1CraterFv(void *arg0, s16 arg1);
+// Horizontal distance from position to the nearest crater, 0 when there is none.
+f32 calc_nearest_crater_distance(Vec *position);
 }
 
 #endif

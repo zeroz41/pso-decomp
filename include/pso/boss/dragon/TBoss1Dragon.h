@@ -12,6 +12,7 @@ class AreaAttackHistory;
 class TObject;
 class TBoss1DragonColli;
 class TUnk_80481B34;
+class TObjBoss1MokoHill_SoloM;
 
 struct DragonModelVector { f32 x, y, z; };
 struct DragonModelAngles { s32 x, y, z; };
@@ -141,7 +142,7 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     s32 sector_count;
     s32 m_6a4;
     f32 sector_radii[12];
-    void *m_6d8;
+    TObjBoss1MokoHill_SoloM *moko_hill; // the mound that follows the Dragon underground
     s32 m_6dc;
     s32 m_6e0;
     DragonControllerInput *controller_input;
@@ -297,7 +298,7 @@ DRAGON_OFFSET(m_654, 0x654);
 DRAGON_OFFSET(attack_history, 0x688);
 DRAGON_OFFSET(sector_count, 0x6A0);
 DRAGON_OFFSET(sector_radii, 0x6A8);
-DRAGON_OFFSET(m_6d8, 0x6D8);
+DRAGON_OFFSET(moko_hill, 0x6D8);
 DRAGON_OFFSET(controller_input, 0x6E4);
 DRAGON_OFFSET(m_760, 0x760);
 DRAGON_OFFSET(target_client_id, 0x764);

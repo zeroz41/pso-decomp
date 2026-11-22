@@ -319,7 +319,6 @@ f32 calc_random_ratio__10TObjPlayerFv(void *);
 extern const f32 TBoss1Dragon__gravity_accel;
 void compose_motion_node_matrix(void *arg0);
 void disable_dragon_blocking_bodies(TBoss1DragonColli *self);
-s32 is_dragon_trail_damaging(u8 *arg0);
 void handle_6x12_dragon_boss_actions(TObjPlayer *arg0);
 void handle_6x11_dragon_boss_actions(void *arg0);
 void handle_6x10_dragon_boss_actions(void *arg0);
@@ -845,7 +844,7 @@ TBoss1Dragon::TBoss1Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     for (i = 0; i < 12; i++) {
         this->sector_radii[i] = (0.0f);
     }
-    this->m_6d8 = new TObjBoss1MokoHill_SoloM(tl_05, (u8 *)&this->position, (saddr)&this->rotation_y);
+    this->moko_hill = new TObjBoss1MokoHill_SoloM(tl_05, &this->position, &this->rotation_y);
     this->m_6dc = 0;
     for (j = 0; j < 4; j++) {
         this->viewFade[j].activate_and_dispatch();
@@ -918,9 +917,9 @@ TBoss1Dragon::~TBoss1Dragon() {
         delete this->m_774;
         this->m_774 = 0;
     }
-    if (this->m_6d8 != 0) {
-        ((TObject *)this->m_6d8)->queue_destruction();
-        this->m_6d8 = 0;
+    if (this->moko_hill != 0) {
+        this->moko_hill->queue_destruction();
+        this->moko_hill = 0;
     }
     if (this->collider != 0) {
         delete this->collider;
@@ -1939,9 +1938,9 @@ void TBoss1Dragon::sweep_death_body_attack() {
 void TBoss1Dragon__sub_800277D8(TBoss1Dragon *self) {
     struct CopyStack_800277D8 { u8 bytes[0x14]; };
     CopyStack_800277D8 copy_storage_800277D8;
-    u8 *temp_r3;
-    temp_r3 = (u8 *)self->m_6d8;
-    if ((temp_r3 != NULL) && (is_dragon_trail_damaging(temp_r3) != 0)) {
+    TObjBoss1MokoHill_SoloM *moko_hill;
+    moko_hill = self->moko_hill;
+    if ((moko_hill != NULL) && (moko_hill->is_dragon_trail_damaging() != 0)) {
         *(ByteBlock_14 *)(copy_storage_800277D8.bytes) = *(const ByteBlock_14 *)((saddr) ((u8 *)((void *)((u8 *)&dragon_breath_attack_params + -4))) + 4);
         (*(f32 *)(copy_storage_800277D8.bytes + 0x4)) = *(f32 *)((s8 *)((*(u8 **)&TBoss1Dragon__data_804FE17C)) + 8);
         switch (TBoss1Dragon::isV2Mode()) {
@@ -3699,7 +3698,7 @@ void TBoss1Dragon::update_burrow_inward_run(u32 reason, s32 state) {
             if ((f32) this->impactAge >= (60.0f)) {
                 this->impactAge = 0;
                 this->stateStep = 1;
-                ((TBoss8Dragon *)this->m_6d8)->set_field_1c();
+                this->moko_hill->start();
                 this->restorePosition();
                 this->rotation_y = (s32) ((s32) (boss1_dragon_angle_units_per_radian * atan2_float(this->position.x, this->position.z)) + 0x8000);
                 this->destination_direction.x = sin_table_lookup(this->rotation_y);
@@ -3748,7 +3747,7 @@ void TBoss1Dragon::update_burrow_outward_run(u32 reason) {
         this->stateStep = 0;
         this->impactAge = 0;
         this->rootHeight = this->calc_burrow_speed();
-        ((TBoss8Dragon *)this->m_6d8)->set_field_1c();
+        this->moko_hill->start();
         if (TBoss1Dragon::isV2Mode() == 1 && this->m_6dc == 2) {
             this->m_6dc += 1;
             this->rootHeight = this->calc_burrow_speed();
@@ -3797,7 +3796,7 @@ void TBoss1Dragon::update_burrow_outward_run(u32 reason) {
     case ENEMY_STATE_LEAVE:
         this->clear_invulnerable();
         this->enable_body_collision();
-        ((TBoss8Dragon *)this->m_6d8)->spawn_child_object();
+        this->moko_hill->stop();
         break;
     }
 }
@@ -3852,7 +3851,7 @@ void TBoss1Dragon::handle_spiral_state(u32 reason) {
             if ((f32) this->impactAge >= (60.0f)) {
                 this->impactAge = 0;
                 this->stateStep = 1;
-                ((TBoss8Dragon *)this->m_6d8)->set_field_3c();
+                this->moko_hill->start_without_hold();
                 this->restorePosition();
                 this->m_874 = (s32) (boss1_dragon_angle_units_per_radian * atan2_float(this->position.x, this->position.z));
                 return;
@@ -3880,7 +3879,7 @@ void TBoss1Dragon::handle_spiral_state(u32 reason) {
     case 5:
         this->clear_invulnerable();
         this->enable_body_collision();
-        ((TBoss8Dragon *)this->m_6d8)->spawn_child_object();
+        this->moko_hill->stop();
         break;
     default:
         return;
@@ -4638,7 +4637,7 @@ void TBoss1Dragon::handle_walk_state(u32 reason) {
         home->y = TBoss1Dragon__data_80434E80.y;
         this->fallVelocity = (0.0f);
         this->rootHeight = (0.0f);
-        ((TBoss8Dragon *)this->m_6d8)->set_field_1c();
+        this->moko_hill->start();
         return;
     case 2:
     case 11:
@@ -4683,7 +4682,7 @@ void TBoss1Dragon::handle_walk_state(u32 reason) {
         this->fallVelocity = this->fallVelocity + dx;
         return;
     case 5:
-        ((TBoss8Dragon *)this->m_6d8)->spawn_child_object();
+        this->moko_hill->stop();
         break;
     default:
         return;
@@ -4706,7 +4705,7 @@ void TBoss1Dragon::state_circle_flight(u32 reason) {
         this->set_invulnerable();
         this->disable_body_collision();
         this->updateFacingPosition();
-        ((TBoss8Dragon *)this->m_6d8)->set_field_3c();
+        this->moko_hill->start_without_hold();
         return;
     case 2:
     case 11:
@@ -4739,7 +4738,7 @@ void TBoss1Dragon::state_circle_flight(u32 reason) {
         ((void (*)(u8 *, s32))TBoss1Dragon__sub_800277D8)(self, temp_r4);
         return;
     case ENEMY_STATE_LEAVE:
-        ((TBoss8Dragon *)this->m_6d8)->spawn_child_object();
+        this->moko_hill->stop();
         break;
     default:
         break;
@@ -4766,7 +4765,7 @@ void TBoss1Dragon::handle_fall_state(u32 reason) {
         this->destination_direction.z = -this->position.z;
         normalize_vector_xz((Vec *)&this->destination_direction);
         this->rotation_y = (s32) (boss1_dragon_angle_units_per_radian * atan2_float(this->destination_direction.x, this->destination_direction.z));
-        ((TBoss8Dragon *)this->m_6d8)->set_field_3c();
+        this->moko_hill->start_without_hold();
         return;
     case 2:
     case 11:
@@ -4791,7 +4790,7 @@ void TBoss1Dragon::handle_fall_state(u32 reason) {
         TBoss1Dragon__sub_800277D8(this);
         return;
     case ENEMY_STATE_LEAVE:
-        ((TBoss8Dragon *)this->m_6d8)->spawn_child_object();
+        this->moko_hill->stop();
         break;
     default:
         return;

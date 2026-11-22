@@ -214,10 +214,6 @@ public:
     static void *clone_node_tree(void *src, void *dst, int state);
     static void *create(void *set_data);
     void update_colli_parts();
-    void set_field_3c();
-    void set_field_1c();
-    void spawn_child_object();
-    static void free_resources();
     static int get_instance_count();
     void init_color();
     void send_spawn_params_packet();

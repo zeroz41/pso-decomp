@@ -28,6 +28,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/boss/dragon/TObjBoss1MokoHill_Solo.h"
+#include "pso/boss/dragon/TObjBoss1MokoHill_SoloM.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
 #include "pso/system/scene/TScene_800838C4.h"
@@ -52,9 +53,9 @@ void run_task__14TObjBoss1FloorFv(Floor_8002C968 *self);
 void TObjBoss1Floor__sub_8002CB40(void);
 void TObjBoss1Floor__sub_8002CB78(void);
 
-void TLobby::update_boss1_objects() { TBoss8Dragon::free_resources(); TObjBoss1Rock__sub_8002E3CC(); TObjBoss1Crater__sub_8002C7B4(); TObjBoss1Floor__sub_8002CB40(); TLobby::free_char_select(); }
+void TLobby::update_boss1_objects() { TObjBoss1MokoHill_SoloM::free_resources(); TObjBoss1Rock__sub_8002E3CC(); TObjBoss1Crater__sub_8002C7B4(); TObjBoss1Floor__sub_8002CB40(); TLobby::free_char_select(); }
 void TLobby::forward_floor_2CB44() { TObjBoss1Floor::create_instance(); }
-void TLobby::init_bosses() { load_dragon_ground_assets(); TObjBoss1Floor__sub_8002CB78(); TObjBoss1Crater__sub_8002C7B8(); TObjBoss1Rock__sub_8002E3D0(); TBoss8Dragon__sub_8002D5F8(); }
+void TLobby::init_bosses() { load_dragon_ground_assets(); TObjBoss1Floor__sub_8002CB78(); TObjBoss1Crater__sub_8002C7B8(); TObjBoss1Rock__sub_8002E3D0(); TObjBoss1MokoHill_SoloM::load_resources(); }
 
 extern u8 *lbl_805D4B50;
 extern s32 dragon_common_texture_list;
@@ -128,8 +129,6 @@ TObjBoss1Floor::TObjBoss1Floor(TObject *parent) : TObject(parent) {
 
 extern "C" {
 
-s32 update_dragon_trail_uvs(void *);
-
 void TObjBoss1Floor__sub_8002CB40(void) {  }
 
 
@@ -141,12 +140,11 @@ void TObjBoss1Floor__sub_8002CB78(void) {  }
 
 
 void TObjBoss1MokoHill_Solo::render() {
-    u8 *self = (u8 *)this;
     TObjFish::set_global_param(dragon_common_texture_list);
-    update_dragon_trail_uvs((u8 *)&this->m_28);
+    update_dragon_trail_uvs(&position);
     push_matrix();
-    translate_matrix(0, this->m_28, (f32) (*(f32 *)((s8 *)self + 0x34)), this->m_30);
-    if ((s32) this->m_48 != 0) {
+    translate_matrix(0, position.x, height, position.z);
+    if (v2_mode != 0) {
         saved_model_render_flags = model_render_flags;
         saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
         saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;

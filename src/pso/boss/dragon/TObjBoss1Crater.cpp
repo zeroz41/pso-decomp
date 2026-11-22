@@ -236,10 +236,7 @@ s32 TObjBoss1Crater::is_count_below_limit() {
 
 struct Ent_8002C730 { u8 pad0[0x38]; f32 f38; u8 pad3c[4]; f32 f40; };
 
-struct Obj_8002C730 { f32 x; u8 pad[4]; f32 z; };
-
 extern "C" {
-f32 calc_nearest_crater_distance(Obj_8002C730 *self);
 
 TObjBoss1Crater *TObjBoss1Crater::create(TObject *parent, Vec *pos) {
     TObjBase *dragon;
@@ -255,7 +252,7 @@ TObjBoss1Crater *TObjBoss1Crater::create(TObject *parent, Vec *pos) {
 
 #pragma push
 #pragma fp_contract on
-f32 calc_nearest_crater_distance(Obj_8002C730 *self) {
+f32 calc_nearest_crater_distance(Vec *position) {
     f32 best;
     s32 i;
     f32 x;
@@ -267,8 +264,8 @@ f32 calc_nearest_crater_distance(Obj_8002C730 *self) {
     if (TObjBoss1Crater__instance_count == 0) {
         return 0.0f;
     }
-    x = self->x;
-    z = self->z;
+    x = position->x;
+    z = position->z;
     for (i = 0; i < TObjBoss1Crater__instance_count; i++) {
         Ent_8002C730 *e = (Ent_8002C730 *)TObjBoss1Crater__instance_list[i];
         dx = e->f38 - x;
