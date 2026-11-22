@@ -655,7 +655,7 @@ void TObjWarpBoss::warp_player(s32 local_client_id) {
 
     player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
-        TObjPlayer::play_effect_default((int)player, -1);
+        TObjPlayer::play_effect_default((saddr)player, -1);
         obj_set_flag_20000(player);
         warp_effect_timer = 0x12C;
     }

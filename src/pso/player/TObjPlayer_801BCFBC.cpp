@@ -61,7 +61,7 @@ struct VObj_8_c75954 : VBase_8_c75954 {
     virtual void m2();
     virtual void m3();
     virtual void m4();
-    virtual s32 m5(s32, s16);
+    virtual saddr m5(s32, s16);
     virtual void m6();
     virtual void m7();
     virtual void m8();
@@ -130,7 +130,7 @@ struct VObj_8_c75954 : VBase_8_c75954 {
     virtual void m71();
     virtual void m72();
     virtual void m73();
-    virtual s32 m74();
+    virtual saddr m74();
 };
 
 typedef struct Player_801BD1B4 {
