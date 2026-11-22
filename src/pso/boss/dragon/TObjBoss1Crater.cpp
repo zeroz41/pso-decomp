@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/EnemyBmlResource.h"
 #include "types.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/dragon/TObjBoss1Crater.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
 #include "pso/enemy/AttackTargetHistory.h"
@@ -86,25 +87,7 @@ struct V2_8002C3FC { s32 a, b; };
 
 struct Src_8002C3FC { u8 pad[0xAC]; s32 fAC; u8 padB0[0xC8 - 0xB0]; s32 fC8; };
 
-struct Sub_8002C544 { u8 pad[0xC]; f32 fC; };
-
-struct Crater_8002C544 {
-    const char *f0;
-    u8 pad4[0x18 - 0x4];
-    s32 *vt;
-    u8 pad1c[0x38 - 0x1C];
-    u8 pos[0x60 - 0x38];
-    s32 f60;
-    u8 pad64[0xA4 - 0x64];
-    Sub_8002C544 *fA4;
-    u8 padA8[0xB0 - 0xA8];
-    TParticleCtrl *fB0;
-    void *fB4;
-    s32 fB8[4];
-    s32 fC8;
-};
-
-Crater_8002C544 *TObjBoss1Crater__instance_list[20];
+TObjBoss1Crater *TObjBoss1Crater__instance_list[20];
 
 
 struct VBase_8002C288 { u8 pad[0x18]; };
@@ -216,37 +199,35 @@ void TObjBoss1Crater::area_attack_receive_direct(void *self_arg, f32 *arg2, void
 }
 TObjBoss1Crater::~TObjBoss1Crater() {
     if (this->attack_history != NULL) { delete this->attack_history; this->attack_history = 0; }
-    if (*(void **)((s8 *)this + 0xB0) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0xB0)))->queue_destruction(); *(s32 *)((s8 *)this + 0xB0) = 0; }
+    if (emitter != NULL) { emitter->queue_destruction(); emitter = NULL; }
 }
 
 
-#define self ((Crater_8002C544 *)this)
-TObjBoss1Crater::TObjBoss1Crater(TObject *parent, TObjBase *owner, void *arg3) : TUnk_804928CC(parent, owner) {
+TObjBoss1Crater::TObjBoss1Crater(TObject *parent, TObjBase *owner, Vec *pos) : TUnk_804928CC(parent, owner) {
     f32 r;
     s32 i;
     r = lbl_80435560.c;
-    self->f0 = TObjBoss1Crater__name;
-    self->fA4->fC = r;
-    VecCopy((Vec *)self->pos, (const Vec *)arg3);
-    self->f60 = (s32)(65536.0f * ((1.0f / 32768.0f) * (f32)rand()));
-    self->fB0 = create_particle_emitter(self->pos, 0x40);
-    self->fB4 = new AreaAttackHistory(4);
+    m_name = TObjBoss1Crater__name;
+    bodies->radius = r;
+    VecCopy(&position, pos);
+    rotation_y = (s32)(65536.0f * ((1.0f / 32768.0f) * (f32)rand()));
+    emitter = create_particle_emitter(&position, 0x40);
+    attack_history = new AreaAttackHistory(4);
     for (i = 0; i < 4; i++) {
-        self->fB8[i] = 0;
+        hit_timers[i] = 0;
     }
     if (TObjBoss1Crater__instance_count < 0x14) {
-        TObjBoss1Crater__instance_list[TObjBoss1Crater__instance_count++] = self;
+        TObjBoss1Crater__instance_list[TObjBoss1Crater__instance_count++] = this;
     }
     switch (TBoss1Dragon::isV2Mode()) {
     case 0:
-        self->fC8 = 1;
+        attack_kind = 1;
         break;
     case 1:
-        self->fC8 = 0x13;
+        attack_kind = 0x13;
         break;
     }
 }
-#undef self
 
 s32 TObjBoss1Crater::is_count_below_limit() {
     return TObjBoss1Crater__instance_count < 0x14;
@@ -260,18 +241,16 @@ struct Obj_8002C730 { f32 x; u8 pad[4]; f32 z; };
 extern "C" {
 f32 calc_nearest_crater_distance(Obj_8002C730 *self);
 
-void *TObjBoss1Crater::create(void *pos) {
-    void *x1;
-    void *o;
-    if (TObjBoss1Crater::is_count_below_limit() == 0) {
+TObjBoss1Crater *TObjBoss1Crater::create(TObject *parent, Vec *pos) {
+    TObjBase *dragon;
+    if (is_count_below_limit() == 0) {
         return NULL;
     }
-    x1 = (void *)TBoss1Dragon::get_instance();
-    if (x1 == NULL) {
+    dragon = (TObjBase *)TBoss1Dragon::get_instance();
+    if (dragon == NULL) {
         return NULL;
     }
-    o = new TObjBoss1Crater(this, (TObjBase *)x1, pos);
-    return o;
+    return new TObjBoss1Crater(parent, dragon, pos);
 }
 
 #pragma push

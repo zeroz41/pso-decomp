@@ -1725,7 +1725,7 @@ void TBoss1Dragon::spawn_impact_crater(Vec *pos) {
     if (temp_r5 < 0xC) {
         position.y += 0.05f * (f32) temp_r5;
         this->m_6a4 = (temp_r5 + 1);
-        ((TObjBoss1Crater *)tl_02)->create(&position.x);
+        TObjBoss1Crater::create(tl_02, &position);
     }
     spawn_particle_effect_with_flags(&position, this->effectResource->particle_ids[0], 0x840);
     TCameraCtrl::set_shake_preset(1);
