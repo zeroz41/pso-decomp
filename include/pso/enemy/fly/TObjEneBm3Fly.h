@@ -95,9 +95,9 @@ struct TObjEneBm3Fly : public TObjEneDD_ST {
     u8 unk_41A[0x2];
     Vec m_41c;
     s32 m_428;
-    f32 m_42c;
-    Vec m_430;
-    f32 m_43c;
+    f32 flightY;
+    Vec moveDir;
+    f32 moveSpeed;
     s32 m_440;
     f32 m_444;
     s32 m_448;
