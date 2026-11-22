@@ -40,23 +40,6 @@ extern s32 lbl_805D5870;
 // The whole unit is built with deferred inlining, so the compiler emits the
 // functions in reverse order: the last function here sits first in the DOL.
 
-// The actor update() hits, with slot 25 as it is called here: the base declares
-// apply_knockback_from_attacker(u8 *) without the strength.
-struct TObjEnemyCustomVictim : public TObjCollidable {
-    virtual s32 add_actor_exp(s32 exp);
-    virtual s32 consume_timer_field(s32 frames);
-    virtual s32 get_actor_level_index();
-    virtual u8 *update_actor_ground_y();
-    virtual u8 *update_actor_ground_y_at(Vec *pos);
-    virtual s32 is_actor_cadence_frame(s32 frame);
-    virtual s32 select_melee_contact_body(TObject *attacker, f32 range);
-    virtual int calc_distance_accuracy_penalty(void *, void *, void *, f32);
-    virtual f32 receive_physical_attack(TObject *attacker, f32 scale);
-    virtual f32 receive_direct_attack(void *, void *, void *, s32, s32);
-    virtual f32 receive_weapon_special_attack(void *, void *);
-    virtual void apply_knockback_from_attacker(TObject *attacker, f32 strength);
-};
-
 static const char *TObjEnemyCustom_name = "TObjEnemyCustom";
 
 static NJS_OBJECT **visible_node_cursor;
@@ -188,9 +171,9 @@ void TObjEnemyCustom::update() {
         enemy_turn_toward_dest(((EnemyMoveParams *)movementParameters)->turn_speed);
         advance_animation();
         if (is_passing_frame(10.0f) != 0) {
-            if (((TObjEnemyCustomVictim *)target)->select_melee_contact_body(this, 1.0f) != 0) {
-                ((TObjEnemyCustomVictim *)target)->receive_physical_attack(this, 1.0f);
-                ((TObjEnemyCustomVictim *)target)->apply_knockback_from_attacker(this, 3.0f);
+            if (((TObjChara *)target)->select_melee_contact_body(this, 1.0f) != 0) {
+                ((TObjChara *)target)->receive_physical_attack(this, 1.0f);
+                ((TObjChara *)target)->apply_knockback_from_attacker((u8 *)this, 3.0f);
             }
         }
         ((TObjPlayer *)this)->update_collisions();
