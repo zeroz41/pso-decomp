@@ -8,7 +8,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/math/AngleLookup.h"
-#include "clib/math.h"
+#include <math.h>
 
 struct G_803D6688 { f32 f0, f4, pad8[2], f10, f14, f18, f1c, f20, f24; };
 
