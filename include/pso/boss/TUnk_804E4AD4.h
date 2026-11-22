@@ -11,7 +11,7 @@ public:
     TUnk_804E4AD4(TObject *parent, s32 kind);
     virtual ~TUnk_804E4AD4();
     virtual void run_task();
-    // Called for each of them by TObjBoss7Tunnel::render (text_802F190C.cpp).
+    // Called for each of them by TObjBoss7Tunnel::render (TObjBoss7Tunnel_802F190C.cpp).
     void draw_particle_effect();
     NJS_OBJECT *model; // get_bml_model(boss7_common_bml_resource, kind + 0x11)
     AnimationMotion *motion; // get_bml_motion(boss7_common_bml_resource, kind)

@@ -8971,7 +8971,7 @@ pso/boss/barbaray/TObjBoss7RaftSplash.cpp:
 	.sdata      start:0x805D3FE8 end:0x805D3FF0
 	.sdata2     start:0x805DEC88 end:0x805DEC94
 
-pso/unk/text_802F190C.cpp:
+pso/boss/barbaray/TObjBoss7Tunnel_802F190C.cpp:
 	.text       start:0x802F190C end:0x802F1A58
 	.sbss       start:0x805D6960 end:0x805D6968
 
