@@ -64,16 +64,16 @@ void TCameraCtrl::reset_to_local_player() {
     reset_cameras_to_actor(get_player_by_client_id(local_client_id), 0);
 }
 
-void TCameraCtrl::set_override_position_and_angle(u8 *arg0, s16 arg1) {
+void TCameraCtrl::set_override_position_and_angle(u8 *position, s16 client_id) {
     camera_override_flags |= 2;
-    VecCopy(&camera_override_position, (const Vec *)arg0);
-    camera_override_client_id = arg1;
+    VecCopy(&camera_override_position, (const Vec *)position);
+    camera_override_client_id = client_id;
 }
 
-void TCameraCtrl::set_fixed_position_and_target(u8 *arg0, u8 *arg1) {
+void TCameraCtrl::set_fixed_position_and_target(u8 *position, u8 *target) {
     camera_override_flags |= 1;
-    VecCopy(&camera_override_position, (const Vec *)arg0);
-    VecCopy(&camera_fixed_target_position, (const Vec *)arg1);
+    VecCopy(&camera_override_position, (const Vec *)position);
+    VecCopy(&camera_fixed_target_position, (const Vec *)target);
 }
 
 s32 TCameraFollow::apply_override_pose() {
