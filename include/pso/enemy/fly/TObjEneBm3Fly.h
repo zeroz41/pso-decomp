@@ -36,7 +36,12 @@ struct Bm3FlyAnimationBinding {
 struct TObjEneBm3Fly : public TObjEneDD_ST {
     TObjEneBm3Fly(TObject *parent, TObjEneBm3FlyNest *nest, s32 entity_id, s32 set_index, const Vec *position, const Vec *arg6);
     virtual ~TObjEneBm3Fly();
-    void sub_800B1214(s32);
+    void action(s32 msg);
+    void sub_800B02C8(s32 msg);
+    void sub_800B0B20(s32 msg);
+    void sub_800B0F70(s32 msg);
+    void sub_800B1214(s32 msg);
+    void play_orbit_flight_sound();
     virtual s32 acquire_target(f32);
     virtual void run_demo_task();
     virtual void render_demo();
@@ -110,16 +115,5 @@ LAYOUT_ASSERT(TObjEneBm3Fly_owner_id_offset, offsetof(TObjEneBm3Fly, owner_id) =
 LAYOUT_ASSERT(TObjEneBm3Fly_particle_effect_offset, offsetof(TObjEneBm3Fly, particle_effect) == 0x458);
 LAYOUT_ASSERT(TObjEneBm3Fly_alternate_phase_offset, offsetof(TObjEneBm3Fly, alternate_phase) == 0x45C);
 LAYOUT_ASSERT(TObjEneBm3Fly_size, sizeof(TObjEneBm3Fly) == 0x4A8);
-
-extern "C" {
-void TObjEneBm3Fly__play_orbit_flight_sound(TObjEneBm3Fly *fly);
-void TObjEneBm3Fly__sub_800B02C8(TObjEneBm3Fly *ene_bm3_fly, s32 msg);
-void TObjEneBm3Fly__sub_800B0B20(TObjEneBm3Fly *ene_bm3_fly, s32 msg);
-void TObjEneBm3Fly__sub_800B0F70(TObjEneBm3Fly *self, s32 msg);
-void sub_800B1214__13TObjEneBm3FlyFl(TObjEneBm3Fly *arg0, s32 arg1);
-void action__13TObjEneBm3FlyFPvi(TObjEneBm3Fly *child, s32 msg);
-void update_dd_flag__13TObjEneBm3FlyFfff(TObjEneBm3Fly *fly, f32 x, f32 z, f32 speed);
-}
-
 
 #endif

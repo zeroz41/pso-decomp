@@ -32,30 +32,24 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
 
 #pragma defer_codegen on
 
 extern BmlResource *lbl_805D50D8;
 extern "C" {
-void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
-s32 post_translate_matrix(void *);
 u8 * bm3_fly_boss_stat_handle;
 AttackParams * TObjEneBm3Fly__attack_params;
 u8 * lbl_805D50E8;
 Bm3FlyParameters * lbl_805D50EC;
 BmlResource * bm3_fly_nest_resources;
 TUnk_8048FA00 * TObjEneBm3Fly__breakup_model;
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-void TObjEneBm3Fly__play_orbit_flight_sound(TObjEneBm3Fly *fly);
-f32 calc_scaled_value__15TObjBoss2TunnelFlf(int, int, f32, f32);
-void TObjEneBm3Fly__sub_800B02C8(TObjEneBm3Fly *ene_bm3_fly, s32 msg);
 extern const f32 lbl_805D9E80;
 s32 is_vec_xz_cross_negative(void *, void *);
-void TObjEneBm3Fly__sub_800B0F70(TObjEneBm3Fly *self, s32 msg);
-void TObjEneBm3Fly__sub_800B0B20(TObjEneBm3Fly *ene_bm3_fly, s32 msg);
-void free_collision_body_parts(void *);
 extern void *tl_04;
 
 const TBoss3VoloptBreakupParams bm3_fly_breakup_params = { 0x14, { 0.05f, 1.2f, 0.9f, 0.12f, 0.55f, 0.5f } };
@@ -247,10 +241,10 @@ void TObjEneBm3Fly::dispatch_action(u32 state, s32 msg) {
         sub_800B1214(msg);
         return;
     case 1:
-        TObjEneBm3Fly__sub_800B0F70(this, msg);
+        sub_800B0F70(msg);
         return;
     case 2:
-        TObjEneBm3Fly__sub_800B0B20(this, msg);
+        sub_800B0B20(msg);
         return;
     case 3:
         execute_action(msg);
@@ -265,10 +259,10 @@ void TObjEneBm3Fly::dispatch_action(u32 state, s32 msg) {
         state_death_fall(msg);
         return;
     case 5:
-        TObjEneBm3Fly__sub_800B02C8(this, msg);
+        sub_800B02C8(msg);
         return;
     case 7:
-        action__13TObjEneBm3FlyFPvi(this, msg);
+        action(msg);
         return;
     case 9:
         handle_message(msg);
@@ -441,8 +435,8 @@ void TObjEneBm3Fly::play_pitched_cue() {
     TObjPlayer::play_effect_if_v2(-0x400);
 }
 
-void TObjEneBm3Fly__play_orbit_flight_sound(TObjEneBm3Fly *fly) {
-    play_persistent_sound(fly->remap_sound_for_area(0x4003AB23), (saddr)fly, (uaddr)&fly->position, 0, 0);
+void TObjEneBm3Fly::play_orbit_flight_sound() {
+    play_persistent_sound(this->remap_sound_for_area(0x4003AB23), (saddr)this, (uaddr)&this->position, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x400);
 }
 
@@ -527,61 +521,61 @@ void TObjEneBm3Fly::sub_800B1214(s32 msg) {
 }
 #pragma push
 #pragma fp_contract on
-void TObjEneBm3Fly__sub_800B0F70(TObjEneBm3Fly *self, s32 msg) {
+void TObjEneBm3Fly::sub_800B0F70(s32 msg) {
     Vec d;
     f32 radius;
     s32 a;
     switch (msg) {
     case 4:
-        self->requested_action = 1;
-        self->set_intangible();
-        self->m_428 &= ~1;
-        self->m_428 |= 2;
-        self->actorFlags |= 0x01000000;
-        self->m_3cc = 0;
-        self->m_3d0 = (s32)((512.0f) * ((TObjEneDD *)self)->calc_elapsed_scaled()) + 0x800;
-        self->m_3d4 = self->m_448;
-        self->m_3d8 = (s32)((512.0f) * ((TObjEneDD *)self)->calc_elapsed_scaled()) + 0xA00;
-        d.x = self->position.x - self->m_41c.x;
+        this->requested_action = 1;
+        this->set_intangible();
+        this->m_428 &= ~1;
+        this->m_428 |= 2;
+        this->actorFlags |= 0x01000000;
+        this->m_3cc = 0;
+        this->m_3d0 = (s32)((512.0f) * ((TObjEneDD *)this)->calc_elapsed_scaled()) + 0x800;
+        this->m_3d4 = this->m_448;
+        this->m_3d8 = (s32)((512.0f) * ((TObjEneDD *)this)->calc_elapsed_scaled()) + 0xA00;
+        d.x = this->position.x - this->m_41c.x;
         d.y = (0.0f);
-        d.z = self->position.z - self->m_41c.z;
-        if (is_vec_xz_cross_negative(&d, &self->m_430) != 0) {
-            self->m_3d8 *= -1;
+        d.z = this->position.z - this->m_41c.z;
+        if (is_vec_xz_cross_negative(&d, &this->m_430) != 0) {
+            this->m_3d8 *= -1;
         }
-        ((TObjEneDD_ST *)(self))->enemy_clear_target();
-        self->m_3c8 = -1;
+        ((TObjEneDD_ST *)(this))->enemy_clear_target();
+        this->m_3c8 = -1;
         break;
     case 3:
-        if (self->update_linked_position(2e+02f) != 0) {
-            self->transition_enemy_state(2);
+        if (this->update_linked_position(2e+02f) != 0) {
+            this->transition_enemy_state(2);
         }
         break;
     case 0:
-        self->advance_animation();
-        self->m_3c4++;
-        if (self->m_3c4 > 300) {
-            self->m_3c4 = 0;
-            self->m_3d8 = (s32)((512.0f) * ((TObjEneDD *)self)->calc_elapsed_scaled()) + 0xA00;
+        this->advance_animation();
+        this->m_3c4++;
+        if (this->m_3c4 > 300) {
+            this->m_3c4 = 0;
+            this->m_3d8 = (s32)((512.0f) * ((TObjEneDD *)this)->calc_elapsed_scaled()) + 0xA00;
         }
-        self->m_3cc += self->m_3d0;
-        radius = (3e+01f) * cos_table_lookup(self->m_3cc / 2);
-        self->m_3d4 += self->m_3d8;
-        a = self->m_3d4;
-        self->position.x = radius * sin_table_lookup(a) + self->m_41c.x;
-        self->m_42c = (1e+01f) * sin_table_lookup(self->m_3d4) + self->m_444;
-        self->position.z = radius * cos_table_lookup(a) + self->m_41c.z;
-        self->rotation_y = a - 0x4000;
-        self->update_collide_flag();
-        self->prev_position.x = self->body_center.x;
-        self->prev_position.z = self->body_center.z;
-        self->update_body_colliders();
-        TObjEneBm3Fly__play_orbit_flight_sound(self);
+        this->m_3cc += this->m_3d0;
+        radius = (3e+01f) * cos_table_lookup(this->m_3cc / 2);
+        this->m_3d4 += this->m_3d8;
+        a = this->m_3d4;
+        this->position.x = radius * sin_table_lookup(a) + this->m_41c.x;
+        this->m_42c = (1e+01f) * sin_table_lookup(this->m_3d4) + this->m_444;
+        this->position.z = radius * cos_table_lookup(a) + this->m_41c.z;
+        this->rotation_y = a - 0x4000;
+        this->update_collide_flag();
+        this->prev_position.x = this->body_center.x;
+        this->prev_position.z = this->body_center.z;
+        this->update_body_colliders();
+        play_orbit_flight_sound();
         break;
     case 5:
-        self->m_430.x = self->position.x - self->prev_position.x;
-        self->m_430.y = (0.0f);
-        self->m_430.z = self->position.z - self->prev_position.z;
-        self->m_43c = normalize_vector_safe(&self->m_430);
+        this->m_430.x = this->position.x - this->prev_position.x;
+        this->m_430.y = (0.0f);
+        this->m_430.z = this->position.z - this->prev_position.z;
+        this->m_43c = normalize_vector_safe(&this->m_430);
         break;
     }
 }
@@ -589,7 +583,7 @@ void TObjEneBm3Fly__sub_800B0F70(TObjEneBm3Fly *self, s32 msg) {
 #pragma pop
 #pragma push
 #pragma fp_contract on
-void TObjEneBm3Fly__sub_800B0B20(TObjEneBm3Fly *ene_bm3_fly, s32 msg) {
+void TObjEneBm3Fly::sub_800B0B20(s32 msg) {
     Vec *pos;
     Vec *off;
     Vec *vel;
@@ -600,108 +594,108 @@ void TObjEneBm3Fly__sub_800B0B20(TObjEneBm3Fly *ene_bm3_fly, s32 msg) {
     f32 s;
     f32 len;
 
-    vel = &ene_bm3_fly->m_3e8;
-    pos = &ene_bm3_fly->m_3f4;
-    off = &ene_bm3_fly->m_400;
+    vel = &this->m_3e8;
+    pos = &this->m_3f4;
+    off = &this->m_400;
 
     switch (msg) {
     case 4:
-        ene_bm3_fly->requested_action = 1;
-        ene_bm3_fly->clear_intangible();
-        ene_bm3_fly->m_428 &= ~1;
-        ene_bm3_fly->m_428 |= 2;
-        ene_bm3_fly->actorFlags |= 0x01000000;
-        vel->x = ene_bm3_fly->m_430.x * ene_bm3_fly->m_43c;
+        this->requested_action = 1;
+        this->clear_intangible();
+        this->m_428 &= ~1;
+        this->m_428 |= 2;
+        this->actorFlags |= 0x01000000;
+        vel->x = this->m_430.x * this->m_43c;
         vel->y = (0.0f);
-        vel->z = ene_bm3_fly->m_430.z * ene_bm3_fly->m_43c;
-        if (is_vec_xz_cross_negative(&ene_bm3_fly->m_430, &ene_bm3_fly->destination_direction) != 0) {
-            ene_bm3_fly->m_3cc = 0x8000;
+        vel->z = this->m_430.z * this->m_43c;
+        if (is_vec_xz_cross_negative(&this->m_430, &this->destination_direction) != 0) {
+            this->m_3cc = 0x8000;
         } else {
-            ene_bm3_fly->m_3cc = 0;
+            this->m_3cc = 0;
         }
-        ene_bm3_fly->m_3c4 = 0;
+        this->m_3c4 = 0;
         off->x = (0.0f);
         off->y = (0.0f);
         off->z = (0.0f);
         pos->x = (0.0f);
-        pos->y = ene_bm3_fly->m_42c - ene_bm3_fly->position.y;
+        pos->y = this->m_42c - this->position.y;
         pos->z = (0.0f);
         break;
     case 3:
-        if (ene_bm3_fly->destination_distance > (4.5e+02f) || ene_bm3_fly->current_target == NULL) {
-            ene_bm3_fly->transition_enemy_state(5);
-        } else if (ene_bm3_fly->destination_distance < (1e+02f)) {
-            ((TObjEneBm3Fly *)ene_bm3_fly)->choose_attack();
+        if (this->destination_distance > (4.5e+02f) || this->current_target == NULL) {
+            this->transition_enemy_state(5);
+        } else if (this->destination_distance < (1e+02f)) {
+            this->choose_attack();
         }
         break;
     case 0:
-        ene_bm3_fly->advance_animation();
-        if (((TObjEneEpsilon *)ene_bm3_fly)->update_death_check() == 0 && ene_bm3_fly->acquire_target(2e+02f) == 0) {
+        this->advance_animation();
+        if (((TObjEneEpsilon *)this)->update_death_check() == 0 && this->acquire_target(2e+02f) == 0) {
             break;
         }
-        ene_bm3_fly->update();
-        ene_bm3_fly->update_velocity();
-        VecCopy(pos, &ene_bm3_fly->body_center);
+        this->update();
+        this->update_velocity();
+        VecCopy(pos, &this->body_center);
         subtract_vector(pos, off);
-        if (ene_bm3_fly->m_3c4 == 0) {
-            if ((0.0f) == ene_bm3_fly->m_430.x && (0.0f) == ene_bm3_fly->m_430.z) {
-                ene_bm3_fly->m_430.x = sin_table_lookup(ene_bm3_fly->rotation_y);
-                ene_bm3_fly->m_430.z = cos_table_lookup(ene_bm3_fly->rotation_y);
+        if (this->m_3c4 == 0) {
+            if ((0.0f) == this->m_430.x && (0.0f) == this->m_430.z) {
+                this->m_430.x = sin_table_lookup(this->rotation_y);
+                this->m_430.z = cos_table_lookup(this->rotation_y);
             }
-            if (vec3_dot(&ene_bm3_fly->m_430, &ene_bm3_fly->destination_direction) < (0.99f)) {
-                if (is_vec_xz_cross_negative(&ene_bm3_fly->m_430, &ene_bm3_fly->destination_direction) != 0) {
-                    x = -ene_bm3_fly->m_430.z;
-                    z = ene_bm3_fly->m_430.x;
+            if (vec3_dot(&this->m_430, &this->destination_direction) < (0.99f)) {
+                if (is_vec_xz_cross_negative(&this->m_430, &this->destination_direction) != 0) {
+                    x = -this->m_430.z;
+                    z = this->m_430.x;
                 } else {
-                    x = ene_bm3_fly->m_430.z;
-                    z = -ene_bm3_fly->m_430.x;
+                    x = this->m_430.z;
+                    z = -this->m_430.x;
                 }
                 vel->x = (0.18f) * x + vel->x;
                 vel->y = (0.0f);
                 vel->z = (0.18f) * z + vel->z;
-                VecCopy(&ene_bm3_fly->m_430, vel);
-                normalize_vector_safe(&ene_bm3_fly->m_430);
+                VecCopy(&this->m_430, vel);
+                normalize_vector_safe(&this->m_430);
             } else {
-                ene_bm3_fly->m_3c4 = 1;
-                VecCopy(&ene_bm3_fly->m_430, &ene_bm3_fly->destination_direction);
+                this->m_3c4 = 1;
+                VecCopy(&this->m_430, &this->destination_direction);
             }
         } else {
-            VecCopy(&ene_bm3_fly->m_430, &ene_bm3_fly->destination_direction);
-            s = (5.0f) * sin_table_lookup(ene_bm3_fly->m_3cc);
-            ene_bm3_fly->m_3cc += 0x600;
-            off->x = ene_bm3_fly->destination_direction.z * s;
+            VecCopy(&this->m_430, &this->destination_direction);
+            s = (5.0f) * sin_table_lookup(this->m_3cc);
+            this->m_3cc += 0x600;
+            off->x = this->destination_direction.z * s;
             off->y = (0.0f);
-            off->z = -ene_bm3_fly->destination_direction.x * s;
+            off->z = -this->destination_direction.x * s;
         }
-        if (ene_bm3_fly->m_43c > ((Bm3FlyMovementParameters *)ene_bm3_fly->movementParameters)->unknown_04) {
-            ene_bm3_fly->m_43c *= (0.96f);
+        if (this->m_43c > ((Bm3FlyMovementParameters *)this->movementParameters)->unknown_04) {
+            this->m_43c *= (0.96f);
         } else {
-            ene_bm3_fly->m_43c = ((Bm3FlyMovementParameters *)ene_bm3_fly->movementParameters)->unknown_04;
+            this->m_43c = ((Bm3FlyMovementParameters *)this->movementParameters)->unknown_04;
         }
-        vel->x = ene_bm3_fly->m_430.x * ene_bm3_fly->m_43c;
+        vel->x = this->m_430.x * this->m_43c;
         vel->y = (0.0f);
-        vel->z = ene_bm3_fly->m_430.z * ene_bm3_fly->m_43c;
+        vel->z = this->m_430.z * this->m_43c;
         pos->x += vel->x;
         pos->z += vel->z;
         VecCopy(&p, pos);
         vec3_add_to(&p, off);
         VecCopy(&d, &p);
-        subtract_vector(&d, &ene_bm3_fly->position);
+        subtract_vector(&d, &this->position);
         d.y = (0.0f);
         len = normalize_vector_xz(&d);
-        ((TObjEneBm3Fly *)ene_bm3_fly)->update_dd_flag(d.x, d.z, len);
-        ene_bm3_fly->m_42c = ene_bm3_fly->approach_value(pos->y, ene_bm3_fly->destination.y);
-        pos->y = ene_bm3_fly->m_42c;
-        ene_bm3_fly->clamp_flight_height();
-        ene_bm3_fly->rotation_y = (s32)(10430.38043493439 * atan2_float(ene_bm3_fly->m_430.x, ene_bm3_fly->m_430.z));
-        ene_bm3_fly->check_collisions();
-        pos->x -= ene_bm3_fly->position.x;
-        pos->y -= ene_bm3_fly->m_42c;
-        pos->z -= ene_bm3_fly->position.z;
-        ene_bm3_fly->play_pitched_cue();
+        this->update_dd_flag(d.x, d.z, len);
+        this->m_42c = this->approach_value(pos->y, this->destination.y);
+        pos->y = this->m_42c;
+        this->clamp_flight_height();
+        this->rotation_y = (s32)(10430.38043493439 * atan2_float(this->m_430.x, this->m_430.z));
+        this->check_collisions();
+        pos->x -= this->position.x;
+        pos->y -= this->m_42c;
+        pos->z -= this->position.z;
+        this->play_pitched_cue();
         break;
     case 5:
-        ene_bm3_fly->m_43c = ((Bm3FlyMovementParameters *)ene_bm3_fly->movementParameters)->unknown_04;
+        this->m_43c = ((Bm3FlyMovementParameters *)this->movementParameters)->unknown_04;
         break;
     }
 }
@@ -889,41 +883,41 @@ void TObjEneBm3Fly::state_circle_target(s32 msg) {
 }
 #pragma push
 #pragma fp_contract on
-void TObjEneBm3Fly__sub_800B02C8(TObjEneBm3Fly *ene_bm3_fly, s32 msg) {
+void TObjEneBm3Fly::sub_800B02C8(s32 msg) {
     Bm3FlyMovementParameters *params;
     switch (msg) {
     case 4:
-        ene_bm3_fly->requested_action = 1;
-        ene_bm3_fly->clear_intangible();
-        ene_bm3_fly->m_428 &= ~1;
-        ene_bm3_fly->m_428 |= 2;
-        ene_bm3_fly->actorFlags |= 0x01000000;
-        ene_bm3_fly->sub_800B1634();
-        ene_bm3_fly->destination.x = (f32) (((3e+01f) * sin_table_lookup(ene_bm3_fly->m_448)) + ene_bm3_fly->m_41c.x);
-        ene_bm3_fly->destination.y = (f32) ene_bm3_fly->m_444;
-        ene_bm3_fly->destination.z = (f32) (((3e+01f) * cos_table_lookup(ene_bm3_fly->m_448)) + ene_bm3_fly->m_41c.z);
-        params = (Bm3FlyMovementParameters *)ene_bm3_fly->movementParameters;
-        ene_bm3_fly->m_3e0 = 2.0f + calc_scaled_value__15TObjBoss2TunnelFlf(params->unknown_08, (saddr)params, params->unknown_04, 3e+01f);
-        ene_bm3_fly->update_velocity();
+        this->requested_action = 1;
+        this->clear_intangible();
+        this->m_428 &= ~1;
+        this->m_428 |= 2;
+        this->actorFlags |= 0x01000000;
+        this->sub_800B1634();
+        this->destination.x = (f32) (((3e+01f) * sin_table_lookup(this->m_448)) + this->m_41c.x);
+        this->destination.y = (f32) this->m_444;
+        this->destination.z = (f32) (((3e+01f) * cos_table_lookup(this->m_448)) + this->m_41c.z);
+        params = (Bm3FlyMovementParameters *)this->movementParameters;
+        this->m_3e0 = 2.0f + TObjBoss2Tunnel::calc_scaled_value(params->unknown_08, params->unknown_04);
+        this->update_velocity();
         break;
     case 3:
-        if (ene_bm3_fly->update_linked_position(2e+02f) != 0) {
-            ene_bm3_fly->transition_enemy_state(2);
-        } else if (ene_bm3_fly->destination_distance < ene_bm3_fly->m_3e0) {
-            ene_bm3_fly->transition_enemy_state(1);
+        if (this->update_linked_position(2e+02f) != 0) {
+            this->transition_enemy_state(2);
+        } else if (this->destination_distance < this->m_3e0) {
+            this->transition_enemy_state(1);
         }
         break;
     case 5:
         break;
     case 0:
-        ene_bm3_fly->advance_animation();
-        ene_bm3_fly->update_velocity();
-        ene_bm3_fly->m_42c = ene_bm3_fly->approach_value(ene_bm3_fly->m_42c, ene_bm3_fly->destination.y);
-        ene_bm3_fly->update_state_flag();
-        ene_bm3_fly->update_body_colliders();
-        ene_bm3_fly->clamp_flight_height();
-        ene_bm3_fly->transform_part_positions();
-        ene_bm3_fly->play_pitched_cue();
+        this->advance_animation();
+        this->update_velocity();
+        this->m_42c = this->approach_value(this->m_42c, this->destination.y);
+        this->update_state_flag();
+        this->update_body_colliders();
+        this->clamp_flight_height();
+        this->transform_part_positions();
+        this->play_pitched_cue();
         break;
     }
 }
@@ -975,34 +969,34 @@ void TObjEneBm3Fly::update_recoil_state(s32 msg) {
     }
 }
 #pragma pop
-void action__13TObjEneBm3FlyFPvi(TObjEneBm3Fly *child, s32 msg) {
+void TObjEneBm3Fly::action(s32 msg) {
     TObjEneBm3FlyNest *nest;
 
     switch (msg) {
     case 4:
-        child->clear_intangible();
-        child->m_428 |= 1;
-        child->m_428 &= ~2;
-        child->set_entry = NULL;
-        child->refresh_and_send_entity_flags();
-        nest = (TObjEneBm3FlyNest *)find_entity_by_id(child->owner_id);
+        this->clear_intangible();
+        this->m_428 |= 1;
+        this->m_428 &= ~2;
+        this->set_entry = NULL;
+        this->refresh_and_send_entity_flags();
+        nest = (TObjEneBm3FlyNest *)find_entity_by_id(this->owner_id);
         if (nest != NULL) {
-            nest->remove_child((u8 *)child);
+            nest->remove_child((u8 *)this);
         }
-        TBoss8Dragon__sub_800BB7DC(child);
-        TBoss8Dragon__sub_800BB7D8(child, 0xF1, 1.0f);
-        play_sound_effect(child->remap_sound_for_area(0x4003E425), &child->position, 0, 0);
-        TBoss3Volopt::create_breakup_mdl((saddr)TObjEneBm3Fly__breakup_model, (saddr)&bm3_fly_breakup_params, child->texlist, (saddr)&child->body_center, child->rotation_y);
-        child->m_3c0 = 0;
+        TBoss8Dragon__sub_800BB7DC(this);
+        TBoss8Dragon__sub_800BB7D8(this, 0xF1, 1.0f);
+        play_sound_effect(this->remap_sound_for_area(0x4003E425), &this->position, 0, 0);
+        TBoss3Volopt::create_breakup_mdl((saddr)TObjEneBm3Fly__breakup_model, (saddr)&bm3_fly_breakup_params, this->texlist, (saddr)&this->body_center, this->rotation_y);
+        this->m_3c0 = 0;
         return;
     case 3:
-        if (child->m_3c0 >= 2) {
-            child->transition_enemy_state(9);
+        if (this->m_3c0 >= 2) {
+            this->transition_enemy_state(9);
         }
     case 5:
         return;
     case 0:
-        child->m_3c0++;
+        this->m_3c0++;
         break;
     }
 }
@@ -1135,7 +1129,7 @@ void TObjEneBm3Fly::render_demo() {
         draw_ground_shadow(0, 0);
         TObjFish::set_global_param(texlist);
         push_matrix();
-        post_translate_matrix(&position);
+        post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         TObjEneDD::clear_global_flag_400();
         TObjPlayer::toggle_particle_effect();

@@ -1068,11 +1068,11 @@ force_active:
   - __dt__17TObjEneBm3FlyNestFv
   - TObjEneBm3FlyNest_attachment_point_ptr
   - __ct__13TObjEneBm3FlyFP7TObjectP17TObjEneBm3FlyNestllPC3VecPC3Vec
-  - TObjEneBm3Fly__play_orbit_flight_sound
-  - TObjEneBm3Fly__sub_800B02C8
-  - TObjEneBm3Fly__sub_800B0B20
-  - TObjEneBm3Fly__sub_800B0F70
-  - TObjEneBm3Fly__sub_800B1214
+  - play_orbit_flight_sound__13TObjEneBm3FlyFv
+  - sub_800B02C8__13TObjEneBm3FlyFl
+  - sub_800B0B20__13TObjEneBm3FlyFl
+  - sub_800B0F70__13TObjEneBm3FlyFl
+  - sub_800B1214__13TObjEneBm3FlyFl
   - run_demo_task__13TObjEneBm3FlyFv
   - render_demo__13TObjEneBm3FlyFv
   - dispatch_action__13TObjEneBm3FlyFUll
@@ -3757,7 +3757,7 @@ force_active:
   - accumulate__14PadRumbleLevelFll
   - accumulate_key_bits__FlPl
   - accumulate_mag_axis_oscillation__FPfPlP28MagAxisOscillationParameters
-  - action__13TObjEneBm3FlyFPvi
+  - action__13TObjEneBm3FlyFl
   - action__14TObjEneBm5WolfFl
   - action__15TObjEneMe1GiGueFv
   - action__16TObjEneBm5GibonUFPvi
