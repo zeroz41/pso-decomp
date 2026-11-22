@@ -36,6 +36,7 @@ struct TWindowSubMag;
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubEquip_80263AB0.h"
 #include "pso/ui/window/TWindowSubEquip.h"
+#include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/TWindowLockOn.h"
 #include "pso/ui/window/TWindowMenuMainMenu.h"
 #include "pso/ui/window/TWindowMainMenu4P.h"
@@ -72,7 +73,6 @@ s32 select_main_menu_item_10(s32);
 extern "C" {
 s32 __ct__17TWindowSubAreaMapFP7TObjectPv(int, void *, int);
 s32 __ct__17TWindowSubComCardFP7TObjectPv(int, void *, int);
-void *TWindowSubItem__ct(TWindowSubItem *arg0, s32 arg1, s32 arg2);
 s32 __ct__13TWindowSubLogFP7TObjectPv(int, void *, int);
 void *TWindowSubMag__ct(TWindowSubMag *arg0, s32 arg1, s32 arg2);
 s32 __ct__20TWindowSubQuestBoardFP7TObjectPv(int, void *, int);

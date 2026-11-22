@@ -41,4 +41,6 @@ struct TWindowSubItem : public TObject {
 };
 
 LAYOUT_ASSERT(TWindowSubItem_size, sizeof(TWindowSubItem) == 0x44);
+
+extern "C" void *TWindowSubItem__ct(TWindowSubItem *window_sub_item, s32 parent, s32 client_id);
 #endif

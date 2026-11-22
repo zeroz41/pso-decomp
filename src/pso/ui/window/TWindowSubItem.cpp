@@ -33,43 +33,6 @@
 
 #pragma readonly_strings on
 
-struct Base_A_80279714 { char pad[0x18]; };
-
-struct V_A_80279714 : Base_A_80279714 {
-    virtual void f0();
-    virtual void f1();
-    virtual void f2();
-    virtual void f3();
-    virtual void f4();
-    virtual void f5();
-    virtual void f6();
-    virtual void f7();
-    virtual void f8();
-    virtual void f9();
-    virtual void f10();
-    virtual void f11();
-    virtual void f12();
-    virtual void f13();
-    virtual void f14();
-    virtual void f15();
-    virtual void f16();
-    virtual void f17();
-    virtual void f18();
-    virtual void f19();
-    virtual void f20();
-    virtual void f21();
-    virtual void f22();
-    virtual void f23();
-    virtual void f24();
-    virtual void f25();
-    virtual void f26();
-    virtual void f27();
-    virtual void f28();
-    virtual void f29();
-    virtual void f30();
-    virtual s32 m31();
-};
-
 struct ItemData_80279754 {
     u8 b[0x14];
 };
@@ -85,33 +48,6 @@ struct VObj_18_1de278 : VBase_18_1de278 {
     virtual void m5();
     virtual void m6();
     virtual s32 m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual s32 m34();
 };
 
 struct Pad_80279FFC { u8 pad0[0x20]; u8 f20[0x30]; };
@@ -146,7 +82,6 @@ s32 __nw__7TObjectFUl(s32);
 s32 TWindowCtrl__sub_8024A228(saddr);
 u32 __ct__15TWindowHelpItemFPvUs(s32, s32, s32);
 extern Pad_80279FFC controller_input_state[];
-void *TWindowSubItem__ct(TWindowSubItem *arg0, s32 arg1, s32 arg2);
 s32 send_6x25_equip_item(s32, s32, s32);
 s32 TWindowHelpItem__set_displayed_item_by_id(u32);
 s32 __ct__18TWindowInputNumberFPvllls(s32, s32, s32, s32, s32, s16);
@@ -255,12 +190,12 @@ void TWindowSubItem::clear_flag_and_release() {
 
 void TWindowSubItem::set_flag60_bit10() { *(u16*)((char*)this + 0x60) |= 0x10; }
 
-void *TWindowSubItem__ct(TWindowSubItem *window_sub_item, s32 arg1, s32 arg2) {
+void *TWindowSubItem__ct(TWindowSubItem *window_sub_item, s32 parent, s32 client_id) {
     __ct__7TObjectFP7TObject();
     *(s32 **)((s8 *)window_sub_item + 0x18) = __vt__14TWindowSubItem;
     *(s32 *)((s8 *)window_sub_item + 0) = (saddr) TWindowSubItem__class_name;
-    window_sub_item->m_2c = arg1;
-    window_sub_item->client_id = arg2;
+    window_sub_item->m_2c = parent;
+    window_sub_item->client_id = client_id;
     window_sub_item->m_30 = create_sub_item_list_window(get_window_layout_position(3), lbl_8044F998, window_sub_item->client_id);
     TWindowSubEquip__sub_80263AF8(window_sub_item->m_2c, 0);
     set_depth__11TWindowBaseFf(window_sub_item->m_30);
@@ -426,7 +361,7 @@ void TWindowSubItem::run_task() {
             }
             break;
         case 12: {
-            s32 n = ((VObj_18_1de278 *) find_item_by_id(((TWindowMenuIconLine *)LIST)->get_cursor_value()))->m34();
+            s32 n = find_item_by_id(((TWindowMenuIconLine *)LIST)->get_cursor_value())->get_amount();
             if (n <= 1) {
                 F(s32, 0x28) = 1;
                 F(u8, 0x1C) = 0xE;
@@ -706,7 +641,7 @@ void TWindowSubItem::set_cursor_row_for_mode(s32 arg1) {
 
 void TWindowSubItem::exec_item_command(saddr item_id, s32 arg2) {
     saddr player;
-    void *item;
+    TItem *item;
     saddr t;
 
     player = get_player_by_client_id(this->client_id);
@@ -719,7 +654,7 @@ void TWindowSubItem::exec_item_command(saddr item_id, s32 arg2) {
             this->m_1c = 0x16;
             break;
         case 1: {
-            TItem *held = (TItem *)TObjPlayer::get_slot_value((void *)(player + 0xD04), (int)((s8) ((V_A_80279714 *) item)->m31()));
+            TItem *held = (TItem *)TObjPlayer::get_slot_value((void *)(player + 0xD04), item->get_attach_slot());
             if (held != NULL) {
                 t = held->get_item_id();
                 TObjPlayer::send_6x26_unequip_item((void *)player, t);
