@@ -72,7 +72,7 @@ void TObjEneReconBomb::render() {
     push_matrix();
     translate_matrix(0, position.x, 2.0f + position.y, position.z);
     rotate_matrix_zyx(0, rotation_x, rotation_y, rotation_z);
-    TObjFish::set_global_param(texlist);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
     draw_chunk_object((void *)bml_model);
     pop_matrix();
     push_matrix();

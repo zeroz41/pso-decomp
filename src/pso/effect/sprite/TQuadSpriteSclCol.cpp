@@ -79,7 +79,7 @@ extern "C" void render__17TQuadSpriteSclColFv(Self_801E5C24 *self) {
     sh = sw * (480.0f / (480.0f * lbl_8058D4F8.aspect));
     TParticleCtrl::begin_effect_render();
     begin_screen_draw(1);
-    TObjFish::set_global_param((saddr)self->definition->texlist);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(self->definition->texlist));
     set_draw_texture_and_color(self->definition->texture, self->definition->color);
     one = -1.0f;
     for (i = 0, ci = 0, li = 0; i < self->definition->uv_count; i++, ci += 0x10, li += 0x2C) {

@@ -55,7 +55,7 @@ void TOComputerMachine01::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
         body = (NJS_OBJECT *)model;
         draw_ginja_model((void *)body->model);
         TParticleCtrl::begin_effect_render();

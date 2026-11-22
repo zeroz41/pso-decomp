@@ -865,7 +865,12 @@ void handle_6x19_dark_falz_actions(G_DarkFalzActions_6x19 *cmd) {
     }
 }
 
-void TBoss4DarkFalz::cleanup_global() { TBoss4DarkFalz::free_global_instance(); release_uro_link(); delete (BmlResource *)darkfalz_dat_resource; darkfalz_dat_resource = 0; }
+void TBoss4DarkFalz::cleanup_global() {
+    TBoss4DarkFalz::free_global_instance();
+    release_uro_link();
+    delete darkfalz_dat_resource;
+    darkfalz_dat_resource = NULL;
+}
 
 void TBoss4DarkFalz::load_resources() {
     BmlResource *resource = new BmlResource(5, &darkfalz_dat_resource_descriptor, 0, 0, NULL);
@@ -882,4 +887,4 @@ TBoss4DarkFalz *TBoss4DarkFalz::create(saddr set_data) {
 
 s32 TBoss4DarkFalz::get_phase() { return state_index; }
 
-saddr TBoss4Uro::get_instance_count() { return reinterpret_cast<saddr>(darkfalz_dat_resource); }
+BmlResource *TBoss4Uro::get_instance_count() { return darkfalz_dat_resource; }

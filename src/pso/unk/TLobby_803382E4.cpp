@@ -123,7 +123,7 @@ void TLobby__sub_803382E4(void) {
         TParticleCtrl::begin_effect_render();
         TCameraCtrl::restore_full_screen_view();
         set_default_alpha_blend();
-        TObjFish::set_global_param((saddr)lbl_804EF1DC);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_804EF1DC));
         set_texture_num(0);
         TLobby__sub_803E2EE4(0);
         draw_projected_textured_strip(lbl_804EF2E4, 4);
@@ -199,7 +199,7 @@ void TLobby__sub_80338534(void) {
     TObjBoss2Tunnel::draw_projected_quads(t->a, 4);
     TObjBoss2Tunnel::reset_player_state();
     if ((u32)info_icon_texture != 0) {
-        TObjFish::set_global_param(info_icon_texture);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(info_icon_texture));
         if (lobby_request_flags & 4) {
             set_texture_num(1);
         } else {
@@ -210,7 +210,7 @@ void TLobby__sub_80338534(void) {
         draw_projected_textured_strip(t->b, 4);
         TLobby::reset_player_state();
         set_default_alpha_blend();
-        TObjFish::set_global_param(lbl_805D63F0);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
         set_texture_num(5);
         TLobby__sub_803E2EE4(1);
         draw_projected_textured_strip(t->c, 4);

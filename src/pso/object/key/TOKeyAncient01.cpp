@@ -38,7 +38,7 @@ void TOKeyAncient01::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
         if (is_on != 1) {
             draw_ginja_model_with_motion(model, motion, animation_frame);
         } else {

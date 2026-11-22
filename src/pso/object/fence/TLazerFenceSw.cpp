@@ -121,7 +121,7 @@ void TLazerFenceSw::draw_laser_beam() {
     for (i = 0; i < 3; i++) {
         set_ginja_model_texture_slot(lazer_fence_beam_node_table[i], self->fE8);
     }
-    TObjFish::set_global_param((saddr)TLazerFenceSw__texture_list);
+    TObjFish::set_global_param(TLazerFenceSw__texture_list);
     if (actor_frame_tick != self->f114 && self->f110 >= 1.0f) {
         self->f114 = actor_frame_tick;
         scroll_ginja_mesh_uvs(reinterpret_cast<NJS_OBJECT *>(lazer_fence_switch_scroll_node)->model, 0, (s32)self->f110, 5, 1);

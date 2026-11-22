@@ -81,7 +81,7 @@ void TODoorMachine02::render() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
         unlocked = door_flags & 1;
-        TObjFish::set_global_param((saddr)texture_lists[door_flags & 1]);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texture_lists[door_flags & 1]));
         if (object_state == DOOR_CLOSED) {
             node = ((NJS_OBJECT *)model)->child;
             post_translate_matrix(node->pos);

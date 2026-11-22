@@ -73,7 +73,7 @@ void TUnk_80484AFC::explode_and_destroy() {
 }
 
 void TUnk_80484AFC::render() {
-    TObjFish::set_global_param(textures);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(textures));
     push_matrix();
     post_translate_matrix(&position);
     rotate_matrix_x(0, rotation_x);

@@ -217,7 +217,7 @@ void TObjOnlineEnding::render() {
     push_matrix();
     post_translate_matrix(&lbl_804E3A38.x);
     scale_matrix(0, online_ending_scene_scale, 1.0f, 1.0f);
-    TObjFish::set_global_param(reinterpret_cast<saddr>(scene_textures));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(scene_textures));
     draw_model_motion(scene_model, scene_motion, scene_frame);
     pop_matrix();
     for (i = 0; i < player_count; i++) {

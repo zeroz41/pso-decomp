@@ -904,9 +904,9 @@ void TObjEneDarkGunner::render() {
                 color.g = s;
                 color.b = s;
                 set_constant_material((const NJS_ARGB *)&color);
-                TObjFish::set_global_param(TObjEneDarkGunner__effect_resource);
+                TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TObjEneDarkGunner__effect_resource));
             } else {
-                TObjFish::set_global_param(texlist);
+                TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
             }
             if (behavior_flags & 4) {
                 if (render_control.has_visible_opacity() != 0) {
@@ -963,9 +963,9 @@ void TObjEneDarkGunner::run_demo_task() {  }
 void TObjEneDarkGunner::render_shadow() {
     if (obj_testFlags30(0x800) == 0) {
         if (is_death_gunner() == 0) {
-            TObjFish::set_global_param(TObjEneDarkGunner__cly_line_texlist);
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TObjEneDarkGunner__cly_line_texlist));
         } else {
-            TObjFish::set_global_param(TObjEneDarkGunner__rcly_line_texlist);
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TObjEneDarkGunner__rcly_line_texlist));
         }
         push_matrix();
         post_translate_matrix(&shadow_pos.x);

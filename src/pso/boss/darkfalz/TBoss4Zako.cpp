@@ -79,7 +79,7 @@ TBoss4Zako::TBoss4Zako(TObject *parent, TBoss4ZakoSetData *set_data) : TObjEnemy
     owner->count_minion_spawned();
     apply_set_data(&set_data->set_index);
     clear_lobby_object_state();
-    archive = reinterpret_cast<BmlResource *>(TBoss4Uro::get_instance_count());
+    archive = TBoss4Uro::get_instance_count();
     texlist = 0;
     model = 0;
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));

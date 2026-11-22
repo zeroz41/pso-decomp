@@ -74,7 +74,7 @@ void TBoss6RockChase::render() {
     rotate_matrix_y(NULL, rotation_y);
     rotate_matrix_x(NULL, rotation_x);
     rotate_matrix_z(NULL, rotation_z);
-    TObjFish::set_global_param((saddr)(textures));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(textures));
     draw_ginja_object(model);
     pop_matrix();
 }

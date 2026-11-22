@@ -325,7 +325,7 @@ void TObjEneGibbles::render() {
         this->fades[cam].update();
         fade = this->fades[cam].updateFromCamera(&body_center.x);
         select_actor_lighting(this);
-        TObjFish::set_global_param(this->texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
         push_matrix_from(NULL);
         VecCopy(&v, &position);
         switch (this->mode) {

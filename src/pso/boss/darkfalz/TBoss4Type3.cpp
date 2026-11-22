@@ -232,7 +232,7 @@ TBoss4Type3::TBoss4Type3(TObject *parent, TBoss4FormSetData *set_data) : TObjEne
     add_flags_2e4(8);
     owner = set_data->owner;
     apply_set_data(&set_data->entry);
-    archive = reinterpret_cast<BmlResource *>(TBoss4Uro::get_instance_count());
+    archive = TBoss4Uro::get_instance_count();
     texlist = 0;
     model = 0;
     VecCopy(&position, &boss4_type3_start_position);
@@ -515,7 +515,7 @@ void TBoss4Type3::draw_model_set(const s32 *tbl, f32 t) {
     TObjEneRe4Sorcerer__sub_801E3F1C(0.0f, texture_scroll);
     set_motion_packed_rotation();
     for (i = 0; i < 3; i++) {
-        TObjFish::set_global_param((saddr)get_bml_texlist(archive, tbl[i]));
+        TObjFish::set_global_param(get_bml_texlist(archive, tbl[i]));
         render_lists[i]->install();
         draw_model_motion((void *)get_bml_model(archive, tbl[i]), (void *)get_bml_motion(archive, TBoss4Type3__anim_state_table[anim].motions[i]), anim_frame);
         render_lists[i]->clear();

@@ -73,7 +73,7 @@ void TOSparkMachine01::render() {
         push_matrix();
         post_translate_matrix(&position);
         rotate_matrix_y(0, rotation_y);
-        TObjFish::set_global_param(texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
         n = ((NJS_OBJECT *)model)->child;
         TParticleCtrl::begin_effect_render();
         for (i = 0; i < 4; i++) {

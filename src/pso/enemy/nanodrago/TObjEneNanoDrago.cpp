@@ -372,7 +372,7 @@ void TObjEneNanoDrago::render() {
                 return;
             }
         }
-        TObjFish::set_global_param(texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
         select_actor_lighting(this);
         TObjPlayer::toggle_particle_effect();
         rendered = 1;

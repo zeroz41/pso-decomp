@@ -326,7 +326,7 @@ void TObjEneSlime::render() {
         push_matrix();
         model_index = *(s32 *)((s8 *)((u8 *)slime_model_index_by_type + type_offset) + 0);
         post_translate_matrix(&position.x);
-        TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)slime_bml_resource, model_index));
+        TObjFish::set_global_param(get_bml_texlist((BmlResource *)slime_bml_resource, model_index));
         if (deferred != 0) {
             model_render_flags |= 0x400000;
             set_chunk_render_flags(1);
@@ -1260,7 +1260,7 @@ void TObjEneSlimeOne::render_trail() {
     rotate_matrix_y(0, ang);
     scale_matrix_vec3((u8 *)(0), (u8 *)&b);
     t = slime_tail_attack_id_pair[self->variant];
-    TObjFish::set_global_param((saddr)get_bml_texlist(self->model_archive, t));
+    TObjFish::set_global_param(get_bml_texlist(self->model_archive, t));
     draw_chunk_object((void *)(get_bml_model(self->model_archive, t)));
     pop_matrix();
     TObjPlayer::init_render_globals();
@@ -1568,7 +1568,7 @@ void TObjEneSlimeTailAttack::draw_body() {
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, (int) (this->rotation_y));
-    TObjFish::set_global_param(texlist);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
     if (active != 0) {
         reset_slime_tail_node_index();
         set_chunk_model_node_callback(capture_slime_tail_node);
@@ -1613,7 +1613,7 @@ void TObjEneSlimeTailAttack::draw_stretched_segment(Vec *from, Vec *to, f32 t) {
         f32 r = 1.0f - t;
         scale_matrix(0, 1.0f, 0.5f, r * len / 10.0f);
     }
-    TObjFish::set_global_param(this->texlist);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
     push_material_fade(0.10000001f * t + 0.05f);
     saved = this->frame;
     this->frame = 7.0f;

@@ -59,7 +59,7 @@ TObjDFDemo4::TObjDFDemo4(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
     m_name = TObjDFDemo4__name;
     VecCopy(&this->pos, pos);
     this->angle = angle;
-    res = (BmlResource *)TBoss4Uro::get_instance_count();
+    res = TBoss4Uro::get_instance_count();
     for (i = 0; i < 2; i++) {
         int id = boss4_zanzo_bml_index_table[i];
         zanzo_parts[i].model = (NJS_OBJECT *)get_bml_model(res, id);
@@ -183,7 +183,7 @@ void TObjDFDemo4::sub_8004F2A8() {
     post_translate_matrix(&pos.x);
     rotate_matrix_y(NULL, angle);
     for (i = 0; i < 2; i++) {
-        TObjFish::set_global_param((saddr)(zanzo_parts[i].texlist));
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(zanzo_parts[i].texlist));
         draw_model_motion((void *)zanzo_parts[i].model, zanzo_parts[i].motion, 120.0f);
     }
     clear_motion_packed_rotation();
@@ -201,7 +201,7 @@ void TObjDFDemo4::sub_8004F1FC() {
         post_translate_matrix(&pos.x);
         rotate_matrix_y(NULL, angle);
         for (i = 0; i < 3; i++) {
-            TObjFish::set_global_param((saddr)(body_parts[i].texlist));
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(body_parts[i].texlist));
             if (i == 0) {
                 node_list->install();
             }

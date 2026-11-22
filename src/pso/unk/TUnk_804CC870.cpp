@@ -236,7 +236,7 @@ void TUnk_804CC870::render() {
     post_translate_matrix(&position.x);
     scale_matrix(0, scale.x, scale.y, scale.z);
     translate_matrix(0, 0.0f, 1e+01f, 0.0f);
-    TObjFish::set_global_param((saddr)&lbl_804CC868);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(&lbl_804CC868));
     get_bml_model(technique_effect_bml, 10);
     draw_ginja_object();
     pop_matrix();

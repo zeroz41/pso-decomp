@@ -560,7 +560,7 @@ void TLockOnCursor::renderSecondaryCursor(u8 *body, s32 type, s32 action) {
         if (player != 0U) {
             temp_r3_2 = check_visible__11TMainCursorFv((void *)(player + 0x500), (void *)player, type, action);
             if (temp_r3_2 != -1) {
-                TObjFish::set_global_param((saddr)&shared_effect_texture_list);
+                TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(&shared_effect_texture_list));
                 temp_f31 = *(f32 *)((s8 *)body + 0xC);
                 push_matrix();
                 offset_point_toward_camera(body + 0x1C, (u8 *)&sp8, (f32)temp_f31);
@@ -1397,7 +1397,7 @@ void TMainCursor::render() {
     default:
         return;
     }
-    TObjFish::set_global_param((saddr)shared_effect_texture_list);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(shared_effect_texture_list));
     render__11TMainCursorFPv((TMainCursor *)arg0);
 }
 

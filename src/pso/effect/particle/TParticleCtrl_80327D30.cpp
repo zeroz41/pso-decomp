@@ -159,7 +159,7 @@ void TUnk_804ED598::render() {
         rotate_matrix_y(0, *(s32 *)(camera_ctrl_instance + 0x194));
         rotate_matrix_x(0, *(s32 *)(camera_ctrl_instance + 0x190));
         load_projected_texture_matrix(1.1333334f);
-        TObjFish::set_global_param((saddr)lbl_804C5820[9].texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_804C5820[9].texlist));
         set_texture_num(o->f31);
         TParticleCtrl::setup_particle_draw(1);
         GXSetNumTevStages(2);

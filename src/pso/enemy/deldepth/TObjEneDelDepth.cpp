@@ -1140,7 +1140,7 @@ void TObjEneDelDepthBomb::render() {
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_zyx(0, rotation_x, rotation_y, rotation_z);
-    TObjFish::set_global_param(texture);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texture));
     draw_chunk_object((void *)model);
     pop_matrix();
     push_matrix();

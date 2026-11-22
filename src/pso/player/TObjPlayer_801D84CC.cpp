@@ -109,7 +109,7 @@ void TUnk_804C4540::render() {
         rotate_matrix_y(0, rotation_y);
         save_render_material_state((u8 *)&render_material_state);
         apply_material_color_override();
-        TObjFish::set_global_param((saddr)((u8 *)this + 0xCF4));
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((u8 *)this + 0xCF4));
         set_motion_packed_rotation();
         draw_saving_joints_checked();
         clear_motion_packed_rotation();

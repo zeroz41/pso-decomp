@@ -52,7 +52,7 @@ void TEneEffHamon::render() {
     saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
     model_render_flags |= 0x810;
     set_chunk_material_override_pair(0xFFFF00FF, 0x800);
-    TObjFish::set_global_param(TEneEffHamon__fish_effect_param);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TEneEffHamon__fish_effect_param));
     set_constant_material(&color);
     push_matrix();
     post_translate_matrix(&position);

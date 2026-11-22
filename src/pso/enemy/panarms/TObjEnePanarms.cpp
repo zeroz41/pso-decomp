@@ -429,7 +429,7 @@ void TObjEnePanBARA::render() {
     this->update_linked_effect();
 }
 
-void TObjEnePanBARA::draw() { push_matrix(); post_translate_matrix(&position.x); rotate_matrix_y(NULL, rotation_y); TObjFish::set_global_param(texlist); node_capture->install(); TObjMotion::draw(); node_capture->clear(); pop_matrix(); }
+void TObjEnePanBARA::draw() { push_matrix(); post_translate_matrix(&position.x); rotate_matrix_y(NULL, rotation_y); TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist)); node_capture->install(); TObjMotion::draw(); node_capture->clear(); pop_matrix(); }
 
 void TObjEnePanBARA::update_linked_effect() {
     struct { u8 b[0x10]; } ground_normal; // project_actor_to_ground's ground record

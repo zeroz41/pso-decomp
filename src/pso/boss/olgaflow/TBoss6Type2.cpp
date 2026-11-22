@@ -850,7 +850,7 @@ void TBoss6Type2::draw_body_models() {
                 if (a < 1.0f) {
                     TBoss6PlotFalz::set_fade_material_color(a);
                 }
-                TObjFish::set_global_param(texlist);
+                TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
                 if (0.0f == motion_tracks[0].blend) {
                     if (done != 0) {
                         draw_model_motion((void *)model, motion_tracks[0].motion, motion_tracks[0].frame);

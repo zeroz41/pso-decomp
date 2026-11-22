@@ -64,7 +64,7 @@ TObjDFDemo3::TObjDFDemo3(TObject *parent, const Vec *position, s32 angle) : TObj
         }
     }
     this->angle = angle;
-    cnt = reinterpret_cast<BmlResource *>(TBoss4Uro::get_instance_count());
+    cnt = TBoss4Uro::get_instance_count();
     this->part.model = (NJS_OBJECT *)get_bml_model(cnt, 0x12);
     this->part.texlist = (GinjaTextureList *)get_bml_texlist(cnt, 0x12);
     this->part.motion = get_bml_motion(cnt, 0x45);
@@ -160,7 +160,7 @@ void TObjDFDemo3::render() {
     set_motion_packed_rotation();
     post_translate_matrix(&camera_position.x);
     rotate_matrix_y(0, angle);
-    TObjFish::set_global_param((saddr)(part.texlist));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(part.texlist));
     node_list->install();
     set_chunk_render_flags(1);
     draw_model_motion(part.model, part.motion, frame);

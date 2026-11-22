@@ -1634,7 +1634,7 @@ void TObjEneMe3Stelth::render() {
                 set_chunk_material_override_pair(0xFF00, 0x800);
             }
             if (draw != 0) {
-                TObjFish::set_global_param(texlist);
+                TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
                 push_matrix();
                 post_translate_matrix(&position.x);
                 translate_matrix(0, 0.0f, body_offset_y, 0.0f);
@@ -1673,7 +1673,7 @@ void TObjEneMe3Stelth::render() {
                 set_constant_material(&c);
                 set_color_blend_mode(1, 4, 5, 0);
             }
-            TObjFish::set_global_param(texlist);
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
             for (i = 0; i < 3; i++) {
                 if (TObjEneMe3Stelth__material_color_pointers[i] != 0) {
                     *TObjEneMe3Stelth__material_color_pointers[i] = material_color;
@@ -1749,7 +1749,7 @@ void TObjEneMe3Stelth::draw_with_debug_info() {
     }
     flag = is_alternate_variant();
     if (update_object_view_visibility(400.0f, 15.0f) != 0) {
-        TObjFish::set_global_param(texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
         TObjPlayer::toggle_particle_effect();
         if (flag != 0) {
             NJS_TEXNAME *textures = ((NJS_TEXLIST *)texlist)->textures;

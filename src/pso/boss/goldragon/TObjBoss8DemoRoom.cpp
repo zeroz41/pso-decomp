@@ -29,7 +29,7 @@ extern "C" {
 void * TObjBoss8DemoRoom__shared_resource_object;
 
 void TObjBoss8DemoRoom::render() {
-    TObjFish::set_global_param(*(s32 *)((s8 *)(*(void **)((s8 *)TObjBoss8DemoRoom__shared_resource_object + 0x42C)) + 0xC));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(*(s32 *)((s8 *)(*(void **)((s8 *)TObjBoss8DemoRoom__shared_resource_object + 0x42C)) + 0xC)));
     push_matrix();
     draw_chunk_object((void *)(*(saddr *)((s8 *)(*(void **)((s8 *)TObjBoss8DemoRoom__shared_resource_object + 0x42C)) + 8)));
     set_default_alpha_blend();

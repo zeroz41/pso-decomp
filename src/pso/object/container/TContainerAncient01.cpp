@@ -481,7 +481,7 @@ void TContainerAncient01::run_task() {
 
 void TContainerAncient01::render() {
     if (this->update_object_view_visibility(3e+02f, 2e+01f) != 0) {
-        TObjFish::set_global_param(this->texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -773,7 +773,7 @@ void TContainerAncient01R::run_task() {
 
 void TContainerAncient01R::render() {
     if (this->update_object_view_visibility(3e+02f, 2e+01f) != 0) {
-        TObjFish::set_global_param(this->texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);

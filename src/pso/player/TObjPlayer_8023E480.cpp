@@ -34,7 +34,7 @@ s32 set_texlist(u32 texlist) {
     if (texlist == 0U) {
         return 0;
     }
-    TObjFish::set_global_param((s32)texlist);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
     return 1;
 }
 

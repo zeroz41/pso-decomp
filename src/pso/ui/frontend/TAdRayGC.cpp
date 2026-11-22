@@ -23,7 +23,7 @@ void TAdRayGC::draw_ray_quads(s32 frame, s32 color, s32 side) {
         texture = frame;
         for (i = 0; i < 2; i++) {
             begin_screen_draw(1);
-            TObjFish::set_global_param(TAdRayGC__ray_texture_list);
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TAdRayGC__ray_texture_list));
             set_draw_texture_and_color(texture, color);
             draw_textured_quad_at_depth(TAdRayGC_ray_quad_table[i], 0.007142857f);
             TWindowSubStatusDisp::get_player();
@@ -33,7 +33,7 @@ void TAdRayGC::draw_ray_quads(s32 frame, s32 color, s32 side) {
         texture = frame + 0x14;
         for (i = 2; i < 4; i++) {
             begin_screen_draw(1);
-            TObjFish::set_global_param(TAdRayGC__ray_texture_list);
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TAdRayGC__ray_texture_list));
             set_draw_texture_and_color(texture, color);
             draw_textured_quad_at_depth(TAdRayGC_ray_quad_table[i], 0.007142857f);
             TWindowSubStatusDisp::get_player();

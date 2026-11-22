@@ -294,7 +294,7 @@ void TODoorJungleMain::render() {
     Ids_8029B428 ids = {{2, 1, 0}};
     s32 i;
     if (self->m8(self->fc0, self->fc4) == 1) {
-        TObjFish::set_global_param((saddr)door_jungle_main_gvm_texture);
+        TObjFish::set_global_param(door_jungle_main_gvm_texture);
         push_matrix();
         post_translate_matrix(self->xf);
         rotate_matrix_y(NULL, self->f60);

@@ -144,13 +144,13 @@ void TBoss6Thanks::render() {
     set_motion_packed_rotation();
     push_matrix();
     post_translate_matrix(&boss6_thanks_position.x);
-    TObjFish::set_global_param(reinterpret_cast<saddr>(texture0));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texture0));
     scale_matrix(0, 1.2f, 1.2f, 1.2f);
     draw_model_motion(model0, motions[current_motion], frame0);
     pop_matrix();
     push_matrix();
     post_translate_matrix(&boss6_thanks_position.x);
-    TObjFish::set_global_param(reinterpret_cast<saddr>(texture1));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texture1));
     scale_matrix(0, 1.2f, 1.2f, 1.2f);
     draw_model_motion(model1, motion1, frame1);
     pop_matrix();

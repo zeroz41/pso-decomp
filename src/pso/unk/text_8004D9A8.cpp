@@ -54,7 +54,7 @@ void fn_8004D9A8(u8 *arg0) {
             if (i == 0 || i == 1) {
                 s = o->f104;
             }
-            TObjFish::set_global_param(o->d4[i]);
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(o->d4[i]));
             draw_model_motion((void *)o->bc[i], (void *)o->ec[i], s);
         }
         clear_motion_packed_rotation();
@@ -297,7 +297,7 @@ Obj_8004DEE0 *TObjDFDemo0__ct(void *arg0, void *parent) {
     __ct__8TObjBaseFP7TObject(self, parent);
     self->vt = (void *)__vt__11TObjDFDemo0;
     ((TObjBase *)self)->m_name = TObjDFDemo0__name;
-    h = reinterpret_cast<BmlResource *>(TBoss4Uro::get_instance_count());
+    h = TBoss4Uro::get_instance_count();
     for (i = 0; i < 6; i++) {
         {
             s32 t = boss4_type1_model_ids[i];

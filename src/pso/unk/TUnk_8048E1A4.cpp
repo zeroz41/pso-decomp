@@ -178,7 +178,7 @@ void TUnk_8048E1A4::render() {
         ok = p->m8(400.0f, 20.0f);
     }
     if (ok != 0) {
-        TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)(saddr)((void *)freeze_shell_bml_resource), 1));
+        TObjFish::set_global_param(get_bml_texlist((BmlResource *)(saddr)((void *)freeze_shell_bml_resource), 1));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);

@@ -310,7 +310,7 @@ s32 TLanguage::read_u16_le() {
 
 void TUnk_804C57E0::update_texture_wave_image() {
     if ((is_split_screen() == 0) || (TCameraCtrl::get_camera_no() == 0)) {
-        TObjFish::set_global_param(m_3c);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(m_3c));
         advance_wrapped_cursor();
         distort_texture_wave_image(this);
     }

@@ -176,7 +176,7 @@ void TOTrapAncient01::render() {
             v.z = 0.1f * (3.0517578125e-05f * (f32)rand()) - 0.05f;
             post_translate_matrix(&v.x);
         }
-        TObjFish::set_global_param(texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
         n = (NJS_OBJECT *)model;
         push_matrix();
         translate_matrix(0, 0.0f, scale.y, 0.0f);

@@ -145,7 +145,7 @@ void TObjSinBoard::render() {
         fan.tex = uvs;
         fan.num = 4;
         set_default_alpha_blend();
-        TObjFish::set_global_param((saddr)&signboard_texture_list);
+        TObjFish::set_global_param(&signboard_texture_list);
         set_texture_num(0);
         TParticleCtrl::begin_effect_render();
         push_matrix();

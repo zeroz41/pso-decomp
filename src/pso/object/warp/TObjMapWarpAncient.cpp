@@ -120,13 +120,13 @@ void TObjMapWarpAncient::render() {
         rotate_matrix_y(0, rotation_y);
         TParticleCtrl::begin_effect_render();
         if ((s32)set_params[1] >= 0) {
-            TObjFish::set_global_param((saddr)beam_textures);
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(beam_textures));
             draw_ginja_model_with_motion(beam_model, beam_motion, beam_frame);
         }
-        TObjFish::set_global_param((saddr)ksita_textures);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(ksita_textures));
         draw_ginja_object(ksita_model);
         TParticleCtrl::end_effect_render();
-        TObjFish::set_global_param((saddr)nsita_textures);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(nsita_textures));
         draw_ginja_object(nsita_model);
         pop_matrix();
     }
@@ -199,12 +199,12 @@ void TObjGoalWarpAncient::render() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param((saddr)beam_textures);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(beam_textures));
         draw_ginja_model_with_motion(beam_model, beam_motion, beam_frame);
-        TObjFish::set_global_param((saddr)naka_textures);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(naka_textures));
         draw_ginja_model_with_motion(naka_model, naka_motion, naka_frame);
         TParticleCtrl::end_effect_render();
-        TObjFish::set_global_param((saddr)gawa_textures);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(gawa_textures));
         draw_ginja_object(gawa_model);
         pop_matrix();
     }

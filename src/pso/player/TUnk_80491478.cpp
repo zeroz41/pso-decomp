@@ -137,8 +137,8 @@ void TUnk_80491478::run_task() {
 #pragma pop
 
 void TUnk_80491478::render() {
-    TObjFish::set_global_param((saddr)dubchik_texlist);
-    TObjFish::set_global_param((saddr)m_d8);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(dubchik_texlist));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(m_d8));
     push_matrix();
     post_translate_matrix(&pos.x);
     rotate_matrix_y(0, rot_y);

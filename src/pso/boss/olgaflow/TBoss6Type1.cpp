@@ -755,7 +755,7 @@ void TBoss6Type1::draw_part_motions() {
         cb = draw_callback_lists[i];
         a = &part_motions[i];
         if (cb != 0) {
-            TObjFish::set_global_param((saddr)(p));
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(p));
             if (0.0f == a->blend) {
                 cb->install();
                 draw_model_motion((void *)id, a->motion, a->frame);
@@ -1544,7 +1544,7 @@ void TBoss6Type1::render_laser() {
         rotate_matrix_x(0, pitch);
         rotate_matrix_z(0, 0);
         scale_matrix(0, width, 1.0f, height);
-        TObjFish::set_global_param((saddr)(fish));
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(fish));
         draw_chunk_object((void *)model);
         pop_matrix();
     }

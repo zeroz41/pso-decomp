@@ -242,7 +242,7 @@ void TBoss3VoloptCore::run_demo_task() {}
 
 void TBoss3VoloptCore::render() {
     if (!(actorFlags & 0x02000000) && update_object_view_visibility(400.0f, 40.0f) != 0) {
-        TObjFish::set_global_param(texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
         push_matrix();
         model_render_flags &= ~0x400;
         post_translate_matrix(&position.x);

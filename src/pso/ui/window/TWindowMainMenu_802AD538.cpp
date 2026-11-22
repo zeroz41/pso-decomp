@@ -526,7 +526,7 @@ void TWindowMenuMainMenu::draw_frame(WindowDrawContext *frame) {
     y = 0.0f;
     h = frame->inner_h;
     begin_screen_draw(1);
-    TObjFish::set_global_param(lbl_805D63F0);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
     set_draw_texture_and_color(11, frame->color);
     if (((TWindowMainMenu *)this)->is_not_split_screen() != 0) {
         q.x0 = frame->x;

@@ -1355,7 +1355,7 @@ void TObjEneDf2Bringer::render() {
             }
         }
         scroll_strip_uvs(TObjEneDf2Bringer__uv_scroll_buffer, (s16)texture_scroll, 0);
-        TObjFish::set_global_param(texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
         {
             NJS_TEXNAME *textures = ((NJS_TEXLIST *)texlist)->textures;
             saved_texture = textures[1].texaddr;
@@ -1405,7 +1405,7 @@ void TObjEneDf2Bringer::render_demo() {
         Vec v = { 1.0f, 1.0f, 3.0f };
         draw_ground_shadow(&v, 0);
         TObjPlayer::toggle_particle_effect();
-        TObjFish::set_global_param(texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);

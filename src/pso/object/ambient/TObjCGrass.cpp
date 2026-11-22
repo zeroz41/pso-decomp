@@ -50,7 +50,7 @@ Vec *TObjEneBm5Wolf::get_spawn_position() { return &spawn_position; }
 
 void TObjCGrass::render() {
     s32 i;
-    TObjFish::set_global_param(this->texlist);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
     for (i = 0; i < fragment_count; i++) {
         if (!(fragments[i].flags & 1)) {
             push_matrix_from(0);

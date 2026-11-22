@@ -828,7 +828,7 @@ void TObjEneBalClawBody::render() {
         detail = classify_actor_view_detail(150.0f, 400.0f, 30.0f);
         if (detail != 0) {
             shadow = 1;
-            TObjFish::set_global_param(texlist);
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
             select_actor_lighting(this);
             TObjPlayer::toggle_particle_effect();
             push_matrix();

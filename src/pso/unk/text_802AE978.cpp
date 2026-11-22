@@ -9,7 +9,7 @@ void TAdSelectCurGC::draw_quads() {
     u32 i;
     for (i = 0; i < entry_count; i++) {
         begin_screen_draw(1);
-        TObjFish::set_global_param((saddr)menu_selection_cursor_texture_list);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(menu_selection_cursor_texture_list));
         set_draw_texture_and_color(0, (static_cast<u32>(entry_alpha[i]) << 24) | 0xFFFFFF);
         draw_textured_quad_at_depth(&quads[i].x0, draw_depth);
         draw_textured_quad_at_depth(&quads[i + 16].x0, draw_depth);

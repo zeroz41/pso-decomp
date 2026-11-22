@@ -23,7 +23,7 @@ void draw_title_background_quads(s32 texture_list, s32 tex_base, s32 color, s32 
     int i;
 
     begin_screen_draw(mode);
-    TObjFish::set_global_param(texture_list);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texture_list));
     for (i = 0; i < 8; i++) {
         set_draw_texture_and_color(tex_base + lbl_80480BC8[i].tex, color);
         q[0] = s_offset_x0 + (f32)lbl_80480BC8[i].x;

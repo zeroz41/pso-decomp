@@ -60,7 +60,7 @@ TObjBoss1Crater *TObjBoss1Crater__instance_list[20];
 
 void TObjBoss1Crater::render() {
     push_matrix();
-    TObjFish::set_global_param(dragon_common_texture_list);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(dragon_common_texture_list));
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
     model_render_flags |= 0x01000000;

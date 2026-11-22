@@ -211,7 +211,7 @@ void TUnk_804F0BF0::render() {
         model_render_flags |= 0x20;
         set_constant_material(&color);
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param((saddr)texture_list);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texture_list));
         push_matrix();
         post_translate_matrix(&position.x);
         push_matrix();

@@ -206,9 +206,9 @@ void TBoss6Demo11_TYPE1_DEAD::render_fade_model() {
         push_matrix();
         set_motion_packed_rotation();
         post_translate_matrix(&position.x);
-        TObjFish::set_global_param((saddr)(parts[0].texture));
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(parts[0].texture));
         draw_model_motion(parts[0].model, parts[0].motion, frame);
-        TObjFish::set_global_param((saddr)(parts[1].texture));
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(parts[1].texture));
         node_effect->install();
         draw_model_motion(parts[1].model, parts[1].motion, frame);
         node_effect->clear();

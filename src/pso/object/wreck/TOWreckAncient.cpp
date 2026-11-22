@@ -179,7 +179,7 @@ void TOWreckAncient::render() {
         push_matrix();
         post_translate_matrix(&position);
         rotate_matrix_y(0, rotation_y);
-        TObjFish::set_global_param(texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
         draw_ginja_object(model);
         pop_matrix();
     }

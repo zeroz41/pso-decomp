@@ -176,7 +176,7 @@ void TPlyPhotonChair::render() {
         copy_xyz(self->rot, (u8 *)pl + 0x5C);
         if (((TObjPlayer *)pl)->is_inactive() != 0) {
             save_model_draw_state(self->parts);
-            TObjFish::set_global_param(self->x24);
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(self->x24));
             push_matrix();
             post_translate_matrix(&self->pos);
             rotate_matrix_y(0, self->x60);

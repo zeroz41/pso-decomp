@@ -49,14 +49,14 @@ void TOLightMachine01::render() {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        TObjFish::set_global_param(this->texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
         draw_ginja_model(((NJS_OBJECT *)model)->model);
         push_matrix();
         translate_matrix(0, 0.0f, this->m_9c, 0.0f);
         rotate_matrix_y(0, this->m_ac);
         draw_ginja_model(((NJS_OBJECT *)model)->child->model);
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param((saddr)light_machine_ginja_param);
+        TObjFish::set_global_param(light_machine_ginja_param);
         draw_ginja_object(light_machine_ginja_model_handle);
         TParticleCtrl::end_effect_render();
         pop_matrix();

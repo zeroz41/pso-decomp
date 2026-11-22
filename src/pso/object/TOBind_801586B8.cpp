@@ -44,10 +44,10 @@ void TOBind::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, this->rotation_y);
-        TObjFish::set_global_param(this->texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
         draw_ginja_object(this->model);
         if ((s32) this->m_b0 != 1) {
-            TObjFish::set_global_param(reinterpret_cast<saddr>(animated_textures));
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(animated_textures));
             TParticleCtrl::begin_effect_render();
             draw_ginja_model_with_motion(animated_model, motion, motion_frame);
             TParticleCtrl::end_effect_render();

@@ -75,7 +75,7 @@ void TODoorVS2Door01::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param((saddr)texture_lists[door_flags & 1]);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texture_lists[door_flags & 1]));
         node = (NJS_OBJECT *)model;
         post_translate_matrix(node->pos);
         push_matrix();

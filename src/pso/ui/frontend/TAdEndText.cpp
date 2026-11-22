@@ -280,14 +280,14 @@ void render__10TAdEndTextFv(u8 *arg0) {
             }
             break;
         case 0x21:
-            TObjFish::set_global_param(TAdEndText__loaded_font_texture_list);
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TAdEndText__loaded_font_texture_list));
             begin_screen_draw(1);
             set_draw_texture_and_color(3, -1);
             draw_textured_quad_at_depth((f32 *)&self->box1, lbl_805D7E18);
             TWindowSubStatusDisp::get_player();
             break;
         case 0x40:
-            TObjFish::set_global_param(TAdEndText__loaded_font_texture_list);
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TAdEndText__loaded_font_texture_list));
             begin_screen_draw(1);
             set_draw_texture_and_color(4, -1);
             draw_textured_quad_at_depth((f32 *)&self->box2, lbl_805D7E18);

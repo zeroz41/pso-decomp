@@ -223,7 +223,7 @@ void TObjEneShark::render() {
   }
   select_actor_lighting(this);
   model_render_flags |= 1;
-  TObjFish::set_global_param(texlist);
+  TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
   push_matrix();
   translate_matrix(0, 0.0f, corpse_offset_y, 0.0f);
   post_translate_matrix(&position.x);

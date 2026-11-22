@@ -151,7 +151,7 @@ void TWindowStatus::draw_background(u8 *ctx) {
         draw_photon_blast_gauge_ring((saddr)this, ctx, pos, *(s32 *)((s8 *)e + 0x20), 26.0f);
     }
     begin_screen_draw(1);
-    TObjFish::set_global_param(lbl_805D63F0);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
     set_draw_texture_and_color(0xB, *(s32 *)((s8 *)ctx + 0x34));
     { f32 r = TWindowSubComCard__sub_80244784((TWindowSubComCard *)this);
     s = -1.0f / (0.0598f + this->draw_depth);

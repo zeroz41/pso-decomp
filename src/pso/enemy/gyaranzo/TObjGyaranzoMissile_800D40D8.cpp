@@ -95,7 +95,7 @@ void TUnk_8049442C::explode() {
 }
 
 void TUnk_8049442C::render() {
-    TObjFish::set_global_param(mine_textures);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(mine_textures));
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, yaw);

@@ -45,9 +45,9 @@ void TBoss6Demo10_TYPE1_APPEAR::draw_parts() {
     push_matrix();
     set_motion_packed_rotation();
     post_translate_matrix(&boss6_type1_appear_origin.x);
-    TObjFish::set_global_param((saddr)(parts[0].texture));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(parts[0].texture));
     draw_model_motion(parts[0].model, parts[0].motion, frame);
-    TObjFish::set_global_param((saddr)(parts[1].texture));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(parts[1].texture));
     capture->install();
     draw_model_motion(parts[1].model, parts[1].motion, frame);
     capture->clear();

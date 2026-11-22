@@ -84,7 +84,7 @@ void TBoss6Mine::draw() {
     temp_r31 = (saddr)get_bml_texlist(scene_archive, 2);
     bml_model = (saddr)get_bml_model(scene_archive, 2);
     bml_motion = get_bml_motion(scene_archive, 0);
-    TObjFish::set_global_param((saddr)(temp_r31));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(temp_r31));
     TBoss6PlotFalz__sub_802AC008(this->fade_amount, 0.0f);
     draw_model_motion((void *)bml_model, (void *)bml_motion, this->anim_frame);
     TBoss6PlotFalz::update_camera_target();

@@ -107,7 +107,7 @@ void TObjTreeLobby::run_task() {
 void TObjTreeLobby::render() {
     if (fade_state != 0) {
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);

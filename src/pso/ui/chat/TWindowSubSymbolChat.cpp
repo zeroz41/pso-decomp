@@ -1073,7 +1073,7 @@ void TWindowSubSymbolChat__sub_80281840(Win_80281840 *arg0) {
         }
         scale = (-1.0f) / get_scale__15TWindowCtrlMainFv(arg0->ctrl);
         begin_screen_draw(1);
-        TObjFish::set_global_param(lbl_805D63F0);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
         set_draw_texture_and_color(0, color);
         q.x = 482.0f;
         q.y = 344.0f;

@@ -204,7 +204,7 @@ void TObjDoaEx01::try_open() {
     if (this->update_object_view_visibility(4e+02f, 2e+01f) != 0) {
         set_ginja_model_texture_slot(reinterpret_cast<NJS_OBJECT *>(TObjDoaEx01__alpha_model_node)->model, 1);
         set_ginja_model_texture_slot(reinterpret_cast<NJS_OBJECT *>(TObjDoaEx01__alpha_model_sibling)->model, 1);
-        TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)(void *)TObjDoaEx01__resource_bundle, 0));
+        TObjFish::set_global_param(get_bml_texlist((BmlResource *)(void *)TObjDoaEx01__resource_bundle, 0));
         push_matrix();
         post_translate_matrix(((u8 *)this) + 0x38);
         rotate_matrix_y(0, this->rotation_y);
@@ -220,7 +220,7 @@ void TObjDoaEx01::draw_model() {
         set_ginja_model_texture_slot(reinterpret_cast<NJS_OBJECT *>(TObjDoaEx01__alpha_model_node)->model, 0);
         set_ginja_model_texture_slot(reinterpret_cast<NJS_OBJECT *>(TObjDoaEx01__alpha_model_sibling)->model, 0);
         temp_r31 = (saddr)get_bml_model((BmlResource *)(void *)TObjDoaEx01__resource_bundle, 0);
-        TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)(void *)TObjDoaEx01__resource_bundle, 0));
+        TObjFish::set_global_param(get_bml_texlist((BmlResource *)(void *)TObjDoaEx01__resource_bundle, 0));
         push_matrix();
         post_translate_matrix((void *) (((u8 *)this) + 0x38));
         rotate_matrix_y(0, (this->rotation_y));

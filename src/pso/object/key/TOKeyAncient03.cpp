@@ -125,7 +125,7 @@ void TOKeyAncient03::render() {
     u32 flags;
 
     if (update_object_view_visibility(view_range, model_radius) != 0) {
-        TObjFish::set_global_param((saddr)TOKeyAncient03__texture_variants[is_on]);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TOKeyAncient03__texture_variants[is_on]));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);

@@ -43,7 +43,7 @@ void TObjBoss8Piller::render() {
         } else {
             model = TObjBoss8Piller__shared_resource->models[0].model;
         }
-        TObjFish::set_global_param((saddr)TObjBoss8Piller__shared_resource->models[0].m_c);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TObjBoss8Piller__shared_resource->models[0].m_c));
         push_matrix();
         post_translate_matrix(&this->position);
         scale_matrix(0, 1.0f, 1.0f, 1.0f);

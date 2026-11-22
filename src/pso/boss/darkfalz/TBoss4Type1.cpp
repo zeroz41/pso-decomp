@@ -360,7 +360,7 @@ TBoss4Type1::TBoss4Type1(TObject *parent, TBoss4FormSetData *set_data) : TObjEne
     owner = set_data->owner;
     apply_set_data(&set_data->entry);
     clear_lobby_object_state();
-    archive = reinterpret_cast<BmlResource *>(TBoss4Uro::get_instance_count());
+    archive = TBoss4Uro::get_instance_count();
     texlist = 0;
     model = 0;
     VecCopy(&position, &boss4_type1_start_position);
@@ -547,7 +547,7 @@ void TBoss4Type1::draw_parts() {
     NJS_OBJECT *body_model;
     set_motion_packed_rotation();
     for (i = 0; i < 6; i++) {
-        TObjFish::set_global_param((saddr)(get_bml_texlist(archive, boss4_type1_model_ids[i])));
+        TObjFish::set_global_param(get_bml_texlist(archive, boss4_type1_model_ids[i]));
         switch (i) {
         case 2:
         case 3:

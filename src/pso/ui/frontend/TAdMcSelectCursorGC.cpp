@@ -51,7 +51,7 @@ s32 TAdMcSelectCursorGC__texture_entry;
 void TAdMcSelectCursorGC::render_cursor() {
     u8 *arg0 = (u8 *)this;
     begin_screen_draw(1);
-    TObjFish::set_global_param(TAdMcSelectCursorGC__texture_entry);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TAdMcSelectCursorGC__texture_entry));
     set_draw_texture_and_color(0, ((this->m_128 << 0x18) | 0xFF0000 | 0xFFFF));
     draw_textured_quad_at_depth((f32 *)(arg0 + 0x28), 0.9f);
     TWindowSubStatusDisp::get_player();

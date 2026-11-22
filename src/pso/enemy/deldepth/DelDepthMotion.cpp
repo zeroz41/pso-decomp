@@ -111,21 +111,21 @@ void DelDepthMotion::draw_model_part() {
     temp_r0 = motion;
     if (temp_r0 != -1) {
         if (temp_r0 < 6) {
-            TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)((saddr)TObjEneDelDepth::get_data()), 0));
+            TObjFish::set_global_param(get_bml_texlist((BmlResource *)((saddr)TObjEneDelDepth::get_data()), 0));
             actor->draw();
             return;
         }
         if (temp_r0 < 0xA) {
-            TObjFish::set_global_param(texture);
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texture));
             set_motion_packed_rotation();
             draw_model_motion(model, animation, frame);
             clear_motion_packed_rotation();
             return;
         }
         set_motion_packed_rotation();
-        TObjFish::set_global_param(texture);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texture));
         draw_model_motion(model, animation, frame);
-        TObjFish::set_global_param(secondTexture);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(secondTexture));
         draw_model_motion(secondModel, secondAnimation, frame);
         clear_motion_packed_rotation();
     }

@@ -294,7 +294,7 @@ void TObjNpcEnemy::render() {
         if (((TObjNpcEnemy *)arg0)->sub_802D7444() != 0) {
             model_render_flags |= 1;
         }
-        TObjFish::set_global_param(this->texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
         push_matrix_from(0);
         translate_matrix_vec3(0, ((u8 *)&this->position));
         entry = this->entry;

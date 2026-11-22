@@ -48,7 +48,7 @@ TObjDFDemoF::TObjDFDemoF(TObject *parent) : TObjBase(parent) {
 
     self = this;
     self->m_name = TObjDFDemoF__name;
-    archive = reinterpret_cast<BmlResource *>(TBoss4Uro::get_instance_count());
+    archive = TBoss4Uro::get_instance_count();
     for (i = 0; i < 3; i++) {
         s32 model_index = TObjDFDemoF__bml_model_id_table[i];
         motion_indices = df_demof_motion_ids;
@@ -96,7 +96,7 @@ void TObjDFDemoF::render() {
     post_translate_matrix(&three_part_model_translate_offset.x);
     s32 i = 0;
     do {
-        TObjFish::set_global_param((saddr)(textures[i]));
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(textures[i]));
         AnimationMotion *motion = motions[i];
         if (motion == NULL) {
             draw_chunk_object(models[i]);
