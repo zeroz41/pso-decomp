@@ -175,15 +175,14 @@ void TObjEneNanoDrago::run_move_action() {  }
 void TObjEneNanoDrago::run_attack_action() {  }
 void TObjEneNanoDrago::run_idle_action() {  }
 TObjEneNanoDrago::TObjEneNanoDrago(TObject *parent, void *setData) : TObjEnemyCustom(parent) {
-    u8 *arg2 = (u8 *)setData;
     s32 i;
     m_name = nano_drago_name;
-    apply_set_data(arg2);
+    apply_set_data(setData);
     VecCopy(&move_origin, (const Vec *)(VecCopy(&move_destination, (const Vec *)(&position))));
     motion_list = nano_drago_entry_params_resource->motions;
     variant = 0;
     add_flags_2e4(2);
-    state36C = *(s16 *)((s8 *)arg2 + 0x3E);
+    state36C = *(s16 *)((s8 *)setData + 0x3E);
     load_entry_params_nanodrago(variant);
     action_table = nanodrago_action_table;
     set_field_d8((saddr)action_table);
@@ -216,7 +215,7 @@ TObjEneNanoDrago::TObjEneNanoDrago(TObject *parent, void *setData) : TObjEnemyCu
     alternateBeam = 0;
     set_param(0xF);
     sinkingOffset = 0.0f;
-    if (*(s16 *)((s8 *)arg2 + 0xA) != 0 && !(m_388 & 0x40000)) {
+    if (*(s16 *)((s8 *)setData + 0xA) != 0 && !(m_388 & 0x40000)) {
         sub_800C7860();
     }
     flightHeight = 0.0f;
@@ -493,7 +492,7 @@ void TObjEneNanoDrago::update_circling_state() {
             play_sound_effect(0x4003AD23, (Vec *)&position, 0, 0);
         }
         if (target != NULL) {
-            Vec d = *(Vec *)(target + 0x38);
+            Vec d = ((TObjBase *)target)->position;
             subtract_vector(&d, (Vec *)&position);
             if (xz_length_squared(&d) <= 160000.0f &&
                 angle_difference_abs(-(s32)(RADIANS_TO_ANGLE * atan2_float(d.z, d.x)) + 0x4000, rotation_y) < 0xAAA) {
@@ -757,7 +756,7 @@ void TObjEneNanoDrago::update_flight_state() {
             refresh_collision_body_centers();
         }
         if (flightHeight > 15.0f) {
-            turn_toward_direction(((NanoDragoMovementParams *)movementParameters)->turnSpeed * 2, (Vec *)((u8 *)&velocity.x));
+            turn_toward_direction(((NanoDragoMovementParams *)movementParameters)->turnSpeed * 2, &velocity);
         }
         project_actor_to_ground(this, &position, 0);
         break;
@@ -855,7 +854,7 @@ void TObjEneNanoDrago::update_knockback_state() {
     case 1:
         advance_animation();
         if (!(actorFlags & 0x01000000)) {
-            Vec v = *(Vec *)((s8 *)&body_center);
+            Vec v = body_center;
             v.x += velocity.x;
             v.z += velocity.z;
             if (check_path_obstructed(this, &v) == 0) {
@@ -882,7 +881,7 @@ void TObjEneNanoDrago::update_knockback_state() {
             entity = (uaddr)find_entity_by_id(attacker_id);
             if (entity != 0) {
                 retaliate = 1;
-                if ((actorFlags & 0x01000000) && (xz_distance_squared((Vec *)(&position), (Vec *)((u8 *)entity + 0x38)) > 400.0f)) {
+                if ((actorFlags & 0x01000000) && (xz_distance_squared((Vec *)(&position), &((TObjBase *)entity)->position) > 400.0f)) {
                     retaliate = 0;
                 }
             }
@@ -1148,7 +1147,7 @@ void TObjEneNanoDrago::update_attack_parameters() {
 // pool_data off: find_open_direction reaches its two Vecs and the angle double with a lis/addi each.
 #pragma pool_data off
 // The probe step and the zeroed offset find_open_direction rotates around the drago.
-const Vec lbl_8043C8E4 = { 200.0f, 0.0f, 0.0f };
+const Vec find_open_direction_probe_step = { 200.0f, 0.0f, 0.0f };
 const Vec find_open_direction_zero_vec = { 0.0f, 0.0f, 0.0f };
 void TObjEneNanoDrago::find_open_direction(Vec *direction) {
     s32 ang;
@@ -1163,7 +1162,7 @@ void TObjEneNanoDrago::find_open_direction(Vec *direction) {
     best = ang;
     push_matrix_from(&identity_matrix);
     {
-        Vec v = lbl_8043C8E4;
+        Vec v = find_open_direction_probe_step;
         rotate_matrix_y(0, ang);
         i = 0;
         bias = 20.0f;
@@ -1197,9 +1196,8 @@ void TObjEneNanoDrago::find_open_direction(Vec *direction) {
 }
 #pragma pop
 s32 TObjEneNanoDrago::update_action_hold_status() {
-    saddr self = (saddr)this;
     if (TObjChara::update_action_hold_status() != 0) {
-        ((TObjEneNanoDrago *)self)->sub_800D9BBC();
+        clear_state7_flag();
         return 1;
     }
     return 0;
