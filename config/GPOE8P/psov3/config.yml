@@ -461,18 +461,18 @@ force_active:
   - TBoss8Dragon__sub_8005EAD0
   - TBoss8Dragon__sub_8005F684
   - TBoss8Dragon__sub_8005FAE0
-  - TBoss8Dragon__sub_8005FB90
-  - TBoss8Dragon__sub_80063EF4
-  - TBoss8Dragon__sub_800641A8
+  - fn_8005FB90__13TBoss5GryphonFv
+  - fn_80063EF4__13TBoss5GryphonFv
+  - fn_800641A8__13TBoss5GryphonFv
   - TBoss8Dragon__sub_8006426C
   - TBoss8Dragon__sub_8006435C
   - TBoss8Dragon__sub_8006442C
-  - TBoss8Dragon__sub_800646F0
+  - fn_800646F0__13TBoss5GryphonFv
   - fn_80064828__13TBoss5GryphonFv
   - fn_800648C8__13TBoss5GryphonFv
   - TBoss8Dragon__sub_80064AB0
-  - TBoss8Dragon__sub_80064DB8
-  - TBoss8Dragon__sub_80064E3C
+  - fn_80064DB8__13TBoss5GryphonFv
+  - fn_80064E3C__13TBoss5GryphonFv
   - TBoss8Dragon__sub_800BB650
   - TBoss8Dragon__sub_802F3C94
   - TBoss8Dragon__sub_802F3F20
@@ -15987,7 +15987,7 @@ force_active:
   - spawn__15TObjBoss7TunnelFlP3Vec
   - spawn_afterimages__11TBoss4Type2Fv
   - spawn_ambient_particles__15TBoss3VoloptP02Fv
-  - spawn_ancient_trap__12TBoss8DragonFii
+  - spawn_ancient_trap__13TBoss5GryphonFl
   - spawn_beam_particle__16TObjEneNanoDragoFl
   - spawn_bishi_around_players__11TBoss4Type2Fv
   - spawn_break_effect__23TObjSeabedSuisoBrakableFv

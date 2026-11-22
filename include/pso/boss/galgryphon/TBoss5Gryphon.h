@@ -174,6 +174,13 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     void run_default_state();
     void fn_80064828();
     void fn_800648C8();
+    void fn_8005FB90();
+    void fn_80063EF4();
+    void fn_800641A8();
+    void fn_800646F0();
+    void fn_80064DB8();
+    void fn_80064E3C();
+    void spawn_ancient_trap(s32 id);
 };
 
 LAYOUT_ASSERT(TBoss5Gryphon_size, sizeof(TBoss5Gryphon) == 0x77C);
