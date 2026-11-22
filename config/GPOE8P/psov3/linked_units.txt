@@ -1623,7 +1623,6 @@ pso/enemy/gyaranzo/TObjEneGyaranzo.cpp
 pso/enemy/gyaranzo/TObjGyaranzoMissile.cpp
 pso/enemy/gyaranzo/TObjGyaranzoMissile_800D40D8.cpp
 pso/object/TObjHashi.cpp
-pso/enemy/illgill/TObjIllGillKage.cpp
 pso/object/collision/TObjInfoCol.cpp
 pso/object/lobby/TObjKabochaLobby.cpp
 pso/object/lab/TObjLaboDesignBase.cpp

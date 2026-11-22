@@ -10647,11 +10647,8 @@ pso/object/lab/TObjLaboDesignBase.cpp:
 	.sbss       start:0x805D6FC8 end:0x805D6FD0
 	.sdata2     start:0x805E02A0 end:0x805E02B4
 
-pso/enemy/illgill/TObjIllGillKage.cpp:
-	.text       start:0x80365450 end:0x80365688
-
 pso/enemy/illgill/TObjEneIllGill.cpp:
-	.text       start:0x80365688 end:0x8036897C
+	.text       start:0x80365450 end:0x8036897C
 	.rodata     start:0x8047A1E8 end:0x8047A360
 	.data       start:0x804F2E40 end:0x804F3184
 	.bss        start:0x80543A60 end:0x80543AA0
