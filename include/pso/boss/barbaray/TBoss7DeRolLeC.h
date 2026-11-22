@@ -46,7 +46,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     virtual void dispatch_action(u32 state, s32 reason);
     void update_or_dispatch();
     void flee_if_disturbed();
-    void set_state_and_send(s32);
+    void set_state_and_send(s32 state);
     static GinjaTextureList *get_archive_textures();
     static NJS_OBJECT *get_archive_model(s32 index);
     void emit_hit_effect(const Vec *position);

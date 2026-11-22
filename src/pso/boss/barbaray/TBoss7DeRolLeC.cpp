@@ -87,7 +87,7 @@ struct Boss7LoadCallback {
 // What TObjEnemy::movementParameters points at.
 struct TBoss7DeRolLeCMovement {
     EnemyMoveParams move;
-    s32 unk_0C[4];
+    s32 pad_0C[4];
 };
 
 // The BML resource descriptor, followed by the action table that
@@ -163,13 +163,15 @@ struct Boss7ActionStep {
 };
 
 // Attack/effect parameter record passed to TObjEneDD::emit_effect /
-// setup_instance (type name inferred; same shape as TBoss1Dragon's).
+// setup_instance (type name inferred; same shape as TBoss1Dragon's). setup_instance
+// gives the hit body `radius`; the laser hit patches `power` per spawn (as the
+// TBoss2DeRolLe twin does with its laser_power).
 struct Boss7AttackParams {
-    s32 field_0;
-    f32 field_4;
-    f32 field_8;
-    f32 field_C;
-    s32 field_10;
+    s32 pad_00;
+    f32 power;
+    f32 radius;
+    f32 pad_0C;
+    s32 pad_10;
 };
 
 extern const s32 boss7_derolle_c_body_point_node_ids[21] = {0x18, 0x1a, 0x1c, 0x1d, 0x1e, 0x1f, 0x22, 0x45, 0x4a, 0x5f, 0x60, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, -1};
@@ -380,9 +382,10 @@ const char *TBoss7DeRolLeC__class_name = TBoss7DeRolLeC__class_name_string;
 
 extern const Vec boss7_derolle_c_joint_start_position = {10000.0f, 10000.0f, 10000.0f};
 
-extern const Vec lbl_80473F78 = {0.0f, 0.0f, -600.0f};
+// Where handle_intro_camera_state spawns effect 0x20F at frames 85 (far) and 98 (near).
+extern const Vec boss7_derolle_c_intro_effect_far_point = {0.0f, 0.0f, -600.0f};
 
-extern const Vec lbl_80473F84 = {0.0f, 0.0f, -275.0f};
+extern const Vec boss7_derolle_c_intro_effect_near_point = {0.0f, 0.0f, -275.0f};
 
 extern const Vec boss7_derolle_c_death_effect_point = {0.0f, 0.0f, -520.0f};
 
@@ -973,14 +976,14 @@ void TBoss7DeRolLeC::flee_if_disturbed() {
     }
 }
 
-void TBoss7DeRolLeC::set_state_and_send(s32 arg1) {
+void TBoss7DeRolLeC::set_state_and_send(s32 state) {
     G_BarbaRayBossActions_6xAA pa;
     G_BarbaRayBossActions_6xA9 pb;
-    dispatch_action(arg1, 6);
-    if (((arg1 - 0x13) <= 1U) || ((arg1 - 0x40) <= 1U) || (arg1 == 0x44) || (arg1 == 0x18)) {
+    dispatch_action(state, 6);
+    if (((state - 0x13) <= 1U) || ((state - 0x40) <= 1U) || (state == 0x44) || (state == 0x18)) {
         pa.init();
         pa.header.client_id = this->entity_id;
-        pa.what = arg1;
+        pa.what = state;
         pa.unknown_a2 = this->action_index;
         pa.target_client_id = this->target_id;
         pa.send();
@@ -988,7 +991,7 @@ void TBoss7DeRolLeC::set_state_and_send(s32 arg1) {
     }
     pb.init();
     pb.header.client_id = this->entity_id;
-    pb.what = arg1;
+    pb.what = state;
     pb.unknown_a2 = this->action_index;
     pb.send();
 }
@@ -1310,13 +1313,13 @@ void TBoss7DeRolLeC::set_hooked_effect_target() {
 }
 
 s32 TBoss7DeRolLeC::is_ready() {
-    s32 var_r4;
+    int ready;
 
-    var_r4 = 0;
+    ready = 0;
     if ((this->body_hp <= 0) && !(this->state_flags & 4)) {
-        var_r4 = 1;
+        ready = 1;
     }
-    return (u8)var_r4;
+    return (u8)ready;
 }
 
 void TBoss7DeRolLeC::start_death_sequence() {
@@ -1367,83 +1370,83 @@ void TBoss7DeRolLeC::reset_action_sequence() {
 }
 
 void TBoss7DeRolLeC::advance_action_sequence() {
-    s32 var_r30;
-    s32 var_r4;
+    s32 retry;
+    s32 mode;
     do {
-        var_r30 = 0;
-        this->action_index = (this->action_index + 1);
-        var_r4 = boss7_derolle_c_difficulty_actions[game_difficulty_selection][this->action_index].action;
-        switch (var_r4) {
+        retry = 0;
+        this->action_index++;
+        mode = boss7_derolle_c_difficulty_actions[game_difficulty_selection][this->action_index].action;
+        switch (mode) {
         case 0x1E:
             if (calc_elapsed_scaled() > 0.0f) {
-                var_r4 = 8;
+                mode = 8;
             } else {
-                var_r4 = 6;
+                mode = 6;
             }
             break;
         case 0x1F:
             if (this->next_position_slot == 0) {
-                var_r4 = 5;
+                mode = 5;
             } else {
-                var_r4 = 9;
+                mode = 9;
             }
             break;
         case 0x20:
             if (calc_elapsed_scaled() > 0.0f) {
-                var_r4 = 0xC;
+                mode = 0xC;
             } else {
-                var_r4 = 0xE;
+                mode = 0xE;
             }
             break;
         case 0x21:
             if (this->next_position_slot == 0) {
-                var_r4 = 3;
+                mode = 3;
             } else {
-                var_r4 = 0xB;
+                mode = 0xB;
             }
             break;
         case 0x23:
             if (this->next_position_slot == 0) {
-                var_r4 = 4;
+                mode = 4;
             } else {
-                var_r4 = 0xA;
+                mode = 0xA;
             }
             break;
         case 0x24:
             if (this->next_position_slot == 0) {
-                var_r4 = 0xF;
+                mode = 0xF;
             } else {
-                var_r4 = 0x10;
+                mode = 0x10;
             }
             break;
         case 0x25:
             if (this->next_position_slot == 0) {
-                var_r4 = 0x11;
+                mode = 0x11;
             } else {
-                var_r4 = 0x12;
+                mode = 0x12;
             }
             break;
         case 0x26:
             if (this->next_position_slot == 0) {
-                var_r4 = 0x13;
+                mode = 0x13;
             } else {
-                var_r4 = 0x14;
+                mode = 0x14;
             }
             break;
         case 0x27:
             if (this->next_position_slot == 0) {
-                var_r4 = 0x15;
+                mode = 0x15;
             } else {
-                var_r4 = 0x16;
+                mode = 0x16;
             }
             break;
         case 0x45:
-            var_r30 = 1;
+            retry = 1;
             this->action_index = 1;
             break;
         }
-    } while (var_r30 != 0);
-    set_state_and_send(var_r4);
+    } while (retry != 0);
+    set_state_and_send(mode);
 }
 #pragma push
 #pragma fp_contract on
@@ -1824,11 +1827,11 @@ void TBoss7DeRolLeC::handle_intro_camera_state(u32 event) {
                 destroy_child();
             }
             if (is_passing_frame(85.0f) != 0) {
-                Vec v = lbl_80473F78;
+                Vec v = boss7_derolle_c_intro_effect_far_point;
                 spawn_particle_effect_with_flags(&v, 0x20F, 0x40);
             }
             if (is_passing_frame(98.0f) != 0) {
-                Vec w = lbl_80473F84;
+                Vec w = boss7_derolle_c_intro_effect_near_point;
                 spawn_particle_effect_with_flags(&w, 0x20F, 0x40);
                 play_sound_effect(0x39906, NULL, 0, 0);
             }
@@ -3134,7 +3137,7 @@ void TBoss7DeRolLeC::handle_laser_attack_state(u32 event) {
             }
             {
                 Boss7AttackParams params = boss7_laser_particle_params;
-                params.field_4 = boss_params->laser_power;
+                params.power = boss_params->laser_power;
                 TObjEneDD::setup_instance((saddr)this, (saddr)beam_end, (u8 *)&params, (saddr)attack_history);
             }
             if (laser_ptcl != NULL) {

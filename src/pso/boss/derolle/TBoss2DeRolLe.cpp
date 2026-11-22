@@ -136,11 +136,12 @@ struct NJS_OBJECT;
 #include <stddef.h>
 
 // inferred: the five-word effect descriptor emit_effect and setup_instance read (an id word,
-// three floats, a trailing word); handle_laser_attack_state patches the first float per spawn
+// three floats, a trailing word); setup_instance gives the hit body `radius`, and
+// handle_laser_attack_state patches `power` per spawn
 struct DeRolLeEffectParams {
     s32 pad_00;
-    f32 pad_04;
-    f32 pad_08;
+    f32 power;
+    f32 radius;
     f32 pad_0C;
     s32 pad_10;
 };
@@ -183,7 +184,7 @@ s32 de_rol_le_shared_handler_a_ids[1] = {0xF};
 // What TObjEnemy::movementParameters points at.
 struct TBoss2DeRolLeMovement {
     EnemyMoveParams move;
-    s32 unk_0C[4];
+    s32 pad_0C[4];
 };
 
 // The four points matrix_mult_vec_array places along a breakup piece (derolle_capture_node_points).
@@ -3430,7 +3431,7 @@ void TBoss2DeRolLe::handle_laser_attack_state(u32 reason) {
                 }
                 {
                     DeRolLeEffectParams r = derolle_laser_hit_effect_params;
-                    r.pad_04 = derolle_params[0]->laser_power;
+                    r.power = derolle_params[0]->laser_power;
                     TObjEneDD::setup_instance((saddr)this, (saddr)hit, (u8 *)&r, (saddr)attack_history);
                 }
             }

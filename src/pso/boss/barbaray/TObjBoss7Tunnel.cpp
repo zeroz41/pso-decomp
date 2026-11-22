@@ -40,21 +40,21 @@ struct Boss2TunnelEffectEntry {
     s32 count;
     const s32 *indices;
 };
-const s32 lbl_804743B0[3] = {0, 1, 2};
-const s32 lbl_804743BC[4] = {3, 4, 5, 6};
-const s32 lbl_804743CC[3] = {7, 8, 9};
-const s32 lbl_804743D8[3] = {10, 11, 12};
-const s32 lbl_804743E4[4] = {13, 14, 15, 16};
+const s32 boss7_tunnel_kind0_model_indices[3] = {0, 1, 2};
+const s32 boss7_tunnel_kind1_model_indices[4] = {3, 4, 5, 6};
+const s32 boss7_tunnel_kind2_model_indices[3] = {7, 8, 9};
+const s32 boss7_tunnel_kind3_model_indices[3] = {10, 11, 12};
+const s32 boss7_tunnel_kind4_model_indices[4] = {13, 14, 15, 16};
 // where TObjBoss2Tunnel__sub_802F2A2C places its two TObjBoss7RaftSplash
 const Vec TObjBoss2Tunnel__raft_splash_offset_table[2] = {{3.0f, 0.0f, -5.0f}, {-3.0f, 0.0f, -5.0f}};
 const char *TObjBoss7TunnelCol__name = "TObjBoss7TunnelCol";
 const CollisionBody TObjBoss7TunnelCol__col_desc = {{0.0f, 0.0f, 0.0f}, 100.0f, 9.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
 Boss2TunnelEffectEntry boss2_tunnel_effect_name_table[5] = {
-    {3, lbl_804743B0},
-    {4, lbl_804743BC},
-    {3, lbl_804743CC},
-    {3, lbl_804743D8},
-    {4, lbl_804743E4},
+    {3, boss7_tunnel_kind0_model_indices},
+    {4, boss7_tunnel_kind1_model_indices},
+    {3, boss7_tunnel_kind2_model_indices},
+    {3, boss7_tunnel_kind3_model_indices},
+    {4, boss7_tunnel_kind4_model_indices},
 };
 s32 boss2_tunnel_spawn_timer_table[0x1F] = {
     2, 1, 2, 1, 1, 2, 2, 1, 2, 1, 2, 2, 1, 1, 1, 2,
@@ -63,10 +63,10 @@ s32 boss2_tunnel_spawn_timer_table[0x1F] = {
 s32 boss2_tunnel_spawn_timer_table_b[10] = {1, 1, 3, 4, 3, 3, 3, 3, 3, 3};
 // y comes from a float constant of another file, so this file's static
 // initializer (0x802F2CC4, .ctors 0x80433FDC) fills it in at startup.
-extern const f32 lbl_805DE9F4;
-Vec lbl_804E4A44[2] = {
-    {78.0f, lbl_805DE9F4, 83.0f},
-    {-78.0f, lbl_805DE9F4, 83.0f},
+extern const f32 boss7_tunnel_splash_y;
+Vec boss7_tunnel_raft_splash_positions[2] = {
+    {78.0f, boss7_tunnel_splash_y, 83.0f},
+    {-78.0f, boss7_tunnel_splash_y, 83.0f},
 };
 u32 boss2_tunnel_state_flags;
 s32 lbl_805D696C;
@@ -121,7 +121,7 @@ TObjBoss7Tunnel::TObjBoss7Tunnel(TObject *parent) : TObject(parent) {
     kind4_position.z = 0.0f;
     dust_timer = 30;
     for (i = 0; i < 2; i++) {
-        new TObjBoss7RaftSplash((TObject *)this, (const Vec *)&lbl_804E4A44[i], &TObjBoss2Tunnel__raft_splash_offset_table[i], &scroll_speed);
+        new TObjBoss7RaftSplash((TObject *)this, (const Vec *)&boss7_tunnel_raft_splash_positions[i], &TObjBoss2Tunnel__raft_splash_offset_table[i], &scroll_speed);
     }
     new TUnk_804E4AD4(render_nodes, 0);
     new TUnk_804E4AD4(render_nodes, 1);
@@ -155,15 +155,15 @@ void TObjBoss7Tunnel::run_task() {
     update_phase_motion();
     static void (TObjBoss7Tunnel::*phase_handlers[])() = {
         &TObjBoss7Tunnel::init_effect,
-        &TObjBoss7Tunnel::sub_802F2400,
-        &TObjBoss7Tunnel::sub_802F23FC,
+        &TObjBoss7Tunnel::update_arrival,
+        &TObjBoss7Tunnel::update_stopped,
     };
     void (TObjBoss7Tunnel::*handler)() = phase_handlers[phase];
     (this->*handler)();
     sub_802F273C();
 }
 
-f32 lbl_804E4AA4[12] = {
+f32 boss7_tunnel_particle_pos_table[12] = {
     26.0f, -19.0f, 62.0f,
     -26.0f, -19.0f, 62.0f,
     26.0f, -19.0f, 0.0f,
@@ -280,7 +280,7 @@ void TObjBoss7Tunnel::init_effect() {
     update_dust_spawn();
 }
 
-void TObjBoss7Tunnel::sub_802F2400() {
+void TObjBoss7Tunnel::update_arrival() {
     f32 distance;
     TObject *object;
     update_spawn_timer(boss2_tunnel_spawn_timer_table_b, 0xA, 1);
@@ -315,7 +315,7 @@ void TObjBoss7Tunnel::sub_802F2400() {
     }
 }
 
-void TObjBoss7Tunnel::sub_802F23FC() {  }
+void TObjBoss7Tunnel::update_stopped() {  }
 
 void TObjBoss7Tunnel::render() {
     TObject *child;

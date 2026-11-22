@@ -18,10 +18,13 @@ public:
     void spawn_segment_row_a();
     void spawn_segment_row_b();
     virtual void render();
-    // run_task's phase handlers (indexed by unk_1C)
+    // run_task's phase handlers (indexed by phase)
     void init_effect();
-    void sub_802F2400();
-    void sub_802F23FC();
+    // Phase 1 (name inferred): spawns from table b and slows the scroll as the kind-4 segment comes
+    // within 300/200/100; below 1 it stops the tunnel and moves on to phase 2.
+    void update_arrival();
+    // Phase 2 (name inferred): the tunnel has stopped; nothing to do.
+    void update_stopped();
     void sub_802F273C();
     void update_dust_spawn();
     // spawns table[spawn_index] each 800 units of scroll; at count it wraps to 0, or holds

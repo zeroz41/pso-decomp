@@ -8092,7 +8092,7 @@ force_active:
   - mericarol_low_motion_names
   - lbl_804E3A38
   - lbl_804E3B60
-  - lbl_804E4AA4
+  - boss7_tunnel_particle_pos_table
   - __vt__19TBoss8DragonColli_C
   - lbl_804E6740
   - lbl_804E674C
@@ -16343,8 +16343,8 @@ force_active:
   - sub_802E1F14__12TAdTimeSetGCFv
   - enter_sway__14TBoss7TentacleFv
   - request_strike__14TBoss7TentacleFv
-  - sub_802F23FC__15TObjBoss7TunnelFv
-  - sub_802F2400__15TObjBoss7TunnelFv
+  - update_stopped__15TObjBoss7TunnelFv
+  - update_arrival__15TObjBoss7TunnelFv
   - sub_802F273C__15TObjBoss7TunnelFv
   - sub_803003A4__21TAdMultiSelGameModeGCFv
   - sub_80300648__21TAdMultiSelGameModeGCFv
