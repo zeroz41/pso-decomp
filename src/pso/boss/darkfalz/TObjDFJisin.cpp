@@ -14,6 +14,7 @@ struct NJS_OBJECT;
 #include "pso/system/PadRumble.h"
 #include "pso/player/PlayerClassFlags.h"
 #include "pso/boss/darkfalz/TObjDFTenchuFuru.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TObjDFRecover.h"
 #include "pso/object/base/TObjMotion.h"
@@ -78,18 +79,7 @@ __declspec(section ".data") YutaiRange yutai_height_range = {10.0f, 0.0f};
 __declspec(section ".data") YutaiRange yutai_scale_range = {2.0f, 1.0f};
 __declspec(section ".data") YutaiRange yutai_weight_range = {0.0f, 0.75f};
 
-struct RecoveredFields_80051AD0_var_r31 {
-    s32 field_0;
-    u8 unknown_4[0x28];
-    u8 * field_2C;
-    u8 * field_30;
-};
-
-LAYOUT_ASSERT(RecoveredFields_80051AD0_var_r31_0_offset, offsetof(RecoveredFields_80051AD0_var_r31, field_0) == 0x0);
-LAYOUT_ASSERT(RecoveredFields_80051AD0_var_r31_2C_offset, offsetof(RecoveredFields_80051AD0_var_r31, field_2C) == 0x2C);
-LAYOUT_ASSERT(RecoveredFields_80051AD0_var_r31_30_offset, offsetof(RecoveredFields_80051AD0_var_r31, field_30) == 0x30);
-
-int TObjDFTenchuFuru__matrix_node_index;
+int TObjDFTenchuFuru::matrix_node_index;
 Vec lbl_804FF228;
 Vec lbl_804FF234;
 Mtx34 df_captured_matrix_pair[2];
@@ -158,12 +148,12 @@ void TObjDFUsoTower::run_task() {
 #pragma pop
 
 void TObjDFUsoTower::render() {
-    f32 temp_f1;
+    f32 alpha;
 
-    temp_f1 = fade_alpha;
-    if (0.0f != temp_f1) {
-        if (temp_f1 < 1.0f) {
-            TObjPlayer__sub_80052390(temp_f1);
+    alpha = fade_alpha;
+    if (0.0f != alpha) {
+        if (alpha < 1.0f) {
+            TObjPlayer__sub_80052390(alpha);
             set_color_blend_mode(1, 4, 5, 0);
         }
         push_matrix();
@@ -177,7 +167,7 @@ void TObjDFUsoTower::render() {
     }
 }
 
-void TObjPlayer::draw_player_model_by_id(s32 arg0, f32 alpha) {
+void TObjPlayer::draw_player_model_by_id(s32 client_id, f32 alpha) {
     u8 *p;
     uaddr m8b0;
     u32 m8ac;
@@ -190,10 +180,10 @@ void TObjPlayer::draw_player_model_by_id(s32 arg0, f32 alpha) {
     if (0.0f == alpha) {
         return;
     }
-    if ((u16)arg0 == 0xFFFF) {
+    if ((u16)client_id == 0xFFFF) {
         return;
     }
-    p = (u8 *)get_player_by_client_id((u16)arg0);
+    p = (u8 *)get_player_by_client_id((u16)client_id);
     if (p == NULL || *(s32 *)((s8 *)p + 0xCFC) != 0) {
         return;
     }
@@ -204,7 +194,7 @@ void TObjPlayer::draw_player_model_by_id(s32 arg0, f32 alpha) {
     m8ac = *(u32 *)((s8 *)p + 0x8AC);
     m8b4 = *(u32 *)((s8 *)p + 0x8B4);
     cf4 = (saddr)(p + 0xCF4);
-    ((TObjDFTenchuFuru *)m34)->draw_node_tree();
+    TObjDFTenchuFuru::draw_node_tree((NJS_OBJECT *)m34);
     if (alpha < 1.0f) {
         TObjPlayer__sub_80052390(alpha);
     }
@@ -240,39 +230,39 @@ void TObjPlayer::draw_player_model_by_id(s32 arg0, f32 alpha) {
     }
 }
 
-void boss6type2_draw_models(s32 arg0, s32 arg1, s32 arg2, uaddr arg3, uaddr arg4, u32 model, uaddr arg6, saddr appearance, f32 alpha) {
+void boss6type2_draw_models(s32 body_texlist, s32 head_texlist, s32 part_texlist, uaddr body, uaddr head, u32 hair, uaddr part, saddr appearance, f32 alpha) {
     if (0.0f != alpha) {
-        ((TObjDFTenchuFuru *)arg3)->draw_node_tree();
+        TObjDFTenchuFuru::draw_node_tree((NJS_OBJECT *)body);
         if (alpha < 1.0f) {
             TObjPlayer__sub_80052390(alpha);
         }
-        TObjFish::set_global_param(arg0);
-        draw_chunk_object((void *)arg3);
-        if (arg6 != 0U) {
+        TObjFish::set_global_param(body_texlist);
+        draw_chunk_object((void *)body);
+        if (part != 0U) {
             push_matrix();
             post_translate_matrix(&lbl_804FF234.x);
-            TObjFish::set_global_param(arg2);
-            draw_chunk_object((void *)arg6);
+            TObjFish::set_global_param(part_texlist);
+            draw_chunk_object((void *)part);
             pop_matrix();
         }
-        if (arg4 != 0U) {
+        if (head != 0U) {
             TCharaMaking::enable_making();
             push_matrix();
             post_translate_matrix(&lbl_804FF228.x);
-            TObjFish::set_global_param(arg1);
-            draw_chunk_object((void *)arg4);
+            TObjFish::set_global_param(head_texlist);
+            draw_chunk_object((void *)head);
             pop_matrix();
             TCharaMaking::clear_flag_bit0();
         }
         if (alpha < 1.0f) {
             TObjPlayer::sync_player_globals();
         }
-        if (model != 0U) {
+        if (hair != 0U) {
             TCharaMaking::enable_making();
             push_matrix();
             post_translate_matrix(&lbl_804FF228.x);
-            TObjFish::set_global_param(arg1);
-            TCharaMaking__draw_colored_hair(alpha, (s32)model, (CharacterAppearanceFields *)appearance, 0);
+            TObjFish::set_global_param(head_texlist);
+            TCharaMaking__draw_colored_hair(alpha, (s32)hair, (CharacterAppearanceFields *)appearance, 0);
             pop_matrix();
             TCharaMaking::clear_flag_bit0();
         }
@@ -280,7 +270,7 @@ void boss6type2_draw_models(s32 arg0, s32 arg1, s32 arg2, uaddr arg3, uaddr arg4
 }
 
 extern "C" {
-void TObjPlayer::draw_player_model_by_client(u16 arg0, saddr arg1, f32 farg0, f32 alpha) {
+void TObjPlayer::draw_player_model_by_client(u16 client_id, saddr motion, f32 frame, f32 alpha) {
     u8 *p;
     uaddr a;
     u32 b;
@@ -292,10 +282,10 @@ void TObjPlayer::draw_player_model_by_client(u16 arg0, saddr arg1, f32 farg0, f3
     if (0.0f == alpha) {
         return;
     }
-    if (arg0 == 0xFFFF) {
+    if (client_id == 0xFFFF) {
         return;
     }
-    p = (u8 *)get_player_by_client_id(arg0);
+    p = (u8 *)get_player_by_client_id(client_id);
     if (p == NULL || *(s32 *)((s8 *)p + 0xCFC) != 0) {
         return;
     }
@@ -311,7 +301,7 @@ void TObjPlayer::draw_player_model_by_client(u16 arg0, saddr arg1, f32 farg0, f3
     }
     TObjFish::set_global_param((saddr)g);
     TObjDFTenchuFuru::register_callback();
-    draw_model_motion((void *)f, (void *)arg1, farg0);
+    draw_model_motion((void *)f, (void *)motion, frame);
     TObjDFTenchuFuru::unregister_callback();
     if (d != 0) {
         push_matrix_from(df_captured_matrix_pair[1]);
@@ -342,21 +332,17 @@ void TObjPlayer::draw_player_model_by_client(u16 arg0, saddr arg1, f32 farg0, f3
 }
 
 extern "C" {
-void TObjDFTenchuFuru::draw_node_tree() { TObjDFTenchuFuru__matrix_node_index = 0; push_matrix(); set_matrix_identity((u8 *)((void*)0)); transform_node_tree(); pop_matrix(); }
+void TObjDFTenchuFuru::draw_node_tree(NJS_OBJECT *node) { matrix_node_index = 0; push_matrix(); set_matrix_identity(NULL); transform_node_tree(node); pop_matrix(); }
 }
 
 extern "C" {
-void TObjDFTenchuFuru::transform_node_tree() {
-    u8 *self = (u8 *)this;
-    u8 *temp_r3;
-    u8 *var_r31;
-    var_r31 = self;
+void TObjDFTenchuFuru::transform_node_tree(NJS_OBJECT *node) {
     do {
         push_matrix();
-        post_translate_matrix((f32 *)(var_r31 + 8));
-        rotate_matrix_by_node_angles((s32 *)(var_r31 + 0x14), (u32) (((RecoveredFields_80051AD0_var_r31 *)var_r31)->field_0 & 0x20));
-        scale_current_matrix((f32 *)(var_r31 + 0x20));
-        switch ((s32) (*(s32 *)&TObjDFTenchuFuru__matrix_node_index)) {
+        post_translate_matrix(node->pos);
+        rotate_matrix_by_node_angles(node->ang, node->evalflags & 0x20);
+        scale_current_matrix(node->scl);
+        switch (matrix_node_index) {
         case 0x3B:
             matrix_mult_vec(0, &dark_falz_jisin_zero_vec, &lbl_804FF228);
             break;
@@ -364,19 +350,18 @@ void TObjDFTenchuFuru::transform_node_tree() {
             matrix_mult_vec(0, &dark_falz_jisin_zero_vec, &lbl_804FF234);
             break;
         }
-        (*(s32 *)&TObjDFTenchuFuru__matrix_node_index) += 1;
-        temp_r3 = (u8 *)(((RecoveredFields_80051AD0_var_r31 *)var_r31)->field_2C);
-        if (temp_r3 != NULL) {
-            ((TObjDFTenchuFuru *)temp_r3)->transform_node_tree();
+        matrix_node_index += 1;
+        if (node->child != NULL) {
+            transform_node_tree(node->child);
         }
         pop_matrix();
-        var_r31 = (u8 *)(((RecoveredFields_80051AD0_var_r31 *)var_r31)->field_30);
-    } while (var_r31 != NULL);
+        node = node->sibling;
+    } while (node != NULL);
 }
 }
 
 extern "C" {
-void TObjDFTenchuFuru::register_callback() { TObjDFTenchuFuru__matrix_node_index = 0; set_chunk_model_node_callback(TObjDFTenchuFuru::capture_matrix_by_frame); }
+void TObjDFTenchuFuru::register_callback() { matrix_node_index = 0; set_chunk_model_node_callback(TObjDFTenchuFuru::capture_matrix_by_frame); }
 }
 
 extern "C" {
@@ -385,7 +370,7 @@ void TObjDFTenchuFuru::unregister_callback() { set_chunk_model_node_callback(0);
 
 extern "C" {
 void TObjDFTenchuFuru::capture_matrix_by_frame(NJS_OBJECT *) {
-    switch ((s32) (*(s32 *)&TObjDFTenchuFuru__matrix_node_index)) {
+    switch (matrix_node_index) {
     case 0x3B:
         get_current_matrix(df_captured_matrix_pair[0]);
         break;
@@ -393,7 +378,7 @@ void TObjDFTenchuFuru::capture_matrix_by_frame(NJS_OBJECT *) {
         get_current_matrix(df_captured_matrix_pair[1]);
         break;
     }
-    (*(s32 *)&TObjDFTenchuFuru__matrix_node_index) += 1;
+    matrix_node_index += 1;
 }
 }
 
@@ -856,19 +841,19 @@ TObjDFYutai::~TObjDFYutai() {}
 #pragma push
 #pragma opt_common_subs off
 void TObjDFYutai::run_task() {
-    f32 temp_f1;
+    f32 progress;
     if (is_player_in_boss_area(player_id) == 0) {
         queue_destruction();
         return;
     }
     t = t + rate;
-    temp_f1 = t;
-    if (temp_f1 <= 0.0f) {
+    progress = t;
+    if (progress <= 0.0f) {
         t = 0.0f;
         queue_destruction();
         return;
     }
-    if (temp_f1 >= 1.0f) {
+    if (progress >= 1.0f) {
         t = 1.0f;
         queue_destruction();
     }

@@ -45,6 +45,7 @@ public:
 
 
 // Draws a player-like model set (body, two attached parts, hair) at alpha; used by TBoss6Type2.
-void boss6type2_draw_models(s32 arg0, s32 arg1, s32 arg2, uaddr arg3, uaddr arg4, u32 model, uaddr arg6, saddr appearance, f32 alpha);
+// head is the part drawn at node 0x3B (with the hair), part the one at node 0x3A (names inferred).
+void boss6type2_draw_models(s32 body_texlist, s32 head_texlist, s32 part_texlist, uaddr body, uaddr head, u32 hair, uaddr part, saddr appearance, f32 alpha);
 
 #endif
