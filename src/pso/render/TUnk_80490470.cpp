@@ -68,55 +68,32 @@ void TUnk_80490470::reset_obstruction_fade() { phase = 0.0f; this->color.a = (-1
     
 void TUnk_80490470::reset_color() { phase = 2.0f; this->color.a = 0.0f; this->color.r = 0.0f; this->color.g = 0.0f; this->color.b = 0.0f; }
 
-struct Base_800A04F0 { f32 v0, v4, v8, vc; f32 rate; };
-
-struct Obj_800A04F0 : Base_800A04F0 {
-    virtual void m0();
-    virtual void m1(s32);
-    f32 f18;
-};
-
-struct Base_800A0554 { f32 v0, v4, v8, vc; f32 rate; };
-
-struct Obj_800A0554 : Base_800A0554 {
-    virtual void m0();
-    virtual void m1(s32);
-    f32 f18;
-};
-
-extern "C" {
-
-void TObjPlayer__sub_800A04F0(Obj_800A04F0 *self);
-
-void TObjPlayer__sub_800A0554(Obj_800A0554 *self);
 void TUnk_80490470::set_rate_from_divisor(s32 arg1) {
     this->rate = (f32) (2.0f / (f32) arg1);
 }
 #pragma push
 #pragma fp_contract on
-void TObjPlayer__sub_800A04F0(Obj_800A04F0 *self) {
-    self->m1(10);
-    self->f18 = 1e+01f * self->rate + 2.0f;
-    self->v0 = 1.0f;
-    self->v4 = 1.0f;
-    self->v8 = 1.0f;
-    self->vc = 1.0f;
+void TUnk_80490470::start_fade_out() {
+    set_rate_from_divisor(10);
+    phase = 1e+01f * rate + 2.0f;
+    color.a = 1.0f;
+    color.r = 1.0f;
+    color.g = 1.0f;
+    color.b = 1.0f;
 }
 #pragma pop
 
-void TObjPlayer__sub_800A0554(Obj_800A0554 *self) {
-    self->m1(10);
-    self->f18 = -(2e+01f * self->rate);
-    self->v0 = 0.0f;
-    self->v4 = 0.0f;
-    self->v8 = 0.0f;
-    self->vc = 0.0f;
+void TUnk_80490470::start_fade_in() {
+    set_rate_from_divisor(10);
+    phase = -(2e+01f * rate);
+    color.a = 0.0f;
+    color.r = 0.0f;
+    color.g = 0.0f;
+    color.b = 0.0f;
 }
 
 
 TUnk_80490470::~TUnk_80490470() {}
-
-}
 
 
 TUnk_80490470::TUnk_80490470() : MaterialColorFade(), phase(0.0f) {}

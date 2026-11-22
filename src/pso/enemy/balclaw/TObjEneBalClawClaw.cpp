@@ -38,8 +38,6 @@
 
 
 extern "C" {
-void TObjPlayer__sub_800A04F0(void *);
-s32 TObjPlayer__sub_800A0554(void *);
 s32 submit_cursor_candidate(void *, int, int, f32, f32);
 
 TObjMotionAction balclaw_claw_model_node_desc[7] = {
@@ -380,7 +378,7 @@ void TObjEneBalClawClaw::sub_80091134() {
     case 0:
         refresh_lobby_state();
         requested_action = 4;
-        TObjPlayer__sub_800A04F0(&fade);
+        fade.start_fade_out();
         fn_800D911C(&body_center);
         play_sound_effect(0x4003AD37, &position, 0, 0);
         state = 1;
@@ -468,7 +466,7 @@ void TObjEneBalClawClaw::action(void *p) {
         claw->actorFlags = flags;
         claw->requested_action = 0;
         play_area_se_with_particle(&claw->position);
-        TObjPlayer__sub_800A0554(&claw->fade);
+        claw->fade.start_fade_in();
         claw->state = 1;
     case 1:
         claw->advance_animation();

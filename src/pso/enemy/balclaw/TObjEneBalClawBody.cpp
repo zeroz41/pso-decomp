@@ -75,8 +75,6 @@ const char *balclaw_body_class_name = balclaw_body_class_name_text;
 
 
 extern "C" {
-s32 TObjPlayer__sub_800A04F0(void *);
-s32 TObjPlayer__sub_800A0554(void *);
 s32 fn_80090464(void *, int);
 void queue_destruction__7TObjectFv(void *arg0);
 void send_6x2F_change_player_hp(s32 arg0, s32 arg1, s32 arg2);
@@ -474,7 +472,7 @@ void TObjEneBalClawBody::run_death_sequence() {
         }
         break;
     case 3:
-        TObjPlayer__sub_800A04F0(&body->fade);
+        body->fade.start_fade_out();
         fn_800D911C(&body->body_center);
         body->m_388 |= 4;
         body->state = 4;
@@ -713,7 +711,7 @@ void TObjEneBalClawBody::sub_8008EC3C() {
         body->actorFlags |= 0x04000000;
         body->requested_action = (body->m_388 & 0x01000000) ? 0 : 5;
         play_area_se_with_particle(&body->position);
-        TObjPlayer__sub_800A0554(&body->fade);
+        body->fade.start_fade_in();
         body->state = 1;
     case 1:
         body->advance_animation();

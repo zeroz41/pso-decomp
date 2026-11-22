@@ -90,7 +90,6 @@ s32 TObjEneDellBiter__demo_rotate_x_angle;
 Vec *TObjEneDellBiter__demo_script_cursor;
 saddr TObjEneDellBiter__scrolling_uv_polygon_list;
 s32 TObjEneDellBiter__last_uv_scroll_tick;
-s32 TObjPlayer__sub_800A04F0(void *);
 
 extern Vec dellbiter_demo_camera_vec;
 
@@ -1359,7 +1358,7 @@ void TObjEneDellBiter::state_death(s32 reason) {
         flags = (s32) (flags | 2);
         this->disable_body_collision();
         refresh_and_send_entity_flags();
-        TObjPlayer__sub_800A04F0(&fade);
+        fade.start_fade_out();
         if (get_current_floor_area() == AREA_TOWER) {
             play_sound_effect(0x4003A358, &position, 0, 0);
         } else {

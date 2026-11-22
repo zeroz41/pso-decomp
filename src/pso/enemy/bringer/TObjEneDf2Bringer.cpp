@@ -146,7 +146,6 @@ TObjMotionAction lbl_8048FAF8[11] = {
 
 
 extern "C" {
-s32 TObjPlayer__sub_800A04F0(void *);
 s32 scroll_strip_uvs(int, int, int);
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
@@ -1281,7 +1280,7 @@ void TObjEneDf2Bringer::update_death_state(s32 reason) {
         this->disable_body_collision();
         this->refresh_and_send_entity_flags();
         fn_800D911C(&this->body_center);
-        TObjPlayer__sub_800A04F0(&this->body_fade);
+        body_fade.start_fade_out();
         play_sound_effect(this->remap_sound_for_area(0x4003A511), &this->position, 0, 0);
         TObjPlayer::play_effect_if_v2(-0x200);
         return;

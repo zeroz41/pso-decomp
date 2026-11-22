@@ -15,6 +15,10 @@ public:
     virtual s32 advance_toward_max();
     virtual s32 has_visible_opacity();
     void calc_recoil_offsets();
+    // Full colour, then decays: every caller is a death state.
+    void start_fade_out();
+    // From clear, then rises: the appear states (Dimedian beast_update_appear).
+    void start_fade_in();
     f32 phase;
 };
 

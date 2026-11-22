@@ -48,7 +48,6 @@
 #include "pso/system/task/TMainTask.h"
 
 extern "C" {
-s32 TObjPlayer__sub_800A0554(void *);
 extern SampledMotionPoints *dimedian_type3_object;
 extern SampledMotionPoints *lbl_805D5088;
 
@@ -186,7 +185,7 @@ void TObjEneDimedian::beast_update_appear() {
         if (this->appearing == 1) {
             this->phase = 1;
             play_area_se_with_particle(&position);
-            TObjPlayer__sub_800A0554(&body_fade);
+            body_fade.start_fade_in();
         } else {
             this->phase = 2;
         }

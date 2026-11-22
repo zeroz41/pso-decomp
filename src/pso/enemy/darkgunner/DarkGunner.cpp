@@ -260,7 +260,6 @@ extern s16 *TObjEneDarkGunner__body_child_polygons;
 
 extern s16 *TObjEneDarkGunner__cly_line_polygons;
 
-void TObjPlayer__sub_800A04F0(void *);
 }
 
 #pragma push
@@ -877,7 +876,7 @@ void TObjEneDarkGunner::update_dying() {
         requested_action = 7;
         refresh_lobby_state();
         send_entity_set_flags();
-        TObjPlayer__sub_800A04F0(&render_control);
+        render_control.start_fade_out();
         fn_800D911C(&body_center);
         m_388 |= 4;
         play_sound_effect(0x4003AD37, &position, 0, 0);

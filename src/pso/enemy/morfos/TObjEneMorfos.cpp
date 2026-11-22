@@ -119,8 +119,6 @@ s32 check_value_in_range__13TObjEneMorfosFPvUsUsUs(void *, int, int, int);
 
 
 u16 get_entity_id(void *);
-s32 TObjPlayer__sub_800A04F0(void *);
-void TObjPlayer__sub_800A0554(void *);
 s32 angle_difference_abs(s32, s32);
 s32 angle_diff_s16(s32);
 s32 free_collision_body_parts(void *);
@@ -550,7 +548,7 @@ void TObjEneMorfos::sub_803342B8(s32 ev) {
         morfos_flags = (s32) (morfos_flags & ~5);
         morfos_flags = (s32) (morfos_flags | 2);
         this->set_field_378(3);
-        TObjPlayer__sub_800A0554(&body_fade);
+        body_fade.start_fade_in();
         wall_fade.start_fade_in();
         play_area_se_with_particle(&position);
         return;
@@ -1177,7 +1175,7 @@ void TObjEneMorfos::state_death(s32 arg1) {
             if ((this->get_flag_b4() != 0) && (temp_r30 != 0)) {
                 fn_800D911C(&position);
                 play_sound_effect(0x4003A830, (uaddr)&position, 0, 0);
-                TObjPlayer__sub_800A04F0((u8 *)&this->body_fade);
+                body_fade.start_fade_out();
                 morfos_flags = (s32) (morfos_flags | 2);
                 this->counter = 1;
                 return;

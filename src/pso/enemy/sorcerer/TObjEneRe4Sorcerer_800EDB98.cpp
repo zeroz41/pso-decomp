@@ -132,7 +132,6 @@ extern "C" {
 
 
 
-s32 TObjPlayer__sub_800A04F0(void *);
 
 
 
@@ -1321,7 +1320,7 @@ void TObjEneRe4Sorcerer::handle_death_state(s32 mode) {
         refresh_and_send_entity_flags();
         state_timer = 0;
         fn_800D911C(&body_center);
-        TObjPlayer__sub_800A04F0(&fade);
+        fade.start_fade_out();
         m_3f8 = 0.0f;
         play_sound_effect(remap_sound_for_area(0x4003AD19), &position, 0, 0);
         return;

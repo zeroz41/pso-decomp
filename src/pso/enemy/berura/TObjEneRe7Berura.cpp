@@ -55,7 +55,6 @@
 
 #pragma defer_codegen on
 extern "C" {
-void TObjPlayer__sub_800A04F0(void *);
 s32 scroll_strip_uvs(s32, int, int);
 extern TObjEneRe7BeruraPart TObjEneRe7Berura__detached_part_states[];
 u8 * TObjEneRe7Berura__stat_handle_table[1];
@@ -84,7 +83,6 @@ extern TObjMotionAction TObjEneRe7Berura__animation_definitions[];
 
 
 extern "C" {
-s32 TObjPlayer__sub_800A0554(void *);
 // TObjPlayer::copy_matrix/concat_matrix take uaddr; the (uaddr)&m spelling
 // moves &m into a saved register in collect_node_matrices.
 void copy_matrix__10TObjPlayerFUlUl(int, void *);
@@ -704,7 +702,7 @@ void TObjEneRe7Berura::state_attack(s32 reason) {
         status_flags = flags & ~5;
         status_flags = status_flags | 2;
         this->set_field_378(3);
-        TObjPlayer__sub_800A0554(&body_fade);
+        body_fade.start_fade_in();
         play_area_se_with_particle(&position);
         reset_turn_total();
         return;
@@ -1306,7 +1304,7 @@ void TObjEneRe7Berura::update_death_state(s32 reason) {
         counter = 0;
         step = 0;
         fn_800D911C(&body_center);
-        TObjPlayer__sub_800A04F0(&body_fade);
+        body_fade.start_fade_out();
         status_flags |= 2;
         play_sound_effect(remap_sound_for_area(0x4003AD25), &position, 0, 0);
         break;

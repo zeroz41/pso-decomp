@@ -95,7 +95,6 @@ s32 TObjPlayer__sub_800A7774(void *, void *);
 void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
 void move_with_wall_slide(u8 *arg0);
 extern "C" {
-s32 TObjPlayer__sub_800A04F0(void *);
 
 s32 post_translate_matrix(void *);
 void check_enemy_body_collisions(void *arg0);
@@ -221,7 +220,7 @@ void TObjEneSaver::update_collapse_and_destroy() {
     case 0:
         phase = 1;
         fn_800D911C(&position);
-        TObjPlayer__sub_800A04F0(&body_fade);
+        body_fade.start_fade_out();
         apply_actor_gravity(this, NULL, 0.0f);
         play_sound_effect(remap_sound_for_area(0x4003B207), &position, 0, 0);
         return;
@@ -370,7 +369,6 @@ void TObjEneSaver::run_hit_reaction() {
 
 
 extern "C" {
-s32 TObjPlayer__sub_800A0554(void *);
 
 f32 calc_xz_distance_sq(saddr arg0, uaddr arg1, void *arg2);
 
@@ -1224,7 +1222,7 @@ void TObjEneSaver::sub_800A62D4() {
             scale.y = 1.0f;
             scale.x = 1.0f;
             step_counter = 0;
-            TObjPlayer__sub_800A04F0(&body_fade);
+            body_fade.start_fade_out();
             apply_actor_gravity(this, NULL, 0.0f);
             play_area_variant_sound(&position);
         }
@@ -1333,7 +1331,7 @@ void TObjEneSaver::sub_800A5FA8() {
     case 0:
         phase = 1;
         play_area_se_with_particle(&position);
-        TObjPlayer__sub_800A0554(&body_fade);
+        body_fade.start_fade_in();
         apply_actor_gravity(this, NULL, 0.0f);
         play_area_variant_sound(&position);
         break;
