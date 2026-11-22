@@ -33,7 +33,6 @@ struct Stack_8030C0C4 {
 };
 
 extern "C" {
-void render__18TWindowPartyStatusFv(saddr arg0);
 s32 TWindowSubComCard__sub_802452DC(int);
 s32 TWindowSubComCard__sub_80245320(void *, void *);
 s32 TWindowSubComCard__sub_802454E4(int);
@@ -111,13 +110,13 @@ void TWindowPartyStatus::draw_background(u8 *ctx) {
 }
 extern "C" {
 
-void render__18TWindowPartyStatusFv(saddr arg0) {
+void TWindowPartyStatus::render() {
     saddr ctx;
-    ctx = reinterpret_cast<saddr>(reinterpret_cast<TWindowBase *>(arg0)->draw_default_entry());
-    ((TWindowPartyStatus *)arg0)->draw_background((u8 *)ctx);
+    ctx = reinterpret_cast<saddr>(draw_default_entry());
+    draw_background((u8 *)ctx);
     draw_visible_window_entries(
-        reinterpret_cast<const void *>(arg0),
-        reinterpret_cast<const WindowLayoutEntries *>((void *)(arg0 + 0x24)),
+        this,
+        &this->entry_list,
         reinterpret_cast<WindowDrawContext *>(ctx));
 }
 }

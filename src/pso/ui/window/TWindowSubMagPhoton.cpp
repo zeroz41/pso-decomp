@@ -94,7 +94,6 @@ WindowDescriptor TWindowSubMagPhoton__layout_descriptor = {
 struct Win_8027C4C8 { u8 pad[0x62]; s16 f62; };
 
 extern "C" {
-void render__19TWindowSubMagPhotonFv(saddr arg0);
 s32 init_photon_blast_entries__19TWindowSubMagPhotonFv(void *, int);
 extern s32 __vt__19TWindowSubMagPhoton[];
 u8 *TWindowSubMagPhoton__ct(TWindowSubMagPhoton *arg0, saddr arg1, s32 arg2, s32 arg3);
@@ -152,15 +151,15 @@ void TWindowSubMagPhoton::draw_cursor(void *arg1) {
     ((void (*)(f32, void *, void *, int))draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif)(0.8f, arg1, sp8, ((Win_8027C4C8 *)this)->f62);
 }
 
-void render__19TWindowSubMagPhotonFv(saddr arg0) {
-    saddr window_sub_custom_equip;
-    window_sub_custom_equip = reinterpret_cast<saddr>(reinterpret_cast<TWindowBase *>(arg0)->draw_default_entry());
-    ((TWindowBase *)arg0)->draw_window_frame((void *)window_sub_custom_equip);
+void TWindowSubMagPhoton::render() {
+    saddr ctx;
+    ctx = reinterpret_cast<saddr>(draw_default_entry());
+    draw_window_frame((void *)ctx);
     draw_visible_window_entries(
-        reinterpret_cast<const void *>(arg0),
-        reinterpret_cast<const WindowLayoutEntries *>((void *)(arg0 + 0x24)),
-        reinterpret_cast<WindowDrawContext *>(window_sub_custom_equip));
-    ((TWindowSubMagPhoton *)arg0)->draw_cursor((void *)window_sub_custom_equip);
+        this,
+        &this->entry_list,
+        reinterpret_cast<WindowDrawContext *>(ctx));
+    draw_cursor((void *)ctx);
 }
 
 void TWindowSubMagPhoton::run_task() {
