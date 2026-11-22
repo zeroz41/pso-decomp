@@ -46,6 +46,7 @@ struct TWindowSubTradeMain : public TObject {
     void set_visible();
     void update_trade_state();
     void close();
+    void finish();
     void clear_flag();
     void clear_flag70_bit80();
     void set_trade_state(s16 arg1);

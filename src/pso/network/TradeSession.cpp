@@ -17,7 +17,6 @@
 #include "pso/item/TItemData.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/ui/frontend/TAdGuideTxtGC.h"
-#include "pso/boss/olgaflow/TBoss6Type2_803309D8.h"
 #include "pso/unk/TLobby_802D3970.h"
 #include "pso/ui/window/TWindowCtrl_8024A1A8.h"
 #include "pso/ui/chat/TWindowSubShortMail_80246CB8.h"
@@ -548,7 +547,7 @@ void reset__6TLobbyFv(void) {
             ((TWindowSubTradeMessage *)(*(const uaddr *)&trade_message_controller))->finish();
         }
         if ((uaddr) (*(const uaddr *)&TLobby__trade_main_window) != 0U) {
-            fn_80330A40((TWindowSubTradeMain *)(*(const uaddr *)&TLobby__trade_main_window));
+            ((TWindowSubTradeMain *)(*(const uaddr *)&TLobby__trade_main_window))->finish();
         }
         if ((uaddr) (*(const uaddr *)&TLobby__data_805D6894) != 0U) {
             reset__15TLobby_802D2F7CFPv((u8 *)(*(const uaddr *)&TLobby__data_805D6894));

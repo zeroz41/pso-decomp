@@ -943,3 +943,8 @@ void TWindowSubTradeMain::forward_to_child(s32 arg1) {
 extern "C" {
 void TWindowSubTradeMain__sub_80330A84(void* p) { *(u8*)((char*)p + 0x1c) = 30; }
 }
+
+void TWindowSubTradeMain::finish() {
+    parent_menu->on_submenu_closed();
+    m_1c = 0x22;
+}

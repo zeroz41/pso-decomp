@@ -9720,10 +9720,10 @@ pso/boss/olgaflow/TBoss6Mag.cpp:
 	.sdata2     start:0x805DF7F0 end:0x805DF858
 
 pso/boss/olgaflow/TBoss6Type2_803309D8.cpp:
-	.text       start:0x803309D8 end:0x80330A84
+	.text       start:0x803309D8 end:0x80330A40
 
 pso/ui/window/TWindowSubTradeMain_80330A84.cpp:
-	.text       start:0x80330A84 end:0x803323D8
+	.text       start:0x80330A40 end:0x803323D8
 	.rodata     start:0x80477470 end:0x804774A0
 	.data       start:0x804EDF90 end:0x804EE0C0
 	.sdata      start:0x805D4228 end:0x805D4230
