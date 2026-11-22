@@ -208,7 +208,7 @@ struct TLobby : public TObject {
     void bswap_6x6B();
     u8 get_mode();
     static char *init_serial_access();
-    void set_range(int a1, int a2, int a3);
+    void set_range(u8 *src, int size, s8 *dst);
     static s32 set_range(struct AdxStreamFile *file, s32 threshold, s32 chunk_size);
     static void update_floor();
     static void update_floor_a();

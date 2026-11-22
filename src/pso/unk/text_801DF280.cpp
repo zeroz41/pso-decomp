@@ -131,32 +131,32 @@ void bswap_cmd_c4_reconnect_command(saddr arg0) {
 typedef struct RecoveredFields_801DF4FC_arg0 RecoveredFields_801DF4FC_arg0;
 typedef struct RecoveredFields_801DF4FC_arg1 RecoveredFields_801DF4FC_arg1;
 s32 *copy_cmd_c4_entry_table(s32 *arg0, s32 *arg1) {
-  u32 var_r30;
-  s32 var_r29;
-  var_r30 = (unsigned long) (((u8 *) arg0) + 4);
-  var_r29 = (long) (((u8 *) arg1) + 4);
+  u8 *dst;
+  u8 *src;
+  dst = (u8 *)arg0 + 4;
+  src = (u8 *)arg1 + 4;
   ((RecoveredFields_801DF4FC_arg0 *) arg0)->field_0 = ((RecoveredFields_801DF4FC_arg1 *) arg1)->field_0;
   do
   {
-    copy_cmd_c4_entry((int)((int)((int) var_r30)), (int)((int)((int) var_r29)));
-    var_r30 += 0xD4;
-    var_r29 += 0xD4;
+    copy_cmd_c4_entry(dst, src);
+    dst += 0xD4;
+    src += 0xD4;
   }
-  while (var_r30 < ((uaddr) (((u8 *) arg0) + 0x1A84)));
+  while (dst < (u8 *)arg0 + 0x1A84);
   return arg0;
 }
 
 struct Obj_801DF61C;
-int copy_cmd_c4_entry(int arg0, int arg1) {
-    Entry_801DF558 *d = (Entry_801DF558 *)arg0;
-    Entry_801DF558 *s = (Entry_801DF558 *)arg1;
+void *copy_cmd_c4_entry(void *dst, void *src) {
+    Entry_801DF558 *d = (Entry_801DF558 *)dst;
+    Entry_801DF558 *s = (Entry_801DF558 *)src;
     d->a = s->a;
     d->b = s->b;
     d->c = s->c;
     d->d = s->d;
     d->e = s->e;
-    copy_ply_meet_user_extension((Obj_801DF61C *)((Obj_801DF61C *)((Obj_801DF61C *)d->ext)), (Obj_801DF61C *)((Obj_801DF61C *)((Obj_801DF61C *)s->ext)));
-    return arg0;
+    copy_ply_meet_user_extension((Obj_801DF61C *)d->ext, (Obj_801DF61C *)s->ext);
+    return dst;
 }
 
 Obj_801DF61C *copy_ply_meet_user_extension(Obj_801DF61C *dst, Obj_801DF61C *src) {

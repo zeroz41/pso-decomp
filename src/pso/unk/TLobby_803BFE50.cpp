@@ -210,7 +210,8 @@ s32 TLobby::notify_field_4() {
     return TLobby__sub_803C3B44((u8 *)(*(saddr *)((s8 *)arg0 + 4)));
 }
 void audio_stream_get_format(u8 *arg0) {
-    ((TLobby *)((int) (*(s32 *)((s8 *)arg0 + 4))))->get_field_a8();
+    AudioStreamInputState *stream = (AudioStreamInputState *)arg0;
+    stream->decoder->get_field_a8();
 }
 void TLobby::set_field_44(s32 arg1) {
     u8 *arg0 = (u8 *)this;

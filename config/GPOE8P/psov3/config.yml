@@ -5920,7 +5920,7 @@ force_active:
   - draw_serial_plates__22TAdEnterSerialAccessGCFv
   - draw_serial_separators__22TAdEnterSerialAccessGCFv
   - draw_shadow_on_ground__FPUc
-  - draw_shadowed_node_tree__10TObjPlayerFv
+  - draw_shadowed_node_tree__FP10NJS_OBJECT
   - draw_slot__14TWindowSubItemFlll
   - draw_slot_icons__15TAdChrSelSlotGCFv
   - draw_snapshot_capture_overlay__Fv
@@ -6399,7 +6399,7 @@ force_active:
   - copy_cmd_88_marker_record__FPvPv
   - bswap_cmd_c4_entry__FPv
   - bswap_cmd_c4_reconnect_command__Fl
-  - copy_cmd_c4_entry__Fii
+  - copy_cmd_c4_entry__FPvPv
   - bswap_u16_pair_field__FPv
   - bswap_c0_choice_search_entry__FPv
   - bswap_quest_list_entry__FPv

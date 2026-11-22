@@ -1128,7 +1128,6 @@ struct TObjPlayer : public TObjChara {
     static void set_global_color_rgba_alt_b(u32 v, u32);
     static void draw_player_model_by_client(u16 arg0, saddr arg1, f32 farg0, f32 farg1);
     static void draw_player_model_by_id(s32 arg0, f32 farg0);
-    void draw_shadowed_node_tree();
     static void rebuild_players_for_stage(s32 arg0);
     static s32 snap_to_ground(saddr arg0, saddr origin);
     static void spawn_appearance_effect(u16 client);

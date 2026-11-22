@@ -6,30 +6,26 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/system/NinjaTypes.h"
+#include "pso/unk/text_80066F5C.h"
 
-extern "C" {
-s32 rotate_matrix_by_node_angles(void *, int);
-s32 scale_current_matrix(void *);
-s32 post_translate_matrix(void *);
-
-void TObjPlayer::draw_shadowed_node_tree() {
-    u8 *arg0 = (u8 *)this;
-    if (arg0 != NULL) {
+void draw_shadowed_node_tree(NJS_OBJECT *object) {
+    if (object != NULL) {
         push_matrix();
-        post_translate_matrix((u8 *)&this->m_prev);
-        rotate_matrix_by_node_angles((u8 *)&this->m_down, 1);
-        scale_current_matrix((u8 *)&this->m_20);
-        if (!(*(s32 *)((s8 *)arg0 + 0) & 8) && ((u32) *(u32 *)((s8 *)arg0 + 4) != 0U)) {
-            render_projected_shadow_receiver((u8 *)(arg0 + 8), (saddr)(arg0 + 0x14));
-            ::draw_ginja_model((void *)((*(u32 *)((s8 *)arg0 + 4))));
+        post_translate_matrix(object->pos);
+        rotate_matrix_by_node_angles(object->ang, 1);
+        scale_current_matrix(object->scl);
+        if (!(object->evalflags & NJD_EVAL_HIDE) && object->model != NULL) {
+            render_projected_shadow_receiver((u8 *)object->pos, (saddr)object->ang);
+            ::draw_ginja_model(object->model);
             TScene::apply_single_screen_state();
         }
-        (*(TObjPlayer **)&this->set_index)->draw_shadowed_node_tree();
+        draw_shadowed_node_tree(object->child);
         pop_matrix();
-        ((TObjPlayer *)(this->actorFlags))->draw_shadowed_node_tree();
+        draw_shadowed_node_tree(object->sibling);
     }
 }
 
-void TObjBoss5FloorStone::render_impl(void* a1) { TObjPlayer::draw_if_all_ready(); TObjFish::set_global_param((saddr)this); push_matrix(); ((TObjPlayer *)a1)->draw_shadowed_node_tree(); pop_matrix(); }
+void TObjBoss5FloorStone::render_impl(void* a1) { TObjPlayer::draw_if_all_ready(); TObjFish::set_global_param((saddr)this); push_matrix(); draw_shadowed_node_tree((NJS_OBJECT *)a1); pop_matrix(); }
 
-}
