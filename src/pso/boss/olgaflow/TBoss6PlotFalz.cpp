@@ -217,7 +217,7 @@ s32 TBoss6PlotFalz::damage_player_hp(s32 client, u32 damage) {
     return v;
 }
 
-s32 TBoss6PlotFalz__sub_802AAE48(s32 i) {
+u16 TBoss6PlotFalz__sub_802AAE48(s32 i) {
     if (i < 0 || i >= 4) return 0xFFFF;
     return boss6_plot_falz_player_order_table[i];
 }

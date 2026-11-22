@@ -118,7 +118,7 @@ struct TBoss6PlotFalz : public TObjEnemy {
 
 extern "C" {
 void TBoss6PlotFalz__sub_802AC008(f32 a, f32 b);
-s32 TBoss6PlotFalz__sub_802AAE48(s32 i);
+u16 TBoss6PlotFalz__sub_802AAE48(s32 i);
 }
 
 extern "C" {

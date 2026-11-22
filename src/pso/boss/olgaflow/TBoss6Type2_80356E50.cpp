@@ -4,9 +4,6 @@
 #include <stdlib.h>
 #include "pso/unk/text_80357058.h"
 
-extern "C" {
-void world_to_grid_pos__11TBoss6Type2FPvPvPv(f32 *arg0, s8 *arg1, s8 *arg2);
-}
 void send_6xAD_olga_flow_subordinate_boss_actions(u8 *arg0);
 extern "C" {
 
@@ -39,7 +36,7 @@ void TBoss6Type2::send_6xAD_grid_positions(s32 index, saddr points, s32 count) {
     p = points;
     j = 1;
     for (i = 0; i < count; i++, p += 0xC, j += 2) {
-        world_to_grid_pos__11TBoss6Type2FPvPvPv((f32 *)p, (s8 *)&a, (s8 *)&b);
+        world_to_grid_pos((Vec *)p, (s8 *)&a, (s8 *)&b);
         buf[j] = a;
         buf[j + 1] = b;
     }

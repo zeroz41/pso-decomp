@@ -15,6 +15,7 @@ struct AnimationMotion;
 struct TBoss6Mag;
 struct TBoss6MagSpawnParams;
 struct TBoss6Type1;
+struct TBoss6EffFlowSoul;
 struct TBoss6PlotFalz;
 struct TParticleCtrl;
 struct BmlResource;
@@ -43,6 +44,12 @@ struct TBoss6Type2Joint {
 };
 
 struct Blk_802BCFD4;
+
+// Where the body walks to: the heading and position a 6xA5 action decodes.
+struct Boss6Type2MoveTarget {
+    s32 heading;
+    Vec position;
+};
 
 // A boss parameter record (TLobby::dispatch_shared_handler_a); load_battle_params
 // reads three of them, each with six floats then six ints.
@@ -109,8 +116,7 @@ struct TBoss6Type2 : public TObjEnemy
     u8 m_478;
     u8 unk_479[0x3];
     u32 m_47c;
-    u32 m_480;
-    Vec target_position;
+    Boss6Type2MoveTarget move_target;
     s32 motion_index;  // row of TBoss6Type2__motion_table
     s32 motion_mode;   // that row's mode
     TBoss6Type2MotionTrack motion_tracks[1];
@@ -173,9 +179,7 @@ struct TBoss6Type2 : public TObjEnemy
     s32 turn_toward_target_position();
     static u8 *create_dpb(saddr parent, saddr position, f32 farg0);
     s32 get_phase();
-    void call_9A24_plus_1(s32 *arg1);
-    void unpack_path_entry(s32 *arg1);
-    static s32 is_player_in_rock_area(s32 id);
+    static s32 is_player_in_rock_area(u16 client_id);
     void spawn_hit_effects();
     void destroy_part(s32 arg1);
     void spawn_particle_slot(s32 arg1);
@@ -305,11 +309,30 @@ struct TBoss6Type2 : public TObjEnemy
     void sub_802BFA1C();
     void sub_802BFBE4();
     static Blk_802BCFD4 *copy_block(Blk_802BCFD4 *d, const Blk_802BCFD4 *s);
+    void pick_walk_target(u8 *grid);
+    void change_motion(s32 motion);
+    void spawn_sword_wave();
+    void create_mags(f32);
+    void sub_802BB7C0();
+    void sub_802BB768();
+    u16 pick_target_client();
+    void pick_action_clients(u16 *first, u16 *second);
+    void sub_802BB4DC();
+    void create_dpbs();
+    s32 should_back_jump();
+    s32 should_use_dpb();
+    void sub_802BA7BC();
+    void reset_lower_contact();
+    void move_to_arena_center(s32 timer, s32 duration);
+    void clear_particle_emitters();
+    static void world_to_grid_pos(Vec *pos, s8 *grid_x, s8 *grid_z);
+    static void grid_to_world_pos(s8 grid_x, s8 grid_z, Vec *pos);
+    static TBoss6EffFlowSoul *spawn_flow_soul(TObject *parent, Vec *pos, s32 duration);
 };
 
 LAYOUT_ASSERT(TBoss6Type2ActionHistoryOffset, offsetof(TBoss6Type2, action_history) == 0x378);
 LAYOUT_ASSERT(TBoss6Type2_offset_m_374, (offsetof(TBoss6Type2, m_374) == 0x374));
-LAYOUT_ASSERT(TBoss6Type2_offset_target_position, (offsetof(TBoss6Type2, target_position) == 0x484));
+LAYOUT_ASSERT(TBoss6Type2_offset_target_position, (offsetof(TBoss6Type2, move_target) == 0x480));
 LAYOUT_ASSERT(TBoss6Type2_offset_lower_contact_index, (offsetof(TBoss6Type2, lower_contact_index) == 0x520));
 LAYOUT_ASSERT(TBoss6Type2_offset_lower_contact_delta, (offsetof(TBoss6Type2, lower_contact_delta) == 0x524));
 LAYOUT_ASSERT(TBoss6Type2_offset_previous_lower_contact, (offsetof(TBoss6Type2, previous_lower_contact) == 0x530));

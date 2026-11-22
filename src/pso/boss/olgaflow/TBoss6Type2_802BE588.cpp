@@ -1,6 +1,5 @@
 #include "pso/unk/text_80087278.h"
 #include "types.h"
-#include "pso/boss/olgaflow/TBoss6Type2_8036A92C.h"
 #include "pso/boss/olgaflow/TBoss6EffHyoui.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/boss/olgaflow/TBoss6Type2.h"
@@ -83,29 +82,21 @@ typedef struct S_802BF6CC {
 extern "C" {
 s8 choose_random_motion__11TBoss6Type2Fv();
 int send_action_packet__11TBoss6Type2FSc(void*, void*);
-s32 TBoss6Type2__sub_802BB768(void *);
 s32 VecCopy__FP3VecPC3Vec(void *, void *);
 extern const f32 lbl_805DE3F8;
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 extern const f32 lbl_805DE404;
 extern const f32 lbl_805DE400;
-void TBoss6Type2__sub_802BA598(TBoss6Type2 *self, s32 elapsed, s32 duration);
-s32 TBoss6Type2__sub_802BA944(void *);
-s32 TBoss6Type2__sub_802BA9E4(void *);
-void TBoss6Type2__sub_802BAD04(saddr parent);
-s32 TBoss6Type2__sub_802BB7C0(void *);
 extern f32 lbl_805DE408;
 extern f32 lbl_805DE3FC;
-void TBoss6Type2__sub_802BBC74(TBoss6Type2 *boss);
 extern const f32 lbl_805DE3F4;
-int TBoss6Type2__sub_802BB694(void);
 }
 
 void TBoss6Type2::sub_802BFBE4() { state_duration = 90; state_timer = 90; }
 
 void TBoss6Type2::select_attack_state() {
     if ((s32) this->state_timer == 0) {
-        if (TBoss6Type2__sub_802BA9E4(this) != 0) {
+        if (should_back_jump() != 0) {
             send_action_packet((s8)(saddr)((void*)(0xD)));
             return;
         }
@@ -114,7 +105,7 @@ void TBoss6Type2::select_attack_state() {
             send_action_packet((s8)(saddr)((void*)(0x18)));
             return;
         }
-        if (TBoss6Type2__sub_802BA944(this) != 0) {
+        if (should_use_dpb() != 0) {
             send_action_packet((s8)(saddr)((void*)(0xE)));
             return;
         }
@@ -144,7 +135,7 @@ void TBoss6Type2::reset_state_timers() {
     temp_r0 = *(s32 *)((s8 *)this + 0x4EC);
     this->state_duration = temp_r0;
     this->state_timer = temp_r0;
-    TBoss6Type2__sub_802BB768(this);
+    sub_802BB768();
 }
 
 void TBoss6Type2::sub_802BFA1C() {
@@ -168,7 +159,7 @@ void TBoss6Type2::init_timer_and_play_sound() {
 
 void TBoss6Type2::pick_next_zako() {
     if ((s32) this->state_timer == 0) {
-        this->m_466 = TBoss6Type2__sub_802BB694();
+        this->m_466 = pick_target_client();
         if (this->m_466 == 0xFFFF) {
             update_action_state();
             return;
@@ -221,7 +212,7 @@ void TBoss6Type2::init_attack_params() {
         this->m_46c = 0;
         break;
     }
-    TBoss6Type2__sub_802BB7C0(this);
+    sub_802BB7C0();
     switch ((s32) this->m_374) {
     case 5:
         spawn_particle_slot(0xD);
@@ -248,7 +239,7 @@ void TBoss6Type2::reset_timers_and_spawn_particle() {
     this->state_duration = 0x4B;
     this->state_timer = 0x4B;
     self->f504 = 0;
-    TBoss6Type2__sub_802BB7C0(self);
+    sub_802BB7C0();
     switch (this->m_374) {
     case 9:
     case 10:
@@ -334,7 +325,7 @@ void TBoss6Type2::init_timers_and_copy_pos() {
   *((s32 *) (((s8 *) self) + 0x470)) = 0;
   if (((s32) (*((s32 *) (((s8 *) self) + 0x418)))) == 0)
   {
-    TBoss6Type2__sub_802BB768(self);
+    sub_802BB768();
   }
 }
 
@@ -343,7 +334,7 @@ void TBoss6Type2::sub_802BF3F4() { if (state_timer == 45) { drop_random_rocks((s
 void TBoss6Type2::update_death_sequence() {
     s32 d;
     s32 t;
-    TBoss6Type2__sub_802BA598(this, state_timer, state_duration);
+    move_to_arena_center(state_timer, state_duration);
     d = state_duration;
     s32 d16 = d - 0x16;
     if (state_timer == d - 7) {
@@ -380,10 +371,10 @@ void TBoss6Type2::init_attack_timers() {
     this->state_timer = 0xB4;
     play_sound_effect(0x4006970E, (void *)(((u8 *)this) + 0x38), 0, 1);
     if ((s32) *(s32 *)((s8 *)((u8 *)this) + 0x418) == 0) {
-        TBoss6Type2__sub_802BB7C0(this);
+        sub_802BB7C0();
         return;
     }
-    TBoss6Type2__sub_802BB768(this);
+    sub_802BB768();
 }
 
 void TBoss6Type2::update_state_34() { if (*(int*)((char*)this + 0x460) == 34) { TBoss6Type2::drop_random_rocks((saddr)this, (saddr)((void*)0)); } }
@@ -396,7 +387,7 @@ void TBoss6Type2::update_attack_sequence() {
         play_sound_effect(0x69C0F, self + 0x38, 0, 1);
     }
     if ((s32) this->state_timer == (s32) (this->state_duration - 0x78)) {
-        TBoss6Type2__sub_802BAD04((saddr)self);
+        create_dpbs();
     }
     switch (this->state_timer) {
     case 0xA0:
@@ -470,7 +461,7 @@ void TBoss6Type2::sub_802BEE38() {
             play_sound_effect(0x40069C07, &position, 0, 0);
             break;
         }
-        TBoss6Type2__sub_802BBC74(this);
+        spawn_sword_wave();
     }
     if (state_timer == 24) {
         TCameraCtrl::set_shake_preset(1);
@@ -508,7 +499,7 @@ void TBoss6Type2::spawn_death_soul() {
     *(s32 *)((s8 *)self + 0x420) = 0;
     play_sound_effect(0x68A25, self + 0x38, 0, 1);
     ((TBoss6Type2 *)self)->spawn_particle_slot(6);
-    TBoss6Type2__sub_802BB768(self);
+    sub_802BB768();
     if (*(u16 *)((s8 *)self + 0x464) != 0xFFFF) {
         TBoss6Type2::create_flow_soul((void *)self, self + 0x620, *(u16 *)((s8 *)self + 0x464), this->state_duration);
         TBoss6EffHyoui::create(*reinterpret_cast<u16 *>((u8 *)self + 0x464), 0, state_duration);
@@ -551,7 +542,7 @@ void TBoss6Type2::sub_802BEB78() {
     state_duration = duration;
     state_timer = duration;
     play_sound_effect(0x68A25, &position, 0, 1);
-    TBoss6Type2__sub_802BB768(this);
+    sub_802BB768();
     if (m_464 != 0xFFFF) {
         create_flow_soul(this, (u8 *)this + 0x620, m_464, state_duration);
         TBoss6EffHyoui::create(m_464, 0, state_duration);
@@ -586,13 +577,13 @@ void TBoss6Type2::start_flow_soul_effect() {
     this->state_timer = d;
     play_sound_effect(0x68A25, &self->pos, 0, 1);
     ((TBoss6Type2 *)self)->spawn_particle_slot(7);
-    TBoss6Type2__sub_802BB768(self);
+    sub_802BB768();
     if (self->client != 0xFFFF) {
         pl = (uaddr)get_player_by_client_id(self->client);
         if (pl != 0) {
             VecCopy__FP3VecPC3Vec(&v, (void *)(pl + 0x38));
             v.y += 10.0f;
-            spawn_flow_soul__11TBoss6Type2Fiii((saddr)self, (saddr)&v, (s32)this->state_duration);
+            spawn_flow_soul(this, &v, this->state_duration);
             spawn_particle_effect((const Vec *)(pl + 0x38), 0x36);
         }
         TBoss6EffHyoui::create(self->client, 1, state_duration);
@@ -656,11 +647,11 @@ void TBoss6Type2::select_next_state() {
             goto block_7;
         }
 block_7:
-        if (TBoss6Type2__sub_802BA9E4(this) != 0) {
+        if (should_back_jump() != 0) {
             this->send_action_packet((s8)0xD);
             return;
         }
-        if (TBoss6Type2__sub_802BA944(this) != 0) {
+        if (should_use_dpb() != 0) {
             this->send_action_packet((s8)0xE);
             return;
         }
@@ -699,7 +690,7 @@ void TBoss6Type2::sub_802BE6A0() {
     state_duration = 0x4B;
     state_timer = 0x4B;
     *(s32 *)((s8 *)this + 0x504) = 0;
-    TBoss6Type2__sub_802BB768(this);
+    sub_802BB768();
 }
 
 void TBoss6Type2::sub_802BE648() {
