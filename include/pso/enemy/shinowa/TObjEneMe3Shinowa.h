@@ -12,10 +12,10 @@ struct TObjEneMe3ShinowaParams {
     f32 m_0;
     f32 m_4;
     f32 m_8;
-    f32 m_c;
+    f32 sword_motion_speed; // motion slot 6 (shinowa_sword_motion) speed, at least 0.1
     f32 m_10;
     u8 unk_14[0x4];
-    s32 m_18;
+    s32 support_tech_level; // Resta, Shifta and Deband
     s32 m_1c;
     s32 m_20;
 };
@@ -52,7 +52,7 @@ struct TObjEneMe3Shinowa : public TObjEneDD_ST {
     virtual void render_demo();
     void init_enemy();
     f32 get_node_world_y();
-    s32 check_body_collision_at(s32, f32);
+    s32 check_body_collision_at(s32 angle, f32 length);
     s32 is_mirage_enabled();
     s32 is_gold_enabled();
     void select_gold_or_normal_variant();
