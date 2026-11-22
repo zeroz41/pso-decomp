@@ -30,7 +30,6 @@ struct TAdMcSelectGC : public TObject {
     void set_field_13c(s32 v);
     void set_field_0x1c(s32 v);
     void set_select_index(s32 v);
-    void set_field_134(s32 arg1);
 };
 
 LAYOUT_ASSERT(TAdMcSelectGC_size, sizeof(TAdMcSelectGC) == 0x34);

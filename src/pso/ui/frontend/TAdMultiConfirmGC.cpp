@@ -1,3 +1,4 @@
+#include "pso/ui/frontend/TAdTitleGC.h"
 #include "pso/ui/frontend/TAdGuideTxtGC.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
@@ -42,7 +43,6 @@ int multi_confirm_cancel_requested(void *p);
 extern "C" {
 s32 are_all_entries_finished(s32);
 saddr get_localized_text_entry(s32 arg0, s32 arg1);
-void __ct__10TAdTitleGCFP7TObjectl(void *, void *, s32);
 void __ct__13TAdTitleTexGCFv(void *, void *);
 }
 s32 is_multiplayer_character_slot_selected(s32 arg0);
@@ -118,9 +118,7 @@ TAdMultiConfirmGC::TAdMultiConfirmGC(TObject *parent) : TObject(parent) {
     }
     new TAdBackGC(this);
     new TAdBackTxtGC(this);
-    if ((p = TObject::operator new(0x138)) != 0) {
-        __ct__10TAdTitleGCFP7TObjectl(p, this, 0x10);
-    }
+    new TAdTitleGC(this, 0x10);
     if ((p = TObject::operator new(0x9C)) != 0) {
         __ct__13TAdTitleTexGCFv(p, this);
     }

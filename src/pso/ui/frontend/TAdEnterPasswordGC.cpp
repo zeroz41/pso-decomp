@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/frontend/TAdTitleGC.h"
 #include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
@@ -45,7 +46,6 @@ extern TAdEnterBaseGC::Position password_screen_status_line_position[];
 extern s32 password_entry_dispatch_state;
 extern u8 *password_entry_keyboard_control;
 void request_main_phase(s32 arg0);
-s32 __ct__10TAdTitleGCFP7TObjectl(int, void *, int);
 void mem_free(void *p);
 s32 get_field_118__22TAdEnterSerialAccessGCFv(void);
 s32 play_sound_effect(int, int, int, int);
@@ -204,7 +204,6 @@ void set_password__18TAdEnterPasswordGCFi(saddr arg0) {
 TAdEnterPasswordGC::~TAdEnterPasswordGC() {}
 
 TAdEnterPasswordGC::TAdEnterPasswordGC(TObject *parent) : TAdEnterBaseGC(parent) {
-    u32 temp_r3;
     m_name = TAdEnterPasswordGC__class_name;
     sub_8032B460(2);
     password_entry_dispatch_state = 0;
@@ -216,10 +215,7 @@ TAdEnterPasswordGC::TAdEnterPasswordGC(TObject *parent) : TAdEnterBaseGC(parent)
         return;
     }
     create_parts();
-    temp_r3 = (uaddr)TObject::operator new(0x138);
-    if (temp_r3 != 0U) {
-        __ct__10TAdTitleGCFP7TObjectl(temp_r3, this, 0xC);
-    }
+    new TAdTitleGC(this, 0xC);
 }
 
 }

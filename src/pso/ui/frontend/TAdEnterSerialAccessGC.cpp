@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/frontend/TAdTitleGC.h"
 #include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
@@ -562,9 +563,7 @@ struct TAdEnterSerialAccessGC_80321F60 {
     s32 field_5C;
     s32 field_60;
 };
-void *__ct__10TAdTitleGCFP7TObjectl(void *, void *, s32);
 void TAdEnterSerialAccessGC::run_task() {
-    void *p;
     f32 w;
 
     w = 320.0f - (f32)(calc_text_width((char *)((void *)get_localized_text_entry(0x17, (saddr)((void *)4)))) >> 1);
@@ -577,11 +576,7 @@ void TAdEnterSerialAccessGC::run_task() {
         break;
     case 1:
         ((TAdEnterSerialAccessGC_80321F60 *)this)->field_60 = 0;
-        p = TObject::operator new(0x138);
-        if (p != NULL) {
-            p = __ct__10TAdTitleGCFP7TObjectl(p, this, 0xA);
-        }
-        ((TAdEnterSerialAccessGC_80321F60 *)this)->field_50 = p;
+        ((TAdEnterSerialAccessGC_80321F60 *)this)->field_50 = new TAdTitleGC(this, 0xA);
         ((TAdEnterSerialAccessGC_80321F60 *)this)->field_58 = TAdEnterSerialAccessGC::open_message_window(((TAdEnterSerialAccessGC_80321F60 *)this), (void *)0);
         ((TAdEnterSerialAccessGC_80321F60 *)this)->field_5C = ((s32 (*)(void *))create_draw_callback__22TAdEnterSerialAccessGCFv)(((TAdEnterSerialAccessGC_80321F60 *)this));
         if (cursor != NULL) {
@@ -602,11 +597,7 @@ void TAdEnterSerialAccessGC::run_task() {
             cursor->append_entry((void *)&TAdEnterSerialAccessGC__selection_positions[0]);
             cursor->lock_navigation();
         }
-        p = TObject::operator new(0x138);
-        if (p != NULL) {
-            p = __ct__10TAdTitleGCFP7TObjectl(p, ((TAdEnterSerialAccessGC_80321F60 *)this), 0xB);
-        }
-        ((TAdEnterSerialAccessGC_80321F60 *)this)->field_50 = p;
+        ((TAdEnterSerialAccessGC_80321F60 *)this)->field_50 = new TAdTitleGC(this, 0xB);
         ((TAdEnterSerialAccessGC_80321F60 *)this)->field_58 = TAdEnterSerialAccessGC::open_message_window(((TAdEnterSerialAccessGC_80321F60 *)this), (void *)1);
         ((TAdEnterSerialAccessGC_80321F60 *)this)->field_5C = ((s32 (*)(void *))create_draw_callback__22TAdEnterSerialAccessGCFv)(((TAdEnterSerialAccessGC_80321F60 *)this));
         TAdEnterSerialAccessGC__keyboard_control = TAdEnterSerialAccessGC::create_keyboard_control((saddr)((TAdEnterSerialAccessGC_80321F60 *)this), 1);

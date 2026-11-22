@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/frontend/TAdTitleGC.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/frontend/CharacterSelectionRequest.h"
@@ -142,7 +143,6 @@ struct I2_802DF9B4 { s32 a, b; };
 struct Blk_802DF9B4 { NJS_POINT2 a, b, c; };
 
 extern "C" {
-s32 __ct__10TAdTitleGCFP7TObjectl(void *, void *, int);
 u32 __ct__13TAdTitleTexGCFv(void *, void *);
 u32 __ct__14TAdGameStartGCFv(void *, TObject *);
 extern NJS_POINT2 multi_chr_select_widget_layout[];
@@ -583,18 +583,12 @@ void TAdMultiPlyChrSelectGC::create_widgets() {
     switch (this->m_48) {
     case 0:
     case 2:
-        p = (uaddr)TObject::operator new(0x138);
-        if (p != 0) {
-            __ct__10TAdTitleGCFP7TObjectl((void *) p, this, 0);
-        }
+        new TAdTitleGC(this, 0);
         *(s32 *)&this->unk_68 = (saddr)TAdMultiPlyChrSelectGC::get_or_create_slot_window(this, 1);
         *(s32 *)&this->unk_60 = (saddr)get_or_create_player(this, 1, -1, 0);
         break;
     case 1: {
-        p = (uaddr)TObject::operator new(0x138);
-        if (p != 0) {
-            __ct__10TAdTitleGCFP7TObjectl((void *) p, this, 8);
-        }
+        new TAdTitleGC(this, 8);
         *(s32 *)&this->unk_68 = (saddr)TAdMultiPlyChrSelectGC::get_or_create_slot_window(this, 2);
         this->m_6c = (saddr)TAdChrSelBSlotGC::create(this);
         I2_802DF9B4 pos = lbl_80472828[0];

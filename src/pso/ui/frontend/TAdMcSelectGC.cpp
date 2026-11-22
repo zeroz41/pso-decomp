@@ -5,6 +5,7 @@
 #include "pso/unk/text_8033F314.h"
 #include "pso/ui/frontend/TAdChrSelSlotGC.h"
 #include "pso/ui/frontend/TAdMcSelectGC.h"
+#include "pso/ui/frontend/TAdTitleGC.h"
 #include "pso/ui/frontend/TAdMcSelectCursorGC.h"
 #include "pso/ui/frontend/TAdMcSelectMcGC.h"
 
@@ -31,7 +32,6 @@ struct Self_80329EC8 {
 
 extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
-void *__ct__10TAdTitleGCFP7TObjectl(void *, void *, s32);
 void *__ct__15TAdChrSelSlotGCFP7TObject(void *, void *);
 void TAdMcSelectGC__sub_8032A180(void *, s32);
 
@@ -87,6 +87,7 @@ TAdMcSelectGC::~TAdMcSelectGC() {
 TAdMcSelectGC::TAdMcSelectGC(TObject *parent) : TObject(parent) {
     TAdBackGC *back;
     TAdBackTxtGC *txt;
+    TAdTitleGC *title;
     void *p;
     s32 i;
     s32 j;
@@ -102,11 +103,8 @@ TAdMcSelectGC::TAdMcSelectGC(TObject *parent) : TObject(parent) {
     back->set_field_20(0);
     txt->set_depth(0.006666667f);
     txt->set_field_24(0);
-    p = TObject::operator new(0x138);
-    if (p != NULL) {
-        p = __ct__10TAdTitleGCFP7TObjectl(p, self, 0xD);
-    }
-    ((TAdMcSelectGC *)p)->set_field_134(0);
+    title = new TAdTitleGC((TObject *)self, 0xD);
+    title->set_field_134(0);
     TAdMcSelectGC__sub_8032A180(create_draw_line_ctrl((TObject *)self, 0x16, 0.0f), 0);
     TAdMcSelectGC__sub_8032A180(create_draw_line_ctrl((TObject *)self, 0x17, 0.0f), 0);
     p = TObject::operator new(0x128);
@@ -150,10 +148,9 @@ void TAdMcSelectGC::set_field_0x1c(s32 v) { this->m_1c = v; }
 void TAdMcSelectGC::set_select_index(s32 v) { *(s32*)((char*)this + 0x124) = v; }
 void TAdMcSelectGC__sub_8032A180(void* p, s32 v) { *(s32*)((char*)p + 0x28) = v; }
 
-void TAdMcSelectGC::set_field_134(s32 arg1) {
-    u8 *arg0 = (u8 *)this;
-    *(s32 *)((s8 *)arg0 + 0x134) = arg1;
-    TAdMcSelectGC__sub_8032A180((void*)((saddr) (*(saddr *)((s8 *)arg0 + 0x130))), arg1);
+void TAdTitleGC::set_field_134(s32 value) {
+    render_direct = value;
+    TAdMcSelectGC__sub_8032A180(draw_line_ctrl, value);
 }
 
 void TAdBackTxtGC::set_field_24(s32 v) { m_24 = v; }

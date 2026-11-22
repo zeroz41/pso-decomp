@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/frontend/TAdTitleGC.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
@@ -491,7 +492,6 @@ typedef void (TAdSinglePlyChrSelectGC::*Act_802D4B6C)();
 extern "C" {
 s32 set_default_camera__21TAdMultiChgGameModeGCFv(void *);
 
-s32 __ct__10TAdTitleGCFP7TObjectl(void *, TObject *, s32);
 void *__ct__13TAdTitleTexGCFv(void *, void *);
 TPlyCharData *get_char_index__23TAdSinglePlyChrSelectGCFUi(u32);
 
@@ -613,10 +613,7 @@ TAdSinglePlyChrSelectGC::TAdSinglePlyChrSelectGC(TObject *parent) : TObject(pare
     sub_802D4E08();
     new TAdBackGC(this);
     new TAdBackTxtGC(this);
-    void *title = TObject::operator new(0x138);
-    if (title != NULL) {
-        __ct__10TAdTitleGCFP7TObjectl(title, this, 0);
-    }
+    new TAdTitleGC(this, 0);
     m_28 = reinterpret_cast<uaddr>(TAdMultiPlyChrSelectGC::get_or_create_slot_window(this, 0));
     m_30 = TAdMultiPlyChrSelectGC::get_or_create_player(this, 0, -1, 0);
     m_34 = new TAdGuideTxtGC(this);
