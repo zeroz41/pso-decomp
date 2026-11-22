@@ -31,17 +31,20 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/math/AngleUnits.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/player/TObjPlayer_800D8FDC.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/unk/text_803E2F28.h"
+#include "pso/render/model_render_state.h"
+#include "pso/npc/TNpcPlayer_800D87A8.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
 
-extern "C" s32 scale_matrix(int, f32, f32, f32);
-extern "C" s32 translate_matrix(int, f32, f32, f32);
-extern "C" Mtx34 identity_matrix;
-extern "C" s32 registered_player_count;
-void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
-extern "C" s32 lbl_805D5870;
-extern "C" f32 atan2_float(f32, f32);
-extern "C" void vec3_add_to(void *, void *);
-extern "C" s16 get_entity_id(void *);
-extern "C" void subtract_vector(void *, void *);
 
 #include <stddef.h>
 #include "pso/system/task/TObject.h"
@@ -72,22 +75,17 @@ LAYOUT_ASSERT(NanoDrago_t_offset, offsetof(TObjEneNanoDrago, wanderDistance) == 
 LAYOUT_ASSERT(NanoDrago_speed_offset, offsetof(TObjEneNanoDrago, speed) == 0x3d8);
 LAYOUT_ASSERT(NanoDrago_toggle_offset, offsetof(TObjEneNanoDrago, alternateBeam) == 0x3e0);
 
-void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
-extern "C" f32 atan2_float(f32 y, f32 x);
 
-extern "C" u32 get_player_by_client_id(s32);
 
-void move_with_wall_slide(u8 *arg0);
 
 struct BeamRotation { s32 x, y, z; };
+
+extern s32 lbl_805D5870;
 
 extern "C" void TObjPlayer__sub_800DCD04(void *, void *, int, void *, s32, int);
 extern "C" s32 enemy_turn_half_toward_dest(void *);
 extern "C" s32 construct_beam_effect__10TObjPlayerFPvPvPviPv(u32, void *, void *, u8, void *);
-extern "C" s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 extern "C" s32 check_path_obstructed(void *, Vec *);
-extern "C" void calc_velocity_toward_destination(void *, Vec, Vec, f32);
-extern "C" void TObjPlayer__sub_800D92BC(s32 point, s32 delay);
 
 #pragma push
 #pragma dont_inline off
@@ -116,21 +114,10 @@ inline f32 xz_length_squared(Vec *v) { return v->x * v->x + v->z * v->z; }
 #include "pso/unk/text_80086D50.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 
-extern "C" s32 is_split_screen();
-extern "C" s32 restore_scene_lighting();
-extern "C" s32 select_actor_lighting(void *);
-extern "C" s32 draw_chunk_object(int);
-extern "C" s32 saved_model_render_flags;
-extern "C" s32 model_render_flags;
-
-extern "C" void obj_setFlags30(void *, u32);
-extern "C" saddr find_active_entity_by_id(int);
 
 
-int initialize_enemy_photon_effect(void *p);
 
-extern "C" s32 submit_cursor_candidate(void *, int);
-extern "C" s32 minimap_render_dot(void *, int, int, int);
+
 
 // inferred: the per-variant tables load_resources fetches from TLobby (register_boss,
 // dispatch_shared_handler_b, register_object; boss5_gryphon_base/attack/resistance_params twins)
@@ -146,7 +133,6 @@ f32 lbl_805D5264;
 f32 lbl_805D5268;
 s32 lbl_805D526C;
 s32 lbl_805D5270;
-extern "C" void *tl_04;
 
 __declspec(section ".data") const char *bm_ene_nanodrago_model_names[2] = {
     "bm6_s_drc_body.nj", NULL,
@@ -268,7 +254,7 @@ void TObjEneNanoDrago::free_resources() {
 void *TObjEneNanoDrago::create(void *setData) {
     void *o;
     void *o2;
-    o = new TObjControl((TObject *)tl_04);
+    o = new TObjControl(tl_04);
     o2 = new TObjEneNanoDrago((TObject *)o, setData);
     return o2;
 }
@@ -303,7 +289,7 @@ void TObjEneNanoDrago::run_task() {
     bodies[0].offset.y = (f32) (15.0f + flightHeight);
     if (!(m_388 & 0x40000)) {
         submit_cursor_candidate(this, -1);
-        minimap_render_dot((u8 *)&position, -0x5DB4, 1, 0);
+        minimap_render_dot(&position, -0x5DB4, 1, 0);
     }
     cooldown = cameraShakeCooldown;
     if (cooldown > 0) {
@@ -389,7 +375,7 @@ void TObjEneNanoDrago::render() {
             }
         }
         TObjFish::set_global_param(texlist);
-        select_actor_lighting(this);
+        select_actor_lighting((saddr)this);
         TObjPlayer::toggle_particle_effect();
         rendered = 1;
         push_matrix();
@@ -399,7 +385,7 @@ void TObjEneNanoDrago::render() {
         scale_matrix(0, modelScale, modelScale, modelScale);
         model_render_flags &= 0xFFFFFBFF;
         if (TObjPlayer::check_demo_mode() == 1) {
-            draw_chunk_object((saddr)model);
+            draw_chunk_object(model);
         } else if (m_388 & 4) {
             if (appearFade.has_visible_opacity() != 0) {
                 appearFade.set_flags_and_apply_damage_color();
@@ -731,7 +717,7 @@ void TObjEneNanoDrago::update_flight_state() {
             find_target_in_range(((NanoDragoMovementParams *)movementParameters)->detectionRadius);
             if (target != 0) {
                 VecCopy((Vec *)&v, (const Vec *)(&position));
-                subtract_vector(&v, target + 0x38);
+                subtract_vector(&v, (Vec *)(target + 0x38));
                 find_open_direction(&v);
                 calc_velocity_toward_destination(this, position, moveDestination, speed);
             } else {
@@ -759,7 +745,7 @@ void TObjEneNanoDrago::update_flight_state() {
         } else {
             y_speed = 0.0f;
             VecCopy((Vec *)(&prev_position), (const Vec *)(&position));
-            vec3_add_to(&position, &x_speed);
+            vec3_add_to(&position, velocity());
             if (xz_distance_squared((Vec *)(&position), (Vec *)(&moveDestination)) <= (10.0f + speed) * (10.0f + speed)) {
                 state = 2;
                 m_310 = 0.0f;
@@ -1071,7 +1057,7 @@ void TObjEneNanoDrago::begin_hidden_flight() {
     refresh_collision_body_centers();
 }
 void TObjEneNanoDrago::trigger_hit_camera_shake(u32 victim) {
-    if ((victim == get_player_by_client_id(0)) && ((s32) cameraShakeCooldown <= 0)) {
+    if ((victim == (uaddr)get_player_by_client_id(0)) && ((s32) cameraShakeCooldown <= 0)) {
         cameraShakeCooldown = 0x1E;
         TCameraCtrl::set_shake_preset(1);
     }
