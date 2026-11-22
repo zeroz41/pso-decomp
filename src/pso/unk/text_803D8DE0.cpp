@@ -1,17 +1,17 @@
 #include "types.h"
 #include "pso/unk/text_803D8DE0.h"
+#include "pso/render/RenderSbssGlobals.h"
 
 extern "C" {
 typedef struct { f32 x, y, z, w; } Quat_803D8E0C;
 
-extern s32 current_matrix;
 #pragma push
 #pragma scheduling off
-void fn_803D8DE0(uaddr matrix, Vec *src, Vec *dst, u32 count) {
-    if (matrix == 0U) {
-        matrix = current_matrix;
+void fn_803D8DE0(MtxP matrix, Vec *src, Vec *dst, u32 count) {
+    if (matrix == NULL) {
+        matrix = *current_matrix;
     }
-    PSMTXMultVecArraySR((MtxP)matrix, src, dst, count);
+    PSMTXMultVecArraySR(matrix, src, dst, count);
 }
 #pragma pop
 #pragma push

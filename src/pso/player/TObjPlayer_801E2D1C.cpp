@@ -6,24 +6,23 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801E2D1C.h"
 #include "pso/camera/TCameraCtrl_803D6538.h"
+#include "pso/render/RenderSbssGlobals.h"
+#include <dolphin/mtx.h>
 
 
 void end_ginja_model_draw();
 extern "C" {
-s32 GXLoadNrmMtxImm(s32 *, s32);
-s32 GXLoadPosMtxImm(s32, s32);
+// <dolphin/gx/GXTransform.h> pulls libc/math.h, whose sqrt statics this TU lacks.
+void GXLoadPosMtxImm(f32 mtx[3][4], u32 id);
+void GXLoadNrmMtxImm(f32 mtx[3][4], u32 id);
 extern s32 (*model_node_callback)(void *);
-s32 PSMTXInverse(s32, s32 *);
-s32 PSMTXTranspose(s32 *, s32 *);
 }
 void compose_motion_node_matrix(void *arg0);
 extern "C" {
 
-extern s32 current_matrix;
-
 void TObjPlayer::render_model_tree(void *model) {
-    s32 sp38[12];
-    s32 sp8[12];
+    Mtx34 sp38;
+    Mtx34 sp8;
     void *var_r31;
 
     var_r31 = model;
@@ -34,8 +33,8 @@ void TObjPlayer::render_model_tree(void *model) {
             model_node_callback(var_r31);
         }
         if (((u32) *(u32 *)((s8 *)var_r31 + 4) != 0U) && !(*(s32 *)((s8 *)var_r31 + 0) & 8)) {
-            GXLoadPosMtxImm(current_matrix, 0);
-            PSMTXInverse(current_matrix, sp8);
+            GXLoadPosMtxImm(*current_matrix, 0);
+            PSMTXInverse(*current_matrix, sp8);
             PSMTXTranspose(sp8, sp38);
             GXLoadNrmMtxImm(sp38, 0);
             model_draw_context->draw(*(void **)((s8 *)var_r31 + 4));
@@ -61,8 +60,8 @@ void draw_ginja_motion(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame) {
 }
 
 void TObjPlayer::render_matrix_chain(void *model) {
-    s32 sp38[12];
-    s32 sp8[12];
+    Mtx34 sp38;
+    Mtx34 sp8;
     void *var_r31;
 
     var_r31 = model;
@@ -73,8 +72,8 @@ void TObjPlayer::render_matrix_chain(void *model) {
             model_node_callback(var_r31);
         }
         if (((u32) *(u32 *)((s8 *)var_r31 + 4) != 0U) && !(*(s32 *)((s8 *)var_r31 + 0) & 8)) {
-            GXLoadPosMtxImm(current_matrix, 0);
-            PSMTXInverse(current_matrix, sp8);
+            GXLoadPosMtxImm(*current_matrix, 0);
+            PSMTXInverse(*current_matrix, sp8);
             PSMTXTranspose(sp8, sp38);
             GXLoadNrmMtxImm(sp38, 0);
             model_draw_context->draw(*(void **)((s8 *)var_r31 + 4));
