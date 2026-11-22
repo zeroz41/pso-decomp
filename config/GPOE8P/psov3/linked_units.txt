@@ -308,11 +308,6 @@ pso/boss/goldragon/TBoss8Dragon_80067034.cpp
 pso/boss/goldragon/TBoss8Dragon_800BC53C.cpp
 pso/boss/goldragon/TBoss8Dragon_8028A8F8.cpp
 pso/boss/goldragon/TBoss8Dragon_802F3348.cpp
-pso/boss/goldragon/TBoss8Dragon_802F3504.cpp
-pso/boss/goldragon/TBoss8Dragon_802F3638.cpp
-pso/boss/goldragon/TBoss8Dragon_802F36DC.cpp
-pso/boss/goldragon/TBoss8Dragon_802F376C.cpp
-pso/boss/goldragon/TBoss8Dragon_802F3AB4.cpp
 pso/boss/goldragon/TBoss8Dragon_80324D3C.cpp
 pso/boss/goldragon/TBoss8Dragon_80359A7C.cpp
 pso/boss/goldragon/TBoss8Dragon_8036AEF8.cpp

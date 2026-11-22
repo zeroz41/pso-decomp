@@ -8996,26 +8996,10 @@ pso/boss/goldragon/TBoss8DragonColli.cpp:
 	.sdata2     start:0x805DED20 end:0x805DED3C
 
 pso/boss/goldragon/TBoss8Dragon_802F3348.cpp:
-	.text       start:0x802F3348 end:0x802F3504
-	.sbss       start:0x805D6978 end:0x805D697C
-	.sdata2     start:0x805DED40 end:0x805DED48
-
-pso/boss/goldragon/TBoss8Dragon_802F3504.cpp:
-	.text       start:0x802F3504 end:0x802F3638
-
-pso/boss/goldragon/TBoss8Dragon_802F3638.cpp:
-	.text       start:0x802F3638 end:0x802F36DC
-
-pso/boss/goldragon/TBoss8Dragon_802F36DC.cpp:
-	.text       start:0x802F36DC end:0x802F376C
-
-pso/boss/goldragon/TBoss8Dragon_802F376C.cpp:
-	.text       start:0x802F376C end:0x802F3AB4
-	.sdata2     start:0x805DED48 end:0x805DED50
-
-pso/boss/goldragon/TBoss8Dragon_802F3AB4.cpp:
-	.text       start:0x802F3AB4 end:0x802F3CA0
+	.text       start:0x802F3348 end:0x802F3CA0
 	.data       start:0x804E4BF0 end:0x804E4C08
+	.sbss       start:0x805D6978 end:0x805D697C
+	.sdata2     start:0x805DED40 end:0x805DED50
 
 pso/boss/goldragon/TBoss8Dragon.cpp:
 	.text       start:0x802F3CA0 end:0x802FDF34
