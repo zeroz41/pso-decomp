@@ -101,7 +101,7 @@ void TBoss6Type2::select_attack_state() {
             return;
         }
         if ((get_phase() == 0xD) && (is_ready_to_attack() != 0)) {
-            this->m_464 = is_falz_ready();
+            this->possess_target = is_falz_ready();
             send_action_packet((s8)(saddr)((void*)(0x18)));
             return;
         }
@@ -110,8 +110,8 @@ void TBoss6Type2::select_attack_state() {
             return;
         }
         if (get_phase() == 0xD) {
-            this->m_428 = pick_random_other_index();
-            this->m_430 = choose_next_index();
+            this->target_mode = pick_random_other_index();
+            this->target_state = choose_next_index();
             send_action_packet((s8)(saddr)((void*)(1)));
             return;
         }
@@ -159,8 +159,8 @@ void TBoss6Type2::init_timer_and_play_sound() {
 
 void TBoss6Type2::pick_next_zako() {
     if ((s32) this->state_timer == 0) {
-        this->m_466 = pick_target_client();
-        if (this->m_466 == 0xFFFF) {
+        this->target_client = pick_target_client();
+        if (this->target_client == 0xFFFF) {
             update_action_state();
             return;
         }
@@ -184,7 +184,7 @@ void TBoss6Type2::check_state_0x460_eq0() { if (this->state_timer == 0) { send_s
 
 void TBoss6Type2::sub_802BF834() {
     s32 temp_r0;
-    if ((state_timer == state_duration - 0x1E) && (m_466 != 0xFFFF)) {
+    if ((state_timer == state_duration - 0x1E) && (target_client != 0xFFFF)) {
         play_sound_effect(0x4006A10A, &position, 0, 1);
         play_sound_effect(0x69E27, &position, 0, 1);
         spawn_particle_effect_with_flags((const Vec *)((u8 *)this + 0x62C), 0x223, 0x40);
@@ -200,8 +200,8 @@ void TBoss6Type2::init_attack_params() {
 
     this->state_duration = 0x4B;
     this->state_timer = 0x4B;
-    this->m_504 = 0;
-    switch (this->m_374) {
+    this->turn_done = 0;
+    switch (this->action_state) {
     case 4:
         this->m_46c = 0;
         break;
@@ -213,7 +213,7 @@ void TBoss6Type2::init_attack_params() {
         break;
     }
     sub_802BB7C0();
-    switch ((s32) this->m_374) {
+    switch ((s32) this->action_state) {
     case 5:
         spawn_particle_slot(0xD);
         break;
@@ -223,8 +223,8 @@ void TBoss6Type2::init_attack_params() {
 void TBoss6Type2::update_zako_phase() {
     s32 temp_r0;
 
-    if (((s32) this->m_504 == 0) && (this->turn_toward_target_position() == 0)) {
-        this->m_504 = 1;
+    if (((s32) this->turn_done == 0) && (this->turn_toward_target_position() == 0)) {
+        this->turn_done = 1;
     }
     update_zako();
     temp_r0 = this->state_timer - 1;
@@ -240,7 +240,7 @@ void TBoss6Type2::reset_timers_and_spawn_particle() {
     this->state_timer = 0x4B;
     self->f504 = 0;
     sub_802BB7C0();
-    switch (this->m_374) {
+    switch (this->action_state) {
     case 9:
     case 10:
     case 11:
@@ -251,7 +251,7 @@ void TBoss6Type2::reset_timers_and_spawn_particle() {
 
 void TBoss6Type2::send_state_action() {
     if ((s32) this->state_timer == 0) {
-        switch (this->m_374) {
+        switch (this->action_state) {
         case 6:
             this->m_46c = 0;
             send_action_packet((s8)(saddr)((void*)(0xC)));
@@ -270,8 +270,8 @@ void TBoss6Type2::send_state_action() {
 void TBoss6Type2::update_zako_spawn_timer() {
     s32 temp_r0;
 
-    if (((s32) this->m_504 == 0) && (this->turn_toward_target_position() == 0)) {
-        this->m_504 = 1;
+    if (((s32) this->turn_done == 0) && (this->turn_toward_target_position() == 0)) {
+        this->turn_done = 1;
     }
     update_zako();
     temp_r0 = this->state_timer - 1;
@@ -286,7 +286,7 @@ void TBoss6Type2::start_death_sequence() {
     s32 duration = *(s32 *)((s8 *)this + 0x4C8);
     state_duration = duration;
     state_timer = duration;
-    switch (m_47c) {
+    switch (next_motion) {
     case 15:
         sound = 0x68522;
         break;
@@ -358,7 +358,7 @@ void TBoss6Type2::update_death_sequence() {
     t = state_timer - 1;
     state_timer = t;
     if (t < 0) {
-        if ((s32) m_418 != 0) {
+        if ((s32) possessing != 0) {
             set_action_state(0x1C);
         } else {
             set_action_state(0);
@@ -443,7 +443,7 @@ void TBoss6Type2::sub_802BEE38() {
     static s32 swing_sound_time = (s32)(10.0f / lbl_805DE3FC - 10.0f);
     if (state_timer == state_duration - swing_sound_time) {
         sound = 0x40069C05;
-        switch ((s32) m_374) {
+        switch ((s32) action_state) {
         case 17:
         case 20:
         case 23:
@@ -454,7 +454,7 @@ void TBoss6Type2::sub_802BEE38() {
     }
     static s32 hit_time = (s32)(10.0f / lbl_805DE3FC);
     if (state_timer == state_duration - hit_time) {
-        switch ((s32) m_374) {
+        switch ((s32) action_state) {
         case 17:
         case 20:
         case 23:
@@ -467,21 +467,21 @@ void TBoss6Type2::sub_802BEE38() {
         TCameraCtrl::set_shake_preset(1);
     }
     if (--state_timer < 0) {
-        switch ((s32) m_374) {
+        switch ((s32) action_state) {
         case 15:
         case 16:
         case 17:
-            if ((s32) m_418 != 0) {
+            if ((s32) possessing != 0) {
                 set_action_state(27);
             } else {
                 set_action_state(0);
             }
             break;
         default:
-            n = (s32) m_374 - 15;
+            n = (s32) action_state - 15;
             grp = n / 3;
             idx = n % 3;
-            idx = ((m_478 & 1) + idx);
+            idx = ((random_factor & 1) + idx);
             idx = (idx + 1) % 3;
             set_action_state((idx + ((grp - 1) * 3) + 15));
             break;
@@ -518,7 +518,7 @@ void TBoss6Type2::sub_802BEC28() {
     }
     play_persistent_sound(0x4006A30B, (saddr)this, (uaddr)&position, 0, 1);
     if (--state_timer < 0) {
-        m_418 = 1;
+        possessing = 1;
         state_progress = 1.0f;
         if (check_target() != 0) {
             if (is_target_valid() == 0) {
@@ -543,9 +543,9 @@ void TBoss6Type2::sub_802BEB78() {
     state_timer = duration;
     play_sound_effect(0x68A25, &position, 0, 1);
     sub_802BB768();
-    if (m_464 != 0xFFFF) {
-        create_flow_soul(this, (u8 *)this + 0x620, m_464, state_duration);
-        TBoss6EffHyoui::create(m_464, 0, state_duration);
+    if (possess_target != 0xFFFF) {
+        create_flow_soul(this, (u8 *)this + 0x620, possess_target, state_duration);
+        TBoss6EffHyoui::create(possess_target, 0, state_duration);
     }
 }
 
@@ -695,7 +695,7 @@ void TBoss6Type2::sub_802BE6A0() {
 
 void TBoss6Type2::sub_802BE648() {
     if (state_timer == 0) {
-        if ((s32) m_374 == 0x1D) {
+        if ((s32) action_state == 0x1D) {
             this->send_action_packet(choose_random_motion__11TBoss6Type2Fv());
             return;
         }

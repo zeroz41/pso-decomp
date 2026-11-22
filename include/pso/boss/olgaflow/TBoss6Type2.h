@@ -37,10 +37,11 @@ struct TBoss6Type2MotionTrack {
     f32 prev_frame;
 };
 
+// A head joint aim_toward_point turns: render adds aim_angle to the node's rest angle.
 struct TBoss6Type2Joint {
-    s32 *m_0;
-    s32 m_4;
-    s32 m_8;
+    s32 *node_angle;  // find_model_node(model, 0x28) + 0x18
+    s32 rest_angle;
+    s32 aim_angle;
 };
 
 struct Blk_802BCFD4;
@@ -86,19 +87,19 @@ struct TBoss6Type2 : public TObjEnemy
     void sub_802BA078();
     void aim_toward_point(void *);
     void render_body_effects();
-    u32 m_374;
+    u32 action_state;  // row of boss6_type2_battle_actions (set_action_state)
     s32 action_history[32];  // set_action_state shifts the last 32 states in
     TBoss6PlotFalz *plot_falz;
     BmlResource *archive;  // TBoss6PlotFalz::get_scene_archive
     TBoss6Type2Model body_models[2];
     TBoss6Mag *mags[2];
-    s32 m_418;
+    s32 possessing;  // set when the possession (TBoss6EffHyoui) state ends; name inferred
     f32 state_progress;  // 1 - state_timer / state_duration
     u32 m_420;
-    u32 m_424;
-    u32 m_428;
-    u32 m_42c;
-    u32 m_430;
+    u32 low_hp;  // set once hp_ratio drops below 1/3 (trigger_screen_pos)
+    u32 target_mode;   // OlgaFlowType2ActionMsg::target_mode
+    u32 variant;       // boss6_type2_variant_id_table; set_target_state's second value
+    u32 target_state;  // OlgaFlowType2ActionMsg::target_state
     // init_segment_range copies param_block here and points param_block at it.
     ActorParamBlock params_copy;
     s16 m_454;  // the largest of the set entry's five segment values
@@ -106,51 +107,51 @@ struct TBoss6Type2 : public TObjEnemy
     TBoss6Zanzo *trail_effect;
     saddr state_duration;  // what state_timer was last set to
     s32 state_timer;     // counts down to 0 in the state handlers
-    u16 m_464;
-    u16 m_466;
-    u16 m_468;
-    u16 m_46a;
+    u16 possess_target;  // client the flow soul and TBoss6EffHyoui go to; grab_player's id
+    u16 target_client;   // pick_target_client; pick_walk_target walks to it
+    u16 first_action_client;   // mags[0]'s (OlgaFlowType2ActionMsg)
+    u16 second_action_client;  // mags[1]'s
     u32 m_46c;
     s32 m_470;
-    u32 m_474;
-    u8 m_478;
+    u32 action_flags;  // the action row's flags (update_parts_flags)
+    u8 random_factor;  // OlgaFlowType2ActionMsg::random_factor
     u8 unk_479[0x3];
-    u32 m_47c;
+    u32 next_motion;   // OlgaFlowType2ActionMsg::next_motion
     Boss6Type2MoveTarget move_target;
     s32 motion_index;  // row of TBoss6Type2__motion_table
     s32 motion_mode;   // that row's mode
     TBoss6Type2MotionTrack motion_tracks[1];
-    s32 m_4b4;
-    s32 m_4b8;
-    s32 m_4bc;
+    s32 rock_damage;            // base damage of a rock pushed into a player, name inferred
+    s32 possessed_damage;       // what a hit on the boss does to the possessed player, name inferred
+    s32 dpb_damage_threshold;   // should_use_dpb: damage_total at which the DPB state is used
     s32 m_4c0;
-    s32 m_4c4;
+    s32 release_damage;         // is_phase_complete: damage since latched_hp that ends the possession
     s32 m_4c8;
     s32 m_4cc;
     s32 m_4d0;
     s32 m_4d4;
-    f32 m_4d8;
-    f32 m_4dc;
-    f32 m_4e0;
-    f32 m_4e4;
-    f32 m_4e8;
+    f32 base_walk_speed;        // set_screen_pos's walk and turn motion speeds
+    f32 base_turn_speed;
+    f32 low_hp_walk_speed;
+    f32 low_hp_turn_speed;
+    f32 possessing_damage_scale;  // scales rock_damage while possessing
     s32 m_4ec;
-    s32 m_4f0;
-    s32 m_4f4;
-    u32 m_4f8;
-    f32 m_4fc;
-    f32 m_500;
-    s32 m_504;
-    u32 m_508;
-    Vec m_50c;
-    s32 m_518;
-    s32 m_51c;
+    s32 latched_hp;    // copy_anim_state stores hp; calc_field4f0_delta returns the damage since
+    s32 damage_total;  // add_damage sums it (doubled in some states)
+    u32 prev_hp;       // last update's hp
+    f32 hit_flash;     // run_hit_reaction sets 1, it fades out over 15 updates
+    f32 hp_ratio;      // hp / referenceHp
+    s32 turn_done;     // turn_toward_target_position finished
+    u32 turn_sound_played;  // the full-speed turn sound plays once
+    Vec move_origin;   // where the move to boss6_arena_center starts
+    s32 switch_timer;  // attribute switch countdown (set_state_0x34, update_countdown)
+    s32 switch_pending;
     s32 lower_contact_index;
     Vec lower_contact_delta;
     Vec previous_lower_contact;
-    TBoss6Type2Joint m_53c[2];
+    TBoss6Type2Joint aim_joints[2];  // one per body model
     s32 m_554[2];
-    u16 m_55c;
+    u16 possessed_client;  // grab_player's player; 0xFFFF when none
     u8 unk_55E[0x2];
     s32 m_560;
     s32 m_564;
@@ -331,7 +332,7 @@ struct TBoss6Type2 : public TObjEnemy
 };
 
 LAYOUT_ASSERT(TBoss6Type2ActionHistoryOffset, offsetof(TBoss6Type2, action_history) == 0x378);
-LAYOUT_ASSERT(TBoss6Type2_offset_m_374, (offsetof(TBoss6Type2, m_374) == 0x374));
+LAYOUT_ASSERT(TBoss6Type2_offset_action_state, (offsetof(TBoss6Type2, action_state) == 0x374));
 LAYOUT_ASSERT(TBoss6Type2_offset_target_position, (offsetof(TBoss6Type2, move_target) == 0x480));
 LAYOUT_ASSERT(TBoss6Type2_offset_lower_contact_index, (offsetof(TBoss6Type2, lower_contact_index) == 0x520));
 LAYOUT_ASSERT(TBoss6Type2_offset_lower_contact_delta, (offsetof(TBoss6Type2, lower_contact_delta) == 0x524));
