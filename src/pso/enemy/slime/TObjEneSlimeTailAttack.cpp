@@ -176,12 +176,8 @@ __declspec(section ".data") s32 slime_tail_model_by_target[2] = {
 __declspec(section ".data") s32 slime_tail_attack_param_ids[2] = {
     0x30, 0x34,
 };
-void *slime_tail_attack_zero_vec[3] = {
-    (void *)0x0, (void *)0x0, (void *)0x0,
-};
-void *slime_tail_attack_transform[3] = {
-    (void *)0x0, (void *)0x0, (void *)0x0,
-};
+Vec slime_tail_attack_zero_vec = {0.0f, 0.0f, 0.0f};
+Vec slime_tail_attack_transform = {0.0f, 0.0f, 0.0f};
 #define slime_tail_attack_id_pair ((s32 *)slime_tail_attack_id_pair)
 #define TObjEneSlime__attack_target_param_table ((s32 *)TObjEneSlime__attack_target_param_table)
 
@@ -1647,10 +1643,10 @@ void TObjEneSlimeTailAttack::draw_blob_shadows() {
 void reset_slime_tail_node_index(void) { slime_tail_node_index = 0; }
 void capture_slime_tail_node(NJS_OBJECT *) {
     if (slime_tail_node_index == 7) {
-        TCameraCtrl::transform_to_view((saddr)&slime_tail_attack_zero_vec, (saddr)&slime_tail_node_capture.pose.attachment);
+        TCameraCtrl::transform_to_view(&slime_tail_attack_zero_vec, &slime_tail_node_capture.pose.attachment);
     }
     if (slime_tail_node_index >= 4 && slime_tail_node_index < 8) {
-        TCameraCtrl::transform_to_view((saddr)&slime_tail_attack_transform, (saddr)&slime_tail_node_capture.pose.shadows[slime_tail_node_index - 4]);
+        TCameraCtrl::transform_to_view(&slime_tail_attack_transform, &slime_tail_node_capture.pose.shadows[slime_tail_node_index - 4]);
     }
     slime_tail_node_index += 1;
 }

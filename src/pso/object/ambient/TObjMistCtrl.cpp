@@ -25,7 +25,6 @@ extern "C" {
 s32 vec3_add_to(void *, void *);
 extern Vec lbl_804707E8;
 extern u8 identity_matrix[];
-extern TCameraCtrl *camera_ctrl_instance;
 void TObjMistCtrl::sub_802AF64C() {
     Obj_802AF64C *arg0 = (Obj_802AF64C *)this;
     Vec v = lbl_804707E8;
@@ -37,7 +36,7 @@ void TObjMistCtrl::sub_802AF64C() {
     v.x *= 60.0f;
     v.y *= 60.0f;
     v.z *= 60.0f;
-    vec3_add_to(&v, &camera_ctrl_instance->pos_x);
+    vec3_add_to(&v, &camera_ctrl_instance->pos.x);
     VecCopy((Vec *)&arg0->pos, (const Vec *)&v);
     if (arg0->x90 != NULL) {
         ((TParticleCtrl *)arg0->x90)->set_position(&arg0->pos);

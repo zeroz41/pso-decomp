@@ -75,8 +75,6 @@ struct FlareGlareColor {
     struct { signed int a : 8; u8 r, g, b; } argb;
 };
 
-extern TCameraCtrl *camera_ctrl_instance;
-
 #pragma push
 #pragma opt_propagation off
 void TEF_LensFlare::render() {
@@ -105,9 +103,9 @@ void TEF_LensFlare::render() {
         }
         TParticleCtrl::begin_effect_render();
         Vec dir;
-        dir.x = position.x - camera_ctrl_instance->pos_x;
-        dir.y = position.y - camera_ctrl_instance->pos_y;
-        dir.z = position.z - camera_ctrl_instance->pos_z;
+        dir.x = position.x - camera_ctrl_instance->pos.x;
+        dir.y = position.y - camera_ctrl_instance->pos.y;
+        dir.z = position.z - camera_ctrl_instance->pos.z;
         if (0.0f != vec_squared_length(&dir)) {
             normalize_vector(&dir);
         }

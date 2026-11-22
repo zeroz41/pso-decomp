@@ -12,7 +12,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/main_loop.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/player/TObjPlayer_801A5AEC.h"
@@ -84,7 +83,6 @@ extern "C" {
 u8 *TAdSinglePlyChrSelectGC__ct(u8 *arg0, void *parent);
 void *construct_title_scene__13TUnk_804EEF64Fv(void *, TObject *);
 void *__ct__12TLevelSelectFv(void *);
-void TCameraCtrl__ct(void *, void *);
 s32 is_area_transfer_pending(void);
 void apply_phase_keyboard_mode(void);
 void run_load_callback_table(void *, s32);
@@ -189,7 +187,7 @@ void TAdMultiChgGameModeGC::set_default_camera() {
     Vec a = {0.0f, 0.0f, 0.0f};
     Vec b = {0.0f, 0.0f, -100.0f};
     activate_camera_mode(9);
-    set_active_camera_pose((u8 *)&a, (u8 *)&b);
+    set_active_camera_pose(&a, &b);
 }
 
 void TAdMultiChgGameModeGC::set_mode_change_state() {
@@ -503,15 +501,12 @@ void init_game_mode_select_scene(void) {
     c = cos_table_lookup(0x1555);
     TObjLight__scene_light_state.direction.x = c * sin_table_lookup(0x9000);
     TObjLight__scene_light_state.direction.z = c * cos_table_lookup(0x9000);
-    p = TObject::operator new(0x1d4);
-    if (p != NULL) {
-        TCameraCtrl__ct(p, tl_camera);
-    }
+    new TCameraCtrl(tl_camera);
     {
         Vec eye = game_mode_scene_camera_eye;
         Vec at = game_mode_scene_camera_target;
         TCameraCtrl::select_active_controller(9);
-        set_active_camera_pose((u8 *)&eye, (u8 *)&at);
+        set_active_camera_pose(&eye, &at);
     }
     TParticleCtrl::create_quad_sprites();
     p = (void *)new TWindowCtrlMain();

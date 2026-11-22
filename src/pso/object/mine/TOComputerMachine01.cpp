@@ -15,10 +15,6 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/unk/text_803D8F74.h"
 
-// TCameraCtrl.h does not declare the instance yet: 28 files that include it
-// still redeclare it with their own types.
-extern TCameraCtrl *camera_ctrl_instance;
-
 const char *bm_fs_obj_kenkyu_com_model_names[2] = { "fs_obj_kenkyu_com.gj", NULL };
 const char *bm_fs_obj_kenkyu_com_motion_names[1] = { NULL };
 BmlResourceDescriptor bm_fs_obj_kenkyu_com_resource_descriptor = {
@@ -33,7 +29,7 @@ s32 TOComputerMachine01::last_scroll_frame;
 void *TOComputerMachine01::screen_meshes[4];
 
 s32 TOComputerMachine01::update_object_view_visibility(f32 range, f32 radius) {
-    if (xz_distance_squared(&position, (Vec *)&camera_ctrl_instance->pos_x) < radius * radius) {
+    if (xz_distance_squared(&position, (Vec *)&camera_ctrl_instance->pos.x) < radius * radius) {
         visibility = 1;
         return visibility;
     }

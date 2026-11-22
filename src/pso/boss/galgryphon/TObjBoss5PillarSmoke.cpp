@@ -6,7 +6,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
+#include "pso/camera/TCameraCtrl.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/NinjaTypes.h"
 
@@ -28,17 +28,17 @@ s32 boss5_pillar_demo_index;
 TObjBoss5PillarSmoke *boss5_pillar_demo_ptr;
 
 void TObjBoss5PillarDemo__sub_8028ACE8(TObjBoss5PillarSmoke *smoke, NJS_OBJECT *node) {
-    f32 sp[3];
+    Vec position;
     s32 idx;
     idx = boss5_pillar_demo_index - 1;
     boss5_pillar_demo_index += 1;
     if (idx >= 0 && idx < smoke->count) {
-        transform_to_view__11TCameraCtrlFii((saddr)&lbl_80450CDC, (saddr)sp);
+        TCameraCtrl::transform_to_view(&lbl_80450CDC, &position);
         if (smoke->particles_a != NULL && smoke->particles_a[idx] != NULL) {
-            smoke->particles_a[idx]->set_position(sp);
+            smoke->particles_a[idx]->set_position(&position);
         }
         if (smoke->particles_b != NULL && smoke->particles_b[idx] != NULL) {
-            smoke->particles_b[idx]->set_position(sp);
+            smoke->particles_b[idx]->set_position(&position);
         }
     }
 }

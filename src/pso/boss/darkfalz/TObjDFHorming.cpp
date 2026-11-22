@@ -36,7 +36,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/object/TObjControl.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
+#include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/TLobby_8030A834.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/system/MatrixOps.h"

@@ -71,8 +71,6 @@
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/unk/text_80086B64.h"
 #include "pso/unk/text_80087278.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
-#include "pso/camera/TCameraCtrl_8006A03C.h"
 #include "pso/object/TObjControl.h"
 #include "pso/boss/galgryphon/TBoss5GryphonLightningEff.h"
 #include "pso/render/MaterialAlphaCompare.h"
@@ -85,9 +83,7 @@
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-#include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/unk/TLobby_802268F4.h"
-#include "pso/camera/TCameraCtrl_8006A03C.h"
 #include "pso/object/TObjControl.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
@@ -234,7 +230,6 @@ s32 boss5_gryphon_render_flags;
 TBoss5Gryphon *boss5_gryphon_instance;
 f32 boss5_gryphon_camera_player_distance;  // blocks_camera_view: camera to player, xz
 extern "C" {
-extern u8 *camera_ctrl_instance;
 void *boss5_gryphon_action_table[108] = {
     (void *)0x10000, (void *)0x9, (void *)0x3f4ccccd, (void *)0x0,
     (void *)0x10000, (void *)0xb, (void *)0x3f000000, (void *)0x0,
@@ -3756,7 +3751,7 @@ s32 TBoss5Gryphon::blocks_camera_view() {
     if (pl == 0) {
         return 0;
     }
-    VecCopy(&cam, (Vec *)(camera_ctrl_instance + 0x178));
+    VecCopy(&cam, &camera_ctrl_instance->pos);
     cam.y = 0.0f;
     VecCopy(&dir, &pl->position);
     subtract_vector(&dir, &cam);

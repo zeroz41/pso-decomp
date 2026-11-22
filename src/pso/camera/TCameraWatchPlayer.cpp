@@ -28,8 +28,6 @@ CameraBankList camera_path_bank_table[36] = {
     { camera_files_bo07, 3 }, { camera_files_bo08, 3 }, { camera_files_common, 1 }, { camera_files_common, 1 },
 };
 
-extern TCameraCtrl *camera_ctrl_instance;
-
 TCameraController *TCameraWatchPlayer::create() {
     return new TCameraWatchPlayer();
 }

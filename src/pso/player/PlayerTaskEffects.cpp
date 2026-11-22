@@ -149,7 +149,6 @@ s32 draw_chunk_object();
 extern u8 shared_effect_texture_list[];
 extern u8 saved_model_draw_color[];
 extern u8 model_material_color[];
-extern void *camera_ctrl_instance;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 u8 *__ct__18TPlayerLobbyMarkerFP7TObjectsSc(u8 *arg0, u8 *arg1, s16 arg2, s8 arg3);
@@ -547,7 +546,7 @@ void TPlayerLobbyMarker::render() {
         TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(shared_effect_texture_list));
         model_render_flags |= 0x11;
         translate_matrix_vec3(0, TObjPlayer__sub_801BF914(temp_r3 + 0x84C));
-        rotate_matrix_y(0, *(s32 *)((s8 *)camera_ctrl_instance + 0x194) + rotation);
+        rotate_matrix_y(0, camera_ctrl_instance->yaw + rotation);
         scale_matrix(0, 1.3f, 1.3f, 1.3f);
         set_constant_material(&player_lobby_marker_color_table[get_material_index()]);
         TMainCursor::get_cursor_state();

@@ -13,7 +13,6 @@ extern "C" {
 s32 is_split_screen(void);
 extern const char TObjParticle__class_name_string[] = "TObjParticle";
 const char *obj_particle_class_name = TObjParticle__class_name_string;
-extern TCameraCtrl *camera_ctrl_instance;
 }
 
 void TObjParticle::render() {
@@ -34,7 +33,7 @@ void TObjParticle::run_task() {
     if ((set_params[2] == 1) && (set_params[0] == 1)) {
         distance_limit = 100000000.0f;
     }
-    if (xyz_distance_squared(&position, (const Vec *)&camera_ctrl_instance->pos_x) > distance_limit) {
+    if (xyz_distance_squared(&position, (const Vec *)&camera_ctrl_instance->pos.x) > distance_limit) {
         queue_destruction();
         return;
     }

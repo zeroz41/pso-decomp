@@ -38,7 +38,6 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel_8036EF0C.h"
 #include "pso/map/FloorArea.h"
 #include "pso/map/CsnQuery.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/unk/TLobby_803382E4.h"
 #include "pso/network/client_id.h"
@@ -236,7 +235,6 @@ extern "C" {
 extern s32 lbl_805D49B4;
 extern char episode_i_and_ii_card_filename[];
 s8 func_801A5E54__Fv(void);
-extern uaddr camera_ctrl_instance;
 extern s32 lbl_805D63F0;
 }
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
@@ -862,7 +860,7 @@ s32 take_snapshot(void) {
     if (TQuestListVM::get_quest_bin() != NULL) {
         return 0;
     }
-    if (TCameraCtrl__sub_80069304() != 0) {
+    if (TCameraCtrl::is_view_override_active() != 0) {
         return 0;
     }
     if (is_split_screen() != 0) {
@@ -1297,8 +1295,8 @@ void TObjBoss2Tunnel::show_message_and_wait(s32 message) {
         frames++;
         func_803DCDFC__Fv();
         controller_stuff();
-        if (camera_ctrl_instance != 0U) {
-            ((TCameraCtrl *)camera_ctrl_instance)->setup_default_view(0);
+        if (camera_ctrl_instance != NULL) {
+            camera_ctrl_instance->setup_default_view(0);
         }
         main_task.render();
         if ((f32)frames >= 30.0f) {
@@ -1351,8 +1349,8 @@ s32 TObjBoss2Tunnel::run_confirm_message_loop() {
         frames++;
         func_803DCDFC__Fv();
         controller_stuff();
-        if (camera_ctrl_instance != 0U) {
-            ((TCameraCtrl *)camera_ctrl_instance)->setup_default_view(0);
+        if (camera_ctrl_instance != NULL) {
+            camera_ctrl_instance->setup_default_view(0);
         }
         main_task.render();
         draw_snapshot_capture_overlay();

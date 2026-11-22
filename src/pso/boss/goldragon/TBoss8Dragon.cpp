@@ -83,7 +83,6 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/unk/text_80086B64.h"
 
@@ -304,7 +303,6 @@ extern s32 saved_model_render_flags;
 // (from _802F3EE4)
 extern "C" {
 u8 *find_entity_by_id(void);
-extern u8 *camera_ctrl_instance;
 // (from _802F3F20)
 // (from _802F42A0)
 }
@@ -4777,7 +4775,7 @@ s32 TBoss8Dragon::is_hiding_camera_target() {
     if (entity == 0) {
         return 0;
     }
-    VecCopy(&eye, (const Vec *)(camera_ctrl_instance + 0x178));
+    VecCopy(&eye, &camera_ctrl_instance->pos);
     eye.y = 0.0f;
     VecCopy(&dir, (const Vec *)(entity + 0x38));
     subtract_vector(&dir, &eye);

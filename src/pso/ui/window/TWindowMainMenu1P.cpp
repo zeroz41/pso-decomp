@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
+#include "pso/camera/CameraViewParams.h"
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowMainMenu1P.h"
 #include "pso/camera/TCameraCtrl.h"

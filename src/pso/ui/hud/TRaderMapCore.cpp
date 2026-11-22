@@ -258,7 +258,6 @@ extern RadarSpriteFrame_801FA6CC lbl_804C87E4[];
 extern f32 lbl_804C87B4[][4];
 s32 GXSetScissorBoxOffset(int, int);
 extern Rect_801F9228 radar_map_view_scissor_table[3];
-extern saddr camera_ctrl_instance;
 struct TRaderMapCoreMapViewState { s32 value; u8 remaining[0x74]; };
 extern TRaderMapCoreMapViewState TRaderMapCore__map_view_state;
 extern RadarViewRect_801FA9D8 radar_map_view_rect_table[3];
@@ -268,10 +267,8 @@ s32 init_radar_floor_flags(s32 floor, RadarInitMap_801F9474 *map);
 void* __ct__5THeapFUli(void*, u32, s32);
 void TRaderMapCore__sub_801F95CC(void);
 void GXSetScissor(u32, u32, u32, u32);
-s32 TCameraCtrl__sub_80069304();
 int check_flag_100__10TObjPlayerFPv(void *p);
 void *get_player_by_client_id(s32 i);
-extern u8 TCameraCtrl__view_state[];
 f32 xz_distance_squared(void *, void *);
 extern Gate_801FA1E0 TRaderMapCore__marker_buffer[128];
 s32 minimap_render_dot(Vec *arg0, s32 arg1, s16 arg2, s32 arg3);
@@ -745,10 +742,10 @@ s32 TRaderMapCore::is_render_admitted(void *arg1) {
     } else {
         return 0;
     }
-    if (TCameraCtrl__sub_80069304() != 0 && TWindowCtrl::get_flag_bit0() == 0) {
+    if (TCameraCtrl::is_view_override_active() != 0 && TWindowCtrl::get_flag_bit0() == 0) {
         return 0;
     }
-    if (TCameraCtrl__view_state[0] == 5 || TCameraCtrl__view_state[0] == 9) {
+    if (TCameraCtrl::view_state.controller == 5 || TCameraCtrl::view_state.controller == 9) {
         ((Radar_801FADF0 *)this)->f184 = 0;
         return 0;
     }
@@ -877,7 +874,7 @@ void TRaderMapCore::setup_view(s32 arg1) {
     saddr arg0 = (saddr)this;
     GXSetScissorBoxOffset(0, 0);
     TCameraCtrl__sub_801E32D8(320.0f, 240.0f);
-    ((TCameraCtrl *)camera_ctrl_instance)->setup_default_view(0);
+    camera_ctrl_instance->setup_default_view(0);
     TRaderMapCore::set_view_scissor((void *)arg0, 0, (void *)((void *) ((u8 *)&radar_map_view_scissor_table + (arg1 * 0x10))));
     TObjLight::apply_distant_light();
     TParticleCtrl::end_effect_render();
@@ -959,13 +956,13 @@ void TRaderMapCore::update_follow_projection(s32 mode) {
         view->z = this->player_marker_records[this->m_134].z;
     }
     if (this->m_168 & 1) {
-        view->rot = 0x8000 - ((TCameraCtrl *)camera_ctrl_instance)->yaw;
+        view->rot = 0x8000 - camera_ctrl_instance->yaw;
         if (get_current_floor_area() == AREA_DE_ROL_LE) {
             free_view->rot = 0;
-            this->m_174 = 0x8000 - ((TCameraCtrl *)camera_ctrl_instance)->yaw;
+            this->m_174 = 0x8000 - camera_ctrl_instance->yaw;
         } else {
             free_view->rot = 0x8000;
-            this->m_174 = -((TCameraCtrl *)camera_ctrl_instance)->yaw;
+            this->m_174 = -camera_ctrl_instance->yaw;
         }
     } else if (get_current_floor_area() == AREA_DE_ROL_LE) {
         view->rot = 0;

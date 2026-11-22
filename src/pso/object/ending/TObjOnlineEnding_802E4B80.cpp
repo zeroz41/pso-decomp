@@ -31,7 +31,7 @@
 #include "pso/unk/TLobby_80070A00.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80071774.h"
 #include "pso/system/TLoadCtrl_80227390.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
+#include "pso/camera/TCameraCtrl.h"
 
 #pragma readonly_strings on
 
@@ -268,7 +268,7 @@ void TObjOnlineEnding::run_task() {
         VecCopy((Vec *)&cam.a, (const Vec *)&t1);
         VecCopy((Vec *)&cam.b, (const Vec *)&t2);
         cam.f14 = 0x1999;
-        set_active_camera_pose_from_params((u8 *)&cam);
+        set_active_camera_pose_from_params((CameraParams *)&cam);
         scene_state = 2;
         break;
     }

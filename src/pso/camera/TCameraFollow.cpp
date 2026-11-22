@@ -38,15 +38,9 @@ __declspec(section ".rodata") Vec follow_camera_reset_eye_offset = { 0.0f, 0.0f,
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/camera/CameraView.h"
-
-extern TCameraController *camera_controller_registry[13];
 
 u8 camera_override_flags;
 
-// Defined in TCameraCtrl.cpp, TLobby_801E2F94.cpp and TObjPlayer_801AF2F0.cpp
-// without a header declaration that fits these calls.
-void reset_cameras_to_actor(void *actor, s32 flags);
 extern "C" void camera_renderer_setup_nop(void *, s32);
 extern "C" s32 check_flag_100__10TObjPlayerFPv(void *);
 
@@ -223,11 +217,11 @@ void apply_follow_camera_offsets(Vec *target_offset, Vec *eye_offset, s32 angle,
     TObjPlayer *player;
     s32 i;
     s32 yaw;
-    if (TCameraCtrl__view_state.controller <= 2 || TCameraCtrl__view_state.controller == 3) {
+    if (TCameraCtrl::view_state.controller <= 2 || TCameraCtrl::view_state.controller == 3) {
         if (is_split_screen() != 0) {
             if (client_id == 0xFFFF) {
                 for (i = 0; i < 4; i++) {
-                    camera = (TCameraFollow *)camera_controller_registry[TCameraCtrl__view_state.controller + i];
+                    camera = (TCameraFollow *)camera_controller_registry[TCameraCtrl::view_state.controller + i];
                     player = get_player_by_client_id(TCameraCtrl::get_nth_view_player_id(i));
                     yaw = angle;
                     if (player != 0) {
@@ -237,9 +231,9 @@ void apply_follow_camera_offsets(Vec *target_offset, Vec *eye_offset, s32 angle,
                 }
                 return;
             }
-            camera = (TCameraFollow *)camera_controller_registry[TCameraCtrl__view_state.controller + client_id];
+            camera = (TCameraFollow *)camera_controller_registry[TCameraCtrl::view_state.controller + client_id];
         } else {
-            camera = (TCameraFollow *)camera_controller_registry[TCameraCtrl__view_state.controller];
+            camera = (TCameraFollow *)camera_controller_registry[TCameraCtrl::view_state.controller];
         }
         if (camera != 0) {
             camera->set_pos_target(target_offset, eye_offset, angle);
@@ -249,8 +243,8 @@ void apply_follow_camera_offsets(Vec *target_offset, Vec *eye_offset, s32 angle,
 
 void TCameraCtrl::set_active_camera_flag() {
     TCameraFollow *camera;
-    if (TCameraCtrl__view_state.controller == 0) {
-        camera = (TCameraFollow *)camera_controller_registry[TCameraCtrl__view_state.controller];
+    if (TCameraCtrl::view_state.controller == 0) {
+        camera = (TCameraFollow *)camera_controller_registry[TCameraCtrl::view_state.controller];
         if (camera != NULL) {
             camera->recenter_requested = 1;
         }
@@ -259,8 +253,8 @@ void TCameraCtrl::set_active_camera_flag() {
 
 void end_conversation_camera() {
     TCameraFollow *camera;
-    if (TCameraCtrl__view_state.controller == 0) {
-        camera = (TCameraFollow *)camera_controller_registry[TCameraCtrl__view_state.controller];
+    if (TCameraCtrl::view_state.controller == 0) {
+        camera = (TCameraFollow *)camera_controller_registry[TCameraCtrl::view_state.controller];
         if (camera != NULL) {
             camera->set_close_up(0);
         }
@@ -305,8 +299,8 @@ void begin_conversation_camera() {
     s32 side;
     TCameraFollow *camera;
     TObjPlayer *actor;
-    if (TCameraCtrl__view_state.controller == 0) {
-        camera = (TCameraFollow *)camera_controller_registry[TCameraCtrl__view_state.controller];
+    if (TCameraCtrl::view_state.controller == 0) {
+        camera = (TCameraFollow *)camera_controller_registry[TCameraCtrl::view_state.controller];
         camera->set_close_up(1);
         actor = camera->actor;
         if (actor != NULL) {
@@ -589,7 +583,7 @@ void TCameraFollow::init_pose() {
             break;
         }
     }
-    camera_renderer_setup_nop(&lbl_804FF5E8, this->projection_angle);
+    camera_renderer_setup_nop(lbl_804FF5E8, this->projection_angle);
     TCameraCtrl::update_camera_state(this->position.x, this->position.y, this->position.z);
 }
 

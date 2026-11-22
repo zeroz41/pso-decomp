@@ -9,10 +9,6 @@
 #include "pso/render/render_util.h"
 #include "pso/system/vector.h"
 
-extern f32 lbl_804FF5E8[];
-extern TCameraCtrl *camera_ctrl_instance;
-extern void *camera_controller_registry[];
-
 s32 approach_camera_scalar(f32 *current, f32 *target, f32 rate) {
     f32 distance = fabs_float(*current - *target);
     f32 step = 0.16f * distance * rate;
@@ -89,14 +85,14 @@ void TCameraScripted::post_update_view() {
     dir.y = target.y - position.y;
     dir.z = target.z - position.z;
     direction_to_pitch_yaw(&dir, (s32 *)&camera_ctrl_instance->pitch, (s32 *)&camera_ctrl_instance->yaw);
-    at.x = camera_ctrl_instance->tgt_x;
-    at.y = camera_ctrl_instance->tgt_y;
-    at.z = camera_ctrl_instance->tgt_z;
+    at.x = camera_ctrl_instance->tgt.x;
+    at.y = camera_ctrl_instance->tgt.y;
+    at.z = camera_ctrl_instance->tgt.z;
     Vec up = {0.0f, 1.0f, 0.0f};
-    set_camera_look_at((u8 *)&camera_ctrl_instance->pos_x, (u8 *)&at, (u8 *)&up);
-    lbl_804FF5E8[0] = camera_ctrl_instance->pos_x;
-    lbl_804FF5E8[1] = camera_ctrl_instance->pos_y;
-    lbl_804FF5E8[2] = camera_ctrl_instance->pos_z;
+    set_camera_look_at((u8 *)&camera_ctrl_instance->pos.x, (u8 *)&at, (u8 *)&up);
+    lbl_804FF5E8[0] = camera_ctrl_instance->pos.x;
+    lbl_804FF5E8[1] = camera_ctrl_instance->pos.y;
+    lbl_804FF5E8[2] = camera_ctrl_instance->pos.z;
 }
 
 void CameraPlayback::cache_target_and_forward(s32 angle) const {
@@ -124,7 +120,7 @@ CameraPlayback *get_scripted_camera_playback() {
     TCameraScripted *camera = (TCameraScripted *)camera_controller_registry[5];
     if (camera != NULL) {
         CameraPlayback *playback = &camera->playback;
-        if (TCameraCtrl__sub_8006A5DC() != 5) {
+        if (TCameraCtrl::get_active_controller() != 5) {
             playback->flags |= 1;
         }
         return playback;

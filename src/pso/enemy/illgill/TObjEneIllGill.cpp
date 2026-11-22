@@ -111,7 +111,6 @@ const char *TObjEneIllGill_class_name = "TObjEneIllGill";
 const NpcAnimationBinding illGillAnimBinding = { NULL, reinterpret_cast<TObjMotionAction *>(illGillActions), 0, 1, 10 };
 const Vec lbl_8047A328 = {0.0f, 0.0f, 0.0f};
 const char *TObjIllGillKage__class_name = "TObjIllGillKage";
-extern u8 lbl_804FF5E8[];
 }
 
 #pragma defer_codegen on

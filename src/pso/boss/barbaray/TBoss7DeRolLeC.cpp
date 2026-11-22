@@ -146,7 +146,6 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer_802E6CA8.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/object/TObjControl.h"
 #include "pso/math/MatrixTransforms.h"
@@ -501,10 +500,6 @@ static inline void add_crawfish_slot_base(CrawfishSlotOffset &offset) {
 }
 
 #pragma pop
-
-extern "C" {
-extern f32 lbl_804FF5E8[];
-}
 
 NJS_OBJECT boss7_derolle_light_pool[11];
 

@@ -98,7 +98,6 @@ struct NJS_OBJECT;
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D853C.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/map/CsnQuery.h"
@@ -282,8 +281,6 @@ const char *boss2_de_rol_le_class_name = "TBoss2DeRolLe";
 extern "C" {
 
 void *__ct__9TBoss2FinFv(void *, TObject *, Vec *, Vec *);
-
-extern f32 lbl_804FF5E8[];
 
 }
 

@@ -29,7 +29,6 @@
 
 extern "C" {
 s32 TKeyBoardControl__sub_8000F90C(int);
-s32 TCameraCtrl__ct(u32, void *);
 s32 is_area_transfer_pending();
 s32 apply_phase_keyboard_mode();
 s32 reset_controller_input_state();
@@ -42,8 +41,6 @@ u32 __ct__12TAdSoniclogoFP7TObject(void *, void *);
 u32 __ct__13TAdVIConfigGCFP7TObject(void *, void *);
 u32 __ct__18TAdTrialModemChkGCFP7TObject(void *, void *);
 s32 TKeyBoardControl__sub_8000F92C();
-s32 set_active_camera_pose(void *, void *);
-s32 activate_camera_mode(s32 arg0);
 s8 func_801A5E54__Fv();
 
 const char *TLogo__class_name = "TLogo";
@@ -92,10 +89,7 @@ void TLogo::init_logo_scene() {
     for (i = 0; i < 0x80; i++) {
     }
     init_menu_scene_lights(default_scene_light_config, 4);
-    p = (uaddr)TObject::operator new(0x1D4);
-    if (p != 0) {
-        TCameraCtrl__ct(p, tl_camera);
-    }
+    new TCameraCtrl(tl_camera);
     Vec a = {0.0f, 0.0f, 0.0f};
     Vec b = {0.0f, 0.0f, -100.0f};
     TCameraCtrl::select_active_controller(9);

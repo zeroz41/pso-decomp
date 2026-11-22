@@ -10,8 +10,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
 
-extern "C" TCameraCtrl *camera_ctrl_instance;
-
 #pragma push
 #pragma fp_contract on
 void TObjEneBm9Mericarol_EffCurse3::run_task() {
@@ -25,7 +23,7 @@ void TObjEneBm9Mericarol_EffCurse3::run_task() {
     if (target->is_alive() != 0) {
         VecCopy(&a, &target->position);
         a.y += 14.0f;
-        VecCopy(&b, (const Vec *)&camera_ctrl_instance->pos_x);
+        VecCopy(&b, (const Vec *)&camera_ctrl_instance->pos.x);
         subtract_vector(&b, &a);
         normalize_vector_safe(&b);
         a.x = 20.0f * b.x + a.x;

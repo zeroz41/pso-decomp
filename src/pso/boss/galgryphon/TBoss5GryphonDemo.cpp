@@ -10,7 +10,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_800666B0.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8005D700.h"
 
