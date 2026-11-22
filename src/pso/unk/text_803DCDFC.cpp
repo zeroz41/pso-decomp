@@ -248,7 +248,7 @@ typedef struct {
 void init_render_context(Elem_803DD300 *);
 extern Elem_803DD300 render_contexts[6];
 extern f32 camera_clip_parameters[];
-extern Cam_803DD300 lbl_8058D4F8;
+extern Cam_803DD300 screen_projection;
 extern s32 motion_node_draw_callback;
 extern f32 lbl_805D777C;
 extern s32 model_render_flags;
@@ -261,7 +261,7 @@ void TKeyBoardControl::update_camera() {
 
 void TCameraCtrl::init_projection_state() {
     s32 i;
-    Cam_803DD300 *c = &lbl_8058D4F8;
+    Cam_803DD300 *c = &screen_projection;
 
     c->h = 1.0f;
     c->i = 1.0f;
@@ -376,6 +376,6 @@ s32 lbl_8058D470[8];
 Mtx34 identity_matrix;
 NJS_ARGB model_material_color;
 f32 camera_clip_parameters[10];
-Cam_803DD300 lbl_8058D4F8;
+Cam_803DD300 screen_projection;
 
 u32 lbl_8058D520[2];

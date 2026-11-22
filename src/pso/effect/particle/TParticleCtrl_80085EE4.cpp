@@ -85,7 +85,7 @@ extern u8 *camera_ctrl_instance;
 void load_projected_texture_matrix(f32 farg0);
 void play_indirect_effect_recipe(u8 arg0, u16 sampler, s32 second);
 s32 set_texture_num(s32 i);
-extern Cam_80085EE4 lbl_8058D4F8;
+extern Cam_80085EE4 screen_projection;
 
 
 THeap *TParticleCtrl__heap;
@@ -301,10 +301,10 @@ void TUnk_8048E778::draw_sprite_quad(s32 kind) {
     } else {
         set_additive_blend();
     }
-    sy = lbl_8058D4F8.scale;
-    x = lbl_8058D4F8.cx;
-    cy = lbl_8058D4F8.cy;
-    sx = sy * (480.0f / (480.0f * lbl_8058D4F8.aspect));
+    sy = screen_projection.scale;
+    x = screen_projection.cx;
+    cy = screen_projection.cy;
+    sx = sy * (480.0f / (480.0f * screen_projection.aspect));
     TParticleCtrl::begin_effect_render();
     begin_screen_draw(1);
     TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_804C5820[kind].texlist));

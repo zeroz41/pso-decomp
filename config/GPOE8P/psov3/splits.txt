@@ -11908,16 +11908,16 @@ pso/unk/text_803D64F8.cpp:
 	.text       start:0x803D64F8 end:0x803D6538
 	.sdata2     start:0x805E0DF0 end:0x805E0DFC
 
-pso/camera/TCameraCtrl_803D6538.cpp:
+pso/render/GinjaView.cpp:
 	.text       start:0x803D6538 end:0x803D66DC
 	.data       start:0x804FA4F0 end:0x804FA500
 	.sdata2     start:0x805E0E00 end:0x805E0E0C
 
-pso/camera/TCameraCtrl_803D66DC.cpp:
+pso/render/GinjaScreen.cpp:
 	.text       start:0x803D66DC end:0x803D676C
 	.sdata2     start:0x805E0E10 end:0x805E0E18
 
-pso/camera/TCameraCtrl_803D676C.cpp:
+pso/render/GinjaPerspective.cpp:
 	.text       start:0x803D676C end:0x803D6960
 	.bss        start:0x8058CA60 end:0x8058CAB8
 	.sdata2     start:0x805E0E18 end:0x805E0E50

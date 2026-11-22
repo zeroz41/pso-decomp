@@ -2,7 +2,7 @@
 #include "pso/system/ModelDrawCallback.h"
 #include "types.h"
 #include "pso/system/data/pso_date.h"
-#include "pso/camera/TCameraCtrl_803D6538.h"
+#include "pso/render/GinjaView.h"
 #include "pso/system/date.h"
 #include "dolphin/os/OSTime.h"
 

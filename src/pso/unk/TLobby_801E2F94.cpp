@@ -28,7 +28,7 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/camera/TCameraCtrl_803D6538.h"
+#include "pso/render/GinjaView.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/TLobby_803DE778.h"
 #include "pso/system/vector.h"
