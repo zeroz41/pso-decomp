@@ -7,6 +7,7 @@
 #include "pso/player/TUnk_804A2548.h"
 #include "pso/weapon/TItemAttackCol.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 typedef struct SlicerLaunchData_8012D9C8 {
     u16 player; u16 pad;
@@ -16,10 +17,8 @@ typedef struct SlicerLaunchData_8012D9C8 {
 } SlicerLaunchData_8012D9C8;
 
 
-extern saddr tl_05;
 extern "C" {
 }
-extern s32 tl_particle;
 s32 spawn_fire_explosion_at(uaddr a0, saddr a1) {
     Desc_8011E5C4 info;
     void *o;
@@ -27,9 +26,9 @@ s32 spawn_fire_explosion_at(uaddr a0, saddr a1) {
     ((TItemWeapon *)a0)->fill_status_info(&info);
     VecCopy(&info.position, (const Vec *)a1);
     info.hits = 10;
-    new TUnk_804A2548((TObject *)tl_05, &info);
+    new TUnk_804A2548(tl_05, &info);
     o = TObject::operator new(0x64);
     if (o != NULL) {
-        create_fire_explosion_effect((u8 *)o, 10.0f, &info.position, 0, (TObject *)tl_particle);
+        create_fire_explosion_effect((u8 *)o, 10.0f, &info.position, 0, tl_particle);
     }
 }

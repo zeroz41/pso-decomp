@@ -154,16 +154,16 @@ void TLobby::handle_flag2_request() {
 }
 
 void TLobby::load_now_loading_texture() {
-    s32 temp_r31;
-    saddr temp_r3;
+    saddr archive;
+    saddr packed;
     if (!(lobby_request_flags & 2)) {
-        temp_r31 = (saddr)TQuestVmDownLoadServer::alloc(0x11000);
-        temp_r3 = (saddr)TQuestVmDownLoadServer::alloc(0x2000);
-        read_disc_file_sectors("NowLoading.prs", (void *)temp_r3);
-        prs_decompress_buffer((temp_r3), (temp_r31));
-        load_gvm_texture_archive((void *)temp_r31, (GinjaTextureList *)lbl_804EF1DC);
-        TAdSinglePlyChrSelectGC::safe_free(temp_r3);
-        TAdSinglePlyChrSelectGC::safe_free(temp_r31);
+        archive = (saddr)TQuestVmDownLoadServer::alloc(0x11000);
+        packed = (saddr)TQuestVmDownLoadServer::alloc(0x2000);
+        read_disc_file_sectors("NowLoading.prs", (void *)packed);
+        prs_decompress_buffer(packed, archive);
+        load_gvm_texture_archive((void *)archive, (GinjaTextureList *)lbl_804EF1DC);
+        TAdSinglePlyChrSelectGC::safe_free(packed);
+        TAdSinglePlyChrSelectGC::safe_free(archive);
         lobby_request_flags |= 2;
     }
 }

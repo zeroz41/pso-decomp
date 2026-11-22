@@ -524,7 +524,7 @@ TObjCollidable *find_entity_by_id(u16 id) {
 }
 
 void TOTrapAncient02R__sub_80154D78(TObject *) {  }
-void TObjPlayer::init_all_slots() { { int i; for (i = 0; i < 16; i++) { TObjPlayer__sub_80154E28((int)((void*)i), (int)((void*)0)); } } }
+void TObjPlayer::init_all_slots() { { int i; for (i = 0; i < 16; i++) { TObjPlayer__sub_80154E28(i, 0); } } }
 s32 TObjPlayer::find_or_alloc_slot(uaddr arg0) {
     s32 var_r31;
     u32 battle_param;
@@ -789,13 +789,13 @@ s32 resolve_player_box_contact(u8 *arg0, u8 *arg1, u8 *arg2) {
 }
 #pragma pop
 
-s32 respond_to_body_contact(u8 *actor, u32 arg1, u8 *arg2) {
-    if (arg1 != 0 && arg2 != NULL) {
-        switch (*(s32 *)(arg2 + 0x14)) {
+s32 respond_to_body_contact(u8 *actor, uaddr other, u8 *contact) {
+    if (other != 0 && contact != NULL) {
+        switch (*(s32 *)(contact + 0x14)) {
         case 0:
-            return resolve_actor_sphere_contact(actor, arg1, (saddr)arg2);
+            return resolve_actor_sphere_contact(actor, other, (saddr)contact);
         default:
-            return resolve_player_box_contact((u8 *)actor, (u8 *)arg1, (u8 *)((saddr)arg2));
+            return resolve_player_box_contact((u8 *)actor, (u8 *)other, (u8 *)((saddr)contact));
         }
     }
     return 0;
@@ -1068,7 +1068,7 @@ u32 TObjCollidable::check_actor_body_contact(void *o_arg, f32 range) {
 }
 
 void TObjCollidable::update_enemy_collision_flags() {
-    saddr temp_r3;
+    TObjPlayer *player;
     s32 j;
     void *actor_body_contact;
     void *temp_r3_3;
@@ -1077,10 +1077,10 @@ void TObjCollidable::update_enemy_collision_flags() {
     if (temp_r5 != NULL) {
         *(s32 *)((s8 *)temp_r5 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r5 + 0x18) & 0xFEDFFFFF);
         for (j = registered_player_count + lbl_805D5870; j < (s32) lbl_805D5868; j++) {
-            temp_r3 = (int)TObjPlayer::get_player_data(j);
-            if (temp_r3 != 0) {
-                actor_body_contact = find_actor_body_contact((u8*)temp_r3, 10000.0f);
-                if ((actor_body_contact != NULL) && (TObjPlayer::check_flag_pair(*(s32 *)((s8 *)(*(void **)((s8 *)this + 0xA4)) + 0x18), *(s32 *)((s8 *)actor_body_contact + 0x18)) == 0) && (respond_to_body_contact((u8 *)this, (u32)temp_r3, (u8 *)actor_body_contact) != 0)) {
+            player = TObjPlayer::get_player_data(j);
+            if (player != NULL) {
+                actor_body_contact = find_actor_body_contact((u8 *)player, 10000.0f);
+                if ((actor_body_contact != NULL) && (TObjPlayer::check_flag_pair(*(s32 *)((s8 *)(*(void **)((s8 *)this + 0xA4)) + 0x18), *(s32 *)((s8 *)actor_body_contact + 0x18)) == 0) && (respond_to_body_contact((u8 *)this, (uaddr)player, (u8 *)actor_body_contact) != 0)) {
                     temp_r3_3 = *(void **)((s8 *)this + 0xA4);
                     *(s32 *)((s8 *)temp_r3_3 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3_3 + 0x18) | 0x01200000);
                 }

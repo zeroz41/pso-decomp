@@ -39,10 +39,10 @@ s32 set_texlist(u32 texlist) {
 }
 
 
-s32 load_streamed_prs_texture(s32 arg0, s32 arg1) {
-    s32 h;
-    s32 buf;
-    sprintf(texture_prs_stream_filename_buffer, "%s.prs", arg0);
+s32 load_streamed_prs_texture(saddr name, saddr texlist) {
+    saddr h;
+    saddr buf;
+    sprintf(texture_prs_stream_filename_buffer, "%s.prs", name);
     h = (saddr)load_disc_file(texture_prs_stream_filename_buffer);
     if (h == 0) {
         TAdSinglePlyChrSelectGC::safe_free(h);
@@ -50,17 +50,17 @@ s32 load_streamed_prs_texture(s32 arg0, s32 arg1) {
     }
     buf = (saddr)TQuestVmDownLoadServer::alloc(0x100000);
     prs_decompress_buffer(h, buf);
-    load_gvm_texture_archive((void *)buf, (GinjaTextureList *)arg1);
+    load_gvm_texture_archive((void *)buf, (GinjaTextureList *)texlist);
     TAdSinglePlyChrSelectGC::safe_free(buf);
     TAdSinglePlyChrSelectGC::safe_free(h);
     return 1;
 }
 
-s32 load_disc_prs_texture(s32 arg0, s32 arg1) {
+s32 load_disc_prs_texture(saddr name, saddr texlist) {
     AdxfHandle *file;
     saddr b;
     saddr c;
-    sprintf(texture_prs_disc_filename_buffer, "%s.prs", arg0);
+    sprintf(texture_prs_disc_filename_buffer, "%s.prs", name);
     if (get_resource_file_size(texture_prs_disc_filename_buffer) != -1) {
         file = ADXF_Open(texture_prs_disc_filename_buffer, 0);
         b = ADXF_GetFsizeSct(file);
@@ -69,7 +69,7 @@ s32 load_disc_prs_texture(s32 arg0, s32 arg1) {
         if (read_disc_file(texture_prs_disc_filename_buffer, (void *)b) != -1) {
             c = (saddr)xmalloc(0x200000);
             prs_decompress_buffer(b, c);
-            load_gvm_texture_archive((void *)c, (GinjaTextureList *)arg1);
+            load_gvm_texture_archive((void *)c, (GinjaTextureList *)texlist);
             xfree((void *)c);
         }
         xfree((void *)b);
