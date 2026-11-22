@@ -343,8 +343,6 @@ void TBoss6PlotFalz::set_state(s32 arg1) {
 }
 #undef update_random_shake__14TBoss6PlotFalzFPv
 
-#define get_player_by_client_id ((u8 *(*)(u16))get_player_by_client_id)
-
 struct Stack_802AB684 {
     s32 sp8;
     f32 spC;
@@ -358,7 +356,6 @@ s32 vector_length(void *);
 s32 subtract_vector(void *, const void *);
 void TBoss6PlotFalz__sub_802AB684(saddr arg0);
 f64 atan2_float(f32, f32);
-s32 get_nth_view_player_id__11TCameraCtrlFl();
 extern u8 *camera_ctrl_instance;
 s32 TBoss6PlotFalz__sub_802AB6CC(void *pos, f32 r);
 
@@ -404,10 +401,10 @@ void TBoss6PlotFalz::award_exp_and_destroy() {
     if (is_split_screen() != 0) {
         ((TObjEnemy *)self)->distribute_experience();
     } else {
-        u8 *pl = ((u8 *(*)(s32))get_player_by_client_id)(local_client_id);
+        TObjPlayer *pl = get_player_by_client_id(local_client_id);
         if (pl != NULL) {
             V3_802AB490 saved = *(V3_802AB490 *)(self + 0x2FC);
-            VecCopy(&this->body_center, (const Vec *)(pl + 0x2FC));
+            VecCopy(&this->body_center, &pl->body_center);
             ((TObjEnemy *)self)->distribute_experience();
             VecCopy(&this->body_center, (const Vec *)&saved);
         }
@@ -467,7 +464,7 @@ s32 TBoss6PlotFalz__sub_802AB6CC(void *pos, f32 r) {
     Vec a;
     Vec b;
     Vec dir;
-    u8 *player;
+    TObjPlayer *player;
     f32 l2;
     f32 l3;
     s32 ang1;
@@ -476,12 +473,11 @@ s32 TBoss6PlotFalz__sub_802AB6CC(void *pos, f32 r) {
     s32 s1;
     s32 s2;
     p.y = 0.0f;
-    TCameraCtrl::get_camera_no();
-    player = get_player_by_client_id(get_nth_view_player_id__11TCameraCtrlFl());
+    player = get_player_by_client_id(TCameraCtrl::get_nth_view_player_id(TCameraCtrl::get_camera_no()));
     if (player == NULL) {
         return 0;
     }
-    VecCopy((Vec *)&pl, (const Vec *)(player + 0x38));
+    VecCopy(&pl, &player->position);
     VecCopy((Vec *)&c, (const Vec *)(camera_ctrl_instance + 0x178));
     VecCopy((Vec *)&d1, (const Vec *)&p);
     subtract_vector(&d1, &pl);
@@ -537,7 +533,6 @@ s32 TBoss6PlotFalz__sub_802AB6CC(void *pos, f32 r) {
 }
 
 #undef VLEN
-#undef get_player_by_client_id
 
 f32 TBoss6PlotFalz::cosine_ease(f32 t) {
     if (t < 0.0f) {
