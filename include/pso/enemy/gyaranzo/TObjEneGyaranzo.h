@@ -27,6 +27,7 @@ struct TObjEneGyaranzo : public TObjEnemyCustom {
     virtual s32 update_shock_clock();
     void clear_flag_and_update();
     void spawn_missile();
+    void update_walk_to_target();
     u32 m_38c;
     u8 _pad390[0x18];
     u32 m_3a8;

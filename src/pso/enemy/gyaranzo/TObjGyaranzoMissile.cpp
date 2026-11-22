@@ -110,7 +110,7 @@ void TObjGyaranzoMissile::render() {
     rotate_matrix_y(0, this->rotation_y);
     translate_matrix(0, 0.0f, (f32) (this->wobble_height * sin_table_lookup((int) this->wobble_phase)), 0.0f);
     model_render_flags &= 0xFFFFFBFF;
-    (saddr)get_bml_model((BmlResource *)(void *)gyaranzo_bml_resource, 6);
+    (saddr)get_bml_model(gyaranzo_bml_resource, 6);
     draw_chunk_object();
     pop_matrix();
 }

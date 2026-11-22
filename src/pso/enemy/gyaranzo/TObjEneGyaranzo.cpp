@@ -65,38 +65,8 @@ LAYOUT_ASSERT(GyaranzoPositionOffset, offsetof(TObjEneGyaranzo, position) == 0x3
 
 LAYOUT_ASSERT(GyaranzoYawOffset, offsetof(TObjEneGyaranzo, rotation_y) == 0x60);
 
-typedef struct Col_800D1E4C {
-    u8 pad0[0x18];
-    u32 flags;
-} Col_800D1E4C;
 
-typedef struct Param_800D1E4C {
-    u8 pad0[4];
-    f32 speed;
-    s32 turn;
-} Param_800D1E4C;
 
-typedef struct Ene_800D1E4C {
-    u8 pad0[0x30];
-    u32 flags30;
-    u8 pad34[0x38 - 0x34];
-    Vec pos;
-    u8 pad44[0x50 - 0x44];
-    Vec target;
-    u8 pad5C[0xA4 - 0x5C];
-    Col_800D1E4C *col;
-    u8 padA8[0xB8 - 0xA8];
-    s16 fB8;
-    u8 padBA[0x290 - 0xBA];
-    Vec v290;
-    Vec v29C;
-    u8 pad2A8[0x2FC - 0x2A8];
-    Vec v2FC;
-    u8 v308[0x350 - 0x308];
-    Param_800D1E4C *param;
-    u8 pad354[0x37C - 0x354];
-    s32 state;
-} Ene_800D1E4C;
 
 #include "dolphin/mtx.h"
 
@@ -106,9 +76,7 @@ typedef struct Ene_800D1E4C {
 
 #pragma dont_inline off
 
-struct Inner_800D2900 { u8 pad[0x3c]; s32 x3c; };
 
-struct Outer_800D2900 { u8 pad[0x42c]; Inner_800D2900 *p42c; };
 
 extern "C" {
 
@@ -124,7 +92,7 @@ u8 *gyaranzo_resource_ptrs[13];
 
 EnemyTargetCandidate TObjGyaranzoMissile_target_slots[4];
 
-extern uaddr gyaranzo_bml_resource;
+extern BmlResource *gyaranzo_bml_resource;
 
 extern u8 *tl_05;
 
@@ -135,7 +103,6 @@ extern "C" {
 void calc_velocity_toward_destination(void *, Vec, Vec, f32);
 
 
-void update_walk_to_target__10TObjPlayerFPv(Ene_800D1E4C *arg0);
 }
 void move_with_wall_slide(u8 *arg0);
 
@@ -261,9 +228,7 @@ struct Ene_800D2E8C;
 
 // The motion-binding block TLobby::spawn_npc_enemy takes (same layout as MojaAnimationBinding).
 
-struct Res_800D3C04 { u8 pad0[0x38]; uaddr r38; NJS_TEXLIST *texlist; u8 pad40[8]; s32 r48; };
 
-struct Area_800D3C04 { u8 pad0[0x42C]; Res_800D3C04 *res; BmlMotionEntry *motions; };
 
 
 
@@ -284,7 +249,6 @@ s32 is_split_screen();
 
 
 
-#define update_walk_to_target__10TObjPlayerFPv ((s32 (*)(void *))update_walk_to_target__10TObjPlayerFPv)
 void TObjPlayer__sub_800D2E8C(Ene_800D2E8C *self);
 
 void run_death_reaction__15TObjEneGyaranzoFv(u8 *arg0);
@@ -423,7 +387,7 @@ f32 TObjGyaranzoMissile__speed_scale;
 
 f32 TObjGyaranzoMissile__max_range;
 
-uaddr gyaranzo_bml_resource;
+BmlResource *gyaranzo_bml_resource;
 extern "C" {
 
 u32 *lbl_805D5200;
@@ -440,7 +404,7 @@ TObjEneGyaranzo::TObjEneGyaranzo(TObject *parent, void *set_data) : TObjEnemyCus
     m_name = TObjEneGyaranzo__class_name;
     apply_set_data(set_data);
     VecCopy(&move_origin, VecCopy(&move_destination, &position));
-    motion_list = ((BmlResource *)gyaranzo_bml_resource)->motions;
+    motion_list = gyaranzo_bml_resource->motions;
     action_table = gyaranzo_action_table;
     set_field_d8((saddr)action_table);
     init_collision_body_parts(this, lbl_804941F8, 1);
@@ -465,8 +429,8 @@ TObjEneGyaranzo::TObjEneGyaranzo(TObject *parent, void *set_data) : TObjEnemyCus
     update_prev_position();
     initialize_enemy_photon_effect(this);
     actorFlags |= 0x40000;
-    model = ((BmlResource *)gyaranzo_bml_resource)->models[3].model;
-    texlist = (saddr)((BmlResource *)gyaranzo_bml_resource)->models[3].m_c;
+    model = gyaranzo_bml_resource->models[3].model;
+    texlist = (saddr)gyaranzo_bml_resource->models[3].m_c;
     if (*(s16 *)((u8 *)set_data + 0xA) != 0) {
         sub_800C7860();
     }
@@ -480,7 +444,6 @@ TObjEneGyaranzo::~TObjEneGyaranzo() {
     free_collision_body_parts(this);
 }
 
-#define AREA ((Area_800D3C04 *)gyaranzo_bml_resource)
 #pragma push
 #pragma opt_propagation off
 void TLobby::load_gyaranzo_resources() {
@@ -488,23 +451,23 @@ void TLobby::load_gyaranzo_resources() {
     void *p;
 
     if (TObjEneDD::check_v2_mode() != 0) {
-        gyaranzo_bml_resource = (uaddr)load_enemy_bml_resource_named(&bm_ene_gyaranzo_resource_descriptor, "bm_ene_gyaranzo_a.bml");
+        gyaranzo_bml_resource = load_enemy_bml_resource_named(&bm_ene_gyaranzo_resource_descriptor, "bm_ene_gyaranzo_a.bml");
     } else {
         p = new BmlResource(5, &bm_ene_gyaranzo_resource_descriptor, 0, 0, NULL);
-        gyaranzo_bml_resource = (uaddr)p;
+        gyaranzo_bml_resource = (BmlResource *)p;
     }
     for (i = 0; i < 0x16; i++) {
-        ((s32 *)gyaranzo_model_resources)[i] = (s32)find_model_node(AREA->res->r38, gyaranzo_resource_index_table[i]);
+        ((s32 *)gyaranzo_model_resources)[i] = (s32)find_model_node((uaddr)gyaranzo_bml_resource->models[3].model, gyaranzo_resource_index_table[i]);
     }
     for (i = 0; i < 0xD; i++) {
-        gyaranzo_resource_ptrs[i] = (u8 *)find_model_node(AREA->res->r48, gyaranzo_resource_index_table[i]);
+        gyaranzo_resource_ptrs[i] = (u8 *)find_model_node((uaddr)gyaranzo_bml_resource->models[4].model, gyaranzo_resource_index_table[i]);
     }
     for (i = 0; i < 0xD; i++) {
         *(s32 *)((s8 *)gyaranzo_resource_ptrs[i] + 0x30) = 0;
     }
-    (*(s32 *)&lbl_805D5200) = (s32)find_model_node(AREA->res->r38, 0x19);
-    (*(s32 *)&lbl_805D5204) = (s32)find_model_node(AREA->res->r38, 0xD);
-    p = new TUnk_8048FA00((NJS_OBJECT *)AREA->res->r38, (NJS_MOTION *)get_bml_motion((BmlResource *)gyaranzo_bml_resource, 3), 54.0f);
+    (*(s32 *)&lbl_805D5200) = (s32)find_model_node((uaddr)gyaranzo_bml_resource->models[3].model, 0x19);
+    (*(s32 *)&lbl_805D5204) = (s32)find_model_node((uaddr)gyaranzo_bml_resource->models[3].model, 0xD);
+    p = new TUnk_8048FA00(gyaranzo_bml_resource->models[3].model, (NJS_MOTION *)get_bml_motion(gyaranzo_bml_resource, 3), 54.0f);
     gyaranzo_breakup_model_obj = (TUnk_8048FA00 *)p;
     gyaranzo_boss_stats_handle = (saddr)TLobby::register_boss(0x1D);
     gyaranzo_boss_stats_ptr_b = (saddr)TLobby::dispatch_shared_handler_b(0x1D);
@@ -512,18 +475,17 @@ void TLobby::load_gyaranzo_resources() {
     gyaranzo_missile_param_table = (saddr)TLobby::dispatch_shared_handler_a(0x1D);
     {
         NpcAnimationBinding pos = { NULL, reinterpret_cast<TObjMotionAction *>(gyaranzo_action_table), 0, 1, 8 };
-        pos.motions = reinterpret_cast<BmlMotionEntry *>(AREA->motions);
-        NpcModelRegistry::register_animated_chunk(0x20, reinterpret_cast<void *>(AREA->res->r38), reinterpret_cast<void *>(AREA->res->texlist), &pos, 18.0f, 0.0f);
-        NpcModelRegistry::register_animated_chunk(0x21, reinterpret_cast<void *>(AREA->res->r48), reinterpret_cast<void *>(AREA->res->texlist), &pos, 18.0f, 0.0f);
+        pos.motions = gyaranzo_bml_resource->motions;
+        NpcModelRegistry::register_animated_chunk(0x20, gyaranzo_bml_resource->models[3].model, gyaranzo_bml_resource->models[3].m_c, &pos, 18.0f, 0.0f);
+        NpcModelRegistry::register_animated_chunk(0x21, gyaranzo_bml_resource->models[4].model, gyaranzo_bml_resource->models[3].m_c, &pos, 18.0f, 0.0f);
     }
 }
 #pragma pop
 
-#undef AREA
 void TObjEneGyaranzo::free_static_instances() {
-    if (gyaranzo_bml_resource != 0U) {
-        delete (BmlResource *)gyaranzo_bml_resource;
-        gyaranzo_bml_resource = 0U;
+    if (gyaranzo_bml_resource != NULL) {
+        delete gyaranzo_bml_resource;
+        gyaranzo_bml_resource = NULL;
     }
     if (gyaranzo_breakup_model_obj != NULL) {
         delete gyaranzo_breakup_model_obj;
@@ -592,7 +554,7 @@ void TObjPlayer::dispatch_state_update() {
         TObjPlayer__sub_800D3314((u8 *)((void *) self));
         return;
       case 8:
-        update_walk_to_target__10TObjPlayerFPv((void *) self);
+        ((TObjEneGyaranzo *)self)->update_walk_to_target();
         break;
     }
   }
@@ -987,17 +949,17 @@ void TObjEneGyaranzo::sub_800D2A68() {
     const TObjChipParams first = {
         {0.5f, 0.04f, 0.28f}, {pos.x, pos.y, pos.z}, {6.0f, 7.0f, 6.0f},
         {0x400, 0x100, 0x400}, {5, 50}, {position.y, 1.0f},
-        (saddr)((BmlResource *)gyaranzo_bml_resource)->models[0].model, (saddr)((BmlResource *)gyaranzo_bml_resource)->models[0].m_c, 2,
+        (saddr)gyaranzo_bml_resource->models[0].model, (saddr)gyaranzo_bml_resource->models[0].m_c, 2,
     };
     const TObjChipParams second = {
         {0.5f, 0.04f, 0.2f}, {pos.x, pos.y, pos.z}, {5.5f, 6.5f, 5.5f},
         {0x400, 0x100, 0x400}, {4, 50}, {position.y, 1.0f},
-        (saddr)((BmlResource *)gyaranzo_bml_resource)->models[1].model, (saddr)((BmlResource *)gyaranzo_bml_resource)->models[1].m_c, 2,
+        (saddr)gyaranzo_bml_resource->models[1].model, (saddr)gyaranzo_bml_resource->models[1].m_c, 2,
     };
     const TObjChipParams third = {
         {0.5f, 0.04f, 0.22f}, {pos.x, pos.y, pos.z}, {5.5f, 7.0f, 5.5f},
         {0x400, 0x100, 0x400}, {5, 50}, {position.y, 1.0f},
-        (saddr)((BmlResource *)gyaranzo_bml_resource)->models[2].model, (saddr)((BmlResource *)gyaranzo_bml_resource)->models[2].m_c, 2,
+        (saddr)gyaranzo_bml_resource->models[2].model, (saddr)gyaranzo_bml_resource->models[2].m_c, 2,
     };
 
     new TObjChip((TObject *)tl_05, &first);
@@ -1041,7 +1003,7 @@ void TObjEneGyaranzo::sub_800D2900() {
                 p.pos[2] = v.z;
                 p.pad_38[0] = *(f32 *)((s8 *)((u8 *)this) + 0x3C);
                 p.model = ((s32 *)&gyaranzo_resource_ptrs)[idx];
-                p.textures = (*(Outer_800D2900 * *)&gyaranzo_bml_resource)->p42c->x3c;
+                p.textures = (s32)gyaranzo_bml_resource->models[3].m_c;
                 obj = TObject::operator new(0x234);
                 if (obj != NULL) {
                     __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)obj, tl_05, (u8 *)&p);
@@ -1052,7 +1014,6 @@ void TObjEneGyaranzo::sub_800D2900() {
 }
 
 #undef spawn_missile_volley__19TObjGyaranzoMissileFPv
-#undef update_walk_to_target__10TObjPlayerFPv
 #define NEW(d, id) { new TObjGyaranzoMissile(arg0, (u8 *)&d, id); }
 #pragma pool_data off
 void spawn_missile_volley__19TObjGyaranzoMissileFPv(u8 *arg0) {
@@ -1229,26 +1190,27 @@ void TObjEneGyaranzo::init_params_from_table() {
     TObjGyaranzoMissile__max_range = get_gyaranzo_missile_float_parameter(4);
 }
 
-void update_walk_to_target__10TObjPlayerFPv(Ene_800D1E4C *arg0) {
-    switch (arg0->state) {
+// Mode 8: walk back to home_position, then resume through update_if_active.
+void TObjEneGyaranzo::update_walk_to_target() {
+    switch ((s32)state) {
     case -1:
         break;
     case 0:
-        arg0->col->flags &= ~0x380000;
-        arg0->flags30 &= ~0x100;
-        arg0->fB8 = 1;
-        VecCopy((Vec *)&arg0->v29C, (const Vec *)&arg0->target);
-        arg0->state = 1;
+        bodies->flags &= ~0x380000;
+        actorFlags &= ~0x100;
+        requested_action = 1;
+        VecCopy(&move_destination, &home_position);
+        state = 1;
     case 1:
-        ((TObjMotion *)arg0)->advance_animation();
-        apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), 0.0f);
-        VecCopy((Vec *)&arg0->v290, (const Vec *)&arg0->v2FC);
-        calc_velocity_toward_destination(arg0, arg0->v290, arg0->v29C, arg0->param->speed);
-        ((TObjEnemy *)arg0)->turn_toward_direction(arg0->param->turn, (Vec *)arg0->v308);
-        move_with_wall_slide((u8 *)arg0);
-        ((TObjPlayer *)arg0)->update_collisions();
-        if (xz_distance_squared((Vec *)&arg0->pos, (Vec *)&arg0->target) <= 100.0f) {
-            ((TObjEnemyCustom *)arg0)->update_if_active(0);
+        advance_animation();
+        apply_actor_gravity(this, NULL, 0.0f);
+        VecCopy(&move_origin, &body_center);
+        calc_velocity_toward_destination(this, move_origin, move_destination, ((EnemyMoveParams *)movementParameters)->min_distance);
+        turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, &velocity);
+        move_with_wall_slide((u8 *)this);
+        ((TObjPlayer *)(u8 *)this)->update_collisions();
+        if (xz_distance_squared(&position, &home_position) <= 100.0f) {
+            update_if_active(0);
         }
         break;
     }
