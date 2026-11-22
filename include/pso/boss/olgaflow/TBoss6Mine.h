@@ -7,8 +7,9 @@
 
 struct BmlResource;
 class TParticleCtrl;
+struct TBoss6Type1;
 
-// What TBoss6Type1's mine attack (TBoss6Type1__sub_802B6504) hands TBoss6Mine::create: a 0x40-byte object
+// What TBoss6Type1's mine attack (TBoss6Type1::sub_802B6504) hands TBoss6Mine::create: a 0x40-byte object
 // set entry copied from the mag mine's (TBoss4DarkFalz__sub_8004B4F0) followed by the mine's own spawn data.
 // The TBoss6Mine constructor reads 0x40-0x60 and passes the whole record to apply_set_data. Names inferred from those uses.
 struct TBoss6MineSetData {
@@ -19,7 +20,7 @@ struct TBoss6MineSetData {
     u8 pad_0A[0x6];
     Vec position;
     u8 pad_1C[0x24];
-    TObjEnemy *owner;
+    TBoss6Type1 *owner;
     Vec origin;
     Vec offset;
     s32 heading;
@@ -35,7 +36,7 @@ struct TBoss6Mine : public TObjEnemy {
     virtual void render_shadows();
     virtual void render();
     BmlResource *scene_archive;
-    TObjEnemy *owner;
+    TBoss6Type1 *owner;
     s32 heading;
     s32 state;
     s32 damage; // boss parameter 0x2D, each player in the blast takes about this much

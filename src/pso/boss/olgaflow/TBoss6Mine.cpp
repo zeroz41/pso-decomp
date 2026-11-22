@@ -5,6 +5,7 @@
 #include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/boss/olgaflow/TBoss6Mine.h"
+#include "pso/boss/olgaflow/TBoss6Type1.h"
 #include "pso/object/TObjControl.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/unk/text_803D96A8.h"
@@ -54,7 +55,6 @@ static CollisionBody TBoss6Mine__collision_body_template[1] = {
 
 extern "C" {
 const char *lbl_805D4178 = "TBoss6Mine";
-void TBoss6Type1__sub_802B5DD4(void *);
 
 void TBoss6Mine::render_shadows() {
     if (position.y >= 0.0f) {
@@ -332,7 +332,7 @@ void TBoss6Mine::run_task() {
 TBoss6Mine::~TBoss6Mine() {
     if (this->emitter != NULL) { TParticleCtrl::release(this->emitter); this->emitter = 0; }
     free_collision_body_parts(this);
-    if (this->owner != NULL) { TBoss6Type1__sub_802B5DD4(this->owner); }
+    if (this->owner != NULL) { this->owner->tick_timer(); }
 }
 
 

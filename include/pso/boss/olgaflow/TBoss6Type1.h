@@ -27,6 +27,13 @@ struct Boss6PartMotion {
 };
 struct TBoss6GravBall;
 
+// The three bytes an attack choice fills (sub_802B909C / randomize_attack) and send_6xA4_action sends.
+struct Atk_802B8EE0 {
+    s8 b0;
+    u8 b1;
+    s8 b2;
+};
+
 struct Boss6Point {
     Vec v;
 };
@@ -153,7 +160,7 @@ struct TBoss6Type1 : public TObjEnemy {
     void copy_transform(void* q);
     void render_shadows();
     void do_attack();
-    void send_6xA4_action(s32 t, s32 *src);
+    void send_6xA4_action(s32 t, const Atk_802B8EE0 *src);
     void load_params(const OlgaFlowActionMsg *message);
     void set_sync_data(OlgaFlowActionMsg *message);
     static s32 create(s32 arg0);
@@ -227,6 +234,46 @@ struct TBoss6Type1 : public TObjEnemy {
     void init_state();
     void tick_trap_countdown();
     void init_work();
+    void sub_802B909C(Atk_802B8EE0 *atk);
+    void randomize_attack(Atk_802B8EE0 *atk);
+    void sub_802B8E1C();
+    void sub_802B8BB4();
+    void sub_802B8A70();
+    void sub_802B854C();
+    // Starts the sway over: zero offset and phase, the minimum speed and delay.
+    void reset_sway();
+    void sub_802B73AC();
+    // Swept-arm hit test of the motion-14 sweep (frames 10.5-15): damages players inside the arm's triangle.
+    void sub_802B715C();
+    void sub_802B6C30();
+    // Fires five kakusan shots from body nodes across the boss's front (inferred).
+    void sub_802B6944();
+    // Spreads the mines on rings around node 0 in a shuffled order (inferred: the mine attack).
+    void sub_802B6504();
+    s32 sub_802B6060() const;
+    s32 sub_802B600C();
+    s32 sub_802B5FF4();
+    s32 sub_802B5FDC();
+    // Counts timer_elapsed up while a timer_limit is set (is_timer_expired reads it).
+    void tick_timer();
+    void fire_at_all_players(f32 dy);
+    void sub_802B5AB0();
+    void sub_802B59CC();
+    void sub_802B59A8();
+    void sub_802B5970();
+    void calc_grid_cell_position(Vec *out);
+    void sub_802B5598(Vec *out);
+    void clamp_to_arena_radius(Vec *out);
+    void sub_802B5140(s32 arg1, s32 arg2);
+    void clear_effect_slots();
+    // release_effect_slot for all four effect_slots.
+    void release_effect_slots();
+    void sub_802B4B14();
+    void sub_802B4B04();
+    // Zeroes m_508 and releases every slot_particles emitter.
+    void release_slot_particles();
+    void clear_map_csn();
+    void sub_802B4A70();
 };
 // A row of TBoss6Type1__motion_set_table: how the main part motion ends and the two motions.
 struct Boss6Type1MotionSet {
@@ -247,15 +294,6 @@ struct TBoss6Type1Action {
 };
 extern TBoss6Type1Action boss6_type1_action_table[41];
 
-extern "C" {
-void sub_802B626C__11TBoss6Type1Fv(TBoss6Type1 *boss);
-// Spreads the mines on rings around node 0 in a shuffled order (inferred: the mine attack).
-void TBoss6Type1__sub_802B6504(TBoss6Type1 *boss);
-// Fires five kakusan shots from body nodes across the boss's front (inferred).
-void TBoss6Type1__sub_802B6944(TBoss6Type1 *boss);
-// Swept-arm hit test of the motion-14 sweep (frames 10.5-15): damages players inside the arm's triangle.
-void TBoss6Type1__sub_802B715C(TBoss6Type1 *self);
-}
 
 // Defined in TBoss6Type1.cpp's .rodata; init_effect_slot_1 reads it too.
 extern const Vec lbl_80470CE0;
