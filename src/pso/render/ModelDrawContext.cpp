@@ -7,6 +7,7 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/RenderSbssGlobals.h"
+#include "pso/render/GinjaTextureMatrices.h"
 
 typedef s32 (*RecoveredCallback_92513335c3ed)(void *);
 typedef void (*RecoveredCallback_2be3cacebb2e)(void);
@@ -37,10 +38,8 @@ extern RenderContexts render_contexts;
 extern u8 *current_render_context;
 extern "C" {
 void select_render_context(s32 arg0);
-s32 queue_model_draw_matrix(int, void *);
 }
 s32 model_node_callback;
-void draw_ginja_motion_node_tree(u8 *arg0);
 void flush_model_draw_queue(void);
 extern "C" {
 
@@ -66,7 +65,7 @@ void draw_ginja_model_with_motion(void *model, void *motion, f32 frame) {
     model_draw_context->draw = draw_ginja_model_lists;
     prepare_ginja_model();
     init_model_draw_queue(draw_ginja_model_lists);
-    draw_ginja_motion_node_tree((u8 *)model);
+    draw_ginja_motion_node_tree((NJS_OBJECT *)model);
     flush_model_draw_queue();
     if (ginja_draw_end_callback != NULL) {
         ginja_draw_end_callback();
@@ -77,28 +76,26 @@ void get_current_matrix(void *m);
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-void draw_ginja_motion_node_tree(u8 *arg0) {
-    u32 model;
-    u8 *temp_r3_2;
-    u8 *child;
-    child = arg0;
+void draw_ginja_motion_node_tree(NJS_OBJECT *node) {
+    void *model;
+    NJS_OBJECT *child;
     do {
         push_matrix();
-        compose_motion_node_matrix((child));
+        compose_motion_node_matrix(node);
         if (((s32 (*)(void *)) (*(RecoveredCallback_92513335c3ed *)&model_node_callback)) != NULL) {
-            (*(RecoveredCallback_92513335c3ed *)&model_node_callback)(child);
+            (*(RecoveredCallback_92513335c3ed *)&model_node_callback)(node);
         }
-        model = *(u32 *)((s8 *)child + 4);
-        if ((model != 0U) && ((u32) (*(s32 *)((s8 *)child + 0) & 8) == 0)) {
-            queue_model_draw_matrix((int)model, (void *)current_matrix);
+        model = node->model;
+        if (model != NULL && (node->evalflags & 8) == 0) {
+            queue_model_draw_matrix(model, *current_matrix);
         }
-        temp_r3_2 = (u8 *)(*(u8 **)((s8 *)child + 0x2C));
-        if (temp_r3_2 != NULL) {
-            draw_ginja_motion_node_tree(temp_r3_2);
+        child = node->child;
+        if (child != NULL) {
+            draw_ginja_motion_node_tree(child);
         }
         pop_matrix();
-        child = (u8 *)(*(u8 **)((s8 *)child + 0x30));
-    } while (child != NULL);
+        node = node->sibling;
+    } while (node != NULL);
 }
 #pragma pop
 

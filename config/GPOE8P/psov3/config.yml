@@ -5855,7 +5855,7 @@ force_active:
   - draw_filled_rects_2d__FPvPvi
   - draw_frame__20TWindowActionPaletteFl
   - draw_fullscreen_texture_quad__6TLobbyFv
-  - draw_ginja_motion_node_tree__FPUc
+  - draw_ginja_motion_node_tree__FP10NJS_OBJECT
   - draw_hanger__13TUnk_80486924Fv
   - draw_help_entries__24TWindowSubSymbolChatHelpFPv
   - draw_help_entry__24TWindowSubSymbolChatHelpFPvll

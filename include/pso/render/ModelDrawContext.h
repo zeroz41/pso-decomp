@@ -8,7 +8,8 @@ void apply_cached_blend_mode(s32 arg0);
 // Draws a model posed by motion at the given frame.
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 }
-void draw_ginja_motion_node_tree(u8 *arg0);
+struct NJS_OBJECT;
+void draw_ginja_motion_node_tree(NJS_OBJECT *node);
 extern "C" {
 void select_render_context(s32 arg0);
 void set_model_node_callback(saddr arg0);
