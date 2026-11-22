@@ -33,7 +33,10 @@ LAYOUT_ASSERT(TUnk_80484A94_size, sizeof(TUnk_80484A94) == 0xE0);
 
 extern "C" {
 f32 fn_800499FC(s32 index);
-void fn_80049A0C(TObjEnemyCustom *boss);
 }
+
+// Clears the owner's "cage shot in flight" flag (0x100000, set by
+// TBoss3VoloptP02 when it fires this shot; its state 3 waits for the clear).
+void clear_cage_shot_in_flight(TObjEnemyCustom *boss);
 
 #endif

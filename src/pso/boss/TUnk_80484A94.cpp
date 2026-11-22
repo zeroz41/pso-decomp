@@ -107,7 +107,7 @@ TUnk_80484A94::~TUnk_80484A94() {
         ((TObject *)glow)->queue_destruction();
     }
     if (m_up != NULL) {
-        fn_80049A0C((TObjEnemyCustom *)m_up);
+        clear_cage_shot_in_flight((TObjEnemyCustom *)m_up);
     }
 }
 
@@ -134,6 +134,6 @@ f32 fn_800499FC(s32 index) {
     return volopt_cage_params->float_params[index];
 }
 
-void fn_80049A0C(TObjEnemyCustom *boss) {
+void clear_cage_shot_in_flight(TObjEnemyCustom *boss) {
     boss->m_388 &= ~0x100000;
 }
