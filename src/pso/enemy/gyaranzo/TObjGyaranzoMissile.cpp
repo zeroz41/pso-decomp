@@ -40,7 +40,7 @@ CollisionBody gyaranzo_missile_collision_body_b = {{0.0f, 0.0f, 0.0f}, 0.0f, 0.0
 const char *TObjGyaranzoMissile__class_name = "TObjGyaranzoMissile";
 static const DirectAttackPayload lbl_8043C464[] = {{0, 0.0f}};
 
-void TObjGyaranzoMissile::sub_800D47B4() {
+void TObjGyaranzoMissile::explode() {
     TObjCollidable *owner;
     s32 i;
     TObjChara *target;
@@ -99,7 +99,7 @@ void TObjGyaranzoMissile::run_task() {
     wobble_phase += wobble_speed;
     if (timer >= 10) {
         if (csnVector(&prev_position, &position, -1) != NULL) {
-            sub_800D47B4();
+            explode();
             return;
         }
         Vec ground = position;
@@ -110,7 +110,7 @@ void TObjGyaranzoMissile::run_task() {
                 check_object_collisions();
                 check_enemy_body_collisions(this);
                 if (bodies->flags & 0x180000) {
-                    sub_800D47B4();
+                    explode();
                     return;
                 }
             } else {
@@ -121,7 +121,7 @@ void TObjGyaranzoMissile::run_task() {
     }
     timer++;
     if (timer > gyaranzo_missile_volley_end_time) {
-        sub_800D47B4();
+        explode();
     }
 }
 

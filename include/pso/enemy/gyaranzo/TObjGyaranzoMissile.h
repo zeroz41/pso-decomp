@@ -22,7 +22,8 @@ struct TObjGyaranzoMissile : public TObjCollidable {
     virtual ~TObjGyaranzoMissile();
     virtual void run_task();
     virtual void render();
-    void sub_800D47B4();
+    // Hits every hittable player with the parameter-2 damage, then goes off.
+    void explode();
     Vec velocity;
     u8 pad_B8[0xC];
     u16 target_id;

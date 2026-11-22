@@ -16214,7 +16214,7 @@ force_active:
   - sub_800CC0C4__13TObjEneMe1GeeFv
   - select_subtype__16TObjEneBm5GibonUFv
   - explode__13TUnk_8049442CFv
-  - sub_800D47B4__19TObjGyaranzoMissileFv
+  - explode__19TObjGyaranzoMissileFv
   - update_fade_in__16TObjEneMerillLiaFv
   - sub_800D741C__13TUnk_80494938Fv
   - hit_enemy__22TObjEnePanarmsAtkColliFP9TObjChara
