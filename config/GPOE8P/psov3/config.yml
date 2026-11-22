@@ -8094,11 +8094,11 @@ force_active:
   - lbl_804E0B60
   - gigue_low_model_names
   - __vt__15TObjEneMe1GiGue
-  - lbl_804E1548
-  - lbl_804E15BC
-  - lbl_804E15C4
-  - lbl_804E15F8
-  - lbl_804E1600
+  - mericarol_movement_params
+  - mericarol_model_names
+  - mericarol_motion_names
+  - mericarol_low_model_names
+  - mericarol_low_motion_names
   - lbl_804E3A38
   - lbl_804E3B60
   - lbl_804E4AA4
@@ -8216,8 +8216,8 @@ force_active:
   - lbl_80514CF0
   - lbl_80514D40
   - lbl_8051607C
-  - lbl_80540B64
-  - lbl_80540B70
+  - bm9_mericarol_phase_attack_table
+  - bm9_mericarol_phase_resist_table
   - lbl_80540B88
   - lbl_80540B98
   - lbl_80540BBC
@@ -8414,7 +8414,7 @@ force_active:
   - lbl_805D6804
   - lbl_805D6808
   - lbl_805D681C
-  - lbl_805D6868
+  - mericarol_bml
   - lbl_805D6880
   - lbl_805D6910
   - lbl_805D6948

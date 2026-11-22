@@ -66,58 +66,47 @@ struct Sub_800ACA10 { u8 pad[0x18]; s32 level; };
 extern "C" void create__9TTecKafunFllllllff(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, f32 farg0, f32 farg1);
 
 
-// The motion-binding block TLobby::spawn_npc_enemy takes (same layout as
-// MojaAnimationBinding and GeeAnimationBinding).
-
-extern "C" {
-// Reached with a lis/addi each, never off a shared .rodata base like the TU's own tables: not defined here.
-extern const s32 lbl_804722E8[];
-extern const s32 lbl_804722F4[];
-extern const s32 lbl_80472300[];
-extern const s32 lbl_8047230C[];
-}
-
 // inferred: the per-phase colour the constructor gives its two TUnk_80494968 effects.
 static const u32 mericarol_phase_effect_colors[3] = { 0xFFFD42E3, 0xFF39374B, 0xFFDEFB46 };
 
-TObjEneBm9MericarolMovementParameters lbl_804E1548 = {
+TObjEneBm9MericarolMovementParameters mericarol_movement_params = {
     { 225.0f, 0.0f, 0x200 }, { 0, 0, 0, 0 },
 };
 
-CollisionBody lbl_804E1564[2] = {
+CollisionBody mericarol_collision_bodies[2] = {
     { { 0.0f, 0.0f, 0.0f }, 25.0f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
     { { 0.0f, 0.0f, 0.0f }, 50.0f, 0.0f, 0, 0x9D03, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
 
-__declspec(section ".data") const char *lbl_804E15BC[2] = {
+__declspec(section ".data") const char *mericarol_model_names[2] = {
     "bm9_s_meri_body.nj", NULL,
 };
 
-const char *lbl_804E15C4[9] = {
+const char *mericarol_motion_names[9] = {
     "atack_bm9_s_meri_body.njm", "damage_bm9_s_meri_body.njm", "dead_bm9_s_meri_body.njm", "fire_bm9_s_meri_body.njm",
     "laugh_bm9_s_meri_body.njm", "wait_bm9_s_meri_body.njm", "wait2_bm9_s_meri_body.njm", "wake_bm9_s_meri_body.njm",
     NULL,
 };
 
-BmlResourceDescriptor lbl_804E15E8 = {
-    "bm_ene_bm9_s_mericarol.bml", lbl_804E15BC, lbl_804E15C4, 1, 8,
+BmlResourceDescriptor mericarol_bml_descriptor = {
+    "bm_ene_bm9_s_mericarol.bml", mericarol_model_names, mericarol_motion_names, 1, 8,
 };
 
-__declspec(section ".data") const char *lbl_804E15F8[2] = {
+__declspec(section ".data") const char *mericarol_low_model_names[2] = {
     "lo_bm9_s_meri_body.nj", NULL,
 };
 
-const char *lbl_804E1600[9] = {
+const char *mericarol_low_motion_names[9] = {
     "atack_bm9_s_meri_body.njm", "damage_bm9_s_meri_body.njm", "dead_bm9_s_meri_body.njm", "fire_bm9_s_meri_body.njm",
     "laugh_bm9_s_meri_body.njm", "wait_bm9_s_meri_body.njm", "wait2_bm9_s_meri_body.njm", "wake_bm9_s_meri_body.njm",
     NULL,
 };
 
-BmlResourceDescriptor lbl_804E1624 = {
-    "bm_ene_bm9_s_mericarol_low.bml", lbl_804E15F8, lbl_804E1600, 1, 8,
+BmlResourceDescriptor mericarol_low_bml_descriptor = {
+    "bm_ene_bm9_s_mericarol_low.bml", mericarol_low_model_names, mericarol_low_motion_names, 1, 8,
 };
 
-TObjMotionAction lbl_804E1634[9] = {
+TObjMotionAction mericarol_motion_actions[9] = {
     { 3, 0, 3, 0.6f, 0 },
     { 1, 0, 5, 1.0f, 0 },
     { 1, 0, 6, 0.5f, 0 },
@@ -130,15 +119,15 @@ TObjMotionAction lbl_804E1634[9] = {
 };
 
 u8 *bm9_mericarol_phase_hp_table[3];
-u8 *lbl_80540B64[3];
-u8 *lbl_80540B70[3];
+u8 *bm9_mericarol_phase_attack_table[3];
+u8 *bm9_mericarol_phase_resist_table[3];
 TObjEneBm9MericarolParams *mericarol_phase_param_table[3];
 f32 lbl_80540B88[4];
 const char *TObjEneBm9Mericarol__class_name = "TObjEneBm9Mericarol";
-SampledMotionPoints *TBoss4Type3_shared_instance;
-SampledMotionPoints *lbl_805D6864;
-BmlResource *lbl_805D6868;
-s32 lbl_805D686C;
+SampledMotionPoints *mericarol_trail0_points;
+SampledMotionPoints *mericarol_trail1_points;
+BmlResource *mericarol_bml;
+s32 mericarol_node_counter;
 u32 lbl_805D6870;
 u32 lbl_805D6874;
 u32 lbl_805D6878;
@@ -149,11 +138,11 @@ void TObjEneBm9Mericarol::load_resources() {
     s32 i;
 
     if (is_split_screen() != 0) {
-        lbl_805D6868 = load_enemy_bml_resource(&lbl_804E1624);
+        mericarol_bml = load_enemy_bml_resource(&mericarol_low_bml_descriptor);
     } else {
-        lbl_805D6868 = load_enemy_bml_resource(&lbl_804E15E8);
+        mericarol_bml = load_enemy_bml_resource(&mericarol_bml_descriptor);
     }
-    lbl_805D686C = 0;
+    mericarol_node_counter = 0;
     lbl_805D6870 = 0;
     lbl_80540B88[0] = 0.0f;
     lbl_80540B88[1] = 0.0f;
@@ -163,21 +152,21 @@ void TObjEneBm9Mericarol::load_resources() {
     fn_802D1CC8();
     TObjPlayer__sub_800F0928();
     for (i = 0; i < 3; i++) {
-        bm9_mericarol_phase_hp_table[i] = (u8 *)TLobby::register_boss(lbl_804722E8[i]);
-        lbl_80540B64[i] = (u8 *)TLobby::dispatch_shared_handler_b(lbl_804722F4[i]);
-        lbl_80540B70[i] = (u8 *)TLobby::register_object(lbl_80472300[i]);
-        mericarol_phase_param_table[i] = (TObjEneBm9MericarolParams *)TLobby::dispatch_shared_handler_a(lbl_8047230C[i]);
+        bm9_mericarol_phase_hp_table[i] = (u8 *)TLobby::register_boss(mericarol_phase_hp_ids[i]);
+        bm9_mericarol_phase_attack_table[i] = (u8 *)TLobby::dispatch_shared_handler_b(mericarol_phase_attack_ids[i]);
+        bm9_mericarol_phase_resist_table[i] = (u8 *)TLobby::register_object(mericarol_phase_resist_ids[i]);
+        mericarol_phase_param_table[i] = (TObjEneBm9MericarolParams *)TLobby::dispatch_shared_handler_a(mericarol_phase_param_ids[i]);
     }
-    TBoss4Type3_shared_instance = new SampledMotionPoints(2, 0.0f, 20.0f, 0.7f);
-    lbl_805D6864 = new SampledMotionPoints(2, 0.0f, 20.0f, 0.7f);
+    mericarol_trail0_points = new SampledMotionPoints(2, 0.0f, 20.0f, 0.7f);
+    mericarol_trail1_points = new SampledMotionPoints(2, 0.0f, 20.0f, 0.7f);
     set_motion_packed_rotation();
-    TBoss4Type3_shared_instance->sample_two_nodes((NJS_OBJECT *)lbl_805D6868->models[0].model, (NJS_MOTION *)lbl_805D6868->motions[lbl_804E1634[8].motion].motion, 0x20, 0x21);
-    lbl_805D6864->sample_two_nodes((NJS_OBJECT *)lbl_805D6868->models[0].model, (NJS_MOTION *)lbl_805D6868->motions[lbl_804E1634[8].motion].motion, 0x2A, 0x2B);
+    mericarol_trail0_points->sample_two_nodes((NJS_OBJECT *)mericarol_bml->models[0].model, (NJS_MOTION *)mericarol_bml->motions[mericarol_motion_actions[8].motion].motion, 0x20, 0x21);
+    mericarol_trail1_points->sample_two_nodes((NJS_OBJECT *)mericarol_bml->models[0].model, (NJS_MOTION *)mericarol_bml->motions[mericarol_motion_actions[8].motion].motion, 0x2A, 0x2B);
     clear_motion_packed_rotation();
     {
-        NpcAnimationBinding params = { reinterpret_cast<BmlMotionEntry *>(lbl_805D6868->motions), reinterpret_cast<TObjMotionAction *>(lbl_804E1634), 3, 1, 9 };
-        NpcModelRegistry::register_animated_chunk(0x42, reinterpret_cast<void *>(lbl_805D6868->models[0].model), reinterpret_cast<void *>(lbl_805D6868->models[0].m_c), &params,
-            lbl_804E1564[0].radius, 0.0f);
+        NpcAnimationBinding params = { reinterpret_cast<BmlMotionEntry *>(mericarol_bml->motions), reinterpret_cast<TObjMotionAction *>(mericarol_motion_actions), 3, 1, 9 };
+        NpcModelRegistry::register_animated_chunk(0x42, reinterpret_cast<void *>(mericarol_bml->models[0].model), reinterpret_cast<void *>(mericarol_bml->models[0].m_c), &params,
+            mericarol_collision_bodies[0].radius, 0.0f);
     }
 }
 
@@ -186,18 +175,18 @@ void *TObjEneBm9Mericarol::create(void *set_data) {
 }
 
 void TObjEneBm9Mericarol::free_shared_instances() {
-    if (lbl_805D6864 != NULL) {
-        delete lbl_805D6864;
-        lbl_805D6864 = NULL;
+    if (mericarol_trail1_points != NULL) {
+        delete mericarol_trail1_points;
+        mericarol_trail1_points = NULL;
     }
-    if (TBoss4Type3_shared_instance != NULL) {
-        delete TBoss4Type3_shared_instance;
-        TBoss4Type3_shared_instance = NULL;
+    if (mericarol_trail0_points != NULL) {
+        delete mericarol_trail0_points;
+        mericarol_trail0_points = NULL;
     }
     fn_802D1C84();
-    if (lbl_805D6868 != NULL) {
-        delete lbl_805D6868;
-        lbl_805D6868 = NULL;
+    if (mericarol_bml != NULL) {
+        delete mericarol_bml;
+        mericarol_bml = NULL;
     }
 }
 
@@ -213,20 +202,20 @@ TObjEneBm9Mericarol::TObjEneBm9Mericarol(TObject *parent, void *set_data) : TObj
         flags |= 0x400;
     }
     init_position_vectors();
-    model = (void *)lbl_805D6868->models[0].model;
-    texlist = (saddr)lbl_805D6868->models[0].m_c;
-    init_model(lbl_804E1564, 1);
-    set_field_d8((saddr)lbl_804E1634);
-    set_field_dc((saddr)lbl_805D6868->motions);
+    model = (void *)mericarol_bml->models[0].model;
+    texlist = (saddr)mericarol_bml->models[0].m_c;
+    init_model(mericarol_collision_bodies, 1);
+    set_field_d8((saddr)mericarol_motion_actions);
+    set_field_dc((saddr)mericarol_bml->motions);
     requested_action = 2;
     set_animation(requested_action);
     set_field_b8(requested_action);
     ph = get_phase();
-    reset_hp(bm9_mericarol_phase_hp_table[ph], lbl_80540B64[ph], lbl_80540B70[ph]);
+    reset_hp(bm9_mericarol_phase_hp_table[ph], bm9_mericarol_phase_attack_table[ph], bm9_mericarol_phase_resist_table[ph]);
     trails[0] = TUnk_80494968::create(0xA0303030, mericarol_phase_effect_colors[ph]);
     trails[1] = TUnk_80494968::create(0xA0303030, mericarol_phase_effect_colors[ph]);
     add_flags_2e4(0x12);
-    movementParameters = &lbl_804E1548;
+    movementParameters = &mericarol_movement_params;
     switch (get_phase()) {
     case 0:
         initialize_enemy_state(0x38);
@@ -248,7 +237,7 @@ TObjEneBm9Mericarol::TObjEneBm9Mericarol(TObject *parent, void *set_data) : TObj
     m_458 = 0;
     appear_fade.reset_obstruction_fade();
     attack_body = new TObjCollidable(0);
-    init_collision_body_parts(attack_body, &lbl_804E1564[1], 1);
+    init_collision_body_parts(attack_body, &mericarol_collision_bodies[1], 1);
     attack_history = new AreaAttackHistory(8);
     state_step = 0;
     state_timer = 0;
@@ -701,8 +690,8 @@ void TObjEneBm9Mericarol::state_attack(s32 reason) {
                 } else if (is_passing_frame(7.0f) != 0) {
                     play_sound_effect(remap_sound_for_area(0x3A40D), &position, 0, 0);
                 }
-                points0 = TBoss4Type3_shared_instance->lookup(frame);
-                points1 = lbl_805D6864->lookup(frame);
+                points0 = mericarol_trail0_points->lookup(frame);
+                points1 = mericarol_trail1_points->lookup(frame);
                 push_matrix();
                 set_matrix_identity(0);
                 post_translate_matrix(&position.x);
@@ -1136,7 +1125,7 @@ void TObjEneBm9Mericarol::sub_802CED40() {
 void TObjEneBm9Mericarol::run_demo_task() {  }
 
 void TObjEneBm9Mericarol::update_particle_effect(NJS_OBJECT *) {
-    switch (lbl_805D686C) {
+    switch (mericarol_node_counter) {
     case 0x21:
     case 0x2B:
     case 0x64:
@@ -1146,7 +1135,7 @@ void TObjEneBm9Mericarol::update_particle_effect(NJS_OBJECT *) {
         TParticleCtrl::end_effect_render();
         break;
     }
-    lbl_805D686C += 1;
+    mericarol_node_counter += 1;
 }
 
 void TObjEneBm9Mericarol::render() {
@@ -1218,7 +1207,7 @@ void TObjEneBm9Mericarol::render() {
     set_alpha_ref_override(0);
     TObjEneDD::clear_global_flag_400();
     translate_matrix(0, 0.0f, draw_offset_y, 0.0f);
-    lbl_805D686C = 0;
+    mericarol_node_counter = 0;
     TObjPlayer::toggle_particle_effect();
     if (!(flags & 0x10)) {
         plist = ((NJS_CNK_MODEL *)((NJS_OBJECT *)model)->child->sibling->sibling->sibling->model)->polygon_list;

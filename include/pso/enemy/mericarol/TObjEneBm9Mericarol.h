@@ -109,6 +109,12 @@ struct TObjEneBm9Mericarol : public TObjEneDD_ST {
 
 extern TObjEneBm9MericarolParams *mericarol_phase_param_table[3];
 
+// MericarolData.cpp: the battle-parameter ids of the three phases, one table per TLobby lookup.
+extern const u32 mericarol_phase_hp_ids[3];
+extern const u32 mericarol_phase_attack_ids[3];
+extern const u32 mericarol_phase_resist_ids[3];
+extern const u32 mericarol_phase_param_ids[3];
+
 LAYOUT_ASSERT(TObjEneBm9MericarolParams_size, sizeof(TObjEneBm9MericarolParams) == 0x30);
 LAYOUT_ASSERT(TObjEneBm9MericarolFadeOffset, offsetof(TObjEneBm9Mericarol, appear_fade) == 0x46C);
 LAYOUT_ASSERT(TObjEneBm9Mericarol_size, sizeof(TObjEneBm9Mericarol) == 0x4B0);
