@@ -33,6 +33,11 @@
 #include "pso/unk/text_800870BC.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/npc/TNpcPlayer_800D87A8.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/render/model_render_state.h"
 
 static const char balclaw_body_class_name_text[] = "TObjEneBalClawBody";
 
@@ -67,20 +72,13 @@ u8 *lbl_805007B8[2];
 u8 *lbl_805007C0[2];
 const char *balclaw_body_class_name = balclaw_body_class_name_text;
 
-extern void *tl_04;
-
 
 extern "C" {
 extern s32 lbl_805D5870;
-extern s32 saved_model_render_flags;
-extern s32 model_render_flags;
 s32 TObjPlayer__sub_800A04F0(void *);
 s32 TObjPlayer__sub_800A0554(void *);
 s32 check_path_obstructed(void *, void *);
 s32 fn_80090464(void *, int);
-s32 minimap_render_dot(void *, int, int, int);
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-s32 post_translate_matrix(void *);
 void queue_destruction__7TObjectFv(void *arg0);
 s32 select_enemy_destination(void *, Vec, s32);
 void send_6x2F_change_player_hp(s32 arg0, s32 arg1, s32 arg2);
@@ -159,7 +157,7 @@ TObjEneBalClawBody::~TObjEneBalClawBody() {
 }
 
 void *TObjEneBalClawBody::create(void *set_data) {
-    TObjControl *control = new TObjControl((TObject *)tl_04);
+    TObjControl *control = new TObjControl(tl_04);
     return new TObjEneBalClawBody(control, set_data);
 }
 
@@ -197,7 +195,7 @@ void TObjEneBalClawBody::run_task() {
     body = bodies;
     body->offset.y = lift + m_3bc;
     submit_cursor_candidate(this, -1, (saddr)body, lift, center_y);
-    minimap_render_dot((u8 *)&position, -0x5DB4, 1, 0);
+    minimap_render_dot(&position, -0x5DB4, 1, 0);
 }
 
 void TObjEneBalClawBody::sub_8008FF50() {
@@ -548,7 +546,7 @@ void TObjEneBalClawBody::sub_8008F1DC() {
         break;
     case 2:
         push_matrix_from(identity_matrix);
-        post_translate_matrix(&body->body_center);
+        post_translate_matrix(&body->body_center.x);
         rotate_matrix_y(0, body->rotation_y);
         body->calc_joint_matrices(body->frame);
         pop_matrix();
@@ -844,14 +842,14 @@ void TObjEneBalClawBody::render() {
             model_render_flags &= 0xFFFFFBFF;
             if (TObjPlayer::check_demo_mode() == 1) {
                 TObjPlayer::set_visibility_flags_by_count(this, 4);
-                post_translate_matrix((u8 *)&position);
+                post_translate_matrix(&position.x);
                 rotate_matrix_x(0, rotation_x);
                 rotate_matrix_y(0, rotation_y);
                 draw_chunk_object(model);
             } else {
                 TObjPlayer::set_visibility_flags_by_count(this, m_3d8);
                 translate_matrix(0, 0.0f, m_3b4 + m_3bc, 0.0f);
-                post_translate_matrix((u8 *)&position);
+                post_translate_matrix(&position.x);
                 rotate_matrix_x(0, rotation_x);
                 rotate_matrix_y(0, rotation_y);
                 if (m_388 & 4) {
