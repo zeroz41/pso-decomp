@@ -320,32 +320,32 @@ static StateAction actions[35] = {
     (StateAction)&TBoss5Gryphon::update_death_state,
     (StateAction)&TBoss5Gryphon::update_ground_takeoff,
     (StateAction)&TBoss5Gryphon::update_shockwave_attack,
-    (StateAction)&TBoss5Gryphon::fn_80062660,
+    (StateAction)&TBoss5Gryphon::update_turning_flight,
     (StateAction)&TBoss5Gryphon::circle_arena,
     (StateAction)&TBoss5Gryphon::move_to_motion_destination,
     (StateAction)&TBoss5Gryphon::update_landing_attack,
-    (StateAction)&TBoss5Gryphon::fn_80062114,
+    (StateAction)&TBoss5Gryphon::update_glide_in,
     (StateAction)&TBoss5Gryphon::update_low_flight_straight,
     (StateAction)&TBoss5Gryphon::update_low_flight_circle,
     (StateAction)&TBoss5Gryphon::update_bezier_descent,
     (StateAction)&TBoss5Gryphon::update_dive_motion,
-    (StateAction)&TBoss5Gryphon::fn_800615FC,
+    (StateAction)&TBoss5Gryphon::update_spiral_in,
     (StateAction)&TBoss5Gryphon::handle_descend_state,
     (StateAction)&TBoss5Gryphon::handle_takeoff_state,
-    (StateAction)&TBoss5Gryphon::fn_800610D0,
+    (StateAction)&TBoss5Gryphon::update_run_in,
     (StateAction)&TBoss5Gryphon::state_move,
-    (StateAction)&TBoss5Gryphon::fn_80060D9C,
-    (StateAction)&TBoss5Gryphon::fn_80060CA4,
-    (StateAction)&TBoss5Gryphon::fn_80060BF8,
-    (StateAction)&TBoss5Gryphon::fn_80060B18,
-    (StateAction)&TBoss5Gryphon::fn_80060A58,
+    (StateAction)&TBoss5Gryphon::update_run_out,
+    (StateAction)&TBoss5Gryphon::update_crouch_in,
+    (StateAction)&TBoss5Gryphon::update_crouch,
+    (StateAction)&TBoss5Gryphon::update_crouch_out,
+    (StateAction)&TBoss5Gryphon::update_horn_in,
     (StateAction)&TBoss5Gryphon::update_ground_lightning_attack,
-    (StateAction)&TBoss5Gryphon::fn_80060788,
+    (StateAction)&TBoss5Gryphon::update_horn_out,
     (StateAction)&TBoss5Gryphon::update_offscreen_climb,
-    (StateAction)&TBoss5Gryphon::fn_80060020,
+    (StateAction)&TBoss5Gryphon::update_offscreen_dive,
     (StateAction)&TBoss5Gryphon::update_roar_state,
-    (StateAction)&TBoss5Gryphon::fn_8005FE18,
-    (StateAction)&TBoss5Gryphon::fn_8005FD34,
+    (StateAction)&TBoss5Gryphon::update_howl_state,
+    (StateAction)&TBoss5Gryphon::update_mode_idle,
     (StateAction)&TBoss5Gryphon::handle_message,
 };
     return actions;
@@ -384,7 +384,7 @@ static inline ScriptAction *script_step_actions() {
         0, 0, 0, 0, 0, 0, 0, 0,
         (ScriptAction)&TBoss5Gryphon::calc_product_and_ratio,
         (ScriptAction)&TBoss5Gryphon::calc_params,
-        (ScriptAction)&TBoss5Gryphon::fn_8005EBDC,
+        (ScriptAction)&TBoss5Gryphon::calc_move_params,
         0, 0, 0,
         (ScriptAction)&TBoss5Gryphon::calc_attack_params,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -789,7 +789,7 @@ void TBoss5Gryphon::run_task() {
     }
     sub_800BBA0C();
     apply_velocity();
-    fn_8005FB90();
+    apply_position_correction();
     advance_motion_timer();
     update_body_colliders();
     shift_position_history();
@@ -905,13 +905,13 @@ void TBoss5Gryphon::spawn_ancient_trap(s32 id) {
     play_persistent_sound(id, (saddr)this, (uaddr)&sound_origin, 0, 0);
 }
 
-void TBoss5Gryphon::fn_80064E3C() {
+void TBoss5Gryphon::play_walk_footsteps() {
     if (is_passing_frame(gryphon_twenty_one) != 0 || is_passing_frame(gryphon_five) != 0 || is_passing_frame(20.0f) != 0 || is_passing_frame(8.0f) != 0) {
         play_se(0x40032D08);
     }
 }
 
-void TBoss5Gryphon::fn_80064DB8() {
+void TBoss5Gryphon::play_run_footsteps() {
     if (is_passing_frame(gryphon_twelve) != 0 || is_passing_frame(8.0f) != 0 || is_passing_frame(gryphon_fifteen) != 0 || is_passing_frame(gryphon_eleven) != 0) {
         play_se(0x40032D08);
     }
@@ -919,7 +919,7 @@ void TBoss5Gryphon::fn_80064DB8() {
 
 void TBoss5Gryphon::enter_ground_mode() { this->flight_mode = 0; }
 
-void TBoss5Gryphon::set_flag_4e4() { flight_mode = 1; }
+void TBoss5Gryphon::enter_flight_mode() { flight_mode = 1; }
 
 void TBoss5Gryphon::enter_low_flight_mode() { this->flight_mode = 2; }
 
@@ -989,7 +989,7 @@ void apply_remote_action__13TBoss5GryphonFPvPv(u8 *ene_dd, u8 *boss8_dragon) {
 }
 
 }
-void TBoss5Gryphon::fn_80064AB0() {
+void TBoss5Gryphon::send_target_update() {
     P_80064AB0 p;
     TBoss8Dragon__sub_800660A4(&p);
     p.id = entity_id;
@@ -1014,7 +1014,7 @@ void TBoss5Gryphon::emit_part_attack_effect(int part) {
     ((TBoss8Dragon *)p)->spawn_attack_effect();
 }
 
-void TBoss5Gryphon::fn_800648C8() {
+void TBoss5Gryphon::emit_walk_foot_attacks() {
     if (is_passing_frame((f32)gryphon_twenty_one) != 0) {
         query_default();
         return;
@@ -1032,7 +1032,7 @@ void TBoss5Gryphon::fn_800648C8() {
     }
 }
 
-void TBoss5Gryphon::fn_80064828() {
+void TBoss5Gryphon::emit_run_foot_attacks() {
     if (is_passing_frame((f32)gryphon_twelve) != 0) {
         query_default();
         return;
@@ -1060,7 +1060,7 @@ void TBoss5Gryphon::update_state_3() { emit_part_attack_effect(3); }
 
 void TBoss5Gryphon::run_default_state() { query_default(); attack_default(); }
 
-void TBoss5Gryphon::fn_800646F0() {
+void TBoss5Gryphon::emit_landing_impact() {
     DragonAttackParams stack;
     TBoss1Dragon__sub_80027A80(&stack, &boss5_gryphon_params_b);
     stack.field_8 = *(f32 *)((s8 *)boss5_gryphon_behavior_params[2] + 0x10);
@@ -1076,7 +1076,7 @@ void TBoss5Gryphon::update_collider_from_table() {
     TBoss8Dragon__sub_800670E0((int)(self + 0x3C0), &desc);
 }
 
-void TBoss5Gryphon::fn_8006442C() {
+void TBoss5Gryphon::emit_wing_attacks() {
     DragonAttackParams fx;
     Vec pts[10];
     Vec *p;
@@ -1119,7 +1119,7 @@ void TBoss5Gryphon::fn_8006442C() {
     reset_hp(NULL, (u8 *)boss5_gryphon_attack_params[0], NULL);
 }
 
-void TBoss5Gryphon::fn_8006435C() {
+void TBoss5Gryphon::emit_flight_body_attacks() {
     DragonAttackParams prm;
     Vec *point;
     TBoss1Dragon__sub_80027A80(&prm, &boss8_dragon_attack_params);
@@ -1138,7 +1138,7 @@ void TBoss5Gryphon::fn_8006435C() {
 
 #pragma push
 #pragma fp_contract on
-void TBoss5Gryphon::fn_8006426C() {
+void TBoss5Gryphon::emit_run_body_attack() {
     Vec mid;
     DragonAttackParams prm = lbl_80437D40;
     f32 bx = bone_positions[11].x;
@@ -1154,7 +1154,7 @@ void TBoss5Gryphon::fn_8006426C() {
 }
 
 #pragma pop
-void TBoss5Gryphon::fn_800641A8() {
+void TBoss5Gryphon::emit_ground_contact_attack() {
     DragonAttackParams desc = lbl_80437D54;
     Vec *pos;
     pos = &bone_positions[14];
@@ -1208,7 +1208,7 @@ void TBoss5Gryphon::spawn_ground_splash() {
     }
 }
 
-void TBoss5Gryphon::fn_80063EF4() {
+void TBoss5Gryphon::spawn_flight_splash() {
     if (is_passing_frame(gryphon_fourteen) != 0) {
         spawn_ground_splash();
     }
@@ -1317,9 +1317,9 @@ void TBoss5Gryphon::update_ground_pursuit(s32 event) {
         return;
     case ENEMY_STATE_UPDATE:
         self->advance_animation();
-        self->fn_80064E3C();
+        self->play_walk_footsteps();
         self->update_velocity();
-        self->fn_800648C8();
+        self->emit_walk_foot_attacks();
         spd = self->get_motion_frame();
         if (spd < gryphon_four) {
             TObjEneEpsilon__sub_800B9384(this, 0x100, lbl_805D8EB4);
@@ -1366,7 +1366,7 @@ void TBoss5Gryphon::update_ground_takeoff(u32 event) {
                 move_along_angle(gryphon_five, this->rotation_y);
                 self->flags |= 4;
                 self->run_default_state();
-                set_flag_4e4();
+                enter_flight_mode();
                 start_camera_shake(0x14, lbl_805D8EA4);
                 self->play_se(0x40033409);
                 self->takeoff.step = 1;
@@ -1392,7 +1392,7 @@ void TBoss5Gryphon::update_ground_takeoff(u32 event) {
             break;
         case 3:
             move_along_angle(gryphon_one, this->rotation_y);
-            if (fn_8005FAE0() != 0) {
+            if (is_motion_finished() != 0) {
                 self->advance_motion_entry();
             }
             break;
@@ -1402,7 +1402,7 @@ void TBoss5Gryphon::update_ground_takeoff(u32 event) {
         }
         break;
     case ENEMY_STATE_LEAVE:
-        set_flag_4e4();
+        enter_flight_mode();
         self->set_flight_height();
         self->flags &= ~4;
         break;
@@ -1428,7 +1428,7 @@ void TBoss5Gryphon::update_shockwave_attack(u32 event) {
     case ENEMY_STATE_ENTER:
         this->requested_action = 0x18;
         self->clear_intangible();
-        set_flag_4e4();
+        enter_flight_mode();
         self->set_flight_height();
         self->work.step = 0;
         self->work.timer = 0;
@@ -1478,7 +1478,7 @@ void TBoss5Gryphon::update_shockwave_attack(u32 event) {
             }
             break;
         case 2:
-            if (fn_8005FAE0() != 0) {
+            if (is_motion_finished() != 0) {
                 self->advance_motion_entry();
             }
             break;
@@ -1510,7 +1510,7 @@ void TBoss5Gryphon::update_landing_attack(u32 event) {
     case ENEMY_STATE_ENTER:
         this->requested_action = 5;
         self->clear_intangible();
-        set_flag_4e4();
+        enter_flight_mode();
         self->set_flight_height();
         self->flags |= 4;
         self->work.step = 0;
@@ -1537,12 +1537,12 @@ void TBoss5Gryphon::update_landing_attack(u32 event) {
                 at.z = self->position.z;
                 spawn_particle_effect_with_flags(&at, self->effect_ids[1], 0x40);
                 TCameraCtrl::set_shake_preset(1);
-                self->fn_800646F0();
+                self->emit_landing_impact();
                 self->work.step = 2;
             }
             break;
         case 2:
-            if (fn_8005FAE0() != 0) {
+            if (is_motion_finished() != 0) {
                 self->advance_motion_entry();
             }
             break;
@@ -1581,7 +1581,7 @@ void TBoss5Gryphon::update_death_state(u32 event) {
     case ENEMY_STATE_ENTER:
         self->requested_action = 0x1A;
         self->set_intangible();
-        set_flag_4e4();
+        enter_flight_mode();
         self->set_flight_height();
         self->flags |= 0xC4;
         self->work.step = 0;
@@ -1673,7 +1673,7 @@ void TBoss5Gryphon::update_demo_state(u32 event) {
     switch (event) {
     case ENEMY_STATE_ENTER:
         this->requested_action = 0;
-        set_flag_4e4();
+        enter_flight_mode();
         this->set_flight_height();
         advance_animation();
         this->position.x = 0.0f;
@@ -1792,18 +1792,18 @@ void TBoss5Gryphon::wait_for_players(s32 event) {
     }
 }
 
-void TBoss5Gryphon::fn_80062660(s32 event) {
+void TBoss5Gryphon::update_turning_flight(s32 event) {
     TBoss5Gryphon *self = this;
     switch (event) {
     case ENEMY_STATE_ENTER:
         self->requested_action = 4;
         self->clear_intangible();
-        set_flag_4e4();
+        enter_flight_mode();
         self->set_flight_height();
         break;
     case ENEMY_STATE_UPDATE:
         self->advance_animation();
-        self->fn_80063EF4();
+        self->spawn_flight_splash();
         move_along_angle(self->motion->flight.speed, self->rotation_y);
         self->turn_velocity += self->motion->flight.turn;
         break;
@@ -1825,7 +1825,7 @@ void TBoss5Gryphon::circle_arena(s32 event) {
     case ENEMY_STATE_ENTER:
         this->requested_action = 4;
         this->clear_intangible();
-        set_flag_4e4();
+        enter_flight_mode();
         this->set_flight_height();
         this->targetRefreshCounter = 0;
         return;
@@ -1834,7 +1834,7 @@ void TBoss5Gryphon::circle_arena(s32 event) {
         return;
     case ENEMY_STATE_UPDATE:
         advance_animation();
-        fn_80063EF4();
+        spawn_flight_splash();
         ofs = 0x4000;
         if (this->position.x * this->position.x + this->position.z * this->position.z > this->motion->circle.radius * this->motion->circle.radius) {
             ofs = 0x5000;
@@ -1871,13 +1871,13 @@ void TBoss5Gryphon::move_to_motion_destination(s32 event) {
     case ENEMY_STATE_ENTER:
         self->requested_action = 4;
         self->clear_intangible();
-        set_flag_4e4();
+        enter_flight_mode();
         self->set_flight_height();
         self->work.target_angle = initial_angle_800623E4(self);
         break;
     case ENEMY_STATE_UPDATE:
         self->advance_animation();
-        self->fn_80063EF4();
+        self->spawn_flight_splash();
         dx = self->motion->move.x - self->position.x;
         dz = self->motion->move.z - self->position.z;
         turn_toward_angle_limited(self->motion->move.turn_rate, self->work.target_angle);
@@ -1895,7 +1895,7 @@ void TBoss5Gryphon::move_to_motion_destination(s32 event) {
     }
 }
 
-void TBoss5Gryphon::fn_80062114(s32 event) {
+void TBoss5Gryphon::update_glide_in(s32 event) {
     TBoss5Gryphon *self = this;
     f32 speed;
     f32 f;
@@ -1906,7 +1906,7 @@ void TBoss5Gryphon::fn_80062114(s32 event) {
     case ENEMY_STATE_ENTER:
         self->requested_action = 6;
         self->clear_intangible();
-        set_flag_4e4();
+        enter_flight_mode();
         self->set_flight_height();
         self->flags |= 4;
         self->work.step = 0;
@@ -1989,10 +1989,10 @@ void TBoss5Gryphon::update_low_flight_straight(s32 event) {
         self->advance_animation();
         move_along_angle(lbl_805D8E58, self->rotation_y);
         if (self->flags & 0x100) {
-            self->fn_8006435C();
-            self->fn_8005E39C();
+            self->emit_flight_body_attacks();
+            self->update_low_flight_particles();
         } else {
-            self->fn_8006442C();
+            self->emit_wing_attacks();
             self->update_ground_effects();
             self->spawn_ancient_trap(0x40032802);
         }
@@ -2060,10 +2060,10 @@ void TBoss5Gryphon::update_low_flight_circle(s32 event) {
             this->rotation_z -= this->rotation_z / this->motion->timer;
         }
         if (this->flags & 0x100) {
-            fn_8006435C();
-            fn_8005E39C();
+            emit_flight_body_attacks();
+            update_low_flight_particles();
         } else {
-            fn_8006442C();
+            emit_wing_attacks();
             this->update_ground_effects();
             spawn_ancient_trap(0x40032802);
         }
@@ -2088,7 +2088,7 @@ void TBoss5Gryphon::update_bezier_descent(s32 event) {
     case ENEMY_STATE_ENTER:
         self->requested_action = 9;
         self->clear_intangible();
-        set_flag_4e4();
+        enter_flight_mode();
         self->set_flight_height();
         self->flags |= 4;
         self->enable_particles();
@@ -2110,12 +2110,12 @@ void TBoss5Gryphon::update_bezier_descent(s32 event) {
                 at.z = self->position.z;
                 spawn_particle_effect_with_flags(&at, self->effect_ids[1], 0x40);
                 TCameraCtrl::set_shake_preset(1);
-                self->fn_800646F0();
+                self->emit_landing_impact();
                 self->work.step = 1;
             }
             break;
         case 1:
-            if (self->fn_8005FAE0() != 0) {
+            if (self->is_motion_finished() != 0) {
                 self->advance_motion_entry();
             }
             break;
@@ -2148,7 +2148,7 @@ void TBoss5Gryphon::update_dive_motion(s32 event) {
     case ENEMY_STATE_ENTER:
         this->requested_action = 7;
         self->clear_intangible();
-        set_flag_4e4();
+        enter_flight_mode();
         self->set_flight_height();
         self->flags |= 4;
         self->enable_particles();
@@ -2190,7 +2190,7 @@ void TBoss5Gryphon::update_dive_motion(s32 event) {
             if (self->is_passing_frame((f32)gryphon_seventeen) != 0) {
                 self->spawn_ground_splash();
             }
-            if (fn_8005FAE0() != 0) {
+            if (is_motion_finished() != 0) {
                 self->advance_motion_entry();
             }
             break;
@@ -2205,7 +2205,7 @@ void TBoss5Gryphon::update_dive_motion(s32 event) {
     }
 }
 
-void TBoss5Gryphon::fn_800615FC(s32 event) {
+void TBoss5Gryphon::update_spiral_in(s32 event) {
     TBoss5Gryphon *self = this;
     f32 speed;
     f32 f;
@@ -2216,7 +2216,7 @@ void TBoss5Gryphon::fn_800615FC(s32 event) {
     case ENEMY_STATE_ENTER:
         self->requested_action = 0x13;
         self->clear_intangible();
-        set_flag_4e4();
+        enter_flight_mode();
         self->set_flight_height();
         self->flags |= 0x104;
         self->work.step = 0;
@@ -2290,7 +2290,7 @@ void TBoss5Gryphon::handle_descend_state(s32 event) {
     case ENEMY_STATE_ENTER:
         self->requested_action = 0x16;
         self->clear_intangible();
-        set_flag_4e4();
+        enter_flight_mode();
         self->set_flight_height();
         self->flags |= 4;
         self->update_particle_positions();
@@ -2312,12 +2312,12 @@ void TBoss5Gryphon::handle_descend_state(s32 event) {
                 at.z = self->position.z;
                 spawn_particle_effect_with_flags(&at, self->effect_ids[1], 0x40);
                 TCameraCtrl::set_shake_preset(1);
-                self->fn_800646F0();
+                self->emit_landing_impact();
                 self->work.step = 1;
             }
             break;
         case 1:
-            if (self->fn_8005FAE0() != 0) {
+            if (self->is_motion_finished() != 0) {
                 self->advance_motion_entry();
             }
             break;
@@ -2349,7 +2349,7 @@ void TBoss5Gryphon::handle_takeoff_state(s32 event) {
     case ENEMY_STATE_ENTER:
         self->requested_action = 0x14;
         self->clear_intangible();
-        set_flag_4e4();
+        enter_flight_mode();
         self->set_flight_height();
         self->flags |= 4;
         self->update_particle_positions();
@@ -2396,7 +2396,7 @@ void TBoss5Gryphon::handle_takeoff_state(s32 event) {
             d = self->frame_count - base;
             self->position.y = lbl_805D8E30 - gryphon_fifty *
                 sin_table_lookup((s32)(gryphon_quarter_turn * phase_speed / d));
-            if (self->fn_8005FAE0() != 0) {
+            if (self->is_motion_finished() != 0) {
                 self->advance_motion_entry();
             }
             break;
@@ -2418,7 +2418,7 @@ void TBoss5Gryphon::handle_takeoff_state(s32 event) {
 }
 
 #pragma pop
-void TBoss5Gryphon::fn_800610D0(s32 event) {
+void TBoss5Gryphon::update_run_in(s32 event) {
     TBoss5Gryphon *self = this;
     switch (event) {
     case ENEMY_STATE_ENTER:
@@ -2461,10 +2461,10 @@ void TBoss5Gryphon::state_move(s32 event) {
         return;
     case ENEMY_STATE_UPDATE:
         advance_animation();
-        fn_80064DB8();
+        play_run_footsteps();
         this->update_velocity();
-        fn_8006426C();
-        fn_80064828();
+        emit_run_body_attack();
+        emit_run_foot_attacks();
         v = this->get_motion_frame();
         if (v < gryphon_ten || v >= gryphon_seventeen) {
             depth = gryphon_three_quarters;
@@ -2499,7 +2499,7 @@ void TBoss5Gryphon::state_move(s32 event) {
     }
 }
 
-void TBoss5Gryphon::fn_80060D9C(s32 event) {
+void TBoss5Gryphon::update_run_out(s32 event) {
     TBoss5Gryphon *self = this;
     Vec at;
     f32 v;
@@ -2536,10 +2536,10 @@ void TBoss5Gryphon::fn_80060D9C(s32 event) {
             at.y = 0.0f;
             at.z = self->position.z;
             spawn_particle_effect_with_flags(&at, self->effect_ids[1], 0x40);
-            self->fn_800646F0();
+            self->emit_landing_impact();
             self->play_se(0x40032D0D);
         }
-        if (self->fn_8005FAE0() != 0) {
+        if (self->is_motion_finished() != 0) {
             self->advance_motion_entry();
         }
         break;
@@ -2553,7 +2553,7 @@ void TBoss5Gryphon::fn_80060D9C(s32 event) {
     }
 }
 
-void TBoss5Gryphon::fn_80060CA4(s32 event) {
+void TBoss5Gryphon::update_crouch_in(s32 event) {
     TBoss5Gryphon *self = this;
     switch (event) {
     case ENEMY_STATE_ENTER:
@@ -2564,7 +2564,7 @@ void TBoss5Gryphon::fn_80060CA4(s32 event) {
         break;
     case ENEMY_STATE_UPDATE:
         self->advance_animation();
-        self->fn_800641A8();
+        self->emit_ground_contact_attack();
         if (((TObjMotion *)self)->is_passing_frame(gryphon_seven) != 0) {
             self->demo->draw_linked_model(&self->position, self->rotation_y);
         }
@@ -2585,7 +2585,7 @@ void TBoss5Gryphon::fn_80060CA4(s32 event) {
     }
 }
 
-void TBoss5Gryphon::fn_80060BF8(s32 event) {
+void TBoss5Gryphon::update_crouch(s32 event) {
     TBoss5Gryphon *self = this;
     switch (event) {
     case ENEMY_STATE_ENTER:
@@ -2597,7 +2597,7 @@ void TBoss5Gryphon::fn_80060BF8(s32 event) {
         break;
     case ENEMY_STATE_UPDATE:
         self->advance_animation();
-        self->fn_800641A8();
+        self->emit_ground_contact_attack();
         break;
     case ENEMY_STATE_LEAVE:
         self->demo->get_state();
@@ -2609,7 +2609,7 @@ void TBoss5Gryphon::fn_80060BF8(s32 event) {
     }
 }
 
-void TBoss5Gryphon::fn_80060B18(s32 event) {
+void TBoss5Gryphon::update_crouch_out(s32 event) {
     TBoss5Gryphon *self = this;
     switch (event) {
     case ENEMY_STATE_ENTER:
@@ -2621,11 +2621,11 @@ void TBoss5Gryphon::fn_80060B18(s32 event) {
         break;
     case ENEMY_STATE_UPDATE:
         self->advance_animation();
-        self->fn_800641A8();
+        self->emit_ground_contact_attack();
         if (((TObjMotion *)self)->is_passing_frame(gryphon_five) != 0) {
             self->demo->get_state();
         }
-        if (self->fn_8005FAE0() != 0) {
+        if (self->is_motion_finished() != 0) {
             self->advance_motion_entry();
         }
         break;
@@ -2639,7 +2639,7 @@ void TBoss5Gryphon::fn_80060B18(s32 event) {
     }
 }
 
-void TBoss5Gryphon::fn_80060A58(s32 event) {
+void TBoss5Gryphon::update_horn_in(s32 event) {
     TBoss5Gryphon *self = this;
     switch (event) {
     case ENEMY_STATE_ENTER:
@@ -2692,7 +2692,7 @@ void TBoss5Gryphon::update_ground_lightning_attack(s32 event) {
         break;
     case ENEMY_STATE_UPDATE:
         self->advance_animation();
-        self->fn_800641A8();
+        self->emit_ground_contact_attack();
         if (*(s32 *)((u8 *)boss5_gryphon_behavior_params[2] + 0x28) >= 2) {
             self->spawn_lightning_effect();
             apply_lightning_hit(self, &self->position, gryphon_sixty);
@@ -2721,7 +2721,7 @@ void TBoss5Gryphon::update_ground_lightning_attack(s32 event) {
     }
 }
 
-void TBoss5Gryphon::fn_80060788(s32 event) {
+void TBoss5Gryphon::update_horn_out(s32 event) {
     TBoss5Gryphon *self = this;
     switch (event) {
     case ENEMY_STATE_ENTER:
@@ -2735,7 +2735,7 @@ void TBoss5Gryphon::fn_80060788(s32 event) {
         if (((TObjMotion *)self)->is_passing_frame(6.0f) != 0) {
             self->play_se(0x40032D10);
         }
-        if (self->fn_8005FAE0() != 0) {
+        if (self->is_motion_finished() != 0) {
             self->advance_motion_entry();
         }
         break;
@@ -2756,7 +2756,7 @@ void TBoss5Gryphon::update_offscreen_climb(s32 event) {
     case ENEMY_STATE_ENTER:
         self->requested_action = 0x13;
         self->clear_intangible();
-        set_flag_4e4();
+        enter_flight_mode();
         self->set_flight_height();
         self->flags |= 4;
         self->work.timer = 0;
@@ -2805,7 +2805,7 @@ void TBoss5Gryphon::update_offscreen_climb(s32 event) {
 
 #pragma push
 #pragma fp_contract on
-void TBoss5Gryphon::fn_80060020(u32 event) {
+void TBoss5Gryphon::update_offscreen_dive(u32 event) {
     TBoss5Gryphon *self = this;
     Vec w;
     Vec v;
@@ -2919,7 +2919,7 @@ void TBoss5Gryphon::fn_80060020(u32 event) {
                 p.z = self->position.z;
                 spawn_particle_effect_with_flags(&p, self->effect_ids[1], 0x40);
                 TCameraCtrl::set_shake_preset(1);
-                self->fn_800646F0();
+                self->emit_landing_impact();
                 self->dive.step = 3;
             }
             break;
@@ -2973,7 +2973,7 @@ void TBoss5Gryphon::update_roar_state(s32 event) {
             TCameraCtrl::set_shake_preset(1);
             self->play_se(0x40032306);
         }
-        if (self->fn_8005FAE0() != 0) {
+        if (self->is_motion_finished() != 0) {
             self->advance_motion_entry();
         }
         break;
@@ -2987,7 +2987,7 @@ void TBoss5Gryphon::update_roar_state(s32 event) {
 }
 
 #pragma pop
-void TBoss5Gryphon::fn_8005FE18(s32 event) {
+void TBoss5Gryphon::update_howl_state(s32 event) {
     TBoss5Gryphon *self = this;
     switch (event) {
     case ENEMY_STATE_ENTER:
@@ -3002,7 +3002,7 @@ void TBoss5Gryphon::fn_8005FE18(s32 event) {
         if (((TObjMotion *)self)->is_passing_frame(gryphon_twelve) != 0) {
             self->play_se(0x4003A817);
         }
-        if (self->fn_8005FAE0() != 0) {
+        if (self->is_motion_finished() != 0) {
             self->advance_motion_entry();
         }
         break;
@@ -3017,7 +3017,7 @@ void TBoss5Gryphon::fn_8005FE18(s32 event) {
     }
 }
 
-void TBoss5Gryphon::fn_8005FD34(s32 event) {
+void TBoss5Gryphon::update_mode_idle(s32 event) {
     TBoss5Gryphon *self = this;
     switch (event) {
     case ENEMY_STATE_ENTER:
@@ -3039,7 +3039,7 @@ void TBoss5Gryphon::fn_8005FD34(s32 event) {
         case 0:
             break;
         case 1:
-            self->fn_80063EF4();
+            self->spawn_flight_splash();
             break;
         case 2:
             move_along_angle(gryphon_three, self->rotation_y);
@@ -3096,7 +3096,7 @@ void TBoss5Gryphon::apply_velocity() {
 }
 
 #pragma pop
-void TBoss5Gryphon::fn_8005FB90() {
+void TBoss5Gryphon::apply_position_correction() {
     position.x = position.x + position_correction.x;
     position.z = position.z + position_correction.z;
     position_correction.x = 0.0f;
@@ -3127,7 +3127,7 @@ void TBoss5Gryphon::advance_motion_entry() {
     }
 }
 
-s32 TBoss5Gryphon::fn_8005FAE0() {
+s32 TBoss5Gryphon::is_motion_finished() {
     return play_speed <= 0.0f;
 }
 
@@ -3178,7 +3178,7 @@ void TBoss5Gryphon::refresh_target_periodically() {
         } else {
             this->set_target_destination(&lbl_80437938);
         }
-        fn_80064AB0();
+        send_target_update();
     }
     this->targetRefreshCounter = (this->targetRefreshCounter + 1);
 }
@@ -3285,7 +3285,7 @@ void TBoss5Gryphon::choose_next_action(u32 *entry) {
         return;
     }
     r = gryphon_random_unit_scale * (f32)rand();
-    switch (fn_8005E9D8((Boss5GryphonActionStep *)entry, 0)) {
+    switch (get_table_min((Boss5GryphonActionStep *)entry, 0)) {
     case 0:
         if (r < gryphon_point_six) {
             script_entry = action_scripts[2];
@@ -3397,18 +3397,18 @@ void TBoss5Gryphon::copy_angle_state(void *gryphon, void *dst, void *src) {
 #pragma fp_contract on
 void TBoss5Gryphon::calc_product_and_ratio(void *params, Boss5GryphonActionStep *step) {
     *(s32 *)((s8 *)params + 4) = calc_product(step, 0, 1);
-    *(f32 *)((s8 *)params + 8) = fn_8005EAD0(step, 0);
+    *(f32 *)((s8 *)params + 8) = random_float_in_table_range(step, 0);
 }
 
 #pragma pop
 void TBoss5Gryphon::calc_params(void *params, Boss5GryphonActionStep *step) {
     *(s32 *)((s8 *)params + 4) = random_in_table_range(step, 1);
-    *(f32 *)((s8 *)params + 0xC) = fn_8005EAD0(step, 0);
-    *(f32 *)((s8 *)params + 0x10) = fn_8005EAD0(step, 1);
+    *(f32 *)((s8 *)params + 0xC) = random_float_in_table_range(step, 0);
+    *(f32 *)((s8 *)params + 0x10) = random_float_in_table_range(step, 1);
     *(s32 *)((s8 *)params + 8) = get_random_sign(step, 0);
 }
 
-void TBoss5Gryphon::fn_8005EBDC(u8 *params, Boss5GryphonActionStep *step) {
+void TBoss5Gryphon::calc_move_params(u8 *params, Boss5GryphonActionStep *step) {
     f32 temp_f31;
     s32 temp_r31;
     s32 temp_r3;
@@ -3416,24 +3416,24 @@ void TBoss5Gryphon::fn_8005EBDC(u8 *params, Boss5GryphonActionStep *step) {
     switch (temp_r3) {
     case 0:
         temp_r31 = (s32) (10430.38043493439 * atan2_float(position.x, position.z));
-        temp_f31 = fn_8005EAD0(step, 1);
+        temp_f31 = random_float_in_table_range(step, 1);
         *(f32 *)((s8 *)params + 4) = (f32) (temp_f31 * ((f32 (*)(int))sin_table_lookup)(temp_r31));
         *(f32 *)((s8 *)params + 8) = (f32) (temp_f31 * ((f32 (*)(int))cos_table_lookup)(temp_r31));
         break;
     case 1:
-        *(f32 *)((s8 *)params + 4) = fn_8005EAD0(step, 1);
-        *(f32 *)((s8 *)params + 8) = fn_8005EAD0(step, 2);
+        *(f32 *)((s8 *)params + 4) = random_float_in_table_range(step, 1);
+        *(f32 *)((s8 *)params + 8) = random_float_in_table_range(step, 2);
         break;
     }
-    *(f32 *)((s8 *)params + 0xC) = fn_8005EAD0(step, 0);
+    *(f32 *)((s8 *)params + 0xC) = random_float_in_table_range(step, 0);
     *(s32 *)((s8 *)params + 0x10) = random_in_table_range(step, 1);
 }
 
 void TBoss5Gryphon::calc_attack_params(void *params, Boss5GryphonActionStep *step) {
     f32 temp_f1;
-    temp_f1 = fn_8005EAD0(step, 1);
+    temp_f1 = random_float_in_table_range(step, 1);
     *(f32 *)((s8 *)params + 0xC) = (f32) (temp_f1 * temp_f1);
-    *(f32 *)((s8 *)params + 8) = fn_8005EAD0(step, 0);
+    *(f32 *)((s8 *)params + 8) = random_float_in_table_range(step, 0);
     *(s32 *)((s8 *)params + 4) = calc_product(step, 0, 1);
 }
 
@@ -3443,7 +3443,7 @@ void TBoss5Gryphon::set_random_param(u8 *params) {
 
 #pragma push
 #pragma scheduling off
-f32 TBoss5Gryphon::fn_8005EAD0(Boss5GryphonActionStep *step, s32 i) {
+f32 TBoss5Gryphon::random_float_in_table_range(Boss5GryphonActionStep *step, s32 i) {
     return random_in_range(step->floats[i].min, step->floats[i].range);
 }
 
@@ -3459,7 +3459,7 @@ s32 TBoss5Gryphon::random_in_table_range(Boss5GryphonActionStep *step, s32 i) {
     return (s32) random_in_range((f32) step->ints[i].min, (f32) step->ints[i].range);
 }
 
-s32 TBoss5Gryphon::fn_8005E9D8(Boss5GryphonActionStep *step, s32 i) {
+s32 TBoss5Gryphon::get_table_min(Boss5GryphonActionStep *step, s32 i) {
     return step->ints[i].min;
 }
 
@@ -3579,7 +3579,7 @@ void TBoss5Gryphon::destroy_parts() {
 
 #pragma push
 #pragma fp_contract on
-void TBoss5Gryphon::fn_8005E39C() {
+void TBoss5Gryphon::update_low_flight_particles() {
     Vec pos;
     ParticleAngles rot;
     pos.x = gryphon_forty * sin_table_lookup(rotation_y) + bone_positions[11].x;
@@ -3642,7 +3642,7 @@ void TBoss5Gryphon::free_parts() {
 
 #pragma push
 #pragma fp_contract on
-s32 TBoss5Gryphon::fn_8005E1E8(Vec *point, f32 radius) {
+s32 TBoss5Gryphon::is_sphere_in_camera_cone(Vec *point, f32 radius) {
     Vec dir;
     f32 dist;
     f32 cos_limit;
@@ -3701,7 +3701,7 @@ void TBoss5Gryphon::copy_bone_positions() {
     }
 }
 
-void TBoss5Gryphon::fn_8005E040() {
+void TBoss5Gryphon::snap_to_ground_height() {
     if (flight_mode == 0) {
         position.y = gryphon_ground_height;
     }
@@ -3717,7 +3717,7 @@ void TBoss5Gryphon::render() {
         view = TCameraCtrl::get_camera_mode();
     }
     if (this->defer_render() != 0) {
-        fn_8005E040();
+        snap_to_ground_height();
         this->draw_body();
         this->copy_bone_positions();
         if (this->renderFadeStates[view].isFading() == 0) {
@@ -3755,7 +3755,7 @@ void TBoss5Gryphon::render_with_fade(s32 fade_index) {
     TObjEneDD::clear_global_flag_400();
     saved_model_render_flags = model_render_flags;
     set_material_alpha_compare_reference(0);
-    if (fn_8005DC0C() != 0) {
+    if (blocks_camera_view() != 0) {
         this->renderFadeStates[fade_index].fadeOut();
     } else {
         this->renderFadeStates[fade_index].restore();
@@ -3780,7 +3780,7 @@ void TBoss5Gryphon::render_with_fade(s32 fade_index) {
     model_render_flags = saved_model_render_flags;
 }
 
-s32 TBoss5Gryphon::fn_8005DC0C() {
+s32 TBoss5Gryphon::blocks_camera_view() {
     Vec cam;
     Vec dir;
     f32 len;
@@ -3813,7 +3813,7 @@ s32 TBoss5Gryphon::fn_8005DC0C() {
     VecCopy((Vec *)boss5_gryphon_direction_vec, &dir);
     lbl_805D4DC0 = len;
     for (i = 0; i < 4; i++) {
-        if (fn_8005E1E8(&bone_positions[boss5_gryphon_point_index_table[i]], gryphon_twelve) != 0) {
+        if (is_sphere_in_camera_cone(&bone_positions[boss5_gryphon_point_index_table[i]], gryphon_twelve) != 0) {
             return 1;
         }
     }

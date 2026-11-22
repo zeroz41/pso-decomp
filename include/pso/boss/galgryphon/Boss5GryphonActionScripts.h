@@ -20,7 +20,7 @@ struct Boss5GryphonActionStep {
     s16 base;    // rand_scaled_offset(base, spread)
     s16 spread;
     Boss5GryphonIntRange ints[4];      // random_in_table_range(step, i)
-    Boss5GryphonFloatRange floats[4];  // fn_8005EAD0(step, i)
+    Boss5GryphonFloatRange floats[4];  // random_float_in_table_range(step, i)
 };
 
 LAYOUT_ASSERT(Boss5GryphonActionStep_size, sizeof(Boss5GryphonActionStep) == 0x48);

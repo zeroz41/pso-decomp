@@ -13,7 +13,7 @@ class TBoss5GryphonLightningHorn;
 struct Boss5GryphonActionStep;
 
 // The arguments an action script step leaves for its state; each handler reads its own view.
-struct Boss5GryphonFlightArgs {  // fn_80062660, update_low_flight_circle
+struct Boss5GryphonFlightArgs {  // update_turning_flight, update_low_flight_circle
     s32 turn;       // added to turn_velocity; its sign picks the circling side
     f32 speed;
     f32 radius_sq;  // update_low_flight_circle widens its turn beyond it
@@ -38,7 +38,7 @@ struct Boss5GryphonMotionEntry {
     s16 state;
     s16 timer;
     union {
-        s32 seed;  // the rng seed of update_ground_lightning_attack and fn_80060020
+        s32 seed;  // the rng seed of update_ground_lightning_attack and update_offscreen_dive
         Boss5GryphonFlightArgs flight;
         Boss5GryphonCircleArgs circle;
         Boss5GryphonMoveArgs move;
@@ -96,32 +96,32 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     void update_death_state(u32);
     void update_ground_takeoff(u32);
     void update_shockwave_attack(u32);
-    void fn_80062660(s32);
+    void update_turning_flight(s32);  // fly (action 4): flies on, turning by motion->flight.turn
     void circle_arena(s32);
     void move_to_motion_destination(s32);
     void update_landing_attack(u32);
-    void fn_80062114(s32);
+    void update_glide_in(s32);  // kakuin motion (action 6): glides down into low flight
     void update_low_flight_straight(s32);
     void update_low_flight_circle(s32);
     void update_bezier_descent(s32);
     void update_dive_motion(s32);
-    void fn_800615FC(s32);
+    void update_spiral_in(s32);  // kirin motion (action 0x13): the same drop into low flight
     void handle_descend_state(s32);
     void handle_takeoff_state(s32);
-    void fn_800610D0(s32);
+    void update_run_in(s32);  // runin motion (action 10)
     void state_move(s32);
-    void fn_80060D9C(s32);
-    void fn_80060CA4(s32);
-    void fn_80060BF8(s32);
-    void fn_80060B18(s32);
-    void fn_80060A58(s32);
+    void update_run_out(s32);  // runout motion (action 12): skids to a stop
+    void update_crouch_in(s32);  // husein motion (action 13)
+    void update_crouch(s32);  // huse motion (action 14)
+    void update_crouch_out(s32);  // huseout motion (action 15)
+    void update_horn_in(s32);  // tunoin motion (action 16), before update_ground_lightning_attack
     void update_ground_lightning_attack(s32);
-    void fn_80060788(s32);
+    void update_horn_out(s32);  // tunout motion (action 18)
     void update_offscreen_climb(s32);
-    void fn_80060020(u32);
+    void update_offscreen_dive(u32);  // kiri / kiriland motions (actions 20, 22): drops from offscreen onto a player
     void update_roar_state(s32);
-    void fn_8005FE18(s32);
-    void fn_8005FD34(s32);
+    void update_howl_state(s32);  // houko motion (action 23)
+    void update_mode_idle(s32);  // stand, fly or kaku loop for the current flight_mode
     void handle_message(s32);
     virtual void run_task();
     virtual void refresh_target();
@@ -142,14 +142,14 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     Vec bone_positions[15];  // draw_body captures the boss5_gryphon_bone_capture_node_indices nodes
     Vec move_velocity;  // scaled by scale_size; apply_velocity moves along its x and z
     s32 turn_velocity;  // apply_velocity adds it to rotation_y
-    Vec position_correction;  // fn_8005FB90 adds it to position once, then clears it
+    Vec position_correction;  // apply_position_correction adds it to position once, then clears it
     s32 targetRefreshCounter;
     Boss5GryphonMotionEntry motions[2];
     Boss5GryphonMotionEntry *motion;
     u32 flags;  // 1 destroy, 2 remote action pending, 0x40 get_flag_bit6
     TObject sub_tasks;  // the Colli and Snarl tasks hang under it; run_task runs its tasks
     s32 run_mode;  // 0 runs the actions, 1 holds them while the lobby is not ready
-    s32 flight_mode;  // 0 ground, 2 low flight, 3 offscreen (the enter_*_mode setters), 1 set_flag_4e4
+    s32 flight_mode;  // 0 ground, 2 low flight, 3 offscreen (the enter_*_mode setters), 1 enter_flight_mode
     Vec body_points[10];  // update_local_colliders_from_world turns them into body offsets
     Vec sound_origin;  // projected from the camera each frame; sounds play from it
     Vec pad_56C;
@@ -161,12 +161,12 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     // The state handlers reset the words they use on ENTER and read them their own way.
     union {
         Boss5GryphonStepWork work;            // the step machine most handlers run
-        Boss5GryphonDiveWork dive;            // fn_80060020
+        Boss5GryphonDiveWork dive;            // update_offscreen_dive
         Boss5GryphonTakeoffWork takeoff;      // update_ground_takeoff
         Boss5GryphonLightningWork lightning;  // update_ground_lightning_attack
     };
     u32 pad_720;
-    TParticleCtrl *particles[3];  // spawned and moved by fn_8005E39C in low flight
+    TParticleCtrl *particles[3];  // spawned and moved by update_low_flight_particles in low flight
     s32 run_mode_changed;  // run_task sets it when run_mode drops back to 0
     TParticleCtrl *parts[16];  // update_ground_effects keeps one on the ground under each body point
     Boss5GryphonActionStep *script_entry;  // the action script step being run
@@ -209,14 +209,14 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     void calc_params(void *params, Boss5GryphonActionStep *step);
     void calc_product_and_ratio(void *params, Boss5GryphonActionStep *step);
     void calc_attack_params(void *params, Boss5GryphonActionStep *step);
-    void fn_8005EBDC(u8 *params, Boss5GryphonActionStep *step);
+    void calc_move_params(u8 *params, Boss5GryphonActionStep *step);  // fills a Boss5GryphonMoveArgs
     s32 get_random_sign(Boss5GryphonActionStep *step, s32 i);
     s32 calc_product(Boss5GryphonActionStep *step, s32 sign_index, s32 range_index);
     s32 rand_scaled_offset(s32 base, s32 spread);
-    s32 fn_8005E9D8(Boss5GryphonActionStep *step, s32 i);
+    s32 get_table_min(Boss5GryphonActionStep *step, s32 i);
     s32 random_in_table_range(Boss5GryphonActionStep *step, s32 i);
     f32 random_in_range(f32 min, f32 range);
-    f32 fn_8005EAD0(Boss5GryphonActionStep *step, s32 i);
+    f32 random_float_in_table_range(Boss5GryphonActionStep *step, s32 i);
     s32 run_action_script_step(s16 *out, u32 *entry);
     static void copy_angle_state(void *gryphon, void *dst, void *src);
     void update_target_from_state();
@@ -230,7 +230,7 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     void fill_follow_camera_params(u8 *arg1, u8 *arg2);
     void set_animation_by_state();
     void init_state_zero();
-    void set_flag_4e4();
+    void enter_flight_mode();
     void fire_at_angle(s32 ang);
     void turn_toward_angle_limited(s32 ang, s32 target);
     void update_facing(f32 speed);
@@ -241,24 +241,24 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     void set_state_2();
     void update_state_3();
     void run_default_state();
-    void fn_80064828();
-    void fn_800648C8();
-    void fn_8005FB90();
-    void fn_80063EF4();
-    void fn_800641A8();
-    void fn_800646F0();
-    void fn_80064DB8();
-    void fn_80064E3C();
+    void emit_run_foot_attacks();  // the same on the run step frames
+    void emit_walk_foot_attacks();  // emit_part_attack_effect per foot on the walk step frames
+    void apply_position_correction();
+    void spawn_flight_splash();  // spawn_ground_splash on fly frame 14
+    void emit_ground_contact_attack();  // hit at bone_positions[14] while it is near the ground
+    void emit_landing_impact();  // area hit at position when the body comes down
+    void play_run_footsteps();  // run motion step frames
+    void play_walk_footsteps();  // walk motion step frames
     void spawn_ancient_trap(s32 id);
-    s32 fn_8005DC0C();
-    void fn_8005E040();
-    s32 fn_8005E1E8(Vec *point, f32 radius);
-    void fn_8005E39C();
-    s32 fn_8005FAE0();
-    void fn_8006426C();
-    void fn_8006435C();
-    void fn_8006442C();
-    void fn_80064AB0();
+    s32 blocks_camera_view();  // a foot is in the camera-to-player cone: render_with_fade fades
+    void snap_to_ground_height();  // in ground mode
+    s32 is_sphere_in_camera_cone(Vec *point, f32 radius);
+    void update_low_flight_particles();
+    s32 is_motion_finished();  // play_speed has run down to 0
+    void emit_run_body_attack();  // hit between bone_positions[0] and [11] while running
+    void emit_flight_body_attacks();  // hits at bone_positions[11] and [0] in low flight
+    void emit_wing_attacks();  // hits along bone_positions[3..10] in low flight
+    void send_target_update();  // sends entity_id, target_id and destination to the other clients
 };
 
 LAYOUT_ASSERT(TBoss5Gryphon_size, sizeof(TBoss5Gryphon) == 0x77C);
