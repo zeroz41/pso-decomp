@@ -25,8 +25,6 @@
 
 #pragma scheduling off
 #pragma scheduling off
-typedef s32 (*GinjaDrawEndCallback)();
-
 typedef void (*GinjaPreCallback)(s32 first);
 typedef void (*GinjaPostCallback)(u8 first);
 
@@ -647,8 +645,8 @@ void set_ginja_post_tev_stage_count(s32 x) {
 }
 #pragma pop
 
-void set_ginja_draw_end_callback(saddr arg0) {
-    ginja_draw_end_callback = (GinjaDrawEndCallback)arg0;
+void set_ginja_draw_end_callback(GinjaDrawEndCallback callback) {
+    ginja_draw_end_callback = callback;
 }
 
 #pragma push
