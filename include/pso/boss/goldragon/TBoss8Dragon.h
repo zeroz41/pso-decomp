@@ -155,7 +155,7 @@ public:
     void copy_action_state(u8 *arg1);
     static saddr spawn_ground_lightning(saddr parent, saddr pos, s32 rotation_y);
     static void set_default_on_state0();
-    static void update_camera_script(NJS_OBJECT *);
+    static void capture_node_points(NJS_OBJECT *);
     void calc_velocity_from_angle();
     f32 clamp_step_in_radius(f32 a, f32 b, f32 s);
     void freeze_player_at_self();
@@ -212,6 +212,10 @@ public:
     void check_death();
     void select_next_action();
     static void free_static();
+    // Listed with free_static in TLobby's floor resource callbacks.
+    static void load_resources();
+    // Hands the dragon back from the debug player control (boss8_dragon_player_control).
+    static void clear_player_control();
     static void *clone_node_tree(void *src, void *dst, int state);
     static void *create(void *set_data);
     void update_colli_parts();
@@ -268,28 +272,28 @@ public:
     void sub_802F610C(s32 event);
     void sub_802F645C(s32 event);
     void sub_802F6618(s32 event);
-    void sub_802F6708(s32 event);
-    void sub_802F6838(s32 event);
+    void update_fade_state(s32 event);
+    void update_death_state(s32 event);
     void handle_leap_state(s32 event);
     void handle_spiral_state(s32 event);
-    void sub_802F75C8(s32 event);
+    void update_burrow_outward_run(s32 event);
     void action_17(s32 event);
     void sub_802F7B4C(s32 event);
-    void sub_802F7808(u32 event, s32 action);
-    void sub_802F7B70(s32 event);
+    void update_burrow_inward_run(u32 event, s32 action);
+    void update_dive_state(s32 event);
     void state_roar(s32 event);
-    void sub_802F8150(s32 event);
-    void sub_802F8270(s32 event);
-    void sub_802F8578(s32 event);
+    void update_stretch_state(s32 event);
+    void update_head_down_attack_state(s32 event);
+    void update_fall_state(s32 event);
     void sub_802F87EC(s32 event);
     void sub_802F89F8(s32 event);
-    void sub_802F8F88(s32 event);
+    void update_air_fire_state(s32 event);
     void state_turn_and_charge(s32 event);
-    void sub_802F9850(s32 event);
+    void update_lift_state(s32 event);
     void sub_802F9A4C(s32 event);
     void handle_tail_attack_state(s32 event);
     void state_breath_attack(s32 event);
-    void sub_802FA16C(s32 event);
+    void update_walking_state(s32 event);
     void sub_802FA374(s32 event);
     void sub_802FA478(s32 event);
 };
@@ -305,7 +309,7 @@ LAYOUT_ASSERT(TBoss8DragonAfterFadeOffset, offsetof(TBoss8Dragon, m_74c) == 0x74
 // TBoss8Dragon::is_hiding_camera_target sets before it tests the model's points.
 extern Vec boss8_dragon_reference_pos_vec;
 extern Vec dragon_forward_reference_vec;
-// What TBoss8Dragon::update_camera_script turns into view space: the origin of each listed node, and
+// What TBoss8Dragon::capture_node_points turns into view space: the origin of each listed node, and
 // three points on the breath node (into breath_node_points).
 extern Vec boss8_dragon_node_origin;
 extern Vec boss8_dragon_breath_local_points[3];
@@ -316,5 +320,7 @@ struct Boss8DragonParams {
     f32 values[6];
     s32 ints[6];
 };
+// Nonzero while a debug controller steers the dragon (TBoss8Dragon::select_freeze_target).
+extern s32 boss8_dragon_player_control;
 
 #endif

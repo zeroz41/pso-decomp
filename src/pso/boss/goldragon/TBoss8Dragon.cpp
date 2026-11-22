@@ -87,9 +87,7 @@ struct Rot_802F9D08 { s32 x, y, z; };
 
 extern "C" {
 extern s32 local_client_id;
-extern s32 boss8_dragon_player_control;
 int TBoss8Dragon__sub_802FB984(void);
-extern s32 boss8_dragon_hold_mode;
 s32 fn_802F2E7C(int, void *, int);
 f32 atan2_float(f32 y, f32 x);
 void TBoss8Dragon__sub_802FB300(void);
@@ -110,7 +108,7 @@ Boss8DragonParams *boss8_dragon_behavior_params[3];
 Vec boss8_dragon_node_origin;
 Vec boss8_dragon_breath_local_points[3];
 // The empty chunk model every node of boss8_dragon_capture_model draws, so that rendering it only
-// runs TBoss8Dragon::update_camera_script on each node.
+// runs TBoss8Dragon::capture_node_points on each node.
 NJS_CNK_MODEL boss8_dragon_capture_chunk_model;
 Vec boss8_dragon_reference_pos_vec;
 Vec dragon_forward_reference_vec;
@@ -132,7 +130,6 @@ s32 is_closest_part();
 void set_mode_params__12TBoss8DragonFSc(void *, unsigned char);
 void TBoss8Dragon__sub_802FB828(u8 *ene_dd, s32 arg1);
 s32 TBoss8Dragon__sub_802FCCBC(TBoss8Dragon *boss8_dragon);
-void TBoss8Dragon__sub_802FD9D0(void);
 s32 eval_bezier_curve__12TBoss8DragonFPviiPvf(void *, int, int, void *, f32);
 }
 
@@ -358,10 +355,8 @@ s32 boss8_dragon_model_node_count;
 void *boss8_dragon_capture_model;
 TBoss8Dragon *boss8_dragon_main_instance;
 f32 boss8_dragon_visibility_distance;
-extern "C" {
 s32 boss8_dragon_hold_mode;
 s32 boss8_dragon_player_control;
-}
 u16 boss8_dragon_control_client_id;
 // (from _802FDDD4)
 typedef struct A_802F3D6C { u8 pad0[4]; s32 idx; u8 pad8[8]; } A_802F3D6C;
@@ -479,7 +474,7 @@ void TBoss8Dragon::get_camera_offsets(Vec *eye, Vec *target) {
     }
 }
 
-void TBoss8Dragon__sub_802FDA78(void) {
+void TBoss8Dragon::load_resources() {
     s32 i;
     s32 j;
 
@@ -542,7 +537,7 @@ void TBoss8Dragon::free_static() {
     }
 }
 
-void TBoss8Dragon__sub_802FD9D0(void) { (*(int *)&boss8_dragon_player_control) = 0; }
+void TBoss8Dragon::clear_player_control() { boss8_dragon_player_control = 0; }
 
 TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(parent), sub_tasks(NULL) {
     u32 sp8[4];
@@ -1662,7 +1657,7 @@ void TBoss8Dragon::freeze_player_at_self() {
             return;
         }
     }
-    ((s32 (*)(void))TBoss8Dragon__sub_802FD9D0)();
+    TBoss8Dragon::clear_player_control();
 }
 
 #pragma pop
@@ -1815,27 +1810,27 @@ void TBoss8Dragon::dispatch_action(u32 action, s32 event) {
     static void (TBoss8Dragon::*handlers[44])(s32) = {
         &TBoss8Dragon::sub_802FA478,
         &TBoss8Dragon::sub_802FA374,
-        &TBoss8Dragon::sub_802FA16C,
+        &TBoss8Dragon::update_walking_state,
         &TBoss8Dragon::state_breath_attack,
         &TBoss8Dragon::handle_tail_attack_state,
-        &TBoss8Dragon::sub_802F9850,
+        &TBoss8Dragon::update_lift_state,
         &TBoss8Dragon::state_turn_and_charge,
-        &TBoss8Dragon::sub_802F8F88,
-        &TBoss8Dragon::sub_802F8578,
-        &TBoss8Dragon::sub_802F8270,
-        &TBoss8Dragon::sub_802F8578,
-        &TBoss8Dragon::sub_802F8578,
-        &TBoss8Dragon::sub_802F8578,
-        &TBoss8Dragon::sub_802F8150,
+        &TBoss8Dragon::update_air_fire_state,
+        &TBoss8Dragon::update_fall_state,
+        &TBoss8Dragon::update_head_down_attack_state,
+        &TBoss8Dragon::update_fall_state,
+        &TBoss8Dragon::update_fall_state,
+        &TBoss8Dragon::update_fall_state,
+        &TBoss8Dragon::update_stretch_state,
         &TBoss8Dragon::state_roar,
-        &TBoss8Dragon::sub_802F7B70,
+        &TBoss8Dragon::update_dive_state,
         &TBoss8Dragon::sub_802F7B4C,
         &TBoss8Dragon::action_17,
-        &TBoss8Dragon::sub_802F75C8,
+        &TBoss8Dragon::update_burrow_outward_run,
         &TBoss8Dragon::handle_leap_state,
         0,
-        &TBoss8Dragon::sub_802F6838,
-        &TBoss8Dragon::sub_802F6708,
+        &TBoss8Dragon::update_death_state,
+        &TBoss8Dragon::update_fade_state,
         &TBoss8Dragon::sub_802F6618,
         &TBoss8Dragon::sub_802F645C,
         &TBoss8Dragon::sub_802F610C,
@@ -1929,7 +1924,7 @@ void TBoss8Dragon::sub_802FA374(s32 event) {
     }
 }
 
-void TBoss8Dragon::sub_802FA16C(s32 event) {
+void TBoss8Dragon::update_walking_state(s32 event) {
     f32 temp_f1;
     s32 temp_r4_2;
     s32 var_r30;
@@ -2191,7 +2186,7 @@ void TBoss8Dragon::sub_802F9A4C(s32 event) {
             this->renderFadeStates[i].set_speed(0.08f);
         }
         this->flags |= 0x100;
-        sub_802F9850(event);
+        update_lift_state(event);
         break;
     case 2:
     case 11:
@@ -2215,19 +2210,19 @@ void TBoss8Dragon::sub_802F9A4C(s32 event) {
             }
             break;
         }
-        sub_802F9850(event);
+        update_lift_state(event);
         break;
     case 5:
         this->flags &= ~0x100;
-        sub_802F9850(event);
+        update_lift_state(event);
         break;
     default:
-        sub_802F9850(event);
+        update_lift_state(event);
         break;
     }
 }
 
-void TBoss8Dragon::sub_802F9850(s32 event) {
+void TBoss8Dragon::update_lift_state(s32 event) {
     struct { f32 x, y, z; } sp8;
 
     switch (event) {
@@ -2373,7 +2368,7 @@ void TBoss8Dragon::state_turn_and_charge(s32 event) {
 }
 
 #define F(t, o) (*(t *)((u8 *)this + (o)))
-void TBoss8Dragon::sub_802F8F88(s32 event) {
+void TBoss8Dragon::update_air_fire_state(s32 event) {
     Vec *d = &action_point;
 
     switch (event) {
@@ -2679,7 +2674,7 @@ void TBoss8Dragon::sub_802F87EC(s32 event) {
             this->renderFadeStates[i].set_speed(0.008f);
         }
         this->flags = (s32) (this->flags | 0x100);
-        sub_802F8578(event);
+        update_fall_state(event);
         this->play_effect_sound(0x4003A814);
         return;
     case 7:
@@ -2707,21 +2702,21 @@ void TBoss8Dragon::sub_802F87EC(s32 event) {
         for (i = 0; i < 4; i++) {
             this->renderFadeStates[i].advance_toward_max();
         }
-        sub_802F8578(event);
+        update_fall_state(event);
         return;
     case 5:
         this->flags = (s32) (this->flags & 0xFFFFFEFF);
-        sub_802F8578(event);
+        update_fall_state(event);
         return;
     case 11:
     default:
-        sub_802F8578(event);
+        update_fall_state(event);
         return;
     }
 }
 
 #pragma pop
-void TBoss8Dragon::sub_802F8578(s32 event) {
+void TBoss8Dragon::update_fall_state(s32 event) {
     Pair_802F8578 out;
 
     switch (event) {
@@ -2805,7 +2800,7 @@ void TBoss8Dragon::sub_802F8578(s32 event) {
     }
 }
 
-void TBoss8Dragon::sub_802F8270(s32 event) {
+void TBoss8Dragon::update_head_down_attack_state(s32 event) {
     f32 var_f31;
     f32 temp_f30;
     f32 temp_f29;
@@ -2899,7 +2894,7 @@ void TBoss8Dragon::sub_802F8270(s32 event) {
     }
 }
 
-void TBoss8Dragon::sub_802F8150(s32 event) {
+void TBoss8Dragon::update_stretch_state(s32 event) {
     switch (event) {
     case 4:
         this->requested_action = 2;
@@ -2979,7 +2974,7 @@ void TBoss8Dragon::state_roar(s32 event) {
     }
 }
 
-void TBoss8Dragon::sub_802F7B70(s32 event) {
+void TBoss8Dragon::update_dive_state(s32 event) {
     switch (event) {
     case 4:
         this->requested_action = 0x10;
@@ -3115,13 +3110,13 @@ void TBoss8Dragon::sub_802F7B70(s32 event) {
     }
 }
 
-void TBoss8Dragon::sub_802F7B4C(s32 event) { sub_802F7808(event, 16); }
+void TBoss8Dragon::sub_802F7B4C(s32 event) { update_burrow_inward_run(event, 16); }
 
-void TBoss8Dragon::action_17(s32 event) { sub_802F7808(event, 17); }
+void TBoss8Dragon::action_17(s32 event) { update_burrow_inward_run(event, 17); }
 
 #pragma push
 #pragma fp_contract on
-void TBoss8Dragon::sub_802F7808(u32 event, s32 action) {
+void TBoss8Dragon::update_burrow_inward_run(u32 event, s32 action) {
     s32 a;
     switch (event) {
     case 4:
@@ -3204,7 +3199,7 @@ void TBoss8Dragon::sub_802F7808(u32 event, s32 action) {
 }
 
 #undef F
-void TBoss8Dragon::sub_802F75C8(s32 event) {
+void TBoss8Dragon::update_burrow_outward_run(s32 event) {
     struct { f32 x, y, z; } sp8;
     switch (event) {
     case 4:
@@ -3493,7 +3488,7 @@ void TBoss8Dragon::handle_leap_state(s32 event) {
 #pragma pop
 #pragma push
 #pragma pool_data off
-void TBoss8Dragon::sub_802F6838(s32 event) {
+void TBoss8Dragon::update_death_state(s32 event) {
     CameraPlayback cam;
     Rot_802F6838 r;
     Vec v;
@@ -3622,7 +3617,7 @@ void TBoss8Dragon::sub_802F6838(s32 event) {
 
 #pragma push
 #pragma fp_contract on
-void TBoss8Dragon::sub_802F6708(s32 event) {
+void TBoss8Dragon::update_fade_state(s32 event) {
     f32 temp_f1;
     f32 temp_f4;
 
@@ -4679,7 +4674,7 @@ s32 TBoss8Dragon::hasActiveRenderFade() {
     return 0;
 }
 
-void TBoss8Dragon::update_camera_script(NJS_OBJECT *) {
+void TBoss8Dragon::capture_node_points(NJS_OBJECT *) {
     s32 temp_r0;
     Vec *pos;
     if ((s32) boss8_dragon_capture_node == (s32) boss8_dragon_breath_node) {
@@ -4714,7 +4709,7 @@ void TBoss8Dragon::render_body_model() {
     boss8_dragon_capture_cursor = 0;
     boss8_dragon_capture_points_out = this->node_positions;
     boss8_dragon_capture_flags = this->flags;
-    set_chunk_model_node_callback(TBoss8Dragon::update_camera_script);
+    set_chunk_model_node_callback(TBoss8Dragon::capture_node_points);
     push_matrix();
     set_motion_packed_rotation();
     post_translate_matrix(&this->position.x);

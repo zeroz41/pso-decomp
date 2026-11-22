@@ -12,7 +12,6 @@
 
 extern "C" {
 extern s32 local_client_id;
-extern s32 boss8_dragon_player_control;
 
 void TUnk_804F1A78::run_task() {
     s16 mode;

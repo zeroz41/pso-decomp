@@ -198,7 +198,6 @@ void load_boss5_gryphon_resources();
 void load_darkgunner_effect_resources();
 
 void load_shinowa_mirage_resources();
-void TBoss8Dragon__sub_802FDA78();
 void TObjEneMorfos__sub_803350AC();
 
 FloorResourceCallbacks floor_resource_callbacks_selector_00[43] = {
@@ -411,7 +410,7 @@ FloorResourceCallbacks floor_resource_callbacks_selector_33[6] = {
     { load_corpse_mark_resource, TObjPlayer::destroy_static_lobby },
     { TObjEneDD::create_instance, TObjEneDD::release_resource },
     { clear_boss8_dragon_leader_part, TBoss8Dragon__sub_802F3C74 },
-    { TBoss8Dragon__sub_802FDA78, TBoss8Dragon::free_static },
+    { TBoss8Dragon::load_resources, TBoss8Dragon::free_static },
     { reset_camera_override, restore_cameras_if_overridden },
     { 0, 0 },
 };
