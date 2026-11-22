@@ -38,6 +38,7 @@ __declspec(section ".rodata") Vec follow_camera_reset_eye_offset = { 0.0f, 0.0f,
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/ui/hud/TLockOnCursor.h"
 
 u8 camera_override_flags;
 
@@ -333,7 +334,7 @@ void TCameraFollow::update_follow_motion_state() {
     s32 locked_on;
     Vec *prev;
     Vec *pos;
-    u8 *cursor;
+    TLockOnCursor *cursor;
     TObjPlayer *player;
     prev = (Vec *)((TCameraCtrl *)this->actor)->get_target_ptr();
     pos = (Vec *)this->actor->get_position_ptr();
@@ -379,9 +380,8 @@ void TCameraFollow::update_follow_motion_state() {
             } else {
                 rate = (follow & 4) ? 2 : 5;
                 locked_on = 0;
-                // The actor's lock-on cursor: 0x514 the target's id, 0x518 its distance.
-                cursor = (u8 *)this->actor->m_424;
-                if ((cursor != NULL) && (*(u16 *)(cursor + 0x514) != 0xFFFF) && (*(f32 *)(cursor + 0x518) <= 4900.0f)) {
+                cursor = (TLockOnCursor *)this->actor->m_424;
+                if ((cursor != NULL) && (cursor->nearest_target.published_target_id != 0xFFFF) && (cursor->nearest_target.published_target_dist <= 4900.0f)) {
                     locked_on = 1;
                 }
                 if (locked_on == 0) {
