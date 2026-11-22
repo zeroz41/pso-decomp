@@ -1,3 +1,4 @@
+#include "pso/ui/frontend/TAdTitleTexGC.h"
 #include "pso/ui/frontend/TAdTitleGC.h"
 #include "pso/ui/frontend/TAdRayGC.h"
 #include "pso/ui/frontend/TAdGuideTxtGC.h"
@@ -46,7 +47,6 @@ extern "C" {
 s32 free_sub_ctrls__19TAdSelectGameModeGCFv();
 s32 play_sound_effect(int, int, int, int);
 void __ct__7TObjectFP7TObject(void *, void *);
-void __ct__13TAdTitleTexGCFv(void *, void *);
 extern s32 __vt__19TAdSelectGameModeGC[];
 int sync_char_select_state__10TObjPlayerFv(void*);
 
@@ -110,9 +110,7 @@ u8 *__ct__19TAdSelectGameModeGCFv(u8 *arg0, void *parent) {
     new TAdBackTxtGC((TObject *)arg0);
     new TAdRayGC((TObject *)arg0);
     new TAdTitleGC((TObject *)arg0, 4);
-    if ((p = TObject::operator new(0x9C)) != 0) {
-        __ct__13TAdTitleTexGCFv(p, arg0);
-    }
+    new TAdTitleTexGC((TObject *)arg0);
     {
         S24_802C4944 txt = select_game_mode_text_layout;
         new TAdSelectTxtGC((TObject *)arg0, &txt.t[0], 6);

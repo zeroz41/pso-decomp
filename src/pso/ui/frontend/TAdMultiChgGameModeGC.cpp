@@ -1,3 +1,4 @@
+#include "pso/ui/frontend/TAdTitleTexGC.h"
 #include "pso/ui/frontend/TAdTitleGC.h"
 #include "pso/ui/frontend/TAdRayGC.h"
 #include "pso/ui/frontend/TAdGuideTxtGC.h"
@@ -41,7 +42,6 @@ extern "C" {
 s32 lbl_805D69E8;
 void __ct__7TObjectFP7TObject(void *);
 
-void __ct__13TAdTitleTexGCFv(void *, void *);
 extern void *__vt__21TAdMultiChgGameModeGC[];
 Obj_802FFE58 *__ct__21TAdMultiChgGameModeGCFv(Obj_802FFE58 *self);
 }
@@ -121,9 +121,7 @@ Obj_802FFE58 *__ct__21TAdMultiChgGameModeGCFv(Obj_802FFE58 *self) {
         new TAdSelectTxtGC((TObject *)self, &txt.v[0], 0xC);
         new TAdSelectTxtGC((TObject *)self, &txt.v[1], 0xD);
         new TAdSelectTxtGC((TObject *)self, &txt.v[2], 0xE);
-        if ((p = TObject::operator new(0x9C)) != NULL) {
-            __ct__13TAdTitleTexGCFv(p, self);
-        }
+        new TAdTitleTexGC((TObject *)self);
         {
             Cur_802FFE58 cur = lbl_80474E1C[0];
             Pos_802FFE58 pos = multi_chg_game_mode_position_table;

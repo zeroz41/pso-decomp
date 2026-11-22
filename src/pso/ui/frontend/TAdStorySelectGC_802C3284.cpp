@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/frontend/TAdTitleTexGC.h"
 #include "pso/ui/frontend/TAdTitleGC.h"
 #include "pso/ui/frontend/TAdRayGC.h"
 #include "pso/ui/frontend/TAdGuideTxtGC.h"
@@ -40,7 +41,6 @@ extern "C" {
 void play_sound_effect(s32, s32, s32, s32);
 extern u8 controller_input_state[];
 void __ct__7TObjectFP7TObject(void *, void *);
-void __ct__13TAdTitleTexGCFv(void *, void *);
 extern void *__vt__16TAdStorySelectGC[];
 Self_802C3400 *__ct__16TAdStorySelectGCFv(Self_802C3400 *self, void *parent);
 void TAdStorySelectGC::render() {  }
@@ -102,10 +102,7 @@ Self_802C3400 *__ct__16TAdStorySelectGCFv(Self_802C3400 *self, void *parent) {
     p = new TAdBackTxtGC((TObject *)self);
     new TAdRayGC((TObject *)self);
     new TAdTitleGC((TObject *)self, 1);
-    p = TObject::operator new(0x9C);
-    if (p != NULL) {
-        __ct__13TAdTitleTexGCFv(p, self);
-    }
+    new TAdTitleTexGC((TObject *)self);
     {
         C_802C3400 c = {{{-1, 208.0f, 197.0f}, {-1, 178.0f, 249.0f}}};
         new TAdSelectTxtGC((TObject *)self, &c.e[0], 4);

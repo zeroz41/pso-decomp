@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/frontend/TAdTitleTexGC.h"
 #include "pso/ui/frontend/TAdTitleGC.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
@@ -143,7 +144,6 @@ struct I2_802DF9B4 { s32 a, b; };
 struct Blk_802DF9B4 { NJS_POINT2 a, b, c; };
 
 extern "C" {
-u32 __ct__13TAdTitleTexGCFv(void *, void *);
 u32 __ct__14TAdGameStartGCFv(void *, TObject *);
 extern NJS_POINT2 multi_chr_select_widget_layout[];
 extern u8 lbl_80472808[];
@@ -603,12 +603,9 @@ void TAdMultiPlyChrSelectGC::create_widgets() {
     guide = new TAdGuideTxtGC(this);
     guide->set_line(0, "");
     guide->set_line(1, "");
-    p = reinterpret_cast<uaddr>(TObject::operator new(0x9C));
-    if (p != 0) {
-        p = __ct__13TAdTitleTexGCFv((void *) p, this);
-    }
+    TAdTitleTexGC *tex = new TAdTitleTexGC(this);
     Blk_802DF9B4 blk = multi_chr_select_layout_table[0];
-    fn_802D50B8((void *)p, (void *)&blk.a, (void *)&blk.b, (void *)&blk.c);
+    fn_802D50B8(tex, (void *)&blk.a, (void *)&blk.b, (void *)&blk.c);
     p = (uaddr)TObject::operator new(0xD4);
     if (p != 0) {
         p = __ct__14TAdGameStartGCFv((void *) p, tl_clipout);

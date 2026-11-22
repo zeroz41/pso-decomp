@@ -17349,7 +17349,7 @@ force_active:
   - update_timer_transition__11TBoss6Type1Fv
   - update_title_prompt__19TAdTrialAgreementGCFv
   - update_title_rects__10TAdTitleGCFv
-  - update_title_tex_positions__13TAdTitleTexGCFPv
+  - update_title_tex_positions__13TAdTitleTexGCFv
   - update_toggle_state__18TObjLiveCameraCtrlFv
   - update_topple_state__16TBoss3VoloptCoreFv
   - update_trade_window_visibility__11TWindowCtrlFv
