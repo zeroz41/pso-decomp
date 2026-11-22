@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 
 #include "pso/system/EnemyBmlResource.h"
 #include <stddef.h>
@@ -51,7 +52,6 @@
 
 #pragma defer_codegen on
 extern "C" {
-void queue_destruction__7TObjectFv(void *arg0);
 
 
 BmlResource * TObjEneMe1Gee__resource_bundle;
@@ -120,7 +120,6 @@ s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 void matrix_mult_vec(void *, Vec *, Vec *);
 s32 post_translate_matrix(void *);
 s16 get_entity_id(void *);
-s32 set_part_position__9TObjEneDDFPvPvi(void *, int, int);
 
 f32 newton_sqrtf(f32);
 
@@ -286,7 +285,7 @@ void TObjEneMe1Gee::init_state() {
     this->m_484 = 0;
     this->m_488 = 0;
     this->copy_pos();
-    set_part_position__9TObjEneDDFPvPvi(this, (saddr)this->bodies, 0);
+    TObjEneDD::set_part_position(this, this->bodies, 0);
     this->mode = 0;
     this->dispatch_action(this->mode, 4);
     if (this->m_3c0 != NULL) {
@@ -311,7 +310,7 @@ void TObjEneMe1Gee::run_task() {
         return;
     }
     if (m_3c4 == 1 && ((m_3c0 = (TObjEneMe1Gee *)find_entity_by_id(m_48c), object = (u8 *)m_3c0, object == NULL) || ((TObject *)object)->all_parents_unqueued_for_destruction() == 0)) {
-        queue_destruction__7TObjectFv(this);
+        this->queue_destruction();
         return;
     }
     if (this->update_status_effects() != 4) {
@@ -1166,11 +1165,11 @@ void TObjEneMe1Gee::sub_800CA454(s32 mode) {
                 this->m_434 = 4;
                 this->m_438 = 0;
                 if (this->m_460 != NULL) {
-                    queue_destruction__7TObjectFv(this->m_460);
+                    this->m_460->queue_destruction();
                     this->m_460 = NULL;
                 }
                 if (this->m_464 != NULL) {
-                    queue_destruction__7TObjectFv(this->m_464);
+                    this->m_464->queue_destruction();
                     this->m_464 = NULL;
                 }
                 play_sound_effect(this->handle_message(0x3AD17), (uaddr)&this->body_center, 0, 0);
@@ -1225,11 +1224,11 @@ void TObjEneMe1Gee::sub_800CA454(s32 mode) {
         this->m_3c8 &= ~0x40000;
         this->destroy_subobj(&TObjEneMe1Gee__data_8043BDB0);
         if (this->m_460 != NULL) {
-            queue_destruction__7TObjectFv(this->m_460);
+            this->m_460->queue_destruction();
             this->m_460 = NULL;
         }
         if (this->m_464 != NULL) {
-            queue_destruction__7TObjectFv(this->m_464);
+            this->m_464->queue_destruction();
             this->m_464 = NULL;
         }
         break;
@@ -1628,7 +1627,7 @@ void TObjEneMe1Gee::sub_800C9580(s32 mode) {
         return;
     case 3:
         if ((this->fade.decay_value_toward_floor() != 0) && (this->has_no_members() != 0)) {
-            queue_destruction__7TObjectFv(this);
+            this->queue_destruction();
         }
     case 5:
     case 0:
@@ -1696,7 +1695,7 @@ void TObjEneMe1Gee::state_dead(s32 arg1) {
         this->refresh_and_send_entity_flags();
         return;
     case 0:
-        queue_destruction__7TObjectFv(this);
+        this->queue_destruction();
     case 3:
     case 5:
         return;
@@ -2191,7 +2190,7 @@ void TUnk_8049387C::state_dead(s32 arg1) {
     case 0:
         if (this->has_no_members() != 0) {
             this->send_entity_set_flags();
-            queue_destruction__7TObjectFv(this);
+            this->queue_destruction();
         }
     case 3:
     case 1:
