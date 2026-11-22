@@ -3,9 +3,16 @@
 
 #include "types.h"
 
+class TObject;
+class TObjBase;
+class TUnk_804CCAA8;
+struct NJS_ARGB;
+struct Vec;
+
 // --- C functions defined in TObjLight_80235C44.cpp ---
 extern "C" {
-u8 *construct_actor_light_task(u8 *arg0, NJS_ARGB *arg1, u8 *arg2, s32 arg3, u8 *arg4, u8 *parent, f32 farg0);
+TUnk_804CCAA8 *construct_actor_light_task(TUnk_804CCAA8 *light, NJS_ARGB *color, Vec *desired, s32 duration,
+                                          TObjBase *source, TObject *parent, f32 step);
 }
 // --- end of C functions
 

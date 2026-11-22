@@ -41,7 +41,6 @@ struct TObjLight : public TObjBase {
     f32 m_f4;
     u8 unk_F8[0x4];
     f32 m_fc;
-    u8 *construct_actor_light(saddr arg1, saddr arg2, s32 arg3, s32 arg4, saddr parent, f32 farg0, f32 farg1, f32 farg2, s32 arg_sp0);
 };
 
 LAYOUT_ASSERT(TObjLight_size, sizeof(TObjLight) == 0x100);

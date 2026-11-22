@@ -28,27 +28,6 @@
 static const f32 lbl_805DC888[1] = {1.0f};
 static const f32 lbl_805DC88C[1] = {0.0f};
 
-struct Stack_80235E9C {
-    s32 sp8;
-    u8 trailing_storage[0xC];
-};
-
-struct Light_80235C44 {
-    u8 task[0x1C];
-    s32 duration;
-    u32 phase;
-    NJS_ARGB color;
-    Vec desired;
-    Vec direction;
-    s32 age;
-    f32 step;
-    saddr source;
-    f32 peak;
-    f32 intensity;
-    u16 actor;
-    u16 pad62;
-};
-
 struct Base_80235C44 { u8 pad[0x1C]; f32 f1c; f32 f20; };
 
 extern "C" {
@@ -63,42 +42,41 @@ extern Base_80235C44 TObjLight__scene_light_state;
 #pragma push
 #pragma fp_contract on
 void TUnk_804CCAA8::run_task() {
-    Light_80235C44 *arg0 = (Light_80235C44 *)this;
     Vec baseDir;
     NJS_ARGB baseColor;
     NJS_ARGB unused;
     f32 mid;
     f32 frac;
-    if (get_player_by_client_id(arg0->actor) == 0) {
-        ((TObject *)arg0)->queue_destruction();
+    if (get_player_by_client_id(actor) == 0) {
+        queue_destruction();
         return;
     }
-    TObjLight::find_light_params((f32 *)&baseDir, (f32 *)&baseColor, arg0->actor);
-    mid = 0.5f * (f32) arg0->duration;
-    if (arg0->age < (s32) mid) {
+    TObjLight::find_light_params((f32 *)&baseDir, (f32 *)&baseColor, actor);
+    mid = 0.5f * (f32) duration;
+    if (age < (s32) mid) {
         f32 amb1;
         f32 inten1;
-        frac = (f32) arg0->age / mid;
-        amb1 = frac * (arg0->peak - TObjLight__scene_light_state.f20) + TObjLight__scene_light_state.f20;
-        inten1 = frac * (arg0->intensity - TObjLight__scene_light_state.f1c) + TObjLight__scene_light_state.f1c;
-        publish_actor_light_scalars((u16) get_entity_id((void *)arg0->source), inten1, amb1);
-        copy_argb((NJS_ARGB *)&unused, (NJS_ARGB *)&baseColor);
-        approach_vector_fixed_distance(&arg0->direction, &arg0->desired, &arg0->direction, arg0->step);
-        approach_rgb_clamped(&unused, &arg0->color, 0.1f);
+        frac = (f32) age / mid;
+        amb1 = frac * (peak - TObjLight__scene_light_state.f20) + TObjLight__scene_light_state.f20;
+        inten1 = frac * (intensity - TObjLight__scene_light_state.f1c) + TObjLight__scene_light_state.f1c;
+        publish_actor_light_scalars((u16) get_entity_id(source), inten1, amb1);
+        copy_argb(&unused, &baseColor);
+        approach_vector_fixed_distance(&direction, &desired, &direction, step);
+        approach_rgb_clamped(&unused, &color, 0.1f);
     } else {
         f32 amb2;
         f32 inten2;
-        frac = ((f32) arg0->age - mid) / mid;
-        amb2 = frac * (TObjLight__scene_light_state.f20 - arg0->peak) + arg0->peak;
-        inten2 = frac * (TObjLight__scene_light_state.f1c - arg0->intensity) + arg0->intensity;
-        publish_actor_light_scalars((u16) get_entity_id((void *)arg0->source), inten2, amb2);
-        approach_vector_fixed_distance(&arg0->direction, &baseDir, &arg0->direction, arg0->step);
-        approach_rgb_clamped(&arg0->color, &baseColor, 0.1f);
+        frac = ((f32) age - mid) / mid;
+        amb2 = frac * (TObjLight__scene_light_state.f20 - peak) + peak;
+        inten2 = frac * (TObjLight__scene_light_state.f1c - intensity) + intensity;
+        publish_actor_light_scalars((u16) get_entity_id(source), inten2, amb2);
+        approach_vector_fixed_distance(&direction, &baseDir, &direction, step);
+        approach_rgb_clamped(&color, &baseColor, 0.1f);
     }
-    publish_light_direction_color((u16) get_entity_id((void *)arg0->source), &arg0->direction, &arg0->color);
-    arg0->age++;
-    if (arg0->duration < arg0->age) {
-        ((TObject *)arg0)->queue_destruction();
+    publish_light_direction_color((u16) get_entity_id(source), &direction, &color);
+    age++;
+    if (duration < age) {
+        queue_destruction();
     }
 }
 #pragma pop
@@ -108,39 +86,39 @@ TUnk_804CCAA8::~TUnk_804CCAA8() {
 
 }
 
-u8 *TObjLight::construct_actor_light(saddr arg1, saddr arg2, s32 arg3, s32 arg4, saddr parent, f32 farg0, f32 farg1, f32 farg2, s32 arg_sp0) {
-    Stack_80235E9C stack;
-    __ct__7TObjectFP7TObject(this, (void *)parent);
-    *(s32 **)((s8 *)((u8 *)this) + 0x18) = __vt__13TUnk_804CCAA8;
-    copy_argb((NJS_ARGB *)(((u8 *)this) + 0x24), (NJS_ARGB *)arg1);
-    VecCopy((Vec *)(((u8 *)this) + 0x34), (const Vec *)(arg2));
-    *(s32 *)&this->entity_id = arg3;
-    *(s32 *)&this->prev_position.z = 0;
-    this->home_position.x = farg0;
-    *(s32 *)&this->home_position.y = arg4;
-    *(s32 *)((s8 *)((u8 *)this) + 0x20) = 1;
-    this->home_position.z = farg1;
-    *(f32 *)&this->rotation_x = farg2;
-    *(u16 *)&this->rotation_y = get_entity_id((void *)(int) (*(s32 *)&this->home_position.y));
-    TObjLight::find_light_params((f32 *)(((u8 *)this) + 0x40), (f32 *)&stack.sp8, (u32)((int) ((s32) *(u16 *)&this->rotation_y)));
-    return ((u8 *)this);
+TUnk_804CCAA8::TUnk_804CCAA8(f32 step, f32 peak, f32 intensity, NJS_ARGB *color, Vec *desired, s32 duration,
+                             TObjBase *source, TObject *parent)
+    : TObject(parent) {
+    NJS_ARGB scene_color;
+    copy_argb(&this->color, color);
+    VecCopy(&this->desired, desired);
+    this->duration = duration;
+    age = 0;
+    this->step = step;
+    this->source = source;
+    phase = 1;
+    this->peak = peak;
+    this->intensity = intensity;
+    actor = get_entity_id(this->source);
+    TObjLight::find_light_params((f32 *)&direction, (f32 *)&scene_color, actor);
 }
-u8 *construct_actor_light_task(u8 *arg0, NJS_ARGB *njs_argb, u8 *arg2, s32 arg3, u8 *arg4, u8 *parent, f32 farg0) {
-    s32 sp8;
-    __ct__7TObjectFP7TObject(arg0, parent);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_804CCAA8;
-    copy_argb((NJS_ARGB *)(arg0 + 0x24), njs_argb);
-    VecCopy((Vec *)(arg0 + 0x34), (const Vec *)arg2);
-    *(s32 *)((s8 *)arg0 + 0x1C) = arg3;
-    ((TUnk_804CCAA8 *)arg0)->m_4c = 0;
-    *(f32 *)((s8 *)arg0 + 0x50) = farg0;
-    ((TUnk_804CCAA8 *)arg0)->m_54 = arg4;
-    ((TUnk_804CCAA8 *)arg0)->m_20 = 0;
-    *(f32 *)((s8 *)arg0 + 0x58) = (f32) lbl_805DC888[0];
-    ((TUnk_804CCAA8 *)arg0)->m_5c = (f32) lbl_805DC888[0];
-    *(u16 *)((s8 *)arg0 + 0x60) = ((u16)get_entity_id((void *)(saddr)(((TUnk_804CCAA8 *)arg0)->m_54)));
-    TObjLight::find_light_params((f32 *)(arg0 + 0x40), (f32 *)((saddr) &sp8), (u32)((int)((u32) *(u16 *)((s8 *)arg0 + 0x60))));
-    return arg0;
+TUnk_804CCAA8 *construct_actor_light_task(TUnk_804CCAA8 *light, NJS_ARGB *color, Vec *desired, s32 duration,
+                                          TObjBase *source, TObject *parent, f32 step) {
+    NJS_ARGB scene_color;
+    __ct__7TObjectFP7TObject(light, parent);
+    *(s32 **)((s8 *)light + 0x18) = __vt__13TUnk_804CCAA8;
+    copy_argb(&light->color, color);
+    VecCopy(&light->desired, desired);
+    light->duration = duration;
+    light->age = 0;
+    light->step = step;
+    light->source = source;
+    light->phase = 0;
+    light->peak = lbl_805DC888[0];
+    light->intensity = lbl_805DC888[0];
+    light->actor = get_entity_id(light->source);
+    TObjLight::find_light_params((f32 *)&light->direction, (f32 *)&scene_color, light->actor);
+    return light;
 }
 
 extern "C" {
