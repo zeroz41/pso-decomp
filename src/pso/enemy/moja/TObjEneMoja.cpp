@@ -624,13 +624,13 @@ void TObjEneMoja::update_appearance_jump() {
         ticks = 12.0f / play_speed;
         jumpSpeed = jumpSpeed / ticks;
         calc_velocity_toward_destination(this, move_origin, move_destination, jumpSpeed);
-        y_speed = delta.y / ticks;
+        velocity.y = delta.y / ticks;
         phase = 1;
         break;
     case 1:
-        position.x += x_speed;
-        position.y += y_speed;
-        position.z += m_310;
+        position.x += velocity.x;
+        position.y += velocity.y;
+        position.z += velocity.z;
         if (is_passing_frame(20.0f) == 0) {
             return;
         }
@@ -704,13 +704,13 @@ void TObjEneMoja::update_appearance_drop() {
         ticks = 12.0f / play_speed;
         jumpSpeed = jumpSpeed / ticks;
         calc_velocity_toward_destination(this, move_origin, move_destination, jumpSpeed);
-        y_speed = scratch_vec.y / ticks;
+        velocity.y = scratch_vec.y / ticks;
         phase = 1;
         break;
     case 1:
-        position.x += x_speed;
-        position.y += y_speed;
-        position.z += m_310;
+        position.x += velocity.x;
+        position.y += velocity.y;
+        position.z += velocity.z;
         if (is_passing_frame(20.0f) == 0) {
             return;
         }
@@ -1318,8 +1318,8 @@ void TObjEneMoja::update_ground_effect() {
         play_sound_effect(remap_sound_for_area(0x3A807), &position, 0, 0);
         TObjPlayer::play_effect_if_v2(-0x300);
     }
-    m_310 = 0.0f;
-    x_speed = 0.0f;
+    velocity.z = 0.0f;
+    velocity.x = 0.0f;
     apply_actor_gravity(this, 0, 0.0f);
     ((TObjPlayer *)this)->update_collisions();
     if (action_flags != 8U) {
@@ -1366,8 +1366,8 @@ void TObjEneMoja::update_death_state() {
     }
     if (this->frame < 0.5f * (30.0f * this->play_speed)) {
         move_with_wall_slide((u8 *)this);
-        x_speed *= 0.5f;
-        this->m_310 *= 0.5f;
+        velocity.x *= 0.5f;
+        this->velocity.z *= 0.5f;
     } else if (!((this->actorFlags) & 0x800000)) {
         apply_actor_gravity(this, 0, 0.0f);
     }

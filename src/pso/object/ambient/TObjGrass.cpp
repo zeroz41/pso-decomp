@@ -1512,7 +1512,7 @@ void TObjGrass::sub_800BCE44() {
   u8 *temp_r3;
   ((TObjBase *)arg0)->obj_clearFlags30((u32)(0x04040000));
   ((TObjMotion *)arg0)->advance_animation();
-  this->m_310 = (f32) (0.0f);
+  this->velocity.z = (f32) (0.0f);
   *((f32 *) (((s8 *) arg0) + 0x308)) = (f32) (0.0f);
   apply_actor_gravity((TObjEnemy *)((void *) arg0), (s32 *)(0), (f32) (0.0f));
   ((TObjPlayer *)arg0)->update_collisions();
@@ -1613,7 +1613,7 @@ void TObjGrass::update_dying(void *arg0_) {
     case 1:
         move_with_wall_slide(arg0);
         *(f32 *)((s8 *)arg0 + 0x308) *= (0.5f);
-        ((TObjEnePanarms *)arg0)->m_310 *= (0.5f);
+        ((TObjEnePanarms *)arg0)->velocity.z *= (0.5f);
         if (((TObjMotion *)arg0)->is_passing_frame((f32)(23.0f)) != 0) {
             ((TObjEnePanarms *)arg0)->phase = 2;
             spawn_particle_effect((const Vec *)(arg0 + 0x38), 0xF0);

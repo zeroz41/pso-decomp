@@ -142,9 +142,9 @@ TBoss6Mag::TBoss6Mag(TObject *parent, TBoss6MagSpawnParams *params) : TObjEnemy(
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
     init_collision_body_parts(this, TBoss6Mag__collision_body_parts, 1);
     VecCopy(&body_center, &position);
-    m_310 = 0.0f;
-    y_speed = 0.0f;
-    x_speed = 0.0f;
+    velocity.z = 0.0f;
+    velocity.y = 0.0f;
+    velocity.x = 0.0f;
     target = NULL;
     bind_enemy_combat_stats((u8 *)TLobby::register_boss(0x2E), (u8 *)TLobby::dispatch_shared_handler_b(0x2E), (u8 *)TLobby::register_object(0x2E));
     referenceHp = hp;

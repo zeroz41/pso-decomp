@@ -334,7 +334,7 @@ void TObjEneBalClawClaw::update_chase(void *p) {
         Vec target_pos = ((TObjChara *)claw->target)->body_center;
         update_enemy_wander_move(claw, &target_pos, 1, (EnemyMoveParams *)claw->movementParameters,
                                  ((EnemyMoveParams *)claw->movementParameters)->min_distance);
-        claw->turn_toward_direction(((EnemyMoveParams *)claw->movementParameters)->turn_speed, (Vec *)&claw->x_speed);
+        claw->turn_toward_direction(((EnemyMoveParams *)claw->movementParameters)->turn_speed, &claw->velocity);
         claw->advance_animation();
         apply_actor_gravity(claw, NULL, 0.0f);
         ((TObjPlayer *)claw)->update_collisions();
@@ -354,15 +354,15 @@ void TObjEneBalClawClaw::sub_80091200() {
     case 1: {
         advance_animation();
         Vec next = body_center;
-        next.x += x_speed;
-        next.z += m_310;
+        next.x += velocity.x;
+        next.z += velocity.z;
         if (check_path_obstructed(this, &next) == 0) {
             move_with_wall_slide((u8 *)this);
         } else {
-            x_speed = m_310 = 0.0f;
+            velocity.x = velocity.z = 0.0f;
         }
-        x_speed *= 0.9f;
-        m_310 *= 0.9f;
+        velocity.x *= 0.9f;
+        velocity.z *= 0.9f;
         apply_actor_gravity(this, NULL, 0.0f);
         ((TObjPlayer *)this)->update_collisions();
         play_persistent_sound(0x4003B235, (saddr)this, (uaddr)&position, 0, 0);
@@ -421,7 +421,7 @@ void TObjEneBalClawClaw::sub_80090ECC() {
         }
         Vec target_pos = ((TObjChara *)target)->body_center;
         ((s32 (*)(void *, void *, int, f32))update_enemy_wander_move)(this, &target_pos, 1, 0.7f);
-        turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, (Vec *)&x_speed);
+        turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, &velocity);
         if (m_3c0 <= ((AttackParams *)m_318)->get_attack_range() * ((AttackParams *)m_318)->get_attack_range()) {
             state = requested_action = 2;
         }
@@ -434,7 +434,7 @@ void TObjEneBalClawClaw::sub_80090ECC() {
         }
         Vec target_pos = ((TObjChara *)target)->body_center;
         ((s32 (*)(void *, void *, int, f32))update_enemy_wander_move)(this, &target_pos, 1, 0.7f);
-        turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, (Vec *)&x_speed);
+        turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, &velocity);
         if (is_passing_frame(8.0f) != 0) {
             play_sound_effect(0x4003B032, &position, 0, 0);
             if (((TObjChara *)target)->select_melee_contact_body(this, 1.0f) != 0) {
@@ -637,11 +637,11 @@ void TObjEneBalClawClaw::update_move_to_target(void *p) {
         VecCopy(&claw->move_destination, &claw->home_position);
         claw->state = 1;
     case 1:
-        claw->y_speed = 0.0f;
+        claw->velocity.y = 0.0f;
         VecCopy(&claw->move_origin, &claw->body_center);
         calc_velocity_toward_destination(claw, claw->move_origin, claw->move_destination,
                                          ((EnemyMoveParams *)claw->movementParameters)->min_distance);
-        claw->turn_toward_direction(((EnemyMoveParams *)claw->movementParameters)->turn_speed, (Vec *)&claw->x_speed);
+        claw->turn_toward_direction(((EnemyMoveParams *)claw->movementParameters)->turn_speed, &claw->velocity);
         move_with_wall_slide((u8 *)claw);
         claw->advance_animation();
         apply_actor_gravity(claw, NULL, 0.0f);
@@ -728,9 +728,9 @@ void TObjEneBalClawClaw::update_chase_state() {
             update_if_active(0);
             break;
         }
-        y_speed = 0.0f;
+        velocity.y = 0.0f;
         move_along_ground_avoiding_walls(((TObjChara *)target)->body_center, -0.6f, bodies->radius);
-        turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, (Vec *)&x_speed);
+        turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, &velocity);
         advance_animation();
         apply_actor_gravity(this, NULL, 0.0f);
         ((TObjPlayer *)this)->update_collisions();

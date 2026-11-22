@@ -1529,12 +1529,12 @@ void TObjEneMe1Canadin::fn_8009C510(s32 arg1) {
         break;
     case 0:
         self->advance_animation();
-        VecCopy(&v, (const Vec *)&self->x_speed);
+        VecCopy(&v, (const Vec *)&self->velocity.x);
         f = normalize_vector_xz(&v);
         self->move_with_wall_slide_on_ground(v.x, v.z, f);
         f *= 0.5f;
-        self->x_speed = v.x * f;
-        self->m_310 = v.z * f;
+        self->velocity.x = v.x * f;
+        self->velocity.z = v.z * f;
         switch (self->m_474) {
         case 0:
             self->m_484 -= 0.13f;

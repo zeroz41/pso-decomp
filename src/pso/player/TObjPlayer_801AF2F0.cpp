@@ -3611,8 +3611,8 @@ void *TObjPlayer::apply_wall_response() {
         f32 speed;
         Vec from;
         Vec to;
-        angle = (s32)(10430.38043493439 * atan2_float(x_speed, m_310));
-        speed = vector_length((Vec *)unk_308);
+        angle = (s32)(10430.38043493439 * atan2_float(velocity.x, velocity.z));
+        speed = vector_length(&velocity);
         reach = speed + TObjPlayer__sub_8017A1A4(this, 0);
         dx = reach * sin_table_lookup(angle);
         dz = reach * cos_table_lookup(angle);
@@ -3635,7 +3635,7 @@ void *TObjPlayer::apply_wall_response() {
     Vec move;
     WallRayQuery query;
     Vec rays[8];
-    VecCopy(&move, (Vec *)unk_308);
+    VecCopy(&move, &velocity);
     move.y = TObjPlayer__data_805DC278;
     Vec *origin = &query.origin;
     f32 reach = radius + vector_length(&move);
@@ -3672,13 +3672,13 @@ void *TObjPlayer::apply_wall_response() {
             ((TObjPlayer *)&dir)->calc_move(&slide, &step);
             move_target.x = position.x + step.x;
             move_target.z = position.z + step.z;
-            ((TObjPlayer *)unk_308)->calc_move(&slide, &step);
-            VecCopy((Vec *)unk_308, &step);
+            ((TObjPlayer *)&velocity)->calc_move(&slide, &step);
+            VecCopy(&velocity, &step);
             blocked = NULL;
         }
     }
 
-    VecCopy(&move, (Vec *)unk_308);
+    VecCopy(&move, &velocity);
     query.radius = radius;
     query.count = 8;
     origin->x = position.x + move.x;
@@ -3737,8 +3737,8 @@ void *TObjPlayer::apply_wall_response() {
             } else {
                 Vec next_ray;
                 VecCopy(&next_ray, &query.rays[next->index]);
-                move.x = -m_310;
-                move.z = x_speed;
+                move.x = -velocity.z;
+                move.z = velocity.x;
                 f32 side = vec3_dot(&move, &first_ray);
                 if (side * vec3_dot(&move, &next_ray) >= TObjPlayer__data_805DC278) {
                     blocked = NULL;
@@ -4221,9 +4221,9 @@ void damp_planar_velocity(P_801B5FB0 *p) {
 
 saddr TObjPlayer::resolve_move_collision() {
     Vec p;
-    p.x = position.x + x_speed;
-    p.y = position.y + y_speed;
-    p.z = position.z + m_310;
+    p.x = position.x + velocity.x;
+    p.y = position.y + velocity.y;
+    p.z = position.z + velocity.z;
     if (this->update_actor_ground_y_at(&p) == 0U) {
         clear_velocity((u8 *)this);
         return 1;

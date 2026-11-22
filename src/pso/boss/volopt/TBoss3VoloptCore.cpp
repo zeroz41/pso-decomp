@@ -300,9 +300,9 @@ void TBoss3VoloptCore::update_charge_state() {
         }
         break;
     case 1:
-        VecCopy((Vec *)unk_308, &((TObjPlayer *)target)->position);
-        subtract_vector((Vec *)unk_308, &position);
-        turn_toward_direction(0x800, (Vec *)unk_308);
+        VecCopy(&velocity, &((TObjPlayer *)target)->position);
+        subtract_vector(&velocity, &position);
+        turn_toward_direction(0x800, &velocity);
         if (--charge_timer <= 0) {
             charge_timer = 0x96;
             charge_step = 2;
@@ -320,11 +320,11 @@ void TBoss3VoloptCore::update_charge_state() {
             state = 4;
             return;
         }
-        VecCopy((Vec *)unk_308, &player->body_center);
-        subtract_vector((Vec *)unk_308, &position);
-        vec_set_length((Vec *)unk_308, 5.0f);
-        turn_toward_direction(0x800, (Vec *)unk_308);
-        vec3_add_to(&position, (Vec *)unk_308);
+        VecCopy(&velocity, &player->body_center);
+        subtract_vector(&velocity, &position);
+        vec_set_length(&velocity, 5.0f);
+        turn_toward_direction(0x800, &velocity);
+        vec3_add_to(&position, &velocity);
         if (check_target_collision() != 0) {
             charge_step = 4;
             state = 4;
@@ -335,11 +335,11 @@ void TBoss3VoloptCore::update_charge_state() {
         }
         break;
     case 4:
-        VecCopy((Vec *)unk_308, &home_pos);
-        subtract_vector((Vec *)unk_308, &position);
-        distance = vec_set_length((Vec *)unk_308, 5.0f);
-        turn_toward_direction(0x800, (Vec *)unk_308);
-        vec3_add_to(&position, (Vec *)unk_308);
+        VecCopy(&velocity, &home_pos);
+        subtract_vector(&velocity, &position);
+        distance = vec_set_length(&velocity, 5.0f);
+        turn_toward_direction(0x800, &velocity);
+        vec3_add_to(&position, &velocity);
         check_target_collision();
         if (distance < 10.0f) {
             targetId = 0xFFFF;

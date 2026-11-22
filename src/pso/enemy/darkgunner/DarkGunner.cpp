@@ -803,7 +803,7 @@ s32 TObjPlayer__sub_800A2390(void *arg0_) {
         if (enemy->f388 & 0x10000) {
             enemy->f388 &= ~0x30000;
             enemy->f310 = 0.0f;
-            ((TObjPlayer *)enemy)->y_speed = 0.0f;
+            ((TObjPlayer *)enemy)->velocity.y = 0.0f;
             enemy->f308 = 0.0f;
             enemy->state = 1;
         } else {
@@ -1047,7 +1047,7 @@ void TObjPlayer__sub_800A1D70(u8 *arg0) {
         temp_f1 = TObjPlayer__sub_800A3200(2);
         if (temp_f31 > temp_f1) {
             *(f32 *)((s8 *)arg0 + 0x308) = (f32) ((*(f32 *)((s8 *)arg0 + 0x308) * temp_f1) / temp_f31);
-            ((TObjPlayer *)arg0)->m_310 = (f32) ((((TObjPlayer *)arg0)->m_310 * temp_f1) / temp_f31);
+            ((TObjPlayer *)arg0)->velocity.z = (f32) ((((TObjPlayer *)arg0)->velocity.z * temp_f1) / temp_f31);
         }
         if (*(s32 *)((s8 *)arg0 + 0x388) & 0x400000) {
             spawn_particle_effect((const Vec *)((arg0 + 0x2FC)), 0xD7);
@@ -1056,16 +1056,16 @@ void TObjPlayer__sub_800A1D70(u8 *arg0) {
         ((TObjPlayer *)arg0)->m_37c = 1;
     case 1:
         *(f32 *)((s8 *)arg0 + 0x308) *= 0.95;
-        ((TObjPlayer *)arg0)->m_310 *= 0.95;
+        ((TObjPlayer *)arg0)->velocity.z *= 0.95;
         ((TObjMotion *)arg0)->advance_animation();
         {
         Vec v = *(Vec *)(arg0 + 0x2FC);
         v.x = v.x + *(f32 *)((s8 *)arg0 + 0x308);
-        v.z = v.z + ((TObjPlayer *)arg0)->m_310;
+        v.z = v.z + ((TObjPlayer *)arg0)->velocity.z;
         if (check_path_obstructed(arg0, &v) == 0) {
             move_with_wall_slide((arg0));
         } else {
-            ((TObjPlayer *)arg0)->m_310 = (f32) 0.0f;
+            ((TObjPlayer *)arg0)->velocity.z = (f32) 0.0f;
             *(f32 *)((s8 *)arg0 + 0x308) = (f32) 0.0f;
         }
         }
@@ -1424,12 +1424,12 @@ void TObjEneDarkGunner::step_along_ground() {
 
     VecCopy(&prev_position, &position);
     VecCopy(&pos, &body_center);
-    vel = *(Raw_800A10A0 *)velocity();
+    vel = *(Raw_800A10A0 *)&velocity;
     vec_set_length((Vec *)&vel, 10.0f + TObjPlayer__sub_800A3200(0));
     vec3_add_to(&pos, (Vec *)&vel);
     hit = csnVector(&body_center, &pos, -1);
     if (hit != NULL) {
-        a = 10430.38043493439 * atan2_float(x_speed, m_310);
+        a = 10430.38043493439 * atan2_float(velocity.x, velocity.z);
         q = hit->contact;
         b = 10430.38043493439 * atan2_float(q->normal.x, q->normal.z);
         move_heading = b - (0x8000 - angle_diff_s16(a, b));
@@ -1441,19 +1441,19 @@ void TObjEneDarkGunner::step_along_ground() {
     }
     for (i = 0, ang = 0; i < 15; i++, ang += 0x1000) {
         if (i == 0) {
-            VecCopy(&dir, velocity());
+            VecCopy(&dir, &velocity);
         } else {
             push_matrix_from(identity_matrix);
             rotate_matrix_y(0, sign * ang);
-            rotate_vector_by_matrix(0, velocity(), &dir);
+            rotate_vector_by_matrix(0, &velocity, &dir);
             pop_matrix();
         }
         VecCopy(&v, &position);
         vec3_add_to(&v, &dir);
         if (project_actor_to_ground(this, &v, 0) == 1) {
             VecCopy(&position, &v);
-            VecCopy(velocity(), &position);
-            subtract_vector(velocity(), &prev_position);
+            VecCopy(&velocity, &position);
+            subtract_vector(&velocity, &prev_position);
             return;
         }
     }

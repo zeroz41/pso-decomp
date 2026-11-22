@@ -147,8 +147,8 @@ void TUnk_80493450::beast_update_dead() {
     }
     if (this->frame < (BEAST_DEATH_SLIDE_FRAME_SCALE * (BEAST_DEATH_SLIDE_FRAME_COUNT * this->play_speed))) {
         move_with_wall_slide((self));
-        x_speed *= BEAST_HORIZONTAL_SPEED_DAMPING;
-        m_310 *= BEAST_HORIZONTAL_SPEED_DAMPING;
+        velocity.x *= BEAST_HORIZONTAL_SPEED_DAMPING;
+        velocity.z *= BEAST_HORIZONTAL_SPEED_DAMPING;
     } else if (((TObjCollidable *)self)->obj_testFlags30(0x800000) == 0) {
         apply_actor_gravity((TObjEnemy *)self, (s32 *)(0), BEAST_GROUND_HEIGHT_OFFSET);
     }
@@ -171,14 +171,14 @@ void TUnk_80493450::beast_update_hurt() {
     rotate_vector_by_matrix(0, &scratch_vec, &scratch_vec);
     pop_matrix();
     vec3_add_to(&v, &scratch_vec);
-    v.x += x_speed;
-    v.z += m_310;
+    v.x += velocity.x;
+    v.z += velocity.z;
     if (check_path_obstructed(this, &v) == 0) {
         move_with_wall_slide(self);
-        x_speed *= BEAST_HORIZONTAL_SPEED_DAMPING;
-        m_310 *= BEAST_HORIZONTAL_SPEED_DAMPING;
+        velocity.x *= BEAST_HORIZONTAL_SPEED_DAMPING;
+        velocity.z *= BEAST_HORIZONTAL_SPEED_DAMPING;
     } else {
-        x_speed = m_310 = BEAST_ZERO_SPEED;
+        velocity.x = velocity.z = BEAST_ZERO_SPEED;
     }
     ((TObjPlayer *)this)->update_collisions();
     if (is_passing_frame(BEAST_ANIMATION_START_FRAME) != 0) {
@@ -348,7 +348,7 @@ void TUnk_80493450::beast_update_group_chase() {
     if (target != NULL) {
         Vec v = ((TObjChara *)target)->body_center;
         d = enemy_backstep_from_point(this, &v, m_398);
-        turn_toward_direction(((BeastMovementParams *)movementParameters)->turnSpeed, (Vec *)&x_speed);
+        turn_toward_direction(((BeastMovementParams *)movementParameters)->turnSpeed, &velocity);
         r = m_398 + bodies->radius;
         if (d < r * r) {
             mode = 3;

@@ -1738,7 +1738,7 @@ void enemy_set_heading_velocity(f32 farg0, TObjEnemy *enemy, s32 arg1) {
     rotate_vector_by_matrix(0, &stack.x, &stack.x);
     pop_matrix();
     *(f32 *)((s8 *)enemy + 0x308) = stack.x;
-    enemy->m_310 = stack.z;
+    enemy->velocity.z = stack.z;
 }
 
 #pragma push
@@ -1836,7 +1836,7 @@ f32 TObjEnemy::enemy_wander_home(f32 farg0, f32 farg1, f32 farg2, s32 turn) {
             Vec c = v;
             select_enemy_destination((Obj_800182A0 *) arg0, (Vec *) &c, 1);
         }
-        *(f32 *)((s8 *)arg0 + 0x308) = ((TObjEnemy *)arg0)->m_310 = (0.0f);
+        *(f32 *)((s8 *)arg0 + 0x308) = ((TObjEnemy *)arg0)->velocity.z = (0.0f);
         ((TObjEnemy *)arg0)->m_2ac = 0;
     } else {
         ((TObjEnemy *)arg0)->enemy_turn_toward_dest(turn);
@@ -2911,7 +2911,7 @@ void TObjChara::apply_knockback_from_attacker(u8 *arg1, f32) {
     ((s32 (*)(void *, void *))subtract_vector)(&diff, ((u8 *)this) + 0x38);
     if ((diff.x * diff.x) + (diff.z * diff.z) < (1e-05f)) {
         *(f32 *)((s8 *)((u8 *)this) + 0x308) = (0.0f);
-        this->m_310 = (0.0f);
+        this->velocity.z = (0.0f);
         return;
     }
     scale = 10.0f + (10.0f - *(f32 *)(this->m_2b0 + 0x14));
@@ -2920,7 +2920,7 @@ void TObjChara::apply_knockback_from_attacker(u8 *arg1, f32) {
     }
     normalize_vector_safe(&diff);
     *(f32 *)((s8 *)((u8 *)this) + 0x308) = -scale * diff.x;
-    this->m_310 = -scale * diff.z;
+    this->velocity.z = -scale * diff.z;
     }
 }
 
@@ -3820,13 +3820,13 @@ void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 hover_height) {
         ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(arg1, &position.x);
     }
     if (temp_r31 != 0) {
-        ((TObjEnemy *)enemy)->y_speed += (-0.10888889f);
-        *(f32 *)((s8 *)enemy + 0x3C) = (f32) (*(f32 *)((s8 *)enemy + 0x3C) + ((TObjEnemy *)enemy)->y_speed);
+        ((TObjEnemy *)enemy)->velocity.y += (-0.10888889f);
+        *(f32 *)((s8 *)enemy + 0x3C) = (f32) (*(f32 *)((s8 *)enemy + 0x3C) + ((TObjEnemy *)enemy)->velocity.y);
         temp_f1 = position.y + hover_height;
         position.y = temp_f1;
         if (*(f32 *)((s8 *)enemy + 0x3C) <= temp_f1) {
             *(f32 *)((s8 *)enemy + 0x3C) = temp_f1;
-            ((TObjEnemy *)enemy)->y_speed = 0.0f;
+            ((TObjEnemy *)enemy)->velocity.y = 0.0f;
             enemy->actorFlags = (s32) (enemy->actorFlags | 0x800000);
             return;
         }
@@ -4438,9 +4438,9 @@ s16 TObjPlayer::clamp_tp() {
 }
 
 void TObjPlayer::apply_velocity() {
-    this->position.x = (f32) (this->position.x + *(f32 *)&this->unk_308);
-    this->position.y = (f32) (this->position.y + this->y_speed);
-    this->position.z = (f32) (this->position.z + this->m_310);
+    this->position.x = (f32) (this->position.x + this->velocity.x);
+    this->position.y = (f32) (this->position.y + this->velocity.y);
+    this->position.z = (f32) (this->position.z + this->velocity.z);
 }
 
 void clear_velocity(u8 *arg0) {

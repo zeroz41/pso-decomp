@@ -1319,11 +1319,11 @@ void TObjEneRe4Sorcerer::sub_800EE0F8(s32 reason) {
         break;
     case 0:
         this->advance_animation();
-        VecCopy(&v, (Vec *)&this->x_speed);
+        VecCopy(&v, &this->velocity);
         c = normalize_vector_xz(&v);
         this->move_to_wall_clamped_destination(v.x, v.z, c);
-        this->x_speed *= 0.8f;
-        this->m_310 *= 0.8f;
+        this->velocity.x *= 0.8f;
+        this->velocity.z *= 0.8f;
         sub_800EF214();
         break;
     case 5:

@@ -241,7 +241,7 @@ TBoss4Type3::TBoss4Type3(TObject *parent, saddr *arg2) : TObjEnemy(parent) {
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
     collision = init_collision_body_parts(this, boss4_type3_collision_body_desc, 1);
     VecCopy(&body_center, &position);
-    x_speed = y_speed = m_310 = 0.0f;
+    velocity.x = velocity.y = velocity.z = 0.0f;
     target = 0;
     bind_enemy_combat_stats((u8 *)TLobby::register_boss(0x38), (u8 *)TLobby::dispatch_shared_handler_b(0x38), (u8 *)TLobby::register_object(0x38));
     referenceHp = drained_hp = hp;

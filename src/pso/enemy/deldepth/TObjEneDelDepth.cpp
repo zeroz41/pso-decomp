@@ -213,9 +213,9 @@ void TObjEneDelDepth::init() {
     ((TObjMotion *)self)->set_animation(0);
     ((TObjMotion *)self)->set_field_b8(0);
     VecCopy((Vec *)((u8 *)&this->body_center), &this->position);
-    this->m_310 = 0.0f;
-    this->y_speed = 0.0f;
-    x_speed = 0.0f;
+    this->velocity.z = 0.0f;
+    this->velocity.y = 0.0f;
+    velocity.x = 0.0f;
     this->target = 0;
     ((TObjEnemy *)self)->bind_enemy_combat_stats((u8 *)(TLobby::register_boss(0x30)), (u8 *)(TLobby::dispatch_shared_handler_b(0x30)), (u8 *)(TLobby::register_object(0x30)));
     this->referenceHp = (s16) this->hp;

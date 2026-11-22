@@ -804,7 +804,7 @@ TBoss4DarkFalz::TBoss4DarkFalz(TObject *parent, TBoss4DarkFalzSetEntry *set_data
     clear_lobby_object_state();
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
     VecCopy(&body_center, &position);
-    x_speed = y_speed = m_310 = 0.0f;
+    velocity.x = velocity.y = velocity.z = 0.0f;
     target = 0;
     if (game_difficulty_selection == 0) {
         bind_enemy_combat_stats((u8 *)TLobby::register_boss(0x37), (u8 *)TLobby::dispatch_shared_handler_b(0x37), (u8 *)TLobby::register_object(0x37));

@@ -1314,11 +1314,11 @@ void TObjEneRe7Berura__sub_80093470(TObjEneRe7Berura *self, s32 mode) {
         break;
     case 0:
         self->advance_animation();
-        VecCopy(&v, (Vec *)&self->x_speed);
+        VecCopy(&v, &self->velocity);
         speed = normalize_vector_xz(&v);
         self->move_clamped_on_ground(v.x, v.z, speed);
-        self->x_speed *= 0.8f;
-        self->m_310 *= 0.8f;
+        self->velocity.x *= 0.8f;
+        self->velocity.z *= 0.8f;
         break;
     case 5:
         self->clear_attack_receipts();

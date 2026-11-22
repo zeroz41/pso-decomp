@@ -742,13 +742,13 @@ void TObjEneNanoDrago::update_flight_state() {
                 play_sound_effect(0x4003AD20, &position, 0, 0);
             }
         } else {
-            y_speed = 0.0f;
+            velocity.y = 0.0f;
             VecCopy((Vec *)(&prev_position), (const Vec *)(&position));
-            vec3_add_to(&position, velocity());
+            vec3_add_to(&position, &velocity);
             if (xz_distance_squared((Vec *)(&position), (Vec *)(&moveDestination)) <= (10.0f + speed) * (10.0f + speed)) {
                 state = 2;
-                m_310 = 0.0f;
-                x_speed = 0.0f;
+                velocity.z = 0.0f;
+                velocity.x = 0.0f;
             }
             if (is_passing_frame(10.0f) != 0) {
                 spawn_particle_effect(&position, 0xF0);
@@ -757,7 +757,7 @@ void TObjEneNanoDrago::update_flight_state() {
             refresh_collision_body_centers();
         }
         if (flightHeight > 15.0f) {
-            turn_toward_direction(((NanoDragoMovementParams *)movementParameters)->turnSpeed * 2, (Vec *)((u8 *)&x_speed));
+            turn_toward_direction(((NanoDragoMovementParams *)movementParameters)->turnSpeed * 2, (Vec *)((u8 *)&velocity.x));
         }
         project_actor_to_ground(this, &position, 0);
         break;
@@ -769,7 +769,7 @@ void TObjEneNanoDrago::update_flight_state() {
             flightHeight = 0.0f;
             actorFlags |= 0x800000;
             actorFlags &= ~0x01000000;
-            y_speed = 0.0f;
+            velocity.y = 0.0f;
             if (requested_action != 8) {
                 this->update_if_active(0);
             }
@@ -856,15 +856,15 @@ void TObjEneNanoDrago::update_knockback_state() {
         advance_animation();
         if (!(actorFlags & 0x01000000)) {
             Vec v = *(Vec *)((s8 *)&body_center);
-            v.x += x_speed;
-            v.z += m_310;
+            v.x += velocity.x;
+            v.z += velocity.z;
             if (check_path_obstructed(this, &v) == 0) {
                 move_with_wall_slide(((u8 *)this));
             } else {
-                x_speed = m_310 = 0.0f;
+                velocity.x = velocity.z = 0.0f;
             }
-            x_speed *= 0.5f;
-            m_310 *= 0.5f;
+            velocity.x *= 0.5f;
+            velocity.z *= 0.5f;
         }
         apply_actor_gravity(this, 0, 0.0f);
         ((TObjPlayer *)((u8 *)this))->update_collisions();

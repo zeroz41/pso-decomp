@@ -1264,12 +1264,12 @@ void TObjEneDf2Bringer::sub_80097714(s32 mode) {
     case 0:
         this->advance_animation();
         this->pad_484--;
-        // x_speed, y_speed and m_310 are the velocity vector
-        VecCopy(&v, (const Vec *)&this->x_speed);
+        // velocity.x, velocity.y and velocity.z are the velocity vector
+        VecCopy(&v, (const Vec *)&this->velocity.x);
         speed = normalize_vector_xz(&v);
         this->move_clamped_on_ground(v.x, v.z, speed);
-        this->x_speed *= 0.8f;
-        this->m_310 *= 0.8f;
+        this->velocity.x *= 0.8f;
+        this->velocity.z *= 0.8f;
         this->check_collisions();
         break;
     case 5:

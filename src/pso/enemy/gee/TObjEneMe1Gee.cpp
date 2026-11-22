@@ -1559,12 +1559,12 @@ void TObjEneMe1Gee::sub_800C96B4(s32 mode) {
         break;
     case 0:
         this->advance_animation();
-        VecCopy(&v, (Vec *)&this->x_speed);
+        VecCopy(&v, &this->velocity);
         len = normalize_vector_xz(&v);
         this->move_with_wall_slide_on_ground(v.x, v.z, len);
         len *= 0.5f;
-        this->x_speed = v.x * len;
-        this->m_310 = v.z * len;
+        this->velocity.x = v.x * len;
+        this->velocity.z = v.z * len;
         switch (this->m_438) {
         case 0:
             this->m_448 = this->m_448 - 0.13f;

@@ -134,7 +134,7 @@ void TObjVoloptPillar::run_task() {
                                     Vec push = volopt_pillar_push;
                                     push.x = TBoss3VoloptP02::get_float_param(2);
                                     rotate_matrix_y(0, angle);
-                                    matrix_mult_vec(0, &push, (Vec *)target->unk_308);
+                                    matrix_mult_vec(0, &push, &target->velocity);
                                 }
                             }
                             pop_matrix();

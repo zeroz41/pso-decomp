@@ -199,8 +199,8 @@ void TObjEneDD::init_position_vectors() {
     ((TBoss3Volopt *)self)->reset_photon_effect();
     VecCopy(&this->body_center, (const Vec *)&this->position);
     *(f32 *)((s8 *)self + 0x308) = 0.0f;
-    this->y_speed = 0.0f;
-    this->m_310 = 0.0f;
+    this->velocity.y = 0.0f;
+    this->velocity.z = 0.0f;
     this->ground_normal.x = 0.0f;
     ground_normal.y = 0.0f;
     this->ground_normal.z = 0.0f;

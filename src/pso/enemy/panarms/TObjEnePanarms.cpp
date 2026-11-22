@@ -346,7 +346,7 @@ TObjEnePanBARA::TObjEnePanBARA(TObject *parent, void *setData, s32 index) : TObj
     set_animation(0);
     set_field_b8(0);
     VecCopy(&body_center, &position);
-    x_speed = y_speed = m_310 = 0.0f;
+    velocity.x = velocity.y = velocity.z = 0.0f;
     target = NULL;
     switch (m_380) {
     case 0:

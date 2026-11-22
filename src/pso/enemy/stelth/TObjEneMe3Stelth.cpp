@@ -1418,11 +1418,11 @@ void TObjEneMe3Stelth::sub_800F290C(s32 reason) {
         break;
     case 0:
         this->advance_animation();
-        VecCopy(&v, (Vec *)&this->x_speed);
+        VecCopy(&v, &this->velocity);
         c = normalize_vector_xz(&v);
         this->move_clamped_on_ground(v.x, v.z, c);
-        this->x_speed *= 0.8f;
-        this->m_310 *= 0.8f;
+        this->velocity.x *= 0.8f;
+        this->velocity.z *= 0.8f;
         this->check_collisions();
         break;
     case 5:

@@ -989,8 +989,8 @@ void TObjEneIllGill::update_damage_recovery() {
     u8 *self = (u8 *)this;
     ((TObjBase *)self)->obj_clearFlags30(0x04040000);
     ((TObjMotion *)self)->advance_animation();
-    this->m_310 = 0.0f;
-    this->x_speed = 0.0f;
+    this->velocity.z = 0.0f;
+    this->velocity.x = 0.0f;
     apply_actor_gravity((TObjEnemy *)self, (s32 *)(0), 0.0f);
     ((TObjPlayer *)self)->update_collisions();
     if (((TObjMotion *)self)->is_passing_frame(30.0f) != 0) {
@@ -1049,8 +1049,8 @@ void TObjEneIllGill::update_death_fall() {
     case 2:
       this->body_center.y += 5.0f;
       move_with_wall_slide(self);
-      x_speed *= 0.5f;
-      this->m_310 *= 0.5f;
+      velocity.x *= 0.5f;
+      this->velocity.z *= 0.5f;
       if (((TObjMotion *)self)->is_passing_frame((f32)(30.0f)) != 0)
     {
       this->phase = 3;

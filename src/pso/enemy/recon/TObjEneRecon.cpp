@@ -315,8 +315,8 @@ void TObjEneRecon::sub_8031C364(s32 reason) {
         TBoss8Dragon__sub_800BB7D8(this, 0xF1, 1.0f);
         state_step = 0;
         rise_speed = 0.0f;
-        velocity.x = x_speed;
-        velocity.z = m_310;
+        velocity.x = TObjChara::velocity.x;
+        velocity.z = TObjChara::velocity.z;
         move_speed = normalize_vector_xz(&velocity);
         play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003A80C), &position, 0, 0);
         break;
@@ -406,13 +406,13 @@ void TObjEneRecon::sub_8031C624(s32 reason) {
         advance_animation();
         n = state_step;
         state_step = n + 1;
-        velocity.x = x_speed;
-        velocity.z = m_310;
+        velocity.x = TObjChara::velocity.x;
+        velocity.z = TObjChara::velocity.z;
         v = normalize_vector_xz__FP3Vec(&velocity, n);
         set_flag2(velocity.x, velocity.z, v);
         clamp_min_height();
-        x_speed *= 0.5f;
-        m_310 *= 0.5f;
+        TObjChara::velocity.x *= 0.5f;
+        TObjChara::velocity.z *= 0.5f;
         check_collisions();
         break;
     case 5:

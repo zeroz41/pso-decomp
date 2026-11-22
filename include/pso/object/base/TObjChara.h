@@ -230,12 +230,7 @@ public:
     s16 m_2f8;
     s16 m_2fa;
     Vec body_center;  // position raised to mid-body; effects spawn and distances are measured here
-    union {
-        u8 unk_308[0x4];
-        f32 x_speed;
-    };
-    f32 y_speed;
-    f32 m_310;
+    Vec velocity;
     // The pad driving it in place of its AI; TObjControl::run_task reads the
     // attack button and the stick (inferred).
     ControllerInputContext *controller_input;
@@ -250,9 +245,6 @@ public:
     s16 hp;
     u16 tp;
     u8 unk_330[0x4];
-
-    // Typed view of the velocity the fields at 0x308 split up.
-    Vec *velocity() { return (Vec *)unk_308; }
 };
 
 extern "C" void *__dt__9TObjCharaFv(void *, s16);

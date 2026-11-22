@@ -368,12 +368,12 @@ void TObjEneBalClawBody::sub_8008FAD0() {
             break;
         }
         play_persistent_sound(0x4003B235, (saddr)body, (uaddr)&body->position, 0, 0);
-        body->y_speed = 0.0f;
+        body->velocity.y = 0.0f;
         {
             Vec pos = ((TObjChara *)body->target)->body_center;
             ((s32 (*)(void *, Vec *, int, f32))update_enemy_wander_move)(body, &pos, 1, ((EnemyMoveParams *)body->movementParameters)->min_distance);
         }
-        body->turn_toward_direction(((EnemyMoveParams *)body->movementParameters)->turn_speed, (Vec *)&body->x_speed);
+        body->turn_toward_direction(((EnemyMoveParams *)body->movementParameters)->turn_speed, &body->velocity);
         body->advance_animation();
         apply_actor_gravity(body, NULL, 0.0f);
         ((TObjPlayer *)body)->update_collisions();
@@ -396,17 +396,17 @@ void TObjEneBalClawBody::sub_8008F910() {
         body->state = 1;
     case 1: {
         body->advance_animation();
-        body->y_speed = 0.0f;
+        body->velocity.y = 0.0f;
         Vec v = body->body_center;
-        v.x += body->x_speed;
-        v.z += body->m_310;
+        v.x += body->velocity.x;
+        v.z += body->velocity.z;
         if (check_path_obstructed(body, &v) == 0) {
             move_with_wall_slide((u8 *)body);
         } else {
-            body->x_speed = body->m_310 = 0.0f;
+            body->velocity.x = body->velocity.z = 0.0f;
         }
-        body->x_speed *= 0.9f;
-        body->m_310 *= 0.9f;
+        body->velocity.x *= 0.9f;
+        body->velocity.z *= 0.9f;
         apply_actor_gravity(body, NULL, 0.0f);
         ((TObjPlayer *)body)->update_collisions();
         if (body->action_flags != 8U) {
@@ -454,7 +454,7 @@ void TObjEneBalClawBody::run_death_sequence() {
             }
         } else {
             body->requested_action = 9;
-            body->y_speed = body->m_3b4 / 11.666666f;
+            body->velocity.y = body->m_3b4 / 11.666666f;
             body->state = 2;
         }
         play_sound_effect(0x4003AD37, (u8 *)&body->position, 0, 0);
@@ -468,7 +468,7 @@ void TObjEneBalClawBody::run_death_sequence() {
     case 2:
         body->advance_animation();
         if (body->frame >= 10.0f) {
-            body->m_3b4 -= body->y_speed;
+            body->m_3b4 -= body->velocity.y;
             if (body->m_3b4 <= 0.0f) {
                 body->m_3b4 = 0.0f;
                 body->state = 3;
@@ -521,17 +521,17 @@ void TObjEneBalClawBody::sub_8008F1DC() {
         if (body->target == NULL) {
             body->reset_enemy_state();
         } else {
-            body->y_speed = 0.0f;
+            body->velocity.y = 0.0f;
             calc_velocity_toward_destination(body, body->body_center, ((TObjChara *)body->target)->body_center, 0.7f);
             {
                 Vec n1 = body->body_center;
-                n1.x += body->x_speed;
-                n1.z += body->m_310;
+                n1.x += body->velocity.x;
+                n1.z += body->velocity.z;
                 if (check_path_obstructed(body, &n1) == 0) {
                     move_with_wall_slide((u8 *)body);
                 }
             }
-            body->turn_toward_direction(((EnemyMoveParams *)body->movementParameters)->turn_speed, (Vec *)&body->x_speed);
+            body->turn_toward_direction(((EnemyMoveParams *)body->movementParameters)->turn_speed, &body->velocity);
             body->m_3c0 = xz_distance_squared(&body->body_center, &((TObjChara *)body->target)->body_center);
             if (body->m_3c0 <= ((AttackParams *)body->m_318)->get_attack_range() * ((AttackParams *)body->m_318)->get_attack_range()) {
                 body->requested_action = 7;
@@ -565,17 +565,17 @@ void TObjEneBalClawBody::sub_8008F1DC() {
         } else {
             body->effects[3]->enable();
         }
-        body->y_speed = 0.0f;
+        body->velocity.y = 0.0f;
         calc_velocity_toward_destination(body, body->body_center, ((TObjChara *)body->target)->body_center, 0.7f);
         {
             Vec n2 = body->body_center;
-            n2.x += body->x_speed;
-            n2.z += body->m_310;
+            n2.x += body->velocity.x;
+            n2.z += body->velocity.z;
             if (check_path_obstructed(body, &n2) == 0) {
                 move_with_wall_slide((u8 *)body);
             }
         }
-        body->turn_toward_direction(((EnemyMoveParams *)body->movementParameters)->turn_speed, (Vec *)&body->x_speed);
+        body->turn_toward_direction(((EnemyMoveParams *)body->movementParameters)->turn_speed, &body->velocity);
         if (body->is_passing_frame(10.0f) != 0) {
             play_sound_effect(0x4003B034, &body->position, 0, 0);
             if (((TObjChara *)body->target)->select_melee_contact_body(body, 1.0f) != 0) {
@@ -631,17 +631,17 @@ void TObjEneBalClawBody::sub_8008EDE8() {
         if (body->target == NULL) {
             body->reset_enemy_state();
         } else {
-            body->y_speed = 0.0f;
+            body->velocity.y = 0.0f;
             calc_velocity_toward_destination(body, body->body_center, ((TObjChara *)body->target)->body_center, 0.7f);
             {
                 Vec n1 = body->body_center;
-                n1.x += body->x_speed;
-                n1.z += body->m_310;
+                n1.x += body->velocity.x;
+                n1.z += body->velocity.z;
                 if (check_path_obstructed(body, &n1) == 0) {
                     move_with_wall_slide((u8 *)body);
                 }
             }
-            body->turn_toward_direction(((EnemyMoveParams *)body->movementParameters)->turn_speed, (Vec *)&body->x_speed);
+            body->turn_toward_direction(((EnemyMoveParams *)body->movementParameters)->turn_speed, &body->velocity);
             body->m_3c0 = xz_distance_squared(&body->body_center, &((TObjChara *)body->target)->body_center);
             if (body->m_3c0 <= ((AttackParams *)body->m_318)->get_attack_range() * ((AttackParams *)body->m_318)->get_attack_range()) {
                 body->requested_action = 2;
@@ -654,13 +654,13 @@ void TObjEneBalClawBody::sub_8008EDE8() {
         if (body->target == NULL) {
             body->reset_enemy_state();
         } else {
-            body->y_speed = 0.0f;
+            body->velocity.y = 0.0f;
             calc_velocity_toward_destination(body, body->body_center, ((TObjChara *)body->target)->body_center, 0.7f);
             move_with_wall_slide((u8 *)body);
             {
                 Vec n2 = body->body_center;
-                n2.x += body->x_speed;
-                n2.z += body->m_310;
+                n2.x += body->velocity.x;
+                n2.z += body->velocity.z;
                 if (check_path_obstructed(body, &n2) == 0) {
                     move_with_wall_slide((u8 *)body);
                 }
@@ -1098,10 +1098,10 @@ void TObjEneBalClawBody::update_move_to_target() {
         }
         VecCopy(&self->move_origin, &self->body_center);
         calc_velocity_toward_destination(self, self->move_origin, self->move_destination, ((EnemyMoveParams *)self->movementParameters)->min_distance);
-        self->turn_toward_direction(((EnemyMoveParams *)self->movementParameters)->turn_speed, (Vec *)&self->x_speed);
+        self->turn_toward_direction(((EnemyMoveParams *)self->movementParameters)->turn_speed, &self->velocity);
         Vec v = self->body_center;
-        v.x += self->x_speed;
-        v.z += self->m_310;
+        v.x += self->velocity.x;
+        v.z += self->velocity.z;
         if (check_path_obstructed(self, &v) == 0) {
             move_with_wall_slide((u8 *)self);
         }
@@ -1128,13 +1128,13 @@ void TObjEneBalClawBody::sub_8008DD14() {
         VecCopy(&self->move_destination, (const Vec *)&self->home_position);
         break;
     case 1: {
-        self->y_speed = 0.0f;
+        self->velocity.y = 0.0f;
         VecCopy(&self->move_origin, &self->body_center);
         calc_velocity_toward_destination(self, self->move_origin, self->move_destination, ((EnemyMoveParams *)self->movementParameters)->min_distance);
-        self->turn_toward_direction(((EnemyMoveParams *)self->movementParameters)->turn_speed, (Vec *)&self->x_speed);
+        self->turn_toward_direction(((EnemyMoveParams *)self->movementParameters)->turn_speed, &self->velocity);
         Vec v = self->body_center;
-        v.x += self->x_speed;
-        v.z += self->m_310;
+        v.x += self->velocity.x;
+        v.z += self->velocity.z;
         if (check_path_obstructed(self, &v) == 0) {
             move_with_wall_slide((u8 *)self);
         }

@@ -749,7 +749,7 @@ void TObjEneBm5GibonU::sub_800CE060(s32 msg) {
             if (this->wall_reach < 28.0f) {
                 this->wall_reach += this->m_530;
             }
-            VecCopy(&sp8, (const Vec *)&this->x_speed);
+            VecCopy(&sp8, (const Vec *)&this->velocity.x);
             {
                 f32 v = normalize_vector_xz(&sp8);
                 this->move_clamped_on_ground(sp8.x, sp8.z, v);
@@ -757,8 +757,8 @@ void TObjEneBm5GibonU::sub_800CE060(s32 msg) {
             if (this->is_passing_frame(26.0f) != 0) {
                 sub_800D0AE8(&sp8);
             }
-            this->x_speed *= 0.8f;
-            this->m_310 *= 0.8f;
+            this->velocity.x *= 0.8f;
+            this->velocity.z *= 0.8f;
             this->turn_toward_angle(this->rotation_y);
             this->update_body_colliders();
             break;
@@ -809,17 +809,17 @@ void TObjEneBm5GibonU::sub_800CE370(s32 msg) {
         break;
     case 0:
         this->advance_animation();
-        VecCopy(&sp8, (const Vec *)&this->x_speed);
+        VecCopy(&sp8, (const Vec *)&this->velocity.x);
         {
             f32 v = normalize_vector_xz(&sp8);
             this->move_with_wall_slide_on_ground(sp8.x, sp8.z, v);
         }
         if (this->m_518 == 0) {
-            this->x_speed *= 0.5f;
-            this->m_310 *= 0.5f;
+            this->velocity.x *= 0.5f;
+            this->velocity.z *= 0.5f;
         } else {
-            this->x_speed *= 0.9f;
-            this->m_310 *= 0.9f;
+            this->velocity.x *= 0.9f;
+            this->velocity.z *= 0.9f;
             this->rotation_y = approach_angle_limited(this->rotation_y, this->m_528, 0x300);
             this->rotation_y = (s16) this->rotation_y;
             if (this->is_passing_frame(26.0f) != 0) {

@@ -1554,11 +1554,11 @@ void TObjEneMe3SinowZoa::state_knockback(s32 mode) {
         break;
     case 0:
         this->advance_animation();
-        VecCopy(&v, velocity());
+        VecCopy(&v, &velocity);
         len = normalize_vector_xz((Vec *)(&v));
         this->move_clamped_on_ground(v.x, v.z, len);
-        this->x_speed *= 0.8f;
-        this->m_310 *= 0.8f;
+        this->velocity.x *= 0.8f;
+        this->velocity.z *= 0.8f;
         this->check_collisions();
         break;
     case 5:

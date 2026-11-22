@@ -1792,8 +1792,8 @@ void TObjEneGibbles::update_action_state() {
         play_sound_effect(((TObjEneGibbles*)((void *)((void *)(self))))->resolve_sound_id((u32)(0x3AD34)), (void *) (self + 0x38), 0, 0);
         break;
     case 1:
-        this->m_310 = 0.0f;
-        (*(f32 *)&this->unk_308) = 0.0f;
+        this->velocity.z = 0.0f;
+        this->velocity.x = 0.0f;
         apply_actor_gravity((TObjEnemy *)(self), (s32 *)(0), 0.0f);
         if ((u32) this->action_flags != 8U) {
             this->phase = 3;

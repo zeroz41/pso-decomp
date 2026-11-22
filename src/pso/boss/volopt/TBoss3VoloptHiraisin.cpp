@@ -173,13 +173,13 @@ void TBoss3VoloptHiraisin::update_drop() {
     switch (state) {
     case 0:
         this->requested_action = 4;
-        y_speed = -2.27f;
+        velocity.y = -2.27f;
         state = 1;
         hover_angle = 0;
         break;
     case 1:
         advance_animation();
-        position.y = position.y + y_speed;
+        position.y = position.y + velocity.y;
         if (position.y <= 4.6f) {
             position.y = 4.6f;
             state = 2;

@@ -150,7 +150,7 @@ void TObjEnemyCustom::update_wander_state() {
             if (params->max_distance < distance || distance < params->min_distance) {
                 target = NULL;
             }
-            turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, velocity());
+            turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, &velocity);
         }
         apply_actor_gravity(this, NULL, 0.0f);
         ((TObjPlayer *)this)->update_collisions();
@@ -232,8 +232,8 @@ void TObjEnemyCustom::update_knockback_state() {
     case 1:
         advance_animation();
         move_with_wall_slide((u8 *)this);
-        velocity()->x *= 0.5f;
-        m_310 *= 0.5f;
+        velocity.x *= 0.5f;
+        velocity.z *= 0.5f;
         apply_actor_gravity(this, NULL, 0.0f);
         ((TObjPlayer *)this)->update_collisions();
         if (this->action_flags != 8) {
@@ -272,8 +272,8 @@ void TObjEnemyCustom::update_dying_state() {
         ((TObjPlayer *)this)->update_collisions();
         if (this->frame < 0.5f * (30.0f * this->play_speed)) {
             move_with_wall_slide((u8 *)this);
-            velocity()->x *= 0.5f;
-            m_310 *= 0.5f;
+            velocity.x *= 0.5f;
+            velocity.z *= 0.5f;
         }
         break;
     default:
@@ -387,7 +387,7 @@ void TObjEnemyCustom::move_along_ground_avoiding_walls(Vec dest, f32 speed, f32 
     calc_velocity_toward_destination(this, *&position, dest, speed);
     VecCopy(&prev_position, &position);
     VecCopy(&probe_end, &body_center);
-    Vec step = *velocity();
+    Vec step = velocity;
     Vec up;
     Vec cross;
     Vec dir;
@@ -396,16 +396,16 @@ void TObjEnemyCustom::move_along_ground_avoiding_walls(Vec dest, f32 speed, f32 
     vec3_add_to(&probe_end, &step);
     hit = csnVector(&body_center, &probe_end, -1);
     if (hit != NULL) {
-        angle = (s32)(10430.38043493439 * acosf(vec3_dot(velocity(), &hit->contact->normal)));
+        angle = (s32)(10430.38043493439 * acosf(vec3_dot(&velocity, &hit->contact->normal)));
         up.x = up.z = 0.0f;
         up.y = 1.0f;
-        vec3_cross(velocity(), &hit->contact->normal, &cross);
+        vec3_cross(&velocity, &hit->contact->normal, &cross);
         if (0.0f > vec3_dot(&up, &cross)) {
             angle = 0x10000 - angle;
         }
         push_matrix_from(identity_matrix);
         rotate_matrix_y(0, angle);
-        rotate_vector_by_matrix(0, velocity(), velocity());
+        rotate_vector_by_matrix(0, &velocity, &velocity);
         pop_matrices(1);
     }
     if (3.0517578e-05f * (f32)rand() < 0.5f) {
@@ -415,19 +415,19 @@ void TObjEnemyCustom::move_along_ground_avoiding_walls(Vec dest, f32 speed, f32 
     }
     for (i = 0; i < 15; i++) {
         if (i == 0) {
-            VecCopy(&dir, velocity());
+            VecCopy(&dir, &velocity);
         } else {
             push_matrix_from(identity_matrix);
             rotate_matrix_y(0, angle * (i * 0x1000));
-            rotate_vector_by_matrix(0, velocity(), &dir);
+            rotate_vector_by_matrix(0, &velocity, &dir);
             pop_matrices(1);
         }
         VecCopy(&next, &position);
         vec3_add_to(&next, &dir);
         if (project_actor_to_ground(this, &next, 0) == 1) {
             VecCopy(&position, &next);
-            VecCopy(velocity(), &position);
-            subtract_vector(velocity(), &prev_position);
+            VecCopy(&velocity, &position);
+            subtract_vector(&velocity, &prev_position);
             return;
         }
     }

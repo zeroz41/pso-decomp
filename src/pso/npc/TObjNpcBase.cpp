@@ -314,7 +314,7 @@ void TObjNpcBase::update_wandering() {
         if (100.0f < horizontal_distance_squared(&v, &position)) {
             Vec d = v;
             select_enemy_destination(this, &d, 0);
-            x_speed = m_310 = 0.0f;
+            velocity.x = velocity.z = 0.0f;
             phase = 1;
             request_action(1);
         }

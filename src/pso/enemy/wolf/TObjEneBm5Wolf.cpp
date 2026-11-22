@@ -575,7 +575,7 @@ s32 TObjEneBm5Wolf::select_death_direction(s32 *heading) {
     Vec v;
     Vec side;
     s32 ret;
-    VecCopy(&v, (const Vec *)&this->x_speed);
+    VecCopy(&v, (const Vec *)&this->velocity.x);
     v.y = 0.0f;
     if (0.0f != normalize_vector_xz(&v)) {
         *heading = (s32)(RADIANS_TO_ANGLE * atan2_float(v.x, v.z));
@@ -1714,17 +1714,17 @@ void TObjEneBm5Wolf::hurt_state(s32 event) {
     case 0: {
         Vec v;
         this->advance_animation();
-        VecCopy(&v, (const Vec *)&this->x_speed);
+        VecCopy(&v, (const Vec *)&this->velocity.x);
         {
         f32 c = normalize_vector_xz(&v);
         this->move_with_wall_slide_on_ground(v.x, v.z, c);
         }
         if (this->roamingSubstate == 0) {
-            this->x_speed *= 0.5f;
-            this->m_310 *= 0.5f;
+            this->velocity.x *= 0.5f;
+            this->velocity.z *= 0.5f;
         } else {
-            this->x_speed *= 0.9f;
-            this->m_310 *= 0.9f;
+            this->velocity.x *= 0.9f;
+            this->velocity.z *= 0.9f;
             this->rotation_y = approach_angle_limited(this->rotation_y, this->m_42c, 0x300);
             this->rotation_y = (s16) this->rotation_y;
             if (this->is_passing_frame(22.0f) != 0) {
@@ -1807,14 +1807,14 @@ void TObjEneBm5Wolf::update_dying_state(s32 event) {
             if (this->wall_reach < 28.0f) {
                 this->wall_reach = this->wall_reach + this->stoppingDistance;
             }
-            VecCopy(&vel, (const Vec *)&this->x_speed);
+            VecCopy(&vel, (const Vec *)&this->velocity.x);
             c = normalize_vector_xz(&vel);
             this->move_clamped_on_ground(vel.x, vel.z, c);
             if (this->is_passing_frame(22.0f) != 0) {
                 spawn_recoil_dust(&vel);
             }
-            this->x_speed *= 0.8f;
-            this->m_310 *= 0.8f;
+            this->velocity.x *= 0.8f;
+            this->velocity.z *= 0.8f;
             advance_pose_turn(this->rotation_y);
             this->update_body_colliders();
             break;

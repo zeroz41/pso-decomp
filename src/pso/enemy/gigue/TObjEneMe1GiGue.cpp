@@ -869,17 +869,17 @@ void TObjEneMe1GiGue::update_rush_attack() {
     case 3:
         this->advance_animation();
         calc_velocity_toward_destination(this, this->position, this->m_390, get_gigue_float_parameter(this, 0));
-        this->y_speed = 0.0f;
+        this->velocity.y = 0.0f;
         VecCopy(&this->prev_position, &this->position);
-        vec3_add_to(&this->position, (Vec *)&this->x_speed);
+        vec3_add_to(&this->position, &this->velocity);
         if (csnVector(&this->prev_position, &this->position, 0x88E0) != 0) {
             VecCopy(&this->position, &this->prev_position);
             this->state = 4;
-            this->x_speed = this->m_310 = 0.0f;
+            this->velocity.x = this->velocity.z = 0.0f;
         } else {
             if (xz_distance_squared(&this->position, &this->m_390) <= (10.0f + this->m_3e4) * (10.0f + this->m_3e4)) {
                 this->state = 4;
-                this->x_speed = this->m_310 = 0.0f;
+                this->velocity.x = this->velocity.z = 0.0f;
             }
         }
         if (this->is_passing_frame(10.0f) != 0 && this->check_vector_bit(&this->position) != 0) {
@@ -887,7 +887,7 @@ void TObjEneMe1GiGue::update_rush_attack() {
         }
         this->refresh_collision_body_centers();
         if (this->m_3ec > 15.0f) {
-            this->turn_toward_direction(((EnemyMoveParams *)this->movementParameters)->turn_speed * 2, (Vec *)&this->x_speed);
+            this->turn_toward_direction(((EnemyMoveParams *)this->movementParameters)->turn_speed * 2, &this->velocity);
         }
         play_persistent_sound((s32)(TObjEneMe1GiGue::remap_sound_id(this, 0x3A819)), (saddr)this, (uaddr)&this->position, (s32)(0), (s32)(0));
         project_actor_to_ground(this, &this->position, 0);
@@ -901,7 +901,7 @@ void TObjEneMe1GiGue::update_rush_attack() {
             this->m_3ec = 0.0f;
             this->actorFlags |= 0x800000;
             this->actorFlags &= ~0x1000000;
-            this->y_speed = 0.0f;
+            this->velocity.y = 0.0f;
             if (this->requested_action != 8) {
                 if (!(this->m_388 & 0x80000) && this->random_ratio() <= this->m_440) {
                     this->update_if_active(12);
@@ -955,15 +955,15 @@ void TObjEneMe1GiGue::update_hit_reaction() {
         advance_animation();
         if (!(actorFlags & 0x01000000)) {
             Vec v = body_center;
-            v.x += x_speed;
-            v.z += m_310;
+            v.x += velocity.x;
+            v.z += velocity.z;
             if (check_path_obstructed(this, &v) == 0) {
                 move_with_wall_slide((u8 *)this);
             } else {
-                x_speed = m_310 = 0.0f;
+                velocity.x = velocity.z = 0.0f;
             }
-            x_speed *= 0.5f;
-            m_310 *= 0.5f;
+            velocity.x *= 0.5f;
+            velocity.z *= 0.5f;
         }
         apply_actor_gravity(this, 0, 0.0f);
         ((TObjPlayer *)this)->update_collisions();
@@ -1114,7 +1114,7 @@ void TObjEneMe1GiGue::sub_802CB378() {
             m_3ec = 0.0f;
             actorFlags |= 0x800000;
             actorFlags &= ~0x1000000;
-            y_speed = 0.0f;
+            velocity.y = 0.0f;
             if (requested_action != 8) {
                 state = -1;
                 play_sound_effect(TObjEneMe1GiGue::remap_sound_id(this, 0x3A345), &position, 0, 0);

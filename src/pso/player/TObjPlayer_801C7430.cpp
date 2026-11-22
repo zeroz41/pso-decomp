@@ -3151,7 +3151,7 @@ void TObjPlayer::begin_fall_reaction() {
     f32 x;
     f32 z;
     Pkt_801CADA4 pkt;
-    z = this->m_310;
+    z = this->velocity.z;
     x = *(f32 *)((s8 *)this + 0x308);
     if (newton_sqrtf(x * x + z * z) > 1e-05f) {
         this->rotation_y = (s32) ((s32) (lbl_80447148 * atan2_float(x, z)) + 0x8000);
@@ -5044,7 +5044,7 @@ void TObjPlayer::apply_movement_if_ready() {
 
     temp_r3 = ((TObjPlayer *)this)->get_handle_value();
     if ((temp_r3 != 0x11) && ((temp_r3 >= 0x11) || (temp_r3 >= 0xA) || (temp_r3 < 6)) && (this->is_flag_b0_4() == 0) && ((s16) this->requested_action == (s16) this->current_action) && (this->action_flags & 0x20000000) && (((s32 (*)(void *))TObjPlayer__sub_801D2680)(arg0) == 0)) {
-        if (0.0f > get_root_motion_step(&this->x_speed, &this->m_310)) {
+        if (0.0f > get_root_motion_step(&this->velocity.x, &this->velocity.z)) {
             clear_velocity(arg0);
         }
         if (this->check_actor_blocking_move() != 0) {

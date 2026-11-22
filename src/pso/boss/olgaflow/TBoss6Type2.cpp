@@ -241,9 +241,9 @@ TBoss6Type2::TBoss6Type2(TObject *parent, saddr *params) : TObjEnemy(parent) {
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
     init_collision_body_parts(this, boss6_type2_collision_parts, 3);
     advance_position();
-    m_310 = 0.0f;
-    y_speed = 0.0f;
-    x_speed = 0.0f;
+    velocity.z = 0.0f;
+    velocity.y = 0.0f;
+    velocity.x = 0.0f;
     target = 0;
     bind_enemy_combat_stats((u8 *)(TLobby::register_boss(0x2C)), (u8 *)(TLobby::dispatch_shared_handler_b(0x2C)), (u8 *)(TLobby::register_object(0x2C)));
     referenceHp = prev_hp = hp;

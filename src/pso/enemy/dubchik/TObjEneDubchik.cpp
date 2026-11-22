@@ -740,20 +740,20 @@ void TObjEneDubchik::update_fall_apart() {
     case 1: {
         advance_animation();
         Vec pos = body_center;
-        pos.x += velocity()->x;
-        pos.z += velocity()->z;
+        pos.x += velocity.x;
+        pos.z += velocity.z;
         if (check_path_obstructed(this, &pos) == 0) {
             move_with_wall_slide((u8 *)this);
         } else {
-            velocity()->x = velocity()->z = 0.0f;
+            velocity.x = velocity.z = 0.0f;
         }
-        velocity()->x *= 0.75f;
-        velocity()->z *= 0.75f;
+        velocity.x *= 0.75f;
+        velocity.z *= 0.75f;
         if (requested_action == 0xE) {
             if ((s32)variant != 0 || reassemble_count >= 5) {
                 start_dying();
             } else {
-                velocity()->x = velocity()->z = 0.0f;
+                velocity.x = velocity.z = 0.0f;
                 collapsed = 1;
                 m_384 = sub_800AAF98(0);
                 state = 2;

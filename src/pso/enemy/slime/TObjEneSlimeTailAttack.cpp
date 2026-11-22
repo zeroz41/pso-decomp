@@ -598,9 +598,9 @@ void TObjEneSlimeOne::initialize_slime_instance_state() {
     actor->set_animation(0);
     actor->set_field_b8(0);
     VecCopy(&actor->body_center, &actor->position);
-    actor->m_310 = 0.0f;
-    actor->y_speed = 0.0f;
-    actor->x_speed = 0.0f;
+    actor->velocity.z = 0.0f;
+    actor->velocity.y = 0.0f;
+    actor->velocity.x = 0.0f;
     actor->target = NULL;
     if (*variant == 0) {
         actor->bind_enemy_combat_stats((u8 *)TLobby::register_boss(0x30), (u8 *)TLobby::dispatch_shared_handler_b(0x30),

@@ -954,13 +954,13 @@ void TObjEneBm3Fly::update_recoil_state(s32 msg) {
         advance_animation();
         t = this->m_3c0;
         this->m_3c0 = t + 1;
-        this->moveDir.x = this->x_speed;
-        this->moveDir.z = this->m_310;
+        this->moveDir.x = this->velocity.x;
+        this->moveDir.z = this->velocity.z;
         v = normalize_vector_xz(&this->moveDir);
         update_dd_flag(this->moveDir.x, this->moveDir.z, v);
         this->clamp_flight_height();
-        this->x_speed *= (0.5f);
-        this->m_310 *= (0.5f);
+        this->velocity.x *= (0.5f);
+        this->velocity.z *= (0.5f);
         this->check_collisions();
         break;
     case 5:
@@ -1019,8 +1019,8 @@ void TObjEneBm3Fly::state_death_fall(s32 msg) {
         this->m_3c0 = 0;
         this->m_3c4 = 0;
         this->m_3e0 = 0.0f;
-        this->moveDir.x = (f32) this->x_speed;
-        this->moveDir.z = (f32) this->m_310;
+        this->moveDir.x = (f32) this->velocity.x;
+        this->moveDir.z = (f32) this->velocity.z;
         this->m_3e4 = normalize_vector_xz(&this->moveDir);
         temp_copy = this->remap_sound_for_area(0x4003E425);
         play_sound_effect(temp_copy, &this->position, 0, 0);

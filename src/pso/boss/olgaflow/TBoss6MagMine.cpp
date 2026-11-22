@@ -366,7 +366,7 @@ TUnk_804F322C::TUnk_804F322C(TObject *parent, saddr arg2) : TObjEnemy(parent) {
     VecCopy__FP3VecPC3Vec((saddr)self + 0x44, VecCopy__FP3VecPC3Vec((saddr)self + 0x50, VecCopy__FP3VecPC3Vec((saddr)self + 0x74, (saddr)self + 0x38)));
     init_collision_body_parts(self, __vt__13TBoss6MagMine, 1);
     VecCopy__FP3VecPC3Vec(arg0 + 0x2FC, arg0 + 0x38);
-    *(f32 *)((s8 *)self + 0x308) = ((TBoss3Volopt *)self)->y_speed = *(f32 *)((s8 *)self + 0x310) = 0.0f;
+    *(f32 *)((s8 *)self + 0x308) = ((TBoss3Volopt *)self)->velocity.y = *(f32 *)((s8 *)self + 0x310) = 0.0f;
     *(s32 *)((s8 *)self + 0x2A8) = 0;
     ((TObjEnemy *)self)->bind_enemy_combat_stats((u8 *)(TLobby::register_boss(0x2D)), (u8 *)(TLobby::dispatch_shared_handler_b(0x2D)), (u8 *)(TLobby::register_object(0x2D)));
     ((TBoss3Volopt *)self)->referenceHp = ((TBoss3Volopt *)self)->hp;

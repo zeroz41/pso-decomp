@@ -257,7 +257,7 @@ void TObjEneSaver::update_collapse_and_destroy() {
         step_angle_clamped(self, 0);
         move_with_wall_slide(self);
         *(f32 *)((s8 *)self + 0x308) *= 0.5f;
-        ((TObjEneSaver *)self)->m_310*= 0.5f;
+        ((TObjEneSaver *)self)->velocity.z*= 0.5f;
         if (body_fade.decay_value_toward_floor() == 1) {
             TObjPlayer::apply_effect_variant_a((saddr)(self + 0x38), 0);
             ((TObjEneSaver *)self)->phase = 2;
@@ -300,7 +300,7 @@ void TObjEneSaver::update_entry_motion() {
         apply_actor_gravity((TObjEnemy *)(this), (s32 *)(0), 0.0f);
         break;
     case 1:
-        this->m_310 = (f32) 0.0f;
+        this->velocity.z = (f32) 0.0f;
         *(f32 *)((s8 *)((u8 *)this) + 0x308) = (f32) 0.0f;
         apply_actor_gravity((TObjEnemy *)(this), (s32 *)(0), 0.0f);
         if ((u32) this->action_flags != 8U) {
@@ -367,7 +367,7 @@ void TObjEneSaver::update_knockback_state() {
     case 1:
         move_with_wall_slide(((u8 *)this));
         *(f32 *)((s8 *)((u8 *)this) + 0x308) *= 0.5f;
-        this->m_310 *= 0.5f;
+        this->velocity.z *= 0.5f;
         if ((u32) this->action_flags != 8U) {
             this->requested_action = 7;
             this->phase = 2;

@@ -1427,11 +1427,11 @@ void TObjEneMe3Shinowa::sub_800E4FE8(s32 reason) {
         break;
     case 0:
         this->advance_animation();
-        VecCopy(&dir, (Vec *)&this->x_speed);
+        VecCopy(&dir, &this->velocity);
         len = normalize_vector_xz(&dir);
         this->move_clamped_on_ground(dir.x, dir.z, len);
-        this->x_speed *= 0.8f;
-        this->m_310 *= 0.8f;
+        this->velocity.x *= 0.8f;
+        this->velocity.z *= 0.8f;
         this->check_collisions();
         break;
     case 5:

@@ -230,7 +230,7 @@ void TBoss7Crawfish::update_motion_and_release() {
     if (effect != NULL) {
         effect->set_position(&position);
     }
-    if (try_move_by_delta((Vec *)unk_308) == 0) {
+    if (try_move_by_delta(&velocity) == 0) {
         free_child();
         change_state(3);
         return;
@@ -239,19 +239,19 @@ void TBoss7Crawfish::update_motion_and_release() {
 }
 
 void TBoss7Crawfish::aim_at_nearest_player() {
-    u16 player = find_nearest_visible_player(this, (Vec *)unk_308, 400.0f);
+    u16 player = find_nearest_visible_player(this, &velocity, 400.0f);
     f32 speed = 1.0f + params->speed;
     if (player != 0xFFFF) {
-        normalize_vector((Vec *)unk_308);
-        x_speed *= speed;
-        y_speed *= speed;
-        m_310 *= speed;
+        normalize_vector(&velocity);
+        velocity.x *= speed;
+        velocity.y *= speed;
+        velocity.z *= speed;
     } else {
-        x_speed = speed * sin_table_lookup(rotation_y);
-        y_speed = 0.0f;
-        m_310 = speed * cos_table_lookup(rotation_y);
+        velocity.x = speed * sin_table_lookup(rotation_y);
+        velocity.y = 0.0f;
+        velocity.z = speed * cos_table_lookup(rotation_y);
     }
-    rotation_y = 10430.38043493439 * atan2_float(x_speed, m_310);
+    rotation_y = 10430.38043493439 * atan2_float(velocity.x, velocity.z);
     change_state(2);
 }
 
