@@ -276,7 +276,7 @@ void TEffStarLight2D::draw_segment(ColorLineVertex *a, ColorLineVertex *b,
     polygon.verts[3].x = d->x;
     polygon.verts[3].y = d->y;
     polygon.colors[3] = end_color.packed;
-    reinterpret_cast<ColorLineList *>(&polygon)->draw_strip_swap_color(4, 7, -15.0f);
+    polygon.draw_strip_swap_color(4, 7, -15.0f);
 }
 #pragma pop
 

@@ -10,7 +10,7 @@ struct TWindowMeseta : public TWindowBase {
     virtual void render();
     f32 m_60;
     u32 m_64;
-    u32 m_68;
+    u32 meseta;
     f32 m_6c[2];
     void run_task();
     s32 get_meseta_value();

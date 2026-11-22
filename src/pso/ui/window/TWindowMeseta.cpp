@@ -74,9 +74,9 @@ void TWindowMeseta::run_task() {
     s32 meseta_value;
 
     meseta_value = this->get_meseta_value();
-    if (meseta_value != (s32) this->m_68) {
-        this->m_68 = meseta_value;
-        ((TWindowSubStatusDisp *)(((TWindowBase *)arg0)->get_array_entry(1)))->set_animated_target(this->m_68, 9.0f);
+    if (meseta_value != (s32) this->meseta) {
+        this->meseta = meseta_value;
+        ((TWindowSubStatusDisp *)(((TWindowBase *)arg0)->get_array_entry(1)))->set_animated_target(this->meseta, 9.0f);
     }
     ((TWindowDD *)this)->initialize_subwindow();
     update_window_entry_list(&entry_list);
@@ -89,11 +89,11 @@ TWindowMeseta::TWindowMeseta(void *position, s32 arg2, s32 str)
     Sub_80269244 *b;
     m_name = TWindowMeseta__class_name;
     m_64 = arg2;
-    m_68 = this->get_meseta_value();
+    meseta = this->get_meseta_value();
     a = (Sub_80269244 *)get_array_entry(0);
     b = (Sub_80269244 *)get_array_entry(1);
     set_text_entry_string((u8 *)a, str, 0);
-    ((TWindowSubStatusDisp *)b)->set_all_values(m_68);
+    ((TWindowSubStatusDisp *)b)->set_all_values(meseta);
     target_size[0] = 10.0f + b->x8;
     save_position();
     m_60 = TWindowSubStatusDisp__sub_802877A4(frame_size[0] - 16.0f);

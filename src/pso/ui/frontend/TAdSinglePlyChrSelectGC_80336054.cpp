@@ -113,7 +113,7 @@ TitleStateHandler TLobby__state_handler_pmf_table[4] = {
 
 // Sprite cells of the title textures (size, centre, uv rectangle, texture id),
 // shared by every lobby_record_table sprite.
-SpriteFrame title_sprite_frames[46] = {
+NJS_TEXANIM title_sprite_frames[46] = {
     {256, 256, 0, 0, 0, 0, 256, 256, 0, 0},
     {256, 256, 0, 0, 0, 0, 256, 256, 1, 0},
     {256, 256, 0, 0, 0, 0, 256, 256, 2, 0},

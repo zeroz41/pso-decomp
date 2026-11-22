@@ -42,9 +42,9 @@ TWindowMakeTeam::TWindowMakeTeam(TObject *parent, s32 mode) : TObject(parent) {
     m_20 = mode;
     m_menu = create_menu();
     m_30 = 0;
-    m_34 = 0;
-    m_24 = 0;
-    m_28 = 0;
+    keyboard = 0;
+    name = 0;
+    comment = 0;
     m_1e = 0;
     m_1f = 0;
     if (m_20 == 1 || m_20 == 2) {
@@ -54,11 +54,11 @@ TWindowMakeTeam::TWindowMakeTeam(TObject *parent, s32 mode) : TObject(parent) {
 }
 
 TWindowMakeTeam::~TWindowMakeTeam() {
-    mem_free(m_28);
-    mem_free(m_24);
-    if (this->m_34 != 0) {
-        m_34->queue_destruction();
-        this->m_34 = 0;
+    mem_free(comment);
+    mem_free(name);
+    if (this->keyboard != 0) {
+        keyboard->queue_destruction();
+        this->keyboard = 0;
     }
     if (this->m_30 != 0) {
         m_30->close();
@@ -74,9 +74,9 @@ void TWindowMakeTeam::run_task() {
     switch (this->m_1c) {
     case 0:
     case 1:
-        if (m_34 != NULL) {
-            m_34->queue_destruction();
-            m_34 = NULL;
+        if (keyboard != NULL) {
+            keyboard->queue_destruction();
+            keyboard = NULL;
         }
         if (m_30 != NULL) {
             m_30->close();
@@ -95,52 +95,52 @@ void TWindowMakeTeam::run_task() {
         break;
     case 3: {
         TKeyBoardControl *kb = new TKeyBoardControl(this, 0xE, 0, 4, local_client_id);
-        m_34 = kb;
-        m_34->set_sub_position((u8 *)(get_window_layout_position(0xCB)));
-        m_34->set_depth(38500.0f);
-        m_34->set_composer_flag62_bit4();
-        m_34->set_text(m_24);
+        keyboard = kb;
+        keyboard->set_sub_position((u8 *)(get_window_layout_position(0xCB)));
+        keyboard->set_depth(38500.0f);
+        keyboard->set_composer_flag62_bit4();
+        keyboard->set_text(name);
         m_menu->set_entry_string_by_id(NULL, 0);
         this->m_1c = 4;
     }
     case 4:
-        if (m_34->is_cancelled() != 0) {
-            m_menu->set_entry_string_by_id(m_24, 0);
+        if (keyboard->is_cancelled() != 0) {
+            m_menu->set_entry_string_by_id(name, 0);
             this->m_1c = 1;
         }
-        if (m_34->is_confirmed() != 0) {
+        if (keyboard->is_confirmed() != 0) {
             s32 n;
-            mem_free(m_24);
-            m_24 = m_34->realloc_buffer();
-            TWindowSubComCard::mask_profanity_words(m_24, get_shared_text_buffer());
-            n = (s32)measure_string_len(m_24);
-            strncpy(m_24, get_shared_text_buffer(), n);
-            m_menu->set_entry_string_by_id(m_24, 0);
+            mem_free(name);
+            name = keyboard->realloc_buffer();
+            TWindowSubComCard::mask_profanity_words(name, get_shared_text_buffer());
+            n = (s32)measure_string_len(name);
+            strncpy(name, get_shared_text_buffer(), n);
+            m_menu->set_entry_string_by_id(name, 0);
             this->m_1c = 1;
         }
         break;
     case 5: {
         TKeyBoardControl *kb = new TKeyBoardControl(this, 0x10, 0, 0, local_client_id);
-        m_34 = kb;
-        m_34->set_sub_position((u8 *)(get_window_layout_position(0xCC)));
-        m_34->set_depth(38500.0f);
-        m_34->set_text(m_28);
+        keyboard = kb;
+        keyboard->set_sub_position((u8 *)(get_window_layout_position(0xCC)));
+        keyboard->set_depth(38500.0f);
+        keyboard->set_text(comment);
         m_menu->set_entry_string_by_id(NULL, 1);
         this->m_1c = 6;
     }
     case 6:
-        if (m_34->is_cancelled() != 0) {
-            m_menu->set_entry_string_by_id(m_28, 1);
+        if (keyboard->is_cancelled() != 0) {
+            m_menu->set_entry_string_by_id(comment, 1);
             this->m_1c = 1;
         }
-        if (m_34->is_confirmed() != 0) {
+        if (keyboard->is_confirmed() != 0) {
             s32 n;
-            mem_free(m_28);
-            m_28 = m_34->realloc_buffer();
-            TWindowSubComCard::mask_profanity_words(m_28, get_shared_text_buffer());
-            n = (s32)measure_string_len(m_28);
-            strncpy(m_28, get_shared_text_buffer(), n);
-            m_menu->set_entry_string_by_id(m_28, 1);
+            mem_free(comment);
+            comment = keyboard->realloc_buffer();
+            TWindowSubComCard::mask_profanity_words(comment, get_shared_text_buffer());
+            n = (s32)measure_string_len(comment);
+            strncpy(comment, get_shared_text_buffer(), n);
+            m_menu->set_entry_string_by_id(comment, 1);
             this->m_1c = 1;
         }
         break;
@@ -219,8 +219,8 @@ TWindowMenu *TWindowMakeTeam::create_status_menu_window() {
 }
 
 void TWindowMakeTeam::update_ok_button() {
-    const char *name = m_24;
-    if (name != NULL && *name != 0) {
+    const char *team_name = name;
+    if (team_name != NULL && *team_name != 0) {
         m_menu->mark_entry_by_id(4);
         return;
     }
@@ -257,12 +257,12 @@ void TWindowMakeTeam::set_state(s32 arg1) {
 }
 
 const char *TWindowMakeTeam__sub_80264B38(TWindowMakeTeam *o) {
-    if (o->m_24) return o->m_24;
+    if (o->name) return o->name;
     return lbl_805D395C;
 }
 
 const char *TWindowMakeTeam__sub_80264B24(TWindowMakeTeam *o) {
-    if (o->m_28) return o->m_28;
+    if (o->comment) return o->comment;
     return lbl_805D395C;
 }
 

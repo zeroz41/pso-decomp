@@ -721,7 +721,7 @@ void TWindowSubComCard__sub_80245A10(u8 *card, s32 row, WindowDrawContext *r, f3
     r->scale_point_about_pivot(&pts[0].x);
     r->scale_point_about_pivot(&pts[1].x);
     r->scale_point_about_pivot(&pts[2].x);
-    draw_color_lines(reinterpret_cast<ColorLineList *>(&lines), 3, 0x14, depth);
+    draw_color_lines(&lines, 3, 0x14, depth);
 }
 #pragma pop
 

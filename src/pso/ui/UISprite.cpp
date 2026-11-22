@@ -408,7 +408,7 @@ void draw_ui_sprite_tinted(s32 sprite_id, vec2f *position, vec2f *scale, UISprit
         sprite.scale_x = scale->x;
         sprite.scale_y = ui_sprite_scale * scale->y;
         sprite.textures = reinterpret_cast<GinjaTextureList *>(&creation_sprite_table);
-        TCharaMaking__resolve_creation_sprite_table(reinterpret_cast<NJS_TEXANIM **>(&sprite.frames), &sprite_id);
+        TCharaMaking__resolve_creation_sprite_table(&sprite.frames, &sprite_id);
         copy_argb(&saved_model_draw_color, &model_material_color);
         set_constant_material((const NJS_ARGB *)tint);
         TLobby::draw_with_camera(&sprite, sprite_id, 0x22, depth);

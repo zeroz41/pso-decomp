@@ -53,11 +53,11 @@ void TLobby__sub_80228154(SpriteDescriptor *sprite, s32 frame_index, s32 flags, 
         return;
     }
     TObjFish::set_global_param(sprite->textures);
-    SpriteFrame *frame = &sprite->frames[frame_index];
-    f32 left = -frame->center_x;
-    f32 top = -frame->center_y;
-    f32 right = left + frame->width;
-    f32 bottom = top + frame->height;
+    NJS_TEXANIM *frame = &sprite->frames[frame_index];
+    f32 left = -frame->cx;
+    f32 top = -frame->cy;
+    f32 right = left + frame->sx;
+    f32 bottom = top + frame->sy;
     left *= sprite->scale_x;
     right *= sprite->scale_x;
     top *= sprite->scale_y;
@@ -66,19 +66,19 @@ void TLobby__sub_80228154(SpriteDescriptor *sprite, s32 frame_index, s32 flags, 
     quad.y0 = sprite->y + top;
     quad.x1 = sprite->x + right;
     quad.y1 = sprite->y + bottom;
-    quad.u0 = frame->u0 / 256.0f;
+    quad.u0 = frame->u1 / 256.0f;
     if (1.0f < quad.u0) {
         quad.u0 = 1.0f;
     }
-    quad.v0 = frame->v0 / 256.0f;
+    quad.v0 = frame->v1 / 256.0f;
     if (1.0f < quad.v0) {
         quad.v0 = 1.0f;
     }
-    quad.u1 = frame->u1 / 256.0f;
+    quad.u1 = frame->u2 / 256.0f;
     if (1.0f < quad.u1) {
         quad.u1 = 1.0f;
     }
-    quad.v1 = frame->v1 / 256.0f;
+    quad.v1 = frame->v2 / 256.0f;
     if (1.0f < quad.v1) {
         quad.v1 = 1.0f;
     }
@@ -115,7 +115,7 @@ void TLobby__sub_80228154(SpriteDescriptor *sprite, s32 frame_index, s32 flags, 
     }
     depth = -1.0f / depth;
     begin_screen_draw(0x20 == (flags & 0x20));
-    set_draw_texture_and_color(frame->unknown10, color.packed);
+    set_draw_texture_and_color(frame->texid, color.packed);
     draw_textured_quad_at_depth(&quad.x0, depth);
     TWindowSubStatusDisp::get_player();
 }
