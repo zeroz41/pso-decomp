@@ -14,7 +14,13 @@ public:
     virtual s32 advance_toward_max();
     virtual void set_flags_and_apply_damage_color();
     virtual s32 has_visible_opacity();
+    // value strictly between hidden (0) and opaque (2).
+    s32 has_partial_opacity();
+    s32 advance_timer(f32 limit);
+    void copy_color(NJS_ARGB *src);
+    void set_rate(f32 new_rate);
     void sub_800D741C();
+    void init_death_params();
     void start_fade_in();
     f32 value;
 };

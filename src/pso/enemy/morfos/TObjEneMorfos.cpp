@@ -1161,7 +1161,7 @@ void TObjEneMorfos::state_death(s32 arg1) {
         this->accum = (f32) texture_scroll;
         this->counter = 0;
         step = 0;
-        ((TObjEneMe3SinowZoa *)&wall_fade)->init_death_params();
+        wall_fade.init_death_params();
         play_sound_effect(0x4003A626, (uaddr)&position, 0, 0);
         return;
     case 3:

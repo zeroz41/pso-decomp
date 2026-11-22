@@ -54,7 +54,6 @@ extern BmlResource *lbl_805D6FA0;
 s32 draw_chunk_object();
 void draw_line_list(VoloptLineList *, s32, u32);
 extern s32 lbl_805D6FA4;
-s32 TObjEneMe3SinowZoa__sub_800D72A4(TUnk_80494938 *fade);
 s32 epsilon_guard_camera_sample_phase;
 s32 * epsilon_guard_angle_sample_write_ptr;
 Vec * epsilon_guard_camera_sample_read_ptr;
@@ -997,7 +996,7 @@ void TObjEneEpsilonBody::draw_with_fade(s32 arg1) {
             return;
         }
     } else if (fade.has_visible_opacity() != 0) {
-        if (TObjEneMe3SinowZoa__sub_800D72A4(&fade) != 0) {
+        if (fade.has_partial_opacity() != 0) {
             fade.set_flags_and_apply_damage_color();
             if (!((s32)main_task.get_task_flags() & 0x200)) {
                 model_render_flags = saved_model_render_flags;
@@ -1051,7 +1050,7 @@ void TObjEneEpsilonBody::draw_with_fade(s32 arg1) {
     update_primary_light();
     if (r->updateFromCamera(&body_center.x) != 0) {
         r->clear_flag_and_notify();
-    } else if ((fade.has_visible_opacity() != 0) && (TObjEneMe3SinowZoa__sub_800D72A4(&fade) != 0)) {
+    } else if ((fade.has_visible_opacity() != 0) && (fade.has_partial_opacity() != 0)) {
         fade.clear_flag_and_notify();
     }
     model_render_flags = saved_model_render_flags;

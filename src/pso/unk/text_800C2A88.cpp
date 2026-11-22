@@ -218,7 +218,7 @@ void fn_800C2AC4(u8 *arg0, int reason) {
         {
           TObjPlayer::apply_effect_variant_a((saddr)&stack.x, 0x32);
           fn_800D911C((Vec *)(&stack.x));
-          ((TObjEneMe3SinowZoa *)(arg0 + 0x3F4))->init_death_params();
+          ((TUnk_80494938 *)(arg0 + 0x3F4))->init_death_params();
         }
         else
         {

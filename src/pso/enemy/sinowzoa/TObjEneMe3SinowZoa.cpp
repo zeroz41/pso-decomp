@@ -98,7 +98,6 @@ void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
 u16 get_entity_id(TObjBase *object);
 f32 fabs_float(f32);
-s32 TObjEneMe3SinowZoa__sub_800D72A4(TUnk_80494938 *fade);
 s32 TBoss3Volopt__sub_800D8D88(void *, f32);
 f32 * TBoss3Volopt__sub_800F059C(void *);
 void create__9TTecJelinFllll(void *, void *, void *, int);
@@ -376,7 +375,7 @@ void TObjEneMe3SinowZoa::run_task() {
     } else {
         submit_default_cursor_candidate();
     }
-    if ((this->stealthed == 0) || (TObjEneMe3SinowZoa__sub_800D72A4(&fade) != 0)) {
+    if ((this->stealthed == 0) || (fade.has_partial_opacity() != 0)) {
         this->render_minimap_dot();
     }
     if (this->m_3d0 & 0x4000) {
@@ -402,7 +401,7 @@ void TObjEneMe3SinowZoa::sub_8031AC74() {
         }
     } else {
         temp_r3_2 = this->behavior_flags;
-        if (!(temp_r3_2 & 0x100000) && !(temp_r3_2 & 4) && (TObjEneMe3SinowZoa__sub_800D72A4(&fade) != 0)) {
+        if (!(temp_r3_2 & 0x100000) && !(temp_r3_2 & 4) && (fade.has_partial_opacity() != 0)) {
             if (this->stealthed != 0) {
                 if (fade.decay_value_toward_floor() != 0) {
                     this->behavior_flags |= 0x40000;
@@ -1139,7 +1138,7 @@ void TObjEneMe3SinowZoa::sub_80318F7C(s32 mode) {
                     if (csnVecterUnder(&v, 0x15) != 0) {
                         if (this->room == ((TScene *)(&v))->find_section_at_position()) {
                             if (this->stealthed != 0) {
-                                ((TObjEneMe3SinowZoa *)&this->fade)->set_field_10(TObjEneMe3SinowZoa__data_805DF30C);
+                                this->fade.set_rate(TObjEneMe3SinowZoa__data_805DF30C);
                                 this->fade.reset_obstruction_fade();
                                 this->behavior_flags |= 0x100000;
                                 this->behavior_flags |= 0x40000;
@@ -1163,7 +1162,7 @@ void TObjEneMe3SinowZoa::sub_80318F7C(s32 mode) {
             this->check_collisions();
             break;
         case 3:
-            if (((TObjEneMe3SinowZoa *)&this->fade)->advance_timer(TObjEneMe3SinowZoa__data_805DF310) != 0) {
+            if (this->fade.advance_timer(TObjEneMe3SinowZoa__data_805DF310) != 0) {
                 this->state_step = 4;
             }
         case 4:
@@ -1226,7 +1225,7 @@ void TObjEneMe3SinowZoa::sub_80318C0C(s32 mode) {
         this->behavior_flags |= 0x40000;
         this->clear_player_status_flag(0, 0x08000000);
         if (this->stealthed != 0) {
-            ((TObjEneMe3SinowZoa *)&this->fade)->set_field_10(TObjEneMe3SinowZoa__data_805DF30C);
+            this->fade.set_rate(TObjEneMe3SinowZoa__data_805DF30C);
             this->fade.reset_obstruction_fade();
             this->behavior_flags |= 0x100000;
             this->state_step = 0;
@@ -1244,7 +1243,7 @@ void TObjEneMe3SinowZoa::sub_80318C0C(s32 mode) {
     case 0:
         switch (this->state_step) {
         case 0:
-            if (((TObjEneMe3SinowZoa *)&this->fade)->advance_timer(TObjEneMe3SinowZoa__data_805DF310) != 0) {
+            if (this->fade.advance_timer(TObjEneMe3SinowZoa__data_805DF310) != 0) {
                 this->state_step = 1;
             }
         case 1:
@@ -1396,7 +1395,7 @@ void TObjEneMe3SinowZoa::sub_80318564(s32 mode) {
         this->clear_intangible();
         (this->behavior_flags) &= 0xFFEFFFF8;
         if ((this->stealthed) != 0) {
-            ((TObjEneMe3SinowZoa *)&this->fade)->set_field_10(TObjEneMe3SinowZoa__data_805DF30C);
+            this->fade.set_rate(TObjEneMe3SinowZoa__data_805DF30C);
             this->fade.reset_obstruction_fade();
             (this->behavior_flags) |= 0x100000;
             (this->behavior_flags) |= 0x40000;
@@ -1419,7 +1418,7 @@ void TObjEneMe3SinowZoa::sub_80318564(s32 mode) {
         switch ((this->state_step)) {
         case 0:
             this->advance_animation();
-            if (((TObjEneMe3SinowZoa *)&this->fade)->advance_timer(TObjEneMe3SinowZoa__data_805DF310) != 0) {
+            if (this->fade.advance_timer(TObjEneMe3SinowZoa__data_805DF310) != 0) {
                 (this->state_step) = 1;
             }
         case 1:
@@ -1773,7 +1772,7 @@ void TObjEneMe3SinowZoa::render() {
             } else if (this->stealthed != 0) {
                 draw = 0;
             }
-        } else if (TObjEneMe3SinowZoa__sub_800D72A4(&this->fade) != 0) {
+        } else if (this->fade.has_partial_opacity() != 0) {
             this->fade.set_flags_and_apply_damage_color();
             if (defer_render() != 0) {
                 draw = 0;
@@ -1794,7 +1793,7 @@ void TObjEneMe3SinowZoa::render() {
             }
             pop_matrix();
         }
-        if (this->try_run_effect_m7() == 0 && TObjEneMe3SinowZoa__sub_800D72A4(&this->fade) != 0) {
+        if (this->try_run_effect_m7() == 0 && this->fade.has_partial_opacity() != 0) {
             this->fade.clear_flag_and_notify();
         }
         copy_argb((NJS_ARGB *)model_material_color, (NJS_ARGB *)saved_model_draw_color);
@@ -2035,7 +2034,7 @@ void TObjEneMe3SinowZoa::sub_80316C3C(s32 mode) {
             angle = seek_80316C3C(this, &diff);
             if (angle < 0x100) {
                 if (this->stealthed != 0) {
-                    ((TObjEneMe3SinowZoa *)&this->fade)->set_field_10(TObjEneMe3SinowZoa__data_805DF30C);
+                    this->fade.set_rate(TObjEneMe3SinowZoa__data_805DF30C);
                     this->fade.reset_obstruction_fade();
                     this->behavior_flags |= 0x100000;
                     this->behavior_flags |= 0x40000;
@@ -2051,7 +2050,7 @@ void TObjEneMe3SinowZoa::sub_80316C3C(s32 mode) {
             break;
         case 1:
             this->advance_animation();
-            if (((TObjEneMe3SinowZoa *)&this->fade)->advance_timer(TObjEneMe3SinowZoa__data_805DF310) != 0) {
+            if (this->fade.advance_timer(TObjEneMe3SinowZoa__data_805DF310) != 0) {
                 this->state_step = 2;
             }
         case 2:

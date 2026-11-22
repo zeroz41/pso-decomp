@@ -58,7 +58,6 @@
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon_800B92AC.h"
 #include "pso/enemy/dd/TObjEneDD_800B9A34.h"
-#include "pso/enemy/sinowzoa/TObjEneMe3SinowZoa_800D72A4.h"
 #include "pso/camera/TCameraCtrl_803D6538.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/text_803D96A8.h"
@@ -1863,7 +1862,7 @@ void TObjEneMe3Stelth::exec(s32 mode) {
                 }
                 break;
             case 1:
-                if (((TObjEneMe3SinowZoa *)&this->fade)->advance_timer(0.2f) != 0) {
+                if (this->fade.advance_timer(0.2f) != 0) {
                     this->behavior_flags &= ~8;
                     this->stealthed = 0;
                     this->state_step = 2;
@@ -1913,7 +1912,7 @@ void TObjEneMe3Stelth::sub_800F1440(s32 reason) {
                 if (this->is_passing_frame(4.0f) != 0) {
                     this->behavior_flags |= 8;
                     NJS_ARGB q = me3_stelth_offset_vec;
-                    ((TObjEneMe3SinowZoa *)&this->fade)->copy_position_vector(&q);
+                    this->fade.copy_color(&q);
                     this->state_step = 1;
                 }
                 break;

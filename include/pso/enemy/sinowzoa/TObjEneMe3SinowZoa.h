@@ -112,10 +112,6 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     // in floor_resource_callbacks.
     static void load_resources();
     static void free_resources();
-    s32 advance_timer(f32 farg0);
-    void copy_position_vector(void* q);
-    void set_field_10(f32 v);
-    void init_death_params();
     void sub_80316840();
     void sub_80316C3C(s32 mode);
     void sub_803170F0(s32 mode);
