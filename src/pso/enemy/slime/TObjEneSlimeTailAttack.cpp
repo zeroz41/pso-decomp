@@ -752,16 +752,9 @@ void TObjEneSlimeOne::set_random_timer_15() { set_random_timer(15, 15); }
 void TObjEneSlimeOne::init_state() { project_to_ground(); this->draw_offset_y = -2.5f; this->draw_scale.z = 0.0f; this->draw_scale.y = 0.0f; this->draw_scale.x = 0.0f; this->alpha = 0.0f; this->m_3c8 = 0; animation->set_state(7); set_display_mode(0); this->actorFlags = (this->actorFlags | 0x40000); this->set_random_timer_15(); }
 
 void TObjEneSlimeOne::update_wait_search() {
-    s32 temp_r0;
-    s32 temp_r0_2;
-
-    temp_r0 = this->state_timer - 1;
-    this->state_timer = temp_r0;
-    if (temp_r0 <= 0) {
+    if (--this->state_timer <= 0) {
         if (find_nearest_visible_player(this, NULL, 200.0f) == 0xFFFF) {
-            temp_r0_2 = this->m_3c8 + 1;
-            this->m_3c8 = temp_r0_2;
-            if (temp_r0_2 >= 5) {
+            if (++this->m_3c8 >= 5) {
                 position.x = home_position.x;
                 position.z = home_position.z;
                 this->m_3c8 = 5;
@@ -912,11 +905,7 @@ void TObjEneSlimeOne::enter_slime_state() {
 }
 
 void TObjEneSlimeOne::update_slime_timer() {
-    s32 temp_r0;
-
-    temp_r0 = effect_timer - 1;
-    effect_timer = temp_r0;
-    if (temp_r0 == 0) {
+    if (--effect_timer == 0) {
         spawn_particle_effect(&body_center, 0xCD);
     }
     if (animation->is_finished() == 1) {
@@ -936,11 +925,7 @@ void TObjEneSlimeOne::enter_appear_state() {
 }
 
 void TObjEneSlimeOne::update_dive_timer() {
-    s32 temp_r0;
-
-    temp_r0 = effect_timer - 1;
-    effect_timer = temp_r0;
-    if (temp_r0 == 0) {
+    if (--effect_timer == 0) {
         spawn_particle_effect(&body_center, 0xCD);
     }
     if (animation->is_finished() == 1) {
@@ -1078,7 +1063,6 @@ void TObjEneSlimeOne::begin_appear() { this->state_timer = 90; effect_timer = 19
 
 void TObjEneSlimeOne::update_water_bomb_timer() {
     s32 temp_r0;
-    s32 temp_r0_2;
 
     effect_timer = (s32) (effect_timer - 1);
     temp_r0 = effect_timer;
@@ -1089,9 +1073,7 @@ void TObjEneSlimeOne::update_water_bomb_timer() {
         spawn_particle_effect(&body_center, 0xE2);
         TObjEneSlimeWaterBomb::create(this, this);
     }
-    temp_r0_2 = this->state_timer - 1;
-    this->state_timer = temp_r0_2;
-    if (temp_r0_2 <= 0) {
+    if (--this->state_timer <= 0) {
         if (this->is_timer_active() != 0) {
             this->set_state(7);
             return;
@@ -1151,11 +1133,7 @@ void TObjEneSlimeOne::start_tail_attack() {
 }
 
 void TObjEneSlimeOne::tick_timer() {
-    s32 temp_r0;
-
-    temp_r0 = this->state_timer - 1;
-    this->state_timer = temp_r0;
-    if (temp_r0 <= 0) {
+    if (--this->state_timer <= 0) {
         this->set_state(5);
     }
 }
