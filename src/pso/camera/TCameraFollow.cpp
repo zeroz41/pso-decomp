@@ -40,31 +40,31 @@ __declspec(section ".rodata") Vec follow_camera_reset_eye_offset = { 0.0f, 0.0f,
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/render/Draw2D.h"
+#include "pso/ui/hud/TLockOnCursor.h"
 
 u8 camera_override_flags;
 
 extern "C" s32 check_flag_100__10TObjPlayerFPv(void *);
 
-// inferred: 0x18 bytes in the DOL and only the first vector is read; a pair like the (a, b) offsets that
-// request_follow_camera_offsets takes.
+// A pair like the (a, b) offsets request_follow_camera_offsets takes; only the first is read.
 Vec follow_camera_offset_default[2] = {
     { 0.0f, 25.43f, 45.42f },
     { 0.0f, 0.0f, 0.0f },
 };
 
-void TCameraCtrl::reset_to_local_player() {
+void reset_camera_to_local_player() {
     camera_override_flags = 0;
     camera_override_client_id = 0xFFFF;
     reset_cameras_to_actor(get_player_by_client_id(local_client_id), 0);
 }
 
-void TCameraCtrl::set_override_position_and_angle(Vec *position, u16 client_id) {
+void set_locked_camera_override(const Vec *position, u16 client_id) {
     camera_override_flags |= 2;
     VecCopy(&camera_override_position, position);
     camera_override_client_id = client_id;
 }
 
-void TCameraCtrl::set_fixed_position_and_target(Vec *position, Vec *target) {
+void set_fixed_camera_override(const Vec *position, const Vec *target) {
     camera_override_flags |= 1;
     VecCopy(&camera_override_position, position);
     VecCopy(&camera_fixed_target_position, target);
@@ -242,7 +242,7 @@ void apply_follow_camera_offsets(Vec *target_offset, Vec *eye_offset, s32 angle,
     }
 }
 
-void TCameraCtrl::set_active_camera_flag() {
+void request_follow_camera_recenter() {
     TCameraFollow *camera;
     if (TCameraCtrl::view_state.controller == 0) {
         camera = (TCameraFollow *)camera_controller_registry[TCameraCtrl::view_state.controller];
@@ -334,7 +334,7 @@ void TCameraFollow::update_follow_motion_state() {
     s32 locked_on;
     Vec *prev;
     Vec *pos;
-    u8 *cursor;
+    TLockOnCursor *cursor;
     TObjPlayer *player;
     prev = (Vec *)((TCameraCtrl *)this->actor)->get_target_ptr();
     pos = (Vec *)this->actor->get_position_ptr();
@@ -371,7 +371,7 @@ void TCameraFollow::update_follow_motion_state() {
             if (follow & 1) {
                 if (follow & 0x10) {
                     eye_rate = 0.05f;
-                    yaw = TCameraCtrl::clamp_distance(yaw, get_target_yaw(), 0x16C);
+                    yaw = approach_camera_angle(yaw, get_target_yaw(), 0x16C);
                 } else {
                     eye_rate = 0.67f;
                     set_target_yaw(this->actor->rotation_y + 0x8000);
@@ -380,13 +380,12 @@ void TCameraFollow::update_follow_motion_state() {
             } else {
                 rate = (follow & 4) ? 2 : 5;
                 locked_on = 0;
-                // The actor's lock-on cursor: 0x514 the target's id, 0x518 its distance.
-                cursor = (u8 *)this->actor->m_424;
-                if ((cursor != NULL) && (*(u16 *)(cursor + 0x514) != 0xFFFF) && (*(f32 *)(cursor + 0x518) <= 4900.0f)) {
+                cursor = (TLockOnCursor *)this->actor->m_424;
+                if ((cursor != NULL) && (cursor->nearest_target.published_target_id != 0xFFFF) && (cursor->nearest_target.published_target_dist <= 4900.0f)) {
                     locked_on = 1;
                 }
                 if (locked_on == 0) {
-                    yaw = TCameraCtrl::clamp_distance(yaw, get_target_yaw(), rate);
+                    yaw = approach_camera_angle(yaw, get_target_yaw(), rate);
                 }
             }
             if (moving == 0) {
@@ -396,7 +395,7 @@ void TCameraFollow::update_follow_motion_state() {
             break;
         case 2:
             set_target_yaw(this->actor->rotation_y + 0x8000);
-            yaw = TCameraCtrl::clamp_distance(yaw, get_target_yaw(), 3);
+            yaw = approach_camera_angle(yaw, get_target_yaw(), 3);
             if (moving != 0) {
                 motion_state = 1;
                 idle_frames = 0;

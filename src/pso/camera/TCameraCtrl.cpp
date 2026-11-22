@@ -93,11 +93,11 @@ CameraControllerFactory camera_controller_factories[13] = {
 #pragma auto_inline off
 #pragma dont_inline off
 
-void TCameraCtrl::set_fixed_camera(Vec *position, Vec *target) {
-    TCameraCtrl::set_fixed_position_and_target(position, target);
+void set_fixed_camera(const Vec *position, const Vec *target) {
+    set_fixed_camera_override(position, target);
 }
 
-void TCameraCtrl::reset_battle_camera() { TCameraCtrl::reset_to_local_player(); }
+void TCameraCtrl::reset_battle_camera() { reset_camera_to_local_player(); }
 
 extern "C" int is_float_nonfinite(f32 value) {
     u32 exponent = *(u32 *)&value & 0x7F800000;
@@ -168,7 +168,7 @@ TCameraCtrl::TCameraCtrl(TObject *parent) : TObject(parent) {
     params.pad_04 = 0;
     params.pad_08 = 0;
     params.pad_0C = 0.0f;
-    params.pad_10 = 0.0f;
+    params.eye_rate = 0.0f;
     params.projection_angle = 0;
     params.pad_44 = 0;
     params.pad_18 = 0.0f;
@@ -704,7 +704,7 @@ void TCameraCtrl::reset_view_flags() {
     camera_ctrl_instance->params.pad_04 = 0;
     camera_ctrl_instance->params.pad_08 = 0;
     camera_ctrl_instance->params.pad_0C = zero;
-    camera_ctrl_instance->params.pad_10 = zero;
+    camera_ctrl_instance->params.eye_rate = zero;
     camera_ctrl_instance->params.projection_angle = 0;
     camera_ctrl_instance->params.pad_44 = 0;
     camera_ctrl_instance->params.pad_18 = zero;

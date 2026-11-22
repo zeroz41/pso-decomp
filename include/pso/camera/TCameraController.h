@@ -33,7 +33,7 @@ public:
     s32 pad_28;
     s32 pitch;
     s32 yaw;
-    s32 roll;  // inferred: third of the angle triple the ctor clears with pitch and yaw
+    s32 roll;  // third of the angle triple the ctor clears with pitch and yaw
     // 1: obstruction checks, 4: smooth the pose, 8: smooth the target,
     // 0x10: keep the target height (read by TCameraCtrl).
     s32 flags;
