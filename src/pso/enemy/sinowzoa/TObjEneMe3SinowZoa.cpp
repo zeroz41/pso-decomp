@@ -25,6 +25,7 @@
 #include "pso/technique/TTecGiBarta.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/render/reflection.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/text_803D96A8.h"
@@ -1563,7 +1564,7 @@ void TObjEneMe3SinowZoa::state_death(s32 mode) {
                 v.y = 10.0f;
                 v.z = 20.0f;
                 rotate_y_and_translate(&v, &this->position, this->rotation_y);
-                TObjPlayer::spawn_effect_f8((saddr)&v, 0x14);
+                spawn_effect_f8(&v, 0x14);
             }
             break;
         case 1:

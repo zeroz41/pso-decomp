@@ -5484,7 +5484,7 @@ force_active:
   - create_confirm_menu_window__19TWindowSubShortMailFv
   - create_confirm_window__20TWindowSubSymbolChatFv
   - create_count_input__14TWindowSubItemFl
-  - create_dead_spot__10TObjPlayerFiiif
+  - create_dead_spot__FP3Vecllf
   - create_draw_callback__22TAdEnterSerialAccessGCFv
   - create_draw_line_task__FP7TObjectPC14DrawLineRecordP15TAdDrawLineCtrl
   - create_effect__18TObjEneRe4SorcererFv

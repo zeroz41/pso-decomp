@@ -11,6 +11,7 @@ struct NJS_OBJECT;
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/enemy/epsilon/TObjEneEpsilonGuard.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/enemy/epsilon/TObjEneEpsilonBody.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/unk/text_803D8F74.h"
@@ -283,7 +284,7 @@ void TObjEneEpsilonGuard::handle_break_state(s32 msg) {
         flags |= 0x40;
         flags &= ~0x14;
         clear_intangible();
-        TObjPlayer::spawn_effect_f8((saddr)&effect_anchor, 0x14);
+        spawn_effect_f8(&effect_anchor, 0x14);
         state_step = 0;
         break_timer = 0;
         break;

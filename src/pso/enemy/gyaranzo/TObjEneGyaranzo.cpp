@@ -17,6 +17,7 @@
 #include "pso/enemy/gibon/TObjEneBm5GibonU.h"
 
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_800D8FDC.h"
 
 #include "pso/object/base/TObjChara.h"
 
@@ -267,7 +268,6 @@ void run_task__15TObjEneGyaranzoFv(u8 *arg0);
 
 
 
-void create_dead_spot__10TObjPlayerFllf(void *, s32, f32);
 
 
 }
@@ -833,8 +833,8 @@ void TObjPlayer::update_death_breakup() {
         this->requested_action = 4;
         ((TObjEnemy *)self)->refresh_lobby_state();
         self->timer = 0x5A;
-        create_dead_spot__10TObjPlayerFllf(self->v2FC, 0x5A, 20.0f);
-        create_dead_spot__10TObjPlayerFllf(self->v2FC, 0x5A, 20.0f);
+        create_dead_spot((Vec *)self->v2FC, 0x5A, 20.0f);
+        create_dead_spot((Vec *)self->v2FC, 0x5A, 20.0f);
         this->m_37c = 1;
     case 1:
         ((TObjMotion *)self)->advance_animation();

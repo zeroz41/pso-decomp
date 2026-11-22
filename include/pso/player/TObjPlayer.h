@@ -419,9 +419,6 @@ struct TObjPlayer : public TObjChara {
     s16 get_field_2c8();
     static void update_effect_sequence(NJS_OBJECT *);
     static void toggle_particle_effect();
-    static void create_dead_spot(saddr arg0, s32 arg1, f32 farg0);
-    static void spawn_effect_f8(saddr arg1, s32 arg2);
-    static void set_field_e4(s32 arg1, s32 arg2);
     static void apply_effect_variant_a(saddr arg0, s32 arg1);
     static void apply_effect_variant_b(s32 arg0, s32 arg1);
     static void spawn_dead_spot_default(saddr arg0, s32 arg1);

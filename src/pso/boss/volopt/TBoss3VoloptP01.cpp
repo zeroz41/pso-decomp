@@ -26,6 +26,7 @@
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/boss/volopt/TObjVoloptShutter.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/system/vector.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/text_803D96A8.h"
@@ -354,7 +355,7 @@ void TBoss3VoloptP01::update_breakup() {
         this->requested_action = 4;
         state = 1;
         timer = 0x5A;
-        TObjPlayer::spawn_effect_f8((saddr)&body_center, timer);
+        spawn_effect_f8(&body_center, timer);
         if (is_primary != 0) {
             volopt_breakup_flag = 1;
             TBoss3VoloptCore::link_photon(attacker_id, 0);

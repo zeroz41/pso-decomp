@@ -54,7 +54,6 @@
 
 extern "C" {
 
-s32 set_field_e4__10TObjPlayerFll(void *, int, f32);
 
 Bm3FlyMovementParameters bm3_fly_nest_params = { 225.0f, 0.0f, 0x600, { 0, 0, 0, 0 } };
 CollisionBody bm3_flynest_collider_params[1] = {
@@ -871,7 +870,7 @@ void TObjEneBm3FlyNest::state_dying(s32 reason) {
                 rotate_xz_pair_by_angle(&v.x, &v.z, rotation_y);
                 vec3_add_to(&v, &position);
                 spawn_dead_spot_scale15((saddr)&v, 0x32);
-                set_field_e4__10TObjPlayerFll(&v, 0x46, 10.0f);
+                create_dead_spot_e4(&v, 0x46, 10.0f);
             }
             if (frame < 25.0f) {
                 counter += 1;

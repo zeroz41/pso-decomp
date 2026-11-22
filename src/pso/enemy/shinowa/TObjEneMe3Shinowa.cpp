@@ -15,6 +15,7 @@
 #include "pso/system/vector.h"
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/system/BmlResource.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -1465,7 +1466,7 @@ void TObjEneMe3Shinowa::state_break_apart(s32 reason) {
                 effect_pos.y = 10.0f;
                 effect_pos.z = 20.0f;
                 rotate_y_and_translate(&effect_pos, &position, rotation_y);
-                TObjPlayer::spawn_effect_f8((saddr)&effect_pos, 0x14);
+                spawn_effect_f8(&effect_pos, 0x14);
             }
             break;
         case 1:

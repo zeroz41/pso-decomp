@@ -19,6 +19,7 @@
 #include "pso/enemy/dubchik/TObjEneDubchik.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/volopt/TBoss3VoloptP01.h"
@@ -1201,7 +1202,7 @@ void TObjEneDubchik::set_flag_start_effect() {
         m_388 |= 1;
         m_388 &= 0xFF7FFFFF;
         timer = 0x1E;
-        TObjPlayer::create_dead_spot((saddr)&body_center, timer, 2.0f);
+        create_dead_spot(&body_center, timer, 2.0f);
     }
 }
 

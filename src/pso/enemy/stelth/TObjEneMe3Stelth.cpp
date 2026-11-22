@@ -28,6 +28,7 @@
 #include "pso/technique/TTecGiFoie.h"
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/animation/MotionContext.h"
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/system/NinjaTypes.h"
@@ -1446,7 +1447,7 @@ void TObjEneMe3Stelth::state_death(s32 reason) {
                 ofs.y = 10.0f;
                 ofs.z = 20.0f;
                 rotate_y_and_translate(&ofs, &position, rotation_y);
-                TObjPlayer::spawn_effect_f8((saddr)&ofs, 0x14);
+                spawn_effect_f8(&ofs, 0x14);
             } else if (is_passing_frame(2.0f) != 0) {
                 behavior_flags |= 8;
             } else if (is_passing_frame(6.0f) != 0) {
