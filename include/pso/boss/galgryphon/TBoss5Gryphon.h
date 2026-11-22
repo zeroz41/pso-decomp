@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/render/RenderFadeState.h"
+#include "pso/boss/galgryphon/Boss5GryphonMotionEntry.h"
 #include <stddef.h>
 
 struct NJS_OBJECT;
@@ -13,39 +14,8 @@ class TParticleCtrl;
 class TBoss5GryphonDemo;
 class TBoss5GryphonLightningHorn;
 struct Boss5GryphonActionStep;
-
-// The arguments an action script step leaves for its state; each handler reads its own view.
-struct Boss5GryphonFlightArgs {  // update_turning_flight, update_low_flight_circle
-    s32 turn;       // added to turn_velocity; its sign picks the circling side
-    f32 speed;
-    f32 radius_sq;  // update_low_flight_circle widens its turn beyond it
-    f32 pad_C;
-};
-
-struct Boss5GryphonCircleArgs {  // circle_arena
-    s32 turn_rate;
-    s32 direction;  // > 0 circles one way, else the other
-    f32 speed;
-    f32 radius;
-};
-
-struct Boss5GryphonMoveArgs {  // move_to_motion_destination
-    f32 x;
-    f32 z;
-    f32 speed;
-    s32 turn_rate;
-};
-
-struct Boss5GryphonMotionEntry {
-    s16 state;
-    s16 timer;
-    union {
-        s32 seed;  // the rng seed of update_ground_lightning_attack and update_offscreen_dive
-        Boss5GryphonFlightArgs flight;
-        Boss5GryphonCircleArgs circle;
-        Boss5GryphonMoveArgs move;
-    };
-};
+struct G_GalGryphonBossActions_6x9F;
+struct G_GalGryphonBossActions_6xA0;
 
 // Per-state work area at 0x6DC (TBoss5Gryphon::work / dive / lightning share it).
 struct Boss5GryphonStepWork {
@@ -98,7 +68,7 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     void update_death_state(u32);
     void update_ground_takeoff(u32);
     void update_shockwave_attack(u32);
-    void update_turning_flight(s32);  // fly (action 4): flies on, turning by motion->flight.turn
+    void update_turning_flight(s32);  // fly (action 4): flies on, turning by motion->args.flight.turn
     void circle_arena(s32);
     void move_to_motion_destination(s32);
     void update_landing_attack(u32);
@@ -192,7 +162,8 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     void spawn_lightning_effect();
     void spawn_ground_splash();
     void update_collider_from_table();
-    void set_target_from_action(void *boss8_dragon);
+    void set_target_from_action(G_GalGryphonBossActions_6x9F *packet);
+    void apply_remote_action(G_GalGryphonBossActions_6xA0 *packet);  // starts the packet's motion entry where it says
     void reload_stats_for_phase(void *);
     void reload_stats_for_type();
     void set_flight_height();
@@ -222,7 +193,8 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     f32 random_in_range(f32 min, f32 range);
     f32 random_float_in_table_range(Boss5GryphonActionStep *step, s32 i);
     s32 run_action_script_step(s16 *out, u32 *entry);
-    void fill_action_steps(void *packet);  // runs the action script into the 6xA0 packet's step list
+    void init_packet_motion(G_GalGryphonBossActions_6xA0 *packet);
+    void fill_action_steps(G_GalGryphonBossActions_6xA0 *packet);  // runs the action script into the packet's motion entry
     static void copy_angle_state(void *gryphon, void *dst, void *src);
     void update_target_from_state();
     void choose_next_action(u32 *entry);
@@ -231,7 +203,7 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     void play_animation_index(s32 index);
     void flush_pending_effect();
     void scale_size(f32 scale, f32 scale_y, f32 turn_scale);
-    void copy_spawn_params(void* a1);
+    void copy_spawn_params(G_GalGryphonBossActions_6xA0 *packet);  // adds entity_id, position and rotation_y, then sends it
     void fill_follow_camera_params(u8 *arg1, u8 *arg2);
     void set_animation_by_state();
     void init_state_zero();

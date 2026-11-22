@@ -65,6 +65,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/byteswap.h"
 #include "pso/network/protocol/protocol_types.h"
+#include "pso/network/protocol/subcmd_6x.h"
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/unk/text_80086B64.h"
 #include "pso/unk/text_80087278.h"
@@ -92,23 +93,8 @@ void set_scripted_camera_pose(void *, void *, void *);
 void play_cue_stream_file(saddr name);
 f32 calc_random_ratio__10TObjPlayerFv(void *);
 s32 subtractive_rng_seed(void *, s32);
-struct P_8005F740 { u8 pad[0x30]; };
-struct ByteBlock_10 { u8 bytes[0x10]; };
-// The 6x9F subcommand send_target_update sends: a 4-word header-plus-target record.
-struct Boss5GryphonTargetPacket {
-    u8 command;
-    u8 size;
-    u16 id;
-    u32 kind;
-    f32 x;
-    f32 z;
-    void init_header();
-};
 f32 newton_sqrtf(f32);
-void trigger_effect__12TBoss8DragonFPvi(void *arg0, s32 arg1);
-void apply_remote_action__13TBoss5GryphonFPvPv(u8 *ene_dd, u8 *boss8_dragon);
 s32 __ct__17TBoss5GryphonDemoFP7TObjectlf(void *, s32, void *, f32);
-s32 init_motion_record(s32);
 void TBoss8Dragon__sub_80067074(saddr arg0, saddr prm);
 void start_camera_shake(s32 id, f32 v);
 u8 *get_enemy_entity(u16 arg0);
@@ -417,7 +403,7 @@ void *gryphon_particle_position_vec[3] = {
 #define LEVEL (*(s32 *)((s8 *)boss5_gryphon_behavior_params[2] + 0x28))
 #define PLAY_SE(o, id) ((TBoss5Gryphon *)o)->play_se((id))
 inline s32 initial_angle_800623E4(TBoss5Gryphon *self) {
-    Boss5GryphonMoveArgs *move = &self->motion->move;
+    Boss5GryphonMoveArgs *move = &self->motion->args.move;
     f32 initial_dx = move->x;
     f32 initial_dz = move->z - self->position.z;
     initial_dx -= self->position.x;
@@ -434,7 +420,6 @@ s32 boss5_gryphon_base_param_ids[1] = { 0x1E };
 s32 boss5_gryphon_resistance_param_ids[1] = { 0x1E };
 const char *boss5_gryphon_type_name_pointer = boss5_gryphon_type_name;
 extern TObject *tl_04;
-struct O_80065FD4 { u16 a; u16 b; u32 c[4]; };
 }
 
 extern "C" {
@@ -456,44 +441,42 @@ void TObjMotion::fn_800660B8() {
     motion_flags |= MOTION_NO_BLEND;
 }
 
-void Boss5GryphonTargetPacket::init_header() {
-    command = 0x9F;
-    size = 4;
+void G_GalGryphonBossActions_6x9F::init() {
+    header.subcommand = 0x9F;
+    header.size = 4;
 }
 
 }
-void TBoss8Dragon::bswap_boss_actions() {
-    saddr self = (saddr)this;
-    ((G_ClientIDHeader *)self)->bswap();
-    bswap_32((u32 *)(self + 4));
-    bswap_32((u32 *)(self + 8));
-    bswap_32((u32 *)(self + 0xC));
+void G_GalGryphonBossActions_6x9F::bswap() {
+    header.bswap();
+    bswap_32(&target_id);
+    bswap_32((u32 *)&x);
+    bswap_32((u32 *)&z);
 }
 
-void TBoss8Dragon::send_boss_actions() { bswap_boss_actions(); send_subcommand((u8 *)this); }
+void G_GalGryphonBossActions_6x9F::send() { bswap(); send_subcommand(this); }
 
-void TBoss8Dragon::byteswap_record() {
-    O_80065FD4 *p = (O_80065FD4 *)this;
+void Boss5GryphonMotionEntry::bswap() {
     s32 i;
-    bswap_16(&p->a);
-    bswap_16(&p->b);
+    bswap_16((u16 *)&state);
+    bswap_16((u16 *)&timer);
     for (i = 0; i < 4; i++) {
-        bswap_32(&p->c[i]);
+        bswap_32(&args.words[i]);
     }
 }
 
-void TBoss8Dragon::byteswap_action_packet() {
-    ((G_ClientIDHeader *)this)->bswap();
-    ((TBoss8Dragon *)((char *)this + 20))->byteswap_record();
-    bswap_32((u32 *)((void *)((char *)this + 4)));
-    bswap_32((u32 *)((void *)((char *)this + 8)));
-    bswap_32((u32 *)((void *)((char *)this + 12)));
-    bswap_32((u32 *)((void *)((char *)this + 16)));
+void G_GalGryphonBossActions_6xA0::bswap() {
+    header.bswap();
+    motion.bswap();
+    bswap_32((u32 *)&pos.x);
+    bswap_32((u32 *)&pos.y);
+    bswap_32((u32 *)&pos.z);
+    bswap_32((u32 *)&angle_y);
 }
 
-void TBoss8Dragon::send_spawn_params_packet() { byteswap_action_packet(); send_subcommand((u8 *)this); }
+void G_GalGryphonBossActions_6xA0::send() { bswap(); send_subcommand(this); }
 
-void TBoss8Dragon::init_color() { *(u8 *)((char*)this + 0x0) = 160; *(u8*)((char*)this + 0x1) = 10; }
+void G_GalGryphonBossActions_6xA0::init() { header.subcommand = 0xA0; header.size = 10; }
 
 void TBoss5Gryphon::clear_harmful_statuses() {  }
 
@@ -659,7 +642,7 @@ TBoss5Gryphon::TBoss5Gryphon(TObject *parent, void *data) : TObjEneDD_ST(parent)
     this->position_correction.y = 0.0f;
     this->position_correction.z = 0.0f;
     for (i = 0; i < 2; i++) {
-        init_motion_record((saddr)&this->motions[i]);
+        this->motions[i].init();
     }
     this->motion = this->motions;
     this->flight_mode = 0;
@@ -950,64 +933,66 @@ void TBoss5Gryphon::reload_stats_for_phase(void *) {
     this->reload_stats_keep_hp_tp((u8 *)(boss5_gryphon_base_params[boss5_gryphon_base_stat_indices[2]]), (u8 *)(boss5_gryphon_attack_params[boss5_gryphon_attack_stat_indices[2]]), (u8 *)(boss5_gryphon_resistance_params[boss5_gryphon_resistance_stat_indices[2]]));
 }
 
-void handle_6x9F_gal_gryphon_boss_actions(void *boss8_dragon) {
-    void *x;
-    ((TBoss8Dragon *)boss8_dragon)->bswap_boss_actions();
-    x = get_enemy_entity(*(u16 *)((s8 *)boss8_dragon + 0x2));
-    if (x != NULL) {
-        ((TBoss5Gryphon *)x)->set_target_from_action(boss8_dragon);
+void handle_6x9F_gal_gryphon_boss_actions(void *data) {
+    G_GalGryphonBossActions_6x9F *cmd = (G_GalGryphonBossActions_6x9F *)data;
+    TBoss5Gryphon *boss;
+    cmd->bswap();
+    boss = (TBoss5Gryphon *)get_enemy_entity(cmd->header.client_id);
+    if (boss != NULL) {
+        boss->set_target_from_action(cmd);
     }
 }
 
-void TBoss5Gryphon::set_target_from_action(void *boss8_dragon) {
-    enemy_set_target_id(this, (u16) *(s32 *)((s8 *)boss8_dragon + 4));
-    this->destination.x = (f32) *(f32 *)((s8 *)boss8_dragon + 8);
-    this->destination.z = (f32) *(f32 *)((s8 *)boss8_dragon + 0xC);
+void TBoss5Gryphon::set_target_from_action(G_GalGryphonBossActions_6x9F *packet) {
+    enemy_set_target_id(this, (u16)packet->target_id);
+    this->destination.x = packet->x;
+    this->destination.z = packet->z;
 }
 
-void handle_6xA0_gal_gryphon_boss_actions(TBoss8Dragon *boss8_dragon) {
-    void *x;
-    boss8_dragon->byteswap_action_packet();
-    x = get_enemy_entity(*(u16 *)((s8 *)boss8_dragon + 0x2));
-    if (x != NULL) {
-        apply_remote_action__13TBoss5GryphonFPvPv((u8 *)x, (u8 *)boss8_dragon);
+void handle_6xA0_gal_gryphon_boss_actions(void *data) {
+    G_GalGryphonBossActions_6xA0 *cmd = (G_GalGryphonBossActions_6xA0 *)data;
+    TBoss5Gryphon *boss;
+    cmd->bswap();
+    boss = (TBoss5Gryphon *)get_enemy_entity(cmd->header.client_id);
+    if (boss != NULL) {
+        boss->apply_remote_action(cmd);
     }
 }
 
-void TBoss8Dragon::copy_action_state(u8 *src) {
-    u8 *self = (u8 *)this;
-    *(s16 *)((s8 *)self + 0) = (s16) *(s16 *)((s8 *)src + 0);
-    *(s16 *)((s8 *)self + 2) = (s16) *(s16 *)((s8 *)src + 2);
-    *(ByteBlock_10 *)((saddr) (u8 *)&this->m_flags) = *(const ByteBlock_10 *)((saddr) src + 4);
+void Boss5GryphonMotionEntry::copy(Boss5GryphonMotionEntry *src) {
+    state = src->state;
+    timer = src->timer;
+    args = src->args;
 }
 
-extern "C" {
-void apply_remote_action__13TBoss5GryphonFPvPv(u8 *ene_dd, u8 *boss8_dragon) {
-    s16 temp_r4;
-    VecCopy((Vec *)(ene_dd + 0x484), (Vec *)(boss8_dragon + 4));
-    ((f32 (*)(void *, void *))subtract_vector)(ene_dd + 0x484, ene_dd + 0x38);
-    ((TObjEneDD *)ene_dd)->rotation_y = (s32) *(s32 *)((s8 *)boss8_dragon + 0x10);
-    ((TBoss8Dragon *)(ene_dd + 0x494))->copy_action_state((u8 *)(boss8_dragon + 0x14));
-    *(s16 **)((s8 *)ene_dd + 0x4BC) = (s16 *)(ene_dd + 0x494);
-    temp_r4 = **(s16 **)((s8 *)ene_dd + 0x4BC);
-    if ((s16) ((TObjEneDD *)ene_dd)->mode != temp_r4) {
-        ((TObjEneDD *)ene_dd)->transition_enemy_state(temp_r4);
+void TBoss5Gryphon::apply_remote_action(G_GalGryphonBossActions_6xA0 *packet) {
+    VecCopy(&position_correction, &packet->pos);
+    subtract_vector(&position_correction, &position);
+    rotation_y = packet->angle_y;
+    motions[0].copy(&packet->motion);
+    motion = &motions[0];
+    if ((s16)mode != motion->state) {
+        transition_enemy_state(motion->state);
     }
-    *(s32 *)((s8 *)ene_dd + 0x4C0) = (s32) (*(s32 *)((s8 *)ene_dd + 0x4C0) | 2);
+    flags |= 2;
 }
 
-}
 void TBoss5Gryphon::send_target_update() {
-    Boss5GryphonTargetPacket p;
-    p.init_header();
-    p.id = entity_id;
-    p.kind = target_id;
+    G_GalGryphonBossActions_6x9F p;
+    p.init();
+    p.header.client_id = entity_id;
+    p.target_id = target_id;
     p.x = destination.x;
     p.z = destination.z;
-    ((TBoss8Dragon *)(&p))->send_boss_actions();
+    p.send();
 }
 
-void TBoss5Gryphon::copy_spawn_params(void* a1) { *(short*)((char*)a1 + 0x2) = this->entity_id; VecCopy((Vec *)((char*)a1 + 0x4), &this->position); *(s32 *)((char*)a1 + 0x10) = this->rotation_y; ((TBoss8Dragon *)a1)->send_spawn_params_packet(); }
+void TBoss5Gryphon::copy_spawn_params(G_GalGryphonBossActions_6xA0 *packet) {
+    packet->header.client_id = entity_id;
+    VecCopy(&packet->pos, &position);
+    packet->angle_y = rotation_y;
+    packet->send();
+}
 
 void TBoss5Gryphon::emit_part_attack_effect(int part) {
     DragonAttackParams prm = gryphon_part_attack_params;
@@ -1812,8 +1797,8 @@ void TBoss5Gryphon::update_turning_flight(s32 event) {
     case ENEMY_STATE_UPDATE:
         self->advance_animation();
         self->spawn_flight_splash();
-        move_along_angle(self->motion->flight.speed, self->rotation_y);
-        self->turn_velocity += self->motion->flight.turn;
+        move_along_angle(self->motion->args.flight.speed, self->rotation_y);
+        self->turn_velocity += self->motion->args.flight.turn;
         break;
     case ENEMY_STATE_LEAVE:
         break;
@@ -1844,17 +1829,17 @@ void TBoss5Gryphon::circle_arena(s32 event) {
         advance_animation();
         spawn_flight_splash();
         ofs = 0x4000;
-        if (this->position.x * this->position.x + this->position.z * this->position.z > this->motion->circle.radius * this->motion->circle.radius) {
+        if (this->position.x * this->position.x + this->position.z * this->position.z > this->motion->args.circle.radius * this->motion->args.circle.radius) {
             ofs = 0x5000;
         }
         a = (s32)(10430.38043493439 * atan2_float(this->position.x, this->position.z));
         t = this->motion;
         ang = a - ofs;
-        if (t->circle.direction > 0) {
+        if (t->args.circle.direction > 0) {
             ang = a + ofs;
         }
-        move_along_angle(t->circle.speed, ang);
-        this->update_heading(this->motion->circle.turn_rate);
+        move_along_angle(t->args.circle.speed, ang);
+        this->update_heading(this->motion->args.circle.turn_rate);
         break;
     case 1: return;
     case 2: return;
@@ -1886,10 +1871,10 @@ void TBoss5Gryphon::move_to_motion_destination(s32 event) {
     case ENEMY_STATE_UPDATE:
         self->advance_animation();
         self->spawn_flight_splash();
-        dx = self->motion->move.x - self->position.x;
-        dz = self->motion->move.z - self->position.z;
-        turn_toward_angle_limited(self->motion->move.turn_rate, self->work.target_angle);
-        move_along_angle(self->motion->move.speed, (s32)(10430.38043493439 * atan2_float(dx, dz)));
+        dx = self->motion->args.move.x - self->position.x;
+        dz = self->motion->args.move.z - self->position.z;
+        turn_toward_angle_limited(self->motion->args.move.turn_rate, self->work.target_angle);
+        move_along_angle(self->motion->args.move.speed, (s32)(10430.38043493439 * atan2_float(dx, dz)));
         if (dx * dx + dz * dz < gryphon_ten) {
             self->advance_motion_entry();
         }
@@ -2037,22 +2022,22 @@ void TBoss5Gryphon::update_low_flight_circle(s32 event) {
     case ENEMY_STATE_UPDATE:
         advance_animation();
         ofs = 0x4000;
-        if (this->position.x * this->position.x + this->position.z * this->position.z > this->motion->flight.radius_sq) {
+        if (this->position.x * this->position.x + this->position.z * this->position.z > this->motion->args.flight.radius_sq) {
             ofs = 0x5000;
         }
-        speed = this->motion->flight.speed;
+        speed = this->motion->args.flight.speed;
         a = (s32)(10430.38043493439 * atan2_float(this->position.x, this->position.z));
-        if (this->motion->flight.turn > 0) {
+        if (this->motion->args.flight.turn > 0) {
             a += ofs;
             d = angle_diff_s16(this->rotation_y, a);
             if (d > 0) {
-                this->turn_velocity += this->motion->flight.turn;
+                this->turn_velocity += this->motion->args.flight.turn;
             }
         } else {
             a -= ofs;
             d = angle_diff_s16(this->rotation_y, a);
             if (d < 0) {
-                this->turn_velocity += this->motion->flight.turn;
+                this->turn_velocity += this->motion->args.flight.turn;
             }
         }
         if (fabs_float((f32)d) > gryphon_three_32nds_turn) {
@@ -2696,7 +2681,7 @@ void TBoss5Gryphon::update_ground_lightning_attack(s32 event) {
         pop_matrix();
         self->lightning.horns[0] = TBoss5GryphonLightningHorn::spawn_ground_lightning(self, &left, self->rotation_y);
         self->lightning.horns[1] = TBoss5GryphonLightningHorn::spawn_ground_lightning(self, &right, self->rotation_y);
-        subtractive_rng_seed(self->rng, self->motion->seed);
+        subtractive_rng_seed(self->rng, self->motion->args.seed);
         break;
     case ENEMY_STATE_UPDATE:
         self->advance_animation();
@@ -2826,7 +2811,7 @@ void TBoss5Gryphon::update_offscreen_dive(u32 event) {
         self->set_offscreen_height();
         self->flags |= 4;
         self->play_se(0x4003A818);
-        subtractive_rng_seed(self->rng, self->motion->seed);
+        subtractive_rng_seed(self->rng, self->motion->args.seed);
         self->rotation_x = 0x4000;
         self->dive.frame = 0;
         self->dive.frame_limit = (f32)self->motion->timer - TWindowSubStatusDisp::round_away_from_zero(gryphon_seventy_five);
@@ -3192,29 +3177,28 @@ void TBoss5Gryphon::refresh_target_periodically() {
 }
 
 void TBoss5Gryphon::flush_pending_effect() {
-    P_8005F740 p;
+    G_GalGryphonBossActions_6xA0 p;
     if ((this->flags & 2) && this->motion >= &this->motions[1]) {
-        ((TBoss8Dragon *)(&p))->init_color();
-        ((void (*)(void *, void *))trigger_effect__12TBoss8DragonFPvi)(this, &p);
+        p.init();
+        init_packet_motion(&p);
         fill_action_steps(&p);
         this->flags &= ~2;
         copy_spawn_params(&p);
     }
 }
 
-extern "C" {
-void trigger_effect__12TBoss8DragonFPvi(void *arg0, s32 arg1) {
-    init_motion_record(arg1 + 0x14);
+void TBoss5Gryphon::init_packet_motion(G_GalGryphonBossActions_6xA0 *packet) {
+    packet->motion.init();
 }
 
-void TBoss5Gryphon::fill_action_steps(void *packet) {
+void TBoss5Gryphon::fill_action_steps(G_GalGryphonBossActions_6xA0 *packet) {
     s32 i;
-    u8 *out;
+    Boss5GryphonMotionEntry *out;
 
     if (script_entry == NULL) {
         update_target_from_state();
     }
-    out = (u8 *)packet + 0x14;
+    out = &packet->motion;
     for (i = 0; i < 1;) {
         u32 *entry = (u32 *)script_entry;
         if (*entry == 0x21) {
@@ -3225,12 +3209,11 @@ void TBoss5Gryphon::fill_action_steps(void *packet) {
             break;
         }
         i++;
-        out += 0x14;
+        out++;
         script_entry++;
     }
 }
 
-}
 void TBoss5Gryphon::init_state_zero() {
     play_animation_index(0);
 }
@@ -3255,14 +3238,12 @@ void TBoss5Gryphon::set_animation_by_state() {
 }
 
 void TBoss5Gryphon::play_animation_index(s32 index) {
-    struct { u8 pad[0x30]; } sp8;
-    saddr temp_r5;
-    ((TBoss8Dragon *)(&sp8))->init_color();
-    temp_r5 = *(s32 *)((s8 *)((u8 *)this) + 0x778);
-    this->script_entry = *(Boss5GryphonActionStep **)((s8 *)temp_r5 + (index * 4));
-    ((s32 (*)(void *, void *, int))trigger_effect__12TBoss8DragonFPvi)(this, &sp8, temp_r5);
-    fill_action_steps(&sp8);
-    this->copy_spawn_params(&sp8);
+    G_GalGryphonBossActions_6xA0 packet;
+    packet.init();
+    script_entry = action_scripts[index];
+    init_packet_motion(&packet);
+    fill_action_steps(&packet);
+    copy_spawn_params(&packet);
 }
 
 void TBoss5Gryphon::update_target_from_state() {

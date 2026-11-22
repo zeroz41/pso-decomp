@@ -27,6 +27,7 @@
 #include "pso/system/vector.h"
 #include <stddef.h>
 #include "pso/network/protocol/protocol_types.h"
+#include "pso/boss/galgryphon/Boss5GryphonMotionEntry.h"
 
 struct G_6x70_Base_DCNTE {
  u16 client_id;
@@ -342,20 +343,28 @@ struct G_FeedMag_6x28 {
  u32 fed_item_id;
 };
 
+// The Gal Gryphon's target (TBoss5Gryphon::send_target_update, applied by
+// TBoss5Gryphon::set_target_from_action); header.client_id holds the gryphon's entity id.
 struct G_GalGryphonBossActions_6x9F {
- struct G_EntityIDHeader header;
- u32 unknown_a1;
- f32 unknown_a2;
- f32 unknown_a3;
+ struct G_ClientIDHeader header;
+ u32 target_id;
+ f32 x;  // TBoss5Gryphon::destination
+ f32 z;
+ void init();
+ void bswap();
+ void send();
 };
 
+// The Gal Gryphon's next motion entry and where it starts it (TBoss5Gryphon::copy_spawn_params,
+// applied by TBoss5Gryphon::apply_remote_action).
 struct G_GalGryphonBossActions_6xA0 {
- struct G_EntityIDHeader header;
- struct VectorXYZF pos;
- u32 angle_y;
- u16 phase;
- u16 unknown_a3;
- u32 unknown_a4[4];
+ struct G_ClientIDHeader header;
+ Vec pos;
+ s32 angle_y;
+ Boss5GryphonMotionEntry motion;
+ void init();
+ void bswap();
+ void send();
 };
 
 struct G_GogoBall_6x79 {
