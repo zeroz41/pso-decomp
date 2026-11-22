@@ -29,7 +29,6 @@ s32 TUnk_80490470::decay_value_toward_floor() {
 
 // ---- pso/player/TObjPlayer_800A0408
 
-#include "pso/enemy/darkgunner/DarkGunner.h"
 #include "pso/object/TObjControl.h"
 #include "pso/player/TObjPlayer_800A0408.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"

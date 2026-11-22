@@ -8,6 +8,12 @@ class TObject;
 class TParticleCtrl;
 class TeneFakeTecThunderEff;
 
+// The record TLobby::dispatch_shared_handler_a(30) returns (TObjEneDarkGunner__behavior_params).
+struct TObjEneDarkGunnerBehaviorParams {
+    f32 float_params[6]; // sub_800A3200: 0 move speed, 1 move distance, 2 damage limit, 3 player_scale_factor
+    s32 int_params[4];   // sub_800A3210: 0 attack timer, 1 hide timer, 2 bodies->unk_28 while m_388 bit 22, 3 TUnk_804909C4 t.b
+};
+
 struct TObjEneDarkGunner : public TObjEnemyCustom {
     TObjEneDarkGunner(TObject *parent, void *set_data);
     virtual ~TObjEneDarkGunner();
@@ -42,6 +48,7 @@ struct TObjEneDarkGunner : public TObjEnemyCustom {
     void render_shadow();
     static void cleanup_effects();
     static f32 sub_800A3200(s32 index); // f32 entries of the gunner's behavior params
+    static s32 sub_800A3210(s32 index); // its s32 entries, from +0x18
     void init_scale_global();
     void sub_800A1974();
     void sub_800A100C();

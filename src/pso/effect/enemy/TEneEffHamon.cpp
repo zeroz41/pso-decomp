@@ -101,8 +101,8 @@ void run_task__12TEneEffHamonFv(u8 *arg0) {
 
 void TEneEffHamon__sub_800A380C(void) {  }
 
-    extern BmlResource *player_effect_bml_resource;
-void TEneEffHamon::init_fish_effects() { TEneEffHamon__fish_model = (saddr)get_bml_model((BmlResource *)player_effect_bml_resource, 3); TEneEffHamon__fish_effect_param = (saddr)get_bml_texlist((BmlResource *)player_effect_bml_resource, 3); }
+    extern BmlResource *TObjEneDarkGunner__bml_resource;
+void TEneEffHamon::init_fish_effects() { TEneEffHamon__fish_model = (saddr)get_bml_model((BmlResource *)TObjEneDarkGunner__bml_resource, 3); TEneEffHamon__fish_effect_param = (saddr)get_bml_texlist((BmlResource *)TObjEneDarkGunner__bml_resource, 3); }
 
 }
 

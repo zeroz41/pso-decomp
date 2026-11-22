@@ -28,7 +28,6 @@
 #include "pso/render/MaterialColorFade.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
-#include "pso/enemy/darkgunner/DarkGunner.h"
 #include "pso/unk/text_800870BC.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 
@@ -102,7 +101,7 @@ s32 TUnk_804909C4::sub_800A3290(u16 id) {
             }
             if (obj_is_hit_receivable() != 0 && p != (VObj_18_4a35f9 *)other) {
                 Pair_800A3290 t = {0, 0.0f};
-                t.b = ((s32 (*)(s32))TObjPlayer__sub_800A3210)(3);
+                t.b = TObjEneDarkGunner::sub_800A3210(3);
                 Pair_800A3290 u = t;
                 p->m21(other, &u, 0, -1, -1);
                 p->m23(other, 3.0f);

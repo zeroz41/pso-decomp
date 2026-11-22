@@ -8,7 +8,6 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/object/TObjControl.h"
-#include "pso/enemy/darkgunner/DarkGunner.h"
 #include "pso/enemy/darkgunner/TObjEneDarkGunner.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/system/vector.h"
