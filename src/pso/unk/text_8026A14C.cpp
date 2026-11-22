@@ -5,20 +5,21 @@
 #include "pso/system/THeap.h"
 #include "pso/ui/Language.h"
 
+THeap *TAdScrollWinGC__chat_log_heap;
+char *chat_last_line_buffer;
+
 extern "C" {
 extern void *chat_log_lines[];
-void *TAdScrollWinGC__chat_log_heap;
-void *chat_last_line_buffer;
 void fn_8026A14C(void) {
     s32 i;
     for (i = 0x1D; i >= 0; i--) {
         if (chat_log_lines[i] != NULL) {
-            ((THeap *)TAdScrollWinGC__chat_log_heap)->heap_free(chat_log_lines[i]);
+            TAdScrollWinGC__chat_log_heap->heap_free(chat_log_lines[i]);
             chat_log_lines[i] = NULL;
         }
     }
     if (chat_last_line_buffer != NULL) {
-        ((THeap *)TAdScrollWinGC__chat_log_heap)->heap_free(chat_last_line_buffer);
+        TAdScrollWinGC__chat_log_heap->heap_free(chat_last_line_buffer);
         chat_last_line_buffer = NULL;
     }
 }

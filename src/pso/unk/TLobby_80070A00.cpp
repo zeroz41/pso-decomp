@@ -1,6 +1,7 @@
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/ui/window/TObjDeadListWin.h"
 #include "pso/unk/TLobby.h"
+#include "pso/unk/text_8026A14C.h"
 #include "pso/object/TObjTombstone.h"
 
 #include "types.h"
@@ -82,8 +83,7 @@ s32 TLobby::is_flag_set() {
     return (u8) ((*(s32 *)&challenge_task) != 0);
 }
 
-    extern int chat_last_line_buffer;
-char *TLobby::get_unit_list() {  return (char *)chat_last_line_buffer; }
+char *TLobby::get_unit_list() { return chat_last_line_buffer; }
 LAYOUT_ASSERT(RecoveredGlobal_80070ACC_lbl_8048D208_size, sizeof(RecoveredGlobal_80070ACC_lbl_8048D208) == 0x18);
 s32 *TLobby__sub_80070ACC(void) {
     return &lbl_8048D208.value;
