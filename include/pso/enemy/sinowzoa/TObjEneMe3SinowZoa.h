@@ -39,7 +39,7 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     void sub_80319E74(s32);
     virtual void run_task();
     virtual void render();
-    s32 check_body_collision_at(s32, f32);
+    s32 check_body_collision_at(s32 angle, f32 distance);
     s32 sub_8031A4D0();
     s32 is_outside_visible_range();
     s32 sub_8031A454();
@@ -113,6 +113,7 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     static void load_resources();
     static void free_resources();
     void sub_80316840();
+    void spawn_ground_effect_on_frame_23();
     void sub_80316C3C(s32 mode);
     void sub_803170F0(s32 mode);
     void sub_80317254(s32 mode);
