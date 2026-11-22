@@ -19,6 +19,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/camera/TCameraCtrl.h"
 f32 TEffClitical__alpha_approach_step = 0.15f;
 const char* TEffClitical__class_name = "TEffClitical";
 
@@ -30,7 +31,6 @@ extern "C" {
 f32 vector_length(void *);
 s32 post_translate_matrix(void *);
 extern s32 technique_ringwave_texture_list[];
-extern u8 *camera_ctrl_instance;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 void *__ct__12TEffCliticalFPv(void *arg0, void *arg1);
@@ -54,7 +54,7 @@ void TEffClitical::render() {
     push_matrix();
     TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(&clitical_texture_list));
     post_translate_matrix(arg0 + 0x20);
-    rotate_matrix_y(0, (int) (*(s32 *)((s8 *)camera_ctrl_instance + 0x194)));
+    rotate_matrix_y(0, camera_ctrl_instance->yaw);
     scale_matrix(0, (f32) (*(f32 *)((s8 *)arg0 + 0x3C)), (f32) (*(f32 *)((s8 *)arg0 + 0x40)), (f32) (*(f32 *)((s8 *)arg0 + 0x44)));
     draw_chunk_object((void *)(*(saddr *)effect_rel));
     pop_matrix();

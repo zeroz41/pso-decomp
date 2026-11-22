@@ -13,6 +13,7 @@ struct NJS_OBJECT;
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/camera/CameraHelpers.h"
 #include "pso/render/TFogCtrl.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/system/scene/TScene.h"
@@ -38,7 +39,6 @@ struct NJS_OBJECT;
 #include "pso/player/PlayerSlots.h"
 
 extern "C" {
-s32 set_scripted_camera_pose(int, int, void *);
 extern u32 lbl_805D5D20;
 }
 s32 photon_blast_joint_index;
@@ -124,7 +124,6 @@ void queue_photon_blast_support(void) {
 void TUnk_804C3248::begin_photon_summon_camera(s8 arg1) {
     u8 *arg0 = (u8 *)this;
     CameraPlayback playback;
-    s32 position;
     playback.index = arg1;
     playback.bank = (s8)(get_current_floor_area() == AREA_DARK_FALZ);
     playback.flags = 0;
@@ -134,8 +133,7 @@ void TUnk_804C3248::begin_photon_summon_camera(s8 arg1) {
         TCameraCtrl::select_active_controller(5);
     }
     playback.cache_target_and_forward(0x4222);
-    position = (long) (arg0 + 0x38);
-    set_scripted_camera_pose(position, position, (u8 *)&this->rotation_x);
+    set_scripted_camera_pose(&this->position, &this->position, (CameraAngles *)&this->rotation_x);
     *(s32 *)((s8 *)arg0 + 0xFC) = 1;
 }
 
@@ -154,15 +152,6 @@ struct PbCamera_801A73B0 {
     Vec position;
     Vec destination_target;
     Vec destination_position;
-};
-
-struct PbCameraParams_801A73B0 {
-    u8 pad0[0x14];
-    s32 projection;
-    s32 pad18;
-    Vec position;
-    Vec target;
-    u8 pad34[0x50 - 0x34];
 };
 
 struct Node_801A7578 {
@@ -200,13 +189,13 @@ void update_photon_blast_camera_pose(struct PbCamera_801A73B0 *self);
 extern Vec lbl_80446A44;
 extern struct Reg_801A7578 photon_blast_joint_origins[];
 void update_photon_blast_camera_pose(struct PbCamera_801A73B0 *self) {
-    struct PbCameraParams_801A73B0 parameters;
+    CameraParams parameters;
     approach_vector_fixed_distance(&self->position, &self->destination_position, &self->position, 0.48f);
     approach_vector_fixed_distance(&self->target, &self->destination_target, &self->target, 0.55f);
-    VecCopy((Vec *)&parameters.position, (const Vec *)&self->position);
-    VecCopy((Vec *)&parameters.target, (const Vec *)&self->target);
-    parameters.projection = 0x4222;
-    set_active_camera_pose_from_params((CameraParams *)&parameters);
+    VecCopy(&parameters.position, &self->position);
+    VecCopy(&parameters.target, &self->target);
+    parameters.projection_angle = 0x4222;
+    set_active_camera_pose_from_params(&parameters);
 }
 }
 extern Group_801A7428 photon_blast_attachment_table[];
@@ -374,7 +363,6 @@ void apply_all_default__8TFogCtrlFv(void) { TFogCtrl::apply_all((saddr)((void*)6
 #pragma push
 extern s32 TSceneSora__sky_active_flag;
 extern u32 TSceneSora__instance;
-CameraPlayback *get_scripted_camera_playback();
 
 
 void TUnk_804C3248::update_if_active() {

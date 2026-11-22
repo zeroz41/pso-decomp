@@ -18,6 +18,8 @@
 #include "pso/object/lab/TObjLaboDesignBase.h"
 #include "pso/map/TObjMapCsn.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/render/NinjaUtil.h"
 
 
 #pragma readonly_strings on
@@ -29,8 +31,6 @@
 struct ByteBlock_3C { u8 bytes[0x3C]; };
 
 extern "C" {
-f32 xz_distance_squared(void *, s32);
-extern s32 camera_ctrl_instance;
 void *TObjLaboDesignBase__create(void *arg0);
 void *TObjLaboDesignBase__sub_80364D38(void *arg0);
 void *alloc_and_construct__18TObjLaboDesignBaseFPv(void *arg0);
@@ -151,7 +151,7 @@ s32 TObjLaboDesignBase::update_object_view_visibility(f32 near_dist, f32 far_dis
     if (TMainTask::get_render_pass() == 1) {
         return visibility;
     }
-    if (xz_distance_squared((u8 *)this + 0x38, camera_ctrl_instance + 0x178) < (far_dist * far_dist)) {
+    if (xz_distance_squared(&this->position, &camera_ctrl_instance->pos) < (far_dist * far_dist)) {
         visibility = 1;
         return visibility;
     }
