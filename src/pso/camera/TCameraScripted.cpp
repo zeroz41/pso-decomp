@@ -115,7 +115,7 @@ TCameraScripted::TCameraScripted() {
     bank_file = NULL;
 }
 
-void TCameraCtrl::free_entries() {
+void free_camera_banks() {
     s32 i;
     for (i = 0; i < 8; i++) {
         if (camera_banks[i].buffer != NULL) {
@@ -125,7 +125,7 @@ void TCameraCtrl::free_entries() {
     }
 }
 
-void TCameraCtrl::load_camera_banks() {
+void load_camera_banks() {
     u32 j;
     CameraBankList *list;
     u32 count;

@@ -50,7 +50,7 @@ public:
     // 0x10: obstruction close to the eye.
     s32 follow_flags;
     s32 close_up;            // begin_conversation_camera: narrow view, lowered target
-    s32 recenter_requested;  // TCameraCtrl::set_active_camera_flag
+    s32 recenter_requested;  // request_follow_camera_recenter
     f32 target_y_offset;
     s32 target_yaw;
 };
@@ -75,6 +75,15 @@ extern u8 camera_override_flags;
 extern Vec camera_override_position;
 extern Vec camera_fixed_target_position;
 extern u16 camera_override_client_id;
+
+// The quest camera opcodes' overrides (inferred names): back to following the local
+// player, an eye looking at client_id's player, a fixed eye and target.
+void reset_camera_to_local_player();
+void set_locked_camera_override(const Vec *position, u16 client_id);
+void set_fixed_camera_override(const Vec *position, const Vec *target);
+// Turns the follow camera back behind its player while it is the active controller
+// (the quest cam_adj opcode).
+void request_follow_camera_recenter();
 
 void end_conversation_camera();
 void begin_conversation_camera();

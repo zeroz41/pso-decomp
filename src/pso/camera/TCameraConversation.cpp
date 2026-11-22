@@ -110,18 +110,18 @@ TCameraPan::TCameraPan(Vec *goal, s32 frames, s32 hold, TObject *parent) : TObje
     look_goal.z = d.z * dist + camera_ctrl_instance->pos.z;
     step = xyz_distance(&look_goal, &camera_ctrl_instance->tgt) / (f32)pan_frames;
     frame = 0;
-    TCameraCtrl::set_fixed_position_and_target((u8 *)&camera_ctrl_instance->pos.x, (u8 *)&camera_ctrl_instance->tgt.x);
+    set_fixed_camera_override(&camera_ctrl_instance->pos, &camera_ctrl_instance->tgt);
 }
 #pragma pop
 
 TCameraPan::~TCameraPan() {
-    TCameraCtrl::reset_to_local_player();
+    reset_camera_to_local_player();
 }
 
 void TCameraPan::run_task() {
     approach_vector_fixed_distance(&look_at, &look_goal, &look_at, step);
     if (get_camera_override_flags() == 1) {
-        TCameraCtrl::set_fixed_position_and_target((u8 *)&camera_ctrl_instance->pos.x, (u8 *)&look_at);
+        set_fixed_camera_override(&camera_ctrl_instance->pos, &look_at);
     }
     frame++;
     if (frame == pan_frames + hold_frames || get_camera_override_flags() == 0) {
@@ -129,8 +129,8 @@ void TCameraPan::run_task() {
     }
 }
 
-void TCameraCtrl::create(saddr goal, s32 frames, s32 hold_frames) {
-    new TCameraPan((Vec *)goal, frames, hold_frames, tl_07);
+void TCameraPan::create(Vec *goal, s32 frames, s32 hold_frames) {
+    new TCameraPan(goal, frames, hold_frames, tl_07);
 }
 
 TCameraConversation::TCameraConversation(s32 view, s32 destination, TObject *parent) : TObject(parent) {
@@ -168,14 +168,14 @@ TCameraConversation *create_conversation_camera(s32 destination) {
     return new TCameraConversation(view, destination, tl_07);
 }
 
-void TCameraCtrl::update_battle_camera() {
+void deactivate_local_player_collision() {
     TObjPlayer *player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
         player->deactivate_body_collision();
     }
 }
 
-void TCameraCtrl::update_active_player() {
+void activate_local_player_collision() {
     TObjPlayer *player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
         player->activate_body_collision();

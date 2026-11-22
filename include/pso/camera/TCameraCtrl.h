@@ -163,14 +163,7 @@ public:
     Vec *get_split_tgt(s32 view);
     static void set_shake_preset(s32 preset);
     void cycle_spectate_target();
-    static void update_active_player();
-    static void update_battle_camera();
-    static void create(saddr goal, s32 frames, s32 arg2);
     void *destroy(s16 arg1);
-    static void reset_to_local_player();
-    static void set_override_position_and_angle(u8 *position, s16 angle);
-    static void set_fixed_position_and_target(u8 *position, u8 *target);
-    static void set_active_camera_flag();
     // The viewport origin, which projected points are made view-relative by.
     static s32 get_viewport_y();
     static s32 get_viewport_x();
@@ -203,9 +196,6 @@ public:
     static int get_camera_id();
     static void set_target_coords(int x, int y);
     static void reset_battle_camera();
-    static s32 clamp_distance(s32 yaw, s32 to, s32 arg2);
-    static void free_entries();
-    static void load_camera_banks();
     static void init_projection_state();
     static void set_target(int width, int height);
 };

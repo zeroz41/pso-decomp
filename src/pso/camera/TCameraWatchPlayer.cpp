@@ -15,7 +15,7 @@ static CameraBankFile camera_files_bo06[2] = { { "CommonCam.rel", 0x48 }, { "Bo0
 static CameraBankFile camera_files_bo07[3] = { { "CommonCam.rel", 0x48 }, { "Bo07OpCam.rel", 0xC }, { "Bo07EnCam.rel", 0xC } };
 static CameraBankFile camera_files_bo08[3] = { { "CommonCam.rel", 0x48 }, { "Bo08OpCam.rel", 0xC }, { "Bo08EnCam.rel", 0x48 } };
 
-// Camera path banks per floor area (get_current_floor_area()), read by TCameraCtrl::load_camera_banks.
+// Camera path banks per floor area (get_current_floor_area()), read by load_camera_banks.
 CameraBankList camera_path_bank_table[36] = {
     { NULL, 0 }, { camera_files_common, 1 }, { camera_files_common, 1 }, { camera_files_common, 1 },
     { camera_files_common, 1 }, { camera_files_common, 1 }, { camera_files_common, 1 }, { camera_files_common, 1 },

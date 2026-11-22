@@ -51,22 +51,22 @@ Vec follow_camera_offset_default[2] = {
     { 0.0f, 0.0f, 0.0f },
 };
 
-void TCameraCtrl::reset_to_local_player() {
+void reset_camera_to_local_player() {
     camera_override_flags = 0;
     camera_override_client_id = 0xFFFF;
     reset_cameras_to_actor(get_player_by_client_id(local_client_id), 0);
 }
 
-void TCameraCtrl::set_override_position_and_angle(u8 *position, s16 client_id) {
+void set_locked_camera_override(const Vec *position, u16 client_id) {
     camera_override_flags |= 2;
-    VecCopy(&camera_override_position, (const Vec *)position);
+    VecCopy(&camera_override_position, position);
     camera_override_client_id = client_id;
 }
 
-void TCameraCtrl::set_fixed_position_and_target(u8 *position, u8 *target) {
+void set_fixed_camera_override(const Vec *position, const Vec *target) {
     camera_override_flags |= 1;
-    VecCopy(&camera_override_position, (const Vec *)position);
-    VecCopy(&camera_fixed_target_position, (const Vec *)target);
+    VecCopy(&camera_override_position, position);
+    VecCopy(&camera_fixed_target_position, target);
 }
 
 s32 TCameraFollow::apply_override_pose() {
@@ -241,7 +241,7 @@ void apply_follow_camera_offsets(Vec *target_offset, Vec *eye_offset, s32 angle,
     }
 }
 
-void TCameraCtrl::set_active_camera_flag() {
+void request_follow_camera_recenter() {
     TCameraFollow *camera;
     if (TCameraCtrl::view_state.controller == 0) {
         camera = (TCameraFollow *)camera_controller_registry[TCameraCtrl::view_state.controller];
@@ -370,7 +370,7 @@ void TCameraFollow::update_follow_motion_state() {
             if (follow & 1) {
                 if (follow & 0x10) {
                     eye_rate = 0.05f;
-                    yaw = TCameraCtrl::clamp_distance(yaw, get_target_yaw(), 0x16C);
+                    yaw = approach_camera_angle(yaw, get_target_yaw(), 0x16C);
                 } else {
                     eye_rate = 0.67f;
                     set_target_yaw(this->actor->rotation_y + 0x8000);
@@ -385,7 +385,7 @@ void TCameraFollow::update_follow_motion_state() {
                     locked_on = 1;
                 }
                 if (locked_on == 0) {
-                    yaw = TCameraCtrl::clamp_distance(yaw, get_target_yaw(), rate);
+                    yaw = approach_camera_angle(yaw, get_target_yaw(), rate);
                 }
             }
             if (moving == 0) {
@@ -395,7 +395,7 @@ void TCameraFollow::update_follow_motion_state() {
             break;
         case 2:
             set_target_yaw(this->actor->rotation_y + 0x8000);
-            yaw = TCameraCtrl::clamp_distance(yaw, get_target_yaw(), 3);
+            yaw = approach_camera_angle(yaw, get_target_yaw(), 3);
             if (moving != 0) {
                 motion_state = 1;
                 idle_frames = 0;

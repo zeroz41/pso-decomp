@@ -100,11 +100,11 @@ CameraControllerFactory camera_controller_factories[13] = {
 #pragma auto_inline off
 #pragma dont_inline off
 
-extern "C" void TCameraCtrl__sub_8006B3B8(u8 *position, u8 *target) {
-    TCameraCtrl::set_fixed_position_and_target(position, target);
+extern "C" void TCameraCtrl__sub_8006B3B8(const Vec *position, const Vec *target) {
+    set_fixed_camera_override(position, target);
 }
 
-void TCameraCtrl::reset_battle_camera() { TCameraCtrl::reset_to_local_player(); }
+void TCameraCtrl::reset_battle_camera() { reset_camera_to_local_player(); }
 
 extern "C" int is_float_nonfinite(f32 value) {
     u32 exponent = *(u32 *)&value & 0x7F800000;

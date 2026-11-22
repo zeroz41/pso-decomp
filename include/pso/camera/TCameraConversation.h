@@ -33,4 +33,9 @@ LAYOUT_ASSERT(TCameraConversation_size, sizeof(TCameraConversation) == 0x38);
 // The local player's conversation camera, or NULL in split screen.
 TCameraConversation *create_conversation_camera(s32 destination);
 
+// The local player's body collision, switched off while an NPC talks to them and
+// back on after (inferred names).
+void deactivate_local_player_collision();
+void activate_local_player_collision();
+
 #endif

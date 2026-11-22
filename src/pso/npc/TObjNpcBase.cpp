@@ -218,27 +218,27 @@ void TObjNpcBase::update_conversation() {
             switch (m_3ac) {
             case 0x3E9:
                 m_3b4 = create_conversation_camera(7);
-                TCameraCtrl::update_battle_camera();
+                deactivate_local_player_collision();
                 break;
             case 0x3EA:
                 m_3b4 = create_conversation_camera(9);
-                TCameraCtrl::update_battle_camera();
+                deactivate_local_player_collision();
                 break;
             case 0x3EB:
                 m_3b4 = create_conversation_camera(8);
-                TCameraCtrl::update_battle_camera();
+                deactivate_local_player_collision();
                 break;
             case 0x41A:
                 m_3b4 = create_conversation_camera(0x11);
-                TCameraCtrl::update_battle_camera();
+                deactivate_local_player_collision();
                 break;
             case 0x41B:
                 m_3b4 = create_conversation_camera(0x12);
-                TCameraCtrl::update_battle_camera();
+                deactivate_local_player_collision();
                 break;
             case 0x41F:
                 m_3b4 = create_conversation_camera(0x13);
-                TCameraCtrl::update_battle_camera();
+                deactivate_local_player_collision();
                 break;
             default:
                 begin_conversation_camera();
@@ -264,7 +264,7 @@ void TObjNpcBase::update_conversation() {
             case 0x41A:
             case 0x41B:
             case 0x41F:
-                TCameraCtrl::update_active_player();
+                activate_local_player_collision();
                 if (m_3b4 != 0) {
                     m_3b4->queue_destruction();
                     m_3b4 = 0;
