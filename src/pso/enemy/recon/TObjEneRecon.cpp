@@ -1262,7 +1262,7 @@ void TObjEneRecon::run_task() {
     }
     m = mode;
     if (m != 8 && m != 7 && owner->is_anim_6() == 1) {
-        m_2dc = (s32)(m_2dc | 4);
+        hit_flags = (s32)(hit_flags | 4);
         ((TObjPlayer *)this)->set_hp_clamped(0);
         obj_setFlags30(this, 0xA00U);
         vfunc_74(0);

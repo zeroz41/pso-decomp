@@ -960,7 +960,7 @@ void TObjEneIllGill::run_hit_reaction() {
     if ((temp_r0 == 2) || (temp_r0 == 3)) {
         this->referenceHp = (s16) this->hp;
         this->actorFlags = (s32) (this->actorFlags & 0xFFFFFDFF);
-        this->m_2dc = 0;
+        this->hit_flags = 0;
         temp_r3 = this->bodies;
         bodies->flags = (s32) (bodies->flags & 0xFBFFFFFF);
         return;

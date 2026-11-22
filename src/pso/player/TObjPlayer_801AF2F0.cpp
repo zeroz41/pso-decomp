@@ -5696,9 +5696,9 @@ void remove_status_effect__10TObjPlayerFUiPv(uaddr arg0_, Pair_801B2C04 *arg1_) 
         return;
     case 3:
         temp_f31_5 = -TObjPlayer__sub_800192C4((void *) arg0, 3);
-        v = ((TObjChara *)arg0)->get_atp();
+        v = ((TObjChara *)arg0)->get_base_dfp();
         v *= temp_f31_5;
-        ((TObjChara *)arg0)->add_to_field_2ce((s32) v);
+        ((TObjChara *)arg0)->adjust_dfp((s32) v);
         reset_status_effect_row(arg0 + 0x278);
         return;
     }
@@ -5730,8 +5730,8 @@ void TObjPlayer::cancel_status_effects() {
     ((TObjChara *)arg0)->add_to_field_2ca((s32) (v * temp_f31_4));
     reset_status_effect_row(arg0 + 0x26C);
     temp_f31_5 = -TObjPlayer__sub_800192C4(arg0, 3);
-    v = ((TObjChara *)arg0)->get_atp();
-    ((TObjChara *)arg0)->add_to_field_2ce((s32) (v * temp_f31_5));
+    v = ((TObjChara *)arg0)->get_base_dfp();
+    ((TObjChara *)arg0)->adjust_dfp((s32) (v * temp_f31_5));
     reset_status_effect_row(arg0 + 0x278);
 }
 #undef arg0

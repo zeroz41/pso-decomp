@@ -880,17 +880,6 @@ struct O_800112D4;
 #define TPFONT_W24(p, v, k, n) ((void (*)(void *, void *, s32, s32))show_tp_font)((p), (v), (k), (n))
 #define BOSS4_W24(p) (((TObjChara *)(p))->random_ratio())
 #define CLEARCOLL_W24() if (coll != NULL) { coll->flags &= ~0x04000000; }
-typedef unsigned int RangedU;
-typedef struct { float x,y,z; } RangedVec;
-
-typedef struct {
-    unsigned char before_flags[0x30]; RangedU flags;
-    unsigned char before_position[4]; RangedVec position;
-    unsigned char before_evp[0x2cc-0x44]; short evp;
-    unsigned char before_hit_flags[0x2dc-0x2ce]; RangedU hit_flags;
-} RangedActor;
-
-typedef struct { unsigned char prefix[0x18]; RangedU flags; RangedVec center; float defense; } RangedBody;
 struct Obj_80014108;
 #pragma pop
 #undef TEST30
@@ -1299,9 +1288,9 @@ s16 TObjChara::get_field_2c2() { return *(s16*)((char*)this + 0x2c2); }
 
 void TObjChara::add_to_field_2ca(int a1) { *(short*)((char*)this + 0x2ca) = (*(short*)((char*)this + 0x2ca) + a1); }
 
-s16 TObjChara::get_atp() { return *(s16 *)&this->unk_2C6; }
+s16 TObjChara::get_base_dfp() { return this->base_dfp; }
 
-void TObjChara::add_to_field_2ce(int a1) { *(short*)((char*)this + 0x2ce) = (*(short*)((char*)this + 0x2ce) + a1); }
+void TObjChara::adjust_dfp(int amount) { this->dfp = (this->dfp + amount); }
 
 s16 TObjPlayer::get_item_index() { return this->m_2f4; }
 
@@ -1356,8 +1345,8 @@ TObjChara::TObjChara(TObject *parent) : TObjMotion(parent) {
     *(s16 *)((s8 *)this + 0x2C2) = 0;
     this->m_2cc = 0;
     this->m_2c4 = 0;
-    *(s16 *)((s8 *)this + 0x2CE) = 0;
-    *(s16 *)((s8 *)this + 0x2C6) = 0;
+    this->dfp = 0;
+    this->base_dfp = 0;
     *(s16 *)((s8 *)this + 0x2D2) = 0;
     this->m_2d0 = 0;
     *(s32 *)((s8 *)this + 0x2E0) = 0;
@@ -1406,7 +1395,7 @@ void TObjChara::reset_motion_fields() {
     this->m_2ac = 0;
     this->m_2b4 = (0.0f);
     this->attacker_id = 0xFFFF;
-    this->m_2dc = 0;
+    this->hit_flags = 0;
     this->phase = self->f32a = 0;
     self->f320 = 0;
     self->v2fc.x = self->v2fc.y = self->v2fc.z = self->v308.x = self->v308.y = self->v308.z = (0.0f);
@@ -1511,7 +1500,7 @@ s32 TObjChara::recalc_combat_stats(void *motion_arg, void *arg2, void *bonus_arg
     ((Player_80018990 *)this)->f2f8 = ((Player_80018990 *)this)->bonus->fa;
     ((TObjChara *)((Player_80018990 *)this))->add_to_field_2c8((f32)((TObjChara *)((Player_80018990 *)this))->get_field_2c0() * ((f32 (*)(void *, s32))TObjPlayer__sub_800192C4)(((Player_80018990 *)this), 2));
     ((TObjChara *)((Player_80018990 *)this))->add_to_field_2ca((f32)((TObjChara *)((Player_80018990 *)this))->get_field_2c2() * ((f32 (*)(void *, s32))TObjPlayer__sub_800192C4)(((Player_80018990 *)this), 2));
-    ((TObjChara *)((Player_80018990 *)this))->add_to_field_2ce((f32)((TObjChara *)((Player_80018990 *)this))->get_atp() * ((f32 (*)(void *, s32))TObjPlayer__sub_800192C4)(((Player_80018990 *)this), 3));
+    ((TObjChara *)((Player_80018990 *)this))->adjust_dfp((f32)((TObjChara *)((Player_80018990 *)this))->get_base_dfp() * ((f32 (*)(void *, s32))TObjPlayer__sub_800192C4)(((Player_80018990 *)this), 3));
     return 1;
 }
 
@@ -2216,10 +2205,10 @@ s32 TObjChara::update_defense_stat_status() {
             }
             return 1;
         }
-        this->add_to_field_2ce((s32) ((f32) this->get_atp() * -((f32 (*)(void *, s32))TObjPlayer__sub_800192C4)(((u8 *)this), 3)));
+        this->adjust_dfp((s32) ((f32) this->get_base_dfp() * -((f32 (*)(void *, s32))TObjPlayer__sub_800192C4)(((u8 *)this), 3)));
         ((s32 (*)(void *))reset_status_effect_row)(((u8 *)this) + 0x278);
     } else if (this->obj_isState2_324() != 0) {
-        this->add_to_field_2ce((s32) ((f32) this->get_atp() * -((f32 (*)(void *, s32))TObjPlayer__sub_800192C4)(((u8 *)this), 3)));
+        this->adjust_dfp((s32) ((f32) this->get_base_dfp() * -((f32 (*)(void *, s32))TObjPlayer__sub_800192C4)(((u8 *)this), 3)));
         ((s32 (*)(void *))reset_status_effect_row)(((u8 *)this) + 0x278);
     }
     return 0;
@@ -2354,36 +2343,38 @@ void display_exp_gain(saddr arg0, u32 arg1, s32 arg2, s32 arg3) {
 
 #pragma push
 #pragma fp_contract on
-#define VecCopy__FP3VecPC3Vec(a, b) ((void (*)(RangedVec *, const RangedVec *))VecCopy__FP3VecPC3Vec)(a, b)
-#define subtract_vector(a, b) ((void (*)(RangedVec *, const RangedVec *))subtract_vector)(a, b)
-#define attach_mine_trap__10TObjPlayerFiUi(a, b) ((void (*)(RangedActor *, RangedActor *))attach_mine_trap__10TObjPlayerFiUi)(a, b)
 int TObjChara::calc_distance_accuracy_penalty(void *attacker, void *body_arg, void *origin, float multiplier) {
-    RangedBody*body = (RangedBody*)body_arg;
-    RangedVec delta;
-    if(((RangedActor*)attacker)&&body&&!(((RangedActor*)this)->flags&0x04000000)) {
-        float chance=(0.01f)*((multiplier*(float)((TObjPlayer *)attacker)->get_ata())-((0.2f)*(float)((RangedActor*)this)->evp));
-        VecCopy__FP3VecPC3Vec(&delta,&body->center);
-        if(!((TObjChara*)attacker)->obj_testFlag_2E4(0x20)) {
-            if(((const RangedVec*)origin))subtract_vector(&delta,((const RangedVec*)origin));
-            else subtract_vector(&delta,&((RangedActor*)attacker)->position);
-            const float squared=delta.x*delta.x+delta.z*delta.z;
-            const float dist=newton_sqrtf(squared);
-            float pen=(float)(dist*lbl_80434090);
-            pen*=(0.33333334f);
-            chance-=pen;
+    CollisionBody *body = (CollisionBody *)body_arg;
+    Vec delta;
+    if (attacker && body && !(this->actorFlags & 0x04000000)) {
+        float chance = 0.01f * (multiplier * (float)((TObjPlayer *)attacker)->get_ata() - 0.2f * (float)this->m_2cc);
+        VecCopy(&delta, &body->center);
+        if (!((TObjChara *)attacker)->obj_testFlag_2E4(0x20)) {
+            if (origin) {
+                subtract_vector(&delta, origin);
+            } else {
+                subtract_vector(&delta, &((TObjChara *)attacker)->position);
+            }
+            const float squared = delta.x * delta.x + delta.z * delta.z;
+            const float dist = newton_sqrtf(squared);
+            float pen = (float)(dist * lbl_80434090);
+            pen *= 0.33333334f;
+            chance -= pen;
         }
-        if((0.0f)<chance&&this->random_ratio()<=chance) {
-            body->flags|=0x04000000;attach_mine_trap__10TObjPlayerFiUi(((RangedActor*)this),((RangedActor*)attacker));((RangedActor*)this)->hit_flags|=2;return 1;
+        if (0.0f < chance && this->random_ratio() <= chance) {
+            body->flags |= 0x04000000;
+            attach_mine_trap__10TObjPlayerFiUi((saddr)this, (uaddr)attacker);
+            this->hit_flags |= 2;
+            return 1;
         }
-        ((RangedActor*)this)->flags|=0x100;VecCopy__FP3VecPC3Vec(&delta,&body->center);this->show_miss_popup((const float *)&delta);
+        this->actorFlags |= 0x100;
+        VecCopy(&delta, &body->center);
+        this->show_miss_popup((const float *)&delta);
     }
     return 0;
 }
 
 #pragma pop
-#undef VecCopy__FP3VecPC3Vec
-#undef subtract_vector
-#undef attach_mine_trap__10TObjPlayerFiUi
 s16 *TObjPlayer::get_attribute_entry(s32 i) {
     O_80015DC4 *self = (O_80015DC4 *)this;
     if (i < 3) {
@@ -2588,7 +2579,7 @@ void TObjChara::clear_harmful_statuses() {
     }
     switch (((int (*)(void *, int))obj_getArrWord_254)(this, 3)) {
     case 0xC:
-        this->add_to_field_2ce((s32)((f32)this->get_atp() * -((f32 (*)(void *, int))TObjPlayer__sub_800192C4)(this, 3)));
+        this->adjust_dfp((s32)((f32)this->get_base_dfp() * -((f32 (*)(void *, int))TObjPlayer__sub_800192C4)(this, 3)));
         ((void (*)(void *))reset_status_effect_row)(((u8 *)this) + 0x278);
         break;
     }
@@ -2652,13 +2643,13 @@ void TObjChara::apply_defense_stat_status(void *receipt_arg) {
     if (!(((f32 (*)(f32))fabs_float)(temp_f29) > temp_f31)) {
         temp_f31 = -((f32 (*)(TObjChara *, s32))TObjPlayer__sub_800192C4)(this, 3);
         {
-            f32 v = this->get_atp();
+            f32 v = this->get_base_dfp();
             v *= temp_f31;
-            this->add_to_field_2ce((s32) v);
+            this->adjust_dfp((s32) v);
         }
         ((s32 (*)(TObjChara *, s32, s32))TObjPlayer__sub_8001940C)(this, 3, receipt->kind);
         ((s32 (*)(TObjChara *, s32, f32))TObjPlayer__sub_8001941C)(this, 3, var_f30);
-        this->add_to_field_2ce((s32) (var_f30 * (f32) this->get_atp()));
+        this->adjust_dfp((s32) (var_f30 * (f32) this->get_base_dfp()));
         ((s32 (*)(TObjChara *, s32, s32))TObjPlayer__sub_800193FC)(this, 3, (s32) ((3e+01f) * ((1e+01f) * receipt->power + (4e+01f))));
         if (this->obj_testFlags30(0x02000000) == 0) {
             u32 temp_obj = __nw__7TObjectFUl(0x64);
@@ -2710,7 +2701,7 @@ void TObjChara::clear_all_status_effects() {
     this->add_to_field_2c8((s32) ((f32) this->get_field_2c0() * -((f32 (*)(void *, int))TObjPlayer__sub_800192C4)(this, 2)));
     this->add_to_field_2ca((s32) ((f32) this->get_field_2c2() * -((f32 (*)(void *, int))TObjPlayer__sub_800192C4)(this, 2)));
     ((void (*)(void *))reset_status_effect_row)(((u8 *)this) + 0x26C);
-    this->add_to_field_2ce((s32) ((f32) this->get_atp() * -((f32 (*)(void *, int))TObjPlayer__sub_800192C4)(this, 3)));
+    this->adjust_dfp((s32) ((f32) this->get_base_dfp() * -((f32 (*)(void *, int))TObjPlayer__sub_800192C4)(this, 3)));
     ((void (*)(void *))reset_status_effect_row)(((u8 *)this) + 0x278);
     obj_clearFlags30((u32)0x4000U);
     ((void (*)(void *))reset_status_effect_row)(((u8 *)this) + 0x284);
@@ -4381,7 +4372,7 @@ void TObjChara::apply_anti_technique(s32 arg1) {
         }
         switch (((int (*)(void *, int))obj_getArrWord_254)(this, 3)) {
         case 0xC:
-            this->add_to_field_2ce((int)((f32)this->get_atp() * -((f32 (*)(void *, s32))TObjPlayer__sub_800192C4)(this, 3)));
+            this->adjust_dfp((int)((f32)this->get_base_dfp() * -((f32 (*)(void *, s32))TObjPlayer__sub_800192C4)(this, 3)));
             ((void (*)(void *))reset_status_effect_row)(((u8 *)this) + 0x278);
         }
     }

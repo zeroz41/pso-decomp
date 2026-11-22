@@ -360,8 +360,8 @@ block_14:
     this->m_2cc = temp_r0_3;
     this->m_2c4 = temp_r0_3;
     temp_r0_4 = *(s16 *)(this->m_2b0 + 8) + *(s32 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 0x1C);
-    *(s16 *)((s8 *)((u8 *)this) + 0x2CE) = temp_r0_4;
-    *(s16 *)((s8 *)((u8 *)this) + 0x2C6) = temp_r0_4;
+    this->dfp = temp_r0_4;
+    this->base_dfp = temp_r0_4;
     this->m_2d0 = (s16) (*(s16 *)(this->m_2b0 + 0xA) + TObjPlayer__sub_800194E8(*(u8 **)((s8 *)((u8 *)this) + 0x318)));
     *(s16 *)((s8 *)((u8 *)this) + 0x2D2) = (s16) *(s16 *)(this->m_2b0 + 0xC);
     this->m_2f2 = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 2);
@@ -371,7 +371,7 @@ block_14:
     *(s16 *)((s8 *)((u8 *)this) + 0x2FA) = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 8);
     this->add_to_field_2c8((s32)((f32)this->get_field_2c0() * TObjPlayer__sub_800192C4((saddr)this, 2)));
     this->add_to_field_2ca((s32)((f32)this->get_field_2c2() * TObjPlayer__sub_800192C4((saddr)this, 2)));
-    this->add_to_field_2ce((s32)((f32)this->get_atp() * TObjPlayer__sub_800192C4((saddr)this, 3)));
+    this->adjust_dfp((s32)((f32)this->get_base_dfp() * TObjPlayer__sub_800192C4((saddr)this, 3)));
     return 1;
 }
 

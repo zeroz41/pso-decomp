@@ -408,7 +408,7 @@ void TObjEneSaver::sub_800A49B4() {
             s32 atp;
             atp = last_attacker->get_actor_attack_params_atp_min();
             bonus = last_attacker->get_field_2c8();
-            guard_hp -= 0.2f * (bonus + atp + TObjPlayer__sub_800A776C(last_attacker) - m_2ce);
+            guard_hp -= 0.2f * (bonus + atp + TObjPlayer__sub_800A776C(last_attacker) - dfp);
             if (guard_hp <= 0) {
                 guard_hp = 0;
                 state_flags |= 8;

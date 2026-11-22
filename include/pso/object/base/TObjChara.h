@@ -43,8 +43,8 @@ public:
     void add_to_field_2c8(int);
     s16 get_field_2c2();
     void add_to_field_2ca(int);
-    s16 get_atp();
-    void add_to_field_2ce(int);
+    s16 get_base_dfp();
+    void adjust_dfp(int);
     s32 recalc_combat_stats(void *, void *, void *, f32, f32);
     s32 set_motion_params(void *);
     void show_miss_popup(const float *);
@@ -207,18 +207,20 @@ public:
     s16 m_2c0;
     u8 unk_2C2[0x2];
     s16 m_2c4;
-    u8 unk_2C6[0x2];
+    s16 base_dfp;  // the stat block's DFP plus the item bonus
     s16 m_2c8;
     u8 unk_2CA[0x2];
     short m_2cc;
-    s16 m_2ce;
+    s16 dfp;  // base_dfp with Deband; the guard formulas subtract it from the attacker's ATP
     s16 m_2d0;
     u8 unk_2D2[0x2];
     u16 attacker_id;  // entity id of whoever last hit it; 6x89 sets a player's killer
     u16 m_2d6;
     u16 m_2d8;
     u8 unk_2DA[0x2];
-    u32 m_2dc;
+    // Bit 1: hit by a ranged attack (calc_distance_accuracy_penalty); bit 2: a
+    // Recon whose Recobox died. Cleared with the attack receipts.
+    u32 hit_flags;
     void* m_2e0;
     uaddr m_2e4;
     u8 unk_2E8[0x2];

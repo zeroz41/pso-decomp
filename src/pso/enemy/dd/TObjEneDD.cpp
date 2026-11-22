@@ -327,13 +327,13 @@ void TObjEneDD::clear_attack_receipts() {
     s32 i;
     referenceHp = hp;
     actorFlags &= ~0x200;
-    m_2dc = 0;
+    hit_flags = 0;
     for (i = 0; i < body_count; i++) {
         bodies[i].flags &= ~0x04000000;
     }
 }
 
-int TObjEneBm3Fly::was_hit_by_ranged() { return (this->m_2dc >> 1) & 0x1; }
+int TObjEneBm3Fly::was_hit_by_ranged() { return (this->hit_flags >> 1) & 0x1; }
 
 void TObjEnemy::refresh_and_send_entity_flags() { refresh_lobby_state(); send_entity_set_flags(); }
 

@@ -1458,7 +1458,7 @@ void TObjEneGibbles::state_guard() {
         this->phase = 1;
         apply_actor_gravity(this, NULL, 0.0f);
         if (this->guarded_player != NULL) {
-            this->armor = (s16)((f32)this->armor - 0.2f * (f32)(this->guarded_player->get_field_2c8() + this->guarded_player->get_actor_attack_params_atp_min() + TObjPlayer__sub_800A776C(this->guarded_player) - this->m_2ce));
+            this->armor = (s16)((f32)this->armor - 0.2f * (f32)(this->guarded_player->get_field_2c8() + this->guarded_player->get_actor_attack_params_atp_min() + TObjPlayer__sub_800A776C(this->guarded_player) - this->dfp));
             if (this->armor <= 0) {
                 this->armor = 0;
                 this->status_flags |= 8;
@@ -1503,7 +1503,7 @@ void TObjEneGibbles::run_hit_reaction() {
             s32 i;
             this->referenceHp = this->hp;
             this->actorFlags &= ~0x200;
-            this->m_2dc = 0;
+            this->hit_flags = 0;
             for (i = 0; i < this->body_count; i++) {
                 bodies[i].flags &= ~0x04000000;
             }
