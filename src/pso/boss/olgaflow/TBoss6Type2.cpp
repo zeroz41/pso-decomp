@@ -10,6 +10,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/boss/olgaflow/TBoss6Mag.h"
 #include "pso/boss/olgaflow/TBoss6Type2.h"
+#include "pso/boss/olgaflow/TBoss6Type2_8036DC80.h"
 #include "pso/boss/olgaflow/OlgaFlowActions.h"
 #include "pso/boss/olgaflow/TBoss6Type2BattleAction.h"
 #include <stddef.h>
@@ -126,7 +127,6 @@ struct Type2ActionSendStorage {
 
 
 u16 obj_getArrU16_FC(void *obj, s32 i);
-s32 grab_player__11TBoss6Type2FPvUs(u8 *self, u16 arg1);
 
 // Read by the TBoss6Type2_802BE588/_802BF558 units and TBoss6Rock; emitted ahead of the literal pool.
 extern const f32 boss6_arena_radius = 400.0f;
@@ -160,8 +160,6 @@ inline const s32 &get_main_motion_track() { return main_motion_track; }
 
 
 }
-
-extern "C" {
 
 void TBoss6Type2::clear_harmful_statuses() {}
 
@@ -265,7 +263,7 @@ TBoss6Type2::TBoss6Type2(TObject *parent, saddr *params) : TObjEnemy(parent) {
     call_mags_to_shoulders();
     TBoss6Rock::create_rock_pool(this);
     reset_lower_contact();
-    TBoss6Type2::capture_player_snapshots();
+    capture_boss6_player_snapshots();
     cache_fish_params();
     init_collected_entries();
     set_fields_554();
@@ -2000,71 +1998,71 @@ s32 TBoss6Type2::check_target() {
     if (possessed_client != 0xFFFF) {
         restore_target_player_state();
     }
-    if (grab_player__11TBoss6Type2FPvUs((u8 *)this, this->possess_target) == 0) {
+    if (grab_player(this->possess_target) == 0) {
         this->possess_target = 0xFFFFU;
         return 0;
     }
     return 1;
 }
 
-s32 grab_player__11TBoss6Type2FPvUs(u8 *self, u16 arg1) {
-    u8 *player;
-    if ((arg1 == 0xFFFF) || (*(u16 *)((s8 *)self + 0x55C) != 0xFFFF)) {
+s32 TBoss6Type2::grab_player(u16 client_id) {
+    TObjPlayer *player;
+    if ((client_id == 0xFFFF) || (possessed_client != 0xFFFF)) {
         return 0;
     }
-    player = (u8 *)(get_player_by_client_id(arg1));
+    player = get_player_by_client_id(client_id);
     if (player == NULL) {
         return 0;
     }
-    if (*(s32 *)((s8 *)player + 0x30) & 0x800) {
+    if (player->actorFlags & 0x800) {
         return 0;
     }
-    *(u16 *)((s8 *)self + 0x55C) = arg1;
-    *(u8 **)((s8 *)self + 0x570) = (unsigned char *) (player + 0x85C);
-    ((TBoss6Type2 *)(self + 0x574))->copy_vec2(player + 0xCF4);
-    ((TBoss6Type2 *)(self + 0x57C))->copy_vec2(player + 0xA1C);
-    ((TBoss6Type2 *)(self + 0x584))->copy_vec2(player + 0xB88);
-    *(s32 *)((s8 *)self + 0x58C) = (s32) *(s32 *)((s8 *)player + 0x34);
-    *(s32 *)((s8 *)self + 0x590) = (s32) *(s32 *)((s8 *)player + 0x8B0);
-    *(s32 *)((s8 *)self + 0x594) = (s32) *(s32 *)((s8 *)player + 0x8AC);
-    *(s32 *)((s8 *)self + 0x598) = (s32) *(s32 *)((s8 *)player + 0x8B4);
-    ((TBoss6Type2 *)(player + 0xCF4))->copy_vec2((void*)(*(u8 **)((s8 *)self + 0x560)));
-    ((TBoss6Type2 *)(player + 0xB88))->copy_vec2((void*)(*(u8 **)((s8 *)self + 0x564)));
-    *(s32 *)((s8 *)player + 0x34) = (s32) *(s32 *)((s8 *)self + 0x568);
-    *(s32 *)((s8 *)player + 0x8B0) = 0;
-    *(s32 *)((s8 *)player + 0x8AC) = 0;
-    *(s32 *)((s8 *)player + 0x8B4) = (s32) *(s32 *)((s8 *)self + 0x56C);
+    possessed_client = client_id;
+    grab_appearance = player->name;
+    copy_texlist(&saved_look.body_textures, (GinjaTextureList *)player->body_textures);
+    copy_texlist(&saved_look.head_textures, (GinjaTextureList *)player->head_textures);
+    copy_texlist(&saved_look.attachment_textures, (GinjaTextureList *)player->attachment_textures);
+    saved_look.model = player->model;
+    saved_look.head_model = player->head_model;
+    saved_look.hair_model = player->hair_model;
+    saved_look.attachment_model = player->attachment_model;
+    copy_texlist((GinjaTextureList *)player->body_textures, grab_texlists[0]);
+    copy_texlist((GinjaTextureList *)player->attachment_textures, grab_texlists[1]);
+    player->model = grab_models[0];
+    player->head_model = NULL;
+    player->hair_model = NULL;
+    player->attachment_model = (uaddr)grab_models[1];
     return 1;
 }
 
-void TBoss6Type2::copy_vec2(void* q) { *(u32*)((char*)this + 0x0) = *(u32*)((char*)q + 0x0); *(u32*)((char*)this + 0x4) = *(u32*)((char*)q + 0x4); }
+void copy_texlist(GinjaTextureList *dst, GinjaTextureList *src) { *dst = *src; }
 
 void TBoss6Type2::restore_target_player_state() {
-    u8 *player;
+    TObjPlayer *player;
     u32 id = possessed_client;
     if (id != 0xFFFF) {
-        player = (u8 *)get_player_by_client_id(id);
+        player = get_player_by_client_id(id);
         if (player == NULL) {
-            ((TBoss6Type2 *)this)->reset_fish_fields();
+            reset_fish_fields();
             return;
         }
-        ((TBoss6Type2 *)(player + 0xCF4))->copy_vec2((void*)((void *) (((u8 *)this) + 0x574)));
-        ((TBoss6Type2 *)(player + 0xB88))->copy_vec2((void*)((void *) (((u8 *)this) + 0x584)));
-        *(s32 *)((s8 *)player + 0x34) = (s32) *(s32 *)((s8 *)((u8 *)this) + 0x58C);
-        *(s32 *)((s8 *)player + 0x8B0) = (s32) *(s32 *)((s8 *)((u8 *)this) + 0x590);
-        *(s32 *)((s8 *)player + 0x8AC) = (s32) *(s32 *)((s8 *)((u8 *)this) + 0x594);
-        *(s32 *)((s8 *)player + 0x8B4) = (s32) *(s32 *)((s8 *)((u8 *)this) + 0x598);
-        ((TBoss6Type2 *)this)->reset_fish_fields();
+        copy_texlist((GinjaTextureList *)player->body_textures, &saved_look.body_textures);
+        copy_texlist((GinjaTextureList *)player->attachment_textures, &saved_look.attachment_textures);
+        player->model = saved_look.model;
+        player->head_model = saved_look.head_model;
+        player->hair_model = saved_look.hair_model;
+        player->attachment_model = saved_look.attachment_model;
+        reset_fish_fields();
     }
 }
 
 void TBoss6Type2::reset_fish_fields() {
     possessed_client = 0xFFFF;
-    m_570 = 0;
-    m_58c = 0;
-    m_590 = 0;
-    m_594 = 0;
-    m_598 = 0;
+    grab_appearance = NULL;
+    saved_look.model = NULL;
+    saved_look.head_model = NULL;
+    saved_look.hair_model = NULL;
+    saved_look.attachment_model = 0;
 }
 
 #pragma push
@@ -2316,8 +2314,9 @@ void TBoss6Type2::draw() {
         push_matrix();
         post_translate_matrix((const f32 *)&this->node_positions[11]);
         rotate_matrix_y(NULL, this->rotation_y);
-        boss6type2_draw_models((saddr)this->m_574, (saddr)this->m_57c, (saddr)this->m_584, this->m_58c, this->m_590, this->m_594, this->m_598, this->m_570, 1.0f);
+        boss6type2_draw_models((saddr)&saved_look.body_textures, (saddr)&saved_look.head_textures, (saddr)&saved_look.attachment_textures,
+                               (uaddr)saved_look.model, (uaddr)saved_look.head_model, (uaddr)saved_look.hair_model,
+                               saved_look.attachment_model, (saddr)grab_appearance, 1.0f);
         pop_matrix();
     }
-}
 }

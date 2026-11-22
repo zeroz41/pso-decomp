@@ -6751,7 +6751,7 @@ force_active:
   - gibon_u_animation_name_table
   - give_item_to_client__FUsP9TItemData
   - giveup_window_handle_select__FPv
-  - grab_player__11TBoss6Type2FPvUs
+  - grab_player__11TBoss6Type2FUs
   - grass_camera_vec
   - grass_combat_stats_handle
   - grass_origin_vec

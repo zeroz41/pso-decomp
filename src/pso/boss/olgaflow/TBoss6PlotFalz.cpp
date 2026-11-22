@@ -11,6 +11,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalzState.h"
+#include "pso/boss/olgaflow/TBoss6Type2_8036DC80.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/math/AngleLookup.h"
@@ -911,7 +912,6 @@ typedef struct Loc_802AC9EC {
 extern "C" {
 void fn_802E52AC(void);
 }
-void clear_boss6_player_snapshots(void);
 BmlResource *boss6_scene_archive;
 extern "C" {
 extern saddr TBoss6PlotFalz__instance;

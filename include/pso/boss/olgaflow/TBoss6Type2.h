@@ -7,11 +7,11 @@ struct TBoss6Zanzo;
 #include <stddef.h>
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/player/PlayerAttackParams.h"
+#include "pso/render/GinjaMaterialState.h"
 
 class ModelNodePositionCapture;
 struct OlgaFlowType2ActionMsg;
 struct Boss6GridBytes;
-struct GinjaTextureList;
 struct NJS_OBJECT;
 struct CollisionBody;
 struct AnimationMotion;
@@ -55,6 +55,21 @@ struct Boss6Type2MoveTarget {
     s32 heading;
     Vec position;
 };
+
+// A player's look: TObjPlayer's body, head and attachment texture lists and its body, head,
+// hair and attachment models. grab_player saves the possessed player's look, draw draws it and
+// restore_target_player_state puts it back; boss6_type2_player_snapshot_table keeps one per client.
+struct Boss6PlayerLook {
+    GinjaTextureList body_textures;
+    GinjaTextureList head_textures;
+    GinjaTextureList attachment_textures;
+    void *model;
+    void *head_model;
+    void *hair_model;
+    u32 attachment_model;
+};
+
+void copy_texlist(GinjaTextureList *dst, GinjaTextureList *src);
 
 struct TBoss6Type2 : public TObjEnemy
 {
@@ -153,14 +168,8 @@ struct TBoss6Type2 : public TObjEnemy
     // BML entries 0xB and 0xA (cache_fish_params); grab_player puts them on the grabbed player.
     GinjaTextureList *grab_texlists[2];
     NJS_OBJECT *grab_models[2];
-    s32 m_570;
-    u32 m_574[2];
-    u32 m_57c[2];
-    u32 m_584[2];
-    s32 m_58c;
-    s32 m_590;
-    s32 m_594;
-    s32 m_598;
+    char *grab_appearance;  // the possessed player's name block, the appearance boss6type2_draw_models takes
+    Boss6PlayerLook saved_look;
     Vec node_positions[19];       // body node positions, captured each draw
     Vec prev_node_positions[19];  // last update's node_positions
     ModelNodePositionCapture *node_capture[1];
@@ -186,7 +195,7 @@ struct TBoss6Type2 : public TObjEnemy
     void restore_effect_values();
     void sum_offsets();
     void init_collected_entries();
-    void copy_vec2(void* q);
+    s32 grab_player(u16 client_id);
     s32 check_target();
     u16 is_falz_ready();
     void reset_counters();
@@ -278,7 +287,6 @@ struct TBoss6Type2 : public TObjEnemy
     static void send_6xAD_grid_positions(s32 index, saddr points, s32 count);
     static void send_subordinate_actions(s32 kind, saddr ids, s32 n, s32 force, s32 unused);
     static TBoss6EffFlowSoul *create_flow_soul(TObject *parent, Vec *pos, s32 player, s32 duration);
-    static void capture_player_snapshots();
     s32 get_state();
     s32 get_variant();
     void apply_rock_hits_to_players();
@@ -290,7 +298,6 @@ struct TBoss6Type2 : public TObjEnemy
     void init_attack_timers();
     void send_state_action();
     void turn_toward_target();
-    void apply_pending_effect();
     // Battle action handlers (enter / idle / update; table rows: enter / idle / update)
     void update_attack_timer();
     void update_death_sequence();
