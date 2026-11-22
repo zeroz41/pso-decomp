@@ -16,6 +16,7 @@ struct TWindowMakeTeam : public TObject {
     uaddr m_menu; // 0x2C: the window create_menu() returns; its entries are marked, disabled and named
     uaddr m_30;
     uaddr m_34;
+    static void *init_status_disp(s8 arg0);
     static saddr draw_entry_0x110(s8 arg0);
     s32 is_enabled();
     void set_state(s32 arg1);
