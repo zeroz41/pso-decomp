@@ -186,17 +186,17 @@ struct Dragon_80060020 {
 
 extern "C" {
 s32 get_flag_bit6__13TBoss5GryphonFv();
-extern const f32 lbl_805D8DAC;
+extern const f32 gryphon_point_four;
 void run_task__13TBoss5GryphonFv(u8 *arg0);
 s32 TBoss8Dragon__sub_800670E0(int, void *);
 TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 u8 *__ct__22TBoss5GryphonShockWaveFP7TObjectlPUcPUcls(u8 *arg0, u8 *arg1_parent, s32 arg2, u8 *arg3, u8 *arg4, s32 arg5, s16 arg6);
-extern const f32 lbl_805D8D80;
-extern const f32 lbl_805D8E5C;
+extern const f32 gryphon_twelve;
+extern const f32 gryphon_eighteen;
 extern const f32 lbl_805D8E9C;
 extern const f32 lbl_805D8EA0;
-extern const f32 lbl_805D8D90;
-extern const f32 lbl_805D8D94;
+extern const f32 gryphon_three;
+extern const f32 gryphon_negative_thousand;
 f64 atan2_float(f32, f32);
 s32 restore_player_cameras(void);
 s32 activate_camera_mode(s32 mode);
@@ -205,31 +205,31 @@ void play_cue_stream_file(saddr name);
 extern const f32 lbl_805D8DD4;
 extern const f32 lbl_805D8E80;
 extern const f32 lbl_805D8E84;
-extern const f32 lbl_805D8E88;
-extern const f32 lbl_805D8E10;
-extern const f32 lbl_805D8EAC;
+extern const f32 gryphon_negative_thirty;
+extern const f32 gryphon_ten;
+extern const f32 gryphon_thirty;
 void update_body_colliders__13TBoss5GryphonFv(TBoss5Gryphon *self);
 f32 calc_random_ratio__10TObjPlayerFv(void *);
 s32 subtractive_rng_seed(void *, s32);
 s32 fn_80351DA8(void *, void *, void *, int, int);
 void copy_position__26TBoss5GryphonLightningWingFPv(void *, void *);
-extern const f32 lbl_805D8D88;
-extern const f32 lbl_805D8DBC;
+extern const f32 gryphon_one;
+extern const f32 gryphon_seventy_five;
 extern const f32 lbl_805D8DC0;
 extern const f32 lbl_805D8DC4;
 extern const f32 lbl_805D8DC8;
-extern const f32 lbl_805D8DCC;
-extern const f32 lbl_805D8DD0;
+extern const f32 gryphon_four;
+extern const f32 gryphon_fifty;
 extern const f32 lbl_805D8DD8;
-extern const f32 lbl_805D8DDC;
+extern const f32 gryphon_seven;
 extern const f32 lbl_805D8DE0;
-extern const f32 lbl_805D8DE4;
-extern const f32 lbl_805D8D98;
-extern const f32 lbl_805D8DA0;
-extern const f32 lbl_805D8DA4;
-extern const f32 lbl_805D8DA8;
-extern const f32 lbl_805D8DB0;
-extern const f32 lbl_805D8DB4;
+extern const f32 gryphon_seventeen;
+extern const f32 gryphon_random_unit_scale;
+extern const f32 gryphon_point_six;
+extern const f32 gryphon_point_nine;
+extern const f32 gryphon_point_three;
+extern const f32 gryphon_point_eight;
+extern const f32 gryphon_point_two;
 void choose_next_action__13TBoss5GryphonFPvPv(u8 *arg0, u32 *entry);
 void apply_lightning_hit(s32 owner, s32 pos, f32 inner);
 void apply_snarl_hit(s32 owner, s32 pos, f32 inner, f32 scale);
@@ -484,7 +484,7 @@ u8 boss5_gryphon_camera_pos_vec[0xC];
 u8 boss5_gryphon_direction_vec[0x10];
 extern const f32 lbl_805D9E80;
 // Set up by this file's static initializer (the last function in the object).
-f32 lbl_805D4D90 = lbl_805D8D90 * lbl_805D9E80;
+f32 lbl_805D4D90 = gryphon_three * lbl_805D9E80;
 f32 lbl_805D4D94 = 2.0f * lbl_805D9E80;
 saddr boss5_gryphon_base_params[1];
 saddr boss5_gryphon_resistance_params[1];
@@ -500,20 +500,20 @@ f32 lbl_805D4DC0;
 extern "C" {
 extern u8 *camera_ctrl_instance;
 extern s32 saved_model_render_flags;
-extern const float lbl_805D8D84;
-extern const f32 lbl_805D8D8C;
-extern const f32 lbl_805D8D9C;
+extern const float gryphon_ground_height;
+extern const f32 gryphon_forty;
+extern const f32 gryphon_u32_range;
 extern const float lbl_805D8DEC;
-extern const f32 lbl_805D8DF4;
-extern const f32 lbl_805D8DF8;
-extern const f32 lbl_805D8E00;
-extern const f32 lbl_805D8E04;
+extern const f32 gryphon_twenty_five;
+extern const f32 gryphon_five;
+extern const f32 gryphon_fifteen;
+extern const f32 gryphon_three_quarters;
 extern const f32 lbl_805D8E08;
-extern const f32 lbl_805D8E0C;
-extern const f32 lbl_805D8E14;
-extern const float lbl_805D8E20;
-extern const f32 lbl_805D8E34;
-extern const f32 lbl_805D8E60;
+extern const f32 gryphon_eleven;
+extern const f32 gryphon_nine;
+extern const float gryphon_sixty_seven;
+extern const f32 gryphon_quarter;
+extern const f32 gryphon_sixty_eight;
 extern const f32 lbl_805D8E64;
 extern const f32 lbl_805D8E68;
 extern const f32 lbl_805D8E6C;
@@ -523,17 +523,17 @@ extern const f32 lbl_805D8E78;
 extern const f32 lbl_805D8E7C;
 extern const f32 lbl_805D8E8C;
 extern const f32 lbl_805D8E90;
-extern const f32 lbl_805D8E94;
-extern const f32 lbl_805D8E98;
+extern const f32 gryphon_twenty_three;
+extern const f32 gryphon_twenty_four;
 extern const f32 lbl_805D8EA4;
-extern const f32 lbl_805D8EA8;
-extern const f32 lbl_805D8EB0;
+extern const f32 gryphon_twenty_seven;
+extern const f32 gryphon_twenty_eight;
 extern const f32 lbl_805D8EB4;
-extern const f32 lbl_805D8EB8;
-extern const f32 lbl_805D8EBC;
-extern const f32 lbl_805D8EC0;
+extern const f32 gryphon_seventy;
+extern const f32 gryphon_fourteen;
+extern const f32 gryphon_twenty_one;
 extern const float lbl_805D8EC4;
-extern const f32 lbl_805D8EC8;
+extern const f32 gryphon_thousand;
 extern s32 model_render_flags;
 extern saddr tl_01;
 
@@ -1056,7 +1056,7 @@ s32 TBoss5Gryphon::fn_8005DC0C() {
     VecCopy((Vec *)boss5_gryphon_direction_vec, &dir);
     lbl_805D4DC0 = len;
     for (i = 0; i < 4; i++) {
-        if (fn_8005E1E8(&pad_3C0[boss5_gryphon_point_index_table[i]], lbl_805D8D80) != 0) {
+        if (fn_8005E1E8(&pad_3C0[boss5_gryphon_point_index_table[i]], gryphon_twelve) != 0) {
             return 1;
         }
     }
@@ -1138,7 +1138,7 @@ void TBoss5Gryphon::render() {
 
 void TBoss5Gryphon::fn_8005E040() {
     if (flight_mode == 0) {
-        position.y = lbl_805D8D84;
+        position.y = gryphon_ground_height;
     }
 }
 
@@ -1192,7 +1192,7 @@ s32 TBoss5Gryphon::fn_8005E1E8(Vec *point, f32 radius) {
     subtract_vector(&dir, (Vec *)boss5_gryphon_camera_pos_vec);
     dist = normalize_vector_xz(&dir);
     if (dist + radius < lbl_805D4DC0) {
-        cos_limit = dist * (lbl_805D8D88 / newton_sqrtf(dist * dist + radius * radius));
+        cos_limit = dist * (gryphon_one / newton_sqrtf(dist * dist + radius * radius));
         if (vec3_dot(&dir, boss5_gryphon_direction_vec) >= cos_limit) {
             return 1;
         }
@@ -1236,9 +1236,9 @@ void TBoss5Gryphon::update_particle_positions() {
 void TBoss5Gryphon::fn_8005E39C() {
     Vec pos;
     ParticleAngles rot;
-    pos.x = lbl_805D8D8C * sin_table_lookup(rotation_y) + pad_3C0[11].x;
+    pos.x = gryphon_forty * sin_table_lookup(rotation_y) + pad_3C0[11].x;
     pos.y = pad_3C0[11].y;
-    pos.z = lbl_805D8D8C * cos_table_lookup(rotation_y) + pad_3C0[11].z;
+    pos.z = gryphon_forty * cos_table_lookup(rotation_y) + pad_3C0[11].z;
     rot.x = 0;
     rot.y = rotation_y;
     rot.x = 0x4000;
@@ -1297,12 +1297,12 @@ void TBoss5Gryphon::update_ground_effects() {
     VecCopy(p++, &self->cp[1]);
     VecCopy(p++, &self->cp[2]);
     VecCopy(p, &self->cp[3]);
-    p[1].x = (2.0f * self->cp[0].x + self->cp[1].x) / lbl_805D8D90;
-    p[1].y = (2.0f * self->cp[0].y + self->cp[1].y) / lbl_805D8D90;
-    p[1].z = (2.0f * self->cp[0].z + self->cp[1].z) / lbl_805D8D90;
-    p[2].x = (2.0f * self->cp[1].x + self->cp[0].x) / lbl_805D8D90;
-    p[2].y = (2.0f * self->cp[1].y + self->cp[0].y) / lbl_805D8D90;
-    p[2].z = (2.0f * self->cp[1].z + self->cp[0].z) / lbl_805D8D90;
+    p[1].x = (2.0f * self->cp[0].x + self->cp[1].x) / gryphon_three;
+    p[1].y = (2.0f * self->cp[0].y + self->cp[1].y) / gryphon_three;
+    p[1].z = (2.0f * self->cp[0].z + self->cp[1].z) / gryphon_three;
+    p[2].x = (2.0f * self->cp[1].x + self->cp[0].x) / gryphon_three;
+    p[2].y = (2.0f * self->cp[1].y + self->cp[0].y) / gryphon_three;
+    p[2].z = (2.0f * self->cp[1].z + self->cp[0].z) / gryphon_three;
     p[3].x = 0.5f * (self->cp[1].x + self->cp[2].x);
     p[3].y = 0.5f * (self->cp[1].y + self->cp[2].y);
     p[3].z = 0.5f * (self->cp[1].z + self->cp[2].z);
@@ -1314,12 +1314,12 @@ void TBoss5Gryphon::update_ground_effects() {
     VecCopy(p++, &self->cp[5]);
     VecCopy(p++, &self->cp[6]);
     VecCopy(p, &self->cp[7]);
-    p[1].x = (2.0f * self->cp[4].x + self->cp[5].x) / lbl_805D8D90;
-    p[1].y = (2.0f * self->cp[4].y + self->cp[5].y) / lbl_805D8D90;
-    p[1].z = (2.0f * self->cp[4].z + self->cp[5].z) / lbl_805D8D90;
-    p[2].x = (2.0f * self->cp[5].x + self->cp[4].x) / lbl_805D8D90;
-    p[2].y = (2.0f * self->cp[5].y + self->cp[4].y) / lbl_805D8D90;
-    p[2].z = (2.0f * self->cp[5].z + self->cp[4].z) / lbl_805D8D90;
+    p[1].x = (2.0f * self->cp[4].x + self->cp[5].x) / gryphon_three;
+    p[1].y = (2.0f * self->cp[4].y + self->cp[5].y) / gryphon_three;
+    p[1].z = (2.0f * self->cp[4].z + self->cp[5].z) / gryphon_three;
+    p[2].x = (2.0f * self->cp[5].x + self->cp[4].x) / gryphon_three;
+    p[2].y = (2.0f * self->cp[5].y + self->cp[4].y) / gryphon_three;
+    p[2].z = (2.0f * self->cp[5].z + self->cp[4].z) / gryphon_three;
     p[3].x = 0.5f * (self->cp[5].x + self->cp[6].x);
     p[3].y = 0.5f * (self->cp[5].y + self->cp[6].y);
     p[3].z = 0.5f * (self->cp[5].z + self->cp[6].z);
@@ -1330,7 +1330,7 @@ void TBoss5Gryphon::update_ground_effects() {
     for (i = 0; i < 16; i++, q++) {
         Hit_8005E594 *hit = (Hit_8005E594 *)csnVecterUnder(q, 0x16EF);
         if (hit == NULL) {
-            q->y = lbl_805D8D94;
+            q->y = gryphon_negative_thousand;
         } else {
             f32 y = hit->p->y;
             if (y > 6.0f) {
@@ -1358,7 +1358,7 @@ s32 TBoss5Gryphon::get_random_sign(Boss5GryphonActionStep *step, s32 i) {
     if (v < 0) {
         return -1;
     }
-    if ((lbl_805D8D98 * (f32) rand()) >= 0.5f) {
+    if ((gryphon_random_unit_scale * (f32) rand()) >= 0.5f) {
         return 1;
     }
     return -1;
@@ -1374,7 +1374,7 @@ s32 TBoss5Gryphon::calc_product(Boss5GryphonActionStep *step, s32 sign_index, s3
 #pragma push
 #pragma fp_contract on
 s32 TBoss5Gryphon::rand_scaled_offset(s32 base, s32 spread) {
-    return (s32) (((f32) spread * (lbl_805D8D98 * (f32) rand())) + (f32) base);
+    return (s32) (((f32) spread * (gryphon_random_unit_scale * (f32) rand())) + (f32) base);
 }
 #pragma pop
 
@@ -1389,7 +1389,7 @@ s32 TBoss5Gryphon::random_in_table_range(Boss5GryphonActionStep *step, s32 i) {
 #pragma push
 #pragma fp_contract on
 f32 TBoss5Gryphon::random_in_range(f32 min, f32 range) {
-    return (range * (lbl_805D8D98 * (f32) rand())) + min;
+    return (range * (gryphon_random_unit_scale * (f32) rand())) + min;
 }
 #pragma pop
 
@@ -1401,7 +1401,7 @@ f32 TBoss5Gryphon::fn_8005EAD0(Boss5GryphonActionStep *step, s32 i) {
 #pragma pop
 
 void TBoss5Gryphon::set_random_param(u8 *params) {
-    *(s32 *)((s8 *)params + 4) = (s32) (lbl_805D8D9C * (lbl_805D8D98 * (f32) rand()));
+    *(s32 *)((s8 *)params + 4) = (s32) (gryphon_u32_range * (gryphon_random_unit_scale * (f32) rand()));
 }
 
 void TBoss5Gryphon::calc_attack_params(void *params, Boss5GryphonActionStep *step) {
@@ -1599,12 +1599,12 @@ void choose_next_action__13TBoss5GryphonFPvPv(u8 *arg0, u32 *entry) {
         ((TBoss5Gryphon *)arg0)->update_target_from_state();
         return;
     }
-    r = lbl_805D8D98 * (f32)rand();
+    r = gryphon_random_unit_scale * (f32)rand();
     switch (((TBoss5Gryphon *)arg0)->fn_8005E9D8((Boss5GryphonActionStep *)entry, 0)) {
     case 0:
-        if (r < lbl_805D8DA0) {
+        if (r < gryphon_point_six) {
             F(s32, 0x774) = TBL(8);
-        } else if (r < lbl_805D8DA4) {
+        } else if (r < gryphon_point_nine) {
             F(s32, 0x774) = TBL(0xC);
         } else {
             F(s32, 0x774) = TBL(0x10);
@@ -1622,14 +1622,14 @@ void choose_next_action__13TBoss5GryphonFPvPv(u8 *arg0, u32 *entry) {
             break;
         }
         r = (f32)F(s16, 0x32C) / (f32)F(s16, 0x2B8);
-        if (lbl_805D8D98 * (f32)rand() < gryphon_action_probability_table_b[LEVEL]) {
-            if (lbl_805D8D98 * (f32)rand() < r) {
+        if (gryphon_random_unit_scale * (f32)rand() < gryphon_action_probability_table_b[LEVEL]) {
+            if (gryphon_random_unit_scale * (f32)rand() < r) {
                 F(s32, 0x774) = TBL(0x1C);
             } else {
                 F(s32, 0x774) = TBL(0x20);
             }
         } else {
-            if (lbl_805D8D98 * (f32)rand() < r) {
+            if (gryphon_random_unit_scale * (f32)rand() < r) {
                 F(s32, 0x774) = TBL(0x14);
             } else {
                 F(s32, 0x774) = TBL(0x18);
@@ -1644,26 +1644,26 @@ void choose_next_action__13TBoss5GryphonFPvPv(u8 *arg0, u32 *entry) {
         }
         break;
     case 3:
-        if (r < lbl_805D8DA8) {
+        if (r < gryphon_point_three) {
             F(s32, 0x774) = TBL(0x2C);
-        } else if (r < lbl_805D8DAC) {
+        } else if (r < gryphon_point_four) {
             F(s32, 0x774) = TBL(0x30);
-        } else if (r < lbl_805D8DA0) {
+        } else if (r < gryphon_point_six) {
             F(s32, 0x774) = TBL(0x34);
-        } else if (r < lbl_805D8DB0) {
+        } else if (r < gryphon_point_eight) {
             F(s32, 0x774) = TBL(0x38);
         } else {
             F(s32, 0x774) = TBL(0x3C);
         }
         break;
     case 4:
-        if (r < lbl_805D8DB4) {
+        if (r < gryphon_point_two) {
             if (LEVEL >= 2) {
                 F(s32, 0x774) = TBL(0x4C);
             } else {
                 F(s32, 0x774) = TBL(0x40);
             }
-        } else if (r < lbl_805D8DA0) {
+        } else if (r < gryphon_point_six) {
             if (LEVEL >= 4) {
                 F(s32, 0x774) = TBL(0x50);
             } else {
@@ -1813,7 +1813,7 @@ void TBoss5Gryphon::turn_toward_angle_limited(s32 ang, s32 target) {
     s32 v;
 
     t = angle_diff_s16(rotation_y, target);
-    t = angle_diff_s16((s32)((f32)t * lbl_805D8DA0), m_480);
+    t = angle_diff_s16((s32)((f32)t * gryphon_point_six), m_480);
     v = (t < -ang) ? -ang : ((t < ang) ? t : ang);
     m_480 = m_480 - v;
 }
@@ -1937,7 +1937,7 @@ void TBoss5Gryphon::fn_8005FD34(s32 event) {
             self->fn_80063EF4();
             break;
         case 2:
-            move_along_angle(lbl_805D8D90, self->rotation_y);
+            move_along_angle(gryphon_three, self->rotation_y);
             break;
         }
         break;
@@ -1962,7 +1962,7 @@ void TBoss5Gryphon::fn_8005FE18(s32 event) {
         break;
     case ENEMY_STATE_UPDATE:
         self->advance_animation();
-        if (((TObjMotion *)self)->is_passing_frame(lbl_805D8D80) != 0) {
+        if (((TObjMotion *)self)->is_passing_frame(gryphon_twelve) != 0) {
             self->play_se(0x4003A817);
         }
         if (self->fn_8005FAE0() != 0) {
@@ -1983,7 +1983,7 @@ void TBoss5Gryphon::fn_8005FE18(s32 event) {
 #pragma push
 #pragma fp_contract on
 #define PLAY_SE(o, id) ((TBoss5Gryphon *)o)->play_se((id))
-extern const f32 lbl_805D8DB8;
+extern const f32 gryphon_roar_frame;
 
 void TBoss5Gryphon::update_roar_state(s32 event) {
     TBoss5Gryphon *self = this;
@@ -1999,7 +1999,7 @@ void TBoss5Gryphon::update_roar_state(s32 event) {
         break;
     case ENEMY_STATE_UPDATE:
         self->advance_animation();
-        if (((TObjMotion *)self)->is_passing_frame(lbl_805D8DB8) != 0) {
+        if (((TObjMotion *)self)->is_passing_frame(gryphon_roar_frame) != 0) {
             bones = (Vec *)((u8 *)self + 0x3C0);
             pos.x = 0.5f * (bones[1].x + bones[2].x);
             pos.y = 0.5f * (bones[1].y + bones[2].y);
@@ -2024,7 +2024,7 @@ void TBoss5Gryphon::update_roar_state(s32 event) {
 #pragma pop
 
 extern const f32 lbl_805D8DE8;
-extern const f32 lbl_805D8DF0;
+extern const f32 gryphon_sixty;
 
 #pragma push
 #pragma fp_contract on
@@ -2044,7 +2044,7 @@ void TBoss5Gryphon::fn_80060020(u32 event) {
         subtractive_rng_seed(self->f5F4, self->f4BC->f4);
         self->f5C = 0x4000;
         self->f6E8 = 0;
-        self->f6E0 = (f32)self->f4BC->h2 - TWindowSubStatusDisp::round_away_from_zero(lbl_805D8DBC);
+        self->f6E0 = (f32)self->f4BC->h2 - TWindowSubStatusDisp::round_away_from_zero(gryphon_seventy_five);
         self->f6F4 = lbl_805D8DC4 / ((f32)self->f4BC->h2 - TWindowSubStatusDisp::round_away_from_zero(lbl_805D8DC0));
         self->f6DC = 0;
         break;
@@ -2064,7 +2064,7 @@ void TBoss5Gryphon::fn_80060020(u32 event) {
             } else {
                 ((TBoss5Gryphon *)self)->update_heading(0x100);
             }
-            ((TBoss5Gryphon *)self)->update_facing(lbl_805D8D90);
+            ((TBoss5Gryphon *)self)->update_facing(gryphon_three);
             self->pos.y -= self->f6F4;
             self->f64 += 0x3311;
             if (self->f6E8 >= self->f6E0) {
@@ -2076,13 +2076,13 @@ void TBoss5Gryphon::fn_80060020(u32 event) {
             ang = 65536.0f * calc_random_ratio__10TObjPlayerFv(self->f5F4);
             r = calc_random_ratio__10TObjPlayerFv(self->f5F4);
             if (calc_random_ratio__10TObjPlayerFv(self->f5F4) > 0.5f) {
-                pl = ((u8 *(*)(u16))get_player_by_client_id)((s32)(lbl_805D8DCC * calc_random_ratio__10TObjPlayerFv(self->f5F4)));
+                pl = ((u8 *(*)(u16))get_player_by_client_id)((s32)(gryphon_four * calc_random_ratio__10TObjPlayerFv(self->f5F4)));
                 if (((TObjBase *)pl)->is_alive() != 0) {
                     Hit_80060020 *hit;
-                    r *= lbl_805D8DD0;
+                    r *= gryphon_fifty;
                     do {
                         v.x = r * sin_table_lookup(ang) + ((Vec *)(pl + 0x38))->x;
-                        v.y = lbl_805D8DD0 + ((Vec *)(pl + 0x38))->y;
+                        v.y = gryphon_fifty + ((Vec *)(pl + 0x38))->y;
                         v.z = r * cos_table_lookup(ang) + ((Vec *)(pl + 0x38))->z;
                         hit = (Hit_80060020 *)csnVecterUnder(&v, 0x16EF);
                         ang += 0x2000;
@@ -2098,14 +2098,14 @@ void TBoss5Gryphon::fn_80060020(u32 event) {
                     v.y = 0.0f;
                     v.z = r * cos_table_lookup(ang);
                     hit = (Hit_80060020 *)csnVecterUnder(&v, 0x16EF);
-                    r -= lbl_805D8DCC;
+                    r -= gryphon_four;
                 } while (hit == NULL || hit->p->y > 6.0f);
             }
             {
                 a2 = 10430.38043493439 * atan2_float(v.x - self->pos.x, v.z - self->pos.z);
-                w.x = lbl_805D8DD0 * sin_table_lookup(a2) + self->pos.x;
-                w.y = lbl_805D8DD0 + self->pos.y;
-                w.z = lbl_805D8DD0 * cos_table_lookup(a2) + self->pos.z;
+                w.x = gryphon_fifty * sin_table_lookup(a2) + self->pos.x;
+                w.y = gryphon_fifty + self->pos.y;
+                w.z = gryphon_fifty * cos_table_lookup(a2) + self->pos.z;
             }
             if (self->f6E8 % 5 == 0) {
                 fn_80351DA8(self, &w, &v, 0x28, 0x11);
@@ -2118,12 +2118,12 @@ void TBoss5Gryphon::fn_80060020(u32 event) {
         }
         case 1: {
             f32 s;
-            ((TBoss5Gryphon *)self)->move_along_angle(lbl_805D8D88, self->f60);
+            ((TBoss5Gryphon *)self)->move_along_angle(gryphon_one, self->f60);
             self->pos.y -= self->f6F4;
             s = ((TObjEneDD_ST *)self)->get_motion_frame();
-            self->f5C = 65536.0f - lbl_805D8DD8 * (lbl_805D8D88 - s / lbl_805D8DDC);
-            self->f64 = lbl_805D8DE0 * (lbl_805D8DDC - s) * (lbl_805D8DDC - s);
-            if (((TObjMotion *)self)->is_passing_frame((f32)lbl_805D8DDC) != 0) {
+            self->f5C = 65536.0f - lbl_805D8DD8 * (gryphon_one - s / gryphon_seven);
+            self->f64 = lbl_805D8DE0 * (gryphon_seven - s) * (gryphon_seven - s);
+            if (((TObjMotion *)self)->is_passing_frame((f32)gryphon_seven) != 0) {
                 self->f5C = 0;
                 self->f64 = 0;
                 self->f6DC = 2;
@@ -2131,9 +2131,9 @@ void TBoss5Gryphon::fn_80060020(u32 event) {
             break;
         }
         case 2:
-            ((TBoss5Gryphon *)self)->move_along_angle(lbl_805D8D88, self->f60);
+            ((TBoss5Gryphon *)self)->move_along_angle(gryphon_one, self->f60);
             self->pos.y -= self->f6F4;
-            if (((TObjMotion *)self)->is_passing_frame((f32)lbl_805D8DE4) != 0) {
+            if (((TObjMotion *)self)->is_passing_frame((f32)gryphon_seventeen) != 0) {
                 ((TBoss5Gryphon *)self)->enter_ground_mode();
                 ((TBoss5Gryphon *)self)->set_ground_height();
                 PLAY_SE(self, 0x40032D0D);
@@ -2195,15 +2195,15 @@ void TBoss5Gryphon::update_offscreen_climb(s32 event) {
             f32 t;
             speed = lbl_805D8DE8;
             t = self->get_motion_frame();
-            self->position.y = lbl_805D8DEC + lbl_805D8DF0 * (t * t) / lbl_805D8DF4;
-            if (((TObjMotion *)self)->is_passing_frame(lbl_805D8DF8) != 0) {
+            self->position.y = lbl_805D8DEC + gryphon_sixty * (t * t) / gryphon_twenty_five;
+            if (((TObjMotion *)self)->is_passing_frame(gryphon_five) != 0) {
                 self->m_6e0 = 0;
                 self->m_6dc = 1;
             }
             break;
         }
         case 1:
-            self->position.y += lbl_805D8D8C;
+            self->position.y += gryphon_forty;
             speed = lbl_805D8DE8;
             self->m_6e0++;
             if (self->m_6e0 >= 0x28) {
@@ -2285,10 +2285,10 @@ void TBoss5Gryphon::update_ground_lightning_attack(s32 event) {
         self->fn_800641A8();
         if (*(s32 *)((u8 *)boss5_gryphon_behavior_params[2] + 0x28) >= 2) {
             self->spawn_lightning_effect();
-            apply_lightning_hit((saddr)self, (saddr)&self->position, lbl_805D8DF0);
+            apply_lightning_hit((saddr)self, (saddr)&self->position, gryphon_sixty);
         }
         if (*(s32 *)((u8 *)boss5_gryphon_behavior_params[2] + 0x28) >= 4 && self->m_6e4 % 20 == 0) {
-            TBoss8Dragon__sub_8005D9BC((u8 *)self, (self->m_6e4 / 20) & 1 ? 0 : 1, lbl_805D8DCC * calc_random_ratio__10TObjPlayerFv(self->rng));
+            TBoss8Dragon__sub_8005D9BC((u8 *)self, (self->m_6e4 / 20) & 1 ? 0 : 1, gryphon_four * calc_random_ratio__10TObjPlayerFv(self->rng));
         }
         self->spawn_ancient_trap(0x40032D11);
         self->m_6e4++;
@@ -2311,7 +2311,7 @@ void TBoss5Gryphon::update_ground_lightning_attack(s32 event) {
     }
 }
 
-extern const f32 lbl_805D8DFC;
+extern const f32 gryphon_nineteen;
 
 void TBoss5Gryphon::fn_80060A58(s32 event) {
     TBoss5Gryphon *self = this;
@@ -2324,7 +2324,7 @@ void TBoss5Gryphon::fn_80060A58(s32 event) {
         break;
     case ENEMY_STATE_UPDATE:
         self->advance_animation();
-        if (((TObjMotion *)self)->is_passing_frame(lbl_805D8DFC) != 0) {
+        if (((TObjMotion *)self)->is_passing_frame(gryphon_nineteen) != 0) {
             self->play_se(0x4003320F);
         }
         if (self->action_flags == 0x11) {
@@ -2353,7 +2353,7 @@ void TBoss5Gryphon::fn_80060B18(s32 event) {
     case ENEMY_STATE_UPDATE:
         self->advance_animation();
         self->fn_800641A8();
-        if (((TObjMotion *)self)->is_passing_frame(lbl_805D8DF8) != 0) {
+        if (((TObjMotion *)self)->is_passing_frame(gryphon_five) != 0) {
             self->demo->get_state();
         }
         if (self->fn_8005FAE0() != 0) {
@@ -2406,10 +2406,10 @@ void TBoss5Gryphon::fn_80060CA4(s32 event) {
     case ENEMY_STATE_UPDATE:
         self->advance_animation();
         self->fn_800641A8();
-        if (((TObjMotion *)self)->is_passing_frame(lbl_805D8DDC) != 0) {
+        if (((TObjMotion *)self)->is_passing_frame(gryphon_seven) != 0) {
             self->demo->draw_linked_model(&self->position, self->rotation_y);
         }
-        if (((TObjMotion *)self)->is_passing_frame(lbl_805D8D88) != 0) {
+        if (((TObjMotion *)self)->is_passing_frame(gryphon_one) != 0) {
             self->play_se(0x40032D0E);
         }
         if (self->action_flags == 0xE) {
@@ -2446,19 +2446,19 @@ void TBoss5Gryphon::fn_80060D9C(s32 event) {
         self->advance_animation();
         v = self->get_motion_frame();
         speed = 0.0f;
-        if (v < lbl_805D8E00) {
-            depth = lbl_805D8E04;
-            scale = lbl_805D8DA4;
+        if (v < gryphon_fifteen) {
+            depth = gryphon_three_quarters;
+            scale = gryphon_point_nine;
         } else {
-            depth = lbl_805D8E04;
+            depth = gryphon_three_quarters;
             scale = lbl_805D8E08;
         }
-        if (((TObjMotion *)self)->is_passing_frame(lbl_805D8D90) != 0) {
-            speed += lbl_805D8E0C;
+        if (((TObjMotion *)self)->is_passing_frame(gryphon_three) != 0) {
+            speed += gryphon_eleven;
         }
         self->scale_size(scale, depth, depth);
         move_along_angle(speed, self->rotation_y);
-        if (((TObjMotion *)self)->is_passing_frame(lbl_805D8E00) != 0) {
+        if (((TObjMotion *)self)->is_passing_frame(gryphon_fifteen) != 0) {
             at.x = self->position.x;
             at.y = 0.0f;
             at.z = self->position.z;
@@ -2504,20 +2504,20 @@ void TBoss5Gryphon::state_move(s32 event) {
         fn_8006426C();
         fn_80064828();
         v = this->get_motion_frame();
-        if (v < lbl_805D8E10 || v >= lbl_805D8DE4) {
-            depth = lbl_805D8E04;
+        if (v < gryphon_ten || v >= gryphon_seventeen) {
+            depth = gryphon_three_quarters;
             ang = 0;
             speed = 0.0f;
-            scale = lbl_805D8DA4;
+            scale = gryphon_point_nine;
         } else {
-            depth = lbl_805D8E04;
+            depth = gryphon_three_quarters;
             ang = 0xD0;
-            speed = lbl_805D8D88;
+            speed = gryphon_one;
             scale = lbl_805D8E08;
         }
         if (is_passing_frame(0.5f) != 0) {
             ang += 0x500;
-            speed += lbl_805D8E14;
+            speed += gryphon_nine;
         }
         this->scale_size(scale, depth, depth);
         move_along_angle(speed, ((Obj_80060F4C *)this)->f60);
@@ -2561,11 +2561,11 @@ void TBoss5Gryphon::fn_800610D0(s32 event) {
     }
 }
 
-extern const f32 lbl_805D8E38;
+extern const f32 gryphon_one_and_half;
 extern const f32 lbl_805D8E18;
 extern const f32 lbl_805D8E1C;
 extern const f32 lbl_805D8E24;
-extern const f32 lbl_805D8E28;
+extern const f32 gryphon_quarter_turn;
 extern const f32 lbl_805D8E2C;
 extern const f32 lbl_805D8E30;
 
@@ -2597,14 +2597,14 @@ void TBoss5Gryphon::handle_takeoff_state(s32 event) {
             speed = lbl_805D8E18;
             if ((f32)t < *(const f32 *)&lbl_805D8E1C) {
                 f = (f32)t;
-                d = cos_table_lookup((s32)(lbl_805D8E28 * f / lbl_805D8E1C));
+                d = cos_table_lookup((s32)(gryphon_quarter_turn * f / lbl_805D8E1C));
                 d = -lbl_805D8E24 * d + lbl_805D8E24;
-                self->position.y = lbl_805D8E20 + d;
+                self->position.y = gryphon_sixty_seven + d;
             } else {
                 f = (f32)(0x27 - t);
-                d = cos_table_lookup((s32)(lbl_805D8E28 * f / lbl_805D8E1C));
+                d = cos_table_lookup((s32)(gryphon_quarter_turn * f / lbl_805D8E1C));
                 d = lbl_805D8E24 * d + lbl_805D8E24;
-                self->position.y = lbl_805D8E20 + d;
+                self->position.y = gryphon_sixty_seven + d;
             }
             self->rotation_x = (s32)(-(lbl_805D8E2C * f) / lbl_805D8E1C);
             self->m_6e0++;
@@ -2615,20 +2615,20 @@ void TBoss5Gryphon::handle_takeoff_state(s32 event) {
                 self->rotation_x = 0;
                 self->m_6dc = 1;
             }
-            if (((TObjMotion *)self)->is_passing_frame(lbl_805D8DDC) != 0) {
+            if (((TObjMotion *)self)->is_passing_frame(gryphon_seven) != 0) {
                 self->spawn_ground_splash();
             }
             break;
         case 1: {
             f32 phase_speed;
             f32 base;
-            speed = lbl_805D8E34;
+            speed = gryphon_quarter;
             phase_speed = self->get_motion_frame();
-            base = lbl_805D8E0C;
+            base = gryphon_eleven;
             phase_speed -= base;
             d = self->frame_count - base;
-            self->position.y = lbl_805D8E30 - lbl_805D8DD0 *
-                sin_table_lookup((s32)(lbl_805D8E28 * phase_speed / d));
+            self->position.y = lbl_805D8E30 - gryphon_fifty *
+                sin_table_lookup((s32)(gryphon_quarter_turn * phase_speed / d));
             if (self->fn_8005FAE0() != 0) {
                 self->advance_motion_entry();
             }
@@ -2670,10 +2670,10 @@ void TBoss5Gryphon::handle_descend_state(s32 event) {
         self->advance_animation();
         switch (*(s32 *)((s8 *)self + 0x6DC)) {
         case 0:
-            move_along_angle(lbl_805D8E38, self->rotation_y);
-            TBoss8Dragon::eval_bezier_curve(boss5_gryphon_descend_bezier_points, 4, 0, &out, ((TObjEneDD_ST *)self)->get_motion_frame() / lbl_805D8DE4);
+            move_along_angle(gryphon_one_and_half, self->rotation_y);
+            TBoss8Dragon::eval_bezier_curve(boss5_gryphon_descend_bezier_points, 4, 0, &out, ((TObjEneDD_ST *)self)->get_motion_frame() / gryphon_seventeen);
             *(f32 *)((s8 *)self + 0x3C) = out.y;
-            if (((TObjMotion *)self)->is_passing_frame((f32)lbl_805D8DE4) != 0) {
+            if (((TObjMotion *)self)->is_passing_frame((f32)gryphon_seventeen) != 0) {
                 ((TBoss5Gryphon *)self)->enter_ground_mode();
                 ((TBoss5Gryphon *)self)->set_ground_height();
                 self->play_se(0x40032D0D);
@@ -2692,7 +2692,7 @@ void TBoss5Gryphon::handle_descend_state(s32 event) {
             }
             break;
         }
-        if (((TObjMotion *)self)->is_passing_frame((f32)lbl_805D8DCC) != 0) {
+        if (((TObjMotion *)self)->is_passing_frame((f32)gryphon_four) != 0) {
             self->spawn_ground_splash();
         }
         break;
@@ -2732,9 +2732,9 @@ void TBoss5Gryphon::fn_800615FC(s32 event) {
         self->advance_animation();
         switch (self->m_6dc) {
         case 0:
-            speed = lbl_805D8E34;
-            self->position.y = 20.0f * sin_table_lookup((s32)(lbl_805D8E28 * self->get_motion_frame() / lbl_805D8E14)) + lbl_805D8DEC;
-            if (((TObjMotion *)self)->is_passing_frame(lbl_805D8E14) != 0) {
+            speed = gryphon_quarter;
+            self->position.y = 20.0f * sin_table_lookup((s32)(gryphon_quarter_turn * self->get_motion_frame() / gryphon_nine)) + lbl_805D8DEC;
+            if (((TObjMotion *)self)->is_passing_frame(gryphon_nine) != 0) {
                 self->m_6dc = 1;
                 self->m_6e0 = 0;
             }
@@ -2742,18 +2742,18 @@ void TBoss5Gryphon::fn_800615FC(s32 event) {
         case 1:
             t = self->m_6e0;
             speed = lbl_805D8E3C;
-            if ((f32)t < *(const f32 *)&lbl_805D8E10) {
+            if ((f32)t < *(const f32 *)&gryphon_ten) {
                 f = (f32)t;
-                d = cos_table_lookup((s32)(lbl_805D8E28 * f / lbl_805D8E10));
+                d = cos_table_lookup((s32)(gryphon_quarter_turn * f / gryphon_ten));
                 d = lbl_805D8E40 * d + lbl_805D8E40;
-                self->position.y = lbl_805D8E20 + d;
+                self->position.y = gryphon_sixty_seven + d;
             } else {
                 f = (f32)(0x14 - t);
-                d = cos_table_lookup((s32)(lbl_805D8E28 * f / lbl_805D8E10));
+                d = cos_table_lookup((s32)(gryphon_quarter_turn * f / gryphon_ten));
                 d = -lbl_805D8E40 * d + lbl_805D8E40;
-                self->position.y = lbl_805D8E20 + d;
+                self->position.y = gryphon_sixty_seven + d;
             }
-            self->rotation_x = (s32)(lbl_805D8E44 * f / lbl_805D8E10);
+            self->rotation_x = (s32)(lbl_805D8E44 * f / gryphon_ten);
             self->m_6e0++;
             if (self->m_6e0 > 0x14) {
                 ((TBoss5Gryphon *)self)->enter_low_flight_mode();
@@ -2770,7 +2770,7 @@ void TBoss5Gryphon::fn_800615FC(s32 event) {
             break;
         }
         move_along_angle(speed, self->rotation_y);
-        if (((TObjMotion *)self)->is_passing_frame(lbl_805D8DF8) != 0) {
+        if (((TObjMotion *)self)->is_passing_frame(gryphon_five) != 0) {
             self->spawn_ground_splash();
         }
         break;
@@ -2822,14 +2822,14 @@ void TBoss5Gryphon::update_dive_motion(s32 event) {
             speed = lbl_805D8E18;
             if ((f32)t < *(const f32 *)&lbl_805D8E1C) {
                 f = (f32)t;
-                d = cos_table_lookup((s32)(lbl_805D8E28 * f / lbl_805D8E1C));
+                d = cos_table_lookup((s32)(gryphon_quarter_turn * f / lbl_805D8E1C));
                 d = -lbl_805D8E48 * d + lbl_805D8E48;
-                *(f32 *)((s8 *)self + 0x3C) = lbl_805D8E20 + d;
+                *(f32 *)((s8 *)self + 0x3C) = gryphon_sixty_seven + d;
             } else {
                 f = (f32)(0x27 - t);
-                d = cos_table_lookup((s32)(lbl_805D8E28 * f / lbl_805D8E1C));
+                d = cos_table_lookup((s32)(gryphon_quarter_turn * f / lbl_805D8E1C));
                 d = lbl_805D8E48 * d + lbl_805D8E48;
-                *(f32 *)((s8 *)self + 0x3C) = lbl_805D8E20 + d;
+                *(f32 *)((s8 *)self + 0x3C) = gryphon_sixty_seven + d;
             }
             this->rotation_x = (s32)(-(lbl_805D8E2C * f) / lbl_805D8E1C);
             (*(s32 *)((s8 *)self + 0x6E0))++;
@@ -2842,11 +2842,11 @@ void TBoss5Gryphon::update_dive_motion(s32 event) {
             }
             break;
         case 1:
-            speed = lbl_805D8E34;
-            f = this->frame_count - lbl_805D8E10;
-            d = ((TObjEneDD_ST *)self)->get_motion_frame() - lbl_805D8E10;
-            *(f32 *)((s8 *)self + 0x3C) = lbl_805D8E4C - lbl_805D8E50 * sin_table_lookup((s32)(lbl_805D8E28 * d / f));
-            if (((TObjMotion *)self)->is_passing_frame((f32)lbl_805D8DE4) != 0) {
+            speed = gryphon_quarter;
+            f = this->frame_count - gryphon_ten;
+            d = ((TObjEneDD_ST *)self)->get_motion_frame() - gryphon_ten;
+            *(f32 *)((s8 *)self + 0x3C) = lbl_805D8E4C - lbl_805D8E50 * sin_table_lookup((s32)(gryphon_quarter_turn * d / f));
+            if (((TObjMotion *)self)->is_passing_frame((f32)gryphon_seventeen) != 0) {
                 ((TBoss5Gryphon *)self)->spawn_ground_splash();
             }
             if (fn_8005FAE0() != 0) {
@@ -2885,7 +2885,7 @@ void TBoss5Gryphon::update_bezier_descent(s32 event) {
         self->advance_animation();
         switch (self->m_6dc) {
         case 0:
-            move_along_angle(lbl_805D8E38, self->rotation_y);
+            move_along_angle(gryphon_one_and_half, self->rotation_y);
             TBoss8Dragon::eval_bezier_curve(lbl_8048802C, 4, 0, &out, self->get_motion_frame() / 20.0f);
             self->position.y = out.y;
             if (((TObjMotion *)self)->is_passing_frame(20.0f) != 0) {
@@ -2919,7 +2919,7 @@ void TBoss5Gryphon::update_bezier_descent(s32 event) {
     }
 }
 
-extern const f32 lbl_805D8E54;
+extern const f32 gryphon_negative_four;
 
 #pragma push
 #pragma fp_contract on
@@ -2963,14 +2963,14 @@ void TBoss5Gryphon::update_low_flight_circle(s32 event) {
             }
         }
         if (fabs_float((f32)d) > lbl_805D8E44) {
-            speed *= lbl_805D8DB0;
+            speed *= gryphon_point_eight;
         }
         move_along_angle(speed, this->rotation_y);
         if ((f32)this->motion->timer > 6.0f) {
-            v = (s32)(lbl_805D8E54 * (f32)this->m_480);
+            v = (s32)(gryphon_negative_four * (f32)this->m_480);
             v = (v < -0x600) ? -0x600 : ((v < 0x600) ? v : 0x600);
             d = angle_diff_s16(this->rotation_z, v);
-            this->rotation_z = (s32)(lbl_805D8DB4 * (f32)d + (f32)this->rotation_z);
+            this->rotation_z = (s32)(gryphon_point_two * (f32)d + (f32)this->rotation_z);
         } else {
             this->rotation_z -= this->rotation_z / this->motion->timer;
         }
@@ -3054,9 +3054,9 @@ void TBoss5Gryphon::fn_80062114(s32 event) {
         self->advance_animation();
         switch (self->m_6dc) {
         case 0:
-            speed = lbl_805D8E34;
-            self->position.y = lbl_805D8E50 * sin_table_lookup((s32)(lbl_805D8E28 * self->get_motion_frame() / lbl_805D8E5C)) + lbl_805D8DEC;
-            if (((TObjMotion *)self)->is_passing_frame(lbl_805D8E5C) != 0) {
+            speed = gryphon_quarter;
+            self->position.y = lbl_805D8E50 * sin_table_lookup((s32)(gryphon_quarter_turn * self->get_motion_frame() / gryphon_eighteen)) + lbl_805D8DEC;
+            if (((TObjMotion *)self)->is_passing_frame(gryphon_eighteen) != 0) {
                 self->m_6dc = 1;
                 self->m_6e0 = 0;
             }
@@ -3064,18 +3064,18 @@ void TBoss5Gryphon::fn_80062114(s32 event) {
         case 1:
             t = self->m_6e0;
             speed = lbl_805D8E3C;
-            if ((f32)t < *(const f32 *)&lbl_805D8E00) {
+            if ((f32)t < *(const f32 *)&gryphon_fifteen) {
                 f = (f32)t;
-                d = cos_table_lookup((s32)(lbl_805D8E28 * f / lbl_805D8E00));
+                d = cos_table_lookup((s32)(gryphon_quarter_turn * f / gryphon_fifteen));
                 d = lbl_805D8E48 * d + lbl_805D8E48;
-                self->position.y = lbl_805D8E20 + d;
+                self->position.y = gryphon_sixty_seven + d;
             } else {
                 f = (f32)(0x1E - t);
-                d = cos_table_lookup((s32)(lbl_805D8E28 * f / lbl_805D8E00));
+                d = cos_table_lookup((s32)(gryphon_quarter_turn * f / gryphon_fifteen));
                 d = -lbl_805D8E48 * d + lbl_805D8E48;
-                self->position.y = lbl_805D8E20 + d;
+                self->position.y = gryphon_sixty_seven + d;
             }
-            self->rotation_x = (s32)(lbl_805D8E44 * f / lbl_805D8E00);
+            self->rotation_x = (s32)(lbl_805D8E44 * f / gryphon_fifteen);
             self->m_6e0++;
             if (self->m_6e0 > 0x1E) {
                 ((TBoss5Gryphon *)self)->enter_low_flight_mode();
@@ -3092,7 +3092,7 @@ void TBoss5Gryphon::fn_80062114(s32 event) {
             break;
         }
         move_along_angle(speed, self->rotation_y);
-        if (((TObjMotion *)self)->is_passing_frame(lbl_805D8E10) != 0) {
+        if (((TObjMotion *)self)->is_passing_frame(gryphon_ten) != 0) {
             self->spawn_ground_splash();
         }
         break;
@@ -3148,7 +3148,7 @@ void TBoss5Gryphon::move_to_motion_destination(s32 event) {
         dz = ((Motion_800623E4 *)self->motion)->z - self->position.z;
         turn_toward_angle_limited(((Motion_800623E4 *)self->motion)->turn_rate, self->m_6ec);
         move_along_angle(((Motion_800623E4 *)self->motion)->speed, (s32)(10430.38043493439 * atan2_float(dx, dz)));
-        if (dx * dx + dz * dz < lbl_805D8E10) {
+        if (dx * dx + dz * dz < gryphon_ten) {
             self->advance_motion_entry();
         }
         break;
@@ -3344,7 +3344,7 @@ void TBoss5Gryphon::update_demo_state(u32 event) {
         *p = 1;
         obj = TObject::operator new(0x28);
         if (obj != NULL) {
-            __ct__17TBoss5GryphonDemoFP7TObjectlf(obj, tl_01, p, lbl_805D8D88);
+            __ct__17TBoss5GryphonDemoFP7TObjectlf(obj, tl_01, p, gryphon_one);
         }
         this->requested_action = 0x19;
         TWindowCtrl::init_all_slots();
@@ -3367,7 +3367,7 @@ void TBoss5Gryphon::update_demo_state(u32 event) {
             }
             switch (*(s32 *)((s8 *)this + 0x6E4)) {
             case 0:
-                if (is_passing_frame((f32)lbl_805D8E60) != 0) {
+                if (is_passing_frame((f32)gryphon_sixty_eight) != 0) {
                     VecCopy((Vec *)sp8, boss5_gryphon_waypoint_vecs);
                     spawn_particle_effect_with_flags((const Vec *)sp8, *(saddr *)((s8 *)(*(u8 **)((s8 *)this + 0x5F0)) + 4), 0x40);
                     start_pad_rumble_all(0x1C, 0x3C);
@@ -3466,7 +3466,7 @@ void TBoss5Gryphon::update_death_state(u32 event) {
         case 0:
         if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805D8E84) != 0) {
             v.x = F(f32, 0x38);
-            v.y = lbl_805D8E88;
+            v.y = gryphon_negative_thirty;
             v.z = F(f32, 0x40);
             spawn_particle_effect_with_flags(&v, 0x201, 0x40);
             spawn_particle_effect_with_flags(&v, 0x20D, 0x40);
@@ -3534,16 +3534,16 @@ void TBoss5Gryphon::update_landing_attack(u32 event) {
         ((TObjMotion *)self)->advance_animation();
         switch (*(s32 *)((s8 *)self + 0x6DC)) {
         case 0:
-            move_along_angle(lbl_805D8E04, this->rotation_y);
-            if (((TObjMotion *)self)->is_passing_frame((f32)lbl_805D8D88) != 0) {
+            move_along_angle(gryphon_three_quarters, this->rotation_y);
+            if (((TObjMotion *)self)->is_passing_frame((f32)gryphon_one) != 0) {
                 *(s32 *)((s8 *)self + 0x6DC) = 1;
             }
             break;
         case 1:
-            d = ((TObjEneDD_ST *)self)->get_motion_frame() - lbl_805D8D88;
+            d = ((TObjEneDD_ST *)self)->get_motion_frame() - gryphon_one;
             *(f32 *)((s8 *)self + 0x3C) = (*(const f32 *)&lbl_805D8DEC) + lbl_805D8E8C * -(d * d) / lbl_805D8E90;
-            move_along_angle(lbl_805D8E04, this->rotation_y);
-            if (((TObjMotion *)self)->is_passing_frame((f32)lbl_805D8E94) != 0) {
+            move_along_angle(gryphon_three_quarters, this->rotation_y);
+            if (((TObjMotion *)self)->is_passing_frame((f32)gryphon_twenty_three) != 0) {
                 ((TBoss5Gryphon *)self)->enter_ground_mode();
                 ((TBoss5Gryphon *)self)->set_ground_height();
                 ((TBoss5Gryphon *)self)->play_se(0x40032D0D);
@@ -3562,7 +3562,7 @@ void TBoss5Gryphon::update_landing_attack(u32 event) {
             }
             break;
         }
-        if (((TObjMotion *)self)->is_passing_frame((f32)lbl_805D8E98) != 0) {
+        if (((TObjMotion *)self)->is_passing_frame((f32)gryphon_twenty_four) != 0) {
             ((TBoss5Gryphon *)self)->spawn_ground_splash();
         }
         break;
@@ -3615,15 +3615,15 @@ void TBoss5Gryphon::update_shockwave_attack(u32 event) {
             if (((TObjMotion *)self)->is_passing_frame(20.0f) != 0) {
                 ((TBoss5Gryphon *)self)->play_se(0x40033204);
             }
-            if (((TObjMotion *)self)->is_passing_frame((f32)lbl_805D8D80) != 0) {
+            if (((TObjMotion *)self)->is_passing_frame((f32)gryphon_twelve) != 0) {
                 ((TBoss5Gryphon *)self)->spawn_ground_splash();
             }
             speed = ((TObjEneDD_ST *)self)->get_motion_frame();
             if (self->fx == NULL) {
-                if (speed >= 8.0f && speed <= lbl_805D8E5C) {
+                if (speed >= 8.0f && speed <= gryphon_eighteen) {
                     self->fx = spawn_continuous_particle_effect_with_flags(&self->fxPos, self->res->fC, 0x40);
                 }
-            } else if (speed <= lbl_805D8E5C) {
+            } else if (speed <= gryphon_eighteen) {
                 ((TParticleCtrl *)self->fx)->set_position(&self->fxPos);
             } else {
                 ((TObject *)self->fx)->queue_destruction();
@@ -3687,8 +3687,8 @@ void TBoss5Gryphon::update_ground_takeoff(u32 event) {
         ((TObjMotion *)self)->advance_animation();
         switch (*(s32 *)((s8 *)self + 0x6E0)) {
         case 0:
-            if (((TObjMotion *)self)->is_passing_frame((f32)lbl_805D8DF4) != 0) {
-                move_along_angle(lbl_805D8DF8, this->rotation_y);
+            if (((TObjMotion *)self)->is_passing_frame((f32)gryphon_twenty_five) != 0) {
+                move_along_angle(gryphon_five, this->rotation_y);
                 *(u32 *)((s8 *)self + 0x4C0) |= 4;
                 ((TBoss5Gryphon *)self)->run_default_state();
                 set_flag_4e4();
@@ -3698,31 +3698,31 @@ void TBoss5Gryphon::update_ground_takeoff(u32 event) {
             }
             break;
         case 1:
-            d = ((TObjEneDD_ST *)self)->get_motion_frame() - lbl_805D8DF4;
-            d = lbl_805D8DD0 * (d * d);
-            *(f32 *)((s8 *)self + 0x3C) = d * lbl_805D8E34 + (*(const f32 *)&lbl_805D8D84);
-            move_along_angle(lbl_805D8D88, this->rotation_y);
-            if (((TObjMotion *)self)->is_passing_frame((f32)lbl_805D8EA8) != 0) {
+            d = ((TObjEneDD_ST *)self)->get_motion_frame() - gryphon_twenty_five;
+            d = gryphon_fifty * (d * d);
+            *(f32 *)((s8 *)self + 0x3C) = d * gryphon_quarter + (*(const f32 *)&gryphon_ground_height);
+            move_along_angle(gryphon_one, this->rotation_y);
+            if (((TObjMotion *)self)->is_passing_frame((f32)gryphon_twenty_seven) != 0) {
                 *(s32 *)((s8 *)self + 0x6E0) = 2;
             }
             break;
         case 2:
-            d = lbl_805D8EAC - ((TObjEneDD_ST *)self)->get_motion_frame();
-            *(f32 *)((s8 *)self + 0x3C) = (*(const f32 *)&lbl_805D8DEC) + (*(const f32 *)&lbl_805D8D84) * -(d * d) / lbl_805D8E14;
-            move_along_angle(lbl_805D8D88, this->rotation_y);
-            if (((TObjMotion *)self)->is_passing_frame((f32)lbl_805D8EAC) != 0) {
+            d = gryphon_thirty - ((TObjEneDD_ST *)self)->get_motion_frame();
+            *(f32 *)((s8 *)self + 0x3C) = (*(const f32 *)&lbl_805D8DEC) + (*(const f32 *)&gryphon_ground_height) * -(d * d) / gryphon_nine;
+            move_along_angle(gryphon_one, this->rotation_y);
+            if (((TObjMotion *)self)->is_passing_frame((f32)gryphon_thirty) != 0) {
                 *(f32 *)((s8 *)self + 0x3C) = (*(const f32 *)&lbl_805D8DEC);
                 *(s32 *)((s8 *)self + 0x6E0) = 3;
             }
             break;
         case 3:
-            move_along_angle(lbl_805D8D88, this->rotation_y);
+            move_along_angle(gryphon_one, this->rotation_y);
             if (fn_8005FAE0() != 0) {
                 ((TBoss5Gryphon *)self)->advance_motion_entry();
             }
             break;
         }
-        if (((TObjMotion *)self)->is_passing_frame(20.0f) != 0 || ((TObjMotion *)self)->is_passing_frame((f32)((f32)lbl_805D8EB0)) != 0) {
+        if (((TObjMotion *)self)->is_passing_frame(20.0f) != 0 || ((TObjMotion *)self)->is_passing_frame((f32)((f32)gryphon_twenty_eight)) != 0) {
             ((TBoss5Gryphon *)self)->spawn_ground_splash();
         }
         break;
@@ -3765,12 +3765,12 @@ void TBoss5Gryphon::update_ground_pursuit(s32 event) {
         ((TObjEneDD_ST *)self)->update_velocity();
         ((TBoss5Gryphon *)self)->fn_800648C8();
         spd = ((TObjEneDD_ST *)self)->get_motion_frame();
-        if (spd < lbl_805D8DCC) {
+        if (spd < gryphon_four) {
             TObjEneEpsilon__sub_800B9384(this, 0x100, lbl_805D8EB4);
-        } else if (!(spd < lbl_805D8E10)) {
-            if (spd < lbl_805D8E5C) {
+        } else if (!(spd < gryphon_ten)) {
+            if (spd < gryphon_eighteen) {
                 TObjEneEpsilon__sub_800B9384(this, 0x100, lbl_805D8EB4);
-            } else if (!(spd < lbl_805D8DF4)) {
+            } else if (!(spd < gryphon_twenty_five)) {
                 TObjEneEpsilon__sub_800B9384(this, 0x100, lbl_805D8EB4);
             }
         }
@@ -3836,7 +3836,7 @@ void TBoss8Dragon::spawn_switch_attack() {
 
     particle = spawn_particle_effect_with_flags((const Vec *)this, 0x211, 0x40);
     if (particle != 0) {
-        attach_particle_model((u8 *)particle, get_bml_model(boss5_gryphon_bml_resource, 2), boss5_gryphon_texture_list, 0, 0, (f32)lbl_805D8D88);
+        attach_particle_model((u8 *)particle, get_bml_model(boss5_gryphon_bml_resource, 2), boss5_gryphon_texture_list, 0, 0, (f32)gryphon_one);
     }
 }
 #pragma pop
@@ -3850,7 +3850,7 @@ void TBoss8Dragon::spawn_attack_effect() {
 
     particle = spawn_particle_effect_with_flags((const Vec *)this, 0x210, 0x40);
     if (particle != 0) {
-        attach_particle_model((u8 *)particle, get_bml_model(boss5_gryphon_bml_resource, 1), boss5_gryphon_texture_list, 0, 0, (f32)lbl_805D8D88);
+        attach_particle_model((u8 *)particle, get_bml_model(boss5_gryphon_bml_resource, 1), boss5_gryphon_texture_list, 0, 0, (f32)gryphon_one);
     }
 }
 #pragma pop
@@ -3863,27 +3863,27 @@ void TBoss5Gryphon::spawn_lightning_effect() {
     s32 b;
     void *o;
 
-    a = (s32)(65536.0f * (lbl_805D8D98 * (f32)rand()));
-    b = (s32)(65536.0f * (lbl_805D8D98 * (f32)rand()));
-    segs[0].x = lbl_805D8EB8 * sin_table_lookup(a) + *(f32 *)((s8 *)((u8 *)this) + 0x38);
+    a = (s32)(65536.0f * (gryphon_random_unit_scale * (f32)rand()));
+    b = (s32)(65536.0f * (gryphon_random_unit_scale * (f32)rand()));
+    segs[0].x = gryphon_seventy * sin_table_lookup(a) + *(f32 *)((s8 *)((u8 *)this) + 0x38);
     segs[0].y = 0.0f;
-    segs[0].z = lbl_805D8EB8 * cos_table_lookup(a) + *(f32 *)((s8 *)((u8 *)this) + 0x40);
+    segs[0].z = gryphon_seventy * cos_table_lookup(a) + *(f32 *)((s8 *)((u8 *)this) + 0x40);
     segs[0].w = 0.0f;
-    segs[2].x = lbl_805D8EB8 * sin_table_lookup(b) + *(f32 *)((s8 *)((u8 *)this) + 0x38);
+    segs[2].x = gryphon_seventy * sin_table_lookup(b) + *(f32 *)((s8 *)((u8 *)this) + 0x38);
     segs[2].y = 0.0f;
-    segs[2].z = lbl_805D8EB8 * cos_table_lookup(b) + *(f32 *)((s8 *)((u8 *)this) + 0x40);
+    segs[2].z = gryphon_seventy * cos_table_lookup(b) + *(f32 *)((s8 *)((u8 *)this) + 0x40);
     segs[2].w = 0.0f;
     a = (s32)(0.5f * (f32)(a + b));
-    if (lbl_805D8D98 * (f32)rand() > 0.5f) {
+    if (gryphon_random_unit_scale * (f32)rand() > 0.5f) {
         a += 0x8000;
     }
-    segs[1].x = lbl_805D8EB8 * sin_table_lookup(a) + *(f32 *)((s8 *)((u8 *)this) + 0x38);
-    segs[1].y = lbl_805D8E10;
-    segs[1].z = lbl_805D8EB8 * cos_table_lookup(a) + *(f32 *)((s8 *)((u8 *)this) + 0x40);
+    segs[1].x = gryphon_seventy * sin_table_lookup(a) + *(f32 *)((s8 *)((u8 *)this) + 0x38);
+    segs[1].y = gryphon_ten;
+    segs[1].z = gryphon_seventy * cos_table_lookup(a) + *(f32 *)((s8 *)((u8 *)this) + 0x40);
     segs[1].w = 0.0f;
     o = TObject::operator new(0x264);
     if (o != NULL) {
-        o = __ct__25TBoss5GryphonLightningEffFv(o, this, segs, 3, 0.0f, lbl_805D8D88, 8.0f);
+        o = __ct__25TBoss5GryphonLightningEffFv(o, this, segs, 3, 0.0f, gryphon_one, 8.0f);
     }
     TBoss5GryphonLightningEff__sub_80325064(o);
 }
@@ -3894,7 +3894,7 @@ void TBoss5Gryphon::spawn_lightning_effect() {
 #pragma auto_inline off
 #pragma dont_inline off
 void TBoss5Gryphon::fn_80063EF4() {
-    if (is_passing_frame(lbl_805D8EBC) != 0) {
+    if (is_passing_frame(gryphon_fourteen) != 0) {
         spawn_ground_splash();
     }
 }
@@ -3962,7 +3962,7 @@ void TBoss5Gryphon::fn_800641A8() {
     DragonAttackParams desc = lbl_80437D54;
     Vec *pos;
     pos = &pad_3C0[14];
-    if (!(pad_3C0[14].y > lbl_805D8E00)) {
+    if (!(pad_3C0[14].y > gryphon_fifteen)) {
         fill_value_array(attack_history);
         reset_hp((u8 *)0, (u8 *)(boss5_gryphon_attack_params[1]), (u8 *)0);
         TObjEneDD::emit_enemy_effect(this, (void *)pos, (u8 *)&desc, attack_history);
@@ -4001,11 +4001,11 @@ void TBoss5Gryphon::fn_8006435C() {
     fill_value_array(attack_history);
     reset_hp(NULL, (u8 *)boss5_gryphon_attack_params[3], NULL);
     point = &pad_3C0[11];
-    prm.field_8 = lbl_805D8EAC;
+    prm.field_8 = gryphon_thirty;
     TBoss8Dragon__sub_800670E0((saddr)point, &prm);
     TObjEneDD::emit_enemy_effect(this, point, (u8 *)&prm, attack_history);
     point = &pad_3C0[0];
-    prm.field_8 = lbl_805D8DD0;
+    prm.field_8 = gryphon_fifty;
     TBoss8Dragon__sub_800670E0((saddr)point, &prm);
     TObjEneDD::emit_enemy_effect(this, point, (u8 *)&prm, attack_history);
     reset_hp(NULL, (u8 *)boss5_gryphon_attack_params[0], NULL);
@@ -4122,7 +4122,7 @@ void TBoss5Gryphon::query_default() { emit_part_attack_effect(0); }
 #pragma auto_inline off
 #pragma dont_inline off
 void TBoss5Gryphon::fn_80064828() {
-    if (is_passing_frame((f32)lbl_805D8D80) != 0) {
+    if (is_passing_frame((f32)gryphon_twelve) != 0) {
         query_default();
         return;
     }
@@ -4130,11 +4130,11 @@ void TBoss5Gryphon::fn_80064828() {
         attack_default();
         return;
     }
-    if (is_passing_frame((f32)lbl_805D8E00) != 0) {
+    if (is_passing_frame((f32)gryphon_fifteen) != 0) {
         set_state_2();
         return;
     }
-    if (is_passing_frame((f32)lbl_805D8E0C) != 0) {
+    if (is_passing_frame((f32)gryphon_eleven) != 0) {
         update_state_3();
     }
 }
@@ -4145,11 +4145,11 @@ void TBoss5Gryphon::fn_80064828() {
 #pragma auto_inline off
 #pragma dont_inline off
 void TBoss5Gryphon::fn_800648C8() {
-    if (is_passing_frame((f32)lbl_805D8EC0) != 0) {
+    if (is_passing_frame((f32)gryphon_twenty_one) != 0) {
         query_default();
         return;
     }
-    if (is_passing_frame((f32)lbl_805D8DF8) != 0) {
+    if (is_passing_frame((f32)gryphon_five) != 0) {
         attack_default();
         return;
     }
@@ -4304,7 +4304,7 @@ void TBoss5Gryphon::set_offscreen_height() { this->position.y = lbl_805D8EC4; }
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void TBoss5Gryphon::set_low_flight_height() { this->position.y = lbl_805D8E20; }
+void TBoss5Gryphon::set_low_flight_height() { this->position.y = gryphon_sixty_seven; }
 #pragma pop
 
 #pragma push
@@ -4318,7 +4318,7 @@ void TBoss5Gryphon::set_flight_height() { *(float*)((char*)this + 0x3c) = lbl_80
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void TBoss5Gryphon::set_ground_height() { this->position.y = lbl_805D8D84; }
+void TBoss5Gryphon::set_ground_height() { this->position.y = gryphon_ground_height; }
 #pragma pop
 
 #pragma push
@@ -4354,7 +4354,7 @@ void TBoss5Gryphon::enter_ground_mode() { this->flight_mode = 0; }
 #pragma auto_inline off
 #pragma dont_inline off
 void TBoss5Gryphon::fn_80064DB8() {
-    if (is_passing_frame(lbl_805D8D80) != 0 || is_passing_frame(8.0f) != 0 || is_passing_frame(lbl_805D8E00) != 0 || is_passing_frame(lbl_805D8E0C) != 0) {
+    if (is_passing_frame(gryphon_twelve) != 0 || is_passing_frame(8.0f) != 0 || is_passing_frame(gryphon_fifteen) != 0 || is_passing_frame(gryphon_eleven) != 0) {
         play_se(0x40032D08);
     }
 }
@@ -4365,7 +4365,7 @@ void TBoss5Gryphon::fn_80064DB8() {
 #pragma auto_inline off
 #pragma dont_inline off
 void TBoss5Gryphon::fn_80064E3C() {
-    if (is_passing_frame(lbl_805D8EC0) != 0 || is_passing_frame(lbl_805D8DF8) != 0 || is_passing_frame(20.0f) != 0 || is_passing_frame(8.0f) != 0) {
+    if (is_passing_frame(gryphon_twenty_one) != 0 || is_passing_frame(gryphon_five) != 0 || is_passing_frame(20.0f) != 0 || is_passing_frame(8.0f) != 0) {
         play_se(0x40032D08);
     }
 }
@@ -4395,7 +4395,7 @@ void TBoss5Gryphon::play_se(s32 se_id) {
 #pragma auto_inline off
 #pragma dont_inline off
 void TBoss5Gryphon::update_linked_ground_position() {
-    this->update_linked_position(lbl_805D8EC8);
+    this->update_linked_position(gryphon_thousand);
 }
 #pragma pop
 
@@ -4414,7 +4414,7 @@ void TBoss5Gryphon::update_body_colliders() {
     }
     update_local_colliders_from_world(this, body_points);
     {
-        f32 lim = lbl_805D8EAC;
+        f32 lim = gryphon_thirty;
         s32 i;
         for (i = 0; i < 10; i++) {
             CollisionBody *p;
@@ -4453,7 +4453,7 @@ void TBoss5Gryphon::update_body_colliders() {
         bodies[7].flags |= 1;
         bodies[8].flags |= 1;
         bodies[9].flags |= 1;
-        bodies[0].radius = lbl_805D8E10;
+        bodies[0].radius = gryphon_ten;
     }
     bodies[0].unk_28 = CFG->i20;
     bodies[1].unk_28 = CFG->i1C;
@@ -4583,7 +4583,7 @@ void TBoss5Gryphon::run_task() {
     if (temp_r31_2 == 0) {
         this->sub_tasks.run_tasks();
     }
-    project_sound_origin_from_camera((saddr)(self + 0x38), (u8 *)(self + 0x560), lbl_805D8DAC);
+    project_sound_origin_from_camera((saddr)(self + 0x38), (u8 *)(self + 0x560), gryphon_point_four);
     for (i = 0; i < 4; i++) {
         renderFadeStates[i].update();
     }
@@ -4700,7 +4700,7 @@ TBoss5Gryphon *TBoss5Gryphon__ct(TBoss5Gryphon *self, void *parent, void *data) 
     self->m_778 = (uaddr)boss5_gryphon_action_scripts;
     VecCopy((Vec *)(&self->m_560), &self->position);
     VecCopy((Vec *)(&self->m_56c), &self->position);
-    *(f32 *)(*(u8 **)((u8 *)self + 0x2B0) + 0x10) = lbl_805D8E10;
+    *(f32 *)(*(u8 **)((u8 *)self + 0x2B0) + 0x10) = gryphon_ten;
     self->attack_history = new AreaAttackHistory(4);
     self->demo = (TBoss5GryphonDemo *)new TBoss5GryphonColli(&self->sub_tasks);
     for (i = 0; i < 4; i++) {
@@ -4933,66 +4933,66 @@ void attach_particle_model(void *particle, NJS_OBJECT *model, GinjaTextureList *
 
 }
 
-__declspec(section ".sdata2") const f32 lbl_805D8D80 = 12.0f;
-extern const f32 lbl_805D8D84;
-__declspec(section ".sdata2") const f32 lbl_805D8D84 = 65.0f;
-__declspec(section ".sdata2") const f32 lbl_805D8D88 = 1.0f;
-__declspec(section ".sdata2") const f32 lbl_805D8D8C = 40.0f;
-__declspec(section ".sdata2") const f32 lbl_805D8D90 = 3.0f;
-__declspec(section ".sdata2") const f32 lbl_805D8D94 = -1000.0f;
-__declspec(section ".sdata2") const f32 lbl_805D8D98 = 3.05175781e-05f;
-__declspec(section ".sdata2") const f32 lbl_805D8D9C = 4294967300.0f;
-__declspec(section ".sdata2") const f32 lbl_805D8DA0 = 0.600000024f;
-__declspec(section ".sdata2") const f32 lbl_805D8DA4 = 0.899999976f;
-__declspec(section ".sdata2") const f32 lbl_805D8DA8 = 0.300000012f;
-__declspec(section ".sdata2") const f32 lbl_805D8DAC = 0.400000006f;
-__declspec(section ".sdata2") const f32 lbl_805D8DB0 = 0.800000012f;
-__declspec(section ".sdata2") const f32 lbl_805D8DB4 = 0.200000003f;
-__declspec(section ".sdata2") const f32 lbl_805D8DB8 = 22.0f;
-__declspec(section ".sdata2") const f32 lbl_805D8DBC = 75.0f;
+__declspec(section ".sdata2") const f32 gryphon_twelve = 12.0f;
+extern const f32 gryphon_ground_height;
+__declspec(section ".sdata2") const f32 gryphon_ground_height = 65.0f;
+__declspec(section ".sdata2") const f32 gryphon_one = 1.0f;
+__declspec(section ".sdata2") const f32 gryphon_forty = 40.0f;
+__declspec(section ".sdata2") const f32 gryphon_three = 3.0f;
+__declspec(section ".sdata2") const f32 gryphon_negative_thousand = -1000.0f;
+__declspec(section ".sdata2") const f32 gryphon_random_unit_scale = 3.05175781e-05f;
+__declspec(section ".sdata2") const f32 gryphon_u32_range = 4294967300.0f;
+__declspec(section ".sdata2") const f32 gryphon_point_six = 0.600000024f;
+__declspec(section ".sdata2") const f32 gryphon_point_nine = 0.899999976f;
+__declspec(section ".sdata2") const f32 gryphon_point_three = 0.300000012f;
+__declspec(section ".sdata2") const f32 gryphon_point_four = 0.400000006f;
+__declspec(section ".sdata2") const f32 gryphon_point_eight = 0.800000012f;
+__declspec(section ".sdata2") const f32 gryphon_point_two = 0.200000003f;
+__declspec(section ".sdata2") const f32 gryphon_roar_frame = 22.0f;
+__declspec(section ".sdata2") const f32 gryphon_seventy_five = 75.0f;
 __declspec(section ".sdata2") const f32 lbl_805D8DC0 = 32.5f;
 __declspec(section ".sdata2") const f32 lbl_805D8DC4 = 7935.0f;
 __declspec(section ".sdata2") const f32 lbl_805D8DC8 = 102400.0f;
-__declspec(section ".sdata2") const f32 lbl_805D8DCC = 4.0f;
-__declspec(section ".sdata2") const f32 lbl_805D8DD0 = 50.0f;
+__declspec(section ".sdata2") const f32 gryphon_four = 4.0f;
+__declspec(section ".sdata2") const f32 gryphon_fifty = 50.0f;
 __declspec(section ".sdata2") const f32 lbl_805D8DD4 = 360.0f;
 __declspec(section ".sdata2") const f32 lbl_805D8DD8 = 49152.0f;
-__declspec(section ".sdata2") const f32 lbl_805D8DDC = 7.0f;
+__declspec(section ".sdata2") const f32 gryphon_seven = 7.0f;
 __declspec(section ".sdata2") const f32 lbl_805D8DE0 = 933.785706f;
-__declspec(section ".sdata2") const f32 lbl_805D8DE4 = 17.0f;
+__declspec(section ".sdata2") const f32 gryphon_seventeen = 17.0f;
 __declspec(section ".sdata2") const f32 lbl_805D8DE8 = 0.280000001f;
 extern const f32 lbl_805D8DEC;
 __declspec(section ".sdata2") const f32 lbl_805D8DEC = 180.0f;
-__declspec(section ".sdata2") const f32 lbl_805D8DF0 = 60.0f;
-__declspec(section ".sdata2") const f32 lbl_805D8DF4 = 25.0f;
-__declspec(section ".sdata2") const f32 lbl_805D8DF8 = 5.0f;
-__declspec(section ".sdata2") const f32 lbl_805D8DFC = 19.0f;
-__declspec(section ".sdata2") const f32 lbl_805D8E00 = 15.0f;
-__declspec(section ".sdata2") const f32 lbl_805D8E04 = 0.75f;
+__declspec(section ".sdata2") const f32 gryphon_sixty = 60.0f;
+__declspec(section ".sdata2") const f32 gryphon_twenty_five = 25.0f;
+__declspec(section ".sdata2") const f32 gryphon_five = 5.0f;
+__declspec(section ".sdata2") const f32 gryphon_nineteen = 19.0f;
+__declspec(section ".sdata2") const f32 gryphon_fifteen = 15.0f;
+__declspec(section ".sdata2") const f32 gryphon_three_quarters = 0.75f;
 __declspec(section ".sdata2") const f32 lbl_805D8E08 = 0.860000014f;
-__declspec(section ".sdata2") const f32 lbl_805D8E0C = 11.0f;
-__declspec(section ".sdata2") const f32 lbl_805D8E10 = 10.0f;
-__declspec(section ".sdata2") const f32 lbl_805D8E14 = 9.0f;
+__declspec(section ".sdata2") const f32 gryphon_eleven = 11.0f;
+__declspec(section ".sdata2") const f32 gryphon_ten = 10.0f;
+__declspec(section ".sdata2") const f32 gryphon_nine = 9.0f;
 __declspec(section ".sdata2") const f32 lbl_805D8E18 = 2.29999995f;
 __declspec(section ".sdata2") const f32 lbl_805D8E1C = 19.5f;
-extern const f32 lbl_805D8E20;
-__declspec(section ".sdata2") const f32 lbl_805D8E20 = 67.0f;
+extern const f32 gryphon_sixty_seven;
+__declspec(section ".sdata2") const f32 gryphon_sixty_seven = 67.0f;
 __declspec(section ".sdata2") const f32 lbl_805D8E24 = 81.5f;
-__declspec(section ".sdata2") const f32 lbl_805D8E28 = 16384.0f;
+__declspec(section ".sdata2") const f32 gryphon_quarter_turn = 16384.0f;
 __declspec(section ".sdata2") const f32 lbl_805D8E2C = 5120.0f;
 __declspec(section ".sdata2") const f32 lbl_805D8E30 = 230.0f;
-__declspec(section ".sdata2") const f32 lbl_805D8E34 = 0.25f;
-__declspec(section ".sdata2") const f32 lbl_805D8E38 = 1.5f;
+__declspec(section ".sdata2") const f32 gryphon_quarter = 0.25f;
+__declspec(section ".sdata2") const f32 gryphon_one_and_half = 1.5f;
 __declspec(section ".sdata2") const f32 lbl_805D8E3C = 2.1f;
 __declspec(section ".sdata2") const f32 lbl_805D8E40 = 66.5f;
 __declspec(section ".sdata2") const f32 lbl_805D8E44 = 6144.0f;
 __declspec(section ".sdata2") const f32 lbl_805D8E48 = 116.5f;
 __declspec(section ".sdata2") const f32 lbl_805D8E4C = 300.0f;
 __declspec(section ".sdata2") const f32 lbl_805D8E50 = 120.0f;
-__declspec(section ".sdata2") const f32 lbl_805D8E54 = -4.0f;
+__declspec(section ".sdata2") const f32 gryphon_negative_four = -4.0f;
 __declspec(section ".sdata2") const f32 lbl_805D8E58 = 3.5f;
-__declspec(section ".sdata2") const f32 lbl_805D8E5C = 18.0f;
-__declspec(section ".sdata2") const f32 lbl_805D8E60 = 68.0f;
+__declspec(section ".sdata2") const f32 gryphon_eighteen = 18.0f;
+__declspec(section ".sdata2") const f32 gryphon_sixty_eight = 68.0f;
 __declspec(section ".sdata2") const f32 lbl_805D8E64 = 210.0f;
 __declspec(section ".sdata2") const f32 lbl_805D8E68 = 420.0f;
 __declspec(section ".sdata2") const f32 lbl_805D8E6C = 463.0f;
@@ -5002,21 +5002,21 @@ __declspec(section ".sdata2") const f32 lbl_805D8E78 = 455.0f;
 __declspec(section ".sdata2") const f32 lbl_805D8E7C = 265.0f;
 __declspec(section ".sdata2") const f32 lbl_805D8E80 = 600.0f;
 __declspec(section ".sdata2") const f32 lbl_805D8E84 = 110.0f;
-__declspec(section ".sdata2") const f32 lbl_805D8E88 = -30.0f;
+__declspec(section ".sdata2") const f32 gryphon_negative_thirty = -30.0f;
 __declspec(section ".sdata2") const f32 lbl_805D8E8C = 115.0f;
 __declspec(section ".sdata2") const f32 lbl_805D8E90 = 484.0f;
-__declspec(section ".sdata2") const f32 lbl_805D8E94 = 23.0f;
-__declspec(section ".sdata2") const f32 lbl_805D8E98 = 24.0f;
+__declspec(section ".sdata2") const f32 gryphon_twenty_three = 23.0f;
+__declspec(section ".sdata2") const f32 gryphon_twenty_four = 24.0f;
 __declspec(section ".sdata2") const f32 lbl_805D8E9C = 20.5f;
 __declspec(section ".sdata2") const f32 lbl_805D8EA0 = 150.0f;
 __declspec(section ".sdata2") const f32 lbl_805D8EA4 = 0.15f;
-__declspec(section ".sdata2") const f32 lbl_805D8EA8 = 27.0f;
-__declspec(section ".sdata2") const f32 lbl_805D8EAC = 30.0f;
-__declspec(section ".sdata2") const f32 lbl_805D8EB0 = 28.0f;
+__declspec(section ".sdata2") const f32 gryphon_twenty_seven = 27.0f;
+__declspec(section ".sdata2") const f32 gryphon_thirty = 30.0f;
+__declspec(section ".sdata2") const f32 gryphon_twenty_eight = 28.0f;
 __declspec(section ".sdata2") const f32 lbl_805D8EB4 = 1.8f;
-__declspec(section ".sdata2") const f32 lbl_805D8EB8 = 70.0f;
-__declspec(section ".sdata2") const f32 lbl_805D8EBC = 14.0f;
-__declspec(section ".sdata2") const f32 lbl_805D8EC0 = 21.0f;
+__declspec(section ".sdata2") const f32 gryphon_seventy = 70.0f;
+__declspec(section ".sdata2") const f32 gryphon_fourteen = 14.0f;
+__declspec(section ".sdata2") const f32 gryphon_twenty_one = 21.0f;
 __declspec(section ".sdata2") const f32 lbl_805D8EC4 = 8000.0f;
-__declspec(section ".sdata2") const f32 lbl_805D8EC8 = 1000.0f;
+__declspec(section ".sdata2") const f32 gryphon_thousand = 1000.0f;
 }

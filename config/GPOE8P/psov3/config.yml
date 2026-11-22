@@ -8551,46 +8551,46 @@ force_active:
   - lbl_805D8D74
   - lbl_805D8D78
   - lbl_805D8D7C
-  - lbl_805D8D80
-  - lbl_805D8D84
-  - lbl_805D8D88
-  - lbl_805D8D8C
-  - lbl_805D8D94
-  - lbl_805D8D98
-  - lbl_805D8D9C
-  - lbl_805D8DA0
-  - lbl_805D8DA4
-  - lbl_805D8DA8
-  - lbl_805D8DAC
-  - lbl_805D8DB0
-  - lbl_805D8DB4
-  - lbl_805D8DB8
-  - lbl_805D8DBC
+  - gryphon_twelve
+  - gryphon_ground_height
+  - gryphon_one
+  - gryphon_forty
+  - gryphon_negative_thousand
+  - gryphon_random_unit_scale
+  - gryphon_u32_range
+  - gryphon_point_six
+  - gryphon_point_nine
+  - gryphon_point_three
+  - gryphon_point_four
+  - gryphon_point_eight
+  - gryphon_point_two
+  - gryphon_roar_frame
+  - gryphon_seventy_five
   - lbl_805D8DC0
   - lbl_805D8DC4
   - lbl_805D8DC8
-  - lbl_805D8DCC
-  - lbl_805D8DD0
+  - gryphon_four
+  - gryphon_fifty
   - lbl_805D8DD4
   - lbl_805D8DD8
-  - lbl_805D8DDC
+  - gryphon_seven
   - lbl_805D8DE0
-  - lbl_805D8DE4
+  - gryphon_seventeen
   - lbl_805D8DE8
   - lbl_805D8DEC
-  - lbl_805D8DF0
-  - lbl_805D8DF4
-  - lbl_805D8DF8
-  - lbl_805D8DFC
-  - lbl_805D8E00
-  - lbl_805D8E04
+  - gryphon_sixty
+  - gryphon_twenty_five
+  - gryphon_five
+  - gryphon_nineteen
+  - gryphon_fifteen
+  - gryphon_three_quarters
   - lbl_805D8E08
-  - lbl_805D8E0C
-  - lbl_805D8E10
-  - lbl_805D8E14
+  - gryphon_eleven
+  - gryphon_ten
+  - gryphon_nine
   - lbl_805D8E18
   - lbl_805D8E1C
-  - lbl_805D8E20
+  - gryphon_sixty_seven
   - lbl_805D8E24
   - lbl_805D9D70
   - lbl_805D9D88
