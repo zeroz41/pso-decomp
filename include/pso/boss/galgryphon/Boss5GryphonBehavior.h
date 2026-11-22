@@ -11,9 +11,9 @@ struct TBoss8Dragon;
 extern "C" {
 void TBoss8Dragon__sub_8005D9BC(u8 *arg0, s32 arg1, s32 arg2);
 void TBoss8Dragon__sub_8005E17C(NJS_OBJECT *);
-void apply_lightning_hit(s32 arg0, s32 arg1, f32 farg0);
-void apply_tornado_hit(s32 arg0, saddr arg1);
-void apply_shockwave_hit(s32 arg0, s32 arg1);
+void apply_lightning_hit(s32 owner, s32 pos, f32 inner);
+void apply_tornado_hit(s32 owner, saddr pos);
+void apply_shockwave_hit(s32 owner, s32 pos);
 void apply_remote_action__13TBoss5GryphonFPvPv(u8 *ene_dd, u8 *boss8_dragon);
 void calc_attack_params__12TBoss8DragonFiPvi(s32 arg0, u8 *arg1, s32 arg2);
 void calc_product_and_ratio__12TBoss8DragonFiPvi(s32 arg0, u8 *arg1, s32 arg2);
@@ -25,20 +25,6 @@ extern "C" {
 void trigger_effect__12TBoss8DragonFPvi(void *arg0, s32 arg1);
 void run_task__13TBoss5GryphonFv(u8 *arg0);
 }
-
-// --- C functions defined in Boss5GryphonBehavior.cpp ---
-extern "C" {
-void TBoss8Dragon__sub_8005D9BC(u8 *arg0, s32 arg1, s32 arg2);
-void TBoss8Dragon__sub_8005E17C(NJS_OBJECT *);
-void apply_lightning_hit(s32 arg0, s32 arg1, f32 farg0);
-void apply_shockwave_hit(s32 arg0, s32 arg1);
-void apply_remote_action__13TBoss5GryphonFPvPv(u8 *ene_dd, u8 *boss8_dragon);
-void calc_attack_params__12TBoss8DragonFiPvi(s32 arg0, u8 *arg1, s32 arg2);
-void calc_product_and_ratio__12TBoss8DragonFiPvi(s32 arg0, u8 *arg1, s32 arg2);
-void choose_next_action__13TBoss5GryphonFPvPv(u8 *arg0, u32 *entry);
-void trigger_effect__12TBoss8DragonFPvi(void *arg0, s32 arg1);
-}
-// --- end of C functions
 
 struct BmlResource;
 

@@ -111,7 +111,7 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     u8 *m_774;  // the action script entry being run; steps 0x48 bytes
     u32 m_778;
     void render_nodes_with_flag();
-    void render_with_fade(s32 arg1);
+    void render_with_fade(s32 fade_index);
     void render_model();
     void copy_bone_positions();
     void draw_body();
@@ -140,15 +140,15 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     void enter_offscreen_mode();
     void enter_low_flight_mode();
     void enter_ground_mode();
-    void play_se(s32 arg1);
+    void play_se(s32 se_id);
     void shift_position_history();
     static void cleanup();
-    static void *create(void *arg0);
-    void set_random_param(u8 *arg1);
-    void calc_params(void *arg1, Boss5GryphonActionStep *step);
-    void calc_product_and_ratio(void *arg1, Boss5GryphonActionStep *step);
-    void calc_attack_params(void *arg1, Boss5GryphonActionStep *step);
-    void fn_8005EBDC(u8 *arg1, Boss5GryphonActionStep *step);
+    static void *create(void *data);
+    void set_random_param(u8 *params);
+    void calc_params(void *params, Boss5GryphonActionStep *step);
+    void calc_product_and_ratio(void *params, Boss5GryphonActionStep *step);
+    void calc_attack_params(void *params, Boss5GryphonActionStep *step);
+    void fn_8005EBDC(u8 *params, Boss5GryphonActionStep *step);
     s32 get_random_sign(Boss5GryphonActionStep *step, s32 i);
     s32 calc_product(Boss5GryphonActionStep *step, s32 sign_index, s32 range_index);
     s32 rand_scaled_offset(s32 base, s32 spread);
@@ -157,11 +157,11 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     f32 random_in_range(f32 min, f32 range);
     f32 fn_8005EAD0(Boss5GryphonActionStep *step, s32 i);
     s32 run_action_script_step(s16 *out, u32 *entry);
-    static void copy_angle_state(void *arg0, void *dst, void *src);
+    static void copy_angle_state(void *gryphon, void *dst, void *src);
     void update_target_from_state();
-    void play_animation_index(s32 arg1);
+    void play_animation_index(s32 index);
     void flush_pending_effect();
-    void scale_size(f32 scale, f32 farg1, f32 farg2);
+    void scale_size(f32 scale, f32 scale_y, f32 turn_scale);
     void copy_spawn_params(void* a1);
     void fill_follow_camera_params(u8 *arg1, u8 *arg2);
     void set_animation_by_state();
