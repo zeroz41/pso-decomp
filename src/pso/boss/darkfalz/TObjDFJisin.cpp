@@ -33,7 +33,6 @@ struct NJS_OBJECT;
 #include "dolphin/mtx.h"
 #include <stddef.h>
 #include "pso/math/MatrixVector.h"
-#include "pso/player/TObjPlayer_80052374.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/boss/darkfalz/TObjDFJisin.h"
 #include "pso/unk/text_803E2D70.h"
@@ -153,7 +152,7 @@ void TObjDFUsoTower::render() {
     alpha = fade_alpha;
     if (0.0f != alpha) {
         if (alpha < 1.0f) {
-            TObjPlayer__sub_80052390(alpha);
+            TObjPlayer::begin_alpha_blend(alpha);
             set_color_blend_mode(1, 4, 5, 0);
         }
         push_matrix();
@@ -168,14 +167,14 @@ void TObjDFUsoTower::render() {
 }
 
 void TObjPlayer::draw_player_model_by_id(s32 client_id, f32 alpha) {
-    u8 *p;
-    uaddr m8b0;
-    u32 m8ac;
-    s32 a1c;
-    uaddr m8b4;
-    s32 b88;
-    uaddr m34;
-    s32 cf4;
+    TObjPlayer *player;
+    void *head;
+    void *hair;
+    s32 head_textures;
+    uaddr attachment;
+    s32 attachment_textures;
+    void *body;
+    s32 body_textures;
 
     if (0.0f == alpha) {
         return;
@@ -183,48 +182,48 @@ void TObjPlayer::draw_player_model_by_id(s32 client_id, f32 alpha) {
     if ((u16)client_id == 0xFFFF) {
         return;
     }
-    p = (u8 *)get_player_by_client_id((u16)client_id);
-    if (p == NULL || *(s32 *)((s8 *)p + 0xCFC) != 0) {
+    player = get_player_by_client_id((u16)client_id);
+    if (player == NULL || player->model_load_flags != 0) {
         return;
     }
-    m34 = *(u32 *)((s8 *)p + 0x34);
-    a1c = (saddr)(p + 0xA1C);
-    m8b0 = *(u32 *)((s8 *)p + 0x8B0);
-    b88 = (saddr)(p + 0xB88);
-    m8ac = *(u32 *)((s8 *)p + 0x8AC);
-    m8b4 = *(u32 *)((s8 *)p + 0x8B4);
-    cf4 = (saddr)(p + 0xCF4);
-    TObjDFTenchuFuru::draw_node_tree((NJS_OBJECT *)m34);
+    body = player->model;
+    head_textures = (saddr)player->head_textures;
+    head = player->head_model;
+    attachment_textures = (saddr)player->attachment_textures;
+    hair = player->hair_model;
+    attachment = player->attachment_model;
+    body_textures = (saddr)player->body_textures;
+    TObjDFTenchuFuru::draw_node_tree((NJS_OBJECT *)body);
     if (alpha < 1.0f) {
-        TObjPlayer__sub_80052390(alpha);
+        TObjPlayer::begin_alpha_blend(alpha);
     }
-    TObjFish::set_global_param(cf4);
-    draw_chunk_object((void *)m34);
-    if (m8b4 != 0U) {
+    TObjFish::set_global_param(body_textures);
+    draw_chunk_object(body);
+    if (attachment != 0U) {
         push_matrix();
         post_translate_matrix(&lbl_804FF234.x);
-        TObjFish::set_global_param(b88);
-        draw_chunk_object((void *)m8b4);
+        TObjFish::set_global_param(attachment_textures);
+        draw_chunk_object((void *)attachment);
         pop_matrix();
     }
-    if (m8b0 != 0U) {
+    if (head != NULL) {
         TCharaMaking::enable_making();
         push_matrix();
         post_translate_matrix(&lbl_804FF228.x);
-        TObjFish::set_global_param(a1c);
-        draw_chunk_object((void *)m8b0);
+        TObjFish::set_global_param(head_textures);
+        draw_chunk_object(head);
         pop_matrix();
         TCharaMaking::clear_flag_bit0();
     }
     if (alpha < 1.0f) {
         TObjPlayer::sync_player_globals();
     }
-    if (m8ac != 0U) {
+    if (hair != NULL) {
         TCharaMaking::enable_making();
         push_matrix();
         post_translate_matrix(&lbl_804FF228.x);
-        TObjFish::set_global_param(a1c);
-        TCharaMaking__draw_colored_hair(alpha, (s32)m8ac, (CharacterAppearanceFields *)(p + 0x85C), 0);
+        TObjFish::set_global_param(head_textures);
+        TCharaMaking__draw_colored_hair(alpha, (saddr)hair, (CharacterAppearanceFields *)player->name, 0);
         pop_matrix();
         TCharaMaking::clear_flag_bit0();
     }
@@ -234,7 +233,7 @@ void boss6type2_draw_models(s32 body_texlist, s32 head_texlist, s32 part_texlist
     if (0.0f != alpha) {
         TObjDFTenchuFuru::draw_node_tree((NJS_OBJECT *)body);
         if (alpha < 1.0f) {
-            TObjPlayer__sub_80052390(alpha);
+            TObjPlayer::begin_alpha_blend(alpha);
         }
         TObjFish::set_global_param(body_texlist);
         draw_chunk_object((void *)body);
@@ -271,60 +270,60 @@ void boss6type2_draw_models(s32 body_texlist, s32 head_texlist, s32 part_texlist
 
 extern "C" {
 void TObjPlayer::draw_player_model_by_client(u16 client_id, saddr motion, f32 frame, f32 alpha) {
-    u8 *p;
-    uaddr a;
-    u32 b;
-    u8 *c;
-    uaddr d;
-    u8 *e;
-    saddr f;
-    u8 *g;
+    TObjPlayer *player;
+    void *head;
+    void *hair;
+    s32 head_textures;
+    uaddr attachment;
+    s32 attachment_textures;
+    void *body;
+    s32 body_textures;
     if (0.0f == alpha) {
         return;
     }
     if (client_id == 0xFFFF) {
         return;
     }
-    p = (u8 *)get_player_by_client_id(client_id);
-    if (p == NULL || *(s32 *)((s8 *)p + 0xCFC) != 0) {
+    player = get_player_by_client_id(client_id);
+    if (player == NULL || player->model_load_flags != 0) {
         return;
     }
-    c = p + 0xA1C;
-    a = *(u32 *)((s8 *)p + 0x8B0);
-    e = p + 0xB88;
-    b = *(u32 *)((s8 *)p + 0x8AC);
-    d = *(u32 *)((s8 *)p + 0x8B4);
-    g = p + 0xCF4;
-    f = *(s32 *)((s8 *)p + 0x34);
+    head_textures = (saddr)player->head_textures;
+    head = player->head_model;
+    attachment_textures = (saddr)player->attachment_textures;
+    hair = player->hair_model;
+    attachment = player->attachment_model;
+    body_textures = (saddr)player->body_textures;
+    body = player->model;
     if (alpha < 1.0f) {
-        TObjPlayer__sub_80052390(alpha);
+        TObjPlayer::begin_alpha_blend(alpha);
     }
-    TObjFish::set_global_param((saddr)g);
+    TObjFish::set_global_param(body_textures);
     TObjDFTenchuFuru::register_callback();
-    draw_model_motion((void *)f, (void *)motion, frame);
+    draw_model_motion(body, (void *)motion, frame);
     TObjDFTenchuFuru::unregister_callback();
-    if (d != 0) {
+    if (attachment != 0) {
         push_matrix_from(df_captured_matrix_pair[1]);
-        TObjFish::set_global_param((saddr)e);
-        draw_chunk_object((void *)d);
+        TObjFish::set_global_param(attachment_textures);
+        draw_chunk_object((void *)attachment);
         pop_matrix();
     }
-    if (a != 0) {
+    if (head != NULL) {
         TCharaMaking::enable_making();
         push_matrix_from(df_captured_matrix_pair[0]);
-        TObjFish::set_global_param((saddr)c);
-        draw_chunk_object((void *)a);
+        TObjFish::set_global_param(head_textures);
+        draw_chunk_object(head);
         pop_matrix();
         TCharaMaking::clear_flag_bit0();
     }
     if (alpha < 1.0f) {
         TObjPlayer::sync_player_globals();
     }
-    if (b != 0) {
+    if (hair != NULL) {
         TCharaMaking::enable_making();
         push_matrix_from(df_captured_matrix_pair[0]);
-        TObjFish::set_global_param((saddr)c);
-        TCharaMaking__draw_colored_hair(alpha, b, (CharacterAppearanceFields *)(p + 0x85C), 0);
+        TObjFish::set_global_param(head_textures);
+        TCharaMaking__draw_colored_hair(alpha, (saddr)hair, (CharacterAppearanceFields *)player->name, 0);
         pop_matrix();
         TCharaMaking::clear_flag_bit0();
     }

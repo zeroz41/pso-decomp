@@ -14,7 +14,6 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/player/TObjPlayer_80052374.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
@@ -155,7 +154,7 @@ void TObjDFDemo3::render() {
         return;
     }
     if (a < 1.0f) {
-        TObjPlayer__sub_80052390(a);
+        TObjPlayer::begin_alpha_blend(a);
     }
     push_matrix();
     set_motion_packed_rotation();

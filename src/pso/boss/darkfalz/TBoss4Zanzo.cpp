@@ -64,7 +64,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/TLevelSelect.h"
-#include "pso/player/TObjPlayer_80052374.h"
 #include "pso/player/TObjPlayer_803E1A58.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixVector.h"
@@ -1112,7 +1111,7 @@ void TBoss4Zanzo::render() {
         post_translate_matrix(&params.pos.x);
         rotate_matrix_y(0, params.rotation_y);
         TObjFish::set_global_param(params.texlist);
-        TObjPlayer__sub_80052390(value);
+        TObjPlayer::begin_alpha_blend(value);
         draw_model_motion(params.model, params.motion, params.frame);
         TObjPlayer::sync_player_globals();
         clear_motion_packed_rotation();

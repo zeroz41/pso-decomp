@@ -15,7 +15,6 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80052374.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/MatrixOps.h"
@@ -193,7 +192,7 @@ void TObjDFDemo1::draw_fading_model() {
         alpha = (f32)(0x88 - timer) / 12.0f;
     }
     if (alpha < 1.0f) {
-        TObjPlayer__sub_80052390(alpha);
+        TObjPlayer::begin_alpha_blend(alpha);
     }
     push_matrix();
     set_motion_packed_rotation();
@@ -255,7 +254,7 @@ void TObjDFDemo1::sub_8004E068() {
         col[e->slot] = (old & 0xFF) | ((s32)(255.0f * f) << 8);
     }
     if (alpha < 1.0f) {
-        TObjPlayer__sub_80052390(alpha);
+        TObjPlayer::begin_alpha_blend(alpha);
     }
     model_render_flags |= 0x20000;
     TObjEneRe4Sorcerer__sub_801E3F1C(0.0f, scroll);

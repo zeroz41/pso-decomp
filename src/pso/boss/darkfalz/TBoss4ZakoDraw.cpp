@@ -23,7 +23,6 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/text_803E2F28.h"
-#include "pso/player/TObjPlayer_80052374.h"
 
 extern "C" {
 void post_translate_matrix(void *);
@@ -31,7 +30,6 @@ f32 xyz_distance(void *, void *);
 void TObjPlayer__sub_8030A9B0();
 extern u32 TCameraCtrl__data_804FF634[18];
 void TCameraCtrl__sub_8030ABF4();
-void TObjPlayer__sub_80052390(f32);
 }
 
 void draw_chunk_model(void *);
@@ -138,7 +136,7 @@ void TObjPlayer::draw_area_chunk_objects() {
     Boss4ZakoDrawEntry *p = t->entries;
     s32 i;
     model = (NJS_OBJECT *)get_bml_model(reinterpret_cast<BmlResource *>(TBoss4Uro::get_instance_count()), 8);
-    TObjPlayer__sub_80052390(zako_fade_full);
+    TObjPlayer::begin_alpha_blend(zako_fade_full);
     TObjFish::set_global_param((saddr)(falz_zako_texture_list));
     for (i = 0; i < t->count; i++, p++) {
         push_matrix();

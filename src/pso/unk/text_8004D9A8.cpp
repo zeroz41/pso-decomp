@@ -33,7 +33,6 @@ const ModelNodeSpec TObjDFDemo0__model_node_entries[7] = {
 
 extern "C" {
 
-s32 TObjPlayer__sub_80052390();
 s32 post_translate_matrix(void *);
 extern void *lbl_80485550[3];
 
@@ -45,7 +44,7 @@ void fn_8004D9A8(u8 *arg0) {
 
     if ((0.0f) != o->f10c) {
         if (o->f10c < (1.0f)) {
-            TObjPlayer__sub_80052390();
+            TObjPlayer::begin_alpha_blend(o->f10c);
         }
         push_matrix();
         set_motion_packed_rotation();

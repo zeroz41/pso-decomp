@@ -829,7 +829,7 @@ void TPlayerLevelFeedback::run_task() {
 
 void TPlayerReadyCallback::run_task() {
     TObjPlayer* player = (TObjPlayer*)get_player_by_client_id(player_id);
-    if (player != NULL && player->m_cfc == 0) {
+    if (player != NULL && player->model_load_flags == 0) {
         void (*fn)(TObjPlayer*) = callback;
         if (fn != NULL) {
             fn(player);

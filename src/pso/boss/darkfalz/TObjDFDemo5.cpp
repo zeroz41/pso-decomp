@@ -14,7 +14,6 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80052374.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/MatrixStack.h"
@@ -127,7 +126,7 @@ void TObjDFDemo5::draw_fading_motion() {
         alpha = (f32)(0xF0 - t) / 80.0f;
     }
     if (alpha < 1.0f) {
-        TObjPlayer__sub_80052390(alpha);
+        TObjPlayer::begin_alpha_blend(alpha);
     }
     push_matrix();
     set_motion_packed_rotation();
@@ -151,7 +150,7 @@ void TObjDFDemo5::draw_fading_motion() {
 
 void TObjDFDemo5::release_subobjects() {
     if (timer >= 0xB4) {
-        TObjPlayer__sub_80052390(0.99f);
+        TObjPlayer::begin_alpha_blend(0.99f);
         push_matrix();
         set_motion_packed_rotation();
         post_translate_matrix(&pos.x);

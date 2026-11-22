@@ -79,7 +79,6 @@ struct Type3MotionView { s32 kind, next, motions[3]; };
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/technique/TTecResta.h"
 #include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
-#include "pso/player/TObjPlayer_80052374.h"
 #include "pso/player/TObjPlayer_803E1A58.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/camera/TCameraCtrl_8006CC30.h"
@@ -508,7 +507,7 @@ void TBoss4Type3::draw_model_set(const s32 *tbl, f32 t) {
         return;
     }
     if (t < 1.0f) {
-        TObjPlayer__sub_80052390(t);
+        TObjPlayer::begin_alpha_blend(t);
     } else if (tbl == boss4_type3_model_ids) {
         TBoss6PlotFalz__sub_802AC008(hit_flash, hp_ratio);
     }

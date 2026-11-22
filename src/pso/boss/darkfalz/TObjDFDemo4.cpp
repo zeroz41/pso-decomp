@@ -13,7 +13,6 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80052374.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/MatrixStack.h"
@@ -177,7 +176,7 @@ void TObjDFDemo4::sub_8004F2A8() {
         alpha = (f32)(0x4C - timer) / 8.0f;
     }
     if (alpha < 1.0f) {
-        TObjPlayer__sub_80052390(alpha);
+        TObjPlayer::begin_alpha_blend(alpha);
     }
     push_matrix();
     set_motion_packed_rotation();

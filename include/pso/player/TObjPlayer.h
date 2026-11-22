@@ -262,11 +262,17 @@ struct TObjPlayer : public TObjChara {
     s16 skin;  // an android's body colour
     u8 unk_898[0x10];
     f32 height;  // the body height the mag scales its follow height by
-    void* m_8ac;
-    u8 unk_8B0[0x4];
-    u32 m_8b4;
-    u8 unk_8B8[0x444];
-    s32 m_cfc;
+    // The part models TChCrLoadReq loads after the body (TObjMotion::model):
+    // the hair and head hang from node 0x3B, the attachment from node 0x3A.
+    void* hair_model;
+    void* head_model;
+    u32 attachment_model;
+    u8 unk_8B8[0x164];
+    // Texture lists TChCrLoadReq fills for the head/hair, the attachment and the body.
+    u8 head_textures[0x16C];
+    u8 attachment_textures[0x16C];
+    u8 body_textures[0x8];
+    s32 model_load_flags;  // nonzero while the models load (update_body_parts sets 255); not drawn until 0
     TPlyItem *inventory_objects;  // created by create_inventory
     void *equipped_items[13];  // by equip slot; read through get_equipped_item
     u8 unk_D38[0x10];
@@ -387,6 +393,7 @@ struct TObjPlayer : public TObjChara {
     s32 check_player_flag1();
     s32 check_flag(s32 arg1);
     static void sync_player_globals();
+    static void begin_alpha_blend(f32 alpha);
     void*get_position_ptr();
     void clear_header_struct();
     void clear_velocity_vectors();
@@ -1088,8 +1095,8 @@ struct TObjPlayer : public TObjChara {
     static void update_render_state();
     static void set_global_color_rgba(u32 v, u32);
     static void set_global_color_rgba_alt_b(u32 v, u32);
-    static void draw_player_model_by_client(u16 arg0, saddr arg1, f32 farg0, f32 farg1);
-    static void draw_player_model_by_id(s32 arg0, f32 farg0);
+    static void draw_player_model_by_client(u16 client_id, saddr motion, f32 frame, f32 alpha);
+    static void draw_player_model_by_id(s32 client_id, f32 alpha);
     static void rebuild_players_for_stage(s32 arg0);
     static void spawn_appearance_effect(u16 client);
     static TItem *create_vtable_804A08B8(u8 *arg0);
@@ -1561,8 +1568,11 @@ LAYOUT_ASSERT(PlayerActionPalettesOffset, offsetof(TObjPlayer, action_palettes) 
 LAYOUT_ASSERT(PlayerStateAfterPalettes, offsetof(TObjPlayer, m_550) == 0x550);
 LAYOUT_ASSERT(PlayerHairSelectorOffset, offsetof(TObjPlayer, m_878) == 0x878);
 LAYOUT_ASSERT(PlayerHairFlagsOffset, offsetof(TObjPlayer, m_88e) == 0x88E);
-LAYOUT_ASSERT(PlayerHairTargetOffset, offsetof(TObjPlayer, m_8ac) == 0x8AC);
-LAYOUT_ASSERT(PlayerHairWaitOffset, offsetof(TObjPlayer, m_cfc) == 0xCFC);
+LAYOUT_ASSERT(PlayerHairModelOffset, offsetof(TObjPlayer, hair_model) == 0x8AC);
+LAYOUT_ASSERT(PlayerHeadTexturesOffset, offsetof(TObjPlayer, head_textures) == 0xA1C);
+LAYOUT_ASSERT(PlayerAttachmentTexturesOffset, offsetof(TObjPlayer, attachment_textures) == 0xB88);
+LAYOUT_ASSERT(PlayerBodyTexturesOffset, offsetof(TObjPlayer, body_textures) == 0xCF4);
+LAYOUT_ASSERT(PlayerModelLoadFlagsOffset, offsetof(TObjPlayer, model_load_flags) == 0xCFC);
 LAYOUT_ASSERT(PlayerInventoryObjectOffset, offsetof(TObjPlayer, inventory_objects) == 0xD00);
 
 LAYOUT_ASSERT(TObjPlayer_area_offset, offsetof(TObjPlayer, current_area) == 0x3E0);

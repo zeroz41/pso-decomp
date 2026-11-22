@@ -2209,14 +2209,14 @@ void draw_body__10TObjPlayerFPvi(u8 *player, s32 arg1) {
 
 void TObjPlayer::draw_head_attachments() {
     s32 var_r31;
-    if ((u32) this->m_8b4 != 0U) {
+    if ((u32) this->attachment_model != 0U) {
         this->get_item_ptr(0x3A);
         ((s32 (*)(void))push_matrix_from)();
-        TObjFish::set_global_param((saddr)((void *) (((u8 *)this) + 0xB88)));
+        TObjFish::set_global_param((saddr)this->attachment_textures);
         if (this->m_flags & 0x400) {
             set_shadow_material_state();
         }
-        TObjPlayer::play_phase_transition_sound(this->m_8b4);
+        TObjPlayer::play_phase_transition_sound(this->attachment_model);
         set_default_alpha_blend();
         pop_matrix();
     }

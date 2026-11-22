@@ -1,6 +1,5 @@
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/player/TObjPlayer_80052374.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/unk/TLobby_8001EF5C.h"
@@ -140,7 +139,7 @@ void TBoss4Thanks::render() {
     return;
   }
   {
-    TObjPlayer__sub_80052390(fade);
+    TObjPlayer::begin_alpha_blend(fade);
     push_matrix();
     set_motion_packed_rotation();
     post_translate_matrix(boss4_thanks_position);

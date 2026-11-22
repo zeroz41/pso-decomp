@@ -56,17 +56,16 @@ TChCrLoadReq *create_ch_cr_load_req(TObject *parent, const CharacterPreviewLoadA
     return new TChCrLoadReq(parent, args);
 }
 
-// TObjPlayer has no fields yet at 0xCF4, 0xB88 and 0xA1C.
 TChCrLoadReq::TChCrLoadReq(TObjPlayer *player) : TObject(player) {
     m_name = TChCrLoadReq__name;
     inputs.appearance = (CharacterAppearanceFields *)player->name;
-    inputs.completion_flags = (u32 *)&player->m_cfc;
+    inputs.completion_flags = (u32 *)&player->model_load_flags;
     inputs.load_slot = get_entity_id(player);
     inputs.body_model = (s32 *)&player->model;
-    inputs.part_models = (s32 *)&player->m_8ac;
-    inputs.body_textures = (GinjaTextureList *)((u8 *)player + 0xCF4);
-    inputs.other_textures = (GinjaTextureList *)((u8 *)player + 0xB88);
-    inputs.head_textures = (GinjaTextureList *)((u8 *)player + 0xA1C);
+    inputs.part_models = (s32 *)&player->hair_model;
+    inputs.body_textures = (GinjaTextureList *)player->body_textures;
+    inputs.other_textures = (GinjaTextureList *)player->attachment_textures;
+    inputs.head_textures = (GinjaTextureList *)player->head_textures;
     reset_request();
 }
 
