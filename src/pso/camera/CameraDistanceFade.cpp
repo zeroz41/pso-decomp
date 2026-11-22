@@ -1,5 +1,6 @@
 #include "types.h"
 #include "pso/camera/CameraDistanceFade.h"
+#include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/model_render_state.h"
 #include "pso/render/ChunkMaterialState.h"
@@ -7,15 +8,11 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/unk/text_803DC86C.h"
 
-// The camera controller; no module header owns it yet (its fields are
-// still TCameraCtrl's m_178... placeholders, 0x178 is the camera position).
-extern u8 *camera_ctrl_instance;
-
 s32 CameraDistanceFade::update_visibility(const Vec *pos) {
     if (TRaderMapCore::is_not_split_screen() == 1) {
         return 1;
     }
-    if (xz_distance_squared((const Vec *)(camera_ctrl_instance + 0x178), pos) < fade_distance * fade_distance) {
+    if (xz_distance_squared(&camera_ctrl_instance->pos, pos) < fade_distance * fade_distance) {
         fade_out = 0;
     } else {
         fade_out = 1;

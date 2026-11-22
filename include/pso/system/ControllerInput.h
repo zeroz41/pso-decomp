@@ -37,4 +37,6 @@ s32 check_packed_flag_match(ControllerInputContext *pad, u32 mask, s32 delay, s3
 s32 input_press_or_repeat(ControllerInputContext *pad, u32 mask, s32 delay, s32 period);
 }
 
+s8 func_801A5E54(void);
+
 #endif

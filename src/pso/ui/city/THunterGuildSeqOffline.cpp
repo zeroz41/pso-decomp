@@ -58,7 +58,7 @@ void THunterGuildSeqOffline__sub_8021339C(void);
 u16 get_entity_id(s32);
 void THunterGuildSeqOffline__sub_8021E180(void);
 extern void *tl_00;
-void THunterGuildSeqOffline__sub_80213410(void* p);
+void THunterGuildSeqOffline__sub_80213410(void);
 s32 THunterGuildSeqOffline__sub_80213458(void);
 u8 *create_yes_no_window(s32 arg0, s32 arg1, uaddr arg2, uaddr arg3);
 int fn_80223480(void*);
@@ -141,12 +141,12 @@ s32 THunterGuildSeqOffline__sub_80213458(void) {
     return -1;
 }
 
-void THunterGuildSeqOffline::reset_quest_result_callbacks(void* _w0) {
+void THunterGuildSeqOffline::reset_quest_result_callbacks() {
     s32 i;
     for (i = 0; i < 4; i++) THunterGuildSeqOffline__quest_result_callbacks[i] = -1;
 }
 
-void THunterGuildSeqOffline__sub_80213410(void* p) { THunterGuildSeqOffline::reset_quest_result_callbacks(p); }
+void THunterGuildSeqOffline__sub_80213410(void) { THunterGuildSeqOffline::reset_quest_result_callbacks(); }
 
 void THunterGuildSeqOffline::notify_quest_thread() {
     s32 v = THunterGuildSeqOffline__quest_result_callbacks[3];

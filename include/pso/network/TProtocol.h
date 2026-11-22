@@ -328,6 +328,7 @@ public:
 extern "C" {
 u8 *__as__14LobbyListEntryFRC14LobbyListEntry(void *arg0, const void *arg1);
 void bswap_cmd_AB__9TProtocolFv(void *p);
+extern s32 TLobby__lobby_state_flags;
 }
 
 #endif

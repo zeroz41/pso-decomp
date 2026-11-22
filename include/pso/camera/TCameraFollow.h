@@ -44,13 +44,13 @@ public:
     FollowCameraSlot slots[4];
     Vec eye_offset;     // calc_follow_position: the eye is the actor plus this, turned by yaw
     Vec target_offset;  // compute_follow_target: the look point, turned by the actor's facing
-    s32 idle_frames;    // inferred: cleared whenever the actor acts; over 250 the camera recenters
+    s32 idle_frames;    // cleared whenever the actor acts; over 250 the camera recenters
     s32 motion_state;   // update_follow_motion_state: 0 still, 1 moving, 2 recentering
     // 1: obstruction predicted, 4: eye 23 or more from the target, 8: offsets requested,
     // 0x10: obstruction close to the eye.
     s32 follow_flags;
     s32 close_up;            // begin_conversation_camera: narrow view, lowered target
-    s32 recenter_requested;  // TCameraCtrl::set_active_camera_flag
+    s32 recenter_requested;  // request_follow_camera_recenter
     f32 target_y_offset;
     s32 target_yaw;
 };
@@ -63,7 +63,7 @@ struct FollowCameraInitPose {
     Vec pos;
     Vec target;
     s32 projection_angle; // 0x3555 = 75 degrees
-    f32 near_clip;        // inferred: TCameraCtrl::set_clamped_offsets clamps both to [-65535, -1]
+    f32 near_clip;        // TCameraCtrl::set_clamped_offsets clamps both to [-65535, -1]
     f32 far_clip;
 };
 
@@ -75,6 +75,15 @@ extern u8 camera_override_flags;
 extern Vec camera_override_position;
 extern Vec camera_fixed_target_position;
 extern u16 camera_override_client_id;
+
+// The quest camera opcodes' overrides: back to following the local
+// player, an eye looking at client_id's player, a fixed eye and target.
+void reset_camera_to_local_player();
+void set_locked_camera_override(const Vec *position, u16 client_id);
+void set_fixed_camera_override(const Vec *position, const Vec *target);
+// Turns the follow camera back behind its player while it is the active controller
+// (the quest cam_adj opcode).
+void request_follow_camera_recenter();
 
 void end_conversation_camera();
 void begin_conversation_camera();

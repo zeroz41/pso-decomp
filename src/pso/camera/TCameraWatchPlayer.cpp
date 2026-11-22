@@ -15,7 +15,7 @@ static CameraBankFile camera_files_bo06[2] = { { "CommonCam.rel", 0x48 }, { "Bo0
 static CameraBankFile camera_files_bo07[3] = { { "CommonCam.rel", 0x48 }, { "Bo07OpCam.rel", 0xC }, { "Bo07EnCam.rel", 0xC } };
 static CameraBankFile camera_files_bo08[3] = { { "CommonCam.rel", 0x48 }, { "Bo08OpCam.rel", 0xC }, { "Bo08EnCam.rel", 0x48 } };
 
-// Camera path banks per floor area (get_current_floor_area()), read by TCameraCtrl::load_camera_banks.
+// Camera path banks per floor area (get_current_floor_area()), read by load_camera_banks.
 CameraBankList camera_path_bank_table[36] = {
     { NULL, 0 }, { camera_files_common, 1 }, { camera_files_common, 1 }, { camera_files_common, 1 },
     { camera_files_common, 1 }, { camera_files_common, 1 }, { camera_files_common, 1 }, { camera_files_common, 1 },
@@ -33,7 +33,7 @@ TCameraController *TCameraWatchPlayer::create() {
 }
 
 void TCameraWatchPlayer::apply_camera_params(s32) {
-    void *params;
+    CameraParams *params;
     TObjPlayer *player;
 
     if (camera_ctrl_instance != NULL) {
@@ -43,10 +43,10 @@ void TCameraWatchPlayer::apply_camera_params(s32) {
             target.x = player->position.x;
             target.y = 19.8f + player->position.y;
             target.z = player->position.z;
-            position.x = *(f32 *)((s8 *)params + 0x1C);
-            position.y = *(f32 *)((s8 *)params + 0x20);
-            position.z = *(f32 *)((s8 *)params + 0x24);
-            eye_rate = *(f32 *)((s8 *)params + 0x10);
+            position.x = params->position.x;
+            position.y = params->position.y;
+            position.z = params->position.z;
+            eye_rate = params->eye_rate;
         }
     }
 }

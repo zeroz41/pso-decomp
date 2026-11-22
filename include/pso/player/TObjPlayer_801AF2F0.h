@@ -17,6 +17,10 @@ void send_6x2C_impose_hold(TObjPlayer *player, const Vec *pos, s32 frames, s32 a
 // Takes the item off the player's equip slots (r3 = player, r4 = item; the symbol's
 // int/void* parameter list is the provisional one).
 void unequip_item__10TObjPlayerFiPv(saddr player, void *item);
+void rebuild_player_inventory(void *player);
+void TObjPlayer__sub_801B1BA4(void);
+void TObjPlayer__sub_801B1C8C(void);
+int fn_801B309C(void *p);
 }
 
 #endif

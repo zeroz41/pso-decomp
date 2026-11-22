@@ -21,6 +21,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/camera/TCameraScripted.h"
 #include "pso/unk/TLobby_802D79EC.h"
 #include "pso/render/reflection.h"
 #include "pso/player/TObjPlayer.h"
@@ -114,7 +115,7 @@ FloorResourceCallbacks lbl_8048D4C0[29] = {
 FloorResourceCallbacks lbl_8048D5A8[4] = {
     {load_technique_resources, TLobby__sub_8022F068},
     {load_photon_blast_resources, TObjPlayer__sub_801AA3B4},
-    {TCameraCtrl::load_camera_banks, TCameraCtrl::free_entries},
+    {load_camera_banks, free_camera_banks},
     {TLobby::update_difficulty, NULL},
 };
 

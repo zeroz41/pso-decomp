@@ -18,8 +18,8 @@ struct CameraParams {
     s32 pad_04;
     s32 pad_08;
     f32 pad_0C;
-    f32 pad_10;
-    s32 projection_angle;
+    f32 eye_rate; // the event camera's eye_rate (TCameraFixed, TCameraWatchPlayer)
+    s32 projection_angle; // in degrees
     f32 pad_18;
     Vec position;
     Vec target;
@@ -159,16 +159,12 @@ public:
     static s32 release_photon_blast_camera();
     void reset_view_flags();
     CameraParams *get_params();
+    // The eye and target of split-screen view `view`.
+    Vec *get_split_pos(s32 view);
+    Vec *get_split_tgt(s32 view);
     static void set_shake_preset(s32 preset);
     void cycle_spectate_target();
-    static void update_active_player();
-    static void update_battle_camera();
-    static void create(saddr goal, s32 frames, s32 arg2);
     void *destroy(s16 arg1);
-    static void reset_to_local_player();
-    static void set_override_position_and_angle(u8 *position, s16 angle);
-    static void set_fixed_position_and_target(u8 *position, u8 *target);
-    static void set_active_camera_flag();
     // The viewport origin, which projected points are made view-relative by.
     static s32 get_viewport_y();
     static s32 get_viewport_x();
@@ -179,7 +175,6 @@ public:
     static s32 get_mode(void *p);
     // Transforms the vector at src into view space, into dst.
     static void transform_to_view(const Vec *src, Vec *dst);
-    static Vec get_target_position();
     static s32 get_camera_no();
     static void set_mode(int mode);
     static void reset_mode();
@@ -202,9 +197,6 @@ public:
     static int get_camera_id();
     static void set_target_coords(int x, int y);
     static void reset_battle_camera();
-    static s32 clamp_distance(s32 yaw, s32 to, s32 arg2);
-    static void free_entries();
-    static void load_camera_banks();
     static void init_projection_state();
     static void set_target(int width, int height);
 };

@@ -6735,7 +6735,7 @@ force_active:
   - get_table_entry__19TContainerAncient01Fi
   - get_table_entry_by_clamped_index__10TObjPlayerFv
   - get_table_value__19TAdPlyPltAnimCtrlGCFi
-  - get_target_position__11TCameraCtrlFv
+  - get_target_position__16TCameraDebugViewFv
   - get_texlist__23TObjSeabedSuisoBrakableFi
   - get_total_materials_used__Fl
   - get_type__15TFontSmallLobbyFPv

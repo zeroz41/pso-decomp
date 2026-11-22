@@ -36,8 +36,13 @@ struct CameraBank {
 
 // The bank files of each floor area (get_current_floor_area()).
 extern CameraBankList camera_path_bank_table[36];
-// The floor's bank files, loaded by TCameraCtrl::load_camera_banks.
+// The floor's bank files, loaded by load_camera_banks.
 extern CameraBank camera_banks[8];
+
+// The floor resource callbacks of the camera banks: load the current floor area's
+// bank files, and free them.
+void load_camera_banks();
+void free_camera_banks();
 
 // The camera's projection angle when a scripted camera playback started, and the
 // angle the playback asked for.
