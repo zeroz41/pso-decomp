@@ -158,7 +158,6 @@ void TObjAreaWarpQuest__sub_8019DCD8(TObjPlayer *, s32);
 s32 TObjWarpJung__sub_801A0404(s32);
 int check_flag_100__10TObjPlayerFPv(void *p);
 void send_6x21_inter_level_warp(void *obj, s32 value);
-s32 init__23TAdSinglePlyChrSelectGCFv();
 s32 get_floor_map_terrain(s32);
 void __ct__7TObjectFP7TObject(void *, void *);
 s32 get_window_layout_position(s32);
@@ -1106,7 +1105,7 @@ void TKeyBoardControl::dispatch_select_phase() {
         request_main_phase(8);
         break;
     }
-    init__23TAdSinglePlyChrSelectGCFv();
+    TAdSinglePlyChrSelectGC::init();
 }
 
 const char *TObjMapForceWarp__name = "TObjMapForceWarp";

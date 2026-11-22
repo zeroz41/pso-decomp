@@ -1,4 +1,5 @@
 #include "pso/system/BmlAccessors.h"
+#include "pso/ui/frontend/TAdVIConfigGC.h"
 #include "pso/system/BmlResource.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/animation/ActorAnimationState.h"
@@ -102,7 +103,6 @@ void clear_enabled_main_warps(void);
 
 s32 get_window_layout_position(s32);
 
-void * init__13TAdVIConfigGCFPC3Vecf(void *, void *, f32);
 
 s32 get_game_play_mode();
 
@@ -427,7 +427,7 @@ TObjCityMainWarp::TObjCityMainWarp(TObject *parent, void *set_data) : TObjAreaWa
     if (is_split_screen() == 1) {
         p = ::operator new(0x88);
         if (p != NULL) {
-            p = init__13TAdVIConfigGCFPC3Vecf(p, &position, 25.0f);
+            p = ((TAdVIConfigGC *)p)->init(&position, 25.0f);
         }
         vi_config = (TAdVIConfigGC *)p;
     } else {

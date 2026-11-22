@@ -130,7 +130,7 @@ void run_task__13TObjWarpLobbyFv(TObjWarpLobby *arg0) {
                 arg0->menu_window = 0U;
                 TWindowCtrl::clear_flag();
             }
-            send_room_change__6TLobbyFi(selected_menu_value);
+            TLobby::send_room_change(selected_menu_value);
         }
     } else if ((u32) arg0->menu_window != 0U) {
         ((TWindowBase *)arg0->menu_window)->close();

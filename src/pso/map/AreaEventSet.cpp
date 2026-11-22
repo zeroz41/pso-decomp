@@ -283,7 +283,6 @@ struct Buf_80208E8C { u8 data[0x20]; };
 #define area_event_set_heap (*(s32 *)&area_event_set_heap)
 #define lobby_slot_ptr_table (*(s32 (*)[1])&lobby_slot_ptr_table)
 extern "C" {
-s32 replace_file_extension__6TLobbyFPvPvPv(char *arg0, char *arg1, char *arg2);
 
 #define HA2 ((s32 (*)(s32, s32))heap_alloc__5THeapFUl)
 }
@@ -336,7 +335,7 @@ s32 load_area_event_set(s32 floor, s32 area, s32 terrain, s32 entities) {
     if (TLobby__data_805D6068[area].variants[terrain].entries == 0 || TLobby__data_805D6068[area].variants[terrain].count - 1 < entities) {
         return 0;
     }
-    replace_file_extension__6TLobbyFPvPvPv((char *)&buf, (char *)TLobby__data_805D6068[area].variants[terrain].entries[entities].enemy_set_name, ".evt");
+    TLobby::replace_file_extension(&buf, (char *)TLobby__data_805D6068[area].variants[terrain].entries[entities].enemy_set_name, (char *)".evt");
     n = get_resource_file_size((const char *)buf.data);
     if (n > 0) {
         p = ((void *)HA2((saddr)((*(void * *)&area_event_set_heap)), n));

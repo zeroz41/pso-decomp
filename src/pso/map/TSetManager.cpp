@@ -100,7 +100,6 @@ u32 TLobby__data_80513D10[9];
 u8 lbl_80513D34[0x24];
 #pragma pop
 void archive_pool_free(void *pool, void *node);
-s32 replace_file_extension__6TLobbyFPvPvPv(char *arg0, char *arg1, char *arg2);
 void *mem_alloc(u32);
 }
 void arrive_floor_population(void);
@@ -146,9 +145,9 @@ s32 load_map_decoration_rows(s32 map, s32 grp, s32 room) {
         return 0;
     }
     if (TLobby::is_online_ready() != 0) {
-        replace_file_extension__6TLobbyFPvPvPv((char *)path, (char *)r->decoration_set_name, (char *)lbl_8044BC24);
+        TLobby::replace_file_extension((char *)path, (char *)r->decoration_set_name, (char *)lbl_8044BC24);
     } else {
-        replace_file_extension__6TLobbyFPvPvPv((char *)path, (char *)r->decoration_set_name, (char *)lbl_8044BC2C);
+        TLobby::replace_file_extension((char *)path, (char *)r->decoration_set_name, (char *)lbl_8044BC2C);
     }
     size = get_resource_file_size((const char *)path);
     if (size < 0) {

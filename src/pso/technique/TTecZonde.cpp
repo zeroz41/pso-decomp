@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/enemy/TUnk_80493450.h"
 #include <stdlib.h>
 #include "pso/technique/TechniqueParams.h"
 #include "pso/player/TObjPlayer.h"
@@ -74,7 +75,6 @@ struct VObj_18_0c879f : VBase_18_0c879f {
 struct Obj_8023C6B4 { u8 pad[0x1C]; void *source; u8 pad20[0xCC - 0x20]; f32 power; };
 
 extern "C" {
-s32 test_elt_flag__13TUnk_80493450Fll(void *, s32, s32);
 
 void TObjPlayer::create_tec_zonde(void *source, void *origin, void *targets, s32 level) {
     new TTecZonde((saddr)source, (u8 *)origin, (u8 *)targets, level);
@@ -84,7 +84,7 @@ void TTecZonde::vfunc_8(void *arg1_arg) {
     HitInfo_8023C6B4 h;
     h.type = 3;
     h.power = this->power;
-    if (test_elt_flag__13TUnk_80493450Fll(arg1, 0, 0x80) == 0) {
+    if (((TUnk_80493450 *)arg1)->test_elt_flag(0, 0x80) == 0) {
         HitInfo_8023C6B4 c = h;
         arg1->m21(((Obj_8023C6B4 *)this)->source, &c, 0, 6, -1);
     }

@@ -112,7 +112,6 @@ void TItemReverseTech__sub_8011A54C(void* a0);
 void TItemReverseTech__sub_8011A55C(void);
 void TItemReverseTech__sub_8011A580(void);
 void TItemReverseTech__sub_8011A5A4(void);
-void reset__11TCameraCtrlFv(void);
 s32 free_texture_if_valid(u32 arg0);
 }
 void process_async_file_reads(void);
@@ -122,7 +121,7 @@ void init_map_lights(u8 *arg0);
 void set_screen_size(f32, f32);
 extern u8 default_scene_light_config[];
 TItemReverseTechSceneHook TItemReverseTech__cleanup_callback_table[7] = {
-    {TCameraCtrl::reset_view_state, reset__11TCameraCtrlFv},
+    {TCameraCtrl::reset_view_state, TCameraCtrl::reset},
     {TCameraCtrl::init_default_view, TCameraCtrl::reset_default_view},
     {TLobby::update_keyboard_menu, TLobby::free_keyboard_soft_resources},
     {TLobby::set_ending_callback, TLobby::free_ending_callback},
