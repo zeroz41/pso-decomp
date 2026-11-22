@@ -119,7 +119,6 @@ struct Obj_802FAC08 { u8 pad0[0x38]; f32 x; u8 pad1[4]; f32 z; };
 s32 get_current_floor();
 void free_collision_body_parts(void *);
 s32 check_flag_100__10TObjPlayerFPv();
-s32 TBoss8Dragon__sub_802FCCBC(TBoss8Dragon *boss8_dragon);
 }
 
 extern BmlResource *boss8_dragon_resource;
@@ -281,7 +280,6 @@ f32 calc_random_ratio__10TObjPlayerFv(void *);
 }
 extern "C" {
 s32 __ct__14SubtractiveRngFv(void *arg0);
-void *TBoss8Dragon__sub_802F3C24(void *object, void *set_data);
 }
 void handle_6xA8_gol_dragon_boss_actions(void *data);
 
@@ -625,7 +623,7 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     init_default(this);
     if (boss8_dragon_main_instance == this) {
         this->mode = 0x1E;
-        TBoss8Dragon__sub_802F3C24((u8 *)this, set_data);
+        create_boss8_dragon_leader_part(this, set_data);
     }
     if (!(this->flags & 8)) {
         this->dispatch_action(this->mode, 4);
@@ -833,8 +831,8 @@ void TBoss8Dragon::run_miss_reaction() {  }
 
 void TBoss8Dragon::set_state_22() { if (this->mode != 22) { send_action_packet(22); } }
 
-s32 TBoss8Dragon__sub_802FCCBC(TBoss8Dragon *boss8_dragon) {
-    if (boss8_dragon->mode != 0x1E) {
+s32 TBoss8Dragon::has_appeared() {
+    if (this->mode != 0x1E) {
         return 1;
     }
     return 0;
@@ -4759,7 +4757,7 @@ void TBoss8Dragon::draw_with_fade(Vec *pos, s32 view) {
 
 void TBoss8Dragon::get_render_position(Vec *pos) {
     VecCopy(pos, &this->position);
-    if (((s32)main_task.get_task_flags() & 0x10) && (TBoss8Dragon__sub_802FCCBC(this) == 0) && !(this->frame > 63.0f)) {
+    if (((s32)main_task.get_task_flags() & 0x10) && (this->has_appeared() == 0) && !(this->frame > 63.0f)) {
         pos->z += -460.0f;
     }
 }

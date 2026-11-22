@@ -212,6 +212,8 @@ public:
     void calc_orbit_xz(f32 *arg1, f32 *arg2);
     void update_position_history();  // as TBoss1Dragon::update_position_history
     void set_state_22();
+    // Nonzero once the dragon has left mode 30 (update_appearance_state).
+    s32 has_appeared();
     void check_death();
     void select_next_action();
     static void free_static();
@@ -230,11 +232,15 @@ public:
     s32 is_within_xz_distance(u8 *arg1, f32 off);
     f32 calc_sq_offset(f32 farg0);
     void noop();
-    static u16 get_global_part_count(s32 arg0);
-    static void place_parts_in_ring(s32 n, s32 arg1, s32 arg2);
+    // The parts are numbered from boss8_dragon_leader_part's set entry; part 0 is the leader.
+    static TBoss8Dragon *get_part(s32 index);
+    static u16 get_part_entity_id(s32 index);
+    static void place_parts_in_ring(s32 n, s32 hp, s32 seed);
     static s32 find_target_enemy();
     static s32 is_any_part_alive();
     static void update_all_parts();
+    // How many live monitor slots stay on: fewer while more parts are alive, -1 in split screen.
+    static s32 get_live_monitor_count();
     static s32 has_enough_enemies();
     void set_mode_params(s8 mode);
     void sweep_head_fall_spheres_early();

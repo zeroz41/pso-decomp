@@ -3,10 +3,12 @@
 
 #include "types.h"
 
-extern "C" {
-void *TBoss8Dragon__sub_802F3C24(void *object, void *set_data);
-void TBoss8Dragon__sub_802F3C74(void);
-}
+class TObject;
+class TUnk_804E4BF0;
+
+// The leader's constructor makes boss8_dragon_leader_part; TLobby's floor callbacks clear and release it.
+TUnk_804E4BF0 *create_boss8_dragon_leader_part(TObject *parent, void *set_data);
+void release_boss8_dragon_leader_part(void);
 void clear_boss8_dragon_leader_part(void);
 
 #endif

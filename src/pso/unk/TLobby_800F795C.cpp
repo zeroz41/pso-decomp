@@ -408,7 +408,7 @@ FloorResourceCallbacks floor_resource_callbacks_selector_32[5] = {
 FloorResourceCallbacks floor_resource_callbacks_selector_33[6] = {
     { load_corpse_mark_resource, TObjPlayer::destroy_static_lobby },
     { TObjEneDD::create_instance, TObjEneDD::release_resource },
-    { clear_boss8_dragon_leader_part, TBoss8Dragon__sub_802F3C74 },
+    { clear_boss8_dragon_leader_part, release_boss8_dragon_leader_part },
     { TBoss8Dragon::load_resources, TBoss8Dragon::free_static },
     { reset_camera_override, restore_cameras_if_overridden },
     { 0, 0 },
