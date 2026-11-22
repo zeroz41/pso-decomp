@@ -31,7 +31,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/GinjaTextureMatrices.h"
-#include "pso/camera/TCameraCtrl_80082FCC.h"
+#include "pso/camera/TCameraCtrl.h"
 #include "pso/system/scene/TScene_800838C4.h"
 #include "pso/system/scene/TScene_8029F5B0.h"
 #include "pso/player/TObjPlayer_803DC834.h"
@@ -301,7 +301,6 @@ struct G_8029EFFC {
 
 extern "C" {
 // Every caller tests this as an int; the header's bool return would not match.
-s32 TCameraCtrl__sub_800689F4();
 void GXSetTevOp(s32 stage, s32 mode);
 void GXSetTevOrder(s32 stage, s32 coord, s32 map, s32 color);
 }

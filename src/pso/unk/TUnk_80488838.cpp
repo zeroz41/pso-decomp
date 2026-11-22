@@ -3,7 +3,6 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/TUnk_80488838.h"
 #include "pso/unk/TUnk_80488E00.h"
-#include "pso/camera/TCameraCtrl_80067CE8.h"
 #include "pso/camera/TCameraCtrl_80067FC0.h"
 #include "pso/unk/TUnk_80488DA0.h"
 #include "pso/system/ControllerInputState.h"
@@ -96,7 +95,7 @@ void TUnk_80488838::reset_behind_player() {
     }
 }
 
-void target_player0__11TCameraCtrlFi(saddr arg0) {
+void TCameraCtrl::target_player0(int controller) {
     Vec stack;
     u8 *player;
     player = (u8 *)(get_player_by_client_id(0));
@@ -104,7 +103,7 @@ void target_player0__11TCameraCtrlFi(saddr arg0) {
         stack.x = *(f32 *)((s8 *)player + 0x38);
         stack.y = 10.0f + *(f32 *)((s8 *)player + 0x3C);
         stack.z = *(f32 *)((s8 *)player + 0x40);
-        set_target_pos__13TUnk_80488DA0FPv((void *)arg0, &stack.x, 10.0f);
+        set_target_pos__13TUnk_80488DA0FPv((void *)controller, &stack.x, 10.0f);
     }
 }
 

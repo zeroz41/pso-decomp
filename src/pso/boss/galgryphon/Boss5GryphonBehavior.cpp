@@ -71,8 +71,6 @@
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/unk/text_80086B64.h"
 #include "pso/unk/text_80087278.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
-#include "pso/camera/TCameraCtrl_8006A03C.h"
 #include "pso/object/TObjControl.h"
 #include "pso/boss/galgryphon/TBoss5GryphonLightningEff.h"
 #include "pso/render/MaterialAlphaCompare.h"
@@ -85,9 +83,7 @@
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-#include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/unk/TLobby_802268F4.h"
-#include "pso/camera/TCameraCtrl_8006A03C.h"
 #include "pso/object/TObjControl.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"

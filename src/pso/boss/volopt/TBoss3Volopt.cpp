@@ -22,8 +22,6 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
-#include "pso/camera/TCameraCtrl_8006A03C.h"
 #include "pso/render/TFogCtrl.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/system/TLoadCtrl_80227390.h"
@@ -1091,7 +1089,7 @@ void TBoss3Volopt::update_phase2_intro() {
     case 0:
         start_phase2();
         activate_camera_mode(9);
-        set_active_camera_pose((u8 *)&boss3_volopt_intro_camera_poses[0], (u8 *)&boss3_volopt_intro_camera_poses[1]);
+        set_active_camera_pose(&boss3_volopt_intro_camera_poses[0], &boss3_volopt_intro_camera_poses[1]);
         TObjPlayer::freeze_all_players();
         TWindowCtrl::init_all_slots();
         {

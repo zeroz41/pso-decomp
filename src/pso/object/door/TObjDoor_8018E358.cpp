@@ -23,7 +23,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/unk/TLobby_8001EF5C.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
+#include "pso/camera/TCameraCtrl.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 
 struct BmlResource;
@@ -412,7 +412,7 @@ void render__8TObjDoorFv(VObj_8018EAF8 *self) {
 }
 
 void TObjDoor::update_state() {
-    f32 target[3],position[3];
+    Vec target,position;
     switch(this->state) {
     case 0:
         if(is_current_floor_switch_set((u16)this->switchId)==1) {
@@ -423,9 +423,9 @@ void TObjDoor::update_state() {
         set_indexed_flags(0, 1);return;
     case 1:
         if(this->cameraMode==1 && activate_camera_mode(9)!=0) {
-            VecCopy((Vec *)target, &this->position);
-            VecCopy((Vec *)position, (const Vec *)((f32 *)&this->scale));
-            set_active_camera_pose((u8 *)position, (u8 *)target);this->cameraMode=2;
+            VecCopy(&target, &this->position);
+            VecCopy(&position, (const Vec *)((f32 *)&this->scale));
+            set_active_camera_pose(&position, &target);this->cameraMode=2;
         }
         if(this->cameraMode==2) {
             s32 ticks=this->cameraTicks-1;this->cameraTicks=ticks;

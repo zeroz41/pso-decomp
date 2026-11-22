@@ -18,7 +18,6 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
 
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
@@ -933,7 +932,7 @@ void TObjEneDD::initialize_enemy_state(s32 parameter) {
 
 void forward_split_screen_view_matrix() { TCameraCtrl::apply_split_screen_view_matrix(); }
 
-void forward_transform_to_view(const Vec *in, Vec *out) { transform_to_view__11TCameraCtrlFii((saddr)in, (saddr)out); }
+void forward_transform_to_view(const Vec *in, Vec *out) { TCameraCtrl::transform_to_view(in, out); }
 
 void TObjEneDD::reset_hp(u8 *base_stats, u8 *attack_stats, u8 *resistance_stats) {
     bind_enemy_combat_stats(base_stats, attack_stats, resistance_stats);

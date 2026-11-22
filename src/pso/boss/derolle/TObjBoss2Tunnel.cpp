@@ -38,7 +38,6 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel_8036EF0C.h"
 #include "pso/map/FloorArea.h"
 #include "pso/map/CsnQuery.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/unk/TLobby_803382E4.h"
 #include "pso/network/client_id.h"

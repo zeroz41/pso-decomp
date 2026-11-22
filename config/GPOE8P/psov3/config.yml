@@ -471,7 +471,7 @@ force_active:
   - TBoss8Dragon__sub_8036AF50
   - TCameraCtrl__sub_800677D4
   - TCameraCtrl__sub_800689E8
-  - TCameraCtrl__sub_8006AA90
+  - __dt__11TCameraCtrlFv
   - TCameraCtrl__sub_8006B358
   - TCameraCtrl__sub_8006B798
   - TCameraCtrl__sub_8006CC30
@@ -5094,7 +5094,7 @@ force_active:
   - clamp_partner_counter__Flls
   - clamp_state__12TObjDoorJungFv
   - clamp_to_ground__14TBoss6GravBallFv
-  - clamp_to_target_obstruction__11TCameraCtrlFv
+  - clamp_to_target_obstruction__11TCameraCtrlFP13TUnk_80488A28
   - class_name__10TBoss6Rock
   - class_name__11TOBiwaMushi
   - class_name__11TOBoss4Bird
@@ -5410,8 +5410,8 @@ force_active:
   - copy_udp_socket_event_record
   - copy_from__15TBoss6MagMotionFPC15TBoss6MagMotion
   - copy_vec_array__11TBoss6Type2Fv
-  - copy_view_params__11TCameraCtrlFii
-  - copy_view_state__11TCameraCtrlFl
+  - copy_view_params__11TCameraCtrlFP12CameraMatrixPC12CameraMatrix
+  - copy_view_state__16CameraViewParamsFPC16CameraViewParams
   - copy_with_guild_card_tag__13TPlyRecvLoginFPl
   - countModelNodes__12TBoss1DragonFP15DragonModelNode
   - count_active_players__14TBoss4DarkFalzFv
@@ -7771,7 +7771,7 @@ force_active:
   - gryphon_left_horn_lightning_offset
   - gryphon_right_horn_lightning_offset
   - lbl_80488A8C
-  - lbl_80488AC0
+  - __vt__11TCameraCtrl
   - lbl_8048D0B0
   - lbl_8048D108
   - lbl_8048D278
@@ -14655,7 +14655,7 @@ force_active:
   - reset_windows__16TAdChrSelBSlotGCFv
   - resolve_active_quest_result__22THunterGuildSeqOfflineFv
   - resolve_actor_sphere_contact__FPUcll
-  - resolve_anchor_obstruction__11TCameraCtrlFv
+  - resolve_anchor_obstruction__11TCameraCtrlFP13TUnk_80488A28
   - resolve_color__8TItemMagFv
   - resolve_indirect_node_record
   - resolve_indirect_object_record

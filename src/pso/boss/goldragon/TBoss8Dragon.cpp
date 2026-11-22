@@ -83,7 +83,6 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/unk/text_80086B64.h"
 

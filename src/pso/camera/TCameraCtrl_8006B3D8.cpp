@@ -71,15 +71,12 @@ struct O_8006BAB4 { u8 pad[0x104]; Vec arr[1]; };
 
 extern "C" {
 s32 TCameraCtrl__fixed_npc_camera_active;
-void set_active_camera_pose(void *, void *);
 s32 approach_camera_vector(void *, void *, f32);
-s32 activate_camera_mode(int);
 Vec *TCameraCtrl__sub_8006BAB4(O_8006BAB4 *self, s32 i);
 Vec *TCameraCtrl__sub_8006BAC8(O_8006BAC8 *self, s32 i);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern const s32 __vt__13TUnk_80488AD8[];
 extern uaddr camera_ctrl_instance;
-s32 restore_player_cameras();
 
 extern unsigned char TCameraCtrl__override_flags;
 
@@ -195,7 +192,7 @@ u8 *TCameraCtrl::init_conversation_camera(s32 i, s32 arg2, saddr parent) {
     VecCopy((Vec *)(((u8 *)this) + 0x1C), (const Vec *)((*(saddr *)&camera_ctrl_instance) + 0x178));
     VecCopy((Vec *)(((u8 *)this) + 0x28), (const Vec *)((*(saddr *)&camera_ctrl_instance) + 0x184));
   }
-  set_active_camera_pose((void *) (((u8 *)this) + 0x1C), (void *) (((u8 *)this) + 0x28));
+  set_active_camera_pose((Vec *)(((u8 *)this) + 0x1C), (Vec *)(((u8 *)this) + 0x28));
   TCameraCtrl__fixed_npc_camera_active = 0;
   return ((u8 *)this);
 }
@@ -210,7 +207,7 @@ void TUnk_80488AD8::run_task() {
     approach_camera_vector((u8 *)&this->unk_1C, (u8 *)fixed_npc_camera_destination_table + (this->m_34 * 0x18), 0.725f);
     approach_camera_vector(arg0 + 0x28, (u8 *)fixed_npc_camera_destination_table + (this->m_34 * 0x18) + 0xC, 0.725f);
     TCameraCtrl__fixed_npc_camera_active = 1;
-    set_active_camera_pose((u8 *)&this->unk_1C, arg0 + 0x28);
+    set_active_camera_pose((Vec *)&this->unk_1C, (Vec *)(arg0 + 0x28));
 }
 
 u8 *create_conversation_camera(s32 arg0) {

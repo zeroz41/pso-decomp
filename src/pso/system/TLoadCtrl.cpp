@@ -36,13 +36,10 @@ saddr TLoadCtrl__fade_task;
 extern s32 tl_fade;
 bool TLoadCtrl__sub_8001C60C(void);
 void TNowLoading__sub_8001D4D4(void);
-u8 *TCameraCtrl__ct(u8 *arg0, void *parent);
 void TLoadCtrl__sub_80226DA0(s32 index);
 void fn_8034AD2C(void);
 extern s32 tl_su;
-extern saddr tl_camera;
-void set_active_camera_pose(u8 *arg0, u8 *arg1);
-s32 activate_camera_mode(s32 arg0);
+extern TObject *tl_camera;
 }
 void update_sound_request_slots(void);
 extern "C" {
@@ -100,7 +97,7 @@ void TLoadCtrl::run_task() {
         Vec a = {0.0f, 0.0f, 0.0f};
         Vec b = {0.0f, 0.0f, -1.0f};
         activate_camera_mode(9);
-        set_active_camera_pose((u8 *)&a, (u8 *)&b);
+        set_active_camera_pose(&a, &b);
     }
 }
 
@@ -172,7 +169,6 @@ void TLoadCtrl::cleanup_scene() {
 void TLoadCtrl::start_loading(u32 arg0) {
     s32 temp_r3;
     u8 *load_ctrl;
-    u8 *temp_cam;
     u32 var_r31;
     var_r31 = arg0;
     TCameraCtrl::reset_view_state();
@@ -216,10 +212,7 @@ void TLoadCtrl::start_loading(u32 arg0) {
         TLoadCtrl__sub_80226DA0(2);
         break;
     }
-    temp_cam = (u8 *) TObject::operator new(0x1D4);
-    if (temp_cam != NULL) {
-        TCameraCtrl__ct(temp_cam, (void *)tl_camera);
-    }
+    new TCameraCtrl(tl_camera);
     load_ctrl = (u8 *)new TLoadCtrl(tl_su);
     TLoadCtrl__instance = (uaddr) load_ctrl;
 }

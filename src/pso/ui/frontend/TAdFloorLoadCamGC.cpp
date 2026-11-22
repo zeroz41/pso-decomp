@@ -21,8 +21,6 @@ struct Pad_8034BE5C { u8 pad0[0x34]; s16 tilt; u8 pad36[4]; s16 speed; };
 
 extern "C" {
 const char *lbl_805D4340 = "TAdFloorLoadCamGC";
-void set_active_camera_pose(u8 *arg0, u8 *arg1);
-s32 activate_camera_mode(s32 arg0);
 f32 vec_squared_length(u8 *arg0);
 extern Pad_8034BE5C controller_physical_port_bank;
 extern const f32 lbl_805DFDB8;
@@ -91,8 +89,8 @@ void TAdFloorLoadCamGC::run_task() {
     } else {
         normalize_vector(&up);
     }
-    TCameraCtrl::copy_vec_to_default((u8 *)&up);
-    set_active_camera_pose((u8 *)&s->pos, (u8 *)&s->target);
+    TCameraCtrl::copy_vec_to_default(&up);
+    set_active_camera_pose(&s->pos, &s->target);
 }
 #pragma pop
 

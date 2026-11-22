@@ -57,7 +57,6 @@ extern BmlResourceDescriptor boss6_plot_falz_resource_descriptor;
 #include "pso/system/task/TMainTask.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
 #include "pso/unk/text_80357058.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D853C.h"

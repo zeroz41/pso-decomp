@@ -31,7 +31,6 @@ struct NJS_OBJECT;
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
@@ -213,7 +212,7 @@ void update_photon_blast_camera_pose(struct PbCamera_801A73B0 *self) {
     VecCopy((Vec *)&parameters.position, (const Vec *)&self->position);
     VecCopy((Vec *)&parameters.target, (const Vec *)&self->target);
     parameters.projection = 0x4222;
-    set_active_camera_pose_from_params((u8 *)&parameters);
+    set_active_camera_pose_from_params((CameraParams *)&parameters);
 }
 }
 extern Group_801A7428 photon_blast_attachment_table[];

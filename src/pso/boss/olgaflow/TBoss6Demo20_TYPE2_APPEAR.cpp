@@ -12,7 +12,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/boss/olgaflow/Boss6Type2Appearance.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
+#include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/unk/text_803D96A8.h"
@@ -261,7 +261,6 @@ TBoss6Demo20_TYPE2_APPEAR::~TBoss6Demo20_TYPE2_APPEAR() {
     }
 }
 
-#include "pso/camera/TCameraCtrl.h"
 
 extern s32 boss6_type1_part_model_ids[]; // model ids, defined in TBoss6Type1.cpp
 extern "C" {

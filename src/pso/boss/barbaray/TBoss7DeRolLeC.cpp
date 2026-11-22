@@ -147,7 +147,6 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer_802E6CA8.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/object/TObjControl.h"
 #include "pso/math/MatrixTransforms.h"

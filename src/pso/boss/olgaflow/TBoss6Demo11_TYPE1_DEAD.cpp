@@ -13,7 +13,6 @@
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/boss/olgaflow/TBoss6Demo11_TYPE1_DEAD.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"

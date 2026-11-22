@@ -119,7 +119,6 @@ void TObjPlayer__sub_80082C30(void);
 extern u8 controller_physical_port_bank[];
 }
 
-#include "pso/camera/TCameraCtrl_80082FCC.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/TUnk_8048E5DC.h"
 #include <stddef.h>
@@ -189,7 +188,6 @@ struct Stack_800836E8 {
 };
 
 extern "C" {
-s32 TCameraCtrl__sub_800689F4();
 s32 rotate_matrix_y(int, void *);
 s32 GXSetTevOp(s32, s32);
 s32 GXSetTevOrder(s32, s32, s32, s32);
