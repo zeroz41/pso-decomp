@@ -162,7 +162,7 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     u32 pad_720;
     TParticleCtrl *particles[3];  // spawned and moved by fn_8005E39C in low flight
     s32 run_mode_changed;  // run_task sets it when run_mode drops back to 0
-    TObject *parts[16];
+    TParticleCtrl *parts[16];  // update_ground_effects keeps one on the ground under each body point
     Boss5GryphonActionStep *script_entry;  // the action script step being run
     Boss5GryphonActionStep **action_scripts;  // boss5_gryphon_action_scripts
     void render_nodes_with_flag();

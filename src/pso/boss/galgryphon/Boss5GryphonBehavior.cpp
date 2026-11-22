@@ -82,51 +82,9 @@
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-typedef struct Res_80063088 {
-    u8 pad0[0xC];
-    s32 fC;
-    s32 f10;
-} Res_80063088;
-struct Obj_80063088 {
-    u8 prefix[0x1C];
-    u8 pad1C[0x60 - 0x1C];
-    s32 angle;
-    u8 pad64[0xB8 - 0x64];
-    s16 fB8;
-    u8 padBA[0x38C - 0xBA];
-    u16 f38C;
-    u8 pad38E[0x394 - 0x38E];
-    f32 f394;
-    f32 f398;
-    f32 f39C;
-    u8 pad3A0[0x444 - 0x3A0];
-    Vec fxPos;
-    u8 pad450[0x490 - 0x450];
-    s32 f490;
-    u8 pad494[0x4C4 - 0x494];
-    u8 f4C4[0x5F0 - 0x4C4];
-    Res_80063088 *res;
-    u8 pad5F4[0x6DC - 0x5F4];
-    s32 state;
-    s32 f6E0;
-    u8 pad6E4[0x724 - 0x6E4];
-    void *fx;
-};
-struct Fx_8005E594 { u8 pad[0x14]; s32 f14; };
-struct Hit2_8005E594 { u8 pad[4]; f32 y; };
-struct Hit_8005E594 { u8 pad[4]; Hit2_8005E594 *p; };
-struct Obj_8005E594 {
-    u8 pad0[0x3E4];
-    Vec cp[8];
-    u8 pad444[0x5F0 - 0x444];
-    Fx_8005E594 *fx;
-    u8 pad5f4[0x734 - 0x5F4];
-    void *parts[16];
-};
 struct Cfg_80064F50 { u8 pad[0x18]; s32 i18; s32 i1C; s32 i20; s32 i24; };
 extern "C" {
 s32 TBoss8Dragon__sub_800670E0(int, void *);
-TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 u8 *__ct__22TBoss5GryphonShockWaveFP7TObjectlPUcPUcls(u8 *arg0, u8 *arg1_parent, s32 arg2, u8 *arg3, u8 *arg4, s32 arg5, s16 arg6);
 f64 atan2_float(f32, f32);
 s32 restore_player_cameras(void);
@@ -139,44 +97,9 @@ s32 fn_80351DA8(void *, void *, void *, int, int);
 void copy_position__26TBoss5GryphonLightningWingFPv(void *, void *);
 void apply_lightning_hit(s32 owner, s32 pos, f32 inner);
 void apply_snarl_hit(s32 owner, s32 pos, f32 inner, f32 scale);
-struct Obj_8005E058 { u8 pad0[0x3C0]; Vec src[10]; u8 pad438[0xB0]; Vec dst[10]; };
-struct Obj_8005E0C0 { u8 pad[0x34]; saddr f34; u8 pad38[0x24]; s32 f5c; s32 f60; s32 f64; u8 pad68[0x90]; saddr ff8; u8 pad_fc[0x3C0 - 0xFC]; u8 f3c0[0x100]; s32 f4c0; };
-struct Obj_8005E4D4 { u8 pad[0x734]; void *parts[16]; };
-struct Obj_8005E52C { u8 pad[0x734]; void *parts[16]; };
 struct P_8005F740 { u8 pad[0x30]; };
-struct O_8005FCE4 { u8 pad[0x4c0]; u32 flags; };
-struct Shot_8005FBC4 { f32 v[3]; };
-struct Obj_8005FBC4 {
-    u8 pad0[0x38];
-    Vec pos;
-    u8 pad44[0x60 - 0x44];
-    s32 f60;
-    u8 pad64[0x474 - 0x64];
-    Vec vel;
-    s32 f480;
-    u8 pad484[0x4c0 - 0x484];
-    s32 flags;
-    u8 pad4c4[0x4e4 - 0x4c4];
-    s32 f4e4;
-};
-struct Obj_80060F4C {
-    u8 pad0[0x60];
-    s32 f60;
-    u8 pad64[0xB8 - 0x64];
-    s16 fb8;
-    u8 padba[0x4C0 - 0xBA];
-    u32 flags;
-};
 struct ByteBlock_10 { u8 bytes[0x10]; };
 struct P_80064AB0 { u16 a; u16 id; u32 kind; f32 x; f32 z; };
-struct Obj_80063570 {
-    u8 pad0[0xb8];
-    s16 fb8;
-    u8 padba[0x490 - 0xba];
-    s32 f490;
-    u8 pad494[0x4c0 - 0x494];
-    s32 flags;
-};
 struct Seg_80063CDC { f32 x, y, z, w; };
 f32 newton_sqrtf(f32);
 void TBoss8Dragon__sub_8005E17C(NJS_OBJECT *);
@@ -316,7 +239,7 @@ BmlResource *boss5_gryphon_bml_resource;
 GinjaTextureList *boss5_gryphon_texture_list;
 s32 boss5_gryphon_render_node_index;
 s32 boss5_gryphon_bone_capture_index;
-saddr boss5_gryphon_bone_capture_output;
+Vec *boss5_gryphon_bone_capture_output;  // draw_body points it at bone_positions
 s32 boss5_gryphon_render_flags;
 TBoss5Gryphon *boss5_gryphon_instance;
 f32 lbl_805D4DC0;
@@ -509,7 +432,6 @@ inline s32 initial_angle_800623E4(TBoss5Gryphon *self) {
 }
 extern "C" {
 #define CFG ((Cfg_80064F50 *)boss5_gryphon_behavior_params[2])
-struct Obj_8005FBC4;
 void __ct__14SubtractiveRngFv(void *);
 // Ids resolved into boss5_gryphon_base_params / boss5_gryphon_resistance_params by the resource loader.
 s32 boss5_gryphon_base_param_ids[1] = { 0x1E };
@@ -1394,26 +1316,26 @@ void TBoss5Gryphon::update_idle_state(u32 event) {
 }
 
 void TBoss5Gryphon::update_ground_pursuit(s32 event) {
-    Obj_80063570 *self = (Obj_80063570 *)this;
+    TBoss5Gryphon *self = this;
     f32 spd;
     switch (event) {
     case ENEMY_STATE_ENTER:
         this->requested_action = 1;
-        ((TBoss5Gryphon *)self)->clear_intangible();
-        ((TBoss5Gryphon *)self)->enter_ground_mode();
-        ((TBoss5Gryphon *)self)->set_ground_height();
+        self->clear_intangible();
+        self->enter_ground_mode();
+        self->set_ground_height();
         self->flags |= 0x10;
         this->targetRefreshCounter = 0;
         return;
     case 8:
-        ((TBoss5Gryphon *)self)->refresh_target_periodically();
+        self->refresh_target_periodically();
         return;
     case ENEMY_STATE_UPDATE:
-        ((TObjMotion *)self)->advance_animation();
-        ((TBoss5Gryphon *)self)->fn_80064E3C();
-        ((TObjEneDD_ST *)self)->update_velocity();
-        ((TBoss5Gryphon *)self)->fn_800648C8();
-        spd = ((TObjEneDD_ST *)self)->get_motion_frame();
+        self->advance_animation();
+        self->fn_80064E3C();
+        self->update_velocity();
+        self->fn_800648C8();
+        spd = self->get_motion_frame();
         if (spd < gryphon_four) {
             TObjEneEpsilon__sub_800B9384(this, 0x100, lbl_805D8EB4);
         } else if (!(spd < gryphon_ten)) {
@@ -1513,7 +1435,7 @@ void TBoss5Gryphon::update_ground_takeoff(u32 event) {
 
 #pragma pop
 void TBoss5Gryphon::update_shockwave_attack(u32 event) {
-    Obj_80063088 *self = (Obj_80063088 *)this;
+    TBoss5Gryphon *self = this;
     Vec pos;
     Vec vel;
     f32 speed;
@@ -1521,70 +1443,70 @@ void TBoss5Gryphon::update_shockwave_attack(u32 event) {
     switch (event) {
     case ENEMY_STATE_ENTER:
         this->requested_action = 0x18;
-        ((TBoss5Gryphon *)self)->clear_intangible();
+        self->clear_intangible();
         set_flag_4e4();
-        ((TBoss5Gryphon *)self)->set_flight_height();
-        self->state = 0;
-        self->f6E0 = 0;
-        self->fx = NULL;
+        self->set_flight_height();
+        self->work.step = 0;
+        self->work.timer = 0;
+        self->particles[0] = NULL;
         this->targetRefreshCounter = 0;
         break;
     case 8:
-        ((TBoss5Gryphon *)self)->refresh_target_periodically();
+        self->refresh_target_periodically();
         break;
     case ENEMY_STATE_UPDATE:
-        ((TObjMotion *)self)->advance_animation();
-        switch (self->state) {
+        self->advance_animation();
+        switch (self->work.step) {
         case 0:
-            self->state = 1;
+            self->work.step = 1;
         case 1:
-            if (((TObjMotion *)self)->is_passing_frame(8.0f) != 0) {
-                ((TBoss5Gryphon *)self)->play_se(0x40033203);
+            if (self->is_passing_frame(8.0f) != 0) {
+                self->play_se(0x40033203);
             }
-            if (((TObjMotion *)self)->is_passing_frame(20.0f) != 0) {
-                ((TBoss5Gryphon *)self)->play_se(0x40033204);
+            if (self->is_passing_frame(20.0f) != 0) {
+                self->play_se(0x40033204);
             }
-            if (((TObjMotion *)self)->is_passing_frame((f32)gryphon_twelve) != 0) {
-                ((TBoss5Gryphon *)self)->spawn_ground_splash();
+            if (self->is_passing_frame((f32)gryphon_twelve) != 0) {
+                self->spawn_ground_splash();
             }
-            speed = ((TObjEneDD_ST *)self)->get_motion_frame();
-            if (self->fx == NULL) {
+            speed = self->get_motion_frame();
+            if (self->particles[0] == NULL) {
                 if (speed >= 8.0f && speed <= gryphon_eighteen) {
-                    self->fx = spawn_continuous_particle_effect_with_flags(&self->fxPos, self->res->fC, 0x40);
+                    self->particles[0] = spawn_continuous_particle_effect_with_flags(&self->bone_positions[11], self->effect_ids[3], 0x40);
                 }
             } else if (speed <= gryphon_eighteen) {
-                ((TParticleCtrl *)self->fx)->set_position(&self->fxPos);
+                self->particles[0]->set_position(&self->bone_positions[11]);
             } else {
-                ((TObject *)self->fx)->queue_destruction();
-                self->fx = NULL;
+                self->particles[0]->queue_destruction();
+                self->particles[0] = NULL;
             }
-            if (((TObjMotion *)self)->is_passing_frame((f32)lbl_805D8E9C) != 0) {
-                pos.x = self->f394;
+            if (self->is_passing_frame((f32)lbl_805D8E9C) != 0) {
+                pos.x = self->destination.x;
                 pos.y = lbl_80437938.y;
-                pos.z = self->f39C;
+                pos.z = self->destination.z;
                 vel.x = lbl_805D8EA0 * sin_table_lookup(this->rotation_y);
-                vel.y = 0.5f * -(self->fxPos.y - lbl_80437938.y);
+                vel.y = 0.5f * -(self->bone_positions[11].y - lbl_80437938.y);
                 vel.z = lbl_805D8EA0 * cos_table_lookup(this->rotation_y);
                 p = TObject::operator new(0x70);
                 if (p != NULL) {
                     ((void (*)(void *, void *, void *, void *, void *, void *, u16))__ct__22TBoss5GryphonShockWaveFP7TObjectlPUcPUcls)(
-                        p, self->f4C4, self, &self->fxPos, &pos, &vel, self->f38C);
+                        p, &self->sub_tasks, self, &self->bone_positions[11], &pos, &vel, self->target_id);
                 }
-                spawn_particle_effect_with_flags(&self->fxPos, self->res->f10, 0x40);
-                self->state = 2;
+                spawn_particle_effect_with_flags(&self->bone_positions[11], self->effect_ids[4], 0x40);
+                self->work.step = 2;
             }
             break;
         case 2:
             if (fn_8005FAE0() != 0) {
-                ((TBoss5Gryphon *)self)->advance_motion_entry();
+                self->advance_motion_entry();
             }
             break;
         }
         break;
     case ENEMY_STATE_LEAVE:
-        if (self->fx != NULL) {
-            ((TObject *)self->fx)->queue_destruction();
-            self->fx = NULL;
+        if (self->particles[0] != NULL) {
+            self->particles[0]->queue_destruction();
+            self->particles[0] = NULL;
         }
         break;
     case 1:
@@ -2547,11 +2469,11 @@ void TBoss5Gryphon::state_move(s32 event) {
     s32 ang;
     switch (event) {
     case ENEMY_STATE_ENTER:
-        ((Obj_80060F4C *)this)->fb8 = 0xB;
+        this->requested_action = 0xB;
         this->clear_intangible();
         this->enter_ground_mode();
         this->set_ground_height();
-        ((Obj_80060F4C *)this)->flags |= 0x30;
+        this->flags |= 0x30;
         return;
     case 8:
         this->refresh_target_periodically();
@@ -2579,11 +2501,11 @@ void TBoss5Gryphon::state_move(s32 event) {
             speed += gryphon_nine;
         }
         this->scale_size(scale, depth, depth);
-        move_along_angle(speed, ((Obj_80060F4C *)this)->f60);
+        move_along_angle(speed, this->rotation_y);
         this->update_heading(ang);
         return;
     case ENEMY_STATE_LEAVE:
-        ((Obj_80060F4C *)this)->flags &= ~0x30;
+        this->flags &= ~0x30;
         return;
     case 1: return;
     case 2: return;
@@ -3153,11 +3075,11 @@ void TBoss5Gryphon::fn_8005FD34(s32 event) {
 }
 
 void TBoss5Gryphon::handle_message(s32 msg) {
-    O_8005FCE4 *self = (O_8005FCE4 *)this;
+    TBoss5Gryphon *self = this;
     switch (msg) {
     case 4:
         self->flags |= 0x80;
-        ((TObject *)self)->queue_destruction();
+        self->queue_destruction();
         break;
     case 5:
         break;
@@ -3169,26 +3091,26 @@ void TBoss5Gryphon::handle_message(s32 msg) {
 #pragma push
 #pragma pool_data off
 void TBoss5Gryphon::apply_velocity() {
-    Shot_8005FBC4 shot;
+    Vec shot;
     Vec v;
     f32 len;
-    if (((Obj_8005FBC4 *)this)->flags & 0x10) {
-        ((Obj_8005FBC4 *)this)->pos.y += ((Obj_8005FBC4 *)this)->vel.y;
-        ((Obj_8005FBC4 *)this)->f60 += ((Obj_8005FBC4 *)this)->f480;
-        v.x = ((Obj_8005FBC4 *)this)->vel.x;
+    if (this->flags & 0x10) {
+        this->position.y += this->move_velocity.y;
+        this->rotation_y += this->turn_velocity;
+        v.x = this->move_velocity.x;
         v.y = 0.0f;
-        v.z = ((Obj_8005FBC4 *)this)->vel.z;
-        len = normalize_vector_xz((Vec *)(&v));
-        this->calc_shot_position((u8 *)&shot, (f32)v.x, (f32)v.z, (f32)len);
+        v.z = this->move_velocity.z;
+        len = normalize_vector_xz(&v);
+        this->calc_shot_position((u8 *)&shot, v.x, v.z, len);
         this->try_move_actor_xz_on_ground((u8 *)&shot);
     } else {
-        ((Obj_8005FBC4 *)this)->pos.x += ((Obj_8005FBC4 *)this)->vel.x;
-        ((Obj_8005FBC4 *)this)->pos.y += ((Obj_8005FBC4 *)this)->vel.y;
-        ((Obj_8005FBC4 *)this)->pos.z += ((Obj_8005FBC4 *)this)->vel.z;
-        ((Obj_8005FBC4 *)this)->f60 += ((Obj_8005FBC4 *)this)->f480;
+        this->position.x += this->move_velocity.x;
+        this->position.y += this->move_velocity.y;
+        this->position.z += this->move_velocity.z;
+        this->rotation_y += this->turn_velocity;
     }
-    if (!(((Obj_8005FBC4 *)this)->flags & 0x20)) {
-        this->scale_size(boss5_gryphon_scale_x_table[((Obj_8005FBC4 *)this)->f4e4], boss5_gryphon_scale_y_table[((Obj_8005FBC4 *)this)->f4e4], gryphon_velocity_scale_z_table[((Obj_8005FBC4 *)this)->f4e4]);
+    if (!(this->flags & 0x20)) {
+        this->scale_size(boss5_gryphon_scale_x_table[this->flight_mode], boss5_gryphon_scale_y_table[this->flight_mode], gryphon_velocity_scale_z_table[this->flight_mode]);
     }
 }
 
@@ -3598,52 +3520,52 @@ s32 TBoss5Gryphon::get_random_sign(Boss5GryphonActionStep *step, s32 i) {
 #pragma push
 #pragma fp_contract on
 void TBoss5Gryphon::update_ground_effects() {
-    Obj_8005E594 *self = (Obj_8005E594 *)this;
+    TBoss5Gryphon *self = this;
     Vec pts[16];
     Vec *p;
     Vec *q;
     s32 i;
     p = pts;
-    VecCopy(p++, &self->cp[0]);
-    VecCopy(p++, &self->cp[1]);
-    VecCopy(p++, &self->cp[2]);
-    VecCopy(p, &self->cp[3]);
-    p[1].x = (2.0f * self->cp[0].x + self->cp[1].x) / gryphon_three;
-    p[1].y = (2.0f * self->cp[0].y + self->cp[1].y) / gryphon_three;
-    p[1].z = (2.0f * self->cp[0].z + self->cp[1].z) / gryphon_three;
-    p[2].x = (2.0f * self->cp[1].x + self->cp[0].x) / gryphon_three;
-    p[2].y = (2.0f * self->cp[1].y + self->cp[0].y) / gryphon_three;
-    p[2].z = (2.0f * self->cp[1].z + self->cp[0].z) / gryphon_three;
-    p[3].x = 0.5f * (self->cp[1].x + self->cp[2].x);
-    p[3].y = 0.5f * (self->cp[1].y + self->cp[2].y);
-    p[3].z = 0.5f * (self->cp[1].z + self->cp[2].z);
-    p[4].x = 0.5f * (self->cp[2].x + self->cp[3].x);
-    p[4].y = 0.5f * (self->cp[2].y + self->cp[3].y);
-    p[4].z = 0.5f * (self->cp[2].z + self->cp[3].z);
+    VecCopy(p++, &self->bone_positions[3]);
+    VecCopy(p++, &self->bone_positions[4]);
+    VecCopy(p++, &self->bone_positions[5]);
+    VecCopy(p, &self->bone_positions[6]);
+    p[1].x = (2.0f * self->bone_positions[3].x + self->bone_positions[4].x) / gryphon_three;
+    p[1].y = (2.0f * self->bone_positions[3].y + self->bone_positions[4].y) / gryphon_three;
+    p[1].z = (2.0f * self->bone_positions[3].z + self->bone_positions[4].z) / gryphon_three;
+    p[2].x = (2.0f * self->bone_positions[4].x + self->bone_positions[3].x) / gryphon_three;
+    p[2].y = (2.0f * self->bone_positions[4].y + self->bone_positions[3].y) / gryphon_three;
+    p[2].z = (2.0f * self->bone_positions[4].z + self->bone_positions[3].z) / gryphon_three;
+    p[3].x = 0.5f * (self->bone_positions[4].x + self->bone_positions[5].x);
+    p[3].y = 0.5f * (self->bone_positions[4].y + self->bone_positions[5].y);
+    p[3].z = 0.5f * (self->bone_positions[4].z + self->bone_positions[5].z);
+    p[4].x = 0.5f * (self->bone_positions[5].x + self->bone_positions[6].x);
+    p[4].y = 0.5f * (self->bone_positions[5].y + self->bone_positions[6].y);
+    p[4].z = 0.5f * (self->bone_positions[5].z + self->bone_positions[6].z);
     p += 5;
-    VecCopy(p++, &self->cp[4]);
-    VecCopy(p++, &self->cp[5]);
-    VecCopy(p++, &self->cp[6]);
-    VecCopy(p, &self->cp[7]);
-    p[1].x = (2.0f * self->cp[4].x + self->cp[5].x) / gryphon_three;
-    p[1].y = (2.0f * self->cp[4].y + self->cp[5].y) / gryphon_three;
-    p[1].z = (2.0f * self->cp[4].z + self->cp[5].z) / gryphon_three;
-    p[2].x = (2.0f * self->cp[5].x + self->cp[4].x) / gryphon_three;
-    p[2].y = (2.0f * self->cp[5].y + self->cp[4].y) / gryphon_three;
-    p[2].z = (2.0f * self->cp[5].z + self->cp[4].z) / gryphon_three;
-    p[3].x = 0.5f * (self->cp[5].x + self->cp[6].x);
-    p[3].y = 0.5f * (self->cp[5].y + self->cp[6].y);
-    p[3].z = 0.5f * (self->cp[5].z + self->cp[6].z);
-    p[4].x = 0.5f * (self->cp[6].x + self->cp[7].x);
-    p[4].y = 0.5f * (self->cp[6].y + self->cp[7].y);
-    p[4].z = 0.5f * (self->cp[6].z + self->cp[7].z);
+    VecCopy(p++, &self->bone_positions[7]);
+    VecCopy(p++, &self->bone_positions[8]);
+    VecCopy(p++, &self->bone_positions[9]);
+    VecCopy(p, &self->bone_positions[10]);
+    p[1].x = (2.0f * self->bone_positions[7].x + self->bone_positions[8].x) / gryphon_three;
+    p[1].y = (2.0f * self->bone_positions[7].y + self->bone_positions[8].y) / gryphon_three;
+    p[1].z = (2.0f * self->bone_positions[7].z + self->bone_positions[8].z) / gryphon_three;
+    p[2].x = (2.0f * self->bone_positions[8].x + self->bone_positions[7].x) / gryphon_three;
+    p[2].y = (2.0f * self->bone_positions[8].y + self->bone_positions[7].y) / gryphon_three;
+    p[2].z = (2.0f * self->bone_positions[8].z + self->bone_positions[7].z) / gryphon_three;
+    p[3].x = 0.5f * (self->bone_positions[8].x + self->bone_positions[9].x);
+    p[3].y = 0.5f * (self->bone_positions[8].y + self->bone_positions[9].y);
+    p[3].z = 0.5f * (self->bone_positions[8].z + self->bone_positions[9].z);
+    p[4].x = 0.5f * (self->bone_positions[9].x + self->bone_positions[10].x);
+    p[4].y = 0.5f * (self->bone_positions[9].y + self->bone_positions[10].y);
+    p[4].z = 0.5f * (self->bone_positions[9].z + self->bone_positions[10].z);
     q = pts;
     for (i = 0; i < 16; i++, q++) {
-        Hit_8005E594 *hit = (Hit_8005E594 *)csnVecterUnder(q, 0x16EF);
+        CsnHit *hit = csnVecterUnder(q, 0x16EF);
         if (hit == NULL) {
             q->y = gryphon_negative_thousand;
         } else {
-            f32 y = hit->p->y;
+            f32 y = hit->contact->point.y;
             if (y > 6.0f) {
                 q->y = 6.0f;
             } else {
@@ -3651,9 +3573,9 @@ void TBoss5Gryphon::update_ground_effects() {
             }
         }
         if (self->parts[i] == NULL) {
-            self->parts[i] = spawn_continuous_particle_effect_with_flags(q, self->fx->f14, 0x40);
+            self->parts[i] = spawn_continuous_particle_effect_with_flags(q, self->effect_ids[5], 0x40);
         } else {
-            ((TParticleCtrl *)self->parts[i])->set_position(q);
+            self->parts[i]->set_position(q);
         }
     }
 }
@@ -3662,9 +3584,9 @@ void TBoss5Gryphon::update_ground_effects() {
 void TBoss5Gryphon::enable_particles() {
     s32 i;
     for (i = 0; i < 16; i++) {
-        if (((Obj_8005E52C *)this)->parts[i] != 0) {
-            ((TParticleCtrl *)((Obj_8005E52C *)this)->parts[i])->set_position(gryphon_particle_enable_pos);
-            ((TParticleCtrl *)(((Obj_8005E52C *)this)->parts[i]))->enable();
+        if (this->parts[i] != 0) {
+            this->parts[i]->set_position(gryphon_particle_enable_pos);
+            this->parts[i]->enable();
         }
     }
 }
@@ -3672,9 +3594,9 @@ void TBoss5Gryphon::enable_particles() {
 void TBoss5Gryphon::destroy_parts() {
     s32 i;
     for (i = 15; i >= 0; i--) {
-        if (((Obj_8005E4D4 *)this)->parts[i] != 0) {
-            ((TObject *)(((Obj_8005E4D4 *)this)->parts[i]))->queue_destruction();
-            ((Obj_8005E4D4 *)this)->parts[i] = 0;
+        if (this->parts[i] != 0) {
+            this->parts[i]->queue_destruction();
+            this->parts[i] = 0;
         }
     }
 }
@@ -3764,11 +3686,11 @@ s32 TBoss5Gryphon::fn_8005E1E8(Vec *point, f32 radius) {
 #pragma pop
 extern "C" {
 void TBoss8Dragon__sub_8005E17C(NJS_OBJECT *) {
-    saddr pos;
+    Vec *pos;
     if ((s32) boss5_gryphon_render_node_index == boss5_gryphon_bone_capture_node_indices[boss5_gryphon_bone_capture_index]) {
         pos = boss5_gryphon_bone_capture_output;
-        boss5_gryphon_bone_capture_output = pos + 0xC;
-        forward_transform_to_view((const Vec *)&boss5_gryphon_bone_capture_origin, (Vec *)pos);
+        boss5_gryphon_bone_capture_output = pos + 1;
+        forward_transform_to_view(&boss5_gryphon_bone_capture_origin, pos);
         boss5_gryphon_bone_capture_index += 1;
     }
     boss5_gryphon_render_node_index += 1;
@@ -3778,17 +3700,17 @@ void TBoss8Dragon__sub_8005E17C(NJS_OBJECT *) {
 void TBoss5Gryphon::draw_body() {
     boss5_gryphon_render_node_index = 0;
     boss5_gryphon_bone_capture_index = 0;
-    boss5_gryphon_bone_capture_output = (saddr)((Obj_8005E0C0 *)this)->f3c0;
-    boss5_gryphon_render_flags = ((Obj_8005E0C0 *)this)->f4c0;
+    boss5_gryphon_bone_capture_output = this->bone_positions;
+    boss5_gryphon_render_flags = this->flags;
     set_chunk_model_node_callback(TBoss8Dragon__sub_8005E17C);
     push_matrix();
     set_motion_packed_rotation();
-    ((void (*)(void *))post_translate_matrix)((u8 *)this + 0x38);
-    ((void (*)(int, int))rotate_matrix_y)(0, ((Obj_8005E0C0 *)this)->f60);
-    ((void (*)(int, int))rotate_matrix_x)(0, ((Obj_8005E0C0 *)this)->f5c);
-    ((void (*)(int, int))rotate_matrix_z)(0, ((Obj_8005E0C0 *)this)->f64);
-    ((void (*)(int, f32, f32, f32))scale_matrix)(0, 2.0f, 2.0f, 2.0f);
-    draw_motion((NJS_OBJECT *)((Obj_8005E0C0 *)this)->f34, (NJS_MOTION *)((Obj_8005E0C0 *)this)->ff8, this->get_motion_frame());
+    post_translate_matrix(&this->position);
+    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_x(0, this->rotation_x);
+    rotate_matrix_z(0, this->rotation_z);
+    scale_matrix(0, 2.0f, 2.0f, 2.0f);
+    draw_motion((NJS_OBJECT *)this->model, this->current_motion, this->get_motion_frame());
     clear_motion_packed_rotation();
     pop_matrix();
     set_chunk_model_node_callback(0);
@@ -3796,9 +3718,9 @@ void TBoss5Gryphon::draw_body() {
 
 void TBoss5Gryphon::copy_bone_positions() {
     s32 i;
-    Vec *d = ((Obj_8005E058 *)this)->dst;
+    Vec *d = this->body_points;
     for (i = 0; i < 10; i++) {
-        VecCopy(d, &((Obj_8005E058 *)this)->src[gryphon_bone_copy_index_table[i]]);
+        VecCopy(d, &this->bone_positions[gryphon_bone_copy_index_table[i]]);
         d++;
     }
 }
