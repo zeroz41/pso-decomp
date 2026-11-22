@@ -149,6 +149,9 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 #include "pso/camera/CameraHelpers.h"
 #include "pso/object/TObjControl.h"
 #include "pso/math/MatrixTransforms.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/render/model_render_state.h"
+#include "pso/map/area/AreaScene.h"
 
 // Step of a De Rol Le C action sequence: the action id and its parameter, a
 // duration in seconds (the timer compares against param * 30) or the
@@ -473,25 +476,11 @@ s32 particle_pos_index_table[3] = {0, 5, 9};
 
 f32 boss7_derolle_c_particle_limits[3] = {32.0f, 30.0f, 30.0f};
 
-extern "C" {
-f32 atan2_float(f32 y, f32 x);
-
-f32 newton_sqrtf(f32);
-
-
-
-}
 
 
 
 
 extern "C" {
-
-
-
-
-
-u16 get_entity_id(void *);
 
 
 
@@ -532,51 +521,9 @@ static inline void add_crawfish_slot_base(CrawfishSlotOffset &offset) {
 #pragma pop
 
 
-struct RecoveredGlobal_802E80F4_lbl_8050BEC0 {
-    s32 value;
-    u8 remaining[0x1C];
-};
-
-struct RecoveredGlobal_802E80F4_lbl_8058D4C0 {
-    s32 value;
-    u8 remaining[0xC];
-};
-extern "C" {
-
-
-
-
-
-extern RecoveredGlobal_802E80F4_lbl_8050BEC0 saved_model_draw_color;
-
-extern RecoveredGlobal_802E80F4_lbl_8058D4C0 model_material_color;
-
-extern s32 saved_model_render_flags;
-
-extern s32 saved_chunk_polygon_flags_and_mask;
-
-extern s32 saved_chunk_polygon_flags_or_mask;
-
-extern s32 chunk_polygon_flags_or_mask;
-
-extern s32 chunk_polygon_flags_and_mask;
-
-extern s32 model_render_flags;
-
-
-
-LAYOUT_ASSERT(RecoveredGlobal_802E80F4_lbl_8050BEC0_size, sizeof(RecoveredGlobal_802E80F4_lbl_8050BEC0) == 0x20);
-
-LAYOUT_ASSERT(RecoveredGlobal_802E80F4_lbl_8058D4C0_size, sizeof(RecoveredGlobal_802E80F4_lbl_8058D4C0) == 0x10);
 #pragma push
 #pragma inline_depth(1)
 #pragma auto_inline off
-
-
-
-
-
-}
 void get_current_matrix(void *m);
 struct ByteBlock_14 { u8 bytes[0x14]; };
 
@@ -623,84 +570,10 @@ struct Fish_802E8B50 {
 
 
 
-extern "C" {
-
-
-
-
-
-
-
-
-
-
-
-s32 restore_player_cameras();
-
-s32 activate_camera_mode(s32 arg0);
-
-CameraPlayback *get_scripted_camera_playback();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-f32 fabs_float(f32);
-
-
-
-
-}
 
 void *create_particle_controller_with_angles(void *arg0, void *arg1, s32 arg2, s32 arg3, u16 arg4);
 extern "C" {
-
-
-
-void assign_slots_from_list(void *arg0, saddr arg1);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-u8 *get_enemy_entity(u16 arg0);
-
-
-
-
-
-
-
-
-
-
-
-
 extern f32 lbl_804FF5E8[];
-
-
-
 }
 
 void calc_laser_ray_hit_point(u8 *laser, u8 *arg1);
@@ -714,26 +587,7 @@ void compose_motion_node_matrix(void *arg0);
 s32 TBoss7Joint_get_shell_max_hp(void);
 
 
-extern "C" {
-
-
 #pragma pop
-
-
-
-
-
-
-
-
-
-
-
-
-
-void run_load_callback_table(void *, int);
-
-}
 
 NJS_OBJECT boss7_derolle_light_pool[11];
 
@@ -3924,7 +3778,7 @@ void TBoss7DeRolLeC::render() {
         saved_model_render_flags = model_render_flags;
         saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
         saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
-        copy_argb((NJS_ARGB *)&saved_model_draw_color.value, (NJS_ARGB *)&model_material_color.value);
+        copy_argb(&saved_model_draw_color, &model_material_color);
         TObjEneDD::clear_global_flag_400();
         TParticleCtrl::begin_effect_render();
         push_matrix();
@@ -3939,7 +3793,7 @@ void TBoss7DeRolLeC::render() {
         }
         pop_matrix();
         TParticleCtrl::end_effect_render();
-        copy_argb((NJS_ARGB *)&model_material_color.value, (NJS_ARGB *)&saved_model_draw_color.value);
+        copy_argb(&model_material_color, &saved_model_draw_color);
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         model_render_flags = saved_model_render_flags;
@@ -4006,7 +3860,7 @@ void TBoss7DeRolLeC::spawn_crawfish_child(s16 slot, const Vec *position, Boss7An
         add_crawfish_slot_base(offset);
         id = offset.value + base_id;
         for (child = crawfish_parent->m_down; child != NULL; child = child->m_next) {
-            if (id == get_entity_id(child)) {
+            if (id == get_entity_id((TObjBase *)child)) {
                 return;
             }
         }
@@ -4043,7 +3897,7 @@ s16 TBoss7DeRolLeC::find_free_crawfish_slot() {
     memset(used, 0, sizeof(used));
     base = get_entity_id(this) + 11;
     for (child = crawfish_parent->m_down; child != NULL; child = child->m_next) {
-        used[get_entity_id(child) - base] = 1;
+        used[get_entity_id((TObjBase *)child) - base] = 1;
     }
     for (i = 35; i >= 0; i--) {
         if (used[i] == 0) {
