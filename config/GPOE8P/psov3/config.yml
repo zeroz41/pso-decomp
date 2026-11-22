@@ -127,12 +127,12 @@ force_active:
   - TAdChrMoveEffectGC__class_name
   - TAdChrMoveEffectGC__sub_80349194
   - TAdChrSelASlotGC__sub_8030C45C
-  - TAdChrSelBSlotGC__sub_8030E3BC
-  - TAdChrSelBSlotGC__sub_8030EF74
-  - TAdChrSelBSlotGC__sub_8030F13C
-  - TAdChrSelBSlotGC__sub_8030F228
-  - TAdChrSelBSlotGC__sub_8030F2E4
-  - TAdChrSelBSlotGC__sub_8030F3A0
+  - sub_8030E3BC__16TAdChrSelBSlotGCFllPv
+  - sub_8030EF74__16TAdChrSelBSlotGCFv
+  - sub_8030F13C__16TAdChrSelBSlotGCFv
+  - sub_8030F228__16TAdChrSelBSlotGCFv
+  - sub_8030F2E4__16TAdChrSelBSlotGCFv
+  - sub_8030F3A0__16TAdChrSelBSlotGCFv
   - TAdChrSelSlotGC__name
   - sub_802C754C__15TAdChrSelSlotGCFl
   - TAdDialingGC__sub_803284F8
@@ -5261,7 +5261,7 @@ force_active:
   - close_windows__12TQuestListVMFv
   - close_windows__14TWindowSubItemFl
   - close_windows__16TAdChrSelASlotGCFv
-  - close_windows__16TAdChrSelBSlotGCFPv
+  - close_windows__16TAdChrSelBSlotGCFv
   - close_windows__19TQuestListChallengeFv
   - close_windows__12TAdTimeSetGCFv
   - close_windows__9TObjLukerFPv
@@ -8128,7 +8128,6 @@ force_active:
   - lbl_804E6CB4
   - lbl_804E7578
   - lbl_804E7750
-  - lbl_804E7A48
   - lbl_804E80C0
   - lbl_804E8114
   - lbl_804E8760
@@ -14677,7 +14676,7 @@ force_active:
   - reset_view_flags__11TCameraCtrlFv
   - reset_viewport_scissor__11TCameraCtrlFv
   - reset_visual_state__15TBoss3VoloptP02Fv
-  - reset_windows__16TAdChrSelBSlotGCFPv
+  - reset_windows__16TAdChrSelBSlotGCFv
   - resolve_active_quest_result__22THunterGuildSeqOfflineFv
   - resolve_actor_sphere_contact__FPUcll
   - resolve_anchor_obstruction__11TCameraCtrlFv
@@ -16757,10 +16756,10 @@ force_active:
   - update_camera_vec_by_stage__9TObjGrassFP10NJS_OBJECT
   - update_capture__11TBoss4Type3Fv
   - update_capture__14TObjVoloptCageFv
-  - update_card_confirm__16TAdChrSelBSlotGCFPv
+  - update_card_confirm__16TAdChrSelBSlotGCFv
   - update_card_confirm_selection__21TAdMultiChgGameModeGCFv
   - update_card_list_window__6TLobbyFv
-  - update_card_select__16TAdChrSelBSlotGCFPv
+  - update_card_select__16TAdChrSelBSlotGCFv
   - update_center_position__16TObjEneBm5GibonUFv
   - update_center_position__19TObjEneEpsilonGuardFv
   - update_chair__11TMainCursorFv
@@ -17238,7 +17237,7 @@ force_active:
   - update_slot_display_flags__26TWindowSubQuestBoardSelectFv
   - update_slot_icon__20TWindowActionPaletteFiUsUs
   - update_slot_sprites__20TWindowActionPaletteFiUsUs
-  - update_slot_state__16TAdChrSelBSlotGCFPv
+  - update_slot_state__16TAdChrSelBSlotGCFv
   - update_spark_toggle__16TOSparkMachine01Fl
   - update_spawn_timer__15TObjBoss7TunnelFlll
   - update_spawning__20TContainerAncient01RFv

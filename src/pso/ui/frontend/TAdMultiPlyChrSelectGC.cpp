@@ -109,7 +109,6 @@ struct Stack_802DDF40 {
 
 extern "C" {
 saddr TAdMultiPlyChrSelectGC__sub_802C6920(void);
-s32 is_slot_state_one__16TAdChrSelBSlotGCFlUl(s32, s32);
 u32 __ct__9TAdFadeGCFP7TObjectPv(u32, TObject *, s32);
 s32 *TAdSinglePlyChrSelectGC__sub_801FE3E4(u32 i);
 s32 TAdSinglePlyChrSelectGC__sub_801FE800(u32 i);
@@ -1409,7 +1408,7 @@ void TAdMultiPlyChrSelectGC::update_select() {
     if (player_plate->get_selection() != 0) {
         load_tables(temp_r30);
         if (TAdSinglePlyChrSelectGC__sub_801FE800(temp_r30) != 0) {
-            if (is_slot_state_one__16TAdChrSelBSlotGCFlUl(this->m_6c, temp_r30) == 0) {
+            if (((TAdChrSelBSlotGC *)this->m_6c)->is_slot_state_one(temp_r30) == 0) {
                 *(void **)&this->unk_88 = create_confirm_window(player_plate->get_instance());
                 *(s32 *)&this->m_20 = 0xF;
                 return;
