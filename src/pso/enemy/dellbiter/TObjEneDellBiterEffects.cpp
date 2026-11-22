@@ -24,8 +24,8 @@ struct DelbiterTpAbsorbHitParams {
 
 const char *TObjEneDellBiter_Eff_Rush__name = "TObjEneDellBiter_Eff_Rush";
 const char *TObjEneDellBiter_Eff_TpAbsorb1__class_name = "TObjEneDellBiter_Eff_TpAbsorb1";
-extern const DelbiterTpAbsorbHitParams lbl_8047511C = {3.0f, 3};
-extern const DirectAttackPayload lbl_80475124 = {0, 20.0f};
+extern const DelbiterTpAbsorbHitParams dell_biter_tp_absorb_hit_params = {3.0f, 3};
+extern const DirectAttackPayload dell_biter_tp_absorb_attack = {0, 20.0f};
 
 #pragma fp_contract on
 
@@ -36,7 +36,7 @@ TObjEneDellBiter_Eff_Rush::TObjEneDellBiter_Eff_Rush(
     m_name = TObjEneDellBiter_Eff_Rush__name;
     target = recipient;
     strength = speed;
-    field_30 = 0;
+    pad_30 = 0;
     VecCopy(&displacement, &recipient->position);
     subtract_vector(&displacement, &source->position);
     displacement.y = 0.0f;
@@ -135,9 +135,9 @@ void TObjEneDellBiter_Eff_TpAbsorb1::run_task() {
             queue_destruction();
             return;
         }
-        attack.kind = lbl_80475124.kind;
+        attack.kind = dell_biter_tp_absorb_attack.kind;
         attack.power = power;
-        call_vt13_with_default((void *)&lbl_8047511C, &attack, (saddr)attack_history);
+        call_vt13_with_default((void *)&dell_biter_tp_absorb_hit_params, &attack, (saddr)attack_history);
         return;
     }
     queue_destruction();

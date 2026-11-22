@@ -91,24 +91,24 @@ Vec *TObjEneDellBiter__demo_script_cursor;
 saddr TObjEneDellBiter__scrolling_uv_polygon_list;
 s32 TObjEneDellBiter__last_uv_scroll_tick;
 
-extern Vec dellbiter_demo_camera_vec;
+Vec dellbiter_demo_camera_vec;
 
 
-extern const char *lbl_804E6C3C[2];
+extern const char *dell_biter_model_names[2];
 extern const char *TObjEneDellBiter__resource_descriptor[11];
-extern const char *lbl_804E6C80[2];
-extern const char *lbl_804E6C88[11];
+extern const char *dell_biter_low_model_names[2];
+extern const char *dell_biter_low_motion_names[11];
 
 DelbiterInitialParameters TObjEneDellBiter__param_table = {
     225.0f, 0.0f, 0x600, {0, 0, 0, 0}
 };
-CollisionBody lbl_804E6B8C[4] = {
+CollisionBody dell_biter_collision_bodies[4] = {
     {{0.0f, 12.0f, 0.0f}, 10.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
     {{0.0f, 0.0f, 0.0f}, 15.0f, 0.0f, 0, 0x9D03, {0.0f, 0.0f, 0.0f}, 0.0f},
     {{0.0f, 0.0f, 0.0f}, 15.0f, 0.0f, 0, 0x9D03, {0.0f, 0.0f, 0.0f}, 0.0f},
     {{0.0f, 12.0f, 0.0f}, 15.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f}
 };
-__declspec(section ".data") const char *lbl_804E6C3C[2] = {
+__declspec(section ".data") const char *dell_biter_model_names[2] = {
     "biter_body.nj", NULL,
 };
 const char *TObjEneDellBiter__resource_descriptor[11] = {
@@ -116,19 +116,19 @@ const char *TObjEneDellBiter__resource_descriptor[11] = {
     "kamae_biter_body.njm", "run_biter_body.njm", "stop_biter_body.njm", "tpkyu_biter_body.njm",
     "wait_biter_body.njm", "walk_biter_body.njm", NULL,
 };
-BmlResourceDescriptor lbl_804E6C70 = {
-    "bm_ene_biter_body.bml", lbl_804E6C3C, TObjEneDellBiter__resource_descriptor, 1, 10
+BmlResourceDescriptor dell_biter_bml_resource = {
+    "bm_ene_biter_body.bml", dell_biter_model_names, TObjEneDellBiter__resource_descriptor, 1, 10
 };
-__declspec(section ".data") const char *lbl_804E6C80[2] = {
+__declspec(section ".data") const char *dell_biter_low_model_names[2] = {
     "lo_biter_body.nj", NULL,
 };
-const char *lbl_804E6C88[11] = {
+const char *dell_biter_low_motion_names[11] = {
     "attack_biter_body.njm", "beam_biter_body.njm", "damage_biter_body.njm", "dead_biter_body.njm",
     "kamae_biter_body.njm", "run_biter_body.njm", "stop_biter_body.njm", "tpkyu_biter_body.njm",
     "wait_biter_body.njm", "walk_biter_body.njm", NULL,
 };
-BmlResourceDescriptor lbl_804E6CB4 = {
-    "bm_ene_biter_body_low.bml", lbl_804E6C80, lbl_804E6C88, 1, 10
+BmlResourceDescriptor dell_biter_low_bml_resource = {
+    "bm_ene_biter_body_low.bml", dell_biter_low_model_names, dell_biter_low_motion_names, 1, 10
 };
 TObjMotionAction dell_biter_param_table[10] = {
     {1, 0, 8, 0.5f, 0},
@@ -152,9 +152,9 @@ void TObjEneDellBiter::load_resources() {
     dellbiter_demo_camera_vec.y = 0.0f;
     dellbiter_demo_camera_vec.z = 0.0f;
     if (is_split_screen() != 0) {
-        TObjEneDellBiter__shared_model_resource = (uaddr)load_enemy_bml_resource(&lbl_804E6CB4);
+        TObjEneDellBiter__shared_model_resource = (uaddr)load_enemy_bml_resource(&dell_biter_low_bml_resource);
     } else {
-        TObjEneDellBiter__shared_model_resource = (uaddr)load_enemy_bml_resource(&lbl_804E6C70);
+        TObjEneDellBiter__shared_model_resource = (uaddr)load_enemy_bml_resource(&dell_biter_bml_resource);
     }
     dellbiter_boss_stat_handle = (saddr)TLobby::register_boss(0xD);
     TObjEneDellBiter__shared_handler_param = (saddr)TLobby::dispatch_shared_handler_b(0xD);
@@ -172,7 +172,7 @@ void TObjEneDellBiter::load_resources() {
         TObjEneDellBiter__last_uv_scroll_tick = 0;
         NpcAnimationBinding attack = { reinterpret_cast<BmlMotionEntry *>(resource->motions), reinterpret_cast<TObjMotionAction *>(dell_biter_param_table), 0, 1, 10 };
         NpcModelRegistry::register_animated_chunk((s16)0x46, reinterpret_cast<void *>(resource->models->model), reinterpret_cast<void *>(resource->models->m_c),
-            &attack, lbl_804E6B8C[0].radius, 0.0f);
+            &attack, dell_biter_collision_bodies[0].radius, 0.0f);
     }
 }
 
@@ -206,7 +206,7 @@ void TObjEneDellBiter::init_params() {
     init_position_vectors();
     model = (void *)((BmlResource *)TObjEneDellBiter__shared_model_resource)->models->model;
     texlist = (saddr)((BmlResource *)TObjEneDellBiter__shared_model_resource)->models->m_c;
-    init_model((CollisionBody *)lbl_804E6B8C, 1);
+    init_model((CollisionBody *)dell_biter_collision_bodies, 1);
     bodies->flags |= 0x400000;
     set_field_d8((saddr)&dell_biter_param_table);
     set_field_dc((saddr)((BmlResource *)TObjEneDellBiter__shared_model_resource)->motions);
@@ -232,21 +232,21 @@ void TObjEneDellBiter::init_params() {
         VecCopy(&part_positions[i], &position);
     }
     part_rotation_x = 0;
-    field_488 = 0;
-    field_48c = 0;
+    combo_count = 0;
+    rush_count = 0;
     effect_timer = 0;
-    attack_bodies[0] = new TUnk_804928CC(this, this, &lbl_804E6B8C[1], 1);
-    attack_bodies[1] = new TUnk_804928CC(this, this, &lbl_804E6B8C[2], 1);
+    attack_bodies[0] = new TUnk_804928CC(this, this, &dell_biter_collision_bodies[1], 1);
+    attack_bodies[1] = new TUnk_804928CC(this, this, &dell_biter_collision_bodies[2], 1);
     rush_body = new TObjCollidable(NULL);
-    init_collision_body_parts(rush_body, &lbl_804E6B8C[3], 1);
+    init_collision_body_parts(rush_body, &dell_biter_collision_bodies[3], 1);
     attack_history = new AreaAttackHistory(8);
     saver = TUnk_80494968::create(0xFF5050FF, 0x80000080);
     state_timer = 0;
-    field_4d0 = 0;
-    field_4d4 = 0;
-    field_4d8 = 0;
-    field_4dc = 0.0f;
-    field_4e0 = 0.0f;
+    step = 0;
+    drained_tp = 0;
+    target_angle = 0;
+    current_speed = 0.0f;
+    rush_traveled = 0.0f;
     mode = 1;
     dispatch_action(mode, 4);
     effect = NULL;
@@ -322,7 +322,7 @@ void TObjEneDellBiter::run_death_reaction() {
 
 void TObjEneDellBiter::run_hit_reaction() {
     if ((s16) mode != 0xA) {
-        sub_803055C8();
+        retarget_attacker();
         if (flags & 0x14) {
             this->clear_attack_receipts();
             return;
@@ -388,19 +388,19 @@ void TObjEneDellBiter::update_particle_emitters() {
 }
 
 void TObjEneDellBiter::init_target_offsets() {
-    field_4a8 = 0.3f + parameters[0];
-    field_4ac = 0.3f + parameters[1];
-    field_4b0 = 30.0f + parameters[2];
-    if (field_4b0 < 10.0f) {
-        field_4b0 = 10.0f;
+    howl_chance = 0.3f + parameters[0];
+    confuse_chance = 0.3f + parameters[1];
+    confuse_distance = 30.0f + parameters[2];
+    if (confuse_distance < 10.0f) {
+        confuse_distance = 10.0f;
     }
-    field_4b4 = 0.3f + parameters[3];
-    field_4b8 = 0.05f + parameters[4];
+    laser_chance = 0.3f + parameters[3];
+    change_chance = 0.05f + parameters[4];
     if ((s32)variant >= 1) {
-        field_4bc = 1;
+        run_type = 1;
         return;
     }
-    field_4bc = 0;
+    run_type = 0;
 }
 
 void TObjEneDellBiter::update_contact_attacks() {
@@ -523,7 +523,7 @@ s32 TObjEneDellBiter::fn_803059BC(const Vec *origin) {
     return 0;
 }
 
-void TObjEneDellBiter::fn_8030591C() {
+void TObjEneDellBiter::play_step_effect() {
     if (is_passing_frame(0.0f) != 0 || is_passing_frame(8.0f) != 0) {
         if (fn_803059BC(&position) != 0) {
             fn_800D8830(this, &position);
@@ -580,7 +580,7 @@ s32 TObjEneDellBiter::select_farthest_visible_player() {
     return 0;
 }
 
-void TObjEneDellBiter::fn_80305688() {
+void TObjEneDellBiter::confuse_nearby_players() {
     s32 count;
     TObjChara *player;
     s32 i;
@@ -590,7 +590,7 @@ void TObjEneDellBiter::fn_80305688() {
         if (player->is_alive() != 0) {
             f32 distance = horizontal_distance_squared(&body_center, &player->position);
             if (csnLookAt(&body_center, &player->body_center) == 0 &&
-                distance <= field_4b0 * field_4b0 && random_ratio() <= field_4ac) {
+                distance <= confuse_distance * confuse_distance && random_ratio() <= confuse_chance) {
                 DirectAttackPayload attack;
                 attack.kind = 18;
                 attack.power = 1.0f;
@@ -609,7 +609,7 @@ s32 TObjEneDellBiter::acquire_target(f32 distance) {
     return select_nearest_target(distance);
 }
 
-void TObjEneDellBiter::sub_803055C8() {
+void TObjEneDellBiter::retarget_attacker() {
     u16 id = attacker_id;
     if (id < 0x1000U) {
         void *player = get_player_by_client_id(id);
@@ -622,23 +622,23 @@ void TObjEneDellBiter::sub_803055C8() {
 
 s32 TObjEneDellBiter::check_low_hp_transition() {
     if (!(flags & 0x10) && hp <= hpmax / 2 &&
-        random_ratio() <= field_4b8) {
+        random_ratio() <= change_chance) {
         transition_enemy_state(12);
         return 1;
     }
     return 0;
 }
 
-s32 TObjEneDellBiter::fn_803054FC() {
-    if (random_ratio() <= field_4b4) {
+s32 TObjEneDellBiter::try_laser() {
+    if (random_ratio() <= laser_chance) {
         transition_enemy_state(9);
         return 1;
     }
     return 0;
 }
 
-s32 TObjEneDellBiter::fn_803054A8() {
-    if (random_ratio() <= field_4a8) {
+s32 TObjEneDellBiter::try_howl() {
+    if (random_ratio() <= howl_chance) {
         transition_enemy_state(8);
         return 1;
     }
@@ -651,37 +651,37 @@ void TObjEneDellBiter::dispatch_action(u32 state, s32 reason) {
         update_state(reason);
         return;
     case 1:
-        fn_80305268(reason);
+        update_hidden_state(reason);
         return;
     case 2:
-        fn_80305034(reason);
+        update_emerge_walk_state(reason);
         return;
     case 3:
-        fn_80304D10(reason);
+        update_emerge_run_state(reason);
         return;
     case 4:
-        fn_80304B88(reason);
+        update_wait_state(reason);
         return;
     case 5:
-        fn_8030492C(reason);
+        update_walk_state(reason);
         return;
     case 6:
-        fn_803044AC(reason);
+        update_rush_state(reason);
         return;
     case 7:
-        fn_803042B0(reason);
+        update_attack_state(reason);
         return;
     case 8:
-        fn_803040D0(reason);
+        update_howl_state(reason);
         return;
     case 9:
-        fn_80303BC0(reason);
+        update_laser_state(reason);
         return;
     case 12:
-        fn_80303F04(reason);
+        update_change_state(reason);
         return;
     case 10:
-        fn_80303AA0(reason);
+        update_damage_state(reason);
         return;
     case 11:
         state_death(reason);
@@ -706,7 +706,7 @@ void TObjEneDellBiter::update_state(s32 reason) {
     }
 }
 
-void TObjEneDellBiter::fn_80305268(s32 reason) {
+void TObjEneDellBiter::update_hidden_state(s32 reason) {
     switch (reason) {
     case 4:
         this->set_field_378(1);
@@ -719,7 +719,7 @@ void TObjEneDellBiter::fn_80305268(s32 reason) {
             this->enemy_copy_target_destination();
             this->update_velocity();
             rotation_y = (s32) (10430.38043493439 * atan2_float(destination_direction.x, destination_direction.z));
-            if ((s32) field_4bc == 1) {
+            if ((s32) run_type == 1) {
                 transition_enemy_state(3);
                 return;
             }
@@ -733,7 +733,7 @@ void TObjEneDellBiter::fn_80305268(s32 reason) {
     }
 }
 
-void TObjEneDellBiter::fn_80305034(s32 reason) {
+void TObjEneDellBiter::update_emerge_walk_state(s32 reason) {
 
     switch (reason) {
     case 4:
@@ -744,16 +744,16 @@ void TObjEneDellBiter::fn_80305034(s32 reason) {
         this->set_intangible();
         fade.reset_obstruction_fade();
         state_timer = 0;
-        field_4d0 = 0;
+        step = 0;
         VecCopy(&position, &home_position);
         VecCopy(&prev_position, &position);
         VecCopy((Vec *)(&body_center), &position);
-        field_488 = 0;
-        field_48c = 0;
+        combo_count = 0;
+        rush_count = 0;
         play_sound_effect(this->remap_sound_for_area((saddr)((void *)0x40039E12)), &position, 0, 0);
         return;
     case 3:
-        if ((s32) field_4d0 == 2) {
+        if ((s32) step == 2) {
             transition_enemy_state(5);
         }
         return;
@@ -761,21 +761,21 @@ void TObjEneDellBiter::fn_80305034(s32 reason) {
         advance_animation();
         update_linked_position(300.0f);
         state_timer = (state_timer + 1);
-        switch (field_4d0) {
+        switch (step) {
         case 0:
             if ((s32) state_timer > 0x14) {
-                field_4d0 = 1;
+                step = 1;
                 this->requested_action = 3;
                 play_sound_effect(this->remap_sound_for_area((saddr)((void *)0x40039B14)), &position, 0, 0);
             }
-            fn_8030591C();
+            play_step_effect();
             this->move_with_wall_slide_on_ground(destination_direction.x, destination_direction.z, 1.2f);
             fn_80305684();
             break;
         case 1:
             fn_803058DC();
             if (this->get_flag_b4() != 0) {
-                field_4d0 = 2;
+                step = 2;
             }
             break;
         }
@@ -792,7 +792,7 @@ void TObjEneDellBiter::fn_80305034(s32 reason) {
     }
 }
 
-void TObjEneDellBiter::fn_80304D10(s32 reason) {
+void TObjEneDellBiter::update_emerge_run_state(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 2;
@@ -802,8 +802,8 @@ void TObjEneDellBiter::fn_80304D10(s32 reason) {
         bodies->flags |= 0x700;
         clear_intangible();
         fade.reset_obstruction_fade();
-        field_4dc = TObjEneDellBiter__movement_params->rush_speed;
-        field_4d0 = 0;
+        current_speed = TObjEneDellBiter__movement_params->rush_speed;
+        step = 0;
         play_sound_effect(this->remap_sound_for_area((saddr)((void *)0x40039E12)), &position, 0, 0);
         VecCopy(&position, &home_position);
         VecCopy(&prev_position, &position);
@@ -811,26 +811,26 @@ void TObjEneDellBiter::fn_80304D10(s32 reason) {
         position.x -= 100.0f * sin_table_lookup(rotation_y);
         position.z -= 100.0f * cos_table_lookup(rotation_y);
         state_timer = (s32)(100.0f / TObjEneDellBiter__movement_params->rush_speed);
-        field_488 = 0;
-        field_48c = 0;
+        combo_count = 0;
+        rush_count = 0;
         this->set_active();
         break;
     case 3:
-        if (field_4d0 == 2) {
+        if (step == 2) {
             transition_enemy_state(5);
         }
         break;
     case 0:
         advance_animation();
-        switch (field_4d0) {
+        switch (step) {
         case 0:
-            fn_8030591C();
-            position.x = field_4dc * sin_table_lookup(rotation_y) + position.x;
-            position.z = field_4dc * cos_table_lookup(rotation_y) + position.z;
+            play_step_effect();
+            position.x = current_speed * sin_table_lookup(rotation_y) + position.x;
+            position.z = current_speed * cos_table_lookup(rotation_y) + position.z;
             check_rush_collisions();
             state_timer--;
             if (state_timer <= 0) {
-                field_4d0 = 1;
+                step = 1;
                 state_timer = 0;
                 flags &= ~4;
                 this->set_field_378(5);
@@ -844,12 +844,12 @@ void TObjEneDellBiter::fn_80304D10(s32 reason) {
                 this->requested_action = 3;
                 fn_803058DC();
                 if (this->get_flag_b4() != 0) {
-                    field_4d0 = 2;
+                    step = 2;
                 }
-                field_4dc *= 0.9f;
+                current_speed *= 0.9f;
             }
             check_rush_collisions();
-            this->move_clamped_on_ground(destination_direction.x, destination_direction.z, field_4dc);
+            this->move_clamped_on_ground(destination_direction.x, destination_direction.z, current_speed);
             break;
         }
         if (fade.advance_toward_max() != 0) {
@@ -865,7 +865,7 @@ void TObjEneDellBiter::fn_80304D10(s32 reason) {
     }
 }
 
-void TObjEneDellBiter::fn_80304B88(s32 reason) {
+void TObjEneDellBiter::update_wait_state(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 0;
@@ -873,7 +873,7 @@ void TObjEneDellBiter::fn_80304B88(s32 reason) {
         flags = (s32) (flags & 0xFFFFFFF8);
         this->set_intangible();
         state_timer = 0;
-        field_4d0 = 0;
+        step = 0;
         break;
     case 3:
         if (state_timer == 2) {
@@ -889,8 +889,8 @@ void TObjEneDellBiter::fn_80304B88(s32 reason) {
             if (update_linked_position(300.0f) != 0) {
                 state_timer = 2;
             } else {
-                field_4d0 = field_4d0 + 1;
-                if (field_4d0 >= 0x3C) {
+                step = step + 1;
+                if (step >= 0x3C) {
                     state_timer = 1;
                     fade.reset_color();
                     flags = (s32) (flags | 2);
@@ -911,9 +911,9 @@ void TObjEneDellBiter::fn_80304B88(s32 reason) {
     }
 }
 
-void TObjEneDellBiter::fn_8030492C(s32 reason) {
-    f32 temp_f31_2;
-    s32 temp_r30;
+void TObjEneDellBiter::update_walk_state(s32 reason) {
+    f32 facing;
+    s32 angle;
     DelbiterMovementParameters *delbiter_movement_parameters;
     switch (reason) {
     case 4:
@@ -926,7 +926,7 @@ void TObjEneDellBiter::fn_8030492C(s32 reason) {
     case 3:
         if ((uaddr) current_target == 0U) {
             transition_enemy_state(4);
-        } else if ((destination_distance >= TObjEneDellBiter__movement_params->rush_start_distance) && ((s32) field_48c < 2)) {
+        } else if ((destination_distance >= TObjEneDellBiter__movement_params->rush_start_distance) && ((s32) rush_count < 2)) {
             transition_enemy_state(6);
         } else if ((s32) state_timer == 1) {
             transition_enemy_state(7);
@@ -940,12 +940,12 @@ void TObjEneDellBiter::fn_8030492C(s32 reason) {
             this->enemy_copy_target_destination();
             this->update_velocity();
         }
-        rotation_y = approach_angle_limited(rotation_y, temp_r30 = (s32) (10430.38043493439 * atan2_float(destination_direction.x, destination_direction.z)), 0x300);
-        part_rotation_x = TObjBoss2Tunnel::turn_toward_angle_limited((s32)rotation_y, (s32)part_rotation_x, (s32)temp_r30, 0x200, 0x2000);
+        rotation_y = approach_angle_limited(rotation_y, angle = (s32) (10430.38043493439 * atan2_float(destination_direction.x, destination_direction.z)), 0x300);
+        part_rotation_x = TObjBoss2Tunnel::turn_toward_angle_limited((s32)rotation_y, (s32)part_rotation_x, (s32)angle, 0x200, 0x2000);
         delbiter_movement_parameters = TObjEneDellBiter__movement_params;
         if (destination_distance <= (f32) delbiter_movement_parameters->attack_distance) {
-            temp_f31_2 = (destination_direction.x * sin_table_lookup(rotation_y)) + (destination_direction.z * cos_table_lookup(rotation_y));
-            if (temp_f31_2 >= cos_table_lookup(0x1800)) {
+            facing = (destination_direction.x * sin_table_lookup(rotation_y)) + (destination_direction.z * cos_table_lookup(rotation_y));
+            if (facing >= cos_table_lookup(0x1800)) {
                 state_timer = 1;
             }
         } else {
@@ -960,7 +960,7 @@ void TObjEneDellBiter::fn_8030492C(s32 reason) {
     }
 }
 
-void TObjEneDellBiter::fn_803044AC(s32 reason) {
+void TObjEneDellBiter::update_rush_state(s32 reason) {
     s32 hit;
     f32 t;
     switch (reason) {
@@ -970,18 +970,18 @@ void TObjEneDellBiter::fn_803044AC(s32 reason) {
         flags &= ~3;
         flags |= 4;
         state_timer = 0;
-        field_4d0 = 0;
-        field_4dc = TObjEneDellBiter__movement_params->rush_speed;
-        field_4e0 = 0.0f;
+        step = 0;
+        current_speed = TObjEneDellBiter__movement_params->rush_speed;
+        rush_traveled = 0.0f;
         fill_value_array(attack_history);
         this->set_active();
         break;
     case 3:
         if (state_timer == 3) {
-            field_488 = 0;
-            field_48c++;
+            combo_count = 0;
+            rush_count++;
             flags &= ~8;
-            if (this->fn_803054A8() == 0 && this->fn_803054FC() == 0) {
+            if (this->try_howl() == 0 && this->try_laser() == 0) {
                 transition_enemy_state(5);
             }
         }
@@ -1008,7 +1008,7 @@ void TObjEneDellBiter::fn_803044AC(s32 reason) {
             this->check_collisions();
             break;
         case 1:
-            fn_8030591C();
+            play_step_effect();
             if (validate_or_update_target() != 0) {
                 this->enemy_copy_target_destination();
                 this->update_velocity();
@@ -1018,7 +1018,7 @@ void TObjEneDellBiter::fn_803044AC(s32 reason) {
                 hit = 1;
             }
             this->move_clamped_on_ground(destination_direction.x, destination_direction.z, TObjEneDellBiter__movement_params->rush_speed);
-            field_4e0 += TObjEneDellBiter__movement_params->rush_speed;
+            rush_traveled += TObjEneDellBiter__movement_params->rush_speed;
             if (this->has_move_failures(1) != 0) {
                 hit = 1;
             }
@@ -1039,26 +1039,26 @@ void TObjEneDellBiter::fn_803044AC(s32 reason) {
                     }
                 }
             }
-            if (hit != 0 || field_4e0 >= TObjEneDellBiter__movement_params->rush_distance) {
+            if (hit != 0 || rush_traveled >= TObjEneDellBiter__movement_params->rush_distance) {
                 state_timer = 2;
-                field_4d0 = 0;
+                step = 0;
                 this->set_field_378(5);
                 play_sound_effect(this->remap_sound_for_area((saddr)((void *)0x40039B14)), &position, 0, 0);
             }
             break;
         case 2:
-            field_4d0++;
-            if (field_4d0 >= 10) {
+            step++;
+            if (step >= 10) {
                 this->requested_action = 3;
                 fn_803058DC();
                 if (this->get_flag_b4() != 0) {
                     flags &= ~4;
                     state_timer = 3;
                 }
-                field_4dc *= 0.9f;
+                current_speed *= 0.9f;
             }
             check_rush_collisions();
-            this->move_clamped_on_ground(destination_direction.x, destination_direction.z, field_4dc);
+            this->move_clamped_on_ground(destination_direction.x, destination_direction.z, current_speed);
             break;
         }
         break;
@@ -1072,8 +1072,8 @@ void TObjEneDellBiter::fn_803044AC(s32 reason) {
 
 #pragma fp_contract off
 
-void TObjEneDellBiter::fn_803042B0(s32 reason) {
-    int temp_r3;
+void TObjEneDellBiter::update_attack_state(s32 reason) {
+    int angle;
 
     switch (reason) {
     case 4:
@@ -1084,26 +1084,26 @@ void TObjEneDellBiter::fn_803042B0(s32 reason) {
         fill_value_array(attack_history);
         saver->clear_segments();
         state_timer = 0;
-        field_4d0 = 0;
-        field_48c = 0;
+        step = 0;
+        rush_count = 0;
         return;
     case 3:
-        if ((s32) field_4d0 == 2) {
-            field_488 = (field_488 + 1);
-            if ((s32) field_488 >= 2) {
-                field_488 = 0;
+        if ((s32) step == 2) {
+            combo_count = (combo_count + 1);
+            if ((s32) combo_count >= 2) {
+                combo_count = 0;
                 flags = (s32) (flags & 0xFFFFFFF7);
             }
-            if (this->fn_803054FC() == 0) {
+            if (this->try_laser() == 0) {
                 transition_enemy_state(5);
             }
         }
         break;
     case 0:
         advance_animation();
-        temp_r3 = rotation_y;
-        part_rotation_x = TObjBoss2Tunnel::turn_toward_angle_limited((s32)temp_r3, (s32)part_rotation_x, (s32)temp_r3, 0x200, 0x2000);
-        switch (field_4d0) {
+        angle = rotation_y;
+        part_rotation_x = TObjBoss2Tunnel::turn_toward_angle_limited((s32)angle, (s32)part_rotation_x, (s32)angle, 0x200, 0x2000);
+        switch (step) {
         case 0:
             if (is_passing_frame(11.0f) != 0) {
                 this->spawn_front_particle();
@@ -1114,14 +1114,14 @@ void TObjEneDellBiter::fn_803042B0(s32 reason) {
             }
             if (this->get_flag_b4() != 0) {
                 this->requested_action = 0;
-                field_4d0 = 1;
+                step = 1;
                 state_timer = 0;
             }
             break;
         case 1:
             state_timer = (state_timer + 1);
             if ((s32) state_timer >= (s32) TObjEneDellBiter__movement_params->state_duration) {
-                field_4d0 = 2;
+                step = 2;
             }
             break;
         }
@@ -1133,10 +1133,10 @@ void TObjEneDellBiter::fn_803042B0(s32 reason) {
     }
 }
 
-void TObjEneDellBiter::fn_803040D0(s32 reason) {
+void TObjEneDellBiter::update_howl_state(s32 reason) {
     Vec effect_position;
-    f32 temp_f1;
-    uaddr temp_r3;
+    f32 current_frame;
+    TParticleCtrl *emitter;
     switch (reason) {
     case 4:
         this->requested_action = 8;
@@ -1155,13 +1155,13 @@ void TObjEneDellBiter::fn_803040D0(s32 reason) {
         if (this->get_flag_b4() != 0) {
             state_timer = 1;
         } else {
-            if ((uaddr) effect != 0U) {
+            if (effect != NULL) {
                 if (is_passing_frame(45.0f) != 0) {
                     effect->queue_destruction();
                     effect = NULL;
                 } else {
-                    temp_f1 = this->frame;
-                    if ((temp_f1 >= 1.0f) && (temp_f1 <= 45.0f)) {
+                    current_frame = this->frame;
+                    if ((current_frame >= 1.0f) && (current_frame <= 45.0f)) {
                         VecCopy(&effect_position, &position);
                         effect_position.y += 10.0f;
                         effect->set_position(&effect_position);
@@ -1171,7 +1171,7 @@ void TObjEneDellBiter::fn_803040D0(s32 reason) {
                 effect = (TParticleCtrl *)create_particle_emitter((&position), 0x211);
             }
             if (is_passing_frame(11.0f) != 0) {
-                this->fn_80305688();
+                this->confuse_nearby_players();
                 play_sound_effect(this->remap_sound_for_area(0x40039E15), &position, 0, 0);
             }
         }
@@ -1179,17 +1179,17 @@ void TObjEneDellBiter::fn_803040D0(s32 reason) {
         this->check_collisions();
         return;
     case 5:
-        temp_r3 = (uaddr)effect;
-        if (temp_r3 != 0U) {
-            ((TObject *)temp_r3)->queue_destruction();
+        emitter = effect;
+        if (emitter != NULL) {
+            emitter->queue_destruction();
             effect = NULL;
         }
         break;
     }
 }
 
-void TObjEneDellBiter::fn_80303F04(s32 reason) {
-    Vec sp8;
+void TObjEneDellBiter::update_change_state(s32 reason) {
+    Vec effect_position;
 
     switch (reason) {
     case 4:
@@ -1208,14 +1208,14 @@ void TObjEneDellBiter::fn_80303F04(s32 reason) {
     case 0:
         advance_animation();
         if (is_passing_frame(23.0f) != 0) {
-            VecCopy(&sp8, &position);
-            sp8.y += 10.0f;
+            VecCopy(&effect_position, &position);
+            effect_position.y += 10.0f;
             if ((s32) game_difficulty_selection == 3) {
-                spawn_particle_effect(&sp8, 0x21D);
-                spawn_particle_effect(&sp8, 0x21E);
+                spawn_particle_effect(&effect_position, 0x21D);
+                spawn_particle_effect(&effect_position, 0x21E);
             } else {
-                spawn_particle_effect(&sp8, 0x21B);
-                spawn_particle_effect(&sp8, 0x21C);
+                spawn_particle_effect(&effect_position, 0x21B);
+                spawn_particle_effect(&effect_position, 0x21C);
             }
         }
         if (is_passing_frame(11.0f) != 0) {
@@ -1232,9 +1232,9 @@ void TObjEneDellBiter::fn_80303F04(s32 reason) {
     }
 }
 
-void TObjEneDellBiter::fn_80303BC0(s32 reason) {
-    f32 var_f31;
-    s32 temp_r5;
+void TObjEneDellBiter::update_laser_state(s32 reason) {
+    f32 power;
+    s32 drained;
     void *p;
     switch (reason) {
     case 4:
@@ -1243,9 +1243,9 @@ void TObjEneDellBiter::fn_80303BC0(s32 reason) {
         flags = (s32) (flags & 0xFFFFFFFC);
         flags = (s32) (flags | 4);
         state_timer = 0;
-        field_4d0 = 0;
-        field_4d4 = 0;
-        field_4d8 = 0;
+        step = 0;
+        drained_tp = 0;
+        target_angle = 0;
         return;
     case 3:
         if ((s32) state_timer == 4) {
@@ -1259,15 +1259,15 @@ void TObjEneDellBiter::fn_80303BC0(s32 reason) {
             if (select_farthest_visible_player() != 0) {
                 this->enemy_copy_target_destination();
                 this->update_velocity();
-                field_4d8 = (s32) (u16) (s32) (10430.38043493439 * atan2_float(destination_direction.x, destination_direction.z));
+                target_angle = (s32) (u16) (s32) (10430.38043493439 * atan2_float(destination_direction.x, destination_direction.z));
                 state_timer = 1;
             } else {
                 state_timer = 4;
             }
             break;
         case 1:
-            rotation_y = approach_angle_limited(rotation_y, field_4d8, 0x300);
-            if ((s32) (u16) rotation_y == (s32) field_4d8) {
+            rotation_y = approach_angle_limited(rotation_y, target_angle, 0x300);
+            if ((s32) (u16) rotation_y == (s32) target_angle) {
                 state_timer = 2;
                 this->requested_action = 5;
             }
@@ -1276,12 +1276,12 @@ void TObjEneDellBiter::fn_80303BC0(s32 reason) {
         case 2:
             if (this->get_flag_b4() != 0) {
                 if (TObjEneDD::check_v2_mode() != 0) {
-                    field_4d0 = (field_4d0 + 1);
-                    if ((s32) field_4d0 < 3) {
+                    step = (step + 1);
+                    if ((s32) step < 3) {
                         if (select_farthest_visible_player() != 0) {
                             this->enemy_copy_target_destination();
                             this->update_velocity();
-                            field_4d8 = (s32) (u16) (s32) (10430.38043493439 * atan2_float(destination_direction.x, destination_direction.z));
+                            target_angle = (s32) (u16) (s32) (10430.38043493439 * atan2_float(destination_direction.x, destination_direction.z));
                             state_timer = 0;
                             this->requested_action = 1;
                         } else {
@@ -1295,14 +1295,14 @@ void TObjEneDellBiter::fn_80303BC0(s32 reason) {
                 }
             }
             if (is_passing_frame(14.0f) != 0) {
-                temp_r5 = field_4d4;
-                var_f31 = (f32) TObjEneDellBiter__movement_params->tp_attack_power;
-                if (temp_r5 > 0x96) {
-                    var_f31 *= 2.0f;
-                } else if (temp_r5 > 0x46) {
-                    var_f31 *= 1.5f;
+                drained = drained_tp;
+                power = (f32) TObjEneDellBiter__movement_params->tp_attack_power;
+                if (drained > 0x96) {
+                    power *= 2.0f;
+                } else if (drained > 0x46) {
+                    power *= 1.5f;
                 }
-                new TObjEneDellBiter_Eff_TpAbsorb1(this, this, &part_positions[0], field_4d8, attack_history, var_f31);
+                new TObjEneDellBiter_Eff_TpAbsorb1(this, this, &part_positions[0], target_angle, attack_history, power);
                 play_sound_effect(this->remap_sound_for_area((saddr)((void *)0x40039F17)), &position, 0, 0);
             }
             if (is_passing_frame(1.0f) != 0) {
@@ -1319,7 +1319,7 @@ void TObjEneDellBiter::fn_80303BC0(s32 reason) {
     }
 }
 
-void TObjEneDellBiter::fn_80303AA0(s32 reason) {
+void TObjEneDellBiter::update_damage_state(s32 reason) {
     Vec v;
     f32 len;
     switch (reason) {
@@ -1330,7 +1330,7 @@ void TObjEneDellBiter::fn_80303AA0(s32 reason) {
         break;
     case 3:
         if (this->get_flag_b4() != 0 && this->check_low_hp_transition() == 0 &&
-            this->fn_803054A8() == 0 && this->fn_803054FC() == 0) {
+            this->try_howl() == 0 && this->try_laser() == 0) {
             transition_enemy_state(next_mode);
         }
         break;
@@ -1537,7 +1537,7 @@ void TObjEneDellBiter::render_demo() {
         debug_printf_at(pack_debug_text_position(0, 4), "CONFUSE DIST(+30.f)");
         debug_printf_at(pack_debug_text_position(0, 5), "LASER PER(+0.3f)");
         debug_printf_at(pack_debug_text_position(0, 6), "CHANGE PER(+0.05f)");
-        if ((s32) field_4bc == 1) {
+        if ((s32) run_type == 1) {
             debug_printf_at(pack_debug_text_position(0, 9), "TYPE:RUN");
         } else {
             debug_printf_at(pack_debug_text_position(0, 9), "TYPE:STAND");
@@ -1578,4 +1578,3 @@ s32 TObjEneDellBiter::render_model_if_visible() {
     return 0;
 }
 
-Vec dellbiter_demo_camera_vec;

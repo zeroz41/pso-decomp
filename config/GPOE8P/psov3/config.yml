@@ -6417,23 +6417,23 @@ force_active:
   - fn_802F1E54
   - __ct__13TUnk_804E4B24FP7TObjectlP3Vecf
   - run_demo_task__16TObjEneDellBiterFv
-  - fn_80303AA0__16TObjEneDellBiterFl
-  - fn_80303BC0__16TObjEneDellBiterFl
-  - fn_80303F04__16TObjEneDellBiterFl
-  - fn_803040D0__16TObjEneDellBiterFl
-  - fn_803042B0__16TObjEneDellBiterFl
-  - fn_803044AC__16TObjEneDellBiterFl
-  - fn_8030492C__16TObjEneDellBiterFl
-  - fn_80304B88__16TObjEneDellBiterFl
-  - fn_80304D10__16TObjEneDellBiterFl
-  - fn_80305034__16TObjEneDellBiterFl
-  - fn_80305268__16TObjEneDellBiterFl
-  - fn_803054A8__16TObjEneDellBiterFv
-  - fn_803054FC__16TObjEneDellBiterFv
+  - update_damage_state__16TObjEneDellBiterFl
+  - update_laser_state__16TObjEneDellBiterFl
+  - update_change_state__16TObjEneDellBiterFl
+  - update_howl_state__16TObjEneDellBiterFl
+  - update_attack_state__16TObjEneDellBiterFl
+  - update_rush_state__16TObjEneDellBiterFl
+  - update_walk_state__16TObjEneDellBiterFl
+  - update_wait_state__16TObjEneDellBiterFl
+  - update_emerge_run_state__16TObjEneDellBiterFl
+  - update_emerge_walk_state__16TObjEneDellBiterFl
+  - update_hidden_state__16TObjEneDellBiterFl
+  - try_howl__16TObjEneDellBiterFv
+  - try_laser__16TObjEneDellBiterFv
   - fn_80305684__16TObjEneDellBiterFv
-  - fn_80305688__16TObjEneDellBiterFv
+  - confuse_nearby_players__16TObjEneDellBiterFv
   - fn_803058DC__16TObjEneDellBiterFv
-  - fn_8030591C__16TObjEneDellBiterFv
+  - play_step_effect__16TObjEneDellBiterFv
   - fn_803059BC__16TObjEneDellBiterFPC3Vec
   - fn_80313268__19TObjEneDelDepthBombFv
   - fn_803141A8__15TObjEneDelDepthFv
@@ -8106,12 +8106,12 @@ force_active:
   - lbl_804E674C
   - lbl_804E6784
   - lbl_804E6790
-  - lbl_804E6B8C
-  - lbl_804E6C3C
-  - lbl_804E6C70
-  - lbl_804E6C80
-  - lbl_804E6C88
-  - lbl_804E6CB4
+  - dell_biter_collision_bodies
+  - dell_biter_model_names
+  - dell_biter_bml_resource
+  - dell_biter_low_model_names
+  - dell_biter_low_motion_names
+  - dell_biter_low_bml_resource
   - lbl_804E7578
   - lbl_804E7750
   - deldepth_model_names
@@ -16358,7 +16358,7 @@ force_active:
   - sub_80300648__21TAdMultiSelGameModeGCFv
   - sub_80300764__21TAdMultiSelGameModeGCFv
   - sub_80301148__14TObjEneDolmOlmFv
-  - sub_803055C8__16TObjEneDellBiterFv
+  - retarget_attacker__16TObjEneDellBiterFv
   - sub_8030B818__18TObjLiveCameraCtrlFi
   - sub_8030CBD0__16TAdChrSelASlotGCFv
   - sub_8030CBD4__16TAdChrSelASlotGCFv
