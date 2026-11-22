@@ -819,6 +819,7 @@ void TLobby__sub_800F8AD0(void) {
         area_transfer_pending_flag = 1;
     }
 }
+}
 
 s32 is_area_transfer_pending() { return area_transfer_pending_flag ? 1 : 0; }
 
@@ -852,6 +853,7 @@ void apply_phase_keyboard_mode() {
     }
 }
 
+extern "C" {
 void TLobby__sub_800F8BD8(void) { TKeyBoardControl::reset(); TKeyBoardControl__sub_8000F92C(); }
 
 void TLobby::invoke_callback() {
