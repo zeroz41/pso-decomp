@@ -782,7 +782,7 @@ force_active:
   - __ct__12TOChatSensorFP7TObjectPv
   - TOContainerAncientItemCommon__ct
   - TOCtrlDubchik__ct
-  - TOCtrlDubchik__sub_8015C9D0
+  - run_demo_task__13TOCtrlDubchikFv
   - TODoorAncient01_name
   - TODoorAncient03_name
   - TODoorAncient04_name
