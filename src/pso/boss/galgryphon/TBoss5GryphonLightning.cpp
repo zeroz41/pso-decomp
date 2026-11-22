@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/galgryphon/TBoss5GryphonLightning.h"
-#include "pso/boss/galgryphon/TBoss5GryphonLightningWing.h"
 #include "pso/boss/galgryphon/TBoss5GryphonLightningEff.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -11,15 +10,15 @@
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 
-void TBoss5GryphonLightningWing::get_wing_position(Vec *out) {
+void TBoss5GryphonLightning::get_end_position(Vec *out) {
     VecCopy(out, &this->end);
 }
 
-void TBoss5GryphonLightningWing::copy_position(void *out) {
-    VecCopy((Vec *)out, &this->start);
+void TBoss5GryphonLightning::get_start_position(Vec *out) {
+    VecCopy(out, &this->start);
 }
 
-void TBoss5GryphonLightningWing::update_wing_segments() {
+void TBoss5GryphonLightning::update_endpoints() {
     TBoss8Dragon::eval_bezier_curve(this->segments, this->segment_count, 0, &this->start, this->life_progress);
     TBoss8Dragon::eval_bezier_curve(this->segments, this->segment_count, 0, &this->end, this->grow_progress);
     if (this->effects[0] != 0) {

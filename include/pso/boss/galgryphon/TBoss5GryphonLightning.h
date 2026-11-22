@@ -16,6 +16,9 @@ class TBoss5GryphonLightning : public TObject {
 public:
     TBoss5GryphonLightning(TObject *parent, Vec *pos, f32 scale);
     virtual ~TBoss5GryphonLightning();
+    void get_end_position(Vec *out);
+    void get_start_position(Vec *out);
+    void update_endpoints();  // start/end follow the curve through segments at life/grow progress
     void spawn_gryphon_lightning();
 
     f32 scale;

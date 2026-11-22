@@ -103,8 +103,8 @@ void fn_80325F7C(void *self) {
         do {
             c = get_player_by_client_id(i);
             if (c != 0) {
-                ((TBoss5GryphonLightningWing *)self)->copy_position(&pos);
-                ((TBoss5GryphonLightningWing *)self)->get_wing_position(&wing);
+                ((TBoss5GryphonLightningHorn *)self)->get_start_position(&pos);
+                ((TBoss5GryphonLightningHorn *)self)->get_end_position(&wing);
                 ray.o.x = pos.x;
                 ray.o.y = c->pos.y;
                 ray.o.z = pos.z;
@@ -137,21 +137,21 @@ void TBoss5GryphonLightningHorn::rebuild_lightning_segments() {
     f32 len;
     s32 i;
     f32 r;
-    ((TBoss5GryphonLightningWing *)self)->get_wing_position(&p);
+    this->get_end_position(&p);
     p.x += self->vel.x;
     p.y += self->vel.y;
     p.z += self->vel.z;
     p.y = 60.0f;
     hit = (Hit_80326074 *)csnVecterUnder(&p, 0x16EF);
     if (hit == NULL || (h = hit->pos[1]) > lbl_805D8D48) {
-        ((TBoss5GryphonLightningWing *)self)->get_wing_position(&p);
+        this->get_end_position(&p);
         self->vel.x *= 0.5f;
         self->vel.y *= 0.5f;
         self->vel.z *= 0.5f;
     } else {
         p.y = h;
     }
-    ((TBoss5GryphonLightningWing *)self)->copy_position(&q);
+    this->get_start_position(&q);
     VecCopy((Vec *)&d, (const Vec *)&p);
     subtract_vector(&d, &q);
     len = normalize_vector_safe(&d) / (self->n - 1);
@@ -167,7 +167,7 @@ void TBoss5GryphonLightningHorn::rebuild_lightning_segments() {
     for (i = 1; i < self->n - 1; i++) {
         self->segs[i].pos.y += r;
     }
-    ((TBoss5GryphonLightningWing *)self)->update_wing_segments();
+    this->update_endpoints();
 }
 #pragma pop
 

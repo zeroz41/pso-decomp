@@ -94,7 +94,6 @@ void play_cue_stream_file(saddr name);
 f32 calc_random_ratio__10TObjPlayerFv(void *);
 s32 subtractive_rng_seed(void *, s32);
 s32 fn_80351DA8(void *, void *, void *, int, int);
-void copy_position__26TBoss5GryphonLightningWingFPv(void *, void *);
 void apply_lightning_hit(s32 owner, s32 pos, f32 inner);
 void apply_snarl_hit(s32 owner, s32 pos, f32 inner, f32 scale);
 struct P_8005F740 { u8 pad[0x30]; };
@@ -3867,10 +3866,10 @@ void TBoss5Gryphon::fire_horn_lightning(s32 left, s32 client_id) {
     ang = (s32)(45056.0f * calc_random_ratio__10TObjPlayerFv(this->rng) + (f32)this->rotation_y);
     if (left != 0) {
         if (this->lightning.horns[0] == NULL) return;
-        copy_position__26TBoss5GryphonLightningWingFPv(this->lightning.horns[0], &pos);
+        this->lightning.horns[0]->get_start_position(&pos);
     } else {
         if (this->lightning.horns[1] == NULL) return;
-        copy_position__26TBoss5GryphonLightningWingFPv(this->lightning.horns[1], &pos);
+        this->lightning.horns[1]->get_start_position(&pos);
     }
     if (this->get_player_pos_in_arc(left, client_id, &pos, &out) == 0) {
         if (left != 0) {

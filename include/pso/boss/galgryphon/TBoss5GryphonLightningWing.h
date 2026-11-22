@@ -9,13 +9,8 @@ struct Vec;
 class TBoss5GryphonLightningWing : public TBoss5GryphonLightning {
 public:
     virtual ~TBoss5GryphonLightningWing();
-    void update_wing_segments();
     virtual void run_task();
     virtual void render();
-public:
-    void get_wing_position(Vec *out);
-    void copy_position(void *out);
-public:
     void apply_lightning_effect();
 
     s32 grow_frames;
