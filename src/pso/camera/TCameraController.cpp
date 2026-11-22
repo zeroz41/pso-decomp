@@ -1,4 +1,7 @@
+#define PSO_SDK_COMPACT_MATH
 #include "types.h"
+#include <dolphin/gx/GXTransform.h>
+#undef PSO_SDK_COMPACT_MATH
 #include "pso/camera/TCameraController.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/camera/TCameraFollow.h"
@@ -16,8 +19,6 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
 
-// <dolphin/gx/GXTransform.h> pulls in MSL's sqrt statics, which this object does not have.
-extern "C" void GXSetScissorBoxOffset(s32 x_off, s32 y_off);
 
 static const Vec camera_forward_axis = {0.0f, 0.0f, -1.0f};
 static const Vec actor_forward_axis = {0.0f, 0.0f, -1.0f};
