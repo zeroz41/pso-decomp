@@ -396,7 +396,6 @@ pso/enemy/mericarol/TObjEneBm9Mericarol_EffCurse3.cpp
 pso/enemy/dd/TObjEneDD.cpp
 pso/enemy/flower/TObjEneRe2Flower_800C20D0.cpp
 pso/enemy/darkgunner/TObjEneDarkGunCenter.cpp
-pso/enemy/darkgunner/TObjEneDarkGunner.cpp
 pso/enemy/deldepth/TObjEneDelDepth.cpp
 pso/enemy/deldepth/TObjEneDelDepthAccessors.cpp
 pso/enemy/dellbiter/TObjEneDellBiter.cpp
@@ -2034,7 +2033,6 @@ pso/unk/text_80087278.cpp
 pso/unk/text_80090464.cpp
 pso/unk/text_80090488.cpp
 pso/enemy/beast/TObjEneBeast_80092AE0.cpp
-pso/enemy/canadin/TObjEneMe1Canadin_EffLineFade_800A01C0.cpp
 pso/unk/text_800C2A88.cpp
 pso/unk/text_800C2CE0.cpp
 pso/enemy/TUnk_80493450_800C69E8.cpp

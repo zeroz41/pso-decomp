@@ -488,7 +488,10 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # its class name "TBreakUpMdl" sits in .rodata between the default parameter row and colour: readonly strings.
     "pso/effect/TBreakUpMdl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # the four effect class names sit in .rodata, pointed to by .sdata 0x805D29B8..C4: readonly strings.
-    "pso/enemy/canadin/CanadinEffects.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # -inline off,deferred: the four vtables follow the text in forward order (EffLight first), so the
+    # source runs from the last function back; -fp_contract on: EffLight::render and
+    # EffDischarge::run_task use fmadds.
+    "pso/enemy/canadin/CanadinEffects.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly", "-fp_contract on")},
     "pso/ui/window/TWindowArea.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # its only string (the empty entry text) sits in .sdata2, as in its sibling parts _80336054/_8033A8EC.
     "pso/ui/frontend/TAdSinglePlyChrSelectGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},

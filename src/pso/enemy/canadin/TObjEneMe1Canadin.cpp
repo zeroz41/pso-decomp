@@ -1420,7 +1420,7 @@ void TObjEneMe1Canadin::fn_8009CC74(s32 arg1) {
             }
             self->m_3F8 += self->m_488;
             self->move_to_wall_clamped_destination(self->destination_direction.x, self->destination_direction.z, self->m_484);
-            TObjEneMe1Canadin::push_history_entry(self->eff_light, 1.2f, self->m_414, self->m_4B4);
+            self->eff_light->push_history_entry(1.2f, self->m_414, self->m_4B4);
             break;
         case 2:
             self->enemy_copy_target_destination();
@@ -1566,7 +1566,7 @@ void TObjEneMe1Canadin::fn_8009C91C(s32 arg1) {
                     self->move_to_wall_clamped_destination(v.x, v.z, c);
                 }
                 self->rotation_y = (s32)(10430.38043493439 * atan2_float(dir->x, dir->z)) + 0x8000;
-                TObjEneMe1Canadin::push_history_entry(self->eff_light, 0.8f, self->m_414, self->m_4B4);
+                self->eff_light->push_history_entry(0.8f, self->m_414, self->m_4B4);
                 break;
             }
             case 0:

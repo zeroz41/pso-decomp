@@ -109,8 +109,6 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
     void advance_state_5_to_4();
     void calc_move_vector(Vec *out);
     void noop();
-    // Adds a point to an EffLight trail (a TObjEneMe1Canadin_EffLight).
-    static void push_history_entry(void *trail, f32 width, void *pos, int color);
     void update_angle();
     void update_hover_height();
     void set_target_speed_z();
@@ -122,7 +120,6 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
     static void *create(void *set_data);
     static void load_resources();
     static void free_resources();
-    s32 fade_alpha_step(f32 scale, s32 step);
     void fn_8009BFF8(s32 arg1);
     void fn_8009C178(s32 arg1);
     void fn_8009C2EC(s32 arg1);

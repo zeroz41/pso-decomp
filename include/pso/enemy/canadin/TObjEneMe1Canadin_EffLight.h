@@ -6,6 +6,9 @@
 
 // One point of the light trail: the strip is drawn width either side of pos, along the camera's up vector.
 struct TObjEneMe1Canadin_EffLightPoint {
+    // Shrinks the width by scale and the alpha by step; nonzero once the point has faded out.
+    s32 fade_alpha_step(f32 scale, s32 step);
+
     f32 width;
     u32 color;
     Vec pos;
@@ -22,6 +25,7 @@ public:
     virtual ~TObjEneMe1Canadin_EffLight();
     virtual void run_task();
     virtual void render();
+    void push_history_entry(f32 width, Vec *pos, u32 color);
     s32 m_1C;
     s32 m_20;
     s32 m_24;
@@ -31,7 +35,5 @@ public:
     f32 m_34;
 };
 LAYOUT_ASSERT(TObjEneMe1Canadin_EffLight_size, sizeof(TObjEneMe1Canadin_EffLight) == 0x38);
-
-extern "C" s32 fade_alpha_step__17TObjEneMe1CanadinFfl(TObjEneMe1Canadin_EffLightPoint *point, f32 scale, s32 step);
 
 #endif

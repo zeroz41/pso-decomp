@@ -4854,7 +4854,6 @@ force_active:
   - canadin_light_width_cutoff
   - canadin_light_width_decay
   - canadin_line_initial_phase_range
-  - canadin_random_scale
   - canadin_setup_param_block
   - cancel_trade_for_member_out_of_range__Fl
   - candidate_players__12TBoss3Volopt
@@ -6138,7 +6137,6 @@ force_active:
   - f256_symbolsetumei_spa_gvp
   - fabs_double__Fd
   - face_target__16TObjEneBm5GibonUFv
-  - fade_alpha_step__17TObjEneMe1CanadinFPvif
   - fade_and_destroy__14TObjWarpStringFPv
   - fade_in_done__10TAdADXlogoFP7TObject
   - fade_out_done__10TAdADXlogoFP7TObject

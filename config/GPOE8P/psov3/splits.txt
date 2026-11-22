@@ -1462,18 +1462,11 @@ pso/enemy/canadin/TObjEneMe1Canadin.cpp:
 	.sdata2     start:0x805D9888 end:0x805D9938
 
 pso/enemy/canadin/CanadinEffects.cpp:
-	.text       start:0x8009F7AC end:0x800A01C0
+	.text       start:0x8009F7AC end:0x800A0320
 	.rodata     start:0x8043A3E8 end:0x8043A468
-	.data       start:0x80490410 end:0x80490458
+	.data       start:0x80490410 end:0x80490470
 	.sdata      start:0x805D29B8 end:0x805D29C8
-	.sdata2     start:0x805D9938 end:0x805D9958
-
-pso/enemy/canadin/TObjEneMe1Canadin_EffLineFade_800A01C0.cpp:
-	.text       start:0x800A01C0 end:0x800A0210
-
-pso/enemy/darkgunner/TObjEneDarkGunner.cpp:
-	.text       start:0x800A0210 end:0x800A0320
-	.data       start:0x80490458 end:0x80490470
+	.sdata2     start:0x805D9938 end:0x805D9954
 
 pso/render/TUnk_80490470.cpp:
 	.text       start:0x800A0320 end:0x800A0654
