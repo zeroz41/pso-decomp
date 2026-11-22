@@ -13,6 +13,8 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/stelth/TObjEneMe3Stelth.h"
+#include "pso/math/AngleUnits.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/stelth/StelthData.h"
@@ -111,46 +113,37 @@ u32 *TObjEneMe3Stelth__material_color_pointers[4];
 
 
 }
-void move_with_wall_slide(u8 *arg0);
+
 extern "C" {
 
 
 
 
-extern void *lbl_80497710[2];
-extern void *lbl_80497718[12];
-extern void *stelth_bml_resource_desc[4];
-extern void *lbl_80497758[2];
-extern void *lbl_80497760[12];
-extern void *me3_stelth_bml_resource_desc[4];
-void *TObjEneMe3Stelth__shared_params[7] = {
-    (void *)0x43610000, (void *)0x0, (void *)0x600, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x0,
-};
+StelthMovementParams TObjEneMe3Stelth__shared_params = { 225.0f, 0.0f, 0x600, { 0, 0, 0, 0 } };
 CollisionBody TObjEneMe3Stelth__collision_body_template = {
     {0.0f, 0.0f, 0.0f}, 8.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f,
 };
-__declspec(section ".data") void *lbl_80497710[2] = {
-    (void *)stelth_model, (void *)0x0,
+__declspec(section ".data") const char *stelth_model_names[2] = {
+    stelth_model, NULL,
 };
-void *lbl_80497718[12] = {
-    (void *)stelth_t_wait_motion, (void *)stelth_apper_motion, (void *)stelth_backstep_motion, (void *)stelth_bareta_motion,
-    (void *)stelth_damage_motion, (void *)stelth_death_motion, (void *)stelth_f_attack_motion, (void *)stelth_sword_motion,
-    (void *)stelth_transform_motion, (void *)stelth_wait_motion, (void *)stelth_walk_motion, (void *)0x0,
+const char *stelth_motion_names[12] = {
+    stelth_t_wait_motion, stelth_apper_motion, stelth_backstep_motion, stelth_bareta_motion,
+    stelth_damage_motion, stelth_death_motion, stelth_f_attack_motion, stelth_sword_motion,
+    stelth_transform_motion, stelth_wait_motion, stelth_walk_motion, NULL,
 };
-void *stelth_bml_resource_desc[4] = {
-    (void *)stelth_bml, (void *)&lbl_80497710, (void *)&lbl_80497718, (void *)0x1000b,
+BmlResourceDescriptor stelth_bml_resource_desc = {
+    stelth_bml, stelth_model_names, stelth_motion_names, 1, 11,
 };
-__declspec(section ".data") void *lbl_80497758[2] = {
-    (void *)stelth_low_model, (void *)0x0,
+__declspec(section ".data") const char *stelth_low_model_names[2] = {
+    stelth_low_model, NULL,
 };
-void *lbl_80497760[12] = {
-    (void *)stelth_t_wait_motion, (void *)stelth_apper_motion, (void *)stelth_backstep_motion, (void *)stelth_bareta_motion,
-    (void *)stelth_damage_motion, (void *)stelth_death_motion, (void *)stelth_f_attack_motion, (void *)stelth_sword_motion,
-    (void *)stelth_transform_motion, (void *)stelth_wait_motion, (void *)stelth_walk_motion, (void *)0x0,
+const char *stelth_low_motion_names[12] = {
+    stelth_t_wait_motion, stelth_apper_motion, stelth_backstep_motion, stelth_bareta_motion,
+    stelth_damage_motion, stelth_death_motion, stelth_f_attack_motion, stelth_sword_motion,
+    stelth_transform_motion, stelth_wait_motion, stelth_walk_motion, NULL,
 };
-void *me3_stelth_bml_resource_desc[4] = {
-    (void *)stelth_low_bml, (void *)&lbl_80497758, (void *)&lbl_80497760, (void *)0x1000b,
+BmlResourceDescriptor me3_stelth_bml_resource_desc = {
+    stelth_low_bml, stelth_low_model_names, stelth_low_motion_names, 1, 11,
 };
 TObjMotionAction TObjEneMe3Stelth__animation_descriptors[13] = {
     {MOTION_MODE_LOOP, 0, 0, 0.5f, ACTION_NO_BLEND_IN},
@@ -175,11 +168,11 @@ TObjMotionAction TObjEneMe3Stelth__animation_descriptors[13] = {
 void TObjEneMe3Stelth::draw_model() {
     this->draw_ginja_motion_model();
 }
-void TObjEneDD_ST::sub_800F5874(s32 arg1) {
-    this->m_11c = (s16) (this->m_11c | arg1);
+void TObjEneDD_ST::sub_800F5874(s32 mask) {
+    this->m_11c = (s16) (this->m_11c | mask);
 }
-void TObjEneDD_ST::sub_800F5864(s32 arg1) {
-    this->m_11c = (s16) (this->m_11c & ~arg1);
+void TObjEneDD_ST::sub_800F5864(s32 mask) {
+    this->m_11c = (s16) (this->m_11c & ~mask);
 }
 void TObjEneMe3Stelth::load_shared_resources() {
     s32 i;
@@ -195,9 +188,9 @@ void TObjEneMe3Stelth::load_shared_resources() {
     lbl_805010E0[1] = 0.0f;
     lbl_805010E0[2] = 0.0f;
     if (is_split_screen() != 0) {
-        TObjEneMe3Stelth__bml_resource = load_enemy_bml_resource((BmlResourceDescriptor *)me3_stelth_bml_resource_desc);
+        TObjEneMe3Stelth__bml_resource = load_enemy_bml_resource(&me3_stelth_bml_resource_desc);
     } else {
-        TObjEneMe3Stelth__bml_resource = load_enemy_bml_resource((BmlResourceDescriptor *)stelth_bml_resource_desc);
+        TObjEneMe3Stelth__bml_resource = load_enemy_bml_resource(&stelth_bml_resource_desc);
     }
     src = (NJS_TEXLIST *)TObjEneMe3Stelth__bml_resource->models->m_c;
     n = src->nbTexture;
@@ -303,12 +296,11 @@ void TObjEneMe3Stelth::free_shared_resources() {
         TObjEneMe3Stelth__bml_resource = NULL;
     }
 }
-void TObjEneMe3Stelth::set_slot_min_clamped_value(s32 arg0, f32 farg0) {
-    f32 speed = farg0;
+void TObjEneMe3Stelth::set_slot_min_clamped_value(s32 index, f32 speed) {
     if (speed < 0.1f) {
         speed = 0.1f;
     }
-    TObjEneMe3Stelth__animation_descriptors[arg0].speed = speed;
+    TObjEneMe3Stelth__animation_descriptors[index].speed = speed;
 }
 TObjEneMe3Stelth::TObjEneMe3Stelth(TObject *parent) : TObjEneDD_ST(parent) {
     m_name = TObjEneMe3Stelth__class_name;
@@ -332,7 +324,7 @@ void TObjEneMe3StelthReal::init_common() {
     v = variant_index;
     reset_hp((u8 *)TObjEneMe3Stelth__base_params_by_variant[v], (u8 *)TObjEneMe3Stelth__attack_params_by_variant[v], (u8 *)TObjEneMe3Stelth__resistance_params_by_variant[v]);
     set_state_flag_4();
-    movementParameters = TObjEneMe3Stelth__shared_params;
+    movementParameters = &TObjEneMe3Stelth__shared_params;
     wall_reach = 10.0f;
     enemy_init_acquire_period(0x1E);
     enemy_init_validate_period(0x1E);
@@ -348,12 +340,12 @@ void TObjEneMe3StelthReal::init_common() {
     state_timer = 0;
     backstep_angle = 0;
     move_speed = 0.0f;
-    m_434 = 0.0f;
-    m_438 = 0.0f;
-    m_43c = 0.0f;
-    m_440 = 0.0f;
-    m_444 = NULL;
-    m_448 = NULL;
+    state_values[0] = 0.0f;
+    state_values[1] = 0.0f;
+    state_values[2] = 0.0f;
+    state_values[3] = 0.0f;
+    owned_objects[0] = NULL;
+    owned_objects[1] = NULL;
     projection_scroll = 0;
     if (stealthed == 1) {
         set_indexed_flags(0, 0x08000000);
@@ -363,13 +355,13 @@ void TObjEneMe3StelthReal::init_common() {
 }
 #pragma pop
 TObjEneMe3Stelth::~TObjEneMe3Stelth() {
-    if (m_444 != NULL) {
-        m_444->queue_destruction();
-        m_444 = NULL;
+    if (owned_objects[0] != NULL) {
+        owned_objects[0]->queue_destruction();
+        owned_objects[0] = NULL;
     }
-    if (m_448 != NULL) {
-        m_448->queue_destruction();
-        m_448 = NULL;
+    if (owned_objects[1] != NULL) {
+        owned_objects[1]->queue_destruction();
+        owned_objects[1] = NULL;
     }
     free_collision_body_parts(this);
 }
@@ -514,17 +506,17 @@ void TObjEneMe3Stelth::attack_and_unequip() {
 }
 void TObjEneMe3Stelth::vfunc_108() {  }
 s32 TObjEneMe3Stelth::check_target_in_range() {
-    f32 temp_f1;
-    s32 var_r31;
+    f32 distance;
+    u8 in_range;
 
-    var_r31 = 0;
+    in_range = 0;
     if (!(behavior_flags & 0x10000)) {
-        temp_f1 = destination_distance;
-        if ((temp_f1 > 100.0f) && (temp_f1 < 150.0f) && (test_body_collision(rotation_y, temp_f1 - 20.0f) == 0)) {
-            var_r31 = 1;
+        distance = destination_distance;
+        if ((distance > 100.0f) && (distance < 150.0f) && (test_body_collision(rotation_y, distance - 20.0f) == 0)) {
+            in_range = 1;
         }
     }
-    return (u8)var_r31;
+    return in_range;
 }
 void TObjEneMe3Stelth::select_next_attack_state() {  }
 s32 TObjEneMe3Stelth::check_active_flag() {
@@ -733,7 +725,7 @@ void TObjEneMe3Stelth::state_fade_in(s32 reason) {
 #pragma push
 #pragma fp_contract on
 void TObjEneMe3Stelth::state_chase(s32 mode) {
-    s32 temp_r0;
+    s32 timer;
     switch (mode) {
     case 4:
         requested_action = 9;
@@ -742,7 +734,7 @@ void TObjEneMe3Stelth::state_chase(s32 mode) {
         behavior_flags &= ~7;
         state_step = 0;
         state_timer = 0;
-        m_434 = 0.0f;
+        state_values[0] = 0.0f;
         break;
     case 3:
         if (update_linked_position(200.0f) != 0) {
@@ -750,9 +742,9 @@ void TObjEneMe3Stelth::state_chase(s32 mode) {
                 transition_enemy_state(0xD);
                 break;
             }
-            temp_r0 = state_timer - 1;
-            state_timer = temp_r0;
-            if ((temp_r0 <= 0) && (check_target_in_range() != 0)) {
+            timer = state_timer - 1;
+            state_timer = timer;
+            if ((timer <= 0) && (check_target_in_range() != 0)) {
                 state_timer = 0x3C;
                 if (random_ratio() <= 0.01f) {
                     transition_enemy_state(7);
@@ -774,8 +766,8 @@ void TObjEneMe3Stelth::state_chase(s32 mode) {
         if (update_linked_position(200.0f) != 0) {
             enemy_copy_target_destination();
             update_velocity();
-            m_434 = (destination_direction.x * sin_table_lookup(rotation_y)) + (destination_direction.z * cos_table_lookup(rotation_y));
-            if (m_434 < cos_table_lookup(0x1000)) {
+            state_values[0] = (destination_direction.x * sin_table_lookup(rotation_y)) + (destination_direction.z * cos_table_lookup(rotation_y));
+            if (state_values[0] < cos_table_lookup(0x1000)) {
                 turn_toward_target_direction(0x500);
                 update_ground_contact();
             }
@@ -862,7 +854,7 @@ void TObjEneMe3Stelth::state_reveal(s32 reason) {
 }
 void TObjEneMe3Stelth::state_appear(s32 reason) {
     f32 node_world_y;
-    f32 temp_f31;
+    f32 node_height;
 
     switch (reason) {
     case 4:
@@ -886,10 +878,10 @@ void TObjEneMe3Stelth::state_appear(s32 reason) {
     case 0:
         switch (state_step) {
         case 0:
-            temp_f31 = get_node_world_y();
+            node_height = get_node_world_y();
             advance_animation();
-            m_434 = get_node_world_y();
-            body_y = body_y + (temp_f31 - m_434);
+            state_values[0] = get_node_world_y();
+            body_y = body_y + (node_height - state_values[0]);
             state_step = 1;
             body_offset_y = body_y - position.y;
             break;
@@ -904,8 +896,8 @@ void TObjEneMe3Stelth::state_appear(s32 reason) {
             }
             body_y = body_y + move_speed;
             node_world_y = get_node_world_y();
-            body_y = body_y - (node_world_y - m_434);
-            m_434 = node_world_y;
+            body_y = body_y - (node_world_y - state_values[0]);
+            state_values[0] = node_world_y;
             if (body_y < position.y) {
                 body_y = position.y;
                 state_step = 2;
@@ -944,7 +936,7 @@ void TObjEneMe3Stelth::state_chase_target(s32 mode) {
         behavior_flags &= ~7;
         destination_distance = 300.0f;
         move_speed = TObjEneMe3Stelth__behavior_params_by_variant[variant_index]->walk_speed;
-        m_434 = 0.0f;
+        state_values[0] = 0.0f;
         return;
     case 3:
         if (current_target == NULL) {
@@ -952,7 +944,7 @@ void TObjEneMe3Stelth::state_chase_target(s32 mode) {
             transition_enemy_state(0xD);
             return;
         }
-        if (is_in_sword_range(m_434) != 0) {
+        if (is_in_sword_range(state_values[0]) != 0) {
             transition_enemy_state(8);
             return;
         }
@@ -967,8 +959,8 @@ void TObjEneMe3Stelth::state_chase_target(s32 mode) {
             enemy_copy_target_destination();
             update_velocity();
             spawn_footstep_effects();
-            m_434 = (destination_direction.x * sin_table_lookup(rotation_y)) + (destination_direction.z * cos_table_lookup(rotation_y));
-            if (m_434 < cos_table_lookup(0x1000)) {
+            state_values[0] = (destination_direction.x * sin_table_lookup(rotation_y)) + (destination_direction.z * cos_table_lookup(rotation_y));
+            if (state_values[0] < cos_table_lookup(0x1000)) {
                 turn_toward_target_direction(0x500);
                 update_ground_contact();
             } else {
@@ -1023,7 +1015,7 @@ void TObjEneMe3Stelth::state_f_attack(s32 reason) {
             if (((TObjEneEpsilon *)this)->update_death_check() != 0) {
                 this->enemy_copy_target_destination();
                 this->update_velocity();
-                ang = (s32)(10430.38043493439 * atan2_float(this->destination_direction.x, this->destination_direction.z));
+                ang = (s32)(RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z));
             } else {
                 ang = this->rotation_y;
             }
@@ -1052,7 +1044,7 @@ void TObjEneMe3Stelth::state_f_attack(s32 reason) {
                     if (csnVecterUnder(&v, 0x15) != 0) {
                         if (this->room == ((TScene *)(&v))->find_section_at_position()) {
                             this->state_step = 3;
-                            this->m_434 = (this->destination_distance - 20.0f) / 12.857143f;
+                            this->state_values[0] = (this->destination_distance - 20.0f) / 12.857143f;
                             this->set_invulnerable();
                             play_sound_effect(0x3A835, (u8 *)&this->position, 0, 0);
                         } else {
@@ -1073,7 +1065,7 @@ void TObjEneMe3Stelth::state_f_attack(s32 reason) {
                 this->clear_invulnerable();
                 this->play_hit_effect();
             }
-            this->move_with_wall_slide_commit(this->destination_direction.x, this->destination_direction.z, this->m_434);
+            this->move_with_wall_slide_commit(this->destination_direction.x, this->destination_direction.z, this->state_values[0]);
             this->check_collisions();
             break;
         case 4:
@@ -1087,8 +1079,8 @@ void TObjEneMe3Stelth::state_f_attack(s32 reason) {
                 }
                 play_sound_effect(0x3A838, (u8 *)&this->position, 0, 0);
             }
-            this->m_434 *= 0.85f;
-            this->move_with_wall_slide_on_ground(this->destination_direction.x, this->destination_direction.z, this->m_434);
+            this->state_values[0] *= 0.85f;
+            this->move_with_wall_slide_on_ground(this->destination_direction.x, this->destination_direction.z, this->state_values[0]);
             this->check_collisions();
             break;
         }
@@ -1116,8 +1108,8 @@ void TObjEneMe3Stelth::state_f_attack(s32 reason) {
 #pragma push
 #pragma fp_contract on
 void TObjEneMe3Stelth::state_sword(s32 reason) {
-    f32 temp_f1;
-    s32 var_r4;
+    s32 target_angle;
+    f32 cur_frame;
     switch (reason) {
     case 4:
         this->requested_action = 7;
@@ -1143,18 +1135,18 @@ void TObjEneMe3Stelth::state_sword(s32 reason) {
                 if (((TObjEneEpsilon *)this)->update_death_check() != 0) {
                     this->enemy_copy_target_destination();
                     this->update_velocity();
-                    var_r4 = (s32) (10430.38043493439 * atan2_float(this->destination_direction.x, this->destination_direction.z));
+                    target_angle = (s32) (RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z));
                 } else {
-                    var_r4 = this->rotation_y;
+                    target_angle = this->rotation_y;
                 }
-                this->rotation_y = approach_angle_limited(this->rotation_y, var_r4, 0x300);
+                this->rotation_y = approach_angle_limited(this->rotation_y, target_angle, 0x300);
                 this->destination_direction.x = sin_table_lookup(this->rotation_y);
                 this->destination_direction.z = cos_table_lookup(this->rotation_y);
             }
             this->vfunc_112();
             spawn_footstep_effects();
-            temp_f1 = this->frame;
-            if ((temp_f1 >= 0.0f) && (temp_f1 <= 5.0f)) {
+            cur_frame = this->frame;
+            if ((cur_frame >= 0.0f) && (cur_frame <= 5.0f)) {
                 ((TObjEneDD *)this)->move_to_shot_position(this->destination_direction.x, this->destination_direction.z, TObjEneMe3Stelth__behavior_params_by_variant[this->variant_index]->sword_lunge_speed);
             } else {
                 this->update_ground_contact();
@@ -1191,7 +1183,7 @@ void TObjEneMe3Stelth::state_backstep(s32 reason) {
         if (this->acquire_target(200.0f) != 0) {
             this->enemy_copy_target_destination();
             this->update_velocity();
-            this->backstep_angle = (s32) (10430.38043493439 * atan2_float(this->destination_direction.x, this->destination_direction.z));
+            this->backstep_angle = (s32) (RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z));
             if (this->test_body_collision(this->backstep_angle + 0x8000, 80.0f) == 0) {
                 this->destination_direction.x *= -1.0f;
                 this->destination_direction.z *= -1.0f;
@@ -1931,7 +1923,6 @@ void TObjEneMe3Stelth::state_stealth_off(s32 reason) {
 void TObjEneMe3Stelth::state_cast_barta(s32 reason) {
     Vec d;
     Vec out;
-    s32 c[3];
     s32 r;
     switch (reason) {
     case 4:
@@ -1993,10 +1984,8 @@ void TObjEneMe3Stelth::state_cast_barta(s32 reason) {
                 clear_motion_packed_rotation();
                 pop_matrix();
                 push_matrix_from(anim_model_matrix_array[3]);
-                c[0] = lbl_8043D680[0];
-                c[1] = lbl_8043D680[1];
-                c[2] = lbl_8043D680[2];
-                matrix_mult_vec(0, (Vec *)c, &out);
+                Vec offset = stelth_foie_origin_offset;
+                matrix_mult_vec(0, &offset, &out);
                 pop_matrix();
                 if (this->current_target != NULL) {
                     VecCopy(&d, &this->destination);

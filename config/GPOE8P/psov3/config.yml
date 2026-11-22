@@ -7813,10 +7813,10 @@ force_active:
   - lbl_80496C68
   - lbl_80496C90
   - lbl_80496CB8
-  - lbl_80497710
-  - lbl_80497718
-  - lbl_80497758
-  - lbl_80497760
+  - stelth_model_names
+  - stelth_motion_names
+  - stelth_low_model_names
+  - stelth_low_motion_names
   - lbl_8049C5E0
   - lbl_8049C61C
   - hair_bone_rotation_bone_list_00

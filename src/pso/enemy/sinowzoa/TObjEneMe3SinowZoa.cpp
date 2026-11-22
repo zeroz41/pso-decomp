@@ -59,6 +59,10 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/render/render_util.h"
 #include "pso/math/AngleUnits.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/npc/TObjNpcEnemy_803D8090.h"
+#include "pso/camera/TCameraCtrl_803D6538.h"
+
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -92,20 +96,12 @@ BmlResource * TObjEneMe3SinowZoa__bml_resource;
 s32 TObjEneMe3SinowZoa__render_node_index;
 TUnk_8048FA00 * TObjEneMe3SinowZoa__breakup_model;
 
-void print_float_padded(s32 arg0, s32 prec, f32 val);
-void move_with_wall_slide(u8 *arg0);
 
 extern "C" {
-u16 get_entity_id(TObjBase *object);
-f32 fabs_float(f32);
-f32 atan2_float(f32, f32);
-BOOL is_split_screen(void);
-}
-void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
-extern "C" {
+
 void create__9TTecJelinFllll(void *, void *, void *, int);
 }
-void compose_motion_node_matrix(void *arg0);
+
 
 
 TObjEneMe3SinowZoaMoveParams TObjEneMe3SinowZoa_init_params = { 225.0f, 0.0f, 0x600, { 0, 0, 0, 0 } };
@@ -261,11 +257,11 @@ void TObjEneMe3SinowZoa::free_resources() {
     }
 }
 
-void TObjEneMe3SinowZoa::set_entry_value_clamped(s32 arg0, f32 farg0) {
-    if (farg0 < 0.1f) {
-        farg0 = 0.1f;
+void TObjEneMe3SinowZoa::set_entry_value_clamped(s32 index, f32 speed) {
+    if (speed < 0.1f) {
+        speed = 0.1f;
     }
-    TObjEneMe3SinowZoa__animation_descriptors[arg0].speed = farg0;
+    TObjEneMe3SinowZoa__animation_descriptors[index].speed = speed;
 }
 
 }
@@ -307,12 +303,12 @@ void TObjEneMe3SinowZoaReal::init_enemy() {
     this->state_timer = 0;
     this->backstep_angle = 0;
     this->move_speed = 0.0f;
-    this->m_444 = 0.0f;
-    this->m_448 = 0.0f;
-    this->m_44c = 0.0f;
-    this->m_450 = 0.0f;
-    unk_454 = NULL;
-    unk_458 = NULL;
+    this->state_values[0] = 0.0f;
+    this->state_values[1] = 0.0f;
+    this->state_values[2] = 0.0f;
+    this->state_values[3] = 0.0f;
+    owned_objects[0] = NULL;
+    owned_objects[1] = NULL;
     if (this->stealthed == 1) {
         set_indexed_flags(0, 0x08000000);
     } else {
@@ -321,13 +317,13 @@ void TObjEneMe3SinowZoaReal::init_enemy() {
 }
 
 TObjEneMe3SinowZoa::~TObjEneMe3SinowZoa() {
-    if (unk_454 != NULL) {
-        unk_454->queue_destruction();
-        unk_454 = NULL;
+    if (owned_objects[0] != NULL) {
+        owned_objects[0]->queue_destruction();
+        owned_objects[0] = NULL;
     }
-    if (unk_458 != NULL) {
-        unk_458->queue_destruction();
-        unk_458 = NULL;
+    if (owned_objects[1] != NULL) {
+        owned_objects[1]->queue_destruction();
+        owned_objects[1] = NULL;
     }
     free_collision_body_parts(this);
 }
@@ -794,7 +790,7 @@ void TObjEneMe3SinowZoa::state_chase(s32 mode) {
         this->behavior_flags &= 0xFFEFFFF8;
         this->state_step = 0;
         this->state_timer = 0;
-        this->m_444 = 0.0f;
+        this->state_values[0] = 0.0f;
         return;
     case 3:
         if (this->acquire_target(200.0f) != 0) {
@@ -824,8 +820,8 @@ void TObjEneMe3SinowZoa::state_chase(s32 mode) {
         if (this->update_linked_position(200.0f) != 0) {
             this->enemy_copy_target_destination();
             this->update_velocity();
-            this->m_444 = (this->destination_direction.x * sin_table_lookup(this->rotation_y)) + (this->destination_direction.z * cos_table_lookup(this->rotation_y));
-            if (this->m_444 < cos_table_lookup(0x1000)) {
+            this->state_values[0] = (this->destination_direction.x * sin_table_lookup(this->rotation_y)) + (this->destination_direction.z * cos_table_lookup(this->rotation_y));
+            if (this->state_values[0] < cos_table_lookup(0x1000)) {
                 this->turn_toward_target_direction(0x500);
                 this->update_ground_contact();
             }
@@ -941,8 +937,8 @@ void TObjEneMe3SinowZoa::state_appear(s32 mode) {
         case 0:
             node_height = this->get_node_height();
             this->advance_animation();
-            this->m_444 = this->get_node_height();
-            this->body_y = this->body_y + (node_height - this->m_444);
+            this->state_values[0] = this->get_node_height();
+            this->body_y = this->body_y + (node_height - this->state_values[0]);
             this->state_step = 1;
             this->body_offset_y = this->body_y - this->position.y;
             break;
@@ -957,8 +953,8 @@ void TObjEneMe3SinowZoa::state_appear(s32 mode) {
             }
             this->body_y = this->body_y + this->move_speed;
             height = this->get_node_height();
-            this->body_y = this->body_y - (height - this->m_444);
-            this->m_444 = height;
+            this->body_y = this->body_y - (height - this->state_values[0]);
+            this->state_values[0] = height;
             if (this->body_y < this->position.y) {
                 this->body_y = this->position.y;
                 this->state_step = 2;
@@ -1000,7 +996,7 @@ void TObjEneMe3SinowZoa::state_chase_target(s32 mode) {
         this->behavior_flags &= 0xFFEFFFF8;
         this->destination_distance = (f32) 300.0f;
         this->move_speed = (f32) TObjEneMe3SinowZoa__kind_param_tbls[this->kind_index]->walk_speed;
-        this->m_444 = 0.0f;
+        this->state_values[0] = 0.0f;
         return;
     case 3:
         if (this->current_target == NULL) {
@@ -1008,7 +1004,7 @@ void TObjEneMe3SinowZoa::state_chase_target(s32 mode) {
             this->transition_enemy_state(0xD);
             return;
         }
-        if (is_in_sword_range(m_444) != 0) {
+        if (is_in_sword_range(state_values[0]) != 0) {
             this->transition_enemy_state(8);
             return;
         }
@@ -1023,8 +1019,8 @@ void TObjEneMe3SinowZoa::state_chase_target(s32 mode) {
             this->enemy_copy_target_destination();
             this->update_velocity();
             spawn_footstep_effects();
-            this->m_444 = (this->destination_direction.x * sin_table_lookup(this->rotation_y)) + (this->destination_direction.z * cos_table_lookup(this->rotation_y));
-            if (this->m_444 < cos_table_lookup(0x1000)) {
+            this->state_values[0] = (this->destination_direction.x * sin_table_lookup(this->rotation_y)) + (this->destination_direction.z * cos_table_lookup(this->rotation_y));
+            if (this->state_values[0] < cos_table_lookup(0x1000)) {
                 this->turn_toward_target_direction(0x500);
                 this->update_ground_contact();
             } else {
@@ -1113,7 +1109,7 @@ void TObjEneMe3SinowZoa::state_f_attack(s32 mode) {
                             } else {
                                 this->state_step = 4;
                             }
-                            this->m_444 = (this->destination_distance - 20.0f) / 12.857143f;
+                            this->state_values[0] = (this->destination_distance - 20.0f) / 12.857143f;
                             this->set_invulnerable();
                             play_sound_effect(0x4003A82C, &this->position, 0, 0);
                         } else {
@@ -1143,7 +1139,7 @@ void TObjEneMe3SinowZoa::state_f_attack(s32 mode) {
                 play_sound_effect(0x4003A82A, &this->position, 0, 0);
                 this->check_and_notify();
             }
-            this->move_with_wall_slide_commit(this->destination_direction.x, this->destination_direction.z, this->m_444);
+            this->move_with_wall_slide_commit(this->destination_direction.x, this->destination_direction.z, this->state_values[0]);
             break;
         case 5:
             if (this->frame > 15.0f && this->fade.decay_value_toward_floor() != 0) {
@@ -1160,8 +1156,8 @@ void TObjEneMe3SinowZoa::state_f_attack(s32 mode) {
                     this->current_target->apply_knockback_from_attacker((u8 *)this, 3.0f);
                 }
             }
-            this->m_444 *= 0.85f;
-            this->move_with_wall_slide_on_ground(this->destination_direction.x, this->destination_direction.z, this->m_444);
+            this->state_values[0] *= 0.85f;
+            this->move_with_wall_slide_on_ground(this->destination_direction.x, this->destination_direction.z, this->state_values[0]);
             this->check_collisions();
             break;
         }
@@ -2083,29 +2079,29 @@ s32 TObjEneMe3SinowZoa::check_move_collision(const Vec *pos) {
     CollisionBody *body;
     u32 r;
     u32 saved;
-    Vec sp8;
+    Vec saved_position;
     body = this->bodies;
     saved = body->flags;
     body->flags = 0x9D01U;
-    VecCopy(&sp8, &this->position);
+    VecCopy(&saved_position, &this->position);
     VecCopy(&this->position, pos);
     TObjPlayer::init_all_slots();
     this->check_collisions();
     this->update_enemy_collision_flags();
     if (body->flags & 0x80000) {
         if (get_valid_target_player(get_entity_id(this->current_target)) == 0) {
-            VecCopy(&this->position, &sp8);
+            VecCopy(&this->position, &saved_position);
             TObjPlayer::init_all_slots();
             return 1;
         }
     }
     if ((body->flags & 0x100000) && get_valid_target_player(this->entity_id) == 0) {
-        VecCopy(&this->position, &sp8);
+        VecCopy(&this->position, &saved_position);
         TObjPlayer::init_all_slots();
         return 1;
     }
     r = (body->flags & 0x200000) != 0;
-    VecCopy(&this->position, &sp8);
+    VecCopy(&this->position, &saved_position);
     TObjPlayer::init_all_slots();
     copy_collision_body(body, &sinow_zoa_collision_parts);
     body->flags = saved;

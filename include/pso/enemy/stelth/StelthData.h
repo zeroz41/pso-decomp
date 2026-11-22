@@ -43,7 +43,7 @@ extern const NJS_ARGB stelth_render_color_a;
 extern const NJS_ARGB stelth_render_color_b;
 extern const NJS_ARGB me3_stelth_render_color;
 extern const NJS_ARGB me3_stelth_secondary_render_color;
-extern const s32 lbl_8043D680[3];
+extern const Vec stelth_foie_origin_offset;
 extern const char stelth_debug_stelth_enable[];
 extern const char stelth_debug_stelth_disable[];
 extern const char stelth_debug_appear_ground[];

@@ -9,7 +9,7 @@
 // One variant's row of the parameter table TLobby hands load_shared_resources.
 struct StelthBehaviorParams {
     f32 walk_speed;          // state_chase_target's move speed (walk motion)
-    u8 unk_04[0x4];
+    u8 pad_04[0x4];
     f32 sword_lunge_speed;   // state_sword moves this far a frame over frames 0..5
     f32 sword_motion_speed;  // animation descriptor 7 (sword) speed
     f32 damage_motion_speed; // animation descriptor 4 (damage) speed
@@ -20,11 +20,13 @@ struct StelthBehaviorParams {
     s32 attack_tech_level;   // Rafoie and Gifoie
 };
 
-// The record movementParameters points at.
+// The record movementParameters points at (TObjEneMe3Stelth__shared_params); the
+// TObjEneMe3SinowZoaMoveParams layout.
 struct StelthMovementParams {
-    s32 unk_0;
-    f32 speed;
-    s32 turn;
+    f32 radius;      // target search radius the shared enemy targeting reads
+    f32 speed;       // enemy_set_heading_velocity's speed
+    s32 turn;        // turn_toward_direction's step
+    s32 pad_0C[4];
 };
 
 struct TObjEneMe3Stelth : public TObjEneDD_ST {
@@ -82,7 +84,7 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     s32 attack_count;      // attacks since the last wait or backstep; at 2 select_next_attack_state backsteps
     s32 texture_variant;   // the set data variant; 1 and up use the alternate texture list
     s16 saved_evp;         // evp at construction
-    u8 unk_3F6[0x2];
+    u8 pad_3f6[0x2];
     Vec hand_position;     // the target player's hand joint when its weapon is knocked off; the particle spot
     TUnk_80494938 fade;
     s32 projection_scroll; // render adds 0x222 a frame; stelth_projection_texture_handle
@@ -90,18 +92,17 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     s32 state_timer;
     s32 backstep_angle;    // state_backstep faces this (towards the target) while it backs away
     f32 move_speed;        // the current state's move (or fall) speed
-    f32 m_434;
-    f32 m_438;
-    f32 m_43c;
-    f32 m_440;
-    TObject *m_444;
-    TObject *m_448;
+    // Per-state scratch values; only [0] is used: the facing cosine towards the target
+    // (state_chase, state_chase_target, then is_in_sword_range), the last node height
+    // (state_appear) and the lunge speed (state_sword).
+    f32 state_values[4];
+    TObject *owned_objects[2]; // never set here; the dtor queues them for destruction
     s32 try_spawn_ground_effect(const Vec *origin);
     void play_hit_effect();
     void spawn_ground_effect_on_frame_23();
     static void add_instance(NJS_OBJECT *node);
     void update_distance_state();
-    static void set_slot_min_clamped_value(s32 arg0, f32 farg0);
+    static void set_slot_min_clamped_value(s32 index, f32 speed);
     static void free_shared_resources();
     void *create_real();
     static void load_shared_resources();
