@@ -82,7 +82,7 @@ void reset_camera_to_local_player();
 void set_locked_camera_override(const Vec *position, u16 client_id);
 void set_fixed_camera_override(const Vec *position, const Vec *target);
 // Turns the follow camera back behind its player while it is the active controller
-// (the quest cam_adj opcode).
+// (the quest cam_adj opcode; inferred name).
 void request_follow_camera_recenter();
 
 void end_conversation_camera();

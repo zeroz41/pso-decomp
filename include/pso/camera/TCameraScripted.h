@@ -40,7 +40,7 @@ extern CameraBankList camera_path_bank_table[36];
 extern CameraBank camera_banks[8];
 
 // The floor resource callbacks of the camera banks: load the current floor area's
-// bank files, and free them.
+// bank files, and free them (free_camera_banks: inferred name).
 void load_camera_banks();
 void free_camera_banks();
 
