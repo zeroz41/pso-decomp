@@ -1325,8 +1325,6 @@ u16 TObjEneRecon__sub_8031D878(void *arg0) {
 
 }
 
-struct Hit_8031D898 { u16 id; u8 pad[6]; };
-
 struct Recon_8031D898 {
     u8 pad0[0x38C];
     u16 target;
@@ -1336,8 +1334,6 @@ struct Recon_8031D898 {
     s32 f470;
     s32 f474;
 };
-
-struct Hit_8031D994 { u16 id; u8 pad[6]; };
 
 struct Recon_8031D994 {
     u8 pad0[0x38C];
@@ -1352,10 +1348,9 @@ struct Recon_8031D994 {
 
 extern "C" {
 f32 fabs_float(f32);
-s32 collect_enemy_target_candidates(void *, void *, f32);
 
 void TObjEneRecon::retarget() {
-    Hit_8031D898 hits[5];
+    TargetCandidate hits[5];
     void *p;
     s32 n;
     u16 id;
@@ -1385,7 +1380,7 @@ void TObjEneRecon::retarget() {
 }
 
 void TObjEneRecon::select_next_target() {
-    Hit_8031D994 hits[5];
+    TargetCandidate hits[5];
     void *p;
     s32 n;
     u16 id;

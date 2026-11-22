@@ -162,12 +162,9 @@ struct Part_800BAAE4 { Vec a; u8 pad[0x10]; Vec b; u8 pad2[4]; };
 struct Obj_800BAAE4 { u8 pad[0x38]; Vec pos; u8 pad2[0x1c]; s32 angle; u8 pad3[0x40]; Part_800BAAE4 *parts; };
 struct Part_800BA9BC { Vec a; u8 pad[0x10]; Vec b; u8 pad2[4]; };
 struct Obj_800BA9BC { u8 pad[0x38]; Vec pos; u8 pad2[0x1c]; s32 angle; u8 pad3[0x40]; Part_800BA9BC *parts; };
-struct Col_800BAA2C { u8 pad0[0x1C]; Vec pos; u8 pad28[4]; };
-struct Obj_800BAA2C { u8 pad0[0x38]; f32 x; f32 y; f32 z; u8 pad44[0x60 - 0x44]; s32 rot; u8 pad64[0xA4 - 0x64]; Col_800BAA2C *cols; s32 count; };
 extern "C" {
 int matrix_mult_vec(void *, void *, void *);
 void set_part_position__9TObjEneDDFPvPvi(Obj_800BA9BC *self, Vec *v, s32 i);
-void update_local_colliders_from_world(Obj_800BAA2C *self, Vec *arg1);
 }
 
 
@@ -293,10 +290,8 @@ s32 VecCopy__FP3VecPC3Vec(void *, void *, s32);
 
 
 
-struct Ent_800BB484 { s16 id; f32 dist; };
 extern "C" {
-struct EnemyTargetCandidateTable { s32 value; u8 remaining[0x1C]; };
-EnemyTargetCandidateTable enemy_target_candidate_table;
+TargetCandidate enemy_target_candidate_table[4];
 typedef struct Ent_800BB388 {
     u8 pad0[0x30];
     s32 flags30;
@@ -306,7 +301,6 @@ typedef struct Ent_800BB388 {
 }
 Ent_800BB388;
 u16 enemy_nearest_visible_enemy_sq(Ent_800BB388 *self, f32 range);
-s32 collect_enemy_target_candidates(saddr self, Ent_800BB484 *out, f32 range);
 }
 
 
@@ -659,13 +653,16 @@ u16 enemy_find_nearest_player_in_range(u8 *self, f32 range) {
     return enemy_nearest_visible_player_sq(self, range * range);
 }
 
-void TBoss8Dragon__sub_800BB650(void* p, void* q) { *(u16*)((char*)p + 0x0) = *(u16*)((char*)q + 0x0); *(f32*)((char*)p + 0x4) = *(f32*)((char*)q + 0x4); }
+void TBoss8Dragon__sub_800BB650(TargetCandidate *dst, TargetCandidate *src) {
+    dst->id = src->id;
+    dst->dist = src->dist;
+}
 
-s32 collect_enemy_target_candidates(saddr self, Ent_800BB484 *out, f32 range) {
+s32 collect_enemy_target_candidates(TObjEneDD *self, TargetCandidate *out, f32 range) {
     s32 n;
     s32 cnt;
-    Ent_800BB484 tmp;
-    u8 *p;
+    TargetCandidate tmp;
+    TObjPlayer *p;
     s32 mi;
     s32 j;
     f32 mx;
@@ -675,9 +672,9 @@ s32 collect_enemy_target_candidates(saddr self, Ent_800BB484 *out, f32 range) {
     cnt = TLobby::get_game_mode();
     if (range > 0.0f) {
         for (s32 i = 0; i < cnt; i++) {
-            p = ((u8 *)TObjPlayer::get_player_data(i));
-            if (((TObjBase *)p)->is_alive() != 0) {
-                d = horizontal_distance_squared((const Vec *)(self + 0x38), (const Vec *)(p + 0x38));
+            p = TObjPlayer::get_player_data(i);
+            if (p->is_alive() != 0) {
+                d = horizontal_distance_squared(&self->position, &p->position);
                 if (d < range) {
                     out[n].id = get_entity_id(p);
                     out[n].dist = d;
@@ -687,9 +684,9 @@ s32 collect_enemy_target_candidates(saddr self, Ent_800BB484 *out, f32 range) {
         }
     } else {
         for (s32 i = 0; i < cnt; i++) {
-            p = ((u8 *)TObjPlayer::get_player_data(i));
-            if (((TObjBase *)p)->is_alive() != 0) {
-                d = horizontal_distance_squared((const Vec *)(self + 0x38), (const Vec *)(p + 0x38));
+            p = TObjPlayer::get_player_data(i);
+            if (p->is_alive() != 0) {
+                d = horizontal_distance_squared(&self->position, &p->position);
                 out[n].id = get_entity_id(p);
                 out[n].dist = d;
                 n++;
@@ -717,8 +714,8 @@ s32 collect_enemy_target_candidates(saddr self, Ent_800BB484 *out, f32 range) {
     return n;
 }
 
-void TObjEneDD::collect_target_candidates(saddr arg0, f32 range) {
-    collect_enemy_target_candidates(arg0, (Ent_800BB484 *)(&enemy_target_candidate_table.value), range);
+s32 TObjEneDD::collect_target_candidates(TObjEneDD *actor, f32 range) {
+    return collect_enemy_target_candidates(actor, enemy_target_candidate_table, range);
 }
 
 u16 enemy_nearest_visible_enemy_sq(Ent_800BB388 *self, f32 range) {
@@ -987,16 +984,16 @@ void TObjEneDD::set_part_local_pos(void *v, s32 i) {
     rotate_xz_pair_by_angle(&p->x, &p->z, -((Obj_800BAAE4 *)this)->angle);
 }
 
-void update_local_colliders_from_world(Obj_800BAA2C *self, Vec *arg1) {
+void update_local_colliders_from_world(TObjEneDD *self, Vec *world_points) {
     s32 i;
     push_matrix();
     set_matrix_identity(0);
-    rotate_matrix_y(NULL, -self->rot);
-    translate_matrix(0, -self->x, -self->y, -self->z);
-    for (i = 0; i < self->count; i++) {
-        VecCopy((Vec *)((Vec *)(&self->cols[i].pos)), (const Vec *)((const Vec *)(arg1)));
-        matrix_mult_vec(0, arg1, &self->cols[i]);
-        arg1++;
+    rotate_matrix_y(NULL, -self->rotation_y);
+    translate_matrix(0, -self->position.x, -self->position.y, -self->position.z);
+    for (i = 0; i < self->body_count; i++) {
+        VecCopy(&self->bodies[i].center, world_points);
+        matrix_mult_vec(0, world_points, &self->bodies[i]);
+        world_points++;
     }
     pop_matrix();
 }

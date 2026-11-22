@@ -121,13 +121,6 @@ s32 post_translate_matrix(void *);
 s16 get_entity_id(void *);
 s32 set_part_position__9TObjEneDDFPvPvi(void *, int, int);
 
-// One entry collect_enemy_target_candidates fills: an entity id and its horizontal squared distance
-// (TObjEneDD.cpp calls the same record Ent_800BB484).
-struct TargetCandidate {
-    u16 id;
-    f32 dist;
-};
-
 f32 newton_sqrtf(f32);
 
 void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
@@ -135,7 +128,6 @@ extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
-s32 collect_enemy_target_candidates(void *, TargetCandidate *, f32);
 
 void TBoss3Volopt__sub_800D8D88(saddr);
 

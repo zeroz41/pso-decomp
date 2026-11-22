@@ -725,7 +725,6 @@ s32 TBoss7Joint_get_shell_max_hp(void);
 extern "C" {
 
 
-s32 update_local_colliders_from_world(void *, void *);
 #pragma pop
 
 

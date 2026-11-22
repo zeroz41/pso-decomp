@@ -33,12 +33,6 @@ struct Bm3FlyAnimationBinding {
     u16 unknown_0E;
 };
 
-// One entry collect_enemy_target_candidates fills in.
-struct EnemyTargetCandidate {
-    u16 id;
-    f32 dist;
-};
-
 struct TObjEneBm3Fly : public TObjEneDD_ST {
     TObjEneBm3Fly(TObject *parent, TObjEneBm3FlyNest *nest, s32 entity_id, s32 set_index, const Vec *position, const Vec *arg6);
     virtual ~TObjEneBm3Fly();

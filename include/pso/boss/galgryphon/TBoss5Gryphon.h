@@ -87,7 +87,7 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     u8 _pad4C8[0x18];
     u32 m_4e0;
     s32 m_4e4;
-    u8 _pad4E8[0x78];
+    Vec body_points[10];  // update_local_colliders_from_world turns them into body offsets
     void* m_560;
     u8 _pad564[0x8];
     void* m_56c;

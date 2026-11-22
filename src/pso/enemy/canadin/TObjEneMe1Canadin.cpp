@@ -203,13 +203,10 @@ struct CanadinLeaderCall : CanadinLeaderCallBase {
     virtual s32 m114(TObjChara *player);
 };
 
-struct Entry_8009E860 { u16 id; u8 pad2[2]; f32 dist; };
-
 u16 get_entity_id(void *);
 f32 newton_sqrtf(f32);
 int select_and_apply_target__12TObjEneDD_STFf(void*);
 void set_part_position__9TObjEneDDFPvPvi(void *, s32, s32);
-s32 collect_enemy_target_candidates(void *, Entry_8009E860 *);
 void TBoss3Volopt__sub_800D8D88(saddr position);
 s32 trigger_dell_biter_events__10TObjPlayerFv(void *, f32);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
@@ -625,14 +622,14 @@ void TObjEneMe1Canadin::fn_8009E930() {
 }
 s32 TObjEneMe1Canadin::fn_8009E860(f32 *out, f32 squared_range) {
     TObjEneMe1Canadin *self = this;
-    Entry_8009E860 list[5];
+    TargetCandidate list[5];
     s32 found;
     s32 count;
     TObjChara *player;
     s32 i;
     found = 0;
     *out = -1.0f;
-    count = collect_enemy_target_candidates(self, list);
+    count = collect_enemy_target_candidates(self, list, squared_range);
     for (i = 0; i < count; i++) {
         player = get_player_by_client_id(list[i].id);
         if (player != self->current_target) {

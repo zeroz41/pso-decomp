@@ -55,7 +55,6 @@ extern const f32 lbl_805D9E80;
 s32 is_vec_xz_cross_negative(void *, void *);
 void TObjEneBm3Fly__sub_800B0F70(TObjEneBm3Fly *self, s32 msg);
 f32 fabs_float(f32);
-s32 collect_enemy_target_candidates(void *, EnemyTargetCandidate *, f32);
 u16 get_entity_id(void *);
 void TObjEneBm3Fly__sub_800B0B20(TObjEneBm3Fly *ene_bm3_fly, s32 msg);
 void free_collision_body_parts(void *);
@@ -399,7 +398,7 @@ s32 TObjEneBm3Fly::can_attack_target() {
 }
 
 void TObjEneBm3Fly::choose_attack() {
-    EnemyTargetCandidate players[4];
+    TargetCandidate players[4];
     TObjEneBm3FlyNest *nest;
     s32 count;
     u16 id;

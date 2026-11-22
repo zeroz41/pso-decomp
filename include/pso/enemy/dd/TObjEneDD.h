@@ -88,7 +88,8 @@ struct TObjEneDD : public TObjEnemy {
     void move_clamped_on_ground(f32 dx, f32 dz, f32 dist);
     void move_with_wall_slide_on_ground(f32 dx, f32 dz, f32 dist);
     void move_to_shot_position(f32 dx, f32 dz, f32 farg2);
-    static void collect_target_candidates(saddr arg0, f32 range);
+    // Fills enemy_target_candidate_table for actor; returns how many it found.
+    static s32 collect_target_candidates(TObjEneDD *actor, f32 range);
     static void create_instance();
     static int get_enemy_count();
     void handle_state(s32 arg1);
@@ -107,7 +108,21 @@ struct TObjEneDD : public TObjEnemy {
     s32 active_flags;          // bit 0 set by TObjEneDD_ST::set_active
 };
 
+// One entry collect_enemy_target_candidates fills: a player's entity id and
+// its horizontal squared distance from the actor.
+struct TargetCandidate {
+    u16 id;
+    f32 dist;
+};
+
 extern "C" {
+extern TargetCandidate enemy_target_candidate_table[4];
+// Copies world points into the actor's collision body centers and stores
+// them, moved into the actor's frame, in the bodies' offsets.
+void update_local_colliders_from_world(TObjEneDD *self, Vec *world_points);
+// The living players within range (squared, all when range <= 0) of self,
+// nearest first; returns how many it wrote to out.
+s32 collect_enemy_target_candidates(TObjEneDD *self, TargetCandidate *out, f32 range);
 void forward_split_screen_view_matrix();
 void forward_transform_to_view(const Vec *in, Vec *out);
 s32 is_target_unobstructed_from(TObjEneDD *self, TObjChara *target);
@@ -122,7 +137,7 @@ void TObjEneDD__sub_800BA438(TObjChara *attacker, TObjChara *target);
 void TObjEneDD__sub_800BA5A4(void *p, void *a1);
 int is_target_android(void *p);
 int is_target_ranger(void *p);
-void TBoss8Dragon__sub_800BB650(void *p, void *q);
+void TBoss8Dragon__sub_800BB650(TargetCandidate *dst, TargetCandidate *src);
 void TBoss8Dragon__sub_800BB7D4(void *self, int id);
 u8 *TObjEneEpsilon__sub_800B92AC(TObjEneDD_ST *self, s32 arg1, f32 farg0);
 u8 *TObjEneEpsilon__sub_800B92F8(TObjEneDD_ST *self, s32 arg1, f32 farg0);

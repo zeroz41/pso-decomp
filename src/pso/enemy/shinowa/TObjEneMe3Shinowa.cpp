@@ -75,11 +75,8 @@ SampledMotionPoints * TObjEneMe3ShinowaMirage__data_805D52A4;
 SampledMotionPoints * TObjEneMe3ShinowaMirage__data_805D52A8;
 SampledMotionPoints * TObjEneMe3ShinowaMirage__data_805D52AC;
 void TObjEneMe3ShinowaMirage__sub_800E5F64(TObjEneMe3Shinowa *, s32);
-struct EnemyTargetCandidate { u16 id; u8 unk_2[6]; };
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 angle);
-s32 collect_target_candidates__9TObjEneDDFlf(void *, f32);
 s32 subtract_vector(void *, void *);
-extern EnemyTargetCandidate enemy_target_candidate_table[];
 void TObjEneMe3ShinowaReal__sub_800E5950(TObjEneMe3Shinowa *, s32);
 void TObjEneMe3ShinowaMirage__sub_800E5CE4(TObjEneMe3Shinowa *, s32);
 struct Tbl_800E7884 { u8 pad[0xC]; u8 *t[3][2]; };
@@ -1208,7 +1205,7 @@ void TObjEneMe3ShinowaMirage__sub_800E54E8(TObjEneMe3Shinowa *shinowa, s32 reaso
     case 3: {
         if (shinowa->m_404 >= 40) {
             TObjEneMe3Shinowa__sub_800E7268(shinowa);
-            s32 r = collect_target_candidates__9TObjEneDDFlf(shinowa, 40000.0f);
+            s32 r = TObjEneDD::collect_target_candidates(shinowa, 40000.0f);
             if (r > 0) {
                 enemy_set_target_id(shinowa, enemy_target_candidate_table[r - 1].id);
                 shinowa->transition_enemy_state(4);

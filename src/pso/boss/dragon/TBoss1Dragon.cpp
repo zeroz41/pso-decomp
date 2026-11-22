@@ -543,7 +543,6 @@ void *lbl_80481280[107] = {
     (void *)&acquire_target__12TObjEneDD_STFf, (void *)&run_demo_task__12TBoss1DragonFv, (void *)&render_low_detail__12TBoss1DragonFv,
 };
 
-s32 update_local_colliders_from_world(void *, void *);
 void TBoss1Dragon__sub_800274A4(saddr self);
 
 s32 approach_angle_limited(s32 from, s32 to, s32 max_step);

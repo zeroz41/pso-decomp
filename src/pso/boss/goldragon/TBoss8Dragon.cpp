@@ -201,7 +201,6 @@ struct Cam_802FDC1C { s32 f0; f32 *p4; f32 *p8; };
 s32 get_current_floor();
 int emit_effect_at_position__9TObjEneDDFPv(void*);
 int setup_instance__9TObjEneDDFllPUcl(void*);
-s32 update_local_colliders_from_world(void *, void *);
 u8 *get_enemy_entity(u16 arg0);
 void free_collision_body_parts(void *);
 s32 check_flag_100__10TObjPlayerFPv();

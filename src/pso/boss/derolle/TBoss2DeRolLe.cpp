@@ -287,7 +287,6 @@ void *__ct__9TBoss2FinFv(void *, TObject *, Vec *, Vec *);
 
 
 
-void update_local_colliders_from_world(TObjEneDD *self, Vec *offsets);
 extern f32 lbl_804FF5E8[];
 
 void TObjPlayer__sub_8002E7C8(void);

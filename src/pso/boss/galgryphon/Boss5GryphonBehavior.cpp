@@ -143,11 +143,9 @@ struct Obj_8005E594 {
     void *parts[16];
 };
 
-struct Part_80064F50 { u8 pad0[4]; f32 f4; u8 pad8[4]; f32 fC; u8 pad10[8]; u32 flags; u8 pad1C[4]; f32 f20; u8 pad24[4]; f32 f28; };
 
 struct Cfg_80064F50 { u8 pad[0x18]; s32 i18; s32 i1C; s32 i20; s32 i24; };
 
-struct Obj_80064F50 { u8 pad0[0xA4]; Part_80064F50 *parts; u8 padA8[0x4C0 - 0xA8]; u32 flags4C0; u8 pad4C4[0x4E4 - 0x4C4]; s32 mode4E4; u8 pos4E8[4]; };
 
 struct Hit2_80060020 { u8 pad[4]; f32 y; };
 
@@ -218,10 +216,9 @@ extern const f32 lbl_805D8DD4;
 extern const f32 lbl_805D8E80;
 extern const f32 lbl_805D8E84;
 extern const f32 lbl_805D8E88;
-s32 update_local_colliders_from_world(void *, void *);
 extern const f32 lbl_805D8E10;
 extern const f32 lbl_805D8EAC;
-void update_body_colliders__13TBoss5GryphonFv(Obj_80064F50 *arg0);
+void update_body_colliders__13TBoss5GryphonFv(TBoss5Gryphon *self);
 f32 calc_random_ratio__10TObjPlayerFv(void *);
 void move_along_angle__13TBoss5GryphonFPvif(void *arg0, s32 ang, f32 farg0);
 void TBoss8Dragon__sub_800646F0(saddr arg0);
@@ -4520,66 +4517,65 @@ void TBoss5Gryphon::update_linked_ground_position() {
 
 #define CFG ((Cfg_80064F50 *)boss5_gryphon_behavior_params[2])
 void TBoss5Gryphon::update_body_colliders() {
-    Obj_80064F50 *self = (Obj_80064F50 *)this;
-    if (self->flags4C0 & 0x80) {
+    if (m_4c0 & 0x80) {
         for (s32 i = 0; i < 10; i++) {
-            self->parts[i].flags &= ~1;
+            bodies[i].flags &= ~1;
         }
         return;
     }
-    update_local_colliders_from_world(self, self->pos4E8);
+    update_local_colliders_from_world(this, body_points);
     {
         f32 lim = lbl_805D8EAC;
         s32 i;
         for (i = 0; i < 10; i++) {
-            Part_80064F50 *p;
-            self->parts[i].flags |= 1;
-            p = &self->parts[i];
-            if (p->f4 + p->f20 >= lim) {
+            CollisionBody *p;
+            bodies[i].flags |= 1;
+            p = &bodies[i];
+            if (p->offset.y + p->center.y >= lim) {
                 set_collider_contact_high((u8 *)p);
             } else {
                 set_collider_contact_low((u8 *)p);
             }
         }
     }
-    if (self->mode4E4 == 2) {
-        self->parts[0].flags |= 0x300;
-        self->parts[1].flags |= 0x300;
-        self->parts[2].flags |= 0x300;
-        self->parts[3].flags |= 0x300;
-        self->parts[2].flags |= 0x300;
-        self->parts[6].flags &= ~1;
-        self->parts[7].flags &= ~1;
-        self->parts[8].flags &= ~1;
-        self->parts[9].flags &= ~1;
-        self->parts[0].fC = lbl_805D8E84;
-        set_collider_contact_low((u8 *)&self->parts[0]);
-        set_collider_contact_low((u8 *)&self->parts[1]);
-        set_collider_contact_low((u8 *)&self->parts[2]);
-        set_collider_contact_low((u8 *)&self->parts[3]);
-        set_collider_contact_low((u8 *)&self->parts[2]);
+    if (m_4e4 == 2) {
+        bodies[0].flags |= 0x300;
+        bodies[1].flags |= 0x300;
+        bodies[2].flags |= 0x300;
+        bodies[3].flags |= 0x300;
+        bodies[2].flags |= 0x300;
+        bodies[6].flags &= ~1;
+        bodies[7].flags &= ~1;
+        bodies[8].flags &= ~1;
+        bodies[9].flags &= ~1;
+        bodies[0].radius = lbl_805D8E84;
+        set_collider_contact_low((u8 *)&bodies[0]);
+        set_collider_contact_low((u8 *)&bodies[1]);
+        set_collider_contact_low((u8 *)&bodies[2]);
+        set_collider_contact_low((u8 *)&bodies[3]);
+        set_collider_contact_low((u8 *)&bodies[2]);
     } else {
-        self->parts[0].flags &= ~0x300;
-        self->parts[1].flags &= ~0x300;
-        self->parts[2].flags &= ~0x300;
-        self->parts[3].flags &= ~0x300;
-        self->parts[2].flags &= ~0x300;
-        self->parts[6].flags |= 1;
-        self->parts[7].flags |= 1;
-        self->parts[8].flags |= 1;
-        self->parts[9].flags |= 1;
-        self->parts[0].fC = lbl_805D8E10;
+        bodies[0].flags &= ~0x300;
+        bodies[1].flags &= ~0x300;
+        bodies[2].flags &= ~0x300;
+        bodies[3].flags &= ~0x300;
+        bodies[2].flags &= ~0x300;
+        bodies[6].flags |= 1;
+        bodies[7].flags |= 1;
+        bodies[8].flags |= 1;
+        bodies[9].flags |= 1;
+        bodies[0].radius = lbl_805D8E10;
     }
-    self->parts[0].f28 = CFG->i20;
-    self->parts[1].f28 = CFG->i1C;
-    self->parts[2].f28 = CFG->i1C;
-    self->parts[3].f28 = CFG->i1C;
-    self->parts[4].f28 = CFG->i1C;
-    self->parts[5].f28 = CFG->i18;
-    self->parts[6].f28 = CFG->i24;
-    self->parts[7].f28 = CFG->i24;
-    self->parts[8].f28 = CFG->i24;
-    self->parts[9].f28 = CFG->i24;
+    bodies[0].unk_28 = CFG->i20;
+    bodies[1].unk_28 = CFG->i1C;
+    bodies[2].unk_28 = CFG->i1C;
+    bodies[3].unk_28 = CFG->i1C;
+    bodies[4].unk_28 = CFG->i1C;
+    bodies[5].unk_28 = CFG->i18;
+    bodies[6].unk_28 = CFG->i24;
+    bodies[7].unk_28 = CFG->i24;
+    bodies[8].unk_28 = CFG->i24;
+    bodies[9].unk_28 = CFG->i24;
 }
 
 void TBoss5Gryphon::shift_position_history() {
