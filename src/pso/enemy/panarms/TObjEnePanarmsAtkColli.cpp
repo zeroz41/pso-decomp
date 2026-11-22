@@ -26,9 +26,9 @@ __declspec(section ".data") s32 TObjEnePanarmsAtkColli__type_index_table[2] = {1
 Vec panarms_atk_zero_vec = {0.0f, 0.0f, 0.0f};
 
 
-struct Obj_800E32C0 { u8 pad0[0x10]; s32 f10; u8 pad1[0x388-0x14]; TObjChara *f388; f32 f38C; };
+struct Obj_800E32C0 { u8 pad0[0x10]; void *f10; u8 pad1[0x388-0x14]; TObjChara *f388; f32 f38C; };
 
-struct Obj_800E3374 { u8 pad0[0x10]; s32 f10; u8 pad1[0x384-0x14]; TObjChara *f384; u8 pad2[4]; f32 f38C; };
+struct Obj_800E3374 { u8 pad0[0x10]; void *f10; u8 pad1[0x384-0x14]; TObjChara *f384; u8 pad2[4]; f32 f38C; };
 
 struct Obj_800E35C8 { u8 pad0[0x38]; Vec pos; u8 pad1[0x378 - 0x44]; f32 f378; };
 
@@ -77,7 +77,7 @@ void TObjEnePanarmsAtkColli::sub_800E32C0(void *ent) {
     DirectAttackPayload attack = lbl_8043CDF8[0];
     attack.power = ((Obj_800E32C0 *)this)->f38C;
     if (((Obj_800E32C0 *)this)->f388 != (TObjChara *)ent) {
-        f32 damage = ((TObjChara *)ent)->receive_direct_attack((void *)((Obj_800E32C0 *)this)->f10, attack, NULL, -1, -1);
+        f32 damage = ((TObjChara *)ent)->receive_direct_attack(((Obj_800E32C0 *)this)->f10, attack, NULL, -1, -1);
         if (0.0f != damage) {
             ((TObjChara *)ent)->apply_knockback_from_attacker((u8 *)this, damage);
         }
@@ -88,7 +88,7 @@ void fn_800E3374(Obj_800E3374 *target, TObjChara *arg1) {
     DirectAttackPayload attack = lbl_8043CDF0[0];
     attack.power = target->f38C;
     if (target->f384 != arg1) {
-        f32 damage = arg1->receive_direct_attack((void *)target->f10, attack, NULL, -1, -1);
+        f32 damage = arg1->receive_direct_attack(target->f10, attack, NULL, -1, -1);
         if (0.0f != damage) {
             arg1->apply_knockback_from_attacker((u8 *)target, damage);
         }

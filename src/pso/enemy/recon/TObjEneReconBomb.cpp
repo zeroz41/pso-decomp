@@ -42,7 +42,7 @@ struct Obj_8031B808 {
     u8 f248[0x2FC - 0x248];
     Vec pos2;
     u8 pad308[0x334 - 0x308];
-    u32 target;
+    void *target;
     u8 pad338[4];
     Vec vel;
     f32 f348;
@@ -59,7 +59,7 @@ s32 VecCopy__FP3VecPC3Vec(void *, void *, int);
 s16 get_entity_id(int);
 s32 fn_8031B618(Obj_8031B618 *self);
 s32 project_actor_to_ground(void *, void *, void *);
-s32 TObjEneRecon__sub_8031C250(u32);
+s32 TObjEneRecon__sub_8031C250(void *);
 extern s32 lbl_805D5868;
 
 
@@ -187,7 +187,7 @@ void TObjEneReconBomb::run_task() {
                     DirectAttackPayload attack;
                     attack.kind = 0;
                     attack.power = self->f350;
-                    pl->apply_knockback_from_attacker((u8 *)self->target, pl->receive_direct_attack((void *)self->target, attack, NULL, -1, -1));
+                    pl->apply_knockback_from_attacker((u8 *)self->target, pl->receive_direct_attack(self->target, attack, NULL, -1, -1));
                 }
             }
         }
