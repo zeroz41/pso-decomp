@@ -10,27 +10,27 @@
 class TObjEneMe1Canadin_EffLine;
 class TParticleCtrl;
 
+// What TObjEnemy::movementParameters points at for the Canadin (MojaMovementParameters layout).
 struct TObjEneMe1CanadinMovement {
-    f32 m_0;
-    f32 m_4;
-    s32 m_8;
-    s32 m_C;
-    s32 m_10;
-    s32 m_14;
-    s32 m_18;
+    f32 target_range;
+    f32 move_speed;
+    s32 turn_speed;
+    u32 unknown_0C[4];
 };
 
+// The kind's parameter block (kind_params, from TLobby::dispatch_shared_handler_a); the field layout is
+// shared with TObjEneMe1GeeParams.
 struct TObjEneMe1CanadinParams {
-    f32 m_0;
-    f32 m_4;
-    f32 m_8;
-    u8 unk_C[0xC];
-    s32 m_18;
-    s32 m_1C;
-    s32 m_20;
-    s32 m_24;
-    s32 m_28;
-    s32 m_2C;
+    f32 melee_speed;          // chase step of the melee attack
+    f32 attack_power;         // power of the melee contact attack
+    f32 self_destruct_power;  // power of the self-destruct blast
+    u8 pad_c[0xC];
+    s32 aim_time;             // ranged attack: frames the beam tracks the target
+    s32 fire_delay;           // ranged attack: frames from the end of the aim to the discharge
+    s32 shot_interval;        // ranged attack: frames after a shot before the next aim
+    s32 shots_per_attack;     // ranged attack: shots before the attack ends
+    s32 hurt_wait_time;       // hurt state: frames of the last stage
+    s32 group_size;           // members per attack group (spawn_members, remove_member)
 };
 
 struct TObjEneMe1Canadin : public TObjEneDD_ST {
@@ -73,7 +73,7 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
     s32 attack_delay;
     s32 attack_count;
     TObjEneMe1Canadin_EffLight *eff_light;  // created in setup_enemy, queued in the dtor
-    s32 m_40C;
+    s32 pad_40c;
     s32 alt_model_color;
     Vec node_points[7];
     TObjEneMe1CanadinParams *kind_params;
@@ -81,12 +81,13 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
     s32 stage;
     s32 stage_timer;
     s32 stage_counter;
-    s32 m_47C;
+    s32 pad_47c;
     s32 orbit_angle_step;
-    f32 m_484;
-    f32 m_488;
-    f32 m_48C;
-    Vec m_490;
+    // Scratch of the attack states, shared with the TObjEneMe1Gee twin at the same place.
+    f32 work_speed;         // melee: approach step; orbit: climb step; hurt: fall speed; move forward: x step
+    f32 orbit_radius;       // orbit: radius; melee: climb step; hurt: fall acceleration; move forward: z step
+    f32 orbit_radius_step;  // orbit: radius step towards 70
+    Vec work_point;         // ranged attack: aim point; orbit: direction from the target
     TObjEneMe1Canadin_EffLine *eff_line;
     TParticleCtrl *particle_emitter;  // queued for destruction in the dtor
     NJS_ARGB core_color;
@@ -96,7 +97,7 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
     s32 fade_step_timer;
     s32 fade_cursor;
     u16 leader_id;
-    u8 unk_4CA[0x2];
+    u8 pad_4ca[0x2];
     void state_move_forward(s32 msg);
     void state_motion_test(s32 msg);
     void state_regroup(s32 msg);
@@ -104,7 +105,7 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
     void state_hover(s32 msg);
     void state_spawn(s32 msg);
     void pack_color_rgba();
-    void reset_map_core(void *color);
+    void set_core_color(const NJS_ARGB *color);
     s32 try_trigger_action();
     void advance_state_4_to_5();
     s32 check_target();
@@ -157,10 +158,16 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
     void update_fade_sequence();
 };
 
+// Stat ids of the three kinds (CanadinData); load_resources registers them with TLobby.
+extern const u32 canadin_base_stat_ids[3];
+extern const u32 canadin_attack_stat_ids[3];
+extern const u32 canadin_resist_stat_ids[3];
+extern const u32 canadin_param_ids[3];
+
 LAYOUT_ASSERT(TObjEneMe1Canadin_size, sizeof(TObjEneMe1Canadin) == 0x4CC);
 
 extern "C" {
-void fn_8009BD00(NJS_OBJECT *);
+void canadin_capture_node_points(NJS_OBJECT *);
 }
 
 #endif

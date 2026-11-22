@@ -74,17 +74,19 @@ u32 TObjEneMe1Canadin__render_node_index;
 Vec *TObjEneMe1Canadin__render_point_cursor;
 
 
-struct CanadinBehaviorParams {
-    s32 m_0;
-    f32 m_4;
-    f32 m_8;
-    f32 m_C;
-    s32 m_10;
+// The attack block TObjEneDD::setup_instance delivers: radius sizes the hit body, recoil and contact_flags
+// go to area_attack_deliver_direct (bit 0: player bodies, bit 1: enemy bodies).
+struct CanadinAttackParams {
+    s32 kind;
+    f32 power;
+    f32 radius;
+    f32 recoil;
+    s32 contact_flags;
 };
 
 
-TUnk_8048FA00 *lbl_805D4FDC;
-TUnk_8048FA00 *lbl_805D4FE0;
+TUnk_8048FA00 *canadin_leader_breakup_model;
+TUnk_8048FA00 *canadin_breakup_model;
 // Colour words of the first material chunk (polygon_list + 2) of nodes 3 and 2 of the leader and member models;
 // apply_model_color writes core_color_packed into them.
 s32 *canadin_leader_node3_diffuse;
@@ -92,8 +94,8 @@ s32 *canadin_leader_node2_diffuse;
 s32 *canadin_node3_diffuse;
 s32 *canadin_node2_diffuse;
 
-TObjEneMe1CanadinMovement canadin_setup_param_block = { 225.0f, 0.0f, 0x600, 0, 0, 0, 0 };
-CollisionBody lbl_8048FECC = { { 0.0f, 0.0f, 0.0f }, 8.0f, 0.0f, 0, 0x8003 };
+TObjEneMe1CanadinMovement canadin_setup_param_block = { 225.0f, 0.0f, 0x600 };
+CollisionBody canadin_collision_body = { { 0.0f, 0.0f, 0.0f }, 8.0f, 0.0f, 0, 0x8003 };
 // The Canadin's two models and six motions, and the archive that holds them.
 const char *bm_ene_me1_mb_model_names[3] = {
     "me1n_y_mb.nj",
@@ -112,12 +114,12 @@ const char *bm_ene_me1_mb_motion_names[7] = {
 BmlResourceDescriptor bm_ene_me1_mb_resource_descriptor = {
     "bm_ene_me1_mb.bml", bm_ene_me1_mb_model_names, bm_ene_me1_mb_motion_names, 2, 6
 };
-const Vec lbl_8043A268 = { 0.0f, 0.0f, 1.0f };
-const Vec lbl_8043A274 = { 0.0f, -1.0f, 0.0f };
+const Vec canadin_node3_axis = { 0.0f, 0.0f, 1.0f };
+const Vec canadin_node2_axis = { 0.0f, -1.0f, 0.0f };
 const NJS_ARGB canadin_formation_reset_vec4 = { 1.0f, 0.0f, 0.2f, 1.0f };
 const NJS_ARGB TObjEneMe1Canadin__map_core_default_vec4 = { 1.0f, 1.0f, 0.0f, 0.2f };
 const NJS_ARGB canadin_formation_fade_start_color = { 1.0f, 0.2f, 1.0f, 0.0f };
-TObjMotionAction lbl_8048FF30[7] = {
+TObjMotionAction canadin_action_table[7] = {
     { 1, 0, 4, 0.2f, 0 },
     { 1, 0, 5, 0.2f, 0 },
     { 2, 1, 1, 0.5f, 0 },
@@ -133,22 +135,18 @@ const char *canadin_leader_fade_sequence_table[5] = {
     "abaaabababbac",
     "ababababaabbaabbababaabaabaaabbbbc",
 };
-const CanadinBehaviorParams canadin_behavior_params = { 3, 5.0f, 3.0f, 3.0f, 1 };
-const CanadinBehaviorParams canadin_projectile_param_block = { 3, 10.0f, 20.0f, 3.0f, 1 };
+const CanadinAttackParams canadin_behavior_params = { 3, 5.0f, 3.0f, 3.0f, 1 };
+const CanadinAttackParams canadin_projectile_param_block = { 3, 10.0f, 20.0f, 3.0f, 1 };
 const char *TObjEneMe1Canadin__class_name = "TObjEneMe1Canadin";
 const char *TObjEneMe1CanadinLeader__class_name = "TObjEneMe1CanadinLeader";
-saddr lbl_80500930[3];
-saddr lbl_8050093C[3];
-saddr lbl_80500948[3];
-TObjEneMe1CanadinParams *lbl_80500954[3];
-Vec lbl_80500960;
+saddr canadin_boss_stat_handle_table[3];
+saddr canadin_shared_handler_b_table[3];
+saddr canadin_object_handle_table[3];
+TObjEneMe1CanadinParams *canadin_shared_handler_a_table[3];
+Vec canadin_node_origin;
 
 }
 
-extern const s32 lbl_8043A180[3];
-extern const s32 lbl_8043A18C[3];
-extern const s32 lbl_8043A198[3];
-extern const s32 lbl_8043A1A4[3];
 
 // Motion setup passed to TLobby::spawn_npc_enemy: (motions, animation table, 0, 0x70000).
 
@@ -160,25 +158,25 @@ void TObjEneMe1Canadin::load_resources() {
     s32 model2;
     void *p;
 
-    lbl_80500960.x = 0.0f;
-    lbl_80500960.y = 0.0f;
-    lbl_80500960.z = 0.0f;
+    canadin_node_origin.x = 0.0f;
+    canadin_node_origin.y = 0.0f;
+    canadin_node_origin.z = 0.0f;
     if (TObjEneDD::check_v2_mode() != 0) {
         bm_ene_me1_mb_resource = load_enemy_bml_resource_named(&bm_ene_me1_mb_resource_descriptor, "bm_ene_me1_mb_a.bml");
     } else {
         bm_ene_me1_mb_resource = load_enemy_bml_resource(&bm_ene_me1_mb_resource_descriptor);
     }
     for (i = 0; i < 3; i++) {
-        lbl_80500930[i] = (saddr)TLobby::register_boss(lbl_8043A180[i]);
-        lbl_8050093C[i] = (saddr)TLobby::dispatch_shared_handler_b(lbl_8043A18C[i]);
-        lbl_80500948[i] = (saddr)TLobby::register_object(lbl_8043A198[i]);
-        lbl_80500954[i] = (TObjEneMe1CanadinParams *)TLobby::dispatch_shared_handler_a(lbl_8043A1A4[i]);
+        canadin_boss_stat_handle_table[i] = (saddr)TLobby::register_boss(canadin_base_stat_ids[i]);
+        canadin_shared_handler_b_table[i] = (saddr)TLobby::dispatch_shared_handler_b(canadin_attack_stat_ids[i]);
+        canadin_object_handle_table[i] = (saddr)TLobby::register_object(canadin_resist_stat_ids[i]);
+        canadin_shared_handler_a_table[i] = (TObjEneMe1CanadinParams *)TLobby::dispatch_shared_handler_a(canadin_param_ids[i]);
     }
     TObjEneMe1Canadin__render_node_index = 0;
     p = new TUnk_8048FA00((saddr)bm_ene_me1_mb_resource->models[1].model);
-    lbl_805D4FDC = (TUnk_8048FA00 *)p;
+    canadin_leader_breakup_model = (TUnk_8048FA00 *)p;
     p = new TUnk_8048FA00((saddr)bm_ene_me1_mb_resource->models[0].model);
-    lbl_805D4FE0 = (TUnk_8048FA00 *)p;
+    canadin_breakup_model = (TUnk_8048FA00 *)p;
     model = (saddr)bm_ene_me1_mb_resource->models[1].model;
     canadin_leader_node3_diffuse = (s32 *)(((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(model, 3))->model)->polygon_list + 2);
     canadin_leader_node2_diffuse = (s32 *)(((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(model, 2))->model)->polygon_list + 2);
@@ -187,7 +185,7 @@ void TObjEneMe1Canadin::load_resources() {
     canadin_node2_diffuse = (s32 *)(((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(model2, 2))->model)->polygon_list + 2);
     TObjPlayer__sub_800F0928();
     s16 ids[2] = { 0x17, 0x18 };
-    NpcAnimationBinding params = { reinterpret_cast<BmlMotionEntry *>(bm_ene_me1_mb_resource->motions), reinterpret_cast<TObjMotionAction *>(lbl_8048FF30), 0, 0, 7 };
+    NpcAnimationBinding params = { reinterpret_cast<BmlMotionEntry *>(bm_ene_me1_mb_resource->motions), reinterpret_cast<TObjMotionAction *>(canadin_action_table), 0, 0, 7 };
     for (i = 0; i < 2; i++) {
         NpcModelRegistry::register_animated_chunk(ids[i], reinterpret_cast<void *>(bm_ene_me1_mb_resource->models[i].model), reinterpret_cast<void *>(bm_ene_me1_mb_resource->models[1].m_c), &params, 8.0f, 15.0f);
     }
@@ -203,13 +201,13 @@ TObjEneMe1Canadin *TObjEneMe1CanadinLeader::create_canadin(TObjEneMe1Canadin *le
 
 // Floor teardown: frees the two breakup models and the Canadin archive.
 void TObjEneMe1Canadin::free_resources() {
-    if (lbl_805D4FE0 != NULL) {
-        delete lbl_805D4FE0;
-        lbl_805D4FE0 = NULL;
+    if (canadin_breakup_model != NULL) {
+        delete canadin_breakup_model;
+        canadin_breakup_model = NULL;
     }
-    if (lbl_805D4FDC != NULL) {
-        delete lbl_805D4FDC;
-        lbl_805D4FDC = NULL;
+    if (canadin_leader_breakup_model != NULL) {
+        delete canadin_leader_breakup_model;
+        canadin_leader_breakup_model = NULL;
     }
     if (bm_ene_me1_mb_resource != NULL) {
         delete bm_ene_me1_mb_resource;
@@ -248,13 +246,13 @@ void TObjEneMe1Canadin::setup_enemy() {
 
     init_position_vectors();
     this->select_model();
-    init_model(&lbl_8048FECC, 1);
-    set_field_d8((saddr)lbl_8048FF30);
+    init_model(&canadin_collision_body, 1);
+    set_field_d8((saddr)canadin_action_table);
     set_field_dc((saddr)bm_ene_me1_mb_resource->motions);
     requested_action = 0;
     set_animation(requested_action);
     set_field_b8(requested_action);
-    reset_hp((u8 *)lbl_80500930[kind], (u8 *)lbl_8050093C[kind], (u8 *)lbl_80500948[kind]);
+    reset_hp((u8 *)canadin_boss_stat_handle_table[kind], (u8 *)canadin_shared_handler_b_table[kind], (u8 *)canadin_object_handle_table[kind]);
     set_state_flag_4();
     movementParameters = &canadin_setup_param_block;
     initialize_enemy_state(0x1C);
@@ -263,7 +261,7 @@ void TObjEneMe1Canadin::setup_enemy() {
     enemy_init_validate_period(0x2D);
     set_active();
     actorFlags |= 0x01000000;
-    kind_params = lbl_80500954[kind];
+    kind_params = canadin_shared_handler_a_table[kind];
     fade.reset_color();
     upper_hover_height = 45.0f;
     hover_height = 15.0f;
@@ -274,7 +272,7 @@ void TObjEneMe1Canadin::setup_enemy() {
     attack_delay = 0;
     attack_count = 0;
     eff_light = new TObjEneMe1Canadin_EffLight(this, 5);
-    m_40C = 0;
+    pad_40c = 0;
     alt_model_color = 0;
     for (i = 0; i < 7; i++) {
         VecCopy(&node_points[i], &position);
@@ -283,14 +281,14 @@ void TObjEneMe1Canadin::setup_enemy() {
     stage = 0;
     stage_timer = 0;
     stage_counter = 0;
-    m_47C = 0;
+    pad_47c = 0;
     orbit_angle_step = 0;
-    m_484 = 0.0f;
-    m_488 = 0.0f;
-    m_48C = 0.0f;
-    m_490.x = 0.0f;
-    m_490.y = 0.0f;
-    m_490.z = 0.0f;
+    work_speed = 0.0f;
+    orbit_radius = 0.0f;
+    orbit_radius_step = 0.0f;
+    work_point.x = 0.0f;
+    work_point.y = 0.0f;
+    work_point.z = 0.0f;
     eff_line = 0;
     particle_emitter = 0;
     copy_argb(&core_color, (NJS_ARGB *)&TObjEneMe1Canadin__map_core_default_vec4);
@@ -553,7 +551,7 @@ s32 TObjEneMe1Canadin::check_retreat_trigger() {
     if (status_flags & 0x20) {
         status_flags &= 0xFFFFFFDF;
         transition_enemy_state(0xA);
-        m_40C = 0;
+        pad_40c = 0;
         return 1;
     }
     if (status_flags & 0x40) {
@@ -623,14 +621,14 @@ void TObjEneMe1Canadin::update_fade_sequence() {
 
 
 void TObjEneMe1Canadin::start_fade_sequence(s32 sequence) {
-    reset_map_core((NJS_ARGB *)&canadin_formation_fade_start_color);
+    set_core_color(&canadin_formation_fade_start_color);
     fade_mode = 3;
     fade_sequence = sequence;
     fade_step_timer = 2;
     fade_cursor = 0;
 }
 
-void TObjEneMe1Canadin::reset_map_core(void *color) {
+void TObjEneMe1Canadin::set_core_color(const NJS_ARGB *color) {
     copy_argb(&core_color, (NJS_ARGB *)color);
     pack_color_rgba();
 }
@@ -709,8 +707,8 @@ void TObjEneMe1Canadin::set_flag3c8_bit40() { status_flags |= 0x40; }
 
 
 void TObjEneMe1Canadin::fn_8009E1D4(Vec *pos) {
-    CanadinBehaviorParams params = canadin_behavior_params;
-    params.m_4 = kind_params->m_4;
+    CanadinAttackParams params = canadin_behavior_params;
+    params.power = kind_params->attack_power;
     TObjEneDD::setup(this, pos, (DragonAttackParams *)&params);
 }
 
@@ -1043,7 +1041,7 @@ void TObjEneMe1Canadin::state_formation(s32 msg) {
 #pragma fp_contract on
 void TObjEneMe1Canadin::state_ranged_attack(s32 msg) {
     Vec *pos;
-    pos = &this->m_490;
+    pos = &this->work_point;
     switch (msg) {
     case 4:
         this->set_field_378(6);
@@ -1051,7 +1049,7 @@ void TObjEneMe1Canadin::state_ranged_attack(s32 msg) {
         this->status_flags &= ~0x400000;
         this->clear_intangible();
         this->actorFlags |= 0x01000000;
-        this->reset_map_core((void *)&canadin_formation_reset_vec4);
+        this->set_core_color(&canadin_formation_reset_vec4);
         this->stage = 1;
         this->stage_timer = 0;
         this->eff_line = 0;
@@ -1093,7 +1091,7 @@ void TObjEneMe1Canadin::state_ranged_attack(s32 msg) {
             this->update_angle();
             if (this->requested_action == 1) {
                 this->stage = 3;
-                this->reset_map_core((void *)&TObjEneMe1Canadin__map_core_default_vec4);
+                this->set_core_color(&TObjEneMe1Canadin__map_core_default_vec4);
                 VecCopy(pos, &this->destination);
                 this->eff_line = new TObjEneMe1Canadin_EffLine(this, this->node_points, pos);
                 play_sound_effect(0x4002B71B, &this->body_center, 0, 0);
@@ -1122,7 +1120,7 @@ void TObjEneMe1Canadin::state_ranged_attack(s32 msg) {
                 this->particle_emitter->set_position(this->node_points);
             }
             this->stage_timer++;
-            if (this->stage_timer > this->kind_params->m_18) {
+            if (this->stage_timer > this->kind_params->aim_time) {
                 this->stage = 4;
                 this->stage_timer = 0;
                 this->eff_line->queue_destruction();
@@ -1136,11 +1134,11 @@ void TObjEneMe1Canadin::state_ranged_attack(s32 msg) {
         }
         case 4:
             this->stage_timer++;
-            if (this->stage_timer >= this->kind_params->m_1C) {
+            if (this->stage_timer >= this->kind_params->fire_delay) {
                 this->stage = 5;
                 this->stage_timer = 0;
                 this->status_flags &= ~0x40000;
-                this->reset_map_core((void *)&canadin_formation_reset_vec4);
+                this->set_core_color(&canadin_formation_reset_vec4);
                 this->attack_count++;
                 new TObjEneMe1Canadin_EffDischarge(this, this->node_points, pos);
                 play_sound_effect(0x4002A408, &this->body_center, 0, 0);
@@ -1148,9 +1146,9 @@ void TObjEneMe1Canadin::state_ranged_attack(s32 msg) {
             break;
         case 5:
             this->stage_timer++;
-            if (this->stage_timer > this->kind_params->m_20) {
+            if (this->stage_timer > this->kind_params->shot_interval) {
                 this->stage_timer = 0;
-                if (this->attack_count >= this->kind_params->m_24) {
+                if (this->attack_count >= this->kind_params->shots_per_attack) {
                     this->stage = 6;
                 } else {
                     this->stage = 1;
@@ -1164,7 +1162,7 @@ void TObjEneMe1Canadin::state_ranged_attack(s32 msg) {
         break;
     case 5:
         this->status_flags &= ~0x40000;
-        this->reset_map_core((void *)&canadin_formation_reset_vec4);
+        this->set_core_color(&canadin_formation_reset_vec4);
         if (this->eff_line != 0) {
             this->eff_line->queue_destruction();
             this->eff_line = 0;
@@ -1192,8 +1190,8 @@ void TObjEneMe1Canadin::state_melee_attack(s32 msg) {
         this->stage = 0;
         this->stage_timer = 40;
         this->stage_counter = 0;
-        this->m_484 = 0.0f;
-        this->m_488 = 0.0f;
+        this->work_speed = 0.0f;
+        this->orbit_radius = 0.0f;
         break;
     case 3:
         if (this->check_retreat_trigger() == 0 && this->try_trigger_action() == 0 && this->stage == 4) {
@@ -1224,7 +1222,7 @@ void TObjEneMe1Canadin::state_melee_attack(s32 msg) {
                 if (this->status_flags & 0x40000) {
                     if (this->destination_distance < 40.0f) {
                         this->stage = 2;
-                        this->reset_map_core((void *)&TObjEneMe1Canadin__map_core_default_vec4);
+                        this->set_core_color(&TObjEneMe1Canadin__map_core_default_vec4);
                     }
                 } else if (this->destination_distance < 100.0f) {
                     this->leader = (TObjEneMe1Canadin *)find_entity_by_id(this->leader_id);
@@ -1265,8 +1263,8 @@ void TObjEneMe1Canadin::state_melee_attack(s32 msg) {
                     this->destination_direction.x = nx;
                     this->destination_direction.z = nz;
                 }
-                this->m_484 = 0.25f * len;
-                this->m_488 = 0.25f * (this->hover_height - this->hover_offset);
+                this->work_speed = 0.25f * len;
+                this->orbit_radius = 0.25f * (this->hover_height - this->hover_offset);
                 play_sound_effect(0x4003AD18, &this->body_center, 0, 0);
             }
             this->fn_8009E948();
@@ -1276,8 +1274,8 @@ void TObjEneMe1Canadin::state_melee_attack(s32 msg) {
                 this->stage = 0;
                 this->fn_8009E930();
             }
-            this->hover_y += this->m_488;
-            this->move_to_wall_clamped_destination(this->destination_direction.x, this->destination_direction.z, this->m_484);
+            this->hover_y += this->orbit_radius;
+            this->move_to_wall_clamped_destination(this->destination_direction.x, this->destination_direction.z, this->work_speed);
             this->eff_light->push_history_entry(1.2f, this->node_points, this->core_color_packed);
             break;
         case 2:
@@ -1294,7 +1292,7 @@ void TObjEneMe1Canadin::state_melee_attack(s32 msg) {
                 if (this->destination_distance > 40.0f) {
                     this->stage = 1;
                 }
-                TObjEneEpsilon__sub_800B92AC(this, 0x200, this->kind_params->m_0);
+                TObjEneEpsilon__sub_800B92AC(this, 0x200, this->kind_params->melee_speed);
             }
             this->noop();
             break;
@@ -1333,7 +1331,7 @@ void TObjEneMe1Canadin::state_melee_attack(s32 msg) {
                         this->stage = 2;
                     } else {
                         this->stage = 1;
-                        this->reset_map_core((void *)&canadin_formation_reset_vec4);
+                        this->set_core_color(&canadin_formation_reset_vec4);
                         if (this->destination_distance > 100.0f) {
                             this->status_flags &= ~0x40000;
                         }
@@ -1347,7 +1345,7 @@ void TObjEneMe1Canadin::state_melee_attack(s32 msg) {
         break;
     case 5:
         this->status_flags &= ~0x40000;
-        this->reset_map_core((NJS_ARGB *)&canadin_formation_reset_vec4);
+        this->set_core_color(&canadin_formation_reset_vec4);
         this->fn_8009E930();
         break;
     }
@@ -1356,7 +1354,7 @@ void TObjEneMe1Canadin::state_melee_attack(s32 msg) {
 #pragma push
 #pragma fp_contract on
 void TObjEneMe1Canadin::state_orbit(s32 msg) {
-    Vec *dir = &this->m_490;
+    Vec *dir = &this->work_point;
     switch (msg) {
     case 4:
         this->advance_state_4_to_5();
@@ -1369,9 +1367,9 @@ void TObjEneMe1Canadin::state_orbit(s32 msg) {
         this->stage_timer = 0;
         this->stage_counter = 0;
         this->orbit_angle_step = 0;
-        this->m_484 = 0.0f;
-        this->m_488 = 0.0f;
-        this->m_48C = 0.0f;
+        this->work_speed = 0.0f;
+        this->orbit_radius = 0.0f;
+        this->orbit_radius_step = 0.0f;
         dir->x = 0.0f;
         dir->y = 0.0f;
         dir->z = 0.0f;
@@ -1400,9 +1398,9 @@ void TObjEneMe1Canadin::state_orbit(s32 msg) {
                     this->orbit_angle_step = t;
                     dir->x = -this->destination_direction.x;
                     dir->z = -this->destination_direction.z;
-                    this->m_484 = 0.125f * (this->upper_hover_height - this->hover_offset);
-                    this->m_48C = 0.125f * (70.0f - this->destination_distance);
-                    this->m_488 = this->destination_distance;
+                    this->work_speed = 0.125f * (this->upper_hover_height - this->hover_offset);
+                    this->orbit_radius_step = 0.125f * (70.0f - this->destination_distance);
+                    this->orbit_radius = this->destination_distance;
                 }
                 this->stage_timer++;
                 if (this->stage_timer >= 8) {
@@ -1410,14 +1408,14 @@ void TObjEneMe1Canadin::state_orbit(s32 msg) {
                     this->stage = 0;
                     this->fn_8009E930();
                 }
-                this->hover_y += this->m_484;
+                this->hover_y += this->work_speed;
                 rotate_xz_pair_by_angle(&dir->x, &dir->z, this->orbit_angle_step);
                 {
                     Vec v;
                     f32 c;
-                    this->m_488 += this->m_48C;
-                    v.x = dir->x * this->m_488 + this->destination.x;
-                    v.z = dir->z * this->m_488 + this->destination.z;
+                    this->orbit_radius += this->orbit_radius_step;
+                    v.x = dir->x * this->orbit_radius + this->destination.x;
+                    v.z = dir->z * this->orbit_radius + this->destination.z;
                     subtract_vector(&v, &this->position);
                     c = normalize_vector_xz(&v);
                     this->move_to_wall_clamped_destination(v.x, v.z, c);
@@ -1500,7 +1498,7 @@ void TObjEneMe1Canadin::hurt_state(s32 msg) {
         } else {
             this->stage_timer = 2;
         }
-        this->m_488 = this->m_484 = 0.0f;
+        this->orbit_radius = this->work_speed = 0.0f;
         break;
     case 3:
         if (this->stage_timer == 3) {
@@ -1517,23 +1515,23 @@ void TObjEneMe1Canadin::hurt_state(s32 msg) {
         this->velocity.z = v.z * f;
         switch (this->stage_timer) {
         case 0:
-            this->m_484 -= 0.13f;
-            if (this->m_484 < -4.0f) {
-                this->m_484 = -4.0f;
+            this->work_speed -= 0.13f;
+            if (this->work_speed < -4.0f) {
+                this->work_speed = -4.0f;
             }
-            this->hover_y += this->m_484;
+            this->hover_y += this->work_speed;
             if (this->hover_y < 12.0f + (this->position.y + this->hover_height)) {
                 this->stage_timer = 1;
-                if (this->m_484 > -2.0f) {
-                    this->m_484 = -2.0f;
+                if (this->work_speed > -2.0f) {
+                    this->work_speed = -2.0f;
                 }
-                this->m_488 = this->m_484 * this->m_484 / 30.0f;
+                this->orbit_radius = this->work_speed * this->work_speed / 30.0f;
             }
             break;
         case 1:
-            this->m_484 += this->m_488;
-            this->hover_y += this->m_484;
-            if (this->m_484 >= 0.0f) {
+            this->work_speed += this->orbit_radius;
+            this->hover_y += this->work_speed;
+            if (this->work_speed >= 0.0f) {
                 if (this->hover_y > this->position.y + this->hover_height) {
                     this->hover_y = this->position.y + this->hover_height;
                     this->stage = 0;
@@ -1543,7 +1541,7 @@ void TObjEneMe1Canadin::hurt_state(s32 msg) {
             break;
         case 2:
             this->stage++;
-            if (this->stage >= this->kind_params->m_28) {
+            if (this->stage >= this->kind_params->hurt_wait_time) {
                 this->stage_timer = 3;
             }
             break;
@@ -1592,9 +1590,9 @@ void TObjEneMe1Canadin::state_self_destruct(s32 msg) {
         this->rotation_z += 0x2000;
         this->stage++;
         if (this->stage >= 0x96) {
-            CanadinBehaviorParams c = canadin_projectile_param_block;
+            CanadinAttackParams c = canadin_projectile_param_block;
             TObjEneMe1CanadinParams *t = this->kind_params;
-            c.m_4 = t->m_8;
+            c.power = t->self_destruct_power;
             TObjEneDD__sub_800BA5A4(this, &c);
             this->status_flags |= 0x800000;
         }
@@ -1694,7 +1692,7 @@ void TObjEneMe1Canadin::state_dead(s32 msg) {
             leader = (TObjEneMe1Canadin *)find_entity_by_id(leader_id);
             leader->remove_member(this);
         }
-        TBoss3Volopt::create_breakup_mdl((saddr)lbl_805D4FE0, 0, (s32)(texlist), (saddr)&body_center, (s32)(rotation_y));
+        TBoss3Volopt::create_breakup_mdl((saddr)canadin_breakup_model, 0, (s32)(texlist), (saddr)&body_center, (s32)(rotation_y));
         status_flags |= 0x400000;
         VecCopy(&pos, &body_center);
         pos.y -= 5.0f;
@@ -1739,14 +1737,14 @@ void TObjEneMe1Canadin::state_move_forward(s32 msg) {
     case 4:
         requested_action = 0;
         hover_y = (f32) (position.y + hover_height);
-        m_484 = sin_table_lookup(rotation_y);
-        m_488 = cos_table_lookup(rotation_y);
+        work_speed = sin_table_lookup(rotation_y);
+        orbit_radius = cos_table_lookup(rotation_y);
         return;
     case 0:
         advance_animation();
         hover_y = (f32) (position.y + hover_height);
         body_center.y = (f32) hover_y;
-        move_with_wall_slide_commit(m_484, m_488, 0.2f);
+        move_with_wall_slide_commit(work_speed, orbit_radius, 0.2f);
     case 3:
     case 5:
     case 1:
@@ -1755,7 +1753,7 @@ void TObjEneMe1Canadin::state_move_forward(s32 msg) {
 }
 
 
-void fn_8009BD00(NJS_OBJECT *) {
+void canadin_capture_node_points(NJS_OBJECT *) {
     Vec *pos;
     switch (TObjEneMe1Canadin__render_node_index) {
     case 2:
@@ -1764,7 +1762,7 @@ void fn_8009BD00(NJS_OBJECT *) {
         forward_split_screen_view_matrix();
         pos = TObjEneMe1Canadin__render_point_cursor;
         TObjEneMe1Canadin__render_point_cursor = pos + 1;
-        matrix_mult_vec(0, &lbl_80500960, pos);
+        matrix_mult_vec(0, &canadin_node_origin, pos);
         pos = TObjEneMe1Canadin__render_point_cursor;
         TObjEneMe1Canadin__render_point_cursor = pos + 1;
         rotate_vector_by_matrix(0, pos, pos);
@@ -1775,7 +1773,7 @@ void fn_8009BD00(NJS_OBJECT *) {
     case 14:
         pos = TObjEneMe1Canadin__render_point_cursor;
         TObjEneMe1Canadin__render_point_cursor = pos + 1;
-        forward_transform_to_view(&lbl_80500960, pos);
+        forward_transform_to_view(&canadin_node_origin, pos);
         break;
     }
     TObjEneMe1Canadin__render_node_index += 1;
@@ -1822,9 +1820,9 @@ void TObjEneMe1Canadin::render() {
             if ((s16) mode != 0xA) {
                 TObjEneMe1Canadin__render_node_index = 0;
                 TObjEneMe1Canadin__render_point_cursor = node_points;
-                VecCopy(&node_points[3], &lbl_8043A268);
-                VecCopy(&node_points[1], &lbl_8043A274);
-                set_chunk_model_node_callback(fn_8009BD00);
+                VecCopy(&node_points[3], &canadin_node3_axis);
+                VecCopy(&node_points[1], &canadin_node2_axis);
+                set_chunk_model_node_callback(canadin_capture_node_points);
                 if (detail == 1) {
                     draw();
                 } else {
@@ -1835,9 +1833,9 @@ void TObjEneMe1Canadin::render() {
                 rotate_matrix_z(NULL, rotation_z);
                 TObjEneMe1Canadin__render_node_index = -1;
                 TObjEneMe1Canadin__render_point_cursor = node_points;
-                VecCopy(&node_points[3], &lbl_8043A268);
-                VecCopy(&node_points[1], &lbl_8043A274);
-                set_chunk_model_node_callback(fn_8009BD00);
+                VecCopy(&node_points[3], &canadin_node3_axis);
+                VecCopy(&node_points[1], &canadin_node2_axis);
+                set_chunk_model_node_callback(canadin_capture_node_points);
                 this->draw_with_alt_model(alt_model_color);
                 set_chunk_model_node_callback(NULL);
             }
@@ -1851,8 +1849,8 @@ void TObjEneMe1Canadin::render() {
         update_primary_light();
         return;
     }
-    VecCopy(&node_points[3], &lbl_8043A268);
-    VecCopy(&node_points[1], &lbl_8043A274);
+    VecCopy(&node_points[3], &canadin_node3_axis);
+    VecCopy(&node_points[1], &canadin_node2_axis);
     VecCopy(&node_points[2], &body_center);
     VecCopy(&node_points[0], &body_center);
     VecCopy(&node_points[4], &body_center);
@@ -1952,7 +1950,7 @@ void TObjEneMe1CanadinLeader::spawn_members() {
     s32 i;
     s32 j;
     Vec v;
-    n = (s32)ceil_to_float((f32)member_total / (f32)kind_params->m_2C);
+    n = (s32)ceil_to_float((f32)member_total / (f32)kind_params->group_size);
     if (n < 1) {
         n = 1;
     }
@@ -2006,7 +2004,7 @@ void TObjEneMe1CanadinLeader::remove_member(TObjEneMe1Canadin *member) {
         }
     }
     if (formation_state == 3) {
-        s32 k = ceil_to_float((f32)member_total / (f32)kind_params->m_2C);
+        s32 k = ceil_to_float((f32)member_total / (f32)kind_params->group_size);
         if (member_count <= member_total - k) {
             leader = (TObjEneMe1Canadin *)find_entity_by_id(leader_id);
             leader->set_flag3c8_bit8();
@@ -2207,7 +2205,7 @@ void TObjEneMe1CanadinLeader::state_dead(s32 mode) {
     s32 i;
     switch (mode) {
     case 4:
-        TBoss3Volopt::create_breakup_mdl((saddr)lbl_805D4FDC, 0, (s32)texlist, (saddr)&body_center, (s32)rotation_y);
+        TBoss3Volopt::create_breakup_mdl((saddr)canadin_leader_breakup_model, 0, (s32)texlist, (saddr)&body_center, (s32)rotation_y);
         for (i = 0; i < member_count; i++) {
             members[i]->set_flag3c8_bit20();
         }

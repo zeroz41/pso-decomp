@@ -65,16 +65,16 @@ extern "C" {
 
 
 BmlResource * TObjEneMe1Gee__resource_bundle;
-u8 * lbl_805D51B4;
+u8 * gee_model_node7;
 s32 TObjEneMe1Gee__render_node_index;
 Vec *gee_camera_ctrl_step_ptr;
-TUnk_8048FA00 * TObjEneMe1Gee__data_805D51C0;
-TUnk_8048FA00 * TObjEneMe1Gee__data_805D51C4;
+TUnk_8048FA00 * gee_leader_breakup_model;
+TUnk_8048FA00 * gee_breakup_model;
 // The colour word of model node 4's first material chunk (polygon_list + 2); apply_model_color writes core_color_packed.
 s32 *gee_node4_diffuse;
 GeeMovementParameters me1_gee_init_params = {225.0f, 0.0f, 0x600};
 
-CollisionBody lbl_8049379C = {
+CollisionBody gee_collision_body = {
     {0.0f, 0.0f, 0.0f}, 8.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f,
 };
 
@@ -105,11 +105,11 @@ TObjMotionAction TObjEneMe1Gee__motion_parameters[4] = {
     {2, 0, 1, 0.8f, 0},
 };
 
-const NJS_ARGB TObjEneMe1Gee__data_8043BDB0 = {1.0f, 0.0f, 0.2f, 1.0f};
+const NJS_ARGB gee_formation_reset_vec4 = {1.0f, 0.0f, 0.2f, 1.0f};
 
-const NJS_ARGB TObjEneMe1Gee__data_8043BDC0 = {1.0f, 1.0f, 0.0f, 0.2f};
+const NJS_ARGB TObjEneMe1Gee__map_core_default_vec4 = {1.0f, 1.0f, 0.0f, 0.2f};
 
-const NJS_ARGB lbl_8043BDD0 = {1.0f, 0.2f, 1.0f, 0.0f};
+const NJS_ARGB gee_formation_fade_start_color = {1.0f, 0.2f, 1.0f, 0.0f};
 
 const char *TObjEneMe1Gee__fade_command_streams[5] = {
     "ababaababaabbababbabbbbc", "abbabbababc", "ababaaabbaaabbbabbabababbbbc", "abaaabababbac",
@@ -127,10 +127,6 @@ static f32 gee_camera_ctrl_vec[4];
 
 
 
-extern s32 lbl_8043BCD8[];
-extern s32 lbl_8043BCE4[];
-extern s32 lbl_8043BCF0[];
-extern s32 lbl_8043BCFC[];
 
 void TObjEneMe1Gee::load_resources() {
     s32 i;
@@ -146,18 +142,18 @@ void TObjEneMe1Gee::load_resources() {
         TObjEneMe1Gee__resource_bundle = load_enemy_bml_resource(&bm_ene_me1_gee_resource_descriptor);
     }
     TObjEneMe1Gee::cache_result_805D6660();
-    lbl_805D51B4 = (u8 *)find_model_node((saddr)TObjEneMe1Gee__resource_bundle->models->model, 7);
+    gee_model_node7 = (u8 *)find_model_node((saddr)TObjEneMe1Gee__resource_bundle->models->model, 7);
     for (i = 0; i < 3; i++) {
-        gee_boss_stat_handle_table[i] = (saddr)TLobby::register_boss(lbl_8043BCD8[i]);
-        gee_shared_handler_b_table[i] = (saddr)TLobby::dispatch_shared_handler_b(lbl_8043BCE4[i]);
-        gee_object_handle_table[i] = (saddr)TLobby::register_object(lbl_8043BCF0[i]);
-        gee_shared_handler_a_table[i] = (TObjEneMe1GeeParams *)TLobby::dispatch_shared_handler_a(lbl_8043BCFC[i]);
+        gee_boss_stat_handle_table[i] = (saddr)TLobby::register_boss(gee_base_stat_ids[i]);
+        gee_shared_handler_b_table[i] = (saddr)TLobby::dispatch_shared_handler_b(gee_attack_stat_ids[i]);
+        gee_object_handle_table[i] = (saddr)TLobby::register_object(gee_resist_stat_ids[i]);
+        gee_shared_handler_a_table[i] = (TObjEneMe1GeeParams *)TLobby::dispatch_shared_handler_a(gee_param_ids[i]);
     }
     TObjEneMe1Gee__render_node_index = 0;
     p = new TUnk_8048FA00((saddr)TObjEneMe1Gee__resource_bundle->models->model);
-    TObjEneMe1Gee__data_805D51C0 = p;
+    gee_leader_breakup_model = p;
     p = new TUnk_8048FA00((saddr)TObjEneMe1Gee__resource_bundle->models->model);
-    TObjEneMe1Gee__data_805D51C4 = p;
+    gee_breakup_model = p;
     gee_node4_diffuse = (s32 *)(((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node((saddr)TObjEneMe1Gee__resource_bundle->models->model, 4))->model)->polygon_list + 2);
     TObjPlayer__sub_800F0928();
     {
@@ -176,13 +172,13 @@ TObjEneMe1Gee *TObjEneMe1Gee::create(TObjEneMe1Gee *leader, Vec *pos, u16 id, s3
 }
 
 void TObjEneMe1Gee::free_globals() {
-    if (TObjEneMe1Gee__data_805D51C4 != NULL) {
-        delete TObjEneMe1Gee__data_805D51C4;
-        TObjEneMe1Gee__data_805D51C4 = NULL;
+    if (gee_breakup_model != NULL) {
+        delete gee_breakup_model;
+        gee_breakup_model = NULL;
     }
-    if (TObjEneMe1Gee__data_805D51C0 != NULL) {
-        delete TObjEneMe1Gee__data_805D51C0;
-        TObjEneMe1Gee__data_805D51C0 = NULL;
+    if (gee_leader_breakup_model != NULL) {
+        delete gee_leader_breakup_model;
+        gee_leader_breakup_model = NULL;
     }
     if (TObjEneMe1Gee__resource_bundle != NULL) {
         delete TObjEneMe1Gee__resource_bundle;
@@ -222,7 +218,7 @@ void TObjEneMe1Gee::init_state() {
     s32 i;
     this->init_position_vectors();
     this->select_model();
-    this->init_model(&lbl_8049379C, 1);
+    this->init_model(&gee_collision_body, 1);
     this->set_field_d8((saddr)TObjEneMe1Gee__motion_parameters);
     this->set_field_dc((saddr)TObjEneMe1Gee__resource_bundle->motions);
     this->requested_action = 0;
@@ -246,7 +242,7 @@ void TObjEneMe1Gee::init_state() {
     this->hover_y = this->position.y + this->hover_offset;
     this->attack_delay = 0;
     this->attack_count = 0;
-    this->m_40c = 0;
+    this->pad_40c = 0;
     this->alt_model_color = 0;
     for (i = 0; i < 2; i++) {
         VecCopy(&this->node_points[i], &this->position);
@@ -255,17 +251,17 @@ void TObjEneMe1Gee::init_state() {
     this->stage = 0;
     this->stage_timer = 0;
     this->stage_counter = 0;
-    this->m_440 = 0;
+    this->pad_440 = 0;
     this->orbit_angle_step = 0;
-    this->m_448 = 0.0f;
-    this->m_44c = 0.0f;
-    this->m_450 = 0.0f;
-    this->m_454.x = 0.0f;
-    this->m_454.y = 0.0f;
-    this->m_454.z = 0.0f;
+    this->work_speed = 0.0f;
+    this->orbit_radius = 0.0f;
+    this->orbit_radius_step = 0.0f;
+    this->work_point.x = 0.0f;
+    this->work_point.y = 0.0f;
+    this->work_point.z = 0.0f;
     this->eff_line = 0;
     this->particle_emitter = 0;
-    copy_argb(&this->core_color, (NJS_ARGB *)&TObjEneMe1Gee__data_8043BDC0);
+    copy_argb(&this->core_color, (NJS_ARGB *)&TObjEneMe1Gee__map_core_default_vec4);
     this->core_color.a = 0.0f;
     this->fade_mode = 0;
     this->core_color_packed = 0;
@@ -600,7 +596,7 @@ void TObjEneMe1Gee::update_fade_sequence() {
                 break;
             case 'c':
                 this->fade_mode = 0;
-                copy_argb(&this->core_color, (NJS_ARGB *)&TObjEneMe1Gee__data_8043BDB0);
+                copy_argb(&this->core_color, (NJS_ARGB *)&gee_formation_reset_vec4);
                 break;
             case 'a':
                 this->core_color.a = 1.0f;
@@ -613,14 +609,14 @@ void TObjEneMe1Gee::update_fade_sequence() {
 }
 
 void TObjEneMe1Gee::start_fade_sequence(s32 sequence) {
-    this->destroy_subobj(&lbl_8043BDD0);
+    this->set_core_color(&gee_formation_fade_start_color);
     this->fade_mode = 3;
     this->fade_sequence = sequence;
     this->fade_step_timer = 2;
     this->fade_cursor = 0;
 }
 
-void TObjEneMe1Gee::destroy_subobj(const NJS_ARGB *color) {
+void TObjEneMe1Gee::set_core_color(const NJS_ARGB *color) {
     copy_argb(&this->core_color, (NJS_ARGB *)color);
     this->update_packed_color();
 }
@@ -927,9 +923,9 @@ void TObjEneMe1Gee::state_activate(s32 msg) {
         this->status_flags &= 0xFFBFFFFF;
         this->clear_intangible();
         this->actorFlags &= 0xFEFFFFFF;
-        this->core_color.r = TObjEneMe1Gee__data_8043BDB0.r;
-        this->core_color.g = TObjEneMe1Gee__data_8043BDB0.g;
-        this->core_color.b = TObjEneMe1Gee__data_8043BDB0.b;
+        this->core_color.r = gee_formation_reset_vec4.r;
+        this->core_color.g = gee_formation_reset_vec4.g;
+        this->core_color.b = gee_formation_reset_vec4.b;
         this->update_packed_color();
         this->stage = 0;
         return;
@@ -1077,7 +1073,7 @@ void TObjEneMe1Gee::state_formation(s32 msg) {
 #pragma opt_common_subs off
 #pragma pool_data off
 void TObjEneMe1Gee::state_ranged_attack(s32 mode) {
-    Vec *dir = &this->m_454;
+    Vec *dir = &this->work_point;
     switch (mode) {
     case 4:
         this->set_field_378(7);
@@ -1085,7 +1081,7 @@ void TObjEneMe1Gee::state_ranged_attack(s32 mode) {
         this->status_flags &= ~0x400000;
         this->clear_intangible();
         this->actorFlags |= 0x1000000;
-        this->destroy_subobj(&TObjEneMe1Gee__data_8043BDB0);
+        this->set_core_color(&gee_formation_reset_vec4);
         this->stage = 1;
         this->stage_timer = 0;
         this->eff_line = NULL;
@@ -1123,7 +1119,7 @@ void TObjEneMe1Gee::state_ranged_attack(s32 mode) {
             this->update_velocity();
             this->update_angle();
             this->stage = 3;
-            this->destroy_subobj(&TObjEneMe1Gee__data_8043BDC0);
+            this->set_core_color(&TObjEneMe1Gee__map_core_default_vec4);
             VecCopy(dir, &this->destination);
             break;
         case 3: {
@@ -1140,7 +1136,7 @@ void TObjEneMe1Gee::state_ranged_attack(s32 mode) {
                 dir->z = 0.6f * d.z + dir->z;
             }
             this->stage_timer++;
-            if (this->stage_timer > this->kind_params->m_18) {
+            if (this->stage_timer > this->kind_params->aim_time) {
                 this->requested_action = 1;
                 this->stage = 4;
                 this->stage_timer = 0;
@@ -1163,7 +1159,7 @@ void TObjEneMe1Gee::state_ranged_attack(s32 mode) {
             if (this->stage_timer >= 15) {
                 this->stage = 5;
                 this->status_flags &= ~0x40000;
-                this->destroy_subobj(&TObjEneMe1Gee__data_8043BDB0);
+                this->set_core_color(&gee_formation_reset_vec4);
                 this->attack_count++;
                 this->advance_animation();
                 push_matrix_from(identity_matrix);
@@ -1181,15 +1177,15 @@ void TObjEneMe1Gee::state_ranged_attack(s32 mode) {
                     matrix_mult_vec(0, &in, &out);
                     pop_matrix();
                     out.y += this->upper_hover_height;
-                    new TObjEneMe1Gee_NEEDLE(this, &out, dir, this->needle_speed, this->kind_params->m_4);
+                    new TObjEneMe1Gee_NEEDLE(this, &out, dir, this->needle_speed, this->kind_params->attack_power);
                 }
             }
             break;
         case 5:
             this->stage_timer++;
-            if (this->stage_timer > this->kind_params->m_20) {
+            if (this->stage_timer > this->kind_params->shot_interval) {
                 this->stage_timer = 0;
-                if (this->attack_count >= this->kind_params->m_24) {
+                if (this->attack_count >= this->kind_params->shots_per_attack) {
                     this->stage = 6;
                 } else {
                     this->stage = 1;
@@ -1202,7 +1198,7 @@ void TObjEneMe1Gee::state_ranged_attack(s32 mode) {
         break;
     case 5:
         this->status_flags &= ~0x40000;
-        this->destroy_subobj(&TObjEneMe1Gee__data_8043BDB0);
+        this->set_core_color(&gee_formation_reset_vec4);
         if (this->eff_line != NULL) {
             this->eff_line->queue_destruction();
             this->eff_line = NULL;
@@ -1230,8 +1226,8 @@ void TObjEneMe1Gee::state_melee_attack(s32 mode) {
         this->stage = 0;
         this->stage_timer = 0x28;
         this->stage_counter = 0;
-        this->m_448 = 0.0f;
-        this->m_44c = 0.0f;
+        this->work_speed = 0.0f;
+        this->orbit_radius = 0.0f;
         break;
     case 3:
         if (this->check_retreat_trigger() == 0 && this->check_death_trigger() == 0 && this->stage == 5) {
@@ -1259,7 +1255,7 @@ void TObjEneMe1Gee::state_melee_attack(s32 mode) {
                 if (this->status_flags & 0x40000) {
                     if (this->destination_distance < 40.0f) {
                         this->stage = 2;
-                        this->destroy_subobj(&TObjEneMe1Gee__data_8043BDC0);
+                        this->set_core_color(&TObjEneMe1Gee__map_core_default_vec4);
                     }
                 } else if (this->destination_distance < 100.0f) {
                     this->leader = (TObjEneMe1Gee *)find_entity_by_id(this->leader_id);
@@ -1302,8 +1298,8 @@ void TObjEneMe1Gee::state_melee_attack(s32 mode) {
                 z = this->destination_direction.z * c - x * s;
                 this->destination_direction.x = x * c + this->destination_direction.z * s;
                 this->destination_direction.z = z;
-                this->m_448 = 0.25f * k;
-                this->m_44c = 0.25f * (this->hover_height - this->hover_offset);
+                this->work_speed = 0.25f * k;
+                this->orbit_radius = 0.25f * (this->hover_height - this->hover_offset);
             }
             this->sub_800CBC1C();
             this->stage_timer++;
@@ -1312,8 +1308,8 @@ void TObjEneMe1Gee::state_melee_attack(s32 mode) {
                 this->stage = 0;
                 this->sub_800CBC04();
             }
-            this->hover_y += this->m_44c;
-            this->move_to_wall_clamped_destination(this->destination_direction.x, this->destination_direction.z, this->m_448);
+            this->hover_y += this->orbit_radius;
+            this->move_to_wall_clamped_destination(this->destination_direction.x, this->destination_direction.z, this->work_speed);
             break;
         case 2:
             this->enemy_copy_target_destination();
@@ -1329,7 +1325,7 @@ void TObjEneMe1Gee::state_melee_attack(s32 mode) {
                 if (this->destination_distance > 40.0f) {
                     this->stage = 1;
                 }
-                TObjEneEpsilon__sub_800B92AC(this, 0x200, this->kind_params->m_0);
+                TObjEneEpsilon__sub_800B92AC(this, 0x200, this->kind_params->melee_speed);
             }
             break;
         case 3:
@@ -1352,7 +1348,7 @@ void TObjEneMe1Gee::state_melee_attack(s32 mode) {
                         this->stage = 2;
                     } else {
                         this->stage = 1;
-                        this->destroy_subobj(&TObjEneMe1Gee__data_8043BDB0);
+                        this->set_core_color(&gee_formation_reset_vec4);
                         if (this->destination_distance > 100.0f) {
                             this->status_flags &= ~0x40000;
                         }
@@ -1380,7 +1376,7 @@ void TObjEneMe1Gee::state_melee_attack(s32 mode) {
         break;
     case 5:
         this->status_flags &= ~0x40000;
-        this->destroy_subobj(&TObjEneMe1Gee__data_8043BDB0);
+        this->set_core_color(&gee_formation_reset_vec4);
         this->sub_800CBC04();
         break;
     }
@@ -1390,7 +1386,7 @@ void TObjEneMe1Gee::state_melee_attack(s32 mode) {
 #pragma push
 #pragma fp_contract on
 void TObjEneMe1Gee::state_orbit(s32 mode) {
-    Vec *dir = &this->m_454;
+    Vec *dir = &this->work_point;
     switch (mode) {
     case 4:
         this->requested_action = 0;
@@ -1403,9 +1399,9 @@ void TObjEneMe1Gee::state_orbit(s32 mode) {
         this->stage_timer = 0;
         this->stage_counter = 0;
         this->orbit_angle_step = 0;
-        this->m_448 = 0.0f;
-        this->m_44c = 0.0f;
-        this->m_450 = 0.0f;
+        this->work_speed = 0.0f;
+        this->orbit_radius = 0.0f;
+        this->orbit_radius_step = 0.0f;
         dir->x = 0.0f;
         dir->y = 0.0f;
         dir->z = 0.0f;
@@ -1434,9 +1430,9 @@ void TObjEneMe1Gee::state_orbit(s32 mode) {
                     this->orbit_angle_step = t;
                     dir->x = -this->destination_direction.x;
                     dir->z = -this->destination_direction.z;
-                    this->m_448 = 0.125f * (this->upper_hover_height - this->hover_offset);
-                    this->m_450 = 0.125f * (70.0f - this->destination_distance);
-                    this->m_44c = this->destination_distance;
+                    this->work_speed = 0.125f * (this->upper_hover_height - this->hover_offset);
+                    this->orbit_radius_step = 0.125f * (70.0f - this->destination_distance);
+                    this->orbit_radius = this->destination_distance;
                     play_sound_effect(this->handle_message(0x3AD13), &this->body_center, 0, 0);
                 }
                 this->stage_timer++;
@@ -1445,14 +1441,14 @@ void TObjEneMe1Gee::state_orbit(s32 mode) {
                     this->stage = 0;
                     this->sub_800CBC04();
                 }
-                this->hover_y += this->m_448;
+                this->hover_y += this->work_speed;
                 rotate_xz_pair_by_angle(&dir->x, &dir->z, this->orbit_angle_step);
                 {
                     Vec v;
                     f32 c;
-                    this->m_44c += this->m_450;
-                    v.x = dir->x * this->m_44c + this->destination.x;
-                    v.z = dir->z * this->m_44c + this->destination.z;
+                    this->orbit_radius += this->orbit_radius_step;
+                    v.x = dir->x * this->orbit_radius + this->destination.x;
+                    v.z = dir->z * this->orbit_radius + this->destination.z;
                     subtract_vector(&v, &this->position);
                     c = normalize_vector_xz(&v);
                     this->move_to_wall_clamped_destination(v.x, v.z, c);
@@ -1529,8 +1525,8 @@ void TObjEneMe1Gee::hurt_state(s32 mode) {
         } else {
             this->stage_timer = 2;
         }
-        this->m_448 = 0.0f;
-        this->m_44c = 0.0f;
+        this->work_speed = 0.0f;
+        this->orbit_radius = 0.0f;
         break;
     case 3:
         if (this->stage_timer == 3) {
@@ -1547,23 +1543,23 @@ void TObjEneMe1Gee::hurt_state(s32 mode) {
         this->velocity.z = v.z * len;
         switch (this->stage_timer) {
         case 0:
-            this->m_448 = this->m_448 - 0.13f;
-            if (this->m_448 < -4.0f) {
-                this->m_448 = -4.0f;
+            this->work_speed = this->work_speed - 0.13f;
+            if (this->work_speed < -4.0f) {
+                this->work_speed = -4.0f;
             }
-            this->hover_y += this->m_448;
+            this->hover_y += this->work_speed;
             if (this->hover_y < 12.0f + (this->position.y + this->hover_height)) {
                 this->stage_timer = 1;
-                if (this->m_448 > -2.0f) {
-                    this->m_448 = -2.0f;
+                if (this->work_speed > -2.0f) {
+                    this->work_speed = -2.0f;
                 }
-                this->m_44c = (this->m_448 * this->m_448) / 30.0f;
+                this->orbit_radius = (this->work_speed * this->work_speed) / 30.0f;
             }
             break;
         case 1:
-            this->m_448 += this->m_44c;
-            this->hover_y += this->m_448;
-            if (this->m_448 >= 0.0f) {
+            this->work_speed += this->orbit_radius;
+            this->hover_y += this->work_speed;
+            if (this->work_speed >= 0.0f) {
                 if (this->hover_y > this->position.y + this->hover_height) {
                     this->hover_y = this->position.y + this->hover_height;
                     this->stage = 0;
@@ -1573,7 +1569,7 @@ void TObjEneMe1Gee::hurt_state(s32 mode) {
             break;
         case 2:
             this->stage++;
-            if (this->stage >= this->kind_params->m_28) {
+            if (this->stage >= this->kind_params->hurt_wait_time) {
                 this->stage_timer = 3;
             }
             break;
@@ -1666,7 +1662,7 @@ void TObjEneMe1Gee::state_dead(s32 msg) {
             this->leader = (TObjEneMe1Gee *)find_entity_by_id(this->leader_id);
             this->leader->remove_member(this);
         }
-        TBoss3Volopt::create_breakup_mdl((saddr)TObjEneMe1Gee__data_805D51C4, 0, this->texlist, (saddr)&this->body_center, this->rotation_y);
+        TBoss3Volopt::create_breakup_mdl((saddr)gee_breakup_model, 0, this->texlist, (saddr)&this->body_center, this->rotation_y);
         play_sound_effect(this->handle_message(0x3A843), &this->position, 0, 0);
         this->status_flags |= 0x400000;
         this->actorFlags |= 0x01000000;
@@ -1710,14 +1706,14 @@ void TObjEneMe1Gee::state_move_forward(s32 msg) {
     case 4:
         this->requested_action = 0;
         this->hover_y = this->position.y + this->hover_height;
-        this->m_448 = sin_table_lookup(this->rotation_y);
-        this->m_44c = cos_table_lookup(this->rotation_y);
+        this->work_speed = sin_table_lookup(this->rotation_y);
+        this->orbit_radius = cos_table_lookup(this->rotation_y);
         return;
     case 0:
         advance_animation();
         this->hover_y = this->position.y + this->hover_height;
         this->body_center.y = this->hover_y;
-        this->move_with_wall_slide_commit(this->m_448, this->m_44c, 0.2f);
+        this->move_with_wall_slide_commit(this->work_speed, this->orbit_radius, 0.2f);
     case 3:
     case 5:
     case 1:
@@ -1909,7 +1905,7 @@ void TUnk_8049387C::spawn_members() {
     s32 b;
     s32 angle;
     Vec v;
-    n = (s32)ceil_to_float((f32)this->member_total / (f32)this->kind_params->m_2c);
+    n = (s32)ceil_to_float((f32)this->member_total / (f32)this->kind_params->group_size);
     if (n < 1) {
         n = 1;
     }
@@ -1965,7 +1961,7 @@ void TUnk_8049387C::remove_member(TObjEneMe1Gee *member) {
         }
     }
     if ((s32)this->formation_state == 3) {
-        s32 lim = (s32)ceil_to_float((f32)this->member_total / (f32)this->kind_params->m_2c);
+        s32 lim = (s32)ceil_to_float((f32)this->member_total / (f32)this->kind_params->group_size);
         if (this->member_count <= this->member_total - lim) {
             this->leader = (TObjEneMe1Gee *)find_entity_by_id(this->leader_id);
             this->leader->set_flag3c8_bit8();
@@ -2016,7 +2012,7 @@ void TUnk_8049387C::update_formation_state() {
         if (this->fade_mode == 0) {
             this->formation_state = 3;
             this->status_flags &= ~8;
-            copy_argb(&this->core_color, (NJS_ARGB *)&TObjEneMe1Gee__data_8043BDB0);
+            copy_argb(&this->core_color, (NJS_ARGB *)&gee_formation_reset_vec4);
             for (i = 0; i < this->member_count; i++) {
                 if (this->members[i]->has_status_flag(0x200) != 0) {
                     this->members[i]->order_attack();
@@ -2035,7 +2031,7 @@ void TUnk_8049387C::update_formation_state() {
         break;
     case 5:
         if (this->fade_mode == 0) {
-            copy_argb(&this->core_color, (NJS_ARGB *)&TObjEneMe1Gee__data_8043BDB0);
+            copy_argb(&this->core_color, (NJS_ARGB *)&gee_formation_reset_vec4);
             this->formation_state = 6;
             for (i = 0; i < this->member_count; i++) {
                 if (this->members[i]->has_status_flag(0x100) != 0) {
@@ -2051,7 +2047,7 @@ void TUnk_8049387C::update_formation_state() {
     case 8:
         if (this->fade_mode == 0) {
             this->formation_state = 9;
-            copy_argb(&this->core_color, (NJS_ARGB *)&TObjEneMe1Gee__data_8043BDB0);
+            copy_argb(&this->core_color, (NJS_ARGB *)&gee_formation_reset_vec4);
             for (j = 0; j < this->member_count; j++) {
                 this->members[j]->sub_800CB4DC();
             }
@@ -2074,9 +2070,9 @@ void TUnk_8049387C::state_activate(s32 msg) {
         this->requested_action = 0;
         this->set_field_378(4);
         this->clear_intangible();
-        this->core_color.r = TObjEneMe1Gee__data_8043BDB0.r;
-        this->core_color.g = TObjEneMe1Gee__data_8043BDB0.g;
-        this->core_color.b = TObjEneMe1Gee__data_8043BDB0.b;
+        this->core_color.r = gee_formation_reset_vec4.r;
+        this->core_color.g = gee_formation_reset_vec4.g;
+        this->core_color.b = gee_formation_reset_vec4.b;
         this->stage = 0;
         for (k = 2, i = 0; i < this->member_count; k += 2, i++) {
             this->members[i]->order_activation(this->current_target, k);
@@ -2154,7 +2150,7 @@ void TUnk_8049387C::state_rise(s32 msg) {
 void TUnk_8049387C::state_dead(s32 msg) {
     switch (msg) {
     case 4:
-        TBoss3Volopt::create_breakup_mdl((saddr)TObjEneMe1Gee__data_805D51C0, 0, this->texlist, (saddr)&this->body_center, this->rotation_y);
+        TBoss3Volopt::create_breakup_mdl((saddr)gee_leader_breakup_model, 0, this->texlist, (saddr)&this->body_center, this->rotation_y);
         this->status_flags |= 0x400000;
         refresh_lobby_state();
         return;

@@ -5668,7 +5668,7 @@ force_active:
   - destroy_parts__13TBoss5GryphonFv
   - destroy_static_array__10TObjPlayerFv
   - destroy_sub_objects__15TBoss3VoloptP02Fv
-  - destroy_subobj__13TObjEneMe1GeeFPC8NJS_ARGB
+  - set_core_color__13TObjEneMe1GeeFPC8NJS_ARGB
   - destroy_subobjects_recursive__9TItemListFv
   - detect_device_type__16TKeyBoardControlFl
   - dimedian_action_table
@@ -6349,7 +6349,7 @@ force_active:
   - __sinit_text_8007A6C8_cpp
   - copy_graph_sample__FP14TDLGraphSampleP14TDLGraphSample
   - fn_8007FE78
-  - fn_8009BD00
+  - canadin_capture_node_points
   - order_activation_now__17TObjEneMe1CanadinFv
   - get_attacking_target__17TObjEneMe1CanadinFv
   - wake_leader__17TObjEneMe1CanadinFv
@@ -8167,9 +8167,9 @@ force_active:
   - lbl_804FF67C
   - lbl_804FF82C
   - lbl_805007C8
-  - lbl_8050093C
-  - lbl_80500948
-  - lbl_80500954
+  - canadin_shared_handler_b_table
+  - canadin_object_handle_table
+  - canadin_shared_handler_a_table
   - saver_particle_node_position
   - fly_nest_vertex_indices
   - fly_nest_vertex_list
@@ -14625,7 +14625,7 @@ force_active:
   - reset_keys__16KeyboardKeyStateFv
   - reset_leader_selection__FPv
   - reset_leader_selection_static__6TLobbyFv
-  - reset_map_core__17TObjEneMe1CanadinFPv
+  - set_core_color__17TObjEneMe1CanadinFPC8NJS_ARGB
   - reset_matrix__13TObjTombstoneFv
   - reset_obstruction_fade__13TUnk_80490470Fv
   - reset_obstruction_fade__13TUnk_80494938Fv

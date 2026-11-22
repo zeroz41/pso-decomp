@@ -26,22 +26,24 @@ struct GeeAnimationBinding {
 
 // What TObjEnemy::movementParameters points at for the Gee.
 struct GeeMovementParameters {
-    f32 unknown_00;
-    f32 unknown_04;
-    s32 unknown_08;
+    f32 target_range;
+    f32 move_speed;
+    s32 turn_speed;
     u32 unknown_0C[4];
 };
 
+// The kind's parameter block (kind_params, from TLobby::dispatch_shared_handler_a); the field layout is
+// shared with TObjEneMe1CanadinParams.
 struct TObjEneMe1GeeParams {
-    f32 m_0;
-    f32 m_4;
-    u8 unk_8[0x10];
-    s32 m_18;
-    u8 unk_1c[0x4];
-    s32 m_20;
-    s32 m_24;
-    s32 m_28;
-    s32 m_2c;
+    f32 melee_speed;       // chase step of the melee attack
+    f32 attack_power;      // power of the needle
+    u8 pad_8[0x10];
+    s32 aim_time;          // ranged attack: frames the aim tracks the target
+    u8 pad_1c[0x4];
+    s32 shot_interval;     // ranged attack: frames after a shot before the next aim
+    s32 shots_per_attack;  // ranged attack: shots before the attack ends
+    s32 hurt_wait_time;    // hurt state: frames of the last stage
+    s32 group_size;        // members per attack group (spawn_members, remove_member)
 };
 
 struct TObjEneMe1Gee : public TObjEneDD_ST {
@@ -79,7 +81,7 @@ struct TObjEneMe1Gee : public TObjEneDD_ST {
     void update_upper_hover_height();
     void update_fade_sequence();
     void update_packed_color();
-    void destroy_subobj(const NJS_ARGB *color);
+    void set_core_color(const NJS_ARGB *color);
     void start_fade_sequence(s32 sequence);
     void set_low_appear();
     void set_high_appear();
@@ -102,7 +104,7 @@ struct TObjEneMe1Gee : public TObjEneDD_ST {
     f32 appear_speed;  // 1 + parameters[2] ("APPEAR SPEED(+1.f ...)"), the climb step
     s32 attack_delay;
     s32 attack_count;
-    s32 m_40c;
+    s32 pad_40c;
     s32 alt_model_color;
     Vec node_points[2];
     TObjEneMe1GeeParams *kind_params;
@@ -110,12 +112,13 @@ struct TObjEneMe1Gee : public TObjEneDD_ST {
     s32 stage;
     s32 stage_timer;
     s32 stage_counter;
-    s32 m_440;
+    s32 pad_440;
     s32 orbit_angle_step;
-    f32 m_448;
-    f32 m_44c;
-    f32 m_450;
-    Vec m_454;
+    // Scratch of the attack states, shared with the TObjEneMe1Canadin twin at the same place.
+    f32 work_speed;         // melee: approach step; orbit: climb step; hurt: fall speed; move forward: x step
+    f32 orbit_radius;       // orbit: radius; melee: climb step; hurt: fall acceleration; move forward: z step
+    f32 orbit_radius_step;  // orbit: radius step towards 70
+    Vec work_point;         // ranged attack: aim point; orbit: direction from the target
     TObject *eff_line;
     TParticleCtrl *particle_emitter;
     NJS_ARGB core_color;
@@ -125,7 +128,7 @@ struct TObjEneMe1Gee : public TObjEneDD_ST {
     s32 fade_step_timer;
     s32 fade_cursor;
     u16 leader_id;
-    u8 unk_48e[0x2];
+    u8 pad_48e[0x2];
     static void load_resources();
     static void cache_result_805D6660();
     static void advance_camera_ctrl_step(NJS_OBJECT *);
@@ -173,6 +176,12 @@ struct TObjEneMe1Gee : public TObjEneDD_ST {
     void calc_position(Vec *out);
     static BmlResource *get_resource_bundle();  // returns TObjEneMe1Gee__resource_bundle
 };
+
+// Stat ids of the three kinds (GeeData); load_resources registers them with TLobby.
+extern const u32 gee_base_stat_ids[3];
+extern const u32 gee_attack_stat_ids[3];
+extern const u32 gee_resist_stat_ids[3];
+extern const u32 gee_param_ids[3];
 
 LAYOUT_ASSERT(TObjEneMe1Gee_size, sizeof(TObjEneMe1Gee) == 0x490);
 #endif
