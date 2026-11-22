@@ -2,6 +2,21 @@
 #define PSO_ENEMY_TOBJENEMY_H
 #include "types.h"
 #include "pso/object/base/TObjChara.h"
+
+// One set entry's enemy state as the lobby keeps it (TSetManager allocates 0xB50 of them): what
+// TObjEnemy::exchange_object_state copies out (mode 1) or stores (mode 0), what send_6x0A_enemy_state
+// sends and what apply_enemy_state applies.
+struct EnemyStateRecord {
+    s32 flags;  // the enemy's actorFlags
+    u16 drop_id;  // TLobby::init_id_tables numbers the entries; 0xFFFF once the drop is taken
+    s16 damage;  // hpmax - hp
+    u8 attack_status;  // 9 or 11, applied by apply_attack_stat_status
+    u8 attack_status_level;
+    u8 defense_status;  // 10 or 12, applied by apply_defense_stat_status
+    u8 defense_status_level;
+};
+
+LAYOUT_ASSERT(EnemyStateRecord_size, sizeof(EnemyStateRecord) == 0xC);
 struct TObjEnemy : public TObjChara {
     TObjEnemy(TObject *parent);
     void refresh_and_send_entity_flags();

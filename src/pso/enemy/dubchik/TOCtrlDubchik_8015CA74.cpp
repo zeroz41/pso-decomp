@@ -284,12 +284,12 @@ void TOCtrlDubchik::decay_timer_and_clear_flag() {
 }
 
 void TOCtrlDubchik::complete_and_destroy() {
-    s32 state;
+    EnemyStateRecord state;
     if (exchange_object_state(&state, 1) != 0) {
-        state = 1;
+        state.flags = 1;
         send_6x0A_enemy_state(&state);
         exchange_object_state(&state, 0);
-        apply_enemy_state(&state);
+        apply_enemy_state(&state.flags);
         kill_room_dubchiks();
         set_flag8();
         queue_destruction();

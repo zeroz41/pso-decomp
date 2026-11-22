@@ -3,6 +3,7 @@
 #include "pso/map/FloorPopulation.h"
 #include "pso/system/ResourceFile.h"
 #include "pso/map/TSetManager.h"
+#include "pso/enemy/TObjEnemy.h"
 #include "types.h"
 #include <string.h>
 
@@ -35,8 +36,6 @@ void *lbl_804C9460[6] = {
     (void *)0x0, (void *)0x0,
 };
 }
-struct Rec12_8020E228 { u32 a; u16 id; u16 b; u32 c; };
-
 s32 lbl_805D60F8;
 s32 TLobby__data_805D60FC;
 s32 lbl_805D6100;
@@ -56,7 +55,7 @@ s16 TLobby__data_805D6134;
 FloorObjectSetRow *TLobby__data_805D6138;
 EnemySetRecord *TLobby__data_805D613C;
 QuestObjectEntry *quest_object_entries;
-Rec12_8020E228 *TLobby__data_805D6144;
+EnemyStateRecord *TLobby__data_805D6144;
 s32 TLobby__data_805D6148;
 s32 TLobby__data_805D614C;
 
@@ -217,7 +216,7 @@ void TLobby::reset_id_tables() {
         for (i = 0; i < 0xB50; i++) {
             s16 t = n + 0x100;
             n++;
-            TLobby__data_805D6144[i].id = t;
+            TLobby__data_805D6144[i].drop_id = t;
         }
     }
 }
@@ -252,7 +251,7 @@ void clear_floor_population(void) {
     if (TLobby__data_805D6144 != 0) {
         memset(TLobby__data_805D6144, 0, 0x87C0);
         for (i = 0; i < 0xB50; i++) {
-            TLobby__data_805D6144[i].id = n++ + 0x100;
+            TLobby__data_805D6144[i].drop_id = n++ + 0x100;
         }
     }
     TLobby__data_805D6148 = 0;
@@ -425,13 +424,13 @@ void init_item_drop_tables(void) {
     memset(TLobby__data_80513CC8, 0, 0x48);
     memset(TLobby__data_80513D10, 0, 0x24);
     quest_object_entries = (QuestObjectEntry *)TQuestVmDownLoadServer__sub_8007EBDC(0xBA0, 4);
-    TLobby__data_805D6144 = (Rec12_8020E228 *)TQuestVmDownLoadServer__sub_8007EBDC(0xB50, 0xC);
+    TLobby__data_805D6144 = (EnemyStateRecord *)TQuestVmDownLoadServer__sub_8007EBDC(0xB50, 0xC);
     k = 0;
     for (i = 0; i < 0xBA0; i++) {
         quest_object_entries[i].drop_id_base = k++ + 0x100;
     }
     for (i = 0; i < 0xB50; i++) {
-        TLobby__data_805D6144[i].id = k++ + 0x100;
+        TLobby__data_805D6144[i].drop_id = k++ + 0x100;
     }
     TLobby__data_805D6148 = 0;
     TLobby__data_805D614C = 0;

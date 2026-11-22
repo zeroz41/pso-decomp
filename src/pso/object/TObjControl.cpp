@@ -57,21 +57,9 @@ struct Msg_800F641C { u8 code; u8 size; u16 id; s32 arg; };
 
 struct Obj_800F641C { u8 pad[0x1c]; u16 id; };
 
-struct Hdr_800F6464 { u32 w; u16 x; s16 y; u32 z; };
-
 struct Msg_800F6464 { u8 pad0[2]; u16 f2; u16 f4; s16 f6; u32 f8; };
 
 struct Msg_800F62E0 { u8 pad0[2]; u16 id; s32 flags; };
-
-struct Pkt_800F65D0 {
-    s32 id;
-    s16 pad4;
-    s16 diff;
-    s8 a;
-    s8 av;
-    s8 b;
-    s8 bv;
-};
 
 struct Pair_800F673C { s32 a; f32 b; };
 
@@ -130,8 +118,6 @@ struct VObj_800F673C : VBase_800F673C {
     virtual void m49(Pair_800F673C);
     virtual void m50(Pair_800F673C);
 };
-
-struct Msg_800F673C { u32 flags; u8 pad4[2]; s16 f6; u8 b8; u8 b9; u8 bA; u8 bB; };
 
 typedef struct TObjPlayer_800F6B68 {
     u8 pad[0x2D6];
@@ -212,7 +198,7 @@ s32 minimap_render_dot(void *, int, int, int);
 
 void init_6x9C_enemy_low_game_flags_packet(u8 *arg0);
 
-extern Hdr_800F6464 *TLobby__data_805D6144;
+extern EnemyStateRecord *TLobby__data_805D6144;
 
 extern u8 lobby_rule_settings[];
 
@@ -762,10 +748,10 @@ void TObjEnemy::apply_enemy_state(s32 *state) {
 }
 
 void TObjEnemy::apply_hit_message_flags(void *arg1_arg) {
-    Msg_800F673C *arg1 = (Msg_800F673C *)arg1_arg;
+    EnemyStateRecord *arg1 = (EnemyStateRecord *)arg1_arg;
     s32 flags;
     Pair_800F673C p;
-    this->hp = this->hpmax - arg1->f6;
+    this->hp = this->hpmax - arg1->damage;
     if (game_difficulty_selection == 3) {
         flags = arg1->flags & ~0x3F;
     } else {
@@ -784,20 +770,20 @@ void TObjEnemy::apply_hit_message_flags(void *arg1_arg) {
         }
     }
     obj_setFlags30(this, flags);
-    p.a = arg1->b8;
-    p.b = arg1->b9;
-    arg1->b8 = 0;
-    arg1->b9 = 0;
+    p.a = arg1->attack_status;
+    p.b = arg1->attack_status_level;
+    arg1->attack_status = 0;
+    arg1->attack_status_level = 0;
     switch (p.a) {
     case 9:
     case 11:
         ((VObj_800F673C *)this)->m49(p);
         break;
     }
-    p.a = arg1->bA;
-    p.b = arg1->bB;
-    arg1->bA = 0;
-    arg1->bB = 0;
+    p.a = arg1->defense_status;
+    p.b = arg1->defense_status_level;
+    arg1->defense_status = 0;
+    arg1->defense_status_level = 0;
     switch (p.a) {
     case 10:
     case 12:
@@ -807,23 +793,23 @@ void TObjEnemy::apply_hit_message_flags(void *arg1_arg) {
 }
 
 s32 TObjEnemy::sync_enemy_state(s32 status) {
-    Pkt_800F65D0 pkt;
+    EnemyStateRecord pkt;
     s32 ret;
     ret = 0;
     if (this->entity_id >= 0x1000 && this->entity_id < 0x4000) {
         this->exchange_object_state(&pkt, 1);
-        pkt.diff = this->hpmax - this->hp;
-        pkt.id = this->actorFlags;
+        pkt.damage = this->hpmax - this->hp;
+        pkt.flags = this->actorFlags;
         switch (status) {
         case 9:
         case 11:
-            pkt.a = status;
-            pkt.av = 0.1f * ((f32)TObjPlayer__sub_8001943C(this, 2) / 30.0f - 40.0f);
+            pkt.attack_status = status;
+            pkt.attack_status_level = 0.1f * ((f32)TObjPlayer__sub_8001943C(this, 2) / 30.0f - 40.0f);
             break;
         case 10:
         case 12:
-            pkt.b = status;
-            pkt.bv = 0.1f * ((f32)TObjPlayer__sub_8001943C(this, 3) / 30.0f - 40.0f);
+            pkt.defense_status = status;
+            pkt.defense_status_level = 0.1f * ((f32)TObjPlayer__sub_8001943C(this, 3) / 30.0f - 40.0f);
             break;
         }
         ret = this->exchange_object_state(&pkt, 0);
@@ -835,45 +821,45 @@ s32 TObjEnemy::sync_enemy_state(s32 status) {
 }
 
 void TObjEnemy::send_6x0A_enemy_state(void *state_in) {
-    Pkt_800F65D0 state;
+    EnemyStateRecord state;
     Msg_800F6464 msg;
     u32 new_flags;
-    if (((Pkt_800F65D0 *)state_in) != NULL) {
-        ((TLobby *)(&state))->copy_header(((Pkt_800F65D0 *)state_in));
+    if (((EnemyStateRecord *)state_in) != NULL) {
+        ((TLobby *)(&state))->copy_header(((EnemyStateRecord *)state_in));
     } else if (this->exchange_object_state(&state, 1) == 0) {
         return;
     }
     init_6x0A_enemy_state_packet(&msg);
     msg.f2 = this->entity_id;
     msg.f4 = ((Ene_800F6510 *)this)->f2C;
-    msg.f6 = state.diff;
+    msg.f6 = state.damage;
     if (game_difficulty_selection == 3) {
-        msg.f8 = state.id & ~0x3F;
-        new_flags = state.id & 0x3F;
+        msg.f8 = state.flags & ~0x3F;
+        new_flags = state.flags & 0x3F;
         new_flags &= ~((Ene_800F6510 *)this)->low_game_flags;
         if (new_flags != 0) {
             this->send_6x9C_enemy_low_game_flags(new_flags);
-            ((Ene_800F6510 *)this)->low_game_flags = state.id & 0x3F;
+            ((Ene_800F6510 *)this)->low_game_flags = state.flags & 0x3F;
         }
     } else {
-        msg.f8 = state.id;
+        msg.f8 = state.flags;
     }
     send_6x0A_enemy_state_packet(&msg);
 }
 
 void handle_6x0A_update_enemy_state(Msg_800F6464 *arg0) {
-    Hdr_800F6464 sp;
+    EnemyStateRecord sp;
     u16 idx;
     TObjEnemy *e;
     ((TLobby *)arg0)->bswap_enemy_state();
     idx = arg0->f4;
     ((TLobby *)(&sp))->copy_header(&TLobby__data_805D6144[idx]);
-    sp.y = arg0->f6;
+    sp.damage = arg0->f6;
     if (game_difficulty_selection == 3) {
-        sp.w &= 0x3F;
-        sp.w = (arg0->f8 & ~0x3F) | sp.w;
+        sp.flags &= 0x3F;
+        sp.flags = (arg0->f8 & ~0x3F) | sp.flags;
     } else {
-        sp.w = arg0->f8;
+        sp.flags = arg0->f8;
     }
     apply_by_index__9TObjEnemyFs(idx, &sp);
     e = (TObjEnemy *)get_enemy_entity(arg0->f2);
