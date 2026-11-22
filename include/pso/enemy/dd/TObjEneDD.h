@@ -93,9 +93,6 @@ struct TObjEneDD : public TObjEnemy {
     static s32 collect_target_candidates(TObjEneDD *actor, f32 range);
     static void create_instance();
     static int get_enemy_count();
-    void handle_state(s32 arg1);
-    void noop();
-    void state_damaged(s32 arg1);
     int get_target_info();
     void set_field_378(s32 v);
     void init_position_vectors();
