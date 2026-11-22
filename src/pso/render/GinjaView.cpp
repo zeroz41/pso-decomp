@@ -11,11 +11,11 @@
 
 f32 camera_look_at_up_vector[3] = {0.0f, 1.0f, 0.0f};
 
-void TCameraCtrl::update_camera_state(f32 x, f32 y, f32 z) {
-    TCameraCtrl::translate_view_negated(x, y, z);
+void update_camera_state(f32 x, f32 y, f32 z) {
+    translate_view_negated(x, y, z);
 }
 
-void TCameraCtrl::look_at_position(f32 x, f32 y, f32 z) {
+void look_at_position(f32 x, f32 y, f32 z) {
     u8 eye[0x14];
     Vec target;
     get_look_at_eye(eye);
@@ -28,7 +28,7 @@ void TCameraCtrl::look_at_position(f32 x, f32 y, f32 z) {
 
 #pragma push
 #pragma scheduling off
-void TCameraCtrl::translate_view_negated(f32 x, f32 y, f32 z) {
+void translate_view_negated(f32 x, f32 y, f32 z) {
     translate_matrix(0, -x, -y, -z);
 }
 #pragma pop
@@ -48,7 +48,7 @@ void set_camera_look_at(u8 *eye, u8 *target, u8 *up) {
 #pragma scheduling off
 
 // Clip distances come in as negative view-space z, clamped to [-65535, -1].
-void TCameraCtrl::set_clamped_offsets(f32 near_z, f32 far_z) {
+void set_clamped_offsets(f32 near_z, f32 far_z) {
     if (near_z > -1.0f) {
         near_z = -1.0f;
     }

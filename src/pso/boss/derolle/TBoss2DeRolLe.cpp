@@ -1598,9 +1598,9 @@ void TBoss2DeRolLe::spawn_ceil_junk(Vec *pos) {
 void TBoss2DeRolLe::spawn_offset_particle(Vec *position, f32 height, f32 distance) {
     Vec pos;
     VecCopy(&pos, position);
-    pos.x = -((lbl_804FF5E8[3] * distance) - pos.x);
-    pos.y -= (lbl_804FF5E8[4] * distance) - height;
-    pos.z = -((lbl_804FF5E8[5] * distance) - pos.z);
+    pos.x = -((ninja_camera.vx * distance) - pos.x);
+    pos.y -= (ninja_camera.vy * distance) - height;
+    pos.z = -((ninja_camera.vz * distance) - pos.z);
     spawn_particle_effect_with_flags(&pos, 0x127, 0x40);
 }
 

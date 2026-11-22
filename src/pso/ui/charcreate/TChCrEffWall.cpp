@@ -9,7 +9,6 @@
 #include "pso/unk/TLobby_801E2F94.h"
 
 extern "C" {
-void TCameraCtrl__sub_80068EF0(void);
 const char *TChCrEffWall__name = "TChCrEffWall";
 extern const vec2f creation_effwall_sprite_position_table[6] = {
     {0.0f, 0.0f}, {0.0f, 256.0f}, {256.0f, 0.0f}, {256.0f, 128.0f}, {256.0f, 256.0f}, {256.0f, 384.0f},
@@ -49,7 +48,7 @@ void TChCrEffWall::render() {
     args.colors = lbl_804DBFA8;
     args.verts = lbl_804DBF88;
     ((TWindowCtrlMain *)(&args))->draw_strip_swap_color(4, 6, -9934.0f);
-    TCameraCtrl__sub_80068EF0();
+    TCameraCtrl::restore_saved_view();
     restore_saved_depth_alpha_state();
 }
 

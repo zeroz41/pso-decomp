@@ -6,6 +6,7 @@
 #include "pso/camera/CameraHelpers.h"
 #include "pso/camera/TCameraFollow.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/camera/CameraViewParams.h"
 #include "pso/render/GinjaView.h"
 #include "pso/map/CsnQuery.h"
@@ -70,7 +71,7 @@ s32 TCameraController::predict_obstruction() {
     if (this->actor == NULL) {
         return 0;
     }
-    prev = (Vec *)((TCameraCtrl *)this->actor)->get_target_ptr();
+    prev = this->actor->get_prev_position_ptr();
     pos = (Vec *)this->actor->get_position_ptr();
     moved.x = pos->x - prev->x;
     moved.y = pos->y - prev->y;
@@ -155,13 +156,13 @@ void TCameraController::post_update_view() {
     look.y = camera_ctrl_instance->tgt.y + t->y;
     look.z = camera_ctrl_instance->tgt.z + t->z;
     set_camera_look_at((u8 *)&camera_ctrl_instance->pos, (u8 *)&look, (u8 *)&TCameraCtrl::up_vector);
-    lbl_804FF5E8[0] = camera_ctrl_instance->pos.x;
-    lbl_804FF5E8[1] = camera_ctrl_instance->pos.y;
-    lbl_804FF5E8[2] = camera_ctrl_instance->pos.z;
+    ninja_camera.px = camera_ctrl_instance->pos.x;
+    ninja_camera.py = camera_ctrl_instance->pos.y;
+    ninja_camera.pz = camera_ctrl_instance->pos.z;
     if (TCameraCtrl::view_state.flags & 0x200) {
         GXSetScissorBoxOffset((s32)-(TCameraCtrl::view_params.center_x - 320.0f), (s32)-(TCameraCtrl::view_params.center_y - 240.0f));
-        TCameraCtrl__sub_801E32D8(TCameraCtrl::view_params.center_x, TCameraCtrl::view_params.center_y);
-        TCameraCtrl::set_viewport_scissor(2, TCameraCtrl::view_params.pad_30);
+        set_screen_center(TCameraCtrl::view_params.center_x, TCameraCtrl::view_params.center_y);
+        set_viewport_scissor(2, TCameraCtrl::view_params.pad_30);
     }
 }
 

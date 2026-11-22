@@ -843,7 +843,7 @@ s32 TLobby__sub_80292F34(s32 limit) {
     }
     return 0;
 }
-int TLobby__sub_80292F5C(void* p) { return TCameraCtrl::get_instance(); }
+int TLobby__sub_80292F5C(void* p) { return TCameraCtrl::get_view_count(); }
 #pragma push
 #pragma fp_contract on
 s32 TLobby::get_challenge_mode_flag() {

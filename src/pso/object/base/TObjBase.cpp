@@ -157,18 +157,18 @@ s32 TObjBase::classify_actor_view_detail(f32 near_depth, f32 far_depth, f32 radi
         return 0;
     }
     if (probe.point.x < 0.0f) {
-        probe.point.x = (camera_right[0] * radius) + position.x;
-        probe.point.y = (camera_right[1] * radius) + position.y;
-        probe.point.z = (camera_right[2] * radius) + position.z;
+        probe.point.x = (camera_right.x * radius) + position.x;
+        probe.point.y = (camera_right.y * radius) + position.y;
+        probe.point.z = (camera_right.z * radius) + position.z;
         project_world_to_screen(0, &probe.point, probe.screen);
         if (probe.screen[0] < 0.0f) {
             visibility = 0;
             return 0;
         }
     } else {
-        probe.point.x = -((camera_right[0] * radius) - position.x);
-        probe.point.y = -((camera_right[1] * radius) - position.y);
-        probe.point.z = -((camera_right[2] * radius) - position.z);
+        probe.point.x = -((camera_right.x * radius) - position.x);
+        probe.point.y = -((camera_right.y * radius) - position.y);
+        probe.point.z = -((camera_right.z * radius) - position.z);
         project_world_to_screen(0, &probe.point, probe.screen);
         if (probe.screen[0] > 640.0f) {
             visibility = 0;
@@ -212,18 +212,18 @@ s32 TObjBase::update_object_view_visibility(f32 far_depth, f32 radius) {
         return 0;
     }
     if (probe.point.x < 0.0f) {
-        probe.point.x = (camera_right[0] * radius) + position.x;
-        probe.point.y = (camera_right[1] * radius) + position.y;
-        probe.point.z = (camera_right[2] * radius) + position.z;
+        probe.point.x = (camera_right.x * radius) + position.x;
+        probe.point.y = (camera_right.y * radius) + position.y;
+        probe.point.z = (camera_right.z * radius) + position.z;
         project_world_to_screen(0, &probe.point, probe.screen);
         if (probe.screen[0] < 0.0f) {
             visibility = 0;
             return 0;
         }
     } else {
-        probe.point.x = -((camera_right[0] * radius) - position.x);
-        probe.point.y = -((camera_right[1] * radius) - position.y);
-        probe.point.z = -((camera_right[2] * radius) - position.z);
+        probe.point.x = -((camera_right.x * radius) - position.x);
+        probe.point.y = -((camera_right.y * radius) - position.y);
+        probe.point.z = -((camera_right.z * radius) - position.z);
         project_world_to_screen(0, &probe.point, probe.screen);
         if (probe.screen[0] > 640.0f) {
             visibility = 0;

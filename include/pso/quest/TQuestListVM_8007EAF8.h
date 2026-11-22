@@ -7,7 +7,7 @@ struct TQuestVmDownLoadServer;
 struct CameraParams;
 
 // The demo cameras, picked by demo_camera_controller_index; TCameraDebugView orbits
-// the eye of the current one (inferred: CameraParams keeps its eye at 0x1C).
+// the eye of the current one.
 extern CameraParams *demo_camera_controller_table[16];
 
 extern "C" {

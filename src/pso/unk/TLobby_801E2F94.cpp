@@ -35,13 +35,12 @@
 
 extern "C" {
 
-void TCameraCtrl__sub_80068EF0(void);
 s32 TLobby__sub_80228154(s32, s32, s32, f32);
 
 void TLobby::draw_with_camera(s32 sprite, s32 frame_index, s32 flags, f32 depth) {
     TCameraCtrl::restore_full_screen_view();
     TLobby__sub_80228154(sprite, frame_index, flags, depth);
-    TCameraCtrl__sub_80068EF0();
+    TCameraCtrl::restore_saved_view();
 }
 }
 
@@ -111,12 +110,11 @@ int current_line_width = 12;
 s32 lbl_805D3584 = 1;
 f32 viewport_scissor_origin_x = 320.0f;
 f32 camera_viewport_center_y = 240.0f;
-void TCameraCtrl__sub_801E32D8(f32 farg0, f32 farg1);
 void GXSetScissor(u32, u32, u32, u32);
-void camera_renderer_setup_nop(void);
 s32 TObjPlayer__sub_803DAD28(u32 arg0);
+}
 
-void TCameraCtrl::set_viewport_scissor(int mode, void *rect) {
+void set_viewport_scissor(int mode, void *rect) {
     Rect_801E317C *r = (Rect_801E317C *)rect;
     f32 adj;
     f32 x;
@@ -148,12 +146,13 @@ void TCameraCtrl::set_viewport_scissor(int mode, void *rect) {
     }
 }
 
-void TCameraCtrl__sub_801E32D8(f32 farg0, f32 farg1) {
-    viewport_scissor_origin_x = farg0;
-    camera_viewport_center_y = farg1;
+void set_screen_center(f32 x, f32 y) {
+    viewport_scissor_origin_x = x;
+    camera_viewport_center_y = y;
 }
 
-void camera_renderer_setup_nop(void) {  }
+extern "C" {
+void camera_renderer_setup_nop(NJS_CAMERA *camera, s32 angle) {  }
 
 void TWindowDD::draw_transformed_primitive(s32 a1, u32 a2, s32 a3) { TObjPlayer__sub_803DAD28(a2); TObjPlayer::draw_textured_vertices(this, a1, a3); }
 

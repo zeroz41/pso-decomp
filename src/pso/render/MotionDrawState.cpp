@@ -5,7 +5,7 @@
 // 4 B pad) and text_803D853C's, and the .text between those two units is contiguous, so the code that defines these
 // two has not been found yet. Fold this file into that unit once it is.
 
-// Called for every node while draw_motion_node_tree_with_context walks a motion tree; TCameraCtrl::init_projection_state
+// Called for every node while draw_motion_node_tree_with_context walks a motion tree; init_projection_state
 // sets it.
 void *motion_node_draw_callback;
 

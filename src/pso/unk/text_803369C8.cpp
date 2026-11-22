@@ -33,7 +33,6 @@ int render_logo_with_default(void *p, int a1, int a2, f32 a3);
 int lobby_global_flags;
 extern "C" {
 
-void TCameraCtrl__sub_80068EF0(void);
 }
 
 static const f32 ring_offsets[3][2] = {{-137.0f, -79.0f}, {137.0f, -79.0f}, {0.0f, 156.0f}};
@@ -150,7 +149,7 @@ void TUnk_804EEF80::render() {
         draw_title_background_pulse((saddr)this, -140.0f, this->m_20);
         draw_title_background_layer(get_title_texture_list(), 3, -1, -130.0f);
         draw_title_rings((saddr)this, -120.0f, this->m_20);
-        TCameraCtrl__sub_80068EF0();
+        TCameraCtrl::restore_saved_view();
         TParticleCtrl::end_effect_render();
     }
 }

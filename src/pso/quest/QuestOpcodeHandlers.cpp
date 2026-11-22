@@ -874,7 +874,6 @@ f64 atan2_float(void *, f32, f32);
 void TLobby__sub_8001DE30(void *);
 s32 setControlOverride__12TBoss1DragonFs(int, void *);
 int set_camera_capture_overlay_alpha(void*);
-void TCameraCtrl__sub_8006B3B8(Vec *, Vec *);
 saddr TLobby__sub_80070ACC();
 s32 set_challenge_mode_split_flag();
 s32 TLobby__sub_80070B34(int);
@@ -3832,7 +3831,7 @@ void qst_op_leti_fixed_camera(u8 regs) {
     at.x = qst_registers[(u8)regs++];
     at.y = qst_registers[(u8)regs++];
     at.z = qst_registers[(u8)regs];
-    TCameraCtrl__sub_8006B3B8(&eye, &at);
+    set_fixed_camera(&eye, &at);
 }
 
 void qst_op_sync_register(void) {
