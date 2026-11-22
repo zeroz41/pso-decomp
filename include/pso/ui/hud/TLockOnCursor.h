@@ -38,15 +38,22 @@ public:
 };
 
 // TLockOnCursor +0x3C: the TLOC_Start, TLOC_End and TLOC_ListClear tasks that
-// reset_and_spawn_cursors creates and ~TLockOnCursor deletes.
+// reset_and_spawn_cursors creates and ~TLockOnCursor deletes. Each task clears its
+// own slot when it is destroyed.
 class TUnk_8013F08C {
 public:
-    TObject *unk_0;
-    TObject *unk_4;
-    TObject *unk_8;
+    TObject *start_task;
+    TObject *end_task;
+    TObject *list_clear_task;
 
     TUnk_8013F08C();
     ~TUnk_8013F08C();
+    void set_list_clear_task(TObject *task);
+    void set_end_task(TObject *task);
+    void set_start_task(TObject *task);
+    TObject *get_list_clear_task();
+    TObject *get_end_task();
+    TObject *get_start_task();
 };
 
 // A TargetCursorRecord and a flag word. Built and destroyed by the
@@ -101,23 +108,31 @@ public:
     TUnk_8013EF3C();
 };
 
-// TLockOnCursor +0x510, reset by reset_nearest_target_record.
+// TLockOnCursor +0x510. TMainCursor::try_add_target_candidate keeps the closest
+// candidate here while it scans; publish() copies its id and distance to the
+// published pair.
 class TUnk_8013EF0C {
 public:
-    s32 unk_0;
-    u16 unk_4;
-    u16 unk_6;
-    f32 unk_8;
-    f32 unk_c;
+    s32 candidate_part_index; // the candidate's collision entry
+    u16 published_target_id;
+    u16 candidate_target_id;
+    f32 published_target_dist;
+    f32 candidate_target_dist;
 
     TUnk_8013EF0C();
+    void publish();
+    void set_published_target_dist(f32 dist);
+    f32 get_candidate_target_dist();
+    void set_published_target_id(u16 id);
+    u16 get_candidate_target_id();
+    void reset();
 };
 
 struct TLockOnCursor : public TObject {
     FlagWord flags;
     u16 target_id; // read by get_target_id()
     TUnk_8013F0A0 unk_24;
-    TUnk_8013F08C unk_3c;
+    TUnk_8013F08C tasks;
     TUnk_804A7254 unk_48;
     TUnk_8013EFB8 action_slots[4]; // inferred: one action palette tag and its targets each (find_by_pos)
     TUnk_8013EF6C unk_4ec;
@@ -142,9 +157,12 @@ struct TLockOnCursor : public TObject {
     void update_ring_sub();
     int test_flag_1_at_8();
     s32 get_target();
-    saddr release_target();
-    saddr cleanup_field();
-    saddr cleanup_field_3c();
+    void set_list_clear_task(TObject *task);
+    void set_end_task(TObject *task);
+    void set_start_task(TObject *task);
+    TObject *get_list_clear_task();
+    TObject *get_end_task();
+    TObject *get_start_task();
     void reset_and_spawn_cursors();
     static void *init_sub(void* p);
     TUnk_8013EFB8 *find_by_pos(s16 mode, s16 kind);

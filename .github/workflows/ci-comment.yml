@@ -8,6 +8,10 @@
 # treats the artifact as untrusted data, and the PR number comes from the triggering
 # run's head branch and commit, not from the artifact.
 #
+# It also measures source quality (tools/source_quality.py, from master) on the pull
+# request's merge commit, fetched into a bare repository and read as text only. The
+# result is advisory: it is shown in the comment and never fails the pull request.
+#
 # workflow_run only fires for workflow files on the default branch, so changes to this
 # file take effect once they are merged.
 
@@ -46,7 +50,9 @@ jobs:
     steps:
       - uses: actions/checkout@v7
         with:
-          sparse-checkout: tools/ci_comment.py
+          sparse-checkout: |
+            tools/ci_comment.py
+            tools/source_quality.py
           sparse-checkout-cone-mode: false
 
       - name: Download results
@@ -68,12 +74,35 @@ jobs:
           fi
           echo "number=$pr" >> "$GITHUB_OUTPUT"
 
+      # The merge commit GitHub tested (refs/pull/N/merge) against its first parent, the
+      # base branch it merged into. Skipped when the ref has moved on to a newer push or
+      # does not exist (a pull request that does not merge cleanly).
+      - name: Measure source quality
+        if: steps.pr.outputs.number != ''
+        continue-on-error: true
+        timeout-minutes: 5
+        env:
+          PR: ${{ steps.pr.outputs.number }}
+        run: |
+          git init -q --bare pr.git
+          auth=$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)
+          echo "::add-mask::$auth"
+          git --git-dir pr.git -c "http.https://github.com/.extraheader=AUTHORIZATION: basic $auth" \
+            fetch -q --depth=2 --no-tags "https://github.com/$REPO" "+refs/pull/$PR/merge:refs/pr/merge"
+          if [ "$(git --git-dir pr.git rev-parse refs/pr/merge^2)" != "$HEAD_SHA" ]; then
+            echo "refs/pull/$PR/merge is not a merge of $HEAD_SHA (a newer push moved it); not measured."
+            exit 0
+          fi
+          python3 tools/source_quality.py --git-dir pr.git --base 'refs/pr/merge^1' --head refs/pr/merge \
+            --limit 1000 --json quality.json
+
       - name: Post or update the comment
         if: steps.pr.outputs.number != ''
         env:
           PR: ${{ steps.pr.outputs.number }}
         run: |
-          python3 tools/ci_comment.py ci-result/result.json --sha "$HEAD_SHA" --run-url "$RUN_URL" > comment.md
+          python3 tools/ci_comment.py ci-result/result.json --sha "$HEAD_SHA" --run-url "$RUN_URL" \
+            --quality quality.json > comment.md
           cat comment.md >> "$GITHUB_STEP_SUMMARY"
           id=$(gh api --paginate "repos/$REPO/issues/$PR/comments" \
                  --jq '.[] | select(.user.login == "github-actions[bot]" and (.body | startswith("<!-- pso-ci -->"))) | .id' \

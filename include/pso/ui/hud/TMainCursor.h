@@ -67,12 +67,9 @@ struct TMainCursor : public TObject {
     s32 is_channel_active();
     int check_visible();
     saddr get_state();
-    void destroy_lock_on(s32 a1);
-    void set_target(s32 a1);
     void set_target_index(s16 v);
     void update_cursor_pos();
     void*copy_from(void* a1);
-    void set_sub_cursor_value(s32 a1);
     saddr get_index();
     void reset_slot();
     void set_type(s32 v);
@@ -108,7 +105,6 @@ struct TMainCursor : public TObject {
     void refresh_target_marker();
     void update_chair();
     void validate_target();
-    void publish_nearest_target();
     int is_same_target(void *b);
     void set_target_id_at_60(u8 arg1);
     void set_target_id(s16 v);
