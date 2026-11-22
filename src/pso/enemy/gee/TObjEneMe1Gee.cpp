@@ -20,7 +20,7 @@
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
-#include "pso/enemy/gee/TUnk_8049387C.h"
+#include "pso/enemy/gee/TObjEneMe1GeeLeader.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/gee/TObjEneMe1Gee.h"
 #include "pso/enemy/gee/TObjEneMe1Gee_NEEDLE.h"
@@ -474,11 +474,11 @@ void TObjEneMe1Gee::select_next_attack_state() {
 
 void TObjEneMe1Gee::check_collisions() { TObjEneDD::check_collisions(); }
 
-void TObjEneMe1Gee::sub_800CBC1C() {
+void TObjEneMe1Gee::set_melee_body_flags() {
     this->bodies->flags |= 0x28;
 }
 
-void TObjEneMe1Gee::sub_800CBC04() {
+void TObjEneMe1Gee::clear_melee_body_flags() {
     this->bodies->flags &= ~0x28;
 }
 
@@ -558,7 +558,7 @@ s32 TObjEneMe1Gee::handle_message(s32 id) {
     return sound;
 }
 
-void TObjEneMe1Gee::sub_800CB968() {
+void TObjEneMe1Gee::play_high_appear_sound() {
     play_persistent_sound(this->handle_message(0x3BC16), (saddr)this, (uaddr)&this->body_center, 0, 0);
 }
 
@@ -699,7 +699,7 @@ void TObjEneMe1Gee::order_attack() { this->status_flags |= 0x4; }
 
 void TObjEneMe1Gee::set_flag3c8_bit8() { this->status_flags |= 0x8; }
 
-void TObjEneMe1Gee::sub_800CB4DC() {
+void TObjEneMe1Gee::release_from_formation() {
     this->status_flags |= 0x100000 | 4;
 }
 
@@ -866,7 +866,7 @@ void TObjEneMe1Gee::state_high_appear(s32 mode) {
             break;
         }
         this->update_body_colliders();
-        this->sub_800CB968();
+        this->play_high_appear_sound();
         return;
     case 5:
         this->clear_invulnerable();
@@ -1301,12 +1301,12 @@ void TObjEneMe1Gee::state_melee_attack(s32 mode) {
                 this->work_speed = 0.25f * k;
                 this->orbit_radius = 0.25f * (this->hover_height - this->hover_offset);
             }
-            this->sub_800CBC1C();
+            this->set_melee_body_flags();
             this->stage_timer++;
             if (this->stage_timer >= 4) {
                 this->stage_timer = 0;
                 this->stage = 0;
-                this->sub_800CBC04();
+                this->clear_melee_body_flags();
             }
             this->hover_y += this->orbit_radius;
             this->move_to_wall_clamped_destination(this->destination_direction.x, this->destination_direction.z, this->work_speed);
@@ -1377,7 +1377,7 @@ void TObjEneMe1Gee::state_melee_attack(s32 mode) {
     case 5:
         this->status_flags &= ~0x40000;
         this->set_core_color(&gee_formation_reset_vec4);
-        this->sub_800CBC04();
+        this->clear_melee_body_flags();
         break;
     }
 }
@@ -1395,7 +1395,7 @@ void TObjEneMe1Gee::state_orbit(s32 mode) {
         this->clear_intangible();
         this->attack_count = 0;
         this->stage = 1;
-        this->sub_800CBC1C();
+        this->set_melee_body_flags();
         this->stage_timer = 0;
         this->stage_counter = 0;
         this->orbit_angle_step = 0;
@@ -1439,7 +1439,7 @@ void TObjEneMe1Gee::state_orbit(s32 mode) {
                 if (this->stage_timer >= 8) {
                     this->stage_counter++;
                     this->stage = 0;
-                    this->sub_800CBC04();
+                    this->clear_melee_body_flags();
                 }
                 this->hover_y += this->work_speed;
                 rotate_xz_pair_by_angle(&dir->x, &dir->z, this->orbit_angle_step);
@@ -1472,7 +1472,7 @@ void TObjEneMe1Gee::state_orbit(s32 mode) {
         }
         break;
     case 5:
-        this->sub_800CBC04();
+        this->clear_melee_body_flags();
         break;
     }
 }
@@ -1854,9 +1854,9 @@ void TObjEneMe1Gee::render_demo() {
 }
 #pragma pop
 
-TUnk_8049387C::~TUnk_8049387C() {}
+TObjEneMe1GeeLeader::~TObjEneMe1GeeLeader() {}
 
-void TUnk_8049387C::run_task() {
+void TObjEneMe1GeeLeader::run_task() {
     if (TObjPlayer::check_demo_mode() != 0) {
         this->run_demo_task();
         return;
@@ -1871,12 +1871,12 @@ void TUnk_8049387C::run_task() {
     this->render_minimap_dot();
 }
 
-void TUnk_8049387C::select_model() {
+void TObjEneMe1GeeLeader::select_model() {
     this->model = (void *)TObjEneMe1Gee__resource_bundle->models->model;
     this->texlist = (saddr)TObjEneMe1Gee__resource_bundle->models->m_c;
 }
 
-void TUnk_8049387C::select_next_attack_state() {
+void TObjEneMe1GeeLeader::select_next_attack_state() {
     switch (this->attack_pattern) {
     case 0:
     case 1:
@@ -1893,11 +1893,11 @@ void TUnk_8049387C::select_next_attack_state() {
 // dead-stripped: only its literals survive. 10.0f (.sdata2 0x805DA0B8) is pooled after spawn_members'
 // 0.0f and before render_demo's 400.0f, ahead of its first live user state_melee_attack (deferred codegen
 // runs this file bottom-up). Minimal body after state_melee_attack's frame-10 hit check; name inferred.
-static s32 is_hit_frame(TUnk_8049387C *gee) {
+static s32 is_hit_frame(TObjEneMe1GeeLeader *gee) {
     return gee->is_passing_frame(10.0f);
 }
 
-void TUnk_8049387C::spawn_members() {
+void TObjEneMe1GeeLeader::spawn_members() {
     s32 n;
     s32 i;
     s32 j;
@@ -1934,7 +1934,7 @@ void TUnk_8049387C::spawn_members() {
     }
 }
 
-s32 TUnk_8049387C::check_retreat_trigger() {
+s32 TObjEneMe1GeeLeader::check_retreat_trigger() {
     s32 i;
     if (this->status_flags & 0x40) {
         this->status_flags &= ~0x40;
@@ -1947,7 +1947,7 @@ s32 TUnk_8049387C::check_retreat_trigger() {
     return 0;
 }
 
-void TUnk_8049387C::remove_member(TObjEneMe1Gee *member) {
+void TObjEneMe1GeeLeader::remove_member(TObjEneMe1Gee *member) {
     s32 i;
     TObjEneMe1Gee *tmp;
 
@@ -1975,7 +1975,7 @@ void TUnk_8049387C::remove_member(TObjEneMe1Gee *member) {
     }
 }
 
-int TUnk_8049387C::can_member_attack_target(TObjChara *) {
+int TObjEneMe1GeeLeader::can_member_attack_target(TObjChara *) {
     s32 n = 0;
     s32 i;
     for (i = 0; i < this->member_count; i++) {
@@ -1989,13 +1989,13 @@ int TUnk_8049387C::can_member_attack_target(TObjChara *) {
     return n < 2;
 }
 
-void TUnk_8049387C::apply_model_color() {  }
+void TObjEneMe1GeeLeader::apply_model_color() {  }
 
-int TUnk_8049387C::has_no_members() {
+int TObjEneMe1GeeLeader::has_no_members() {
     return (u8) (this->member_count <= 0);
 }
 
-void TUnk_8049387C::update_formation_state() {
+void TObjEneMe1GeeLeader::update_formation_state() {
     s32 j;
     s32 i;
 
@@ -2049,9 +2049,9 @@ void TUnk_8049387C::update_formation_state() {
             this->formation_state = 9;
             copy_argb(&this->core_color, (NJS_ARGB *)&gee_formation_reset_vec4);
             for (j = 0; j < this->member_count; j++) {
-                this->members[j]->sub_800CB4DC();
+                this->members[j]->release_from_formation();
             }
-            this->sub_800CB4DC();
+            this->release_from_formation();
         }
         break;
     case 9:
@@ -2059,7 +2059,7 @@ void TUnk_8049387C::update_formation_state() {
     }
 }
 
-void TUnk_8049387C::state_activate(s32 msg) {
+void TObjEneMe1GeeLeader::state_activate(s32 msg) {
     s32 k;
     s32 i;
     s32 j;
@@ -2123,7 +2123,7 @@ void TUnk_8049387C::state_activate(s32 msg) {
     }
 }
 
-void TUnk_8049387C::state_rise(s32 msg) {
+void TObjEneMe1GeeLeader::state_rise(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 0;
@@ -2147,7 +2147,7 @@ void TUnk_8049387C::state_rise(s32 msg) {
     }
 }
 
-void TUnk_8049387C::state_dead(s32 msg) {
+void TObjEneMe1GeeLeader::state_dead(s32 msg) {
     switch (msg) {
     case 4:
         TBoss3Volopt::create_breakup_mdl((saddr)gee_leader_breakup_model, 0, this->texlist, (saddr)&this->body_center, this->rotation_y);

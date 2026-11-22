@@ -1227,22 +1227,22 @@ force_active:
   - TObjEneMe1Gee_NEEDLE__name
   - __ct__13TObjEneMe1GeeFP7TObjectP13TObjEneMe1GeeP3VecUsl
   - TObjEneMe1Gee__fade_command_streams
-  - run_task__13TUnk_8049387CFv
+  - run_task__19TObjEneMe1GeeLeaderFv
   - state_vanish__13TObjEneMe1GeeFl
   - hurt_state__13TObjEneMe1GeeFl
   - state_orbit__13TObjEneMe1GeeFl
   - state_melee_attack__13TObjEneMe1GeeFl
   - state_ranged_attack__13TObjEneMe1GeeFl
   - state_high_appear__13TObjEneMe1GeeFl
-  - sub_800CB4DC__13TObjEneMe1GeeFv
+  - release_from_formation__13TObjEneMe1GeeFv
   - order_activation_now__13TObjEneMe1GeeFv
   - get_attacking_target__13TObjEneMe1GeeFv
   - has_status_flag__13TObjEneMe1GeeFl
   - is_activated__13TObjEneMe1GeeFv
-  - sub_800CB968__13TObjEneMe1GeeFv
+  - play_high_appear_sound__13TObjEneMe1GeeFv
   - is_hover_low__13TObjEneMe1GeeFv
-  - sub_800CBC04__13TObjEneMe1GeeFv
-  - sub_800CBC1C__13TObjEneMe1GeeFv
+  - clear_melee_body_flags__13TObjEneMe1GeeFv
+  - set_melee_body_flags__13TObjEneMe1GeeFv
   - climb_toward__13TObjEneMe1GeeFf
   - TObjEneMe1GiGueBarrier__barrier_resource_object
   - __ct__22TObjEneMe1GiGueBarrierFP7TObjectPv
@@ -2390,7 +2390,7 @@ force_active:
   - __dt__13TUnk_8048E6A8Fv
   - __dt__13TUnk_8048E6DCFv
   - __dt__13TUnk_804909C4Fv
-  - __dt__13TUnk_8049387CFv
+  - __dt__19TObjEneMe1GeeLeaderFv
   - __dt__13TUnk_80494968Fv
   - __dt__13TUnk_80494E10Fv
   - __dt__13TUnk_8049CA54Fv
@@ -8998,7 +8998,7 @@ force_active:
   - md_stop4_enter__11TBoss4Type2Fv
   - md_stop_idle__11TBoss4Type2Fv
   - md_stop_update__11TBoss4Type2Fv
-  - __vt__13TUnk_8049387C
+  - __vt__19TObjEneMe1GeeLeader
   - me1_gee_init_params
   - me1_gi_gue_motion_filename_table
   - gee_needle_resource
@@ -16194,7 +16194,7 @@ force_active:
   - sub_800BE75C__9TObjGrassFv
   - clear_flag_1__12TObjEneLappyFv
   - set_flag_1__12TObjEneLappyFv
-  - update_formation_state__13TUnk_8049387CFv
+  - update_formation_state__19TObjEneMe1GeeLeaderFv
   - set_out_fighter__13TObjEneMe1GeeFv
   - set_in_fighter__13TObjEneMe1GeeFv
   - set_high_appear__13TObjEneMe1GeeFv
@@ -17397,25 +17397,25 @@ force_active:
   - acquire_target__16TObjEneDellBiterFf
   - acquire_target__17TObjEneDf2BringerFf
   - run_demo_task__12TBoss1DragonFv
-  - select_next_attack_state__13TUnk_8049387CFv
+  - select_next_attack_state__19TObjEneMe1GeeLeaderFv
   - run_demo_task__18TObjEneEpsilonBodyFv
-  - select_model__13TUnk_8049387CFv
+  - select_model__19TObjEneMe1GeeLeaderFv
   - render_demo__16TObjEneDellBiterFv
   - render_demo__18TObjEneEpsilonBodyFv
   - render_demo__18TObjEneRe4SorcererFv
-  - spawn_members__13TUnk_8049387CFv
-  - check_retreat_trigger__13TUnk_8049387CFv
-  - has_no_members__13TUnk_8049387CFv
+  - spawn_members__19TObjEneMe1GeeLeaderFv
+  - check_retreat_trigger__19TObjEneMe1GeeLeaderFv
+  - has_no_members__19TObjEneMe1GeeLeaderFv
   - vfunc_10__12TQuestListVMFv
   - vfunc_10__13TAdVIConfigGCFv
   - vfunc_10__16TAdPsoPassSaveGCFv
   - vfunc_10__20TAdSnAkPassConfirmGCFv
-  - state_activate__13TUnk_8049387CFl
-  - state_rise__13TUnk_8049387CFl
-  - state_dead__13TUnk_8049387CFl
-  - apply_model_color__13TUnk_8049387CFv
-  - can_member_attack_target__13TUnk_8049387CFP9TObjChara
-  - remove_member__13TUnk_8049387CFP13TObjEneMe1Gee
+  - state_activate__19TObjEneMe1GeeLeaderFl
+  - state_rise__19TObjEneMe1GeeLeaderFl
+  - state_dead__19TObjEneMe1GeeLeaderFl
+  - apply_model_color__19TObjEneMe1GeeLeaderFv
+  - can_member_attack_target__19TObjEneMe1GeeLeaderFP9TObjChara
+  - remove_member__19TObjEneMe1GeeLeaderFP13TObjEneMe1Gee
   - vfunc_11__12TQuestListVMFv
   - vfunc_11__17TQuestListOfflineFv
   - vfunc_12__8TObjChipFv

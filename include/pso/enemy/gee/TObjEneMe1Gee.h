@@ -160,16 +160,17 @@ struct TObjEneMe1Gee : public TObjEneDD_ST {
     void state_melee_attack(s32 mode);
     void state_ranged_attack(s32 mode);
     void state_high_appear(s32 mode);
-    void sub_800CB4DC();
+    void release_from_formation();  // status_flags 0x100000 (orbit alone, no regroup) | 4 (order_attack); the leader sends it to every member at formation_state 9 (name inferred)
     void order_activation_now();
     TObjChara *get_attacking_target();  // current_target while status 0x40000 (set by the attack states) is on, else NULL; the leader counts members on its target (name inferred)
     s32 has_status_flag(s32 mask);
     int is_activated();
-    void sub_800CB968();
+    void play_high_appear_sound();  // persistent sound 0x3BC16 each frame of the high appear climb (name inferred)
     s32 is_hover_low();  // hover_offset < 20; gates the melee contact checks (name inferred)
     s32 find_attack_target(f32 *out, f32 range);
-    void sub_800CBC04();
-    void sub_800CBC1C();
+    // bodies->flags 0x28, set for the 4-frame dash of state_melee_attack and cleared after it (names inferred)
+    void clear_melee_body_flags();
+    void set_melee_body_flags();
     void climb_toward(f32 height);
     void climb_hover_y(f32 height);
     void calc_position(Vec *out);

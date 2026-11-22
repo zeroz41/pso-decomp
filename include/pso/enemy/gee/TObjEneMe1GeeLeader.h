@@ -1,11 +1,14 @@
-#ifndef PSO_ENEMY_GEE_TUNK_8049387C_H
-#define PSO_ENEMY_GEE_TUNK_8049387C_H
+#ifndef PSO_ENEMY_GEE_TOBJENEME1GEELEADER_H
+#define PSO_ENEMY_GEE_TOBJENEME1GEELEADER_H
 #include "types.h"
 #include "pso/enemy/gee/TObjEneMe1Gee.h"
 
-class TUnk_8049387C : public TObjEneMe1Gee {
+// The Gee formation leader (vtable 0x8049387C). Name inferred: no class string (its ctor installs the
+// "TObjEneMe1Gee" name), but its table is TObjEneMe1CanadinLeader's slot for slot (same size, the same 13
+// leader overrides: dtor, run_task, spawn_members, remove_member, select_model, ... in the same slots).
+class TObjEneMe1GeeLeader : public TObjEneMe1Gee {
 public:
-    virtual ~TUnk_8049387C();
+    virtual ~TObjEneMe1GeeLeader();
     void run_task();
     virtual void spawn_members();
     virtual void remove_member(TObjEneMe1Gee *member);
