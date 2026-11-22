@@ -24,14 +24,14 @@ public:
     s32 sub_800DFB9C();
     s32 is_dead();
     void do_action_2();
-    void sub_800E1D38();
-    void sub_800E1D94();
-    void sub_800E1E14();
-    s32 sub_800E2FB4();
-    s32 sub_800E1774();
+    void die_with_body();
+    void start_merge();
+    void start_split();
+    s32 is_chasing_or_attacking();
+    s32 find_target_in_front();
     s32 is_below_half_hp();
-    s32 sub_800E2E68();
-    s32 sub_800E2E54();
+    s32 has_reached_partner();
+    s32 is_moving_to_partner();
     s32 check_can_attack();
     s32 is_phase_12();
     virtual void run_task();
@@ -77,18 +77,18 @@ public:
     int find_nearest_enemy_with_flag_alt_target(Vec *direction, f32 range);
     void attack_target_player(s32 arg1);
     // The state table's entries that have no name yet.
-    void sub_800E10D0();
-    void sub_800E0D1C();
-    void sub_800E0B9C();
-    void sub_800E0A44();
-    void sub_800E0950();
-    void sub_800E0930();
-    void sub_800E092C();
-    void sub_800E055C();
-    void sub_800E0344();
-    void sub_800E0214();
-    void sub_800E0048();
-    void sub_800DFE08();
+    void update_wait();
+    void update_slide_in();
+    void enter_damage();
+    void enter_dead();
+    void update_dead();
+    void enter_vanished();
+    void update_vanished();
+    void update_retreat();
+    void enter_call_partner();
+    void update_call_partner();
+    void update_move_to_partner();
+    void update_heal();
     s32 prev_state; // the state before the last set_state
     s32 state; // index into the TU's {enter, update} state table (set_state)
     CollisionBody *collision_body_parts; // init_collision_body_parts / free_collision_body_parts

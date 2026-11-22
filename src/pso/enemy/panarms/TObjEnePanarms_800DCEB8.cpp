@@ -939,10 +939,10 @@ void TObjEnePanarms::enter_dead() {
         }
     } else {
         if (this->halves[0]->is_dying() == 0) {
-            this->halves[0]->sub_800E1D38();
+            this->halves[0]->die_with_body();
         }
         if (this->halves[1]->is_dying() == 0) {
-            this->halves[1]->sub_800E1D38();
+            this->halves[1]->die_with_body();
         }
     }
 }
@@ -962,7 +962,7 @@ void TObjEnePanarms::update_dead() {
     f32 motion_frame;
     s32 timer;
     this->state_timer = (this->state_timer - 1);
-    // inferred name: twin of panarms_particle_frame_window in TObjEnePanBARA::sub_800E0950
+    // inferred name: twin of panarms_particle_frame_window in TObjEnePanBARA::update_dead
     static f32 panarms_dead_particle_frame_window = panarms_motion_param_table[4].speed;
     motion_frame = this->frame;
     if ((motion_frame >= 21.0f) && (motion_frame < (21.0f + panarms_dead_particle_frame_window))) {
@@ -1133,10 +1133,10 @@ void TObjEnePanarms::enter_separated() {
     this->has_split = 1;
     play_sound_effect(this->remap_sound_for_area(0x4003BC2E), (u8 *)this + 0x38, 0, 0);
     if (this->halves[0]->is_dying() == 0) {
-        this->halves[0]->sub_800E1E14();
+        this->halves[0]->start_split();
     }
     if (this->halves[1]->is_dying() == 0) {
-        this->halves[1]->sub_800E1E14();
+        this->halves[1]->start_split();
     }
 }
 
@@ -1190,8 +1190,8 @@ void TObjEnePanarms::merge_halves() {
     obj_setFlags30(this, (int)(0x04000000U));
     TObjEnePanarms__sub_800DE430((saddr)this, 0x2D, 0x25);
     this->hp = (s16) (this->halves[0]->hp + this->halves[1]->hp);
-    this->halves[0]->sub_800E1D94();
-    this->halves[1]->sub_800E1D94();
+    this->halves[0]->start_merge();
+    this->halves[1]->start_merge();
     this->state_timer = 0x40;
 }
 

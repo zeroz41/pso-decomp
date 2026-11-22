@@ -55,24 +55,24 @@
 // The technique levels of TLobby::dispatch_shared_handler_a(0x33) (clamped to 0..14 by the callers).
 struct PanBARATechniqueLevels {
     u8 pad_0[0x18];
-    s32 resta_level;  // TTecResta::create (sub_800DFE08)
+    s32 resta_level;  // TTecResta::create (update_heal)
     s32 jelin_level;  // TTecJelin::create (attack_target_player)
     s32 zalure_level; // TTecZarua::create_instance (attack_target_player)
 };
 
 /* A half's one collision sphere (init_collision_body_parts in the constructor). */
-CollisionBody lbl_80495458[1] = {
+CollisionBody panbara_collision_body[1] = {
     { { 0.0f, 16.5f, 0.0f }, 7.5f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
 
-/* The two halves' motions, picked by the half's index through lbl_80495914. */
-PanarmsMotionParam lbl_80495484[10] = {
+/* The two halves' motions, picked by the half's index through panbara_motion_params_by_half. */
+PanarmsMotionParam panbara_pal_motion_params[10] = {
     { 0x10000, 0x18, 0.8f, 0 }, { 0x10000, 0x1b, 0.7f, 0 }, { 0x10000, 0x15, 1.0f, 0 }, { 0x30000, 0, 0.8f, 0 },
     { 0x30000, 0x14, 0.8f, 0 }, { 0x30000, 0xa, 1.3f, 0 },  { 0x30000, 0xd, 0.7f, 0 },  { 0x30000, 0x10, 0.7f, 0 },
     { 0x30000, 0x12, 0.7f, 0 }, { 0x30000, 6, 0.6f, 0 },
 };
 
-PanarmsMotionParam lbl_80495524[10] = {
+PanarmsMotionParam panbara_par_motion_params[10] = {
     { 0x10000, 0x19, 0.8f, 0 }, { 0x10000, 0x1c, 0.7f, 0 }, { 0x10000, 0x16, 1.0f, 0 }, { 0x30000, 1, 0.8f, 0 },
     { 0, 0, 0.0f, 0 },          { 0x30000, 0xb, 1.3f, 0 },  { 0x30000, 0xe, 0.7f, 0 },  { 0x30000, 0x11, 0.7f, 0 },
     { 0x30000, 0x13, 0.7f, 0 }, { 0x30000, 7, 0.6f, 0 },
@@ -84,26 +84,26 @@ extern const char TObjEnePanBARA__class_name[] = "TObjEnePanBARA";
 const char *TObjEnePanBARA__name = TObjEnePanBARA__class_name;
 
 // The half's bml model/texlist index (ctor).
-const s32 lbl_8043CD38[2] = {1, 2};
+const s32 panbara_model_index_by_half[2] = {1, 2};
 
 const Vec panarms_part_offset_table[2] = {{14.851f, 0.0f, -5.1765f}, {-14.1604f, 0.0f, -5.2659f}};
 
-const s32 lbl_8043CD58[2] = {-26578, 26578};
+const s32 panbara_part_rotation_table[2] = {-26578, 26578};
 
 const Vec panarms_parent_offset_table[2] = {{17.3438f, 0.0f, 5.6544f}, {-17.3438f, 0.0f, 5.6544f}};
 
-const s32 lbl_8043CD78[2] = {-10558, 10558};
+const s32 panbara_parent_rotation_table[2] = {-10558, 10558};
 
-const f32 lbl_8043CD80[2] = {100.0f, 80.0f};
+const f32 panbara_target_range[2] = {100.0f, 80.0f};
 
 // attack_target_player copies these (not indexed).
-const DirectAttackPayload lbl_8043CD88[1] = {{0, 0.0f}};
+const DirectAttackPayload panbara_melee_attack_payload[1] = {{0, 0.0f}};
 
-const DirectAttackPayload lbl_8043CD90[1] = {{0, 0.0f}};
+const DirectAttackPayload panbara_fallback_attack_payload[1] = {{0, 0.0f}};
 
-const f32 lbl_8043CD98[2] = {0.6f, 0.3f};
+const f32 panbara_max_move_speed[2] = {0.6f, 0.3f};
 
-const s32 lbl_8043CDA0[2] = {0x800, -0x800};
+const s32 panbara_retreat_angle_offset[2] = {0x800, -0x800};
 
 // spawn_npc_pair's NPC descriptors (local initialisers; their templates end the TU's .rodata). spawn_npc_pair fills
 // in the bml's motion table before TLobby::spawn_npc_enemy.
@@ -122,7 +122,7 @@ extern PanBARAState TObjEnePanarms__state_fn_table[17];
 
 void ModelNodePositionCapture::clear() { set_chunk_model_node_callback(0); }
 
-s32 TObjEnePanBARA::sub_800E2FB4() {
+s32 TObjEnePanBARA::is_chasing_or_attacking() {
     return state == 9 || state == 11;
 }
 
@@ -149,11 +149,11 @@ s32 TObjEnePanBARA::is_below_half_hp() {
     return result;
 }
 
-s32 TObjEnePanBARA::sub_800E2E68() {
+s32 TObjEnePanBARA::has_reached_partner() {
     return (u8)(state == 0xE);
 }
 
-s32 TObjEnePanBARA::sub_800E2E54() {
+s32 TObjEnePanBARA::is_moving_to_partner() {
     return (u8)(state == 0xD);
 }
 
@@ -179,45 +179,45 @@ void __sinit_TObjEnePanarms_cpp() {
     TObjEnePanarms__state_fn_table[1].enter = &TObjEnePanBARA::init_split;
     TObjEnePanarms__state_fn_table[1].update = &TObjEnePanBARA::handle_split_flag;
     TObjEnePanarms__state_fn_table[2].enter = &TObjEnePanBARA::start_action;
-    TObjEnePanarms__state_fn_table[2].update = &TObjEnePanBARA::sub_800E10D0;
+    TObjEnePanarms__state_fn_table[2].update = &TObjEnePanBARA::update_wait;
     TObjEnePanarms__state_fn_table[3].enter = &TObjEnePanBARA::init_state_1;
     TObjEnePanarms__state_fn_table[3].update = &TObjEnePanBARA::update_move_to_target;
     TObjEnePanarms__state_fn_table[4].enter = &TObjEnePanBARA::init_state_16;
-    TObjEnePanarms__state_fn_table[4].update = &TObjEnePanBARA::sub_800E0D1C;
+    TObjEnePanarms__state_fn_table[4].update = &TObjEnePanBARA::update_slide_in;
     TObjEnePanarms__state_fn_table[5].enter = &TObjEnePanBARA::restore_from_linked_object;
     TObjEnePanarms__state_fn_table[5].update = &TObjEnePanBARA::update_hit_state;
-    TObjEnePanarms__state_fn_table[6].enter = &TObjEnePanBARA::sub_800E0B9C;
+    TObjEnePanarms__state_fn_table[6].enter = &TObjEnePanBARA::enter_damage;
     TObjEnePanarms__state_fn_table[6].update = &TObjEnePanBARA::apply_effect_if_flagged;
-    TObjEnePanarms__state_fn_table[7].enter = &TObjEnePanBARA::sub_800E0A44;
-    TObjEnePanarms__state_fn_table[7].update = &TObjEnePanBARA::sub_800E0950;
-    TObjEnePanarms__state_fn_table[8].enter = &TObjEnePanBARA::sub_800E0930;
-    TObjEnePanarms__state_fn_table[8].update = &TObjEnePanBARA::sub_800E092C;
+    TObjEnePanarms__state_fn_table[7].enter = &TObjEnePanBARA::enter_dead;
+    TObjEnePanarms__state_fn_table[7].update = &TObjEnePanBARA::update_dead;
+    TObjEnePanarms__state_fn_table[8].enter = &TObjEnePanBARA::enter_vanished;
+    TObjEnePanarms__state_fn_table[8].update = &TObjEnePanBARA::update_vanished;
     TObjEnePanarms__state_fn_table[9].enter = &TObjEnePanBARA::init_state_2;
     TObjEnePanarms__state_fn_table[9].update = &TObjEnePanBARA::update_chase_target;
     TObjEnePanarms__state_fn_table[10].enter = &TObjEnePanBARA::init_action;
-    TObjEnePanarms__state_fn_table[10].update = &TObjEnePanBARA::sub_800E055C;
+    TObjEnePanarms__state_fn_table[10].update = &TObjEnePanBARA::update_retreat;
     TObjEnePanarms__state_fn_table[11].enter = &TObjEnePanBARA::init_attack_state2;
     TObjEnePanarms__state_fn_table[11].update = &TObjEnePanBARA::update_attack;
-    TObjEnePanarms__state_fn_table[12].enter = &TObjEnePanBARA::sub_800E0344;
-    TObjEnePanarms__state_fn_table[12].update = &TObjEnePanBARA::sub_800E0214;
+    TObjEnePanarms__state_fn_table[12].enter = &TObjEnePanBARA::enter_call_partner;
+    TObjEnePanarms__state_fn_table[12].update = &TObjEnePanBARA::update_call_partner;
     TObjEnePanarms__state_fn_table[13].enter = &TObjEnePanBARA::start_phase2_timer150;
-    TObjEnePanarms__state_fn_table[13].update = &TObjEnePanBARA::sub_800E0048;
+    TObjEnePanarms__state_fn_table[13].update = &TObjEnePanBARA::update_move_to_partner;
     TObjEnePanarms__state_fn_table[14].enter = &TObjEnePanBARA::start_phase3_timer12;
     TObjEnePanarms__state_fn_table[14].update = &TObjEnePanBARA::update_move_timer;
     TObjEnePanarms__state_fn_table[15].enter = &TObjEnePanBARA::init_open_state;
-    TObjEnePanarms__state_fn_table[15].update = &TObjEnePanBARA::sub_800DFE08;
+    TObjEnePanarms__state_fn_table[15].update = &TObjEnePanBARA::update_heal;
     TObjEnePanarms__state_fn_table[16].enter = &TObjEnePanBARA::init_attack_state;
     TObjEnePanarms__state_fn_table[16].update = &TObjEnePanBARA::update_action_timer;
 }
 
 PanBARAState TObjEnePanarms__state_fn_table[17] = {};
 
-ModelNodePositionEntry lbl_804958F4[2] = {
+ModelNodePositionEntry panbara_capture_nodes[2] = {
     { 3 },
     { -1 },
 };
 
-PanarmsMotionParam *lbl_80495914[2] = { lbl_80495484, lbl_80495524 };
+PanarmsMotionParam *panbara_motion_params_by_half[2] = { panbara_pal_motion_params, panbara_par_motion_params };
 
 s32 panarms_turn_delta_table[2] = { 0x4000, -0x4000 };
 
@@ -253,11 +253,11 @@ TObjEnePanBARA::TObjEnePanBARA(TObject *parent, void *setData, s32 index) : TObj
         this->exchange_object_state(&objectState, 0);
     }
     half_index = index;
-    texlist = (saddr)get_bml_texlist((BmlResource *)TObjEnePanarms__entry_params_resource, lbl_8043CD38[half_index]);
-    model = (void *)get_bml_model((BmlResource *)TObjEnePanarms__entry_params_resource, lbl_8043CD38[half_index]);
+    texlist = (saddr)get_bml_texlist((BmlResource *)TObjEnePanarms__entry_params_resource, panbara_model_index_by_half[half_index]);
+    model = (void *)get_bml_model((BmlResource *)TObjEnePanarms__entry_params_resource, panbara_model_index_by_half[half_index]);
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
-    collision_body_parts = init_collision_body_parts(this, lbl_80495458, 1);
-    set_field_d8((saddr)lbl_80495914[half_index]);
+    collision_body_parts = init_collision_body_parts(this, panbara_collision_body, 1);
+    set_field_d8((saddr)panbara_motion_params_by_half[half_index]);
     set_field_dc((saddr)TObjEnePanarms__entry_params_resource->motions);
     set_animation(0);
     set_field_b8(0);
@@ -284,7 +284,7 @@ TObjEnePanBARA::TObjEnePanBARA(TObject *parent, void *setData, s32 index) : TObj
     } else {
         set_param(22);
     }
-    node_capture = ModelNodePositionCapture::create(lbl_804958F4, &draw_callback_position);
+    node_capture = ModelNodePositionCapture::create(panbara_capture_nodes, &draw_callback_position);
     if (node_capture == NULL) {
         return;
     }
@@ -491,7 +491,7 @@ void TObjEnePanBARA::run_hit_reaction() {
 
 void TObjEnePanBARA::run_miss_reaction() { this->actorFlags &= 0xfffffeff; }
 
-void TObjEnePanBARA::sub_800E1E14() {
+void TObjEnePanBARA::start_split() {
     VecCopy(&position, &body->position);
     rotation_y = body->rotation_y;
     set_state(1);
@@ -518,7 +518,7 @@ void TObjEnePanBARA::do_action_2() { set_state(2); }
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void TObjEnePanBARA::sub_800E1D94() { set_state(5); }
+void TObjEnePanBARA::start_merge() { set_state(5); }
 #pragma pop
 
 #pragma push
@@ -536,7 +536,7 @@ void TObjEnePanBARA::reset_split() {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void TObjEnePanBARA::sub_800E1D38() {
+void TObjEnePanBARA::die_with_body() {
     run_death_reaction();
 }
 #pragma pop
@@ -586,7 +586,7 @@ void TObjEnePanBARA::calc_part_position(Vec *pos, s32 *rotation) {
     pos->x += x * c + z * s;
     pos->z += -x * s + z * c;
     if (rotation != NULL) {
-        *rotation = this->body->rotation_y - lbl_8043CD58[this->half_index];
+        *rotation = this->body->rotation_y - panbara_part_rotation_table[this->half_index];
     }
 }
 #pragma pop
@@ -618,7 +618,7 @@ void TObjEnePanBARA::update_offset_from_parent() {
     this->rejoin_position.x += x * c + z * s;
     this->rejoin_position.z += -x * s + z * c;
     this->rejoin_rotation = this->body->rotation_y;
-    this->rejoin_rotation += lbl_8043CD78[this->half_index];
+    this->rejoin_rotation += panbara_parent_rotation_table[this->half_index];
 }
 #pragma pop
 
@@ -674,18 +674,18 @@ s32 TObjEnePanBARA::try_move_with_detour(Vec *delta) {
 #pragma auto_inline off
 #pragma dont_inline off
 
-s32 TObjEnePanBARA::sub_800E1774() {
+s32 TObjEnePanBARA::find_target_in_front() {
     Vec direction;
     s32 ret;
 
     if (get_state_flag() != 0) {
-        ret = partner->sub_800E2FB4() == 0
-            && (target_id = find_nearest_enemy_with_flag_alt_target(&direction, lbl_8043CD80[half_index])) != 0xffff
+        ret = partner->is_chasing_or_attacking() == 0
+            && (target_id = find_nearest_enemy_with_flag_alt_target(&direction, panbara_target_range[half_index])) != 0xffff
             && angle_difference_abs(rotation_y, (s32)(10430.38043493439 * atan2_float(direction.x, direction.z))) < 0x400;
         return (u8)ret;
     } else {
-        ret = partner->sub_800E2FB4() == 0
-            && (target_id = find_nearest_visible_player(this, &direction, lbl_8043CD80[half_index])) != 0xffff
+        ret = partner->is_chasing_or_attacking() == 0
+            && (target_id = find_nearest_visible_player(this, &direction, panbara_target_range[half_index])) != 0xffff
             && angle_difference_abs(rotation_y, (s32)(10430.38043493439 * atan2_float(direction.x, direction.z))) < 0x400;
         return (u8)ret;
     }
@@ -704,7 +704,7 @@ void TObjEnePanBARA::attack_target_player(s32 id) {
     player = get_player_by_client_id(id);
     if (player != NULL) {
         if (this->half_index == 0) {
-            DirectAttackPayload attack = lbl_8043CD88[0];
+            DirectAttackPayload attack = panbara_melee_attack_payload[0];
             attack.power = this->attack_power;
             player->receive_direct_attack(this, attack, NULL, -1, -1);
             return;
@@ -726,7 +726,7 @@ void TObjEnePanBARA::attack_target_player(s32 id) {
             TTecZarua::create_instance((saddr)this, &body_center, &player->body_center, level);
             return;
         }
-        player->receive_direct_attack(this, lbl_8043CD90[0], NULL, -1, -1);
+        player->receive_direct_attack(this, panbara_fallback_attack_payload[0], NULL, -1, -1);
     }
 }
 #pragma pop
@@ -797,7 +797,7 @@ void TObjEnePanBARA::start_action() {
 
 #pragma push
 #pragma fp_contract on
-void TObjEnePanBARA::sub_800E10D0() {
+void TObjEnePanBARA::update_wait() {
     Vec v;
     Vec a;
     f32 scale;
@@ -860,7 +860,7 @@ void TObjEnePanBARA::sub_800E10D0() {
         a.z = cos_table_lookup(this->rotation_y);
         a.y = 0.0f;
     }
-    max = lbl_8043CD98[this->half_index];
+    max = panbara_max_move_speed[this->half_index];
     if ((this->move_speed += 0.025f) > max) {
         move_speed = max;
     }
@@ -875,7 +875,7 @@ void TObjEnePanBARA::sub_800E10D0() {
         set_state(0x10);
         return;
     }
-    if (sub_800E1774() != 0) {
+    if (find_target_in_front() != 0) {
         e = find_entity_by_id(this->target_id);
         if (e != NULL && horizontal_distance_squared(&e->position, &position) < 756.25f) {
             set_state(0xA);
@@ -945,7 +945,7 @@ void TObjEnePanBARA::init_state_16() {
 
 #pragma push
 #pragma fp_contract on
-void TObjEnePanBARA::sub_800E0D1C() {
+void TObjEnePanBARA::update_slide_in() {
     Vec step;
     f32 fraction;
     s32 frames_left;
@@ -992,7 +992,7 @@ void TObjEnePanBARA::update_hit_state() {
     }
 }
 
-void TObjEnePanBARA::sub_800E0B9C() {
+void TObjEnePanBARA::enter_damage() {
     visible = 1;
     collision_enabled = 1;
     static s32 panarms_sound_effect_pair[2] = { remap_sound_for_area(0x4003BC34), remap_sound_for_area(0x4003BC33) };
@@ -1009,7 +1009,7 @@ void TObjEnePanBARA::apply_effect_if_flagged() {
 
 #pragma push
 #pragma fp_contract on
-void TObjEnePanBARA::sub_800E0A44() {
+void TObjEnePanBARA::enter_dead() {
     Vec v;
     s32 motion;
     this->visible = 1;
@@ -1029,11 +1029,11 @@ void TObjEnePanBARA::sub_800E0A44() {
 }
 #pragma pop
 
-void TObjEnePanBARA::sub_800E0950() {
+void TObjEnePanBARA::update_dead() {
     Vec v;
     f32 f;
     this->action_timer--;
-    static f32 panarms_particle_frame_window = lbl_80495484[6].unk_8;
+    static f32 panarms_particle_frame_window = panbara_pal_motion_params[6].unk_8;
     f = this->frame;
     if (f >= 24.0f && f < 24.0f + panarms_particle_frame_window) {
         VecCopy(&v, &shadow_position);
@@ -1052,13 +1052,13 @@ void TObjEnePanBARA::sub_800E0950() {
     }
 }
 
-void TObjEnePanBARA::sub_800E0930() {
+void TObjEnePanBARA::enter_vanished() {
     collision_body_parts->flags &= ~1;
     visible = 0;
     collision_enabled = 0;
 }
 
-void TObjEnePanBARA::sub_800E092C() {  }
+void TObjEnePanBARA::update_vanished() {  }
 
 void TObjEnePanBARA::init_state_2() {
     collision_body_parts->flags |= 1;
@@ -1130,7 +1130,7 @@ void TObjEnePanBARA::init_action() {
     set_field_b8(2);
 }
 
-void TObjEnePanBARA::sub_800E055C() {
+void TObjEnePanBARA::update_retreat() {
     Vec v;
 
     if (--this->action_timer > 0) {
@@ -1182,14 +1182,14 @@ void TObjEnePanBARA::update_attack() {
         play_sound_effect(remap_sound_for_area(0x4003B72F), &this->position, 0, 0);
     }
     if (this->frame < 5.0f) {
-        this->rotation_y = approach_angle_limited(this->rotation_y, lbl_8043CDA0[this->half_index] + (s32) (10430.38043493439 * atan2_float(entity->position.x - this->position.x, entity->position.z - this->position.z)), 0x200);
+        this->rotation_y = approach_angle_limited(this->rotation_y, panbara_retreat_angle_offset[this->half_index] + (s32) (10430.38043493439 * atan2_float(entity->position.x - this->position.x, entity->position.z - this->position.z)), 0x200);
     }
     if (this->motion_flags & 0x10) {
         set_state(0xA);
     }
 }
 
-void TObjEnePanBARA::sub_800E0344() {
+void TObjEnePanBARA::enter_call_partner() {
     if (this->half_index != 1) {
         collision_body_parts->flags |= 1;
         this->visible = 1;
@@ -1205,8 +1205,8 @@ void TObjEnePanBARA::sub_800E0344() {
 
 #pragma push
 #pragma fp_contract on
-void TObjEnePanBARA::sub_800E0214() {
-    if (partner->sub_800E2E68() != 0) {
+void TObjEnePanBARA::update_call_partner() {
+    if (partner->has_reached_partner() != 0) {
         set_state(0xF);
         return;
     }
@@ -1214,7 +1214,7 @@ void TObjEnePanBARA::sub_800E0214() {
         set_state(0x10);
         return;
     }
-    if ((--this->action_timer < 0 && partner->sub_800E2E54() == 0) || this->partner->is_dying() != 0) {
+    if ((--this->action_timer < 0 && partner->is_moving_to_partner() == 0) || this->partner->is_dying() != 0) {
         set_state(2);
         return;
     }
@@ -1238,7 +1238,7 @@ void TObjEnePanBARA::start_phase2_timer150() {
     }
 }
 
-void TObjEnePanBARA::sub_800E0048() {
+void TObjEnePanBARA::update_move_to_partner() {
     Vec v;
     if (check_can_attack() != 0) {
         set_state(0x10);
@@ -1306,7 +1306,7 @@ void TObjEnePanBARA::init_open_state() {
     }
 }
 
-void TObjEnePanBARA::sub_800DFE08() {
+void TObjEnePanBARA::update_heal() {
     s32 level;
     if (--this->action_timer == 0) {
         set_field_b8(4);
@@ -1357,10 +1357,10 @@ void TObjEnePanBARA::update_action_timer() {
 }
 
 void TObjEnePanarms::spawn_npc_pair() {
-    NpcAnimationBinding binding_a = { NULL, reinterpret_cast<TObjMotionAction *>(lbl_80495484), 0, 1, 10 };
+    NpcAnimationBinding binding_a = { NULL, reinterpret_cast<TObjMotionAction *>(panbara_pal_motion_params), 0, 1, 10 };
     BmlMotionEntry *motions = TObjEnePanarms__entry_params_resource->motions;
     binding_a.motions = reinterpret_cast<BmlMotionEntry *>(motions);
-    NpcAnimationBinding binding_b = { NULL, reinterpret_cast<TObjMotionAction *>(lbl_80495524), 0, 1, 10 };
+    NpcAnimationBinding binding_b = { NULL, reinterpret_cast<TObjMotionAction *>(panbara_par_motion_params), 0, 1, 10 };
     binding_b.motions = reinterpret_cast<BmlMotionEntry *>(motions);
     BmlModelEntry *models = TObjEnePanarms__entry_params_resource->models;
     NpcModelRegistry::register_animated_chunk(0x24, reinterpret_cast<void *>(models[1].model), reinterpret_cast<void *>(models[1].m_c), &binding_a, 7.5f, 0.0f);
