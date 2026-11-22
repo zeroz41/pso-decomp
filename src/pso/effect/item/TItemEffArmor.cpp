@@ -280,12 +280,12 @@ void TItemEffArmor::render() {
     pop_matrix();
 }
 
-u8 *fn_80107DA4(u8 *arg0, u8 *arg1, u16 arg2) {
-    __ct__7TObjectFP7TObject(arg0, arg1);
-    *(s32 **)((s8 *)arg0 + 0x18) = &__vt__13TUnk_8049EFB8.value;
-    *(s32 *)((s8 *)arg0 + 0x1C) = 0;
-    ((TUnk_8049EFB8 *)arg0)->m_20 = arg2;
-    return arg0;
+u8 *fn_80107DA4(u8 *event, u8 *arg1, u16 arg2) {
+    __ct__7TObjectFP7TObject(event, arg1);
+    *(s32 **)((s8 *)event + 0x18) = &__vt__13TUnk_8049EFB8.value;
+    *(s32 *)((s8 *)event + 0x1C) = 0;
+    ((TUnk_8049EFB8 *)event)->m_20 = arg2;
+    return event;
 }
 
 TUnk_8049EFB8::~TUnk_8049EFB8() {

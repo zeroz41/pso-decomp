@@ -45,9 +45,9 @@ void TObjInfoCol::run_task() {
     }
 }
 
-TObjInfoCol::TObjInfoCol(saddr arg1, saddr arg2) : TObjCollidable((TObject *)((void *)arg1)) {
+TObjInfoCol::TObjInfoCol(saddr arg1, saddr set_data) : TObjCollidable((TObject *)((void *)arg1)) {
     this->m_name = TObjInfoCol__class_name;
-    ((TObjInfoCol *)(((u8 *)this)))->apply_object_set_data((void *)arg2);
+    ((TObjInfoCol *)(((u8 *)this)))->apply_object_set_data((void *)set_data);
     this->interaction_radius = (f32) this->scale.x;
 }
 

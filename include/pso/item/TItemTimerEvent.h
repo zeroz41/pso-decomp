@@ -15,8 +15,8 @@ struct TItemTimerEvent : public TItemHeapObject {
     u32 m_20;
     u32 m_24;
     uaddr m_28;
-    static void clear_timer_slot(u16 arg0);
-    static void start_event_by_index(u16 arg0);
+    static void clear_timer_slot(u16 client_id);
+    static void start_event_by_index(u16 client_id);
     static void check_battle_ctrl(int arg0);
     static void notify_if_active(int arg0);
     static void clear_active();

@@ -180,11 +180,11 @@ void advance_motion_row(void) {
 }
 #pragma pop
 
-void select_motion_sampler(s32 *arg0, f32 farg0) {
+void select_motion_sampler(s32 *motion, f32 farg0) {
     s32 *var_r3;
     s32 temp_r31;
     s32 temp_r4;
-    var_r3 = arg0;
+    var_r3 = motion;
     if (var_r3 == NULL) {
         var_r3 = (s32 *)&lbl_8047E3C8.value;
     }
@@ -295,9 +295,9 @@ void find_motion_key_interval(void *keys, s32 stride, s32 count, f32 t, void *k0
 #pragma push
 #pragma scheduling off
 
-void bind_motion_context(NJS_MOTION *motion, f32 farg0) {
+void bind_motion_context(NJS_MOTION *motion, f32 frame) {
     select_motion_context(0);
-    bind_motion_channel_samplers(motion, farg0);
+    bind_motion_channel_samplers(motion, frame);
 }
 #pragma pop
 
@@ -356,8 +356,8 @@ void compose_motion_node_matrix(void *arg0) {
 #pragma peephole off
 #pragma scheduling off
 #pragma use_lmw_stmw off
-s32 sample_motion_node_transform(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4) {
-#define kK ((Key_803D7D30 *)arg0)
+s32 sample_motion_node_transform(void *node, void *arg1, void *arg2, void *arg3, void *arg4) {
+#define kK ((Key_803D7D30 *)node)
 #define pP ((Vec *)arg1)
 #define rR ((Vec *)arg2)
 #define sS ((Vec *)arg3)

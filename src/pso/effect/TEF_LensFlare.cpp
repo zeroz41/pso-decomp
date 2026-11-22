@@ -271,11 +271,11 @@ void TEF_LensFlare::render() {
 #pragma pop
 
 
-u8 *TEF_LensFlare__ct(u8 *ef_lens_flare, saddr parent, saddr arg2) {
+u8 *TEF_LensFlare__ct(u8 *ef_lens_flare, saddr parent, saddr set_data) {
     __ct__8TObjBaseFP7TObject((void *)ef_lens_flare, (void *)parent);
     *(s32 **)((s8 *)ef_lens_flare + 0x18) = __vt__13TEF_LensFlare;
     ((TEF_LensFlare *)ef_lens_flare)->m_name = TEF_LensFlare__class_name;
-    ((TEF_LensFlare *)(ef_lens_flare))->apply_object_set_data((void *)arg2);
+    ((TEF_LensFlare *)(ef_lens_flare))->apply_object_set_data((void *)set_data);
     ((TEF_LensFlare *)ef_lens_flare)->elements = lens_flare_reflected_element_descriptors;
     return ef_lens_flare;
 }

@@ -5,7 +5,7 @@
 #include "pso/object/key/TOKey.h"
 
 struct TObjDoorKey : public TOKey {
-    TObjDoorKey(TObject *arg1, void *arg2);
+    TObjDoorKey(TObject *parent, void *set_entry);
     virtual ~TObjDoorKey();
     virtual void trigger_activate_sound();
     virtual void update_armed_switch();

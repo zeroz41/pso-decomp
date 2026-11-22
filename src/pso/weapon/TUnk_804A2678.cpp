@@ -77,9 +77,9 @@ void *destroy_item_follow_effect(void *object, s16 arg1) {
     }
     return object;
 }
-u8 *construct_item_follow_effect(u8 *arg0, saddr arg1, saddr arg2, s32 arg3, s32 arg4) {
+u8 *construct_item_follow_effect(u8 *arg0, saddr parent, saddr arg2, s32 arg3, s32 arg4) {
     Vec position;
-    __ct__7TObjectFP7TObject((void *)arg0, (void *)arg1);
+    __ct__7TObjectFP7TObject((void *)arg0, (void *)parent);
     *(s32 **)((s8 *)arg0 + 0x18) = item_follow_effect_vtable;
     ((TObject *)(arg0))->disallow_rendering();
     *(s32 *)((s8 *)arg0 + 0x1C) = ((TItem *)arg2)->get_item_id();

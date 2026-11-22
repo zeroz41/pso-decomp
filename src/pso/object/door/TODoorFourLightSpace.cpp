@@ -81,10 +81,10 @@ const Tbl_80289EE0 door_four_light_space_index_table = {4, 6, 8, 10, 5, 7, 9, 11
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-TODoorFourLightRuins::TODoorFourLightRuins(saddr arg1, saddr arg2) : TODoorBase((TObject *)arg1) {
+TODoorFourLightRuins::TODoorFourLightRuins(saddr parent, saddr set_data) : TODoorBase((TObject *)parent) {
     s32 i;
     *(saddr *)((s8 *)this + 0) = (saddr) TODoorFourLightRuins__class_name;
-    ((TODoorFourLightRuins *)(((u8 *)this)))->apply_object_set_data((void *)arg2);
+    ((TODoorFourLightRuins *)(((u8 *)this)))->apply_object_set_data((void *)set_data);
     ((TODoorFourLightRuins *)(((u8 *)this)))->init_door_switch_binding();
     init_collision_body_parts(((u8 *)this), &TODoorFourLight__collision_body_params, 1);
     ((TObjCollidable *)this)->refresh_collision_body_centers();
@@ -287,10 +287,10 @@ s32 TODoorFourLightRuins::init_door_switch_binding() {
 }
 
 
-TODoorFourLightSpace::TODoorFourLightSpace(saddr arg1, saddr arg2) : TODoorBase((TObject *)arg1) {
+TODoorFourLightSpace::TODoorFourLightSpace(saddr parent, saddr set_data) : TODoorBase((TObject *)parent) {
     s32 i;
     *(saddr *)((s8 *)this + 0) = (saddr) TODoorFourLightSpace__class_name;
-    ((TODoorFourLightSpace *)(((u8 *)this)))->apply_object_set_data((void *)arg2);
+    ((TODoorFourLightSpace *)(((u8 *)this)))->apply_object_set_data((void *)set_data);
     ((TODoorFourLightSpace *)(((u8 *)this)))->init_door_switch_binding();
     init_collision_body_parts(((u8 *)this), &TODoorFourLight__collision_body_params, 1);
     ((TObjCollidable *)this)->refresh_collision_body_centers();

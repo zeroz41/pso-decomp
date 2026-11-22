@@ -138,7 +138,7 @@ void spawn_item_attacker(s32 arg0, u32 arg1, s32 frames, u8 *arg3) {
     }
 }
 
-TItemAttacker::TItemAttacker(saddr arg1, saddr arg2, s32 arg3, saddr arg4) : TObject((TObject *)arg1) {
+TItemAttacker::TItemAttacker(saddr parent, saddr arg2, s32 arg3, saddr arg4) : TObject((TObject *)parent) {
     u8* temp_r5;
     u8 *entity;
     *(s32 *)((s8 *)this + 0) = (s32) ((saddr)TItemAttacker__name);
@@ -193,17 +193,17 @@ void TItemBuff__ct(void) {
     }
 }
 s32 create_item_buff(s32 arg0);
-s32 create_item_buff(s32 arg0) {
+s32 create_item_buff(s32 size) {
     s32 temp_r3;
 
-    if (arg0 != 0) {
+    if (size != 0) {
         TItemBuff__ct();
         temp_r3 = TLobby::tmp_buf_is_free();
         item_buffer_temp_mode = temp_r3;
-        if ((temp_r3 != 0) && (arg0 < 0x40000)) {
+        if ((temp_r3 != 0) && (size < 0x40000)) {
             item_buff_buffer = (saddr)TLobby::tmp_buf_use_req("TItemBuff");
         } else {
-            item_buff_buffer = (saddr)mem_alloc(arg0);
+            item_buff_buffer = (saddr)mem_alloc(size);
         }
     }
     return item_buff_buffer;

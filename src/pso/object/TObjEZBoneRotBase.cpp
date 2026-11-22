@@ -72,8 +72,8 @@ TObjEZBoneRotPlayer::TObjEZBoneRotPlayer(TObject *parent, u8 *root, void *desc) 
     *(s32 *)((s8 *)arg0 + 0x9C) = (s32) *(s32 *)((s8 *)(*(saddr *)((s8 *)arg0 + 0x98)) + 0x60);
 }
 #undef arg0
-void *TObjEZBoneRotPlayer::create(void *arg0, void *arg1, void *arg2) {
-    return new TObjEZBoneRotPlayer((TObject *)arg0, (u8 *)arg1, arg2);
+void *TObjEZBoneRotPlayer::create(void *parent, void *root, void *desc) {
+    return new TObjEZBoneRotPlayer((TObject *)parent, (u8 *)root, desc);
 }
 void TObjEZBoneRotPlayer::advance_bone_rotation() {
     start_bone_rotation_sequence(*(s32 *)((s8 *)this + 0x84));

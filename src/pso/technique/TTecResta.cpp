@@ -164,14 +164,14 @@ TTecResta::TTecResta(void *owner, void *pos, s32 level) : TTecPlayerInfluence(ow
 
 #pragma push
 #pragma opt_common_subs off
-TTecResta::TTecResta(void *owner, void *pos, void *arg3, s32 level) : TTecPlayerInfluence(owner, pos, level) {
+TTecResta::TTecResta(void *owner, void *pos, void *targets, s32 level) : TTecPlayerInfluence(owner, pos, level) {
 #define arg0 this
     u32 src;
     u8 *p;
     __ct__16TargetCursorListFv(((u8 *)arg0 + 0xE0));
     *(s32 *)((s8 *)arg0 + 0) = ((saddr)TTecResta__name);
     *(s32 *)&arg0->m_13c = 1;
-    copy_technique_target_list((u8 *)arg0 + 0xE0, arg3);
+    copy_technique_target_list((u8 *)arg0 + 0xE0, targets);
     arg0->init_parameters();
     p = *(u8 **)((s8 *)arg0 + 0xDC);
     if (p != NULL) {
@@ -333,12 +333,12 @@ void TTecResta::init_parameters() {
   }
 }
 
-f32 TTecResta::calc_heal_amount(s32 arg0) {
+f32 TTecResta::calc_heal_amount(s32 level) {
   f32 *temp_r3;
   f32 var_f31;
-  temp_r3 = (f32 *) calc_technique_parameters(0xF, arg0, 0xFFFF);
+  temp_r3 = (f32 *) calc_technique_parameters(0xF, level, 0xFFFF);
   var_f31 = *((f32 *) (((s8 *) temp_r3) + 0));
-  var_f31 = var_f31 + ((f32) (arg0 * 5));
+  var_f31 = var_f31 + ((f32) (level * 5));
   if (TTecCtrl::is_technique_ready() != 0)
   {
     var_f31 *= lbl_804CC55C[15].pad_00;

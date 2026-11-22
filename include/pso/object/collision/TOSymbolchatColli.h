@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjChara.h"
 
 struct TOSymbolchatColli : public TObjChara {
-    TOSymbolchatColli(TObject *arg1, s32 arg2);
+    TOSymbolchatColli(TObject *parent, s32 arg2);
     virtual ~TOSymbolchatColli();
     virtual void run_task();
     s32 get_state();

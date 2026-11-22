@@ -131,10 +131,10 @@ void *destroy_city_vertical_model(void *base, s16 arg1) {
     }
     return base;
 }
-u8 *construct_city_vertical_model(u8 *arg0, saddr parent, saddr arg2) {
+u8 *construct_city_vertical_model(u8 *arg0, saddr parent, saddr set_data) {
     __ct__8TObjBaseFP7TObject((void *)arg0, (void *)parent);
     *(s32 **)((s8 *)arg0 + 0x18) = city_vertical_model_vtable;
-    ((TUnk_804B5C08 *)(arg0))->apply_object_set_data((void *)arg2);
+    ((TUnk_804B5C08 *)(arg0))->apply_object_set_data((void *)set_data);
     *(s32 *)((s8 *)arg0 + 0x90) = 1;
     ((TUnk_804B5C08 *)arg0)->m_94 = 2;
     *(s32 *)((s8 *)arg0 + 0x98) = 0;

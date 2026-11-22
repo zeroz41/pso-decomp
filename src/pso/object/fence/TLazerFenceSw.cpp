@@ -308,10 +308,10 @@ TLazerFenceSw::~TLazerFenceSw() {
 
 #pragma push
 #pragma opt_common_subs off
-TLazerFenceSw::TLazerFenceSw(TObject *arg1, void *arg2) : TOKey(arg1) {
+TLazerFenceSw::TLazerFenceSw(TObject *parent, void *set_entry) : TOKey(parent) {
     __ct__18CameraDistanceFadeFv((u8 *)this + 0xF0);
     *(saddr *)((s8 *)this + 0) = (saddr)TLazerFenceSw__class_name;
-    init_key(arg2);
+    init_key(set_entry);
     if (*(s32 *)((s8 *)this + 0x8C) < 0) {
         *(s32 *)((s8 *)this + 0x8C) = 0;
     }

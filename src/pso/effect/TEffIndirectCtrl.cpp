@@ -334,7 +334,7 @@ void deform_indirect_texture_scroll(u8 *p, u32 px, u32 py, s32 amp, u32 phase) {
 
 #pragma push
 #pragma fp_contract on
-void update_indirect_texture_wave(u8 *pixels, s32 arg1, s32 arg2, s32 arg3, s32 arg4, u8 arg5) {
+void update_indirect_texture_wave(u8 *pixels, s32 arg1, s32 arg2, s32 arg3, s32 arg4, u8 phase_step) {
     s32 off;
     s32 x;
     s32 i;
@@ -342,9 +342,9 @@ void update_indirect_texture_wave(u8 *pixels, s32 arg1, s32 arg2, s32 arg3, s32 
     s16 row;
     s32 y;
     for (y = 0; y < 64; y++) {
-        row = (s32)((f32)(u8)arg2 * sin_table_lookup((s32)(182.04445f * (f32)(u32)(arg4 + y * arg5))));
+        row = (s32)((f32)(u8)arg2 * sin_table_lookup((s32)(182.04445f * (f32)(u32)(arg4 + y * phase_step))));
         for (x = 0; x < 64; x++) {
-            off = (s32)((f32)(u8)arg1 * sin_table_lookup((s32)(182.04445f * (f32)(u32)(arg3 + x * arg5))) + (f32)row);
+            off = (s32)((f32)(u8)arg1 * sin_table_lookup((s32)(182.04445f * (f32)(u32)(arg3 + x * phase_step))) + (f32)row);
             i = get_indirect_tile_coord(x, y, 0x40);
             v = pixels[i];
             v += off;
@@ -362,16 +362,16 @@ void update_indirect_texture_wave(u8 *pixels, s32 arg1, s32 arg2, s32 arg3, s32 
 
 #pragma push
 #pragma fp_contract on
-void deform_indirect_texture_wave(u8 *pixels, s32 arg1, s32 arg2, s32 arg3, s32 arg4, u8 arg5) {
+void deform_indirect_texture_wave(u8 *pixels, s32 arg1, s32 arg2, s32 arg3, s32 arg4, u8 phase_step) {
     s32 v;
     s32 off;
     s32 y;
     s16 row;
     s32 x;
     for (y = 0; y < 64; y++) {
-        row = (s32)((f32)(u8)arg2 * sin_table_lookup((s32)(182.04445f * (f32)(u32)(arg4 + y * arg5))));
+        row = (s32)((f32)(u8)arg2 * sin_table_lookup((s32)(182.04445f * (f32)(u32)(arg4 + y * phase_step))));
         for (x = 0; x < 64; x++) {
-            off = (s32)((f32)(u8)arg1 * sin_table_lookup((s32)(182.04445f * (f32)(u32)(arg3 + x * arg5))) + (f32)row);
+            off = (s32)((f32)(u8)arg1 * sin_table_lookup((s32)(182.04445f * (f32)(u32)(arg3 + x * phase_step))) + (f32)row);
             v = *pixels;
             if ((s16)v != 0xFF) {
                 v = v + off;
@@ -550,16 +550,16 @@ void TObjPlayer__sub_802A83F4(void) {
     for (i = 0; i < 6; i++) indirect_effect_ctrl_table[i] = 0;
 }
 
-void TObjPlayer::play_particle_at_active_slot(s32 arg0, s32 sampler, s32 arg2, s32 arg3, s32 unused, s32 second) {
+void TObjPlayer::play_particle_at_active_slot(s32 kind, s32 sampler, s32 scale, s32 arg3, s32 unused, s32 second) {
     s32 indirect_effect_ctrl;
 
-    indirect_effect_ctrl = (s32)(s8) find_indirect_effect_ctrl(arg0);
+    indirect_effect_ctrl = (s32)(s8) find_indirect_effect_ctrl(kind);
     if ((indirect_effect_ctrl != -1) && (indirect_effect_ctrl_table[indirect_effect_ctrl] != NULL)) {
         if (arg3 != 0) {
-            setup_indirect_tev_alternate(indirect_effect_ctrl_table[indirect_effect_ctrl], unused, sampler, arg2);
+            setup_indirect_tev_alternate(indirect_effect_ctrl_table[indirect_effect_ctrl], unused, sampler, scale);
             return;
         }
-        setup_indirect_tev_ordinary(indirect_effect_ctrl_table[indirect_effect_ctrl], sampler, arg2, second);
+        setup_indirect_tev_ordinary(indirect_effect_ctrl_table[indirect_effect_ctrl], sampler, scale, second);
     }
 }
 

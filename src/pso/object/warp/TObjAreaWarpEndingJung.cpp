@@ -409,17 +409,17 @@ void TObjMapWarp::vfunc_14() {
 
 #pragma push
 #pragma opt_common_subs off
-void TObjMapWarp::closePlayerWindow(u16 arg1) {
+void TObjMapWarp::closePlayerWindow(u16 slot) {
     saddr arg0 = (saddr)this;
     uaddr temp_r3;
     uaddr player;
     u8 *temp_r31;
-    temp_r31 = (u8 *)(arg0 + ((arg1 * 4) & 0x3FFFC));
+    temp_r31 = (u8 *)(arg0 + ((slot * 4) & 0x3FFFC));
     temp_r3 = *(u32 *)((s8 *)temp_r31 + 0xEC);
     if (temp_r3 != 0U) {
         ((TWindowBase *)temp_r3)->close();
         *(u32 *)((s8 *)temp_r31 + 0xEC) = 0U;
-        player = (uaddr)get_player_by_client_id(arg1);
+        player = (uaddr)get_player_by_client_id(slot);
         if (player != 0U) {
             fn_8019DD24((void *)(player + 0x550), 4);
         }
@@ -429,12 +429,12 @@ void TObjMapWarp::closePlayerWindow(u16 arg1) {
 
 #pragma push
 #pragma opt_common_subs off
-void TObjMapWarp::open_confirm_window(s32 arg1) {
+void TObjMapWarp::open_confirm_window(s32 client_id) {
     saddr arg0 = (saddr)this;
     u8 *temp_r31;
-    temp_r31 = (u8 *)(arg0 + (arg1 * 4));
+    temp_r31 = (u8 *)(arg0 + (client_id * 4));
     if ((u32) *(u32 *)((s8 *)temp_r31 + 0xEC) == 0U) {
-        *(uaddr *)((s8 *)temp_r31 + 0xEC) = (uaddr)create_window_menu((saddr)get_window_layout_position(0x33), 1, arg1);
+        *(uaddr *)((s8 *)temp_r31 + 0xEC) = (uaddr)create_window_menu((saddr)get_window_layout_position(0x33), 1, client_id);
         ((TWindowSubTradeMain *)(*(uaddr *)((s8 *)temp_r31 + 0xEC)))->add_text_entry(get_localized_text_entry(9, 0x25), 2, 0, -1);
         ((TWindowMenu *)(*(uaddr *)((s8 *)temp_r31 + 0xEC)))->calc_window_size();
         align_menu_entry_positions(reinterpret_cast<TWindowMenu *>((*(uaddr *)((s8 *)temp_r31 + 0xEC))));
@@ -1165,11 +1165,11 @@ void TObjMapForceWarp::create_warp_id_string(u16 client_id) {
 
 const char *TObjWarpString__name = "TObjWarpString";
 
-u8 *__ct__14TObjWarpStringFv(u8 *object, u8 *arg1, saddr arg2, s16 arg3) {
-    __ct__7TObjectFP7TObject(object, arg1);
+u8 *__ct__14TObjWarpStringFv(u8 *object, u8 *parent, saddr src, s16 arg3) {
+    __ct__7TObjectFP7TObject(object, parent);
     *(s32 **)((s8 *)object + 0x18) = &__vt__14TObjWarpString.value;
     *(saddr *)((s8 *)object + 0) = (saddr)TObjWarpString__name;
-    strncpy((char *)(object + 0x1C), (const char *)arg2, 0x20);
+    strncpy((char *)(object + 0x1C), (const char *)src, 0x20);
     *(s8 *)((s8 *)object + 0x3B) = 0;
     *(s16 *)((s8 *)object + 0x48) = arg3;
     *(s32 *)((s8 *)object + 0x3C) = -1;

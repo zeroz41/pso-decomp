@@ -177,13 +177,13 @@ void run_task__9TTecSiftaFv(Sifta_8023AF94 *self) {
 #pragma opt_common_subs off
 struct Obj_8023ACA8;
 #define arg0 ((u8 *)this)
-TTecSifta::TTecSifta(void *owner, void *pos, void *arg3, s32 level) : TTecPlayerInfluence(owner, pos, level) {
+TTecSifta::TTecSifta(void *owner, void *pos, void *targets, s32 level) : TTecPlayerInfluence(owner, pos, level) {
     u8 *temp_r3;
     u32 t;
     __ct__16TargetCursorListFv((arg0 + 0xE0));
     *(s32 *)((s8 *)arg0 + 0) = ((saddr)TTecSifta__name);
     *(s32 *)&((TTecSifta *)arg0)->m_13c = 1;
-    copy_technique_target_list(arg0 + 0xE0, arg3);
+    copy_technique_target_list(arg0 + 0xE0, targets);
     ((TTecSifta *)arg0)->update_effect_params();
     temp_r3 = *(u8 **)((s8 *)arg0 + 0xDC);
     if (temp_r3 != NULL) {

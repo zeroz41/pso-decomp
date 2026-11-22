@@ -255,9 +255,9 @@ TObjDoaEx01::~TObjDoaEx01() {
 }
 
 
-TObjDoaEx01::TObjDoaEx01(saddr arg1, saddr arg2) : TODoorBase((TObject *)arg1) {
+TObjDoaEx01::TObjDoaEx01(saddr parent, saddr set_data) : TODoorBase((TObject *)parent) {
     *(saddr *)((s8 *)this + 0) = (saddr) TObjDoaEx01__name;
-    ((TObjDoaEx01 *)(((u8 *)this)))->apply_object_set_data((void *)arg2);
+    ((TObjDoaEx01 *)(((u8 *)this)))->apply_object_set_data((void *)set_data);
     ((TObjDoaEx01 *)(((u8 *)this)))->init_door_switch_binding();
     init_collision_body_parts(((u8 *)this), &TObjDoaEx01__collision_body_parts, 1);
     ((TObjCollidable *)this)->refresh_collision_body_centers();

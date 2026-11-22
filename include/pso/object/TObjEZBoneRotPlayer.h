@@ -12,7 +12,7 @@ public:
     void calc_bone_offsets_recursive(void *, s32, s32);
 public:
     virtual void run_task();
-    static void *create(void *arg0, void *arg1, void *arg2);
+    static void *create(void *parent, void *root, void *desc);
     void advance_bone_rotation();
 };
 

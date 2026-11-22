@@ -170,10 +170,10 @@ void TShopGenerator::run_task() {
 TShopGenerator::~TShopGenerator() {
 }
 
-TShopGenerator::TShopGenerator(saddr arg1) : TObjBase(tl_05) {
+TShopGenerator::TShopGenerator(saddr set_data) : TObjBase(tl_05) {
     s32 temp_r0;
     m_name = TShopGenerator__class_name;
-    this->apply_object_set_data((void *)arg1);
+    this->apply_object_set_data((void *)set_data);
     this->m_90 = 0;
     this->m_94 = 5;
     temp_r0 = this->set_params[0];
@@ -191,14 +191,14 @@ int TShopGenerator::is_slot_active(int client) {
     return TShopGenerator__slot_active_table[(u16)TShopGenerator__sub_80222DAC(client)] == 1;
 }
 
-void TShopGenerator::clear_slot_active(s32 arg0) {
-    u16 idx = TShopGenerator__sub_80222DAC(arg0);
+void TShopGenerator::clear_slot_active(s32 client) {
+    u16 idx = TShopGenerator__sub_80222DAC(client);
     TShopGenerator__slot_active_table[idx] = 0;
 }
 
 
-void THunterGuildSeqOffline__sub_8021E180(s32 arg0) {
-    u16 idx = TShopGenerator__sub_80222DAC(arg0);
+void THunterGuildSeqOffline__sub_8021E180(s32 client) {
+    u16 idx = TShopGenerator__sub_80222DAC(client);
     TShopGenerator__slot_active_table[idx] = 1;
 }
 

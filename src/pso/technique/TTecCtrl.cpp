@@ -852,11 +852,11 @@ u32 get_technique_caster_flags(s32 technique, u16 actor) {
     return flags;
 }
 
-s32 TTecCtrl::classify_distance_band(s32 technique, s32 arg1, u16 arg2) {
+s32 TTecCtrl::classify_distance_band(s32 technique, s32 level, u16 arg2) {
     f32 temp_f1;
 
-    calc_technique_parameters(technique, arg1, arg2);
-    if ((arg1 == 0) || (arg1 == 1)) {
+    calc_technique_parameters(technique, level, arg2);
+    if ((level == 0) || (level == 1)) {
         return 0;
     }
     temp_f1 = calc_technique_boost(technique, arg2);

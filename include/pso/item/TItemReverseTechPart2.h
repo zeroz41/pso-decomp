@@ -14,12 +14,12 @@ public:
 };
 
 extern "C" {
-u8 *__ct__21TItemReverseTechPart2Fv(u8 *arg0, saddr arg1, s32 arg2);
+u8 *__ct__21TItemReverseTechPart2Fv(u8 *arg0, saddr parent, s32 arg2);
 }
 
 // --- C functions defined in TItemReverseTechPart2.cpp ---
 extern "C" {
-u8 *__ct__21TItemReverseTechPart2Fv(u8 *object, saddr arg1, s32 arg2);
+u8 *__ct__21TItemReverseTechPart2Fv(u8 *object, saddr parent, s32 arg2);
 }
 // --- end of C functions
 

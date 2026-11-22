@@ -174,9 +174,9 @@ TOSwitchAttack::~TOSwitchAttack() {
 
 }
 
-TOSwitchAttack::TOSwitchAttack(TObject *parent, void *arg2) : TObjBase(parent) {
+TOSwitchAttack::TOSwitchAttack(TObject *parent, void *set_data) : TObjBase(parent) {
     m_name = TOSwitchAttack__name;
-    apply_object_set_data(arg2);
+    apply_object_set_data(set_data);
     init_params();
     m_a6 = 0;
     m_a8 = 0;

@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void destroy_on_collision__10TTecSlicerFi(saddr arg0, s32 _w1);
+void destroy_on_collision__10TTecSlicerFi(saddr object, s32 _w1);
 }
 
 #endif

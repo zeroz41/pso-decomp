@@ -364,14 +364,14 @@ void generate_shop_rare_tool_pool(s32 shop) {
     }
 }
 
-void generate_shop_common_tool_pool(s32 arg0) {
+void generate_shop_common_tool_pool(s32 idx) {
     Item_802242F8 it;
     Item_802242F8 *arr;
     Tbl_802242F8 *t;
     u8 *p;
     s32 i;
     s32 row;
-    arr = ((Item_802242F8 **)&shop_tool_stock_buffers)[arg0];
+    arr = ((Item_802242F8 **)&shop_tool_stock_buffers)[idx];
     row = classify_tool_shop_level_bracket(shop_tool_stock_level);
     if (row >= 0) {
         t = *(Tbl_802242F8 **)lobby_tool_random_rel;
@@ -383,7 +383,7 @@ void generate_shop_common_tool_pool(s32 arg0) {
                 it.b[0] = 3;
                 it.b[1] = shop_tool_group_subtype_table[*p].a;
                 it.b[2] = shop_tool_group_subtype_table[*p].b;
-                ((TItemData *)(&arr[shop_tool_stock_counts[arg0]++]))->copy_from((TItemData *)(&it));
+                ((TItemData *)(&arr[shop_tool_stock_counts[idx]++]))->copy_from((TItemData *)(&it));
             }
         }
     }

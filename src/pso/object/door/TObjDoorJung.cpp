@@ -206,11 +206,11 @@ TObjDoorJung::~TObjDoorJung() {
     free_collision_body_parts(this);
 }
 
-u8 *TObjDoorJung__ct(u8 *arg0, s32 arg1, saddr arg2) {
+u8 *TObjDoorJung__ct(u8 *arg0, s32 arg1, saddr set_data) {
     __ct__10TODoorBaseFP7TObject((arg0));
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TObjDoorJung;
     ((TObjDoorJung *)arg0)->m_name = TObjDoorJung__class_name;
-    ((TObjDoorJung *)(arg0))->apply_object_set_data((void *)arg2);
+    ((TObjDoorJung *)(arg0))->apply_object_set_data((void *)set_data);
     init_collision_body_parts(arg0, &TObjDoorJung__collision_desc, 1);
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();

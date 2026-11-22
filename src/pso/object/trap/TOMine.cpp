@@ -547,16 +547,16 @@ f32 TOMine::receive_physical_attack(void *, f32) {
     }
     return 0.0f;
 }
-void TOMine::vfunc_6(s16 *arg1, s32 arg2) {
+void TOMine::vfunc_6(s16 *lobby, s32 arg2) {
     s16 temp_r0;
-    temp_r0 = *(s16 *)((s8 *)arg1 + 0);
+    temp_r0 = *(s16 *)((s8 *)lobby + 0);
     if (temp_r0 == 5) {
         if (arg2 == 1) {
             sub_8017070C();
         }
         set_flag8();
         queue_destruction();
-        access_object_saved_state(arg1, 0);
+        access_object_saved_state(lobby, 0);
         return;
     }
     if (temp_r0 == 3) {
@@ -566,7 +566,7 @@ void TOMine::vfunc_6(s16 *arg1, s32 arg2) {
         this->calc_attach_pos();
         refresh_collision_body_centers();
         this->vfunc_81();
-        access_object_saved_state(arg1, 0);
+        access_object_saved_state(lobby, 0);
         this->queue_destruction_for_each_node();
     }
 }
@@ -1262,8 +1262,8 @@ void TOMineTrapDisp::run_task() {
     }
 }
 
-s32 TOMineTrap::matches_id(u16 arg1) {
-    if ((arg1 == *(u16 *)&this->body_count) && ((s32) *(s32 *)&this->bodies != 2)) {
+s32 TOMineTrap::matches_id(u16 id) {
+    if ((id == *(u16 *)&this->body_count) && ((s32) *(s32 *)&this->bodies != 2)) {
         return 1;
     }
     return 0;

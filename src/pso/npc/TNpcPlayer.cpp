@@ -3045,9 +3045,9 @@ s32 partner_probe_obstacles(Unk_8014F844 *view) {
     return 0;
 }
 
-s32 partner_find_wall_segment(saddr arg0, saddr arg1, saddr arg2, saddr arg3, saddr arg4) {
+s32 partner_find_wall_segment(saddr arg0, saddr from, saddr to, saddr arg3, saddr arg4) {
     CsnHit *hit;
-    hit = csnVector((const Vec *)arg1, (const Vec *)arg2, 0x2100);
+    hit = csnVector((const Vec *)from, (const Vec *)to, 0x2100);
     if (hit != NULL) {
         VecCopy((Vec *)arg3, &hit->contact->point);
         VecCopy((Vec *)arg4, &hit->contact->normal);

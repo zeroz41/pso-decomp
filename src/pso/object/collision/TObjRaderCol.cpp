@@ -40,9 +40,9 @@ TObjRaderCol::~TObjRaderCol() {
 
 }
 
-TObjRaderCol::TObjRaderCol(TObject *parent, void *arg2) : TObjBase(parent) {
+TObjRaderCol::TObjRaderCol(TObject *parent, void *set_data) : TObjBase(parent) {
     m_name = TObjRaderCol__name;
-    apply_object_set_data(arg2);
+    apply_object_set_data(set_data);
     *(f32 *)((s8 *)this + 0x90) = (f32) scale.x;
     m_94 = (s32) set_params[0];
     m_98 = 0;
@@ -152,9 +152,9 @@ void TObjRaderHideCol::run_task() {
 void TObjRaderHideCol::render() {  }
 
 
-TObjRaderIcon::TObjRaderIcon(TObject *parent, void *arg2) : TObjBase(parent) {
+TObjRaderIcon::TObjRaderIcon(TObject *parent, void *set_data) : TObjBase(parent) {
     m_name = TObjRaderIcon__name;
-    apply_object_set_data(arg2);
+    apply_object_set_data(set_data);
     initialize_from_placement();
     disallow_rendering();
 }

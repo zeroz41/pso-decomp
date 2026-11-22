@@ -117,8 +117,8 @@ CollisionBody labo_design_entry_table[6] = {
     { { 0.0f, 20.0f, 0.0f }, 10.0f, 40.0f, 1, 0x10003, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
 
-void *create_instance__18TObjLaboDesignBaseFPv(void *arg0) {
-    return new TObjLaboDesignBase((TObject *)tl_05, arg0, 5);
+void *create_instance__18TObjLaboDesignBaseFPv(void *set_data) {
+    return new TObjLaboDesignBase((TObject *)tl_05, set_data, 5);
 }
 }
 CollisionBody *get_labo_design_entry(int a0);
@@ -128,24 +128,24 @@ BmlResource *get_labo_design_object(int a0);
 const char *TObjLaboDesignBase_class_name = "TObjLaboDesignBase";
 void *create_labo_design_base(void *arg0);
 void *create_obj_labo_design_base(void *arg0);
-void *create_obj_labo_design_base(void *arg0) {
-    return new TObjLaboDesignBase((TObject *)tl_05, arg0, 4);
+void *create_obj_labo_design_base(void *set_data) {
+    return new TObjLaboDesignBase((TObject *)tl_05, set_data, 4);
 }
 
-void *TObjLaboDesignBase__sub_80364D38(void *arg0) {
-    return new TObjLaboDesignBase((TObject *)tl_05, arg0, 3);
+void *TObjLaboDesignBase__sub_80364D38(void *set_data) {
+    return new TObjLaboDesignBase((TObject *)tl_05, set_data, 3);
 }
 
-void *create_labo_design_base(void *arg0) {
-    return new TObjLaboDesignBase((TObject *)tl_05, arg0, 2);
+void *create_labo_design_base(void *set_data) {
+    return new TObjLaboDesignBase((TObject *)tl_05, set_data, 2);
 }
 
-void *alloc_and_construct__18TObjLaboDesignBaseFPv(void *arg0) {
-    return new TObjLaboDesignBase((TObject *)tl_05, arg0, 1);
+void *alloc_and_construct__18TObjLaboDesignBaseFPv(void *set_data) {
+    return new TObjLaboDesignBase((TObject *)tl_05, set_data, 1);
 }
 
-void *TObjLaboDesignBase__create(void *arg0) {
-    return new TObjLaboDesignBase((TObject *)tl_05, arg0, 0);
+void *TObjLaboDesignBase__create(void *set_data) {
+    return new TObjLaboDesignBase((TObject *)tl_05, set_data, 0);
 }
 
 s32 TObjLaboDesignBase::update_object_view_visibility(f32 near_dist, f32 far_dist) {

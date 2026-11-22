@@ -75,10 +75,10 @@ void TParticleCtrl::set_owner_id(u16 id) {
     }
 }
 
-void TParticleCtrl::set_tint_color(s32 arg1) {
+void TParticleCtrl::set_tint_color(s32 tint) {
     u8 *arg0 = (u8 *)this;
     *(u16 *)((s8 *)arg0 + 0x2C) = (u16) (*(u16 *)((s8 *)arg0 + 0x2C) | 0x100);
-    *(s32 *)((s8 *)arg0 + 0x48) = arg1;
+    *(s32 *)((s8 *)arg0 + 0x48) = tint;
 }
 
 
@@ -603,9 +603,9 @@ void TParticleCtrl::attach_model(s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 far
     *(u16 *)((s8 *)((u8 *)this) + 0x24) = (u16) (*(u16 *)((s8 *)((u8 *)this) + 0x24) | 0x200);
 }
 
-void set_particle_tint_color(u8 *arg0, void *arg1) {
+void set_particle_tint_color(u8 *arg0, void *rgba) {
     *(u16 *)((s8 *)arg0 + 0x24) = (u16) (*(u16 *)((s8 *)arg0 + 0x24) | 0x100);
-    ((void (*)(void *, void *, void *))copy_argb)(arg0 + 0x48, arg1, arg0);
+    ((void (*)(void *, void *, void *))copy_argb)(arg0 + 0x48, rgba, arg0);
 }
 
 void set_particle_draw_scale(void* p, f32 a, f32 b) { *(f32*)((char*)p + 0xa4) = a; *(f32*)((char*)p + 0xa8) = b; }
@@ -634,11 +634,11 @@ void TParticleCtrl::init_particle_buffer() {
         particle_pool_limit = (u32) temp_r3 / 152U;
     }
 }
-ParticleParam *TParticleCtrl::get_particle_by_index(s32 arg0) {
-    if (arg0 >= 0x200) {
-        return &particle_area_entry_table[arg0 - 0x200];
+ParticleParam *TParticleCtrl::get_particle_by_index(s32 particle_index) {
+    if (particle_index >= 0x200) {
+        return &particle_area_entry_table[particle_index - 0x200];
     }
-    return &particle_global_entry_table[arg0];
+    return &particle_global_entry_table[particle_index];
 }
 void load_particle_entry_resources(void);
 extern char lbl_80439494[];

@@ -159,13 +159,13 @@ void TechniqueParams::copy(TechniqueParams *src) {
 }
 
 #define arg0 ((u8 *)this)
-TTecAnti::TTecAnti(void *owner, void *pos, void *arg3, s32 level) : TTecPlayerInfluence(owner, pos, level) {
+TTecAnti::TTecAnti(void *owner, void *pos, void *targets, s32 level) : TTecPlayerInfluence(owner, pos, level) {
     u32 temp_r3_2;
     u8 *temp_r3;
     __ct__16TargetCursorListFv((arg0 + 0xE0));
     *(s32 *)((s8 *)arg0 + 0) = (s32) ((saddr)TTecAnti_name_ref);
     ((TTecAnti *)arg0)->m_13c = 1;
-    copy_technique_target_list((S_8022B3E8 *)(arg0 + 0xE0), (S_8022B3E8 *)(arg3));
+    copy_technique_target_list((S_8022B3E8 *)(arg0 + 0xE0), (S_8022B3E8 *)(targets));
     ((TechniqueParams *)(arg0 + 0x74))->copy(&technique_param_table[16]);
     TTecAnti__sub_8022AD94(arg0);
     temp_r3 = (u8 *)(*(u8 **)((s8 *)arg0 + 0xDC));

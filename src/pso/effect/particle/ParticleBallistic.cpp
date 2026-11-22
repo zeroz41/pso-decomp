@@ -220,11 +220,11 @@ extern const f32 TParticleCtrl__data_805D94E4;
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TMainTask.h"
 
-u8 *create_ballistic_particle(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, u16 arg4, s16 arg5) {
-    return (u8 *)new TUnk_8048E778(arg0, arg1, arg2, arg3, arg4, arg5);
+u8 *create_ballistic_particle(u8 *arg0, u8 *pos, u8 *dir, s32 parent, u16 flags, s16 target_id) {
+    return (u8 *)new TUnk_8048E778(arg0, pos, dir, parent, flags, target_id);
 }
-void *TParticleCtrl::create_random_spread(void *arg0, void *arg1, void *arg2) {
-    return new TUnk_8048E778(arg0, arg1, arg2);
+void *TParticleCtrl::create_random_spread(void *arg0, void *pos, void *parent) {
+    return new TUnk_8048E778(arg0, pos, parent);
 }
 void TUnk_8048E778::retire_ballistic_particle_if_done() {
     u8 *arg0 = (u8 *)this;
@@ -543,8 +543,8 @@ void TUnk_8048E778::render() {
 TUnk_8048E778::~TUnk_8048E778() {}
 #pragma push
 #pragma fp_contract on
-TUnk_8048E778::TUnk_8048E778(void *a1, void *a2, void *a3, saddr arg4, u16 arg5, s16 arg6)
-    : TUnk_8048E728((ParticleParam *)a1, (TObject *)arg4) {
+TUnk_8048E778::TUnk_8048E778(void *a1, void *a2, void *a3, saddr parent, u16 arg5, s16 arg6)
+    : TUnk_8048E728((ParticleParam *)a1, (TObject *)parent) {
     Fields0_800896E4 *p = (Fields0_800896E4 *)this;
     Fields1_800896E4 *d = (Fields1_800896E4 *)a1;
     Vec *pos = (Vec *)a2;

@@ -271,9 +271,9 @@ TObjDoorKey::~TObjDoorKey() {
         this->m_f8 = 0U;
     }
 }
-TObjDoorKey::TObjDoorKey(TObject *arg1, void *arg2) : TOKey(arg1) {
+TObjDoorKey::TObjDoorKey(TObject *parent, void *set_entry) : TOKey(parent) {
     this->m_name = TObjDoorKey__class_name;
-    init_key(arg2);
+    init_key(set_entry);
     this->m_e8 = 0;
     this->m_f0 = 0;
     *(s32 *)((s8 *)this + 0xEC) = 0x14;

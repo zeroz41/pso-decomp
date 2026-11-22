@@ -203,7 +203,7 @@ TOSymbolchatColli::~TOSymbolchatColli() {
     this->unregister_object_by_id();
     free_collision_body_parts(this);
 }
-TOSymbolchatColli::TOSymbolchatColli(TObject *arg1, s32 arg2) : TObjChara(arg1) {
+TOSymbolchatColli::TOSymbolchatColli(TObject *parent, s32 arg2) : TObjChara(parent) {
     s32 i;
     m_name = TOSymbolchatColli__name;
     ((Obj_80178AD4 *)this)->v5(arg2);

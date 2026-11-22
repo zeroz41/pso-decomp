@@ -193,11 +193,11 @@ TObjLight::~TObjLight() {
 }
 
 
-TObjLight::TObjLight(TObject *parent, u8 *arg2) : TObjBase(parent) {
+TObjLight::TObjLight(TObject *parent, u8 *set_data) : TObjBase(parent) {
     TObjLight *light = this;
     light->m_name = TObjLight__class_name;
-    ((TObjLight *)(light))->apply_object_set_data(arg2);
-    light->m_90 = (s32) *(s16 *)((s8 *)arg2 + 8);
+    ((TObjLight *)(light))->apply_object_set_data(set_data);
+    light->m_90 = (s32) *(s16 *)((s8 *)set_data + 8);
     *(f32 *)((s8 *)light + 0xF0) = 0.5f;
     light->m_f4 = (f32) light->scale.x;
     *(f32 *)((s8 *)light + 0xF8) = (f32) light->scale.y;

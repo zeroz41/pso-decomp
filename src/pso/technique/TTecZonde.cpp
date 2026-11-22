@@ -272,12 +272,12 @@ void TTecZonde::run_task() {
 
 #pragma pop
 #define arg0 ((u8 *)this)
-TTecZonde::TTecZonde(s32 arg1, u8 *arg2, u8 *arg3, s32 arg4) : TUnk_804CCC68(arg1, (Vec *)arg2, 0, arg4) {
+TTecZonde::TTecZonde(s32 source, u8 *arg2, u8 *targets, s32 level) : TUnk_804CCC68(source, (Vec *)arg2, 0, level) {
     u8 *temp_r3;
     __ct__16TargetCursorListFv((arg0 + 0x130));
     *(s32 *)((s8 *)arg0 + 0) = (saddr) lbl_805D3838;
     ((TTecZonde *)arg0)->init_parameters();
-    copy_technique_target_list(arg0 + 0x130, arg3);
+    copy_technique_target_list(arg0 + 0x130, targets);
     temp_r3 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x1C));
     if (temp_r3 != NULL) {
         ((TTecZonde *)arg0)->sourceId = get_entity_id(temp_r3);

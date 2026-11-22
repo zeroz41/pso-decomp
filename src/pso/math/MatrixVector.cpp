@@ -21,7 +21,7 @@ asm f32 vector_length(const Vec *v) {
 
 #pragma push
 #pragma scheduling off
-void rotate_matrix_about_axis(u8 *arg0, saddr arg1, s32 arg2) {
+void rotate_matrix_about_axis(u8 *arg0, saddr arg1, s32 angle) {
     GC_Mtx rotation;
     MtxP m;
     if (arg0 == 0) {
@@ -29,16 +29,16 @@ void rotate_matrix_about_axis(u8 *arg0, saddr arg1, s32 arg2) {
     } else {
         m = (MtxP)arg0;
     }
-    if (arg2 != 0) {
-        PSMTXRotAxisRad(rotation, (Vec *)arg1, 9.587378008291125e-05 * arg2);
+    if (angle != 0) {
+        PSMTXRotAxisRad(rotation, (Vec *)arg1, 9.587378008291125e-05 * angle);
         PSMTXConcat(m, rotation, m);
     }
 }
 #pragma pop
 
-void translate_matrix_vec3(u8 *arg0, u8 *arg1) {
+void translate_matrix_vec3(u8 *matrix, u8 *arg1) {
     const Vec *offset = (const Vec *)arg1;
-    translate_matrix((uaddr)arg0, offset->x, offset->y, offset->z);
+    translate_matrix((uaddr)matrix, offset->x, offset->y, offset->z);
 }
 
 // {0.0f, 1.0f}: matrix_identity reads its 1.0f (the Dolphin SDK keeps the same table as Unit01 in mtx.c).
@@ -50,8 +50,8 @@ asm void matrix_identity(MtxP m) {
 
 #pragma push
 #pragma scheduling off
-void set_matrix_identity(u8 *arg0) {
-    MtxP m = (MtxP)arg0;
+void set_matrix_identity(u8 *matrix) {
+    MtxP m = (MtxP)matrix;
     if (m == NULL) {
         m = *current_matrix;
     }

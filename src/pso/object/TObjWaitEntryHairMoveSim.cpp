@@ -706,11 +706,11 @@ void TObjWaitEntryHairMoveSim::run_task() {
 
 extern s32 __vt__24TObjWaitEntryHairMoveSim[];
 
-void *__ct__24TObjWaitEntryHairMoveSimFv(void *arg0, void *arg1) {
+void *__ct__24TObjWaitEntryHairMoveSimFv(void *arg0, void *player) {
     ((void (*)(void *))__ct__7TObjectFP7TObject)(arg0);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__24TObjWaitEntryHairMoveSim;
     ((TObject *)arg0)->m_name = TObjWaitEntryHairMoveSim__name;
-    *(void **)((s8 *)arg0 + 0x1C) = arg1;
+    *(void **)((s8 *)arg0 + 0x1C) = player;
     return arg0;
 }
 

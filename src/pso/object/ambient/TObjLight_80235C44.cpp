@@ -107,9 +107,9 @@ TUnk_804CCAA8::~TUnk_804CCAA8() {
 
 }
 
-u8 *TObjLight::construct_actor_light(saddr arg1, saddr arg2, s32 arg3, s32 arg4, saddr arg5, f32 farg0, f32 farg1, f32 farg2, s32 arg_sp0) {
+u8 *TObjLight::construct_actor_light(saddr arg1, saddr arg2, s32 arg3, s32 arg4, saddr parent, f32 farg0, f32 farg1, f32 farg2, s32 arg_sp0) {
     Stack_80235E9C stack;
-    __ct__7TObjectFP7TObject(this, (void *)arg5);
+    __ct__7TObjectFP7TObject(this, (void *)parent);
     *(s32 **)((s8 *)((u8 *)this) + 0x18) = __vt__13TUnk_804CCAA8;
     copy_argb((NJS_ARGB *)(((u8 *)this) + 0x24), (NJS_ARGB *)arg1);
     VecCopy((Vec *)(((u8 *)this) + 0x34), (const Vec *)(arg2));
@@ -124,9 +124,9 @@ u8 *TObjLight::construct_actor_light(saddr arg1, saddr arg2, s32 arg3, s32 arg4,
     TObjLight::find_light_params((f32 *)(((u8 *)this) + 0x40), (f32 *)&stack.sp8, (u32)((int) ((s32) *(u16 *)&this->rotation_y)));
     return ((u8 *)this);
 }
-u8 *construct_actor_light_task(u8 *arg0, NJS_ARGB *njs_argb, u8 *arg2, s32 arg3, u8 *arg4, u8 *arg5, f32 farg0) {
+u8 *construct_actor_light_task(u8 *arg0, NJS_ARGB *njs_argb, u8 *arg2, s32 arg3, u8 *arg4, u8 *parent, f32 farg0) {
     s32 sp8;
-    __ct__7TObjectFP7TObject(arg0, arg5);
+    __ct__7TObjectFP7TObject(arg0, parent);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_804CCAA8;
     copy_argb((NJS_ARGB *)(arg0 + 0x24), njs_argb);
     VecCopy((Vec *)(arg0 + 0x34), (const Vec *)arg2);
@@ -149,20 +149,20 @@ extern TCameraCtrl *camera_ctrl_instance;
 
 #pragma push
 #pragma fp_contract on
-void offset_point_toward_camera(u8 *arg0, u8 *arg1, f32 farg0) {
+void offset_point_toward_camera(u8 *center, u8 *arg1, f32 farg0) {
     Vec stack;
     f32 temp_f1;
     if ((void *) camera_ctrl_instance != NULL) {
-        stack.x = camera_ctrl_instance->pos_x - *(f32 *)((s8 *)arg0 + 0);
-        stack.y = camera_ctrl_instance->pos_y - *(f32 *)((s8 *)arg0 + 4);
+        stack.x = camera_ctrl_instance->pos_x - *(f32 *)((s8 *)center + 0);
+        stack.y = camera_ctrl_instance->pos_y - *(f32 *)((s8 *)center + 4);
         temp_f1 = camera_ctrl_instance->pos_z;
-        stack.z = temp_f1 - *(f32 *)((s8 *)arg0 + 8);
+        stack.z = temp_f1 - *(f32 *)((s8 *)center + 8);
         if (lbl_805DC88C[0] != vec_squared_length(&stack.x, temp_f1)) {
             normalize_vector(&stack);
         }
-        *(f32 *)((s8 *)arg1 + 0) = (f32) ((stack.x * farg0) + *(f32 *)((s8 *)arg0 + 0));
-        *(f32 *)((s8 *)arg1 + 4) = (f32) ((stack.y * farg0) + *(f32 *)((s8 *)arg0 + 4));
-        *(f32 *)((s8 *)arg1 + 8) = (f32) ((stack.z * farg0) + *(f32 *)((s8 *)arg0 + 8));
+        *(f32 *)((s8 *)arg1 + 0) = (f32) ((stack.x * farg0) + *(f32 *)((s8 *)center + 0));
+        *(f32 *)((s8 *)arg1 + 4) = (f32) ((stack.y * farg0) + *(f32 *)((s8 *)center + 4));
+        *(f32 *)((s8 *)arg1 + 8) = (f32) ((stack.z * farg0) + *(f32 *)((s8 *)center + 8));
     }
 }
 #pragma pop

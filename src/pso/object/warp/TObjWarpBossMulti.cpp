@@ -650,10 +650,10 @@ void TObjWarpBoss::update_floor_switch_state() {
     }
 }
 
-void TObjWarpBoss::warp_player(s32 arg1) {
+void TObjWarpBoss::warp_player(s32 local_client_id) {
     TObjPlayer *player;
 
-    player = get_player_by_client_id(arg1);
+    player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
         TObjPlayer::play_effect_default((int)player, -1);
         obj_set_flag_20000(player);
@@ -661,10 +661,10 @@ void TObjWarpBoss::warp_player(s32 arg1) {
     }
 }
 
-void TObjWarpBossMulti::notify_player(void *arg0, s32 arg1) {
+void TObjWarpBossMulti::notify_player(void *arg0, s32 local_client_id) {
     saddr player;
 
-    player = (saddr)get_player_by_client_id(arg1);
+    player = (saddr)get_player_by_client_id(local_client_id);
     if (player != 0) {
         TObjPlayer::send_code_45_1((s32)player);
         obj_clear_flag30_20000((TObjBase *)player);

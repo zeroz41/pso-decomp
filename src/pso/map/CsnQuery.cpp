@@ -484,7 +484,7 @@ s32 intersect_wall_triangle_one_sided(Vec *origin, Vec *dir, u32 mask, CsnFace *
 
 #pragma push
 #pragma fp_contract on
-extern "C" CsnGroup *refill_csn_candidate_cache(Vec *arg0, CsnGroup **arg1, u32 arg2) {
+extern "C" CsnGroup *refill_csn_candidate_cache(Vec *origin, CsnGroup **arg1, u32 mask) {
     f32 rr;
     f32 dz;
     f32 dx;
@@ -495,9 +495,9 @@ extern "C" CsnGroup *refill_csn_candidate_cache(Vec *arg0, CsnGroup **arg1, u32 
     it = TObjMapCsn::get_collision_controller()->get_collision_groups();
     first = arg1;
     while ((m = *it++) != 0) {
-        if ((m->flags & arg2) && !(m->flags & 0x40000000)) {
-            dz = m->center.z - arg0->z;
-            dx = m->center.x - arg0->x;
+        if ((m->flags & mask) && !(m->flags & 0x40000000)) {
+            dz = m->center.z - origin->z;
+            dx = m->center.x - origin->x;
             rr = m->radius;
             rr *= rr;
             if (dx * dx + dz * dz <= rr) {

@@ -222,7 +222,7 @@ struct Ray_8029EC3C { Vec o; Vec d; };
 extern "C" {
 #pragma push
 #pragma fp_contract on
-s32 fn_8029EC3C(Vec *pos, s32 arg1) {
+s32 fn_8029EC3C(Vec *pos, s32 mask) {
     Ray_8029EC3C ray;
     Vec a;
     Vec b;
@@ -259,9 +259,9 @@ s32 fn_8029EC3C(Vec *pos, s32 arg1) {
         return 1;
     }
     if (0.0f == sora_reflection_ray_direction.x && 0.0f == sora_reflection_ray_direction.z) {
-        r = csnVecterUnder(&a, arg1);
+        r = csnVecterUnder(&a, mask);
     } else {
-        r = csnVector(&a, &b, arg1);
+        r = csnVector(&a, &b, mask);
     }
     if (r != 0) {
         e = r->contact;

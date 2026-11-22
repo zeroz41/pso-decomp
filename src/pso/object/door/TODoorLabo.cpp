@@ -223,9 +223,9 @@ struct Door_802A0670;
 const char *TODoorFourLightBase__class_name = "TODoorFourLightBase";
 
 
-Door_802A0994 *TODoorFourLightBase__ct(Door_802A0994 *arg0, void *arg1, s32 arg2) {
+Door_802A0994 *TODoorFourLightBase__ct(Door_802A0994 *arg0, void *parent, s32 arg2) {
     s32 i;
-    __ct__10TODoorBaseFP7TObject(arg0, arg1);
+    __ct__10TODoorBaseFP7TObject(arg0, parent);
     *(void **)((u8 *)arg0 + 0x18) = ((s32 *)&__vt__19TODoorFourLightBase);
     arg0->f0 = TODoorFourLightBase__class_name;
     arg0->m5(arg2);

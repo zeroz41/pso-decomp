@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TPhotonConcentrate : public TObjCollidable {
-    TPhotonConcentrate(u8 *arg1, saddr arg2, s32 arg3);
+    TPhotonConcentrate(u8 *arg1, saddr parent, s32 arg3);
     virtual ~TPhotonConcentrate();
     virtual void render();
     virtual void run_task();

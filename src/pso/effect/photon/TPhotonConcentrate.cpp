@@ -126,7 +126,7 @@ void run_task__18TPhotonConcentrateFv(PC_801A7E7C *self) {
 TPhotonConcentrate::~TPhotonConcentrate() {
     if (*(void **)((s8 *)this + 0xF8) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0xF8)))->queue_destruction(); this->m_f8 = 0; }
 }
-TPhotonConcentrate::TPhotonConcentrate(u8 *arg1, saddr arg2, s32 arg3) : TObjCollidable((TObject *)arg2) {
+TPhotonConcentrate::TPhotonConcentrate(u8 *arg1, saddr parent, s32 arg3) : TObjCollidable((TObject *)parent) {
     f32 temp_f1;
     *(saddr *)((s8 *)this + 0) = (saddr) TPhotonConcentrate__class_name;
     VecCopy((Vec *)(((u8 *)this) + 0xAC), (const Vec *)(VecCopy((Vec *)(((u8 *)this) + 0xB8), (const Vec *)((const Vec *)arg1))));

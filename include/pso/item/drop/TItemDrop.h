@@ -21,7 +21,7 @@ struct TItemDrop : public TObject {
     static s32 run_step(s32 arg0);
     static void clear_item_if_player_picked_up(void* p, void* a1);
     static s32 calc_drop_offset(s32 arg0);
-    static void set_drop_index(void *arg0, void *arg1);
+    static void set_drop_index(void *arg0, void *item);
     void select_unit_drop(u8 kind, u8 *item);
     static void init_drop_table();
     static void count_unit_star_buckets();
@@ -31,14 +31,14 @@ struct TItemDrop : public TObject {
     static s32 can_drop();
     u32 roll_channel_below(s32 count, u32 arg2);
     void generate_drop_item(s32 idx, u8 *item);
-    static s32 select_rare_box_item(s32 arg0, s32 arg1, u8 *arg2);
-    static s32 drop_item(s32 arg0, s32 arg1, saddr arg2);
-    static void calc_drop_rarity(saddr rng, s32 arg1, void *item_);
+    static s32 select_rare_box_item(s32 arg0, s32 arg1, u8 *item);
+    static s32 drop_item(s32 arg0, s32 area, saddr item);
+    static void calc_drop_rarity(saddr rng, s32 idx, void *item_);
     static void init_rare_item_data(void *arg0, void *item_data);
     static void handle_type3(void* p, void* a1);
     static void apply_item_data(void *arg0, void *item);
-    static void set_flag(void *arg0, void *item);
-    static void calc_drop_item(saddr rng, void *arg1, s32 arg2);
+    static void set_flag(void *rng, void *item);
+    static void calc_drop_item(saddr rng, void *item, s32 value);
     u16 roll_meseta_range(saddr arg1, s32 a, s32 b, s32 c);
     u8 roll_technique_level(saddr table, s32 row, s32 col, s32 stride);
     u8 select_weighted_byte(saddr base, s32 off, s32 count, s32 stride);

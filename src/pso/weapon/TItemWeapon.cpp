@@ -371,9 +371,9 @@ s32 *get_captured_target_entry(Obj_80121248 *self, s32 i) {
     return &self->arr[i];
 }
 
-s32 get_captured_target_count(s32 *arg0) {
+s32 get_captured_target_count(s32 *ext) {
     s32 temp_r3;
-    temp_r3 = *arg0;
+    temp_r3 = *ext;
     if ((temp_r3 < 0) || (temp_r3 > 0xA)) {
         return 0;
     }

@@ -432,8 +432,8 @@ void TContainerAncient01::release_static_resource() {
     }
 }
 
-void *TContainerAncient01::create(void *arg0) {
-    return new TContainerAncient01(tl_05, arg0);
+void *TContainerAncient01::create(void *set_data) {
+    return new TContainerAncient01(tl_05, set_data);
 }
 
 void TContainerAncient01::run_task() {

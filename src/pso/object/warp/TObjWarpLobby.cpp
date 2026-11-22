@@ -112,29 +112,29 @@ void TObjWarpLobby::render() {
 }
 
 
-void run_task__13TObjWarpLobbyFv(TObjWarpLobby *arg0) {
+void run_task__13TObjWarpLobbyFv(TObjWarpLobby *warp) {
     s32 selected_menu_value;
-    arg0->beam_frame += 4.0f;
-    if ((f32) (arg0->beam_motion->frameCount - 1) < arg0->beam_frame) {
-        arg0->beam_frame = 0.0f;
+    warp->beam_frame += 4.0f;
+    if ((f32) (warp->beam_motion->frameCount - 1) < warp->beam_frame) {
+        warp->beam_frame = 0.0f;
     }
-    arg0->beam_phase += 336.0f;
-    if ((find_warp_player_in_range(arg0, (u16)local_client_id, arg0->warp_range) != NULL) && (arg0->is_warp_enabled() != 0)) {
-        if (((u32) arg0->menu_window == 0U) && (TLobby::is_idle() != 0)) {
-            arg0->open_lobby_menu();
+    warp->beam_phase += 336.0f;
+    if ((find_warp_player_in_range(warp, (u16)local_client_id, warp->warp_range) != NULL) && (warp->is_warp_enabled() != 0)) {
+        if (((u32) warp->menu_window == 0U) && (TLobby::is_idle() != 0)) {
+            warp->open_lobby_menu();
         }
-        if (((u32) arg0->menu_window != 0U) && (((TWindowMenu *)(arg0->menu_window))->is_decided() != 0)) {
-            selected_menu_value = ((TWindowMenu *)(arg0->menu_window))->get_selected_value();
-            if (arg0->menu_window != 0U) {
-                ((TObject *)(arg0->menu_window))->queue_destruction();
-                arg0->menu_window = 0U;
+        if (((u32) warp->menu_window != 0U) && (((TWindowMenu *)(warp->menu_window))->is_decided() != 0)) {
+            selected_menu_value = ((TWindowMenu *)(warp->menu_window))->get_selected_value();
+            if (warp->menu_window != 0U) {
+                ((TObject *)(warp->menu_window))->queue_destruction();
+                warp->menu_window = 0U;
                 TWindowCtrl::clear_flag();
             }
             TLobby::send_room_change(selected_menu_value);
         }
-    } else if ((u32) arg0->menu_window != 0U) {
-        ((TWindowBase *)arg0->menu_window)->close();
-        arg0->menu_window = 0U;
+    } else if ((u32) warp->menu_window != 0U) {
+        ((TWindowBase *)warp->menu_window)->close();
+        warp->menu_window = 0U;
         TWindowCtrl::clear_flag();
     }
 }

@@ -227,8 +227,8 @@ extern const f32 TParticleCtrl__data_805D94E4;
 #include "pso/system/task/TMainTask.h"
 
 
-u8 *create_orbit_particle(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, u16 arg4, s16 arg5) {
-    return (u8 *)new TUnk_8048E790(arg0, arg1, arg2, arg3, arg4, arg5);
+u8 *create_orbit_particle(u8 *arg0, u8 *pos, u8 *dir, s32 parent, u16 flags, s16 target_id) {
+    return (u8 *)new TUnk_8048E790(arg0, pos, dir, parent, flags, target_id);
 }
 void *TParticleCtrl::alloc_child_particle(void *param, void *pos, void *dir, void *parent) {
     return new TUnk_8048E790(param, pos, dir, parent);
@@ -469,10 +469,10 @@ void TUnk_8048E790::render() {
 TUnk_8048E790::~TUnk_8048E790() {}
 #pragma push
 #pragma fp_contract on
-TUnk_8048E790::TUnk_8048E790(u8 *arg1, u8 *arg2, u8 *arg3, saddr arg4, u16 arg5, s16 arg6)
-    : TUnk_8048E728((ParticleParam *)arg1, (TObject *)arg4) {
+TUnk_8048E790::TUnk_8048E790(u8 *src, u8 *arg2, u8 *arg3, saddr parent, u16 arg5, s16 arg6)
+    : TUnk_8048E728((ParticleParam *)src, (TObject *)parent) {
     Obj_8008AC24 *o = (Obj_8008AC24 *)this;
-    Desc_8008AC24 *d = (Desc_8008AC24 *)arg1;
+    Desc_8008AC24 *d = (Desc_8008AC24 *)src;
     Vec *p = (Vec *)arg2;
     IVec_8008AC24 *v = (IVec_8008AC24 *)arg3;
     s32 temp_r0;
@@ -515,12 +515,12 @@ TUnk_8048E790::TUnk_8048E790(u8 *arg1, u8 *arg2, u8 *arg3, saddr arg4, u16 arg5,
 #pragma push
 #pragma fp_contract on
 
-TUnk_8048E790::TUnk_8048E790(void *arg1, void *arg2, void *arg3, void *arg4)
-    : TUnk_8048E728((ParticleParam *)arg1, (TObject *)arg4) {
+TUnk_8048E790::TUnk_8048E790(void *src, void *pos, void *dir, void *parent)
+    : TUnk_8048E728((ParticleParam *)src, (TObject *)parent) {
     OObj_8008B060 *o = (OObj_8008B060 *)this;
-    ODesc_8008B060 *d = (ODesc_8008B060 *)arg1;
-    Vec *p = (Vec *)arg2;
-    OIVec_8008B060 *v = (OIVec_8008B060 *)arg3;
+    ODesc_8008B060 *d = (ODesc_8008B060 *)src;
+    Vec *p = (Vec *)pos;
+    OIVec_8008B060 *v = (OIVec_8008B060 *)dir;
     s32 temp_r0;
     o->f98 = v->x;
     o->f9C = v->y;

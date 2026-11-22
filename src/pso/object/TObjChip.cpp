@@ -237,8 +237,8 @@ TObjChipSpawnParams *TObjChip::copy_transform(TObjChipSpawnParams *spawn, TObjCh
 }
 
 
-u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *object, u8 *arg1, u8 *arg2) {
-    __ct__7TObjectFP7TObject(object, arg1);
+u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *object, u8 *parent, u8 *arg2) {
+    __ct__7TObjectFP7TObject(object, parent);
     *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__8TObjChip;
     *(saddr *)((s8 *)object + 0) = (saddr) obj_chip_class_name_ptr;
     copy_debris_params__8TObjChipFPvPv(object + 0x24, arg2);
@@ -265,8 +265,8 @@ void copy_debris_params__8TObjChipFPvPv(u8 *arg0, u8 *arg1) {
     *(s32 *)((s8 *)arg0 + 0x44) = (s32) *(s32 *)((s8 *)arg1 + 0x44);
     *(s32 *)((s8 *)arg0 + 0x48) = (s32) *(s32 *)((s8 *)arg1 + 0x48);
 }
-u8 *__ct__8TObjChipFP7TObjectP19TObjChipSpawnParams(u8 *object, u8 *arg1, u8 *arg2) {
-    __ct__7TObjectFP7TObject(object, arg1);
+u8 *__ct__8TObjChipFP7TObjectP19TObjChipSpawnParams(u8 *object, u8 *parent, u8 *arg2) {
+    __ct__7TObjectFP7TObject(object, parent);
     *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__8TObjChip;
     *(saddr *)((s8 *)object + 0) = (saddr) obj_chip_class_name_ptr;
     copy_debris_params__8TObjChipFPvPv(object + 0x24, arg2);

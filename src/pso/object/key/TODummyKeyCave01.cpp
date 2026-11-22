@@ -77,9 +77,9 @@ u8 is_current_floor_switch_set(s32 id);
 }
 
 #define dummy_key_cave01 this
-TODummyKeyCave01::TODummyKeyCave01(TObject *parent, void *arg2) : TObjBase(parent) {
+TODummyKeyCave01::TODummyKeyCave01(TObject *parent, void *set_data) : TObjBase(parent) {
     ((TObject *)dummy_key_cave01)->m_name = TODummyKeyCave01__class_name;
-    ((TODummyKeyCave01 *)(dummy_key_cave01))->apply_object_set_data((void *)arg2);
+    ((TODummyKeyCave01 *)(dummy_key_cave01))->apply_object_set_data((void *)set_data);
     *(f32 *)((s8 *)dummy_key_cave01 + 0xA8) = 1.0f;
     ((TODummyKeyCave01 *)dummy_key_cave01)->m_a4 = 1.0f;
     *(f32 *)((s8 *)dummy_key_cave01 + 0xA0) = 1.0f;

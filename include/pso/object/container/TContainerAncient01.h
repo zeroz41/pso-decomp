@@ -35,7 +35,7 @@ struct TContainerAncient01 : public TObjChara {
     void init_state_vectors();
     virtual void render();
     virtual void run_task();
-    static void *create(void *arg0);
+    static void *create(void *set_data);
     static void release_static_resource();
     static void load_resources();
     static s32 is_global_state_in_table();

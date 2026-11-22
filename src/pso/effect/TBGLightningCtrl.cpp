@@ -109,11 +109,11 @@ void *__dt__16TBGLightningCtrlFv(void *base, s16 arg1) {
     return base;
 }
 
-u8 *TBGLightningCtrl__ct(u8 *bg_lightning_ctrl, saddr parent, saddr arg2) {
+u8 *TBGLightningCtrl__ct(u8 *bg_lightning_ctrl, saddr parent, saddr set_data) {
     __ct__8TObjBaseFP7TObject((void *)bg_lightning_ctrl, (void *)parent);
     *(s32 **)((s8 *)bg_lightning_ctrl + 0x18) = (s32 *)__vt__16TBGLightningCtrl;
     *(saddr *)((s8 *)bg_lightning_ctrl + 0) = (saddr) TBGLightningCtrl__name;
-    ((TBGLightningCtrl *)(bg_lightning_ctrl))->apply_object_set_data((void *)arg2);
+    ((TBGLightningCtrl *)(bg_lightning_ctrl))->apply_object_set_data((void *)set_data);
     ((TBGLightningCtrl *)bg_lightning_ctrl)->m_90 = 0;
     return bg_lightning_ctrl;
 }
@@ -270,12 +270,12 @@ u8 *create__12TBGLightningFiif(saddr arg0, s32 arg1, f32 farg0) {
 TBGLightning::~TBGLightning() {}
 
 extern "C" {
-u8 *__ct__12TBGLightningFv(u8 *object, void *arg1, s32 arg2, f32 farg0) {
+u8 *__ct__12TBGLightningFv(u8 *object, void *parent, s32 arg2, f32 farg0) {
     f32 temp_f1;
     f32 temp_f2;
     s8 temp_r5;
 
-    __ct__7TObjectFP7TObject(object, arg1);
+    __ct__7TObjectFP7TObject(object, parent);
     *(void **)((s8 *)object + 0x18) = (void *) __vt__12TBGLightning;
     *(saddr *)((s8 *)object + 0) = (saddr) TBGLightning__name;
     temp_f2 = (f32) rand();

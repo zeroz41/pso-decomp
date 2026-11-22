@@ -31,10 +31,10 @@ void interpolate_motion_vector_keys_xy(u8 *keys, s32 count, u8 *arg2, f32 farg0)
 void sample_camera_motion(u8 *arg0, saddr arg1, u8 *arg2, f32 farg0);
 void sample_motion_angle_keys(u8 *keys, s32 count, u8 *arg2, f32 farg0);
 void sample_motion_angle_keys_s16(u8 *keys, s32 count, u8 *arg2, f32 farg0);
-s32 sample_motion_node_transform(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
+s32 sample_motion_node_transform(void *node, void *arg1, void *arg2, void *arg3, void *arg4);
 s32 sample_motion_vector_channel(saddr arg0);
 void select_motion_context(s32 arg0);
-void select_motion_sampler(s32 *arg0, f32 farg0);
+void select_motion_sampler(s32 *motion, f32 farg0);
 void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
 void set_motion_row_stride(s32 n);
 void set_perspective_projection_from_fov(s32 arg0, f32 farg0, f32 farg1, f32 farg2);

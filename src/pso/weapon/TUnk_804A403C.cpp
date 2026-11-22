@@ -183,11 +183,11 @@ void TObjPlayer::clear_rico_ring_flag() {
 }
 
 
-NJS_OBJECT *TObjPlayer__sub_801290D0(u8 *arg0) {
-    if (test_flags_any((s32 *)(arg0 + 0x1FC), 4) != 0) {
-        return *(NJS_OBJECT **)((s8 *)arg0 + 0x188);
+NJS_OBJECT *TObjPlayer__sub_801290D0(u8 *owner) {
+    if (test_flags_any((s32 *)(owner + 0x1FC), 4) != 0) {
+        return *(NJS_OBJECT **)((s8 *)owner + 0x188);
     }
-    return *(NJS_OBJECT **)((s8 *)arg0 + 0x184);
+    return *(NJS_OBJECT **)((s8 *)owner + 0x184);
 }
 
 

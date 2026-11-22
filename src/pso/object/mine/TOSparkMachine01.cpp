@@ -113,11 +113,11 @@ TOSparkMachine01::~TOSparkMachine01() {
 
 }
 
-TOSparkMachine01::TOSparkMachine01(void *arg1) : TObjBase(tl_05) {
+TOSparkMachine01::TOSparkMachine01(void *set_data) : TObjBase(tl_05) {
     TOSparkMachine01 *self = this;
     s32 i;
     self->m_name = TOSparkMachine01__name;
-    self->apply_object_set_data(arg1);
+    self->apply_object_set_data(set_data);
     self->model = (void *)TOSparkMachine01__static_resource->models[0].model;
     self->texlist = (saddr)TOSparkMachine01__static_resource->models[0].m_c;
     self->view_range = 500.0f;

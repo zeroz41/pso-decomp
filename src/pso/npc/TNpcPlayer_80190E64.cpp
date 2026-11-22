@@ -79,10 +79,10 @@ void *TLobby::create_npc(void *arg0) {
     }
     return o;
 }
-u8 *TLobby__sub_8019118C(u8 *arg0, s32 arg1, saddr arg2) {
+u8 *TLobby__sub_8019118C(u8 *arg0, s32 arg1, saddr set_data) {
     __ct__14TObjCollidableFP7TObject(arg0, arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = &__vt__13TUnk_804B7C1C.value;
-    ((TUnk_804B7C1C *)(arg0))->apply_object_set_data((void *)arg2);
+    ((TUnk_804B7C1C *)(arg0))->apply_object_set_data((void *)set_data);
     *(s16 *)((s8 *)arg0 + 0xAC) = 3;
     ((TUnk_804B7C1C *)arg0)->m_b0 = (s32) ((TUnk_804B7C1C *)arg0)->set_params[0];
     *(s32 *)((s8 *)arg0 + 0xB4) = 0;
@@ -142,8 +142,8 @@ void TUnk_804B7C1C::render() {  }
 void TLobby__sub_80190FD0(int a0) { npc_proximity_target_id = a0; }
 
 
-Npc_80190F3C *init_npc_player_char_loader(Npc_80190F3C *arg0, void *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, void *arg6) {
-    __ct__7TObjectFP7TObject(arg0, arg6);
+Npc_80190F3C *init_npc_player_char_loader(Npc_80190F3C *arg0, void *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, void *parent) {
+    __ct__7TObjectFP7TObject(arg0, parent);
     arg0->f18 = ((u8 *)__vt__13TUnk_804B7C04);
     VecCopy((Vec *)arg0->f1C, (const Vec *)arg1);
     arg0->f28 = arg2;

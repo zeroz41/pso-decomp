@@ -113,7 +113,7 @@ struct TCameraCtrl : public TObject {
     void cycle_spectate_target();
     static void update_active_player();
     static void update_battle_camera();
-    static void create(saddr arg0, s32 arg1, s32 arg2);
+    static void create(saddr goal, s32 frames, s32 arg2);
     void *destroy(s16 arg1);
     static void reset_to_local_player();
     static void set_override_position_and_angle(u8 *arg0, s16 arg1);
@@ -155,8 +155,8 @@ struct TCameraCtrl : public TObject {
     static int get_camera_id();
     static void set_target_coords(int a0, int a1);
     static void reset_battle_camera();
-    u8 *init_conversation_camera(s32 arg1, s32 arg2, saddr arg3);
-    static s32 clamp_distance(s32 arg0, s32 arg1, s32 arg2);
+    u8 *init_conversation_camera(s32 arg1, s32 arg2, saddr parent);
+    static s32 clamp_distance(s32 yaw, s32 to, s32 arg2);
     static void free_entries();
     static void load_camera_banks();
     static void init_projection_state();

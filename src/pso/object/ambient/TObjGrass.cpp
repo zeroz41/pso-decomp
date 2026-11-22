@@ -518,9 +518,9 @@ void TObjGrass::destroy_all() {
     }
 }
 
-void *TObjGrass::create(void *arg0) {
+void *TObjGrass::create(void *set_data) {
     TObjControl *parent = new TObjControl(tl_04);
-    return new TObjGrass(parent, arg0);
+    return new TObjGrass(parent, set_data);
 }
 
 void TObjGrass::run_task() {

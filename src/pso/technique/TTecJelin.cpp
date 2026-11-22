@@ -71,8 +71,8 @@ void TTecJelin::vfunc_6(void *target_arg) {
     ((VObj_802386F8 *)target)->m21(*(s32 *)(self + 0x1C), d, *(s32 *)(self + 0xB8), 0xb, -1, self);
 }
 
-void TTecJelin::create(saddr arg0, saddr arg1, saddr arg2, s32 arg3) {
-    new TTecJelin(arg0, (Vec *)arg1, (Vec *)arg2, arg3);
+void TTecJelin::create(saddr source, saddr pos, saddr arg2, s32 level) {
+    new TTecJelin(source, (Vec *)pos, (Vec *)arg2, level);
 }
 void TTecJelin::render() {  }
 

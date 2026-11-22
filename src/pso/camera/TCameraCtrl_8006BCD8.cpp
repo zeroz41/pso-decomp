@@ -114,11 +114,11 @@ BOOL approach_camera_vector(Vec *current, Vec *target, f32 rate) {
     return TRUE;
 }
 
-s32 TCameraCtrl::clamp_distance(s32 arg0, s32 arg1, s32 arg2) {
-    if (angle_difference_abs(arg1, arg0) < (s32) (arg2 * 0x7F)) {
-        return arg1;
+s32 TCameraCtrl::clamp_distance(s32 yaw, s32 to, s32 arg2) {
+    if (angle_difference_abs(to, yaw) < (s32) (arg2 * 0x7F)) {
+        return to;
     }
-    return approach_angle_limited(arg0, arg1, arg2 * 0x7F);
+    return approach_angle_limited(yaw, to, arg2 * 0x7F);
 }
 
 void set_scripted_camera_pose(const Vec* position, const Vec* target, const CameraAngles* angles) {

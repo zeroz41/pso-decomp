@@ -16,7 +16,7 @@ struct TKomorebi : public TObjBase {
 LAYOUT_ASSERT(TKomorebi_size, sizeof(TKomorebi) == 0x90);
 
 extern "C" {
-void *TKomorebi__create(void *arg0);
+void *TKomorebi__create(void *set_data);
 void *__dt__9TKomorebiFv(void *arg0, s16 arg1);
 }
 

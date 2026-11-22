@@ -170,13 +170,13 @@ TUnk_8048FA00::~TUnk_8048FA00() {
 
 #pragma push
 #pragma fp_contract on
-s32 TUnk_8048FA00::build_node_records(u8 *arg1, s32 arg2) {
+s32 TUnk_8048FA00::build_node_records(u8 *model, s32 arg2) {
     u8 *temp_r31;
     s32 temp_r30;
     s32 temp_r4;
     s32 var_r29;
     u8 *var_r28;
-    var_r28 = arg1;
+    var_r28 = model;
     var_r29 = arg2;
     do {
         push_matrix();
@@ -202,13 +202,13 @@ s32 TUnk_8048FA00::build_node_records(u8 *arg1, s32 arg2) {
     return var_r29;
 }
 
-s32 TUnk_8048FA00::collect_node_positions(u8 *arg1, s32 arg2) {
+s32 TUnk_8048FA00::collect_node_positions(u8 *model, s32 arg2) {
     u8 *temp_r31;
     s32 temp_r30;
     s32 temp_r4;
     s32 var_r29;
     u8 *var_r28;
-    var_r28 = arg1;
+    var_r28 = model;
     var_r29 = arg2;
     do {
         push_matrix();
@@ -232,13 +232,13 @@ s32 TUnk_8048FA00::collect_node_positions(u8 *arg1, s32 arg2) {
     return var_r29;
 }
 
-u8 *TBreakUpMdl__ct(u8 *break_up_mdl, void *arg1, Model_80096AD8 *arg2, void *arg3, s32 arg4, void *arg5, s32 arg6) {
+u8 *TBreakUpMdl__ct(u8 *break_up_mdl, void *parent, Model_80096AD8 *arg2, void *arg3, s32 texlist, void *arg5, s32 arg6) {
     BreakUp_80096AD8 *self = (BreakUp_80096AD8 *)break_up_mdl;
     f32 base;
     f32 scale;
     Part_80096AD8 *part;
     s32 i;
-    __ct__7TObjectFP7TObject(self, arg1);
+    __ct__7TObjectFP7TObject(self, parent);
     self->vtable = __vt__11TBreakUpMdl;
     self->f0 = (saddr)TBreakUpMdl__class_name;
     self->model = arg2;
@@ -247,7 +247,7 @@ u8 *TBreakUpMdl__ct(u8 *break_up_mdl, void *arg1, Model_80096AD8 *arg2, void *ar
     } else {
         ((TBreakUpMdl *)(&self->f38))->copy(arg3);
     }
-    self->f24 = arg4;
+    self->f24 = texlist;
     self->count = self->model->count;
     base = self->f4C;
     scale = self->f50;

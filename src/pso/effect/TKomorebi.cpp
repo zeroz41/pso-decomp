@@ -83,8 +83,8 @@ TKomorebi::TKomorebi(TObject *parent, saddr arg2) : TObjBase(parent) {
 #undef komorebi
 
 
-void *TKomorebi__create(void *arg0) {
-    return new TKomorebi(tl_05, (saddr)arg0);
+void *TKomorebi__create(void *set_data) {
+    return new TKomorebi(tl_05, (saddr)set_data);
 }
 
 void TKomorebi::free_static() {

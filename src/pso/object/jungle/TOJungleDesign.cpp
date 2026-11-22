@@ -71,9 +71,9 @@ TOJungleDesign::~TOJungleDesign() {
     this->unregister_object_by_id();
     free_collision_body_parts(this);
 }
-TOJungleDesign::TOJungleDesign(saddr arg1, saddr arg2) : TObjCollidable((TObject *)arg1) {
+TOJungleDesign::TOJungleDesign(saddr parent, saddr set_data) : TObjCollidable((TObject *)parent) {
     this->m_name = TOJungleDesign__name;
-    ((TOJungleDesign *)(((u8 *)this)))->apply_object_set_data((void *)arg2);
+    ((TOJungleDesign *)(((u8 *)this)))->apply_object_set_data((void *)set_data);
     this->init_design_variant();
     init_collision_body_parts(this, &TOJungleDesign__collision_desc_table[this->m_b0], 1);
     ((TObjPlayer *)this)->register_object_by_id();

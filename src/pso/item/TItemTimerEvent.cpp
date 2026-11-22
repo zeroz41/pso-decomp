@@ -107,15 +107,15 @@ void TItemTimerEvent::check_battle_ctrl(int arg0) {
     }
 }
 
-void TItemTimerEvent::start_event_by_index(u16 arg0) {
-    if (((void *) (*(u8 * *)&item_timer_event_instance) != NULL) && (arg0 < 0xCU)) {
-        fn_801108C8((*(u8 * *)&item_timer_event_instance), arg0);
+void TItemTimerEvent::start_event_by_index(u16 client_id) {
+    if (((void *) (*(u8 * *)&item_timer_event_instance) != NULL) && (client_id < 0xCU)) {
+        fn_801108C8((*(u8 * *)&item_timer_event_instance), client_id);
     }
 }
 
-void TItemTimerEvent::clear_timer_slot(u16 arg0) {
-    if (((void *) (*(u8 * *)&item_timer_event_instance) != NULL) && (arg0 < 0xCU)) {
-        fn_8011085C((*(u8 * *)&item_timer_event_instance), arg0);
+void TItemTimerEvent::clear_timer_slot(u16 client_id) {
+    if (((void *) (*(u8 * *)&item_timer_event_instance) != NULL) && (client_id < 0xCU)) {
+        fn_8011085C((*(u8 * *)&item_timer_event_instance), client_id);
     }
 }
 

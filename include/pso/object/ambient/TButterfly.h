@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TButterfly : public TObjBase {
-    TButterfly(TObject *arg1, void *arg2);
+    TButterfly(TObject *parent, void *arg2);
     virtual ~TButterfly();
     u8 unk_90[0xC];
     void* m_9c;

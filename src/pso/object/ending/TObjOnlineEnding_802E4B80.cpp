@@ -304,13 +304,13 @@ void *fn_802E6218(void *arg0);
 void fn_802E6260();
 #pragma push
 #pragma opt_common_subs off
-void *TObjOnlineEnding__ct(void *arg0, void *parent) {
+void *TObjOnlineEnding__ct(void *origin, void *parent) {
     s32 i;
     u8 *pl;
     OnlineEndingPlayer *e;
-    TObjOnlineEnding *self = static_cast<TObjOnlineEnding *>(arg0);
+    TObjOnlineEnding *self = static_cast<TObjOnlineEnding *>(origin);
 
-    __ct__8TObjBaseFP7TObject(arg0, parent);
+    __ct__8TObjBaseFP7TObject(origin, parent);
     *reinterpret_cast<const s32 **>(reinterpret_cast<u8 *>(self) + 0x18) = __vt__16TObjOnlineEnding;
     self->m_name = TObjOnlineEnding__name;
     self->ending_area = get_current_floor_area();
@@ -325,7 +325,7 @@ void *TObjOnlineEnding__ct(void *arg0, void *parent) {
         break;
     default:
         object->queue_destruction();
-        return arg0;
+        return origin;
     }
     self->scene_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)online_ending_resource, 0));
     self->scene_textures = reinterpret_cast<GinjaTextureList *>(get_bml_texlist((BmlResource *)online_ending_resource, 0));
@@ -366,21 +366,21 @@ void *TObjOnlineEnding__ct(void *arg0, void *parent) {
         break;
     }
     fn_802E6260();
-    fn_802E6218(arg0);
+    fn_802E6218(origin);
     self->create_result_window();
     self->elapsed_frames = 0;
     self->scene_state = 0;
-    return arg0;
+    return origin;
 }
 
 #pragma pop
 
 void *TObjOnlineEnding__ct(void *, void *);
 
-void *TObjOnlineEnding::create(void *arg0) {
+void *TObjOnlineEnding::create(void *parent) {
     void *o = TObject::operator new(sizeof(TObjOnlineEnding));
     if (o != NULL) {
-        o = TObjOnlineEnding__ct(o, arg0);
+        o = TObjOnlineEnding__ct(o, parent);
     }
     return o;
 }

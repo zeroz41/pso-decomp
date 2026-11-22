@@ -9,9 +9,9 @@ TUnk_804A3D20::TUnk_804A3D20(TObject *parent, u8 *item) : TUnk_804A4948(parent, 
     impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
 }
 
-TItem *TObjPlayer::create_shoot_model_callback(u8 *arg0) {
-    if (arg0 != NULL) {
-        return new TUnk_804A3D20(tl_05, arg0);
+TItem *TObjPlayer::create_shoot_model_callback(u8 *item) {
+    if (item != NULL) {
+        return new TUnk_804A3D20(tl_05, item);
     }
     return NULL;
 }

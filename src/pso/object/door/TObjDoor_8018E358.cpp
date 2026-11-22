@@ -507,11 +507,11 @@ TObjDoor::~TObjDoor() {
 
 
 #define d ((Door_8018F15C *)arg0)
-void *TObjDoor__ct(void *arg0, void *arg1, void *arg2) {
+void *TObjDoor__ct(void *arg0, void *arg1, void *set_data) {
     __ct__14TObjCollidableFP7TObject(arg0, arg1);
     d->vt = __vt__8TObjDoor;
     d->name = TObjDoor__name;
-    ((TObjPlayer *)d)->apply_object_set_data(arg2);
+    ((TObjPlayer *)d)->apply_object_set_data(set_data);
     d->fAC = 0;
     d->fB8 = (0.0f);
     d->fB4 = (0.0f);

@@ -596,11 +596,11 @@ void TUnk_804A69DC::for_each_target_in_range(f32 range) {
 
 // ---- pso/player/TObjPlayer_8011F578
 
-void TUnk_804A4D70::apply_scale_if_active(f32 farg0) {
+void TUnk_804A4D70::apply_scale_if_active(f32 damage_scale) {
 
     if (this->is_active_in_game() != 0) {
         this->remap_extra_attack_type();
-        owner->deliver_attack_hits(farg0);
+        owner->deliver_attack_hits(damage_scale);
         this->restore_action_type();
     }
 }

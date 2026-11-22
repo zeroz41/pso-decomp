@@ -152,8 +152,8 @@ TQuestThread *TObjQuestCol::vfunc_16() {
     return TQuestThread::create(m_b0);
 }
 
-void *TObjQuestCol__create(void *arg0) {
-    return new TObjQuestCol(quest_collision_task_root, arg0);
+void *TObjQuestCol__create(void *set_data) {
+    return new TObjQuestCol(quest_collision_task_root, set_data);
 }
 
 TObjQuestCol *create_quest_col(ObjectSetData *arg, s32 *out_id) {
@@ -212,8 +212,8 @@ TQuestThread *TObjQuestColA::vfunc_16() {
     return TQuestThread::create(m_b0);
 }
 
-void *TObjQuestColA__create(void *arg0) {
-    return new TObjQuestColA(quest_collision_task_root, arg0);
+void *TObjQuestColA__create(void *set_data) {
+    return new TObjQuestColA(quest_collision_task_root, set_data);
 }
 
 TObjQuestColA *fn_80196814(ObjectSetData *arg, s32 *out_id) {
@@ -610,8 +610,8 @@ void TObjQuestColALock2::update_room_id_check() {
     }
 }
 
-void *TObjQuestColALock2__create(void *arg0) {
-    return new TObjQuestColALock2(quest_collision_task_root, arg0);
+void *TObjQuestColALock2__create(void *set_data) {
+    return new TObjQuestColALock2(quest_collision_task_root, set_data);
 }
 
 // --- TObjQuestCol2 ---
@@ -660,6 +660,6 @@ TQuestThread *TObjQuestCol2::vfunc_16() {
     return thread;
 }
 
-void *TObjQuestCol2__create(void *arg0) {
-    return new TObjQuestCol2(quest_collision_task_root, arg0);
+void *TObjQuestCol2__create(void *set_data) {
+    return new TObjQuestCol2(quest_collision_task_root, set_data);
 }

@@ -535,7 +535,7 @@ s32 get_area_table_value__17TOTrapChainSawKeyFii(TOTrapChainSaw *trap, s32 sound
     return p[sound_index];
 }
 #define arg0 ((u8 *)this)
-TOTrapChainSawDamage::TOTrapChainSawDamage(TObject *parent, void *arg2) : TOTrapChainSaw(parent, arg2) {
+TOTrapChainSawDamage::TOTrapChainSawDamage(TObject *parent, void *set_data) : TOTrapChainSaw(parent, set_data) {
     void *o;
     *(saddr *)(((u8 *)arg0) + 0) = (saddr) TOTrapChainSawDamage_class_name;
     ((TOTrapChainSawDamage *)arg0)->decode_params();
@@ -545,7 +545,7 @@ TOTrapChainSawDamage::TOTrapChainSawDamage(TObject *parent, void *arg2) : TOTrap
     ((TObjPlayer *)arg0)->register_object_by_id();
     *(f32 *)(((u8 *)arg0) + 0x3C) += (5.0f);
     {
-        Copy_802C8E24 c = *(Copy_802C8E24 *)arg2;
+        Copy_802C8E24 c = *(Copy_802C8E24 *)set_data;
         *(f32 *)((u8 *)&c + 0x10) += (1e+01f);
         o = new TOTrapChainSawEdge((TObject *)this, &c);
         *(void **)(((u8 *)arg0) + 0x104) = o;

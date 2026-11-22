@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-void advance_angle_wrap(s32 *arg0, s32 arg1);
+void advance_angle_wrap(s32 *arg0, s32 blade_speed);
 u8 *spawn_star_light_2d(s32 arg0, s32 arg1, s32 arg2);
 
 #endif

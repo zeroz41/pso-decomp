@@ -8,7 +8,7 @@ void draw_ginja_model(void *model);
 void draw_ginja_object(void *child);
 }
 void end_ginja_model_draw(void);
-s32 get_ginja_vertex_descriptor_type(u32 arg0, s32 arg1);
+s32 get_ginja_vertex_descriptor_type(u32 value, s32 arg1);
 void ginja_load_texture_slot(u32 arg0, u32);
 void ginja_set_alpha_compare(u8 ref);
 void ginja_set_vertex_format(u32 arg0, u32);

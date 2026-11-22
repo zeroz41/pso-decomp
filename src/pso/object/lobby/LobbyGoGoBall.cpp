@@ -736,7 +736,7 @@ void draw_shadow_on_ground(u8 *arg0) {
 #define controller_input_state (*(s32 (*)[1])&controller_input_state)
 #define gogo_ball_configuration (*(u8 (*)[1])&gogo_ball_configuration)
 
-void TObjPlayer__sub_801994DC(saddr arg0, void *arg1, void *arg2, s32 arg3, void *arg4, f32 farg0) {
+void TObjPlayer__sub_801994DC(saddr arg0, void *arg1, void *arg2, s32 angle, void *arg4, f32 farg0) {
     Ang_801994DC ang;
     Col_801994DC col;
     Fx_801994DC fx;
@@ -749,7 +749,7 @@ void TObjPlayer__sub_801994DC(saddr arg0, void *arg1, void *arg2, s32 arg3, void
     translate_matrix(0, 0.0f, 0.3f, 0.0f);
     rotate_matrix_z(0, ang.z);
     rotate_matrix_x(0, ang.x);
-    rotate_matrix_y(0, arg3);
+    rotate_matrix_y(0, angle);
     if (arg4 != NULL) {
         scale_current_matrix(arg4);
     }
@@ -917,7 +917,7 @@ void fn_80198E84(void) {
     }
 }
 
-void TWindowTimer::throw_gogo_ball(s32 arg1, s32 arg2) {
+void TWindowTimer::throw_gogo_ball(s32 ang, s32 time) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80198DCC, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_80198DCC, spC) == 0x4);
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_80198DCC, sp10) == 0x8);
@@ -926,8 +926,8 @@ void TWindowTimer::throw_gogo_ball(s32 arg1, s32 arg2) {
     LAYOUT_ASSERT(sp1C_offset, offsetof(Stack_80198DCC, sp1C) == 0x14);
     Stack_80198DCC stack;
     TWindowTimer__sub_8019A6F8((&stack.sp8));
-    stack.spC = arg2;
-    stack.sp10 = arg1;
+    stack.spC = time;
+    stack.sp10 = ang;
     stack.sp14 = *(f32 *)((s8 *)((u8 *)this) + 0);
     stack.sp18 = *(f32 *)((s8 *)((u8 *)this) + 8);
     if (test_previous_buttons_packed((void *) ((u8 *)&controller_input_state + 0x20), 4) != 0) {

@@ -114,7 +114,7 @@ void *TPlyPtclObjectRightHand::get_center() {
 
 s32 emit_player_particle(void* p, void* a1, void* a2) { return (saddr)spawn_particle_effect((const Vec *)a1, (s32)(saddr)a2); }
 
-s32 TObjPlayer::check_hit_by_id(saddr arg0, s32 arg1, s32 arg2) {
+s32 TObjPlayer::check_hit_by_id(saddr arg0, s32 arg1, s32 id) {
     TParticleCtrl *particle;
     uaddr entity;
 
@@ -122,14 +122,14 @@ s32 TObjPlayer::check_hit_by_id(saddr arg0, s32 arg1, s32 arg2) {
     if (entity == 0U) {
         return 0;
     }
-    particle = spawn_particle_effect_with_flags((const Vec *)(entity + 0x74), arg2, 0x50);
+    particle = spawn_particle_effect_with_flags((const Vec *)(entity + 0x74), id, 0x50);
     if (particle != 0) {
         set_owner_id__13TParticleCtrlFUs((saddr)particle, arg1);
     }
     return (saddr)particle;
 }
 
-s32 create_attached_oneshot_emitter(unsigned long long arg1, s32 arg2) {
+s32 create_attached_oneshot_emitter(unsigned long long arg1, s32 id) {
   Stack_8030A1E4 stack;
   saddr oneshot_particle_emitter;
   u8 *entity;
@@ -141,7 +141,7 @@ s32 create_attached_oneshot_emitter(unsigned long long arg1, s32 arg2) {
   stack.spC = 0;
   stack.sp8 = 0;
   stack.sp10 = -0x8000;
-  oneshot_particle_emitter = (saddr)create_oneshot_particle_emitter((entity + 0x74), (&stack.sp8), arg2, 0x50);
+  oneshot_particle_emitter = (saddr)create_oneshot_particle_emitter((entity + 0x74), (&stack.sp8), id, 0x50);
   if (oneshot_particle_emitter != 0)
   {
     ((TParticleCtrl *)oneshot_particle_emitter)->set_owner_id(arg1);
@@ -158,8 +158,8 @@ s32 emit_player_model_particle(saddr owner, saddr position, saddr entry, s32 mod
   return emitter;
 }
 
-void emit_player_sprite_particle(s32 arg0, saddr arg1, s32 arg2) {
-    spawn_particle_effect_with_flags((const Vec *)arg1, arg2, 0x2000);
+void emit_player_sprite_particle(s32 owner, saddr position, s32 id) {
+    spawn_particle_effect_with_flags((const Vec *)position, id, 0x2000);
 }
 
 void*TObjPlayer::init_follow_particle_ctrl() { TPlyFollowParticleCtrl__sub_8030A694(); *(int*)(this) = 0; *(int*)((char*)this + 0x4) = 0; return this; }

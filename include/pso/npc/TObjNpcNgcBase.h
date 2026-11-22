@@ -9,11 +9,11 @@ struct TObjNpcNgcBase : public TUnk_804A9F50 {
     virtual ~TObjNpcNgcBase();
     static void free_shared_resources();
     static void load_resources();
-    static s32 create_variant_13(s32 arg0);
-    static s32 create_variant_8(s32 arg0);
-    static s32 create_variant_7(s32 arg0);
-    static s32 create_variant_6(s32 arg0);
-    static s32 create_variant_5(s32 arg0);
+    static s32 create_variant_13(s32 set_data);
+    static s32 create_variant_8(s32 set_data);
+    static s32 create_variant_7(s32 set_data);
+    static s32 create_variant_6(s32 set_data);
+    static s32 create_variant_5(s32 set_data);
 };
 
 LAYOUT_ASSERT(TObjNpcNgcBase_size, sizeof(TObjNpcNgcBase) == 0x3B8);

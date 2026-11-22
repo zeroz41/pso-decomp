@@ -35,7 +35,7 @@ uaddr blob_shadow_texture_list;
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_propagation off
-void draw_blob_shadow(s32 arg0) {
+void draw_blob_shadow(s32 forceDraw) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800F09E8, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_800F09E8, spC) == 0x4);
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_800F09E8, sp10) == 0x8);
@@ -45,7 +45,7 @@ void draw_blob_shadow(s32 arg0) {
     LAYOUT_ASSERT(sp20_offset, offsetof(Stack_800F09E8, sp20) == 0x18);
     LAYOUT_ASSERT(sp24_offset, offsetof(Stack_800F09E8, sp24) == 0x1C);
     Stack_800F09E8 stack;
-    if (arg0 == 0) {
+    if (forceDraw == 0) {
         if (is_split_screen__10TObjPlayerFv() != 0) {
             goto block_2;
         }

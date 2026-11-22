@@ -314,9 +314,9 @@ TOAttackableCol::~TOAttackableCol() {
 }
 
 
-TOAttackableCol::TOAttackableCol(saddr arg1) : TObjChara(tl_05) {
+TOAttackableCol::TOAttackableCol(saddr set_data) : TObjChara(tl_05) {
     ((TObject *)this)->m_name = TOAttackableCol__name;
-    ((TOAttackableCol *)(((u8 *)this)))->apply_object_set_data((void *)arg1);
+    ((TOAttackableCol *)(((u8 *)this)))->apply_object_set_data((void *)set_data);
     ((TObjChara *)this)->calc_attach_pos();
     obj_setFlags30(((u8 *)this), 0x60000000);
     init_collision_body_parts(((u8 *)this), &TOAttackableCol__collision_parts, 1);

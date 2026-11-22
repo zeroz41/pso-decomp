@@ -67,16 +67,16 @@ extern "C" {
 
 s32 __ct__14TItemEffShieldFP7TObjectsl(u32, s32, u16, u32);
 
-void TItemProShield::create_shield_effect(s32 arg0, u16 arg1, u32 arg2) {
+void TItemProShield::create_shield_effect(s32 arg0, u16 arg1, u32 effect_entry) {
     uaddr obj;
-    if ((arg0 != 0) && ((u16) arg1 != 0xFFFF) && (arg2 != 0U) && ((obj = (uaddr)TObject::operator new(0x48)) != 0U)) {
-        __ct__14TItemEffShieldFP7TObjectsl(obj, arg0, arg1, arg2);
+    if ((arg0 != 0) && ((u16) arg1 != 0xFFFF) && (effect_entry != 0U) && ((obj = (uaddr)TObject::operator new(0x48)) != 0U)) {
+        __ct__14TItemEffShieldFP7TObjectsl(obj, arg0, arg1, effect_entry);
     }
 }
 
 }
 
-TItemEffShield::TItemEffShield(TObject *arg1, s16 arg2, s32 arg3) : TObject(arg1) {
+TItemEffShield::TItemEffShield(TObject *parent, s16 arg2, s32 arg3) : TObject(parent) {
     *(saddr *)((s8 *)this + 0) = (saddr) TItemEffShield__class_name;
     *(s32 *)((s8 *)this + 0x34) = arg3;
     *(s16 *)((s8 *)this + 0x44) = arg2;
@@ -143,7 +143,7 @@ void TItemEffShield::spawn_recipe_particles() {
   while (var_r30 != 8);
 }
 
-TUnk_8049F148::TUnk_8049F148(TObject *arg1, s16 arg2) : TObject(arg1) {
+TUnk_8049F148::TUnk_8049F148(TObject *parent, s16 arg2) : TObject(parent) {
     client_id = arg2;
     m_20 = -1;
     particle = NULL;

@@ -270,9 +270,9 @@ void TUnk_804A4948::deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 att
 }
 
 
-void TUnk_804A4948::send_srank_stat_extra(uaddr arg1, s32 arg2) {
+void TUnk_804A4948::send_srank_stat_extra(uaddr target, s32 body) {
     Self_8012A508 *self = (Self_8012A508 *)this;
-    VObj_8012A508 *obj = (VObj_8012A508 *)arg1;
+    VObj_8012A508 *obj = (VObj_8012A508 *)target;
     u32 f;
     Param_8012A508 t1;
     Param_8012A508 t2;
@@ -282,14 +282,14 @@ void TUnk_804A4948::send_srank_stat_extra(uaddr arg1, s32 arg2) {
             t1.kind = 0xB;
             t1.val = 16.0f;
             Param_8012A508 p = t1;
-            obj->m21(f, &p, obj->recs + arg2 * 0x2C, -1, -1);
+            obj->m21(f, &p, obj->recs + body * 0x2C, -1, -1);
             break;
         }
         case 2: {
             t2.kind = 0xC;
             t2.val = 32.0f;
             Param_8012A508 p = t2;
-            obj->m21(f, &p, obj->recs + arg2 * 0x2C, -1, -1);
+            obj->m21(f, &p, obj->recs + body * 0x2C, -1, -1);
             break;
         }
         }

@@ -10,8 +10,8 @@ void TSwitch::run_task() {  }
 
 u8 TSwitch__floor_switch_table[18][32];
 
-void restore_switch_table(saddr arg0, s32 arg1) {
-    memcpy(TSwitch__floor_switch_table, (void *)arg0, arg1);
+void restore_switch_table(saddr src, s32 arg1) {
+    memcpy(TSwitch__floor_switch_table, (void *)src, arg1);
 }
 
 u32 copy_switch_table(void* destination) {

@@ -409,8 +409,8 @@ void TTecLuker::setup_telepipe_field() {
     }
 }
 
-void TTecLuker::create(void *arg1, void *arg2, void *arg3) {
-    new TTecLuker((saddr)this, (Vec *)arg1, (Vec *)arg2, (saddr)arg3);
+void TTecLuker::create(void *pos, void *target, void *level) {
+    new TTecLuker((saddr)this, (Vec *)pos, (Vec *)target, (saddr)level);
 }
 
 void TTecLuker::vfunc_6(void *o_arg) {

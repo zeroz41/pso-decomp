@@ -18,7 +18,7 @@ public:
     void init_bolt_points();
     static void init_resources();
 public:
-    u8 *construct(u8 *arg1, u8 *arg2, u8 *arg3, f32 farg0);
+    u8 *construct(u8 *parent, u8 *arg2, u8 *arg3, f32 farg0);
 };
 
 extern "C" {

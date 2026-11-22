@@ -175,14 +175,14 @@ s32 release_texture_list(void*);
 void free_collision_body_parts(void *);
 
 
-u8 *TODoorJungleMain__ct(TODoorJungleMain *arg0, s32 arg1, saddr arg2) {
+u8 *TODoorJungleMain__ct(TODoorJungleMain *arg0, s32 arg1, saddr set_data) {
     struct CopyStack_8029B924 { u8 bytes[0x3C]; };
     CopyStack_8029B924 copy_storage_8029B924;
     saddr temp_r4;
     __ct__10TODoorBaseFP7TObject(arg0);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TODoorJungleMain;
     *(saddr *)((s8 *)arg0 + 0) = (saddr) TODoorJungleMain__name;
-    ((TODoorJungleMain *)(arg0))->apply_object_set_data((void *)arg2);
+    ((TODoorJungleMain *)(arg0))->apply_object_set_data((void *)set_data);
     arg0->motion = (AnimationMotion *)get_bml_motion(TODoorJungleMain__bml_resource, 0);
     arg0->animation_step = 1.0f;
     ((TODoorJungleMain *)arg0)->animation_end_frame = 0.0f;
@@ -190,7 +190,7 @@ u8 *TODoorJungleMain__ct(TODoorJungleMain *arg0, s32 arg1, saddr arg2) {
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
     arg0->view_range = 800.0f;
-    temp_r4 = arg2 - 4;
+    temp_r4 = set_data - 4;
     ((TODoorJungleMain *)arg0)->model_radius = 120.0f;
     arg0->m_d4 = 0;
     arg0->m_d8 = 0;

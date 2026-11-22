@@ -345,9 +345,9 @@ void TTecSlicer::deliver_target_hit() {
     }
 }
 
-void destroy_on_collision__10TTecSlicerFi(saddr arg0, s32 _w1) {
-    if (csnVector(arg0 + 0x44, arg0 + 0x38, 0x8100) != 0U) {
-        ((TObject *)arg0)->queue_destruction();
+void destroy_on_collision__10TTecSlicerFi(saddr object, s32 _w1) {
+    if (csnVector(object + 0x44, object + 0x38, 0x8100) != 0U) {
+        ((TObject *)object)->queue_destruction();
     }
 }
 
@@ -414,14 +414,14 @@ void TTecSlicer::update() {
 
 }
 
-saddr TTecSlicer::create(u16 *arg0) {
+saddr TTecSlicer::create(u16 *launch) {
     saddr var_r31;
     u8 *player;
     var_r31 = 0;
-    if (arg0 != NULL) {
-        player = (u8 *)(((u8 *)get_player_by_client_id(*(u16 *)((s8 *)arg0 + 0))));
+    if (launch != NULL) {
+        player = (u8 *)(((u8 *)get_player_by_client_id(*(u16 *)((s8 *)launch + 0))));
         if (player != NULL) {
-            var_r31 = (saddr)new TTecSlicer(arg0, player, (Vec *)(player + 0x38), *(s32 *)((s8 *)player + 0x60));
+            var_r31 = (saddr)new TTecSlicer(launch, player, (Vec *)(player + 0x38), *(s32 *)((s8 *)player + 0x60));
             TItemAttacker::spawn_item_timer((TObject *)var_r31, (ItemTimerCallback)destroy_if_set__10TTecSlicerFv, 0x5A);
         }
     }

@@ -45,14 +45,14 @@ void TUnk_804A0CB8::update_weapon() {
     }
 }
 
-u32 belra_cannon_create_extra_shot(void *player, s32 arg1, s32 arg2, f32 farg0) {
+u32 belra_cannon_create_extra_shot(void *player, s32 pos, s32 dir, f32 life) {
     s32 temp_r3;
     uaddr temp_r31;
     uaddr temp_r30;
     void *temp_r5;
 
-    temp_r31 = TObjPlayer::create_shoot_model((uaddr)player, arg1, arg2, farg0);
-    temp_r30 = spawn_shoot_particle__10TObjPlayerFUlllf(player, arg1, arg2, farg0);
+    temp_r31 = TObjPlayer::create_shoot_model((uaddr)player, pos, dir, life);
+    temp_r30 = spawn_shoot_particle__10TObjPlayerFUlllf(player, pos, dir, life);
     if ((temp_r31 != 0U) && (temp_r30 != 0U)) {
         temp_r5 = *(void **)((s8 *)player + 0x188);
         if (temp_r5 != NULL) {
@@ -69,13 +69,13 @@ u32 belra_cannon_create_extra_shot(void *player, s32 arg1, s32 arg2, f32 farg0) 
     return temp_r31;
 }
 
-saddr belra_cannon_create_shot(void *arg0, s32 arg1, s32 arg2, f32 farg0) {
+saddr belra_cannon_create_shot(void *owner, s32 pos, s32 dir, f32 life) {
   s32 temp_r4;
   u8 *temp_r6;
-  uaddr shot = TObjPlayer::create_shoot_model((uaddr)arg0, arg1, arg2, farg0);
+  uaddr shot = TObjPlayer::create_shoot_model((uaddr)owner, pos, dir, life);
   if (shot != 0)
   {
-    temp_r6 = (unsigned char *) (*((void **) (((s8 *) arg0) + 0x188)));
+    temp_r6 = (unsigned char *) (*((void **) (((s8 *) owner) + 0x188)));
     if (temp_r6 != 0)
     {
       temp_r4 = *((s32 *) (((s8 *) temp_r6) + 0));

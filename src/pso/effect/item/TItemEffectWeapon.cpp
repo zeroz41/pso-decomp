@@ -151,7 +151,7 @@ TItemEffectWeapon::~TItemEffectWeapon() {
     TItemEffectWeapon::release_trail_buffer((void*)*(saddr *)((s8 *)this + 0x1C));
 }
 
-TItemEffectWeapon::TItemEffectWeapon(saddr arg1, s32 param) : TItemHeapObject((TObject*)arg1) {
+TItemEffectWeapon::TItemEffectWeapon(saddr parent, s32 param) : TItemHeapObject((TObject*)parent) {
     m_name = TItemEffectWeapon__class_name;
     *(saddr *)((s8 *)this + 0x1C) = (saddr)TItemEffectWeapon::allocate_trail_buffer();
     this->color = param;

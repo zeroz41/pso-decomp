@@ -58,7 +58,7 @@ TObjNpcSoutokufu::TObjNpcSoutokufu(TObject *parent, void *arg2) : TUnk_804A9F50(
     ((TObjNpcBase *)this)->setup_common();
 }
 
-void TBoss8Dragon::trigger_switches_in_range(void *arg0, void *arg1, void *arg2) {
+void TBoss8Dragon::trigger_switches_in_range(void *floor_stone, void *arg1, void *prm) {
     f32 sp[3];
     f32 off;
     Ls_80289710 *list;
@@ -66,7 +66,7 @@ void TBoss8Dragon::trigger_switches_in_range(void *arg0, void *arg1, void *arg2)
     Ow_80289710 *ow;
     ow = (*(Gl_80289710 * *)&lbl_805D4DD8)->owner;
     list = ow->list;
-    off = ((TBoss8Dragon *)arg2)->calc_sq_offset(50.0f);
+    off = ((TBoss8Dragon *)prm)->calc_sq_offset(50.0f);
     for (n = list->head; n != NULL; n = n->next) {
         if (!(n->flags & 8) && ((TBoss8Dragon *)arg1)->is_within_xz_distance((u8 *)n, (f32)off) != 0) {
             sp[0] = n->f8;

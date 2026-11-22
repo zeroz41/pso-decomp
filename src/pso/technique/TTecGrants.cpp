@@ -109,12 +109,12 @@ TTecGrants::~TTecGrants() {
 }
 
 #define tec_grants ((u8 *)this)
-TTecGrants::TTecGrants(saddr arg1, saddr arg2, saddr arg3, saddr arg4) : TUnk_804CC148(arg1, arg2, arg4) {
+TTecGrants::TTecGrants(saddr arg1, saddr origin, saddr targets, saddr level) : TUnk_804CC148(arg1, origin, level) {
     u32 temp_r3;
     __ct__16TargetCursorListFv((tec_grants + 0xEC));
     *(s32 *)((s8 *)tec_grants + 0) = (s32) tec_grants_class_name;
     ((TTecGrants *)tec_grants)->init_parameters();
-    copy_technique_target_list(tec_grants + 0xEC, (void *)arg3);
+    copy_technique_target_list(tec_grants + 0xEC, (void *)targets);
     ((TTecGrants *)tec_grants)->m_148 = 0;
     temp_r3 = ((TTecGrants *)tec_grants)->source;
     if (temp_r3 != 0U) {

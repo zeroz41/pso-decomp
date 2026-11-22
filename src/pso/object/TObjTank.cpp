@@ -67,8 +67,8 @@ TObjTank::TObjTank(TObject *parent, saddr arg2) : TObjCollidable(parent) {
 }
 #undef arg0
 
-void *TObjTank__create(void *arg0) {
-    return new TObjTank(tl_05, (saddr)arg0);
+void *TObjTank__create(void *set_data) {
+    return new TObjTank(tl_05, (saddr)set_data);
 }
 
 void TObjTank::free_globals() {

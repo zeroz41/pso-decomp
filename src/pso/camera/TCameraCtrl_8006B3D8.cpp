@@ -173,14 +173,14 @@ void TUnk_80488AF0::run_task() {
     }
 }
 
-void TCameraCtrl::create(saddr arg0, s32 arg1, s32 arg2) {
-    new TUnk_80488AF0((Vec *)arg0, arg1, arg2, (TObject *)tl_07);
+void TCameraCtrl::create(saddr goal, s32 frames, s32 arg2) {
+    new TUnk_80488AF0((Vec *)goal, frames, arg2, (TObject *)tl_07);
 }
 
 typedef struct RecoveredFields_8006B588_arg0 RecoveredFields_8006B588_arg0;
-u8 *TCameraCtrl::init_conversation_camera(s32 i, s32 arg2, saddr arg3) {
+u8 *TCameraCtrl::init_conversation_camera(s32 i, s32 arg2, saddr parent) {
   void *new_var;
-  __ct__7TObjectFP7TObject((void *) this, (void *) arg3);
+  __ct__7TObjectFP7TObject((void *) this, (void *) parent);
   ((RecoveredFields_8006B588_arg0 *) ((u8 *)this))->field_18 = ((s32 *)&__vt__13TUnk_80488AD8);
   ((RecoveredFields_8006B588_arg0 *) ((u8 *)this))->field_34 = arg2;
   activate_camera_mode(9);

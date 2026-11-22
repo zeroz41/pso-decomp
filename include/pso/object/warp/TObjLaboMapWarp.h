@@ -15,7 +15,7 @@ struct TObjLaboMapWarp : public TObjMapWarp {
     void clamp_index();
     static void release_static_resource();
     static void load_static_resource();
-    static void *create(void *arg0);
+    static void *create(void *set_data);
     f32 animation_frame;
 };
 

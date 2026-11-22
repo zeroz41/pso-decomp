@@ -109,8 +109,8 @@ extern s32 local_client_id;
 }
 void set_constant_material_color(u32 x);
 
-u8 *TParticleCtrl::init_particle_obj(s32 arg1, saddr arg2) {
-    __ct__8TObjBaseFP7TObject(this, (void *)arg2);
+u8 *TParticleCtrl::init_particle_obj(s32 arg1, saddr parent) {
+    __ct__8TObjBaseFP7TObject(this, (void *)parent);
     *(s32 **)((s8 *)((u8 *)this) + 0x18) = __vt__13TUnk_8048E6DC;
     ((VObj_18_1a504b *)(this))->m5(arg1);
     *(f32 *)((s8 *)((u8 *)this) + 0xA4) = 225.0f;
@@ -274,8 +274,8 @@ u8 *TParticleCtrl::create_particle_obj_90(s32 arg0) {
     return var_r0;
 }
 
-u8 *TParticleCtrl::construct_particle_obj(s32 arg1, saddr arg2) {
-    __ct__8TObjBaseFP7TObject(this, (void *)arg2);
+u8 *TParticleCtrl::construct_particle_obj(s32 arg1, saddr parent) {
+    __ct__8TObjBaseFP7TObject(this, (void *)parent);
     *(s32 **)((s8 *)((u8 *)this) + 0x18) = __vt__13TUnk_8048E6A8;
     ((VObj_18_1a504b *)(this))->m5(arg1);
     return ((u8 *)this);

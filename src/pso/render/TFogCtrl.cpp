@@ -487,12 +487,12 @@ void TFogCtrl__sub_800FB400(O_800FB400 *self, s32 i, s32 j) {
     self->arr[j] = t;
 }
 
-s32 TFogCtrl::is_controller_animated(saddr arg0, s32 arg1) {
+s32 TFogCtrl::is_controller_animated(saddr arg0, s32 selected) {
   f32 temp_f31;
   f32 var_f31;
   saddr temp_r3;
   u8 *temp_r31;
-  temp_r3 = arg0 + (arg1 * 4);
+  temp_r3 = arg0 + (selected * 4);
   temp_r31 = (u8 *) (*((u8 **) (((s8 *) temp_r3) + 0x174)));
   temp_r3 = *((s32 *) (((s8 *) temp_r31) + 0));
   if (temp_r3 & 2)
@@ -613,15 +613,15 @@ s32 request_fog__8TFogCtrlFPvii(u8 *fog_ctrl, s32 arg1, s32 arg2) {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-s32 TFogCtrl::select_fog(s32 arg1, s32 arg2) {
+s32 TFogCtrl::select_fog(s32 entry, s32 arg2) {
     struct Ctrl_800FAFE0 *self = (struct Ctrl_800FAFE0 *)this;
     if (this->get_param() != 0) {
         return 0;
     }
-    if (self->slots[self->selected]->identity == arg1) {
+    if (self->slots[self->selected]->identity == entry) {
         return 1;
     }
-    this->load_entry_into_slot(2, arg1);
+    this->load_entry_into_slot(2, entry);
     this->request_transition(1, arg2);
     return 1;
 }
@@ -789,12 +789,12 @@ s32 TFogCtrl__sub_800FAC84(void* p) { return *(s32*)((char*)*(void**)((char*)p +
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-s32 TFogCtrl::restore_fog_for_player(s32 arg1, s32 arg0) {
+s32 TFogCtrl::restore_fog_for_player(s32 owner_client_id, s32 arg0) {
     if (is_split_screen() == 0) {
-        arg1 = 0;
+        owner_client_id = 0;
     }
-    if ((arg1 >= 0) && (arg1 < 4)) {
-        saddr elem = *(s32 *)(((s8 *)&TFogCtrl__fog_instance_table) + arg1 * 4);
+    if ((owner_client_id >= 0) && (owner_client_id < 4)) {
+        saddr elem = *(s32 *)(((s8 *)&TFogCtrl__fog_instance_table) + owner_client_id * 4);
         if ((u32) elem != 0U) {
             return ((TFogCtrl *)elem)->restore_fog(arg0);
         }

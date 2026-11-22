@@ -13,7 +13,7 @@ struct TObjCityMapWarp : public TObjMapWarp {
     virtual void run_task();
     int is_field88_zero();
     void clamp_destination_index();
-    static void *create(void *arg0);
+    static void *create(void *set_data);
     u8 unk_FC[0x4];
 };
 

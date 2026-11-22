@@ -75,9 +75,9 @@ TObjEvtCollision::~TObjEvtCollision() {
 
 }
 
-TObjEvtCollision::TObjEvtCollision(saddr arg1, saddr arg2) : TObjCollidable((TObject *)arg1) {
+TObjEvtCollision::TObjEvtCollision(saddr parent, saddr set_data) : TObjCollidable((TObject *)parent) {
     this->m_name = TObjEvtCollision__class_name;
-    ((TObjEvtCollision *)(this))->apply_object_set_data((void *)arg2);
+    ((TObjEvtCollision *)(this))->apply_object_set_data((void *)set_data);
     trigger_radius = scale.x;
     this->m_b0 = (s32) this->set_params[0];
     countdown = 3;

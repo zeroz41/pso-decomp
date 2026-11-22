@@ -145,11 +145,11 @@ u8 *TKeyBoardControl__sub_803DEB74(u32 arg0) {
 }
 #pragma pop
 
-s32 TKeyBoardControl::map_pad_buttons(u16 arg0) {
+s32 TKeyBoardControl::map_pad_buttons(u16 released) {
     s32 r = 0;
     u32 i;
     for (i = 0; i < keyboard_pad_button_count; i++) {
-        if (arg0 & pad_button_map_table[i].mask) r |= pad_button_map_table[i].val;
+        if (released & pad_button_map_table[i].mask) r |= pad_button_map_table[i].val;
     }
     return r;
 }

@@ -1265,17 +1265,17 @@ void set_active_camera_pose_from_params(u8 *arg0) {
         }
     }
 }
-void set_active_camera_pose(u8 *arg0, u8 *arg1) {
+void set_active_camera_pose(u8 *position, u8 *target) {
     u8 *temp_r5;
     if ((*(s32 *)((s8 *)&TCameraCtrl__view_state + 8) & 8) || (*(s32 *)((s8 *)&TCameraCtrl__view_state + 8) & 4)) {
         temp_r5 = (u8 *)(*(saddr *)((s8 *)&camera_controller_registry + (*(u8 *)((s8 *)&TCameraCtrl__view_state + 0) * 4)));
         if (temp_r5 != NULL) {
-            *(f32 *)((s8 *)temp_r5 + 0x3C) = (f32) *(f32 *)((s8 *)arg0 + 0);
-            *(f32 *)((s8 *)temp_r5 + 0x40) = (f32) *(f32 *)((s8 *)arg0 + 4);
-            *(f32 *)((s8 *)temp_r5 + 0x44) = (f32) *(f32 *)((s8 *)arg0 + 8);
-            *(f32 *)((s8 *)temp_r5 + 0x48) = (f32) *(f32 *)((s8 *)arg1 + 0);
-            *(f32 *)((s8 *)temp_r5 + 0x4C) = (f32) *(f32 *)((s8 *)arg1 + 4);
-            *(f32 *)((s8 *)temp_r5 + 0x50) = (f32) *(f32 *)((s8 *)arg1 + 8);
+            *(f32 *)((s8 *)temp_r5 + 0x3C) = (f32) *(f32 *)((s8 *)position + 0);
+            *(f32 *)((s8 *)temp_r5 + 0x40) = (f32) *(f32 *)((s8 *)position + 4);
+            *(f32 *)((s8 *)temp_r5 + 0x44) = (f32) *(f32 *)((s8 *)position + 8);
+            *(f32 *)((s8 *)temp_r5 + 0x48) = (f32) *(f32 *)((s8 *)target + 0);
+            *(f32 *)((s8 *)temp_r5 + 0x4C) = (f32) *(f32 *)((s8 *)target + 4);
+            *(f32 *)((s8 *)temp_r5 + 0x50) = (f32) *(f32 *)((s8 *)target + 8);
         }
     }
 }

@@ -58,20 +58,20 @@ void TObjCityMainWarpChallenge::send_6x6A_set_boss_warp_flags(u16 value) {
     ((TWindowSubTradeMain *)(&pkt))->send_60_update();
 }
 
-void TObjCityMainWarp::notify_player_warp(void *arg0, s32 arg1) {
+void TObjCityMainWarp::notify_player_warp(void *arg0, s32 local_client_id) {
     saddr player;
 
-    player = (saddr)get_player_by_client_id(arg1);
+    player = (saddr)get_player_by_client_id(local_client_id);
     if (player != 0) {
         TObjPlayer::send_code_45_1(player);
         obj_clear_flag30_20000((TObjBase *)player);
     }
 }
 
-void TObjCityMainWarpChallenge::trigger_warp_effect(s32 arg1) {
+void TObjCityMainWarpChallenge::trigger_warp_effect(s32 local_client_id) {
     saddr player;
 
-    player = (saddr)get_player_by_client_id(arg1);
+    player = (saddr)get_player_by_client_id(local_client_id);
     if (player != 0) {
         TObjPlayer::play_effect_default(player, -1);
         obj_set_flag_20000((TObjBase *)player);

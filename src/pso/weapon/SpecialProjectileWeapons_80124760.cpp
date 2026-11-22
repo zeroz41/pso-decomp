@@ -110,19 +110,19 @@ void *ct_shoot_model__10TObjPlayerFPv(void *item_shoot_model) {
     return item_shoot_model;
 }
 
-s32 drill_launcher_create_shot(s32 arg0, s32 arg1, s32 arg2, f32 farg0) {
+s32 drill_launcher_create_shot(s32 owner, s32 pos, s32 dir, f32 life) {
     saddr var_r0;
     s32 var_r31;
 
     var_r31 = 0;
-    if (arg0 != 0) {
+    if (owner != 0) {
         var_r0 = (saddr)TObject::operator new(0x6C);
         if (var_r0 != 0) {
-            var_r0 = ((Fn_80124810_5)ct_shoot_model__10TObjPlayerFPv)(var_r0, arg0, arg1, arg2, farg0);
+            var_r0 = ((Fn_80124810_5)ct_shoot_model__10TObjPlayerFPv)(var_r0, owner, pos, dir, life);
         }
         var_r31 = var_r0;
     }
-    var_r0 = (uaddr)TObjPlayer::spawn_shoot_particle(arg0, arg1, arg2, farg0);
+    var_r0 = (uaddr)TObjPlayer::spawn_shoot_particle(owner, pos, dir, life);
     if (var_r0 != 0U) {
         ((TItemShootParticle *)var_r0)->spawn_slot_emitter(0x1BB, 0);
     }
@@ -229,7 +229,7 @@ void drill_launcher_return_timer(void *arg0) {
     }
 }
 
-void increment_burst_counter(u8 *arg0) {
-    *(s32 *)((s8 *)arg0 + 0x18) = (s32) (*(s32 *)((s8 *)arg0 + 0x18) + 1);
+void increment_burst_counter(u8 *counter) {
+    *(s32 *)((s8 *)counter + 0x18) = (s32) (*(s32 *)((s8 *)counter + 0x18) + 1);
 }
 s32 get_burst_counter(void* p) { return *(s32*)((char*)p + 0x18); }

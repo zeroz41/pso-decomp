@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjLight : public TObjBase {
-    TObjLight(TObject *parent, u8 *arg2);
+    TObjLight(TObject *parent, u8 *set_data);
     virtual ~TObjLight();
     void *init_from_source(void *, int, int);
     u32 m_90;
@@ -32,7 +32,7 @@ struct TObjLight : public TObjBase {
     static void find_light_params(f32 *dir, f32 *color, u32 id);
     static void init_light_tables();
     void bswap_data();
-    static void assert_light_id(s32 arg0);
+    static void assert_light_id(s32 idx);
     u8 unk_DC[0x8];
     f32 m_e4;
     u8 unk_E8[0x4];
@@ -41,7 +41,7 @@ struct TObjLight : public TObjBase {
     f32 m_f4;
     u8 unk_F8[0x4];
     f32 m_fc;
-    u8 *construct_actor_light(saddr arg1, saddr arg2, s32 arg3, s32 arg4, saddr arg5, f32 farg0, f32 farg1, f32 farg2, s32 arg_sp0);
+    u8 *construct_actor_light(saddr arg1, saddr arg2, s32 arg3, s32 arg4, saddr parent, f32 farg0, f32 farg1, f32 farg2, s32 arg_sp0);
 };
 
 LAYOUT_ASSERT(TObjLight_size, sizeof(TObjLight) == 0x100);

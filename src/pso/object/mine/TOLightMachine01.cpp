@@ -90,9 +90,9 @@ TOLightMachine01::~TOLightMachine01() {
 #pragma push
 #pragma fp_contract on
 #define light_machine01 this
-TOLightMachine01::TOLightMachine01(void *arg1) : TObjBase(tl_05) {
+TOLightMachine01::TOLightMachine01(void *set_data) : TObjBase(tl_05) {
     ((TOLightMachine01 *)light_machine01)->m_name = TOLightMachine01__name;
-    ((TOLightMachine01 *)(light_machine01))->apply_object_set_data((void *)arg1);
+    ((TOLightMachine01 *)(light_machine01))->apply_object_set_data((void *)set_data);
     light_machine01->model = (void *)get_bml_model((BmlResource *)TOLightMachine01__shared_bml_archive, 1);
     light_machine01->texlist = (saddr)get_bml_texlist((BmlResource *)TOLightMachine01__shared_bml_archive, 1);
     light_machine01->view_range = 500.0f;

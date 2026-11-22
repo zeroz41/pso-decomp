@@ -136,13 +136,13 @@ void TUnk_804CCC68::dispatch_technique_contact(s32) {
 }
 
 #define tec_reverser ((u8 *)this)
-TTecReverser::TTecReverser(saddr arg1, saddr arg2, saddr arg3, saddr arg4) : TUnk_804CC148(arg1, arg2, arg4) {
+TTecReverser::TTecReverser(saddr arg1, saddr origin, saddr targets, saddr level) : TUnk_804CC148(arg1, origin, level) {
     u32 temp_r3;
     __ct__16TargetCursorListFv((tec_reverser + 0xEC));
     ((TTecReverser *)tec_reverser)->m_name = lbl_805D3818;
     ((TechniqueParams *)(tec_reverser + 0x88))->copy(&technique_param_table[17]);
-    ((TTecReverser *)tec_reverser)->sub_8022BE64(tec_reverser + 0x88, arg4);
-    copy_technique_target_list(tec_reverser + 0xEC, (void *)arg3);
+    ((TTecReverser *)tec_reverser)->sub_8022BE64(tec_reverser + 0x88, level);
+    copy_technique_target_list(tec_reverser + 0xEC, (void *)targets);
     play_sound_effect(0x4002A812, tec_reverser + 0x20, 0, 0);
     temp_r3 = ((TTecReverser *)tec_reverser)->source;
     if (temp_r3 != 0U) {

@@ -219,7 +219,7 @@ void TButterfly::run_task() {
 TButterfly::~TButterfly() {
 
 }
-TButterfly::TButterfly(TObject *arg1, void *arg2) : TObjBase(arg1) {
+TButterfly::TButterfly(TObject *parent, void *arg2) : TObjBase(parent) {
     this->m_name = TButterfly__name;
     VecCopy((Vec *)((char *)this + 56), (const Vec *)((char *)arg2 + 12));
     copy_xyz((char *)this + 92, (void *)((char *)arg2 + 24));

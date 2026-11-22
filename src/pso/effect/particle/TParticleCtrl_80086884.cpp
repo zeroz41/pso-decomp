@@ -15,9 +15,9 @@ GinjaTextureList *TParticleCtrl__texture_list;
 extern s32 particle_pool_limit;
 void *__ct__13TParticleCtrlFv(void *self, void *pos, void *dir, void *ent, int a, int b, int c, int d, int e);
 
-NJS_OBJECT *TParticleCtrl::get_particle_model(s32 arg0) {
-    if (arg0 < 3) {
-        return get_bml_model((BmlResource *)TParticleCtrl__regular_bml_resource, arg0);
+NJS_OBJECT *TParticleCtrl::get_particle_model(s32 model) {
+    if (model < 3) {
+        return get_bml_model((BmlResource *)TParticleCtrl__regular_bml_resource, model);
     }
     return 0;
 }

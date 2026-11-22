@@ -56,9 +56,9 @@ TObjItemLight::~TObjItemLight() {
 const char *TObjItemLight__class_name = "TObjItemLight";
 
 #define item_light this
-TObjItemLight::TObjItemLight(TObject *arg1, saddr arg2) : TObjBase(arg1) {
+TObjItemLight::TObjItemLight(TObject *parent, saddr set_data) : TObjBase(parent) {
     ((TObjItemLight *)item_light)->m_name = TObjItemLight__class_name;
-    item_light->apply_object_set_data((void *)arg2);
+    item_light->apply_object_set_data((void *)set_data);
     item_light->m_94 = 0;
     *(f32 *)((s8 *)item_light + 0x90) = (f32) item_light->scale.x;
     if (*(f32 *)((s8 *)item_light + 0x90) < 0.0f) {

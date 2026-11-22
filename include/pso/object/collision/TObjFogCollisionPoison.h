@@ -14,8 +14,8 @@ struct TObjFogCollisionPoison : public TObjFogCollisionSwitch {
     static void create();
     static void clear_state_array();
     s32 check_switch();
-    void apply_poison_damage(s32 arg1);
-    void record_poison_hit(u16 arg1);
+    void apply_poison_damage(s32 client);
+    void record_poison_hit(u16 client);
 };
 
 LAYOUT_ASSERT(TObjFogCollisionPoison_size, sizeof(TObjFogCollisionPoison) == 0x9C);

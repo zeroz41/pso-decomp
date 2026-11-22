@@ -112,11 +112,11 @@ void clear_technique_contacts__10TObjPlayerFv() {
     technique_contact_list.count=0;
 }
 
-s32 TObjPlayer::is_hit_receivable_target(saddr arg0, uaddr arg1) {
-    if (arg1 == 0U) {
+s32 TObjPlayer::is_hit_receivable_target(saddr arg0, uaddr target) {
+    if (target == 0U) {
         return FALSE;
     }
-    return obj_is_hit_receivable((u8 *)arg1) ? TRUE : FALSE;
+    return obj_is_hit_receivable((u8 *)target) ? TRUE : FALSE;
 }
 #define L_802A3DE8 technique_contact_list
 TechniqueContactList *TObjPlayer__sub_802A3DE8(Obj_802A3DE8 *self, void *src) {

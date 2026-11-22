@@ -32,7 +32,7 @@ void sub_8007FF28__17TDuelEffectNumberFl(Obj_8007FF28 *self, s32 arg1);
 
 extern s32 lbl_805D63F0;
 
-void fn_8007FE78(Obj_8007FF28 *self, saddr arg1, void *arg2, f32 farg0, f32 farg1, f32 farg2) {
+void fn_8007FE78(Obj_8007FF28 *self, saddr arg1, void *arg2, f32 depth, f32 farg1, f32 farg2) {
     f32 *src = (f32 *)arg2;
     farg1 *= (0.5);
     *(f32 *)((s8 *)arg1 + 0) = src[0] - 64.0f * farg1;
@@ -40,7 +40,7 @@ void fn_8007FE78(Obj_8007FF28 *self, saddr arg1, void *arg2, f32 farg0, f32 farg
     *(f32 *)((s8 *)arg1 + 8) = src[0] + 64.0f * farg1;
     *(f32 *)((s8 *)arg1 + 0xC) = src[1] + 85.0f * farg1;
     set_constant_material_color(__cvt_fp2unsigned(4278190080.0f * farg2) | 0xFF0000 | 0xFFFF);
-    draw_textured_quad_at_depth((f32 *)arg1, farg0);
+    draw_textured_quad_at_depth((f32 *)arg1, depth);
 }
 
 #pragma push

@@ -13,7 +13,7 @@ struct TObjCityAreaWarp : public TObjAreaWarp {
     void render();
     void do_warp();
     void run_task();
-    static void *create(void *arg0);
+    static void *create(void *set_data);
     f32 m_c4;
 };
 

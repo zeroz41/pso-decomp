@@ -86,9 +86,9 @@ TUnk_804A0BC0::TUnk_804A0BC0(TObject *parent, u8 *item) : TItemWeapon(parent, it
     ((TObjPlayer *)this)->set_effect_state(10);
 }
 
-TItem *TObjPlayer::create_enter_state_804A0BC0(u8 *arg0) {
-    if (arg0 != NULL) {
-        return new TUnk_804A0BC0(tl_05, arg0);
+TItem *TObjPlayer::create_enter_state_804A0BC0(u8 *item) {
+    if (item != NULL) {
+        return new TUnk_804A0BC0(tl_05, item);
     }
     return NULL;
 }

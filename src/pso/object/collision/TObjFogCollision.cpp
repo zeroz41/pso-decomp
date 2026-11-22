@@ -108,13 +108,13 @@ void TObjFogCollision::vfunc_13(s32) {
     }
 }
 
-s32 TObjFogCollision::check_collision(u16 arg1) {
+s32 TObjFogCollision::check_collision(u16 client) {
     f32 temp_f0;
     f32 temp_f1;
     f32 temp_f31;
     s32 player;
 
-    player = get_player_by_client_id((u16)arg1);
+    player = get_player_by_client_id((u16)client);
     if (player != 0) {
         temp_f0 = this->scale.x;
         temp_f31 = temp_f0 * temp_f0;
@@ -261,8 +261,8 @@ void TObjFogCollisionSwitch::vfunc_14() {
     debug_printf_at(0x130022, "SwitchID:%3d", this->set_params[2]);
 }
 
-void *create__22TObjFogCollisionPoisonFPv(void *arg0) {
-    return new TObjFogCollisionPoison(tl_05, arg0);
+void *create__22TObjFogCollisionPoisonFPv(void *set) {
+    return new TObjFogCollisionPoison(tl_05, set);
 }
 
 TObjFogCollisionPoison::TObjFogCollisionPoison(TObject *arg1, void *set) : TObjFogCollisionSwitch(arg1, set) {
@@ -363,14 +363,14 @@ void TObjFogCollisionPoison__sub_80153520(s32 arg0) {
     }
 }
 
-void TObjFogCollisionPoison::record_poison_hit(u16 arg1) {
-    record_fog_collision_hit(arg1, this->set_params[0], (s32)((int) ((u8) (this->set_params[1] == 0))));
+void TObjFogCollisionPoison::record_poison_hit(u16 client) {
+    record_fog_collision_hit(client, this->set_params[0], (s32)((int) ((u8) (this->set_params[1] == 0))));
 }
 
-void TObjFogCollisionPoison::apply_poison_damage(s32 arg1) {
+void TObjFogCollisionPoison::apply_poison_damage(s32 client) {
     saddr p;
     s16 v;
-    p = get_player_by_client_id(arg1);
+    p = get_player_by_client_id(client);
     if (((TObjEneDD *)p)->is_valid_target() != 0) {
         v = ((TObjChara *)p)->get_actor_hp() - this->m_98;
         if (v < 0) {

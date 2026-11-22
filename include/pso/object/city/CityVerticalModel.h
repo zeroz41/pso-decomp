@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-u8 *construct_city_vertical_model(u8 *arg0, saddr parent, saddr arg2);
+u8 *construct_city_vertical_model(u8 *arg0, saddr parent, saddr set_data);
 extern "C" {
 void *create_city_vertical_model(void *arg0);
 }

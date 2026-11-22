@@ -329,13 +329,13 @@ void run_task__19TObjCityAirCar_CtrlFv(Ctrl_80181310 *self) {
 void TObjCityAirCar_Ctrl::render() {  }
 
 
-u8 *construct_city_air_car(TObjCityAirCar_Car *city_air_car_car, void *parent, s32 arg2, s32 arg3, f32 farg0) {
+u8 *construct_city_air_car(TObjCityAirCar_Car *city_air_car_car, void *parent, s32 arg2, s32 type, f32 farg0) {
     __ct__8TObjBaseFP7TObject(city_air_car_car);
     *(s32 **)((s8 *)city_air_car_car + 0x18) = &__vt__18TObjCityAirCar_Car.value;
     city_air_car_car->m_name = TObjCityAirCar_Car__name;
     *(f32 *)((s8 *)city_air_car_car + 0x90) = 0.0f;
     *(s32 *)((s8 *)city_air_car_car + 0x98) = arg2;
-    city_air_car_car->m_9c = arg3;
+    city_air_car_car->m_9c = type;
     city_air_car_car->m_94 = farg0;
     *(s32 *)((s8 *)city_air_car_car + 0xA0) = 0;
     city_air_car_car->m_a4 = 0;

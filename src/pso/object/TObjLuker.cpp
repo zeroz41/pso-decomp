@@ -474,10 +474,10 @@ TObjLuker::~TObjLuker() {
 }
 
 #define self ((Luker_801A1768 *)this)
-TObjLuker::TObjLuker(TObject *parent, void *arg2) : TObjBase(parent) {
+TObjLuker::TObjLuker(TObject *parent, void *set_data) : TObjBase(parent) {
     s32 i;
     self->f0 = ((saddr)TObjLuker__name);
-    ((TObjBase *)self)->apply_object_set_data(arg2);
+    ((TObjBase *)self)->apply_object_set_data(set_data);
     self->fB0 = 0;
     self->fAA = 0xFFFF;
     self->fA8 = self->f84;

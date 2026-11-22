@@ -544,9 +544,9 @@ void TItemAttackCol::render() {
     }
 }
 
-void TItemAttackCol::move_with_collision(void *arg1) {
+void TItemAttackCol::move_with_collision(void *to) {
     Hit_802E3D8C *hit;
-    hit = csnVector((u8 *)&position, arg1, 0x8100);
+    hit = csnVector((u8 *)&position, to, 0x8100);
     if (hit != NULL) {
         hit_wall_flags.set(1);
         VecCopy(&position, (const Vec *)(hit->pos));
@@ -554,7 +554,7 @@ void TItemAttackCol::move_with_collision(void *arg1) {
             hit_wall(item_id, &position, &velocity);
         }
     } else {
-        VecCopy(&position, (const Vec *)(arg1));
+        VecCopy(&position, (const Vec *)(to));
     }
 }
 

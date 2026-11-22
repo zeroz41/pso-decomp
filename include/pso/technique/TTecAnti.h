@@ -5,7 +5,7 @@
 #include "pso/technique/TTecPlayerInfluence.h"
 
 struct TTecAnti : public TTecPlayerInfluence {
-    TTecAnti(void *owner, void *pos, void *arg3, s32 level);
+    TTecAnti(void *owner, void *pos, void *targets, s32 level);
     virtual ~TTecAnti();
     void play_anti_cast_sound();
     virtual void vfunc_7(void *);

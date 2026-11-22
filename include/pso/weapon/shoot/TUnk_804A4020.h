@@ -14,7 +14,7 @@ public:
 
 extern "C" {
 // Picks the model the owning weapon draws its shots with (0x188 while flag 4 is set, else 0x184).
-NJS_OBJECT *TObjPlayer__sub_801290D0(u8 *arg0);
+NJS_OBJECT *TObjPlayer__sub_801290D0(u8 *owner);
 }
 
 LAYOUT_ASSERT(TUnk_804A4020_size, sizeof(TUnk_804A4020) == 0x6C);

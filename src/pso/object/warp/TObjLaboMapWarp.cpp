@@ -252,7 +252,7 @@ void TObjCityMainWarp::set_active_bit(s32 _w0) {
     }
 }
 
-void update_main_warp_visible_mask(s32 arg0) {
+void update_main_warp_visible_mask(s32 select_type) {
     s32 b;
     s32 c;
     s32 a;
@@ -283,7 +283,7 @@ void update_main_warp_visible_mask(s32 arg0) {
         }
         return;
     }
-    switch (arg0) {
+    switch (select_type) {
     case 0:
         TObjCityMainWarp::update_unlock_flags();
         break;
@@ -600,8 +600,8 @@ TObjCityAreaWarp::TObjCityAreaWarp(TObject *parent, void *set_data) : TObjAreaWa
 
 TObjCityAreaWarp::~TObjCityAreaWarp() {}
 
-void *TObjCityAreaWarp::create(void *arg0) {
-    return new TObjCityAreaWarp(tl_05, arg0);
+void *TObjCityAreaWarp::create(void *set_data) {
+    return new TObjCityAreaWarp(tl_05, set_data);
 }
 
 void TObjCityAreaWarp::open_confirm_window(s32 client_id) {
@@ -660,8 +660,8 @@ TObjCityMapWarp::TObjCityMapWarp(TObject *parent, void *set_data) : TObjMapWarp(
 
 TObjCityMapWarp::~TObjCityMapWarp() {}
 
-void *TObjCityMapWarp::create(void *arg0) {
-    return new TObjCityMapWarp(tl_05, arg0);
+void *TObjCityMapWarp::create(void *set_data) {
+    return new TObjCityMapWarp(tl_05, set_data);
 }
 
 void TObjCityMapWarp::open_confirm_window(s32 client_id) {
@@ -747,8 +747,8 @@ TObjLaboMapWarp::TObjLaboMapWarp(TObject *parent, void *set_data) : TObjMapWarp(
 
 TObjLaboMapWarp::~TObjLaboMapWarp() {}
 
-void *TObjLaboMapWarp::create(void *arg0) {
-    return new TObjLaboMapWarp(tl_05, arg0);
+void *TObjLaboMapWarp::create(void *set_data) {
+    return new TObjLaboMapWarp(tl_05, set_data);
 }
 
 void TObjLaboMapWarp::load_static_resource() {

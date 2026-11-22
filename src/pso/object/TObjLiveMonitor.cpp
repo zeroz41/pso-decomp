@@ -344,9 +344,9 @@ void *TObjLiveCamera__create(void *arg0) {
     return o;
 }
 
-TObjLiveCamera::TObjLiveCamera(saddr parent, saddr arg2) : TObjBase((TObject *)((void *)parent)) {
+TObjLiveCamera::TObjLiveCamera(saddr parent, saddr set_data) : TObjBase((TObject *)((void *)parent)) {
     *(saddr *)((s8 *)this + 0) = (saddr) TObjLiveCamera__class_name;
-    ((TObjLiveCamera *)(((u8 *)this)))->apply_object_set_data((void *)arg2);
+    ((TObjLiveCamera *)(((u8 *)this)))->apply_object_set_data((void *)set_data);
 }
 
 TObjLiveCamera::~TObjLiveCamera() {}

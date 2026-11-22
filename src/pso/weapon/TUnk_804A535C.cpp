@@ -89,7 +89,7 @@ Obj_8012C4E4 *TObjPlayer__sub_8012C4E4(Obj_8012C4E4 *self, void *owner, const vo
 
 }
 
-uaddr rocket_punch_create_shot(saddr owner, saddr arg1, saddr arg2, f32 farg0) {
+uaddr rocket_punch_create_shot(saddr owner, saddr pos, saddr dir, f32 life) {
     uaddr var_r31;
     uaddr temp_r30;
 
@@ -97,9 +97,9 @@ uaddr rocket_punch_create_shot(saddr owner, saddr arg1, saddr arg2, f32 farg0) {
     if (owner != 0) {
         var_r31 = (uaddr)TObject::operator new(0x6C);
         if (var_r31 != 0U) {
-            var_r31 = (uaddr)TObjPlayer__sub_8012C4E4((Obj_8012C4E4 *)var_r31, (void *)owner, (const void *)arg1, (const void *)arg2, farg0);
+            var_r31 = (uaddr)TObjPlayer__sub_8012C4E4((Obj_8012C4E4 *)var_r31, (void *)owner, (const void *)pos, (const void *)dir, life);
         }
-        temp_r30 = (uaddr)TObjPlayer::spawn_shoot_particle(owner, arg1, arg2, farg0);
+        temp_r30 = (uaddr)TObjPlayer::spawn_shoot_particle(owner, pos, dir, life);
         if ((var_r31 != 0U) && (temp_r30 != 0U)) {
             ((TItemShootParticle *)temp_r30)->spawn_slot_emitter(0x1BB, 0);
             ((TObject *)temp_r30)->set_parent((TObject *)var_r31);

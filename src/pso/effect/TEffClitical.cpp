@@ -140,14 +140,14 @@ void init_texture_copy_rect(void *arg0, saddr arg1, saddr arg2, s32 arg3, s32 ar
     *(s32 *)((s8 *)arg0 + 8) = arg4;
     *(s32 *)((s8 *)arg0 + 0xC) = arg3;
 }
-void approach_position_if_far(u8 *arg0, u8 *arg1, f32 farg0) {
+void approach_position_if_far(u8 *from, u8 *to, f32 farg0) {
     Vec stack;
     f32 temp_f1;
-    stack.x = *(f32 *)((s8 *)arg0 + 0) - *(f32 *)((s8 *)arg1 + 0);
-    stack.y = *(f32 *)((s8 *)arg0 + 4) - *(f32 *)((s8 *)arg1 + 4);
-    stack.z = *(f32 *)((s8 *)arg0 + 8) - *(f32 *)((s8 *)arg1 + 8);
+    stack.x = *(f32 *)((s8 *)from + 0) - *(f32 *)((s8 *)to + 0);
+    stack.y = *(f32 *)((s8 *)from + 4) - *(f32 *)((s8 *)to + 4);
+    stack.z = *(f32 *)((s8 *)from + 8) - *(f32 *)((s8 *)to + 8);
     temp_f1 = vector_length(&stack.x);
     if (temp_f1 > farg0) {
-        approach_vector_fixed_distance((const Vec *)arg0, (const Vec *)arg1, (Vec *)arg0, temp_f1 * farg0);
+        approach_vector_fixed_distance((const Vec *)from, (const Vec *)to, (Vec *)from, temp_f1 * farg0);
     }
 }

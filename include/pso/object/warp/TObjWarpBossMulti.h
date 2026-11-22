@@ -32,7 +32,7 @@ struct TObjWarpBossMulti : public TObjAreaWarp {
     void update();
     static s32 is_lobby_active();
     static s32 get_boss_warp_flag();
-    static void notify_player(void *arg0, s32 arg1);
+    static void notify_player(void *arg0, s32 local_client_id);
     static int is_flag_clear(void* p);
     // Field names follow the get_boss_warp_* getters init_warp_params stores; the rest are inferred.
     s32 player_in_range[4];         // per player slot: a local player stands within warp_range + 25 (run_task)

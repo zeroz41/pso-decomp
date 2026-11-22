@@ -89,8 +89,8 @@ void draw_ginja_model(void *model) {
     end_ginja_model_draw();
 }
 
-s32 get_ginja_vertex_descriptor_type(u32 arg0, s32 arg1) {
-    return (arg0 >> (arg1 * 2)) & 3;
+s32 get_ginja_vertex_descriptor_type(u32 value, s32 arg1) {
+    return (value >> (arg1 * 2)) & 3;
 }
 
 #pragma push

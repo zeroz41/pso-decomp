@@ -13,7 +13,7 @@ struct TShopGenerator : public TObjBase {
     s32 m_94; // frames to wait before the first service check (the constructor sets 5)
     static s32 is_no_service_active(void *self, s32 player);
     static int is_slot_active(int client);
-    static void clear_slot_active(s32 arg0);
+    static void clear_slot_active(s32 client);
     static void run_fn_table_reverse();
     static void run_fn_table_forward();
 };
@@ -21,7 +21,7 @@ struct TShopGenerator : public TObjBase {
 LAYOUT_ASSERT(TShopGenerator_size, sizeof(TShopGenerator) == 0x98);
 
 extern "C" {
-void THunterGuildSeqOffline__sub_8021E180(s32 arg0);
+void THunterGuildSeqOffline__sub_8021E180(s32 client);
 void *TShopGenerator__create(void *arg0);
 }
 

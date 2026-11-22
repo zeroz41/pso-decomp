@@ -16,13 +16,13 @@ u32 spawn_shoot_particle__10TObjPlayerFUlllf(void *, s32, s32, f32);
 int rotate_matrix_y(void*, void*);
 }
 
-u32 baranz_launcher_create_shot(void *player, s32 arg1, s32 arg2, f32 farg0) {
+u32 baranz_launcher_create_shot(void *player, s32 pos, s32 dir, f32 life) {
     uaddr temp_r31;
     uaddr temp_r30;
     void *temp_r4;
 
-    temp_r31 = TObjPlayer::create_shoot_model((uaddr)player, arg1, arg2, farg0);
-    temp_r30 = spawn_shoot_particle__10TObjPlayerFUlllf(player, arg1, arg2, farg0);
+    temp_r31 = TObjPlayer::create_shoot_model((uaddr)player, pos, dir, life);
+    temp_r30 = spawn_shoot_particle__10TObjPlayerFUlllf(player, pos, dir, life);
     if ((temp_r31 != 0U) && (temp_r30 != 0U)) {
         temp_r4 = *(void **)((s8 *)player + 0x188);
         if (temp_r4 != NULL) {

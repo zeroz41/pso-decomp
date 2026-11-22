@@ -74,11 +74,11 @@ TOGrassJungle::~TOGrassJungle() {
 }
 
 
-u8 *TOGrassJungle__ct(TOGrassJungle *grass_jungle, saddr parent, saddr arg2) {
+u8 *TOGrassJungle__ct(TOGrassJungle *grass_jungle, saddr parent, saddr set_data) {
     __ct__8TObjBaseFP7TObject((void *)grass_jungle, (void *)parent);
     *(s32 **)((s8 *)grass_jungle + 0x18) = __vt__13TOGrassJungle;
     *(saddr *)((s8 *)grass_jungle + 0) = (saddr) grass_jungle_class_name;
-    ((TOGrassJungle *)(grass_jungle))->apply_object_set_data((void *)arg2);
+    ((TOGrassJungle *)(grass_jungle))->apply_object_set_data((void *)set_data);
     grass_jungle->m_90 = (s32) grass_jungle->set_params[0];
     if ((s32) grass_jungle->m_90 < 0) {
         grass_jungle->m_90 = 0;

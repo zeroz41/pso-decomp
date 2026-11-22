@@ -315,11 +315,11 @@ void TTecMegid::vfunc_8(void *target) {
     }
 }
 
-void TTecMegid::create(saddr arg0, saddr arg1, saddr arg2, s32 arg3) {
-    new TTecMegid(arg0, (u8 *)arg1, (u8 *)arg2, arg3);
+void TTecMegid::create(saddr source, saddr pos, saddr arg2, s32 level) {
+    new TTecMegid(source, (u8 *)pos, (u8 *)arg2, level);
 }
-void TTecMegid::create_ex(saddr arg0, saddr arg1, s32 arg2, s32 arg3) {
-    new TTecMegid(arg0, (Vec *)arg1, arg2, arg3);
+void TTecMegid::create_ex(saddr source, saddr pos, s32 arg2, s32 level) {
+    new TTecMegid(source, (Vec *)pos, arg2, level);
 }
 void TTecMegid::render() {  }
 

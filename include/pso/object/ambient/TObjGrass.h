@@ -51,7 +51,7 @@ struct TObjGrass : public TObjEnemy {
     static void update_ai(void *arg0);
     virtual void render();
     virtual void run_task();
-    static void *create(void *arg0);
+    static void *create(void *set_data);
     static void destroy_all();
     static void load_resources();
     void init_from_table_entry(s32 i);

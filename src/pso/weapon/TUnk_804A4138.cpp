@@ -67,9 +67,9 @@ TUnk_804A4138::TUnk_804A4138(TObject *parent, u8 *item) : TUnk_804A4948(parent, 
     rotation = 0;
 }
 
-TItem *TObjPlayer::create_state_8012934c(u8 *arg0) {
-    if (arg0 != NULL) {
-        return new TUnk_804A4138(tl_05, arg0);
+TItem *TObjPlayer::create_state_8012934c(u8 *item) {
+    if (item != NULL) {
+        return new TUnk_804A4138(tl_05, item);
     }
     return NULL;
 }

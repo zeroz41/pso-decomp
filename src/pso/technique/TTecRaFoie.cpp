@@ -313,13 +313,13 @@ s32 __ct__7TObjectFP7TObject(void *, void *);
 void copy_technique_target_list(void *, void *);
 }
 
-u8 *create_rafoie_explosion(u8 *arg0, s32 *arg1, s16 arg2, s16 arg3, saddr arg4, f32 farg0) {
+u8 *create_rafoie_explosion(u8 *arg0, s32 *arg1, s16 band, s16 arg3, saddr arg4, f32 farg0) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_802384E0, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_802384E0, spC) == 0x4);
     Stack_802384E0 stack;
     __ct__7TObjectFP7TObject((void *)arg0, (void *)arg4);
     *(s32 **)((s8 *)arg0 + 0x18) = &__vt__13TUnk_804CCB28.value;
-    ((TUnk_804CCB28 *)arg0)->m_20 = arg2;
+    ((TUnk_804CCB28 *)arg0)->m_20 = band;
     *(s16 *)((s8 *)arg0 + 0x22) = arg3;
     ((TUnk_804CCB28 *)arg0)->m_60 = 1;
     VecCopy((Vec *)(arg0 + 0x28), (const Vec *)(arg1));
@@ -348,16 +348,16 @@ struct Stack_802385EC {
     u8 trailing_storage[0x4];
 };
 
-TUnk_804CCB28 *create_fire_explosion_effect(u8 *arg0, f32 farg0, const Vec *arg1, s16 arg2, TObject *arg3) {
+TUnk_804CCB28 *create_fire_explosion_effect(u8 *arg0, f32 farg0, const Vec *pos, s16 arg2, TObject *parent) {
     LAYOUT_ASSERT(sp8_offset, (offsetof(Stack_802385EC, sp8) == 0x0));
     LAYOUT_ASSERT(spC_offset, (offsetof(Stack_802385EC, spC) == 0x4));
     Stack_802385EC stack;
-    __ct__7TObjectFP7TObject((void *)arg0, (void *)arg3);
+    __ct__7TObjectFP7TObject((void *)arg0, (void *)parent);
     *(s32 **)((s8 *)arg0 + 0x18) = &__vt__13TUnk_804CCB28.value;
     ((TUnk_804CCB28 *)arg0)->m_20 = arg2;
     *(s16 *)((s8 *)arg0 + 0x22) = 0;
     ((TUnk_804CCB28 *)arg0)->m_60 = 1;
-    VecCopy((Vec *)(arg0 + 0x28), arg1);
+    VecCopy((Vec *)(arg0 + 0x28), pos);
     *(f32 *)((s8 *)arg0 + 0x44) = farg0;
     ((TUnk_804CCB28 *)arg0)->m_58 = 0;
     *(s32 *)((s8 *)arg0 + 0x5C) = 0;
