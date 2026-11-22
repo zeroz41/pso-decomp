@@ -44,6 +44,8 @@ struct TAdChrSelASlotGC : public TObject {
     void sub_8030CBD4();
     void update_load_state();
     void set_state();
+    s32 get_state();
+    void set_state(s32 value);
     void check_load_state();
     void init_selection();
     void sub_8030CCE0();

@@ -2,6 +2,7 @@
 #include "types.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802E0064.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdChrSelBSlotGC.h"
 #include "pso/ui/frontend/TAdChrMoveEffectGC.h"
 
 extern "C" {
@@ -20,12 +21,11 @@ void TAdChrSelPlyPlateGC::restore_selection() { TAdMultiPlyChrSelectGC__selected
 
 void TAdChrSelPlyPlateGC::capture_card_index() { unk_4e8 = get_active_card_slot(); }
 s32 TAdChrSelPlyPlateGC::get_field_0x530() { return unk_530; }
-void TAdMultiPlyChrSelectGC::set_field_1c(s32 v) { this->m_1c = v; }
-s32 TAdMultiPlyChrSelectGC::get_mode() { return this->m_1c; }
+void TAdChrSelBSlotGC::set_state(s32 value) { state = value; }
+s32 TAdChrSelBSlotGC::get_state() { return state; }
 
-s32 TAdMultiPlyChrSelectGC::is_state_closing() {
-    TAdMultiPlyChrSelectGC *self = this;
-    switch (self->m_1c) {
+s32 TAdChrSelBSlotGC::is_state_closing() {
+    switch (state) {
     case 6:
     case 8:
     case 9:

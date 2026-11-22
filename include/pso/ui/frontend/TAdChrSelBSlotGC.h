@@ -36,6 +36,9 @@ struct TAdChrSelBSlotGC : public TObject {
     void sub_8030E550();
     void update_load_state();
     void set_state_confirm();
+    void set_state(s32 value);
+    s32 get_state();
+    s32 is_state_closing();
     void enter_state17();
     void sub_8030E620();
     void sub_8030E624();
