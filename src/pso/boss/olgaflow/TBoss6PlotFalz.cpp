@@ -21,7 +21,6 @@
 #include "pso/unk/text_803D96A8.h"
 void set_constant_material(const NJS_ARGB *color);
 #include "pso/boss/darkfalz/TBoss4Fade.h"
-#include "pso/unk/text_8035966C.h"
 #include "types.h"
 #include "pso/map/FloorArea.h"
 #include "pso/render/NinjaUtil.h"

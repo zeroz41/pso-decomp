@@ -60,3 +60,12 @@ TBoss4Fade::TBoss4Fade(TObject *parent) : TObject(parent) {
     frames[1].active = 0;
     write_index = 0;
 }
+
+// The fade runs under the window controller, or under tl_clipout when there is none.
+TBoss4Fade *create_boss4_fade() {
+    TObject *parent = reinterpret_cast<TObject *>(TWindowCtrlMain::get_instance());
+    if (parent == NULL) {
+        parent = tl_clipout;
+    }
+    return new TBoss4Fade(parent);
+}

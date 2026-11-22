@@ -10407,14 +10407,11 @@ pso/npc/TObjNpcNgcBase.cpp:
 	.sdata      start:0x805D43F0 end:0x805D43F8
 
 pso/boss/darkfalz/TBoss4Fade.cpp:
-	.text       start:0x803594EC end:0x8035966C
+	.text       start:0x803594EC end:0x803596C0
 	.rodata     start:0x80479648 end:0x80479658
 	.data       start:0x804F19F0 end:0x804F1A28
 	.sdata      start:0x805D43F8 end:0x805D4400
 	.sdata2     start:0x805E0098 end:0x805E00A0
-
-pso/unk/text_8035966C.cpp:
-	.text       start:0x8035966C end:0x803596C0
 
 pso/object/lobby/TObjStendGlassLobby.cpp:
 	.text       start:0x803596C0 end:0x80359A7C
