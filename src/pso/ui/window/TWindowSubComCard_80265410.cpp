@@ -169,16 +169,12 @@ void TWindowSubComCardList::sub_8026556C() {
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_8026556C, spC) == 0x4);
     Stack_8026556C stack;
     f32 temp_f1;
-    f32 temp_f2;
     u32 temp_r3;
-    uaddr var_r0;
     if ((u32) this->m_84 == 0U) {
-        temp_f2 = this->target_size[0];
-        temp_f1 = temp_f2 - 8.0f;
+        temp_f1 = this->target_size[0] - 8.0f;
         stack.spC = 0.0f;
         stack.sp8 = temp_f1;
-        var_r0 = reinterpret_cast<uaddr>(new Scroll_8026D790(&stack.sp8));
-        this->m_84 = var_r0;
+        this->m_84 = reinterpret_cast<uaddr>(new Scroll_8026D790(&stack.sp8));
         this->window_flags = (s32) (this->window_flags | 0x80);
     }
 }
@@ -552,14 +548,12 @@ void TWindowMenu::clear_transition_flag() {
 void TWindowOptionCtrl::open() {
     u16 temp_r4;
     void *temp_r3;
-    f32 temp_f1;
 
     temp_r4 = *(u16 *)((s8 *)this + 0x70);
     if (!(temp_r4 & 0x20)) {
         *(u16 *)((s8 *)this + 0x70) = (u16) (temp_r4 | 0x20);
         temp_r3 = (void *)((TWindowMenu *)this)->get_selected_entry();
-        temp_f1 = 20.0f;
-        *(f32 *)&this->m_3c = (f32) (temp_f1 + *(f32 *)((s8 *)temp_r3 + 0x14));
+        *(f32 *)&this->m_3c = (f32) (20.0f + *(f32 *)((s8 *)temp_r3 + 0x14));
         if (*(s32 *)&this->m_2c & 0x40) {
             *(f32 *)&this->m_3c += 6.0f;
         }

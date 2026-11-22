@@ -14,12 +14,10 @@ void TWindowDD__sub_803429B0(u8 *arg0);
 void update__9TWindowDDFi(saddr arg0);
 
 void TWindowDD::enter_state_16(void *window_dd) {
-    s32 temp_r0;
     s32 var_r31;
 
     var_r31 = 0;
-    temp_r0 = *(s32 *)((s8 *)window_dd + 0xB8);
-    switch (temp_r0) {
+    switch (*(s32 *)((s8 *)window_dd + 0xB8)) {
     case 0:
         TWindowDD__sub_80347C50();
         ((TWindowDD *)window_dd)->update_selection_state();

@@ -157,15 +157,13 @@ void TWindowSubStatusDisp::draw_entry_tab(void *arg1) {
 void TWindowSubStatusDisp__sub_802878B8(u8 *arg0, u8 *arg1) {
   Stack_802878B8 stack;
   f32 new_var;
-  f32 temp_f4;
   if (((s32) (*((s32 *) (((s8 *) arg1) + 0x30)))) >= 0)
   {
     if ((0.5f) && (0.5f))
     {
     }
     stack.sp8 = -(((0.5f) * (*((f32 *) (((s8 *) arg0) + 0x10)))) - (((0.5f) * ((1.6e+02f) + (*((f32 *) (((s8 *) arg0) + 0xC))))) + ((*((f32 *) (((s8 *) arg1) + 0))) + (*((f32 *) (((s8 *) arg0) + 4))))));
-    temp_f4 = *((f32 *) (((s8 *) arg1) + 4));
-    stack.spC = (4.0f) + (temp_f4 + (*((f32 *) (((s8 *) arg0) + 8))));
+    stack.spC = (4.0f) + (*((f32 *) (((s8 *) arg1) + 4)) + (*((f32 *) (((s8 *) arg0) + 8))));
     set_text_draw_params(reinterpret_cast<WindowDrawContext *>(arg1), 0, 1, (f32) ((-1.0f) / ((0.0598f) + (*((f32 *) (((s8 *) arg1) + 0x38))))), 100000.0f);
     new_var = *((f32 *) (((s8 *) arg0) + 0x1C));
     draw_window_text((&stack.sp8), (const char *)(*((saddr *) (((s8 *) arg0) + 0))), (*((s32 *) (((s8 *) arg0) + 0x14))), 1, (f32) new_var);

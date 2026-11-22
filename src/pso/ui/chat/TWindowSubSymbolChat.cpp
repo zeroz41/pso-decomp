@@ -268,11 +268,6 @@ TWindowSubSymbolChat::~TWindowSubSymbolChat() {
 void TWindowSubSymbolChat::run_task() {
     u8 *arg0 = (u8 *)this;
     saddr temp_r3_2;
-    u32 var_r0;
-    u32 var_r0_2;
-    u32 var_r0_3;
-    u32 var_r0_4;
-    u32 var_r30;
     u8 *temp_r5;
     switch (this->m_1c) {
     case 0:
@@ -402,12 +397,10 @@ void TWindowSubSymbolChat::run_task() {
         break;
     case 8:
         if ((u32) this->face_type_window == 0U) {
-            var_r30 = (uaddr)new TWindowSubSymbolChatFaceType((s32)(((s32)get_window_layout_position(0x7D))), (s32)((saddr)&TWindowSubSymbolChat__data_805D6494));
-            this->face_type_window = var_r30;
+            this->face_type_window = (uaddr)new TWindowSubSymbolChatFaceType((s32)(((s32)get_window_layout_position(0x7D))), (s32)((saddr)&TWindowSubSymbolChat__data_805D6494));
         }
         if ((u32) this->m_54 == 0U) {
-            var_r0 = (uaddr)new TWindowSubSymbolChatHelp((saddr)&TWindowSubSymbolChat__data_805D6494, (saddr)&TWindowSubSymbolChat__help_window);
-            this->m_54 = var_r0;
+            this->m_54 = (uaddr)new TWindowSubSymbolChatHelp((saddr)&TWindowSubSymbolChat__data_805D6494, (saddr)&TWindowSubSymbolChat__help_window);
         }
         ((TWindowSubSymbolChat *)(this->m_54))->set_flag60_bit2();
         this->m_1c = 9U;
@@ -465,8 +458,7 @@ void TWindowSubSymbolChat::run_task() {
         }
         ((TWindowSubSymbolChat *)(this->parts))->select_index_and_scroll(this->symbol_index);
         if ((u32) this->m_54 == 0U) {
-            var_r0_2 = (uaddr)new TWindowSubSymbolChatHelp((saddr)&TWindowSubSymbolChat__data_805D6494, (saddr)&TWindowSubSymbolChat__help_window);
-            this->m_54 = var_r0_2;
+            this->m_54 = (uaddr)new TWindowSubSymbolChatHelp((saddr)&TWindowSubSymbolChat__data_805D6494, (saddr)&TWindowSubSymbolChat__help_window);
         }
         if (TWindowSubSymbolChat::count_instance_empty_slots() > 1) {
             ((TWindowSubSymbolChat *)(this->m_54))->set_flag60_bit1();
@@ -525,8 +517,7 @@ void TWindowSubSymbolChat::run_task() {
         }
         ((TWindowSubSymbolChat *)(this->parts))->select_index_and_scroll(this->symbol_index);
         if ((u32) this->m_54 == 0U) {
-            var_r0_3 = (uaddr)new TWindowSubSymbolChatHelp((saddr)&TWindowSubSymbolChat__data_805D6494, (saddr)&TWindowSubSymbolChat__help_window);
-            this->m_54 = var_r0_3;
+            this->m_54 = (uaddr)new TWindowSubSymbolChatHelp((saddr)&TWindowSubSymbolChat__data_805D6494, (saddr)&TWindowSubSymbolChat__help_window);
         }
         ((TWindowSubSymbolChat *)(this->m_54))->set_flag60_bit2();
         ((TWindowSubSymbolChat *)(this->m_54))->set_pos_and_flag((saddr)&TWindowSubSymbolChat__data_805D6498, (saddr)&TWindowSubSymbolChat__data_805D649C);
@@ -603,8 +594,7 @@ void TWindowSubSymbolChat::run_task() {
         }
         ((TWindowSubSymbolChat *)(this->parts))->select_index_and_scroll(this->symbol_index);
         if ((u32) this->m_54 == 0U) {
-            var_r0_4 = (uaddr)new TWindowSubSymbolChatHelp((saddr)&TWindowSubSymbolChat__data_805D6494, (saddr)&TWindowSubSymbolChat__help_window);
-            this->m_54 = var_r0_4;
+            this->m_54 = (uaddr)new TWindowSubSymbolChatHelp((saddr)&TWindowSubSymbolChat__data_805D6494, (saddr)&TWindowSubSymbolChat__help_window);
         }
         ((TWindowSubSymbolChat *)(this->m_54))->clear_flag60_bit4();
         ((TWindowSubSymbolChat *)(this->m_54))->clear_flag60_bit2();

@@ -439,9 +439,7 @@ void TRaderMapCore::reset() { *(float *)&this->m_prev = 0.0f; *(float *)&this->m
 
 void TRaderMapCore::load_frame_texture() {
     saddr temp_r3;
-    s32 var_r0;
-    var_r0 = (saddr)new BmlResource(5, &obj_f_enemy_resource_descriptor, 0, 0, NULL);
-    (*(s32 *)&TRaderMapCore__frame_model_resource) = var_r0;
+    (*(s32 *)&TRaderMapCore__frame_model_resource) = (saddr)new BmlResource(5, &obj_f_enemy_resource_descriptor, 0, 0, NULL);
     (*(u8 * *)&TRaderMapCore__data_805D5F4C) = load_gvm_texture_file((saddr)"RaderMapFrame.gvm");
 }
 

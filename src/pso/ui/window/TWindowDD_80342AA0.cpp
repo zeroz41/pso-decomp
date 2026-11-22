@@ -11,12 +11,10 @@ s32 TWindowDD__sub_80347C50();
 s32 TWindowDD__sub_803482B0(void *);
 
 void TWindowDD::enter_state_9() {
-    s32 temp_r0;
     s32 var_r31;
 
     var_r31 = 0;
-    temp_r0 = *(s32 *)((s8 *)this + 0xB8);
-    switch (temp_r0) {
+    switch (*(s32 *)((s8 *)this + 0xB8)) {
     case 0:
         TWindowDD__sub_80347C50();
         update_selection_state();

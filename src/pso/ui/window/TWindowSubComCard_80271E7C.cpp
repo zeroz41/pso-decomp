@@ -291,16 +291,11 @@ void TWindowSubComCard::run_task() {
     s32 temp_r29_7;
     saddr temp_r29_8;
     saddr keyboard_mode;
-    u32 temp_r30_2;
     s32 temp_r4;
     s32 var_r29;
-    u8 temp_r0;
     s32 temp_r29_6;
     s32 temp_r30_3;
-    u8 *temp_r3;
-    u8 *temp_r3_2;
-    temp_r0 = this->state;
-    switch (temp_r0) {
+    switch (this->state) {
     case 0x0:
     case 0x1:
         this->send_state_if_dirty();
@@ -352,8 +347,7 @@ void TWindowSubComCard::run_task() {
     case 0x2:
         this->set_help_message((int) (((TWindowShortListCtrl *)(this->m_60))->get_cursor_pos()));
         if (((TWindowMenu *)(this->m_60))->is_cancelled() != 0) {
-            temp_r3 = (u8 *)(*(u8 **)((s8 *)this + 0x5C));
-            ((VObj_18_204a81 *)(temp_r3))->m7();
+            ((VObj_18_204a81 *)((u8 *)(*(u8 **)((s8 *)this + 0x5C))))->m7();
             this->state = 0x4FU;
             return;
         }
@@ -675,8 +669,7 @@ void TWindowSubComCard::run_task() {
         }
         if ((u32) this->m_78 == 0U) {
             var_r29 = ((s32 (*)(void))get_selected_guild_card_record)();
-            temp_r30_2 = (uaddr)new TWindowUserSort((get_window_layout_position(0x8A)), (var_r29));
-            this->m_78 = temp_r30_2;
+            this->m_78 = (uaddr)new TWindowUserSort((get_window_layout_position(0x8A)), (var_r29));
         }
         if ((u32) this->m_64 == 0U) {
             this->m_64 = ((s32 (*)(void *)) TWindowSubComCard__sub_8027346C)((void *)this);
@@ -761,8 +754,7 @@ void TWindowSubComCard::run_task() {
         this->m_2c = (temp_r4 + 1);
         if ((f32) temp_r4 > 450.0f) {
             TWindowSubComCard__sub_8024AB98((this->m_20));
-            temp_r3_2 = (u8 *)(*(u8 **)((s8 *)this + 0x5C));
-            ((VObj_18_204a81 *)(temp_r3_2))->m7();
+            ((VObj_18_204a81 *)((u8 *)(*(u8 **)((s8 *)this + 0x5C))))->m7();
             this->state = 0x4FU;
             return;
         }

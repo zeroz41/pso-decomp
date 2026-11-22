@@ -83,7 +83,6 @@ TWindowSubShortCut::~TWindowSubShortCut() {
 void TWindowSubShortCut::run_task() {
     u8 *arg0 = (u8 *)this;
     u32 var_r0;
-    void *var_r30;
     switch (this->state) {
     case 0:
     case 1:
@@ -174,8 +173,7 @@ void TWindowSubShortCut::run_task() {
             this->chat_window = 0U;
         }
         if ((u32) this->m_3c == 0U) {
-            var_r30 = (void *)new TWindowShortCut((s32)(get_window_layout_position(0x73)), this->m_24, (s32 *)((u8 *)arg0 + 0x40));
-            *(void * *)&this->m_3c = var_r30;
+            *(void * *)&this->m_3c = (void *)new TWindowShortCut((s32)(get_window_layout_position(0x73)), this->m_24, (s32 *)((u8 *)arg0 + 0x40));
         }
         if ((u32) this->confirm_window == 0U) {
             this->confirm_window = open_confirm_prompt();

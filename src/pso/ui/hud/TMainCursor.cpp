@@ -680,14 +680,10 @@ void publish_target_list__11TMainCursorFPvi(Self_8013D4A0 *arg0, s32 arg1) {
 
 void TMainCursor::sort_list(s32 arg0, s32 arg1) {
     saddr temp_r30;
-    s32 temp_r31;
-    s32 temp_r4;
 
-    temp_r4 = arg1 * 0x124;
-    temp_r30 = arg0 + temp_r4 + 0x5C;
+    temp_r30 = arg0 + (arg1 * 0x124) + 0x5C;
     if (((TMainCursor *)temp_r30)->get_selected_entry() != 0) {
-        temp_r31 = TMainCursor__sub_8013F168((void *)(temp_r30 + 0x40));
-        TMainCursor::quick_sort(temp_r30, (saddr)TMainCursor::get_record_at((void *)(temp_r30 + 0x40), 0), 0, temp_r31 - 1);
+        TMainCursor::quick_sort(temp_r30, (saddr)TMainCursor::get_record_at((void *)(temp_r30 + 0x40), 0), 0, TMainCursor__sub_8013F168((void *)(temp_r30 + 0x40)) - 1);
     }
 }
 

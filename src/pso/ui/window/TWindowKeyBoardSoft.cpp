@@ -218,9 +218,7 @@ void TWindowKeyBoardSoft::sub_80260760(s32 key, s32 *count, u32 *color) {
 #pragma push
 #pragma fp_contract on
 void TWindowKeyBoardSoft::sub_80260808(s32 port) {
-    s32 temp_r5;
-    temp_r5 = port * 0x50;
-    if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + temp_r5 + 0x20), 2) != 0) && (m_control != NULL)) {
+    if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + (port * 0x50) + 0x20), 2) != 0) && (m_control != NULL)) {
         this->m_60 = (s32) (this->m_60 & 0xFFFFFFEF);
         play_sound_effect(0x52F16, 0, 0, 0);
         m_control->handle_backspace();

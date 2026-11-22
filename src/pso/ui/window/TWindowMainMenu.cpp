@@ -564,12 +564,10 @@ void TWindowMainMenu::sub_80263D7C() {
 
 void TWindowMainMenu::open(s32 arg1) {
     TObjPlayer *player;
-    s32 temp_r4;
 
     player = get_player_by_client_id((s32)(*(s32 *)((s8 *)this + 0x54)));
     if (player != 0) {
-        temp_r4 = *(s32 *)((s8 *)this + 0x4C) | 1;
-        *(s32 *)((s8 *)this + 0x4C) = temp_r4;
+        *(s32 *)((s8 *)this + 0x4C) = *(s32 *)((s8 *)this + 0x4C) | 1;
         *(s32 *)((s8 *)this + 0x5C) = arg1;
         *(s16 *)((s8 *)this + 0x50) = 0;
         update_keyboard_card_state();
@@ -580,10 +578,8 @@ void TWindowMainMenu::open(s32 arg1) {
 
 void TWindowMainMenu::close_and_clear_flags() {
     void *player;
-    s32 temp_r4;
 
-    temp_r4 = *(s32 *)((s8 *)this + 0x4C);
-    *(s32 *)((s8 *)this + 0x4C) = (s32) (temp_r4 & ~5);
+    *(s32 *)((s8 *)this + 0x4C) = (s32) (*(s32 *)((s8 *)this + 0x4C) & ~5);
     close_child_window();
     destroy_submenu();
     close();

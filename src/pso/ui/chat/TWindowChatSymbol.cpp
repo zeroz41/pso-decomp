@@ -329,8 +329,6 @@ void TWindowSubSymbolChat::set_from_key(s32 arg1) {
 #pragma push
 #pragma fp_contract on
 void TWindowChatSymbol::render() {
-    f32 temp_f1;
-    f32 temp_f2;
     u8 *c_arg;
 
     c_arg = reinterpret_cast<u8 *>(draw_default_entry());
@@ -340,9 +338,7 @@ void TWindowChatSymbol::render() {
     }
     draw_quest_message_frame(c_arg);
     *(f32 *)((s8 *)c_arg + 0x10) = (f32) ((0.5f * (frame_size[0] - 136.0f)) + *(f32 *)((s8 *)c_arg + 0x10));
-    temp_f2 = this->frame_size[1];
-    temp_f1 = temp_f2 - 90.0f;
-    *(f32 *)((s8 *)c_arg + 0x14) = (f32) ((0.5f * temp_f1) + *(f32 *)((s8 *)c_arg + 0x14));
+    *(f32 *)((s8 *)c_arg + 0x14) = (f32) ((0.5f * (this->frame_size[1] - 90.0f)) + *(f32 *)((s8 *)c_arg + 0x14));
     draw_visible_window_entries(
         this,
         &this->entry_list,

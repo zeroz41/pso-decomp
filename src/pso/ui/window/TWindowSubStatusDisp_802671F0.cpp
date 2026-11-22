@@ -544,13 +544,11 @@ void TWindowMenuIconLine::create_menu_scroll_bar() {
     Stack_80267B18 stack;
     f32 temp_f1;
     u32 temp_r3;
-    uaddr var_r0;
     if ((uaddr) this->scroll_bar == 0U) {
         temp_f1 = this->target_size[0] - 8.0f;
         stack.spC = 0.0f;
         stack.sp8 = temp_f1;
-        var_r0 = reinterpret_cast<uaddr>(new Scroll_8026D790(&stack.sp8));
-        *(u32 *)&this->scroll_bar = var_r0;
+        *(u32 *)&this->scroll_bar = reinterpret_cast<uaddr>(new Scroll_8026D790(&stack.sp8));
         this->window_flags = (s32) (this->window_flags | 0x80);
     }
 }

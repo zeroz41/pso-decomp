@@ -78,10 +78,8 @@ TWindowSubEquip::~TWindowSubEquip() {
 void TWindowSubEquip::run_task() {
     s32 temp_r3;
     s32 temp_r5;
-    u8 temp_r0;
     temp_r3 = is_player_input_active(this->client_id);
-    temp_r0 = this->m_1c;
-    switch ((s32) temp_r0) {
+    switch ((s32) this->m_1c) {
     case 0:
     case 1:
         if ((u32) this->equip_kind_list != 0U) {

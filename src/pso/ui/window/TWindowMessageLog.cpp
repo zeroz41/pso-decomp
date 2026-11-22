@@ -104,13 +104,11 @@ void TWindowMessageLog::update_fade_offset() {
 
 void TWindowMessageLog::update_scroll_animation() {
     f32 temp_f1;
-    f32 temp_f1_2;
 
     temp_f1 = this->m_94;
     if (0.0f != temp_f1) {
         this->m_84 = (f32) (this->m_84 + temp_f1);
-        temp_f1_2 = this->scroll_offset[1];
-        this->scroll_offset[1] = (f32) (temp_f1_2 + this->m_94);
+        this->scroll_offset[1] = (f32) (this->scroll_offset[1] + this->m_94);
         this->m_94 *= 0.0f;
         clamp_scroll_offset();
     }
@@ -322,17 +320,13 @@ TWindowMessageLog::TWindowMessageLog(s32 parent, s32 client) : TWindowMessage(pa
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_8026ABA8, spC) == 0x4);
     Stack_8026ABA8 stack;
     f32 temp_f1;
-    f32 temp_f2;
     s32 temp_r3;
-    saddr var_r0;
     *(s32 *)((s8 *)window_message_log + 0) = (s32) ((saddr)TWindowMessageLog__name);
     TWindowCtrl__sub_8026AD78((saddr)window_message_log);
-    temp_f2 = window_message_log->target_size[0];
-    temp_f1 = temp_f2 - 8.0f;
+    temp_f1 = window_message_log->target_size[0] - 8.0f;
     stack.spC = 0.0f;
     stack.sp8 = temp_f1;
-    var_r0 = reinterpret_cast<saddr>(new Scroll_8026D790(&stack.sp8));
-    *(s32 *)((s8 *)window_message_log + 0x90) = var_r0;
+    *(s32 *)((s8 *)window_message_log + 0x90) = reinterpret_cast<saddr>(new Scroll_8026D790(&stack.sp8));
     window_message_log->window_flags = (s32) (window_message_log->window_flags | 0x80);
     window_message_log->m_94 = (f32) 0.0f;
     window_message_log->load_chat_history();

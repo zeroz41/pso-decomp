@@ -376,15 +376,13 @@ void *TWindowFukidasi::find_balloon_overlap_for(saddr next) {
 }
 
 void TWindowBase::sub_80244F2C(u8 *descriptor, u8 *parent, s16 client) {
-    f32 temp_f1;
     s32 temp_r3;
     s32 temp_r3_2;
     m_name = TWindowBase__name;
     ((s32 (*)(void *, void *))copy_vec2__FPvPv)(target_position, parent);
     ((s32 (*)(void *, void *))copy_vec2__FPvPv)(target_size, descriptor);
     save_position();
-    temp_f1 = *(f32 *)((s8 *)descriptor + 8);
-    sort_depth = temp_f1;
+    sort_depth = *(f32 *)((s8 *)descriptor + 8);
     draw_depth = -10000.0f;
     window_flags = (s32) *(s32 *)((s8 *)descriptor + 0x10);
     resort_window_order();
