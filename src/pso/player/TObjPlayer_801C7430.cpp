@@ -1167,7 +1167,6 @@ void start_use_item_action__10TObjPlayerFPv(u8 *arg0);
 void send_object_id_packet__10TObjPlayerFi(TObjPlayer *player);
 void TObjPlayer__sub_801CBB10(void);
 void TObjPlayer__sub_801CBB80(void);
-void update_active_instance__10TObjPlayerFi(saddr arg0);
 void release_all_players_control_lock(void);
 void handle_6x36(void);
 void handle_6x37_photon_blast(saddr arg0);
@@ -1310,7 +1309,7 @@ s16 TAdSinglePlyChrSelectGC__sub_801D5DDC(void *);
 s32 reset_photon_blast_gauge(void *);
 int is_pb_palette_bank_empty(void*);
 s32 get_getup_protection_ticks__10TObjPlayerFv(void *);
-s32 TObjPlayer__sub_801D8DCC(TObjPlayer *arg0);
+u8 *TObjPlayer__sub_801D8DCC(TObjPlayer *arg0);
 u8 get_cast_technique_level(void *techs, s16 tech);
 s32 set_technique_level_entry(void *, s32, u8);
 int bswap_16__FPUs(void*);
@@ -3709,14 +3708,15 @@ void TObjPlayer::apply_photon_blast(s32 id, s32 kind) {
     }
 }
 
-void update_active_instance__10TObjPlayerFi(saddr arg0) {
+// index (the 0x4AC slot's valid index the caller passes in r4) is not read.
+void TObjPlayer::update_active_instance(int index) {
     if ((u32) (*(u32 *)&TObjPlayer__shared_photon_blast_state) != 0U) {
         if (((s32 (*)(void))reset_volopt_state__10TObjPlayerFv)() == 0) {
             ((TObjPlayer *)(*(uaddr *)&TObjPlayer__shared_photon_blast_state))->process_all_elements();
             return;
         }
         release_photon_blast_requests((void *)(*(uaddr *)&TObjPlayer__shared_photon_blast_state));
-        admit_photon_blast_sequence((TObjPlayer::get_photon_blast_element(0)), (void *)arg0);
+        admit_photon_blast_sequence(TObjPlayer::get_photon_blast_element(0), this);
     }
 }
 
@@ -3892,7 +3892,7 @@ void TObjPlayer::update_photon_blast_action() {
       this->phase = 4;
       ((TObjPlayer *)arg0)->clear_state_flags(0x80);
       ((s32 (*)(void *))clear_status_bit6__10TObjPlayerFPv)((void *) arg0);
-      ((s32 (*)(void *, void *))update_active_instance__10TObjPlayerFi)((void *) arg0, (void *) ((TFontSmallLobby *)(arg0 + 0x4AC))->get_valid_index());
+      this->update_active_instance(((TFontSmallLobby *)(arg0 + 0x4AC))->get_valid_index());
     }
       break;
   }
@@ -4271,7 +4271,7 @@ void TObjPlayer::update_technique_cast() {
     u8 temp_r31;
     u8 *temp_r3;
     this->rotation_y = ((s32 (*)(int, int))lerp_angle_half__Fll)((int) (this->rotation_y), (int) (*(s32 *)((s8 *)arg0 + 0x3F0)));
-    temp_r3 = (u8 *)(TObjPlayer__sub_801D8DCC((TObjPlayer *)arg0));
+    temp_r3 = TObjPlayer__sub_801D8DCC(this);
     temp_r0 = this->phase;
     switch (temp_r0) {
     case 3:
@@ -4867,7 +4867,7 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
     int hit = 0;
     s32 *entry;
     count = get_captured_target_count((s32 *)((TObjPlayer *)&attack_state)->get_state_ptr());
-    entry = (s32 *)get_captured_target_entry(((TObjPlayer *)&attack_state)->get_state_ptr(), 0);
+    entry = get_captured_target_entry(((TObjPlayer *)&attack_state)->get_state_ptr(), 0);
     for (i = 0; i < count; i++) {
         u16 uid = ((TObjPlayer *)entry)->get_uid();
         s16 collider = get_captured_target_collider_index(entry);

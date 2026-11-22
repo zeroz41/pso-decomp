@@ -786,6 +786,7 @@ struct TObjPlayer : public TObjChara {
     static s32 get_current_target_id();
     static void update_photon_blast_state();
     static void apply_photon_blast(s32 id, s32 kind);
+    void update_active_instance(int index);
     static f32 calc_photon_blast_charge(void *arg0, s32 damage);
     void send_6x37_photon_blast();
     s32 check_conditions();

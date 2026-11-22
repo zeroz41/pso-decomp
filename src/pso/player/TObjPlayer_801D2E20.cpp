@@ -448,7 +448,7 @@ int TObjPlayer::is_flag32_clear() { return (((int (*)(void*, int))test_flags_any
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-int TObjPlayer__sub_801D345C(void* p) { return get_captured_target_entry((char*)p + 0x30, 0); }
+s32 *TObjPlayer__sub_801D345C(void *p) { return get_captured_target_entry((char*)p + 0x30, 0); }
 #pragma pop
 
 #pragma push

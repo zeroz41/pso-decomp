@@ -38,7 +38,7 @@ s32 TObjPlayer__sub_801D8C3C(void);
 player_stats *get_class_stat_caps(s8 arg0);
 u8 *get_class_attack_template(TObjPlayer *arg0);
 stats *get_class_base_stats(s8 arg0);
-s32 TObjPlayer__sub_801D8DCC(TObjPlayer *arg0);
+u8 *TObjPlayer__sub_801D8DCC(TObjPlayer *arg0);
 s32 TObjPlayer__sub_801D91B8(saddr arg0);
 s32 TBoss4DarkFalz__sub_801D94C0(void* p);
 void TObjPlayer__sub_801D92A4(void);
@@ -150,12 +150,12 @@ s32 get_class_starting_inventory(s8 cls) {
     return *(s32 *)((s8 *)class_starting_inventory_table + (cls * 4));
 }
 
-s32 TObjPlayer__sub_801D8DCC(TObjPlayer *player) {
+u8 *TObjPlayer__sub_801D8DCC(TObjPlayer *player) {
   s32 temp_r31;
   s8 *new_var;
   temp_r31 = player->get_handle_value() * 0x14;
   new_var = ((s8 *)player_cast_motion_record_table) + (player->has_valid_handle() * 4);
-  return (*((s32 *) new_var)) + temp_r31;
+  return *(u8 **)new_var + temp_r31;
 }
 
 long TObjPlayer::get_anim_table_entry(s32 picture) {

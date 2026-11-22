@@ -1480,7 +1480,7 @@ u8 fn_801D7168(s32 *);
 u8 fn_801D719C(s32 *);
 u8 fn_801D71D0(s32 *);
 u8 fn_801D7204(s32 *);
-u8 * TObjPlayer__sub_801D8DCC();
+u8 *TObjPlayer__sub_801D8DCC(TObjPlayer *player);
 s32 TObjPlayer__sub_801D91B8(void *, void *);
 s32 get_current_state_field__10TObjPlayerFScl(s32, s32);
 s32 get_class_attack_template(void *);
@@ -3755,7 +3755,7 @@ void *TObjPlayer::apply_wall_response() {
 }
 
 void TObjPlayer::get_hand_joint_position(saddr arg1) {
-    this->get_anim_node_position(*(s32 *)((s8 *)(TObjPlayer__sub_801D8DCC()) + 0x10), (Vec *)arg1);
+    this->get_anim_node_position(*(s32 *)(TObjPlayer__sub_801D8DCC(this) + 0x10), (Vec *)arg1);
 }
 
 void TObjPlayer::init_effect_5f0() {
