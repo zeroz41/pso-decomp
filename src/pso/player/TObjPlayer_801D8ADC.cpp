@@ -46,7 +46,7 @@ s32 get_contact_surface_type(saddr arg0);
 int load_encrypted_archive_data(const char *);
 }
 int ply_level_table;
-s32 get_ply_level_table_row(s8 arg0, s32 arg1);
+u8 *get_ply_level_table_row(s8 arg0, s32 arg1);
 f32 lookup_attack_marker(s32, s16, s16, s32);
 extern Rec_801D8F0C *photon_blast_motion_timing_tables[6];
 extern const s32 (*player_footstep_floor_table[3])[5];
@@ -193,12 +193,9 @@ f32 TObjPlayer::get_photon_blast_upper_bound() {
 }
 
 f32 TObjPlayer::get_photon_blast_hold_frame() {
-    saddr arg0 = (saddr)this;
-  s32 temp_r31;
-  s32 *new_var;
-  temp_r31 = ((TObjPlayer *)arg0)->get_handle_value() * 0xC;
-  new_var = (s32 *) (((s8 *) (((u8 *)photon_blast_motion_timing_tables) + (((s32)((TObjPlayer *)arg0)->has_valid_handle()) * 4))) + 0);
-  return *((f32 *) (((s8 *) ((*new_var) + temp_r31)) + 0));
+  s32 offset = get_handle_value() * 0xC;
+  u8 *table = (u8 *)photon_blast_motion_timing_tables[has_valid_handle()];
+  return *(f32 *)(table + offset);
 }
 
 f32 TObjPlayer::get_attack_recovery_count() {
@@ -332,18 +329,18 @@ s32 TObjPlayer__sub_801D91B8(saddr player) {
 }
 
 s32 TObjPlayer::get_current_state_field(s8 _w0, s32 _w1) {
-    return *(s32 *)((s8 *)(get_ply_level_table_row(_w0, _w1)) + 8);
+    return *(s32 *)(get_ply_level_table_row(_w0, _w1) + 8);
 }
 
 s32 TObjPlayer::get_class_state_field(s32 arg1) {
     saddr arg0 = (saddr)this; return TObjPlayer::get_current_state_field(((TObjPlayer *)arg0)->get_class_index(), arg1); }
 
-s32 get_ply_level_table_row(s8 cls, s32 lvl) {
+u8 *get_ply_level_table_row(s8 cls, s32 lvl) {
   saddr temp_r30;
   s32 temp_r31;
   temp_r30 = *(*(s32 * *)&ply_level_table);
   ;
-  return (*((s32 *) (((s8 *) temp_r30) + (TObjPlayer__sub_801AFDBC(cls) * 4)))) + (TObjPlayer::clamp_index_to_max(lvl) * 0xC);
+  return *(u8 **)((s8 *)temp_r30 + TObjPlayer__sub_801AFDBC(cls) * 4) + TObjPlayer::clamp_index_to_max(lvl) * 0xC;
 }
 
 void TObjPlayer__sub_801D92A4(void) { TLobby::free_nodes_with_id(ply_level_table); }

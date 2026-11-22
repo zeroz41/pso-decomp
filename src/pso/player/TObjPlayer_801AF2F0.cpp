@@ -1590,7 +1590,7 @@ void refill_trap_counts(saddr arg0, s32 arg1, s32 arg2);
 void update_player_appear_fade(u8 *arg0);
 void save_render_material_state(u8 *arg0);
 void reinit_photon_blast_gauge(u16 *arg0);
-s32 get_ply_level_table_row(s8 arg0, s32 arg1);
+u8 *get_ply_level_table_row(s8 arg0, s32 arg1);
 s32 player_auxiliary_surfaces_enabled();
 void text_builder_reset(void);
 s32 validate_6x0E_clear_negative_status_effects(G_ClientIDHeader *packet);
@@ -3874,7 +3874,7 @@ s32 TObjPlayer::apply_exp_level_growth() {
     s32 i;
     s32 lvl;
     s32 cls;
-    saddr e;
+    u8 *e;
     cls = ((TObjPlayer *)this)->get_class_index();
     lvl = this->clamp_nested_index() + 1;
     for (i = 0; i < TObjPlayer::get_max_level(); i++) {
@@ -3882,7 +3882,7 @@ s32 TObjPlayer::apply_exp_level_growth() {
             break;
         }
         e = get_ply_level_table_row(cls, lvl);
-        if (e == 0) {
+        if (e == NULL) {
             break;
         }
         if (get_level_row_exp_threshold() > ((Obj_801B6CE0 *)this)->stats->exp) {
@@ -4009,13 +4009,13 @@ void TObjPlayer::copy_stats(void *arg1) {
 void apply_class_level_growth(s8 cls, s32 level, stats *st) {
     s32 n;
     s32 i;
-    saddr row;
+    u8 *row;
     const player_stats *caps;
 
     n = TObjPlayer::clamp_index_to_max(level);
     ((TObjPlayer *)st)->copy_stats(get_class_base_stats(cls));
     row = get_ply_level_table_row(cls, 0);
-    if (row != 0) {
+    if (row != NULL) {
         caps = get_class_stat_caps(cls);
         for (i = 0; i < n; i++) {
             row += 0xC;
@@ -4057,8 +4057,8 @@ void TObjPlayer::apply_battle_level_reset(s32 level) {
     ((player_stats *)m_2b0)->stats.dfp = base->dfp;
     ((player_stats *)m_2b0)->stats.ata = base->ata;
     ((player_stats *)m_2b0)->stats.lck = base->lck;
-    saddr row = get_ply_level_table_row(cls, 0);
-    if (row != 0) {
+    u8 *row = get_ply_level_table_row(cls, 0);
+    if (row != NULL) {
         const player_stats *caps = get_class_stat_caps(cls);
         for (i = 0; i < level; i++) {
             row += 0xC;
