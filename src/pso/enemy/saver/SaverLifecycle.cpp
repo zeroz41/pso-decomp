@@ -106,6 +106,7 @@ void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
 void move_with_wall_slide(u8 *arg0);
 extern "C" {
 s32 TObjPlayer__sub_800A04F0(void *);
+struct VDisp_800a42c4_800A4288 { char pad[0x18]; virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); virtual void m4(void *, void *); };
 
 void TObjPlayer__sub_800A42C0(void);
 s32 post_translate_matrix(void *);
@@ -172,6 +173,7 @@ void TObjPlayer__sub_800A42C0(void) {  }
 void TObjEneSaver::apply_lookup_entry_effect() {
     struct { s32 a, b, c; s32 d, e, f, g, h; } sp8;
     s32 entry;
+    u8 *temp_r3_2;
 
     entry = (saddr)lbl_805D5064->lookup((f32)this->frame);
     if (entry != 0) {
@@ -181,8 +183,9 @@ void TObjEneSaver::apply_lookup_entry_effect() {
         rotate_matrix_y(0, this->rotation_y);
         matrix_mult_vec_array(0, entry, &sp8, 2);
         pop_matrix();
-        if (attack_traces[0] != NULL) {
-            attack_traces[0]->vfunc_6(&sp8, &sp8.d);
+        temp_r3_2 = (u8 *)attack_traces[0];
+        if (temp_r3_2 != NULL) {
+            ((struct VDisp_800a42c4_800A4288 *) temp_r3_2)->m4(&sp8, &sp8.d);
         }
     }
 }
@@ -453,6 +456,16 @@ struct Obj_800A5A68 {
     s16 mode;
 };
 
+struct VBase18_800A4D9C { char pad[0x18]; };
+
+struct VObj18_800A4D9C : VBase18_800A4D9C {
+    virtual void m0();
+    virtual void m1();
+    virtual void m2();
+    virtual void m3();
+    virtual void m4(void *, void *);
+};
+
 struct VBase_18_217cff { char pad[0x18]; };
 
 struct VObj_18_217cff : VBase_18_217cff {
@@ -691,8 +704,8 @@ void TObjEneSaver::sub_800A4D9C() {
                 rotate_matrix_y(0, F(s32, 0x60));
                 matrix_mult_vec_array(0, e, m44, 2);
                 pop_matrix();
-                if (attack_traces[1] != NULL) {
-                    attack_traces[1]->vfunc_6(m44, m50);
+                if (F(VObj18_800A4D9C *, 0x3C4) != NULL) {
+                    F(VObj18_800A4D9C *, 0x3C4)->m4(m44, m50);
                 }
             }
         }

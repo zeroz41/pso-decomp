@@ -1846,7 +1846,7 @@ void TObjEneMe1Gee::render() {
 void TObjEneMe1Gee::run_demo_task() { if (this->get_target_info() != 0) { this->sub_800CC0C4(); } }
 
 #pragma push
-// pool_data off: vfunc_115 reaches each debug string with its own lis/addi.
+// pool_data off: render_demo reaches each debug string with its own lis/addi.
 #pragma pool_data off
 void TObjEneMe1Gee::render_demo() {
     s32 temp_r3;
@@ -1925,7 +1925,7 @@ void TUnk_8049387C::select_next_attack_state() {
 }
 
 // dead-stripped: only its literals survive. 10.0f (.sdata2 0x805DA0B8) is pooled after spawn_members'
-// 0.0f and before vfunc_115's 400.0f, ahead of its first live user sub_800C9DF8 (deferred codegen
+// 0.0f and before render_demo's 400.0f, ahead of its first live user sub_800C9DF8 (deferred codegen
 // runs this file bottom-up). Minimal body after sub_800C9DF8's frame-10 hit check; name inferred.
 static s32 is_hit_frame(TUnk_8049387C *gee) {
     return gee->is_passing_frame(10.0f);
