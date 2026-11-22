@@ -17,6 +17,9 @@ public:
     void update_player_hp_ratios();
     void update_when_camera_active();
     void reset_state();
+    // Whether the chime may run: the local player is up (outside split screen, in a quest)
+    // and the floor is not Pioneer 2, the lobby or a battle stage.
+    static s32 should_update();
     static TObjWarnChime* create(TObject* parent);
 };
 #include <stddef.h>

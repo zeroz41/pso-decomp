@@ -6,6 +6,9 @@
 
 struct Vec;
 
+extern s16 TCameraCtrl__viewport_x;
+extern s16 TCameraCtrl__viewport_y;
+
 struct TCameraCtrl : public TObject {
     virtual ~TCameraCtrl();
     void setup_default_view(void *);
@@ -121,7 +124,6 @@ struct TCameraCtrl : public TObject {
     static void set_active_camera_flag();
     static s32 get_screen_width();
     static s32 get_screen_height();
-    static s32 should_update();
     void copy_position_vectors(void *arg1, void *arg2);
     void update_single_screen();
     static int get_mode();
