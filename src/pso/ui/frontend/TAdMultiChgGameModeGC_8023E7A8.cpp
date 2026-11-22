@@ -82,7 +82,6 @@ extern "C" {
 u8 *TAdSinglePlyChrSelectGC__ct(u8 *arg0, void *parent);
 void *construct_title_scene__13TUnk_804EEF64Fv(void *, TObject *);
 void *__ct__12TLevelSelectFv(void *);
-void *__ct__21TAdMultiChgGameModeGCFv(void *, TObject *);
 void *__ct__21TAdMultiSelGameModeGCFv(void *, TObject *, s32);
 void TCameraCtrl__ct(void *, void *);
 s32 is_area_transfer_pending(void);
@@ -375,11 +374,7 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
         game_mode_scene_instance = new TAdMultiConfirmGC(tl_01);
         break;
     case 11:
-        p = TObject::operator new(0x30);
-        if (p != NULL) {
-            p = __ct__21TAdMultiChgGameModeGCFv(p, tl_01);
-        }
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = new TAdMultiChgGameModeGC(tl_01);
         break;
     case 12:
         p = TObject::operator new(0x44);

@@ -9,6 +9,7 @@ class TAdSelectCurGC;
 
 class TAdMultiChgGameModeGC : public TObject {
 public:
+    TAdMultiChgGameModeGC(TObject *parent);
     virtual ~TAdMultiChgGameModeGC();
     virtual void run_task();
     virtual void render();
@@ -79,6 +80,8 @@ public:
     TAdGuideTxtGC *guide_text;
     TAdSelectCurGC *select_cursor;
 };
+
+LAYOUT_ASSERT(TAdMultiChgGameModeGC_size, sizeof(TAdMultiChgGameModeGC) == 0x30);
 
 extern "C" {
 void fn_802FFC78(void);

@@ -27,23 +27,8 @@ struct Pos_802FFE58 { f32 v[6]; };
 
 struct Cur_802FFE58 { f32 v[2]; };
 
-struct Obj_802FFE58 {
-    const char *f0;
-    u8 pad4[0x14];
-    void *vt;
-    s32 f1C;
-    s32 f20;
-    s32 f24;
-    void *f28;
-    void *f2C;
-};
-
 extern "C" {
 s32 lbl_805D69E8;
-void __ct__7TObjectFP7TObject(void *);
-
-extern void *__vt__21TAdMultiChgGameModeGC[];
-Obj_802FFE58 *__ct__21TAdMultiChgGameModeGCFv(Obj_802FFE58 *self);
 }
 s32 is_multiplayer_character_slot_selected(s32 arg0);
 extern "C" {
@@ -102,42 +87,34 @@ void TAdMultiChgGameModeGC::run_task() {
     prev_selection = selection;
 }
 TAdMultiChgGameModeGC::~TAdMultiChgGameModeGC() {}
-Obj_802FFE58 *__ct__21TAdMultiChgGameModeGCFv(Obj_802FFE58 *self) {
-    void *p;
-    __ct__7TObjectFP7TObject(self);
-    self->vt = __vt__21TAdMultiChgGameModeGC;
-    self->f0 = TAdMultiChgGameModeGC__name;
-    self->f1C = 0;
-    self->f20 = 2;
-    self->f24 = -1;
-    self->f28 = 0;
-    self->f2C = 0;
-    new TAdBackGC((TObject *)self);
-    new TAdBackTxtGC((TObject *)self);
-    new TAdRayGC((TObject *)self);
-    new TAdTitleGC((TObject *)self, 0xF);
+TAdMultiChgGameModeGC::TAdMultiChgGameModeGC(TObject *parent) : TObject(parent) {
+    m_name = TAdMultiChgGameModeGC__name;
+    pad_1C = 0;
+    selection = 2;
+    prev_selection = -1;
+    guide_text = 0;
+    select_cursor = 0;
+    new TAdBackGC(this);
+    new TAdBackTxtGC(this);
+    new TAdRayGC(this);
+    new TAdTitleGC(this, 0xF);
     {
         Txt_802FFE58 txt = multi_chg_game_mode_text_layout;
-        new TAdSelectTxtGC((TObject *)self, &txt.v[0], 0xC);
-        new TAdSelectTxtGC((TObject *)self, &txt.v[1], 0xD);
-        new TAdSelectTxtGC((TObject *)self, &txt.v[2], 0xE);
-        new TAdTitleTexGC((TObject *)self);
+        new TAdSelectTxtGC(this, &txt.v[0], 0xC);
+        new TAdSelectTxtGC(this, &txt.v[1], 0xD);
+        new TAdSelectTxtGC(this, &txt.v[2], 0xE);
+        new TAdTitleTexGC(this);
         {
             Cur_802FFE58 cur = lbl_80474E1C[0];
             Pos_802FFE58 pos = multi_chg_game_mode_position_table;
-            p = new TAdSelectCurGC(reinterpret_cast<TObject *>(self),
-                reinterpret_cast<const NJS_POINT2 *>(&pos),
-                reinterpret_cast<const NJS_POINT2 *>(&cur));
-            self->f2C = p;
-            ((TAdSelectCurGC *)(self->f2C))->append_entry(&pos.v[0]);
-            ((TAdSelectCurGC *)(self->f2C))->append_entry(&pos.v[2]);
-            ((TAdSelectCurGC *)(self->f2C))->append_entry(&pos.v[4]);
+            select_cursor = new TAdSelectCurGC(this, reinterpret_cast<const NJS_POINT2 *>(&pos), reinterpret_cast<const NJS_POINT2 *>(&cur));
+            select_cursor->append_entry(&pos.v[0]);
+            select_cursor->append_entry(&pos.v[2]);
+            select_cursor->append_entry(&pos.v[4]);
         }
     }
-    ((TAdSelectCurGC *)(self->f2C))->set_selection_index(self->f20);
-    p = new TAdGuideTxtGC(reinterpret_cast<TObject *>(self));
-    self->f28 = p;
-    create_draw_line_ctrl((TObject *)self, 0xF, 0.0f);
-    return self;
+    select_cursor->set_selection_index(selection);
+    guide_text = new TAdGuideTxtGC(this);
+    create_draw_line_ctrl(this, 0xF, 0.0f);
 }
 }
