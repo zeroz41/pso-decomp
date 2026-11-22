@@ -8111,7 +8111,6 @@ force_active:
   - lbl_804E15C4
   - lbl_804E15F8
   - lbl_804E1600
-  - lbl_804E2B90
   - lbl_804E3A38
   - lbl_804E3B60
   - lbl_804E4AA4
@@ -17283,7 +17282,7 @@ force_active:
   - update_state_machine__18TObjEneRe4SorcererFPv
   - update_state_or_dispatch_tick__13TBoss5GryphonFv
   - update_state_resta_cast__16TObjEneMe3StelthFl
-  - update_state_serial__22TAdMultiPlyChrSelectGCFPv
+  - update_state_serial__22TAdMultiPlyChrSelectGCFv
   - update_state_spin__16TBoss3VoloptCoreFv
   - update_status_display__12TAdDialingGCFv
   - update_status_message__12TAdDialingGCFv
