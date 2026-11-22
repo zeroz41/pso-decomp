@@ -66,7 +66,7 @@ struct TObjEneMe1Gee : public TObjEneDD_ST {
     virtual void run_demo_task();
     virtual void render_demo();
     virtual int can_member_attack_target(TObjChara *target);
-    virtual void remove_member(uaddr);
+    virtual void remove_member(TObjEneMe1Gee *member);
     virtual void refresh_target();
     virtual void run_death_reaction();
     virtual void run_hit_reaction();
@@ -128,7 +128,6 @@ struct TObjEneMe1Gee : public TObjEneDD_ST {
     u8 unk_48e[0x2];
     static void load_resources();
     static void cache_result_805D6660();
-    static void queue_debug_text(s32 arg0, char *arg1);
     static void advance_camera_ctrl_step(NJS_OBJECT *);
     void state_move_forward(s32 msg);
     void state_motion_test(s32 msg);
@@ -149,7 +148,7 @@ struct TObjEneMe1Gee : public TObjEneDD_ST {
     static TObjEneMe1Gee *create(TObjEneMe1Gee *leader, Vec *pos, u16 id, s32 index);
     static void *create(void *set_data);
     void order_attack();
-    void order_activation(TObjChara *target, s32 arg2);
+    void order_activation(TObjChara *target, s32 delay);
     void update();
     void state_vanish(s32 mode);
     // Entered by run_hit_reaction; back to next_mode once the damage motion ends.

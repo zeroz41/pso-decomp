@@ -1216,7 +1216,7 @@ force_active:
   - state_dead__23TObjEneMe1CanadinLeaderFl
   - apply_model_color__23TObjEneMe1CanadinLeaderFv
   - can_member_attack_target__23TObjEneMe1CanadinLeaderFP9TObjChara
-  - remove_member__23TObjEneMe1CanadinLeaderFUl
+  - remove_member__23TObjEneMe1CanadinLeaderFP17TObjEneMe1Canadin
   - TObjEneMe1Canadin__render_point_cursor
   - state_return_home__17TObjEneMe1CanadinFl
   - state_vanish__17TObjEneMe1CanadinFl
@@ -17423,7 +17423,7 @@ force_active:
   - state_dead__13TUnk_8049387CFl
   - apply_model_color__13TUnk_8049387CFv
   - can_member_attack_target__13TUnk_8049387CFP9TObjChara
-  - remove_member__13TUnk_8049387CFUl
+  - remove_member__13TUnk_8049387CFP13TObjEneMe1Gee
   - vfunc_11__12TQuestListVMFv
   - vfunc_11__17TQuestListOfflineFv
   - vfunc_12__8TObjChipFv

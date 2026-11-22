@@ -70,7 +70,8 @@ s32 TObjEneMe1Gee__render_node_index;
 Vec *gee_camera_ctrl_step_ptr;
 TUnk_8048FA00 * TObjEneMe1Gee__data_805D51C0;
 TUnk_8048FA00 * TObjEneMe1Gee__data_805D51C4;
-s32 gee_resource_bundle_ptr;
+// The colour word of model node 4's first material chunk (polygon_list + 2); apply_model_color writes core_color_packed.
+s32 *gee_node4_diffuse;
 GeeMovementParameters me1_gee_init_params = {225.0f, 0.0f, 0x600};
 
 CollisionBody lbl_8049379C = {
@@ -134,7 +135,6 @@ extern s32 lbl_8043BCFC[];
 void TObjEneMe1Gee::load_resources() {
     s32 i;
     TUnk_8048FA00 *p;
-    s32 t;
     Vec *v;
     v = (Vec *)gee_camera_ctrl_vec;
     gee_camera_ctrl_vec[0] = 0.0f;
@@ -158,8 +158,7 @@ void TObjEneMe1Gee::load_resources() {
     TObjEneMe1Gee__data_805D51C0 = p;
     p = new TUnk_8048FA00((saddr)TObjEneMe1Gee__resource_bundle->models->model);
     TObjEneMe1Gee__data_805D51C4 = p;
-    t = ((s32 *)((NJS_OBJECT *)find_model_node((saddr)TObjEneMe1Gee__resource_bundle->models->model, 4))->model)[1];
-    gee_resource_bundle_ptr = t + 4;
+    gee_node4_diffuse = (s32 *)(((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node((saddr)TObjEneMe1Gee__resource_bundle->models->model, 4))->model)->polygon_list + 2);
     TObjPlayer__sub_800F0928();
     {
         NpcAnimationBinding sp8 = { NULL, reinterpret_cast<TObjMotionAction *>(TObjEneMe1Gee__motion_parameters), 0, 0, 4 };
@@ -293,14 +292,16 @@ TObjEneMe1Gee::~TObjEneMe1Gee() {
 }
 
 void TObjEneMe1Gee::run_task() {
-    u8 *object;
     if (TObjPlayer::check_demo_mode() != 0) {
         this->run_demo_task();
         return;
     }
-    if (kind == 1 && ((leader = (TObjEneMe1Gee *)find_entity_by_id(leader_id), object = (u8 *)leader, object == NULL) || ((TObject *)object)->all_parents_unqueued_for_destruction() == 0)) {
-        this->queue_destruction();
-        return;
+    if (kind == 1) {
+        leader = (TObjEneMe1Gee *)find_entity_by_id(leader_id);
+        if (leader == NULL || leader->all_parents_unqueued_for_destruction() == 0) {
+            this->queue_destruction();
+            return;
+        }
     }
     if (this->update_status_effects() != 4) {
         this->update_action_state();
@@ -516,7 +517,7 @@ s32 TObjEneMe1Gee::check_can_attack() {
     in_range = 0;
     if (this->destination_distance < 70.0f) {
         in_range = 1;
-        *(void **)&this->leader = find_entity_by_id(this->leader_id);
+        this->leader = (TObjEneMe1Gee *)find_entity_by_id(this->leader_id);
         if ((this->leader->can_member_attack_target(this->current_target) == 0) && (this->find_attack_target(&dist, 22500.0f) != 0) && (dist > 70.0f)) {
             in_range = 0;
         }
@@ -634,8 +635,8 @@ void TObjEneMe1Gee::update_packed_color() {
 }
 #pragma pop
 void TObjEneMe1Gee::apply_model_color() {
-    if ((s32 *) (*(s32 **)&gee_resource_bundle_ptr) != NULL) {
-        *(*(s32 **)&gee_resource_bundle_ptr) = this->core_color_packed;
+    if (gee_node4_diffuse != NULL) {
+        *gee_node4_diffuse = this->core_color_packed;
     }
 }
 
@@ -681,7 +682,7 @@ TObjChara *TObjEneMe1Gee::sub_800CB584() {
     return NULL;
 }
 
-void TObjEneMe1Gee::remove_member(uaddr) {  }
+void TObjEneMe1Gee::remove_member(TObjEneMe1Gee *) {  }
 
 int TObjEneMe1Gee::can_member_attack_target(TObjChara *) { return 1; }
 
@@ -1597,7 +1598,7 @@ void TObjEneMe1Gee::state_vanish(s32 mode) {
         this->actorFlags |= 0x800;
         if ((s32) this->kind == 1) {
             this->leader = (TObjEneMe1Gee *)find_entity_by_id(this->leader_id);
-            this->leader->remove_member((uaddr)this);
+            this->leader->remove_member(this);
         } else {
             this->send_entity_set_flags();
         }
@@ -1663,7 +1664,7 @@ void TObjEneMe1Gee::state_dead(s32 msg) {
     case 4:
         if ((s32) this->kind == 1) {
             this->leader = (TObjEneMe1Gee *)find_entity_by_id(this->leader_id);
-            this->leader->remove_member((uaddr)this);
+            this->leader->remove_member(this);
         }
         TBoss3Volopt::create_breakup_mdl((saddr)TObjEneMe1Gee__data_805D51C4, 0, this->texlist, (saddr)&this->body_center, this->rotation_y);
         play_sound_effect(this->handle_message(0x3A843), &this->position, 0, 0);
@@ -1825,22 +1826,22 @@ void TObjEneMe1Gee::render_demo() {
     if (this->get_target_info() != 0) {
         if ((s32) this->kind == 0) {
             if (this->status_flags & 0x100) {
-                TObjEneMe1Gee::queue_debug_text((s32)(pack_debug_text_position(0, 2)), "TYPE:IN FIGHTER");
+                queue_debug_text((s32)(pack_debug_text_position(0, 2)), "TYPE:IN FIGHTER");
             } else if (this->status_flags & 0x200) {
-                TObjEneMe1Gee::queue_debug_text((s32)(pack_debug_text_position(0, 2)), "TYPE:OUT FIGHTER");
+                queue_debug_text((s32)(pack_debug_text_position(0, 2)), "TYPE:OUT FIGHTER");
             } else {
-                TObjEneMe1Gee::queue_debug_text((s32)(pack_debug_text_position(0, 2)), "TYPE:UNKOWN");
+                queue_debug_text((s32)(pack_debug_text_position(0, 2)), "TYPE:UNKOWN");
             }
             if (this->status_flags & 0x02000000) {
-                TObjEneMe1Gee::queue_debug_text((s32)(pack_debug_text_position(0, 3)), "TYPE:LOW APPEAR");
+                queue_debug_text((s32)(pack_debug_text_position(0, 3)), "TYPE:LOW APPEAR");
             } else if (this->status_flags & 0x04000000) {
-                TObjEneMe1Gee::queue_debug_text((s32)(pack_debug_text_position(0, 3)), "TYPE:HIGH APPEAR");
+                queue_debug_text((s32)(pack_debug_text_position(0, 3)), "TYPE:HIGH APPEAR");
             } else {
-                TObjEneMe1Gee::queue_debug_text((s32)(pack_debug_text_position(0, 3)), "TYPE:UNKOWN");
+                queue_debug_text((s32)(pack_debug_text_position(0, 3)), "TYPE:UNKOWN");
             }
         }
-        TObjEneMe1Gee::queue_debug_text((s32)(pack_debug_text_position(0, 4)), "APPEAR SPEED(+1.f Min:0.01f)");
-        TObjEneMe1Gee::queue_debug_text((s32)(pack_debug_text_position(0, 5)), "NEEDLE SPEED(+6.f Min:1.f)");
+        queue_debug_text((s32)(pack_debug_text_position(0, 4)), "APPEAR SPEED(+1.f Min:0.01f)");
+        queue_debug_text((s32)(pack_debug_text_position(0, 5)), "NEEDLE SPEED(+6.f Min:1.f)");
     }
     if (this->update_object_view_visibility(400.0f, 15.0f) != 0) {
         this->draw_ground_shadow(0, 0);
@@ -1950,15 +1951,15 @@ s32 TUnk_8049387C::check_retreat_trigger() {
     return 0;
 }
 
-void TUnk_8049387C::remove_member(uaddr arg1) {
+void TUnk_8049387C::remove_member(TObjEneMe1Gee *member) {
     s32 i;
     TObjEneMe1Gee *tmp;
 
     for (i = 0; i < this->member_count; i++) {
-        if (this->members[i] == (TObjEneMe1Gee *)arg1) {
+        if (this->members[i] == member) {
             this->member_count--;
             tmp = this->members[this->member_count];
-            this->members[this->member_count] = (TObjEneMe1Gee *)arg1;
+            this->members[this->member_count] = member;
             this->members[i] = tmp;
             break;
         }

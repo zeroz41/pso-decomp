@@ -53,21 +53,21 @@ void TObjNpcEnemy::set_global_count(s32 arg0) {
     debug_text_global_count = arg0;
 }
 
-void TObjEneMe1Gee::queue_debug_text(s32 arg0, char *arg1) {
+void queue_debug_text(s32 position, const char *text) {
     s16 len;
     s16 x;
     f32 scale;
     DebugTextRecord *r;
-    strlen(arg1);
-    x = (s16) ((s16) (arg0 >> 16) * (scale = debug_text_scale));
-    len = strlen(arg1);
+    strlen(text);
+    x = (s16) ((s16) (position >> 16) * (scale = debug_text_scale));
+    len = strlen(text);
     r = debug_text_record_cursor++;
     r->x = x;
-    r->y = (s16) ((s16) (arg0 & 0xFFFF) * scale);
+    r->y = (s16) ((s16) (position & 0xFFFF) * scale);
     r->size = debug_text_scale;
     r->color = debug_text_global_count;
     r->text = debug_text_pool_cursor;
-    strncpy(debug_text_pool_cursor, arg1, len);
+    strncpy(debug_text_pool_cursor, text, len);
     debug_text_pool_cursor[len] = 0;
     debug_text_pool_cursor += len + 1;
 }
@@ -129,7 +129,7 @@ void debug_printf_at(s32 arg0, const char *fmt, ...) {
     char buf[128];
     va_start(ap, fmt);
     vsprintf(buf, fmt, ap);
-    TObjEneMe1Gee::queue_debug_text(arg0, buf);
+    queue_debug_text(arg0, buf);
 }
 
 #pragma push

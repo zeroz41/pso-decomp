@@ -1744,10 +1744,10 @@ void TObjEneMe3Stelth::draw_with_debug_info() {
         } else {
             debug_printf_at(pack_debug_text_position(0xF, 2), stelth_debug_appear_roof);
         }
-        TObjEneMe1Gee::queue_debug_text(pack_debug_text_position(0, 4), (char *)stelth_debug_tecniq_attack);
-        TObjEneMe1Gee::queue_debug_text(pack_debug_text_position(0, 3), (char *)stelth_debug_stelth_on);
-        TObjEneMe1Gee::queue_debug_text(pack_debug_text_position(0, 6), (char *)stelth_debug_stelth_off);
-        TObjEneMe1Gee::queue_debug_text(pack_debug_text_position(0, 5), (char *)stelth_debug_warp);
+        queue_debug_text(pack_debug_text_position(0, 4), (char *)stelth_debug_tecniq_attack);
+        queue_debug_text(pack_debug_text_position(0, 3), (char *)stelth_debug_stelth_on);
+        queue_debug_text(pack_debug_text_position(0, 6), (char *)stelth_debug_stelth_off);
+        queue_debug_text(pack_debug_text_position(0, 5), (char *)stelth_debug_warp);
         if (sub_800F47D4() != 0) {
             debug_printf_at(pack_debug_text_position(0, 9), stelth_debug_tex_spigell);
         } else {

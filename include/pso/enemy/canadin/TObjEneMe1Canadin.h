@@ -54,7 +54,7 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
     virtual void run_demo_task();
     virtual void render_demo();
     virtual int can_member_attack_target(TObjChara *);
-    virtual void remove_member(uaddr);
+    virtual void remove_member(TObjEneMe1Canadin *member);
     void run_death_reaction();
     void run_hit_reaction();
     void run_miss_reaction();
@@ -153,7 +153,7 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
     void set_flag3c8_bit20();
     void set_flag3c8_bit8();
     void start_formation();
-    void order_activation(TObjChara *target, s32 index);
+    void order_activation(TObjChara *target, s32 delay);
     void update_fade_sequence();
 };
 

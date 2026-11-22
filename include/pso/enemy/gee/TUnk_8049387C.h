@@ -8,7 +8,7 @@ public:
     virtual ~TUnk_8049387C();
     void run_task();
     virtual void spawn_members();
-    virtual void remove_member(uaddr);
+    virtual void remove_member(TObjEneMe1Gee *member);
     virtual void select_model();
     virtual void select_next_attack_state();
     virtual s32 check_retreat_trigger();

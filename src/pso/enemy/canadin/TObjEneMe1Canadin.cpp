@@ -85,10 +85,12 @@ struct CanadinBehaviorParams {
 
 TUnk_8048FA00 *lbl_805D4FDC;
 TUnk_8048FA00 *lbl_805D4FE0;
-s32 *lbl_805D4FE4;
-s32 *lbl_805D4FE8;
-s32 *lbl_805D4FEC;
-s32 *lbl_805D4FF0;
+// Colour words of the first material chunk (polygon_list + 2) of nodes 3 and 2 of the leader and member models;
+// apply_model_color writes core_color_packed into them.
+s32 *canadin_leader_node3_diffuse;
+s32 *canadin_leader_node2_diffuse;
+s32 *canadin_node3_diffuse;
+s32 *canadin_node2_diffuse;
 
 TObjEneMe1CanadinMovement canadin_setup_param_block = { 225.0f, 0.0f, 0x600, 0, 0, 0, 0 };
 CollisionBody lbl_8048FECC = { { 0.0f, 0.0f, 0.0f }, 8.0f, 0.0f, 0, 0x8003 };
@@ -178,11 +180,11 @@ void TObjEneMe1Canadin::load_resources() {
     p = new TUnk_8048FA00((saddr)bm_ene_me1_mb_resource->models[0].model);
     lbl_805D4FE0 = (TUnk_8048FA00 *)p;
     model = (saddr)bm_ene_me1_mb_resource->models[1].model;
-    lbl_805D4FE4 = (s32 *)(((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(model, 3))->model)->polygon_list + 2);
-    lbl_805D4FE8 = (s32 *)(((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(model, 2))->model)->polygon_list + 2);
+    canadin_leader_node3_diffuse = (s32 *)(((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(model, 3))->model)->polygon_list + 2);
+    canadin_leader_node2_diffuse = (s32 *)(((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(model, 2))->model)->polygon_list + 2);
     model2 = (saddr)bm_ene_me1_mb_resource->models[0].model;
-    lbl_805D4FEC = (s32 *)(((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(model2, 3))->model)->polygon_list + 2);
-    lbl_805D4FF0 = (s32 *)(((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(model2, 2))->model)->polygon_list + 2);
+    canadin_node3_diffuse = (s32 *)(((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(model2, 3))->model)->polygon_list + 2);
+    canadin_node2_diffuse = (s32 *)(((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(model2, 2))->model)->polygon_list + 2);
     TObjPlayer__sub_800F0928();
     s16 ids[2] = { 0x17, 0x18 };
     NpcAnimationBinding params = { reinterpret_cast<BmlMotionEntry *>(bm_ene_me1_mb_resource->motions), reinterpret_cast<TObjMotionAction *>(lbl_8048FF30), 0, 0, 7 };
@@ -641,8 +643,8 @@ void TObjEneMe1Canadin::pack_color_rgba() {
 }
 
 void TObjEneMe1Canadin::apply_model_color() {
-    *lbl_805D4FEC = core_color_packed;
-    *lbl_805D4FF0 = core_color_packed;
+    *canadin_node3_diffuse = core_color_packed;
+    *canadin_node2_diffuse = core_color_packed;
 }
 
 int TObjEneMe1Canadin::has_no_members() { return 1; }
@@ -673,7 +675,7 @@ TObjChara *TObjEneMe1Canadin::fn_8009E300() {
     return NULL;
 }
 
-void TObjEneMe1Canadin::remove_member(uaddr) {  }
+void TObjEneMe1Canadin::remove_member(TObjEneMe1Canadin *) {  }
 
 int TObjEneMe1Canadin::can_member_attack_target(TObjChara *) { return 1; }
 
@@ -683,9 +685,9 @@ void TObjEneMe1Canadin::order_activation_now() {
     status_flags |= 1;
 }
 
-void TObjEneMe1Canadin::order_activation(TObjChara *target, s32 index) {
+void TObjEneMe1Canadin::order_activation(TObjChara *target, s32 delay) {
     set_target_player(target);
-    attack_delay = index;
+    attack_delay = delay;
     status_flags |= 1;
 }
 
@@ -1620,7 +1622,7 @@ void TObjEneMe1Canadin::state_vanish(s32 msg) {
         this->actorFlags |= 0x800;
         if (this->kind == 1) {
             this->leader = (TObjEneMe1Canadin *)find_entity_by_id(this->leader_id);
-            this->leader->remove_member((uaddr)this);
+            this->leader->remove_member(this);
         } else {
             this->send_entity_set_flags();
         }
@@ -1690,7 +1692,7 @@ void TObjEneMe1Canadin::state_dead(s32 msg) {
     case 4:
         if (kind == 1) {
             leader = (TObjEneMe1Canadin *)find_entity_by_id(leader_id);
-            leader->remove_member((uaddr)this);
+            leader->remove_member(this);
         }
         TBoss3Volopt::create_breakup_mdl((saddr)lbl_805D4FE0, 0, (s32)(texlist), (saddr)&body_center, (s32)(rotation_y));
         status_flags |= 0x400000;
@@ -1698,7 +1700,7 @@ void TObjEneMe1Canadin::state_dead(s32 msg) {
         pos.y -= 5.0f;
         trigger_dell_biter_events(&pos);
         refresh_and_send_entity_flags();
-        ((s32 (*)(int, void *, int, int))play_sound_effect)(0x4003AA1E, &body_center, 0, 0);
+        play_sound_effect(0x4003AA1E, &body_center, 0, 0);
         return;
     case 0:
         queue_destruction();
@@ -1755,7 +1757,6 @@ void TObjEneMe1Canadin::state_move_forward(s32 msg) {
 
 void fn_8009BD00(NJS_OBJECT *) {
     Vec *pos;
-    Vec *temp_r5_2;
     switch (TObjEneMe1Canadin__render_node_index) {
     case 2:
     case 3:
@@ -1865,11 +1866,11 @@ void TObjEneMe1Canadin::run_demo_task() { if (get_target_info() != 0) { this->ap
 void TObjEneMe1Canadin::render_demo() {
     if (((s32)get_target_info() != 0) && (kind == 0)) {
         if (status_flags & 0x100) {
-            TObjEneMe1Gee::queue_debug_text((s32)(pack_debug_text_position(0, 0)), "TYPE:IN FIGHTER");
+            queue_debug_text((s32)(pack_debug_text_position(0, 0)), "TYPE:IN FIGHTER");
         } else if (status_flags & 0x200) {
-            TObjEneMe1Gee::queue_debug_text((s32)(pack_debug_text_position(0, 0)), "TYPE:OUT FIGHTER");
+            queue_debug_text((s32)(pack_debug_text_position(0, 0)), "TYPE:OUT FIGHTER");
         } else {
-            TObjEneMe1Gee::queue_debug_text((s32)(pack_debug_text_position(0, 0)), "TYPE:UNKOWN");
+            queue_debug_text((s32)(pack_debug_text_position(0, 0)), "TYPE:UNKOWN");
         }
     }
     if (update_object_view_visibility(400.0f, 15.0f) != 0) {
@@ -1993,8 +1994,7 @@ s32 TObjEneMe1CanadinLeader::check_retreat_trigger() {
     return 0;
 }
 
-void TObjEneMe1CanadinLeader::remove_member(uaddr id) {
-    TObjEneMe1Canadin *member = (TObjEneMe1Canadin *)id;
+void TObjEneMe1CanadinLeader::remove_member(TObjEneMe1Canadin *member) {
     s32 i;
     for (i = 0; i < member_count; i++) {
         if (members[i] == member) {
@@ -2035,8 +2035,8 @@ int TObjEneMe1CanadinLeader::can_member_attack_target(TObjChara *) {
 }
 
 void TObjEneMe1CanadinLeader::apply_model_color() {
-    *lbl_805D4FE4 = core_color_packed;
-    *lbl_805D4FE8 = core_color_packed;
+    *canadin_leader_node3_diffuse = core_color_packed;
+    *canadin_leader_node2_diffuse = core_color_packed;
 }
 
 int TObjEneMe1CanadinLeader::has_no_members() {

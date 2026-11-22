@@ -19,7 +19,7 @@ struct TObjEneMe1CanadinLeader : public TObjEneMe1Canadin {
     virtual void state_dead(s32);
     virtual void apply_model_color();
     virtual int can_member_attack_target(TObjChara *);
-    virtual void remove_member(uaddr);
+    virtual void remove_member(TObjEneMe1Canadin *member);
     s32 member_total;
     s32 member_count;
     TObjEneMe1Canadin *members[8];

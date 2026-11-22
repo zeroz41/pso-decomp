@@ -1809,10 +1809,10 @@ void TObjEneMe3SinowZoa::render_demo() {
         } else {
             debug_printf_at(pack_debug_text_position(0xF, 2), sinow_zoa_debug_appear_roof);
         }
-        TObjEneMe1Gee::queue_debug_text(pack_debug_text_position(0, 4), (char *)sinow_zoa_debug_tecniq_attack);
-        TObjEneMe1Gee::queue_debug_text(pack_debug_text_position(0, 3), (char *)sinow_zoa_debug_stelth_on);
-        TObjEneMe1Gee::queue_debug_text(pack_debug_text_position(0, 6), (char *)sinow_zoa_debug_stelth_off);
-        TObjEneMe1Gee::queue_debug_text(pack_debug_text_position(0, 5), (char *)sinow_zoa_debug_warp);
+        queue_debug_text(pack_debug_text_position(0, 4), (char *)sinow_zoa_debug_tecniq_attack);
+        queue_debug_text(pack_debug_text_position(0, 3), (char *)sinow_zoa_debug_stelth_on);
+        queue_debug_text(pack_debug_text_position(0, 6), (char *)sinow_zoa_debug_stelth_off);
+        queue_debug_text(pack_debug_text_position(0, 5), (char *)sinow_zoa_debug_warp);
         if (sub_8031A454() != 0) {
             debug_printf_at(pack_debug_text_position(0, 9), sinow_zoa_debug_tex_spigell);
         } else {
