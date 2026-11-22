@@ -6,6 +6,7 @@
 #include "pso/camera/CameraHelpers.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/camera/TCameraCtrl_800687BC.h"
+#include "pso/camera/TCameraFollow.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/network/client_id.h"
 #include "pso/player/PlayerSlots.h"
@@ -61,7 +62,7 @@ Vec *TCameraCtrl__sub_8006BAB4(O_8006BAB4 *self, s32 i);
 Vec *TCameraCtrl__sub_8006BAC8(O_8006BAC8 *self, s32 i);
 }
 
-s32 get_camera_override_flags() { return TCameraCtrl__override_flags; }
+s32 get_camera_override_flags() { return camera_override_flags; }
 
 extern "C" {
 Vec *TCameraCtrl__sub_8006BAC8(O_8006BAC8 *self, s32 i) {
@@ -73,8 +74,8 @@ Vec *TCameraCtrl__sub_8006BAB4(O_8006BAB4 *self, s32 i) {
 }
 }
 
-TCameraFixed::TCameraFixed() : TUnk_80488A28() {
-    m_38 = 4;
+TCameraFixed::TCameraFixed() : TCameraController() {
+    flags = 4;
     fixed_npc_camera_active = 0;
 }
 
@@ -84,7 +85,7 @@ TCameraFixed::~TCameraFixed() {
 
 void TCameraFixed::run_task() {}
 
-void TCameraFixed::vfunc_6() {
+void TCameraFixed::apply_camera_params(s32) {
     void *params;
 
     if (camera_ctrl_instance != NULL) {
@@ -96,11 +97,11 @@ void TCameraFixed::vfunc_6() {
         position.y = *(f32 *)((s8 *)params + 0x20);
         position.z = *(f32 *)((s8 *)params + 0x24);
         projection_angle = (s32)(182.04445f * (f32) * (s32 *)((s8 *)params + 0x14));
-        m_58 = *(f32 *)((s8 *)params + 0x10);
+        eye_rate = *(f32 *)((s8 *)params + 0x10);
     }
 }
 
-TUnk_80488A28 *TCameraFixed::create() {
+TCameraController *TCameraFixed::create() {
     return new TCameraFixed();
 }
 

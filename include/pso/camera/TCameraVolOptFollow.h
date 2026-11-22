@@ -1,16 +1,16 @@
 #ifndef PSO_CAMERA_TCAMERAVOLOPTFOLLOW_H
 #define PSO_CAMERA_TCAMERAVOLOPTFOLLOW_H
 #include "types.h"
-#include "pso/unk/TUnk_80488E00.h"
+#include "pso/camera/TCameraFollow.h"
 
 // Camera mode 12, the Vol Opt fight: while Vol Opt has a camera focus the camera
 // stands behind the followed player, looking past it at the focus. Within 100
 // units of the focus it locks the target and eye offsets from the player instead.
-class TCameraVolOptFollow : public TUnk_80488E00 {
+class TCameraVolOptFollow : public TCameraFollow {
 public:
     TCameraVolOptFollow();
     virtual ~TCameraVolOptFollow();
-    static TUnk_80488A28 *create();
+    static TCameraController *create();
     virtual void run_task();
     virtual void update_follow_flags();
     void update_target_follow();

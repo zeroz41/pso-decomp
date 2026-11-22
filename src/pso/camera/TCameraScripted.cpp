@@ -16,7 +16,7 @@
 s32 saved_projection_angle;
 s32 scripted_camera_projection_angle;
 
-TUnk_80488A28 *TCameraScripted::create() {
+TCameraController *TCameraScripted::create() {
     return new TCameraScripted();
 }
 
@@ -95,7 +95,7 @@ void TCameraScripted::run_task() {
 TCameraScripted::~TCameraScripted() {}
 
 TCameraScripted::TCameraScripted() {
-    m_38 = 0;
+    flags = 0;
     scripted_camera_projection_angle = 0;
     saved_projection_angle = 0;
     playback.index = 0;

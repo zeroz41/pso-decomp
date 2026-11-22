@@ -18,10 +18,10 @@ const Vec camera_ctrl_default_offset_vecs[2] = {
     {0.0f, 30.0f, 40.0f},
 };
 
-void TUnk_80488A28::set_target(uaddr object) {
-    actor = object;
+void TCameraController::set_target(uaddr object) {
+    actor = (TObjPlayer *)object;
     if (object != 0U) {
-        m_20 = get_entity_id((TObjBase *)object);
+        actor_id = get_entity_id((TObjBase *)object);
     }
 }
 
@@ -82,44 +82,44 @@ void TCameraVolOptFollow::update_target_follow() {
 
 void TCameraVolOptFollow::update_follow_flags() {
     Vec to_target;
-    m_38 = 0x15;
-    m_58 = 1.65f;
+    flags = 0x15;
+    eye_rate = 1.65f;
     to_target.x = camera_ctrl_instance->tgt_x - target.x;
     to_target.y = camera_ctrl_instance->tgt_y - target.y;
     to_target.z = camera_ctrl_instance->tgt_z - target.z;
-    *(f32 *)unk_5C = (0.7f * vector_length(&to_target)) / 100.0f;
+    at_rate = (0.7f * vector_length(&to_target)) / 100.0f;
     if (predict_obstruction() != 0) {
-        m_fc = m_fc | 1;
+        follow_flags = follow_flags | 1;
     } else {
-        m_fc = m_fc & ~1;
+        follow_flags = follow_flags & ~1;
     }
-    m_e8 = 0.0f;
-    m_ec = 19.8f;
-    m_f0 = -5.0f;
+    target_offset.x = 0.0f;
+    target_offset.y = 19.8f;
+    target_offset.z = -5.0f;
     VecCopy(&eye_offset, &camera_ctrl_default_offset_vecs[0]);
 }
 
-TUnk_80488A28 *TCameraVolOptFollow::create() {
+TCameraController *TCameraVolOptFollow::create() {
     return new TCameraVolOptFollow();
 }
 
 void TCameraVolOptFollow::run_task() {
-    m_38 = 0x15;
+    flags = 0x15;
     if (test_previous_buttons_packed(&controller_input_state.controllers[0], 0x10000) != 0) {
-        TUnk_80488E00::run_task();
+        TCameraFollow::run_task();
     } else {
         update_target_follow();
     }
-    m_38 = m_38 | 0x10;
+    flags = flags | 0x10;
 }
 
 TCameraVolOptFollow::~TCameraVolOptFollow() {}
 
 TCameraVolOptFollow::TCameraVolOptFollow() {
-    m_38 = 21;
-    m_58 = 0.65f;
+    flags = 21;
+    eye_rate = 0.65f;
     follow_state = 0;
     pad_110 = 0;
 }
 
-void TUnk_80488E00::vfunc_14(s32 v) { m_10c = v; }
+void TCameraFollow::set_target_yaw(s32 v) { target_yaw = v; }

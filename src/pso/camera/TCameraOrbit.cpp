@@ -9,7 +9,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
 
-TUnk_80488A28 *TCameraOrbit::create() {
+TCameraController *TCameraOrbit::create() {
     return new TCameraOrbit();
 }
 
@@ -37,11 +37,11 @@ void TCameraOrbit::update_orbit_camera() {
             distance = new_distance;
         }
         yaw += stick_x * 3;
-        m_2c += stick_y * 3;
+        pitch += stick_y * 3;
     }
-    radius = distance * cos_table_lookup(m_2c);
+    radius = distance * cos_table_lookup(pitch);
     position.x = radius * sin_table_lookup(yaw) + target.x;
-    position.y = target.y - distance * sin_table_lookup(m_2c);
+    position.y = target.y - distance * sin_table_lookup(pitch);
     position.z = radius * cos_table_lookup(yaw) + target.z;
 }
 #pragma pop
@@ -79,8 +79,8 @@ void TCameraOrbit::target_player0() {
 
 void TCameraOrbit::reset_state() {
     distance = 25.0f;
-    m_2c = 0;
-    m_34 = 0;
+    pitch = 0;
+    roll = 0;
     target_player0();
     reset_behind_player();
 }
@@ -93,12 +93,12 @@ void TCameraOrbit::run_task() {
 TCameraOrbit::~TCameraOrbit() {}
 
 TCameraOrbit::TCameraOrbit() {
-    m_38 = 0;
+    flags = 0;
     controller = &controller_input_state.controllers[0];
     reset_state();
 }
 
-void TUnk_80488A28::set_target_pos(Vec *pos) {
+void TCameraController::set_target_pos(Vec *pos) {
     target.x = pos->x;
     target.y = pos->y;
     target.z = pos->z;

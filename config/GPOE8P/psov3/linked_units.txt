@@ -645,13 +645,13 @@ pso/effect/TBGLightningCtrl.cpp
 pso/effect/TBreakUpMdl.cpp
 pso/object/ambient/TButterfly.cpp
 pso/camera/TCameraCtrl.cpp
-pso/camera/TCameraCtrl_80067654.cpp
-pso/camera/TCameraCtrl_80067FC0.cpp
+pso/camera/TCameraVolOpt.cpp
+pso/camera/TCameraController.cpp
 pso/camera/TCameraConversation.cpp
 pso/camera/CameraHelpers.cpp
 pso/camera/TCameraScripted.cpp
 pso/camera/TCameraWatchPlayer.cpp
-pso/camera/TCameraCtrl_8006CC30.cpp
+pso/camera/TCameraFollow.cpp
 pso/camera/TCameraCtrl_800766C4.cpp
 pso/camera/TCameraCtrl_801A2FE0.cpp
 pso/camera/TCameraCtrl_801A3C24.cpp

@@ -30,11 +30,11 @@ CameraBankList camera_path_bank_table[36] = {
 
 extern TCameraCtrl *camera_ctrl_instance;
 
-TUnk_80488A28 *TCameraWatchPlayer::create() {
+TCameraController *TCameraWatchPlayer::create() {
     return new TCameraWatchPlayer();
 }
 
-void TCameraWatchPlayer::vfunc_6() {
+void TCameraWatchPlayer::apply_camera_params(s32) {
     void *params;
     TObjPlayer *player;
 
@@ -48,7 +48,7 @@ void TCameraWatchPlayer::vfunc_6() {
             position.x = *(f32 *)((s8 *)params + 0x1C);
             position.y = *(f32 *)((s8 *)params + 0x20);
             position.z = *(f32 *)((s8 *)params + 0x24);
-            m_58 = *(f32 *)((s8 *)params + 0x10);
+            eye_rate = *(f32 *)((s8 *)params + 0x10);
         }
     }
 }
@@ -56,7 +56,7 @@ void TCameraWatchPlayer::vfunc_6() {
 TCameraWatchPlayer::~TCameraWatchPlayer() {}
 
 TCameraWatchPlayer::TCameraWatchPlayer() {
-    m_38 = 4;
+    flags = 4;
 }
 
 void TCameraWatchPlayer::run_task() {}

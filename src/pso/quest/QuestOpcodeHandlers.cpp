@@ -102,7 +102,7 @@ int qst_label_address(int label);
 #include "pso/player/TPlyItem.h"
 #include "pso/item/TItemList.h"
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
-#include "pso/camera/TCameraCtrl_8006CC30.h"
+#include "pso/camera/TCameraFollow.h"
 u8 *qst_code;
 s32 *qst_function_table;
 s32 *qst_registers;

@@ -13,7 +13,7 @@
 #pragma dont_inline off
 static const Vec default_target_position = {0.0f, 0.0f, 0.0f};
 
-TUnk_80488A28 *TCameraDebugView::create() {
+TCameraController *TCameraDebugView::create() {
     return new TCameraDebugView();
 }
 
@@ -52,17 +52,17 @@ void TCameraDebugView::run_task() {
     }
     if (test_previous_buttons_packed(pad, 0x400) != 0) {
         yaw += stick_x * 3;
-        m_2c += stick_y * 3;
+        pitch += stick_y * 3;
     }
-    if (m_2c > 0x3800) {
-        m_2c = 0x3800;
+    if (pitch > 0x3800) {
+        pitch = 0x3800;
     }
-    if (m_2c < -0x3800) {
-        m_2c = -0x3800;
+    if (pitch < -0x3800) {
+        pitch = -0x3800;
     }
-    radius = distance * cos_table_lookup(m_2c);
+    radius = distance * cos_table_lookup(pitch);
     position.x = radius * sin_table_lookup(yaw) + target.x;
-    position.y = -(distance * sin_table_lookup(m_2c) - target.y);
+    position.y = -(distance * sin_table_lookup(pitch) - target.y);
     position.z = radius * cos_table_lookup(yaw) + target.z;
 }
 #pragma pop
@@ -71,7 +71,7 @@ TCameraDebugView::~TCameraDebugView() {}
 
 TCameraDebugView::TCameraDebugView() {
     distance = 20.0f;
-    m_38 = 0;
+    flags = 0;
 }
 
 struct O_8006CC7C { u8 pad[0x1c]; Vec pos; };

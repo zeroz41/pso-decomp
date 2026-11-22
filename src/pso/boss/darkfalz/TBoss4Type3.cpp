@@ -81,7 +81,7 @@ struct Type3MotionView { s32 kind, next, motions[3]; };
 #include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
 #include "pso/player/TObjPlayer_803E1A58.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/camera/TCameraCtrl_8006CC30.h"
+#include "pso/camera/TCameraFollow.h"
 #include "pso/enemy/sorcerer/TObjEneRe4Sorcerer_801E3F14.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/network/client_id.h"

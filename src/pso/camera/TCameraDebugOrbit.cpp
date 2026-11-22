@@ -3,7 +3,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/system/ControllerInputState.h"
 
-TUnk_80488A28 *TCameraDebugOrbit::create() {
+TCameraController *TCameraDebugOrbit::create() {
     return new TCameraDebugOrbit();
 }
 
@@ -27,10 +27,10 @@ void TCameraDebugOrbit::run_task() {
         distance = 300.0f;
     }
     yaw += stick_x * 3;
-    m_2c += stick_y * 3;
-    radius = distance * cos_table_lookup(m_2c);
+    pitch += stick_y * 3;
+    radius = distance * cos_table_lookup(pitch);
     position.x = radius * sin_table_lookup(yaw) + target.x;
-    position.y = target.y - distance * sin_table_lookup(m_2c);
+    position.y = target.y - distance * sin_table_lookup(pitch);
     position.z = radius * cos_table_lookup(yaw) + target.z;
 }
 #pragma pop
@@ -39,5 +39,5 @@ TCameraDebugOrbit::~TCameraDebugOrbit() {}
 
 TCameraDebugOrbit::TCameraDebugOrbit() {
     distance = 10.0f;
-    m_38 = 0;
+    flags = 0;
 }

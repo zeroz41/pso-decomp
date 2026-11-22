@@ -34,7 +34,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/camera/TCameraCtrl_8006CC30.h"
+#include "pso/camera/TCameraFollow.h"
 #include "pso/network/client_id.h"
 #include "pso/unk/text_803E2F28.h"
 #include "pso/object/ambient/TObjLight_80133568.h"

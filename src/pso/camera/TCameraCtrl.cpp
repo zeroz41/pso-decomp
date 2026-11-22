@@ -8,7 +8,7 @@
 #include "pso/camera/TCameraWatchPlayer.h"
 #include "pso/system/vector.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/unk/TUnk_80488A28.h"
+#include "pso/camera/TCameraController.h"
 #include "pso/camera/CameraViewParams.h"
 #include "pso/system/PadRumble.h"
 #include "pso/camera/TCameraCtrl_8006A03C.h"
@@ -71,7 +71,8 @@ struct Out_80069F20 {
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/camera/TCameraCtrl_80067654.h"
+#include "pso/camera/TCameraVolOpt.h"
+#include "pso/camera/TCameraFollow.h"
 #include "pso/camera/TCameraVolOptFollow.h"
 #include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/map/CsnQuery.h"
@@ -318,7 +319,6 @@ struct Master_8006A410
 extern "C" {
 
 
-void apply_camera_controller_pose(saddr controller);
 s32 resolve_anchor_obstruction__11TCameraCtrlFv(void *, saddr);
 s32 clamp_to_target_obstruction__11TCameraCtrlFv(void *, saddr);
 void reset__11TCameraCtrlFv(void);
@@ -429,7 +429,6 @@ void render__11TCameraCtrlFv(void *arg0);
 int set_fixed_position_and_target__11TCameraCtrlFPUcPUc(void*);
 
 
-void *TCameraCtrl__vt0(void);
 
 
 
@@ -444,9 +443,9 @@ void *camera_controller_registry[13] = {
     (void *)0x0,
 };
 void *lbl_80488A8C[13] = {
-    (void *)&TCameraCtrl__vt0, (void *)&TCameraCtrl__vt0, (void *)&TCameraCtrl__vt0, (void *)&TCameraCtrl__vt0,
+    (void *)&TCameraFollow::create, (void *)&TCameraFollow::create, (void *)&TCameraFollow::create, (void *)&TCameraFollow::create,
     (void *)&TCameraDebugOrbit::create, (void *)&TCameraScripted::create, (void *)&TCameraDebugView::create, (void *)&TCameraOrbit::create,
-    (void *)&CreationCamera::create, (void *)&TCameraFixed::create, (void *)&TCameraWatchPlayer::create, (void *)&TCameraCtrl__vt11,
+    (void *)&CreationCamera::create, (void *)&TCameraFixed::create, (void *)&TCameraWatchPlayer::create, (void *)&TCameraVolOpt::create,
     (void *)&TCameraVolOptFollow::create,
 };
 }
@@ -792,7 +791,7 @@ void TCameraCtrl::update_active_controller() {
     {
       PSO_VCALL_VObj_18_9639c7_m4(controller, 1);
     }
-    apply_camera_controller_pose((saddr) controller);
+    apply_camera_controller_pose((TCameraController *) (saddr) controller);
     new_var = (s32 *) ((s8 *)&TCameraCtrl__view_state + 8);
     var_r27 = 0;
     if (is_split_screen() != 0)
@@ -956,7 +955,7 @@ void reset_cameras_to_actor(void *actor, s32 arg1) {
     {
       *((void **) (((s8 *) camera_ctrl_instance) + 0x90)) = actor;
     }
-    ((TUnk_80488A28 *)c)->set_target((uaddr)actor);
+    ((TCameraController *)c)->set_target((uaddr)actor);
     c->m6(actor);
     if (is_split_screen() != 0)
     {
@@ -978,7 +977,7 @@ void reset_cameras_to_actor(void *actor, s32 arg1) {
   c = ((Ctrl_8006A410 **) (&camera_controller_registry))[view];
   if (c != 0)
   {
-    ((TUnk_80488A28 *)c)->set_target((uaddr)actor);
+    ((TCameraController *)c)->set_target((uaddr)actor);
     c->m6(actor);
   }
   if (camera_ctrl_instance != 0)
@@ -1868,6 +1867,6 @@ void TCameraCtrl__sub_800687C8(void) {
 }
 void*TCameraCtrl::get_target_ptr() { return (char*)this + 0x44; }
 
-void TUnk_80488A28::run_task() {  }
+void TCameraController::run_task() {  }
 }
 

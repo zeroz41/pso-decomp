@@ -717,7 +717,7 @@ pso/object/collision/TObjCollision.cpp:
 	.sdata      start:0x805D2830 end:0x805D2838
 	.sdata2     start:0x805D8F20 end:0x805D8F28
 
-pso/camera/TCameraCtrl_80067654.cpp:
+pso/camera/TCameraVolOpt.cpp:
 	.text       start:0x80067654 end:0x8006782C
 	.data       start:0x804887C8 end:0x804887F8
 	.sdata2     start:0x805D8F28 end:0x805D8F38
@@ -733,7 +733,7 @@ pso/camera/TCameraOrbit.cpp:
 	.data       start:0x80488838 end:0x80488868
 	.sdata2     start:0x805D8F68 end:0x805D8F80
 
-pso/camera/TCameraCtrl_80067FC0.cpp:
+pso/camera/TCameraController.cpp:
 	.text       start:0x8006809C end:0x800687BC
 	.rodata     start:0x80438168 end:0x80438180
 	.data       start:0x80488868 end:0x80488A58
@@ -785,7 +785,7 @@ pso/camera/TCameraDebugView.cpp:
 	.data       start:0x80488DA0 end:0x80488DD0
 	.sdata2     start:0x805D9040 end:0x805D904C
 
-pso/camera/TCameraCtrl_8006CC30.cpp:
+pso/camera/TCameraFollow.cpp:
 	.text       start:0x8006CCEC end:0x8006E82C
 	.rodata     start:0x80438528 end:0x80438548
 	.data       start:0x80488DD0 end:0x80488E40

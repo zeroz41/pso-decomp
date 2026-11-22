@@ -1,7 +1,7 @@
 #ifndef PSO_CAMERA_TCAMERASCRIPTED_H
 #define PSO_CAMERA_TCAMERASCRIPTED_H
 #include "types.h"
-#include "pso/unk/TUnk_80488A28.h"
+#include "pso/camera/TCameraController.h"
 #include "pso/camera/CameraAngles.h"
 #include "pso/camera/CameraPlayback.h"
 #include <dolphin/mtx.h>
@@ -60,11 +60,11 @@ struct CameraMotionSample {
 
 // Camera mode 5: plays a motion of a loaded camera bank (boss intros and
 // deaths), started through CameraPlayback::cache_target_and_forward.
-class TCameraScripted : public TUnk_80488A28 {
+class TCameraScripted : public TCameraController {
 public:
     TCameraScripted();
     virtual ~TCameraScripted();
-    static TUnk_80488A28 *create();
+    static TCameraController *create();
     virtual void post_update_view();
     virtual void run_task();
     Vec position_origin;
