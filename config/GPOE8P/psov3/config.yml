@@ -1315,15 +1315,15 @@ force_active:
   - beast_idle_update__16TObjEneMerillLiaFv
   - TObjEneMorfosArm__name
   - __ct__13TObjEneMorfosFP7TObjectPv
-  - TObjEneMorfos__sub_80332DBC
-  - TObjEneMorfos__sub_80332FD4
-  - TObjEneMorfos__sub_80333690
-  - TObjEneMorfos__sub_80333AD0
-  - TObjEneMorfos__sub_80333E48
-  - TObjEneMorfos__sub_80334030
-  - TObjEneMorfos__sub_803342B8
-  - TObjEneMorfos__sub_803344F0
-  - TObjEneMorfos__sub_80334704
+  - sub_80332DBC__13TObjEneMorfosFl
+  - sub_80332FD4__13TObjEneMorfosFl
+  - sub_80333690__13TObjEneMorfosFl
+  - sub_80333AD0__13TObjEneMorfosFl
+  - sub_80333E48__13TObjEneMorfosFl
+  - sub_80334030__13TObjEneMorfosFl
+  - sub_803342B8__13TObjEneMorfosFl
+  - sub_803344F0__13TObjEneMorfosFv
+  - sub_80334704__13TObjEneMorfosFv
   - receive_physical_attack__13TObjEneMorfosFPvf
   - dispatch_action__13TObjEneMorfosFUll
   - __ct__22TObjEnePanarmsAtkColliFP7TObjectPvPvPv
