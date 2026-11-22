@@ -52,7 +52,7 @@ public:
     void distribute_part_damage();
     void destroy_sub_objects();
     void spawn_sub_objects();
-    void fn_80044680();
+    void update_ring_attack();
     void apply_hit_reaction(f32 delay);
     static void copy_phase2_positions_to_global(const VoloptPhase2Message *message);
     static void send_random_params();
@@ -74,9 +74,9 @@ public:
     void update_death_sequence();
     void update_fade_state();
     void update_pillar_heal_state();
-    void fn_80046260();
+    void update_back_attack();
     void check_and_notify();
-    void fn_800465B0();
+    void update_front_attack();
     void update_attack();
     void update_idle();
     void update_state();

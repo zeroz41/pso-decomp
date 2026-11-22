@@ -148,7 +148,6 @@ void handle_6x16_vol_opt_boss_actions(TBoss3VoloptTargetsPacket *packet);
 void handle_6x15_vol_opt_boss_actions(TBoss3VoloptActionPacket *packet);
 void clear_volopt_cage_flag();
 
-extern "C" TBoss3VoloptCore *fn_8003F468(TBoss3Volopt *parent, u16 id, s32 group);
 
 extern u16 volopt_cage_id;
 extern s32 volopt_cage_group;

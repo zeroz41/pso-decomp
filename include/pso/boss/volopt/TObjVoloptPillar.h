@@ -19,7 +19,7 @@ public:
 
     TObjVoloptPillar(Vec *pos, TObject *owner);
     virtual ~TObjVoloptPillar();
-    void sub_80049FD8();
+    void spawn_debris_chips();
     virtual void run_task();
     virtual void render();
 

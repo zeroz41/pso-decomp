@@ -20,7 +20,8 @@ public:
     void update_breakup();
     void update_collision_state();
     void update_capture();
-    void sub_80049000();
+    void update_rise();
+    void damage_caged_player();
 
     void update_state();
     static void destroy();
@@ -47,8 +48,6 @@ struct VoloptCageParams {
 extern VoloptCageParams *volopt_cage_params;
 
 extern "C" {
-void fn_80048C04(TObjVoloptCage *cage);
-
 void obj_set_flag_20000(TObjBase *actor);
 void obj_clear_flag30_20000(TObjBase *actor);
 }

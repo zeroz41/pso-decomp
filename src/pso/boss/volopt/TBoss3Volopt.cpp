@@ -232,7 +232,7 @@ static Vec boss3_volopt_seq4_camera_position;
 static Vec boss3_volopt_seq4_camera_target;
 TObjPlayer *TBoss3Volopt::candidate_players[5];
 
-TBoss3VoloptCore *fn_8003F468(TBoss3Volopt *parent, u16 id, s32 group) {
+TBoss3VoloptCore *TBoss3VoloptCore::create(TBoss3Volopt *parent, u16 id, s32 group) {
     return new TBoss3VoloptCore(parent, id, group);
 }
 
@@ -1194,7 +1194,7 @@ void TBoss3Volopt::spawn_parts() {
             new TBoss3VoloptMonitor(this, boss3_volopt_monitor_base_actor_id + j, get_part_group(j + 7), j, timer);
         }
         volopt_core_id = get_part_id(0x22);
-        fn_8003F468(this, volopt_core_id, get_part_group(0x22));
+        TBoss3VoloptCore::create(this, volopt_core_id, get_part_group(0x22));
         volopt_hiraisin_id = get_part_id(0x21);
         if (is_v2_mode() == 0) {
             new TBoss3VoloptHiraisin(this, volopt_hiraisin_id, get_part_group(0x21));

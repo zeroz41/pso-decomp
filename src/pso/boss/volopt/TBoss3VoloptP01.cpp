@@ -202,7 +202,7 @@ void TBoss3VoloptP01::run_task() {
     s32 angle;
 
     if (TObjPlayer::check_demo_mode() == 1) {
-        sub_80043CA8();
+        run_demo_task();
         return;
     }
     if (has_flag_0x800() != 0) {
@@ -246,7 +246,7 @@ void TBoss3VoloptP01::dispatch_state() {
     }
 }
 
-void TBoss3VoloptP01::sub_80043CA8() {}
+void TBoss3VoloptP01::run_demo_task() {}
 
 void TBoss3VoloptP01::render() {
     u32 flags;

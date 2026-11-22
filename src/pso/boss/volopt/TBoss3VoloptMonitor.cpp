@@ -135,9 +135,9 @@ static void *volopt_monitor_screen_meshes[4];
 s8 volopt_target_slot_used[VOLOPT_MONITOR_SLOTS];
 Vec volopt_slot_positions[VOLOPT_MONITOR_SLOTS];
 
-s32 fn_80042960(s32 i);
-s32 fn_80042960(s32 i) {
-    return volopt_monitor_stat_table->hp[i];
+s32 get_monitor_hp(s32 index);
+s32 get_monitor_hp(s32 index) {
+    return volopt_monitor_stat_table->hp[index];
 }
 
 void TBoss3VoloptMonitor::set_model(s32 index) {
@@ -192,7 +192,7 @@ TBoss3VoloptMonitor::~TBoss3VoloptMonitor() {
 
 void TBoss3VoloptMonitor::init_params() {
     movementParameters = &volopt_monitor_movement;
-    volopt_monitor_stats->hp = fn_80042960(slot % 4 ? 1 : 0);
+    volopt_monitor_stats->hp = get_monitor_hp(slot % 4 ? 1 : 0);
     recalc_combat_stats(volopt_monitor_stats, volopt_monitor_stats_b, volopt_monitor_object_params, 1.0f, 1.0f);
     hp = hpmax;
     tp = tpmax;
@@ -239,7 +239,7 @@ void TBoss3VoloptMonitor::run_task() {
     s32 in_zone;
     s32 base;
     if (TObjPlayer::check_demo_mode() == 1) {
-        sub_800420D8();
+        run_demo_task();
         return;
     }
     if (has_flag_0x800() != 0) {
@@ -314,7 +314,7 @@ void TBoss3VoloptMonitor::dispatch_state() {
     }
 }
 
-void TBoss3VoloptMonitor::sub_800420D8() {}
+void TBoss3VoloptMonitor::run_demo_task() {}
 
 void TBoss3VoloptMonitor::render() {
     s32 frame;

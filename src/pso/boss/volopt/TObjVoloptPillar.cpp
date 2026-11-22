@@ -33,7 +33,7 @@ const DirectAttackPayload volopt_pillar_attack = {0, 0.0f};
 const Vec volopt_pillar_push = {0.0f, 0.0f, 0.0f};
 
 // Throws three debris chips from the pillar's position.
-void TObjVoloptPillar::sub_80049FD8() {
+void TObjVoloptPillar::spawn_debris_chips() {
     const TObjChipParams params = {
         {0.5f, 0.03f, 0.25f},
         {this->position.x, this->position.y, this->position.z},
@@ -102,7 +102,7 @@ void TObjVoloptPillar::run_task() {
         state = 1;
     case 1:
         if (--timer <= 0) {
-            sub_80049FD8();
+            spawn_debris_chips();
             state = 2;
         }
         break;

@@ -407,11 +407,11 @@ void TBoss3VoloptP02::run_state() {
     case 2: update_attack(); return;
     case 4: update_state(); return;
     case 5: update_death_sequence(); return;
-    case 9: fn_800465B0(); return;
-    case 10: fn_80046260(); return;
+    case 9: update_front_attack(); return;
+    case 10: update_back_attack(); return;
     case 11: update_pillar_heal_state(); return;
     case 7: update_fade_state(); return;
-    case 12: fn_80044680(); return;
+    case 12: update_ring_attack(); return;
     case 3: return;
     case 6: return;
     case 8: return;
@@ -685,7 +685,7 @@ void TBoss3VoloptP02::update_attack() {
 
 #pragma push
 #pragma fp_contract on
-void TBoss3VoloptP02::fn_800465B0() {
+void TBoss3VoloptP02::update_front_attack() {
     s32 duration;
     s32 i;
 
@@ -807,7 +807,7 @@ void TBoss3VoloptP02::fn_800465B0() {
             }
             cage = (TObjEnemy *)find_entity_by_id(volopt_cage_id);
             if (cage != NULL) {
-                fn_80048C04((TObjVoloptCage *)cage);
+                ((TObjVoloptCage *)cage)->damage_caged_player();
                 timer = 30;
                 state = 7;
                 render_anim_model_at_pos();
@@ -850,13 +850,13 @@ void TBoss3VoloptP02::fn_800465B0() {
 void TBoss3VoloptP02::check_and_notify() {
     TObjVoloptCage *cage = (TObjVoloptCage *)find_entity_by_id(volopt_cage_id);
     if (cage != NULL) {
-        fn_80048C04(cage);
+        cage->damage_caged_player();
     }
 }
 
 #pragma push
 #pragma opt_loop_invariants off
-void TBoss3VoloptP02::fn_80046260() {
+void TBoss3VoloptP02::update_back_attack() {
     s32 n;
     s32 i;
 
@@ -1546,7 +1546,7 @@ void TBoss3VoloptP02::apply_hit_reaction(f32 delay) {
 
 #pragma push
 #pragma fp_contract on
-void TBoss3VoloptP02::fn_80044680() {
+void TBoss3VoloptP02::update_ring_attack() {
     Vec pos;
     Vec out;
     s32 i;

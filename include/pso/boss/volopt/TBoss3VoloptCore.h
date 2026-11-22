@@ -6,6 +6,7 @@
 #include <dolphin/mtx.h>
 
 struct BmlResource;
+class TBoss3Volopt;
 
 struct TBoss3VoloptCoreMovement {
     f32 target_range;
@@ -16,7 +17,7 @@ struct TBoss3VoloptCoreMovement {
 
 class TBoss3VoloptCore : public TObjEnemyCustom {
 public:
-    TBoss3VoloptCore(TObject *parent, u16 id, s32 param);
+    TBoss3VoloptCore(TBoss3Volopt *parent, u16 id, s32 param);
     TBoss3VoloptCore(TObject *parent, void *set_data);
     virtual ~TBoss3VoloptCore();
     virtual void run_task();
@@ -24,6 +25,7 @@ public:
     virtual s32 is_target_in_attack_range();
 
     static void *create(void *set_data);
+    static TBoss3VoloptCore *create(TBoss3Volopt *parent, u16 id, s32 group);
     static void load_resources();
     static void release();
     static void set_grabbed_state(s32 delay);
@@ -32,7 +34,7 @@ public:
     void init_params();
     void load_entry_params_volopt(s32 index);
     void dispatch_reaction_state();
-    void sub_80040558();
+    void run_demo_task();
     s32 calc_hit_zone_index();
     s32 alloc_boss_target_slot();
     void set_boss_target_pos(s32 slot, s32 moves, s32 delay);

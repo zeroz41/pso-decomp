@@ -61,17 +61,17 @@ static TBreakUpMdlPieces *volopt_cage_breakup_model;
 static saddr volopt_cage_model;
 static s32 volopt_cage_textures;
 
-void fn_80048C04(TObjVoloptCage *cage) {
+void TObjVoloptCage::damage_caged_player() {
     DirectAttackPayload attack = {0, 0.0f};
     TObjPlayer *player;
     attack.power = TBoss3VoloptP02::get_int_param(2);
-    player = get_player_by_client_id(cage->targetId);
+    player = get_player_by_client_id(targetId);
     if (player != NULL) {
-        player->receive_direct_attack(cage->m_up, attack, NULL, -1, -1);
+        player->receive_direct_attack(m_up, attack, NULL, -1, -1);
     }
-    cage->status = 15;
-    obj_setFlags30(cage, 0x800);
-    cage->run_death_reaction();
+    status = 15;
+    obj_setFlags30(this, 0x800);
+    run_death_reaction();
 }
 
 void TObjVoloptCage::update_breakup() {
@@ -155,7 +155,7 @@ void TObjVoloptCage::update_capture() {
     }
 }
 
-void TObjVoloptCage::sub_80049000() {
+void TObjVoloptCage::update_rise() {
     switch (state) {
     case 0:
         actorFlags |= 0x40000;
@@ -205,7 +205,7 @@ void TObjVoloptCage::render() {
 void TObjVoloptCage::update_state() {
     switch (mode) {
     case 7:
-        sub_80049000();
+        update_rise();
         return;
     case 1:
         update_capture();

@@ -32,23 +32,6 @@
 #include "pso/render/model_render_state.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 
-// The actors check_target_collision hits, with slot 25 as it is called here:
-// the base declares apply_knockback_from_attacker(u8 *) without the strength.
-struct TBoss3VoloptCoreTarget : public TObjCollidable {
-    virtual s32 add_actor_exp(s32 exp);
-    virtual s32 consume_timer_field(s32 frames);
-    virtual s32 get_actor_level_index();
-    virtual u8 *update_actor_ground_y();
-    virtual u8 *update_actor_ground_y_at(Vec *pos);
-    virtual s32 is_actor_cadence_frame(s32 frame);
-    virtual s32 select_melee_contact_body(TObject *attacker, f32 range);
-    virtual int calc_distance_accuracy_penalty(void *, void *, void *, f32);
-    virtual f32 receive_physical_attack(TObject *attacker, f32 scale);
-    virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
-    virtual f32 receive_weapon_special_attack(void *, void *);
-    virtual void apply_knockback_from_attacker(TObject *attacker, f32 strength);
-};
-
 struct TBoss3VoloptOrbitSpeeds {
     u8 pad_0[0x18];
     s32 speeds[1];
@@ -123,12 +106,12 @@ TBoss3VoloptCore::TBoss3VoloptCore(TObject *parent, void *set_data) : TObjEnemyC
     init_params();
 }
 
-TBoss3VoloptCore::TBoss3VoloptCore(TObject *parent, u16 id, s32 param) : TObjEnemyCustom(parent) {
+TBoss3VoloptCore::TBoss3VoloptCore(TBoss3Volopt *parent, u16 id, s32 param) : TObjEnemyCustom(parent) {
     entity_id = id;
     this->set_index = param;
     set_entry = 0;
-    *(s16 *)((u8 *)this + 0x28) = *(s16 *)((u8 *)parent + 0x28);
-    this->set_group = *(s16 *)((u8 *)parent + 0x2A);
+    room = parent->room;
+    set_group = parent->set_group;
     init_params();
 }
 
@@ -188,7 +171,7 @@ void TBoss3VoloptCore::release() {}
 void TBoss3VoloptCore::run_task() {
     vol_opt_active_hit_zone = calc_hit_zone_index();
     if (TObjPlayer::check_demo_mode() == 1) {
-        sub_80040558();
+        run_demo_task();
         return;
     }
     VecCopy(&prev_position, &position);
@@ -255,7 +238,7 @@ void TBoss3VoloptCore::dispatch_reaction_state() {
     }
 }
 
-void TBoss3VoloptCore::sub_80040558() {}
+void TBoss3VoloptCore::run_demo_task() {}
 
 void TBoss3VoloptCore::render() {
     if (!(actorFlags & 0x02000000) && update_object_view_visibility(400.0f, 40.0f) != 0) {
@@ -415,7 +398,7 @@ void TBoss3VoloptCore::run_freeze_state() {
 s32 TBoss3VoloptCore::check_target_collision() {
     s32 found;
     s32 i;
-    TBoss3VoloptCoreTarget *object;
+    TObjChara *object;
     if (target == NULL) {
         return 0;
     }
@@ -424,13 +407,13 @@ s32 TBoss3VoloptCore::check_target_collision() {
     this->check_object_collisions();
     if (bodies->flags & 0x80000) {
         for (i = 0; i < 0x10; i++) {
-            object = (TBoss3VoloptCoreTarget *)TObjPlayer::get_battle_param(i);
+            object = (TObjChara *)TObjPlayer::get_battle_param(i);
             if (object == NULL) {
                 break;
             }
             if (obj_is_hit_receivable((u8 *)object) != 0) {
                 if (object->select_melee_contact_body(this, 1.0f) != 0) {
-                    object->apply_knockback_from_attacker(this, 3.0f);
+                    object->apply_knockback_from_attacker((u8 *)this, 3.0f);
                     object->receive_physical_attack(this, 1.0f);
                 }
                 if ((u8 *)object == target) {

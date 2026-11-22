@@ -101,7 +101,7 @@ struct TBoss3VoloptP01 : public TObjEnemyCustom {
     void update_idle();
     void update_breakup();
     void update_state();
-    void sub_80043CA8();
+    void run_demo_task();
     void dispatch_state();
     static void destroy();
     static void init_breakup_effect();

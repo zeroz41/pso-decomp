@@ -22,7 +22,7 @@ struct TBoss3VoloptMonitor : public TObjEnemyCustom {
     void update_idle();
     void update_destroyed();
     void update_hit();
-    void sub_800420D8();
+    void run_demo_task();
     void dispatch_state();
     static void release();
     static void load_resources();

@@ -6306,13 +6306,13 @@ force_active:
   - flush_pending_effect__13TBoss5GryphonFv
   - fly_nest_vertex_table
   - fn_80010F4C
-  - fn_8003F468
-  - fn_80042960__Fl
-  - fn_80044680__15TBoss3VoloptP02Fv
+  - create__16TBoss3VoloptCoreFP12TBoss3VoloptUsl
+  - get_monitor_hp__Fl
+  - update_ring_attack__15TBoss3VoloptP02Fv
   - break_off_part_c__15TBoss3VoloptP02Fv
   - break_off_part_b__15TBoss3VoloptP02Fv
-  - fn_80046260__15TBoss3VoloptP02Fv
-  - fn_800465B0__15TBoss3VoloptP02Fv
+  - update_back_attack__15TBoss3VoloptP02Fv
+  - update_front_attack__15TBoss3VoloptP02Fv
   - update_attack__15TBoss3VoloptP02Fv
   - update_idle__15TBoss3VoloptP02Fv
   - fn_800499FC
@@ -16136,7 +16136,7 @@ force_active:
   - request_strike__14TBoss2TentacleFv
   - current_texture_index__15TObjBoss2TunnelFv
   - sub_8003F81C__16TBoss3VoloptCoreFv
-  - sub_80040558__16TBoss3VoloptCoreFv
+  - run_demo_task__16TBoss3VoloptCoreFv
   - update_descend__20TBoss3VoloptHiraisinFv
   - update_hover__20TBoss3VoloptHiraisinFv
   - update_hit__20TBoss3VoloptHiraisinFv
@@ -16144,11 +16144,11 @@ force_active:
   - update_idle__19TBoss3VoloptMonitorFv
   - update_destroyed__19TBoss3VoloptMonitorFv
   - update_hit__19TBoss3VoloptMonitorFv
-  - sub_800420D8__19TBoss3VoloptMonitorFv
+  - run_demo_task__19TBoss3VoloptMonitorFv
   - update_idle__15TBoss3VoloptP01Fv
-  - sub_80043CA8__15TBoss3VoloptP01Fv
+  - run_demo_task__15TBoss3VoloptP01Fv
   - get_shared_value__15TBoss3VoloptP01Fl
-  - sub_80049000__14TObjVoloptCageFv
+  - update_rise__14TObjVoloptCageFv
   - reset_child_ids__14TBoss4DarkFalzFv
   - run_state_update__14TBoss4DarkFalzFv
   - run_state_leader_update__14TBoss4DarkFalzFv
