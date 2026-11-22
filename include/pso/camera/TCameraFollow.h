@@ -32,6 +32,9 @@ public:
     // (never in split screen).
     s32 is_manual_camera_held();
     void rotate_heading_by_stick();
+    // The eye turned to heading beside the actor is cut off by collision from the current
+    // eye or from the target.
+    s32 is_side_obstructed(s32 heading);
     void update_follow_motion_state();
     void calc_follow_position();
     void compute_follow_target();
@@ -89,7 +92,6 @@ void request_follow_camera_recenter();
 
 void end_conversation_camera();
 void begin_conversation_camera();
-s32 conversation_camera_obstructed(TCameraFollow *camera, s32 heading);
 // The pad button that turns the follow camera back behind client_id's player; which of
 // the two depends on that player's card flag 2.
 s32 get_camera_reset_button(s32 client_id);

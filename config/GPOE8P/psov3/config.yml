@@ -5329,7 +5329,7 @@ force_active:
   - context_texture_obj
   - controller_default_pad_state
   - controller_device_id_table
-  - conversation_camera_obstructed__FP13TCameraFollowl
+  - is_side_obstructed__13TCameraFollowFl
   - convert_quest_object_rows
   - convert_serial_hex_to_decimal__22TAdEnterSerialAccessGCFPCc
   - copySavedX__12TBoss1DragonFPi

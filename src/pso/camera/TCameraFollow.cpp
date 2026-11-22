@@ -264,7 +264,7 @@ void end_conversation_camera() {
 
 #pragma push
 #pragma opt_common_subs off
-s32 conversation_camera_obstructed(TCameraFollow *camera, s32 heading) {
+s32 TCameraFollow::is_side_obstructed(s32 heading) {
     Vec eye;
     Vec candidate;
     Vec offset;
@@ -274,13 +274,13 @@ s32 conversation_camera_obstructed(TCameraFollow *camera, s32 heading) {
     else
         source = &camera_ctrl_instance->pos;
     VecCopy(&eye, source);
-    VecCopy(&offset, &camera->eye_offset);
+    VecCopy(&offset, &eye_offset);
     offset.z += 7.0f;
     push_matrix_from(identity_matrix);
     rotate_matrix_y(0, heading);
     matrix_mult_vec(0, &offset, &offset);
     pop_matrices(1);
-    VecCopy(&candidate, &camera->actor->position);
+    VecCopy(&candidate, &actor->position);
     candidate.x += offset.x;
     candidate.y += 12.0f + offset.y;
     candidate.z += offset.z;
@@ -296,8 +296,8 @@ s32 conversation_camera_obstructed(TCameraFollow *camera, s32 heading) {
 void begin_conversation_camera() {
     s32 facing;
     s32 diff;
-    s32 heading;
-    s32 side;
+    s32 far_heading;
+    s32 near_heading;
     TCameraFollow *camera;
     TObjPlayer *actor;
     if (TCameraCtrl::view_state.controller == 0) {
@@ -308,18 +308,18 @@ void begin_conversation_camera() {
             facing = actor->rotation_y;
             diff = angle_difference_abs(camera->yaw, facing + 0x6000);
             if (diff > angle_difference_abs(camera->yaw, facing - 0x6000)) {
-                side = facing - 0x6000;
-                heading = facing + 0x6000;
+                near_heading = facing - 0x6000;
+                far_heading = facing + 0x6000;
             } else {
-                side = facing + 0x6000;
-                heading = facing - 0x6000;
+                near_heading = facing + 0x6000;
+                far_heading = facing - 0x6000;
             }
-            if (conversation_camera_obstructed(camera, side) != 0) {
-                if (conversation_camera_obstructed(camera, heading) == 0) {
-                    camera->yaw = heading;
+            if (camera->is_side_obstructed(near_heading) != 0) {
+                if (camera->is_side_obstructed(far_heading) == 0) {
+                    camera->yaw = far_heading;
                 }
             } else {
-                camera->yaw = side;
+                camera->yaw = near_heading;
             }
         }
     }
