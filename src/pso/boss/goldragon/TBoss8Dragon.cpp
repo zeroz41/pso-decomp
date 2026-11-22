@@ -702,18 +702,18 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     VecCopy((Vec *)((u8 *)this + 0x634), &this->position);
     VecCopy((Vec *)((u8 *)this + 0x640), &this->position);
     this->m_64c = 0;
-    this->m_650 = 0;
-    this->m_654 = 1;
-    this->m_65c = 0.0f;
-    this->m_660 = 0.0f;
-    this->m_670 = 0.0f;
+    this->airTurnVelocity = 0;
+    this->airTurnDirection = 1;
+    this->airTurnAcceleration = 0.0f;
+    this->airTurnFinalAcceleration = 0.0f;
+    this->airTurnTime = 0.0f;
     this->sequenceCursor = 0;
     this->hpThreshold = 0;
     cfg = TBoss8Dragon__data_80541DDC[2];
     this->finalHpThreshold = *(f32 *)((s8 *)cfg + 8) * this->hpmax / 100.0f;
     q = *(u8 **)((s8 *)this + 0x2B0);
     *(f32 *)((s8 *)q + 0x10) = 10.0f;
-    sub_802FC850();
+    update_damage_threshold();
     this->tail = new TBoss8DragonEffTail(this, &this->node_positions[15]);
     this->attack_history = new AreaAttackHistory(4);
     this->collider = new TBoss8DragonColli(&this->sub_tasks);
@@ -1036,7 +1036,7 @@ s32 TBoss8Dragon::update_linked_position() {
     return TObjEneDD_ST::update_linked_position(1000.0f);
 }
 
-void TBoss8Dragon::sub_802FC9D8() {
+void TBoss8Dragon::calc_target_vector() {
     f32 temp_f1;
     f32 temp_f2;
     temp_f2 = this->destination.x;
@@ -1082,11 +1082,11 @@ s32 TBoss8Dragon::is_health_low() {
     return boss8_dragon->sequenceCursor < 0x32;
 }
 
-s32 TBoss8Dragon::sub_802FC88C() {
+s32 TBoss8Dragon::is_secondary_sequence() {
     return (u8) (this->sequenceCursor >= 0x32);
 }
 
-void TBoss8Dragon::sub_802FC850() {
+void TBoss8Dragon::update_damage_threshold() {
     s16 step = this->hpmax / 10;
     s16 value = this->hpmax - step;
     step += step;
@@ -1162,7 +1162,7 @@ s32 TBoss8Dragon::sub_802FC674(f32 *out) {
     return 1;
 }
 
-s32 TBoss8Dragon::sub_802FC580(f32 *out) {
+s32 TBoss8Dragon::choose_burrow_ring_destination(f32 *out) {
     s32 ang;
     s32 i;
     s32 n;
@@ -1284,46 +1284,46 @@ void TBoss8Dragon::reset_action() { this->flags = (this->flags & 0xfffffffe); th
 
 void TBoss8Dragon::check_hit_result(s32 arg1, s32 arg2) {
     if (angle_diff_s16(arg1, arg2) >= 0) {
-        this->m_654 = 1;
+        this->airTurnDirection = 1;
         return;
     }
-    this->m_654 = -1;
+    this->airTurnDirection = -1;
 }
 
 #pragma push
 #pragma fp_contract on
-void TBoss8Dragon::sub_802FC060(s32 arg1) {
+void TBoss8Dragon::init_air_turn(s32 targetAngle) {
     f32 height;
     f32 turn;
     f32 half;
     f32 frames = 35.0f;
     f32 k = 25.0f;
 
-    this->m_650 = (s16) this->m_650;
-    height = (f32) this->m_650;
-    turn = (f32) angle_diff_s16(this->rotation_y, arg1);
+    this->airTurnVelocity = (s16) this->airTurnVelocity;
+    height = (f32) this->airTurnVelocity;
+    turn = (f32) angle_diff_s16(this->rotation_y, targetAngle);
     half = 0.5f * height;
-    this->m_660 = -(2.0f * (turn - half * frames)) / 1500.0f;
-    this->m_65c = -(this->m_660 * k + height) / frames;
-    this->m_670 = 0.0f;
-    this->m_664 = height;
-    this->m_668 = -(this->m_660 * k);
-    half = 0.5f * this->m_65c;
-    this->m_66c = frames * (half * frames + height);
-    this->m_658 = this->rotation_y;
+    this->airTurnFinalAcceleration = -(2.0f * (turn - half * frames)) / 1500.0f;
+    this->airTurnAcceleration = -(this->airTurnFinalAcceleration * k + height) / frames;
+    this->airTurnTime = 0.0f;
+    this->airTurnInitialVelocity = height;
+    this->airTurnFinalVelocity = -(this->airTurnFinalAcceleration * k);
+    half = 0.5f * this->airTurnAcceleration;
+    this->airTurnMidpointAngle = frames * (half * frames + height);
+    this->airTurnStartAngle = this->rotation_y;
 }
 
-s32 TBoss8Dragon::sub_802FBFA4() {
+s32 TBoss8Dragon::advance_air_turn() {
     f32 t;
-    this->m_670 += 1.0f;
-    t = this->m_670;
+    this->airTurnTime += 1.0f;
+    t = this->airTurnTime;
     if (t <= 35.0f) {
-        this->rotation_y = this->m_658 + (s32) (t * ((0.5f * this->m_65c * t) + this->m_664));
+        this->rotation_y = this->airTurnStartAngle + (s32) (t * ((0.5f * this->airTurnAcceleration * t) + this->airTurnInitialVelocity));
         return 0;
     }
     if (t <= 60.0f) {
         t = t - 35.0f;
-        this->rotation_y = this->m_658 + (s32) ((t * ((0.5f * this->m_660 * t) + this->m_668)) + this->m_66c);
+        this->rotation_y = this->airTurnStartAngle + (s32) ((t * ((0.5f * this->airTurnFinalAcceleration * t) + this->airTurnFinalVelocity)) + this->airTurnMidpointAngle);
         return 0;
     }
     return 1;
@@ -1896,7 +1896,7 @@ s32 TBoss8Dragon::check_attack_ready() {
     u8 var_r31;
 
     var_r31 = 0;
-    if ((this->mask_flags(this->controller_input->unknown_08, 0x400) != 0) && (sub_802FC88C() != 0)) {
+    if ((this->mask_flags(this->controller_input->unknown_08, 0x400) != 0) && (is_secondary_sequence() != 0)) {
         var_r31 = 1;
     }
     return var_r31;
@@ -2150,7 +2150,7 @@ void TBoss8Dragon::state_breath_attack(s32 event) {
         switch (this->stateStep) {
         case 0:
             this->update_velocity();
-            sub_802FC9D8();
+            calc_target_vector();
             this->rotation_y = approach_angle_limited(this->rotation_y, (RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z)), 0xA0);
             this->rotation_y = (s16)this->rotation_y;
             if (this->get_flag_b4() != 0) {
@@ -2409,10 +2409,10 @@ void TBoss8Dragon::state_turn_and_charge(s32 event) {
         init_acceleration_curve(&this->curve0, (f32)(0.1f), (f32)(-0.1f), (f32)this->destination_distance, (f32)(2.0f + *(f32 *)(TBoss8Dragon__data_80541DDC[0] + 0x14)));
         diff = angle_diff_s16(this->rotation_y, (s32)(RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z)));
         if (diff >= 0) {
-            this->m_654 = 1;
+            this->airTurnDirection = 1;
         } else {
             diff = -diff;
-            this->m_654 = -1;
+            this->airTurnDirection = -1;
         }
         init_acceleration_curve(&this->curve1, (f32)(16.0f), (f32)(-16.0f), (f32)((f32)diff), (f32)(s32)(256.0f * (2.0f + *(f32 *)(TBoss8Dragon__data_80541DDC[0] + 0x14))));
         this->m_85c = this->rotation_y;
@@ -2446,7 +2446,7 @@ void TBoss8Dragon::state_turn_and_charge(s32 event) {
         switch (this->stateStep) {
         case 0:
             this->fallVelocity += 1.0f;
-            this->rotation_y = (s32)((f32)this->m_654 * sample_acceleration_curve(&this->curve1, this->fallVelocity) + (f32)this->m_85c);
+            this->rotation_y = (s32)((f32)this->airTurnDirection * sample_acceleration_curve(&this->curve1, this->fallVelocity) + (f32)this->m_85c);
             if (this->curve1.check_param_threshold(this->fallVelocity) != 0) {
                 this->fallVelocity = 0.0f;
                 this->stateStep = 1;
@@ -2529,11 +2529,11 @@ void TBoss8Dragon::sub_802F8F88(s32 event) {
                 this->flags |= 0x30;
             }
             this->check_hit_result(this->rotation_y, this->m_85c);
-            sub_802FC060(this->m_85c);
+            init_air_turn(this->m_85c);
         case 1:
             this->spawn_effect_if_in_band();
             sub_802FB09C();
-            if (sub_802FBFA4() != 0) {
+            if (advance_air_turn() != 0) {
                 F(s32, 0x650) = 0;
                 this->rotation_y = this->m_85c;
                 this->stateStep = 2;
@@ -2996,7 +2996,7 @@ void TBoss8Dragon::sub_802F8270(s32 event) {
         }
         break;
     case 5:
-        sub_802FC850();
+        update_damage_threshold();
         ((TBoss8Dragon *)(*(saddr *)((s8 *)this + 0x684)))->update_colli_parts();
         break;
     }
@@ -3096,7 +3096,7 @@ void TBoss8Dragon::sub_802F7B70(s32 event) {
         this->m_860 = 0;
         this->m_85c = (s32)(RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z));
         this->destination_distance += 5.0f;
-        sub_802FC060(this->m_85c);
+        init_air_turn(this->m_85c);
         if (this->destination_distance < 50.0f) {
             this->fallVelocity = this->rootHeight = this->destination_distance / 60.0f;
             this->m_86c = 0.0f;
@@ -3128,7 +3128,7 @@ void TBoss8Dragon::sub_802F7B70(s32 event) {
         this->update_velocity();
         break;
     case 6:
-        if (sub_802FC580(&destination.x) == 0) {
+        if (choose_burrow_ring_destination(&destination.x) == 0) {
             this->destination.x = 0.0f;
             this->destination.y = 0.0f;
             this->destination.z = 0.0f;
@@ -3144,8 +3144,8 @@ void TBoss8Dragon::sub_802F7B70(s32 event) {
         case 1:
             this->spawn_effect_if_in_band();
             sub_802FB09C();
-            if (sub_802FBFA4() != 0) {
-                this->m_650 = 0;
+            if (advance_air_turn() != 0) {
+                this->airTurnVelocity = 0;
                 this->rotation_y = this->m_85c;
                 this->stateStep = 2;
                 this->requested_action = 0x16;
@@ -3473,7 +3473,7 @@ void TBoss8Dragon::handle_leap_state(s32 event) {
         }
         break;
     case 6:
-        if (sub_802FC580(&destination.x) == 0) {
+        if (choose_burrow_ring_destination(&destination.x) == 0) {
             this->destination.x = 0.0f;
             this->destination.y = this->position.y;
             this->destination.z = 0.0f;
@@ -4684,7 +4684,7 @@ void TBoss8Dragon::update_movement() {
     this->advance_animation();
     this->play_sound_if_in_band();
     this->update_velocity();
-    sub_802FC9D8();
+    calc_target_vector();
     if (this->is_passing_frame(24.0f) != 0) {
         TBoss8Dragon::check_condition_default(this);
     } else if (this->is_passing_frame(3.0f) != 0) {
