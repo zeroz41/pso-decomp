@@ -8,10 +8,10 @@
 struct PadSlot {
     s32 f0;
     s32 f4;
-    s32 held;
-    s32 notHeld;
-    s32 pressed;
-    s32 released;
+    u32 held;
+    u32 notHeld;
+    u32 pressed;
+    u32 released;
     u16 trigR;
     u16 trigL;
     s16 stickX;
@@ -22,8 +22,11 @@ struct PadSlot {
     s32 *conn;
 };
 
+extern PadSlot keyboard_control_pad_slots[4];
+
 extern "C" {
-u8 *TKeyBoardControl__sub_803DEB74(u32 arg0);
+// Device codes 0, 6, 12 and 18 select slots 0-3; any other code gives slot 0.
+PadSlot *TKeyBoardControl__sub_803DEB74(u32 device);
 }
 void init_light_globals(s32, s32);
 
