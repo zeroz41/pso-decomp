@@ -2171,7 +2171,7 @@ void TObjEneBm5GibonU::update_center_position() {
 }
 
 void TObjEneBm5GibonU::update_body_colliders() {
-    *(f32 *)((s8 *)this->bodies + 4) = 10.0f;
+    this->bodies->offset.y = 10.0f;
 }
 
 void TObjEneBm5GibonU::select_subtype() {

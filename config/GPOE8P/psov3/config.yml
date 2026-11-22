@@ -17616,7 +17616,7 @@ force_active:
   - vfunc_6__11TAdEp3ExistFv
   - vfunc_6__11TTecRaBartaFPv
   - vfunc_6__11TTecRaZondeFPv
-  - vfunc_6__12TNeedleShootFv
+  - on_wall_hit__12TNeedleShootFv
   - vfunc_6__12TODoorCave01FPsl
   - display_shop_message__12TQuestListVMFll
   - vfunc_6__13TAdVIConfigGCFv
@@ -17638,9 +17638,9 @@ force_active:
   - vfunc_6__20TContainerAncient01RFPsl
   - vfunc_6__20TODoorFourLightRuinsFPsl
   - vfunc_6__20TODoorFourLightSpaceFPsl
-  - vfunc_6__20TObjEneMe1Gee_NEEDLEFv
+  - on_wall_hit__20TObjEneMe1Gee_NEEDLEFv
   - vfunc_6__21TObjContainerAbeEnemyFPsl
-  - vfunc_6__22TObjEneMe1GiGueMissileFv
+  - on_wall_hit__22TObjEneMe1GiGueMissileFv
   - vfunc_6__9TTecJelinFPv
   - vfunc_6__9TTecZaruaFPv
   - apply_enemy_state__15TBoss3VoloptP02FPl
@@ -17731,12 +17731,12 @@ force_active:
   - play_group_chase_sound__16TObjEneMerillLiaFv
   - vfunc_9__10TTecRaFoieFv
   - vfunc_9__11TTecRaBartaFv
-  - vfunc_9__12TNeedleShootFPv
+  - on_target_hit__12TNeedleShootFPv
   - vfunc_9__17TAdLicAgreementGCFv
   - on_submenu_closed__17TWindowMainMenu4PFv
   - vfunc_9__20TAdSnAkPassConfirmGCFv
-  - vfunc_9__20TObjEneMe1Gee_NEEDLEFPv
-  - vfunc_9__22TObjEneMe1GiGueMissileFPv
+  - on_target_hit__20TObjEneMe1Gee_NEEDLEFPv
+  - on_target_hit__22TObjEneMe1GiGueMissileFPv
   - voiceRemovePriority
   - voiceResetLastStarted
   - volopt_cage_breakup_params

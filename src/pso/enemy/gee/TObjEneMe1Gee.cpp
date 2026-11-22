@@ -161,9 +161,9 @@ void TObjEneMe1Gee::load_resources() {
     gee_node4_diffuse = (s32 *)(((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node((saddr)TObjEneMe1Gee__resource_bundle->models->model, 4))->model)->polygon_list + 2);
     TObjPlayer__sub_800F0928();
     {
-        NpcAnimationBinding sp8 = { NULL, reinterpret_cast<TObjMotionAction *>(TObjEneMe1Gee__motion_parameters), 0, 0, 4 };
-        sp8.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneMe1Gee__resource_bundle->motions);
-        NpcModelRegistry::register_animated_chunk((s16)0x10, reinterpret_cast<void *>(TObjEneMe1Gee__resource_bundle->models->model), reinterpret_cast<void *>(TObjEneMe1Gee__resource_bundle->models->m_c), &sp8, 8.0f, 15.0f);
+        NpcAnimationBinding params = { NULL, reinterpret_cast<TObjMotionAction *>(TObjEneMe1Gee__motion_parameters), 0, 0, 4 };
+        params.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneMe1Gee__resource_bundle->motions);
+        NpcModelRegistry::register_animated_chunk((s16)0x10, reinterpret_cast<void *>(TObjEneMe1Gee__resource_bundle->models->model), reinterpret_cast<void *>(TObjEneMe1Gee__resource_bundle->models->m_c), &params, 8.0f, 15.0f);
     }
 }
 

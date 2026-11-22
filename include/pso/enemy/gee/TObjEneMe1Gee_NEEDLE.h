@@ -8,9 +8,9 @@ class TObjEneMe1Gee_NEEDLE : public TNeedleShoot {
 public:
     TObjEneMe1Gee_NEEDLE(TObject *owner, Vec *from, Vec *to, f32 speed, f32 power);
     virtual ~TObjEneMe1Gee_NEEDLE();
-    virtual void vfunc_9(void *);
+    virtual void on_target_hit(void *);
     virtual void queue_destruction();
-    virtual void vfunc_6();
+    virtual void on_wall_hit();
     virtual void render();
     virtual void run_task();
     f32 m_bc;

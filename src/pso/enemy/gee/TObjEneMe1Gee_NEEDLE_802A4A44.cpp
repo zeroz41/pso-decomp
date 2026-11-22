@@ -22,10 +22,6 @@
 #include "pso/enemy/gigue/TObjEneMe1GiGueMissile.h"
 #include "pso/system/task/TObject.h"
 
-extern "C" {
-void TObjPlayer__sub_802A445C(TNeedleShoot *self, int arg1);
-}
-
 void *TNeedleShoot::get_shoot_data() { return &prev_pos; }
 
 void TObjEneMe1Gee_NEEDLE::queue_destruction() {
@@ -37,7 +33,7 @@ void TObjEneMe1Gee_NEEDLE::queue_destruction() {
     }
 }
 
-void TObjEneMe1Gee_NEEDLE::vfunc_6() {
+void TObjEneMe1Gee_NEEDLE::on_wall_hit() {
     if (get_current_floor_area() == AREA_SEASIDE_NIGHT) {
         play_sound_effect(0x4003B20E, &pos, 0, 0);
     } else {
@@ -46,7 +42,7 @@ void TObjEneMe1Gee_NEEDLE::vfunc_6() {
     m_b8 = 0;
 }
 
-void TObjEneMe1Gee_NEEDLE::vfunc_9(void *arg) {
+void TObjEneMe1Gee_NEEDLE::on_target_hit(void *arg) {
     TObjChara *target = (TObjChara *)arg;
     DirectAttackPayload attack;
     attack.kind = 0;
@@ -91,7 +87,7 @@ void TObjEneMe1Gee_NEEDLE::run_task() {
     if (m_b8 == 1) {
         update_position();
         update_lifetime();
-        TObjPlayer__sub_802A445C(this, 1);
+        check_target_hit(1);
         return;
     }
     sub_802A4668();

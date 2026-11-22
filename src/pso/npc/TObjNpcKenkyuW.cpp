@@ -78,7 +78,6 @@ s32 obj_is_hit_receivable(u8 *arg0);
 s32 get_entity_id(void *);
 TechniqueContactList *TObjPlayer__sub_802A3DE8(Obj_802A3DE8 *self, void *src);
 TechniqueContactList *TObjPlayer__sub_802A3FDC(Obj_802A3FDC *self, void *src);
-void TObjPlayer__sub_802A445C(TNeedleShoot *self, int arg1);
 
 void TObjNpcKenkyuW::destroy_instance() {
     if (TObjNpcKenkyuW__model_resource != NULL) {
@@ -268,32 +267,32 @@ TechniqueContactList *TObjPlayer::collect_technique_contacts(void *src) {
 #pragma push
 #pragma scheduling off
 #pragma global_optimizer off
-void TObjPlayer__sub_802A445C(TNeedleShoot *self, int arg1) {
+void TNeedleShoot::check_target_hit(s32) {
     TechniqueContactList *list;
-    if (self->m_68 == 0) {
-        self->TObject::queue_destruction();
+    if (this->m_68 == 0) {
+        TObject::queue_destruction();
         return;
     }
-    switch (self->m_b0) {
+    switch (this->m_b0) {
     case 1:
-        list = ((TObjPlayer *)self)->collect_technique_contacts((void *)self->m_1c);
+        list = ((TObjPlayer *)this)->collect_technique_contacts((void *)this->m_1c);
         break;
     case 2:
-        list = TObjPlayer__sub_802A3FDC((Obj_802A3FDC *)self, (void *)self->m_1c);
+        list = TObjPlayer__sub_802A3FDC((Obj_802A3FDC *)this, (void *)this->m_1c);
         break;
     default: {
-        void *source = (void *)self->m_1c;
-        list = TObjPlayer__sub_802A3DE8((Obj_802A3DE8 *)self, source);
+        void *source = (void *)this->m_1c;
+        list = TObjPlayer__sub_802A3DE8((Obj_802A3DE8 *)this, source);
         break;
     }
     }
     if (list == NULL) {
-        self->vfunc_6();
-    } else if (TObjPlayer::is_hit_receivable_target((saddr)self, (uaddr)list->actors[0])) {
+        this->on_wall_hit();
+    } else if (TObjPlayer::is_hit_receivable_target((saddr)this, (uaddr)list->actors[0])) {
         TechniqueContactActor *target = list->actors[0];
         if (target != NULL) {
             TechniqueContactBody *body = list->bodies[0];
-            self->vfunc_9((self->m_38 = body, static_cast<TechniqueContactActor *>(target)));
+            this->on_target_hit((this->m_38 = body, static_cast<TechniqueContactActor *>(target)));
         }
     }
 }

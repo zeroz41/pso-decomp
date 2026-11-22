@@ -36,7 +36,7 @@ void TNeedleShoot::check_wall_hit() {
     hit = csnVector(&from, &to, 0x100);
     if (hit != NULL) {
         VecCopy(&pos, &hit->contact->point);
-        vfunc_6();
+        on_wall_hit();
     }
 }
 #pragma pop
@@ -129,6 +129,6 @@ TNeedleShoot::TNeedleShoot(s32 owner, Vec *from, Vec *to) : TObject(tl_06) {
     }
 }
 
-void TNeedleShoot::vfunc_6() { TObject::queue_destruction(); }
+void TNeedleShoot::on_wall_hit() { TObject::queue_destruction(); }
 void TNeedleShoot::queue_destruction() { TObject::queue_destruction(); }
-void TNeedleShoot::vfunc_9(void *) {  }
+void TNeedleShoot::on_target_hit(void *) {  }

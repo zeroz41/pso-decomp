@@ -29,7 +29,6 @@
 
 BmlResource *gigue_missile_resource;
 const char *TObjEneMe1GiGueMissile__name = "TObjEneMe1GiGueMissile";
-extern "C" void TObjPlayer__sub_802A445C(TNeedleShoot *self, int arg1);
 
 void TObjEneMe1GiGueMissile::explode(void *pos) {
     void *fx;
@@ -57,9 +56,9 @@ void TObjEneMe1GiGueMissile::explode(void *pos) {
     }
 }
 
-void TObjEneMe1GiGueMissile::vfunc_6() { explode(&pos); TObject::queue_destruction(); }
+void TObjEneMe1GiGueMissile::on_wall_hit() { explode(&pos); TObject::queue_destruction(); }
 
-void TObjEneMe1GiGueMissile::vfunc_9(void *a1) { explode(&((TObjBase *)a1)->position); TObject::queue_destruction(); }
+void TObjEneMe1GiGueMissile::on_target_hit(void *a1) { explode(&((TObjBase *)a1)->position); TObject::queue_destruction(); }
 
 void TObjEneMe1GiGueMissile::create(s32 owner, saddr from, saddr to, f32 speed, f32 power) {
     new TObjEneMe1GiGueMissile(owner, (Vec *)from, (Vec *)to, speed, power);
@@ -103,7 +102,7 @@ void TObjEneMe1GiGueMissile::run_task() {
     }
     update_position();
     update_lifetime();
-    TObjPlayer__sub_802A445C(this, 1);
+    check_target_hit(1);
 }
 #pragma pop
 
