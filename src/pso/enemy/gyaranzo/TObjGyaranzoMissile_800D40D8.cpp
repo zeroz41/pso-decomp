@@ -47,7 +47,7 @@ void TUnk_8049442C::update_ground_fall(Vec *ground, f32 height) {
     Vec ground_pos;
     s32 hit;
     VecCopy(&ground_pos, &position);
-    hit = project_actor_to_ground((TObjChara *)this, &ground_pos, 0);
+    hit = project_actor_to_ground(this, &ground_pos, 0);
     if (ground != NULL) {
         VecCopy(ground, &ground_pos);
     }

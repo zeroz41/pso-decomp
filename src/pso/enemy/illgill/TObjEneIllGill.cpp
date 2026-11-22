@@ -57,10 +57,10 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/render/model_render_state.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/enemy/EnemyMovement.h"
 struct IllGillEffectRotation { s32 x, y, z; };
 extern int enable_v2_features;
 extern "C" {
-s32 select_enemy_destination(void *, Vec, int);
 BmlResource * illGillResource;
 saddr TObjEneIllGill__boss_registration_id;
 saddr lbl_805D6FD8;
@@ -68,10 +68,6 @@ IllGillAttackBehavior * illGillAttackBehavior;
 s32 illGillModelNodeIndex;
 }
 extern "C" {
-f32 step_toward_destination(void *, Vec, f32);
-s32 copy_position_if_valid(void *, Vec);
-f32 enemy_move_toward(void *, s32, Vec *, s32, f32, f32);
-s32 enemy_pursue_point(void *, s32, Vec *, f32, f32, f32);
 extern const char *TObjEneIllGill_model_file_list[2];
 extern const char *TObjEneIllGill_motion_name_table[11];
 Vec illGillWeaponEffectPosition;
@@ -563,7 +559,7 @@ void TObjEneIllGill::update_forward_movement() {
     pop_matrices(1);
     vec3_add_to(&v, &home_position);
     this->body_center.y += 5.0f;
-    d = step_toward_destination(player, v, 2.0f * ((IllGillMovementParameters *)movementParameters)->speed);
+    d = step_toward_destination(this, v, 2.0f * ((IllGillMovementParameters *)movementParameters)->speed);
     movement = (IllGillMovementParameters *)movementParameters;
     a = movement->range * movement->range;
     b = movement->speed * movement->speed;
@@ -605,11 +601,8 @@ void TObjEneIllGill::update_chase_target() {
             this->phase = 0;
         case 0: {
             Vec dir;
-            t = this->body_center.y += 5.0f;
-            {
-                Vec tgt = *(Vec *)((u8 *)&((TObjChara *)target)->body_center);
-                d = enemy_move_toward(self, id, &tgt, 0, 0.125f * r, t);
-            }
+            this->body_center.y += 5.0f;
+            d = enemy_move_toward(this, id, ((TObjChara *)target)->body_center, 0, 0.125f * r);
             VecCopy(&dir, (const Vec *)((u8 *)&((TObjChara *)target)->body_center));
             subtract_vector(&dir, &body_center);
             a = angle_difference_abs(this->rotation_y,
@@ -620,12 +613,8 @@ void TObjEneIllGill::update_chase_target() {
             break;
         }
         case 2: {
-            t = this->body_center.y;
             this->body_center.y += 5.0f;
-            {
-                Vec tgt = *(Vec *)((u8 *)&((TObjChara *)target)->body_center);
-                enemy_pursue_point(self, id, &tgt, r, 40.0f, t);
-            }
+            enemy_pursue_point(this, id, ((TObjChara *)target)->body_center, r, 40.0f);
             d = horizontal_distance_squared(&move_destination, &body_center);
             t = r + this->bodies->radius;
             if (d < t * t) {
@@ -1258,7 +1247,7 @@ void TObjEneIllGill::update_charge_attack() {
                     o->requested_action = 8;
                     obj_setFlags30(o, 0x4000000);
                     o->set_indexed_flags(0, 0x80);
-                    ((s32 (*)(void *, Vec))copy_position_if_valid)(o, (*(&o->body_center)));
+                    copy_position_if_valid(o, o->body_center);
                     o->actionTimer = 10;
                     play_sound_effect(0x4003A34E, &o->position, 0, 0);
                 } else {

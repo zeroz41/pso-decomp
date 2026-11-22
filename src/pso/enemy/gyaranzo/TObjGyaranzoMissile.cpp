@@ -103,7 +103,7 @@ void TObjGyaranzoMissile::run_task() {
             return;
         }
         Vec ground = position;
-        if (project_actor_to_ground((TObjChara *)this, &ground, 0) == 1) {
+        if (project_actor_to_ground(this, &ground, 0) == 1) {
             if (position.y - ground.y < 22.0f) {
                 bodies->flags |= 2;
                 bodies->flags &= ~4;
