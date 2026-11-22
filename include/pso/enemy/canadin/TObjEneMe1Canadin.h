@@ -132,7 +132,7 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
     void fn_8009D320(s32 arg1);
     void fn_8009DE90(s32 arg1);
     s32 fn_8009E76C();
-    s32 fn_8009E860(f32 *out, f32 squared_range);
+    s32 find_attack_target(f32 *out, f32 squared_range);
     void fn_8009E930();
     void fn_8009E948();
     void fn_8009E258();
@@ -146,6 +146,8 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
     void fn_8009E2DC();
     TObjChara *fn_8009E300();
     void fn_8009E378();
+    void fn_8009EB14(f32 height);
+    void fn_8009EB98(f32 height);
     void set_flag3c8_bit40();
     void set_flag3c8_bit20();
     void set_flag3c8_bit8();

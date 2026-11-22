@@ -1227,11 +1227,11 @@ force_active:
   - fn_8009D320__17TObjEneMe1CanadinFl
   - fn_8009DE90__17TObjEneMe1CanadinFl
   - fn_8009E76C__17TObjEneMe1CanadinFv
-  - fn_8009E860__17TObjEneMe1CanadinFPff
+  - find_attack_target__17TObjEneMe1CanadinFPff
   - fn_8009E930__17TObjEneMe1CanadinFv
   - fn_8009E948__17TObjEneMe1CanadinFv
-  - TObjEneMe1Canadin__sub_8009EB14
-  - TObjEneMe1Canadin__sub_8009EB98
+  - fn_8009EB14__17TObjEneMe1CanadinFf
+  - fn_8009EB98__17TObjEneMe1CanadinFf
   - TObjEneMe1Gee_NEEDLE__name
   - __ct__13TObjEneMe1GeeFP7TObjectP13TObjEneMe1GeeP3VecUsl
   - TObjEneMe1Gee__fade_command_streams
