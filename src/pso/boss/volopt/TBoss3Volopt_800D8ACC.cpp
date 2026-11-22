@@ -28,10 +28,10 @@ s32 player_particle_effect_enabled;
 extern "C" {
 s32 TBreakUpMdl__ct(void*, void *, saddr, saddr, s32, saddr, s32);
 
-void TBoss3Volopt::create_breakup_mdl(saddr arg0, saddr arg1, s32 texlist, saddr arg3, s32 rotation_y) {
+void TBoss3Volopt::create_breakup_mdl(saddr model, saddr params, s32 texlist, saddr position, s32 rotation_y) {
     void* obj = TObject::operator new(0x54);
     if (obj != 0) {
-        TBreakUpMdl__ct(obj, tl_05, arg0, arg1, texlist, arg3, rotation_y);
+        TBreakUpMdl__ct(obj, tl_05, model, params, texlist, position, rotation_y);
     }
 }
 
