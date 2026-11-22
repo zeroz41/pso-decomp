@@ -635,58 +635,58 @@ void TObjEneMe3SinowZoa::dispatch_action(u32 state, s32 mode) {
         action(mode);
         return;
     case 1:
-        sub_80319E74(mode);
+        state_fade_in(mode);
         return;
     case 3:
-        sub_80319B8C(mode);
+        state_ambush(mode);
         return;
     case 2:
         state_chase(mode);
         return;
     case 4:
-        update_state_action(mode);
+        state_reveal(mode);
         return;
     case 5:
-        sub_80319748(mode);
+        state_appear(mode);
         return;
     case 6:
         state_chase_target(mode);
         return;
     case 7:
-        sub_80318F7C(mode);
+        state_f_attack(mode);
         return;
     case 8:
-        sub_80318C0C(mode);
+        state_sword(mode);
         return;
     case 9:
-        sub_8031884C(mode);
+        state_backstep(mode);
         return;
     case 13:
-        handle_state_substate(mode);
+        state_wait(mode);
         return;
     case 10:
-        sub_803182F8(mode);
+        state_vanish(mode);
         return;
     case 11:
-        sub_80318564(mode);
+        state_cast_technique(mode);
         return;
     case 14:
         state_knockback(mode);
         return;
     case 15:
-        sub_80317F90(mode);
+        state_death(mode);
         return;
     case 12:
-        sub_80317B50(mode);
+        state_warp(mode);
         return;
     case 16:
-        sub_80316C3C(mode);
+        state_cast_barta(mode);
         return;
     case 17:
-        sub_80317254(mode);
+        state_stealth_on(mode);
         return;
     case 18:
-        sub_803170F0(mode);
+        state_stealth_off(mode);
     default:
         return;
     }
@@ -737,7 +737,7 @@ void TObjEneMe3SinowZoa::action(s32 mode) {
     }
 }
 
-void TObjEneMe3SinowZoa::sub_80319E74(s32 mode) {
+void TObjEneMe3SinowZoa::state_fade_in(s32 mode) {
     Vec v;
     f32 t;
     switch (mode) {
@@ -834,7 +834,7 @@ void TObjEneMe3SinowZoa::state_chase(s32 mode) {
     }
 }
 
-void TObjEneMe3SinowZoa::sub_80319B8C(s32 mode) {
+void TObjEneMe3SinowZoa::state_ambush(s32 mode) {
     Vec v;
     switch (mode) {
     case 4:
@@ -862,7 +862,7 @@ void TObjEneMe3SinowZoa::sub_80319B8C(s32 mode) {
 
 #pragma pop
 
-void TObjEneMe3SinowZoa::update_state_action(s32 mode) {
+void TObjEneMe3SinowZoa::state_reveal(s32 mode) {
     // inferred: clears the green byte of the ARGB colour material_color
     static const u32 color_mask = 0xFFFF00FF;
     switch (mode) {
@@ -912,7 +912,7 @@ void TObjEneMe3SinowZoa::update_state_action(s32 mode) {
     }
 }
 
-void TObjEneMe3SinowZoa::sub_80319748(s32 mode) {
+void TObjEneMe3SinowZoa::state_appear(s32 mode) {
     f32 height;
     f32 node_height;
 
@@ -1035,7 +1035,7 @@ void TObjEneMe3SinowZoa::state_chase_target(s32 mode) {
     }
 }
 
-void TObjEneMe3SinowZoa::sub_80318F7C(s32 mode) {
+void TObjEneMe3SinowZoa::state_f_attack(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 6;
@@ -1176,7 +1176,7 @@ void TObjEneMe3SinowZoa::sub_80318F7C(s32 mode) {
 
 #pragma pop
 
-void TObjEneMe3SinowZoa::sub_80318C0C(s32 mode) {
+void TObjEneMe3SinowZoa::state_sword(s32 mode) {
     s32 target_angle;
     f32 cur_frame;
 
@@ -1266,7 +1266,7 @@ void TObjEneMe3SinowZoa::sub_80318C0C(s32 mode) {
 }
 
 
-void TObjEneMe3SinowZoa::sub_8031884C(s32 mode) {
+void TObjEneMe3SinowZoa::state_backstep(s32 mode) {
     s32 zero;
 
     switch (mode) {
@@ -1351,7 +1351,7 @@ void TObjEneMe3SinowZoa::sub_8031884C(s32 mode) {
 }
 
 
-void TObjEneMe3SinowZoa::sub_80318564(s32 mode) {
+void TObjEneMe3SinowZoa::state_cast_technique(s32 mode) {
     switch (mode) {
     case 4:
         (this->requested_action) = 8;
@@ -1428,7 +1428,7 @@ void TObjEneMe3SinowZoa::sub_80318564(s32 mode) {
     }
 }
 
-void TObjEneMe3SinowZoa::handle_state_substate(s32 mode) {
+void TObjEneMe3SinowZoa::state_wait(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 9;
@@ -1456,7 +1456,7 @@ void TObjEneMe3SinowZoa::handle_state_substate(s32 mode) {
     }
 }
 
-void TObjEneMe3SinowZoa::sub_803182F8(s32 mode) {
+void TObjEneMe3SinowZoa::state_vanish(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 8;
@@ -1534,7 +1534,7 @@ void TObjEneMe3SinowZoa::state_knockback(s32 mode) {
 #pragma push
 #pragma fp_contract on
 
-void TObjEneMe3SinowZoa::sub_80317F90(s32 mode) {
+void TObjEneMe3SinowZoa::state_death(s32 mode) {
     Vec v;
     Vec p;
     this->stealthed = 0;
@@ -1593,7 +1593,7 @@ void TObjEneMe3SinowZoa::sub_80317F90(s32 mode) {
 #pragma push
 #pragma fp_contract on
 
-void TObjEneMe3SinowZoa::sub_80317B50(s32 mode) {
+void TObjEneMe3SinowZoa::state_warp(s32 mode) {
     Vec v;
     Vec pos;
     Vec tmp;
@@ -1880,7 +1880,7 @@ void TObjEneMe3SinowZoa::render_demo() {
     }
 }
 
-void TObjEneMe3SinowZoa::sub_80317254(s32 mode) {
+void TObjEneMe3SinowZoa::state_stealth_on(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 0xC;
@@ -1914,7 +1914,7 @@ void TObjEneMe3SinowZoa::sub_80317254(s32 mode) {
     }
 }
 
-void TObjEneMe3SinowZoa::sub_803170F0(s32 mode) {
+void TObjEneMe3SinowZoa::state_stealth_off(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 0xB;
@@ -1966,7 +1966,7 @@ inline s32 seek_80316C3C(TObjEneMe3SinowZoa *self, Vec *diff) {
     return angle;
 }
 
-void TObjEneMe3SinowZoa::sub_80316C3C(s32 mode) {
+void TObjEneMe3SinowZoa::state_cast_barta(s32 mode) {
     s32 angle;
     Vec diff;
     Vec out;

@@ -1276,15 +1276,15 @@ force_active:
   - __ct__20TObjEneMe3StelthRealFP7TObjectPv
   - __ct__21TObjEneMe3ShinowaRealFP7TObjectPv
   - __ct__22TObjEneMe3SinowZoaRealFP7TObjectPv
-  - sub_80317B50__18TObjEneMe3SinowZoaFl
-  - sub_80317F90__18TObjEneMe3SinowZoaFl
-  - sub_803182F8__18TObjEneMe3SinowZoaFl
-  - sub_80318564__18TObjEneMe3SinowZoaFl
-  - sub_8031884C__18TObjEneMe3SinowZoaFl
-  - sub_80318C0C__18TObjEneMe3SinowZoaFl
-  - sub_80318F7C__18TObjEneMe3SinowZoaFl
-  - sub_80319748__18TObjEneMe3SinowZoaFl
-  - sub_80319B8C__18TObjEneMe3SinowZoaFl
+  - state_warp__18TObjEneMe3SinowZoaFl
+  - state_death__18TObjEneMe3SinowZoaFl
+  - state_vanish__18TObjEneMe3SinowZoaFl
+  - state_cast_technique__18TObjEneMe3SinowZoaFl
+  - state_backstep__18TObjEneMe3SinowZoaFl
+  - state_sword__18TObjEneMe3SinowZoaFl
+  - state_f_attack__18TObjEneMe3SinowZoaFl
+  - state_appear__18TObjEneMe3SinowZoaFl
+  - state_ambush__18TObjEneMe3SinowZoaFl
   - sub_8031A820__18TObjEneMe3SinowZoaFf
   - TObjEneMe3Stelth__alternate_texture_list
   - TObjEneMe3Stelth__attack_params_by_variant
@@ -1295,11 +1295,11 @@ force_active:
   - TObjEneMe3Stelth__render_node_index
   - TObjEneMe3Stelth__resistance_params_by_variant
   - TObjEneMe3Stelth__shared_params
-  - sub_800F2270__16TObjEneMe3StelthFl
-  - sub_800F290C__16TObjEneMe3StelthFl
-  - sub_800F3214__16TObjEneMe3StelthFl
-  - sub_800F348C__16TObjEneMe3StelthFl
-  - sub_800F3FE4__16TObjEneMe3StelthFl
+  - state_warp__16TObjEneMe3StelthFl
+  - state_knockback__16TObjEneMe3StelthFl
+  - state_sword__16TObjEneMe3StelthFl
+  - state_f_attack__16TObjEneMe3StelthFl
+  - state_ambush__16TObjEneMe3StelthFl
   - sub_800F4C10__16TObjEneMe3StelthFf
   - TObjEneMe3Stelth__trail_buffer
   - __ct__16TObjEneMerillLiaFP7TObjectPv
@@ -3754,7 +3754,7 @@ force_active:
   - action__14TObjEneBm5WolfFl
   - action__15TObjEneMe1GiGueFv
   - action__16TObjEneBm5GibonUFl
-  - action__16TObjEneMe3StelthFl
+  - state_vanish__16TObjEneMe3StelthFl
   - update_stagger_state__17TObjEneDf2BringerFl
   - action__17TObjEneMe1CanadinFl
   - action__18TObjEneBalClawClawFPv
@@ -6796,7 +6796,7 @@ force_active:
   - handle_action__10TNpcPlayerFl
   - handle_battle_result__6TLobbyFii
   - handle_break_state__19TObjEneEpsilonGuardFl
-  - handle_breakup_state__16TObjEneMe3StelthFl
+  - state_death__16TObjEneMe3StelthFl
   - handle_buy_confirm__20TShopArmorListWindowFv
   - handle_buy_confirm__24TShopEquipmentListWindowFv
   - handle_cancel__19TWindowSoundBalanceFv
@@ -6903,7 +6903,7 @@ force_active:
   - handle_state__6TLobbyFi
   - handle_state_init__6TLobbyFPv
   - handle_state_message__13TObjEneRe4BitFl
-  - handle_state_substate__18TObjEneMe3SinowZoaFl
+  - state_wait__18TObjEneMe3SinowZoaFl
   - handle_takeoff_state__13TBoss5GryphonFl
   - handle_team_select__6TLobbyFv
   - handle_third_reward__18TChallenge4PResultFv
@@ -16234,7 +16234,7 @@ force_active:
   - sub_800EA678__15TObjEneSlimeOneFv
   - sub_800EA820__15TObjEneSlimeOneFv
   - sub_800ED408__13TObjEneRe4BitFv
-  - sub_800F42B8__16TObjEneMe3StelthFl
+  - state_fade_in__16TObjEneMe3StelthFl
   - sub_800F4758__16TObjEneMe3StelthFv
   - sub_800F47D4__16TObjEneMe3StelthFv
   - sub_800F4850__16TObjEneMe3StelthFv
@@ -16369,7 +16369,7 @@ force_active:
   - show_no_card_message__16TAdChrSelASlotGCFv
   - sub_803152A0__15TObjEneDelDepthFv
   - sub_803152C0__15TObjEneDelDepthFv
-  - sub_80319E74__18TObjEneMe3SinowZoaFl
+  - state_fade_in__18TObjEneMe3SinowZoaFl
   - sub_8031AC74__18TObjEneMe3SinowZoaFv
   - sub_8032C0B4__14TAdYesNoBaseGCFv
   - sub_8032D214__16TAdWarningBaseGCFv
@@ -17258,16 +17258,16 @@ force_active:
   - update_state__6TLobbyFv
   - update_state__8TOKurageFv
   - update_state__8TObjDoorFv
-  - update_state_action__18TObjEneMe3SinowZoaFl
+  - state_reveal__18TObjEneMe3SinowZoaFl
   - update_state_display__12TAdDialingGCFv
-  - update_state_drop__16TObjEneMe3StelthFl
-  - update_state_fade_in__16TObjEneMe3StelthFl
+  - state_appear__16TObjEneMe3StelthFl
+  - state_reveal__16TObjEneMe3StelthFl
   - update_state_flag__13TObjEneBm3FlyFv
   - update_state_flag__15TObjEneDelDepthFv
   - update_state_from_input__16TKeyBoardControlFPv
   - update_state_machine__18TObjEneRe4SorcererFPv
   - update_state_or_dispatch_tick__13TBoss5GryphonFv
-  - update_state_resta_cast__16TObjEneMe3StelthFl
+  - state_cast_technique__16TObjEneMe3StelthFl
   - update_state_serial__22TAdMultiPlyChrSelectGCFv
   - update_state_spin__16TBoss3VoloptCoreFv
   - update_status_display__12TAdDialingGCFv

@@ -588,58 +588,58 @@ void TObjEneMe3Stelth::dispatch_action(u32 state, s32 reason) {
         vfunc_113(reason);
         break;
     case 1:
-        sub_800F42B8(reason);
+        state_fade_in(reason);
         break;
     case 3:
-        sub_800F3FE4(reason);
+        state_ambush(reason);
         break;
     case 2:
         state_chase(reason);
         break;
     case 4:
-        update_state_fade_in(reason);
+        state_reveal(reason);
         break;
     case 5:
-        update_state_drop(reason);
+        state_appear(reason);
         break;
     case 6:
         state_chase_target(reason);
         break;
     case 7:
-        sub_800F348C(reason);
+        state_f_attack(reason);
         break;
     case 8:
-        sub_800F3214(reason);
+        state_sword(reason);
         break;
     case 9:
-        run_walk_state(reason);
+        state_backstep(reason);
         break;
     case 13:
-        handle_message(reason);
+        state_wait(reason);
         break;
     case 10:
-        action(reason);
+        state_vanish(reason);
         break;
     case 11:
-        update_state_resta_cast(reason);
+        state_cast_technique(reason);
         break;
     case 14:
-        sub_800F290C(reason);
+        state_knockback(reason);
         break;
     case 15:
-        handle_breakup_state(reason);
+        state_death(reason);
         break;
     case 12:
-        sub_800F2270(reason);
+        state_warp(reason);
         break;
     case 16:
-        sub_800F1098(reason);
+        state_cast_barta(reason);
         break;
     case 17:
-        exec(reason);
+        state_stealth_on(reason);
         break;
     case 18:
-        sub_800F1440(reason);
+        state_stealth_off(reason);
         break;
     }
     if (stealthed != 1 || ((s32)state != 1 && (s32)state != 2)) {
@@ -690,7 +690,7 @@ void TObjEneMe3Stelth::vfunc_113(s32 reason) {
         break;
     }
 }
-void TObjEneMe3Stelth::sub_800F42B8(s32 reason) {
+void TObjEneMe3Stelth::state_fade_in(s32 reason) {
     Vec v;
     switch (reason) {
     case 4:
@@ -783,7 +783,7 @@ void TObjEneMe3Stelth::state_chase(s32 mode) {
     }
 }
 #pragma pop
-void TObjEneMe3Stelth::sub_800F3FE4(s32 reason) {
+void TObjEneMe3Stelth::state_ambush(s32 reason) {
     Vec pos;
     switch (reason) {
     case 4:
@@ -808,7 +808,7 @@ void TObjEneMe3Stelth::sub_800F3FE4(s32 reason) {
         break;
     }
 }
-void TObjEneMe3Stelth::update_state_fade_in(s32 reason) {
+void TObjEneMe3Stelth::state_reveal(s32 reason) {
     s32 t;
     switch (reason) {
     case 4:
@@ -858,7 +858,7 @@ void TObjEneMe3Stelth::update_state_fade_in(s32 reason) {
         break;
     }
 }
-void TObjEneMe3Stelth::update_state_drop(s32 reason) {
+void TObjEneMe3Stelth::state_appear(s32 reason) {
     f32 node_world_y;
     f32 temp_f31;
 
@@ -980,7 +980,7 @@ void TObjEneMe3Stelth::state_chase_target(s32 mode) {
 #pragma pop
 #pragma push
 #pragma fp_contract on
-void TObjEneMe3Stelth::sub_800F348C(s32 reason) {
+void TObjEneMe3Stelth::state_f_attack(s32 reason) {
     Vec v;
     Vec points[2];
     f32 t;
@@ -1113,7 +1113,7 @@ void TObjEneMe3Stelth::sub_800F348C(s32 reason) {
 #pragma pop
 #pragma push
 #pragma fp_contract on
-void TObjEneMe3Stelth::sub_800F3214(s32 reason) {
+void TObjEneMe3Stelth::state_sword(s32 reason) {
     f32 temp_f1;
     s32 var_r4;
     switch (reason) {
@@ -1177,7 +1177,7 @@ void TObjEneMe3Stelth::sub_800F3214(s32 reason) {
 #pragma pop
 #pragma push
 #pragma fp_contract on
-void TObjEneMe3Stelth::run_walk_state(s32 reason) {
+void TObjEneMe3Stelth::state_backstep(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 3;
@@ -1263,7 +1263,7 @@ void TObjEneMe3Stelth::run_walk_state(s32 reason) {
 #pragma pop
 #pragma push
 #pragma fp_contract on
-void TObjEneMe3Stelth::update_state_resta_cast(s32 reason) {
+void TObjEneMe3Stelth::state_cast_technique(s32 reason) {
     switch (reason) {
     case 4:
         requested_action = 8;
@@ -1315,7 +1315,7 @@ void TObjEneMe3Stelth::update_state_resta_cast(s32 reason) {
 #pragma pop
 }
 
-void TObjEneMe3Stelth::handle_message(s32 mode) {
+void TObjEneMe3Stelth::state_wait(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 9;
@@ -1345,7 +1345,7 @@ void TObjEneMe3Stelth::handle_message(s32 mode) {
 }
 
 
-void TObjEneMe3Stelth::action(s32 reason) {
+void TObjEneMe3Stelth::state_vanish(s32 reason) {
 
     switch (reason) {
     case 4:
@@ -1383,7 +1383,7 @@ void TObjEneMe3Stelth::action(s32 reason) {
         break;
     }
 }
-void TObjEneMe3Stelth::sub_800F290C(s32 reason) {
+void TObjEneMe3Stelth::state_knockback(s32 reason) {
     Vec v;
     f32 c;
     switch (reason) {
@@ -1419,7 +1419,7 @@ void TObjEneMe3Stelth::sub_800F290C(s32 reason) {
 }
 #pragma push
 #pragma fp_contract on
-void TObjEneMe3Stelth::handle_breakup_state(s32 reason) {
+void TObjEneMe3Stelth::state_death(s32 reason) {
     Vec ofs;
     Vec v;
     switch (reason) {
@@ -1482,7 +1482,7 @@ void TObjEneMe3Stelth::handle_breakup_state(s32 reason) {
 #pragma push
 #pragma fp_contract on
 #pragma fp_contract on
-void TObjEneMe3Stelth::sub_800F2270(s32 reason) {
+void TObjEneMe3Stelth::state_warp(s32 reason) {
     Vec v;
     Vec p;
     Vec q;
@@ -1816,7 +1816,7 @@ void TObjEneMe3Stelth::draw_with_debug_info() {
         TParticleCtrl::end_effect_render();
     }
 }
-void TObjEneMe3Stelth::exec(s32 mode) {
+void TObjEneMe3Stelth::state_stealth_on(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 0xC;
@@ -1870,7 +1870,7 @@ void TObjEneMe3Stelth::exec(s32 mode) {
         break;
     }
 }
-void TObjEneMe3Stelth::sub_800F1440(s32 reason) {
+void TObjEneMe3Stelth::state_stealth_off(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 0xB;
@@ -1926,7 +1926,7 @@ void TObjEneMe3Stelth::sub_800F1440(s32 reason) {
         break;
     }
 }
-void TObjEneMe3Stelth::sub_800F1098(s32 reason) {
+void TObjEneMe3Stelth::state_cast_barta(s32 reason) {
     Vec d;
     Vec out;
     s32 c[3];

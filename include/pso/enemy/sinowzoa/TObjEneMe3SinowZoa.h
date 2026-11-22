@@ -36,7 +36,7 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     virtual s32 acquire_target(f32);
     virtual void dispatch_action(u32 state, s32 reason);
     void sub_8031AC74();
-    void sub_80319E74(s32);
+    void state_fade_in(s32);
     virtual void run_task();
     virtual void render();
     s32 check_body_collision_at(s32 angle, f32 distance);
@@ -96,10 +96,17 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     f32 m_450;
     TObject *unk_454; // queued for destruction in the dtor; writer not in this TU
     TObject *unk_458; // queued for destruction in the dtor; writer not in this TU
+    // dispatch_action's state handlers, named after the motion each requests (the
+    // motion names of bm_ene_me3_shinowa_zoa_motion_names) and the states they lead to:
+    // 1 fade_in, 3 ambush (t_wait, then 4), 4 reveal (material alpha ramps up once a
+    // target is near, then 5), 5 appear, 7 f_attack, 8 sword, 9 backstep, 10 vanish (fades
+    // out, back to state 0 at home), 11 cast_technique, 12 warp (next to the target),
+    // 13 wait, 14 knockback, 15 death, 16 cast_barta, 17 stealth_on, 18 stealth_off.
+    // TObjEneMe3Stelth uses the same names for the same slots.
     void state_knockback(s32 mode);
-    void handle_state_substate(s32 mode);
+    void state_wait(s32 mode);
     void state_chase_target(s32 mode);
-    void update_state_action(s32 mode);
+    void state_reveal(s32 mode);
     void state_chase(s32 mode);
     void update_distance_state();
     f32 get_node_height();
@@ -114,18 +121,18 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     static void free_resources();
     void sub_80316840();
     void spawn_ground_effect_on_frame_23();
-    void sub_80316C3C(s32 mode);
-    void sub_803170F0(s32 mode);
-    void sub_80317254(s32 mode);
-    void sub_80317B50(s32 mode);
-    void sub_80317F90(s32 mode);
-    void sub_803182F8(s32 mode);
-    void sub_80318564(s32 mode);
-    void sub_8031884C(s32 mode);
-    void sub_80318C0C(s32 mode);
-    void sub_80318F7C(s32 mode);
-    void sub_80319748(s32 mode);
-    void sub_80319B8C(s32 mode);
+    void state_cast_barta(s32 mode);
+    void state_stealth_off(s32 mode);
+    void state_stealth_on(s32 mode);
+    void state_warp(s32 mode);
+    void state_death(s32 mode);
+    void state_vanish(s32 mode);
+    void state_cast_technique(s32 mode);
+    void state_backstep(s32 mode);
+    void state_sword(s32 mode);
+    void state_f_attack(s32 mode);
+    void state_appear(s32 mode);
+    void state_ambush(s32 mode);
     s32 sub_8031A820(f32);
     s32 check_move_collision(const Vec *pos);
     void cast_technique();

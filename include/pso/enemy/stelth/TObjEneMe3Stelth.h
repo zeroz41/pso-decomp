@@ -56,7 +56,7 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     s32 is_angle_in_range();
     s32 sub_800F47D4();
     void sub_800F4758();
-    void sub_800F42B8(s32);
+    void state_fade_in(s32);
     void run_death_reaction();
     void run_hit_reaction();
     void run_miss_reaction();
@@ -101,27 +101,29 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     static void free_shared_resources();
     void *create_real();
     static void load_shared_resources();
-    void handle_breakup_state(s32 reason);
-    void update_state_resta_cast(s32 reason);
+    // dispatch_action's state handlers; same slots and names as the TObjEneMe3SinowZoa
+    // twin (see its header for the motion and transition evidence).
+    void state_death(s32 reason);
+    void state_cast_technique(s32 reason);
     void state_chase_target(s32 mode);
-    void update_state_drop(s32 reason);
-    void update_state_fade_in(s32 reason);
+    void state_appear(s32 reason);
+    void state_reveal(s32 reason);
     void state_chase(s32 mode);
     void create_resta_effect();
-    void run_walk_state(s32 reason);
-    void exec(s32 mode);
-    void handle_message(s32 mode);
+    void state_backstep(s32 reason);
+    void state_stealth_on(s32 mode);
+    void state_wait(s32 mode);
     void sub_800F0C90();
     s32 sub_800F0F84(Vec *pos);
-    void sub_800F1098(s32 reason);
-    void sub_800F1440(s32 reason);
-    void sub_800F2270(s32 reason);
-    void sub_800F290C(s32 reason);
-    void sub_800F3214(s32 reason);
-    void sub_800F348C(s32 reason);
-    void sub_800F3FE4(s32 reason);
+    void state_cast_barta(s32 reason);
+    void state_stealth_off(s32 reason);
+    void state_warp(s32 reason);
+    void state_knockback(s32 reason);
+    void state_sword(s32 reason);
+    void state_f_attack(s32 reason);
+    void state_ambush(s32 reason);
     s32 sub_800F4C10(f32);
-    void action(s32 reason);
+    void state_vanish(s32 reason);
     void draw_model();
 };
 
