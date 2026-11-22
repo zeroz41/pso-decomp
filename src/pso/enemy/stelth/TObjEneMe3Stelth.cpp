@@ -75,6 +75,9 @@
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/technique/TTecDeband.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/ui/frontend/TAdEnterPasswordGC.h"
 
 #pragma readonly_strings on
 
@@ -83,15 +86,10 @@ const char *TObjEneMe3Stelth__class_name = stelth_class_name;
 const char *TObjEneMe3StelthReal__class_name = stelth_real_class_name;
 
 
-extern "C" {
-s32 is_split_screen();
-}
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
 s32 select_enemy_destination(void *, Vec *, int);
-s32 copy_position_if_valid__10TObjPlayerFii(s32 arg0, s32 arg1);
 extern StelthBehaviorParams *TObjEneMe3Stelth__behavior_params_by_variant[];
-u16 get_entity_id(void *);
 extern CollisionBody TObjEneMe3Stelth__collision_body_template;
 BmlResource *TObjEneMe3Stelth__bml_resource;
 s32 TObjEneMe3Stelth__render_node_index;
@@ -108,20 +106,13 @@ f32 lbl_80501114[3];
 u32 *TObjEneMe3Stelth__material_color_pointers[4];
 
 
-s32 dispatch_input_to_instance__18TAdEnterPasswordGCFi(void *);
-extern const f32 lbl_805D9E84;
-extern const f32 lbl_805D9E88;
 
 
 }
 void move_with_wall_slide(u8 *arg0);
 extern "C" {
-s32 TBoss3Volopt__sub_800D8D88(void *, f32);
-f32 *TBoss3Volopt__sub_800F059C(void *);
-f32 atan2_float(f32 y, f32 x);
 
 
-f32 fabs_float(f32);
 
 
 extern void *lbl_80497710[2];
@@ -701,7 +692,6 @@ void TObjEneMe3Stelth::vfunc_113(s32 reason) {
 }
 void TObjEneMe3Stelth::sub_800F42B8(s32 reason) {
     Vec v;
-    f32 t;
     switch (reason) {
     case 4:
         requested_action = 2;
@@ -711,10 +701,9 @@ void TObjEneMe3Stelth::sub_800F42B8(s32 reason) {
         behavior_flags |= 5;
         fade.start_fade_in();
         VecCopy(&v, &position);
-        t = body_y;
-        v.y = t - 20.0f;
+        v.y = body_y - 20.0f;
         if (stealthed == 0) {
-            TBoss3Volopt__sub_800D8D88(&v, t);
+            TBoss3Volopt__sub_800D8D88((saddr)&v);
         } else {
             create_timed_particle_emitter((u8 *)&position, 0x79, 0, 0xF);
         }
@@ -729,7 +718,7 @@ void TObjEneMe3Stelth::sub_800F42B8(s32 reason) {
         }
         break;
     case 0:
-        if (*TBoss3Volopt__sub_800F059C(&fade) >= -0.75f) {
+        if (fade.get_color()->a >= -0.75f) {
             advance_animation();
         }
         update_ground_contact();
@@ -796,7 +785,6 @@ void TObjEneMe3Stelth::state_chase(s32 mode) {
 #pragma pop
 void TObjEneMe3Stelth::sub_800F3FE4(s32 reason) {
     Vec pos;
-    f32 temp_f1;
     switch (reason) {
     case 4:
         this->requested_action = 0;
@@ -805,9 +793,8 @@ void TObjEneMe3Stelth::sub_800F3FE4(s32 reason) {
         this->behavior_flags |= 7;
         this->fade.start_fade_in();
         VecCopy(&pos, &this->position);
-        temp_f1 = this->body_y;
-        pos.y = temp_f1 - 10.0f;
-        TBoss3Volopt__sub_800D8D88(&pos, temp_f1);
+        pos.y = this->body_y - 10.0f;
+        TBoss3Volopt__sub_800D8D88((saddr)&pos);
         break;
     case 3:
         if (this->fade.advance_toward_max() != 0) {
@@ -1610,7 +1597,7 @@ void TObjEneMe3Stelth::render() {
     } else {
         mode = 0;
     }
-    if (stealthed != 0 && is_split_screen() == 0 && dispatch_input_to_instance__18TAdEnterPasswordGCFi(this) != 0) {
+    if (stealthed != 0 && is_split_screen() == 0 && dispatch_input_to_instance__18TAdEnterPasswordGCFi((saddr)this) != 0) {
         return;
     }
     if (mode != 0) {
@@ -2072,7 +2059,7 @@ s32 TObjEneMe3Stelth::sub_800F0F84(Vec *pos) {
     return result;
 }
 f32 TObjEneMe3Stelth::receive_direct_attack(void *source, DirectAttackPayload payload, void *collider, s32, s32) {
-    if (stealthed == 1 && get_entity_id(source) < 0x1000 && random_ratio() <= stealth_off_chance) {
+    if (stealthed == 1 && get_entity_id((TObjBase *)source) < 0x1000 && random_ratio() <= stealth_off_chance) {
         transition_enemy_state(0x12);
     } else if (mode == 2) {
         transition_enemy_state(6);

@@ -5,8 +5,5 @@
 #include "pso/enemy/AreaSoundRemap.h"
 
 struct TObjEneRe4Sorcerer;
-extern "C" {
-void TBoss3Volopt__sub_800F059C(void);
-}
 
 #endif

@@ -66,18 +66,13 @@
 extern "C" {
 
 
-s32 post_translate_matrix(void *);
 
-s32 TObjEneRe4Sorcerer__sub_801E3F1C(f32, f32);
 
 s32 scroll_strip_uvs(int, int, int);
 
-s32 translate_matrix(int, f32, f32, f32);
 
 
-extern uaddr TObjEneRe4Sorcerer__uv_scroll_buffer;
 
-extern s32 model_render_flags;
 
 }
 
@@ -108,34 +103,33 @@ extern s32 model_render_flags;
 
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/render/model_render_state.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/map/CsnQuery.h"
+#include "pso/render/render_util.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/enemy/sorcerer/TObjEneRe4Sorcerer_801E3F14.h"
+#include "pso/system/task/TMainTask.h"
 extern "C" {
 
 
 
-extern s32 TObjEneRe4Sorcerer__render_node_index;
-
-extern s32 TObjEneRe4Sorcerer__saved_render_flags;
-
-extern f32 TObjEneRe4Sorcerer__effect_render_scale;
-
-extern Vec *re4_sorcerer_render_node_ptr;
-
-extern s32 saved_model_render_flags;
-
-extern const f32 lbl_805D9E84;
-
-extern const f32 lbl_805D9E88;
-
-
-
-s32 *csnLookAt(s32 from, s32 to);
 
 
 
 
-f32 horizontal_distance_squared(void *, void *);
 
-void scale_matrix(s32, s32, f32, f32, f32);
+
+
+
+
+
+
+
+
+
 
 
 s32 TObjPlayer__sub_800A04F0(void *);
@@ -146,9 +140,6 @@ s32 TObjPlayer__sub_800A04F0(void *);
 
 
 
-void TObjEneRe4Bit__sub_800EDAB0(void);
-
-void TObjEneRe4Bit__sub_800EDAB4();
 
 
 
@@ -166,7 +157,7 @@ void TObjEneRe4Bit__sub_800EDAB4();
 
 
 
-void TBoss3Volopt__sub_800F059C(void);
+
 }
 
 void calc_wall_clamped_destination(void *self, void *arg1, f32 dx, f32 dz, f32 dist);
@@ -174,28 +165,18 @@ void calc_wall_clamped_destination(void *self, void *arg1, f32 dx, f32 dz, f32 d
 
 void *destroy_buffer_pair(void *arg0, s16 arg1);
 extern "C" {
-s32 approach_angle_limited(s32, s32, s32);
-
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 
 
-void vec3_add_to(void *, void *);
 
-s32 subtract_vector(void *, void *);
+
 
 Vec lbl_80501070;
 
-extern saddr lbl_805D52D0;
 
-extern saddr TObjEneRe4Sorcerer__attack_params;
 
-extern saddr TObjEneRe4Sorcerer__resistance_params;
 
-extern s32 *sorcerer_behavior_params;
 
-extern BmlResource *sorcerer_bml_resource;
 
-extern void *tl_04;
 
 TObjEneRe4InitParams re4_sorcerer_init_params = {225.0f, 0.0f, 0x600};
 
@@ -245,7 +226,6 @@ const NpcAnimationBinding re4_sorcerer_spawn_descriptor = { NULL, reinterpret_ca
 }
 
 #define re4_sorcerer_collision_body_part_table ((f32 *)re4_sorcerer_collision_body_part_table)
-extern "C" {
 saddr lbl_805D52D0;
 
 saddr TObjEneRe4Sorcerer__attack_params;
@@ -266,7 +246,9 @@ Vec *re4_sorcerer_render_node_ptr;
 
 uaddr TObjEneRe4Sorcerer__uv_scroll_buffer;
 
-void TBoss3Volopt__sub_800F059C(void) {  }
+NJS_ARGB *MaterialColorFade::get_color() {
+    return &color;
+}
 
 void TObjEneRe4Sorcerer::load_resources() {
     uaddr r;
@@ -318,7 +300,6 @@ TObjEneRe4Sorcerer::TObjEneRe4Sorcerer(TObject *parent, void *set_data) : TObjEn
     invoke_initialization_hook(set_data);
     sub_800EFE30();
     init_enemy();
-}
 }
 
 #pragma push
@@ -501,7 +482,7 @@ s32 TObjEneRe4Sorcerer::select_attack_target(f32 farg0, f32 farg1) {
             p = (TObjChara *)TObjPlayer::get_player_data(i);
             if (p != this && p != o1 && p != o2 && ((TObjBase *)p)->is_alive() != 0) {
                 d = horizontal_distance_squared(&this->body_center, &p->position);
-                if (d < best && csnLookAt((saddr)&this->body_center, (saddr)&p->body_center) == 0) {
+                if (d < best && csnLookAt(&this->body_center, &p->body_center) == 0) {
                     id = ((s32 (*)(void *))get_entity_id)(p);
                     best = d;
                 }
@@ -881,7 +862,7 @@ void TObjEneRe4Sorcerer::sub_800EEDE4(s32 reason) {
         }
         break;
     case 0:
-        if (*((f32 * (*)(void *))TBoss3Volopt__sub_800F059C)(&this->fade) >= -0.75f) {
+        if (this->fade.get_color()->a >= -0.75f) {
             this->advance_animation();
             this->turn_to_target();
         }
@@ -1373,7 +1354,7 @@ void TObjEneRe4Sorcerer::step_effect_sequence(NJS_OBJECT *) {
         t = model_render_flags;
         TObjEneRe4Sorcerer__saved_render_flags = t;
         model_render_flags = t & 0xFFFF7FFF;
-        scale_matrix(0, t, k, k, k);
+        scale_matrix(0, k, k, k);
         TParticleCtrl::begin_effect_render();
         break;
     }
@@ -1439,7 +1420,7 @@ void TObjEneRe4Sorcerer::render() {
         }
         if (var_r27 != 0) {
             push_matrix();
-            post_translate_matrix(&position);
+            post_translate_matrix(&position.x);
             translate_matrix(0, 0.0f, 22.0f, 0.0f);
             rotate_matrix_y(0, rotation_y);
             TObjEneRe4Sorcerer__render_node_index = 0;
@@ -1483,7 +1464,7 @@ void TObjEneRe4Sorcerer::render_demo() {
         draw_ground_shadow(0, 0);
         TObjFish::set_global_param(texlist);
         push_matrix();
-        post_translate_matrix(&position);
+        post_translate_matrix(&position.x);
         translate_matrix(0, 0.0f, 22.0f, 0.0f);
         rotate_matrix_y(0, rotation_y);
         m_3c0 = (m_3c0 + 5);

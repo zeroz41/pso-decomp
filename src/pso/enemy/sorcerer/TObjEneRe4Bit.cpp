@@ -22,22 +22,16 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2F28.h"
+#include "pso/render/model_render_state.h"
+#include "pso/enemy/sorcerer/Re4BitData.h"
 #pragma defer_codegen on
 
-extern "C" {
-extern const f32 lbl_805D9E84;
+// Re4BitData.cpp defines it as 16 bytes (the shadow scale and a zero word), a Vec is 12.
 extern const Vec re4_bit_render_vec;
-extern s32 saved_model_render_flags;
-extern s32 model_render_flags;
+extern "C" {
 saddr TObjEneRe4Bit__model;
 s32 re4_bit_texture_list;
-extern "C" { extern char TObjEneRe4Bit__class_name_string[]; }
 const char *lbl_805D2AE8 = TObjEneRe4Bit__class_name_string;
-extern BmlResource *sorcerer_bml_resource;
-extern s32 lbl_8043D2B0[];
-extern s32 lbl_8043D2B8[];
-extern s32 lbl_8043D2C0[];
-extern s32 lbl_8043D2C8[];
 }
 
 TObjEneRe4InitParams re4_bit_init_params = {225.0f, 0.0f, 0x600};

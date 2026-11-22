@@ -66,6 +66,11 @@
 #include "pso/technique/TTecDeband.h"
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/unk/text_803D853C.h"
+#include "pso/render/model_render_state.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/ui/TLevelSelect.h"
 
 // load_resources fills these per kind (0 and 1) from TLobby::register_boss,
 // TLobby::dispatch_shared_handler_b, TLobby::register_object and
@@ -89,49 +94,31 @@ void print_float_padded(s32 arg0, s32 prec, f32 val);
 void move_with_wall_slide(u8 *arg0);
 
 extern "C" {
-s32 scale_matrix(int, f32, f32, f32);
-s32 post_translate_matrix(void *);
 s32 select_enemy_destination(void *, Vec, int);
 s32 copy_position_if_valid__10TObjPlayerFii(void *, Vec);
+u16 get_entity_id(TObjBase *object);
+f32 fabs_float(f32);
+f32 atan2_float(f32, f32);
+BOOL is_split_screen(void);
 }
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
-u16 get_entity_id(TObjBase *object);
-f32 fabs_float(f32);
-s32 TBoss3Volopt__sub_800D8D88(void *, f32);
-f32 * TBoss3Volopt__sub_800F059C(void *);
 void create__9TTecJelinFllll(void *, void *, void *, int);
 }
 void compose_motion_node_matrix(void *arg0);
-extern "C" {
-f64 atan2_float(f32, f32);
-BOOL is_split_screen(void);
-}
 
 extern const f32 TObjEneMe3SinowZoa__data_805DF2FC;
 extern const f32 lbl_805DF300;
 extern const f32 TObjEneMe3SinowZoa__data_805DF2F0;
 extern const f32 TObjEneMe3SinowZoa__data_805DF2F4;
 extern const f32 lbl_805DF304;
-extern s32 model_render_flags;
 extern const f32 lbl_805DF318;
 extern const f32 TObjEneMe3SinowZoa__data_805DF31C;
-extern u8 identity_matrix[];
-extern s32 game_difficulty_selection;
 extern const f32 TObjEneMe3SinowZoa__data_805DF308;
 extern const f32 TObjEneMe3SinowZoa__data_805DF30C;
 extern const f32 TObjEneMe3SinowZoa__data_805DF310;
 extern const f32 TObjEneMe3SinowZoa__data_805DF314;
 extern const f32 lbl_805DF2F8;
-extern u8 saved_model_draw_color[];
-extern u8 model_material_color[];
-extern s32 saved_model_render_flags;
-extern s32 saved_chunk_polygon_flags_and_mask;
-extern s32 saved_chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_and_mask;
-extern const f32 lbl_805D9E84;
-extern const f32 lbl_805D9E88;
 
 TObjEneMe3SinowZoaMoveParams TObjEneMe3SinowZoa_init_params = { 225.0f, 0.0f, 0x600, { 0, 0, 0, 0 } };
 CollisionBody sinow_zoa_collision_parts = { { 0.0f, 0.0f, 0.0f }, 12.0f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f };
@@ -783,7 +770,7 @@ void TObjEneMe3SinowZoa::sub_80319E74(s32 mode) {
         t = this->body_y;
         v.y = t - 20.0f;
         if (this->stealthed == 0) {
-            TBoss3Volopt__sub_800D8D88(&v, t);
+            TBoss3Volopt__sub_800D8D88((saddr)&v);
         } else {
             create_timed_particle_emitter(&this->position, 0x79, 0, 0xF);
         }
@@ -798,7 +785,7 @@ void TObjEneMe3SinowZoa::sub_80319E74(s32 mode) {
         }
         break;
     case 0:
-        if (*TBoss3Volopt__sub_800F059C(&this->fade) >= -0.75f) {
+        if (this->fade.get_color()->a >= -0.75f) {
             this->advance_animation();
         }
         this->update_ground_contact();
@@ -879,7 +866,7 @@ void TObjEneMe3SinowZoa::sub_80319B8C(s32 mode) {
         VecCopy(&v, &this->position);
         temp_f1 = this->body_y;
         v.y = temp_f1 - TObjEneMe3SinowZoa__data_805DF314;
-        TBoss3Volopt__sub_800D8D88(&v, temp_f1);
+        TBoss3Volopt__sub_800D8D88((saddr)&v);
         break;
     case 3:
         if (this->fade.advance_toward_max() != 0) {
@@ -1753,7 +1740,7 @@ void TObjEneMe3SinowZoa::render() {
         saved_model_render_flags = model_render_flags;
         saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
         saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
-        copy_argb((NJS_ARGB *)saved_model_draw_color, (NJS_ARGB *)model_material_color);
+        copy_argb(&saved_model_draw_color, &model_material_color);
         if (!(this->m_3d0 & 0x4000)) {
             this->vfunc_108();
             TObjEneDD::clear_global_flag_400();
@@ -1782,7 +1769,7 @@ void TObjEneMe3SinowZoa::render() {
         }
         if (draw != 0) {
             push_matrix();
-            post_translate_matrix(&this->position);
+            post_translate_matrix(&this->position.x);
             translate_matrix(0, TObjEneMe3SinowZoa__data_805DF31C, this->body_offset_y, TObjEneMe3SinowZoa__data_805DF31C);
             rotate_matrix_y(0, this->rotation_y);
             TObjEneMe3SinowZoa__render_node_index = 0;
@@ -1796,7 +1783,7 @@ void TObjEneMe3SinowZoa::render() {
         if (this->try_run_effect_m7() == 0 && this->fade.has_partial_opacity() != 0) {
             this->fade.clear_flag_and_notify();
         }
-        copy_argb((NJS_ARGB *)model_material_color, (NJS_ARGB *)saved_model_draw_color);
+        copy_argb(&model_material_color, &saved_model_draw_color);
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         model_render_flags = saved_model_render_flags;
@@ -1816,7 +1803,7 @@ s32 TObjEneMe3SinowZoa::render_model_if_visible() {
         if (push_reflection_matrix(&this->m_3d4) != 0) {
             TObjFish::set_global_param(this->texlist);
             push_matrix();
-            post_translate_matrix(&this->position);
+            post_translate_matrix(&this->position.x);
             translate_matrix(0, TObjEneMe3SinowZoa__data_805DF31C, this->body_offset_y, TObjEneMe3SinowZoa__data_805DF31C);
             rotate_matrix_y(0, this->rotation_y);
             this->draw();
@@ -1869,7 +1856,7 @@ void TObjEneMe3SinowZoa::render_demo() {
             }
         }
         push_matrix();
-        post_translate_matrix(&position);
+        post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         scale_matrix(0, TObjEneMe3SinowZoa__data_805DF2F4, TObjEneMe3SinowZoa__data_805DF2F4, TObjEneMe3SinowZoa__data_805DF2F4);
         {
@@ -2062,7 +2049,7 @@ void TObjEneMe3SinowZoa::sub_80316C3C(s32 mode) {
             if (this->is_passing_frame(TObjEneMe3SinowZoa__data_805DF314) != 0) {
                 this->advance_animation();
                 push_matrix_from(identity_matrix);
-                post_translate_matrix(&this->position);
+                post_translate_matrix(&this->position.x);
                 rotate_matrix_y(0, this->rotation_y);
                 set_motion_packed_rotation();
                 this->calc_joint_matrices(TObjEneMe3SinowZoa__data_805DF314);

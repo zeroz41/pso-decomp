@@ -19,6 +19,8 @@ public:
     virtual void clear_flag_and_notify();
     virtual s32 has_visible_opacity();
     void set_speed(f32 v);
+    // The fade's color (callers read its alpha); defined in the Re4 Sorcerer unit.
+    NJS_ARGB *get_color();
 };
 
 #include <stddef.h>

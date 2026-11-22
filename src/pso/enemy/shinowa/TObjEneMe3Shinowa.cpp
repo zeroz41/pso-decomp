@@ -60,25 +60,24 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/technique/TTecDeband.h"
 #include "pso/map/CsnGroundQuery.h"
+#include "pso/render/model_render_state.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 
 #pragma defer_codegen on
 extern "C" {
-extern s32 model_render_flags;
-s32 post_translate_matrix(void *);
 BmlResource * TObjEneMe3ShinowaMirage__data_805D5298;
 s32 TObjEneMe3ShinowaMirage__render_node_index;
 TUnk_8048FA00 * TObjEneMe3ShinowaMirage__data_805D52A0;
 SampledMotionPoints * TObjEneMe3ShinowaMirage__data_805D52A4;
 SampledMotionPoints * TObjEneMe3ShinowaMirage__data_805D52A8;
 SampledMotionPoints * TObjEneMe3ShinowaMirage__data_805D52AC;
-void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 angle);
-s32 subtract_vector(void *, void *);
 struct Tbl_800E7884 { u8 pad[0xC]; u8 *t[3][2]; };
 }
 void calc_wall_clamped_destination(void *self, void *arg1, f32 dx, f32 dz, f32 dist);
 extern "C" {
-s32 TBoss3Volopt__sub_800D8D88(void *, f32);
-void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 
 // Per-variant parameter tables fetched from TLobby (TObjEneMe3Stelth names the same four
 // base/attack/resistance/behavior_params_by_variant).
@@ -92,9 +91,6 @@ __declspec(section ".data") TObjEneMe3ShinowaParams *TObjEneMe3ShinowaMirage__mi
 __declspec(section ".data") NJS_TEXLIST lbl_80500FEC;
 Vec lbl_80500FF4;
 s32 *lbl_80501000[4];
-extern s32 saved_model_render_flags;
-extern const f32 lbl_805D9E84;
-extern const f32 lbl_805D9E88;
 
 TObjEneMe3ShinowaMoveParams TObjEneMe3ShinowaMirage__init_params = {
     225.0f, 0.0f, 0x600,
@@ -530,7 +526,7 @@ void TObjEneMe3Shinowa::apply_effect_pair() {
 
     push_matrix();
     set_matrix_identity(0);
-    post_translate_matrix((u8 *)&position);
+    post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
     entry = TObjEneMe3ShinowaMirage__data_805D52A4->lookup(frame);
     if (entry != NULL) {
@@ -695,7 +691,7 @@ void TObjEneMe3Shinowa::sub_800E6BB8(s32 reason) {
         VecCopy(&pos, &position);
         y = body_y;
         pos.y = y - 20.0f;
-        TBoss3Volopt__sub_800D8D88(&pos, y);
+        TBoss3Volopt__sub_800D8D88((saddr)&pos);
         return;
     case 3:
         if (fade.advance_toward_max() != 0) {
@@ -1007,7 +1003,7 @@ void TObjEneMe3Shinowa::sub_800E5F64(s32 reason) {
             if (entry != NULL) {
                 push_matrix();
                 set_matrix_identity(0);
-                post_translate_matrix(&this->position);
+                post_translate_matrix(&this->position.x);
                 rotate_matrix_y(0, this->rotation_y);
                 matrix_mult_vec_array(NULL, entry, (Vec *)&sp14, 2);
                 pop_matrix();
@@ -1544,7 +1540,7 @@ void TObjEneMe3Shinowa::render() {
         }
         if (draw != 0) {
             push_matrix();
-            post_translate_matrix(&position);
+            post_translate_matrix(&position.x);
             translate_matrix(0, 0.0f, body_offset_y, 0.0f);
             rotate_matrix_y(0, rotation_y);
             TObjEneMe3ShinowaMirage__render_node_index = 0;
@@ -1603,7 +1599,7 @@ void TObjEneMe3Shinowa::render_demo() {
             }
         }
         push_matrix();
-        post_translate_matrix(&position);
+        post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         scale_matrix(0, 1.0f, 1.0f,
                      1.0f);

@@ -88,4 +88,8 @@ LAYOUT_ASSERT(TObjEneRe4Sorcerer_fade_offset, offsetof(TObjEneRe4Sorcerer, fade)
 LAYOUT_ASSERT(TObjEneRe4Sorcerer_fades_offset, offsetof(TObjEneRe4Sorcerer, fades) == 0x474);
 LAYOUT_ASSERT(TObjEneRe4Sorcerer_size, sizeof(TObjEneRe4Sorcerer) == 0x4F0);
 
+struct BmlResource;
+// The sorcerer model file; the Bit models come from it too (TObjEneRe4Bit__sub_800EDAB4).
+extern BmlResource *sorcerer_bml_resource;
+
 #endif
