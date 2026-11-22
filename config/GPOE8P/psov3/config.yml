@@ -6315,7 +6315,7 @@ force_active:
   - update_front_attack__15TBoss3VoloptP02Fv
   - update_attack__15TBoss3VoloptP02Fv
   - update_idle__15TBoss3VoloptP02Fv
-  - fn_800499FC
+  - get_float_param__14TObjVoloptCageFl
   - clear_cage_shot_in_flight__FP15TObjEnemyCustom
   - fn_8004D9A8
   - copy_zanzo_params

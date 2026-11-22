@@ -27,6 +27,7 @@ public:
     static void destroy();
     static void init_break_model();
     static s32 get_int_param(s32 index);
+    static f32 get_float_param(s32 index);
 };
 
 LAYOUT_ASSERT(TObjVoloptCage_size, sizeof(TObjVoloptCage) == 0x394);
