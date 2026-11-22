@@ -52,6 +52,7 @@
 
 
 
+// motion_set, motion_mode and part_motions as one block (copy_block).
 struct Blk_802B8624 { s32 a; s32 b; s32 rest[14]; };
 
 
@@ -118,7 +119,6 @@ Boss6Type1MotionSet TBoss6Type1__motion_set_table[21] = {
     {2, 2, 44, 15},
 };
 
-Blk_802B8624 *copy_block__11TBoss6Type1FPvPv(Blk_802B8624 *d, const Blk_802B8624 *s);
 TObjPlayer *get_player_by_client_id(u16 client);
 s32 matrix_mult_vec(int, void *, void *);
 void set_matrix_identity(u8 *arg0);
@@ -214,7 +214,7 @@ const Boss6StripDesc lbl_80470EA0[1] = {{0, 0, 0}};
 const Vec lbl_80470EAC = {0.0f, 0.0f, 0.0f};
 const s32 boss6_type1_random_action_table[5] = {4, 0x16, 5, 8, 2};
 const Blk_802B8624 lbl_80470ECC = {2, 0};
-const f32 lbl_80470F0C[7] = {0.0f, 0.0f, 0.5f, 0.0f, 1.0f / 15.0f, 0.0f, 0.0f};
+const Boss6PartMotion lbl_80470F0C = {NULL, 0.0f, 0.5f, 0.0f, 1.0f / 15.0f, NULL, 0.0f};
 const Tbl_802B79DC TBoss6Type1__part_position_sources[7] = {{1, 2}, {1, 1}, {0, 0}, {0, 1}, {0, 2}, {0, 3}, {0, 4}};
 const f32 TBoss6Type1__sword_shot_hit_radii[4] = {15.0f, 20.0f, 25.0f, 50.0f};
 // Model nodes the five kakusan shots of TBoss6Type1::sub_802B6944 leave from.
@@ -661,20 +661,22 @@ void TBoss6Type1::set_action_state(s32 arg1) {
 }
 
 
-Blk_802B8624 *copy_block__11TBoss6Type1FPvPv(Blk_802B8624 *d, const Blk_802B8624 *s) {
+Blk_802B8624 *TBoss6Type1::copy_block(Blk_802B8624 *d, const Blk_802B8624 *s) {
     *d = *s;
     return d;
 }
 
-void TBoss6Type1::copy_transform(void* q) { *(u32 *)&this->m_name = *(u32*)((char*)q + 0x0); (*(f32 *)&this->m_flags) = *(f32*)((char*)q + 0x4); *(f32 *)&this->m_prev = *(f32*)((char*)q + 0x8); (*(f32 *)&this->m_next) = *(f32*)((char*)q + 0xc); *(f32 *)&this->m_up = *(f32*)((char*)q + 0x10); (*(u32 *)&this->m_down) = *(u32*)((char*)q + 0x14); *(f32*)((char*)this + 0x18) = *(f32*)((char*)q + 0x18); }
+void Boss6PartMotion::copy_from(Boss6PartMotion *src) {
+    *this = *src;
+}
 
 void TBoss6Type1::sub_802B854C() {
     s32 i;
     Boss6PartMotion *a;
-    copy_block__11TBoss6Type1FPvPv((Blk_802B8624 *)&motion_set, &lbl_80470ECC);
+    copy_block((Blk_802B8624 *)&motion_set, &lbl_80470ECC);
     for (i = 0; i < anim_count(); i++) {
         a = &part_motions[i];
-        ((TBoss6Type1 *)a)->copy_transform((void *)lbl_80470F0C);
+        a->copy_from((Boss6PartMotion *)&lbl_80470F0C);
         a->motion = a->prev_motion = get_bml_motion(bml_resource, TBoss6Type1__motion_set_table[2].ids[i]);
     }
 }

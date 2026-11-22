@@ -24,8 +24,10 @@ struct Boss6PartMotion {
     f32 blend_step;
     AnimationMotion *prev_motion;
     f32 prev_frame;
+    void copy_from(Boss6PartMotion *src);
 };
 struct TBoss6GravBall;
+struct Blk_802B8624;
 
 // The three bytes an attack choice fills (sub_802B909C / randomize_attack) and send_6xA4_action sends.
 struct Atk_802B8EE0 {
@@ -158,7 +160,7 @@ struct TBoss6Type1 : public TObjEnemy {
     void draw_part_motions();
     void set_motion_set(s32 arg1);
     void advance_animations();
-    void copy_transform(void* q);
+    static Blk_802B8624 *copy_block(Blk_802B8624 *d, const Blk_802B8624 *s);
     void render_shadows();
     void do_attack();
     void send_6xA4_action(s32 t, const Atk_802B8EE0 *src);
