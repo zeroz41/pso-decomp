@@ -856,7 +856,7 @@ void TBoss6Mag::push_out_from_target() {
     if (owner == NULL) {
         return;
     }
-    owner->copy_pos_59c((saddr)&a);
+    owner->copy_pos_59c(&a);
     VecCopy(&b, &position);
     subtract_vector(&b, &a);
     len = vector_length(&b);
@@ -903,7 +903,7 @@ void TBoss6Mag::push_out_from_points() {
     f32 len;
     f32 f;
     if (owner != NULL) {
-        owner->get_push_points((saddr)&pts[0], (saddr)&pts[1]);
+        owner->get_push_points(&pts[0], &pts[1]);
         for (i = 0; i < 2; i++) {
             VecCopy(&v, &pts[i]);
             subtract_vector(&v, &position);

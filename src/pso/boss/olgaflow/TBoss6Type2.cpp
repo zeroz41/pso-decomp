@@ -109,15 +109,6 @@ struct Obj_802B9D6C;
 struct Tmp_802BE0D4 { s32 a; s16 b; s16 c; u8 pad[0x10]; };
 
 
-union TypedVector_802BA6DC {
-    struct { f32 x, y, z; } f;
-    struct { s32 x, y, z; } bits;
-};
-
-union TypedVector_802BAA74 {
-    struct { f32 x, y, z; } f;
-    struct { s32 x, y, z; } bits;
-};
 
 extern "C" {
 void TBoss6Type2__sub_802BE4E0(s32 *arg0, s32 *boss6_type2_zero_vec);
@@ -153,9 +144,6 @@ extern const Ent_802BA7BC boss6_type2_motion_param_table[] = {
 };
 extern const s32 boss6_type2_hit_effect_node_table[] = { 4, 9, 11, 0 };
 
-LAYOUT_ASSERT(TypedVector_802BA6DC_size, sizeof(TypedVector_802BA6DC) == 12);
-
-LAYOUT_ASSERT(TypedVector_802BAA74_size, sizeof(TypedVector_802BAA74) == 12);
 
 
 
@@ -569,15 +557,15 @@ void TBoss6Type2::set_target_state(s32 mode, s32 new_variant) {
     }
 }
 
-s32 TBoss6Type2::count_matching_values(s32 arg1, s32 arg2) {
+s32 TBoss6Type2::count_matching_values(s32 action, s32 depth) {
     s32 i;
     s32 cnt;
-    if (arg2 > 0x20) {
-        arg2 = 0x20;
+    if (depth > 0x20) {
+        depth = 0x20;
     }
     cnt = 0;
-    for (i = 0; i < arg2; i++) {
-        if (action_history[i] == arg1) {
+    for (i = 0; i < depth; i++) {
+        if (action_history[i] == action) {
             cnt++;
         }
     }
@@ -681,17 +669,17 @@ void TBoss6Type2::apply_damage(s32 diff) {
 
 void TBoss6Type2::sub_802BD340() {  }
 
-void TBoss6Type2::copy_pos_59c(saddr arg1) {
-    VecCopy((Vec *)arg1, &node_positions[0]);
+void TBoss6Type2::copy_pos_59c(Vec *out) {
+    VecCopy(out, &node_positions[0]);
 }
 
-void TBoss6Type2::get_push_points(saddr arg1, saddr arg2) {
-    VecCopy((Vec *)arg1, &node_positions[8]);
-    VecCopy((Vec *)arg2, &node_positions[3]);
+void TBoss6Type2::get_push_points(Vec *first, Vec *second) {
+    VecCopy(first, &node_positions[8]);
+    VecCopy(second, &node_positions[3]);
 }
 
-void TBoss6Type2::copy_pos_620(saddr arg1) {
-    VecCopy((Vec *)arg1, &node_positions[11]);
+void TBoss6Type2::copy_pos_620(Vec *out) {
+    VecCopy(out, &node_positions[11]);
 }
 
 #pragma push
@@ -1794,26 +1782,26 @@ s32 TBoss6Type2::snap_to_ground() {
 }
 
 s32 TBoss6Type2::turn_toward_target_position() {
-    s32 var_r31;
-    f32 temp_f1;
-    s32 temp_r30;
-    TypedVector_802BAA74 sp8;
-    VecCopy((Vec *)(&sp8), (const Vec *)(&move_target.position));
-    subtract_vector((Vec *)(&sp8), (Vec *)(&position));
-    sp8.f.y = 0.0f;
-    temp_f1 = vector_length((Vec *)(&sp8));
-    if (temp_f1 < 10.0f) {
+    s32 turn_step;
+    f32 dist;
+    s32 old_rotation;
+    Vec to_target;
+    VecCopy(&to_target, &move_target.position);
+    subtract_vector(&to_target, &position);
+    to_target.y = 0.0f;
+    dist = vector_length(&to_target);
+    if (dist < 10.0f) {
         return 0;
     }
-    if (temp_f1 > 25.0f) {
-        var_r31 = 0x1B4;
-        if ((s32) berserk != 0) {
-            var_r31 = 0x369;
+    if (dist > 25.0f) {
+        turn_step = 0x1B4;
+        if (berserk != 0) {
+            turn_step = 0x369;
         }
-        temp_r30 = (s32)rotation_y;
-        rotation_y = approach_angle_limited((s32)((int) ((s32)rotation_y)), (s32)((s32) ((s32) (10430.38043493439 * atan2_float(sp8.f.x, sp8.f.z)))), var_r31);
-        if (var_r31 == angle_difference_abs(temp_r30, (int) ((s32)rotation_y))) {
-            if ((s32) turn_sound_played == 0) {
+        old_rotation = rotation_y;
+        rotation_y = approach_angle_limited(rotation_y, (s32)(10430.38043493439 * atan2_float(to_target.x, to_target.z)), turn_step);
+        if (turn_step == angle_difference_abs(old_rotation, rotation_y)) {
+            if (turn_sound_played == 0) {
                 play_sound_effect(0x4006A602, &position, 0, 0);
                 turn_sound_played = 1;
             }
@@ -1825,8 +1813,8 @@ s32 TBoss6Type2::turn_toward_target_position() {
 }
 
 void TBoss6Type2::trigger_screen_pos() {
-    if (((s32) this->low_hp == 0) && (this->hp_ratio < 0.33333334f)) {
-        this->low_hp = 1;
+    if (low_hp == 0 && hp_ratio < 0.33333334f) {
+        low_hp = 1;
         set_screen_pos();
     }
 }
@@ -1897,30 +1885,30 @@ void TBoss6Type2::sub_802BA7BC() {
 void TBoss6Type2::reset_lower_contact() { lower_contact_index = -1; }
 
 void TBoss6Type2::update_lower_contact_delta() {
-    TypedVector_802BA6DC sp20;
-    TypedVector_802BA6DC sp14;
-    TypedVector_802BA6DC sp8;
-    s32 var_r31;
+    Vec lower;
+    Vec node8;
+    Vec node3;
+    s32 index;
     lower_contact_delta.z = 0.0f;
     lower_contact_delta.y = 0.0f;
     lower_contact_delta.x = 0.0f;
-    VecCopy((Vec *)(&sp14), (const Vec *)(&node_positions[8]));
-    subtract_vector((Vec *)(&sp14), (Vec *)(&position));
-    VecCopy((Vec *)(&sp8), (const Vec *)(&node_positions[3]));
-    subtract_vector((Vec *)(&sp8), (Vec *)(&position));
-    var_r31 = 0;
-    VecCopy((Vec *)(&sp20), (const Vec *)(&sp14));
-    if (sp14.f.y > sp8.f.y) {
-        var_r31 = 1;
-        VecCopy((Vec *)(&sp20), (const Vec *)(&sp8));
+    VecCopy(&node8, &node_positions[8]);
+    subtract_vector(&node8, &position);
+    VecCopy(&node3, &node_positions[3]);
+    subtract_vector(&node3, &position);
+    index = 0;
+    VecCopy(&lower, &node8);
+    if (node8.y > node3.y) {
+        index = 1;
+        VecCopy(&lower, &node3);
     }
-    if ((s32) lower_contact_index == var_r31) {
-        VecCopy((Vec *)(&lower_contact_delta), (const Vec *)(&previous_lower_contact));
-        subtract_vector((Vec *)(&lower_contact_delta), (Vec *)(&sp20));
+    if (lower_contact_index == index) {
+        VecCopy(&lower_contact_delta, &previous_lower_contact);
+        subtract_vector(&lower_contact_delta, &lower);
         lower_contact_delta.y = 0.0f;
     }
-    lower_contact_index = var_r31;
-    VecCopy((Vec *)(&previous_lower_contact), (const Vec *)(&sp20));
+    lower_contact_index = index;
+    VecCopy(&previous_lower_contact, &lower);
 }
 
 void TBoss6Type2::update_zako() {
@@ -1950,21 +1938,21 @@ void TBoss6Type2::move_to_arena_center(s32 timer, s32 duration) {
 
 void TBoss6Type2::cache_fish_params() {
     reset_fish_fields();
-    *(saddr *)((s8 *)this + 0x560) = (saddr)get_bml_texlist(archive, 0xB);
-    *(saddr *)((s8 *)this + 0x564) = (saddr)get_bml_texlist(archive, 0xA);
-    *(saddr *)((s8 *)this + 0x568) = (saddr)get_bml_model(archive, 0xB);
-    *(saddr *)((s8 *)this + 0x56C) = (saddr)get_bml_model(archive, 0xA);
+    grab_texlists[0] = get_bml_texlist(archive, 0xB);
+    grab_texlists[1] = get_bml_texlist(archive, 0xA);
+    grab_models[0] = get_bml_model(archive, 0xB);
+    grab_models[1] = get_bml_model(archive, 0xA);
 }
 
 void TBoss6Type2::reset_counters() {
-    if ((u16) possessed_client != 0xFFFF) {
+    if (possessed_client != 0xFFFF) {
         restore_target_player_state();
     }
     reset_fish_fields();
-    *(s32 *)((s8 *)this + 0x560) = 0;
-    *(s32 *)((s8 *)this + 0x564) = 0;
-    *(s32 *)((s8 *)this + 0x568) = 0;
-    *(s32 *)((s8 *)this + 0x56C) = 0;
+    grab_texlists[0] = 0;
+    grab_texlists[1] = 0;
+    grab_models[0] = 0;
+    grab_models[1] = 0;
 }
 
 void TBoss6Type2::update_possess_target() {
@@ -2113,23 +2101,23 @@ void TBoss6Type2::init_collected_entries() {
     }
 }
 
-void TBoss6Type2::aim_toward_point(void *arg1_arg) {
-    Vec *arg1 = (Vec *)arg1_arg;
+void TBoss6Type2::aim_toward_point(void *target) {
+    Vec *point = (Vec *)target;
     Vec v;
     s32 ang;
     s32 i;
-    if (arg1 == NULL) {
+    if (point == NULL) {
         ang = 0;
     } else {
-        VecCopy(&v, arg1);
-        subtract_vector(&v, &this->position);
-        ang = (s16)((s32)(10430.38043493439 * atan2_float(v.x, v.z)) - this->rotation_y);
+        VecCopy(&v, point);
+        subtract_vector(&v, &position);
+        ang = (s16)((s32)(10430.38043493439 * atan2_float(v.x, v.z)) - rotation_y);
     }
     if (ang < -0x2800 || ang > 0x2800) {
         ang = 0;
     }
     for (i = 0; i < 2; i++) {
-        this->aim_joints[i].aim_angle = approach_angle_limited(this->aim_joints[i].aim_angle, ang, 0x2AA);
+        aim_joints[i].aim_angle = approach_angle_limited(aim_joints[i].aim_angle, ang, 0x2AA);
     }
 }
 
@@ -2213,12 +2201,12 @@ void TBoss6Type2::update_part_positions() {
     } while (i < 14);
 }
 
-void TBoss6Type2::spawn_particle_slot(s32 arg1) {
-    if (particle_emitters[arg1] == 0) {
+void TBoss6Type2::spawn_particle_slot(s32 slot) {
+    if (particle_emitters[slot] == 0) {
         Vec v = position;
-        particle_emitters[arg1] = create_particle_emitter(&v, TBoss6Type2__particle_attachment_table[arg1].a);
-        if (particle_emitters[arg1] != 0) {
-            particle_emitters[arg1]->set_flags(0x40);
+        particle_emitters[slot] = create_particle_emitter(&v, TBoss6Type2__particle_attachment_table[slot].a);
+        if (particle_emitters[slot] != 0) {
+            particle_emitters[slot]->set_flags(0x40);
         }
     }
 }
@@ -2301,27 +2289,27 @@ s32 TBoss6Type2::get_phase() { return action_history[1]; }
 void TBoss6Type2::render() { render_body_effects(); draw(); }
 
 void TBoss6Type2::render_body_effects() {
-    s32 var_r31;
+    s32 settled;
 
     sum_offsets();
     TObjPlayer::toggle_particle_effect();
     push_matrix();
-    post_translate_matrix((const f32 *)&this->position);
-    rotate_matrix_y(NULL, this->rotation_y);
-    var_r31 = 0;
-    if ((0.0f == this->state_progress) || (1.0f == this->state_progress)) {
-        var_r31 = 1;
+    post_translate_matrix((const f32 *)&position);
+    rotate_matrix_y(NULL, rotation_y);
+    settled = 0;
+    if ((0.0f == state_progress) || (1.0f == state_progress)) {
+        settled = 1;
     }
-    if (var_r31 != 0) {
-        TBoss6PlotFalz__sub_802AC008(this->hit_flash, this->hp_ratio);
+    if (settled != 0) {
+        TBoss6PlotFalz__sub_802AC008(hit_flash, hp_ratio);
     }
-    this->draw_body_models();
-    if (var_r31 != 0) {
+    draw_body_models();
+    if (settled != 0) {
         TBoss6PlotFalz::update_camera_target();
     }
     pop_matrix();
     TParticleCtrl::end_effect_render();
-    this->restore_effect_values();
+    restore_effect_values();
 }
 
 void TBoss6Type2::draw() {

@@ -11,6 +11,8 @@ struct TBoss6Zanzo;
 class ModelNodePositionCapture;
 struct OlgaFlowType2ActionMsg;
 struct Boss6GridBytes;
+struct GinjaTextureList;
+struct NJS_OBJECT;
 struct CollisionBody;
 struct AnimationMotion;
 struct TBoss6Mag;
@@ -87,7 +89,7 @@ struct TBoss6Type2 : public TObjEnemy
     void restore_target_player_state();
     void reset_fish_fields();
     void sub_802BA078();
-    void aim_toward_point(void *);
+    void aim_toward_point(void *target);
     void render_body_effects();
     s32 action_state;  // row of boss6_type2_battle_actions (set_action_state)
     s32 action_history[32];  // set_action_state shifts the last 32 states in
@@ -144,7 +146,7 @@ struct TBoss6Type2 : public TObjEnemy
     f32 hit_flash;     // run_hit_reaction sets 1, it fades out over 15 updates
     f32 hp_ratio;      // hp / referenceHp
     s32 turn_done;     // turn_toward_target_position finished
-    u32 turn_sound_played;  // the full-speed turn sound plays once
+    s32 turn_sound_played;  // the full-speed turn sound plays once
     Vec move_origin;   // where the move to boss6_arena_center starts
     s32 switch_timer;  // attribute switch countdown (set_state_0x34, update_countdown)
     s32 switch_pending;
@@ -155,10 +157,9 @@ struct TBoss6Type2 : public TObjEnemy
     s32 foot_grounded[2];  // update_footstep_effects: set when a foot comes down (footstep sound), cleared when it lifts
     u16 possessed_client;  // grab_player's player; 0xFFFF when none
     u8 unk_55E[0x2];
-    s32 m_560;
-    s32 m_564;
-    s32 m_568;
-    s32 m_56c;
+    // BML entries 0xB and 0xA (cache_fish_params); grab_player puts them on the grabbed player.
+    GinjaTextureList *grab_texlists[2];
+    NJS_OBJECT *grab_models[2];
     s32 m_570;
     u32 m_574[2];
     u32 m_57c[2];
@@ -185,7 +186,7 @@ struct TBoss6Type2 : public TObjEnemy
     static s32 is_player_in_rock_area(u16 client_id);
     void spawn_hit_effects();
     void destroy_part(s32 arg1);
-    void spawn_particle_slot(s32 arg1);
+    void spawn_particle_slot(s32 slot);
     void update_part_positions();
     void update_footstep_effects();
     void set_fields_554();
@@ -234,12 +235,12 @@ struct TBoss6Type2 : public TObjEnemy
     void update_motion_tracks();
     void init_motion_entries();
     void set_action_state(s32 action);
-    void copy_pos_620(saddr arg1);
-    void get_push_points(saddr arg1, saddr arg2);
-    void copy_pos_59c(saddr arg1);
+    void copy_pos_620(Vec *out);
+    void get_push_points(Vec *first, Vec *second);
+    void copy_pos_59c(Vec *out);
     void apply_damage(s32 diff);
     s32 get_rotation_timer();
-    s32 count_matching_values(s32 arg1, s32 arg2);
+    s32 count_matching_values(s32 action, s32 depth);
     void set_target_state(s32 mode, s32 new_variant);
     s32 choose_next_index();
     s32 pick_random_other_index();
