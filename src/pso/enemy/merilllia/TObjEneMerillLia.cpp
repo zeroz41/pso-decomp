@@ -965,7 +965,7 @@ void TObjEneMerillLia::render() {
   {
     saved_model_render_flags = model_render_flags;
     select_actor_lighting((saddr)this);
-    TObjFish::set_global_param((int) ((RecoveredFields_800D6810_arg0 *) ((u8 *)this))->field_24);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((int) ((RecoveredFields_800D6810_arg0 *) ((u8 *)this))->field_24));
     push_matrix();
     translate_matrix(0, 0.0f, (f32) ((RecoveredFields_800D6810_arg0 *) ((u8 *)this))->field_380, 0.0f);
     post_translate_matrix(((u8 *)this) + 0x38);

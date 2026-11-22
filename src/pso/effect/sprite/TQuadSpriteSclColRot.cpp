@@ -106,7 +106,7 @@ void TQuadSpriteSclColRot::render() {
     sh = sw * (480.0f / (480.0f * lbl_8058D4F8.aspect));
     TParticleCtrl::begin_effect_render();
     begin_screen_draw(1);
-    TObjFish::set_global_param((saddr)definition->texlist);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(definition->texlist));
     set_draw_texture_and_color(definition->texture, definition->color);
     one = -1.0f;
     zero = 0.0f;

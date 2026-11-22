@@ -7,6 +7,7 @@
 #include "pso/boss/darkfalz/TBoss4DarkFalz_8004C93C.h"
 #include "pso/object/ending/TObjOnlineEnding_802E4B80.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
+#include "pso/boss/darkfalz/TBoss4ZakoDraw_8030AD38.h"
 #include "pso/system/vector.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -784,7 +785,6 @@ extern s32 __vt__14TBoss4DarkFalz[];
 void TBoss4DarkFalz__sub_8004B4F0(void *arg0p, void *arg1p);
 s32 __ct__9TObjEnemyFP7TObject();
 s32 TBoss4DarkFalz__ct(saddr a0, s32 arg1, saddr a2);
-int TBoss4DarkFalz__sub_8030AD38(void);
 s32 __ct__11TObjControlFP7TObject(s32, s32);
 
 void TBoss4DarkFalz::render() {  }
@@ -954,7 +954,12 @@ void handle_6x19_dark_falz_actions(Msg_8004BFA4 *arg0) {
     }
 }
 
-void TBoss4DarkFalz::cleanup_global() { TBoss4DarkFalz::free_global_instance(); TBoss4DarkFalz__sub_8030AD38(); delete (BmlResource *)darkfalz_dat_resource; darkfalz_dat_resource = 0; }
+void TBoss4DarkFalz::cleanup_global() {
+    TBoss4DarkFalz::free_global_instance();
+    TBoss4DarkFalz__sub_8030AD38();
+    delete darkfalz_dat_resource;
+    darkfalz_dat_resource = NULL;
+}
 
 extern saddr tl_04;
 
@@ -984,4 +989,4 @@ s32 TBoss4DarkFalz::create(s32 arg0) {
 
 s32 TBoss4Uro::get_phase() { return *(s32 *)&this->_pad37c; }
 
-saddr TBoss4Uro::get_instance_count() { return reinterpret_cast<saddr>(darkfalz_dat_resource); }
+BmlResource *TBoss4Uro::get_instance_count() { return darkfalz_dat_resource; }

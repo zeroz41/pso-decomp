@@ -1420,7 +1420,7 @@ block_18:
                 }
 block_23:
                 ((TObjEneDD *)self)->update_secondary_light();
-                TObjFish::set_global_param((int) (((TObjEneRecobox *)self)->texlist));
+                TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(((TObjEneRecobox *)self)->texlist));
                 push_matrix();
                 post_translate_matrix((u8 *)&this->position);
                 rotate_matrix_y(0, (int) (((TObjEneRecobox *)self)->rotation_y));
@@ -1483,7 +1483,7 @@ void TObjEneRecobox::draw_with_debug_info() {
         debug_printf_at(pack_debug_text_position(0, 5), "RECON MAX(Min:0 Max:6)");
     }
     if (this->update_object_view_visibility(500.0f, 120.0f) != 0) {
-        TObjFish::set_global_param(this->texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);

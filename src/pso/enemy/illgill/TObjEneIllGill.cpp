@@ -1287,7 +1287,7 @@ void TObjEneIllGill::render() {
     this->viewDetail = classify_actor_view_detail(250.0f, 500.0f, 40.0f);
     if (this->viewDetail != 0) {
         select_actor_lighting((saddr)self);
-        TObjFish::set_global_param(this->texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
         push_matrix();
         post_translate_matrix(&position);
         rotate_matrix_y(0, this->rotation_y);

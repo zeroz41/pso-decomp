@@ -617,7 +617,7 @@ void TObjContainerItem::vfunc_81() {
     if (forest_box_model_archive != 0) {
         switch (self->state) {
         case 0:
-            TObjFish::set_global_param((saddr)forest_box_textures);
+            TObjFish::set_global_param(forest_box_textures);
             push_matrix();
             post_translate_matrix(self->pos);
             rotate_matrix_y(0, self->rot);
@@ -718,7 +718,7 @@ void TObjContainerEnemy::vfunc_81() {
     }
     switch (self->mode) {
     case 0:
-        TObjFish::set_global_param((saddr)forest_box_textures);
+        TObjFish::set_global_param(forest_box_textures);
         push_matrix();
         post_translate_matrix(self->f38);
         rotate_matrix_y(0, self->f60);
@@ -842,7 +842,7 @@ void TObjContainerNoItem::vfunc_81() {
         case 1:
             break;
         case 0:
-        TObjFish::set_global_param((saddr)forest_box_textures);
+        TObjFish::set_global_param(forest_box_textures);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -944,7 +944,7 @@ void TObjContainerBase::vfunc_81() {
     if (container_breakup_model_archive != 0) {
         switch (this->mode) {
         case 0:
-            TObjFish::set_global_param((saddr)container_breakup_textures);
+            TObjFish::set_global_param(container_breakup_textures);
             push_matrix();
             post_translate_matrix(self->pos);
             rotate_matrix_y(0, this->rotation_y);
@@ -1055,7 +1055,7 @@ void TObjContainerAbeEnemy::vfunc_81() {
     if (container_breakup_model_archive != 0) {
         switch (this->mode) {
         case 0:
-            TObjFish::set_global_param((saddr)container_breakup_textures);
+            TObjFish::set_global_param(container_breakup_textures);
             push_matrix();
             post_translate_matrix(self->pos);
             rotate_matrix_y(0, this->rotation_y);

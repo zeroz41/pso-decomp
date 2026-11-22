@@ -192,7 +192,7 @@ void TObjTuitate::render() {
     if (fading != 0) {
         ((Fade_8019ADA0 *)(arg0 + 0xAC))->begin();
     }
-    TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)TObjTuitate__bml_resource, 0));
+    TObjFish::set_global_param(get_bml_texlist((BmlResource *)TObjTuitate__bml_resource, 0));
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, *(s32 *)(arg0 + 0x60));
@@ -274,7 +274,7 @@ void TObjBigTuitate::render() {
     if (fading != 0) {
         ((Fade_8019AA18 *)(arg0 + 0xAC))->begin();
     }
-    TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)TObjBigTuitate__bml_resource, 0));
+    TObjFish::set_global_param(get_bml_texlist((BmlResource *)TObjBigTuitate__bml_resource, 0));
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, *(s32 *)(arg0 + 0x60));

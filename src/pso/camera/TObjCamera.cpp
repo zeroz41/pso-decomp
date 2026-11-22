@@ -128,7 +128,7 @@ s32 TObjCamera::update_object_view_visibility(f32 radius, f32 depth) {
 void TObjCamera::render() {
     s32 i;
     if (update_object_view_visibility(400.0f, 20.0f) != 0) {
-        TObjFish::set_global_param((saddr)get_bml_texlist(model_resource, 0));
+        TObjFish::set_global_param(get_bml_texlist(model_resource, 0));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);

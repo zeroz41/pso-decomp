@@ -655,9 +655,9 @@ void TObjEneDubchik::render() {
             select_actor_lighting((saddr)self);
             TObjPlayer::toggle_particle_effect();
             if (collapsed != 0) {
-                TObjFish::set_global_param((saddr)dubchik_texlist);
+                TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(dubchik_texlist));
             } else {
-                TObjFish::set_global_param((saddr)((void *) (((TObjEneDubchik *)self)->texlist)));
+                TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((void *) (((TObjEneDubchik *)self)->texlist)));
             }
             var_r30 = 1;
             push_matrix();

@@ -103,7 +103,7 @@ void TObjGyaranzoMissile::sub_800D47B4() {
 }
 
 void TObjGyaranzoMissile::render() {
-    TObjFish::set_global_param((saddr)get_bml_texlist(gyaranzo_bml_resource, 6));
+    TObjFish::set_global_param(get_bml_texlist(gyaranzo_bml_resource, 6));
     push_matrix();
     post_translate_matrix((u8 *)&this->position);
     rotate_matrix_x(0, (int)this->rotation_x);

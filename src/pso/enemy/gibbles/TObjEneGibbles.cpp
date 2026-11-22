@@ -2269,7 +2269,7 @@ void TObjEneGibbles::render() {
         ((RenderFadeState *)(&self->fades[cam]))->update();
         fade = ((RenderFadeState *)(&self->fades[cam]))->updateFromCamera((const f32*)((u8 *)this + 0x2FC));
         select_actor_lighting((saddr)this);
-        TObjFish::set_global_param(this->texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
         push_matrix_from(0);
         VecCopy((Vec *)&v, (const Vec *)((Vec *)((u8 *)this + 0x38)));
         switch (this->mode) {

@@ -18,7 +18,7 @@ void TObjDFDemoF::render() {
     post_translate_matrix(&three_part_model_translate_offset.x);
     s32 i = 0;
     do {
-        TObjFish::set_global_param((saddr)(textures[i]));
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(textures[i]));
         AnimationMotion *motion = motions[i];
         if (motion == NULL) {
             draw_chunk_object(models[i]);

@@ -11,8 +11,8 @@ extern "C" {
 extern s32 TBoss4ZakoDraw__rotation_phase;
 
 void TBoss4DarkFalz::init_uro_link() {
-    falz_zako_texture_list = reinterpret_cast<GinjaTextureList *>(get_bml_texlist(reinterpret_cast<BmlResource *>(TBoss4Uro::get_instance_count()), 8));
-    NJS_OBJECT *child = ((NJS_OBJECT *)get_bml_model(reinterpret_cast<BmlResource *>(TBoss4Uro::get_instance_count()), 8))->child;
+    falz_zako_texture_list = get_bml_texlist(TBoss4Uro::get_instance_count(), 8);
+    NJS_OBJECT *child = get_bml_model(TBoss4Uro::get_instance_count(), 8)->child;
     child->evalflags &= ~NJD_EVAL_UNIT_ANG;
     if (child->model != NULL) {
         falz_zako_chunk_model = child->model;

@@ -225,7 +225,7 @@ void TObjEneBm3FlyNest_CarryFly::run_task() {
 #pragma pop
 
 void TObjEneBm3FlyNest_CarryFly::render() {
-    TObjFish::set_global_param((saddr)lbl_805D5108->models[0].m_c);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D5108->models[0].m_c));
     push_matrix();
     if (state == 0) {
         post_translate_matrix(origin);
@@ -1034,7 +1034,7 @@ void TObjEneBm3FlyNest::render() {
             }
             if (visible != 0) {
                 update_secondary_light();
-                TObjFish::set_global_param(texlist);
+                TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
                 push_matrix();
                 lbl_805D510C = 0;
                 TObjEneBm3FlyNest_attachment_point_ptr = &unk_3c8[0];
@@ -1110,7 +1110,7 @@ void TObjEneBm3FlyNest::render_with_state_debug() {
     if (this->update_object_view_visibility(500.0f, 120.0f) != 0) {
         Vec v = {5.0f, 1.0f, 5.0f};
         ((TObjEneDD *)(self))->draw_ground_shadow(&v, 1);
-        TObjFish::set_global_param(this->texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
         push_matrix();
         ((void (*)(void *))post_translate_matrix)(self + 0x38);
         translate_matrix(0, 0.0f, -5.0f, 0.0f);

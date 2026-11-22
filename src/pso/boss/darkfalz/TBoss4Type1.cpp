@@ -550,7 +550,7 @@ TBoss4Type1::TBoss4Type1(TObject *parent, saddr *params) : TObjEnemy(parent) {
     owner = (TBoss4DarkFalz *)params[0];
     apply_set_data(params + 1);
     clear_lobby_object_state();
-    archive = reinterpret_cast<BmlResource *>(TBoss4Uro::get_instance_count());
+    archive = TBoss4Uro::get_instance_count();
     texlist = 0;
     model = 0;
     VecCopy(&position, &lbl_80486150);
@@ -732,7 +732,7 @@ void TBoss4Type1::draw_parts() {
     saddr a;
     set_motion_packed_rotation();
     for (i = 0; i < 6; i++) {
-        TObjFish::set_global_param((saddr)(get_bml_texlist(archive, lbl_80485EB0[i])));
+        TObjFish::set_global_param(get_bml_texlist(archive, lbl_80485EB0[i]));
         switch (i) {
         case 2:
         case 3:

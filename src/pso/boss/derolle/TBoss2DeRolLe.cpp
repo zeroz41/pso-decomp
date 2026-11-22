@@ -3844,7 +3844,7 @@ void TBoss2DeRolLe::render() {
         derolle_breakup_node->child = derolle_breakup_node_child;
     }
     derolle_begin_node_capture(this);
-    TObjFish::set_global_param(texlist);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
     set_chunk_model_node_callback(derolle_capture_node_points);
     {
     NJS_ARGB saved;
@@ -3948,7 +3948,7 @@ void TBoss2DeRolLe::render_body() {
     }
     derolle_begin_node_capture(this);
     set_chunk_model_node_callback(derolle_capture_node_points);
-    TObjFish::set_global_param(this->texlist);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
     draw_model_motion(model, motion, frame);
     set_chunk_model_node_callback(NULL);
     TObjLight__sub_801337F8(current_scene_light);

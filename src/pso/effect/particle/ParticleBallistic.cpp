@@ -504,7 +504,7 @@ void TUnk_8048E778::render() {
                 ((TUnk_8048E728 *)p)->apply_particle_model_fade_color(0);
             }
         }
-        TObjFish::set_global_param(p->texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(p->texlist));
         set_draw_list_mask(3);
         if (p->motion != 0) {
             draw_ginja_model_with_motion((void *)p->model, (void *)p->motion, (f32)p->frame);

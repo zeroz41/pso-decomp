@@ -166,7 +166,7 @@ void TUnk_804F322C::update_linked_state() {
     temp_r31 = (saddr)get_bml_texlist((BmlResource *)(*(saddr *)((s8 *)this + 0x374)), 2);
     bml_model = (saddr)get_bml_model((BmlResource *)(*(saddr *)((s8 *)this + 0x374)), 2);
     bml_motion = get_bml_motion((BmlResource *)(*(saddr *)((s8 *)this + 0x374)), 0);
-    TObjFish::set_global_param((saddr)(temp_r31));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(temp_r31));
     TBoss6PlotFalz__sub_802AC008(*(f32 *)((s8 *)this + 0x3A8), 0.0f);
     draw_model_motion((void *)bml_model, (void *)bml_motion, *(f32 *)((s8 *)this + 0x398));
     TBoss6PlotFalz::update_camera_target();

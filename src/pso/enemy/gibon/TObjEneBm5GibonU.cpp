@@ -599,7 +599,7 @@ void TObjEneBm5GibonU::render_debug() {
     }
     if (update_object_view_visibility(400.0f, 20.0f) != 0) {
         draw_ground_shadow(0, 0);
-        TObjFish::set_global_param(texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
         push_matrix();
         post_translate_matrix(&position);
         rotate_matrix_y(0, rotation_y);
@@ -699,7 +699,7 @@ void TObjEneBm5GibonU::render() {
                 pop_matrix();
             }
             this->update_secondary_light();
-            TObjFish::set_global_param(this->texlist);
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
             push_matrix();
             if (this->mode == 1 || this->mode == 2) {
                 m_3d8.set_flags_and_apply_damage_color();

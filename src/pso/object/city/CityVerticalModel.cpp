@@ -62,7 +62,7 @@ void TUnk_804B5C08::render() {
       ((RecoveredFields_80182E90_arg0 *) arg0)->field_9C = ((RecoveredFields_80182E90_arg0 *) arg0)->field_9C;
       return;
     }
-    TObjFish::set_global_param((saddr)city_common_texture_list);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(city_common_texture_list));
     push_matrix();
     post_translate_matrix((u8 *)&this->position);
     translate_matrix(0, 0.0f, (f32) ((RecoveredFields_80182E90_arg0 *) arg0)->field_9C, 0.0f);

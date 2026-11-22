@@ -244,7 +244,7 @@ void TUnk_8048E728::draw_particle_refraction_quad() {
     rotate_matrix_y(0, *(s32 *)(camera_ctrl_instance + 0x194));
     rotate_matrix_x(0, *(s32 *)(camera_ctrl_instance + 0x190));
     load_projected_texture_matrix(1.1333334f);
-    TObjFish::set_global_param((saddr)lbl_804C5820[9].texlist);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_804C5820[9].texlist));
     set_texture_num(self->tex);
     TParticleCtrl::setup_particle_draw(1);
     GXSetNumTevStages(2);
@@ -307,7 +307,7 @@ void TUnk_8048E778::draw_sprite_quad(s32 kind) {
     sx = sy * (480.0f / (480.0f * lbl_8058D4F8.aspect));
     TParticleCtrl::begin_effect_render();
     begin_screen_draw(1);
-    TObjFish::set_global_param((saddr)lbl_804C5820[kind].texlist);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_804C5820[kind].texlist));
     set_draw_texture_and_color(lbl_804C5820[kind].texture, lbl_804C5820[kind].color);
     uv = lbl_804C5820[kind].uvs[p->f94];
     quad.u = uv[0];

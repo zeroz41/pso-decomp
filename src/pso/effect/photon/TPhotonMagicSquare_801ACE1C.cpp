@@ -58,7 +58,7 @@ void TPhotonMagicSquare::render() {
     push_matrix();
     post_translate_matrix(&self->vB8);
     rotate_matrix_y(0, this->rotation_y);
-    TObjFish::set_global_param(this->texlist);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
     scale_current_matrix(&self->v68);
     NJS_ARGB saved = self->color;
     if ((this->m_b0 % this->m_cc) == 0) {

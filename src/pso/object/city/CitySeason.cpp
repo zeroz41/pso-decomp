@@ -167,7 +167,7 @@ void TObjCity_Season_EasterEgg::run_task() {
 void TObjCity_Season_EasterEgg::render() {
     BmlResource *resource = get_anim_frame();
     if (resource != NULL && update_object_view_visibility(800.0f, 50.0f) != 0) {
-        TObjFish::set_global_param((saddr)city_season_xmas_model_table[0]);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(city_season_xmas_model_table[0]));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -205,7 +205,7 @@ void TObjCity_Season_ValentineHeart::run_task() { advance_anim_time(1, 0.2f); }
 void TObjCity_Season_ValentineHeart::render() {
     BmlResource *resource = get_anim_frame();
     if (resource != NULL && update_object_view_visibility(800.0f, 50.0f) != 0) {
-        TObjFish::set_global_param((saddr)city_season_xmas_model_table[1]);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(city_season_xmas_model_table[1]));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -243,7 +243,7 @@ void TObjCity_Season_XmasTree::run_task() { advance_anim_time(1, 0.2f); }
 void TObjCity_Season_XmasTree::render() {
     BmlResource *resource = get_anim_frame();
     if (resource != NULL && update_object_view_visibility(800.0f, 50.0f) != 0) {
-        TObjFish::set_global_param((saddr)city_season_xmas_model_table[2]);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(city_season_xmas_model_table[2]));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -270,7 +270,7 @@ void TObjCity_Season_XmasWreath::render() {
     BmlResource *resource;
     resource = city_season_easter_egg_model_table[2];
     if ((resource != NULL) && (update_object_view_visibility(400.0f, 20.0f) != 0)) {
-        TObjFish::set_global_param((saddr)city_season_xmas_model_table[2]);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(city_season_xmas_model_table[2]));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -300,7 +300,7 @@ void TObjCity_Season_HalloweenPumpkin::render() {
     BmlResource *resource;
     resource = city_season_easter_egg_model_table[3];
     if ((resource != NULL) && (update_object_view_visibility(800.0f, 80.0f) != 0)) {
-        TObjFish::set_global_param((saddr)city_season_xmas_model_table[3]);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(city_season_xmas_model_table[3]));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -346,7 +346,7 @@ void TObjCity_Season_21_21::render() {
     BmlResource *resource = get_anim_frame();
     if (resource != NULL) {
         if (update_object_view_visibility(800.0f, 60.0f) != 0) {
-            TObjFish::set_global_param((saddr)city_season_xmas_model_table[4]);
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(city_season_xmas_model_table[4]));
             scroll_strip_uvs(lbl_805D5B34, 0, uv_scroll);
             push_matrix();
             post_translate_matrix(&position.x);
@@ -387,7 +387,7 @@ void TObjCity_Season_SonicAdv2::render() {
     Vec scale;
     resource = get_anim_frame();
     if (resource != NULL && update_object_view_visibility(800.0f, 20.0f) != 0) {
-        TObjFish::set_global_param((saddr)city_season_xmas_model_table[5]);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(city_season_xmas_model_table[5]));
         model = sub_80183C38();
         push_matrix();
         post_translate_matrix(&position.x);
@@ -433,7 +433,7 @@ void TObjCity_Season_Board::run_task() {
 }
 void TObjCity_Season_Board::render() {
     if ((lbl_805D5B38 != NULL) && (update_object_view_visibility(800.0f, 200.0f) != 0)) {
-        TObjFish::set_global_param((saddr)lbl_805D5B44);
+        TObjFish::set_global_param(lbl_805D5B44);
         scroll_strip_uvs(lbl_805D5B48, uv_scroll, 0);
         push_matrix();
         post_translate_matrix(&position.x);

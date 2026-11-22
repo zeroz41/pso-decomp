@@ -776,7 +776,7 @@ void draw_snapshot_capture_overlay(void) {
     TObjBoss2Tunnel::sub_803E2D10(1);
     TObjBoss2Tunnel::draw_projected_quads(v, 4);
     TObjBoss2Tunnel::reset_player_state();
-    TObjFish::set_global_param(lbl_805D63F0);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
     set_draw_texture_and_color(1, -1);
     begin_screen_draw(1);
     q.x0 = TObjBoss2Tunnel__data_8048DF2C.x - 27.0f;

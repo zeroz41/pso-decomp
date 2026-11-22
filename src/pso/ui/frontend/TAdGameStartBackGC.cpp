@@ -18,7 +18,7 @@ s32 game_start_background_texture_list;
 void TAdGameStartBackGC::render_background_status() {
     u8 *arg0 = (u8 *)this;
     begin_screen_draw(1);
-    TObjFish::set_global_param(game_start_background_texture_list);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(game_start_background_texture_list));
     set_draw_texture_and_color(0, ((*(s32 *)((s8 *)arg0 + 0x78) << 0x18) | 0xFF0000 | 0xFFFF));
     draw_textured_quad_at_depth((f32 *)(arg0 + 0x3C), 0.79f);
     TWindowSubStatusDisp::get_player();

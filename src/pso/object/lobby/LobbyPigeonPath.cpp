@@ -470,7 +470,7 @@ void TUnk_804E0988::vfunc_14() {
     if ((TObjPlayer::check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
         ((s32 (*)(void *, s32, s32, f32))draw_line_strip__10TObjPlayerFPviif)(arg0, *(s32 *)&this->motion_model, *(s32 *)((s8 *)arg0 + 0xA0), (1.0f));
     }
-    TObjFish::set_global_param(seabed_dolphin_texture_handle);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(seabed_dolphin_texture_handle));
     push_matrix();
     post_translate_matrix((u8 *)&this->position);
     rotate_matrix_y(0, this->rotation_y);
@@ -650,7 +650,7 @@ void TUnk_804E094C::vfunc_14() {
     if ((TObjPlayer::check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
         ((s32 (*)(void *, s32, s32, f32))draw_line_strip__10TObjPlayerFPviif)(arg0, *(s32 *)&this->motion_model, *(s32 *)((s8 *)arg0 + 0xA0), (1.0f));
     }
-    TObjFish::set_global_param((*(s32 *)&jungle_ebi_texture_gvm_handle));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(*(s32 *)&jungle_ebi_texture_gvm_handle));
     push_matrix();
     post_translate_matrix((u8 *)&this->position);
     rotate_matrix_y(0, this->rotation_y);
@@ -840,7 +840,7 @@ void TUnk_804E0910::vfunc_14() {
     if ((TObjPlayer::check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
         ((s32 (*)(void *, s32, s32, f32))draw_line_strip__10TObjPlayerFPviif)(arg0, *(s32 *)&this->motion_model, *(s32 *)((s8 *)arg0 + 0xA0), (1.0f));
     }
-    TObjFish::set_global_param((*(s32 *)&lobby_pigeon_texture_gvm));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(*(s32 *)&lobby_pigeon_texture_gvm));
     push_matrix();
     post_translate_matrix((u8 *)&this->position);
     rotate_matrix_y(0, this->rotation_y);
@@ -1018,7 +1018,7 @@ void TUnk_804E08D4::vfunc_14() {
     if ((TObjPlayer::check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
         ((s32 (*)(void *, s32, s32, f32))draw_line_strip__10TObjPlayerFPviif)(arg0, *(s32 *)&this->motion_model, *(s32 *)((s8 *)arg0 + 0xA0), (1.0f));
     }
-    TObjFish::set_global_param((*(s32 *)&lobby_kamome_texture_gvm_handle));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(*(s32 *)&lobby_kamome_texture_gvm_handle));
     push_matrix();
     post_translate_matrix((u8 *)&this->position);
     rotate_matrix_y(0, this->rotation_y);
@@ -1234,7 +1234,7 @@ void TUnk_804E0898::vfunc_14() {
                                         (saddr)(self->path), (1.0f));
   if (self->phase == 0 || lobby_pigeon_lobby_type == 0)
     return;
-  TObjFish::set_global_param((s32)(lobby_pigeon_lobby_type));
+  TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lobby_pigeon_lobby_type));
   push_matrix();
   post_translate_matrix((void *)(self->position));
   rotate_matrix_y(0, (s32)(self->facing));

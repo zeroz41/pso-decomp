@@ -458,7 +458,7 @@ void TRaderMapCore::free_statics() {
 
 s32 TRaderMapCore::apply_compass_param(s32 *counter) {
     if ((u32) TRaderMapCore__data_805D5F4C != 0U) {
-        TObjFish::set_global_param((s32) TRaderMapCore__data_805D5F4C);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TRaderMapCore__data_805D5F4C));
         return 1;
     }
     return -1;
@@ -823,7 +823,7 @@ void TRaderMapCore::render_region_records(void * _w1) {
     model_render_flags |= arg0->m_194;
     set_chunk_material_override_pair(-0xFF01, 0x900);
     if (MAP_801FAAEC->tex != 0) {
-        TObjFish::set_global_param(MAP_801FAAEC->tex);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(MAP_801FAAEC->tex));
     }
     i = 0;
     {

@@ -1155,7 +1155,7 @@ void TBoss6Type2::draw_body_models() {
                 if (a < 1.0f) {
                     TBoss6PlotFalz::set_fade_material_color(a);
                 }
-                TObjFish::set_global_param((saddr)(p0));
+                TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(p0));
                 if (0.0f == *(f32 *)((s8 *)self + 0x4A4)) {
                     if (done != 0) {
                         draw_model_motion((void *)p1, (void *)(*(saddr *)((s8 *)self + 0x498)), *(f32 *)((s8 *)self + 0x49C));

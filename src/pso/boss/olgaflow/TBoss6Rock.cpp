@@ -196,7 +196,7 @@ void TBoss6Rock::draw_model() {
     rotate_matrix_y(NULL, rotation_y);
     rotate_matrix_x(NULL, rotation_x);
     rotate_matrix_z(NULL, rotation_z);
-    TObjFish::set_global_param((saddr)(TBoss6Rock__data_805D6EF4));
+    TObjFish::set_global_param(TBoss6Rock__data_805D6EF4);
     draw_ginja_object((void *)get_bml_model(TBoss6Rock__data_805D6EF0, TBoss6Rock__data_80479258[m_b4].model_id));
     pop_matrix();
 }
@@ -559,7 +559,7 @@ void TUnk_804F1280::render() {
         rotate_matrix_y(NULL, rotation_y);
         rotate_matrix_x(NULL, rotation_x);
         rotate_matrix_z(NULL, rotation_z);
-        TObjFish::set_global_param((saddr)(texlist));
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
         TBoss6PlotFalz::set_fade_material_color(0.5f);
         draw_ginja_object((void *)model);
         TObjFish::reset_fish_globals();

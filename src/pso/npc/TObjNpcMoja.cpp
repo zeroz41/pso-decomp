@@ -63,7 +63,7 @@ void *TObjNpcMoja::create(void *set_data) {
 void TObjNpcMoja::render() {
     if (update_object_view_visibility(m_398, m_39c) != 0 && (s32)m_390 == 1) {
         model_render_flags |= 1;
-        TObjFish::set_global_param(texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
         push_matrix_from(0);
         translate_matrix_vec3((u8 *)0, (u8 *)&position);
         rotate_matrix_y(0, rotation_y);

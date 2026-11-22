@@ -107,11 +107,11 @@ void TOBarrierEnergy01::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
         TParticleCtrl::begin_effect_render();
         draw_ginja_model_with_motion(model, motion, animation_frame);
         TParticleCtrl::end_effect_render();
-        TObjFish::set_global_param((saddr)barrier_energy_texlists[2]);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(barrier_energy_texlists[2]));
         draw_ginja_object(barrier_energy_model);
         pop_matrix();
     }

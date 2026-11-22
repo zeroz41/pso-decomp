@@ -120,7 +120,6 @@ extern "C" {
 s32 matrix_mult_vec(int, void *, void *);
 void copy_matrix__10TObjPlayerFUlUl(int, void *);
 s32 concat_matrix__10TObjPlayerFUlUl(s32, void *);
-s32 set_global_param__8TObjFishFl(s32, void *);
 }
 
 void *destroy_buffer_pair(void *arg0, s16 arg1);
@@ -571,7 +570,7 @@ void TObjEneRe7Berura::set_data_and_draw_node_tree(u8 *matrices) {
 void TObjEneRe7Berura::init_part(s32 arg0) {
     TObjEneRe7BeruraPart *part;
 
-    set_global_param__8TObjFishFl((saddr)TObjEneRe7Berura__shared_resource->models->m_c, TObjEneRe7Berura__shared_resource);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TObjEneRe7Berura__shared_resource->models->m_c));
     part = &TObjEneRe7Berura__detached_part_states[arg0];
     ((TObjEneRe7Berura *)(&part->object))->set_data_and_draw_node_tree(part->node_matrices);
 }
@@ -1464,7 +1463,7 @@ void TObjEneRe7Berura::render() {
         fade = &m_448[cam];
         fade->update();
         cam = fade->updateFromCamera(&body_center.x);
-        TObjFish::set_global_param(texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
         push_matrix();
         post_translate_matrix(&position);
         rotate_matrix_y(0, rotation_y);
@@ -1565,7 +1564,7 @@ void TObjEneRe7Berura::render_demo() {
             draw_ground_shadow(&v, 0);
         }
         TObjPlayer::toggle_particle_effect();
-        TObjFish::set_global_param(texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
         push_matrix();
         post_translate_matrix(&position);
         rotate_matrix_y(0, rotation_y);

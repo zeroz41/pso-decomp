@@ -547,7 +547,7 @@ void TObjEneLappy::render() {
         temp_r3 = this->classify_actor_view_detail(150.0f, 400.0f, 10.0f);
         if (temp_r3 != 0) {
             set_speed_params(this->variant);
-            TObjFish::set_global_param(this->texlist);
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
             select_actor_lighting(this);
             TObjPlayer::toggle_particle_effect();
             push_matrix();

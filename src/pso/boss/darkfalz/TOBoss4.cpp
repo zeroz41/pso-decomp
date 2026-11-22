@@ -128,7 +128,7 @@ void TOBoss4Bird::render() {
     if (update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        TObjFish::set_global_param(texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
         for (i = 0; i < count; i++) {
             push_matrix();
             translate_matrix(0, 0.0f, bob_offset, 0.0f);
@@ -198,7 +198,7 @@ void TOBoss4Tower::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
         draw_ginja_object(model);
         pop_matrix();
     }
@@ -283,7 +283,7 @@ void TOBoss4Rock::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         for (i = 0; i < count; i++) {
-            TObjFish::set_global_param((saddr)texlists[i]);
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlists[i]));
             push_matrix();
             post_translate_matrix(&positions[i].x);
             rotate_matrix_z(NULL, rotations[i].z);

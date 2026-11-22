@@ -166,15 +166,15 @@ void TObjFish::render() {
             if (get_current_floor_area() == AREA_SEABED_UPPER) {
                 switch (f->anim) {
                 case 1:
-                    TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)TObjFish__area_bml_resource, 1));
+                    TObjFish::set_global_param(get_bml_texlist((BmlResource *)TObjFish__area_bml_resource, 1));
                     draw_ginja_object((void *)get_bml_model((BmlResource *)TObjFish__area_bml_resource, 1));
                     break;
                 case 2:
-                    TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)TObjFish__area_bml_resource, 2));
+                    TObjFish::set_global_param(get_bml_texlist((BmlResource *)TObjFish__area_bml_resource, 2));
                     draw_ginja_object((void *)get_bml_model((BmlResource *)TObjFish__area_bml_resource, 2));
                     break;
                 default:
-                    TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)TObjFish__area_bml_resource, 0));
+                    TObjFish::set_global_param(get_bml_texlist((BmlResource *)TObjFish__area_bml_resource, 0));
                     draw_ginja_object((void *)get_bml_model((BmlResource *)TObjFish__area_bml_resource, 0));
                     break;
                 }
@@ -182,15 +182,15 @@ void TObjFish::render() {
                 set_motion_packed_rotation();
                 switch (f->anim) {
                 case 1:
-                    TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)TObjFish__area_bml_resource, 1));
+                    TObjFish::set_global_param(get_bml_texlist((BmlResource *)TObjFish__area_bml_resource, 1));
                     draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)TObjFish__area_bml_resource, 1), get_bml_motion(TObjFish__area_bml_resource, 1), f->frame);
                     break;
                 case 2:
-                    TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)TObjFish__area_bml_resource, 2));
+                    TObjFish::set_global_param(get_bml_texlist((BmlResource *)TObjFish__area_bml_resource, 2));
                     draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)TObjFish__area_bml_resource, 2), get_bml_motion(TObjFish__area_bml_resource, 2), f->frame);
                     break;
                 default:
-                    TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)TObjFish__area_bml_resource, 0));
+                    TObjFish::set_global_param(get_bml_texlist((BmlResource *)TObjFish__area_bml_resource, 0));
                     draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)TObjFish__area_bml_resource, 0), get_bml_motion(TObjFish__area_bml_resource, 0), f->frame);
                     break;
                 }

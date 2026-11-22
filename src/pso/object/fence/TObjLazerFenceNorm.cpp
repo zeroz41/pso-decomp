@@ -221,7 +221,7 @@ void TObjLazerFenceNorm::render() {
 }
 
 void TObjLazerFenceNorm::draw_model() {
-    TObjFish::set_global_param((saddr)lazer_fence_norm_texture_list);
+    TObjFish::set_global_param(lazer_fence_norm_texture_list);
     push_matrix();
     post_translate_matrix((void *)((char *)this + 56));
     rotate_matrix_y(NULL, this->rotation_y);
@@ -234,7 +234,7 @@ void TObjLazerFenceNorm::draw_animated_beam() {
     for (i = 0; i < 4; i++) {
         set_ginja_model_texture_slot(reinterpret_cast<void *>((((Obj_80192B5C *)this)->fC8[i])), (lbl_80445B7C[((Obj_80192B5C *)this)->fAC]));
     }
-    TObjFish::set_global_param((saddr)lazer_fence_norm_texture_list);
+    TObjFish::set_global_param(lazer_fence_norm_texture_list);
     push_matrix();
     post_translate_matrix(((Obj_80192B5C *)this)->f38);
     rotate_matrix_y(NULL, ((Obj_80192B5C *)this)->f60);
@@ -361,7 +361,7 @@ void TObjLazerFenceExtra::render() {
 }
 
 void TObjLazerFenceExtra::render_lazer_fence_model() {
-    TObjFish::set_global_param((saddr)lazer_fence_norm_texture_list);
+    TObjFish::set_global_param(lazer_fence_norm_texture_list);
     push_matrix();
     post_translate_matrix((void *)((char *)this + 56));
     rotate_matrix_y(NULL, this->rotation_y);
@@ -375,7 +375,7 @@ void TObjLazerFenceExtra::draw_lazer_fence_extra_model() {
     for (i = 0; i < 4; i++) {
         set_ginja_model_texture_slot(reinterpret_cast<void *>((arg0->fC8[i])), lbl_80445B7C[this->scale_level]);
     }
-    TObjFish::set_global_param((saddr)lazer_fence_norm_texture_list);
+    TObjFish::set_global_param(lazer_fence_norm_texture_list);
     push_matrix();
     post_translate_matrix(arg0->f38);
     rotate_matrix_y(NULL, this->rotation_y);

@@ -359,7 +359,7 @@ void TBoss3VoloptMonitor::render() {
             }
         }
         volopt_monitor_screen.entries = &volopt_monitor_textures->entries[frame];
-        TObjFish::set_global_param((saddr)&volopt_monitor_screen);
+        TObjFish::set_global_param(&volopt_monitor_screen);
         set_draw_list_mask(3);
         push_matrix();
         model_render_flags &= ~0x400;

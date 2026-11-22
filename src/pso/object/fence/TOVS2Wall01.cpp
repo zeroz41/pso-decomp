@@ -344,7 +344,7 @@ void TOVS2::render() {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        TObjFish::set_global_param(this->texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
         draw_ginja_object(this->model);
         pop_matrix();
     }
@@ -453,7 +453,7 @@ void TOVS2Wall01::render() {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        TObjFish::set_global_param(this->texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
         draw_ginja_object(this->model);
         pop_matrix();
         if (var_r31 != 0) {

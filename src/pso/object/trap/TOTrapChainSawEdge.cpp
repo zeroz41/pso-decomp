@@ -600,7 +600,7 @@ void TOTrapChainSawDamage::update_state() {
 }
 #pragma pop
 void TOTrapChainSawDamage::vfunc_25() {
-    TObjFish::set_global_param((saddr)(*(void **)((s8 *)this + 0x24)));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(*(void **)((s8 *)this + 0x24)));
     push_matrix();
     post_translate_matrix((void *)((char *)this + 56));
     push_matrix();
@@ -713,7 +713,7 @@ void TOTrapChainSawKey::vfunc_14() {
 }
 
 void TOTrapChainSawKey::vfunc_25() {
-    TObjFish::set_global_param((saddr)(*(void **)((s8 *)this + 0x24)));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(*(void **)((s8 *)this + 0x24)));
     push_matrix();
     post_translate_matrix((void *)((char *)this + 56));
     push_matrix();
@@ -812,7 +812,7 @@ void TOTrapChainSawEdge::update_sweep() {
 }
 
 void TOTrapChainSawEdge::vfunc_25() {
-    TObjFish::set_global_param((saddr)(*(void **)((s8 *)this + 0x24)));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(*(void **)((s8 *)this + 0x24)));
     push_matrix();
     post_translate_matrix((void *)((char *)this + 56));
     push_matrix();

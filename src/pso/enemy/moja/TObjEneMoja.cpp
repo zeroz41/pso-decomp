@@ -626,7 +626,7 @@ void TObjEneMoja::render() {
         return;
     }
     select_actor_lighting(this);
-    TObjFish::set_global_param(texlist);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
     id = model_render_flags;
     fade = &((Body_800AF080 *)this)->fades[cam];
     saved_model_render_flags = id;

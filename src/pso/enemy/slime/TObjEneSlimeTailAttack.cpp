@@ -261,7 +261,6 @@ s32 spawn_slime_in_slot(TObjEneSlime *origin, s32 arg1, Vec *arg2, Vec *arg3);
 
 
 extern "C" {
-s32 set_global_param__8TObjFishFl();
 extern u32 model_render_flags;
 
 
@@ -405,7 +404,7 @@ void TObjEneSlime::render() {
         push_matrix();
         temp_r30_2 = *(s32 *)((s8 *)((u8 *)lbl_80496368 + temp_r30) + 0);
         post_translate_matrix((void *) ((u8 *)self + 0x38));
-        TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)slime_bml_resource, temp_r30_2));
+        TObjFish::set_global_param(get_bml_texlist((BmlResource *)slime_bml_resource, temp_r30_2));
         if (temp_r31 != 0) {
             model_render_flags |= 0x400000;
             set_chunk_render_flags(1);
@@ -1372,7 +1371,7 @@ void TObjEneSlimeOne::sub_800E9090() {
     rotate_matrix_y(0, ang);
     scale_matrix_vec3((u8 *)(0), (u8 *)&b);
     t = slime_tail_attack_id_pair[self->variant];
-    TObjFish::set_global_param((saddr)get_bml_texlist(self->model_archive, t));
+    TObjFish::set_global_param(get_bml_texlist(self->model_archive, t));
     draw_chunk_object((void *)(get_bml_model(self->model_archive, t)));
     pop_matrix();
     TObjPlayer::init_render_globals();
@@ -1680,7 +1679,7 @@ void TObjEneSlimeTailAttack::sub_800E841C() {
     push_matrix();
     post_translate_matrix((u8 *)&this->position);
     rotate_matrix_y(0, (int) (this->rotation_y));
-    TObjFish::set_global_param(texlist);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
     if (active != 0) {
         TObjPlayer__sub_800E81A8();
         set_chunk_model_node_callback(TObjPlayer__sub_800E8128);
@@ -1725,7 +1724,7 @@ void TObjEneSlimeTailAttack::draw_stretched_segment(void *arg1, void *arg2, f32 
         f32 r = 1.0f - t;
         scale_matrix(0, 1.0f, 0.5f, r * len / 10.0f);
     }
-    TObjFish::set_global_param(this->texlist);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
     TObjPlayer__sub_800EBE48(0.10000001f * t + 0.05f);
     saved = this->frame;
     this->frame = 7.0f;

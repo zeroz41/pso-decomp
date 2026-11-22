@@ -127,7 +127,7 @@ void TWindowDD__sub_80340A78(TWindowDD_WS_ScrollBar *self) {
     ((TWindowDD *)verts)->draw_transformed_primitive(8, tex, 1);
 
     z = TWindowDD__sub_80348AD4(self->draw_depth, 0.1f);
-    TObjFish::set_global_param(lbl_805D63F0);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
     begin_screen_draw(1);
     set_draw_texture_and_color(0, -1);
 

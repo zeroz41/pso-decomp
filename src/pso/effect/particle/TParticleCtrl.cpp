@@ -202,7 +202,7 @@ void TUnk_8048E6DC::render() {
     }
     set_additive_blend();
     begin_screen_draw(1);
-    TObjFish::set_global_param((saddr)lbl_804C5820[31].texlist);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_804C5820[31].texlist));
     set_draw_texture_and_color(lbl_804C5820[31].texture, -1);
     if (self->f94 < 0.0f) {
         color.a = 0;

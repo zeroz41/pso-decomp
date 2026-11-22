@@ -30,7 +30,7 @@ void TObjBoss1Rock::render() {
         set_chunk_material_override_pair(0xFF00, 0x800);
         set_constant_material(&m_color);
         push_matrix();
-        TObjFish::set_global_param(dragon_common_texture_list);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(dragon_common_texture_list));
         post_translate_matrix(&m_position.x);
         rotate_matrix_y(NULL, m_rotation_y);
         rotate_matrix_x(NULL, m_rotation_x);
@@ -40,7 +40,7 @@ void TObjBoss1Rock::render() {
         model_render_flags = saved_model_render_flags;
     } else {
         push_matrix();
-        TObjFish::set_global_param(dragon_common_texture_list);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(dragon_common_texture_list));
         post_translate_matrix(&m_position.x);
         rotate_matrix_y(NULL, m_rotation_y);
         rotate_matrix_x(NULL, m_rotation_x);

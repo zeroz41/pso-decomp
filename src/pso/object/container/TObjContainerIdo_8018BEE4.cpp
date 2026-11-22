@@ -106,7 +106,7 @@ void TObjContainerIdo::render() {
         {
             GinjaTextureList *textures = container_ido_textures;
             if (textures != NULL) {
-                TObjFish::set_global_param((saddr)textures);
+                TObjFish::set_global_param(textures);
             }
         }
         push_matrix();

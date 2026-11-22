@@ -1769,7 +1769,7 @@ void TObjEneSaver::render() {
     v = this->classify_actor_view_detail(300.0f, 600.0f, 30.0f);
     if (v != 0) {
         select_actor_lighting((saddr)self);
-        TObjFish::set_global_param(((TObjEneSaver *)self)->texlist);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(((TObjEneSaver *)self)->texlist));
         push_matrix_from(NULL);
         translate_matrix_vec3(0, (u8 *)&this->position);
         rotate_matrix_y(0, ((TObjEneSaver *)self)->rotation_y);

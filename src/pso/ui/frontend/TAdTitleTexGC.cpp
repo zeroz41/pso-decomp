@@ -127,12 +127,12 @@ void TAdTitleTexGC::render() {
 
 void TAdTitleTexGC::render_status_pair(s32 arg1) {
     begin_screen_draw(1);
-    TObjFish::set_global_param(lbl_805D6668);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D6668));
     set_draw_texture_and_color(0, arg1);
     draw_textured_quad_at_depth(&rects[0].x0, 0.1f);
     TWindowSubStatusDisp::get_player();
     begin_screen_draw(1);
-    TObjFish::set_global_param(lbl_805D6668);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D6668));
     set_draw_texture_and_color(0, arg1);
     draw_textured_quad_at_depth(&rects[1].x0, 0.1f);
     TWindowSubStatusDisp::get_player();

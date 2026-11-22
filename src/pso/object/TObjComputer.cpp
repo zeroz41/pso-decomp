@@ -154,7 +154,7 @@ void TObjComputer::draw_model() {
     if (screen_model == NULL) {
         return;
     }
-    TObjFish::set_global_param((saddr)TObjComputer__texture_gvm_handle);
+    TObjFish::set_global_param(TObjComputer__texture_gvm_handle);
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);
@@ -213,7 +213,7 @@ void TObjGbAdvance::vfunc_14() {
 
 void TObjGbAdvance::render() {
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
-        TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)TObjGbAdvance__data_805D5B74, 0));
+        TObjFish::set_global_param(get_bml_texlist((BmlResource *)TObjGbAdvance__data_805D5B74, 0));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, this->rotation_y);

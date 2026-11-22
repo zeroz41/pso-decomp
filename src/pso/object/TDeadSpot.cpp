@@ -223,7 +223,7 @@ void render__9TDeadSpotFv(u8 *arg0) {
         saved_model_render_flags = model_render_flags;
         set_default_alpha_blend();
         setup_alpha_test_render_state(0x8F);
-        TObjFish::set_global_param(*(s32 *)((s8 *)arg0 + 0xB8));
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(*(s32 *)((s8 *)arg0 + 0xB8)));
         set_texture_num(*(s32 *)((s8 *)arg0 + 0xBC));
         draw_particle_strip(arg0 + 0x1C, (void *)(4), (void *)(1));
         restore_saved_depth_alpha_state();

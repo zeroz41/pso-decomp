@@ -137,9 +137,9 @@ void TObjPlayer::draw_area_chunk_objects() {
     Boss4ZakoDrawBuffer *t = &boss4_zako_draw_buffers[TBoss4ZakoDraw__draw_buffer_index];
     Boss4ZakoDrawEntry *p = t->entries;
     s32 i;
-    model = (NJS_OBJECT *)get_bml_model(reinterpret_cast<BmlResource *>(TBoss4Uro::get_instance_count()), 8);
+    model = get_bml_model(TBoss4Uro::get_instance_count(), 8);
     TObjPlayer__sub_80052390(zako_fade_full);
-    TObjFish::set_global_param((saddr)(falz_zako_texture_list));
+    TObjFish::set_global_param(falz_zako_texture_list);
     for (i = 0; i < t->count; i++, p++) {
         push_matrix();
         post_translate_matrix(&p->position.x);
@@ -169,7 +169,7 @@ void TCameraCtrl__sub_8030ABF4(void) {
         if (is_split_screen() == 0) {
             TCameraCtrl::set_viewport_scissor(2, rect);
         }
-        NJS_OBJECT *model = (NJS_OBJECT *)get_bml_model(reinterpret_cast<BmlResource *>(TBoss4Uro::get_instance_count()), 8);
+        NJS_OBJECT *model = get_bml_model(TBoss4Uro::get_instance_count(), 8);
         model->child->ang[1] = TBoss4ZakoDraw__rotation_phase << 12;
         TObjPlayer::draw_area_chunk_objects();
         TObjPlayer__sub_8030A9B0();
@@ -203,8 +203,8 @@ Boss4ZakoDrawBuffer boss4_zako_draw_buffers[2];
 
 extern "C" {
 
-int clear_uro_link_state__14TBoss4DarkFalzFv(void*);
-
-int TBoss4DarkFalz__sub_8030AD38(void* p) { return clear_uro_link_state__14TBoss4DarkFalzFv(p); }
+void TBoss4DarkFalz__sub_8030AD38(void) {
+    TBoss4DarkFalz::clear_uro_link_state();
+}
 
 }

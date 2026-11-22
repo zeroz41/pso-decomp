@@ -316,9 +316,9 @@ void TOMine::render() {
         pop_matrix();
     }
 }
-void TOMine::free_parts() { TObjFish::set_global_param(this->texlist); draw_ginja_object(this->model); }
+void TOMine::free_parts() { TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist)); draw_ginja_object(this->model); }
 void TOMine::free_sub_objects() {
-    TObjFish::set_global_param((saddr)light_textures);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(light_textures));
     draw_ginja_object(light_model);
 }
 void TOMine::run_task() {

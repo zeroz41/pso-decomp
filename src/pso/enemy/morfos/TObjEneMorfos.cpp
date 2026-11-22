@@ -1872,7 +1872,7 @@ void TObjEneMorfos::render_part(s32 idx, s32 mode) {
     part = &self->parts[idx];
     ((RenderFadeState *)part)->update();
     vis = ((RenderFadeState *)part)->updateFromCamera((const f32*)(self->cam));
-    TObjFish::set_global_param(this->texlist);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
     TObjPlayer::toggle_particle_effect();
     push_matrix();
     post_translate_matrix(self->pos);
@@ -1951,7 +1951,7 @@ void TObjEneMorfos::render() {
 s32 TObjEneMorfos::render_model_if_visible() {
     if ((s32)main_task.get_task_flags() & 0x20) {
         if (push_reflection_matrix((Vec *)(((u8 *)this) + 0x3C8)) != 0) {
-            TObjFish::set_global_param(this->texlist);
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
             push_matrix();
             post_translate_matrix((void *) (((u8 *)this) + 0x38));
             rotate_matrix_y(0, this->rotation_y);
@@ -1972,7 +1972,7 @@ s32 TObjEneMorfos::render_model_if_visible() {
 void TObjEneMorfos::draw_body() {
     u8 *self = (u8 *)this;
     if ((s32)main_task.get_task_flags() & 0x200) {
-        TObjFish::set_global_param((saddr)TObjEneMorfos__instance->models[2].m_c);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TObjEneMorfos__instance->models[2].m_c));
         push_matrix();
         post_translate_matrix(self + 0x498);
         rotate_matrix_y(0, (int) (((RecoveredFields_803326CC_arg0 *)self)->field_60));
@@ -2062,7 +2062,7 @@ void TObjEneMorfos::render_demo() {
             ((TObjEneDD *)(self))->draw_ground_shadow(&v, 0);
         }
         TObjPlayer::toggle_particle_effect();
-        TObjFish::set_global_param(self->f24);
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(self->f24));
         push_matrix();
         post_translate_matrix((u8 *)self + 0x38);
         rotate_matrix_y(0, self->f60);
