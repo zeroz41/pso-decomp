@@ -19,8 +19,5 @@ struct TWindowSimpleStatus : public TWindowBase {
 
 LAYOUT_ASSERT(TWindowSimpleStatus_size, sizeof(TWindowSimpleStatus) == 0x78);
 
-extern "C" {
-void render__19TWindowSimpleStatusFv(saddr arg0);
-}
 
 #endif

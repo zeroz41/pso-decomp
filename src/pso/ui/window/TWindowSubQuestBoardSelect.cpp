@@ -253,15 +253,15 @@ void TWindowSubQuestBoardSelect::handle_page_input() {
     }
 }
 
-void render__26TWindowSubQuestBoardSelectFv(u8 *arg0) {
+void TWindowSubQuestBoardSelect::render() {
     saddr ctx;
-    ctx = reinterpret_cast<saddr>(reinterpret_cast<TWindowBase *>(arg0)->draw_default_entry());
-    ((TWindowBase *)arg0)->draw_window_frame((void *)ctx);
-    ((TWindowSubQuestBoardSelect *)arg0)->m_64->forward_render((void *)ctx);
-    TWindowSubQuestBoardSelect__sub_8027D444((TWindowSubQuestBoardSelect *)arg0, (Ctx_8027D444 *)ctx);
+    ctx = reinterpret_cast<saddr>(draw_default_entry());
+    draw_window_frame((void *)ctx);
+    m_64->forward_render((void *)ctx);
+    TWindowSubQuestBoardSelect__sub_8027D444(this, (Ctx_8027D444 *)ctx);
     draw_visible_window_entries(
-        reinterpret_cast<const void *>(arg0),
-        reinterpret_cast<const WindowLayoutEntries *>(arg0 + 0x24),
+        this,
+        &this->entry_list,
         reinterpret_cast<WindowDrawContext *>(ctx));
 }
 void TWindowSubQuestBoardSelect::run_task() {

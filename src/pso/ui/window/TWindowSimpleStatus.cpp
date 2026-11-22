@@ -553,13 +553,13 @@ extern u8 __vt__19TWindowSimpleStatus[];
 SS_80270668 *TWindowSimpleStatus__ct(SS_80270668 *arg0, void *arg1, s32 arg2, void *arg3);
 s32 update_hp_tp_level__20TWindowSubStatusDispFv();
 
-void render__19TWindowSimpleStatusFv(saddr arg0) {
+void TWindowSimpleStatus::render() {
     saddr ctx;
-    ctx = reinterpret_cast<saddr>(reinterpret_cast<TWindowBase *>(arg0)->draw_default_entry());
-    ((TWindowSimpleStatus *)arg0)->draw_background((u8 *)ctx);
+    ctx = reinterpret_cast<saddr>(draw_default_entry());
+    draw_background((u8 *)ctx);
     draw_visible_window_entries(
-        reinterpret_cast<const void *>(arg0),
-        reinterpret_cast<const WindowLayoutEntries *>((void *)(arg0 + 0x24)),
+        this,
+        &this->entry_list,
         reinterpret_cast<WindowDrawContext *>(ctx));
 }
 

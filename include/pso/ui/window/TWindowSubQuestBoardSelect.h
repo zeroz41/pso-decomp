@@ -29,6 +29,5 @@ LAYOUT_ASSERT(TWindowSubQuestBoardSelect_size, sizeof(TWindowSubQuestBoardSelect
 
 extern "C" {
 s32 get_slot_flag__26TWindowSubQuestBoardSelectFic(s32 arg0, s8 arg1);
-void render__26TWindowSubQuestBoardSelectFv(u8 *arg0);
 }
 #endif
