@@ -81,18 +81,6 @@ s32 __ct__26TWindowSubInformationBoardFP7TObjectPv(int, void *, int);
 void *__ct__13TUnk_804E0B28FP7TObjectl(void *, void *, void *);
 }
 
-struct VBase_802647CC { char pad[0x18]; };
-
-struct VObj_802647CC : VBase_802647CC {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-};
-
 struct Ent_802647CC { u32 a; void *next; };
 
 struct Menu_802647CC {
@@ -183,7 +171,7 @@ void TWindowMainMenu::handle_menu_selection() {
         }
         if (((TWindowMenuMainMenu *)node)->is_flag_set() != 0) {
             if (((Menu_802647CC *)this)->depth <= 0) {
-                ((VObj_802647CC *)((Menu_802647CC *)this))->m6();
+                close_main_menu();
                 return;
             }
             add_menu_entry(id);
