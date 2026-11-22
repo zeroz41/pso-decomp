@@ -108,65 +108,38 @@ struct pkt_80028530 {
 struct Coll_80029408 { Vec local; f32 radius; u32 type, attribute, flags; Vec world; f32 defense; };
 struct DragonEffectRotation { s32 x, y, z; };
 struct Glob_800267B8 { u8 *value; u8 remaining[0x8]; };
-extern f32 lbl_805D4AF8;
-extern f32 boss1_dragon_gravity;
-extern const f32 lbl_805D4B40;
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
 void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);
 extern "C" {
 s32 get_current_floor();
-extern s32 lbl_805D4B24;
-extern u8 *TBoss1Dragon__part_hp_stats[5];
 f32 newton_sqrtf(f32);
-extern saddr TBoss1Dragon__data_804FE17C[3];
 s32 is_split_screen();
 }
 void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 void dragon_capture_node_points(NJS_OBJECT *);
-// The camera's xz position and its normalized xz direction to the camera target, set by render before it
-// tests the model's points with is_sphere_visible (twins of boss8_dragon_reference_pos_vec and
-// dragon_forward_reference_vec).
-extern Vec boss1_dragon_reference_pos_vec;
-extern Vec boss1_dragon_forward_reference_vec;
-extern uaddr TBoss1Dragon__data_805D4B08;
-extern s32 TBoss1Dragon__data_805D4B0C;
-extern Vec *TBoss1Dragon__data_805D4B14;
-extern s32 TBoss1Dragon__data_805D4B18;
-extern Vec *TBoss1Dragon__data_805D4B1C;
-extern s32 TBoss1Dragon__data_805D4B20;
-extern f32 boss1_dragon_visibility_distance;
 extern u8 *camera_ctrl_instance;
 struct G_80025C68 { u8 *value; u8 remaining[0x8]; };
 extern "C" {
-extern s32 TBoss1Dragon__data_805D4B38;
-extern DragonModelVector lbl_804FE188;
-extern DragonCaptureVectors lbl_804FE194;
-extern DragonModelState lbl_804FE1B8;
-extern s32 lbl_805D4B10;
-extern u8 *TBoss1Dragon__data_805D4B00[1];
-extern u8 *TBoss1Dragon__data_805D4B04[1];
-extern saddr TBoss1Dragon__data_805D4B2C;
 extern u8 controller_input_state[];
 void send_6x2F_change_player_hp(s32 arg0, s32 arg1, s32 arg2);
 void TBoss1Dragon__sub_800277D8(TBoss1Dragon *self);
 u16 get_entity_id(void *);
 s32 free_collision_body_parts(void *);
-extern const Vec TBoss1Dragon__data_80434E80 = {0.0f, 0.0f, 0.0f};
+extern const Vec boss1_dragon_arena_origin = {0.0f, 0.0f, 0.0f};
 extern const DragonAttackParams boss1_dragon_attack_sphere_params = {0, 0.0f, 30.0f, 7.0f, 1};
 extern const DragonAttackParams TBoss1Dragon__head_fall_effect_params = {0, 0.0f, 35.0f, 50.0f, 1};
 extern const DragonAttackParams boss1_dragon_ground_impact_params = {0, 10.0f, 25.0f, 7.5f, 1};
-extern const Vec lbl_80434EC8 = {-35.0f, 0.0f, 10.0f};
-extern const Vec lbl_80434ED4 = {-60.0f, 0.0f, -20.0f};
+extern const Vec boss1_dragon_death_first_fall_offset = {-35.0f, 0.0f, 10.0f};
+extern const Vec boss1_dragon_death_second_fall_offset = {-60.0f, 0.0f, -20.0f};
 extern const s32 boss1_dragon_normal_action_table[8] = {0x41, 0x4c, 0x223, 0xf0, 0x220, 0x221, 0x222, 0x225};
 extern const s32 boss1_dragon_normal_particle_table[8] = {0x200, 0x201, 0x202, 0x94, 0x20d, 0x20c, 0x20b, 0x209};
 extern const s32 boss1_dragon_capture_node_table[35] = {0, 8, 0xa, 0x28, 0x29, 0x32, 0x33, 0x36, 0x37, 0x38, 0x39, 0x3a, 0x43, 0x46, 0x47, 0x48, 0x4a, 0x4c, 0x4f, 0x50, 0x51, 0x52, 0x53, 0x54, 0x55, 0x58, 0x59, 0x5a, 0x5b, 0x5c, 0x5d, 0x5e, 0x64, 0x66, 0x3e7};
-s32 TBoss1Dragon__data_80480CE0[8] = {2, 3, 4, 5, 6, 7, 8, 32};
+s32 boss1_dragon_primary_sequence_table[8] = {2, 3, 4, 5, 6, 7, 8, 32};
 s32 boss1_dragon_sequence_remap_table[8] = {0, 0, 2, 3, 3, 3, 0, 0};
-s32 lbl_80480D20[10] = {2, 3, 2, 3, 4, 5, 6, 34, 8, 32};
-s32 lbl_80480D48[10] = {0, 0, 2, 0, 2, 3, 3, 3, 0, 0};
+s32 boss1_dragon_primary_sequence_table_b[10] = {2, 3, 2, 3, 4, 5, 6, 34, 8, 32};
+s32 boss1_dragon_sequence_remap_table_b[10] = {0, 0, 2, 0, 2, 3, 3, 3, 0, 0};
 s32 boss1_dragon_action_sequence_table[14] = {5, 6, 15, 16, 18, 17, 18, 17, 18, 19, 8, 2, 3, 33};
-s32 boss1_dragon_action_sequence_table_b[12] = {5, 6, 15, 16, 18, 17, 18, 35, 19, 8, 2, 3};
-__declspec(section ".data") s32 lbl_80480DD8 = 0x21;
+s32 boss1_dragon_action_sequence_table_b[13] = {5, 6, 15, 16, 18, 17, 18, 35, 19, 8, 2, 3, 33};
 s32 boss1_dragon_attack_param_ids[5] = {0x12,0x14,0x15,0x16,0x17};
 s32 boss1_dragon_resistance_param_ids[3] = {0x11,0x12,0x13};
 s32 boss1_dragon_base_stat_indices[5] = { 0, 0, 0, 0, 0 };
@@ -194,12 +167,12 @@ DragonCollisionBodyPartInit boss1_dragon_collision_body_parts[7] = {
     { { 0.0f, 0.0f, 0.0f }, 10.0f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
     { { 0.0f, 0.0f, 0.0f }, 10.0f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
-const char *lbl_80480F88[3] = {
+const char *boss1_dragon_model_names[3] = {
     "boss1_s_nb_dragon.nj",
     "boss1_s_sd_dragon.nj",
     NULL,
 };
-const char *lbl_80480F94[27] = {
+const char *boss1_dragon_motion_names[27] = {
     "bossop_boss1_s_nb_dragon.njm",
     "daml_boss1_s_nb_dragon.njm",
     "dams_boss1_s_nb_dragon.njm",
@@ -228,7 +201,7 @@ const char *lbl_80480F94[27] = {
     "wngopn_boss1_s_nb_dragon.njm",
     NULL,
 };
-BmlResourceDescriptor boss1_dragon_bml_descriptor = {"bm_boss1_dragon.bml", lbl_80480F88, lbl_80480F94, 2, 26};
+BmlResourceDescriptor boss1_dragon_bml_descriptor = {"bm_boss1_dragon.bml", boss1_dragon_model_names, boss1_dragon_motion_names, 2, 26};
 // inferred: the ids load_resources passes to TLobby::register_boss and TLobby::register_object
 // (de_rol_le_base_param_ids / boss5_gryphon_base_param_ids twins)
 s32 boss1_dragon_base_param_ids[1] = {0x12};
@@ -239,7 +212,7 @@ extern const DragonAttackParams dragon_breath_attack_params = {0, 500.0f, 45.0f,
 extern const DragonAttackParams dragon_fireball_attack_params = {1, 2.0f, 10.0f, 10.0f, 1};
 extern const DragonAttackParams dragon_fireball_impact_damage_params = {1, 10.0f, 30.0f, 10.0f, 1};
 extern const NJS_ARGB dragon_boss1_render_color = {0.2f, 0.0f, 0.0f, 0.0f};
-TObjMotionAction lbl_80481010[27] = {
+TObjMotionAction boss1_dragon_motion_actions[27] = {
     {1, 0, 17, 0.5f, 0},
     {1, 0, 21, 0.5f, 0},
     {3, 0, 16, 0.7f, 0},
@@ -271,7 +244,7 @@ TObjMotionAction lbl_80481010[27] = {
 static Vec boss1_dragon_follow_camera_offsets[1] = {
     {0.0f, 19.8f, -5.0f},
 };
-static Vec lbl_804811CC[1] = {
+static Vec boss1_dragon_follow_camera_target_offsets[1] = {
     {0.0f, 25.43f, 45.42f},
 };
 static Vec boss1_dragon_follow_camera_phase_positions[3] = {
@@ -298,7 +271,6 @@ static Vec boss1_dragon_held_camera_targets[4] = {
 };
 f32 atan2_float(f32 y, f32 x);
 s32 enable_dragon_blocking_bodies(TBoss1DragonColli *, void *, int);
-extern const f32 lbl_805D4AF0;
 s32 check_flag_100__10TObjPlayerFPv();
 u8 *get_enemy_entity(u16 arg0);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
@@ -307,16 +279,12 @@ void __ct__13TUnk_804928CCFP7TObjectP8TObjBase(void *);
 void subtractive_rng_seed(void *, u32);
 f32 calc_random_ratio__10TObjPlayerFv(void *);
 }
-extern const f32 TBoss1Dragon__gravity_accel;
 void compose_motion_node_matrix(void *arg0);
 void disable_dragon_blocking_bodies(TBoss1DragonColli *self);
 void handle_6x12_dragon_boss_actions(TObjPlayer *arg0);
 void handle_6x11_dragon_boss_actions(void *arg0);
 void handle_6x10_dragon_boss_actions(void *arg0);
-extern uaddr TBoss1Dragon__data_805D4B28;
 extern s32 enable_v2_features;
-extern s32 lbl_805D4B34;
-extern u16 TBoss1Dragon__data_805D4B3C;
 extern s32 __vt__13TUnk_80481B34[];
 static const f64 boss1_dragon_angle_units_per_radian = 10430.38043493439;
 struct Eff_80022EE0 { u32 w[5]; };
@@ -334,11 +302,14 @@ struct Pkt_800284B4 {
 extern "C" {
 void copy_model_node(u8 *dst, u8 *arg1);
 u8 *TBoss1Dragon__part_hp_stats[5];
-saddr TBoss1Dragon__data_804FE17C[3];
-DragonModelVector lbl_804FE188;
-DragonCaptureVectors lbl_804FE194;
-DragonModelState lbl_804FE1B8;
+saddr boss1_dragon_params[3];
+DragonModelVector boss1_dragon_capture_local_origin;
+DragonCaptureVectors boss1_dragon_breath_local_points;
+DragonModelState boss1_dragon_model_clone_state;
 }
+// The camera's xz position and its normalized xz direction to the camera target, set by render before it
+// tests the model's points with is_sphere_visible (twins of boss8_dragon_reference_pos_vec and
+// dragon_forward_reference_vec).
 Vec boss1_dragon_reference_pos_vec;
 Vec boss1_dragon_forward_reference_vec;
 extern s32 registered_player_count;
@@ -348,27 +319,27 @@ f64 floor(f64);
 }
 extern u8 *TLobby__data_805D6144;
 extern f32 lbl_805D9E80;
-extern const f32 lbl_805D4AF0 = 3.0f * lbl_805D9E80;
+extern const f32 boss1_dragon_lift_accel = 3.0f * lbl_805D9E80;
 extern const f32 TBoss1Dragon__gravity_accel = 2.0f * lbl_805D9E80;
-f32 lbl_805D4AF8 = 5.0f * lbl_805D9E80;
+f32 boss1_dragon_dive_accel = 5.0f * lbl_805D9E80;
 f32 boss1_dragon_gravity = 7.0f * lbl_805D9E80;
-u8 *TBoss1Dragon__data_805D4B00[1];
-u8 *TBoss1Dragon__data_805D4B04[1];
-uaddr TBoss1Dragon__data_805D4B08;
-s32 TBoss1Dragon__data_805D4B0C;
-s32 lbl_805D4B10;
-Vec *TBoss1Dragon__data_805D4B14;
-s32 TBoss1Dragon__data_805D4B18;
-Vec *TBoss1Dragon__data_805D4B1C;
-s32 TBoss1Dragon__data_805D4B20;
-s32 lbl_805D4B24;
-uaddr TBoss1Dragon__data_805D4B28;
-saddr TBoss1Dragon__data_805D4B2C;
+u8 *boss1_dragon_base_params[1];
+u8 *boss1_dragon_resistance_params[1];
+uaddr boss1_dragon_resource;
+s32 boss1_dragon_capture_node_counter;
+s32 boss1_dragon_breath_capture_node;
+Vec *boss1_dragon_capture_breath_points;
+s32 boss1_dragon_capture_table_index;
+Vec *boss1_dragon_capture_node_positions;
+s32 boss1_dragon_capture_flags;
+s32 boss1_dragon_model_node_count;
+uaddr boss1_dragon_model_nodes;
+saddr boss1_dragon_instance;
 f32 boss1_dragon_visibility_distance;
-s32 lbl_805D4B34;
-s32 TBoss1Dragon__data_805D4B38;
-u16 TBoss1Dragon__data_805D4B3C;
-extern const f32 lbl_805D4B40 = 5.0f * lbl_805D9E80;
+s32 boss1_dragon_action_refresh_requested;
+s32 boss1_dragon_control_override_active;
+u16 boss1_dragon_control_override_id;
+extern const f32 boss1_dragon_spin_attack_accel = 5.0f * lbl_805D9E80;
 
 void fill_value_array(PointerBuffer *buffer) {
     s32 i;
@@ -545,16 +516,16 @@ void TUnk_80481B34::apply_hit_if_active(void *target, f32 *) {
 }
 
 saddr TBoss1Dragon::get_instance() {
-    return TBoss1Dragon__data_805D4B2C;
+    return boss1_dragon_instance;
 }
 
 void get_dragon_follow_camera_offsets(Vec *eye, Vec *target) {
-    if ((void *) (*(u8 * *)&TBoss1Dragon__data_805D4B2C) == NULL) {
+    if ((void *) (*(u8 * *)&boss1_dragon_instance) == NULL) {
         VecCopy(eye, boss1_dragon_follow_camera_offsets);
-        VecCopy(target, lbl_804811CC);
+        VecCopy(target, boss1_dragon_follow_camera_target_offsets);
         return;
     }
-    ((TBoss1Dragon *)TBoss1Dragon__data_805D4B2C)->calc_follow_camera_offsets(eye, target);
+    ((TBoss1Dragon *)boss1_dragon_instance)->calc_follow_camera_offsets(eye, target);
 }
 
 #pragma push
@@ -563,9 +534,9 @@ void TBoss1Dragon::calc_follow_camera_offsets(Vec *eye, Vec *target) {
     s32 phase;
     Vec *limit;
 
-    if (((TBoss1Dragon *)TBoss1Dragon__data_805D4B2C)->mode == 0x16) {
+    if (((TBoss1Dragon *)boss1_dragon_instance)->mode == 0x16) {
         VecCopy(eye, boss1_dragon_follow_camera_offsets);
-        VecCopy(target, lbl_804811CC);
+        VecCopy(target, boss1_dragon_follow_camera_target_offsets);
         return;
     }
     switch (this->phase) {
@@ -622,48 +593,48 @@ void TBoss1Dragon::load_resources() {
 
     switch (TBoss1Dragon::isV2Mode()) {
     case 0:
-        TBoss1Dragon__data_805D4B08 = (uaddr)load_enemy_bml_resource(&boss1_dragon_bml_descriptor);
+        boss1_dragon_resource = (uaddr)load_enemy_bml_resource(&boss1_dragon_bml_descriptor);
         break;
     case 1:
-        TBoss1Dragon__data_805D4B08 = (uaddr)load_enemy_bml_resource_named(&boss1_dragon_bml_descriptor, "bm_boss1_dragon_a.bml");
+        boss1_dragon_resource = (uaddr)load_enemy_bml_resource_named(&boss1_dragon_bml_descriptor, "bm_boss1_dragon_a.bml");
         break;
     }
-    source = ((DragonResource *)TBoss1Dragon__data_805D4B08)->model->root;
-    lbl_805D4B24 = TBoss1Dragon::countModelNodes(source);
-    TBoss1Dragon__data_805D4B28 = (uaddr)TQuestVmDownLoadServer::alloc(lbl_805D4B24 * 0x50);
-    lbl_804FE1B8.state[0] = 0;
-    lbl_804FE1B8.state[1] = 0;
-    lbl_804FE1B8.params[0] = (0.0f);
-    lbl_804FE1B8.params[1] = (0.0f);
-    lbl_804FE1B8.params[2] = (0.0f);
-    lbl_804FE1B8.params[3] = (0.0f);
-    source = ((DragonResource *)TBoss1Dragon__data_805D4B08)->model->root;
-    TBoss1Dragon::cloneModelHierarchy(source, (DragonModelNode *)TBoss1Dragon__data_805D4B28, lbl_804FE1B8.state);
+    source = ((DragonResource *)boss1_dragon_resource)->model->root;
+    boss1_dragon_model_node_count = TBoss1Dragon::countModelNodes(source);
+    boss1_dragon_model_nodes = (uaddr)TQuestVmDownLoadServer::alloc(boss1_dragon_model_node_count * 0x50);
+    boss1_dragon_model_clone_state.state[0] = 0;
+    boss1_dragon_model_clone_state.state[1] = 0;
+    boss1_dragon_model_clone_state.params[0] = (0.0f);
+    boss1_dragon_model_clone_state.params[1] = (0.0f);
+    boss1_dragon_model_clone_state.params[2] = (0.0f);
+    boss1_dragon_model_clone_state.params[3] = (0.0f);
+    source = ((DragonResource *)boss1_dragon_resource)->model->root;
+    TBoss1Dragon::cloneModelHierarchy(source, (DragonModelNode *)boss1_dragon_model_nodes, boss1_dragon_model_clone_state.state);
 
-    TBoss1Dragon__data_805D4B0C = 0;
-    lbl_805D4B10 = 0x3C;
-    lbl_804FE188.x = (0.0f);
-    lbl_804FE188.y = (0.0f);
-    lbl_804FE188.z = (0.0f);
-    lbl_804FE194.vectors[0].x = (0.0f);
-    lbl_804FE194.vectors[0].y = (0.0f);
-    lbl_804FE194.vectors[0].z = (5.0f);
-    capture = &lbl_804FE194.vectors[0];
+    boss1_dragon_capture_node_counter = 0;
+    boss1_dragon_breath_capture_node = 0x3C;
+    boss1_dragon_capture_local_origin.x = (0.0f);
+    boss1_dragon_capture_local_origin.y = (0.0f);
+    boss1_dragon_capture_local_origin.z = (0.0f);
+    boss1_dragon_breath_local_points.vectors[0].x = (0.0f);
+    boss1_dragon_breath_local_points.vectors[0].y = (0.0f);
+    boss1_dragon_breath_local_points.vectors[0].z = (5.0f);
+    capture = &boss1_dragon_breath_local_points.vectors[0];
     delta = capture + 1;
     delta->x = (0.0f);
-    lbl_804FE194.vectors[1].y = sin_table_lookup(-0x1555);
-    lbl_804FE194.vectors[1].z = cos_table_lookup(-0x1555);
-    vec3_add_to(delta, &lbl_804FE194.vectors[0]);
-    lbl_804FE194.vectors[2].x = (0.0f);
-    lbl_804FE194.vectors[2].y = (-1.0f);
-    lbl_804FE194.vectors[2].z = (1.0f);
-    TBoss1Dragon__data_805D4B14 = NULL;
-    TBoss1Dragon__data_805D4B18 = 0;
-    TBoss1Dragon__data_805D4B1C = NULL;
-    TBoss1Dragon__data_805D4B20 = 0;
-    TBoss1Dragon__data_805D4B2C = 0;
+    boss1_dragon_breath_local_points.vectors[1].y = sin_table_lookup(-0x1555);
+    boss1_dragon_breath_local_points.vectors[1].z = cos_table_lookup(-0x1555);
+    vec3_add_to(delta, &boss1_dragon_breath_local_points.vectors[0]);
+    boss1_dragon_breath_local_points.vectors[2].x = (0.0f);
+    boss1_dragon_breath_local_points.vectors[2].y = (-1.0f);
+    boss1_dragon_breath_local_points.vectors[2].z = (1.0f);
+    boss1_dragon_capture_breath_points = NULL;
+    boss1_dragon_capture_table_index = 0;
+    boss1_dragon_capture_node_positions = NULL;
+    boss1_dragon_capture_flags = 0;
+    boss1_dragon_instance = 0;
 
-    DragonMotionData *data = ((DragonResource *)TBoss1Dragon__data_805D4B08)->motions[13].motion->data;
+    DragonMotionData *data = ((DragonResource *)boss1_dragon_resource)->motions[13].motion->data;
     for (i = 0; i < 1; i++) {
         nodes = data[i].positionKeys;
         nodes[25].value.y -= 0.2f;
@@ -684,7 +655,7 @@ void TBoss1Dragon::load_resources() {
     nodes[39].value.y += 18.5f;
     nodes[40].value.y += (30.0f);
 
-    nodes = ((DragonResource *)TBoss1Dragon__data_805D4B08)->motions[12].motion->data->positionKeys;
+    nodes = ((DragonResource *)boss1_dragon_resource)->motions[12].motion->data->positionKeys;
     nodes[41].value.y += 21.0f;
     nodes[42].value.y += 20.5f;
     nodes[43].value.y += (20.0f);
@@ -700,20 +671,20 @@ void TBoss1Dragon::load_resources() {
     nodes[54].value.y -= 1.65f;
     nodes[55].value.y -= (0.5f);
 
-    out = TBoss1Dragon__data_805D4B00;
+    out = boss1_dragon_base_params;
     for (s32 i = 0; i < 1; i++) { out[i] = (u8 *)TLobby::register_boss(boss1_dragon_base_param_ids[i]); }
     table = boss1_dragon_attack_param_ids;
     out = TBoss1Dragon__part_hp_stats;
     for (s32 i = 0; i < 5; i++) {
         out[i] = (u8 *)TLobby::dispatch_shared_handler_b(table[i]);
     }
-    for (s32 i = 0; i < 1; i++) { TBoss1Dragon__data_805D4B04[i] = (u8 *)TLobby::register_object(boss1_dragon_register_object_ids[i]); }
+    for (s32 i = 0; i < 1; i++) { boss1_dragon_resistance_params[i] = (u8 *)TLobby::register_object(boss1_dragon_register_object_ids[i]); }
     for (s32 i = 0; i < 3; i++) {
-        TBoss1Dragon__data_804FE17C[i] = (saddr)TLobby::dispatch_shared_handler_a(boss1_dragon_resistance_param_ids[i]);
+        boss1_dragon_params[i] = (saddr)TLobby::dispatch_shared_handler_a(boss1_dragon_resistance_param_ids[i]);
     }
-    lbl_805D4B34 = 0;
-    TBoss1Dragon__data_805D4B38 = 0;
-    TBoss1Dragon__data_805D4B3C = 0xFFFF;
+    boss1_dragon_action_refresh_requested = 0;
+    boss1_dragon_control_override_active = 0;
+    boss1_dragon_control_override_id = 0xFFFF;
     TWindowCtrl::init_all_slots();
     TBoss1Dragon::select_fireball_particle_table();
 }
@@ -725,29 +696,29 @@ void *TBoss1Dragon::create(void *set_data) {
 }
 
 void TBoss1Dragon::free_resources() {
-    if ((u32) TBoss1Dragon__data_805D4B28 != 0U) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)((void*)TBoss1Dragon__data_805D4B28));
-        TBoss1Dragon__data_805D4B28 = 0U;
+    if ((u32) boss1_dragon_model_nodes != 0U) {
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)((void*)boss1_dragon_model_nodes));
+        boss1_dragon_model_nodes = 0U;
     }
-    if ((u32) TBoss1Dragon__data_805D4B08 != 0U) {
-        delete (BmlResource *)TBoss1Dragon__data_805D4B08;
-        TBoss1Dragon__data_805D4B08 = 0U;
+    if ((u32) boss1_dragon_resource != 0U) {
+        delete (BmlResource *)boss1_dragon_resource;
+        boss1_dragon_resource = 0U;
     }
 }
 
 void TBoss1Dragon::requestActionRefresh() {
-    lbl_805D4B34 = 1;
+    boss1_dragon_action_refresh_requested = 1;
 }
 
 void TBoss1Dragon::setControlOverride(s16 controlId) {
     if (enable_v2_features != 0) {
-        TBoss1Dragon__data_805D4B3C = controlId;
-        TBoss1Dragon__data_805D4B38 = 1;
+        boss1_dragon_control_override_id = controlId;
+        boss1_dragon_control_override_active = 1;
     }
 }
 
 void TBoss1Dragon::clearControlOverride() {
-    TBoss1Dragon__data_805D4B38 = 0;
+    boss1_dragon_control_override_active = 0;
 }
 
 #pragma push
@@ -761,8 +732,8 @@ TBoss1Dragon::TBoss1Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
 
     __ct__14SubtractiveRngFv(this->randomState);
     this->m_name = TBoss1Dragon__name;
-    if ((u32)TBoss1Dragon__data_805D4B2C == 0U) {
-        TBoss1Dragon__data_805D4B2C = (saddr)this;
+    if ((u32)boss1_dragon_instance == 0U) {
+        boss1_dragon_instance = (saddr)this;
     }
     this->invoke_initialization_hook(set_data);
     this->flags = 0;
@@ -770,16 +741,16 @@ TBoss1Dragon::TBoss1Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
         this->flags |= 0x40;
     }
     this->init_position_vectors();
-    this->model = ((DragonResource *)TBoss1Dragon__data_805D4B08)->model->root;
-    this->texlist = ((DragonResource *)TBoss1Dragon__data_805D4B08)->model->m_c;
+    this->model = ((DragonResource *)boss1_dragon_resource)->model->root;
+    this->texlist = ((DragonResource *)boss1_dragon_resource)->model->m_c;
     this->init_model((CollisionBody *)boss1_dragon_collision_body_parts, (s32)7);
     this->motion_flags = 0;
-    this->set_field_d8((saddr)lbl_80481010);
-    this->set_field_dc((saddr)((DragonResource *)TBoss1Dragon__data_805D4B08)->motions);
+    this->set_field_d8((saddr)boss1_dragon_motion_actions);
+    this->set_field_dc((saddr)((DragonResource *)boss1_dragon_resource)->motions);
     this->requested_action = 0;
     this->set_animation(this->requested_action);
     this->set_field_b8(this->requested_action);
-    this->reset_hp(TBoss1Dragon__data_805D4B00[boss1_dragon_base_stat_indices[0]], TBoss1Dragon__part_hp_stats[boss1_dragon_attack_stat_indices[0]], TBoss1Dragon__data_805D4B04[boss1_dragon_resistance_stat_indices[0]]);
+    this->reset_hp(boss1_dragon_base_params[boss1_dragon_base_stat_indices[0]], TBoss1Dragon__part_hp_stats[boss1_dragon_attack_stat_indices[0]], boss1_dragon_resistance_params[boss1_dragon_resistance_stat_indices[0]]);
     this->set_state_flag_1();
     this->movementParameters = boss1_dragon_init_params;
     this->initialize_enemy_state(0x2C);
@@ -925,8 +896,8 @@ TBoss1Dragon::~TBoss1Dragon() {
         this->tail = 0;
     }
     free_collision_body_parts(this);
-    if ((TBoss1Dragon *)TBoss1Dragon__data_805D4B2C == this) {
-        TBoss1Dragon__data_805D4B2C = 0;
+    if ((TBoss1Dragon *)boss1_dragon_instance == this) {
+        boss1_dragon_instance = 0;
     }
 }
 
@@ -983,7 +954,7 @@ void TBoss1Dragon::run_task() {
                     }
                     this->clear_attack_receipts();
                 }
-                if ((s32) TBoss1Dragon__data_805D4B38 == 0) {
+                if ((s32) boss1_dragon_control_override_active == 0) {
                     this->release_held_player();
                 } else {
                     this->check_death();
@@ -998,7 +969,7 @@ void TBoss1Dragon::run_task() {
                     }
                     this->clear_attack_receipts();
                 }
-                if ((s32) TBoss1Dragon__data_805D4B38 == 0) {
+                if ((s32) boss1_dragon_control_override_active == 0) {
                     this->release_held_player();
                 }
                 this->dispatch_action(this->mode, 0);
@@ -1071,7 +1042,7 @@ void TBoss1Dragon::choose_next_action() {
             return;
         }
 block_12:
-        if ((s32) lbl_805D4B34 != 0) {
+        if ((s32) boss1_dragon_action_refresh_requested != 0) {
             this->dispatch_action(this->mode, 2);
             return;
         }
@@ -1148,13 +1119,13 @@ void TBoss1Dragon::update_body_colliders() {
         set_collider_contact_high((u8 *)(*(Coll_80029408 * *)&this->bodies + 3));
         set_collider_contact_high((u8 *)(*(Coll_80029408 * *)&this->bodies + 4));
     }
-    (*(Coll_80029408 * *)&this->bodies)[0].defense = *(s32 *)((s8 *)TBoss1Dragon__data_804FE17C[0] + 0x20);
-    (*(Coll_80029408 * *)&this->bodies)[1].defense = *(s32 *)((s8 *)TBoss1Dragon__data_804FE17C[0] + 0x1C);
-    (*(Coll_80029408 * *)&this->bodies)[2].defense = *(s32 *)((s8 *)TBoss1Dragon__data_804FE17C[0] + 0x1C);
-    (*(Coll_80029408 * *)&this->bodies)[3].defense = *(s32 *)((s8 *)TBoss1Dragon__data_804FE17C[0] + 0x20);
-    (*(Coll_80029408 * *)&this->bodies)[4].defense = *(s32 *)((s8 *)TBoss1Dragon__data_804FE17C[0] + 0x20);
-    (*(Coll_80029408 * *)&this->bodies)[5].defense = *(s32 *)((s8 *)TBoss1Dragon__data_804FE17C[0] + 0x18);
-    (*(Coll_80029408 * *)&this->bodies)[6].defense = *(s32 *)((s8 *)TBoss1Dragon__data_804FE17C[0] + 0x20);
+    (*(Coll_80029408 * *)&this->bodies)[0].defense = *(s32 *)((s8 *)boss1_dragon_params[0] + 0x20);
+    (*(Coll_80029408 * *)&this->bodies)[1].defense = *(s32 *)((s8 *)boss1_dragon_params[0] + 0x1C);
+    (*(Coll_80029408 * *)&this->bodies)[2].defense = *(s32 *)((s8 *)boss1_dragon_params[0] + 0x1C);
+    (*(Coll_80029408 * *)&this->bodies)[3].defense = *(s32 *)((s8 *)boss1_dragon_params[0] + 0x20);
+    (*(Coll_80029408 * *)&this->bodies)[4].defense = *(s32 *)((s8 *)boss1_dragon_params[0] + 0x20);
+    (*(Coll_80029408 * *)&this->bodies)[5].defense = *(s32 *)((s8 *)boss1_dragon_params[0] + 0x18);
+    (*(Coll_80029408 * *)&this->bodies)[6].defense = *(s32 *)((s8 *)boss1_dragon_params[0] + 0x20);
 }
 
 s32 TBoss1Dragon::update_linked_epsilon_position() {
@@ -1333,7 +1304,7 @@ void TBoss1Dragon::prepare_flight_destination(Vec *dest) {
         this->destination.z *= -100.0f;
         return;
     }
-    VecCopy(&this->destination, &TBoss1Dragon__data_80434E80);
+    VecCopy(&this->destination, &boss1_dragon_arena_origin);
 }
 
 s32 TBoss1Dragon::select_forward_target() {
@@ -1478,7 +1449,7 @@ s32 TBoss1Dragon::advance_air_turn() {
 
 #pragma pop
 void TBoss1Dragon::reload_difficulty_stats() {
-    this->reload_stats_keep_hp_tp(TBoss1Dragon__data_805D4B00[boss1_dragon_base_stat_indices[0]], TBoss1Dragon__part_hp_stats[boss1_dragon_attack_stat_indices[0]], TBoss1Dragon__data_805D4B04[boss1_dragon_resistance_stat_indices[0]]);
+    this->reload_stats_keep_hp_tp(boss1_dragon_base_params[boss1_dragon_base_stat_indices[0]], TBoss1Dragon__part_hp_stats[boss1_dragon_attack_stat_indices[0]], boss1_dragon_resistance_params[boss1_dragon_resistance_stat_indices[0]]);
 }
 
 void TBoss1Dragon::reset_tail_hp() {
@@ -1486,11 +1457,11 @@ void TBoss1Dragon::reset_tail_hp() {
 }
 
 void TBoss1Dragon::reload_stats_for_phase(int _w1) {
-    this->reload_stats_keep_hp_tp(TBoss1Dragon__data_805D4B00[boss1_dragon_base_stat_indices[2]], TBoss1Dragon__part_hp_stats[boss1_dragon_attack_stat_indices[2]], TBoss1Dragon__data_805D4B04[boss1_dragon_resistance_stat_indices[2]]);
+    this->reload_stats_keep_hp_tp(boss1_dragon_base_params[boss1_dragon_base_stat_indices[2]], TBoss1Dragon__part_hp_stats[boss1_dragon_attack_stat_indices[2]], boss1_dragon_resistance_params[boss1_dragon_resistance_stat_indices[2]]);
 }
 
 void TBoss1Dragon::reload_impact_stats() {
-    this->reload_stats_keep_hp_tp(TBoss1Dragon__data_805D4B00[boss1_dragon_base_stat_indices[3]], TBoss1Dragon__part_hp_stats[boss1_dragon_attack_stat_indices[3]], TBoss1Dragon__data_805D4B04[boss1_dragon_resistance_stat_indices[3]]);
+    this->reload_stats_keep_hp_tp(boss1_dragon_base_params[boss1_dragon_base_stat_indices[3]], TBoss1Dragon__part_hp_stats[boss1_dragon_attack_stat_indices[3]], boss1_dragon_resistance_params[boss1_dragon_resistance_stat_indices[3]]);
 }
 
 void handle_6x10_dragon_boss_actions(void *arg0) {
@@ -1613,10 +1584,10 @@ void TBoss1Dragon::next_sequence_action() {
         idx = pos;
         switch (TBoss1Dragon::isV2Mode()) {
         case 0:
-            seq = TBoss1Dragon__data_80480CE0;
+            seq = boss1_dragon_primary_sequence_table;
             break;
         case 1:
-            seq = lbl_80480D20;
+            seq = boss1_dragon_primary_sequence_table_b;
             break;
         }
     } else {
@@ -1662,7 +1633,7 @@ void TBoss1Dragon::remap_sequence_after_recovery() {
             this->sequenceCursor = boss1_dragon_sequence_remap_table[this->sequenceCursor];
             break;
         case 1:
-            this->sequenceCursor = lbl_80480D48[this->sequenceCursor];
+            this->sequenceCursor = boss1_dragon_sequence_remap_table_b[this->sequenceCursor];
             break;
         }
         next_sequence_action();
@@ -1762,8 +1733,8 @@ void TBoss1Dragon::apply_foot_attack_pair_1() {
 void TBoss1Dragon::apply_landing_attack() {
     DragonAttackParams stack;
     TBoss1Dragon__sub_80027A80(&stack, &boss1_dragon_attack_sphere_params);
-    stack.field_8 = *(f32 *)((s8 *)((*(u8 **)&TBoss1Dragon__data_804FE17C)) + 0xC);
-    this->reload_stats_for_phase((saddr) ((*(u8 **)&TBoss1Dragon__data_804FE17C)));
+    stack.field_8 = *(f32 *)((s8 *)((*(u8 **)&boss1_dragon_params)) + 0xC);
+    this->reload_stats_for_phase((saddr) ((*(u8 **)&boss1_dragon_params)));
     switch (TBoss1Dragon::isV2Mode()) {
     case 0:
         this->emit_effect_at_position(&stack);
@@ -1933,7 +1904,7 @@ void TBoss1Dragon__sub_800277D8(TBoss1Dragon *self) {
     moko_hill = self->moko_hill;
     if ((moko_hill != NULL) && (moko_hill->is_dragon_trail_damaging() != 0)) {
         *(ByteBlock_14 *)(copy_storage_800277D8.bytes) = *(const ByteBlock_14 *)((saddr) ((u8 *)((void *)((u8 *)&dragon_breath_attack_params + -4))) + 4);
-        (*(f32 *)(copy_storage_800277D8.bytes + 0x4)) = *(f32 *)((s8 *)((*(u8 **)&TBoss1Dragon__data_804FE17C)) + 8);
+        (*(f32 *)(copy_storage_800277D8.bytes + 0x4)) = *(f32 *)((s8 *)((*(u8 **)&boss1_dragon_params)) + 8);
         switch (TBoss1Dragon::isV2Mode()) {
         case 0:
             TObjEneDD::setup_instance((saddr) self, (saddr)&self->position, (copy_storage_800277D8.bytes), (saddr)self->attack_history);
@@ -1949,7 +1920,7 @@ void TBoss1Dragon::deliver_breath_attack(saddr position, s32 attack_history) {
     struct CopyStack_80027710 { u8 bytes[0x14]; };
     CopyStack_80027710 copy_storage_80027710;
     *(ByteBlock_14 *)(copy_storage_80027710.bytes) = *(const ByteBlock_14 *)((saddr) ((u8 *)((void *)((u8 *)&dragon_fireball_attack_params + -4))) + 4);
-    (*(f32 *)(copy_storage_80027710.bytes + 0x4)) = *(f32 *)((s8 *)((*(f32 **)&TBoss1Dragon__data_804FE17C)) + 0);
+    (*(f32 *)(copy_storage_80027710.bytes + 0x4)) = *(f32 *)((s8 *)((*(f32 **)&boss1_dragon_params)) + 0);
     (*(s32 *)copy_storage_80027710.bytes) = this->m_770;
     switch (TBoss1Dragon::isV2Mode()) {
     case 0:
@@ -1968,7 +1939,7 @@ void TBoss1Dragon::apply_fireball_impact_damage(saddr arg1) {
   };
   CopyStack_80027650 copy_storage_80027650;
   *((ByteBlock_14 *) (((saddr)(copy_storage_80027650.bytes - 0x4)) + 4)) = *((const ByteBlock_14 *) ((((u8 *)&dragon_fireball_impact_damage_params) - 4) + 4));
-  *((f32 *)(copy_storage_80027650.bytes + 0x4)) = *((f32 *) (((s8 *) (*(u8 **)&TBoss1Dragon__data_804FE17C)) + 4));
+  *((f32 *)(copy_storage_80027650.bytes + 0x4)) = *((f32 *) (((s8 *) (*(u8 **)&boss1_dragon_params)) + 4));
   *((s32 *) copy_storage_80027650.bytes) = *((s32 *) (((s8 *) ((u8 *)this)) + 0x770));
   switch (TBoss1Dragon::isV2Mode())
   {
@@ -1982,7 +1953,7 @@ void TBoss1Dragon::apply_fireball_impact_damage(saddr arg1) {
 }
 
 f32 TBoss1Dragon::get_crater_attack_power() {
-    return 0.666f * *(f32 *)((s8 *)TBoss1Dragon__data_804FE17C[0] + 4);
+    return 0.666f * *(f32 *)((s8 *)boss1_dragon_params[0] + 4);
 }
 
 void TBoss1Dragon::sub_800275BC(Vec *position, u8 *params, AreaAttackHistory *history) {
@@ -2041,7 +2012,7 @@ u16 TBoss1Dragon::find_player_on_floor(void *arg0) {
 void TBoss1Dragon::init_control_mode() {
     u16 id;
 
-    if (TBoss1Dragon__data_805D4B38 != 0) {
+    if (boss1_dragon_control_override_active != 0) {
         this->m_760 = 1;
     } else {
         this->m_760 = 0;
@@ -2051,10 +2022,10 @@ void TBoss1Dragon::init_control_mode() {
     this->controlTimer = 0x96;
     this->controller_input = (DragonControllerInput *)(controller_input_state + 0x20);
     if (TObjEneDD::is_main_phase_15() != 0) {
-        if (TBoss1Dragon__data_805D4B3C == 0xFFFF) {
+        if (boss1_dragon_control_override_id == 0xFFFF) {
             id = TBoss1Dragon::find_player_on_floor(this);
         } else {
-            id = TBoss1Dragon__data_805D4B3C;
+            id = boss1_dragon_control_override_id;
         }
     } else {
         id = local_client_id;
@@ -2414,7 +2385,7 @@ void TBoss1Dragon::update_walking_state(u32 reason) {
             break;
         case 1:
             {
-                f32 s1 = *(f32 *)((s8 *)((*(Glob_800267B8 *)&TBoss1Dragon__data_804FE17C).value) + 0x10);
+                f32 s1 = *(f32 *)((s8 *)((*(Glob_800267B8 *)&boss1_dragon_params).value) + 0x10);
                 this->fallVelocity = (5.0f) + TObjBoss2Tunnel::calc_scaled_value((s32) (320.0f * s1), s1);
             }
             break;
@@ -2449,7 +2420,7 @@ void TBoss1Dragon::update_walking_state(u32 reason) {
             if (enemy_validate_retained_target(this) != 0) {
                 this->enemy_copy_target_destination();
             } else {
-                this->set_target_destination(&TBoss1Dragon__data_80434E80);
+                this->set_target_destination(&boss1_dragon_arena_origin);
             }
             this->saveTargetDestination();
             this->send_state_sync();
@@ -2463,7 +2434,7 @@ void TBoss1Dragon::update_walking_state(u32 reason) {
         if (this->update_linked_epsilon_position() != 0) {
             this->enemy_copy_target_destination();
         } else {
-            this->set_target_destination(&TBoss1Dragon__data_80434E80);
+            this->set_target_destination(&boss1_dragon_arena_origin);
         }
         this->saveTargetDestination();
         break;
@@ -2473,7 +2444,7 @@ void TBoss1Dragon::update_walking_state(u32 reason) {
             scale = (0.8f);
             break;
         case 1:
-            scale = *(f32 *)((s8 *)((*(Glob_800267B8 *)&TBoss1Dragon__data_804FE17C).value) + 0x10);
+            scale = *(f32 *)((s8 *)((*(Glob_800267B8 *)&boss1_dragon_params).value) + 0x10);
             break;
         }
         iscale = (s32) (320.0f * scale);
@@ -2731,7 +2702,7 @@ void TBoss1Dragon::update_lift_state(u32 reason) {
             if ((this->frame + this->play_speed) >= (40.0f)) {
                 f32 t;
                 this->rootHeight = this->sample_root_height();
-                t = (-2.0f) * lbl_805D4AF0;
+                t = (-2.0f) * boss1_dragon_lift_accel;
                 this->fallVelocity = newton_sqrtf(t * (180.0f - this->rootHeight));
                 this->impactAge = 1;
                 this->flags = this->flags | 0xC00;
@@ -2754,7 +2725,7 @@ void TBoss1Dragon::update_lift_state(u32 reason) {
             this->heightOffset = this->defaultHeightOffset + (this->rootHeight - this->sample_root_height());
             this->height = this->position.y + this->rootHeight;
             this->rootHeight = this->rootHeight + this->fallVelocity;
-            this->fallVelocity = this->fallVelocity + lbl_805D4AF0;
+            this->fallVelocity = this->fallVelocity + boss1_dragon_lift_accel;
             break;
         case 0:
             break;
@@ -2788,7 +2759,7 @@ void TBoss1Dragon::update_flight_state(u32 reason) {
             init_acceleration_curve(&this->curve0, (0.1f), (-0.1f), this->destination_distance, (2.0f));
             break;
         case 1:
-            init_acceleration_curve(&this->curve0, (0.1f), (-0.1f), this->destination_distance, *(f32 *)((s8 *)(*(G_80025C68 *)&TBoss1Dragon__data_804FE17C).value + 0x14));
+            init_acceleration_curve(&this->curve0, (0.1f), (-0.1f), this->destination_distance, *(f32 *)((s8 *)(*(G_80025C68 *)&boss1_dragon_params).value + 0x14));
             break;
         }
         VecCopy(base, &this->position);
@@ -2804,7 +2775,7 @@ void TBoss1Dragon::update_flight_state(u32 reason) {
             init_acceleration_curve(&this->curve1, 16.0f, (-16.0f), (f32)var, 512.0f);
             break;
         case 1:
-            init_acceleration_curve(&this->curve1, 16.0f, (-16.0f), (f32)var, (f32)(s32)(256.0f * *(f32 *)((s8 *)(*(G_80025C68 *)&TBoss1Dragon__data_804FE17C).value + 0x14)));
+            init_acceleration_curve(&this->curve1, 16.0f, (-16.0f), (f32)var, (f32)(s32)(256.0f * *(f32 *)((s8 *)(*(G_80025C68 *)&boss1_dragon_params).value + 0x14)));
             break;
         }
         this->action_angle = this->rotation_y;
@@ -2958,18 +2929,18 @@ void TBoss1Dragon::update_air_fire_state(u32 reason) {
                 dist = normalize_vector_xz((Vec *)&d);
                 d.y = (0.0f);
                 VecCopy(&dest, tgt);
-                dest.y = TBoss1Dragon__data_80434E80.y;
+                dest.y = boss1_dragon_arena_origin.y;
                 new TBoss1DragonEffBullet(&this->sub_tasks, &this->breath_origin, &dest);
                 rotate_vec_xz(&d, &out, 0x1000);
                 VecCopy(&dest, &this->position);
                 dest.x = out.x * dist + dest.x;
-                dest.y = TBoss1Dragon__data_80434E80.y;
+                dest.y = boss1_dragon_arena_origin.y;
                 dest.z = out.z * dist + dest.z;
                 new TBoss1DragonEffBullet(&this->sub_tasks, &this->breath_origin, &dest);
                 rotate_vec_xz(&d, &out, -0x1000);
                 VecCopy(&dest, &this->position);
                 dest.x = out.x * dist + dest.x;
-                dest.y = TBoss1Dragon__data_80434E80.y;
+                dest.y = boss1_dragon_arena_origin.y;
                 dest.z = out.z * dist + dest.z;
                 new TBoss1DragonEffBullet(&this->sub_tasks, &this->breath_origin, &dest);
                 spawn_particle_effect_with_flags(&this->breath_origin, this->effectResource->particle_ids[7], 0x40);
@@ -3143,7 +3114,7 @@ void TBoss1Dragon::update_spinning_projectile_attack(u32 reason) {
             break;
         }
         if (this->stateStep == 1 || this->stateStep == 2) {
-            this->fallVelocity += lbl_805D4B40;
+            this->fallVelocity += boss1_dragon_spin_attack_accel;
             if (this->fallVelocity < (0.0f)) {
                 this->fallVelocity = (0.0f);
             }
@@ -3491,8 +3462,8 @@ void TBoss1Dragon::update_dive_state(u32 reason) {
         factor = (5.0f);
         this->destination_distance = this->destination_distance + factor;
         this->init_air_turn(this->action_angle);
-        k = -(13.0f / lbl_805D4AF8);
-        t = newton_sqrtf((2.0f + (this->heightOffset - 169.0f / (2.0f * lbl_805D4AF8))) / -boss1_dragon_gravity);
+        k = -(13.0f / boss1_dragon_dive_accel);
+        t = newton_sqrtf((2.0f + (this->heightOffset - 169.0f / (2.0f * boss1_dragon_dive_accel))) / -boss1_dragon_gravity);
         if (this->destination_distance < 50.0f) {
             t = this->destination_distance / (k + t);
             this->m_884 = t;
@@ -3559,7 +3530,7 @@ void TBoss1Dragon::update_dive_state(u32 reason) {
             break;
         case 2:
             if (this->m_888 > (0.0f)) {
-                this->m_888 = this->m_888 + lbl_805D4AF8;
+                this->m_888 = this->m_888 + boss1_dragon_dive_accel;
                 this->rootHeight = this->rootHeight + this->m_88c;
                 this->move_with_wall_stop(this->destination_direction.x, this->destination_direction.z, this->rootHeight);
             } else {
@@ -3580,7 +3551,7 @@ void TBoss1Dragon::update_dive_state(u32 reason) {
             } else {
                 this->rotation_x = approach_angle_limited(this->rotation_x, 0x4000, 0x200);
             }
-            if (this->breath_origin.y <= TBoss1Dragon__data_80434E80.y - (50.0f)) {
+            if (this->breath_origin.y <= boss1_dragon_arena_origin.y - (50.0f)) {
                 this->stateStep = 3;
                 this->play_se_at_pos(0x4003AD0F);
             }
@@ -3922,9 +3893,9 @@ void TBoss1Dragon::update_emergence_state(u32 reason) {
                 this->stateStep = 1;
                 this->restorePosition();
                 this->flags |= 0x100;
-                v->x = TBoss1Dragon__data_80434E80.x - this->position.x;
+                v->x = boss1_dragon_arena_origin.x - this->position.x;
                 v->y = (0.0f);
-                v->z = TBoss1Dragon__data_80434E80.z - this->position.z;
+                v->z = boss1_dragon_arena_origin.z - this->position.z;
                 len = normalize_vector_xz((Vec *)v);
                 if (len <= (100.0f)) {
                     this->fallVelocity = (0.0f);
@@ -3947,7 +3918,7 @@ void TBoss1Dragon::update_emergence_state(u32 reason) {
             }
             break;
         case 1:
-            if (this->height > TBoss1Dragon__data_80434E80.y) {
+            if (this->height > boss1_dragon_arena_origin.y) {
                 this->stateStep = 2;
                 this->clear_invulnerable();
                 this->enable_body_collision();
@@ -4108,7 +4079,7 @@ void TBoss1Dragon::update_death_state(u32 arg1) {
             if (this->is_passing_frame((f32)(57.0f)) != 0) {
                 eff1 = *(const Eff_80022EE0 *)&TBoss1Dragon__head_fall_effect_params;
                 *(f32 *)&eff1.w[2] = (12.0f);
-                VecCopy(&v, &lbl_80434EC8);
+                VecCopy(&v, &boss1_dragon_death_first_fall_offset);
                 rotate_xz_pair_by_angle(&v.x, &v.z, this->rotation_y);
                 vec3_add_to(&v, &this->position);
                 reset_hp((u8 *)0, TBoss1Dragon__part_hp_stats[4], (u8 *)0);
@@ -4126,7 +4097,7 @@ void TBoss1Dragon::update_death_state(u32 arg1) {
             if (this->is_passing_frame((f32)(88.0f)) != 0) {
                 eff2 = *(const Eff_80022EE0 *)&TBoss1Dragon__head_fall_effect_params;
                 *(f32 *)&eff2.w[2] = (25.0f);
-                VecCopy(&v, &lbl_80434ED4);
+                VecCopy(&v, &boss1_dragon_death_second_fall_offset);
                 rotate_xz_pair_by_angle(&v.x, &v.z, this->rotation_y);
                 vec3_add_to(&v, &this->position);
                 reset_hp((u8 *)0, TBoss1Dragon__part_hp_stats[4], (u8 *)0);
@@ -4253,7 +4224,7 @@ void TBoss1Dragon::sub_80022C38(u32 reason) {
             this->request_state_change(5);
             return;
         }
-        if (TBoss1Dragon::filter_input_flags((saddr)this, this->controller_input->flags, fn_8002AE08(TBoss1Dragon__data_805D4B3C)) != 0) {
+        if (TBoss1Dragon::filter_input_flags((saddr)this, this->controller_input->flags, fn_8002AE08(boss1_dragon_control_override_id)) != 0) {
             this->request_state_change(9);
         }
         return;
@@ -4345,7 +4316,7 @@ void TBoss1Dragon::sub_800228E8(u32 reason) {
             this->request_state_change(5);
             return;
         }
-        if (TBoss1Dragon::filter_input_flags((saddr)this, this->controller_input->flags, fn_8002AE08(TBoss1Dragon__data_805D4B3C)) != 0) {
+        if (TBoss1Dragon::filter_input_flags((saddr)this, this->controller_input->flags, fn_8002AE08(boss1_dragon_control_override_id)) != 0) {
             this->request_state_change(9);
             return;
         }
@@ -4625,7 +4596,7 @@ void TBoss1Dragon::handle_walk_state(u32 reason) {
         VecCopy(home, &this->position);
         this->stateStep = 0x64;
         this->impactAge = 0;
-        home->y = TBoss1Dragon__data_80434E80.y;
+        home->y = boss1_dragon_arena_origin.y;
         this->fallVelocity = (0.0f);
         this->rootHeight = (0.0f);
         this->moko_hill->start();
@@ -5126,35 +5097,35 @@ s32 TBoss1Dragon::check_parts_visible(TObjCollidable *parts) {
 void dragon_capture_node_points(NJS_OBJECT *) {
     s32 temp_r0;
     Vec *point;
-    if ((s32) TBoss1Dragon__data_805D4B0C == (s32) lbl_805D4B10) {
+    if ((s32) boss1_dragon_capture_node_counter == (s32) boss1_dragon_breath_capture_node) {
         push_matrix();
         forward_split_screen_view_matrix();
-        matrix_mult_vec_array(NULL, lbl_804FE194.vectors, TBoss1Dragon__data_805D4B14, 3);
+        matrix_mult_vec_array(NULL, boss1_dragon_breath_local_points.vectors, boss1_dragon_capture_breath_points, 3);
         pop_matrix();
     }
-    if ((s32) TBoss1Dragon__data_805D4B0C == (s32) boss1_dragon_capture_node_table[TBoss1Dragon__data_805D4B18]) {
-        point = TBoss1Dragon__data_805D4B1C;
-        TBoss1Dragon__data_805D4B1C = point + 1;
-        forward_transform_to_view((const Vec *)&lbl_804FE188.x, point);
-        temp_r0 = TBoss1Dragon__data_805D4B18 + 1;
-        TBoss1Dragon__data_805D4B18 = temp_r0;
-        if ((temp_r0 == 7) && !(TBoss1Dragon__data_805D4B20 & 0x80)) {
-            TBoss1Dragon__data_805D4B18 = 0xC;
-            TBoss1Dragon__data_805D4B1C += 5;
+    if ((s32) boss1_dragon_capture_node_counter == (s32) boss1_dragon_capture_node_table[boss1_dragon_capture_table_index]) {
+        point = boss1_dragon_capture_node_positions;
+        boss1_dragon_capture_node_positions = point + 1;
+        forward_transform_to_view((const Vec *)&boss1_dragon_capture_local_origin.x, point);
+        temp_r0 = boss1_dragon_capture_table_index + 1;
+        boss1_dragon_capture_table_index = temp_r0;
+        if ((temp_r0 == 7) && !(boss1_dragon_capture_flags & 0x80)) {
+            boss1_dragon_capture_table_index = 0xC;
+            boss1_dragon_capture_node_positions += 5;
         }
-        if (((s32) TBoss1Dragon__data_805D4B18 == 0x12) && !(TBoss1Dragon__data_805D4B20 & 0x200)) {
-            TBoss1Dragon__data_805D4B18 = 0x20;
-            TBoss1Dragon__data_805D4B1C += 14;
+        if (((s32) boss1_dragon_capture_table_index == 0x12) && !(boss1_dragon_capture_flags & 0x200)) {
+            boss1_dragon_capture_table_index = 0x20;
+            boss1_dragon_capture_node_positions += 14;
         }
     }
-    TBoss1Dragon__data_805D4B0C += 1;
+    boss1_dragon_capture_node_counter += 1;
 }
 
 void TBoss1Dragon::draw() {
     s32 temp_r31;
 
     temp_r31 = *(s32 *)&this->model;
-    *(s32 *)&this->model = (s32) TBoss1Dragon__data_805D4B28;
+    *(s32 *)&this->model = (s32) boss1_dragon_model_nodes;
     set_chunk_model_node_callback(dragon_capture_node_points);
     push_matrix();
     post_translate_matrix(&this->position.x);
@@ -5190,11 +5161,11 @@ void TBoss1Dragon::render() {
     if (is_split_screen() != 0) {
         view = TCameraCtrl::get_camera_mode();
     }
-    TBoss1Dragon__data_805D4B0C = 0;
-    TBoss1Dragon__data_805D4B14 = this->breath_node_points;
-    TBoss1Dragon__data_805D4B18 = 0;
-    TBoss1Dragon__data_805D4B1C = this->node_positions;
-    TBoss1Dragon__data_805D4B20 = *(s32 *)&this->flags;
+    boss1_dragon_capture_node_counter = 0;
+    boss1_dragon_capture_breath_points = this->breath_node_points;
+    boss1_dragon_capture_table_index = 0;
+    boss1_dragon_capture_node_positions = this->node_positions;
+    boss1_dragon_capture_flags = *(s32 *)&this->flags;
     this->update_object_view_visibility((1000.0f), (1000.0f));
     ch = &this->viewFade[view];
     if (ch->has_visible_opacity() != 0) {
@@ -5209,7 +5180,7 @@ void TBoss1Dragon::render() {
             rotate_matrix_z(0, this->rotation_z);
             NJS_ARGB color = dragon_boss1_render_color;
             saved = *(s32 *)&this->model;
-            *(s32 *)&this->model = ((DragonResource *)TBoss1Dragon__data_805D4B08)->model->m_18;
+            *(s32 *)&this->model = ((DragonResource *)boss1_dragon_resource)->model->m_18;
             saved_model_render_flags = model_render_flags;
             model_render_flags = saved_model_render_flags | 0x10;
             set_constant_material((const NJS_ARGB *)((&color)));
@@ -5342,7 +5313,7 @@ void TBoss1Dragon::render_shadows() {
             rotate_matrix_x(0, this->rotation_x);
             rotate_matrix_z(0, (int) (this->rotation_z));
             temp_r31 = *(s32 *)&this->model;
-            temp_r4 = (u8 *)((DragonResource *)TBoss1Dragon__data_805D4B08)->model;
+            temp_r4 = (u8 *)((DragonResource *)boss1_dragon_resource)->model;
             *(s32 *)&this->model = ((DragonModelEntry *)temp_r4)->m_18;
             TObjMotion::draw();
             *(s32 *)&this->model = temp_r31;
