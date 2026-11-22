@@ -95,7 +95,7 @@ CATALOG: tuple[Pattern, ...] = (
     _p("m2c_macro", "m2c helper macros (M2C_FIELD, M2C_ERROR)", r"\bM2C_\w+", "decompiler"),
     _p("data_label", "address-named data (lbl_8045A010, Class__data_8045A010)",
        r"\b(?:lbl|DAT|PTR|dat)_[0-9A-Fa-f]{6,16}\b|\b\w+__data_[0-9A-Fa-f]{6,16}\b", "names"),
-    _p("function_placeholder", "address-named functions (fn_, sub_, Class__sub_8013E17C)",
+    _p("function_placeholder", "address-named functions (fn_, sub_, Class__sub_80123456)",
        r"\b(?:fn|FUN|func|sub)_[0-9A-Fa-f]{6,16}\b|\b\w+__sub_[0-9A-Fa-f]{6,16}\b", "names"),
     _p("address_in_name", "names built around an address (call_36A90_with_1)",
        r"\b(?!(?:lbl|fn|sub|func|dat|ptr|jumptable|switch|temp|var|arg|sp|text|data|bss|rodata)_[0-9A-F])"

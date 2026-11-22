@@ -92,13 +92,13 @@ between files or functions counts as neither added nor removed.
 | Check | Finds | Write instead |
 |---|---|---|
 | `extern_c` | `extern "C"` in a source file declaring what another file defines | include the owner's header |
-| `mangled_member`, `mangled_free` | hand-mangled names in source: `get_state__11TMainCursorFv(p)` | the member: `p->get_state()` |
-| `flat_name` | members spelled as C names: `TMainCursor__set_end_task(void *, ...)`, `TLoadCtrl__instance` | a member or static member of the class |
+| `mangled_member`, `mangled_free` | hand-mangled names in source: `update__6TEnemyFv(p)` | the member: `p->update()` |
+| `flat_name` | members spelled as C names: `TEnemy__update(void *self)`, `TEnemy__instance` | a member or static member of the class |
 | `raw_offset`, `punned_deref` | `(u8 *)p + 0x30`, `*(f32 *)(p + 0x18)`, `*(s32 *)&x` | a field of the right type |
 | `offset_member` | fields named after their offset: `unk_30`, `m_30c`, `field_96` | a name from evidence, or `pad_<offset>` for bytes nothing uses |
 | `fp_cast` | calls through function-pointer casts | a declared function or a typed pointer |
 | `decomp_temp`, `stack_local`, `arg_name`, `ghidra_temp`, `ghidra_type`, `m2c_macro` | `temp_r3`, `sp1C`, `arg0`, `iVar1`, `undefined4`, `M2C_FIELD` | names for what they hold, real types |
-| `data_label`, `function_placeholder`, `address_in_name`, `address_type` | names built from addresses: `lbl_8045A010`, `fn_8013E17C`, `TMainCursor__sub_8013E17C`, `TUnk_804806E8` | a name from evidence; without evidence, keep the placeholder |
+| `data_label`, `function_placeholder`, `address_in_name`, `address_type` | names built from addresses: `lbl_8045A010`, `fn_80123456`, `TEnemy__sub_80123456`, `TUnk_804806E8` | a name from evidence; without evidence, keep the placeholder |
 | `vtable_symbol`, `hand_vtable`, `filler_virtual`, `slot_name`, `local_virtual` | vtables written by hand, `vfunc_67`, virtual stand-in classes in a source file | virtual functions declared in the class's header |
 | `retype_macro`, `inline_asm` | `#define` re-typings of globals, assembly in source | real declarations; see the assembly rule below |
 
@@ -109,18 +109,13 @@ between files or functions counts as neither added nor removed.
   `(Self_80238EC8 *)this`. Either the function belongs to that other class, or the cast hides a base or a field
   the class should declare.
 - `subobject_call`: a function named for the calling class but called on part of it,
-  `TMainCursor__set_end_task((char *)this + 0x3C, task)`. It is a member of whatever object lives at that offset:
-  declare the field with its class and call `unk_3c.set_end_task(task)`.
+  `TEnemy__set_task((char *)this + 0x3C, task)`. It is a member of whatever object lives at that offset:
+  declare the field with its class and call `tasks.set_task(task)`.
 
 **Symbols.** Renamed or new names in `symbols.txt` are flagged when they are flat C names or still built from an
-address. A member's symbol is its CodeWarrior name, `set_end_task__13TUnk_8013F08CFP7TObject`, which the compiler
+address. A member's symbol is its CodeWarrior name, `poll_default__9TLoadCtrlFv`, which the compiler
 produces once the function is a real member. New or renamed symbols that leave a `force_active` entry in
 `config.yml` naming nothing are listed too: rename both together.
-
-For example, renaming `TMainCursor__sub_8013E1C0` to `TMainCursor__set_end_task` scores one `function_placeholder`
-removed and one `flat_name` added. It is still a C function on a `void *`, and its symbol must change again when it
-becomes a member. Writing `void TUnk_8013F08C::set_end_task(TObject *task)` on the class that owns the field
-removes both.
 
 ## Rules
 
