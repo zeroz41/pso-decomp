@@ -6,18 +6,33 @@
 #include "pso/render/RenderFadeState.h"
 
 class ModelNodePositionCapture;
-// One Pan Arms half (0x470 bytes, TObjEnePanarms::create_bara); 0x380 is the half's
-// index (create_bara's second argument, the constructor's third).
-extern "C" {
-// Links a half to the body (0x39C) and to the other half (0x3A0).
-void TObjEnePanarms__sub_800E1C8C(void *arg0, s32 arg1, s32 arg2);
-}
+class TObjEnePanarms;
+
+// One Pan Arms half (0x470 bytes, TObjEnePanarms::create_bara).
 
 class TObjEnePanBARA : public TObjEnemy {
 public:
     TObjEnePanBARA(TObject *parent, void *setData, s32 index);
     virtual ~TObjEnePanBARA();
-    void sub_800E1C98(s32);
+    void set_state(s32 next);
+    // Links the half to the body and to the other half (the body's constructor).
+    void set_links(TObjEnePanarms *body, TObjEnePanBARA *partner);
+    // Death: run_death_reaction enters state 7 (sink), whose update enters state 8 when it ends.
+    s32 is_dying();
+    int get_state_flag();
+    int sub_800DFB74();
+    s32 sub_800DFB9C();
+    s32 is_dead();
+    void do_action_2();
+    void sub_800E1D38();
+    void sub_800E1D94();
+    void sub_800E1E14();
+    s32 sub_800E2FB4();
+    s32 is_below_half_hp();
+    s32 sub_800E2E68();
+    s32 sub_800E2E54();
+    s32 check_can_attack();
+    s32 is_phase_12();
     virtual void run_task();
     virtual void render();
     void calc_part_position(u8 *, s32 *);
@@ -68,24 +83,24 @@ public:
     void sub_800E0214();
     void sub_800E0048();
     void sub_800DFE08();
-    s32 state;
-    s32 m_378;
+    s32 prev_state; // the state before the last set_state
+    s32 state; // index into the TU's {enter, update} state table (set_state)
     CollisionBody *collision_body_parts; // init_collision_body_parts / free_collision_body_parts
-    s32 m_380;
+    s32 half_index; // create_bara's index: picks the half's model, motions and tables
     s32 m_384;
     s32 m_388;
     Vec m_38c;
     s32 m_398;
-    u8 *m_39c;
-    void* m_3a0;
+    TObjEnePanarms *body;
+    TObjEnePanBARA *partner; // the other half
     u8 unk_3A4[0x4];
     f32 m_3a8;
     u8 unk_3AC[0x4];
     f32 m_3b0;
     s32 action_timer;
-    u8 unk_3B8[0x4];
-    s32 m_3bc;
-    u8 unk_3C0[0x4];
+    s32 target_id; // entity id of the attack target (find_entity_by_id)
+    s32 split_hp; // hp the half starts with when the body splits
+    s32 unk_3C0;
     s32 m_3c4;
     Vec pad_3c8;
     s32 m_3d4;

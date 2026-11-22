@@ -6,6 +6,7 @@
 #include "pso/render/RenderFadeState.h"
 
 class ModelNodePositionCapture;
+class TObjEnePanBARA;
 class TParticleCtrl;
 
 /* One state's motion of the Pan Arms body: motion indexes bm7_s_paa_body_motion_names
@@ -37,8 +38,7 @@ struct TObjEnePanarms : public TObjEnemy {
     Vec draw_positions[5];
     void* m_3dc;
     u8 unk_3E0[0x4];
-    uaddr m_3e4; // the two TObjEnePanBARA halves (create_bara)
-    uaddr m_3e8;
+    TObjEnePanBARA *halves[2]; // create_bara(index 0 / 1)
     s32 attack_count; // bit 0 / bit 1 pick the next arm attack
     s32 spin_count;
     s32 max_hp; // the split starts at max_hp / 3
@@ -50,8 +50,7 @@ struct TObjEnePanarms : public TObjEnemy {
     s32 wait_frames; // state timer start value of the hidden wait
     int find_nearest_enemy_with_flag(Vec *direction, f32 range);
     static void spawn_npc_pair();
-    static int do_action_2(void* p);
-    static s32 create_bara(void *setData, s32 index);
+    static TObjEnePanBARA *create_bara(void *setData, s32 index);
     static s32 create(saddr setData);
     void init(s16 action);
     int get_state_flag();
