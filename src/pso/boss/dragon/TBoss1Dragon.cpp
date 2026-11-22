@@ -1882,7 +1882,7 @@ void TBoss1Dragon::apply_trail_attack() {
     }
 }
 
-void TBoss1Dragon::deliver_breath_attack(saddr position, s32 attack_history) {
+void TBoss1Dragon::deliver_breath_attack(saddr position, saddr attack_history) {
     DragonAttackParams params = dragon_fireball_attack_params;
     params.field_4 = boss1_dragon_behavior_params[0]->breath_attack_power;
     params.field_0 = this->attack_kind;
