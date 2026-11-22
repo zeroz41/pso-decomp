@@ -72,7 +72,7 @@ CATALOG: tuple[Pattern, ...] = (
     # mangled method__<len>ClassF... and its receiver is a void * instead of `this`.
     _p("flat_name", "flat C spellings of members (TClass__method)",
        r"\b(?![A-Za-z0-9_]*__(?:\d|F[A-Za-z]|(?:sub|data)_[0-9A-Fa-f]{6}|vt\d))"
-       r"[A-Z][A-Za-z0-9]*[a-z0-9]__[a-z_][A-Za-z0-9_]*\b", "linkage"),
+       r"(?=[A-Z](?:[A-Z0-9]|_(?!_))*(?:[a-z]|\d__))[A-Z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)*__[a-z_][A-Za-z0-9_]*\b", "linkage"),
     _p("raw_offset", "raw pointer + offset accesses ((u8 *)p + 0x30)",
        r"\(\s*\(?\s*(?:const\s+)?(?:u8|s8|char|unsigned\s+char|signed\s+char|uint8_t|int8_t|byte|undefined1?)"
        r"\s*\*\s*\)\s*\(?\s*[\w.\->]+\s*\)?\s*\+\s*(?:0x[0-9A-Fa-f]+|\d+)\s*\)", "layout"),
