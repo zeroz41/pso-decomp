@@ -11,7 +11,7 @@ void calc_box_bounds(Vec *corners, Vec *min, Vec *max);
 // The smallest and largest corner of the cube around a sphere.
 void calc_sphere_bounds(CollisionSphere *sphere, Vec *min, Vec *max);
 // The straight-line distance between a and b.
-f32 xyz_distance(const Vec *a, const Vec *b);
+f32 xyz_distance(Vec *a, Vec *b);
 // The paired-single matrix-stack helpers (hand-written assembly).
 void translate_current_matrix_ps(f32 x, f32 y, f32 z);
 // sin of angle in f1 and its cos in f2, for the assembly callers.

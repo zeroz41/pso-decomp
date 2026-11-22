@@ -197,6 +197,8 @@ void fn_800D911C(Vec *position) {
     create_timed_particle_emitter(position, 236, 10, 1);
 }
 
+}
+
 void trigger_dell_biter_events(const Vec *pos) { spawn_particle_effect(pos, 251); spawn_particle_effect(pos, 252); spawn_particle_effect(pos, 227); }
 
 void spawn_ground_effect(const Vec *pos, s32 duration) {
@@ -219,7 +221,6 @@ void spawn_effect_at_ground(const Vec *pos, s32 duration) {
 // .sdata2 pools 2.5f ahead of 7.5f/15.0f and 25.0f after them (0x805DA3C4-D0),
 // which first use by the surviving code cannot give. Bodies and names inferred
 // from the family.
-}
 void spawn_corner_dead_spot_scale2_5(s32 point, s32 delay) {
     TObjPlayer__sub_800D93F0(point, 0, delay, 2.5f);
 }
