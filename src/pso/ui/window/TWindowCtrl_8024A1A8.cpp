@@ -36,7 +36,6 @@ struct Ctrl_8024A714 { u8 pad[0x84]; void *arr[4]; };
 
 struct Obj_8024A7CC { u8 pad[0x84]; void *arr[4]; };
 
-struct Ctrl_8024A928;
 
 struct Obj_8024AA08 { u8 pad[4]; u32 f4; };
 
@@ -180,8 +179,6 @@ void TWindowCtrl::create_alt_timer() {
     }
 }
 
-typedef struct RecoveredFields_8024A688_arg1 RecoveredFields_8024A688_arg1;
-typedef struct RecoveredFields_8024A688_temp_r3 RecoveredFields_8024A688_temp_r3;
 
 char *TWindowCtrl::skip_name_prefix(void *self, char *s) {
     char *p;
