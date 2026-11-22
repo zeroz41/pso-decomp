@@ -1202,7 +1202,7 @@ void TObjEneRecon__sub_8031D380(u8 *arg0, s32 reason) {
   return;
 }
 void TObjEneRecon::sub_8031D4B0(s32 reason) {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     f32 temp_f1;
     f32 temp_f1_2;
     f32 temp_f1_3;
@@ -1215,85 +1215,85 @@ void TObjEneRecon::sub_8031D4B0(s32 reason) {
     case 4:
         this->requested_action = 1;
         this->set_intangible();
-        *(s32 *)((s8 *)arg0 + 0x444) = (s32) (*(s32 *)((s8 *)arg0 + 0x444) & 0xFFFFFFFE);
-        *(s32 *)((s8 *)arg0 + 0x444) = (s32) (*(s32 *)((s8 *)arg0 + 0x444) | 2);
-        *(s32 *)((s8 *)arg0 + 0x30) = (*(s32 *)((s8 *)arg0 + 0x30) | 0x01000000);
-        *(s32 *)((s8 *)arg0 + 0x3C0) = 0;
-        this->rotation_y = (s32) (10430.38043493439 * atan2_float((f32) (*(f32 *)((s8 *)arg0 + 0x428)), (f32) (*(f32 *)((s8 *)arg0 + 0x430))));
-        ((TObjEneDD_ST *)(arg0))->enemy_clear_target();
+        *(s32 *)((s8 *)self + 0x444) = (s32) (*(s32 *)((s8 *)self + 0x444) & 0xFFFFFFFE);
+        *(s32 *)((s8 *)self + 0x444) = (s32) (*(s32 *)((s8 *)self + 0x444) | 2);
+        *(s32 *)((s8 *)self + 0x30) = (*(s32 *)((s8 *)self + 0x30) | 0x01000000);
+        *(s32 *)((s8 *)self + 0x3C0) = 0;
+        this->rotation_y = (s32) (10430.38043493439 * atan2_float((f32) (*(f32 *)((s8 *)self + 0x428)), (f32) (*(f32 *)((s8 *)self + 0x430))));
+        ((TObjEneDD_ST *)(self))->enemy_clear_target();
         break;
     case 3:
-        if ((s32) *(s32 *)((s8 *)arg0 + 0x3C0) == 2) {
-            ((TObjEneDD *)arg0)->transition_enemy_state(1);
+        if ((s32) *(s32 *)((s8 *)self + 0x3C0) == 2) {
+            ((TObjEneDD *)self)->transition_enemy_state(1);
         }
         break;
     case 5:
         break;
     case 0:
-        ((TObjMotion *)arg0)->advance_animation();
-        temp_f1 = *(f32 *)((s8 *)arg0 + 0x428);
-        temp_f2 = *(f32 *)((s8 *)arg0 + 0x430);
+        ((TObjMotion *)self)->advance_animation();
+        temp_f1 = *(f32 *)((s8 *)self + 0x428);
+        temp_f2 = *(f32 *)((s8 *)self + 0x430);
         temp_f31 = (temp_f1 * temp_f1) + (temp_f2 * temp_f2);
-        ((TObjEneDD *)arg0)->move_with_wall_slide_on_ground(temp_f1, temp_f2, temp_f31);
-        switch (*(s32 *)((s8 *)arg0 + 0x3C0)) {
+        ((TObjEneDD *)self)->move_with_wall_slide_on_ground(temp_f1, temp_f2, temp_f31);
+        switch (*(s32 *)((s8 *)self + 0x3C0)) {
         case 0:
-            *(f32 *)((s8 *)arg0 + 0x448) = (f32) (*(f32 *)((s8 *)arg0 + 0x448) + *(f32 *)((s8 *)arg0 + 0x42C));
-            if (*(f32 *)((s8 *)arg0 + 0x448) == *(f32 *)((s8 *)arg0 + 0x460)) {
-                *(s32 *)((s8 *)arg0 + 0x3C0) = 1;
+            *(f32 *)((s8 *)self + 0x448) = (f32) (*(f32 *)((s8 *)self + 0x448) + *(f32 *)((s8 *)self + 0x42C));
+            if (*(f32 *)((s8 *)self + 0x448) == *(f32 *)((s8 *)self + 0x460)) {
+                *(s32 *)((s8 *)self + 0x3C0) = 1;
             } else {
-                *(f32 *)((s8 *)arg0 + 0x428) *= 0.95f;
-                *(f32 *)((s8 *)arg0 + 0x430) *= 0.95f;
-                if (*(f32 *)((s8 *)arg0 + 0x448) > *(f32 *)((s8 *)arg0 + 0x460)) {
-                    temp_f2_2 = *(f32 *)((s8 *)arg0 + 0x42C);
+                *(f32 *)((s8 *)self + 0x428) *= 0.95f;
+                *(f32 *)((s8 *)self + 0x430) *= 0.95f;
+                if (*(f32 *)((s8 *)self + 0x448) > *(f32 *)((s8 *)self + 0x460)) {
+                    temp_f2_2 = *(f32 *)((s8 *)self + 0x42C);
                     if (temp_f2_2 > -0.3f) {
-                        *(f32 *)((s8 *)arg0 + 0x42C) = (f32) (temp_f2_2 - 0.1f);
-                        if (*(f32 *)((s8 *)arg0 + 0x42C) < -0.3f) {
-                            *(f32 *)((s8 *)arg0 + 0x42C) = -0.3f;
+                        *(f32 *)((s8 *)self + 0x42C) = (f32) (temp_f2_2 - 0.1f);
+                        if (*(f32 *)((s8 *)self + 0x42C) < -0.3f) {
+                            *(f32 *)((s8 *)self + 0x42C) = -0.3f;
                         }
                     } else {
-                        *(f32 *)((s8 *)arg0 + 0x42C) *= 0.9f;
-                        if (*(f32 *)((s8 *)arg0 + 0x42C) > -0.3f) {
-                            *(f32 *)((s8 *)arg0 + 0x42C) = -0.3f;
+                        *(f32 *)((s8 *)self + 0x42C) *= 0.9f;
+                        if (*(f32 *)((s8 *)self + 0x42C) > -0.3f) {
+                            *(f32 *)((s8 *)self + 0x42C) = -0.3f;
                         }
                     }
-                    temp_f1_2 = *(f32 *)((s8 *)arg0 + 0x448);
-                    temp_f2_3 = *(f32 *)((s8 *)arg0 + 0x460);
-                    if ((temp_f1_2 + *(f32 *)((s8 *)arg0 + 0x42C)) < temp_f2_3) {
-                        *(f32 *)((s8 *)arg0 + 0x42C) = (f32) (temp_f2_3 - temp_f1_2);
+                    temp_f1_2 = *(f32 *)((s8 *)self + 0x448);
+                    temp_f2_3 = *(f32 *)((s8 *)self + 0x460);
+                    if ((temp_f1_2 + *(f32 *)((s8 *)self + 0x42C)) < temp_f2_3) {
+                        *(f32 *)((s8 *)self + 0x42C) = (f32) (temp_f2_3 - temp_f1_2);
                     }
                 } else {
-                    if ((*(f32 *)((s8 *)arg0 + 0x42C)) < 0.3f) {
-                        *(f32 *)((s8 *)arg0 + 0x42C) += 0.1f;
-                        if (*(f32 *)((s8 *)arg0 + 0x42C) > 0.3f) {
-                            *(f32 *)((s8 *)arg0 + 0x42C) = 0.3f;
+                    if ((*(f32 *)((s8 *)self + 0x42C)) < 0.3f) {
+                        *(f32 *)((s8 *)self + 0x42C) += 0.1f;
+                        if (*(f32 *)((s8 *)self + 0x42C) > 0.3f) {
+                            *(f32 *)((s8 *)self + 0x42C) = 0.3f;
                         }
                     } else {
-                        *(f32 *)((s8 *)arg0 + 0x42C) *= 0.9f;
-                        if (*(f32 *)((s8 *)arg0 + 0x42C) < 0.3f) {
-                            *(f32 *)((s8 *)arg0 + 0x42C) = 0.3f;
+                        *(f32 *)((s8 *)self + 0x42C) *= 0.9f;
+                        if (*(f32 *)((s8 *)self + 0x42C) < 0.3f) {
+                            *(f32 *)((s8 *)self + 0x42C) = 0.3f;
                         }
                     }
-                    temp_f1_3 = *(f32 *)((s8 *)arg0 + 0x448);
-                    temp_f2_5 = *(f32 *)((s8 *)arg0 + 0x460);
-                    if ((temp_f1_3 + *(f32 *)((s8 *)arg0 + 0x42C)) > temp_f2_5) {
-                        *(f32 *)((s8 *)arg0 + 0x42C) = (f32) (temp_f2_5 - temp_f1_3);
+                    temp_f1_3 = *(f32 *)((s8 *)self + 0x448);
+                    temp_f2_5 = *(f32 *)((s8 *)self + 0x460);
+                    if ((temp_f1_3 + *(f32 *)((s8 *)self + 0x42C)) > temp_f2_5) {
+                        *(f32 *)((s8 *)self + 0x42C) = (f32) (temp_f2_5 - temp_f1_3);
                     }
                 }
             }
             break;
         case 1:
             if (temp_f31 <= 0.010000001f) {
-                *(s32 *)((s8 *)arg0 + 0x3C0) = 2;
+                *(s32 *)((s8 *)self + 0x3C0) = 2;
             } else {
-                *(f32 *)((s8 *)arg0 + 0x428) *= 0.95f;
-                *(f32 *)((s8 *)arg0 + 0x430) *= 0.95f;
+                *(f32 *)((s8 *)self + 0x428) *= 0.95f;
+                *(f32 *)((s8 *)self + 0x430) *= 0.95f;
             }
             break;
         }
-        ((TObjEneRecon *)arg0)->update_flag_0x444();
-        *(f32 *)((s8 *)arg0 + 0x44) = (f32) *(f32 *)((s8 *)arg0 + 0x2FC);
-        *(f32 *)((s8 *)arg0 + 0x4C) = (f32) *(f32 *)((s8 *)arg0 + 0x304);
-        ((TObjEneRecon *)arg0)->clamp_min_height();
+        ((TObjEneRecon *)self)->update_flag_0x444();
+        *(f32 *)((s8 *)self + 0x44) = (f32) *(f32 *)((s8 *)self + 0x2FC);
+        *(f32 *)((s8 *)self + 0x4C) = (f32) *(f32 *)((s8 *)self + 0x304);
+        ((TObjEneRecon *)self)->clamp_min_height();
         this->update_body_colliders();
         break;
     }
@@ -1448,25 +1448,25 @@ f32 TObjEneRecon::approach_value(f32 farg0, f32 farg1) {
 
 
 void TObjEneRecon::update_body_colliders() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     f32 d;
-    u8 *t = *(u8 **)((s8 *)arg0 + 0x390);
+    u8 *t = *(u8 **)((s8 *)self + 0x390);
     if (t != NULL && this->mode == 2) {
-        *(f32 *)((s8 *)arg0 + 0x3C) = *(f32 *)((s8 *)t + 0x3C);
+        *(f32 *)((s8 *)self + 0x3C) = *(f32 *)((s8 *)t + 0x3C);
     } else {
-        Vec v = *(Vec *)(arg0 + 0x38);
-        v.y += *(f32 *)((s8 *)arg0 + 0x448);
-        if (project_actor_to_ground(arg0, &v, arg0 + 0x248) != 0) {
-            *(f32 *)((s8 *)arg0 + 0x3C) = v.y;
+        Vec v = *(Vec *)(self + 0x38);
+        v.y += *(f32 *)((s8 *)self + 0x448);
+        if (project_actor_to_ground(self, &v, self + 0x248) != 0) {
+            *(f32 *)((s8 *)self + 0x3C) = v.y;
         }
     }
-    d = *(f32 *)((s8 *)arg0 + 0x448) - *(f32 *)((s8 *)arg0 + 0x3C);
+    d = *(f32 *)((s8 *)self + 0x448) - *(f32 *)((s8 *)self + 0x3C);
     if (d >= 30.0f) {
         this->set_colliders_contact_high();
     } else {
         this->set_colliders_contact_low();
     }
-    *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xA4)) + 4) = d;
+    *(f32 *)((s8 *)(*(u8 **)((s8 *)self + 0xA4)) + 4) = d;
 }
 
 
@@ -1514,16 +1514,16 @@ void TObjEneRecon::check_collisions() {
 #pragma opt_propagation off
 #pragma opt_dead_assignments off
 void TObjEneRecon::clamp_min_height() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
   f32 new_var;
   f32 temp_f2;
-  new_var = *((f32 *) (((s8 *) arg0) + 0x448));
-  temp_f2 = *((f32 *) (((s8 *) arg0) + 0x3C));
+  new_var = *((f32 *) (((s8 *) self) + 0x448));
+  temp_f2 = *((f32 *) (((s8 *) self) + 0x3C));
   if ((new_var - temp_f2) < 5.0f)
   {
-    *((f32 *) (((s8 *) arg0) + 0x448)) = (f32) (5.0f + temp_f2);
+    *((f32 *) (((s8 *) self) + 0x448)) = (f32) (5.0f + temp_f2);
   }
-  *((f32 *) (((s8 *) arg0) + 0x300)) = (f32) (*((f32 *) (((s8 *) arg0) + 0x448)));
+  *((f32 *) (((s8 *) self) + 0x300)) = (f32) (*((f32 *) (((s8 *) self) + 0x448)));
 }
 #pragma pop
 
@@ -1532,10 +1532,10 @@ extern "C" {
 s32 VecCopy__FP3VecPC3Vec(void *, void *, void *);
 
 void TObjEneRecon::update_position_from_offsets() {
-    u8 *arg0 = (u8 *)this;
-    *(f32 *)((s8 *)arg0 + 0x2FC) = (f32) *(f32 *)((s8 *)arg0 + 0x38);
-    *(f32 *)((s8 *)arg0 + 0x304) = (f32) *(f32 *)((s8 *)arg0 + 0x40);
-    VecCopy__FP3VecPC3Vec(arg0 + 0x74, arg0 + 0x2FC, arg0);
+    u8 *self = (u8 *)this;
+    *(f32 *)((s8 *)self + 0x2FC) = (f32) *(f32 *)((s8 *)self + 0x38);
+    *(f32 *)((s8 *)self + 0x304) = (f32) *(f32 *)((s8 *)self + 0x40);
+    VecCopy__FP3VecPC3Vec(self + 0x74, self + 0x2FC, self);
 }
 
 }
@@ -1613,11 +1613,11 @@ void TObjEneRecon::run_miss_reaction() {  }
 void TObjEneRecon::run_hit_reaction() { if (this->mode != 6) { transition_enemy_state(6); } }
 
 void TObjEneRecon::run_death_reaction() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     s16 temp_r0;
     temp_r0 = this->mode;
     if ((temp_r0 != 7) && (temp_r0 != 8)) {
-        ((TObjEneDD *)arg0)->transition_enemy_state(7);
+        ((TObjEneDD *)self)->transition_enemy_state(7);
     }
 }
 
@@ -1743,66 +1743,66 @@ void run_task__12TObjEneReconFv(TObjEneRecon *ene_recon);
 #pragma push
 #pragma fp_contract on
 void TObjEneRecon::init_state() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     u8 *temp_r6;
 
-    ((TObjEneDD *)arg0)->init_position_vectors();
-    *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)TObjEneRecon__recobox_static_instance + 0x42C)) + 8);
+    ((TObjEneDD *)self)->init_position_vectors();
+    *(s32 *)((s8 *)self + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)TObjEneRecon__recobox_static_instance + 0x42C)) + 8);
     temp_r6 = (u8 *)(*(u8 **)((s8 *)TObjEneRecon__recobox_static_instance + 0x42C));
     this->texlist = (s32) *(s32 *)((s8 *)temp_r6 + 0xC);
-    ((TObjEneDD *)arg0)->init_model((CollisionBody *)&TObjEneRecon__collision_body_template, 1);
-    ((TObjMotion *)arg0)->set_field_d8((saddr)TObjEneRecon__animation_entries);
-    ((TObjMotion *)arg0)->set_field_dc((int) (*(s32 *)((s8 *)TObjEneRecon__recobox_static_instance + 0x430)));
+    ((TObjEneDD *)self)->init_model((CollisionBody *)&TObjEneRecon__collision_body_template, 1);
+    ((TObjMotion *)self)->set_field_d8((saddr)TObjEneRecon__animation_entries);
+    ((TObjMotion *)self)->set_field_dc((int) (*(s32 *)((s8 *)TObjEneRecon__recobox_static_instance + 0x430)));
     this->requested_action = 0;
-    ((TObjMotion *)arg0)->set_animation((this->requested_action));
-    ((TObjMotion *)arg0)->set_field_b8((int) (this->requested_action));
-    ((TObjEneDD *)arg0)->reset_hp((u8 *)lbl_805D6AF0, (u8 *)TObjEneRecon__attack_params, (u8 *)TObjEneRecon__resistance_params);
-    ((TObjEneDD *)arg0)->set_state_flag_4();
-    *(void **)((s8 *)arg0 + 0x350) = (void *) TObjEneRecon__ai_parameters;
-    ((TObjEneDD *)arg0)->initialize_enemy_state(0x44);
-    *(f32 *)((s8 *)arg0 + 0x37C) = 5.0f;
-    ((TObjEneDD_ST *)arg0)->enemy_init_acquire_period(0xA);
-    ((TObjEneDD_ST *)arg0)->enemy_init_validate_period(0xA);
-    ((TObjEneDD_ST *)arg0)->set_active();
-    *(s32 *)((s8 *)arg0 + 0x30) = (*(s32 *)((s8 *)arg0 + 0x30) | 0x01000000);
-    *(s32 *)((s8 *)arg0 + 0x444) = 2;
-    *(f32 *)((s8 *)arg0 + 0x448) = (*(f32 *)((s8 *)arg0 + 0x3C));
-    *(f32 *)((s8 *)arg0 + 0x44C) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x450) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x454) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x458) = 0.0f;
-    *(s32 *)((s8 *)arg0 + 0x45C) = 0;
-    *(f32 *)((s8 *)arg0 + 0x460) = (f32) ((2.0f * ((TObjEneDD *)arg0)->calc_elapsed_scaled()) + 45.0f);
-    *(f32 *)((s8 *)arg0 + 0x464) = (f32) ((2.0f * ((TObjEneDD *)arg0)->calc_elapsed_scaled()) + 15.0f);
-    *(f32 *)((s8 *)arg0 + 0x468) = (f32) ((5.0f * ((TObjEneDD *)arg0)->calc_elapsed_scaled()) + 50.0f);
-    *(s32 *)((s8 *)arg0 + 0x474) = 0;
-    *(s32 *)((s8 *)arg0 + 0x478) = 0;
-    *(s32 *)((s8 *)arg0 + 0x47C) = 0;
-    *(s32 *)((s8 *)arg0 + 0x418) = 0;
-    VecCopy((Vec *)(arg0 + 0x41C), (const Vec *)(arg0 + 0x38));
-    ((VObj_14_2f517b *)(arg0 + (1152)))->m2();
-    *(s32 *)((s8 *)arg0 + 0x46C) = 0;
-    *(s32 *)((s8 *)arg0 + 0x470) = 0;
-    VecCopy((Vec *)(arg0 + 0x40C), (const Vec *)(arg0 + 0x38));
-    *(s32 *)((s8 *)arg0 + 0x3C0) = 0;
-    *(s32 *)((s8 *)arg0 + 0x3C4) = 0;
-    *(s32 *)((s8 *)arg0 + 0x3C8) = 0;
-    *(s32 *)((s8 *)arg0 + 0x3CC) = 0;
-    *(s32 *)((s8 *)arg0 + 0x3D0) = 0;
-    *(s32 *)((s8 *)arg0 + 0x3D4) = 0;
-    *(s32 *)((s8 *)arg0 + 0x3D8) = 0;
-    *(s32 *)((s8 *)arg0 + 0x3DC) = 0;
-    *(f32 *)((s8 *)arg0 + 0x3E0) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x3E4) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x3E8) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x3EC) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x3F0) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x3F4) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x3F8) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x3FC) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x400) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x404) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x408) = 0.0f;
+    ((TObjMotion *)self)->set_animation((this->requested_action));
+    ((TObjMotion *)self)->set_field_b8((int) (this->requested_action));
+    ((TObjEneDD *)self)->reset_hp((u8 *)lbl_805D6AF0, (u8 *)TObjEneRecon__attack_params, (u8 *)TObjEneRecon__resistance_params);
+    ((TObjEneDD *)self)->set_state_flag_4();
+    *(void **)((s8 *)self + 0x350) = (void *) TObjEneRecon__ai_parameters;
+    ((TObjEneDD *)self)->initialize_enemy_state(0x44);
+    *(f32 *)((s8 *)self + 0x37C) = 5.0f;
+    ((TObjEneDD_ST *)self)->enemy_init_acquire_period(0xA);
+    ((TObjEneDD_ST *)self)->enemy_init_validate_period(0xA);
+    ((TObjEneDD_ST *)self)->set_active();
+    *(s32 *)((s8 *)self + 0x30) = (*(s32 *)((s8 *)self + 0x30) | 0x01000000);
+    *(s32 *)((s8 *)self + 0x444) = 2;
+    *(f32 *)((s8 *)self + 0x448) = (*(f32 *)((s8 *)self + 0x3C));
+    *(f32 *)((s8 *)self + 0x44C) = 0.0f;
+    *(f32 *)((s8 *)self + 0x450) = 0.0f;
+    *(f32 *)((s8 *)self + 0x454) = 0.0f;
+    *(f32 *)((s8 *)self + 0x458) = 0.0f;
+    *(s32 *)((s8 *)self + 0x45C) = 0;
+    *(f32 *)((s8 *)self + 0x460) = (f32) ((2.0f * ((TObjEneDD *)self)->calc_elapsed_scaled()) + 45.0f);
+    *(f32 *)((s8 *)self + 0x464) = (f32) ((2.0f * ((TObjEneDD *)self)->calc_elapsed_scaled()) + 15.0f);
+    *(f32 *)((s8 *)self + 0x468) = (f32) ((5.0f * ((TObjEneDD *)self)->calc_elapsed_scaled()) + 50.0f);
+    *(s32 *)((s8 *)self + 0x474) = 0;
+    *(s32 *)((s8 *)self + 0x478) = 0;
+    *(s32 *)((s8 *)self + 0x47C) = 0;
+    *(s32 *)((s8 *)self + 0x418) = 0;
+    VecCopy((Vec *)(self + 0x41C), (const Vec *)(self + 0x38));
+    ((VObj_14_2f517b *)(self + (1152)))->m2();
+    *(s32 *)((s8 *)self + 0x46C) = 0;
+    *(s32 *)((s8 *)self + 0x470) = 0;
+    VecCopy((Vec *)(self + 0x40C), (const Vec *)(self + 0x38));
+    *(s32 *)((s8 *)self + 0x3C0) = 0;
+    *(s32 *)((s8 *)self + 0x3C4) = 0;
+    *(s32 *)((s8 *)self + 0x3C8) = 0;
+    *(s32 *)((s8 *)self + 0x3CC) = 0;
+    *(s32 *)((s8 *)self + 0x3D0) = 0;
+    *(s32 *)((s8 *)self + 0x3D4) = 0;
+    *(s32 *)((s8 *)self + 0x3D8) = 0;
+    *(s32 *)((s8 *)self + 0x3DC) = 0;
+    *(f32 *)((s8 *)self + 0x3E0) = 0.0f;
+    *(f32 *)((s8 *)self + 0x3E4) = 0.0f;
+    *(f32 *)((s8 *)self + 0x3E8) = 0.0f;
+    *(f32 *)((s8 *)self + 0x3EC) = 0.0f;
+    *(f32 *)((s8 *)self + 0x3F0) = 0.0f;
+    *(f32 *)((s8 *)self + 0x3F4) = 0.0f;
+    *(f32 *)((s8 *)self + 0x3F8) = 0.0f;
+    *(f32 *)((s8 *)self + 0x3FC) = 0.0f;
+    *(f32 *)((s8 *)self + 0x400) = 0.0f;
+    *(f32 *)((s8 *)self + 0x404) = 0.0f;
+    *(f32 *)((s8 *)self + 0x408) = 0.0f;
     this->mode = 0;
     this->dispatch_action(this->mode, 4);
 }

@@ -1636,38 +1636,38 @@ void TObjEneMorfos__sub_80333690(TObjEneMorfos *owner, s32 ev) {
 
 #pragma push
 #pragma opt_common_subs off
-#define F(o, t) (*(t *)(arg0 + (o)))
+#define F(o, t) (*(t *)(self + (o)))
 #define D (*(D_80333290 * *)&TObjEneMorfos__param_table)
 void TObjEneMorfos::state_rotating_projectile_burst(s32 ev) {
     s32 old;
     s32 n;
     s32 i;
     u8 *pl;
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     switch (ev) {
     case 4:
-        ((TObjEneDD *)arg0)->clear_intangible();
+        ((TObjEneDD *)self)->clear_intangible();
         F(0x3C0, s32) &= ~3;
         F(0x3C0, s32) |= 4;
-        ((TObjEneDD *)arg0)->set_field_378(4);
+        ((TObjEneDD *)self)->set_field_378(4);
         F(0x4BC, s32) = 0;
         F(0x4C0, s32) = 0;
         F(0x4B0, s32) = 0;
         F(0x4B8, s32) = 0;
         F(0xB8, s16) = 0;
-        F(0x494, u32) = (uaddr)create_particle_emitter(arg0 + 0x498, 0x10A);
+        F(0x494, u32) = (uaddr)create_particle_emitter(self + 0x498, 0x10A);
         break;
     case 3:
-        if (F(0x4B0, s32) == 5 && TObjEneMorfos__sub_803344F0(arg0) == 0) {
-            ((TObjEneDD *)arg0)->transition_enemy_state((s32)4);
+        if (F(0x4B0, s32) == 5 && TObjEneMorfos__sub_803344F0(self) == 0) {
+            ((TObjEneDD *)self)->transition_enemy_state((s32)4);
         }
         break;
     case 0:
-        ((TObjMotion *)arg0)->advance_animation();
+        ((TObjMotion *)self)->advance_animation();
         switch (F(0x4B0, s32)) {
         case 0:
             if (F(0x494, u32) != 0) {
-                ((TParticleCtrl *)F(0x494, void *))->set_position(arg0 + 0x498);
+                ((TParticleCtrl *)F(0x494, void *))->set_position(self + 0x498);
             }
             F(0x4C0, s32) = F(0x60, s32);
             F(0x60, s32) = F(0x60, s32) + D->f28;
@@ -1688,11 +1688,11 @@ void TObjEneMorfos::state_rotating_projectile_burst(s32 ev) {
             for (i = 0; i < n; i++) {
                 pl = (u8 *)TObjPlayer::get_player_data(i);
                 if (((TObjBase *)pl)->is_alive() != 0) {
-                    if (((TObjBase *)arg0)->get_room() == ((TObjBase *)pl)->get_room()) {
-                        ((TObjEneDD_ST *)arg0)->enemy_copy_target_destination();
-                        ((TObjEneDD_ST *)arg0)->update_velocity();
+                    if (((TObjBase *)self)->get_room() == ((TObjBase *)pl)->get_room()) {
+                        ((TObjEneDD_ST *)self)->enemy_copy_target_destination();
+                        ((TObjEneDD_ST *)self)->update_velocity();
                         F(0x4BC, s32) = (u16)((s32)(10430.38043493439 * atan2_float(F(0x3A0, f32), F(0x3A8, f32))) + 0x8000);
-                        if (check_value_in_range__13TObjEneMorfosFPvUsUsUs(arg0, old, F(0x60, s32), F(0x4BC, s32)) != 0) {
+                        if (check_value_in_range__13TObjEneMorfosFPvUsUsUs(self, old, F(0x60, s32), F(0x4BC, s32)) != 0) {
                             F(0x60, s32) = F(0x4BC, s32);
                             F(0x4B0, s32) = 2;
                             F(0xB8, s16) = 2;
@@ -1701,27 +1701,27 @@ void TObjEneMorfos::state_rotating_projectile_burst(s32 ev) {
                     }
                 }
             }
-            if (F(0x4B0, s32) == 1 && check_value_in_range__13TObjEneMorfosFPvUsUsUs(arg0, old, F(0x60, s32), F(0x4C0, s32)) != 0) {
+            if (F(0x4B0, s32) == 1 && check_value_in_range__13TObjEneMorfosFPvUsUsUs(self, old, F(0x60, s32), F(0x4C0, s32)) != 0) {
                 F(0x4B0, s32) = 2;
                 F(0xB8, s16) = 2;
             }
             break;
         }
         case 2:
-            spawn_particle_effect((const Vec *)(arg0 + 0x498), 0x212);
-            if (((TObjMotion *)arg0)->is_passing_frame(1.0f) != 0) {
+            spawn_particle_effect((const Vec *)(self + 0x498), 0x212);
+            if (((TObjMotion *)self)->is_passing_frame(1.0f) != 0) {
                 F(0x4B0, s32) = 3;
             }
             break;
         case 3:
-            if (((TObjMotion *)arg0)->is_passing_frame(6.0f) != 0) {
-                play_sound_effect(0x4003AD24, (uaddr)(arg0 + 0x38), 0, 0);
-                new TUnk_804EF130((Vec *)(arg0 + 0x498), (u16)(F(0x60, s32) + 0x8000), (TObjEneMorfos *)arg0);
+            if (((TObjMotion *)self)->is_passing_frame(6.0f) != 0) {
+                play_sound_effect(0x4003AD24, (uaddr)(self + 0x38), 0, 0);
+                new TUnk_804EF130((Vec *)(self + 0x498), (u16)(F(0x60, s32) + 0x8000), (TObjEneMorfos *)self);
                 F(0x4B0, s32) = 4;
             }
             break;
         case 4:
-            if (((TObjEneDD *)arg0)->get_flag_b4() != 0) {
+            if (((TObjEneDD *)self)->get_flag_b4() != 0) {
                 F(0xB8, s16) = 0;
                 F(0x4B4, s32) = F(0x4B4, s32) + 1;
                 if (game_difficulty_selection == 3 || game_difficulty_selection == 2) {
@@ -1739,8 +1739,8 @@ void TObjEneMorfos::state_rotating_projectile_burst(s32 ev) {
             }
             break;
         }
-        ((TObjEneDD *)arg0)->update_ground_contact();
-        ((TObjEneDD *)arg0)->check_collisions();
+        ((TObjEneDD *)self)->update_ground_contact();
+        ((TObjEneDD *)self)->check_collisions();
         break;
     case 5:
         if (F(0x494, u32) != 0) {
@@ -1893,7 +1893,7 @@ void TObjEneMorfos__sub_80332DBC(u8 *ene_morfos, s32 ev) {
 }
 
 void TObjEneMorfos::state_death(s32 arg1) {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     s32 temp_r0;
     s32 temp_r30;
 
@@ -1901,14 +1901,14 @@ void TObjEneMorfos::state_death(s32 arg1) {
     case 4:
         this->requested_action = 4;
         this->clear_intangible();
-        *(s32 *)((s8 *)arg0 + 0x3C0) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C0) & 0xFFFFFFF8);
-        ((TObjMotion *)arg0)->advance_animation();
-        ((TObjEnemy *)arg0)->refresh_and_send_entity_flags();
-        this->m_4c4 = (f32) *(s32 *)((s8 *)arg0 + 0x3D4);
+        *(s32 *)((s8 *)self + 0x3C0) = (s32) (*(s32 *)((s8 *)self + 0x3C0) & 0xFFFFFFF8);
+        ((TObjMotion *)self)->advance_animation();
+        ((TObjEnemy *)self)->refresh_and_send_entity_flags();
+        this->m_4c4 = (f32) *(s32 *)((s8 *)self + 0x3D4);
         this->m_4b4 = 0;
-        *(s32 *)((s8 *)arg0 + 0x4B0) = 0;
-        ((TObjEneMe3SinowZoa *)(arg0 + 0x408))->init_death_params();
-        play_sound_effect(0x4003A626, (uaddr)(arg0 + 0x38), 0, 0);
+        *(s32 *)((s8 *)self + 0x4B0) = 0;
+        ((TObjEneMe3SinowZoa *)(self + 0x408))->init_death_params();
+        play_sound_effect(0x4003A626, (uaddr)(self + 0x38), 0, 0);
         return;
     case 3:
         if ((s32) this->m_4b4 == 2) {
@@ -1920,22 +1920,22 @@ void TObjEneMorfos::state_death(s32 arg1) {
         temp_r0 = this->m_4b4;
         switch (temp_r0) {
         case 0:
-            ((TObjMotion *)arg0)->advance_animation();
-            temp_r30 = ((VObj_14_c1c33b *)(arg0 + (1032)))->m4();
-            if ((((TObjEneDD *)arg0)->get_flag_b4() != 0) && (temp_r30 != 0)) {
-                fn_800D911C((Vec *)(arg0 + 0x38));
-                play_sound_effect(0x4003A830, (uaddr)(arg0 + 0x38), 0, 0);
+            ((TObjMotion *)self)->advance_animation();
+            temp_r30 = ((VObj_14_c1c33b *)(self + (1032)))->m4();
+            if ((((TObjEneDD *)self)->get_flag_b4() != 0) && (temp_r30 != 0)) {
+                fn_800D911C((Vec *)(self + 0x38));
+                play_sound_effect(0x4003A830, (uaddr)(self + 0x38), 0, 0);
                 TObjPlayer__sub_800A04F0((u8 *)&this->m_3ec);
-                *(s32 *)((s8 *)arg0 + 0x3C0) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C0) | 2);
+                *(s32 *)((s8 *)self + 0x3C0) = (s32) (*(s32 *)((s8 *)self + 0x3C0) | 2);
                 this->m_4b4 = 1;
                 return;
             }
             break;
         case 1:
-            if (((VObj_14_c1c33b *)(arg0 + (1004)))->m4() != 0) {
+            if (((VObj_14_c1c33b *)(self + (1004)))->m4() != 0) {
                 this->m_4b4 = 2;
-                *(s32 *)((s8 *)arg0 + 0x3C0) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C0) | 1);
-                TObjPlayer::apply_effect_variant_b((saddr)(arg0 + 0x38), 0);
+                *(s32 *)((s8 *)self + 0x3C0) = (s32) (*(s32 *)((s8 *)self + 0x3C0) | 1);
+                TObjPlayer::apply_effect_variant_b((saddr)(self + 0x38), 0);
                 return;
             }
             break;
@@ -2067,17 +2067,17 @@ s32 TObjEneMorfos::render_model_if_visible() {
 #pragma push
 #pragma opt_common_subs off
 void TObjEneMorfos::draw_body() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     if ((s32)main_task.get_task_flags() & 0x200) {
         TObjFish::set_global_param((saddr)TObjEneMorfos__instance->models[2].m_c);
         push_matrix();
-        post_translate_matrix(arg0 + 0x498);
-        rotate_matrix_y(0, (int) (((RecoveredFields_803326CC_arg0 *)arg0)->field_60));
-        if (((RecoveredFields_803326CC_arg0 *)arg0)->field_3C0 & 2) {
-            if (((VObj_14_fddec9 *)(arg0 + (1032)))->m8() != 0) {
-                ((VObj_14_fddec9 *)(arg0 + (1032)))->m6();
+        post_translate_matrix(self + 0x498);
+        rotate_matrix_y(0, (int) (((RecoveredFields_803326CC_arg0 *)self)->field_60));
+        if (((RecoveredFields_803326CC_arg0 *)self)->field_3C0 & 2) {
+            if (((VObj_14_fddec9 *)(self + (1032)))->m8() != 0) {
+                ((VObj_14_fddec9 *)(self + (1032)))->m6();
                 draw_chunk_model(TObjEneMorfos__instance->models[2].model->model);
-                ((VObj_14_fddec9 *)(arg0 + (1032)))->m7();
+                ((VObj_14_fddec9 *)(self + (1032)))->m7();
             }
         } else {
             draw_chunk_model(TObjEneMorfos__instance->models[2].model->model);
@@ -2124,7 +2124,7 @@ u8 TObjEneMorfos::check_value_in_range(void *arg0, u16 arg1, u16 arg2, u16 arg3)
 }
 
 void TObjEneMorfos::update_ground_probe() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     Stack_80332594 stack;
     u8 *temp_r3;
     if ((actor_frame_tick % 5) == 0) {
@@ -2132,13 +2132,13 @@ void TObjEneMorfos::update_ground_probe() {
         stack.spC += 15.0f;
         temp_r3 = (u8 *)(csnVectorUnder((Vec *)&stack.sp8, (CsnGroup **)&this->m_120, 0x4000));
         if (temp_r3 != NULL) {
-            *(s32 *)((s8 *)arg0 + 0x3C4) = (s32) *(s32 *)((s8 *)temp_r3 + 0);
-            VecCopy((Vec *)(arg0 + 0x3C8), (const Vec *)(*(u8 **)((s8 *)temp_r3 + 4)));
+            *(s32 *)((s8 *)self + 0x3C4) = (s32) *(s32 *)((s8 *)temp_r3 + 0);
+            VecCopy((Vec *)(self + 0x3C8), (const Vec *)(*(u8 **)((s8 *)temp_r3 + 4)));
         } else {
-            VecCopy((Vec *)(arg0 + 0x3C8), (const Vec *)&this->position);
+            VecCopy((Vec *)(self + 0x3C8), (const Vec *)&this->position);
         }
     }
-    if (*(s32 *)((s8 *)arg0 + 0x3C4) & 0x4000) {
+    if (*(s32 *)((s8 *)self + 0x3C4) & 0x4000) {
         request_reflection_render();
     }
 }
@@ -2148,29 +2148,29 @@ void TObjEneMorfos::run_demo_task() { if (get_target_info() != 0) { this->init_t
 // inferred name: the draw_ground_shadow scale in vfunc_106.
 static const Vec morfos_vfunc_106_shadow_scale = {2.0f, 1.0f, 2.0f};
 void TObjEneMorfos::render_demo() {
-    O_803323D8 *arg0 = (O_803323D8 *)this;
+    O_803323D8 *self = (O_803323D8 *)this;
     s32 idx;
     f32 frame;
     Anim_803323D8 *anim;
-    ((TObjEneDD *)arg0)->get_target_info();
-    if (((VObj_803323D8 *)arg0)->m8(400.0f, 15.0f) != 0) {
-        if (arg0->f326 != 0xB) {
+    ((TObjEneDD *)self)->get_target_info();
+    if (((VObj_803323D8 *)self)->m8(400.0f, 15.0f) != 0) {
+        if (self->f326 != 0xB) {
             Vec v = morfos_vfunc_106_shadow_scale;
-            ((TObjEneDD *)(arg0))->draw_ground_shadow(&v, 0);
+            ((TObjEneDD *)(self))->draw_ground_shadow(&v, 0);
         }
         TObjPlayer::toggle_particle_effect();
-        TObjFish::set_global_param(arg0->f24);
+        TObjFish::set_global_param(self->f24);
         push_matrix();
-        post_translate_matrix((u8 *)arg0 + 0x38);
-        rotate_matrix_y(0, arg0->f60);
-        idx = (s32)arg0->f354;
+        post_translate_matrix((u8 *)self + 0x38);
+        rotate_matrix_y(0, self->f60);
+        idx = (s32)self->f354;
         if (idx < 0) {
             idx = 0;
         } else if (idx >= 5) {
             idx = 4;
         }
-        anim = arg0->bones[arg0->mots[idx].bone].anim;
-        frame = arg0->frame;
+        anim = self->bones[self->mots[idx].bone].anim;
+        frame = self->frame;
         if (frame < 0.0f) {
             frame = 0.0f;
         } else if (frame > (anim->count - 1)) {

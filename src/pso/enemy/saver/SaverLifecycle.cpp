@@ -756,7 +756,7 @@ int TObjEneSaver::test_flag_256() {
     return 0;
 }
 
-#define F(T, o) (*(T *)(arg0 + (o)))
+#define F(T, o) (*(T *)(self + (o)))
 void TObjEneSaver::sub_800A4D9C() {
     u8 m50[0xC];
     u8 m44[0xC];
@@ -765,7 +765,7 @@ void TObjEneSaver::sub_800A4D9C() {
     s32 floor;
     s32 e;
     u16 id;
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     id = F(u16, 0x338);
     if (id < 0x1000) {
         p = (u8 *)get_player_by_client_id(id);
@@ -784,38 +784,38 @@ void TObjEneSaver::sub_800A4D9C() {
     {
         u32 *anim = F(u32 *, 0xA4);
         anim[6] &= ~1;
-        ((TObjMotion *)arg0)->advance_animation();
+        ((TObjMotion *)self)->advance_animation();
     }
-    step_angle_clamped(arg0, 0);
+    step_angle_clamped(self, 0);
     switch (F(s16, 0x328)) {
     case 0:
         if (!(F(u32, 0x30) & 0x800000)) {
-            apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), 0.0f);
+            apply_actor_gravity((TObjEnemy *)self, (s32 *)(0), 0.0f);
         }
-        if (((TObjMotion *)arg0)->is_passing_frame((f32)11.0f) != 0) {
+        if (((TObjMotion *)self)->is_passing_frame((f32)11.0f) != 0) {
             u8 *t = F(u8 *, 0x2A8);
             if (t == NULL) {
                 goto fail;
             }
             {
                 Vec dest = *(Vec *)(t + 0x2FC);
-                if (select_enemy_destination(arg0, &dest, 1) == 0) {
+                if (select_enemy_destination(self, &dest, 1) == 0) {
                     goto fail;
                 }
             }
             F(s16, 0x328) = 1;
             {
                 Vec pos = F(Vec, 0x2FC);
-                copy_position_if_valid__10TObjPlayerFii((saddr)arg0, (saddr)&pos);
+                copy_position_if_valid__10TObjPlayerFii((saddr)self, (saddr)&pos);
             }
-            VecCopy((Vec *)&d, (const Vec *)(arg0 + 0x29C));
+            VecCopy((Vec *)&d, (const Vec *)(self + 0x29C));
             subtract_vector(&d, (u8 *)&this->body_center);
             {
                 f32 dist = newton_sqrtf(d.x * d.x + d.z * d.z);
                 dist -= 15.0f;
-                calc_velocity_toward_destination(arg0, F(Vec, 0x290), F(Vec, 0x29C), 0.058333334f * dist);
+                calc_velocity_toward_destination(self, F(Vec, 0x290), F(Vec, 0x29C), 0.058333334f * dist);
             }
-            play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003AD03), (u8 *)&this->position, 0, 0);
+            play_sound_effect(((TObjEnemy *)(self))->remap_sound_for_area(0x4003AD03), (u8 *)&this->position, 0, 0);
             goto done;
         fail:
             F(s16, 0x328) = 2;
@@ -824,7 +824,7 @@ void TObjEneSaver::sub_800A4D9C() {
         }
         break;
     case 1:
-        move_with_wall_slide(arg0);
+        move_with_wall_slide(self);
         if (11.0f <= F(f32, 0xC0) && F(f32, 0xC0) <= 27.0f) {
             if ((e = (saddr)((SampledMotionPoints *)(lbl_805D5068))->lookup(F(f32, 0xC0))) != 0) {
                 push_matrix();
@@ -838,22 +838,22 @@ void TObjEneSaver::sub_800A4D9C() {
                 }
             }
         }
-        if (((TObjMotion *)arg0)->is_passing_frame((f32)23.0f) != 0) {
-            ((TObjPlayer *)arg0)->check_object_collisions();
-            check_enemy_body_collisions(arg0);
+        if (((TObjMotion *)self)->is_passing_frame((f32)23.0f) != 0) {
+            ((TObjPlayer *)self)->check_object_collisions();
+            check_enemy_body_collisions(self);
             F(s16, 0x328) = 2;
-            TObjPlayer__sub_800A5960(arg0);
+            TObjPlayer__sub_800A5960(self);
             spawn_particle_effect(&this->position, 0xF3);
-            play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003AD04), (u8 *)&this->position, 0, 0);
+            play_sound_effect(((TObjEnemy *)(self))->remap_sound_for_area(0x4003AD04), (u8 *)&this->position, 0, 0);
             F(u32, 0x374) &= ~0x10;
         }
         break;
     case 2:
         if (!(F(u32, 0x30) & 0x800000)) {
-            apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), 0.0f);
+            apply_actor_gravity((TObjEnemy *)self, (s32 *)(0), 0.0f);
         }
         if (F(u32, 0xB4) != 4) {
-            enemy_set_heading_velocity(0.0f, (TObjEnemy *)(arg0), F(s32, 0x60));
+            enemy_set_heading_velocity(0.0f, (TObjEnemy *)(self), F(s32, 0x60));
             F(u32, 0x30) &= 0xF9DFFFFF;
             F(u32 *, 0xA4)[6] |= 1;
         }

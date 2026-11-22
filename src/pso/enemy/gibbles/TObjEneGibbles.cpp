@@ -1619,7 +1619,7 @@ void TObjEneGibbles::slam_damage_players(s32 arg1) {
 }
 
 void TObjEneGibbles::run_attack_action() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     Vec v;
     switch (this->m_37c) {
     case 0:
@@ -1649,15 +1649,15 @@ void TObjEneGibbles::run_attack_action() {
         this->m_374 = (s32) (this->m_374 & 0xFFFFFF7F);
         break;
     }
-    ((TObjEnemy *)arg0)->bind_enemy_combat_stats((u8 *)(0), ((u8 **) gibbles_combat_stat_entries)[this->m_37c], (u8 *)(0));
+    ((TObjEnemy *)self)->bind_enemy_combat_stats((u8 *)(0), ((u8 **) gibbles_combat_stat_entries)[this->m_37c], (u8 *)(0));
     *(s32 *)((s8 *)(this->bodies) + 0x18) |= 1;
     this->actorFlags = (s32) (this->actorFlags & 0xF9FBFFFF);
     this->actorFlags = (s32) (this->actorFlags | 0x200000);
 }
 
-#define TGT_802D9EB4 (((void **)gibbles_combat_stat_entries)[(*(s16 *)(arg0 + 0x37C))])
+#define TGT_802D9EB4 (((void **)gibbles_combat_stat_entries)[(*(s16 *)(self + 0x37C))])
 s32 TObjEneGibbles::is_target_in_attack_range() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     Vec v;
     f32 rad;
     f32 dist;
@@ -1667,7 +1667,7 @@ s32 TObjEneGibbles::is_target_in_attack_range() {
     if (this->mode >= 3) {
         obj = this->target;
         if (obj != NULL && this->m_318 != 0 && !(*(s32 *)((s8 *)obj + 0x30) & 0x02000800)) {
-            dist = calc_xz_distance_sq((saddr)arg0, (uaddr)obj, (void *)&v);
+            dist = calc_xz_distance_sq((saddr)self, (uaddr)obj, (void *)&v);
             ang = angle_difference_abs(this->rotation_y, (s32)(10430.38043493439 * atan2_float(v.x, v.z)));
             sub = *(u8 **)(this->target + 0xA4);
             if (sub != NULL) {
@@ -1772,60 +1772,60 @@ void TObjEneGibbles::sub_802DA0BC() {
 }
 
 void TObjEneGibbles::update_death_sequence() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     u8 *temp_r4;
 
     (this->actorFlags) = (s32) ((this->actorFlags) & 0xFFDFFFFF);
     (this->actorFlags) = (s32) ((this->actorFlags) | 0x06040000);
     temp_r4 = (unsigned char *) (this->bodies);
     *(s32 *)((s8 *)temp_r4 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r4 + 0x18) & 0xFFFFFFFE);
-    ((TObjMotion *)arg0)->advance_animation();
+    ((TObjMotion *)self)->advance_animation();
     switch (this->phase) {
     case 2:
         break;
     case 0:
         this->phase = 1;
         this->requested_action = 5;
-        ((TUnk_80494938 *)((void *) (arg0 + 0x3C0)))->start_fade_in();
+        ((TUnk_80494938 *)((void *) (self + 0x3C0)))->start_fade_in();
         this->m_38c = 100.00001f;
         *(f32 *)&this->unk_390 = 1.0989012f;
-        apply_actor_gravity((TObjEnemy *)(arg0), (s32 *)(0), 0.0f);
+        apply_actor_gravity((TObjEnemy *)(self), (s32 *)(0), 0.0f);
         break;
     case 1:
-        if (((struct GibVObj_802da394_802D87D8 *) (arg0 + 0x3C0))->m5() != 0) {
+        if (((struct GibVObj_802da394_802D87D8 *) (self + 0x3C0))->m5() != 0) {
             this->m_38c = (f32) (this->m_38c - *(f32 *)&this->unk_390);
             *(f32 *)&this->unk_390 += 1.0989012f;
         } else {
             this->frame = 22.0f;
         }
-        if (((TObjMotion *)arg0)->is_passing_frame((this->frame_count - 1.0f) - this->play_speed) != 0) {
+        if (((TObjMotion *)self)->is_passing_frame((this->frame_count - 1.0f) - this->play_speed) != 0) {
             this->m_38c = 0.0f;
             *(f32 *)&this->unk_390 = 0.0f;
-            switch (TObjEneGibbles__sub_802D9A04(arg0)) {
+            switch (TObjEneGibbles__sub_802D9A04(self)) {
             case 0:
-                TObjEneGibbles__sub_800D8988((Vec *)(arg0 + 0x38));
+                TObjEneGibbles__sub_800D8988((Vec *)(self + 0x38));
                 break;
             default:
             case 1:
-                play_sound_effect(((TObjEneGibbles *)arg0)->resolve_sound_id(0x3AD32), arg0 + 0x38, 0, 0);
+                play_sound_effect(((TObjEneGibbles *)self)->resolve_sound_id(0x3AD32), self + 0x38, 0, 0);
                 break;
             }
-            ((s32 (*)(void *))TObjEneGibbles__sub_802D7A54)(arg0);
+            ((s32 (*)(void *))TObjEneGibbles__sub_802D7A54)(self);
             this->phase = 3;
         }
         break;
     case 3:
-        if (((TObjMotion *)arg0)->is_passing_frame((this->frame_count - 1.0f) - this->play_speed) != 0) {
+        if (((TObjMotion *)self)->is_passing_frame((this->frame_count - 1.0f) - this->play_speed) != 0) {
             this->m_374 = (s32) (this->m_374 & 0xFFFF0000);
             this->m_374 = (s32) (this->m_374 | 4);
         }
         break;
     }
-    minimap_render_dot((void *) (arg0 + 0x38), -0x5DB4, 1, 0);
+    minimap_render_dot((void *) (self + 0x38), -0x5DB4, 1, 0);
 }
 
 void TObjEneGibbles::update_spawn_state() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
 
     (this->actorFlags) = (s32) ((this->actorFlags) & 0xFFDFFFFF);
     (this->actorFlags) = (s32) ((this->actorFlags) | 0x06040000);
@@ -1833,10 +1833,10 @@ void TObjEneGibbles::update_spawn_state() {
     switch (this->phase) {
     case 0:
         this->phase = 1;
-        apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), 0.0f);
+        apply_actor_gravity((TObjEnemy *)self, (s32 *)(0), 0.0f);
         return;
     case 1:
-        if (horizontal_distance_squared((saddr) ((this->target) + 0x2FC), (void *) (arg0 + 0x2FC)) < 40000.0f) {
+        if (horizontal_distance_squared((saddr) ((this->target) + 0x2FC), (void *) (self + 0x2FC)) < 40000.0f) {
             this->phase = 3;
         }
     case 2:
@@ -2016,11 +2016,11 @@ void TObjEneGibbles::update_wander() {
 }
 
 void TObjEneGibbles::init_state() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     u8 *temp_r3;
 
-    ((TObjBase *)arg0)->set_position_from((void *) (arg0 + 0x50));
-    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
+    ((TObjBase *)self)->set_position_from((void *) (self + 0x50));
+    ((TObjCollidable *)self)->refresh_collision_body_centers();
     (this->actorFlags) = (s32) ((this->actorFlags) & 0xFFDFFFFF);
     (this->actorFlags) = (s32) ((this->actorFlags) | 0x06040000);
     temp_r3 = (unsigned char *) (this->bodies);
@@ -2028,17 +2028,17 @@ void TObjEneGibbles::init_state() {
 }
 
 void TObjEneGibbles::run_idle_action() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     u8 *temp_r3;
 
     switch (this->mode) {
     case 0:
-        if (((VObj802DAAC8_802daac8_802D87D8 *)(arg0 + 0x3C0))->m8() != 0) {
+        if (((VObj802DAAC8_802daac8_802D87D8 *)(self + 0x3C0))->m8() != 0) {
             this->mode = 0xA;
             this->phase = 0;
             this->requested_action = 0;
-            ((TObjBase *)arg0)->obj_clearFlags30(0x200000);
-            obj_setFlags30(arg0, 0x06040000);
+            ((TObjBase *)self)->obj_clearFlags30(0x200000);
+            obj_setFlags30(self, 0x06040000);
             this->m_374 = (s32) (this->m_374 & 0xFFFF0000);
             temp_r3 = (unsigned char *) (this->bodies);
             *(s32 *)((s8 *)temp_r3 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3 + 0x18) & 0xFFFFFFFE);
@@ -2064,20 +2064,20 @@ void TObjEneGibbles::run_idle_action() {
 #define P_802DAD50(p) ((Obj_802DAD50 *)(p))
 
 s32 TObjEneGibbles::update_movement_status() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     if (TObjChara::update_movement_status() != 0) {
         switch (this->mode) {
         case 0:
         case 1:
         case 2:
         case 0xa:
-            if (((VObj14 *)(arg0 + 0x3c0))->m5() == 1) {
+            if (((VObj14 *)(self + 0x3c0))->m5() == 1) {
                 this->m_374 &= ~0x143;
                 this->m_374 |= 4;
                 this->mode = 3;
                 this->phase = 0;
                 this->requested_action = 1;
-                ((TObjBase *)arg0)->obj_clearFlags30(0x06240000);
+                ((TObjBase *)self)->obj_clearFlags30(0x06240000);
             }
             break;
         }
@@ -2087,20 +2087,20 @@ s32 TObjEneGibbles::update_movement_status() {
 }
 
 s32 TObjEneGibbles::update_action_hold_status() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     if (TObjChara::update_action_hold_status() != 0) {
         switch (this->mode) {
         case 0:
         case 1:
         case 2:
         case 0xa:
-            if (((VObj14 *)(arg0 + 0x3c0))->m5() == 1) {
+            if (((VObj14 *)(self + 0x3c0))->m5() == 1) {
                 this->m_374 &= ~0x143;
                 this->m_374 |= 4;
                 this->mode = 3;
                 this->phase = 0;
                 this->requested_action = 1;
-                ((TObjBase *)arg0)->obj_clearFlags30(0x06240000);
+                ((TObjBase *)self)->obj_clearFlags30(0x06240000);
             }
             break;
         }
