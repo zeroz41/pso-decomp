@@ -16210,20 +16210,20 @@ force_active:
   - sub_800D741C__13TUnk_80494938Fv
   - hit_enemy__22TObjEnePanarmsAtkColliFP9TObjChara
   - sub_800E841C__22TObjEneSlimeTailAttackFv
-  - sub_800E9090__15TObjEneSlimeOneFv
-  - sub_800E92D8__15TObjEneSlimeOneFv
-  - sub_800E9538__15TObjEneSlimeOneFv
-  - sub_800E95F4__15TObjEneSlimeOneFv
-  - sub_800E969C__15TObjEneSlimeOneFv
-  - sub_800E9BCC__15TObjEneSlimeOneFv
-  - sub_800E9D7C__15TObjEneSlimeOneFv
-  - sub_800E9DC8__15TObjEneSlimeOneFv
-  - sub_800E9EFC__15TObjEneSlimeOneFv
-  - sub_800EA120__15TObjEneSlimeOneFv
-  - sub_800EA364__15TObjEneSlimeOneFv
-  - sub_800EA56C__15TObjEneSlimeOneFv
-  - sub_800EA678__15TObjEneSlimeOneFv
-  - sub_800EA820__15TObjEneSlimeOneFv
+  - render_trail__15TObjEneSlimeOneFv
+  - update_launched__15TObjEneSlimeOneFv
+  - enter_launched__15TObjEneSlimeOneFv
+  - enter_death__15TObjEneSlimeOneFv
+  - update_damage__15TObjEneSlimeOneFv
+  - update_approach__15TObjEneSlimeOneFv
+  - enter_approach__15TObjEneSlimeOneFv
+  - update_aim_at_enemy__15TObjEneSlimeOneFv
+  - update_scan__15TObjEneSlimeOneFv
+  - enter_scan__15TObjEneSlimeOneFv
+  - update_slide__15TObjEneSlimeOneFv
+  - enter_slide__15TObjEneSlimeOneFv
+  - update_shrink__15TObjEneSlimeOneFv
+  - update_grow__15TObjEneSlimeOneFv
   - hide__13TObjEneRe4BitFv
   - state_fade_in__16TObjEneMe3StelthFl
   - init_variant__16TObjEneMe3StelthFv

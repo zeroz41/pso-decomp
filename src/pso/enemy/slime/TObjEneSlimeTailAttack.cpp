@@ -165,20 +165,20 @@ typedef void (TObjEneSlimeOne::*SlimeOneStateFn)();
 struct SlimeOneState { SlimeOneStateFn enter; SlimeOneStateFn update; };
 static SlimeOneState lbl_80496574[15] = {
     { &TObjEneSlimeOne::init_state, &TObjEneSlimeOne::update_wait_search },
-    { &TObjEneSlimeOne::reset_display, &TObjEneSlimeOne::sub_800EA820 },
-    { &TObjEneSlimeOne::init_slime_display, &TObjEneSlimeOne::sub_800EA678 },
-    { &TObjEneSlimeOne::sub_800EA56C, &TObjEneSlimeOne::sub_800EA364 },
+    { &TObjEneSlimeOne::reset_display, &TObjEneSlimeOne::update_grow },
+    { &TObjEneSlimeOne::init_slime_display, &TObjEneSlimeOne::update_shrink },
+    { &TObjEneSlimeOne::enter_slide, &TObjEneSlimeOne::update_slide },
     { &TObjEneSlimeOne::enter_slime_state, &TObjEneSlimeOne::update_slime_timer },
     { &TObjEneSlimeOne::enter_appear_state, &TObjEneSlimeOne::update_dive_timer },
-    { &TObjEneSlimeOne::sub_800EA120, &TObjEneSlimeOne::sub_800E9EFC },
-    { &TObjEneSlimeOne::init_slime_state, &TObjEneSlimeOne::sub_800E9DC8 },
-    { &TObjEneSlimeOne::sub_800E9D7C, &TObjEneSlimeOne::sub_800E9BCC },
+    { &TObjEneSlimeOne::enter_scan, &TObjEneSlimeOne::update_scan },
+    { &TObjEneSlimeOne::init_slime_state, &TObjEneSlimeOne::update_aim_at_enemy },
+    { &TObjEneSlimeOne::enter_approach, &TObjEneSlimeOne::update_approach },
     { &TObjEneSlimeOne::begin_appear, &TObjEneSlimeOne::update_water_bomb_timer },
     { &TObjEneSlimeOne::start_tail_attack, &TObjEneSlimeOne::tick_timer },
     { &TObjEneSlimeOne::reset_display_state, &TObjEneSlimeOne::update_tick },
-    { &TObjEneSlimeOne::init_split_effect, &TObjEneSlimeOne::sub_800E969C },
-    { &TObjEneSlimeOne::sub_800E95F4, &TObjEneSlimeOne::update_effect_fade_lifetime },
-    { &TObjEneSlimeOne::sub_800E9538, &TObjEneSlimeOne::sub_800E92D8 },
+    { &TObjEneSlimeOne::init_split_effect, &TObjEneSlimeOne::update_damage },
+    { &TObjEneSlimeOne::enter_death, &TObjEneSlimeOne::update_effect_fade_lifetime },
+    { &TObjEneSlimeOne::enter_launched, &TObjEneSlimeOne::update_launched },
 };
 __declspec(section ".data") void *lbl_804966DC[2] = {
     (void *)0x0, (void *)0x2,
@@ -618,7 +618,7 @@ void TObjEneSlimeOne::run_task() {
         }
         update_prev_position();
         update_collisions();
-        if ((s32)this->m_3ec != 0) {
+        if ((s32)this->targetable != 0) {
             submit_cursor_candidate(this, -1);
         }
         animation->advance();
@@ -653,7 +653,7 @@ void TObjEneSlimeOne::render() {
         if (ene_slime_one->alpha < 1.0f) {
             TObjPlayer::init_render_globals();
         }
-        ene_slime_one->sub_800E9090();
+        ene_slime_one->render_trail();
     }
 }
 
@@ -682,14 +682,14 @@ void TObjEneSlimeOne::set_display_mode(s32 mode) {
     switch (mode) {
     case 0:
         collision_body_parts->flags |= 0x0A000000 | 0x528;
-        m_3ec = 0;
+        targetable = 0;
         return;
     case 1:
         collision_body_parts->flags |= 0x0A000000 | 0x28;
-        m_3ec = 0;
+        targetable = 0;
         return;
     case 2:
-        m_3ec = 1;
+        targetable = 1;
         return;
     }
 }
@@ -699,7 +699,7 @@ void TObjEneSlimeOne::set_target_flag_bit0() {
 }
 
 void TObjEneSlimeOne::clear_child_flag() {
-    if ((s32) this->m_3ec == 0) {
+    if ((s32) this->targetable == 0) {
         collision_body_parts->flags &= ~1;
     }
 }
@@ -735,15 +735,15 @@ void TObjEneSlimeOne::run_miss_reaction() {
 
 void TObjEneSlimeOne::set_random_timer_15() { set_random_timer(15, 15); }
 
-void TObjEneSlimeOne::init_state() { project_to_ground(); this->draw_offset_y = -2.5f; this->draw_scale.z = 0.0f; this->draw_scale.y = 0.0f; this->draw_scale.x = 0.0f; this->alpha = 0.0f; this->m_3c8 = 0; animation->set_state(7); set_display_mode(0); this->actorFlags = (this->actorFlags | 0x40000); this->set_random_timer_15(); }
+void TObjEneSlimeOne::init_state() { project_to_ground(); this->draw_offset_y = -2.5f; this->draw_scale.z = 0.0f; this->draw_scale.y = 0.0f; this->draw_scale.x = 0.0f; this->alpha = 0.0f; this->search_count = 0; animation->set_state(7); set_display_mode(0); this->actorFlags = (this->actorFlags | 0x40000); this->set_random_timer_15(); }
 
 void TObjEneSlimeOne::update_wait_search() {
     if (--this->state_timer <= 0) {
         if (find_nearest_visible_player(this, NULL, 200.0f) == 0xFFFF) {
-            if (++this->m_3c8 >= 5) {
+            if (++this->search_count >= 5) {
                 position.x = home_position.x;
                 position.z = home_position.z;
-                this->m_3c8 = 5;
+                this->search_count = 5;
             }
             this->set_random_timer_15();
             return;
@@ -753,7 +753,7 @@ void TObjEneSlimeOne::update_wait_search() {
 }
 
 void TObjEneSlimeOne::reset_display() { set_display_mode(0); this->actorFlags = (this->actorFlags & 0xfffbffff); this->m_398 = 0.0f; this->draw_offset_y = -2.5f; }
-void TObjEneSlimeOne::sub_800EA820() {
+void TObjEneSlimeOne::update_grow() {
     f32 progress;
     f32 wobble;
     f32 wobble_scale;
@@ -786,7 +786,7 @@ void TObjEneSlimeOne::sub_800EA820() {
 }
 
 void TObjEneSlimeOne::init_slime_display() { this->m_398 = 1.0f; this->draw_offset_y = 0.0f; set_display_mode(0); animation->set_state(7); }
-void TObjEneSlimeOne::sub_800EA678() {
+void TObjEneSlimeOne::update_shrink() {
     f32 progress;
     f32 wobble;
     f32 wobble_scale;
@@ -813,7 +813,7 @@ void TObjEneSlimeOne::sub_800EA678() {
         this->set_state(0);
     }
 }
-void TObjEneSlimeOne::sub_800EA56C() {
+void TObjEneSlimeOne::enter_slide() {
     s32 angle;
     this->move_speed = (f32) 0.0f;
     if (find_nearest_visible_player(static_cast<TObjChara *>(this), &movement_direction, 200.0f) == 0xFFFF) {
@@ -833,7 +833,7 @@ void TObjEneSlimeOne::sub_800EA56C() {
     this->animation->set_state(8);
     set_display_mode(1);
 }
-void TObjEneSlimeOne::sub_800EA364() {
+void TObjEneSlimeOne::update_slide() {
     Vec sp8;
     f32 s;
     f32 c;
@@ -916,7 +916,7 @@ void TObjEneSlimeOne::update_dive_timer() {
     }
 }
 
-void TObjEneSlimeOne::sub_800EA120() {
+void TObjEneSlimeOne::enter_scan() {
   unsigned int new_var;
   this->target_client_id = 0xFFFF;
   this->motion_phase = (s32) ((((s32) (4.0f * this->random_ratio())) + 4) << 0x10);
@@ -930,7 +930,7 @@ void TObjEneSlimeOne::sub_800EA120() {
   animation->set_state(new_var);
   set_display_mode(2);
 }
-void TObjEneSlimeOne::sub_800E9EFC() {
+void TObjEneSlimeOne::update_scan() {
     Vec sp14;
     Vec sp8;
     f32 f;
@@ -984,7 +984,7 @@ void TObjEneSlimeOne::init_slime_state() {
     set_display_mode(2);
 }
 
-void TObjEneSlimeOne::sub_800E9DC8() {
+void TObjEneSlimeOne::update_aim_at_enemy() {
     Vec sp;
     s32 r = 0;
     s32 t;
@@ -1002,9 +1002,9 @@ void TObjEneSlimeOne::sub_800E9DC8() {
     }
 }
 
-void TObjEneSlimeOne::sub_800E9D7C() { set_random_timer(30, 30); animation->set_state(0); set_display_mode(2); }
+void TObjEneSlimeOne::enter_approach() { set_random_timer(30, 30); animation->set_state(0); set_display_mode(2); }
 
-void TObjEneSlimeOne::sub_800E9BCC() {
+void TObjEneSlimeOne::update_approach() {
     f32 v[3];
     s32 t;
     v[0] = 1.0f;
@@ -1150,13 +1150,13 @@ void TObjEneSlimeOne::init_split_effect() {
     set_display_mode(0);
 }
 
-void TObjEneSlimeOne::sub_800E969C() {
+void TObjEneSlimeOne::update_damage() {
     if (this->motion_flags & 0x10) {
         this->set_state(5);
     }
 }
 
-void TObjEneSlimeOne::sub_800E95F4() {
+void TObjEneSlimeOne::enter_death() {
     if (parent_slime != NULL && parent_slime->all_parents_unqueued_for_destruction() != 0) {
         parent_slime->release_child_slot(entity_id);
     }
@@ -1182,7 +1182,7 @@ void TObjEneSlimeOne::update_effect_fade_lifetime() {
 extern "C" {
 
 
-void TObjEneSlimeOne::sub_800E9538() {
+void TObjEneSlimeOne::enter_launched() {
     this->particle = (TParticleCtrl *)create_particle_emitter(&position, 0xE1);
     this->draw_offset_y = -2.5f;
     this->draw_scale.z = 0.0f;
@@ -1192,7 +1192,7 @@ void TObjEneSlimeOne::sub_800E9538() {
     animation->set_state(7);
     set_display_mode(0);
 }
-void TObjEneSlimeOne::sub_800E92D8() {
+void TObjEneSlimeOne::update_launched() {
     s32 landed = 0;
     s32 tries = 4;
     s32 angle;
@@ -1268,7 +1268,7 @@ void TObjEneSlimeOne::update_trail_position() {
     vec3_add_to(&trail_position, &delta);
 }
 
-void TObjEneSlimeOne::sub_800E9090() {
+void TObjEneSlimeOne::render_trail() {
     TObjEneSlimeOne *self = this;
     Vec c;
     Vec b;
