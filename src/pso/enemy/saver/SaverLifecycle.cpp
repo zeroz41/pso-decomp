@@ -371,7 +371,6 @@ void TObjEneSaver::run_hit_reaction() {
 
 extern "C" {
 s32 TObjPlayer__sub_800A0554(void *);
-f32 calc_distance_to_client__10TObjPlayerFlUsUl(void *, u16, void *);
 
 f32 calc_xz_distance_sq(saddr arg0, uaddr arg1, void *arg2);
 
@@ -471,7 +470,7 @@ int TObjEneSaver::test_flag_256() {
             if (p == NULL || (p->actorFlags & 0x800)) {
                 continue;
             }
-            if (!(calc_distance_to_client__10TObjPlayerFlUsUl(this, i, &v) < 900.0f)) {
+            if (!(TObjPlayer::calc_distance_to_client((saddr)this, i, &v) < 900.0f)) {
                 continue;
             }
             if (angle_difference_abs(rotation_y, (s32)(10430.38043493439 * atan2_float(v.x, v.z))) >= 0x2AAA) {

@@ -12,7 +12,7 @@ void TObjPlayer::reset_state() {
     u8 *arg0 = (u8 *)this;
     ((FlagWord *)(arg0 + 0x858))->clear(2);
     ((TObjPlayer *)(arg0 + 0x63C))->reset_counter_field4();
-    ((TObjPlayer *)(arg0 + 0x644))->reset_type();
+    protection.reset_type();
     ((TObjPlayer *)(arg0 + 0x7CC))->reset_movement_state();
     TObjPlayer__sub_801BF690((u8 *)&this->m_730);
     ((TObjPlayer *)(arg0 + 0x608))->set_vec4_const();

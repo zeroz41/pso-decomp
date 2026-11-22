@@ -1550,24 +1550,24 @@ s32 TObjChara::set_motion_params(void *motion_arg) {
 }
 
 #define VCOPY(d, s) ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)((d), (s))
-f32 TObjPlayer::calc_distance_to_client(saddr actor, u16 arg1, uaddr arg2) {
+f32 TObjPlayer::calc_distance_to_client(saddr actor, u16 client, Vec *delta) {
   Stack_80018780 stack;
   f32 var_f31;
   s32 temp_r31;
   saddr temp_r3;
   var_f31 = (1e+08f);
-  if (arg1 < 0x1000U)
+  if (client < 0x1000U)
   {
-    temp_r3 = ((s32 (*)(u32))get_player_by_client_id)((u32) arg1);
+    temp_r3 = ((s32 (*)(u32))get_player_by_client_id)((u32) client);
     if ((temp_r3 != 0) && (!((((TObjPlayer *)temp_r3)->actorFlags) & 0x800)))
     {
       ;
       if (((TObjPlayer *)temp_r3)->get_floor() == get_current_floor())
       {
         var_f31 = calc_xz_distance_sq(actor, (u32)((u32) temp_r3), &stack.sp8);
-        if (arg2 != 0U)
+        if (delta != NULL)
         {
-          VecCopy__FP3VecPC3Vec((saddr)((void *) arg2), (saddr)&stack.sp8);
+          VecCopy__FP3VecPC3Vec((saddr)delta, (saddr)&stack.sp8);
         }
       }
     }
@@ -3862,7 +3862,8 @@ u16 find_nearest_visible_player(TObjChara *searcher, Vec *arg1, f32 range) {
     return result;
 }
 
-u16 find_nearest_hittable_enemy__10TObjPlayerFiPvf(saddr arg0, Vec *arg1, f32 range) {
+}
+u16 find_nearest_hittable_enemy(TObjBase *searcher, Vec *direction, f32 range) {
     Vec pos;
     f32 best;
     f32 dist;
@@ -3879,12 +3880,12 @@ u16 find_nearest_hittable_enemy__10TObjPlayerFiPvf(saddr arg0, Vec *arg1, f32 ra
         if (((s32 (*)(ObjFlags *))obj_is_hit_receivable)(p) != 0) {
             u16 id = get_entity_id(p);
             if (id >= 0x1000 && id < 0x4000 && !(p->flags_30 & 0x02000800)) {
-                dist = ((f32 (*)(s32, ObjFlags *, void *))calc_xz_distance_sq)(arg0, p, &pos);
+                dist = ((f32 (*)(TObjBase *, ObjFlags *, void *))calc_xz_distance_sq)(searcher, p, &pos);
                 if (dist < best) {
                     best = dist;
                     result = p->field_1c;
-                    if (arg1 != NULL) {
-                        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(arg1, &pos);
+                    if (direction != NULL) {
+                        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(direction, &pos);
                     }
                 }
             }
@@ -3892,6 +3893,7 @@ u16 find_nearest_hittable_enemy__10TObjPlayerFiPvf(saddr arg0, Vec *arg1, f32 ra
     }
     return result;
 }
+extern "C" {
 
 s32 damage_hp__10TObjPlayerFii(saddr arg0, saddr arg1) {
     if (((TObjChara *)arg0)->obj_isState2_324() != 0) {

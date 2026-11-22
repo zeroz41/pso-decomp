@@ -3,13 +3,16 @@
 
 #include "types.h"
 
+class TObjBase;
 class TObjChara;
 struct Vec;
 
 extern "C" {
 // The nearest visible player on the current floor, with its direction if requested.
 u16 find_nearest_visible_player(TObjChara *searcher, Vec *direction, f32 range);
-u16 find_nearest_hittable_enemy__10TObjPlayerFiPvf(saddr searcher_address, Vec *direction, f32 range);
 }
+
+// The nearest hit-receivable enemy within range of the searcher (0xFFFF for none), with its offset if requested.
+u16 find_nearest_hittable_enemy(TObjBase *searcher, Vec *direction, f32 range);
 
 #endif

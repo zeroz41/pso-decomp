@@ -25,6 +25,8 @@ struct TUnk_801D8A4C;
 struct ProtectionTimer {
     s32 get_frames();
     void set_frames(s32 frames);
+    void reset_type();
+    void reset_lobby_model();
 
     s32 frames;
 };
@@ -364,7 +366,7 @@ struct TObjPlayer : public TObjChara {
     void set_attribute_entry(s32 i, void *q);
     void copy_entry_bytes(void* q);
     s16 *get_attribute_entry(s32 i);
-    static f32 calc_distance_to_client(saddr actor, u16 arg1, uaddr arg2);
+    static f32 calc_distance_to_client(saddr actor, u16 client, Vec *delta);
     s16 get_class_id();
     s16 get_item_index();
     s32 add_status_effect_timer(s32 i, s32 v);
@@ -375,8 +377,6 @@ struct TObjPlayer : public TObjChara {
     s32 get_floor();
     s32 get_area();
     static s32 get_player_count();
-    void reset_lobby_model();
-    void reset_type();
     void send_6x12_packet();
     void bswap_6x12_packet();
     void set_type_dragon();

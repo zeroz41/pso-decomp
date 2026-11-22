@@ -414,9 +414,9 @@ void TObjPlayer::send_6x12_packet() { bswap_6x12_packet(); send_subcommand((u8 *
 
 void ProtectionTimer::set_frames(s32 v) { frames = v; }
 
-void TObjPlayer::reset_type() { *(s32*)((char*)this + 0x0) = 0; }
+void ProtectionTimer::reset_type() { frames = 0; }
 
-void TObjPlayer::reset_lobby_model() { reset_type(); }
+void ProtectionTimer::reset_lobby_model() { reset_type(); }
 
 void TObjMotion::set_field_d8(saddr v) { (*(saddr *)&this->action_table) = v; }
 
@@ -2099,7 +2099,7 @@ void TBoss1Dragon::release_held_player() {
     if (player != NULL) {
         player->end_camera_pan();
         player->actorFlags = player->actorFlags & 0xFDFFFFFF;
-        ((TObjPlayer *)&player->protection)->reset_lobby_model();
+        player->protection.reset_lobby_model();
         player->position.y = 0.0f;
         client_id = this->target_client_id;
         if (((s32) client_id == (s32) local_client_id) && ((s16) this->mode == 0x15)) {

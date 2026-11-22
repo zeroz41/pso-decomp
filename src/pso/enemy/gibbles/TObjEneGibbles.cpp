@@ -63,10 +63,6 @@ struct NJS_OBJECT;
 #include "pso/network/client_id.h"
 
 extern "C" void rotate_xz_pair_by_angle(f32 *x, f32 *z, s32 angle, f32);
-// TObjPlayer::calc_distance_to_client writes the actor-to-player vector to its
-// third argument; TObjPlayer.h types it uaddr, which CW hoists out of the
-// test_flag_256 loop, so this TU keeps the Vec * form until the header changes.
-extern "C" f32 calc_distance_to_client__10TObjPlayerFlUsUl(void *actor, u16 client, Vec *delta);
 
 __declspec(section ".data") const char *TObjEneGibbles__model_filenames[2] = {
     "gibb_body.nj", NULL,
@@ -1423,7 +1419,7 @@ int TObjEneGibbles::test_flag_256() {
         for (i = 0; i < registered_player_count; i++) {
             pl = TObjPlayer::get_player_data(i);
             if (pl != NULL && !(pl->actorFlags & 0x800)
-                && calc_distance_to_client__10TObjPlayerFlUsUl(this, i, &v) < 900.0f
+                && TObjPlayer::calc_distance_to_client((saddr)this, i, &v) < 900.0f
                 && angle_difference_abs(this->rotation_y, (s32) (10430.38043493439 * atan2_float(v.x, v.z))) < 0x2AAA
                 && pl->test_action_mask(0xE0) != 0) {
                 VecCopy(&v, &body_center);

@@ -1778,7 +1778,7 @@ void TBoss8Dragon::release_grabbed_player() {
     if (player != NULL) {
         ((TObjPlayer *)player)->end_camera_pan();
         ((TObjPlayer *)player)->actorFlags = (s32) (((TObjPlayer *)player)->actorFlags & 0xFDFFFFFF);
-        ((TObjPlayer *)(player + 0x644))->reset_lobby_model();
+        ((TObjPlayer *)player)->protection.reset_lobby_model();
         *(f32 *)((s8 *)player + 0x3C) = 0.0f;
         temp_r4 = boss8_dragon->m_750;
         if (((s32) temp_r4 == (s32) local_client_id) && ((s16) boss8_dragon->mode == 0x15)) {

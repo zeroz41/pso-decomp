@@ -958,7 +958,7 @@ void TObjEneSlimeOne::sub_800E9EFC() {
             sp8.x = 1.0f;
             sp8.y = 0.0f;
             sp8.z = 0.0f;
-            TObjPlayer::calc_distance_to_client((saddr)this, this->target_client_id, (uaddr)&sp8);
+            TObjPlayer::calc_distance_to_client((saddr)this, this->target_client_id, &sp8);
             this->rotation_y = approach_angle_limited(this->rotation_y, (s32)(10430.38043493439 * atan2_float(sp8.x, sp8.z)), 0x280);
         }
         if (this->state_timer > n) {
@@ -1011,7 +1011,7 @@ void TObjEneSlimeOne::sub_800E9BCC() {
     v[1] = 0.0f;
     v[2] = 0.0f;
     if (target_client_id != 0xFFFF) {
-        TObjPlayer::calc_distance_to_client((saddr)this, (u16)target_client_id, (uaddr)v);
+        TObjPlayer::calc_distance_to_client((saddr)this, (u16)target_client_id, (Vec *)v);
     }
     t = (s32) (10430.38043493439 * atan2_float(v[0], v[2]));
     rotation_y = approach_angle_limited(rotation_y, t, 0x200);

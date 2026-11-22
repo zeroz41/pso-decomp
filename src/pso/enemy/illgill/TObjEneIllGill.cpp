@@ -1241,7 +1241,7 @@ void TObjEneIllGill::update_charge_attack() {
             d = o->turn_toward_direction((s32)(2.0f * (f32)((IllGillMovementParameters *)o->movementParameters)->turn), &v);
             if (d < ((AttackParams *)(o->m_318))->get_attack_angle()) {
                 s32 ang = (s32)(10430.38043493439 * atan2_float(v.x, v.z));
-                o->chargeDistance = 30.0f + (newton_sqrtf(TObjPlayer::calc_distance_to_client((saddr)o, o->targetId, (u32)0)) + ((TObjCollidable *)o)->get_collision_body_radius(0));
+                o->chargeDistance = 30.0f + (newton_sqrtf(TObjPlayer::calc_distance_to_client((saddr)o, o->targetId, NULL)) + ((TObjCollidable *)o)->get_collision_body_radius(0));
                 if (o->chargeDistance < 100.0f) {
                     o->chargeDistance = 100.0f;
                 }
@@ -1284,7 +1284,7 @@ void TObjEneIllGill::update_charge_attack() {
             d = o->turn_toward_direction((s32)(2.0f * (f32)((IllGillMovementParameters *)o->movementParameters)->turn), &v);
             if (d < ((AttackParams *)(o->m_318))->get_attack_angle()) {
                 s32 ang = (s32)(10430.38043493439 * atan2_float(v.x, v.z));
-                o->chargeDistance = 30.0f + (newton_sqrtf(TObjPlayer::calc_distance_to_client((saddr)o, o->targetId, (u32)0)) + ((TObjCollidable *)o)->get_collision_body_radius(0));
+                o->chargeDistance = 30.0f + (newton_sqrtf(TObjPlayer::calc_distance_to_client((saddr)o, o->targetId, NULL)) + ((TObjCollidable *)o)->get_collision_body_radius(0));
                 if (o->chargeDistance < 100.0f) {
                     o->chargeDistance = 100.0f;
                 }

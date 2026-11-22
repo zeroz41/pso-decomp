@@ -129,7 +129,7 @@ s32 TObjEnePanBARA::is_chasing_or_attacking() {
 int TObjEnePanBARA::find_nearest_enemy_with_flag_alt_target(Vec *direction, f32 range) {
     s32 target_id;
     this->actorFlags = (s32) (this->actorFlags | 0x02000000);
-    target_id = find_nearest_hittable_enemy__10TObjPlayerFiPvf(reinterpret_cast<saddr>(this), direction, range);
+    target_id = find_nearest_hittable_enemy(this, direction, range);
     this->actorFlags = (s32) (this->actorFlags & 0xFDFFFFFF);
     return static_cast<u16>(target_id);
 }
@@ -1371,7 +1371,7 @@ void TObjEnePanarms::spawn_npc_pair() {
 int TObjEnePanarms::find_nearest_enemy_with_flag(Vec *direction, f32 range) {
     s32 target_id;
     this->actorFlags = (s32) (this->actorFlags | 0x02000000);
-    target_id = find_nearest_hittable_enemy__10TObjPlayerFiPvf(reinterpret_cast<saddr>(this), direction, range);
+    target_id = find_nearest_hittable_enemy(this, direction, range);
     this->actorFlags = (s32) (this->actorFlags & 0xFDFFFFFF);
     return static_cast<u16>(target_id);
 }

@@ -54,7 +54,7 @@ void TObjEnePanarmsAtkColli::hit_enemy_near(Vec *point) {
     s32 id;
     u8 *enemy;
     VecCopy(&position, point);
-    if ((id = find_nearest_hittable_enemy__10TObjPlayerFiPvf(reinterpret_cast<saddr>(this), NULL, radius)) != 0xFFFF) {
+    if ((id = find_nearest_hittable_enemy(this, NULL, radius)) != 0xFFFF) {
         if ((enemy = get_enemy_entity(id)) != NULL && enemy != (u8 *)m_up) {
             hit_enemy((TObjChara *)enemy);
         }

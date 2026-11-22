@@ -734,7 +734,7 @@ void TObjEneDelDepth::fn_803142DC() {
         if (this->targetPlayer != 0xFFFF) {
             w.x = 1.0f;
     w.z = w.y = 0.0f;
-            TObjPlayer::calc_distance_to_client((saddr)ene_del_depth, (u16)((u16)this->targetPlayer), (uaddr)&w);
+            TObjPlayer::calc_distance_to_client((saddr)ene_del_depth, (u16)((u16)this->targetPlayer), &w);
             this->rotation_y = approach_angle_limited(this->rotation_y, (s32)(10430.38043493439 * atan2_float(w.x, w.z)), 0x280);
         }
         if (this->timer > lim) {
@@ -791,7 +791,7 @@ void TObjEneDelDepth::move_toward_target() {
     v.z = v.y = 0.0f;
     id = this->targetPlayer;
     if (id != 0xFFFF) {
-        TObjPlayer::calc_distance_to_client((saddr)self, (u16)((u16)id), (uaddr)&v);
+        TObjPlayer::calc_distance_to_client((saddr)self, (u16)((u16)id), &v);
     }
     ang = (s32)(10430.38043493439 * atan2_float(v.x, v.z));
     this->rotation_y = approach_angle_limited(this->rotation_y, ang, 0x200);

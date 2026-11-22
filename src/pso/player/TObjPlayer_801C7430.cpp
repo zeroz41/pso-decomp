@@ -1862,7 +1862,7 @@ void TObjPlayer__deactivate_off_floor_body(void* p) { ((TObjPlayer *)p)->deactiv
 void TObjPlayer__enter_off_floor_state(u8 *player) {
     TObjPlayer__sub_801BF690((player + 0x730));
     zero_vec3((void *) (player + 0x5FC));
-    ((TObjPlayer *)(player + 0x644))->reset_lobby_model();
+    ((TObjPlayer *)player)->protection.reset_lobby_model();
     ((TObjPlayer *)player)->set_state_flags(4);
     ((TObjPlayer *)player)->deactivate_body_collision();
     ((TObjPlayer *)player)->set_flag_20000();
@@ -2260,7 +2260,7 @@ void TObjPlayer::reset_lobby_state() {
     clear_velocity(arg0);
     this->obj_clearFlags30((u32)0x20);
     if (((s16) this->phase == 1) && (TObjPlayer::is_locally_controlled(arg0) != 0)) {
-        ((TObjPlayer *)(arg0 + 0x644))->reset_lobby_model();
+        ((TObjPlayer *)arg0)->protection.reset_lobby_model();
     }
 }
 
@@ -2866,7 +2866,7 @@ void TObjPlayer::reset_on_death() {
     obj_setFlags30(arg0, 0x800U);
     this->hp = 0;
     this->clear_all_status_effects();
-    ((TObjPlayer *)(arg0 + 0x644))->reset_lobby_model();
+    ((TObjPlayer *)arg0)->protection.reset_lobby_model();
     ((void (*)(void *))zero_vec3)(arg0 + 0x5FC);
 }
 
@@ -3818,7 +3818,7 @@ void TObjPlayer::exit_photon_blast_action() {
         TObjPlayer::update_photon_blast_state();
     }
     if ((s32) *(s32 *)((s8 *)arg0 + 0x33C) != 0x13) {
-        ((TObjPlayer *)(arg0 + 0x644))->reset_lobby_model();
+        ((TObjPlayer *)arg0)->protection.reset_lobby_model();
     }
 }
 

@@ -1242,7 +1242,7 @@ void TObjGrass::sub_800BD4D8() {
             d = ((TObjEnemy *)o)->turn_toward_direction((s32)((2.0f) * (f32)o->param->turn), (Vec *)&v);
             if (d < ((AttackParams *)(o->f318))->get_attack_angle()) {
                 s32 ang = (s32)((10430.38043493439) * atan2_float(v.x, v.z));
-                o->f398 = (3e+01f) + (newton_sqrtf(TObjPlayer::calc_distance_to_client((saddr)o, o->f338, (u32)0)) + ((TObjCollidable *)o)->get_collision_body_radius(0));
+                o->f398 = (3e+01f) + (newton_sqrtf(TObjPlayer::calc_distance_to_client((saddr)o, o->f338, NULL)) + ((TObjCollidable *)o)->get_collision_body_radius(0));
                 if (o->f398 < (1e+02f)) {
                     o->f398 = (1e+02f);
                 }
