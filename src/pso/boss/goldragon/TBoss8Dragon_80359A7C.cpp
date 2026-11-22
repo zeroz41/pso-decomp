@@ -83,7 +83,7 @@ void TUnk_804F1A78::run_task() {
     }
     this->sub_800BBA0C();
     this->update_body_colliders();
-    this->store_position();
+    this->update_position_history();
     this->submit_default_cursor_candidate();
     add_radar_scaled_marker(&this->position, -0x5DB4, 1, 1, 2.0f);
     if (teammate_state == 0) {

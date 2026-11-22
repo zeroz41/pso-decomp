@@ -22,7 +22,7 @@ public:
     Vec position;
     f32 frame;
     AnimationMotion *motion;
-    u16 dragon_id;  // entity id; run_task passes that entity's pillar attack to TBoss8Dragon::sub_802FB1B0
+    u16 dragon_id;  // entity id; run_task passes that entity's pillar attack to TBoss8Dragon::apply_pillar_attack
 };
 
 #endif

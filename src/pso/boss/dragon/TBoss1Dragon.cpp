@@ -131,7 +131,7 @@ extern u8 controller_input_state[];
 u16 get_entity_id(void *);
 extern const Vec boss1_dragon_arena_center = {0.0f, 0.0f, 0.0f};
 extern const DragonAttackParams boss1_dragon_attack_sphere_params = {0, 0.0f, 30.0f, 7.0f, 1};
-extern const DragonAttackParams TBoss1Dragon__head_fall_effect_params = {0, 0.0f, 35.0f, 50.0f, 1};
+extern const DragonAttackParams boss1_dragon_head_fall_attack_params = {0, 0.0f, 35.0f, 50.0f, 1};
 extern const DragonAttackParams boss1_dragon_ground_impact_params = {0, 10.0f, 25.0f, 7.5f, 1};
 extern const Vec boss1_dragon_death_impact_point_a = {-35.0f, 0.0f, 10.0f};
 extern const Vec boss1_dragon_death_impact_point_b = {-60.0f, 0.0f, -20.0f};
@@ -1658,7 +1658,7 @@ void TBoss1Dragon::spawn_impact_crater(Vec *pos) {
 }
 
 #pragma pop
-void TBoss1Dragon::clear_work() {
+void TBoss1Dragon::start_rumble() {
     saddr self = (saddr)this;
     start_pad_rumble_at(&this->position, 0xE0, self);
 }
@@ -1719,10 +1719,10 @@ void TBoss1Dragon::apply_head_fall_attack() {
     reset_hp((u8 *)0, boss1_dragon_part_hp_stats[4], (u8 *)0);
     switch (TBoss1Dragon::isV2Mode()) {
     case 0:
-        emit_effect_at_position((void *)&TBoss1Dragon__head_fall_effect_params);
+        emit_effect_at_position((void *)&boss1_dragon_head_fall_attack_params);
         break;
     case 1:
-        this->emit_v2_effect_at_position((void *)&TBoss1Dragon__head_fall_effect_params);
+        this->emit_v2_effect_at_position((void *)&boss1_dragon_head_fall_attack_params);
         break;
     }
     reset_hp((u8 *)0, boss1_dragon_part_hp_stats[0], (u8 *)0);
@@ -1734,7 +1734,7 @@ void TBoss1Dragon::sweep_body_attack_spheres(f32 a, f32 b, f32 c) {
     f32 factor;
     Vec pos;
     Vec base;
-    DragonAttackParams fx = TBoss1Dragon__head_fall_effect_params;
+    DragonAttackParams fx = boss1_dragon_head_fall_attack_params;
     f32 s0;
     f32 s1;
     f32 d;
@@ -1781,7 +1781,7 @@ void TBoss1Dragon::sweep_body_attack_spheres(f32 a, f32 b, f32 c) {
 }
 
 #pragma pop
-void TBoss1Dragon::update_from_data() {
+void TBoss1Dragon::sweep_head_fall_spheres_early() {
     sweep_body_attack_spheres(10.0f, -60.0f, -140.0f);
 }
 
@@ -1823,7 +1823,7 @@ void TBoss1Dragon::sweep_death_body_attack() {
     s32 off;
     reset_hp((u8 *)0, boss1_dragon_part_hp_stats[4], (u8 *)0);
     fill_value_array(this->attack_history);
-    TBoss1Dragon__sub_80027A80(&params, &TBoss1Dragon__head_fall_effect_params);
+    TBoss1Dragon__sub_80027A80(&params, &boss1_dragon_head_fall_attack_params);
     VecCopy(&pos, &this->node_positions[12]);
     params.radius = (15.0f);
     switch (TBoss1Dragon::isV2Mode()) {
@@ -3255,7 +3255,7 @@ void TBoss1Dragon::update_head_down_attack_state(u32 reason) {
             if (this->is_passing_frame(7.0f) != 0) {
                 apply_head_fall_attack();
             } else if (this->is_passing_frame(14.0f) != 0) {
-                this->update_from_data();
+                this->sweep_head_fall_spheres_early();
             } else if (this->is_passing_frame(18.0f) != 0) {
                 this->sweep_head_fall_spheres_late();
             }
@@ -3628,7 +3628,7 @@ void TBoss1Dragon::update_burrow_inward_run(u32 reason, s32 state) {
             this->apply_trail_attack();
             this->impactAge = (this->impactAge + 1);
             if ((s32) this->impactAge > 0xA) {
-                clear_work();
+                start_rumble();
                 this->impactAge = 0;
             }
             break;
@@ -3700,7 +3700,7 @@ void TBoss1Dragon::update_burrow_outward_run(u32 reason) {
         this->apply_trail_attack();
         this->impactAge += 1;
         if (this->impactAge > 10) {
-            this->clear_work();
+            this->start_rumble();
             this->impactAge = 0;
         }
         this->spawn_trap(0x40038F11);
@@ -3781,7 +3781,7 @@ void TBoss1Dragon::handle_spiral_state(u32 reason) {
             this->apply_trail_attack();
             this->impactAge = (this->impactAge + 1);
             if ((s32) this->impactAge > 0xA) {
-                this->clear_work();
+                this->start_rumble();
                 this->impactAge = 0;
             }
             this->spawn_trap(0x40038F11);
@@ -4025,7 +4025,7 @@ void TBoss1Dragon::update_death_state(u32 reason) {
                 this->breath_particles[0] = 0;
             }
             if (this->is_passing_frame((f32)(57.0f)) != 0) {
-                DragonAttackParams eff1 = TBoss1Dragon__head_fall_effect_params;
+                DragonAttackParams eff1 = boss1_dragon_head_fall_attack_params;
                 eff1.radius = 12.0f;
                 VecCopy(&v, &boss1_dragon_death_impact_point_a);
                 rotate_xz_pair_by_angle(&v.x, &v.z, this->rotation_y);
@@ -4043,7 +4043,7 @@ void TBoss1Dragon::update_death_state(u32 reason) {
                 spawn_particle_effect_with_flags(&v, this->effectResource->particle_ids[2], 0x40);
             }
             if (this->is_passing_frame((f32)(88.0f)) != 0) {
-                DragonAttackParams eff2 = TBoss1Dragon__head_fall_effect_params;
+                DragonAttackParams eff2 = boss1_dragon_head_fall_attack_params;
                 eff2.radius = 25.0f;
                 VecCopy(&v, &boss1_dragon_death_impact_point_b);
                 rotate_xz_pair_by_angle(&v.x, &v.z, this->rotation_y);
@@ -4513,7 +4513,7 @@ void TBoss1Dragon::handle_state(u32 reason) {
     case 0:
         this->stateStep = (this->stateStep + 1);
         if ((s32) this->stateStep > 0xA) {
-            this->clear_work();
+            this->start_rumble();
             this->stateStep = 0;
         }
         break;

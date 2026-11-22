@@ -242,14 +242,14 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     void update_death_state(u32 reason);
     void update_dive_state(u32 reason);
     s32 filter_input_flags(s32 input_flags, s32 mask);
-    void clear_work();
+    void start_rumble();  // pad rumble at the Dragon (start_pad_rumble_at)
     f32 calc_burrow_speed();
     void calc_target_vector();
     s32 check_parts_visible(TObjCollidable *parts);
     s32 is_sphere_visible(Vec *center, f32 radius);
     s32 check_attack_ready();
     void sweep_head_fall_spheres_late();
-    void update_from_data();
+    void sweep_head_fall_spheres_early();
     void sweep_body_attack_spheres(f32 a, f32 b, f32 c);
     void apply_landing_attack();
     void send_state_sync();

@@ -63,7 +63,7 @@ void TBoss8DragonEffBullet::run_task() {
                 trail = NULL;
             }
             play_sound_effect(0x4003AD0C, &position, 0, 0);
-            ((TBoss8Dragon *)get_enemy_entity(owner_id))->sub_802FB220(&position, mode);
+            ((TBoss8Dragon *)get_enemy_entity(owner_id))->apply_fireball_impact_damage(&position, mode);
         }
         if (lifetime <= 2) {
             spawn_particle_effect_with_flags(&position, particles->burst, 0x40);

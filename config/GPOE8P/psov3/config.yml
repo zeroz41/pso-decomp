@@ -310,7 +310,7 @@ force_active:
   - boss1_dragon_control_client_id
   - TBoss1Dragon__foot_step_attack_params
   - TBoss1Dragon__gravity_accel
-  - TBoss1Dragon__head_fall_effect_params
+  - boss1_dragon_head_fall_attack_params
   - boss1_dragon_part_hp_stats
   - handle_walk_state__12TBoss1DragonFUl
   - update_controlled_flight_state__12TBoss1DragonFUl
@@ -5188,7 +5188,7 @@ force_active:
   - clear_state_flags_when_done__13TObjEneRe4BitFv
   - clear_state_if_flag80__10TObjPlayerFl
   - clear_thread_state__12TQuestThreadFv
-  - clear_work__12TBoss1DragonFi
+  - start_rumble__12TBoss1DragonFv
   - cloneModelHierarchy__12TBoss1DragonFP15DragonModelNodeP15DragonModelNodePv
   - close__11TOFenceBaseFv
   - close__12TQuestListVMFv
@@ -16923,7 +16923,7 @@ force_active:
   - update_for_target__13TWindowLockOnFii
   - update_formation_state__23TObjEneMe1CanadinLeaderFv
   - update_forward_movement__14TObjEneIllGillFv
-  - update_from_data__12TBoss1DragonFv
+  - sweep_head_fall_spheres_early__12TBoss1DragonFv
   - climb_to_hover_height__13TObjEneMe1GeeFv
   - update_from_lobby__19TWindowSubTradeMainFv
   - update_game_list_menu__6TLobbyFv

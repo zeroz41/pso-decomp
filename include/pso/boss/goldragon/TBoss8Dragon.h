@@ -55,14 +55,14 @@ public:
     // the dragon out while it does).
     s32 is_hiding_camera_target();
     void update_damage_threshold();
-    void sub_802FBEA4();
-    void sub_802FBE3C();
-    void sub_802FBA1C();
-    void sub_802FB484();
+    void reload_stats_for_phase();
+    void reload_impact_stats();
+    void remap_sequence_after_recovery();
+    void sweep_head_fall_spheres_late();
     void sub_802F48DC(Vec *target);
-    void sub_802FB09C();
-    void sub_802FB778();
-    void sub_802FB70C();
+    void update_flap_effect();
+    void apply_landing_attack();
+    void apply_head_fall_attack();
     void copySavedX(s32 *x);
     void calc_target_vector();
     void init_air_turn(s32 targetAngle);
@@ -72,6 +72,8 @@ public:
     s32 sub_802FABB4();
     s32 sub_802FB984();  // always 0: select_next_action would end its low-health branch when it is set
     s32 is_secondary_sequence();
+    // As TBoss1Dragon::prepare_flight_destination: away from the arena centre when the health is low, else to it.
+    void prepare_flight_destination(Vec *dest);
 
     u32 flags;  // as TBoss1Dragon::flags: 0x40 makes run_task remove the dragon, 0x100 tested the same way
     TObject sub_tasks;  // the dragon's collider task hangs under it; run_task runs its tasks
@@ -158,17 +160,17 @@ public:
     static u16 find_player_on_floor(void *arg0);
     void spawn_ground_effect();
     void setup_instance(Vec *pos, DragonAttackParams *params, AreaAttackHistory *history);
-    void sub_802FB1B0(Vec *pos, f32 radius);  // pillar area attack at pos (boss8_dragon_pillar_attack_params); TObjBoss8Piller::run_task
-    void sub_802FB220(Vec *pos, u32 kind);  // fireball impact attack at pos (boss8_dragon_fireball_impact_params); TBoss8DragonEffBullet::run_task
+    void apply_pillar_attack(Vec *pos, f32 radius);  // pillar area attack at pos (boss8_dragon_pillar_attack_params); TObjBoss8Piller::run_task
+    void apply_fireball_impact_damage(Vec *pos, u32 kind);  // fireball impact attack at pos (boss8_dragon_fireball_impact_params); TBoss8DragonEffBullet::run_task
     void setup_breath_instance(Vec *pos, u32 kind, AreaAttackHistory *history);
     void emit_effect(void *pos, void *params, AreaAttackHistory *history);
     void get_state_flags(void *params);
-    static void init_state(saddr dragon);
+    void apply_ground_impact_attack();
     // As TBoss1Dragon::apply_foot_step_attack: the step attack at foot nodes 5/6 (side 0) or 3/4 (side 1).
     void apply_foot_step_attack(int side);
     void apply_foot_attack_pair_1();
     void apply_foot_attack_pair_0();
-    void spawn_effect();
+    void start_rumble();  // as TBoss1Dragon::start_rumble: pad rumble at the dragon
     void play_effect_sound(s32 sound_id);
     void spawn_trap(s32 id);
     void spawn_effect_if_in_band();
@@ -186,7 +188,7 @@ public:
     void send_6xA8_action();
     void send_action_packet(int action);
     void apply_ground_movement(Vec *step);
-    void draw_beam_segments(f32 a, f32 b, f32 c);
+    void sweep_body_attack_spheres(f32 a, f32 b, f32 c);
     void copy_pos_to_field688();
     void restore_target_pos();
     void sync_target_pos();
@@ -207,7 +209,7 @@ public:
     static void init_default(void *boss8_dragon);
     s32 is_near_target();
     void calc_orbit_xz(f32 *arg1, f32 *arg2);
-    void store_position();
+    void update_position_history();  // as TBoss1Dragon::update_position_history
     void set_state_22();
     void check_death();
     void select_next_action();
@@ -235,7 +237,7 @@ public:
     static void update_all_parts();
     static s32 has_enough_enemies();
     void set_mode_params(s8 mode);
-    void update_pos_from_data();
+    void sweep_head_fall_spheres_early();
     void render_nodes_flagged();
     void copy_vectors();
     static void trigger_switches_in_range(void *arg0, void *arg1, void *arg2);
@@ -244,7 +246,7 @@ public:
     static void get_camera_offsets(Vec *eye, Vec *target);
     void render_body_model();
     void select_freeze_target();
-    void emit_body_effects();
+    void sweep_death_body_attack();
     void get_follow_camera_offsets(u8 *arg1);
     s32 is_closest_part();
     s32 push_apart_from_parts();

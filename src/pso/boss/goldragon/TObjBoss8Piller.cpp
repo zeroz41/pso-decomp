@@ -58,7 +58,7 @@ void TObjBoss8Piller::run_task() {
     this->frame += 1.0f;
     dragon = (TBoss8Dragon *)get_enemy_entity(this->dragon_id);
     if (dragon != NULL) {
-        dragon->sub_802FB1B0(&this->position, 25.0f);
+        dragon->apply_pillar_attack(&this->position, 25.0f);
     }
     last_frame = this->motion->frameCount - 1;
     if (this->frame >= (f32)last_frame) {
