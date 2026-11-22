@@ -7,10 +7,4 @@ extern "C" {
 void TObjPlayer__sub_800C4D44(void);
 }
 
-// --- C functions defined in TObjEneRe2Flower_800C4B78.cpp ---
-extern "C" {
-void TObjPlayer__sub_800C4D44(void);
-}
-// --- end of C functions
-
 #endif
