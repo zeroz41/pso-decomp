@@ -78,7 +78,7 @@ void TCameraVolOptFollow::update_target_follow() {
 }
 #pragma pop
 
-void TCameraVolOptFollow::update_follow_flags() {
+void TCameraVolOptFollow::update_follow_settings() {
     Vec to_target;
     flags = FLAG_CHECK_OBSTRUCTION | FLAG_SMOOTH_POSE | FLAG_SMOOTH_TARGET_HEIGHT;
     eye_rate = 1.65f;

@@ -12,7 +12,7 @@ public:
     virtual ~TCameraVolOptFollow();
     static TCameraController *create();
     virtual void run_task();
-    virtual void update_follow_flags();
+    virtual void update_follow_settings();
     void update_target_follow();
     s32 pad_110;
     s32 follow_state;  // 0 tracking the focus, 1 holding the offsets below

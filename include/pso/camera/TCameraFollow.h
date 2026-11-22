@@ -37,7 +37,8 @@ public:
     void update_follow_motion_state();
     void calc_follow_position();
     void compute_follow_target();
-    virtual void update_follow_flags();
+    // Each frame: the controller flags, the easing rates, the follow_flags and the offsets.
+    virtual void update_follow_settings();
     virtual void select_follow_camera_offsets();
     virtual void set_target_yaw(s32 yaw);
     virtual void reset_to_actor_offset(TObjPlayer *actor, Vec *offset);

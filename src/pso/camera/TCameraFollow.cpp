@@ -459,7 +459,7 @@ void TCameraFollow::select_follow_camera_offsets() {
     }
 }
 
-void TCameraFollow::update_follow_flags() {
+void TCameraFollow::update_follow_settings() {
     Vec *src;
     this->flags = FLAG_CHECK_OBSTRUCTION | FLAG_SMOOTH_POSE;
     if (TCameraCtrl::get_camera_id() == 2) {
@@ -686,7 +686,7 @@ void TCameraFollow::run_task() {
     if (get_current_floor_area() == AREA_PIONEER2_EP1 || get_current_floor_area() == AREA_PIONEER2_EP2) {
         eye_offset.y = 20.43f;
     }
-    update_follow_flags();
+    update_follow_settings();
     if (apply_override_pose() != 0) {
         end_conversation_camera();
         clear_follow_flags();
