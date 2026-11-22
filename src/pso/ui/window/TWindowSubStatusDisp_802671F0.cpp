@@ -598,7 +598,7 @@ void TWindowSubStatusDisp::init_scroll_pos() {
 void TWindowMenuIconLine::center_list_selection() {
     f32 target;
 
-    if ((this->scroll_bar != 0U) && (*(u32 *)((s8 *)((u8 *)this) + 0x50) == 0U)) {
+    if ((this->scroll_bar != 0U) && (this->tween_ticks == 0U)) {
         f32 t = (*(f32 *)&this->frame_size[1] - 16.0f) - 10.0f;
         target = 9.0f + (f32) (this->cursor * 0x14);
         target -= 0.5f * t;
@@ -762,7 +762,7 @@ void TWindowMenuIconLine::run_task() {
 
 TWindowMenuIconLine::~TWindowMenuIconLine() {
     TWindowSubStatusDisp::destroy_allocation((saddr)(*(void **)((s8 *)this + 0x84)), (s16)1);
-    TWindowSubStatusDisp::destroy_status_display((saddr)(*(void **)((s8 *)this + 0x80)), (s16)1);
+    TWindowSubStatusDisp::destroy_status_display((saddr)this->status_display, (s16)1);
 }
 }
 

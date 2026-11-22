@@ -616,7 +616,7 @@ Rect_802AE2B0 *setup_content_frame__15TWindowMainMenuFPv(u8 *window_menu_main_me
 void TWindowMenuMainMenu::update_slide_position() {
     if (((TWindowBase *)this)->sub_80246948() != 0) {
         set_target_y(0.0f);
-        *(u32 *)((s8 *)this + 0x50) = (u32) (4.5f - (f32) (*(s16 *)((s8 *)this + 0x22)));
+        this->tween_ticks = (u32) (4.5f - (f32) this->closing_tick);
         return;
     }
     update_scaled_position();

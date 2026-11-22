@@ -142,7 +142,7 @@ u8 *TWindowSubStatusDisp::init_part_direct(u8 *rec, s32 client) {
     *(void ***)((s8 *)((u8 *)this) + 4) = window_uv_sprite_part_vtable;
     copy_vec2((((u8 *)this) + 8), rec + 4);
     copy_vec2((((u8 *)this) + 0x10), rec + 0xC);
-    *(f32 *)((s8 *)((u8 *)this) + 0x1C) = (f32) *(f32 *)((s8 *)rec + 0x14);
+    this->sort_depth = (f32) *(f32 *)((s8 *)rec + 0x14);
     *(f32 *)((s8 *)((u8 *)this) + 0x20) = (f32) *(f32 *)((s8 *)rec + 0x18);
     *(f32 *)((s8 *)((u8 *)this) + 0x24) = (f32) *(f32 *)((s8 *)rec + 0x1C);
     *(f32 *)((s8 *)((u8 *)this) + 0x28) = (f32) *(f32 *)((s8 *)rec + 0x20);

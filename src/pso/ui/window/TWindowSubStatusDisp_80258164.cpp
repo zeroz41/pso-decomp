@@ -205,12 +205,12 @@ void TWindowSubStatusDisp::update_item_icon_colors(void *item) {
             *(s32 *)((s8 *)this + 0x28) = -1;
         }
         if (temp_r28_2 == 0) {
-            *(s32 *)((s8 *)this + 0x2C) = -1;
+            this->window_flags = -1;
             *(s32 *)((s8 *)this + 0x30) = 0xFF00FFFC;
             return;
         }
         if (temp_r27 != 0) {
-            *(s32 *)((s8 *)this + 0x2C) = -1;
+            this->window_flags = -1;
             if (((TItem *)item)->is_custom_name_srank() != 0) {
                 *(s32 *)((s8 *)this + 0x30) = 0xFFFE3C28;
                 return;
@@ -236,11 +236,11 @@ void TWindowSubStatusDisp::update_item_icon_colors(void *item) {
         }
         if (sp8 & 1) {
             *(s32 *)((s8 *)this + 0x30) = 0xFF909090;
-            *(s32 *)((s8 *)this + 0x2C) = 0xFFAAAAAA;
+            this->window_flags = 0xFFAAAAAA;
             return;
         }
         *(s32 *)((s8 *)this + 0x30) = 0xFF909090;
-        *(s32 *)((s8 *)this + 0x2C) = 0xFFAAAAAA;
+        this->window_flags = 0xFFAAAAAA;
     }
 }
 

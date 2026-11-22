@@ -169,7 +169,7 @@ void TWindowInputNumber::create(s32 arg1) {
         }
         this->unknown70 = var_r0;
         this->window_flags = (s32) (this->window_flags | 0x40);
-        *(f32 *)((s8 *)this + 0x3C) += 6.0f;
+        this->target_position[3] += 6.0f;
     }
 }
 

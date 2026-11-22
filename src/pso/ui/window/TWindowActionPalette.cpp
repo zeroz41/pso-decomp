@@ -176,7 +176,7 @@ void TWindowActionPalette::run_task() {
     if (player == NULL || (effect = player->refresh_effect()) == 0) {
         return;
     }
-    if (!(*(s32 *)((s8 *)this + 0x2C) & 2)) {
+    if (!(this->window_flags & 2)) {
         open_tick = 0x01000000;
     }
     slot = is_player_input_active(client_index);

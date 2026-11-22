@@ -627,10 +627,10 @@ void TUnk_804CF0B8::sub_80251DF0(s16 arg1, saddr str, s16 arg3, f32 farg0) {
         this->name = 0;
     }
     ((s32 (*)(void *, s16))set_color__13TUnk_804CF0B8FUs)(this, arg1);
-    *(f32 *)((s8 *)this + 0x80) = 0.0f;
+    this->frame_size[14] = 0.0f;
     this->m_7c = farg0;
     this->frame_size[0] = 0.0f;
-    *(f32 *)((s8 *)this + 0x4C) = 0.0f;
+    this->frame_size[1] = 0.0f;
     this->clear_flag();
     this->clear_flag2c_bit100();
 }
@@ -784,7 +784,7 @@ s32 TUnk_804CF0B8::clamp_position(void *arg1, f32 farg0) {
         *(f32 *)((s8 *)arg1 + 4) = temp_f1_3;
         var_r31 = 1;
     }
-    temp_f1_4 = (TWindowCtrlMain::get_field_18(this->client_index) - 40.0f) - (*(f32 *)((s8 *)this + 0x4C) * farg0);
+    temp_f1_4 = (TWindowCtrlMain::get_field_18(this->client_index) - 40.0f) - (this->frame_size[1] * farg0);
     if (*(f32 *)((s8 *)arg1 + 4) > temp_f1_4) {
         *(f32 *)((s8 *)arg1 + 4) = temp_f1_4;
         var_r31 = 1;

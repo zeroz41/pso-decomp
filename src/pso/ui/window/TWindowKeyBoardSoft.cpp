@@ -447,11 +447,11 @@ void TWindowKeyBoardSoft::handle_page_cycle_input(s32 port) {
         play_sound_effect(0x54100, 0, 0, 0);
         calc_cursor_step(&spC, &sp8);
         if (TWindowShortListCtrl__check_controller_button(temp_r30, 0x10000) != 0) {
-            *(f32 *)((s8 *)((u8 *)this) + 0x68) = 10.0f;
+            this->target_position[14] = 10.0f;
             *(u8 *)((s8 *)((u8 *)this) + 0x64) = (u8) (*(u8 *)((s8 *)((u8 *)this) + 0x64) + 1);
         }
         if (TWindowShortListCtrl__check_controller_button(temp_r30, 0x20000) != 0) {
-            *(f32 *)((s8 *)((u8 *)this) + 0x68) = -10.0f;
+            this->target_position[14] = -10.0f;
             *(u8 *)((s8 *)((u8 *)this) + 0x64) = (u8) (*(u8 *)((s8 *)((u8 *)this) + 0x64) - 1);
         }
         if ((s8) *(u8 *)((s8 *)((u8 *)this) + 0x64) < spC) {
@@ -895,7 +895,7 @@ void TWindowKeyBoardSoft::run_task() {
 
     if (m_control != NULL) {
         if ((this->sub_80244994() != 0) && (m_control->is_confirmed() == 0)) {
-            port = is_player_input_active(*(s16 *)((s8 *)this + 0x20));
+            port = is_player_input_active(this->client_index);
             handle_page_cycle_input(port);
             sub_80260E30(port);
             sub_80260904(port);
@@ -904,7 +904,7 @@ void TWindowKeyBoardSoft::run_task() {
         }
         ((TWindowDD *)this)->initialize_subwindow();
         ((TWindowBase *)this)->update_fade();
-        *(f32 *)((s8 *)this + 0x68) -= 0.15f * *(f32 *)((s8 *)this + 0x68);
+        this->target_position[14] -= 0.15f * this->target_position[14];
     }
 }
 

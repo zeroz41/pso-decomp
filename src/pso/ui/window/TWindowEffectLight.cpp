@@ -164,12 +164,12 @@ void TWindowEffectLight::sub_802AD040(f32 f) {
 }
 
 u32 TWindowEffectLight::calc_alpha() {
-    s16 frame = *(s16 *)((u8 *)this + 0x26);
+    s16 frame = this->age;
     return (u32)__cvt_fp2unsigned(4278190080.0f * (-1.0f * (f32)frame / 8.0f + 1.0f));
 }
 
 f32 TWindowEffectLight::calc_scale() {
-    s16 frame = *(s16 *)((u8 *)this + 0x26);
+    s16 frame = this->age;
     return 0.5f * (f32)frame / 8.0f + 1.0f;
 }
 

@@ -528,12 +528,12 @@ void TWindowKeyBoardBase::insert_character(u16 code) {
     if (current_language == LANGUAGE_JAPANESE && code >= 0x80U && code < 0x100U) {
         return;
     }
-    if (!(*(u16 *)((s8 *)((u8 *)this) + 0x60) & 0x80) && *(u8 *)((s8 *)((u8 *)this) + 0x64) >= 1U) {
+    if (!(*(u16 *)((s8 *)((u8 *)this) + 0x60) & 0x80) && this->m_input_mode >= 1U) {
         sub_8025DBDC(1);
-        if (*(u8 *)((s8 *)((u8 *)this) + 0x64) == 2) {
+        if (this->m_input_mode == 2) {
             *(u16 *)((s8 *)((u8 *)this) + 0x60) |= 0x80;
         }
-        if (*(u8 *)((s8 *)((u8 *)this) + 0x64) == 3 && (*(u16 *)((s8 *)((u8 *)this) + 0x60) & 2)) {
+        if (this->m_input_mode == 3 && (*(u16 *)((s8 *)((u8 *)this) + 0x60) & 2)) {
             ((TWindowKeyBoardBase *)((u8 *)this))->commit_composition_text();
         }
     }
@@ -563,7 +563,7 @@ void TWindowKeyBoardBase::insert_character(u16 code) {
         *(u16 *)((s8 *)((u8 *)this) + 0x60) |= 2;
     }
     ((KeyboardTextBuffer *)(*(saddr *)((s8 *)((u8 *)this) + 0x68)))->insert_char(code);
-    if (*(u8 *)((s8 *)((u8 *)this) + 0x64) == 0 && !(*(u16 *)((s8 *)((u8 *)this) + 0x60) & 0x80)) {
+    if (this->m_input_mode == 0 && !(*(u16 *)((s8 *)((u8 *)this) + 0x60) & 0x80)) {
         sub_8025DBDC(0);
     }
 }

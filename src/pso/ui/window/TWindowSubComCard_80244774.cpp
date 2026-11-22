@@ -227,7 +227,7 @@ s32 TWindowBase::sub_80244994() {
     if (this->sub_80246948() != 0) {
         return 0;
     }
-    return (s32) ((u32) __cntlzw(*(s32 *)((s8 *)this + 0x2C) & 4) >> 5);
+    return (s32) ((u32) __cntlzw(this->window_flags & 4) >> 5);
 }
 #pragma pop
 
@@ -261,7 +261,7 @@ void TWindowBase::request_close() {
 }
 
 s32 TWindowBase::is_window_reveal_complete() {
-    return (f32) *(s32 *)((s8 *)((u8 *)this) + 0x5C) >= 7.5f;
+    return (f32) this->open_tick >= 7.5f;
 }
 saddr lbl_805D63F0;
 u16 window_ui_theme_index;
@@ -326,7 +326,7 @@ WindowDrawContext *TWindowBase::draw_default_entry() {
 
 void TWindowBase::set_depth(f32 farg0) {
     TWindowBase::sub_8026CC28();
-    *(f32 *)((s8 *)this + 0x1C) = farg0;
+    this->sort_depth = farg0;
     resort_window_order();
 }
 
@@ -583,8 +583,8 @@ void TWindowBase::draw_message_frame_row(void *q, void *r) {
     f32 t;
     f32 z;
     f32 w;
-    if (*(f32 *)((s8 *)((u8 *)this) + 0x48) < 64.0f) {
-        w = 0.5f * *(f32 *)((s8 *)((u8 *)this) + 0x48);
+    if (this->target_position[6] < 64.0f) {
+        w = 0.5f * this->target_position[6];
     } else {
         w = 32.0f;
     }
@@ -596,8 +596,8 @@ void TWindowBase::draw_message_frame_row(void *q, void *r) {
     ((TexturedQuad *)q)->x0 = ((Rect_802455CC *)r)->sx * (((TexturedQuad *)q)->x0 - ((Rect_802455CC *)r)->px) + ((Rect_802455CC *)r)->px;
     ((TexturedQuad *)q)->x1 = ((Rect_802455CC *)r)->sx * (((TexturedQuad *)q)->x1 - ((Rect_802455CC *)r)->px) + ((Rect_802455CC *)r)->px;
     draw_textured_quad_at_depth((f32 *)((TexturedQuad *)q), z);
-    ((TexturedQuad *)q)->x0 = (((Rect_802455CC *)r)->x + *(f32 *)((s8 *)((u8 *)this) + 0x48)) - w;
-    ((TexturedQuad *)q)->x1 = ((Rect_802455CC *)r)->x + *(f32 *)((s8 *)((u8 *)this) + 0x48);
+    ((TexturedQuad *)q)->x0 = (((Rect_802455CC *)r)->x + this->target_position[6]) - w;
+    ((TexturedQuad *)q)->x1 = ((Rect_802455CC *)r)->x + this->target_position[6];
     ((TexturedQuad *)q)->u0 = 0.6328125f;
     ((TexturedQuad *)q)->u1 = 0.7578125f;
     ((TexturedQuad *)q)->x0 = ((Rect_802455CC *)r)->sx * (((TexturedQuad *)q)->x0 - ((Rect_802455CC *)r)->px) + ((Rect_802455CC *)r)->px;
@@ -606,7 +606,7 @@ void TWindowBase::draw_message_frame_row(void *q, void *r) {
     ((TexturedQuad *)q)->x0 = 32.0f + ((Rect_802455CC *)r)->x;
     ((TexturedQuad *)q)->u0 = 0.5078125f;
     ((TexturedQuad *)q)->u1 = 0.6328125f;
-    rem = ((Rect_802455CC *)r)->sx * (*(f32 *)((s8 *)((u8 *)this) + 0x48) - 64.0f);
+    rem = ((Rect_802455CC *)r)->sx * (this->target_position[6] - 64.0f);
     ((TexturedQuad *)q)->x0 = ((Rect_802455CC *)r)->sx * (((TexturedQuad *)q)->x0 - ((Rect_802455CC *)r)->px) + ((Rect_802455CC *)r)->px;
     while (rem >= 0.0f) {
         if (rem < 32.0f) {
@@ -878,16 +878,16 @@ void TWindowBase::draw_window_frame(void *r) {
 void TWindowBase::update_fade() {
     u32 temp_r5;
 
-    temp_r5 = (*(u32 *)((u8 *)this + 0x50));
+    temp_r5 = this->tween_ticks;
     if (temp_r5 == 0) {
         ((TWindowBase *)this)->save_position();
         return;
     }
     *(f32 *)&(*(s32 *)((u8 *)this + 0x40)) += (*(f32 *)&(*(void * *)((u8 *)this + 0x30)) - *(f32 *)&(*(s32 *)((u8 *)this + 0x40))) / (f32) temp_r5;
-    *(f32 *)((s8 *)this + 0x44) += (*(f32 *)((s8 *)this + 0x34) - *(f32 *)((s8 *)this + 0x44)) / (f32) (*(u32 *)((u8 *)this + 0x50));
-    (*(f32 *)((u8 *)this + 0x48)) += ((*(f32 *)((u8 *)this + 0x38)) - (*(f32 *)((u8 *)this + 0x48))) / (f32) (*(u32 *)((u8 *)this + 0x50));
-    *(f32 *)((s8 *)this + 0x4C) += (*(f32 *)((s8 *)this + 0x3C) - *(f32 *)((s8 *)this + 0x4C)) / (f32) (*(u32 *)((u8 *)this + 0x50));
-    (*(u32 *)((u8 *)this + 0x50)) = (u32) ((*(u32 *)((u8 *)this + 0x50)) - 1);
+    this->target_position[5] += (this->target_position[1] - this->target_position[5]) / (f32) this->tween_ticks;
+    this->target_position[6] += (this->target_position[2] - this->target_position[6]) / (f32) this->tween_ticks;
+    this->target_position[7] += (this->target_position[3] - this->target_position[7]) / (f32) this->tween_ticks;
+    this->tween_ticks = (u32) (this->tween_ticks - 1);
 }
 
 extern "C" {
