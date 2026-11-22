@@ -173,8 +173,6 @@ public:
     // The viewport origin, which projected points are made view-relative by.
     static s32 get_viewport_y();
     static s32 get_viewport_x();
-    void copy_position_vectors(void *first, void *second);
-    void update_single_screen();
     static int get_mode();
     // The mode word at 0x1C of `p` (the main task).
     static s32 get_mode(void *p);
