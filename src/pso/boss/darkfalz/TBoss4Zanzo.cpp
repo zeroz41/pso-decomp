@@ -1052,7 +1052,7 @@ void TBoss4Type2::md_recover_update() {
         if (target_player != 0xFFFF) {
             player = get_player_by_client_id(target_player);
             if (player != 0) {
-                VecCopy(&pos, (Vec *)player->get_position_ptr());
+                VecCopy(&pos, player->get_position_ptr());
                 pos.y += 10.0f;
                 effect = spawn_particle_effect(&pos, 0x38);
                 if (effect != 0) {

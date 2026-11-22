@@ -2131,7 +2131,7 @@ void TObjPlayer::update_warp_relocation() {
                 this->play_sound_if_on_floor(0x40003206);
             }
             if (TObjPlayer::is_locally_controlled(this) != 0) {
-                calc_circle_offset_pos(this->rotation_y + 0x8000, (Vec *)this->get_position_ptr(), (Vec *)&sp8, 10.0f);
+                calc_circle_offset_pos(this->rotation_y + 0x8000, this->get_position_ptr(), (Vec *)&sp8, 10.0f);
                 TNpcPlayer::send_6x3e_to_all_players(&sp8, this->rotation_y);
                 reset_cameras_to_actor(this, 1);
             }
@@ -3902,7 +3902,7 @@ void TObjPlayer::enter_photon_blast_action() {
         *(s32 *)(arg0 + 0x3F0) = *(s32 *)(arg0 + 0x60);
     } else {
         slot = (Slot_801CC558 *)((TObjPlayer *)(arg0 + 0x744))->get_field4_ptr();
-        *(s32 *)(arg0 + 0x3F0) = calc_angle_to((Vec *)(((TObjPlayer *)arg0)->get_position_ptr()), (Vec *)slot);
+        *(s32 *)(arg0 + 0x3F0) = calc_angle_to(((TObjPlayer *)arg0)->get_position_ptr(), (Vec *)slot);
     }
     ((s32 (*)(void *, s32))obj_setFlags30)(arg0, 0x400000);
     clear_velocity(arg0);
@@ -4323,7 +4323,7 @@ void TObjPlayer::enter_technique_cast() {
             td->target = 0xFFFF;
         } else {
             ((void (*)(void *, void *))copy_position__10TObjPlayerFPv)(self->f744, o->nodes[td->node].pos);
-            self->f3f0 = calc_angle_to((Vec *)(((TObjPlayer *)self)->get_position_ptr()), (Vec *)((TObjPlayer *)(self->f744))->get_field4_ptr());
+            self->f3f0 = calc_angle_to(((TObjPlayer *)self)->get_position_ptr(), (Vec *)((TObjPlayer *)(self->f744))->get_field4_ptr());
         }
     }
     obj_setFlags30(self, 0x400000);
@@ -5158,7 +5158,7 @@ void TObjPlayer::request_normal_attack_stage1() {
     s32 var_r4;
     if ((reset_volopt_state__10TObjPlayerFv(arg0) != 0) && (((u32 (*)(void *, void *))capture_lockon_targets)((void *) (arg0 + 0x7CC), (void *) (arg0)) != 0U)) {
         if (((s32 (*)(void *, void *))get_first_target_position__10TObjPlayerFPvPv)((void *) (arg0 + 0x7CC), (void *) (&sp10)) != 0) {
-            var_r4 = calc_angle_to((Vec *)(((TObjPlayer *)arg0)->get_position_ptr()), (Vec *)sp10);
+            var_r4 = calc_angle_to(((TObjPlayer *)arg0)->get_position_ptr(), (Vec *)sp10);
         } else {
             var_r4 = ((TObjPlayer *)arg0)->rotation_y;
         }
@@ -5273,7 +5273,7 @@ void TObjPlayer::update_run_movement() {
     s32 ang;
     f32 dist;
     Plr_801CF56C *self = (Plr_801CF56C *)this;
-    self->target_rot = calc_angle_to((Vec *)(((TObjPlayer *)self)->get_position_ptr()), (Vec *)&self->tx);
+    self->target_rot = calc_angle_to(((TObjPlayer *)self)->get_position_ptr(), (Vec *)&self->tx);
     self->rot = approach_angle_adaptive(self->rot, self->target_rot);
     ang = lerp_angle_half__Fll(self->rot, self->target_rot);
     self->vx = TObjPlayer__sub_801BF814(self->motion) * sin_table_lookup(ang);
@@ -5549,7 +5549,7 @@ void TObjPlayer::update_walk_movement() {
     s32 ang;
     f32 dist;
     Plr_801CFDF8 *self = (Plr_801CFDF8 *)this;
-    self->target_rot = calc_angle_to((Vec *)(((TObjPlayer *)self)->get_position_ptr()), (Vec *)&self->tx);
+    self->target_rot = calc_angle_to(((TObjPlayer *)self)->get_position_ptr(), (Vec *)&self->tx);
     self->rot = approach_angle_adaptive(self->rot, self->target_rot);
     ang = lerp_angle_half__Fll(self->rot, self->target_rot);
     self->vx = TObjPlayer__sub_801BF814(self->motion) * sin_table_lookup(ang);

@@ -92,7 +92,7 @@ void *TPlyPtclObjectLeftHand::get_center() {
     if (player == NULL) {
         return NULL;
     }
-    player->get_anim_node_position(0x23, (Vec *)((TObjPlayer *)this)->get_position_ptr());
+    player->get_anim_node_position(0x23, ((TObjPlayer *)this)->get_position_ptr());
     return ((TObjPlayer *)this)->get_position_ptr();
 }
 
@@ -108,7 +108,7 @@ void *TPlyPtclObjectRightHand::get_center() {
     if (player == NULL) {
         return NULL;
     }
-    player->get_anim_node_position(0x30, (Vec *)((TObjPlayer *)this)->get_position_ptr());
+    player->get_anim_node_position(0x30, ((TObjPlayer *)this)->get_position_ptr());
     return ((TObjPlayer *)this)->get_position_ptr();
 }
 

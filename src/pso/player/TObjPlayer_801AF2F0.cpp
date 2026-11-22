@@ -3530,7 +3530,7 @@ void TObjPlayer::close_sub_window() {
 void handle_6x99(void) {  }
 
 u8 *TObjPlayer::update_actor_ground_y() {
-    return update_actor_ground_y_at((Vec *)get_position_ptr());
+    return update_actor_ground_y_at(get_position_ptr());
 }
 
 u8 *TObjPlayer::update_actor_ground_y_at(Vec *pos) {

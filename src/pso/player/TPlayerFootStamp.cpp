@@ -209,7 +209,7 @@ TPlayerFootStamp::TPlayerFootStamp(TObjPlayer *player, s32 side) : TObject(tl_07
 
         // TObjBase::get_rotation returns &rotation_x of any TObjBase.
         rotation = (s32 *)((TObjBase *)player)->get_rotation();
-        VecCopy(&position, (Vec *)player->get_position_ptr());
+        VecCopy(&position, player->get_position_ptr());
         position.y += 5.0f;
         ground = csnVecterUnder(&position, 0x16EF);
         if (ground == NULL) {
