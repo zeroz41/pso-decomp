@@ -17820,14 +17820,14 @@ force_active:
   - adx_stream_ring_buffer
   - adx_stream_ring_buffer_storage
   - calc_segment_xz_distance_sq
-  - check_line_hits_walls__10TObjPlayerFPvPviPv
+  - check_line_hits_walls
   - check_phase_e
   - copy_wall_polygon__10TObjPlayerFPUc
   - evaluate_ground_triangles__FP3VecUlPP8CsnGroup
   - intersect_wall_triangle_one_sided
   - music_stream_afs_filename_buffer
   - prepare_wall_query_polygons__FPvfl
-  - query_wall_segment__FPvPvPvl
+  - query_wall_segment__FP3VecP3VecUlP10CsnContact
   - refill_csn_candidate_cache
   - select_deepest_wall_ray
   - select_ground_query_groups
