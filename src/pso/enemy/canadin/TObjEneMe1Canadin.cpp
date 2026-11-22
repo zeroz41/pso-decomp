@@ -73,7 +73,6 @@ void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
 f32 subtract_vector(void *, void *);
 void TObjEneEpsilon__sub_800B92F8(u8 *arg0, s32 arg1, f32 farg0);
 u32 __cvt_fp2unsigned(f32);
-s32 pack_debug_text_position(s32 arg0, s32 arg1);
 
 
 struct CanadinBehaviorParams {
@@ -212,8 +211,6 @@ f32 newton_sqrtf(f32);
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 void TObjEneEpsilon__sub_800B92AC(u8 *arg0, s32 arg1, f32 farg0);
 int select_and_apply_target__12TObjEneDD_STFf(void*);
-void TObjEneDD__sub_800BA5A4(void *, void *, void *);
-s32 is_player_entity_id(u16 arg0);
 void set_part_position__9TObjEneDDFPvPvi(void *, s32, s32);
 s32 collect_enemy_target_candidates(void *, Entry_8009E860 *);
 void TBoss3Volopt__sub_800D8D88(saddr arg0);
@@ -228,7 +225,6 @@ s32 *lbl_805D4FE4;
 s32 *lbl_805D4FE8;
 s32 *lbl_805D4FEC;
 s32 *lbl_805D4FF0;
-int is_target_android(void *p);
 
 TObjEneMe1CanadinMovement canadin_setup_param_block = { 225.0f, 0.0f, 0x600, 0, 0, 0, 0 };
 CollisionBody lbl_8048FECC = { { 0.0f, 0.0f, 0.0f }, 8.0f, 0.0f, 0, 0x8003 };
@@ -1749,7 +1745,7 @@ void TObjEneMe1Canadin::fn_8009C2EC(s32 arg1) {
             CanadinBehaviorParams c = canadin_projectile_param_block;
             TObjEneMe1CanadinParams *t = self->m_468;
             c.m_4 = t->m_8;
-            TObjEneDD__sub_800BA5A4(self, &c, t);
+            TObjEneDD__sub_800BA5A4(self, &c);
             self->m_3C8 |= 0x800000;
         }
         if (self->m_470 % 10 < 5) {

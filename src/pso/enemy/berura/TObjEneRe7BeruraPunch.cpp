@@ -1,7 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/enemy/berura/TObjEneRe7BeruraPunch.h"
-#include "pso/enemy/dd/TObjEneDD_800BA138.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
@@ -22,21 +21,19 @@
 
 extern "C" {
 
-s32 is_player_entity_id();
 u16 get_entity_id(void *);
 
 int TObjEneRe7BeruraPunch::is_patrol_active() { return (*(u32 *)&this->owner_id >> 2) & 0x1; }
 
 void TObjEneRe7BeruraPunch::apply_hit_if_active(void *target, f32 *hit) {
-    saddr entity;
+    TObjChara *entity;
 
     TUnk_804928CC::apply_hit_if_active(target, hit);
     if (TObjEneDD::check_v2_mode() != 0) {
-        get_entity_id((void *)target);
-        if (is_player_entity_id() != 0) {
-            entity = (saddr)find_entity_by_id(this->owner_id);
-            if ((entity != 0) && (((TObjChara *)entity)->random_ratio() < 0.1f)) {
-                TObjEneDD__sub_800BA438(entity, (u8 *)target);
+        if (is_player_entity_id(get_entity_id(target)) != 0) {
+            entity = (TObjChara *)find_entity_by_id(this->owner_id);
+            if ((entity != NULL) && (entity->random_ratio() < 0.1f)) {
+                TObjEneDD__sub_800BA438(entity, (TObjChara *)target);
             }
         }
     }

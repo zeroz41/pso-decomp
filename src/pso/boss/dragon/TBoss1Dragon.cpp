@@ -221,7 +221,6 @@ void TBoss1Dragon__sub_80028B28(TBoss1Dragon *arg0);
 u8 *TBoss1Dragon__ct(TBoss1Dragon *, void *, void *);
 extern saddr tl_04;
 extern saddr tl_02;
-void project_sound_origin_from_camera(saddr arg0, u8 *arg1, f32 farg0);
 extern s32 TBoss1Dragon__data_805D4B38;
 extern s32 local_client_id;
 void run_task__12TBoss1DragonFv(u8 *arg0);
@@ -581,8 +580,6 @@ f32 calc_random_ratio__10TObjPlayerFv(void *);
 void get_dragon_follow_camera_offsets(u8 *arg0, u8 *arg1);
 s32 is_dragon_trail_damaging(u8 *arg0);
 
-void set_collider_contact_low(u8 *arg0);
-void set_collider_contact_high(u8 *arg0);
 void handle_6x12_dragon_boss_actions(TObjPlayer *arg0);
 void handle_6x11_dragon_boss_actions(void *arg0);
 void handle_6x10_dragon_boss_actions(void *arg0);

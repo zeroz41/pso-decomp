@@ -88,7 +88,6 @@ void obj_setFlags30(void *, s32);
 u32 csnLookAt(void *, void *);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
 s32 TObjPlayer__sub_800A04F0(void *);
-s32 pack_debug_text_position(s32, s32);
 s32 attack_target_history_add(saddr object, saddr target);
 void fn_800D8830(void *owner, void *pos);
 f32 horizontal_distance_squared(void *, void *);

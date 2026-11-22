@@ -187,8 +187,6 @@ extern "C" {
 s32 rotate_xz_pair_by_angle(f32 *, f32 *, s32, f32, f32);
 void check_enemy_body_collisions(void *arg0);
 s32 attack_target_history_add(saddr, TObjPlayer *);
-s32 is_player_entity_id(u16);
-void TObjEneDD__sub_800BA438(s32 arg0, u8 *arg1);
 }
 
 
@@ -512,7 +510,7 @@ s32 TObjEneDf2Bringer::sub_80099248() {
                             }
                         }
                     } else if (random_ratio() <= 0.3333f) {
-                        TObjEneDD__sub_800BA438((saddr)this, (u8 *)player);
+                        TObjEneDD__sub_800BA438(this, player);
                     }
                 }
                 eff = (u8 *)TObject::operator new(0x34);

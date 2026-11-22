@@ -58,14 +58,12 @@ extern "C" void test_flag_256__9TObjCharaFv();
 // The motion-binding block TLobby::spawn_npc_enemy takes (same layout as GeeAnimationBinding).
 
 extern "C" {
-s32 pack_debug_text_position(s32, s32);
 s32 debug_draw_line(void *, void *, u32, u32);
 s32 scale_matrix(s32, f32, f32, f32);
 s32 translate_matrix(saddr, f32, f32, f32);
 s32 post_translate_matrix(void *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 void render_debug__16TObjEneBm5GibonUFv(u8 *arg0);
-void TObjEneDD__sub_800BA378(s32 arg0, u8 *arg1);
 s32 TObjEneBm5GibonU__sub_800D0968(TObjEneBm5GibonU *self, int);
 s32 approach_angle_limited(s32, s32, s32);
 extern const s32 lbl_8043BF30[];
@@ -453,7 +451,7 @@ s32 fn_800D88E4(void *);
 void TObjEneBm5GibonU__sub_800D02F8(TObjEneBm5GibonU *self, s32 arg1);
 void TObjEneBm5GibonU__sub_800CFE30(TObjEneBm5GibonU *self, s32 arg1);
 void TObjEneBm5GibonU__sub_800CFA48(TObjEneBm5GibonU *self, s32 arg1);
-s32 TBoss8Dragon__sub_800BB7D4(void *, int);
+void TBoss8Dragon__sub_800BB7D4(void *self, int id);
 s32 is_split_screen();
 s32 draw_blob_shadow(s32);
 s32 rotate_matrix_z(s32, s32);
@@ -1392,9 +1390,9 @@ void TObjEneBm5GibonU__sub_800CEBD8(TObjEneBm5GibonU *self, s32 arg1) {
                         self->m_564 = 1;
                         if ((TObjEneDD::check_v2_mode() != 0) && (self->random_ratio() <= 0.1f)) {
                             if ((s32) self->m_464 != 0) {
-                                TObjEneDD__sub_800BA378((saddr)self, (u8 *)self->current_target);
+                                TObjEneDD__sub_800BA378(self, self->current_target);
                             } else {
-                                TObjEneDD::send_damage_message((saddr)self, (u8 *)self->current_target);
+                                TObjEneDD::send_damage_message(self, self->current_target);
                             }
                         }
                     }

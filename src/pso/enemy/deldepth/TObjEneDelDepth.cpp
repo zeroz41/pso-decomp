@@ -61,8 +61,7 @@ void minimap_render_dot(void *, s32, s32, s32);
 f32 fabs_float(f32);
 
 s32 obj_is_hit_receivable(void *);
-s32 get_entity_id(void *);
-s32 is_player_entity_id(s32);
+u16 get_entity_id(void *);
 
 extern CollisionBody TObjEneDelDepth_collision_body_parts[];
 extern s32 actor_frame_tick;

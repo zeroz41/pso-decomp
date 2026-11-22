@@ -8,7 +8,6 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
-#include "pso/enemy/dd/TObjEneDD_800BA754.h"
 #include "pso/system/vector.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/render/render_util.h"
@@ -26,10 +25,10 @@
 const char *TObjEneDD__name = "TObjEneDD";
 const char *TObjEneDD_ST__name = "TObjEneDD_ST";
 extern "C" {
-u16 enemy_find_nearest_player_in_range(u8 *self, f32 range);
 u16 get_entity_id(void *);
 u32 csnLookAt(void *, void *);
 void *get_player_by_client_id(s32 i);
+void TBoss8Dragon__sub_800BB7D4(void *self, int id);
 }
 
 #include "pso/enemy/dd/TObjEneDD_800BABA4.h"
@@ -58,7 +57,6 @@ extern saddr lbl_805D555C;
 extern saddr current_scene_light;
 }
 
-#include "pso/enemy/dd/TObjEneDD_800B9B84.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 
@@ -97,40 +95,10 @@ struct Part_800BA084 { u8 pad[0x2c]; };
 struct Obj_800BA084 { u8 pad[0xa4]; Part_800BA084 *parts; s32 count; };
 
 
-#include "pso/enemy/dd/TObjEneDD_800BA138.h"
 #include "pso/player/TUnk_804928CC.h"
 
 
 #include <stddef.h>
-struct VBase_18_0c879f { char pad[0x18]; };
-struct VObj_18_0c879f : VBase_18_0c879f {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual s32 m21(s32, s32 *, s32, s32, s32);
-};
-struct Stack_800BA318 {
-    s32 sp8;
-    f32 spC;
-};
 struct E_800BA1C8 { u8 pad[0x18]; u32 flags; u8 pad2[0x10]; };
 struct O_800BA1C8 { u8 pad[0xa4]; E_800BA1C8 *entries; s32 count; };
 struct E_800BA190 { u8 pad[0x18]; u32 flags; u8 pad2[0x10]; };
@@ -185,10 +153,6 @@ u8 * obj_ene_dd_instance;
 struct E_800BA8A8 { u8 pad[0x18]; u32 flags; u8 pad2[0x10]; };
 struct O_800BA8A8 { u8 pad[0xa4]; E_800BA8A8 *entries; s32 count; };
 
-int TObjEneDD__sub_800BA804(u16 arg0);
-void set_collider_contact_low(u8 *arg0);
-void set_collider_contact_high(u8 *arg0);
-void update_collider_contact_by_height(u8 *arg0, f32 farg0);
 
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
@@ -329,7 +293,6 @@ CsnHit *csnVector(const Vec *from, const Vec *to, u32 mask);
 s32 VecCopy__FP3VecPC3Vec(void *, void *, s32);
 }
 
-#include "pso/boss/goldragon/TBoss8Dragon_800BB650.h"
 
 
 struct Ent_800BB484 { s16 id; f32 dist; };
@@ -648,11 +611,11 @@ void TObjEneDD::init_common_from(u8 *arg1) {
 
 int TObjEnemy::submit_default_cursor_candidate() { return submit_cursor_candidate(this, -1); }
 
-void TBoss8Dragon__sub_800BB7DC(void) {  }
+void TBoss8Dragon__sub_800BB7DC(void *self) {  }
 
-void TBoss8Dragon__sub_800BB7D8(void) {  }
+void TBoss8Dragon__sub_800BB7D8(void *self, s32 id, f32 scale) {  }
 
-void TBoss8Dragon__sub_800BB7D4(void) {  }
+void TBoss8Dragon__sub_800BB7D4(void *self, int id) {  }
 
 void TBoss8Dragon::noop() {  }
 
@@ -1181,32 +1144,24 @@ void TObjEneDD::emit_effect(void *p, saddr pos, saddr params) { TObjEneDD::emit_
 
 void TObjEneDD::emit_effect_at_position(void* a1) { TObjEneDD::emit_enemy_effect(this, (char*)this + 0x38, (u8 *)a1, (void*)0); }
 
-void TObjEneDD__sub_800BA438(s32 arg0, u8 *arg1) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800BA318, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_800BA318, spC) == 0x4);
-    Stack_800BA318 stack = {0x12, 1.0f};
-    ((VObj_18_0c879f *)(arg1))->m21(arg0, &stack.sp8, 0, -1, -1);
+void TObjEneDD__sub_800BA438(TObjChara *attacker, TObjChara *target) {
+    DirectAttackPayload attack = {0x12, 1.0f};
+    target->receive_direct_attack(attacker, attack, NULL, -1, -1);
 }
 
-void TObjEneDD::inflict_poison(s32 arg0, u8 *arg1) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800BA318, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_800BA318, spC) == 0x4);
-    Stack_800BA318 stack = {0xF, 1.0f};
-    ((VObj_18_0c879f *)(arg1))->m21(arg0, &stack.sp8, 0, -1, -1);
+void TObjEneDD::inflict_poison(TObjChara *attacker, TObjChara *target) {
+    DirectAttackPayload attack = {0xF, 1.0f};
+    target->receive_direct_attack(attacker, attack, NULL, -1, -1);
 }
 
-void TObjEneDD__sub_800BA378(s32 arg0, u8 *arg1) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800BA318, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_800BA318, spC) == 0x4);
-    Stack_800BA318 stack = {0x10, 1.0f};
-    ((VObj_18_0c879f *)(arg1))->m21(arg0, &stack.sp8, 0, -1, -1);
+void TObjEneDD__sub_800BA378(TObjChara *attacker, TObjChara *target) {
+    DirectAttackPayload attack = {0x10, 1.0f};
+    target->receive_direct_attack(attacker, attack, NULL, -1, -1);
 }
 
-void TObjEneDD::send_damage_message(s32 arg0, u8 *arg1) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800BA318, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_800BA318, spC) == 0x4);
-    Stack_800BA318 stack = {0x11, 1.0f};
-    ((VObj_18_0c879f *)(arg1))->m21(arg0, &stack.sp8, 0, -1, -1);
+void TObjEneDD::send_damage_message(TObjChara *attacker, TObjChara *target) {
+    DirectAttackPayload attack = {0x11, 1.0f};
+    target->receive_direct_attack(attacker, attack, NULL, -1, -1);
 }
 
 void TObjEneDD::set_state_flag_1() { add_flags_2e4(1); }

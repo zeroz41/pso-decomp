@@ -475,8 +475,6 @@ struct VObj_18_414afc : VBase_18_414afc {
 extern "C" {
 f32 normalize_vector_xz__FP3Vec(void *, s32);
 void TObjEneRecon__sub_8031C624(u8 *arg0, s32 arg1);
-void TBoss8Dragon__sub_800BB7D8(void *, int, f32);
-void TBoss8Dragon__sub_800BB7DC(void *);
 s32 project_actor_to_ground(void *, void *, void *);
 void TObjEneRecon__sub_8031C364(u8 *arg0, s32 arg1);
 

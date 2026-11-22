@@ -190,10 +190,8 @@ typedef struct VObj_18_880cfd VObj_18_880cfd;
 extern "C" {
 extern const f32 lbl_805D9FF0;
 f32 atan2_float(f32 y, f32 x);
-u16 enemy_find_nearest_player_in_range(u8 *self, f32 range);
 }
 
-s32 tick_period_counter(s32 arg0, s32 *arg1, s32 arg2);
 extern "C" {
 s32 angle_difference_abs(s32 a, s32 b);
 s32 approach_angle_limited(s32 from, s32 to, s32 max_step);
@@ -227,7 +225,7 @@ extern char lbl_8043BB50[];
 extern char lbl_8043BB64[];
 void TObjEneRe2Flower__sub_800C2E64(void *, s32);
 f32 horizontal_distance_squared(void *, void *);
-int TBoss8Dragon__sub_800BB7D4(void *, void *);
+void TBoss8Dragon__sub_800BB7D4(void *self, int id);
 }
 
 extern const f32 lbl_805D9FBC; // 5.0
@@ -543,7 +541,7 @@ s32 TObjEneRe2Flower::check_hit_flag() {
 
 void TObjEneRe2Flower::begin_state_242() {
     if (m_3d4 == 0) {
-        TBoss8Dragon__sub_800BB7D4(this, (void *)242);
+        TBoss8Dragon__sub_800BB7D4(this, 0xF2);
         m_3d4 = 20;
     }
 }

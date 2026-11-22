@@ -36,8 +36,6 @@ extern "C" {
 void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
-s32 TBoss8Dragon__sub_800BB7DC(void *);
-s32 TBoss8Dragon__sub_800BB7D8(void *, s32, f32);
 s32 post_translate_matrix(void *);
 u8 * bm3_fly_boss_stat_handle;
 AttackParams * TObjEneBm3Fly__attack_params;
@@ -782,7 +780,7 @@ void TObjEneBm3Fly::execute_action(s32 arg1) {
                     this->current_target->receive_physical_attack(this, (1.0f));
                     this->current_target->apply_knockback_from_attacker((u8 *)this, (3.0f));
                     if ((TObjEneDD::check_v2_mode() != 0) && (this->random_ratio() < (0.05f))) {
-                        TObjEneDD::inflict_poison((saddr)this, (u8 *)this->current_target);
+                        TObjEneDD::inflict_poison(this, this->current_target);
                     }
                 }
                 play_sound_effect(this->remap_sound_for_area(0x4003A524), &this->position, 0, 0);
@@ -996,7 +994,7 @@ void action__13TObjEneBm3FlyFPvi(TObjEneBm3Fly *child, s32 arg1) {
             nest->remove_child((u8 *)child);
         }
         TBoss8Dragon__sub_800BB7DC(child);
-        TBoss8Dragon__sub_800BB7D8(child, 0xF1, (1.0f));
+        TBoss8Dragon__sub_800BB7D8(child, 0xF1, 1.0f);
         play_sound_effect(child->remap_sound_for_area(0x4003E425), &child->position, 0, 0);
         TBoss3Volopt::create_breakup_mdl((saddr)TObjEneBm3Fly__breakup_model, (saddr)&bm3_fly_breakup_params, child->texlist, (saddr)&child->body_center, child->rotation_y);
         child->m_3c0 = 0;

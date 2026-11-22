@@ -17,7 +17,6 @@ struct NJS_OBJECT;
 #include "pso/unk/text_803E2F28.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/enemy/dd/TObjEneDD_800BA138.h"
 #include "pso/enemy/dd/TObjEneDD_800C2614.h"
 #include "pso/unk/text_800C3A60.h"
 #include "pso/system/vector.h"

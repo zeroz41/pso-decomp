@@ -103,7 +103,6 @@ u16 get_entity_id(int);
 s32 check_move_collision__18TObjEneMe3SinowZoaFPvPv(TObjEneMe3SinowZoa *self, const Vec *pos);
 f32 fabs_float(f32);
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
-void TObjEneDD__sub_800BA438(void *, void *);
 s32 TObjEneMe3SinowZoa__sub_800D72A4(TUnk_80494938 *fade);
 s32 TBoss3Volopt__sub_800D8D88(void *, f32);
 f32 * TBoss3Volopt__sub_800F059C(void *);

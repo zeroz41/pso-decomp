@@ -105,7 +105,7 @@ __declspec(section ".data") u8 *wolf_stat_handle_b_table[2];
 __declspec(section ".data") s32 lbl_80500B58[2];
 s32 is_vec_xz_cross_negative(void *, void *);
 f32 calc_circle_offset__14TObjEneBm5WolfFPvPvPv(TObjEneBm5Wolf *wolf, Vec *target, Vec *out);
-s32 TBoss8Dragon__sub_800BB7D4(void *, int);
+void TBoss8Dragon__sub_800BB7D4(void *self, int id);
 void draw_blob_shadow(s32 arg0);
 s32 scale_matrix(s32, f32, f32, f32);
 s32 rotate_matrix_z(s32, s32);
@@ -116,8 +116,6 @@ s32 TObjEneBm5Wolf__data_805D5128;
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
 s32 vec3_add_to(void *, void *);
-void TObjEneDD__sub_800BA378(s32 arg0, u8 *arg1);
-s32 pack_debug_text_position(s32 arg0, s32 arg1);
 s32 debug_draw_line(void *, void *, int, int);
 typedef void (*State_800B73A8)(u8 *, s32);
 }
@@ -1493,9 +1491,9 @@ void TObjEneBm5Wolf::update_lunge(s32 arg1) {
                         this->nearTarget = 1;
                         if ((TObjEneDD::check_v2_mode() != 0) && (this->random_ratio() <= 0.1f)) {
                             if (this->m_3d8 != 0) {
-                                TObjEneDD__sub_800BA378((saddr)this, (u8 *)this->current_target);
+                                TObjEneDD__sub_800BA378(this, this->current_target);
                             } else {
-                                TObjEneDD::send_damage_message((saddr)this, (u8 *)this->current_target);
+                                TObjEneDD::send_damage_message(this, this->current_target);
                             }
                         }
                     }

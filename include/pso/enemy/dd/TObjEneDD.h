@@ -65,8 +65,8 @@ struct TObjEneDD : public TObjEnemy {
     void set_state_flag_4();
     void set_state_flag_2();
     void set_state_flag_1();
-    static void send_damage_message(s32 arg0, u8 *arg1);
-    static void inflict_poison(s32 arg0, u8 *arg1);
+    static void send_damage_message(TObjChara *attacker, TObjChara *target);
+    static void inflict_poison(TObjChara *attacker, TObjChara *target);
     void emit_effect_at_position(void* a1);
     static void emit_effect(void *p, saddr pos, saddr params);
     static void emit_enemy_effect(void *arg0, void *arg1, u8 *arg2, void *arg3);
@@ -111,6 +111,25 @@ void forward_split_screen_view_matrix();
 void forward_transform_to_view(const Vec *in, Vec *out);
 s32 is_target_unobstructed_from(TObjEneDD *self, TObjChara *target);
 u16 enemy_nearest_visible_enemy(void *self, f32 range);
+u16 enemy_find_nearest_player_in_range(u8 *self, f32 range);
+s32 is_player_entity_id(u16 id);
+int TObjEneDD__sub_800BA804(u16 id);
+s32 pack_debug_text_position(s32 x, s32 y);
+void project_sound_origin_from_camera(saddr arg0, u8 *arg1, f32 farg0);
+void TObjEneDD__sub_800BA378(TObjChara *attacker, TObjChara *target);
+void TObjEneDD__sub_800BA438(TObjChara *attacker, TObjChara *target);
+void TObjEneDD__sub_800BA5A4(void *p, void *a1);
+int is_target_android(void *p);
+int is_target_ranger(void *p);
+void TBoss8Dragon__sub_800BB650(void *p, void *q);
+void TBoss8Dragon__sub_800BB7D8(void *self, s32 id, f32 scale);
+void TBoss8Dragon__sub_800BB7DC(void *self);
 }
+
+void set_collider_contact_high(u8 *arg0);
+void set_collider_contact_low(u8 *arg0);
+void update_collider_contact_by_height(u8 *arg0, f32 farg0);
+u16 enemy_nearest_visible_player_sq(u8 *arg0, f32 farg0);
+s32 tick_period_counter(s32 arg0, s32 *arg1, s32 arg2);
 
 #endif

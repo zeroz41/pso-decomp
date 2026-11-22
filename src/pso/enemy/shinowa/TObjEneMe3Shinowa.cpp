@@ -63,7 +63,6 @@
 
 #pragma defer_codegen on
 extern "C" {
-s32 is_player_entity_id(u16);
 void fn_800E762C(TObjEneMe3Shinowa *);
 u16 TObjEneMe3ShinowaReal__sub_800E45CC(TObjEneMe3Shinowa *shinowa);
 extern s32 model_render_flags;
@@ -89,7 +88,6 @@ struct Tbl_800E7884 { u8 pad[0xC]; u8 *t[3][2]; };
 void calc_wall_clamped_destination(void *arg0, void *arg1, f32 dx, f32 dz, f32 dist);
 void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 farg0);
 extern "C" {
-void TObjEneDD__sub_800BA438(s32 arg0, u8 *arg1);
 s32 TBoss3Volopt__sub_800D8D88(void *, f32);
 void TObjEneMe3ShinowaMirage__sub_800E4FE8(TObjEneMe3Shinowa *shinowa, s32 arg1);
 void TObjEneMe3ShinowaMirage__sub_800E50D8(TObjEneMe3Shinowa *shinowa, s32 arg1);
@@ -477,7 +475,7 @@ void TObjEneMe3Shinowa::vfunc_105() {
                 current_target->receive_physical_attack(this, 1.0f);
                 current_target->apply_knockback_from_attacker((u8 *)this, 3.0f);
                 if ((temp_r31 != 0) && (random_ratio() <= 0.1666f)) {
-                    TObjEneDD__sub_800BA438((saddr)this, (u8 *)current_target);
+                    TObjEneDD__sub_800BA438(this, current_target);
                 }
             }
         }

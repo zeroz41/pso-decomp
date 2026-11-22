@@ -137,7 +137,6 @@ extern s32 model_render_flags;
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
 s32 collect_enemy_target_candidates(void *, TargetCandidate *, f32);
-s32 pack_debug_text_position(s32, s32);
 
 void TBoss3Volopt__sub_800D8D88(saddr);
 

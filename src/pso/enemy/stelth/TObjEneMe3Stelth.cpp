@@ -129,7 +129,6 @@ void TObjEneMe3Stelth__sub_800F3214(TObjEneMe3Stelth *stelth, s32 arg1);
 
 
 f32 fabs_float(f32);
-void TObjEneDD__sub_800BA438(void *, void *);
 
 
 extern void *lbl_80497710[2];

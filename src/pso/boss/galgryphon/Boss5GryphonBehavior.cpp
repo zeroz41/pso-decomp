@@ -194,7 +194,6 @@ extern "C" {
 int VecCopy__FP3VecPC3Vec(void*, void*);
 s32 get_flag_bit6__13TBoss5GryphonFv();
 void TBoss8Dragon__sub_8005FB90(u8 *arg0);
-void project_sound_origin_from_camera(saddr arg0, u8 *arg1, f32 farg0);
 extern const f32 lbl_805D8DAC;
 void run_task__13TBoss5GryphonFv(u8 *arg0);
 s32 fill_value_array(int);
@@ -4357,8 +4356,6 @@ void TBoss8Dragon::copy_action_state(u8 *arg1) {
     *(ByteBlock_10 *)((saddr) (u8 *)&this->m_flags) = *(const ByteBlock_10 *)((saddr) arg1 + 4);
 }
 }
-void set_collider_contact_low(u8 *arg0);
-void set_collider_contact_high(u8 *arg0);
 void handle_6xA0_gal_gryphon_boss_actions(TBoss8Dragon *arg0);
 void handle_6x9F_gal_gryphon_boss_actions(void *arg0);
 #pragma pop

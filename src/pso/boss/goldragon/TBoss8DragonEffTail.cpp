@@ -4,7 +4,6 @@
 #include "pso/boss/dragon/ObjBoss1CommonJResource.h"
 #include "pso/boss/dragon/TBoss1DragonColli.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
-#include "pso/enemy/dd/TObjEneDD_800BA754.h"
 #include "pso/system/vector.h"
 #include "pso/player/TUnk_804928CC.h"
 #include "pso/boss/goldragon/TBoss8DragonEffTail.h"

@@ -690,7 +690,6 @@ void assign_slots_from_list(void *arg0, saddr arg1);
 
 
 
-void project_sound_origin_from_camera(saddr arg0, u8 *arg1, f32 farg0);
 
 
 u8 *get_enemy_entity(u16 arg0);

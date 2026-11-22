@@ -56,17 +56,15 @@ extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
 struct Sub_800ACA10 { u8 pad[0x18]; s32 level; };
 
-s32 tick_period_counter(s32 arg0, s32 *arg1, s32 arg2);
 extern "C" {
 extern s32 game_difficulty_selection;
 void vec3_add_to(Vec *dst, const Vec *src);
-void TBoss8Dragon__sub_800BB7D4(TObjEneBm9Mericarol *self, s32 arg1);
+void TBoss8Dragon__sub_800BB7D4(void *self, int id);
 s32 approach_angle_limited(s32 from, s32 to, s32 max_step);
 s32 angle_difference_abs(s32 a, s32 b);
 void fn_802CE510(TObjEneBm9Mericarol *owner);
 s32 attack_target_history_add(AreaAttackHistory *history, TObjChara *target);
 void create__9TTecKafunFllllllff(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, f32 farg0, f32 farg1);
-u16 enemy_find_nearest_player_in_range(u8 *self, f32 range);
 }
 
 // The motion-binding block TLobby::spawn_npc_enemy takes (same layout as

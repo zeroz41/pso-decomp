@@ -8,7 +8,6 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
-#include "pso/enemy/dd/TObjEneDD_800BA138.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_800F0810.h"

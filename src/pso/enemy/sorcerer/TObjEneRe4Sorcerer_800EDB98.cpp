@@ -145,7 +145,6 @@ s32 *csnLookAt(s32 arg0, s32 arg1);
 
 
 
-int is_target_ranger(void *p);
 
 f32 horizontal_distance_squared(void *, void *);
 
@@ -158,7 +157,6 @@ void *__dt__13TUnk_80490470Fv(void *arg0, s16 arg1);
 
 void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
 
-int TObjEneDD__sub_800BA804(u16 arg0);
 
 
 
@@ -196,7 +194,6 @@ void TBoss3Volopt__sub_800F059C(void);
 
 void calc_wall_clamped_destination(void *arg0, void *arg1, f32 dx, f32 dz, f32 dist);
 
-s32 tick_period_counter(s32 arg0, s32 *arg1, s32 arg2);
 
 void *destroy_buffer_pair(void *arg0, s16 arg1);
 extern "C" {

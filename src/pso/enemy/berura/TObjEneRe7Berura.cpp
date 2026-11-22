@@ -78,7 +78,6 @@ extern const f32 lbl_805D9E88;
 f32 atan2_float(f32 y, f32 x);
 s32 TObjEneRe7Berura__sub_8009518C(TObjEneRe7Berura *);
 void TObjEneRe7Berura__sub_800940E8(TObjEneRe7Berura *self, s32 arg1);
-void TObjEneDD__sub_800BA378(s32 arg0, u8 *arg1);
 s32 matrix_mult_vec_array(int, int, void *, int);
 void set_matrix_identity(u8 *arg0);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
@@ -1167,10 +1166,10 @@ void TObjEneRe7Berura__sub_80093888(TObjEneRe7Berura *actor, s32 arg1) {
                     if (actor->current_target->receive_physical_attack(actor, 1.0f) > 0.0f) {
                         if (TObjEneDD::check_v2_mode() != 0) {
                             if (actor->random_ratio() <= 0.1f) {
-                                TObjEneDD__sub_800BA378((saddr)actor, (u8 *)actor->current_target);
+                                TObjEneDD__sub_800BA378(actor, actor->current_target);
                             }
                         } else if (actor->random_ratio() <= 0.3333f) {
-                            TObjEneDD__sub_800BA378((saddr)actor, (u8 *)actor->current_target);
+                            TObjEneDD__sub_800BA378(actor, actor->current_target);
                         }
                     }
                     actor->current_target->apply_knockback_from_attacker((u8 *)actor, 5.0f);

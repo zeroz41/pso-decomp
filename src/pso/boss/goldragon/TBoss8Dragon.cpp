@@ -80,7 +80,6 @@ struct G_802FB220 { F3_802FB220 *value; u8 rest[8]; };
 
 extern "C" {
 s32 VecCopy__FP3VecPC3Vec(void *, const void *);
-void project_sound_origin_from_camera(saddr arg0, u8 *arg1, f32 farg0);
 extern s32 local_client_id;
 extern s32 TBoss8Dragon__data_805D69B8;
 void TBoss8Dragon__sub_802F48DC(TBoss8Dragon *dragon, Vec *target);
@@ -411,8 +410,6 @@ extern void *TBoss8Dragon__dive_height_curve[12];
 
 
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
-void set_collider_contact_low(u8 *arg0);
-void set_collider_contact_high(u8 *arg0);
 void build_6xA8_gol_dragon_boss_actions(void *p);
 extern "C" {
 struct Info_802F4DD4 { u8 pad[8]; s32 a; s32 b; };

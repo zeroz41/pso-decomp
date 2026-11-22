@@ -50,8 +50,7 @@ struct Ent_800B23A0 { s32 a; u32 count; };
 struct Pair_800B23A0 { s32 k; Ent_800B23A0 *e; };
 
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
-s32 TBoss8Dragon__sub_800BB7D4(void *, s32);
-s32 pack_debug_text_position(s32, s32);
+void TBoss8Dragon__sub_800BB7D4(void *self, int id);
 s32 set_field_e4__10TObjPlayerFll(void *, int, f32);
 void spawn_dead_spot_scale15(s32 point, s32 delay);
 void free_collision_body_parts(void *);
