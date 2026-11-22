@@ -219,7 +219,7 @@ TObjEneMe1Canadin::TObjEneMe1Canadin(TObject *parent, void *set_data, s32 kind) 
     m_name = TObjEneMe1Canadin__class_name;
     invoke_initialization_hook(set_data);
     status_flags = 0;
-    update_by_field_0x354();
+    apply_parameters();
     this->leader = this;
     this->kind = kind;
     setup_enemy();
@@ -322,7 +322,7 @@ TObjEneMe1Canadin::~TObjEneMe1Canadin() {
 
 void TObjEneMe1Canadin::run_task() {
     if (TObjPlayer::check_demo_mode() != 0) {
-        update_if_ready();
+        run_demo_task();
         return;
     }
     if (kind == 1) {
@@ -373,12 +373,12 @@ void TObjEneMe1Canadin::update_body_colliders() {
     bodies->offset.y = hover_offset;
 }
 
-void TObjEneMe1Canadin::update_by_field_0x354() {
+void TObjEneMe1Canadin::apply_parameters() {
     if ((s32) floor_to_float(parameters[0]) == 0) {
-        fn_8009E350();
+        set_in_fighter();
         return;
     }
-    fn_8009E334();
+    set_out_fighter();
 }
 
 void TObjEneMe1Canadin::select_model() {
@@ -660,11 +660,11 @@ void TObjEneMe1Canadin::update_photon_target() {
     }
 }
 int TObjEneMe1Canadin::fn_8009E36C() { return (status_flags >> 15) & 0x1; }
-void TObjEneMe1Canadin::fn_8009E350() {
+void TObjEneMe1Canadin::set_in_fighter() {
     status_flags |= 0x100;
     status_flags &= ~0x200;
 }
-void TObjEneMe1Canadin::fn_8009E334() {
+void TObjEneMe1Canadin::set_out_fighter() {
     status_flags |= 0x200;
     status_flags &= ~0x100;
 }
@@ -1797,7 +1797,7 @@ void TObjEneMe1Canadin::render() {
     s32 var_r30;
     s32 var_r29;
     if (TObjPlayer::check_demo_mode() != 0) {
-        render_canadin_model_with_debug_type();
+        render_demo();
         return;
     }
     if (status_flags & 0x400000) {
@@ -1874,10 +1874,10 @@ void TObjEneMe1Canadin::render() {
     VecCopy(&node_points[6], &body_center);
 }
 
-void TObjEneMe1Canadin::update_if_ready() { if (get_target_info() != 0) { this->update_by_field_0x354(); } }
+void TObjEneMe1Canadin::run_demo_task() { if (get_target_info() != 0) { this->apply_parameters(); } }
 
 #pragma pool_data off
-void TObjEneMe1Canadin::render_canadin_model_with_debug_type() {
+void TObjEneMe1Canadin::render_demo() {
     s32 temp_r3;
     if (((s32)get_target_info() != 0) && (kind == 0)) {
         temp_r3 = status_flags;
@@ -1928,7 +1928,7 @@ TObjEneMe1CanadinLeader::~TObjEneMe1CanadinLeader() {
 
 void TObjEneMe1CanadinLeader::run_task() {
     if (TObjPlayer::check_demo_mode() != 0) {
-        update_if_ready();
+        run_demo_task();
         return;
     }
     if (update_status_effects() != 4) {
@@ -1982,7 +1982,7 @@ void TObjEneMe1CanadinLeader::spawn_members() {
         vec3_add_to(&v, &position);
         angle += 0x10000 / member_total;
         members[i] = create_canadin(this, &v, id++, sub++);
-        members[i]->fn_8009E334();
+        members[i]->set_out_fighter();
         member_count++;
     }
     for (j = n; j < member_total; j++) {
@@ -1992,7 +1992,7 @@ void TObjEneMe1CanadinLeader::spawn_members() {
         vec3_add_to(&v, &position);
         angle += 0x10000 / member_total;
         members[j] = create_canadin(this, &v, id++, sub++);
-        members[j]->fn_8009E350();
+        members[j]->set_in_fighter();
         member_count++;
     }
 }

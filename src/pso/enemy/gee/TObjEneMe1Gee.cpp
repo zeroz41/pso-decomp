@@ -196,7 +196,7 @@ TObjEneMe1Gee::TObjEneMe1Gee(TObject *parent, void *set_data, s32 kind) : TObjEn
     m_name = TObjEneMe1Gee__class_name;
     invoke_initialization_hook(set_data);
     status_flags = 0;
-    sub_800CC0C4();
+    apply_parameters();
     this->leader = this;
     this->kind = kind;
     init_state();
@@ -348,24 +348,24 @@ void TObjEneMe1Gee::update_body_colliders() {
 }
 #pragma push
 #pragma opt_common_subs off
-void TObjEneMe1Gee::sub_800CC0C4() {
+void TObjEneMe1Gee::apply_parameters() {
     if ((s32) floor_to_float(this->parameters[0]) == 0) {
-        this->sub_800CB5D4();
+        this->set_in_fighter();
     } else {
-        this->sub_800CB5B8();
+        this->set_out_fighter();
     }
     if ((s32) floor_to_float(this->parameters[1]) == 0) {
-        this->sub_800CB60C();
+        this->set_low_appear();
     } else {
-        this->sub_800CB5F0();
+        this->set_high_appear();
     }
     this->needle_speed = (6.0f + this->parameters[3]);
     if (this->needle_speed < 0.01f) {
         this->needle_speed = 0.01f;
     }
-    this->climb_speed = (1.0f + this->parameters[2]);
-    if (this->climb_speed < 1.0f) {
-        this->climb_speed = 1.0f;
+    this->appear_speed = (1.0f + this->parameters[2]);
+    if (this->appear_speed < 1.0f) {
+        this->appear_speed = 1.0f;
     }
 }
 #pragma pop
@@ -413,10 +413,10 @@ void TObjEneMe1Gee::approach_hover_y(f32 height) {
 void TObjEneMe1Gee::climb_hover_y(f32 height) {
     f32 delta = height - this->hover_y;
     this->status_flags &= ~0x80000;
-    if (delta >= this->climb_speed) {
-        this->hover_y += this->climb_speed;
-    } else if (delta <= -this->climb_speed) {
-        this->hover_y -= this->climb_speed;
+    if (delta >= this->appear_speed) {
+        this->hover_y += this->appear_speed;
+    } else if (delta <= -this->appear_speed) {
+        this->hover_y -= this->appear_speed;
     } else {
         this->hover_y = height;
         this->status_flags |= 0x80000;
@@ -657,22 +657,22 @@ void TObjEneMe1Gee::update_photon_target() {
 
 int TObjEneMe1Gee::sub_800CB628() { return (this->status_flags >> 15) & 0x1; }
 
-void TObjEneMe1Gee::sub_800CB60C() {
+void TObjEneMe1Gee::set_low_appear() {
     this->status_flags |= 0x02000000;
     this->status_flags &= 0xFBFFFFFF;
 }
 
-void TObjEneMe1Gee::sub_800CB5F0() {
+void TObjEneMe1Gee::set_high_appear() {
     this->status_flags |= 0x04000000;
     this->status_flags &= 0xFDFFFFFF;
 }
 
-void TObjEneMe1Gee::sub_800CB5D4() {
+void TObjEneMe1Gee::set_in_fighter() {
     this->status_flags |= 0x100;
     this->status_flags &= 0xFFFFFDFF;
 }
 
-void TObjEneMe1Gee::sub_800CB5B8() {
+void TObjEneMe1Gee::set_out_fighter() {
     this->status_flags |= 0x200;
     this->status_flags &= 0xFFFFFEFF;
 }
@@ -1834,7 +1834,7 @@ void TObjEneMe1Gee::render() {
     VecCopy(&this->node_points[1], &this->body_center);
 }
 
-void TObjEneMe1Gee::run_demo_task() { if (this->get_target_info() != 0) { this->sub_800CC0C4(); } }
+void TObjEneMe1Gee::run_demo_task() { if (this->get_target_info() != 0) { this->apply_parameters(); } }
 
 #pragma push
 // pool_data off: render_demo reaches each debug string with its own lis/addi.
@@ -1944,7 +1944,7 @@ void TUnk_8049387C::spawn_members() {
         vec3_add_to(&v, &this->position);
         angle += 0x10000 / this->member_total;
         this->members[i] = create(this, &v, a++, b++);
-        this->members[i]->sub_800CB5B8();
+        this->members[i]->set_out_fighter();
         this->member_count++;
     }
     for (j = n; j < this->member_total; j++) {
@@ -1954,7 +1954,7 @@ void TUnk_8049387C::spawn_members() {
         vec3_add_to(&v, &this->position);
         angle += 0x10000 / this->member_total;
         this->members[j] = create(this, &v, a++, b++);
-        this->members[j]->sub_800CB5D4();
+        this->members[j]->set_in_fighter();
         this->member_count++;
     }
 }

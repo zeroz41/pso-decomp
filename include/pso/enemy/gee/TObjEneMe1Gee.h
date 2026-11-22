@@ -72,7 +72,7 @@ struct TObjEneMe1Gee : public TObjEneDD_ST {
     virtual void run_hit_reaction();
     virtual void run_miss_reaction();
     void copy_pos();
-    void sub_800CC0C4();
+    void apply_parameters();
     void approach_hover_y(f32 height);
     void hover_toward(f32 height);
     void update_hover_height();
@@ -81,10 +81,10 @@ struct TObjEneMe1Gee : public TObjEneDD_ST {
     void update_packed_color();
     void destroy_subobj(const NJS_ARGB *color);
     void start_fade_sequence(s32 sequence);
-    void sub_800CB60C();
-    void sub_800CB5F0();
-    void sub_800CB5D4();
-    void sub_800CB5B8();
+    void set_low_appear();
+    void set_high_appear();
+    void set_in_fighter();
+    void set_out_fighter();
     void set_flag3c8_bit2();
     void state_attack_loop(s32);
     void render();
@@ -98,8 +98,8 @@ struct TObjEneMe1Gee : public TObjEneDD_ST {
     f32 random_hover_height;
     f32 hover_offset;
     f32 hover_y;
-    f32 needle_speed;
-    f32 climb_speed;
+    f32 needle_speed;  // 6 + parameters[3] ("NEEDLE SPEED(+6.f ...)" in render_demo)
+    f32 appear_speed;  // 1 + parameters[2] ("APPEAR SPEED(+1.f ...)"), the climb step
     s32 attack_delay;
     s32 attack_count;
     s32 m_40c;

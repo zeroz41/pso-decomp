@@ -51,8 +51,8 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
     virtual void vfunc_111(s32);
     virtual void state_dead(s32);
     virtual void apply_model_color();
-    virtual void update_if_ready();
-    virtual void render_canadin_model_with_debug_type();
+    virtual void run_demo_task();
+    virtual void render_demo();
     virtual int can_member_attack_target(TObjChara *);
     virtual void remove_member(uaddr);
     void run_death_reaction();
@@ -116,7 +116,7 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
     void update_upper_hover_height();
     void update_hover_height();
     void approach_upper_hover_height();
-    void update_by_field_0x354();
+    void apply_parameters();
     void copy_pos();
     void run_task();
     void setup_enemy();
@@ -139,8 +139,8 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
     void fn_8009E258();
     void set_flag3c8_bit4();
     s32 has_status_flag(s32 mask);
-    void fn_8009E334();
-    void fn_8009E350();
+    void set_out_fighter();
+    void set_in_fighter();
     int fn_8009E36C();
     void start_fade_sequence(s32 sequence);
     void fn_8009E1D4(Vec *pos);

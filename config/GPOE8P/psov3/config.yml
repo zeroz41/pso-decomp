@@ -1202,8 +1202,8 @@ force_active:
   - fn_8009E258__17TObjEneMe1CanadinFv
   - set_flag3c8_bit4__17TObjEneMe1CanadinFv
   - has_status_flag__17TObjEneMe1CanadinFl
-  - fn_8009E334__17TObjEneMe1CanadinFv
-  - fn_8009E350__17TObjEneMe1CanadinFv
+  - set_out_fighter__17TObjEneMe1CanadinFv
+  - set_in_fighter__17TObjEneMe1CanadinFv
   - fn_8009E36C__17TObjEneMe1CanadinFv
   - start_fade_sequence__17TObjEneMe1CanadinFl
   - select_next_attack_state__23TObjEneMe1CanadinLeaderFv
@@ -16203,14 +16203,14 @@ force_active:
   - sub_800C20B0__12TObjEneLappyFv
   - sub_800C20C0__12TObjEneLappyFv
   - update_formation_state__13TUnk_8049387CFv
-  - sub_800CB5B8__13TObjEneMe1GeeFv
-  - sub_800CB5D4__13TObjEneMe1GeeFv
-  - sub_800CB5F0__13TObjEneMe1GeeFv
-  - sub_800CB60C__13TObjEneMe1GeeFv
+  - set_out_fighter__13TObjEneMe1GeeFv
+  - set_in_fighter__13TObjEneMe1GeeFv
+  - set_high_appear__13TObjEneMe1GeeFv
+  - set_low_appear__13TObjEneMe1GeeFv
   - start_fade_sequence__13TObjEneMe1GeeFl
   - hover_toward__13TObjEneMe1GeeFf
   - approach_hover_y__13TObjEneMe1GeeFf
-  - sub_800CC0C4__13TObjEneMe1GeeFv
+  - apply_parameters__13TObjEneMe1GeeFv
   - select_subtype__16TObjEneBm5GibonUFv
   - explode__13TUnk_8049442CFv
   - explode__19TObjGyaranzoMissileFv
@@ -16732,7 +16732,7 @@ force_active:
   - update_buy_sell_choice__20TShopItemTecSequenceFv
   - update_buy_sell_choice__22TShopEquipmentSequenceFv
   - update_buy_sell_choice__26TShopEquipmentGearSequenceFPv
-  - update_by_field_0x354__17TObjEneMe1CanadinFv
+  - apply_parameters__17TObjEneMe1CanadinFv
   - update_by_state__17TObjEneMe1CanadinFl
   - update_by_state__9TTecMegidFv
   - update_camera_facing_offset__11TLoadingCurFv
