@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/network/IPv6Send.h"
+#include "pso/network/TLobby_8041112C.h"
 
 /* ICMPv6 type 0x88. flags: 0x80 router, 0x40 solicited, 0x20 override. */
 typedef struct NetIcmpv6NeighborAdvertisement {
@@ -77,5 +78,16 @@ typedef struct Ipv6NdMtuEvent {
 LAYOUT_ASSERT(Ipv6NdMtuEvent_size_check, sizeof(Ipv6NdMtuEvent) == 8);
 
 s16 NetIPv6SendRouterSolicitation(s16 iface);
+s16 NetIPv6ParseRedirectOptions(NetPacketFragment *frag, s32 n, NetIcmpv6Redirect *msg, s32 opts, s16 *optlen, s16 iface);
+s16 NetIPv6ApplyNeighborAdvertisement(NetIcmpv6NeighborAdvertisement *msg, u8 *lladdr, s16 lladdr_len, s32 src, s32 address,
+                                      s16 iface);
+s16 TLobby__sub_80417494(NetIcmpv6RouterAdvertisement *ra, u8 *src, s16 iface);
+s16 TLobby__sub_80417868(NetPacketFragment *opts, u32 len, u8 *src, s16 iface);
+s16 NetIPv6SendMulticastNeighborProbe(Ipv6NdNeighbor *e);
+s16 NetIPv6SendUnicastNeighborProbe(Ipv6NdNeighbor *e);
+Ipv6NdNeighbor *TLobby__sub_804182DC(void *addr, void *lladdr, s16 lladdr_len, s16 iface);
+Ipv6NdNeighbor *NetIPv6FindOrSelectNeighborCacheEntry(u8 *addr, u8 *key, s16 klen);
+Ipv6NdRouter *NetIPv6SelectDefaultRouter(void *addr);
+Ipv6NdPending *NetIPv6SelectPendingPacketSlot(void);
 
 #endif

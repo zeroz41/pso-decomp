@@ -89,7 +89,6 @@ typedef struct Ipv6NdEvent {
 } Ipv6NdEvent;
 LAYOUT_ASSERT(Ipv6NdEvent_size_check, sizeof(Ipv6NdEvent) == 8);
 void TLobby__sub_80411334(void) {
-    s32 NetIPv6SendUnspecifiedSourceNeighborSolicitation(u8 *, s16); /* the definition takes the address as s32 */
     Ipv6State *g = &ipv6_address_routing_state;
     s16 i;
     s16 j;
@@ -1305,7 +1304,7 @@ extern s32 TLobby__sub_80413934(u8 *addr, s16 idx) {
     return 0;
 }
 
-s16 TLobby__sub_80413AA0(self, id) void *self; s16 id; {
+s16 TLobby__sub_80413AA0(void *self, s16 id) {
     u8 *tbl = (u8 *)&ipv6_address_routing_state;
     u8 *e = NULL;
     s16 i;
@@ -1361,7 +1360,7 @@ s16 TLobby__sub_80413AA0(self, id) void *self; s16 id; {
     return 0;
 }
 
-s16 TLobby__sub_80413C0C(self, id) void *self; s16 id; {
+s16 TLobby__sub_80413C0C(void *self, s16 id) {
     u8 *tbl = (u8 *)&ipv6_address_routing_state;
     u8 *e = NULL;
     s32 i;
