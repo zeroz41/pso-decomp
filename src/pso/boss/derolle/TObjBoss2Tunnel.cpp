@@ -1251,7 +1251,7 @@ BOOL TObjBoss2Tunnel::verify_snapshot_checksum() {
 }
 
 // Draws the captured snapshot at pos (default 192,144), 345.6 x 259.2.
-void TObjBoss2Tunnel__sub_8007CAE8(uaddr pos) {
+void draw_screen_snapshot(uaddr pos) {
     f32 position[2];
     f32 size[2];
     if (pos == 0U) {

@@ -15,8 +15,10 @@ public:
     s32 is_in_camera_range();
     // TObjBoss7Tunnel::render draws each segment in three passes: model_indices[0] on draw list 1,
     // model_indices[1] (and [2] for a four-model segment) on draw list 2, then the last one as an effect.
-    void sub_802F1E54();
-    void sub_802F1DAC();
+    // Draw lists 1 and 2 are the ones TMainTask::render_task_layer_02 draws in its first and second
+    // pass; reading them as the opaque and translucent lists is inferred.
+    void draw_opaque_model();
+    void draw_translucent_models();
     void draw_tunnel_segment();
     // A tunnel segment; TObjBoss7Tunnel::spawn builds it under the controller's segment list.
     Vec position;      // x follows the controller's segment_x, z scrolls by its scroll_speed

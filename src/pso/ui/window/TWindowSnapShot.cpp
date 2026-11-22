@@ -74,7 +74,7 @@ WindowDescriptor window_snapshot_layout = {
 };
 
 extern "C" {
-s32 TObjBoss2Tunnel__sub_8007CAE8(f32 *, f32);
+s32 draw_screen_snapshot(f32 *, f32);
 s32 play_sound_effect(s32, s32, s32, s32);
 
 void TWindowSnapShot::free_shared_instance() {
@@ -120,7 +120,7 @@ void TWindowSnapShot::render() {
         if ((s32) *(s32 *)((s8 *)temp_r3 + 0x30) > 0) {
             stack.sp8 = 18.0f + *(f32 *)((s8 *)temp_r3 + 0x10);
             stack.spC = *(f32 *)((s8 *)temp_r3 + 0x14);
-            TObjBoss2Tunnel__sub_8007CAE8(&stack.sp8, 18.0f);
+            draw_screen_snapshot(&stack.sp8, 18.0f);
         }
     } else {
         draw_window_text((f32 *)(temp_r3 + 0x10), (const char *)(get_localized_text_entry(0x24, 7)), -1, 0, 1000000.0f);

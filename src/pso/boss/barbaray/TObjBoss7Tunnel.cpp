@@ -324,10 +324,10 @@ void TObjBoss7Tunnel::render() {
             ((TUnk_804E4AD4 *)child)->draw_particle_effect();
         }
         for (child = effect_nodes->m_down; child != NULL; child = child->m_next) {
-            ((TUnk_804E4B24 *)child)->sub_802F1E54();
+            ((TUnk_804E4B24 *)child)->draw_opaque_model();
         }
         for (child = effect_nodes->m_down; child != NULL; child = child->m_next) {
-            ((TUnk_804E4B24 *)child)->sub_802F1DAC();
+            ((TUnk_804E4B24 *)child)->draw_translucent_models();
         }
         for (child = effect_nodes->m_down; child != NULL; child = child->m_next) {
             ((TUnk_804E4B24 *)child)->draw_tunnel_segment();
@@ -435,7 +435,7 @@ void TUnk_804E4B24::run_task() {
     update_collision();
 }
 
-void TUnk_804E4B24::sub_802F1E54() {
+void TUnk_804E4B24::draw_opaque_model() {
     if (is_in_camera_range() != 0) {
         set_draw_list_mask(1);
         TObjFish::set_global_param((saddr)boss7_common_texture_list);
@@ -447,7 +447,7 @@ void TUnk_804E4B24::sub_802F1E54() {
     }
 }
 
-void TUnk_804E4B24::sub_802F1DAC() {
+void TUnk_804E4B24::draw_translucent_models() {
     if (is_in_camera_range() != 0) {
         set_draw_list_mask(2);
         TObjFish::set_global_param((saddr)boss7_common_texture_list);
