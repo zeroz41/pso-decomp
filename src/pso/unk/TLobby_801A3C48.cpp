@@ -125,7 +125,6 @@ struct Pl_801A40D8 : PlB_801A40D8 {
 };
 
 extern "C" {
-s32 reset_quest_result_callbacks__22THunterGuildSeqOfflineFv();
 void clear_enabled_main_warps(void);
     extern int challenge_task_created;
 int TKeyBoardControl__sub_8000F95C(void);
@@ -172,7 +171,6 @@ void TWindowCtrlMain__sub_8024D838(void);
 void TObjPlayer__sub_80156934(void);
 void TRaderMapCore__sub_801F95CC(void);
 void TWindowDD__sub_80344114(void);
-void THunterGuildSeqOffline__sub_80213410(void);
 void TQuestThread__sub_801F5D88(void);
 void TLobby__sub_8029B2A4(void);
 void reset_globals(void);
@@ -213,7 +211,7 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {init_switch_table, clear_switch_table},
     {TLobby::load_freeze_ice_resource, TLobby::destroy_global_singleton},
     {reset_shop_stock_and_params, clear_all_shop_stock},
-    {(FloorResourceCallback)THunterGuildSeqOffline::reset_quest_result_callbacks, THunterGuildSeqOffline__sub_80213410},
+    {THunterGuildSeqOffline::reset_quest_result_callbacks, THunterGuildSeqOffline__sub_80213410},
     {TQuestThread::clear_all_floor_handlers, TQuestThread__sub_801F5D88},
     {TObjCityMainWarp::reset, TObjCityMainWarp__sub_80186AB8},
     {(FloorResourceCallback)TLobby__sub_80225C64, (FloorResourceCallback)TLobby__sub_80225C44},
@@ -455,7 +453,7 @@ void TLobby::free_objects() {
         quest_mission_manager->queue_destruction();
     }
     clear_enabled_main_warps();
-    reset_quest_result_callbacks__22THunterGuildSeqOfflineFv();
+    THunterGuildSeqOffline::reset_quest_result_callbacks();
     TLobby::clear_counter();
     TLobby::reset_door_state();
     TObjDoor::reset_instance();
