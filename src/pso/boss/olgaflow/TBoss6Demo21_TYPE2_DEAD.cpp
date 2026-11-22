@@ -129,19 +129,19 @@ void TBoss6Demo21_TYPE2_DEAD::draw_fading_model_5() {
 }
 
 void TBoss6Demo21_TYPE2_DEAD::draw_fading_model_4() {
-    f32 var_f31;
-    s32 temp_r0;
-    temp_r0 = timer;
-    if (temp_r0 < 0x101) {
-        var_f31 = (1.0f);
-    } else if (temp_r0 >= 0x10F) {
-        var_f31 = (0.0f);
+    f32 fade;
+    s32 t;
+    t = timer;
+    if (t < 0x101) {
+        fade = (1.0f);
+    } else if (t >= 0x10F) {
+        fade = (0.0f);
     } else {
-        var_f31 = (f32) (0x10F - temp_r0) / (14.0f);
+        fade = (f32) (0x10F - t) / (14.0f);
     }
-    if ((0.0f) != var_f31) {
-        if (var_f31 < (1.0f)) {
-            TBoss6PlotFalz::set_fade_material_color(var_f31);
+    if ((0.0f) != fade) {
+        if (fade < (1.0f)) {
+            TBoss6PlotFalz::set_fade_material_color(fade);
         }
         push_matrix();
         set_motion_packed_rotation();
@@ -152,7 +152,7 @@ void TBoss6Demo21_TYPE2_DEAD::draw_fading_model_4() {
         capture_5->clear();
         clear_motion_packed_rotation();
         pop_matrix();
-        if (var_f31 < (1.0f)) {
+        if (fade < (1.0f)) {
             TObjFish::reset_fish_globals();
         }
     }

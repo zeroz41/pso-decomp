@@ -1961,7 +1961,7 @@ void TBoss6Type2::update_possess_target() {
             spawn_flow_soul(this, &v, 0x1E);
             TBoss6EffHyoui::create(possessed_client, 1, 0x1E);
             if (this->is_target_valid() == 0) {
-                play_sound_effect(0x40069E13, ((u8 *)this) + 0x38, 0, 1);
+                play_sound_effect(0x40069E13, &position, 0, 1);
             }
             spawn_particle_effect((const Vec *)(pl + 0x38), 0x36);
             done = 1;

@@ -55,12 +55,8 @@ void TBoss6PlotFalz::init_proto1_adx() {
 }
 void TBoss6PlotFalz::tick_demo_start() { if (is_ready() != 0) { send_6xA3_action(2); } }
 void TBoss6PlotFalz::tick_timeout() {
-    s32 temp_r0;
-
     TBoss6PlotFalz::refresh_players_equipment();
-    temp_r0 = state_timer + 1;
-    state_timer = temp_r0;
-    if (temp_r0 > 0x1F4) {
+    if (++state_timer > 0x1F4) {
         set_state(2);
     }
 }
@@ -149,12 +145,8 @@ void TBoss6PlotFalz::stop_adx_audio() {
 }
 void TBoss6PlotFalz::advance_phase_if_ready() { if (is_ready() != 0) { this->send_6xA3_action(6); } }
 void TBoss6PlotFalz::advance_timer() {
-    s32 temp_r0;
-
     TBoss6PlotFalz::refresh_players_equipment();
-    temp_r0 = state_timer + 1;
-    state_timer = temp_r0;
-    if (temp_r0 > 0x198) {
+    if (++state_timer > 0x198) {
         this->set_state(6);
     }
 }
@@ -199,15 +191,11 @@ void TBoss6PlotFalz::finish_and_dispatch_next_phase() {
     TBoss6Demo21_TYPE2_DEAD::create(this, &target);
 }
 void TBoss6PlotFalz::update_plot_timer() {
-    s32 temp_r0;
-
     refresh_players_equipment();
     if ((state_timer > 1) && (is_ready() != 0)) {
         state_timer = 0x2CA;
     }
-    temp_r0 = state_timer + 1;
-    state_timer = temp_r0;
-    if (temp_r0 > 0x2CA) {
+    if (++state_timer > 0x2CA) {
         if (is_ending_or_split_screen() != 0) {
             set_state(8);
             return;
@@ -225,11 +213,7 @@ void TBoss6PlotFalz::reset_ending_state() {
     TObjOnlineEnding::create(this);
 }
 void TBoss6PlotFalz::update_ol_ending() {
-    s32 temp_r0;
-
-    temp_r0 = state_timer + 1;
-    state_timer = temp_r0;
-    if (temp_r0 > 0x1C6) {
+    if (++state_timer > 0x1C6) {
         TBoss6PlotFalz::end_cutscene_camera();
         award_exp_and_destroy();
     }

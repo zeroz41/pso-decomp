@@ -10,6 +10,7 @@
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 
 const char *TBoss6EmptyWarp__name = "TBoss6EmptyWarp";
@@ -38,14 +39,11 @@ void draw_empty_warp_overlay(void) {
     restore_saved_depth_alpha_state();
 }
 
-extern "C" {
-
 void TBoss6EmptyWarp::render() { draw_empty_warp_overlay(); }
 
 void TBoss6EmptyWarp::run_task() {
-    u8 *self = (u8 *)this;
     if (TBoss6PlotFalz::is_flag_set() != 0) {
-        ((TObject *)self)->queue_destruction();
+        queue_destruction();
         return;
     }
     warp_delay = warp_delay + 1;
@@ -57,11 +55,10 @@ void TBoss6EmptyWarp::run_task() {
         } else {
             play_area_music((char *)("HALL.adx"));
         }
-        ((TObject *)self)->queue_destruction();
+        queue_destruction();
     }
 }
 
-}
 TBoss6EmptyWarp::~TBoss6EmptyWarp() {
     TBoss6PlotFalz::end_cutscene_camera();
 }
@@ -69,15 +66,9 @@ TBoss6EmptyWarp::~TBoss6EmptyWarp() {
 TBoss6EmptyWarp::TBoss6EmptyWarp(TObject *parent) : TObject(parent) {
     m_name = TBoss6EmptyWarp__name;
     TBoss6PlotFalz::freeze_all_players();
-    *(u32 *)((s8 *)this + 0x1C) = 0;
+    warp_delay = 0;
 }
-
-extern "C" {
-
-extern void *tl_02;
 
 void *TBoss6EmptyWarp::create() {
-    return new TBoss6EmptyWarp((TObject *)tl_02);
-}
-
+    return new TBoss6EmptyWarp(tl_02);
 }

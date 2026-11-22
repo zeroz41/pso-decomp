@@ -573,7 +573,6 @@ s32 TBoss6PlotFalz::get_target_pos_b(Vec *position) {
 }
 
 void TBoss6PlotFalz::spawn_type2() {
-    u8 *self = (u8 *)this;
     Boss6BodySpawnParams params;
     if (TBoss6PlotFalz__type2_instance == NULL) {
         params.owner = this;
@@ -587,7 +586,6 @@ void TBoss6PlotFalz::spawn_type2() {
 }
 
 void TBoss6PlotFalz::spawn_type1() {
-    u8 *self = (u8 *)this;
     Boss6BodySpawnParams params;
     if (TBoss6PlotFalz__type1_instance == NULL) {
         params.owner = this;
@@ -889,13 +887,12 @@ extern "C" {
 void TBoss6PlotFalz::render() {  }
 
 void TBoss6PlotFalz::run_task() {
-    u8 *self = (u8 *)this;
     if (TObjEneDD::query_teammate_state() == 0) {
-        ((TBoss6PlotFalz *)self)->set_visible_flag();
-        if (((TBoss6PlotFalz *)self)->not_floor_leader == 0) {
-            ((TBoss6PlotFalz *)self)->call_state_action();
+        set_visible_flag();
+        if (not_floor_leader == 0) {
+            call_state_action();
         }
-        ((TBoss6PlotFalz *)self)->run_phase_action();
+        run_phase_action();
     }
 }
 
@@ -967,9 +964,9 @@ TBoss6PlotFalz::~TBoss6PlotFalz() {
 #pragma opt_common_subs off
 TBoss6PlotFalz::TBoss6PlotFalz(TObject *parent, void *set_data) : TObjEnemy(parent) {
     TBoss6PlotFalzStateRecord record;
-    saddr temp_r30;
-    saddr temp_r29;
-    saddr temp_r6;
+    u8 *base_params;
+    u8 *attack_params;
+    u8 *resistance_params;
 
     m_name = TBoss6PlotFalz__name;
     reset_child_ids();
@@ -988,10 +985,10 @@ TBoss6PlotFalz::TBoss6PlotFalz(TObject *parent, void *set_data) : TObjEnemy(pare
     velocity.y = 0.0f;
     velocity.x = 0.0f;
     target = 0;
-    temp_r30 = (saddr)TLobby::register_boss(0x2C);
-    temp_r29 = (saddr)TLobby::dispatch_shared_handler_b(0x2C);
-    temp_r6 = (saddr)TLobby::register_object(0x2C);
-    bind_enemy_combat_stats((u8 *)temp_r30, (u8 *)temp_r29, (u8 *)temp_r6);
+    base_params = (u8 *)TLobby::register_boss(0x2C);
+    attack_params = (u8 *)TLobby::dispatch_shared_handler_b(0x2C);
+    resistance_params = (u8 *)TLobby::register_object(0x2C);
+    bind_enemy_combat_stats(base_params, attack_params, resistance_params);
     register_entity_by_id((u8 *)this);
     actorFlags = (s32) (actorFlags | 0x02000000);
     set_visible_flag();

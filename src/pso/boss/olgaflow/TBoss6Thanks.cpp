@@ -292,10 +292,10 @@ s32 any_player_has_listed_equipment(void) {
 }
 
 void TUnk_804F1EC8::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
-    f32 sp8[4];
+    f32 color[4];
     desc->flags |= 0x1C;
-    get_weapon_color__11TItemWeaponFPv(sp8, this);
-    copy_argb(&desc->color, (NJS_ARGB *)sp8);
+    get_weapon_color__11TItemWeaponFPv(color, this);
+    copy_argb(&desc->color, (NJS_ARGB *)color);
     desc->model = second_model;
     desc->wall_effect = (void *)TObjPlayer::forward_item_effect_callback;
 }
