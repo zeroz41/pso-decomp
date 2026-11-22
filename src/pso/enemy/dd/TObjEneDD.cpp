@@ -1076,16 +1076,15 @@ TObjEneDD_ST::~TObjEneDD_ST() {}
 
 
 void TObjEneDD_ST::update_velocity() {
-    u8 *self = (u8 *)this;
-    f32 temp_f1;
-    f32 temp_f2;
+    f32 dest_z;
+    f32 dest_x;
 
-    temp_f2 = *(f32 *)((s8 *)self + 0x394);
-    *(f32 *)((s8 *)self + 0x3A0) = (f32) (temp_f2 - *(f32 *)((s8 *)self + 0x38));
-    *(f32 *)((s8 *)self + 0x3A4) = 0.0f;
-    temp_f1 = *(f32 *)((s8 *)self + 0x39C);
-    *(f32 *)((s8 *)self + 0x3A8) = (f32) (temp_f1 - *(f32 *)((s8 *)self + 0x40));
-    *(f32 *)((s8 *)self + 0x3AC) = normalize_vector_xz__FP3Vec(self + 0x3A0, temp_f1, temp_f2);
+    dest_x = destination.x;
+    destination_direction.x = dest_x - position.x;
+    destination_direction.y = 0.0f;
+    dest_z = destination.z;
+    destination_direction.z = dest_z - position.z;
+    destination_distance = normalize_vector_xz__FP3Vec(&destination_direction, dest_z, dest_x);
 }
 
 
