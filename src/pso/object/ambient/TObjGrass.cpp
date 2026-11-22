@@ -1382,7 +1382,7 @@ void TObjGrass::sub_800BD4D8() {
 }
 #pragma pop
 
-s32 TObjGrass::update_web_attack() {
+void TObjGrass::update_web_attack() {
     Grass_800BD10C *arg0 = (Grass_800BD10C *)this;
     Vec v;
     Vec v2;

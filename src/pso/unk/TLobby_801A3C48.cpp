@@ -264,9 +264,9 @@ void clear_resource_load_tasks(void);
 extern s32 local_client_id;
 void process_pending_resources(void);
 void clear_quest_floor_designations(void);
-s32 start_quest_mission(void);
+void start_quest_mission(void);
 extern u8 game_variations[];
-s32 change_floor_reload_area(void);
+void change_floor_reload_area(void);
 void load_battle_param_entry(void);
 extern s32 TLobby__lobby_number;
 void reload_lobby_floor_scene(void);
@@ -461,7 +461,7 @@ void TLobby::free_objects() {
     TLobby::clear_quest_state();
 }
 
-s32 start_quest_mission(void) {
+void start_quest_mission(void) {
     u8 tmp[0x1C];
     s32 i;
     s32 j;
@@ -524,7 +524,7 @@ s32 start_quest_mission(void) {
     __dt__7TObjectFv(tmp, -1);
 }
 
-s32 change_floor_reload_area(void) {
+void change_floor_reload_area(void) {
     u8 tmp[0x1C];
     s32 i;
     s32 j;
