@@ -95,17 +95,6 @@ struct A_800A4294 { u8 pad[0x8]; B_800A4294 *b; };
 
 struct G_800A4294 { A_800A4294 *p; s32 n; u8 pad[0x8]; };
 
-struct Base1 { u8 pad[0x14]; };
-
-struct VObj1 : Base1 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual s32 m4();
-    virtual void m5();
-};
-
 extern A_800A4294 lbl_804CC8C8;
 extern G_800A4294 player_effect_task_list;
 extern int TObjPlayer__effect_count;
@@ -117,7 +106,6 @@ void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
 void move_with_wall_slide(u8 *arg0);
 extern "C" {
 s32 TObjPlayer__sub_800A04F0(void *);
-struct VDisp_800a42c4_800A4288 { char pad[0x18]; virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); virtual void m4(void *, void *); };
 
 void TObjPlayer__sub_800A42C0(void);
 s32 post_translate_matrix(void *);
@@ -184,19 +172,17 @@ void TObjPlayer__sub_800A42C0(void) {  }
 void TObjEneSaver::apply_lookup_entry_effect() {
     struct { s32 a, b, c; s32 d, e, f, g, h; } sp8;
     s32 entry;
-    u8 *temp_r3_2;
 
     entry = (saddr)lbl_805D5064->lookup((f32)this->frame);
     if (entry != 0) {
         push_matrix();
         set_matrix_identity(0);
-        post_translate_matrix((void *) (((u8 *)this) + 0x38));
+        post_translate_matrix(&this->position);
         rotate_matrix_y(0, this->rotation_y);
         matrix_mult_vec_array(0, entry, &sp8, 2);
         pop_matrix();
-        temp_r3_2 = (unsigned char *) (*(void **)((s8 *)((u8 *)this) + 0x3C0));
-        if (temp_r3_2 != NULL) {
-            ((struct VDisp_800a42c4_800A4288 *) temp_r3_2)->m4(&sp8, &sp8.d);
+        if (attack_traces[0] != NULL) {
+            attack_traces[0]->vfunc_6(&sp8, &sp8.d);
         }
     }
 }
@@ -268,7 +254,7 @@ void TObjEneSaver::update_collapse_and_destroy() {
         move_with_wall_slide(self);
         *(f32 *)((s8 *)self + 0x308) *= 0.5f;
         ((TObjEneSaver *)self)->m_310*= 0.5f;
-        if (((VObj1 *)(self + 0x3A4))->m4() == 1) {
+        if (body_fade.decay_value_toward_floor() == 1) {
             TObjPlayer::apply_effect_variant_a((saddr)(self + 0x38), 0);
             ((TObjEneSaver *)self)->phase = 2;
         }
@@ -432,17 +418,6 @@ void TObjEneSaver::run_hit_reaction() {
 }
 
 
-struct Base14 { char pad[0x14]; };
-
-struct VObj14 : Base14 {
-    virtual s32 m0();
-    virtual s32 m1();
-    virtual s32 m2();
-    virtual s32 m3();
-    virtual s32 m4();
-    virtual s32 m5();
-};
-
 struct Obj_800A4C4C {
     u8 pad0[0x30];
     u32 f30;
@@ -476,16 +451,6 @@ struct Obj_800A5A68 {
     s16 f328;
     u8 pad32A[0x37C - 0x32A];
     s16 mode;
-};
-
-struct VBase18_800A4D9C { char pad[0x18]; };
-
-struct VObj18_800A4D9C : VBase18_800A4D9C {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4(void *, void *);
 };
 
 struct VBase_18_217cff { char pad[0x18]; };
@@ -726,8 +691,8 @@ void TObjEneSaver::sub_800A4D9C() {
                 rotate_matrix_y(0, F(s32, 0x60));
                 matrix_mult_vec_array(0, e, m44, 2);
                 pop_matrix();
-                if (F(VObj18_800A4D9C *, 0x3C4) != NULL) {
-                    F(VObj18_800A4D9C *, 0x3C4)->m4(m44, m50);
+                if (attack_traces[1] != NULL) {
+                    attack_traces[1]->vfunc_6(m44, m50);
                 }
             }
         }
@@ -1389,7 +1354,7 @@ s32 TObjEneSaver::update_action_hold_status() {
         case 1:
         case 2:
         case 0xB:
-            if (((VObj14 *)(self + 0x3A4))->m5() == 1) {
+            if (body_fade.advance_toward_max() == 1) {
                 this->state_flags &= ~0x43;
                 this->state_flags |= 4;
                 this->mode = 3;
@@ -1412,7 +1377,7 @@ s32 TObjEneSaver::update_movement_status() {
         case 1:
         case 2:
         case 0xB:
-            if (((VObj14 *)(self + 0x3A4))->m5() == 1) {
+            if (body_fade.advance_toward_max() == 1) {
                 this->state_flags &= ~0x43;
                 this->state_flags |= 4;
                 this->mode = 3;
@@ -1619,7 +1584,7 @@ void TObjEneSaver::sub_800A5FA8() {
         play_area_variant_sound((Vec *)(self + 0x38));
         break;
     case 1:
-        if (((VObj14 *) (self + 0x3A4))->m5() == 1) {
+        if (body_fade.advance_toward_max() == 1) {
             ((TObjEneSaver *)self)->phase = 2;
         }
         break;
