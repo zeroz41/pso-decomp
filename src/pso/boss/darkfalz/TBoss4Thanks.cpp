@@ -121,7 +121,7 @@ void TBoss4Thanks__sub_8035C480(saddr arg0) {
     }
 }
 
-int TBoss4Thanks::is_player_nearby(void *arg0) {
+int TBoss4Thanks::is_player_nearby(void *) {
     s32 n;
     s32 i;
     f32 lim;
@@ -164,7 +164,7 @@ void TBoss4Thanks::render() {
 }
 
 void TBoss4Thanks::update_fade_out() {
-    s32 temp_r3;
+    s32 frame;
 
     if ((s32) this->current_motion != 1) {
         if ((s32) this->fade_frame == 0) {
@@ -172,13 +172,13 @@ void TBoss4Thanks::update_fade_out() {
         }
         update_particle_emitters();
         this->fade_amount = (f32) (0.99f * (1.0f - ((f32) this->fade_frame / 120.0f)));
-        temp_r3 = this->fade_frame;
-        if (temp_r3 == 0x78) {
+        frame = this->fade_frame;
+        if (frame == 0x78) {
             play_sound_effect(0x40033232, 0, 0, 0);
             queue_destruction();
             return;
         }
-        this->fade_frame = (temp_r3 + 1);
+        this->fade_frame = (frame + 1);
     }
 }
 

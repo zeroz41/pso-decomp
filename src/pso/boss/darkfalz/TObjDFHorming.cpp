@@ -270,17 +270,17 @@ s32 TBoss4DarkFalz::is_state_ready() {
 }
 
 s32 TBoss4DarkFalz::is_active() {
-    int var_r31;
+    int active;
 
-    var_r31 = 0;
+    active = 0;
     if (TBoss4DarkFalz::get_instance() != NULL) {
         if (TBoss4DarkFalz::get_instance()->get_state() != 3) {
             if (TBoss4DarkFalz::get_instance()->get_state() != 4) {
-                var_r31 = 1;
+                active = 1;
             }
         }
     }
-    return (u8)((u8) var_r31);
+    return (u8)active;
 }
 u16 TBoss4Type3::pick_random_target_player() {
     u16 buf[4];
@@ -392,8 +392,8 @@ void TBoss4DarkFalz::send_action_packet(s32 arg) {
     cmd.send();
 }
 
-void TBoss4DarkFalz::change_state(s32 arg1) {
-    if (arg1 < 0 || arg1 >= 16) {
+void TBoss4DarkFalz::change_state(s32 state) {
+    if (state < 0 || state >= 16) {
         return;
     }
     if (state_index != -1) {
@@ -402,7 +402,7 @@ void TBoss4DarkFalz::change_state(s32 arg1) {
             (this->*action)();
         }
     }
-    state_index = arg1;
+    state_index = state;
     TBoss4DarkFalzHandler action = dark_falz_state_table[state_index].enter;
     if (action != 0) {
         (this->*action)();
@@ -426,13 +426,13 @@ s32 TBoss4DarkFalz::calc_rate_from_field() {
 }
 
 s32 TBoss4DarkFalz::is_timer_expired() {
-    s32 var_r4;
+    s32 losses_per_player;
 
-    var_r4 = *(s32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x35)) + 0x18);
-    if ((var_r4 < 1) || (var_r4 > 0x13)) {
-        var_r4 = 2;
+    losses_per_player = *(s32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x35)) + 0x18);
+    if ((losses_per_player < 1) || (losses_per_player > 0x13)) {
+        losses_per_player = 2;
     }
-    if (this->minions_lost >= (s32) (var_r4 * this->active_player_count)) {
+    if (this->minions_lost >= (s32) (losses_per_player * this->active_player_count)) {
         return 1;
     }
     return 0;
@@ -676,16 +676,16 @@ void TBoss4DarkFalz::freeze_all_players() {
 #pragma opt_common_subs off
 #pragma fp_contract on
 void TBoss4DarkFalz::update_roar_sound_timer() {
-    s32 temp_r0;
-    s32 temp_r0_2;
-    temp_r0 = this->state_index;
-    if (temp_r0 >= 9 || temp_r0 < 4) {
+    s32 state;
+    s32 timer;
+    state = this->state_index;
+    if (state >= 9 || state < 4) {
         return;
     }
     {
-        temp_r0_2 = this->roar_timer - 1;
-        this->roar_timer = temp_r0_2;
-        if (temp_r0_2 < 0) {
+        timer = this->roar_timer - 1;
+        this->roar_timer = timer;
+        if (timer < 0) {
             if ((3.0517578e-05f * (f32) rand()) < 0.5f) {
                 play_sound_effect(0x3A300, 0, 0, 0);
             } else {
@@ -742,9 +742,8 @@ s32 boss4_type2_rafoie_level;
 s32 boss4_type2_rabarta_level;
 s32 dark_falz_controller_instance;
 TBoss4DarkFalz::~TBoss4DarkFalz() {
-    s32 temp_r0;
     TBoss4Fade *object;
-    switch (*(s32 *)((s8 *)this + 0x37C)) {
+    switch (state_index) {
     case 10:
     case 14:
     case 15:

@@ -30,7 +30,7 @@ struct TBoss4Thanks : public TObject {
     static void dispatch_main_phase();
     void update_particle_emitters();
     void destroy_effects();
-    static int is_player_nearby(void *arg0);
+    static int is_player_nearby(void *);
     void update_fade_out();
     void advance_thanks_state();
     void mark_done();

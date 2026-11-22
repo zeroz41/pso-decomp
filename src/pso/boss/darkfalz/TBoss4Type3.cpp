@@ -665,9 +665,9 @@ void TBoss4Type3::send_action(s32 action) {
     }
 }
 
-void TBoss4Type3::send_packed_action(s32 arg1, s32 arg2, s32 arg3) {
+void TBoss4Type3::send_packed_action(s32 action, s32 next_node, s32 next_heading) {
     if (owner != 0) {
-        owner->send_code_25_4((arg1 & 0x1F) | ((node & 0x1F) << 5) | ((arg2 & 0x1F) << 10) | ((heading & 0xF) << 15) | ((arg3 & 0xF) << 19) | ((capture_target & 0xF) << 23) | ((captured_player & 0xF) << 27));
+        owner->send_code_25_4((action & 0x1F) | ((node & 0x1F) << 5) | ((next_node & 0x1F) << 10) | ((heading & 0xF) << 15) | ((next_heading & 0xF) << 19) | ((capture_target & 0xF) << 23) | ((captured_player & 0xF) << 27));
     }
 }
 

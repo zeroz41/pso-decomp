@@ -130,14 +130,14 @@ struct TBoss4Type3 : public TObjEnemy {
     void apply_packed_state(u32 packed);
     void spawn_random_effect();
     void send_attack_code(s32 action, u16 target);
-    void send_packed_action(s32 arg1, s32 arg2, s32 arg3);
+    void send_packed_action(s32 action, s32 next_node, s32 next_heading);
     void send_action(s32 action);
     void release_state_effects();
     void destroy_parts();
     void create_particle_emitters();
     void set_action_from_table(s32 action);
     void copy_pair(void* q);
-    void set_anim_state(s32 arg1);
+    void set_anim_state(s32 index);
     void draw();
     static TBoss4Type3 *create(TBoss4FormSetData *set_data);
     s32 get_action_state();

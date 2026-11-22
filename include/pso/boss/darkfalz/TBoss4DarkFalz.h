@@ -73,7 +73,7 @@ struct TBoss4DarkFalz : public TObjEnemy {
     static int is_ending_or_split_screen();
     void send_code_25_4(s32 arg);
     void send_action_packet(s32 arg);
-    void change_state(s32 arg1);
+    void change_state(s32 state);
     void update_visible_flag();
     s32 calc_rate_from_field();
     s32 is_timer_expired();
