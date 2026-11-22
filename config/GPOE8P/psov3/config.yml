@@ -312,22 +312,22 @@ force_active:
   - TBoss1Dragon__gravity_accel
   - TBoss1Dragon__head_fall_effect_params
   - TBoss1Dragon__part_hp_stats
-  - TBoss1Dragon__sub_80022158
-  - TBoss1Dragon__sub_800224A4
-  - TBoss1Dragon__sub_80022740
-  - TBoss1Dragon__sub_800228E8
-  - TBoss1Dragon__sub_80022C38
-  - TBoss1Dragon__sub_80023A2C
-  - TBoss1Dragon__sub_80026B98
-  - TBoss1Dragon__sub_80026C98
-  - TBoss1Dragon__sub_80027010
-  - TBoss1Dragon__sub_800274A4
-  - TBoss1Dragon__sub_80027514
-  - TBoss1Dragon__sub_80027590
-  - TBoss1Dragon__sub_800275BC
+  - handle_walk_state__12TBoss1DragonFUl
+  - sub_800224A4__12TBoss1DragonFUl
+  - sub_80022740__12TBoss1DragonFUl
+  - sub_800228E8__12TBoss1DragonFUl
+  - sub_80022C38__12TBoss1DragonFUl
+  - handle_spiral_state__12TBoss1DragonFUl
+  - sub_80026B98__12TBoss1DragonFUl
+  - sub_80026C98__12TBoss1DragonFUl
+  - clamp_step_in_radius__12TBoss1DragonFfff
+  - sub_800274A4__12TBoss1DragonFv
+  - sub_80027514__12TBoss1DragonFP3VecPUcl
+  - sub_80027590__12TBoss1DragonFPv
+  - sub_800275BC__12TBoss1DragonFP3VecPUcP17AreaAttackHistory
   - TBoss1Dragon__sub_800277D8
-  - TBoss1Dragon__sub_80028AFC
-  - TBoss1Dragon__sub_80028B28
+  - sub_80028AFC__12TBoss1DragonFv
+  - sub_80028B28__12TBoss1DragonFv
   - play_sound_if_in_band__12TBoss1DragonFv
   - TBoss2Joint__param_table
   - TBoss2Joint__sub_80036940

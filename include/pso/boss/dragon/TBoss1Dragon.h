@@ -256,6 +256,21 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     s32 is_destination_ahead();
     void calc_follow_camera_offsets(Vec *eye, Vec *target);
     void play_sound_if_in_band();
+    void handle_walk_state(u32 reason);
+    void sub_800224A4(u32 reason);
+    void sub_80022740(u32 reason);
+    void sub_800228E8(u32 reason);
+    void sub_80022C38(u32 reason);
+    void handle_spiral_state(u32 reason);
+    void sub_80026B98(u32 reason);
+    void sub_80026C98(u32 reason);
+    f32 clamp_step_in_radius(f32 farg0, f32 farg1, f32 farg2);
+    void sub_800274A4();
+    void sub_80027514(Vec *position, u8 *params, s32 history);
+    void sub_80027590(void *params);
+    void sub_800275BC(Vec *position, u8 *params, AreaAttackHistory *history);
+    void sub_80028AFC();
+    void sub_80028B28();
 };
 
 #include <stddef.h>
