@@ -14,10 +14,10 @@ extern TObjMotionAction TObjEneMe3Stelth__animation_descriptors[13];
 extern const NJS_ARGB me3_stelth_offset_vec;
 extern const TBoss3VoloptBreakupParams me3_stelth_breakup_params;
 // TLobby kind ids, one list per TLobby table load_shared_resources registers them with.
-extern const s32 lbl_8043D47C[2];
-extern const s32 lbl_8043D484[2];
-extern const s32 lbl_8043D48C[2];
-extern const s32 lbl_8043D494[2];
+extern const s32 stelth_base_stat_ids[2];
+extern const s32 stelth_attack_stat_ids[2];
+extern const s32 stelth_resist_stat_ids[2];
+extern const s32 stelth_param_ids[2];
 extern const char stelth_model[];
 extern const char stelth_t_wait_motion[];
 extern const char stelth_apper_motion[];
