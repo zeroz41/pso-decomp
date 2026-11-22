@@ -13,6 +13,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer_80309D80.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/player/TPlayerFootStamp.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/effect/particle/TPlyFollowParticleCtrl.h"
@@ -36,7 +37,6 @@ struct Fol_80309E9C { u16 a; u16 b; u8 pad[0x8]; Vec v[3]; };
 extern "C" {
 s32 set_owner_id__13TParticleCtrlFUs(s32, s32);
 uaddr find_entity_by_id(s32);
-void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 Fol_80309E9C *TObjPlayer__sub_80309E9C(Fol_80309E9C *o);
 struct VOff_80309DD0_arg0_80309dd0_80309D80 { char pad_0[0x4]; char f_4[1]; };
 }

@@ -4,12 +4,16 @@
 #include "types.h"
 
 struct Vec;
+struct NJS_OBJECT;
+struct GinjaTextureList;
+struct AnimationMotion;
 
 // --- C functions defined in TBoss8Dragon_80065C90.cpp ---
 extern "C" {
 const Vec *get_arena_center(void);
 void TBoss8Dragon__sub_800660A4(void *p);
-void attach_particle_model(void *particle, saddr model, saddr texlist, saddr motion, s32 arg4, f32 farg0);
+void attach_particle_model(void *particle, NJS_OBJECT *model, GinjaTextureList *texlist, AnimationMotion *motion, s32 arg4,
+                           f32 farg0);
 void fn_800660B8(u8 *arg0);
 }
 // --- end of C functions

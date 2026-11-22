@@ -185,7 +185,7 @@ void TTecBarta::create_particle_emitters() {
         if (self->emitters[i] != NULL) {
             row = &TTecBarta__emitter_bands[self->band].rows[i];
             if (row->flags & 0x20) {
-                attach_particle_model((u8 *)self->emitters[i], (saddr)get_bml_model(technique_effect_bml, 0), (saddr)lbl_805D63B0, (saddr)get_bml_motion(technique_effect_bml, 0), 0, 1.0f);
+                attach_particle_model((u8 *)self->emitters[i], get_bml_model(technique_effect_bml, 0), (GinjaTextureList *)lbl_805D63B0, get_bml_motion(technique_effect_bml, 0), 0, 1.0f);
             } else {
                 ((TParticleCtrl *)(self->emitters[i]))->set_scale(row->scale, row->scale);
             }
@@ -278,7 +278,7 @@ void TTecBarta::run_task() {
     if (this->band == 5) {
         TechniqueParticleEmitter *e = (TechniqueParticleEmitter *)create_timed_particle_emitter(&this->position.x, 0x18A, 0x14, 1);
         if (e != NULL) {
-            attach_particle_model((u8 *)e, (saddr)get_bml_model(technique_effect_bml, 5), (saddr)lbl_805D63B0, 0, 0, 1.0f);
+            attach_particle_model((u8 *)e, get_bml_model(technique_effect_bml, 5), (GinjaTextureList *)lbl_805D63B0, 0, 0, 1.0f);
         }
     }
     move_ground_technique_projectile(this);

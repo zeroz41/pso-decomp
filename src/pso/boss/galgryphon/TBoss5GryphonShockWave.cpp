@@ -63,7 +63,7 @@ void TBoss5GryphonShockWave::run_task() {
     case 2:
         particle = spawn_particle_effect_with_flags((const Vec *)&this->m_2c, gryphon_shockwave_particle_ids_ptr[1], 0x40);
         if (particle != 0) {
-            attach_particle_model(particle, (saddr)get_bml_model(boss5_gryphon_bml_resource, 0), boss5_gryphon_texture_list, (saddr)get_bml_motion(boss5_gryphon_bml_resource, 0), 0, 1.0f);
+            attach_particle_model(particle, get_bml_model(boss5_gryphon_bml_resource, 0), boss5_gryphon_texture_list, get_bml_motion(boss5_gryphon_bml_resource, 0), 0, 1.0f);
         }
         spawn_particle_effect_with_flags((const Vec *)&this->m_2c, gryphon_shockwave_particle_ids_ptr[2], 0x40);
         play_sound_effect(0x40033C13, (u8 *)&this->m_2c, 0, 0);

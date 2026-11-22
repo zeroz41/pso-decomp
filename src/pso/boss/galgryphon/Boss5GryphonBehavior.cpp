@@ -585,7 +585,7 @@ saddr boss5_gryphon_base_params[1];
 saddr boss5_gryphon_resistance_params[1];
 u8 *boss5_gryphon_body_bml_resource;
 BmlResource *boss5_gryphon_bml_resource;
-saddr boss5_gryphon_texture_list;
+GinjaTextureList *boss5_gryphon_texture_list;
 s32 boss5_gryphon_render_node_index;
 s32 boss5_gryphon_bone_capture_index;
 saddr boss5_gryphon_bone_capture_output;
@@ -3946,7 +3946,7 @@ void TBoss8Dragon::spawn_switch_attack() {
 
     particle = spawn_particle_effect_with_flags((const Vec *)this, 0x211, 0x40);
     if (particle != 0) {
-        attach_particle_model((u8 *)particle, (saddr)(get_bml_model(boss5_gryphon_bml_resource, 2)), (saddr)boss5_gryphon_texture_list, 0, 0, (f32)lbl_805D8D88);
+        attach_particle_model((u8 *)particle, get_bml_model(boss5_gryphon_bml_resource, 2), boss5_gryphon_texture_list, 0, 0, (f32)lbl_805D8D88);
     }
 }
 #pragma pop
@@ -3960,7 +3960,7 @@ void TBoss8Dragon::spawn_attack_effect() {
 
     particle = spawn_particle_effect_with_flags((const Vec *)this, 0x210, 0x40);
     if (particle != 0) {
-        attach_particle_model((u8 *)particle, (saddr)(get_bml_model(boss5_gryphon_bml_resource, 1)), (saddr)boss5_gryphon_texture_list, 0, 0, (f32)lbl_805D8D88);
+        attach_particle_model((u8 *)particle, get_bml_model(boss5_gryphon_bml_resource, 1), boss5_gryphon_texture_list, 0, 0, (f32)lbl_805D8D88);
     }
 }
 #pragma pop
@@ -4877,10 +4877,10 @@ void TBoss5Gryphon::cleanup() {
     TBoss5GryphonSnarl__sub_80066E84();
     TBoss8Dragon__sub_80355A1C();
     TBoss8Dragon__sub_80066A4C();
-    if ((u32) boss5_gryphon_texture_list != 0U) {
-        release_texture_list((GinjaTextureList *)boss5_gryphon_texture_list);
-        TAdSinglePlyChrSelectGC::safe_free(boss5_gryphon_texture_list);
-        boss5_gryphon_texture_list = 0U;
+    if (boss5_gryphon_texture_list != NULL) {
+        release_texture_list(boss5_gryphon_texture_list);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)boss5_gryphon_texture_list);
+        boss5_gryphon_texture_list = NULL;
     }
     if (boss5_gryphon_bml_resource != NULL) {
         delete boss5_gryphon_bml_resource;
@@ -4908,7 +4908,7 @@ void load_boss5_gryphon_resources(void) {
     case 0:
         boss5_gryphon_body_bml_resource = (u8 *)load_enemy_bml_resource((BmlResourceDescriptor *)boss5_gryphon_body_bml_desc);
         boss5_gryphon_bml_resource = load_enemy_bml_resource((BmlResourceDescriptor *)boss5_gryphon_bml_desc);
-        boss5_gryphon_texture_list = (saddr)load_gvm_texture_file((saddr)"modelparticle_gryphon.gvm");
+        boss5_gryphon_texture_list = (GinjaTextureList *)load_gvm_texture_file((saddr)"modelparticle_gryphon.gvm");
         break;
     }
     boss5_gryphon_render_node_index = 0;
@@ -5037,10 +5037,11 @@ void fn_800660B8(u8 *arg0) {
     *(s32 *)((s8 *)arg0 + 0xB0) = (s32) (*(s32 *)((s8 *)arg0 + 0xB0) | 1);
 }
 
-void attach_particle_model(void *particle, saddr model, saddr texlist, saddr motion, s32 arg4, f32 farg0) {
-    *(saddr *)((s8 *)particle + 0x4C) = model;
-    *(saddr *)((s8 *)particle + 0x50) = texlist;
-    *(saddr *)((s8 *)particle + 0x54) = motion;
+void attach_particle_model(void *particle, NJS_OBJECT *model, GinjaTextureList *texlist, AnimationMotion *motion, s32 arg4,
+                           f32 farg0) {
+    *(NJS_OBJECT **)((s8 *)particle + 0x4C) = model;
+    *(GinjaTextureList **)((s8 *)particle + 0x50) = texlist;
+    *(AnimationMotion **)((s8 *)particle + 0x54) = motion;
     *(u16 *)((s8 *)particle + 0x2C) = (u16) (*(u16 *)((s8 *)particle + 0x2C) | 0x200);
     *(f32 *)((s8 *)particle + 0x5C) = farg0;
     if (arg4 != 0) {

@@ -209,7 +209,7 @@ void TObjPlayer::spawn_item() {
     if (particle != NULL) {
         TItemLoad::get_item_model(0xD, &model);
         TItemLoad::get_item_texture_list(0xD, &texture);
-        attach_particle_model((u8 *)particle, (saddr)model, (saddr)texture, 0, 0, 1.0f);
+        attach_particle_model((u8 *)particle, model, texture, 0, 0, 1.0f);
         particle->set_scale(10.0f, 10.0f);
     }
 }

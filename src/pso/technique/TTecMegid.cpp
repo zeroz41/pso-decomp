@@ -257,7 +257,7 @@ void TTecMegid::spawn_particle_emitters() {
       if (((Data_802351B4 *) TTecMegid__emitter_bands)[this->band].rows[i].flags & 0x20)
       {
         new_var = ((Data_802351B4 *) TTecMegid__emitter_bands)[this->band].rows[i].flags >> 16;
-        attach_particle_model((u8 *)self->emitters[i], (saddr)get_bml_model(technique_effect_bml, new_var), (saddr)lbl_805D63B0, 0, 1, 1.0f);
+        attach_particle_model((u8 *)self->emitters[i], get_bml_model(technique_effect_bml, new_var), (GinjaTextureList *)lbl_805D63B0, 0, 1, 1.0f);
       }
     }
   }

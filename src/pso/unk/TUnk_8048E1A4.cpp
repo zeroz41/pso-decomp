@@ -25,6 +25,8 @@
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/technique/TTecCtrl.h"
+#include "pso/unk/TLobby_8001EF5C.h"
 
 
 f32 TUnk_8048E1A4::receive_physical_attack(void *arg1, f32) {
@@ -73,12 +75,9 @@ f32 vec3_add_to(void *, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
 s32 rotate_matrix_y(int, int);
 extern RecoveredGlobal_80081CD0_lbl_8058D490 identity_matrix;
-s32 get_bml_motion(s32, s32);
 
 
 saddr freeze_shell_bml_resource;
-extern s32 technique_effect_bml;
-extern s32 lbl_805D63B0;
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
 extern u8 chunk_material_color_half_alpha_f32[];
@@ -100,11 +99,11 @@ void TUnk_8048E1A4::freeze_shell_hold() {
     *(s32 *)((s8 *)this + 0x334) = 2;
     p = (saddr)spawn_particle_effect((const Vec *)((u8 *)this + 0x35C), 0x153);
     if (p != 0) {
-        attach_particle_model((u8 *)p, (s32)(get_bml_model((BmlResource *)technique_effect_bml, 5)), (s32)lbl_805D63B0, 0, 0, 1.0f);
+        attach_particle_model((u8 *)p, get_bml_model(technique_effect_bml, 5), (GinjaTextureList *)lbl_805D63B0, 0, 0, 1.0f);
     }
     p = (saddr)spawn_particle_effect((const Vec *)((u8 *)this + 0x38), 0x33);
     if (p != 0) {
-        attach_particle_model((u8 *)p, (s32)(get_bml_model((BmlResource *)freeze_shell_bml_resource, 0)), (s32)(get_bml_texlist((BmlResource *)freeze_shell_bml_resource, 1)), (s32)(get_bml_motion(freeze_shell_bml_resource, 0)), 0, 1.0f);
+        attach_particle_model((u8 *)p, get_bml_model((BmlResource *)freeze_shell_bml_resource, 0), get_bml_texlist((BmlResource *)freeze_shell_bml_resource, 1), get_bml_motion((BmlResource *)freeze_shell_bml_resource, 0), 0, 1.0f);
         ((TParticleCtrl *)p)->set_scale(this->scale.x, this->scale.y);
     }
     this->frame = 0.0f;
@@ -179,7 +178,7 @@ void TUnk_8048E1A4::render() {
         ok = p->m8(400.0f, 20.0f);
     }
     if (ok != 0) {
-        TObjFish::set_global_param((s32)get_bml_texlist((BmlResource *)(saddr)((void *)freeze_shell_bml_resource), 1));
+        TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)(saddr)((void *)freeze_shell_bml_resource), 1));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);

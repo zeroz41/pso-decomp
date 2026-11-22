@@ -4,6 +4,7 @@
 #include "types.h"
 
 struct NJS_OBJECT;
+struct GinjaTextureList;
 
 struct TBoss5Gryphon;
 struct TBoss8Dragon;
@@ -87,6 +88,6 @@ struct BmlResource;
 
 // Gal Gryphon's particle model archive and texture list, loaded with the boss.
 extern BmlResource *boss5_gryphon_bml_resource;
-extern saddr boss5_gryphon_texture_list;
+extern GinjaTextureList *boss5_gryphon_texture_list;
 
 #endif

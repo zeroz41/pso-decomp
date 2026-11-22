@@ -11,18 +11,18 @@ extern "C" {
 ParticleParam *particle_global_entry_table;
 ParticleParam *particle_area_entry_table;
 u8 *TParticleCtrl__regular_bml_resource;
-int TParticleCtrl__texture_list;
+GinjaTextureList *TParticleCtrl__texture_list;
 extern s32 particle_pool_limit;
 void *__ct__13TParticleCtrlFv(void *self, void *pos, void *dir, void *ent, int a, int b, int c, int d, int e);
 
-s32 TParticleCtrl::get_particle_model(s32 arg0) {
+NJS_OBJECT *TParticleCtrl::get_particle_model(s32 arg0) {
     if (arg0 < 3) {
-        return (saddr)get_bml_model((BmlResource *)TParticleCtrl__regular_bml_resource, arg0);
+        return get_bml_model((BmlResource *)TParticleCtrl__regular_bml_resource, arg0);
     }
     return 0;
 }
 
-int TParticleCtrl::get_instance() {  return TParticleCtrl__texture_list; }
+GinjaTextureList *TParticleCtrl::get_instance() {  return TParticleCtrl__texture_list; }
 }
 #pragma push
 #pragma opt_propagation off

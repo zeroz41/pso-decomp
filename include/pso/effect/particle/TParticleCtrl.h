@@ -6,6 +6,8 @@
 #include <dolphin/mtx/GeoTypes.h>
 
 struct ParticleParam;
+struct NJS_OBJECT;
+struct GinjaTextureList;
 
 class TParticleCtrl : public TObject {
 public:
@@ -28,8 +30,9 @@ public:
     static void free_heap();
     static void init_heap(u32 size);
     static void *generate_child_default(void *param, void *pos, void *parent);
-    static s32 get_particle_model(s32 arg0);
-    static int get_instance();
+    static NJS_OBJECT *get_particle_model(s32 arg0);
+    // The particle texture list.
+    static GinjaTextureList *get_instance();
     uaddr validate_ctrl();
     void destroy_particle();
     static void begin_effect_render();
