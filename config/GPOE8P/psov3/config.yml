@@ -126,7 +126,7 @@ force_active:
   - TAdBackTxtGC_backtext_tex_list
   - TAdChrMoveEffectGC__class_name
   - TAdChrMoveEffectGC__sub_80349194
-  - TAdChrSelASlotGC__sub_8030C45C
+  - sub_8030C45C__16TAdChrSelASlotGCFllPv
   - sub_8030E3BC__16TAdChrSelBSlotGCFllPv
   - sub_8030EF74__16TAdChrSelBSlotGCFv
   - sub_8030F13C__16TAdChrSelBSlotGCFv
@@ -6740,7 +6740,7 @@ force_active:
   - get_set_bonus_multiplier__9TItemDataFPvi
   - get_shield_set_multiplier__9TItemDataFPUc
   - get_slot_flag__26TWindowSubQuestBoardSelectFic
-  - get_slot_index__16TAdChrSelASlotGCFv
+  - get_slot_index__15TAdPlayerLoadGCFv
   - get_sock_status_name__Fs
   - get_speaker_balloon_anchor__11TWindowCtrlFPviPvPv
   - get_split_screen_battle_timer_limit__FPUc

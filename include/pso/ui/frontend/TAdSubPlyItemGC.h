@@ -18,6 +18,8 @@ public:
     // literal pool has 281.0f before "-" (separator calls), which only that argument order creates.
     static void render_status_line(f32 x, f32 y, f32 scale, const char *text, u32 color);
     u8 *format_level_text(int level);
+    // Hides all four lines (clears visible[]).
+    void sub_802D6D88();
 
     u8 pad_1C[4];
     char names[4][0xFF];
