@@ -341,7 +341,7 @@ void TObjEneMe3StelthReal::init_common() {
     body_offset_y = 0.0f;
     material_color = 0;
     m_3ec = 0;
-    m_3f4 = m_2cc;
+    m_3f4 = evp;
     fade.reset_obstruction_fade();
     state_step = 0;
     state_timer = 0;

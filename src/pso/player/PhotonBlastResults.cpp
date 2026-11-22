@@ -192,13 +192,13 @@ f32 TObjPlayer::calc_photon_blast_power(s32 arg1, f32 farg0) {
         if (mag != 0) {
             switch (arg1) {
             case 0:
-                var_f30 = farg0 + ((2.5f * (f32)((TItemMag *)mag)->get_iq()) + 0.025f * (f32)(((TItemMag *)mag)->get_synchro() * (((TObjPlayer *)(*(u8 **)(arg0 + 0x38)))->get_field_2c8() + ((TObjChara *)(*(u8 **)(arg0 + 0x38)))->get_actor_attack_params_atp_min())));
+                var_f30 = farg0 + ((2.5f * (f32)((TItemMag *)mag)->get_iq()) + 0.025f * (f32)(((TItemMag *)mag)->get_synchro() * (((TObjPlayer *)(*(u8 **)(arg0 + 0x38)))->get_atp() + ((TObjChara *)(*(u8 **)(arg0 + 0x38)))->get_actor_attack_params_atp_min())));
                 break;
             case 1:
-                var_f30 = farg0 + ((15.0f * (f32)((TItemMag *)mag)->get_iq()) + 0.15f * (f32)(((TObjPlayer *)(*(u8 **)(arg0 + 0x38)))->get_hp() * ((TItemMag *)mag)->get_synchro()));
+                var_f30 = farg0 + ((15.0f * (f32)((TItemMag *)mag)->get_iq()) + 0.15f * (f32)(((TObjPlayer *)(*(u8 **)(arg0 + 0x38)))->get_evp() * ((TItemMag *)mag)->get_synchro()));
                 break;
             case 2:
-                var_f30 = farg0 + ((7.5f * (f32)((TItemMag *)mag)->get_iq()) + 0.075f * (f32)(((TItemMag *)mag)->get_synchro() * (((TObjPlayer *)(*(u8 **)(arg0 + 0x38)))->get_field_2c8() + ((TObjChara *)(*(u8 **)(arg0 + 0x38)))->get_actor_attack_params_atp_min())));
+                var_f30 = farg0 + ((7.5f * (f32)((TItemMag *)mag)->get_iq()) + 0.075f * (f32)(((TItemMag *)mag)->get_synchro() * (((TObjPlayer *)(*(u8 **)(arg0 + 0x38)))->get_atp() + ((TObjChara *)(*(u8 **)(arg0 + 0x38)))->get_actor_attack_params_atp_min())));
                 break;
             case 3:
                 var_f30 = farg0 + ((7.5f * (f32)((TItemMag *)mag)->get_iq()) + 0.075f * (f32)(((TObjPlayer *)(*(u8 **)(arg0 + 0x38)))->get_ata() * ((TItemMag *)mag)->get_synchro()));

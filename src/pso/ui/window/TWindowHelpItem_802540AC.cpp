@@ -695,10 +695,10 @@ void update_stat_comparison__15TWindowHelpItemFv(Help_802549B0 *self) {
     e4 = reinterpret_cast<saddr>(((TWindowBase *)self)->get_array_entry(4));
     e2 = reinterpret_cast<saddr>(((TWindowBase *)self)->get_array_entry(2));
     e5 = reinterpret_cast<saddr>(((TWindowBase *)self)->get_array_entry(5));
-    ((TWindowHelpItem *)e0)->set_flag4_and_field1c(((TObjPlayer *)pl)->get_field_2c8() + ((TObjPlayer *)pl)->get_actor_attack_params_atp_min() + TObjPlayer__sub_800A776C((void *)pl));
+    ((TWindowHelpItem *)e0)->set_flag4_and_field1c(((TObjPlayer *)pl)->get_atp() + ((TObjPlayer *)pl)->get_actor_attack_params_atp_min() + ((TObjPlayer *)pl)->get_atp_range());
     ((TWindowHelpItem *)e3)->set_flag4_and_field1c(((TObjPlayer *)pl)->get_ata());
     ((TWindowHelpItem *)e1)->set_flag4_and_field1c(((TWindowSubStatusDisp *)pl)->get_value());
-    ((TWindowHelpItem *)e4)->set_flag4_and_field1c(((TObjPlayer *)pl)->get_hp());
+    ((TWindowHelpItem *)e4)->set_flag4_and_field1c(((TObjPlayer *)pl)->get_evp());
     ((TWindowHelpItem *)e2)->set_flag4_and_field1c(q->f2);
     ((TWindowHelpItem *)e5)->set_flag4_and_field1c(q->fc);
     if (self->item == 0) {

@@ -37,12 +37,12 @@ public:
     int obj_getPtr2B0_1C();
     // The character's stat block (ATP, MST, EVP, HP, DFP, ATA, LCK first).
     u8 *get_stats();
-    s16 get_s16_2c4();
-    void sub_800192B4(int);
-    s16 get_field_2c0();
-    void add_to_field_2c8(int);
-    s16 get_field_2c2();
-    void add_to_field_2ca(int);
+    s16 get_base_evp();
+    void adjust_evp(int);
+    s16 get_base_atp();
+    void adjust_atp(int);
+    s16 get_base_atp_range();
+    void adjust_atp_range(int);
     s16 get_base_dfp();
     void adjust_dfp(int);
     s32 recalc_combat_stats(void *, void *, void *, f32, f32);
@@ -204,16 +204,19 @@ public:
     s16 tpmax;
     s16 hp_bonus;  // what items add to the HP maximum (add_actor_hp_bonus)
     s16 tp_bonus;  // and to the TP maximum
-    s16 m_2c0;
-    u8 unk_2C2[0x2];
-    s16 m_2c4;
+    // Combat stats filled by recalc_combat_stats: base_* are the stat block's
+    // values plus the item bonuses, the others the current values after the
+    // Shifta/Deband boosts and status effects.
+    s16 base_atp;  // stat block ATP
+    s16 base_atp_range;  // the attack params' ATP max - min
+    s16 base_evp;  // stat block EVP plus the item bonus
     s16 base_dfp;  // the stat block's DFP plus the item bonus
-    s16 m_2c8;
-    u8 unk_2CA[0x2];
-    short m_2cc;
+    s16 atp;  // base_atp with Shifta
+    s16 atp_range;  // base_atp_range with Shifta
+    s16 evp;
     s16 dfp;  // base_dfp with Deband; the guard formulas subtract it from the attacker's ATP
-    s16 m_2d0;
-    u8 unk_2D2[0x2];
+    s16 ata;  // stat block ATA plus the attack params' bonus
+    s16 lck;  // stat block LCK
     u16 attacker_id;  // entity id of whoever last hit it; 6x89 sets a player's killer
     u16 m_2d6;
     u16 m_2d8;

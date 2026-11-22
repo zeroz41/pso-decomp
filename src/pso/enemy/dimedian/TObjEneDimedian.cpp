@@ -56,8 +56,8 @@ extern s32 dimedian_last_draw_tick[];
 
 int VecCopy__FP3VecPC3Vec(void*);
 
-s16 TObjPlayer::get_field_2c8() { return this->m_2c8; }
-s16 TObjPlayer__sub_800A776C(void* p) { return *(s16*)((char*)p + 0x2ca); }
+s16 TObjPlayer::get_atp() { return this->atp; }
+s16 TObjPlayer::get_atp_range() { return this->atp_range; }
 int TObjPlayer__sub_800A7774(void* p) { return VecCopy__FP3VecPC3Vec((char*)p + 0x38); }
 
 void TObjMotion::sub_800A7798(f32 farg0) {

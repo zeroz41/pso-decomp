@@ -414,7 +414,8 @@ struct TObjPlayer : public TObjChara {
     static f32 get_end_text_value(f32 x);
     int is_inactive();
     static void set_visibility_flags_by_count(void *arg0, s32 arg1);
-    s16 get_field_2c8();
+    s16 get_atp();
+    s16 get_atp_range();
     static void update_effect_sequence(NJS_OBJECT *);
     static void toggle_particle_effect();
     static void apply_effect_variant_a(saddr arg0, s32 arg1);
@@ -497,7 +498,7 @@ struct TObjPlayer : public TObjChara {
     void reset_fields();
     void reset_state_block();
     static void*get_photon_blast_entry(int a0);
-    s16 get_hp();
+    s16 get_evp();
     u16 get_section_id();
     void set_field_2(s16 v);
     void set_type(s16 v);

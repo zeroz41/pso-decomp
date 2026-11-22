@@ -326,7 +326,7 @@ void TObjEneMe3Shinowa::init_enemy() {
     material_color = 0;
     attack_count = 0;
     mirage_index = 0;
-    m_3dc = m_2cc;
+    m_3dc = evp;
     attack_traces[0] = TUnk_80494968::create((u32)0xFF0000FF, (u32)0xA08000A0);
     attack_traces[1] = TUnk_80494968::create((u32)0xFF0000FF, (u32)0xA08000A0);
     fade.reset_obstruction_fade();
@@ -491,12 +491,12 @@ void TObjEneMe3Shinowa::select_next_attack_state() {  }
 
 void TObjEneMe3Shinowa::sub_800E7268() {
     this->behavior_flags |= 0x10;
-    this->m_2cc = (s16) ((s16) this->m_3dc / 2);
+    this->evp = (s16) ((s16) this->m_3dc / 2);
 }
 
 void TObjEneMe3ShinowaReal::consume_spawn_request() {
     behavior_flags &= 0xFFFFFFEF;
-    m_2cc = (s16) m_3dc;
+    evp = (s16) m_3dc;
 }
 
 s32 TObjEneMe3Shinowa::update_effect() {

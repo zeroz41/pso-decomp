@@ -354,7 +354,7 @@ void TBoss4Zako::apply_contact_damage() {
         return;
     }
     hit.kind = 0;
-    hit.power = m_2c8;
+    hit.power = atp;
     p->receive_direct_attack(this, hit, 0, -1, -1);
 }
 #pragma pop

@@ -59,7 +59,6 @@
 #include "pso/render/model_render_state.h"
 
 extern "C" {
-s16 TObjPlayer__sub_800A776C(void *p);
 void TObjPlayer__sub_800A7774(void *p, Vec *v);
 void calc_velocity_toward_destination(TObjChara *chara, Vec from, Vec to, f32 speed);
 s32 select_enemy_destination(TObjChara *chara, Vec dest, s32 flags);
@@ -366,8 +365,8 @@ void TObjEneSaver::sub_800A49B4() {
             s32 bonus;
             s32 atp;
             atp = last_attacker->get_actor_attack_params_atp_min();
-            bonus = last_attacker->get_field_2c8();
-            guard_hp -= 0.2f * (bonus + atp + TObjPlayer__sub_800A776C(last_attacker) - dfp);
+            bonus = last_attacker->get_atp();
+            guard_hp -= 0.2f * (bonus + atp + last_attacker->get_atp_range() - dfp);
             if (guard_hp <= 0) {
                 guard_hp = 0;
                 state_flags |= 8;

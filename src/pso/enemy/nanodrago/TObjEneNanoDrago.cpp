@@ -52,8 +52,8 @@
 #include "pso/boss/volopt/TBoss3Volopt.h"
 LAYOUT_ASSERT(NanoGrow_scale, offsetof(TObjEneNanoDrago, scale.x) == 0x68);
 LAYOUT_ASSERT(NanoGrow_target_scale, offsetof(TObjEneNanoDrago, scale.y) == 0x6c);
-LAYOUT_ASSERT(NanoGrow_m_2c0, offsetof(TObjEneNanoDrago, m_2c0) == 0x2c0);
-LAYOUT_ASSERT(NanoGrow_m_2c8, offsetof(TObjEneNanoDrago, m_2c8) == 0x2c8);
+LAYOUT_ASSERT(NanoGrow_base_atp, offsetof(TObjEneNanoDrago, base_atp) == 0x2c0);
+LAYOUT_ASSERT(NanoGrow_atp, offsetof(TObjEneNanoDrago, atp) == 0x2c8);
 LAYOUT_ASSERT(NanoGrow_body_center, offsetof(TObjEneNanoDrago, body_center) == 0x2fc);
 LAYOUT_ASSERT(NanoGrow_params, offsetof(TObjEneNanoDrago, movementParameters) == 0x350);
 LAYOUT_ASSERT(NanoGrow_next_action, offsetof(TObjEneNanoDrago, next_action) == 0x374);
@@ -812,8 +812,8 @@ void TObjEneNanoDrago::update_growth_state() {
             spawn_particle_effect(&body_center, 0xFA);
             speed = ((NanoDragoMovementParams *)movementParameters)->baseSpeed * scale.x;
             play_sound_effect(0x4003A824, (Vec *)&position, 0, 0);
-            m_2c8 += 8;
-            m_2c0 += 8;
+            atp += 8;
+            base_atp += 8;
         } else {
             scale.y = scale.x;
             state = -1;

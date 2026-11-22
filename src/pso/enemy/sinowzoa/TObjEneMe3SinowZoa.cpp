@@ -301,7 +301,7 @@ void TObjEneMe3SinowZoaReal::init_enemy() {
     this->body_offset_y = 0.0f;
     material_color = 0;
     this->m_3fc = 0;
-    this->m_404 = (s16) this->m_2cc;
+    this->m_404 = (s16) this->evp;
     fade.reset_obstruction_fade();
     this->state_step = 0;
     this->state_timer = 0;

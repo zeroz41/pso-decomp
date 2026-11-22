@@ -5670,28 +5670,28 @@ void remove_status_effect__10TObjPlayerFUiPv(uaddr arg0_, Pair_801B2C04 *arg1_) 
     case 0:
         ((TObjChara *)arg0)->actorFlags = (s32) (((TObjChara *)arg0)->actorFlags & 0xFFFFFFFC);
         temp_f31 = -TObjPlayer__sub_800192C4((void *) arg0, 0);
-        v = ((TObjChara *)arg0)->get_s16_2c4();
+        v = ((TObjChara *)arg0)->get_base_evp();
         v *= temp_f31;
-        ((TObjChara *)arg0)->sub_800192B4((s32) v);
+        ((TObjChara *)arg0)->adjust_evp((s32) v);
         reset_status_effect_row(arg0 + 0x254);
         return;
     case 1:
         ((TObjChara *)arg0)->actorFlags = (s32) (((TObjChara *)arg0)->actorFlags & 0xFFFFFFC3);
         temp_f31_2 = -TObjPlayer__sub_800192C4((void *) arg0, 1);
-        v = ((TObjChara *)arg0)->get_s16_2c4();
+        v = ((TObjChara *)arg0)->get_base_evp();
         v *= temp_f31_2;
-        ((TObjChara *)arg0)->sub_800192B4((s32) v);
+        ((TObjChara *)arg0)->adjust_evp((s32) v);
         reset_status_effect_row(arg0 + 0x260);
         return;
     case 2:
         temp_f31_3 = -TObjPlayer__sub_800192C4((void *) arg0, 2);
-        v = ((TObjChara *)arg0)->get_field_2c0();
+        v = ((TObjChara *)arg0)->get_base_atp();
         v *= temp_f31_3;
-        ((TObjChara *)arg0)->add_to_field_2c8((s32) v);
+        ((TObjChara *)arg0)->adjust_atp((s32) v);
         temp_f31_4 = -TObjPlayer__sub_800192C4((void *) arg0, 2);
-        v = ((TObjChara *)arg0)->get_field_2c2();
+        v = ((TObjChara *)arg0)->get_base_atp_range();
         v *= temp_f31_4;
-        ((TObjChara *)arg0)->add_to_field_2ca((s32) v);
+        ((TObjChara *)arg0)->adjust_atp_range((s32) v);
         reset_status_effect_row(arg0 + 0x26C);
         return;
     case 3:
@@ -5714,20 +5714,20 @@ void TObjPlayer::cancel_status_effects() {
     f32 v;
     ((TObjChara *)arg0)->actorFlags = (s32) (((TObjChara *)arg0)->actorFlags & 0xFFFFFFFC);
     temp_f31 = -TObjPlayer__sub_800192C4(arg0, 0);
-    v = ((TObjChara *)arg0)->get_s16_2c4();
-    ((TObjChara *)arg0)->sub_800192B4((s32) (v * temp_f31));
+    v = ((TObjChara *)arg0)->get_base_evp();
+    ((TObjChara *)arg0)->adjust_evp((s32) (v * temp_f31));
     reset_status_effect_row(arg0 + 0x254);
     ((TObjChara *)arg0)->actorFlags = (s32) (((TObjChara *)arg0)->actorFlags & 0xFFFFFFC3);
     temp_f31_2 = -TObjPlayer__sub_800192C4(arg0, 1);
-    v = ((TObjChara *)arg0)->get_s16_2c4();
-    ((TObjChara *)arg0)->sub_800192B4((s32) (v * temp_f31_2));
+    v = ((TObjChara *)arg0)->get_base_evp();
+    ((TObjChara *)arg0)->adjust_evp((s32) (v * temp_f31_2));
     reset_status_effect_row(arg0 + 0x260);
     temp_f31_3 = -TObjPlayer__sub_800192C4(arg0, 2);
-    v = ((TObjChara *)arg0)->get_field_2c0();
-    ((TObjChara *)arg0)->add_to_field_2c8((s32) (v * temp_f31_3));
+    v = ((TObjChara *)arg0)->get_base_atp();
+    ((TObjChara *)arg0)->adjust_atp((s32) (v * temp_f31_3));
     temp_f31_4 = -TObjPlayer__sub_800192C4(arg0, 2);
-    v = ((TObjChara *)arg0)->get_field_2c2();
-    ((TObjChara *)arg0)->add_to_field_2ca((s32) (v * temp_f31_4));
+    v = ((TObjChara *)arg0)->get_base_atp_range();
+    ((TObjChara *)arg0)->adjust_atp_range((s32) (v * temp_f31_4));
     reset_status_effect_row(arg0 + 0x26C);
     temp_f31_5 = -TObjPlayer__sub_800192C4(arg0, 3);
     v = ((TObjChara *)arg0)->get_base_dfp();

@@ -4,7 +4,6 @@
 #include "types.h"
 
 extern "C" {
-s16 TObjPlayer__sub_800A776C(void *p);
 int TObjPlayer__sub_800A7774(void *p);
 }
 

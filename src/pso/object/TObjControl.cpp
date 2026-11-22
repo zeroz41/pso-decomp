@@ -350,27 +350,27 @@ block_10:
     }
 block_14:
     temp_r0 = *(s16 *)(this->m_2b0 + 0);
-    this->m_2c8 = temp_r0;
-    this->m_2c0 = temp_r0;
+    this->atp = temp_r0;
+    this->base_atp = temp_r0;
     attack_params_atp_max = get_attack_params_atp_max(*(u8 **)((s8 *)((u8 *)this) + 0x318));
     temp_r0_2 = attack_params_atp_max - get_attack_params_atp_min(*(u8 **)((s8 *)((u8 *)this) + 0x318));
-    *(s16 *)((s8 *)((u8 *)this) + 0x2CA) = temp_r0_2;
-    *(s16 *)((s8 *)((u8 *)this) + 0x2C2) = temp_r0_2;
+    this->atp_range = temp_r0_2;
+    this->base_atp_range = temp_r0_2;
     temp_r0_3 = *(s16 *)(this->m_2b0 + 4) + *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 0);
-    this->m_2cc = temp_r0_3;
-    this->m_2c4 = temp_r0_3;
+    this->evp = temp_r0_3;
+    this->base_evp = temp_r0_3;
     temp_r0_4 = *(s16 *)(this->m_2b0 + 8) + *(s32 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 0x1C);
     this->dfp = temp_r0_4;
     this->base_dfp = temp_r0_4;
-    this->m_2d0 = (s16) (*(s16 *)(this->m_2b0 + 0xA) + TObjPlayer__sub_800194E8(*(u8 **)((s8 *)((u8 *)this) + 0x318)));
-    *(s16 *)((s8 *)((u8 *)this) + 0x2D2) = (s16) *(s16 *)(this->m_2b0 + 0xC);
+    this->ata = (s16) (*(s16 *)(this->m_2b0 + 0xA) + TObjPlayer__sub_800194E8(*(u8 **)((s8 *)((u8 *)this) + 0x318)));
+    this->lck = (s16) *(s16 *)(this->m_2b0 + 0xC);
     this->m_2f2 = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 2);
     this->m_2f4 = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 6);
     *(s16 *)((s8 *)((u8 *)this) + 0x2F6) = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 4);
     this->m_2f8 = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 0xA);
     *(s16 *)((s8 *)((u8 *)this) + 0x2FA) = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 8);
-    this->add_to_field_2c8((s32)((f32)this->get_field_2c0() * TObjPlayer__sub_800192C4((saddr)this, 2)));
-    this->add_to_field_2ca((s32)((f32)this->get_field_2c2() * TObjPlayer__sub_800192C4((saddr)this, 2)));
+    this->adjust_atp((s32)((f32)this->get_base_atp() * TObjPlayer__sub_800192C4((saddr)this, 2)));
+    this->adjust_atp_range((s32)((f32)this->get_base_atp_range() * TObjPlayer__sub_800192C4((saddr)this, 2)));
     this->adjust_dfp((s32)((f32)this->get_base_dfp() * TObjPlayer__sub_800192C4((saddr)this, 3)));
     return 1;
 }
