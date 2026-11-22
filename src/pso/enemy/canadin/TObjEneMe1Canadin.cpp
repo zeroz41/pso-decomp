@@ -54,6 +54,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 
 
 extern "C" {

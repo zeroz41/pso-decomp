@@ -17,6 +17,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/map/CsnQuery.h"
+#include "pso/unk/text_800870BC.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off

@@ -67,6 +67,9 @@
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/unk/text_800D8830.h"
+#include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
+#include "pso/ui/TLevelSelect.h"
 
 
 extern "C" {

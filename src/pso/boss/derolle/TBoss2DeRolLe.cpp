@@ -280,6 +280,8 @@ f32 boss2_derolle_particle_limits[3] = {32.0f, 30.0f, 30.0f};
 const char *boss2_de_rol_le_class_name = "TBoss2DeRolLe";
 
 #include <stddef.h>
+#include "pso/player/TObjPlayer_8002E784.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 
 extern "C" {
 

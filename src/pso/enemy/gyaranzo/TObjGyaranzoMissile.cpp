@@ -19,6 +19,8 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/system/task/TObject.h"
+#include "pso/enemy/AreaSoundRemap.h"
+#include "pso/system/SoundEffect.h"
 
 
 CollisionBody gyaranzo_missile_collision_body_b = {{0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, 0, 0x8001, {0.0f, 0.0f, 0.0f}, 0.0f};
@@ -56,9 +58,7 @@ extern saddr tl_04;
 s32 matrix_mult_vec(int, int, int);
 s32 rotate_matrix_x(int, int);
 extern f32 TObjGyaranzoMissile__speed_scale;
-s32 remap_area_sound_id(s32 sound_id, s32 control);
 void check_enemy_body_collisions(void *);
-s32 play_sound_effect(s32, void *, int, int);
 Target_800D4990 *find_active_entity_by_id(u16);
 }
 s32 get_gyaranzo_missile_int_parameter(s32 i);

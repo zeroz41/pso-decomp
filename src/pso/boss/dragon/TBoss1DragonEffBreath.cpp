@@ -2,6 +2,7 @@
 #include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/enemy/AttackTargetHistory.h"
 #include "pso/system/vector.h"
+#include "pso/system/MatrixOps.h"
 
 extern "C" {
 extern const char TBoss1DragonEffBreath__class_name_string[] = "TBoss1DragonEffBreath";

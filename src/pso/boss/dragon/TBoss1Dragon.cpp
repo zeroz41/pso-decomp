@@ -77,7 +77,6 @@ extern "C" {
 void TObjLight__sub_801337F8(s32);
 s32 scale_matrix(s32, f32, f32, f32);
 s32 post_translate_matrix(void *);
-void draw_model_motion(void *, void *, f32);
 extern saddr current_scene_light;
 extern s32 model_render_flags;
 
@@ -96,6 +95,12 @@ struct Obj_80021260;
 
 #include <dolphin/mtx.h>
 #include <stddef.h>
+#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/network/client_id.h"
+#include "pso/unk/text_800870BC.h"
+#include "pso/camera/TCameraCtrl_800687BC.h"
+#include "pso/render/MaterialAlphaCompare.h"
+#include "pso/object/TObjControl.h"
 
 
 struct DragonCaptureVectors { DragonModelVector vectors[3]; };
@@ -158,19 +163,15 @@ void prepare_flight_destination__12TBoss1DragonFPv(u8 *self);
 s32 get_current_floor();
 uaddr get_player_by_client_id(s32);
 extern s32 lbl_805D4B24;
-extern s32 TLobby__designated_client_id;
 s32 isV2Mode__12TBoss1DragonFv(void);
 u8 *__ct__16TBoss1DragonDemoFv(u8 *object, saddr parent, s32 demo, f32 farg0);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 play_cue_stream_file(void *, int);
-void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 extern saddr tl_01;
 extern const u8 boss1_dragon_death_cue_filename[];
 
 s32 VecCopy__FP3VecPC3Vec(s32, s32);
 void TBoss1Dragon__sub_800275BC(TBoss1Dragon *dragon, Vec *position, u8 *params, AreaAttackHistory *history);
-s32 restore_player_cameras(void);
-s32 activate_camera_mode(s32);
 s32 set_scripted_camera_pose(void *, void *, void *);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 angle);
 s32 vec3_add_to(void *, void *);
@@ -195,7 +196,6 @@ void subtract_vector(void *, void *);
 s32 translate_matrix(saddr, f32, f32, f32);
 s32 rotate_matrix_x(s32, s32);
 void set_material_alpha_compare_reference(s32);
-void set_chunk_material_override_pair(s32, s32);
 void render__12TBoss1DragonFv(u8 *arg0);
 }
 void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);

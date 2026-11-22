@@ -63,6 +63,10 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
+#include "pso/unk/text_800870BC.h"
+#include "pso/object/TObjControl.h"
+#include "pso/boss/goldragon/TBoss8Dragon_802F3AB4.h"
+#include "pso/boss/dragon/TBoss1Dragon.h"
 
 struct Rot_802F9D08 { s32 x, y, z; };
 
@@ -110,7 +114,6 @@ extern "C" {
 s32 angle_diff_s16(s32, s32);
 void TBoss8Dragon__sub_802FC500(u8 *boss8_dragon);
 u16 get_entity_id(u8 *);
-void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 void TBoss8Dragon__sub_802FC9D8(u8 *self);
 f32 newton_sqrtf(f32);
 f32 horizontal_distance_squared(void *, void *);
@@ -201,7 +204,6 @@ struct Cam_802FDC1C { s32 f0; f32 *p4; f32 *p8; };
 s32 get_current_floor();
 int emit_effect_at_position__9TObjEneDDFPv(void*);
 int setup_instance__9TObjEneDDFllPUcl(void*);
-u8 *get_enemy_entity(u16 arg0);
 void free_collision_body_parts(void *);
 s32 check_flag_100__10TObjPlayerFPv();
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
@@ -446,7 +448,6 @@ struct Obj_802FC580;
 void TBoss8Dragon__sub_802FC060(void *, s32);
 struct Pair_802F8578 { f32 a; f32 b; };
 void rotate_vec_xz(void *, void *, s32);
-TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 extern f32 lbl_805D69C0;
 void subtractive_rng_seed(void *, s32);
 f32 calc_random_ratio__10TObjPlayerFv(void *);
@@ -471,7 +472,6 @@ struct Node_802FDDD4 {
     u8 pad2[4];
 };
 extern "C" {
-void copy_model_node(u8 *, u8 *);
 Node_802FDDD4 *clone_node_tree__12TBoss8DragonFPvPvi(Node_802FDDD4 *src, Node_802FDDD4 *dst, s32 v);
 extern const f32 lbl_805D9E80;
 f32 lbl_805D6980 = 5.0f * lbl_805D9E80;
@@ -499,7 +499,6 @@ typedef struct Anim_802F3D6C { u8 pad0[4]; u32 nframes; } Anim_802F3D6C;
 typedef struct B_802F3D6C { u8 pad0[4]; Anim_802F3D6C *anim; } B_802F3D6C;
 extern "C" {
 void TObjLight__sub_801337F8(s32);
-void draw_model_motion(void *model, void *motion, f32 frame);
 extern saddr current_scene_light;
 extern s32 model_render_flags;
 // (from _802F3CA0)

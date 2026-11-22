@@ -45,6 +45,8 @@ extern "C" void test_flag_1000__9TObjCharaFv();
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/camera/TCameraCtrl_8006A03C.h"
 extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
 
 struct V_802DA7A4Base { u8 pad[0x14]; };
@@ -145,8 +147,6 @@ s32 copy_position_if_valid__10TObjPlayerFii(s32 arg0, s32 arg1);
 f32 horizontal_distance_squared(int, void *);
 extern u8 *TObjEneGibbles__ai_parameters;
 s32 is_split_screen();
-void restore_scene_lighting(void);
-void select_actor_lighting(s32 obj);
 void render__14TObjEneGibblesFv(TObjEneGibbles *arg0);
 f32 subtract_vector(void *, void *);
 s32 check_path_obstructed(void *, void *);

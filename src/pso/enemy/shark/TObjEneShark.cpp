@@ -42,6 +42,9 @@ extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__13TUnk_80493450Fv();
 
 #include <stddef.h>
+#include "pso/unk/text_803E2F28.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
 
 struct RecoveredGlobal_800ABA9C_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
 LAYOUT_ASSERT(RecoveredGlobal_800ABA9C_lbl_8058D490_size, sizeof(RecoveredGlobal_800ABA9C_lbl_8058D490) == 0x30);
@@ -165,12 +168,10 @@ struct Owner_800ABDD8
 
 extern "C" {
 s32 post_translate_matrix(void *);
-void draw_chunk_object(void *child);
 extern s32 model_render_flags;
 void run_demo_task__12TObjEneSharkFv(void);
 extern s32 shark_render_node_index;
 s32 vec3_add_to(void *, void *);
-s32 play_sound_effect(s32, void *, int, int);
 void play_attack_sound__12TObjEneSharkFv(s32 arg0);
 void play_death_sound__12TObjEneSharkFv(s32 arg0);
 void play_hurt_sound__12TObjEneSharkFv(s32 arg0);
@@ -184,8 +185,6 @@ void set_matrix_identity(u8 *arg0);
 extern uaddr TObjEneShark__attack_motion_3_trail;
 extern uaddr shark_attack4_trail_buffer;
 void update_attack_trail__12TObjEneSharkFv(Obj_800ABB38 *o);
-void restore_scene_lighting(void);
-void select_actor_lighting(s32 obj);
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;
@@ -517,6 +516,7 @@ void TObjEneShark::render() {
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 
 #include "pso/ui/hud/TNowLoading.h"
+#include "pso/ui/TLevelSelect.h"
 
 struct Sub_800ACA10 { u8 pad[0x18]; s32 level; };
 

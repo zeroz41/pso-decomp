@@ -42,6 +42,9 @@
 
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/object/TObjControl.h"
+#include "pso/unk/text_80086D50.h"
+#include "pso/ui/TLevelSelect.h"
 
 void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
 extern "C" {
@@ -265,7 +268,6 @@ s32 check_path_obstructed(void *, void *);
 s32 get_entity_id(void *);
 s32 get_current_floor();
 u32 csnVector(void *, void *, int);
-u8 *get_enemy_entity(u16);
 s32 subtract_vector(void *, void *);
 extern s32 lbl_805D5870;
 s32 TObjPlayer__sub_800ACA0C(void *);
@@ -309,8 +311,6 @@ extern Vec scratch_vec;
 
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
-
-void *spawn_directional_particle(void *pos, void *dir, s32 id);
 
 extern s32 game_difficulty_selection;
 

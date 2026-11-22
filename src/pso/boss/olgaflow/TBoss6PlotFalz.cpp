@@ -54,6 +54,11 @@ extern BmlResourceDescriptor boss6_plot_falz_resource_descriptor;
 #include "pso/boss/olgaflow/TBoss6Thanks_8035D1F4.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/boss/olgaflow/TBoss6EmptyWarp_802B0E2C.h"
+#include "pso/boss/darkfalz/TObjDFHorming.h"
+#include "pso/unk/text_80357058.h"
+#include "pso/camera/TCameraCtrl_800687BC.h"
+#include "pso/system/TLoadCtrl_80227390.h"
 
 #pragma readonly_strings on
 const char *boss06_plotfalz_dat_model_names[15] = {
@@ -678,7 +683,6 @@ struct Stack_802ABC64 {
 };
 
 extern "C" {
-void TBoss4DarkFalz__sub_8004B4F0(void *arg0p, void *arg1p);
 u32 create__11TBoss6Type1Fl(void *, int);
 u32 create__11TBoss6Type2Fl(void *, int);
 f32 xyz_distance(const void *, const void *);
@@ -1080,16 +1084,11 @@ typedef struct Loc_802AC9EC {
 
 extern "C" {
 void fn_802E52AC(void);
-void TItemEffOrgaFlowShot__sub_80357210(void);
 }
 void clear_boss6_player_snapshots(void);
 BmlResource *boss6_scene_archive;
 extern "C" {
-s32 restore_player_cameras();
-void play_area_music(char *name);
 extern saddr TBoss6PlotFalz__instance;
-u8 *get_enemy_entity(u16 arg0);
-void TItemEffOrgaFlowShot__sub_80357204(void);
 
 void TBoss6PlotFalz::render() {  }
 

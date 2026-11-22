@@ -22,6 +22,7 @@
 
 
 #include "pso/object/base/TObjChara.h"
+#include "pso/object/TObjControl.h"
 
 
 extern const Vec lbl_8043BC68 = { 0.0f, 0.0f, 0.0f };
@@ -84,7 +85,6 @@ u16 get_entity_id(void *);
 int queue_destruction__7TObjectFv(void*);
 s32 enemy_move_toward(void *, s32, void *, int, f32);
 s32 get_current_floor(void);
-u8 *get_enemy_entity(u16 arg0);
 f32 enemy_backstep_from_point(void *, void *, f32);
 s32 angle_difference_abs(s32, s32);
 void TUnk_80493450::sub_800C4E08() {

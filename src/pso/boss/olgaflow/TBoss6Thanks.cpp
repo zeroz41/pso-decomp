@@ -31,6 +31,7 @@
 #include "pso/item/TItem.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/object/switch/TOSwitchItem.h"
+#include "pso/ui/TLevelSelect.h"
 
 
 LAYOUT_ASSERT(Thanks_current_motion, offsetof(TBoss6Thanks,current_motion)==0x20);
@@ -288,8 +289,6 @@ s32 TBoss6Thanks::is_ship_door_ready() {
 }
 
 s32 TBoss6Thanks__sub_8035D270(void) { return TBoss6Thanks::check_ship_door(); }
-
-extern s32 game_difficulty_selection;
 
 s32 TBoss6Thanks::try_dispatch_darkfalz_phase() {
     if (((s32) game_difficulty_selection == 0) || ((get_main_phase() == 0xE) && (is_split_screen() == 0)) || (any_player_has_listed_equipment() == 0)) {

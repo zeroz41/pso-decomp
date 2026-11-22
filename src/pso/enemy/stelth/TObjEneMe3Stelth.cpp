@@ -74,6 +74,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/technique/TTecDeband.h"
+#include "pso/ui/TLevelSelect.h"
 
 #pragma readonly_strings on
 
@@ -90,7 +91,6 @@ extern "C" {
 s32 select_enemy_destination(void *, Vec *, int);
 s32 copy_position_if_valid__10TObjPlayerFii(s32 arg0, s32 arg1);
 extern StelthBehaviorParams *TObjEneMe3Stelth__behavior_params_by_variant[];
-extern s32 game_difficulty_selection;
 u16 get_entity_id(void *);
 extern CollisionBody TObjEneMe3Stelth__collision_body_template;
 BmlResource *TObjEneMe3Stelth__bml_resource;

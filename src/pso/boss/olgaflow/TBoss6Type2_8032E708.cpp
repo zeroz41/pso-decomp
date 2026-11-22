@@ -284,7 +284,6 @@ void TBoss6Type2__sub_8032F5C4(void *boss6_mag);
 }
 void draw_model_blend_motion(void *model, void *motion, f32 blend_factor);
 extern "C" {
-void draw_model_motion(void *model, void *motion, f32 frame);
 
 extern Ent_8032FFC0 boss6_type2_motion_table[];
 void TBoss6Type2__sub_803300C8(u8 *arg0);
@@ -1136,7 +1135,6 @@ void spawn_ground_effect__10TObjPlayerFPv(u8 *arg0) {
     play_sound_effect(0x6A816, arg0 + 0x38, 0, 0);
     *(f32 *)((s8 *)arg0 + 0x3BC) = 0.0f;
 }
-void TBoss6PlotFalz__sub_802AC008(f32, f32);
 s32 rotate_matrix_x(int, int);
 s32 post_translate_matrix(void *);
 s32 submit_cursor_candidate(void *, int);

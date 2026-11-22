@@ -14,6 +14,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/object/TObjControl.h"
 
 // Stored in the object name field by the constructor.
 const char *TObjEnePanarmsAtkColli_class_name = "TObjEnePanarmsAtkColli";
@@ -105,7 +106,6 @@ void fn_800E3374(Obj_800E3374 *target, V_800E3374 *arg1);
 f32 horizontal_distance_squared(void *, void *);
 extern s32 registered_player_count;
 void check_radius_collisions(Obj_800E35C8 *target);
-u8 *get_enemy_entity(u16 arg0);
 void fn_800E322C(void *p, void *t);
 void vec3_add_to(void *, void *);
 f32 vector_length(void *);

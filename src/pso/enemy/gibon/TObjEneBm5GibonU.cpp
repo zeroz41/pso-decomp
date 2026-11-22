@@ -54,6 +54,8 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/render/TUnk_80494938.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/player/TPlyDispData.h"
+#include "pso/ui/TLevelSelect.h"
+#include "pso/unk/text_80086D50.h"
 
 // The motion-binding block TLobby::spawn_npc_enemy takes (same layout as GeeAnimationBinding).
 

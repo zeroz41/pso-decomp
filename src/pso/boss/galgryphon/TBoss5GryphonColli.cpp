@@ -14,6 +14,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/math/MatrixVector.h"
 
 
 #pragma readonly_strings on
@@ -72,7 +73,6 @@ extern const char *lbl_805D2808;
 void TBoss5GryphonDemo__sub_8006626C(void* p);
 int matrix_mult_vec(void*, void*, void*);
 int post_translate_matrix(void*);
-void set_matrix_identity(u8 *arg0);
 int rotate_matrix_y(void*, s32);
 
 }

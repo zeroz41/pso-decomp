@@ -10,6 +10,7 @@
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TObject.h"
+#include "pso/camera/CameraHelpers.h"
 
 #pragma readonly_strings on
 
@@ -21,7 +22,6 @@ struct RecoveredGlobal_802F2D8C___vt__16TBoss8DragonDemo {
 struct Obj_8002B118 { u8 pad[0x1c]; void *colli[3]; };
 
 extern "C" {
-CameraPlayback *get_scripted_camera_playback();
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_802F2D8C___vt__16TBoss8DragonDemo __vt__16TBoss8DragonDemo;
 extern const char *TBoss8DragonDemo__name;

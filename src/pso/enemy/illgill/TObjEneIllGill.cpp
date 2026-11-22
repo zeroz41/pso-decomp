@@ -43,6 +43,11 @@ extern "C" void render__15TObjIllGillKageFv();
 
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/unk/text_80086D50.h"
+#include "pso/unk/text_800871A0.h"
+#include "pso/ui/TLevelSelect.h"
+#include "pso/math/ScratchVectors.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
 
 struct IllGillEffectRotation { s32 x, y, z; };
 
@@ -55,8 +60,6 @@ extern "C" {
 s32 get_current_floor(void);
 f32 atan2_float(f32 y, f32 x);
 f32 newton_sqrtf(f32);
-void *spawn_directional_particle(void *pos, void *dir, s32 id);
-void *spawn_continuous_particle_with_direction(void *pos, void *dir, s32 id);
 s32 angle_difference_abs(s32, s32);
 void *get_player_by_client_id(s32 i);
 s32 minimap_render_dot(void *, int, int, int);
@@ -74,7 +77,6 @@ f32 horizontal_distance_squared(void *, void *);
 s32 select_enemy_destination(void *, Vec, int);
 s32 copy_position_if_valid__10TObjPlayerFii(void *, Vec);
 s32 is_split_screen();
-extern s32 game_difficulty_selection;
 extern s32 local_client_id;
 BmlResource * illGillResource;
 saddr TObjEneIllGill__boss_registration_id;
@@ -87,7 +89,6 @@ void move_with_wall_slide(u8 *arg0);
 
 extern "C" {
 s32 project_actor_to_ground(void *, void *, int);
-extern Vec lbl_8050BF00;
 
 void submit_cursor_candidate(void *, int);
 f32 step_toward_destination__10TObjPlayerFPvPvf(void *, Vec, f32);
@@ -99,7 +100,6 @@ f32 enemy_move_toward(void *, s32, Vec *, s32, f32, f32);
 s32 enemy_pursue_point(void *, s32, Vec *, f32, f32, f32);
 f32 fabs_float(f32);
 s32 approach_angle_limited(s32, s32, s32);
-extern Vec scratch_vec;
 
 void free_collision_body_parts(void *);
 

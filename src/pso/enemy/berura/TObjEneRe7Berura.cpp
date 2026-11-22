@@ -38,6 +38,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/unk/TLobby_80226070.h"
+#include "pso/math/MatrixVector.h"
 
 #pragma defer_codegen on
 extern "C" {
@@ -95,7 +96,6 @@ s32 TObjEneRe7Berura__sub_80094DB4(TObjEneRe7Berura *);
 struct Mtx_8009503C { f32 m[3][4]; };
 extern "C" {
 s32 VecCopy__FP3VecPC3Vec(void *, void *);
-u16 get_entity_id(TObjBase *);
 u32 csnLookAt(Vec *, Vec *);
 void TObjEneRe7Berura__sub_80093888(TObjEneRe7Berura *actor, s32 reason);
 

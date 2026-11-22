@@ -26,6 +26,8 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TObject.h"
+#include "pso/unk/text_803E2F28.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
 
 
 extern "C" {

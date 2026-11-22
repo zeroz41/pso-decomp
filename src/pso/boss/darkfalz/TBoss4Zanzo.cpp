@@ -63,6 +63,9 @@
 #include "pso/technique/TTecRaBarta.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/ui/TLevelSelect.h"
+#include "pso/player/TObjPlayer_80052374.h"
+#include "pso/player/TObjPlayer_803E1A58.h"
 
 
 struct Obj_8005683C;
@@ -73,7 +76,6 @@ extern "C" {
 s32 vec3_add_to(void *, void *);
 f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
-TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 f32 atan2_float(f32 y, f32 x);
 u8 * dispatch_shared_handler_a__6TLobbyFl(s32);
 
@@ -181,14 +183,12 @@ struct Obj_80056DF0 { u8 pad0[0x3AC]; s32 i3AC; s32 i3B0; f32 f3B4; f32 f3B8; f3
 u16 get_entity_id(void *);
 s32 TBoss4DarkFalz__sub_8004AF5C(s32, s16 *, s16 *);
 s32 TBoss4DarkFalz__sub_8004B4F0(void *, void *);
-void TObjPlayer__sub_80052390(f32 x);
 void TBoss4Type2__sub_80055300(void);
 void find_target_pos__11TBoss4Type2FPvPv(O_80056C30 *self, Vec *out);
 s32 create__11TBoss4BishiFi(void *);
 void request_follow_camera_offsets(void *arg0, void *arg1, u16 arg2);
 void TObjEneRe4Sorcerer__sub_801E3F1C(f32, f32);
 f32 post_translate_matrix(void *);
-f32 xyz_distance(Vec *, Vec *);
 
 extern u8 TBoss4DarkFalz__data_804FF1E8[];
 extern Ofs_8005683C bishi_spawn_offset_table[];

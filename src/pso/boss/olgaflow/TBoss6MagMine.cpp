@@ -33,6 +33,7 @@ struct Mine_80368C14 { u8 pad[0x38]; Vec pos; };
 
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/boss/darkfalz/TObjDFHorming.h"
 
 #pragma readonly_strings on
 struct VBase_18_5673ef { char pad[0x18]; };
@@ -132,15 +133,12 @@ saddr VecCopy__FP3VecPC3Vec(saddr, saddr);
 s32 init_collision_body_parts(void *, void *, int);
 const char *lbl_805D44B0 = "TBoss6MagMine";
 s32 is_player_in_range__13TBoss6MagMineFPv(void *arg0_);
-void TBoss4DarkFalz__sub_8004B4F0(void *arg0p, void *arg1p);
 s32 create__13TBoss6MagMineFi(s32 set_data);
 void vt3__13TBoss6MagMineFv(saddr self);
 void vt4__13TBoss6MagMineFv(void* p);
 void copy_pos__13TBoss6MagMineFi(s32 self);
-void TBoss6PlotFalz__sub_802AC008(f32 farg0, f32 hp_ratio);
 int post_translate_matrix(void*);
 void free_collision_body_parts(void *);
-void draw_model_motion(void *model, void *motion, f32 frame);
 int rotate_matrix_y(void*, void*);
 
 void TUnk_804F322C::run_death_reaction() {

@@ -77,6 +77,9 @@ struct Type3MotionView { s32 kind, flags, motions[3]; };
 #include "pso/technique/TTecRaBarta.h"
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/technique/TTecResta.h"
+#include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
+#include "pso/player/TObjPlayer_80052374.h"
+#include "pso/player/TObjPlayer_803E1A58.h"
 
 #pragma defer_codegen on
 
@@ -177,7 +180,6 @@ f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
 f32 atan2_float(f32 y, f32 x);
 s32 pick_random_target_player__11TBoss4Type3Fv(void);
-s32 TBoss4Type3__sub_8005254C(u16);
 struct Stack_80055918
 {
   s32 sp8;
@@ -350,8 +352,6 @@ struct VObj_8005B218 : VBase_8005B218 {
 
 u16 get_entity_id(void *);
 s32 is_split_screen();
-void TObjPlayer__sub_80052390(f32 x);
-f32 TBoss4Type3__sub_800524E8(f32);
 void TBoss4Type3__sub_800599F4(void*, int, int);
 void TBoss4Type3__sub_80059EA8(Obj_80059EA8 *self, s32 arg1, s32 arg2);
 void TBoss4Type3__sub_80059F64(Obj_80059F64 *self, s32 arg1);
@@ -369,7 +369,6 @@ void TBoss6PlotFalz__sub_802AC008(f32 farg0, f32 hp_ratio);
 s32 matrix_mult_vec(int, void *, void *);
 void set_matrix_identity(u8 *arg0);
 f32 xyz_distance(Vec *, Vec *);
-void draw_model_motion(void *model, void *motion, f32 frame);
 
 extern void* __vt__13TObjBs4CutAtk[];
 

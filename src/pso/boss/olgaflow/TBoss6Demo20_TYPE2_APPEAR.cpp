@@ -25,6 +25,7 @@
 #include "pso/boss/olgaflow/TBoss6Demo20_TYPE2_APPEAR.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/system/MatrixStack.h"
 
 
 extern const Vec boss6_type2_appear_origin;
@@ -54,7 +55,6 @@ const Ent_8033D6DC boss6_type2_appear_particle_schedule[9] = {
 const Vec lbl_80478058 = {-10000.0f, 0.0f, 0.0f};
 const CameraAngles lbl_80478064 = {0, 0, 0};
 const CameraPlayback boss6_type2_appear_camera_script = {1, 3, 0, 0.0f, 0.7f};
-void post_translate_matrix(const f32 *);
 
 void TBoss6Demo20_TYPE2_APPEAR::draw_model_12() {
     push_matrix();

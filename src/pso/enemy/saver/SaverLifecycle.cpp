@@ -43,6 +43,9 @@ extern "C" void test_flag_1000__9TObjCharaFv();
 #include "pso/effect/TUnk_80494968.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
+#include "pso/object/TObjControl.h"
+#include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
 
 struct Obj_800A6B14;
 
@@ -641,7 +644,6 @@ extern "C" {
 s32 calc_velocity_toward_destination(void *, Vec, Vec, f32);
 s32 get_current_floor();
 f32 newton_sqrtf(f32);
-u8 *get_enemy_entity(u16);
 
 void TObjPlayer__sub_800A54B4(u8 *arg0);
 s32 check_path_obstructed(void *, void *);
@@ -1389,11 +1391,8 @@ s32 angle_diff_s16(s32, s32);
 void TObjPlayer__sub_800A49B4(TObjEneSaver *self);
 #define update_move_toward_target__12TObjEneSaverFv ((s32 (*)(void*))(update_move_toward_target__12TObjEneSaverFv))
 #define advance_motion_state__12TObjEneSaverFv ((s32 (*)(void*))(advance_motion_state__12TObjEneSaverFv))
-void TObjPlayer__sub_8023DEE0(s16 *p, s16 a, s16 b, u16 id);
 extern s32 actor_frame_tick;
 
-void restore_scene_lighting(void);
-void select_actor_lighting(s32 obj);
 s32 matrix_mult_vec(int, Vec *, void *);
 extern u8 identity_matrix[];
 extern s32 saved_model_render_flags;

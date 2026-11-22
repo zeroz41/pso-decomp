@@ -91,7 +91,6 @@ static u32 TBoss6Mine__collision_body_template[11] = {
     0, 0, 0, 0x41700000, 0, 0, 0x801B, 0, 0, 0, 0,
 };
 const char *lbl_805D4178 = "TBoss6Mine";
-void TBoss6PlotFalz__sub_802AC008(f32 farg0, f32 hp_ratio);
 void TBoss6Type1__sub_802B5DD4(void *);
 int post_translate_matrix(void*);
 int rotate_matrix_x(void*, void*);

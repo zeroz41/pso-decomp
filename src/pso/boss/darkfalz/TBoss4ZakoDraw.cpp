@@ -23,6 +23,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TBoss4ZakoDraw_8030AD38.h"
 #include "pso/unk/text_803E2F28.h"
+#include "pso/player/TObjPlayer_80052374.h"
 
 extern "C" {
 void post_translate_matrix(void *);

@@ -45,6 +45,8 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/enemy/berura/TObjEneRe7BeruraPunch.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/ui/TLevelSelect.h"
+#include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
 // .rodata holds the table strings, the class name, the 803350AC binding template, then the Vecs in
 // reverse .text order and the doubles in .text order: deferred codegen, functions written last to first.
 #pragma defer_codegen on
@@ -433,7 +435,6 @@ extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
 s32 check_value_in_range__13TObjEneMorfosFPvUsUsUs(void *, int, int, int);
 s32 TObjEneMorfos__sub_803344F0(void *arg0);
-extern s32 game_difficulty_selection;
 struct Base_A_803326C4 { char pad[0x18]; };
 
 struct V_A_803326C4 : Base_A_803326C4 {
@@ -640,13 +641,11 @@ s32 angle_difference_abs(s32, s32);
 s32 angle_diff_s16(s32);
 s32 free_collision_body_parts(void *);
 void *get_player_by_client_id(s32 i);
-void TObjPlayer__sub_8023DEE0(s16 *p, s16 a, s16 b, u16 id);
 void TObjEneMorfos__sub_80332DBC(u8 *ene_morfos, s32 ev);
 void TObjEneMorfos__sub_80333E48(u8 *ene_dd_st, s32 ev);
 void TObjEneMorfos__sub_80334030(u8 *ene_dd, s32 ev);
 void TObjEneMorfos__sub_803342B8(u8 *ene_dd, s32 ev);
 int TObjEneMorfos__sub_80334704(void);
-void TObjEneMorfosArm__sub_8033542C(void);
 void subtract_vector(void *, void *);
 }
 void draw_chunk_model(void *arg0);

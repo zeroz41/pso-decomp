@@ -18,6 +18,8 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
+#include "pso/enemy/AreaSoundRemap.h"
+#include "pso/system/SoundEffect.h"
 
 struct D_800D40FC { u8 pad[0x18]; s32 arr[1]; };
 
@@ -79,9 +81,7 @@ struct Missile_800D43B4 {
 extern "C" {
 s32 project_actor_to_ground(void *, void *, int);
 s32 obj_is_hit_receivable();
-s32 remap_area_sound_id(s32 sound_id, s32 control);
 void check_enemy_body_collisions(void *arg0);
-s32 play_sound_effect(s32, void *, int, int);
 
 void rotate_vector_by_matrix(int, void *, void *);
 extern u8 identity_matrix[];

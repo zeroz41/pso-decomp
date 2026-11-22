@@ -59,6 +59,7 @@ extern saddr current_scene_light;
 
 
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/ui/TLevelSelect.h"
 extern "C" {
 extern u8 *camera_ctrl_instance;
 int is_local_client_floor_leader(void*);

@@ -38,6 +38,8 @@
 #include "pso/enemy/fly/TObjEneBm3FlyNest.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/ambient/TObjCGrass.h"
+#include "pso/render/BlobShadow.h"
 extern "C" {
 s32 approach_angle_limited(int, int, int);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 angle);

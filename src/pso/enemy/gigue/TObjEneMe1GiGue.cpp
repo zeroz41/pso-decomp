@@ -46,6 +46,8 @@
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
 
 s32 get_gigue_int_parameter(TObjEneMe1GiGue *, s32);
 f32 get_gigue_float_parameter(TObjEneMe1GiGue *, s32);
@@ -89,7 +91,6 @@ void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
 extern "C" {
 s32 calc_velocity_toward_destination(void *, Vec, Vec, f32);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-s32 play_sound_effect(s32, void *, s32, s32);
 }
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
@@ -107,8 +108,6 @@ void TObjEneMe1GiGue__sub_802CE4E8(void);
 void TObjEneMe1GiGue__sub_802CE4EC();
 void TObjEneMe1GiGueBarrier__sub_80325CC0(void);
 extern void *tl_04;
-void restore_scene_lighting(void);
-void select_actor_lighting(s32 obj);
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 void free_collision_body_parts(void *);

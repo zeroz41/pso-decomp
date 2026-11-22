@@ -50,6 +50,8 @@
 #include "pso/system/BmlResource.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/text_802D1C84.h"
+#include "pso/ui/TLevelSelect.h"
+#include "pso/player/TObjPlayer_800F0810.h"
 #pragma defer_codegen on
 
 extern const f32 lbl_805D9E84;
@@ -57,10 +59,6 @@ extern const f32 lbl_805D9E88;
 struct Sub_800ACA10 { u8 pad[0x18]; s32 level; };
 
 extern "C" {
-extern s32 game_difficulty_selection;
-void vec3_add_to(Vec *dst, const Vec *src);
-s32 approach_angle_limited(s32 from, s32 to, s32 max_step);
-s32 angle_difference_abs(s32 a, s32 b);
 void fn_802CE510(TObjEneBm9Mericarol *owner);
 void create__9TTecKafunFllllllff(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, f32 farg0, f32 farg1);
 }

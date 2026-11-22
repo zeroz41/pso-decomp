@@ -7,6 +7,7 @@
 
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/TObjControl.h"
 
 #pragma readonly_strings on
 

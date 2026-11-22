@@ -10,6 +10,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/render/ModelDrawContext.h"
 
 #pragma readonly_strings on
 
@@ -36,7 +37,6 @@ const char *lbl_805D3B40 = "TObjBoss5Pillar";
 extern u8 *lbl_805D4DD8;
 void fn_8028AE1C(void *);
 s32 post_translate_matrix(void *);
-void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 
 extern s32 boss5_common_texture_list;
 

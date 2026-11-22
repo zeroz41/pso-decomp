@@ -217,6 +217,7 @@ VA
 
 #include <stddef.h>
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/enemy/AreaSoundRemap.h"
 struct VPad18 { char pad[0x18]; };
 
 struct VCls18 : VPad18 {
@@ -370,9 +371,6 @@ struct Lappy_800C0318 { u8 pad0[0x2FC]; Vec pos; f32 vx; f32 vy; f32 vz; };
 
 extern const f32 lbl_805D9F9C;
 
-extern "C" {
-s32 remap_area_sound_id(s32, s32);
-}
 void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
 void move_with_wall_slide(u8 *arg0);
 extern "C" {

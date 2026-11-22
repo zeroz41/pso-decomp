@@ -48,6 +48,11 @@ struct Pl_800D5614 { u8 pad0[0x38]; u8 pos[0xC]; };
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/ui/TLevelSelect.h"
+#include "pso/unk/text_800D8830.h"
+#include "pso/math/ScratchVectors.h"
 
 #pragma readonly_strings on
 
@@ -450,7 +455,6 @@ struct VObj_18_4c2345 : VBase_18_4c2345 {
 void move_with_wall_slide(u8 *arg0);
 
 extern "C" {
-s32 play_sound_effect(s32, void *, int, int);
 void TObjEneMerillLia__sub_800D4EC8(saddr arg0);
 void play_group_chase_sound__16TObjEneMerillLiaFv(s32 arg0);
 void play_death_sound__16TObjEneMerillLiaFv(s32 arg0);
@@ -465,8 +469,6 @@ void spawn_death_effect__16TObjEneMerillLiaFv(u8 *arg0);
 s32 get_current_floor();
 f32 xz_distance_squared(void *, void *);
 void run_task__16TObjEneMerillLiaFv(u8 *arg0);
-void restore_scene_lighting(void);
-void select_actor_lighting(s32 obj);
 void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 f32 post_translate_matrix(void *);
 extern s32 saved_model_render_flags;
@@ -491,7 +493,6 @@ extern "C" {
 s32 enemy_move_toward(void *, s32, void *, int, f32);
 f32 horizontal_distance_squared(void *, void *);
 void beast_update_approach__16TObjEneMerillLiaFv(u8 *arg0);
-void fn_800D88E4(void *pos);
 extern s32 actor_frame_tick;
 void spawn_ground_effect__16TObjEneMerillLiaFPv(u8 *motion);
 f32 enemy_backstep_from_point(void *, void *, f32);
@@ -503,8 +504,6 @@ void link_chain_nodes__10TObjPlayerFPvPvPv(void *, void *, void *);
 s32 approach_angle_limited(s32, s32, s32);
 s32 project_actor_to_ground(void *, void *, s32);
 s32 subtract_vector(void *, void *);
-extern Vec scratch_vec;
-extern Vec lbl_8050BF00;
 void TObjEneMerillLia__sub_800D5BCC(u8 *arg0);
 void * TObjEneMerillLia__create(void *arg0);
 void run_demo_task__16TObjEneMerillLiaFv(void);

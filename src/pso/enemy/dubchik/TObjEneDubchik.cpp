@@ -47,6 +47,9 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/text_803D853C.h"
+#include "pso/enemy/saver/SaverLifecycle.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
 
 struct VBase_800AA704 { u8 pad[0xC]; };
 struct VObj_800AA704 : VBase_800AA704 {
@@ -142,7 +145,6 @@ NJS_TEXLIST *dubchik_texlist;
 NJS_TEXLIST *dubchik_variant_texlist;
 
 AnimationMotion *get_bml_motion(BmlResource *resource, s32 index);
-void TObjPlayer__sub_800A4294(void);
 }
 u8 *load_gvm_texture_file(saddr name);
 Node_800AA82C *lbl_805D509C;
@@ -190,7 +192,6 @@ struct Self_800AA334 { u8 pad[0x3B0]; VObj_14_fddec9 sub; };
 
 
 extern "C" {
-void TBoss3Volopt__sub_800D8D88(saddr position);
 void TObjPlayer__sub_800A8E04(u8 *ene_me1_gi_gue);
 void obj_setFlags30(void *, u32);
 void dubchik_start_dying(u8 *arg0);
@@ -207,8 +208,6 @@ void move_with_wall_slide(u8 *arg0);
 extern "C" {
 s32 calc_velocity_toward_destination(void *, Vec_800A8C4C, Vec_800A8C4C, f32);
 void TObjPlayer__sub_800A8C4C(u8 *actor);
-void restore_scene_lighting(void);
-void select_actor_lighting(s32 obj);
 s32 post_translate_matrix(void *);
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;

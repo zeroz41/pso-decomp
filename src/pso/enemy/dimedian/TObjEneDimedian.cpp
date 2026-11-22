@@ -39,6 +39,8 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/effect/TUnk_80494968.h"
 #include "pso/unk/text_803D853C.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
 
 struct VBase_14_800A7BEC { char pad[0x14]; };
 
@@ -126,9 +128,6 @@ s32 post_translate_matrix(void *);
 extern saddr dimedian_type3_object;
 extern saddr lbl_805D5088;
 
-void restore_scene_lighting(void);
-void select_actor_lighting(s32 obj);
-void TObjPlayer__sub_8023DEE0(s16 *p, s16 a, s16 b, u16 id);
 extern saddr dimedian_resource_handles[];
 extern s32 dimedian_last_draw_tick[];
 extern s32 actor_frame_tick;

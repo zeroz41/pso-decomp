@@ -47,6 +47,7 @@
 #include "pso/math/AngleUnits.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 
 #pragma defer_codegen on
 extern "C" {

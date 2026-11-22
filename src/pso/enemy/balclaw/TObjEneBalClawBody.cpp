@@ -29,6 +29,8 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/unk/text_800870BC.h"
 
 static const char balclaw_body_class_name_text[] = "TObjEneBalClawBody";
 
@@ -76,17 +78,13 @@ s32 TObjPlayer__sub_800A0554(void *);
 s32 check_path_obstructed(void *, void *);
 TObjChara *find_active_entity_by_id(u16);
 s32 fn_80090464(void *, int);
-u8 *get_enemy_entity(u16);
 s32 minimap_render_dot(void *, int, int, int);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 s32 post_translate_matrix(void *);
 void queue_destruction__7TObjectFv(void *arg0);
-void restore_scene_lighting(void);
 s32 rotate_matrix_x(s32, s32);
-void select_actor_lighting(s32 obj);
 s32 select_enemy_destination(void *, Vec, s32);
 void send_6x2F_change_player_hp(s32 arg0, s32 arg1, s32 arg2);
-void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 s32 submit_cursor_candidate(void *, int, int, f32, f32);
 int update_if_active__15TObjEnemyCustomFl(void*, int);
 void vec3_add_to(Vec *, Vec *);

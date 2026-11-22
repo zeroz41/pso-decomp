@@ -64,6 +64,9 @@ struct VObj_80301690_80300CE4 : Base_80301690_80300CE4 {
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 #include "pso/effect/TUnk_80494968.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/unk/text_800D8830.h"
+#include "pso/object/TObjControl.h"
 
 struct RecoveredGlobal_80300FC0_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
 LAYOUT_ASSERT(RecoveredGlobal_80300FC0_lbl_8058D490_size, sizeof(RecoveredGlobal_80300FC0_lbl_8058D490) == 0x30);
@@ -374,7 +377,6 @@ struct Res_80302784 { u8 pad[0x42C]; Ent_80302784 *x42C; Pair_80302784 *x430; };
 extern "C" {
 s32 TObjEneDolmOlm__sub_80300CF0(void);
 extern s32 TObjEneDolmOlm__effect_render_state;
-s32 play_sound_effect(s32, void *, int, int);
 void TObjPlayer__sub_800D92BC(s32 point, s32 delay);
 f32 vec3_add_to(void *, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
@@ -389,13 +391,11 @@ void set_matrix_identity(u8 *arg0);
 s32 post_translate_matrix(void *);
 extern uaddr TObjEneDolmOlm__data_805D6A14;
 extern uaddr TObjEneDolmOlm__data_805D6A18;
-void fn_800D88E4(void *);
 extern s32 actor_frame_tick;
 void spawn_ground_effects__14TObjEneDolmOlmFPvPv(u8 *self, Vec *arg1);
 s32 obj_setFlags30(void *, s32);
 s32 get_current_floor();
 f32 fabs_float(f32);
-u8 *get_enemy_entity(u16 arg0);
 f32 horizontal_distance_squared(void *, void *);
 void *get_player_by_client_id(s32 i);
 extern uaddr TObjEneDolmOlm__behavior_params_by_variant;
@@ -436,7 +436,6 @@ extern s32 lbl_804E68D0[22];
 void * TObjEneDolmOlm__create(void *arg0);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 u8 *__ct__14TObjEneDolmOlmFll(u8 *, s32, s32);
-void mem_free(void*);
 s32 init_collision_body_parts(void *, void *, int);
 extern const char *obj_ene_dolm_olm_class_name;
 extern "C" {

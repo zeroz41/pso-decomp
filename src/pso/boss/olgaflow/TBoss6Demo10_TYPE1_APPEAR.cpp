@@ -24,6 +24,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/MatrixStack.h"
 
 
 extern "C" {

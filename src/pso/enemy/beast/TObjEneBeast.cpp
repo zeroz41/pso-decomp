@@ -43,6 +43,8 @@
 #include "pso/system/BmlResourceDescriptor.h"
 
 #include <stddef.h>
+#include "pso/unk/text_803E2F28.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
 extern "C" {
 void obj_clearFlags30__8TObjBaseFUl(void *, u32);
 s32 post_translate_matrix(void *);

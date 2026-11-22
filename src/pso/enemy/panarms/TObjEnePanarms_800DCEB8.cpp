@@ -45,6 +45,9 @@
 
 
 #include "pso/render/RenderFadeState.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/unk/text_80086D50.h"
+#include "pso/render/BlobShadow.h"
 
 
 struct Stack_800DDFDC
@@ -186,8 +189,6 @@ extern "C" {
 s32 obj_setFlags30(void *, int);
 int TObjEnePanarms__sub_800E1D94(void *);
 s32 spawn_continuous_particle_with_direction(void *, void *, int, int);
-f32 sin_table_lookup(int);
-f32 cos_table_lookup(int);
 void *spawn_directional_particle(void *pos, void *dir, s32 id);
 s32 TObjEnePanarms__sub_800DFB44(s32);
 void TObjEnePanarms__sub_800E1E14(u8 *arg0);
@@ -206,7 +207,6 @@ u32 csnLookAt(void *, void *);
 f32 horizontal_distance_squared(void *, void *);
 s32 try_warp_to_position__14TObjEnePanarmsFPvPv(u8 *player, Vec *pos);
 int TObjEnePanarms__sub_800DFBC4(void *p);
-void draw_blob_shadow(s32 arg0);
 s32 rotate_matrix_z(int, int);
 void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 s32 rotate_matrix_x(int, int);

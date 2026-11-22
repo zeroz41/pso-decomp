@@ -51,7 +51,6 @@ void TObjVoloptPillar::sub_80049FD8() {
 }
 
 extern "C" {
-s32 obj_is_hit_receivable(u8 *arg0);
 void post_translate_matrix(const Vec *v);
 extern GC_Mtx identity_matrix;
 }

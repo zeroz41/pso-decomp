@@ -60,6 +60,7 @@ extern CollisionBody TBoss1DragonColli_sphere_chain_desc;
 #include "pso/boss/dragon/TBoss1DragonDemo.h"
 
 #include "pso/unk/TLobby.h"
+#include "pso/math/MatrixVector.h"
 
 #pragma inline_depth(1)
 

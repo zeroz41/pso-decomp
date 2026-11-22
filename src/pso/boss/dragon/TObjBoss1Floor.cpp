@@ -29,6 +29,8 @@
 #include "pso/unk/text_803E2D70.h"
 #include "pso/boss/dragon/TObjBoss1MokoHill_Solo.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
+#include "pso/system/scene/TScene_800838C4.h"
 
 struct Obj_8002CACC { s32 f0; u8 pad4[0x14]; void *vt; f32 f1c; f32 f20; f32 f24; s32 f28[4]; };
 
@@ -47,10 +49,8 @@ struct Obj_8002CA38 { u8 pad[0x28]; uaddr slot[4]; };
 extern "C" {
 const char *TObjBoss1Floor__name = "TObjBoss1Floor";
 void run_task__14TObjBoss1FloorFv(Floor_8002C968 *self);
-void TBoss8Dragon__sub_8002D5F8(void);
 void TObjBoss1Floor__sub_8002CB40(void);
 void TObjBoss1Floor__sub_8002CB78(void);
-void render_projected_shadow_receiver(u8 *arg0, saddr arg1);
 
 void TLobby::update_boss1_objects() { TBoss8Dragon::free_resources(); TObjBoss1Rock__sub_8002E3CC(); TObjBoss1Crater__sub_8002C7B4(); TObjBoss1Floor__sub_8002CB40(); TLobby::free_char_select(); }
 void TLobby::forward_floor_2CB44() { TObjBoss1Floor::create_instance(); }

@@ -13,6 +13,8 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/TObjControl.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 
 const char *bm_obj_boss8_piller_model_names[5] = {
     "fe_obj_gol_hasira5m.nj", "fe_obj_gol_hasira1m.nj", "fe_obj_gol_hasira5m_m.nj", "fe_obj_gol_hasira1m_m.nj", NULL,
@@ -26,11 +28,9 @@ const char *TObjBoss8Piller__class_name = "TObjBoss8Piller";
 extern "C" {
 
 uaddr TObjBoss8Piller__shared_resource;
-u8 *get_enemy_entity(u16 arg0);
 s32 TBoss8Dragon__sub_802FB1B0(int, f32, void *);
 s32 post_translate_matrix(void *);
 s32 scale_matrix(int, f32, f32, f32);
-void draw_model_motion(void *model, void *motion, f32 frame);
 
 
 void TObjBoss8Piller::render() {

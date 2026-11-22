@@ -44,6 +44,11 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
+#include "pso/boss/darkfalz/TObjDFHorming.h"
+#include "pso/boss/olgaflow/TBoss6Type2_8032E708.h"
+#include "pso/boss/olgaflow/TBoss6Type2_80356E50.h"
+#include "pso/ui/TLevelSelect.h"
 
 // One row per body motion. update_motion_tracks loops a mode 0 row, holds a
 // mode 2 row on its last frame and goes on to row `next`.
@@ -123,7 +128,6 @@ union TypedVector_802BAA74 {
 extern "C" {
 s32 submit_cursor_candidate(void *, int);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-void TObjPlayer__sub_8023DEE0(s16 *p, s16 a, s16 b, u16 id);
 void TBoss6Type2__sub_802BA7BC(u8 *o);
 void *get_player_by_client_id(s32 i);
 f32 xyz_distance(void *, void *);
@@ -131,7 +135,6 @@ void TBoss6Type2__sub_802BA598(TBoss6Type2 *self, s32 elapsed, s32 duration);
 }
 void draw_model_blend_motion(void *model, void *motion, f32 blend_factor);
 extern "C" {
-void draw_model_motion(void *model, void *motion, f32 frame);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
 s32 init_collision_body_parts(void *, void *, int);
@@ -140,7 +143,6 @@ s32 TBoss6Type2__sub_802BB694(TBoss6Type2 *self);
 void TBoss6Type2__sub_802BB818(TBoss6Type2 *self, f32);
 void TBoss6Type2__sub_802BBC74(TBoss6Type2 *self);
 void TBoss4DarkFalz__sub_8004B4F0(void *dst, void *src);
-void TBoss6Rock__sub_80354A44(void);
 void free_collision_body_parts(void *);
 void set_screen_pos__11TBoss6Type2FPv(void *self);
 void TBoss6Type2__sub_802BE4E0(s32 *arg0, s32 *boss6_type2_zero_vec);
@@ -365,14 +367,12 @@ void TBoss6Type2__sub_802BCC54(void *, int);
 void TBoss6Type2__sub_802BD340(void);
 void TBoss6Type2__sub_802BD378(T2_802BD378 *arg0, s32 arg1, void *arg2, s32 *arg3);
 void TBoss6Type2__sub_8032E708(void *p, s32 v);
-void TBoss6Type2__sub_80356E50(s32 arg0, s32 cnt, s32 force);
 s32 spawn_flow_soul__11TBoss6Type2Fiii(saddr parent, saddr pos, saddr state_duration);
 f32 vec3_add_to(void *, void *);
 f32 vector_length(Vec *);
 void subtract_vector(Vec *, Vec *);
 
 extern s32 local_client_id;
-extern s32 game_difficulty_selection;
 
 // Read by the TBoss6Type2_802BE588/_802BF558 units and TBoss6Rock; emitted ahead of the literal pool.
 extern const f32 lbl_805DE3F0 = 400.0f;
@@ -435,8 +435,6 @@ static const s32 main_motion_track = 0;
 
 inline const s32 &get_motion_track_count() { return motion_track_count; }
 inline const s32 &get_main_motion_track() { return main_motion_track; }
-
-extern "C" u8 *get_enemy_entity(u16 arg0);
 
 struct Fish_802BE014 { u8 pad[0x764]; void *fish[1]; };
 

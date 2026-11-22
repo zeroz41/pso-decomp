@@ -24,6 +24,7 @@
 #include "pso/system/MatrixOps.h"
 #include <stdlib.h>
 #include "pso/unk/text_803D853C.h"
+#include "pso/network/client_id.h"
 
 // Matrix-stack, vector and animation helpers and unowned globals without a usable header:
 // text_803D96A8.h/text_803D853C.h/MatrixTransforms.h/TObjMotion.h includers declare these with

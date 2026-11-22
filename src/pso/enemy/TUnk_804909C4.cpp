@@ -28,6 +28,8 @@
 #include "pso/render/MaterialColorFade.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
+#include "pso/enemy/darkgunner/DarkGunner.h"
+#include "pso/unk/text_800870BC.h"
 
 struct VBase_18_4a35f9 { char pad[0x18]; };
 
@@ -67,14 +69,12 @@ struct Obj_800A3290 { u8 pad0[0xA4]; Sub_800A3290 *sub; };
 extern "C" {
 void check_enemy_body_collisions(void *arg0);
 s32 obj_is_hit_receivable();
-s32 TObjPlayer__sub_800A3210(s32 i, s32 _w1, s32 _w2);
 s32 vec3_add_to(void *, void *);
 s32 free_collision_body_parts(void *);
 s32 init_collision_body_parts(void *, void *, int);
 s16 get_entity_id(void *, f32);
 s32 subtract_vector(void *, void *);
 f32 atan2_float(f32, f32);
-void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 u8 *csnVector(void *, Vec *, s32);
 extern void *tl_04;
 extern f32 player_scale_factor;

@@ -20,6 +20,7 @@
 #include "types.h"
 #include <stdlib.h>
 #include "pso/system/task/TObject.h"
+#include "pso/math/MatrixVector.h"
 
 const char TBoss6CrushRock__class_name_string[] = "TBoss6CrushRock";
 const char TBoss6CrushPtcl__class_name_string[] = "TBoss6CrushPtcl";
@@ -32,7 +33,6 @@ extern saddr TBoss6PlotFalz__instance;
 TBoss6CrushRock *__ct__15TBoss6CrushRockFP7TObjectPC3Vecl(
     TBoss6CrushRock *rock, TObject *parent, const Vec *point, saddr model_index);
 }
-extern "C" f32 vector_length(const Vec *v);
 
 s32 TBoss6PlotFalz::get_hp() {
     return TBoss6PlotFalz__instance;

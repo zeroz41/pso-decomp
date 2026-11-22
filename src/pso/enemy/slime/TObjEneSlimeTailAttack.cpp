@@ -102,7 +102,6 @@ S_800E80E8 * TObjPlayer__sub_800E80E8(S_800E80E8 *dst, S_800E80E8 *src);
 void TObjPlayer__sub_800E8128(NJS_OBJECT *);
 void TObjPlayer__sub_800E81A8(void);
 s16 check_player_field_7cc__15TObjEneSlimeOneFv();
-void draw_blob_shadow(s32 arg0);
 int get_entity_id(void *);
 void free_collision_body_parts(void *);
 s32 scale_matrix(int, f32, f32, f32);
@@ -292,6 +291,7 @@ extern s32 __vt__12TObjEneSlime[];
 #include "pso/render/MaterialColorFade.h"
 #include "pso/player/TObjPlayer_800EBE2C.h"
 #include "pso/render/ChunkMaterialState.h"
+#include "pso/render/BlobShadow.h"
 
 
 struct Stack_800EBE74 {

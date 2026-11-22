@@ -146,6 +146,7 @@ TObjMotionAction lbl_8048FAF8[11] = {
 #include "pso/math/MatrixTransforms.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_803D853C.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 
 #pragma defer_codegen on
 

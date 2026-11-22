@@ -169,7 +169,6 @@ struct RecoveredFields_800C3088_arg0
 };
 
 extern "C" {
-TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 s32 TObjPlayer__sub_800C4A5C(int, void *, void *, int);
 s32 play_sound_effect(s32, void *, int, int);
 extern const f32 lbl_805D9FD8;
@@ -187,6 +186,7 @@ typedef struct VObj_18_880cfd VObj_18_880cfd;
 }
 
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 extern "C" {
 extern const f32 lbl_805D9FF0;
 f32 atan2_float(f32 y, f32 x);

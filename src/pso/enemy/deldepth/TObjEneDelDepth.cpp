@@ -44,6 +44,8 @@
 #include "pso/technique/TTecRaBarta.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/render/BlobShadow.h"
+#include "pso/ui/TLevelSelect.h"
 
 
 extern "C" {

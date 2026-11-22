@@ -64,8 +64,6 @@ extern const char *TBoss6SwordWave__name;
 TBoss6SwordWave *__ct__15TBoss6SwordWaveFv(u8 *self, TObject *owner, const Vec *position, saddr start_angle, saddr end_angle, f32 radius);
 void clear_bit__15TBoss6SwordWaveFPvUc(W_80356D10 *arg0, u8 arg1);
 u8 TBoss6SwordWave__sub_80356D08(u32 arg1, u32 arg2);
-f32 sin_table_lookup(int);
-f32 cos_table_lookup(int);
 f32 xyz_distance(void *, void *);
 
 s32 vec3_add_to(void *, void *);
@@ -157,6 +155,7 @@ TBoss6SwordShot *TBoss6SwordShot::create(TObject *owner, const Vec *position, s3
 
 #include "pso/boss/olgaflow/TBoss6Rock.h"
 #include "pso/boss/olgaflow/TBoss6Type2.h"
+#include "pso/math/AngleLookup.h"
 
 void TBoss6SwordWave::spawn_wave_ring_particles() {
     Wave_803564F4 *o = (Wave_803564F4 *)this;

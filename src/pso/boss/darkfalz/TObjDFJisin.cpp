@@ -210,8 +210,6 @@ void fn_spawn_particle_f3_with_flags(s32 arg0, saddr arg1);
 void * create__16TObjDFBeamCursorFPvPv(void *parent, void *arg1);
 void * create__13TObjDFRecBallFPvPvPv(void *parent, void *position, void *arg2);
 
-extern s32 game_difficulty_selection;
-
 
 
 
@@ -255,6 +253,7 @@ LAYOUT_ASSERT(RecoveredFields_80051AD0_var_r31_30_offset, offsetof(RecoveredFiel
 #include "pso/unk/text_803DC86C.h"
 #include "pso/boss/darkfalz/TObjDFUsoTower.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
+#include "pso/ui/TLevelSelect.h"
 
 extern u8 *camera_ctrl_instance;
 

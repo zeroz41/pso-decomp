@@ -45,6 +45,8 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/technique/TTecRaBarta.h"
+#include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
+#include "pso/player/TObjPlayer_803E1A58.h"
 
 extern "C" {
 

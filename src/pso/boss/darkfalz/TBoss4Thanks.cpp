@@ -29,6 +29,7 @@
 #include "pso/object/switch/TOSwitchItem.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
+#include "pso/ui/TLevelSelect.h"
 
 
 struct O_8035C480 { u8 pad[0x44]; s32 arr[4]; };
@@ -69,7 +70,6 @@ extern const Ent_8035C35C boss4_thanks_emitter_table[4] = {
     {0x8D, 0x00, 0x32}, {0xA7, 0x1E, 0x6E}, {0x1FD, 0x32, 0x5A}, {0x1C2, 0x46, 0x78},
 };
 f32 xyz_distance(void *, const void *);
-void post_translate_matrix(const f32 *);
 
 s32 fn_8035C2B4(void) {
     return get_story_flag(0x99) != 0;
@@ -259,8 +259,6 @@ s32 TBoss4Thanks::is_door_open_and_ready() {
 }
 
 s32 TBoss4Thanks__sub_8035C96C(void) { return TBoss4Thanks::is_door_0x97_open(); }
-
-extern s32 game_difficulty_selection;
 
 s32 TBoss4Thanks::check_ready() {
     if (((s32) game_difficulty_selection == 0) || ((get_main_phase() == 0xE) && (is_split_screen() == 0)) || (any_player_has_listed_item() == 0)) {

@@ -83,6 +83,10 @@
 #include "pso/render/MaterialColorFade.h"
 
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/effect/enemy/TeneFakeTecThunderEff.h"
+#include "pso/object/TObjControl.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
 
 #pragma readonly_strings on
 
@@ -171,8 +175,6 @@ s32 minimap_render_dot(void *, s32, s32, s32);
 void TObjPlayer__sub_800A16C4(u8 *player);
 
 s32 TObjPlayer__sub_800A3210(s32 i, s32 _w1, s32 _w2);
-
-u8 *TObjPlayer__sub_800A4204(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3, s32 arg4);
 
 s32 submit_cursor_candidate(void *, s32);
 

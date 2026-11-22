@@ -2,13 +2,13 @@
 #include "pso/boss/olgaflow/TBoss6Type2_80356E50.h"
 #include "pso/boss/olgaflow/TBoss6Type2.h"
 #include <stdlib.h>
+#include "pso/unk/text_80357058.h"
 
 extern "C" {
 void world_to_grid_pos__11TBoss6Type2FPvPvPv(f32 *arg0, s8 *arg1, s8 *arg2);
 }
 void send_6xAD_olga_flow_subordinate_boss_actions(u8 *arg0);
 extern "C" {
-void TBoss6Type2__sub_803570C8(s8 *arg0);
 
 void TBoss6Type2__sub_80356E50(s32 arg0, s32 cnt, s32 force) {
     TBoss6Type2::send_subordinate_actions(0, arg0, cnt, force, arg0);

@@ -82,7 +82,6 @@ void move_with_wall_slide(u8 *arg0);
 
 struct BeamRotation { s32 x, y, z; };
 
-extern "C" void *spawn_directional_particle(void *pos, void *dir, s32 id);
 extern "C" void TObjPlayer__sub_800DCD04(void *, void *, int, void *, s32, int);
 extern "C" s32 enemy_turn_half_toward_dest(void *);
 extern "C" s32 construct_beam_effect__10TObjPlayerFPvPvPviPv(u32, void *, void *, u8, void *);
@@ -116,6 +115,7 @@ inline f32 xz_length_squared(Vec *v) { return v->x * v->x + v->z * v->z; }
 #include "pso/render/RenderFadeState.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/text_80086D50.h"
 
 extern "C" s32 is_split_screen();
 extern "C" s32 restore_scene_lighting();

@@ -35,6 +35,10 @@
 #include "pso/boss/darkfalz/TBoss4Thanks_8035C8F0.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/ui/TLevelSelect.h"
+#include "pso/object/TObjControl.h"
+#include "pso/camera/TCameraCtrl_800687BC.h"
+#include "pso/unk/TLobby_8030A834.h"
 
 #pragma readonly_strings on
 
@@ -351,7 +355,6 @@ void TBoss4DarkFalz__sub_8004B5A0(void);
 void TBoss4DarkFalz__sub_8004B4F0(void *, void *);
 void create__10TBoss4ZakoFl(void *);
 Desc_8004BD58 TBoss4DarkFalz__data_804FF1E8;
-extern s32 game_difficulty_selection;
 
 }
 void reset_cameras_to_actor(void *, s32);
@@ -776,13 +779,10 @@ typedef struct Msg_8004BFA4 {
 extern "C" {
 void TBoss4Type2__sub_80056EA8(void *, s32);
 void TBoss4Type3__sub_80059DCC(TBoss4Type3 *self, u32 packed);
-u8 *get_enemy_entity(u16 arg0);
 void handle_6x19_dark_falz_actions(Msg_8004BFA4 *arg0);
-s32 restore_player_cameras();
 extern s32 __vt__14TBoss4DarkFalz[];
 void TBoss4DarkFalz__sub_8004B4F0(void *arg0p, void *arg1p);
 s32 __ct__9TObjEnemyFP7TObject();
-void *fn_8030A83C(void *parent);
 s32 TBoss4DarkFalz__ct(saddr a0, s32 arg1, saddr a2);
 int TBoss4DarkFalz__sub_8030AD38(void);
 s32 __ct__11TObjControlFP7TObject(s32, s32);

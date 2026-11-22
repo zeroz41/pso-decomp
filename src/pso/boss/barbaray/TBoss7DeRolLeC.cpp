@@ -144,6 +144,10 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/TObjPlayer_802E6CA8.h"
+#include "pso/camera/TCameraCtrl_800687BC.h"
+#include "pso/camera/CameraHelpers.h"
+#include "pso/object/TObjControl.h"
 
 // Step of a De Rol Le C action sequence: the action id and its parameter, a
 // duration in seconds (the timer compares against param * 30) or the
@@ -393,17 +397,6 @@ const Boss7ActionStep *boss7_derolle_c_difficulty_actions[4] = {boss7_derolle_c_
 const Vec *boss7_derolle_c_crawfish_position_sets[4] = {boss7_derolle_c_crawfish_positions_pos_x, boss7_derolle_c_crawfish_positions_neg_x, boss7_derolle_c_crawfish_positions_pos_z, boss7_derolle_c_crawfish_positions_neg_z};
 
 const s32 *boss7_derolle_c_crawfish_angle_sets[4] = {boss7_derolle_c_crawfish_angles_pos_x, boss7_derolle_c_crawfish_angles_neg_x, boss7_derolle_c_crawfish_angles_pos_z, boss7_derolle_c_crawfish_angles_neg_z};
-extern "C" {
-
-void TObjPlayer__sub_802E7470(void);
-
-void TObjPlayer__sub_802E7084(void);
-
-void TObjPlayer__sub_802E7088(void);
-
-void TObjPlayer__sub_802E746C(void);
-
-}
 
 Boss7LoadCallback boss7_derolle_c_load_callbacks[6] = {
     {TBoss7Tentacle::load_static_resource, TBoss7Tentacle::destroy_instance},

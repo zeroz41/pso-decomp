@@ -74,6 +74,13 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/unk/text_80086B64.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/camera/TCameraCtrl_800687BC.h"
+#include "pso/camera/TCameraCtrl_8006A03C.h"
+#include "pso/object/TObjControl.h"
+#include "pso/boss/galgryphon/TBoss5GryphonLightningEff.h"
+#include "pso/render/MaterialAlphaCompare.h"
+#include "pso/render/ChunkMaterialState.h"
 
 
 #pragma inline_depth(1)

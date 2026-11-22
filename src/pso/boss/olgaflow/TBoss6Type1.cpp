@@ -41,6 +41,7 @@
 #include <stddef.h>
 #include "pso/system/task/TObject.h"
 #include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/ui/TLevelSelect.h"
 
 struct Obj_802B4B34 { u8 pad[0x508]; s32 f508; s32 arr[1]; };
 
@@ -293,7 +294,6 @@ struct Boss_802B5AD4 {
 extern "C" {
 
 
-u8 *get_enemy_entity(u16 arg0);
 f32 vector_length(void *, f32);
 f32 subtract_vector(void *, const void *);
 f32 fabs_float(f32);
@@ -380,6 +380,7 @@ struct ByteBlock_C_boss6_1 { u8 bytes[0xc]; };
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/TObjControl.h"
 
 extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
 extern "C" {

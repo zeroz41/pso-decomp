@@ -4,6 +4,7 @@
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80359A7C.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/object/TObjControl.h"
 
 struct Stack_802F3A48 {
     s32 sp8;
@@ -19,7 +20,6 @@ struct Ent_802F3974 { u8 pad[0x38]; f32 x; f32 y; f32 z; };
 extern "C" {
 extern TObject *tl_04;
 u16 get_entity_id(void *);
-u8 *get_enemy_entity(u16 arg0);
 extern uaddr boss8_dragon_leader_part;
 
 s32 TBoss8Dragon::is_closest_part() {
