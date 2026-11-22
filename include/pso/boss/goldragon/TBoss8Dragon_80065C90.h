@@ -13,7 +13,6 @@ extern "C" {
 const Vec *get_arena_center(void);
 void attach_particle_model(void *particle, NJS_OBJECT *model, GinjaTextureList *texlist, AnimationMotion *motion, s32 arg4,
                            f32 farg0);
-void fn_800660B8(u8 *arg0);
 }
 // --- end of C functions
 

@@ -212,10 +212,6 @@ struct PanarmsParams {
     s32 wait_frames;
 };
 
-extern "C" {
-void fn_800660B8(u8 *arg0);
-}
-
 // Out-of-line copies of inline accessors; defined first because the unit is emitted backwards.
 int TObjEnePanarms::get_state_flag() { return (this->actorFlags >> 4) & 0x1; }
 
@@ -242,7 +238,7 @@ s32 TObjEnePanBARA::is_dying() {
 }
 
 void TObjMotion::init(s16 action) {
-    fn_800660B8((u8 *)this);
+    fn_800660B8();
     change_action(action);
     sub_8002AE64();
 }

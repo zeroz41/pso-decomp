@@ -1034,7 +1034,6 @@ s32 get_current_floor(void);
 f32 atan2_float(f32 y, f32 x);
 f32 newton_sqrtf(f32);
 s32 test_flags_any(void *, int);
-s32 fn_800660B8(void *);
 s32 TObjPlayer__sub_80082300(void *);
 s32 check_value_equals__13TUnk_804B6C24CFl(saddr, void *);
 s32 init_entry_fields__6TLobbyFiii(int, int, void *, int);
@@ -2577,7 +2576,7 @@ void TObjPlayer::init_action() {
     this->m_2b4 = 44.0f;
     this->set_attacker_id(0xFFFF);
     this->set_action_state(0x12, (s16) ((s32 (*)(void))ret_801D26AC)());
-    fn_800660B8(arg0);
+    fn_800660B8();
     if (is_current_area_item_enabled() != 0) {
         void *new_obj = (void *)(size_t)__nw__7TObjectFUl(0x38);
         if (new_obj != 0U) {

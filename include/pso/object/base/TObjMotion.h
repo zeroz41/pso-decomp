@@ -209,7 +209,9 @@ public:
     // Switches to the action, blending from the current one unless either
     // side or MOTION_NO_BLEND forbids it.
     void change_action(s16 action);
-    // Clears motion flag 4 and sets flag 1 (fn_800660B8), switches to the action, then
+    // Clears MOTION_BLENDING and sets MOTION_NO_BLEND.
+    void fn_800660B8();
+    // Calls fn_800660B8, switches to the action, then
     // runs sub_8002AE64. Its one out-of-line copy sits in the Panarms unit.
     void init(s16 action);
     // Steps the frame and the play mode; every actor calls it each update.
