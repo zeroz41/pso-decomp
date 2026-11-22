@@ -3,6 +3,7 @@
 
 #include "pso/system/task/TObject.h"
 #include "types.h"
+#include <dolphin/mtx.h>
 #include <stddef.h>
 
 class TObjDFRecover : public TObject {
@@ -13,9 +14,9 @@ public:
     s32 phase;
     u16 target_id;
     u8 _pad36[2];
-    f32 cached_position[3];
-    static TObjDFRecover *create(TObject *parent, u16 id, const f32 *position);
-    TObjDFRecover(TObject *parent, u16 id, const f32 *position);
+    Vec cached_position;
+    static TObjDFRecover *create(TObject *parent, u16 id, const Vec *position);
+    TObjDFRecover(TObject *parent, u16 id, const Vec *position);
     virtual ~TObjDFRecover();
     virtual void run_task();
 };

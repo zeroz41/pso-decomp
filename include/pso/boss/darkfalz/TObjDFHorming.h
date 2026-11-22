@@ -8,27 +8,31 @@
 
 class TParticleCtrl;
 
+// Dark Falz's homing shot (TBoss4Type3::create_horming): it dives, steers onto the player it chases and hits it.
 struct TObjDFHorming : public TObjChara {
     TObjDFHorming(TObject *parent, const Vec *position, u16 target_id);
     virtual ~TObjDFHorming();
-    void sub_8005076C();
-    void check_attack_trigger();
     virtual void run_task();
-    u16 m_334; // client id of the player it homes on
+    void sub_8005076C();
+    void steer_homing_direction();
+    void check_attack_trigger();
+    static s32 is_boss_active();
+    static void queue_destruction(TObject *object);
+    using TObject::queue_destruction;
+
+    u16 target_id; // client id of the player it homes on
     u8 _pad336[0x2];
-    u32 m_338;
-    Vec spawn_position;        // copied with prev_position and m_2fc from the spawn point
-    Vec velocity;              // normalised and scaled by speed each frame, added to m_2fc
+    s32 lifetime;              // 150 frames, 300 on difficulty 3
+    Vec spawn_position;        // copied with prev_position and body_center from the spawn point
+    Vec velocity;              // normalised and scaled by speed each frame, added to body_center
     f32 speed;
     TParticleCtrl *effects[2]; // create_particle_emitter per TObjDFJisin__particle_emitter_id_table entry
-    u32 m_360;
+    s32 damage;                // the shared table's attack power, sent with the hit
     f32 homing_rate;           // 0..1 from the shared table, sets how hard it turns (steer_homing_direction)
-    u32 m_368;
-    void* m_36c;
-    u8 unk_370[0x8];
-    f32 m_378;
-    u8 unk_37C[0x4];
-    static s32 is_boss_active();
+    s32 state;                 // 0 levels out, 1 steers, 2 waits for check_attack_trigger
+    Vec target_position;       // the target's body_center, refreshed each frame
+    f32 lock_distance;         // steering locks on once target_distance is inside it
+    f32 target_distance;
 };
 
 LAYOUT_ASSERT(TObjDFHorming_velocity_offset, offsetof(TObjDFHorming, velocity) == 0x348);

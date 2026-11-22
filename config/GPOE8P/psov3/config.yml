@@ -1998,7 +1998,7 @@ force_active:
   - __ct__13TORockCaveS03FPv
   - __ct__13TObjBs4CutAtkFP7TObjectll
   - __ct__13TObjCHTimeWinFP7TObject
-  - __ct__13TObjDFRecoverFP7TObjectUsPCf
+  - __ct__13TObjDFRecoverFP7TObjectUsPC3Vec
   - __ct__13TObjHashiBaseFP7TObjectPv
   - __ct__13TObjLobbyMainFP7TObjectPv
   - __ct__13TObjResultWinFP7TObjectPC21ChallengeResultRecord
@@ -5456,7 +5456,7 @@ force_active:
   - create__12T_OWEHMS_ExpFP10TObjPlayer
   - create__13TBoss6MagMineFi
   - create__13TObjBs4CutAtkFP7TObjectll
-  - create__13TObjDFRecBallFPvPvPv
+  - create__13TObjDFRecBallFP7TObjectPC3VecPC3Vec
   - create__13TObjEneMe1GeeFP13TObjEneMe1GeeP3VecUsl
   - create__13TObjEneRe4BitFPvPvPvPvPv
   - create__13TUnk_8049FEB8FP7TObjectP10TObjPlayer
@@ -5573,7 +5573,7 @@ force_active:
   - damage_player_if_aligned__19TBoss3VoloptMonitorFv
   - damage_players_in_radius__15TBoss6SwordShotFv
   - damage_players_in_range__15TBoss6RockChaseFv
-  - damage_players_near_point__FlP3Vec
+  - damage_players_near_point__11TObjDFJisinFP3Vec
   - dark_falz_player_ring_center
   - dark_falz_push_zone_table
   - dark_falz_zako_ring_origin_vec
@@ -6464,7 +6464,7 @@ force_active:
   - fn_803DD3C8
   - fn_803F1804
   - fn_803F4D10
-  - fn_spawn_particle_f3_with_flags
+  - spawn_particle_f3__11TObjDFJisinFPC3Vec
   - forest_box_collision_body_parts
   - forest_rel_filename_table
   - format_challenge_stage_times__23TAdSinglePlyChrSelectGCFll
@@ -13929,7 +13929,7 @@ force_active:
   - quest_vm_load__12TQuestListVMFv
   - queue_destruction__12TObjGrassWebFv
   - queue_destruction__12TQuestThreadFPv
-  - queue_destruction__13TObjDFHormingFPv
+  - queue_destruction__13TObjDFHormingFP7TObject
   - queue_destruction__14TAdMultiSaveGCFv
   - queue_destruction__15TObjIllGillKageFv
   - queue_destruction__18TChallenge4PResultFv

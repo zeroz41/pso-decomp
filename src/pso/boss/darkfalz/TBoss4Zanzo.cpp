@@ -1062,7 +1062,7 @@ void TBoss4Type2::md_recover_update() {
             }
         }
         apply_resta_heal();
-        TObjDFRecover::create(this, target_player, &node_positions[2].x);
+        TObjDFRecover::create(this, target_player, &node_positions[2]);
     }
     if (--action_timer < 0) {
         play_sound_effect(0x4003AD1A, &position, 0, 1);

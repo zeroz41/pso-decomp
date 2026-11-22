@@ -18,6 +18,7 @@ public:
 class TObjDFRecBall : public TObject {
 public:
     TObjDFRecBall(TObject *parent, const Vec *position, const Vec *target);
+    static TObjDFRecBall *create(TObject *parent, const Vec *position, const Vec *target);
     virtual ~TObjDFRecBall();
     virtual void run_task();
 
@@ -29,13 +30,20 @@ public:
     s32 timer;
 };
 
-extern "C" {
-void TObjDFTenchuFuru__sub_80051A7C(void);
-void *create__13TObjDFRecBallFPvPvPv(void *parent, void *position, void *arg2);
-void fn_spawn_particle_f3_with_flags(s32 arg0, saddr arg1);
-int queue_destruction__13TObjDFHormingFPv(void *p);
-void run_task__13TObjDFHormingFv(u8 *self);
-}
+// The Jisin: a ring of fire that grows by 25 a frame around its centre (TBoss4Type2::create_jisin).
+class TObjDFJisin : public TObject {
+public:
+    TObjDFJisin(TObject *parent, s32 angle);
+    virtual ~TObjDFJisin();
+    virtual void run_task();
+    void spawn_particle_f3(const Vec *point);
+    void damage_players_near_point(Vec *point);
+
+    Vec center;
+    f32 radius;
+};
+
+extern "C" void TObjDFTenchuFuru__sub_80051A7C(void);
 
 // Draws a player-like model set (body, two attached parts, hair) at alpha; used by TBoss6Type2.
 void boss6type2_draw_models(s32 arg0, s32 arg1, s32 arg2, uaddr arg3, uaddr arg4, u32 model, uaddr arg6, saddr appearance, f32 alpha);
