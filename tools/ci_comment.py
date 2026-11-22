@@ -66,6 +66,7 @@ def signed(value: int) -> str:
 
 QUALITY_DOC = "CONTRIBUTING.md#source-quality"
 QUALITY_ROWS = 30   # findings and renames listed in the comment; the run log has the rest
+QUALITY_LINKS = 8   # lines linked per new finding
 
 
 def counts(row: object, *keys: str) -> tuple[int, ...] | None:
@@ -78,51 +79,83 @@ def listed(value: dict, key: str) -> list[dict]:
     return [item for item in items if isinstance(item, dict)] if isinstance(items, list) else []
 
 
+def plural(n: int, one: str, many: str | None = None) -> str:
+    return f"{n:,} {one if n == 1 else many or one + 's'}"
+
+
+def quality_table(rows: list[dict], categories: bool = True) -> list[str]:
+    """One row per check; with categories, the category is named on its first row."""
+    out = ["| Category " * categories + "| Check | Looks like | Removed | Added | Net | Total |",
+           "|---" * categories + "|---|---|---:|---:|---:|---:|"]
+    last = None
+    for row in rows:
+        base, head, added, removed = counts(row, "base", "head", "added", "removed")
+        category = text(row.get("category") or row.get("group"), 60)
+        cell = ("| " + ("" if category == last else f"**{category}**") + " ") * categories
+        out.append(f"{cell}| {text(row.get('name') or row.get('key'), 80)} | {code(row.get('example'), 60)} "
+                   f"| {removed:,} | {added:,} | {signed(head - base)} | {head:,} |")
+        last = category
+    return out
+
+
 def render_quality(quality: dict | None, repo: str) -> list[str]:
     """The advisory source quality section, from `source_quality.py --json` (run by master's copy of the
     script over the pull request's merge commit, whose text is untrusted)."""
-    lines = ["", "#### Source quality · advisory"]
+    lines = ["", "### Source quality"]
     total = counts((quality or {}).get("total"), "base", "head", "added", "removed")
     if total is None:
         return lines + ["", "Not measured for this run (see the run log). Check locally with "
                         "`python tools/source_quality.py`."]
-    owned = counts(quality.get("ownership_total"), "base", "head", "added", "removed") or (0, 0, 0, 0)
     head = quality.get("head_commit")
     head = head if isinstance(head, str) and re.fullmatch(r"[0-9a-f]{40}", head) else ""
 
-    def where(path: object, line: object) -> str:
-        spot = f"{path}:{line}" if number(line) else str(path)
-        if repo and head and number(line) and isinstance(path, str):
-            return f"[{code(spot)}](https://github.com/{repo}/blob/{head}/{urllib.parse.quote(path)}#L{line})"
-        return code(spot)
+    def link(path: str, line: int, label: str) -> str:
+        if repo and head:
+            return f"[{code(label)}](https://github.com/{repo}/blob/{head}/{urllib.parse.quote(path)}#L{line})"
+        return code(label)
 
+    rows = [r for r in listed(quality, "categories") if counts(r, "base", "head", "added", "removed")]
+    debt = [r for r in rows if r.get("group") != "ownership"]
+    owned = [r for r in rows if r.get("group") == "ownership"]
     base, after, added, removed = total
-    lines += ["", f"Net debt {signed(after - base)} (removed {removed:,}, added {added:,}; tree {base:,} → {after:,}). "
-              f"Members in the wrong class {signed(owned[1] - owned[0])} (removed {owned[3]:,}, added {owned[2]:,})."]
-    rows = []
-    for row in listed(quality, "categories"):
-        values = counts(row, "base", "head", "added", "removed")
-        if values and (values[2] or values[3] or values[0] != values[1]):
-            rows.append(f"| {text(row.get('label'), 90)} | {values[3]:,} | {values[2]:,} | {signed(values[1] - values[0])} |")
-    if rows:
-        lines += ["", "| Check | Removed | Added | Net |", "|---|---:|---:|---:|"] + rows
+    files = number(quality.get("files_changed")) or 0
+    lines += ["", f"Advisory: never fails a pull request. **Debt {signed(after - base).strip('*')}**: "
+              f"this pull request removes {removed:,} and adds {added:,} across "
+              f"{plural(files, 'changed source file')}; the tree goes from {base:,} to {after:,}."]
+    if debt:
+        lines += [""] + quality_table(debt)
+        lines.append(f"| **Total debt** | | | **{removed:,}** | **{added:,}** | {signed(after - base)} | **{after:,}** |")
+    if owned:
+        lines += ["", "**Members in the wrong class**, read from the class declarations (not in the total):", ""]
+        lines += quality_table(owned, categories=False)
 
     new = listed(quality, "new")
     if new:
-        lines += ["", f"<details><summary>{len(new):,} new finding{'s' * (len(new) != 1)} on lines this pull request "
-                  "adds</summary>", "", "| Where | Check | Text |", "|---|---|---|"]
-        lines += [f"| {where(f.get('path'), f.get('line'))} | {text(f.get('key'), 40)} | {code(f.get('text'))} |"
-                  for f in new[:QUALITY_ROWS]]
-        if len(new) > QUALITY_ROWS:
-            lines.append(f"| … {len(new) - QUALITY_ROWS:,} more in the run log | | |")
+        names = {r.get("key"): r.get("name") for r in rows}
+        spots: dict[tuple[str, str], list[tuple[str, int]]] = {}
+        for f in new:
+            if isinstance(f.get("path"), str) and number(f.get("line")):
+                spots.setdefault((str(f.get("key")), str(f.get("text"))), []).append((f["path"], f["line"]))
+        lines += ["", f"<details><summary>{plural(len(new), 'new finding')} on lines this pull request adds"
+                  "</summary>", "", "| Check | Text | Where |", "|---|---|---|"]
+        for (key, found), where in list(spots.items())[:QUALITY_ROWS]:
+            places, path = [], None
+            for spot_path, line in where[:QUALITY_LINKS]:
+                label = f"{spot_path.rsplit('/', 1)[-1]}:{line}" if spot_path != path else f":{line}"
+                places.append(link(spot_path, line, label))
+                path = spot_path
+            more = f" … {len(where) - QUALITY_LINKS:,} more" if len(where) > QUALITY_LINKS else ""
+            lines.append(f"| {text(names.get(key) or key, 60)} | {code(found, 80)} | {' '.join(places)}{more} |")
+        if len(spots) > QUALITY_ROWS:
+            lines.append(f"| … {len(spots) - QUALITY_ROWS:,} more in the run log | | |")
         lines.append("</details>")
 
     renames = listed(quality, "renames")
     flagged = [r for r in renames if r.get("flags")]
     if renames:
         shown = (flagged or renames)[:QUALITY_ROWS]
-        lines += ["", f"<details><summary>{len(renames):,} renamed symbol{'s' * (len(renames) != 1)}, "
-                  f"{len(flagged):,} flagged</summary>", "", "| Address | Old | New | Note |", "|---|---|---|---|"]
+        lines += ["", f"<details><summary>{plural(len(renames), 'renamed symbol')}, {len(flagged):,} flagged"
+                  "</summary>", "", "| Address | Old | New | Flag |", "|---|---|---|---|"]
         lines += [f"| {code(r.get('address'), 12)} | {code(r.get('old'))} | {code(r.get('new'))} | "
                   f"{text('; '.join(str(x) for x in r.get('flags') or []), 200)} |" for r in shown]
         rest = len(flagged or renames) - len(shown)
@@ -138,11 +171,11 @@ def render_quality(quality: dict | None, repo: str) -> list[str]:
         if items:
             names = ", ".join(code(r.get("name"), 80) for r in items[:QUALITY_ROWS])
             more = f", … {len(items) - QUALITY_ROWS:,} more" if len(items) > QUALITY_ROWS else ""
-            lines += ["", f"{len(items):,} {one if len(items) == 1 else many}: {names}{more}"]
+            lines += ["", f"{plural(len(items), one, many)}: {names}{more}"]
 
     doc = f"https://github.com/{repo}/blob/master/{QUALITY_DOC}" if repo else QUALITY_DOC
-    lines += ["", f"What each check means and how to fix it: [CONTRIBUTING.md, Source quality]({doc}). "
-              "Run `python tools/source_quality.py` before pushing to see the same report."]
+    lines += ["", f"What each check finds and what to write instead: [Source quality]({doc}). "
+              "`python tools/source_quality.py` prints the same report locally."]
     return lines
 
 

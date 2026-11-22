@@ -82,25 +82,32 @@ compares your change with the commit it branched from on `master`:
     python tools/source_quality.py --base master --head my-branch
     python tools/source_quality.py --tree                  # whole-tree counts and the worst files
 
-CI runs the same script on every pull request and adds the result to the CI comment. It never fails a pull
-request. Aim to remove more than you add and to add nothing on the lines you write. Every check is an exact
-pattern or a class relation read from the declarations, so a finding is never a guess. Code that only moves
-between files or functions counts as neither added nor removed.
+CI runs the same script on every pull request and adds the result to the CI comment: a table of every check
+with what the change removed and added. It never fails a pull request. Aim to remove more than you add and to add
+nothing on the lines you write. Every check is an exact pattern, a file name, or a relation read from the
+declarations, so a finding is never a guess. Code that only moves between files or functions counts as neither
+added nor removed.
 
 **Debt**, the total:
 
 | Check | Finds | Write instead |
 |---|---|---|
-| `extern_c` | `extern "C"` in a source file declaring what another file defines | include the owner's header |
-| `mangled_member`, `mangled_free` | hand-mangled names in source: `update__6TEnemyFv(p)` | the member: `p->update()` |
+| `extern_c`, `local_decl` | `extern "C"` declarations, prototypes and `extern` data written in a source file, of what another file defines | include the owner's header |
+| `mangled_member`, `mangled_free`, `mangled_itanium` | hand-mangled names in source: `update__6TEnemyFv(p)` | the member: `p->update()` |
 | `flat_name` | members spelled as C names: `TEnemy__update(void *self)`, `TEnemy__instance` | a member or static member of the class |
-| `raw_offset`, `punned_deref` | `(u8 *)p + 0x30`, `*(f32 *)(p + 0x18)`, `*(s32 *)&x` | a field of the right type |
-| `offset_member` | fields named after their offset: `unk_30`, `m_30c`, `field_96` | a name from evidence, or `pad_<offset>` for bytes nothing uses |
-| `fp_cast` | calls through function-pointer casts | a declared function or a typed pointer |
+| `raw_offset`, `offset_cast`, `punned_deref` | `(u8 *)p + 0x30`, `(Vec *)(p + 0x178)`, `*(f32 *)(p + 0x18)`, `*(s32 *)&x` | a field of the right type |
+| `offset_member` | fields named after their offset: `unk_30`, `m_30c`, `field_96`, `set_field_378` | a name from evidence, or `pad_<offset>` for bytes nothing uses |
+| `fp_cast`, `string_cast` | calls through function-pointer casts, string literals cast to integers: `(saddr)"file.gvm"` | a declared function or a typed pointer; a `const char *` parameter |
 | `decomp_temp`, `stack_local`, `arg_name`, `ghidra_temp`, `ghidra_type`, `m2c_macro` | `temp_r3`, `sp1C`, `arg0`, `iVar1`, `undefined4`, `M2C_FIELD` | names for what they hold, real types |
+| `address_comment` | comments naming an address in the executable: `// moved from 0x8043E828` | nothing; see the comment rule below |
 | `data_label`, `function_placeholder`, `address_in_name`, `address_type` | names built from addresses: `lbl_8045A010`, `fn_80123456`, `TEnemy__sub_80123456`, `TUnk_804806E8` | a name from evidence; without evidence, keep the placeholder |
-| `vtable_symbol`, `hand_vtable`, `filler_virtual`, `slot_name`, `local_virtual` | vtables written by hand, `vfunc_67`, virtual stand-in classes in a source file | virtual functions declared in the class's header |
+| `vtable_symbol`, `hand_vtable`, `filler_virtual`, `slot_name`, `local_virtual` | vtables written by hand, `vfunc_67`, virtual functions declared in a source file | virtual functions declared in the class's header |
+| `address_unit` | units named after an address: `TEnemy_80123456.cpp`, a piece of code not yet in the unit that owns it | fold it into its unit, or name the unit from evidence |
+| `local_class`, `duplicate_class` | classes declared in a C++ source file, and classes declared in more than one file: stand-in views such as `struct EnemyView { u8 pad_0[0x30]; f32 speed; };` | one declaration per class, in its header; a view's fields belong in the class it views |
 | `retype_macro`, `inline_asm` | `#define` re-typings of globals, assembly in source | real declarations; see the assembly rule below |
+
+C files may keep a struct that only that file uses, so `local_class` counts C++ source files, and a name declared
+only in C files is not a duplicate.
 
 **Members in the wrong class** are reported next to the total, not in it:
 
@@ -112,10 +119,10 @@ between files or functions counts as neither added nor removed.
   `TEnemy__set_task((char *)this + 0x3C, task)`. It is a member of whatever object lives at that offset:
   declare the field with its class and call `tasks.set_task(task)`.
 
-**Symbols.** Renamed or new names in `symbols.txt` are flagged when they are flat C names or still built from an
-address. A member's symbol is its CodeWarrior name, `poll_default__9TLoadCtrlFv`, which the compiler
-produces once the function is a real member. New or renamed symbols that leave a `force_active` entry in
-`config.yml` naming nothing are listed too: rename both together.
+**Symbols.** Renamed or new names in `symbols.txt` are flagged when they are flat C names, still built from an
+address, or members of a class still named after one. A member's symbol is its CodeWarrior name,
+`poll_default__9TLoadCtrlFv`, which the compiler produces once the function is a real member. New or renamed
+symbols that leave a `force_active` entry in `config.yml` naming nothing are listed too: rename both together.
 
 ## Rules
 
