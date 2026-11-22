@@ -71,7 +71,6 @@ struct TrailRaisedVertex {
     s32 state; // 0 sinking, 1 rising, else frames left to wait
 };
 
-extern s32 dragon_common_texture_list;
 
 Unk_8002DB7C *dragon_trail_grid;
 Unk_8002DB7C *dragon_trail_strip;

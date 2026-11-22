@@ -44,7 +44,6 @@ void TLobby::update_boss1_objects() { TObjBoss1MokoHill_SoloM::free_resources();
 void TLobby::forward_floor_2CB44() { TObjBoss1Floor::create_instance(); }
 void TLobby::init_bosses() { load_dragon_ground_assets(); TObjBoss1Floor__sub_8002CB78(); TObjBoss1Crater__sub_8002C7B8(); TObjBoss1Rock__sub_8002E3D0(); TObjBoss1MokoHill_SoloM::load_resources(); }
 
-extern "C" s32 dragon_common_texture_list;
 
 void TObjBoss1Floor::render() {
     u32 temp_r3;

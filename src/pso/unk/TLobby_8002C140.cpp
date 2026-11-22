@@ -8,8 +8,6 @@ extern "C" {
 
 s32 release_texture_list(void*);
 
-extern uaddr dragon_common_texture_list;
-
 void TLobby::free_char_select() {
     if ((u32) dragon_common_texture_list != 0U) {
         release_texture_list((void*)dragon_common_texture_list);

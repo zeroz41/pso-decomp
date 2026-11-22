@@ -16,7 +16,6 @@
 #include "pso/boss/dragon/ObjBoss1CommonResource.h"
 #include "pso/system/BmlResource.h"
 
-extern s32 dragon_common_texture_list;
 
 const char *TObjBoss1Rock__name = "TObjBoss1Rock";
 
