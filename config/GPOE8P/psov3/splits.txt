@@ -8965,14 +8965,11 @@ pso/boss/barbaray/TObjBoss7Tunnel.cpp:
 	.sdata2     start:0x805DEC98 end:0x805DED14
 
 pso/boss/goldragon/TBoss8DragonDemo.cpp:
-	.text       start:0x802F2CDC end:0x802F2E7C
+	.text       start:0x802F2CDC end:0x802F2ED8
 	.rodata     start:0x80474460 end:0x80474478
 	.data       start:0x804E4B58 end:0x804E4B70
 	.sdata      start:0x805D3FF8 end:0x805D4000
 	.sdata2     start:0x805DED18 end:0x805DED20
-
-pso/unk/text_802F2E7C.cpp:
-	.text       start:0x802F2E7C end:0x802F2ED8
 
 pso/boss/goldragon/TBoss8DragonColli.cpp:
 	.text       start:0x802F2ED8 end:0x802F3348
