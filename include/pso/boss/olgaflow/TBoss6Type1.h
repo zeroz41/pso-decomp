@@ -39,6 +39,7 @@ struct Boss6Point {
 };
 
 struct TBoss6Type1 : public TObjEnemy {
+    TBoss6Type1(TObject *parent, saddr *params);
     virtual ~TBoss6Type1();
     void sub_802B626C();
     void set_action_state(s32);
@@ -163,7 +164,7 @@ struct TBoss6Type1 : public TObjEnemy {
     void send_6xA4_action(s32 t, const Atk_802B8EE0 *src);
     void load_params(const OlgaFlowActionMsg *message);
     void set_sync_data(OlgaFlowActionMsg *message);
-    static s32 create(s32 arg0);
+    static s32 create(saddr arg0);
     void enter_flag800_state();
     void update_attack_countdown();
     void update_countdown_state();

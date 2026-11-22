@@ -44,6 +44,7 @@
 
 #include <stddef.h>
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/TLevelSelect.h"
 
@@ -151,6 +152,7 @@ inline const s32 &main_anim_index() { return lbl_805DE3C8; }
 void draw_model_blend_motion(void *model, void *motion, f32 blend_factor);
 
 
+
 struct ByteBlock_C_boss6_1 { u8 bytes[0xc]; };
 
 #include "pso/boss/volopt/TBoss3Volopt.h"
@@ -159,13 +161,8 @@ struct ByteBlock_C_boss6_1 { u8 bytes[0xc]; };
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/object/TObjControl.h"
 
-extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
 extern "C" {
 
-
-u8 * TBoss6Type1__sub_802B96C0(saddr arg0, saddr arg1);
-s32 TBoss6Type1__ct(saddr, saddr, saddr);
-s32 __ct__11TObjControlFP7TObject(s32, s32);
 
 struct W3_802B7530 { s32 x, y, z; };
 struct Line_802B7530 { Vec p; Vec d; };
@@ -176,17 +173,7 @@ f32 vec3_dot(void *, void *);
 s32 submit_cursor_candidate(void *, int);
 }
 
-extern "C" {
-
-
-extern saddr tl_04;
-
-
 struct Tmp_802B93C4 { s32 a; s16 b; s16 c; u8 pad[0x10]; };
-
-extern u8 __vt__11TBoss6Type1[];
-
-}
 
 
 // The class name and the tables TBoss6Type1's code reads, in .rodata order.
@@ -272,23 +259,9 @@ void TBoss6Type1::apply_paralysis() {  }
 
 void TBoss6Type1::apply_poison_status() {  }
 
-#pragma push
-#pragma opt_propagation off
-s32 TBoss6Type1::create(s32 arg2_) {
-    saddr arg0_;
-    saddr var_r4;
-
-    arg0_ = (saddr)TObject::operator new(0x684);
-    if (arg0_ != 0) {
-        var_r4 = (saddr)TObject::operator new(0x20);
-        if (var_r4 != 0) {
-            var_r4 = __ct__11TObjControlFP7TObject(var_r4, tl_04);
-        }
-        arg0_ = TBoss6Type1__ct(arg0_, var_r4, arg2_);
-    }
-    return arg0_;
+s32 TBoss6Type1::create(saddr arg2_) {
+    return (saddr)new TBoss6Type1(new TObjControl(tl_04), (saddr *)arg2_);
 }
-#pragma pop
 extern "C" {
 
 
@@ -296,84 +269,77 @@ u8 * TBoss6Type1__sub_802B96C0(saddr arg0, saddr arg1) {
     *(ByteBlock_C_boss6_1 *)(arg0) = *(const ByteBlock_C_boss6_1 *)(arg1);
     return (u8 *)arg0;
 }
-#define self ((u8 *)arg0_)
-#define arg2 ((s32 *)arg2_)
+}
+
 #pragma push
-#pragma opt_propagation off
 #pragma opt_common_subs off
-s32 TBoss6Type1__ct(saddr arg0_, saddr parent, saddr arg2_) {
+TBoss6Type1::TBoss6Type1(TObject *parent, saddr *params) : TObjEnemy(parent) {
     Tmp_802B93C4 tmp;
     s32 i;
 
-    __ct__9TObjEnemyFP7TObject(self, (void*)parent);
-    *(u8 **)((s8 *)self + 0x18) = __vt__11TBoss6Type1;
-    *(const char **)((s8 *)self + 0) = TBoss6Type1__name;
-    ((TObjChara *)self)->add_flags_2e4(8);
-    *(s32 *)((s8 *)self + 0x3F8) = arg2[0];
-    ((TObjEnemy *)self)->apply_set_data(arg2 + 1);
-    if (((TObjEnemy *)self)->exchange_object_state(&tmp, 1) != 0) {
+    m_name = TBoss6Type1__name;
+    add_flags_2e4(8);
+    plot_falz = (TBoss6PlotFalz *)params[0];
+    apply_set_data(params + 1);
+    if (exchange_object_state(&tmp, 1) != 0) {
         tmp.a = 0;
         tmp.c = 0;
-        ((TObjEnemy *)self)->exchange_object_state(&tmp, 0);
+        exchange_object_state(&tmp, 0);
     }
-    *(saddr *)((s8 *)self + 0x3FC) = (saddr)TBoss6PlotFalz::get_scene_archive();
-    *(s32 *)((s8 *)self + 0x24) = 0;
-    *(s32 *)((s8 *)self + 0x34) = 0;
-    VecCopy((Vec *)(self + 0x38), &lbl_80470CD4);
-    copy_xyz(self + 0x5C, (void *)lbl_80470D1C);
-    VecCopy((Vec *)(self + 0x44), (const Vec *)((void *)VecCopy((Vec *)(self + 0x50), (const Vec *)((void *)VecCopy((Vec *)(self + 0x74), (const Vec *)(self + 0x38))))));
-    init_collision_body_parts((TObjCollidable *)self, lbl_804DF4E0, 7);
-    ((TBoss6Type1 *)self)->update_position();
-    *(f32 *)((s8 *)self + 0x310) = 0.0f;
-    *(f32 *)((s8 *)self + 0x30C) = 0.0f;
-    *(f32 *)((s8 *)self + 0x308) = 0.0f;
-    *(s32 *)((s8 *)self + 0x2A8) = 0;
-    ((TObjEnemy *)self)->bind_enemy_combat_stats((u8 *)(TLobby::register_boss(0x2B)), (u8 *)(TLobby::dispatch_shared_handler_b(0x2B)), (u8 *)(TLobby::register_object(0x2B)));
-    *(s16 *)((s8 *)self + 0x33E) = *(s16 *)((s8 *)self + 0x32C);
-    ((TBoss3Volopt *)self)->reset_photon_effect();
-    ((TObjEnemy *)self)->set_param(0x4E);
-    ((TBoss6Type1 *)self)->sub_802B854C();
-    TBoss6Type1 *boss = reinterpret_cast<TBoss6Type1 *>(self);
-    boss->draw_callback_lists[1] = ModelNodePositionCapture::create(boss6_type1_model_node_desc, boss->node_points);
-    boss->draw_callback_lists[0] = ModelNodePositionCapture::create(boss6_type1_model_node_desc_b, boss->arm_node_positions);
-    ((TBoss6Type1 *)self)->scroll_strips_u.build_tables(boss6_type1_build_table, 2);
-    ((TBoss6Type1 *)self)->scroll_strips_v.build_tables(lbl_80470EA0, 1);
-    boss->trail_point_receiver = TBoss6Zanzo::create(boss, 7, 0xF);
-    boss->effect_point_receiver = TBoss6Zanzo::create(boss, 2, 0xF);
-    *(s32 *)((s8 *)self + 0x414) = 0;
-    *(s8 *)((s8 *)self + 0x41C) = 0;
-    TBoss6Type1__sub_802B96C0((saddr)(self + 0x420), (saddr)&lbl_80470EAC);
-    VecCopy((Vec *)(self + 0x420), (const Vec *)(self + 0x38));
-    TBoss6Type1__sub_802B96C0((saddr)(self + 0x42C), (saddr)&lbl_80470EAC);
-    *(s32 *)((s8 *)self + 0x438) = 1;
-    *(s32 *)((s8 *)self + 0x418) = 0;
+    bml_resource = TBoss6PlotFalz::get_scene_archive();
+    texlist = 0;
+    model = 0;
+    VecCopy(&position, &lbl_80470CD4);
+    copy_xyz(&rotation_x, (void *)lbl_80470D1C);
+    VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
+    init_collision_body_parts(this, lbl_804DF4E0, 7);
+    update_position();
+    velocity.z = 0.0f;
+    velocity.y = 0.0f;
+    velocity.x = 0.0f;
+    target = 0;
+    bind_enemy_combat_stats((u8 *)(TLobby::register_boss(0x2B)), (u8 *)(TLobby::dispatch_shared_handler_b(0x2B)), (u8 *)(TLobby::register_object(0x2B)));
+    referenceHp = hp;
+    ((TBoss3Volopt *)this)->reset_photon_effect();
+    set_param(0x4E);
+    sub_802B854C();
+    draw_callback_lists[1] = ModelNodePositionCapture::create(boss6_type1_model_node_desc, node_points);
+    draw_callback_lists[0] = ModelNodePositionCapture::create(boss6_type1_model_node_desc_b, arm_node_positions);
+    scroll_strips_u.build_tables(boss6_type1_build_table, 2);
+    scroll_strips_v.build_tables(lbl_80470EA0, 1);
+    trail_point_receiver = TBoss6Zanzo::create(this, 7, 0xF);
+    effect_point_receiver = TBoss6Zanzo::create(this, 2, 0xF);
+    target_mode = 0;
+    random_factor = 0;
+    TBoss6Type1__sub_802B96C0((saddr)&target_position, (saddr)&lbl_80470EAC);
+    VecCopy(&target_position.v, &position);
+    TBoss6Type1__sub_802B96C0((saddr)&m_42C, (saddr)&lbl_80470EAC);
+    attack_mode = 1;
+    active_parts = 0;
     for (i = 0; i < 32; i++) {
-        ((TBoss6Type1 *)self)->action_history[i] = 0;
+        action_history[i] = 0;
     }
-    ((TBoss6Type1 *)self)->load_params_from_table();
-    *(s32 *)((s8 *)self + 0x4AC) = 0;
-    *(f32 *)((s8 *)self + 0x4B4) = 1.0f;
-    ((TBoss6Type1 *)self)->latch_phase_counter();
-    *(s32 *)((s8 *)self + 0x4B8) = 0;
-    *(s32 *)((s8 *)self + 0x4BC) = 0;
-    *(s32 *)((s8 *)self + 0x4C0) = 0;
-    *(s32 *)((s8 *)self + 0x4C4) = 0;
-    *(f32 *)((s8 *)self + 0x4D4) = 0.0f;
-    *(f32 *)((s8 *)self + 0x4D8) = 1.0f;
-    ((TBoss6Type1 *)self)->reset_fields_4e0();
-    ((TBoss6Type1 *)self)->reset_param();
-    ((TBoss6Type1 *)self)->reset_sway();
-    *(s32 *)((s8 *)self + 0x408) = 0;
-    ((TBoss6Type1 *)self)->clear_effect_slots();
-    ((TBoss6Type1 *)self)->clear_slot_array();
-    ((TBoss6Type1 *)self)->clear_map_csn();
-    VecCopy((Vec *)(self + 0x56C), (const Vec *)(self + 0x38));
-    ((TBoss6Type1 *)self)->set_action_state(0);
-    return arg0_;
+    load_params_from_table();
+    m_4ac = 0;
+    m_4b4 = 1.0f;
+    latch_phase_counter();
+    chal_ud_count = 0;
+    center_trip_count = 0;
+    centop_count = 0;
+    cenbtm_count = 0;
+    hit_flash = 0.0f;
+    hp_ratio = 1.0f;
+    reset_fields_4e0();
+    reset_param();
+    reset_sway();
+    frame_counter = 0;
+    clear_effect_slots();
+    clear_slot_array();
+    clear_map_csn();
+    VecCopy(&last_beam_point, &position);
+    set_action_state(0);
 }
 #pragma pop
-#undef self
-#undef arg2
 
 TBoss6Type1::~TBoss6Type1() {
     s32 i;
@@ -596,7 +562,6 @@ void TBoss6Type1::sub_802B8A70() {
     send_6xA4_action(0x18, &atk);
 }
 #pragma pop
-}
 
 
 void handle_6xA4_olga_flow_boss_actions(game_command_header *command) {
