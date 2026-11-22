@@ -1028,7 +1028,7 @@ void TObjEneDellBiter::fn_803044AC(s32 reason) {
                 this->update_velocity();
             }
             hit = 0;
-            if ((u32)this->enemy_probe_wall_ahead(destination_direction.x, destination_direction.z, 30.0f * TObjEneDellBiter__movement_params->rush_speed) != 0) {
+            if (this->enemy_probe_wall_ahead(destination_direction.x, destination_direction.z, 30.0f * TObjEneDellBiter__movement_params->rush_speed) != 0) {
                 hit = 1;
             }
             this->move_clamped_on_ground(destination_direction.x, destination_direction.z, TObjEneDellBiter__movement_params->rush_speed);

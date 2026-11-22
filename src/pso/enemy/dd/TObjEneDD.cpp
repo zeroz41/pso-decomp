@@ -314,8 +314,6 @@ struct VObj_18_3f4583 : VBase_18_3f4583 {
     virtual void m100();
     virtual void * m101();
 };
-struct Node_800BAF1C { u8 pad0[4]; Vec *pos; };
-struct Node_800BB000 { u8 pad0[4]; u8 *wall; };
 extern "C" {
 f32 newton_sqrtf(f32);
 }
@@ -327,7 +325,7 @@ void calc_wall_slide_destination(void *arg0, void *arg1, f32 dx, f32 dz, f32 dis
 #include <stddef.h>
 extern "C" {
 f32 fabs_float(f32);
-s32 csnVector(void *, void *, int);
+CsnHit *csnVector(const Vec *from, const Vec *to, u32 mask);
 s32 VecCopy__FP3VecPC3Vec(void *, void *, s32);
 }
 
@@ -807,20 +805,19 @@ u8 *TObjEneDD::snap_to_ground_at(u8 *arg1) {
     return (u8 *)hit;
 }
 
-saddr TObjEneDD::enemy_probe_wall_ahead(f32 farg0, f32 farg1, f32 farg2) {
-  f32 temp_f31;
-  Vec stack;
-  f32 temp_f30;
-  temp_f30 = farg0 * farg2;
-  temp_f31 = farg1 * farg2;
-  if ((fabs_float(temp_f30) < 0.01f) && (fabs_float(temp_f31) < 0.01f))
-  {
-    return farg0 * 0;
-  }
-  stack.x = (*((f32 *) (((s8 *) ((u8 *)this)) + 0x38))) + temp_f30;
-  stack.y = this->body_center.y;
-  stack.z = (*((f32 *) (((s8 *) ((u8 *)this)) + 0x40))) + temp_f31;
-  return csnVector((void *) (((u8 *)this) + 0x2FC), &stack.x, 0x88E0);
+CsnHit *TObjEneDD::enemy_probe_wall_ahead(f32 dx, f32 dz, f32 dist) {
+    f32 step_z;
+    Vec ahead;
+    f32 step_x;
+    step_x = dx * dist;
+    step_z = dz * dist;
+    if ((fabs_float(step_x) < 0.01f) && (fabs_float(step_z) < 0.01f)) {
+        return NULL;
+    }
+    ahead.x = position.x + step_x;
+    ahead.y = body_center.y;
+    ahead.z = position.z + step_z;
+    return csnVector(&body_center, &ahead, 0x88E0);
 }
 
 void TObjEneDD::calc_shot_position(u8 *arg1, f32 farg0, f32 farg1, f32 farg2) {
@@ -828,7 +825,7 @@ void TObjEneDD::calc_shot_position(u8 *arg1, f32 farg0, f32 farg1, f32 farg2) {
     s32 temp_r5;
 
     f32 reach = farg2 + this->wall_reach;
-    if (((TObjEneDD *)arg0)->enemy_probe_wall_ahead(farg0, farg1, reach) == 0U) {
+    if (((TObjEneDD *)arg0)->enemy_probe_wall_ahead(farg0, farg1, reach) == NULL) {
         *(f32 *)((s8 *)arg1 + 0) = (f32) ((farg0 * farg2) + *(f32 *)((s8 *)arg0 + 0x38));
         *(f32 *)((s8 *)arg1 + 4) = (f32) *(f32 *)((s8 *)arg0 + 0x3C);
         *(f32 *)((s8 *)arg1 + 8) = (f32) ((farg1 * farg2) + *(f32 *)((s8 *)arg0 + 0x40));
@@ -846,9 +843,9 @@ void TObjEneDD::calc_shot_position(u8 *arg1, f32 farg0, f32 farg1, f32 farg2) {
 #define e ((TObjEneDD *)arg0)
 #define out ((Vec *)arg1)
 void calc_wall_slide_destination(void *arg0, void *arg1, f32 dx, f32 dz, f32 dist) {
-    Node_800BB000 *n;
+    CsnHit *n;
     Vec v;
-    n = (Node_800BB000 *)e->enemy_probe_wall_ahead(dx, dz, dist + e->wall_reach);
+    n = e->enemy_probe_wall_ahead(dx, dz, dist + e->wall_reach);
     if (n == NULL) {
         out->x = dx * dist + e->position.x;
         out->y = e->position.y;
@@ -857,8 +854,8 @@ void calc_wall_slide_destination(void *arg0, void *arg1, f32 dx, f32 dz, f32 dis
         return;
     }
     e->wall_probe_failures++;
-    v.x = *(f32 *)(n->wall + 0x14);
-    v.z = -*(f32 *)(n->wall + 0xC);
+    v.x = n->contact->normal.z;
+    v.z = -n->contact->normal.x;
     normalize_vector_xz((Vec *)(&v));
     if (dx * v.x + dz * v.z >= 0.0f) {
         dx = v.x;
@@ -867,7 +864,7 @@ void calc_wall_slide_destination(void *arg0, void *arg1, f32 dx, f32 dz, f32 dis
         dx = -v.x;
         dz = -v.z;
     }
-    if ((Node_800BB000 *)e->enemy_probe_wall_ahead(dx, dz, dist + e->wall_reach) == NULL) {
+    if (e->enemy_probe_wall_ahead(dx, dz, dist + e->wall_reach) == NULL) {
         out->x = dx * dist + e->position.x;
         out->y = e->position.y;
         out->z = dz * dist + e->position.z;
@@ -884,7 +881,7 @@ void calc_wall_slide_destination(void *arg0, void *arg1, f32 dx, f32 dz, f32 dis
 void calc_wall_clamped_destination(void *arg0, void *arg1, f32 dx, f32 dz, f32 dist) {
     TObjEneDD *e = (TObjEneDD *)arg0;
     Vec *out = (Vec *)arg1;
-    Node_800BAF1C *n = (Node_800BAF1C *)e->enemy_probe_wall_ahead(dx, dz, dist + e->wall_reach);
+    CsnHit *n = e->enemy_probe_wall_ahead(dx, dz, dist + e->wall_reach);
     if (n == NULL) {
         e->wall_probe_failures = 0;
     } else {
@@ -893,7 +890,7 @@ void calc_wall_clamped_destination(void *arg0, void *arg1, f32 dx, f32 dz, f32 d
         f32 px;
         f32 ddz;
         e->wall_probe_failures++;
-        p = n->pos;
+        p = &n->contact->point;
         px = p->x;
         ddz = p->z - e->position.z;
         ddx = px - e->position.x;

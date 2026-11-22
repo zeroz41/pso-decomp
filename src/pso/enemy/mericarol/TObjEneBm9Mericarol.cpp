@@ -753,7 +753,7 @@ void TObjEneBm9Mericarol::sub_802CF7B4(s32 arg1) {
     switch (arg1) {
     case 4:
         sync_center_position();
-        if (this->enemy_probe_wall_ahead(destination_direction.x, destination_direction.z, 100.0f) != 0U) {
+        if (this->enemy_probe_wall_ahead(destination_direction.x, destination_direction.z, 100.0f) != NULL) {
             requested_action = 3;
             m_490 = 3;
             return;
@@ -779,7 +779,7 @@ void TObjEneBm9Mericarol::sub_802CF7B4(s32 arg1) {
         switch (m_490) {
         case 0:
             sync_center_position();
-            if (this->enemy_probe_wall_ahead(destination_direction.x, destination_direction.z, 100.0f) != 0U) {
+            if (this->enemy_probe_wall_ahead(destination_direction.x, destination_direction.z, 100.0f) != NULL) {
                 requested_action = 3;
                 m_490 = 3;
                 play_sound_effect(remap_sound_for_area(0x3AD0E), &position, 0, 0);
@@ -805,7 +805,7 @@ void TObjEneBm9Mericarol::sub_802CF7B4(s32 arg1) {
             fn_802CE510(this);
             hit_wall = 0;
             sync_center_position();
-            if (this->enemy_probe_wall_ahead(destination_direction.x, destination_direction.z, 30.0f * m_444) != 0U) {
+            if (this->enemy_probe_wall_ahead(destination_direction.x, destination_direction.z, 30.0f * m_444) != NULL) {
                 hit_wall = 1;
             }
             move_clamped_on_ground(destination_direction.x, destination_direction.z, m_444);

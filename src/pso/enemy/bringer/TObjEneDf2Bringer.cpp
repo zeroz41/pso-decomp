@@ -932,7 +932,7 @@ void TObjEneDf2Bringer::sub_8009813C(s32 mode) {
         case 1:
             spawn_particle_if_in_band();
             hit = 0;
-            if ((u32)enemy_probe_wall_ahead(destination_direction.x, destination_direction.z, 30.0f * TObjEneDf2Bringer__data_805D4FB4->rush_speed) != 0) {
+            if (enemy_probe_wall_ahead(destination_direction.x, destination_direction.z, 30.0f * TObjEneDf2Bringer__data_805D4FB4->rush_speed) != 0) {
                 hit = 1;
             }
             move_clamped_on_ground(destination_direction.x, destination_direction.z, TObjEneDf2Bringer__data_805D4FB4->rush_speed);

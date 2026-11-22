@@ -1648,7 +1648,7 @@ void TObjEneBm5Wolf::repositioning_state(s32 arg1) {
             if (!(this->m_410->bodies->flags & 0x380000)) {
                 dx *= 2.0f;
                 dz *= 2.0f;
-                if (this->enemy_probe_wall_ahead(dx, dz, 1.0f) == 0U) {
+                if (this->enemy_probe_wall_ahead(dx, dz, 1.0f) == NULL) {
                     Vec v;
                     VecCopy(&v, &this->body_center);
                     v.x += dx;

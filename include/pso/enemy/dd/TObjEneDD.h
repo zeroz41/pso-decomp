@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/enemy/TObjEnemy.h"
 
+struct CsnHit;
+
 struct TObjEneDD : public TObjEnemy {
     TObjEneDD(TObject *parent);
     virtual ~TObjEneDD();
@@ -76,7 +78,7 @@ struct TObjEneDD : public TObjEnemy {
     void init_model(CollisionBody *bodies, s32 count);
     void clear_field_388();
     int has_move_failures(s32 arg1);
-    saddr enemy_probe_wall_ahead(f32, f32, f32);
+    CsnHit *enemy_probe_wall_ahead(f32 dx, f32 dz, f32 dist);
     void calc_shot_position(u8 *, f32, f32, f32);
     u8 *try_move_actor_xz_on_ground(u8 *);
     void move_to_wall_clamped_destination(f32 farg0, f32 farg1, f32 farg2);
