@@ -393,7 +393,7 @@ void TWindowMainMenu::create_submenu(u32 id) {
         temp_r3_15 = ((saddr)TObject::operator new(0x30));
         var_r0_15 = temp_r3_15;
         if (var_r0_15 != 0) {
-            var_r0_15 = (saddr)TWindowSubQuestBoard__sub_8027CE74((u8 *)temp_r3_15, (u8 *)this, (s32)this->client_index);
+            var_r0_15 = (saddr)TWindowSubQuestBoard__sub_8027CE74((u8 *)temp_r3_15, this, (s32)this->client_index);
         }
         this->m_20 = var_r0_15;
         return;
@@ -427,7 +427,7 @@ void TWindowMainMenu::create_submenu(u32 id) {
         window_sub_game_end = ((saddr)TObject::operator new(0x2C));
         var_r0_19 = window_sub_game_end;
         if (var_r0_19 != 0) {
-            var_r0_19 = (saddr)TWindowSubGameEnd__ct((TWindowSubGameEnd *)((void *)window_sub_game_end), (saddr)this, this->client_index);
+            var_r0_19 = (saddr)TWindowSubGameEnd__ct((TWindowSubGameEnd *)((void *)window_sub_game_end), this, this->client_index);
         }
         this->m_20 = var_r0_19;
     default:

@@ -32,22 +32,6 @@
 
 #pragma readonly_strings on
 
-struct VB_8027CCCC { u8 pad[0x18]; };
-
-struct VO_8027CCCC : VB_8027CCCC {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); virtual void m4();
-    virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8();
-};
-
-struct VB_8027CFC8 { u8 pad[0x18]; };
-
-struct VO_8027CFC8 : VB_8027CFC8 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); virtual void m4();
-    virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8();
-};
-
 struct Ent_8027CFC8 { u8 pad[0x20]; s32 f20; };
 
 // The {width, height} of the option value window sub_8027C884 opens (name inferred).
@@ -73,7 +57,7 @@ u8 TWindowSubQuestBoard::get_page_index() { return *(u8*)((char*)this + 0x61); }
 TWindowSubQuestBoard::TWindowSubQuestBoard(TObject *object, void *arg2) : TObject(object) {
     void *o;
     this->m_name = TWindowSubQuestBoard__class_name;
-    *(void **)((s8 *)this + 0x24) = object;
+    parent_menu = static_cast<TWindowMainMenu *>(object);
     *(void **)((s8 *)this + 0x20) = arg2;
     o = new TWindowSubQuestBoardSelect();
     *(void **)((s8 *)this + 0x28) = o;
@@ -96,7 +80,7 @@ void TWindowSubQuestBoard::run_task() {
         this->m_1c = 2;
     case 2:
         if (TWindowSubQuestBoard__sub_8027D1DC((void *)this->m_28) != 0) {
-            (*(VO_8027CFC8 * *)&this->m_24)->m7();
+            parent_menu->on_submenu_closed();
             this->m_1c = 5;
             break;
         }
@@ -147,11 +131,11 @@ void TWindowSubQuestBoard::set_board_flags(s32 value) {
     TWindowKeyBoardHard::set_card_window_flags((void*)arg0, value << 0xA, -0x1C01);
 }
 
-u8 *TWindowSubQuestBoard__sub_8027CE74(u8 *arg0, u8 *arg1, s32 arg2) {
-    __ct__7TObjectFP7TObject(arg0, arg1);
+u8 *TWindowSubQuestBoard__sub_8027CE74(u8 *arg0, TWindowMainMenu *parent, s32 client_id) {
+    __ct__7TObjectFP7TObject(arg0, parent);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_804D1818;
-    ((TUnk_804D1818 *)arg0)->parent = arg1;
-    ((TUnk_804D1818 *)arg0)->client_id = arg2;
+    ((TUnk_804D1818 *)arg0)->parent = parent;
+    ((TUnk_804D1818 *)arg0)->client_id = client_id;
     ((TUnk_804D1818 *)arg0)->menu = (TWindowMenu *)((TUnk_804D1818 *)arg0)->create_option_menu_window();
     ((TUnk_804D1818 *)arg0)->value_window = 0;
     ((TUnk_804D1818 *)arg0)->state = 0;
@@ -176,7 +160,7 @@ void TUnk_804D1818::run_task() {
         state = 2;
     case 2:
         if (menu->is_cancelled() != 0) {
-            ((VO_8027CCCC *)parent)->m7();
+            parent->on_submenu_closed();
             state = 5;
             break;
         }

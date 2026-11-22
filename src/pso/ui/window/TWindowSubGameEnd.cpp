@@ -1,5 +1,6 @@
 #include "types.h"
 #include "pso/ui/window/TWindowSubGameEnd.h"
+#include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/unk/text_8024AB54.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
@@ -22,19 +23,6 @@
 const char *TWindowSubGameEnd__class_name = "TWindowSubGameEnd";
 int window_sub_game_end_active_flag;
 
-
-struct VBase_18_204a81 { char pad[0x18]; };
-
-struct VObj_18_204a81 : VBase_18_204a81 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual s32 m7();
-};
 
 extern "C" {
 extern saddr tl_00;
@@ -64,7 +52,7 @@ void TWindowSubGameEnd::run_task() {
     case 0:
     case 1:
         if (((TWindowSubComCard *)(this->m_28))->get_card_data() != 0) {
-            (*(VObj_18_204a81 * *)&this->m_24)->m7();
+            parent_menu->on_submenu_closed();
             return;
         }
         if (((TWindowMessageYesNo *)(this->m_28))->is_child_visible() != 0) {
@@ -82,7 +70,7 @@ void TWindowSubGameEnd::run_task() {
                 this->m_1c = 2;
             }
             if (slot == 1) {
-                (*(VObj_18_204a81 * *)&this->m_24)->m7();
+                parent_menu->on_submenu_closed();
             }
         }
         break;
@@ -97,13 +85,13 @@ TWindowSubGameEnd::~TWindowSubGameEnd() {
 }
 
 
-void *TWindowSubGameEnd__ct(TWindowSubGameEnd *window_sub_game_end, s32 arg1, s32 client_index) {
+void *TWindowSubGameEnd__ct(TWindowSubGameEnd *window_sub_game_end, TWindowMainMenu *parent, s32 client_index) {
     f32 width;
     s32 var_r31;
     __ct__7TObjectFP7TObject();
     *(s32 **)((s8 *)window_sub_game_end + 0x18) = __vt__17TWindowSubGameEnd;
     *(s32 *)((s8 *)window_sub_game_end + 0) = (s32) ((saddr)TWindowSubGameEnd__class_name);
-    window_sub_game_end->m_24 = arg1;
+    window_sub_game_end->parent_menu = parent;
     window_sub_game_end->m_20 = client_index;
     if (get_main_phase() == 0xF) {
         var_r31 = (saddr)TWindowSubStatusDisp::get_message_10(0x3B);
