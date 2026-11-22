@@ -66,7 +66,8 @@ TObjMotionAction crawfish_action_table[6] = {
 };
 const char *TBoss7Crawfish__class_name = "TBoss7Crawfish";
 const CollisionBody crawfish_collision_body_desc = {{0.0f, 0.0f, 0.0f}, 10.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f};
-const Vec lbl_8047559C = {0.0f, 0.0f, 0.0f};
+// is_visible measures the crawfish's distance from here (the arena centre is inferred).
+const Vec boss7_arena_center = {0.0f, 0.0f, 0.0f};
 
 // The record exchange_object_state reads and writes.
 struct Boss7CrawfishStateRecord {
@@ -123,7 +124,7 @@ void TBoss7Crawfish::spawn_effect(s32 sound_id) {
 
 s32 TBoss7Crawfish::is_visible() {
     if ((s32)main_task.get_task_flags() & 0x20) {
-        if (3600.0f < horizontal_distance_squared(&lbl_8047559C, &position)) {
+        if (3600.0f < horizontal_distance_squared(&boss7_arena_center, &position)) {
             return 0;
         }
     } else if (update_object_view_visibility(400.0f, 20.0f) == 0) {
