@@ -3,14 +3,10 @@
 
 #include "types.h"
 
-extern "C" {
-void fn_80330A40(u8 *arg0);
-}
+struct TWindowSubTradeMain;
 
-// --- C functions defined in TBoss6Type2_803309D8.cpp ---
 extern "C" {
-void fn_80330A40(u8 *arg0);
+void fn_80330A40(TWindowSubTradeMain *window);
 }
-// --- end of C functions
 
 #endif

@@ -129,8 +129,8 @@ TBoss6RockChase::TBoss6RockChase(TObject *parent, const Vec *position, s32 size_
     spin_speed = (s32)(8192.0f * ((3.0517578e-05f * (f32)rand()) - 0.5f));
     fall_speed = 0.0f;
     VecCopy(&this->position, position);
-    model = get_bml_model(TBoss6Rock__sub_80353A0C(), boss6_rock_chase_model_radius_table[size_kind].model);
-    textures = TBoss6Rock__sub_80353A04();
+    model = get_bml_model(TBoss6Rock::get_resource(), boss6_rock_chase_model_radius_table[size_kind].model);
+    textures = TBoss6Rock::get_texture_list();
 }
 #pragma pop
 

@@ -404,12 +404,12 @@ force_active:
   - get_type2__14TBoss6PlotFalzFv
   - __ct__15TBoss6RockChaseFP7TObjectPC3Vecl
   - TBoss6RockChase__data_805E03B8
-  - TBoss6Rock__data_805D6EF0
-  - TBoss6Rock__data_805D6EF4
-  - TBoss6Rock__data_805D6EF8
+  - boss6_rock_resource
+  - boss6_rock_texture_list
+  - boss6_rock_owner
   - TBoss6Rock__instance_table
   - TBoss6Rock__rock_point_table
-  - TBoss6Rock__sub_80354188
+  - init_rock_points__10TBoss6RockFv
   - TBoss6Rock__sub_803542E8
   - __ct__15TBoss6SwordShotFP7TObjectPC3Veclf
   - angle_to_bit__16Boss6WaveArcMaskFl
@@ -5417,7 +5417,7 @@ force_active:
   - copy_from__22TBoss6Type2MotionTrackFP22TBoss6Type2MotionTrack
   - copy_transform_second__10TNpcPlayerFPvPvPv
   - copy_udp_socket_event_record
-  - copy_vec3__11TBoss6Type2Fii
+  - copy_from__15TBoss6MagMotionFPC15TBoss6MagMotion
   - copy_vec_array__11TBoss6Type2Fv
   - copy_view_params__11TCameraCtrlFii
   - copy_view_state__11TCameraCtrlFl
@@ -8432,7 +8432,7 @@ force_active:
   - lbl_805D6D90
   - lbl_805D6DA0
   - lbl_805D6DC8
-  - lbl_805D6EFC
+  - boss6_rock_damage
   - lbl_805D6FB8
   - lbl_805D7000
   - lbl_805D7020
@@ -16397,7 +16397,7 @@ force_active:
   - sub_8034B918__18TChallenge4PResultFv
   - sub_8034BA2C__18TChallenge4PResultFv
   - sub_80351DF8__16TLobbyEventThemeFl
-  - sub_80353F5C__10TBoss6RockFv
+  - create_map_csn__10TBoss6RockFv
   - sub_8035B610__13TUnk_804A7478Fv
   - sub_8035B66C__13TUnk_804A7488Fv
   - sub_8035D8B0__9TBoss6DPBFv

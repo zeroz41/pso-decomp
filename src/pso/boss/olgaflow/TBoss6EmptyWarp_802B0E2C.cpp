@@ -1,7 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/olgaflow/TBoss6EmptyWarp.h"
-#include "pso/boss/olgaflow/TBoss6EmptyWarp_802B0E2C.h"
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/system/task/TObject_80019A50.h"
 

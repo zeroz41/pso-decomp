@@ -284,7 +284,7 @@ TBoss6Type2::~TBoss6Type2() {
     s32 i;
     init_parts();
     reset_counters();
-    TBoss6Rock__sub_80354A44();
+    TBoss6Rock::clear_owner();
     for (i = 0; i < 2; i++) {
         TBoss6Type2Model *e = &body_models[i];
         e->texlist = 0;
@@ -2250,7 +2250,7 @@ s32 TBoss6Type2::is_player_in_rock_area(u16 client_id) {
     i = 0;
     k = 0.0f;
     do {
-        if (TBoss6Rock__sub_80353A14(i, &a, &r) != 0) {
+        if (TBoss6Rock::get_push_target(i, &a, &r) != 0) {
             VecCopy(&b, &p->position);
             subtract_vector(&b, &a);
             b.y = k;

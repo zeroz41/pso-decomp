@@ -6,7 +6,6 @@
 
 struct TBoss6Type1;
 extern "C" {
-void init_work__11TBoss6Type1Fv(u8 *arg0);
 void send_flow_action_if_idle(TBoss6Type1 *boss, s32 action);
 }
 

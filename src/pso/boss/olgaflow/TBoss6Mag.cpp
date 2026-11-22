@@ -327,13 +327,13 @@ void TBoss6Mag::set_action(s32 action) {
     }
 }
 
-TBoss6MagMotion *copy_vec3__11TBoss6Type2Fii(TBoss6MagMotion *dst, const TBoss6MagMotion *src) {
-    TBoss6MagMotionWords *d = (TBoss6MagMotionWords *)dst;
+TBoss6MagMotion *TBoss6MagMotion::copy_from(const TBoss6MagMotion *src) {
+    TBoss6MagMotionWords *d = (TBoss6MagMotionWords *)this;
     const TBoss6MagMotionWords *s = (const TBoss6MagMotionWords *)src;
     d->index = s->index;
     d->mode = s->mode;
     d->track = s->track;
-    return dst;
+    return this;
 }
 
 void TBoss6MagMotionTrack::copy_state(TBoss6MagMotionTrack *src) {
@@ -348,7 +348,7 @@ void TBoss6MagMotionTrack::copy_state(TBoss6MagMotionTrack *src) {
 
 void TBoss6Mag::sub_803300C8() {
     AnimationMotion *bml_motion;
-    copy_vec3__11TBoss6Type2Fii(&motion_state, &boss6_type2_zero_vec3_block);
+    motion_state.copy_from(&boss6_type2_zero_vec3_block);
     motion_state.track.copy_state((TBoss6MagMotionTrack *)&boss6_type2_initial_state);
     bml_motion = get_bml_motion(scene_archive, boss6_type2_motion_table[0].motion);
     motion_state.track.prev_motion = bml_motion;

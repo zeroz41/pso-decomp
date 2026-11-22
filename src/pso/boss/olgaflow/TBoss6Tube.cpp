@@ -12,7 +12,6 @@
 #include "pso/math/MatrixTransforms.h"
 #include <stdlib.h>
 #include "pso/unk/text_803D96A8.h"
-#include "pso/boss/olgaflow/TBoss6Tube_802B15F4.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/task/TObject.h"

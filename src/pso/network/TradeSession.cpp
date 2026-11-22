@@ -548,7 +548,7 @@ void reset__6TLobbyFv(void) {
             ((TWindowSubTradeMessage *)(*(const uaddr *)&trade_message_controller))->finish();
         }
         if ((uaddr) (*(const uaddr *)&TLobby__trade_main_window) != 0U) {
-            fn_80330A40((u8 *)(*(const uaddr *)&TLobby__trade_main_window));
+            fn_80330A40((TWindowSubTradeMain *)(*(const uaddr *)&TLobby__trade_main_window));
         }
         if ((uaddr) (*(const uaddr *)&TLobby__data_805D6894) != 0U) {
             reset__15TLobby_802D2F7CFPv((u8 *)(*(const uaddr *)&TLobby__data_805D6894));

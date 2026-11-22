@@ -45,6 +45,8 @@ struct TBoss6MagMotion {
     s32 index;
     s32 mode;
     TBoss6MagMotionTrack track;
+
+    TBoss6MagMotion *copy_from(const TBoss6MagMotion *src);
 };
 
 struct TBoss6MagRamp {
@@ -177,7 +179,6 @@ extern TBoss6MagAction boss6_type2_action_table[6];
 
 extern "C" {
 void TBoss6Type2__sub_8032F2F0(TBoss6MagRamp *dst, TBoss6MagRamp *src);
-TBoss6MagMotion *copy_vec3__11TBoss6Type2Fii(TBoss6MagMotion *dst, const TBoss6MagMotion *src);
 void TBoss6Mag__sub_803309C4(TBoss6MagTarget *dst, TBoss6MagTarget *src);
 }
 
