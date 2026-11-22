@@ -62,7 +62,6 @@ extern s32 game_difficulty_selection;
 void vec3_add_to(Vec *dst, const Vec *src);
 void TBoss8Dragon__sub_800BB7D4(TObjEneBm9Mericarol *self, s32 arg1);
 void fill_value_array(saddr address);
-s32 enemy_validate_retained_target(u8 *ene_dd_st);
 s32 approach_angle_limited(s32 from, s32 to, s32 max_step);
 s32 angle_difference_abs(s32 a, s32 b);
 void fn_802CE510(TObjEneBm9Mericarol *owner);
@@ -680,7 +679,7 @@ void TObjEneBm9Mericarol::sub_802CFB64(s32 arg1) {
         break;
     case 0:
         advance_animation();
-        enemy_validate_retained_target((u8 *)this);
+        enemy_validate_retained_target(this);
         switch (m_490) {
         case 2:
             break;
@@ -795,7 +794,7 @@ void TObjEneBm9Mericarol::sub_802CF7B4(s32 arg1) {
                 bodies->flags |= 0x700;
                 play_sound_effect(remap_sound_for_area(0x3AD0E), &position, 0, 0);
             }
-            if (enemy_validate_retained_target((u8 *)this) != 0) {
+            if (enemy_validate_retained_target(this) != 0) {
                 enemy_copy_target_destination();
                 update_velocity();
             }
@@ -1089,7 +1088,7 @@ void TObjEneBm9Mericarol::sub_802CEDA0(s32 arg1) {
                     m_490 = 1;
                 }
             }
-            if (enemy_validate_retained_target((u8 *)this) != 0) {
+            if (enemy_validate_retained_target(this) != 0) {
                 enemy_copy_target_destination();
                 update_velocity();
             }

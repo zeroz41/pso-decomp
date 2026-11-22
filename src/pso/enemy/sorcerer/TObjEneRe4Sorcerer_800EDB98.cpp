@@ -143,7 +143,6 @@ u16 get_entity_id(TObjBase *object);
 
 s32 *csnLookAt(s32 arg0, s32 arg1);
 
-s32 enemy_bind_or_clear_target(void *, u16);
 
 
 int is_target_ranger(void *p);

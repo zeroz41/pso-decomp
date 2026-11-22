@@ -1485,12 +1485,12 @@ void TObjEneDD_ST::enemy_init_acquire_period(s32 arg1) {
 
 s32 TObjEneDD_ST::acquire_target(f32 distance) { return select_nearest_target(distance); }
 
-s32 enemy_bind_or_clear_target(void *self, u16 x) {
-    if (x != 0xFFFF) {
-        enemy_set_target_id((TObjEneDD_ST *)(self), x);
+s32 enemy_bind_or_clear_target(TObjEneDD_ST *self, u16 id) {
+    if (id != 0xFFFF) {
+        enemy_set_target_id(self, id);
         return 1;
     }
-    ((TObjEneDD_ST *)(self))->enemy_clear_target();
+    self->enemy_clear_target();
     return 0;
 }
 
@@ -1547,8 +1547,7 @@ void TObjEneDD_ST::enemy_init_validate_period(s32 arg1) {
     validate_counter = (this->entity_id + 3) % validate_period;
 }
 
-s32 enemy_validate_retained_target(u8 *ene_dd_st) {
-    TObjEneDD_ST *self = (TObjEneDD_ST *)ene_dd_st;
+s32 enemy_validate_retained_target(TObjEneDD_ST *self) {
     if (tick_period_counter((saddr)self, &self->validate_counter, self->validate_period) != 0) {
         if (is_target_unobstructed_from(self, self->current_target) != 0) {
             return 1;
@@ -1568,7 +1567,7 @@ s32 TObjEneEpsilon::update_death_check() {
         this->enemy_clear_target();
         return 0;
     }
-    return enemy_validate_retained_target((u8 *)this);
+    return enemy_validate_retained_target(this);
 }
 
 void TObjEneDD_ST::turn_toward_target_direction(s32 max_step) {

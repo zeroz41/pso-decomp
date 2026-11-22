@@ -844,7 +844,7 @@ void fn_800C3088(u8 *arg0, int arg1) {
     return;
     case 0:
       ((TObjMotion *)arg0)->advance_animation();
-      enemy_validate_retained_target(arg0);
+      enemy_validate_retained_target((TObjEneDD_ST *)arg0);
       switch (((RecoveredFields_800C3088_arg0 *) arg0)->field_414)
     {
       case 0:

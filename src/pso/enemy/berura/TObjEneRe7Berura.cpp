@@ -78,7 +78,6 @@ extern const f32 lbl_805D9E88;
 f32 atan2_float(f32 y, f32 x);
 s32 TObjEneRe7Berura__sub_8009518C(TObjEneRe7Berura *);
 void TObjEneRe7Berura__sub_800940E8(TObjEneRe7Berura *self, s32 arg1);
-s32 enemy_validate_retained_target(u8 *arg0);
 void TObjEneDD__sub_800BA378(s32 arg0, u8 *arg1);
 s32 matrix_mult_vec_array(int, int, void *, int);
 void set_matrix_identity(u8 *arg0);
@@ -1145,7 +1144,7 @@ void TObjEneRe7Berura__sub_80093888(TObjEneRe7Berura *actor, s32 arg1) {
         actor->advance_animation();
         switch (actor->m_4c0) {
         case 0:
-            if (enemy_validate_retained_target((u8 *)actor) != 0) {
+            if (enemy_validate_retained_target(actor) != 0) {
                 actor->enemy_copy_target_destination();
                 actor->update_velocity();
                 if (actor->step_toward_target((s32) (RADIANS_TO_ANGLE * atan2_float(actor->destination_direction.x, actor->destination_direction.z)), 0x100) != 0) {

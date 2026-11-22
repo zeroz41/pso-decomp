@@ -89,7 +89,6 @@ struct Tbl_800E7884 { u8 pad[0xC]; u8 *t[3][2]; };
 void calc_wall_clamped_destination(void *arg0, void *arg1, f32 dx, f32 dz, f32 dist);
 void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 farg0);
 extern "C" {
-s32 enemy_validate_retained_target(void *, int);
 void TObjEneDD__sub_800BA438(s32 arg0, u8 *arg1);
 s32 TBoss3Volopt__sub_800D8D88(void *, f32);
 void TObjEneMe3ShinowaMirage__sub_800E4FE8(TObjEneMe3Shinowa *shinowa, s32 arg1);
@@ -765,7 +764,7 @@ void TObjEneMe3ShinowaMirage__sub_800E69F0(TObjEneMe3Shinowa *shinowa, s32 arg1)
             }
             ene_dd_st = shinowa->m_408;
             shinowa->m_3d0 = (ene_dd_st << 24) | (shinowa->m_3d0 & 0x00FFFFFF);
-            if (enemy_validate_retained_target(shinowa, ene_dd_st) == 0) {
+            if (enemy_validate_retained_target(shinowa) == 0) {
                 shinowa->m_404 = 0;
                 if (!(shinowa->m_3c4 & 0x1000)) {
                     shinowa->m_3d0 = 0;

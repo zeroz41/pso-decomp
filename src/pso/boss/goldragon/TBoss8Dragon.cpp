@@ -114,7 +114,6 @@ s32 angle_diff_s16(s32, s32);
 void TBoss8Dragon__sub_802FC500(u8 *arg0);
 u16 get_entity_id(u8 *);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
-s32 enemy_validate_retained_target(u8 *ene_dd_st);
 void TBoss8Dragon__sub_802FC9D8(u8 *arg0);
 f32 newton_sqrtf(f32);
 f32 horizontal_distance_squared(void *, void *);
@@ -2157,7 +2156,7 @@ void TBoss8Dragon::sub_802FA16C(s32 event) {
         ((s32 (*)(void *))update_linked_position__12TBoss8DragonFv)(this);
         this->m_84c = (this->m_84c + 1);
         if ((s32) (this->m_84c % 20) == 0x13) {
-            if (enemy_validate_retained_target((u8 *)this) != 0) {
+            if (enemy_validate_retained_target(this) != 0) {
                 this->enemy_copy_target_destination();
             } else {
                 this->set_target_destination(&TBoss8Dragon__data_804744A8);
@@ -2218,7 +2217,7 @@ void TBoss8Dragon::state_breath_attack(s32 event) {
         sync_target_pos();
         return;
     case 6:
-        if (enemy_validate_retained_target((u8 *)this) != 0) {
+        if (enemy_validate_retained_target(this) != 0) {
             this->enemy_copy_target_destination();
         } else {
             F(f32, 0x394) = 115.0f * sin_table_lookup(F(s32, 0x60)) + F(f32, 0x410);
@@ -4451,7 +4450,7 @@ void TBoss8Dragon::sub_802F5434(s32 event) {
         ((s32 (*)(void))update_linked_position__12TBoss8DragonFv)();
         this->m_84c = (this->m_84c + 1);
         if ((s32) (this->m_84c % 20) == 0x13) {
-            if (enemy_validate_retained_target((u8 *)this) != 0) {
+            if (enemy_validate_retained_target(this) != 0) {
                 this->enemy_copy_target_destination();
             } else {
                 this->set_target_destination(&TBoss8Dragon__data_804744A8);

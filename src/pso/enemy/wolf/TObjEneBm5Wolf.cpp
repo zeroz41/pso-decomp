@@ -105,7 +105,6 @@ __declspec(section ".data") u8 *wolf_stat_handle_b_table[2];
 __declspec(section ".data") s32 lbl_80500B58[2];
 s32 is_vec_xz_cross_negative(void *, void *);
 f32 calc_circle_offset__14TObjEneBm5WolfFPvPvPv(TObjEneBm5Wolf *wolf, Vec *target, Vec *out);
-s32 enemy_validate_retained_target(u8 *ene_dd_st);
 s32 TBoss8Dragon__sub_800BB7D4(void *, int);
 void draw_blob_shadow(s32 arg0);
 s32 scale_matrix(s32, f32, f32, f32);
@@ -972,7 +971,7 @@ void TObjEneBm5Wolf::standing_state(s32 arg1) {
       this->roamingSubstate = (s32) ((this->roamingSubstate) + 1);
       this->advance_animation();
       this->is_passing_frame(7.0f);
-      if (enemy_validate_retained_target((u8 *)this) != 0)
+      if (enemy_validate_retained_target(this) != 0)
     {
       this->enemy_copy_target_destination();
       this->update_velocity();
@@ -1023,7 +1022,7 @@ void TObjEneBm5Wolf::howling_state(s32 arg1) {
                 }
             }
         }
-        if (enemy_validate_retained_target((u8 *)this) != 0) {
+        if (enemy_validate_retained_target(this) != 0) {
             if (this->requested_action == 0x10) {
                 this->turn_pose_to_target();
             } else {
@@ -1487,7 +1486,7 @@ void TObjEneBm5Wolf::update_lunge(s32 arg1) {
             }
             if (this->is_passing_frame((f32) (20.0f)) != 0) {
                 this->nearTarget = 0;
-                if (enemy_validate_retained_target((u8 *)this) != 0) {
+                if (enemy_validate_retained_target(this) != 0) {
                     if (this->current_target->select_melee_contact_body(this, 1.0f) != 0) {
                         this->current_target->receive_physical_attack(this, 1.0f);
                         this->current_target->apply_knockback_from_attacker((u8 *)this, 7.0f);

@@ -461,7 +461,6 @@ s32 init_motion_record(s32);
 void TBoss8Dragon__sub_80067074(saddr arg0, saddr arg1);
 void start_camera_shake(s32 id, f32 v);
 void TObjEneEpsilon__sub_800B9384(u8 *arg0, s32 arg1, f32 farg0);
-s32 enemy_validate_retained_target(u8 *arg0);
 void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
 s32 __dt__17AreaAttackHistoryFv(s32 arg0, s16 arg1);
 void *__dt__15RenderFadeStateFv(void *arg0, s16 arg1);
@@ -1902,7 +1901,7 @@ void TBoss5Gryphon::flush_pending_effect() {
 void TBoss5Gryphon::refresh_target_periodically() {
     TBoss5Gryphon::update_linked_ground_position();
     if (!(this->targetRefreshCounter & 0x1F)) {
-        if (enemy_validate_retained_target((u8 *)this) != 0) {
+        if (enemy_validate_retained_target(this) != 0) {
             enemy_copy_target_destination();
         } else {
             this->set_target_destination(&lbl_80437938);

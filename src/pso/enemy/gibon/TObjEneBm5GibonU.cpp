@@ -65,7 +65,6 @@ s32 translate_matrix(saddr, f32, f32, f32);
 s32 post_translate_matrix(void *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 void render_debug__16TObjEneBm5GibonUFv(u8 *arg0);
-s32 enemy_validate_retained_target(u8 *ene_dd_st);
 void TObjEneDD__sub_800BA378(s32 arg0, u8 *arg1);
 s32 TObjEneBm5GibonU__sub_800D0968(TObjEneBm5GibonU *self, int);
 s32 approach_angle_limited(s32, s32, s32);
@@ -1386,7 +1385,7 @@ void TObjEneBm5GibonU__sub_800CEBD8(TObjEneBm5GibonU *self, s32 arg1) {
             }
             if (self->is_passing_frame(22.0f) != 0) {
                 self->m_564 = 0;
-                if (enemy_validate_retained_target((u8 *)self) != 0) {
+                if (enemy_validate_retained_target(self) != 0) {
                     if (self->current_target->select_melee_contact_body(self, 1.0f) != 0) {
                         self->current_target->receive_physical_attack(self, 1.0f);
                         self->current_target->apply_knockback_from_attacker((u8 *)self, 7.0f);
@@ -1947,7 +1946,7 @@ void TObjEneBm5GibonU__sub_800CFE34(TObjEneBm5GibonU *self, s32 arg1) {
                 }
             }
         }
-        if (enemy_validate_retained_target((u8 *)self) != 0) {
+        if (enemy_validate_retained_target(self) != 0) {
             if (self->requested_action == 0xE) {
                 self->face_target();
             } else {
@@ -1986,7 +1985,7 @@ void TObjEneBm5GibonU__sub_800CFFBC(TObjEneBm5GibonU *self, s32 arg1) {
     {
       play_sound_effect(self->remap_sound_for_area(0x3A523), &self->position, 0, 0);
     }
-      if (enemy_validate_retained_target((u8 *)self) != 0)
+      if (enemy_validate_retained_target(self) != 0)
     {
       self->enemy_copy_target_destination();
       self->update_velocity();

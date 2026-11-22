@@ -860,7 +860,7 @@ void TObjEneMe3Stelth::update_state_fade_in(s32 arg1) {
             }
             t = m_428;
             m_3e8 = (t << 24) | (m_3e8 & 0x00FFFFFF);
-            if (enemy_validate_retained_target((u8 *)this) == 0) {
+            if (enemy_validate_retained_target(this) == 0) {
                 m_424 = 0;
                 m_3e8 = 0;
             }

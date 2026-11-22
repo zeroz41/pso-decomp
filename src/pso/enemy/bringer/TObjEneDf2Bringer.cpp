@@ -157,7 +157,6 @@ extern s32 model_render_flags;
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
 void fill_value_array(saddr);
-s32 enemy_validate_retained_target(void *);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 

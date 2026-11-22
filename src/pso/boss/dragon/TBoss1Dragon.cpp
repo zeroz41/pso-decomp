@@ -182,7 +182,6 @@ void send_state_sync__12TBoss1DragonFPv(TBoss1Dragon *s);
 void TBoss1Dragon__sub_80028BE0(u8 *arg0);
 s32 is_destination_ahead__12TBoss1DragonFPv(u8 *s);
 void TObjEneEpsilon__sub_800B9384(u8 *arg0, s32 arg1, f32 farg0);
-s32 enemy_validate_retained_target();
 
 extern saddr TBoss1Dragon__data_804FE17C[3];
 
@@ -3456,7 +3455,7 @@ void TBoss1Dragon::update_breath_attack_state(u32 arg1) {
         this->restoreTargetPosition();
         return;
     case 6:
-        if (enemy_validate_retained_target() != 0) {
+        if (enemy_validate_retained_target(this) != 0) {
             ((TObjEneDD_ST *)arg0)->enemy_copy_target_destination();
         } else {
             this->destination.x = (f32) ((115.0f * sin_table_lookup(this->rotation_y)) + this->m_40c.x);
@@ -3567,7 +3566,6 @@ void TBoss1Dragon::update_breath_attack_state(u32 arg1) {
 
 #define LINKED_800267B8 ((s32 (*)(void))TBoss1Dragon::update_linked_epsilon_position)
 #define NEAR_800267B8 ((s32 (*)(void *))is_destination_ahead__12TBoss1DragonFPv)
-#define VALID_800267B8 ((s32 (*)(void *))enemy_validate_retained_target)
 void TBoss1Dragon::update_walking_state(u32 arg1) {
     u8 *arg0 = (u8 *)this;
     s32 ticks;
@@ -3621,7 +3619,7 @@ void TBoss1Dragon::update_walking_state(u32 arg1) {
         LINKED_800267B8();
         (this->stateStep)++;
         if (this->stateStep % 20 == 19) {
-            if (VALID_800267B8(arg0) != 0) {
+            if (enemy_validate_retained_target(this) != 0) {
                 ((TObjEneDD_ST *)arg0)->enemy_copy_target_destination();
             } else {
                 ((TObjEneDD_ST *)arg0)->set_target_destination(&TBoss1Dragon__data_80434E80);

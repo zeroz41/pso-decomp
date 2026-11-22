@@ -123,7 +123,6 @@ void TObjEneMe3SinowZoa__sub_80319B8C(TObjEneMe3SinowZoa *self, s32 arg1);
 void compose_motion_node_matrix(void *arg0);
 extern "C" {
 f64 atan2_float(f32, f32);
-s32 enemy_validate_retained_target(u8 *arg0);
 BOOL is_split_screen(void);
 }
 
@@ -946,7 +945,7 @@ void TObjEneMe3SinowZoa::update_state_action(s32 arg1) {
                 this->m_438 = 0xFF;
             }
             this->m_3f8 = (this->m_438 << 24) | (this->m_3f8 & 0xFFFFFF);
-            if (enemy_validate_retained_target((u8 *)this) == 0) {
+            if (enemy_validate_retained_target(this) == 0) {
                 this->m_434 = 0;
                 this->m_3f8 = 0;
             }
