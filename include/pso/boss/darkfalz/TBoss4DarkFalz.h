@@ -7,8 +7,10 @@
 class TBoss4Fade;
 struct TBoss4Type1;
 struct TObjDFUsoTower;
+struct TBoss4DarkFalzSetEntry;
 
 struct TBoss4DarkFalz : public TObjEnemy {
+    TBoss4DarkFalz(TObject *parent, TBoss4DarkFalzSetEntry *set_data);
     virtual ~TBoss4DarkFalz();
     void sub_8004B0F8();
     void sub_8004B084();
@@ -31,7 +33,7 @@ struct TBoss4DarkFalz : public TObjEnemy {
     virtual void run_task();
     static void cleanup_global();
     static void load_resources();
-    static s32 create(s32 arg0);
+    static TBoss4DarkFalz *create(saddr set_data);
     static TBoss4Type1 *get_instance();
     int is_field378_zero();
 
