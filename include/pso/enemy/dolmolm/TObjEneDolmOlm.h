@@ -58,7 +58,7 @@ struct TObjMotionAction;
 
 // What TLobby::dispatch_shared_handler_a(0x4E / 0x4F) gives each variant.
 struct DolmOlmBehaviorParams {
-    f32 params[4];     // the ctor copies them to m_398, m_3a0, unk_39C and unk_3A4
+    f32 params[4];     // the ctor copies them to far_move_speed, far_anim_speed, near_move_speed and near_anim_speed
     f32 special_range; // how near the target has to be for mode 11 (sub_8030177C)
     f32 pad_14;
     s32 special_angle; // how far off its heading the target may be for mode 11's hit

@@ -158,7 +158,7 @@ void TObjEneShark::beast_update_appear() {
     switch (phase) {
     case 0:
     default:
-        if (m_390 != 0) {
+        if (appearing != 0) {
             fade.start_fade_in();
             play_area_sound_effect(&position);
             phase = 1;
@@ -169,7 +169,7 @@ void TObjEneShark::beast_update_appear() {
     case 1:
         if (fade.advance_toward_max() == 1) {
             phase = 2;
-            m_390 = 0;
+            appearing = 0;
         }
         break;
     case 2:
@@ -225,7 +225,7 @@ void TObjEneShark::render() {
   model_render_flags |= 1;
   TObjFish::set_global_param(texlist);
   push_matrix();
-  translate_matrix(0, 0.0f, unk_380, 0.0f);
+  translate_matrix(0, 0.0f, corpse_offset_y, 0.0f);
   post_translate_matrix(&position.x);
   rotate_matrix_y(0, rotation_y);
   if (TObjPlayer::check_demo_mode() == 1)
@@ -248,7 +248,7 @@ void TObjEneShark::render() {
       }
         break;
     }
-    if (m_378 == 0)
+    if (in_group == 0)
     {
       s16 a;
       s16 b;
@@ -263,7 +263,7 @@ void TObjEneShark::render() {
     TObjPlayer::toggle_particle_effect();
     shark_render_node_index = 0;
     set_chunk_model_node_callback(TObjPlayer::update_particle_by_phase);
-    if (m_390 == 1)
+    if (appearing == 1)
     {
       if (this->fade.has_visible_opacity() != 0)
       {
@@ -319,7 +319,7 @@ void TObjEneShark::render() {
     }
     set_chunk_model_node_callback(0);
     TParticleCtrl::end_effect_render();
-    if (m_378 == 0)
+    if (in_group == 0)
     {
       *((s16 *) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) model) + 0x2C)))) + 0x30)))) + 0x30)))) + 4)))) + 4)))) + 4)) = v26;
       *((s16 *) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) model) + 0x2C)))) + 0x30)))) + 0x30)))) + 4)))) + 4)))) + 6)) = v27;
@@ -566,10 +566,10 @@ TObjEneShark::TObjEneShark(TObject *parent, void *setData) : TUnk_80493450(paren
     resetTimer = 0xF;
     timer = resetTimer;
     phase = 0;
-    m_374 = 0;
-    m_376 = 0;
-    m_378 = 0;
-    m_37c = 0;
+    retreat_timer = 0;
+    pad_376 = 0;
+    in_group = 0;
+    child_count = 0;
     add_flags_2e4(2);
     actorFlags |= 0x40000;
     if (TObjEneDD::check_v2_mode() != 0) {
@@ -599,13 +599,13 @@ TObjEneShark::TObjEneShark(TObject *parent, void *setData) : TUnk_80493450(paren
         }
     }
     fade.reset_obstruction_fade();
-    m_390 = 1;
+    appearing = 1;
     attack_trails[0] = TUnk_80494968::create((u32)0xA0303030, (u32)color);
     attack_trails[1] = TUnk_80494968::create((u32)0xA0303030, (u32)color);
-    m_398 = ((f32 *)shark_resource_buffer[subtype])[0];
-    m_3a0 = ((f32 *)shark_resource_buffer[subtype])[1];
-    unk_39C = ((f32 *)shark_resource_buffer[subtype])[2];
-    unk_3A4 = ((f32 *)shark_resource_buffer[subtype])[3];
+    far_move_speed = ((f32 *)shark_resource_buffer[subtype])[0];
+    far_anim_speed = ((f32 *)shark_resource_buffer[subtype])[1];
+    near_move_speed = ((f32 *)shark_resource_buffer[subtype])[2];
+    near_anim_speed = ((f32 *)shark_resource_buffer[subtype])[3];
     for (i = 0; i < 4; i++) {
         camera_fades[i].activate_and_dispatch();
     }

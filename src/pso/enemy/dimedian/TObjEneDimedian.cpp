@@ -151,7 +151,7 @@ void TObjEneDimedian::update_attack_trail() {
 }
 
 void TObjEneDimedian::beast_retire_corpse() {
-    this->m_390 = 1;
+    this->appearing = 1;
     if (body_fade.decay_value_toward_floor() == 1) {
         queue_destruction();
     }
@@ -183,7 +183,7 @@ void TObjEneDimedian::beast_update_appear() {
     switch (this->phase) {
     case 0:
     default:
-        if (this->m_390 == 1) {
+        if (this->appearing == 1) {
             this->phase = 1;
             play_area_se_with_particle(&position);
             TObjPlayer__sub_800A0554(&body_fade);
@@ -194,7 +194,7 @@ void TObjEneDimedian::beast_update_appear() {
     case 1:
         if (body_fade.advance_toward_max() == 1) {
             this->phase = 2;
-            this->m_390 = 0;
+            this->appearing = 0;
         }
         break;
     case 2:
@@ -246,7 +246,7 @@ void TObjEneDimedian::render() {
         }
         }
         TObjPlayer::toggle_particle_effect();
-        if (m_390 == 1) {
+        if (appearing == 1) {
             if (body_fade.has_visible_opacity() != 0) {
                 saved_model_render_flags = model_render_flags;
                 saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
@@ -514,13 +514,13 @@ TObjEneDimedian::TObjEneDimedian(TObject *parent, void *set_data) : TUnk_8049345
     resetTimer = 0xF;
     timer = resetTimer;
     phase = 0;
-    m_374 = 0;
-    m_376 = 0;
-    m_378 = 0;
-    m_37c = 0;
+    retreat_timer = 0;
+    pad_376 = 0;
+    in_group = 0;
+    child_count = 0;
     add_flags_2e4(8);
     actorFlags |= 0x40000;
-    unk_388 = -4.0f;
+    corpse_sink_limit = -4.0f;
     if (TObjEneDD::check_v2_mode() != 0) {
         switch (subtype) {
         case 0:
@@ -549,11 +549,11 @@ TObjEneDimedian::TObjEneDimedian(TObject *parent, void *set_data) : TUnk_8049345
     }
     attack_trails[0] = TUnk_80494968::create(0xA0303030, color);
     attack_trails[1] = TUnk_80494968::create(0xA0303030, color);
-    m_390 = 1;
-    m_398 = dimedian_buffer_ptr[subtype][0];
-    m_3a0 = dimedian_buffer_ptr[subtype][1];
-    unk_39C = dimedian_buffer_ptr[subtype][2];
-    unk_3A4 = dimedian_buffer_ptr[subtype][3];
+    appearing = 1;
+    far_move_speed = dimedian_buffer_ptr[subtype][0];
+    far_anim_speed = dimedian_buffer_ptr[subtype][1];
+    near_move_speed = dimedian_buffer_ptr[subtype][2];
+    near_anim_speed = dimedian_buffer_ptr[subtype][3];
     for (i = 0; i < 4; i++) {
         camera_fades[i].activate_and_dispatch();
     }

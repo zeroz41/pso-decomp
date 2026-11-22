@@ -322,20 +322,20 @@ TObjEneMerillLia::TObjEneMerillLia(TObject *parent, void *setData) : TUnk_804934
     resetTimer = 0xF;
     timer = resetTimer;
     phase = 0;
-    m_374 = 0;
-    m_376 = 0;
-    m_378 = 0;
-    m_37c = 0;
+    retreat_timer = 0;
+    pad_376 = 0;
+    in_group = 0;
+    child_count = 0;
     add_flags_2e4(2);
     obj_setFlags30(this, 0x40000);
-    unk_380 = 0.0f;
-    m_398 = ((f32 **)TObjEneMerillLia__rock_param_table)[subtype][0];
-    m_3a0 = ((f32 **)TObjEneMerillLia__rock_param_table)[subtype][1];
-    unk_39C = ((f32 **)TObjEneMerillLia__rock_param_table)[subtype][2];
-    unk_3A4 = ((f32 **)TObjEneMerillLia__rock_param_table)[subtype][3];
+    corpse_offset_y = 0.0f;
+    far_move_speed = ((f32 **)TObjEneMerillLia__rock_param_table)[subtype][0];
+    far_anim_speed = ((f32 **)TObjEneMerillLia__rock_param_table)[subtype][1];
+    near_move_speed = ((f32 **)TObjEneMerillLia__rock_param_table)[subtype][2];
+    near_anim_speed = ((f32 **)TObjEneMerillLia__rock_param_table)[subtype][3];
     unk_3D4 = ((f32 **)TObjEneMerillLia__rock_param_table)[subtype][5];
     unk_3CC = ((s32 **)TObjEneMerillLia__rock_param_table)[subtype][6] / 100.0f;
-    m_390 = 1;
+    appearing = 1;
     mode = 0xD;
     requested_action = 1;
     clear_lobby_object_state();
@@ -596,24 +596,24 @@ void TObjEneMerillLia::beast_update_approach() {
         spawn_ground_effect(self);
         if (*(u32 *)&this->target != 0U) {
             if (((TUnk_80493450 *)self)->test_elt_flag(0, 0x300000) != 0) {
-                if (this->m_38c++ < 60.0f) {
+                if (this->home_chase_frames++ < 60.0f) {
                     VecCopy((Vec *)&sp14, &this->home_position);
                 } else {
                     VecCopy((Vec *)&sp14, (const Vec *)(*(uaddr *)&this->target + 0x2FC));
                 }
             } else {
-                this->m_38c = 0U;
+                this->home_chase_frames = 0U;
                 VecCopy((Vec *)&sp14, (const Vec *)(*(uaddr *)&this->target + 0x2FC));
             }
             ((TUnk_80493450 *)self)->update_target_near_flag();
-            ((TUnk_80493450 *)self)->sub_800C4E08();
+            ((TUnk_80493450 *)self)->select_move_speed();
             ((TObjMotion *)self)->advance_animation();
             {
                 Vec sp8 = sp14;
-                enemy_move_toward(self, *(s32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 8), &sp8, 0, *(f32 *)&this->unk_394);
+                enemy_move_toward(self, *(s32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 8), &sp8, 0, *(f32 *)&this->move_speed);
             }
             if (this->targetId == 0xFFFF) {
-                if (horizontal_distance_squared((u8 *)&this->move_destination, (u8 *)&this->position) < (r = *(f32 *)&this->unk_394 + *(f32 *)((s8 *)(*(u8 * *)&this->bodies) + 0xC)) * r ||
+                if (horizontal_distance_squared((u8 *)&this->move_destination, (u8 *)&this->position) < (r = *(f32 *)&this->move_speed + *(f32 *)((s8 *)(*(u8 * *)&this->bodies) + 0xC)) * r ||
                     150.0f < (f32) (*(s32 *)&this->m_2ac)++) {
                     *(u32 *)&this->target = 0U;
                     *(s32 *)&this->m_2ac = 0;
@@ -766,7 +766,7 @@ void TObjEneMerillLia::beast_update_group_chase() {
 #define o ((Lia_800D5BCC *)this)
 void TObjEneMerillLia::beast_idle_update() {
     ((TUnk_80493450 *)o)->update_target_near_flag();
-    ((TUnk_80493450 *)o)->sub_800C4E08();
+    ((TUnk_80493450 *)o)->select_move_speed();
     ((TObjMotion *)o)->advance_animation();
     if (o->state != 1) {
         o->state = 1;
@@ -1071,7 +1071,7 @@ void TObjEneMerillLia::reset_action_state() {
 void TObjEneMerillLia::init_attack_state() {
     this->mode = 4;
     this->phase = 0;
-    this->m_374 = (s16) this->m_3d8;
+    this->retreat_timer = (s16) this->m_3d8;
     obj_clearFlags30(0x04240000);
     clear_player_status_flag(0, 0x0A000000);
 }
@@ -1100,7 +1100,7 @@ void TObjEneMerillLia::run_idle_action() {
             }
         } else if ((temp_r0 >= 0xE) || (temp_r0 < 0xB)) {
 block_7:
-            if ((s32) this->m_390 != 0) {
+            if ((s32) this->appearing != 0) {
                 this->mode = 0;
             } else {
                 this->mode = 1;

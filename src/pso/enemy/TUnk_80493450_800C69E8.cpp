@@ -9,4 +9,4 @@ void TUnk_80493450::play_hurt_sound() {}
 void TUnk_80493450::play_death_sound() {}
 void TUnk_80493450::run_demo_task() {}
 
-u16 get_enemy_target_id(void* p) { return *(u16*)((char*)p + 0x338); }
+u16 get_enemy_target_id(TObjEnemy *enemy) { return enemy->targetId; }

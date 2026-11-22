@@ -158,7 +158,7 @@ void TObjEneBeast::beast_update_appear() {
     switch (phase) {
     case 0:
     default:
-        if (m_390 != 1) {
+        if (appearing != 1) {
             phase = 2;
         } else {
             phase = 1;
@@ -171,7 +171,7 @@ void TObjEneBeast::beast_update_appear() {
     case 1:
         if (action_flags != 0x20U) {
             phase = 2;
-            m_390 = 0;
+            appearing = 0;
             requested_action = 0;
             clear_player_status_flag(0, 0x0A000000);
             obj_clearFlags30(0x04000000);
@@ -206,7 +206,7 @@ void TObjEneBeast::render() {
     select_actor_lighting(this);
     TObjFish::set_global_param(texlist);
     push_matrix();
-    translate_matrix(0, 0.0f, unk_380, 0.0f);
+    translate_matrix(0, 0.0f, corpse_offset_y, 0.0f);
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
     if (TObjPlayer::check_demo_mode() == 1) {
@@ -420,20 +420,20 @@ TObjEneBeast::TObjEneBeast(TObject *parent, void *set_data) : TUnk_80493450(pare
     resetTimer = 0xF;
     timer = resetTimer;
     phase = 0;
-    m_374 = 0;
-    m_376 = 0;
-    m_378 = 0;
-    m_37c = 0;
+    retreat_timer = 0;
+    pad_376 = 0;
+    in_group = 0;
+    child_count = 0;
     add_flags_2e4(1);
     obj_setFlags30(this, 0x40000);
-    unk_380 = 0.0f;
+    corpse_offset_y = 0.0f;
     attack_trails[0] = TUnk_80494968::create(0xA0303030, 0xFF303030);
     attack_trails[1] = TUnk_80494968::create(0xA0303030, 0xFF303030);
-    m_398 = boss4_rock_shared_handler_ids[subtype][0];
-    m_3a0 = boss4_rock_shared_handler_ids[subtype][1];
-    unk_39C = boss4_rock_shared_handler_ids[subtype][2];
-    unk_3A4 = boss4_rock_shared_handler_ids[subtype][3];
-    m_390 = 1;
+    far_move_speed = boss4_rock_shared_handler_ids[subtype][0];
+    far_anim_speed = boss4_rock_shared_handler_ids[subtype][1];
+    near_move_speed = boss4_rock_shared_handler_ids[subtype][2];
+    near_anim_speed = boss4_rock_shared_handler_ids[subtype][3];
+    appearing = 1;
     for (i = 0; i < 4; i++) {
         camera_fades[i].activate_and_dispatch();
     }

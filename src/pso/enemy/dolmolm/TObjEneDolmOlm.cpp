@@ -178,12 +178,12 @@ TObjEneDolmOlm::TObjEneDolmOlm(TObject *parent, void *set_data) : TUnk_80493450(
     resetTimer = 0xF;
     timer = resetTimer;
     phase = 0;
-    m_374 = 0;
-    m_376 = 0;
+    retreat_timer = 0;
+    pad_376 = 0;
     floor_flags = 0;
     VecCopy(&floor_point, &position);
-    m_378 = 0;
-    m_37c = 0;
+    in_group = 0;
+    child_count = 0;
     add_flags_2e4(2);
     actorFlags |= 0x40000;
     switch (variant) {
@@ -195,13 +195,13 @@ TObjEneDolmOlm::TObjEneDolmOlm(TObject *parent, void *set_data) : TUnk_80493450(
         break;
     }
     fade.reset_obstruction_fade();
-    m_390 = 1;
+    appearing = 1;
     attack_traces[0] = TUnk_80494968::create(0xA0303030, col);
     attack_traces[1] = TUnk_80494968::create(0xA0303030, col);
-    m_398 = TObjEneDolmOlm__behavior_params_by_variant[variant]->params[0];
-    m_3a0 = TObjEneDolmOlm__behavior_params_by_variant[variant]->params[1];
-    unk_39C = TObjEneDolmOlm__behavior_params_by_variant[variant]->params[2];
-    unk_3A4 = TObjEneDolmOlm__behavior_params_by_variant[variant]->params[3];
+    far_move_speed = TObjEneDolmOlm__behavior_params_by_variant[variant]->params[0];
+    far_anim_speed = TObjEneDolmOlm__behavior_params_by_variant[variant]->params[1];
+    near_move_speed = TObjEneDolmOlm__behavior_params_by_variant[variant]->params[2];
+    near_anim_speed = TObjEneDolmOlm__behavior_params_by_variant[variant]->params[3];
     requested_action = 1;
     retreat_distance = 0.0f;
     sub_8002AE64();
@@ -361,7 +361,7 @@ void TObjEneDolmOlm::render() {
     model_render_flags |= 1;
     TObjFish::set_global_param(texlist);
     push_matrix();
-    translate_matrix(0, 0.0f, unk_380, 0.0f);
+    translate_matrix(0, 0.0f, corpse_offset_y, 0.0f);
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
     if (TObjPlayer::check_demo_mode() == 1) {
@@ -383,7 +383,7 @@ void TObjEneDolmOlm::render() {
         TObjPlayer::toggle_particle_effect();
         TObjEneDolmOlm__effect_render_state = 0;
         set_chunk_model_node_callback(TObjEneDolmOlm::toggle_effect_render);
-        if (m_390 == 1) {
+        if (appearing == 1) {
             if (fade.has_visible_opacity() != 0) {
                 saved_model_render_flags = model_render_flags;
                 saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
@@ -469,7 +469,7 @@ void TObjEneDolmOlm::beast_update_appear() {
     switch (phase) {
     case 0:
     default:
-        if (m_390 != 0) {
+        if (appearing != 0) {
             fade.start_fade_in();
             play_area_sound_effect(&position);
             phase = 1;
@@ -480,7 +480,7 @@ void TObjEneDolmOlm::beast_update_appear() {
     case 1:
         if (fade.advance_toward_max() == 1) {
             phase = 2;
-            m_390 = 0;
+            appearing = 0;
         }
         break;
     case 2:
@@ -516,13 +516,13 @@ void TObjEneDolmOlm::sub_80301C3C() {
     case 1:
         if (target != NULL) {
             if (test_elt_flag(0, 0x300000) != 0) {
-                if ((f32)m_38c++ < 60.0f) {
+                if ((f32)home_chase_frames++ < 60.0f) {
                     VecCopy(&v, &home_position);
                 } else {
                     VecCopy(&v, &((TObjChara *)target)->body_center);
                 }
             } else {
-                m_38c = 0;
+                home_chase_frames = 0;
                 VecCopy(&v, &((TObjChara *)target)->body_center);
             }
             advance_animation();
@@ -532,7 +532,7 @@ void TObjEneDolmOlm::sub_80301C3C() {
                     copy_position_if_valid(this, body_center);
                 }
             }
-            f = 4.0f * unk_394;
+            f = 4.0f * move_speed;
             if (check_path_ahead(rotation_y + 0x8000, f) == 0) {
                 enemy_turn_toward_dest(((BeastMovementParams *)movementParameters)->turnSpeed);
                 enemy_set_heading_velocity(f, this, rotation_y + 0x8000);
@@ -561,7 +561,7 @@ void TObjEneDolmOlm::sub_80301C3C() {
         obj_clearFlags30(0x04040000);
         clear_player_status_flag(0, 0x0A000000);
         update_target_near_flag();
-        sub_800C4E08();
+        select_move_speed();
         break;
     }
     update_collisions();
@@ -682,7 +682,7 @@ void TObjEneDolmOlm::run_idle_action() {
 
     switch (this->mode) {
     case 1:
-        if ((s32) this->m_390 != 0) {
+        if ((s32) this->appearing != 0) {
             this->mode = 0;
             this->phase = 0;
         }
@@ -692,14 +692,14 @@ void TObjEneDolmOlm::run_idle_action() {
     case 0:
         switch ((s16) this->phase) {
         case 2:
-            if ((s32) this->m_390 != 0) {
+            if ((s32) this->appearing != 0) {
                 this->phase = 0;
             }
             break;
         }
         break;
     default:
-        if ((s32) this->m_390 != 0) {
+        if ((s32) this->appearing != 0) {
             this->mode = 0;
         } else {
             this->mode = 1;
