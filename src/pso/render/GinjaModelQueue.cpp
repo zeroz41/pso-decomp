@@ -1,3 +1,6 @@
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/gx.h>
+#undef PSO_SDK_COMPACT_MATH
 #include "pso/system/ModelDrawCallback.h"
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/render/GinjaModelQueue.h"
@@ -6,10 +9,6 @@ LAYOUT_ASSERT(queue_models_offset, offsetof(GinjaModelQueue, models) == 0);
 LAYOUT_ASSERT(queue_count_offset, offsetof(GinjaModelQueue, count) == 4);
 LAYOUT_ASSERT(queue_draw_offset, offsetof(GinjaModelQueue, draw) == 8);
 LAYOUT_ASSERT(queue_known_size, sizeof(GinjaModelQueue) == 12);
-extern void* model_draw_queue_models[10];
-
-void init_model_draw_queue(ModelDrawCallback draw);
-void queue_model_draw_matrix(void* model, const GinjaMatrix matrix);
 
 s32 TObjPlayer__sub_803DB23C() { return 0; }
 s32 TObjPlayer__sub_803DB244() { return 0; }
@@ -24,7 +23,7 @@ void init_model_draw_queue(ModelDrawCallback draw) {
 }
 #pragma pop
 
-void queue_model_draw_matrix(void* model, const GinjaMatrix matrix) {
+void queue_model_draw_matrix(void* model, GinjaMatrix matrix) {
     GinjaMatrix inv;
     GinjaMatrix trans;
     GinjaMatrix scale;
@@ -62,7 +61,7 @@ void draw_queued_models(u32 count) {
     for (i = 0; i < count; i++) {
         GXSetCurrentMtx(i * 3);
         if (model_render_flags & 0x100000) {
-            GXLoadTexMtxImm(model_draw_queue_texture_matrices[i], 0x2A, 0);
+            GXLoadTexMtxImm(model_draw_queue_texture_matrices[i], GX_TEXMTX4, GX_MTX3x4);
         }
         model_draw_queue_state.draw(model_draw_queue_state.models[i]);
     }

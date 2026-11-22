@@ -1,3 +1,7 @@
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/gx.h>
+#include <dolphin/mtx.h>
+#undef PSO_SDK_COMPACT_MATH
 #include "pso/system/ModelDrawCallback.h"
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/player/TObjPlayer_803E1A58.h"
@@ -11,38 +15,28 @@
 #include "pso/enemy/stelth/TObjEneMe3Stelth_803DC82C.h"
 #include "pso/player/TObjPlayer_803DC834.h"
 #include "pso/unk/text_803DC86C.h"
+#include "pso/render/RenderSbssGlobals.h"
+#include "pso/render/GinjaTextureMatrices.h"
+#include "pso/render/model_render_state.h"
+#include "pso/camera/TCameraCtrl_803D6538.h"
 
 #pragma scheduling off
 #pragma scheduling off
 typedef s32 (*RecoveredCallback_d26337a2813d)();
 
-typedef GinjaMaterialCache S_803DB560;
-
 struct S_803DBB78 { u8 pad[0x7c]; u32 f7c; u32 f80; };
 
-struct C_803DBB38 { u8 r, g, b, a; };
+struct S_803DBB38 { u8 pad[0x68]; GXColor c; };
 
-struct S_803DBB38 { u8 pad[0x68]; C_803DBB38 c; };
-
-struct C_803DBAF8 { u8 r, g, b, a; };
-
-struct S_803DBAF8 { u8 pad[0x64]; C_803DBAF8 c; };
+struct S_803DBAF8 { u8 pad[0x64]; GXColor c; };
 
 struct G_803DBC1C { u8 pad[0x7C]; u32 f7c; u32 f80; u32 f84; u32 f88; };
 
 struct Arr_803DC3BC { u8 idx; u8 stride; u8 pad[6]; void *base; u32 pad2; };
 
-struct C_803DB9A0 { u8 r, g, b, a; };
-
-struct S_803DB9A0 { u8 pad[0x60]; C_803DB9A0 c; };
-
-struct F_803DB9A0 { f32 r, g, b, a; };
+struct S_803DB9A0 { u8 pad[0x60]; GXColor c; };
 
 typedef void (*RecoveredCallback_bfe74032a8e8)(s32);
-typedef void (*RecoveredCallback_bfe74032a8e8)(s32);
-typedef void (*RecoveredCallback_bfe74032a8e8)(s32);
-typedef void (*RecoveredCallback_b52dc2a08a00)(u8);
-typedef void (*RecoveredCallback_b52dc2a08a00)(u8);
 typedef void (*RecoveredCallback_b52dc2a08a00)(u8);
 typedef struct GinjaCounts_803DB734 {
     u8 pad0[0x58];
@@ -59,48 +53,17 @@ typedef struct GinjaCounts_803DB734 {
 } GinjaCounts_803DB734;
 
 extern "C" {
-s32 GXSetVtxDesc(int, void *);
-s32 GXClearVtxDesc();
-void GXSetZMode(u8, s32, s32);
-void GXSetZCompLoc(s32);
-void GXSetBlendMode(s32, s32, s32, s32);
 extern u32 ginja_draw_flags;
-extern u32 model_render_flags;
-void queue_model_draw_matrix(s32, s32);
-extern saddr current_matrix;
-extern S_803DB560 ginja_material_cache;
-void GXSetAlphaCompare(s32 comp0, s32 ref0, s32 op, s32 comp1, s32 ref1);
-extern s32 ginja_texcoord_ids[];
-extern s32 ginja_texmap_ids[];
-void GXSetTevOp(s32, s32);
-void GXSetTevOrder(s32, s32, s32, s32);
-extern s32 ginja_vertex_attributes[];
-extern s32 ginja_vertex_component_counts[];
-extern s32 ginja_vertex_component_types[];
-void GXSetVtxAttrFmt(s32, s32, s32, s32, u8);
-void GXSetArray(s32, void *, u8);
-void set_ginja_vertex_arrays(Arr_803DC3BC *arg0);
-s32 GXCallDisplayList(void *, u32);
-void GXSetTexCoordGen2(s32 dst, u32 func, u32 src, s32 mtx, s32 normalize, s32 pt);
-extern s32 ginja_texture_matrix_ids[];
-void PSMTXConcat(void *, void *, void *);
-void PSMTXTranspose(void *, void *);
-void PSMTXInverse(void *, void *);
-void PSMTXTrans(void *, f32, f32, f32);
-void PSMTXScale(void *, f32, f32, f32);
-void GXLoadPosMtxImm(void *, void *);
-void GXLoadNrmMtxImm(void *, void *);
-void GXLoadTexMtxImm(void *, int, int);
-void GXSetChanMatColor(s32, C_803DB9A0);
-void convert_color_f32_to_u8(const F_803DB9A0 *, C_803DB9A0 *);
-void convert_color_u8_to_f32(const C_803DB9A0 *, F_803DB9A0 *);
-extern F_803DB9A0 model_material_color;
+extern u32 gx_chan_ctrl_light_mask;
 void traverse_model_node_tree(void *, void *);
-void GXSetChanCtrl(s32,s32,s32,s32,s32,s32,s32);
-extern s32 gx_chan_ctrl_light_mask;
-void GXSetNumChans(u8);
-void GXSetNumTexGens(u8);
-void GXSetNumTevStages(u8);
+void set_ginja_vertex_arrays(Arr_803DC3BC *arg0);
+extern GinjaMaterialCache ginja_material_cache;
+extern GXTexCoordID ginja_texcoord_ids[];
+extern GXTexMapID ginja_texmap_ids[];
+extern GXAttr ginja_vertex_attributes[];
+extern GXCompCnt ginja_vertex_component_counts[];
+extern GXCompType ginja_vertex_component_types[];
+extern GXTexMtx ginja_texture_matrix_ids[];
 
 u32 ginja_blend_override = 0x250F;
 
@@ -136,8 +99,8 @@ void apply_ginja_material_params(const GinjaDrawRecord *);
 GinjaMaterialCache *invalidate_ginja_inherited_state();
 #pragma push
 #pragma scheduling off
-s32 queue_model_draw_current_matrix(s32 model) {
-    queue_model_draw_matrix(model, current_matrix);
+s32 queue_model_draw_current_matrix(void *model) {
+    queue_model_draw_matrix(model, *current_matrix);
     return 1;
 }
 #pragma pop
@@ -166,26 +129,27 @@ u32 update_ginja_cached_parameter(s32 i, u32 v) {
 #pragma pop
 
 void set_ginja_indexed_vtx_desc(u32 value, u32) {
-    const s32 arg0 = value;
     GXClearVtxDesc();
-    GXSetVtxDesc(9, (void *) (get_ginja_vertex_descriptor_type(arg0, 1)));
-    GXSetVtxDesc(0xA, (void *) (get_ginja_vertex_descriptor_type(arg0, 2)));
-    GXSetVtxDesc(0xB, (void *) (get_ginja_vertex_descriptor_type(arg0, 3)));
-    GXSetVtxDesc(0xD, (void *) (get_ginja_vertex_descriptor_type(arg0, 5)));
+    GXSetVtxDesc(GX_VA_POS, (GXAttrType)get_ginja_vertex_descriptor_type(value, 1));
+    GXSetVtxDesc(GX_VA_NRM, (GXAttrType)get_ginja_vertex_descriptor_type(value, 2));
+    GXSetVtxDesc(GX_VA_CLR0, (GXAttrType)get_ginja_vertex_descriptor_type(value, 3));
+    GXSetVtxDesc(GX_VA_TEX0, (GXAttrType)get_ginja_vertex_descriptor_type(value, 5));
 }
 
-void set_ginja_channel_ctrl(s32 channel,s32 flags) {
-    s32 ambientSource,materialSource,enabled;
-    if((u32)(flags&0x100)!=0)enabled=0;else enabled=1;
-    if((u32)(flags&0x1000)!=0)ambientSource=1;else ambientSource=0;
-    if((u32)(ginja_draw_flags&2)!=0) {
-        GXSetChanCtrl(4,0,0,0,0,2,2);return;
+void set_ginja_channel_ctrl(s32 channel, s32 flags) {
+    GXColorSrc ambientSource, materialSource;
+    GXBool enabled;
+    if ((u32)(flags & 0x100) != 0) enabled = GX_FALSE; else enabled = GX_TRUE;
+    if ((u32)(flags & 0x1000) != 0) ambientSource = GX_SRC_VTX; else ambientSource = GX_SRC_REG;
+    if ((u32)(ginja_draw_flags & 2) != 0) {
+        GXSetChanCtrl(GX_COLOR0A0, GX_FALSE, GX_SRC_REG, GX_SRC_REG, GX_LIGHT_NULL, GX_DF_CLAMP, GX_AF_NONE);
+        return;
     }
-    if((u32)(model_render_flags&0x30)!=0)materialSource=0;
-    else if((u32)(flags&0x800)!=0)materialSource=1;
-    else materialSource=0;
-    GXSetChanCtrl(channel,enabled,ambientSource,materialSource,gx_chan_ctrl_light_mask,2,2);
-    GXSetChanCtrl(channel+2,0,ambientSource,materialSource,gx_chan_ctrl_light_mask,2,2);
+    if ((u32)(model_render_flags & 0x30) != 0) materialSource = GX_SRC_REG;
+    else if ((u32)(flags & 0x800) != 0) materialSource = GX_SRC_VTX;
+    else materialSource = GX_SRC_REG;
+    GXSetChanCtrl((GXChannelID)channel, enabled, ambientSource, materialSource, gx_chan_ctrl_light_mask, GX_DF_CLAMP, GX_AF_NONE);
+    GXSetChanCtrl((GXChannelID)(channel + 2), GX_FALSE, ambientSource, materialSource, gx_chan_ctrl_light_mask, GX_DF_CLAMP, GX_AF_NONE);
 }
 
 #define GC ((GinjaCounts_803DB734 *)&ginja_material_cache)
@@ -266,30 +230,30 @@ void set_ginja_channel_counts(u32 flags, u32 arg1) {
 #pragma scheduling off
 #pragma peephole off
 void set_ginja_material_color(u32 v, u32) {
-    C_803DB9A0 fallback = {0, 0, 0, 0x7F};
-    C_803DB9A0 *mat;
-    F_803DB9A0 add;
-    C_803DB9A0 converted;
-    C_803DB9A0 convertedAdd;
+    GXColor fallback = {0, 0, 0, 0x7F};
+    GXColor *mat;
+    NJS_ARGB add;
+    GXColor converted;
+    GXColor convertedAdd;
     (mat = &(*(S_803DB9A0 *)&ginja_material_cache).c)->r = (v & 0xFF000000) >> 24;
     (*(S_803DB9A0 *)&ginja_material_cache).c.g = (v & 0xFF0000) >> 16;
     (*(S_803DB9A0 *)&ginja_material_cache).c.b = (v & 0xFF00) >> 8;
     (*(S_803DB9A0 *)&ginja_material_cache).c.a = v & 0xFF;
     if ((u32) (ginja_draw_flags & 2) != 0U) {
-        GXSetChanMatColor(4, fallback);
+        GXSetChanMatColor(GX_COLOR0A0, fallback);
     } else if ((u32) (model_render_flags & 0x10) != 0U) {
         convert_color_f32_to_u8(&model_material_color, &converted);
-        GXSetChanMatColor(4, converted);
+        GXSetChanMatColor(GX_COLOR0A0, converted);
     } else if ((u32) (model_render_flags & 0x20) != 0U) {
         convert_color_u8_to_f32(mat, &add);
+        add.a += model_material_color.a;
         add.r += model_material_color.r;
         add.g += model_material_color.g;
         add.b += model_material_color.b;
-        add.a += model_material_color.a;
         convert_color_f32_to_u8(&add, &convertedAdd);
-        GXSetChanMatColor(4, convertedAdd);
+        GXSetChanMatColor(GX_COLOR0A0, convertedAdd);
     } else {
-        GXSetChanMatColor(4, *mat);
+        GXSetChanMatColor(GX_COLOR0A0, *mat);
     }
 }
 #pragma pop
@@ -330,7 +294,7 @@ void set_ginja_blend_param(u32 x, u32) {
 #pragma pop
 
 void ginja_set_vertex_format(u32 arg0, u32) {
-    GXSetVtxAttrFmt(0, ginja_vertex_attributes[(arg0 & 0xFF0000) >> 16], ginja_vertex_component_counts[(arg0 & 0xF000) >> 12], ginja_vertex_component_types[(arg0 & 0xF00) >> 8], arg0);
+    GXSetVtxAttrFmt(GX_VTXFMT0, ginja_vertex_attributes[(arg0 & 0xFF0000) >> 16], ginja_vertex_component_counts[(arg0 & 0xF000) >> 12], ginja_vertex_component_types[(arg0 & 0xF00) >> 8], arg0);
 }
 
 void ginja_load_texture_slot(u32 arg0, u32) {
@@ -343,23 +307,23 @@ void set_ginja_tev_order(u32 parameter, u32) {
     u32 selectedStage = (parameter & 0xF000) >> 12;
     if ((u32)model_render_flags & 0x80000)
         selectedStage += ginja_material_cache.tev_stage_offset;
-    s32 stage = selectedStage;
-    s32 coordinate = ginja_texcoord_ids[(parameter & 0xF00) >> 8];
-    s32 texture = ginja_texmap_ids[(parameter & 0xF0) >> 4];
-    s32 channel = parameter & 0xF;
-    if (texture == 0xFF)
-        GXSetTevOp(selectedStage, 4);
+    GXTevStageID stage = (GXTevStageID)selectedStage;
+    GXTexCoordID coordinate = ginja_texcoord_ids[(parameter & 0xF00) >> 8];
+    GXTexMapID texture = ginja_texmap_ids[(parameter & 0xF0) >> 4];
+    GXChannelID channel = (GXChannelID)(parameter & 0xF);
+    if (texture == GX_TEXMAP_NULL)
+        GXSetTevOp((GXTevStageID)selectedStage, GX_PASSCLR);
     else
-        GXSetTevOp(selectedStage, 0);
+        GXSetTevOp((GXTevStageID)selectedStage, GX_MODULATE);
     GXSetTevOrder(stage, coordinate, texture, channel);
 }
 
 void set_ginja_texcoord_gen(u32 arg0, u32) {
     u32 idx;
-    s32 coord;
+    GXTexCoordID coord;
     u32 func;
     u32 src;
-    s32 mtx;
+    GXTexMtx mtx;
     idx = (arg0 & 0xF0000) >> 16;
     if ((u32)model_render_flags & 0x80000) {
         idx += ginja_material_cache.reserved70[4];
@@ -368,17 +332,17 @@ void set_ginja_texcoord_gen(u32 arg0, u32) {
     func = (arg0 & 0xF000) >> 12;
     src = (arg0 & 0xFF0) >> 4;
     mtx = ginja_texture_matrix_ids[arg0 & 0xF];
-    if (ginja_texcoord_gen_enabled != 0 && mtx == 0x3C) {
-        mtx = 0x1E;
+    if (ginja_texcoord_gen_enabled != 0 && mtx == GX_IDENTITY) {
+        mtx = GX_TEXMTX0;
     }
-    GXSetTexCoordGen2(coord, func, src, mtx, 0, 0x7D);
+    GXSetTexCoordGen2(coord, (GXTexGenType)func, (GXTexGenSrc)src, mtx, GX_FALSE, GX_PTIDENTITY);
 }
 
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-void ginja_set_alpha_compare(s32 ref) {
-    GXSetAlphaCompare(4, ref, 0, 7, 0);
+void ginja_set_alpha_compare(u8 ref) {
+    GXSetAlphaCompare(GX_GREATER, ref, GX_AOP_AND, GX_ALWAYS, 0);
 }
 #pragma pop
 
@@ -401,33 +365,34 @@ void apply_ginja_material_params(const GinjaDrawRecord *record) {
         }
     }
     if ((u32)(ginja_draw_flags & 2) != 0) {
-        GXSetBlendMode(0, 0, 0, 0);
+        GXSetBlendMode(GX_BM_NONE, GX_BL_ZERO, GX_BL_ZERO, GX_LO_CLEAR);
     } else if ((u32)(model_render_flags & 0x800000) != 0) {
-        GXSetZCompLoc(0);
-        GXSetZMode(1, 7, 0);
+        GXSetZCompLoc(GX_FALSE);
+        GXSetZMode(GX_TRUE, GX_ALWAYS, GX_FALSE);
     } else if (ginja_material_cache.textured == 0) {
         u32 blend = ginja_material_cache.blend;
         if ((u32)(model_render_flags & 0x8000) != 0) {
             blend = ginja_blend_override;
         }
-        s32 mode = (blend & 0xC000) >> 14;
-        GXSetBlendMode(mode, (blend & 0x3800) >> 11, (blend & 0x700) >> 8, blend & 0xFF);
-        GXSetZCompLoc(0);
-        if (mode != 0) {
-            GXSetZMode(1, 3, 0);
+        GXBlendMode mode = (GXBlendMode)((blend & 0xC000) >> 14);
+        GXSetBlendMode(mode, (GXBlendFactor)((blend & 0x3800) >> 11), (GXBlendFactor)((blend & 0x700) >> 8),
+                       (GXLogicOp)(blend & 0xFF));
+        GXSetZCompLoc(GX_FALSE);
+        if (mode != GX_BM_NONE) {
+            GXSetZMode(GX_TRUE, GX_LEQUAL, GX_FALSE);
         } else {
-            GXSetZMode(1, 1, 1);
+            GXSetZMode(GX_TRUE, GX_LESS, GX_TRUE);
         }
     } else if (ginja_material_cache.blend_valid != 0) {
         u32 blend = ginja_material_cache.blend;
-        s32 mode = (blend & 0xC000) >> 14;
-        s32 source = (blend & 0x3800) >> 11;
-        s32 destination = (blend & 0x700) >> 8;
-        s32 operation = blend & 0xFF;
+        GXBlendMode mode = (GXBlendMode)((blend & 0xC000) >> 14);
+        GXBlendFactor source = (GXBlendFactor)((blend & 0x3800) >> 11);
+        GXBlendFactor destination = (GXBlendFactor)((blend & 0x700) >> 8);
+        GXLogicOp operation = (GXLogicOp)(blend & 0xFF);
         if ((u32)(model_render_flags & 0x400) != 0) {
             GXSetBlendMode(mode, source, destination, operation);
-            GXSetZCompLoc(0);
-            GXSetZMode(1, 3, 0);
+            GXSetZCompLoc(GX_FALSE);
+            GXSetZMode(GX_TRUE, GX_LEQUAL, GX_FALSE);
         } else if ((u32)(model_render_flags & 1) != 0) {
             if ((u32)(model_render_flags & 0x8000) != 0) {
                 u16 texture = ginja_material_cache.texture & 0x1FFF;
@@ -439,24 +404,24 @@ void apply_ginja_material_params(const GinjaDrawRecord *record) {
                     return;
                 }
                 if ((u32)(model_render_flags & 0x10) != 0 &&
-                    1.0f != model_material_color.r) {
+                    1.0f != model_material_color.a) {
                     opaque = 0;
                 }
                 if ((u32)(model_render_flags & 0x20) != 0 &&
-                    0.0f != model_material_color.r) {
+                    0.0f != model_material_color.a) {
                     opaque = 0;
                 }
                 const u32 &format = current_render_context->textures->entries[texture].texture->surface->format;
-                GXSetZCompLoc(0);
+                GXSetZCompLoc(GX_FALSE);
                 if (opaque) {
-                    GXSetZMode(1, 3, 0);
+                    GXSetZMode(GX_TRUE, GX_LEQUAL, GX_FALSE);
                     ginja_set_alpha_compare(0);
-                } else if (format == 14) {
-                    GXSetZCompLoc(0);
-                    GXSetZMode(1, 3, 1);
+                } else if (format == GX_TF_CMPR) {
+                    GXSetZCompLoc(GX_FALSE);
+                    GXSetZMode(GX_TRUE, GX_LEQUAL, GX_TRUE);
                     ginja_set_alpha_compare(0);
                 } else {
-                    GXSetZMode(1, 3, 1);
+                    GXSetZMode(GX_TRUE, GX_LEQUAL, GX_TRUE);
                 }
                 GXSetBlendMode(mode, source, destination, operation);
             } else {
@@ -466,20 +431,20 @@ void apply_ginja_material_params(const GinjaDrawRecord *record) {
                 }
                 GXSetBlendMode(mode, source, destination, operation);
             }
-        } else if (mode != 0) {
+        } else if (mode != GX_BM_NONE) {
             surface = current_render_context->textures->entries[
                 ginja_material_cache.texture & 0x1FFF].texture->surface;
-            if (ginja_material_cache.textured != 0 && surface->format == 14 &&
-                source == 4 && destination == 5 && (surface->flags & 0x40000000) != 0) {
+            if (ginja_material_cache.textured != 0 && surface->format == GX_TF_CMPR &&
+                source == GX_BL_SRCALPHA && destination == GX_BL_INVSRCALPHA && (surface->flags & 0x40000000) != 0) {
                 if ((u32)(ginja_draw_list_state & 8) == 0 &&
                     (u32)(ginja_draw_list_state & 2) != 0 && (ginja_draw_list_mask & 2)) {
                     ginja_draw_list_state |= 4;
                     return;
                 }
-                GXSetBlendMode(0, 4, 5, 15);
-                GXSetZCompLoc(0);
-                GXSetZMode(1, 3, 1);
-                ginja_set_alpha_compare((u8)material_alpha_compare_reference);
+                GXSetBlendMode(GX_BM_NONE, GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_SET);
+                GXSetZCompLoc(GX_FALSE);
+                GXSetZMode(GX_TRUE, GX_LEQUAL, GX_TRUE);
+                ginja_set_alpha_compare(material_alpha_compare_reference);
             } else {
                 if ((u32)(ginja_draw_list_state & 8) == 0 &&
                     (u32)(ginja_draw_list_state & 2) != 0 && (ginja_draw_list_mask & 1)) {
@@ -489,28 +454,28 @@ void apply_ginja_material_params(const GinjaDrawRecord *record) {
                 if ((u32)(model_render_flags & 0x1000000) != 0 &&
                     (u32)(ginja_draw_flags & 2) == 0) {
                     GXSetBlendMode(mode, source, destination, operation);
-                    GXSetZCompLoc(0);
-                    GXSetZMode(1, 3, 1);
-                    ginja_set_alpha_compare((u8)material_alpha_compare_reference);
+                    GXSetZCompLoc(GX_FALSE);
+                    GXSetZMode(GX_TRUE, GX_LEQUAL, GX_TRUE);
+                    ginja_set_alpha_compare(material_alpha_compare_reference);
                 } else {
                     GXSetBlendMode(mode, source, destination, operation);
-                    GXSetZCompLoc(0);
-                    GXSetZMode(1, 3, 0);
+                    GXSetZCompLoc(GX_FALSE);
+                    GXSetZMode(GX_TRUE, GX_LEQUAL, GX_FALSE);
                     ginja_set_alpha_compare(0);
                 }
             }
         } else {
             surface = current_render_context->textures->entries[
                 ginja_material_cache.texture & 0x1FFF].texture->surface;
-            if (surface->format == 14 && (surface->flags & 0x40000000) == 0) {
-                GXSetBlendMode(0, 4, 5, 15);
-                GXSetZCompLoc(1);
-                GXSetZMode(1, 1, 1);
+            if (surface->format == GX_TF_CMPR && (surface->flags & 0x40000000) == 0) {
+                GXSetBlendMode(GX_BM_NONE, GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_SET);
+                GXSetZCompLoc(GX_TRUE);
+                GXSetZMode(GX_TRUE, GX_LESS, GX_TRUE);
             } else {
-                GXSetAlphaCompare(7, 0, 0, 7, 0);
-                GXSetBlendMode(1, 4, 5, 0);
-                GXSetZCompLoc(0);
-                GXSetZMode(1, 3, 1);
+                GXSetAlphaCompare(GX_ALWAYS, 0, GX_AOP_AND, GX_ALWAYS, 0);
+                GXSetBlendMode(GX_BM_BLEND, GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_CLEAR);
+                GXSetZCompLoc(GX_FALSE);
+                GXSetZMode(GX_TRUE, GX_LEQUAL, GX_TRUE);
             }
         }
     }
@@ -617,8 +582,8 @@ void end_ginja_model_draw(void) {
         apply_scene_fog();
     }
     if ((u32) (model_render_flags & 1) == 0) {
-        GXSetZCompLoc(1);
-        GXSetZMode(1U, 1, 1);
+        GXSetZCompLoc(GX_TRUE);
+        GXSetZMode(GX_TRUE, GX_LESS, GX_TRUE);
         ginja_set_alpha_compare(0);
         if (((s32 (*)()) ginja_draw_end_callback) != NULL) {
             ginja_draw_end_callback();
@@ -627,20 +592,20 @@ void end_ginja_model_draw(void) {
 }
 #pragma pop
 
-void load_ginja_model_matrices(int arg0) {
-    f32 s[3][4];
-    f32 t[3][4];
-    f32 m[3][4];
-    GXLoadPosMtxImm((void *)current_matrix, (void *)arg0);
-    GXLoadNrmMtxImm((void *)current_matrix, (void *)arg0);
+void load_ginja_model_matrices(int matrix_id) {
+    GC_Mtx s;
+    GC_Mtx t;
+    GC_Mtx m;
+    GXLoadPosMtxImm(*current_matrix, matrix_id);
+    GXLoadNrmMtxImm(*current_matrix, matrix_id);
     if ((u32)model_render_flags & 0x100000) {
         PSMTXScale(s, -0.5f, -0.5f, 0.0f);
         PSMTXTrans(t, 0.5f, 0.5f, 1.0f);
-        PSMTXInverse((void *)current_matrix, m);
+        PSMTXInverse(*current_matrix, m);
         PSMTXTranspose(m, m);
         PSMTXConcat(s, m, m);
         PSMTXConcat(t, m, m);
-        GXLoadTexMtxImm(m, 0x2A, 0);
+        GXLoadTexMtxImm(m, GX_TEXMTX4, GX_MTX3x4);
     }
 }
 
@@ -652,36 +617,36 @@ GinjaParameterHandler ginja_parameter_handlers[11] = {
     ginja_load_texture_slot, set_ginja_tev_order,
     set_ginja_texcoord_gen,
 };
-s32 ginja_vertex_attributes[14] = {
-    0x0, 0x9, 0xa, 0xb,
-    0xc, 0xd, 0xe, 0xf,
-    0x10, 0x11, 0x12, 0x13,
-    0x14, 0xff,
+GXAttr ginja_vertex_attributes[14] = {
+    GX_VA_PNMTXIDX, GX_VA_POS, GX_VA_NRM, GX_VA_CLR0,
+    GX_VA_CLR1, GX_VA_TEX0, GX_VA_TEX1, GX_VA_TEX2,
+    GX_VA_TEX3, GX_VA_TEX4, GX_VA_TEX5, GX_VA_TEX6,
+    GX_VA_TEX7, GX_VA_NULL,
 };
-s32 ginja_texcoord_ids[9] = {
-    0x0, 0x1, 0x2, 0x3,
-    0x4, 0x5, 0x6, 0x7,
-    0xff,
+GXTexCoordID ginja_texcoord_ids[9] = {
+    GX_TEXCOORD0, GX_TEXCOORD1, GX_TEXCOORD2, GX_TEXCOORD3,
+    GX_TEXCOORD4, GX_TEXCOORD5, GX_TEXCOORD6, GX_TEXCOORD7,
+    GX_TEXCOORD_NULL,
 };
-s32 ginja_texmap_ids[9] = {
-    0x0, 0x1, 0x2, 0x3,
-    0x4, 0x5, 0x6, 0x7,
-    0xff,
+GXTexMapID ginja_texmap_ids[9] = {
+    GX_TEXMAP0, GX_TEXMAP1, GX_TEXMAP2, GX_TEXMAP3,
+    GX_TEXMAP4, GX_TEXMAP5, GX_TEXMAP6, GX_TEXMAP7,
+    GX_TEXMAP_NULL,
 };
-s32 ginja_vertex_component_counts[9] = {
-    0x0, 0x1, 0x0, 0x1,
-    0x2, 0x0, 0x1, 0x0,
-    0x1,
+GXCompCnt ginja_vertex_component_counts[9] = {
+    GX_POS_XY, GX_POS_XYZ, GX_NRM_XYZ, GX_NRM_NBT,
+    GX_NRM_NBT3, GX_CLR_RGB, GX_CLR_RGBA, GX_TEX_S,
+    GX_TEX_ST,
 };
-s32 ginja_vertex_component_types[11] = {
-    0x0, 0x1, 0x2, 0x3,
-    0x4, 0x0, 0x1, 0x2,
-    0x3, 0x4, 0x5,
+GXCompType ginja_vertex_component_types[11] = {
+    GX_U8, GX_S8, GX_U16, GX_S16,
+    GX_F32, GX_RGB565, GX_RGB8, GX_RGBX8,
+    GX_RGBA4, GX_RGBA6, GX_RGBA8,
 };
-s32 ginja_texture_matrix_ids[11] = {
-    0x1e, 0x21, 0x24, 0x27,
-    0x2a, 0x2d, 0x30, 0x33,
-    0x36, 0x39, 0x3c,
+GXTexMtx ginja_texture_matrix_ids[11] = {
+    GX_TEXMTX0, GX_TEXMTX1, GX_TEXMTX2, GX_TEXMTX3,
+    GX_TEXMTX4, GX_TEXMTX5, GX_TEXMTX6, GX_TEXMTX7,
+    GX_TEXMTX8, GX_TEXMTX9, GX_IDENTITY,
 };
 
 void set_ginja_draw_list_mask(s32 arg0) {
