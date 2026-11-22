@@ -47,6 +47,22 @@ public:
     void get_render_position(u8 *);
     s32 hasActiveRenderFade();
     s32 sub_802F46F4();
+    void sub_802FC850();
+    void sub_802FBEA4();
+    void sub_802FBE3C();
+    void sub_802FBA1C();
+    void sub_802FB484();
+    void sub_802F48DC(Vec *target);
+    void sub_802FB09C();
+    void sub_802FB778();
+    void sub_802FB70C();
+    void sub_802FBBC8(s32 *arg1);
+    void sub_802FC9D8();
+    void sub_802FC060(s32 arg1);
+    s32 sub_802FBFA4();
+    s32 sub_802FC580(f32 *out);
+    s32 sub_802FABB4();
+    s32 sub_802FC88C();
 
     u32 flags;  // as TBoss1Dragon::flags: 0x40 makes run_task remove the dragon, 0x100 tested the same way
     TObject sub_tasks;  // the dragon's collider task hangs under it; run_task runs its tasks
@@ -71,7 +87,7 @@ public:
     void* m_640;
     u8 _pad644[0x8];
     u32 m_64c;
-    u32 m_650;
+    s32 m_650;
     s32 m_654;
     s32 m_658;
     f32 m_65c;
@@ -90,9 +106,10 @@ public:
     f32 m_68c;
     f32 m_690;
     f32 m_694;
-    u32 m_698;
+    s32 sector_count;  // how many of sector_radii sub_802FC580 has filled
+
     u32 m_69c;
-    f32 pad_6A0[12];
+    f32 sector_radii[12];  // one random radius per 30-degree sector, picked by sub_802FC580
     u32 m_6d0;
     u32 m_6d4;
     ControllerInputContext *controller_input;  // points into controller_input_state.controllers
