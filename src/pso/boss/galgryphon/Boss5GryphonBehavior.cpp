@@ -395,7 +395,6 @@ extern "C" {
 s32 boss5_gryphon_base_param_ids[1] = { 0x1E };
 s32 boss5_gryphon_resistance_param_ids[1] = { 0x1E };
 const char *boss5_gryphon_type_name_pointer = boss5_gryphon_type_name;
-extern TObject *tl_04;
 }
 
 extern "C" {
