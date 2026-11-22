@@ -25,6 +25,7 @@ s32 project_actor_to_ground(TObjCollidable *actor, Vec *pos, Vec *normal);
 // The radius of the actor's collision body, or a default without bodies.
 f32 get_collision_body_radius__14TObjCollidableFl(TObjCollidable *actor, s32 body);
 void reset_global_table(void);
+void TObjPlayer__sub_80156934(void);
 }
 
 #endif

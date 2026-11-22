@@ -148,4 +148,6 @@ extern "C" s32 minimap_render_gate(Vec *pos, u32 color, u16 rot, s16 kind, s32 f
 extern "C" s32 minimap_render_dot(Vec *pos, s32 color, s16 kind, s32 flags);
 extern "C" s32 add_radar_scaled_marker(Vec *pos, s32 color, s16 kind, s32 flags, f32 scale);
 
+extern "C" void TRaderMapCore__sub_801F95CC(void);
+
 #endif

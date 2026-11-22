@@ -85,4 +85,7 @@ LAYOUT_ASSERT(TScene_field_3c_offset, offsetof(TScene, m_3c) == 0x3C);
 
 void load_scene_collision_file(saddr scene_file_index);
 
+extern s32 scene_resource_index;
+extern s32 lobby_online_ready_flag;
+
 #endif

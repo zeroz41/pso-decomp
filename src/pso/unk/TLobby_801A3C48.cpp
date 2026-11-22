@@ -122,7 +122,7 @@ struct Pl_801A40D8 : PlB_801A40D8 {
 };
 
 extern "C" {
-s32 reset_quest_result_callbacks__22THunterGuildSeqOfflineFPv();
+s32 reset_quest_result_callbacks__22THunterGuildSeqOfflineFv();
 void clear_enabled_main_warps(void);
 int is_quest_active(void);
     extern int challenge_task_created;
@@ -458,7 +458,7 @@ void TLobby::free_objects() {
         quest_mission_manager->queue_destruction();
     }
     clear_enabled_main_warps();
-    reset_quest_result_callbacks__22THunterGuildSeqOfflineFPv();
+    reset_quest_result_callbacks__22THunterGuildSeqOfflineFv();
     TLobby::clear_counter();
     TLobby::reset_door_state();
     TObjDoor::reset_instance();

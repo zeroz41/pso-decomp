@@ -29,4 +29,8 @@ void fn_800FCCC8(saddr arg0, s32 card_status_bits);
 s32 fn_800FCCF4(void *p);
 }
 
+struct LeaderSelection;
+extern LeaderSelection TLobby__data_805011D8;
+extern "C" void find_leader_section_id(LeaderSelection *out, s32 client_id);
+
 #endif
