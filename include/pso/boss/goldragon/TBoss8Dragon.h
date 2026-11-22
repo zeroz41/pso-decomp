@@ -152,6 +152,14 @@ public:
     static int check_condition_default(void* p);
     void spawn_effect();
     void play_effect_sound(s32 sound_id);
+    void spawn_trap(s32 id);
+    void spawn_effect_if_in_band();
+    s32 mask_flags(s32 flags, s32 mask);
+    s32 check_attack_ready();
+    s32 select_target_in_front();
+    s32 update_linked_position();
+    void update_movement();
+    void apply_6xA8_action(u8 *packet);
     f32 calc_step_value();
     s32 check_damage_reaction();
     void pick_next_action();
