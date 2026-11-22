@@ -39,7 +39,7 @@ extern "C" {
 
 void TCameraCtrl__sub_80068EF0(void);
 
-void TLobby::draw_with_camera(SpriteDescriptor *sprite, s32 frame_index, s32 flags, f32 depth) {
+void TLobby::draw_with_camera(NJS_SPRITE *sprite, s32 frame_index, s32 flags, f32 depth) {
     TCameraCtrl::restore_full_screen_view();
     TLobby__sub_80228154(sprite, frame_index, flags, depth);
     TCameraCtrl__sub_80068EF0();

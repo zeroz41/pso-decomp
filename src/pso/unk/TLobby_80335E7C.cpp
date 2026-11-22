@@ -81,7 +81,7 @@ GinjaTextureList *get_title_texture_list(void) {
     return &title_texture_list;
 }
 
-SpriteDescriptor *TLobby::get_record(int index) { return &lobby_record_table[index]; }
+NJS_SPRITE *TLobby::get_record(int index) { return &lobby_record_table[index]; }
 
 void bind_title_texture_list(void) {
     set_texlist((uaddr)&title_texture_list);

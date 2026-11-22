@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-struct SpriteDescriptor;
+struct NJS_SPRITE;
 
 struct ShortMailEntry;
 #include "pso/audio/AdxCallbacks.h"
@@ -304,7 +304,7 @@ struct TLobby : public TObject {
     void bswap_c6_packet();
     void bswap_cmd_c5();
     void bswap_guild_card_meet_user();
-    static void draw_with_camera(SpriteDescriptor *sprite, s32 frame_index, s32 flags, f32 depth);
+    static void draw_with_camera(NJS_SPRITE *sprite, s32 frame_index, s32 flags, f32 depth);
     static void clear_story_flag_list();
     static void clear_story_flags_and_reset_camera();
     static void backup_story_select();
@@ -451,7 +451,7 @@ struct TLobby : public TObject {
     static void init_object_flag();
     static s32 test_flag_1_at_6c84();
     static void clear_flag_at_6c84();
-    static SpriteDescriptor *get_record(int index);
+    static NJS_SPRITE *get_record(int index);
     void queue_destruction_and_cleanup();
     void set_flag_and_clear_download();
     void open_keyboard();

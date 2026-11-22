@@ -1,5 +1,4 @@
 #include "pso/render/TriangleFan3D.h"
-#include "pso/render/SpriteDescriptor.h"
 // Character-creation sprite tables, ruler lines and UI sprite helpers (one TU, .text 0x80290D1C-0x802911E8).
 // One-TU evidence: TCharaMaking__resolve_creation_sprite_table addresses the three cell tables as offsets
 // from creation_chara_sprite_entries (CW's anchor for objects defined in the same TU), the tables and
@@ -401,14 +400,14 @@ void draw_creation_sprite_offset(s32 sprite_id, const vec2f *position, const vec
 // pointees (a const position/scale/tint hoists the loads above the stores). The angle and z of the
 // sprite are left unset.
 void draw_ui_sprite_tinted(s32 sprite_id, vec2f *position, vec2f *scale, UISpriteTint *tint, f32 depth) {
-    SpriteDescriptor sprite;
+    NJS_SPRITE sprite;
     if (!(tint->alpha <= 0.0f)) {
-        sprite.x = position->x;
-        sprite.y = ui_sprite_scale * position->y;
-        sprite.scale_x = scale->x;
-        sprite.scale_y = ui_sprite_scale * scale->y;
-        sprite.textures = reinterpret_cast<GinjaTextureList *>(&creation_sprite_table);
-        TCharaMaking__resolve_creation_sprite_table(&sprite.frames, &sprite_id);
+        sprite.p.x = position->x;
+        sprite.p.y = ui_sprite_scale * position->y;
+        sprite.sx = scale->x;
+        sprite.sy = ui_sprite_scale * scale->y;
+        sprite.tlist = &creation_sprite_table;
+        TCharaMaking__resolve_creation_sprite_table(&sprite.tanim, &sprite_id);
         copy_argb(&saved_model_draw_color, &model_material_color);
         set_constant_material((const NJS_ARGB *)tint);
         TLobby::draw_with_camera(&sprite, sprite_id, 0x22, depth);

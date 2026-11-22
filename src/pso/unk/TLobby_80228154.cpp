@@ -15,7 +15,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/model_render_state.h"
-#include "pso/render/SpriteDescriptor.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixStack.h"
@@ -43,29 +43,29 @@ union SpriteColor_80228154 {
 
 // Draws one frame of a sprite on the screen; flags 1 rotates the quad by the
 // sprite's angle, 2 tints it with the model material colour, 0x20 blends.
-void TLobby__sub_80228154(SpriteDescriptor *sprite, s32 frame_index, s32 flags, f32 depth) {
+void TLobby__sub_80228154(NJS_SPRITE *sprite, s32 frame_index, s32 flags, f32 depth) {
     ScreenQuad_80228154 quad;
     union SpriteColor_80228154 color;
     if (sprite == NULL) {
         return;
     }
-    if (sprite->textures == NULL) {
+    if (sprite->tlist == NULL) {
         return;
     }
-    TObjFish::set_global_param(sprite->textures);
-    NJS_TEXANIM *frame = &sprite->frames[frame_index];
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(sprite->tlist));
+    NJS_TEXANIM *frame = &sprite->tanim[frame_index];
     f32 left = -frame->cx;
     f32 top = -frame->cy;
     f32 right = left + frame->sx;
     f32 bottom = top + frame->sy;
-    left *= sprite->scale_x;
-    right *= sprite->scale_x;
-    top *= sprite->scale_y;
-    bottom *= sprite->scale_y;
-    quad.x0 = sprite->x + left;
-    quad.y0 = sprite->y + top;
-    quad.x1 = sprite->x + right;
-    quad.y1 = sprite->y + bottom;
+    left *= sprite->sx;
+    right *= sprite->sx;
+    top *= sprite->sy;
+    bottom *= sprite->sy;
+    quad.x0 = sprite->p.x + left;
+    quad.y0 = sprite->p.y + top;
+    quad.x1 = sprite->p.x + right;
+    quad.y1 = sprite->p.y + bottom;
     quad.u0 = frame->u1 / 256.0f;
     if (1.0f < quad.u0) {
         quad.u0 = 1.0f;
@@ -91,7 +91,7 @@ void TLobby__sub_80228154(SpriteDescriptor *sprite, s32 frame_index, s32 flags, 
         offset.y = quad.y0 - cy;
         offset.z = 0.0f;
         push_matrix_from(identity_matrix);
-        rotate_matrix_z(NULL, sprite->rotation);
+        rotate_matrix_z(NULL, sprite->ang);
         rotate_vector_by_matrix(0, &offset, &offset);
         pop_matrix();
         quad.x0 = cx + offset.x;
