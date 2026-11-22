@@ -115,7 +115,7 @@ s32 TObjNpcNgcBase::create_variant_13(s32 set_data) {
   return 0;
 }
 
-s32 TObjNpcNgcBase__sub_80358B70(s32 set_data) {
+s32 TObjNpcNgcBase__create_nctrunk2(s32 set_data) {
   s32 temp_r3;
   saddr player;
   int new_var;
@@ -140,7 +140,7 @@ s32 TObjNpcNgcBase__sub_80358B70(s32 set_data) {
   return 0;
 }
 
-s32 TObjNpcNgcBase__sub_80358BF8(s32 set_data) {
+s32 TObjNpcNgcBase__create_nctrunk(s32 set_data) {
   s32 temp_r3;
   saddr player;
   saddr var_r0;
@@ -163,7 +163,7 @@ s32 TObjNpcNgcBase__sub_80358BF8(s32 set_data) {
   return 0;
 }
 
-s32 TObjNpcNgcBase__sub_80358C80(s32 set_data) {
+s32 TObjNpcNgcBase__create_gunsinei(s32 set_data) {
   s32 temp_r3;
   saddr player;
   saddr var_r0;
@@ -186,7 +186,7 @@ s32 TObjNpcNgcBase__sub_80358C80(s32 set_data) {
   return 0;
 }
 
-s32 TObjNpcNgcBase__sub_80358D08(s32 set_data) {
+s32 TObjNpcNgcBase__create_ncman(s32 set_data) {
   s8 *new_var;
   s32 temp_r3;
   saddr player;
@@ -313,7 +313,7 @@ s32 TObjNpcNgcBase::create_variant_5(s32 set_data) {
   return 0;
 }
 
-s32 TObjNpcNgcBase__sub_80358FB0(s32 set_data) {
+s32 TObjNpcNgcBase__create_delta_w(s32 set_data) {
   s32 temp_r3;
   saddr player;
   saddr var_r0;
@@ -336,7 +336,7 @@ s32 TObjNpcNgcBase__sub_80358FB0(s32 set_data) {
   return 0;
 }
 
-s32 TObjNpcNgcBase__sub_80359038(s32 set_data) {
+s32 TObjNpcNgcBase__create_paganini_t(s32 set_data) {
   saddr player;
   saddr var_r0;
   s32 parent;
@@ -359,7 +359,7 @@ s32 TObjNpcNgcBase__sub_80359038(s32 set_data) {
   return 0;
 }
 
-s32 TObjNpcNgcBase__sub_803590C0(s32 set_data) {
+s32 TObjNpcNgcBase__create_leo_w(s32 set_data) {
   s32 temp_r3;
   saddr player;
   saddr var_r0;
@@ -382,7 +382,7 @@ s32 TObjNpcNgcBase__sub_803590C0(s32 set_data) {
   return 0;
 }
 
-s32 TObjNpcNgcBase__sub_80359148(s32 set_data) {
+s32 TObjNpcNgcBase__create_karen_t(s32 set_data) {
   s32 temp_r3;
   saddr player;
   saddr var_r0;

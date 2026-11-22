@@ -286,7 +286,7 @@ force_active:
   - enable_prompt__16TCheckMemoryCardFv
   - TBGLightningCtrl__ct
   - TBGLightningCtrl__name
-  - TBGLightningCtrl__sub_802A9A08
+  - bind_lightning_texture
   - TBGLightning__name
   - __ct__19TBoss1DragonColli_CFP7TObjectlP3Vecf
   - TBoss1DragonColli_sphere_chain_desc
@@ -527,8 +527,8 @@ force_active:
   - TEffIndirectCtrl__ct
   - TEffIndirectCtrl__name
   - TEffIndirectCtrl__source_buffers
-  - TEffIndirectCtrl__sub_802A9548
-  - TEffIndirectCtrl__sub_802A9554
+  - TEffIndirectCtrl__resume_indirect_effect
+  - TEffIndirectCtrl__get_indirect_kind
   - TEffStarLight2D__name
   - TEffStarLight2D_class_name
   - TEffStarLightChild__name
@@ -544,7 +544,7 @@ force_active:
   - TEnemyTaskList_name
   - TFogCtrl__data_805DA948
   - TFogCtrl__data_805DA94C
-  - TFogCtrl__sub_800FB400
+  - TFogCtrl__swap_fog_slots
   - TFogCtrl__sub_800FBA54
   - TFogCtrl__sub_800FBAAC
   - assign_subcommand_header
@@ -1502,7 +1502,7 @@ force_active:
   - TObjNpcSoutokufu__shared_model_resource
   - TObjOnlineEndingHexLine__direction_table
   - TObjOnlineEndingHexLine__hex_line_params
-  - TObjOnlineEndingHexLine__sub_802E55A4
+  - copy_ending_hex_point
   - TObjOnlineEndingHexLine_corner_offsets
   - TObjOnlineEndingHexMove__ct
   - TObjOnlineEndingHexMove__default_move_params
@@ -1597,8 +1597,8 @@ force_active:
   - TObjPlayer__sub_801D9C34
   - TObjPlayer__sub_8023E034
   - TObjPlayer__sub_802A1588
-  - TObjPlayer__sub_802A83F4
-  - TObjPlayer__sub_802A841C
+  - clear_indirect_effect_ctrl_table
+  - reset_indirect_effect_ctrl_table
   - __ct__13TUnk_804E08D4FP7TObjectPv
   - __ct__13TUnk_804E0910FP7TObjectPv
   - __ct__13TUnk_804E094CFP7TObjectPv
@@ -1666,7 +1666,7 @@ force_active:
   - __ct__12TObjWarpBossFP7TObjectPv
   - TObjWarpBoss__name
   - __ct__12TObjWarpJungFP7TObjectPv
-  - TObjWarpString__sub_8019B728
+  - TObjWarpString__delay_before_fade_out
   - TObject_name
   - TParticleCtrl__particle_entry_path
   - TParticleCtrl__sub_800884F0
@@ -6385,7 +6385,7 @@ force_active:
   - fn_801811FC
   - fn_80181204
   - fn_801908F8
-  - fn_8019B480
+  - get_warp_string_screen_position
   - fn_8019F9AC
   - fn_801A210C
   - __sinit_text_801A3BB8_cpp
@@ -16280,7 +16280,7 @@ force_active:
   - sub_8018B700__19TContainerAncient01Fv
   - sub_801933C8__15TObjLazerFence4Fv
   - sub_8019A44C__13TUnk_804B8E18Fl
-  - sub_8019B77C__14TObjWarpStringFv
+  - delay_before_fade_in__14TObjWarpStringFv
   - sub_8019E418__12TObjWarpBossFv
   - sub_8019F9E4__14TObjWarpBoss03Fv
   - sub_801AA6F8__13TPhotonEstllaFv
@@ -16324,7 +16324,7 @@ force_active:
   - sub_8028B940__12TChCrLoadAfsFv
   - sub_8028B944__12TChCrLoadAfsFv
   - sub_802A2DF4__18TChCrTagOccupationFv
-  - sub_802A955C__16TEffIndirectCtrlFv
+  - pause_indirect_effect__16TEffIndirectCtrlFv
   - sub_802B0228__14TBoss6PlotFalzFv
   - sub_802B03F4__14TBoss6PlotFalzFv
   - sub_802B0448__14TBoss6PlotFalzFv

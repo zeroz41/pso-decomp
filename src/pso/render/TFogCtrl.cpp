@@ -173,7 +173,7 @@ struct FogCtrl_800FB134;
 extern "C" {
 
 s32 TFogCtrl__sub_800FAC84(void* p);
-void TFogCtrl__sub_800FB400(O_800FB400 *self, s32 i, s32 j);
+void TFogCtrl__swap_fog_slots(O_800FB400 *self, s32 i, s32 j);
 TFogCtrl_800FB92C * __ct__8TFogCtrlFP7TObjectl(TFogCtrl_800FB92C *self, void *parent, s32 index);
 void TFogCtrl__sub_800FBA54(void);
 void TFogCtrl__sub_800FBA58(void);
@@ -401,7 +401,7 @@ void run_task__8TFogCtrlFv(Ctrl_800FB498 *arg0) {
         }
         break;
     case 1:
-        TFogCtrl__sub_800FB400((O_800FB400 *)arg0, arg0->reqTo, arg0->reqCommit);
+        TFogCtrl__swap_fog_slots((O_800FB400 *)arg0, arg0->reqTo, arg0->reqCommit);
         update = 1;
         arg0->selected = arg0->reqCommit;
         arg0->mode = 0;
@@ -429,7 +429,7 @@ void run_task__8TFogCtrlFv(Ctrl_800FB498 *arg0) {
         mixed->randomPhase = FOG_ZERO;
         amount = arg0->amount;
         if (amount >= 1.0f) {
-            TFogCtrl__sub_800FB400((O_800FB400 *)arg0, arg0->reqTo, arg0->reqCommit);
+            TFogCtrl__swap_fog_slots((O_800FB400 *)arg0, arg0->reqTo, arg0->reqCommit);
             arg0->selected = arg0->blendCommit;
             arg0->mode = 0;
         } else {
@@ -480,7 +480,7 @@ void TFogCtrl::load_entry_into_slot(s32 i, s32 entry) {
     }
 }
 
-void TFogCtrl__sub_800FB400(O_800FB400 *self, s32 i, s32 j) {
+void TFogCtrl__swap_fog_slots(O_800FB400 *self, s32 i, s32 j) {
     s32 t = self->arr[i];
     self->arr[i] = self->arr[j];
     self->arr[j] = t;

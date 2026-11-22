@@ -146,9 +146,9 @@ s32 get_floor_destination_name();
 s32 debug_draw_line(void *, void *, u32, u32);
 s32 fn_80141CB4(void *, f32);
 void * TObjAreaWarpEndingJung__create(void *arg0);
-s64 fn_8019B480(void *arg0, u16 client_id);
+s64 get_warp_string_screen_position(void *arg0, u16 client_id);
 void fade_and_destroy__14TObjWarpStringFPv(u8 *arg0);
-void TObjWarpString__sub_8019B728(void *arg0);
+void TObjWarpString__delay_before_fade_out(void *arg0);
 void update_fade_in__14TObjWarpStringFPv(u8 *arg0);
 u8 * __ct__14TObjWarpStringFv(u8 *arg0, u8 *arg1, saddr arg2, s16 arg3);
 s32 can_warp__11TObjMapWarpFlUs(void *, u16);
@@ -245,7 +245,7 @@ extern __declspec(section ".data") const Vec map_warp_destination_offsets[4] = {
 };
 
 // Screen position of the warp id string: one entry for a single screen, then the
-// split-screen views of camera 2 (1 entry), 3 (2) and 4 (4), see fn_8019B480.
+// split-screen views of camera 2 (1 entry), 3 (2) and 4 (4), see get_warp_string_screen_position.
 extern __declspec(section ".data") const WarpStringScreenPosition warp_string_screen_position_table[10] = {
     {{320.0f}, {200.0f}},
     {{320.0f}, {120.0f}},
@@ -1177,13 +1177,13 @@ void TObjWarpString::run_task() {
 
     switch (*(s32 *)((s8 *)this + 0x4C)) {
     case 0:
-        ((TObjWarpString *)this)->sub_8019B77C();
+        ((TObjWarpString *)this)->delay_before_fade_in();
         return;
     case 1:
         ((s32 (*)(void))update_fade_in__14TObjWarpStringFPv)();
         return;
     case 2:
-        TObjWarpString__sub_8019B728(this);
+        TObjWarpString__delay_before_fade_out(this);
         return;
     case 3:
         ((s32 (*)(void))fade_and_destroy__14TObjWarpStringFPv)();
@@ -1191,7 +1191,7 @@ void TObjWarpString::run_task() {
     }
 }
 
-void TObjWarpString::sub_8019B77C() {
+void TObjWarpString::delay_before_fade_in() {
     s32 temp_r0;
 
     temp_r0 = *(s32 *)((s8 *)this + 0x40) - 1;
@@ -1213,7 +1213,7 @@ void update_fade_in__14TObjWarpStringFPv(u8 *arg0) {
 }
 #pragma pop
 
-void TObjWarpString__sub_8019B728(void *arg0) {
+void TObjWarpString__delay_before_fade_out(void *arg0) {
     s32 temp_r0;
 
     temp_r0 = *(s32 *)((s8 *)arg0 + 0x40) - 1;
@@ -1244,7 +1244,7 @@ void TObjWarpString::render() {
     u32 color;
     u32 width;
 
-    pos.packed = fn_8019B480(this, *(u16 *)((s8 *)this + 0x48));
+    pos.packed = get_warp_string_screen_position(this, *(u16 *)((s8 *)this + 0x48));
     width = calc_text_width((char *)this + 0x1C) >> 1;
     pos.xy.x -= (f32)width;
     y = pos.xy.y;
@@ -1264,7 +1264,7 @@ void TObjWarpString::render() {
 }
 #pragma pop
 
-s64 fn_8019B480(void *arg0, u16 client_id) {
+s64 get_warp_string_screen_position(void *arg0, u16 client_id) {
     const WarpStringScreenPosition *p = warp_string_screen_position_table;
     if (TRaderMapCore::is_not_split_screen() == 1) {
         switch (TCameraCtrl::get_camera_id()) {

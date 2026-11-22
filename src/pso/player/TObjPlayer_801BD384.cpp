@@ -80,7 +80,7 @@ void *__dt__10TObjPlayerFv(void *arg0, s16 arg1) {
         TObjPlayer::dt((saddr)((s8 *)arg0 + 0x550), (s16)(-1));
         __dt__14TPlyDispConfigFv((saddr)((s8 *)arg0 + 0x500), -1);
         TObjPlayer::free_owned_buffer_a((saddr)((s8 *)arg0 + 0x4AC), (s16)(-1));
-        TObjPlayer__sub_80309E4C((saddr)((s8 *)arg0 + 0x384), -1);
+        destroy_follow_particle_state((saddr)((s8 *)arg0 + 0x384), -1);
         TObjPlayer__sub_801BEDC0((s8 *)arg0 + 0x374, -1);
         TObjPlayer__sub_801BFA4C((saddr)((s8 *)arg0 + 0x360), -1);
         TObjPlayer::conditional_delete_ex((saddr)((s8 *)arg0 + 0x34C), (s16)(-1));
@@ -102,7 +102,7 @@ void is_flag_set_550__10TObjPlayerFv(void *, void *);
 void sub_801BD240__10TObjPlayerFv(void *, void *);
 void init_player_telepipe_record(void *);
 void TObjPlayer__sub_801BBB70(void *, void *);
-void TObjPlayer__sub_80309E9C(void *);
+void init_follow_particle_state(void *);
 void TObjPlayer__sub_803374C4(void *);
 void TObjPlayer__sub_80351974(void *);
 extern const char *lbl_805D3530;
@@ -113,7 +113,7 @@ TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) 
     ((TObjPlayer *)((char *)this + 844))->setup_ctrl();
     ((TObjPlayer *)((char *)this + 864))->init_state();
     TObjPlayer__sub_803374C4((void *)((char *)this + 884));
-    TObjPlayer__sub_80309E9C((void *)((char *)this + 900));
+    init_follow_particle_state((void *)((char *)this + 900));
     __ct__8FlagWordFv(((char *)this + 1052));
     TFontSmallLobby__sub_801C0164(((char *)this + 1064));
     ((TFontSmallLobby *)((char *)this + 1196))->construct_pb_controller();
@@ -158,7 +158,7 @@ TObjPlayer::TObjPlayer(TObject *parent, void *arg2) : TObjChara(parent) {
     ((TObjPlayer *)((char *)this + 844))->setup_ctrl();
     ((TObjPlayer *)((char *)this + 864))->init_state();
     TObjPlayer__sub_803374C4((void *)((char *)this + 884));
-    TObjPlayer__sub_80309E9C((void *)((char *)this + 900));
+    init_follow_particle_state((void *)((char *)this + 900));
     __ct__8FlagWordFv(((char *)this + 1052));
     TFontSmallLobby__sub_801C0164(((char *)this + 1064));
     ((TFontSmallLobby *)((char *)this + 1196))->construct_pb_controller();

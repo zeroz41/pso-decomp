@@ -298,8 +298,8 @@ void *destroy__16TObjOnlineEndingFPvs(void *arg0, s16 arg1) {
 
 
 void __ct__8TObjBaseFP7TObject(void *, void *);
-void *fn_802E6218(void *arg0);
-void fn_802E6260();
+void *create_TObjOnlineEndingHexMove(void *arg0);
+void reset_hex_line_params();
 #pragma push
 #pragma opt_common_subs off
 void *TObjOnlineEnding__ct(void *origin, void *parent) {
@@ -363,8 +363,8 @@ void *TObjOnlineEnding__ct(void *origin, void *parent) {
         play_area_music((char *)"CUBE_ENDING_LOOP.adx");
         break;
     }
-    fn_802E6260();
-    fn_802E6218(origin);
+    reset_hex_line_params();
+    create_TObjOnlineEndingHexMove(origin);
     self->create_result_window();
     self->elapsed_frames = 0;
     self->scene_state = 0;

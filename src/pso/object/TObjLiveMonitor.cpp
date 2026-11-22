@@ -36,7 +36,7 @@
 
 extern "C" {
 s32 TObjPlayer__sub_80084500();
-s32 TObjLiveMonitor__sub_8030C050(void* p);
+s32 TObjLiveCameraCtrl__is_enabled(void* p);
 
 s32 is_split_screen();
 extern s32 __vt__20TObjLiveMonitorSmall[];
@@ -103,7 +103,7 @@ void reset_live_camera_ctrl_globals(void) {
 // inferred: the release hook paired with reset_live_camera_ctrl_globals in static_resource_callback_table
 void release_live_camera_ctrl_globals(void) {}
 
-s32 TObjLiveMonitor__sub_8030C050(void* p) { return *(s32*)((char*)p + 0x20); }
+s32 TObjLiveCameraCtrl__is_enabled(void* p) { return *(s32*)((char*)p + 0x20); }
 
 s32 TObjLiveCameraCtrl::get_table_entry(s32 arg0) {
     if (arg0 < 0) {
@@ -390,7 +390,7 @@ int run_task__15TObjLiveMonitorFv(void* p) { return ((int (*)(void *))sub_8030B3
 void render__15TObjLiveMonitorFv(TObjLiveMonitor *live_monitor) {
     saddr table_entry;
     table_entry = TObjLiveCameraCtrl::get_table_entry(0);
-    if ((table_entry != 0) && (TObjLiveMonitor__sub_8030C050((void *)table_entry) != 0)) {
+    if ((table_entry != 0) && (TObjLiveCameraCtrl__is_enabled((void *)table_entry) != 0)) {
         ((TObjLiveMonitor *)table_entry)->update_camera();
     } else if (is_split_screen() == 0) {
         TObjPlayer__sub_80084500();
@@ -427,7 +427,7 @@ int TObjLiveMonitor::render_live_monitor_screen() {
     switch (*(s32 *)((s8 *)this + 0x24)) {
     case 0:
         e = TObjLiveCameraCtrl::get_table_entry(*(s32 *)((s8 *)this + 0x24));
-        if (e != 0 && TObjLiveMonitor__sub_8030C050((void *)e) != 0) {
+        if (e != 0 && TObjLiveCameraCtrl__is_enabled((void *)e) != 0) {
             ((TObjLiveMonitor *)e)->update_camera();
         } else if (is_split_screen() == 0) {
             TObjPlayer__sub_80084500();

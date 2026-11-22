@@ -37,7 +37,7 @@ struct Fol_80309E9C { u16 a; u16 b; u8 pad[0x8]; Vec v[3]; };
 extern "C" {
 s32 set_owner_id__13TParticleCtrlFUs(s32, s32);
 uaddr find_entity_by_id(s32);
-Fol_80309E9C *TObjPlayer__sub_80309E9C(Fol_80309E9C *o);
+Fol_80309E9C *init_follow_particle_state(Fol_80309E9C *o);
 struct VOff_80309DD0_arg0_80309dd0_80309D80 { char pad_0[0x4]; char f_4[1]; };
 }
 void *create_oneshot_particle_emitter(void *pos, void *dir, s32 id, s32 flags);
@@ -202,7 +202,7 @@ void emit_idle_water_splash(s32 owner, s32 position) {
 
 s32 TObjPlayer::check_hit_by_id_431(void* p, int a1) { return TObjPlayer::check_hit_by_id((saddr)p, (s32)a1, 431); }
 
-Fol_80309E9C *TObjPlayer__sub_80309E9C(Fol_80309E9C *o) {
+Fol_80309E9C *init_follow_particle_state(Fol_80309E9C *o) {
     s32 i;
     Vec *p;
     ((TObjPlayer *)((u8 *)o + 4))->init_follow_particle_ctrl();
@@ -217,7 +217,7 @@ Fol_80309E9C *TObjPlayer__sub_80309E9C(Fol_80309E9C *o) {
     return o;
 }
 
-s32 TObjPlayer__sub_80309E4C(saddr arg0, s16 arg1) {
+s32 destroy_follow_particle_state(saddr arg0, s16 arg1) {
     if (arg0 != 0) {
         TObjPlayer::dt_follow_particle_ctrl(arg0 + 4, (s16)(-1));
         if (arg1 > 0) {

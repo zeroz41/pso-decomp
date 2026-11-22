@@ -86,11 +86,11 @@ TEffIndirectRecipe *get_indirect_recipe(s32 i) {
     return &indirect_recipe_buffer[i];
 }
 
-void TEffIndirectCtrl::sub_802A955C() { this->m_46 = 1; }
+void TEffIndirectCtrl::pause_indirect_effect() { this->m_46 = 1; }
 
-u8 TEffIndirectCtrl__sub_802A9554(TEffIndirectCtrl *ctrl) { return ctrl->m_25; }
+u8 TEffIndirectCtrl__get_indirect_kind(TEffIndirectCtrl *ctrl) { return ctrl->m_25; }
 
-void TEffIndirectCtrl__sub_802A9548(TEffIndirectCtrl *ctrl) { ctrl->m_46 = 0; }
+void TEffIndirectCtrl__resume_indirect_effect(TEffIndirectCtrl *ctrl) { ctrl->m_46 = 0; }
 
 void load_indirect_info(void) {
     s32 i;
@@ -167,7 +167,7 @@ void load_indirect_dat(void) {
                 xfree(buf);
             }
             load_indirect_info();
-            TObjPlayer__sub_802A841C();
+            reset_indirect_effect_ctrl_table();
         }
     }
 }
@@ -177,7 +177,7 @@ void TEffIndirectCtrl::free_all() {
     s32 var_r31;
     TEffIndirectSource *allocation;
 
-    TObjPlayer__sub_802A83F4();
+    clear_indirect_effect_ctrl_table();
     TEffIndirectCtrl::free_buffers();
     var_r31 = 0;
     var_r28 = 0;
@@ -456,7 +456,7 @@ void TEffIndirectCtrl::run_task() {
             (this->*modes[m_20->mode])();
         }
         m_24 = m_20->source_index;
-        sub_802A955C();
+        pause_indirect_effect();
     }
 }
 
@@ -539,13 +539,13 @@ void setup_indirect_tev_ordinary(TEffIndirectCtrl *ctrl, s32 sampler, s32 scale,
     load_list_texture(0, sampler, sampler, 5);
 }
 
-void TObjPlayer__sub_802A841C(void) {
+void reset_indirect_effect_ctrl_table(void) {
     s32 i;
     indirect_effect_ctrl_count = 0;
     for (i = 0; i < 6; i++) indirect_effect_ctrl_table[i] = 0;
 }
 
-void TObjPlayer__sub_802A83F4(void) {
+void clear_indirect_effect_ctrl_table(void) {
     s32 i;
     for (i = 0; i < 6; i++) indirect_effect_ctrl_table[i] = 0;
 }
@@ -567,10 +567,10 @@ s8 find_indirect_effect_ctrl(s32 kind) {
     s32 i;
     for (i = 0; i < indirect_effect_ctrl_count; i++) {
         if (indirect_effect_ctrl_table[i] != 0) {
-            u8 id = TEffIndirectCtrl__sub_802A9554(indirect_effect_ctrl_table[i]);
+            u8 id = TEffIndirectCtrl__get_indirect_kind(indirect_effect_ctrl_table[i]);
             if (id == (u8)kind) {
                 if (TObjPlayer::check_demo_mode() == 0) {
-                    TEffIndirectCtrl__sub_802A9548(indirect_effect_ctrl_table[i]);
+                    TEffIndirectCtrl__resume_indirect_effect(indirect_effect_ctrl_table[i]);
                 }
                 return i;
             }

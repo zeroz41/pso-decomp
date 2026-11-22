@@ -29,7 +29,7 @@ struct Pkt_802E5EFC { s32 hdr; s32 idx; f32 val; };
 
 extern "C" {
 s32 __ct__7TObjectFP7TObject(void *, void *);
-void TObjOnlineEndingHexLine__sub_802E55A4(EndingHexPoint *point, const EndingHexPoint *source);
+void copy_ending_hex_point(EndingHexPoint *point, const EndingHexPoint *source);
 extern void *__vt__23TObjOnlineEndingHexLine[];
 TObjOnlineEndingHexLine *__ct__23TObjOnlineEndingHexLineFv(TObjOnlineEndingHexLine *arg0, TObject *parent, EndingHexPoint *arg2);
 Param_802E5CB0 lbl_804E3A98 = { 0.25f, 1.0f, 0, 10.0f };
@@ -67,8 +67,8 @@ s32 calc_rotated_hex_point__23TObjOnlineEndingHexLineFPvPv(NJS_POINT2 *, EndingH
 void update_line_params__23TObjOnlineEndingHexLineFv(TObjOnlineEndingHexMove *);
 TObjOnlineEndingHexMove *TObjOnlineEndingHexMove__ct(TObjOnlineEndingHexMove *object, TObject *parent);
 Param_802E5CB0 *copy_move_params__23TObjOnlineEndingHexMoveFPvPv(Param_802E5CB0 *dest, const Param_802E5CB0 *src);
-void *fn_802E6218(void *arg0);
-void fn_802E6260(void);
+void *create_TObjOnlineEndingHexMove(void *arg0);
+void reset_hex_line_params(void);
 
 void TObjOnlineEndingHexLine::step_line() {
     s16 dx;
@@ -87,7 +87,7 @@ void TObjOnlineEndingHexLine::step_line() {
     dy = points[1].y - points[0].y;
     progress = 0.0f;
     for (i = 31; i >= 1; i--) {
-        TObjOnlineEndingHexLine__sub_802E55A4(&points[i], &points[i - 1]);
+        copy_ending_hex_point(&points[i], &points[i - 1]);
     }
     base = ((s16)(points[0].x % 3) + (s16)(points[0].y & 1) * 3) * 3;
     dirs = &TObjOnlineEndingHexLine__direction_table[base];
@@ -140,7 +140,7 @@ void TObjOnlineEndingHexLine::step_line() {
 
 #pragma push
 #pragma scheduling off
-void TObjOnlineEndingHexLine__sub_802E55A4(EndingHexPoint *point, const EndingHexPoint *source) {
+void copy_ending_hex_point(EndingHexPoint *point, const EndingHexPoint *source) {
     point->x = source->x;
     point->y = source->y;
 }
@@ -230,7 +230,7 @@ TObjOnlineEndingHexLine *__ct__23TObjOnlineEndingHexLineFv(TObjOnlineEndingHexLi
         }
     }
     for (i = 0; i < 32; i++) {
-        TObjOnlineEndingHexLine__sub_802E55A4(&arg0->points[i], &pos);
+        copy_ending_hex_point(&arg0->points[i], &pos);
     }
     arg0->progress = 1.0f;
     return arg0;
@@ -487,7 +487,7 @@ Param_802E5CB0 *copy_move_params__23TObjOnlineEndingHexMoveFPvPv(Param_802E5CB0 
 }
 #pragma pop
 
-void * fn_802E6218(void *origin) {
+void * create_TObjOnlineEndingHexMove(void *origin) {
     void *o;
     o = TObject::operator new(sizeof(TObjOnlineEndingHexMove));
     if (o != NULL) {
@@ -496,7 +496,7 @@ void * fn_802E6218(void *origin) {
     return o;
 }
 
-void fn_802E6260(void) {
+void reset_hex_line_params(void) {
     copy_move_params__23TObjOnlineEndingHexMoveFPvPv(&TObjOnlineEndingHexLine__hex_line_params,
         copy_move_params__23TObjOnlineEndingHexMoveFPvPv(&online_ending_hex_line_param, &lbl_804E3A98));
 }

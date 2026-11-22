@@ -5,27 +5,27 @@
 
 extern "C" {
 s32 TObjNpcNgcBase__create(s32 set_data);
-s32 TObjNpcNgcBase__sub_80358B70(s32 set_data);
-s32 TObjNpcNgcBase__sub_80358BF8(s32 set_data);
-s32 TObjNpcNgcBase__sub_80358C80(s32 set_data);
-s32 TObjNpcNgcBase__sub_80358D08(s32 set_data);
-s32 TObjNpcNgcBase__sub_80358FB0(s32 set_data);
-s32 TObjNpcNgcBase__sub_80359038(s32 set_data);
-s32 TObjNpcNgcBase__sub_803590C0(s32 set_data);
-s32 TObjNpcNgcBase__sub_80359148(s32 set_data);
+s32 TObjNpcNgcBase__create_nctrunk2(s32 set_data);
+s32 TObjNpcNgcBase__create_nctrunk(s32 set_data);
+s32 TObjNpcNgcBase__create_gunsinei(s32 set_data);
+s32 TObjNpcNgcBase__create_ncman(s32 set_data);
+s32 TObjNpcNgcBase__create_delta_w(s32 set_data);
+s32 TObjNpcNgcBase__create_paganini_t(s32 set_data);
+s32 TObjNpcNgcBase__create_leo_w(s32 set_data);
+s32 TObjNpcNgcBase__create_karen_t(s32 set_data);
 }
 
 // --- C functions defined in TObjNpcNgcBase_80358AE8.cpp ---
 extern "C" {
 s32 TObjNpcNgcBase__create(s32 set_data);
-s32 TObjNpcNgcBase__sub_80358B70(s32 set_data);
-s32 TObjNpcNgcBase__sub_80358BF8(s32 set_data);
-s32 TObjNpcNgcBase__sub_80358C80(s32 set_data);
-s32 TObjNpcNgcBase__sub_80358D08(s32 set_data);
-s32 TObjNpcNgcBase__sub_80358FB0(s32 set_data);
-s32 TObjNpcNgcBase__sub_80359038(s32 set_data);
-s32 TObjNpcNgcBase__sub_803590C0(s32 set_data);
-s32 TObjNpcNgcBase__sub_80359148(s32 set_data);
+s32 TObjNpcNgcBase__create_nctrunk2(s32 set_data);
+s32 TObjNpcNgcBase__create_nctrunk(s32 set_data);
+s32 TObjNpcNgcBase__create_gunsinei(s32 set_data);
+s32 TObjNpcNgcBase__create_ncman(s32 set_data);
+s32 TObjNpcNgcBase__create_delta_w(s32 set_data);
+s32 TObjNpcNgcBase__create_paganini_t(s32 set_data);
+s32 TObjNpcNgcBase__create_leo_w(s32 set_data);
+s32 TObjNpcNgcBase__create_karen_t(s32 set_data);
 }
 // --- end of C functions
 
