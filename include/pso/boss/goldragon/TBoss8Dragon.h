@@ -150,7 +150,6 @@ public:
     void spawn_switch_attack();
     void spawn_attack_effect();
     void copy_action_state(u8 *arg1);
-    static void set_default_on_state0();
     static void capture_node_points(NJS_OBJECT *);
     void calc_velocity_from_angle();
     f32 clamp_step_in_radius(f32 a, f32 b, f32 s);
