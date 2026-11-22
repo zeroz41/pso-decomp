@@ -82,9 +82,7 @@ struct BeamRotation { s32 x, y, z; };
 
 
 extern "C" void TObjPlayer__sub_800DCD04(void *, void *, int, void *, s32, int);
-extern "C" s32 enemy_turn_half_toward_dest(void *);
 extern "C" s32 construct_beam_effect__10TObjPlayerFPvPvPviPv(u32, void *, void *, u8, void *);
-extern "C" s32 check_path_obstructed(void *, Vec *);
 
 #pragma push
 #pragma dont_inline off

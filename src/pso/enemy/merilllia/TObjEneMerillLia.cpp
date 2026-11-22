@@ -284,7 +284,6 @@ struct CollisionPartRecord { u8 pad_0[0xC]; f32 radius; u8 pad_10[0x1C]; };
 
 typedef struct RecoveredFields_800D6810_arg0 RecoveredFields_800D6810_arg0;
 struct RecoveredGlobal_800D5060_lbl_8058D490;
-s32 check_path_obstructed(void *, void *);
 struct O_800D7274;
 struct Obj_800D5150;
 s32 init_collision_body_parts(void *, void *, int);

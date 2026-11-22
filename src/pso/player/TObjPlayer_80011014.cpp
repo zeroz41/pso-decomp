@@ -494,7 +494,6 @@ struct Stack_80018780
 struct RecoveredGlobal_8001806C_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
 LAYOUT_ASSERT(RecoveredGlobal_8001806C_lbl_8058D490_size, sizeof(RecoveredGlobal_8001806C_lbl_8058D490) == 0x30);
 struct Obj_80018660 { u8 pad[0x38]; Vec pos; u8 pad44[0x1c]; s32 angle; u8 pad64[0x238]; Vec dest; };
-struct Obj_80018570 { u8 pad[0x38]; Vec pos; u8 pad44[0x1c]; s32 angle; u8 pad64[0x238]; Vec dest; };
 struct Obj_800180E8 { u8 pad[0x308]; f32 vx; f32 vy; f32 vz; };
 
 typedef struct Obj_80017804 {
@@ -734,9 +733,9 @@ f32 enemy_backstep_from_point(Obj_80017ABC *arg0, Vec arg1, f32 farg0);
 void calc_velocity_toward_destination(Obj_800180E8 *self, Vec *pos, Vec *dest, f32 speed);
 s32 TObjPlayer__sub_800181DC(u8 *arg0, Vec arg1);
 s32 select_enemy_destination(Obj_800182A0 *self, Vec *arg1, int flags);
-s32 check_path_obstructed(u8 *arg0, Vec *arg1);
+s32 check_path_obstructed(TObjChara *chara, Vec *target);
 s32 copy_position_if_valid__10TObjPlayerFii(s32 arg0, s32 arg1);
-void enemy_turn_half_toward_dest(Obj_80018570 *self);
+void enemy_turn_half_toward_dest(TObjChara *chara);
 f32 TObjPlayer__sub_800192C4(Obj800192C4 *self, s32 i);
 int obj_getArrWord_254(ObjArr254* p, int i);
 void obj_setArrS16_FC(ObjArrFC* p, int i, s16 v);
@@ -1616,14 +1615,14 @@ s32 TObjEnemy::turn_toward_direction(s32 max_step, Vec *direction) {
     return angle_difference_abs(this->rotation_y, target_angle);
 }
 
-void enemy_turn_half_toward_dest(Obj_80018570 *self) {
+void enemy_turn_half_toward_dest(TObjChara *chara) {
     Vec d;
     s32 a;
-    VecCopy__FP3VecPC3Vec((saddr)&d, (saddr)&self->dest);
-    subtract_vector(&d, &self->pos);
+    VecCopy__FP3VecPC3Vec((saddr)&d, (saddr)&chara->move_destination);
+    subtract_vector(&d, &chara->position);
     a = (s32)(TObjPlayer__data_804340B8 * ((f64 (*)(f32, f32))atan2_float)(d.x, d.z));
-    self->angle = lerp_angle_half__Fll(self->angle, a);
-    angle_difference_abs(self->angle, a);
+    chara->rotation_y = lerp_angle_half__Fll(chara->rotation_y, a);
+    angle_difference_abs(chara->rotation_y, a);
 }
 
 s32 copy_position_if_valid__10TObjPlayerFii(s32 arg0, s32 arg1) {
@@ -1634,11 +1633,11 @@ s32 copy_position_if_valid__10TObjPlayerFii(s32 arg0, s32 arg1) {
     return 0;
 }
 
-s32 check_path_obstructed(u8 *body, Vec *arg1) {
+s32 check_path_obstructed(TObjChara *chara, Vec *arg1) {
     Vec d;
     s32 a;
     ((s32 (*)(void *, void *)) VecCopy__FP3VecPC3Vec)(&d, arg1);
-    subtract_vector(&d, body + 0x2FC);
+    subtract_vector(&d, &chara->body_center);
     if ((9e+04f) < (d.x * d.x) + (d.z * d.z)) {
         a = (s32) (TObjPlayer__data_804340B8 * ((f64 (*)(f32, f32))atan2_float)(d.x, d.z));
         d.y = d.x = (0.0f);
@@ -1647,11 +1646,11 @@ s32 check_path_obstructed(u8 *body, Vec *arg1) {
         rotate_matrix_y(0, a);
         rotate_vector_by_matrix(0, &d, &d);
         pop_matrix();
-        vec3_add_to(&d, body + 0x2FC);
+        vec3_add_to(&d, &chara->body_center);
     } else {
         ((s32 (*)(void *, void *)) VecCopy__FP3VecPC3Vec)(&d, arg1);
     }
-    if (csnLookAt(body + 0x2FC, &d) != 0) {
+    if (csnLookAt(&chara->body_center, &d) != 0) {
         return 1;
     }
     return 0;
@@ -1679,7 +1678,7 @@ s32 select_enemy_destination(Obj_800182A0 *self, Vec *move_destination, int flag
             vec3_add_to(&d, &scratch_vec);
             vec3_add_to(&d, &self->pos);
         }
-        if (!(flags & 2) && check_path_obstructed((u8 *)self, (Vec *)&d) != 0) {
+        if (!(flags & 2) && check_path_obstructed((TObjChara *)self, (Vec *)&d) != 0) {
             return 0;
         }
         if (!(flags & 4) && csnVector(&self->pos, &d, -1) != 0) {

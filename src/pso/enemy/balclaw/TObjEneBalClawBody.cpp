@@ -76,7 +76,6 @@ const char *balclaw_body_class_name = balclaw_body_class_name_text;
 extern "C" {
 s32 TObjPlayer__sub_800A04F0(void *);
 s32 TObjPlayer__sub_800A0554(void *);
-s32 check_path_obstructed(void *, void *);
 s32 fn_80090464(void *, int);
 void queue_destruction__7TObjectFv(void *arg0);
 s32 select_enemy_destination(void *, Vec, s32);

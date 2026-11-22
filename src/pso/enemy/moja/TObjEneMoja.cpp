@@ -65,7 +65,6 @@ void TObjPlayer__sub_800ACA0C(void *);
 extern "C" {
 f32 enemy_pursue_point(void *, s32, Vec *, void *, f32, f32);
 s32 select_enemy_destination(void *, Vec *, int);
-s32 check_path_obstructed(void *, void *);
 s32 minimap_render_dot(void *, int, int, int, f32);
 }
 

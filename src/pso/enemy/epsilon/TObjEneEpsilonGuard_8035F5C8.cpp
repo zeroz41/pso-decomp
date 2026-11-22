@@ -58,7 +58,6 @@ s32 epsilon_guard_camera_sample_phase;
 s32 * epsilon_guard_angle_sample_write_ptr;
 Vec * epsilon_guard_camera_sample_read_ptr;
 Vec * epsilon_guard_camera_sample_end_ptr;
-s32 check_path_obstructed(void *, void *);
 
 }
 s16 obj_getS16_118(u8 *p);

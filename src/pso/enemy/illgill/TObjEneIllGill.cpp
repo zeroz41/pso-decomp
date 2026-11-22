@@ -69,7 +69,6 @@ s32 illGillModelNodeIndex;
 }
 extern "C" {
 f32 step_toward_destination__10TObjPlayerFPvPvf(void *, Vec, f32);
-s32 check_path_obstructed(void *, void *);
 f32 enemy_move_toward(void *, s32, Vec *, s32, f32, f32);
 s32 enemy_pursue_point(void *, s32, Vec *, f32, f32, f32);
 extern const char *TObjEneIllGill_model_file_list[2];
@@ -348,7 +347,7 @@ void TObjEneIllGill::refresh_target() {
                 VecCopy(&v, (const Vec *)(pl + offsetof(TObjChara, body_center)));
                 subtract_vector(&v, &body_center);
                 d = v.x * v.x + v.z * v.z;
-                if (d < bestDist && check_path_obstructed(this, pl + offsetof(TObjChara, body_center)) == 0) {
+                if (d < bestDist && check_path_obstructed(this, &((TObjChara *)pl)->body_center) == 0) {
                     best = id;
                     bestDist = d;
                 }

@@ -38,9 +38,7 @@
 
 extern "C" {
 void select_enemy_destination(void *, Vec *, s32);
-void enemy_turn_half_toward_dest(void *);
 void TObjPlayer__sub_800A04F0(void *);
-s32 check_path_obstructed(void *, void *);
 s32 TObjPlayer__sub_800A0554(void *);
 s32 submit_cursor_candidate(void *, int, int, f32, f32);
 

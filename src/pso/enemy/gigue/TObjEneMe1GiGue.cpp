@@ -74,8 +74,6 @@ s32 gigue_missile_power;
 s32 gigue_shot_power;
 extern "C" {
 s32 create__9TTecJelinFllll(void *, void *, void *, s32);
-s32 check_path_obstructed(void *, Vec *);
-s32 enemy_turn_half_toward_dest(void *);
 }
 
 // What movementParameters points at: EnemyMoveParams and four more words.
