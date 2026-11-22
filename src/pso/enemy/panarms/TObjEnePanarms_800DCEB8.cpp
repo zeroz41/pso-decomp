@@ -469,8 +469,8 @@ void TObjEnePanarms__sub_800DEEF8(TObjEnePanarms *self) {
 #pragma opt_common_subs off
 void TObjEnePanarms::draw_shadow() {
     Vec v;
-    s32 spC;
-    s32 sp8;
+    s32 angle_x;
+    s32 angle_z;
     f32 d;
     f32 k;
     f32 t;
@@ -478,10 +478,10 @@ void TObjEnePanarms::draw_shadow() {
     if (!(this->ground_y > 19.800001f + this->position.y)) {
         push_matrix();
         translate_matrix(0, 0.25f * this->position.x + 0.75f * draw_positions[0].x, 0.2f + this->ground_y, 0.25f * this->position.z + 0.75f * draw_positions[0].z);
-        direction_to_rotation_xz(((u8 *)this) + 0x248, &spC, &sp8);
-        rotate_matrix_z(0, sp8);
+        direction_to_rotation_xz(((u8 *)this) + 0x248, &angle_x, &angle_z);
+        rotate_matrix_z(0, angle_z);
         rotate_matrix_y(NULL, rotation_y);
-        rotate_matrix_x(0, spC + 0x4000);
+        rotate_matrix_x(0, angle_x + 0x4000);
         d = this->position.y - this->ground_y;
         if (d > 40.0f) {
             d = 40.0f;
@@ -603,34 +603,34 @@ void TObjEnePanarms::turn_toward_target(s32 arg1) {
 #pragma opt_common_subs off
 #define arg0 ((u8 *)p)
 s32 TObjEnePanarms::find_combine_position(void *p) {
-    Vec sp14;
-    Vec sp8;
+    Vec probe;
+    Vec step;
     f32 dist;
     f32 t;
-    VecCopy((Vec *)&sp14, (const Vec *)(*(u8 **)((s8 *)arg0 + 0x3E4) + 0x38));
-    vec3_add_to(&sp14, *(u8 **)((s8 *)arg0 + 0x3E8) + 0x38);
-    sp14.x *= 0.5f;
-    sp14.y *= 0.5f;
-    sp14.z *= 0.5f;
-    VecCopy((Vec *)&sp8, (const Vec *)(arg0 + 0x38));
-    subtract_vector(&sp8, &sp14);
-    dist = vector_length(&sp8);
+    VecCopy((Vec *)&probe, (const Vec *)(*(u8 **)((s8 *)arg0 + 0x3E4) + 0x38));
+    vec3_add_to(&probe, *(u8 **)((s8 *)arg0 + 0x3E8) + 0x38);
+    probe.x *= 0.5f;
+    probe.y *= 0.5f;
+    probe.z *= 0.5f;
+    VecCopy((Vec *)&step, (const Vec *)(arg0 + 0x38));
+    subtract_vector(&step, &probe);
+    dist = vector_length(&step);
     if (dist >= 10.0f) {
-        normalize_vector(&sp8);
-        sp8.x *= 10.0f;
-        sp8.y *= 10.0f;
-        sp8.z *= 10.0f;
+        normalize_vector(&step);
+        step.x *= 10.0f;
+        step.y *= 10.0f;
+        step.z *= 10.0f;
     }
     t = 0.0f;
     while (t < dist) {
-        sp14.y += 10.0f;
-        if (project_actor_to_ground((TObjChara *)arg0, (Vec *)&sp14, 0) != 0 &&
-            TObjEnePanarms__sub_800DE528(arg0, (Vec *) &sp14) != 0 &&
-            check_ground_along_path__14TObjEnePanarmsFPvPvPvff(arg0, (Vec *) (*(u8 **)((s8 *)arg0 + 0x3E4) + 0x38), (Vec *) &sp14, 10.0f, 10.0f) != 0 &&
-            check_ground_along_path__14TObjEnePanarmsFPvPvPvff(arg0, (Vec *) (*(u8 **)((s8 *)arg0 + 0x3E8) + 0x38), (Vec *) &sp14, 10.0f, 10.0f) != 0) {
+        probe.y += 10.0f;
+        if (project_actor_to_ground((TObjChara *)arg0, (Vec *)&probe, 0) != 0 &&
+            TObjEnePanarms__sub_800DE528(arg0, (Vec *) &probe) != 0 &&
+            check_ground_along_path__14TObjEnePanarmsFPvPvPvff(arg0, (Vec *) (*(u8 **)((s8 *)arg0 + 0x3E4) + 0x38), (Vec *) &probe, 10.0f, 10.0f) != 0 &&
+            check_ground_along_path__14TObjEnePanarmsFPvPvPvff(arg0, (Vec *) (*(u8 **)((s8 *)arg0 + 0x3E8) + 0x38), (Vec *) &probe, 10.0f, 10.0f) != 0) {
             u8 *a;
             u8 *b;
-            VecCopy((Vec *)(arg0 + 0x38), (const Vec *)&sp14);
+            VecCopy((Vec *)(arg0 + 0x38), (const Vec *)&probe);
             a = *(u8 **)((s8 *)arg0 + 0x3E4);
             b = *(u8 **)((s8 *)arg0 + 0x3E8);
             ((TObjEnePanarms *)arg0)->rotation_y = (s32) (10430.38043493439 * atan2_float(
@@ -639,7 +639,7 @@ s32 TObjEnePanarms::find_combine_position(void *p) {
             return 1;
         }
         t += 10.0f;
-        vec3_add_to(&sp14, &sp8);
+        vec3_add_to(&probe, &step);
     }
     return 0;
 }
