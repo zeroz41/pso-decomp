@@ -5240,7 +5240,7 @@ s32 TObjPlayer::can_use_camera_field() {
 }
 
 s32 TObjPlayer::can_use_item(void *arg1) {
-    uaddr p;
+    TUnk_8013EFB8 *slot;
     if (TTecCtrl::is_technique_ready() != 0 && ((u8 (*)(void *))fn_801D7168)(lobby_rule_settings) == 2) {
         return 0;
     }
@@ -5278,11 +5278,11 @@ s32 TObjPlayer::can_use_item(void *arg1) {
             break;
         case 4:
             if (*(u32 *)&this->m_424 != 0) {
-                p = ((TMainCursor *)(*(uaddr *)&this->m_424))->find_by_pos(4, 9);
-                if (p == 0) {
+                slot = ((TLockOnCursor *)this->m_424)->find_by_pos(4, 9);
+                if (slot == NULL) {
                     return 0;
                 }
-                if (((TObjPlayer *)TObjPlayer__sub_80116620((void *)(p + 0x9C), 0))->get_type_id() == 0xFFFF) {
+                if (((TObjPlayer *)TObjPlayer__sub_80116620(&slot->target_records, 0))->get_type_id() == 0xFFFF) {
                     return 0;
                 }
             }

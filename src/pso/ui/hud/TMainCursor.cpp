@@ -979,21 +979,20 @@ void TMainCursor::bind_action_channels() {
     }
 }
 
-s32 TMainCursor::find_by_pos(s16 arg1, s16 kind) {
-    s32 arg0 = (saddr)this;
+TUnk_8013EFB8 *TLockOnCursor::find_by_pos(s16 mode, s16 kind) {
     s32 i;
-    saddr ptr;
+    TUnk_8013EFB8 *slot;
 
     i = 0;
-    ptr = arg0 + 0x5C;
+    slot = unk_5c;
 loop_1:
-    if ((arg1 == (s32) get_cursor_palette_mode((void *)ptr)) && (kind == (s32) ((TMainCursor *)ptr)->get_active()) && (((TMainCursor *)ptr)->get_selected_entry() != 0)) {
-        return ptr;
+    if ((mode == (s32) get_cursor_palette_mode(slot)) && (kind == (s32) ((TMainCursor *)slot)->get_active()) && (((TMainCursor *)slot)->get_selected_entry() != 0)) {
+        return slot;
     }
     i += 1;
-    ptr += 0x124;
+    slot += 1;
     if (i >= 4) {
-        return 0;
+        return NULL;
     }
     goto loop_1;
 }

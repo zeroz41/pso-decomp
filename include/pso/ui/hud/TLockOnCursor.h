@@ -147,6 +147,7 @@ struct TLockOnCursor : public TObject {
     saddr cleanup_field_3c();
     void reset_and_spawn_cursors();
     static void *init_sub(void* p);
+    TUnk_8013EFB8 *find_by_pos(s16 mode, s16 kind);
 };
 
 LAYOUT_ASSERT(TLockOnCursor_size, sizeof(TLockOnCursor) == 0x52C);

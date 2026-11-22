@@ -46,7 +46,7 @@ void *get_player_by_client_id(s32 i);
 
 typedef struct Owner_8022CDE8 {
     u8 pad0[0x424];
-    TMainCursor *f424;  // TObjPlayer::m_424
+    TLockOnCursor *f424;  // TObjPlayer::m_424
     u8 slots[0x10];
 } Owner_8022CDE8;
 
