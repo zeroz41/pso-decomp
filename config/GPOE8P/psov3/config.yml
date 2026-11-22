@@ -503,7 +503,7 @@ force_active:
   - TCheckRoomSequence__error_return_state
   - TCheckRoomSequence__error_return_text_id
   - TCheckRoomSequence__sub_80210B34
-  - TCineCtrl__instance
+  - instance__9TCineCtrl
   - __ct__20TContainerAncient01RFP7TObjectPv
   - TContainerAncient01__collision_body_parts
   - __ct__19TContainerAncient01FP7TObjectPv

@@ -128,7 +128,6 @@ extern u8 controller_physical_port_bank[];
 struct G_80082FCC { s32 value; s32 v4; f32 f8; f32 fC; };
 
 extern "C" {
-s32 TCameraCtrl__sub_80068EF0();
 s32 GXSetZMode(int, int, int);
 }
 void direction_to_pitch_yaw(u8 *arg0, s32 *arg1, s32 *arg2);

@@ -4,66 +4,54 @@
 #include "pso/render/ModelDrawContext.h"
 
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
+
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TMainTask.h"
 
 #pragma readonly_strings on
 
-struct Obj_80077F58 { u8 pad[0x28]; s32 state; };
+TCineCtrl *TCineCtrl::instance;
 
-struct VtxList_80077BC0 {
-    f32 *pos;
-    u32 *col;
-    s32 n;
-    s32 cap;
-};
-
-extern "C" {
-void * TCineCtrl__instance;
-void TCameraCtrl__sub_80068EF0(void);
-
-extern void *TCineCtrl__instance;
-
+// Draws the top and bottom bars, bar_height lines each, over the full screen.
 void TCineCtrl::render() {
-    u8 *arg0 = (u8 *)this;
-    VtxList_80077BC0 vl;
-    u32 col[4];
-    f32 pos[8];
-    if (!(*(f32 *)((s8 *)arg0 + 0x1C) <= 0.0f)) {
+    NJS_POINT2COL poly;
+    NJS_COLOR col[4];
+    NJS_POINT2 pos[4];
+    if (!(alpha <= 0.0f)) {
         TCameraCtrl::restore_full_screen_view();
         set_color_blending_mode(0, 8);
         set_color_blending_mode(1, 6);
-        vl.pos = pos;
-        vl.col = col;
-        vl.n = 0;
-        vl.cap = 4;
-        this->m_27 = (s8) *(f32 *)((s8 *)arg0 + 0x1C);
-        vl.pos[0] = 0.0f;
-        vl.pos[1] = 0.0f;
-        vl.col[0] = *(u32 *)((s8 *)arg0 + 0x24);
-        vl.pos[2] = 640.0f;
-        vl.pos[3] = 0.0f;
-        vl.col[1] = *(u32 *)((s8 *)arg0 + 0x24);
-        vl.pos[4] = 640.0f;
-        vl.pos[5] = this->m_20;
-        vl.col[2] = *(u32 *)((s8 *)arg0 + 0x24);
-        vl.pos[6] = 0.0f;
-        vl.pos[7] = this->m_20;
-        vl.col[3] = *(u32 *)((s8 *)arg0 + 0x24);
-        draw_polygon_2d((NJS_POINT2COL *)&vl, 4U, 0x16, -10.0f);
-        vl.pos[0] = 0.0f;
-        vl.pos[1] = 480.0f - this->m_20;
-        vl.col[0] = *(u32 *)((s8 *)arg0 + 0x24);
-        vl.pos[2] = 640.0f;
-        vl.pos[3] = 480.0f - this->m_20;
-        vl.col[1] = *(u32 *)((s8 *)arg0 + 0x24);
-        vl.pos[4] = 640.0f;
-        vl.pos[5] = 480.0f;
-        vl.col[2] = *(u32 *)((s8 *)arg0 + 0x24);
-        vl.pos[6] = 0.0f;
-        vl.pos[7] = 480.0f;
-        vl.col[3] = *(u32 *)((s8 *)arg0 + 0x24);
-        draw_polygon_2d((NJS_POINT2COL *)&vl, 4U, 0x16, -10.0f);
+        poly.p = pos;
+        poly.col = col;
+        poly.tex = NULL;
+        poly.num = 4;
+        rgba.a = alpha;
+        poly.p[0].x = 0.0f;
+        poly.p[0].y = 0.0f;
+        poly.col[0].color = color;
+        poly.p[1].x = 640.0f;
+        poly.p[1].y = 0.0f;
+        poly.col[1].color = color;
+        poly.p[2].x = 640.0f;
+        poly.p[2].y = bar_height;
+        poly.col[2].color = color;
+        poly.p[3].x = 0.0f;
+        poly.p[3].y = bar_height;
+        poly.col[3].color = color;
+        draw_polygon_2d(&poly, 4, 0x16, -10.0f);
+        poly.p[0].x = 0.0f;
+        poly.p[0].y = 480.0f - bar_height;
+        poly.col[0].color = color;
+        poly.p[1].x = 640.0f;
+        poly.p[1].y = 480.0f - bar_height;
+        poly.col[1].color = color;
+        poly.p[2].x = 640.0f;
+        poly.p[2].y = 480.0f;
+        poly.col[2].color = color;
+        poly.p[3].x = 0.0f;
+        poly.p[3].y = 480.0f;
+        poly.col[3].color = color;
+        draw_polygon_2d(&poly, 4, 0x16, -10.0f);
         TCameraCtrl__sub_80068EF0();
     }
 }
@@ -71,94 +59,92 @@ void TCineCtrl::render() {
 #pragma push
 #pragma opt_common_subs off
 void TCineCtrl::update_letterbox_hide() {
-    s32 (*temp_r12)(void *);
-    *(f32 *)((s8 *)((u8 *)this) + 0x1C) = (f32) (*(f32 *)((s8 *)((u8 *)this) + 0x1C) - 8.0f);
-    this->m_20 = (f32) (this->m_20 - 2.0f);
-    if (*(f32 *)((s8 *)((u8 *)this) + 0x1C) <= 0.0f) {
-        *(f32 *)((s8 *)((u8 *)this) + 0x1C) = 0.0f;
+    Callback done;
+    alpha = alpha - 8.0f;
+    bar_height = bar_height - 2.0f;
+    if (alpha <= 0.0f) {
+        alpha = 0.0f;
     }
-    if (this->m_20 <= 0.0f) {
-        this->m_20 = 0.0f;
-        temp_r12 = *(s32 (**)(void *))((s8 *)((u8 *)this) + 0x2C);
-        if (temp_r12 != NULL) {
-            temp_r12(this);
+    if (bar_height <= 0.0f) {
+        bar_height = 0.0f;
+        done = on_done;
+        if (done != NULL) {
+            done(this);
         }
-        *(s32 *)((s8 *)((u8 *)this) + 0x28) = 0;
+        state = STATE_IDLE;
     }
 }
 #pragma pop
 
-void TCineCtrl::reset_state(s32 arg0) {
-    if ((void *) TCineCtrl__instance != NULL) {
-        *(s32 *)((s8 *)TCineCtrl__instance + 0x2C) = arg0;
-        *(f32 *)((s8 *)TCineCtrl__instance + 0x1C) = 255.0f;
-        *(f32 *)((s8 *)TCineCtrl__instance + 0x20) = 70.0f;
-        *(s8 *)((s8 *)TCineCtrl__instance + 0x26) = 0;
-        *(s8 *)((s8 *)TCineCtrl__instance + 0x25) = 0;
-        *(s8 *)((s8 *)TCineCtrl__instance + 0x24) = 0;
-        *(s32 *)((s8 *)TCineCtrl__instance + 0x28) = 2;
+void TCineCtrl::begin_letterbox_hide(Callback on_done) {
+    if (instance != NULL) {
+        instance->on_done = on_done;
+        instance->alpha = 255.0f;
+        instance->bar_height = 70.0f;
+        instance->rgba.b = 0;
+        instance->rgba.g = 0;
+        instance->rgba.r = 0;
+        instance->state = STATE_HIDE;
     }
 }
 
 #pragma push
 #pragma opt_common_subs off
 void TCineCtrl::update_letterbox_show() {
-    s32 (*temp_r12)(void *);
-    *(f32 *)((s8 *)((u8 *)this) + 0x1C) += 8.0f;
-    this->m_20 += 2.0f;
-    if (*(f32 *)((s8 *)((u8 *)this) + 0x1C) >= 255.0f) {
-        *(f32 *)((s8 *)((u8 *)this) + 0x1C) = 255.0f;
+    Callback done;
+    alpha += 8.0f;
+    bar_height += 2.0f;
+    if (alpha >= 255.0f) {
+        alpha = 255.0f;
     }
-    if (this->m_20 >= 70.0f) {
-        this->m_20 = 70.0f;
-        temp_r12 = *(s32 (**)(void *))((s8 *)((u8 *)this) + 0x2C);
-        if (temp_r12 != NULL) {
-            temp_r12(this);
+    if (bar_height >= 70.0f) {
+        bar_height = 70.0f;
+        done = on_done;
+        if (done != NULL) {
+            done(this);
         }
-        *(s32 *)((s8 *)((u8 *)this) + 0x28) = 0;
+        state = STATE_IDLE;
     }
 }
 #pragma pop
 
-void TCineCtrl::reset(s32 arg0) {
-    if ((void *) TCineCtrl__instance != NULL) {
-        *(s32 *)((s8 *)TCineCtrl__instance + 0x2C) = arg0;
-        *(f32 *)((s8 *)TCineCtrl__instance + 0x1C) = 0.0f;
-        *(f32 *)((s8 *)TCineCtrl__instance + 0x20) = 0.0f;
-        *(s8 *)((s8 *)TCineCtrl__instance + 0x26) = 0;
-        *(s8 *)((s8 *)TCineCtrl__instance + 0x25) = 0;
-        *(s8 *)((s8 *)TCineCtrl__instance + 0x24) = 0;
-        *(s32 *)((s8 *)TCineCtrl__instance + 0x28) = 1;
+void TCineCtrl::begin_letterbox_show(Callback on_done) {
+    if (instance != NULL) {
+        instance->on_done = on_done;
+        instance->alpha = 0.0f;
+        instance->bar_height = 0.0f;
+        instance->rgba.b = 0;
+        instance->rgba.g = 0;
+        instance->rgba.r = 0;
+        instance->state = STATE_SHOW;
     }
 }
 
-const char *TCineCtrl__class_name = "TCineCtrl";
-
+const char *TCineCtrl::class_name = "TCineCtrl";
 
 void TCineCtrl::run_task() {
-    Obj_80077F58 *self = (Obj_80077F58 *)this;
-    switch (self->state) {
-    case 0:
+    switch (state) {
+    case STATE_IDLE:
         break;
-    case 1:
-        ((TCineCtrl *)self)->update_letterbox_show();
+    case STATE_SHOW:
+        update_letterbox_show();
         break;
-    case 2:
-        ((TCineCtrl *)self)->update_letterbox_hide();
+    case STATE_HIDE:
+        update_letterbox_hide();
         break;
     }
-}
-
 }
 
 TCineCtrl::~TCineCtrl() {
-    TCineCtrl__instance = NULL;
+    instance = NULL;
 }
-TCineCtrl::TCineCtrl() : TObject(tl_fade) {
-    this->m_name = TCineCtrl__class_name;
-    *(f32 *)((s8 *)this + 0x1C) = 0.0f;
-    this->m_20 = 0.0f;
-    *(u32 *)((s8 *)this + 0x24) = 0;
-    *(u32 *)((s8 *)this + 0x28) = 0;
-    TCineCtrl__instance = this;
+
+// Always joins the fade list, whatever parent it is given.
+TCineCtrl::TCineCtrl(TObject *parent) : TObject(tl_fade) {
+    m_name = class_name;
+    alpha = 0.0f;
+    bar_height = 0.0f;
+    color = 0;
+    state = STATE_IDLE;
+    instance = this;
 }

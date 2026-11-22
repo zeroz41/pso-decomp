@@ -4303,9 +4303,9 @@ void qst_op_nop_A0_debug(void) {
         o->m0(1);
     }
 }
-void qst_op_cine_disable(void) { TCineCtrl::reset_state(0); }
+void qst_op_cine_disable(void) { TCineCtrl::begin_letterbox_hide(NULL); }
 
-void qst_op_cine_enable(void) { TCineCtrl::reset(0); }
+void qst_op_cine_enable(void) { TCineCtrl::begin_letterbox_show(NULL); }
 
 void qst_op_hud_show(void) { TWindowCtrl::unsuppress_slot(*(int *)&local_client_id); TRaderMapCore::show_radar(); }
 

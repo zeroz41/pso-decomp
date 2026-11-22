@@ -170,6 +170,8 @@ extern "C" {
 int is_quest_active(void);
 // The first view state word.
 u16 TCameraCtrl__sub_8006A5DC(void);
+// Restores the saved view after a full-screen 2D pass.
+void TCameraCtrl__sub_80068EF0(void);
 }
 
 #endif
