@@ -20,8 +20,8 @@ public:
     // Death: run_death_reaction enters state 7 (sink), whose update enters state 8 when it ends.
     s32 is_dying();
     int get_state_flag();
-    int sub_800DFB74();
-    s32 sub_800DFB9C();
+    int is_slide_in_done();
+    s32 is_attacking();
     s32 is_dead();
     void do_action_2();
     void die_with_body();

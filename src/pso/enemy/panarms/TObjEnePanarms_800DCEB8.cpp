@@ -223,11 +223,11 @@ s32 TObjEnePanBARA::is_dead() {
     return (u8)(state == 8);
 }
 
-s32 TObjEnePanBARA::sub_800DFB9C() {
+s32 TObjEnePanBARA::is_attacking() {
     return (u8)(state == 0xB);
 }
 
-int TObjEnePanBARA::sub_800DFB74() {
+int TObjEnePanBARA::is_slide_in_done() {
     u8 result = 0;
     if (state == 4 && action_timer < 0) {
         result = 1;
@@ -1154,7 +1154,7 @@ void TObjEnePanarms::update_separated_parts() {
         this->state_timer = (this->state_timer - 1);
         timer = this->state_timer;
         if (timer == 0) {
-            if ((this->halves[0]->sub_800DFB9C() != 0) || (this->halves[1]->sub_800DFB9C() != 0)) {
+            if ((this->halves[0]->is_attacking() != 0) || (this->halves[1]->is_attacking() != 0)) {
                 this->state_timer += 15.0f;
                 return;
             }
@@ -1164,7 +1164,7 @@ void TObjEnePanarms::update_separated_parts() {
             return;
         }
         if (timer < 0) {
-            if ((this->halves[0]->sub_800DFB74() != 0) && (this->halves[1]->sub_800DFB74() != 0)) {
+            if ((this->halves[0]->is_slide_in_done() != 0) && (this->halves[1]->is_slide_in_done() != 0)) {
                 if ((this->halves[0]->get_state_flag() != 0) || (this->halves[1]->get_state_flag() != 0)) {
                     this->state_timer = -1;
                     return;
