@@ -513,11 +513,11 @@ void TPlayerBattleCtrl4P::wait_before_recording_results() {
     }
 }
 
-#define get_player_by_client_id ((u32 (*)(s32))get_player_by_client_id)
+#define get_player_by_client_id ((uaddr (*)(s32))get_player_by_client_id)
 
 #define TBL_801C343C ((Rank_801C343C *)&split_screen_battle_rankings)
 
-#define PLAYER_801C343C(k) ((u32 (*)(s32))get_player_by_client_id)(k)
+#define PLAYER_801C343C(k) ((uaddr (*)(s32))get_player_by_client_id)(k)
 
 #pragma push
 
