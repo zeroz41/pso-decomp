@@ -1262,7 +1262,7 @@ force_active:
   - TObjEneMe1GiGueBarrier__barrier_resource_object
   - __ct__22TObjEneMe1GiGueBarrierFP7TObjectPv
   - TObjEneMe1GiGueMissile__ct
-  - TObjEneMe1GiGue__ct
+  - __ct__15TObjEneMe1GiGueFP7TObjectPv
   - TObjEneMe1GiGue__model_filename_table
   - TObjEneMe1GiGue__sub_802CB03C
   - TObjEneMe1GiGue__sub_802CB10C
@@ -5624,7 +5624,7 @@ force_active:
   - deform_indirect_texture_scroll__FPUcUlUllUl
   - deform_indirect_texture_wave__FPUcllllUc
   - deldepth_actions
-  - deleting_dtor__15TObjEneMe1GiGueFPvs
+  - __dt__15TObjEneMe1GiGueFv
   - __dt__18TObjEneBalClawClawFv
   - deliver_chain_hits__11TTecGiZondeFv
   - deliver_delayed_weapon_hit__FPUc
@@ -8104,7 +8104,7 @@ force_active:
   - lbl_804E0B54
   - lbl_804E0B60
   - lbl_804E1210
-  - lbl_804E135C
+  - __vt__15TObjEneMe1GiGue
   - lbl_804E1548
   - lbl_804E15BC
   - lbl_804E15C4

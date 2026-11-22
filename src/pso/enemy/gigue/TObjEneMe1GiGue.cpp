@@ -49,6 +49,8 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/object/TObjControl.h"
 
 s32 get_gigue_int_parameter(TObjEneMe1GiGue *, s32);
 f32 get_gigue_float_parameter(TObjEneMe1GiGue *, s32);
@@ -69,7 +71,6 @@ int initialize_enemy_photon_effect(void *p);
 
 extern "C" {
 
-void __ct__15RenderFadeStateFv(void *);
 void TObjEneMe1GiGue__sub_802CB824(TObjEneMe1GiGue *gigue, s32 index);
 void find_open_direction__15TObjEneMe1GiGueFPvPv(TObjEneMe1GiGue *gigue, Vec *dir);
 void TObjEneMe1GiGue__sub_802CB03C(TObjEneMe1GiGue *gigue);
@@ -82,7 +83,6 @@ void TObjEneMe1GiGue__sub_802CC614(TObjEneMe1GiGue *gigue);
 void TObjEneMe1GiGue__sub_802CC900(TObjEneMe1GiGue *gigue);
 void TObjEneMe1GiGue__sub_802CCBAC(TObjEneMe1GiGue *gigue);
 void TObjEneMe1GiGue__sub_802CD054(TObjEneMe1GiGue *gigue);
-TObjEneMe1GiGue *deleting_dtor__15TObjEneMe1GiGueFPvs(TObjEneMe1GiGue *self, s16 del);
 f32 atan2_float(f32 y, f32 x);
 s16 get_entity_id(void *);
 }
@@ -98,103 +98,15 @@ s32 check_path_obstructed(void *, Vec *);
 s32 enemy_turn_half_toward_dest(void *);
 s32 is_split_screen();
 saddr find_active_entity_by_id(int);
-void * __ct__11TObjControlFP7TObject(void *, void *);
 s32 minimap_render_dot(void *, int, int, int);
-TObjEneMe1GiGue *TObjEneMe1GiGue__ct(TObjEneMe1GiGue *self, TObject *parent, void *set_data);
 void TObjEneMe1GiGue__sub_802CDAE8();
 void TObjEneMe1GiGue__sub_802CE4E8(void);
 void TObjEneMe1GiGue__sub_802CE4EC();
 void TObjEneMe1GiGueBarrier__sub_80325CC0(void);
-extern void *tl_04;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
-void *__dt__15RenderFadeStateFv(void *arg0, s16 arg1);
-void *__dt__15TObjEnemyCustomFv(void *arg0, s16 arg1);
-void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
 s32 obj_setFlags30(void *, int);
-s32 __ct__15TObjEnemyCustomFP7TObject(void *, TObject *);
 
-// The vtable entries, by their linker names.
-void receive_weapon_special_attack__15TObjEneMe1GiGueFPvPv();
-void receive_physical_attack__15TObjEneMe1GiGueFPvf();
-void receive_direct_attack__15TObjEneMe1GiGueFPv19DirectAttackPayloadPvll();
-void render__15TObjEneMe1GiGueFv();
-void update_action_hold_status__15TObjEneMe1GiGueFv();
-void run_death_reaction__15TObjEneMe1GiGueFv();
-void run_hit_reaction__15TObjEneMe1GiGueFv();
-void run_task__15TObjEneMe1GiGueFv();
-void get_anim_node_position__15TObjEnemyCustomFlP3Vec();
-void vfunc_6__8TObjBaseFPsl();
-void run_idle_action__15TObjEneMe1GiGueFv();
-void run_attack_action__15TObjEneMe1GiGueFv();
-void run_move_action__15TObjEneMe1GiGueFv();
-void run_miss_reaction__15TObjEneMe1GiGueFv();
-void refresh_target__15TObjEnemyCustomFv();
-void has_no_target__9TObjCharaFv();
-void recalc_stats__9TObjCharaFv();
-void consume_timer_field__9TObjCharaFl();
-void deliver_attack_hits__9TObjCharaFf();
-void vfunc_66__9TObjCharaFv();
-void apply_slow_status__9TObjCharaFv();
-void update_shock_clock__9TObjCharaFv();
-void vfunc_43__9TObjCharaFv();
-void update_actor_ground_y_at__9TObjCharaFP3Vec();
-void interact__14TObjCollidableFl();
-void vfunc_74__9TObjEnemyFl();
-void apply_hit_message_flags__9TObjEnemyFPv();
-void add_actor_exp__9TObjCharaFl();
-void apply_action_hold_status__9TObjCharaFf();
-void apply_anti_technique__9TObjCharaFl();
-void apply_attack_stat_status__9TObjCharaFPv();
-void apply_confusion_status__9TObjCharaFv();
-void apply_knockback_from_attacker__9TObjCharaFPUcf();
-void apply_movement_ailment__9TObjCharaFl();
-void apply_object_set_data__8TObjBaseFPv();
-void apply_paralysis__9TObjCharaFv();
-void apply_poison_status__9TObjCharaFv();
-void apply_set_data__9TObjEnemyFPv();
-void apply_shock_status__9TObjCharaFv();
-void apply_switch_attack__9TObjCharaFv();
-void calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf();
-void apply_enemy_state__15TObjEnemyCustomFPl();
-void classify_actor_view_detail__8TObjBaseFfff();
-void clear_all_status_effects__9TObjCharaFv();
-void clear_harmful_statuses__9TObjCharaFv();
-void cure_paralysis__9TObjCharaFv();
-void cure_poison_ailment__9TObjCharaFv();
-void apply_defense_stat_status__9TObjCharaFPv();
-void enemy_spawn_jellen_effect__9TObjCharaFv();
-void enemy_spawn_zalure_effect__9TObjCharaFv();
-void vfunc_78__9TObjCharaFl();
-void gain_photon_blast_chain_charge__9TObjCharaFv();
-void spend_photon_blast_charge__9TObjCharaFf();
-void gain_photon_blast_charge__9TObjCharaFf();
-void clear_lobby_object_state__9TObjEnemyFv();
-void get_center__9TObjCharaFv();
-void get_actor_level_index__9TObjCharaFv();
-void get_name__9TObjEnemyFv();
-void get_pos__9TObjCharaFl();
-void is_actor_cadence_frame__9TObjCharaFl();
-void is_target_in_attack_range__9TObjCharaFv();
-void render_shadows__9TObjEnemyFv();
-void reset_motion_fields__9TObjCharaFv();
-void reset_pose__9TObjCharaFv();
-void roll_physical_accuracy__9TObjCharaFPvlf();
-void select_melee_contact_body__9TObjCharaFPvf();
-void trigger_switch_attack__9TObjCharaFv();
-void try_start_action__9TObjCharaFll();
-void update_slow_status__9TObjCharaFv();
-void update_actor_ground_y__9TObjCharaFv();
-void update_attack_stat_status__9TObjCharaFv();
-void update_defense_stat_status__9TObjCharaFv();
-void update_flag30_timer__9TObjCharaFv();
-void update_movement_status__9TObjCharaFv();
-void update_object_view_visibility__8TObjBaseFff();
-void update_poison_status__9TObjCharaFv();
-void has_flag_0x800__9TObjCharaFv();
-void test_flag30_512__9TObjCharaFv();
-void test_flag_1000__9TObjCharaFv();
-void test_flag_256__9TObjCharaFv();
 }
 
 // What movementParameters points at: EnemyMoveParams and four more words.
@@ -256,29 +168,6 @@ CollisionBody lbl_804E1304[2] = {
 };
 
 const char *TObjEneMe1GiGue__name = "TObjEneMe1GiGue";
-void *lbl_804E135C[83] = {
-    (void *)0x0, (void *)0x0, (void *)&deleting_dtor__15TObjEneMe1GiGueFPvs, (void *)&run_task__15TObjEneMe1GiGueFv,
-    (void *)&render__15TObjEneMe1GiGueFv, (void *)&render_shadows__9TObjEnemyFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
-    (void *)&reset_motion_fields__9TObjCharaFv, (void *)&get_center__9TObjCharaFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
-    (void *)&get_name__9TObjEnemyFv, (void *)&interact__14TObjCollidableFl, (void *)&add_actor_exp__9TObjCharaFl, (void *)&consume_timer_field__9TObjCharaFl,
-    (void *)&get_actor_level_index__9TObjCharaFv, (void *)&update_actor_ground_y__9TObjCharaFv, (void *)&update_actor_ground_y_at__9TObjCharaFP3Vec, (void *)&is_actor_cadence_frame__9TObjCharaFl,
-    (void *)&select_melee_contact_body__9TObjCharaFPvf, (void *)&calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf, (void *)&receive_physical_attack__15TObjEneMe1GiGueFPvf, (void *)&receive_direct_attack__15TObjEneMe1GiGueFPv19DirectAttackPayloadPvll,
-    (void *)&receive_weapon_special_attack__15TObjEneMe1GiGueFPvPv, (void *)&apply_knockback_from_attacker__9TObjCharaFPUcf, (void *)&try_start_action__9TObjCharaFll, (void *)&roll_physical_accuracy__9TObjCharaFPvlf,
-    (void *)&refresh_target__15TObjEnemyCustomFv, (void *)&has_no_target__9TObjCharaFv, (void *)&is_target_in_attack_range__9TObjCharaFv, (void *)&test_flag_256__9TObjCharaFv,
-    (void *)&test_flag30_512__9TObjCharaFv, (void *)&has_flag_0x800__9TObjCharaFv, (void *)&test_flag_1000__9TObjCharaFv, (void *)&update_poison_status__9TObjCharaFv,
-    (void *)&update_action_hold_status__15TObjEneMe1GiGueFv, (void *)&update_slow_status__9TObjCharaFv, (void *)&update_flag30_timer__9TObjCharaFv, (void *)&update_movement_status__9TObjCharaFv,
-    (void *)&update_shock_clock__9TObjCharaFv, (void *)&update_attack_stat_status__9TObjCharaFv, (void *)&update_defense_stat_status__9TObjCharaFv, (void *)&vfunc_43__9TObjCharaFv,
-    (void *)&apply_poison_status__9TObjCharaFv, (void *)&apply_paralysis__9TObjCharaFv, (void *)&apply_slow_status__9TObjCharaFv, (void *)&apply_confusion_status__9TObjCharaFv,
-    (void *)&apply_movement_ailment__9TObjCharaFl, (void *)&apply_shock_status__9TObjCharaFv, (void *)&clear_harmful_statuses__9TObjCharaFv, (void *)&apply_attack_stat_status__9TObjCharaFPv,
-    (void *)&apply_defense_stat_status__9TObjCharaFPv, (void *)&cure_poison_ailment__9TObjCharaFv, (void *)&cure_paralysis__9TObjCharaFv, (void *)&clear_all_status_effects__9TObjCharaFv,
-    (void *)&apply_action_hold_status__9TObjCharaFf, (void *)&apply_anti_technique__9TObjCharaFl, (void *)&run_idle_action__15TObjEneMe1GiGueFv, (void *)&run_move_action__15TObjEneMe1GiGueFv,
-    (void *)&run_attack_action__15TObjEneMe1GiGueFv, (void *)&run_miss_reaction__15TObjEneMe1GiGueFv, (void *)&run_hit_reaction__15TObjEneMe1GiGueFv, (void *)&run_death_reaction__15TObjEneMe1GiGueFv,
-    (void *)&reset_pose__9TObjCharaFv, (void *)&get_anim_node_position__15TObjEnemyCustomFlP3Vec, (void *)&vfunc_66__9TObjCharaFv, (void *)&deliver_attack_hits__9TObjCharaFf,
-    (void *)&get_pos__9TObjCharaFl, (void *)&apply_switch_attack__9TObjCharaFv, (void *)&enemy_spawn_jellen_effect__9TObjCharaFv, (void *)&trigger_switch_attack__9TObjCharaFv,
-    (void *)&enemy_spawn_zalure_effect__9TObjCharaFv, (void *)&recalc_stats__9TObjCharaFv, (void *)&vfunc_74__9TObjEnemyFl, (void *)&gain_photon_blast_charge__9TObjCharaFf,
-    (void *)&spend_photon_blast_charge__9TObjCharaFf, (void *)&gain_photon_blast_chain_charge__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl, (void *)&apply_enemy_state__15TObjEnemyCustomFPl,
-    (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv,
-};
 
 void TObjEneMe1GiGue::load_params_from_table(s32 i) {
     model = (void *)TObjEneMe1GiGue__data_805D6838->models[i].model;
@@ -305,84 +194,69 @@ void TObjEneMe1GiGue::run_attack_action() {  }
 
 void TObjEneMe1GiGue::run_idle_action() {  }
 
-TObjEneMe1GiGue *TObjEneMe1GiGue__ct(TObjEneMe1GiGue *self, TObject *parent, void *set_data) {
-    __ct__15TObjEnemyCustomFP7TObject(self, parent);
-    *(void **)((s8 *)self + 0x18) = lbl_804E135C;
-    __ct__13TUnk_80494938Fv(&self->m_3fc);
-    __ct__15RenderFadeStateFv(&self->m_418);
-    self->m_name = TObjEneMe1GiGue__name;
-    self->apply_set_data(set_data);
-    VecCopy((Vec *)&self->m_290, VecCopy((Vec *)&self->m_29c, &self->position));
-    self->motion_list = TObjEneMe1GiGue__data_805D6838->motions;
-    self->variant = 0;
-    self->add_flags_2e4(0x11);
-    self->state36C = *(s16 *)((s8 *)set_data + 0x3E);
-    self->load_params_from_table(self->variant);
-    self->action_table = gigue_enemy_param_table;
-    self->set_field_d8((saddr)self->action_table);
-    init_collision_body_parts(self, lbl_804E1304, 2);
-    self->bodies[1].flags &= ~1;
-    self->movementParameters = &lbl_804E12E8;
-    self->bind_enemy_combat_stats((u8 *)ene_me1_gigue_boss_id, (u8 *)lbl_805D682C, (u8 *)lbl_805D6830);
-    self->update_direction();
-    self->load_params();
-    self->requested_action = 0;
-    self->set_animation(self->requested_action);
-    self->set_field_b8(self->requested_action);
-    self->hp = self->hpmax;
-    self->tp = self->tpmax;
-    self->referenceHp = self->hp;
-    self->update_prev_position();
-    initialize_enemy_photon_effect(self);
-    self->m_38c = 0;
-    self->scale.x = 1.0f;
-    self->m_3e4 = ((EnemyMoveParams *)self->movementParameters)->min_distance * self->scale.x;
-    VecCopy(&self->home_position, &self->position);
-    VecCopy(&self->m_390, &self->position);
-    self->m_440 = 0.5f + self->parameters[3];
-    self->m_444 = 0.5f + self->parameters[4];
-    self->m_43c = 150.0f + self->parameters[2];
-    if (self->m_43c < 0.0f) {
-        self->m_43c = 0.0f;
+TObjEneMe1GiGue::TObjEneMe1GiGue(TObject *parent, void *set_data) : TObjEnemyCustom(parent) {
+    m_name = TObjEneMe1GiGue__name;
+    apply_set_data(set_data);
+    VecCopy((Vec *)&m_290, VecCopy((Vec *)&m_29c, &position));
+    motion_list = TObjEneMe1GiGue__data_805D6838->motions;
+    variant = 0;
+    add_flags_2e4(0x11);
+    state36C = *(s16 *)((s8 *)set_data + 0x3E);
+    load_params_from_table(variant);
+    action_table = gigue_enemy_param_table;
+    set_field_d8((saddr)action_table);
+    init_collision_body_parts(this, lbl_804E1304, 2);
+    bodies[1].flags &= ~1;
+    movementParameters = &lbl_804E12E8;
+    bind_enemy_combat_stats((u8 *)ene_me1_gigue_boss_id, (u8 *)lbl_805D682C, (u8 *)lbl_805D6830);
+    update_direction();
+    load_params();
+    requested_action = 0;
+    set_animation(requested_action);
+    set_field_b8(requested_action);
+    hp = hpmax;
+    tp = tpmax;
+    referenceHp = hp;
+    update_prev_position();
+    initialize_enemy_photon_effect(this);
+    m_38c = 0;
+    scale.x = 1.0f;
+    m_3e4 = ((EnemyMoveParams *)movementParameters)->min_distance * scale.x;
+    VecCopy(&home_position, &position);
+    VecCopy(&m_390, &position);
+    m_440 = 0.5f + parameters[3];
+    m_444 = 0.5f + parameters[4];
+    m_43c = 150.0f + parameters[2];
+    if (m_43c < 0.0f) {
+        m_43c = 0.0f;
     }
-    if ((s32)self->parameters[0] >= 1) {
-        self->m_388 |= 0x40000;
-        if (self->parameters[1] < 1.0f) {
-            self->parameters[1] = 50.0f;
+    if ((s32)parameters[0] >= 1) {
+        m_388 |= 0x40000;
+        if (parameters[1] < 1.0f) {
+            parameters[1] = 50.0f;
         }
-        self->set_flags_30();
+        set_flags_30();
     }
-    self->m_3f4 = 0;
-    self->m_3f8 = 0;
-    self->set_param(0x37);
-    self->m_3e8 = 0.0f;
-    self->m_448 = 0;
-    if (self->m_388 & 0x40000) {
-        self->init_move();
+    m_3f4 = 0;
+    m_3f8 = 0;
+    set_param(0x37);
+    m_3e8 = 0.0f;
+    m_448 = 0;
+    if (m_388 & 0x40000) {
+        init_move();
     } else {
-        self->sub_800C7860();
+        sub_800C7860();
     }
-    project_actor_to_ground(self, &self->position, 0);
-    self->m_3ec = 0.0f;
-    self->m_418.activate_and_dispatch();
-    obj_setFlags30(self, 0x01000000);
-    VecCopy(&self->prev_position, &self->position);
-    self->clear_lobby_object_state();
-    return self;
+    project_actor_to_ground(this, &position, 0);
+    m_3ec = 0.0f;
+    m_418.activate_and_dispatch();
+    obj_setFlags30(this, 0x01000000);
+    VecCopy(&prev_position, &position);
+    clear_lobby_object_state();
 }
 
-TObjEneMe1GiGue *deleting_dtor__15TObjEneMe1GiGueFPvs(TObjEneMe1GiGue *self, s16 del) {
-    if (self != NULL) {
-        *(void **)((s8 *)self + 0x18) = lbl_804E135C;
-        free_collision_body_parts(self);
-        __dt__15RenderFadeStateFv(&self->m_418, -1);
-        __dt__13TUnk_80494938Fv(&self->m_3fc, -1);
-        __dt__15TObjEnemyCustomFv(self, 0);
-        if (del > 0) {
-            TObject::operator delete(self);
-        }
-    }
-    return self;
+TObjEneMe1GiGue::~TObjEneMe1GiGue() {
+    free_collision_body_parts(this);
 }
 
 void TObjEneMe1GiGue::load_resources() {
@@ -423,17 +297,8 @@ void TObjEneMe1GiGue::delete_barrier() {
 }
 
 void *TObjEneMe1GiGue::create(void *set_data) {
-    void *o;
-    void *o2;
-    o = TObject::operator new(0x20);
-    if (o != NULL) {
-        o = __ct__11TObjControlFP7TObject(o, tl_04);
-    }
-    o2 = TObject::operator new(0x458);
-    if (o2 != NULL) {
-        o2 = TObjEneMe1GiGue__ct((TObjEneMe1GiGue *)o2, (TObject *)o, set_data);
-    }
-    return o2;
+    TObjControl *parent = new TObjControl(tl_04);
+    return new TObjEneMe1GiGue(parent, set_data);
 }
 
 void TObjEneMe1GiGue::run_task() {

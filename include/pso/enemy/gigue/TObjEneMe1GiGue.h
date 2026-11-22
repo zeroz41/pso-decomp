@@ -17,6 +17,7 @@ struct GiGueParameters {
 class TObjChara;
 
 struct TObjEneMe1GiGue : public TObjEnemyCustom {
+    TObjEneMe1GiGue(TObject *parent, void *set_data);
     virtual ~TObjEneMe1GiGue();
     void move_around_center(void *, f32);
     void sub_802CACD8();
