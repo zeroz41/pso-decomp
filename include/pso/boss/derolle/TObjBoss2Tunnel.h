@@ -129,8 +129,8 @@ struct TObjBoss2Tunnel : public TObject {
     // step or speed to its z, so they outlive the emitter (TObjBoss2Tunnel_8003B1FC.cpp).
     static void detach_children(TParticleCtrl *particle, const Vec *offset);
     static void release_children(TParticleCtrl *particle, f32 speed);
-    // release_children with the full -5.0f drift (TObjBoss2RaftSplash.cpp).
-    static void sub_8003B1D8(TParticleCtrl *particle);
+    // release_children with the -5.0f drift, for the boss splash emitters (TObjBoss2RaftSplash.cpp).
+    static void release_splash_children(TParticleCtrl *particle);
     // Creates TObjBoss2Tunnel_parent_object under tl_07 (TObjBoss2Tunnel_8003B1FC.cpp).
     static void create_parent_object();
     // Empty; called by TLobby::init_boss2_stage.
@@ -141,8 +141,9 @@ struct TObjBoss2Tunnel : public TObject {
     static void set_global_flag_100();
     // Draws n vertices as a triangle strip, dividing x and y by -z.
     static void draw_projected_quads(ProjectedVertex *vertices, s32 n);
-    // Loads the screen-space matrix and the vertex state for draw_projected_quads.
-    static void sub_803E2D10(s32 mode);
+    // Loads the screen-space matrix and the colour vertex state for draw_projected_quads,
+    // blended when mode != 0.
+    static void setup_projected_color_draw(s32 mode);
 };
 
 LAYOUT_ASSERT(TObjBoss2Tunnel_size, sizeof(TObjBoss2Tunnel) == 0xDC);

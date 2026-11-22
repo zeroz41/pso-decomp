@@ -123,7 +123,7 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     void state_ceiling_attack(u32 reason);
     void spawn_ceil_junk(Vec *pos);
     void update_particle_ctrls();
-    void sub_80033A80(TParticleCtrl *ctrl);
+    void release_splash_particles(TParticleCtrl *ctrl);
     void update_projectile_spawns();
     void sub_800338BC();
     void update_pulsing_colors();

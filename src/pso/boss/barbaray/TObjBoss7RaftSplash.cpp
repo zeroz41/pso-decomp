@@ -50,7 +50,7 @@ void TObjBoss7Tunnel::create_particle(const void *position, s32 particle_index) 
 }
 
 // The particle helpers below share this TU's .sdata2 pool: -5.0f (0x805DEC90) is used by
-// TObjBoss7Tunnel::create_particle and TObjBoss7Tunnel::sub_802F18E8, and the .text runs on without a pool of its own.
+// TObjBoss7Tunnel::create_particle and TObjBoss7Tunnel::release_splash_children, and the .text runs on without a pool of its own.
 
 void TObjBoss7RaftSplash::spawn_splash(const Vec *position, s32 particle_index, const Vec *offset) {
     TParticleCtrl *particle;
@@ -78,6 +78,6 @@ void TObjBoss7Tunnel::create_particle_effect(const void *position, s32 particle_
     }
 }
 
-void TObjBoss7Tunnel::sub_802F18E8(TParticleCtrl *particle) {
+void TObjBoss7Tunnel::release_splash_children(TParticleCtrl *particle) {
     release_children(particle, -5.0f);
 }

@@ -1590,15 +1590,15 @@ void TBoss2DeRolLe::update_particle_ctrls() {
             splash_joint = 0;
         }
         for (n = 0; n < 6; n++) {
-            sub_80033A80(splash_ctrls[n]);
+            release_splash_particles(splash_ctrls[n]);
         }
     }
 }
 
 #pragma pop
 
-void TBoss2DeRolLe::sub_80033A80(TParticleCtrl *ctrl) {
-    TObjBoss2Tunnel::sub_8003B1D8(ctrl);
+void TBoss2DeRolLe::release_splash_particles(TParticleCtrl *ctrl) {
+    TObjBoss2Tunnel::release_splash_children(ctrl);
 }
 
 void TBoss2DeRolLe::spawn_ceil_junk(Vec *pos) {

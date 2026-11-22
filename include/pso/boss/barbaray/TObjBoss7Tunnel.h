@@ -55,10 +55,10 @@ public:
     static void create_parent_object();
     // Twin of TObjBoss2Tunnel::create_particle_effect (TObjBoss7RaftSplash.cpp).
     static void create_particle_effect(const void *position, s32 particle_index, f32 speed);
-    // Twins of TObjBoss2CeilJunk::create_particle and TObjBoss2Tunnel::sub_8003B1D8: the
+    // Twins of TObjBoss2CeilJunk::create_particle and TObjBoss2Tunnel::release_splash_children: the
     // same with speed -5.
     static void create_particle(const void *position, s32 particle_index);
-    static void sub_802F18E8(TParticleCtrl *particle);
+    static void release_splash_children(TParticleCtrl *particle);
     // Clears boss2_tunnel_state_flags (init_scene_boss2_tunnel).
     static void clear_state_flags();
     // Creates the tunnel under tl_04 (fn_802F1084).

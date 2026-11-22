@@ -44,7 +44,7 @@ void TObjBoss2Tunnel::draw_projected_quads(ProjectedVertex *p, s32 n) {
 }
 #pragma pop
 
-void TObjBoss2Tunnel::sub_803E2D10(s32 mode) {
+void TObjBoss2Tunnel::setup_projected_color_draw(s32 mode) {
     TObjPlayer::load_screen_space_matrix();
     if (mode != 0) {
         TObjPlayer__sub_803E21DC();

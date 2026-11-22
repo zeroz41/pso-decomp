@@ -16,6 +16,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_8036EF0C.h"
 #include "pso/ui/window/TWindowSnapShot.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/player/TObjPlayer.h"
@@ -135,7 +136,6 @@ saddr lbl_805D49A4;
 saddr player_matrix_stack_buffer;
 saddr keyboard_input_buffer;
 extern "C" {
-void TObjBoss2Tunnel__sub_8036EF4C(void);
 void TObjPlayer__sub_801D92A4(void);
 void fn_800FFE0C(void);
 void TWindowSnapShot__sub_802A7DA0(void);
@@ -172,7 +172,7 @@ void shutdown_and_reset_system(void) {
     TLobby::shutdown_buffers();
     release_all__23TAdSinglePlyChrSelectGCFv();
     TWindowSubStatusDisp__sub_803386F0();
-    TObjBoss2Tunnel__sub_8036EF4C();
+    reset_display_copy_filter();
     TLobby__sub_80147978();
     xfree((void*)lbl_805D49A0);
     xfree((void*)lbl_805D49A4);

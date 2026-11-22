@@ -24,7 +24,6 @@
 #include "pso/unk/TLobby.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/boss/dragon/TBoss1DragonColli.h"
-#include "pso/boss/barbaray/TBoss7Crawfish_8030908C.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"

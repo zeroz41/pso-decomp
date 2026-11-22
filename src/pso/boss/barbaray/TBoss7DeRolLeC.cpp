@@ -99,7 +99,6 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 
 #include "pso/boss/barbaray/TBoss7Crawfish.h"
 
-#include "pso/boss/barbaray/TBoss7Crawfish_8030908C.h"
 
 
 #include "pso/system/task/TObject.h"
@@ -115,6 +114,8 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 #include "pso/math/AngleLookup.h"
 
 #include "pso/unk/text_80087278.h"
+#include "pso/unk/text_80086E28.h"
+#include "pso/camera/TCameraCtrl_803D749C.h"
 
 #include "pso/unk/text_803D96A8.h"
 
@@ -476,34 +477,24 @@ s32 particle_pos_index_table[3] = {0, 5, 9};
 
 f32 boss7_derolle_c_particle_limits[3] = {32.0f, 30.0f, 30.0f};
 
-
-
-
-
 extern "C" {
 
-
-
-
-// The set entry a crawfish spawned by De Rol Le C is built from (layout from
-// the stores below; position and rotation as TObjMotion reads them).
+// The set entry a crawfish spawned by De Rol Le C is built from. TObjEnemy::apply_set_data
+// reads set_index, entity_id, room, wave, position, rotation, parameters and variant from
+// it; kind sits where TBoss4DarkFalzSetEntry has it.
 struct Boss7CrawfishSetData {
     s16 set_index;
-    s16 unk_02;
+    s16 kind;
     s16 unk_04;
     u16 entity_id;
     s16 room;
-    s16 unk_0A;
+    s16 wave;
     s16 unk_0C;
     s16 unk_0E;
     Vec position;
     Boss7Angles rotation;
-    f32 unk_28;
-    f32 unk_2C;
-    f32 unk_30;
-    f32 unk_34;
-    f32 unk_38;
-    s16 unk_3C;
+    f32 parameters[5];
+    s16 variant;
     s16 unk_3E;
 };
 
@@ -520,74 +511,9 @@ static inline void add_crawfish_slot_base(CrawfishSlotOffset &offset) {
 
 #pragma pop
 
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-void get_current_matrix(void *m);
-struct ByteBlock_14 { u8 bytes[0x14]; };
-
-
-
-
-
-
-
-
-struct Body_802E8B50 { u8 pad[8]; s32 flags; };
-
-struct Fish_802E8B50 {
-    u8 pad0[0x30];
-    s32 f30;
-    u8 pad34[0x38 - 0x34];
-    Vec pos;
-    u8 pad44[0x5C - 0x44];
-    s32 f5C;
-    u8 pad60[0x5F8 - 0x60];
-    void *kids[10];
-    u8 pad620[0x624 - 0x620];
-    Body_802E8B50 *body;
-    s32 flags;
-    u8 pad62C[0x6C0 - 0x62C];
-    s32 dir;
-    u8 pad6C4[0x6DC - 0x6C4];
-    void *tent[4];
-    f32 f6EC_pad;
-    f32 f6F0;
-    u8 pad6F4[0x6FC - 0x6F4];
-    s32 f6FC;
-    u8 pad700[0x728 - 0x700];
-    s32 phase;
-    s32 timer;
-    u8 pad730[0x73C - 0x730];
-    s32 f73C;
-    u8 pad740[0x7A4 - 0x740];
-    void *nodes;
-    u8 pad7A8[0x7B0 - 0x7A8];
-    s32 f7B0;
-    u8 f7B4[4];
-};
-
-
-
-
-void *create_particle_controller_with_angles(void *arg0, void *arg1, s32 arg2, s32 arg3, u16 arg4);
 extern "C" {
 extern f32 lbl_804FF5E8[];
 }
-
-void calc_laser_ray_hit_point(u8 *laser, u8 *arg1);
-
-
-
-
-
-void compose_motion_node_matrix(void *arg0);
-
-s32 TBoss7Joint_get_shell_max_hp(void);
-
-
-#pragma pop
 
 NJS_OBJECT boss7_derolle_light_pool[11];
 
@@ -873,20 +799,18 @@ TBoss7DeRolLeC::~TBoss7DeRolLeC() {
 }
 
 void TBoss7DeRolLeC::run_task() {
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    s32 temp_r30;
-    s32 temp_r3;
+    s32 teammate_state;
+    s32 flags;
     TObjPlayer__sub_802ED984();
-    temp_r3 = this->state_flags;
-    if (temp_r3 & 0x8000) {
+    flags = this->state_flags;
+    if (flags & 0x8000) {
         this->send_entity_set_flags();
         queue_destruction();
         return;
     }
-    if (temp_r3 & 0x80) {
-        this->state_flags = (s32) (temp_r3 & 0xFFFFFF7F);
-        this->state_flags = (s32) (this->state_flags | 0x40);
+    if (flags & 0x80) {
+        this->state_flags = flags & ~0x80;
+        this->state_flags |= 0x40;
         {
             void *p = (void *)TObject::operator new(0x3C);
             if (p != NULL) {
@@ -915,18 +839,17 @@ void TBoss7DeRolLeC::run_task() {
             break;
         }
     }
-    temp_r30 = TObjEneDD::query_teammate_state();
+    teammate_state = TObjEneDD::query_teammate_state();
     this->update_attack_stat_status();
     this->update_defense_stat_status();
-    if (temp_r30 == 0) {
+    if (teammate_state == 0) {
         if ((this->mode == 0x1C) || (this->mode == 0x1D) || (this->mode == 0x1B)) {
-            this->actorFlags = (s32) (this->actorFlags | 0x800);
+            this->actorFlags |= 0x800;
         } else {
-            this->actorFlags = (s32) (this->actorFlags & 0xFFFFF7FF);
+            this->actorFlags &= ~0x800;
         }
-        temp_r0_3 = this->run_mode;
-        if (temp_r0_3 != 1) {
-            if (temp_r0_3 == 2) {
+        if (this->run_mode != 1) {
+            if (this->run_mode == 2) {
                 if (is_ready() != 0) {
                     this->start_death_sequence();
                 } else {
@@ -953,7 +876,7 @@ void TBoss7DeRolLeC::run_task() {
     sync_position_vectors();
     this->flee_if_disturbed();
     update_particle_ctrls();
-    if (temp_r30 == 0) {
+    if (teammate_state == 0) {
         this->part_group.run_tasks();
     }
     if (this->node_recorder != 0) {
@@ -1587,13 +1510,13 @@ void TBoss7DeRolLeC::update_particle_ctrls() {
             splash_joint = 0;
         }
         for (m = 0; m < 6; m++) {
-            sub_802EC52C(splash_ctrls[m]);
+            release_splash_particles(splash_ctrls[m]);
         }
     }
 }
 #pragma pop
-void TBoss7DeRolLeC::sub_802EC52C(TParticleCtrl *ctrl) {
-    TObjBoss7Tunnel::sub_802F18E8(ctrl);
+void TBoss7DeRolLeC::release_splash_particles(TParticleCtrl *ctrl) {
+    TObjBoss7Tunnel::release_splash_children(ctrl);
 }
 
 void TBoss7DeRolLeC::spawn_particle_201(Vec *pos) {
@@ -3865,25 +3788,25 @@ void TBoss7DeRolLeC::spawn_crawfish_child(s16 slot, const Vec *position, Boss7An
             }
         }
         set.set_index = set_index + offset.value;
-        set.unk_02 = 1;
+        set.kind = 1;
         set.unk_04 = 0;
         set.entity_id = id;
         set.room = room;
-        set.unk_0A = 0;
+        set.wave = 0;
         set.unk_0C = 0;
         set.unk_0E = 0;
         VecCopy(&set.position, position);
         copy_xyz(&set.rotation, angle);
         if (flags & 1) {
-            set.unk_28 = 0.0f;
+            set.parameters[0] = 0.0f;
         } else {
-            set.unk_28 = 1.0f;
+            set.parameters[0] = 1.0f;
         }
-        set.unk_2C = 0.0f;
-        set.unk_30 = 0.0f;
-        set.unk_34 = 0.0f;
-        set.unk_38 = 0.0f;
-        set.unk_3C = 0;
+        set.parameters[1] = 0.0f;
+        set.parameters[2] = 0.0f;
+        set.parameters[3] = 0.0f;
+        set.parameters[4] = 0.0f;
+        set.variant = 0;
         set.unk_3E = 0;
         new TBoss7Crawfish((TObject *)crawfish_parent, &set);
     }
@@ -3949,7 +3872,7 @@ void TBoss7DeRolLeC::render_shadows() {
         this->TObjEnemy::render_shadows();
     }
 }
-void TBoss7DeRolLeC::set_flag_800() { *(u32*)((char*)this + 0x628) |= 0x800; }
+void TBoss7DeRolLeC::set_flag_800() { state_flags |= 0x800; }
 void TBoss7DeRolLeC::calc_joint_positions() {
     Vec v;
     Vec *out;

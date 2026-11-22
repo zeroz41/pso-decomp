@@ -195,7 +195,7 @@ void TLobby__sub_80338534(void) {
     TCameraCtrl::restore_full_screen_view();
     set_default_alpha_blend();
     TParticleCtrl::begin_effect_render();
-    TObjBoss2Tunnel::sub_803E2D10(1);
+    TObjBoss2Tunnel::setup_projected_color_draw(1);
     TObjBoss2Tunnel::draw_projected_quads(t->a, 4);
     TObjBoss2Tunnel::reset_player_state();
     if ((u32)info_icon_texture != 0) {

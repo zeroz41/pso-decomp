@@ -118,7 +118,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     void sub_802EC32C();
     void reload_stats_for_phase(s32 phase);
     void update_particle_ctrls();
-    void sub_802EC52C(TParticleCtrl *ctrl);
+    void release_splash_particles(TParticleCtrl *ctrl);
     // The ten joints' model nodes: save_joint_polygons keeps their polygon lists, hide_joint_polygons
     // clears one joint's pair while it draws, restore_joint_polygons puts them back.
     void save_joint_polygons();

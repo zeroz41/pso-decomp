@@ -29,10 +29,6 @@ struct TUnk_80036250 {
     f32 brake_point;    // `travelled` at which it starts slowing down
 };
 
-// The constructors of TBoss2DeRolLe and TBoss7DeRolLeC are not real C++ yet and
-// construct their members by calling this one through its linkage name.
-extern "C" TUnk_80036250 *__ct__13TUnk_80036250Fv(void *self);
-
 LAYOUT_ASSERT(TUnk_80036250_size, sizeof(TUnk_80036250) == 0x20);
 
 #endif

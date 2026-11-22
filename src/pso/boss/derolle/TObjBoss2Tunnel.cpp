@@ -742,7 +742,7 @@ void draw_snapshot_capture_overlay(void) {
     v[2].y = snapshot_frame_center.y - 96.0f;
     v[3].x = 640.0f;
     v[3].y = snapshot_frame_center.y - 96.0f;
-    TObjBoss2Tunnel::sub_803E2D10(1);
+    TObjBoss2Tunnel::setup_projected_color_draw(1);
     TObjBoss2Tunnel::draw_projected_quads(v, 4);
     TObjBoss2Tunnel::reset_player_state();
     v[0].x = 0.0f;
@@ -753,7 +753,7 @@ void draw_snapshot_capture_overlay(void) {
     v[2].y = 480.0f;
     v[3].x = snapshot_frame_center.x - 128.0f;
     v[3].y = 480.0f;
-    TObjBoss2Tunnel::sub_803E2D10(1);
+    TObjBoss2Tunnel::setup_projected_color_draw(1);
     TObjBoss2Tunnel::draw_projected_quads(v, 4);
     TObjBoss2Tunnel::reset_player_state();
     v[0].x = 128.0f + snapshot_frame_center.x;
@@ -764,7 +764,7 @@ void draw_snapshot_capture_overlay(void) {
     v[2].y = 96.0f + snapshot_frame_center.y;
     v[3].x = 640.0f;
     v[3].y = 96.0f + snapshot_frame_center.y;
-    TObjBoss2Tunnel::sub_803E2D10(1);
+    TObjBoss2Tunnel::setup_projected_color_draw(1);
     TObjBoss2Tunnel::draw_projected_quads(v, 4);
     TObjBoss2Tunnel::reset_player_state();
     v[0].x = snapshot_frame_center.x - 128.0f;
@@ -775,7 +775,7 @@ void draw_snapshot_capture_overlay(void) {
     v[2].y = 480.0f;
     v[3].x = 640.0f;
     v[3].y = 480.0f;
-    TObjBoss2Tunnel::sub_803E2D10(1);
+    TObjBoss2Tunnel::setup_projected_color_draw(1);
     TObjBoss2Tunnel::draw_projected_quads(v, 4);
     TObjBoss2Tunnel::reset_player_state();
     TObjFish::set_global_param(lbl_805D63F0);
