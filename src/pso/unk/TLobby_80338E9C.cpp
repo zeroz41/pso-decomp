@@ -21,10 +21,10 @@ void fn_80338D58(O_80338D58 *arg0, void *a1, void *a2, void *a3, void *a4, void 
 
 }
 
-// The class-name string TWindowMenuTeamStatus::vfunc_6 stores to m_name.
+// The class-name string TWindowMenuTeamStatus::init stores to m_name.
 const char *TWindowMenuTeamStatus__name = "TWindowMenuTeamStatus";
 
-void TWindowMenuTeamStatus::vfunc_6(u32 count, s32 id) {
+void TWindowMenuTeamStatus::init(u32 count, s32 id) {
     s32 i;
     TWindowMenuTeamStatus::Entry *entry;
 

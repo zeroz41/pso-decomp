@@ -659,7 +659,7 @@ void TWindowMenuIconLine::draw_selected_list_entry(saddr window_key_board_soft) 
 }
 
 #define self ((u8 *)this)
-void TWindowMenuIconLine::vfunc_6(u32 arg1, s32 arg2) {
+void TWindowMenuIconLine::init(u32 arg1, s32 arg2) {
     u32 i;
     u8 *e;
     *(const char **)self = TWindowMenuIconLine__name;
@@ -769,11 +769,11 @@ TWindowMenuIconLine::~TWindowMenuIconLine() {
 // The descriptor-taking form; the window layout comes from the caller.
 TWindowMenuIconLine::TWindowMenuIconLine(u8 *parent, u32 count, s16 client, u8 *descriptor)
     : TWindowAddition(descriptor, client, parent) {
-    vfunc_6(count, client);
+    init(count, client);
 }
 
 // The default form: the list window descriptor of this unit.
 TWindowMenuIconLine::TWindowMenuIconLine(u8 *parent, u32 count, s16 client)
     : TWindowAddition((u8 *)&lbl_804D0604, client, parent) {
-    vfunc_6(count, client);
+    init(count, client);
 }

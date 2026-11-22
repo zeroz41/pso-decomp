@@ -3,7 +3,7 @@
 
 #include "pso/ui/window/TUnk_804D0948.h"
 
-// Named from the "TWindowMenuTeamStatus" class-name string vfunc_6 stores to m_name.
+// Named from the "TWindowMenuTeamStatus" class-name string init stores to m_name.
 class TWindowMenuTeamStatus : public TWindowShop {
 public:
     struct Entry {
@@ -13,7 +13,7 @@ public:
 
     TWindowMenuTeamStatus(s32 arg);
     virtual ~TWindowMenuTeamStatus();
-    virtual void vfunc_6(u32 count, s32 id);
+    virtual void init(u32 count, s32 id);
 };
 
 LAYOUT_ASSERT(TWindowMenuTeamStatus_size, sizeof(TWindowMenuTeamStatus) == 0x8C);
