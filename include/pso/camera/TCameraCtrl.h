@@ -226,8 +226,6 @@ extern f32 lbl_804FF5E8[10];
 void reset_cameras_to_actor(void *actor, s32 view_unused);
 
 extern "C" {
-// Nonzero when value is an infinity or a NaN.
-int is_float_nonfinite(f32 value);
 const CharacterSelectionRequest *get_character_select_request_buffer();
 int is_quest_active(void);
 // Nonzero when value is a NaN or an infinity.
