@@ -41,6 +41,7 @@ struct NJS_OBJECT;
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/camera/TCameraCtrl.h"
 #include "pso/object/TObjControl.h"
 #include "pso/player/TObjPlayer_80011014.h"
 
@@ -96,7 +97,6 @@ struct SlimeSavedState {
     u8 unknown8[4];
 };
 
-void transform_to_view__11TCameraCtrlFii(saddr, saddr);
 S_800E80E8 * TObjPlayer__sub_800E80E8(S_800E80E8 *dst, S_800E80E8 *src);
 s16 check_player_field_7cc__15TObjEneSlimeOneFv();
 void free_collision_body_parts(void *);
@@ -258,7 +258,6 @@ s32 spawn_slime_in_slot(TObjEneSlime *origin, s32 arg1, Vec *arg2, Vec *arg3);
 
 
 extern "C" {
-s32 set_global_param__8TObjFishFl();
 extern u32 model_render_flags;
 
 
@@ -1754,10 +1753,10 @@ void TObjEneSlimeTailAttack::draw_blob_shadows() {
 void TObjPlayer__sub_800E81A8(void) { lbl_805D52B4 = 0; }
 void TObjPlayer__sub_800E8128(NJS_OBJECT *) {
     if ((s32) (*(s32 *)&lbl_805D52B4) == 7) {
-        transform_to_view__11TCameraCtrlFii((saddr)&slime_tail_attack_zero_vec, (saddr) &lbl_80501010.value);
+        TCameraCtrl::transform_to_view((int)&slime_tail_attack_zero_vec, (int)&lbl_80501010.value);
     }
     if (((s32) (*(s32 *)&lbl_805D52B4) >= 4) && ((s32) (*(s32 *)&lbl_805D52B4) < 8)) {
-        transform_to_view__11TCameraCtrlFii((saddr)&slime_tail_attack_transform, (saddr) ((u8 *)&lbl_80501010.value + (((*(s32 *)&lbl_805D52B4) - 4) * 0xC) + 0xC));
+        TCameraCtrl::transform_to_view((int)&slime_tail_attack_transform, (int)((u8 *)&lbl_80501010.value + (((*(s32 *)&lbl_805D52B4) - 4) * 0xC) + 0xC));
     }
     (*(s32 *)&lbl_805D52B4) += 1;
 }
