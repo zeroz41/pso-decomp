@@ -45,8 +45,7 @@ u8 camera_override_flags;
 extern "C" void camera_renderer_setup_nop(void *, s32);
 extern "C" s32 check_flag_100__10TObjPlayerFPv(void *);
 
-// inferred: 0x18 bytes in the DOL and only the first vector is read; a pair like the (a, b) offsets that
-// request_follow_camera_offsets takes.
+// A pair like the (a, b) offsets request_follow_camera_offsets takes; only the first is read.
 Vec follow_camera_offset_default[2] = {
     { 0.0f, 25.43f, 45.42f },
     { 0.0f, 0.0f, 0.0f },

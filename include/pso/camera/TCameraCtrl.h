@@ -159,7 +159,7 @@ public:
     static s32 release_photon_blast_camera();
     void reset_view_flags();
     CameraParams *get_params();
-    // The eye and target of split-screen view `view` (inferred names).
+    // The eye and target of split-screen view `view`.
     Vec *get_split_pos(s32 view);
     Vec *get_split_tgt(s32 view);
     static void set_shake_preset(s32 preset);
