@@ -589,7 +589,7 @@ void TWindowSubStatusDisp::init_scroll_pos() {
         if (this->window_flags & 0x40) {
             this->target_size[1] += 6.0f;
         }
-        *(s32 *)((s8 *)this + 0x50) = 3;
+        this->tween_ticks = 3;
     }
 }
 
@@ -761,7 +761,7 @@ void TWindowMenuIconLine::run_task() {
 }
 
 TWindowMenuIconLine::~TWindowMenuIconLine() {
-    TWindowSubStatusDisp::destroy_allocation((saddr)(*(void **)((s8 *)this + 0x84)), (s16)1);
+    TWindowSubStatusDisp::destroy_allocation((saddr)this->scroll_bar, (s16)1);
     TWindowSubStatusDisp::destroy_status_display((saddr)this->status_display, (s16)1);
 }
 }

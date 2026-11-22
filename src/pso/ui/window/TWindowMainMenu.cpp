@@ -144,7 +144,7 @@ TWindowMainMenu::TWindowMainMenu(TObject *parent, s32 client) : TObject(parent) 
 TWindowMainMenu::~TWindowMainMenu() {
     TObjPlayer *player;
     if (*(s32 *)((s8 *)this + 0x4C) & 1) {
-        player = get_player_by_client_id(*(u32 *)((s8 *)this + 0x54));
+        player = get_player_by_client_id(this->client_index);
         if (player != 0) {
             player->init_parts();
         }
@@ -461,7 +461,7 @@ void TWindowMainMenu::update_description_text(s32 id) {
     }
 }
 
-void TWindowMainMenu::close_child_window() { if (*(unsigned int*)((char*)this + 0x24) != 0) { ((TWindowBase *)(*(void**)((char*)this + 0x24)))->close(); *(int*)((char*)this + 0x24) = 0; } }
+void TWindowMainMenu::close_child_window() { if (*(unsigned int*)((char*)this + 0x24) != 0) { ((TWindowBase *)this->help_window)->close(); *(int*)((char*)this + 0x24) = 0; } }
 
 void TWindowMainMenu::sub_80263FE0() {
     toggle_help_window_on_button(*(s32 *)((s8 *)this + 0x24), this->client_index);
@@ -533,7 +533,7 @@ s32 TWindowMainMenu::filter_menu_entry(s16 *arg1, s32 *arg2) {
 }
 
 void TWindowMainMenu::update_keyboard_card_state() {
-    if (test_keyboard_card_flag4((void *)(*(saddr *)((s8 *)this + 0x54))) != 0) {
+    if (test_keyboard_card_flag4((void *)this->client_index) != 0) {
         *(s16 *)((s8 *)this + 0x52) = 0;
         return;
     }

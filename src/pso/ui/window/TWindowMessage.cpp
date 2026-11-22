@@ -399,7 +399,7 @@ void TWindowMessage::run_task() {
 }
 
 TWindowMessage::~TWindowMessage() {
-    if (*(void **)((s8 *)this + 0x7C) != NULL) { mem_free(*(void **)((s8 *)this + 0x7C)); }
+    if (this->lines != NULL) { mem_free(this->lines); }
 }
 TWindowMessage::TWindowMessage(saddr parent, u32 rows, s32 client) : TWindowAddition((u8 *)&message_window_settings, (s16)client, (u8 *)parent) {
     u32 i;
