@@ -34,7 +34,7 @@ void TCameraDebugView::run_task() {
             projection_angle -= 0xB6;
         }
     }
-    VecCopy(&focus, &TCameraCtrl::get_target_position());
+    VecCopy(&focus, &(const Vec &)TCameraCtrl::get_target_position());
     set_target_pos(&focus);
     if (test_previous_buttons_packed(pad, 0x200) != 0) {
         if (test_previous_buttons_packed(pad, 0x10) != 0) {
