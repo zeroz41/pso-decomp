@@ -5,7 +5,6 @@
 #include "pso/unk/text_80223B98.h"
 #include "pso/ui/font/TFontSmallTask.h"
 
-extern s32 TLobby__data_805011D8[];
 extern s32 game_difficulty_selection;
 extern s32 lbl_805D6238;
 extern s32 shop_difficulty_tier;
@@ -18,7 +17,7 @@ void reset_shop_stock_and_params(void) {
     clear_shop_armor_flags();
     clear_shop_tool_flags();
     lbl_805D6244 = 0;
-    temp_r3 = ((TFontSmallTask *)TLobby__data_805011D8)->get_task_id();
+    temp_r3 = ((TFontSmallTask *)&TLobby__data_805011D8)->get_task_id();
     lbl_805D6238 = temp_r3;
     if (temp_r3 < 0) {
         lbl_805D6238 = 0;
