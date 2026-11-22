@@ -30,13 +30,14 @@ struct DragonModelNode {
 
 struct DragonEffectResource { saddr particle_ids[8]; };
 
+// The controller block init_control_mode points at (a ControllerInputContext of controller_input_state).
 struct DragonControllerInput {
-    u8 unk_0[0x8];
-    s32 flags;
-    u8 unk_C[0x1C - 0xC];
-    s32 angle;
-    u8 unk_20[0x4];
-    f32 m_24;
+    u8 pad_0[0x8];
+    s32 flags;  // the pressed buttons filter_input_flags masks
+    u8 pad_c[0x1C - 0xC];
+    s32 stick_angle;  // the heading the controlled walk and flight steer to
+    u8 pad_20[0x4];
+    f32 stick_magnitude;  // above 0.1 the controlled states start moving
 };
 
 struct DragonPositionKey { s32 frame; DragonModelVector value; };
@@ -102,20 +103,20 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     static void requestActionRefresh();
     u32 flags;
     TObject sub_tasks;
-    s32 m_3e0;
+    s32 lobby_state;  // from update_lobby_state: 0 runs the action sequence, 1 only animates, 2 re-sends reason 2
     s32 phase;
     Vec breath_node_points[3];  // dragon_capture_node_points writes them in render; breath_origin/direction come from them
     Vec breath_origin;  // the TBoss1DragonEffBreath and the fire bullets start here
     Vec breath_direction;  // breath_node_points[1] - [0], the breath's direction
     Vec breath_effect_position;
     Vec node_positions[0x22];
-    Vec m_5c8;
-    f32 m_5d4;
+    Vec target_vector;  // calc_target_vector: target - breath_origin in xz, normalized
+    f32 target_distance;  // its length before normalizing
     f32 height;
     f32 heightOffset;
     f32 defaultHeightOffset;
-    f32 m_5e4;
-    Vec m_5e8;
+    f32 pad_5e4;
+    Vec last_flight_direction;  // destination_direction when the flight state is left
     AccelerationCurve curve0;  // as TBoss8Dragon::curve0
     AccelerationCurve curve1;
     Vec sound_origin;  // as TBoss8Dragon::sound_origin
@@ -141,42 +142,42 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     f32 savedX;
     f32 savedZ;
     s32 sector_count;
-    s32 m_6a4;
+    s32 crater_count;  // craters spawn_impact_crater has placed (at most 12)
     f32 sector_radii[12];
     TObjBoss1MokoHill_SoloM *moko_hill; // the mound that follows the Dragon underground
-    s32 m_6dc;
-    s32 m_6e0;
+    s32 burrow_count;  // burrow runs so far; calc_burrow_speed grows with it
+    s32 lobby_state_locked;  // while set, run_task stops refreshing lobby_state
     DragonControllerInput *controller_input;
     RenderFadeState viewFade[4];
-    s32 m_758;
-    s32 m_75c;
-    s32 m_760;
+    s32 pad_758;
+    s32 pad_75c;
+    s32 player_controlled;  // init_control_mode: a player (target_client_id) steers the Dragon
     u16 target_client_id;
     u8 unk_766[0x2];
     s32 controlTimer;
     s32 facingAngle;
-    s32 m_770;
-    TUnk_80481B34 *m_774;
+    s32 attack_kind;  // the fire attacks' DragonAttackParams kind: 1, 0x13 in V2
+    TUnk_80481B34 *attack_collider;  // the V2 attacks place this sphere instead of TObjEneDD's effects
     DragonEffectResource* effectResource;
     u32 randomState[58];
     s32 stateStep;
     s32 impactAge;
     s32 action_frames;  // frames into the current action step (twin TBoss8Dragon::action_frames)
-    s32 m_870;
+    s32 demo_active;  // the flag TBoss1DragonDemo clears when the opening demo ends
     s32 action_angle;  // the heading the current action turns to
-    s32 m_878;
+    s32 action_spin;  // the spinning attack's heading; the dive's roll speed
     f32 fallVelocity;
     f32 rootHeight;
-    f32 m_884;
-    f32 m_888;
-    f32 m_88c;
+    f32 action_speed;  // the dive's ground speed, the spiral's radius, the emergence's rise
+    f32 vertical_speed;  // the dive's heightOffset speed
+    f32 root_height_speed;  // the dive's rootHeight speed
     Vec action_point;  // the current action's point or step
-    f32 m_89c;
-    f32 m_8a0;
-    f32 m_8a4;
-    s32 m_8a8;
+    f32 pad_89c;
+    f32 pad_8a0;
+    f32 pad_8a4;
+    s32 ground_impact_done;  // the dive has made its crater and ground impact
     TParticleCtrl *breath_particles[3];  // breath and fire particles kept at breath_effect_position / breath_origin
-    s32 m_8b8;
+    s32 lobby_state_changed;  // lobby_state became 0; the burrow states then move to the next action
     void wait_for_players(s32 arg1);
     void update_appearance_state(u32 reason);
     void update_wander_state(s32 arg1);
@@ -288,28 +289,28 @@ LAYOUT_ASSERT(DragonModelNodeChild, offsetof(DragonModelNode, child) == 0x2C);
 DRAGON_OFFSET(target_id, 0x38C);
 DRAGON_OFFSET(breath_origin, 0x40C);
 DRAGON_OFFSET(breath_effect_position, 0x424);
-DRAGON_OFFSET(m_870, 0x870);
+DRAGON_OFFSET(demo_active, 0x870);
 DRAGON_OFFSET(breath_particles, 0x8AC);
-DRAGON_OFFSET(m_884, 0x884);
+DRAGON_OFFSET(action_speed, 0x884);
 DRAGON_OFFSET(wall_reach, 0x37C);
-DRAGON_OFFSET(m_3e0, 0x3E0);
+DRAGON_OFFSET(lobby_state, 0x3E0);
 DRAGON_OFFSET(sound_origin, 0x63C);
-DRAGON_OFFSET(m_774, 0x774);
+DRAGON_OFFSET(attack_collider, 0x774);
 DRAGON_OFFSET(destination_direction, 0x3A0);
-DRAGON_OFFSET(m_8a8, 0x8A8);
-DRAGON_OFFSET(m_8b8, 0x8B8);
+DRAGON_OFFSET(ground_impact_done, 0x8A8);
+DRAGON_OFFSET(lobby_state_changed, 0x8B8);
 DRAGON_OFFSET(camera_target_raised, 0x654);
 DRAGON_OFFSET(attack_history, 0x688);
 DRAGON_OFFSET(sector_count, 0x6A0);
 DRAGON_OFFSET(sector_radii, 0x6A8);
 DRAGON_OFFSET(moko_hill, 0x6D8);
 DRAGON_OFFSET(controller_input, 0x6E4);
-DRAGON_OFFSET(m_760, 0x760);
+DRAGON_OFFSET(player_controlled, 0x760);
 DRAGON_OFFSET(target_client_id, 0x764);
 DRAGON_OFFSET(randomState, 0x77C);
 DRAGON_OFFSET(action_frames, 0x86C);
 DRAGON_OFFSET(action_angle, 0x874);
-DRAGON_OFFSET(m_878, 0x878);
+DRAGON_OFFSET(action_spin, 0x878);
 DRAGON_OFFSET(airTurnVelocity, 0x658);
 DRAGON_OFFSET(airTurnTime, 0x678);
 DRAGON_OFFSET(controlTimer, 0x768);

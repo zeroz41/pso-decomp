@@ -566,7 +566,7 @@ void TBoss1Dragon::calc_follow_camera_offsets(Vec *eye, Vec *target) {
         target->y += 10.0f;
         target->z += 10.0f;
     }
-    if (this->m_760 != 0 && this->target_client_id == local_client_id) {
+    if (this->player_controlled != 0 && this->target_client_id == local_client_id) {
         if (this->mode == 0xF) {
             VecCopy(eye, boss1_dragon_held_camera_positions + 3);
             limit = boss1_dragon_held_camera_targets + 3;
@@ -777,17 +777,17 @@ TBoss1Dragon::TBoss1Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     for (i = 0; i < 0x22; i++) {
         VecCopy(&this->node_positions[i], &this->position);
     }
-    this->m_5c8.x = (0.0f);
-    this->m_5c8.y = (0.0f);
-    this->m_5c8.z = (0.0f);
-    this->m_5d4 = (0.0f);
+    this->target_vector.x = (0.0f);
+    this->target_vector.y = (0.0f);
+    this->target_vector.z = (0.0f);
+    this->target_distance = (0.0f);
     this->height = (0.0f);
     this->defaultHeightOffset = (0.0f);
     this->heightOffset = this->defaultHeightOffset;
-    this->m_5e4 = (0.0f);
-    this->m_5e8.x = (0.0f);
-    this->m_5e8.y = (0.0f);
-    this->m_5e8.z = (0.0f);
+    this->pad_5e4 = (0.0f);
+    this->last_flight_direction.x = (0.0f);
+    this->last_flight_direction.y = (0.0f);
+    this->last_flight_direction.z = (0.0f);
     this->curve0.reset_coords();
     this->curve1.reset_coords();
     VecCopy(&this->sound_origin, &this->position);
@@ -811,28 +811,28 @@ TBoss1Dragon::TBoss1Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     this->savedX = (0.0f);
     this->savedZ = (0.0f);
     this->sector_count = 0;
-    this->m_6a4 = 0;
+    this->crater_count = 0;
     for (i = 0; i < 12; i++) {
         this->sector_radii[i] = (0.0f);
     }
     this->moko_hill = new TObjBoss1MokoHill_SoloM(tl_05, &this->position, &this->rotation_y);
-    this->m_6dc = 0;
+    this->burrow_count = 0;
     for (j = 0; j < 4; j++) {
         this->viewFade[j].activate_and_dispatch();
     }
-    this->m_758 = 0;
-    this->m_75c = 0xA8C;
-    this->m_760 = 0;
+    this->pad_758 = 0;
+    this->pad_75c = 0xA8C;
+    this->player_controlled = 0;
     this->target_client_id = 0xFFFF;
     this->controlTimer = 0;
     this->facingAngle = 0;
     switch (TBoss1Dragon::isV2Mode()) {
     case 0:
-        this->m_770 = 1;
+        this->attack_kind = 1;
         this->effectResource = (DragonEffectResource *)boss1_dragon_normal_action_table;
         break;
     case 1:
-        this->m_770 = 0x13;
+        this->attack_kind = 0x13;
         this->effectResource = (DragonEffectResource *)boss1_dragon_normal_particle_table;
         break;
     }
@@ -840,53 +840,53 @@ TBoss1Dragon::TBoss1Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     if (p != 0) {
         p = ((void *(*)(void *, s32, void *))init_base__13TUnk_80481B34Fv)(p, 0, this);
     }
-    this->m_774 = (TUnk_80481B34 *)p;
+    this->attack_collider = (TUnk_80481B34 *)p;
     this->stateStep = 0;
     this->impactAge = 0;
     this->action_frames = 0;
-    this->m_870 = 0;
+    this->demo_active = 0;
     this->action_angle = 0;
-    this->m_878 = 0;
+    this->action_spin = 0;
     this->fallVelocity = (0.0f);
     this->rootHeight = (0.0f);
-    this->m_884 = (0.0f);
-    this->m_888 = (0.0f);
-    this->m_88c = (0.0f);
+    this->action_speed = (0.0f);
+    this->vertical_speed = (0.0f);
+    this->root_height_speed = (0.0f);
     this->action_point.x = (0.0f);
     this->action_point.y = (0.0f);
     this->action_point.z = (0.0f);
-    this->m_89c = (0.0f);
-    this->m_8a0 = (0.0f);
-    this->m_8a4 = (0.0f);
-    this->m_8a8 = 0;
+    this->pad_89c = (0.0f);
+    this->pad_8a0 = (0.0f);
+    this->pad_8a4 = (0.0f);
+    this->ground_impact_done = 0;
     this->breath_particles[0] = 0;
     this->breath_particles[1] = 0;
     this->breath_particles[2] = 0;
     this->controller_input = (DragonControllerInput *)(controller_input_state + 0xC0);
-    this->m_6e0 = 0;
+    this->lobby_state_locked = 0;
     this->mode = 0;
     if (TObjEneDD::is_main_phase_15() != 0) {
         if (this->update_lobby_state() != 0) {
-            this->m_3e0 = 0;
+            this->lobby_state = 0;
         } else {
-            this->m_3e0 = 1;
+            this->lobby_state = 1;
         }
     } else {
-        this->m_3e0 = 0;
+        this->lobby_state = 0;
     }
     this->restart_primary_sequence();
     this->mode = 0x1D;
     if (!(this->flags & 0x40)) {
         this->dispatch_action(this->mode, 4);
     }
-    this->m_8b8 = 0;
+    this->lobby_state_changed = 0;
 }
 
 #pragma pop
 TBoss1Dragon::~TBoss1Dragon() {
-    if (this->m_774 != 0) {
-        delete this->m_774;
-        this->m_774 = 0;
+    if (this->attack_collider != 0) {
+        delete this->attack_collider;
+        this->attack_collider = 0;
     }
     if (this->moko_hill != 0) {
         this->moko_hill->queue_destruction();
@@ -913,14 +913,10 @@ TBoss1Dragon::~TBoss1Dragon() {
 #pragma push
 #pragma fp_contract on
 void TBoss1Dragon::run_task() {
-    s16 temp_r0;
-    s16 temp_r3;
-    s16 temp_r3_2;
-    s16 temp_r3_3;
-    s16 temp_r3_4;
-    s32 temp_r0_2;
-    s32 temp_r30;
-    s32 temp_r30_2;
+    s16 mode;
+    s32 state;
+    s32 old_state;
+    s32 teammate_state;
     if (TObjPlayer::check_demo_mode() != 0) {
         this->run_demo_task();
         return;
@@ -930,31 +926,31 @@ void TBoss1Dragon::run_task() {
         this->queue_destruction();
         return;
     }
-    if ((s32) this->m_760 != 0) {
+    if ((s32) this->player_controlled != 0) {
         this->hold_captured_player();
         this->controlTimer = (s32) (this->controlTimer + 1);
-    } else if ((TObjEneDD::is_main_phase_15() != 0) && ((s32) this->m_6e0 == 0)) {
-        temp_r30 = this->m_3e0;
+    } else if ((TObjEneDD::is_main_phase_15() != 0) && ((s32) this->lobby_state_locked == 0)) {
+        old_state = this->lobby_state;
         if (this->update_lobby_state() != 0) {
-            this->m_3e0 = 0;
-            if ((s32) this->m_3e0 != temp_r30) {
-                this->m_8b8 = 1;
+            this->lobby_state = 0;
+            if ((s32) this->lobby_state != old_state) {
+                this->lobby_state_changed = 1;
             }
         } else {
-            this->m_3e0 = 1;
+            this->lobby_state = 1;
         }
     }
-    temp_r30_2 = TObjEneDD::query_teammate_state();
+    teammate_state = TObjEneDD::query_teammate_state();
     this->update_attack_stat_status();
     this->update_defense_stat_status();
-    if (temp_r30_2 == 0) {
-        temp_r0 = this->mode;
-        if ((temp_r0 == 0x15) || (temp_r0 == 0x16)) {
+    if (teammate_state == 0) {
+        mode = this->mode;
+        if ((mode == 0x15) || (mode == 0x16)) {
             this->actorFlags = (s32) (this->actorFlags | 0x800);
         } else {
             this->actorFlags = (s32) (this->actorFlags & 0xFFFFF7FF);
         }
-        if ((s32) this->m_760 != 0) {
+        if ((s32) this->player_controlled != 0) {
             if ((s32) this->target_client_id == (s32) local_client_id) {
                 if ((this->test_flag30_512() != 0) && (this->is_primary_sequence() != 0)) {
                     ;
@@ -984,9 +980,9 @@ void TBoss1Dragon::run_task() {
                 this->dispatch_action(this->mode, 0);
             }
         } else {
-            temp_r0_2 = this->m_3e0;
-            if (temp_r0_2 != 1) {
-                if (temp_r0_2 == 2) {
+            state = this->lobby_state;
+            if (state != 1) {
+                if (state == 2) {
                     this->dispatch_action(this->mode, 2);
                 } else {
                     if ((this->test_flag30_512() != 0) && (this->is_primary_sequence() != 0)) {
@@ -1018,7 +1014,7 @@ void TBoss1Dragon::run_task() {
     this->submit_default_cursor_candidate();
     add_radar_scaled_marker(&this->position, -0x5DB4, 1, 1, (f32) (((2.0f))));
     VecCopy(&this->last_body_center, &this->body_center);
-    if (temp_r30_2 == 0) {
+    if (teammate_state == 0) {
         this->sub_tasks.run_tasks();
     }
     project_sound_origin_from_camera((saddr)&this->position, (u8 *)&this->sound_origin, 0.4f);
@@ -1055,7 +1051,7 @@ block_12:
             this->dispatch_action(this->mode, 2);
             return;
         }
-        if ((s32) this->m_760 != 0) {
+        if ((s32) this->player_controlled != 0) {
             this->dispatch_action(this->mode, 0xB);
             return;
         }
@@ -1146,11 +1142,11 @@ void TBoss1Dragon::calc_target_vector() {
     f32 temp_f2;
 
     temp_f2 = this->destination.x;
-    this->m_5c8.x = (f32) (temp_f2 - this->breath_origin.x);
-    this->m_5c8.y = (f32) (0.0f);
+    this->target_vector.x = (f32) (temp_f2 - this->breath_origin.x);
+    this->target_vector.y = (f32) (0.0f);
     temp_f1 = this->destination.z;
-    this->m_5c8.z = (f32) (temp_f1 - this->breath_origin.z);
-    this->m_5d4 = normalize_vector_xz(&this->m_5c8);
+    this->target_vector.z = (f32) (temp_f1 - this->breath_origin.z);
+    this->target_distance = normalize_vector_xz(&this->target_vector);
 }
 
 #pragma push
@@ -1632,7 +1628,7 @@ void TBoss1Dragon::next_sequence_action() {
 }
 
 void TBoss1Dragon::remap_sequence_after_recovery() {
-    if ((s32) this->m_760 != 0) {
+    if ((s32) this->player_controlled != 0) {
         next_sequence_action();
         return;
     }
@@ -1680,17 +1676,17 @@ s32 TBoss1Dragon::check_phase_advance() {
 #pragma push
 #pragma fp_contract on
 f32 TBoss1Dragon::calc_burrow_speed() {
-    return ((4.0f) * (f32) this->m_6dc) + (4.0f);
+    return ((4.0f) * (f32) this->burrow_count) + (4.0f);
 }
 
 void TBoss1Dragon::spawn_impact_crater(Vec *pos) {
     Vec position;
     s32 temp_r5;
     VecCopy(&position, pos);
-    temp_r5 = this->m_6a4;
+    temp_r5 = this->crater_count;
     if (temp_r5 < 0xC) {
         position.y += 0.05f * (f32) temp_r5;
-        this->m_6a4 = (temp_r5 + 1);
+        this->crater_count = (temp_r5 + 1);
         TObjBoss1Crater::create(tl_02, &position);
     }
     spawn_particle_effect_with_flags(&position, this->effectResource->particle_ids[0], 0x840);
@@ -1930,7 +1926,7 @@ void TBoss1Dragon::deliver_breath_attack(saddr position, s32 attack_history) {
     CopyStack_80027710 copy_storage_80027710;
     *(ByteBlock_14 *)(copy_storage_80027710.bytes) = *(const ByteBlock_14 *)((saddr) ((u8 *)((void *)((u8 *)&dragon_fireball_attack_params + -4))) + 4);
     (*(f32 *)(copy_storage_80027710.bytes + 0x4)) = boss1_dragon_behavior_params[0]->breath_attack_power;
-    (*(s32 *)copy_storage_80027710.bytes) = this->m_770;
+    (*(s32 *)copy_storage_80027710.bytes) = this->attack_kind;
     switch (TBoss1Dragon::isV2Mode()) {
     case 0:
         TObjEneDD::setup_instance((saddr) this, position, (copy_storage_80027710.bytes), attack_history);
@@ -1966,10 +1962,10 @@ f32 TBoss1Dragon::get_crater_attack_power() {
 }
 
 void TBoss1Dragon::sub_800275BC(Vec *position, u8 *params, AreaAttackHistory *history) {
-    ((TUnk_804928CC *)this->m_774)->set_position_from(position);
-    this->m_774->bodies->radius = *(f32 *)(params + 8);
-    this->m_774->bodies->flags = 0x9D03;
-    this->m_774->call_vt16_with_default(params + 0xC, history);
+    ((TUnk_804928CC *)this->attack_collider)->set_position_from(position);
+    this->attack_collider->bodies->radius = *(f32 *)(params + 8);
+    this->attack_collider->bodies->flags = 0x9D03;
+    this->attack_collider->call_vt16_with_default(params + 0xC, history);
 }
 
 void TBoss1Dragon::sub_80027590(void *params) {
@@ -1977,10 +1973,10 @@ void TBoss1Dragon::sub_80027590(void *params) {
 }
 
 void TBoss1Dragon::sub_80027514(Vec *position, u8 *params, s32 history) {
-    ((TUnk_804928CC *)this->m_774)->set_position_from(position);
-    this->m_774->bodies->radius = *(f32 *)(params + 8);
-    this->m_774->bodies->flags = 0x9D03;
-    this->m_774->call_vt13_with_default(params + 0xC, params, history);
+    ((TUnk_804928CC *)this->attack_collider)->set_position_from(position);
+    this->attack_collider->bodies->radius = *(f32 *)(params + 8);
+    this->attack_collider->bodies->flags = 0x9D03;
+    this->attack_collider->call_vt13_with_default(params + 0xC, params, history);
 }
 
 void TBoss1Dragon::update_switch_attack() {
@@ -2022,9 +2018,9 @@ void TBoss1Dragon::init_control_mode() {
     u16 id;
 
     if (boss1_dragon_player_control != 0) {
-        this->m_760 = 1;
+        this->player_controlled = 1;
     } else {
-        this->m_760 = 0;
+        this->player_controlled = 0;
         this->target_client_id = 0xFFFF;
         return;
     }
@@ -2087,7 +2083,7 @@ void TBoss1Dragon::release_held_player() {
             send_6x2F_change_player_hp((0xFFFFU), (client_id), 0);
         }
     }
-    this->m_760 = 0;
+    this->player_controlled = 0;
     if ((s16) this->mode != 0x15) {
         var_r31 = 0;
         if (this->is_primary_sequence() != 0) {
@@ -2331,7 +2327,7 @@ void TBoss1Dragon::sub_80026C98(u32 reason) {
         this->request_state_change(0x17);
         return;
     case 9:
-        if ((s32) this->m_760 != 0) {
+        if ((s32) this->player_controlled != 0) {
             this->request_state_change(0x17);
             return;
         }
@@ -2362,7 +2358,7 @@ void TBoss1Dragon::sub_80026B98(u32 reason) {
             this->request_state_change(5);
             return;
         }
-        if (this->controller_input->m_24 > (0.1f)) {
+        if (this->controller_input->stick_magnitude > (0.1f)) {
             this->request_state_change(0x18);
             return;
         }
@@ -2837,7 +2833,7 @@ void TBoss1Dragon::update_flight_state(u32 reason) {
         }
         break;
     case ENEMY_STATE_LEAVE:
-        VecCopy(&this->m_5e8, &this->destination_direction);
+        VecCopy(&this->last_flight_direction, &this->destination_direction);
         break;
     }
 }
@@ -2887,7 +2883,7 @@ void TBoss1Dragon::update_air_fire_state(u32 reason) {
             }
             this->action_angle = (s16)this->action_angle;
             this->stateStep = 1;
-            if (this->m_760 != 0) {
+            if (this->player_controlled != 0) {
                 this->action_angle = (s16)this->rotation_y;
                 VecCopy(tgt, &this->position);
                 tgt->x = 125.0f * sin_table_lookup(this->action_angle) + tgt->x;
@@ -3096,7 +3092,7 @@ void TBoss1Dragon::update_spinning_projectile_attack(u32 reason) {
                 angle = (u16)this->rotation_x;
                 if (angle <= 0x1300 || angle >= 0x10000 - 0x1300) {
                     this->rotation_x = 0;
-                    this->m_878 = (s32)(boss1_dragon_angle_units_per_radian *
+                    this->action_spin = (s32)(boss1_dragon_angle_units_per_radian *
                         atan2_float(-this->position.x, -this->position.z));
                     this->stateStep = 5;
                 }
@@ -3108,10 +3104,10 @@ void TBoss1Dragon::update_spinning_projectile_attack(u32 reason) {
         case 5: {
             f32 delta;
             this->advance_animation();
-            delta = (f32)angle_diff_s16(this->rotation_y, this->m_878);
+            delta = (f32)angle_diff_s16(this->rotation_y, this->action_spin);
             delta *= 0.3f;
             if ((delta < 512.0f && delta >= (-512.0f)) || this->get_flag_b4() != 0) {
-                this->rotation_y = this->m_878;
+                this->rotation_y = this->action_spin;
                 this->stateStep = 6;
             } else {
                 this->rotation_y += (s32)delta;
@@ -3335,7 +3331,7 @@ void TBoss1Dragon::update_head_down_attack_state(u32 reason) {
             var_f31 = 0.9f;
             temp_f30 = sin_table_lookup(this->rotation_y);
             temp_f29 = cos_table_lookup(this->rotation_y);
-            if ((s32) this->m_760 != 0) {
+            if ((s32) this->player_controlled != 0) {
                 var_f31 = this->clamp_step_in_radius((f32)temp_f30, (f32)temp_f29, (f32)(0.9f));
             }
             temp_f1 = this->frame;
@@ -3464,9 +3460,9 @@ void TBoss1Dragon::update_dive_state(u32 reason) {
         this->sub_80028B28();
         this->flags &= ~0xE80;
         this->stateStep = 0;
-        this->m_888 = (0.0f);
-        this->m_8a8 = 0;
-        this->m_878 = 0;
+        this->vertical_speed = (0.0f);
+        this->ground_impact_done = 0;
+        this->action_spin = 0;
         this->action_angle = boss1_dragon_angle_units_per_radian * atan2_float(this->destination_direction.x, this->destination_direction.z);
         factor = (5.0f);
         this->destination_distance = this->destination_distance + factor;
@@ -3475,17 +3471,17 @@ void TBoss1Dragon::update_dive_state(u32 reason) {
         t = newton_sqrtf((2.0f + (this->heightOffset - 169.0f / (2.0f * boss1_dragon_dive_accel))) / -boss1_dragon_gravity);
         if (this->destination_distance < 50.0f) {
             t = this->destination_distance / (k + t);
-            this->m_884 = t;
+            this->action_speed = t;
             this->rootHeight = t;
-            this->m_88c = (0.0f);
+            this->root_height_speed = (0.0f);
         } else {
             q = 50.0f / t;
-            this->m_884 = q;
+            this->action_speed = q;
             c = (2.0f * (q * k - (this->destination_distance - 50.0f))) / k;
-            this->m_88c = c / k;
+            this->root_height_speed = c / k;
             this->rootHeight = q - c;
         }
-        this->m_888 = (13.0f);
+        this->vertical_speed = (13.0f);
         break;
     case 2:
         if (this->stateStep == 4) {
@@ -3538,25 +3534,25 @@ void TBoss1Dragon::update_dive_state(u32 reason) {
             }
             break;
         case 2:
-            if (this->m_888 > (0.0f)) {
-                this->m_888 = this->m_888 + boss1_dragon_dive_accel;
-                this->rootHeight = this->rootHeight + this->m_88c;
+            if (this->vertical_speed > (0.0f)) {
+                this->vertical_speed = this->vertical_speed + boss1_dragon_dive_accel;
+                this->rootHeight = this->rootHeight + this->root_height_speed;
                 this->move_with_wall_stop(this->destination_direction.x, this->destination_direction.z, this->rootHeight);
             } else {
-                this->m_888 = this->m_888 + boss1_dragon_gravity;
-                this->move_with_wall_stop(this->destination_direction.x, this->destination_direction.z, this->m_884);
+                this->vertical_speed = this->vertical_speed + boss1_dragon_gravity;
+                this->move_with_wall_stop(this->destination_direction.x, this->destination_direction.z, this->action_speed);
             }
-            this->heightOffset = this->heightOffset + this->m_888;
+            this->heightOffset = this->heightOffset + this->vertical_speed;
             this->height = this->position.y + this->heightOffset;
-            if (this->m_888 < (0.0f)) {
-                a = -(s32)(boss1_dragon_angle_units_per_radian * atan2_float(this->m_888, this->rootHeight));
+            if (this->vertical_speed < (0.0f)) {
+                a = -(s32)(boss1_dragon_angle_units_per_radian * atan2_float(this->vertical_speed, this->rootHeight));
                 if (a > this->rotation_x) {
                     this->rotation_x = a;
                 }
-                if (this->m_878 < 0x2800) {
-                    this->m_878 += 0x120;
+                if (this->action_spin < 0x2800) {
+                    this->action_spin += 0x120;
                 }
-                this->rotation_z += this->m_878;
+                this->rotation_z += this->action_spin;
             } else {
                 this->rotation_x = approach_angle_limited(this->rotation_x, 0x4000, 0x200);
             }
@@ -3573,10 +3569,10 @@ void TBoss1Dragon::update_dive_state(u32 reason) {
                 this->stateStep = 4;
                 this->flags &= ~0x100;
             }
-            if (this->heightOffset - this->defaultHeightOffset <= (0.0f) && this->m_8a8 == 0) {
+            if (this->heightOffset - this->defaultHeightOffset <= (0.0f) && this->ground_impact_done == 0) {
                 this->spawn_impact_crater(&this->position);
                 this->apply_ground_impact_attack();
-                this->m_8a8 = 1;
+                this->ground_impact_done = 1;
                 ((TBoss1Dragon *)(((u8 *)this)))->set_invulnerable();
                 ((TBoss1Dragon *)(((u8 *)this)))->disable_body_collision();
                 this->setPhase2();
@@ -3592,13 +3588,13 @@ void TBoss1Dragon::update_dive_state(u32 reason) {
             vel.y = rand_range(10.0f, (4.0f));
             vel.z = cs * s;
             mem = (u8 *)new TObjBoss1Rock(tl_05, &pos, &vel);
-            this->heightOffset = this->heightOffset + this->m_888;
-            this->move_with_wall_stop(this->destination_direction.x, this->destination_direction.z, this->m_884);
+            this->heightOffset = this->heightOffset + this->vertical_speed;
+            this->move_with_wall_stop(this->destination_direction.x, this->destination_direction.z, this->action_speed);
             this->height = this->position.y + this->heightOffset;
-            if (this->m_878 < 0x2800) {
-                this->m_878 += 0x80;
+            if (this->action_spin < 0x2800) {
+                this->action_spin += 0x80;
             }
-            this->rotation_z += this->m_878;
+            this->rotation_z += this->action_spin;
             break;
         case 4:
             break;
@@ -3629,9 +3625,9 @@ void TBoss1Dragon::update_burrow_inward_run(u32 reason, s32 state) {
         this->set_invulnerable();
         this->disable_body_collision();
         if (state == 0x10) {
-            this->m_6dc = 0;
+            this->burrow_count = 0;
         } else {
-            this->m_6dc = (this->m_6dc + 1);
+            this->burrow_count = (this->burrow_count + 1);
         }
         fill_value_array(this->attack_history);
         this->stateStep = 0;
@@ -3644,9 +3640,9 @@ void TBoss1Dragon::update_burrow_inward_run(u32 reason, s32 state) {
         this->request_state_change(0x1B);
         return;
     case 9:
-        if ((s32) this->m_8b8 != 0) {
+        if ((s32) this->lobby_state_changed != 0) {
             next_sequence_action();
-            this->m_8b8 = 0;
+            this->lobby_state_changed = 0;
             return;
         }
         if ((s32) this->stateStep == 1) {
@@ -3719,10 +3715,10 @@ void TBoss1Dragon::update_burrow_outward_run(u32 reason) {
         this->impactAge = 0;
         this->rootHeight = this->calc_burrow_speed();
         this->moko_hill->start();
-        if (TBoss1Dragon::isV2Mode() == 1 && this->m_6dc == 2) {
-            this->m_6dc += 1;
+        if (TBoss1Dragon::isV2Mode() == 1 && this->burrow_count == 2) {
+            this->burrow_count += 1;
             this->rootHeight = this->calc_burrow_speed();
-            this->m_6dc -= 1;
+            this->burrow_count -= 1;
         }
         break;
     case 2:
@@ -3791,7 +3787,7 @@ void TBoss1Dragon::handle_spiral_state(u32 reason) {
         this->impactAge = 0;
         this->rootHeight = this->calc_burrow_speed();
         this->fallVelocity = (f32) ((2.5f) * this->rootHeight);
-        this->m_884 = (f32) (350.0f);
+        this->action_speed = (f32) (350.0f);
         this->action_angle = 0;
         return;
     case 2:
@@ -3799,9 +3795,9 @@ void TBoss1Dragon::handle_spiral_state(u32 reason) {
         this->request_state_change(0x1B);
         return;
     case 9:
-        if ((s32) this->m_8b8 != 0) {
+        if ((s32) this->lobby_state_changed != 0) {
             this->next_sequence_action();
-            this->m_8b8 = 0;
+            this->lobby_state_changed = 0;
             return;
         }
         if ((s32) this->stateStep == 2) {
@@ -3829,12 +3825,12 @@ void TBoss1Dragon::handle_spiral_state(u32 reason) {
             }
             break;
         case 1:
-            temp_r30_2 = (s32) (boss1_dragon_angle_units_per_radian * (this->fallVelocity / this->m_884));
+            temp_r30_2 = (s32) (boss1_dragon_angle_units_per_radian * (this->fallVelocity / this->action_speed));
             this->action_angle += temp_r30_2;
-            this->position.x = this->m_884 * sin_table_lookup(this->action_angle);
-            this->position.z = this->m_884 * cos_table_lookup(this->action_angle);
-            this->m_884 -= (0.001068115234375f) * (f32) temp_r30_2;
-            if (this->m_884 < (5.0f)) {
+            this->position.x = this->action_speed * sin_table_lookup(this->action_angle);
+            this->position.z = this->action_speed * cos_table_lookup(this->action_angle);
+            this->action_speed -= (0.001068115234375f) * (f32) temp_r30_2;
+            if (this->action_speed < (5.0f)) {
                 this->stateStep = 2;
             }
             TBoss1Dragon__sub_800277D8(this);
@@ -3945,7 +3941,7 @@ void TBoss1Dragon::update_emergence_state(u32 reason) {
         case 3:
             if (this->rootHeight < (0.0f) && this->height < (220.0f)) {
                 this->stateStep = 4;
-                this->m_884 = (this->rootHeight * this->rootHeight) / (80.0f);
+                this->action_speed = (this->rootHeight * this->rootHeight) / (80.0f);
             }
             break;
         case 4:
@@ -3985,7 +3981,7 @@ void TBoss1Dragon::update_emergence_state(u32 reason) {
             if (this->requested_action == 0x10) {
                 this->play_nearby_se();
             }
-            this->rootHeight += this->m_884;
+            this->rootHeight += this->action_speed;
             this->height += this->rootHeight;
             this->heightOffset = this->defaultHeightOffset + (this->height - this->position.y);
             v->x *= (0.98f);
@@ -4149,7 +4145,7 @@ void TBoss1Dragon::update_death_state(u32 arg1) {
             ((TObject *)(this->breath_particles[0]))->queue_destruction();
             this->breath_particles[0] = 0;
         }
-        if (this->m_760 != 0) {
+        if (this->player_controlled != 0) {
             this->release_held_player();
         }
         break;
@@ -4217,7 +4213,7 @@ void TBoss1Dragon::sub_80022C38(u32 reason) {
         return;
     case 11:
         in = this->controller_input;
-        if (in->m_24 > (0.1f)) {
+        if (in->stick_magnitude > (0.1f)) {
             this->request_state_change(0x18);
             return;
         }
@@ -4239,7 +4235,7 @@ void TBoss1Dragon::sub_80022C38(u32 reason) {
         return;
     case 2:
         in = this->controller_input;
-        if (in->m_24 > (0.1f)) {
+        if (in->stick_magnitude > (0.1f)) {
             this->request_state_change(0x18);
             return;
         }
@@ -4335,11 +4331,11 @@ void TBoss1Dragon::sub_800228E8(u32 reason) {
         if ((s32) this->stateStep >= 0x1E) {
             this->stateStep = 0;
             temp_r4_2 = this->controller_input;
-            if (temp_r4_2->m_24 <= (0.1f)) {
+            if (temp_r4_2->stick_magnitude <= (0.1f)) {
                 this->impactAge = 1;
                 return;
             }
-            *saved = temp_r4_2->angle;
+            *saved = temp_r4_2->stick_angle;
             this->setDestinationX(*saved);
             this->send_state_sync();
             return;
@@ -4368,7 +4364,7 @@ void TBoss1Dragon::sub_800228E8(u32 reason) {
             this->rotation_y = approach_angle_limited(this->rotation_y, *saved, 0x200);
             temp_f31 = sin_table_lookup(this->rotation_y);
             temp_f30 = cos_table_lookup(this->rotation_y);
-            if ((s32) this->m_760 != 0) {
+            if ((s32) this->player_controlled != 0) {
                 var_f29 = this->clamp_step_in_radius(temp_f31, temp_f30, (0.8f));
             }
             this->move_to_shot_position(temp_f31, temp_f30, var_f29);
@@ -4398,7 +4394,7 @@ void TBoss1Dragon::sub_80022740(u32 reason) {
             return;
         }
         in = this->controller_input;
-        if (in->m_24 > (0.1f)) {
+        if (in->stick_magnitude > (0.1f)) {
             this->request_state_change(0x1A);
             return;
         }
@@ -4412,7 +4408,7 @@ void TBoss1Dragon::sub_80022740(u32 reason) {
         return;
     case 2:
         in = this->controller_input;
-        if (in->m_24 > (0.1f)) {
+        if (in->stick_magnitude > (0.1f)) {
             this->request_state_change(0x1A);
             return;
         }
@@ -4505,11 +4501,11 @@ void TBoss1Dragon::sub_800224A4(u32 reason) {
         if ((s32) this->stateStep >= 0x1E) {
             this->stateStep = 0;
             temp_r4_2 = this->controller_input;
-            if (temp_r4_2->m_24 <= (0.1f)) {
+            if (temp_r4_2->stick_magnitude <= (0.1f)) {
                 this->impactAge = 1;
                 return;
             }
-            *saved = temp_r4_2->angle;
+            *saved = temp_r4_2->stick_angle;
             this->setDestinationX(*saved);
             this->send_state_sync();
             return;
@@ -4529,7 +4525,7 @@ void TBoss1Dragon::sub_800224A4(u32 reason) {
         temp_f31 = sin_table_lookup(this->rotation_y);
         temp_f30 = cos_table_lookup(this->rotation_y);
         var_f3 = (2.0f);
-        if ((s32) this->m_760 != 0) {
+        if ((s32) this->player_controlled != 0) {
             var_f3 = this->clamp_step_in_radius(temp_f31, temp_f30, var_f3);
         }
         this->move_with_wall_stop(temp_f31, temp_f30, var_f3);
@@ -4556,7 +4552,7 @@ void TBoss1Dragon::handle_state(u32 arg1) {
     case 2:
     case 11:
         temp_r3 = this->controller_input;
-        if (temp_r3->m_24 > (0.1f)) {
+        if (temp_r3->stick_magnitude > (0.1f)) {
             this->request_state_change(0x1C);
             return;
         }
@@ -4625,11 +4621,11 @@ void TBoss1Dragon::handle_walk_state(u32 reason) {
         if (this->stateStep >= 0x1E) {
             this->stateStep = 0;
             in = this->controller_input;
-            if (in->m_24 <= (0.1f)) {
+            if (in->stick_magnitude <= (0.1f)) {
                 this->impactAge = 1;
                 return;
             }
-            this->rotation_y = in->angle;
+            this->rotation_y = in->stick_angle;
             this->setDestinationX(this->rotation_y);
             this->send_state_sync();
             return;
@@ -4793,7 +4789,7 @@ void TBoss1Dragon::update_wander_state(s32 arg1) {
 }
 
 void TBoss1Dragon::update_appearance_state(u32 reason) {
-    s32 *demo = &this->m_870;
+    s32 *demo = &this->demo_active;
     switch (reason) {
     case ENEMY_STATE_ENTER:
         this->requested_action = 0;
