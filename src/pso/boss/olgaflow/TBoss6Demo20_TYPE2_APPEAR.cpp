@@ -67,20 +67,20 @@ void TBoss6Demo20_TYPE2_APPEAR::draw_model_12() {
 }
 
 void TBoss6Demo20_TYPE2_APPEAR::draw_fading_model_1_pair() {
-    f32 var_f31;
+    f32 fade;
     union { f64 d; u32 w[2]; } cvt;
-    s32 temp_r3;
-    temp_r3 = timer;
-    if (temp_r3 < 0x181) {
-        var_f31 = 0.0f;
-    } else if (temp_r3 >= 0x190) {
-        var_f31 = 1.0f;
+    s32 t;
+    t = timer;
+    if (t < 0x181) {
+        fade = 0.0f;
+    } else if (t >= 0x190) {
+        fade = 1.0f;
     } else {
-        var_f31 = (temp_r3 - 0x181) / (-15.0f);
+        fade = (t - 0x181) / (-15.0f);
     }
-    if (0.0f != var_f31) {
-        if (var_f31 < 1.0f) {
-            TBoss6PlotFalz::set_fade_material_color(var_f31);
+    if (0.0f != fade) {
+        if (fade < 1.0f) {
+            TBoss6PlotFalz::set_fade_material_color(fade);
         }
         TObjFish::set_global_param((saddr)(model1.texture));
         set_motion_packed_rotation();
@@ -93,28 +93,28 @@ void TBoss6Demo20_TYPE2_APPEAR::draw_fading_model_1_pair() {
         draw_model_motion(model1.model, model1.motion, secondary_frame);
         pop_matrix();
         clear_motion_packed_rotation();
-        if (var_f31 < 1.0f) {
+        if (fade < 1.0f) {
             TObjFish::reset_fish_globals();
         }
     }
 }
 
 void TBoss6Demo20_TYPE2_APPEAR::draw_fading_model_4() {
-    f32 var_f31;
-    s32 temp_r3;
+    f32 fade;
+    s32 t;
     union { f64 d; u32 w[2]; } cvt;
 
-    temp_r3 = timer;
-    if (temp_r3 < 0x72) {
-        var_f31 = 0.0f;
-    } else if (temp_r3 >= 0x8E) {
-        var_f31 = 1.0f;
+    t = timer;
+    if (t < 0x72) {
+        fade = 0.0f;
+    } else if (t >= 0x8E) {
+        fade = 1.0f;
     } else {
-        var_f31 = (temp_r3 - 0x72) / 28.0f;
+        fade = (t - 0x72) / 28.0f;
     }
-    if ((0.0f != var_f31) && (capture != NULL)) {
-        if (var_f31 < 1.0f) {
-            TBoss6PlotFalz::set_fade_material_color(var_f31);
+    if ((0.0f != fade) && (capture != NULL)) {
+        if (fade < 1.0f) {
+            TBoss6PlotFalz::set_fade_material_color(fade);
         }
         push_matrix();
         set_motion_packed_rotation();
@@ -125,26 +125,26 @@ void TBoss6Demo20_TYPE2_APPEAR::draw_fading_model_4() {
         capture->clear();
         clear_motion_packed_rotation();
         pop_matrix();
-        if (var_f31 < 1.0f) {
+        if (fade < 1.0f) {
             TObjFish::reset_fish_globals();
         }
     }
 }
 
 void TBoss6Demo20_TYPE2_APPEAR::draw_fading_model_pair() {
-    f32 var_f31;
-    s32 temp_r0;
-    temp_r0 = timer;
-    if (temp_r0 < 0x72) {
-        var_f31 = 1.0f;
-    } else if (temp_r0 >= 0x8E) {
-        var_f31 = 0.0f;
+    f32 fade;
+    s32 t;
+    t = timer;
+    if (t < 0x72) {
+        fade = 1.0f;
+    } else if (t >= 0x8E) {
+        fade = 0.0f;
     } else {
-        var_f31 = (f32) (0x8E - temp_r0) / 28.0f;
+        fade = (f32) (0x8E - t) / 28.0f;
     }
-    if (0.0f != var_f31) {
-        if (var_f31 < 1.0f) {
-            TBoss6PlotFalz::set_fade_material_color(var_f31);
+    if (0.0f != fade) {
+        if (fade < 1.0f) {
+            TBoss6PlotFalz::set_fade_material_color(fade);
         }
         push_matrix();
         set_motion_packed_rotation();
@@ -157,7 +157,7 @@ void TBoss6Demo20_TYPE2_APPEAR::draw_fading_model_pair() {
         } while (i < 2);
         clear_motion_packed_rotation();
         pop_matrix();
-        if (var_f31 < 1.0f) {
+        if (fade < 1.0f) {
             TObjFish::reset_fish_globals();
         }
     }

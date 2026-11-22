@@ -103,12 +103,12 @@ void TBoss6GravBall::create_emitter(s32 index) {
 
 void TBoss6GravBall::init_parts() {
     s32 self = (saddr)this;
-    s32 var_r31;
-    var_r31 = 0;
+    s32 i;
+    i = 0;
     do {
-        destroy_part(var_r31);
-        var_r31 += 1;
-    } while (var_r31 < 9);
+        destroy_part(i);
+        i += 1;
+    } while (i < 9);
 }
 
 void TBoss6GravBall__sub_80323320(TBoss6GravBall *ball) {
@@ -274,11 +274,11 @@ s32 TBoss6GravBall::clamp_to_ground() {
 }
 
 void TBoss6GravBall::update_lifetime() {
-    s32 temp_r0;
+    s32 next_age;
 
-    temp_r0 = age + 1;
-    age = temp_r0;
-    if (temp_r0 > 0x1E) {
+    next_age = age + 1;
+    age = next_age;
+    if (next_age > 0x1E) {
         queue_destruction();
     }
 }
@@ -293,29 +293,29 @@ s32 play_persistent_sound(int, void *, void *, int, int);
 
 
 void TBoss6GravBall::update_charge_effects() {
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 temp_r0_3;
+    s32 charge;
+    s32 pulse;
+    s32 slow_pulse;
 
     TBoss6GravBall__sub_803233AC(this);
     play_persistent_sound(0x4003C418, this, &ball_position, 0, 0);
-    temp_r0 = charge_age;
-    if (temp_r0 >= 0x96) {
-        if (temp_r0 == 0x96) {
+    charge = charge_age;
+    if (charge >= 0x96) {
+        if (charge == 0x96) {
             create_emitter(3);
         }
-    } else if (temp_r0 > 0x4B) {
-        temp_r0_2 = temp_r0 & 0xF;
-        if (temp_r0_2 == 0) {
+    } else if (charge > 0x4B) {
+        pulse = charge & 0xF;
+        if (pulse == 0) {
             create_emitter(3);
-        } else if (temp_r0_2 == 0xE) {
+        } else if (pulse == 0xE) {
             destroy_part(3);
         }
     } else {
-        temp_r0_3 = temp_r0 & 0xF;
-        if (temp_r0_3 == 0) {
+        slow_pulse = charge & 0xF;
+        if (slow_pulse == 0) {
             create_emitter(3);
-        } else if (temp_r0_3 == 0xA) {
+        } else if (slow_pulse == 0xA) {
             destroy_part(3);
         }
     }
@@ -356,14 +356,13 @@ void TBoss6GravBall::update_charge_effects() {
 }
 
 void TBoss6GravBall::update_state() {
-    s32 temp_r3;
-    s32 temp_r3_2;
-    temp_r3 = clamp_to_ground();
-    if (temp_r3 != 0) {
+    s32 grounded;
+    grounded = clamp_to_ground();
+    if (grounded != 0) {
         TBoss6GravBall__sub_803236F8(this);
     }
     fn_80323134(this);
-    if (temp_r3 != 0) {
+    if (grounded != 0) {
         create_emitter(2);
         if ((pull_strength) < 1.0f) {
             pull_strength += 0.033333335f;
