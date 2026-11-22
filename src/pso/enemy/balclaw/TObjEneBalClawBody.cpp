@@ -112,7 +112,7 @@ TObjEneBalClawBody::TObjEneBalClawBody(TObject *parent, void *set_data) : TObjEn
     wobble_offset = 0.0f;
     clear_attack_flag();
     if (*(s16 *)((s8 *)set_data + 0xA) != 0) {
-        sub_800C7860();
+        start_appear();
     }
     hover_height_min = 25.0f;
     hover_height_max = 40.0f;
@@ -345,7 +345,7 @@ void TObjEneBalClawBody::update_chase() {
     switch (body->state) {
     case 0:
         body->actorFlags &= 0xFBFFFEFF;
-        body->sub_8004292C();
+        body->clear_flags_30();
         v = 6;
         if (body->m_388 & 0x01000000) {
             v = 1;

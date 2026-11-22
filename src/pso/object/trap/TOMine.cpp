@@ -900,7 +900,7 @@ void TOMineTrap::run_task() {
                     switch (attack.kind) {
                     case 2:
                         ((TObjChara *)target)->apply_movement_ailment(0);
-                        ((TObjChara *)target)->vfunc_74(0);
+                        ((TObjChara *)target)->sync_enemy_state(0);
                         break;
                     default:
                         ((TObjChara *)target)->receive_direct_attack(attacker, attack, 0, -1, -1);

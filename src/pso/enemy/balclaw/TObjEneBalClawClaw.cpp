@@ -62,7 +62,7 @@ TObjEneBalClawClaw::TObjEneBalClawClaw(TObject *parent, void *set_data) : TObjEn
     apply_set_data(set_data);
     init();
     if (*(s16 *)((s8 *)set_data + 0xA) != 0) {
-        sub_800C7860();
+        start_appear();
     }
 }
 
@@ -300,7 +300,7 @@ void TObjEneBalClawClaw::update_chase() {
         find_target_in_range(250.0f);
         if (targetId != 0xFFFF) {
             actorFlags &= 0xFBFFFEFF;
-            sub_8004292C();
+            clear_flags_30();
             state = requested_action = 1;
         } else {
             reset_active_state();

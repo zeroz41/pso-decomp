@@ -938,7 +938,7 @@ void TBoss3Volopt::start_phase2() {
     in_phase2 = 1;
     TObjEnemyCustom *p02 = (TObjEnemyCustom *)find_entity_by_id(volopt_p02_id);
     if (p02 != NULL) {
-        p02->sub_800C7860();
+        p02->start_appear();
     }
     move_to_arena(1);
     VecCopy(&position, VecCopy(&body_center, &boss3_volopt_spawn_pos));
@@ -992,7 +992,7 @@ void TBoss3Volopt::update_intro_cutscene() {
         if (get_scripted_camera_playback()->flags & 1) {
             TObjEnemyCustom *core = (TObjEnemyCustom *)find_entity_by_id(volopt_core_id);
             if (core != NULL) {
-                core->sub_800C7860();
+                core->start_appear();
             }
             m_384 = 0x5A;
             state = 3;
@@ -1161,7 +1161,7 @@ void TBoss3Volopt::update_phase2() {
         if (is_dead() != 0) {
             update_phase();
             obj_setFlags30(this, 0x800);
-            vfunc_74(0);
+            sync_enemy_state(0);
             next_action = 5;
             new TUnk_80483B88;
         }

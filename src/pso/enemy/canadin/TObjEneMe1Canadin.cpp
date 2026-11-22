@@ -1307,7 +1307,7 @@ void TObjEneMe1Canadin::state_melee_attack(s32 msg) {
                     this->current_target->apply_knockback_from_attacker((u8 *)this, 3.0f);
                     if ((s32)is_player_entity_id(get_entity_id(this->current_target)) != 0 && is_target_android(this->current_target) != 0 && this->random_ratio() < 0.05f) {
                         this->current_target->apply_shock_status();
-                        this->current_target->vfunc_74(0);
+                        this->current_target->sync_enemy_state(0);
                     }
                 }
                 play_sound_effect(0x4003B219, &this->body_center, 0, 0);

@@ -405,7 +405,7 @@ void TBoss3VoloptP01::update_idle() {
 #pragma push
 #pragma fp_contract on
 void TBoss3VoloptP01::run_state_machine() {
-    sub_8004292C();
+    clear_flags_30();
     switch (state) {
     case 0:
         this->requested_action = 0;
@@ -471,7 +471,7 @@ void TBoss3VoloptP01::run_state_machine() {
 #pragma pop
 
 void TBoss3VoloptP01::update_attack() {
-    sub_8004292C();
+    clear_flags_30();
     switch (state) {
     case 0:
         charge_effect = NULL;

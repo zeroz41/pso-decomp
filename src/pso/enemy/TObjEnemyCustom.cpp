@@ -254,7 +254,7 @@ void TObjEnemyCustom::run_death_reaction() {
     m_388 |= 1;
 }
 
-void TObjEnemyCustom::sub_800C7860() {
+void TObjEnemyCustom::start_appear() {
     this->set_state(7);
     m_388 |= 1;
 }

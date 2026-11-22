@@ -2846,7 +2846,7 @@ f32 TObjChara::receive_physical_attack(void *att, f32 scale) {
         }
     }
     if (immune == 0) {
-        ((TObjChara *)((Obj_80014108 *)this))->vfunc_74(0);
+        ((TObjChara *)((Obj_80014108 *)this))->sync_enemy_state(0);
     }
     if (TObjPlayer::is_locally_controlled(((Obj_80014108 *)this)) != 0) {
         TObjPlayer::calc_photon_blast_charge(((Obj_80014108 *)this), (s32)(20.0f * total));
@@ -3119,7 +3119,7 @@ f32 TObjChara::receive_direct_attack(void *att, DirectAttackPayload payload, voi
         }
         ((Actor_8001311C *)this)->m49(info);
         if (((Actor_8001311C *)this)->f1c <= 0x1000 && ((Actor_8001311C *)this)->f1c > 0x4000) {
-            this->vfunc_74(info.type);
+            this->sync_enemy_state(info.type);
         }
         break;
     case 10:
@@ -3129,7 +3129,7 @@ f32 TObjChara::receive_direct_attack(void *att, DirectAttackPayload payload, voi
         }
         ((Actor_8001311C *)this)->m50(info);
         if (((Actor_8001311C *)this)->f1c <= 0x1000 && ((Actor_8001311C *)this)->f1c > 0x4000) {
-            this->vfunc_74(info.type);
+            this->sync_enemy_state(info.type);
         }
         break;
     case 11:
@@ -3139,7 +3139,7 @@ f32 TObjChara::receive_direct_attack(void *att, DirectAttackPayload payload, voi
         }
         ((Actor_8001311C *)this)->m49(info);
         if (((Actor_8001311C *)this)->f1c <= 0x1000 && ((Actor_8001311C *)this)->f1c > 0x4000) {
-            this->vfunc_74(info.type);
+            this->sync_enemy_state(info.type);
         }
         break;
     case 12:
@@ -3149,7 +3149,7 @@ f32 TObjChara::receive_direct_attack(void *att, DirectAttackPayload payload, voi
         }
         ((Actor_8001311C *)this)->m50(info);
         if (((Actor_8001311C *)this)->f1c <= 0x1000 && ((Actor_8001311C *)this)->f1c > 0x4000) {
-            this->vfunc_74(info.type);
+            this->sync_enemy_state(info.type);
         }
         break;
     case 15:
@@ -3227,7 +3227,7 @@ f32 TObjChara::receive_direct_attack(void *att, DirectAttackPayload payload, voi
         break;
     }
     if (immune == 0) {
-        this->vfunc_74(0);
+        this->sync_enemy_state(0);
     }
     if (LOCAL(((Actor_8001311C *)this)) != 0) {
         TObjPlayer::calc_photon_blast_charge(((Actor_8001311C *)this), (s32)((2e+01f) * dmg));
@@ -4285,7 +4285,7 @@ void TObjChara::enemy_spawn_zalure_effect() {
 
 void TObjChara::recalc_stats() {}
 
-s32 TObjChara::vfunc_74(s32) { return 0; }
+s32 TObjChara::sync_enemy_state(s32) { return 0; }
 
 void TObjPlayer::clear_s16_arrays(void* p) { { int i; for (i = 0; i < 4; i++) { ((int (*)(void*, void*))obj_clearArrS16_FC)(p, (void*)(saddr)i); } } }
 

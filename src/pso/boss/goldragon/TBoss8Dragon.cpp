@@ -3542,7 +3542,7 @@ void TBoss8Dragon::update_death_state(s32 event) {
         refresh_and_send_entity_flags();
         set_story_flag_or_send_quest_flag(0x4F);
         this->actorFlags = 0x12008;
-        this->vfunc_74(0);
+        this->sync_enemy_state(0);
         TWindowCtrl::init_all_slots2();
         restore_player_cameras();
         if (this->breath_particles[0] != 0) {

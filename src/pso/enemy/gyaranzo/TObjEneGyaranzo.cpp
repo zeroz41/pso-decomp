@@ -196,7 +196,7 @@ TObjEneGyaranzo::TObjEneGyaranzo(TObject *parent, void *set_data) : TObjEnemyCus
     model = gyaranzo_bml_resource->models[3].model;
     texlist = (saddr)gyaranzo_bml_resource->models[3].m_c;
     if (*(s16 *)((u8 *)set_data + 0xA) != 0) {
-        sub_800C7860();
+        start_appear();
     }
     for (i = 0; i < 4; i++) {
         camera_fades[i].activate_and_dispatch();
@@ -448,7 +448,7 @@ void TObjEneGyaranzo::update_chase_target() {
     case 0:
         bodies->flags &= ~0x380000;
         actorFlags &= ~0x100;
-        sub_8004292C();
+        clear_flags_30();
         chase_distance = 0.0f;
         mine_drop_distance = 0.0f;
         requested_action = 1;

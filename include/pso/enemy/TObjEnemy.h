@@ -31,7 +31,7 @@ struct TObjEnemy : public TObjChara {
     virtual void apply_hit_message_flags(void *);
     virtual void apply_set_data(void *);
     virtual void clear_lobby_object_state();
-    virtual s32 vfunc_74(s32);
+    virtual s32 sync_enemy_state(s32 status);
     s32 exchange_object_state(void *record, s16 mode);
     virtual const char *get_name();
     TObjEnemy* groupRoot();

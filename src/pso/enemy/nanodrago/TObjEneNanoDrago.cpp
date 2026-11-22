@@ -216,7 +216,7 @@ TObjEneNanoDrago::TObjEneNanoDrago(TObject *parent, void *setData) : TObjEnemyCu
     set_param(0xF);
     sinkingOffset = 0.0f;
     if (*(s16 *)((s8 *)setData + 0xA) != 0 && !(m_388 & 0x40000)) {
-        sub_800C7860();
+        start_appear();
     }
     flightHeight = 0.0f;
     for (i = 0; i < 4; i++) {
@@ -429,7 +429,7 @@ void TObjEneNanoDrago::update_idle_state() {
         requested_action = 1;
         (state) = 1;
         m_384 = 0x96;
-        sub_8004292C();
+        clear_flags_30();
     case 1:
         advance_animation();
         wander_around(&home_position, parameters[1]);
@@ -478,7 +478,7 @@ void TObjEneNanoDrago::update_circling_state() {
         break;
     case 0:
         (m_388) &= ~0x00040000;
-        sub_8004292C();
+        clear_flags_30();
         requested_action = 1;
         circlingAngle = 0;
         if (target != NULL) {
@@ -552,7 +552,7 @@ void TObjEneNanoDrago::update_single_beam_state() {
     case -1:
         break;
     case 0:
-        sub_8004292C();
+        clear_flags_30();
         m_384 = 0x5A;
         if (!(actorFlags & 0x01000000)) {
             requested_action = 2;
@@ -620,7 +620,7 @@ void TObjEneNanoDrago::update_multi_beam_state() {
     s32 i;
     switch (state) {
     case 0:
-        sub_8004292C();
+        clear_flags_30();
         r = 0;
         if (!(actorFlags & 0x01000000)) {
             r = collect_beam_targets();
@@ -701,7 +701,7 @@ void TObjEneNanoDrago::update_flight_state() {
                 VecCopy((Vec *)(&moveDestination), (const Vec *)(&home_position));
                 calc_velocity_toward_destination(this, position, moveDestination, speed);
                 m_388 &= ~0x40000;
-                sub_8004292C();
+                clear_flags_30();
                 flightHeight = 50.0f;
             } else {
                 find_target_in_range(((NanoDragoMovementParams *)movementParameters)->detectionRadius);

@@ -248,7 +248,7 @@ TObjEneDubchik::TObjEneDubchik(TObject *parent, void *set_data) : TObjEnemyCusto
     }
     saver = TUnk_80494968::create(0x00FFFFFF, 0xA0707070);
     if (*(s16 *)((u8 *)set_data + 0xA) != 0) {
-        sub_800C7860();
+        start_appear();
     }
     effect = NULL;
     reassemble_count = 0;
@@ -547,7 +547,7 @@ void TObjEneDubchik::update_chase() {
         break;
     case 0:
         m_388 |= 0x01800000;
-        sub_8004292C();
+        clear_flags_30();
         if ((s32)m_380 != 0) {
             if (TObjEneDD::check_v2_mode() == 0) {
                 if (collapsed != 0) {

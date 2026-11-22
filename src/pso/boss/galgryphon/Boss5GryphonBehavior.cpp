@@ -1655,7 +1655,7 @@ void TBoss5Gryphon::update_death_state(u32 event) {
         VecCopy(&self->position, &tmp);
         self->update_prev_position();
         self->actorFlags = 0x12008;
-        self->vfunc_74(0);
+        self->sync_enemy_state(0);
         TWindowCtrl::init_all_slots2();
         restore_player_cameras();
         break;

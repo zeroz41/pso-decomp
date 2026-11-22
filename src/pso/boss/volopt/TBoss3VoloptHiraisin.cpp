@@ -152,7 +152,7 @@ void TBoss3VoloptHiraisin::start_attack() {
     hp = max_hp;
     flags = actorFlags;
     actorFlags = flags & ~0xA00;
-    sub_800C7860();
+    start_appear();
 }
 
 void TBoss3VoloptHiraisin::update_hover() {
@@ -358,7 +358,7 @@ void TBoss3VoloptHiraisin::init_params() {
     set_param(0x2E);
     ((TBoss3Volopt *)this)->reset_photon_effect();
     load_params_from_table(0x10);
-    sub_800C7860();
+    start_appear();
     add_flags_2e4(4);
     obj_setFlags30(this, 0x8000);
     clear_lobby_object_state();

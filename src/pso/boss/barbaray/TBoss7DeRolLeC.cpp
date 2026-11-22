@@ -3319,7 +3319,7 @@ void TBoss7DeRolLeC::handle_death_state(u32 event) {
         VecCopy(&position, &saved);
         update_prev_position();
         actorFlags = 0x12008;
-        vfunc_74(0);
+        sync_enemy_state(0);
         TWindowCtrl::init_all_slots2();
         restore_player_cameras();
         break;

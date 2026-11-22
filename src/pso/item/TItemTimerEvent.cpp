@@ -218,7 +218,7 @@ void TUnk_804A05E8::vfunc_6() {
         if (((TObjPlayer *)this->m_28)->has_flag_0x800() == 0) {
                         if ((is_item_area_enabled(((TObjPlayer *)(this->m_28))->get_area()) == 1) && ((3.0517578e-05f * (f32) rand()) < this->unk_2C)) {
                 ((TObjPlayer *)this->m_28)->apply_movement_ailment(0);
-                ((TObjPlayer *)this->m_28)->vfunc_74(0);
+                ((TObjPlayer *)this->m_28)->sync_enemy_state(0);
             }
         }
     }

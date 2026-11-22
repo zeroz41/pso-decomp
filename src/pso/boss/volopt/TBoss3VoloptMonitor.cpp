@@ -144,7 +144,7 @@ void TBoss3VoloptMonitor::set_model(s32 index) {
     model = (void *)volopt_monitor_resources->models[index].model;
 }
 
-void TObjEnemyCustom::sub_8004292C() {
+void TObjEnemyCustom::clear_flags_30() {
     actorFlags &= ~0x04040000;
 }
 
@@ -290,7 +290,7 @@ void TBoss3VoloptMonitor::run_task() {
         }
     }
     if (in_zone != 0) {
-        sub_8004292C();
+        clear_flags_30();
     } else {
         set_flags_30();
     }

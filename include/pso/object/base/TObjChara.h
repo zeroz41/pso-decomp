@@ -117,7 +117,9 @@ public:
     virtual void enemy_spawn_zalure_effect();
     // Recomputes the combat stats and clamps HP and TP to their maxima.
     virtual void recalc_stats();
-    virtual s32 vfunc_74(s32);
+    // Sends an enemy's HP lost and Jellen/Zalure stat drop (status 9-12) to the
+    // other clients in a 6x0A packet; a player sends nothing (0).
+    virtual s32 sync_enemy_state(s32 status);
     virtual void gain_photon_blast_charge(f32);
     // Spends photon blast charge; TObjPlayer forwards it to subtract_photon_blast_charge (param name inferred).
     virtual void spend_photon_blast_charge(f32 charge);

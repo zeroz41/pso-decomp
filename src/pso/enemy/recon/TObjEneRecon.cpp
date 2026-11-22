@@ -1249,7 +1249,7 @@ void TObjEneRecon::run_task() {
         hit_flags = (s32)(hit_flags | 4);
         ((TObjPlayer *)this)->set_hp_clamped(0);
         obj_setFlags30(this, 0xA00U);
-        vfunc_74(0);
+        sync_enemy_state(0);
     }
     if (update_status_effects() != 4) {
         update_action_state();

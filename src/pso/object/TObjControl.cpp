@@ -806,7 +806,7 @@ void TObjEnemy::apply_hit_message_flags(void *arg1_arg) {
     }
 }
 
-s32 TObjEnemy::vfunc_74(s32 kind) {
+s32 TObjEnemy::sync_enemy_state(s32 status) {
     Pkt_800F65D0 pkt;
     s32 ret;
     ret = 0;
@@ -814,15 +814,15 @@ s32 TObjEnemy::vfunc_74(s32 kind) {
         this->exchange_object_state(&pkt, 1);
         pkt.diff = this->hpmax - this->hp;
         pkt.id = this->actorFlags;
-        switch (kind) {
+        switch (status) {
         case 9:
         case 11:
-            pkt.a = kind;
+            pkt.a = status;
             pkt.av = 0.1f * ((f32)TObjPlayer__sub_8001943C(this, 2) / 30.0f - 40.0f);
             break;
         case 10:
         case 12:
-            pkt.b = kind;
+            pkt.b = status;
             pkt.bv = 0.1f * ((f32)TObjPlayer__sub_8001943C(this, 3) / 30.0f - 40.0f);
             break;
         }

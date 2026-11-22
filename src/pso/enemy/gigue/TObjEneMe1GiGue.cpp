@@ -212,7 +212,7 @@ TObjEneMe1GiGue::TObjEneMe1GiGue(TObject *parent, void *set_data) : TObjEnemyCus
     if (m_388 & 0x40000) {
         init_move();
     } else {
-        sub_800C7860();
+        start_appear();
     }
     project_actor_to_ground(this, &position, 0);
     flightHeight = 0.0f;
@@ -447,7 +447,7 @@ void TObjEneMe1GiGue::update_idle_state() {
         requested_action = 1;
         state = 1;
         m_384 = 150;
-        sub_8004292C();
+        clear_flags_30();
     case 1:
         advance_animation();
         move_around_center(&home_position, parameters[1]);
@@ -502,7 +502,7 @@ void TObjEneMe1GiGue::update_circling_state() {
     switch (state) {
     case 0:
         m_388 &= ~0x00040000;
-        sub_8004292C();
+        clear_flags_30();
         requested_action = 1;
         circlingAngle = 0;
         if (target != NULL) {
@@ -566,7 +566,7 @@ void TObjEneMe1GiGue::update_missile_state() {
 
     switch (state) {
     case 0:
-        sub_8004292C();
+        clear_flags_30();
         m_384 = attackDuration;
         if (m_384 <= 40) {
             m_384 = 40;
@@ -645,7 +645,7 @@ void TObjEneMe1GiGue::update_multi_shot_state() {
     case -1:
         break;
     case 0:
-        sub_8004292C();
+        clear_flags_30();
         count = 0;
         if (!(actorFlags & 0x01000000)) {
             count = collect_shot_targets();
@@ -725,7 +725,7 @@ void TObjEneMe1GiGue::update_technique_state() {
     case -1:
         break;
     case 0:
-        sub_8004292C();
+        clear_flags_30();
         count = 0;
         if (!(actorFlags & 0x01000000)) {
             count = collect_shot_targets();
@@ -774,7 +774,7 @@ void TObjEneMe1GiGue::update_technique_state() {
 void TObjEneMe1GiGue::action() {
     switch (state) {
     case 0:
-        sub_8004292C();
+        clear_flags_30();
         m_388 &= ~0x40000;
         requested_action = 1;
         state = 1;
@@ -809,7 +809,7 @@ void TObjEneMe1GiGue::update_rush_attack() {
         this->requested_action = this->state = 1;
         this->flightHeight = 0.0f;
         this->rushDelay = 60;
-        this->sub_8004292C();
+        this->clear_flags_30();
         break;
     case 1:
         this->actorFlags &= ~0x1000000;
@@ -1094,7 +1094,7 @@ void TObjEneMe1GiGue::update_landing_state() {
         VecCopy(&moveDestination, &home_position);
         calc_velocity_toward_destination(this, position, moveDestination, moveSpeed);
         m_388 &= ~0x40000;
-        sub_8004292C();
+        clear_flags_30();
         flightHeight = entryHeight;
         requested_action = 7;
         state = 1;
