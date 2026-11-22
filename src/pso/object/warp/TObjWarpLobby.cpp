@@ -28,6 +28,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby.h"
 #include "pso/network/client_id.h"
+#include "pso/unk/text_803D8F74.h"
 
 #pragma readonly_strings on
 
@@ -78,7 +79,6 @@ s32 create_window_menu_default(f32 *, s32, f32);
 
 void run_task__13TObjWarpLobbyFv(TObjWarpLobby *arg0);
 s32 post_translate_matrix(void *);
-s32 rotate_matrix_y(s32, s32);
 
 GinjaTextureList *lobby_warp_textures;
 

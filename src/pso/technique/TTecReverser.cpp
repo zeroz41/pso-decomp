@@ -15,6 +15,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/unk/text_803D853C.h"
+#include "pso/system/SoundEffect.h"
 extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 #pragma readonly_strings on
@@ -49,7 +50,6 @@ void *find_entity_by_id(u16 id);
 s32 is_active__12TTecReverserFv();
 void run_task__12TTecReverserFv(u8 *arg0);
 s32 get_entity_id(int);
-s32 play_sound_effect(int, void *, int, int);
 s32 copy_technique_target_list(void *, void *);
 const char *lbl_805D3818 = "TTecReverser";
 void __ct__7TObjectFP7TObject(void *self, void *parent);

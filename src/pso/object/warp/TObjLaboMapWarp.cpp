@@ -74,6 +74,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/unk/TLobby_8030A6A8.h"
+#include "pso/network/client_id.h"
 
 s32 get_story_flag(s32);
 
@@ -122,8 +123,6 @@ struct Obj_80186B34 { u8 pad[0x38]; u8 pos[0xAC - 0x38]; f32 range; };
 extern "C" {
 
 f32 xz_distance_squared(s32, s32);
-
-extern s32 local_client_id;
 
 
 extern s32 lbl_805D55C0;

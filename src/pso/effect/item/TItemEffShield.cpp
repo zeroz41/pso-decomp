@@ -20,6 +20,7 @@
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/player/PlayerSlots.h"
 
 struct Obj_8010A1D0 {
     u8 pad0[0x18];
@@ -53,7 +54,6 @@ const s32 lbl_8043E280[8] = { 1, 1, 1, 0, 1, 0, 0, 0 };
 const s32 lbl_8043E2A0[8] = { -1, 446, 447, 145, 32, 416, 417, 177 };
 extern "C" {
 s32 is_item_area_enabled(s32 area);
-void *get_player_by_client_id(s32 i);
 
 void run_task__14TItemEffShieldFv(Shield_8010A4C0 *self);
 }

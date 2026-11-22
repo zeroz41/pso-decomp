@@ -25,6 +25,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
 #pragma readonly_strings on
 
@@ -32,7 +33,6 @@ CollisionBody TObjNpcEnemy__collision_body_parts = {{0.0f, 7.5f, 0.0f}, 7.0f, 0.
 const char *TObjNpcEnemy_class_name = "TObjNpcEnemy";
 
 extern "C" {
-s32 init_collision_body_parts(void *, void *, int);
 void * TObjNpcEnemy__create(void *arg0);
 s32 translate_matrix(int, int, f32, f32, f32);
 

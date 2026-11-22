@@ -172,6 +172,7 @@ struct Cam_8006D9F0 : CamBase_8006D9F0 {
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_8006E82C.h"
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
+#include "pso/unk/text_803D8F74.h"
 struct Rec_8006E310 { u8 pad0[0x20]; u8 pad20[0x30]; };
 
 extern Vec TCameraCtrl__override_position;
@@ -188,7 +189,6 @@ u8 * csnVector(void *, void *, u32);
 s32 angle_difference_abs(s32 a, s32 b);
 void begin_conversation_camera(void);
 void request_follow_camera_offsets(void *arg0, void *arg1, u16 arg2);
-void rotate_matrix_y(s32, s32);
 void matrix_mult_vec(s32, void *, void *);
 void TCameraCtrl__sub_8006E804(void* a0);
 extern Pads_8006D1A4 controller_input_state;

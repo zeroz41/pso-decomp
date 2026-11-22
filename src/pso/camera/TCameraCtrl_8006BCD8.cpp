@@ -46,8 +46,6 @@ LAYOUT_ASSERT(ScriptedCameraPlaybackOffset, offsetof(ScriptedCameraState, playba
 extern "C" {
 
 u16 TCameraCtrl__sub_8006A5DC();
-s32 angle_difference_abs(s32, s32);
-s32 approach_angle_limited(s32, s32, s32);
 
 }
 

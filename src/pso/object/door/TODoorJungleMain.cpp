@@ -48,6 +48,7 @@ struct AnimationMotion;
 
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/unk/TLobby_8001EF5C.h"
 
 
 struct Ids_8029B428 {
@@ -137,8 +138,6 @@ GinjaTextureList *door_jungle_main_gvm_texture;
 
 u8 * load_gvm_texture_file(saddr);
 extern "C" {
-
-AnimationMotion *get_bml_motion(BmlResource *, s32);
 
 u32 init_collision_body_parts(void *, saddr, s32);
 

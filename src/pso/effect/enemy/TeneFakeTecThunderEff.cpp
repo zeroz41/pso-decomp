@@ -14,6 +14,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/unk/text_803D853C.h"
 
 #pragma readonly_strings on
 
@@ -75,7 +76,6 @@ s32 TObjPlayer__effect_count;
 extern const f32 lbl_805D99F8;
 extern const f32 lbl_805D9A04;
 extern const f32 lbl_805D9A08;
-s32 matrix_mult_vec(int, void *, void *);
 extern Cam_800A3D1C lbl_8058D4F8;
 extern const f32 lbl_805D99F0;
 extern const f32 lbl_805D99FC;

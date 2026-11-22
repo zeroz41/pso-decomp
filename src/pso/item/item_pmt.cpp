@@ -18,6 +18,9 @@
 #include "pso/item/TItemLoad_8010FDF0.h"
 #include "pso/item/TItemLoad.h"
 #include "pso/unk/TLobby_80226070.h"
+#include "pso/item/TItemData_8010EDA8.h"
+#include "pso/unk/TLobby_800F8AA8.h"
+#include "pso/system/SoundEffect.h"
 
 void *item_pmt;
 
@@ -103,12 +106,9 @@ typedef struct Pmt_8011C234 { u8 pad[0xC]; PmtRow_8011C234 *rows; } Pmt_8011C234
 
 extern "C" {
 s32 select_enemy_drop__9TItemDropFPviiPv(u32, s32, s32, s32);
-saddr get_text_collection(s32);
-extern const char *lbl_805D2B10;
 s32 __cvt_fp2unsigned(f32);
 s32 get_item_star_count(s32 id);
 Entry_8011CB18 *get_weapon_range_record(Item_8011CB18 *item, s16 mode);
-s32 play_sound_effect(s32, void *, s32, s32);
 void play_weapon_owner_sounds(Ctx_8011C7C8 *c);
 void play_weapon_hit_sound(Ctx_8011C7C8 *c);
 u16 get_entity_id(void *);

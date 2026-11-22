@@ -44,6 +44,8 @@ struct game_command_header;
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/network/client_id.h"
 #include "pso/network/TProtocol.h"
+#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/TLevelSelect.h"
 
 // ---- declarations carried over from the fragment TOMineTrapDisp_8016EDC8.cpp
 extern "C" {
@@ -170,7 +172,6 @@ struct VObj_18_1da615 : VBase_18_1da615 {
     virtual s32 m23(void *, f32);
 };
 extern "C" {
-saddr get_localized_text_entry(s32 arg0, s32 arg1);
 s32 play_sound_effect(s32, s32, s32, s32);
 void TOMineTrap__sub_80170CD4(void* p);
 void record_attack_source(void *object, u16 id);
@@ -182,7 +183,6 @@ extern s32 TOMineIcon01__name;
 extern s32 TOMineIcon02__name;
 extern s32 TOMineIcon03__name;
 extern s32 TOMineIcon04__name;
-extern s32 game_difficulty_selection;
 typedef struct VBase_18_33b813 VBase_18_33b813;
 typedef struct VObj_18_33b813 VObj_18_33b813;
 }

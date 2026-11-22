@@ -32,6 +32,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/text_80120908.h"
+#include "pso/system/MatrixOps.h"
 
 struct Elem_80125628 { u8 pad[0x1c]; u8 f1c[0x2c - 0x1c]; };
 
@@ -39,10 +40,6 @@ struct Obj_80125628 { u8 pad[0xa4]; Elem_80125628 *elems; };
 
 struct Ctx_80125628 { Obj_80125628 *obj; s32 idx; };
 
-extern "C" {
-s32 rotate_matrix_z(s32, s32);
-s32 rotate_matrix_x(s32, s32);
-}
 
 // Gi Gue bazooka (TUnk_804F0A00), TUnk_804F0AF8 and the fire-explosion spawners: its own
 // TU, since its 10.0f literal at 0x805DFE00 sits between two 4-byte pads.

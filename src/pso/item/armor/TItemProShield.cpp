@@ -19,6 +19,7 @@
 #include "pso/player/TObjPlayer_80117DD8.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/render/render_util.h"
+#include "pso/player/TObjPlayer_80363BE0.h"
 
 // What play_shield_sound_cue reads (TObjPlayer::reset_status_block clears it).
 struct ShieldSoundCue {
@@ -35,8 +36,6 @@ s32 play_shield_sound_cue(ShieldSoundCue *cue);
 s32 add_actor_hp(u8 *arg0, s16 arg1);
 s32 add_actor_tp(u8 *arg0, s32 arg1);
 s16 obj_getS16_2BA(u8 *p);
-void TObjPlayer__sub_8036414C(void);
-void TObjPlayer__sub_80364198(void);
 // The item file helpers (TItemDrop_800F93F0.cpp).
 // The class name and the effect table's file name. This object starts at
 // 0x80117E50 with the nearby player checks (the last two functions below),

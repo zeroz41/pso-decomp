@@ -17,6 +17,8 @@
 #include <stddef.h>
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/unk/text_803D8F74.h"
 f32 TEffClitical__alpha_approach_step = 0.15f;
 const char* TEffClitical__class_name = "TEffClitical";
 
@@ -26,8 +28,6 @@ __declspec(section ".data") NJS_TEXLIST clitical_texture_list = { clitical_textu
 
 extern "C" {
 f32 vector_length(void *);
-s32 scale_matrix(int, f32, f32, f32);
-s32 rotate_matrix_y(int, int);
 s32 post_translate_matrix(void *);
 extern s32 technique_ringwave_texture_list[];
 extern u8 *camera_ctrl_instance;

@@ -96,7 +96,6 @@ extern "C" {
 s32 obj_getArrWord_254(void *, int);
 u16 get_entity_id(void *);
 s32 check_equip_requirements(void *self, TItemData *p, s32 *out);
-int check_class_equip_permission(TObjPlayer *player, s32 perm);
 void *lookup_item_pmt_record(u8 *item);
 void *get_player_by_client_id(s32 i);
 u8 get_cast_technique_level(void *, int);
@@ -772,6 +771,9 @@ s32 TItemData::get_max_stack_size() {
 #include "pso/item/mag/TItemMag.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/unk/text_80104FCC.h"
+#include "pso/player/TObjPlayer_8011C000.h"
+#include "pso/player/TObjPlayer_80117DD8.h"
 
 
 #define calc_clock_bonus__9TItemDataFPv ((s32 (*)(void *, s32))calc_clock_bonus__9TItemDataFPv)
@@ -809,15 +811,12 @@ struct Item_8010E59C {
 
 extern "C" {
 void *get_armor_pmt_record(int type, int id);
-s32 get_item_star_count(s32);
 }
 saddr get_item_chunk_buffer(int a0);
 extern const char *lbl_805D2B10;
 s32 format_item_description(u8 *item);
 extern "C" {
-s32 TObjPlayer__sub_80117E50(u16);
 void TItemData__clear_unidentified_flag(void *arg0);
-s32 get_unit_attribute_index__10TObjPlayerFUc(u8);
 
 void lookup_item_def__9TItemDataFPv(void *arg0) {
     is_item_stackable(*(u8 *)((s8 *)arg0 + 0), *(u8 *)((s8 *)arg0 + 1));

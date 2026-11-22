@@ -25,6 +25,7 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/object/base/CollisionActorLookup.h"
 
 struct RecoveredFields_802308A0_arg0
 {
@@ -103,7 +104,6 @@ extern "C" {
 
 u16 get_entity_id(void *);
 s32 play_sound_effect(s32, s32, s32, s32);
-void *find_entity_by_id(u16 id);
 
 void TTecGiBarta::update_technique_by_phase() {
     u8 *arg0 = (u8 *)this;

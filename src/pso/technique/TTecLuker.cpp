@@ -29,6 +29,12 @@
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/unk/text_80087278.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_801BFED4.h"
+#include "pso/network/client_id.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 struct Stack_802340E4 {
     s32 sp8;
@@ -69,7 +75,6 @@ void TTecLuker__sub_80235048(void* p);
 int TTecLuker__sub_80235054(void* p);
 int fn_80235078(void *arg0);
 uaddr get_player_by_client_id(s32);
-s32 play_sound_effect(int, void *, int, int);
 s32 obj_setFlags30(void *, int);
 s32 init_collision_body_parts(void *, void *, int);
 bool TTecLuker__sub_8023401C(u8 *arg0);
@@ -83,7 +88,6 @@ extern "C" {
 void TTecLuker__sub_80234F08(void);
 void reset_telepipe_record(O_802340A0 *o);
 void TTecLuker__sub_80234F48(void);
-s32 TObjPlayer__sub_801BFFA0(void *p);
 void set_state__9TTecLukerFl(void *p, s32 v);
 static const s32 telepipe_visual_template_table[12][3] = {
     { 177, 178, 176 },
@@ -126,11 +130,7 @@ s32 telepipe_record_differs(Rec_8023402C *r, s16 floor, Vec *p, u16 unused);
 s32 get_entity_id(void *);
 s32 is_split_screen();
 u8 *find_entity_by_id(u16);
-extern s32 local_client_id;
 void handle_6x68_set_telepipe_state(Pkt_802341B0 *pkt);
-s32 matrix_mult_vec(int, void *, void *);
-s32 rotate_matrix_y(int, s32);
-s32 mark_area_change_pending();
 s32 send_6x21_inter_level_warp(void *, s32);
 s32 play_persistent_sound(s32, void *, void *, s32, s32);
 f32 horizontal_distance_squared(void *, void *);

@@ -34,6 +34,9 @@
 #include "pso/technique/TTecDeband.h"
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/technique/TTecResta.h"
+#include "pso/player/PlayerSlots.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/unk/text_803D8F74.h"
 
 TechniqueParams lbl_80515F90;
 // Per player: the technique boosts of the equipped weapon and shield.
@@ -42,7 +45,6 @@ TechniqueBoostTable lbl_8051607C[4];
 
 extern "C" {
 f32 get_battle_value__10TObjPlayerFlil(void *, s32, s16);
-void *get_player_by_client_id(s32 i);
 }
 
 typedef struct Owner_8022CDE8 {
@@ -94,8 +96,6 @@ Ent_8022D27C *find_entity_by_id(u16);
 void get_hand_joint_position__10TObjPlayerFl(void *, void *);
 Target_8022D27C *get_technique_data__10TObjPlayerFPv(void *);
 u8 get_cast_technique_level(void *, int);
-void matrix_mult_vec(int, void *, void *);
-void rotate_matrix_y(int, int);
 void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl);
 void *construct_actor_light__9TObjLightFlllllfffl(void *, Col_8022C738 *, Vec *, s32, void *, s32, f32, f32, f32);
 void *__ct__13TUnk_804CC794Fll(void *, void *, s32);

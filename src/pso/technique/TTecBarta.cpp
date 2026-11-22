@@ -19,6 +19,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/unk/text_800871A0.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/object/base/CollisionActorLookup.h"
 
 struct HitInfo_8022B8F4 { s32 type; f32 power; };
 
@@ -85,7 +86,6 @@ struct Tec_8022BD74 {
 extern "C" {
 u16 get_entity_id(void *);
 
-void *find_entity_by_id(u16 id);
 }
 
 const TechniqueEmitterSourceRow lbl_8044CC78[3] = {

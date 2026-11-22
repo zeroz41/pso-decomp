@@ -36,6 +36,8 @@ const char *TPhotonFarlla__class_name = "TPhotonFarlla";
 #include "pso/unk/text_801AB370.h"
 #include "pso/map/FloorArea.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/object/base/CollisionActorLookup.h"
 
 struct Self_801AAF00 {
     u8 pad0[0x24];
@@ -55,7 +57,6 @@ struct Self_801AAF00 {
 extern u8 *photon_blast_shared_resource;
 extern "C" {
 s32 scroll_strip_uvs(void *, s16, int);
-s32 rotate_matrix_y(int, int);
 extern NJS_ARGB saved_model_draw_color;
 extern NJS_ARGB model_material_color;
 extern s32 saved_model_render_flags;
@@ -129,9 +130,6 @@ struct Stack_801AB018 {
     u8 trailing_storage[0x4];
 };
 
-extern "C" {
-void *find_entity_by_id(u16 id);
-}
 u8 *construct_photon_magic_square_normal(u8 *arg0, saddr arg1, s32 arg2, saddr arg3, s32 arg4);
 extern "C" {
 

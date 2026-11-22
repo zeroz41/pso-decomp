@@ -86,7 +86,6 @@ const Row_80190AA0 *environment_sound_tables_by_area[36] = {
     NULL, NULL, lbl_80445820, lbl_80445820,
 };
 
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 f32 xz_distance_squared(void *, void *);
 extern TCameraCtrl *camera_ctrl_instance;
 void run_task__14TObjEnvSoundExFv(Env_80190624 *o);
@@ -116,6 +115,7 @@ f32 xyz_distance_squared(void *, void *, void *);
 
 #include "pso/unk/text_80190940.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
 
 
 struct Obj_80190AA0 {

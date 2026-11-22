@@ -27,6 +27,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/render/model_render_state.h"
+#include "pso/unk/text_803D8F74.h"
 
 struct Seg_80096EBC { s32 a; f32 x; f32 y; f32 z; u8 pad[12]; };
 
@@ -114,7 +115,6 @@ s32 post_translate_matrix(void *);
 void alloc_breakup_piece_records(Brk_80096EBC *arg0, NJS_OBJECT *model);
 void __ct__7TObjectFP7TObject(void *, void *);
 void rotate_vector_by_matrix(saddr, void *, void *);
-void rotate_matrix_y(s32, s32);
 extern s32 __vt__11TBreakUpMdl[];
 static const BreakUpParamRow breakup_default_param_row = { 12, 0.07f, 1.5f, 0.9f, 0.12f, 0.5f, 0.5f };
 const char *TBreakUpMdl__class_name = "TBreakUpMdl";

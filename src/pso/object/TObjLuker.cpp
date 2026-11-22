@@ -103,7 +103,6 @@ s32 play_persistent_sound(int, void *, void *, int, int);
 s32 TTecLuker__sub_8023401C(void *);
 s32 get_entity_id(int);
 s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0);
-s32 get_main_phase();
 s32 send_6x21_inter_level_warp(int, void *);
 s32 init_fields__9TTecLukerFs(void *, int);
 extern s32 lbl_805D55C0;

@@ -17,6 +17,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_800F7DAC.h"
 #include "pso/object/switch/TSwitch.h"
+#include "pso/object/base/CollisionActorLookup.h"
 
 struct VBase_80178AD4 { u8 pad[0x18]; };
 
@@ -72,7 +73,6 @@ CollisionBody lbl_804B4550[1] = {
 const char *lbl_805D3190 = "symbolchatcolli.prs";
 const char *TOSymbolchatColli__name = "TOSymbolchatColli";
 Obj_80178AD4 *__ct__17TOSymbolchatColliFP7TObjectl(Obj_80178AD4 *arg0, void *arg1, s32 arg2);
-void *find_entity_by_id(u16 id);
 void fn_8017866C(void *, s32, u16);
 void run_task__17TOSymbolchatColliFv(Obj_80178890 *self);
 u32 symbolchat_colli_param_table[4];

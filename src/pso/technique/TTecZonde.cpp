@@ -95,6 +95,7 @@ void TTecZonde::vfunc_8(void *arg1_arg) {
 #include "pso/technique/TTecLuker.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/technique/TTecGiZonde_8023CDC4.h"
+#include "pso/system/SoundEffect.h"
 extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 struct Seg_8023C79C { f32 a[3]; f32 b[3]; f32 len; };
@@ -124,7 +125,6 @@ void TTecZonde::render() {  }
 #pragma fp_contract on
 
 void *find_entity_by_id(u16 id);
-s32 play_sound_effect(s32, void *, s32, s32);
 f32 vector_length(void *);
 extern u8 *tl_07;
 

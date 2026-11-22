@@ -10,6 +10,7 @@
 #include "pso/object/switch/TSwitch.h"
 #include "pso/unk/text_8024AD30.h"
 #include "pso/boss/volopt/TObjVoloptCage.h"
+#include "pso/network/client_id.h"
 
 struct Pkt_80186CC8 { u8 cmd; u8 size; u16 id; u16 value; u16 pad; };
 
@@ -27,8 +28,6 @@ struct Obj_80186DA0 {
 };
 
 extern "C" {
-
-extern s32 local_client_id;
 
 void TObjCityMainWarpChallenge::close_windows() {
     if ((u32) *(u32 *)((s8 *)this + 0x168) != 0U) {

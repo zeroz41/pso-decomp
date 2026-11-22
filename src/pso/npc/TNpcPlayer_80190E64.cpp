@@ -12,6 +12,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/client_id.h"
+#include "pso/player/PlayerSlots.h"
 
 extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
@@ -45,7 +46,6 @@ extern s32 __vt__13TUnk_804B7C04[];
 extern s32 npc_player_char_data_buffer;
 Npc_80190F3C *init_npc_player_char_loader(Npc_80190F3C *arg0, void *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, void *arg6);
 void free_collision_body_parts(void *);
-void *get_player_by_client_id(s32 i);
 f32 horizontal_distance_squared(void *, void *);
 int npc_proximity_target_id = -1;
 void TLobby__sub_80190FD0(int a0);

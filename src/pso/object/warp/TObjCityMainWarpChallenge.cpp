@@ -39,6 +39,7 @@
 #include "pso/unk/text_8024ACEC.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/network/client_id.h"
 const char *lbl_805D32B8 = "TObjCityMainWarpChallenge";
 static const char lbl_80444A44[] = "<- NEXT STAGE No.%d";
 static const char lbl_80444A58[] = "<- KEY ID : %d";
@@ -47,7 +48,6 @@ void initialize_option_dialog(void *dialog, saddr message, s32 position, f32 wid
 
 extern "C" {
 f32 xz_distance_squared(void *, void *);
-extern s32 local_client_id;
 s32 is_local_client_floor_leader(s32);
 void fn_80248994(TWindowBase *list, u32 color, s32 pos);
 void request_active_window_close(void);

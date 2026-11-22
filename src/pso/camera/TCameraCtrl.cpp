@@ -70,6 +70,7 @@ struct Out_80069F20 {
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/camera/TCameraCtrl_80067654.h"
+#include "pso/camera/TCameraCtrl_8006782C.h"
 struct Stack_80069318 {
     s32 sp8;
     u8 pad_C[0x4];
@@ -435,8 +436,6 @@ int set_fixed_position_and_target__11TCameraCtrlFPUcPUc(void*);
 
 void *TCameraCtrl__vt0(void);
 
-
-void *TCameraCtrl__vt12(void);
 
 void *TCameraCtrl__vt4(void);
 

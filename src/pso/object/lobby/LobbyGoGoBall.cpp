@@ -49,6 +49,9 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/camera/TCameraCtrl_801A6E60.h"
+#include "pso/unk/text_800870BC.h"
+#include "pso/network/client_id.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 BmlResource *gogo_ball_bml_resource;
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -98,7 +101,6 @@ struct Obj_80198A2C {
 struct Pad_80198A2C { u8 pad0[0x10]; s16 buttons; };
 struct Sys_80198A2C { u8 pad0[0x48]; u16 mode; };
 extern "C" {
-void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 void *lbl_804B8A10[210] = {
     (void *)0xbf000000, (void *)0x3f600000, (void *)0x0, (void *)0x40600000,
     (void *)0x40200000, (void *)0x8d480ff, (void *)0x0, (void *)0x41a00000,
@@ -278,9 +280,7 @@ struct Timer_8019A104 {
 };
 extern "C" {
 void TWindowTimer__sub_8019A6F8(void* p);
-extern s32 local_client_id;
 void TWindowTimer__sub_8019A098(void);
-void rotate_vec_xz(void *, void *, s32);
 s32 get_entity_id(void *);
 void vec3_add_to(void *, void *);
 f32 atan2_float(f32, f32);

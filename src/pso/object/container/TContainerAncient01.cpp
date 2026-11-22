@@ -215,8 +215,6 @@ s32 scale_current_matrix(void *);
 
 s32 post_translate_matrix(void *);
 
-void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
-
 
 void *TContainerAncient01R__create(void *arg0);
 
@@ -316,6 +314,7 @@ s32 reset_state__19TContainerAncient01Fv();
 #include "pso/item/TUnk_804B97C0.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/render/ModelDrawContext.h"
 
 struct B_8018BE30 { u8 pad[0x18]; };
 

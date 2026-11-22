@@ -20,6 +20,8 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/item/drop/TItemDrop_800F93F0.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/unk/text_803D853C.h"
 
 
 #pragma push
@@ -81,8 +83,6 @@ struct Stack_8006C28C {
 void sample_camera_motion(u8 *arg0, saddr arg1, u8 *arg2, f32 farg0);
 extern "C" {
 f32 vec_squared_length(u8 *arg0);
-void rotate_matrix_y(int, s32);
-void matrix_mult_vec(int, Vec *, Vec *);
 }
 extern u8 identity_matrix[];
 

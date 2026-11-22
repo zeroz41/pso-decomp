@@ -32,6 +32,7 @@
 #include <string.h>
 #include "pso/technique/TTecCtrl.h"
 #include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
 struct VBase_18_f2ea1e { char pad[0x18]; };
 
@@ -171,7 +172,6 @@ void TObjPlayer__sub_801542F4(saddr a);
 
 void TObjPlayer__sub_8015431C(u8 *arg0);
 
-void reset_global_table(void);
 }
 f32 vec_distance_squared(u8 *arg0, u8 *arg1);
 TUnk_804E355C::TUnk_804E355C(TObject *parent, S_802E451C *params) : TObject(parent) {

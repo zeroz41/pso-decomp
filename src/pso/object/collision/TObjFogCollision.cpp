@@ -30,6 +30,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/system/MatrixOps.h"
 
 
 const char *TObjFogCollision__name = "TObjFogCollision";
@@ -56,7 +57,6 @@ void *TObjFogCollision__create(void *set);
 void record_fog_collision_hit(s32 arg0, s32 arg1, s32 arg2);
 u8 is_current_floor_switch_set(u16);
 
-s32 scale_matrix(int, f32, f32, f32);
 s32 post_translate_matrix(void *);
 extern s32 saved_model_draw_color[];
 extern s32 model_material_color[];

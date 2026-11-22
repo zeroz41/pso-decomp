@@ -78,6 +78,7 @@
 #include "pso/system/byteswap.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 // The original TU was built with deferred codegen: functions below are in reverse
 // address order, and the pool (three {3, 2} initializers, then the float literals
@@ -137,9 +138,6 @@ struct Data_8019CAB0 {
 
 extern "C" {
 
-u16 get_entity_id(void *);
-s32 is_split_screen();
-s32 get_current_floor();
 s32 get_floor_destination_name();
 saddr get_localized_text_entry(s32, s32);
 s32 debug_draw_line(void *, void *, u32, u32);

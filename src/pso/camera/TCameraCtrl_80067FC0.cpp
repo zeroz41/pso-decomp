@@ -13,6 +13,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/unk/text_803D853C.h"
+#include "pso/unk/text_803D8F74.h"
 
 
 struct View_8006835C {
@@ -69,7 +70,6 @@ void apply_camera_controller_pose(Cam_80068530 *arg0);
 s32 is_split_screen();
 f32 fabs_float();
 Hit_8006809C *csnVector(void *, void *, s32);
-s32 rotate_matrix_y(int, s32);
 }
 const Vec lbl_80438168 = {0.0f, 0.0f, -1.0f};
 const Vec lbl_80438174 = {0.0f, 0.0f, -1.0f};

@@ -20,6 +20,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/object/switch/TSwitch.h"
+#include "pso/unk/TLobby_8001EF5C.h"
 
 struct AnimationMotion;
 
@@ -89,8 +90,6 @@ static const f32 lbl_805DBE58[1] = {0.0f};
 struct Node_80192A3C { u32 flags; void *model; u8 pad8[0x24]; Node_80192A3C *child; Node_80192A3C *sibling; };
 
 struct Fish_80192A3C { u8 pad0[0x8C]; s32 f8C; u8 pad90[0x2C]; Node_80192A3C *fBC; Node_80192A3C *fC0; s32 fC4; void *fC8[4]; };
-
-AnimationMotion *get_bml_motion(BmlResource *, s32);
 
 struct Obj_80192B5C { u8 pad0[0x38]; u8 f38[0x24]; s32 f5C; s32 f60; u8 pad64[0x48]; s32 fAC; u8 padB0[8]; f32 fB8; saddr fBC; saddr fC0; saddr fC4; saddr fC8[4]; };
 

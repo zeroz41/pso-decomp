@@ -26,6 +26,9 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_803DC86C.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/unk/text_803D853C.h"
 
 struct Col_80086418 { u8 a, r, g, b; };
 
@@ -75,12 +78,9 @@ extern "C" {
 s32 GXSetNumTexGens(int);
 s32 GXSetTevOp(int, int);
 s32 GXSetNumTevStages(int);
-s32 rotate_matrix_y(int, s32);
-s32 rotate_matrix_x(int, s32);
 s32 post_translate_matrix(void *);
 s32 emit_particle_strip_vertices(void *, int);
 extern u8 *camera_ctrl_instance;
-s32 matrix_mult_vec(int, void *, void *);
 }
 void load_projected_texture_matrix(f32 farg0);
 void play_indirect_effect_recipe(u8 arg0, u16 sampler, s32 second);

@@ -31,6 +31,7 @@
 #include "pso/unk/TLobby_80070A00.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80071774.h"
 #include "pso/system/TLoadCtrl_80227390.h"
+#include "pso/camera/TCameraCtrl_800687BC.h"
 
 #pragma readonly_strings on
 
@@ -183,8 +184,6 @@ struct Cam_802E4E44 {
 };
 
 extern "C" {
-s32 activate_camera_mode(s32);
-void set_active_camera_pose_from_params(u8 *arg0);
 const char *TObjOnlineEnding__name = "TObjOnlineEnding";
 // inferred: the camera position and target run_task gives the ending scene.
 static const Vec online_ending_camera_eye = {20000.0f, 0.0f, 0.0f};
@@ -196,7 +195,6 @@ f32 online_ending_scene_z_offset;
 BmlResource *online_ending_resource;
 s8 online_ending_scene_translation_initialized;
 s8 online_ending_quad_vertices_initialized;
-s32 restore_player_cameras();
 
 void TObjOnlineEnding::create_result_window() {
     result_window = NULL;

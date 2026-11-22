@@ -19,6 +19,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/render/render_util.h"
 
 #pragma readonly_strings on
 
@@ -49,7 +50,6 @@ struct Self_801ACE1C {
 extern "C" {
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
-extern NJS_ARGB chunk_material_color_half_alpha_f32;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 void TPhotonMagicSquare::render() {

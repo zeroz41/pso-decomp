@@ -14,6 +14,8 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/technique/TTecGiZonde_8023CDC4.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/math/MatrixVector.h"
 
 typedef struct GTarget_80232598 {
     u16 id;
@@ -133,9 +135,7 @@ void TTecGiZonde::vfunc_8(void *arg1_arg) {
 extern "C" {
 void *find_entity_by_id(u16 id);
 s16 get_entity_id(void *);
-s32 play_sound_effect(s32, void *, s32, s32);
 s32 copy_technique_target_list(void *, void *);
-f32 vector_length(Vec *);
 
 #define UNQ(e) TTecLuker::is_parents_unqueued(e)
 s32 TTecGiZonde::find_chain_targets() {

@@ -11,7 +11,7 @@
 
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/CollisionActorLookup.h"
-extern "C" void *__ct__16TargetCursorListFv(void *list);
+#include "pso/player/TargetCursorList.h"
 
 #pragma readonly_strings on
 

@@ -18,6 +18,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/TLobby_8001EF5C.h"
+#include "pso/system/MatrixOps.h"
 
 struct AnimationMotion;
 
@@ -37,9 +39,7 @@ extern "C" {
 extern const char *komorebi_class_name;
 extern uaddr TKomorebi__resource_bundle;
 extern s32 komorebi_last_uv_update_frame;
-AnimationMotion *get_bml_motion(BmlResource *, s32);
 s32 post_translate_matrix(void *);
-s32 scale_matrix(s32, f32, f32, f32);
 f32 xz_distance_squared(void *, s32);
 
 extern s32 camera_ctrl_instance;

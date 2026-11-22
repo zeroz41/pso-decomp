@@ -17,6 +17,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
+#include "pso/render/model_render_state.h"
+#include "pso/unk/text_803D853C.h"
 
 
 #pragma readonly_strings on
@@ -133,9 +135,6 @@ const char *TTecZondeEff_class_name = "TTecZondeEff";
 P_8023DBB4 tec_zonde_effect_task_list;
 extern char lbl_804CC8C8[];
 s32 TTecZondeEff__beam_vertex_data;
-extern u32 saved_model_render_flags;
-extern u32 model_render_flags;
-void matrix_mult_vec(s32, Vec *, Vec *);
 extern Cam_8023D128 lbl_8058D4F8;
 s32 project_lightning_points(Obj_8023D128 *self, Vec *out, f32 *a, f32 *b);
 struct Obj_8023D294 { u8 pad[0x28]; Vec d; };

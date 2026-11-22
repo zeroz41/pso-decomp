@@ -8,6 +8,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/TLobby_802A0F3C.h"
+#include "pso/network/TPlyJoinLobbyEntry.h"
 
 
 struct E_802C4698 { u8 pad[0x1c]; };
@@ -48,7 +49,6 @@ struct Item_802C3F74 : VBase_802C3F74 {
 
 extern "C" {
 void copy_player_visual_record(void *, void *);
-void TObjPlayer__sub_8013A748(void *, void *);
 void clamp_stats__10TObjPlayerFiPv(void *, void *, s32);
 s8 TObjPlayer__sub_801AFD8C(void *);
 s8 query_state_if_present__10TObjPlayerFPv(void *, s32);

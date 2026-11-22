@@ -16,6 +16,7 @@
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/object/base/CollisionActorLookup.h"
 extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 #pragma readonly_strings on
@@ -120,7 +121,6 @@ AntiRow_8022AE10 TTecAnti__self_effect_rows[4] = {
 };
 extern s32 __vt__13TUnk_804CC0E8[];
 Obj_8022AE10 *construct_self_effect__8TTecAntiFPvPvPviPv(Obj_8022AE10 *self, const Vec *body, const Vec *ground, s32 actor, void *parent);
-void *find_entity_by_id(u16 id);
 void deliver_technique_to_party_targets(void *);
 void run_task__8TTecAntiFv(Anti_8022B150 *self);
 s32 is_split_screen();

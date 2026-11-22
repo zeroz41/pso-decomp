@@ -30,6 +30,8 @@
 #include "pso/technique/TTecReverser.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/TObjPlayer_803E1A58.h"
+#include "pso/ui/TLevelSelect.h"
 
 extern "C" {
 void rotate_matrix_y(s32, s32);
@@ -134,7 +136,6 @@ void matrix_mult_vec(s32, Vec *, Vec *);
 f32 vec3_dot(Vec *, Vec *);
 f32 vector_length(Vec *);
 void project_point_onto_line(void *, Line_8014EE98 *, Vec *);
-f32 xyz_distance(Vec *, Vec *);
 
 extern int registered_entity_count;
 extern Text_8014E250 npc_partner_dialogue_state[];
@@ -142,7 +143,6 @@ extern uaddr npc_player_char_data_buffer;
 
 void copy_player_visual_record(void *, void *);
 void bswap__15disp_data_part2Fv(saddr arg0);
-extern s32 game_difficulty_selection;
 extern s32 TNpcPlayer__data_805D5864;
 
 u32 lbl_8050CF68[20];

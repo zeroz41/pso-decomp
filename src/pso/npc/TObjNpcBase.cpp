@@ -33,6 +33,9 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/camera/TCameraCtrl_8006CC30.h"
+#include "pso/network/client_id.h"
+#include "pso/unk/text_803E2F28.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
 
 extern "C" {
 const char *TObjNpcBase__name = "TObjNpcBase";
@@ -101,7 +104,6 @@ u8 *create_conversation_camera(s32 arg0);
 extern "C" {
 s32 angle_difference_abs(s32, s32);
 s32 subtract_vector(Vec *, Vec *);
-extern s32 local_client_id;
 
 void TObjNpcBase::interact(s32 client) {
     TObjPlayer *player;
@@ -401,9 +403,6 @@ void TObjNpcBase::run_idle_action() {
 }
 
 extern "C" {
-void draw_chunk_object(void *child);
-void restore_scene_lighting(void);
-void select_actor_lighting(s32 obj);
 u16 find_nearest_visible_player(void *, s32, f32 *, f32);
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
 

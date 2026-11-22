@@ -46,6 +46,8 @@ struct NJS_OBJECT;
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_8012121C.h"
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/object/ambient/TObjLight_80235C44.h"
 
 
 // ---- pso/item/WeaponAttackActions
@@ -69,13 +71,11 @@ void * get_captured_target_entry(void *, s32);
 f32 * get_weapon_range_record(void *, s16);
 s16 is_status_subsystem_ready__10TObjPlayerFv(s32);
 u16 get_uid__10TObjPlayerFv(void *);
-u8 *find_entity_by_id(s32);
 s32 rotate_matrix_y(int, void *);
 s32 subtract_vector(void *, void *);
 s32 transform_point_by_current_matrix(void *, void *);
 extern s32 identity_matrix[];
 extern const f32 lbl_805DAC94;
-void construct_actor_light_task(u32, void *, void *, s32, s32, s32, f32);
 extern A12_8011E3E8 lbl_8043E838[];
 extern A16_8011E3E8 lbl_8043E844[];
 struct Stack_8011E56C {
@@ -124,7 +124,6 @@ struct Self_8011EDFC {
 s32 TObjectV8047c128_subtract_hp(u8 *arg0, s16 arg1);
 saddr get_entity_id(void *);
 u8 * csnVector(void *, void *, s32);
-void TObjPlayer__sub_80121228(void *p, u32 v);
 f32 horizontal_distance_squared(void *, void *);
 TObjChara *resolve_hittable_target(s32, s32);
 s16 TObjPlayer__sub_801D2F4C(s16 *arg0);

@@ -12,15 +12,14 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/object/ambient/TObjLight_803DF220.h"
+#include "pso/render/model_render_state.h"
 
 
 #pragma readonly_strings on
 const char *TItemEffectWeapon__class_name = "TItemEffectWeapon";
 
 extern "C" {
-void TObjPlayer__sub_803DF768(s32);
-extern u32 saved_model_render_flags;
-extern u32 model_render_flags;
 
 void TItemEffectWeapon__sub_8036340C(void);
 void TItemEffectWeapon__sub_80363410(void);

@@ -11,6 +11,7 @@
 #include "pso/camera/TCameraCtrl_801A6E60.h"
 #include "pso/system/vector.h"
 #include "pso/ui/frontend/TAdGameStartGC.h"
+#include "pso/network/client_id.h"
 
 struct Param_802E5CB0 { f32 a; f32 b; s32 c; f32 d; };
 
@@ -58,7 +59,6 @@ void *__vt__23TObjOnlineEndingHexLine[6] = {
 
 extern Param_802E5CB0 online_ending_hex_line_state;
 extern u8 controller_input_state[];
-extern s32 local_client_id;
 extern s32 __vt__23TObjOnlineEndingHexMove[];
 
 s32 draw_color_lines(Desc_802E55B8 *, s32, s32, f32);

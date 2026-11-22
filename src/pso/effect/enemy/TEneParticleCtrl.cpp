@@ -6,15 +6,13 @@
 #include "pso/effect/enemy/TEneParticleCtrl.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 // inferred: TEneParticleCtrl__collision_body, the one body the constructor registers.
 CollisionBody TEneParticleCtrl__collision_body = {{0.0f, 0.0f, 0.0f}, 20.0f, 0.0f, 0, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
 
 const char *TEneParticleCtrl__name = "TEneParticleCtrl";
 
-extern "C" {
-u16 get_entity_id(void *);
-}
 
 void *TEneParticleCtrl::get_center() { return get_field_38_ptr(); }
 

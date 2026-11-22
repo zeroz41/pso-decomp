@@ -146,7 +146,6 @@ extern u8 *camera_ctrl_instance;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 f32 vector_length(void *);
-f32 vec3_dot(void *, void *);
 }
 void setup_particle_tev(s32 arg0);
 void load_projected_texture_matrix(f32 farg0);
@@ -217,6 +216,7 @@ extern const f32 TParticleCtrl__data_805D94E4;
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/unk/text_803D853C.h"
 
 u8 *create_ballistic_particle(u8 *arg0, u8 *pos, u8 *dir, s32 parent, u16 flags, s16 target_id) {
     return (u8 *)new TUnk_8048E778(arg0, pos, dir, parent, flags, target_id);

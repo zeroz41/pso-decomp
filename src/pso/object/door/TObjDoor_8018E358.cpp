@@ -22,6 +22,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/switch/TSwitch.h"
+#include "pso/unk/TLobby_8001EF5C.h"
+#include "pso/camera/TCameraCtrl_800687BC.h"
 
 struct BmlResource;
 struct GinjaTextureList;
@@ -90,11 +92,7 @@ void draw_closed__8TObjDoorFPv(Door_8018E5F4 *arg0);
 u8 *load_gvm_texture_file(saddr arg0);
 extern "C" {
 
-AnimationMotion *get_bml_motion(BmlResource *, s32);
 void draw_locked__8TObjDoorFPv(Door_8018E74C *arg0);
-void set_active_camera_pose(u8 *arg0, u8 *arg1);
-s32 restore_player_cameras(void);
-s32 activate_camera_mode(s32);
 }
 s32 check_player_door_proximity(saddr arg0, s32 arg1, f32 farg0);
 extern "C" {

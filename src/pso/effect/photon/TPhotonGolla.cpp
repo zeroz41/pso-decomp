@@ -28,6 +28,9 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/effect/photon/TPhotonConcentrate.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/unk/text_803D853C.h"
 
 struct Stack_801ABBAC {
     s32 sp8;
@@ -126,11 +129,9 @@ void *golla_photon_blast_buffer_pair;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
-u8 *__ct__18TPhotonConcentrateFPUcll(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3);
 u32 __cvt_fp2unsigned(f32);
 void vec3_add_to(void *, void *);
 void rotate_vector_by_matrix(int, void *, void *);
-void subtract_vector(void *, void *);
 }
 const char *TPhotonGolla__class_name = "TPhotonGolla";
 extern const Packet_801AB6A0 photon_golla_concentrate_packet = {
@@ -140,7 +141,6 @@ extern u8 identity_matrix[];
 extern "C" {
 
 f32 vec_squared_length(u8 *arg0);
-f32 vec3_dot(void *, void *);
 u16 get_entity_id(void *);
 }
 

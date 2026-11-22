@@ -35,6 +35,7 @@ struct NJS_OBJECT;
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/network/client_id.h"
 
 struct RecoveredGlobal_801A7310_TCameraCtrl__data_804FF628 {
     s32 value;
@@ -438,7 +439,6 @@ void TCameraCtrl::update() { restore_player_cameras(); TCameraCtrl::release_phot
 
 void *get_player_by_client_id(s32 i);
 
-extern s32 local_client_id;
 void TUnk_804C3248::setup_photon_blast_camera() {
     u8 *arg0 = (u8 *)this;
   Vec a = {-3.0f, 6.7f, 11.0f};

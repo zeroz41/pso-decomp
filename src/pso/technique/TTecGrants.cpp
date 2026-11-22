@@ -10,7 +10,7 @@
 #include "pso/technique/TTecLuker.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/CollisionActorLookup.h"
-extern "C" void *__ct__16TargetCursorListFv(void *list);
+#include "pso/player/TargetCursorList.h"
 
 struct RecoveredFields_80238D10_arg0
 {

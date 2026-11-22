@@ -29,6 +29,7 @@
 #include "pso/boss/goldragon/TBoss8Dragon_802F3348.h"
 #include "pso/unk/TLobby_8007C550.h"
 #include "pso/unk/text_800832EC.h"
+#include "pso/network/client_id.h"
 
 #pragma defer_codegen on
 
@@ -72,7 +73,6 @@ s32 TBoss8Dragon__sub_802FCCBC(TBoss8Dragon *boss8_dragon);
 f32 calc_random_ratio__10TObjPlayerFv(void *);
 void TObjPlayer__sub_80082CBC(void *effect);
 void TObjPlayer__sub_80082CCC(void *effect);
-extern int local_client_id;
 }
 struct Cam_8030BED4 {
     const char *f0;

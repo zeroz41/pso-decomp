@@ -29,6 +29,7 @@
 
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
 struct Ply_800F7118 {
     u8 pad0[0x28];
@@ -47,8 +48,6 @@ struct Ply_800F7118 {
 };
 extern "C" {
 u16 get_entity_id(void *);
-
-extern s32 registered_player_count;
 
 extern s32 lbl_805D5870;
 

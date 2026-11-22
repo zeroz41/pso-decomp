@@ -25,6 +25,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/ParticleBallistic.h"
 #include "pso/effect/particle/ParticleOrbit.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 
 struct O_80087638 { u8 pad[0x2e]; u16 x2e; };
@@ -176,10 +177,8 @@ struct GenEntry_8008767C { s32 id; Gen_8008767C fn; };
 extern "C" {
 void set_particle_tint_color(u8 *arg0, void *arg1);
 s32 release_texture_list(void*);
-void mem_free(void *p);
 extern uaddr TParticleCtrl__regular_bml_resource;
 extern uaddr TParticleCtrl__texture_list;
-s32 mem_alloc(s32);
 // particle_pool_limit: declared s32 above (part 1)
 // particle_global_entry_table: declared s32 above (part 1)
 extern u8 *camera_ctrl_instance;

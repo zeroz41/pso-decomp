@@ -33,6 +33,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/player/TObjPlayer_801A5AEC.h"
 
 
 struct TItemReverseTechBG_80119658 {
@@ -98,10 +99,8 @@ struct TItemReverseTechSceneHook {
 };
 
 extern "C" {
-s8 func_801A5E54__Fv();
 s32 prs_decompress_alloc(int, void *, int);
 u8 *TCameraCtrl__ct(u8 *arg0, void *parent);
-void reset_controller_input_state();
 void set_copy_clear_color_argb(s32, s32, s32);
 void TItemReverseTech__sub_8011A54C(void* a0);
 void TItemReverseTech__sub_8011A55C(void);

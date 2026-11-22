@@ -27,6 +27,7 @@
 #include "pso/technique/TTecPlayerInfluence.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/object/base/CollisionActorLookup.h"
 
 struct HitInfo_80237900 { s32 type; f32 power; };
 
@@ -299,7 +300,6 @@ void TTecRaBarta::vfunc_6(void *target) {
     }
 }
 
-void *find_entity_by_id(u16 id);
 }
 
 struct Self_80237A94 {

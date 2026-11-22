@@ -27,6 +27,7 @@
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/object/switch/TSwitch.h"
+#include "pso/unk/TLobby_8001EF5C.h"
 
 
 #pragma readonly_strings on
@@ -63,8 +64,6 @@ struct Fence_80193188 { u8 pad0[0x8C]; s32 f8C; u8 pad90[0x2C]; Node_80193188 *f
 
 extern "C" {
 void post_translate_matrix(void *);
-
-AnimationMotion *get_bml_motion(BmlResource *resource, s32 index);
 
 f32 xz_distance_squared(void *, s32);
 

@@ -29,6 +29,8 @@
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/effect/photon/TPhotonMagicSquare_801ACE1C.h"
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/MatrixOps.h"
 
 typedef struct { f32 x; f32 y; f32 z; } Vec3;
 
@@ -50,7 +52,6 @@ struct Self_801ADDDC {
 
 extern "C" {
 s32 scroll_strip_uvs(void *, s16, int);
-s32 rotate_matrix_y(int, int);
 extern NJS_ARGB saved_model_draw_color;
 extern NJS_ARGB model_material_color;
 extern s32 saved_model_render_flags;
@@ -59,7 +60,6 @@ extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
-void vec3_add_to(void *, void *);
 const char *TPhotonPilla__class_name = "TPhotonPilla";
 void *pilla_photon_buffer_pair;
 extern const PhotonLaserParams photon_pilla_laser_packet = {

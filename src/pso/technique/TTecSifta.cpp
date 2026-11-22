@@ -14,7 +14,7 @@
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/CollisionActorLookup.h"
-extern "C" void *__ct__16TargetCursorListFv(void *list);
+#include "pso/player/TargetCursorList.h"
 
 #pragma readonly_strings on
 
