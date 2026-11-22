@@ -3,6 +3,7 @@
 #include "types.h"
 #include "pso/boss/dragon/TObjBoss1Crater.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
+#include "pso/enemy/AttackTargetHistory.h"
 #include "pso/system/vector.h"
 #include "pso/player/TUnk_804928CC.h"
 #include "pso/system/task/TObject.h"
@@ -216,7 +217,7 @@ void TObjBoss1Crater::area_attack_receive_direct(void *self_arg, f32 *arg2, void
 
 }
 TObjBoss1Crater::~TObjBoss1Crater() {
-    if (this->m_b4 != NULL) { __dt__17AreaAttackHistoryFv((saddr)this->m_b4, 1); *(s32 *)((s8 *)this + 0xB4) = 0; }
+    if (this->attack_history != NULL) { delete this->attack_history; this->attack_history = 0; }
     if (*(void **)((s8 *)this + 0xB0) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0xB0)))->queue_destruction(); *(s32 *)((s8 *)this + 0xB0) = 0; }
 }
 
@@ -224,7 +225,6 @@ TObjBoss1Crater::~TObjBoss1Crater() {
 #define self ((Crater_8002C544 *)this)
 TObjBoss1Crater::TObjBoss1Crater(TObject *parent, TObjBase *owner, void *arg3) : TUnk_804928CC(parent, owner) {
     f32 r;
-    void *p;
     s32 i;
     r = lbl_80435560.c;
     self->f0 = TObjBoss1Crater__name;
@@ -232,11 +232,7 @@ TObjBoss1Crater::TObjBoss1Crater(TObject *parent, TObjBase *owner, void *arg3) :
     VecCopy((Vec *)self->pos, (const Vec *)arg3);
     self->f60 = (s32)(65536.0f * ((1.0f / 32768.0f) * (f32)rand()));
     self->fB0 = create_particle_emitter(self->pos, 0x40);
-    p = ::operator new(0x10);
-    if (p != NULL) {
-        p = __ct__17AreaAttackHistoryFl((u8 *)p, 4);
-    }
-    self->fB4 = p;
+    self->fB4 = new AreaAttackHistory(4);
     for (i = 0; i < 4; i++) {
         self->fB8[i] = 0;
     }

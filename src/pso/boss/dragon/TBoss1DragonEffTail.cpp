@@ -135,7 +135,6 @@ TBoss1DragonEffTail::~TBoss1DragonEffTail() {
 TBoss1DragonEffTail::TBoss1DragonEffTail(TObjBase *owner, void *arg2) : TUnk_804928CC(NULL, owner, TBoss1DragonEffTail__collision_body_templates, 0x11) {
     void *data;
     s32 i;
-    void *p;
     data = TBoss1DragonEffTail__collision_body_templates;
     m_name = TBoss1DragonEffTail__name;
     for (i = 1; i < 0x11; i++) {
@@ -143,11 +142,7 @@ TBoss1DragonEffTail::TBoss1DragonEffTail(TObjBase *owner, void *arg2) : TUnk_804
     }
     m_b0 = (uaddr)owner;
     m_b4 = (uaddr)arg2;
-    p = ::operator new(0x10);
-    if (p != 0) {
-        p = __ct__17AreaAttackHistoryFl((u8 *)p, 4);
-    }
-    attack_history = (AreaAttackHistory *)p;
+    attack_history = new AreaAttackHistory(4);
     m_bc = 0;
     m_c0.x = 0.0f;
     m_c0.y = 0.0f;

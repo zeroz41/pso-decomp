@@ -128,7 +128,7 @@ struct Obj_80029C78 {
     AccelerationCurve f618;
     u8 pad63C[0x684 - 0x63C];
     TObject *f684;
-    void *f688;
+    AreaAttackHistory *f688;
     TObject *f68C;
     u8 pad690[0x6D8 - 0x690];
     void *f6D8;
@@ -260,7 +260,6 @@ u16 get_entity_id(void *);
 s32 select_forward_target__12TBoss1DragonFPv(u8 *self);
 s32 __dt__7TObjectFv(void *, int);
 void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
-s32 __dt__17AreaAttackHistoryFv(s32 arg0, s16 arg1);
 s32 free_collision_body_parts(void *);
 s32 __destroy_arr(void *, void *, int, int);
 void *__dt__15RenderFadeStateFv(void *arg0, s16 arg1);
@@ -270,7 +269,6 @@ void render_shadows__12TBoss1DragonFv(u8 *arg0);
 s32 __ct__14SubtractiveRngFv(void *arg0);
 void __ct__17AccelerationCurveFv(AccelerationCurve *curve);
 void __ct__12TObjEneDD_STFP7TObject(void *, void *);
-u8 *__ct__17AreaAttackHistoryFl(u8 *arg0, s32 arg1);
 void __ct__7TObjectFP7TObject(void *, void *);
 void __construct_array(void *, void *, void *, int, int);
 extern u8 __ct__15RenderFadeStateFv[];
@@ -5200,7 +5198,7 @@ Obj_80029C78 *destroy__12TBoss1DragonFPvs(Obj_80029C78 *o, s16 flag) {
             o->f68C = 0;
         }
         if (o->f688 != 0) {
-            __dt__17AreaAttackHistoryFv((saddr)o->f688, 1);
+            delete o->f688;
             o->f688 = 0;
         }
         if (o->f684 != 0) {
@@ -5303,11 +5301,7 @@ u8 *TBoss1Dragon__ct(TBoss1Dragon *self, void *arg1, void *set_data) {
     *(f32 *)(self->m_2b0 + 0x10) = 10.0f;
     self->update_damage_threshold();
     self->tail = new TBoss1DragonEffTail((TObjBase *)self, &self->m_430[15]);
-    p = ::operator new(0x10);
-    if (p != 0) {
-        p = __ct__17AreaAttackHistoryFl((u8 *)p, 4);
-    }
-    self->m_688 = (AreaAttackHistory *)p;
+    self->m_688 = new AreaAttackHistory(4);
     self->m_68c = new TBoss1DragonColli((TObject *)self->unknown3C4);
     self->destinationX = (0.0f);
     self->destinationZ = (0.0f);

@@ -8,12 +8,10 @@ class PointerBuffer;
 class TObjChara;
 
 extern "C" {
-u8 *__ct__17AreaAttackHistoryFl(u8 *arg0, s32 arg1);
 s32 attack_target_history_add(AreaAttackHistory *history, TObjChara *target);
 }
 int attack_target_history_contains(void *object, void *target);
 extern "C" {
-s32 __dt__17AreaAttackHistoryFv(s32 arg0, s16 arg1);
 s32 fn_800BC758(PointerBuffer *buffer);
 u32 *__dt__13PointerBufferFv(u32 *arg0, s16 arg1);
 }
