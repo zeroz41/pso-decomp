@@ -2,13 +2,12 @@
 #include "pso/player/TObjPlayer_803E20B0.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/RenderSbssGlobals.h"
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/gx/GXTransform.h>
+#undef PSO_SDK_COMPACT_MATH
 #include <dolphin/mtx.h>
 
 extern "C" {
-// <dolphin/gx/GXTransform.h> pulls libc/math.h, whose sqrt statics this TU lacks.
-void GXLoadPosMtxImm(f32 mtx[3][4], u32 id);
-void GXSetCurrentMtx(u32 id);
-
 typedef struct Cam_803E20B0 { u8 pad0[0x4C]; f32 f4C; u8 pad50[4]; f32 f54; } Cam_803E20B0;
 typedef struct Vp_803E20B0 { u8 pad0[4]; u16 w; u16 h; } Vp_803E20B0;
 

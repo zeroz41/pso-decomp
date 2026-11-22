@@ -14,6 +14,10 @@
 #include "pso/unk/TLobby_8033ECB0.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/ambient/TObjFish.h"
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/gx/GXTev.h>
+#undef PSO_SDK_COMPACT_MATH
+#include <dolphin/mtx.h>
 
 #pragma readonly_strings on
 
@@ -46,9 +50,6 @@ struct ByteBlock_C { u8 bytes[0xc]; };
 
 extern "C" {
 s32 TCameraCtrl__sub_800689F4();
-s32 C_MTXLightPerspective(void *, f32, f32, f32, f32, f32, f32);
-s32 GXSetTevOp(int, int);
-s32 GXSetTevOrder(int, int, int, int);
 s32 rotate_matrix_by_node_angles(void *, int);
 s32 post_translate_matrix(void *);
 void draw_ginja_object(saddr);
@@ -88,8 +89,8 @@ void setup_projection_tex_matrix__10TObjPlayerFv(void) {
         load_current_tex_matrix(2);
         pop_matrix();
         load_current_pos_matrix(2);
-        GXSetTevOrder(1, 1, 2, 4);
-        GXSetTevOp(1, 1);
+        GXSetTevOrder(GX_TEVSTAGE1, GX_TEXCOORD1, GX_TEXMAP2, GX_COLOR0A0);
+        GXSetTevOp(GX_TEVSTAGE1, GX_DECAL);
         set_tex_coord_gen2(1, 0, 0, 0x24);
         model_render_flags |= 0x80000;
         set_ginja_post_tev_stage_count(1);

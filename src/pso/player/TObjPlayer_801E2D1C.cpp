@@ -7,14 +7,14 @@
 #include "pso/player/TObjPlayer_801E2D1C.h"
 #include "pso/camera/TCameraCtrl_803D6538.h"
 #include "pso/render/RenderSbssGlobals.h"
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/gx/GXTransform.h>
+#undef PSO_SDK_COMPACT_MATH
 #include <dolphin/mtx.h>
 
 
 void end_ginja_model_draw();
 extern "C" {
-// <dolphin/gx/GXTransform.h> pulls libc/math.h, whose sqrt statics this TU lacks.
-void GXLoadPosMtxImm(f32 mtx[3][4], u32 id);
-void GXLoadNrmMtxImm(f32 mtx[3][4], u32 id);
 extern s32 (*model_node_callback)(void *);
 }
 void compose_motion_node_matrix(void *arg0);
