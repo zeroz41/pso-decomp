@@ -3,8 +3,10 @@
 
 #include "types.h"
 
+class TObjBagWarnWin4P;
+
 extern "C" {
-s32 fn_8006EBC4(saddr arg0);
+TObjBagWarnWin4P *fn_8006EBC4(saddr arg0);
 }
 
 #endif
