@@ -1413,7 +1413,7 @@ void TBoss8Dragon::sweep_body_attack_spheres(f32 a, f32 b, f32 c) {
     f32 cs;
     f32 d;
 
-    fx.field_8 = a - 2.0f;
+    fx.radius = a - 2.0f;
     fill_value_array(this->attack_history);
     sn = sin_table_lookup(this->rotation_y);
     cs = cos_table_lookup(this->rotation_y);
