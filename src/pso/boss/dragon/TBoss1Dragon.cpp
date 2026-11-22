@@ -95,13 +95,13 @@ struct ByteBlock_C { u8 bytes[0xc]; };
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 struct DragonCaptureVectors { Vec vectors[3]; };
-// The Dragon's block from TLobby::dispatch_shared_handler_a (boss1_dragon_behavior_param_ids): the powers its
-// attacks put in their DragonAttackParams copies, the V2 speeds, and the body parts' defenses.
+// The Dragon's block from TLobby::dispatch_shared_handler_a (boss1_dragon_behavior_param_ids): the powers and the
+// landing radius its attacks put in their DragonAttackParams copies, the V2 speeds, and the body parts' defenses.
 struct Boss1DragonParams {
     f32 breath_attack_power;   // deliver_breath_attack
     f32 fireball_impact_power; // apply_fireball_impact_damage; 0.666 of it for the craters
     f32 trail_attack_power;    // the burrow trail hit while the mound trail is damaging (apply_trail_attack)
-    f32 landing_attack_power;  // apply_landing_attack
+    f32 landing_attack_radius; // apply_landing_attack: the hit body radius
     f32 walk_speed_scale;      // V2 walking speed scale (V1 uses 0.8)
     f32 flight_speed;          // V2 flight speed (V1 2.0); 256 times it is the turn speed
     s32 defense[3];            // update_body_colliders: [0] body 5, [1] bodies 1 and 2, [2] bodies 0, 3, 4, 6
@@ -1702,7 +1702,7 @@ void TBoss1Dragon::apply_foot_attack_pair_1() {
 void TBoss1Dragon::apply_landing_attack() {
     DragonAttackParams stack;
     TBoss1Dragon__sub_80027A80(&stack, &boss1_dragon_attack_sphere_params);
-    stack.radius = boss1_dragon_behavior_params[0]->landing_attack_power;
+    stack.radius = boss1_dragon_behavior_params[0]->landing_attack_radius;
     this->reload_stats_for_phase((saddr)boss1_dragon_behavior_params[0]);
     switch (TBoss1Dragon::isV2Mode()) {
     case 0:
