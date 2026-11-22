@@ -1187,9 +1187,9 @@ force_active:
   - TObjEneIllGill_motion_name_table
   - TObjEneLappy__class_name
   - __ct__12TObjEneLappyFP7TObjectPv
-  - TObjEneLappy__model_filename_table
-  - TObjEneLappy__resource_list
-  - TObjEneLappy__resource_name_table
+  - lappy_model_names
+  - lappy_ap_hw_motion_names
+  - lappy_hw_motion_names
   - __ct__23TObjEneMe1CanadinLeaderFP7TObjectPv
   - fn_8009E258__17TObjEneMe1CanadinFv
   - order_attack__17TObjEneMe1CanadinFv
@@ -1525,7 +1525,7 @@ force_active:
   - sub_800A54B4__12TObjEneSaverFv
   - sub_800A5960__12TObjEneSaverFv
   - __dt__15TObjEneDimedianFv
-  - TObjPlayer__sub_800BFF54
+  - sub_800BFF54__12TObjEneLappyFv
   - TObjPlayer__sub_800D93F0
   - TObjPlayer__sub_800E80C0
   - TObjPlayer__sub_800E80E8
@@ -3940,7 +3940,7 @@ force_active:
   - apply_lookup_entry_effect__12TObjEneSaverFv
   - apply_mourning_jellen__14TObjEneBm5WolfFv
   - apply_mourning_zalure__14TObjEneBm5WolfFv
-  - apply_move_friction__12TObjEneLappyFv
+  - update_dying__12TObjEneLappyFv
   - apply_movement_ailment__12TBoss1DragonFl
   - apply_movement_ailment__13TObjEneRe4BitFl
   - apply_movement_ailment__14TBoss7CrawfishFl
@@ -7782,19 +7782,19 @@ force_active:
   - lbl_80490998
   - __vt__12TObjEneShark
   - __vt__14TObjEneBm5Wolf
-  - lbl_80492BE4
-  - lbl_80492C20
-  - lbl_80492C2C
-  - lbl_80492C68
-  - lbl_80492C74
-  - lbl_80492CB0
-  - lbl_80492CBC
-  - lbl_80492CF8
-  - lbl_80492D40
-  - lbl_80492D88
-  - lbl_80492D94
-  - lbl_80492DD0
-  - lbl_80492DDC
+  - lappy_motion_names
+  - lappy_ap_model_names
+  - lappy_ap_motion_names
+  - lappy_es_model_names
+  - lappy_es_motion_names
+  - lappy_ap_es_model_names
+  - lappy_ap_es_motion_names
+  - lappy_hw_model_names
+  - lappy_ap_hw_model_names
+  - lappy_xs_model_names
+  - lappy_xs_motion_names
+  - lappy_ap_xs_model_names
+  - lappy_ap_xs_motion_names
   - __vt__12TObjEneLappy
   - lbl_804933D8
   - lbl_80493D6C
@@ -13926,7 +13926,7 @@ force_active:
   - random_in_table_range__13TBoss5GryphonFP22Boss5GryphonActionStepl
   - randomize_motion__10TBoss6RockFv
   - rappy_variant_na_name
-  - rappy_variant_speed_table
+  - lappy_motion_actions
   - re4_bit_init_params
   - re4_bit_model_node_desc
   - re4_sorcerer_collision_body_part_table
@@ -15422,7 +15422,7 @@ force_active:
   - add_status_cleanse__18TItemLockCountCtrlFi
   - set_bit__16Boss6WaveArcMaskFl
   - set_blast_level__16PhotonBlastGaugeFsSc
-  - set_boss4_state__12TObjEneLappyFv
+  - start_fleeing__12TObjEneLappyFv
   - set_camera__15TEndingPicStageFv
   - set_card_index__17TWindowSubComCardFl
   - set_char_slots__23TAdSinglePlyChrSelectGCFll
@@ -16192,8 +16192,8 @@ force_active:
   - sub_800BD4D8__9TObjGrassFv
   - sub_800BDD70__9TObjGrassFv
   - sub_800BE75C__9TObjGrassFv
-  - sub_800C20B0__12TObjEneLappyFv
-  - sub_800C20C0__12TObjEneLappyFv
+  - clear_flag_1__12TObjEneLappyFv
+  - set_flag_1__12TObjEneLappyFv
   - update_formation_state__13TUnk_8049387CFv
   - set_out_fighter__13TObjEneMe1GeeFv
   - set_in_fighter__13TObjEneMe1GeeFv
@@ -16968,7 +16968,7 @@ force_active:
   - update_idle__14TObjEneIllGillFv
   - update_idle_action__8TItemMagFv
   - update_idle_state__11TObjEneMojaFv
-  - update_idle_state__12TObjEneLappyFPv
+  - update_idle_state__12TObjEneLappyFv
   - update_idle_state__13TBoss5GryphonFUl
   - update_idle_state__16TObjEneNanoDragoFv
   - update_idle_timeout__6TLobbyFPv
