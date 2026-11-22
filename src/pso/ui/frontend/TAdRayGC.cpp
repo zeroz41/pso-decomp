@@ -9,39 +9,35 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/system/task/TObject.h"
-
-struct E_8029BCB4 { u8 b[0x14]; };
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 
 struct T_8029BCB4 { f32 v[8]; };
 
 extern "C" {
-void begin_screen_draw(s32 arg0);
-s32 draw_textured_quad_at_depth(void *, f32);
-s32 set_draw_texture_and_color(void *, void *);
 extern T_8029BCB4 TAdRayGC_ray_quad_table[4];
 uaddr TAdRayGC__ray_texture_list;
 
-void TAdRayGC::draw_ray_quads(s32 arg0, u8 *arg1, void *arg2, s32 arg3) {
+void TAdRayGC::draw_ray_quads(s32 frame, s32 color, s32 side) {
+    u32 texture;
     u32 i;
-    E_8029BCB4 *p;
-    switch (arg3) {
+    switch (side) {
     case 0:
-        p = (E_8029BCB4 *)arg1;
+        texture = frame;
         for (i = 0; i < 2; i++) {
             begin_screen_draw(1);
-            TObjFish::set_global_param((saddr)((void *) TAdRayGC__ray_texture_list));
-            set_draw_texture_and_color(p, arg2);
-            draw_textured_quad_at_depth(&TAdRayGC_ray_quad_table[i], 0.007142857f);
+            TObjFish::set_global_param(TAdRayGC__ray_texture_list);
+            set_draw_texture_and_color(texture, color);
+            draw_textured_quad_at_depth(TAdRayGC_ray_quad_table[i].v, 0.007142857f);
             TWindowSubStatusDisp::get_player();
         }
         break;
     case 1:
-        p = (E_8029BCB4 *)(arg1 + 0x14);
+        texture = frame + 0x14;
         for (i = 2; i < 4; i++) {
             begin_screen_draw(1);
-            TObjFish::set_global_param((saddr)((void *) TAdRayGC__ray_texture_list));
-            set_draw_texture_and_color(p, arg2);
-            draw_textured_quad_at_depth(&TAdRayGC_ray_quad_table[i], 0.007142857f);
+            TObjFish::set_global_param(TAdRayGC__ray_texture_list);
+            set_draw_texture_and_color(texture, color);
+            draw_textured_quad_at_depth(TAdRayGC_ray_quad_table[i].v, 0.007142857f);
             TWindowSubStatusDisp::get_player();
         }
         break;
@@ -55,14 +51,14 @@ void TAdRayGC::render() {
         set_color_blending_mode(1, 0xA);
         switch (state) {
         case 0:
-            draw_ray_quads((saddr)this, (u8 *)(*(saddr *)((s8 *)this + 0x20)), (void *)(-1), 0);
+            draw_ray_quads(frames, -1, 0);
             break;
         case 1:
-            draw_ray_quads((saddr)this, (u8 *)(*(saddr *)((s8 *)this + 0x20)), (void *)(-1), 0);
-            draw_ray_quads((saddr)this, (u8 *)(*(saddr *)((s8 *)this + 0x20) - 0xD), (void *)(-1), 1);
+            draw_ray_quads(frames, -1, 0);
+            draw_ray_quads(frames - 0xD, -1, 1);
             break;
         case 2:
-            draw_ray_quads((saddr)this, (u8 *)(*(saddr *)((s8 *)this + 0x20) - 0xD), (void *)(-1), 1);
+            draw_ray_quads(frames - 0xD, -1, 1);
             break;
         }
         set_color_blending_mode(0, 8);

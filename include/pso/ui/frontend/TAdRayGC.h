@@ -11,7 +11,7 @@ public:
     virtual void run_task();
     virtual void render();
 public:
-    static void draw_ray_quads(s32 arg0, u8 *arg1, void *arg2, s32 arg3);
+    void draw_ray_quads(s32 frame, s32 color, s32 side);
     static void destroy_instance();
     s32 state;   // 0x1C: 0 left ray, 1 both, 2 right ray; run_task advances it by frames
     s32 frames;  // 0x20: frames since the ray started; picks the ray texture
