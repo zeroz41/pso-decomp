@@ -7,6 +7,7 @@
 struct LappyVec { f32 x, y, z; };
 
 struct TObjEneLappy : public TObjEnemy {
+    TObjEneLappy(TObject *parent, void *set_data);
     virtual ~TObjEneLappy();
     virtual void run_task();
     virtual void render();

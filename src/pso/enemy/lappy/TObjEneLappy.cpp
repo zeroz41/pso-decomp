@@ -22,11 +22,8 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
-extern "C" void test_flag_256__12TObjEneLappyFv();
-extern "C" void has_flag_0x800__9TObjCharaFv();
-extern "C" void test_flag30_512__9TObjCharaFv();
-extern "C" void test_flag_1000__9TObjCharaFv();
 #include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/TObjControl.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/map/CsnQuery.h"
@@ -373,7 +370,6 @@ struct Vec_800C0E30 { s32 x, y, z; };
 
 struct Lappy_800C0318 { u8 pad0[0x2FC]; Vec pos; f32 vx; f32 vy; f32 vz; };
 
-extern const f32 lbl_805D9F9C;
 
 void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
 void move_with_wall_slide(u8 *arg0);
@@ -400,7 +396,6 @@ s32 minimap_render_dot(void *, int, int, int);
 void run_task__12TObjEneLappyFv(u8 *arg0);
 s32 check_path_obstructed(void *, void *);
 s32 get_entity_id(void *);
-extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 void refresh_target__12TObjEneLappyFv(u8 *arg0);
 }
@@ -1170,29 +1165,14 @@ void TObjEneLappy::run_task() {
 
 #undef lappy_variant_speed_ptr_table
 
-void *__ct__11TObjControlFP7TObject(void *, void *);
-struct Set_800C1C4C;
-u8 * TObjEneLappy__ct(u8 *self, s32 arg1, Set_800C1C4C *set);
-#define TObjEneLappy__ct (*(void * (*)(void *, void *, void *))&TObjEneLappy__ct)
 }
 
 extern void *tl_04;
 
 void *TObjEneLappy::create(void *set) {
-    void *o;
-    void *o2;
-    o = TObject::operator new(0x20);
-    if (o != NULL) {
-        o = __ct__11TObjControlFP7TObject(o, tl_04);
-    }
-    o2 = TObject::operator new(0x3A4);
-    if (o2 != NULL) {
-        o2 = TObjEneLappy__ct(o2, o, set);
-    }
-    return o2;
+    TObjControl *control = new TObjControl((TObject *)tl_04);
+    return new TObjEneLappy(control, set);
 }
-
-#undef TObjEneLappy__ct
 
 #define render__12TObjEneLappyFv (*(void (*)())&render__12TObjEneLappyFv)
 #define scale_matrix (*(void (*)(int, f32, f32, f32))&scale_matrix)
@@ -1220,107 +1200,10 @@ struct Set_800C1C4C {
 struct Lappy_800C1C4C { u8 pad[0x354]; f32 params[5]; };
 
 extern "C" {
-void *__dt__12TObjEneLappyFv(void *arg0, s16 arg1);
-void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
-
-s32 add_flags_2e4__9TObjCharaFUl(void *, int, f32, f32);
-s32 __ct__9TObjEnemyFP7TObject(void *, s32, void *);
-
-
-extern "C" void vfunc_6__8TObjBaseFPsl();
-extern "C" void has_no_target__9TObjCharaFv();
-extern "C" void recalc_stats__9TObjCharaFv();
-extern "C" void consume_timer_field__9TObjCharaFl();
-extern "C" void deliver_attack_hits__9TObjCharaFf();
-extern "C" void vfunc_66__9TObjCharaFv();
-extern "C" void get_anim_node_position__9TObjCharaFlP3Vec();
-extern "C" void apply_slow_status__9TObjCharaFv();
-extern "C" void update_shock_clock__9TObjCharaFv();
-extern "C" void vfunc_43__9TObjCharaFv();
-extern "C" void update_actor_ground_y_at__9TObjCharaFP3Vec();
-extern "C" void interact__14TObjCollidableFl();
-extern "C" void vfunc_74__9TObjEnemyFl();
-extern "C" void apply_hit_message_flags__9TObjEnemyFPv();
-extern "C" void add_actor_exp__9TObjCharaFl();
-extern "C" void apply_action_hold_status__9TObjCharaFf();
-extern "C" void apply_anti_technique__9TObjCharaFl();
-extern "C" void apply_attack_stat_status__9TObjCharaFPv();
-extern "C" void apply_confusion_status__9TObjCharaFv();
-extern "C" void apply_knockback_from_attacker__9TObjCharaFPUcf();
-extern "C" void apply_movement_ailment__9TObjCharaFl();
-extern "C" void apply_object_set_data__8TObjBaseFPv();
-extern "C" void apply_paralysis__9TObjCharaFv();
-extern "C" void apply_poison_status__9TObjCharaFv();
-extern "C" void apply_set_data__9TObjEnemyFPv();
-extern "C" void apply_shock_status__9TObjCharaFv();
-extern "C" void apply_switch_attack__9TObjCharaFv();
-extern "C" void calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf();
-extern "C" void apply_enemy_state__9TObjEnemyFPl();
-extern "C" void classify_actor_view_detail__8TObjBaseFfff();
-extern "C" void clear_all_status_effects__9TObjCharaFv();
-extern "C" void clear_harmful_statuses__9TObjCharaFv();
-extern "C" void cure_paralysis__9TObjCharaFv();
-extern "C" void cure_poison_ailment__9TObjCharaFv();
-extern "C" void enemy_spawn_jellen_effect__9TObjCharaFv();
-extern "C" void enemy_spawn_zalure_effect__9TObjCharaFv();
-extern "C" void vfunc_78__9TObjCharaFl();
-extern "C" void gain_photon_blast_chain_charge__9TObjCharaFv();
-extern "C" void spend_photon_blast_charge__9TObjCharaFf();
-extern "C" void gain_photon_blast_charge__9TObjCharaFf();
-extern "C" void clear_lobby_object_state__9TObjEnemyFv();
-extern "C" void get_center__9TObjCharaFv();
-extern "C" void get_actor_level_index__9TObjCharaFv();
-extern "C" void get_name__9TObjEnemyFv();
-extern "C" void get_pos__9TObjCharaFl();
-extern "C" void is_actor_cadence_frame__9TObjCharaFl();
-extern "C" void is_target_in_attack_range__9TObjCharaFv();
-extern "C" void receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll();
-extern "C" void receive_physical_attack__9TObjCharaFPvf();
-extern "C" void receive_weapon_special_attack__9TObjCharaFPvPv();
-extern "C" void apply_defense_stat_status__9TObjCharaFPv();
-extern "C" void render_shadows__9TObjEnemyFv(u8 *arg0);
-extern "C" void reset_motion_fields__9TObjCharaFv();
-extern "C" void reset_pose__9TObjCharaFv();
-extern "C" void roll_physical_accuracy__9TObjCharaFPvlf();
-extern "C" void select_melee_contact_body__9TObjCharaFPvf();
-extern "C" void trigger_switch_attack__9TObjCharaFv(s32 arg0);
-extern "C" void try_start_action__9TObjCharaFll();
-extern "C" s32 update_slow_status__9TObjCharaFv(u8 *arg0);
-extern "C" void update_actor_ground_y__9TObjCharaFv();
-extern "C" s32 update_attack_stat_status__9TObjCharaFv(u8 *arg0);
-extern "C" s32 update_defense_stat_status__9TObjCharaFv(u8 *arg0);
-extern "C" void update_flag30_timer__9TObjCharaFv();
-extern "C" void update_object_view_visibility__8TObjBaseFff();
-extern "C" void update_poison_status__9TObjCharaFv();
-void *lbl_80492F28[84] = {
-    (void *)0x0, (void *)0x0, (void *)&__dt__12TObjEneLappyFv, (void *)&run_task__12TObjEneLappyFv,
-    (void *)&render__12TObjEneLappyFv, (void *)&render_shadows__9TObjEnemyFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
-    (void *)&reset_motion_fields__9TObjCharaFv, (void *)&get_center__9TObjCharaFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
-    (void *)&get_name__9TObjEnemyFv, (void *)&interact__14TObjCollidableFl, (void *)&add_actor_exp__9TObjCharaFl, (void *)&consume_timer_field__9TObjCharaFl,
-    (void *)&get_actor_level_index__9TObjCharaFv, (void *)&update_actor_ground_y__9TObjCharaFv, (void *)&update_actor_ground_y_at__9TObjCharaFP3Vec, (void *)&is_actor_cadence_frame__9TObjCharaFl,
-    (void *)&select_melee_contact_body__9TObjCharaFPvf, (void *)&calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf, (void *)&receive_physical_attack__9TObjCharaFPvf, (void *)&receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll,
-    (void *)&receive_weapon_special_attack__9TObjCharaFPvPv, (void *)&apply_knockback_from_attacker__9TObjCharaFPUcf, (void *)&try_start_action__9TObjCharaFll, (void *)&roll_physical_accuracy__9TObjCharaFPvlf,
-    (void *)&refresh_target__12TObjEneLappyFv, (void *)&has_no_target__9TObjCharaFv, (void *)&is_target_in_attack_range__9TObjCharaFv, (void *)&test_flag_256__12TObjEneLappyFv,
-    (void *)&test_flag30_512__9TObjCharaFv, (void *)&has_flag_0x800__9TObjCharaFv, (void *)&test_flag_1000__9TObjCharaFv, (void *)&update_poison_status__9TObjCharaFv,
-    (void *)&update_action_hold_status__12TObjEneLappyFv, (void *)&update_slow_status__9TObjCharaFv, (void *)&update_flag30_timer__9TObjCharaFv, (void *)&update_movement_status__12TObjEneLappyFv,
-    (void *)&update_shock_clock__9TObjCharaFv, (void *)&update_attack_stat_status__9TObjCharaFv, (void *)&update_defense_stat_status__9TObjCharaFv, (void *)&vfunc_43__9TObjCharaFv,
-    (void *)&apply_poison_status__9TObjCharaFv, (void *)&apply_paralysis__9TObjCharaFv, (void *)&apply_slow_status__9TObjCharaFv, (void *)&apply_confusion_status__9TObjCharaFv,
-    (void *)&apply_movement_ailment__9TObjCharaFl, (void *)&apply_shock_status__9TObjCharaFv, (void *)&clear_harmful_statuses__9TObjCharaFv, (void *)&apply_attack_stat_status__9TObjCharaFPv,
-    (void *)&apply_defense_stat_status__9TObjCharaFPv, (void *)&cure_poison_ailment__9TObjCharaFv, (void *)&cure_paralysis__9TObjCharaFv, (void *)&clear_all_status_effects__9TObjCharaFv,
-    (void *)&apply_action_hold_status__9TObjCharaFf, (void *)&apply_anti_technique__9TObjCharaFl, (void *)&run_idle_action__12TObjEneLappyFv, (void *)&run_move_action__12TObjEneLappyFv,
-    (void *)&run_attack_action__12TObjEneLappyFv, (void *)&run_miss_reaction__12TObjEneLappyFv, (void *)&run_hit_reaction__12TObjEneLappyFv, (void *)&run_death_reaction__12TObjEneLappyFv,
-    (void *)&reset_pose__9TObjCharaFv, (void *)&get_anim_node_position__9TObjCharaFlP3Vec, (void *)&vfunc_66__9TObjCharaFv, (void *)&deliver_attack_hits__9TObjCharaFf,
-    (void *)&get_pos__9TObjCharaFl, (void *)&apply_switch_attack__9TObjCharaFv, (void *)&enemy_spawn_jellen_effect__9TObjCharaFv, (void *)&trigger_switch_attack__9TObjCharaFv,
-    (void *)&enemy_spawn_zalure_effect__9TObjCharaFv, (void *)&recalc_stats__9TObjCharaFv, (void *)&vfunc_74__9TObjEnemyFl, (void *)&gain_photon_blast_charge__9TObjCharaFf,
-    (void *)&spend_photon_blast_charge__9TObjCharaFf, (void *)&gain_photon_blast_chain_charge__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl, (void *)&apply_enemy_state__9TObjEnemyFPl,
-    (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv, (void *)0x0,
-};
-
 __declspec(section ".data") saddr lappy_boss_stats_handles[2];
 __declspec(section ".data") saddr lappy_boss_stats_ptrs_b[2];
 __declspec(section ".data") saddr lappy_object_handles[2];
 __declspec(section ".data") s32 lappy_variant_speed_ptr_table[2];
-#define lbl_80492F28 ((s32 *)lbl_80492F28)
 
 s32 release_texture_list(void*);
 }
@@ -1441,112 +1324,20 @@ __declspec(section ".rodata") const char re3_b_lappy_base_niji_gvm[] = "re3_b_la
 __declspec(section ".rodata") const char re3_b_lappy_base_ao_gvm[] = "re3_b_lappy_base_ao.gvm";
 
 #undef RES_800C17B8
-extern "C" {
 
-void *__dt__12TObjEneLappyFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_80492F28;
-        free_collision_body_parts((TObjEneLappy *)arg0);
-        __dt__9TObjEnemyFv((TObjEnemy *)arg0, 0);
-        if (arg1 > 0) {
-            TObject::operator delete(arg0);
-        }
-    }
-    return arg0;
+TObjEneLappy::~TObjEneLappy() {
+    free_collision_body_parts(this);
 }
 
-#define CLAMP_800C1C4C(x, lo, hi) ((x) < (lo) ? (lo) : ((x) < (hi) ? (x) : (hi)))
+#pragma defer_codegen on
 
-u8 *TObjEneLappy__ct(u8 *self, s32 arg1, Set_800C1C4C *set) {
-    s32 i;
-    f32 scale;
-
-    __ct__9TObjEnemyFP7TObject(self, arg1, set);
-    *(void **)(self + 0x18) = (u8 *)lbl_80492F28;
-    *(const char **)(self + 0) = TObjEneLappy__class_name;
-    ((TObjEneLappy *)self)->apply_set_data(set);
-    *(s32 *)(self + 0xDC) = *(s32 *)((u8 *)rappy_bml_resource + 0x430);
-    VecCopy((Vec *)(self + 0x38), (const Vec *)set->pos);
-    copy_xyz(self + 0x5C, set->rot);
-    for (i = 0; i < 5; i++) {
-        ((Lappy_800C1C4C *)self)->params[i] = set->params[i];
-    }
-    *(s32 *)(self + 0x368) = set->f3c != 0 ? 1 : 0;
-    if (((TObjChara *)self)->random_ratio() < 0.002f) {
-        *(s32 *)(self + 0x368) = 1;
-        if (TLobby::get_instance() == 1) {
-            (*(s32 *)&rappy_visibility_node) = (s32)find_model_node(*(u32 *)(*(u8 **)((u8 *)rappy_bml_resource + 0x42C) + 0x18), 0x12);
-        }
-    }
-    if (*(s32 *)(self + 0x368) == 0) {
-        ((TObjEnemy *)self)->set_param(5);
-    } else if (TLobby::get_instance() == 1) {
-        switch (lappy_variant_id) {
-        case 1:
-            ((TObjEnemy *)self)->set_param(0x4F);
-            break;
-        case 2:
-            ((TObjEnemy *)self)->set_param(0x51);
-            break;
-        case 3:
-            ((TObjEnemy *)self)->set_param(0x50);
-            break;
-        default:
-            ((TObjEnemy *)self)->set_param(0x33);
-            break;
-        }
-    } else {
-        ((TObjEnemy *)self)->set_param(6);
-    }
-    *(s32 *)(self + 0x36C) = set->f3e;
-    *(s16 *)(self + 0x33A) = 0xF;
-    *(s16 *)(self + 0x33C) = *(s16 *)(self + 0x33A);
-    VecCopy((Vec *)(self + 0x44), (const Vec *)(self + 0x38));
-    VecCopy((Vec *)(self + 0x50), (const Vec *)(self + 0x38));
-    VecCopy((Vec *)(self + 0x290), (const Vec *)(self + 0x38));
-    VecCopy((Vec *)(self + 0x29C), (const Vec *)(self + 0x38));
-    *(s16 *)(self + 0x374) = 0;
-    *(s16 *)(self + 0x396) = 0;
-    *(s16 *)(self + 0x382) = -1;
-    *(s16 *)(self + 0x384) = 0;
-    *(s16 *)(self + 0x380) = 0;
-    *(u8 *)(self + 0x378) = CLAMP_800C1C4C((s16)*(f32 *)(self + 0x354), 0, 1);
-    *(s16 *)(self + 0x37A) = 0;
-    *(void **)(self + 0x350) = (u8 *)lbl_80492EC4;
-    init_collision_body_parts((TObjEneLappy *)self, lbl_80492EFC, 1);
-    if (set->fa > 0) {
-        *(s16 *)(self + 0x374) |= 0x60;
-        *(u8 *)(self + 0x378) = 1;
-        *(u32 *)(self + 0x30) &= ~0x800000;
-        *(u32 *)(*(u8 **)(self + 0xA4) + 0x18) &= ~1;
-    }
-    ((TObjEnemy *)self)->bind_enemy_combat_stats((u8 *)(lappy_boss_stats_handles[*(s32 *)(self + 0x368)]), (u8 *)(lappy_boss_stats_ptrs_b[*(s32 *)(self + 0x368)]), (u8 *)(lappy_object_handles[*(s32 *)(self + 0x368)]));
-    ((TObjEneLappy *)self)->apply_variant_speeds();
-    *(s16 *)(self + 0x32C) = *(s16 *)(self + 0x2B8);
-    *(s16 *)(self + 0x32E) = *(s16 *)(self + 0x2BA);
-    *(s16 *)(self + 0x33E) = *(s16 *)(self + 0x32C);
-    ((TObjEnemy *)self)->update_prev_position();
-    ((TBoss3VoloptHiraisin *)self)->copy_position();
-    ((TObjPlayer *)self)->register_object_by_id();
-    scale = 6.0f * (1.0f + ((TObjChara *)self)->random_ratio());
-    *(s16 *)(self + 0x37E) = 30.0f * scale;
-    add_flags_2e4__9TObjCharaFUl(self, 1, scale, 6.0f);
-    *(u32 *)(self + 0x30) |= 0x40000;
-    *(void **)(self + 0xD8) = (u8 *)rappy_variant_speed_table;
-    ((TObjMotion *)self)->set_field_d8((saddr)(*(void **)(self + 0xD8)));
-    *(s16 *)(self + 0xB8) = 0;
-    ((TObjMotion *)self)->set_animation(*(s16 *)(self + 0xB8));
-    ((TObjMotion *)self)->set_field_b8(*(s16 *)(self + 0xB8));
-    *(u8 *)(self + 0x379) = *(u8 *)(self + 0x378);
-    if (TObjEneDD::check_v2_mode() != 0 && ((TObjChara *)self)->random_ratio() < 0.033333335f) {
-        *(s16 *)(self + 0x374) |= 0x400;
-    }
-    ((TObjEneLappy *)self)->clear_lobby_object_state();
-    return self;
-}
+void TObjEneLappy::sub_800C20C0() {
+    this->m_374 = (s16) (this->m_374 | 1);
 }
 
-int TObjEneLappy::test_flag_256() { return 0; }
+void TObjEneLappy::sub_800C20B0() {
+    this->m_374 = (s16) (this->m_374 & 0xFFFFFFFE);
+}
 
 void TObjEneLappy::set_speed_params(s32 variant) {
     s32 var_r0;
@@ -1570,14 +1361,96 @@ void TObjEneLappy::set_speed_params(s32 variant) {
     this->texlist = var_r0_2;
 }
 
-void TObjEneLappy::sub_800C20B0() {
-    this->m_374 = (s16) (this->m_374 & 0xFFFFFFFE);
+int TObjEneLappy::test_flag_256() { return 0; }
+
+#define CLAMP_800C1C4C(x, lo, hi) ((x) < (lo) ? (lo) : ((x) < (hi) ? (x) : (hi)))
+
+TObjEneLappy::TObjEneLappy(TObject *parent, void *set_data) : TObjEnemy(parent) {
+    Set_800C1C4C *set = (Set_800C1C4C *)set_data;
+    s32 i;
+    f32 scale;
+
+    m_name = TObjEneLappy__class_name;
+    apply_set_data(set);
+    motion_list = ((BmlResource *)rappy_bml_resource)->motions;
+    VecCopy(&position, (const Vec *)set->pos);
+    copy_xyz(&rotation_x, set->rot);
+    for (i = 0; i < 5; i++) {
+        parameters[i] = set->params[i];
+    }
+    variant = set->f3c != 0 ? 1 : 0;
+    if (random_ratio() < 0.002f) {
+        variant = 1;
+        if (TLobby::get_instance() == 1) {
+            (*(s32 *)&rappy_visibility_node) = (s32)find_model_node(*(u32 *)(*(u8 **)((u8 *)rappy_bml_resource + 0x42C) + 0x18), 0x12);
+        }
+    }
+    if (variant == 0) {
+        set_param(5);
+    } else if (TLobby::get_instance() == 1) {
+        switch (lappy_variant_id) {
+        case 1:
+            set_param(0x4F);
+            break;
+        case 2:
+            set_param(0x51);
+            break;
+        case 3:
+            set_param(0x50);
+            break;
+        default:
+            set_param(0x33);
+            break;
+        }
+    } else {
+        set_param(6);
+    }
+    state36C = set->f3e;
+    resetTimer = 0xF;
+    timer = resetTimer;
+    VecCopy(&prev_position, &position);
+    VecCopy(&home_position, &position);
+    VecCopy((Vec *)&m_290, &position);
+    VecCopy((Vec *)&m_29c, &position);
+    m_374 = 0;
+    m_396 = 0;
+    m_382 = -1;
+    m_384 = 0;
+    m_380 = 0;
+    m_378 = CLAMP_800C1C4C((s16)parameters[0], 0, 1);
+    m_37a = 0;
+    movementParameters = lbl_80492EC4;
+    init_collision_body_parts(this, lbl_80492EFC, 1);
+    if (set->fa > 0) {
+        m_374 |= 0x60;
+        m_378 = 1;
+        actorFlags &= ~0x800000;
+        bodies->flags &= ~1;
+    }
+    bind_enemy_combat_stats((u8 *)(lappy_boss_stats_handles[variant]), (u8 *)(lappy_boss_stats_ptrs_b[variant]), (u8 *)(lappy_object_handles[variant]));
+    apply_variant_speeds();
+    hp = hpmax;
+    tp = tpmax;
+    referenceHp = hp;
+    update_prev_position();
+    ((TBoss3VoloptHiraisin *)this)->copy_position();
+    register_object_by_id();
+    scale = 6.0f * (1.0f + random_ratio());
+    m_37e = 30.0f * scale;
+    add_flags_2e4(1);
+    actorFlags |= 0x40000;
+    action_table = (TObjMotionAction *)rappy_variant_speed_table;
+    set_field_d8((saddr)action_table);
+    requested_action = 0;
+    set_animation(requested_action);
+    set_field_b8(requested_action);
+    m_379 = m_378;
+    if (TObjEneDD::check_v2_mode() != 0 && random_ratio() < 0.033333335f) {
+        m_374 |= 0x400;
+    }
+    clear_lobby_object_state();
 }
 
-void TObjEneLappy::sub_800C20C0() {
-    this->m_374 = (s16) (this->m_374 | 1);
-}
-__declspec(section ".sdata2") extern const f32 lbl_805D9F9C = 0.0f;
 
 
 #undef rotate_matrix_y

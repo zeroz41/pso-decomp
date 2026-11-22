@@ -1201,7 +1201,7 @@ force_active:
   - TObjEneIllGill_model_file_list
   - TObjEneIllGill_motion_name_table
   - TObjEneLappy__class_name
-  - TObjEneLappy__ct
+  - __ct__12TObjEneLappyFP7TObjectPv
   - TObjEneLappy__model_filename_table
   - TObjEneLappy__resource_list
   - TObjEneLappy__resource_name_table
@@ -7816,7 +7816,7 @@ force_active:
   - lbl_80492D94
   - lbl_80492DD0
   - lbl_80492DDC
-  - lbl_80492F28
+  - __vt__12TObjEneLappy
   - lbl_804933D8
   - lbl_80493D6C
   - lbl_80493DA0
@@ -8673,7 +8673,6 @@ force_active:
   - lbl_805D9F90
   - lbl_805D9F94
   - lbl_805D9F98
-  - lbl_805D9F9C
   - lbl_805DA17C
   - lbl_805DA180
   - lbl_805DA198
