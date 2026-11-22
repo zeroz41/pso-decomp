@@ -22,11 +22,6 @@ void TLoadCtrl::set_field1C(s32 arg0) {
     }
 }
 
-struct Base_8001C8B8_8001C61C { char pad[0x18]; };
-struct VObj_8001C8B8_8001C61C : Base_8001C8B8_8001C61C {
-    virtual void m0(s32);
-};
-
 struct Obj_8001C620 { u8 pad[0x1C]; s32 f1c; s32 f20; };
 
 extern "C" {
@@ -154,9 +149,7 @@ void TLoadCtrl::cleanup_scene() {
     TCameraCtrl::reset_default_view();
     TCameraCtrl::reset();
     if (camera_ctrl_instance != NULL) {
-        if (camera_ctrl_instance != NULL) {
-            ((VObj_8001C8B8_8001C61C *)camera_ctrl_instance)->m0(1);
-        }
+        delete camera_ctrl_instance;
         camera_ctrl_instance = NULL;
     }
     TCameraCtrl::reset_view_state();

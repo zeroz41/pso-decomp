@@ -20,10 +20,7 @@
 #define RAD_TO_ANGLE (32768.0 / 3.141592f)
 #include "pso/render/render_util_tail.h"
 #include "pso/unk/text_803D96A8.h"
-
-extern "C" {
-int is_float_nonfinite(f32 farg0);
-}
+#include "pso/camera/TCameraCtrl.h"
 
 NJS_ARGB chunk_material_color_half_alpha_f32 = {0.5f, 0.0f, 0.0f, 0.0f};
 NJS_ARGB debug_color_purple_half_alpha = {0.5f, 0.5f, 0.0f, 0.5f};

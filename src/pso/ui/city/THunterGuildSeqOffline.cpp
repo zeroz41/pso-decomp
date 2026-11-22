@@ -20,6 +20,7 @@ struct VObj_802133C4_80212D9C : Base_802133C4_80212D9C {
 #include "pso/ui/city/THunterGuildWarning.h"
 
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/camera/TCameraCtrl.h"
 
 #pragma readonly_strings on
 struct Stack_802130AC {
@@ -52,7 +53,6 @@ saddr set_service_counter_camera(void *, int);
 s32 THunterGuildSeqOffline__quest_result_callbacks[4];
 s32 THunterGuildSeqOffline__instance_table[4];
 THunterGuildSeqOffline *THunterGuildSeqOffline__active_instance;
-int is_quest_active(void);
 const char *lbl_805D3658 = "THunterGuildSeqOffline";
 void THunterGuildSeqOffline__sub_8021339C(void);
 u16 get_entity_id(s32);

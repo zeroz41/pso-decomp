@@ -13,6 +13,7 @@
 #include "pso/network/client_id.h"
 #include "pso/object/trap/TOTrapAncient01.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/camera/TCameraCtrl.h"
 
 
 s8 sound_mode_value = 1;
@@ -355,12 +356,11 @@ void clear_sound_listener_position(void) {
 
 f32 xz_distance_squared(const Vec *a, const Vec *b);
 }
-extern uaddr camera_ctrl_instance;
 s32 check_sound_admission_range(const Vec *pos) {
     if (pos == NULL) {
         return 0;
     }
-    if (camera_ctrl_instance == 0U) {
+    if (camera_ctrl_instance == NULL) {
         return 0;
     }
     f32 dist_sq = xz_distance_squared(pos, (const Vec *)lbl_80514C50);
@@ -381,8 +381,8 @@ void update_sound_request_slots(void) {
         p = (uaddr)get_player_by_client_id((local_client_id));
         if (p != 0U) {
             VecCopy((Vec *)lbl_80514C50, (const Vec *)(p + 0x38));
-        } else if (camera_ctrl_instance != 0U) {
-            VecCopy((Vec *)lbl_80514C50, (const Vec *)(camera_ctrl_instance + 0x178));
+        } else if (camera_ctrl_instance != NULL) {
+            VecCopy((Vec *)lbl_80514C50, &camera_ctrl_instance->pos);
         } else {
             lbl_80514C50[2] = 0.0f;
             lbl_80514C50[1] = 0.0f;

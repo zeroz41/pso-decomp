@@ -18,6 +18,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/camera/TCameraCtrl.h"
 
 
 LAYOUT_ASSERT(TChallenge_state_offset, offsetof(TChallenge, state) == 0x1C);
@@ -96,7 +97,6 @@ extern void *challenge_mode_state[];
 void TChallenge__request_missing_challenge_records(L_80070254 *arg0);
 void render__10TChallengeFv(void);
 
-int is_quest_active(void);
 s32 TLobby__sub_800739BC(void *);
 s32 TLobby__sub_8026A328();
 
