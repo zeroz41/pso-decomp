@@ -506,9 +506,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # (801D8ADC) sit in .rodata.
     "pso/player/TObjPlayer_801D84CC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/player/TObjPlayer_801D8ADC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    # vtables come out TUnk_80488AD8, TUnk_80488AF0 then TUnk_80488B08 (the text order of their
+    # vtables come out TCameraConversation, TCameraPan then TCameraFixed (the text order of their
     # dtors): written last to first, deferred.
-    "pso/camera/TCameraCtrl_8006B3D8.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    "pso/camera/TCameraConversation.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # -sdata 4: its last .bss object (0x8050BEB8) is 8 bytes.
     "pso/network/TPlyJoinLobbyEntry.cpp": {"cflags": _switch(cflags_pso, "-sdata 4")},
     # -sdata 4: the 8-byte load/release callback tables of BOSS01 (0x804A7358), BOSS02 (0x804A7360)
@@ -517,7 +517,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/map/area/AreaBoss02.cpp": {"cflags": _switch(cflags_pso, "-sdata 4")},
     "pso/map/area/AreaBoss05.cpp": {"cflags": _switch(cflags_pso, "-sdata 4")},
     # -sdata 4: the 8-byte camera bank list 0x80488B98 sits in .data, not .sdata.
-    "pso/camera/TCameraCtrl_8006C7C4.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly")},
+    "pso/camera/TCameraWatchPlayer.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly")},
     # -sdata 4: the 8-byte creation_sprite_table and ccconsole_pvm_file_name_table sit in .data while
     # the 4-byte ui_sprite_scale is in .sdata; the texture and pvm names sit in .rodata: readonly strings.
     "pso/ui/UISprite.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly")},
@@ -526,7 +526,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # The TBoss8DragonEffBullet constructor reaches each of its three .rodata particle tables with its own lis/addi: -pool off.
     "pso/boss/goldragon/TBoss8DragonEffBullet.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
     # run_task and get_target_position reach each .rodata object with its own lis/addi: -pool off.
-    "pso/unk/TUnk_80488DA0.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
+    "pso/camera/TCameraDebugView.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     "pso/effect/item/TItemEffBringer.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/item/TItemEffCane.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/item/TItemEffEquip.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
@@ -1556,7 +1556,7 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
     ("ginja", 0x803D6538, "GC/2.6", _switch(cflags_middleware, "-O3,p", "-opt nopeephole"), {
         # -inline off,deferred: its named .sdata2 constants (0x805E0E18-0x805E0E3C), defined after the one function,
         # sit before the function's int->double conversion constants (0x805E0E40); only deferred compilation emits that order.
-        "pso/camera/TCameraCtrl_803D676C.cpp": {"cflags": _switch(cflags_middleware, "-O3,p", "-opt nopeephole", "-inline off,deferred")},
+        "pso/render/GinjaPerspective.cpp": {"cflags": _switch(cflags_middleware, "-O3,p", "-opt nopeephole", "-inline off,deferred")},
         # -sdata 4: its last .bss object (0x8058D520) is 8 bytes.
         "pso/unk/text_803DCDFC.cpp": {"cflags": _switch(cflags_middleware, "-O3,p", "-opt nopeephole", "-sdata 4")},
         # Saves registers through _savegpr_N everywhere (no stmw in the unit).

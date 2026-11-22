@@ -13,7 +13,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/camera/TCameraCtrl_803D6538.h"
+#include "pso/render/GinjaView.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"

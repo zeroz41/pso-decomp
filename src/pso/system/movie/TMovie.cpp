@@ -1,7 +1,7 @@
 #include "pso/system/RelModuleBuffer.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "pso/camera/TCameraCtrl_803D676C.h"
+#include "pso/render/GinjaView.h"
 #include <stddef.h>
 #include <string.h>
 #include "pso/system/movie/TMovie.h"

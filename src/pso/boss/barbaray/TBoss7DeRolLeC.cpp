@@ -116,7 +116,6 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_80086E28.h"
-#include "pso/camera/TCameraCtrl_803D749C.h"
 
 #include "pso/unk/text_803D96A8.h"
 

@@ -21,7 +21,7 @@
 #include "pso/render/RenderSbssGlobals.h"
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/render/model_render_state.h"
-#include "pso/camera/TCameraCtrl_803D6538.h"
+#include "pso/render/GinjaView.h"
 
 #pragma scheduling off
 #pragma scheduling off

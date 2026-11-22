@@ -135,7 +135,7 @@ const char *TTecZondeEff_class_name = "TTecZondeEff";
 P_8023DBB4 tec_zonde_effect_task_list;
 extern char lbl_804CC8C8[];
 s32 TTecZondeEff__beam_vertex_data;
-extern Cam_8023D128 lbl_8058D4F8;
+extern Cam_8023D128 screen_projection;
 s32 project_lightning_points(Obj_8023D128 *self, Vec *out, f32 *a, f32 *b);
 struct Obj_8023D294 { u8 pad[0x28]; Vec d; };
 
@@ -235,10 +235,10 @@ s32 project_lightning_points(Obj_8023D128 *self, Vec *out, f32 *a, f32 *b) {
   f32 cx;
   f32 cy;
   s32 i;
-  sy0 = lbl_8058D4F8.sx;
-  sx0 = lbl_8058D4F8.sx * (480.0f / (480.0f * lbl_8058D4F8.sy));
-  cx = lbl_8058D4F8.cx;
-  cy = lbl_8058D4F8.cy;
+  sy0 = screen_projection.sx;
+  sx0 = screen_projection.sx * (480.0f / (480.0f * screen_projection.sy));
+  cx = screen_projection.cx;
+  cy = screen_projection.cy;
   for (i = 0; i < self->count; i++)
   {
     Vec v;

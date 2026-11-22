@@ -89,7 +89,6 @@ struct ByteBlock_C { u8 bytes[0xc]; };
 #include "pso/render/MaterialAlphaCompare.h"
 #include "pso/object/TObjControl.h"
 #include "pso/render/render_util.h"
-#include "pso/camera/TCameraCtrl_803D749C.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"

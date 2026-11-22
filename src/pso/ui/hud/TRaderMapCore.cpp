@@ -3,7 +3,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/camera/TCameraCtrl_803D676C.h"
+#include "pso/render/GinjaView.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/render/Draw2D.h"

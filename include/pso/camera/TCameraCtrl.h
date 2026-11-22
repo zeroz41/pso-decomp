@@ -179,12 +179,11 @@ public:
     // Transforms the vector at src into view space, into dst.
     static void transform_to_view(const Vec *src, Vec *dst);
     static Vec get_target_position();
-    static void target_player0(int controller);
     static s32 get_camera_no();
     static void set_mode(int mode);
     static void update_camera_state(f32 x, f32 y, f32 z);
     static void look_at_position(f32 x, f32 y, f32 z);
-    static s32 translate_view_negated(f32 x, f32 y, f32 z);
+    static void translate_view_negated(f32 x, f32 y, f32 z);
     static void set_clamped_offsets(f32 near_clip, f32 far_clip);
     void update_projection_params();
     static void concat_matrix(uaddr target, uaddr matrix);
@@ -198,7 +197,6 @@ public:
     static int get_camera_id();
     static void set_target_coords(int x, int y);
     static void reset_battle_camera();
-    u8 *init_conversation_camera(s32 arg1, s32 arg2, saddr parent);
     static s32 clamp_distance(s32 yaw, s32 to, s32 arg2);
     static void free_entries();
     static void load_camera_banks();
@@ -221,6 +219,8 @@ s32 restore_player_cameras(void);
 void set_active_camera_pose(Vec *position, Vec *target);
 void set_active_camera_pose_from_params(CameraParams *params);
 void start_camera_shake(s32 frames, f32 amplitude);
+// Restores the saved view after a full-screen 2D pass.
+void TCameraCtrl__sub_80068EF0(void);
 }
 void calc_projection_screen_offset(f32 *x, f32 *y);
 

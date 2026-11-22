@@ -1,9 +1,11 @@
 #include "pso/ui/frontend/CharacterSelectionRequest.h"
 #include "types.h"
-#include "pso/camera/TCameraCtrl_8006B3D8.h"
-#include "pso/camera/TCameraCtrl_8006C7C4.h"
-#include "pso/unk/TUnk_80488838.h"
-#include "pso/unk/TUnk_80488DA0.h"
+#include "pso/camera/TCameraFixed.h"
+#include "pso/camera/TCameraScripted.h"
+#include "pso/camera/TCameraDebugOrbit.h"
+#include "pso/camera/TCameraDebugView.h"
+#include "pso/camera/TCameraOrbit.h"
+#include "pso/camera/TCameraWatchPlayer.h"
 #include "pso/system/vector.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/camera/TCameraController.h"
@@ -26,7 +28,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/camera/TCameraVolOpt.h"
 #include "pso/camera/TCameraFollow.h"
-#include "pso/camera/TCameraCtrl_8006782C.h"
+#include "pso/camera/TCameraVolOptFollow.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/math/MatrixVector.h"
@@ -73,10 +75,7 @@ struct SceneProjectionState { u8 pad_0[0x4C]; f32 pad_4C; f32 pad_50; u8 pad_54[
 extern SceneProjectionState scene_projection_state;
 s32 camera_renderer_setup_nop(void *, int);
 s32 fn_803D64F8(void *);
-extern s32 TCameraCtrl__saved_projection_angle;
 f32 rotate_vector_by_current_matrix(void *, void *);
-void *TCameraCtrl__vt4(void);
-void *TCameraCtrl__vt5(void);
 extern int camera_split_screen_selector;
 extern int quest_active_flag;
 }
@@ -84,7 +83,7 @@ extern int quest_active_flag;
 void reset_cameras_to_actor(void *actor, s32 view_unused);
 void select_camera_controller(s32 index);
 
-typedef void *(*CameraControllerFactory)(void);
+typedef TCameraController *(*CameraControllerFactory)(void);
 
 TCameraController *camera_controller_registry[13] = {
     NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
@@ -93,9 +92,9 @@ TCameraController *camera_controller_registry[13] = {
 CameraControllerFactory camera_controller_factories[13] = {
     (CameraControllerFactory)&TCameraFollow::create, (CameraControllerFactory)&TCameraFollow::create,
     (CameraControllerFactory)&TCameraFollow::create, (CameraControllerFactory)&TCameraFollow::create,
-    &TCameraCtrl__vt4, &TCameraCtrl__vt5, &TCameraCtrl__vt6, &TCameraCtrl__vt7,
-    (CameraControllerFactory)&CreationCamera::create, &TCameraCtrl__vt9, &TCameraCtrl__vt10, (CameraControllerFactory)&TCameraVolOpt::create,
-    &TCameraCtrl__vt12,
+    &TCameraDebugOrbit::create, &TCameraScripted::create, &TCameraDebugView::create, &TCameraOrbit::create,
+    (CameraControllerFactory)&CreationCamera::create, &TCameraFixed::create, &TCameraWatchPlayer::create,
+    (CameraControllerFactory)&TCameraVolOpt::create, &TCameraVolOptFollow::create,
 };
 
 
@@ -199,7 +198,7 @@ TCameraCtrl::TCameraCtrl(TObject *parent) : TObject(parent) {
     pad_80 = 0.0f;
     {
         for (k = 0; k < 13; k++) {
-            camera_controller_registry[TCameraCtrl::view_state.controller_count++] = (TCameraController *)camera_controller_factories[k]();
+            camera_controller_registry[TCameraCtrl::view_state.controller_count++] = camera_controller_factories[k]();
         }
     }
     TCameraCtrl::view_state.controller = 0;
@@ -755,8 +754,8 @@ s32 restore_player_cameras(void) {
     TObjPlayer *player;
     if (TCameraCtrl::view_state.flags & 4) {
         TCameraCtrl::view_state.flags &= ~4;
-        if (TCameraCtrl::get_active_controller() == 5 && camera_controller_registry[5] != NULL && TCameraCtrl__saved_projection_angle != 0) {
-            camera_controller_registry[5]->projection_angle = TCameraCtrl__saved_projection_angle;
+        if (TCameraCtrl::get_active_controller() == 5 && camera_controller_registry[5] != NULL && saved_projection_angle != 0) {
+            camera_controller_registry[5]->projection_angle = saved_projection_angle;
         }
         TCameraCtrl::view_state.flags |= 0x20;
     }

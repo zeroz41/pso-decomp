@@ -124,12 +124,11 @@ extern u8 controller_physical_port_bank[];
 #include <stddef.h>
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/camera/CameraViewParams.h"
+#include "pso/camera/CameraHelpers.h"
 
 extern "C" {
-s32 TCameraCtrl__sub_80068EF0();
 s32 GXSetZMode(int, int, int);
 }
-void direction_to_pitch_yaw(u8 *arg0, s32 *arg1, s32 *arg2);
 void set_perspective_projection_from_fov(s32 arg0, f32 farg0, f32 farg1, f32 farg2);
 void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
 extern u8 *camera_ctrl_instance;
@@ -852,7 +851,7 @@ void TUnk_8048E5DC::render_shadows() {
             dir.x = *(f32 *)&this->unk_2C - this->m_20;
             dir.y = this->m_30 - *(f32 *)&this->unk_24;
             dir.z = *(f32 *)((s8 *)arg0 + 0x34) - this->m_28;
-            direction_to_pitch_yaw((u8 *)&dir, &pitch, &yaw);
+            direction_to_pitch_yaw(&dir, &pitch, &yaw);
             TCameraCtrl::calc_axes_from_angles((saddr)camera_ctrl_instance, pitch, yaw);
         }
         set_camera_capture_flags_bit2();

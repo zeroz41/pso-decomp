@@ -98,7 +98,6 @@ struct NJS_OBJECT;
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D853C.h"
-#include "pso/camera/TCameraCtrl_803D749C.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/map/CsnQuery.h"
