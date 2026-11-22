@@ -40,15 +40,8 @@ __declspec(section ".rodata") Vec follow_camera_reset_eye_offset = { 0.0f, 0.0f,
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/unk/text_803D8F74.h"
 
-extern TCameraController *camera_controller_registry[13];
-
 u8 camera_override_flags;
 
-// Defined in TCameraCtrl.cpp, TLobby_801E2F94.cpp and TObjPlayer_801AF2F0.cpp
-// without a header declaration that fits these calls.
-void reset_cameras_to_actor(void *actor, s32 flags);
-extern TCameraCtrl *camera_ctrl_instance;
-extern f32 lbl_804FF5E8[10];
 extern "C" void camera_renderer_setup_nop(void *, s32);
 extern "C" s32 check_flag_100__10TObjPlayerFPv(void *);
 

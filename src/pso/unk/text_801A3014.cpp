@@ -114,16 +114,6 @@ struct VObj_801A37D0 : VBase_801A37D0 {
     virtual void m1();
 };
 
-struct Cam_801A37D0 {
-    u8 pad0[0x94];
-    s32 yaws[4];
-    Vec poss[4];
-    u8 padd4[0x178 - 0xD4];
-    Vec pos;
-    u8 pad184[0x194 - 0x184];
-    s32 yaw;
-};
-
 struct PVB_801A39BC { char pad[0x18]; };
 
 struct PV_801A39BC : PVB_801A39BC {
@@ -248,7 +238,6 @@ extern s32 TLobby__data_805D6148;
 extern s32 TLobby__data_805D614C;
 void run_offline_game_frame(void);
 void run_offline_transfer_frame(void);
-extern Cam_801A37D0 *camera_ctrl_instance;
 void run_split_screen_frame(void);
 extern s32 local_client_id;
 extern s32 actor_frame_tick;
@@ -548,8 +537,8 @@ void run_split_screen_frame(void) {
         TCameraCtrl::set_split_viewport(1, 0);
         main_task.render();
         if (camera_ctrl_instance != NULL) {
-            camera_ctrl_instance->yaws[id] = camera_ctrl_instance->yaw;
-            VecCopy((Vec *)&camera_ctrl_instance->poss[id], (const Vec *)&camera_ctrl_instance->pos);
+            camera_ctrl_instance->view_yaw[id] = camera_ctrl_instance->yaw;
+            VecCopy(&camera_ctrl_instance->view_pos[id], &camera_ctrl_instance->pos);
         }
     } else {
         for (i = 0; i < TCameraCtrl::get_camera_id(); i++) {

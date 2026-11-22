@@ -95,9 +95,9 @@ void TFontSmallHelp::render() {
     project_world_to_screen(NULL, &pos, screen);
     pop_matrix();
     if (is_split_screen() != 0) {
-        screen[0] -= (f32)TCameraCtrl::get_screen_height();
+        screen[0] -= (f32)TCameraCtrl::get_viewport_x();
         screen[0] /= TCameraCtrl::get_view_scale();
-        screen[1] -= (f32)TCameraCtrl::get_screen_width();
+        screen[1] -= (f32)TCameraCtrl::get_viewport_y();
         screen[1] /= TCameraCtrl::get_fov();
     }
     screen[0] -= 0.5f * text_width;

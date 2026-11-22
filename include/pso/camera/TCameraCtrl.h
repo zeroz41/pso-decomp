@@ -168,8 +168,9 @@ public:
     static void set_override_position_and_angle(u8 *position, s16 angle);
     static void set_fixed_position_and_target(u8 *position, u8 *target);
     static void set_active_camera_flag();
-    static s32 get_screen_width();
-    static s32 get_screen_height();
+    // The viewport origin, which projected points are made view-relative by.
+    static s32 get_viewport_y();
+    static s32 get_viewport_x();
     void copy_position_vectors(void *first, void *second);
     void update_single_screen();
     static int get_mode();
@@ -210,8 +211,18 @@ public:
 LAYOUT_ASSERT(TCameraCtrl_size, sizeof(TCameraCtrl) == 0x1D4);
 // The camera's right axis, which screen tests offset points along.
 extern f32 camera_right[3];
+// The camera task; NULL until TCameraCtrl::create makes it.
+extern TCameraCtrl *camera_ctrl_instance;
 // The one view split-screen frames run and draw, or -1 for every view.
 extern s8 camera_ctrl_view_state_byte;
+// One controller per registry slot, made by the constructor.
+extern TCameraController *camera_controller_registry[13];
+// The Ninja camera the views are set up from: eye position, view direction,
+// roll, view angle and clip planes, in the order fn_803D64F8 resets them.
+extern f32 lbl_804FF5E8[10];
+
+// Points every controller of the actor's view at the actor.
+void reset_cameras_to_actor(void *actor, s32 view_unused);
 
 extern "C" {
 int is_quest_active(void);

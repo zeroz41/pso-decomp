@@ -33,7 +33,6 @@ void TCameraCtrl__sub_8030ABF4();
 }
 
 void draw_chunk_model(void *);
-extern u8 *camera_ctrl_instance;
 extern u32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;
@@ -95,7 +94,7 @@ void TObjPlayer__sub_8030A9B0() {
     e = tbl->entries;
     rot = (TBoss4ZakoDraw__rotation_phase << 16) / 16;
     // The shared camera slot retains its legacy byte-pointer declaration.
-    VecCopy(&pos, (const Vec *)(camera_ctrl_instance + 0x178));
+    VecCopy(&pos, &camera_ctrl_instance->pos);
     i = 0;
     pos.y = zako_draw_height;
     for (; i < tbl->count; i++, e++) {

@@ -80,7 +80,6 @@ extern int camera_split_screen_selector;
 extern int quest_active_flag;
 }
 
-void reset_cameras_to_actor(void *actor, s32 view_unused);
 void select_camera_controller(s32 index);
 
 typedef TCameraController *(*CameraControllerFactory)(void);

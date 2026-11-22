@@ -76,7 +76,6 @@ void TObjDoor__sub_8018E8BC(void);
 void update_anim__8TObjDoorFPv(void *arg0);
 f32 xyz_distance_squared(u8 *arg0, u8 *arg1);
 s32 project_world_to_screen(int, void *, void *);
-extern saddr camera_ctrl_instance;
 s32 free_collision_body_parts(void *);
 extern s32 __vt__8TObjDoor[];
 void *TObjDoor__create(void *arg0);
@@ -349,7 +348,7 @@ s32 TObjDoor::is_visible(f32 farg0, f32 farg1) {
     saddr arg0 = (saddr)this;
     f32 sp8;
     f32 temp_f1;
-    temp_f1 = xyz_distance_squared((u8 *)(arg0 + 0x38), (u8 *)(camera_ctrl_instance + 0x178));
+    temp_f1 = xyz_distance_squared((u8 *)(arg0 + 0x38), (u8 *)&camera_ctrl_instance->pos);
     if (temp_f1 > (farg0 * farg0)) {
         return 0;
     }

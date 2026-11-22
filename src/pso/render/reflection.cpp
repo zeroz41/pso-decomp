@@ -292,20 +292,12 @@ struct Pl_8029EFFC {
     Vec pos2FC;
 };
 
-struct G_8029EFFC {
-    u8 pad0[0x178];
-    f32 x178;
-    f32 y17C;
-    f32 z180;
-};
-
 extern "C" {
 // Every caller tests this as an int; the header's bool return would not match.
 void GXSetTevOp(s32 stage, s32 mode);
 void GXSetTevOrder(s32 stage, s32 coord, s32 map, s32 color);
 }
 const f64 lbl_80465E18 = 0.0054931640625;
-extern uaddr camera_ctrl_instance;
 
 const Vec sora_reflection_up_vec = {0.0f, 1.0f, 0.0f};
 extern s32 TSceneSora__sky_active_flag;
@@ -325,7 +317,7 @@ void TObjPlayer::setup_projection_texture(Vec *, SceneSectionAngles *, u32 flags
     f32 spC;
     f32 sp8;
     f32 fov_y;
-    if (((u32) camera_ctrl_instance != 0U) && ((u32) lbl_805D65F0 != 0U)) {
+    if ((camera_ctrl_instance != NULL) && ((u32) lbl_805D65F0 != 0U)) {
         calc_projection_screen_offset(&spC, &sp8);
         if (flags & 0x80) {
             push_matrix();
@@ -431,9 +423,9 @@ void TUnk_804DC7C4::render_shadows() {
     k = 0.0f;
     scene_sora_reflect_active = 0;
     for (i = 0; i < 2; i++) {
-        v.x = p->pos38.x - ((G_8029EFFC *)camera_ctrl_instance)->x178;
+        v.x = p->pos38.x - camera_ctrl_instance->pos.x;
         v.y = k;
-        v.z = p->pos38.z - ((G_8029EFFC *)camera_ctrl_instance)->z180;
+        v.z = p->pos38.z - camera_ctrl_instance->pos.z;
         len = fabs_float(v.z);
         if (fabs_float(v.x) >= len) {
             if (i != 0) {

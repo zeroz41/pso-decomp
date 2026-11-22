@@ -9,10 +9,6 @@
 #include "pso/render/render_util.h"
 #include "pso/system/vector.h"
 
-extern f32 lbl_804FF5E8[];
-extern TCameraCtrl *camera_ctrl_instance;
-extern void *camera_controller_registry[];
-
 s32 approach_camera_scalar(f32 *current, f32 *target, f32 rate) {
     f32 distance = fabs_float(*current - *target);
     f32 step = 0.16f * distance * rate;

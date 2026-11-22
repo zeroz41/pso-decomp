@@ -131,7 +131,6 @@ s32 GXSetZMode(int, int, int);
 }
 void set_perspective_projection_from_fov(s32 arg0, f32 farg0, f32 farg1, f32 farg2);
 void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
-extern u8 *camera_ctrl_instance;
 extern uaddr camera_render_target_singleton;
 void load_list_texture(s32 idx, s32 wrapS, s32 wrapT, s32 map);
 extern s32 __vt__13TUnk_8048E5DC[];
@@ -165,12 +164,6 @@ void set_ginja_post_texgen_count(s32 x);
 void set_ginja_post_tev_stage_count(s32 x);
 struct Rect_80083F38 { u8 data[0x20]; };
 struct Rect_800846C8 { u8 data[0x20]; };
-
-struct View_80083D54 {
-    u8 pad0[0x178];
-    Vec pos;
-    Vec target;
-};
 
 extern "C" {
 void translate_current_matrix_ps(f32, f32, f32);
@@ -257,8 +250,6 @@ extern s32 scene_projection_state[];
 extern u8 *active_gx_render_mode;
 void capture_viewport_texture(void);
 void setup_blended_textured_draw(void);
-
-#define VIEW ((View_80083D54 *)camera_ctrl_instance)
 
 extern "C" {
 s32 GXSetTexCoordGen2(s32 a0 = 0, s32 a1 = 0, s32 a2 = 0, s32 a3 = 0, s32 a4 = 0, s32 a5 = 0);
@@ -550,14 +541,14 @@ void begin_shadow_map_pass(void) {
     if (camera_ctrl_instance == 0) {
         return;
     }
-    d.x = VIEW->target.x - VIEW->pos.x;
-    d.y = VIEW->target.y - VIEW->pos.y;
-    d.z = VIEW->target.z - VIEW->pos.z;
+    d.x = camera_ctrl_instance->tgt.x - camera_ctrl_instance->pos.x;
+    d.y = camera_ctrl_instance->tgt.y - camera_ctrl_instance->pos.y;
+    d.z = camera_ctrl_instance->tgt.z - camera_ctrl_instance->pos.z;
     if (0.0f != vec_squared_length(&d)) {
         normalize_vector(&d);
-        shadow_light_position.x = VIEW->pos.x + 0.4f * (256.0f * d.x);
-        shadow_light_position.y = VIEW->pos.y;
-        shadow_light_position.z = VIEW->pos.z + 0.4f * (256.0f * d.z);
+        shadow_light_position.x = camera_ctrl_instance->pos.x + 0.4f * (256.0f * d.x);
+        shadow_light_position.y = camera_ctrl_instance->pos.y;
+        shadow_light_position.z = camera_ctrl_instance->pos.z + 0.4f * (256.0f * d.z);
     } else {
         shadow_light_position.x = 0.0f;
         shadow_light_position.y = 0.0f;
@@ -580,9 +571,8 @@ void begin_shadow_map_pass(void) {
     set_ginja_draw_flags(2);
 }
 
-#undef VIEW
 s32 is_in_shadow_range(u8 *radius, f32 farg0) {
-    if (((uaddr) camera_ctrl_instance != 0U) && (((farg0 * farg0) + horizontal_distance_squared((const Vec *)radius, &shadow_light_position)) <= 8537.761f)) {
+    if ((camera_ctrl_instance != NULL) && (((farg0 * farg0) + horizontal_distance_squared((const Vec *)radius, &shadow_light_position)) <= 8537.761f)) {
         return 1;
     }
     return 0;
@@ -590,7 +580,7 @@ s32 is_in_shadow_range(u8 *radius, f32 farg0) {
 
 void end_shadow_map_pass() {
     u8 *temp_r31;
-    if ((is_split_screen() == 0) && (TObjPlayer::check_all_players_ready() != 0) && ((uaddr) camera_ctrl_instance != 0U)) {
+    if ((is_split_screen() == 0) && (TObjPlayer::check_all_players_ready() != 0) && (camera_ctrl_instance != NULL)) {
         pop_matrix();
         pop_matrix();
         GXColor_80083B8C c = {0, 0, 0, 0};
@@ -628,8 +618,8 @@ f32 calc_camera_fov_degrees(void) {
     f32 var_f1;
     s32 temp_r31;
     var_f1 = 11832.0f;
-    if ((void *) camera_ctrl_instance != NULL) {
-        temp_f2 = (f32) (*(s32 *)((s8 *)camera_ctrl_instance + 0x19C));
+    if (camera_ctrl_instance != NULL) {
+        temp_f2 = (f32)camera_ctrl_instance->fov;
         temp_f2 *= 0.85f;
         temp_r31 = (s32) (temp_f2 / 2.0f);
         temp_f31 = cos_table_lookup(temp_r31);
@@ -842,9 +832,9 @@ void TUnk_8048E5DC::render_shadows() {
         GXSetViewport(0.0f, 0.0f, 640.0f, 480.0f, 0.0f, 1.0f);
         GXSetScissor(0, 0, 0x280, 0x1E0);
         Vec up = {0.0f, 1.0f, 0.0f};
-        set_perspective_projection_from_fov((((TCameraCtrl *)camera_ctrl_instance)->fov), 1.1333334f, 1.0f, 21000.0f);
+        set_perspective_projection_from_fov((camera_ctrl_instance->fov), 1.1333334f, 1.0f, 21000.0f);
         set_camera_look_at((u8 *)&this->m_20, (u8 *)&this->unk_2C, (u8 *)&up);
-        if ((void *) camera_ctrl_instance != NULL) {
+        if (camera_ctrl_instance != NULL) {
             Vec dir;
             s32 pitch;
             s32 yaw;
@@ -869,8 +859,8 @@ void TUnk_8048E5DC::render_shadows() {
         GXSetViewport(0.0f, 0.0f, 640.0f, 480.0f, 0.0f, 1.0f);
         GXSetScissor(0, 0, 0x280, 0x1E0);
         TCameraCtrl__sub_80068EF0();
-        ((TCameraCtrl *)camera_ctrl_instance)->calc_rotated_axes();
-        ((TCameraCtrl *)camera_ctrl_instance)->setup_default_view(0);
+        camera_ctrl_instance->calc_rotated_axes();
+        camera_ctrl_instance->setup_default_view(0);
     }
 }
 

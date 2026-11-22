@@ -54,7 +54,6 @@ extern const f32 view_detail_near_depth = 155.0f;
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/ui/TLevelSelect.h"
 extern "C" {
-extern u8 *camera_ctrl_instance;
 int is_local_client_floor_leader(void*);
 int TObjPlayer__sub_801BA42C(void*);
 int freeze_all_players__10TObjPlayerFv(void*);
@@ -999,12 +998,12 @@ int TObjEneDD::query_teammate_state() { return TObjPlayer::is_any_teammate_in_st
 void project_sound_origin_from_camera(saddr source, u8 *out, f32 distance) {
     f32 scale;
     VecCopy((Vec *)(out), (const Vec *)(source));
-    subtract_vector((Vec *)out, (const Vec *)(camera_ctrl_instance + 0x178));
+    subtract_vector((Vec *)out, &camera_ctrl_instance->pos);
     { f32 s = normalize_vector_safe((Vec *)out); scale = s * distance; }
     ((Vec *)out)->x *= scale;
     ((Vec *)out)->y *= scale;
     ((Vec *)out)->z *= scale;
-    vec3_add_to((Vec *)out, (const Vec *)(camera_ctrl_instance + 0x178));
+    vec3_add_to((Vec *)out, &camera_ctrl_instance->pos);
 }
 
 int TObjEneDD::get_target_state_b() { return freeze_all_players__10TObjPlayerFv(this); }

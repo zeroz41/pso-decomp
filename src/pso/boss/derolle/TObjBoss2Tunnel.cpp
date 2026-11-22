@@ -236,7 +236,6 @@ extern "C" {
 extern s32 lbl_805D49B4;
 extern char episode_i_and_ii_card_filename[];
 s8 func_801A5E54__Fv(void);
-extern uaddr camera_ctrl_instance;
 extern s32 lbl_805D63F0;
 }
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
@@ -1297,8 +1296,8 @@ void TObjBoss2Tunnel::show_message_and_wait(s32 message) {
         frames++;
         func_803DCDFC__Fv();
         controller_stuff();
-        if (camera_ctrl_instance != 0U) {
-            ((TCameraCtrl *)camera_ctrl_instance)->setup_default_view(0);
+        if (camera_ctrl_instance != NULL) {
+            camera_ctrl_instance->setup_default_view(0);
         }
         main_task.render();
         if ((f32)frames >= 30.0f) {
@@ -1351,8 +1350,8 @@ s32 TObjBoss2Tunnel::run_confirm_message_loop() {
         frames++;
         func_803DCDFC__Fv();
         controller_stuff();
-        if (camera_ctrl_instance != 0U) {
-            ((TCameraCtrl *)camera_ctrl_instance)->setup_default_view(0);
+        if (camera_ctrl_instance != NULL) {
+            camera_ctrl_instance->setup_default_view(0);
         }
         main_task.render();
         draw_snapshot_capture_overlay();

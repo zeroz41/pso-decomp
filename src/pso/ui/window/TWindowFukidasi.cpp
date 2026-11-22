@@ -88,15 +88,6 @@ struct Fuki_80251380 {
     s16 viewport;
 };
 
-struct Cam_80251380 {
-    u8 pad0[0x178];
-    f32 pos[3];
-    u8 pad184[0x190 - 0x184];
-    s32 rx;
-    s32 ry;
-    s32 rz;
-};
-
 struct Fuki_802521E8;
 
 struct Fuki_80252764 {
@@ -224,7 +215,6 @@ WindowFukidasiLayoutEntries window_fukidasi_layout_entries = {1, {1, 3, 0, 0, 0x
 u32 window_fukidasi_addition_params[5] = {0, 0, 0x476A6000, 0, 0x7023};
 extern u8 identity_matrix[];
 const char *window_fukidasi_class_name = TWindowFukidasi__class_name_string;
-extern Cam_80251380 *camera_ctrl_instance;
 extern void *lbl_805D63F0;
 
 #define F70_80250A24 ((Fuki_80250F70 *)b)
@@ -491,7 +481,7 @@ void TUnk_804CF0B8::draw_tail(void *view, u32 color, f32 *off, f32 depth) {
         cx = ((Fuki_802521E8 *)this)->center[0];
         cy = ((Fuki_802521E8 *)this)->center[1];
         angle = 10430.38043493439 * atan2_float(cy - scr[1], cx - scr[0]);
-        s = 1000.0f / xyz_distance((*(u8 * *)&camera_ctrl_instance) + 0x178, pos);
+        s = 1000.0f / xyz_distance(&camera_ctrl_instance->pos, pos);
         x0 = s * cos_table_lookup(angle) + scr[0];
         y0 = s * sin_table_lookup(angle) + scr[1];
         prim.verts = verts;
@@ -933,14 +923,14 @@ s32 TUnk_804CF0B8::is_speaker_far_or_offscreen() {
     Vec v = fukidasi_forward_vec;
     f32 d[3];
     push_matrix_from(identity_matrix);
-    rotate_matrix_y(0, camera_ctrl_instance->ry);
-    rotate_matrix_x(0, camera_ctrl_instance->rx);
-    rotate_matrix_z(0, camera_ctrl_instance->rz);
+    rotate_matrix_y(0, camera_ctrl_instance->yaw);
+    rotate_matrix_x(0, camera_ctrl_instance->pitch);
+    rotate_matrix_z(0, camera_ctrl_instance->roll);
     rotate_vector_by_matrix(0, &v, &v);
     pop_matrix();
-    d[0] = pos[0] - camera_ctrl_instance->pos[0];
-    d[1] = pos[1] - camera_ctrl_instance->pos[1];
-    d[2] = pos[2] - camera_ctrl_instance->pos[2];
+    d[0] = pos[0] - camera_ctrl_instance->pos.x;
+    d[1] = pos[1] - camera_ctrl_instance->pos.y;
+    d[2] = pos[2] - camera_ctrl_instance->pos.z;
     if (vec3_dot(&v, d) <= 0.0f) {
         return 1;
     }
@@ -986,9 +976,9 @@ s32 TUnk_804CF0B8::project_anchor(f32 *pos, f32 *out) {
     project_world_to_screen(0, pos, out);
     pop_matrix();
     if (is_split_screen() != 0) {
-        out[0] -= (f32)TCameraCtrl::get_screen_height();
+        out[0] -= (f32)TCameraCtrl::get_viewport_x();
         out[0] /= TCameraCtrl::get_view_scale();
-        out[1] -= (f32)TCameraCtrl::get_screen_width();
+        out[1] -= (f32)TCameraCtrl::get_viewport_y();
         out[1] /= TCameraCtrl::get_fov();
     }
     out[0] += TCameraCtrl::view_params.center_x - 320.0f;
@@ -1093,7 +1083,7 @@ s32 rest_balloon__15TWindowFukidasiFv(Fuki_80250A24 *b, f32 *rect, f32 *arg2) {
     s32 a;
     s32 angle;
     ((TUnk_804CF0B8 *)F70_80250A24)->project_anchor(world, NULL);
-    reach = 1000.0f / xyz_distance(camera_ctrl_instance->pos, world);
+    reach = 1000.0f / xyz_distance(&camera_ctrl_instance->pos, world);
     dx = (0.5f * b->rsize[0] + rect[0]) - b->center[0];
     dy = (0.5f * b->rsize[1] + rect[1]) - b->center[1];
     dist = newton_sqrtf(dx * dx + dy * dy);
@@ -1169,7 +1159,7 @@ s32 try_place_bubble__15TWindowFukidasiFPvPvPv(Fuki_802506E8 *b, f32 *rect, f32 
     s32 a;
     s32 angle;
     ((TUnk_804CF0B8 *)F70_802506E8)->project_anchor(world, NULL);
-    reach = 1000.0f / xyz_distance((u8 *)camera_ctrl_instance + 0x178, world);
+    reach = 1000.0f / xyz_distance(&camera_ctrl_instance->pos, world);
     dx = (0.5f * b->rsize[0] + rect[0]) - b->center[0];
     dy = (0.5f * b->rsize[1] + rect[1]) - b->center[1];
     a = (s32) (10430.38043493439 * ((f64)atan2_float(dy, dx)));
@@ -1263,7 +1253,7 @@ extern "C" {
 // the tail tip draw_tail places 1000/distance short of the speaker, with the
 // same atan2 scale. Name inferred from that role.
 s32 TUnk_804CF0B8::calc_name_plate_angle(f32 *world, f32 *scr, f32 *rect, f32 *size) {
-    f32 reach = 1000.0f / xyz_distance(camera_ctrl_instance->pos, world);
+    f32 reach = 1000.0f / xyz_distance(&camera_ctrl_instance->pos, world);
     f32 dx = (0.5f * size[0] + rect[0]) - scr[0];
     f32 dy = ((0.5f * size[1] + rect[1]) - 19.0f) - (scr[1] - reach);
     return (s32) (10430.38043493439 * atan2_float(dy, dx));

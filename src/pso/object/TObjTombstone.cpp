@@ -52,16 +52,6 @@ void set_tombstone_position(s32 i, Vec *pos);
 void TObjTombstone__drop_recovery_items(TObjTombstone *self);
 }
 
-struct CameraView_800751BC {
-    u8 pad0[0x178];
-    Vec pos;
-    u8 pad184[0xC];
-    s32 f190;
-    s32 f194;
-    s32 f198;
-};
-extern "C" CameraView_800751BC *camera_ctrl_instance;
-
 __declspec(section ".data") const char *re_b_mark_base_model_names[2] = { "re_b_mark_base.gj", NULL };
 __declspec(section ".sdata") const char *re_b_mark_base_motion_names[1] = { NULL };
 BmlResourceDescriptor tombstone_resource_descriptor = {
@@ -92,9 +82,9 @@ Vec tombstone_position_table[4];
 
 // The unit is compiled -inline off,deferred, which emits functions last-defined
 // first: they are written here from the last (0x800766CC) back to the first.
-s32 TCameraCtrl::get_screen_height() { return TCameraCtrl::viewport_x; }
+s32 TCameraCtrl::get_viewport_x() { return TCameraCtrl::viewport_x; }
 
-s32 TCameraCtrl::get_screen_width() { return TCameraCtrl::viewport_y; }
+s32 TCameraCtrl::get_viewport_y() { return TCameraCtrl::viewport_y; }
 
 TObjTombstone *TObjTombstone::create(TObject *parent, s32 client, const TObjTombstoneRecord *record) {
     return new TObjTombstone(parent, client, record);
@@ -559,9 +549,9 @@ s32 TObjTombstone::project_to_screen(const TObjTombstone *, NJS_POINT2 *screen, 
     Vec d;
     Vec v = { 0.0f, 0.0f, -1.0f };
     push_matrix_from(identity_matrix);
-    rotate_matrix_y(0, camera_ctrl_instance->f194);
-    rotate_matrix_x(0, camera_ctrl_instance->f190);
-    rotate_matrix_z(0, camera_ctrl_instance->f198);
+    rotate_matrix_y(0, camera_ctrl_instance->yaw);
+    rotate_matrix_x(0, camera_ctrl_instance->pitch);
+    rotate_matrix_z(0, camera_ctrl_instance->roll);
     rotate_vector_by_matrix(0, &v, &v);
     pop_matrix();
     VecCopy(&d, point);
@@ -573,9 +563,9 @@ s32 TObjTombstone::project_to_screen(const TObjTombstone *, NJS_POINT2 *screen, 
     project_world_to_screen(NULL, point, &screen->x);
     pop_matrix();
     if (is_split_screen() != 0) {
-        screen->x -= (f32)TCameraCtrl::get_screen_height();
+        screen->x -= (f32)TCameraCtrl::get_viewport_x();
         screen->x /= TCameraCtrl::get_view_scale();
-        screen->y -= (f32)TCameraCtrl::get_screen_width();
+        screen->y -= (f32)TCameraCtrl::get_viewport_y();
         screen->y /= TCameraCtrl::get_fov();
     }
     return 1;

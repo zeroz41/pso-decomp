@@ -63,7 +63,6 @@ void set_ginja_post_texgen_count(s32 x);
 void set_ginja_post_tev_stage_count(s32 x);
 void load_current_pos_matrix(s32 arg0);
 void load_current_tex_matrix(s32 i);
-extern u32 camera_ctrl_instance;
 void play_indirect_effect_recipe(u8 arg0, u16 sampler, s32 second);
 void load_list_texture(s32 idx, s32 wrapS, s32 wrapT, s32 map);
 
@@ -76,7 +75,7 @@ void setup_projection_tex_matrix__10TObjPlayerFv(void) {
     f32 spC;
     f32 sp8;
     f32 temp_f31;
-    if ((u32) camera_ctrl_instance != 0U) {
+    if (camera_ctrl_instance != NULL) {
         push_matrix();
         calc_projection_screen_offset(&spC, &sp8);
         temp_f31 = (f32) (0.0054931640625 * calc_camera_fov_degrees());

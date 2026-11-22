@@ -10,8 +10,6 @@
 #include "pso/system/vector.h"
 #include "pso/unk/text_803D96A8.h"
 
-extern TCameraCtrl *camera_ctrl_instance;
-
 // Eye offsets from the followed player; the first is the Vol Opt camera's.
 const Vec camera_ctrl_default_offset_vecs[2] = {
     {0.0f, 25.43f, 45.42f},

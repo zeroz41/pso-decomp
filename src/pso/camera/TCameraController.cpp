@@ -16,9 +16,6 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
 
-extern TCameraCtrl *camera_ctrl_instance;
-extern f32 lbl_804FF5E8[10];
-
 // <dolphin/gx/GXTransform.h> pulls in MSL's sqrt statics, which this object does not have.
 extern "C" void GXSetScissorBoxOffset(s32 x_off, s32 y_off);
 

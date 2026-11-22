@@ -124,7 +124,6 @@ s32 is_split_screen();
 }
 void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 void dragon_capture_node_points(NJS_OBJECT *);
-extern u8 *camera_ctrl_instance;
 extern "C" {
 u16 get_entity_id(void *);
 extern const Vec boss1_dragon_arena_center = {0.0f, 0.0f, 0.0f};
@@ -5149,7 +5148,7 @@ void TBoss1Dragon::render() {
                     Vec delta;
                     Vec *points[4];
                     Vec probe;
-                    VecCopy(&origin, (Vec *)(camera_ctrl_instance + 0x178));
+                    VecCopy(&origin, &camera_ctrl_instance->pos);
                     origin.y = (0.0f);
                     VecCopy(&delta, &ent->position);
                     subtract_vector(&delta, &origin);
