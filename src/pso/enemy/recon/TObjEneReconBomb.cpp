@@ -35,45 +35,6 @@ struct Obj_8031B618 { u8 pad[0x38]; Vec pos; u8 pad2[0x2FC - 0x44]; Vec pos2; };
 
 struct Obj_8031B618;
 
-struct P_8031B808 { s32 a; f32 b; };
-
-struct VBase_8031B808 { char pad[0x18]; };
-
-struct VObj_8031B808 : VBase_8031B808 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21(u32, P_8031B808, s32, s32, s32);
-    virtual void m22();
-    virtual void m23(u32);
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual s32 m31();
-};
-
 struct Obj_8031B808 {
     u8 pad0[0x38];
     Vec pos;
@@ -172,7 +133,7 @@ void TObjEneReconBomb::run_task() {
     Obj_8031B808 *self = (Obj_8031B808 *)this;
     Vec pos;
     s32 i;
-    VObj_8031B808 *pl;
+    TObjPlayer *pl;
     if (self->target == 0) {
         ((TObject *)self)->queue_destruction();
         return;
@@ -220,14 +181,13 @@ void TObjEneReconBomb::run_task() {
         spawn_particle_effect_with_flags(&self->pos, 0x45, 0x40);
         spawn_particle_effect_with_flags(&self->pos, 0x46, 0x40);
         for (i = 0; i < lbl_805D5868; i++) {
-            pl = (VObj_8031B808 *)TObjPlayer::get_player_data(i);
-            if (TObjPlayer::is_valid_and_active((uaddr)pl) != 0 && pl != 0 && (u16)get_entity_id((saddr)pl) < 0x1000 && pl->m31() == 0) {
+            pl = TObjPlayer::get_player_data(i);
+            if (TObjPlayer::is_valid_and_active((uaddr)pl) != 0 && pl != 0 && (u16)get_entity_id((saddr)pl) < 0x1000 && pl->has_flag_0x800() == 0) {
                 if (horizontal_distance_squared((const Vec *)((u8 *)pl + 0x2FC), (const Vec *)&self->pos2) <= self->range * self->range) {
-                    P_8031B808 d;
-                    d.a = 0;
-                    d.b = self->f350;
-                    pl->m21(self->target, d, 0, -1, -1);
-                    pl->m23(self->target);
+                    DirectAttackPayload attack;
+                    attack.kind = 0;
+                    attack.power = self->f350;
+                    pl->apply_knockback_from_attacker((u8 *)self->target, pl->receive_direct_attack((void *)self->target, attack, NULL, -1, -1));
                 }
             }
         }
