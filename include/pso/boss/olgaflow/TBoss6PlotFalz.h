@@ -15,6 +15,7 @@ s32 TBoss6Type1__sub_802ABDEC(s32 seed);
 
 struct BmlResource;
 class TBoss4Fade;
+struct TBoss6Type1;
 struct TBoss6Type2;
 
 struct TBoss6PlotFalz : public TObjEnemy {
@@ -120,8 +121,9 @@ struct TBoss6PlotFalz : public TObjEnemy {
     static void update_active_flag();
 };
 
-// The Olga Flow (TBoss6Type2) of the running fight, 0 when there is none.
-extern uaddr TBoss6PlotFalz__type2_instance;
+// The two Olga Flow bodies of the running fight, NULL when there is none.
+extern TBoss6Type1 *TBoss6PlotFalz__type1_instance;
+extern TBoss6Type2 *TBoss6PlotFalz__type2_instance;
 
 extern "C" {
 void TBoss6PlotFalz__sub_802AC008(f32 a, f32 b);

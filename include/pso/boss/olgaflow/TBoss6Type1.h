@@ -166,7 +166,7 @@ struct TBoss6Type1 : public TObjEnemy {
     void send_6xA4_action(s32 t, const Atk_802B8EE0 *src);
     void load_params(const OlgaFlowActionMsg *message);
     void set_sync_data(OlgaFlowActionMsg *message);
-    static s32 create(saddr arg0);
+    static TBoss6Type1 *create(saddr arg0);
     void enter_flag800_state();
     void update_attack_countdown();
     void update_countdown_state();

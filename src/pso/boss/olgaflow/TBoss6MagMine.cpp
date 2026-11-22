@@ -355,4 +355,4 @@ void TBoss6MagMine::spawn_mag_mine_at(const Vec *origin, const Vec *destination)
 
 s32 TBoss6Type2::get_variant() { return variant; }
 
-TBoss6Type2 *TBoss6PlotFalz::get_type2() { return (TBoss6Type2 *)TBoss6PlotFalz__type2_instance; }
+TBoss6Type2 *TBoss6PlotFalz::get_type2() { return TBoss6PlotFalz__type2_instance; }

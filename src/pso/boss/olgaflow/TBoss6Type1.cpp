@@ -238,8 +238,8 @@ void TBoss6Type1::apply_paralysis() {  }
 
 void TBoss6Type1::apply_poison_status() {  }
 
-s32 TBoss6Type1::create(saddr arg2_) {
-    return (saddr)new TBoss6Type1(new TObjControl(tl_04), (saddr *)arg2_);
+TBoss6Type1 *TBoss6Type1::create(saddr arg2_) {
+    return new TBoss6Type1(new TObjControl(tl_04), (saddr *)arg2_);
 }
 extern "C" {
 

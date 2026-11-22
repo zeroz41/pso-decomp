@@ -209,8 +209,8 @@ void TBoss6Type2::apply_paralysis() {}
 
 void TBoss6Type2::apply_poison_status() {}
 
-s32 TBoss6Type2::create(saddr arg2_) {
-    return (saddr)new TBoss6Type2(new TObjControl(tl_04), (saddr *)arg2_);
+TBoss6Type2 *TBoss6Type2::create(saddr arg2_) {
+    return new TBoss6Type2(new TObjControl(tl_04), (saddr *)arg2_);
 }
 
 void TBoss6Type2__sub_802BE4E0(s32 *arg0, s32 *boss6_type2_zero_vec) {

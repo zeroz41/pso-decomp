@@ -248,7 +248,7 @@ struct TBoss6Type2 : public TObjEnemy
     void update_action_state();
     void send_action_packet_if_idle(s32 arg1, s32 *arg2);
     void parse_action_packet(void *packet);
-    static s32 create(saddr arg0);
+    static TBoss6Type2 *create(saddr arg0);
     void draw();
     void select_action();
     void update_zako_timer();
