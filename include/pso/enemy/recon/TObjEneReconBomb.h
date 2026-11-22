@@ -16,7 +16,7 @@ struct TObjEneReconBomb : public TObjChara {
     static void release_resources();
     static void *create(void *parent, void *recon, void *pos);
     static void load_resources();
-    s32 fn_8031B618();
+    s32 has_player_nearby();
 
     TObjEneRecon *owner;  // the Recon that dropped it; its blast hits players in the owner's name
     u16 owner_id;         // get_entity_id(owner)

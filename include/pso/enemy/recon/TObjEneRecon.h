@@ -17,7 +17,7 @@ struct ReconMoveParams {
     s32 pad_0C[4];
 };
 
-// The Recon parameter block TLobby::dispatch_shared_handler_a(0x42) hands out (TObjEneRecon__data_805D6AFC).
+// The Recon parameter block TLobby::dispatch_shared_handler_a(0x42) hands out (TObjEneRecon__behavior_params).
 struct ReconParams {
     f32 collide_distance;  // distance update_collide_flag probes ahead with
     f32 bomb_radius;       // TObjEneReconBomb blast radius
@@ -40,35 +40,33 @@ struct TObjEneRecon : public TObjEneDD_ST {
     virtual void render_demo();
     virtual void dispatch_action(u32 state, s32 reason);
     void update_flag_0x444();
-    void sub_8031D4B0(s32);
-    void sub_8031C364(s32 reason);
-    void sub_8031C624(s32 reason);
-    void sub_8031C7BC(s32 reason);
-    void sub_8031C920(s32 reason);
-    void sub_8031CCFC(s32 reason);
-    void sub_8031CF30(s32 reason);
-    void sub_8031D380(s32 reason);
-    s32 sub_8031DA90();
-    s32 sub_8031C250();
-    f32 sub_8031C2BC();
-    f32 sub_8031C2C8();
-    f32 sub_8031C2D4();
+    void state_launch(s32);
+    void state_death(s32 reason);
+    void state_damage(s32 reason);
+    void state_fade_out(s32 reason);
+    void state_orbit(s32 reason);
+    void state_bomb_attack(s32 reason);
+    void state_attack(s32 reason);
+    void state_search(s32 reason);
+    s32 is_in_strike_range();
+    s32 is_dead();
+    f32 get_bomb_speed();
+    f32 get_bomb_power();
+    f32 get_bomb_radius();
     void run_death_reaction();
     void run_hit_reaction();
     void run_miss_reaction();
     void refresh_target();
     void render();
     void run_task();
-    f32 get_field_4d4();
-    f32 get_field_4d0();
     void render_shadows();
     static void advance_intro_stage(NJS_OBJECT *);
     void update_ground_probe();
     s32 is_anim_5();
-    u16 sub_8031D878();
+    u16 get_attack_target_id();
     void spawn_trap_a();
     void spawn_trap_b();
-    f32 approach_value(f32 farg0, f32 farg1);
+    f32 approach_value(f32 current, f32 target);
     void clamp_min_height();
     void update_position_from_offsets();
     void init_state();
@@ -115,15 +113,11 @@ struct TObjEneRecon : public TObjEneDD_ST {
     f32 rotate_rad;               // orbit radius: 50 + 5x + the box's recon_rotate_rad
     s32 orbit_since_strike;       // angle orbited since the last strike; past half a turn it strikes
     s32 orbit_since_bomb;         // angle orbited since the last bomb; past 0x5000 it drops one
-    s32 attacking;                // set while a strike or bomb state runs; sub_8031D878 reports the target then
+    s32 attacking;                // set while a strike or bomb state runs; get_attack_target_id reports the target then
     TParticleCtrl *emitter;       // particle emitter 0x217 trailing the body
     s32 emitter_side;             // flips each frame: the emitter swings 3 units to either side
     TUnk_80494938 fade;
-    u8 pad_49C[0x34];
-    f32 m_4d0;
-    u8 pad_4D4[0x4];
-    s32 m_4d8;
-    u8 pad_4DC[0x8];
+    u8 pad_49C[0x48];
 };
 
 LAYOUT_ASSERT(TObjEneRecon_size, sizeof(TObjEneRecon) == 0x4E4);

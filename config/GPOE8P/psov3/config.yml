@@ -6433,7 +6433,7 @@ force_active:
   - fn_80314500__15TObjEneDelDepthFv
   - fn_80314EC4__15TObjEneDelDepthFv
   - fn_80315518__15TObjEneDelDepthFv
-  - fn_8031B618__16TObjEneReconBombFv
+  - has_player_nearby__16TObjEneReconBombFv
   - __dt__14TObjEneRecoboxFv
   - fn_80327A38
   - receive_direct_attack__9TBoss6MagFPv19DirectAttackPayloadPvll

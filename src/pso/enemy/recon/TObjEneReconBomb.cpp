@@ -38,7 +38,7 @@ s32 project_actor_to_ground(void *, void *, void *);
 BmlResource *recon_bomb_bml_resource;
 
 // 1 once the nearest visible player within 25 stands (xz) within 1 + its first body's radius of the bomb.
-s32 TObjEneReconBomb::fn_8031B618() {
+s32 TObjEneReconBomb::has_player_nearby() {
     s32 near = 0;
     TObjPlayer *player;
     VecCopy(&body_center, &position);
@@ -102,7 +102,7 @@ void TObjEneReconBomb::run_task() {
         queue_destruction();
         return;
     }
-    if (++age > lifetime || owner->sub_8031C250() != 0) {
+    if (++age > lifetime || owner->is_dead() != 0) {
         state = 3;
     }
     switch (state) {
@@ -135,7 +135,7 @@ void TObjEneReconBomb::run_task() {
         break;
     }
     case 2:
-        if (fn_8031B618() != 0) {
+        if (has_player_nearby() != 0) {
             state = 3;
         }
         break;
@@ -175,9 +175,9 @@ TObjEneReconBomb::TObjEneReconBomb(TObject *parent, TObjEneRecon *recon, const V
     m_name = TObjEneReconBomb__name;
     owner = recon;
     owner_id = get_entity_id(owner);
-    blast_radius = owner->sub_8031C2D4();
-    blast_power = owner->sub_8031C2C8();
-    launch_speed = owner->sub_8031C2BC();
+    blast_radius = owner->get_bomb_radius();
+    blast_power = owner->get_bomb_power();
+    launch_speed = owner->get_bomb_speed();
     lifetime = owner->calc_scaled_value();
     rotation_y = ((TObjBase *)m_up)->rotation_y;
     VecCopy(&position, pos);

@@ -50,6 +50,8 @@ struct TObjEneRecobox : public TObjEneDD_ST {
     static void load_resources();
     static void *create(void *set_data);
     static BmlResource *get_bml_resource();
+    f32 get_recon_rotate_rad();
+    f32 get_recon_offset_max();
 
     TUnk_80494938 fade;
     s32 mount_type;               // debug TYPE: 0 NORMAL, 1 BOTTOM (rotated 0x8000), 2 SIDE (0x4000)
@@ -65,8 +67,8 @@ struct TObjEneRecobox : public TObjEneDD_ST {
     u16 live_recon_ids[6];        // entity ids of the live Recons
     u16 recon_id_slots[30];       // entity ids handed out by alloc_child_id, 0xFFFF free
     RenderFadeState fades[4];
-    f32 m_4d0;
-    f32 m_4d4;
+    f32 recon_offset_max;         // debug "RECON OFFSET MAX(+45.f)": added to each Recon's orbit height
+    f32 recon_rotate_rad;         // debug "RECON ROTATE RAD(+50.f)": added to each Recon's orbit radius, >= -30
     s32 spawn_timer;              // frames since the last spawn (update_child_spawn)
     s32 spawn_interval;           // frames between spawns (30)
     s32 pad_4E0[4];

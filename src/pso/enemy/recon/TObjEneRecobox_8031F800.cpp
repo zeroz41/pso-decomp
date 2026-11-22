@@ -432,10 +432,10 @@ void TObjEneRecobox::sub_8031F800() {
     } else if (variant >= 2) {
         mount_type = 2;
     }
-    m_4d0 = parameters[0];
-    m_4d4 = parameters[1];
-    if (m_4d4 <= -30.0f) {
-        m_4d4 = -30.0f;
+    recon_offset_max = parameters[0];
+    recon_rotate_rad = parameters[1];
+    if (recon_rotate_rad <= -30.0f) {
+        recon_rotate_rad = -30.0f;
     }
     recon_max = (s32)parameters[3];
     n = recon_max;
@@ -626,7 +626,7 @@ s32 TObjEneRecobox::is_below_child_limit(u16 id) {
     s32 i;
     for (i = 0; i < live_recons; i++) {
         TObjEneRecon *child = (TObjEneRecon *)find_entity_by_id(live_recon_ids[i]);
-        if (child != NULL && id == child->sub_8031D878()) {
+        if (child != NULL && id == child->get_attack_target_id()) {
             n++;
         }
     }
