@@ -1829,7 +1829,7 @@ void TBoss6Type1::request_jittered_camera(const Vec *eye, const Vec *target, u16
     {
         Vec p = *eye;
         vec3_add_to(&p, &off);
-        request_follow_camera_offsets(&p, (Vec *)target, client_id);
+        request_follow_camera_offsets(&p, target, client_id);
     }
 }
 

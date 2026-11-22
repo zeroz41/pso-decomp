@@ -62,7 +62,7 @@ struct NJS_OBJECT;
 #include "pso/unk/text_803D853C.h"
 #include "pso/network/client_id.h"
 
-extern "C" void rotate_xz_pair_by_angle(f32 *x, f32 *z, s32 angle, f32);
+#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 
 __declspec(section ".data") const char *TObjEneGibbles__model_filenames[2] = {
     "gibb_body.nj", NULL,
@@ -1593,7 +1593,7 @@ void TObjEneGibbles::state_dead() {
             point.x = 0.0f;
             point.y = 0.0f;
             point.z = -10.0f;
-            rotate_xz_pair_by_angle(&point.x, &point.z, this->rotation_y, 0.0f);
+            rotate_xz_pair_by_angle(&point.x, &point.z, this->rotation_y);
             vec3_add_to(&point, &position);
             TObjPlayer__sub_800D93C4((saddr)&point, 0xA);
             spawn_effect_at_ground(&point, 0x46);

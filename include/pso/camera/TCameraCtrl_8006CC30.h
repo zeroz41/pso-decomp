@@ -10,7 +10,7 @@ void end_conversation_camera(void);
 void begin_conversation_camera(void);
 // Eases the follow camera to these offsets from the player, turned by the player's
 // facing (the local player's, or client_id's in split screen).
-void request_follow_camera_offsets(Vec *position, Vec *target, u16 client_id);
+void request_follow_camera_offsets(Vec *position, const Vec *target, u16 client_id);
 }
 
 #endif
