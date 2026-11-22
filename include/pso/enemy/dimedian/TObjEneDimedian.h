@@ -7,6 +7,7 @@
 #include "pso/render/TUnk_80490470.h"
 
 class TObject;
+class TUnk_80494968;
 
 struct TObjEneDimedian : public TUnk_80493450 {
     TObjEneDimedian(TObject *parent, void *set_data);
@@ -25,7 +26,7 @@ struct TObjEneDimedian : public TUnk_80493450 {
     virtual void update_attack_trail();
     virtual void beast_retire_corpse();
     TUnk_80490470 m_3a8;
-    TObject *m_3c4[2];
+    TUnk_80494968 *m_3c4[2];
     RenderFadeState m_3cc[4];
     static void *create(void *arg0);
     static void free_boss_objects();

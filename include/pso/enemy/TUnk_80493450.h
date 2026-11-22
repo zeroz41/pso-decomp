@@ -3,6 +3,16 @@
 #include "types.h"
 #include "pso/enemy/TObjEnemy.h"
 
+// What TObjEnemy::movementParameters points at for a beast (one row per
+// subtype): the detection radius find_nearest_visible_player takes and the
+// turn step approach_angle_limited takes.
+struct BeastMovementParams {
+    f32 detectionRadius;
+    f32 pad_04;
+    s32 turnSpeed;
+    s32 pad_0C[4];
+};
+
 class TUnk_80493450 : public TObjEnemy {
 public:
     virtual void run_task();
