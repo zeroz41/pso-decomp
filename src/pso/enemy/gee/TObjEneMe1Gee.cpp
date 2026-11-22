@@ -1177,7 +1177,7 @@ void TObjEneMe1Gee::state_ranged_attack(s32 mode) {
                     matrix_mult_vec(0, &in, &out);
                     pop_matrix();
                     out.y += this->upper_hover_height;
-                    new TObjEneMe1Gee_NEEDLE(this, &out, dir, this->needle_speed, this->kind_params->attack_power);
+                    new TObjEneMe1Gee_NEEDLE(this, &out, dir, this->needle_speed, this->kind_params->ranged_power);
                 }
             }
             break;

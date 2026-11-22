@@ -144,7 +144,8 @@ saddr gyaranzo_object_handle;
 
 GyaranzoParameters *gyaranzo_missile_param_table;
 
-f32 lbl_805D51F0;
+// Missile float parameter 2 (init_params_from_table); nothing reads it.
+f32 TObjGyaranzoMissile__float_param2;
 
 f32 TObjGyaranzoMissile__speed_scale;
 
@@ -152,9 +153,10 @@ f32 TObjGyaranzoMissile__max_range;
 
 BmlResource *gyaranzo_bml_resource;
 
-NJS_OBJECT *lbl_805D5200;
+// Nodes 25 and 13 of model 3; hide_broken_parts hides them.
+NJS_OBJECT *gyaranzo_broken_node25;
 
-NJS_OBJECT *lbl_805D5204;
+NJS_OBJECT *gyaranzo_broken_node13;
 
 TUnk_8048FA00 *gyaranzo_breakup_model_obj;
 
@@ -227,8 +229,8 @@ void TLobby::load_gyaranzo_resources() {
     for (i = 0; i < 0xD; i++) {
         gyaranzo_resource_ptrs[i]->sibling = NULL;
     }
-    lbl_805D5200 = (NJS_OBJECT *)find_model_node((uaddr)gyaranzo_bml_resource->models[3].model, 0x19);
-    lbl_805D5204 = (NJS_OBJECT *)find_model_node((uaddr)gyaranzo_bml_resource->models[3].model, 0xD);
+    gyaranzo_broken_node25 = (NJS_OBJECT *)find_model_node((uaddr)gyaranzo_bml_resource->models[3].model, 0x19);
+    gyaranzo_broken_node13 = (NJS_OBJECT *)find_model_node((uaddr)gyaranzo_bml_resource->models[3].model, 0xD);
     p = new TUnk_8048FA00(gyaranzo_bml_resource->models[3].model, (NJS_MOTION *)get_bml_motion(gyaranzo_bml_resource, 3), 54.0f);
     gyaranzo_breakup_model_obj = (TUnk_8048FA00 *)p;
     gyaranzo_boss_stats_handle = (saddr)TLobby::register_boss(0x1D);
@@ -604,11 +606,11 @@ void TObjEneGyaranzo::hide_broken_parts() {
         gyaranzo_model_resources[gyaranzo_flagged_resource_index_table[i]]->evalflags &= ~NJD_EVAL_HIDE;
     }
     if (break_stage >= 1) {
-        lbl_805D5200->evalflags |= NJD_EVAL_HIDE;
-        lbl_805D5204->evalflags |= NJD_EVAL_HIDE;
+        gyaranzo_broken_node25->evalflags |= NJD_EVAL_HIDE;
+        gyaranzo_broken_node13->evalflags |= NJD_EVAL_HIDE;
     } else {
-        lbl_805D5200->evalflags &= ~NJD_EVAL_HIDE;
-        lbl_805D5204->evalflags &= ~NJD_EVAL_HIDE;
+        gyaranzo_broken_node25->evalflags &= ~NJD_EVAL_HIDE;
+        gyaranzo_broken_node13->evalflags &= ~NJD_EVAL_HIDE;
     }
 }
 
@@ -667,11 +669,11 @@ void TObjEneGyaranzo::update_aim_and_fire() {
 #pragma fp_contract on
 void TObjEneGyaranzo::spawn_missile() {
     Vec launch_position;
-    s32 temp_r31;
+    s32 spin;
     render_anim_model_at_pos();
     this->get_anim_node_position(0x18, &launch_position);
-    temp_r31 = (s32) (182.04445f * ((240.0f * random_ratio()) - 120.0f));
-    new TUnk_8049442C(this, &launch_position, rotation_y, temp_r31);
+    spin = (s32) (182.04445f * ((240.0f * random_ratio()) - 120.0f));
+    new TUnk_8049442C(this, &launch_position, rotation_y, spin);
     spawn_particle_effect(&launch_position, 0xF3);
     play_sound_effect(this->remap_sound_for_area(0x4003B20D), &position, 0, 0);
 }
@@ -908,7 +910,7 @@ void TObjEneGyaranzo::update_fade_in() {
 
 void TObjEneGyaranzo::init_params_from_table() {
     ((EnemyMoveParams *)movementParameters)->min_distance = get_gyaranzo_missile_float_parameter(1);
-    lbl_805D51F0 = get_gyaranzo_missile_float_parameter(2);
+    TObjGyaranzoMissile__float_param2 = get_gyaranzo_missile_float_parameter(2);
     TObjGyaranzoMissile__speed_scale = get_gyaranzo_missile_float_parameter(3);
     TObjGyaranzoMissile__max_range = get_gyaranzo_missile_float_parameter(4);
 }

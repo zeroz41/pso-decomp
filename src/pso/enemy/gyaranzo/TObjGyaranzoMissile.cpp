@@ -38,7 +38,7 @@
 CollisionBody gyaranzo_missile_collision_body_b = {{0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, 0, 0x8001, {0.0f, 0.0f, 0.0f}, 0.0f};
 
 const char *TObjGyaranzoMissile__class_name = "TObjGyaranzoMissile";
-static const DirectAttackPayload lbl_8043C464[] = {{0, 0.0f}};
+static const DirectAttackPayload gyaranzo_missile_explosion_attack[] = {{0, 0.0f}};
 
 void TObjGyaranzoMissile::explode() {
     TObjCollidable *owner;
@@ -56,7 +56,7 @@ void TObjGyaranzoMissile::explode() {
                 break;
             }
             if (TObjPlayer::is_valid_and_active((uaddr)target) != 0) {
-                DirectAttackPayload hit = lbl_8043C464[0];
+                DirectAttackPayload hit = gyaranzo_missile_explosion_attack[0];
                 hit.power = get_gyaranzo_missile_int_parameter(2);
                 target->receive_direct_attack(owner, hit, NULL, -1, -1);
             }

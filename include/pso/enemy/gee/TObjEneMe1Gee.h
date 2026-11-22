@@ -36,7 +36,7 @@ struct GeeMovementParameters {
 // shared with TObjEneMe1CanadinParams.
 struct TObjEneMe1GeeParams {
     f32 melee_speed;       // chase step of the melee attack
-    f32 attack_power;      // power of the needle
+    f32 ranged_power;      // power of the needle (the Canadin twin: of the discharge)
     u8 pad_8[0x10];
     s32 aim_time;          // ranged attack: frames the aim tracks the target
     u8 pad_1c[0x4];

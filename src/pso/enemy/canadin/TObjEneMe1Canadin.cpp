@@ -135,8 +135,8 @@ const char *canadin_leader_fade_sequence_table[5] = {
     "abaaabababbac",
     "ababababaabbaabbababaabaabaaabbbbc",
 };
-const CanadinAttackParams canadin_behavior_params = { 3, 5.0f, 3.0f, 3.0f, 1 };
-const CanadinAttackParams canadin_projectile_param_block = { 3, 10.0f, 20.0f, 3.0f, 1 };
+const CanadinAttackParams canadin_discharge_attack_params = { 3, 5.0f, 3.0f, 3.0f, 1 };
+const CanadinAttackParams canadin_self_destruct_attack_params = { 3, 10.0f, 20.0f, 3.0f, 1 };
 const char *TObjEneMe1Canadin__class_name = "TObjEneMe1Canadin";
 const char *TObjEneMe1CanadinLeader__class_name = "TObjEneMe1CanadinLeader";
 saddr canadin_boss_stat_handle_table[3];
@@ -706,9 +706,9 @@ void TObjEneMe1Canadin::set_flag3c8_bit20() { status_flags |= 0x20; }
 void TObjEneMe1Canadin::set_flag3c8_bit40() { status_flags |= 0x40; }
 
 
-void TObjEneMe1Canadin::fn_8009E1D4(Vec *pos) {
-    CanadinAttackParams params = canadin_behavior_params;
-    params.power = kind_params->attack_power;
+void TObjEneMe1Canadin::deliver_discharge_attack(Vec *pos) {
+    CanadinAttackParams params = canadin_discharge_attack_params;
+    params.power = kind_params->ranged_power;
     TObjEneDD::setup(this, pos, (DragonAttackParams *)&params);
 }
 
@@ -1590,7 +1590,7 @@ void TObjEneMe1Canadin::state_self_destruct(s32 msg) {
         this->rotation_z += 0x2000;
         this->stage++;
         if (this->stage >= 0x96) {
-            CanadinAttackParams c = canadin_projectile_param_block;
+            CanadinAttackParams c = canadin_self_destruct_attack_params;
             TObjEneMe1CanadinParams *t = this->kind_params;
             c.power = t->self_destruct_power;
             TObjEneDD__sub_800BA5A4(this, &c);

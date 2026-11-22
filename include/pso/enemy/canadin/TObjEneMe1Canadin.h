@@ -22,7 +22,7 @@ struct TObjEneMe1CanadinMovement {
 // shared with TObjEneMe1GeeParams.
 struct TObjEneMe1CanadinParams {
     f32 melee_speed;          // chase step of the melee attack
-    f32 attack_power;         // power of the melee contact attack
+    f32 ranged_power;         // power of the discharge (deliver_discharge_attack)
     f32 self_destruct_power;  // power of the self-destruct blast
     u8 pad_c[0xC];
     s32 aim_time;             // ranged attack: frames the beam tracks the target
@@ -144,7 +144,7 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
     void set_in_fighter();
     int is_activated();
     void start_fade_sequence(s32 sequence);
-    void fn_8009E1D4(Vec *pos);
+    void deliver_discharge_attack(Vec *pos);
     void order_activation_now();
     TObjChara *get_attacking_target();  // current_target while status 0x40000 (set by the attack states) is on, else NULL; the leader counts members on its target (name inferred)
     void wake_leader();

@@ -157,7 +157,7 @@ void TObjEneMe1Canadin_EffDischarge::run_task() {
     }
     VecCopy(&seg_start, &seg_end);
     if (done != 0) {
-        owner->fn_8009E1D4(&target);
+        owner->deliver_discharge_attack(&target);
         queue_destruction();
     }
 }
