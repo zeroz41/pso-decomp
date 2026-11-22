@@ -187,7 +187,6 @@ extern FogParam_800FBC5C fog_default_entry;
 extern u8 scene_projection_state[];
 extern uaddr fog_entry_array;
 extern s32 fog_update_flags;
-extern s32 actor_frame_tick;
 extern s32 *tl_02;
 
 extern const f32 TFogCtrl__data_805DA948 = 0.0f;

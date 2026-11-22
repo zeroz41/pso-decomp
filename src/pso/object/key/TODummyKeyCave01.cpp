@@ -73,7 +73,6 @@ s32 post_translate_matrix(void *);
 extern u8 chunk_material_color_half_alpha_f32[];
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
-u8 is_current_floor_switch_set(s32 id);
 }
 
 #define dummy_key_cave01 this

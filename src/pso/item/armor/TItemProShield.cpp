@@ -31,7 +31,6 @@ struct ShieldSoundCue {
 
 extern "C" {
 // Defined in files that have no headers yet.
-void *lookup_item_pmt_record(u8 *item);
 s32 play_shield_sound_cue(ShieldSoundCue *cue);
 s32 add_actor_hp(u8 *arg0, s16 arg1);
 s32 add_actor_tp(u8 *arg0, s32 arg1);

@@ -65,7 +65,6 @@ u8 *__nw__7TObjectFUl(s32, f32);
 s32 scroll_strip_uvs(void *, s16, int);
 s32 rotate_matrix_y(int, int);
 void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
-void set_chunk_material_override_pair(s32 arg0, s32 arg1);
 extern NJS_ARGB saved_model_draw_color;
 extern NJS_ARGB model_material_color;
 extern s32 saved_model_render_flags;

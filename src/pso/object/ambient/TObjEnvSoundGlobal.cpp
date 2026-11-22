@@ -74,7 +74,6 @@ const char *TObjEnvSoundEx__class_name = "TObjEnvSoundEx";
 const char *TObjEnvSoundGlobal__class_name = "TObjEnvSoundGlobal";
 
 extern "C" {
-void copy_pair__18TObjEnvSoundGlobalFPvPv(void* p, void* q);
 const Row_80190AA0 *environment_sound_tables_by_area[36] = {
     lbl_804456F0, lbl_80445708, lbl_80445708, lbl_80445738,
     lbl_80445738, lbl_80445738, lbl_80445768, lbl_80445768,

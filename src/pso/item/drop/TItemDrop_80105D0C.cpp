@@ -53,7 +53,6 @@ extern s32 lobby_rule_settings[];
 void apply_drop_restrictions(void *arg0, Item_80105EA4 *it);
 extern s32 game_difficulty_selection;
 void format_drop_table_filename(char *out, const char *prefix);
-void *lookup_item_pmt_record(u8 *item);
 s32 get_item_star_count(s32 id);
 }
 void init_item_drop_globals(void);

@@ -87,7 +87,6 @@ extern "C" {
 
 s32 scroll_strip_uvs(void *, s16, int);
 void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
-void set_chunk_material_override_pair(s32 arg0, s32 arg1);
 }
 extern NJS_ARGB saved_model_draw_color;
 extern NJS_ARGB model_material_color;

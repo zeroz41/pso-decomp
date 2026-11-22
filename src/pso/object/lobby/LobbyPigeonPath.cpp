@@ -167,7 +167,6 @@ saddr get_bml_motion(void *, s32);
 s32 post_translate_matrix(void *);
 s32 rotate_matrix_z(s32, s32);
 void scale_matrix(void *, f32, f32, f32);
-void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 
 struct Obj_802C1660 {
     u8 pad0[0x98];

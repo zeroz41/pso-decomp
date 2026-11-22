@@ -166,7 +166,6 @@ const char *TItemAttackCol__name = "TItemAttackCol";
 
 // The particle's direction before the collider's heading is added.
 static ParticleAngles particle_direction = {0x4000, 0, 0x4000};
-s32 get_type__10TObjPlayerFPv(void *);
 
 void TObjPlayer__sub_801542F4(saddr a);
 

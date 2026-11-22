@@ -217,8 +217,6 @@ s32 scale_current_matrix(void *);
 
 s32 post_translate_matrix(void *);
 
-void draw_ginja_object(void *child);
-
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 
 

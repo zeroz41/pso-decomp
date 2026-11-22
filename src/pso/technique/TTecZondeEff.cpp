@@ -133,7 +133,6 @@ P_8023DBB4 tec_zonde_effect_task_list;
 extern char lbl_804CC8C8[];
 s32 TTecZondeEff__beam_vertex_data;
 f32 rand_signed_unit();
-void restore_saved_depth_alpha_state();
 extern u32 saved_model_render_flags;
 extern u32 model_render_flags;
 void matrix_mult_vec(s32, Vec *, Vec *);

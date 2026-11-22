@@ -190,7 +190,6 @@ s32 vfunc_10__8TObjChipFP3Vec(s32 arg0, Vec *arg1, f32 farg0, f32 farg1);
 s32 spawn_chips__8TObjChipFPv(u8 *arg0, u8 *arg1);
 s32 init_chips__8TObjChipFv(u8 *arg0);
 void tick_chips__8TObjChipFv(u8 *arg0);
-void set_chunk_material_override_pair(s32 arg0, s32 arg1);
 extern u8 chunk_material_color_half_alpha_f32[];
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;

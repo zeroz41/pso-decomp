@@ -149,9 +149,7 @@ extern u8 *camera_ctrl_instance;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 f32 vector_length(void *);
-void restore_saved_depth_alpha_state();
 f32 vec3_dot(void *, void *);
-void __ct__7TObjectFP7TObject(void *, void *);
 }
 void setup_particle_tev(s32 arg0);
 void load_projected_texture_matrix(f32 farg0);

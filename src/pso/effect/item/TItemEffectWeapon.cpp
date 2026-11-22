@@ -18,7 +18,6 @@
 const char *TItemEffectWeapon__class_name = "TItemEffectWeapon";
 
 extern "C" {
-void restore_saved_depth_alpha_state();
 void TObjPlayer__sub_803DF768(s32);
 extern u32 saved_model_render_flags;
 extern u32 model_render_flags;

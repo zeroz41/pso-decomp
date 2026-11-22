@@ -101,7 +101,6 @@ struct Rec_801031CC { u8 d[0x2c]; };
 struct Tbl_801031CC { u8 pad[0x1c]; Rec_801031CC r[1]; };
 
 extern "C" {
-u8 *__ct__13TItemAttackerFllll(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 f32 horizontal_distance_squared(void *, void *);
 }
 void deliver_delayed_weapon_hit(u8 *arg0) {

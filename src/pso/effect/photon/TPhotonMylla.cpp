@@ -114,7 +114,6 @@ s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 s32 rotate_matrix_y(int, int);
 void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 void set_material_alpha_compare_reference(s32 reference);
-void set_chunk_material_override_pair(s32 arg0, s32 arg1);
 }
 void queue_photon_blast_hit(u32 identity, s32 kind, s32 allow_duplicate, f32 scale);
 extern NJS_ARGB saved_model_draw_color;

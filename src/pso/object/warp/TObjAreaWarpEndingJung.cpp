@@ -137,8 +137,6 @@ struct Data_8019CAB0 {
 
 extern "C" {
 
-void mark_area_change_pending();
-void request_main_phase(s32 arg0);
 u16 get_entity_id(void *);
 s32 is_split_screen();
 s32 get_current_floor();
@@ -155,16 +153,13 @@ void update_fade_in__14TObjWarpStringFPv(u8 *arg0);
 u8 * __ct__14TObjWarpStringFv(u8 *arg0, u8 *arg1, saddr arg2, s16 arg3);
 s32 can_warp__11TObjMapWarpFlUs(void *, u16);
 void TObjAreaWarpQuest__sub_8019DCD8(TObjPlayer *, s32);
-s32 TObjWarpJung__sub_801A0404(s32);
 int check_flag_100__10TObjPlayerFPv(void *p);
 void send_6x21_inter_level_warp(void *obj, s32 value);
-s32 get_floor_map_terrain(s32);
 void __ct__7TObjectFP7TObject(void *, void *);
 s32 get_window_layout_position(s32);
 void *destroy__13TAdVIConfigGCFPvs(void *arg0, s16 arg1);
 s32 get_game_play_mode(int);
 s32 PPCSync();
-void debug_printf_at(s32 id, const char *fmt, ...);
 }
 extern RecoveredGlobal_8019B854___vt__14TObjWarpString __vt__14TObjWarpString;
 extern s32 local_client_id;

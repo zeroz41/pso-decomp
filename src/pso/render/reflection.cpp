@@ -309,7 +309,6 @@ struct Sora_8029EFFC {
 extern "C" {
 // Every caller tests this as an int; the header's bool return would not match.
 s32 TCameraCtrl__sub_800689F4();
-void C_MTXLightPerspective(GinjaMatrix m, f32 fov_y, f32 aspect, f32 scale_s, f32 scale_t, f32 trans_s, f32 trans_t);
 void GXSetTevOp(s32 stage, s32 mode);
 void GXSetTevOrder(s32 stage, s32 coord, s32 map, s32 color);
 }

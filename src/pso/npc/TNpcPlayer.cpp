@@ -119,8 +119,6 @@ void set_state__10TNpcPlayerFPvs(void* p, s16 v);
 void set_type__10TNpcPlayerFPvs(void* p, s16 v);
 void* fn_80152EF8(void* p);
 void TFontSmallLobby__sub_80152F28(Obj_80152F28 *self);
-void TObjFogCollisionPoison__sub_80153520(s32 arg0);
-void TObjFogCollisionPoison__sub_801535D0(s32 arg0);
 TObjCollidable * find_entity_by_id(s32);
 s32 free_collision_body_parts(u32);
 void init_collision_body_parts(void *, void *, s32);

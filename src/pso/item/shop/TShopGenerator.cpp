@@ -76,7 +76,6 @@ s32 poll_memcard_result(saddr);
 extern u8 controller_input_state[];
 extern s32 local_client_id;
 extern s32 lbl_805D55C0;
-void TMedicalCenterMes__sub_80216260(void);
 // run_task reads the bool through an int-returning call (no clrlwi after either call); kept as found.
 bool is_player_in_service_range__14TShopGeneratorFPUcf(u8 *self, u8 *player, f32 range);
 }

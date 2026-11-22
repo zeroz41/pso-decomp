@@ -103,7 +103,6 @@ typedef struct Pmt_8011C234 { u8 pad[0xC]; PmtRow_8011C234 *rows; } Pmt_8011C234
 
 extern "C" {
 s32 select_enemy_drop__9TItemDropFPviiPv(u32, s32, s32, s32);
-s32 get_unit_attribute_index__10TObjPlayerFUc(u8 arg0);
 saddr get_text_collection(s32);
 extern const char *lbl_805D2B10;
 s32 __cvt_fp2unsigned(f32);

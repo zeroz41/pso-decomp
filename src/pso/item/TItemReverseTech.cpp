@@ -98,13 +98,8 @@ struct TItemReverseTechSceneHook {
 };
 
 extern "C" {
-s32 TKeyBoardControl__sub_8000F92C();
-void request_main_phase(s32 arg0);
 s8 func_801A5E54__Fv();
 s32 prs_decompress_alloc(int, void *, int);
-void TKeyBoardControl__sub_8000F90C(s32);
-void set_queued_main_phase(s32);
-void set_active_camera_pose(u8 *arg0, u8 *arg1);
 u8 *TCameraCtrl__ct(u8 *arg0, void *parent);
 void reset_controller_input_state();
 void set_copy_clear_color_argb(s32, s32, s32);
@@ -112,7 +107,6 @@ void TItemReverseTech__sub_8011A54C(void* a0);
 void TItemReverseTech__sub_8011A55C(void);
 void TItemReverseTech__sub_8011A580(void);
 void TItemReverseTech__sub_8011A5A4(void);
-s32 free_texture_if_valid(u32 arg0);
 }
 void process_async_file_reads(void);
 void update_sound_request_slots(void);

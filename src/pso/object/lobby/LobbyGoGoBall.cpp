@@ -74,7 +74,6 @@ void TWindowTimer__sub_8019A6F8(void*);
 void __dl__7TObjectFPv(void*);
 extern BmlResourceDescriptor language_lobby_texture_descriptor;
 extern Pair_80198F14 gogo_ball_team_scores[];
-void bswap_6x79_gogo_ball__12TWindowTimerFi(saddr);
 void TObjPlayer__sub_801994DC(saddr,void*,void*,s32,void*,f32);
 f32 xyz_distance(Vec*,void*);
 f32 vector_length(Vec*);
@@ -248,7 +247,6 @@ s32 matrix_mult_vec(int, void *, void *);
 void rotate_matrix_about_axis(u8 *arg0, saddr arg1, s32 arg2);
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
 f32 vec_squared_length(void *);
-void set_chunk_material_override_pair(s32, s32);
 extern u8 identity_matrix[];
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
@@ -279,7 +277,6 @@ struct Timer_8019A104 {
     s32 f360;
 };
 extern "C" {
-void bswap_6x79_gogo_ball__12TWindowTimerFi(saddr arg0);
 void TWindowTimer__sub_8019A6F8(void* p);
 extern s32 local_client_id;
 void TWindowTimer__sub_8019A098(void);

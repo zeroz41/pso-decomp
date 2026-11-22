@@ -110,7 +110,6 @@ u32 init_collision_body_parts(void *, saddr, s32);
 s32 free_collision_body_parts(void *);
 s32 post_translate_matrix(void *);
 extern s32 local_client_id;
-u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
 }
 
 struct Obj_8018CBF0 { u8 pad0[0x84]; s32 id; };

@@ -163,8 +163,6 @@ struct Door_8029B524 {
 
 extern "C" {
 
-extern s32 game_difficulty_selection;
-
 s32 minimap_render_gate(void *, u32, u16, s32, s32);
 
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);

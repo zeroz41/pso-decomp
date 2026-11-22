@@ -125,7 +125,6 @@ struct Self_8011EDFC {
 s32 TObjectV8047c128_subtract_hp(u8 *arg0, s16 arg1);
 saddr get_entity_id(void *);
 u8 * csnVector(void *, void *, s32);
-f32 get_attack_accuracy_scale(s16 *arg0);
 void TObjPlayer__sub_80121228(void *p, u32 v);
 f32 horizontal_distance_squared(void *, void *);
 TObjChara *resolve_hittable_target(s32, s32);

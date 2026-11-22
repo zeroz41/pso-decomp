@@ -158,7 +158,6 @@ s32 rotate_matrix_y(s32, s32);
 extern u8 *camera_ctrl_instance;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
-void __ct__7TObjectFP7TObject(void *, void *);
 }
 void setup_particle_tev(s32 arg0);
 void load_projected_texture_matrix(f32 farg0);

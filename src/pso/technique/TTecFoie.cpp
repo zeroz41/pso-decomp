@@ -122,7 +122,6 @@ struct Foie_8022FC94
 
 s32 clamp_nonnegative_int(s32 x);
 extern "C" {
-void mem_free(void *p);
 u16 get_entity_id(void *);
 void *find_entity_by_id(u16 id);
 // foie_emitter_parts_N (inferred, after TTecGiFoie's emitter_parts_N): the particle parts entry N of
