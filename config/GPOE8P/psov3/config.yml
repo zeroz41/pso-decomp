@@ -412,7 +412,7 @@ force_active:
   - TBoss6Rock__sub_80354188
   - TBoss6Rock__sub_803542E8
   - __ct__15TBoss6SwordShotFP7TObjectPC3Veclf
-  - TBoss6SwordWave__sub_80356D08
+  - angle_to_bit__16Boss6WaveArcMaskFl
   - TBoss6Thanks__sub_8035CB40
   - TBoss6Thanks__sub_8035CCAC
   - TBoss6Tube__previous_scroll_phase
@@ -2064,7 +2064,7 @@ force_active:
   - __ct__15TBoss3VoloptP01FP7TObjectPv
   - __ct__15TBoss3VoloptP02FP7TObjectPv
   - __ct__15TBoss6CrushRockFv
-  - __ct__15TBoss6SwordWaveFv
+  - __ct__15TBoss6SwordWaveFP7TObjectPC3Vecllf
   - __ct__15TItemEffBringerFv
   - __ct__15TODoorAncient01FP7TObjectPv
   - __ct__15TODoorAncient03FP7TObjectPv
@@ -5148,7 +5148,7 @@ force_active:
   - clear_all_entries__6TLobbyFPv
   - clear_alt_model_flag__10TObjPlayerFv
   - clear_battle_player_ready_flags
-  - clear_bit__15TBoss6SwordWaveFPvUc
+  - clear_bit__16Boss6WaveArcMaskFl
   - clear_buffer__13TUnk_804EF8C0Fv
   - clear_card_status_flags__6TLobbyFv
   - clear_charge_hits__14TObjEneIllGillFv
@@ -6187,7 +6187,7 @@ force_active:
   - fields_equal__23TAdSinglePlyChrSelectGCFPv
   - file_integrity_table
   - fill_list_entry__6TLobbyFPvPv
-  - fill_range__15TBoss6SwordWaveFPvPv
+  - fill_range__16Boss6WaveArcMaskFll
   - filter_input_flags__12TBoss1DragonFiii
   - send_6xB2_play_sound__FP16G_PlaySound_6xB2
   - find_active_pad_rumble_effect_by_id__FUl
@@ -15429,7 +15429,7 @@ force_active:
   - set_attack_pattern_by_index__11TBoss4Type2Fl
   - set_bank_panel_art__20TWindowActionPaletteFUs
   - add_status_cleanse__18TItemLockCountCtrlFi
-  - set_bit__15TBoss6SwordWaveFiUc
+  - set_bit__16Boss6WaveArcMaskFl
   - set_blast_level__16PhotonBlastGaugeFsSc
   - set_boss4_state__12TObjEneLappyFv
   - set_camera__15TEndingPicStageFv
@@ -16038,7 +16038,7 @@ force_active:
   - spawn_trap__12TBoss1DragonFl
   - spawn_trap_by_stat__9TBoss6MagFv
   - spawn_wave_ring_particles__15TBoss6SwordWaveFv
-  - split_bit_index__15TBoss6SwordWaveFlUcPvPv
+  - split_bit_index__16Boss6WaveArcMaskFlPlPl
   - standing_state__14TObjEneBm5WolfFl
   - star_light_2d_base_color
   - start_action__8TItemMagFl
@@ -16480,7 +16480,7 @@ force_active:
   - test_immunity_flags__9TObjCharaFl
   - test_input_flag__18TWindowInputNumberFl
   - test_menu_flag__11TWindowMenuFl
-  - test_rock_bit__15TBoss6SwordWaveFiUc
+  - test_bit__16Boss6WaveArcMaskFl
   - texlists__16TOFenceAncient01
   - texlists__16TOFenceAncient02
   - texlists__16TOFenceAncient03
