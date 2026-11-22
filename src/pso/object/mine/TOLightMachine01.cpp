@@ -1,7 +1,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #include "types.h"
-#include "pso/system/BmlResource.h"
+
 #include "pso/system/BmlResourceLoader.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/object/mine/TOLightMachine01.h"

@@ -135,11 +135,8 @@ struct Obj_80190AA0 {
 };
 
 
-extern "C" {
-
 void copy_pair__18TObjEnvSoundGlobalFPvPv(void *p, void *q);
 
-}
 s32 set_floor_event_flags(s32 arg0, s32 arg1, s32 arg2);
 s32 activate_first_floor_event(s32 idx, s32 id);
 void handle_6x67_trigger_set_event(game_command_header *command) {

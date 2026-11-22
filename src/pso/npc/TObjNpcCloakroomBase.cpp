@@ -24,10 +24,6 @@ __declspec(section ".data") const char *bm_n_trunk_i_body_model_names[2] = { "n_
 BmlResourceDescriptor bm_n_trunk_i_body_resource_descriptor = { "bm_n_trunk_i_body.bml", bm_n_trunk_i_body_model_names, bm_n_trunk_i_body_motion_names, 1, 0 };
 const char *TObjNpcCloakroomBase__name = "TObjNpcCloakroomBase";
 uaddr TObjNpcCloakroomBase__static_instance;
-}
-
-
-extern "C" {
 s32 play_sound_effect(s32, s32, s32, s32);
 
 void TObjNpcCloakroomBase::play_voice() {

@@ -46,9 +46,6 @@ extern "C" {
 
 s32 VecCopy__FP3VecPC3Vec(void *, s32, s8, f32, f32);
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
-}
-u8 *load_gvm_texture_file(saddr arg0);
-extern "C" {
 s32 __ct__7TObjectFP7TObject(u8 *, void *);
 void fn_802A9DF4(Obj_802A9DF4 *self, Vec *dir);
 void fn_802A9F48(Obj_802A9F48 *self, Vec *dir);
@@ -129,7 +126,7 @@ void *TBGLightningCtrl__create(void *arg0) {
     return o;
 }
 }
-
+u8 *load_gvm_texture_file(saddr arg0);
 void TBGLightningCtrl::destroy_instance() {
     if ((u32) (*(uaddr *)&bg_lightning_texture_handle) != 0U) {
         release_texture_list((void*)(*(uaddr *)&bg_lightning_texture_handle));

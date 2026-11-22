@@ -33,7 +33,7 @@
 #include "pso/object/key/TOKey.h"
 #include "pso/player/TUnk_804B6C24.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/ui/hud/TRaderMapCore.h"
+
 
 struct BmlResource;
 struct GinjaTextureList;

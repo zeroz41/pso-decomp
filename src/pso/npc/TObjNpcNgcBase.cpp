@@ -11,7 +11,6 @@
 #pragma readonly_strings on
 
 TObjNpcNgcBase::~TObjNpcNgcBase() {}
-extern "C" {
 
 
 const char *TObjNpcNgcBase__name = "TObjNpcNgcBase";
@@ -29,4 +28,3 @@ void fn_803594B4(TBoss4Fade *fade, s32 color, f32 alpha) {
     fade->frames[fade->write_index].alpha = alpha;
 }
 
-}

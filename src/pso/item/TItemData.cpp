@@ -95,9 +95,6 @@ int is_quest_active(void);
 s32 check_equip_requirements(void *self, TItemData *p, s32 *out);
 int check_class_equip_permission(TObjPlayer *player, s32 perm);
 void *lookup_item_pmt_record(u8 *item);
-}
-u8 get_technique_learn_limit(u8, u8);
-extern "C" {
 void *get_player_by_client_id(s32 i);
 u8 get_cast_technique_level(void *, int);
 void *calc_technique_parameters(u8, u8, s32);
@@ -116,6 +113,7 @@ s32 is_usable__9TItemDataFPv(void *arg0);
 s32 is_custom_name_srank__9TItemDataFPv(u8 *arg0);
 void serialize_mag__9TItemDataFPvPv(Item_8010D510 *item, const Mag_8010D510 *mag);
 }
+u8 get_technique_learn_limit(u8, u8);
 #define lookup_item_pmt_record ((Parm_8010C1E0 * (*)(void *))lookup_item_pmt_record)
 #define getS16_06__9TItemDataFPv ((s32 (*)(void *))getS16_06__9TItemDataFPv)
 
@@ -815,11 +813,9 @@ struct Item_8010E59C {
 extern "C" {
 void *get_armor_pmt_record(int type, int id);
 s32 get_item_star_count(s32);
-}
-saddr get_item_chunk_buffer(int a0);
-extern "C" {
 saddr get_item_description_text(s32);
 }
+saddr get_item_chunk_buffer(int a0);
 extern const char *lbl_805D2B10;
 s32 format_item_description(u8 *item);
 extern "C" {

@@ -109,10 +109,6 @@ void obj_setFlags30(void *, u32);
 
 void set_tp__10TObjPlayerFs(Player_8034DAA0 *, s32);
 
-}
-
-
-extern "C" {
 struct TNpcPlayerTemplateTable { s32 value; u8 remaining[0x9FC]; };
 extern TNpcPlayerTemplateTable TNpcPlayer__template_table;
 void construct_partner__10TNpcPlayerFPviisPv(void *, u16, u16, s32, void *);
@@ -121,10 +117,6 @@ typedef struct VBase_18_dac7f3 VBase_18_dac7f3;
 typedef struct VObj_18_dac7f3 VObj_18_dac7f3;
 #pragma opt_pointer_analysis on
 #define PSO_VCALL_VObj_18_dac7f3_m0(_self, _arg0) (((VObj_18_dac7f3 *)(_self))->m0((_arg0)))
-
-
-
-
 
 
 }

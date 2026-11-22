@@ -66,9 +66,7 @@ static CollisionBody trap_ancient01_collision_body[1] = {
 };
 const char *TOTrapAncient01__class_name = "TOTrapAncient01";
 
-extern "C" {
 extern const char *lbl_805D3530;
-}
 
 f32 TObjPlayer__sub_8017A1A4(TObjCollidable *actor, s32 body) {
     return actor->bodies[body].radius;

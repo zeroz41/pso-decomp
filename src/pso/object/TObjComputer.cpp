@@ -37,11 +37,7 @@
 
 
 u8 *load_gvm_texture_file(saddr arg0);
-extern "C" {
 extern u32 actor_frame_tick;
-
-
-}
 void load_computer_resources(void);
 const char *fe_obj_tanmatu02_model_names[3] = {"fe_obj_tanmatu02.gj", "fs_obj_tanmatu01.gj", NULL};
 const char *fe_obj_tanmatu02_motion_names[1] = {NULL};
@@ -131,7 +127,7 @@ void TObjComputer::free_resources() {
     }
 }
 
-extern "C" void *create_stage_computer(void *placement) {
+void *create_stage_computer(void *placement) {
     return new TObjComputer(static_cast<TObject *>(tl_05), static_cast<ObjectSetData *>(placement));
 }
 

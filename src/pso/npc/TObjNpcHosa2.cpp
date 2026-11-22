@@ -20,10 +20,6 @@ BmlResourceDescriptor npc_hosa2_resource_descriptor = { "bm_npc_hosa2.bml", bm_n
 const char *bm_npc_hosa2_motion_names[1] = { NULL };
 const char *TObjNpcHosa2__name = "TObjNpcHosa2";
 BmlResource *TObjNpcHosa2__shared_model_resource;
-}
-
-extern "C" {
-
 extern BmlResource *TObjNpcHosa2__shared_model_resource;
 
 

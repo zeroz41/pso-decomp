@@ -309,16 +309,14 @@ extern "C" {
 void post_translate_matrix(const void *);
 extern const f32 lbl_805DBCF8;
 u32 init_collision_body_parts(void *, void *, s32);
+u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
+s32 release_texture_list(void*);
+s32 free_collision_body_parts(void *);
 }
 u8 *load_gvm_texture_file(saddr arg0);
 extern s32 local_client_id;
 NJS_OBJECT *get_container_breakup_model(s32 index);
 extern const f32 lbl_805DBCF4;
-extern "C" {
-u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
-s32 release_texture_list(void*);
-s32 free_collision_body_parts(void *);
-}
 NJS_OBJECT *get_forest_box_model(s32 index);
 extern const f32 lbl_805DBCFC;
 extern const f32 lbl_805DBD0C;

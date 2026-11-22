@@ -27,7 +27,7 @@
 
 struct O_80087638 { u8 pad[0x2e]; u16 x2e; };
 
-extern "C" {
+
 extern s32 particle_pool_limit;
 
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id) {
@@ -81,7 +81,6 @@ void TParticleCtrl::set_tint_color(s32 arg1) {
     *(s32 *)((s8 *)arg0 + 0x48) = arg1;
 }
 
-}
 
 void TParticleCtrl::set_position(void *pos) {
     position.x = ((Vec *)pos)->x;
@@ -183,9 +182,6 @@ s32 mem_alloc(s32);
 // particle_global_entry_table: declared s32 above (part 1)
 u8 *create_ballistic_particle(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, u16 arg4, s16 arg5);
 u8 *create_orbit_particle(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, u16 arg4, s16 arg5);
-}
-u8 *load_gvm_texture_file(saddr arg0);
-extern "C" {
 extern u8 *camera_ctrl_instance;
 void VecCopy__FP3VecPC3Vec(void *, const void *);
 void TParticleCtrl__sub_800884F0(void *p, void *dir);
@@ -614,7 +610,7 @@ void set_particle_tint_color(u8 *arg0, void *arg1) {
 
 void set_particle_draw_scale(void* p, f32 a, f32 b) { *(f32*)((char*)p + 0xa4) = a; *(f32*)((char*)p + 0xa8) = b; }
 }
-
+u8 *load_gvm_texture_file(saddr arg0);
 void TParticleCtrl::free_system() { mem_free(particle_global_entry_table); particle_global_entry_table = 0; }
 void TParticleCtrl::free_all() {
     mem_free(particle_area_entry_table);

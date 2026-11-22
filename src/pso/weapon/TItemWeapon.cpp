@@ -36,7 +36,7 @@ extern "C" {
 void draw_weapon_at_joint(saddr arg0, s8 arg1);
 }
 void set_shadow_material_state(void);
-extern "C" {
+
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 extern s16 TObjPlayer__weapon_node_ids[];
 extern s16 weapon_node_material_index;
@@ -132,7 +132,6 @@ void draw_weapon_at_joint(saddr arg0, s8 arg1) {
 // ---- pso/unk/text_80120C5C
 void TItemWeapon::release_model() { memset((char*)this + 0x18c, 0, 16); clear_weapon_flags((uaddr)((void*)12)); TItemEquipBase::release_model(); }
 
-}
 
 struct PlB_80120C5C { char pad[0x18]; };
 
@@ -183,7 +182,7 @@ struct Pl_80120C5C : PlB_80120C5C {
 
 struct T_80120C5C { s32 a; s32 b; s32 c; u16 d; u8 e; };
 
-extern "C" {
+
 extern T_80120C5C lbl_8043E828[];
 void TItemWeapon::request_equipped_model() {
     Pl_80120C5C *arg0 = (Pl_80120C5C *)this;
@@ -201,7 +200,6 @@ void TItemWeapon::request_equipped_model() {
     ((TItemWeapon *)arg0)->create_weapon_trail_effects();
 }
 
-}
 
 // ---- pso/item/TItemWeapon
 

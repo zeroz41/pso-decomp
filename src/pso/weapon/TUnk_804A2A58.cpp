@@ -38,7 +38,7 @@ u32 baranz_launcher_create_shot(void *player, s32 arg1, s32 arg2, f32 farg0) {
 // Baranz Launcher (inferred)
 void TUnk_804A2A58::vfunc_60() { if (TObjPlayer::get_player_list() == 1) { rotate_matrix_y((void*)0, *(void **)&rotation_y); } }
 
-extern "C" {
+
 void TUnk_804A2A58::emit_marker_effects() {
     u8 *arg0 = (u8 *)this;
     s32 sp8;
@@ -57,7 +57,6 @@ void TUnk_804A2A58::emit_marker_effects() {
     }
 }
 
-}
 
 void TUnk_804A2A58::update_weapon() {
     s32 temp_r4;

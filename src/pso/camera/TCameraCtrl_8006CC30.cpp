@@ -188,9 +188,6 @@ void begin_conversation_camera(void);
 void request_follow_camera_offsets(void *arg0, void *arg1, u16 arg2);
 void rotate_matrix_y(s32, s32);
 void matrix_mult_vec(s32, void *, void *);
-}
-extern u8 identity_matrix[];
-extern "C" {
 void TCameraCtrl__sub_8006E804(void* a0);
 extern Pads_8006D1A4 controller_input_state;
 f32 horizontal_distance_squared(void *, void *);
@@ -199,6 +196,7 @@ void camera_renderer_setup_nop(void *, s32);
 extern FollowVector lbl_80438528;
 extern u8 lbl_804FF5E8[];
 }
+extern u8 identity_matrix[];
 extern s32 local_client_id;
 void reset_cameras_to_actor(void *p, s32 x);
 extern FollowView *camera_ctrl_instance;

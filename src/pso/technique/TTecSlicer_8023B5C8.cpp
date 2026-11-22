@@ -25,11 +25,9 @@
 #include "pso/math/AngleLookup.h"
 
 
-extern "C" {
 typedef struct { f32 r, g, b, a; } Col_8023B220;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
-}
 
 // The z rotation init_launch_angles gives a slicer, by remaining count + 3 * has_valid_handle.
 const s32 TTecSlicer__launch_angle_table[18] = {

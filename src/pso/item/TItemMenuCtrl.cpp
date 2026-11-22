@@ -12,7 +12,6 @@ TItemMenuCtrl::~TItemMenuCtrl() {
     TItemMenuCtrl__instance = 0;
 }
 
-extern "C" {
 
 const char *lbl_805D2C18 = "TItemMenuCtrl";
 
@@ -24,4 +23,3 @@ TItemMenuCtrl::TItemMenuCtrl(TObject *parent) : TObject(parent) {
 }
 #undef item_menu_ctrl
 
-}

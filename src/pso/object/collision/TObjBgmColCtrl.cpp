@@ -15,7 +15,7 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/object/collision/TObjBgmCol.h"
 #include "pso/object/collision/TObjBgmCol_8017E7F0.h"
-#include "pso/object/base/TObjMotion.h"
+
 #include "pso/player/TObjPlayer_80011014.h"
 
 
@@ -36,9 +36,7 @@ TObject *TObjBgmColCtrl__instance;
 u32 TObjBgmColCtrl__current_theme_id;
 
 void create_bgm_col_zones(void);
-extern "C" {
 extern s32 tl_05;
-}
 int get_quest_bgm_issued_flag(void);
 
 extern s32 local_client_id;
@@ -76,10 +74,9 @@ const Row_8017E550 lbl_80443780[12] = {
 
 struct Zone_8017E748 { u8 pad[0x9C]; s32 category; };
 
-extern "C" {
+
 const char *TObjBgmCol__name = "TObjBgmCol";
 const char *TObjBgmColCtrl__name = "TObjBgmColCtrl";
-}
 
 extern s32 lbl_805D62E4;
 extern int TQuestBgmCtrl__bgm_issued_flag;

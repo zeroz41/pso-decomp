@@ -147,8 +147,6 @@ void *__ct__10TODoorBaseFP7TObject(void *a0);
 extern s32 __vt__16TODoorJungleMain[];
 
 
-
-
 int post_translate_matrix(void *);
 
 
@@ -170,7 +168,6 @@ extern s32 game_difficulty_selection;
 s32 minimap_render_gate(void *, u32, u16, s32, s32);
 
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-
 
 
 s32 release_texture_list(void*);

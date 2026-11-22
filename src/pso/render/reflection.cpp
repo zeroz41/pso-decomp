@@ -323,7 +323,7 @@ void GXSetTevOrder(s32 stage, s32 coord, s32 map, s32 color);
 }
 const f64 lbl_80465E18 = 0.0054931640625;
 extern uaddr camera_ctrl_instance;
-extern "C" {
+
 const Vec sora_reflection_up_vec = {0.0f, 1.0f, 0.0f};
 extern s32 TSceneSora__sky_active_flag;
 extern u32 TSceneSora__instance;
@@ -501,7 +501,6 @@ void TUnk_804DC7C4::run_task() {
     TScene::set_active_scene(TObjPlayer::clear_state_if_flag80);
     TScene::set_instance(TObjPlayer__sub_8029EE2C);
 }
-}
 
 TUnk_804DC7C4::~TUnk_804DC7C4() {
     scene_sora_reflect_active = 0;
@@ -539,11 +538,10 @@ TUnk_804DC7C4::TUnk_804DC7C4(TObject *parent) : TObject(parent) {
     reflect_normal.z = 0.0f;
 }
 
-extern "C" {
+
 s32 TSceneSora::get_state() { return *(s32*)((char*)this + 0x20); }
 void TSceneSora::set_scene_flag(int a0) { (*(int *)&lbl_805D65F0) = a0; }
 void TSceneSora::copy_reflection_vec(u8 *arg0) {
     VecCopy((Vec *)(&sora_reflection_ray_direction), (const Vec *)(arg0));
 }
 
-}

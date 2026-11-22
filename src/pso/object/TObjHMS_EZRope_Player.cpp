@@ -23,10 +23,9 @@
 
 #pragma push
 #pragma readonly_strings on
-extern "C" {
+
 const char *TObjEZRopeBase__name = "TObjEZRopeBase";
 const char *TObjHMS_EZRope_Player__name = "TObjHMS_EZRope_Player";
-}
 #pragma pop
 #pragma inline_depth(1)
 #pragma auto_inline off

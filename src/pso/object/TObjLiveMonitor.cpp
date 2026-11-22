@@ -61,8 +61,6 @@ extern "C" {
 
 s32 __ct__7TObjectFP7TObject();
 extern s32 __vt__15TObjLiveMonitor[];
-}
-extern "C" {
 extern void *tl_05;
 int get_global_part_count__12TBoss8DragonFl(void*);
 s32 angle_diff_s16(int);

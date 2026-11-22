@@ -107,7 +107,7 @@ void load_gx_light_slot(s32 arg0) {
 }
 
 
-extern "C" void draw_trail_strip(void *vertices, s32 count, s32 mode) {
+void draw_trail_strip(void *vertices, s32 count, s32 mode) {
     TObjPlayer__sub_803DF768(mode);
     draw_untextured_trail_strip(vertices, count);
     reset_player_transform();

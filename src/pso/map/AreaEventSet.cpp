@@ -69,14 +69,10 @@ s32 activate_first_floor_event(s32 idx, s32 id);
 LobbySlotPtrTable lobby_slot_ptr_table;
 s32 set_floor_event_flags(s32 arg0, s32 arg1, s32 arg2);
 void bswap_floor_event_set(s32 idx);
-extern "C" {
-void clear_floor_event_flags(void);
-}
-void show_partner_chatter_for_key(s16 key);
-extern "C" {
-void set_destroy_event__6TLobbyFi(int a0) { set_event_destroy_id = a0; }
-}
 
+void clear_floor_event_flags(void);
+void set_destroy_event__6TLobbyFi(int a0) { set_event_destroy_id = a0; }
+void show_partner_chatter_for_key(s16 key);
 void spawn_destroy_event(SetDestroyEventRecord *event) {
     if (TLobby::get_destroy_event_obj() != -1) {
         show_partner_chatter_for_key(event->spawn_arg0);
@@ -295,7 +291,7 @@ s32 replace_file_extension__6TLobbyFPvPvPv(char *arg0, char *arg1, char *arg2);
 s32 load_area_event_set(s32 floor, s32 area, s32 terrain, s32 entities);
 #define lobby_slot_ptr_table (*(s32 (*)[1])&lobby_slot_ptr_table)
 #define area_event_set_heap (*(s32 *)&area_event_set_heap)
-extern "C" {
+
 #define lobby_slot_ptr_table (*(s32 (*)[1])&lobby_slot_ptr_table)
 #define area_event_set_heap (*(s32 *)&area_event_set_heap)
 
@@ -328,7 +324,6 @@ void TLobby::free_team_buffers() {
             ((s32 *)&lobby_slot_ptr_table)[i] = 0;
         }
     }
-}
 }
 
 s32 load_area_event_set(s32 floor, s32 area, s32 terrain, s32 entities) {

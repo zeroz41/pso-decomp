@@ -84,7 +84,6 @@ TOSwitchAttackSub::TOSwitchAttackSub(TObject *parent, s32 arg2, s32 arg3, u32 ar
 }
 #undef object
 
-extern "C" {
 
 void TOSwitchAttack::create_sub(saddr arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0) {
     new TOSwitchAttackSub((TObject *)arg0, arg1, arg2, (u32)arg3, farg0);
@@ -118,4 +117,3 @@ void TOSwitchAttack::init_params() {
     }
 }
 
-}

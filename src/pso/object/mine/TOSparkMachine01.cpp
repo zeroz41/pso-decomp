@@ -1,6 +1,6 @@
 #include "pso/system/BmlResource.h"
 #include "types.h"
-#include "pso/system/BmlResource.h"
+
 #include "pso/system/BmlResourceLoader.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/object/mine/TOSparkMachine01.h"
@@ -25,10 +25,6 @@ __declspec(section ".data") const char *bm_fe_obj_tank_hikari_model_names[2] = {
 BmlResourceDescriptor bm_fe_obj_tank_hikari_resource_descriptor = { "bm_fe_obj_tank_hikari.bml", bm_fe_obj_tank_hikari_model_names, bm_fe_obj_tank_hikari_motion_names, 1, 0 };
 const char *TOSparkMachine01__name = "TOSparkMachine01";
 BmlResource *TOSparkMachine01__static_resource;
-}
-
-
-extern "C" {
 extern BmlResourceDescriptor bm_fe_obj_tank_hikari_resource_descriptor;
 extern BmlResource *TOSparkMachine01__static_resource;
 extern const char *TOSparkMachine01__name;

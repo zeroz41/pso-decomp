@@ -75,9 +75,7 @@ struct FlareGlareColor {
     struct { signed int a : 8; u8 r, g, b; } argb;
 };
 
-extern "C" {
 extern TCameraCtrl *camera_ctrl_instance;
-}
 
 #pragma push
 #pragma opt_propagation off

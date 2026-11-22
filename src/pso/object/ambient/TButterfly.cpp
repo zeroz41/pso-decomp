@@ -226,7 +226,6 @@ TButterfly::TButterfly(TObject *arg1, void *arg2) : TObjBase(arg1) {
     VecCopy((Vec *)((char *)this + 104), (const Vec *)((char *)arg2 + 36));
     this->init_motion();
 }
-extern "C" {
 
 
 void *TButterfly__create(void *arg0) {
@@ -248,4 +247,3 @@ void TButterfly::load_resources() {
     butterfly_bml_resource = loaded;
 }
 
-}

@@ -229,9 +229,6 @@ void *destroy__13TPhotonFarllaFPvs(void *photon_farlla, s16 arg1) {
     return photon_farlla;
 }
 
-}
-
-extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
 
 s32 sub_801AAE6C__13TPhotonFarllaFv(void *, int);

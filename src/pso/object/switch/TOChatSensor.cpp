@@ -82,10 +82,7 @@ extern "C" {
 u8 is_current_floor_switch_set(s32 id);
 
 
-
 extern s32 local_client_id;
-
-
 
 
 }
@@ -149,7 +146,7 @@ TOChatSensor::TOChatSensor(TObject *parent, void *arg2) : TObjBase(parent) {
 TOChatSensor::~TOChatSensor() {
 
 }
-extern "C" {
+
 void TOChatSensor::run_task() {
     if ((u32) this->m_90 == 0U) {
         switch (this->m_c8) {
@@ -280,7 +277,6 @@ void TOChatSensor::check_player_proximity() {
 TOChatSensorFolder::TOChatSensorFolder(TObject *parent) : TObject(parent) {
     m_name = chat_sensor_folder_name_ptr;
     TOChatSensorFolder__instance = this;
-}
 }
 
 TOChatSensorFolder::~TOChatSensorFolder() {

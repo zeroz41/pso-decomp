@@ -28,8 +28,6 @@ const char *TObjNpcGovernorBase__name = "TObjNpcGovernorBase";
 uaddr TObjNpcGovernorBase__shared_resource;
 
 
-extern "C" {
-
 void *TObjNpcGovernorBase__create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcGovernorBase(control, set_data);
@@ -49,7 +47,6 @@ void TObjNpcGovernorBase::load_shared_resource() {
     (*(s32 *)&TObjNpcGovernorBase__shared_resource) = var_r0;
 }
 
-}
 TObjNpcGovernorBase::~TObjNpcGovernorBase() {}
 
 

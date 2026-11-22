@@ -24,9 +24,8 @@ TObjTagChallenge::~TObjTagChallenge() {}
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *TObjTagChallenge__class_name = "TObjTagChallenge";
-}
 
 TObjTagChallenge::TObjTagChallenge(TObject *parent) : TObject(parent) {
     m_name = TObjTagChallenge__class_name;

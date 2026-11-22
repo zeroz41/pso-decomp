@@ -15,22 +15,18 @@
 #include "pso/system/task/TMainTask.h"
 #pragma readonly_strings on
 
-extern "C" {
-
-
 
 void *TObjNpcKenkyu2__create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcKenkyu2(control, set_data);
 }
 
-}
 
 extern const char *bm_npc_kenkyu2_model_names[2];
 extern BmlResourceDescriptor TObjNpcKenkyu2__resource_descriptor;
 extern const char *bm_npc_kenkyu2_motion_names[1];
 
-extern "C" {
+
 extern BmlResource *TObjNpcKenkyu2__shared_model_resource;
 
 
@@ -47,9 +43,7 @@ void TObjNpcKenkyu2::load_shared_resource() {
     TObjNpcKenkyu2__shared_model_resource = new BmlResource(1, &TObjNpcKenkyu2__resource_descriptor, 0, 0, NULL);
 }
 
-}
 TObjNpcKenkyu2::~TObjNpcKenkyu2() {}
-extern "C" {
 
 
 TObjNpcKenkyu2::TObjNpcKenkyu2(TObject *parent, void *arg2) : TUnk_804A9F50(parent) {
@@ -65,13 +59,11 @@ void *TObjNpcHosa2__create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcHosa2(control, set_data);
 }
-}
 
 __declspec(section ".data") const char *bm_npc_kenkyu2_model_names[2] = { "kenkyu2_body.nj", NULL };
 BmlResourceDescriptor TObjNpcKenkyu2__resource_descriptor = { "bm_npc_kenkyu2.bml", bm_npc_kenkyu2_model_names, bm_npc_kenkyu2_motion_names, 1, 0 };
 __declspec(section ".sdata") const char *bm_npc_kenkyu2_motion_names[1] = { NULL };
-extern "C" {
+
 
 const char *TObjNpcKenkyu2__name = "TObjNpcKenkyu2";
 BmlResource *TObjNpcKenkyu2__shared_model_resource;
-}

@@ -196,7 +196,7 @@ void TShopGenerator::clear_slot_active(s32 arg0) {
     TShopGenerator__slot_active_table[idx] = 0;
 }
 
-extern "C" {
+
 void THunterGuildSeqOffline__sub_8021E180(s32 arg0) {
     u16 idx = TShopGenerator__sub_80222DAC(arg0);
     TShopGenerator__slot_active_table[idx] = 1;
@@ -205,7 +205,6 @@ void THunterGuildSeqOffline__sub_8021E180(s32 arg0) {
 void *TShopGenerator__create(void *arg0) {
     void *o = (void *)new TShopGenerator((saddr)arg0);
     return o;
-}
 }
 
 void TShopGenerator::run_fn_table_reverse() {

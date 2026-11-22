@@ -150,7 +150,7 @@ void TTecRaFoie::vfunc_8(void *) {
 
 #include "pso/system/scene/TScene.h"
 #include "pso/technique/TTecAnti.h"
-#include "pso/technique/TTecCtrl.h"
+
 #include "pso/technique/TechniqueParams.h"
 struct Stack_80238388 {
     s32 sp8;

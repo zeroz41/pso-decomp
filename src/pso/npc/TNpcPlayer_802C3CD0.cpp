@@ -6,7 +6,7 @@
 #include "pso/quest/TQuestListVM.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/TLobby.h"
+
 
 struct E_802C4698 { u8 pad[0x1c]; };
 

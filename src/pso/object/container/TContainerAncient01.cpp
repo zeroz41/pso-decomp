@@ -37,7 +37,6 @@ static const f32 TContainerAncient01__data_805DBD14[1] = {0.0f};
 
 #include "pso/system/vector.h"
 
-#include "pso/object/container/TContainerAncient01.h"
 
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 
@@ -404,7 +403,7 @@ TContainerAncient01::~TContainerAncient01() {
     unregister_object_by_id();
     free_collision_body_parts(this);
 }
-extern "C" {
+
 void TContainerAncient01::load_resources() {
     BmlResource *p;
     TContainerAncient01__bml_resource = NULL;
@@ -557,11 +556,8 @@ void TContainerAncient01::vfunc_6(s16 *arg1, s32 arg2) {
         this->m_35c = 1;
     }
 }
-}
-
 #pragma push
 #pragma fp_contract on
-extern "C" {
 void TContainerAncient01::init_state_vectors() {
     *(f32 *)&this->m_338 = (f32) (3e+02f + (this->scale.x - TContainerAncient01__data_805DBD10[0]));
     this->m_33c = (f32) (2.1e+02f + (this->scale.y - TContainerAncient01__data_805DBD10[0]));
@@ -602,10 +598,7 @@ void TContainerAncient01::update_wait_for_player() {
         this->m_2b4 = (-1.0f);
     }
 }
-}
-
 #pragma pop
-extern "C" {
 void TContainerAncient01::sub_8018B48C() {
     u8 *arg0 = (u8 *)this;
   ((TObjMotion *)arg0)->advance_animation();
@@ -690,12 +683,9 @@ void TContainerAncient01__sub_8018B180(Obj_8018B180 *self, f32 range) {
 void TContainerAncient01::spawn_effect(const Vec *position, s32 effect_id) {
     spawn_particle_effect(position, effect_id);
 }
-}
-
 #pragma push
 #pragma fp_contract on
 #define self ((Obj_8018B030 *)this)
-extern "C" {
 TContainerAncient01R::TContainerAncient01R(TObject *parent, void *set_data) : TObjChara(parent) {
     NJS_POINT2 *c;
 
@@ -719,11 +709,8 @@ TContainerAncient01R::TContainerAncient01R(TObject *parent, void *set_data) : TO
     self->state = 0;
     init_positions();
 }
-}
-
 #pragma pop
 #undef self
-extern "C" {
 TContainerAncient01R::~TContainerAncient01R() {
     unregister_object_by_id();
     free_collision_body_parts(this);
@@ -863,11 +850,8 @@ void TContainerAncient01R::vfunc_6(s16 *arg1, s32 arg2) {
         this->m_360 = 1;
     }
 }
-}
-
 #pragma push
 #pragma fp_contract on
-extern "C" {
 void TContainerAncient01R::init_positions() {
     this->m_33c = (f32) (3e+02f + (this->scale.x - TContainerAncient01__data_805DBD10[0]));
     this->m_340 = (f32) (2.1e+02f + (this->scale.y - TContainerAncient01__data_805DBD10[0]));
@@ -887,10 +871,7 @@ void TContainerAncient01R::init_positions() {
     }
     this->m_338 = 0;
 }
-}
-
 #pragma pop
-extern "C" {
 void TContainerAncient01R::check_open_trigger() {
     Obj_8018A914 *self = (Obj_8018A914 *)this;
     s32 hit;
@@ -999,5 +980,4 @@ void TContainerAncient01__sub_8018A584(Obj_8018A584 *self, f32 range) {
             }
         }
     }
-}
 }

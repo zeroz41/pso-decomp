@@ -205,9 +205,6 @@ void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 void *find_entity_by_id(u16 id);
 void matrix_mult_vec(s32, Vec *, Vec *);
 void rotate_matrix_y(s32, s32);
-}
-extern Group_801A7428 photon_blast_attachment_table[];
-extern "C" {
 void update_photon_blast_camera_pose(struct PbCamera_801A73B0 *self) {
     struct PbCameraParams_801A73B0 parameters;
     approach_vector_fixed_distance(&self->position, &self->destination_position, &self->position, 0.48f);
@@ -218,7 +215,7 @@ void update_photon_blast_camera_pose(struct PbCamera_801A73B0 *self) {
     set_active_camera_pose_from_params((u8 *)&parameters);
 }
 }
-
+extern Group_801A7428 photon_blast_attachment_table[];
 void spawn_photon_blast_opening_effects(s32 arg0, s32 arg1) {
     Rec_801A7428 rec;
     Vec pos;

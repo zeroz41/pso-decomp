@@ -95,10 +95,6 @@ Target_8022D27C *get_technique_data__10TObjPlayerFPv(void *);
 u8 get_cast_technique_level(void *, int);
 void matrix_mult_vec(int, void *, void *);
 void rotate_matrix_y(int, int);
-}
-extern u8 identity_matrix[];
-extern s32 local_client_id;
-extern "C" {
 void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl);
 void *construct_actor_light__9TObjLightFlllllfffl(void *, Col_8022C738 *, Vec *, s32, void *, s32, f32, f32, f32);
 void *__ct__13TUnk_804CC794Fll(void *, void *, s32);
@@ -108,6 +104,8 @@ void *__ct__13TUnk_804CC990Fll(void *, void *, s32);
 void *__ct__13TUnk_804CCAC8Fll(void *, void *, s32);
 void *__ct__13TUnk_804CC74CFll(void *, void *, s32);
 }
+extern u8 identity_matrix[];
+extern s32 local_client_id;
 extern LightData_8022C738 TObjLight__scene_light_state;
 extern s32 tl_07;
 
@@ -179,16 +177,11 @@ extern "C" {
 s32 release_texture_list(void *, s32);
 struct TechniqueRingwaveTextureList { u8 * value; u8 remaining[0x8]; };
 extern TechniqueRingwaveTextureList technique_ringwave_texture_list;
-}
-u8 *load_gvm_texture_file(saddr arg0);
-extern "C" {
 void bind_gvm_texture_list(const char *, void *);
-}
-void reset_telepipe_visit_counts(void);
-extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 }
-
+u8 *load_gvm_texture_file(saddr arg0);
+void reset_telepipe_visit_counts(void);
 s8 lbl_805D63A8;
 BmlResource *technique_effect_bml;
 void **lbl_805D63B0;

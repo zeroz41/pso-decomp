@@ -56,11 +56,6 @@ void rocket_punch_wall_impact(u32 arg0, u32 arg1, u32 arg2, uaddr arg3) {
 extern "C" {
 
 s32 post_translate_matrix(void *);
-}
-
-
-extern "C" {
-
 void TUnk_804A5340::render() {
     u8 *arg0 = (u8 *)this;
     if ((TItemShootModel::is_owner_alive() != 0) && ((uaddr) this->model != 0U) && ((uaddr) this->texture_list != 0U)) {
@@ -75,7 +70,6 @@ void TUnk_804A5340::render() {
 }
 
 }
-
 
 
 void TUnk_804A5340::hook() {  }

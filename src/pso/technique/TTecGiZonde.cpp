@@ -68,7 +68,7 @@ struct RecoveredFields_8023C558_arg0
   s16 field_F0;
 };
 
-extern "C" {
+
 typedef struct RecoveredFields_8023C558_arg0 RecoveredFields_8023C558_arg0;
 #pragma readonly_strings on
 
@@ -91,7 +91,6 @@ void TTecGiZonde::init_parameters() {
   }
 }
 
-}
 
 struct Elec_80238E14 { s32 type; f32 val; };
 

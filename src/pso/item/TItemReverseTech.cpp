@@ -67,7 +67,6 @@ void *TItemReverseTechPart1__instance;
 static const f32 lbl_805DAC08[1] = {0.0f};
 static const f32 lbl_805DAC0C[1] = {480.0f};
 
-extern "C" {
 
 struct Self_80119DA0 {
     u8 pad0[0x1C];
@@ -86,7 +85,6 @@ extern s32 destroy_and_flag__21TItemReverseTechPart2Fv[];
 extern s32 __vt__16TItemReverseTech[];
 const char *TItemReverseTech__name = "TItemReverseTech";
 
-}
 
 struct Ent_8011A270 { int name; int a; int b; };
 

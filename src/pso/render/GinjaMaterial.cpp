@@ -80,11 +80,7 @@ extern s32 ginja_vertex_component_types[];
 void GXSetVtxAttrFmt(s32, s32, s32, s32, u8);
 void GXSetArray(s32, void *, u8);
 void set_ginja_vertex_arrays(Arr_803DC3BC *arg0);
-}
-void apply_ginja_material_params(const GinjaDrawRecord *);
-extern "C" {
 s32 GXCallDisplayList(void *, u32);
-extern u32 ginja_draw_flags;
 void GXSetTexCoordGen2(s32 dst, u32 func, u32 src, s32 mtx, s32 normalize, s32 pt);
 extern s32 ginja_texture_matrix_ids[];
 void PSMTXConcat(void *, void *, void *);
@@ -136,6 +132,7 @@ void draw_ginja_object(void *child) {
     }
 }
 }
+void apply_ginja_material_params(const GinjaDrawRecord *);
 GinjaMaterialCache *invalidate_ginja_inherited_state();
 #pragma push
 #pragma scheduling off

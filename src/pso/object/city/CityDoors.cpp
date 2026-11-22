@@ -403,8 +403,6 @@ extern "C" {
 
 void run_task__16TObjCityDoor_MedFv(void *arg0);
 void render__16TObjCityDoor_MedFv(u8 *arg0);
-}
-extern "C" {
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 
 void TObjCityDoor_Med::render() {

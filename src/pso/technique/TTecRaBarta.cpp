@@ -144,7 +144,6 @@ extern "C" {
 u16 get_entity_id(void *);
 
 
-
 void *mem_alloc(u32 size);
 
 s32 play_sound_effect(s32, s32, s32, s32);
@@ -301,9 +300,6 @@ void TTecRaBarta::vfunc_6(void *target) {
     }
 }
 
-}
-
-extern "C" {
 void *find_entity_by_id(u16 id);
 void mem_free(void *p);
 }

@@ -167,8 +167,6 @@ void offset_point_toward_camera(u8 *arg0, u8 *arg1, f32 farg0) {
 }
 #pragma pop
 
-extern "C" {
-
 
 s32 TTecLuker::is_parents_unqueued(uaddr arg0) {
     if (arg0 == 0U) {
@@ -180,7 +178,6 @@ s32 TTecLuker::is_parents_unqueued(uaddr arg0) {
     return 0;
 }
 
-}
 
 struct Stack_80236290 {
     s32 sp8;

@@ -182,14 +182,11 @@ void init_collision_body_parts(void *, void *, s32);
 extern s32 __vt__16TODoorLaboNormal[];
 extern s32 __vt__10TODoorLabo[];
 Self_8029F7E0 *TODoorLaboNormal__ct(Self_8029F7E0 *self, void *parent, s32 arg);
-}
-u8 *load_gvm_texture_file(saddr arg0);
-extern "C" {
-
 Door_8029FAE4 *TODoorLabo__ct(Door_8029FAE4 *arg0, void *parent, s32 arg);
 s32 release_texture_list(void*);
 void free_collision_body_parts(void *);
 }
+u8 *load_gvm_texture_file(saddr arg0);
 extern s32 __vt__22TODoorFourLightSeabedU[];
 struct Tbl_8029FD70 { s32 w[8]; };
 struct Info_8029FD70 { u8 pad[4]; u32 v4; };

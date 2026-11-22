@@ -3,9 +3,6 @@
 #include "pso/player/TObjPlayer_80011014.h"
 
 
-extern "C" {
-
-
 extern s32 local_client_id;
 
 s32 TCameraCtrl::get_camera_no() {
@@ -15,4 +12,3 @@ s32 TCameraCtrl::get_camera_no() {
     return local_client_id;
 }
 
-}

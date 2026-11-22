@@ -34,13 +34,10 @@ struct Tec_80129648 {
 extern "C" {
 s16 get_entity_id(void *);
 void TObjPlayer__sub_80128A70(void);
-}
-void init_slicer_launch_state(void *);
-extern "C" {
 s16 get_validated_attack_stage(u8 *arg0);
 s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
 }
-
+void init_slicer_launch_state(void *);
 void TUnk_804A4338::emit_marker_effects() {
     Self_80129648 *self = (Self_80129648 *)this;
     Tec_80129648 tec;

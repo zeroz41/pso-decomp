@@ -89,9 +89,6 @@ void *TSetManager__ct(void *set_manager, void *parent) {
     return set_manager;
 }
 
-}
-
-extern "C" {
 s32 get_current_floor(void);
 LobbyPoolEntry TLobby__data_80513A40[18];
 LobbyFloorRows TLobby__floor_enemy_group_table[18];

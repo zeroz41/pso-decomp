@@ -11,7 +11,7 @@
 
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/text_8028A820.h"
-#include "pso/object/ambient/TObjFish.h"
+
 #include "pso/object/door/TODoorAncient01.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/seabed/TObjSeabedSuisoBrakable.h"

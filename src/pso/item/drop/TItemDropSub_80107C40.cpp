@@ -3,7 +3,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 
-extern "C" {
 
 extern void *TItemDropSub__instance;
 
@@ -16,4 +15,3 @@ void TItemDropSub::create_instance(s32 arg0) {
     }
 }
 
-}

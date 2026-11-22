@@ -36,7 +36,7 @@ struct EZBoneRotState {
     f32 scale;
 };
 
-extern "C" {
+
 const char *TObjEZBoneRotBase__name = "TObjEZBoneRotBase";
 const char *TObjEZBoneRotPlayer__name = "TObjEZBoneRotPlayer";
 
@@ -156,11 +156,9 @@ void TObjEZBoneRotBase::sub_800FED0C() {
     sub_800FEC40((u8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x1C)));
 }
 
-}
 
 TObjEZBoneRotBase::~TObjEZBoneRotBase() {}
 
-extern "C" {
 
 #define self this
 TObjEZBoneRotBase::TObjEZBoneRotBase(TObject *parent, void *root, EZBoneRotDesc *desc) : TObject(parent) {
@@ -182,7 +180,6 @@ TObjEZBoneRotBase::TObjEZBoneRotBase(TObject *parent, void *root, EZBoneRotDesc 
 }
 #undef self
 TObjEZBoneRotPlayer::~TObjEZBoneRotPlayer() {}
-}
 
 struct RotSrc_800FEEA4 {
     s8 bone;

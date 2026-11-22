@@ -107,10 +107,7 @@ u16 TOMineTrap__sub_80171358(TOMineTrap *p);
 extern s32 lbl_805D5868;
 extern s32 lbl_805D5870;
 void handle_6x80_trigger_trap(game_command_header *command);
-}
-
 // ---- declarations carried over from the fragment TOMineTrap_8016F6F8.cpp
-extern "C" {
 s32 get_current_floor(void);
 extern u8 lobby_rule_settings[];
 u16 get_entity_id(void *);
@@ -221,9 +218,7 @@ int submit_target_to_player_cursor(void*);
 typedef struct RecoveredFields_80170F0C_arg0 RecoveredFields_80170F0C_arg0;
 // ---- declarations carried over from the fragment TOMineTrap.cpp
 void TOMineTrap__sub_80171368(f32 farg0);
-s16 TOMineTrap__sub_80171340(TOMineTrap *p);
 int TOMineTrap__sub_80171350(void);
-u16 TOMineTrap__sub_80171358(TOMineTrap *p);
 // ---- functions, last address first (deferred codegen emits them in reverse)
 void G_TriggerTrap_6x80::init() {
     header.subcommand = 0x80;

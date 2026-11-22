@@ -189,7 +189,7 @@ TTecPlayerInfluence::~TTecPlayerInfluence() {
     if (*(void **)((s8 *)this + 0xDC) != NULL) { free_collision_body_parts(*(void **)((s8 *)this + 0xDC)); }
 }
 
-extern "C" {
+
 void TTecPlayerInfluence::run_task() {
     sub_80237258();
     this->tick_lifetime();
@@ -306,4 +306,3 @@ void spawn_support_tec_range_effect(Tec_80236EE8 *self) {
     }
 }
 
-}

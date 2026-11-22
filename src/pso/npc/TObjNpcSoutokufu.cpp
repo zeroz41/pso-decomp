@@ -32,8 +32,6 @@ struct Ow_80289710 { u8 pad[0x58]; Ls_80289710 *list; };
 
 struct Gl_80289710 { u8 pad[0x42C]; Ow_80289710 *owner; };
 
-extern "C" {
-
 
 extern void *lbl_805D4DD8;
 
@@ -48,7 +46,6 @@ void TObjNpcSoutokufu::load_shared_resource() {
     TObjNpcSoutokufu__shared_model_resource = new BmlResource(1, &bm_npc_soutokufu_resource_descriptor, 0, 0, NULL);
 }
 
-}
 TObjNpcSoutokufu::~TObjNpcSoutokufu() {}
 
 

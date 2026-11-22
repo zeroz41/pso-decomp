@@ -66,11 +66,10 @@ void TObjNpcBase::draw_debug_info() {
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
 }
 #pragma pool_data reset
-extern "C" {
+
 NpcBattleStats npc_default_battle_stats = { {0}, 20.0f };
 NpcMovementParameters npc_movement_parameters = { 100.0f, 0.5f, 0x400 };
 CollisionBody npc_base_collision_body_desc = { {0.0f, 10.0f, 0.0f}, 5.0f, 0.0f, 0, 0x30203 };
-}
 
 void TObjNpcBase::setup_common() {
     set_motion_params(&npc_default_battle_stats);
@@ -86,9 +85,6 @@ void TObjNpcBase::setup_common() {
 
 extern "C" {
 s32 approach_angle_limited(s32, s32, s32);
-}
-void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
-extern "C" {
 void select_enemy_destination(TObjEnemy *, Vec *, s32);
 f32 horizontal_distance_squared(Vec *, Vec *);
 void vec3_add_to(Vec *, Vec *);
@@ -98,6 +94,7 @@ extern u8 identity_matrix[];
 u16 get_entity_id(void *);
 f32 atan2_float(f32 y, f32 x);
 }
+void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 void move_with_wall_slide(u8 *arg0);
 u8 *create_conversation_camera(s32 arg0);
 extern "C" {
@@ -522,9 +519,6 @@ void TObjNpcBase::free_static() {
 extern "C" {
 int load_encrypted_archive_data(const char *);
 void load_ply_motion_npc_town(void) { npc_town_motion_data = load_encrypted_archive_data("PlyMotionNpcTown.cpt"); }
-}
-
-extern "C" {
 void TObjNpcBase__sub_80149368(CursorAction *action);
 
 }

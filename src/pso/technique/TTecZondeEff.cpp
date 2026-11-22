@@ -139,10 +139,6 @@ extern u32 model_render_flags;
 void matrix_mult_vec(s32, Vec *, Vec *);
 extern Cam_8023D128 lbl_8058D4F8;
 s32 project_lightning_points(Obj_8023D128 *self, Vec *out, f32 *a, f32 *b);
-}
-void clear_zonde_beam_vertex_pointer(void);
-extern "C" {
-
 struct Obj_8023D294 { u8 pad[0x28]; Vec d; };
 
 extern "C" {
@@ -460,8 +456,8 @@ void TTecZondeEff::run_task() {
 #pragma pop
 
 TTecZondeEff::~TTecZondeEff() {}
-
 }
+void clear_zonde_beam_vertex_pointer(void);
 TTecZondeEff::TTecZondeEff(TObject *arg1, s32 arg2, s32 arg3, f32 farg0) : TObject(arg1) {
     this->m_name = TTecZondeEff_class_name;
     *(f32 *)((s8 *)this + 0x244) = farg0;

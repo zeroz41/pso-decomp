@@ -236,7 +236,7 @@ TObjChipSpawnParams *TObjChip::copy_transform(TObjChipSpawnParams *spawn, TObjCh
     return spawn;
 }
 
-extern "C" {
+
 u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *object, u8 *arg1, u8 *arg2) {
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__8TObjChip;
@@ -277,7 +277,6 @@ u8 *__ct__8TObjChipFP7TObjectP19TObjChipSpawnParams(u8 *object, u8 *arg1, u8 *ar
         *(s32 *)((s8 *)object + 0x230) = 0;
     }
     return object;
-}
 }
 void rotate_matrix_yxz(saddr matrix, s32 arg1, s32 arg2, s32 arg3);
 TObjChip::~TObjChip() {}

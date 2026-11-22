@@ -43,9 +43,8 @@ struct Shield_8010A4C0 {
     u16 m_44;
 };
 
-extern "C" {
+
 const char *TItemEffShield__class_name = "TItemEffShield";
-}
 int get_item_system_generation(void);
 const s32 lbl_8043E280[8] = { 1, 1, 1, 0, 1, 0, 0, 0 };
 const s32 lbl_8043E2A0[8] = { -1, 446, 447, 145, 32, 416, 417, 177 };
@@ -213,7 +212,7 @@ TUnk_8049F130::~TUnk_8049F130() {
 
 struct TItemData8_8010a060 { s8 a; s8 b; u8 c; s8 pad[21]; };
 
-extern "C" {
+
 void TUnk_8049F130::run_task() {
     struct TItemData8_8010a060 sp8;
     saddr player;
@@ -242,7 +241,6 @@ void TUnk_8049F130::run_task() {
         *(s32 *)&this->unk_1C = 0;
     }
     *(s32 *)&this->unk_1C = (s32) (*(s32 *)&this->unk_1C + 1);
-}
 }
 
 NJS_OBJECT *TItem::get_item_model() { return item_model; }

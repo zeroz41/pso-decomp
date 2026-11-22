@@ -51,8 +51,6 @@ TItemEffBringer::~TItemEffBringer() {
 
 #include "pso/player/TObjPlayer.h"
 
-extern "C" {
-
 
 #pragma push
 #pragma fp_contract on
@@ -102,4 +100,3 @@ void *TItemEffBringer::create(u32 arg0, saddr src, s32 arg2, f32 farg0) {
     return NULL;
 }
 
-}

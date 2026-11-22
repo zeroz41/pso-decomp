@@ -97,7 +97,7 @@ TODummyKeyCave01::~TODummyKeyCave01() {
 
 }
 
-extern "C" {
+
 void TODummyKeyCave01__sub_80165E8C(void) {  }
 void TODummyKeyCave01__sub_80165E88(void) {  }
 void *TODummyKeyCave01::create(void *arg0) {
@@ -204,7 +204,6 @@ void TODummyKeyCave01::render() {
     }
 }
 
-}
 void TODummyKeyCave01::sub_80165940() {
     Key_80165940 *self = (Key_80165940 *)this;
     self->fD0 = 0;
@@ -286,7 +285,7 @@ void TODummyKeyCave01::sub_80165940() {
     }
 }
 
-extern "C" {
+
 TODummyKeyCave01Sound::TODummyKeyCave01Sound(TObject *parent, s32 arg2, s32 arg3) : TObject(parent) {
     m_name = TODummyKeyCave01Sound__class_name;
     delay_frames = arg3;
@@ -307,4 +306,3 @@ void TODummyKeyCave01Sound::run_task() {
     }
 }
 
-}

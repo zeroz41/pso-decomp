@@ -255,11 +255,7 @@ struct O_8006A044 { u8 pad[0x1c0]; s32 shake_timer; f32 shake_amplitude; };
 struct Big_8006A13C { u8 pad[0x70]; u8 unk70[0x10]; };
 
 struct Sel_8006A13C { u8 busy; u8 pad1; u16 slot; u8 pad4[0x8]; };
-extern "C" {
-
-
 extern Big_8006A13C controller_input_state;
-}
 
 
 void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
@@ -337,7 +333,7 @@ void select_camera_controller(s32 arg0);
 typedef struct Ctrl_8006A410 Ctrl_8006A410;
 typedef struct Master_8006A410 Master_8006A410;
 typedef struct VBase_8006A410 VBase_8006A410;
-extern "C" {
+
 
 typedef struct VBase_18_f8ef8c VBase_18_f8ef8c;
 typedef struct VObj_18_f8ef8c VObj_18_f8ef8c;
@@ -352,7 +348,6 @@ struct Cam_8006A6C4
   u32 shake_timer;
   f32 shake_amplitude;
 };
-}
 
 typedef struct VBase_18_9639c7 VBase_18_9639c7;
 typedef struct VObj_18_9639c7 VObj_18_9639c7;
@@ -469,7 +464,7 @@ void *lbl_80488AC0[6] = {
     (void *)0x0, (void *)0x0, (void *)&TCameraCtrl__sub_8006AA90, (void *)&run_task__11TCameraCtrlFv,
     (void *)&render__11TCameraCtrlFv, (void *)&render_shadows__7TObjectFv,
 };
-extern "C" {
+
 
     extern int camera_split_screen_selector;
 
@@ -770,7 +765,6 @@ void TCameraCtrl::update_target_from_state() {
 }
 #undef camera_controller_registry
 #undef lbl_80488AC0
-}
 
 
 void TCameraCtrl::update_active_controller() {
@@ -1003,7 +997,7 @@ void reset_cameras_to_actor(void *actor, s32 arg1) {
     VecCopy((Vec *)(&((Master_8006A410 *) camera_ctrl_instance)->tgt[view]), (const Vec *)&c->tgt);
   }
 }
-extern "C" {
+
 
 void TCameraCtrl::reset_view_state() {
     A_8006A35C *pa = (A_8006A35C *)TCameraCtrl__view_state;
@@ -1499,7 +1493,6 @@ void TCameraCtrl::reset_viewport_scissor() {
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_propagation off
-}
 void end_view_override() {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800694A8, sp8) == 0x0);
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_800694A8, sp10) == 0x8);

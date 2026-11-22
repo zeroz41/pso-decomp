@@ -3,7 +3,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/network/protocol/protocol_types.h"
-#include "pso/unk/TLobby_800FD78C.h"
+
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TUnk_804CC9D4.h"
 #include "pso/unk/TLobby_801E43E4.h"
@@ -133,9 +133,6 @@ extern s32 local_client_id;
 void handle_6x68_set_telepipe_state(Pkt_802341B0 *pkt);
 s32 matrix_mult_vec(int, void *, void *);
 s32 rotate_matrix_y(int, s32);
-}
-extern u8 identity_matrix[];
-extern "C" {
 s32 mark_area_change_pending();
 s32 send_6x21_inter_level_warp(void *, s32);
 s32 get_floor_map_terrain(s32);
@@ -144,7 +141,10 @@ f32 horizontal_distance_squared(void *, void *);
 extern saddr camera_ctrl_instance;
 Hit_8023453C *csnVecterUnder(void *, s32);
 TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *, s32, s32);
+s32 free_collision_body_parts(void *);
+s32 submit_cursor_candidate(void *, s32);
 }
+extern u8 identity_matrix[];
 void init_telepipe_packet_header(void* p);
 void create_quest_telepipe_for_client(u16 arg0);
 void write_telepipe_record(u8 *arg0, u16 arg1, s16 arg2, u8 *arg3, s32 arg4);
@@ -152,12 +152,6 @@ void start_placement_search(saddr arg0, saddr arg1, saddr arg2);
 s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range);
 void offset_point_toward_camera(u8 *arg0, u8 *arg1, f32 farg0);
 u8 *create_telepipe_marker(u8 *arg0, saddr arg1, s8 arg2, s8 arg3, saddr arg4, s32 arg5, s32 arg6, f32 farg0, f32 farg1);
-extern "C" {
-s32 free_collision_body_parts(void *);
-s32 submit_cursor_candidate(void *, s32);
-}
-
-
 int fn_80235078(void *arg0) {
     return (u8) (*(s32 *)((s8 *)arg0 + 0x0) == 2);
 }

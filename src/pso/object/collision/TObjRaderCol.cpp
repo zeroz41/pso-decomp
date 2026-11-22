@@ -91,7 +91,7 @@ void TObjRaderCol::check_local_player_in_range(void *arg0_) {
 }
 #undef arg0
 
-extern "C" {
+
 void check_any_player_in_range__12TObjRaderColFPv(Col_8019750C *arg0) {
     s32 found;
     s32 i;
@@ -118,7 +118,6 @@ void check_any_player_in_range__12TObjRaderColFPv(Col_8019750C *arg0) {
             }
         }
     }
-}
 }
 
 void TObjRaderCol::render() {  }

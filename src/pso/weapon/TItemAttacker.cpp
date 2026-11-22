@@ -24,12 +24,11 @@ struct Rec_80103368 { u8 pad[0x1C]; f32 v[3]; u8 pad2[0x2C - 0x28]; };
 
 struct M_80103368 { u8 pad[0xA4]; Rec_80103368 *recs; };
 
-extern "C" {
+
 s32 item_buffer_temp_mode;
 saddr item_buff_buffer;
 void TItemBuff__ct(void);
 void TItemAttacker__sub_8010349C(uaddr arg0);
-}
 saddr get_item_chunk_buffer(int a0);
 void deliver_delayed_weapon_hit(u8 *arg0);
 struct AttackWeaponBase { char pad[0x18]; };

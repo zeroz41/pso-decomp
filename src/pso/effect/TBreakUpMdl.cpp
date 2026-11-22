@@ -280,7 +280,7 @@ TBreakUpMdl::~TBreakUpMdl() {
 
 #pragma push
 #pragma fp_contract on
-extern "C" {
+
 void TBreakUpMdl::init_alpha(s32 arg1, f32 farg0) {
     u8 *arg0 = (u8 *)this;
     *(f32 *)((s8 *)arg0 + 0x28) = (f32) ((farg0 * (f32) arg1) + 1.0f);
@@ -307,10 +307,7 @@ void TBreakUpMdl::run_task() {
     }
     self->speed = self->speed * self->damping;
 }
-}
-
 #pragma pop
-extern "C" {
 void TBreakUpMdl::render() {
     BreakUp_8009680C *self = (BreakUp_8009680C *)this;
     Part_8009680C *part;
@@ -340,5 +337,4 @@ void TBreakUpMdl::render() {
     }
     set_chunk_material_override_pair(0xFF00, 0);
     model_render_flags = saved_model_render_flags;
-}
 }

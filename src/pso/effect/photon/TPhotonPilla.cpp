@@ -193,9 +193,6 @@ void *destroy__12TPhotonPillaFPvs(void *photon_pilla, s16 arg1) {
     return photon_pilla;
 }
 
-}
-
-extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
 void sub_801ADC7C__12TPhotonPillaFv(void *, u8);
 u8 *TPhotonRainbow__ct(void *, void *, void *, s32);

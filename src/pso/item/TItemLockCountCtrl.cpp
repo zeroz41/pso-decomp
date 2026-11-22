@@ -11,8 +11,6 @@ TItemLockCountCtrl::~TItemLockCountCtrl() {
 
 #pragma readonly_strings on
 
-extern "C" {
-
 
 const char *lbl_805D2BF8 = "TItemLockCountCtrl";
 
@@ -30,4 +28,3 @@ TItemLockCountCtrl::TItemLockCountCtrl(TObject *parent, s32 arg2, TItemLockCount
 }
 #undef arg0
 
-}

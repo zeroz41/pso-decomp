@@ -62,36 +62,26 @@ extern const f32 lbl_805DA380;
 u32 __cvt_fp2unsigned(f32);
 void run_task__9TDeadSpotFv(Obj_800D8228 *arg0);
 Ground_800D8314 *csnVecterUnder(void *, s32);
-}
-
-void direction_to_rotation_yx(u8 *arg0, s32 *arg1, s32 *arg2);
-extern "C" {
 s32 fn_803D8DE0(int, void *, void *, int);
 s32 rotate_matrix_z(int, int);
 s32 rotate_matrix_x(int, int);
 
-}
-
 #pragma push
 #pragma readonly_strings on
-extern "C" {
 s32 TDeadSpot__class_name = (saddr)"TDeadSpot";
 }
-
+void direction_to_rotation_yx(u8 *arg0, s32 *arg1, s32 *arg2);
 #pragma pop
-extern "C" {
-
 extern saddr camera_ctrl_instance;
 
 extern s32 saved_model_render_flags;
 
 extern s32 model_render_flags;
-}
 
 #pragma push
 #pragma fp_contract on
 #pragma opt_common_subs off
-extern "C" {
+
 TDeadSpot::TDeadSpot(TObject *parent, Vec *point, void *texture, s32 selector, s32 delay, f32 maxScale) : TObject(parent) {
     Mark_800D8314 *self = (Mark_800D8314 *)this;
     Vec basis[2];
@@ -207,12 +197,9 @@ TDeadSpot::TDeadSpot(TObject *parent, Vec *point, void *texture, s32 selector, s
 }
 
 TDeadSpot::~TDeadSpot() {}
-}
-
 #pragma pop
 #pragma push
 #pragma fp_contract on
-extern "C" {
 void run_task__9TDeadSpotFv(Obj_800D8228 *arg0) {
     E_800D8228 *p;
     s32 i;
@@ -234,10 +221,7 @@ void run_task__9TDeadSpotFv(Obj_800D8228 *arg0) {
         }
     }
 }
-}
-
 #pragma pop
-extern "C" {
 void render__9TDeadSpotFv(u8 *arg0) {
     if ((TMainTask::get_render_pass() != 1) && (*(f32 *)((s8 *)arg0 + 0xC4) > 0.0f) && (horizontal_distance_squared((const Vec *)(arg0 + 0x7C), (const Vec *)(camera_ctrl_instance + 0x178)) < 22500.0f)) {
         saved_model_render_flags = model_render_flags;
@@ -250,11 +234,8 @@ void render__9TDeadSpotFv(u8 *arg0) {
         model_render_flags = saved_model_render_flags;
     }
 }
-}
-
 #pragma push
 #pragma fp_contract on
-extern "C" {
 TUnk_80494A10::TUnk_80494A10(TObject *parent, Vec *point, void *texture, s32 selector, s32 delay, f32 maxScale) : TDeadSpot(parent, point, texture, selector, delay, maxScale) {
     Obj_800D80E4 *arg0 = (Obj_800D80E4 *)this;
     E_800D80E4 *p;
@@ -274,10 +255,7 @@ TUnk_80494A10::TUnk_80494A10(TObject *parent, Vec *point, void *texture, s32 sel
         p++;
     }
 }
-}
-
 #pragma pop
-extern "C" {
 TUnk_80494A10::~TUnk_80494A10() {}
 
 void TUnk_80494A10::run_task() {
@@ -304,11 +282,8 @@ void TUnk_80494A10::run_task() {
         }
     }
 }
-}
-
 #pragma push
 #pragma fp_contract on
-extern "C" {
 TUnk_804949F4::TUnk_804949F4(TObject *parent, Vec *position, s32 emitter, f32 radius) : TObject(parent) {
     VecCopy((Vec *)unk_1C, position);
     m_28 = radius;
@@ -316,10 +291,7 @@ TUnk_804949F4::TUnk_804949F4(TObject *parent, Vec *position, s32 emitter, f32 ra
     m_30 = 2;
     m_34 = emitter;
 }
-}
-
 #pragma pop
-extern "C" {
 TUnk_804949F4::~TUnk_804949F4() {}
 
 void TUnk_804949F4::vfunc_6() {
@@ -353,11 +325,8 @@ TUnk_804949D8::TUnk_804949D8(TObject *parent, Vec *position, s32 emitter, f32 ra
 }
 
 TUnk_804949D8::~TUnk_804949D8() {}
-}
-
 #pragma push
 #pragma opt_common_subs off
-extern "C" {
 void TUnk_804949D8::vfunc_6() {
     Vec stack;
     f32 temp_f1;
@@ -370,7 +339,6 @@ void TUnk_804949D8::vfunc_6() {
     vec3_add_to(&stack.x, (u8 *)&this->unk_1C);
     TObjBoss2Tunnel::adjust_to_ground(&stack, &stack);
     ((TParticleCtrl *)this->m_34)->set_position(&stack.x);
-}
 }
 
 #pragma pop

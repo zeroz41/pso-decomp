@@ -24,7 +24,6 @@ extern "C" void *__ct__16TargetCursorListFv(void *list);
 const char *TTecResta__name = "TTecResta";
 
 
-
 struct Row_8023967C { s32 delay; s32 duration; s32 entry; u32 flags; };
 
 struct Resta_8023967C { u8 pad[0x18]; s32 *vt; void *emitters[3]; s32 owner; s32 x2c; };
@@ -122,8 +121,6 @@ void run_task__9TTecRestaFv(Resta_802399F8 *self);
 s32 is_split_screen(void);
 s32 copy_technique_target_list(void *, void *);
 int spawn_support_tec_range_effect(void*);
-
-
 
 
 }

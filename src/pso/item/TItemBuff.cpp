@@ -3,8 +3,6 @@
 #include "pso/item/TItemBuff.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
-extern "C" {
-
 
 extern saddr item_nj_chunk_buffer_table[];
 
@@ -27,4 +25,3 @@ void TItemBuff::free_all_and_init() {
     } while (var_r28 != 2);
 }
 
-}

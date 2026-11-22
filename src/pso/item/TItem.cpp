@@ -75,7 +75,7 @@
 #include "pso/player/TObjPlayer_80104860.h"
 #include "pso/effect/particle/TParticleCtrl_80327D30.h"
 #include "pso/unk/TLobby_80207644.h"
-#include "pso/object/base/TObjChara.h"
+
 
 // The two colours of the present box, by wrapping colour (box_color).
 NJS_ARGB item_box_primary_colors[6] = {

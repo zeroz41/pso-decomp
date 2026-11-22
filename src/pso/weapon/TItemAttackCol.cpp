@@ -159,7 +159,6 @@ TItemAttackCol *attack_collider_render_owner;
 int attack_collider_active_count;
 
 
-
 void fn_802E3BA8(TItemAttackCol *col, void *node);
 
 
@@ -167,9 +166,6 @@ const char *TItemAttackCol__name = "TItemAttackCol";
 
 // The particle's direction before the collider's heading is added.
 static ParticleAngles particle_direction = {0x4000, 0, 0x4000};
-}
-f32 vec_distance_squared(u8 *arg0, u8 *arg1);
-extern "C" {
 s32 get_type__10TObjPlayerFPv(void *);
 
 void TObjPlayer__sub_801542F4(saddr a);
@@ -177,9 +173,8 @@ void TObjPlayer__sub_801542F4(saddr a);
 void TObjPlayer__sub_8015431C(u8 *arg0);
 
 void reset_global_table(void);
-
 }
-
+f32 vec_distance_squared(u8 *arg0, u8 *arg1);
 TUnk_804E355C::TUnk_804E355C(TObject *parent, S_802E451C *params) : TObject(parent) {
     TObjPlayer *player;
     body.offset.x = 0.0f;
@@ -247,7 +242,7 @@ void TUnk_804E355C::check_hits() {
     reset_global_table();
 }
 
-extern "C" void copy_actor_body_hit(ActorBodyHit *destination, const ActorBodyHit *source) {
+void copy_actor_body_hit(ActorBodyHit *destination, const ActorBodyHit *source) {
     volatile ActorBodyHit *output = destination;
     const volatile ActorBodyHit *input = source;
     output->target = input->target;

@@ -6,11 +6,9 @@ TAttackTrace::~TAttackTrace() {}
 
 #pragma readonly_strings on
 
-extern "C" {
 
 const char *lbl_805D2A90 = "TAttackTrace";
 
-}
 
 TAttackTrace::TAttackTrace(TObject *parent) : TObject(parent) {
     m_name = lbl_805D2A90;

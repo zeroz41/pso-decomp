@@ -19,7 +19,7 @@ struct RecoveredFields_8023C558_arg0
   s16 field_F0;
 };
 
-extern "C" {
+
 typedef struct RecoveredFields_8023C558_arg0 RecoveredFields_8023C558_arg0;
 #pragma readonly_strings on
 
@@ -41,7 +41,6 @@ void TTecZonde::init_parameters() {
   }
 }
 
-}
 
 struct VBase_18_0c879f { char pad[0x18]; };
 

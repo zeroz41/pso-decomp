@@ -57,17 +57,16 @@ void set_player_quest_control_flag(TObjPlayer *player);
 
 #pragma defer_codegen on
 int hashi_versus2_flag;
-extern "C" {
+
 
 void TObjHashiVersus2__sub_801912B0(void) { hashi_versus2_flag = 0; }
 
 void TObjHashiVersus2__sub_801912A4(void) { hashi_versus2_flag = 1; }
-}
 
 void set_player_quest_control_flag(TObjPlayer *player) {
     player->set_state_flags(0x8000);
 }
-extern "C" {
+
 
 void TLobby__sub_80191270(void) { npc_proximity_target_id = -1; }
 
@@ -90,7 +89,6 @@ u8 *TLobby__sub_8019118C(u8 *arg0, s32 arg1, saddr arg2) {
     init_collision_body_parts(arg0, &npc_player_collision_body_part, 1);
     ((TObjPlayer *)arg0)->register_object_by_id();
     return arg0;
-}
 }
 
 TUnk_804B7C1C::~TUnk_804B7C1C() {

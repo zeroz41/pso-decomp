@@ -173,14 +173,13 @@ void *lbl_804B8D94[3] = {
 void *lbl_804B8DA0[3] = {
     (void *)0xc3fa0000, (void *)0x41a00000, (void *)0x0,
 };
-extern "C" {
+
 // The lobby GVM texture lists TLanguage::load_lobby_textures loads.
 GinjaTextureList *lobby_gvm_texture_handles[9] = {0};
 const NJS_ARGB fish_draw_color[1] = {{0.2f, 0.0f, 0.0f, 0.0f}};
 // spawn_particle_effect_with_rotation takes x/y/z angles (0x8000 = half turn).
 struct Rot_80198A2C { s32 x, y, z; };
 const Rot_80198A2C boss3_volopt_init_vec = {0, 0, 0x8000};
-}
 struct Stack_80198DCC {
     s32 sp8;
     s32 spC;
@@ -190,13 +189,11 @@ struct Stack_80198DCC {
     s8 sp1C;
     u8 trailing_storage[0x3];
 };
-extern "C" {
+
 void TWindowTimer__sub_80198D98(void);
-}
 struct Vec_80198E84 { f32 x; f32 y; f32 z; s32 w; u8 pad10[2]; s16 f12; };
-extern "C" {
+
 void fn_80198E84(void);
-}
 struct Cfg_80198F14 { f32 f0; f32 f4; f32 f8; s32 fC; u8 pad10[2]; s16 f12; u8 pad14[4]; s8 f18; };
 struct Pair_80198F14 { s32 a; s32 b; };
 u8 *load_gvm_texture_file(saddr arg0);
@@ -220,14 +217,12 @@ extern u32 blob_shadow_texture_list;
 void TObjPlayer__sub_801994DC(saddr arg0, void *arg1, void *arg2, s32 arg3, void *arg4, f32 farg0);
 f32 fabs_float(f32);
 struct E54_801990B4 { u8 b[0x54]; };
-}
-void handle_6x79_gogo_ball(u8 *arg0);
-void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
-extern "C" {
 struct Seg_80199674 { Vec a; Vec b; };
 struct Hit_80199674 { u32 f0; Seg_80199674 *seg; };
 f32 xyz_distance(Vec *, void *);
 }
+void handle_6x79_gogo_ball(u8 *arg0);
+void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 extern u8 saved_model_draw_color[];
 extern u8 model_material_color[];
 struct Tri_8019978C {
@@ -286,11 +281,6 @@ struct Timer_8019A104 {
 extern "C" {
 void bswap_6x79_gogo_ball__12TWindowTimerFi(saddr arg0);
 void TWindowTimer__sub_8019A6F8(void* p);
-}
-void add_gogo_ball_three_point_score(s32 i);
-void add_gogo_ball_one_point_score(s32 i);
-void init_6x40_walk_packet(void *cmd);
-extern "C" {
 extern s32 local_client_id;
 void TWindowTimer__sub_8019A098(void);
 void rotate_vec_xz(void *, void *, s32);
@@ -304,7 +294,9 @@ f32 atan2_float(f32, f32);
 #define xyz_distance ((f32 (*)(void*,void*))xyz_distance)
 void TWindowTimer__sub_8019A770() { TWindowCtrl::close_timer_window(); }
 }
-
+void add_gogo_ball_three_point_score(s32 i);
+void add_gogo_ball_one_point_score(s32 i);
+void init_6x40_walk_packet(void *cmd);
 void add_gogo_ball_one_point_score(s32 i) {
     ((s32 *)&gogo_ball_team_scores)[i] += 1;
 }
@@ -312,7 +304,7 @@ void add_gogo_ball_one_point_score(s32 i) {
 void add_gogo_ball_three_point_score(s32 i) {
     ((s32 *)&gogo_ball_team_scores)[i] += 3;
 }
-extern "C" {
+
 
 int *TWindowTimer::set_timer_value(int a0, int a1) { gogo_ball_team_scores[a0] = a1; return gogo_ball_team_scores; }
 
@@ -706,7 +698,6 @@ s32 TUnk_804B8E18::reflect_velocity_off_collision(void *p, void *v) {
     return 0;
 }
 
-}
 void draw_shadow_on_ground(u8 *arg0) {
     Hit_80199674 *hit;
     f32 t;

@@ -22,8 +22,6 @@ typedef struct Trail_800D76E8 {
     Ent_800D76E8 e[1];
 } Trail_800D76E8;
 
-extern "C" {
-
 
 void TUnk_80494968::render() {
     u8 *arg0 = (u8 *)this;
@@ -81,7 +79,6 @@ void TUnk_80494968::sub_800D7818(s32 arg1, s32 arg2) {
     *(s32 *)&this->unk_124 = arg2;
 }
 
-}
 
 struct P_800D78CC { u8 b[0x10]; };
 

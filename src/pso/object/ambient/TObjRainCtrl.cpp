@@ -10,10 +10,8 @@
 #pragma readonly_strings on
 
 
-extern "C" {
 extern const char TObjRainCtrl__class_name_string[] = "TObjRainCtrl";
 const char *lbl_805D3428 = TObjRainCtrl__class_name_string;
-}
 
 void TObjRainCtrl::run_task() {
     if (--ticks_until_spawn < 0) {

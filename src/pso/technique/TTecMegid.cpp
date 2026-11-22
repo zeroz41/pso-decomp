@@ -167,8 +167,6 @@ extern "C" {
 void *find_entity_by_id(u16);
 void rotate_matrix_y(s32, s32);
 void matrix_mult_vec(s32, Vec *, Vec *);
-}
-extern "C" {
 extern u8 identity_matrix[];
 void run_task__9TTecMegidFv(Obj_80235740 *self);
 

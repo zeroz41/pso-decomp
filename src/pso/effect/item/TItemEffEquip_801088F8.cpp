@@ -4,7 +4,6 @@
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 
-extern "C" {
 
 void TItemEffEquip__sub_801088F8(TItemEffEquip *effect) {
     if (effect != NULL) {
@@ -12,7 +11,6 @@ void TItemEffEquip__sub_801088F8(TItemEffEquip *effect) {
     }
 }
 
-}
 
 void TItemEffEquip::release_effect() {
     if (((uaddr) this->m_1c != 0U) && ((s32) *(s32 *)((s8 *)this + 0x24) != -1)) {

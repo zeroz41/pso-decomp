@@ -9,7 +9,7 @@
 #include "types.h"
 #include <string.h>
 #include <stdio.h>
-#include "pso/unk/TLobby_800FD78C.h"
+
 #include "pso/unk/TLobby_80070A00.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/vector.h"

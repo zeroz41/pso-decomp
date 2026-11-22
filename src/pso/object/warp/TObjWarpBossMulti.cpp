@@ -63,7 +63,6 @@
 #include "pso/ui/window/WindowLayout.h"
 
 
-
 #pragma defer_codegen on
 const char *boss_warp_model_names[4] = {
     "fs_obj_warp_dai.gj", "fs_obj_warp_dai_beam.gj", "fs_obj_warp_dai_beam02.gj", NULL,

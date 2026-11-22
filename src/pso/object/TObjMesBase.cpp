@@ -14,7 +14,6 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/system/task/TMainTask.h"
 
-extern "C" {
 
 const char *TObjMesBase__class_name = "TObjMesBase";
 
@@ -76,7 +75,6 @@ void TObjMesBase::run_task() {
 }
 
 
-}
 TObjMesBase::~TObjMesBase() {
 
 }

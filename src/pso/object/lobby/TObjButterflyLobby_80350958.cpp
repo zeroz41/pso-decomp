@@ -311,7 +311,7 @@ TObjButterflyLobby::TObjButterflyLobby(TObject *parent, ObjectSetData *set_data)
     }
     init_params();
 }
-extern "C" {
+
 
 void *TObjButterflyLobby__create(void *arg0) {
     return new TObjButterflyLobby(tl_05, (ObjectSetData *)arg0);
@@ -329,4 +329,3 @@ void load_lobby_butterfly_bml_resource(void) {
     lobby_butterfly_bml_resource = resource;
 }
 
-}

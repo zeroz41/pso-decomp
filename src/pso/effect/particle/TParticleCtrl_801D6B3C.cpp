@@ -15,8 +15,6 @@ uaddr TParticleCtrl::validate_ctrl() {
     return *(u32 *)&this->m_flags;
 }
 
-extern "C" {
-
 
 void TParticleCtrl::destroy_particle() {
     void *x;
@@ -26,4 +24,3 @@ void TParticleCtrl::destroy_particle() {
     }
 }
 
-}

@@ -44,7 +44,7 @@ CollisionBody TMotorcycle__collision_parts[1] = {
 const s32 lbl_80445DF4[2] = { 1, 0 };
 __declspec(section ".sdata") const char *fe_obj_baiku_motion_names[1] = { NULL };
 const char *motorcycle_class_name = "TMotorcycle";
-extern "C" {
+
 
 extern saddr camera_ctrl_instance;
 
@@ -122,5 +122,4 @@ TMotorcycle::TMotorcycle(TObject *parent, ObjectSetData *placement) : TObjMesBas
     init_collision_body_parts(this, TMotorcycle__collision_parts, 1);
     actorFlags |= 0x40000000;
     register_object_by_id();
-}
 }

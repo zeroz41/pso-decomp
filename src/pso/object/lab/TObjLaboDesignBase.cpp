@@ -17,7 +17,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/lab/TObjLaboDesignBase.h"
 #include "pso/map/TObjMapCsn.h"
-#include "pso/object/ambient/TObjFish.h"
+
 
 #pragma readonly_strings on
 
@@ -257,7 +257,6 @@ TObjLaboDesignBase::TObjLaboDesignBase(TObject *parent, void *set_data, s32 stat
 
 CollisionBody *get_labo_design_entry(int a0) { return &labo_design_entry_table[a0]; }
 
-extern BmlResource *labo_design_object_table[6];
 
 BmlResource *get_labo_design_object(int a0) {  return labo_design_object_table[a0]; }
 

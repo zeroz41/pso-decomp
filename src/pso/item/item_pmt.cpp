@@ -20,10 +20,9 @@
 #include "pso/unk/TLobby_80226070.h"
 
 void *item_pmt;
-extern "C" {
+
 void *item_pmt_tbl;
 TObject *item_mgr;
-}
 
 const char *item_pmt_filename_descriptor = "ItemPMT.prs";
 
@@ -114,17 +113,7 @@ s32 play_sound_effect(s32, void *, s32, s32);
 void play_weapon_owner_sounds(Ctx_8011C7C8 *c);
 void play_weapon_hit_sound(Ctx_8011C7C8 *c);
 u16 get_entity_id(void *);
-}
-Rule_8011C0B8 *find_item_combination_recipe(u8 *id, void *item);
-extern "C" {
 void play_shield_sound_cue(Obj_8011C59C *arg0);
-}
-void normalize_drop_area(s32 *p);
-saddr get_mag_feed_result(s32 arg0, s32 arg1);
-void roll_item_channel_below(u32 arg0, s32 arg1);
-s32 is_unsealable_item(u8 *id);
-saddr get_item_stat_boost_record(s32 arg0, s32 arg1, s32 arg2);
-extern "C" {
 typedef struct Thing__8011c1e8_8011C000 { u8 a; u8 b; } Thing;
 
 saddr TObjPlayer::get_item_pmt_entry(u8 arg0) {
@@ -137,7 +126,12 @@ saddr TObjPlayer::get_item_pmt_entry(u8 arg0) {
     return 0;
 }
 }
-
+Rule_8011C0B8 *find_item_combination_recipe(u8 *id, void *item);
+void normalize_drop_area(s32 *p);
+saddr get_mag_feed_result(s32 arg0, s32 arg1);
+void roll_item_channel_below(u32 arg0, s32 arg1);
+s32 is_unsealable_item(u8 *id);
+saddr get_item_stat_boost_record(s32 arg0, s32 arg1, s32 arg2);
 s32 is_unsealable_item(u8 *id) {
     List_8011C030 *l = ((Tbl_8011C030 *)item_pmt_tbl)->list;
     s32 n = l->count;
@@ -532,7 +526,6 @@ struct PmtSub {
     char* records;
 };
 
-extern "C" {
 
 void*TObjPlayer::get_pmt_record(int i) {
     PmtSub* c = *(PmtSub**)((char*)item_pmt_tbl + 0x10);
@@ -584,7 +577,6 @@ void* get_armor_pmt_record(int type, int id) {
         return &s->records[s->count * 28];
     }
     return NULL;
-}
 }
 
 void* get_photon_color_record(int i) {

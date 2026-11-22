@@ -53,7 +53,6 @@ BmlResourceDescriptor *tekker_descriptor_selector_table[10] = {
 const char *TObjNpcConnoisseur__name = "TObjNpcConnoisseur";
 
 
-extern "C" {
 s32 lbl_805D5748;
 uaddr TObjNpcConnoisseur__instance;
 extern u8 TLobby__data_805011D8[];
@@ -72,9 +71,7 @@ void TObjNpcConnoisseur::load_section_motion() {
     TObjNpcConnoisseur__instance = (uaddr)o;
 }
 
-}
 TObjNpcConnoisseur::~TObjNpcConnoisseur() {}
-
 
 
 TObjNpcConnoisseur::TObjNpcConnoisseur(TObject *parent, void *arg2) : TUnk_804A9F50(parent) {

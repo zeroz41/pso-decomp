@@ -39,38 +39,13 @@ extern u8 identity_matrix[];
 struct Text_8014E250 { char text[0x36]; };
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 typedef struct Line_8014EE98 { Vec p; Vec d; } Line_8014EE98;
-
-
-
 
 
 struct Msg_80150DE8 { u8 hdr[2]; u16 type; f32 x; f32 z; };
 
 
 struct Msg_80150E44 { u8 hdr[2]; u16 type; f32 x; f32 z; u32 flags; };
-
-
-
-
-
-
 
 
 struct Msg_80150A34 {
@@ -85,35 +60,10 @@ struct Msg_80150A34 {
 extern "C" {
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 struct Obj_801528A8 { u8 pad[0x5c]; u8 arr[1]; };
 
 
-
-
-
-
-
-
 struct Tec_80150B90 { u8 pad[0x10]; s16 f10; };
-
-
-
 
 
 struct Obj_80152F28 { u16 a; u16 b; };
@@ -180,25 +130,6 @@ void *get_player_by_client_id(s32 i);
 s8 get_cast_technique_level(void *, s16);
 void __ct__7TObjectFP7TObject(void *, void *);
 Tec_80150B90 * calc_technique_parameters(s32, s32, s32);
-}
-s32 partner_clip_path_point(void *self, f32 *from, f32 *to, f32 *out);
-s32 partner_find_wall_segment(saddr arg0, saddr arg1, saddr arg2, saddr arg3, saddr arg4);
-s32 refresh_npc_view_actor_lost(void *arg0);
-s32 partner_view_update_hp_change(void *arg0);
-s32 partner_view_update_conditions(u8 *arg0);
-s32 partner_view_check_moved(u8 *arg0);
-void partner_observe_surroundings(TNpcPlayer *arg0);
-int is_partner_counter_reached(s16 *table, s32 idx, s32 value);
-void set_partner_counter(saddr arg0, s32 arg1, s16 arg2);
-s32 clamp_partner_counter(saddr arg0, s32 arg1, s16 arg2);
-void bswap_6x45_packet(void* p);
-void bswap_6x44_packet(void* p);
-void bswap_6x43_packet(void* p);
-u8 get_6x47_cast_packet_size(u8 *arg0);
-void init_6x40_walk_packet(void* a0);
-int get_registered_object_count(void);
-const char *get_partner_custom_text(s32 kind, u16 player);
-extern "C" {
 void __register_global_object(void *obj, void *dtor, void *link);
 void __construct_array(void *array, void *(*ctor)(void *), void *dtor, u32 size, u32 count);
 void matrix_mult_vec(s32, Vec *, Vec *);
@@ -233,6 +164,23 @@ const char *TNpcPlayer__name = "TNpcPlayer";
 void __sinit_TNpcPlayer_cpp();
 __declspec(section ".ctors") static void *const npc_player_global_initializer = (void *)__sinit_TNpcPlayer_cpp;
 }
+s32 partner_clip_path_point(void *self, f32 *from, f32 *to, f32 *out);
+s32 partner_find_wall_segment(saddr arg0, saddr arg1, saddr arg2, saddr arg3, saddr arg4);
+s32 refresh_npc_view_actor_lost(void *arg0);
+s32 partner_view_update_hp_change(void *arg0);
+s32 partner_view_update_conditions(u8 *arg0);
+s32 partner_view_check_moved(u8 *arg0);
+void partner_observe_surroundings(TNpcPlayer *arg0);
+int is_partner_counter_reached(s16 *table, s32 idx, s32 value);
+void set_partner_counter(saddr arg0, s32 arg1, s16 arg2);
+s32 clamp_partner_counter(saddr arg0, s32 arg1, s16 arg2);
+void bswap_6x45_packet(void* p);
+void bswap_6x44_packet(void* p);
+void bswap_6x43_packet(void* p);
+u8 get_6x47_cast_packet_size(u8 *arg0);
+void init_6x40_walk_packet(void* a0);
+int get_registered_object_count(void);
+const char *get_partner_custom_text(s32 kind, u16 player);
 extern void *lbl_804AC690[35];
 extern void *lbl_804AC71C[35];
 extern void *lbl_804AC7A8[35];
@@ -1337,14 +1285,6 @@ void *lbl_804AF630[64] = {
     (void *)&lbl_804AE840, (void *)&lbl_804AE840, (void *)&lbl_804AE2C8, (void *)&lbl_804AE958,
 };
 extern void *__vt__10TNpcPlayer[];
-
-
-
-
-
-
-
-
 
 
 extern s32 lbl_805D6EA0;

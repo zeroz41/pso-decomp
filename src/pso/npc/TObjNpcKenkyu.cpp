@@ -24,12 +24,6 @@ __declspec(section ".data") const char *bm_npc_kenkyu_model_names[2] = { "kenkyu
 BmlResourceDescriptor bm_npc_kenkyu_resource_descriptor = { "bm_npc_kenkyu.bml", bm_npc_kenkyu_model_names, bm_npc_kenkyu_motion_names, 1, 0 };
 const char *TObjNpcKenkyu__name = "TObjNpcKenkyu";
 BmlResource *TObjNpcKenkyu__static_model;
-}
-
-extern "C" {
-
-
-
 void TObjNpcKenkyu::free_static_model() {
     if (TObjNpcKenkyu__static_model != NULL) {
         delete TObjNpcKenkyu__static_model;
@@ -43,7 +37,6 @@ void TObjNpcKenkyu::load_shared_resource() {
 
 }
 TObjNpcKenkyu::~TObjNpcKenkyu() {}
-
 
 
 TObjNpcKenkyu::TObjNpcKenkyu(TObject *parent, void *arg2) : TUnk_804A9F50(parent) {

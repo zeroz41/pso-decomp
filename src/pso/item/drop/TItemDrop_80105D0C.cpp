@@ -54,11 +54,9 @@ void apply_drop_restrictions(void *arg0, Item_80105EA4 *it);
 extern s32 game_difficulty_selection;
 void format_drop_table_filename(char *out, const char *prefix);
 void *lookup_item_pmt_record(u8 *item);
-}
-void init_item_drop_globals(void);
-extern "C" {
 s32 get_item_star_count(s32 id);
 }
+void init_item_drop_globals(void);
 void unload_item_drop_globals(void);
 s32 is_unsealable_item(u8 *id);
 void unload_item_drop_globals(void) {  }
@@ -367,32 +365,22 @@ s32 item_drop_rng_below(saddr arg0, u32 arg1);
 s32 calc_random_ratio__10TObjPlayerFv(void *);
 void roll_table_ratio__9TItemDropFPvUi(u8 *arg0, u32 arg1);
 void prune_weapon_attributes__9TItemDropFPvPv(void *self, Obj_80106F4C *o);
-s32 try_generate_rare_item__9TItemDropFiPvPv(saddr arg0, u8 *arg1, u8 *arg2);
-void roll_table_ratio__9TItemDropFPvUi(u8 *arg0, u32 arg1);
 u8 roll_weapon_special_for_stars(u8);
 void roll_weapon_special__9TItemDropFiPvi(saddr rng, u8 *item, s32 idx);
-void roll_table_ratio__9TItemDropFPvUi(u8 *arg0, u32 arg1);
-void generate_tool_drop__9TItemDropFiiPv(saddr arg0, s32 arg1, void *arg2);
 extern const f32 lbl_805DAADC;
 s32 run_step__9TItemDropFl(s32, u32);
-s32 __cvt_fp2unsigned(f32);
 extern const f32 lbl_805DAAD4;
-extern const f32 lbl_805DAAD8;
 extern const f32 lbl_805DAAE4;
 
 void select_enemy_drop__9TItemDropFPviiPv(u8 *self, s32 area, s32 idx, Item_8010663C *item);
 void select_box_item__9TItemDropFiiPv(saddr arg0, s32 arg1, u8 *arg2);
-void prune_weapon_attributes__9TItemDropFPvPv(void *self, Obj_80106F4C *o);
 u8 select_weighted_column_u16__9TItemDropFiiiii(saddr rng, saddr base, s32 off, s32 count, s32 stride);
 void roll_rare_weapon_attributes__9TItemDropFiPvi(saddr rng, Obj_80106F4C *item, s32 idx);
-void roll_weapon_special__9TItemDropFiPvi(saddr rng, u8 *item, s32 idx);
 void build_weapon_type_weights__9TItemDropFiPvi(saddr rng, Obj_80106F4C *item, s32 idx);
 void select_weapon_drop__9TItemDropFv(saddr rng, s32 level, u8 *item);
 void *load_relocatable_file(char *, saddr);
 void close_gsl_archive(void);
 void open_gsl_archive(char *);
-s32 get_drop_table_mode_flags(void);
-void roll_armor_bonuses__9TItemDropFv(saddr, void *);
 u8 TLobby__sub_801D6DDC(void *arg0);
 
 
@@ -649,7 +637,6 @@ struct Def_80106D0C {
     u8 a;
     u8 b;
 };
-void *lookup_item_pmt_record(u8 *item);
 
 #define item ((u8 *)item_)
 void roll_armor_bonuses__9TItemDropFv(saddr rng, void *item_) {

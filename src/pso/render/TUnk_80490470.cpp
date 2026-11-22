@@ -5,8 +5,6 @@
 #include "pso/render/TUnk_80490470.h"
 #include "pso/player/TObjPlayer.h"
 
-extern "C" {
-
 
 s32 TUnk_80490470::has_visible_opacity() {
     return phase > 0.0f;
@@ -28,7 +26,6 @@ s32 TUnk_80490470::decay_value_toward_floor() {
     return this->phase <= 0.0f;
 }
 
-}
 
 // ---- pso/player/TObjPlayer_800A0408
 

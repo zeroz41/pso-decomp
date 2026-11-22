@@ -37,15 +37,10 @@ void TOJungleDesign::init_design_variant() {
     this->texlist = (saddr)fn_802FF028(0);
 }
 
-extern "C" {
-
-
 
 void *TOJungleDesign__create(void *arg0) {
     void *o = (void *)new TOJungleDesign((saddr)tl_05, (saddr)arg0);
     return o;
-}
-
 }
 
 
@@ -83,7 +78,7 @@ TOJungleDesign::TOJungleDesign(saddr arg1, saddr arg2) : TObjCollidable((TObject
     init_collision_body_parts(this, &TOJungleDesign__collision_desc_table[this->m_b0], 1);
     ((TObjPlayer *)this)->register_object_by_id();
 }
-extern "C" {
+
 
 GinjaTextureList *fn_802FF028(s32 arg0) {
     if (TOJungleDesign__shared_model_resource != NULL) {
@@ -111,4 +106,3 @@ void TOJungleDesign::load_shared_resource() {
     TOJungleDesign__shared_model_resource = archive;
 }
 
-}

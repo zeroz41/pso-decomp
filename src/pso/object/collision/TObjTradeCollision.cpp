@@ -39,7 +39,6 @@ TObjTradeCollision::~TObjTradeCollision() {
 }
 
 
-
 TObjTradeCollision::TObjTradeCollision(saddr arg1, saddr arg2) : TObjCollidable((TObject *)arg1) {
     *(s32 *)((s8 *)this + 0) = (s32) ((saddr)TObjTradeCollision__name);
     ((TObjTradeCollision *)(((u8 *)this)))->apply_object_set_data((void *)arg2);

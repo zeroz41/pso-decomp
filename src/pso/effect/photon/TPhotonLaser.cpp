@@ -19,7 +19,6 @@
 const char *TPhotonLaser__name = "TPhotonLaser";
 
 
-
 struct Laser_801AC36C {
     s32 f0;
     u8 pad4[0x18 - 4];

@@ -88,10 +88,6 @@ struct Obj_80185BE8 { u8 pad[0xC4]; f32 t; };
 extern "C" {
 
 
-
-
-
-
 int is_quest_active(void);
 
 saddr get_localized_text_entry(s32, s32);
@@ -102,9 +98,6 @@ void run_task__15TObjLaboMapWarpFv(TObjLaboMapWarp *warp);
 void unlock_main_warp_destination(s32 id);
 
 void clear_enabled_main_warps(void);
-
-
-
 
 
 s32 get_window_layout_position(s32);
@@ -119,14 +112,10 @@ s32 rotate_matrix_y(s32, s32);
 s32 post_translate_matrix(void *);
 
 
-
-
 extern void request_active_window_close();
 
 
 extern s16 TLobby__data_805D5CE8;
-
-
 
 
 }
@@ -143,7 +132,6 @@ extern s32 local_client_id;
 extern s32 lbl_805D55C0;
 
 s32 *TObjCityMainWarp__sub_80186AF4(void);
-
 
 
 }

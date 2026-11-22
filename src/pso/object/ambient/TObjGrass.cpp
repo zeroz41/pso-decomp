@@ -285,13 +285,11 @@ void enemy_pursue_point(void *, s32, void *, f32, f32);
 f64 atan2_float(f32, f32);
 f32 horizontal_distance_squared(void *, void *);
 s32 angle_difference_abs(s32, s32);
-}
-void move_with_wall_slide(u8 *arg0);
-extern "C" {
 void __ct__10TObjCGrassFP3Vecll(void *, Vec *, s32, s32);
 f32 newton_sqrtf(f32);
 s32 spawn_directional_particle(void *, void *, s32);
 }
+void move_with_wall_slide(u8 *arg0);
 extern s32 game_difficulty_selection;
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {

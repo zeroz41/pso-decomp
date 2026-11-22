@@ -44,9 +44,6 @@ void TObjMistCtrl::sub_802AF64C() {
     }
 }
 
-}
-
-extern "C" {
 const char *lbl_805D3E80 = "TObjMistCtrl";
 
 void TObjMistCtrl::run_task() { { (void)(sub_802AF64C()); return; } }
