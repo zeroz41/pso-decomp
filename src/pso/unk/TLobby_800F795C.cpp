@@ -195,7 +195,6 @@ void load_resources__12TBoss1DragonFv();
 void load_boss5_gryphon_resources();
 void TObjEneBalClaw__sub_8008D924();
 void load_darkgunner_effect_resources();
-void TObjEneMerillLia__sub_800D6D64();
 
 void load_shinowa_mirage_resources();
 void TBoss4Type3__sub_802D1130();
@@ -522,7 +521,7 @@ FloorResourceCallbacks floor_resource_callbacks_selectors_23_24_25_26_27[16] = {
     { load_corpse_mark_resource, TObjPlayer::destroy_static_lobby },
     { TObjEneDD::create_instance, TObjEneDD::release_resource },
     { TObjEneMe3Stelth::load_shared_resources, TObjEneMe3Stelth::free_shared_resources },
-    { TObjEneMerillLia__sub_800D6D64, TObjEneMerillLia::destroy_rocks },
+    { TObjEneMerillLia::sub_800D6D64, TObjEneMerillLia::destroy_rocks },
     { TBoss4Type3__sub_802D1130, TObjEneBm9Mericarol::free_shared_instances },
     { TObjEneBm5GibonU::load_resources, TObjEneBm5GibonU::release_static_resource },
     { TObjEneGibbles::load_resources, TObjEneGibbles::free_static },
@@ -542,7 +541,7 @@ FloorResourceCallbacks floor_resource_callbacks_selector_34[15] = {
     { TObjEneDD::create_instance, TObjEneDD::release_resource },
     { TObjEneDolmOlm::load_shared_resources, TObjEneDolmOlm::free_shared_resources },
     { TObjEneRecobox::load_resources, TObjEneRecobox::release_static_instance },
-    { TObjEneMerillLia__sub_800D6D64, TObjEneMerillLia::destroy_rocks },
+    { TObjEneMerillLia::sub_800D6D64, TObjEneMerillLia::destroy_rocks },
     { TObjEneBm5GibonU::load_resources, TObjEneBm5GibonU::release_static_resource },
     { TObjEneMe1Gee::load_resources, TObjEneMe1Gee::free_globals },
     { fn_8035B788, fn_8035B750 },

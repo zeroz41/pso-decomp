@@ -38,8 +38,12 @@ struct TObjEneMerillLia : public TUnk_80493450 {
     static void update_kafun_attack(void *p);
     void init_params_from_position();
     void select_action_by_distance();
+    static void sub_800D6D64();
     static void destroy_rocks();
     void load_entry_params(s32 i);
+    void sub_800D4EC8();
+    void sub_800D501C();
+    static void spawn_ground_effect(void *motion);
     f32 m_3c4;
     f32 unk_3C8;
     f32 unk_3CC;
@@ -50,11 +54,5 @@ struct TObjEneMerillLia : public TUnk_80493450 {
 };
 
 LAYOUT_ASSERT(TObjEneMerillLia_size, sizeof(TObjEneMerillLia) == 0x3DC);
-
-extern "C" {
-void TObjEneMerillLia__sub_800D4EC8(saddr arg0);
-void TObjEneMerillLia__sub_800D501C(saddr self);
-void spawn_ground_effect__16TObjEneMerillLiaFPv(u8 *motion);
-}
 
 #endif
