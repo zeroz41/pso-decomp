@@ -99,11 +99,15 @@ void set_fixed_camera(const Vec *position, const Vec *target) {
 
 void TCameraCtrl::reset_battle_camera() { reset_camera_to_local_player(); }
 
-extern "C" int is_float_nonfinite(f32 value) {
-    u32 exponent = *(u32 *)&value & 0x7F800000;
-    return exponent == 0x7F800000;
+int is_float_nonfinite(f32 value) {
+    union {
+        f32 f;
+        u32 bits;
+    } word;
+    word.f = value;
+    return (word.bits & 0x7F800000) == 0x7F800000;
 }
-extern "C" int is_quest_active(void) { return quest_active_flag; }
+int is_quest_active() { return quest_active_flag; }
 s32 TMainTask::get_task_flags() { return task_flags; }
 
 u16 TCameraController::get_actor_id() { return actor_id; }

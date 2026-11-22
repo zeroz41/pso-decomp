@@ -221,11 +221,12 @@ void set_fixed_camera(const Vec *position, const Vec *target);
 // Points every controller of the actor's view at the actor.
 void reset_cameras_to_actor(void *actor, s32 view_unused);
 
-extern "C" {
-const CharacterSelectionRequest *get_character_select_request_buffer();
-int is_quest_active(void);
+int is_quest_active();
 // Nonzero when value is a NaN or an infinity.
 int is_float_nonfinite(f32 value);
+
+extern "C" {
+const CharacterSelectionRequest *get_character_select_request_buffer();
 // Forces registry controller `index` until restore_player_cameras; 0 if a
 // mode is already forced.
 s32 activate_camera_mode(s32 index);
