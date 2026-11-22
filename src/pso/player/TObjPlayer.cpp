@@ -552,7 +552,7 @@ void TObjPlayer::reset_scale_vector() {
 u8 *TObjPlayer::construct_hurt_timer() {
     u8 *arg0 = (u8 *)this;
     *(s32 **)((s8 *)arg0 + 4) = &lbl_804C3E38.value;
-    ((TObjPlayer *)arg0)->reset_type();
+    this->reset_type();
     return arg0;
 }
 

@@ -185,7 +185,7 @@ void TUnk_804999A0::run_task() {
         if (temp_r12 != NULL) {
             temp_r12();
         }
-        ((TObject *)arg0)->suspend_update();
+        this->suspend_update();
     }
     *(s8 *)((s8 *)arg0 + 0x23) = (s8) this->alpha;
     TWindowCtrlMain::set_value((s32)(*(s32 *)((s8 *)arg0 + 0x24)), this->m_20);

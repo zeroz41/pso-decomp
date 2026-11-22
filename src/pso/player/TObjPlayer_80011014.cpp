@@ -2536,8 +2536,7 @@ void TObjChara::trigger_switch_attack(const Vec *arg1) {
 }
 
 void TObjPlayer::spawn_recovery_effect() {
-    u8 *arg0 = (u8 *)this;
-    if (((TObjCollidable *)arg0)->obj_testFlags30(0x02000000) == 0) {
+    if (this->obj_testFlags30(0x02000000) == 0) {
         create_timed_particle_emitter_with_flags(&body_center, 0x10A, 0, 0xA, 0x40);
     }
 }
@@ -2836,7 +2835,7 @@ void TObjChara::apply_action_hold_status(f32 power) {
     saddr arg0 = (saddr)this;
     ((void (*)(s32, s32, s32))TObjPlayer__sub_8001940C)(arg0, 4, 0x14);
     ((void (*)(s32, s32, s32))TObjPlayer__sub_800193FC)(arg0, 4, (s32) power);
-    ((void (*)(void *, u32))obj_setFlags30)((void *) arg0, 0x4000U);
+    ((void (*)(void *, u32))obj_setFlags30)(this, 0x4000U);
 }
 
 void TObjChara::run_idle_action() {  }
@@ -4686,9 +4685,8 @@ void activate_switch_attacks__10TObjPlayerFii(saddr arg0, saddr arg1) {
 }
 
 s32 TObjPlayer::is_local_player() {
-    saddr arg0 = (saddr)this;
-    if (((u16 (*)(void*))get_entity_id)((void*)arg0) < 0x1000U) {
-        return TObjPlayer::is_locally_controlled((void *)arg0);
+    if (((u16 (*)(void*))get_entity_id)(this) < 0x1000U) {
+        return TObjPlayer::is_locally_controlled(this);
     }
     return 0;
 }

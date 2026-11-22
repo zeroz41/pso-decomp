@@ -38,28 +38,28 @@ void TObjPlayer::init_action_provider() {
     *(s32 *)&this->unk_33C = 0;
     this->m_36c = 0;
     *(s32 *)&this->unk_370 = 0;
-    ((TObjPlayer *)arg0)->reset_entrance_id();
+    this->reset_entrance_id();
     ((TObjPlayer *)(arg0 + 0x66C))->set_vec3_const();
     *(f32 *)&this->m_2b4 = (f32) TObjPlayer__data_805DC278;
     *(s32 *)&this->m_334 = 0;
-    ((TObjPlayer *)arg0)->set_input_mode(0);
-    ((TObjPlayer *)arg0)->set_move_mode(0);
+    this->set_input_mode(0);
+    this->set_move_mode(0);
     *(s16 *)&this->unk_3C0 = -1;
     *(f32 *)&this->m_3c4 = (f32) TObjPlayer__data_805DC278;
-    ((TObjPlayer *)arg0)->set_battle_flag(0);
+    this->set_battle_flag(0);
     this->controller_input = NULL;
     *(s32 *)&this->inventory_objects = 0;
     this->m_424 = 0;
     (*(s32 *)&this->joint_matrices) = 0;
     this->m_db4 = 0;
-    ((TObjPlayer *)arg0)->set_floor_index(0xF);
-    ((TObjPlayer *)arg0)->set_floor(0xF);
+    this->set_floor_index(0xF);
+    this->set_floor(0xF);
     this->m_54c = 0;
     *(s32 *)&this->unk_3B8 = 0;
     *(s32 *)&this->unk_420 = 0;
     this->m_3d0 = 0;
-    ((TObjPlayer *)arg0)->reset_state();
-    ::set_flag_400000((TObjPlayer *)arg0);
+    this->reset_state();
+    ::set_flag_400000(this);
     if (TObjPlayer::get_player_count() == 1) {
         set_player_pk_mode_flag(((u8 *)&this->m_828));
     }

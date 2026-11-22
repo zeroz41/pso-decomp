@@ -37,43 +37,43 @@ void TObjPlayer::place_on_area_entry() {
     u8 *other;
 
     if (get_main_phase() == 0xE && TObjPlayer::is_single_screen() == 0 &&
-        TObjPlayer::is_locally_controlled(arg0) != 0 && ((TObjPlayer *)arg0)->has_active_camera_event() == 0 &&
-        ((TObjPlayer *)arg0)->check_flag(0x100000) == 0 && is_key_machine_ready__10TObjPlayerFv() != 0) {
-        ((TObjPlayer *)arg0)->set_state_flags(0x100000);
-        ((TObjBase *)arg0)->set_position_from(((TObjPlayer *)arg0)->get_lobby_entry_ptr());
+        TObjPlayer::is_locally_controlled(arg0) != 0 && this->has_active_camera_event() == 0 &&
+        this->check_flag(0x100000) == 0 && is_key_machine_ready__10TObjPlayerFv() != 0) {
+        this->set_state_flags(0x100000);
+        this->set_position_from(this->get_lobby_entry_ptr());
         this->rotation_y = TObjPlayer__sub_801D8C3C(arg0);
         TObjPlayer::play_effect_default((saddr)arg0, (int)0x1E);
         TObjPlayer::set_camera_mode(3);
         new TForceOperate(tl_02, get_entity_id(arg0));
-    } else if (((TObjChara *)arg0)->obj_isState2_324() == 0) {
+    } else if (this->obj_isState2_324() == 0) {
         p = consume_telepipe_arrival(get_entity_id(arg0), (u8 *)&this->rotation_y);
         if (p != NULL) {
-            ((TObjBase *)arg0)->set_position_from(p);
+            this->set_position_from(p);
         } else {
             e = &TObjPlayer__arrival_override_table[get_entity_id(arg0)];
-            if (((TObjChara *)arg0)->obj_isState2_324() == 0 && TObjPlayer__sub_801BF95C(e) == 1) {
+            if (this->obj_isState2_324() == 0 && TObjPlayer__sub_801BF95C(e) == 1) {
                 TObjPlayer__sub_801BF954(e, 0);
                 this->rotation_y = ((TObjPlayer *)e)->get_lock_timer();
-                ((TObjBase *)arg0)->set_position_from(((TObjPlayer *)e)->get_sub_object());
+                this->set_position_from(((TObjPlayer *)e)->get_sub_object());
             } else {
                 other = find_player_arrival_set(arg0, get_entity_id(arg0));
                 if (other != NULL) {
-                    ((TObjBase *)arg0)->set_position_from(other + 0x38);
+                    this->set_position_from(other + 0x38);
                     this->rotation_y = *(s32 *)((s8 *)other + 0x60);
                 } else {
-                    ((TObjPlayer *)arg0)->set_position(TObjPlayer__data_805DC278, TObjPlayer__data_805DC278, TObjPlayer__data_805DC278);
+                    this->set_position(TObjPlayer__data_805DC278, TObjPlayer__data_805DC278, TObjPlayer__data_805DC278);
                 }
             }
         }
     }
-    ((TObjBase *)arg0)->save_previous_position();
-    ((TObjChara *)arg0)->calc_attach_pos();
+    this->save_previous_position();
+    this->calc_attach_pos();
     ((TObjPlayer *)(arg0 + 0x84C))->copy_offset_position(arg0);
-    ((TObjPlayer *)arg0)->set_position_history_entry(0, this->position.x, this->position.z);
+    this->set_position_history_entry(0, this->position.x, this->position.z);
     clear_movement_history((u8 *)&this->m_6ac);
     if (TObjPlayer::is_single_screen() != 0) {
         reset_cameras_to_actor(arg0, 0);
-    } else if (((TObjPlayer *)arg0)->sub_801A1DDC() != 0) {
+    } else if (this->sub_801A1DDC() != 0) {
         if (TObjPlayer::is_locally_controlled(arg0) == 0 && (p = get_player_by_client_id(local_client_id)) != NULL) {
             reset_cameras_to_actor(p, 0);
         } else {

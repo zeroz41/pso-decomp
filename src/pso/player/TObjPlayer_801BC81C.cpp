@@ -19,7 +19,7 @@ extern "C" {
 void TObjPlayer::init_battle() {
     saddr arg0 = (saddr)this;
     ((s32 (*)())TObjPlayer__sub_801BC8F0)();
-    ::set_flag_400000((TObjPlayer *)arg0);
+    ::set_flag_400000(this);
     ((TObjPlayer *)(arg0 + 0x634))->enter_battle_state();
 }
 
@@ -112,15 +112,14 @@ void TObjPlayer__sub_801BCA14(u8 *player, void *arg1) {
 
 void TObjPlayer__sub_801BCAB0(void) {  }
 void TObjPlayer::update_state() {
-    saddr arg0 = (saddr)this;
     if (this->obj_isState2_324() != 0) {
-        ((TObjPlayer *)arg0)->clear_flag_400000();
+        this->clear_flag_400000();
     } else {
-        ((TObjPlayer *)arg0)->sync_current_area();
-        ((TObjPlayer *)arg0)->sync_current_floor();
+        this->sync_current_area();
+        this->sync_current_floor();
     }
-    if ((TObjPlayer::is_final_phase() != 0) && (((TObjPlayer *)arg0)->sub_801A1DDC() != 0)) {
-        ((TObjPlayer *)arg0)->apply_state_transform();
+    if ((TObjPlayer::is_final_phase() != 0) && (this->sub_801A1DDC() != 0)) {
+        this->apply_state_transform();
     }
 }
 void TObjPlayer__sub_801BCB28(void) {  }
@@ -164,13 +163,13 @@ void TObjPlayer::init_player_data(void *src) {
     TLobby::copy_data((u8 *)&this->unk_D38, src);
     this->m_d48 = temp_f31;
     this->m_2b0 = ((u8 *)&this->unk_D38);
-    ((TObjPlayer *)arg0)->apply_input_mode();
-    ((TObjPlayer *)arg0)->set_move_mode_from_class_flags();
-    ((TObjPlayer *)arg0)->init_trait_flags();
-    ((TLobby *)(arg0 + 0xD5C))->copy_from((void *)(get_class_attack_template((TObjPlayer *)arg0)));
-    ((TLobby *)(arg0 + 0xD8C))->copy_entry((void *)(get_class_defense_template((TObjPlayer *)arg0)));
-    yscale = ((TObjPlayer *)arg0)->get_tp_class_factor();
-    ((TObjChara *)arg0)->recalc_combat_stats(this->m_2b0, arg0 + 0xD5C, arg0 + 0xD8C, ((TObjPlayer *)arg0)->get_class_hp_factor(), yscale);
+    this->apply_input_mode();
+    this->set_move_mode_from_class_flags();
+    this->init_trait_flags();
+    ((TLobby *)(arg0 + 0xD5C))->copy_from((void *)(get_class_attack_template(this)));
+    ((TLobby *)(arg0 + 0xD8C))->copy_entry((void *)(get_class_defense_template(this)));
+    yscale = this->get_tp_class_factor();
+    this->recalc_combat_stats(this->m_2b0, arg0 + 0xD5C, arg0 + 0xD8C, this->get_class_hp_factor(), yscale);
     *(f32 *)((s8 *)this->bodies + 4) = (f32) (TObjPlayer__data_805DC28C * *(f32 *)((s8 *)this->m_2b0 + 0x10));
 }
 

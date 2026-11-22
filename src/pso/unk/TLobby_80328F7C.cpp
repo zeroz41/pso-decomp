@@ -324,8 +324,7 @@ int TUnk_804ED7D0::vfunc_11() { return (IVS(this)) == 0; }
 int TUnk_804ED7D0::vfunc_10() { return (CVS(this)) == 0; }
 
 int TUnk_804ED7D0::vfunc_13() {
-    saddr arg0 = (saddr)this;
-    return (u8) (((s32)IVS((void*)arg0)) == 1);
+    return (u8) (((s32)IVS(this)) == 1);
 }
 
 int TUnk_804ED7D0::vfunc_12() {

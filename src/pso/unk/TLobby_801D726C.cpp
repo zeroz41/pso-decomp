@@ -229,10 +229,10 @@ void TLobby::reset_settings_to_default() {
     ((s32 (*)(void *, s32)) set_clamped_field_c__6TLobbyFPvUc)(arg0, ((s32 (*)(void *)) ret_801D7904)(arg0));
     ((s32 (*)(void *, s32)) set_field_d__6TLobbyFPvUc)(arg0, ((s32 (*)(void *)) ret_801D78FC)(arg0));
     ((s32 (*)(void *, s32)) set_field_0xE__6TLobbyFPvUc)(arg0, ((s32 (*)(void *)) ret_801D78F4)(arg0));
-    ((TLobby *)arg0)->set_volume(0);
-    ((TLobby *)arg0)->set_validated_field_0x11(0xFF);
-    ((TLobby *)arg0)->set_clamped_index(0);
-    ((TLobby *)arg0)->set_clamped_value_1c(0xA);
+    this->set_volume(0);
+    this->set_validated_field_0x11(0xFF);
+    this->set_clamped_index(0);
+    this->set_clamped_value_1c(0xA);
     *(s8 *)((s8 *)arg0 + 0x12) = 0;
     for (k = 0; k < 4; k++) {
         *(arg0 + k + 0x20) = 0x14;

@@ -349,26 +349,26 @@ void TObjChallenge4PRetry::run_task() {
     this->m_20 = ((s32 (*)(void *))TLobby__sub_8029A16C)(arg0);
     switch (this->state) {
     case 0:
-        ((TObjChallenge4PRetry *)arg0)->update_giveup();
+        this->update_giveup();
         break;
     case 1:
-        ((TObjChallenge4PRetry *)arg0)->update_challenge_4p_retry();
+        this->update_challenge_4p_retry();
         break;
     case 2:
-        ((TObjChallenge4PRetry *)arg0)->handle_retry_menu_select();
+        this->handle_retry_menu_select();
         break;
     case 3:
         giveup_window_handle_select(arg0);
         break;
     case 4:
-        ((TObjChallenge4PRetry *)arg0)->countdown_and_destroy();
+        this->countdown_and_destroy();
         break;
     }
     if (TLobby::is_multi_ready() == 0) {
         ((s32 (*)(void *))send_giveup_to_all_players__6TLobbyFv)(arg0);
-        ((TObjChallenge4PRetry *)arg0)->close_window();
-        ((TObjChallenge4PRetry *)arg0)->close_window_field30();
-        ((TObject *)arg0)->queue_destruction();
+        this->close_window();
+        this->close_window_field30();
+        this->queue_destruction();
     }
 }
 

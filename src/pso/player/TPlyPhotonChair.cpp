@@ -199,8 +199,8 @@ void TPlyPhotonChair::render() {
 void TPlyPhotonChair::run_task() {
     u8 *arg0 = (u8 *)this;
     void *pl;
-    if ((pl = get_player_by_client_id((((TPlyPhotonChair *)arg0)->sub_8035B530()))) == NULL) {
-        ((TObject *)arg0)->queue_destruction();
+    if ((pl = get_player_by_client_id((this->sub_8035B530()))) == NULL) {
+        this->queue_destruction();
         return;
     }
     if (((u32) this->m_94 == 0U) && (((TPlyPhotonChair *)pl)->is_mounted() == 0)) {
@@ -219,7 +219,7 @@ void TPlyPhotonChair::run_task() {
         ((TUnk_804A7478 *)(arg0 + 0x98))->play_backward();
         ((TUnk_804A7478 *)(arg0 + 0xB4))->play_backward();
         if (((TUnk_804A7478 *)(arg0 + 0x98))->get_frame() <= 0.0f) {
-            ((TObject *)arg0)->queue_destruction();
+            this->queue_destruction();
         }
         return;
     }
@@ -318,7 +318,7 @@ void TUnk_804A7478::sub_8035B610() {
 u8 *TUnk_804A7488::init_parts() {
     u8 *arg0 = (u8 *)this;
     *(void **)((u8 *)this + 4) = __vt__13TUnk_804A7488;
-    ((TUnk_804A7488 *)arg0)->sub_8035B66C();
+    this->sub_8035B66C();
     return arg0;
 }
 

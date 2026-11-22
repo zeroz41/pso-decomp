@@ -140,13 +140,13 @@ void TObjEneDD::state_damaged(s32 reason) {
     case 3:
         if (this->get_flag_b4() != 0) {
             if (F(s32, 0x378) == 8) {
-                ((TObjEneDD *)arg0)->transition_enemy_state(F(s32, 0x378));
+                this->transition_enemy_state(F(s32, 0x378));
             } else if (F(s16, 0x32C) < F(s16, 0x2B8) / 4) {
-                ((TObjEneDD *)arg0)->transition_enemy_state(8);
-            } else if (((TObjChara *)arg0)->random_ratio() < 0.3f) {
-                ((TObjEneDD *)arg0)->transition_enemy_state(6);
+                this->transition_enemy_state(8);
+            } else if (this->random_ratio() < 0.3f) {
+                this->transition_enemy_state(6);
             } else {
-                ((TObjEneDD *)arg0)->transition_enemy_state(F(s32, 0x378));
+                this->transition_enemy_state(F(s32, 0x378));
             }
         }
         break;
@@ -154,12 +154,12 @@ void TObjEneDD::state_damaged(s32 reason) {
         advance_animation();
         this->update_ground_contact();
         this->update_body_colliders();
-        ((TObjEneDD *)arg0)->noop();
+        this->noop();
         break;
     case 5:
         F(s32, 0x30) &= ~0x200;
         F(s32, 0x3C4) &= ~2;
-        ((TObjEneDD *)arg0)->clear_attack_receipts();
+        this->clear_attack_receipts();
         break;
     }
 }

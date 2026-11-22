@@ -404,26 +404,26 @@ void TObjChallengeRetry::run_task() {
     this->m_20 = ((s32 (*)(void *))is_challenge_lobby__6TLobbyFv)(arg0);
     switch (this->state) {
     case 0:
-        ((TObjChallengeRetry *)arg0)->sub_8007313C();
+        this->sub_8007313C();
         break;
     case 1:
-        ((TObjChallengeRetry *)arg0)->handle_challenge_retry_confirm();
+        this->handle_challenge_retry_confirm();
         break;
     case 2:
-        ((TObjChallengeRetry *)arg0)->update_challenge_retry();
+        this->update_challenge_retry();
         break;
     case 3:
-        ((TObjChallengeRetry *)arg0)->handle_loss_sequence();
+        this->handle_loss_sequence();
         break;
     case 4:
-        ((TObjChallengeRetry *)arg0)->update_destroy_countdown();
+        this->update_destroy_countdown();
         break;
     }
     if (TLobby::is_ready_to_draw() == 0) {
         TLobby::send_45_and_close_windows(arg0);
-        ((TObjChallengeRetry *)arg0)->close_window_2c();
-        ((TObjChallengeRetry *)arg0)->sub_80072B70();
-        ((TObject *)arg0)->queue_destruction();
+        this->close_window_2c();
+        this->sub_80072B70();
+        this->queue_destruction();
     }
 }
 

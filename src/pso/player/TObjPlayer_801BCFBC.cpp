@@ -19,20 +19,20 @@ extern const f32 TObjPlayer__data_805DC294;
 void TObjPlayer::update_action_animation() {
     u8 *arg0 = (u8 *)this;
     if (this->obj_isState2_324() == 0) {
-        ((TObjPlayer *)arg0)->update_position_from_target();
+        this->update_position_from_target();
         return;
     }
     if (is_on_current_floor__10TObjPlayerFi(arg0) != 0) {
-        ((TObjPlayer *)arg0)->clear_state_flags(4);
-        if (((TObjCollidable *)arg0)->obj_testFlags30(0x800) != 0) {
+        this->clear_state_flags(4);
+        if (this->obj_testFlags30(0x800) != 0) {
             run_action_state_phase(0xF, 0);
             if (test_flags_any((u8 *)&this->m_858, 1) != 0) {
-                this->requested_action = ((TObjPlayer *)arg0)->get_action_animation();
+                this->requested_action = this->get_action_animation();
             } else {
-                ((TObjPlayer *)arg0)->restart_death_pose();
+                this->restart_death_pose();
             }
             ((TObjPlayer *)(arg0 + 0x5FC))->set_pos_z(TObjPlayer__data_805DC294);
-            ((TObjPlayer *)arg0)->revive_or_spawn_marker();
+            this->revive_or_spawn_marker();
             return;
         }
         if ((is_lobby_floor_15__15TFontSmallLobbyFv() != 0) && (((TPlyPhotonChair *)arg0)->is_mounted() != 0)) {

@@ -159,15 +159,13 @@ u8 *TObjPlayer__sub_801D8DCC(TObjPlayer *player) {
 }
 
 long TObjPlayer::get_anim_table_entry(s32 picture) {
-    u8 *arg0 = (u8 *)this;
   int new_var;
-  new_var = ((TObjPlayer *)arg0)->get_clamped_index() * 4;
+  new_var = this->get_clamped_index() * 4;
   return (*((s32 *) (((s8 *)player_anim_table_pointers) + new_var))) + (picture * 4);
 }
 
 saddr TObjPlayer::get_table_entry_by_clamped_index() {
-    u8 *arg0 = (u8 *)this;
-    return *(s32 *)((s8 *)player_clamped_index_table_pointers + (((TObjPlayer *)arg0)->get_clamped_index() * 4));
+    return *(s32 *)((s8 *)player_clamped_index_table_pointers + (this->get_clamped_index() * 4));
 }
 
 s32 TObjPlayer::get_footstep_floor_index() {
@@ -199,10 +197,9 @@ f32 TObjPlayer::get_photon_blast_hold_frame() {
 }
 
 f32 TObjPlayer::get_attack_recovery_count() {
-    saddr arg0 = (saddr)this;
     s32 falz_phase;
     falz_phase = get_falz_phase();
-    return (f32) (s8) *(u8 *)((s8 *)((u8 *)(((u8 *)attack_recovery_count_table + (((TObjPlayer *)arg0)->get_handle_value() * 3))) + falz_phase) + 0);
+    return (f32) (s8) *(u8 *)((s8 *)((u8 *)(((u8 *)attack_recovery_count_table + (this->get_handle_value() * 3))) + falz_phase) + 0);
 }
 
 #pragma push
@@ -369,11 +366,10 @@ player_stats *TObjPlayer::get_class_stat_entry(u8 *player) {
 }
 
 f32 TObjPlayer::get_tp_class_factor() {
-    u8 *arg0 = (u8 *)this;
     if (this->class_flags & CLASS_FLAG_ANDROID) {
         return 0.0f;
     }
-    return player_profession_stat_factors[((TObjPlayer *)arg0)->get_clamped_index()].tp;
+    return player_profession_stat_factors[this->get_clamped_index()].tp;
 }
 
 f32 TObjPlayer::get_class_hp_factor() {

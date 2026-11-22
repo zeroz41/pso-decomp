@@ -29,10 +29,10 @@ void TObjPlayer::sub_801BD318() {
     s32 temp_r4;
     temp_r4 = get_entity_id(arg0) * 0xC00;
     (*(s32 *)&this->joint_matrices) = (s32) (TObjPlayer__shared_model_buffer + temp_r4);
-    ((TObjPlayer *)arg0)->select_class_action_provider();
+    this->select_class_action_provider();
     sub_801AF454__10TObjPlayerFl(arg0, get_entity_id(arg0));
-    ((TObjPlayer *)arg0)->init_idle_animation();
-    ((TObjPlayer *)arg0)->draw();
+    this->init_idle_animation();
+    this->draw();
 }
 
 void update_body_parts__10TObjPlayerFv(void* p);
