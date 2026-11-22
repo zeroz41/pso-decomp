@@ -153,7 +153,6 @@ public:
     void spawn_switch_attack();
     void spawn_attack_effect();
     void copy_action_state(u8 *arg1);
-    static saddr spawn_ground_lightning(saddr parent, saddr pos, s32 rotation_y);
     static void set_default_on_state0();
     static void capture_node_points(NJS_OBJECT *);
     void calc_velocity_from_angle();
@@ -241,7 +240,6 @@ public:
     void copy_vectors();
     void send_swapped_packet();
     void bswap_packet();
-    void queue_destruction();
     static void trigger_switches_in_range(void *arg0, void *arg1, void *arg2);
     static s32 calc_binomial_coefficient(s32 n, s32 k);
     static s32 eval_bezier_curve(void *points, int count, int closed, void *out, f32 t);
