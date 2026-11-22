@@ -62,150 +62,6 @@ struct Pl_800D5614 { u8 pad0[0x38]; u8 pos[0xC]; };
 struct RecoveredGlobal_800D5060_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
 LAYOUT_ASSERT(RecoveredGlobal_800D5060_lbl_8058D490_size, sizeof(RecoveredGlobal_800D5060_lbl_8058D490) == 0x30);
 
-struct VBase_18_477421
-{
-  char pad[0x18];
-};
-
-struct VObj_18_477421 : VBase_18_477421 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual s32 m81();
-    virtual s32 m82();
-    virtual s32 m83();
-    virtual s32 m84();
-    virtual s32 m85();
-    virtual s32 m86();
-    virtual s32 m87();
-    virtual s32 m88();
-    virtual s32 m89();
-    virtual s32 m90();
-    virtual void m91();
-    virtual void m92();
-    virtual void m93();
-    virtual void m94();
-    virtual void m95();
-    virtual void m96();
-    virtual void m97();
-    virtual void m98();
-    virtual s32 m99();
-};
-
-
-struct VBase_18_ca64a0
-{
-  char pad[0x18];
-};
-
-struct VObj_18_ca64a0 : VBase_18_ca64a0 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual s32 m9(f32, f32, f32);
-};
-
-struct VBase_14_fddec9
-{
-  char pad[0x14];
-};
-
-struct VObj_14_fddec9 : VBase_14_fddec9 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual s32 m6();
-    virtual s32 m7();
-    virtual s32 m8();
-};
-
 struct RecoveredFields_800D6810_arg0
 {
   u8 unknown_0[0x24];
@@ -228,16 +84,7 @@ struct O_800D7274 { u8 pad[0x24]; s32 f24; u8 pad2[0xc]; s32 f34; };
 
 struct Sub_800D5100 { u8 pad[0x18]; s32 f18; };
 
-struct Obj_800D5100 { u8 pad[0x2b0]; Sub_800D5100 *f2b0; };
-
 struct Obj_800D5150 { u8 pad[0x334]; s32 f334; u8 pad2[0x368 - 0x338]; s32 f368; };
-
-struct VBase_14_800D5570 { char pad[0x14]; };
-
-struct VObj_14_800D5570 : VBase_14_800D5570 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); virtual void m4();
-    virtual s32 m5();
-};
 
 struct Obj_800D5570 { u8 pad0[0x38]; u8 sub38[0xB8 - 0x38]; s16 fb8; u8 padba[0x326 - 0xBA]; s16 f326; s16 state; };
 
@@ -368,91 +215,6 @@ struct Lia_800D5BCC {
     s32 count;
     u8 pad380[0x394 - 0x380];
     f32 f394;
-};
-
-struct VBase_18_4c2345 { char pad[0x18]; };
-struct VObj_18_4c2345 : VBase_18_4c2345 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual s32 m79(s32);
-    virtual s32 m80();
 };
 
 void move_with_wall_slide(u8 *arg0);
@@ -694,15 +456,8 @@ struct CollisionPartRecord { u8 pad_0[0xC]; f32 radius; u8 pad_10[0x1C]; };
 
 extern void *tl_04;
 typedef struct RecoveredFields_800D6810_arg0 RecoveredFields_800D6810_arg0;
-typedef struct VBase_14_fddec9 VBase_14_fddec9;
-typedef struct VBase_18_ca64a0 VBase_18_ca64a0;
-typedef struct VObj_14_fddec9 VObj_14_fddec9;
-typedef struct VObj_18_ca64a0 VObj_18_ca64a0;
-struct Obj_800D5100;
 struct RecoveredGlobal_800D5060_lbl_8058D490;
 s32 check_path_obstructed(void *, void *);
-typedef struct VBase_18_477421 VBase_18_477421;
-typedef struct VObj_18_477421 VObj_18_477421;
 struct O_800D7274;
 struct Obj_800D5150;
 s32 __ct__13TUnk_80493450FP7TObject(void *, s32);
@@ -726,7 +481,7 @@ void *TObjEneMerillLia__ct(void *arg0v, void *arg1, void *arg2) {
     *(void **)((s8 *)self + 0x18) = lbl_80494728;
     __ct__13TUnk_80494938Fv((self + 0x3A8));
     *(const char **)((s8 *)self + 0) = TObjEneMerillLia__class_name;
-    ((VObj_18_4c2345 *) self)->m79((saddr)arg2);
+    ((TObjEneMerillLia *)self)->apply_set_data(arg2);
     ((TObjEneMerillLia *)self)->init_params_from_position();
     ((TObjPlayer *)self)->init_position_vectors();
     *(s32 *)((s8 *)self + 0x334) = *(s32 *)((s8 *)self + 0x368);
@@ -765,7 +520,7 @@ void *TObjEneMerillLia__ct(void *arg0v, void *arg1, void *arg2) {
     *(s32 *)((s8 *)self + 0x390) = 1;
     *(s16 *)((s8 *)self + 0x326) = 0xD;
     *(s16 *)((s8 *)self + 0xB8) = 1;
-    ((VObj_18_4c2345 *) self)->m80();
+    ((TObjEneMerillLia *)self)->clear_lobby_object_state();
     return self;
 }
 #undef self
@@ -982,11 +737,11 @@ void TObjEneMerillLia::render() {
       if (((s16) ((RecoveredFields_800D6810_arg0 *) ((u8 *)this))->field_326) == 0xD)
       {
         var_r29 = 1;
-        var_r30 = (((VObj_14_fddec9 *)(((u8 *) ((u8 *)this)) + 936))->m8());
+        var_r30 = this->fade.has_visible_opacity();
       }
       if (var_r29 != 0)
       {
-        (((VObj_14_fddec9 *)(((u8 *) ((u8 *)this)) + 936))->m6());
+        this->fade.set_flags_and_apply_damage_color();
         if (this->defer_render() != 0)
         {
           var_r30 = 0;
@@ -1010,7 +765,7 @@ void TObjEneMerillLia::render() {
       TParticleCtrl::end_effect_render();
       if (var_r29 != 0)
       {
-        (((VObj_14_fddec9 *)(((u8 *) ((u8 *)this)) + 936))->m7());
+        this->fade.clear_flag_and_notify();
       }
     }
     pop_matrix();
@@ -1087,7 +842,7 @@ void TObjEneMerillLia::beast_update_appear() {
             self->fB8 = 0xB;
             ((TObjCollidable *)self)->set_indexed_flags(0, 0xA000000);
             obj_setFlags30(self, 0x4000000);
-            self->m95();
+            this->play_hurt_sound();
         }
         break;
     case 1:
@@ -1123,7 +878,7 @@ void TObjEneMerillLia::beast_update_group_chase() {
     switch (self->f328) {
     case 0:
         self->f328 = 1;
-        self->m97();
+        ((TObjEneMerillLia *)self)->play_group_chase_sound();
         break;
     case 1:
         if (self->f2a8 != NULL) {
@@ -1164,7 +919,7 @@ void TObjEneMerillLia::beast_update_group_chase() {
             }
             break;
         }
-        if (self->m17(0x1E) != 0) {
+        if (((TObjChara *)self)->is_actor_cadence_frame(0x1E) != 0) {
             self->f338 = find_nearest_visible_player(reinterpret_cast<TObjChara *>(self), NULL, *self->f350);
         }
         if (self->f338 < 0x1000) {
@@ -1182,7 +937,7 @@ void TObjEneMerillLia::beast_update_group_chase() {
         break;
     case 2:
         ((TObjBase *)self)->obj_clearFlags30(0x1000);
-        if (self->m17(0x1E) != 0) {
+        if (((TObjChara *)self)->is_actor_cadence_frame(0x1E) != 0) {
             self->f338 = find_nearest_visible_player(reinterpret_cast<TObjChara *>(self), NULL, *self->f350);
         }
         if (self->f338 < 0x1000) {
@@ -1491,12 +1246,12 @@ void TObjEneMerillLia::sub_800D5570() {
     default:
         this->phase = 1;
         this->requested_action = 1;
-        ((TUnk_80494938 *)((u8 *)self + 0x3A8))->start_fade_in();
+        this->fade.start_fade_in();
         play_area_sound_effect((Vec *)(self->sub38));
         break;
     case 1:
         spawn_ground_effect__16TObjEneMerillLiaFPv((u8 *)self);
-        if (((VObj_14_800D5570 *)((u8 *)self + 0x3A8))->m5() != 0) {
+        if (this->fade.advance_toward_max() != 0) {
             this->phase = 2;
         }
         break;

@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/enemy/TUnk_80493450.h"
+#include "pso/render/TUnk_80494938.h"
 
 struct TObjEneMerillLia : public TUnk_80493450 {
     virtual ~TObjEneMerillLia();
@@ -23,7 +24,7 @@ struct TObjEneMerillLia : public TUnk_80493450 {
     virtual void run_attack_action();
     virtual void run_move_action();
     virtual void run_idle_action();
-    void* m_3a8;
+    TUnk_80494938 fade;
     s32 get_clamped_level();
     void clamp_and_apply_mode_param();
     void reset_state_clear_status();
@@ -36,7 +37,6 @@ struct TObjEneMerillLia : public TUnk_80493450 {
     void select_action_by_distance();
     static void destroy_rocks();
     void load_entry_params(s32 i);
-    u8 unk_3AC[0x18];
     f32 m_3c4;
     u8 unk_3C8[0x8];
     f32 m_3d0;
