@@ -451,7 +451,7 @@ void TBoss4DarkFalz::spawn_zako_rings() {
     p.owner = this;
     r = 28.571428f;
     dr = 57.142857f;
-    TBoss4DarkFalz__sub_8004B4F0(&p.set_index, &dark_falz_set_entry);
+    copy_set_entry(&p.set_index, &dark_falz_set_entry);
     p.unk_0C = 1;
     if (game_difficulty_selection == 3) {
         r *= 1.25f;
@@ -475,22 +475,24 @@ void TBoss4DarkFalz::spawn_zako_rings() {
     }
 }
 
-struct C12_8004B4F0 { u32 w[3]; };
-struct C20_8004B4F0 { u32 w[5]; };
-struct S_8004B4F0 {
-  s16 a0;
-  s16 a2;
-  s16 a4;
-  u16 a6;
-  s16 a8;
-  s16 aa;
-  s16 ac;
-  s16 ae;
-  struct C12_8004B4F0 c10;
-  struct C12_8004B4F0 c1c;
-  struct C20_8004B4F0 c28;
-  s16 a3c;
-  s16 a3e;
+/* The 0x40-byte set entry as copy_set_entry copies it: position, rotation and the parameter
+ * block as blocks, the rest field by field. */
+struct SetEntryWords3 { u32 w[3]; };
+struct SetEntryWords5 { u32 w[5]; };
+struct SetEntryCopy {
+  s16 set_index;
+  s16 kind;
+  s16 unknown_04;
+  u16 entity_id;
+  s16 room;
+  s16 wave;
+  s16 unknown_0C;
+  s16 unknown_0E;
+  struct SetEntryWords3 position;
+  struct SetEntryWords3 rotation;
+  struct SetEntryWords5 params;
+  s16 param_3C;
+  s16 param_3E;
 };
 
 #pragma push
@@ -498,27 +500,27 @@ struct S_8004B4F0 {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void TBoss4DarkFalz__sub_8004B4F0(void *arg0p, void *arg1p) {
-#define o ((struct S_8004B4F0 *)arg0p)
-#define s ((struct S_8004B4F0 *)arg1p)
-  struct S_8004B4F0 *new_var;
-  struct S_8004B4F0 *new_var2;
-  struct C20_8004B4F0 *dc = &o->c28;
-  struct C20_8004B4F0 *sc = &s->c28;
-  o->a0 = s->a0;
+void copy_set_entry(void *arg0p, void *arg1p) {
+#define o ((struct SetEntryCopy *)arg0p)
+#define s ((struct SetEntryCopy *)arg1p)
+  struct SetEntryCopy *new_var;
+  struct SetEntryCopy *new_var2;
+  struct SetEntryWords5 *dc = &o->params;
+  struct SetEntryWords5 *sc = &s->params;
+  o->set_index = s->set_index;
   new_var2 = (new_var = o);
-  new_var2->a2 = s->a2;
-  o->a4 = s->a4;
-  new_var->a6 = s->a6;
-  o->a8 = s->a8;
-  o->aa = s->aa;
-  new_var->ac = s->ac;
-  o->ae = s->ae;
-  new_var->c10 = s->c10;
-  o->c1c = s->c1c;
+  new_var2->kind = s->kind;
+  o->unknown_04 = s->unknown_04;
+  new_var->entity_id = s->entity_id;
+  o->room = s->room;
+  o->wave = s->wave;
+  new_var->unknown_0C = s->unknown_0C;
+  o->unknown_0E = s->unknown_0E;
+  new_var->position = s->position;
+  o->rotation = s->rotation;
   *dc = *sc;
-  new_var->a3c = s->a3c;
-  o->a3e = s->a3e;
+  new_var->param_3C = s->param_3C;
+  o->param_3E = s->param_3E;
 }
 #undef o
 #undef s
@@ -784,7 +786,7 @@ TBoss4DarkFalz::TBoss4DarkFalz(TObject *parent, TBoss4DarkFalzSetEntry *set_data
     }
     dark_falz_controller_instance = (saddr)this;
     apply_set_data(set_data);
-    TBoss4DarkFalz__sub_8004B4F0(&dark_falz_set_entry, set_data);
+    copy_set_entry(&dark_falz_set_entry, set_data);
     dark_falz_set_entry.kind = 0;
     clear_lobby_object_state();
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));

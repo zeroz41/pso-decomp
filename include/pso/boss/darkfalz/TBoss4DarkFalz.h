@@ -137,7 +137,7 @@ LAYOUT_ASSERT(TBoss4DarkFalzState_update_offset, offsetof(TBoss4DarkFalzState, u
 extern TBoss4DarkFalzState dark_falz_state_table[16];
 
 /* The 0x40-byte enemy set entry the constructor was given (kind 0x200), kept with kind
- * cleared; the spawners copy it (TBoss4DarkFalz__sub_8004B4F0) and renumber it with
+ * cleared; the spawners copy it (copy_set_entry) and renumber it with
  * alloc_child_ids. TObjEnemy::apply_set_data reads set_index, entity_id, room, wave and
  * position (field names from there). */
 struct TBoss4DarkFalzSetEntry {

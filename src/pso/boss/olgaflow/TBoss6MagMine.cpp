@@ -343,7 +343,7 @@ void TBoss6MagMine::spawn_mag_mine_at(const Vec *origin, const Vec *destination)
     if (boss == 0 || ((TBoss6PlotFalz *)boss)->get_scene_state() != 6) {
         return;
     }
-    TBoss4DarkFalz__sub_8004B4F0(&set_data, (void *)(((TBoss6PlotFalz *)boss)->get_mag_mine_ptr()));
+    copy_set_entry(&set_data, (void *)(((TBoss6PlotFalz *)boss)->get_mag_mine_ptr()));
     VecCopy(&set_data.origin, origin);
     VecCopy(&set_data.destination, destination);
     set_data.flags = 1;

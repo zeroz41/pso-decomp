@@ -4,7 +4,7 @@
 #include <dolphin/mtx/GeoTypes.h>
 #include "pso/system/task/TObject.h"
 
-// The 0x40-byte enemy set entry the Gol Dragon parts are made from; TBoss4DarkFalz__sub_8004B4F0 copies it whole.
+// The 0x40-byte enemy set entry the Gol Dragon parts are made from; copy_set_entry copies it whole.
 struct TUnk_804E4BF0SetEntry {
     s16 set_index;  // the parts' set indices count up from the leader's
     s16 kind;

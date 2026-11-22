@@ -180,7 +180,7 @@ void TBoss4DarkFalz::update_demo_warp3() {
     if (timer <= 0) {
         set_story_flag_or_send_quest_flag(0x36);
         set_data.owner = this;
-        TBoss4DarkFalz__sub_8004B4F0(&set_data.entry, &dark_falz_set_entry);
+        copy_set_entry(&set_data.entry, &dark_falz_set_entry);
         set_data.entry.room = 2;
         set_data.entry.set_index = set_index + 0x1FE;
         set_data.entry.entity_id = entity_id + 0x1FE;
@@ -313,7 +313,7 @@ void TBoss4DarkFalz::update_spawn_type2_countdown() {
     state_timer = state_timer - 1;
     if (state_timer < 0) {
         set_data.owner = this;
-        TBoss4DarkFalz__sub_8004B4F0(&set_data.entry, &dark_falz_set_entry);
+        copy_set_entry(&set_data.entry, &dark_falz_set_entry);
         set_data.entry.room = 1;
         set_data.entry.set_index = set_index + 0x1FF;
         set_data.entry.entity_id = entity_id + 0x1FF;
@@ -356,7 +356,7 @@ void TBoss4DarkFalz::request_action_7() {
 void TBoss4DarkFalz::spawn_type1() {
     TBoss4FormSetData set_data;
     set_data.owner = this;
-    TBoss4DarkFalz__sub_8004B4F0(&set_data.entry, &dark_falz_set_entry);
+    copy_set_entry(&set_data.entry, &dark_falz_set_entry);
     set_data.entry.room = 1;
     set_data.entry.set_index = set_index + 0x200;
     set_data.entry.entity_id = entity_id + 0x200;

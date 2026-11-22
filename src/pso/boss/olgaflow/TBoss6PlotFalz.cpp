@@ -613,7 +613,7 @@ void TBoss6PlotFalz::spawn_type2() {
     if (TBoss6PlotFalz__type2_instance == NULL) {
         params.owner = this;
         params.variant = m_37c;
-        TBoss4DarkFalz__sub_8004B4F0(&params.set_index, self + 0x388);
+        copy_set_entry(&params.set_index, self + 0x388);
         params.flags = 1;
         params.set_index = set_index + 0x1FF;
         params.entity_id = entity_id + 0x1FF;
@@ -627,7 +627,7 @@ void TBoss6PlotFalz::spawn_type1() {
     if (TBoss6PlotFalz__type1_instance == NULL) {
         params.owner = this;
         params.variant = m_37c;
-        TBoss4DarkFalz__sub_8004B4F0(&params.set_index, self + 0x388);
+        copy_set_entry(&params.set_index, self + 0x388);
         params.set_index = set_index + 0x200;
         params.entity_id = entity_id + 0x200;
         TBoss6PlotFalz__type1_instance = TBoss6Type1::create((saddr)&params);
@@ -1069,7 +1069,7 @@ TBoss6PlotFalz::TBoss6PlotFalz(TObject *parent, void *set_data) : TObjEnemy(pare
     sub_802AAC98();
     TBoss6PlotFalz__instance = (saddr)this;
     apply_set_data(set_data);
-    TBoss4DarkFalz__sub_8004B4F0(((u8 *)this + 0x388), set_data);
+    copy_set_entry(((u8 *)this + 0x388), set_data);
     m_38a = 0;
     if (exchange_object_state(&sp8, 1) != 0) {
         sp8.a = 0;

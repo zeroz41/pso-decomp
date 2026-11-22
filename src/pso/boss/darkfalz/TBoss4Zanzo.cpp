@@ -629,7 +629,7 @@ void TBoss4Type2::spawn_bishi_around_players() {
     s32 i;
     s32 j;
     TObjPlayer *pl;
-    TBoss4DarkFalz__sub_8004B4F0(&b.set_index, &dark_falz_set_entry);
+    copy_set_entry(&b.set_index, &dark_falz_set_entry);
     b.owner = owner;
     b.unk_0C = 1;
     for (i = 0; i < registered_player_count; i++) {

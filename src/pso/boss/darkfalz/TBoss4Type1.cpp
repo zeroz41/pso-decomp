@@ -1073,7 +1073,7 @@ void TBoss4Type1::update_spawn_uro() {
     s = &node_positions[turn][1];
     t = state_timer;
     if (t < 0x106 && (t & 0x1F) == 0 && uro_count < uro_limit) {
-        TBoss4DarkFalz__sub_8004B4F0(&p.set_index, &dark_falz_set_entry);
+        copy_set_entry(&p.set_index, &dark_falz_set_entry);
         if (owner->alloc_child_ids(&p.set_index, &p.entity_id) != 0) {
             p.owner = owner;
             p.unk_0C = 1;

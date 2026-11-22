@@ -325,7 +325,7 @@ TObjEneSlime::TObjEneSlime(TObject *parent, u8 *set_data) : TObjEnemy(parent) {
     apply_set_data(set_data);
     clear_lobby_object_state();
     ((TBoss3Volopt *)this)->reset_photon_effect();
-    TBoss4DarkFalz__sub_8004B4F0(&spawn_template, set_data);
+    copy_set_entry(&spawn_template, set_data);
     child_limit = *(s16 *)(set_data + 2);
     if (child_limit < 1) {
         if (TObjPlayer::check_demo_mode() != 0) {

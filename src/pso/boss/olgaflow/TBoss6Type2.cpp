@@ -117,7 +117,6 @@ void draw_model_blend_motion(void *model, void *motion, f32 blend_factor);
 extern "C" {
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
-void TBoss4DarkFalz__sub_8004B4F0(void *dst, void *src);
 void TBoss6Type2__sub_802BE4E0(s32 *arg0, s32 *boss6_type2_zero_vec);
 
 f64 atan2_float(f32, f32);
@@ -1477,7 +1476,7 @@ void TBoss6Type2::create_mags(f32) {
     VecCopy(&params.origin, &position);
     params.origin.y += 150.0f;
     params.rotation_y = rotation_y;
-    TBoss4DarkFalz__sub_8004B4F0(&params, plot_falz->get_mag_mine_ptr());
+    copy_set_entry(&params, plot_falz->get_mag_mine_ptr());
     params.active = 1;
     VecCopy(&params.pos, &params.origin);
     params.flags = m_2e4;

@@ -10,7 +10,7 @@ class TParticleCtrl;
 struct TObjPlayer;
 
 // What spawn_mag_mine_at hands create: the mag mine's 0x40-byte object set entry (copied by
-// TBoss4DarkFalz__sub_8004B4F0) followed by where the mine starts and where it lands.
+// copy_set_entry) followed by where the mine starts and where it lands.
 struct Boss6MagMineSetData {
     s16 set_index;  // TBoss6PlotFalz::get_next_point writes its set_index + counter here
     u8 pad_02[0x4];

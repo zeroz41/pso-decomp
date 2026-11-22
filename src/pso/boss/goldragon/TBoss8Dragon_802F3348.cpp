@@ -257,7 +257,7 @@ s32 TUnk_804E4BF0::setup_attack_slot(Vec *pos, s32 angle, s32 index, TUnk_804E4B
     if ((index < 0) || (index > 5)) {
         return 0;
     }
-    TBoss4DarkFalz__sub_8004B4F0(dst, &this->set_entry);
+    copy_set_entry(dst, &this->set_entry);
     dst->set_index = this->get_part_set_index(index);
     dst->kind = 0;
     dst->entity_id = this->get_part_entity_id(index);
@@ -282,7 +282,7 @@ TUnk_804E4BF0::TUnk_804E4BF0(TObject *object, void *arg1p) : TObject(object) {
     if (boss8_dragon_leader_part == NULL) {
         boss8_dragon_leader_part = this;
     }
-    TBoss4DarkFalz__sub_8004B4F0(&this->set_entry, arg1p);
+    copy_set_entry(&this->set_entry, arg1p);
 }
 
 extern "C" {

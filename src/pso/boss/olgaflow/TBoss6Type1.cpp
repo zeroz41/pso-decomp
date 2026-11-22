@@ -1416,7 +1416,7 @@ void TBoss6Type1::sub_802B6504() {
     s32 seed = random_factor;
     TBoss6MineSetData set;
     reset_fields_4e0();
-    TBoss4DarkFalz__sub_8004B4F0(&set, ((TBoss6PlotFalz *)plot_falz)->get_mag_mine_ptr());
+    copy_set_entry(&set, ((TBoss6PlotFalz *)plot_falz)->get_mag_mine_ptr());
     set.owner = this;
     VecCopy(&set.origin, &node_points[0]);
     VecCopy(&set.offset, &lbl_80470F84);
