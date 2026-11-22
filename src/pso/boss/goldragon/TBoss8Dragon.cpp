@@ -85,13 +85,11 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/camera/CameraHelpers.h"
-
-struct Rot_802F9D08 { s32 x, y, z; };
+#include "pso/unk/text_80086B64.h"
 
 extern "C" {
 extern s32 local_client_id;
 f32 atan2_float(f32 y, f32 x);
-void TBoss8Dragon__sub_802FB300(void);
 }
 extern u16 boss8_dragon_control_client_id;
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
@@ -113,8 +111,6 @@ Vec dragon_forward_reference_vec;
 extern "C" {
 
 
-
-struct Obj_802FAC08 { u8 pad0[0x38]; f32 x; u8 pad1[4]; f32 z; };
 
 s32 get_current_floor();
 void free_collision_body_parts(void *);
@@ -270,9 +266,6 @@ extern void *TBoss8Dragon__dive_height_curve[12];
 
 
 extern "C" {
-struct Obj_802FAC08;
-struct Rot_802F6838 { s32 x, y, z; };
-struct Pair_802F8578 { f32 a; f32 b; };
 extern f32 boss8_dragon_fall_accel;
 void subtractive_rng_seed(void *, s32);
 f32 calc_random_ratio__10TObjPlayerFv(void *);
@@ -372,7 +365,6 @@ NJS_OBJECT *TBoss8Dragon::clone_node_tree(NJS_OBJECT *src, NJS_OBJECT *dst, NJS_
     }
     return dst;
 }
-#define F(t, o) (*(t *)((u8 *)this + (o)))
 void TBoss8Dragon::get_camera_offsets(Vec *eye, Vec *target) {
     s32 mode;
     s32 idx;
@@ -752,7 +744,7 @@ void TBoss8Dragon::run_task() {
         this->sub_tasks.run_tasks();
     }
     project_sound_origin_from_camera((saddr)&this->position, (u8 *)&this->sound_origin, 0.4f);
-    if (!(*(s32 *)&this->flags & 0x100)) {
+    if (!(this->flags & 0x100)) {
         for (i = 0; i < 4; i++) {
             this->renderFadeStates[i].update();
         }
@@ -1331,7 +1323,7 @@ void TBoss8Dragon::remap_sequence_after_recovery() {
 }
 
 s32 TBoss8Dragon::check_damage_reaction() {
-    if (*(s32 *)&this->flags & 0x40) {
+    if (this->flags & 0x40) {
         return 0;
     }
     if ((s16) this->hp <= this->finalHpThreshold) {
@@ -1486,7 +1478,7 @@ void TBoss8Dragon::sweep_death_body_attack() {
     reset_hp((u8 *)0, boss8_dragon_part_hp_stats[0], (u8 *)0);
 }
 
-void TBoss8Dragon__sub_802FB300(void) {  }
+void TBoss8Dragon::sub_802FB300() {  }
 
 void TBoss8Dragon::setup_breath_instance(Vec *pos, u32 kind, AreaAttackHistory *history) {
     DragonAttackParams s = TBoss8Dragon__breath_params;
@@ -1705,11 +1697,10 @@ void TBoss8Dragon::release_grabbed_player() {
 #pragma push
 #pragma fp_contract on
 f32 TBoss8Dragon::clamp_step_in_radius(f32 a, f32 b, f32 s) {
-    Obj_802FAC08 *o = (Obj_802FAC08 *)this;
     Vec v;
-    v.x = a * s + o->x;
+    v.x = a * s + this->position.x;
     v.y = 0.0f;
-    v.z = b * s + o->z;
+    v.z = b * s + this->position.z;
     if (vec3_dot(&v, &v) > 28900.0f) {
         s = 0.0f;
     }
@@ -1940,7 +1931,7 @@ void TBoss8Dragon::update_walking_state(s32 event) {
 #pragma push
 #pragma fp_contract on
 void TBoss8Dragon::state_breath_attack(s32 event) {
-    Rot_802F9D08 rot;
+    ParticleAngles rot;
     switch (event) {
     case 4:
         this->requested_action = 4;
@@ -2079,7 +2070,6 @@ void TBoss8Dragon::state_breath_attack(s32 event) {
 }
 
 #pragma pop
-#undef F
 void TBoss8Dragon::handle_tail_attack_state(s32 event) {
     switch (event) {
     case 4:
@@ -2310,7 +2300,6 @@ void TBoss8Dragon::state_turn_and_charge(s32 event) {
     }
 }
 
-#define F(t, o) (*(t *)((u8 *)this + (o)))
 void TBoss8Dragon::update_air_fire_state(s32 event) {
     Vec *d = &action_point;
 
@@ -2358,7 +2347,7 @@ void TBoss8Dragon::update_air_fire_state(s32 event) {
                 d->y = 0.0f;
                 d->z += 125.0f * cos_table_lookup(this->action_angle);
                 this->stateStep = 2;
-                F(s32, 0x650) = 0;
+                this->airTurnVelocity = 0;
                 this->rotation_y = this->action_angle;
                 this->requested_action = 0x12;
                 this->flags |= 0x30;
@@ -2369,7 +2358,7 @@ void TBoss8Dragon::update_air_fire_state(s32 event) {
             this->spawn_effect_if_in_band();
             update_flap_effect();
             if (advance_air_turn() != 0) {
-                F(s32, 0x650) = 0;
+                this->airTurnVelocity = 0;
                 this->rotation_y = this->action_angle;
                 this->stateStep = 2;
                 this->requested_action = 0x12;
@@ -2448,8 +2437,6 @@ void TBoss8Dragon::update_air_fire_state(s32 event) {
     }
 }
 
-#undef F
-#define F(t, o) (*(t *)(arg0 + (o)))
 void TBoss8Dragon::update_spinning_projectile_attack(s32 event) {
     s32 found;
     Vec pos;
@@ -2660,7 +2647,7 @@ void TBoss8Dragon::update_appear_fall_state(s32 event) {
 
 #pragma pop
 void TBoss8Dragon::update_fall_state(s32 event) {
-    Pair_802F8578 out;
+    Vec out;
 
     switch (event) {
     case 4:
@@ -2711,7 +2698,7 @@ void TBoss8Dragon::update_fall_state(s32 event) {
         case 0:
             eval_bezier_curve(boss8_dragon_bezier_points_3, 3, 0, &out,
                 this->get_motion_frame() / 50.0f);
-            this->position.y = out.b;
+            this->position.y = out.y;
             if (this->is_passing_frame(2.0f) != 0) {
                 this->play_effect_sound(0x4003A804);
             }
@@ -3120,7 +3107,7 @@ void TBoss8Dragon::update_burrow_inward_run(u32 event, s32 action) {
             }
             this->position.x = this->destination_direction.x * this->fallVelocity + this->position.x;
             this->position.z = this->destination_direction.z * this->fallVelocity + this->position.z;
-            ((void (*)(u8 *))TBoss8Dragon__sub_802FB300)((u8 *)this);
+            this->sub_802FB300();
             this->impactAge++;
             if (this->impactAge > 10) {
                 this->start_rumble();
@@ -3137,7 +3124,6 @@ void TBoss8Dragon::update_burrow_inward_run(u32 event, s32 action) {
     }
 }
 
-#undef F
 void TBoss8Dragon::update_burrow_outward_run(s32 event) {
     struct { f32 x, y, z; } sp8;
     switch (event) {
@@ -3184,7 +3170,7 @@ void TBoss8Dragon::update_burrow_outward_run(s32 event) {
         this->rotation_y = approach_angle_limited((this->rotation_y), ((s32) (RADIANS_TO_ANGLE * atan2_float((f32) (this->destination_direction.x), (f32) (this->destination_direction.z)))), 0x600);
         this->position.x = (f32) ((this->rootHeight * sin_table_lookup((int) (this->rotation_y))) + this->position.x);
         this->position.z = (f32) ((this->rootHeight * cos_table_lookup((int) (this->rotation_y))) + this->position.z);
-        ((s32 (*)(void *)) TBoss8Dragon__sub_802FB300)(this);
+        this->sub_802FB300();
         this->impactAge = (s32) (this->impactAge + 1);
         if ((s32) this->impactAge > 0xA) {
             this->start_rumble();
@@ -3257,7 +3243,7 @@ void TBoss8Dragon::handle_spiral_state(s32 event) {
             if (this->action_speed < 5.0f) {
                 this->stateStep = 2;
             }
-            ((void (*)(u8 *))TBoss8Dragon__sub_802FB300)(((u8 *)this));
+            this->sub_802FB300();
             this->impactAge++;
             if (this->impactAge > 10) {
                 this->start_rumble();
@@ -3429,7 +3415,7 @@ void TBoss8Dragon::handle_leap_state(s32 event) {
 #pragma pool_data off
 void TBoss8Dragon::update_death_state(s32 event) {
     CameraPlayback cam;
-    Rot_802F6838 r;
+    ParticleAngles r;
     Vec v;
 
     switch (event) {
@@ -4109,7 +4095,7 @@ void TBoss8Dragon::state_circle_flight(s32 event) {
         this->calc_velocity_from_angle();
         step = this->stateStep;
         this->stateStep = (step + 1);
-        ((s32 (*)(void *, int))TBoss8Dragon__sub_802FB300)(this, step);
+        this->sub_802FB300();
         break;
     }
 }
@@ -4159,7 +4145,7 @@ void TBoss8Dragon::handle_fall_state(s32 event) {
         dir_z = this->destination_direction.z;
         speed = this->fallVelocity;
         this->position.z = (f32) ((dir_z * speed) + this->position.z);
-        ((s32 (*)(void *, f32, f32)) TBoss8Dragon__sub_802FB300)(this, speed, dir_z);
+        this->sub_802FB300();
         break;
     }
 }

@@ -71,6 +71,8 @@ public:
     s32 choose_burrow_ring_destination(f32 *out);
     s32 select_air_fire_target(Vec *out);  // as TBoss1Dragon::select_air_fire_target
     s32 sub_802FABB4();
+    // Empty; the fall, flight and burrow runs call it right after moving the dragon.
+    void sub_802FB300();
     s32 sub_802FB984();  // always 0: select_next_action would end its low-health branch when it is set
     s32 is_secondary_sequence();
     // As TBoss1Dragon::prepare_flight_destination: away from the arena centre when the health is low, else to it.
