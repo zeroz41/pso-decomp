@@ -2985,8 +2985,8 @@ void TObjPlayer::prepare_death() {
     if (is_flag_400_set__10TObjPlayerFPv(arg0) != 0) {
         enable_action_input__10TObjPlayerFPv(arg0);
     }
-    if (*(void **)(arg0 + 0x424) != NULL && ((TMainCursor *)(*(void **)(arg0 + 0x424)))->is_cursor_clear() == 0) {
-        ((TObjPlayer *)(*(void **)(arg0 + 0x424)))->clear_flag_1_at_1c();
+    if (this->lock_on_cursor != NULL && ((TMainCursor *)this->lock_on_cursor)->is_cursor_clear() == 0) {
+        ((TObjPlayer *)this->lock_on_cursor)->clear_flag_1_at_1c();
     }
     if (arg0 == NULL || this->obj_isState2_324() == 0) {
         ((TObjPlayer *)(&c1))->init_6x89_packet();
@@ -3804,7 +3804,7 @@ void TObjPlayer::exit_photon_blast_action() {
     this->motion_flags &= ~0x40;
     this->clear_state_flags(0x80);
     this->obj_clearFlags30((u32)(0x400000));
-    temp_r4 = (unsigned char *) (*(void **)((s8 *)arg0 + 0x424));
+    temp_r4 = (unsigned char *)this->lock_on_cursor;
     if (temp_r4 != NULL) {
         *(u16 *)((s8 *)temp_r4 + 0x508) = 0xFFFF;
     }
@@ -3963,9 +3963,9 @@ void TObjPlayer::prepare_photon_blast_action() {
     if (((s32 (*)(void))reset_volopt_state__10TObjPlayerFv)() != 0) {
         ((ProtectionTimer *)(arg0 + 0x644))->set_frames(0x708);
         capture_technique_targets__10TObjPlayerFv(((TFontSmallLobby *)(arg0 + 0x4AC))->get_valid_index(), arg0);
-        if (this->m_424 != 0U) {
+        if (this->lock_on_cursor != NULL) {
             u8 *e = ((u8 * (*)(void *, s32))TObjPlayer__sub_801D2AB0)(arg0 + 0x4AC, 0);
-            ((TMainCursor *)(this->m_424))->set_cursor_pos(*(u16 *)((s8 *)e + 0), *(s16 *)((s8 *)e + 2));
+            ((TMainCursor *)this->lock_on_cursor)->set_cursor_pos(*(u16 *)((s8 *)e + 0), *(s16 *)((s8 *)e + 2));
         }
         if (arg0 == NULL || ((TObjChara *)arg0)->obj_isState2_324() == 0) {
             ((TObjPlayer *)(&pkt))->init_6x49_packet();
@@ -4094,13 +4094,13 @@ void clamp_and_set_unit_value__10TObjPlayerFiUci(TObjPlayer *player, u8 level, s
 }
 
 void TObjPlayer::update_cursor(s32 parameter) {
-    u32 temp_r3;
+    TLockOnCursor *cursor;
 
-    temp_r3 = this->m_424;
-    if ((temp_r3 != 0U) && (canSetMenuCursorAction(temp_r3 + 0x520, this, 3, (u8) parameter) != 0)) {
-        set_action_palette_tag_mode(reinterpret_cast<ActionPaletteTag *>(m_424 + 0x520), 3);
-        set_action_palette_tag_slot(reinterpret_cast<ActionPaletteTag *>(m_424 + 0x520), static_cast<u8>(parameter));
-        TMainCursor__sub_8013DFC4((u8 *)(this->m_424 + 0x520));
+    cursor = this->lock_on_cursor;
+    if ((cursor != NULL) && (canSetMenuCursorAction((s32)&cursor->palette_override, this, 3, (u8) parameter) != 0)) {
+        set_action_palette_tag_mode(&lock_on_cursor->palette_override, 3);
+        set_action_palette_tag_slot(&lock_on_cursor->palette_override, static_cast<u8>(parameter));
+        TMainCursor__sub_8013DFC4((u8 *)&this->lock_on_cursor->palette_override);
     }
 }
 
@@ -4496,7 +4496,7 @@ void TObjPlayer::reset_linked_obj() {
 
     ((s32 (*)(void))clear_velocity)();
     ((s32 (*)(void *))clear_status_bit6__10TObjPlayerFPv)(this);
-    temp_r4 = *(void **)((s8 *)this + 0x424);
+    temp_r4 = this->lock_on_cursor;
     if (temp_r4 != NULL) {
         *(u16 *)((s8 *)temp_r4 + 0x508) = 0xFFFF;
     }
@@ -4541,7 +4541,7 @@ void TObjPlayer::send_attack_stage3_request() {
     s32 var_r4;
     u8 *temp_r3;
     u8 *temp_r4;
-    temp_r4 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x424));
+    temp_r4 = (u8 *)this->lock_on_cursor;
     if (temp_r4 != NULL) {
         temp_r3 = (u8 *)(resolve_hittable_target(*(u16 *)((s8 *)temp_r4 + 0x508), *(s16 *)((s8 *)temp_r4 + 0x50A)));
         if (temp_r3 != NULL) {
@@ -4619,7 +4619,7 @@ void TObjPlayer::reset_target_link() {
 
     ((s32 (*)(void))clear_velocity)();
     ((s32 (*)(void *))clear_status_bit6__10TObjPlayerFPv)(this);
-    temp_r4 = *(void **)((s8 *)this + 0x424);
+    temp_r4 = this->lock_on_cursor;
     if (temp_r4 != NULL) {
         *(u16 *)((s8 *)temp_r4 + 0x508) = 0xFFFF;
     }
@@ -4664,7 +4664,7 @@ void TObjPlayer::send_attack_stage2_request() {
     s32 var_r4;
     u8 *temp_r3;
     u8 *temp_r4;
-    temp_r4 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x424));
+    temp_r4 = (u8 *)this->lock_on_cursor;
     if (temp_r4 != NULL) {
         temp_r3 = (u8 *)(resolve_hittable_target(*(u16 *)((s8 *)temp_r4 + 0x508), *(s16 *)((s8 *)temp_r4 + 0x50A)));
         if (temp_r3 != NULL) {
@@ -5113,7 +5113,7 @@ void TObjPlayer::reset_lockon() {
 
     ((s32 (*)(void))clear_velocity)();
     ((s32 (*)(void *))clear_status_bit6__10TObjPlayerFPv)(this);
-    temp_r4 = *(void **)((s8 *)this + 0x424);
+    temp_r4 = this->lock_on_cursor;
     if (temp_r4 != NULL) {
         *(u16 *)((s8 *)temp_r4 + 0x508) = 0xFFFF;
     }

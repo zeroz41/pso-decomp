@@ -177,6 +177,7 @@ LAYOUT_ASSERT(RecoveredGlobal_801C6FF8_lbl_804C4008_size, sizeof(RecoveredGlobal
 #include "pso/item/mag/TItemMag.h"
 #include "pso/player/TForceOperate.h"
 #include "pso/ui/hud/TMainCursor.h"
+#include "pso/ui/hud/TLockOnCursor.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/map/FloorArea.h"
@@ -1119,7 +1120,7 @@ void TForceOperate::run_task() {
     if (TObjPlayer__sub_801C6DAC((u8 *)&m_1c) != 0) {
         temp_r31 = (void *)((TMainCursor *)(&m_1c))->get_state();
         if ((((TObjPlayer *)temp_r31)->is_target_valid() != 0) && (((TObjPlayer *)temp_r31)->has_action_palette_entry() != 0)) {
-            ((TMainCursor *)(((TObjPlayer *)temp_r31)->m_424 + 0x4F8))->get_id();
+            ((TMainCursor *)&((TObjPlayer *)temp_r31)->lock_on_cursor->selection.target)->get_id();
             entity = find_entity_by_id();
             if (entity != NULL) {
                 ((VObj_801C57D0 *)entity)->m11(get_entity_id((saddr)temp_r31));

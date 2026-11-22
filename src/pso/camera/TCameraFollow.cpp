@@ -379,7 +379,7 @@ void TCameraFollow::update_follow_motion_state() {
             } else {
                 rate = (follow & 4) ? 2 : 5;
                 locked_on = 0;
-                cursor = (TLockOnCursor *)this->actor->m_424;
+                cursor = this->actor->lock_on_cursor;
                 if ((cursor != NULL) && (cursor->nearest_target.published_target_id != 0xFFFF) && (cursor->nearest_target.published_target_dist <= 4900.0f)) {
                     locked_on = 1;
                 }

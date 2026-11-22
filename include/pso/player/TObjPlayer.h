@@ -20,6 +20,7 @@ struct TItem;
 class TPlyItem;
 struct TechniqueContactList;
 struct TUnk_801D8A4C;
+struct TLockOnCursor;
 
 // The frames a player stays protected from hits (after getting up, being
 // hurt, or a mag's invincibility).
@@ -198,7 +199,7 @@ struct TObjPlayer : public TObjChara {
     u8 _pad414[0x8];
     void* m_41c;
     u8 unk_420[0x4];
-    saddr m_424;
+    TLockOnCursor *lock_on_cursor;  // created by create_lockon_cursor for local players
     u8 technique_levels[0x84];  // set/get_cast_technique_level's table
     PhotonBlastGauge photon_blast_gauge;
     ActionPalette action_palettes[2];

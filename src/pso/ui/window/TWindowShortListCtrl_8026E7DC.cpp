@@ -30,6 +30,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/hud/TMainCursor_8013DF5C.h"
+#include "pso/ui/hud/TLockOnCursor.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/unk/text_801C53D4.h"
@@ -400,17 +401,16 @@ void TWindowShortListCtrl::destroy_children() {
 void TWindowShortListCtrl::assign_item_to_palette(u32 item_id, u32 client_id) {
     TObjPlayer *player = get_player_by_client_id(client_id);
     if (player != NULL) {
-        // player+0x424 holds an object with a TWindowActionPalette at +0x520 (class not recovered yet).
-        u8 *menu = (u8 *)player->m_424;
-        if (menu != NULL) {
+        TLockOnCursor *cursor = player->lock_on_cursor;
+        if (cursor != NULL) {
             TItem *item = find_item_by_id(item_id);
             if (item != NULL && item->get_item_type() == 3) {
                 s32 slot = get_tool_palette_index(item);
                 if (slot != -1) {
-                    if (canSetMenuCursorAction((saddr)(menu + 0x520), (saddr)player, 4, slot) != 0) {
-                        set_action_palette_tag_mode(reinterpret_cast<ActionPaletteTag *>(menu + 0x520), 4);
-                        set_action_palette_tag_slot(reinterpret_cast<ActionPaletteTag *>(menu + 0x520), slot);
-                        TMainCursor__sub_8013DFC4(menu + 0x520);
+                    if (canSetMenuCursorAction((saddr)&cursor->palette_override, (saddr)player, 4, slot) != 0) {
+                        set_action_palette_tag_mode(&cursor->palette_override, 4);
+                        set_action_palette_tag_slot(&cursor->palette_override, slot);
+                        TMainCursor__sub_8013DFC4((u8 *)&cursor->palette_override);
                     }
                 }
             }

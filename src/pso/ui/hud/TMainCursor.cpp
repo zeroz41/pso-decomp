@@ -459,7 +459,7 @@ void TLockOnCursor::reset_and_spawn_cursors() {
     for (i = 0; i < 4; i++) {
         ((TMainCursor *)&action_slots[i])->reset_state();
     }
-    unk_4ec.reset_state();
+    selection.reset_state();
     TLockOnCursor__sub_8013EC1C(&unk_508);
     nearest_target.reset();
     if (get_start_task() == NULL) {
@@ -2022,7 +2022,7 @@ void TLockOnCursor__sub_8013EC1C(void *p) {
 }
 
 void TUnk_8013EF6C::reset_state() {
-    unk_c.reset_target();
+    target.reset_target();
     unk_14.reset_target();
     unk_8.init();
     unk_0 = 0xffff;

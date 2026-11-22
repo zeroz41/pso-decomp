@@ -49,7 +49,7 @@ void TObjPlayer::init_action_provider() {
     this->set_battle_flag(0);
     this->controller_input = NULL;
     *(s32 *)&this->inventory_objects = 0;
-    this->m_424 = 0;
+    this->lock_on_cursor = NULL;
     (*(s32 *)&this->joint_matrices) = 0;
     this->m_db4 = 0;
     this->set_floor_index(0xF);
