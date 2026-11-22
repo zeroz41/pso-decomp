@@ -38,7 +38,7 @@ s32 TObjEneDarkGunCenter::sub_800A06B4() {
     for (i = 0; i < gunner_count; i++) {
         TObjEneDarkGunner *gunner = (TObjEneDarkGunner *)get_enemy_entity(gunner_ids[i]);
         if (gunner != NULL) {
-            if (TObjPlayer__sub_800A1808(gunner) == 0) {
+            if (gunner->sub_800A1808() == 0) {
                 return 0;
             }
         }

@@ -14549,7 +14549,7 @@ force_active:
   - render_particle_chain__15TOTrapAncient02Fv
   - render_particle_effects__9TMainTaskFv
   - render_present_box__5TItemFv
-  - render_shadow__10TObjPlayerFv
+  - render_shadow__17TObjEneDarkGunnerFv
   - render_shadow_flags
   - render_shadows__10TBoss6MineFv
   - render_shadows__11TItemMagSubFv
@@ -16009,7 +16009,7 @@ force_active:
   - spawn_ground_effect__16TObjEneMerillLiaFPv
   - spawn_ground_effects__14TObjEneDolmOlmFPvPv
   - spawn_ground_splash__13TBoss5GryphonFv
-  - spawn_hamon_effects__10TObjPlayerFllf
+  - spawn_hamon_effects__17TObjEneDarkGunnerFllf
   - spawn_hit_effects__11TBoss6Type2Fv
   - spawn_hit_particle_trio__10TObjPlayerFv
   - spawn_hit_particles__10TObjPlayerFiPv
@@ -16128,7 +16128,7 @@ force_active:
   - stdout_buff
   - stelth_bml_resource_desc
   - stelth_projection_texture_handle
-  - step_along_ground__10TObjPlayerFv
+  - step_along_ground__17TObjEneDarkGunnerFv
   - step_angle_clamped
   - step_angle_toward__9TBoss6MagFlll
   - step_camera_scalar__FPCfPCfPff
@@ -17059,7 +17059,7 @@ force_active:
   - update_motion_tracks__11TBoss6Type2Fv
   - update_move__17TObjEneMe1CanadinFv
   - update_move_flag__10TBoss2MineFv
-  - update_move_to_destination__10TObjPlayerFv
+  - update_move_to_destination__17TObjEneDarkGunnerFv
   - update_move_to_target__18TObjEneBalClawClawFPv
   - update_move_to_target_state__10TBoss4ZakoFv
   - update_move_toward_target__12TObjEneSaverFv

@@ -274,16 +274,10 @@ struct TObjPlayer : public TObjChara {
     static void draw_area_chunk_objects();
     void save_position();
     static void copy_screen_to_texture(s32 mode, void *src);
-    void step_along_ground();
-    void update_move_to_destination();
-    void spawn_hamon_effects(s32 arg1, s32 arg2, f32 farg0);
-    void render_shadow();
-    static void cleanup_effects();
     void clear_counter();
     void set_cancel_flag();
     static void reset_effect_count();
     static void step_cutscene_frame(NJS_OBJECT *);
-    static void free_resources();
     void enter_state_8();
     void tick_freeze_state();
     void update_death_breakup();

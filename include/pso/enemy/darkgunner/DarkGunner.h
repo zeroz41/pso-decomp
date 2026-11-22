@@ -8,7 +8,6 @@ extern "C" {
 void TObjPlayer__sub_800A100C(s32 _w0);
 void sub_800A1520__17TObjEneDarkGunnerFv(u8 *arg0_);
 void TObjPlayer__sub_800A16C4(u8 *player);
-int TObjPlayer__sub_800A1808(void *p);
 void TObjPlayer__sub_800A1974(void);
 void TObjPlayer__sub_800A1D70(u8 *arg0);
 s32 TObjPlayer__sub_800A1FEC(void *arg0);

@@ -78,9 +78,9 @@ saddr lbl_805D5054;
 s32 lbl_805D5058;
 s32 lbl_805D505C;
 saddr lbl_805D5060;
-saddr lbl_805D5064;
-void *lbl_805D5068;
-saddr lbl_805D506C;
+SampledMotionPoints *lbl_805D5064;
+SampledMotionPoints *lbl_805D5068;
+SampledMotionPoints *lbl_805D506C;
 void initialize_saver_resources(void);
 s32 free_collision_body_parts(void *);
 void init_collision_body_parts(void *, void *, s32);
@@ -186,7 +186,7 @@ void TObjEneSaver::apply_lookup_entry_effect() {
     s32 entry;
     u8 *temp_r3_2;
 
-    entry = (saddr)((SampledMotionPoints *)((void *)lbl_805D5064))->lookup((f32)this->frame);
+    entry = (saddr)lbl_805D5064->lookup((f32)this->frame);
     if (entry != 0) {
         push_matrix();
         set_matrix_identity(0);
@@ -719,7 +719,7 @@ void TObjEneSaver::sub_800A4D9C() {
     case 1:
         move_with_wall_slide(self);
         if (11.0f <= F(f32, 0xC0) && F(f32, 0xC0) <= 27.0f) {
-            if ((e = (saddr)((SampledMotionPoints *)(lbl_805D5068))->lookup(F(f32, 0xC0))) != 0) {
+            if ((e = (saddr)lbl_805D5068->lookup(F(f32, 0xC0))) != 0) {
                 push_matrix();
                 set_matrix_identity(0);
                 post_translate_matrix((u8 *)&this->position);
@@ -854,7 +854,7 @@ void TObjPlayer__sub_800A5154(void *arg0) {
             }
         }
         if (0.0f <= o->fC0 && o->fC0 <= 7.0f) {
-            s32 entry = (saddr)((SampledMotionPoints *)((void *)lbl_805D506C))->lookup(o->fC0);
+            s32 entry = (saddr)lbl_805D506C->lookup(o->fC0);
             if (entry != 0) {
                 push_matrix();
                 set_matrix_identity(0);
@@ -1045,18 +1045,15 @@ void initialize_saver_resources(void) {
     ((f32 *)&lbl_80500978)[2] = 0.0f;
     ((f32 *)&lbl_80500978)[1] = 0.0f;
     ((f32 *)&lbl_80500978)[0] = 0.0f;
-    r = new SampledMotionPoints(2, 15.0f, 60.0f, 1.0f);
-    lbl_805D5064 = (saddr)r;
-    r = new SampledMotionPoints(2, 11.0f, 27.0f, 1.0f);
-    lbl_805D5068 = r;
-    r = new SampledMotionPoints(2, 0.0f, 7.0f, 1.0f);
-    lbl_805D506C = (saddr)r;
-    ((SampledMotionPoints *)lbl_805D5064)->sample_two_nodes((NJS_OBJECT *)RES->sub->f8, (NJS_MOTION *)(RES->ents[saver_action_table[2].motion].b), 0x20, 0x21);
-    ((SampledMotionPoints *)lbl_805D5068)->sample_two_nodes((NJS_OBJECT *)RES->sub->f8, (NJS_MOTION *)(RES->ents[saver_action_table[4].motion].b), 0x20, 0x21);
+    lbl_805D5064 = new SampledMotionPoints(2, 15.0f, 60.0f, 1.0f);
+    lbl_805D5068 = new SampledMotionPoints(2, 11.0f, 27.0f, 1.0f);
+    lbl_805D506C = new SampledMotionPoints(2, 0.0f, 7.0f, 1.0f);
+    lbl_805D5064->sample_two_nodes((NJS_OBJECT *)RES->sub->f8, (NJS_MOTION *)(RES->ents[saver_action_table[2].motion].b), 0x20, 0x21);
+    lbl_805D5068->sample_two_nodes((NJS_OBJECT *)RES->sub->f8, (NJS_MOTION *)(RES->ents[saver_action_table[4].motion].b), 0x20, 0x21);
     pos.x = pos.y = pos.z = 0.0f;
     dir.x = (-10.0f);
     dir.y = dir.z = 0.0f;
-    ((SampledMotionPoints *)lbl_805D506C)->sample_node_offsets((NJS_OBJECT *)RES->sub->f8, (NJS_MOTION *)(RES->ents[saver_action_table[3].motion].b), 0x19, (const Vec *)&pos, (const Vec *)&dir);
+    lbl_805D506C->sample_node_offsets((NJS_OBJECT *)RES->sub->f8, (NJS_MOTION *)(RES->ents[saver_action_table[3].motion].b), 0x19, (const Vec *)&pos, (const Vec *)&dir);
     player_object_ptr_array = (void **)mem_alloc(0xC);
     saver_boss_stat_handle = TLobby::register_boss(0x52);
     player_object_ptr_array[0] = TLobby::dispatch_shared_handler_b(0x57);
@@ -1069,22 +1066,22 @@ void initialize_saver_resources(void) {
     NpcModelRegistry::register_animated_chunk((s16)0x1A, reinterpret_cast<void *>(RES->sub->f8), reinterpret_cast<void *>(RES->sub->texlist), &init, (f32)saver_collision_body_part_table[3], (f32)0.0f);
 }
 
-void TObjPlayer::free_resources() {
-    if ((u32) (*(u32 *)&player_object_ptr_array) != 0U) {
-        mem_free((void*)(*(uaddr *)&player_object_ptr_array));
-        (*(u32 *)&player_object_ptr_array) = 0U;
+void TObjEneSaver::free_resources() {
+    if (player_object_ptr_array != NULL) {
+        mem_free(player_object_ptr_array);
+        player_object_ptr_array = NULL;
     }
-    if ((u32) (*(u32 *)&lbl_805D5064) != 0U) {
-        delete (SampledMotionPoints *)(*(uaddr *)&lbl_805D5064);
-        (*(u32 *)&lbl_805D5064) = 0U;
+    if (lbl_805D5064 != NULL) {
+        delete lbl_805D5064;
+        lbl_805D5064 = NULL;
     }
-    if ((u32) (*(u32 *)&lbl_805D5068) != 0U) {
-        delete (SampledMotionPoints *)(*(uaddr *)&lbl_805D5068);
-        (*(u32 *)&lbl_805D5068) = 0U;
+    if (lbl_805D5068 != NULL) {
+        delete lbl_805D5068;
+        lbl_805D5068 = NULL;
     }
-    if ((u32) (*(u32 *)&lbl_805D506C) != 0U) {
-        delete (SampledMotionPoints *)(*(uaddr *)&lbl_805D506C);
-        (*(u32 *)&lbl_805D506C) = 0U;
+    if (lbl_805D506C != NULL) {
+        delete lbl_805D506C;
+        lbl_805D506C = NULL;
     }
     if ((u32) saver_bml_resource != 0U) {
         delete (BmlResource *)saver_bml_resource;

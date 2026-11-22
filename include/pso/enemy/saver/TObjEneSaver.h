@@ -11,6 +11,7 @@ class TUnk_80494968;
 
 struct TObjEneSaver : public TObjEnemy {
     virtual ~TObjEneSaver();
+    static void free_resources();
     void turn_toward_target();
     void sub_800A5FA8();
     void sub_800A4D9C();

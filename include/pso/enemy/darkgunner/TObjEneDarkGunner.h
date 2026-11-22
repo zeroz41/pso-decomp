@@ -28,12 +28,26 @@ struct TObjEneDarkGunner : public TObjEnemyCustom {
     virtual void run_idle_action();
     virtual s32 update_action_hold_status();
     virtual void refresh_target();
+    void step_along_ground();
+    void update_move_to_destination();
+    int sub_800A1808();
+    void spawn_hamon_effects(s32 type, s32 variant, f32 scale);
+    void render_shadow();
+    static void cleanup_effects();
     f32 render_y_offset;
-    u8 unk_390[0x4];
-    f32 m_394;
-    u8 pad_398[0x4];
+    f32 hover_height;  // integrated from hover_speed, clamped to 0..9
+    f32 hover_speed;
+    s16 spin_count;    // 0x555 turns before the move state
+    s16 attack_timer;
     s16 hide_timer;
-    u8 pad_39e[0x52];
+    s16 pad_39e;
+    f32 move_speed;     // fed to enemy_set_heading_velocity, decays each frame
+    f32 move_distance;  // sum of move_speed; the move ends past a parameter
+    s32 move_heading;
+    s32 turn_delay;
+    s32 attack_count;
+    Vec shadow_pos;  // above position by 5 + hover_height; render_shadow draws here
+    Vec child_offsets[4];
     void* children[4];
     void* child400;
     void* child404;
