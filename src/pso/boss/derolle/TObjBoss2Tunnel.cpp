@@ -238,7 +238,6 @@ extern s32 lbl_805D49B4;
 extern char episode_i_and_ii_card_filename[];
 s8 func_801A5E54__Fv(void);
 extern uaddr camera_ctrl_instance;
-void set_depth_buffer_settings_1__Fv(void);
 extern s32 lbl_805D63F0;
 s32 get_memcard_free_files(s32);
 }
@@ -731,7 +730,7 @@ void draw_snapshot_capture_overlay(void) {
         v[i].z = 0.25f;
         v[i].color = 0x8F000000;
     }
-    set_depth_buffer_settings_1__Fv();
+    set_depth_buffer_settings_1();
     v[0].x = 0.0f;
     v[0].y = 0.0f;
     v[1].x = 640.0f;
@@ -981,7 +980,7 @@ s32 TObjBoss2Tunnel__sub_8007D1D0(void) {
                 t = 0.0f;
                 graph = (TDLGraph *)TDLGraph::create();
                 if (get_main_phase() == 0xF) {
-                    reset_state_flags__6TLobbyFv();
+                    TLobby::reset_state_flags();
                 }
                 limit = 60.0f;
                 do {
@@ -1015,7 +1014,7 @@ s32 TObjBoss2Tunnel__sub_8007D1D0(void) {
                     delete graph;
                 }
                 if (get_main_phase() == 0xF) {
-                    process_deferred_player_setup__6TLobbyFv();
+                    TLobby::process_deferred_player_setup();
                 }
                 TParticleCtrl::end_effect_render();
             } else {
@@ -1290,7 +1289,7 @@ void TObjBoss2Tunnel::show_message_and_wait(s32 message) {
         win->complete_reveal();
     }
     if (get_main_phase() == 0xF) {
-        reset_state_flags__6TLobbyFv();
+        TLobby::reset_state_flags();
     }
     frames = 0;
     for (;;) {
@@ -1311,7 +1310,7 @@ void TObjBoss2Tunnel::show_message_and_wait(s32 message) {
         render_tick();
     }
     if (get_main_phase() == 0xF) {
-        process_deferred_player_setup__6TLobbyFv();
+        TLobby::process_deferred_player_setup();
     }
     if (win != NULL) {
         delete win;
@@ -1344,7 +1343,7 @@ s32 TObjBoss2Tunnel::run_confirm_message_loop() {
     }
     frames = 0;
     if (get_main_phase() == 0xF) {
-        reset_state_flags__6TLobbyFv();
+        TLobby::reset_state_flags();
     }
     pad = &controller_physical_port_bank.controllers[3];
     for (;;) {
@@ -1384,7 +1383,7 @@ s32 TObjBoss2Tunnel::run_confirm_message_loop() {
         delete graph;
     }
     if (get_main_phase() == 0xF) {
-        process_deferred_player_setup__6TLobbyFv();
+        TLobby::process_deferred_player_setup();
     }
     if (win != NULL) {
         delete win;

@@ -88,32 +88,18 @@ extern int model_render_flags;
 }
 
 
-struct Part_800BA030 { u8 pad[0x2c]; };
-struct Obj_800BA030 { u8 pad[0xa4]; Part_800BA030 *parts; s32 count; };
-struct Part_800BA084 { u8 pad[0x2c]; };
-struct Obj_800BA084 { u8 pad[0xa4]; Part_800BA084 *parts; s32 count; };
 
 
 #include "pso/player/TUnk_804928CC.h"
 
 
 #include <stddef.h>
-struct E_800BA1C8 { u8 pad[0x18]; u32 flags; u8 pad2[0x10]; };
-struct O_800BA1C8 { u8 pad[0xa4]; E_800BA1C8 *entries; s32 count; };
-struct E_800BA190 { u8 pad[0x18]; u32 flags; u8 pad2[0x10]; };
-struct O_800BA190 { u8 pad[0xa4]; E_800BA190 *entries; s32 count; };
-struct Part_800BA200 { u8 pad[0x18]; u32 flags; u8 pad2[0x2c - 0x1c]; };
-struct Obj_800BA200 { u8 pad[0x30]; u32 flags; u8 pad2[0xa4 - 0x34]; Part_800BA200 *parts; s32 count; };
-struct Part_800BA244 { u8 pad[0x18]; u32 flags; u8 pad2[0x2c - 0x1c]; };
-struct Obj_800BA244 { u8 pad[0x30]; u32 flags; u8 pad2[0xa4 - 0x34]; Part_800BA244 *parts; s32 count; };
 extern "C" {
 s32 all_parents_unqueued_for_destruction();
 TUnk_804928CC *obj_ene_dd_instance;
 }
 
 
-struct E_800BA8A8 { u8 pad[0x18]; u32 flags; u8 pad2[0x10]; };
-struct O_800BA8A8 { u8 pad[0xa4]; E_800BA8A8 *entries; s32 count; };
 
 
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -122,13 +108,8 @@ struct O_800BA8A8 { u8 pad[0xa4]; E_800BA8A8 *entries; s32 count; };
 #include "pso/math/MatrixVector.h"
 
 
-struct Part_800BAAE4 { Vec a; u8 pad[0x10]; Vec b; u8 pad2[4]; };
-struct Obj_800BAAE4 { u8 pad[0x38]; Vec pos; u8 pad2[0x1c]; s32 angle; u8 pad3[0x40]; Part_800BAAE4 *parts; };
-struct Part_800BA9BC { Vec a; u8 pad[0x10]; Vec b; u8 pad2[4]; };
-struct Obj_800BA9BC { u8 pad[0x38]; Vec pos; u8 pad2[0x1c]; s32 angle; u8 pad3[0x40]; Part_800BA9BC *parts; };
 extern "C" {
 int matrix_mult_vec(void *, void *, void *);
-void set_part_position__9TObjEneDDFPvPvi(Obj_800BA9BC *self, Vec *v, s32 i);
 }
 
 
@@ -167,8 +148,6 @@ u16 enemy_nearest_visible_enemy_sq(Ent_800BB388 *self, f32 range);
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 
 
-struct Part_800BB780 { u8 pad[0x18]; u32 flags; u8 pad2[0x10]; };
-struct Obj_800BB780 { u8 pad[0x30]; u32 flags; u8 pad1[0x70]; Part_800BB780 *parts; s32 count; u8 pad2[0x230]; s32 f2dc; u8 pad3[0x4c]; s16 f32c; u8 pad4[0x10]; s16 f33e; };
 extern "C" {
 int submit_cursor_candidate(void*, int);
 }
@@ -372,11 +351,11 @@ void TBoss8Dragon::noop() {  }
 
 void TObjEneDD::clear_attack_receipts() {
     s32 i;
-    ((Obj_800BB780 *)this)->f33e = ((Obj_800BB780 *)this)->f32c;
-    ((Obj_800BB780 *)this)->flags &= ~0x200;
-    ((Obj_800BB780 *)this)->f2dc = 0;
-    for (i = 0; i < ((Obj_800BB780 *)this)->count; i++) {
-        ((Obj_800BB780 *)this)->parts[i].flags &= ~0x04000000;
+    referenceHp = hp;
+    actorFlags &= ~0x200;
+    m_2dc = 0;
+    for (i = 0; i < body_count; i++) {
+        bodies[i].flags &= ~0x04000000;
     }
 }
 
@@ -736,11 +715,11 @@ void TObjEneDD::init_model(CollisionBody *bodies, s32 count) {
 
 void TObjEneDD::set_part_local_pos(void *v, s32 i) {
     Vec *p;
-    VecCopy((Vec *)&((Obj_800BAAE4 *)this)->parts[i].b, (const Vec *)((Vec *)v));
-    p = &((Obj_800BAAE4 *)this)->parts[i].a;
-    VecCopy((Vec *)p, (const Vec *)((Vec *)v));
-    subtract_vector(p, &((Obj_800BAAE4 *)this)->pos);
-    rotate_xz_pair_by_angle(&p->x, &p->z, -((Obj_800BAAE4 *)this)->angle);
+    VecCopy(&bodies[i].center, (const Vec *)v);
+    p = &bodies[i].offset;
+    VecCopy(p, (const Vec *)v);
+    subtract_vector(p, &position);
+    rotate_xz_pair_by_angle(&p->x, &p->z, -rotation_y);
 }
 
 void update_local_colliders_from_world(TObjEneDD *self, Vec *world_points) {
@@ -757,13 +736,13 @@ void update_local_colliders_from_world(TObjEneDD *self, Vec *world_points) {
     pop_matrix();
 }
 
-void set_part_position__9TObjEneDDFPvPvi(Obj_800BA9BC *self, Vec *v, s32 i) {
+void TObjEneDD::set_part_position(void *actor, void *v, int i) {
     Vec *p;
-    VecCopy((Vec *)((Vec *)(&self->parts[i].a)), (const Vec *)((const Vec *)(v)));
-    p = &self->parts[i].b;
-    VecCopy((Vec *)((Vec *)(p)), (const Vec *)((const Vec *)(v)));
-    rotate_xz_pair_by_angle(&p->x, &p->z, self->angle);
-    vec3_add_to((Vec *)p, (const Vec *)&self->pos);
+    VecCopy(&((TObjCollidable *)actor)->bodies[i].offset, (const Vec *)v);
+    p = &((TObjCollidable *)actor)->bodies[i].center;
+    VecCopy(p, (const Vec *)v);
+    rotate_xz_pair_by_angle(&p->x, &p->z, ((TObjCollidable *)actor)->rotation_y);
+    vec3_add_to(p, &((TObjCollidable *)actor)->position);
 }
 
 void TObjEneDD::transform_part_positions() {
@@ -790,10 +769,9 @@ void TObjEneDD::check_collisions() {
 }
 
 s32 TObjEneDD::vfunc_90() {
-    O_800BA8A8 *self = (O_800BA8A8 *)this;
     s32 i;
     for (i = 0; i < this->body_count; i++) {
-        if (self->entries[i].flags & 0x380000) {
+        if (bodies[i].flags & 0x380000) {
             return 1;
         }
     }
@@ -927,36 +905,32 @@ void TObjEneDD::set_state_flag_4() { add_flags_2e4(4); }
 void TObjEneDD::set_state_8() { add_flags_2e4(8); }
 
 void TObjEneDD::set_invulnerable() {
-    Obj_800BA244 *self = (Obj_800BA244 *)this;
     s32 i;
     this->actorFlags |= 0x04000000;
     for (i = 0; i < this->body_count; i++) {
-        self->parts[i].flags |= 0x02000000;
+        bodies[i].flags |= 0x02000000;
     }
 }
 
 void TObjEneDD::clear_invulnerable() {
-    Obj_800BA200 *self = (Obj_800BA200 *)this;
     s32 i;
     this->actorFlags &= ~0x04000000;
     for (i = 0; i < this->body_count; i++) {
-        self->parts[i].flags &= ~0x02000000;
+        bodies[i].flags &= ~0x02000000;
     }
 }
 
 void TObjEneDD::enable_body_collision() {
-    O_800BA1C8 *self = (O_800BA1C8 *)this;
     s32 i;
     for (i = 0; i < this->body_count; i++) {
-        self->entries[i].flags |= 1;
+        bodies[i].flags |= 1;
     }
 }
 
 void TObjEneDD::disable_body_collision() {
-    O_800BA190 *self = (O_800BA190 *)this;
     s32 i;
     for (i = 0; i < this->body_count; i++) {
-        self->entries[i].flags &= ~1;
+        bodies[i].flags &= ~1;
     }
 }
 
@@ -973,18 +947,16 @@ void TObjEneDD::clear_intangible() {
 }
 
 void TObjEneDD::set_colliders_contact_high() {
-    Obj_800BA084 *self = (Obj_800BA084 *)this;
     s32 i;
     for (i = 0; i < this->body_count; i++) {
-        set_collider_contact_high((u8 *)&self->parts[i]);
+        set_collider_contact_high((u8 *)&bodies[i]);
     }
 }
 
 void TObjEneDD::set_colliders_contact_low() {
-    Obj_800BA030 *self = (Obj_800BA030 *)this;
     s32 i;
     for (i = 0; i < this->body_count; i++) {
-        set_collider_contact_low((u8 *)&self->parts[i]);
+        set_collider_contact_low((u8 *)&bodies[i]);
     }
 }
 

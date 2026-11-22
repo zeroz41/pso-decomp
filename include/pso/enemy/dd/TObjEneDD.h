@@ -11,6 +11,7 @@ struct TObjEneDD : public TObjEnemy {
     TObjEneDD(TObject *parent);
     virtual ~TObjEneDD();
     void set_part_local_pos(void *, s32);
+    static void set_part_position(void *actor, void *v, int i);
     void transition_enemy_state(s32);
     void sub_800BBA0C();
     void invoke_initialization_hook(void *set_data);
