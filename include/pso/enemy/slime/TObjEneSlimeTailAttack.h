@@ -21,7 +21,8 @@ struct TObjEneSlimeTailAttack : public TObjEnemy {
     static TObjEneSlimeTailAttack *create(saddr, const Vec *, s32, TObjEneSlimeOne *);
     void draw_blob_shadows();
     s32 sub_800E85BC();
-    void draw_stretched_segment(void *, void *, f32);
+    // The tail segment from `from` stretched towards `to`, t the segment's progress (0..1).
+    void draw_stretched_segment(Vec *from, Vec *to, f32 t);
     void sub_800E841C();
     virtual void run_task();
     virtual void render();

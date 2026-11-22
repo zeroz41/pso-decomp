@@ -233,13 +233,7 @@ s32 spawn_slime_in_slot(TObjEneSlime *origin, s32 arg1, Vec *arg2, Vec *arg3);
 
 
 
-extern "C" {
-extern u32 model_render_flags;
-
-
-
-
-}
+#include "pso/render/model_render_state.h"
 
 // ---- folded from src/pso/enemy/TObjEneSlime_800EBBC8.cpp ----
 
@@ -247,13 +241,7 @@ extern u32 model_render_flags;
 #include "pso/boss/darkfalz/TObjDFHorming.h"
 
 
-extern "C" {
-extern s32 __vt__12TObjEneSlime[];
-
 // ---- folded from src/pso/enemy/TObjEneSlime_800EBD38.cpp ----
-
-
-}
 
 // ---- folded from src/pso/player/TObjPlayer_800EBE2C.cpp ----
 
@@ -263,32 +251,22 @@ extern s32 __vt__12TObjEneSlime[];
 #include "pso/render/BlobShadow.h"
 
 
-struct Stack_800EBE74 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-    f32 sp14;
-};
-
-extern int saved_model_render_flags;
-extern int saved_chunk_polygon_flags_and_mask;
-extern int saved_chunk_polygon_flags_or_mask;
-extern int chunk_polygon_flags_or_mask;
-extern int chunk_polygon_flags_and_mask;
 
 
-void TObjPlayer::push_material_color_override(f32 alpha, f32 farg1, f32 farg2, f32 farg3) {
-    Stack_800EBE74 stack;
-    (*(s32 *)&saved_model_render_flags) = (*(s32 *)&model_render_flags);
-    (*(s32 *)&saved_chunk_polygon_flags_and_mask) = (*(s32 *)&chunk_polygon_flags_and_mask);
-    (*(s32 *)&saved_chunk_polygon_flags_or_mask) = (*(s32 *)&chunk_polygon_flags_or_mask);
-    (*(s32 *)&model_render_flags) |= 0x20;
+
+
+void TObjPlayer::push_material_color_override(f32 alpha, f32 r, f32 g, f32 b) {
+    NJS_ARGB color;
+    saved_model_render_flags = model_render_flags;
+    saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
+    saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
+    model_render_flags |= 0x20;
     set_chunk_material_override_pair(0xFF00, 0x800);
-    stack.spC = farg1;
-    stack.sp10 = farg2;
-    stack.sp8 = -1.0f + alpha;
-    stack.sp14 = farg3;
-    set_constant_material((const NJS_ARGB *)((&stack.sp8)));
+    color.r = r;
+    color.g = g;
+    color.a = -1.0f + alpha;
+    color.b = b;
+    set_constant_material(&color);
 }
 
 void TObjPlayer__sub_800EBE48(f32 alpha) {
@@ -345,13 +323,13 @@ TObjEneSlime::~TObjEneSlime() {
 void TObjEneSlime::run_death_reaction() { this->release_split_slimes(); }
 
 void TObjEneSlime::run_task() {
-    s32 sp8;
+    s32 enemy_state;
 
     if ((TObjPlayer::check_demo_mode() == 0) && (has_no_active_slot(this) != 0)) {
-        sp8 = 0x800;
-        send_6x0A_enemy_state(&sp8);
-        exchange_object_state(&sp8, (s16)0);
-        this->apply_enemy_state(&sp8);
+        enemy_state = 0x800;
+        send_6x0A_enemy_state(&enemy_state);
+        exchange_object_state(&enemy_state, (s16)0);
+        this->apply_enemy_state(&enemy_state);
         send_entity_set_flags();
         queue_destruction();
     }
@@ -424,28 +402,28 @@ s32 has_no_active_slot(TObjEneSlime *self) {
     return 1;
 }
 
-s32 spawn_slime_in_slot(TObjEneSlime *origin, s32 arg1, Vec *arg2, Vec *arg3) {
+s32 spawn_slime_in_slot(TObjEneSlime *origin, s32 index, Vec *position, Vec *velocity) {
     SlimeSpawnTemplate t;
     SlimeChildSlot *slot;
     s32 n;
-    if (arg1 < 0 || arg1 >= origin->child_limit || origin->child_slots[arg1].state != 0) {
+    if (index < 0 || index >= origin->child_limit || origin->child_slots[index].state != 0) {
         return 0;
     }
     t = origin->spawn_template;
-    n = arg1 + 1;
+    n = index + 1;
     t.entry.field_00 = origin->spawn_template.entry.field_00 + n;
     t.entry.field_02 = 0;
     t.entry.field_06 = origin->spawn_template.entry.field_06 + n;
-    if (arg2 == NULL) {
+    if (position == NULL) {
         VecCopy(&t.entry.position, &origin->position);
     } else {
-        VecCopy(&t.entry.position, (const Vec *)arg2);
+        VecCopy(&t.entry.position, position);
     }
-    slot = &origin->child_slots[arg1];
-    if (arg3 == 0) {
+    slot = &origin->child_slots[index];
+    if (velocity == 0) {
         slot->slime = (TObjEneSlimeOne *)TObjEneSlimeOne::create((saddr)origin, (saddr)&t);
     } else {
-        slot->slime = (TObjEneSlimeOne *)TObjEneSlimeOne::create((saddr)origin, (saddr)&t, (saddr)arg3);
+        slot->slime = (TObjEneSlimeOne *)TObjEneSlimeOne::create((saddr)origin, (saddr)&t, (saddr)velocity);
     }
     if (slot->slime == NULL) {
         return 0;
@@ -657,8 +635,8 @@ void TObjEneSlimeOne::render() {
     }
 }
 
-void TObjEneSlimeOne::set_state(s32 arg1) {
-    this->state = arg1;
+void TObjEneSlimeOne::set_state(s32 new_state) {
+    this->state = new_state;
     SlimeOneStateFn a = lbl_80496574[this->state].enter;
     if (a != 0) {}
     (this->*a)();
@@ -834,7 +812,7 @@ void TObjEneSlimeOne::enter_slide() {
     set_display_mode(1);
 }
 void TObjEneSlimeOne::update_slide() {
-    Vec sp8;
+    Vec to_player;
     f32 s;
     f32 c;
     f32 accel;  // inferred: the per-frame speed-up added to move_speed
@@ -872,7 +850,7 @@ void TObjEneSlimeOne::update_slide() {
         VecCopy(&position, &prev_position);
     }
     if (m_398 <= 0.0f && 0.0f == move_speed) {
-        if (find_nearest_visible_player(this, &sp8, 50.0f) != 0xFFFF && vector_length(&sp8) > 15.0f) {
+        if (find_nearest_visible_player(this, &to_player, 50.0f) != 0xFFFF && vector_length(&to_player) > 15.0f) {
             set_state(4);
         } else {
             set_state(3);
@@ -931,8 +909,8 @@ void TObjEneSlimeOne::enter_scan() {
   set_display_mode(2);
 }
 void TObjEneSlimeOne::update_scan() {
-    Vec sp14;
-    Vec sp8;
+    Vec to_player;
+    Vec direction;
     f32 f;
     u16 r;
     s32 n;
@@ -943,9 +921,9 @@ void TObjEneSlimeOne::update_scan() {
     }
     this->rotation_y = f * (f32)this->turn_speed + (f32)this->rotation_y;
     if (this->target_client_id == 0xFFFF) {
-        r = find_nearest_visible_player(this, &sp14, 162.5f);
+        r = find_nearest_visible_player(this, &to_player, 162.5f);
         if (r != 0xFFFF &&
-            angle_difference_abs(this->rotation_y, (s32)(10430.38043493439 * atan2_float(sp14.x, sp14.z))) < 0x1C71) {
+            angle_difference_abs(this->rotation_y, (s32)(10430.38043493439 * atan2_float(to_player.x, to_player.z))) < 0x1C71) {
             this->motion_phase = 0;
             this->target_client_id = r;
         }
@@ -955,11 +933,11 @@ void TObjEneSlimeOne::update_scan() {
         n = (f32)*(u32 *)((s8 *)(get_bml_motion(model_archive, 10)) + 4) / 0.5f;
         this->motion_phase = 0;
         if (this->target_client_id != 0xFFFF) {
-            sp8.x = 1.0f;
-            sp8.y = 0.0f;
-            sp8.z = 0.0f;
-            TObjPlayer::calc_distance_to_client((saddr)this, this->target_client_id, &sp8);
-            this->rotation_y = approach_angle_limited(this->rotation_y, (s32)(10430.38043493439 * atan2_float(sp8.x, sp8.z)), 0x280);
+            direction.x = 1.0f;
+            direction.y = 0.0f;
+            direction.z = 0.0f;
+            TObjPlayer::calc_distance_to_client((saddr)this, this->target_client_id, &direction);
+            this->rotation_y = approach_angle_limited(this->rotation_y, (s32)(10430.38043493439 * atan2_float(direction.x, direction.z)), 0x280);
         }
         if (this->state_timer > n) {
             animation->set_state(0);
@@ -1633,18 +1611,18 @@ void TObjEneSlimeTailAttack::sub_800E841C() {
 }
 #pragma pop
 
-void TObjEneSlimeTailAttack::draw_stretched_segment(void *arg1, void *arg2, f32 t) {
+void TObjEneSlimeTailAttack::draw_stretched_segment(Vec *from, Vec *to, f32 t) {
     f32 len;
     f32 k;
     f32 saved;
     Vec d;
-    VecCopy((Vec *)&d, (const Vec *)((Vec *)arg2));
-    subtract_vector(&d, ((Vec *)arg1));
+    VecCopy(&d, to);
+    subtract_vector(&d, from);
     len = vector_length(&d);
     push_matrix();
     k = 0.5f * (1.0f + t);
     {
-        Vec p = *((Vec *)arg1);
+        Vec p = *from;
         p.x += k * d.x;
         p.y += k * d.y + -0.5f;
         p.z += k * d.z;
@@ -1667,8 +1645,8 @@ void TObjEneSlimeTailAttack::draw_stretched_segment(void *arg1, void *arg2, f32 
 void TObjEneSlimeTailAttack::draw_blob_shadows() {
     s32 i;
     f32 k;
-    s32 spC;
-    s32 sp8;
+    s32 angle_x;
+    s32 angle_z;
     k = 10.0f;
     for (i = 0; i < 4; i++) {
         Vec v = pose.shadows[i];
@@ -1677,9 +1655,9 @@ void TObjEneSlimeTailAttack::draw_blob_shadows() {
         if (project_actor_to_ground(this, &v, &normal) != 0) {
             push_matrix();
             translate_matrix(0, v.x, 0.1f + v.y, v.z);
-            direction_to_rotation_xz((u8 *)&normal, &spC, &sp8);
-            rotate_matrix_z(0, sp8);
-            rotate_matrix_x(0, spC + 0x4000);
+            direction_to_rotation_xz((u8 *)&normal, &angle_x, &angle_z);
+            rotate_matrix_z(0, angle_z);
+            rotate_matrix_x(0, angle_x + 0x4000);
             scale_matrix(0, 0.75f, 0.75f, 0.75f);
             draw_blob_shadow(0);
             pop_matrix();

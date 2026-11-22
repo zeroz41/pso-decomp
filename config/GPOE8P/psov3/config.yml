@@ -5911,7 +5911,7 @@ force_active:
   - draw_status_text__19TWindowKeyBoardHardFPv
   - draw_status_window__14TAdPlyStatusGCFPvPv
   - draw_status_window__15TAdMcSelectMcGCFv
-  - draw_stretched_segment__22TObjEneSlimeTailAttackFPvPvf
+  - draw_stretched_segment__22TObjEneSlimeTailAttackFP3VecP3Vecf
   - draw_switch_light__12TODoorCave01FP10NJS_OBJECTl
   - draw_switch_light__15TODoorMachine01FP10NJS_OBJECTl
   - draw_switch_lights__15TODoorAncient08Fv
