@@ -148,7 +148,7 @@ void TBoss4DarkFalz::begin_defeat_sequence() {
         TObjDFDemo5::create(this, &dark_falz_demo5_position, 0);
     }
     if (TBoss4DarkFalz__type3_instance != NULL) {
-        TBoss4DarkFalz__type3_instance->get_defeat_params(&m_2d6, &attacker_id, sp8);
+        TBoss4DarkFalz__type3_instance->get_defeat_params(&local_attacker_id, &attacker_id, sp8);
         TBoss4DarkFalz__type3_instance->queue_destruction();
         TBoss4DarkFalz__type3_instance = NULL;
         i = 0;
@@ -288,7 +288,7 @@ void TBoss4DarkFalz::enter_demo2_phase() {
     TObjDFDemo2::create(this, &cinematic_position, cinematic_angle, flag);
     set_story_flag_or_send_quest_flag(0x35);
     if (TBoss4DarkFalz__type2_instance != NULL) {
-        TBoss4DarkFalz__type2_instance->get_demo2_params(&m_2d6, &attacker_id, arr);
+        TBoss4DarkFalz__type2_instance->get_demo2_params(&local_attacker_id, &attacker_id, arr);
         TBoss4DarkFalz__type2_instance->queue_destruction();
         TBoss4DarkFalz__type2_instance = NULL;
         for (i = 0; i < 4; i++) {

@@ -1358,7 +1358,7 @@ TObjChara::TObjChara(TObject *parent) : TObjMotion(parent) {
     }
     l->f116 = 0;
     l->f118 = 0;
-    *(u16 *)((s8 *)this + 0x2D6) = 0xFFFF;
+    local_attacker_id = 0xFFFF;
     TObjPlayer::clear_s16_arrays(this);
     *(s32 *)((s8 *)this + 0x330) = 0;
     obj_setField96_1((ObjFlags*)((ObjFlags *)this));

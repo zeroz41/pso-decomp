@@ -184,7 +184,7 @@ public:
     s16 ata;  // stat block ATA plus the attack params' bonus
     s16 lck;  // stat block LCK
     u16 attacker_id;  // entity id of whoever last hit it; 6x89 sets a player's killer
-    u16 m_2d6;
+    u16 local_attacker_id;  // the last local player that hit it (record_attack_source, single screen); distribute_experience awards it
     u16 m_2d8;
     u8 pad_2DA[0x2];
     // Bit 1: hit by a ranged attack (calc_distance_accuracy_penalty); bit 2: a

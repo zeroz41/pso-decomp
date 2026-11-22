@@ -173,7 +173,7 @@ void TBoss6PlotFalz::finish_and_dispatch_next_phase() {
     s32 i;
 
     if (TBoss6PlotFalz__type2_instance != NULL) {
-        TBoss6PlotFalz__type2_instance->get_phase_values((u16 *)(((u8 *)this) + 0x2D6), (u16 *)(((u8 *)this) + 0x2D4), (u16 *)out);
+        TBoss6PlotFalz__type2_instance->get_phase_values(&local_attacker_id, &attacker_id, out);
         i = 0;
         do {
             obj_setArrS16_FC(this, i, out[i]);

@@ -636,7 +636,7 @@ f32 TBoss6Type2::receive_direct_attack(void *attacker, DirectAttackPayload msg, 
 
 void TBoss6Type2::get_phase_values(u16 *a, u16 *b, u16 *out) {
     s32 i;
-    *a = m_2d6;
+    *a = local_attacker_id;
     *b = attacker_id;
     for (i = 0; i < 4; i++) {
         out[i] = obj_getArrU16_FC(this, i);
