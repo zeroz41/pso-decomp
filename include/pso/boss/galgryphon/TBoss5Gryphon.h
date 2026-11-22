@@ -7,6 +7,7 @@
 #include <stddef.h>
 
 class AreaAttackHistory;
+class TParticleCtrl;
 class TBoss5GryphonDemo;
 
 struct Boss5GryphonMotionEntry {
@@ -105,9 +106,7 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     u32 m_6f0;
     u8 _pad6F4[0x2C];
     u32 m_720;
-    u32 m_724;
-    u32 m_728;
-    u32 m_72c;
+    TParticleCtrl *particles[3];  // spawned and moved by fn_8005E39C in low flight
     u32 m_730;
     u8 _pad734[0x40];
     u8 *m_774;  // the action script entry being run; steps 0x48 bytes
@@ -181,6 +180,11 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     void fn_80064DB8();
     void fn_80064E3C();
     void spawn_ancient_trap(s32 id);
+    s32 fn_8005DC0C();
+    void fn_8005E040();
+    s32 fn_8005E1E8(Vec *point, f32 radius);
+    void fn_8005E39C();
+    s32 fn_8005FAE0();
 };
 
 LAYOUT_ASSERT(TBoss5Gryphon_size, sizeof(TBoss5Gryphon) == 0x77C);

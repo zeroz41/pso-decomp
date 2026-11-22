@@ -451,16 +451,16 @@ force_active:
   - TBoss7Tentacle__sub_802F0A2C
   - TBoss7Tentacle__sub_802F0A44
   - TBoss8Dragon__sub_8005D9BC
-  - TBoss8Dragon__sub_8005DC0C
+  - fn_8005DC0C__13TBoss5GryphonFv
   - TBoss8Dragon__sub_8005DF60
-  - TBoss8Dragon__sub_8005E040
+  - fn_8005E040__13TBoss5GryphonFv
   - TBoss8Dragon__sub_8005E17C
-  - TBoss8Dragon__sub_8005E1E8
-  - TBoss8Dragon__sub_8005E39C
+  - fn_8005E1E8__13TBoss5GryphonFP3Vecf
+  - fn_8005E39C__13TBoss5GryphonFv
   - TBoss8Dragon__sub_8005E9D8
   - TBoss8Dragon__sub_8005EAD0
   - TBoss8Dragon__sub_8005F684
-  - TBoss8Dragon__sub_8005FAE0
+  - fn_8005FAE0__13TBoss5GryphonFv
   - fn_8005FB90__13TBoss5GryphonFv
   - fn_80063EF4__13TBoss5GryphonFv
   - fn_800641A8__13TBoss5GryphonFv
