@@ -240,7 +240,7 @@ s32 TObjEnePanBARA::is_dying() {
     return state == 7 || state == 8;
 }
 
-void TObjEnePanarms::init(s16 action) {
+void TObjMotion::init(s16 action) {
     fn_800660B8((u8 *)this);
     change_action(action);
     sub_8002AE64();

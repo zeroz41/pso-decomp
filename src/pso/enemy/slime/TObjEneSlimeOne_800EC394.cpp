@@ -14,7 +14,6 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/slime/TObjEneSlimeWaterBomb.h"
 #include "pso/enemy/slime/TObjEneSlimeOne.h"
-#include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/player/TObjPlayer.h"
 
 struct O_800EC39C { u8 pad[0x384]; s32 state; };
@@ -211,7 +210,7 @@ void SlimeAnimationState::set_state(s32 next_state) {
     }
     if (state < 7) {
         if (flag != 0) {
-            ((TObjEnePanarms *)owner)->init(state);
+            owner->init(state);
         } else {
             owner->set_field_b8(state);
         }

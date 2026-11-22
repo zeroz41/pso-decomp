@@ -23,7 +23,6 @@
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/effect/enemy/TObjEneHoldEffect.h"
-#include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/ui/font/TFontSmallLobby.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/unk/TLobby.h"
@@ -2648,7 +2647,7 @@ void update_timer_state__10TObjPlayerFPv(void *arg0) {
         *(f32 *)((s8 *)arg0 + 0x2B4) = temp_f1;
         if (temp_f1 < 0.0f) {
             *(s16 *)((s8 *)arg0 + 0x328) = 1;
-            ((TObjEnePanarms *)arg0)->init(((TObjPlayer *)arg0)->get_idle_animation());
+            ((TObjPlayer *)arg0)->TObjMotion::init(((TObjPlayer *)arg0)->get_idle_animation());
             ((TObjPlayer *)arg0)->set_action_flag_40();
             *(f32 *)((s8 *)arg0 + 0x2B4) = 24.0f;
         }
@@ -2675,7 +2674,7 @@ void TObjPlayer::update_timer_action() {
         this->m_2b4 = temp_f1;
         if (temp_f1 < 0.0f) {
             this->phase = 1;
-            ((TObjEnePanarms *)arg0)->init(this->get_idle_animation());
+            TObjMotion::init(this->get_idle_animation());
             set_action_flag_40();
             this->m_2b4 = 24.0f;
         }

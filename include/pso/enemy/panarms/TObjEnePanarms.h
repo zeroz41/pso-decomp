@@ -53,7 +53,6 @@ struct TObjEnePanarms : public TObjEnemy {
     static void spawn_npc_pair();
     static TObjEnePanBARA *create_bara(void *setData, s32 index);
     static s32 create(saddr setData);
-    void init(s16 action);
     int get_state_flag();
     void update_spin();
     void enter_down_state();

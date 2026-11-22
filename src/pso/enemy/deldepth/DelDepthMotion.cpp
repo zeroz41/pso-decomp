@@ -8,7 +8,6 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/deldepth/TObjEneDelDepth.h"
 #include "pso/enemy/deldepth/TObjEneDelDepthBomb.h"
-#include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
@@ -38,7 +37,7 @@ void DelDepthMotion::set_motion(s32 arg1) {
     }
     if (id < 6) {
         if (flag != 0) {
-            ((TObjEnePanarms *)(actor))->init((s16)id);
+            actor->init((s16)id);
         } else {
             actor->set_field_b8((s16)id);
         }
