@@ -1094,33 +1094,33 @@ force_active:
   - TObjEneBm5GibonU__enemy_list
   - TObjEneBm5GibonU__movement_parameters
   - TObjEneBm5GibonU__node_list
-  - TObjEneBm5GibonU__sub_800CCD8C
-  - TObjEneBm5GibonU__sub_800CCDE4
-  - TObjEneBm5GibonU__sub_800CCE28
-  - TObjEneBm5GibonU__sub_800CDB98
-  - TObjEneBm5GibonU__sub_800CE060
-  - TObjEneBm5GibonU__sub_800CE370
-  - TObjEneBm5GibonU__sub_800CE694
-  - TObjEneBm5GibonU__sub_800CE978
-  - TObjEneBm5GibonU__sub_800CEBD8
-  - TObjEneBm5GibonU__sub_800CF4BC
-  - TObjEneBm5GibonU__sub_800CF7CC
-  - TObjEneBm5GibonU__sub_800CFA48
-  - TObjEneBm5GibonU__sub_800CFE30
-  - TObjEneBm5GibonU__sub_800CFE34
-  - TObjEneBm5GibonU__sub_800CFFBC
-  - TObjEneBm5GibonU__sub_800D00F0
-  - TObjEneBm5GibonU__sub_800D01DC
-  - TObjEneBm5GibonU__sub_800D02F8
-  - TObjEneBm5GibonU__sub_800D0420
-  - TObjEneBm5GibonU__sub_800D0738
-  - TObjEneBm5GibonU__sub_800D095C
-  - TObjEneBm5GibonU__sub_800D0968
-  - TObjEneBm5GibonU__sub_800D0AE8
+  - sub_800CCD8C__16TObjEneBm5GibonUFv
+  - sub_800CCDE4__16TObjEneBm5GibonUFv
+  - sub_800CCE28__16TObjEneBm5GibonUFv
+  - sub_800CDB98__16TObjEneBm5GibonUFl
+  - sub_800CE060__16TObjEneBm5GibonUFl
+  - sub_800CE370__16TObjEneBm5GibonUFl
+  - sub_800CE694__16TObjEneBm5GibonUFl
+  - sub_800CE978__16TObjEneBm5GibonUFl
+  - sub_800CEBD8__16TObjEneBm5GibonUFl
+  - sub_800CF4BC__16TObjEneBm5GibonUFl
+  - sub_800CF7CC__16TObjEneBm5GibonUFl
+  - sub_800CFA48__16TObjEneBm5GibonUFl
+  - sub_800CFE30__16TObjEneBm5GibonUFl
+  - sub_800CFE34__16TObjEneBm5GibonUFl
+  - sub_800CFFBC__16TObjEneBm5GibonUFl
+  - sub_800D00F0__16TObjEneBm5GibonUFl
+  - sub_800D01DC__16TObjEneBm5GibonUFl
+  - sub_800D02F8__16TObjEneBm5GibonUFl
+  - sub_800D0420__16TObjEneBm5GibonUFl
+  - dispatch_action__16TObjEneBm5GibonUFUll
+  - sub_800D095C__16TObjEneBm5GibonUFlUs
+  - sub_800D0968__16TObjEneBm5GibonUFi
+  - sub_800D0AE8__16TObjEneBm5GibonUFP3Vec
   - TObjEneBm5GibonU__sub_800D13B8
   - TObjEneBm5GibonU__sub_800D1CF8
-  - TObjEneBm5GibonU__sub_800D1D70
-  - TObjEneBm5GibonU__sub_800D1D78
+  - sub_800D1D70__16TObjEneBm5GibonUFv
+  - sub_800D1D78__16TObjEneBm5GibonUFv
   - TObjEneBm5Wolf__bml_resource
   - TObjEneBm5Wolf__collider_params
   - __ct__14TObjEneBm5WolfFP7TObjectPv
@@ -3753,7 +3753,7 @@ force_active:
   - action__13TObjEneBm3FlyFl
   - action__14TObjEneBm5WolfFl
   - action__15TObjEneMe1GiGueFv
-  - action__16TObjEneBm5GibonUFPvi
+  - action__16TObjEneBm5GibonUFl
   - action__16TObjEneMe3StelthFl
   - action__17TObjEneDf2BringerFl
   - action__17TObjEneMe1CanadinFl
@@ -4810,7 +4810,7 @@ force_active:
   - calc_remaining_char_slots__6TLobbyFv
   - calc_rotated_hex_point__23TObjOnlineEndingHexLineFPvPv
   - calc_rotated_vector__14TObjEneBm5WolfFlP3VecPl
-  - calc_rotated_vector__16TObjEneBm5GibonUFPviPvPv
+  - calc_rotated_vector__16TObjEneBm5GibonUFlP3VecPl
   - calc_scale__18TWindowEffectLightFv
   - calc_segment_uvs__25TBoss5GryphonLightningEffFPv
   - calc_shock_chance__FP10TObjPlayerP10TObjPlayerP10TObjPlayer
@@ -4825,7 +4825,7 @@ force_active:
   - calc_trap_count__16TOTrapAncient02RFv
   - calc_tube_progress__10TBoss6TubeFl
   - calc_wall_slide_destination__FP9TObjEneDDP3Vecfff
-  - calc_xz_direction_to__16TObjEneBm5GibonUFPvPvPv
+  - calc_xz_direction_to__16TObjEneBm5GibonUFP3VecP3Vec
   - decode_target__20Boss6Type2FlowActionFP20Boss6Type2MoveTarget
   - call_null__12TBoss8DragonFv
   - call_state_action__14TBoss6PlotFalzFv

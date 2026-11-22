@@ -35,6 +35,7 @@ struct TObjEneBm5GibonU : public TObjEneDD_ST {
     void sub_800D10A0();
     virtual void run_task();
     virtual void render();
+    virtual void dispatch_action(u32 state, s32 reason);
     virtual void update_body_colliders();
     virtual void run_demo_task();
     virtual void render_debug();
@@ -127,6 +128,33 @@ struct TObjEneBm5GibonU : public TObjEneDD_ST {
     void turn_toward_angle(s32 angle);
     static TObjEneBm5GibonU *find_enemy_by_id(s32 id);
     void *update_photon_mylla();
+    void sub_800CCD8C();
+    void sub_800CCDE4();
+    void sub_800CCE28();
+    void sub_800CDB98(s32 msg);
+    void sub_800CE060(s32 msg);
+    void sub_800CE370(s32 msg);
+    void sub_800CE694(s32 msg);
+    void sub_800CE978(s32 msg);
+    void sub_800CEBD8(s32 msg);
+    void sub_800CF4BC(s32 msg);
+    void sub_800CF7CC(s32 msg);
+    void sub_800CFA48(s32 msg);
+    void sub_800CFE34(s32 msg);
+    void sub_800CFFBC(s32 msg);
+    void sub_800D00F0(s32 msg);
+    void sub_800D01DC(s32 msg);
+    void sub_800D02F8(s32 msg);
+    void sub_800D0420(s32 msg);
+    void sub_800CFE30(s32);
+    void action(s32 msg);
+    void sub_800D095C(s32 timer, u16 id);
+    s32 sub_800D0968(int);
+    void sub_800D0AE8(Vec *dir);
+    f32 calc_xz_direction_to(Vec *target, Vec *dir);
+    void calc_rotated_vector(s32 angle, Vec *out, s32 *rotation);
+    s32 sub_800D1D70();
+    Vec *sub_800D1D78();
 };
 
 LAYOUT_ASSERT(TObjEneBm5GibonU_size, sizeof(TObjEneBm5GibonU) == 0x568);
@@ -137,35 +165,9 @@ LAYOUT_ASSERT(TObjEneBm5GibonU_m_564, offsetof(TObjEneBm5GibonU, m_564) == 0x564
 
 extern "C" {
 TObjEneBm5GibonU *TObjEneBm5GibonU__ct(TObjEneBm5GibonU *self, s32 arg1, saddr set_data);
-void TObjEneBm5GibonU__sub_800CCD8C(TObjEneBm5GibonU *self);
-void TObjEneBm5GibonU__sub_800CCDE4(TObjEneBm5GibonU *self);
-void TObjEneBm5GibonU__sub_800CCE28(TObjEneBm5GibonU *self);
 void render__16TObjEneBm5GibonUFv(u8 *arg0);
-void TObjEneBm5GibonU__sub_800CE060(TObjEneBm5GibonU *self, s32 msg);
-void TObjEneBm5GibonU__sub_800CE370(TObjEneBm5GibonU *self, s32 msg);
-void TObjEneBm5GibonU__sub_800CE694(TObjEneBm5GibonU *self, s32 msg);
-void TObjEneBm5GibonU__sub_800CE978(TObjEneBm5GibonU *self, s32 msg);
-void TObjEneBm5GibonU__sub_800CEBD8(TObjEneBm5GibonU *self, s32 msg);
-void TObjEneBm5GibonU__sub_800CF4BC(TObjEneBm5GibonU *self, s32 msg);
-void TObjEneBm5GibonU__sub_800CF7CC(TObjEneBm5GibonU *self, s32 msg);
-void TObjEneBm5GibonU__sub_800CFE30(TObjEneBm5GibonU *self, s32 _w1);
-void TObjEneBm5GibonU__sub_800CFE34(TObjEneBm5GibonU *self, s32 msg);
-void TObjEneBm5GibonU__sub_800CFFBC(TObjEneBm5GibonU *self, s32 msg);
-void TObjEneBm5GibonU__sub_800D00F0(TObjEneBm5GibonU *self, s32 msg);
-void TObjEneBm5GibonU__sub_800D01DC(TObjEneBm5GibonU *self, s32 msg);
-void TObjEneBm5GibonU__sub_800D0420(TObjEneBm5GibonU *self, s32 msg);
-void TObjEneBm5GibonU__sub_800D0738(TObjEneBm5GibonU *self, u32 arg1, s32 msg);
-void TObjEneBm5GibonU__sub_800D095C(TObjEneBm5GibonU *self, s32 arg1, s16 arg2);
-s32 TObjEneBm5GibonU__sub_800D0968(TObjEneBm5GibonU *self, int _w1);
 void run_task__16TObjEneBm5GibonUFv(u8 *arg0);
-s32 TObjEneBm5GibonU__sub_800D1D70(TObjEneBm5GibonU *self);
-Vec *TObjEneBm5GibonU__sub_800D1D78(TObjEneBm5GibonU *self);
 s32 __dt__16TObjEneBm5GibonUFis(s32 arg0, s16 arg1);
-void action__16TObjEneBm5GibonUFPvi(TObjEneBm5GibonU *self, s32 msg);
-void calc_rotated_vector__16TObjEneBm5GibonUFPviPvPv(TObjEneBm5GibonU *self, s32 angle, Vec *out, s32 *rotation);
-int is_active__16TObjEneBm5GibonUFv(TObjEneBm5GibonU *self);
-void *update_photon_mylla__16TObjEneBm5GibonUFv(TObjEneBm5GibonUNode *node);
-s32 update_target__16TObjEneBm5GibonUFv(TObjEneBm5GibonU *self);
 }
 
 #endif
