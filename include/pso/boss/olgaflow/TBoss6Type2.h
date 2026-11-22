@@ -6,35 +6,34 @@
 struct TBoss6Zanzo;
 #include <stddef.h>
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/player/PlayerAttackParams.h"
 
 class ModelNodePositionCapture;
 struct OlgaFlowType2ActionMsg;
 struct CollisionBody;
-struct NJS_MOTION;
+struct AnimationMotion;
 struct TBoss6Mag;
 struct TBoss6MagSpawnParams;
 struct TBoss6Type1;
 struct TBoss6PlotFalz;
 struct TParticleCtrl;
+struct BmlResource;
 
+// One body model of the two the boss cross-fades between (state_progress).
 struct TBoss6Type2Model {
-    s32 m_0;
-    s32 m_4;
+    saddr texlist;
+    saddr model;
 };
 
-struct TBoss6Type2Segments {
-    s16 m_0;
-    s16 m_2[5];
-};
-
+// One motion track; a change of motion blends from prev_motion over blend.
 struct TBoss6Type2MotionTrack {
-    NJS_MOTION *m_0;
-    f32 m_4;
-    f32 m_8;
-    f32 m_c;
-    f32 m_10;
-    NJS_MOTION *m_14;
-    f32 m_18;
+    AnimationMotion *motion;
+    f32 frame;
+    f32 speed;  // frames per update
+    f32 blend;
+    f32 blend_step;
+    AnimationMotion *prev_motion;
+    f32 prev_frame;
 };
 
 struct TBoss6Type2Joint {
@@ -44,6 +43,13 @@ struct TBoss6Type2Joint {
 };
 
 struct Blk_802BCFD4;
+
+// A boss parameter record (TLobby::dispatch_shared_handler_a); load_battle_params
+// reads three of them, each with six floats then six ints.
+struct TBoss6Type2ParamRecord {
+    f32 floats[6];
+    s32 ints[6];
+};
 
 struct TBoss6Type2 : public TObjEnemy
 {
@@ -74,11 +80,11 @@ struct TBoss6Type2 : public TObjEnemy
     void aim_toward_point(void *);
     void render_body_effects();
     u32 m_374;
-    s32 m_378[32];
-    TBoss6PlotFalz *m_3f8;
-    uaddr m_3fc;
-    TBoss6Type2Model m_400[2];
-    TBoss6Mag *m_410[2];
+    s32 action_history[32];  // set_action_state shifts the last 32 states in
+    TBoss6PlotFalz *plot_falz;
+    BmlResource *archive;  // TBoss6PlotFalz::get_scene_archive
+    TBoss6Type2Model body_models[2];
+    TBoss6Mag *mags[2];
     s32 m_418;
     f32 state_progress;  // 1 - state_timer / state_duration
     u32 m_420;
@@ -86,10 +92,10 @@ struct TBoss6Type2 : public TObjEnemy
     u32 m_428;
     u32 m_42c;
     u32 m_430;
-    TBoss6Type2Segments m_434;
-    u8 unk_440[0x14];
-    s16 m_454;
-    s16 m_456;
+    // init_segment_range copies param_block here and points param_block at it.
+    ActorParamBlock params_copy;
+    s16 m_454;  // the largest of the set entry's five segment values
+    s16 m_456;  // the smallest
     TBoss6Zanzo *trail_effect;
     saddr state_duration;  // what state_timer was last set to
     s32 state_timer;     // counts down to 0 in the state handlers
@@ -98,16 +104,16 @@ struct TBoss6Type2 : public TObjEnemy
     u16 m_468;
     u16 m_46a;
     u32 m_46c;
-    u32 m_470;
+    s32 m_470;
     u32 m_474;
     u8 m_478;
     u8 unk_479[0x3];
     u32 m_47c;
     u32 m_480;
     Vec target_position;
-    s32 m_490;
-    s32 m_494;
-    TBoss6Type2MotionTrack m_498[1];
+    s32 motion_index;  // row of TBoss6Type2__motion_table
+    s32 motion_mode;   // that row's mode
+    TBoss6Type2MotionTrack motion_tracks[1];
     s32 m_4b4;
     s32 m_4b8;
     s32 m_4bc;
@@ -152,11 +158,11 @@ struct TBoss6Type2 : public TObjEnemy
     s32 m_590;
     s32 m_594;
     s32 m_598;
-    Vec m_59c[19];
-    Vec m_680[19];
-    ModelNodePositionCapture *m_764;
+    Vec node_positions[19];       // body node positions, captured each draw
+    Vec prev_node_positions[19];  // last update's node_positions
+    ModelNodePositionCapture *node_capture[1];
     Boss6ScrollStrips scroll_strips;
-    TParticleCtrl *m_77c[14];
+    TParticleCtrl *particle_emitters[14];
 
     void update_lower_contact_delta();
     s32 turn_toward_target_position();
@@ -296,16 +302,15 @@ struct TBoss6Type2 : public TObjEnemy
     static Blk_802BCFD4 *copy_block(Blk_802BCFD4 *d, const Blk_802BCFD4 *s);
 };
 
-LAYOUT_ASSERT(TBoss6Type2ActionHistoryOffset, offsetof(TBoss6Type2, m_378) == 0x378);
+LAYOUT_ASSERT(TBoss6Type2ActionHistoryOffset, offsetof(TBoss6Type2, action_history) == 0x378);
 LAYOUT_ASSERT(TBoss6Type2_offset_m_374, (offsetof(TBoss6Type2, m_374) == 0x374));
 LAYOUT_ASSERT(TBoss6Type2_offset_target_position, (offsetof(TBoss6Type2, target_position) == 0x484));
 LAYOUT_ASSERT(TBoss6Type2_offset_lower_contact_index, (offsetof(TBoss6Type2, lower_contact_index) == 0x520));
 LAYOUT_ASSERT(TBoss6Type2_offset_lower_contact_delta, (offsetof(TBoss6Type2, lower_contact_delta) == 0x524));
 LAYOUT_ASSERT(TBoss6Type2_offset_previous_lower_contact, (offsetof(TBoss6Type2, previous_lower_contact) == 0x530));
-LAYOUT_ASSERT(TBoss6Type2_offset_m_59c, (offsetof(TBoss6Type2, m_59c) == 0x59c));
-LAYOUT_ASSERT(TBoss6Type2_offset_m_764, (offsetof(TBoss6Type2, m_764) == 0x764));
-LAYOUT_ASSERT(TBoss6Type2_offset_m_768, (offsetof(TBoss6Type2, scroll_strips) == 0x768));
-LAYOUT_ASSERT(TBoss6Type2_size, (sizeof(TBoss6Type2) == 0x7B4));
+LAYOUT_ASSERT(TBoss6Type2_offset_node_positions, (offsetof(TBoss6Type2, node_positions) == 0x59c));
+LAYOUT_ASSERT(TBoss6Type2_offset_node_capture, (offsetof(TBoss6Type2, node_capture) == 0x764));
+LAYOUT_ASSERT(TBoss6Type2_offset_scroll_strips, (offsetof(TBoss6Type2, scroll_strips) == 0x768));
 
 LAYOUT_ASSERT(TBoss6Type2_size, sizeof(TBoss6Type2) == 0x7B4);
 
