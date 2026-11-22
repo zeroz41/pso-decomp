@@ -66,7 +66,7 @@ void TAdSelectCurGC::run_task() {
             selected_index = entry_count - 1;
         }
         if (confirmation_disabled == 0 &&
-            (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[0], 4) != 0 ||
+            (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 4) != 0 ||
              test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
             play_sound_effect(0x52D01, 0, 0, 0);
             confirmation = 1;

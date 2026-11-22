@@ -95,7 +95,7 @@ extern s32 __vt__14TWindowSubItem[];
 
 #define F(t, o) (*(t *)(arg0 + (o)))
 #define LIST F(saddr, 0x30)
-#define BACK_PRESSED(idx) (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[idx], 2) != 0 || test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)
+#define BACK_PRESSED(idx) (test_pressed_buttons_packed(&controller_input_state.controllers[idx], 2) != 0 || test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)
 const char *TWindowSubItem__class_name = "TWindowSubItem";
 
 // Item list window position (x, y).

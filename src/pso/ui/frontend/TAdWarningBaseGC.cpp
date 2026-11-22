@@ -46,9 +46,9 @@ void TAdWarningBaseGC::vfunc_8() {
         state = 2;
         break;
     case 2:
-        if (TWindowShortListCtrl__check_controller_button(a = &controller_physical_port_bank.controllers[0], 4) != 0 ||
+        if (test_pressed_buttons_packed(a = &controller_physical_port_bank.controllers[0], 4) != 0 ||
             test_controller_flag_4c_color(b = &controller_input_state.keyboard, 4) != 0 ||
-            TWindowShortListCtrl__check_controller_button(a, 2) != 0 ||
+            test_pressed_buttons_packed(a, 2) != 0 ||
             test_controller_flag_4c_color(b, 2) != 0) {
             state = 3;
             next_state = 4;

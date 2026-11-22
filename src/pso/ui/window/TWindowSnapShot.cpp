@@ -132,7 +132,7 @@ void TWindowSnapShot::run_task() {
     if (!(this->window_flags & 2)) {
         this->open_tick = 0x01000000;
     }
-    if ((TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
+    if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
         play_open_sound();
     }
     ((TWindowDD *)arg0)->initialize_subwindow();

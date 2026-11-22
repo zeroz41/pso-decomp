@@ -123,10 +123,10 @@ void TWindowChoiceSetting::run_task() {
             }
         }
         context = &controller_input_state.controllers[0];
-        if ((TWindowShortListCtrl__check_controller_button(context, 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
+        if ((test_pressed_buttons_packed(context, 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
             ((TUnk_804D0658 *)arg0)->draw();
         }
-        if ((TWindowShortListCtrl__check_controller_button(context, 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
+        if ((test_pressed_buttons_packed(context, 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
             ((TUnk_804D0658 *)arg0)->request_close();
         }
     }

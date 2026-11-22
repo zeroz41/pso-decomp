@@ -148,5 +148,5 @@ s32 TWindowDD::apply_both_choices(s32 arg0, saddr buttons) {
 #pragma pop
 
 s32 TWindowDD_check_input_mask(void *input_context, s32 mask) {
-  return TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], mask) | test_controller_flag_4c_color(&controller_input_state.keyboard, mask);
+  return test_pressed_buttons_packed(&controller_input_state.controllers[0], mask) | test_controller_flag_4c_color(&controller_input_state.keyboard, mask);
 }

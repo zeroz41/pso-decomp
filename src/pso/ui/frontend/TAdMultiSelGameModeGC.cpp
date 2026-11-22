@@ -218,7 +218,7 @@ void TAdMultiSelGameModeGC::sub_80300648() {
         menu->queue_destruction();
         menu = NULL;
     }
-    if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 2) != 0 ||
+    if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0 ||
         test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0) {
         state = 3;
     } else if (cursor->confirmation_result() == 1) {

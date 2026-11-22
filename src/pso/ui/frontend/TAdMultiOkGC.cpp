@@ -166,7 +166,7 @@ void TAdMultiOkGC::run_task() {
 void TAdMultiOkGC::handle_player_buttons(int arg1) {
     O_80306DF4 *o = (O_80306DF4 *)this;
     Ports_80306DF4 ports = { 0, 1, 2, 3 };
-    if (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[ports.v[o->port[arg1]]], 4) != 0) {
+    if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[ports.v[o->port[arg1]]], 4) != 0) {
         E_80306DF4 *e = &o->e[arg1];
         if (e->flags & 4) {
             e->t = -1;
@@ -179,7 +179,7 @@ void TAdMultiOkGC::handle_player_buttons(int arg1) {
             e->flags |= 2;
             play_sound_effect(0x52D01, 0, 0, 0);
         }
-    } else if (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[ports.v[o->port[arg1]]], 2) != 0) {
+    } else if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[ports.v[o->port[arg1]]], 2) != 0) {
         if (!(o->e[arg1].flags & 2)) {
             o->flags |= 1;
             play_sound_effect(0x52F16, 0, 0, 0);

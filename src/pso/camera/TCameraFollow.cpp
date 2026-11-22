@@ -105,7 +105,7 @@ s32 TCameraFollow::is_flag_set() {
     if (is_split_screen() != 0) {
         return 0;
     }
-    return ((u32)((PadSlot *)TKeyBoardControl__sub_803DEB74(0x12))->held >> 17) & 1;
+    return ((u32)get_pad_slot(0x12)->held >> 17) & 1;
 }
 
 #pragma push
@@ -125,7 +125,7 @@ void TCameraFollow::update_manual_camera() {
     if (is_split_screen() != 0) {
         return;
     }
-    pad = (PadSlot *)TKeyBoardControl__sub_803DEB74(0x12);
+    pad = get_pad_slot(0x12);
     fx = pad->stickX;
     fy = pad->stickY;
     if (-31.0f < fx && fx <= 31.0f) {
@@ -703,7 +703,7 @@ void TCameraFollow::run_task() {
         player = get_player_by_client_id(i);
         if ((player != NULL && check_flag_100__10TObjPlayerFPv(player) == 0) || TWindowCtrl::get_flag_bit3() == 1) {
             i = get_camera_reset_button(i);
-            if ((TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[((TRaderMapCore *)player)->get_map_id()], i) != 0 && close_up == 0) || recenter_requested != 0) {
+            if ((test_pressed_buttons_packed(&controller_input_state.controllers[((TRaderMapCore *)player)->get_map_id()], i) != 0 && close_up == 0) || recenter_requested != 0) {
                 recenter_requested = 0;
                 yaw = this->actor->rotation_y + 0x8000;
             }

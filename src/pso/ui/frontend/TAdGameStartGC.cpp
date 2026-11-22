@@ -178,13 +178,13 @@ void run_task__14TAdGameStartGCFv(u8 *arg0) {
             return;
         }
         pad = &controller_physical_port_bank.controllers[TAdMultiPlyChrSelectGC::get_clamped_cursor()];
-        if (TWindowShortListCtrl__check_controller_button(pad, 4) != 0) {
+        if (test_pressed_buttons_packed(pad, 4) != 0) {
             destroy_windows__14TAdGameStartGCFPv((Obj_802E6380 *) arg0);
         }
-        if (TWindowShortListCtrl__check_controller_button(pad, 2) != 0) {
+        if (test_pressed_buttons_packed(pad, 2) != 0) {
             destroy_windows__14TAdGameStartGCFPv((Obj_802E6380 *) arg0);
         }
-        if (TWindowShortListCtrl__check_controller_button(pad, 8) != 0) {
+        if (test_pressed_buttons_packed(pad, 8) != 0) {
             destroy_windows__14TAdGameStartGCFPv((Obj_802E6380 *) arg0);
         }
         if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)pad, 0x10, 6, 1) != 0) {

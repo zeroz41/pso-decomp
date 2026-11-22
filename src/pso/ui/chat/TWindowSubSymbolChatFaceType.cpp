@@ -203,10 +203,10 @@ void TWindowSubSymbolChatFaceType::run_task() {
     if (window_sub_symbol_chat_face_type->is_open() == 0) {
         window_sub_symbol_chat_face_type->handle_input();
         context = &controller_input_state.controllers[0];
-        if ((TWindowShortListCtrl__check_controller_button(context, 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
+        if ((test_pressed_buttons_packed(context, 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
             window_sub_symbol_chat_face_type->confirm_selection();
         }
-        if ((TWindowShortListCtrl__check_controller_button(context, 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
+        if ((test_pressed_buttons_packed(context, 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
             window_sub_symbol_chat_face_type->close_when_chat_closed();
         }
     }

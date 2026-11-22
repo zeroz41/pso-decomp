@@ -279,7 +279,7 @@ void update_hidden__14TAdPlyStatusGCFv(u8 *arg0) {
             ((TAdGuideButtonGC *)player_index)->setup_button((GuideButtonSpec *)(arg0 + 0x48));
         }
         port = TAdMultiPlyChrSelectGC::get_status();
-        if (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[port], 0x400) != 0) {
+        if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[port], 0x400) != 0) {
             *(s32 *)((s8 *)arg0 + 0x1C) = 1;
         }
     }
@@ -299,7 +299,7 @@ void update_shown__14TAdPlyStatusGCFv(struct RecoveredFields_8033F9DC_arg0 *arg0
             ((TAdGuideButtonGC *)player_index)->setup_button((GuideButtonSpec *)(&arg0->unknown_20[4]));
         }
         port = TAdMultiPlyChrSelectGC::get_status();
-        if (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[port], 0x400) != 0) {
+        if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[port], 0x400) != 0) {
             arg0->field_1C = 2;
         }
     }

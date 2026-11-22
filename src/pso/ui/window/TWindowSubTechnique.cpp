@@ -284,7 +284,7 @@ void TWindowSubTechnique::run_task() {
     case 5:
         ((TObjPlayer *)ply)->update_cursor((s16)((TWindowMenu *)self->sel)->get_selected_value());
         if (TWindowSubTechnique::is_technique_available((s16)((TWindowMenu *)self->sel)->get_selected_value(), self->player) == 0 ||
-            TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[port], 2) != 0 ||
+            test_pressed_buttons_packed(&controller_input_state.controllers[port], 2) != 0 ||
             test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0) {
             play_sound_effect(0x52F16, 0, 0, 0);
             ((TWindowSubTechnique *)self)->rebuildTechniqueList((saddr)(self->sel), (s32)(((TWindowMenu *)self->list)->get_selected_value()));

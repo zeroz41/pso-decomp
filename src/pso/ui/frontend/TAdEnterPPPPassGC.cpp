@@ -73,7 +73,7 @@ void update_password_input__17TAdEnterPPPPassGCFPv(u8 *ad_enter_serial_access_gc
     char *buf;
     s32 cur;
     buf = ((TKeyBoardControl *)password_entry_keyboard_control)->realloc_buffer();
-    if ((*(s32 *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_40 == 0 && TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[0], 2) != 0) ||
+    if ((*(s32 *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_40 == 0 && test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0) ||
         (*(s32 *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_40 == 0 && test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
         mem_free(buf);
         set_password__17TAdEnterPPPPassGCFi((saddr)"");
@@ -84,7 +84,7 @@ void update_password_input__17TAdEnterPPPPassGCFPv(u8 *ad_enter_serial_access_gc
     ((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_3c = *(s32 *)((s8 *)ad_enter_serial_access_gc + 0x38);
     if (password_entry_keyboard_control != NULL) {
         if (((TKeyBoardControl *)password_entry_keyboard_control)->is_confirmed() != 0) {
-            if (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[0], 2) != 0 ||
+            if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0 ||
                 test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0) {
                 reinterpret_cast<TKeyBoardControl *>(password_entry_keyboard_control)->clear_keyboard_flag60_bit1();
                 *(s32 *)((s8 *)ad_enter_serial_access_gc + 0x38) = 0;

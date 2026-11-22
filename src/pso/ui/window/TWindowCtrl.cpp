@@ -115,7 +115,7 @@ void TWindowCtrl::update_trade_window() {
 
 void TWindowCtrl::handle_controller() {
     saddr arg0 = (saddr)this;
-    if ((get_current_floor_area() == AREA_LOBBY) && (TWindowCtrl::is_slot_visible(local_client_id) == 0) && (TWindowCtrl__sub_8024B000((void *)arg0, (s32)local_client_id) == 0) && (TWindowCtrl::has_player_active_menu(local_client_id) == 0) && (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], fn_8002AE08(local_client_id)) != 0)) {
+    if ((get_current_floor_area() == AREA_LOBBY) && (TWindowCtrl::is_slot_visible(local_client_id) == 0) && (TWindowCtrl__sub_8024B000((void *)arg0, (s32)local_client_id) == 0) && (TWindowCtrl::has_player_active_menu(local_client_id) == 0) && (test_pressed_buttons_packed(&controller_input_state.controllers[0], fn_8002AE08(local_client_id)) != 0)) {
         TWindowCtrlMain::advance_card_status(local_client_id);
     }
 }

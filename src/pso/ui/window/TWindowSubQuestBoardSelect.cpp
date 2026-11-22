@@ -267,10 +267,10 @@ void TWindowSubQuestBoardSelect::run_task() {
     if (((TWindowSubQuestBoardSelect *)arg0)->is_open() == 0) {
         ((TWindowSubQuestBoardSelect *)arg0)->select_next();
         handle_page_input();
-        if ((TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
+        if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
             ((TWindowSubQuestBoardSelect *)arg0)->handle_decide();
         }
-        if ((TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
+        if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
             ((TWindowSubQuestBoardSelect *)arg0)->handle_cancel();
         }
     }

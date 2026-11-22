@@ -620,7 +620,7 @@ void TQuestVmDownLoadServer::update_mc_select() {
         if (this->mc_select != NULL) {
             TAdMcSelectGC::select_if_mc_present();
         }
-        if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 2) != 0) {
+        if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0) {
             TAdMcSelectGC::select_if_mc_present();
             show_status_message((int) (get_message_text(0x42)), 1);
             this->state = 0x14;
@@ -665,12 +665,12 @@ void TQuestVmDownLoadServer::open() {
 void TQuestVmDownLoadServer::handle_confirm_input() {
     ControllerInputContext *context;
     context = &controller_input_state.controllers[0];
-    if (TWindowShortListCtrl__check_controller_button(context, 4) != 0) {
+    if (test_pressed_buttons_packed(context, 4) != 0) {
         TAdMcSelectGC::select_if_mc_present();
         this->state = 5;
         return;
     }
-    if (TWindowShortListCtrl__check_controller_button(context, 2) != 0) {
+    if (test_pressed_buttons_packed(context, 2) != 0) {
         TAdMcSelectGC::select_if_mc_present();
         this->show_status_message((s32)((int) (get_message_text(0x42))), 1);
         this->state = 0x14;
@@ -719,7 +719,7 @@ void TQuestVmDownLoadServer::check_memcard_slot() {
             this->state = 6;
             return;
         }
-    } else if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 2) != 0) {
+    } else if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0) {
         TAdMcSelectGC::update_state();
         show_status_message(get_localized_text_entry(0x29, 1), 1);
         this->state = 4;
@@ -1086,7 +1086,7 @@ void TQuestVmDownLoadServer::sub_801F6D24() {
     ControllerInputContext *p;
     if (this->message_window == 0 || TMessageWindowController::is_ready() != 0) {
         p = &controller_input_state.controllers[0];
-        if (TWindowShortListCtrl__check_controller_button(p, 4) != 0 || TWindowShortListCtrl__check_controller_button(p, 2) != 0) {
+        if (test_pressed_buttons_packed(p, 4) != 0 || test_pressed_buttons_packed(p, 2) != 0) {
             TAdMcSelectGC::update_state();
             this->show_status_message((int)(get_localized_text_entry(0x29, 1)), 1);
             this->state = 4;
@@ -1097,12 +1097,12 @@ void TQuestVmDownLoadServer::handle_download_done_input() {
     ControllerInputContext *context;
     context = &controller_input_state.controllers[0];
     quest_download_in_progress = 0;
-    if (TWindowShortListCtrl__check_controller_button(context, 4) != 0) {
+    if (test_pressed_buttons_packed(context, 4) != 0) {
         TAdMcSelectGC::update_state();
         this->show_status_message((int) (get_localized_text_entry(0x29, 1)), 1);
         this->state = 4;
     }
-    if (TWindowShortListCtrl__check_controller_button(context, 2) != 0) {
+    if (test_pressed_buttons_packed(context, 2) != 0) {
         TAdMcSelectGC::select_if_mc_present();
         this->show_status_message((int) (get_message_text(0x42)), 1);
         this->state = 0x14;
@@ -1111,7 +1111,7 @@ void TQuestVmDownLoadServer::handle_download_done_input() {
 void TQuestVmDownLoadServer::check_cancel_input() {
     ControllerInputContext *context;
     context = &controller_input_state.controllers[0];
-    if ((TWindowShortListCtrl__check_controller_button(context, 4) != 0) || (TWindowShortListCtrl__check_controller_button(context, 2) != 0)) {
+    if ((test_pressed_buttons_packed(context, 4) != 0) || (test_pressed_buttons_packed(context, 2) != 0)) {
         TLobby::return_to_main_menu();
         this->state = 0x15;
     }
@@ -1140,7 +1140,7 @@ void TQuestVmDownLoadServer::clear_field2A0(TMCFormatSequence *) {
 void TQuestVmDownLoadServer::check_dismiss_to_close_input() {
     if (this->message_window == 0 || TMessageWindowController::is_ready() != 0) {
         ControllerInputContext *p = &controller_input_state.controllers[0];
-        if (TWindowShortListCtrl__check_controller_button(p, 4) != 0 || TWindowShortListCtrl__check_controller_button(p, 2) != 0) {
+        if (test_pressed_buttons_packed(p, 4) != 0 || test_pressed_buttons_packed(p, 2) != 0) {
             this->state = 0x11;
         }
     }
@@ -1256,7 +1256,7 @@ void TMCFormatSequence::check_memcard_load_result() {
 }
 void TMCFormatSequence::update_wait_confirm() {
     TWindowMessagePage *window = this->message_window;
-    if (window == NULL || (window->is_message_window_ready() != 0 && TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 4) != 0)) {
+    if (window == NULL || (window->is_message_window_ready() != 0 && test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0)) {
         if (this->done_callback != NULL) {
             this->done_callback(this);
             queue_destruction();
@@ -1265,7 +1265,7 @@ void TMCFormatSequence::update_wait_confirm() {
 }
 void TMCFormatSequence::wait_confirm_and_finish() {
     TWindowMessagePage *window = this->message_window;
-    if (window == NULL || (window->is_message_window_ready() != 0 && TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 4) != 0)) {
+    if (window == NULL || (window->is_message_window_ready() != 0 && test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0)) {
         if (this->error_callback != NULL) {
             this->error_callback(this);
             queue_destruction();

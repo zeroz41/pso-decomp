@@ -28,7 +28,7 @@ s32 TRaderMapCore__sub_801A6D00(ControllerInputContext *pad, s32 mask);
 s32 pack_flags__13TRaderMapCoreFii(s32 pad, s32 mask);
 s32 test_flags_04_packed(ControllerInputContext *pad, s32 mask);
 s32 test_controller_flag_4c_color(ControllerInputContext *pad, s32 mask);
-s32 TWindowShortListCtrl__check_controller_button(void *pad, s32 mask);
+s32 test_pressed_buttons_packed(void *pad, s32 mask);
 s32 test_previous_buttons_color(ControllerInputContext *pad, s32 mask);
 s32 test_previous_buttons_remapped(ControllerInputContext *pad, s32 mask);
 s32 test_previous_buttons_packed(void *pad, s32 mask);

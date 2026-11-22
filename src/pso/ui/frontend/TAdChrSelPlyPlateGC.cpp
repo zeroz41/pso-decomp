@@ -171,7 +171,7 @@ void TAdChrSelPlyPlateGC::run_task() {
     unk_530 = 0;
     if (unk_534 != 0) {
         for (i = 0; i < 4; i++) {
-            if (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[i], 8) != 0 && TAdMultiPlyChrSelectGC__count_selected_slots() > 0) {
+            if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[i], 8) != 0 && TAdMultiPlyChrSelectGC__count_selected_slots() > 0) {
                 unk_530 = 1;
             }
         }
@@ -281,7 +281,7 @@ s32 TAdMultiPlyChrSelectGC__is_controller_connected(s32 arg0) {
     if ((arg0 < 0) || (arg0 > 3)) {
         return 0;
     }
-    return *(s32 *)((s8 *)(*(s32 **)((s8 *)(TKeyBoardControl__sub_803DEB74(multiplayer_controller_device_codes[arg0])) + 0x30)) + 0) & 1;
+    return *(s32 *)((s8 *)(*(s32 **)((s8 *)(get_pad_slot(multiplayer_controller_device_codes[arg0])) + 0x30)) + 0) & 1;
 }
 
 #pragma push
@@ -427,7 +427,7 @@ void TAdChrSelPlyPlateGC::handle_dpad_input() {
             move_cursor(cursor_col, sel[multi_ply_chr_select_active_player][cursor_col], -1, 0, 2);
         }
     }
-    if (TWindowShortListCtrl__check_controller_button(WIN_802C61E4, 4) != 0 && unk_4f8 == 0) {
+    if (test_pressed_buttons_packed(WIN_802C61E4, 4) != 0 && unk_4f8 == 0) {
         unk_4f8 = 1;
     }
 }
@@ -451,7 +451,7 @@ void TAdChrSelPlyPlateGC::update_option_cursor() {
             sel[multi_ply_chr_select_active_player][cursor_col] = unk_4dc[cursor_col] - 1;
         }
     }
-    if (TWindowShortListCtrl__check_controller_button(WIN_802C6008, 4) != 0 && unk_4f8 == 0) {
+    if (test_pressed_buttons_packed(WIN_802C6008, 4) != 0 && unk_4f8 == 0) {
         unk_4f8 = 1;
     }
 }

@@ -231,7 +231,7 @@ s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range) {
         for (j = 0; j < TCameraCtrl::get_view_count(); j++) {
             p = (Plr_801A0F34 *)((Ctrl_801A0E38 *(*)(s32))get_player_by_client_id)(TCameraCtrl::get_nth_view_player_id(j));
             if (p != NULL &&
-                TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[((TRaderMapCore *)p)->get_map_id()], 4) != 0) {
+                test_pressed_buttons_packed(&controller_input_state.controllers[((TRaderMapCore *)p)->get_map_id()], 4) != 0) {
                 found = 1;
                 if (arg1 != NULL) {
                     *arg1 = j;
@@ -414,7 +414,7 @@ void TObjLuker::run_task() {
                     } else {
                         p = PBC_801A1418(local_client_id);
                         if (p != NULL && check_flag_100__10TObjPlayerFPv(p) == 0 &&
-                            TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[sp8], 4) != 0) {
+                            test_pressed_buttons_packed(&controller_input_state.controllers[sp8], 4) != 0) {
                             flag = 1;
                         }
                     }

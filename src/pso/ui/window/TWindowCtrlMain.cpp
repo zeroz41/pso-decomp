@@ -268,7 +268,7 @@ void TWindowCtrl::update_main_menu_request() {
     {
         s32 idx = is_player_input_active(this->m_24);
         key = ((s16 (*)(void *))TKeyBoardControl::get_function_key_menu)(this);
-        if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[idx], 0x108) == 0 && key == 0x1F) {
+        if (test_pressed_buttons_packed(&controller_input_state.controllers[idx], 0x108) == 0 && key == 0x1F) {
             return;
         }
     }
@@ -337,7 +337,7 @@ void TWindowCtrl::update_short_list_request() {
                 }
             } else if (*(void **)((s8 *)this + 0x3C) == NULL && is_enabled() == 0) {
                 if (test_previous_buttons_packed(btn = &controller_input_state.controllers[idx], fn_8002AE08((void *)(*(saddr *)&this->m_24))) != 0 &&
-                    TWindowShortListCtrl__check_controller_button(btn, 0x200) != 0) {
+                    test_pressed_buttons_packed(btn, 0x200) != 0) {
                     *(void **)((s8 *)this + 0x3C) = new TWindowShortListCtrl(this, *(s32 *)&this->m_24);
                 }
             }

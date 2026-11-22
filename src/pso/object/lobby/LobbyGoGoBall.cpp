@@ -825,7 +825,7 @@ void TUnk_804B8E00::run_task() {
     s32 idx;
 
     pad = &controller_input_state.controllers[0];
-    if (test_previous_buttons_packed(pad, 0x10000) != 0 && TWindowShortListCtrl__check_controller_button(pad, 0x400) != 0) {
+    if (test_previous_buttons_packed(pad, 0x10000) != 0 && test_pressed_buttons_packed(pad, 0x400) != 0) {
         TWindowTimer::set_timer_value(1, 0);
         TWindowTimer::set_timer_value(0, 0);
     }

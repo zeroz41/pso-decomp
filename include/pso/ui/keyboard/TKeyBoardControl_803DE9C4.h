@@ -4,7 +4,7 @@
 #include "types.h"
 
 // One controller's state in keyboard_control_pad_slots (0x34 bytes, four of them),
-// filled by TKeyBoardControl::read_pads and returned by TKeyBoardControl__sub_803DEB74.
+// filled by TKeyBoardControl::read_pads and returned by get_pad_slot.
 struct PadSlot {
     s32 f0;
     s32 f4;
@@ -26,7 +26,7 @@ extern PadSlot keyboard_control_pad_slots[4];
 
 extern "C" {
 // Device codes 0, 6, 12 and 18 select slots 0-3; any other code gives slot 0.
-PadSlot *TKeyBoardControl__sub_803DEB74(u32 device);
+PadSlot *get_pad_slot(u32 device);
 }
 void init_light_globals(s32, s32);
 

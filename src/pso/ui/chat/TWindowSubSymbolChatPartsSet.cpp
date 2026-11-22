@@ -284,7 +284,7 @@ void TWindowSubSymbolChatPartsSet::toggle_selected_part() {
     switch (arg0->f69) {
     case 0:
     case 2:
-        if (arg0->f78 < 12 && TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 0x400) != 0) {
+        if (arg0->f78 < 12 && test_pressed_buttons_packed(&controller_input_state.controllers[0], 0x400) != 0) {
             if (*arg0->f84 != 0) {
                 *arg0->f84 = 0;
             } else {
@@ -392,10 +392,10 @@ void TWindowSubSymbolChatPartsSet::run_task() {
     }
     if (((TWindowSubSymbolChatPartsSet *)arg0)->is_active() == 0) {
         handle_cursor_input();
-        if ((TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
+        if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
             handle_decide();
         }
-        if ((TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
+        if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
             handle_cancel();
         }
     }

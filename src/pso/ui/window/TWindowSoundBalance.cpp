@@ -177,10 +177,10 @@ void TWindowSoundBalance::run_task() {
         handle_lr_input();
         sub_8027095C();
         input = &controller_input_state.controllers[0];
-        if ((TWindowShortListCtrl__check_controller_button(input, 4) != 0) || ((s32)test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
+        if ((test_pressed_buttons_packed(input, 4) != 0) || ((s32)test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
             play_open_sound();
         }
-        if ((TWindowShortListCtrl__check_controller_button(input, 2) != 0) || ((s32)test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
+        if ((test_pressed_buttons_packed(input, 2) != 0) || ((s32)test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
             handle_cancel();
         }
     }

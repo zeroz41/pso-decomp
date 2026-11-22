@@ -749,10 +749,10 @@ void TWindowMenu::run_task() {
             }
         }
         context = &controller_input_state.controllers[temp_r30];
-        if ((TWindowShortListCtrl__check_controller_button(context, 4) != 0) || (((TWindowMenu *)arg0)->test_menu_flag(4) != 0)) {
+        if ((test_pressed_buttons_packed(context, 4) != 0) || (((TWindowMenu *)arg0)->test_menu_flag(4) != 0)) {
             confirm_selection();
         }
-        if ((TWindowShortListCtrl__check_controller_button(context, 2) != 0) || (((TWindowMenu *)arg0)->test_menu_flag(2) != 0)) {
+        if ((test_pressed_buttons_packed(context, 2) != 0) || (((TWindowMenu *)arg0)->test_menu_flag(2) != 0)) {
             set_active_flag();
         }
     }

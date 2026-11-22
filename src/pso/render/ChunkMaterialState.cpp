@@ -107,7 +107,7 @@ void TKeyBoardControl::read_pads() {
 }
 #pragma pop
 
-PadSlot *TKeyBoardControl__sub_803DEB74(u32 device) {
+PadSlot *get_pad_slot(u32 device) {
     s32 slot;
     slot = 0;
     switch (device) {

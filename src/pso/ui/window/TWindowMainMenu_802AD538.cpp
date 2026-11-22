@@ -675,10 +675,10 @@ void TWindowMenuMainMenu::handle_navigation_input() {
         if ((test_buttons_press_or_repeat(window_choice_setting, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
             play_cursor_sound__15TWindowMainMenuFv((Menu_802AE4DC *)(this), 1);
         }
-        if ((TWindowShortListCtrl__check_controller_button(window_choice_setting, 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
+        if ((test_pressed_buttons_packed(window_choice_setting, 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
             this->handle_confirm();
         }
-        if ((this->get_menu_flag() == 0) && ((TWindowShortListCtrl__check_controller_button(window_choice_setting, 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0))) {
+        if ((this->get_menu_flag() == 0) && ((test_pressed_buttons_packed(window_choice_setting, 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0))) {
             this->handle_cancel();
         }
     }

@@ -54,7 +54,7 @@ s32 TUnk_804EE458::sub_8033596C() { return cursor; }
 void TUnk_804EE458::update_title_prompt() {
     u8 *arg0 = (u8 *)this;
   float new_var;
-  if ((TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[0], 8) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0))
+  if ((test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 8) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0))
   {
     play_sound_effect(0x52D01, 0, 0, 0);
     state = 1;
@@ -81,7 +81,7 @@ void TUnk_804EE458::handle_cursor_input() {
         }
         play_sound_effect(0x54100, 0, 0, 0);
     }
-    if ((TWindowShortListCtrl__check_controller_button(input, 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
+    if ((test_pressed_buttons_packed(input, 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
         state = 2;
         play_sound_effect(0x40042309, 0, 0, 0);
     }

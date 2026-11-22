@@ -489,7 +489,7 @@ void bind_controller_devices(void) {
     devices = controller_device_id_table;
     bank_status = controller_physical_port_bank.source_status;
     for (i = 0; i < 4; i++) {
-        slot = TKeyBoardControl__sub_803DEB74(*devices++);
+        slot = get_pad_slot(*devices++);
         if (*slot->conn & 1) {
             *bank_sources++ = slot;
             *bank_status++ = 1;
@@ -501,7 +501,7 @@ void bind_controller_devices(void) {
     devices = controller_device_id_table;
     if (is_split_screen() != 0) {
         for (i = 0; i < 4; i++) {
-            slot = TKeyBoardControl__sub_803DEB74(*devices++);
+            slot = get_pad_slot(*devices++);
             if (*slot->conn & 1) {
                 *sources++ = slot;
                 *status++ = 1;
@@ -513,7 +513,7 @@ void bind_controller_devices(void) {
     } else {
         count = 0;
         for (i = 0; i < 4; i++) {
-            slot = TKeyBoardControl__sub_803DEB74(*devices++);
+            slot = get_pad_slot(*devices++);
             if (slot != NULL && (*slot->conn & 1)) {
                 *sources = slot;
                 count++;
@@ -595,10 +595,10 @@ void TKeyBoardControl::init_pad_state() {
     for (i = 0; i < 4; i++) {
         pad_recalibration_counters[i] = 0;
     }
-    controller_input_state.sources[0] = TKeyBoardControl__sub_803DEB74(0);
-    controller_input_state.sources[1] = TKeyBoardControl__sub_803DEB74(6);
-    controller_input_state.sources[2] = TKeyBoardControl__sub_803DEB74(0xC);
-    controller_input_state.sources[3] = TKeyBoardControl__sub_803DEB74(0x12);
+    controller_input_state.sources[0] = get_pad_slot(0);
+    controller_input_state.sources[1] = get_pad_slot(6);
+    controller_input_state.sources[2] = get_pad_slot(0xC);
+    controller_input_state.sources[3] = get_pad_slot(0x12);
     lbl_805D5D08 = 0;
     controller_reset_requested = 0;
     keyboard_reset_button_pressed = 0;
@@ -737,7 +737,7 @@ s32 test_controller_flag_4c_color(ControllerInputContext *pad, s32 mask) {
     return (pad->pressed_with_sticks & TRaderMapCore::pack_color_bits((saddr)pad, mask)) != 0;
 }
 
-s32 TWindowShortListCtrl__check_controller_button(void *pad, s32 mask) {
+s32 test_pressed_buttons_packed(void *pad, s32 mask) {
     return (((ControllerInputContext *)pad)->pressed_with_sticks & pack_flags__13TRaderMapCoreFii((saddr)pad, mask)) != 0;
 }
 

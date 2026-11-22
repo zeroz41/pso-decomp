@@ -294,7 +294,7 @@ s32 TLobby__sub_80211D58(s32 arg0) {
             kind = TPlayerBattleCtrl4P::fn_80211B10(player);
             if (kind != 0) {
                 if (get_player_by_client_id((u16)player) != NULL) {
-                    if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[get_map_id__13TRaderMapCoreFv()], 4) != 0 &&
+                    if (test_pressed_buttons_packed(&controller_input_state.controllers[get_map_id__13TRaderMapCoreFv()], 4) != 0 &&
                         THunterGuildWarning::is_active() == 0) {
                         switch (kind) {
                         case 1:

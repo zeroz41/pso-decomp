@@ -111,7 +111,7 @@ void TWindowSubInformationBoard::run_task() {
         TLobby::init_once_data((uaddr)((void *) ((u8 *)arg0 + 0x40)));
         this->m_1c = 4U;
     case 4:
-        if ((TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
+        if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
             play_sound_effect(0x52F16, 0, 0, 0);
             this->m_1c = 5U;
         }

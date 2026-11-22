@@ -316,7 +316,7 @@ void TObjChallengeRetry::update_challenge_retry() {
         return;
     }
 block_6:
-    if ((var_r31 != 0) || (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 2) != 0)) {
+    if ((var_r31 != 0) || (test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0)) {
         close_window_2c();
         TLobby::send_45_and_close_windows(this);
         TLobby::play_default_effect(this);
@@ -325,7 +325,7 @@ block_6:
 }
 void TObjChallengeRetry::handle_challenge_retry_confirm() {
     TLobby::play_default_effect(this);
-    if ((((u32)get_player_by_client_id(local_client_id)) != 0U) && (check_flag_100__10TObjPlayerFPv() == 0) && (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 4) != 0)) {
+    if ((((u32)get_player_by_client_id(local_client_id)) != 0U) && (check_flag_100__10TObjPlayerFPv() == 0) && (test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0)) {
         TLobby::send_45_and_close_windows(this);
         TLobby::show_ctrl_and_play_effect(this);
         this->state = 2;

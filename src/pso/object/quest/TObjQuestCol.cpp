@@ -196,7 +196,7 @@ int TObjQuestColA::vfunc_15() {
         }
         if (temp_r3_2 == 0) {
             player->disable_primary_action_input();
-            if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 4) != 0) {
+            if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0) {
                 return 1;
             }
         }
@@ -273,7 +273,7 @@ int TObjQuestColALock::vfunc_15() {
         }
         if (temp_r3_2 == 0) {
             player->disable_primary_action_input();
-            if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 4) != 0) {
+            if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0) {
                 return 1;
             }
         }
@@ -579,7 +579,7 @@ int TObjQuestColALock2::vfunc_15() {
         }
         if (temp_r3_2 == 0) {
             player->disable_primary_action_input();
-            if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 4) != 0) {
+            if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0) {
                 return 1;
             }
         }

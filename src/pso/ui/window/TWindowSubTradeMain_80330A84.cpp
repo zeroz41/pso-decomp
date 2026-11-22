@@ -581,7 +581,7 @@ void TWindowSubTradeMain::run_task() {
     case 28:
         if (are_both_trade_offers_confirmed() == 0 ||
             (!(o->flags & 1) &&
-             (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[player], 2) != 0 ||
+             (test_pressed_buttons_packed(&controller_input_state.controllers[player], 2) != 0 ||
               test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0))) {
             play_sound_effect(0x52F16, 0, 0, 0);
             clear_local_trade_final_confirmation();
@@ -607,7 +607,7 @@ void TWindowSubTradeMain::run_task() {
         if (o->timer > 0) {
             o->timer--;
         } else if (!(o->flags & 1) &&
-                   (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[player], 2) != 0 ||
+                   (test_pressed_buttons_packed(&controller_input_state.controllers[player], 2) != 0 ||
                     test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
             play_sound_effect(0x52F16, 0, 0, 0);
             TLobby::clear_flag400();

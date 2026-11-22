@@ -141,14 +141,14 @@ s32 handle_list_page_flip_input(PageIndicator *page_indicator) {
     decay_page_arrow_offset(page_indicator);
     cur = page_indicator->page;
     pad = &controller_input_state.controllers[is_player_input_active(page_indicator->input_port)];
-    if (TWindowShortListCtrl__check_controller_button(pad, 0x30000) == 0) {
+    if (test_pressed_buttons_packed(pad, 0x30000) == 0) {
         return 0;
     }
     play_sound_effect(0x54100, 0, 0, 0);
-    if (TWindowShortListCtrl__check_controller_button(pad, 0x10000) != 0) {
+    if (test_pressed_buttons_packed(pad, 0x10000) != 0) {
         cur++;
     }
-    if (TWindowShortListCtrl__check_controller_button(pad, 0x20000) != 0) {
+    if (test_pressed_buttons_packed(pad, 0x20000) != 0) {
         cur--;
     }
     if (cur < 0) {
@@ -161,7 +161,7 @@ s32 handle_list_page_flip_input(PageIndicator *page_indicator) {
         return 0;
     }
     page_indicator->page = cur;
-    if (TWindowShortListCtrl__check_controller_button(pad, 0x10000) != 0) {
+    if (test_pressed_buttons_packed(pad, 0x10000) != 0) {
         page_indicator->arrow_offset = 1e+01f;
     } else {
         page_indicator->arrow_offset = (-1e+01f);

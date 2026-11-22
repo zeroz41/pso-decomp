@@ -74,7 +74,7 @@ void TAdYesNoBaseGC::vfunc_11() {
                 this->m_24 = 4;
                 break;
             }
-        } else if ((TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
+        } else if ((test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
             this->m_1c = 2;
             this->m_24 = 4;
         }

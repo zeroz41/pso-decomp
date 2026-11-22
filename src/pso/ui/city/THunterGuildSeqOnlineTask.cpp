@@ -70,8 +70,8 @@ void THunterGuildSeqOnlineTask::run_task() {
     ControllerInputContext *p;
     if (TQuestListOnline__quest_info_window != 0) {
         p = &controller_input_state.controllers[0];
-        if (TWindowShortListCtrl__check_controller_button(p, 4) != 0 ||
-            TWindowShortListCtrl__check_controller_button(p, 2) != 0) {
+        if (test_pressed_buttons_packed(p, 4) != 0 ||
+            test_pressed_buttons_packed(p, 2) != 0) {
             TQuestListOnline__quest_info_window->close();
             TQuestListOnline__quest_info_window = 0;
             TWindowCtrl::unsuppress_slot(local_client_id);

@@ -63,7 +63,7 @@ void TWindowMessagePage::render() { { (void)(this->TWindowMessage::render()); re
 void TWindowMessagePage::run_task() {
     u8 *arg0 = (u8 *)this;
     TWindowMessage::run_task();
-    if ((TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[is_player_input_active((this->client_index))], 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
+    if ((test_pressed_buttons_packed(&controller_input_state.controllers[is_player_input_active((this->client_index))], 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
         if (((TWindowMessagePage *)arg0)->is_message_window_ready() != 0) {
             update_message();
             return;

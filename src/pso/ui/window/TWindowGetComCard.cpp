@@ -68,7 +68,7 @@ void run_task__17TWindowGetComCardFv(GetCard_80252CCC *self) {
         if (((TWindowMessagePage *)(self->fmt))->is_message_window_ready() != 0) {
             self->state = 2;
         }
-        if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 4) != 0) {
+        if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0) {
             ((TWindowMessage *)(self->fmt))->complete_reveal();
             self->state = 2;
         }
@@ -107,14 +107,14 @@ void run_task__17TWindowGetComCardFv(GetCard_80252CCC *self) {
             TWindowGetComCard__sub_8007B54C();
             ((TObject *)self)->queue_destruction();
             self->state = 6;
-        } else if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[port], 2) != 0 ||
+        } else if (test_pressed_buttons_packed(&controller_input_state.controllers[port], 2) != 0 ||
                    test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0) {
             play_sound_effect(0x52F16, 0, 0, 0);
             self->state = 2;
         }
         break;
     case 5:
-        if (self->timer-- <= 0 || TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 4) != 0) {
+        if (self->timer-- <= 0 || test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0) {
             TWindowGetComCard__sub_8007B54C();
             ((TObject *)self)->queue_destruction();
             self->state = 6;

@@ -129,7 +129,7 @@ void TObjResultWin::run_task() {
                 ((TWindowBase *)m_window)->close();
                 queue_destruction();
             }
-        } else if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 4) != 0) {
+        } else if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0) {
             m_close_requested = 1;
         }
     }

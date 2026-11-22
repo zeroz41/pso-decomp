@@ -102,7 +102,7 @@ void TAdEp3Exist::run_task() {
                 next_state = 4;
                 break;
             }
-        } else if (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[0], 2) != 0 ||
+        } else if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0 ||
                    test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0) {
             state = 2;
             next_state = 5;

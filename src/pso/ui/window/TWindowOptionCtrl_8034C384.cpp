@@ -134,7 +134,7 @@ void TUnk_804F01A8::run_task() {
             *(s32 *)((s8 *)arg0 + 0x20) = (s32) (*(s32 *)((s8 *)arg0 + 0x20) & 0xFFFFFFFD);
             *(s32 *)((s8 *)arg0 + 0x1C) = 4;
         case 4:
-            if ((TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 6) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 6) != 0)) {
+            if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 6) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 6) != 0)) {
                 play_sound_effect(0x52F16, 0, 0, 0);
                 *(s32 *)((s8 *)arg0 + 0x20) = (s32) (*(s32 *)((s8 *)arg0 + 0x20) & 0xFFFFFFFD);
                 this->m_24 = 2;
@@ -242,7 +242,7 @@ void TUnk_804F01A8::run_task() {
             }
             break;
         case 15:
-            if ((TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 6) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 6) != 0)) {
+            if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 6) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 6) != 0)) {
                 play_sound_effect(0x52F16, 0, 0, 0);
                 *(s32 *)((s8 *)arg0 + 0x1C) = 3;
             }

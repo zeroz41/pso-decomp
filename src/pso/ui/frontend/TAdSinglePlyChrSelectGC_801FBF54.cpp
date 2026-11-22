@@ -2080,7 +2080,7 @@ s32 save_character_to_card__23TAdSinglePlyChrSelectGCFv(void) {
             controller_stuff();
             TLobby::wait_ready_loop();
             render_frame__23TAdSinglePlyChrSelectGCFv();
-            if (func_801A5E54__Fv() != 0 || TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 8) != 0) {
+            if (func_801A5E54__Fv() != 0 || test_pressed_buttons_packed(&controller_input_state.controllers[0], 8) != 0) {
                 if (check != NULL) {
             delete check;
         }
@@ -2165,7 +2165,7 @@ s32 save_character_to_card__23TAdSinglePlyChrSelectGCFv(void) {
             controller_stuff();
             TLobby::wait_ready_loop();
             render_frame__23TAdSinglePlyChrSelectGCFv();
-            if (func_801A5E54__Fv() != 0 || TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 0x60E) != 0) {
+            if (func_801A5E54__Fv() != 0 || test_pressed_buttons_packed(&controller_input_state.controllers[0], 0x60E) != 0) {
                 break;
             }
             render_tick();

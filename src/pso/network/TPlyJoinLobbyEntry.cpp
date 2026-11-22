@@ -1328,7 +1328,7 @@ void queue_join_entry_exit_on_input(void *self) {
 }
 void TLobby::update() {
     if ((u32) TLobby__join_entry_window_obj != 0U) {
-        if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 8) != 0) {
+        if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 8) != 0) {
             if (((TWindowMessagePage *)TLobby__join_entry_window_obj)->is_message_window_ready() == 0) {
                 ((TWindowMessage *)TLobby__join_entry_window_obj)->complete_reveal();
             } else {
@@ -1495,7 +1495,7 @@ void TLobby::update_short_list() {
 
     if (TLobby__download_list_window != NULL) {
         context = &controller_input_state.controllers[0];
-        if (TWindowShortListCtrl__check_controller_button(context, 4) != 0) {
+        if (test_pressed_buttons_packed(context, 4) != 0) {
             if (((TWindowMessagePage *)TLobby__download_list_window)->is_message_window_ready() == 0) {
                 ((TWindowMessage *)TLobby__download_list_window)->complete_reveal();
             } else {
@@ -1503,7 +1503,7 @@ void TLobby::update_short_list() {
                 TLobby__download_list_window = 0U;
                 TLobby::close_all_windows();
             }
-        } else if (TWindowShortListCtrl__check_controller_button(context, 2) != 0) {
+        } else if (test_pressed_buttons_packed(context, 2) != 0) {
             ((TWindowBase *)TLobby__download_list_window)->close();
             TLobby__download_list_window = 0U;
             TLobby::close_all_windows();
@@ -1518,7 +1518,7 @@ void TLobby::handle_short_list_input() {
 
     if ((u32) TLobby__join_entry_window_obj != 0U) {
         context = &controller_input_state.controllers[0];
-        if (TWindowShortListCtrl__check_controller_button(context, 4) != 0) {
+        if (test_pressed_buttons_packed(context, 4) != 0) {
             if (((TWindowMessagePage *)TLobby__join_entry_window_obj)->is_message_window_ready() == 0) {
                 ((TWindowMessage *)TLobby__join_entry_window_obj)->complete_reveal();
             } else {
@@ -1526,7 +1526,7 @@ void TLobby::handle_short_list_input() {
                 TLobby__join_entry_window_obj = 0U;
                 TLobby::close_all_windows();
             }
-        } else if (TWindowShortListCtrl__check_controller_button(context, 2) != 0) {
+        } else if (test_pressed_buttons_packed(context, 2) != 0) {
             ((TWindowBase *)TLobby__join_entry_window_obj)->close();
             TLobby__join_entry_window_obj = 0U;
             TLobby::close_all_windows();
@@ -1538,7 +1538,7 @@ void TLobby::handle_short_list_input() {
 }
 void TLobby::update_scroll_close() {
     if (lobby_scroll_text_window != NULL) {
-        if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 0xE) != 0) {
+        if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 0xE) != 0) {
             lobby_scroll_text_window->close();
             lobby_scroll_text_window = NULL;
             ((s32 (*)())TLobby::destroy_lobby_ui)();

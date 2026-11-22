@@ -656,7 +656,7 @@ void TRaderMapCore::update_pan_zoom_input() {
     if (self->f184 != 0) {
         for (j = 0; j < 4; j++) {
             p = (uaddr)get_player_by_client_id(j);
-            if (p != 0 && TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[((TRaderMapCore *)p)->get_map_id()], 0x200) != 0) {
+            if (p != 0 && test_pressed_buttons_packed(&controller_input_state.controllers[((TRaderMapCore *)p)->get_map_id()], 0x200) != 0) {
                 self->f184 = 0;
                 return;
             }
@@ -689,7 +689,7 @@ void TRaderMapCore::update_pan_zoom_input() {
     }
     for (k = 0; k < 4; k++) {
         p = (uaddr)get_player_by_client_id(k);
-        if (p != 0 && TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[((TRaderMapCore *)p)->get_map_id()], 0x200) != 0 &&
+        if (p != 0 && test_pressed_buttons_packed(&controller_input_state.controllers[((TRaderMapCore *)p)->get_map_id()], 0x200) != 0 &&
             test_flags_04_packed(&controller_input_state.controllers[((TRaderMapCore *)p)->get_map_id()], 0x10000) != 0) {
             self->f184 = p;
             u8 *cam = (u8 *)&TRaderMapCore__map_view_state;

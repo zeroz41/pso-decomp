@@ -143,7 +143,7 @@ void TChallenge4PResult::update_input() {
             return;
         }
         if (get_player_by_client_id(this->slot_index) != 0U) {
-            if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[get_map_id__13TRaderMapCoreFv()], 4) != 0) {
+            if (test_pressed_buttons_packed(&controller_input_state.controllers[get_map_id__13TRaderMapCoreFv()], 4) != 0) {
                 this->state_1c = 1;
             }
         } else {
@@ -183,7 +183,7 @@ void TChallenge4PResult::handle_result_code() {
 }
 void TChallenge4PResult::update_wait_input() {
     if (get_player_by_client_id(this->slot_index) != 0U) {
-        if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[get_map_id__13TRaderMapCoreFv()], 4) != 0) {
+        if (test_pressed_buttons_packed(&controller_input_state.controllers[get_map_id__13TRaderMapCoreFv()], 4) != 0) {
             this->state_1c = 3;
         }
     } else {
