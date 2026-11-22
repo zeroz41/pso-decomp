@@ -124,7 +124,7 @@ void TObjEneShark::update_attack_trail() {
     pop_matrix();
     trail = attack_trails[idx];
     if (trail != NULL) {
-        trail->vfunc_6(&a, &b);
+        trail->add_segment(&a, &b);
     }
 }
 

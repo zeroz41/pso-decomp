@@ -24,10 +24,9 @@ typedef struct Trail_800D76E8 {
 
 
 void TUnk_80494968::render() {
-    u8 *arg0 = (u8 *)this;
     if (((s32)this->defer_render() == 0) && ((s32) this->segment_count > 1)) {
         set_additive_blend();
-        draw_trail_strip((arg0 + 0x20), (this->segment_count * 2), 1);
+        draw_trail_strip(vertices, (this->segment_count * 2), 1);
     }
 }
 
@@ -74,57 +73,33 @@ void TUnk_80494968::run_task() {
     arg0->e[0].tb = tb;
 }
 
-void TUnk_80494968::sub_800D7818(s32 arg1, s32 arg2) {
-    this->m_120 = arg1;
-    *(s32 *)&this->unk_124 = arg2;
+void TUnk_80494968::set_edge_colors(u32 color_a, u32 color_b) {
+    edge_colors[0] = color_a;
+    edge_colors[1] = color_b;
 }
 
 
-struct P_800D78CC { u8 b[0x10]; };
-
-struct Obj_800D78CC { u8 pad0[0x1C]; s32 count; P_800D78CC a[2]; };
-
-struct P_800D7824 { Vec v; s32 w; };
-
-struct B_800D7824 { u8 pad0[0x18]; };
-
-struct Obj_800D7824 : B_800D7824 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void flush();
-    s32 count;
-    P_800D7824 a[16];
-    s32 w120;
-    s32 w124;
-};
-
-void TUnk_80494968::vfunc_6(void *p0_arg, void *p1_arg) {
-    Obj_800D7824 *self = (Obj_800D7824 *)this;
-    Vec *p0 = (Vec *)p0_arg;
-    Vec *p1 = (Vec *)p1_arg;
-    P_800D7824 *e;
-    if (self->count >= 0x10) {
-        self->flush();
+// Appends one segment (the two edge points) to the strip; a full strip drops its oldest segment first.
+void TUnk_80494968::add_segment(Vec *edge_a, Vec *edge_b) {
+    TrailStripVertex *v;
+    if (segment_count >= 16) {
+        shift_line_buffer_down();
     }
-    e = &self->a[self->count * 2];
-    e[0].v.x = p0->x;
-    e[0].v.y = p0->y;
-    e[0].v.z = p0->z;
-    e[0].w = self->w120;
-    e[1].v.x = p1->x;
-    e[1].v.y = p1->y;
-    e[1].v.z = p1->z;
-    e[1].w = self->w124;
-    self->count++;
+    v = &vertices[segment_count * 2];
+    v[0].x = edge_a->x;
+    v[0].y = edge_a->y;
+    v[0].z = edge_a->z;
+    v[0].color = edge_colors[0];
+    v[1].x = edge_b->x;
+    v[1].y = edge_b->y;
+    v[1].z = edge_b->z;
+    v[1].color = edge_colors[1];
+    segment_count++;
 }
 
 void TUnk_80494968::shift_line_buffer_down() {
-    Obj_800D78CC *arg0 = (Obj_800D78CC *)this;
-    P_800D78CC *p;
-    P_800D78CC *q;
+    TrailStripVertex *p;
+    TrailStripVertex *q;
     s32 lim;
     s32 i;
     s32 n = this->segment_count;
@@ -132,8 +107,8 @@ void TUnk_80494968::shift_line_buffer_down() {
         this->segment_count = 0;
         return;
     }
-    p = arg0->a;
-    q = arg0->a + 2;
+    p = vertices;
+    q = vertices + 2;
     lim = (n - 1) * 2;
     for (i = 0; i < lim; i++) {
         TAdDrawLineTask__sub_80019A8C(p++, q++);
@@ -145,26 +120,14 @@ TUnk_80494968::~TUnk_80494968() {
 
 }
 
-struct Ent_800D79A8 { u8 pad[0xc]; s32 fc; u8 pad2[0xc]; s32 f1c; };
-
-struct Obj_800D79A8 { u8 pad[0x18]; void *vt; u8 pad1c[4]; Ent_800D79A8 ents[8]; s32 f120; s32 f124; };
-
-extern "C" {
-extern u8 __vt__13TUnk_80494968[];
-Obj_800D79A8 *fn_800D79A8(Obj_800D79A8 *self, TObject *parent, s32 a, s32 b);
-Obj_800D79A8 *fn_800D79A8(Obj_800D79A8 *self, TObject *parent, s32 a, s32 b) {
+TUnk_80494968::TUnk_80494968(TObject *parent, u32 color_a, u32 color_b) : TAttackTrace(parent) {
     s32 i;
-    Ent_800D79A8 *p;
-    __ct__12TAttackTraceFP7TObject(self, parent);
-    self->vt = __vt__13TUnk_80494968;
-    ((TUnk_80494968 *)self)->sub_800D7818(a, b);
-    p = self->ents;
+    TrailStripVertex *v;
+    set_edge_colors(color_a, color_b);
+    v = vertices;
     for (i = 0; i < 8; i++) {
-        p->fc = self->f120;
-        p->f1c = self->f124;
-        p++;
+        v[0].color = edge_colors[0];
+        v[1].color = edge_colors[1];
+        v += 2;
     }
-    return self;
-}
-
 }

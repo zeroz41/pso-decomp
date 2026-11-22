@@ -1029,7 +1029,7 @@ void TObjEneDf2Bringer::update_slash_state(s32 reason) {
                 matrix_mult_vec(0, &points[2], &edge[0]);
                 matrix_mult_vec(0, &points[0], &edge[1]);
                 pop_matrix();
-                attack_trail->vfunc_6(&edge[0], &edge[1]);
+                attack_trail->add_segment(&edge[0], &edge[1]);
             }
             update_attack_child();
             if (is_passing_frame(10.8f) != 0) {

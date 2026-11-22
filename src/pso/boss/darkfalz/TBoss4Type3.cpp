@@ -1017,7 +1017,7 @@ void TBoss4Type3::update_cut() {
             matrix_mult_vec(0, &e[0], &seg[0]);
             matrix_mult_vec(0, &e[1], &seg[1]);
             pop_matrix();
-            trails[side]->vfunc_6(&seg[0], &seg[1]);
+            trails[side]->add_segment(&seg[0], &seg[1]);
         }
     }
     if (--state_timer < 0) {

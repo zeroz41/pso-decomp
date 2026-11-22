@@ -970,7 +970,7 @@ void TObjEneMoja::update_punch_attack() {
                 pop_matrix();
                 trace = unknown_398;
                 if (trace != NULL) {
-                    trace->vfunc_6(&trail[0], &trail[1]);
+                    trace->add_segment(&trail[0], &trail[1]);
                 }
             }
         }

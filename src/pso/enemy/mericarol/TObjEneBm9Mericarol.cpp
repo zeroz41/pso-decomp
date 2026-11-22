@@ -700,10 +700,10 @@ void TObjEneBm9Mericarol::state_attack(s32 reason) {
                 matrix_mult_vec_array(NULL, (const Vec *)points1, (Vec *)trail1, 2);
                 pop_matrix();
                 if (trails[0] != NULL) {
-                    trails[0]->vfunc_6(&trail0[0], &trail0[1]);
+                    trails[0]->add_segment(&trail0[0], &trail0[1]);
                 }
                 if (trails[1] != NULL) {
-                    trails[1]->vfunc_6(&trail1[0], &trail1[1]);
+                    trails[1]->add_segment(&trail1[0], &trail1[1]);
                 }
             }
             break;

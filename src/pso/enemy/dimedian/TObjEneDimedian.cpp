@@ -146,7 +146,7 @@ void TObjEneDimedian::update_attack_trail() {
     pop_matrix();
     eff = attack_trails[idx];
     if (eff != NULL) {
-        eff->vfunc_6(&a, &b);
+        eff->add_segment(&a, &b);
     }
 }
 

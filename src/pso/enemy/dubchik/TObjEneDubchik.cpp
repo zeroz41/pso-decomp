@@ -892,12 +892,12 @@ void TObjEneDubchik::update_scratch() {
         rotate_matrix_y(0, rotation_y);
         if (h0 != 0) {
             matrix_mult_vec_array(NULL, h0, &a1, 2);
-            saver->vfunc_6(&a1, &b1);
+            saver->add_segment(&a1, &b1);
         }
         if (h1 != 0) {
             saddr start = (saddr)&a2;
             matrix_mult_vec_array(NULL, h1, (Vec *)start, 2);
-            saver->vfunc_6((Vec *)start, &b2);
+            saver->add_segment((Vec *)start, &b2);
         }
         pop_matrix();
         if (action_flags != 4) {

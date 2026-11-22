@@ -10,8 +10,4 @@ public:
     virtual ~TAttackTrace();
 };
 
-extern "C" {
-void *__ct__12TAttackTraceFP7TObject(void *attack_trace, TObject *parent);
-}
-
 #endif

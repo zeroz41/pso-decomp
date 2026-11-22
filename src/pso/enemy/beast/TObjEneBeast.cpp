@@ -125,7 +125,7 @@ void TObjEneBeast::update_attack_trail() {
             pop_matrix();
             eff = attack_trails[idx];
             if (eff != NULL) {
-                eff->vfunc_6(&pos, &dir);
+                eff->add_segment(&pos, &dir);
             }
         }
     }

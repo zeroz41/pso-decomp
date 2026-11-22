@@ -520,7 +520,7 @@ void TObjEneMe3Shinowa::dispatch_if_active() {
 void TObjEneMe3Shinowa::on_target_lost() {  }
 
 void TObjEneMe3Shinowa::apply_effect_pair() {
-    s32 sp8[8];
+    Vec edge[2];
     Vec *entry;
     Vec *src;
 
@@ -530,13 +530,13 @@ void TObjEneMe3Shinowa::apply_effect_pair() {
     rotate_matrix_y(0, rotation_y);
     entry = TObjEneMe3ShinowaMirage__data_805D52A4->lookup(frame);
     if (entry != NULL) {
-        matrix_mult_vec_array(NULL, entry, (Vec *)&sp8, 2);
-        m_3e0->vfunc_6(&sp8, &sp8[3]);
+        matrix_mult_vec_array(NULL, entry, edge, 2);
+        m_3e0->add_segment(&edge[0], &edge[1]);
     }
     src = TObjEneMe3ShinowaMirage__data_805D52A8->lookup(frame);
     if (src != NULL) {
-        matrix_mult_vec_array(NULL, src, (Vec *)&sp8, 2);
-        m_3e4->vfunc_6(&sp8, &sp8[3]);
+        matrix_mult_vec_array(NULL, src, edge, 2);
+        m_3e4->add_segment(&edge[0], &edge[1]);
     }
     pop_matrix();
 }
@@ -1007,7 +1007,7 @@ void TObjEneMe3Shinowa::sub_800E5F64(s32 reason) {
                 rotate_matrix_y(0, this->rotation_y);
                 matrix_mult_vec_array(NULL, entry, (Vec *)&sp14, 2);
                 pop_matrix();
-                this->m_3e0->vfunc_6(&sp14, &sp20);
+                this->m_3e0->add_segment(&sp14, &sp20);
             }
         }
         break;

@@ -1150,8 +1150,8 @@ void TObjEneRe7Berura::update_melee_state(s32 reason) {
                 rotate_matrix_y(NULL, rotation_y);
                 matrix_mult_vec_array(NULL, entry, trail_points, 4);
                 pop_matrix();
-                attack_trails[0]->vfunc_6(&trail_points[0], &trail_points[1]);
-                attack_trails[1]->vfunc_6(&trail_points[2], &trail_points[3]);
+                attack_trails[0]->add_segment(&trail_points[0], &trail_points[1]);
+                attack_trails[1]->add_segment(&trail_points[2], &trail_points[3]);
             }
             if (get_flag_b4() != 0) {
                 step = 2;

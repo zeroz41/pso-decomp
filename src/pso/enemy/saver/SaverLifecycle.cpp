@@ -109,7 +109,6 @@ void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
 void move_with_wall_slide(u8 *arg0);
 extern "C" {
 s32 TObjPlayer__sub_800A04F0(void *);
-struct VDisp_800a42c4_800A4288 { char pad[0x18]; virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); virtual void m4(void *, void *); };
 
 s32 post_translate_matrix(void *);
 void check_enemy_body_collisions(void *arg0);
@@ -170,9 +169,8 @@ void TObjPlayer__sub_800A4294(void) {
 void TObjEneSaver::sub_800A42C0() {}
 
 void TObjEneSaver::apply_lookup_entry_effect() {
-    struct { s32 a, b, c; s32 d, e, f, g, h; } sp8;
+    Vec edge[2];
     s32 entry;
-    u8 *temp_r3_2;
 
     entry = (saddr)lbl_805D5064->lookup((f32)this->frame);
     if (entry != 0) {
@@ -180,11 +178,10 @@ void TObjEneSaver::apply_lookup_entry_effect() {
         set_matrix_identity(0);
         post_translate_matrix(&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        matrix_mult_vec_array(0, entry, &sp8, 2);
+        matrix_mult_vec_array(0, entry, edge, 2);
         pop_matrix();
-        temp_r3_2 = (u8 *)attack_traces[0];
-        if (temp_r3_2 != NULL) {
-            ((struct VDisp_800a42c4_800A4288 *) temp_r3_2)->m4(&sp8, &sp8.d);
+        if (attack_traces[0] != NULL) {
+            attack_traces[0]->add_segment(&edge[0], &edge[1]);
         }
     }
 }
@@ -384,15 +381,6 @@ void TObjEneSaver::run_hit_reaction() {
 
 
 
-struct VBase18_800A4D9C { char pad[0x18]; };
-
-struct VObj18_800A4D9C : VBase18_800A4D9C {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4(void *, void *);
-};
 
 
 
@@ -520,8 +508,7 @@ int TObjEneSaver::test_flag_256() {
 }
 
 void TObjEneSaver::sub_800A4D9C() {
-    u8 m50[0xC];
-    u8 m44[0xC];
+    Vec edge[2];
     Vec d;
     u8 *p;
     s32 e;
@@ -588,10 +575,10 @@ void TObjEneSaver::sub_800A4D9C() {
                 set_matrix_identity(0);
                 post_translate_matrix(&position);
                 rotate_matrix_y(0, rotation_y);
-                matrix_mult_vec_array(0, e, m44, 2);
+                matrix_mult_vec_array(0, e, edge, 2);
                 pop_matrix();
                 if (attack_traces[1] != NULL) {
-                    ((VObj18_800A4D9C *)attack_traces[1])->m4(m44, m50);
+                    attack_traces[1]->add_segment(&edge[0], &edge[1]);
                 }
             }
         }
@@ -675,7 +662,7 @@ void TObjEneSaver::sub_800A5154() {
                 matrix_mult_vec_array(0, entry, &v, 2);
                 pop_matrix();
                 if (attack_traces[2] != NULL) {
-                    ((VDisp_800a42c4_800A4288 *)attack_traces[2])->m4(&v, &w);
+                    attack_traces[2]->add_segment(&v, &w);
                 }
             }
         }

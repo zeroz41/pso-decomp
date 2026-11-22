@@ -884,7 +884,7 @@ void TObjEneDolmOlm::update_attack_trail() {
     pop_matrix();
     eff = attack_traces[idx];
     if (eff != NULL) {
-        eff->vfunc_6(&a, &b);
+        eff->add_segment(&a, &b);
     }
 }
 void TObjEneDolmOlm::spawn_death_effect() {
