@@ -88,7 +88,7 @@ struct NJS_OBJECT;
 #include "pso/boss/derolle/TBoss2Joint.h"
 
 #include "pso/boss/derolle/TBoss2Mine.h"
-#include "pso/camera/TCameraCtrl_801A6E60.h"
+#include "pso/ui/frontend/TAdSelectCurGC_801A6E20.h"
 
 #include "pso/boss/derolle/TUnk_80482D04.h"
 

@@ -6,11 +6,37 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/player/PlayerSlots.h"
+#include "pso/unk/TLobby.h"
+#include "pso/map/FloorArea.h"
+#include "pso/network/client_id.h"
 
 
 extern const char TObjWarnChime_class_name[] = "TObjWarnChime";
 const char* TObjWarnChime_name = TObjWarnChime_class_name;
 
+s32 TObjWarnChime::should_update() {
+    TObjPlayer *player;
+
+    if (!is_split_screen()) {
+        player = get_player_by_client_id(local_client_id);
+        if (player == NULL || ((TLobby *)player)->check_player_state_flag_2() != 0) {
+            return 0;
+        }
+        if (!is_quest_active()) {
+            return 0;
+        }
+    }
+    switch (get_current_floor_area()) {
+    case AREA_PIONEER2_EP1:
+    case AREA_LOBBY:
+    case AREA_BATTLE1:
+    case AREA_BATTLE2:
+    case AREA_PIONEER2_EP2:
+        return 0;
+    }
+    return 1;
+}
 void TObjWarnChime::update_chime_countdown() {
     if (m_countdown < 0 || m_chime_interval <= 0) {
         return;
@@ -61,7 +87,7 @@ void TObjWarnChime::update_player_hp_ratios() {
     m_chime_interval = (s32)(12.0f * min) + 3;
 }
 void TObjWarnChime::update_when_camera_active() {
-    if (TCameraCtrl::should_update() == 0) {
+    if (should_update() == 0) {
         m_state = 0;
         return;
     }
@@ -71,7 +97,7 @@ void TObjWarnChime::update_when_camera_active() {
 void TObjWarnChime::reset_state() {
     m_countdown = -1;
     m_chime_interval = 0;
-    if (TCameraCtrl::should_update() != 0) {
+    if (should_update() != 0) {
         m_state = 1;
     }
 }

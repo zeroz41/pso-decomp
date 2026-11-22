@@ -91,7 +91,11 @@ Vec tombstone_position_table[4];
 }
 
 // The unit is compiled -inline off,deferred, which emits functions last-defined
-// first: they are written here from the last (0x8007666C) back to the first.
+// first: they are written here from the last (0x800766CC) back to the first.
+s32 TCameraCtrl::get_screen_height() { return TCameraCtrl::viewport_x; }
+
+s32 TCameraCtrl::get_screen_width() { return TCameraCtrl::viewport_y; }
+
 TObjTombstone *TObjTombstone::create(TObject *parent, s32 client, const TObjTombstoneRecord *record) {
     return new TObjTombstone(parent, client, record);
 }

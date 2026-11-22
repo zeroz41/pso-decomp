@@ -170,7 +170,6 @@ public:
     static void set_active_camera_flag();
     static s32 get_screen_width();
     static s32 get_screen_height();
-    static s32 should_update();
     void copy_position_vectors(void *first, void *second);
     void update_single_screen();
     static int get_mode();
@@ -181,6 +180,10 @@ public:
     static Vec get_target_position();
     static s32 get_camera_no();
     static void set_mode(int mode);
+    static void reset_mode();
+    static void set_camera_id(int id);
+    // The one view split-screen frames run and draw, or -1 for every view.
+    static s8 get_view_state();
     static void update_camera_state(f32 x, f32 y, f32 z);
     static void look_at_position(f32 x, f32 y, f32 z);
     static void translate_view_negated(f32 x, f32 y, f32 z);
@@ -207,6 +210,8 @@ public:
 LAYOUT_ASSERT(TCameraCtrl_size, sizeof(TCameraCtrl) == 0x1D4);
 // The camera's right axis, which screen tests offset points along.
 extern f32 camera_right[3];
+// The one view split-screen frames run and draw, or -1 for every view.
+extern s8 camera_ctrl_view_state_byte;
 
 extern "C" {
 int is_quest_active(void);

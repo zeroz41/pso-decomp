@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/camera/TCameraDebugView.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/camera/TCameraCtrl_801A6E60.h"
+#include "pso/ui/frontend/TAdSelectCurGC_801A6E20.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/system/vector.h"

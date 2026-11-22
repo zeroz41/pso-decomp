@@ -786,15 +786,12 @@ pso/camera/TCameraDebugView.cpp:
 	.sdata2     start:0x805D9040 end:0x805D904C
 
 pso/camera/TCameraFollow.cpp:
-	.text       start:0x8006CCEC end:0x8006E82C
+	.text       start:0x8006CCEC end:0x8006E85C
 	.rodata     start:0x80438528 end:0x80438548
 	.data       start:0x80488DD0 end:0x80488E40
 	.sdata      start:0x805D2840 end:0x805D2848
 	.sbss       start:0x805D4E20 end:0x805D4E28
 	.sdata2     start:0x805D9050 end:0x805D90B8
-
-pso/unk/text_8006E82C.cpp:
-	.text       start:0x8006E82C end:0x8006E85C
 
 pso/ui/window/TWindowCtrl_8006E85C.cpp:
 	.text       start:0x8006E85C end:0x8006E8F0
@@ -966,7 +963,7 @@ pso/ui/window/TObjCHTimeWin_80074C94.cpp:
 	.sdata      start:0x805D2890 end:0x805D2898
 
 pso/object/TObjTombstone.cpp:
-	.text       start:0x80074E04 end:0x800766C4
+	.text       start:0x80074E04 end:0x800766D4
 	.rodata     start:0x80438748 end:0x80438818
 	.data       start:0x8048D238 end:0x8048D348
 	.bss        start:0x804FF938 end:0x804FF968
@@ -974,11 +971,8 @@ pso/object/TObjTombstone.cpp:
 	.sbss       start:0x805D4E48 end:0x805D4E50
 	.sdata2     start:0x805D9170 end:0x805D91C0
 
-pso/camera/TCameraCtrl_800766C4.cpp:
-	.text       start:0x800766C4 end:0x80076760
-
 pso/object/TObjWarnChime.cpp:
-	.text       start:0x80076760 end:0x80076B5C
+	.text       start:0x800766D4 end:0x80076B5C
 	.rodata     start:0x80438818 end:0x80438830
 	.data       start:0x8048D348 end:0x8048D360
 	.sdata      start:0x805D28A0 end:0x805D28A8
@@ -4831,10 +4825,7 @@ pso/unk/TLobby_801A2D90.cpp:
 	.text       start:0x801A2D90 end:0x801A2F7C
 
 pso/ui/frontend/TAdSelectGameModeGC_801A2F7C.cpp:
-	.text       start:0x801A2F7C end:0x801A2FE0
-
-pso/camera/TCameraCtrl_801A2FE0.cpp:
-	.text       start:0x801A2FE0 end:0x801A3014
+	.text       start:0x801A2F7C end:0x801A3014
 
 pso/unk/text_801A3014.cpp:
 	.text       start:0x801A3014 end:0x801A3B84
@@ -4858,10 +4849,7 @@ pso/object/door/TObjDoor.cpp:
 	.text       start:0x801A3C0C end:0x801A3C18
 
 pso/unk/TLobby_801A3C18.cpp:
-	.text       start:0x801A3C18 end:0x801A3C24
-
-pso/camera/TCameraCtrl_801A3C24.cpp:
-	.text       start:0x801A3C24 end:0x801A3C48
+	.text       start:0x801A3C18 end:0x801A3C48
 
 pso/unk/TLobby_801A3C48.cpp:
 	.text       start:0x801A3C48 end:0x801A4C90
@@ -4923,10 +4911,7 @@ pso/ui/hud/TLoadingCur_801A6DE0.cpp:
 	.text       start:0x801A6DE0 end:0x801A6E20
 
 pso/ui/frontend/TAdSelectCurGC.cpp:
-	.text       start:0x801A6E20 end:0x801A6E60
-
-pso/camera/TCameraCtrl_801A6E60.cpp:
-	.text       start:0x801A6E60 end:0x801A6EA0
+	.text       start:0x801A6E20 end:0x801A6EA0
 
 pso/ui/frontend/TAdMultiPlyChrSelectGC_801A6EA0.cpp:
 	.text       start:0x801A6EA0 end:0x801A6F38

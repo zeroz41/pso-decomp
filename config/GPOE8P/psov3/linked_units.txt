@@ -652,10 +652,6 @@ pso/camera/CameraHelpers.cpp
 pso/camera/TCameraScripted.cpp
 pso/camera/TCameraWatchPlayer.cpp
 pso/camera/TCameraFollow.cpp
-pso/camera/TCameraCtrl_800766C4.cpp
-pso/camera/TCameraCtrl_801A2FE0.cpp
-pso/camera/TCameraCtrl_801A3C24.cpp
-pso/camera/TCameraCtrl_801A6E60.cpp
 pso/render/GinjaView.cpp
 pso/render/GinjaScreen.cpp
 pso/render/GinjaPerspective.cpp
@@ -1990,7 +1986,6 @@ pso/unk/text_8004D9A8.cpp
 pso/unk/text_80052420.cpp
 pso/unk/text_80066F10.cpp
 pso/unk/text_80066F5C.cpp
-pso/unk/text_8006E82C.cpp
 pso/unk/text_8006EF80.cpp
 pso/unk/text_8006EF90.cpp
 pso/unk/text_80071A9C.cpp
