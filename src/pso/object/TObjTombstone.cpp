@@ -48,8 +48,8 @@ u32 calc_text_width(const char *);
 void draw_menu_font_string(const char *, u32, s32, f32, f32, f32);
 const char *get_message_text(s32);
 s32 has_window_task_root();
-void fn_80074E04(s32 i, Vec *pos);
-void TObjTombstone__sub_80075DFC(TObjTombstone *self);
+void set_tombstone_position(s32 i, Vec *pos);
+void TObjTombstone__drop_recovery_items(TObjTombstone *self);
 }
 
 struct CameraView_800751BC {
@@ -161,7 +161,7 @@ void TObjTombstone::setup(s32 client, const TObjTombstoneRecord *src) {
     this->m_b8 = 0.0f;
     this->m_bc = 0.0f;
     this->m_230 = 0;
-    fn_80074E04(this->client_id, &this->position);
+    set_tombstone_position(this->client_id, &this->position);
 }
 
 TObjTombstone::~TObjTombstone() {
@@ -175,7 +175,7 @@ void TObjTombstone::run_task() {
     this->m_b0 = get_distance_to_local_player_xz();
     update_rise();
     if (is_player_nearby() != 0) {
-        TObjTombstone__sub_80075DFC(this);
+        TObjTombstone__drop_recovery_items(this);
     }
     this->m_230 = this->m_230 + 1;
     tombstone_first_run_flag = 0;
@@ -225,7 +225,7 @@ s32 TObjTombstone::is_player_nearby() {
 }
 
 // Drops recovery items around the tombstone, once.
-extern "C" void TObjTombstone__sub_80075DFC(TObjTombstone *self) {
+extern "C" void TObjTombstone__drop_recovery_items(TObjTombstone *self) {
     s32 count;
     s32 players;
     s32 kind;
@@ -678,7 +678,7 @@ void TLobby::reset_tombstone_values() {
 }
 
 extern "C" {
-void fn_80074E04(s32 i, Vec *pos) {
+void set_tombstone_position(s32 i, Vec *pos) {
     if (i < 0 || i >= 4) {
         return;
     }

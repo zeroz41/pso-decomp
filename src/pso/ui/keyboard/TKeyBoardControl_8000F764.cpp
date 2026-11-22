@@ -99,7 +99,7 @@ void TCharaMaking__sub_8028E790(void);
 }
 s32 verify_game_file_integrity();
 extern "C" {
-void TLobby__sub_8032C91C(void);
+void gba_init(void);
 u32 OSInitAlloc(u32, u32, int);
 s32 VIInit();
 s32 PADInit();
@@ -360,7 +360,7 @@ void init_game_systems(void) {
     load_ha_u032_kage();
     fn_800FFE10();
     TLobby::reset_story_select();
-    TLobby__sub_8032C91C();
+    gba_init();
     load_ply_level_tbl();
     verify_game_file_integrity();
     TLobby::handle_flag2_request();

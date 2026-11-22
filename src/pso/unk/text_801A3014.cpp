@@ -165,7 +165,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {TLobby::set_ending_callback, TLobby::free_ending_callback},
     {TKeyBoardControl__sub_80131F60, TKeyBoardControl__sub_80131F5C},
     {alloc_battle_param_tables, TLobby::free_boss4_rock},
-    {TLobby__sub_801A2554, TLobby__sub_801A2550},
+    {reset_id_counters, TLobby__sub_801A2550},
     {TObjPlayer::reset, TObjPlayer__sub_80156934},
     {init_scene_fog_system, TFogCtrl::reset},
     {load_light_entry_file, TObjLight::free_shared_data},

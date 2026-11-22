@@ -334,7 +334,7 @@ void handle_6x6E_sync_game_state(Pkt_8013566C *arg0);
 void mark_area_change_pending();
 u16 get_entity_id(void *);
 void * get_current_floor();
-void TLobby__sub_800703D0(void *, void *);
+void copy_challenge_info(void *, void *);
 void TLobby__sub_80077798(void *, void *);
 void handle_6x70_sync_player_disp_and_inventory(Pkt_801354AC *arg0);
 void handle_6x6D_sync_game_state(Pkt_8013574C *arg0);
@@ -559,7 +559,7 @@ void TLobby::send_game_character() {
         strncpy((char *)e + 4, (char *)TLobby::get_card_window_area(), 0x200);
     }
     memset(&d, 0, sizeof(d));
-    TLobby__sub_800703D0(d.b, card + 0x21C4);
+    copy_challenge_info(d.b, card + 0x21C4);
     d.h[0] = *(u16 *)(card + 0x21A8);
     d.h[1] = *(u16 *)(card + 0x21AA);
     d.h[2] = *(u16 *)(card + 0x21AC);
@@ -2236,7 +2236,7 @@ void TLobby::send_selected_character() {
         strncpy((char *)e + 4, (char *)TLobby::get_card_window_area(), 0x200);
     }
     memset(&d, 0, sizeof(d));
-    TLobby__sub_800703D0(d.b, card + 0x21C4);
+    copy_challenge_info(d.b, card + 0x21C4);
     d.h[0] = *(u16 *)(card + 0x21A8);
     d.h[1] = *(u16 *)(card + 0x21AA);
     d.h[2] = *(u16 *)(card + 0x21AC);

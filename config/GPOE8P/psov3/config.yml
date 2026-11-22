@@ -652,10 +652,10 @@ force_active:
   - TLobby__sub_8006F48C
   - TLobby__sub_8006F5B0
   - TLobby__sub_8006FAE4
-  - TLobby__sub_80070170
-  - TLobby__sub_80070254
-  - TLobby__sub_80070358
-  - TLobby__sub_80070774
+  - TChallenge__refresh_challenge_windows
+  - TChallenge__request_missing_challenge_records
+  - restore_challenge_from_save
+  - TChallenge__dt
   - TLobby__sub_80072AB8
   - TLobby__sub_800F8BD8
   - TLobby__sub_800F8DD8
@@ -676,7 +676,7 @@ force_active:
   - TLobby__sub_8013A578
   - TLobby__sub_8013FF64
   - TLobby__sub_80182E60
-  - TLobby__sub_801A20C8
+  - alloc_enemy_ids
   - TLobby__sub_801A3CF8
   - TLobby__sub_801A3E94
   - set_floor_transition_ready
@@ -708,10 +708,10 @@ force_active:
   - TLobby__sub_8029A16C
   - TLobby__sub_802A7640
   - zero_pair_fields
-  - TLobby__sub_8032C9A8
-  - TLobby__sub_8032CB6C
+  - stamp_joyboot_image
+  - probe_gba_device
   - TLobby__sub_8032CDC0
-  - TLobby__sub_8032CDD0
+  - reset_joyboot_state
   - TLobby__sub_803361FC
   - TLobby__sub_803362A4
   - TLobby__sub_8034C1D0
@@ -1651,7 +1651,7 @@ force_active:
   - TObjTombstone__base_matrix
   - TObjTombstone__class_name
   - TObjTombstone__shared_resource_object
-  - TObjTombstone__sub_80075DFC
+  - TObjTombstone__drop_recovery_items
   - TObjTradeCollision__ct
   - TObjTradeCollision__name
   - TObjTuitate__collision_parts
@@ -1749,7 +1749,7 @@ force_active:
   - TSwitch__name
   - __ct__8TTecAntiFPvPvPvl
   - TTecAnti__self_effect_rows
-  - TTecAnti__sub_8022AD74
+  - TTecAnti__spawn_anti_range_effect
   - TTecAnti__sub_8022AD94
   - TTecAnti_name_ref
   - TTecBarta__class_name
@@ -1777,7 +1777,7 @@ force_active:
   - __ct__9TTecRestaFPvPvl
   - __ct__12TTecReverserFllll
   - __ct__9TTecSiftaFPvPvPvl
-  - TTecSifta__sub_8023AC88
+  - TTecSifta__spawn_sifta_range_effect
   - __ct__9TTecSiftaFPvPvl
   - TTecSlicer__ct
   - __ct__9TTecZondeFlPUcPUcl
@@ -6362,7 +6362,7 @@ force_active:
   - update_shockwave_attack__13TBoss5GryphonFUl
   - update_ground_takeoff__13TBoss5GryphonFUl
   - state_action_noop__13TBoss5GryphonFv
-  - fn_80074E04
+  - set_tombstone_position
   - fn_800779FC
   - __sinit_text_8007A6C8_cpp
   - copy_graph_sample__FP14TDLGraphSampleP14TDLGraphSample
@@ -6381,13 +6381,13 @@ force_active:
   - load_unload_set_shuffle_order
   - load_unload_set_init_order
   - fn_80119204
-  - fn_80157CA8
+  - init_6x91_subcommand
   - fn_801811FC
   - fn_80181204
   - fn_801908F8
   - get_warp_string_screen_position
   - fn_8019F9AC
-  - fn_801A210C
+  - alloc_player_ids
   - __sinit_text_801A3BB8_cpp
   - fn_801C1E98
   - fn_801C1EE8

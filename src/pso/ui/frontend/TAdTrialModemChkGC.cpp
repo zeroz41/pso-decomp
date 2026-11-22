@@ -15,7 +15,7 @@ extern "C" {
 
 void TAdTrialModemChkGC__sub_803354A4(void) {  }
 void TAdTrialModemChkGC::check_modem_result() {
-    if (TLobby__sub_80145A94() != 0) {
+    if (load_network_info() != 0) {
         TLobby::init_account_entries();
         TAdTrialModemChkGC__sub_8007FA24(0);
         return;

@@ -202,7 +202,7 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {TWindowCtrl::close, TWindowCtrl::shutdown},
     {TLobby__sub_8001ED74, TLobby__sub_8001ED70},
     {alloc_battle_param_tables, TLobby::free_boss4_rock},
-    {TLobby__sub_801A2554, TLobby__sub_801A2550},
+    {reset_id_counters, TLobby__sub_801A2550},
     {TObjPlayer::reset, TObjPlayer__sub_80156934},
     {init_scene_fog_system, TFogCtrl::reset},
     {load_light_entry_file, TObjLight::free_shared_data},

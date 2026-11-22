@@ -90,10 +90,10 @@ void TLobby__sub_800738F4(void *, s32);
 void *create_obj_tag_challenge(void *arg0);
 extern saddr tl_07;
 extern "C" {
-Info_800703D0 *TLobby__sub_800703D0(Info_800703D0 *dst, Info_800703D0 *src);
+Info_800703D0 *copy_challenge_info(Info_800703D0 *dst, Info_800703D0 *src);
 void *get_player_by_client_id(s32 i);
 extern void *challenge_mode_state[];
-void TLobby__sub_80070254(L_80070254 *arg0);
+void TChallenge__request_missing_challenge_records(L_80070254 *arg0);
 void render__10TChallengeFv(void);
 
 int is_quest_active(void);
@@ -105,7 +105,7 @@ extern "C" {
 void run_task__10TChallengeFv(TChallenge *);
 }
 struct Obj_80070774 { u8 pad0[0x18]; void *vt; };
-Obj_80070774 *TLobby__sub_80070774(Obj_80070774 *arg0, s16 arg1);
+Obj_80070774 *TChallenge__dt(Obj_80070774 *arg0, s16 arg1);
 extern "C" {
 extern u8 lbl_805D90D0[];
 }
@@ -437,7 +437,7 @@ void TLobby::update_quest_challenge_state(void *arg0_) {
 }
 #undef arg0
 
-void TLobby__sub_80070170(void *arg0) {
+void TChallenge__refresh_challenge_windows(void *arg0) {
     s32 old;
     s32 v;
     switch (get_current_floor_area()) {
@@ -469,7 +469,7 @@ void TLobby__sub_80070170(void *arg0) {
     }
 }
 
-void TLobby__sub_80070254(L_80070254 *arg0) {
+void TChallenge__request_missing_challenge_records(L_80070254 *arg0) {
     s32 found;
     s32 i;
     s32 *p;
@@ -503,17 +503,17 @@ void clear_four_slots__6TLobbyFv(void) {
     }
 }
 
-void TLobby__sub_80070358(void) {
+void restore_challenge_from_save(void) {
     s32 *temp_r31;
     TLobby::clear_four_slots();
     temp_r31 = (s32 *)((u8 *)(((u8 *)&challenge_mode_state + (local_client_id * 0x104))) + 0x270);
     if (get_character_save_record(0xFFFFU) != 0U) {
         *(s32 *)((s8 *)temp_r31 + 0) = 1;
-        TLobby__sub_800703D0((Info_800703D0 *)((void *)((void *) ((u8 *)temp_r31 + 4))), (Info_800703D0 *)((void *)((void *) (get_character_save_record(0xFFFFU) + 0x21C4))));
+        copy_challenge_info((Info_800703D0 *)((void *)((void *) ((u8 *)temp_r31 + 4))), (Info_800703D0 *)((void *)((void *) (get_character_save_record(0xFFFFU) + 0x21C4))));
     }
 }
 
-Info_800703D0 *TLobby__sub_800703D0(Info_800703D0 *dst, Info_800703D0 *src) {
+Info_800703D0 *copy_challenge_info(Info_800703D0 *dst, Info_800703D0 *src) {
     *dst = *src;
     return dst;
 }
@@ -537,7 +537,7 @@ s32 TLobby::destroy_on_phase_change() {
 }
 
 void TChallenge::render() {  }
-void TChallenge::update_active() { void *p = this; if (((TLobby *)p)->destroy_on_phase_change() == 0) { TLobby__sub_80070170(p); ((TLobby *)p)->update_battle_cleanup_flag(); } }
+void TChallenge::update_active() { void *p = this; if (((TLobby *)p)->destroy_on_phase_change() == 0) { TChallenge__refresh_challenge_windows(p); ((TLobby *)p)->update_battle_cleanup_flag(); } }
 void TChallenge::wait_for_quest() {
     u8 *arg0 = (u8 *)this;
     if (((s32)((TLobby *)arg0)->destroy_on_phase_change()) == 0) {
@@ -577,7 +577,7 @@ void TChallenge::run_task() {
     if (TAdPlayerLoadGC__sub_801E1510(self) == 1) {
         return;
     }
-    TLobby__sub_80070254((L_80070254 *)self);
+    TChallenge__request_missing_challenge_records((L_80070254 *)self);
     static Step_80070674 table[3] = {
         &TChallenge::initialize_windows,
         &TChallenge::wait_for_quest,
@@ -601,13 +601,13 @@ void *lbl_8048D0B0[22] = {
     (void *)0x0, (void *)0x0,
 };
 void *lbl_8048D108[6] = {
-    (void *)0x0, (void *)0x0, (void *)&TLobby__sub_80070774, (void *)&run_task__10TChallengeFv,
+    (void *)0x0, (void *)0x0, (void *)&TChallenge__dt, (void *)&run_task__10TChallengeFv,
     (void *)&render__10TChallengeFv, (void *)&render_shadows__7TObjectFv,
 };
 
 void __dt__7TObjectFv(void *, s32);
 
-Obj_80070774 *TLobby__sub_80070774(Obj_80070774 *object, s16 arg1) {
+Obj_80070774 *TChallenge__dt(Obj_80070774 *object, s16 arg1) {
     if (object != NULL) {
         object->vt = lbl_8048D108;
         TObjTombstone::destroy();
@@ -665,7 +665,7 @@ Obj_80070944 *TChallenge__ct(Obj_80070944 *challenge_task, void *parent) {
     challenge_task->vt = lbl_8048D108;
     challenge_task->f0 = lbl_805D2850;
     ((TLobby *)challenge_mode_state)->copy_challenge_settings((u8 *)challenge_settings_defaults);
-    ((void (*)(void *))TLobby__sub_80070358)(challenge_task);
+    ((void (*)(void *))restore_challenge_from_save)(challenge_task);
     TLobby::send_challenge_records((uaddr)challenge_task);
     challenge_task->f20 = 0;
     challenge_task->f24 = 0;

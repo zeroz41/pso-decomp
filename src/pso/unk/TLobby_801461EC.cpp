@@ -136,7 +136,7 @@ int TLobby__sub_80145E40(void);
 int TLobby__sub_80146724(void);
 int TLobby__sub_80146740(void);
 int TLobby__sub_8014677C(void);
-s32 TLobby__sub_80145A94(void);
+s32 load_network_info(void);
 s32 TLobby__sub_80145DB4(s32 arg0);
 s32 TLobby__sub_80147284();
 s32 TLobby__sub_804219D0(saddr, saddr, saddr);
@@ -162,7 +162,7 @@ char lbl_8050CE34[0x20];
 u8 lbl_8050CE54[0x114];
 #define lbl_8050C0A8 (*(RecoveredGlobal_8014672C_lbl_8050C0A8 *)lbl_8050C0A8)
 
-void TLobby::init_keyboard_buffer() { keyboard_buffer_cursor = 0; lbl_805D56CE = 0; lbl_805D56C8 = 0; get_network_config_buffer_size((saddr)((void*)0)); lbl_805D56C8 = xmalloc__FUl(); TLobby__sub_80145A94(); }
+void TLobby::init_keyboard_buffer() { keyboard_buffer_cursor = 0; lbl_805D56CE = 0; lbl_805D56C8 = 0; get_network_config_buffer_size((saddr)((void*)0)); lbl_805D56C8 = xmalloc__FUl(); load_network_info(); }
 
 s32 TLobby::poll_connect() {
     s32 var_r31;

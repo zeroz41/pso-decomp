@@ -72,14 +72,14 @@ struct Sifta_8023AF94 {
 
 extern "C" {
 saddr get_entity_id(int);
-int TTecSifta__sub_8023AC88(void* p);
+int TTecSifta__spawn_sifta_range_effect(void* p);
 s32 is_split_screen();
 void deliver_technique_to_party_targets(void *);
 void run_task__9TTecSiftaFv(Sifta_8023AF94 *self);
 void copy_technique_target_list(void *, void *);
 int spawn_support_tec_range_effect(void*);
 
-int TTecSifta__sub_8023AC88(void* p) { return spawn_support_tec_range_effect(p); }
+int TTecSifta__spawn_sifta_range_effect(void* p) { return spawn_support_tec_range_effect(p); }
 
 void TTecSifta::play_sifta_cast_sound() {
     Obj_8023ACA8 *arg0 = (Obj_8023ACA8 *)this;
@@ -194,7 +194,7 @@ TTecSifta::TTecSifta(void *owner, void *pos, void *targets, s32 level) : TTecPla
         *(s16 *)&((TTecSifta *)arg0)->m_a8 = get_entity_id((int)t);
     }
     if (*(s32 *)&((TTecSifta *)arg0)->m_ac != 0) {
-        TTecSifta__sub_8023AC88(arg0);
+        TTecSifta__spawn_sifta_range_effect(arg0);
         ((TTecSifta *)arg0)->play_sifta_cast_sound();
     }
 }
@@ -217,7 +217,7 @@ TTecSifta::TTecSifta(void *owner, void *pos, s32 level) : TTecPlayerInfluence(ow
     if (temp_r3_2 != 0U) {
         arg0->m_a8 = get_entity_id(temp_r3_2);
     }
-    TTecSifta__sub_8023AC88(arg0);
+    TTecSifta__spawn_sifta_range_effect(arg0);
     arg0->play_sifta_cast_sound();
 #undef arg0
 }

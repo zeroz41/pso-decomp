@@ -968,7 +968,7 @@ struct G_802932EC {
 
 extern "C" {
 void TLobby__sub_80293218(s32 arg0);
-void TLobby__sub_800703D0(void *, void *);
+void copy_challenge_info(void *, void *);
 void snapshot_player_card_status__6TLobbyFv(void);
 void TLobby__sub_802933FC(void *arg0);
 int TAdPlayerLoadGC__sub_801E1510(void);
@@ -1120,7 +1120,7 @@ void snapshot_player_card_status__6TLobbyFv(void) {
         if (get_player_by_client_id(i) != 0 && (u8 *)get_character_save_record(i) != NULL) {
             Rec_8029350C *r = &(*(G_8029350C *)&lbl_804DB1F0).r[i];
             r->f0 = 1;
-            TLobby__sub_800703D0((u8 *)r + 4, (u8 *)get_character_save_record(i) + 0x21C4);
+            copy_challenge_info((u8 *)r + 4, (u8 *)get_character_save_record(i) + 0x21C4);
         }
     }
 }

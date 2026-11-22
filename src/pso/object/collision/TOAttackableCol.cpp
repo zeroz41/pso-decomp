@@ -58,7 +58,7 @@ struct Obj_801575AC {
 };
 
 extern "C" {
-void *fn_80157CA8(void *arg0);
+void *init_6x91_subcommand(void *arg0);
 void TOAttackableCol__sub_80157310(void *_w0);
 u16 get_entity_id(void *);
 s32 obj_setFlags30(void *, int);
@@ -167,7 +167,7 @@ void TOAttackableCol::send_state_change(u16 state) {
     ((TObjCollidable *)self)->access_object_saved_state(&id, 0);
     parent = *(u8 * *)&this->set_entry;
     if (parent != NULL) {
-        fn_80157CA8(&msg);
+        init_6x91_subcommand(&msg);
         msg.room = this->entity_id;
         msg.id = id;
         msg.type = *(s16 *)(parent + 4);
@@ -349,7 +349,7 @@ s32 TOAttackableCol__sub_80157C28(void* p) { return *(s32*)((char*)p + 0x33c); }
 void TOAttackableCol::bswap_state() { ((TLobby *)this)->bswap_header(); bswap_16((u16 *)((char*)this + 0xc)); bswap_16((u16 *)((char*)this + 0xe)); bswap_16((u16 *)((char*)this + 0x10)); }
 void TOAttackableCol::broadcast_state() { bswap_state(); send_subcommand((u8 *)this); }
 
-void *fn_80157CA8(void *barrier_energy01) {
+void *init_6x91_subcommand(void *barrier_energy01) {
     init_collision_subcommand_header(barrier_energy01);
     *(u16 *)((s8 *)barrier_energy01 + 0xC) = 0;
     *(u16 *)((s8 *)barrier_energy01 + 0xE) = 0;

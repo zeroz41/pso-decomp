@@ -1018,7 +1018,7 @@ void TWindowKeyBoardBase::sub_8025E6DC(u8 *arg1) {
 }
 extern "C" {
 s32 ARAlloc(s32);
-void TQuestVmDownLoadServer__sub_803F0C04(u32 aram_addr, s32 size, u32 owner, u32 priority, u32 timeout_ms);
+void aram_dma_setup(u32 aram_addr, s32 size, u32 owner, u32 priority, u32 timeout_ms);
 
 void TWindowKeyBoardBase::render() {
     saddr temp_r31;
@@ -1078,7 +1078,7 @@ void TLobby::load_ask_dictionary() {
     data = (saddr)load_disc_file(lbl_8044F098);
     TLobby::aram_transfer_sync(3, data, aram, aligned);
     TAdSinglePlyChrSelectGC::safe_free(data);
-    TQuestVmDownLoadServer__sub_803F0C04(aram, size, 3, 1, 0x2710);
-    TQuestVmDownLoadServer__sub_803F09A4();
+    aram_dma_setup(aram, size, 3, 1, 0x2710);
+    start_askdic();
 }
 }

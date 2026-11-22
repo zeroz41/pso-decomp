@@ -29,7 +29,7 @@ extern u8 *password_entry_keyboard_control;
 extern s32 password_entry_dispatch_state;
 extern TAdEnterBaseGC::Position password_screen_status_line_position[];
 void request_main_phase(int);
-s32 TLobby__sub_80145A94(void);
+s32 load_network_info(void);
 s32 TLobby__sub_80145DB4(int);
 s8 *TLobby__sub_80146D14(void);
 s8 *TLobby__sub_80146D44(void);
@@ -183,7 +183,7 @@ TAdEnterPPPPassGC::TAdEnterPPPPassGC(TObject *parent) : TAdEnterBaseGC(parent) {
     sub_8032B460(3);
     password_entry_dispatch_state = 0;
     m_40 = 0;
-    if (TLobby__sub_80145A94() != 0) {
+    if (load_network_info() != 0) {
         TLobby::init_account_entries();
     } else {
         request_main_phase(0x13);

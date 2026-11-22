@@ -47,7 +47,7 @@ struct Pkt7C_80072230 { u32 hdr; u16 id; u8 pad6[2]; u8 recs[0x100]; };
 
 extern "C" {
 void TLobby__sub_800728FC(u8 *arg0);
-s32 TLobby__sub_800703D0(void *, void *);
+s32 copy_challenge_info(void *, void *);
 extern s32 local_client_id;
 void TLobby__sub_80072880(u8 *arg0);
 void TLobby__sub_800727EC(u8 *arg0);
@@ -194,7 +194,7 @@ void handle_6x7C_set_challenge_records(Pkt7C_80072230 *pkt) {
         TLobby::send_challenge_records((uaddr)challenge_task);
     }
     rec->flag = 1;
-    TLobby__sub_800703D0(rec->data, pkt->recs);
+    copy_challenge_info(rec->data, pkt->recs);
 }
 
 void TLobby::send_6x7c_reset() {
@@ -209,7 +209,7 @@ void TLobby__sub_80072618(void) {
     if (TLobby::is_flag_set() != 0) {
         q = (s32 *)(((u8 *)&challenge_mode_state) + local_client_id * 0x104 + 0x270);
         if (((u32)get_character_save_record(0xFFFF)) != 0) {
-            TLobby__sub_800703D0(q + 1, (void *)(((uaddr)get_character_save_record(0xFFFF)) + 0x21C4));
+            copy_challenge_info(q + 1, (void *)(((uaddr)get_character_save_record(0xFFFF)) + 0x21C4));
             if ((*(u32 *)&challenge_task) != 0) {
                 TLobby::send_challenge_records((u32)((*(u32 *)&challenge_task)));
             }
@@ -221,6 +221,6 @@ void TLobby::send_challenge_records(u32 _w0) {
     G_SetChallengeRecords_V3_6x7C packet;
     ((TLobby *)(&packet.__base_G_SetChallengeRecordsBase_6x7C.header))->init_pkt_cmd_7C();
     packet.__base_G_SetChallengeRecordsBase_6x7C.client_id = (s16) local_client_id;
-    TLobby__sub_800703D0(&packet.records[0], (void *) (get_character_save_record(0xFFFF) + 0x21C4));
+    copy_challenge_info(&packet.records[0], (void *) (get_character_save_record(0xFFFF) + 0x21C4));
     ((TLobby *)(&packet.__base_G_SetChallengeRecordsBase_6x7C.header))->send_6x7C_packet();
 }
