@@ -50,6 +50,18 @@
 #include "pso/enemy/saver/SaverLifecycle.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
+extern "C" {
+// The state handlers run_synced_state_handler picks by mode, as pso/player/TObjPlayer_800A894C.h declares
+// them. 800A8C4C keeps its u8 * parameter: with TObjEneDubchik * the compiler keeps actor + 0x290 in r30.
+void dubchik_start_dying(TObjEneDubchik *dubchik);
+void TObjPlayer__sub_800A8C4C(u8 *actor);
+void TObjPlayer__sub_800A8E04(TObjEneDubchik *dubchik);
+void TObjPlayer__sub_800A8FB4(TObjEneDubchik *dubchik);
+void TObjPlayer__sub_800A93E4(TObjEneDubchik *dubchik);
+void TObjPlayer__sub_800A9C38(TObjEneDubchik *dubchik);
+void TObjPlayer__sub_800A9E9C(TObjEneDubchik *dubchik);
+void TObjPlayer__sub_800AA330(TObjEneDubchik *dubchik);
+}
 
 struct VBase_800AA704 { u8 pad[0xC]; };
 struct VObj_800AA704 : VBase_800AA704 {
@@ -136,7 +148,6 @@ s32 TObjPlayer__sub_800AAF98(void *, s32);
 void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
 extern "C" {
 s32 __ct__13TUnk_80491460FPvlll(void *, void *, s32, void *, s32);
-void TObjPlayer__sub_800A8FB4(void *arg0_);
 
 extern saddr lbl_80500AF0[];
 extern saddr lbl_80500AF8[];
@@ -150,9 +161,6 @@ u8 *load_gvm_texture_file(saddr name);
 Node_800AA82C *lbl_805D509C;
 Node_800AA82C *lbl_805D50A0;
 void *breakup_model_ptr;
-extern "C" {
-void TObjPlayer__sub_800AA82C(void);
-}
 #define CAT2(a, b) a##b
 #define CAT(a, b) CAT2(a, b)
 #define PADV virtual void CAT(pv, __LINE__)();
@@ -163,8 +171,6 @@ struct V_Sub : Base_Sub {
     PADV
     virtual s32 m5();
 };
-
-struct Obj_800AA528 { u8 pad0[0x326]; s16 state; };
 
 struct Obj_800A8A7C { u8 pad[0x388]; u32 flags; };
 
@@ -192,28 +198,21 @@ struct Self_800AA334 { u8 pad[0x3B0]; VObj_14_fddec9 sub; };
 
 
 extern "C" {
-void TObjPlayer__sub_800A8E04(u8 *ene_me1_gi_gue);
 void obj_setFlags30(void *, u32);
-void dubchik_start_dying(u8 *arg0);
 s32 find_active_entity_by_id(u16);
-void TObjPlayer__sub_800AA330(void *);
 s32 minimap_render_dot(void *, s32, s32, s32);
 extern void *tl_04;
 void TObjPlayer__sub_800AAFF0(void *p, f32 v);
 f32 fabs_float(f32);
-void TObjPlayer__sub_800A93E4(void *);
-void TObjPlayer__sub_800A9C38(void *);
 }
 void move_with_wall_slide(u8 *arg0);
 extern "C" {
 s32 calc_velocity_toward_destination(void *, Vec_800A8C4C, Vec_800A8C4C, f32);
-void TObjPlayer__sub_800A8C4C(u8 *actor);
 s32 post_translate_matrix(void *);
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 s32 update_enemy_wander_move(void *, Vec *, s32, f32);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-void TObjPlayer__sub_800A9E9C(void *arg0_);
 
 struct Ids_800AA82C { s16 v[2]; };
 __declspec(section ".data") saddr lbl_805009A0[2];
@@ -604,7 +603,7 @@ void *TObjPlayer::create_dubchik(void *set_data) {
 void TObjEneDubchik::run_task() {
     u8 *self = (u8 *)this;
     if (TObjPlayer::check_demo_mode() == 1) {
-        TObjPlayer__sub_800AA330(self);
+        TObjPlayer__sub_800AA330(this);
         return;
     }
     ((TObjEneDubchik *)self)->sub_800A8B8C();
@@ -630,16 +629,16 @@ void TObjEneDubchik::run_task() {
 }
 
 void TObjPlayer::run_synced_state_handler() {
-    Obj_800AA528 *self = (Obj_800AA528 *)this;
+    TObjEneDubchik *dubchik = (TObjEneDubchik *)this;
     switch (this->mode) {
     case 0: update_timed_state(); return;
-    case 1: TObjPlayer__sub_800A9E9C(self); return;
-    case 2: TObjPlayer__sub_800A93E4(self); return;
-    case 9: TObjPlayer__sub_800A8FB4(self); return;
-    case 4: TObjPlayer__sub_800A9C38(self); return;
-    case 5: ((TObjEneDubchik *)this)->update_fall_apart(); return;
-    case 7: TObjPlayer__sub_800A8E04((u8 *)self); return;
-    case 8: TObjPlayer__sub_800A8C4C((u8 *)self); break;
+    case 1: TObjPlayer__sub_800A9E9C(dubchik); return;
+    case 2: TObjPlayer__sub_800A93E4(dubchik); return;
+    case 9: TObjPlayer__sub_800A8FB4(dubchik); return;
+    case 4: TObjPlayer__sub_800A9C38(dubchik); return;
+    case 5: dubchik->update_fall_apart(); return;
+    case 7: TObjPlayer__sub_800A8E04(dubchik); return;
+    case 8: TObjPlayer__sub_800A8C4C((u8 *)dubchik); break;
     }
 }
 
@@ -706,7 +705,7 @@ void TObjEneDubchik::render() {
 }
 #pragma pop
 
-extern "C" void TObjPlayer__sub_800AA330(void * _w0) {  }
+extern "C" void TObjPlayer__sub_800AA330(TObjEneDubchik *dubchik) {}
 
 void TObjEneDubchik::sub_800AA10C() {
     f32 temp_f31;
@@ -756,8 +755,8 @@ void TObjEneDubchik::sub_800AA10C() {
     }
 }
 
-#define arg0 ((u8 *)arg0_)
-extern "C" void TObjPlayer__sub_800A9E9C(void *arg0_) {
+#define arg0 ((u8 *)dubchik)
+extern "C" void TObjPlayer__sub_800A9E9C(TObjEneDubchik *dubchik) {
     f32 var_f31;
     s32 var_r0;
     switch (*(s32 *)((s8 *)arg0 + 0x37C)) {
@@ -831,8 +830,8 @@ extern "C" void TObjPlayer__sub_800A9E9C(void *arg0_) {
 }
 #undef arg0
 
-#define arg0 ((u8 *)arg0_)
-extern "C" void TObjPlayer__sub_800A9C38(void *arg0_) {
+#define arg0 ((u8 *)dubchik)
+extern "C" void TObjPlayer__sub_800A9C38(TObjEneDubchik *dubchik) {
     switch (*(s32 *)((s8 *)arg0 + 0x37C)) {
     case 0:
         if (TObjEneDD::check_v2_mode() != 0 && ((TObjChara *)arg0)->random_ratio() > 0.2f) {
@@ -939,7 +938,7 @@ void TObjEneDubchik::update_fall_apart() {
         velocity()->z *= 0.75f;
         if (requested_action == 0xE) {
             if ((s32)variant != 0 || reassemble_count >= 5) {
-                dubchik_start_dying((u8 *)this);
+                dubchik_start_dying(this);
             } else {
                 velocity()->x = velocity()->z = 0.0f;
                 collapsed = 1;
@@ -1025,8 +1024,8 @@ void TObjEneDubchik::update_fall_apart() {
 
 extern "C" const f32 player_band_threshold_table[6] = { 20.0f, 34.0f, 28.0f, 54.0f, 0.7f, 0.8f };
 
-extern "C" void TObjPlayer__sub_800A93E4(void *arg0_) {
-    u8 *arg0 = (u8 *)arg0_;
+extern "C" void TObjPlayer__sub_800A93E4(TObjEneDubchik *dubchik) {
+    u8 *arg0 = (u8 *)dubchik;
     Ene_800A93E4 *e = (Ene_800A93E4 *)arg0;
     s32 act;
     Vec *h0;
@@ -1101,8 +1100,8 @@ extern "C" void TObjPlayer__sub_800A93E4(void *arg0_) {
     }
 }
 
-extern "C" void TObjPlayer__sub_800A8FB4(void *arg0_) {
-    u8 *arg0 = (u8 *)arg0_;
+extern "C" void TObjPlayer__sub_800A8FB4(TObjEneDubchik *dubchik) {
+    u8 *arg0 = (u8 *)dubchik;
     s32 r;
     switch (*(s32 *)((s8 *)arg0 + 0x37C)) {
     case 0:
@@ -1262,25 +1261,25 @@ void TObjPlayer::update_timed_state() {
     }
 }
 
-extern "C" void TObjPlayer__sub_800A8E04(u8 *ene_me1_gi_gue) {
-    switch (((TObjEneMe1GiGue *)ene_me1_gi_gue)->state) {
+extern "C" void TObjPlayer__sub_800A8E04(TObjEneDubchik *dubchik) {
+    switch (dubchik->state) {
     case 0:
-        ((TObjEneMe1GiGue *)ene_me1_gi_gue)->m_388 = (s32) (((TObjEneMe1GiGue *)ene_me1_gi_gue)->m_388 | 4);
-        ((TObjEneMe1GiGue *)ene_me1_gi_gue)->actorFlags = (((TObjEneMe1GiGue *)ene_me1_gi_gue)->actorFlags | 0x04000000);
-        ((TObjEneMe1GiGue *)ene_me1_gi_gue)->requested_action = 5;
-        ((TObjMotion *)ene_me1_gi_gue)->advance_animation();
-        TBoss3Volopt__sub_800D8D88((saddr)(ene_me1_gi_gue + 0x2FC));
-        ((TUnk_80494938 *)(ene_me1_gi_gue + 0x3B0))->start_fade_in();
-        ((TObjEneMe1GiGue *)ene_me1_gi_gue)->state = 1;
+        dubchik->m_388 = dubchik->m_388 | 4;
+        dubchik->actorFlags = dubchik->actorFlags | 0x04000000;
+        dubchik->requested_action = 5;
+        dubchik->advance_animation();
+        TBoss3Volopt__sub_800D8D88((saddr)&dubchik->body_center);
+        dubchik->fade.start_fade_in();
+        dubchik->state = 1;
     case 1:
-        if (((V_Sub *) (ene_me1_gi_gue + 0x3B0))->m5() == 1) {
-            ((TObjEneMe1GiGue *)ene_me1_gi_gue)->state = -1;
+        if (((V_Sub *)&dubchik->fade)->m5() == 1) {
+            dubchik->state = -1;
         }
         return;
     case -1:
-        ((TObjEneMe1GiGue *)ene_me1_gi_gue)->m_388 = (s32) ((((TObjEneMe1GiGue *)ene_me1_gi_gue)->m_388) & ~5);
-        ((TObjEneMe1GiGue *)ene_me1_gi_gue)->actorFlags = (s32) (((TObjEneMe1GiGue *)ene_me1_gi_gue)->actorFlags & 0xFBFFFFFF);
-        ((TObjEnemyCustom *)ene_me1_gi_gue)->update_if_active(0);
+        dubchik->m_388 = dubchik->m_388 & ~5;
+        dubchik->actorFlags = dubchik->actorFlags & 0xFBFFFFFF;
+        dubchik->update_if_active(0);
         break;
     }
 }
@@ -1329,9 +1328,9 @@ extern "C" void TObjPlayer__sub_800A8C4C(u8 *actor) {
     }
 }
 
-extern "C" void dubchik_start_dying(u8 *arg0) {
-    *(s32 *)((s8 *)arg0 + 0x388) = (s32) (*(s32 *)((s8 *)arg0 + 0x388) | 0x02000000);
-    obj_setFlags30(arg0, 0x800U);
+extern "C" void dubchik_start_dying(TObjEneDubchik *dubchik) {
+    *(s32 *)((s8 *)dubchik + 0x388) = (s32) (*(s32 *)((s8 *)dubchik + 0x388) | 0x02000000);
+    obj_setFlags30(dubchik, 0x800U);
 }
 
 void TObjEneDubchik::sub_800A8B8C() {
