@@ -130,7 +130,6 @@ struct TObjEneMe1Gee : public TObjEneDD_ST {
     u16 leader_id;
     u8 pad_48e[0x2];
     static void load_resources();
-    static void cache_result_805D6660();
     static void advance_camera_ctrl_step(NJS_OBJECT *);
     void state_move_forward(s32 msg);
     void state_motion_test(s32 msg);

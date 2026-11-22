@@ -44,7 +44,7 @@ void TObjEneMe1GiGueMissile::explode(void *pos) {
             DirectAttackPayload hit;
             hit.kind = 0;
             hit.power = power;
-            if (p->receive_direct_attack((void *)m_1c, hit, NULL, -1, -1) > 0.0f) {
+            if (p->receive_direct_attack((void *)owner, hit, NULL, -1, -1) > 0.0f) {
                 obj_setFlags30(p, 0x600);
             }
             if (get_current_floor_area() == AREA_TOWER) {
@@ -76,8 +76,8 @@ void TObjEneMe1GiGueMissile::render() {
     push_matrix();
     TParticleCtrl::begin_effect_render();
     post_translate_matrix(&pos.x);
-    rotate_matrix_y(NULL, m_a4);
-    rotate_matrix_x(NULL, m_a0);
+    rotate_matrix_y(NULL, rotation_y);
+    rotate_matrix_x(NULL, rotation_x);
     TObjFish::set_global_param((saddr)gigue_missile_resource->models[1].m_c);
     set_motion_packed_rotation();
     draw_model_motion((void *)get_bml_model(gigue_missile_resource, 1), get_bml_motion(gigue_missile_resource, 5), motion_frame);
@@ -90,8 +90,8 @@ void TObjEneMe1GiGueMissile::render() {
 #pragma opt_common_subs off
 void TObjEneMe1GiGueMissile::run_task() {
     f32 frame;
-    m_1c = (uaddr)find_entity_by_id(m_34);
-    if (m_1c == 0) {
+    owner = (uaddr)find_entity_by_id(owner_id);
+    if (owner == 0) {
         TObject::queue_destruction();
         return;
     }
@@ -112,13 +112,13 @@ TObjEneMe1GiGueMissile::TObjEneMe1GiGueMissile(s32 owner, Vec *from, Vec *to, f3
     this->power = power;
     this->speed = speed;
     play_sound_effect(0x4002A600, &pos, 0, 0);
-    if ((void *)m_1c != NULL) {
-        m_34 = get_entity_id((TObjBase *)m_1c);
+    if ((void *)this->owner != NULL) {
+        owner_id = get_entity_id((TObjBase *)this->owner);
     }
-    if (m_68 != NULL) {
-        m_68->bodies->radius = 1.0f;
+    if (collider != NULL) {
+        collider->bodies->radius = 1.0f;
     }
-    m_b0 = 1;
+    contact_mode = 1;
 }
 
 void TObjEneMe1GiGueMissile::free_global() {}

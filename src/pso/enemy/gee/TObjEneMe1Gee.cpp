@@ -141,7 +141,7 @@ void TObjEneMe1Gee::load_resources() {
     } else {
         TObjEneMe1Gee__resource_bundle = load_enemy_bml_resource(&bm_ene_me1_gee_resource_descriptor);
     }
-    TObjEneMe1Gee::cache_result_805D6660();
+    TObjEneMe1Gee_NEEDLE::init_global();
     gee_model_node7 = (u8 *)find_model_node((saddr)TObjEneMe1Gee__resource_bundle->models->model, 7);
     for (i = 0; i < 3; i++) {
         gee_boss_stat_handle_table[i] = (saddr)TLobby::register_boss(gee_base_stat_ids[i]);
@@ -184,7 +184,7 @@ void TObjEneMe1Gee::free_globals() {
         delete TObjEneMe1Gee__resource_bundle;
         TObjEneMe1Gee__resource_bundle = NULL;
     }
-    TObjEneMe1Gee__sub_802A4D4C();
+    TObjEneMe1Gee_NEEDLE::free_global();
 }
 
 TObjEneMe1Gee::TObjEneMe1Gee(TObject *parent, void *set_data, s32 kind) : TObjEneDD_ST(parent) {

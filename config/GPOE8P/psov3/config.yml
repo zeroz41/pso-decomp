@@ -9001,7 +9001,7 @@ force_active:
   - __vt__13TUnk_8049387C
   - me1_gee_init_params
   - me1_gi_gue_motion_filename_table
-  - me1gee_cached_model_handle
+  - gee_needle_resource
   - me3_stelth_bml_resource_desc
   - member_check_name_ptr
   - memcard_check_snapshot

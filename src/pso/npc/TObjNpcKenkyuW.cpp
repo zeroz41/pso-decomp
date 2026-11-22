@@ -269,19 +269,19 @@ TechniqueContactList *TObjPlayer::collect_technique_contacts(void *src) {
 #pragma global_optimizer off
 void TNeedleShoot::check_target_hit(s32) {
     TechniqueContactList *list;
-    if (this->m_68 == 0) {
+    if (this->collider == 0) {
         TObject::queue_destruction();
         return;
     }
-    switch (this->m_b0) {
+    switch (this->contact_mode) {
     case 1:
-        list = ((TObjPlayer *)this)->collect_technique_contacts((void *)this->m_1c);
+        list = ((TObjPlayer *)this)->collect_technique_contacts((void *)this->owner);
         break;
     case 2:
-        list = TObjPlayer__sub_802A3FDC((Obj_802A3FDC *)this, (void *)this->m_1c);
+        list = TObjPlayer__sub_802A3FDC((Obj_802A3FDC *)this, (void *)this->owner);
         break;
     default: {
-        void *source = (void *)this->m_1c;
+        void *source = (void *)this->owner;
         list = TObjPlayer__sub_802A3DE8((Obj_802A3DE8 *)this, source);
         break;
     }
@@ -292,7 +292,7 @@ void TNeedleShoot::check_target_hit(s32) {
         TechniqueContactActor *target = list->actors[0];
         if (target != NULL) {
             TechniqueContactBody *body = list->bodies[0];
-            this->on_target_hit((this->m_38 = body, static_cast<TechniqueContactActor *>(target)));
+            this->on_target_hit((this->contact_body = body, static_cast<TechniqueContactActor *>(target)));
         }
     }
 }

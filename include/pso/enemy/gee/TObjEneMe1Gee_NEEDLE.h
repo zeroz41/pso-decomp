@@ -13,13 +13,11 @@ public:
     virtual void on_wall_hit();
     virtual void render();
     virtual void run_task();
-    f32 m_bc;
-    s32 m_c0;
+    static void free_global();
+    static void init_global();
+    f32 power;
+    s32 linger_frames;  // frames the needle stays stuck after a wall hit (150)
 };
 LAYOUT_ASSERT(TObjEneMe1Gee_NEEDLE_size, sizeof(TObjEneMe1Gee_NEEDLE) == 0xC4);
-
-extern "C" {
-void TObjEneMe1Gee__sub_802A4D4C(void);
-}
 
 #endif

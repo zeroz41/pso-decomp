@@ -1,7 +1,6 @@
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "pso/enemy/gee/TObjEneMe1Gee_NEEDLE_802A4A44.h"
 #include "pso/enemy/gee/TObjEneMe1Gee_NEEDLE.h"
 #include "pso/enemy/gee/TObjEneMe1Gee.h"
 #include "pso/enemy/TNeedleShoot.h"
@@ -26,8 +25,8 @@ void *TNeedleShoot::get_shoot_data() { return &prev_pos; }
 
 void TObjEneMe1Gee_NEEDLE::queue_destruction() {
     s32 remaining;
-    remaining = m_c0 - 1;
-    m_c0 = remaining;
+    remaining = linger_frames - 1;
+    linger_frames = remaining;
     if (remaining <= 0) {
         TObject::queue_destruction();
     }
@@ -39,16 +38,16 @@ void TObjEneMe1Gee_NEEDLE::on_wall_hit() {
     } else {
         play_sound_effect(0x3A847, &pos, 0, 0);
     }
-    m_b8 = 0;
+    active = 0;
 }
 
 void TObjEneMe1Gee_NEEDLE::on_target_hit(void *arg) {
     TObjChara *target = (TObjChara *)arg;
     DirectAttackPayload attack;
     attack.kind = 0;
-    attack.power = m_bc;
+    attack.power = power;
     DirectAttackPayload payload = attack;
-    target->receive_direct_attack((void *)m_1c, payload, m_38, -1, -1);
+    target->receive_direct_attack((void *)owner, payload, contact_body, -1, -1);
     TObject::queue_destruction();
 }
 
@@ -57,61 +56,55 @@ TObjEneMe1Gee_NEEDLE::~TObjEneMe1Gee_NEEDLE() {
 
 #pragma readonly_strings on
 
-extern "C" {
 const char *TObjEneMe1Gee_NEEDLE__name = "TObjEneMe1Gee_NEEDLE";
-BmlResource *me1gee_cached_model_handle;
-}
+BmlResource *gee_needle_resource;
 
 void TObjEneMe1Gee_NEEDLE::render() {
-    if (me1gee_cached_model_handle == NULL) {
+    if (gee_needle_resource == NULL) {
         TObject::queue_destruction();
         return;
     }
     push_matrix();
     TParticleCtrl::begin_effect_render();
     post_translate_matrix(&pos.x);
-    rotate_matrix_y(NULL, m_a4);
-    rotate_matrix_x(NULL, m_a0);
-    TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)me1gee_cached_model_handle, 1));
-    draw_ginja_object((void *)get_bml_model((BmlResource *)me1gee_cached_model_handle, 1));
+    rotate_matrix_y(NULL, rotation_y);
+    rotate_matrix_x(NULL, rotation_x);
+    TObjFish::set_global_param((saddr)get_bml_texlist(gee_needle_resource, 1));
+    draw_ginja_object((void *)get_bml_model(gee_needle_resource, 1));
     TParticleCtrl::end_effect_render();
     pop_matrix();
 }
 
 void TObjEneMe1Gee_NEEDLE::run_task() {
-    m_1c = (uaddr)find_entity_by_id(m_34);
-    if (m_1c == 0) {
+    owner = (uaddr)find_entity_by_id(owner_id);
+    if (owner == 0) {
         TObject::queue_destruction();
         return;
     }
-    if (m_b8 == 1) {
+    if (active == 1) {
         update_position();
         update_lifetime();
         check_target_hit(1);
         return;
     }
-    sub_802A4668();
+    update_stopped();
 }
 
 TObjEneMe1Gee_NEEDLE::TObjEneMe1Gee_NEEDLE(TObject *owner, Vec *from, Vec *to, f32 speed, f32 power)
     : TNeedleShoot((saddr)owner, from, to) {
     m_name = TObjEneMe1Gee_NEEDLE__name;
-    m_bc = power;
+    this->power = power;
     this->speed = speed;
-    m_c0 = 150;
-    m_b0 = 1;
-    if ((void *)m_1c != NULL) {
-        m_34 = get_entity_id((TObjBase *)m_1c);
+    linger_frames = 150;
+    contact_mode = 1;
+    if ((void *)this->owner != NULL) {
+        owner_id = get_entity_id((TObjBase *)this->owner);
     }
 }
 
-extern "C" {
-
-void TObjEneMe1Gee__sub_802A4D4C(void) {
+void TObjEneMe1Gee_NEEDLE::free_global() {
 }
 
-}
-
-void TObjEneMe1Gee::cache_result_805D6660() {
-    me1gee_cached_model_handle = TObjEneMe1Gee::get_resource_bundle();
+void TObjEneMe1Gee_NEEDLE::init_global() {
+    gee_needle_resource = TObjEneMe1Gee::get_resource_bundle();
 }

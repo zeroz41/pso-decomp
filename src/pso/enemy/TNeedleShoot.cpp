@@ -57,7 +57,7 @@ void TNeedleShoot::update_lifetime() {
     distance = travelled + speed;
 }
 
-void TNeedleShoot::sub_802A4668() {
+void TNeedleShoot::update_stopped() {
     queue_destruction();
 }
 
@@ -73,16 +73,16 @@ void TNeedleShoot::update_position() {
 #pragma pop
 
 void TNeedleShoot::run_task() {
-    if (m_b8 == 1) {
+    if (active == 1) {
         update_position();
         update_lifetime();
         return;
     }
-    sub_802A4668();
+    update_stopped();
 }
 
 TNeedleShoot::~TNeedleShoot() {
-    if (this->m_68 != NULL) { free_collision_body_parts(this->m_68); this->m_68 = 0; }
+    if (this->collider != NULL) { free_collision_body_parts(this->collider); this->collider = 0; }
 }
 
 TNeedleShoot::TNeedleShoot(s32 owner, Vec *from, Vec *to) : TObject(tl_06) {
@@ -90,26 +90,26 @@ TNeedleShoot::TNeedleShoot(s32 owner, Vec *from, Vec *to) : TObject(tl_06) {
     f32 dz;
     f32 dy;
     m_name = TNeedleShoot__name;
-    m_34 = 0xFFFF;
+    owner_id = 0xFFFF;
     dx = to->x - from->x;
     dz = to->z - from->z;
     dy = to->y - from->y;
     pos.x = from->x;
     pos.y = from->y;
     pos.z = from->z;
-    m_a0 = RADIANS_TO_ANGLE * atan2_float(fabs_float(dy), fabs_float(dz));
-    m_a4 = RADIANS_TO_ANGLE * atan2_float(dx, dz);
-    m_a8 = RADIANS_TO_ANGLE * atan2_float(dx, dy);
+    rotation_x = RADIANS_TO_ANGLE * atan2_float(fabs_float(dy), fabs_float(dz));
+    rotation_y = RADIANS_TO_ANGLE * atan2_float(dx, dz);
+    rotation_z = RADIANS_TO_ANGLE * atan2_float(dx, dy);
     pad_b4 = 4.0f;
     pad_88.x = 1.0f;
     pad_88.y = 1.0f;
     pad_88.z = 1.0f;
     distance = 0.0f;
-    m_1c = owner;
+    this->owner = owner;
     speed = 5.0f;
     range = 1000.0f;
-    m_b0 = 0;
-    m_b8 = 1;
+    contact_mode = 0;
+    active = 1;
     dir.x = dx;
     dir.y = dy;
     dir.z = dz;
@@ -123,9 +123,9 @@ TNeedleShoot::TNeedleShoot(s32 owner, Vec *from, Vec *to) : TObject(tl_06) {
     collision_body.half_width = 1.0f;
     collision_body.shape = 1;
     collision_body.flags = 0x40007;
-    m_68 = new TObjCollidable(this);
-    if (m_68 != NULL) {
-        init_collision_body_parts(m_68, &collision_body, 1);
+    collider = new TObjCollidable(this);
+    if (collider != NULL) {
+        init_collision_body_parts(collider, &collision_body, 1);
     }
 }
 
