@@ -70,14 +70,10 @@ const char *balclaw_class_name = balclaw_class_name_text;
 NJS_OBJECT *balclaw_arm_part_models[4][11];
 
 
-BmlResource *lbl_805D4F20;
+BmlResource *balclaw_bml_resource;
 s32 balclaw_last_shared_update_frame;
 extern s32 actor_frame_tick;
 
-extern u8 *lbl_805D4F28[];
-extern u8 *lbl_805D4F2C[];
-extern u8 *lbl_805D4F30[];
-extern u8 *lbl_805D4F34[];
 
 
 void TObjEneBalClaw::sub_8008D68C() {
@@ -95,8 +91,8 @@ void TObjEneBalClaw::render_scaled(s32 shadow) {
     f32 a;
     f32 t;
     if (!(actorFlags & 0x800) && shadow != 0) {
-        a = m_3ac;
-        t = 1.0f - (0.5f * ((m_3b4 + m_3bc) - a)) * (1.0f / (m_3b0 - a));
+        a = hover_height_min;
+        t = 1.0f - (0.5f * ((hover_height + wobble_offset) - a)) * (1.0f / (hover_height_max - a));
         Vec v = { 0.0f, 0.0f, 0.0f };
         v.x = t;
         v.y = t;
@@ -107,11 +103,11 @@ void TObjEneBalClaw::render_scaled(s32 shadow) {
 
 void TObjEneBalClaw::update_wobble() {
     if (m_388 & 0x20000) {
-        m_3b8 = m_3b8 + 0x200;
-        m_3bc = 5.0f * sin_table_lookup(m_3b8);
+        wobble_angle = wobble_angle + 0x200;
+        wobble_offset = 5.0f * sin_table_lookup(wobble_angle);
         return;
     }
-    m_3bc = (m_3bc - 0.2f > 0.0f) ? m_3bc - 0.2f : 0.0f;
+    wobble_offset = (wobble_offset - 0.2f > 0.0f) ? wobble_offset - 0.2f : 0.0f;
 }
 
 void TObjEneBalClaw::update_claw_angle() {
@@ -121,21 +117,21 @@ void TObjEneBalClaw::update_claw_angle() {
     if (!(actorFlags & 0x800)) {
         bodies->flags &= ~6;
         if (m_388 & 0x10000) {
-            if (m_3b4 < m_3b0) {
-                m_3b4 += 1.0f;
+            if (hover_height < hover_height_max) {
+                hover_height += 1.0f;
                 return;
             }
-            m_3b4 = m_3b0;
+            hover_height = hover_height_max;
             bodies->flags |= 4;
             return;
         }
-        height = m_3b4;
-        low = m_3ac;
+        height = hover_height;
+        low = hover_height_min;
         if (height > low) {
-            m_3b4 = height - 1.0f;
+            hover_height = height - 1.0f;
             return;
         }
-        m_3b4 = low;
+        hover_height = low;
         bodies->flags |= 2;
     }
 }
@@ -145,10 +141,10 @@ void TObjEneBalClaw::run_hit_reaction() {
     m_388 |= 1;
 }
 
-void TObjEneBalClaw::release_global_805D4F20() {
-    if (lbl_805D4F20 != NULL) {
-        delete (BmlResource *)lbl_805D4F20;
-        lbl_805D4F20 = NULL;
+void TObjEneBalClaw::free_resources() {
+    if (balclaw_bml_resource != NULL) {
+        delete (BmlResource *)balclaw_bml_resource;
+        balclaw_bml_resource = NULL;
     }
 }
 
@@ -164,7 +160,7 @@ void TObjEneBalClaw::load_resources() {
     s32 m;
     s32 n;
     p = new BmlResource(1, &balclaw_resource_descriptor, 0, 0, NULL);
-    lbl_805D4F20 = p;
+    balclaw_bml_resource = p;
     model = (saddr)p->models[1].model;
     for (k = 0; k < 4; k++) {
         base = balclaw_part_base[k];
@@ -180,19 +176,19 @@ void TObjEneBalClaw::load_resources() {
     }
     for (m = 0; m < 7; m++) {
         e = &balclaw_parts[m];
-        e->plist = ((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node((saddr)get_bml_model((BmlResource *)lbl_805D4F20, e->model_index), e->part_index))->model)->polygon_list;
+        e->plist = ((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node((saddr)get_bml_model((BmlResource *)balclaw_bml_resource, e->model_index), e->part_index))->model)->polygon_list;
     }
     for (n = 0; n < 2; n++) {
-        lbl_805007A8[n] = (u8 *)TLobby::register_boss(31);
-        lbl_805007B0[n] = (u8 *)TLobby::dispatch_shared_handler_b(31);
-        lbl_805007B8[n] = (u8 *)TLobby::register_object(31);
-        lbl_805007C0[n] = (u8 *)TLobby::dispatch_shared_handler_a(31);
+        balclaw_body_base_params[n] = (u8 *)TLobby::register_boss(31);
+        balclaw_body_attack_params[n] = (u8 *)TLobby::dispatch_shared_handler_b(31);
+        balclaw_body_resistance_params[n] = (u8 *)TLobby::register_object(31);
+        balclaw_body_behavior_params[n] = (u8 *)TLobby::dispatch_shared_handler_a(31);
     }
     for (n = 0; n < 1; n++) {
-        lbl_805D4F28[n] = (u8 *)TLobby::register_boss(32);
-        lbl_805D4F2C[n] = (u8 *)TLobby::dispatch_shared_handler_b(32);
-        lbl_805D4F30[n] = (u8 *)TLobby::register_object(32);
-        lbl_805D4F34[n] = (u8 *)TLobby::dispatch_shared_handler_a(32);
+        balclaw_claw_base_params[n] = (u8 *)TLobby::register_boss(32);
+        balclaw_claw_attack_params[n] = (u8 *)TLobby::dispatch_shared_handler_b(32);
+        balclaw_claw_resistance_params[n] = (u8 *)TLobby::register_object(32);
+        balclaw_claw_behavior_params[n] = (u8 *)TLobby::dispatch_shared_handler_a(32);
     }
 }
 
@@ -204,8 +200,8 @@ TObjEneBalClaw::TObjEneBalClaw(TObject *parent) : TObjEnemyCustom(parent) {
     m_name = balclaw_class_name;
     add_flags_2e4(8);
     actorFlags |= 0x40000;
-    m_3b8 = 0;
-    m_3bc = 0.0f;
+    wobble_angle = 0;
+    wobble_offset = 0.0f;
     clear_attack_flag();
     m_388 |= 0x20000;
 }

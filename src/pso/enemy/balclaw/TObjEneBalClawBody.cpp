@@ -67,10 +67,10 @@ BalClawMovement player_attack_param_table[2] = {
 // The body's one collision sphere (init_collision_body_parts in the ctor).
 CollisionBody balclaw_body_collision = {{0.0f, 18.0f, 0.0f}, 5.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f};
 
-u8 *lbl_805007A8[2];
-u8 *lbl_805007B0[2];
-u8 *lbl_805007B8[2];
-u8 *lbl_805007C0[2];
+u8 *balclaw_body_base_params[2];
+u8 *balclaw_body_attack_params[2];
+u8 *balclaw_body_resistance_params[2];
+u8 *balclaw_body_behavior_params[2];
 const char *balclaw_body_class_name = balclaw_body_class_name_text;
 
 
@@ -85,8 +85,8 @@ s32 submit_cursor_candidate(void *, int, int, f32, f32);
 
 // Picks this part's model and texture list (index into the Bal Claw BML models).
 void TObjEneBalClawClaw::sub_80090418(s32 i) {
-    model = (void *)lbl_805D4F20->models[i].model;
-    texlist = (saddr)lbl_805D4F20->models[i].m_c;
+    model = (void *)balclaw_bml_resource->models[i].model;
+    texlist = (saddr)balclaw_bml_resource->models[i].m_c;
 }
 
 TObjEneBalClawBody::TObjEneBalClawBody(TObject *parent, void *set_data) : TObjEneBalClaw(parent) {
@@ -94,7 +94,7 @@ TObjEneBalClawBody::TObjEneBalClawBody(TObject *parent, void *set_data) : TObjEn
     m_name = balclaw_body_class_name;
     apply_set_data(set_data);
     VecCopy(&move_origin, (const Vec *)(VecCopy(&move_destination, (const Vec *)(&position))));
-    motion_list = lbl_805D4F20->motions;
+    motion_list = balclaw_bml_resource->motions;
     action_table = balclaw_body_actions;
     set_field_d8((saddr)action_table);
     init_collision_body_parts(this, &balclaw_body_collision, 1);
@@ -106,21 +106,21 @@ TObjEneBalClawBody::TObjEneBalClawBody(TObject *parent, void *set_data) : TObjEn
     referenceHp = hp;
     update_prev_position();
     initialize_enemy_photon_effect(this);
-    m_3b8 = 0;
-    m_3bc = 0.0f;
+    wobble_angle = 0;
+    wobble_offset = 0.0f;
     clear_attack_flag();
     if (*(s16 *)((s8 *)set_data + 0xA) != 0) {
         sub_800C7860();
     }
-    m_3ac = 25.0f;
-    m_3b0 = 40.0f;
-    m_3b4 = m_3ac;
-    m_3d8 = 4;
+    hover_height_min = 25.0f;
+    hover_height_max = 40.0f;
+    hover_height = hover_height_min;
+    child_count = 4;
     for (i = 0; i < 4; i++) {
         child_ids[i] = 0xFFFF;
     }
     this->set_form(1);
-    bind_enemy_combat_stats(lbl_805007A8[0], lbl_805007B0[0], lbl_805007B8[0]);
+    bind_enemy_combat_stats(balclaw_body_base_params[0], balclaw_body_attack_params[0], balclaw_body_resistance_params[0]);
     effects[0] = NULL;
     effects[1] = NULL;
     effects[2] = NULL;
@@ -145,7 +145,7 @@ TObjEneBalClawBody::~TObjEneBalClawBody() {
         effects[3]->queue_destruction();
     }
     if (get_flag_0x388_b24() != 0) {
-        for (i = 0; i < m_3d8; i++) {
+        for (i = 0; i < child_count; i++) {
             child = find_entity_by_id(child_ids[i]);
             if (child != NULL) {
                 child->queue_destruction();
@@ -188,10 +188,10 @@ void TObjEneBalClawBody::run_task() {
     update_claw_angle();
     VecCopy(&body_center, &position);
     center_y = body_center.y;
-    body_center.y = center_y + (m_3b4 + m_3bc);
-    lift = m_3b4;
+    body_center.y = center_y + (hover_height + wobble_offset);
+    lift = hover_height;
     body = bodies;
-    body->offset.y = lift + m_3bc;
+    body->offset.y = lift + wobble_offset;
     submit_cursor_candidate(this, -1, (saddr)body, lift, center_y);
     minimap_render_dot(&position, -0x5DB4, 1, 0);
 }
@@ -238,13 +238,13 @@ void TObjEneBalClawBody::sub_8008FC10() {
     f32 d;
     s32 old;
     if (mode != 0 && mode != 8) {
-        m_3d4++;
+        form_timer++;
     }
     if (get_flag_0x388_b24() != 0) {
         switch (mode) {
         case 0:
         case 1:
-            if (m_3d4 > 0x708 || m_3da >= 2) {
+            if (form_timer > 0x708 || melee_hit_count >= 2) {
                 update_if_active(0xB);
                 return;
             }
@@ -258,7 +258,7 @@ void TObjEneBalClawBody::sub_8008FC10() {
         case 8:
             if (target != NULL) {
                 update_if_active(1);
-                m_38c = 2;
+                range_band = 2;
             } else {
                 sub_800C73F4();
             }
@@ -266,28 +266,28 @@ void TObjEneBalClawBody::sub_8008FC10() {
         case 1:
             if (target != NULL) {
                 d = xz_distance_squared(&((TObjChara *)target)->position, &position);
-                old = m_38c;
+                old = range_band;
                 switch (old) {
                 case 0:
                     if (d > 3600.0f) {
-                        m_38c = 1;
+                        range_band = 1;
                     }
                     break;
                 case 1:
                     if (d < 1600.0f) {
-                        m_38c = 0;
+                        range_band = 0;
                     } else if (d > 14400.0f) {
-                        m_38c = 2;
+                        range_band = 2;
                     }
                     break;
                 case 2:
                     if (d < 10000.0f) {
-                        m_38c = 1;
+                        range_band = 1;
                     }
                     break;
                 }
-                if (old != m_38c) {
-                    switch (m_38c) {
+                if (old != range_band) {
+                    switch (range_band) {
                     case 0:
                         update_if_active(9);
                         break;
@@ -317,7 +317,7 @@ void TObjEneBalClawBody::sub_8008FC10() {
             break;
         case 1:
         case 12:
-            if (m_3d4 > 0x708) {
+            if (form_timer > 0x708) {
                 update_if_active(0xA);
                 return;
             }
@@ -443,7 +443,7 @@ void TObjEneBalClawBody::run_death_sequence() {
         if (body->get_flag_0x388_b24() != 0) {
             body->requested_action = 4;
             body->state = 1;
-            for (i = 0; i < body->m_3d8; i++) {
+            for (i = 0; i < body->child_count; i++) {
                 claw = (TObjEnemy *)find_entity_by_id(body->child_ids[i]);
                 if (claw != NULL) {
                     claw->send_entity_set_flags();
@@ -452,7 +452,7 @@ void TObjEneBalClawBody::run_death_sequence() {
             }
         } else {
             body->requested_action = 9;
-            body->velocity.y = body->m_3b4 / 11.666666f;
+            body->velocity.y = body->hover_height / 11.666666f;
             body->state = 2;
         }
         play_sound_effect(0x4003AD37, (u8 *)&body->position, 0, 0);
@@ -466,9 +466,9 @@ void TObjEneBalClawBody::run_death_sequence() {
     case 2:
         body->advance_animation();
         if (body->frame >= 10.0f) {
-            body->m_3b4 -= body->velocity.y;
-            if (body->m_3b4 <= 0.0f) {
-                body->m_3b4 = 0.0f;
+            body->hover_height -= body->velocity.y;
+            if (body->hover_height <= 0.0f) {
+                body->hover_height = 0.0f;
                 body->state = 3;
             }
         }
@@ -530,13 +530,13 @@ void TObjEneBalClawBody::sub_8008F1DC() {
                 }
             }
             body->turn_toward_direction(((EnemyMoveParams *)body->movementParameters)->turn_speed, &body->velocity);
-            body->m_3c0 = xz_distance_squared(&body->body_center, &((TObjChara *)body->target)->body_center);
-            if (body->m_3c0 <= ((AttackParams *)body->m_318)->get_attack_range() * ((AttackParams *)body->m_318)->get_attack_range()) {
+            body->target_distance_sq = xz_distance_squared(&body->body_center, &((TObjChara *)body->target)->body_center);
+            if (body->target_distance_sq <= ((AttackParams *)body->m_318)->get_attack_range() * ((AttackParams *)body->m_318)->get_attack_range()) {
                 body->requested_action = 7;
                 body->state = 2;
-                body->effects[2] = (TParticleCtrl *)spawn_particle_effect_with_rotation(&body->body_center, body->m_3f8, 0x12B, 2);
+                body->effects[2] = (TParticleCtrl *)spawn_particle_effect_with_rotation(&body->body_center, body->attack_effect_angle, 0x12B, 2);
                 body->effects[2]->enable();
-                body->effects[3] = (TParticleCtrl *)spawn_particle_effect_with_rotation(&body->body_center, body->m_3f8, 0x12C, 2);
+                body->effects[3] = (TParticleCtrl *)spawn_particle_effect_with_rotation(&body->body_center, body->attack_effect_angle, 0x12C, 2);
                 body->effects[3]->enable();
             }
         }
@@ -547,19 +547,19 @@ void TObjEneBalClawBody::sub_8008F1DC() {
         rotate_matrix_y(0, body->rotation_y);
         body->calc_joint_matrices(body->frame);
         pop_matrix();
-        body->get_anim_node_position(8, &body->m_3ec);
-        body->m_3f8[0] = 0;
-        body->m_3f8[1] = body->rotation_y + 0x4000;
-        body->m_3f8[2] = -0x4000;
+        body->get_anim_node_position(8, &body->attack_effect_position);
+        body->attack_effect_angle[0] = 0;
+        body->attack_effect_angle[1] = body->rotation_y + 0x4000;
+        body->attack_effect_angle[2] = -0x4000;
         if (body->frame >= 9.0f && body->frame < 17.0f) {
-            body->effects[2]->set_position(&body->m_3ec);
-            body->effects[2]->set_direction(body->m_3f8);
+            body->effects[2]->set_position(&body->attack_effect_position);
+            body->effects[2]->set_direction(body->attack_effect_angle);
         } else {
             body->effects[2]->enable();
         }
         if (body->frame >= 12.0f && body->frame < 17.0f) {
-            body->effects[3]->set_position(&body->m_3ec);
-            body->effects[3]->set_direction(body->m_3f8);
+            body->effects[3]->set_position(&body->attack_effect_position);
+            body->effects[3]->set_direction(body->attack_effect_angle);
         } else {
             body->effects[3]->enable();
         }
@@ -640,8 +640,8 @@ void TObjEneBalClawBody::sub_8008EDE8() {
                 }
             }
             body->turn_toward_direction(((EnemyMoveParams *)body->movementParameters)->turn_speed, &body->velocity);
-            body->m_3c0 = xz_distance_squared(&body->body_center, &((TObjChara *)body->target)->body_center);
-            if (body->m_3c0 <= ((AttackParams *)body->m_318)->get_attack_range() * ((AttackParams *)body->m_318)->get_attack_range()) {
+            body->target_distance_sq = xz_distance_squared(&body->body_center, &((TObjChara *)body->target)->body_center);
+            if (body->target_distance_sq <= ((AttackParams *)body->m_318)->get_attack_range() * ((AttackParams *)body->m_318)->get_attack_range()) {
                 body->requested_action = 2;
                 body->state = 2;
                 play_sound_effect(0x4003B033, &body->position, 0, 0);
@@ -672,7 +672,7 @@ void TObjEneBalClawBody::sub_8008EDE8() {
                     ((TObjChara *)body->target)->receive_physical_attack(body, 1.0f);
                     ((TObjChara *)body->target)->apply_knockback_from_attacker((u8 *)body, 3.0f);
                 }
-                body->m_3da++;
+                body->melee_hit_count++;
             }
             if (body->action_flags != 4) {
                 body->reset_enemy_state();
@@ -768,7 +768,7 @@ void TObjEneBalClawBody::set_form(s32 form) {
         this->set_param(0x28);
         this->requested_action = 0;
         ((TObjEneBalClawClaw *)this)->sub_80090418(1);
-        this->m_3da = 0;
+        this->melee_hit_count = 0;
         this->clear_all_status_effects();
     } else {
         this->m_388 &= ~0x01000000;
@@ -777,7 +777,7 @@ void TObjEneBalClawBody::set_form(s32 form) {
         ((TObjEneBalClawClaw *)this)->sub_80090418(0);
         this->clear_all_status_effects();
         if (!(this->m_388 & 0x40000)) {
-            this->hp = this->hp / (this->m_3d8 + 1);
+            this->hp = this->hp / (this->child_count + 1);
             if (this->hp <= 0) {
                 this->hp = 1;
             }
@@ -795,7 +795,7 @@ void TObjEneBalClawBody::set_form(s32 form) {
             }
         } else {
             n = 0;
-            for (k = 0; k < this->m_3d8; k++) {
+            for (k = 0; k < this->child_count; k++) {
                 ent = get_enemy_entity(this->child_ids[k]);
                 if (ent != NULL) {
                     this->calc_slot_offset_position(k, &b, &angB);
@@ -805,20 +805,20 @@ void TObjEneBalClawBody::set_form(s32 form) {
             }
             if (n > 0) {
                 this->hp = this->hp / (n + 1);
-                for (j = 0; j < this->m_3d8; j++) {
+                for (j = 0; j < this->child_count; j++) {
                     if ((ent = get_enemy_entity(this->child_ids[j])) != NULL) {
                         ((TObjPlayer *)ent)->set_hp_clamped(this->hp);
                     }
                 }
             }
         }
-        this->m_3d8 = 0;
+        this->child_count = 0;
     }
     this->set_field_b8(this->requested_action);
     this->movementParameters = &player_attack_param_table[form];
     this->sub_8008DC90();
     this->variant = form;
-    this->m_3d4 = 0;
+    this->form_timer = 0;
 }
 #pragma pop
 
@@ -844,8 +844,8 @@ void TObjEneBalClawBody::render() {
                 rotate_matrix_y(0, rotation_y);
                 draw_chunk_object(model);
             } else {
-                TObjPlayer::set_visibility_flags_by_count(this, m_3d8);
-                translate_matrix(0, 0.0f, m_3b4 + m_3bc, 0.0f);
+                TObjPlayer::set_visibility_flags_by_count(this, child_count);
+                translate_matrix(0, 0.0f, hover_height + wobble_offset, 0.0f);
                 post_translate_matrix(&position.x);
                 rotate_matrix_x(0, rotation_x);
                 rotate_matrix_y(0, rotation_y);
@@ -898,7 +898,7 @@ void TObjEneBalClawBody::sub_8008E310() {
             body->reset_enemy_state();
             return;
         }
-        body->m_3d4 = 0;
+        body->form_timer = 0;
         if (body->sub_8008E098() == 0) {
             body->reset_enemy_state();
             return;
@@ -917,11 +917,11 @@ void TObjEneBalClawBody::sub_8008E310() {
         all = 1;
         cnt = 0;
         lim = 225.0f;
-        for (s32 i = 0; i < body->m_3d8; i++) {
+        for (s32 i = 0; i < body->child_count; i++) {
             claw = (TObjEneBalClawClaw *)find_entity_by_id(body->child_ids[i]);
             if (claw != NULL) {
                 cnt++;
-                if (claw->m_3c0 > lim) {
+                if (claw->target_distance_sq > lim) {
                     all = 0;
                 }
             } else {
@@ -934,7 +934,7 @@ void TObjEneBalClawBody::sub_8008E310() {
             return;
         }
         if (all == 1) {
-            for (s32 i = 0; i < body->m_3d8; i++) {
+            for (s32 i = 0; i < body->child_count; i++) {
                 TObjEneBalClawClaw *claw2 = (TObjEneBalClawClaw *)find_entity_by_id(body->child_ids[i]);
                 if (claw2 != NULL) {
                     claw2->set_claw_flags();
@@ -985,7 +985,7 @@ void TObjEneBalClawBody::sub_8008E310() {
             body->advance_animation();
         }
         if (body->get_flag_0x388_b24() == 0) {
-            for (s32 i = 0; i < body->m_3d8; i++) {
+            for (s32 i = 0; i < body->child_count; i++) {
                 claw = (TObjEneBalClawClaw *)find_entity_by_id(body->child_ids[i]);
                 if (claw != NULL) {
                     claw->clear_flag();
@@ -1015,7 +1015,7 @@ void TObjEneBalClawBody::sub_8008E254() {
             body->reset_enemy_state();
             return;
         }
-        body->m_3d4 = 0;
+        body->form_timer = 0;
         body->set_form(0);
         body->timer = 0x1E;
         body->state = 1;
@@ -1052,22 +1052,22 @@ s32 TObjEneBalClawBody::sub_8008E098() {
     s32 i;
     TObjEneBalClawClaw *p;
     s32 j;
-    self->m_3d8 = 0;
+    self->child_count = 0;
     for (i = registered_player_count; i < registered_player_count + registered_enemy_count; i++) {
         p = (TObjEneBalClawClaw *)TObjPlayer::get_player_data(i);
         if (p != NULL && ((TWindowLockOn *)p)->get_target_id() == 0x26 &&
             self->room == p->room && p->check_active() != 0) {
-            self->child_ids[self->m_3d8++] = get_entity_id(p);
-            if (self->m_3d8 >= 4) {
+            self->child_ids[self->child_count++] = get_entity_id(p);
+            if (self->child_count >= 4) {
                 break;
             }
         }
     }
-    for (j = 0; j < self->m_3d8; j++) {
+    for (j = 0; j < self->child_count; j++) {
         TObjEneBalClawClaw *claw = static_cast<TObjEneBalClawClaw *>(find_entity_by_id(self->child_ids[j]));
         claw->enter_hit_state(self->entity_id);
     }
-    return self->m_3d8;
+    return self->child_count;
 }
 
 void TObjEneBalClawBody::update_move_to_target() {
@@ -1164,7 +1164,7 @@ void TObjEneBalClawBody::sub_8008DC90() {
 }
 
 void TObjEneBalClawClaw::spawn_child_enemy() {
-    NpcAnimationBinding params = { reinterpret_cast<BmlMotionEntry *>(lbl_805D4F20->motions), reinterpret_cast<TObjMotionAction *>(balclaw_body_actions), 0, 1, 12 };
-    NpcModelRegistry::register_animated_chunk(0x13, reinterpret_cast<void *>(lbl_805D4F20->models[1].model), reinterpret_cast<void *>(lbl_805D4F20->models[1].m_c), &params,
+    NpcAnimationBinding params = { reinterpret_cast<BmlMotionEntry *>(balclaw_bml_resource->motions), reinterpret_cast<TObjMotionAction *>(balclaw_body_actions), 0, 1, 12 };
+    NpcModelRegistry::register_animated_chunk(0x13, reinterpret_cast<void *>(balclaw_bml_resource->models[1].model), reinterpret_cast<void *>(balclaw_bml_resource->models[1].m_c), &params,
                             balclaw_body_collision.radius, 15.0f);
 }

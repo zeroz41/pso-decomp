@@ -331,7 +331,7 @@ FloorResourceCallbacks floor_resource_callbacks_selector_08[11] = {
     { TObjEneRe4Sorcerer::load_resources, TObjEneRe4Sorcerer::free_bits },
     { TObjEneRe7Berura::load_static_resources, TObjEneRe7Berura::destroy_children },
     { TLobby::load_dimedian_resources, TObjEneDimedian::free_boss_objects },
-    { TObjEneBalClaw::load_resources, TObjEneBalClaw::release_global_805D4F20 },
+    { TObjEneBalClaw::load_resources, TObjEneBalClaw::free_resources },
     { TObjEneBalClawClaw::spawn_child_enemy, TObjEneBalClawClaw::sub_8008DC14 },
     { spawn_lobby_npc_enemy, fn_80090488 },
     { reset_camera_override, restore_cameras_if_overridden },
@@ -346,7 +346,7 @@ FloorResourceCallbacks floor_resource_callbacks_selector_09[10] = {
     { TObjEneDarkGunCenter::sub_800A0E80, TObjEneDarkGunCenter::sub_800A0E7C },
     { TObjEneDf2Bringer::load_resources, TObjEneDf2Bringer::free_resources },
     { TLobby::load_dimedian_resources, TObjEneDimedian::free_boss_objects },
-    { TObjEneBalClaw::load_resources, TObjEneBalClaw::release_global_805D4F20 },
+    { TObjEneBalClaw::load_resources, TObjEneBalClaw::free_resources },
     { reset_camera_override, restore_cameras_if_overridden },
     { 0, 0 },
 };
@@ -360,7 +360,7 @@ FloorResourceCallbacks floor_resource_callbacks_selector_10[11] = {
     { TObjEneDf2Bringer::load_resources, TObjEneDf2Bringer::free_resources },
     { TObjEneRe7Berura::load_static_resources, TObjEneRe7Berura::destroy_children },
     { TLobby::load_dimedian_resources, TObjEneDimedian::free_boss_objects },
-    { TObjEneBalClaw::load_resources, TObjEneBalClaw::release_global_805D4F20 },
+    { TObjEneBalClaw::load_resources, TObjEneBalClaw::free_resources },
     { reset_camera_override, restore_cameras_if_overridden },
     { 0, 0 },
 };

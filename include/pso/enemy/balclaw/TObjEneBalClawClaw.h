@@ -29,11 +29,11 @@ struct TObjEneBalClawClaw : public TObjEneBalClaw {
     void *create();
     static void spawn_child_enemy();
     static void sub_8008DC14();
-    f32 m_3c0;             // xz distance squared to where it is moving (the body while following it)
-    u8 unk_3C4[0x2];
-    u16 m_3c6;             // entity id of the body it follows
-    s16 m_3c8;             // frames left to chase
-    u8 unk_3CA[0x5E];
+    f32 target_distance_sq;  // xz distance squared to where it is moving (the body while following it)
+    u8 pad_3c4[0x2];
+    u16 body_id;  // entity id of the body it follows
+    s16 chase_timer;  // frames left to chase
+    u8 pad_3ca[0x5E];
     void set_claw_flags();
     void clear_flag();
     void enter_hit_state(u16 body_id);

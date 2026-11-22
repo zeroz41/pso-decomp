@@ -16,20 +16,20 @@ struct TObjEneBalClaw : public TObjEnemyCustom {
     virtual s32 update_movement_status();
     virtual s32 update_action_hold_status();
     virtual s32 is_target_in_attack_range();
-    s32 m_38c;
+    s32 range_band;           // 0 near, 1 mid, 2 far: the target's xz distance band, with hysteresis
     TUnk_80490470 fade;
-    f32 m_3ac;
-    f32 m_3b0;
-    f32 m_3b4;
-    s32 m_3b8;
+    f32 hover_height_min;     // hover_height sinks to this (25 body, 15 claw)
+    f32 hover_height_max;     // and rises to this while m_388 bit 0x10000 is set (40)
+    f32 hover_height;         // height of the model and collision body above the floor
+    s32 wobble_angle;         // advanced 0x200 a frame while m_388 bit 0x20000 is set
     void render_scaled(s32 shadow);
     void update_wobble();
     void update_claw_angle();
-    static void release_global_805D4F20();
+    static void free_resources();
     static void load_resources();
     static void sub_8008D68C();
     void clear_flag_in_state7();
-    f32 m_3bc;
+    f32 wobble_offset;        // 5 * sin(wobble_angle), added to hover_height
 };
 
 LAYOUT_ASSERT(TObjEneBalClaw_size, sizeof(TObjEneBalClaw) == 0x3C0);
@@ -59,13 +59,18 @@ struct BalClawSpawnParams {
 };
 
 // The Bal Claw BML archive, loaded by TObjEneBalClaw::load_resources.
-extern BmlResource *lbl_805D4F20;
+extern BmlResource *balclaw_bml_resource;
 // Per claw slot, the visible model nodes of that claw (NULL-terminated).
 extern NJS_OBJECT *balclaw_arm_part_models[4][11];
 // The body's combat-stat tables from TLobby, filled by TObjEneBalClaw::load_resources.
-extern u8 *lbl_805007A8[];
-extern u8 *lbl_805007B0[];
-extern u8 *lbl_805007B8[];
-extern u8 *lbl_805007C0[];
+extern u8 *balclaw_body_base_params[];
+extern u8 *balclaw_body_attack_params[];
+extern u8 *balclaw_body_resistance_params[];
+extern u8 *balclaw_body_behavior_params[];
+// The same for the claws (TObjEneBalClawClaw::sub_80091A38 binds them).
+extern u8 *balclaw_claw_base_params[];
+extern u8 *balclaw_claw_attack_params[];
+extern u8 *balclaw_claw_resistance_params[];
+extern u8 *balclaw_claw_behavior_params[];
 
 #endif

@@ -35,14 +35,14 @@ struct TObjEneBalClawBody : public TObjEneBalClaw {
     void sub_8008FF50();
     void update_dragon_boss_state();
     static void *create(void *set_data);
-    f32 m_3c0;             // xz distance squared to the target
-    u32 child_ids[4];      // entity ids of the claws; the dtor destroys the first m_3d8 of them
-    s32 m_3d4;             // frames since the last merge/split (not counted while idle or returning home)
-    s16 m_3d8;             // how many of child_ids are in use (the ctor sets 4)
-    s16 m_3da;
+    f32 target_distance_sq;  // xz distance squared to the target
+    u32 child_ids[4];  // entity ids of the claws; the dtor destroys the first child_count of them
+    s32 form_timer;  // frames since the last merge/split (not counted while idle or returning home)
+    s16 child_count;  // how many of child_ids are in use (the ctor sets 4)
+    s16 melee_hit_count;  // melee hits landed since set_form(1); at 2, sub_8008FC10 moves to mode 0xB
     TParticleCtrl *effects[4];  // queue_destruction'd by the dtor
-    Vec m_3ec;
-    s32 m_3f8[3];
+    Vec attack_effect_position;  // node 8, where effects[2] and [3] (particles 0x12B/0x12C) sit
+    s32 attack_effect_angle[3];  // their direction
 };
 
 LAYOUT_ASSERT(TObjEneBalClawBody_size, sizeof(TObjEneBalClawBody) == 0x404);
