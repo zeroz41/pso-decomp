@@ -80,22 +80,6 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #pragma auto_inline off
 #pragma dont_inline off
 
-struct Obj_8006426C {
-    u8 pad0[0x3c0];
-    Vec a;
-    u8 pad3cc[0x444 - 0x3cc];
-    Vec b;
-    u8 pad450[0x578 - 0x450];
-    AreaAttackHistory *attack_history;
-};
-
-struct Dragon_8006442C {
-    u8 pad0[0x3E4];
-    Vec a, b, c, d;
-    Vec e, f, g, h;
-    u8 pad444[0x578 - 0x444];
-    AreaAttackHistory *attack_history;
-};
 
 typedef struct Res_80063088 {
     u8 pad0[0xC];
@@ -195,9 +179,7 @@ int VecCopy__FP3VecPC3Vec(void*, void*);
 s32 get_flag_bit6__13TBoss5GryphonFv();
 extern const f32 lbl_805D8DAC;
 void run_task__13TBoss5GryphonFv(u8 *arg0);
-void TBoss8Dragon__sub_8006426C(Obj_8006426C *arg0);
 s32 TBoss8Dragon__sub_800670E0(int, void *);
-void TBoss8Dragon__sub_8006442C(Dragon_8006442C *arg0);
 TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 u8 *__ct__22TBoss5GryphonShockWaveFP7TObjectlPUcPUcls(u8 *arg0, u8 *arg1_parent, s32 arg2, u8 *arg3, u8 *arg4, s32 arg5, s16 arg6);
 extern const f32 lbl_805D8D80;
@@ -373,7 +355,6 @@ f32 TBoss8Dragon__sub_8005EAD0(void *self, void *arg1, int arg2);
 void TBoss8Dragon__sub_8005F684(TBoss5Gryphon *self, void *params);
 void trigger_effect__12TBoss8DragonFPvi(void *arg0, s32 arg1);
 void apply_shockwave_hit(s32 arg0, s32 arg1);
-void TBoss8Dragon__sub_8006435C(u8 *ene_dd);
 void TBoss8Dragon__sub_80064AB0(O_80064AB0 *self);
 void apply_remote_action__13TBoss5GryphonFPvPv(u8 *ene_dd, u8 *boss8_dragon);
 void run_miss_reaction__13TBoss5GryphonFv(void);
@@ -2539,7 +2520,7 @@ void TBoss5Gryphon::state_move(s32 arg1) {
         advance_animation();
         fn_80064DB8();
         this->update_velocity();
-        TBoss8Dragon__sub_8006426C((Obj_8006426C *)this);
+        fn_8006426C();
         fn_80064828();
         v = this->get_motion_frame();
         if (v < lbl_805D8E10 || v >= lbl_805D8DE4) {
@@ -3014,10 +2995,10 @@ void TBoss5Gryphon::update_low_flight_circle(s32 event) {
             this->rotation_z -= this->rotation_z / this->motion->timer;
         }
         if (this->m_4c0 & 0x100) {
-            TBoss8Dragon__sub_8006435C((u8 *)this);
+            fn_8006435C();
             fn_8005E39C();
         } else {
-            TBoss8Dragon__sub_8006442C((Dragon_8006442C *)this);
+            fn_8006442C();
             this->update_ground_effects();
             spawn_ancient_trap(0x40032802);
         }
@@ -3053,10 +3034,10 @@ void TBoss5Gryphon::update_low_flight_straight(s32 event) {
         self->advance_animation();
         move_along_angle(lbl_805D8E58, self->rotation_y);
         if (self->m_4c0 & 0x100) {
-            TBoss8Dragon__sub_8006435C((u8 *)self);
+            self->fn_8006435C();
             self->fn_8005E39C();
         } else {
-            TBoss8Dragon__sub_8006442C((Dragon_8006442C *)self);
+            self->fn_8006442C();
             self->update_ground_effects();
             self->spawn_ancient_trap(0x40032802);
         }
@@ -4017,38 +3998,37 @@ void TBoss5Gryphon::fn_800641A8() {
 
 #pragma push
 #pragma fp_contract on
-void TBoss8Dragon__sub_8006426C(Obj_8006426C *arg0) {
+void TBoss5Gryphon::fn_8006426C() {
     Vec mid;
     DragonAttackParams prm = lbl_80437D40;
-    f32 bx = arg0->b.x;
-    mid.x = 0.5f * (arg0->a.x - bx) + bx;
-    f32 by = arg0->b.y;
-    mid.y = 0.5f * (arg0->a.y - by) + by;
-    f32 bz = arg0->b.z;
-    mid.z = 0.5f * (arg0->a.z - bz) + bz;
-    fill_value_array(arg0->attack_history);
-    ((TObjEneDD *)arg0)->reset_hp((u8 *)0, (u8 *)(boss5_gryphon_attack_params[4]), (u8 *)0);
-    TObjEneDD::emit_enemy_effect(arg0, &mid, (u8 *)&prm, arg0->attack_history);
-    ((TObjEneDD *)arg0)->reset_hp((u8 *)0, (u8 *)(boss5_gryphon_attack_params[0]), (u8 *)0);
+    f32 bx = pad_3C0[11].x;
+    mid.x = 0.5f * (pad_3C0[0].x - bx) + bx;
+    f32 by = pad_3C0[11].y;
+    mid.y = 0.5f * (pad_3C0[0].y - by) + by;
+    f32 bz = pad_3C0[11].z;
+    mid.z = 0.5f * (pad_3C0[0].z - bz) + bz;
+    fill_value_array(attack_history);
+    reset_hp(NULL, (u8 *)boss5_gryphon_attack_params[4], NULL);
+    TObjEneDD::emit_enemy_effect(this, &mid, (u8 *)&prm, attack_history);
+    reset_hp(NULL, (u8 *)boss5_gryphon_attack_params[0], NULL);
 }
 #pragma pop
 
-void TBoss8Dragon__sub_8006435C(u8 *ene_dd) {
-    DragonAttackParams stack;
-    u8 *temp_r31;
-    u8 *temp_r31_2;
-    TBoss1Dragon__sub_80027A80(&stack, &boss8_dragon_attack_params);
-    fill_value_array(((TBoss5Gryphon *)ene_dd)->attack_history);
-    ((TObjEneDD *)ene_dd)->reset_hp((u8 *)0, (u8 *)(boss5_gryphon_attack_params[3]), (u8 *)0);
-    temp_r31 = (ene_dd + 0x444);
-    stack.field_8 = lbl_805D8EAC;
-    TBoss8Dragon__sub_800670E0((saddr)temp_r31, &stack);
-    TObjEneDD::emit_enemy_effect(ene_dd, (void *)temp_r31, (u8 *)&stack, ((TBoss5Gryphon *)ene_dd)->attack_history);
-    temp_r31_2 = (ene_dd + 0x3C0);
-    stack.field_8 = lbl_805D8DD0;
-    TBoss8Dragon__sub_800670E0((saddr)temp_r31_2, &stack);
-    TObjEneDD::emit_enemy_effect(ene_dd, (void *)temp_r31_2, (u8 *)&stack, ((TBoss5Gryphon *)ene_dd)->attack_history);
-    ((TObjEneDD *)ene_dd)->reset_hp((u8 *)0, (u8 *)(boss5_gryphon_attack_params[0]), (u8 *)0);
+void TBoss5Gryphon::fn_8006435C() {
+    DragonAttackParams prm;
+    Vec *point;
+    TBoss1Dragon__sub_80027A80(&prm, &boss8_dragon_attack_params);
+    fill_value_array(attack_history);
+    reset_hp(NULL, (u8 *)boss5_gryphon_attack_params[3], NULL);
+    point = &pad_3C0[11];
+    prm.field_8 = lbl_805D8EAC;
+    TBoss8Dragon__sub_800670E0((saddr)point, &prm);
+    TObjEneDD::emit_enemy_effect(this, point, (u8 *)&prm, attack_history);
+    point = &pad_3C0[0];
+    prm.field_8 = lbl_805D8DD0;
+    TBoss8Dragon__sub_800670E0((saddr)point, &prm);
+    TObjEneDD::emit_enemy_effect(this, point, (u8 *)&prm, attack_history);
+    reset_hp(NULL, (u8 *)boss5_gryphon_attack_params[0], NULL);
 }
 #pragma pop
 
@@ -4057,47 +4037,47 @@ void TBoss8Dragon__sub_8006435C(u8 *ene_dd) {
 #pragma auto_inline off
 #pragma dont_inline off
 
-void TBoss8Dragon__sub_8006442C(Dragon_8006442C *arg0) {
+void TBoss5Gryphon::fn_8006442C() {
     DragonAttackParams fx;
     Vec pts[10];
     Vec *p;
     s32 i;
     TBoss1Dragon__sub_80027A80(&fx, &gryphon_effect_param_block);
-    fill_value_array(arg0->attack_history);
+    fill_value_array(attack_history);
     p = pts;
-    VecCopy__FP3VecPC3Vec((void*)(p++), &arg0->a);
-    VecCopy__FP3VecPC3Vec(p, &arg0->e);
-    p[1].x = 0.5f * (arg0->a.x + arg0->b.x);
-    p[1].y = 0.5f * (arg0->a.y + arg0->b.y);
-    p[1].z = 0.5f * (arg0->a.z + arg0->b.z);
-    p[2].x = 0.5f * (arg0->e.x + arg0->f.x);
-    p[2].y = 0.5f * (arg0->e.y + arg0->f.y);
-    p[2].z = 0.5f * (arg0->e.z + arg0->f.z);
-    p[3].x = 0.5f * (arg0->b.x + arg0->c.x);
-    p[3].y = 0.5f * (arg0->b.y + arg0->c.y);
-    p[3].z = 0.5f * (arg0->b.z + arg0->c.z);
-    p[4].x = 0.5f * (arg0->f.x + arg0->g.x);
-    p[4].y = 0.5f * (arg0->f.y + arg0->g.y);
-    p[4].z = 0.5f * (arg0->f.z + arg0->g.z);
-    p[5].x = 0.5f * (arg0->c.x + arg0->d.x);
-    p[5].y = 0.5f * (arg0->c.y + arg0->d.y);
-    p[5].z = 0.5f * (arg0->c.z + arg0->d.z);
-    p[6].x = 0.5f * (arg0->g.x + arg0->h.x);
-    p[6].y = 0.5f * (arg0->g.y + arg0->h.y);
-    p[6].z = 0.5f * (arg0->g.z + arg0->h.z);
+    VecCopy(p++, &pad_3C0[3]);
+    VecCopy(p, &pad_3C0[7]);
+    p[1].x = 0.5f * (pad_3C0[3].x + pad_3C0[4].x);
+    p[1].y = 0.5f * (pad_3C0[3].y + pad_3C0[4].y);
+    p[1].z = 0.5f * (pad_3C0[3].z + pad_3C0[4].z);
+    p[2].x = 0.5f * (pad_3C0[7].x + pad_3C0[8].x);
+    p[2].y = 0.5f * (pad_3C0[7].y + pad_3C0[8].y);
+    p[2].z = 0.5f * (pad_3C0[7].z + pad_3C0[8].z);
+    p[3].x = 0.5f * (pad_3C0[4].x + pad_3C0[5].x);
+    p[3].y = 0.5f * (pad_3C0[4].y + pad_3C0[5].y);
+    p[3].z = 0.5f * (pad_3C0[4].z + pad_3C0[5].z);
+    p[4].x = 0.5f * (pad_3C0[8].x + pad_3C0[9].x);
+    p[4].y = 0.5f * (pad_3C0[8].y + pad_3C0[9].y);
+    p[4].z = 0.5f * (pad_3C0[8].z + pad_3C0[9].z);
+    p[5].x = 0.5f * (pad_3C0[5].x + pad_3C0[6].x);
+    p[5].y = 0.5f * (pad_3C0[5].y + pad_3C0[6].y);
+    p[5].z = 0.5f * (pad_3C0[5].z + pad_3C0[6].z);
+    p[6].x = 0.5f * (pad_3C0[9].x + pad_3C0[10].x);
+    p[6].y = 0.5f * (pad_3C0[9].y + pad_3C0[10].y);
+    p[6].z = 0.5f * (pad_3C0[9].z + pad_3C0[10].z);
     p += 7;
-    VecCopy__FP3VecPC3Vec((void*)(p++), &arg0->d);
-    VecCopy__FP3VecPC3Vec(p, &arg0->h);
-    ((TObjEneDD *)arg0)->reset_hp((u8 *)0, (u8 *)(boss5_gryphon_attack_params[3]), (u8 *)0);
+    VecCopy(p++, &pad_3C0[6]);
+    VecCopy(p, &pad_3C0[10]);
+    reset_hp(NULL, (u8 *)boss5_gryphon_attack_params[3], NULL);
     p = pts;
     for (i = 0; i < 5; i++) {
         fx.field_8 = gryphon_effect_scale_table[i];
         TBoss8Dragon__sub_800670E0((saddr)p, &fx);
-        TObjEneDD::emit_enemy_effect(arg0, (void *)p++, (u8 *)&fx, arg0->attack_history);
+        TObjEneDD::emit_enemy_effect(this, (void *)p++, (u8 *)&fx, attack_history);
         TBoss8Dragon__sub_800670E0((saddr)p, &fx);
-        TObjEneDD::emit_enemy_effect(arg0, (void *)p++, (u8 *)&fx, arg0->attack_history);
+        TObjEneDD::emit_enemy_effect(this, (void *)p++, (u8 *)&fx, attack_history);
     }
-    ((TObjEneDD *)arg0)->reset_hp((u8 *)0, (u8 *)(boss5_gryphon_attack_params[0]), (u8 *)0);
+    reset_hp(NULL, (u8 *)boss5_gryphon_attack_params[0], NULL);
 }
 
 void TBoss5Gryphon::update_collider_from_table() {
