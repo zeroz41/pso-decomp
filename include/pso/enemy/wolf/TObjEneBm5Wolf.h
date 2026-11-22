@@ -58,7 +58,7 @@ struct TObjEneBm5Wolf : public TObjEneDD_ST {
     s32 is_leader;
     s32 group_id;
     u16 leader_id;
-    u8 unk_3E2[0x2];
+    u8 pad_3e2[0x2];
     s32 turn_offset;
     Vec spawn_position;
     Vec group_anchor;
@@ -69,22 +69,23 @@ struct TObjEneBm5Wolf : public TObjEneDD_ST {
     TObjCollidable *attack_collider;
     s32 reaction_delay;
     u16 reaction_attacker_id;  // attacker of a fallen pack member (schedule_pack_reaction)
-    u8 unk_41A[0x2];
+    u8 pad_41a[0x2];
     s32 substate;
     s32 state_timer;
     s32 random_phase;
-    s32 m_428;
-    s32 m_42c;
-    s32 m_430;
+    // Shared with TObjEneBm5GibonU at the same place; the states reuse these as scratch.
+    s32 circle_shift_timer;  // circling: frames the radius keeps shifting after a hit
+    s32 target_heading;      // heading the turning states approach (circling: +1/-1 side)
+    s32 base_heading;        // heading saved at the start of returning/flanking
     f32 stopping_distance;
-    f32 m_438;
-    f32 m_43c;
-    f32 m_440;
-    Vec m_444;
-    Vec m_450;
-    f32 m_45c;
-    f32 m_460;
-    f32 m_464;
+    f32 circle_radius;       // circling: radius the circle settles to; appear/lunge: jump arc base
+    f32 sink_depth;          // dying: how far the body has sunk
+    f32 pad_440;
+    Vec work_point;          // appear: landing point; circling: target position; flanking: aim
+    Vec work_vector;         // returning: start point; circling/flanking: side direction
+    f32 pad_45c;
+    f32 pad_460;
+    f32 pad_464;
     s32 near_target;
     static void advance_spawn_timer(NJS_OBJECT *);
     void despawn_state(s32 msg);
@@ -136,12 +137,18 @@ struct TObjEneBm5Wolf : public TObjEneDD_ST {
     void spawn_recoil_dust(Vec *dir);
 };
 
+// Stat ids of the two variants (WolfData); load_resources registers them with TLobby.
+extern const u32 wolf_base_stat_ids[2];
+extern const u32 wolf_attack_stat_ids[2];
+extern const u32 wolf_resist_stat_ids[2];
+extern const u32 wolf_param_ids[2];
+
 LAYOUT_ASSERT(WolfOffset_current_target, offsetof(TObjEneBm5Wolf, current_target) == 0x390);
 LAYOUT_ASSERT(WolfOffset_destination, offsetof(TObjEneBm5Wolf, destination) == 0x394);
 LAYOUT_ASSERT(WolfOffset_destination_direction, offsetof(TObjEneBm5Wolf, destination_direction) == 0x3A0);
 LAYOUT_ASSERT(WolfOffset_destination_distance, offsetof(TObjEneBm5Wolf, destination_distance) == 0x3AC);
 LAYOUT_ASSERT(WolfOffset_pack_node, offsetof(TObjEneBm5Wolf, pack_node) == 0x3C0);
-LAYOUT_ASSERT(WolfOffset_m_3d8, offsetof(TObjEneBm5Wolf, is_leader) == 0x3D8);
+LAYOUT_ASSERT(WolfOffset_is_leader, offsetof(TObjEneBm5Wolf, is_leader) == 0x3D8);
 LAYOUT_ASSERT(WolfOffset_turnOffset, offsetof(TObjEneBm5Wolf, turn_offset) == 0x3E4);
 LAYOUT_ASSERT(WolfOffset_groupAnchor, offsetof(TObjEneBm5Wolf, group_anchor) == 0x3F4);
 LAYOUT_ASSERT(WolfOffset_desiredSpeed, offsetof(TObjEneBm5Wolf, desired_speed) == 0x400);

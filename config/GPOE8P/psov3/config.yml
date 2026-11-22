@@ -1065,7 +1065,7 @@ force_active:
   - render_demo__13TObjEneBm3FlyFv
   - dispatch_action__13TObjEneBm3FlyFUll
   - __ct__16TObjEneBm5GibonUFP7TObjectPv
-  - TObjEneBm5GibonU__data_80500E78
+  - TObjEneBm5GibonU__stat_params
   - TObjEneBm5GibonU__data_805DA158
   - TObjEneBm5GibonU__data_805DA160
   - TObjEneBm5GibonU__data_805DA164
@@ -1083,13 +1083,13 @@ force_active:
   - TObjEneBm5GibonU__data_805DA1BC
   - TObjEneBm5GibonU__data_805DA1C8
   - TObjEneBm5GibonU__data_805DA1D0
-  - TObjEneBm5GibonU__enemy_list
+  - TObjEneBm5GibonU__instance_list
   - TObjEneBm5GibonU__movement_parameters
-  - TObjEneBm5GibonU__node_list
-  - sub_800CCD8C__16TObjEneBm5GibonUFv
-  - sub_800CCDE4__16TObjEneBm5GibonUFv
-  - sub_800CCE28__16TObjEneBm5GibonUFv
-  - sub_800CDB98__16TObjEneBm5GibonUFl
+  - TObjEneBm5GibonU__pack_member_list
+  - play_jump_footsteps__16TObjEneBm5GibonUFv
+  - play_run_footstep__16TObjEneBm5GibonUFv
+  - play_walk_footsteps__16TObjEneBm5GibonUFv
+  - backjump_state__16TObjEneBm5GibonUFl
   - update_dying_state__16TObjEneBm5GibonUFl
   - hurt_state__16TObjEneBm5GibonUFl
   - repositioning_state__16TObjEneBm5GibonUFl
@@ -1103,7 +1103,7 @@ force_active:
   - standing_state__16TObjEneBm5GibonUFl
   - alerted_state__16TObjEneBm5GibonUFl
   - sleeping_state__16TObjEneBm5GibonUFl
-  - sub_800D02F8__16TObjEneBm5GibonUFl
+  - spot_appearing_state__16TObjEneBm5GibonUFl
   - appearing_state__16TObjEneBm5GibonUFl
   - dispatch_action__16TObjEneBm5GibonUFUll
   - schedule_pack_reaction__16TObjEneBm5GibonUFlUs
@@ -1112,7 +1112,7 @@ force_active:
   - __dt__16TObjEneBm5GibonUFv
   - __ct__20TObjEneBm5GibonUNodeFv
   - get_group_id__16TObjEneBm5GibonUFv
-  - sub_800D1D78__16TObjEneBm5GibonUFv
+  - get_spawn_position__16TObjEneBm5GibonUFv
   - TObjEneBm5Wolf__bml_resource
   - TObjEneBm5Wolf__collider_params
   - __ct__14TObjEneBm5WolfFP7TObjectPv
@@ -6464,8 +6464,8 @@ force_active:
   - forward_card_at_1c__11TWindowChatFv
   - forward_chg_game_mode__17TAdEnterPPPPassGCFPv
   - remove__20TObjEneBm5GibonUListFP20TObjEneBm5GibonUNode
-  - forward_hit_to_enemy_list__16TObjEneBm5GibonUFv
-  - forward_hit_to_node_list__16TObjEneBm5GibonUFv
+  - remove_from_instance_list__16TObjEneBm5GibonUFv
+  - remove_from_pack_member_list__16TObjEneBm5GibonUFv
   - forward_return_arg__17TWindowSubComCardFi
   - forward_to_channel__6TLobbyFPv
   - forward_to_matching_card__17TWindowSubComCardFPvPvi
@@ -7028,8 +7028,8 @@ force_active:
   - init_check__18TCheckRoomSequenceFUi
   - init_check_params__18TCheckRoomSequenceFUi
   - append__20TObjEneBm5GibonUListFP20TObjEneBm5GibonUNode
-  - init_child_from_list__16TObjEneBm5GibonUFv
-  - init_child_node__16TObjEneBm5GibonUFv
+  - add_to_instance_list__16TObjEneBm5GibonUFv
+  - add_to_pack_member_list__16TObjEneBm5GibonUFv
   - init_child_params__13TObjEneBm3FlyFv
   - __ct__13TUnk_804B5BA8FP7TObjectPvPC14CityDoorParams
   - init_city_season_object
@@ -7797,10 +7797,10 @@ force_active:
   - lappy_ap_xs_motion_names
   - __vt__12TObjEneLappy
   - lbl_804933D8
-  - lbl_80493D6C
-  - lbl_80493DA0
-  - lbl_80493DB0
-  - lbl_80493DE4
+  - bm_ene_bm5_gibon_u_model_names
+  - bm_ene_bm5_gibon_u_resource_descriptor
+  - bm_ene_bm5_gibon_u_low_model_names
+  - bm_ene_bm5_gibon_u_low_resource_descriptor
   - __vt__16TObjEneBm5GibonU
   - merill_lia_model_names
   - merill_lia_motion_names
@@ -8177,9 +8177,9 @@ force_active:
   - lbl_80500B60
   - lbl_80500B6C
   - lbl_80500C30
-  - lbl_80500E80
-  - lbl_80500E88
-  - lbl_80500E90
+  - gibon_stat_handle_a_table
+  - gibon_stat_handle_b_table
+  - gibon_param_table
   - lbl_80500E98
   - lbl_80500EA4
   - lbl_80501010
