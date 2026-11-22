@@ -203,8 +203,8 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     void spawn_impact_crater(Vec *pos);
     s32 check_phase_advance();
     s32 update_max_hp_phase();
-    void set_params(void *arg1);
-    void copy_params(void *arg1);
+    void set_params(void *packet);
+    void copy_params(void *packet);
     void reload_impact_stats();
     void reload_stats_for_phase(int);
     void reset_tail_hp();
@@ -234,7 +234,7 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     void sweep_death_body_attack();
     void apply_foot_step_attack(int side);
     void next_sequence_action();
-    void receive_state_request(u8 *arg1);
+    void receive_state_request(u8 *packet);
     void update_air_fire_state(u32 reason);
     void remap_sequence_after_recovery();
     void update_emergence_state(u32 reason);

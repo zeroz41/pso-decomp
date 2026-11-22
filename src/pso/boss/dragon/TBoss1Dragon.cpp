@@ -300,7 +300,6 @@ struct Pkt_800284B4 {
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/camera/CameraHelpers.h"
 extern "C" {
-void copy_model_node(u8 *dst, u8 *arg1);
 u8 *boss1_dragon_part_hp_stats[5];
 Boss1DragonParams *boss1_dragon_behavior_params[3];
 DragonModelVector boss1_dragon_node_origin;
@@ -349,14 +348,14 @@ void fill_value_array(PointerBuffer *buffer) {
     buffer->count = 0;
 }
 
-void TLobby::copy_header(void *arg1) {
-    *(s32 *)&this->m_name = (s32) *(s32 *)((s8 *)arg1 + 0);
-    this->m_flags = (u16) *(u16 *)((s8 *)arg1 + 4);
-    this->m_id = (s16) *(s16 *)((s8 *)arg1 + 6);
-    *(u8 *)&this->m_prev = (u8) *(u8 *)((s8 *)arg1 + 8);
-    *(u8 *)((s8 *)this + 9) = (u8) *(u8 *)((s8 *)arg1 + 9);
-    *(u8 *)((s8 *)this + 0xA) = (u8) *(u8 *)((s8 *)arg1 + 0xA);
-    *(u8 *)((s8 *)this + 0xB) = (u8) *(u8 *)((s8 *)arg1 + 0xB);
+void TLobby::copy_header(void *src) {
+    *(s32 *)&this->m_name = (s32) *(s32 *)((s8 *)src + 0);
+    this->m_flags = (u16) *(u16 *)((s8 *)src + 4);
+    this->m_id = (s16) *(s16 *)((s8 *)src + 6);
+    *(u8 *)&this->m_prev = (u8) *(u8 *)((s8 *)src + 8);
+    *(u8 *)((s8 *)this + 9) = (u8) *(u8 *)((s8 *)src + 9);
+    *(u8 *)((s8 *)this + 0xA) = (u8) *(u8 *)((s8 *)src + 0xA);
+    *(u8 *)((s8 *)this + 0xB) = (u8) *(u8 *)((s8 *)src + 0xB);
 }
 
 s32 TObjEnemy::exchange_object_state(void *record, s16 mode) {
@@ -447,15 +446,15 @@ s32 TBoss1Dragon::countModelNodes(DragonModelNode* source) {
     return count;
 }
 
-void copy_model_node(u8 *dst, u8 *arg1) {
-    *(s32 *)((s8 *)dst + 0) = (s32) *(s32 *)((s8 *)arg1 + 0);
-    *(s32 *)((s8 *)dst + 4) = (s32) *(s32 *)((s8 *)arg1 + 4);
-    *(ByteBlock_C *)((saddr) dst + 8) = *(const ByteBlock_C *)((saddr) arg1 + 8);
-    *(ByteBlock_C *)((saddr) dst + 0x14) = *(const ByteBlock_C *)((saddr) arg1 + 0x14);
-    *(ByteBlock_C *)((saddr) dst + 0x20) = *(const ByteBlock_C *)((saddr) arg1 + 0x20);
-    *(s32 *)((s8 *)dst + 0x2C) = (s32) *(s32 *)((s8 *)arg1 + 0x2C);
-    *(s32 *)((s8 *)dst + 0x30) = (s32) *(s32 *)((s8 *)arg1 + 0x30);
-    *(f32 *)((s8 *)dst + 0x34) = (f32) *(f32 *)((s8 *)arg1 + 0x34);
+void copy_model_node(u8 *dst, u8 *src) {
+    *(s32 *)((s8 *)dst + 0) = (s32) *(s32 *)((s8 *)src + 0);
+    *(s32 *)((s8 *)dst + 4) = (s32) *(s32 *)((s8 *)src + 4);
+    *(ByteBlock_C *)((saddr) dst + 8) = *(const ByteBlock_C *)((saddr) src + 8);
+    *(ByteBlock_C *)((saddr) dst + 0x14) = *(const ByteBlock_C *)((saddr) src + 0x14);
+    *(ByteBlock_C *)((saddr) dst + 0x20) = *(const ByteBlock_C *)((saddr) src + 0x20);
+    *(s32 *)((s8 *)dst + 0x2C) = (s32) *(s32 *)((s8 *)src + 0x2C);
+    *(s32 *)((s8 *)dst + 0x30) = (s32) *(s32 *)((s8 *)src + 0x30);
+    *(f32 *)((s8 *)dst + 0x34) = (f32) *(f32 *)((s8 *)src + 0x34);
 }
 
 DragonModelNode* TBoss1Dragon::cloneModelHierarchy(DragonModelNode* source, DragonModelNode* output, void* model) {
@@ -1460,55 +1459,55 @@ void TBoss1Dragon::reload_impact_stats() {
     this->reload_stats_keep_hp_tp(boss1_dragon_base_params[boss1_dragon_base_stat_indices[3]], boss1_dragon_part_hp_stats[boss1_dragon_attack_stat_indices[3]], boss1_dragon_resistance_params[boss1_dragon_resistance_stat_indices[3]]);
 }
 
-void handle_6x10_dragon_boss_actions(void *arg0) {
+void handle_6x10_dragon_boss_actions(void *packet) {
     void *x;
-    ((TObjPlayer *)arg0)->bswap_stats();
-    x = get_enemy_entity(*(u16 *)((s8 *)arg0 + 0x2));
+    ((TObjPlayer *)packet)->bswap_stats();
+    x = get_enemy_entity(*(u16 *)((s8 *)packet + 0x2));
     if (x != NULL) {
-        ((TBoss1Dragon *)x)->copy_params(arg0);
+        ((TBoss1Dragon *)x)->copy_params(packet);
     }
 }
 
-void TBoss1Dragon::copy_params(void *arg1) {
-    enemy_set_target_id(this, (u16) *(s32 *)((s8 *)arg1 + 8));
-    this->sequenceCursor = (s32) *(s16 *)((s8 *)arg1 + 6);
-    transition_enemy_state(*(s16 *)((s8 *)arg1 + 4));
+void TBoss1Dragon::copy_params(void *packet) {
+    enemy_set_target_id(this, (u16) *(s32 *)((s8 *)packet + 8));
+    this->sequenceCursor = (s32) *(s16 *)((s8 *)packet + 6);
+    transition_enemy_state(*(s16 *)((s8 *)packet + 4));
 }
 
-void handle_6x11_dragon_boss_actions(void *arg0) {
+void handle_6x11_dragon_boss_actions(void *packet) {
     void *x;
-    ((TObjPlayer *)arg0)->bswap_dragon_boss_fields();
-    x = get_enemy_entity(*(u16 *)((s8 *)arg0 + 0x2));
+    ((TObjPlayer *)packet)->bswap_dragon_boss_fields();
+    x = get_enemy_entity(*(u16 *)((s8 *)packet + 0x2));
     if (x != NULL) {
-        ((TBoss1Dragon *)x)->set_params(arg0);
+        ((TBoss1Dragon *)x)->set_params(packet);
     }
 }
 
-void TBoss1Dragon::set_params(void *arg1) {
-    enemy_set_target_id(this, (u16) *(s32 *)((s8 *)arg1 + 8));
-    this->sequenceCursor = (s32) *(s16 *)((s8 *)arg1 + 6);
-    if ((s16) this->mode != (s16) *(s16 *)((s8 *)arg1 + 4)) {
-        transition_enemy_state(*(s16 *)((s8 *)arg1 + 4));
+void TBoss1Dragon::set_params(void *packet) {
+    enemy_set_target_id(this, (u16) *(s32 *)((s8 *)packet + 8));
+    this->sequenceCursor = (s32) *(s16 *)((s8 *)packet + 6);
+    if ((s16) this->mode != (s16) *(s16 *)((s8 *)packet + 4)) {
+        transition_enemy_state(*(s16 *)((s8 *)packet + 4));
     }
 }
 
-void handle_6x12_dragon_boss_actions(TObjPlayer *arg0) {
+void handle_6x12_dragon_boss_actions(TObjPlayer *packet) {
     void *x;
-    arg0->bswap_6x12_packet();
-    x = get_enemy_entity(*(u16 *)((s8 *)arg0 + 0x2));
+    packet->bswap_6x12_packet();
+    x = get_enemy_entity(*(u16 *)((s8 *)packet + 0x2));
     if (x != NULL) {
-        ((TBoss1Dragon *)x)->receive_state_request((u8 *)arg0);
+        ((TBoss1Dragon *)x)->receive_state_request((u8 *)packet);
     }
 }
 
-void TBoss1Dragon::receive_state_request(u8 *arg1) {
+void TBoss1Dragon::receive_state_request(u8 *packet) {
     s16 temp_r4;
-    enemy_set_target_id(this, (u16) *(s32 *)((s8 *)arg1 + 8));
-    this->sequenceCursor = (s32) *(s16 *)((s8 *)arg1 + 6);
-    this->savedX = (f32) *(f32 *)((s8 *)arg1 + 0xC);
-    this->savedZ = (f32) *(f32 *)((s8 *)arg1 + 0x10);
-    this->dispatch_action(*(s16 *)((s8 *)arg1 + 4), 7);
-    temp_r4 = *(s16 *)((s8 *)arg1 + 4);
+    enemy_set_target_id(this, (u16) *(s32 *)((s8 *)packet + 8));
+    this->sequenceCursor = (s32) *(s16 *)((s8 *)packet + 6);
+    this->savedX = (f32) *(f32 *)((s8 *)packet + 0xC);
+    this->savedZ = (f32) *(f32 *)((s8 *)packet + 0x10);
+    this->dispatch_action(*(s16 *)((s8 *)packet + 4), 7);
+    temp_r4 = *(s16 *)((s8 *)packet + 4);
     if ((s16) this->mode != temp_r4) {
         transition_enemy_state(temp_r4);
     }
