@@ -118,7 +118,6 @@ inline NetPacket *make_input_packet(u8 *ip, s16 total_len, u8 *payload, s32 payl
 #pragma opt_loop_invariants off
 #pragma opt_strength_reduction off
 s32 ipv6_input(u8 *ip, int len, s16 id) {
-    s16 icmp6_send_error(NetIcmpv6Header *msg, u8 *ip, s32 len, s16 iface); /* the definition takes an s16 len */
     s16 tcp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst); /* the definition takes (u8 *, u8 *, u8 *) */
     s16 udp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, s16 iface);
     s32 raw_socket_deliver(NetPacket *pkt, u8 *src, u8 *dst, void *callback, s16 index); /* the definition takes an s32 index */
@@ -189,7 +188,7 @@ s32 ipv6_input(u8 *ip, int len, s16 id) {
             error.type = ICMP6_PARAM_PROB;
             error.code = ICMP6_PARAMPROB_NEXTHEADER;
             error.reserved = next_header_field - hdr;
-            icmp6_send_error(&error, hdr, total_len, iface);
+            icmp6_send_error(&error, hdr, total_len, id);
             goto ret;
         }
         switch (next_header) {
@@ -198,7 +197,7 @@ s32 ipv6_input(u8 *ip, int len, s16 id) {
                 options_error.type = ICMP6_PARAM_PROB;
                 options_error.code = ICMP6_PARAMPROB_NEXTHEADER;
                 options_error.reserved = next_header_field - hdr;
-                icmp6_send_error(&options_error, hdr, total_len, iface);
+                icmp6_send_error(&options_error, hdr, total_len, id);
                 status = -1;
             } else {
                 status = process_options_header(ext, remaining, hdr, total_len, iface);
