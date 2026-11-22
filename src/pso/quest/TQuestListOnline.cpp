@@ -102,7 +102,6 @@ saddr get_window_layout_position(int);
 
 s32 send_action__9TProtocolFR13GameListEntryUcPcPc(void *, void *, int, char *, char *);
 
-extern void *TLobby__protocol_instance;
 
 s32 get_unlocked_tier__16TQuestListOnlineFv(void *);
 u8 *create_yes_no_window(s32 arg0, s32 arg1, uaddr arg2, uaddr arg3);
@@ -178,7 +177,7 @@ void TQuestListOnline::vfunc_11() {
     }
 }
 
-void TQuestListOnline::request_menu() { ((TProtocol *)TLobby__protocol_instance)->send_quest_menu_request(); online_quest_bin_data = NULL; quest_bin_decompressed_size = 0; online_quest_dat_buffer = NULL; online_quest_list_decompressed_size = 0; set_field_20((saddr)((void*)12)); }
+void TQuestListOnline::request_menu() { TLobby__protocol_instance->send_quest_menu_request(); online_quest_bin_data = NULL; quest_bin_decompressed_size = 0; online_quest_dat_buffer = NULL; online_quest_list_decompressed_size = 0; set_field_20((saddr)((void*)12)); }
 
 void TQuestListOnline::build_list_window() {
     u16 id;
@@ -288,7 +287,7 @@ void TQuestListOnline::handle_list_selection() {
         } else if (selection_stage == 1) {
             s32 idx = list_window->get_cursor_value();
             __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(selected_entry, &TQuestListOnline__quest_list_buffer->entries[idx].tag);
-            ((TProtocol *)TLobby__protocol_instance)->send_info((TPlyGuildCardTag &)selected_entry);
+            TLobby__protocol_instance->send_info((TPlyGuildCardTag &)selected_entry);
             set_field_20(0xC);
             selection_stage++;
             return;

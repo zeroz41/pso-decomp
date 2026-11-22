@@ -13,6 +13,7 @@
 #pragma auto_inline off
 #pragma dont_inline off
 #include "pso/network/TProtocol.h"
+#include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/item/TItemData.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/ui/frontend/TAdGuideTxtGC.h"
@@ -50,9 +51,7 @@ s32 text_builder_append();
 void text_builder_reset(void);
 void build_6xA6_modify_trade_proposal(void *);
 extern "C" {
-s32 send_trade_list__6TLobbyFPvPv(s32, s32 *);
 void TWindowSubTradeMain__sub_80330A84(void *p);
-extern saddr TLobby__protocol_instance;
 s32 check_trade_offer_inventory(void *, void *);
 
 typedef struct Stack_802D23E0 Stack_802D23E0;
@@ -92,7 +91,7 @@ void TLobby::update_trade_list_send() {
         break;
     case 6:
         ((TLobby *)sp8)->build_trade_item_list();
-        send_trade_list__6TLobbyFPvPv(TLobby__protocol_instance, (s32 *)sp8);
+        TLobby::send_trade_list(TLobby__protocol_instance, sp8);
         trade_protocol_flags |= 0x400;
         if ((uaddr) TLobby__trade_main_window != 0U) {
             TWindowSubTradeMain__sub_80330A84((void *)TLobby__trade_main_window);
@@ -362,7 +361,7 @@ void TLobby::apply_trade_items() {
                 }
                 if ((flag == 0) || (load_character_from_card__23TAdSinglePlyChrSelectGCFv() == 0)) {
                     TLobby__trade_proposal_state = 8;
-                    ((TProtocol *)TLobby__protocol_instance)->send_trade_ready();
+                    TLobby__protocol_instance->send_trade_ready();
                 }
             }
         }
@@ -435,7 +434,7 @@ void handle_6xA6_modify_trade_proposal(u8 *arg0) {
 
 void TLobby::clear_flag400() {
     if (trade_protocol_flags & 0x400) {
-        ((TProtocol *)TLobby__protocol_instance)->send_cancel_trade();
+        TLobby__protocol_instance->send_cancel_trade();
         trade_protocol_flags &= 0xFFFFFBFF;
     }
 }
@@ -457,7 +456,7 @@ void TLobby::cancel_trade() {
         break;
     case 7:
     case 8:
-        ((TProtocol *)TLobby__protocol_instance)->send_cancel_trade();
+        TLobby__protocol_instance->send_cancel_trade();
         break;
     case 9:
         break;
@@ -733,7 +732,7 @@ void handle_trade_state_cancel__6TLobbyFPv(O_802D33C0 *self) {
     case 3:
         break;
     case 4:
-        ((TProtocol *)(*(void **)&TLobby__protocol_instance))->send_cancel_trade();
+        TLobby__protocol_instance->send_cancel_trade();
         break;
     }
 }

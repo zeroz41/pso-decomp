@@ -7,6 +7,7 @@
 #include "pso/network/protocol/protocol.h"
 #include "pso/network/PSOV3EncryptionTCP.h"
 #include "pso/network/TSocket.h"
+#include "pso/network/TProtocol.h"
 
 struct Tags_801DAC6C { u32 w[16]; };
 
@@ -118,27 +119,27 @@ void handle_cmd_9B__9TProtocolFR6packet(u8 *arg0, Regist_801DAD38 *arg1) {
     }
 }
 
-s32 socket_set_server_info(u8 *socket, const char *arg1, const char *arg2, const char *serial, const char *access_key,
-                           const char *host, u16 port) {
-    s32 temp_r31;
+s32 socket_set_server_info(TProtocol *protocol, const char *serial_v1, const char *access_key_v1, const char *serial,
+                           const char *access_key, const char *host, u16 port) {
+    s32 error;
 
-    temp_r31 = ((TSocket *)socket)->resolve_domain((char *)host);
-    set_port__7TSocketFUl(socket, port);
-    if (temp_r31 != 0) {
+    error = protocol->resolve_domain((char *)host);
+    set_port__7TSocketFUl(protocol, port);
+    if (error != 0) {
         return 2;
     }
-    memset(socket + 0x3EB8, 0, 0x11);
-    memset(socket + 0x3EC9, 0, 0x11);
-    memset(socket + 0x3F8A, 0, 0x11);
-    memset(socket + 0x3F9B, 0, 0x11);
-    strncpy((char *)(socket + 0x3EB8), arg1, 8);
-    strncpy((char *)(socket + 0x3EC9), arg2, 0xC);
-    strncpy((char *)(socket + 0x3F8A), serial, 8);
-    strncpy((char *)(socket + 0x3F9B), access_key, 0xC);
-    if (((VObjDA *)socket)->m4() < 0) {
+    memset(protocol->m_serial_number_v1, 0, 0x11);
+    memset(protocol->m_access_key_v1, 0, 0x11);
+    memset(protocol->m_serial_number2, 0, 0x11);
+    memset(protocol->m_access_key2, 0, 0x11);
+    strncpy(protocol->m_serial_number_v1, serial_v1, 8);
+    strncpy(protocol->m_access_key_v1, access_key_v1, 0xC);
+    strncpy(protocol->m_serial_number2, serial, 8);
+    strncpy(protocol->m_access_key2, access_key, 0xC);
+    if (protocol->open() < 0) {
         return 1;
     }
-    ((VObjDA *)socket)->m6();
+    protocol->recv();
     return 0;
 }
 

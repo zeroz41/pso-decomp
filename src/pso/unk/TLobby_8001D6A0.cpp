@@ -54,7 +54,6 @@ Ent_8001D768 *find_free_pool_entry__6TLobbyFPv(Obj_8001D768 *self);
 void archive_pool_free(Pool_8001D7AC *pool, Node_8001D7AC *node);
 Node_8001D808 *archive_pool_alloc(Pool_8001D808 *pool, u32 size);
 
-extern saddr TLobby__protocol_instance;
 
 s32 aram_read_sync__6TLobbyFllll(s32, s32);
 s32 aram_transfer_sync__6TLobbyFlUlll(s32, void *, s32);
@@ -197,7 +196,7 @@ void TLobby::sync_auto_reply_state() {
         if (((s32 (*)(void))get_flag_bit0__6TLobbyFv)() != 0) {
             ((TLobby *)TLobby__protocol_instance)->send_text_packet_c7((char *)(TLobby::get_card_window_area()));
         } else {
-            ((TProtocol *)TLobby__protocol_instance)->send_disable_auto_reply();
+            TLobby__protocol_instance->send_disable_auto_reply();
         }
         auto_reply_flags &= ~4;
         auto_reply_flags = ((s32 (*)(void))get_flag_bit0__6TLobbyFv)() != 0 ? (auto_reply_flags | 2) : (auto_reply_flags & ~2);

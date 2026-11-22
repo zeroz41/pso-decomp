@@ -35,6 +35,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/item/drop/TItemDropSub.h"
 #include "pso/unk/TLobby.h"
+#include "pso/network/TPlyJoinLobbyEntry.h"
 
 void qst_call_stack_push(s32 value);
 s32 qst_call_stack_pop(void);
@@ -560,9 +561,8 @@ void qst_op_check_for_keyword(void) {
 }
 
 extern "C" {
-s32 send_statistic_aa(int, int, int, int, void *);
+s32 send_statistic_aa(TProtocol *, int, int, int, void *);
 }
-extern s32 TLobby__protocol_instance;
 
 void qst_op_enable_keyword_detect() { TOChatSensorCapture::create_instance((void*)tl_01); }
 
@@ -935,7 +935,7 @@ void TFontSmallLobby__sub_801C013C(void *p);
 void request_player_size_restore(PlayerScaleState *state);
 void request_player_shrink(PlayerScaleState *state);
 Vec * TObjPlayer__sub_801C6FDC(void *);
-s32 send_download_head_d7(int, int, int);
+s32 send_download_head_d7(TProtocol *, int, int);
 void* __ct__13TQuestBgmCtrlFP7TObject(void*, TObject *);
 }
 extern "C" {
