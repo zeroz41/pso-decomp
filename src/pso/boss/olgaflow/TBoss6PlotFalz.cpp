@@ -601,11 +601,11 @@ void TBoss6PlotFalz::ensure_field384() {
 }
 
 f32 TBoss6Mine::next_random_float(s32 *seed) {
-    *seed = TBoss6Type1__sub_802ABDEC(*seed);
+    *seed = next_random_seed(*seed);
     return (f32) (*seed & 0x7FFF) / 32767.0f;
 }
 
-s32 TBoss6Type1__sub_802ABDEC(s32 seed) {
+s32 next_random_seed(s32 seed) {
     seed = seed * 0x41C64E6D + 12345;
     seed = seed / 65536;
     seed = seed % 32768;

@@ -324,8 +324,8 @@ TBoss6Type1::TBoss6Type1(TObject *parent, saddr *params) : TObjEnemy(parent) {
 
 TBoss6Type1::~TBoss6Type1() {
     s32 i;
-    sub_802B4A70();
-    sub_802B4B14();
+    destroy_map_csn();
+    destroy_slot_particles();
     release_effect_slots();
     scroll_strips_v.free_buffer_pairs();
     scroll_strips_u.free_buffer_pairs();
@@ -1451,8 +1451,8 @@ void TBoss6Type1::spawn_mines() {
     s32 swaps = total / 2;
     if (swaps > 1) {
         for (s32 j = 0; j < swaps; j++) {
-            s32 r = TBoss6Type1__sub_802ABDEC(seed);
-            seed = TBoss6Type1__sub_802ABDEC(r);
+            s32 r = next_random_seed(seed);
+            seed = next_random_seed(r);
             s32 a = r % total;
             s32 b = seed % total;
             if (a == b) {
@@ -1469,7 +1469,7 @@ void TBoss6Type1::spawn_mines() {
     while (i < count) {
         VecCopy(&set.offset, &points[i]);
         set.heading = heading;
-        seed = TBoss6Type1__sub_802ABDEC(seed);
+        seed = next_random_seed(seed);
         set.seed = seed;
         if (((TBoss6PlotFalz *)plot_falz)->get_next_point(&set.set_index, &set.entity_id) == 0) {
             break;
@@ -2092,7 +2092,7 @@ void TBoss6Type1::clear_slot_array() {
     for (i = 0; i < slot_count(); i++) slot_particles[i] = 0;
 }
 
-void TBoss6Type1::sub_802B4B14() { release_slot_particles(); }
+void TBoss6Type1::destroy_slot_particles() { release_slot_particles(); }
 
 void TBoss6Type1::count_laser_frame() {
     laser_frames += 1;
@@ -2111,7 +2111,7 @@ void TBoss6Type1::release_slot_particles() {
 }
 void TBoss6Type1::clear_map_csn() { map_csn = 0; }
 
-void TBoss6Type1::sub_802B4A70() { release_map_csn(); }
+void TBoss6Type1::destroy_map_csn() { release_map_csn(); }
 
 void TBoss6Type1::spawn_map_csn() {
     MapCsnSetData data;

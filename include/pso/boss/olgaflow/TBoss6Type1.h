@@ -281,12 +281,14 @@ struct TBoss6Type1 : public TObjEnemy {
     void clear_effect_slots();
     // release_effect_slot for all four effect_slots.
     void release_effect_slots();
-    void sub_802B4B14();
+    // Called by the destructor: release_slot_particles (destroy_slot_particles is an inferred name).
+    void destroy_slot_particles();
     void count_laser_frame();
     // Zeroes laser_frames and releases every slot_particles emitter.
     void release_slot_particles();
     void clear_map_csn();
-    void sub_802B4A70();
+    // Called by the destructor: release_map_csn (destroy_map_csn is an inferred name).
+    void destroy_map_csn();
 };
 // A row of TBoss6Type1__motion_set_table: how the main part motion ends and the two motions.
 struct Boss6Type1MotionSet {

@@ -8,9 +8,11 @@ struct TObjPlayer;
 extern "C" {
 // Nonzero when the game runs on Normal difficulty (game_difficulty_selection == 0).
 s32 is_normal_difficulty(void);
-// One step of the boss's pseudo-random sequence: returns the next value of seed.
-s32 TBoss6Type1__sub_802ABDEC(s32 seed);
 }
+
+// One step of the boss's pseudo-random sequence (the ANSI C rand() recurrence on a caller-held seed):
+// returns the next value of seed (next_random_seed is an inferred name).
+s32 next_random_seed(s32 seed);
 
 struct BmlResource;
 class TBoss4Fade;
