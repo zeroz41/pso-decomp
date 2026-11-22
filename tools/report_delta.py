@@ -206,8 +206,10 @@ def compare(before: dict, after: dict, read=None, starts=None) -> dict:
     data_coverage_lost = [row for row in data_coverage_lost if row not in padding_lost]
     # The same alignment padding may also have been exact or linked before
     # (a data array that spelled the pad out); it leaves those lists too.
-    data_regressions = [row for row in data_regressions if not is_alignment_padding(row, read, starts)]
-    linked_data_lost = [row for row in linked_data_lost if not is_alignment_padding(row, read, starts)]
+    exact_padding = [row for row in data_regressions if is_alignment_padding(row, read, starts)]
+    linked_padding = [row for row in linked_data_lost if is_alignment_padding(row, read, starts)]
+    data_regressions = [row for row in data_regressions if row not in exact_padding]
+    linked_data_lost = [row for row in linked_data_lost if row not in linked_padding]
     data_coverage_gained = lost_data_ranges(after, before, exact_only=False)
     linked_data_gained = lost_data_ranges(after, before, exact_only=False, complete_only=True)
     if data_regressions:
@@ -222,9 +224,14 @@ def compare(before: dict, after: dict, read=None, starts=None) -> dict:
         failures.append("Previously linked functions are no longer selected from source")
     if linked_data_lost:
         failures.append("Previously linked data ranges are no longer selected from source")
-    padding_bytes = sum(row["size"] for row in padding_lost)
+    # Padding that passed above leaves the byte totals it was counted in.
+    padding_bytes = {
+        'total_data': sum(row["size"] for row in padding_lost),
+        'matched_data': sum(row["size"] for row in exact_padding),
+        'complete_data': sum(row["size"] for row in linked_padding),
+    }
     for key, values in metrics.items():
-        delta = values['delta'] + (padding_bytes if key == 'total_data' else 0)
+        delta = values['delta'] + padding_bytes.get(key, 0)
         if key.startswith('total_') and delta != 0:
             failures.append(f"{key} changed by {values['delta']:+d}; reconcile coverage explicitly")
         elif delta < 0:
