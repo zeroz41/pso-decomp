@@ -106,7 +106,7 @@ s16 AT_IP4_Send(NetPacket *pkt, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, u8 prot
 s16 AT_IP4_Forward(u32 dst, u32 src, u8 *pkt, s16 len, s16 iface);
 s16 AT_IP4_PktSend(NetPacket *self, u32 key, s16 id);
 s16 AT_IP4_SrcAddrSel(u32 *out, u32 dst, s16 c);
-s16 TLobby__sub_80410A98(saddr pkt, void *dst, void *src, NetIPv6SendOptions *opts, u8 proto);
+s16 TLobby__sub_80410A98(NetPacket *pkt, void *dst, void *src, NetIPv6SendOptions *opts, u8 proto);
 extern NetPacketPool lobby_udp_socket_table;
 /* Shared by the modules cut out of this unit; each is defined in the file named in its comment. */
 u16 packet_ones_complement_sum(struct NetPacket *, s16); /* TLobby_804050DC.c */

@@ -528,7 +528,7 @@ s16 ipv6_process_options(u8* p, s16 n, u8* self, s16 c, s16 d) {
     return 0;
 }
 
-s16 TLobby__sub_80410A98(saddr pkt, void *dst, void *src, NetIPv6SendOptions *opts, u8 proto) {
+s16 TLobby__sub_80410A98(NetPacket *pkt, void *dst, void *src, NetIPv6SendOptions *opts, u8 proto) {
     NetIPv6SendOptions defaults;
     NetIPv6SendParameters params;
     Ipv6Route *route;
@@ -554,9 +554,9 @@ s16 TLobby__sub_80410A98(saddr pkt, void *dst, void *src, NetIPv6SendOptions *op
     NetMemcpy(&params.source, src, sizeof(params.source));
     NetMemcpy(&params.destination, dst, sizeof(params.destination));
     if (!NetIPv6IsMulticast(next_hop) && TLobby__sub_804136AC(route->iface)) {
-        return TLobby__sub_80415D0C((NetPacket *)pkt, next_hop, &params, route->iface);
+        return TLobby__sub_80415D0C(pkt, next_hop, &params, route->iface);
     }
-    return TLobby__sub_80410BA8((void *)pkt, &params, route->iface, NULL);
+    return TLobby__sub_80410BA8(pkt, &params, route->iface, NULL);
 }
 
 s16 TLobby__sub_80410D6C(u8 *ctx, u8 *hdr, s16 a5, s32 a6, u32 len);

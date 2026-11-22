@@ -34,7 +34,7 @@ s16 dispatch_by_addr_family(NetPacket *pkt, NetworkAddress *dst, NetworkAddress 
     case 4:
         return AT_IP4_Send(pkt, dst->ipv4, src->ipv4, ip4_opts[0], ip4_opts[1], ip4_opts[2], proto);
     case 6:
-        return TLobby__sub_80410A98((saddr)pkt, dst->address, src->address, ip6_opts, proto);
+        return TLobby__sub_80410A98(pkt, dst->address, src->address, ip6_opts, proto);
     case 0:
     default:
         return -2;

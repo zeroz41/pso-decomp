@@ -224,7 +224,7 @@ s16 icmp6_send_error(void *a, u8 *src, s16 c, s16 flag) {
     }
     msg->checksum = 0;
     msg->checksum = calc_ipv6_pseudo_header_checksum(&buf, p, 0x3a, pkt, 1);
-    r = TLobby__sub_80410A98((saddr)pkt, p, &buf, 0, 0x3A);
+    r = TLobby__sub_80410A98(pkt, p, &buf, 0, 0x3A);
     release_entry(pkt);
     return r;
 }
@@ -260,7 +260,7 @@ s16 TLobby__sub_8040D718(u8 type, u8 code, u8 *src, u8 *dst, NetPacket *pkt, s16
     hdr.code = code;
     hdr.checksum = 0;
     hdr.checksum = calc_ipv6_pseudo_header_checksum((const IPv6Address *)src, (const IPv6Address *)dst, 0x3A, pkt, 1);
-    if (TLobby__sub_80410A98((saddr)pkt, dst, src, NULL, 0x3A)) {
+    if (TLobby__sub_80410A98(pkt, dst, src, NULL, 0x3A)) {
         return -1;
     }
     return 0;
