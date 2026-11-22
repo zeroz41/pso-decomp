@@ -40,6 +40,10 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/AngleLookup.h"
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/gx/GXTransform.h>
+#include <dolphin/gx/GXCull.h>
+#undef PSO_SDK_COMPACT_MATH
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/BmlResource.h"
 #include "pso/unk/TLobby_801E2F94.h"
@@ -250,7 +254,6 @@ saddr TRaderMapCore__map_heap;
 
 extern RadarSpriteFrame_801FA6CC lbl_804C87E4[];
 extern f32 lbl_804C87B4[][4];
-s32 GXSetScissorBoxOffset(int, int);
 extern Rect_801F9228 radar_map_view_scissor_table[3];
 struct TRaderMapCoreMapViewState { s32 value; u8 remaining[0x74]; };
 extern TRaderMapCoreMapViewState TRaderMapCore__map_view_state;
@@ -260,7 +263,6 @@ extern s16 *TRaderMapCore__floor_discovery_table[];
 s32 init_radar_floor_flags(s32 floor, RadarInitMap_801F9474 *map);
 void* __ct__5THeapFUli(void*, u32, s32);
 void TRaderMapCore__sub_801F95CC(void);
-void GXSetScissor(u32, u32, u32, u32);
 void *get_player_by_client_id(s32 i);
 f32 xz_distance_squared(void *, void *);
 extern Gate_801FA1E0 TRaderMapCore__marker_buffer[128];
