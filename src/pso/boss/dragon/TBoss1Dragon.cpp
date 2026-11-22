@@ -146,7 +146,6 @@ extern s32 lbl_805D4B10;
 extern u8 *TBoss1Dragon__data_805D4B00[1];
 extern u8 *TBoss1Dragon__data_805D4B04[1];
 extern saddr TBoss1Dragon__data_805D4B2C;
-f32 TBoss1Dragon__sub_80027634(void);
 extern u8 controller_input_state[];
 void send_6x2F_change_player_hp(s32 arg0, s32 arg1, s32 arg2);
 void TBoss1Dragon__sub_800277D8(TBoss1Dragon *self);
@@ -333,7 +332,6 @@ struct Pkt_800284B4 {
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/camera/CameraHelpers.h"
 extern "C" {
-void TBoss1Dragon__sub_8002AB6C(u8 *self);
 void copy_model_node(u8 *dst, u8 *arg1);
 u8 *TBoss1Dragon__part_hp_stats[5];
 saddr TBoss1Dragon__data_804FE17C[3];
@@ -515,9 +513,9 @@ TUnk_80481B34::~TUnk_80481B34() {
 
 }
 
-void TBoss1Dragon__sub_8002AB6C(u8 *self) {
-    if (((TObjChara *)self)->obj_isState2_324() == 0) {
-        ((TBoss1Dragon *)(self))->apply_movement_ailment(0);
+void apply_dragon_hit_ailment(TObjChara *target) {
+    if (target->obj_isState2_324() == 0) {
+        target->apply_movement_ailment(0);
     }
 }
 
@@ -534,16 +532,16 @@ void TUnk_80481B34::area_attack_receive_direct(void *self_arg, f32 *arg2, void *
         if (e->flags & 0x04000000) {
             DirectAttackPayload sp8 = *(DirectAttackPayload *)arg3;
             self->receive_direct_attack((void *)this->owner, sp8, e, -1, -1);
-            TBoss1Dragon__sub_8002AB6C((u8 *)self);
+            apply_dragon_hit_ailment(self);
             return;
         }
         off += 0x2C;
     }
 }
 
-void TUnk_80481B34::apply_hit_if_active(void *arg1, f32 *) {
-    ((TObjChara *)(((u8 *)arg1)))->receive_physical_attack((void *)this->owner, (1.0f));
-    TBoss1Dragon__sub_8002AB6C(((u8 *)arg1));
+void TUnk_80481B34::apply_hit_if_active(void *target, f32 *) {
+    ((TObjChara *)target)->receive_physical_attack((void *)this->owner, 1.0f);
+    apply_dragon_hit_ailment((TObjChara *)target);
 }
 
 saddr TBoss1Dragon::get_instance() {
@@ -825,7 +823,7 @@ TBoss1Dragon::TBoss1Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     this->finalHpThreshold = this->hpmax * 3 / 10;
     *(f32 *)(this->m_2b0 + 0x10) = 10.0f;
     this->update_damage_threshold();
-    this->tail = new TBoss1DragonEffTail((TObjBase *)this, &this->node_positions[15]);
+    this->tail = new TBoss1DragonEffTail(this, &this->node_positions[15]);
     this->attack_history = new AreaAttackHistory(4);
     this->collider = new TBoss1DragonColli(&this->sub_tasks);
     this->destinationX = (0.0f);
@@ -1983,7 +1981,7 @@ void TBoss1Dragon::apply_fireball_impact_damage(saddr arg1) {
   }
 }
 
-f32 TBoss1Dragon__sub_80027634(void) {
+f32 TBoss1Dragon::get_crater_attack_power() {
     return 0.666f * *(f32 *)((s8 *)TBoss1Dragon__data_804FE17C[0] + 4);
 }
 
@@ -2660,7 +2658,7 @@ void TBoss1Dragon::update_tail_attack_state(u32 reason) {
         this->flags &= ~0xC80;
         this->flags |= 0x200;
         this->stateStep = 0;
-        ((TBoss1DragonEffTail *)(this->tail))->enable();
+        this->tail->enable();
         break;
     case 2:
     case 11:
@@ -2682,9 +2680,9 @@ void TBoss1Dragon::update_tail_attack_state(u32 reason) {
         }
         if (this->stateStep > 1) {
             if (this->is_passing_frame(10.0f) != 0) {
-                ((TBoss1DragonEffTail *)(this->tail))->disable();
+                this->tail->disable();
             } else if (this->is_passing_frame(23.0f) != 0) {
-                ((TBoss1DragonEffTail *)(this->tail))->enable();
+                this->tail->enable();
             }
             this->tail->run_task();
         }

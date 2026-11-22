@@ -15,49 +15,10 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/unk/text_803D853C.h"
 
-struct VBase_18 { char pad[0x18]; };
-struct VObj_18 : VBase_18 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual s32 m20(s32, f32);
-};
-
-typedef struct EffTail_8002C06C {
-    const char *name;
-    u8 pad4[0x14];
-    s32 *vtbl;
-    u8 pad1C[0xA4 - 0x1C];
-    struct { u8 b[0x2C]; } *spheres;
-    u8 padA8[8];
-    s32 unkB0;
-    s32 unkB4;
-    void *unkB8;
-    s32 unkBC;
-    f32 unkC0;
-    f32 unkC4;
-    f32 unkC8;
-} EffTail_8002C06C;
-
-struct Pair_8002BD38 { f32 a; s32 b; };
+struct TailAttackParams { f32 power; s32 kind; };
 
 #pragma readonly_strings on
 
@@ -66,73 +27,71 @@ const char *TBoss1DragonEffTail__name = "TBoss1DragonEffTail";
 CollisionBody TBoss1DragonEffTail__collision_body_templates[17] = {
     { { 0.0f, 0.0f, 0.0f }, 10.0f, 0.0f, 0, 0x8003 },
 };
-void TBoss1Dragon__sub_8002AB6C(u8 *self);
-s32 matrix_mult_vec(int, void *, void *);
 
 void TBoss1DragonEffTail::render() {  }
 
-void run_task__19TBoss1DragonEffTailFv(u8 *boss1_dragon_eff_tail) {
-    u8 *p;
-    Vec *src;
+void TBoss1DragonEffTail::run_task() {
+    CollisionBody *body;
+    Vec *node;
     s32 i;
-    f32 f;
-    VecCopy((Vec *)(boss1_dragon_eff_tail + 0x38), (const Vec *)(*(u8 **)((s8 *)boss1_dragon_eff_tail + 0xB4) + 0x24));
-    ((s32 (*)(void *, void *)) vec3_add_to)(boss1_dragon_eff_tail + 0x38, *(u8 **)((s8 *)boss1_dragon_eff_tail + 0xB4) + 0x78);
-    *(f32 *)((s8 *)boss1_dragon_eff_tail + 0x38) *= 0.5f;
-    *(f32 *)((s8 *)boss1_dragon_eff_tail + 0x40) *= 0.5f;
-    *(f32 *)((s8 *)boss1_dragon_eff_tail + 0x3C) = *(f32 *)((s8 *)(*(u8 **)((s8 *)boss1_dragon_eff_tail + 0xB0)) + 0x3C);
-    ((TBoss1DragonEffTail *)boss1_dragon_eff_tail)->rotation_y = *(s32 *)((s8 *)(*(u8 **)((s8 *)boss1_dragon_eff_tail + 0xB0)) + 0x60);
-    src = *(Vec **)((s8 *)boss1_dragon_eff_tail + 0xB4);
+    VecCopy(&this->position, &this->nodes[3]);
+    vec3_add_to(&this->position, &this->nodes[10]);
+    this->position.x *= 0.5f;
+    this->position.z *= 0.5f;
+    this->position.y = this->dragon->position.y;
+    this->rotation_y = this->dragon->rotation_y;
+    node = this->nodes;
     push_matrix();
     set_matrix_identity(0);
-    rotate_matrix_y(0, -((TBoss1DragonEffTail *)boss1_dragon_eff_tail)->rotation_y);
-    translate_matrix(0, -*(f32 *)((s8 *)boss1_dragon_eff_tail + 0x38), -*(f32 *)((s8 *)boss1_dragon_eff_tail + 0x3C), -*(f32 *)((s8 *)boss1_dragon_eff_tail + 0x40));
+    rotate_matrix_y(0, -this->rotation_y);
+    translate_matrix(0, -this->position.x, -this->position.y, -this->position.z);
     for (i = 0; i < 0x11; i++) {
-        p = *(u8 * *)&((TBoss1DragonEffTail *)boss1_dragon_eff_tail)->bodies + i * 0x2C;
-        VecCopy((Vec *)(p + 0x1C), (const Vec *)src);
-        matrix_mult_vec(0, src++, p);
-        update_collider_contact_by_height(p, 30.0f);
+        body = &this->bodies[i];
+        VecCopy(&body->center, node);
+        matrix_mult_vec(NULL, node++, &body->offset);
+        update_collider_contact_by_height((u8 *)body, 30.0f);
     }
     pop_matrix();
-    if (*(s32 *)&((TBoss1DragonEffTail *)boss1_dragon_eff_tail)->m_bc == 1) {
-        *(f32 *)((s8 *)boss1_dragon_eff_tail + 0xC0) = 5.0f * cos_table_lookup(((TBoss1DragonEffTail *)boss1_dragon_eff_tail)->rotation_y);
-        *(f32 *)((s8 *)boss1_dragon_eff_tail + 0xC4) = 0.0f;
-        ((TBoss1DragonEffTail *)boss1_dragon_eff_tail)->m_c0.z = 5.0f * -sin_table_lookup(((TBoss1DragonEffTail *)boss1_dragon_eff_tail)->rotation_y);
+    if (this->sweep_side == 1) {
+        this->sweep_vector.x = 5.0f * cos_table_lookup(this->rotation_y);
+        this->sweep_vector.y = 0.0f;
+        this->sweep_vector.z = 5.0f * -sin_table_lookup(this->rotation_y);
     } else {
-        *(f32 *)((s8 *)boss1_dragon_eff_tail + 0xC0) = 5.0f * -cos_table_lookup(((TBoss1DragonEffTail *)boss1_dragon_eff_tail)->rotation_y);
-        *(f32 *)((s8 *)boss1_dragon_eff_tail + 0xC4) = 0.0f;
-        ((TBoss1DragonEffTail *)boss1_dragon_eff_tail)->m_c0.z = 5.0f * sin_table_lookup(((TBoss1DragonEffTail *)boss1_dragon_eff_tail)->rotation_y);
+        this->sweep_vector.x = 5.0f * -cos_table_lookup(this->rotation_y);
+        this->sweep_vector.y = 0.0f;
+        this->sweep_vector.z = 5.0f * sin_table_lookup(this->rotation_y);
     }
     {
-        Pair_8002BD38 sp8 = { 3.0f, 1 };
-        ((TBoss1Dragon *)(*(void **)((s8 *)boss1_dragon_eff_tail + 0xB0)))->reset_tail_hp();
-        ((TBoss1DragonEffTail *)boss1_dragon_eff_tail)->call_vt16_with_default(&sp8, *(void **)((s8 *)boss1_dragon_eff_tail + 0xB8));
+        TailAttackParams params = { 3.0f, 1 };
+        this->dragon->reset_tail_hp();
+        call_vt16_with_default(&params, this->attack_history);
     }
-    ((TBoss1Dragon *)(*(void **)((s8 *)boss1_dragon_eff_tail + 0xB0)))->reload_difficulty_stats();
+    this->dragon->reload_difficulty_stats();
 }
 
 // Pushes the hit object along this tail's sweep vector (+0x308 of the target, the field the base
 // TUnk_804928CC::area_attack_apply_recoil also moves).
 void TBoss1DragonEffTail::area_attack_apply_recoil(void *target, f32) {
-    vec3_add_to((Vec *)((u8 *)target + 0x308), &m_c0);
+    vec3_add_to((Vec *)((u8 *)target + 0x308), &sweep_vector);
 }
 
-void TBoss1DragonEffTail::apply_hit_if_active(void *arg1, f32 *) {
-    ((VObj_18 *)(((u8 *)arg1)))->m20(this->owner, 1.0f);
+void TBoss1DragonEffTail::apply_hit_if_active(void *target, f32 *) {
+    ((TObjChara *)target)->receive_physical_attack((void *)this->owner, 1.0f);
     if (TObjEneDD::check_v2_mode() != 0) {
-        TBoss1Dragon__sub_8002AB6C((((u8 *)arg1)));
+        apply_dragon_hit_ailment((TObjChara *)target);
     }
 }
 
-void TBoss1DragonEffTail::enable() { this->m_bc = 1; is_visible(); }
-void TBoss1DragonEffTail::disable() { this->m_bc = 0; is_visible(); }
-void TBoss1DragonEffTail::is_visible() { fill_value_array(attack_history); }
+void TBoss1DragonEffTail::enable() { this->sweep_side = 1; clear_attack_history(); }
+void TBoss1DragonEffTail::disable() { this->sweep_side = 0; clear_attack_history(); }
+void TBoss1DragonEffTail::clear_attack_history() { fill_value_array(attack_history); }
 
 TBoss1DragonEffTail::~TBoss1DragonEffTail() {
     delete attack_history;
     attack_history = NULL;
 }
-TBoss1DragonEffTail::TBoss1DragonEffTail(TObjBase *owner, void *arg2) : TUnk_804928CC(NULL, owner, TBoss1DragonEffTail__collision_body_templates, 0x11) {
+TBoss1DragonEffTail::TBoss1DragonEffTail(TBoss1Dragon *dragon, Vec *nodes)
+    : TUnk_804928CC(NULL, dragon, TBoss1DragonEffTail__collision_body_templates, 0x11) {
     void *data;
     s32 i;
     data = TBoss1DragonEffTail__collision_body_templates;
@@ -140,13 +99,13 @@ TBoss1DragonEffTail::TBoss1DragonEffTail(TObjBase *owner, void *arg2) : TUnk_804
     for (i = 1; i < 0x11; i++) {
         copy_collision_body(&bodies[i], (const CollisionBody *)data);
     }
-    m_b0 = (uaddr)owner;
-    m_b4 = (uaddr)arg2;
+    this->dragon = dragon;
+    this->nodes = nodes;
     attack_history = new AreaAttackHistory(4);
-    m_bc = 0;
-    m_c0.x = 0.0f;
-    m_c0.y = 0.0f;
-    m_c0.z = 0.0f;
+    sweep_side = 0;
+    sweep_vector.x = 0.0f;
+    sweep_vector.y = 0.0f;
+    sweep_vector.z = 0.0f;
 }
 
 }

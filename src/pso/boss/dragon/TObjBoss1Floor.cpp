@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/boss/dragon/TObjBoss1Floor.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
-#include "pso/boss/dragon/TObjBoss1Crater_8002C6B4.h"
+#include "pso/boss/dragon/TObjBoss1Crater.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_8002C190.h"

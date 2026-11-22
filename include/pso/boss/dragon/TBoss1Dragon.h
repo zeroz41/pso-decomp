@@ -13,6 +13,7 @@ class TObject;
 class TBoss1DragonColli;
 class TUnk_80481B34;
 class TObjBoss1MokoHill_SoloM;
+class TObjChara;
 
 struct DragonModelVector { f32 x, y, z; };
 struct DragonModelAngles { s32 x, y, z; };
@@ -207,6 +208,7 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     void reload_stats_for_phase(int _w1);
     void reset_tail_hp();
     void reload_difficulty_stats();
+    f32 get_crater_attack_power();  // 0.666 of the first parameter block's power at +4 (TObjBoss1Crater's hits)
     s32 advance_air_turn();
     void init_air_turn(s32 targetAngle);
     void set_result_flag(s32 arg1, s32 arg2);
@@ -275,6 +277,8 @@ struct TBoss1Dragon : public TObjEneDD_ST {
 };
 
 void get_dragon_follow_camera_offsets(Vec *eye, Vec *target);
+// The movement ailment (kind 0) the Dragon's hit boxes, tail and craters give a target not in state 2.
+void apply_dragon_hit_ailment(TObjChara *target);
 
 #include <stddef.h>
 #define DRAGON_OFFSET(member, offset) \

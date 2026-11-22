@@ -7376,7 +7376,7 @@ force_active:
   - is_value_out_of_range__6TLobbyFl
   - is_visible__14TBoss7CrawfishFv
   - is_visible__18CameraDistanceFadeFv
-  - is_visible__19TBoss1DragonEffTailFv
+  - clear_attack_history__19TBoss1DragonEffTailFv
   - is_visible__8TObjDoorFff
   - is_within_camera_distance__FPvPvf
   - is_within_distance__10TObjBgmColFf

@@ -5,6 +5,7 @@
 #include "pso/player/TUnk_804928CC.h"
 
 class AreaAttackHistory;
+class PointerBuffer;
 class TParticleCtrl;
 struct Vec;
 
@@ -25,9 +26,17 @@ struct TObjBoss1Crater : public TUnk_804928CC {
 LAYOUT_ASSERT(TObjBoss1Crater_size, sizeof(TObjBoss1Crater) == 0xCC);
 
 extern "C" {
-void *__dt__15TObjBoss1CraterFv(void *arg0, s16 arg1);
 // Horizontal distance from position to the nearest crater, 0 when there is none.
 f32 calc_nearest_crater_distance(Vec *position);
+// TLobby::update_boss1_objects calls it with the other arena objects' teardown hooks; empty.
+void TObjBoss1Crater__sub_8002C7B4(void);
+// TLobby::init_bosses calls it: empties TObjBoss1Crater__instance_list.
+void TObjBoss1Crater__sub_8002C7B8(void);
 }
+
+// An attack-target list's entry count.
+s32 attack_target_list_count(PointerBuffer *buffer);
+// Drops entry index, moving the last entry into its place.
+void attack_target_list_remove(PointerBuffer *buffer, s32 index);
 
 #endif
