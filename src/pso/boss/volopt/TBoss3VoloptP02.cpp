@@ -57,6 +57,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 
 extern "C" {
 s32 play_persistent_sound(s32, void *, void *, s16, s32);
@@ -1114,8 +1115,8 @@ void TBoss3VoloptP02::update_death_sequence() {
         position.y = 0.5319149f * this->frame;
         if (this->frame >= 47.0f) {
             TBoss3Volopt::create_breakup_mdl((saddr)breakup_model, (saddr)&death_breakup_params, texlist, (saddr)&body_center, rotation_y);
-            ((TObjPlayer *)&body_center)->trigger_dell_biter_events();
-            ((TObjPlayer *)this)->refresh_lobby_state();
+            trigger_dell_biter_events(&body_center);
+            refresh_lobby_state();
             volopt_death_active = 1;
             if (TBoss3Volopt::is_death_active() != 0) {
                 send_entity_set_flags();

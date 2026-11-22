@@ -26,7 +26,7 @@ const char *TOMineIcon04__name = "TOMineIcon04";
 TOMineIcon04::TOMineIcon04(TObject *parent, void *set_data) : TOMine(parent) {
     m_name = TOMineIcon04__name;
     apply_object_set_data(set_data);
-    ((TObjPlayer *)this)->init_position_vectors();
+    init_position_vectors();
     calc_attach_pos();
     model = (void *)get_bml_model((BmlResource *)lbl_805D5A50, 7);
     texlist = (saddr)get_bml_texlist((BmlResource *)lbl_805D5A50, 7);

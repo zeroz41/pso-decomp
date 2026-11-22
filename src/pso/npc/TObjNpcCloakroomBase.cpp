@@ -62,7 +62,7 @@ TObjNpcCloakroomBase::~TObjNpcCloakroomBase() {}
 TObjNpcCloakroomBase::TObjNpcCloakroomBase(TObject *parent, void *arg2) : TUnk_804A8640(parent) {
     *(s32 *)((s8 *)this + 0) = (saddr) TObjNpcCloakroomBase__name;
     ((TObjNpcCloakroomBase *)this)->apply_set_data(arg2);
-    ((TObjPlayer *)this)->init_position_vectors();
+    init_position_vectors();
     *(s32 *)((s8 *)this + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcCloakroomBase__static_instance) + 0x42C)) + 8);
     ((TObjNpcCloakroomBase *)this)->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcCloakroomBase__static_instance) + 0x42C)) + 0xC);
     ((TObjNpcBase *)this)->setup_common();

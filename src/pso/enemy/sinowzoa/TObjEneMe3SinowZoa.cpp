@@ -1597,7 +1597,7 @@ void TObjEneMe3SinowZoa::sub_80317F90(s32 mode) {
                 VecCopy(&p, &this->position);
                 p.x += 20.0f * sin_table_lookup(this->rotation_y);
                 p.z += 20.0f * cos_table_lookup(this->rotation_y);
-                ((TObjPlayer *)(&p))->trigger_dell_biter_events();
+                trigger_dell_biter_events(&p);
                 play_sound_effect(0x4003AD2E, &this->position, 0, 0);
             }
             this->update_ground_contact();

@@ -49,7 +49,7 @@ TObjNpcAHM01::~TObjNpcAHM01() {}
 TObjNpcAHM01::TObjNpcAHM01(TObject *parent, void *arg2) : TUnk_804A9F50(parent) {
     *(s32 *)((s8 *)this + 0) = (saddr) TObjNpcAHM01__name;
     ((TObjNpcAHM01 *)this)->apply_set_data(arg2);
-    ((TObjPlayer *)this)->init_position_vectors();
+    init_position_vectors();
     *(s32 *)((s8 *)this + 0x34) = (s32) *(*(s32 * *)&TObjNpcAHM01__shared_object);
     ((TObjNpcAHM01 *)this)->texlist = (s32) (*(s32 *)&TObjNpcAHM01__texture_handle);
     ((TObjNpcBase *)this)->setup_common();

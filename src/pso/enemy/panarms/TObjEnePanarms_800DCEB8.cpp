@@ -50,6 +50,7 @@
 #include "pso/render/BlobShadow.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 
 
 struct Stack_800DDFDC
@@ -918,7 +919,7 @@ void TObjEnePanarms::enter_dead() {
     s16 st;
     Vec v;
     this->state_timer = 0xA4;
-    ((TObjPlayer *)this)->refresh_lobby_state();
+    refresh_lobby_state();
     this->send_entity_set_flags();
     st = 5;
     if (find_nearest_visible_player(this, &v, 200.0f) != 0xFFFF) {
@@ -975,7 +976,7 @@ void TObjEnePanarms::update_dead() {
             stack.sp8 = (0.5f * this->position.x) + (0.5f * draw_positions[0].x);
             stack.spC = this->position.y;
             stack.sp10 = (0.5f * this->position.z) + (0.5f * draw_positions[0].z);
-            ((TObjPlayer *)(&stack.sp8))->spawn_ground_effect(0x78);
+            spawn_ground_effect((const Vec *)&stack.sp8, 0x78);
             TObjPlayer::spawn_dead_spot_default((saddr)((void *)&stack.sp8), 6);
         }
         if (this->state_timer == 0x5A) {

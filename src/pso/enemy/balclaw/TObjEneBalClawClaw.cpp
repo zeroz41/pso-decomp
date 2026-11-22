@@ -378,7 +378,7 @@ void TObjEneBalClawClaw::sub_80091200() {
 void TObjEneBalClawClaw::sub_80091134() {
     switch (state) {
     case 0:
-        ((TObjPlayer *)this)->refresh_lobby_state();
+        refresh_lobby_state();
         requested_action = 4;
         TObjPlayer__sub_800A04F0(&fade);
         fn_800D911C(&body_center);

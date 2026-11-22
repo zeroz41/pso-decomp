@@ -21,6 +21,10 @@ struct TObjEnemy : public TObjChara {
     s32 turn_toward_direction(s32 max_step, Vec *direction);
     void award_enemy_experience(s32);
     void distribute_experience();
+    // send_6x60_standard_drop_item_request for this enemy.
+    int query_lobby_state();
+    // distribute_experience, then query_lobby_state; the death reactions call it.
+    void refresh_lobby_state();
     void send_6x9C_enemy_low_game_flags(s32);
     void draw_ground_shadow(const Vec *scale, s32 forceDraw);
     virtual void apply_enemy_state(s32 *);

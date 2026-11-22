@@ -7,7 +7,6 @@
 void TUnk_80493450::select_post_attack_mode() {  }
 int TUnk_80493450::test_flag_256() { return 0; }
 void TUnk_80493450::request_stand_action() { this->requested_action = 0; }
-void TObjPlayer::init_position_vectors() {
-    saddr arg0 = (saddr)this;
-    VecCopy((Vec *)(arg0 + 0x44), (const Vec *)(VecCopy((Vec *)(arg0 + 0x290), (const Vec *)(VecCopy((Vec *)(arg0 + 0x29C), (const Vec *)(arg0 + 0x38))))));
+void TObjChara::init_position_vectors() {
+    VecCopy(&prev_position, VecCopy(&move_origin, VecCopy(&move_destination, &position)));
 }

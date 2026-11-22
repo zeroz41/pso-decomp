@@ -42,7 +42,7 @@ TObjNpcNFM01::~TObjNpcNFM01() {}
 TObjNpcNFM01::TObjNpcNFM01(TObject *parent, void *set_data) : TUnk_804A9F50(parent) {
     this->m_name = TObjNpcNFM01__name;
     this->apply_set_data(set_data);
-    ((TObjPlayer *)this)->init_position_vectors();
+    init_position_vectors();
     this->model = *(void **)TObjNpcNFM01__model_object;
     this->texlist = TObjNpcNFM01__texture_handle;
     this->setup_common();

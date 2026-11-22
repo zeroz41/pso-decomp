@@ -48,6 +48,7 @@
 #include "pso/math/ScratchVectors.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 
 
 saddr lbl_805D5140;
@@ -408,7 +409,7 @@ TObjGrass::TObjGrass(TObject *parent, void *set_data) : TObjEnemy(parent) {
     s32 t;
     m_name = TObjGrass__class_name;
     apply_set_data(set_data);
-    ((TObjPlayer *)this)->init_position_vectors();
+    init_position_vectors();
     apply_actor_gravity(this, 0, (0.0f));
     t = (saddr)TObjGrass__resource_bundle->motions;
     *(saddr *)&motion_list = t;
@@ -1551,7 +1552,7 @@ void TObjGrass::run_death_reaction() {
         temp_r6 = (u8 *)(*(u8 **)((s8 *)arg0 + 0xA4));
         *(s32 *)((s8 *)temp_r6 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r6 + 0x18) & 0xFFFF7FFE);
         spawn_particle_effect((const Vec *)(arg0 + 0x2FC), 0xF2);
-        ((TObjPlayer *)arg0)->refresh_lobby_state();
+        refresh_lobby_state();
         ((TObjEnemy *)arg0)->send_entity_set_flags();
     }
 }
@@ -1643,7 +1644,7 @@ void TObjGrass::update_dying(void *arg0_) {
             }
             play_sound_effect(((TObjEnemy *)arg0)->remap_sound_for_area(0x4003AB0A), arg0 + 0x38, 0, 0);
             TObjPlayer::spawn_dead_spot_default((saddr)(arg0 + 0x38), 0xA);
-            ((TObjPlayer *)(arg0 + 0x38))->spawn_ground_effect(0x1E);
+            spawn_ground_effect((const Vec *)(arg0 + 0x38), 0x1E);
         }
         ((TObjEnePanarms *)arg0)->scale.y -= 0.01f;
         if (((TObjEnePanarms *)arg0)->scale.y < 0.0f) {

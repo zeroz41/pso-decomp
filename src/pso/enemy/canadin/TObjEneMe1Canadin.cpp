@@ -85,7 +85,6 @@ struct CanadinBehaviorParams {
 };
 
 f32 newton_sqrtf(f32);
-s32 trigger_dell_biter_events__10TObjPlayerFv(void *, f32);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 s32 matrix_mult_vec(int, Vec *, Vec *);
 s32 rotate_vector_by_matrix(int, Vec *, Vec *);
@@ -1711,7 +1710,6 @@ void TObjEneMe1Canadin::fn_8009BFF8(s32 arg1) {
 
 void TObjEneMe1Canadin::state_dead(s32 arg1) {
     Vec pos;
-    f32 temp_f1;
     switch (arg1) {
     case 4:
         if (kind == 1) {
@@ -1721,9 +1719,8 @@ void TObjEneMe1Canadin::state_dead(s32 arg1) {
         TBoss3Volopt::create_breakup_mdl((saddr)lbl_805D4FE0, 0, (s32)(texlist), (saddr)&body_center, (s32)(rotation_y));
         status_flags |= 0x400000;
         VecCopy(&pos, &body_center);
-        temp_f1 = pos.y;
-        pos.y = temp_f1 - 5.0f;
-        trigger_dell_biter_events__10TObjPlayerFv(&pos, temp_f1);
+        pos.y -= 5.0f;
+        trigger_dell_biter_events(&pos);
         refresh_and_send_entity_flags();
         ((s32 (*)(int, void *, int, int))play_sound_effect)(0x4003AA1E, &body_center, 0, 0);
         return;
@@ -2250,7 +2247,7 @@ void TObjEneMe1CanadinLeader::state_dead(s32 mode) {
         }
         status_flags |= 0x400000;
         play_sound_effect(0x4003B71D, &body_center, 0, 0);
-        ((TObjPlayer *)this)->refresh_lobby_state();
+        refresh_lobby_state();
         break;
     case 0:
         if (has_no_members() != 0) {

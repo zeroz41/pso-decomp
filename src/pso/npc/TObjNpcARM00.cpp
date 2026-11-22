@@ -49,7 +49,7 @@ TObjNpcARM00::~TObjNpcARM00() {}
 TObjNpcARM00::TObjNpcARM00(TObject *parent, void *arg2) : TUnk_804A9F50(parent) {
     *(s32 *)((s8 *)this + 0) = (saddr) TObjNpcARM00__name;
     ((TObjNpcARM00 *)this)->apply_set_data(arg2);
-    ((TObjPlayer *)this)->init_position_vectors();
+    init_position_vectors();
     *(s32 *)((s8 *)this + 0x34) = (s32) *(*(s32 * *)&TObjNpcARM00__model_resource);
     ((TObjNpcARM00 *)this)->texlist = (s32) (*(s32 *)&TObjNpcARM00__texture_list);
     ((TObjNpcBase *)this)->setup_common();

@@ -1478,7 +1478,7 @@ void TObjEneMe3Shinowa::state_break_apart(s32 reason) {
                 VecCopy(&pos, &position);
                 pos.x += 20.0f * sin_table_lookup(rotation_y);
                 pos.z += 20.0f * cos_table_lookup(rotation_y);
-                ((TObjPlayer *)&pos)->trigger_dell_biter_events();
+                trigger_dell_biter_events(&pos);
                 play_sound_effect(remap_sound_for_area(0x4003AD16), &position, 0, 0);
             }
             update_ground_contact();

@@ -50,6 +50,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/render/model_render_state.h"
 #include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 
 // The technique levels of TLobby::dispatch_shared_handler_a(0x33) (clamped to 0..14 by the callers).
 struct PanBARATechniqueLevels {
@@ -1013,7 +1014,7 @@ void TObjEnePanBARA::sub_800E0A44() {
     s32 motion;
     this->visible = 1;
     this->collision_enabled = 0;
-    ((TObjPlayer *)this)->refresh_lobby_state();
+    refresh_lobby_state();
     motion = 7;
     this->motion_flags &= ~1;
     if (find_nearest_visible_player(this, &v, 500.0f) != 0xFFFF) {
@@ -1041,7 +1042,7 @@ void TObjEnePanBARA::sub_800E0950() {
     }
     if (this->action_timer <= 0x78) {
         if (this->action_timer == 0x78) {
-            ((TObjPlayer *)&shadow_position)->spawn_ground_effect(0x78);
+            spawn_ground_effect(&shadow_position, 0x78);
             TObjPlayer::spawn_dead_spot_default((saddr)&shadow_position, 6);
         }
         this->position.y += -0.15625f;

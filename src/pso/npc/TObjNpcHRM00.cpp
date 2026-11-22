@@ -42,7 +42,7 @@ TObjNpcHRM00::~TObjNpcHRM00() {}
 TObjNpcHRM00::TObjNpcHRM00(TObject *parent, void *set_data) : TUnk_804A9F50(parent) {
     this->m_name = TObjNpcHRM00__name;
     this->apply_set_data(set_data);
-    ((TObjPlayer *)this)->init_position_vectors();
+    init_position_vectors();
     this->model = *(void **)TObjNpcHRM00__named_object_resource;
     this->texlist = TObjNpcHRM00__body_texture_gvm;
     this->setup_common();

@@ -1181,7 +1181,7 @@ void TObjEneSlimeOne::sub_800E95F4() {
     this->draw_scale.y = 1.0f;
     this->draw_scale.x = 1.0f;
     this->state_timer = 5;
-    ((TObjPlayer *)this)->refresh_lobby_state();
+    refresh_lobby_state();
     play_sound_effect(0x4003A81B, &position, 0, 0);
     spawn_particle_effect(&body_center, 0xFE);
     animation->set_state(5);

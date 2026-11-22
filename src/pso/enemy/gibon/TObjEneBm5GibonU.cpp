@@ -56,6 +56,7 @@ struct NJS_OBJECT;
 #include "pso/ui/TLevelSelect.h"
 #include "pso/unk/text_80086D50.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 
 // The motion-binding block TLobby::spawn_npc_enemy takes (same layout as GeeAnimationBinding).
 
@@ -741,7 +742,7 @@ void TObjEneBm5GibonU::sub_800CE060(s32 msg) {
                 } else {
                     TObjPlayer::spawn_dead_spot_type2((saddr)&sp14, 0x32);
                 }
-                ((TObjPlayer *)(&sp14))->spawn_effect_at_ground(0x46);
+                spawn_effect_at_ground(&sp14, 0x46);
             }
             this->rotation_y = approach_angle_limited(this->rotation_y, this->m_528, 0x300);
             this->rotation_y = (s16)this->rotation_y;

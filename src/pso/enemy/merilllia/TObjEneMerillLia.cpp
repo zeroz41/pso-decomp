@@ -55,6 +55,7 @@ struct Pl_800D5614 { u8 pad0[0x38]; u8 pos[0xC]; };
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/math/MatrixTransforms.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 
 #pragma readonly_strings on
 
@@ -300,7 +301,7 @@ TObjEneMerillLia::TObjEneMerillLia(TObject *parent, void *setData) : TUnk_804934
     m_name = TObjEneMerillLia__class_name;
     apply_set_data(setData);
     init_params_from_position();
-    ((TObjPlayer *)this)->init_position_vectors();
+    init_position_vectors();
     subtype = variant;
     clamp_and_apply_mode_param();
     load_entry_params(variant);
@@ -1241,7 +1242,7 @@ void TObjEneMerillLia::spawn_death_effect() {
     rotate_vector_by_matrix(0, (void *)&stack.x, (void *)&stack.x);
     pop_matrix();
     vec3_add_to((void *)&stack.x, (void *)(self + 0x38));
-    ((TObjPlayer *)(&stack.x))->spawn_ground_effect(0x23);
+    ::spawn_ground_effect(&stack, 0x23);
     TObjPlayer__sub_800D92BC((saddr)&stack.x, 0xF);
 }
 

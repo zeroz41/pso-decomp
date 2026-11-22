@@ -952,7 +952,7 @@ void TObjEneDelDepth::init_move() {
     this->drawScale.z = 1.0f;
     this->drawScale.y = 1.0f;
     this->drawScale.x = 1.0f;
-    ((TObjPlayer *)this)->refresh_lobby_state();
+    refresh_lobby_state();
     this->actionPhase = 0;
     if (this->motionController->get_type() < 6) {
         this->timer = 0x22;

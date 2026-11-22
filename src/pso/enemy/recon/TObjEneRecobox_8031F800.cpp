@@ -579,7 +579,7 @@ void TObjEneRecobox::sub_8031F408(s32 reason) {
 void TObjEneRecobox::handle_death_state(s32 reason) {
     switch (reason) {
     case 4:
-        ((TObjPlayer *)this)->refresh_lobby_state();
+        refresh_lobby_state();
         status_flags |= 1;
         spawn_debris_chips();
         set_intangible();

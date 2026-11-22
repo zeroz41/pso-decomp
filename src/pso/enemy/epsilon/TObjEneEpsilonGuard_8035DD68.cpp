@@ -35,6 +35,7 @@ struct NJS_OBJECT;
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 
 u8 *epsilon_guard_boss_stat_handle;
 u8 *epsilon_guard_shared_handler_b;
@@ -300,7 +301,7 @@ void TObjEneEpsilonGuard::handle_break_state(s32 msg) {
             clear_intangible();
             TBoss3Volopt::create_breakup_mdl((s32)lbl_805D6FA8, (saddr)&epsilon_guard_breakup_params, texlist, (saddr)&position, rotation_y);
             play_sound_effect(0x4003AD4C, &body_center, 0, 0);
-            ((TObjPlayer *)&body_center)->trigger_dell_biter_events();
+            trigger_dell_biter_events(&body_center);
             state_step = 1;
         }
         check_collisions();

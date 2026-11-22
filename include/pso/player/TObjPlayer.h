@@ -286,7 +286,6 @@ struct TObjPlayer : public TObjChara {
     static void send_6x26_unequip_item(void *player, u32 item_id);
     player_class_type get_class_type();
     static void add_angle_clamped(s32 *arg0, s32 arg1, s32 arg2);
-    static void step_angle_clamped(void *actor, int arg1);
     void call_callback_1ec(saddr arg1, saddr arg2);
     void copy_wall_polygon(u8 *arg1);
     static void copy_matrix(uaddr arg0, uaddr arg1);
@@ -322,8 +321,6 @@ struct TObjPlayer : public TObjChara {
     static void*get_pmt_record_by_type_id(int type, int id);
     static void*get_pmt_record_by_index(int i);
     static s32 is_hit_receivable_target(saddr arg0, uaddr arg1);
-    void refresh_lobby_state();
-    int query_lobby_state();
     s32 is_action_available();
     f32 calc_photon_blast_power(s32 arg1, f32 farg0);
     static s32 is_any_teammate_in_state();
@@ -419,16 +416,12 @@ struct TObjPlayer : public TObjChara {
     static f32 get_end_text_value(f32 x);
     int is_inactive();
     static void set_visibility_flags_by_count(void *arg0, s32 arg1);
-    void init_position_vectors();
     s16 get_field_2c8();
     static void update_effect_sequence(NJS_OBJECT *);
     static void toggle_particle_effect();
     static void create_dead_spot(saddr arg0, s32 arg1, f32 farg0);
     static void spawn_effect_f8(saddr arg1, s32 arg2);
     static void set_field_e4(s32 arg1, s32 arg2);
-    void trigger_dell_biter_events();
-    void spawn_ground_effect(s32 arg1);
-    void spawn_effect_at_ground(s32 arg1);
     static void apply_effect_variant_a(saddr arg0, s32 arg1);
     static void apply_effect_variant_b(s32 arg0, s32 arg1);
     static void spawn_dead_spot_default(saddr arg0, s32 arg1);

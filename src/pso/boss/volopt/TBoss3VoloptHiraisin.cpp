@@ -21,6 +21,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 
 
 extern "C" {
@@ -143,7 +144,7 @@ void TBoss3VoloptHiraisin::start_attack() {
     u32 flags;
     TBoss3Volopt::create_breakup_mdl((saddr)volopt_hiraisin_breakup_model, (saddr)&volopt_hiraisin_breakup_params,
                                      (saddr)get_bml_texlist((BmlResource *)volopt_hiraisin_resources, 0x10), (saddr)&body_center, rotation_y);
-    ((TObjPlayer *)(&body_center))->trigger_dell_biter_events();
+    trigger_dell_biter_events(&body_center);
     play_sound_effect(0x4001C112, &position, 0, 0);
     m_388 &= ~1;
     max_hp = hpmax;

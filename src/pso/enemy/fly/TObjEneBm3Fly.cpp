@@ -35,6 +35,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 
 #pragma defer_codegen on
 
@@ -1046,7 +1047,7 @@ void TObjEneBm3Fly::state_death_fall(s32 msg) {
                     this->slide_speed = 0.0f;
                     this->status_flags &= ~BM3_FLY_SHADOW;
                     spawn_landing_dead_spot((saddr)&this->position, 0xA);
-                    ((TObjPlayer *)&this->position)->spawn_effect_at_ground(0x1E);
+                    spawn_effect_at_ground(&this->position, 0x1E);
                 }
             }
             this->clamp_flight_height();

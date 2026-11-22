@@ -55,6 +55,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #pragma defer_codegen on
 
 extern const f32 lbl_805D9E84;
@@ -977,7 +978,7 @@ void TObjEneBm9Mericarol::state_burrow(s32 reason) {
                 pos.z = 10.0f * cos_table_lookup(rotation_y);
                 vec3_add_to(&pos, &position);
                 TObjPlayer::spawn_dead_spot_here((saddr)&pos, 0x32);
-                ((TObjPlayer *)&pos)->spawn_ground_effect(0x46);
+                spawn_ground_effect(&pos, 0x46);
             }
             update_ground_contact();
             return;

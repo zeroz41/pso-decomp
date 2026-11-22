@@ -14,6 +14,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 
 struct VBase_18_9c7b63
 {
@@ -223,7 +224,7 @@ void fn_800C2AC4(u8 *arg0, int reason) {
         else
         {
           TObjPlayer__sub_800D9290((saddr)&stack.x, 0x32);
-          ((TObjPlayer *)(&stack.x))->spawn_ground_effect(0x46);
+          spawn_ground_effect(&stack, 0x46);
         }
       }
         (((TObjEneDD *)(arg0))->update_ground_contact());

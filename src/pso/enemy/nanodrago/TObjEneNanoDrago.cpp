@@ -111,6 +111,7 @@ inline f32 xz_length_squared(Vec *v) { return v->x * v->x + v->z * v->z; }
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/text_80086D50.h"
 #include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 
 
 
@@ -906,7 +907,7 @@ void TObjEneNanoDrago::update_knockback_state() {
 void TObjEneNanoDrago::update_dying_state() {
     switch (state) {
     case 0:
-        ((TObjPlayer *)this)->refresh_lobby_state();
+        refresh_lobby_state();
         send_entity_set_flags();
         timer = 0x1E;
         play_sound_effect(0x4003A825, &position, 0, 0);
@@ -945,7 +946,7 @@ void TObjEneNanoDrago::update_dying_state() {
     case 3:
         timer = (timer - 1);
         if (timer <= 0) {
-            ((TObjPlayer *)(&position))->spawn_ground_effect(0x1E);
+            spawn_ground_effect(&position, 0x1E);
             TObjPlayer__sub_800D92BC((saddr)&position, 0xF);
             state = 4;
             return;

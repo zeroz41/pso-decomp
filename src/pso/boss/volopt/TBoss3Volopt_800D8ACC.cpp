@@ -197,20 +197,20 @@ void fn_800D911C(Vec *position) {
     create_timed_particle_emitter(position, 236, 10, 1);
 }
 
-void TObjPlayer::trigger_dell_biter_events() { spawn_particle_effect((const Vec *)this, 251); spawn_particle_effect((const Vec *)this, 252); spawn_particle_effect((const Vec *)this, 227); }
+void trigger_dell_biter_events(const Vec *pos) { spawn_particle_effect(pos, 251); spawn_particle_effect(pos, 252); spawn_particle_effect(pos, 227); }
 
-void TObjPlayer::spawn_ground_effect(s32 arg1) {
-    Vec sp8;
+void spawn_ground_effect(const Vec *pos, s32 duration) {
+    Vec ground;
 
-    TObjBoss2Tunnel::adjust_to_ground((const Vec *)this, &sp8);
-    create_timed_particle_emitter((&sp8), 0xE5, 0, (arg1));
+    TObjBoss2Tunnel::adjust_to_ground(pos, &ground);
+    create_timed_particle_emitter(&ground, 0xE5, 0, duration);
 }
 
-void TObjPlayer::spawn_effect_at_ground(s32 arg1) {
-    Vec sp8;
+void spawn_effect_at_ground(const Vec *pos, s32 duration) {
+    Vec ground;
 
-    TObjBoss2Tunnel::adjust_to_ground((const Vec *)this, &sp8);
-    create_timed_particle_emitter(&sp8, 0xE4, 0, arg1);
+    TObjBoss2Tunnel::adjust_to_ground(pos, &ground);
+    create_timed_particle_emitter(&ground, 0xE4, 0, duration);
 }
 
 // Dead-stripped from the DOL: the selector-0 corner dead spots come in the same

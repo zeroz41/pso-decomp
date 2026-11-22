@@ -53,7 +53,7 @@ TObjNpcGovernorBase::~TObjNpcGovernorBase() {}
 TObjNpcGovernorBase::TObjNpcGovernorBase(TObject *parent, void *arg2) : TUnk_804A9F50(parent) {
     ((TObject *)this)->m_name = TObjNpcGovernorBase__name;
     ((TObjNpcGovernorBase *)this)->apply_set_data(arg2);
-    ((TObjPlayer *)this)->init_position_vectors();
+    init_position_vectors();
     *(s32 *)((s8 *)this + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcGovernorBase__shared_resource) + 0x42C)) + 8);
     ((TObjNpcGovernorBase *)this)->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcGovernorBase__shared_resource) + 0x42C)) + 0xC);
     ((TObjNpcBase *)this)->setup_common();

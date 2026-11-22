@@ -310,7 +310,7 @@ void TObjEneRecon::sub_8031C364(s32 reason) {
         clear_intangible();
         recon_flags &= ~3;
         set_entry = 0;
-        ((TObjPlayer *)this)->refresh_lobby_state();
+        refresh_lobby_state();
         TBoss8Dragon__sub_800BB7DC(this);
         TBoss8Dragon__sub_800BB7D8(this, 0xF1, 1.0f);
         state_step = 0;

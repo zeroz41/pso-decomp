@@ -17,7 +17,7 @@ const char *TObjNpcNgcBase__name = "TObjNpcNgcBase";
 TObjNpcNgcBase::TObjNpcNgcBase(TObject *parent, void *set_data, void *resource) : TUnk_804A9F50(parent) {
     m_name = TObjNpcNgcBase__name;
     apply_set_data(set_data);
-    ((TObjPlayer *)this)->init_position_vectors();
+    init_position_vectors();
     *(s32 *)((s8 *)this + 0x34) = (saddr)get_bml_model((BmlResource *)resource, 0);
     texlist = (saddr)get_bml_texlist((BmlResource *)resource, 0);
     setup_common();

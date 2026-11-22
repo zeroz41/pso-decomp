@@ -82,7 +82,7 @@ s32 TOCtrlDubchik::select_melee_contact_body(void *arg1, f32 farg0) {
 TOCtrlDubchik::TOCtrlDubchik(TObject *parent, void *set_data) : TObjEnemy(parent) {
     m_name = TOCtrlDubchik__name;
     apply_set_data(set_data);
-    ((TObjPlayer *)this)->init_position_vectors();
+    init_position_vectors();
     model = (unsigned char *) ((void *) *(void **)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TOCtrlDubchik__shared_resource) + 0x42C)) + 8));
     texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TOCtrlDubchik__shared_resource) + 0x42C)) + 0xC);
     init_collision_body_parts(this, &TOCtrlDubchik__collision_body, 1);

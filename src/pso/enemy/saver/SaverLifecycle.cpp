@@ -251,7 +251,7 @@ void TObjEneSaver::run_death_reaction() {
             requested_action = 0xA;
         }
         bodies->flags &= ~1;
-        ((TObjPlayer *)this)->refresh_lobby_state();
+        refresh_lobby_state();
         send_entity_set_flags();
     }
 }
@@ -721,7 +721,7 @@ TObjEneSaver::TObjEneSaver(TObject *parent, void *set_data) : TObjEnemy(parent) 
     s16 guard;
     m_name = TObjEneSaver__class_name;
     apply_set_data(set_data);
-    ((TObjPlayer *)this)->init_position_vectors();
+    init_position_vectors();
     scale.z = 1.0f;
     scale.y = 1.0f;
     scale.x = 1.0f;

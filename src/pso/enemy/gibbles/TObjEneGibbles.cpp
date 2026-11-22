@@ -45,6 +45,7 @@ struct NJS_OBJECT;
 #include "pso/camera/TCameraCtrl_8006A03C.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 struct Obj_800A6B14;
 struct Vec_802DA0BC { s32 x, y, z; };
 struct Sub_802D8984 { u8 pad[0x18]; u32 f18; };
@@ -251,7 +252,7 @@ TObjEneGibbles::TObjEneGibbles(TObject *parent, void *setData) : TObjEnemy(paren
     s32 i;
     m_name = TObjEneGibbles__class_name;
     apply_set_data(setData);
-    ((TObjPlayer *)this)->init_position_vectors();
+    init_position_vectors();
     scale.x = scale.y = scale.z = 1.0f;
     init_params();
     mode = 0;
@@ -1796,7 +1797,7 @@ void TObjEneGibbles::run_death_reaction() {
         this->requested_action = 9;
         temp_r4 = this->bodies;
         *(s32 *)((s8 *)temp_r4 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r4 + 0x18) & 0xFFFFFFFE);
-        ((TObjPlayer *)this)->refresh_lobby_state();
+        refresh_lobby_state();
         send_entity_set_flags();
     }
 }
@@ -1822,7 +1823,7 @@ void TObjEneGibbles::sub_802D8140() {
       rotate_xz_pair_by_angle(&stack.x, &stack.z, this->rotation_y, 0.0f);
       vec3_add_to(&stack.x, ((u8 *)this) + 0x38);
       TObjPlayer__sub_800D93C4((saddr)&stack.x, 0xA);
-      ((TObjPlayer *)(&stack.x))->spawn_effect_at_ground(0x46);
+      spawn_effect_at_ground(&stack, 0x46);
     }
     case 2:
       return;

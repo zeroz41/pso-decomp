@@ -40,7 +40,7 @@ const char *TObjNpcMoja__name = "TObjNpcMoja";
 TObjNpcMoja::TObjNpcMoja(TObject *parent, void *set_data) : TObjNpcBase(parent) {
     m_name = TObjNpcMoja__name;
     apply_set_data(set_data);
-    ((TObjPlayer *)this)->init_position_vectors();
+    init_position_vectors();
     apply_set_params(0, 1);
     *(s32 *)((u8 *)this + 0x34) = (saddr)get_bml_model((BmlResource *)lbl_805D50D8, 0);
     *(s32 *)((u8 *)this + 0x24) = (saddr)get_bml_texlist((BmlResource *)lbl_805D50D8, 0);

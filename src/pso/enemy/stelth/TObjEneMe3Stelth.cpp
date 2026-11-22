@@ -1463,7 +1463,7 @@ void TObjEneMe3Stelth::handle_breakup_state(s32 reason) {
                 VecCopy((Vec *)&v, (const Vec *)&position);
                 v.x += 20.0f * sin_table_lookup(rotation_y);
                 v.z += 20.0f * cos_table_lookup(rotation_y);
-                ((TObjPlayer *)(&v))->trigger_dell_biter_events();
+                trigger_dell_biter_events(&v);
                 play_sound_effect(0x3AD3A, (u8 *)&position, 0, 0);
             }
             update_ground_contact();

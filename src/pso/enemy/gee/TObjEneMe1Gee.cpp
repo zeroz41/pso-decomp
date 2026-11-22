@@ -2185,7 +2185,7 @@ void TUnk_8049387C::state_dead(s32 arg1) {
     case 4:
         TBoss3Volopt::create_breakup_mdl((saddr)TObjEneMe1Gee__data_805D51C0, 0, this->texlist, (saddr)&this->body_center, this->rotation_y);
         this->status_flags |= 0x400000;
-        ((TObjPlayer *)this)->refresh_lobby_state();
+        refresh_lobby_state();
         return;
     case 0:
         if (this->has_no_members() != 0) {

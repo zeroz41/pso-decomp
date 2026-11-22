@@ -36,7 +36,7 @@ TObjNpcMaleBase::~TObjNpcMaleBase() {}
 TObjNpcMaleBase::TObjNpcMaleBase(TObject *parent, void *set_data) : TUnk_804A9F50(parent) {
     this->m_name = TObjNpcMaleBase__name;
     this->apply_set_data(set_data);
-    ((TObjPlayer *)this)->init_position_vectors();
+    init_position_vectors();
     this->model = (void *)TObjNpcMaleBase__shared_bml_archive->models->model;
     this->texlist = (saddr)TObjNpcMaleBase__shared_bml_archive->models->m_c;
     this->setup_common();

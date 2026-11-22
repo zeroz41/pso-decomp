@@ -58,6 +58,7 @@
 #include "pso/math/ScratchVectors.h"
 #include "pso/network/client_id.h"
 #include "pso/render/model_render_state.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 extern "C" {
 s32 spawn_dead_spot_scale15(void *, int);
 void TObjPlayer__sub_800ACA0C(void *);
@@ -152,7 +153,7 @@ static const s32 lbl_805D9BFC = 0x8001;
 TObjEneMoja::TObjEneMoja(TObject *parent, void *setData) : TObjEnemy(parent) {
     m_name = TObjEneMoja__name;
     apply_set_data(setData);
-    ((TObjPlayer *)this)->init_position_vectors();
+    init_position_vectors();
     mode = 0;
     phase = 0;
     techniqueChance = 0.3f + parameters[1];
@@ -1337,7 +1338,7 @@ void TObjEneMoja::run_death_reaction() {
         this->requested_action = 7;
         bodies->flags &= 0xFFFF7FFE;
         spawn_particle_effect(&body_center, 0xF1);
-        ((TObjPlayer *)this)->refresh_lobby_state();
+        refresh_lobby_state();
         send_entity_set_flags();
         this->appearance = 0;
     }
@@ -1363,7 +1364,7 @@ void TObjEneMoja::update_death_state() {
         TObjPlayer::play_effect_if_v2(-0x300);
         spawn_particle_effect(&v, 0xF0);
         spawn_dead_spot_scale15(&v, 0x14);
-        ((TObjPlayer *)(&v))->spawn_effect_at_ground(0x32);
+        spawn_effect_at_ground(&v, 0x32);
     }
     if (this->frame < 0.5f * (30.0f * this->play_speed)) {
         move_with_wall_slide((u8 *)this);

@@ -846,7 +846,7 @@ void TObjEneBm3FlyNest::state_dying(s32 reason) {
         requested_action = 7;
         clear_intangible();
         height_offset = 0.0f;
-        ((TObjPlayer *)this)->refresh_lobby_state();
+        refresh_lobby_state();
         counter = 4;
         sound_timer = 0x14;
         step = 0;

@@ -136,7 +136,7 @@ void TOTrapAncient02R::submit_cursor_and_notify() {
 TOTrapAncient02::TOTrapAncient02(TObject *parent, void *set_data) : TOTrap(parent) {
     m_name = TOTrapAncient02__name;
     apply_object_set_data(set_data);
-    ((TObjPlayer *)this)->init_position_vectors();
+    init_position_vectors();
     calc_attach_pos();
     model = (void *)TOTrapAncient02__shared_resource->models->model;
     texlist = (saddr)TOTrapAncient02__shared_resource->models->m_c;
@@ -491,7 +491,7 @@ void TOTrapAncient02::vfunc_86() {}
 TOTrapAncient02R::TOTrapAncient02R(TObject *parent, void *set_data) : TOTrapAncient02(parent, set_data) {
     m_name = TOTrapAncient02R__name;
     apply_object_set_data(set_data);
-    ((TObjPlayer *)this)->init_position_vectors();
+    init_position_vectors();
     calc_attach_pos();
     model = (void *)TOTrapAncient02__shared_resource->models->model;
     texlist = (saddr)TOTrapAncient02__shared_resource->models->m_c;

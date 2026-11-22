@@ -36,6 +36,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D853C.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 
 extern "C" {
 s32 post_translate_matrix(const void *pos);
@@ -365,7 +366,7 @@ void TBoss3VoloptP01::update_breakup() {
         timer--;
         if (timer < 0) {
             TBoss3Volopt::create_breakup_mdl((saddr)TBoss3VoloptP01__breakup_model, (saddr)&volopt_p01_breakup_params, texlist, (saddr)&body_center, rotation_y);
-            ((TObjPlayer *)&body_center)->trigger_dell_biter_events();
+            trigger_dell_biter_events(&body_center);
             m_388 |= 0x40000;
             play_sound_effect(0x4003AD07, &position, 0, 0);
             state = 2;

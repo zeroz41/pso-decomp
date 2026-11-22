@@ -145,7 +145,6 @@ void spawn_missile_volley__19TObjGyaranzoMissileFPv(u8 *arg0);
 
 void update__19TObjGyaranzoMissileFPv(u8 *self);
 
-s32 TBoss3Volopt__sub_800D8D88(void *, s32);
 }
 s32 get_gyaranzo_missile_int_parameter(s32 i);
 
@@ -169,6 +168,7 @@ s32 get_gyaranzo_missile_int_parameter(s32 i);
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 
 struct Obj_800D30A8 {
     u8 pad0[0x30];
@@ -831,7 +831,7 @@ void TObjPlayer::update_death_breakup() {
     switch (this->m_37c) {
     case 0:
         this->requested_action = 4;
-        ((TObjPlayer *)self)->refresh_lobby_state();
+        ((TObjEnemy *)self)->refresh_lobby_state();
         self->timer = 0x5A;
         create_dead_spot__10TObjPlayerFllf(self->v2FC, 0x5A, 20.0f);
         create_dead_spot__10TObjPlayerFllf(self->v2FC, 0x5A, 20.0f);
@@ -842,7 +842,7 @@ void TObjPlayer::update_death_breakup() {
         if (self->timer < 0) {
             TBoss3Volopt::create_breakup_mdl((saddr)gyaranzo_breakup_model_obj, (saddr)gyaranzo_death_breakup_params, (s32)this->texlist, (saddr)self->v2FC, (s32)this->rotation_y);
             ((TObjEnemy *)self)->send_entity_set_flags();
-            ((TObjPlayer *)(self->v2FC))->trigger_dell_biter_events();
+            trigger_dell_biter_events((const Vec *)self->v2FC);
             play_sound_effect(((TObjEnemy *)(self))->remap_sound_for_area(0x4003AD10), self->pos, 0, 0);
             ((TObject *)self)->queue_destruction();
         }
@@ -1165,7 +1165,7 @@ void update__19TObjGyaranzoMissileFPv(u8 *self) {
         temp_r4 = *(s32 *)((s8 *)self + 0x30) | 0x04000000;
         *(s32 *)((s8 *)self + 0x30) = temp_r4;
         ((TObjMotion *)self)->requested_action = 0;
-        TBoss3Volopt__sub_800D8D88(self + 0x2FC, temp_r4);
+        TBoss3Volopt__sub_800D8D88((saddr)(self + 0x2FC));
         ((TObjEneGyaranzo *)self)->m_3d0.start_fade_in();
         *(s32 *)((s8 *)self + 0x37C) = 1;
     case 1:

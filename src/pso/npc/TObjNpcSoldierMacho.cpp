@@ -36,7 +36,7 @@ TObjNpcSoldierMacho::~TObjNpcSoldierMacho() {}
 TObjNpcSoldierMacho::TObjNpcSoldierMacho(TObject *parent, void *set_data) : TUnk_804A9F50(parent) {
     this->m_name = TObjNpcSoldierMacho__name;
     this->apply_set_data(set_data);
-    ((TObjPlayer *)this)->init_position_vectors();
+    init_position_vectors();
     this->model = (void *)TObjNpcSoldierMacho__shared_model_resource->models->model;
     this->texlist = (saddr)TObjNpcSoldierMacho__shared_model_resource->models->m_c;
     this->setup_common();

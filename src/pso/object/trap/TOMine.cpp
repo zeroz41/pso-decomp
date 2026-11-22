@@ -745,7 +745,7 @@ TOMineTrap::TOMineTrap(TObjBase *owner, s16 kind, s16 slot) : TOMine(tl_05) {
         }
         m_37e = slot + kind * 20 + get_trap_type() * 80u;
         VecCopy(&float_position, VecCopy(&home_position, VecCopy(&position, &owner->position)));
-        ((TObjPlayer *)this)->init_position_vectors();
+        init_position_vectors();
         calc_attach_pos();
         spawn_disp_objects();
         m_370 = owner->rotation_y;

@@ -335,7 +335,7 @@ void TObjEneDD::clear_attack_receipts() {
 
 int TObjEneBm3Fly::was_hit_by_ranged() { return (this->m_2dc >> 1) & 0x1; }
 
-void TObjEnemy::refresh_and_send_entity_flags() { ((TObjPlayer *)this)->refresh_lobby_state(); ((TObjEnemy *)this)->send_entity_set_flags(); }
+void TObjEnemy::refresh_and_send_entity_flags() { refresh_lobby_state(); send_entity_set_flags(); }
 
 u16 enemy_nearest_visible_player_sq(u8 *self, f32 range) {
     f32 d;

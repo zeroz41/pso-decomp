@@ -24,6 +24,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include <stdlib.h>
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 
 
 // TBreakUpMdl.h still derives TBreakUpMdl from TObject; the real class keeps
@@ -85,7 +86,7 @@ void TObjVoloptCage::update_breakup() {
                                                  volopt_cage_textures, &body_center, rotation_y);
         create_breakup_mdl__12TBoss3VoloptFlllll(volopt_cage_breakup_model, &volopt_cage_breakup_params,
                                                  volopt_cage_textures, &body_center, rotation_y);
-        ((TObjPlayer *)&body_center)->trigger_dell_biter_events();
+        trigger_dell_biter_events(&body_center);
         timer = 12;
         disallow_rendering();
         state = 1;

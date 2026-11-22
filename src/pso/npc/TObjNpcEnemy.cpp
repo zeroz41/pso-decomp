@@ -316,7 +316,7 @@ TObjNpcEnemy::~TObjNpcEnemy() {}
 TObjNpcEnemy::TObjNpcEnemy(TObject *parent, void *set_data) : TObjNpcBase(parent) {
     m_name = TObjNpcEnemy_class_name;
     apply_set_data(set_data);
-    ((TObjPlayer *)this)->init_position_vectors();
+    init_position_vectors();
     apply_set_params(0, 1);
     movementParameters = &npc_movement_parameters;
     set_motion_params(&npc_default_battle_stats);

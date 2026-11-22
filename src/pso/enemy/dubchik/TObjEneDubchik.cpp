@@ -1214,9 +1214,9 @@ void TObjEneDubchik::update_dying() {
             play_sound_effect(remap_sound_for_area(0x4003AD16), &position, 0, 0);
         }
         TBoss3Volopt::create_breakup_mdl((saddr)breakup_model_ptr, (saddr)&lbl_80491260, texlist, (saddr)&body_center, rotation_y);
-        ((TObjPlayer *)this)->refresh_lobby_state();
+        refresh_lobby_state();
         send_entity_set_flags();
-        ((TObjPlayer *)&body_center)->trigger_dell_biter_events();
+        trigger_dell_biter_events(&body_center);
         obj_setFlags30(this, 0x800);
         queue_destruction();
     }

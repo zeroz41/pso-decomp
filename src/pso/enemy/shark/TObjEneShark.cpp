@@ -44,6 +44,7 @@
 #include "pso/ui/TLevelSelect.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/TObjControl.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 
 extern void **TObjEneShark__resource_node;
 extern void **TObjEneShark__resource_buf;
@@ -87,7 +88,7 @@ void TObjEneShark::spawn_death_effect() {
     rotate_vector_by_matrix(0, &stack, &stack);
     pop_matrix();
     vec3_add_to(&stack, &position);
-    ((TObjPlayer *)(&stack.x))->spawn_ground_effect(0x23);
+    spawn_ground_effect(&stack, 0x23);
     TObjPlayer__sub_800D92BC((saddr)&stack.x, 0xF);
 }
 
@@ -544,7 +545,7 @@ TObjEneShark::TObjEneShark(TObject *parent, void *setData) : TUnk_80493450(paren
 
     m_name = TObjEneShark_name_ref;
     apply_set_data(setData);
-    ((TObjPlayer *)this)->init_position_vectors();
+    init_position_vectors();
     subtype = variant;
     apply_clamped_mode_param();
     sub_800AC9DC(variant);

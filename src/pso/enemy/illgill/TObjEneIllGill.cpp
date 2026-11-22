@@ -161,7 +161,7 @@ TObjEneIllGill::TObjEneIllGill(TObject *parent, void *setData) : TObjEnemy(paren
     this->set_param(0x52);
     this->apply_set_data(setData);
     this->clear_lobby_object_state();
-    ((TObjPlayer *)self)->init_position_vectors();
+    init_position_vectors();
     apply_actor_gravity((TObjEnemy *)self, (s32 *)(0), 0.0f);
     model = (void *)illGillResource->models->model;
     texlist = (saddr)illGillResource->models->m_c;
@@ -1012,7 +1012,7 @@ void TObjEneIllGill::run_death_reaction() {
         bodies->flags = (s32) (bodies->flags & 0xFFFF7FFE);
         this->free_resources();
         spawn_particle_effect(&body_center, 0xF2);
-        ((TObjPlayer *)self)->refresh_lobby_state();
+        refresh_lobby_state();
         ((TObjEnemy *)self)->send_entity_set_flags();
     }
 }

@@ -438,7 +438,7 @@ void TObjEneBalClawBody::run_death_sequence() {
     TObjEnemy *claw;
     switch (body->state) {
     case 0:
-        reinterpret_cast<TObjPlayer *>(this)->refresh_lobby_state();
+        refresh_lobby_state();
         body->m_388 &= ~0x20000;
         if (body->get_flag_0x388_b24() != 0) {
             body->requested_action = 4;

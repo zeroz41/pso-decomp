@@ -114,6 +114,7 @@ extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
 }
 #include <stddef.h>
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 
 #pragma defer_codegen on
 #pragma push
@@ -1795,7 +1796,7 @@ void TObjEneBm5Wolf::update_dying_state(s32 event) {
                 rotate_xz_pair_by_angle(&pos.x, &pos.z, this->rotation_y);
                 vec3_add_to(&pos, &this->position);
                 TObjPlayer::spawn_dead_spot_type2((saddr)&pos, 0x32);
-                ((TObjPlayer *)(&pos))->spawn_effect_at_ground(0x46);
+                spawn_effect_at_ground(&pos, 0x46);
             }
             this->rotation_y = approach_angle_limited(this->rotation_y, *tgt, 0x300);
             this->rotation_y = (s16)this->rotation_y;

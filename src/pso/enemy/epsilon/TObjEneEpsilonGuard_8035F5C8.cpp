@@ -35,6 +35,7 @@ struct NJS_OBJECT;
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 
 #pragma inline_depth(1)
 // Joint index per guard slot and the joint-local point the guard angle is measured from (sub_803606A0).
@@ -882,7 +883,7 @@ void TObjEneEpsilonBody::action_destroy(s32 reason) {
                 set_intangible();
                 TBoss3Volopt::create_breakup_mdl((s32)lbl_805D6FA4, (saddr)&epsilon_guard_destroy_breakup_params, (s32)texlist, (saddr)&body_center, (s32)rotation_y);
                 play_sound_effect(0x4003AD4C, &body_center, 0, 0);
-                ((TObjPlayer *)&body_center)->trigger_dell_biter_events();
+                trigger_dell_biter_events(&body_center);
                 flags |= 1;
                 action_step = 1;
             }

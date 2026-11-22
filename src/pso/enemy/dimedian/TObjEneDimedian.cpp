@@ -493,7 +493,7 @@ TObjEneDimedian::TObjEneDimedian(TObject *parent, void *set_data) : TUnk_8049345
     s32 i;
     m_name = TObjEneDimedian_name_ref;
     apply_set_data(set_data);
-    ((TObjPlayer *)this)->init_position_vectors();
+    init_position_vectors();
     subtype = variant;
     sub_800A7B54();
     load_dimedian_param_entry(variant);

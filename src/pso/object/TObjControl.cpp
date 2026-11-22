@@ -711,9 +711,9 @@ void TObjEnemy::distribute_experience() {
     }
 }
 
-int TObjPlayer::query_lobby_state() { return send_6x60_standard_drop_item_request(this); }
+int TObjEnemy::query_lobby_state() { return send_6x60_standard_drop_item_request(this); }
 
-void TObjPlayer::refresh_lobby_state() { ((TObjEnemy *)this)->distribute_experience(); query_lobby_state(); }
+void TObjEnemy::refresh_lobby_state() { distribute_experience(); query_lobby_state(); }
 
 u8 *get_enemy_entity(u16 arg0) {
     s32 low;

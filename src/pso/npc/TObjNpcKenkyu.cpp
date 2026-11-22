@@ -42,7 +42,7 @@ TObjNpcKenkyu::~TObjNpcKenkyu() {}
 TObjNpcKenkyu::TObjNpcKenkyu(TObject *parent, void *arg2) : TUnk_804A9F50(parent) {
     *(s32 *)((s8 *)this + 0) = (saddr) TObjNpcKenkyu__name;
     ((TObjNpcKenkyu *)this)->apply_set_data(arg2);
-    ((TObjPlayer *)this)->init_position_vectors();
+    init_position_vectors();
     model = get_bml_model(TObjNpcKenkyu__static_model, 0);
     texlist = (saddr)get_bml_texlist(TObjNpcKenkyu__static_model, 0);
     ((TObjNpcBase *)this)->setup_common();

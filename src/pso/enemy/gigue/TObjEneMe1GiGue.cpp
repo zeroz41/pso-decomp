@@ -999,7 +999,7 @@ void TObjEneMe1GiGue::break_apart() {
     VecCopy(&pos, &position);
     pos.y += 40.0f + flightHeight;
     TBoss3Volopt::create_breakup_mdl((saddr)gigue_breakup_model, 0, texlist, (saddr)&pos, rotation_y);
-    ((TObjPlayer *)this)->refresh_lobby_state();
+    refresh_lobby_state();
     send_entity_set_flags();
     spawn_particle_effect(&pos, 0x205);
     spawn_particle_effect(&pos, 0x206);

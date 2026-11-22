@@ -922,7 +922,7 @@ void TObjEneDarkGunner::update_dying() {
     switch ((s32)state) {
     case 0:
         requested_action = 7;
-        ((TObjPlayer *)this)->refresh_lobby_state();
+        refresh_lobby_state();
         send_entity_set_flags();
         TObjPlayer__sub_800A04F0(&render_control);
         fn_800D911C(&body_center);

@@ -53,6 +53,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
@@ -158,7 +159,7 @@ TObjEneDolmOlm::TObjEneDolmOlm(TObject *parent, void *set_data) : TUnk_80493450(
     u32 col;
     m_name = obj_ene_dolm_olm_class_name;
     apply_set_data(set_data);
-    ((TObjPlayer *)this)->init_position_vectors();
+    init_position_vectors();
     sub_80301148();
     action_table = TObjEneDolmOlm__param_table;
     set_field_d8((saddr)action_table);
@@ -897,7 +898,7 @@ void TObjEneDolmOlm::spawn_death_effect() {
     rotate_vector_by_matrix(0, &stack, &stack);
     pop_matrix();
     vec3_add_to(&stack, &position);
-    ((TObjPlayer *)(&stack.x))->spawn_ground_effect(0x23);
+    spawn_ground_effect(&stack, 0x23);
     TObjPlayer__sub_800D92BC((saddr)&stack.x, 0xF);
 }
 void TObjEneDolmOlm::play_alert_sound() {

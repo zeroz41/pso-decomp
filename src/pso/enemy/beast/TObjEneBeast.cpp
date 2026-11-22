@@ -56,6 +56,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/render/model_render_state.h"
 #include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 
 extern "C" {
 extern SampledMotionPoints *beast_claw_trail_instance;
@@ -92,7 +93,7 @@ void TObjEneBeast::spawn_death_effect() {
     rotate_vector_by_matrix(0, &stack, &stack);
     pop_matrix();
     vec3_add_to(&stack, &this->position);
-    ((TObjPlayer *)(&stack.x))->spawn_effect_at_ground(0x23);
+    spawn_effect_at_ground(&stack, 0x23);
     TObjPlayer::spawn_dead_spot_type2((saddr)&stack.x, 0xF);
 }
 
@@ -398,7 +399,7 @@ TObjEneBeast::TObjEneBeast(TObject *parent, void *set_data) : TUnk_80493450(pare
 
     m_name = beast_class_name;
     apply_set_data(set_data);
-    ((TObjPlayer *)this)->init_position_vectors();
+    init_position_vectors();
     subtype = variant;
     select_subtype();
     select_model_record(variant);
