@@ -1106,21 +1106,21 @@ void TBoss6Type1::advance_animations() {
 #pragma push
 #pragma opt_propagation off
 void TBoss6Type1::set_motion_set(s32 arg1) {
-    Boss_802B82B8 *arg0 = (Boss_802B82B8 *)this;
+    Boss_802B82B8 *self = (Boss_802B82B8 *)this;
     f32 z;
     s32 n;
     Tbl_802B82B8 *t;
     s32 i;
     Anim_802B82B8 *a;
 
-    if (arg1 != -1 && arg1 != arg0->f43C) {
-    arg0->f43C = arg1;
+    if (arg1 != -1 && arg1 != self->f43C) {
+    self->f43C = arg1;
     z = 0.0f;
     n = TBoss6Type1__data_805DE3C4;
     t = &TBoss6Type1__motion_set_table[arg1];
     this->m_440 = t->f0;
     for (i = 0; i < n; i++) {
-        a = &arg0->anim[i];
+        a = &self->anim[i];
         saddr id = (saddr)get_bml_motion((BmlResource *)this->bml_resource, t->ids[i]);
         a->blend = a->f10;
         a->prevId = a->id;
@@ -1134,7 +1134,7 @@ void TBoss6Type1::set_motion_set(s32 arg1) {
 #pragma push
 #pragma opt_propagation off
 void TBoss6Type1::draw_part_motions() {
-    Boss_802B81A4 *arg0 = (Boss_802B81A4 *)this;
+    Boss_802B81A4 *self = (Boss_802B81A4 *)this;
     Blend_802B81A4 b;
     s32 i;
     saddr id;
@@ -1149,8 +1149,8 @@ void TBoss6Type1::draw_part_motions() {
             p = (saddr)get_bml_texlist((BmlResource *)this->bml_resource, t);
         }
         id = (saddr)get_bml_model((BmlResource *)this->bml_resource, id);
-        cb = arg0->draw_callback_lists[i];
-        a = &arg0->anim[i];
+        cb = self->draw_callback_lists[i];
+        a = &self->anim[i];
         if (cb != 0) {
             TObjFish::set_global_param((saddr)(p));
             if (0.0f == a->blend) {
@@ -1233,7 +1233,7 @@ s32 TBoss6Type1::calc_field4b0_delta() {
 }
 
 void TBoss6Type1::update_turn_to_center() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
   Vec stack;
   s32 var_r5;
   int new_var;
@@ -1253,8 +1253,8 @@ void TBoss6Type1::update_turn_to_center() {
   {
     this->rotation_x = (s32) ((this->rotation_x) + 0x666);
   }
-  stack.x = -(*((f32 *) (((s8 *) arg0) + 0x38)));
-  temp_f1 = -(*((f32 *) (((s8 *) arg0) + 0x40)));
+  stack.x = -(*((f32 *) (((s8 *) self) + 0x38)));
+  temp_f1 = -(*((f32 *) (((s8 *) self) + 0x40)));
   stack.y = 0.0f;
   stack.z = temp_f1;
   if (!(vector_length(&stack.x, (f32) temp_f1) <= 0.00001f))
@@ -1328,7 +1328,7 @@ void TBoss6Type1::update_position() {
 }
 
 void TBoss6Type1::update_part_positions() {
-    Boss_802B79DC *arg0 = (Boss_802B79DC *)this;
+    Boss_802B79DC *self = (Boss_802B79DC *)this;
     Vec v;
     s32 i;
     Vec *base;
@@ -1336,29 +1336,29 @@ void TBoss6Type1::update_part_positions() {
     if (this->bodies != NULL) {
         for (i = 0; i < 7; i++) {
             const Tbl_802B79DC *t;
-            e = &arg0->ents[i];
+            e = &self->ents[i];
             t = &TBoss6Type1__part_position_sources[i];
             base = NULL;
             switch (t->kind) {
             case 1:
-                base = arg0->a578;
+                base = self->a578;
                 break;
             case 0:
-                base = arg0->a5FC;
+                base = self->a5FC;
                 break;
             }
             if (base == NULL) {
                 return;
             }
             VecCopy((Vec *)&v, (const Vec *)&base[t->idx]);
-            subtract_vector(&v, &arg0->pos);
+            subtract_vector(&v, &self->pos);
             push_matrix();
             set_matrix_identity(0);
             rotate_matrix_y(0, -this->rotation_y);
             matrix_mult_vec(0, &v, e);
             pop_matrix();
             VecCopy((Vec *)&e->n, (const Vec *)e);
-            vec3_add_to(&e->n, &arg0->pos);
+            vec3_add_to(&e->n, &self->pos);
         }
     }
 }
@@ -1374,8 +1374,8 @@ void TBoss6Type1::update_parts_flags() {
 }
 
 void TBoss6Type1::clear_part_flag_bit0() {
-    T1_802B7944 *arg0 = (T1_802B7944 *)this;
-    Ent_802B7944 *p = arg0->p;
+    T1_802B7944 *self = (T1_802B7944 *)this;
+    Ent_802B7944 *p = self->p;
     if (p != NULL) {
         Ent_802B7944 *end = (Ent_802B7944 *)((u8 *)p + 0x134);
         for (; p < end; p++) {
@@ -2084,11 +2084,11 @@ void TBoss6Type1__sub_802B5DD4(Obj_802B5DD4 *self) {
 }
 
 s32 TBoss6Type1::is_timer_expired() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     s32 temp_r0;
     s32 temp_r5;
     temp_r5 = this->m_4e0;
-    if ((temp_r5 <= 0) || (temp_r0 = *(s32 *)((s8 *)arg0 + 0x4E4), ((temp_r0 < 0) != 0))) {
+    if ((temp_r5 <= 0) || (temp_r0 = *(s32 *)((s8 *)self + 0x4E4), ((temp_r0 < 0) != 0))) {
         return 1U;
     }
     return (temp_r5 <= temp_r0);
@@ -2234,8 +2234,8 @@ void TBoss6Type1__sub_802B5970(saddr arg0) {
 }
 
 void TBoss6Type1::request_default_jittered_camera() {
-    saddr arg0 = (saddr)this;
-    TBoss6Type1::request_jittered_camera((void *)arg0, (void *)&lbl_80470FFC, (void *)&lbl_80471008, 0xFFFF);
+    saddr self = (saddr)this;
+    TBoss6Type1::request_jittered_camera((void *)self, (void *)&lbl_80470FFC, (void *)&lbl_80471008, 0xFFFF);
 }
 void TBoss6Type1::request_jittered_camera(void *arg0, void *arg1, void *arg2, int arg3) {
     f32 dist;
@@ -2368,7 +2368,7 @@ s32 TBoss6Type1::pick_random_entry(s32 arg0, saddr arg1, s32 arg2) {
 }
 
 s32 TBoss6Type1::count_matches(s32 arg1, s32 arg2) {
-    T1_802B529C *arg0 = (T1_802B529C *)this;
+    T1_802B529C *self = (T1_802B529C *)this;
     s32 i;
     s32 cnt;
     if (arg2 > 0x20) {
@@ -2376,7 +2376,7 @@ s32 TBoss6Type1::count_matches(s32 arg1, s32 arg2) {
     }
     cnt = 0;
     for (i = 0; i < arg2; i++) {
-        if (arg0->v[i] == arg1) {
+        if (self->v[i] == arg1) {
             cnt++;
         }
     }
@@ -2515,10 +2515,10 @@ void TBoss6Type1::sub_802B4C28() {
 }
 
 void TBoss6Type1::spawn_effect_slot(s32 arg1) {
-    u8 *arg0 = (u8 *)this;
-    u8 *p = arg0 + arg1 * 4;
+    u8 *self = (u8 *)this;
+    u8 *p = self + arg1 * 4;
     if (*(u32 *)(p + 0x4F8) == 0U) {
-        V3_802B4BA8 v = ((T1_802B4BA8 *)arg0)->pos;
+        V3_802B4BA8 v = ((T1_802B4BA8 *)self)->pos;
         *(u32 *)(p + 0x4F8) = (uaddr)create_particle_emitter(&v, TBoss6Type1__effect_slot_table[arg1].a);
         if (*(u32 *)(p + 0x4F8) != 0U) {
             ((TParticleCtrl *)(*(uaddr *)(p + 0x4F8)))->set_flags(0x40);
@@ -2528,10 +2528,10 @@ void TBoss6Type1::spawn_effect_slot(s32 arg1) {
 #pragma push
 #pragma opt_common_subs off
 void TBoss6Type1::release_effect_slot(s32 arg1) {
-    saddr arg0 = (saddr)this;
+    saddr self = (saddr)this;
     uaddr temp_r3;
     u8 *temp_r31;
-    temp_r31 = (u8 *)(arg0 + (arg1 * 4));
+    temp_r31 = (u8 *)(self + (arg1 * 4));
     temp_r3 = *(u32 *)((s8 *)temp_r31 + 0x4F8);
     if (temp_r3 != 0U) {
         TParticleCtrl::release((void *)temp_r3);

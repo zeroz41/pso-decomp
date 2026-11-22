@@ -1409,7 +1409,7 @@ void TObjEneDarkGunner::render() {
 void TObjPlayer__sub_800A1974(void *) {  }
 
 void TObjPlayer::render_shadow() {
-    s32 arg0 = (saddr)this;
+    s32 self = (saddr)this;
     if (this->obj_testFlags30(0x800) == 0) {
         if (is_flag_set_388_bit26() == 0) {
             TObjFish::set_global_param(lbl_805D5014);
@@ -1417,7 +1417,7 @@ void TObjPlayer::render_shadow() {
             TObjFish::set_global_param(lbl_805D5018);
         }
         push_matrix();
-        post_translate_matrix(arg0 + 0x3B4);
+        post_translate_matrix(self + 0x3B4);
         draw_chunk_object((void *)TObjPlayer__shadow_chunk_object);
         pop_matrix();
     }
@@ -1450,8 +1450,8 @@ extern "C" {
 int TObjPlayer__sub_800A1808(void* p) { return (*(u32*)((char*)p + 0x30) >> 23) & 0x1; }
 
 void TObjEneDarkGunner::run_miss_reaction() {
-    u8 *arg0 = (u8 *)this;
-    ((TObjBase *)arg0)->obj_clearFlags30((s32)(0x100U));
+    u8 *self = (u8 *)this;
+    ((TObjBase *)self)->obj_clearFlags30((s32)(0x100U));
     spawn_particle_effect(&body_center, 0xD7);
     play_sound_effect(0x4003B22D, (u8 *)&this->position, 0, 0);
 }
@@ -1552,14 +1552,14 @@ void TObjPlayer::trigger_action_if_not_flagged() {
 }
 
 void TObjPlayer::update_hide_sequence() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     s32 temp_r3;
     s32 temp_r4;
     s32 temp_r5;
 
     switch (this->m_37c) {
     case 0:
-        ((TObjBase *)arg0)->obj_clearFlags30(0x240300);
+        ((TObjBase *)self)->obj_clearFlags30(0x240300);
         *(s32 *)&this->unk_388 = (s32) (*(s32 *)&this->unk_388 | 0x800000);
         temp_r5 = *(s32 *)&this->unk_388;
         temp_r4 = temp_r5 & 0xFFB7FFFF;
@@ -1568,11 +1568,11 @@ void TObjPlayer::update_hide_sequence() {
         this->m_39c = TObjPlayer__sub_800A3210(1, temp_r4, temp_r5);
         this->m_37c = 1;
     case 1:
-        ((TObjMotion *)arg0)->advance_animation();
+        ((TObjMotion *)self)->advance_animation();
         if (!(this->actorFlags & 0x800000)) {
-            apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), 0.0f);
+            apply_actor_gravity((TObjEnemy *)self, (s32 *)(0), 0.0f);
         }
-        ((TObjPlayer *)arg0)->update_collisions();
+        ((TObjPlayer *)self)->update_collisions();
         temp_r3 = this->m_39c - 1;
         this->m_39c = (s16) temp_r3;
         if ((s16) temp_r3 <= 0) {
@@ -1584,7 +1584,7 @@ void TObjPlayer::update_hide_sequence() {
         break;
     }
     minimap_render_dot((u8 *)&this->position, -0x5DB4, 1, 0);
-    submit_cursor_candidate(arg0, -1);
+    submit_cursor_candidate(self, -1);
 }
 
 void TObjPlayer::update_move_to_destination() {
@@ -1624,7 +1624,7 @@ void init_scale_global__10TObjPlayerFv(void) {
 #pragma dont_inline off
 extern "C" {
 void TObjPlayer::step_along_ground() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     Raw_800A10A0 pos;
     Raw_800A10A0 vel;
     Raw_800A10A0 dir;
@@ -1639,15 +1639,15 @@ void TObjPlayer::step_along_ground() {
 
     VecCopy(&this->prev_position, (const Vec *)&this->position);
     VecCopy((Vec *)&pos, &this->body_center);
-    vel = *(Raw_800A10A0 *)(arg0 + 0x308);
+    vel = *(Raw_800A10A0 *)(self + 0x308);
     vec_set_length((Vec *)&vel, 10.0f + ((f32 (*)(int))TObjPlayer__sub_800A3200)(0));
     ((void (*)(void *, void *))vec3_add_to)(&pos, &vel);
-    hit = ((u8 * (*)(void *, void *, s32))csnVector)(arg0 + 0x2FC, &pos, -1);
+    hit = ((u8 * (*)(void *, void *, s32))csnVector)(self + 0x2FC, &pos, -1);
     if (hit != NULL) {
-        a = 10430.38043493439 * ((f64 (*)(f32, f32))atan2_float)(*(f32 *)(arg0 + 0x308), *(f32 *)(arg0 + 0x310));
+        a = 10430.38043493439 * ((f64 (*)(f32, f32))atan2_float)(*(f32 *)(self + 0x308), *(f32 *)(self + 0x310));
         q = *(u8 **)(hit + 4);
         b = 10430.38043493439 * ((f64 (*)(f32, f32))atan2_float)(*(f32 *)(q + 0xC), *(f32 *)(q + 0x14));
-        *(s32 *)(arg0 + 0x3A8) = b - (0x8000 - angle_diff_s16(a, b));
+        *(s32 *)(self + 0x3A8) = b - (0x8000 - angle_diff_s16(a, b));
     }
     if ((1.0f / 32768.0f) * (f32)rand() < 0.5f) {
         sign = -1;
@@ -1665,10 +1665,10 @@ void TObjPlayer::step_along_ground() {
         }
         VecCopy((Vec *)&v, (const Vec *)&this->position);
         ((void (*)(void *, void *))vec3_add_to)(&v, &dir);
-        if (project_actor_to_ground(arg0, &v, 0) == 1) {
+        if (project_actor_to_ground(self, &v, 0) == 1) {
             VecCopy((Vec *)&this->position, (const Vec *)&v);
             VecCopy((Vec *)&this->unk_308, (const Vec *)&this->position);
-            ((void (*)(void *, void *))subtract_vector)(arg0 + 0x308, (u8 *)&this->prev_position);
+            ((void (*)(void *, void *))subtract_vector)(self + 0x308, (u8 *)&this->prev_position);
             return;
         }
     }
@@ -1678,18 +1678,18 @@ void TObjPlayer::step_along_ground() {
 #pragma pop
 extern "C" {
 s32 TObjEneDarkGunner::update_action_hold_status() {
-    s32 arg0 = (saddr)this;
+    s32 self = (saddr)this;
     if (TObjChara::update_action_hold_status() != 0) {
-        TObjPlayer__sub_800A100C(arg0);
+        TObjPlayer__sub_800A100C(self);
         return 1;
     }
     return 0;
 }
 
 s32 TObjEneDarkGunner::update_movement_status() {
-    s32 arg0 = (saddr)this;
+    s32 self = (saddr)this;
     if (TObjChara::update_movement_status() != 0) {
-        TObjPlayer__sub_800A100C(arg0);
+        TObjPlayer__sub_800A100C(self);
         return 1;
     }
     return 0;

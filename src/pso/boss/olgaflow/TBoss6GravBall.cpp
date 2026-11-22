@@ -98,7 +98,7 @@ void TBoss6GravBall::create_emitter(s32 index) {
 #pragma pop
 
 void TBoss6GravBall::init_parts() {
-    s32 arg0 = (saddr)this;
+    s32 self = (saddr)this;
     s32 var_r31;
     var_r31 = 0;
     do {

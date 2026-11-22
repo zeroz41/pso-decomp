@@ -199,34 +199,34 @@ extern s32 chunk_polygon_flags_and_mask;
 void TObjEneShark::run_demo_task() {  }
 
 void TObjEneShark::play_death_sound() {
-    saddr arg0 = (saddr)this;
-    play_sound_effect((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003A60C)), (void *)(arg0 + 0x38), 0, 0);
+    saddr self = (saddr)this;
+    play_sound_effect((((TObjEnemy *)((void *)self))->remap_sound_for_area(0x4003A60C)), (void *)(self + 0x38), 0, 0);
     TObjPlayer::play_effect_if_v2(-0x300);
 }
 
 void TObjEneShark::play_hurt_sound() {
-    saddr arg0 = (saddr)this;
-    play_sound_effect((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003A60B)), (void *)(arg0 + 0x38), 0, 0);
+    saddr self = (saddr)this;
+    play_sound_effect((((TObjEnemy *)((void *)self))->remap_sound_for_area(0x4003A60B)), (void *)(self + 0x38), 0, 0);
     TObjPlayer::play_effect_if_v2(-0x300);
 }
 
 void TObjEneShark::play_attack_sound() {
-    saddr arg0 = (saddr)this;
-    play_sound_effect((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003A60D)), (void *)(arg0 + 0x38), 0, 0);
+    saddr self = (saddr)this;
+    play_sound_effect((((TObjEnemy *)((void *)self))->remap_sound_for_area(0x4003A60D)), (void *)(self + 0x38), 0, 0);
 }
 
 void TObjEneShark::play_alert_sound() {
-    saddr arg0 = (saddr)this;
-    play_sound_effect((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003A60B)), (void *)(arg0 + 0x38), 0, 0);
+    saddr self = (saddr)this;
+    play_sound_effect((((TObjEnemy *)((void *)self))->remap_sound_for_area(0x4003A60B)), (void *)(self + 0x38), 0, 0);
     TObjPlayer::play_effect_if_v2(-0x300);
 }
 
 void TObjEneShark::spawn_death_effect() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     Vec stack;
     stack.x = 0.0f;
     stack.y = 10.0f;
-    stack.z = 0.5f * *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x2B0)) + 0x10);
+    stack.z = 0.5f * *(f32 *)((s8 *)(*(u8 **)((s8 *)self + 0x2B0)) + 0x10);
     push_matrix_from(&identity_matrix.value);
     rotate_matrix_y(0, this->rotation_y);
     rotate_vector_by_matrix(0, &stack.x, &stack.x);
@@ -275,46 +275,46 @@ void TObjEneShark::update_attack_trail() {
 }
 
 void TObjEneShark::apply_clamped_mode_param() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     s32 temp_r0;
-    temp_r0 = *(s32 *)((s8 *)arg0 + 0x334);
+    temp_r0 = *(s32 *)((s8 *)self + 0x334);
     if (temp_r0 < 0) {
-        *(s32 *)((s8 *)arg0 + 0x334) = 0;
+        *(s32 *)((s8 *)self + 0x334) = 0;
     } else if (temp_r0 > 2) {
-        *(s32 *)((s8 *)arg0 + 0x334) = 2;
+        *(s32 *)((s8 *)self + 0x334) = 2;
     }
-    switch (*(s32 *)((s8 *)arg0 + 0x334)) {
+    switch (*(s32 *)((s8 *)self + 0x334)) {
     case 2:
-        *(s32 *)((s8 *)arg0 + 0x368) = 1;
-        ((TObjEnemy *)arg0)->set_param(0x12);
+        *(s32 *)((s8 *)self + 0x368) = 1;
+        ((TObjEnemy *)self)->set_param(0x12);
         return;
     case 1:
-        *(s32 *)((s8 *)arg0 + 0x368) = 0;
-        ((TObjEnemy *)arg0)->set_param(0x11);
+        *(s32 *)((s8 *)self + 0x368) = 0;
+        ((TObjEnemy *)self)->set_param(0x11);
         return;
     default:
-        *(s32 *)((s8 *)arg0 + 0x368) = 2;
-        ((TObjEnemy *)arg0)->set_param(0x10);
+        *(s32 *)((s8 *)self + 0x368) = 2;
+        ((TObjEnemy *)self)->set_param(0x10);
         return;
     }
 }
 
 void TObjEneShark::beast_update_appear() {
-    Obj_800ABCBC *arg0 = (Obj_800ABCBC *)this;
+    Obj_800ABCBC *self = (Obj_800ABCBC *)this;
     ((TObjMotion *)this)->advance_animation();
     switch (*(s16 *)&this->m_328) {
     case 0:
     default:
         if (*(s32 *)&this->m_390 != 0) {
-            ((TUnk_80494938 *)((u8 *)arg0 + 0x3A8))->start_fade_in();
-            play_area_sound_effect((Vec *)(arg0->sub38));
+            ((TUnk_80494938 *)((u8 *)self + 0x3A8))->start_fade_in();
+            play_area_sound_effect((Vec *)(self->sub38));
             *(s16 *)&this->m_328 = 1;
         } else {
             *(s16 *)&this->m_328 = 2;
         }
         break;
     case 1:
-        if (((VObj_14_800ABCBC *)((u8 *)arg0 + 0x3A8))->m5() == 1) {
+        if (((VObj_14_800ABCBC *)((u8 *)self + 0x3A8))->m5() == 1) {
             *(s16 *)&this->m_328 = 2;
             *(s32 *)&this->m_390 = 0;
         }
@@ -355,7 +355,7 @@ void TObjEneShark::render() {
   s32 v28;
   s16 v27;
   s16 v26;
-  u8 *arg0 = (u8 *)this;
+  u8 *self = (u8 *)this;
   if ((*(s32 *)&this->m_30) & 0x02000000)
   {
     return;
@@ -365,7 +365,7 @@ void TObjEneShark::render() {
   {
     mode = TCameraCtrl::get_camera_mode();
   }
-  res = PSO_VCALL_VObj_18_800ABDD8_m9(arg0, 200.0f, 400.0f, 30.0f);
+  res = PSO_VCALL_VObj_18_800ABDD8_m9(self, 200.0f, 400.0f, 30.0f);
   if (res == 0)
   {
     return;
@@ -373,13 +373,13 @@ void TObjEneShark::render() {
   fade = 0;
   if (TObjEneDD::check_v2_mode() != 0)
   {
-    u8 *f = (u8 *) (&((Owner_800ABDD8 *) arg0)->fades[mode]);
+    u8 *f = (u8 *) (&((Owner_800ABDD8 *) self)->fades[mode]);
     ((RenderFadeState *)f)->update();
-    fade = ((RenderFadeState *)f)->updateFromCamera((const f32*)(arg0 + 0x2FC));
+    fade = ((RenderFadeState *)f)->updateFromCamera((const f32*)(self + 0x2FC));
   }
-  select_actor_lighting((saddr)arg0);
+  select_actor_lighting((saddr)self);
   model_render_flags |= 1;
-  TObjFish::set_global_param(*((s32 *) (((s8 *) arg0) + 0x24)));
+  TObjFish::set_global_param(*((s32 *) (((s8 *) self) + 0x24)));
   push_matrix();
   translate_matrix(0, 0.0f, this->render_y_offset, 0.0f);
   post_translate_matrix((u8 *)&this->position);
@@ -421,19 +421,19 @@ void TObjEneShark::render() {
     set_chunk_model_node_callback(TObjPlayer::update_particle_by_phase);
     if ((*(s32 *)&this->m_390) == 1)
     {
-      if (((VObj_14_800ABDD8 *) (arg0 + 0x3A8))->m8() != 0)
+      if (((VObj_14_800ABDD8 *) (self + 0x3A8))->m8() != 0)
       {
         saved_model_render_flags = model_render_flags;
         saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
         saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
-        ((VObj_14_800ABDD8 *) (arg0 + 0x3A8))->m6();
-        if (((TObject *)arg0)->defer_render() == 0)
+        ((VObj_14_800ABDD8 *) (self + 0x3A8))->m6();
+        if (((TObject *)self)->defer_render() == 0)
         {
           model_render_flags |= 1;
-          ((TObjMotion *)arg0)->draw();
+          ((TObjMotion *)self)->draw();
           model_render_flags &= ~1;
         }
-        ((VObj_14_800ABDD8 *) (arg0 + 0x3A8))->m7();
+        ((VObj_14_800ABDD8 *) (self + 0x3A8))->m7();
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         model_render_flags = saved_model_render_flags;
@@ -443,34 +443,34 @@ void TObjEneShark::render() {
     {
       if (fade != 0)
       {
-        ((Owner_800ABDD8 *) arg0)->fades[mode].m6();
+        ((Owner_800ABDD8 *) self)->fades[mode].m6();
       }
       if (fade != 0)
       {
-        if (((TObject *)arg0)->defer_render() == 0)
+        if (((TObject *)self)->defer_render() == 0)
         {
           if (res == 1)
           {
-            ((TObjMotion *)arg0)->draw();
+            ((TObjMotion *)self)->draw();
           }
           else
           {
-            ((TObjEnemy *)arg0)->draw_motion_model();
+            ((TObjEnemy *)self)->draw_motion_model();
           }
         }
       }
       else
         if (res == 1)
       {
-        ((TObjMotion *)arg0)->draw();
+        ((TObjMotion *)self)->draw();
       }
       else
       {
-        ((TObjEnemy *)arg0)->draw_motion_model();
+        ((TObjEnemy *)self)->draw_motion_model();
       }
       if (fade != 0)
       {
-        ((Owner_800ABDD8 *) arg0)->fades[mode].m7();
+        ((Owner_800ABDD8 *) self)->fades[mode].m7();
       }
     }
     set_chunk_model_node_callback(0);
@@ -506,7 +506,7 @@ void TObjEneShark::render() {
       v.x = 1.5f;
       v.y = 1.0f;
       v.z = 2.0f;
-      ((TObjEnemy *)arg0)->draw_ground_shadow(&v, 0);
+      ((TObjEnemy *)self)->draw_ground_shadow(&v, 0);
     }
   }
 }

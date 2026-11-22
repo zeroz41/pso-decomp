@@ -117,13 +117,13 @@ void TBoss5GryphonLightningEff::render() {
     restore_saved_depth_alpha_state();
 }
 void TBoss5GryphonLightningEff::run_task() {
-    Obj_80325248 *arg0 = (Obj_80325248 *)this;
-    ((TTecZondeEff *)arg0)->TTecZondeEff::run_task();
+    Obj_80325248 *self = (Obj_80325248 *)this;
+    ((TTecZondeEff *)self)->TTecZondeEff::run_task();
     if ((3.0517578e-05f) * (f32)rand() > (0.95f)) {
-        s32 i = (f32)arg0->n * ((3.0517578e-05f) * (f32)rand());
-        spawn_particle_effect_with_flags((const Vec *)&arg0->ents[i], 0x215, 0x40);
+        s32 i = (f32)self->n * ((3.0517578e-05f) * (f32)rand());
+        spawn_particle_effect_with_flags((const Vec *)&self->ents[i], 0x215, 0x40);
     }
-    (*(s16 *)((u8 *)arg0 + 0x25C))++;
+    (*(s16 *)((u8 *)self + 0x25C))++;
 }
 TBoss5GryphonLightningEff::~TBoss5GryphonLightningEff() {}
 extern const f32 lbl_805DF5FC = 0.0625f;

@@ -187,30 +187,30 @@ void TOCtrlDubchik::render() {
 }
 
 void TOCtrlDubchik::run_task() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     if (TObjPlayer::check_demo_mode() == 1) {
-        TOCtrlDubchik__sub_8015C9D0(arg0);
+        TOCtrlDubchik__sub_8015C9D0(self);
         return;
     }
-    if (((TObjCollidable *)arg0)->obj_testFlags30(0x800) != 0) {
-        *(s16 *)(arg0 + 0x326) = 6;
+    if (((TObjCollidable *)self)->obj_testFlags30(0x800) != 0) {
+        *(s16 *)(self + 0x326) = 6;
     } else if (this->update_movement_status() != 0) {
-        ((TObjCollidable *)arg0)->refresh_collision_body_centers();
-        submit_cursor_candidate(arg0, -1);
+        ((TObjCollidable *)self)->refresh_collision_body_centers();
+        submit_cursor_candidate(self, -1);
         return;
     }
-    switch (*(s16 *)(arg0 + 0x326)) {
+    switch (*(s16 *)(self + 0x326)) {
     case 0:
-        ((TOCtrlDubchik *)arg0)->sub_8015CE80();
+        ((TOCtrlDubchik *)self)->sub_8015CE80();
         break;
     case 1:
-        ((TOCtrlDubchik *)arg0)->update_bobbing();
+        ((TOCtrlDubchik *)self)->update_bobbing();
         break;
     case 2:
-        ((TOCtrlDubchik *)arg0)->sub_8015CCF4();
+        ((TOCtrlDubchik *)self)->sub_8015CCF4();
         break;
     case 3:
-        ((TOCtrlDubchik *)arg0)->update_spin();
+        ((TOCtrlDubchik *)self)->update_spin();
         break;
     case 4:
         decay_timer_and_finish();
@@ -223,8 +223,8 @@ void TOCtrlDubchik::run_task() {
         break;
     }
     VecCopy(&this->body_center, (const Vec *)&this->position);
-    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
-    submit_cursor_candidate(arg0, -1);
+    ((TObjCollidable *)self)->refresh_collision_body_centers();
+    submit_cursor_candidate(self, -1);
 }
 
 void TOCtrlDubchik::sub_8015CE80() {
@@ -293,21 +293,21 @@ void TOCtrlDubchik::decay_timer_and_clear_flag() {
 }
 
 void TOCtrlDubchik::complete_and_destroy() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     s32 sp8;
-    if (((TObjEnemy *)arg0)->exchange_object_state(&sp8, 1) != 0) {
+    if (((TObjEnemy *)self)->exchange_object_state(&sp8, 1) != 0) {
         sp8 = 1;
-        ((TObjEnemy *)arg0)->send_6x0A_enemy_state(&sp8);
-        ((TObjEnemy *)arg0)->exchange_object_state(&sp8, 0);
+        ((TObjEnemy *)self)->send_6x0A_enemy_state(&sp8);
+        ((TObjEnemy *)self)->exchange_object_state(&sp8, 0);
         apply_enemy_state(&sp8);
-        ((TOCtrlDubchik *)arg0)->sub_8015CA74();
-        ((TObjCollidable *)arg0)->set_flag8();
-        ((TObject *)arg0)->queue_destruction();
+        ((TOCtrlDubchik *)self)->sub_8015CA74();
+        ((TObjCollidable *)self)->set_flag8();
+        ((TObject *)self)->queue_destruction();
     }
 }
 
 void TOCtrlDubchik::sub_8015CA74() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     s32 area;
     s32 i;
     u8 *p;
@@ -319,8 +319,8 @@ void TOCtrlDubchik::sub_8015CA74() {
     }
     for (i = registered_player_count; i < registered_player_count + lbl_805D5870; i++) {
         p = (u8 *)TObjPlayer::get_player_data(i);
-        if (p != NULL && p != arg0 && ((TUnk_804B6C24 *)p)->check_value_equals((saddr)TObjEneDubchik__class_name) != 0 &&
-            *(s32 *)(p + 0x368) == 0 && *(s16 *)(arg0 + 0x28) == *(s16 *)(p + 0x28)) {
+        if (p != NULL && p != self && ((TUnk_804B6C24 *)p)->check_value_equals((saddr)TObjEneDubchik__class_name) != 0 &&
+            *(s32 *)(p + 0x368) == 0 && *(s16 *)(self + 0x28) == *(s16 *)(p + 0x28)) {
             dubchik_start_dying(p);
         }
     }

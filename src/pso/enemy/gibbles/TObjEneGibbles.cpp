@@ -747,9 +747,9 @@ void TObjEneGibbles::update_shadow_height() {
 }
 
 void TObjEneGibbles::update_position() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
 
-    VecCopy((Vec *)(arg0 + 0x2FC), &this->position);
+    VecCopy((Vec *)(self + 0x2FC), &this->position);
     this->body_center.y += 15.0f;
     switch (this->mode) {
     case 2:
@@ -925,7 +925,7 @@ void TObjEneGibbles::run_death_reaction() {
 }
 
 void TObjEneGibbles::update_action_state() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     u8 *temp_r4;
 
     advance_animation();
@@ -935,26 +935,26 @@ void TObjEneGibbles::update_action_state() {
         break;
     case 0:
         this->phase = 1;
-        apply_actor_gravity((TObjEnemy *)(arg0), (s32 *)(0), 0.0f);
-        play_sound_effect(((TObjEneGibbles*)((void *)((void *)(arg0))))->resolve_sound_id((u32)(0x3AD34)), (void *) (arg0 + 0x38), 0, 0);
+        apply_actor_gravity((TObjEnemy *)(self), (s32 *)(0), 0.0f);
+        play_sound_effect(((TObjEneGibbles*)((void *)((void *)(self))))->resolve_sound_id((u32)(0x3AD34)), (void *) (self + 0x38), 0, 0);
         break;
     case 1:
         this->m_310 = 0.0f;
         (*(f32 *)&this->unk_308) = 0.0f;
-        apply_actor_gravity((TObjEnemy *)(arg0), (s32 *)(0), 0.0f);
+        apply_actor_gravity((TObjEnemy *)(self), (s32 *)(0), 0.0f);
         if ((u32) this->action_flags != 8U) {
             this->phase = 3;
         }
         break;
     case 3:
         if (!((this->actorFlags) & 0x800000)) {
-            apply_actor_gravity((TObjEnemy *)(arg0), (s32 *)(0), 0.0f);
+            apply_actor_gravity((TObjEnemy *)(self), (s32 *)(0), 0.0f);
         }
         (this->actorFlags) = (s32) ((this->actorFlags) & 0xFFFFF9FF);
         temp_r4 = (unsigned char *) (this->bodies);
         *(s32 *)((s8 *)temp_r4 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r4 + 0x18) & 0xFBFFFFFF);
         this->referenceHp = (s16) this->hp;
-        if (((TObjChara *)arg0)->random_ratio() < *(f32 *)&this->unk_398) {
+        if (((TObjChara *)self)->random_ratio() < *(f32 *)&this->unk_398) {
             this->mode = 6;
             this->phase = 0;
             this->requested_action = 4;
@@ -962,11 +962,11 @@ void TObjEneGibbles::update_action_state() {
         }
         break;
     }
-    ((TObjPlayer *)arg0)->check_object_collisions();
-    check_enemy_body_collisions((arg0));
-    ((TObjPlayer *)arg0)->update_enemy_collision_flags();
-    minimap_render_dot((void *) (arg0 + 0x38), -0x5DB4, 1, 0);
-    submit_cursor_candidate(arg0, -1);
+    ((TObjPlayer *)self)->check_object_collisions();
+    check_enemy_body_collisions((self));
+    ((TObjPlayer *)self)->update_enemy_collision_flags();
+    minimap_render_dot((void *) (self + 0x38), -0x5DB4, 1, 0);
+    submit_cursor_candidate(self, -1);
     (this->actorFlags) = (s32) ((this->actorFlags) & 0xFFDFFFFF);
 }
 
@@ -1068,7 +1068,7 @@ void TObjEneGibbles::run_miss_reaction() {
 }
 
 int TObjEneGibbles::test_flag_256() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     Vec v;
     u8 *pl;
     s32 i;
@@ -1081,10 +1081,10 @@ int TObjEneGibbles::test_flag_256() {
         for (i = 0; i < registered_player_count; i++) {
             pl = (u8 *)TObjPlayer::get_player_data(i);
             if (pl != NULL && !(((TObjPlayer *)pl)->actorFlags & 0x800)
-                && calc_distance_to_client__10TObjPlayerFlUsUl(arg0, i, &v) < 900.0f
+                && calc_distance_to_client__10TObjPlayerFlUsUl(self, i, &v) < 900.0f
                 && angle_difference_abs(this->rotation_y, (s32) (10430.38043493439 * atan2_float(v.x, v.z))) < 0x2AAA
                 && ((TObjPlayer *)pl)->test_action_mask(0xE0) != 0) {
-                VecCopy((Vec *)((Vec *) &v), (const Vec *)((Vec *) (arg0 + 0x2FC)));
+                VecCopy((Vec *)((Vec *) &v), (const Vec *)((Vec *) (self + 0x2FC)));
                 subtract_vector(&v, pl + 0x2FC);
                 if (angle_difference_abs(((TObjPlayer *)pl)->rotation_y, (s32) (10430.38043493439 * atan2_float(v.x, v.z))) < 0x2AAA) {
                     this->m_3b0 = pl;

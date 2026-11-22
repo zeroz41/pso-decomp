@@ -51,11 +51,11 @@ s32 apply_lightning_hit(s32, s32 *, f32);
 void TBoss5GryphonLightningWing::apply_lightning_effect() {
     s32 sp8;
     s32 instance_count;
-    saddr arg0 = (saddr)this;
+    saddr self = (saddr)this;
 
     instance_count = TBoss8Dragon::get_instance_count();
     if (instance_count != 0) {
-        ((TBoss5GryphonLightningWing *)arg0)->get_wing_position((Vec *)&sp8);
+        ((TBoss5GryphonLightningWing *)self)->get_wing_position((Vec *)&sp8);
         apply_lightning_hit(instance_count, &sp8, 10.0f);
     }
 }

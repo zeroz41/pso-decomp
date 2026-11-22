@@ -150,9 +150,9 @@ void TBoss6Tube::update_wobble() {
 #pragma pop
 
 void TBoss6Tube::spawn_trap() {
-    saddr arg0 = (saddr)this;
-    TBoss6Tube__sub_802B129C((u8 *)arg0);
-    play_persistent_sound(0x40033520, arg0, 0, 0, 0);
+    saddr self = (saddr)this;
+    TBoss6Tube__sub_802B129C((u8 *)self);
+    play_persistent_sound(0x40033520, self, 0, 0, 0);
 }
 
 void TBoss6Tube::update_timer() {

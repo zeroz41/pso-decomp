@@ -31,9 +31,9 @@ BmlResource *TObjEneMorfosArm__parent_morfos_instance;
 s32 post_translate_matrix(void *);
 
 void TObjEneMorfosArm::render() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     if (TObjEneMorfosArm__parent_morfos_instance == NULL) {
-        ((TObject *)arg0)->queue_destruction();
+        ((TObject *)self)->queue_destruction();
         return;
     }
     push_matrix();
@@ -41,24 +41,24 @@ void TObjEneMorfosArm::render() {
     rotate_matrix_y(0, this->rotation_y);
     TObjFish::set_global_param(this->texlist);
     TObjPlayer::toggle_particle_effect();
-    ((TObjMotion *)arg0)->draw();
+    ((TObjMotion *)self)->draw();
     TParticleCtrl::end_effect_render();
     pop_matrix();
 }
 
 void TObjEneMorfosArm::run_task() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     u8 *temp_r3;
     advance_animation();
     temp_r3 = (u8 *)this->m_fc;
     if (temp_r3 == NULL) {
-        ((TObject *)arg0)->queue_destruction();
+        ((TObject *)self)->queue_destruction();
         return;
     }
-    VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(TObjEneMorfosArm__sub_803326B4(temp_r3)));
+    VecCopy((Vec *)(self + 0x38), (const Vec *)(TObjEneMorfosArm__sub_803326B4(temp_r3)));
     this->rotation_y = TObjEneMorfosArm__sub_803326BC(*(u8 * *)&this->m_fc);
     if (this->motion_flags & 0x10) {
-        ((TObject *)arg0)->queue_destruction();
+        ((TObject *)self)->queue_destruction();
     }
 }
 

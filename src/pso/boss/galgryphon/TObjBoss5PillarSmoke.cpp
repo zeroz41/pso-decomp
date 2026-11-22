@@ -98,7 +98,7 @@ void TObjBoss5PillarSmoke::run_task() {  }
 extern "C" {
 extern s32 __vt__20TObjBoss5PillarSmoke[];
 void __ct__7TObjectFP7TObject(void *, void *);
-Smoke_8028AF6C *TObjBoss5PillarSmoke__ct(Smoke_8028AF6C *arg0, void *parent, Node_8028AF6C *arg2);
+Smoke_8028AF6C *TObjBoss5PillarSmoke__ct(Smoke_8028AF6C *arg0, void *parent, Node_8028AF6C *smokeParent);
 }
 TObjBoss5PillarSmoke::~TObjBoss5PillarSmoke() {
     s32 i;
@@ -116,7 +116,7 @@ TObjBoss5PillarSmoke::~TObjBoss5PillarSmoke() {
     mem_free(((Smoke_8028AEA4 *)this)->a);
 }
 
-Smoke_8028AF6C *TObjBoss5PillarSmoke__ct(Smoke_8028AF6C *arg0, void *parent, Node_8028AF6C *arg2) {
+Smoke_8028AF6C *TObjBoss5PillarSmoke__ct(Smoke_8028AF6C *arg0, void *parent, Node_8028AF6C *smokeParent) {
     s32 i;
     __ct__7TObjectFP7TObject(arg0, parent);
     arg0->vt = __vt__20TObjBoss5PillarSmoke;
@@ -124,11 +124,11 @@ Smoke_8028AF6C *TObjBoss5PillarSmoke__ct(Smoke_8028AF6C *arg0, void *parent, Nod
     arg0->count = 0;
     arg0->a = NULL;
     arg0->b = NULL;
-    if (arg2 == NULL) {
+    if (smokeParent == NULL) {
         ((TObject *)arg0)->queue_destruction();
         return arg0;
     }
-    for (arg2 = arg2->child; arg2 != NULL; arg2 = arg2->next) {
+    for (smokeParent = smokeParent->child; smokeParent != NULL; smokeParent = smokeParent->next) {
         arg0->count++;
     }
     if (arg0->count <= 0) {

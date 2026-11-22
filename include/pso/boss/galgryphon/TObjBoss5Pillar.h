@@ -19,7 +19,7 @@ struct TObjBoss5Pillar : public TObject {
     uaddr m_44;
     uaddr m_48;
     virtual void render();
-    static void *create_smoke(void *arg0, void *smokeParent);
+    static void *create_smoke(void *parent, void *smokeParent);
     static void *create(void *arg0);
 };
 

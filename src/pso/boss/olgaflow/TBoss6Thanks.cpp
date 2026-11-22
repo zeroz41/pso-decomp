@@ -120,12 +120,12 @@ void TBoss6Thanks::update_particle_emitters() {
 }
 
 void TBoss6Thanks::destroy_effects() {
-    W_8035CC50 *arg0 = (W_8035CC50 *)this;
+    W_8035CC50 *self = (W_8035CC50 *)this;
     s32 i;
     for (i = 0; i < 4; i++) {
-        if (arg0->e[i].p != NULL) {
-            TParticleCtrl::release(arg0->e[i].p);
-            arg0->e[i].p = NULL;
+        if (self->e[i].p != NULL) {
+            TParticleCtrl::release(self->e[i].p);
+            self->e[i].p = NULL;
         }
     }
 }

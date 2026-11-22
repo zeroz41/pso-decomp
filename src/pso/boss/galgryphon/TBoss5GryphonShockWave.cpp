@@ -34,12 +34,12 @@ void TBoss5GryphonShockWave::render() {  }
 
 
 void TBoss5GryphonShockWave::run_task() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     s32 temp_r30;
     s32 temp_r3;
     TParticleCtrl *particle;
     if (((TBoss5Gryphon *)(*(saddr *)&this->m_38))->get_flag_bit6() != 0) {
-        ((TObject *)arg0)->queue_destruction();
+        ((TObject *)self)->queue_destruction();
         return;
     }
     switch (*(s32 *)&this->m_1c) {
@@ -70,7 +70,7 @@ void TBoss5GryphonShockWave::run_task() {
         apply_shockwave_hit(TBoss8Dragon::get_instance_count(), (saddr)&this->m_2c);
         spawn_gryphon_tornado(*(s32 *)&this->m_up, *(s32 *)&this->m_38, (const Vec *)&this->m_2c, this->m_28);
         *(s32 *)&this->m_1c = 3;
-        ((TObject *)arg0)->queue_destruction();
+        ((TObject *)self)->queue_destruction();
         break;
     case 3:
         break;

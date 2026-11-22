@@ -43,7 +43,7 @@ s32 random_in_table_range__12TBoss8DragonFiii(s32 self, saddr arg1, s32 arg2);
 void set_animation_by_state__12TBoss8DragonFPv(TBoss5Gryphon *gryphon);
 void spawn_ancient_trap__12TBoss8DragonFii(s32 arg0, s32 id);
 void trigger_effect__12TBoss8DragonFPvi(void *arg0, s32 arg1);
-void turn_toward_angle_limited__13TBoss5GryphonFPvii(void *selfv, s32 arg1, s32 arg2);
+void turn_toward_angle_limited__13TBoss5GryphonFPvii(void *selfv, s32 ang, s32 arg2);
 void run_task__13TBoss5GryphonFv(u8 *arg0);
 }
 
@@ -79,7 +79,7 @@ s32 random_in_table_range__12TBoss8DragonFiii(s32 self, saddr arg1, s32 arg2);
 void set_animation_by_state__12TBoss8DragonFPv(TBoss5Gryphon *gryphon);
 void spawn_ancient_trap__12TBoss8DragonFii(s32 arg0, s32 id);
 void trigger_effect__12TBoss8DragonFPvi(void *arg0, s32 arg1);
-void turn_toward_angle_limited__13TBoss5GryphonFPvii(void *selfv, s32 arg1, s32 arg2);
+void turn_toward_angle_limited__13TBoss5GryphonFPvii(void *selfv, s32 ang, s32 arg2);
 }
 // --- end of C functions
 

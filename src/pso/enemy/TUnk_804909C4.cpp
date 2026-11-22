@@ -116,9 +116,9 @@ s32 TUnk_804909C4::sub_800A3290(u16 id) {
 }
 
 void TUnk_804909C4::run_task() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     s32 temp_r0;
-    VecCopy((Vec *)(arg0 + 0x44), (const Vec *)(arg0 + 0x38));
+    VecCopy((Vec *)(self + 0x44), (const Vec *)(self + 0x38));
     vec3_add_to((u8 *)&this->position, (u8 *)&this->unk_AC);
     {
         void *p = (void *) this->m_d0;
@@ -126,14 +126,14 @@ void TUnk_804909C4::run_task() {
             ((TParticleCtrl *)p)->set_position((u8 *)&this->position);
         }
     }
-    if (((TUnk_804909C4 *)arg0)->sub_800A3290(*(u16 *)((s8 *)arg0 + 0xC8)) != 0) {
-        ((TObject *)arg0)->queue_destruction();
+    if (((TUnk_804909C4 *)self)->sub_800A3290(*(u16 *)((s8 *)self + 0xC8)) != 0) {
+        ((TObject *)self)->queue_destruction();
         return;
     }
     temp_r0 = this->m_c4 - 1;
     this->m_c4 = temp_r0;
     if (temp_r0 <= 0) {
-        ((TObject *)arg0)->queue_destruction();
+        ((TObject *)self)->queue_destruction();
     }
 }
 

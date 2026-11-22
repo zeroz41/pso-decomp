@@ -91,9 +91,9 @@ s32 post_translate_matrix(void *);
 
 
 void TObjEneRecon::render_demo() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     if (this->update_object_view_visibility(400.0f, 15.0f) != 0) {
-        ((TObjEneDD *)(arg0))->draw_ground_shadow(0, 0);
+        ((TObjEneDD *)(self))->draw_ground_shadow(0, 0);
         TObjFish::set_global_param(this->texlist);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
@@ -249,7 +249,7 @@ struct Stack_8031C190 {
 
 extern s32 actor_frame_tick;
 void TObjEneRecon::update_ground_probe() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     Stack_8031C190 stack;
     u8 *temp_r3;
     if ((actor_frame_tick % 5) == 0) {
@@ -257,13 +257,13 @@ void TObjEneRecon::update_ground_probe() {
         stack.spC += 15.0f;
         temp_r3 = (u8 *)(csnVectorUnder((Vec *)&stack.sp8, (CsnGroup **)&this->m_120, 0x4000));
         if (temp_r3 != NULL) {
-            *(s32 *)((s8 *)arg0 + 0x418) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)temp_r3 + 4)) + 0x18);
+            *(s32 *)((s8 *)self + 0x418) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)temp_r3 + 4)) + 0x18);
             VecCopy((Vec *)&this->m_438, (const Vec *)(*(u8 **)((s8 *)temp_r3 + 4)));
         } else {
             VecCopy((Vec *)&this->m_438, (const Vec *)&this->position);
         }
     }
-    if (*(s32 *)((s8 *)arg0 + 0x418) & 0x4000) {
+    if (*(s32 *)((s8 *)self + 0x418) & 0x4000) {
         request_reflection_render();
     }
 }

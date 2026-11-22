@@ -22,7 +22,7 @@
 
 
 void TBoss5GryphonTornado::sub_803554F0(u8 *boss2_tunnel) {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
   unsigned short new_var;
   u16 temp_r3;
   u8 *player;
@@ -36,7 +36,7 @@ void TBoss5GryphonTornado::sub_803554F0(u8 *boss2_tunnel) {
     player = (u8 *) get_player_by_client_id(temp_r3);
     if (player != 0)
     {
-      *((f32 *) (((s8 *) boss2_tunnel) + 0)) = (f32) ((*((f32 *) (((s8 *) player) + 0x38))) - (*((f32 *) (((s8 *) arg0) + 0x28))));
+      *((f32 *) (((s8 *) boss2_tunnel) + 0)) = (f32) ((*((f32 *) (((s8 *) player) + 0x38))) - (*((f32 *) (((s8 *) self) + 0x28))));
       *((f32 *) (((s8 *) boss2_tunnel) + 8)) = (f32) ((*((f32 *) (((s8 *) player) + 0x40))) - (this->m_30));
       normalize_vector_safe((Vec *)boss2_tunnel);
     }

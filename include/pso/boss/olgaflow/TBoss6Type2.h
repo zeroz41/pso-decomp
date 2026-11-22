@@ -219,7 +219,7 @@ struct TBoss6Type2 : public TObjEnemy
     void copy_pos_620(saddr arg1);
     void get_push_points(saddr arg1, saddr arg2);
     void copy_pos_59c(saddr arg1);
-    void apply_damage(s32 arg1);
+    void apply_damage(s32 diff);
     s32 get_rotation_timer();
     s32 count_matching_values(s32 arg1, s32 arg2);
     void set_target_state(s32 arg1, s32 arg2);

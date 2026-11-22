@@ -83,11 +83,11 @@ struct TObjEneDD : public TObjEnemy {
     u8 *try_move_actor_xz_on_ground(u8 *);
     void move_to_wall_clamped_destination(f32 dx, f32 dz, f32 farg2);
     u8 *move_with_wall_slide_commit(f32 farg0, f32 farg1, f32 farg2);
-    void move_with_wall_stop(f32 farg0, f32 farg1, f32 farg2);
+    void move_with_wall_stop(f32 dx, f32 dz, f32 farg2);
     void move_clamped_on_ground(f32 dx, f32 dz, f32 farg2);
     void move_with_wall_slide_on_ground(f32 farg0, f32 farg1, f32 farg2);
-    void move_to_shot_position(f32 farg0, f32 farg1, f32 farg2);
-    static void collect_target_candidates(saddr arg0, f32 farg0);
+    void move_to_shot_position(f32 dx, f32 dz, f32 farg2);
+    static void collect_target_candidates(saddr arg0, f32 range);
     static void create_instance();
     static int get_enemy_count();
     void handle_state(s32 arg1);

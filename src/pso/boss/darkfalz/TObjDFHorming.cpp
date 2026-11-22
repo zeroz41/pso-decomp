@@ -597,29 +597,29 @@ struct V3_8004B654 { u32 w[3]; };
 #pragma dont_inline off
 #pragma auto_inline on
 void TBoss4DarkFalz::handle_defeat() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     struct V3_8004B654 save;
     s32 flags[3];
     TObjPlayer *p;
 
     TBoss4DarkFalz__sub_8004B5A0();
     if (is_split_screen() != 0) {
-        ((TObjEnemy *)arg0)->distribute_experience();
+        ((TObjEnemy *)self)->distribute_experience();
     } else {
         p = get_player_by_client_id((u16)local_client_id);
         if (p != 0) {
-            save = *(struct V3_8004B654 *)(arg0 + 0x2FC);
+            save = *(struct V3_8004B654 *)(self + 0x2FC);
             VecCopy(&this->body_center, &p->body_center);
-            ((TObjEnemy *)arg0)->distribute_experience();
+            ((TObjEnemy *)self)->distribute_experience();
             VecCopy(&this->body_center, (const Vec *)&save);
         }
     }
     flags[0] = 0x800;
-    ((TObjEnemy *)arg0)->send_6x0A_enemy_state(flags);
-    ((TObjEnemy *)arg0)->exchange_object_state(flags, 0);
-    ((VObj_18_8004B654 *)(arg0))->m77(flags);
-    ((TObjEnemy *)arg0)->send_entity_set_flags();
-    ((TObject *)arg0)->queue_destruction();
+    ((TObjEnemy *)self)->send_6x0A_enemy_state(flags);
+    ((TObjEnemy *)self)->exchange_object_state(flags, 0);
+    ((VObj_18_8004B654 *)(self))->m77(flags);
+    ((TObjEnemy *)self)->send_entity_set_flags();
+    ((TObject *)self)->queue_destruction();
 }
 
 void TBoss4DarkFalz__sub_8004B730(TBoss4DarkFalz *controller, s32 color, f32 alpha) {
@@ -790,17 +790,17 @@ s32 __ct__11TObjControlFP7TObject(s32, s32);
 void TBoss4DarkFalz::render() {  }
 
 void TBoss4DarkFalz::run_task() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     if (((s32) this->m_37c != 0) && (TObjPlayer::check_demo_mode() != 0)) {
-        ((TBoss4DarkFalz *)arg0)->change_state(0);
+        ((TBoss4DarkFalz *)self)->change_state(0);
     }
     if (TObjEneDD::query_teammate_state() == 0) {
-        ((TBoss4DarkFalz *)arg0)->update_visible_flag();
+        ((TBoss4DarkFalz *)self)->update_visible_flag();
         if ((s32) this->m_378 == 0) {
-            ((TBoss4DarkFalz *)arg0)->sub_8004B0F8();
+            ((TBoss4DarkFalz *)self)->sub_8004B0F8();
         }
-        ((TBoss4DarkFalz *)arg0)->sub_8004B084();
-        ((TBoss4DarkFalz *)arg0)->update_roar_sound_timer();
+        ((TBoss4DarkFalz *)self)->sub_8004B084();
+        ((TBoss4DarkFalz *)self)->update_roar_sound_timer();
     }
 }
 

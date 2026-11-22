@@ -103,12 +103,12 @@ void TBoss4Thanks::update_particle_emitters() {
 }
 
 void TBoss4Thanks::destroy_effects() {
-    W_8035C424 *arg0 = (W_8035C424 *)this;
+    W_8035C424 *self = (W_8035C424 *)this;
     s32 i;
     for (i = 0; i < 4; i++) {
-        if (arg0->e[i].p != NULL) {
-            TParticleCtrl::release(arg0->e[i].p);
-            arg0->e[i].p = NULL;
+        if (self->e[i].p != NULL) {
+            TParticleCtrl::release(self->e[i].p);
+            self->e[i].p = NULL;
         }
     }
 }

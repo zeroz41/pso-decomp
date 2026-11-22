@@ -41,48 +41,48 @@ void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 extern s32 boss5_common_texture_list;
 
 void TObjBoss5Pillar::render() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     if (TObjPlayer::is_any_teammate_in_state() == 0) {
         push_matrix();
         TObjFish::set_global_param(boss5_common_texture_list);
         post_translate_matrix((u8 *)&this->m_2c);
         if ((s32) this->m_1c != 3) {
             fn_8028ADDC((void *)this->m_48);
-            draw_ginja_model_with_motion((void *)this->m_38, (void *)this->m_40, (f32) (*(f32 *)((s8 *)arg0 + 0x20)));
+            draw_ginja_model_with_motion((void *)this->m_38, (void *)this->m_40, (f32) (*(f32 *)((s8 *)self + 0x20)));
             TObjBoss5PillarDemo__sub_8028ADB0((this->m_48));
         }
-        draw_ginja_model_with_motion((void *)this->m_3c, (void *)this->m_44, (f32) (*(f32 *)((s8 *)arg0 + 0x20)));
+        draw_ginja_model_with_motion((void *)this->m_3c, (void *)this->m_44, (f32) (*(f32 *)((s8 *)self + 0x20)));
         pop_matrix();
     }
 }
 
 void TObjBoss5Pillar::run_task() {
-    Pillar_8028B488 *arg0 = (Pillar_8028B488 *)this;
+    Pillar_8028B488 *self = (Pillar_8028B488 *)this;
     u32 last;
-    switch (arg0->state) {
+    switch (self->state) {
     case 0:
         break;
     case 1:
-        if (arg0->smoke == NULL) {
-            arg0->smoke = TObjBoss5Pillar::create_smoke(arg0, arg0->smokeParent);
+        if (self->smoke == NULL) {
+            self->smoke = TObjBoss5Pillar::create_smoke(self, self->smokeParent);
         }
-        arg0->frame += arg0->speed;
-        last = arg0->info->frames - 1;
-        if ((f32)last <= arg0->frame) {
-            arg0->frame = (f32)last;
-            arg0->state = 2;
+        self->frame += self->speed;
+        last = self->info->frames - 1;
+        if ((f32)last <= self->frame) {
+            self->frame = (f32)last;
+            self->state = 2;
         }
         break;
     case 2:
-        if (arg0->smoke != NULL) {
-            fn_8028AE1C(arg0->smoke);
+        if (self->smoke != NULL) {
+            fn_8028AE1C(self->smoke);
         }
-        if (arg0->timer++ > 0x1E) {
-            if (arg0->smoke != NULL) {
-                ((TObject *)arg0->smoke)->queue_destruction();
-                arg0->smoke = NULL;
+        if (self->timer++ > 0x1E) {
+            if (self->smoke != NULL) {
+                ((TObject *)self->smoke)->queue_destruction();
+                self->smoke = NULL;
             }
-            arg0->state = 3;
+            self->state = 3;
         }
         break;
     case 3:

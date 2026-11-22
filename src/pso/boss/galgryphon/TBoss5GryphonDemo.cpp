@@ -29,13 +29,13 @@ s32 activate_camera_mode(s32 arg0);
 void TBoss5GryphonDemo::render() {  }
 
 void TBoss5GryphonDemo::run_task() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     CameraPlayback *scripted_camera_playback;
     scripted_camera_playback = get_scripted_camera_playback();
     set_camera_capture_overlay_alpha(0x8F);
-    if ((scripted_camera_playback->flags & 1) || ((s32) **(s32 **)((s8 *)arg0 + 0x24) == 0)) {
+    if ((scripted_camera_playback->flags & 1) || ((s32) **(s32 **)((s8 *)self + 0x24) == 0)) {
         restore_player_cameras();
-        ((TObject *)arg0)->queue_destruction();
+        ((TObject *)self)->queue_destruction();
     }
 }
 TBoss5GryphonDemo::~TBoss5GryphonDemo() {}

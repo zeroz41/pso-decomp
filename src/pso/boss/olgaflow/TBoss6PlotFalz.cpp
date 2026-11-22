@@ -473,26 +473,26 @@ s32 is_split_screen();
 extern s32 local_client_id;
 
 void TBoss6PlotFalz::award_exp_and_destroy() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     TBoss6PlotFalz::spawn_player_hit_effects();
     if (is_split_screen() != 0) {
-        ((TObjEnemy *)arg0)->distribute_experience();
+        ((TObjEnemy *)self)->distribute_experience();
     } else {
         u8 *pl = ((u8 *(*)(s32))get_player_by_client_id)(local_client_id);
         if (pl != NULL) {
-            V3_802AB490 saved = *(V3_802AB490 *)(arg0 + 0x2FC);
+            V3_802AB490 saved = *(V3_802AB490 *)(self + 0x2FC);
             VecCopy(&this->body_center, (const Vec *)(pl + 0x2FC));
-            ((TObjEnemy *)arg0)->distribute_experience();
+            ((TObjEnemy *)self)->distribute_experience();
             VecCopy(&this->body_center, (const Vec *)&saved);
         }
     }
     Msg_802AB490 m;
     m.a = 0x800;
-    ((TObjEnemy *)arg0)->send_6x0A_enemy_state(&m);
-    ((TObjEnemy *)arg0)->exchange_object_state(&m, 0);
+    ((TObjEnemy *)self)->send_6x0A_enemy_state(&m);
+    ((TObjEnemy *)self)->exchange_object_state(&m, 0);
     this->apply_enemy_state((s32 *)&m);
-    ((TObjEnemy *)arg0)->send_entity_set_flags();
-    ((TObject *)arg0)->queue_destruction();
+    ((TObjEnemy *)self)->send_entity_set_flags();
+    ((TObject *)self)->queue_destruction();
 }
 
 void TBoss6PlotFalz::apply_fade_alpha(s32 color, f32 farg0) {
@@ -705,14 +705,14 @@ s32 TBoss6PlotFalz::get_target_pos_b(Vec *position) {
 }
 
 void TBoss6PlotFalz::spawn_type2() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     Stack_802ABC64 stack;
     u8 *sp8;
     u16 temp_r4;
     if ((u32) TBoss6PlotFalz__type2_instance == 0U) {
-        sp8 = arg0;
+        sp8 = self;
         stack.sp4C = this->m_37c;
-        TBoss4DarkFalz__sub_8004B4F0((&stack.spC), (arg0 + 0x388));
+        TBoss4DarkFalz__sub_8004B4F0((&stack.spC), (self + 0x388));
         stack.sp14 = 1;
         stack.spC = this->set_index + 0x1FF;
         temp_r4 = this->entity_id;
@@ -722,14 +722,14 @@ void TBoss6PlotFalz::spawn_type2() {
 }
 
 void TBoss6PlotFalz::spawn_type1() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     Stack_802ABCDC stack;
     u8 *sp8;
     u16 temp_r4;
     if ((u32) TBoss6PlotFalz__type1_instance == 0U) {
-        sp8 = arg0;
+        sp8 = self;
         stack.sp4C = this->m_37c;
-        TBoss4DarkFalz__sub_8004B4F0((&stack.spC), (arg0 + 0x388));
+        TBoss4DarkFalz__sub_8004B4F0((&stack.spC), (self + 0x388));
         stack.spC = this->set_index + 0x200;
         temp_r4 = this->entity_id;
         stack.sp12 = temp_r4 + 0x200;
@@ -1096,13 +1096,13 @@ void TItemEffOrgaFlowShot__sub_80357204(void);
 void TBoss6PlotFalz::render() {  }
 
 void TBoss6PlotFalz::run_task() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     if (TObjEneDD::query_teammate_state() == 0) {
-        ((TBoss6PlotFalz *)arg0)->set_visible_flag();
-        if ((s32) *(s32 *)((s8 *)arg0 + 0x374) == 0) {
-            ((TBoss6PlotFalz *)arg0)->call_state_action();
+        ((TBoss6PlotFalz *)self)->set_visible_flag();
+        if ((s32) *(s32 *)((s8 *)self + 0x374) == 0) {
+            ((TBoss6PlotFalz *)self)->call_state_action();
         }
-        ((TBoss6PlotFalz *)arg0)->run_phase_action();
+        ((TBoss6PlotFalz *)self)->run_phase_action();
     }
 }
 

@@ -426,28 +426,28 @@ void TObjEneDf2Bringer::refresh_target() {  }
 void TObjEneDf2Bringer::run_death_reaction() { if (*(short*)((char*)this + 0x326) != 10) { TObjEneDD::transition_enemy_state(10); } }
 
 void TObjEneDf2Bringer::run_hit_reaction() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     s16 temp_r0;
     temp_r0 = this->mode;
     if ((temp_r0 != 9) && (temp_r0 != 8)) {
         this->sub_80098DEC();
     }
-    if (*(s32 *)((s8 *)arg0 + 0x3C0) & 4) {
-        ((TObjEneDD *)arg0)->clear_attack_receipts();
+    if (*(s32 *)((s8 *)self + 0x3C0) & 4) {
+        ((TObjEneDD *)self)->clear_attack_receipts();
         return;
     }
     if ((s16) this->mode != 9) {
-        ((TObjEneDD *)arg0)->transition_enemy_state(9);
+        ((TObjEneDD *)self)->transition_enemy_state(9);
     }
 }
 
 void TObjEneDf2Bringer::run_miss_reaction() {  }
 
 void TObjEneDf2Bringer::set_effect_pos_above_self() {
-    u8 *arg0 = (u8 *)this;
-    VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(arg0 + 0x38));
-    *(f32 *)((s8 *)arg0 + 0x300) += 20.0f;
-    VecCopy((Vec *)(arg0 + 0x74), (const Vec *)(arg0 + 0x2FC));
+    u8 *self = (u8 *)this;
+    VecCopy((Vec *)(self + 0x2FC), (const Vec *)(self + 0x38));
+    *(f32 *)((s8 *)self + 0x300) += 20.0f;
+    VecCopy((Vec *)(self + 0x74), (const Vec *)(self + 0x2FC));
 }
 
 void TObjEneDf2Bringer::update_body_colliders() {  }
@@ -625,18 +625,18 @@ s32 TObjEneDf2Bringer::acquire_target(f32 range) {
 }
 
 void TObjEneDf2Bringer::sub_80098DEC() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     saddr player;
     u16 temp_r3;
-    temp_r3 = *(u16 *)((s8 *)arg0 + 0x2D4);
+    temp_r3 = *(u16 *)((s8 *)self + 0x2D4);
     if (temp_r3 < 0x1000U) {
         player = (saddr)get_player_by_client_id(temp_r3);
         if (player != 0) {
-            ((TObjEneDD_ST *)arg0)->set_target_player((void *)player);
+            ((TObjEneDD_ST *)self)->set_target_player((void *)player);
         }
-        *(s32 *)((s8 *)arg0 + 0x3C0) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C0) | 8);
+        *(s32 *)((s8 *)self + 0x3C0) = (s32) (*(s32 *)((s8 *)self + 0x3C0) | 8);
     }
-    *(s32 *)((s8 *)arg0 + 0x494) = (s32) (*(s32 *)((s8 *)arg0 + 0x494) + 1);
+    *(s32 *)((s8 *)self + 0x494) = (s32) (*(s32 *)((s8 *)self + 0x494) + 1);
 }
 
 s32 TObjEneDf2Bringer::check_stage_advance() {

@@ -135,7 +135,7 @@ void TBoss6RockChase::render() { push_matrix(); post_translate_matrix((char*)thi
 #pragma push
 #pragma opt_common_subs off
 void TBoss6RockChase::run_task() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     s32 temp_r3;
     if (TObjEneDD::query_teammate_state() == 0) {
         temp_r3 = this->m_b4;
@@ -148,9 +148,9 @@ void TBoss6RockChase::run_task() {
         if (*(f32 *)&this->_padB8 < -11.25f) {
             *(f32 *)&this->_padB8 = -11.25f;
         }
-        *(f32 *)((s8 *)arg0 + 0x3C) = (f32) (*(f32 *)((s8 *)arg0 + 0x3C) + *(f32 *)&this->_padB8);
-        if (*(f32 *)((s8 *)arg0 + 0x3C) <= 0.0f) {
-            *(f32 *)((s8 *)arg0 + 0x3C) = 0.0f;
+        *(f32 *)((s8 *)self + 0x3C) = (f32) (*(f32 *)((s8 *)self + 0x3C) + *(f32 *)&this->_padB8);
+        if (*(f32 *)((s8 *)self + 0x3C) <= 0.0f) {
+            *(f32 *)((s8 *)self + 0x3C) = 0.0f;
             *(f32 *)&this->_padB8 = 0.0f;
             damage_players_in_range();
             play_sound_effect(0x4006B51E, (u8 *)&this->position, 0, 0);
@@ -159,7 +159,7 @@ void TBoss6RockChase::run_task() {
             TBoss6PlotFalz::apply_radial_effect_to_players((u8 *)&this->position, 0xC0, 0xF, 100.0f);
             TBoss6Rock::spawn_crush_rocks(&position, m_b0);
             play_sound_effect(0x4006AB1F, (u8 *)&this->position, 0, 0);
-            ((TObject *)arg0)->queue_destruction();
+            ((TObject *)self)->queue_destruction();
         }
     }
 }

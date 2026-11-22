@@ -294,35 +294,35 @@ void TObjEneDD__sub_800C2628(u8 *arg0, s32 reason) {
 #undef F
 extern "C" {
 void TObjEneRe2Flower::handle_event(s32 arg1) {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     s32 temp_r4;
 
     switch (arg1) {
     case 4:
         this->requested_action = 6;
         this->clear_intangible();
-        ((TObjEneRe2Flower *)arg0)->clear_child_flags();
-        *(s32 *)((s8 *)arg0 + 0x3C4) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C4) & 0xFFFFFFF7);
-        ((TObjEneDD *)arg0)->set_field_378(3);
-        *(s32 *)((s8 *)arg0 + 0x410) = 0;
-        play_sound_effect(remap_sound_for_variant((saddr)arg0, 0x4003A315), (u8 *)&this->position, 0, 0);
+        ((TObjEneRe2Flower *)self)->clear_child_flags();
+        *(s32 *)((s8 *)self + 0x3C4) = (s32) (*(s32 *)((s8 *)self + 0x3C4) & 0xFFFFFFF7);
+        ((TObjEneDD *)self)->set_field_378(3);
+        *(s32 *)((s8 *)self + 0x410) = 0;
+        play_sound_effect(remap_sound_for_variant((saddr)self, 0x4003A315), (u8 *)&this->position, 0, 0);
         TObjPlayer::play_effect_if_v2(-0x200);
         return;
     case 3:
         if (is_passing_frame(this->frame_count - lbl_805D9FC0) != 0) {
-            ((TObjEneDD *)arg0)->transition_enemy_state(3);
+            ((TObjEneDD *)self)->transition_enemy_state(3);
         }
         this->update_ground_contact();
         this->update_body_colliders();
         return;
     case 0:
         advance_animation();
-        temp_r4 = *(s32 *)((s8 *)arg0 + 0x410);
-        *(s32 *)((s8 *)arg0 + 0x410) = (temp_r4 + 1);
-        ((TObjEneDD *)arg0)->noop();
+        temp_r4 = *(s32 *)((s8 *)self + 0x410);
+        *(s32 *)((s8 *)self + 0x410) = (temp_r4 + 1);
+        ((TObjEneDD *)self)->noop();
         return;
     case 5:
-        *(s32 *)((s8 *)arg0 + 0x3C4) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C4) & 0xFFFFFFFD);
+        *(s32 *)((s8 *)self + 0x3C4) = (s32) (*(s32 *)((s8 *)self + 0x3C4) & 0xFFFFFFFD);
     case 1:
         return;
     }

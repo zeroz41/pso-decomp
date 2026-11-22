@@ -1074,10 +1074,10 @@ void TObjEneBm3FlyNest::render() {
 
 #pragma pool_data off
 void TObjEneBm3FlyNest::render_with_state_debug() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     f32 var_f31;
     Ent_800B23A0 *var_r30;
-    if (((TObjEneDD *)arg0)->get_target_info() != 0) {
+    if (((TObjEneDD *)self)->get_target_info() != 0) {
         switch (this->state) {
         default:
         case 2:
@@ -1110,10 +1110,10 @@ void TObjEneBm3FlyNest::render_with_state_debug() {
     }
     if (this->update_object_view_visibility(500.0f, 120.0f) != 0) {
         Vec v = {5.0f, 1.0f, 5.0f};
-        ((TObjEneDD *)(arg0))->draw_ground_shadow(&v, 1);
+        ((TObjEneDD *)(self))->draw_ground_shadow(&v, 1);
         TObjFish::set_global_param(this->texlist);
         push_matrix();
-        ((void (*)(void *))post_translate_matrix)(arg0 + 0x38);
+        ((void (*)(void *))post_translate_matrix)(self + 0x38);
         translate_matrix(0, 0.0f, -5.0f, 0.0f);
         rotate_matrix_y(0, this->rotation_y);
         TObjEneDD::clear_global_flag_400();
@@ -1125,9 +1125,9 @@ void TObjEneBm3FlyNest::render_with_state_debug() {
         pop_matrix();
     }
     push_matrix();
-    ((void (*)(void *))post_translate_matrix)(arg0 + 0x38);
+    ((void (*)(void *))post_translate_matrix)(self + 0x38);
     rotate_matrix_y(0, this->rotation_y);
-    translate_matrix(0, *(f32 *)((s8 *)arg0 + 0x35C), *(f32 *)((s8 *)arg0 + 0x360), *(f32 *)((s8 *)arg0 + 0x364));
+    translate_matrix(0, *(f32 *)((s8 *)self + 0x35C), *(f32 *)((s8 *)self + 0x360), *(f32 *)((s8 *)self + 0x364));
     draw_chunk_object((void *)debug_chunk_object);
     pop_matrix();
 }

@@ -926,12 +926,12 @@ void TObjEneMerillLia::run_task() {
 }
 
 void TObjEneMerillLia::select_action_by_distance() {
-    u8 *arg0 = (u8 *)this;
-    if (((TObjChara *)arg0)->random_ratio() <= this->m_3c4) {
+    u8 *self = (u8 *)this;
+    if (((TObjChara *)self)->random_ratio() <= this->m_3c4) {
         init_attack_state();
         return;
     }
-    if (((TObjChara *)arg0)->random_ratio() <= *(f32 *)((s8 *)arg0 + 0x3C8)) {
+    if (((TObjChara *)self)->random_ratio() <= *(f32 *)((s8 *)self + 0x3C8)) {
         reset_action_state();
     }
 }
@@ -939,17 +939,17 @@ void TObjEneMerillLia::select_action_by_distance() {
 #pragma push
 #pragma opt_common_subs off
 void TObjEneMerillLia::init_params_from_position() {
-    u8 *arg0 = (u8 *)this;
-    this->m_3d8 = (s16) ((s32) *(f32 *)((s8 *)arg0 + 0x360) + 0x12C);
-    this->m_3c4 = (f32) (*(f32 *)((s8 *)arg0 + 0x354) - 0.2f);
+    u8 *self = (u8 *)this;
+    this->m_3d8 = (s16) ((s32) *(f32 *)((s8 *)self + 0x360) + 0x12C);
+    this->m_3c4 = (f32) (*(f32 *)((s8 *)self + 0x354) - 0.2f);
     if (this->m_3c4 < 0.0f) {
         this->m_3c4 = 0.0f;
     }
-    *(f32 *)((s8 *)arg0 + 0x3C8) = (f32) (*(f32 *)((s8 *)arg0 + 0x35C) - 0.2f);
-    if (*(f32 *)((s8 *)arg0 + 0x3C8) < 0.0f) {
-        *(f32 *)((s8 *)arg0 + 0x3C8) = 0.0f;
+    *(f32 *)((s8 *)self + 0x3C8) = (f32) (*(f32 *)((s8 *)self + 0x35C) - 0.2f);
+    if (*(f32 *)((s8 *)self + 0x3C8) < 0.0f) {
+        *(f32 *)((s8 *)self + 0x3C8) = 0.0f;
     }
-    this->m_3d0 = (f32) (100.0f + *(f32 *)((s8 *)arg0 + 0x364));
+    this->m_3d0 = (f32) (100.0f + *(f32 *)((s8 *)self + 0x364));
     if (this->m_3d0 < 15.0f) {
         this->m_3d0 = 15.0f;
     }
@@ -1029,22 +1029,22 @@ void TObjEneMerillLia::render() {
 }
 
 void TObjEneMerillLia::beast_update_approach() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     Vec sp14;
     f32 r;
     switch (this->phase) {
     case 0:
-        apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), 0.0f);
-        ((TObjMotion *)arg0)->advance_animation();
+        apply_actor_gravity((TObjEnemy *)self, (s32 *)(0), 0.0f);
+        ((TObjMotion *)self)->advance_animation();
         if (this->action_flags != 0x20U) {
             this->phase = 1;
             this->requested_action = 2;
         }
         break;
     default:
-        spawn_ground_effect__16TObjEneMerillLiaFPv(arg0);
+        spawn_ground_effect__16TObjEneMerillLiaFPv(self);
         if (*(u32 *)&this->target != 0U) {
-            if (((TUnk_80493450 *)arg0)->test_elt_flag(0, 0x300000) != 0) {
+            if (((TUnk_80493450 *)self)->test_elt_flag(0, 0x300000) != 0) {
                 if (this->m_38c++ < 60.0f) {
                     VecCopy((Vec *)&sp14, &this->home_position);
                 } else {
@@ -1054,12 +1054,12 @@ void TObjEneMerillLia::beast_update_approach() {
                 this->m_38c = 0U;
                 VecCopy((Vec *)&sp14, (const Vec *)(*(uaddr *)&this->target + 0x2FC));
             }
-            ((TUnk_80493450 *)arg0)->update_target_near_flag();
-            ((TUnk_80493450 *)arg0)->sub_800C4E08();
-            ((TObjMotion *)arg0)->advance_animation();
+            ((TUnk_80493450 *)self)->update_target_near_flag();
+            ((TUnk_80493450 *)self)->sub_800C4E08();
+            ((TObjMotion *)self)->advance_animation();
             {
                 Vec sp8 = sp14;
-                enemy_move_toward(arg0, *(s32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 8), &sp8, 0, *(f32 *)&this->unk_394);
+                enemy_move_toward(self, *(s32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 8), &sp8, 0, *(f32 *)&this->unk_394);
             }
             if (this->targetId == 0xFFFF) {
                 if (horizontal_distance_squared((u8 *)&this->m_29c, (u8 *)&this->position) < (r = *(f32 *)&this->unk_394 + *(f32 *)((s8 *)(*(u8 * *)&this->bodies) + 0xC)) * r ||
@@ -1071,142 +1071,142 @@ void TObjEneMerillLia::beast_update_approach() {
         }
         break;
     }
-    ((TObjPlayer *)arg0)->update_collisions();
-    ((TObjPlayer *)arg0)->update_enemy_collision_flags();
+    ((TObjPlayer *)self)->update_collisions();
+    ((TObjPlayer *)self)->update_enemy_collision_flags();
     minimap_render_dot((u8 *)&this->position, -0x5DB4, 1, 0);
-    ((TObjBase *)arg0)->obj_clearFlags30(0x200000);
+    ((TObjBase *)self)->obj_clearFlags30(0x200000);
 }
 
 void TObjEneMerillLia::beast_update_appear() {
-    Ene_800D64F0 *arg0 = (Ene_800D64F0 *)this;
-    switch (arg0->sub) {
+    Ene_800D64F0 *self = (Ene_800D64F0 *)this;
+    switch (self->sub) {
     case 0:
     default:
-        if (arg0->f390 != 1) {
-            arg0->sub = 2;
+        if (self->f390 != 1) {
+            self->sub = 2;
         } else {
-            arg0->sub = 1;
-            arg0->fB8 = 0xB;
-            ((TObjCollidable *)arg0)->set_indexed_flags(0, 0xA000000);
-            obj_setFlags30(arg0, 0x4000000);
-            arg0->m95();
+            self->sub = 1;
+            self->fB8 = 0xB;
+            ((TObjCollidable *)self)->set_indexed_flags(0, 0xA000000);
+            obj_setFlags30(self, 0x4000000);
+            self->m95();
         }
         break;
     case 1:
-        spawn_ground_effect__16TObjEneMerillLiaFPv((u8 *)arg0);
-        if (((TObjMotion *)arg0)->is_passing_frame(10.0f) != 0) {
-            TObjEneMerillLia__sub_800D501C((saddr)arg0);
+        spawn_ground_effect__16TObjEneMerillLiaFPv((u8 *)self);
+        if (((TObjMotion *)self)->is_passing_frame(10.0f) != 0) {
+            TObjEneMerillLia__sub_800D501C((saddr)self);
         }
-        if (arg0->fB4 != 0x20) {
-            arg0->sub = 2;
-            arg0->f390 = 0;
-            arg0->fB8 = 0;
-            ((TObjCollidable *)arg0)->clear_player_status_flag(0, 0xA000000);
-            ((TObjBase *)arg0)->obj_clearFlags30(0x4000000);
+        if (self->fB4 != 0x20) {
+            self->sub = 2;
+            self->f390 = 0;
+            self->fB8 = 0;
+            ((TObjCollidable *)self)->clear_player_status_flag(0, 0xA000000);
+            ((TObjBase *)self)->obj_clearFlags30(0x4000000);
         }
         break;
     case 2:
-        arg0->target = find_nearest_visible_player(reinterpret_cast<TObjChara *>(arg0), NULL, *arg0->param);
-        arg0->state = 1;
+        self->target = find_nearest_visible_player(reinterpret_cast<TObjChara *>(self), NULL, *self->param);
+        self->state = 1;
         break;
     }
-    ((TObjMotion *)arg0)->advance_animation();
+    ((TObjMotion *)self)->advance_animation();
 }
 
 #pragma push
 #pragma fp_contract on
 void TObjEneMerillLia::beast_update_group_chase() {
-    Obj_800D6110 *arg0 = (Obj_800D6110 *)this;
+    Obj_800D6110 *self = (Obj_800D6110 *)this;
     Vec save;
     Vec to;
     Vec d;
     f32 dist;
-    ((TObjMotion *)arg0)->advance_animation();
-    switch (arg0->f328) {
+    ((TObjMotion *)self)->advance_animation();
+    switch (self->f328) {
     case 0:
-        arg0->f328 = 1;
-        arg0->m97();
+        self->f328 = 1;
+        self->m97();
         break;
     case 1:
-        if (arg0->f2a8 != NULL) {
-            spawn_ground_effect__16TObjEneMerillLiaFPv((u8 *)arg0);
-            save.x = arg0->pos.x;
-            save.y = arg0->pos.y;
-            save.z = arg0->pos.z;
-            if (arg0->f3d4 <= 0.0f) {
-                Vec a = arg0->f2a8->p2fc;
-                dist = enemy_backstep_from_point(arg0, &a, arg0->f398);
+        if (self->f2a8 != NULL) {
+            spawn_ground_effect__16TObjEneMerillLiaFPv((u8 *)self);
+            save.x = self->pos.x;
+            save.y = self->pos.y;
+            save.z = self->pos.z;
+            if (self->f3d4 <= 0.0f) {
+                Vec a = self->f2a8->p2fc;
+                dist = enemy_backstep_from_point(self, &a, self->f398);
             } else {
-                Vec b = arg0->f2a8->p2fc;
-                dist = enemy_backstep_from_point(arg0, &b, arg0->f3d4);
+                Vec b = self->f2a8->p2fc;
+                dist = enemy_backstep_from_point(self, &b, self->f3d4);
             }
-            ((TObjEnemy *)arg0)->turn_toward_direction(((s32 *)arg0->f350)[2], (Vec *)arg0->ang308);
-            arg0->f374--;
-            if (dist < (arg0->f398 + arg0->model->radius) * (arg0->f398 + arg0->model->radius) || arg0->f374 < 0) {
-                arg0->f328 = 2;
-                arg0->f374 = 0;
+            ((TObjEnemy *)self)->turn_toward_direction(((s32 *)self->f350)[2], (Vec *)self->ang308);
+            self->f374--;
+            if (dist < (self->f398 + self->model->radius) * (self->f398 + self->model->radius) || self->f374 < 0) {
+                self->f328 = 2;
+                self->f374 = 0;
             }
-            ((TObjPlayer *)arg0)->update_collisions();
-            ((TObjPlayer *)arg0)->update_enemy_collision_flags();
-            if (arg0->model->flags & 0x380000) {
-                arg0->f328 = 2;
-                arg0->f374 = 0;
+            ((TObjPlayer *)self)->update_collisions();
+            ((TObjPlayer *)self)->update_enemy_collision_flags();
+            if (self->model->flags & 0x380000) {
+                self->f328 = 2;
+                self->f374 = 0;
                 break;
             }
-            d.x = arg0->pos.x - save.x;
-            d.y = arg0->pos.y - save.y;
-            d.z = arg0->pos.z - save.z;
+            d.x = self->pos.x - save.x;
+            d.y = self->pos.y - save.y;
+            d.z = self->pos.z - save.z;
             normalize_vector(&d);
-            to.x = 30.0f * d.x + arg0->pos.x;
-            to.y = 30.0f * d.y + arg0->pos.y;
-            to.z = 30.0f * d.z + arg0->pos.z;
+            to.x = 30.0f * d.x + self->pos.x;
+            to.y = 30.0f * d.y + self->pos.y;
+            to.z = 30.0f * d.z + self->pos.z;
             if (csnVector(&save, &to, 0x88E0) != 0) {
-                arg0->f328 = 2;
-                arg0->f374 = 0;
+                self->f328 = 2;
+                self->f374 = 0;
             }
             break;
         }
-        if (arg0->m17(0x1E) != 0) {
-            arg0->f338 = find_nearest_visible_player(reinterpret_cast<TObjChara *>(arg0), NULL, *arg0->f350);
+        if (self->m17(0x1E) != 0) {
+            self->f338 = find_nearest_visible_player(reinterpret_cast<TObjChara *>(self), NULL, *self->f350);
         }
-        if (arg0->f338 < 0x1000) {
-            Pl_800D5614 *p = (Pl_800D5614 *)get_player_by_client_id(arg0->f338);
+        if (self->f338 < 0x1000) {
+            Pl_800D5614 *p = (Pl_800D5614 *)get_player_by_client_id(self->f338);
             if (p != NULL && ((TObjPlayer *)p)->get_floor() == get_current_floor()) {
-                arg0->f2a8 = (Pl_800D6110 *)p;
+                self->f2a8 = (Pl_800D6110 *)p;
                 break;
             }
-            arg0->f2a8 = NULL;
-            ((TObjEneMerillLia *)arg0)->reset_state_clear_status();
+            self->f2a8 = NULL;
+            ((TObjEneMerillLia *)self)->reset_state_clear_status();
             break;
         }
-        arg0->f2a8 = NULL;
-        ((TObjEneMerillLia *)arg0)->reset_state_clear_status();
+        self->f2a8 = NULL;
+        ((TObjEneMerillLia *)self)->reset_state_clear_status();
         break;
     case 2:
-        ((TObjBase *)arg0)->obj_clearFlags30(0x1000);
-        if (arg0->m17(0x1E) != 0) {
-            arg0->f338 = find_nearest_visible_player(reinterpret_cast<TObjChara *>(arg0), NULL, *arg0->f350);
+        ((TObjBase *)self)->obj_clearFlags30(0x1000);
+        if (self->m17(0x1E) != 0) {
+            self->f338 = find_nearest_visible_player(reinterpret_cast<TObjChara *>(self), NULL, *self->f350);
         }
-        if (arg0->f338 < 0x1000) {
-            Pl_800D5614 *p = (Pl_800D5614 *)get_player_by_client_id(arg0->f338);
+        if (self->f338 < 0x1000) {
+            Pl_800D5614 *p = (Pl_800D5614 *)get_player_by_client_id(self->f338);
             if (p != NULL && ((TObjPlayer *)p)->get_floor() == get_current_floor() &&
-                xz_distance_squared(p->pos, &arg0->pos) < 10000.0f) {
-                arg0->f326 = 1;
-                arg0->f328 = 0;
-                arg0->fb8 = 0xA;
-                ((TObjBase *)arg0)->obj_clearFlags30(0x4040000);
-                ((TObjCollidable *)arg0)->clear_player_status_flag(0, 0xA000000);
+                xz_distance_squared(p->pos, &self->pos) < 10000.0f) {
+                self->f326 = 1;
+                self->f328 = 0;
+                self->fb8 = 0xA;
+                ((TObjBase *)self)->obj_clearFlags30(0x4040000);
+                ((TObjCollidable *)self)->clear_player_status_flag(0, 0xA000000);
                 break;
             }
-            ((TObjEneMerillLia *)arg0)->reset_state_clear_status();
+            ((TObjEneMerillLia *)self)->reset_state_clear_status();
         } else {
-            ((TObjEneMerillLia *)arg0)->reset_state_clear_status();
+            ((TObjEneMerillLia *)self)->reset_state_clear_status();
         }
         break;
     }
-    ((TObjPlayer *)arg0)->update_collisions();
-    ((TObjPlayer *)arg0)->update_enemy_collision_flags();
-    minimap_render_dot(&arg0->pos, -0x5DB4, 1, 0);
+    ((TObjPlayer *)self)->update_collisions();
+    ((TObjPlayer *)self)->update_enemy_collision_flags();
+    minimap_render_dot(&self->pos, -0x5DB4, 1, 0);
 }
 #pragma pop
 
@@ -1487,18 +1487,18 @@ void TObjEneMerillLia::search_target(void *ov) {
 #undef arg0
 
 void TObjEneMerillLia::sub_800D5570() {
-    Obj_800D5570 *arg0 = (Obj_800D5570 *)this;
+    Obj_800D5570 *self = (Obj_800D5570 *)this;
     switch (this->phase) {
     case 0:
     default:
         this->phase = 1;
         this->requested_action = 1;
-        ((TUnk_80494938 *)((u8 *)arg0 + 0x3A8))->start_fade_in();
-        play_area_sound_effect((Vec *)(arg0->sub38));
+        ((TUnk_80494938 *)((u8 *)self + 0x3A8))->start_fade_in();
+        play_area_sound_effect((Vec *)(self->sub38));
         break;
     case 1:
-        spawn_ground_effect__16TObjEneMerillLiaFPv((u8 *)arg0);
-        if (((VObj_14_800D5570 *)((u8 *)arg0 + 0x3A8))->m5() != 0) {
+        spawn_ground_effect__16TObjEneMerillLiaFPv((u8 *)self);
+        if (((VObj_14_800D5570 *)((u8 *)self + 0x3A8))->m5() != 0) {
             this->phase = 2;
         }
         break;
@@ -1506,7 +1506,7 @@ void TObjEneMerillLia::sub_800D5570() {
         this->mode = 12;
         break;
     }
-    ((TObjMotion *)arg0)->advance_animation();
+    ((TObjMotion *)self)->advance_animation();
 }
 
 void TObjEneMerillLia::reset_action_state() {
@@ -1526,11 +1526,11 @@ void TObjEneMerillLia::init_attack_state() {
 }
 
 void TObjEneMerillLia::reset_state_clear_status() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     this->mode = 0xB;
     this->phase = 0;
     this->target = 0;
-    ((TObjCollidable *)arg0)->clear_player_status_flag(0, (s32)(0x0A000000U));
+    ((TObjCollidable *)self)->clear_player_status_flag(0, (s32)(0x0A000000U));
 }
 
 void TObjEneMerillLia::run_idle_action() {
@@ -1564,7 +1564,7 @@ block_end:
 }
 
 void TObjEneMerillLia::run_attack_action() {
-    Ene_800D52DC *arg0 = (Ene_800D52DC *)this;
+    Ene_800D52DC *self = (Ene_800D52DC *)this;
     switch (this->mode) {
     case 0:
     case 2:
@@ -1583,27 +1583,27 @@ void TObjEneMerillLia::run_attack_action() {
             this->mode = 2;
             this->requested_action = 10;
         }
-        ((TObjBase *)arg0)->obj_clearFlags30(0x4040000);
-        ((TObjCollidable *)arg0)->clear_player_status_flag(0, 0xA000000);
+        ((TObjBase *)self)->obj_clearFlags30(0x4040000);
+        ((TObjCollidable *)self)->clear_player_status_flag(0, 0xA000000);
         break;
     default:
         this->mode = 5;
         this->phase = 1;
-        if (0.5f < ((TObjChara *)arg0)->random_ratio()) {
+        if (0.5f < ((TObjChara *)self)->random_ratio()) {
             this->requested_action = 3;
         } else {
             this->requested_action = 4;
         }
-        obj_setFlags30(arg0, 0x200000);
-        ((TObjBase *)arg0)->obj_clearFlags30(0x4040000);
-        ((TObjCollidable *)arg0)->clear_player_status_flag(0, 0xA000000);
+        obj_setFlags30(self, 0x200000);
+        ((TObjBase *)self)->obj_clearFlags30(0x4040000);
+        ((TObjCollidable *)self)->clear_player_status_flag(0, 0xA000000);
         break;
     }
 }
 
 void TObjEneMerillLia::run_move_action() {
-    Ene_800D51C8 *arg0 = (Ene_800D51C8 *)this;
-    if (((TObjCollidable *)arg0)->obj_testFlags30(0x1000) != 0) {
+    Ene_800D51C8 *self = (Ene_800D51C8 *)this;
+    if (((TObjCollidable *)self)->obj_testFlags30(0x1000) != 0) {
         this->mode = 4;
     }
     switch (this->mode) {
@@ -1624,8 +1624,8 @@ void TObjEneMerillLia::run_move_action() {
             this->mode = 2;
             this->requested_action = 10;
         }
-        ((TObjBase *)arg0)->obj_clearFlags30(0x4040000);
-        ((TObjCollidable *)arg0)->clear_player_status_flag(0, 0xA000000);
+        ((TObjBase *)self)->obj_clearFlags30(0x4040000);
+        ((TObjCollidable *)self)->clear_player_status_flag(0, 0xA000000);
         break;
     case 4:
         this->requested_action = 5;
@@ -1634,8 +1634,8 @@ void TObjEneMerillLia::run_move_action() {
         this->mode = 3;
         this->phase = 1;
         this->requested_action = 2;
-        ((TObjBase *)arg0)->obj_clearFlags30(0x4040000);
-        ((TObjCollidable *)arg0)->clear_player_status_flag(0, 0xA000000);
+        ((TObjBase *)self)->obj_clearFlags30(0x4040000);
+        ((TObjCollidable *)self)->clear_player_status_flag(0, 0xA000000);
         break;
     }
 }
@@ -1681,7 +1681,7 @@ s32 TObjEneMerillLia::get_clamped_level() {
 void TObjEneMerillLia::update_attack_trail() {  }
 
 void TObjEneMerillLia::spawn_death_effect() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     Vec stack;
     stack.x = 0.0f;
     stack.y = 10.0f;
@@ -1690,7 +1690,7 @@ void TObjEneMerillLia::spawn_death_effect() {
     rotate_matrix_y(0, this->rotation_y);
     rotate_vector_by_matrix(0, (void *)&stack.x, (void *)&stack.x);
     pop_matrix();
-    vec3_add_to((void *)&stack.x, (void *)(arg0 + 0x38));
+    vec3_add_to((void *)&stack.x, (void *)(self + 0x38));
     ((TObjPlayer *)(&stack.x))->spawn_ground_effect(0x23);
     TObjPlayer__sub_800D92BC((saddr)&stack.x, 0xF);
 }
@@ -1700,23 +1700,23 @@ void TObjEneMerillLia__sub_800D501C(saddr arg0) {
 }
 
 void TObjEneMerillLia::play_attack_sound() {
-    saddr arg0 = (saddr)this;
-    play_sound_effect((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x3AB02)), (void *)(arg0 + 0x38), 0, 0);
+    saddr self = (saddr)this;
+    play_sound_effect((((TObjEnemy *)((void *)self))->remap_sound_for_area(0x3AB02)), (void *)(self + 0x38), 0, 0);
 }
 
 void TObjEneMerillLia::play_hurt_sound() {
-    saddr arg0 = (saddr)this;
-    play_sound_effect((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x3B201)), (void *)(arg0 + 0x38), 0, 0);
+    saddr self = (saddr)this;
+    play_sound_effect((((TObjEnemy *)((void *)self))->remap_sound_for_area(0x3B201)), (void *)(self + 0x38), 0, 0);
 }
 
 void TObjEneMerillLia::play_death_sound() {
-    saddr arg0 = (saddr)this;
-    play_sound_effect((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x3AD00)), (void *)(arg0 + 0x38), 0, 0);
+    saddr self = (saddr)this;
+    play_sound_effect((((TObjEnemy *)((void *)self))->remap_sound_for_area(0x3AD00)), (void *)(self + 0x38), 0, 0);
 }
 
 void TObjEneMerillLia::play_group_chase_sound() {
-    saddr arg0 = (saddr)this;
-    play_sound_effect((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x3B205)), (void *)(arg0 + 0x38), 0, 0);
+    saddr self = (saddr)this;
+    play_sound_effect((((TObjEnemy *)((void *)self))->remap_sound_for_area(0x3B205)), (void *)(self + 0x38), 0, 0);
 }
 
 void TObjEneMerillLia__sub_800D4EC8(saddr arg0) {

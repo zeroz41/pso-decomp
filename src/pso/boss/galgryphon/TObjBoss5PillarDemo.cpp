@@ -41,8 +41,8 @@ TObjBoss5PillarDemo::~TObjBoss5PillarDemo() {
 
 }
 
-u8 *TObjBoss5PillarDemo__ct(TObjBoss5PillarDemo *boss5_pillar_demo, saddr arg1, saddr arg2) {
-    TObjBoss5Pillar__ct((boss5_pillar_demo), (u8 *)arg1, (u8 *)arg2);
+u8 *TObjBoss5PillarDemo__ct(TObjBoss5PillarDemo *boss5_pillar_demo, saddr parent, saddr arg2) {
+    TObjBoss5Pillar__ct((boss5_pillar_demo), (u8 *)parent, (u8 *)arg2);
     *(s32 **)((s8 *)boss5_pillar_demo + 0x18) = __vt__19TObjBoss5PillarDemo;
     *(s32 *)((s8 *)boss5_pillar_demo + 0) = (saddr)TObjBoss5PillarDemo__name;
     boss5_pillar_demo->m_24 = 0.5f;

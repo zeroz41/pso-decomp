@@ -697,7 +697,7 @@ void TObjEnePanarms__sub_800DE430(saddr arg0, s32 arg1, s32 arg2) {
 }
 
 s32 TObjEnePanarms::sub_800DE390() {
-    Obj_800DE390 *arg0 = (Obj_800DE390 *)this;
+    Obj_800DE390 *self = (Obj_800DE390 *)this;
     switch (this->state) {
     case 0:
     case 1:
@@ -708,7 +708,7 @@ s32 TObjEnePanarms::sub_800DE390() {
         return 0;
     default:
         if (TObjEnePanarms__sub_800DFB44(this->m_3e4) != 0 || TObjEnePanarms__sub_800DFB44(this->m_3e8) != 0) {
-            ((TObjEnePanarms *)arg0)->set_state((saddr)((void*)((void *)10)));
+            ((TObjEnePanarms *)self)->set_state((saddr)((void*)((void *)10)));
             return 1;
         }
         return 0;
@@ -718,15 +718,15 @@ s32 TObjEnePanarms::sub_800DE390() {
 void TObjEnePanarms::run_death_reaction() { if (this->state != 4) { set_state((saddr)((void*)((void*)4))); } }
 
 void TObjEnePanarms::run_hit_reaction() {
-    Obj_800DE2D0 *arg0 = (Obj_800DE2D0 *)this;
-    switch (arg0->f374) {
+    Obj_800DE2D0 *self = (Obj_800DE2D0 *)this;
+    switch (self->f374) {
     case 1:
     case 2:
         return;
     default:
-        arg0->f30 &= 0xFFFFFDFF;
-        play_sound_effect((s32)(((int)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003BC34))), arg0->f3AC, 0, 0);
-        play_sound_effect((s32)(((int)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003BC33))), arg0->f3C4, 0, 0);
+        self->f30 &= 0xFFFFFDFF;
+        play_sound_effect((s32)(((int)((TObjEnemy *)(self))->remap_sound_for_area(0x4003BC34))), self->f3AC, 0, 0);
+        play_sound_effect((s32)(((int)((TObjEnemy *)(self))->remap_sound_for_area(0x4003BC33))), self->f3C4, 0, 0);
         break;
     }
 }
@@ -783,26 +783,26 @@ void TObjEnePanarms::set_hidden_flags() {
 }
 
 void TObjEnePanarms::update_fall() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
   Stack_800DDFDC stack;
   this->move_velocity.y += -0.5f;
   vec3_add_to((u8 *)&this->position, (u8 *)&this->move_velocity);
-  if ((*((f32 *) (((s8 *) arg0) + 0x37C))) <= 0.0f)
+  if ((*((f32 *) (((s8 *) self) + 0x37C))) <= 0.0f)
   {
     ;
-    if ((*((f32 *) (((s8 *) arg0) + 0x3C))) <= (*((f32 *) (((s8 *) arg0) + 0x384))))
+    if ((*((f32 *) (((s8 *) self) + 0x3C))) <= (*((f32 *) (((s8 *) self) + 0x384))))
     {
-      *((f32 *) (((s8 *) arg0) + 0x3C)) = *((f32 *) (((s8 *) arg0) + 0x384));
+      *((f32 *) (((s8 *) self) + 0x3C)) = *((f32 *) (((s8 *) self) + 0x384));
       spawn_particle_effect(&this->position, 0xF0);
       set_state((saddr)((void*)(3)));
       return;
     }
   }
   this->m_388 = (s32) ((this->m_388) + 1);
-  if ((!((this->m_388) & 7)) && ((*((f32 *) (((s8 *) arg0) + 0x37C))) > 0.0f))
+  if ((!((this->m_388) & 7)) && ((*((f32 *) (((s8 *) self) + 0x37C))) > 0.0f))
   {
-    VecCopy((Vec *)(&stack.sp8), (const Vec *)(arg0 + 0x2FC));
-    stack.spC = 5.0f + (*((f32 *) (((s8 *) arg0) + 0x384)));
+    VecCopy((Vec *)(&stack.sp8), (const Vec *)(self + 0x2FC));
+    stack.spC = 5.0f + (*((f32 *) (((s8 *) self) + 0x384)));
     spawn_particle_effect((const Vec *)&stack.sp8, 0xF0);
   }
 }

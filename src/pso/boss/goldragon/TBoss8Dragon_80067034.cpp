@@ -9,11 +9,11 @@ void TBoss8Dragon__sub_8028B0DC(void *, s32, s32);
 TObjBoss5Ctrl *boss5_ctrl_instance;
 #pragma fp_contract on
 s32 TBoss8Dragon::is_within_xz_distance(u8 *arg1, f32 off) {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
   f32 temp_f2;
   f32 temp_f4;
-  temp_f2 = (*((f32 *) (((s8 *) arg0) + 0))) - (*((f32 *) (((s8 *) arg1) + 8)));
-  temp_f4 = (*((f32 *) (((s8 *) arg0) + 8))) - (*((f32 *) (((s8 *) arg1) + 0x10)));
+  temp_f2 = (*((f32 *) (((s8 *) self) + 0))) - (*((f32 *) (((s8 *) arg1) + 8)));
+  temp_f4 = (*((f32 *) (((s8 *) self) + 8))) - (*((f32 *) (((s8 *) arg1) + 0x10)));
   return ((temp_f2 * temp_f2) + (temp_f4 * temp_f4)) < off;
 }
 

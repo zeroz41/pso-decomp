@@ -29,10 +29,10 @@ extern const char *TBoss8DragonDemo__name;
 void TBoss8DragonDemo::render() {  }
 
 void TBoss8DragonDemo::run_task() {
-    u8 *arg0 = (u8 *)this;
-    if ((get_scripted_camera_playback()->flags & 1) || ((s32) **(s32 **)((s8 *)arg0 + 0x24) == 0)) {
+    u8 *self = (u8 *)this;
+    if ((get_scripted_camera_playback()->flags & 1) || ((s32) **(s32 **)((s8 *)self + 0x24) == 0)) {
         restore_player_cameras();
-        ((TObject *)arg0)->queue_destruction();
+        ((TObject *)self)->queue_destruction();
     }
 }
 LAYOUT_ASSERT(RecoveredGlobal_802F2D8C___vt__16TBoss8DragonDemo_size, sizeof(RecoveredGlobal_802F2D8C___vt__16TBoss8DragonDemo) == 0x18);

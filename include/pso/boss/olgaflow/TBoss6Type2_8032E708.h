@@ -6,7 +6,7 @@
 extern "C" {
 u8 *TBoss6Mag__ct(u8 *arg0, s32 arg1, u8 *arg2);
 void TBoss6Type2__sub_8032E708(void *p, s32 v);
-s32 TBoss6Type2__sub_8032EAB8(void *arg0, s32 arg1);
+s32 TBoss6Type2__sub_8032EAB8(void *arg0, s32 turn);
 void TBoss6Type2__sub_8032F2F0(void *p, void *q);
 void TBoss6Type2__sub_8032F5C4(void *boss6_mag);
 void TBoss6Type2__sub_803300C8(u8 *arg0);
@@ -20,7 +20,7 @@ void update_all_parts__11TBoss6Type2FPv(saddr self);
 extern "C" {
 u8 *TBoss6Mag__ct(u8 *arg0, s32 arg1, u8 *arg2);
 void TBoss6Type2__sub_8032E708(void *p, s32 v);
-s32 TBoss6Type2__sub_8032EAB8(void *arg0, s32 arg1);
+s32 TBoss6Type2__sub_8032EAB8(void *arg0, s32 turn);
 void TBoss6Type2__sub_8032F2F0(void *p, void *q);
 void TBoss6Type2__sub_8032F5C4(void *boss6_mag);
 void TBoss6Type2__sub_803300C8(u8 *arg0);

@@ -677,10 +677,10 @@ void TObjBoss1MokoHill_SoloM::run_task() {
 
 #pragma pop
 void TObjBoss1MokoHill_SoloM::render() {
-    Obj_8002CE78 *arg0 = (Obj_8002CE78 *)this;
+    Obj_8002CE78 *self = (Obj_8002CE78 *)this;
     Ent_8002CE78 *p;
     s32 i;
-    if (arg0->active != 0) {
+    if (self->active != 0) {
         TObjFish::set_global_param(dragon_common_texture_list);
         update_dragon_trail_uvs((Obj_8002D4C0 *)((struct Obj_8002D4C0 *)dragon_trail_position_source));
         for (p = lbl_805D4B78, i = 0; i < lbl_805D4B74; i++, p++) {
@@ -688,8 +688,8 @@ void TObjBoss1MokoHill_SoloM::render() {
         }
         push_matrix();
         post_translate_matrix((void *)dragon_trail_position_source);
-        translate_matrix(0, 0.0f, arg0->unk34, 0.0f);
-        if (arg0->unk38 != 0) {
+        translate_matrix(0, 0.0f, self->unk34, 0.0f);
+        if (self->unk38 != 0) {
             saved_model_render_flags = model_render_flags;
             saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
             saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;

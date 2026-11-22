@@ -799,32 +799,32 @@ void TObjEneDolmOlm::run_task() {
 void TObjEneDolmOlm::render() {
     s32 vis;
     s16 saved;
-    Ene_803021AC *arg0 = (Ene_803021AC *)this;
-    if (arg0->f30 & 0x02000000) {
+    Ene_803021AC *self = (Ene_803021AC *)this;
+    if (self->f30 & 0x02000000) {
         return;
     }
     if (is_split_screen() != 0) {
         TCameraCtrl::get_camera_mode();
     }
-    vis = arg0->m9(200.0f, 400.0f, 30.0f);
-    if (vis != 0 && ((TObjEneDolmOlm *)arg0)->render_model_if_visible() == 0) {
-    select_actor_lighting(arg0);
+    vis = self->m9(200.0f, 400.0f, 30.0f);
+    if (vis != 0 && ((TObjEneDolmOlm *)self)->render_model_if_visible() == 0) {
+    select_actor_lighting(self);
     model_render_flags |= 1;
-    TObjFish::set_global_param(arg0->f24);
+    TObjFish::set_global_param(self->f24);
     push_matrix();
-    translate_matrix(0, 0.0f, arg0->f380, 0.0f);
-    post_translate_matrix(arg0->pos);
-    rotate_matrix_y(0, arg0->rotY);
+    translate_matrix(0, 0.0f, self->f380, 0.0f);
+    post_translate_matrix(self->pos);
+    rotate_matrix_y(0, self->rotY);
     if (TObjPlayer::check_demo_mode() == 1) {
-        draw_chunk_object(arg0->model);
+        draw_chunk_object(self->model);
     } else {
-        switch (arg0->state) {
+        switch (self->state) {
         case 0:
         case 1:
         case 8:
         case 9: {
             s16 t;
-            Mesh_803021AC *m = arg0->model->p->p->p->mesh;
+            Mesh_803021AC *m = self->model->p->p->p->mesh;
             t = m->flags;
             saved = t;
             m->flags = (u8)t;
@@ -834,54 +834,54 @@ void TObjEneDolmOlm::render() {
         TObjPlayer::toggle_particle_effect();
         TObjEneDolmOlm__effect_render_state = 0;
         set_chunk_model_node_callback(TObjEneDolmOlm::toggle_effect_render);
-        if (arg0->f390 == 1) {
-            if (arg0->sub.m8() != 0) {
+        if (self->f390 == 1) {
+            if (self->sub.m8() != 0) {
                 saved_model_render_flags = model_render_flags;
                 saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
                 saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
-                arg0->sub.m6();
-                if (((TObject *)arg0)->defer_render() == 0) {
+                self->sub.m6();
+                if (((TObject *)self)->defer_render() == 0) {
                     model_render_flags |= 1;
-                    ((TObjMotion *)arg0)->draw();
+                    ((TObjMotion *)self)->draw();
                     model_render_flags &= ~1;
                 }
-                arg0->sub.m7();
+                self->sub.m7();
                 chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
                 chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
                 model_render_flags = saved_model_render_flags;
             }
         } else if (vis == 1) {
-            ((TObjMotion *)arg0)->draw();
+            ((TObjMotion *)self)->draw();
         } else {
-            ((TObjEnemy *)arg0)->draw_motion_model();
+            ((TObjEnemy *)self)->draw_motion_model();
         }
         set_chunk_model_node_callback(NULL);
         TParticleCtrl::end_effect_render();
-        switch (arg0->state) {
+        switch (self->state) {
         case 0:
         case 1:
         case 8:
         case 9:
-            arg0->model->p->p->p->mesh->flags = saved;
+            self->model->p->p->p->mesh->flags = saved;
             break;
         }
     }
     pop_matrix();
     model_render_flags &= ~1;
     restore_scene_lighting();
-    switch (arg0->state) {
+    switch (self->state) {
     case 0:
     case 1:
     case 8:
     case 9:
         break;
     default:
-        if (!(arg0->f3e4 & 0x4000)) {
+        if (!(self->f3e4 & 0x4000)) {
             Vec v;
             v.x = 1.5f;
             v.y = 1.0f;
             v.z = 2.0f;
-            ((TObjEnemy *)arg0)->draw_ground_shadow(&v, 0);
+            ((TObjEnemy *)self)->draw_ground_shadow(&v, 0);
         }
         break;
     }
@@ -1166,8 +1166,8 @@ void TObjEneDolmOlm::run_idle_action() {
     }
 }
 void TObjEneDolmOlm::run_move_action() {
-    u8 *arg0 = (u8 *)this;
-    if (((TObjCollidable *)arg0)->obj_testFlags30(0x1000U) != 0) {
+    u8 *self = (u8 *)this;
+    if (((TObjCollidable *)self)->obj_testFlags30(0x1000U) != 0) {
         this->mode = 4;
     }
     switch (this->mode) {
@@ -1180,8 +1180,8 @@ void TObjEneDolmOlm::run_move_action() {
             this->mode = 2;
             this->requested_action = 0xA;
         }
-        ((TObjBase *)arg0)->obj_clearFlags30(0x04040000U);
-        ((TObjCollidable *)arg0)->clear_player_status_flag(0, 0x0A000000U);
+        ((TObjBase *)self)->obj_clearFlags30(0x04040000U);
+        ((TObjCollidable *)self)->clear_player_status_flag(0, 0x0A000000U);
         return;
     case 4:
         this->requested_action = 5;
@@ -1190,8 +1190,8 @@ void TObjEneDolmOlm::run_move_action() {
         this->mode = 3;
         this->phase = 1;
         this->requested_action = 2;
-        ((TObjBase *)arg0)->obj_clearFlags30(0x04040000U);
-        ((TObjCollidable *)arg0)->clear_player_status_flag(0, 0x0A000000U);
+        ((TObjBase *)self)->obj_clearFlags30(0x04040000U);
+        ((TObjCollidable *)self)->clear_player_status_flag(0, 0x0A000000U);
         return;
     case 2:
     case 3:
@@ -1344,7 +1344,7 @@ void TObjEneDolmOlm::update_attack_trail() {
     }
 }
 void TObjEneDolmOlm::spawn_death_effect() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     Vec stack;
     stack.x = 0.0f;
     stack.y = 10.0f;
@@ -1353,25 +1353,25 @@ void TObjEneDolmOlm::spawn_death_effect() {
     rotate_matrix_y(0, this->rotation_y);
     rotate_vector_by_matrix(0, (void *)&stack.x, (void *)&stack.x);
     pop_matrix();
-    vec3_add_to((void *)&stack.x, (void *)(arg0 + 0x38));
+    vec3_add_to((void *)&stack.x, (void *)(self + 0x38));
     ((TObjPlayer *)(&stack.x))->spawn_ground_effect(0x23);
     TObjPlayer__sub_800D92BC((saddr)&stack.x, 0xF);
 }
 void TObjEneDolmOlm::play_alert_sound() {
-    saddr arg0 = (saddr)this;
-    play_sound_effect((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003AD00)), (void *)(arg0 + 0x38), 0, 0);
+    saddr self = (saddr)this;
+    play_sound_effect((((TObjEnemy *)((void *)self))->remap_sound_for_area(0x4003AD00)), (void *)(self + 0x38), 0, 0);
 }
 void TObjEneDolmOlm::play_attack_sound() {
-    saddr arg0 = (saddr)this;
-    play_sound_effect((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003B203)), (void *)(arg0 + 0x38), 0, 0);
+    saddr self = (saddr)this;
+    play_sound_effect((((TObjEnemy *)((void *)self))->remap_sound_for_area(0x4003B203)), (void *)(self + 0x38), 0, 0);
 }
 void TObjEneDolmOlm::play_hurt_sound() {
-    saddr arg0 = (saddr)this;
-    play_sound_effect((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003A802)), (void *)(arg0 + 0x38), 0, 0);
+    saddr self = (saddr)this;
+    play_sound_effect((((TObjEnemy *)((void *)self))->remap_sound_for_area(0x4003A802)), (void *)(self + 0x38), 0, 0);
 }
 void TObjEneDolmOlm::play_death_sound() {
-    saddr arg0 = (saddr)this;
-    play_sound_effect((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003A801)), (void *)(arg0 + 0x38), 0, 0);
+    saddr self = (saddr)this;
+    play_sound_effect((((TObjEnemy *)((void *)self))->remap_sound_for_area(0x4003A801)), (void *)(self + 0x38), 0, 0);
 }
 void TObjEneDolmOlm::init_body_sub() {
     spawn_ground_effects__14TObjEneDolmOlmFPvPv((u8 *)this, (Vec *)((s8 *)this + 0x38));

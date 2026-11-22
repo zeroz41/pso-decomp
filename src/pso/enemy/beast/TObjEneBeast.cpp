@@ -134,27 +134,27 @@ extern s32 saved_model_render_flags;
 extern "C" void render_shadows__9TObjEnemyFv(u8 *arg0);
 void TObjEneBeast::run_demo_task() {  }
 void TObjEneBeast::play_group_chase_sound() {
-    s32 arg0 = (saddr)this;
-    play_sound_effect(0x4003E431, arg0 + 0x38, 0, 0);
+    s32 self = (saddr)this;
+    play_sound_effect(0x4003E431, self + 0x38, 0, 0);
 }
 void TObjEneBeast::play_death_sound() {
-    s32 arg0 = (saddr)this;
-    play_sound_effect(0x4003AB2D, arg0 + 0x38, 0, 0);
+    s32 self = (saddr)this;
+    play_sound_effect(0x4003AB2D, self + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x200);
 }
 void TObjEneBeast::play_hurt_sound() {
-    s32 arg0 = (saddr)this;
-    play_sound_effect(0x4003A32E, arg0 + 0x38, 0, 0);
+    s32 self = (saddr)this;
+    play_sound_effect(0x4003A32E, self + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 void TObjEneBeast::play_attack_sound() {
-    s32 arg0 = (saddr)this;
-    play_sound_effect(0x4003A62F, arg0 + 0x38, 0, 0);
+    s32 self = (saddr)this;
+    play_sound_effect(0x4003A62F, self + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 void TObjEneBeast::play_alert_sound() {
-    s32 arg0 = (saddr)this;
-    play_sound_effect(0x4003A82C, arg0 + 0x38, 0, 0);
+    s32 self = (saddr)this;
+    play_sound_effect(0x4003A82C, self + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x200);
 }
 
@@ -209,58 +209,58 @@ void TObjEneBeast::update_attack_trail() {
 }
 
 void TObjEneBeast::select_subtype() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     s32 temp_r0;
-    temp_r0 = *(s32 *)((s8 *)arg0 + 0x334);
+    temp_r0 = *(s32 *)((s8 *)self + 0x334);
     if (temp_r0 < 0) {
-        *(s32 *)((s8 *)arg0 + 0x334) = 0;
+        *(s32 *)((s8 *)self + 0x334) = 0;
     } else if (temp_r0 > 2) {
-        *(s32 *)((s8 *)arg0 + 0x334) = 2;
+        *(s32 *)((s8 *)self + 0x334) = 2;
     }
-    switch (*(s32 *)((s8 *)arg0 + 0x334)) {
+    switch (*(s32 *)((s8 *)self + 0x334)) {
     case 2:
-        *(s32 *)((s8 *)arg0 + 0x368) = 1;
-        ((TObjEnemy *)arg0)->set_param(0xB);
+        *(s32 *)((s8 *)self + 0x368) = 1;
+        ((TObjEnemy *)self)->set_param(0xB);
         return;
     case 1:
-        *(s32 *)((s8 *)arg0 + 0x368) = 2;
-        ((TObjEnemy *)arg0)->set_param(0xA);
+        *(s32 *)((s8 *)self + 0x368) = 2;
+        ((TObjEnemy *)self)->set_param(0xA);
         return;
     default:
-        *(s32 *)((s8 *)arg0 + 0x368) = 0;
-        ((TObjEnemy *)arg0)->set_param(9);
+        *(s32 *)((s8 *)self + 0x368) = 0;
+        ((TObjEnemy *)self)->set_param(9);
         return;
     }
 }
 void TObjEneBeast::beast_update_appear() {
-    u8 *arg0 = (u8 *)this;
-    switch (*(s16 *)((s8 *)arg0 + 0x328)) {
+    u8 *self = (u8 *)this;
+    switch (*(s16 *)((s8 *)self + 0x328)) {
     case 0:
     default:
-        if ((s32) *(s32 *)((s8 *)arg0 + 0x390) != 1) {
-            *(s16 *)((s8 *)arg0 + 0x328) = 2;
+        if ((s32) *(s32 *)((s8 *)self + 0x390) != 1) {
+            *(s16 *)((s8 *)self + 0x328) = 2;
         } else {
-            *(s16 *)((s8 *)arg0 + 0x328) = 1;
-            *(s16 *)((s8 *)arg0 + 0xB8) = 0xB;
-            ((TObjCollidable *)arg0)->set_indexed_flags(0, 0x0A000000);
-            obj_setFlags30(arg0, 0x04000000);
-            play_sound_effect(0x4003AB32, (saddr)(arg0 + 0x38), 0, 0);
+            *(s16 *)((s8 *)self + 0x328) = 1;
+            *(s16 *)((s8 *)self + 0xB8) = 0xB;
+            ((TObjCollidable *)self)->set_indexed_flags(0, 0x0A000000);
+            obj_setFlags30(self, 0x04000000);
+            play_sound_effect(0x4003AB32, (saddr)(self + 0x38), 0, 0);
         }
         break;
     case 1:
-        if ((u32) *(u32 *)((s8 *)arg0 + 0xB4) != 0x20U) {
-            *(s16 *)((s8 *)arg0 + 0x328) = 2;
-            *(s32 *)((s8 *)arg0 + 0x390) = 0;
-            *(s16 *)((s8 *)arg0 + 0xB8) = 0;
-            ((TObjCollidable *)arg0)->clear_player_status_flag(0, 0x0A000000);
-            ((TObjBase *)arg0)->obj_clearFlags30(0x04000000);
+        if ((u32) *(u32 *)((s8 *)self + 0xB4) != 0x20U) {
+            *(s16 *)((s8 *)self + 0x328) = 2;
+            *(s32 *)((s8 *)self + 0x390) = 0;
+            *(s16 *)((s8 *)self + 0xB8) = 0;
+            ((TObjCollidable *)self)->clear_player_status_flag(0, 0x0A000000);
+            ((TObjBase *)self)->obj_clearFlags30(0x04000000);
         }
         break;
     case 2:
-        *(s16 *)((s8 *)arg0 + 0x326) = 1;
+        *(s16 *)((s8 *)self + 0x326) = 1;
         break;
     }
-    ((TObjMotion *)arg0)->advance_animation();
+    ((TObjMotion *)self)->advance_animation();
 }
 void TObjEneBeast::render() {
     s32 drawMode;

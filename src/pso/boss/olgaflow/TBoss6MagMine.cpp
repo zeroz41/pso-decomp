@@ -151,9 +151,9 @@ void TUnk_804F322C::run_death_reaction() {
 }
 
 void TUnk_804F322C::run_hit_reaction() {
-    u8 *arg0 = (u8 *)this;
-    *(s32 *)((s8 *)arg0 + 0x30) = (s32) (*(s32 *)((s8 *)arg0 + 0x30) & 0xFFFFFDFF);
-    *(f32 *)((s8 *)arg0 + 0x3A8) = (f32) 1.0f;
+    u8 *self = (u8 *)this;
+    *(s32 *)((s8 *)self + 0x30) = (s32) (*(s32 *)((s8 *)self + 0x30) & 0xFFFFFDFF);
+    *(f32 *)((s8 *)self + 0x3A8) = (f32) 1.0f;
 }
 
 void copy_pos__13TBoss6MagMineFi(s32 arg0) {

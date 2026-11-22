@@ -163,53 +163,53 @@ void TObjMotion::set_flags_B0(u32 v) { this->motion_flags |= v; }
 void TObjEneDimedian::run_demo_task() {  }
 
 void TObjEneDimedian::play_group_chase_sound() {
-    saddr arg0 = (saddr)this;
-    play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003AD40), arg0 + 0x38, 0, 0);
+    saddr self = (saddr)this;
+    play_sound_effect(((TObjEnemy *)(self))->remap_sound_for_area(0x4003AD40), self + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 
 void TObjEneDimedian::play_death_sound() {
-    saddr arg0 = (saddr)this;
-    play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003AD3D), arg0 + 0x38, 0, 0);
+    saddr self = (saddr)this;
+    play_sound_effect(((TObjEnemy *)(self))->remap_sound_for_area(0x4003AD3D), self + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 
 void TObjEneDimedian::play_hurt_sound() {
-    saddr arg0 = (saddr)this;
-    play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003A83E), arg0 + 0x38, 0, 0);
+    saddr self = (saddr)this;
+    play_sound_effect(((TObjEnemy *)(self))->remap_sound_for_area(0x4003A83E), self + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 
 void TObjEneDimedian::play_attack_sound() {
-    saddr arg0 = (saddr)this;
-    play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003A83F), arg0 + 0x38, 0, 0);
+    saddr self = (saddr)this;
+    play_sound_effect(((TObjEnemy *)(self))->remap_sound_for_area(0x4003A83F), self + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 
 void TObjEneDimedian::play_alert_sound() {
-    saddr arg0 = (saddr)this;
+    saddr self = (saddr)this;
     s32 temp_r3;
     if (random_ratio() < 0.5f) {
-        temp_r3 = ((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003B23B);
-        play_sound_effect(temp_r3, arg0 + 0x38, 0, 0);
+        temp_r3 = ((TObjEnemy *)(self))->remap_sound_for_area(0x4003B23B);
+        play_sound_effect(temp_r3, self + 0x38, 0, 0);
     } else {
-        temp_r3 = ((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003B23C);
-        play_sound_effect(temp_r3, arg0 + 0x38, 0, 0);
+        temp_r3 = ((TObjEnemy *)(self))->remap_sound_for_area(0x4003B23C);
+        play_sound_effect(temp_r3, self + 0x38, 0, 0);
     }
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 
 void TObjEneDimedian::spawn_death_effect() {
-    saddr arg0 = (saddr)this;
+    saddr self = (saddr)this;
     s32 area;
-    TObjPlayer::apply_effect_variant_a(arg0 + 0x38, 0);
-    fn_800D911C((Vec *)(arg0 + 0x2FC));
+    TObjPlayer::apply_effect_variant_a(self + 0x38, 0);
+    fn_800D911C((Vec *)(self + 0x2FC));
     area = get_current_floor_area();
     if ((area == AREA_VR_TEMPLE_ALPHA) || (area == AREA_VR_TEMPLE_BETA)) {
-        play_sound_effect(0x3AD3F, arg0 + 0x38, 0, 0);
+        play_sound_effect(0x3AD3F, self + 0x38, 0, 0);
         return;
     }
-    play_sound_effect((s32)(((s32)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003AD25))), arg0 + 0x38, 0, 0);
+    play_sound_effect((s32)(((s32)((TObjEnemy *)(self))->remap_sound_for_area(0x4003AD25))), self + 0x38, 0, 0);
 }
 
 void TObjEneDimedian::update_attack_trail() {
@@ -251,52 +251,52 @@ void TObjEneDimedian::update_attack_trail() {
 }
 
 void TObjEneDimedian::beast_retire_corpse() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     this->m_390 = 1;
-    if (((A7B00Obj_800a7b00_800A7764*)(arg0 + 0x3A8))->m4() == 1) {
-        ((TObject *)arg0)->queue_destruction();
+    if (((A7B00Obj_800a7b00_800A7764*)(self + 0x3A8))->m4() == 1) {
+        ((TObject *)self)->queue_destruction();
     }
 }
 void TObjEneDimedian::sub_800A7B54() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     s32 temp_r0;
-    temp_r0 = *(s32 *)((s8 *)arg0 + 0x334);
+    temp_r0 = *(s32 *)((s8 *)self + 0x334);
     if (temp_r0 < 0) {
-        *(s32 *)((s8 *)arg0 + 0x334) = 0;
+        *(s32 *)((s8 *)self + 0x334) = 0;
     } else if (temp_r0 > 2) {
-        *(s32 *)((s8 *)arg0 + 0x334) = 2;
+        *(s32 *)((s8 *)self + 0x334) = 2;
     }
-    switch (*(s32 *)((s8 *)arg0 + 0x334)) {
+    switch (*(s32 *)((s8 *)self + 0x334)) {
     case 2:
-        *(s32 *)((s8 *)arg0 + 0x368) = 0;
-        ((TObjEnemy *)arg0)->set_param(0x2B);
+        *(s32 *)((s8 *)self + 0x368) = 0;
+        ((TObjEnemy *)self)->set_param(0x2B);
         return;
     case 1:
-        *(s32 *)((s8 *)arg0 + 0x368) = 1;
-        ((TObjEnemy *)arg0)->set_param(0x2A);
+        *(s32 *)((s8 *)self + 0x368) = 1;
+        ((TObjEnemy *)self)->set_param(0x2A);
         return;
     default:
-        *(s32 *)((s8 *)arg0 + 0x368) = 2;
-        ((TObjEnemy *)arg0)->set_param(0x29);
+        *(s32 *)((s8 *)self + 0x368) = 2;
+        ((TObjEnemy *)self)->set_param(0x29);
         return;
     }
 }
 void TObjEneDimedian::beast_update_appear() {
-    Obj_800A7BEC *arg0 = (Obj_800A7BEC *)this;
+    Obj_800A7BEC *self = (Obj_800A7BEC *)this;
     advance_animation();
     switch (this->phase) {
     case 0:
     default:
         if (this->m_390 == 1) {
             this->phase = 1;
-            play_area_se_with_particle((Vec *)(arg0->sub38));
-            TObjPlayer__sub_800A0554((u8 *)arg0 + 0x3A8);
+            play_area_se_with_particle((Vec *)(self->sub38));
+            TObjPlayer__sub_800A0554((u8 *)self + 0x3A8);
         } else {
             this->phase = 2;
         }
         break;
     case 1:
-        if (((VObj_14_800A7BEC *)((u8 *)arg0 + 0x3A8))->m5() == 1) {
+        if (((VObj_14_800A7BEC *)((u8 *)self + 0x3A8))->m5() == 1) {
             this->phase = 2;
             this->m_390 = 0;
         }

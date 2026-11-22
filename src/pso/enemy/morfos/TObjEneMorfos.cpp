@@ -1097,7 +1097,7 @@ f32 TObjEneMorfos::receive_physical_attack(void *attacker, f32 scale) {
 #undef att
 
 void TObjEneMorfos::run_hit_reaction() {
-    Obj_8033496C *arg0 = (Obj_8033496C *)this;
+    Obj_8033496C *self = (Obj_8033496C *)this;
     Vec v;
     Pl_8033496C *pl;
     s32 d;
@@ -1107,38 +1107,38 @@ void TObjEneMorfos::run_hit_reaction() {
     pl = (Pl_8033496C *)get_player_by_client_id(this->attacker_id);
     if (pl != 0) {
         VecCopy((Vec *)&v, (const Vec *)&pl->pos);
-        subtract_vector(&v, &arg0->pos);
+        subtract_vector(&v, &self->pos);
         d = angle_difference_abs(this->rotation_y, (s32)(10430.38043493439 * atan2_float(v.x, v.z)));
     } else {
         d = 0;
     }
     if (d < 0x4000) {
-        ((TObjEneDD *)arg0)->clear_attack_receipts();
-        if (((TObjEneMorfos *)arg0)->check_low_hp_trigger() == 0) {
-            ((TObjEneMorfos *)arg0)->try_enter_low_hp_state();
+        ((TObjEneDD *)self)->clear_attack_receipts();
+        if (((TObjEneMorfos *)self)->check_low_hp_trigger() == 0) {
+            ((TObjEneMorfos *)self)->try_enter_low_hp_state();
         }
-    } else if (arg0->f3C0 & 4) {
-        ((TObjEneDD *)arg0)->clear_attack_receipts();
+    } else if (self->f3C0 & 4) {
+        ((TObjEneDD *)self)->clear_attack_receipts();
     } else {
-        ((TObjEneDD *)arg0)->transition_enemy_state((saddr)((void *)0xA));
+        ((TObjEneDD *)self)->transition_enemy_state((saddr)((void *)0xA));
     }
 }
 
 void TObjEneMorfos::run_miss_reaction() {  }
 
 s32 TObjEneMorfos::check_low_hp_trigger() {
-    u8 *arg0 = (u8 *)this;
-    if (!(*(s32 *)((s8 *)arg0 + 0x3C0) & 0x10) && ((s16) this->hp <= (s32) ((s16) this->hpmax / 2)) && (((TObjChara *)arg0)->random_ratio() <= *(f32 *)((s8 *)arg0 + 0x3E0))) {
-        *(s32 *)((s8 *)arg0 + 0x3C0) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C0) | 0x10);
+    u8 *self = (u8 *)this;
+    if (!(*(s32 *)((s8 *)self + 0x3C0) & 0x10) && ((s16) this->hp <= (s32) ((s16) this->hpmax / 2)) && (((TObjChara *)self)->random_ratio() <= *(f32 *)((s8 *)self + 0x3E0))) {
+        *(s32 *)((s8 *)self + 0x3C0) = (s32) (*(s32 *)((s8 *)self + 0x3C0) | 0x10);
         return 1;
     }
     return 0;
 }
 
 s32 TObjEneMorfos::try_enter_low_hp_state() {
-    u8 *arg0 = (u8 *)this;
-    if (((s16) this->hp <= (s32) ((s16) this->hpmax / 2)) && (((TObjChara *)arg0)->random_ratio() <= *(f32 *)((s8 *)arg0 + 0x3E4))) {
-        ((TObjEneDD *)arg0)->transition_enemy_state((saddr)((void*)(9)));
+    u8 *self = (u8 *)this;
+    if (((s16) this->hp <= (s32) ((s16) this->hpmax / 2)) && (((TObjChara *)self)->random_ratio() <= *(f32 *)((s8 *)self + 0x3E4))) {
+        ((TObjEneDD *)self)->transition_enemy_state((saddr)((void*)(9)));
         return 1;
     }
     return 0;
@@ -1162,11 +1162,11 @@ s32 TObjEneMorfos::approach_value(s32 arg1, s32 arg2) {
 }
 
 void TObjEneMorfos::set_hover_target_position() {
-    u8 *arg0 = (u8 *)this;
-    this->body_center.x = (f32) *(f32 *)((s8 *)arg0 + 0x38);
-    this->body_center.y = (f32) (20.0f + *(f32 *)((s8 *)arg0 + 0x3C));
-    this->body_center.z = (f32) *(f32 *)((s8 *)arg0 + 0x40);
-    VecCopy((Vec *)(arg0 + 0x74), (const Vec *)(arg0 + 0x2FC));
+    u8 *self = (u8 *)this;
+    this->body_center.x = (f32) *(f32 *)((s8 *)self + 0x38);
+    this->body_center.y = (f32) (20.0f + *(f32 *)((s8 *)self + 0x3C));
+    this->body_center.z = (f32) *(f32 *)((s8 *)self + 0x40);
+    VecCopy((Vec *)(self + 0x74), (const Vec *)(self + 0x2FC));
 }
 void TObjEneMorfos::update_body_colliders() {
     *(f32 *)((s8 *)this->bodies + 4) = (f32) (this->body_center.y - *(f32 *)((s8 *)this + 0x3C));
@@ -1176,22 +1176,22 @@ void TObjEneMorfos::update_body_colliders() {
 #pragma opt_common_subs off
 #pragma opt_propagation off
 void TObjEneMorfos::init_target_offsets() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     if ((s32) this->variant <= 0) {
-        *(s32 *)((s8 *)arg0 + 0x3E8) = 1;
+        *(s32 *)((s8 *)self + 0x3E8) = 1;
     } else {
-        *(s32 *)((s8 *)arg0 + 0x3E8) = 0;
+        *(s32 *)((s8 *)self + 0x3E8) = 0;
     }
-    *(f32 *)((s8 *)arg0 + 0x3D8) = (f32) (0.28f + *(f32 *)((s8 *)arg0 + 0x354));
-    if (*(f32 *)((s8 *)arg0 + 0x3D8) < 0.1f) {
-        *(f32 *)((s8 *)arg0 + 0x3D8) = 0.1f;
+    *(f32 *)((s8 *)self + 0x3D8) = (f32) (0.28f + *(f32 *)((s8 *)self + 0x354));
+    if (*(f32 *)((s8 *)self + 0x3D8) < 0.1f) {
+        *(f32 *)((s8 *)self + 0x3D8) = 0.1f;
     }
-    *(f32 *)((s8 *)arg0 + 0x3DC) = (f32) (20.0f + *(f32 *)((s8 *)arg0 + 0x358));
-    if (*(f32 *)((s8 *)arg0 + 0x3DC) < 5.0f) {
-        *(f32 *)((s8 *)arg0 + 0x3DC) = 5.0f;
+    *(f32 *)((s8 *)self + 0x3DC) = (f32) (20.0f + *(f32 *)((s8 *)self + 0x358));
+    if (*(f32 *)((s8 *)self + 0x3DC) < 5.0f) {
+        *(f32 *)((s8 *)self + 0x3DC) = 5.0f;
     }
-    *(f32 *)((s8 *)arg0 + 0x3E0) = (f32) (0.1f + *(f32 *)((s8 *)arg0 + 0x35C));
-    *(f32 *)((s8 *)arg0 + 0x3E4) = (f32) (0.1f + *(f32 *)((s8 *)arg0 + 0x360));
+    *(f32 *)((s8 *)self + 0x3E0) = (f32) (0.1f + *(f32 *)((s8 *)self + 0x35C));
+    *(f32 *)((s8 *)self + 0x3E4) = (f32) (0.1f + *(f32 *)((s8 *)self + 0x360));
 }
 #pragma pop
 
@@ -1210,12 +1210,12 @@ s32 TObjEneMorfos::select_target_in_view() {
     f32 cosLim;
     f32 d;
     f32 best;
-    O_80334588 *arg0 = (O_80334588 *)this;
+    O_80334588 *self = (O_80334588 *)this;
     best = 0.0f;
     id = 0xFFFF;
     cosLim = cos_table_lookup(0xAAA);
-    dx = sin_table_lookup(arg0->f60);
-    dz = cos_table_lookup(arg0->f60);
+    dx = sin_table_lookup(self->f60);
+    dz = cos_table_lookup(self->f60);
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         p = (u8 *)TObjPlayer::get_player_data(i);
@@ -1223,11 +1223,11 @@ s32 TObjEneMorfos::select_target_in_view() {
             continue;
         }
         VecCopy((Vec *)&v, (const Vec *)(p + 0x38));
-        subtract_vector(&v, &arg0->pos);
+        subtract_vector(&v, &self->pos);
         v.y = 0.0f;
         d = normalize_vector_xz((Vec *)(&v));
         if (d < 400.0f && d > best && dx * v.x + dz * v.z > cosLim &&
-            csnLookAt((Vec *)&arg0->pos, (Vec *)(p + 0x2FC)) == 0) {
+            csnLookAt((Vec *)&self->pos, (Vec *)(p + 0x2FC)) == 0) {
             id = get_entity_id(p);
             best = d;
         }
@@ -1242,9 +1242,9 @@ s32 TObjEneMorfos::select_target_in_view() {
 
 
 void TObjEneMorfos::play_sound_in_band() {
-    u8 *arg0 = (u8 *)this;
-    if ((((TObjMotion *)arg0)->is_passing_frame(4.0f) != 0) || (((TObjMotion *)arg0)->is_passing_frame(20.0f) != 0)) {
-        play_sound_effect(0x4003A823, (uaddr)(arg0 + 0x38), 0, 0);
+    u8 *self = (u8 *)this;
+    if ((((TObjMotion *)self)->is_passing_frame(4.0f) != 0) || (((TObjMotion *)self)->is_passing_frame(20.0f) != 0)) {
+        play_sound_effect(0x4003A823, (uaddr)(self + 0x38), 0, 0);
     }
 }
 

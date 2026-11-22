@@ -1153,13 +1153,13 @@ void TObjEneNanoDrago::capture_beam_origins() {
     get_anim_node_position(0x54, &beamOrigins[1]);
 }
 void TObjEneNanoDrago::update_attack_parameters() {
-    saddr arg0 = (saddr)this;
-    lbl_805D525C = TObjPlayer__sub_800DC434((arg0), 1);
-    lbl_805D5260 = TObjPlayer__sub_800DC434((arg0), 2);
-    lbl_805D5264 = TObjPlayer__sub_800DC434((arg0), 3);
-    lbl_805D5268 = TObjPlayer__sub_800DC434((arg0), 4);
-    lbl_805D526C = TObjPlayer__sub_800DC420((void *)arg0, 0);
-    lbl_805D5270 = TObjPlayer__sub_800DC420((void *)arg0, 1);
+    saddr self = (saddr)this;
+    lbl_805D525C = TObjPlayer__sub_800DC434((self), 1);
+    lbl_805D5260 = TObjPlayer__sub_800DC434((self), 2);
+    lbl_805D5264 = TObjPlayer__sub_800DC434((self), 3);
+    lbl_805D5268 = TObjPlayer__sub_800DC434((self), 4);
+    lbl_805D526C = TObjPlayer__sub_800DC420((void *)self, 0);
+    lbl_805D5270 = TObjPlayer__sub_800DC420((void *)self, 1);
 }
 
 #pragma push
@@ -1216,9 +1216,9 @@ void TObjEneNanoDrago::find_open_direction(Vec *direction) {
 }
 #pragma pop
 s32 TObjEneNanoDrago::update_action_hold_status() {
-    saddr arg0 = (saddr)this;
+    saddr self = (saddr)this;
     if (TObjChara::update_action_hold_status() != 0) {
-        ((TObjEneNanoDrago *)arg0)->sub_800D9BBC();
+        ((TObjEneNanoDrago *)self)->sub_800D9BBC();
         return 1;
     }
     return 0;

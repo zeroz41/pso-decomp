@@ -47,7 +47,7 @@ s32 TBoss5GryphonLightning__ct(f32);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int, f32, f32);
 extern s32 __vt__26TBoss5GryphonLightningHorn[];
-u8 *__ct__26TBoss5GryphonLightningHornFv(u8 *self, s32 arg1, s32 arg2, s32 arg3);
+u8 *__ct__26TBoss5GryphonLightningHornFv(u8 *self, s32 arg1, s32 arg2, s32 rotation_y);
 
 void TBoss8Dragon::queue_destruction() { TObject::queue_destruction(); }
 
@@ -185,12 +185,12 @@ void TBoss5GryphonLightningHorn::run_task() {
 TBoss5GryphonLightningHorn::~TBoss5GryphonLightningHorn() {}
 
 
-u8 *__ct__26TBoss5GryphonLightningHornFv(u8 *self, s32 arg1, s32 arg2, s32 arg3) {
+u8 *__ct__26TBoss5GryphonLightningHornFv(u8 *self, s32 arg1, s32 arg2, s32 rotation_y) {
     f32 temp_f1;
     TBoss5GryphonLightning__ct(10.0f);
     *(s32 **)((s8 *)self + 0x18) = __vt__26TBoss5GryphonLightningHorn;
     ((TBoss5GryphonLightningHorn *)self)->m_name = TBoss5GryphonLightningHorn__name;
-    *(s32 *)((s8 *)self + 0xA4) = arg3;
+    *(s32 *)((s8 *)self + 0xA4) = rotation_y;
     temp_f1 = 5.0f * sin_table_lookup((int) (*(s32 *)((s8 *)self + 0xA4)));
     *(f32 *)((s8 *)self + 0x98) = temp_f1;
     *(f32 *)((s8 *)self + 0x9C) = 0.0f;

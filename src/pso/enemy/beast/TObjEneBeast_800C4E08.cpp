@@ -136,21 +136,21 @@ void TUnk_80493450::update_target_near_flag() {
 
 void TUnk_80493450::beast_retire_corpse() { queue_destruction__7TObjectFv(this); }
 void TUnk_80493450::beast_update_dead() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     advance_animation();
-    if (((TObjMotion *)arg0)->is_passing_frame(BEAST_ANIMATION_START_FRAME) != 0) {
+    if (((TObjMotion *)self)->is_passing_frame(BEAST_ANIMATION_START_FRAME) != 0) {
         this->play_death_sound();
     }
-    if (((TObjMotion *)arg0)->is_passing_frame(BEAST_DEATH_EFFECT_FRAME) != 0) {
+    if (((TObjMotion *)self)->is_passing_frame(BEAST_DEATH_EFFECT_FRAME) != 0) {
         spawn_particle_effect(&this->position, 0xF3);
         this->spawn_death_effect();
     }
     if (this->frame < (BEAST_DEATH_SLIDE_FRAME_SCALE * (BEAST_DEATH_SLIDE_FRAME_COUNT * this->play_speed))) {
-        move_with_wall_slide((arg0));
+        move_with_wall_slide((self));
         x_speed *= BEAST_HORIZONTAL_SPEED_DAMPING;
         m_310 *= BEAST_HORIZONTAL_SPEED_DAMPING;
-    } else if (((TObjCollidable *)arg0)->obj_testFlags30(0x800000) == 0) {
-        apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), BEAST_GROUND_HEIGHT_OFFSET);
+    } else if (((TObjCollidable *)self)->obj_testFlags30(0x800000) == 0) {
+        apply_actor_gravity((TObjEnemy *)self, (s32 *)(0), BEAST_GROUND_HEIGHT_OFFSET);
     }
     this->unk_380 -= this->m_384;
     if (this->unk_380 <= this->unk_388) {
@@ -159,7 +159,7 @@ void TUnk_80493450::beast_update_dead() {
 }
 void TUnk_80493450::run_death_reaction() { if (this->mode != 8) { this->mode = 8; this->requested_action = 8; unlink_enemy_group_relations(); clear_player_status_flag((saddr)((void*)0), (uaddr)((void*)1)); ((TObjPlayer *)this)->refresh_lobby_state(); send_entity_set_flags(); } }
 void TUnk_80493450::beast_update_hurt() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     Vec v;
 
     advance_animation();
@@ -174,7 +174,7 @@ void TUnk_80493450::beast_update_hurt() {
     v.x += x_speed;
     v.z += m_310;
     if (check_path_obstructed(this, &v) == 0) {
-        move_with_wall_slide(arg0);
+        move_with_wall_slide(self);
         x_speed *= BEAST_HORIZONTAL_SPEED_DAMPING;
         m_310 *= BEAST_HORIZONTAL_SPEED_DAMPING;
     } else {
@@ -288,12 +288,12 @@ void TUnk_80493450::run_attack_action() {
 }
 
 s32 TUnk_80493450::update_movement_status() {
-    u8 *arg0 = (u8 *)this;
-  if (((TObjChara *)arg0)->TObjChara::update_movement_status() != 0)
+    u8 *self = (u8 *)this;
+  if (((TObjChara *)self)->TObjChara::update_movement_status() != 0)
   {
     if ((this->mode) != 0)
     {
-      if (((!arg0) && (!arg0)) && (!arg0))
+      if (((!self) && (!self)) && (!self))
       {
       }
     }
@@ -303,8 +303,8 @@ s32 TUnk_80493450::update_movement_status() {
       this->mode = 1;
       this->phase = 0;
       this->requested_action = 0;
-      ((TObjBase *)arg0)->obj_clearFlags30(0x04040000);
-      ((TObjCollidable *)arg0)->clear_player_status_flag((saddr)((void*)(0)), (uaddr)((void*)(0x0A000000)));
+      ((TObjBase *)self)->obj_clearFlags30(0x04040000);
+      ((TObjCollidable *)self)->clear_player_status_flag((saddr)((void*)(0)), (uaddr)((void*)(0x0A000000)));
     }
     return 1;
   }
@@ -312,12 +312,12 @@ s32 TUnk_80493450::update_movement_status() {
 }
 
 s32 TUnk_80493450::update_action_hold_status() {
-    u8 *arg0 = (u8 *)this;
-  if (((TObjChara *)arg0)->TObjChara::update_action_hold_status() != 0)
+    u8 *self = (u8 *)this;
+  if (((TObjChara *)self)->TObjChara::update_action_hold_status() != 0)
   {
     if ((this->mode) != 0)
     {
-      if (((!arg0) && (!arg0)) && (!arg0))
+      if (((!self) && (!self)) && (!self))
       {
       }
     }
@@ -327,8 +327,8 @@ s32 TUnk_80493450::update_action_hold_status() {
       this->mode = 1;
       this->phase = 0;
       this->requested_action = 0;
-      ((TObjBase *)arg0)->obj_clearFlags30(0x04040000);
-      ((TObjCollidable *)arg0)->clear_player_status_flag((saddr)((void*)(0)), (uaddr)((void*)(0x0A000000)));
+      ((TObjBase *)self)->obj_clearFlags30(0x04040000);
+      ((TObjCollidable *)self)->clear_player_status_flag((saddr)((void*)(0)), (uaddr)((void*)(0x0A000000)));
     }
     return 1;
   }
@@ -362,14 +362,14 @@ void TUnk_80493450::beast_update_group_chase() {
 }
 
 void TUnk_80493450::beast_update_approach() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     Vec sp14;
     f32 r;
     switch (this->phase) {
     case 0:
-        apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), BEAST_GROUND_HEIGHT_OFFSET);
-        ((TObjMotion *)arg0)->advance_animation();
-        if (((TObjMotion *)arg0)->is_passing_frame(BEAST_ANIMATION_START_FRAME) != 0) {
+        apply_actor_gravity((TObjEnemy *)self, (s32 *)(0), BEAST_GROUND_HEIGHT_OFFSET);
+        ((TObjMotion *)self)->advance_animation();
+        if (((TObjMotion *)self)->is_passing_frame(BEAST_ANIMATION_START_FRAME) != 0) {
             this->play_alert_sound();
         }
         if (this->action_flags != 0x20U) {
@@ -379,7 +379,7 @@ void TUnk_80493450::beast_update_approach() {
         break;
     default:
         if (this->target != NULL) {
-            if (((TUnk_80493450 *)arg0)->test_elt_flag(0, 0x300000) != 0) {
+            if (((TUnk_80493450 *)self)->test_elt_flag(0, 0x300000) != 0) {
                 if (this->m_38c++ < BEAST_HOME_CHASE_FRAME_COUNT) {
                     VecCopy(&sp14, &this->home_position);
                 } else {
@@ -391,10 +391,10 @@ void TUnk_80493450::beast_update_approach() {
             }
             update_target_near_flag();
             sub_800C4E08();
-            ((TObjMotion *)arg0)->advance_animation();
+            ((TObjMotion *)self)->advance_animation();
             {
                 Vec sp8 = sp14;
-                enemy_move_toward(arg0, *(s32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 8), &sp8, 0, this->unk_394);
+                enemy_move_toward(self, *(s32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 8), &sp8, 0, this->unk_394);
             }
             if (this->targetId == 0xFFFF) {
                 if (horizontal_distance_squared((u8 *)&this->m_29c, (u8 *)&this->position) < (r = this->unk_394 + this->bodies->radius) * r ||
@@ -406,66 +406,66 @@ void TUnk_80493450::beast_update_approach() {
         }
         break;
     }
-    ((TObjPlayer *)arg0)->update_collisions();
+    ((TObjPlayer *)self)->update_collisions();
     minimap_render_dot((u8 *)&this->position, -0x5DB4, 1, 0);
-    ((TObjBase *)arg0)->obj_clearFlags30(0x200000);
+    ((TObjBase *)self)->obj_clearFlags30(0x200000);
 }
 
 void TUnk_80493450::update_turn_toward_target() {
-    TUnk_80493450 *arg0 = this;
+    TUnk_80493450 *self = this;
     s32 ang;
     advance_animation();
-    switch (arg0->phase) {
+    switch (self->phase) {
     case 0:
-        if (arg0->is_passing_frame(BEAST_ANIMATION_START_FRAME) != 0) {
-            arg0->play_alert_sound();
+        if (self->is_passing_frame(BEAST_ANIMATION_START_FRAME) != 0) {
+            self->play_alert_sound();
         }
-        if (arg0->action_flags != 0x20) {
-            arg0->phase = 1;
-            arg0->requested_action = 2;
+        if (self->action_flags != 0x20) {
+            self->phase = 1;
+            self->requested_action = 2;
         }
         break;
     case 1:
-        if (arg0->target != NULL && arg0->is_actor_cadence_frame(0x1E) != 0) {
+        if (self->target != NULL && self->is_actor_cadence_frame(0x1E) != 0) {
             Vec d;
-            VecCopy(&d, &((TObjChara *)arg0->target)->body_center);
-            subtract_vector(&d, &arg0->body_center);
-            ang = arg0->turn_toward_direction((saddr)((Ctl_800C5B10 *)arg0->movementParameters)->field_8, &d);
-            if (d.x * d.x + d.z * d.z < BEAST_GROUP_APPROACH_DISTANCE_SQ || arg0->children == 0) {
-                arg0->mode = 3;
-                arg0->phase = 1;
-                arg0->requested_action = 2;
-            } else if (ang <= ((AttackParams *)(arg0->m_318))->get_attack_angle()) {
-                arg0->phase = 2;
-                arg0->requested_action = 0;
+            VecCopy(&d, &((TObjChara *)self->target)->body_center);
+            subtract_vector(&d, &self->body_center);
+            ang = self->turn_toward_direction((saddr)((Ctl_800C5B10 *)self->movementParameters)->field_8, &d);
+            if (d.x * d.x + d.z * d.z < BEAST_GROUP_APPROACH_DISTANCE_SQ || self->children == 0) {
+                self->mode = 3;
+                self->phase = 1;
+                self->requested_action = 2;
+            } else if (ang <= ((AttackParams *)(self->m_318))->get_attack_angle()) {
+                self->phase = 2;
+                self->requested_action = 0;
             }
         }
         break;
     case 2:
-        if (arg0->target != NULL && arg0->is_actor_cadence_frame(0x1E) != 0) {
+        if (self->target != NULL && self->is_actor_cadence_frame(0x1E) != 0) {
             Vec d;
-            VecCopy(&d, &((TObjChara *)arg0->target)->body_center);
-            subtract_vector(&d, &arg0->body_center);
-            ang = angle_difference_abs(arg0->rotation_y, (s32)(BEAST_ANGLE_UNITS_PER_RADIAN * atan2_float(d.x, d.z)));
-            if (d.x * d.x + d.z * d.z < BEAST_GROUP_APPROACH_DISTANCE_SQ || arg0->children == 0) {
-                arg0->mode = 3;
-                arg0->phase = 1;
-                arg0->requested_action = 2;
-            } else if (((AttackParams *)(arg0->m_318))->get_attack_angle() < ang) {
-                arg0->phase = 1;
-                arg0->requested_action = 2;
+            VecCopy(&d, &((TObjChara *)self->target)->body_center);
+            subtract_vector(&d, &self->body_center);
+            ang = angle_difference_abs(self->rotation_y, (s32)(BEAST_ANGLE_UNITS_PER_RADIAN * atan2_float(d.x, d.z)));
+            if (d.x * d.x + d.z * d.z < BEAST_GROUP_APPROACH_DISTANCE_SQ || self->children == 0) {
+                self->mode = 3;
+                self->phase = 1;
+                self->requested_action = 2;
+            } else if (((AttackParams *)(self->m_318))->get_attack_angle() < ang) {
+                self->phase = 1;
+                self->requested_action = 2;
             }
         }
         break;
     }
-    apply_actor_gravity(arg0, 0, BEAST_GROUND_HEIGHT_OFFSET);
-    ((TObjPlayer *)arg0)->update_collisions();
-    minimap_render_dot(&arg0->position, -0x5DB4, 1, 0);
+    apply_actor_gravity(self, 0, BEAST_GROUND_HEIGHT_OFFSET);
+    ((TObjPlayer *)self)->update_collisions();
+    minimap_render_dot(&self->position, -0x5DB4, 1, 0);
 }
 
 void TUnk_80493450::run_move_action() {
-    u8 *arg0 = (u8 *)this;
-    if (((TObjCollidable *)arg0)->obj_testFlags30(0x1000) != 0) {
+    u8 *self = (u8 *)this;
+    if (((TObjCollidable *)self)->obj_testFlags30(0x1000) != 0) {
         this->mode = 4;
     }
     switch (this->mode) {
@@ -478,8 +478,8 @@ void TUnk_80493450::run_move_action() {
             this->mode = 2;
             this->requested_action = 0xA;
         }
-        ((TObjBase *)arg0)->obj_clearFlags30(0x04040000);
-        ((TObjCollidable *)arg0)->clear_player_status_flag((saddr)((void*)(0)), (uaddr)((void*)(0x0A000000U)));
+        ((TObjBase *)self)->obj_clearFlags30(0x04040000);
+        ((TObjCollidable *)self)->clear_player_status_flag((saddr)((void*)(0)), (uaddr)((void*)(0x0A000000U)));
         break;
     case 2:
     case 3:
@@ -491,14 +491,14 @@ void TUnk_80493450::run_move_action() {
         this->mode = 3;
         this->phase = 1;
         this->requested_action = 2;
-        ((TObjBase *)arg0)->obj_clearFlags30(0x04040000);
-        ((TObjCollidable *)arg0)->clear_player_status_flag((saddr)((void*)(0)), (uaddr)((void*)(0x0A000000U)));
+        ((TObjBase *)self)->obj_clearFlags30(0x04040000);
+        ((TObjCollidable *)self)->clear_player_status_flag((saddr)((void*)(0)), (uaddr)((void*)(0x0A000000U)));
         break;
     }
 }
 
 void TUnk_80493450::beast_idle_update() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     f32 r;
     f32 dist;
     f32 range;
@@ -507,30 +507,30 @@ void TUnk_80493450::beast_idle_update() {
     s32 angle2;
     u8 *other;
 
-    ((TUnk_80493450 *)arg0)->update_target_near_flag();
-    ((TUnk_80493450 *)arg0)->sub_800C4E08();
-    ((TObjMotion *)arg0)->advance_animation();
+    ((TUnk_80493450 *)self)->update_target_near_flag();
+    ((TUnk_80493450 *)self)->sub_800C4E08();
+    ((TObjMotion *)self)->advance_animation();
     if (this->phase != 1) {
         this->phase = 1;
-        ((TUnk_80493450 *)arg0)->link_into_group_chain();
-        *(s32 *)&this->m_378 = ((TObjPlayer *)arg0)->is_action_available();
+        ((TUnk_80493450 *)self)->link_into_group_chain();
+        *(s32 *)&this->m_378 = ((TObjPlayer *)self)->is_action_available();
     }
-    *(s32 *)&this->m_37c = ((TUnk_80493450 *)arg0)->countChildren();
+    *(s32 *)&this->m_37c = ((TUnk_80493450 *)self)->countChildren();
     other = *(u8 * *)&this->next;
     if (other != NULL) {
         diff = *(s32 *)((s8 *)other + 0x37C) - *(s32 *)&this->m_37c;
         if (diff > 1) {
-            link_chain_nodes__10TObjPlayerFPvPvPv(arg0, other, arg0);
+            link_chain_nodes__10TObjPlayerFPvPvPv(self, other, self);
             *(s32 *)&this->m_37c = *(s32 *)&this->m_37c + 1;
             *(s32 *)((s8 *)other + 0x37C) = *(s32 *)((s8 *)other + 0x37C) - 1;
         } else if (diff < -1) {
-            link_chain_nodes__10TObjPlayerFPvPvPv(arg0, arg0, other);
+            link_chain_nodes__10TObjPlayerFPvPvPv(self, self, other);
             *(s32 *)&this->m_37c = *(s32 *)&this->m_37c - 1;
             *(s32 *)((s8 *)other + 0x37C) = *(s32 *)((s8 *)other + 0x37C) + 1;
         }
     }
     dist = horizontal_distance_squared((u8 *)&this->position, (u8 *)&this->home_position);
-    range = *(f32 *)((s8 *)arg0 + 0x358) + (*(f32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 4) + *(f32 *)((s8 *)(*(u8 * *)&this->bodies) + 0xC));
+    range = *(f32 *)((s8 *)self + 0x358) + (*(f32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 4) + *(f32 *)((s8 *)(*(u8 * *)&this->bodies) + 0xC));
     if (range * range < dist) {
         VecCopy((Vec *)&this->m_29c, &this->home_position);
         VecCopy((Vec *)&this->m_290, &this->body_center);
@@ -545,7 +545,7 @@ void TUnk_80493450::beast_idle_update() {
         rotate_vector_by_matrix(0, &lbl_8050BF00, &lbl_8050BF00);
         pop_matrices(1);
         vec3_add_to(&lbl_8050BF00, (u8 *)&this->position);
-        if (project_actor_to_ground(arg0, &lbl_8050BF00, 0) == 1) {
+        if (project_actor_to_ground(self, &lbl_8050BF00, 0) == 1) {
             this->requested_action = 2;
             VecCopy(&this->position, &lbl_8050BF00);
             this->rotation_y = approach_angle_limited(this->rotation_y, angle, *(s32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 8));
@@ -564,7 +564,7 @@ void TUnk_80493450::beast_idle_update() {
         rotate_vector_by_matrix(0, &lbl_8050BF00, &lbl_8050BF00);
         pop_matrices(1);
         vec3_add_to(&lbl_8050BF00, (u8 *)&this->position);
-        if (project_actor_to_ground(arg0, &lbl_8050BF00, 0) == 1) {
+        if (project_actor_to_ground(self, &lbl_8050BF00, 0) == 1) {
             this->requested_action = 2;
             VecCopy(&this->position, &lbl_8050BF00);
             this->rotation_y = approach_angle_limited(this->rotation_y, angle, *(s32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 8));
@@ -583,27 +583,27 @@ void TUnk_80493450::beast_idle_update() {
         rotate_vector_by_matrix(0, &lbl_8050BF00, &lbl_8050BF00);
         pop_matrices(1);
         vec3_add_to(&lbl_8050BF00, (u8 *)&this->position);
-        if (project_actor_to_ground(arg0, &lbl_8050BF00, 0) == 1) {
+        if (project_actor_to_ground(self, &lbl_8050BF00, 0) == 1) {
             this->requested_action = 2;
             VecCopy(&this->position, &lbl_8050BF00);
             this->rotation_y = approach_angle_limited(this->rotation_y, angle2, *(s32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 8));
         } else {
             this->requested_action = 2;
         }
-    } else if (*(s32 *)&this->m_37c == 0 && BEAST_MIN_WANDER_RANGE < *(f32 *)((s8 *)arg0 + 0x358)) {
+    } else if (*(s32 *)&this->m_37c == 0 && BEAST_MIN_WANDER_RANGE < *(f32 *)((s8 *)self + 0x358)) {
         this->requested_action = 2;
-        ((TObjEnemy *)(arg0))->enemy_wander_home(*(f32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 4), *(f32 *)((s8 *)arg0 + 0x358), *(f32 *)((s8 *)arg0 + 0x358), *(s32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 8));
+        ((TObjEnemy *)(self))->enemy_wander_home(*(f32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 4), *(f32 *)((s8 *)self + 0x358), *(f32 *)((s8 *)self + 0x358), *(s32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 8));
     } else {
         this->request_stand_action();
     }
 end:
-    if (((TObjCollidable *)arg0)->obj_testFlags30(0x800000) == 0) {
-        apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), BEAST_GROUND_HEIGHT_OFFSET);
+    if (((TObjCollidable *)self)->obj_testFlags30(0x800000) == 0) {
+        apply_actor_gravity((TObjEnemy *)self, (s32 *)(0), BEAST_GROUND_HEIGHT_OFFSET);
     }
-    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
+    ((TObjCollidable *)self)->refresh_collision_body_centers();
     minimap_render_dot((u8 *)&this->position, -0x5DB4, 1, 0);
-    ((TObjBase *)arg0)->obj_clearFlags30(0x04240000);
-    ((TObjCollidable *)arg0)->clear_player_status_flag((saddr)((void *)0), (uaddr)((void *)0x0A000000));
+    ((TObjBase *)self)->obj_clearFlags30(0x04240000);
+    ((TObjCollidable *)self)->clear_player_status_flag((saddr)((void *)0), (uaddr)((void *)0x0A000000));
 }
 
 void TUnk_80493450::run_idle_action() {
@@ -729,7 +729,7 @@ TUnk_80493450::TUnk_80493450(TObject *parent) : TObjEnemy(parent) {
 TUnk_80493450::~TUnk_80493450() {}
 
 void TUnk_80493450::run_task() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
   s16 temp_r0;
   if (TObjPlayer::check_demo_mode() == 1)
   {
@@ -772,9 +772,9 @@ void TUnk_80493450::run_task() {
         break;
     }
   }
-  ((TObjEnemy *)arg0)->update_prev_position();
-  ((TBoss3VoloptHiraisin *)arg0)->copy_position();
-  submit_cursor_candidate((void *) arg0, -1);
+  ((TObjEnemy *)self)->update_prev_position();
+  ((TBoss3VoloptHiraisin *)self)->copy_position();
+  submit_cursor_candidate((void *) self, -1);
   this->m_2b4 += BEAST_FRAME_INCREMENT;
 }
 

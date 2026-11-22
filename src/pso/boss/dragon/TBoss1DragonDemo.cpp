@@ -29,10 +29,10 @@ void TBoss1DragonDemo__sub_8002B690(void) {  }
 void TBoss1DragonDemo::render() {  }
 
 void TBoss1DragonDemo::run_task() {
-    u8 *arg0 = (u8 *)this;
-    if ((get_scripted_camera_playback()->flags & 1) || ((s32) **(s32 **)((s8 *)arg0 + 0x24) == 0)) {
+    u8 *self = (u8 *)this;
+    if ((get_scripted_camera_playback()->flags & 1) || ((s32) **(s32 **)((s8 *)self + 0x24) == 0)) {
         restore_player_cameras();
-        ((TObject *)arg0)->queue_destruction();
+        ((TObject *)self)->queue_destruction();
     }
 }
 LAYOUT_ASSERT(RecoveredGlobal_8002B744___vt__16TBoss1DragonDemo_size, sizeof(RecoveredGlobal_8002B744___vt__16TBoss1DragonDemo) == 0x18);

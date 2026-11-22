@@ -464,7 +464,7 @@ extern int chunk_polygon_flags_or_mask;
 extern int chunk_polygon_flags_and_mask;
 
 
-void TObjPlayer::push_material_color_override(f32 farg0, f32 farg1, f32 farg2, f32 farg3) {
+void TObjPlayer::push_material_color_override(f32 alpha, f32 farg1, f32 farg2, f32 farg3) {
     Stack_800EBE74 stack;
     (*(s32 *)&saved_model_render_flags) = (*(s32 *)&model_render_flags);
     (*(s32 *)&saved_chunk_polygon_flags_and_mask) = (*(s32 *)&chunk_polygon_flags_and_mask);
@@ -473,7 +473,7 @@ void TObjPlayer::push_material_color_override(f32 farg0, f32 farg1, f32 farg2, f
     set_chunk_material_override_pair(0xFF00, 0x800);
     stack.spC = farg1;
     stack.sp10 = farg2;
-    stack.sp8 = -1.0f + farg0;
+    stack.sp8 = -1.0f + alpha;
     stack.sp14 = farg3;
     set_constant_material((const NJS_ARGB *)((&stack.sp8)));
 }
@@ -550,7 +550,7 @@ void TObjEneSlime::run_task() {
 }
 
 void TObjEneSlime::render() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     s32 temp_r30;
     s32 temp_r30_2;
     s32 temp_r31;
@@ -561,7 +561,7 @@ void TObjEneSlime::render() {
         TObjPlayer::toggle_particle_effect();
         push_matrix();
         temp_r30_2 = *(s32 *)((s8 *)((u8 *)lbl_80496368 + temp_r30) + 0);
-        post_translate_matrix((void *) ((u8 *)arg0 + 0x38));
+        post_translate_matrix((void *) ((u8 *)self + 0x38));
         TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)slime_bml_resource, temp_r30_2));
         if (temp_r31 != 0) {
             model_render_flags |= 0x400000;
@@ -916,21 +916,21 @@ f32 TObjEneSlimeOne::receive_direct_attack(void *attacker, DirectAttackPayload p
 void TObjEneSlimeOne::run_death_reaction() { if (*(int *)&this->state != 13) { set_state((saddr)((void*)((void*)13))); } }
 
 void TObjEneSlimeOne::run_hit_reaction() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     if ((s32) this->state != 0xC) {
         if (((s32) this->attacker_id < (s32) registered_player_count) && (((u32 (*)(void))get_player_by_client_id)() != 0U) && (check_player_field_7cc__15TObjEneSlimeOneFv() == 2) && (parent_slime != NULL) && (parent_slime->all_parents_unqueued_for_destruction() != 0)) {
             parent_slime->try_spawn_child((u8 *)&this->position);
         }
         this->actorFlags = (s32) (this->actorFlags & 0xFFFFFDFF);
-        ((TObjEneSlimeOne *)arg0)->set_state((saddr)((void*)(0xC)));
+        ((TObjEneSlimeOne *)self)->set_state((saddr)((void*)(0xC)));
     }
 }
 
 void TObjEneSlimeOne::run_miss_reaction() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     if ((s32) this->state != 0xB) {
         this->actorFlags = (s32) (this->actorFlags & 0xFFFFFEFF);
-        ((TObjEneSlimeOne *)arg0)->set_state((saddr)((void*)(0xB)));
+        ((TObjEneSlimeOne *)self)->set_state((saddr)((void*)(0xB)));
     }
 }
 
@@ -1833,7 +1833,7 @@ void TObjEneSlimeTailAttack::render() {
 #pragma push
 #pragma dont_inline off
 void TObjEneSlimeTailAttack::sub_800E841C() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     push_matrix();
     post_translate_matrix((u8 *)&this->position);
     rotate_matrix_y(0, (int) (this->rotation_y));
@@ -1841,7 +1841,7 @@ void TObjEneSlimeTailAttack::sub_800E841C() {
     if (active != 0) {
         TObjPlayer__sub_800E81A8();
         set_chunk_model_node_callback(TObjPlayer__sub_800E8128);
-        ((TObjMotion *)arg0)->draw();
+        ((TObjMotion *)self)->draw();
         set_chunk_model_node_callback(NULL);
         TObjPlayer__sub_800E80C0((u8 *)&pose);
         VecCopy(&body_center, &pose.attachment);
@@ -1850,7 +1850,7 @@ void TObjEneSlimeTailAttack::sub_800E841C() {
         scale_matrix_vec3(0, (u8 *)&stretch_scale);
         TObjPlayer__sub_800E81A8();
         set_chunk_model_node_callback(TObjPlayer__sub_800E8128);
-        ((TObjMotion *)arg0)->draw();
+        ((TObjMotion *)self)->draw();
         set_chunk_model_node_callback(NULL);
         TObjPlayer__sub_800E80C0((u8 *)&pose);
         VecCopy(&body_center, &pose.attachment);

@@ -504,10 +504,10 @@ void TObjDFTenchuFuru::draw_node_tree() { TObjDFTenchuFuru__matrix_node_index = 
 
 extern "C" {
 void TObjDFTenchuFuru::transform_node_tree() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     u8 *temp_r3;
     u8 *var_r31;
-    var_r31 = arg0;
+    var_r31 = self;
     do {
         push_matrix();
         post_translate_matrix((f32 *)(var_r31 + 8));

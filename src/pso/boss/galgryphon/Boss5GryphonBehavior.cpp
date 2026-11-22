@@ -436,7 +436,7 @@ f32 TBoss8Dragon__sub_8005EAD0(void *arg0, void *arg1, int arg2);
 void set_animation_by_state__12TBoss8DragonFPv(TBoss5Gryphon *gryphon);
 void TBoss8Dragon__sub_8005F684(TBoss5Gryphon *self, void *params);
 void trigger_effect__12TBoss8DragonFPvi(void *arg0, s32 arg1);
-void turn_toward_angle_limited__13TBoss5GryphonFPvii(void *selfv, s32 arg1, s32 arg2);
+void turn_toward_angle_limited__13TBoss5GryphonFPvii(void *selfv, s32 ang, s32 arg2);
 void TBoss8Dragon__sub_80063EF4(saddr arg0);
 void apply_shockwave_hit(s32 arg0, s32 arg1);
 void TBoss8Dragon__sub_800641A8(u8 *arg0);
@@ -1122,13 +1122,13 @@ void TBoss8Dragon__sub_8005D9BC(u8 *arg0, s32 arg1, s32 arg2) {
 #pragma pop
 
 void TBoss5Gryphon::render_nodes_with_flag() {
-    saddr arg0 = (saddr)this;
+    saddr self = (saddr)this;
     s32 temp_r4;
 
     temp_r4 = model_render_flags;
     saved_model_render_flags = temp_r4;
     model_render_flags = temp_r4 | 0x400;
-    ((TObject *)(arg0 + 0x4C4))->render_nodes();
+    ((TObject *)(self + 0x4C4))->render_nodes();
     model_render_flags = saved_model_render_flags;
 }
 
@@ -1398,45 +1398,45 @@ void TBoss5Gryphon::enable_particles() {
 #pragma push
 #pragma fp_contract on
 void TBoss5Gryphon::update_ground_effects() {
-    Obj_8005E594 *arg0 = (Obj_8005E594 *)this;
+    Obj_8005E594 *self = (Obj_8005E594 *)this;
     Vec pts[16];
     Vec *p;
     Vec *q;
     s32 i;
     p = pts;
-    VecCopy__FP3VecPC3Vec((void*)(p++), &arg0->cp[0]);
-    VecCopy__FP3VecPC3Vec((void*)(p++), &arg0->cp[1]);
-    VecCopy__FP3VecPC3Vec((void*)(p++), &arg0->cp[2]);
-    VecCopy__FP3VecPC3Vec(p, &arg0->cp[3]);
-    p[1].x = (2.0f * arg0->cp[0].x + arg0->cp[1].x) / lbl_805D8D90;
-    p[1].y = (2.0f * arg0->cp[0].y + arg0->cp[1].y) / lbl_805D8D90;
-    p[1].z = (2.0f * arg0->cp[0].z + arg0->cp[1].z) / lbl_805D8D90;
-    p[2].x = (2.0f * arg0->cp[1].x + arg0->cp[0].x) / lbl_805D8D90;
-    p[2].y = (2.0f * arg0->cp[1].y + arg0->cp[0].y) / lbl_805D8D90;
-    p[2].z = (2.0f * arg0->cp[1].z + arg0->cp[0].z) / lbl_805D8D90;
-    p[3].x = 0.5f * (arg0->cp[1].x + arg0->cp[2].x);
-    p[3].y = 0.5f * (arg0->cp[1].y + arg0->cp[2].y);
-    p[3].z = 0.5f * (arg0->cp[1].z + arg0->cp[2].z);
-    p[4].x = 0.5f * (arg0->cp[2].x + arg0->cp[3].x);
-    p[4].y = 0.5f * (arg0->cp[2].y + arg0->cp[3].y);
-    p[4].z = 0.5f * (arg0->cp[2].z + arg0->cp[3].z);
+    VecCopy__FP3VecPC3Vec((void*)(p++), &self->cp[0]);
+    VecCopy__FP3VecPC3Vec((void*)(p++), &self->cp[1]);
+    VecCopy__FP3VecPC3Vec((void*)(p++), &self->cp[2]);
+    VecCopy__FP3VecPC3Vec(p, &self->cp[3]);
+    p[1].x = (2.0f * self->cp[0].x + self->cp[1].x) / lbl_805D8D90;
+    p[1].y = (2.0f * self->cp[0].y + self->cp[1].y) / lbl_805D8D90;
+    p[1].z = (2.0f * self->cp[0].z + self->cp[1].z) / lbl_805D8D90;
+    p[2].x = (2.0f * self->cp[1].x + self->cp[0].x) / lbl_805D8D90;
+    p[2].y = (2.0f * self->cp[1].y + self->cp[0].y) / lbl_805D8D90;
+    p[2].z = (2.0f * self->cp[1].z + self->cp[0].z) / lbl_805D8D90;
+    p[3].x = 0.5f * (self->cp[1].x + self->cp[2].x);
+    p[3].y = 0.5f * (self->cp[1].y + self->cp[2].y);
+    p[3].z = 0.5f * (self->cp[1].z + self->cp[2].z);
+    p[4].x = 0.5f * (self->cp[2].x + self->cp[3].x);
+    p[4].y = 0.5f * (self->cp[2].y + self->cp[3].y);
+    p[4].z = 0.5f * (self->cp[2].z + self->cp[3].z);
     p += 5;
-    VecCopy__FP3VecPC3Vec((void*)(p++), &arg0->cp[4]);
-    VecCopy__FP3VecPC3Vec((void*)(p++), &arg0->cp[5]);
-    VecCopy__FP3VecPC3Vec((void*)(p++), &arg0->cp[6]);
-    VecCopy__FP3VecPC3Vec(p, &arg0->cp[7]);
-    p[1].x = (2.0f * arg0->cp[4].x + arg0->cp[5].x) / lbl_805D8D90;
-    p[1].y = (2.0f * arg0->cp[4].y + arg0->cp[5].y) / lbl_805D8D90;
-    p[1].z = (2.0f * arg0->cp[4].z + arg0->cp[5].z) / lbl_805D8D90;
-    p[2].x = (2.0f * arg0->cp[5].x + arg0->cp[4].x) / lbl_805D8D90;
-    p[2].y = (2.0f * arg0->cp[5].y + arg0->cp[4].y) / lbl_805D8D90;
-    p[2].z = (2.0f * arg0->cp[5].z + arg0->cp[4].z) / lbl_805D8D90;
-    p[3].x = 0.5f * (arg0->cp[5].x + arg0->cp[6].x);
-    p[3].y = 0.5f * (arg0->cp[5].y + arg0->cp[6].y);
-    p[3].z = 0.5f * (arg0->cp[5].z + arg0->cp[6].z);
-    p[4].x = 0.5f * (arg0->cp[6].x + arg0->cp[7].x);
-    p[4].y = 0.5f * (arg0->cp[6].y + arg0->cp[7].y);
-    p[4].z = 0.5f * (arg0->cp[6].z + arg0->cp[7].z);
+    VecCopy__FP3VecPC3Vec((void*)(p++), &self->cp[4]);
+    VecCopy__FP3VecPC3Vec((void*)(p++), &self->cp[5]);
+    VecCopy__FP3VecPC3Vec((void*)(p++), &self->cp[6]);
+    VecCopy__FP3VecPC3Vec(p, &self->cp[7]);
+    p[1].x = (2.0f * self->cp[4].x + self->cp[5].x) / lbl_805D8D90;
+    p[1].y = (2.0f * self->cp[4].y + self->cp[5].y) / lbl_805D8D90;
+    p[1].z = (2.0f * self->cp[4].z + self->cp[5].z) / lbl_805D8D90;
+    p[2].x = (2.0f * self->cp[5].x + self->cp[4].x) / lbl_805D8D90;
+    p[2].y = (2.0f * self->cp[5].y + self->cp[4].y) / lbl_805D8D90;
+    p[2].z = (2.0f * self->cp[5].z + self->cp[4].z) / lbl_805D8D90;
+    p[3].x = 0.5f * (self->cp[5].x + self->cp[6].x);
+    p[3].y = 0.5f * (self->cp[5].y + self->cp[6].y);
+    p[3].z = 0.5f * (self->cp[5].z + self->cp[6].z);
+    p[4].x = 0.5f * (self->cp[6].x + self->cp[7].x);
+    p[4].y = 0.5f * (self->cp[6].y + self->cp[7].y);
+    p[4].z = 0.5f * (self->cp[6].z + self->cp[7].z);
     q = pts;
     for (i = 0; i < 16; i++, q++) {
         Hit_8005E594 *hit = (Hit_8005E594 *)csnVecterUnder((s32 *)q, 0x16EF);
@@ -1450,10 +1450,10 @@ void TBoss5Gryphon::update_ground_effects() {
                 q->y = y;
             }
         }
-        if (arg0->parts[i] == NULL) {
-            arg0->parts[i] = spawn_continuous_particle_effect_with_flags(q, arg0->fx->f14, 0x40);
+        if (self->parts[i] == NULL) {
+            self->parts[i] = spawn_continuous_particle_effect_with_flags(q, self->fx->f14, 0x40);
         } else {
-            ((TParticleCtrl *)arg0->parts[i])->set_position(q);
+            ((TParticleCtrl *)self->parts[i])->set_position(q);
         }
     }
 }
@@ -1926,13 +1926,13 @@ void TBoss5Gryphon::update_heading(s32 ang) {
     turn_toward_angle_limited__13TBoss5GryphonFPvii(this, ang, (s32) (10430.38043493439 * atan2_float(this->destination_direction.x, this->destination_direction.z)));
 }
 
-void turn_toward_angle_limited__13TBoss5GryphonFPvii(void *selfv, s32 arg1, s32 arg2) {
+void turn_toward_angle_limited__13TBoss5GryphonFPvii(void *selfv, s32 ang, s32 arg2) {
     s32 t;
     s32 v;
 
     t = angle_diff_s16(((Obj_8005F968 *)selfv)->f60, arg2);
     t = angle_diff_s16((s32)((f32)t * lbl_805D8DA0), ((Obj_8005F968 *)selfv)->f480);
-    v = (t < -arg1) ? -arg1 : ((t < arg1) ? t : arg1);
+    v = (t < -ang) ? -ang : ((t < ang) ? t : ang);
     ((Obj_8005F968 *)selfv)->f480 = ((Obj_8005F968 *)selfv)->f480 - v;
 }
 

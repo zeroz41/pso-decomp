@@ -1033,7 +1033,7 @@ void TObjEneRecobox::update_child_spawn() {
 #pragma push
 #pragma opt_common_subs off
 void TObjEneRecobox::sub_8031F800() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     s32 temp_r0;
     *(s32 *)&this->mount_type = (s32) *(s32 *)&this->variant;
     if ((s32) *(s32 *)&this->mount_type <= 0) {
@@ -1041,12 +1041,12 @@ void TObjEneRecobox::sub_8031F800() {
     } else if ((s32) *(s32 *)&this->variant >= 2) {
         *(s32 *)&this->mount_type = 2;
     }
-    *(f32 *)&this->m_4d0 = (f32) *(f32 *)((s8 *)arg0 + 0x354);
-    *(f32 *)((s8 *)arg0 + 0x4D4) = (f32) *(f32 *)((s8 *)arg0 + 0x358);
-    if (*(f32 *)((s8 *)arg0 + 0x4D4) <= -30.0f) {
-        *(f32 *)((s8 *)arg0 + 0x4D4) = -30.0f;
+    *(f32 *)&this->m_4d0 = (f32) *(f32 *)((s8 *)self + 0x354);
+    *(f32 *)((s8 *)self + 0x4D4) = (f32) *(f32 *)((s8 *)self + 0x358);
+    if (*(f32 *)((s8 *)self + 0x4D4) <= -30.0f) {
+        *(f32 *)((s8 *)self + 0x4D4) = -30.0f;
     }
-    *(s32 *)&this->recon_max = (s32) *(f32 *)((s8 *)arg0 + 0x360);
+    *(s32 *)&this->recon_max = (s32) *(f32 *)((s8 *)self + 0x360);
     temp_r0 = *(s32 *)&this->recon_max;
     if (temp_r0 < 0) {
         *(s32 *)&this->recon_max = 0;
@@ -1062,19 +1062,19 @@ void TObjEneRecobox::sub_8031F800() {
 #pragma pop
 
 void TObjEneRecobox::handle_state(s32 arg1) {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
 
     switch (arg1) {
     case 4:
-        *(s32 *)((s8 *)arg0 + 0x40C) = (*(s32 *)((s8 *)arg0 + 0x40C) & 0xFFFFFFFE);
-        *(s16 *)((s8 *)arg0 + 0xB8) = 0;
+        *(s32 *)((s8 *)self + 0x40C) = (*(s32 *)((s8 *)self + 0x40C) & 0xFFFFFFFE);
+        *(s16 *)((s8 *)self + 0xB8) = 0;
         this->set_intangible();
-        ((TObjEneDD *)arg0)->set_field_378(0);
-        ((TUnk_80494938 *)(arg0 + 0x3C0))->start_fade_in();
+        ((TObjEneDD *)self)->set_field_378(0);
+        ((TUnk_80494938 *)(self + 0x3C0))->start_fade_in();
         return;
     case 3:
-        if (((V_Sub_8031f748 *) (arg0 + 0x3C0))->m5() != 0) {
-            ((TObjEneDD *)arg0)->transition_enemy_state(2);
+        if (((V_Sub_8031f748 *) (self + 0x3C0))->m5() != 0) {
+            ((TObjEneDD *)self)->transition_enemy_state(2);
         }
     case 5:
         return;
@@ -1241,11 +1241,11 @@ void TObjEneRecobox::spawn_debris_chips() {
 #pragma pop
 
 s32 TObjEneRecobox::is_below_child_limit(u16 id) {
-    Obj_8031F0F0 *arg0 = (Obj_8031F0F0 *)this;
+    Obj_8031F0F0 *self = (Obj_8031F0F0 *)this;
     s32 n = 0;
     s32 i;
-    for (i = 0; i < arg0->count; i++) {
-        if (find_entity_by_id(arg0->ids[i]) != NULL && id == TObjEneRecon__sub_8031D878()) {
+    for (i = 0; i < self->count; i++) {
+        if (find_entity_by_id(self->ids[i]) != NULL && id == TObjEneRecon__sub_8031D878()) {
             n++;
         }
     }
@@ -1256,13 +1256,13 @@ s32 TObjEneRecobox::is_below_child_limit(u16 id) {
 }
 
 s32 TObjEneRecobox::has_child_in_anim_5() {
-    Obj_8031F070 *arg0 = (Obj_8031F070 *)this;
+    Obj_8031F070 *self = (Obj_8031F070 *)this;
     s32 i;
-    if (arg0->count <= 0) {
+    if (self->count <= 0) {
         return 0;
     }
     for (i = 0; i < 6; i++) {
-        if (find_entity_by_id(arg0->ids[i]) != NULL && is_anim_5__12TObjEneReconFv() == 1) {
+        if (find_entity_by_id(self->ids[i]) != NULL && is_anim_5__12TObjEneReconFv() == 1) {
             return 1;
         }
     }
@@ -1287,13 +1287,13 @@ void remove_tracked_target__14TObjEneRecoboxFPvPv(Obj_8031EFAC *o, u8 *target) {
 }
 
 void TObjEneRecobox::remove_child_entity(u8 *arg1) {
-    Obj_8031EF14 *arg0 = (Obj_8031EF14 *)this;
+    Obj_8031EF14 *self = (Obj_8031EF14 *)this;
     s32 i;
     for (i = 0; i < 6; i++) {
-        if (find_entity_by_id(arg0->ids[i]) == reinterpret_cast<TObjCollidable *>(arg1)) {
-            arg0->count--;
-            arg0->ids[i] = arg0->ids[arg0->count];
-            arg0->ids[arg0->count] = 0xFFFF;
+        if (find_entity_by_id(self->ids[i]) == reinterpret_cast<TObjCollidable *>(arg1)) {
+            self->count--;
+            self->ids[i] = self->ids[self->count];
+            self->ids[self->count] = 0xFFFF;
             return;
         }
     }
@@ -1305,7 +1305,7 @@ s32 TObjEneRecobox::is_anim_6() {
 }
 
 void TObjEneRecobox::update_floor_probe() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     Stack_8031EE54 stack;
     u8 *temp_r3;
     if ((actor_frame_tick % 5) == 0) {
@@ -1313,13 +1313,13 @@ void TObjEneRecobox::update_floor_probe() {
         stack.spC += 15.0f;
         temp_r3 = (u8 *)(csnVectorUnder((Vec *)&stack.sp8, (CsnGroup **)&this->m_120, 0x4000));
         if (temp_r3 != NULL) {
-            *(s32 *)((s8 *)arg0 + 0x3E0) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)temp_r3 + 4)) + 0x18);
-            VecCopy((Vec *)(arg0 + 0x3E4), (const Vec *)(*(u8 **)((s8 *)temp_r3 + 4)));
+            *(s32 *)((s8 *)self + 0x3E0) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)temp_r3 + 4)) + 0x18);
+            VecCopy((Vec *)(self + 0x3E4), (const Vec *)(*(u8 **)((s8 *)temp_r3 + 4)));
         } else {
-            VecCopy((Vec *)(arg0 + 0x3E4), (const Vec *)&this->position);
+            VecCopy((Vec *)(self + 0x3E4), (const Vec *)&this->position);
         }
     }
-    if (*(s32 *)((s8 *)arg0 + 0x3E0) & 0x4000) {
+    if (*(s32 *)((s8 *)self + 0x3E0) & 0x4000) {
         request_reflection_render();
     }
 }
@@ -1365,16 +1365,16 @@ void TObjEneRecobox::render() {
     s32 camera_mode;
     s32 var_r28;
     s32 var_r27;
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     if (TObjPlayer::check_demo_mode() != 0) {
-        ((TObjEneRecobox *)arg0)->draw_with_debug_info();
+        ((TObjEneRecobox *)self)->draw_with_debug_info();
         return;
     }
     camera_mode = 0;
     if (is_split_screen() != 0) {
         camera_mode = TCameraCtrl::get_camera_mode();
     }
-    if (!(*(s32 *)((s8 *)arg0 + 0x40C) & 1)) {
+    if (!(*(s32 *)((s8 *)self + 0x40C) & 1)) {
         if (TObjEneDD::is_main_phase_15() != 0) {
             var_r28 = this->classify_actor_view_detail(25.0f + lbl_805D9E88, 50.0f + lbl_805D9E84, 120.0f);
         } else if (this->update_object_view_visibility(500.0f, 120.0f) != 0) {
@@ -1384,20 +1384,20 @@ void TObjEneRecobox::render() {
         }
         if (var_r28 != 0) {
             var_r27 = 0;
-            if (((TObjEneRecobox *)arg0)->render_trap_model_if_visible() == 0) {
+            if (((TObjEneRecobox *)self)->render_trap_model_if_visible() == 0) {
                 saved_model_render_flags = model_render_flags;
                 saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
                 saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
-                if ((s16) ((TObjEneRecobox *)arg0)->mode == 1) {
-                    if (((Fade_8031EA70 *)(arg0 + 0x3C0))->m8() != 0) {
-                        if (((TObject *)arg0)->defer_render() != 0) {
+                if ((s16) ((TObjEneRecobox *)self)->mode == 1) {
+                    if (((Fade_8031EA70 *)(self + 0x3C0))->m8() != 0) {
+                        if (((TObject *)self)->defer_render() != 0) {
                             model_render_flags = saved_model_render_flags;
                             chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
                             chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
                             return;
                         }
                         var_r27 = 1;
-                        ((Fade_8031EA70 *)(arg0 + 0x3C0))->m6();
+                        ((Fade_8031EA70 *)(self + 0x3C0))->m6();
                         goto block_18;
                     }
                     model_render_flags = saved_model_render_flags;
@@ -1406,11 +1406,11 @@ void TObjEneRecobox::render() {
                     return;
                 }
 block_18:
-                temp_r29 = &((Holder_8031EA70 *)arg0)->arr[camera_mode];
+                temp_r29 = &((Holder_8031EA70 *)self)->arr[camera_mode];
                 ((RenderFadeState *)temp_r29)->update();
-                temp_r30 = ((RenderFadeState *)temp_r29)->updateFromCamera((const f32*)(arg0 + 0x2FC));
+                temp_r30 = ((RenderFadeState *)temp_r29)->updateFromCamera((const f32*)(self + 0x2FC));
                 if ((var_r27 == 0) && (temp_r30 != 0)) {
-                    if (((TObject *)arg0)->defer_render() != 0) {
+                    if (((TObject *)self)->defer_render() != 0) {
                         model_render_flags = saved_model_render_flags;
                         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
                         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
@@ -1420,12 +1420,12 @@ block_18:
                     goto block_23;
                 }
 block_23:
-                ((TObjEneDD *)arg0)->update_secondary_light();
-                TObjFish::set_global_param((int) (((TObjEneRecobox *)arg0)->texlist));
+                ((TObjEneDD *)self)->update_secondary_light();
+                TObjFish::set_global_param((int) (((TObjEneRecobox *)self)->texlist));
                 push_matrix();
                 post_translate_matrix((u8 *)&this->position);
-                rotate_matrix_y(0, (int) (((TObjEneRecobox *)arg0)->rotation_y));
-                switch (((TObjEneRecobox *)arg0)->mount_type) {
+                rotate_matrix_y(0, (int) (((TObjEneRecobox *)self)->rotation_y));
+                switch (((TObjEneRecobox *)self)->mount_type) {
                 case 1:
                     rotate_matrix_x(0, 0x8000);
                     break;
@@ -1436,15 +1436,15 @@ block_23:
                 TObjEneDD::clear_global_flag_400();
                 TObjPlayer::toggle_particle_effect();
                 if (var_r28 == 1) {
-                    ((TObjMotion *)arg0)->draw();
+                    ((TObjMotion *)self)->draw();
                 } else {
-                    ((TObjEnemy *)arg0)->draw_motion_model();
+                    ((TObjEnemy *)self)->draw_motion_model();
                 }
                 TParticleCtrl::end_effect_render();
                 pop_matrix();
-                ((TObjEneDD *)arg0)->update_primary_light();
+                ((TObjEneDD *)self)->update_primary_light();
                 if (var_r27 != 0) {
-                    ((Fade_8031EA70 *)(arg0 + 0x3C0))->m7();
+                    ((Fade_8031EA70 *)(self + 0x3C0))->m7();
                 } else if (temp_r30 != 0) {
                     temp_r29->m7();
                 }
@@ -1458,7 +1458,7 @@ block_23:
         }
     } else {
 block_37:
-        VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(arg0 + 0x38));
+        VecCopy((Vec *)(self + 0x2FC), (const Vec *)(self + 0x38));
     }
 }
 

@@ -14,11 +14,11 @@ struct Ow_8028B0DC { u8 pad[0x28]; Ls_8028B0DC *list; };
 struct Gl_8028B0DC { u8 pad[0x42C]; Ow_8028B0DC *owner; };
 struct Pc_8028B0DC { u8 pad[0x1C]; s32 count; void **a; };
 extern Gl_8028B0DC *lbl_805D4DD8;
-void *TObjBoss5Pillar::create_smoke(void *arg0, void *smokeParent) {
+void *TObjBoss5Pillar::create_smoke(void *parent, void *smokeParent) {
     void *o;
     o = TObject::operator new(0x28);
     if (o != NULL) {
-        o = TObjBoss5PillarSmoke__ct(o, arg0, smokeParent);
+        o = TObjBoss5PillarSmoke__ct(o, parent, smokeParent);
     }
     return o;
 }

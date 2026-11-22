@@ -347,9 +347,9 @@ s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 int play_sound_effect(s32, void *, void *, void *);
 
 void TObjEnePanarmsAtkColli::run_task() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     if (--*(s32 *)&this->m_380 < 0) {
-        ((TObject *)arg0)->queue_destruction();
+        ((TObject *)self)->queue_destruction();
         return;
     }
     VecCopy(&this->prev_position, (const Vec *)&this->position);
@@ -357,11 +357,11 @@ void TObjEnePanarmsAtkColli::run_task() {
     *(f32 *)&this->unk_378 = (f32) (*(f32 *)&this->unk_378 + this->m_37c);
     switch (*(s32 *)&this->m_374) {
     case 0:
-        ((void (*)(void *))check_radius_collisions)(arg0);
+        ((void (*)(void *))check_radius_collisions)(self);
         return;
     case 1:
-        play_persistent_sound((s32)(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003BA2A)), (saddr)arg0, (uaddr)&this->position, 0, 0);
-        ((void (*)(void *))sweep_segment_collisions)(arg0);
+        play_persistent_sound((s32)(((TObjEnemy *)(self))->remap_sound_for_area(0x4003BA2A)), (saddr)self, (uaddr)&this->position, 0, 0);
+        ((void (*)(void *))sweep_segment_collisions)(self);
         return;
     }
 }

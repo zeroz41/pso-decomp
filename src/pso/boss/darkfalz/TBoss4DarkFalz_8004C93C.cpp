@@ -366,7 +366,7 @@ void TBoss4DarkFalz::update_spawn_type2_countdown() {
 void TBoss4DarkFalz::update_leader_app_type2() {  }
 
 void TBoss4DarkFalz::start_demo1() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     ((s32 (*)(void))freeze_all_players__14TBoss4DarkFalzFPv)();
     if (TBoss4DarkFalz__type1_instance != NULL) {
         TObjChara *form = TBoss4DarkFalz__type1_instance;

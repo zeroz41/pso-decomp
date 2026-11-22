@@ -479,13 +479,13 @@ TObjEneDD::TObjEneDD(TObject *parent) : TObjEnemy(parent) {
 TObjEneDD::~TObjEneDD() {}
 
 void TObjEneDD::init_position_vectors() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     VecCopy(&this->prev_position, (const Vec *)&this->position);
     VecCopy(&this->home_position, (const Vec *)&this->position);
     VecCopy(&this->center, (const Vec *)&this->position);
-    ((TBoss3Volopt *)arg0)->reset_photon_effect();
+    ((TBoss3Volopt *)self)->reset_photon_effect();
     VecCopy(&this->body_center, (const Vec *)&this->position);
-    *(f32 *)((s8 *)arg0 + 0x308) = 0.0f;
+    *(f32 *)((s8 *)self + 0x308) = 0.0f;
     this->y_speed = 0.0f;
     this->m_310 = 0.0f;
     this->ground_normal.x = 0.0f;
@@ -719,8 +719,8 @@ s32 collect_enemy_target_candidates(saddr arg0, Ent_800BB484 *out, f32 range) {
     return n;
 }
 
-void TObjEneDD::collect_target_candidates(saddr arg0, f32 farg0) {
-    collect_enemy_target_candidates(arg0, (Ent_800BB484 *)(&enemy_target_candidate_table.value), farg0);
+void TObjEneDD::collect_target_candidates(saddr arg0, f32 range) {
+    collect_enemy_target_candidates(arg0, (Ent_800BB484 *)(&enemy_target_candidate_table.value), range);
 }
 
 u16 enemy_nearest_visible_enemy_sq(Ent_800BB388 *self, f32 range) {
@@ -784,14 +784,14 @@ CsnHit *TObjEneDD::enemy_probe_wall_ahead(f32 dx, f32 dz, f32 dist) {
 }
 
 void TObjEneDD::calc_shot_position(u8 *arg1, f32 dx, f32 dz, f32 farg2) {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     s32 temp_r5;
 
     f32 reach = farg2 + this->wall_reach;
-    if (((TObjEneDD *)arg0)->enemy_probe_wall_ahead(dx, dz, reach) == NULL) {
-        *(f32 *)((s8 *)arg1 + 0) = (f32) ((dx * farg2) + *(f32 *)((s8 *)arg0 + 0x38));
-        *(f32 *)((s8 *)arg1 + 4) = (f32) *(f32 *)((s8 *)arg0 + 0x3C);
-        *(f32 *)((s8 *)arg1 + 8) = (f32) ((dz * farg2) + *(f32 *)((s8 *)arg0 + 0x40));
+    if (((TObjEneDD *)self)->enemy_probe_wall_ahead(dx, dz, reach) == NULL) {
+        *(f32 *)((s8 *)arg1 + 0) = (f32) ((dx * farg2) + *(f32 *)((s8 *)self + 0x38));
+        *(f32 *)((s8 *)arg1 + 4) = (f32) *(f32 *)((s8 *)self + 0x3C);
+        *(f32 *)((s8 *)arg1 + 8) = (f32) ((dz * farg2) + *(f32 *)((s8 *)self + 0x40));
         this->wall_probe_failures = 0;
         return;
     }
@@ -885,83 +885,83 @@ u8 *TObjEneDD::try_move_actor_xz_on_ground(u8 *arg1) {
 }
 
 u8 *TObjEneDD::move_xz_on_ground(u8 *arg1) {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     f32 temp_f31;
     u8 *temp_r3;
-    temp_f31 = *(f32 *)((s8 *)arg0 + 0x3C);
-    temp_r3 = (unsigned char *) (((VObj_18_3f4583 *)(arg0))->m101());
+    temp_f31 = *(f32 *)((s8 *)self + 0x3C);
+    temp_r3 = (unsigned char *) (((VObj_18_3f4583 *)(self))->m101());
     if (temp_r3 != NULL) {
-        VecCopy((Vec *)(arg0 + 0x248), (const Vec *)(*(saddr *)((s8 *)temp_r3 + 4) + 0xC));
+        VecCopy((Vec *)(self + 0x248), (const Vec *)(*(saddr *)((s8 *)temp_r3 + 4) + 0xC));
     }
-    this->prev_position.x = (f32) *(f32 *)((s8 *)arg0 + 0x38);
+    this->prev_position.x = (f32) *(f32 *)((s8 *)self + 0x38);
     this->prev_position.y = temp_f31;
-    this->prev_position.z = (f32) *(f32 *)((s8 *)arg0 + 0x40);
-    *(f32 *)((s8 *)arg0 + 0x38) = (f32) *(f32 *)((s8 *)arg1 + 0);
-    *(f32 *)((s8 *)arg0 + 0x40) = (f32) *(f32 *)((s8 *)arg1 + 8);
+    this->prev_position.z = (f32) *(f32 *)((s8 *)self + 0x40);
+    *(f32 *)((s8 *)self + 0x38) = (f32) *(f32 *)((s8 *)arg1 + 0);
+    *(f32 *)((s8 *)self + 0x40) = (f32) *(f32 *)((s8 *)arg1 + 8);
     this->ground_probe_failures = 0;
     return temp_r3;
 }
 
 u8 *TObjEneDD::update_ground_contact() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     f32 temp_f31;
     u8 *temp_r3;
-    temp_f31 = *(f32 *)((s8 *)arg0 + 0x3C);
-    temp_r3 = (unsigned char *) (((TObjEneDD *)(arg0))->update_actor_ground_y());
+    temp_f31 = *(f32 *)((s8 *)self + 0x3C);
+    temp_r3 = (unsigned char *) (((TObjEneDD *)(self))->update_actor_ground_y());
     if (temp_r3 != NULL) {
-        VecCopy((Vec *)(arg0 + 0x248), (const Vec *)(*(saddr *)((s8 *)temp_r3 + 4) + 0xC));
+        VecCopy((Vec *)(self + 0x248), (const Vec *)(*(saddr *)((s8 *)temp_r3 + 4) + 0xC));
     }
-    this->prev_position.x = (f32) *(f32 *)((s8 *)arg0 + 0x38);
+    this->prev_position.x = (f32) *(f32 *)((s8 *)self + 0x38);
     this->prev_position.y = temp_f31;
-    this->prev_position.z = (f32) *(f32 *)((s8 *)arg0 + 0x40);
+    this->prev_position.z = (f32) *(f32 *)((s8 *)self + 0x40);
     this->ground_probe_failures = 0;
     return temp_r3;
 }
 
-void TObjEneDD::move_to_shot_position(f32 farg0, f32 farg1, f32 farg2) {
-    u8 *arg0 = (u8 *)this;
+void TObjEneDD::move_to_shot_position(f32 dx, f32 dz, f32 farg2) {
+    u8 *self = (u8 *)this;
     s32 sp8;
-    ((TObjEneDD *)arg0)->calc_shot_position((u8 *)&sp8, (f32)farg0, (f32)farg1, (f32)farg2);
-    ((TObjEneDD *)arg0)->try_move_actor_xz_on_ground((u8 *)&sp8);
+    ((TObjEneDD *)self)->calc_shot_position((u8 *)&sp8, (f32)dx, (f32)dz, (f32)farg2);
+    ((TObjEneDD *)self)->try_move_actor_xz_on_ground((u8 *)&sp8);
 }
 
 void TObjEneDD::move_with_wall_slide_on_ground(f32 dx, f32 dz, f32 dist) {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     s32 sp8;
-    calc_wall_slide_destination(arg0, &sp8, dx, dz, dist);
-    ((TObjEneDD *)arg0)->try_move_actor_xz_on_ground((u8 *)&sp8);
+    calc_wall_slide_destination(self, &sp8, dx, dz, dist);
+    ((TObjEneDD *)self)->try_move_actor_xz_on_ground((u8 *)&sp8);
 }
 
 void TObjEneDD::move_clamped_on_ground(f32 dx, f32 dz, f32 dist) {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     s32 sp8;
-    calc_wall_clamped_destination(arg0, &sp8, dx, dz, dist);
-    ((TObjEneDD *)arg0)->try_move_actor_xz_on_ground((u8 *)&sp8);
+    calc_wall_clamped_destination(self, &sp8, dx, dz, dist);
+    ((TObjEneDD *)self)->try_move_actor_xz_on_ground((u8 *)&sp8);
 }
 
-void TObjEneDD::move_with_wall_stop(f32 farg0, f32 farg1, f32 farg2) {
-    u8 *arg0 = (u8 *)this;
+void TObjEneDD::move_with_wall_stop(f32 dx, f32 dz, f32 farg2) {
+    u8 *self = (u8 *)this;
     s32 sp8;
-    ((TObjEneDD *)arg0)->calc_shot_position((u8 *)&sp8, (f32)farg0, (f32)farg1, (f32)farg2);
+    ((TObjEneDD *)self)->calc_shot_position((u8 *)&sp8, (f32)dx, (f32)dz, (f32)farg2);
     this->move_xz_on_ground((u8 *)&sp8);
 }
 
 u8 *TObjEneDD::move_with_wall_slide_commit(f32 dx, f32 dz, f32 dist) {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     s32 sp8;
-    calc_wall_slide_destination(arg0, &sp8, dx, dz, dist);
+    calc_wall_slide_destination(self, &sp8, dx, dz, dist);
     return this->move_xz_on_ground((u8 *)&sp8);
 }
 
 void TObjEneDD::move_to_wall_clamped_destination(f32 dx, f32 dz, f32 dist) {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     s32 sp8;
-    calc_wall_clamped_destination(arg0, &sp8, dx, dz, dist);
+    calc_wall_clamped_destination(self, &sp8, dx, dz, dist);
     this->move_xz_on_ground((u8 *)&sp8);
 }
 
 int TObjEneDD::has_move_failures(s32 arg1) {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     u8 var_r5;
     var_r5 = 0;
     if ((this->wall_probe_failures >= arg1) || (this->ground_probe_failures >= arg1)) {
@@ -1089,8 +1089,8 @@ s32 TObjEneDD::is_valid_target() {
 }
 
 s32 TObjEneDD::is_target_unobstructed(saddr arg1) {
-    saddr arg0 = (saddr)this;
-    if ((((TObjBase *)arg0)->is_alive() != 0) && (csnLookAt((void *)arg1, (void *)(arg0 + 0x2FC)) == 0U)) {
+    saddr self = (saddr)this;
+    if ((((TObjBase *)self)->is_alive() != 0) && (csnLookAt((void *)arg1, (void *)(self + 0x2FC)) == 0U)) {
         return 1;
     }
     return 0;
@@ -1376,16 +1376,16 @@ TObjEneDD_ST::~TObjEneDD_ST() {}
 
 
 void TObjEneDD_ST::update_velocity() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     f32 temp_f1;
     f32 temp_f2;
 
-    temp_f2 = *(f32 *)((s8 *)arg0 + 0x394);
-    *(f32 *)((s8 *)arg0 + 0x3A0) = (f32) (temp_f2 - *(f32 *)((s8 *)arg0 + 0x38));
-    *(f32 *)((s8 *)arg0 + 0x3A4) = 0.0f;
-    temp_f1 = *(f32 *)((s8 *)arg0 + 0x39C);
-    *(f32 *)((s8 *)arg0 + 0x3A8) = (f32) (temp_f1 - *(f32 *)((s8 *)arg0 + 0x40));
-    *(f32 *)((s8 *)arg0 + 0x3AC) = normalize_vector_xz__FP3Vec(arg0 + 0x3A0, temp_f1, temp_f2);
+    temp_f2 = *(f32 *)((s8 *)self + 0x394);
+    *(f32 *)((s8 *)self + 0x3A0) = (f32) (temp_f2 - *(f32 *)((s8 *)self + 0x38));
+    *(f32 *)((s8 *)self + 0x3A4) = 0.0f;
+    temp_f1 = *(f32 *)((s8 *)self + 0x39C);
+    *(f32 *)((s8 *)self + 0x3A8) = (f32) (temp_f1 - *(f32 *)((s8 *)self + 0x40));
+    *(f32 *)((s8 *)self + 0x3AC) = normalize_vector_xz__FP3Vec(self + 0x3A0, temp_f1, temp_f2);
 }
 
 
@@ -1526,10 +1526,10 @@ void TObjEneDD_ST::turn_toward_target_direction(s32 max_step) {
     this->rotation_y = (s16) approach_angle_limited(this->rotation_y, (s32) (10430.38043493439 * atan2_float(*(f32 *)((s8 *)this + 0x3A0), *(f32 *)((s8 *)this + 0x3A8))), max_step);
 }
 
-void TObjEneEpsilon::fire_attack_c(saddr shot_pos, s32 arg2, f32 farg0) {
+void TObjEneEpsilon::fire_attack_c(saddr shot_pos, s32 arg2, f32 scale) {
     f32 temp_f30;
 
-    temp_f30 = farg0;
+    temp_f30 = scale;
     turn_toward_target_direction(arg2);
     this->calc_shot_position((u8 *)shot_pos, (f32)(sin_table_lookup(this->rotation_y)), (f32)(cos_table_lookup(this->rotation_y)), (f32)temp_f30);
 }
