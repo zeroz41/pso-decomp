@@ -1,10 +1,10 @@
-#include "pso/camera/TCameraCtrl_8006CC30.h"
+#define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/camera/TCameraFollow.h"
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/network/client_id.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/network/protocol/protocol_types.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/PadRumble.h"

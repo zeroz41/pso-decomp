@@ -3,7 +3,7 @@
 #include "pso/system/NinjaTypes.h"
 
 #include <stddef.h>
-#include "clib/math.h"
+#include <math.h>
 #include <dolphin/mtx.h>
 #include <dolphin/gx/GXTransform.h>
 #include <dolphin/gx/GXStruct.h>

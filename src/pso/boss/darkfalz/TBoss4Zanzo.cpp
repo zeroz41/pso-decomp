@@ -72,7 +72,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
-#include "pso/camera/TCameraCtrl_8006CC30.h"
+#include "pso/camera/TCameraFollow.h"
 #include "pso/enemy/sorcerer/TObjEneRe4Sorcerer_801E3F14.h"
 #include "pso/render/model_render_state.h"
 #include "pso/unk/text_80052420.h"

@@ -1,0 +1,89 @@
+#ifndef PSO_CAMERA_TCAMERAFOLLOW_H
+#define PSO_CAMERA_TCAMERAFOLLOW_H
+
+#include "types.h"
+#include "pso/camera/TCameraController.h"
+
+// One per split-screen view; the constructor clears all four.
+struct FollowCameraSlot {
+    void clear();
+    f32 pad_0[6];
+    s32 pad_18;
+};
+
+// The default camera (camera_controller_registry entries 0-3, one per view): it
+// follows the actor from eye_offset behind it, turned by yaw, and looks at
+// target_offset in front of it.
+class TCameraFollow : public TCameraController {
+public:
+    TCameraFollow();
+    virtual ~TCameraFollow();
+    virtual void run_task();
+    static TCameraFollow *create();
+    s32 get_target_yaw();
+    void clear_follow_flags();
+    void set_close_up(s32 on);
+    // Sets both offsets (follow_flags 8 keeps them from select_follow_camera_offsets)
+    // and the yaw to turn to.
+    void set_pos_target(Vec *target_offset, Vec *eye_offset, s32 yaw);
+    void update_manual_camera();
+    s32 apply_override_pose();
+    s32 is_flag_set();
+    void rotate_heading_by_stick();
+    void update_follow_motion_state();
+    void calc_follow_position();
+    void compute_follow_target();
+    virtual void update_follow_flags();
+    virtual void select_follow_camera_offsets();
+    virtual void set_target_yaw(s32 yaw);
+    virtual void reset_to_actor_offset(TObjPlayer *actor, Vec *offset);
+    virtual void init_pose();
+    virtual void reset_to_actor(TObjPlayer *actor);
+    virtual void apply_camera_params(s32 pass);
+
+    FollowCameraSlot slots[4];
+    Vec eye_offset;     // calc_follow_position: the eye is the actor plus this, turned by yaw
+    Vec target_offset;  // compute_follow_target: the look point, turned by the actor's facing
+    s32 idle_frames;    // inferred: cleared whenever the actor acts; over 250 the camera recenters
+    s32 motion_state;   // update_follow_motion_state: 0 still, 1 moving, 2 recentering
+    // 1: obstruction predicted, 4: eye 23 or more from the target, 8: offsets requested,
+    // 0x10: obstruction close to the eye.
+    s32 follow_flags;
+    s32 close_up;            // begin_conversation_camera: narrow view, lowered target
+    s32 recenter_requested;  // TCameraCtrl::set_active_camera_flag
+    f32 target_y_offset;
+    s32 target_yaw;
+};
+
+LAYOUT_ASSERT(TCameraFollow_size, sizeof(TCameraFollow) == 0x110);
+
+// Fallback follow-camera pose per floor area (Pioneer 2 Ep1, Lobby, Pioneer 2 Ep2), applied by
+// init_pose when there is no local player; one row per camera.
+struct FollowCameraInitPose {
+    Vec pos;
+    Vec target;
+    s32 projection_angle; // 0x3555 = 75 degrees
+    f32 near_clip;        // inferred: TCameraCtrl::set_clamped_offsets clamps both to [-65535, -1]
+    f32 far_clip;
+};
+
+extern FollowCameraInitPose *follow_camera_init_pose_table[4];
+
+// Pose overrides the quest camera opcodes set (bit 1: fixed position and target,
+// bit 2: position looking at camera_override_client_id's player).
+extern u8 camera_override_flags;
+extern Vec camera_override_position;
+extern Vec camera_fixed_target_position;
+extern u16 camera_override_client_id;
+
+void end_conversation_camera();
+void begin_conversation_camera();
+s32 conversation_camera_obstructed(TCameraFollow *camera, s32 heading);
+// Eases the follow camera to these offsets from the player, turned by the player's
+// facing (the local player's, or client_id's in split screen).
+void request_follow_camera_offsets(Vec *target_offset, Vec *eye_offset, u16 client_id);
+// Hands the offsets to the follow camera of each view (client_id 0xFFFF: every view, each
+// turned by its player's facing plus angle).
+void apply_follow_camera_offsets(Vec *target_offset, Vec *eye_offset, s32 angle, u16 client_id);
+
+#endif

@@ -24,7 +24,7 @@ u32 get_character_creation_selected_entry_id() {
 }
 
 CreationCamera::CreationCamera() {
-    m_38 = 0;
+    flags = 0;
     target.x = 0.0f;
     target.y = 10.5f;
     target.z = 0.0f;

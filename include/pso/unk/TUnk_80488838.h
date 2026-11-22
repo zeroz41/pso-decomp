@@ -1,11 +1,11 @@
 #ifndef PSO_UNK_TUNK_80488838_H
 #define PSO_UNK_TUNK_80488838_H
 #include "types.h"
-#include "pso/unk/TUnk_80488A28.h"
+#include "pso/camera/TCameraController.h"
 
 struct ControllerInputContext;
 
-class TUnk_80488838 : public TUnk_80488A28 {
+class TUnk_80488838 : public TCameraController {
 public:
     TUnk_80488838();
     virtual ~TUnk_80488838();
