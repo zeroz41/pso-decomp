@@ -97,8 +97,8 @@ void TUnk_804F1A78::run_task() {
 TUnk_804F1A78::~TUnk_804F1A78() {}
 
 TUnk_804F1A78::TUnk_804F1A78(TObject *parent, void *set_data, s32 hp) : TBoss8Dragon(parent, set_data) {
-    *(s32 *)&this->m_3c0 = (s32) (*(s32 *)&this->m_3c0 | 0x40);
-    *(s16 *)&this->m_67a = -1;
+    *(s32 *)&this->flags = (s32) (*(s32 *)&this->flags | 0x40);
+    *(s16 *)&this->finalHpThreshold = -1;
     this->hp = hp;
     this->hpmax = hp;
 }

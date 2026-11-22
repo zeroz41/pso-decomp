@@ -48,7 +48,7 @@ public:
     s32 hasActiveRenderFade();
     s32 sub_802F46F4();
 
-    u32 m_3c0;
+    u32 flags;  // as TBoss1Dragon::flags: 0x40 makes run_task remove the dragon, 0x100 tested the same way
     TObject sub_tasks;  // the dragon's collider task hangs under it; run_task runs its tasks
     u32 m_3e0;
     u32 m_3e4;
@@ -80,9 +80,9 @@ public:
     f32 m_668;
     f32 m_66c;
     f32 m_670;
-    u32 m_674;
-    u16 m_678;
-    u16 m_67a;
+    u32 sequenceCursor;  // as TBoss1Dragon: sent in the 6xA8 packet, below 50 = first sequence
+    u16 hpThreshold;
+    u16 finalHpThreshold;  // hp is clamped to it, as in TBoss1Dragon
     TBoss8DragonEffTail *tail;  // the TBoss8DragonEffTail the constructor creates
     AreaAttackHistory *attack_history;
     TObject *collider;  // the TBoss8DragonColli the constructor hangs under sub_tasks
@@ -95,7 +95,7 @@ public:
     f32 pad_6A0[12];
     u32 m_6d0;
     u32 m_6d4;
-    ControllerInputContext *m_6d8;
+    ControllerInputContext *controller_input;  // points into controller_input_state.controllers
     RenderFadeState renderFadeStates[4];
     s32 m_74c;
     u16 m_750;
@@ -103,13 +103,13 @@ public:
     s32 m_754;
     u32 m_758;
     s32 m_75c;
-    const s32 *m_760;
+    const s32 *particle_ids;  // TBoss1Dragon reads the same ids through effectResource->particle_ids
     void* m_764;
     u8 unk_768[0xC];
     saddr m_774;
     u8 unk_778[0xD4];
-    s32 m_84c;
-    s32 m_850;
+    s32 stateStep;  // step and frame counter of the current action, as in TBoss1Dragon
+    s32 impactAge;
     s32 m_854;
     u32 m_858;
     s32 m_85c;
@@ -154,7 +154,7 @@ public:
     void play_effect_sound(s32 sound_id);
     void spawn_trap(s32 id);
     void spawn_effect_if_in_band();
-    s32 mask_flags(s32 flags, s32 mask);
+    s32 mask_flags(s32 input_flags, s32 mask);
     s32 check_attack_ready();
     s32 select_target_in_front();
     s32 update_linked_position();
