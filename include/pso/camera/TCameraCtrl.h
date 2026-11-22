@@ -154,7 +154,6 @@ struct TCameraCtrl : public TObject {
     static int get_camera_id();
     static void set_target_coords(int a0, int a1);
     static void reset_battle_camera();
-    u8 *init_conversation_camera(s32 arg1, s32 arg2, saddr parent);
     static s32 clamp_distance(s32 yaw, s32 to, s32 arg2);
     static void free_entries();
     static void load_camera_banks();
@@ -165,6 +164,9 @@ struct TCameraCtrl : public TObject {
 LAYOUT_ASSERT(TCameraCtrl_size, sizeof(TCameraCtrl) == 0x1D4);
 // The camera's right axis, which screen tests offset points along.
 extern f32 camera_right[3];
+// Bit 1 while set_fixed_position_and_target holds the view, bit 2 while
+// set_override_position_and_angle does.
+extern u8 TCameraCtrl__override_flags;
 
 extern "C" {
 int is_quest_active(void);

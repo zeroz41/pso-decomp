@@ -506,9 +506,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # (801D8ADC) sit in .rodata.
     "pso/player/TObjPlayer_801D84CC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/player/TObjPlayer_801D8ADC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    # vtables come out TUnk_80488AD8, TUnk_80488AF0 then TUnk_80488B08 (the text order of their
+    # vtables come out TCameraConversation, TCameraPan then TCameraFixed (the text order of their
     # dtors): written last to first, deferred.
-    "pso/camera/TCameraCtrl_8006B3D8.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    "pso/camera/TCameraConversation.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # -sdata 4: its last .bss object (0x8050BEB8) is 8 bytes.
     "pso/network/TPlyJoinLobbyEntry.cpp": {"cflags": _switch(cflags_pso, "-sdata 4")},
     # -sdata 4: the 8-byte load/release callback tables of BOSS01 (0x804A7358), BOSS02 (0x804A7360)

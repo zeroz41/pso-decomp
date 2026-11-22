@@ -748,7 +748,7 @@ pso/camera/TCameraCtrl.cpp:
 	.sbss       start:0x805D4DE8 end:0x805D4E10
 	.sdata2     start:0x805D8FA8 end:0x805D8FF8
 
-pso/camera/TCameraCtrl_8006B3D8.cpp:
+pso/camera/TCameraConversation.cpp:
 	.text       start:0x8006B3D8 end:0x8006BAE4
 	.rodata     start:0x804381E0 end:0x804383D0
 	.data       start:0x80488AD8 end:0x80488B38

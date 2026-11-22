@@ -2379,7 +2379,7 @@ force_active:
   - __dt__13TUnk_80484A94Fv
   - __dt__13TUnk_80484AFCFv
   - __dt__13TUnk_804887C8Fv
-  - __dt__13TUnk_80488AD8Fv
+  - __dt__19TCameraConversationFv
   - __dt__13TUnk_80488B38Fv
   - __dt__13TUnk_80488B68Fv
   - __dt__13TUnk_80488D70Fv
@@ -3184,7 +3184,7 @@ force_active:
   - __vt__13TUnk_80484AFC
   - __vt__13TUnk_804887C8
   - __vt__13TUnk_80488A28
-  - __vt__13TUnk_80488AD8
+  - __vt__19TCameraConversation
   - __vt__13TUnk_80488B38
   - __vt__13TUnk_80488B68
   - __vt__13TUnk_80488DA0
@@ -7036,7 +7036,7 @@ force_active:
   - init_collision_params__17TOSymbolchatColliFv
   - __ct__19TBoss8DragonColli_CFP7TObjectlP3Vecf
   - init_control_mode__12TBoss1DragonFv
-  - init_conversation_camera__11TCameraCtrlFlll
+  - __ct__19TCameraConversationFllP7TObject
   - init_ctrl_default__19TPlayerBattleCtrl4PFPv
   - init_cursor_record__18TargetCursorRecordFv
   - init_depth__15TObjEneDelDepthFv
@@ -14861,7 +14861,7 @@ force_active:
   - run_task__13TUnk_80484A94Fv
   - run_task__13TUnk_80484AFCFv
   - run_task__13TUnk_804887C8Fv
-  - run_task__13TUnk_80488AD8Fv
+  - run_task__19TCameraConversationFv
   - run_task__13TUnk_80488B38Fv
   - run_task__13TUnk_80488B68Fv
   - run_task__13TUnk_80488DA0Fv

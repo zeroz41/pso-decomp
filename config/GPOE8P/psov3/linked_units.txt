@@ -647,7 +647,7 @@ pso/object/ambient/TButterfly.cpp
 pso/camera/TCameraCtrl.cpp
 pso/camera/TCameraCtrl_80067654.cpp
 pso/camera/TCameraCtrl_80067FC0.cpp
-pso/camera/TCameraCtrl_8006B3D8.cpp
+pso/camera/TCameraConversation.cpp
 pso/camera/TCameraCtrl_8006BCD8.cpp
 pso/camera/TCameraCtrl_8006C254.cpp
 pso/camera/TCameraCtrl_8006C7C4.cpp

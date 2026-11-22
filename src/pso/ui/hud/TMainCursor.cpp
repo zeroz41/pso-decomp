@@ -351,7 +351,7 @@ u8 fn_8013F24C(Obj_8013F24C *self, s16 i);
 
 }
 
-extern int TCameraCtrl__fixed_npc_camera_active;
+extern int fixed_npc_camera_active;
 
 // TMainCursor and TLockOnCursor are one translation unit: their vtables and the lock-on tasks' sit
 // together in .data in reverse key-function order. Deferred code generation is switched on and off
@@ -2167,4 +2167,4 @@ u8 fn_8013F24C(Obj_8013F24C *self, s16 i) {
 
 }
 
-int TCameraCtrl::get_mode() {  return TCameraCtrl__fixed_npc_camera_active; }
+int TCameraCtrl::get_mode() {  return fixed_npc_camera_active; }

@@ -1,6 +1,6 @@
 #include "pso/ui/frontend/CharacterSelectionRequest.h"
 #include "types.h"
-#include "pso/camera/TCameraCtrl_8006B3D8.h"
+#include "pso/camera/TCameraFixed.h"
 #include "pso/camera/TCameraCtrl_8006C7C4.h"
 #include "pso/unk/TUnk_80488838.h"
 #include "pso/unk/TUnk_80488DA0.h"
@@ -448,7 +448,7 @@ void *camera_controller_registry[13] = {
 void *lbl_80488A8C[13] = {
     (void *)&TCameraCtrl__vt0, (void *)&TCameraCtrl__vt0, (void *)&TCameraCtrl__vt0, (void *)&TCameraCtrl__vt0,
     (void *)&TCameraCtrl__vt4, (void *)&TCameraCtrl__vt5, (void *)&TCameraCtrl__vt6, (void *)&TCameraCtrl__vt7,
-    (void *)&CreationCamera::create, (void *)&TCameraCtrl__vt9, (void *)&TCameraCtrl__vt10, (void *)&TCameraCtrl__vt11,
+    (void *)&CreationCamera::create, (void *)&TCameraFixed::create, (void *)&TCameraCtrl__vt10, (void *)&TCameraCtrl__vt11,
     (void *)&TCameraVolOpt::create,
 };
 }
