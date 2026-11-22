@@ -328,24 +328,24 @@ void TWindowSubSymbolChat::set_from_key(s32 arg1) {
 
 #pragma push
 #pragma fp_contract on
-void render__17TWindowChatSymbolFv(u8 *window_chat_symbol) {
+void TWindowChatSymbol::render() {
     f32 temp_f1;
     f32 temp_f2;
     u8 *c_arg;
 
-    c_arg = reinterpret_cast<u8 *>(reinterpret_cast<TWindowBase *>(window_chat_symbol)->draw_default_entry());
+    c_arg = reinterpret_cast<u8 *>(draw_default_entry());
     if ((s32) *(s32 *)((s8 *)c_arg + 0x30) < 0) {
-        *(f32 *)((s8 *)c_arg + 0x28) = (f32) ((f32) *(s32 *)&((TWindowChatSymbol *)window_chat_symbol)->open_tick / 7.5f);
+        *(f32 *)((s8 *)c_arg + 0x28) = (f32) ((f32) this->open_tick / 7.5f);
         *(f32 *)((s8 *)c_arg + 0x2C) = (f32) *(f32 *)((s8 *)c_arg + 0x28);
     }
-    ((TWindowBase *)window_chat_symbol)->draw_quest_message_frame(c_arg);
-    *(f32 *)((s8 *)c_arg + 0x10) = (f32) ((0.5f * (((TWindowChatSymbol *)window_chat_symbol)->frame_size[0] - 136.0f)) + *(f32 *)((s8 *)c_arg + 0x10));
-    temp_f2 = *(f32 *)((s8 *)window_chat_symbol + 0x4C);
+    draw_quest_message_frame(c_arg);
+    *(f32 *)((s8 *)c_arg + 0x10) = (f32) ((0.5f * (frame_size[0] - 136.0f)) + *(f32 *)((s8 *)c_arg + 0x10));
+    temp_f2 = this->frame_size[1];
     temp_f1 = temp_f2 - 90.0f;
     *(f32 *)((s8 *)c_arg + 0x14) = (f32) ((0.5f * temp_f1) + *(f32 *)((s8 *)c_arg + 0x14));
     draw_visible_window_entries(
-        reinterpret_cast<const void *>(window_chat_symbol),
-        reinterpret_cast<const WindowLayoutEntries *>(window_chat_symbol + 0x24),
+        this,
+        &this->entry_list,
         reinterpret_cast<WindowDrawContext *>(c_arg));
 }
 #pragma pop

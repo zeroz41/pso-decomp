@@ -6,7 +6,6 @@
 extern "C" {
 void TWindowSubSymbolChat__sub_802483F0(int a0, void *a1);
 void fn_802483C8(void *arg0, u8 _w1);
-void render__17TWindowChatSymbolFv(u8 *window_chat_symbol);
 }
 int set_symbol_chat_face_sprite(void *arg0, u8 b);
 extern "C" {
