@@ -27,6 +27,9 @@
 
 
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/object/TObjControl.h"
+#include "pso/technique/TTecKafun.h"
 
 #include "pso/system/vector.h"
 
@@ -198,7 +201,6 @@ uaddr TObjEneMerillLia__rock_param_table;
 uaddr TObjEneMerillLia__entry_params_resource;
 extern s32 game_difficulty_selection;
 s32 minimap_render_dot(void *, int, int, int);
-s32 create__9TTecKafunFlllllff(void *, void *, int, int, int, f32, f32);
 s32 matrix_mult_vec(int, void *, void *);
 }
 void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
@@ -212,7 +214,6 @@ f32 atan2_float(f32 y, f32 x);
 void link_chain_nodes__10TObjPlayerFPvPvPv(void *, void *, void *);
 s32 approach_angle_limited(s32, s32, s32);
 s32 project_actor_to_ground(void *, void *, s32);
-void *__ct__11TObjControlFP7TObject(void *, void *);
 void free_collision_body_parts(void *);
 
 const char *lbl_804944D0[3] = {
@@ -281,7 +282,6 @@ void *lbl_804946A4[33] = {
 // One 0x2C-byte record of the collision body table init_collision_body_parts reads.
 struct CollisionPartRecord { u8 pad_0[0xC]; f32 radius; u8 pad_10[0x1C]; };
 
-extern void *tl_04;
 typedef struct RecoveredFields_800D6810_arg0 RecoveredFields_800D6810_arg0;
 struct RecoveredGlobal_800D5060_lbl_8058D490;
 s32 check_path_obstructed(void *, void *);
@@ -411,12 +411,8 @@ void TObjEneMerillLia::destroy_rocks() {
 }
 
 void *TObjEneMerillLia::create(void *arg0) {
-    void *o;
-    o = TObject::operator new(0x20);
-    if (o != NULL) {
-        o = __ct__11TObjControlFP7TObject(o, tl_04);
-    }
-    return new TObjEneMerillLia((TObject *)o, arg0);
+    TObjControl *parent = new TObjControl(tl_04);
+    return new TObjEneMerillLia(parent, arg0);
 }
 
 void TObjEneMerillLia::run_task() {
@@ -949,7 +945,7 @@ void TObjEneMerillLia::update_kafun_attack(void *p) {
                 matrix_mult_vec(0, &sp8, &sp14);
             }
             pop_matrix();
-            create__9TTecKafunFlllllff(arg0, &sp14, 0xF, 0xD3, ((TObjEneMerillLia *)arg0)->get_clamped_level(), *(f32 *)((s8 *)(((void **) TObjEneMerillLia__rock_param_table)[*(s32 *)((s8 *)arg0 + 0x334)]) + 0x10), 20.0f);
+            TTecKafun::create((saddr)arg0, (saddr)&sp14, 0xF, 0xD3, ((TObjEneMerillLia *)arg0)->get_clamped_level(), *(f32 *)((s8 *)(((void **) TObjEneMerillLia__rock_param_table)[*(s32 *)((s8 *)arg0 + 0x334)]) + 0x10), 20.0f);
             ((TObjEneMerillLia *)arg0)->sub_800D4EC8();
         }
         if ((u32) *(u32 *)((s8 *)arg0 + 0xB4) != 4U) {

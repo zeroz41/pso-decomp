@@ -11,6 +11,8 @@ struct NJS_OBJECT;
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/RenderFadeState.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/object/TObjControl.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -56,7 +58,6 @@ s32 angle_difference_abs(s32, s32);
 extern uaddr gibbles_combat_stat_entries;
 s16 get_attack_params_atp_min(void *);
 s32 get_current_floor();
-saddr get_enemy_entity();
 void check_enemy_body_collisions(void *arg0);
 s32 minimap_render_dot(void *, int, int, int);
 s32 TObjEneGibbles__sub_802D9644(void *, s32, f32);
@@ -104,7 +105,6 @@ s32 obj_setFlags30(void *, int);
 void start_camera_shake(s32, f32);
 s32 rotate_xz_pair_by_angle(f32 *, f32 *, s32, f32);
 void TObjPlayer__sub_800D93C4(s32 point, s32 delay);
-void * __ct__11TObjControlFP7TObject(void *, void *);
 s32 angle_diff_s16(s32, s32);
 s32 lerp_angle_half__Fll(s32, s32);
 struct Gib_802D9110;
@@ -116,7 +116,6 @@ f32 post_translate_matrix(void *);
 extern RecoveredGlobal_802D7ED4_lbl_8058D490 identity_matrix;
 extern s32 local_client_id;
 extern s32 lbl_805D5868;
-extern void *tl_04;
 struct Gib_802D8984 {
     u8 pad0[0x30];
     u32 f30;
@@ -376,12 +375,8 @@ void TObjEneGibbles::free_static() {
 }
 
 void *TObjEneGibbles::create(void *arg0) {
-    void *o;
-    o = TObject::operator new(0x20);
-    if (o != NULL) {
-        o = __ct__11TObjControlFP7TObject(o, tl_04);
-    }
-    return new TObjEneGibbles((TObject *)o, arg0);
+    TObjControl *parent = new TObjControl(tl_04);
+    return new TObjEneGibbles(parent, arg0);
 }
 
 void TObjEneGibbles::init_params() {
@@ -633,7 +628,7 @@ void TObjEneGibbles::refresh_target() {
             return;
         }
         if (tid < 0x4000U) {
-            target = ((u8 *(*)(u16))get_enemy_entity)(tid);
+            target = get_enemy_entity(tid);
         }
         return;
     }
@@ -1351,7 +1346,7 @@ void TObjEneGibbles__sub_802D9110(Gib_802D9110 *self) {
             self->target = NULL;
         }
     } else if (id < 0x4000) {
-        self->target = (Gib_802D9110 *)get_enemy_entity();
+        self->target = (Gib_802D9110 *)get_enemy_entity(id);
     } else {
         self->targetId = 0xFFFF;
         self->target = NULL;
@@ -1482,7 +1477,7 @@ void TObjEneGibbles__sub_802D8E8C(u8 *arg0) {
             F_802D(0x2A8, u32) = 0;
         }
     } else if (id < 0x4000) {
-        F_802D(0x2A8, s32) = get_enemy_entity();
+        F_802D(0x2A8, s32) = (s32)get_enemy_entity(id);
     } else {
         F_802D(0x338, u16) = 0xFFFF;
         F_802D(0x2A8, s32) = 0;
@@ -1545,7 +1540,7 @@ void TObjEneGibbles::sub_802D8984() {
             o->target = NULL;
         }
     } else if (o->idx < 0x4000) {
-        o->target = (Gib_802D8984 *)get_enemy_entity();
+        o->target = (Gib_802D8984 *)get_enemy_entity(o->idx);
     } else {
         o->idx = 0xFFFF;
         o->target = NULL;
