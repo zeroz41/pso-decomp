@@ -78,13 +78,12 @@
 #include "pso/ui/frontend/TAdMultiSelGameModeGC.h"
 #include "pso/ui/frontend/TAdSelectGameModeGC.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/unk/TLobby_800F8AA8.h"
 
 extern "C" {
 u8 *TAdSinglePlyChrSelectGC__ct(u8 *arg0, void *parent);
 void *construct_title_scene__13TUnk_804EEF64Fv(void *, TObject *);
 void *__ct__12TLevelSelectFv(void *);
-s32 is_area_transfer_pending(void);
-void apply_phase_keyboard_mode(void);
 void run_load_callback_table(void *, s32);
 }
 void clear_resource_load_tasks(void);

@@ -69,6 +69,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007CF0C.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/font/TFontSmallTask.h"
+#include "pso/unk/TLobby_800F8AA8.h"
 
 
 struct Pair_801A3CFC { s32 f0; s32 f4; };
@@ -148,8 +149,6 @@ s32 TObjPlayer__sub_801B1C8C();
 void *get_player_by_client_id(s32);
 s32 load_area_scene_and_init(void *);
 s32 __ct__7TObjectFP7TObject(void *, s32);
-s32 is_area_transfer_pending();
-s32 apply_phase_keyboard_mode();
 s32 run_load_callback_table(void *, s32);
 void TLobby__sub_801A3E94(void);
 s32 TAdDialingGC__sub_801A4C90();

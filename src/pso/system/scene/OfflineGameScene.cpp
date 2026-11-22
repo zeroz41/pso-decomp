@@ -101,11 +101,10 @@
 #include "pso/quest/QuestOpcodeHandlers.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/object/door/TODoorBase.h"
+#include "pso/unk/TLobby_800F8AA8.h"
 
 extern "C" {
 u8 *create_player_object(s32 slot, s32 role, u8 *record);
-s32 is_area_transfer_pending(void);
-void apply_phase_keyboard_mode(void);
 }
 
 void TLobby::reset_keyboard_input() { TKeyBoardControl::reset(); TKeyBoardControl__sub_8000F92C(); clear_keyboard_key_state(); TKeyBoardControl__sub_8000F95C(); TLobby::clear_counter(); }

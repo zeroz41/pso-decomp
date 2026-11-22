@@ -40,6 +40,7 @@
 #include "pso/unk/text_8020B5CC.h"
 #include "pso/unk/TLobby_803DE778.h"
 #include <stdlib.h>
+#include "pso/unk/TLobby_800F8AA8.h"
 
 // ---- pso/unk/TLobby_80209524
 
@@ -902,7 +903,6 @@ int TLobby::init_sub_state() { return clear_record_flags_b(); }
 struct Rec_8020AD40 { u8 pad0[2]; s16 f2; u8 pad4[0x40]; };
 
 extern "C" {
-s32 is_area_transfer_pending();
 }
 
 s32 load_area_object_set(s32 arg0, saddr lobby, s32 terrain, s32 entities) {

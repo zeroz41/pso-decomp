@@ -17,6 +17,7 @@
 #include "pso/player/TPlyPhotonChair.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
+#include "pso/unk/TLobby_800F8AA8.h"
 const char *TFontSmallTask__name = "TFontSmallTask";
 
 struct TFontSmallTask_800FD4D4 {
@@ -268,7 +269,6 @@ struct Ent_800FD6F8 { void (*fn)(void); u32 id; };
 LeaderSelection leader_selection;
 extern "C" {
 void call_funcs_reverse__6TLobbyFPvUi(Ent_800FD6A0 *arr, u32 size);
-s32 is_area_transfer_pending(void);
 s32 run_load_callback_table(Ent_800FD6F8 *p, u32 size);
 u16 get_entity_id();
 void __ct__7TObjectFP7TObject(void *, void *);

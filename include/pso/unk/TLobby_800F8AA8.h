@@ -19,8 +19,6 @@ void TLobby__sub_800F8AD0(void);
 void TLobby__sub_800F8BD8(void);
 void TLobby__sub_800F8DD8(void);
 void TLobby__sub_800F8F34(void);
-void apply_phase_keyboard_mode(void);
-bool is_area_transfer_pending(void);
 
 // The GSL archive close hook: hands the archive's entries to fn_800FFE14.
 void fn_800F93B4(char *filename, GslArchiveEntry *entries, s32 count);
@@ -36,5 +34,9 @@ void *apply_pointer_relocations(TUnk_8049C658 *file, RelFileTrailer *relocs);
 void *apply_rel_relocations(TUnk_8049C658 *file);
 TObject *TLoadCtrl__sub_800F9F00(void);
 }
+
+// Sets the keyboard callback that belongs to the current main phase.
+void apply_phase_keyboard_mode();
+s32 is_area_transfer_pending();
 
 #endif
