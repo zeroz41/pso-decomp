@@ -9,13 +9,10 @@ class TBoss5GryphonColli : public TObject {
 public:
     TObject *objects[1];
 public:
+    TBoss5GryphonColli(TObject *parent);
     virtual ~TBoss5GryphonColli();
 };
 
 LAYOUT_ASSERT(TBoss5GryphonColliObjectsOffset, offsetof(TBoss5GryphonColli, objects) == 0x1C);
-
-extern "C" {
-u8 *TBoss5GryphonColli__ct(u8 *object, saddr parent);
-}
 
 #endif

@@ -25,20 +25,11 @@ s32 gryphon_demo_collision_body_desc[11] = { 0, 0, 0, 0x3F800000, 0, 0, 0x8003, 
 const char *lbl_805D2808 = "TBoss5GryphonColli_C";
 const char *TBoss5GryphonColli__name = "TBoss5GryphonColli";
 
-
-s32 __ct__7TObjectFP7TObject(void *, void *);
 }
 
-struct RecoveredGlobal_800661E4___vt__18TBoss5GryphonColli {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 extern "C" {
-extern RecoveredGlobal_800661E4___vt__18TBoss5GryphonColli __vt__18TBoss5GryphonColli;
 extern const char *TBoss5GryphonColli__name;
 
-LAYOUT_ASSERT(RecoveredGlobal_800661E4___vt__18TBoss5GryphonColli_size, sizeof(RecoveredGlobal_800661E4___vt__18TBoss5GryphonColli) == 0x18);
 }
 
 struct E_8006633C { u8 pad[0x18]; u32 flags; u8 pad2[0x10]; };
@@ -135,16 +126,13 @@ void TBoss5GryphonDemo::draw_model(void* a1, s32 a2) { push_matrix(); set_matrix
 void TBoss5GryphonDemo__sub_8006626C(void* p) { ((TBoss5GryphonColli_C *)p)->clear_entry_flags(); }
 void TBoss5GryphonColli_C::render() {  }
 
-u8 *TBoss5GryphonColli__ct(u8 *object, saddr parent) {
-    Vec stack;
-    __ct__7TObjectFP7TObject((void *)object, (void *)parent);
-    *(s32 **)((s8 *)object + 0x18) = &__vt__18TBoss5GryphonColli.value;
-    *(s32 *)((s8 *)object + 0) = (saddr) ((saddr)TBoss5GryphonColli__name);
-    stack.x = 0.0f;
-    stack.y = 0.0f;
-    stack.z = 3e+01f;
-    ((TBoss5GryphonColli *)object)->objects[0] = new TBoss5GryphonColli_C((TObject *)object, 1, &stack, 35.0f);
-    return object;
+TBoss5GryphonColli::TBoss5GryphonColli(TObject *parent) : TObject(parent) {
+    Vec offset;
+    m_name = TBoss5GryphonColli__name;
+    offset.x = 0.0f;
+    offset.y = 0.0f;
+    offset.z = 3e+01f;
+    this->objects[0] = new TBoss5GryphonColli_C(this, 1, &offset, 35.0f);
 }
 
 TBoss5GryphonColli::~TBoss5GryphonColli() {

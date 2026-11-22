@@ -81,6 +81,7 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/boss/galgryphon/TBoss5GryphonLightningEff.h"
 #include "pso/render/MaterialAlphaCompare.h"
 #include "pso/render/ChunkMaterialState.h"
+#include "pso/boss/galgryphon/TBoss5GryphonColli.h"
 
 
 #pragma inline_depth(1)
@@ -4638,7 +4639,6 @@ void __ct__7TObjectFP7TObject(void *, void *);
 void __construct_array(void *, void *, void *, int, int);
 void __ct__15RenderFadeStateFv(void *);
 void __ct__14SubtractiveRngFv(void *);
-void *TBoss5GryphonColli__ct(void *, void *);
 // Ids resolved into boss5_gryphon_base_params / boss5_gryphon_resistance_params by the resource loader.
 s32 boss5_gryphon_base_param_ids[1] = { 0x1E };
 s32 boss5_gryphon_resistance_param_ids[1] = { 0x1E };
@@ -4647,7 +4647,6 @@ const char *boss5_gryphon_type_name_pointer = boss5_gryphon_type_name;
 TBoss5Gryphon *TBoss5Gryphon__ct(TBoss5Gryphon *self, void *parent, void *data) {
     u32 flags[4];
     s32 i;
-    void *p;
 
     __ct__12TObjEneDD_STFP7TObject(self, parent, data);
     ((Obj_80065658 *)self)->vt = __vt__13TBoss5Gryphon;
@@ -4712,11 +4711,7 @@ TBoss5Gryphon *TBoss5Gryphon__ct(TBoss5Gryphon *self, void *parent, void *data) 
     VecCopy__FP3VecPC3Vec(&self->m_56c, &self->position);
     *(f32 *)(*(u8 **)((u8 *)self + 0x2B0) + 0x10) = lbl_805D8E10;
     self->attack_history = new AreaAttackHistory(4);
-    p = TObject::operator new(0x20);
-    if (p != NULL) {
-        p = TBoss5GryphonColli__ct(p, &self->m_4c4);
-    }
-    self->demo = (TBoss5GryphonDemo *)p;
+    self->demo = (TBoss5GryphonDemo *)new TBoss5GryphonColli((TObject *)&self->m_4c4);
     for (i = 0; i < 4; i++) {
         self->renderFadeStates[i].activate_and_dispatch();
     }
