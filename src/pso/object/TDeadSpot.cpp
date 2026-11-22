@@ -27,6 +27,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/unk/text_803D8DE0.h"
+#include "pso/camera/TCameraCtrl.h"
 
 struct E_800D7FD4 { u8 pad[0x14]; u32 col; };
 
@@ -68,7 +69,6 @@ s32 TDeadSpot__class_name = (saddr)"TDeadSpot";
 }
 void direction_to_rotation_yx(u8 *arg0, s32 *arg1, s32 *arg2);
 #pragma pop
-extern saddr camera_ctrl_instance;
 
 extern s32 saved_model_render_flags;
 
@@ -219,7 +219,7 @@ void run_task__9TDeadSpotFv(Obj_800D8228 *arg0) {
 }
 #pragma pop
 void render__9TDeadSpotFv(u8 *arg0) {
-    if ((TMainTask::get_render_pass() != 1) && (*(f32 *)((s8 *)arg0 + 0xC4) > 0.0f) && (horizontal_distance_squared((const Vec *)(arg0 + 0x7C), (const Vec *)(camera_ctrl_instance + 0x178)) < 22500.0f)) {
+    if ((TMainTask::get_render_pass() != 1) && (*(f32 *)((s8 *)arg0 + 0xC4) > 0.0f) && (horizontal_distance_squared((const Vec *)(arg0 + 0x7C), &camera_ctrl_instance->pos) < 22500.0f)) {
         saved_model_render_flags = model_render_flags;
         set_default_alpha_blend();
         setup_alpha_test_render_state(0x8F);

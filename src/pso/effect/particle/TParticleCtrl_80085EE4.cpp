@@ -29,6 +29,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D853C.h"
+#include "pso/camera/TCameraCtrl.h"
 
 struct Col_80086418 { u8 a, r, g, b; };
 
@@ -80,7 +81,6 @@ s32 GXSetTevOp(int, int);
 s32 GXSetNumTevStages(int);
 s32 post_translate_matrix(void *);
 s32 emit_particle_strip_vertices(void *, int);
-extern u8 *camera_ctrl_instance;
 }
 void load_projected_texture_matrix(f32 farg0);
 void play_indirect_effect_recipe(u8 arg0, u16 sampler, s32 second);
@@ -241,8 +241,8 @@ void TUnk_8048E728::draw_particle_refraction_quad() {
     v[3].x = -10.0f * self->w; v[3].y = -10.0f * self->h; v[3].z = 0.0f; v[3].u = uv[2]; v[3].v = uv[3]; v[3].color = self->color;
     push_matrix();
     post_translate_matrix(&p);
-    rotate_matrix_y(0, *(s32 *)(camera_ctrl_instance + 0x194));
-    rotate_matrix_x(0, *(s32 *)(camera_ctrl_instance + 0x190));
+    rotate_matrix_y(0, camera_ctrl_instance->yaw);
+    rotate_matrix_x(0, camera_ctrl_instance->pitch);
     load_projected_texture_matrix(1.1333334f);
     TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_804C5820[9].texlist));
     set_texture_num(self->tex);

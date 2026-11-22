@@ -21,6 +21,7 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/math/MatrixTransforms.h"
+#include "pso/camera/TCameraCtrl.h"
 
 
 typedef struct Coll_800C4A5C {
@@ -67,7 +68,6 @@ extern "C" {
 
 void * player_render_texture_buffer;
 void release_texture_list(void *);
-extern u8 *camera_ctrl_instance;
 
 extern const char TObjEneRe2Flower_EffCurse3__class_name_string[0x1C] = "TObjEneRe2Flower_EffCurse3";
 const char *TObjEneRe2Flower_EffCurse3__name = TObjEneRe2Flower_EffCurse3__class_name_string;
@@ -84,7 +84,7 @@ void TObjEneRe2Flower_EffCurse3::run_task() {
     if (target->is_alive() != 0) {
         VecCopy(&a, &target->position);
         a.y += (14.0f);
-        VecCopy((Vec *)&b, (const Vec *)(camera_ctrl_instance + 0x178));
+        VecCopy((Vec *)&b, &camera_ctrl_instance->pos);
         subtract_vector(&b, &a);
         normalize_vector_safe(&b);
         a.x = (2e+01f) * b.x + a.x;

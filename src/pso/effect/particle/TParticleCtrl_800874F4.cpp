@@ -26,6 +26,7 @@
 #include "pso/effect/particle/ParticleBallistic.h"
 #include "pso/effect/particle/ParticleOrbit.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/camera/TCameraCtrl.h"
 
 
 struct O_80087638 { u8 pad[0x2e]; u16 x2e; };
@@ -181,7 +182,6 @@ extern uaddr TParticleCtrl__regular_bml_resource;
 extern uaddr TParticleCtrl__texture_list;
 // particle_pool_limit: declared s32 above (part 1)
 // particle_global_entry_table: declared s32 above (part 1)
-extern u8 *camera_ctrl_instance;
 void VecCopy__FP3VecPC3Vec(void *, const void *);
 void TParticleCtrl__sub_800884F0(void *p, void *dir);
 void set_particle_draw_scale(void* p, f32 a, f32 b);
@@ -261,7 +261,7 @@ void run_task__13TParticleCtrlFv(Ctrl_8008767C *self) {
                 }
             }
         } else if (TLoadCtrl__sub_8001C60C() == 0) {
-            if (!(horizontal_distance_squared(&self->pos, camera_ctrl_instance + 0x178) < 40000.0f)) {
+            if (!(horizontal_distance_squared(&self->pos, &camera_ctrl_instance->pos) < 40000.0f)) {
                 self->accum = 0.0f;
             }
         }

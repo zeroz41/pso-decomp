@@ -28,6 +28,8 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/unk/TLobby_8001EF5C.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/render/NinjaUtil.h"
 
 
 #pragma readonly_strings on
@@ -65,16 +67,12 @@ struct Fence_80193188 { u8 pad0[0x8C]; s32 f8C; u8 pad90[0x2C]; Node_80193188 *f
 extern "C" {
 void post_translate_matrix(void *);
 
-f32 xz_distance_squared(void *, s32);
-
-extern s32 camera_ctrl_instance;
-
 s32 TObjLazerFence4::update_object_view_visibility(f32 farg0, f32 farg1) {
     u8 *arg0 = (u8 *)this;
     if (TMainTask::get_render_pass() == 1) {
         return this->visibility;
     }
-    if (xz_distance_squared((u8 *)&this->position, camera_ctrl_instance + 0x178) < (farg1 * farg1)) {
+    if (xz_distance_squared(&this->position, &camera_ctrl_instance->pos) < (farg1 * farg1)) {
         this->visibility = 1;
         return this->visibility;
     }

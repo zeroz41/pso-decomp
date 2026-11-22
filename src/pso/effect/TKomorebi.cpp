@@ -20,6 +20,8 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/render/NinjaUtil.h"
 
 struct AnimationMotion;
 
@@ -40,14 +42,12 @@ extern const char *komorebi_class_name;
 extern uaddr TKomorebi__resource_bundle;
 extern s32 komorebi_last_uv_update_frame;
 s32 post_translate_matrix(void *);
-f32 xz_distance_squared(void *, s32);
 
-extern s32 camera_ctrl_instance;
 
 void TKomorebi::render() {
     f32 temp_f1;
 
-    if ((this->update_object_view_visibility(400.0f, 20.0f) != 0) && !(xz_distance_squared((u8 *)&this->position, camera_ctrl_instance + 0x178) < 1600.0f)) {
+    if ((this->update_object_view_visibility(400.0f, 20.0f) != 0) && !(xz_distance_squared(&this->position, &camera_ctrl_instance->pos) < 1600.0f)) {
         TParticleCtrl::begin_effect_render();
         if ((s32) actor_frame_tick != (s32) komorebi_last_uv_update_frame) {
             scroll_ginja_mesh_uvs(static_cast<NJS_OBJECT *>(this->model)->model, 0, (s32) this->scale.x, 0, 1);

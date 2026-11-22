@@ -24,6 +24,7 @@
 #include "pso/player/TObjPlayer_80083594.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/camera/TCameraCtrl.h"
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -82,7 +83,6 @@ void request_main_phase(s32 arg0);
 s32 append_node_to_tail__13TParticleCtrlFPvPv(s32, void *);
 s32 rotate_matrix_y(s32, s32);
 s32 post_translate_matrix(void *);
-extern u8 *camera_ctrl_instance;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 f32 vector_length(void *);
@@ -325,7 +325,7 @@ void TUnk_8048E7A8::render() {
                 rotate_matrix_y(0, ang.y);
             }
             if ((this->flags & 0x1000) && (camera_ctrl_instance != NULL)) {
-                rotate_matrix_y(0, *(s32 *)((s8 *)camera_ctrl_instance + 0x194));
+                rotate_matrix_y(0, camera_ctrl_instance->yaw);
             }
             TParticleCtrl::begin_effect_render();
             if (this->flags & 0x400) {
