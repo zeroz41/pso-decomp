@@ -14,6 +14,7 @@
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/RenderSbssGlobals.h"
+#include "pso/render/MaterialAlphaCompare.h"
 
 #pragma scheduling off
 
@@ -93,7 +94,6 @@ extern u32 chunk_has_vertex_colors;
 void draw_strip_pos_normal__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E36C4 *verts, u32 info);
 void draw_triangle_strips__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E36C4 *verts, u32 info);
 s32 GXSetBlendMode(int, int, int, int);
-extern s32 material_alpha_compare_reference;
 void GXSetVtxAttrFmt(int, int, int, int, u8);
 void draw_chunk_textured_strips(s16 *list, Vtx_803E36C4 *verts, u32 info, s32 large);
 struct ChunkModel_803E44D4 { u32 *vertices; s16 *polygons; };

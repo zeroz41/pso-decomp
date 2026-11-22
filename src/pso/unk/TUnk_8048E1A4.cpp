@@ -99,7 +99,7 @@ void TUnk_8048E1A4::freeze_shell_hold() {
     *(s32 *)((s8 *)this + 0x334) = 2;
     p = (saddr)spawn_particle_effect((const Vec *)((u8 *)this + 0x35C), 0x153);
     if (p != 0) {
-        attach_particle_model((u8 *)p, get_bml_model(technique_effect_bml, 5), (GinjaTextureList *)lbl_805D63B0, 0, 0, 1.0f);
+        attach_particle_model((u8 *)p, get_bml_model(technique_effect_bml, 5), lbl_805D63B0, 0, 0, 1.0f);
     }
     p = (saddr)spawn_particle_effect((const Vec *)((u8 *)this + 0x38), 0x33);
     if (p != 0) {
