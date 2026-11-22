@@ -76,4 +76,6 @@ typedef struct Ipv6NdMtuEvent {
 } Ipv6NdMtuEvent;
 LAYOUT_ASSERT(Ipv6NdMtuEvent_size_check, sizeof(Ipv6NdMtuEvent) == 8);
 
+s16 NetIPv6SendRouterSolicitation(s16 iface);
+
 #endif

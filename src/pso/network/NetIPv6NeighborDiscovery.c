@@ -255,11 +255,10 @@ s32 NetIPv6SendUnspecifiedSourceNeighborSolicitation(u8 *addr, s16 idx) {
     return temp_r31;
 }
 
-s32 NetIPv6SendRouterSolicitation(saddr arg0) {
+s16 NetIPv6SendRouterSolicitation(s16 iface) {
     NetIPv6SendParameters params;
-    s32 temp_r31;
+    s16 temp_r31;
     NetPacket *free_entry;
-    s16 TLobby__sub_804145D4(void *, void *); /* declared here with other parameter types; the definition is s16 (void *, s16) */
 
     free_entry = alloc_free_entry();
     if (free_entry == NULL) {
@@ -268,10 +267,10 @@ s32 NetIPv6SendRouterSolicitation(saddr arg0) {
     free_entry->fragment_count = 0;
     free_entry->total_bytes = 0;
     init_ipv6_all_routers_multicast_address(params.destination.bytes, 2);
-    if (TLobby__sub_804145D4(&params.source, (void *)arg0) < 0) {
+    if (TLobby__sub_804145D4(&params.source, iface) < 0) {
         NetMemset(&params.source, 0, 0x10);
     }
-    temp_r31 = NetIPv6EmitRouterSolicitation(free_entry, &params, arg0);
+    temp_r31 = NetIPv6EmitRouterSolicitation(free_entry, &params, iface);
     release_entry(free_entry);
     return temp_r31;
 }
@@ -1464,13 +1463,11 @@ s16 NetIPv6EmitNeighborSolicitation(void *arg0, void *arg1, void *arg2, s16 arg3
 
 #pragma push
 #pragma optimization_level 3
-s32 NetIPv6EmitRouterSolicitation(NetPacket *net_packet, NetIPv6SendParameters *addr, s32 id) {
-    s32 TLobby__sub_80410BA8(void *, void *, s32, void *);
+s16 NetIPv6EmitRouterSolicitation(NetPacket *net_packet, NetIPv6SendParameters *addr, s16 id) {
     NetIcmpv6RouterSolicitation message;
     NetSourceLinkLayerOption option;
     s16 temp_r3;
     s16 temp_r5;
-    s16 NetIPv6GetInterfaceLinkLayerAddress(s32, s16, s32);
     if ((NetIPv6IsMulticast(addr->destination.bytes)) == 0) {
         return -0x10E;
     }

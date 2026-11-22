@@ -21,7 +21,7 @@
 #include "pso/network/NetStackTypes.h"
 
 s16 TLobby__sub_80413D78(void *self, s16 idx);
-s16 TLobby__sub_80413F0C(); /* declared without a parameter list; the definition is s16 (self, id) */
+s16 TLobby__sub_80413F0C(void *self, s16 id);
 
 
 s32 TLobby__sub_80409E18(s16 arg0, s32 arg1, s32 arg2);
@@ -81,8 +81,8 @@ s16 TLobby__sub_804112B8(s32 iovp, s32 arg1, s16 arg2) {
     return call_handler_by_index(arg2, ifc->handle, 2, arg1, iovp);
 }
 
-s32 TLobby__sub_80411604(int, int, void *);
-s32 NetIPv6SendRouterSolicitation(saddr arg0);
+s32 TLobby__sub_80411604(s16 id, int n, void *pp);
+s16 TLobby__sub_80412618(Ipv6NdPrefixEvent *pi, s16 idx);
 typedef struct Ipv6NdEvent {
     u8 *addr;
     s16 prefix_len;
@@ -90,8 +90,6 @@ typedef struct Ipv6NdEvent {
 LAYOUT_ASSERT(Ipv6NdEvent_size_check, sizeof(Ipv6NdEvent) == 8);
 void TLobby__sub_80411334(void) {
     s32 NetIPv6SendUnspecifiedSourceNeighborSolicitation(u8 *, s16); /* the definition takes the address as s32 */
-    s32 NetIPv6SendRouterSolicitation(s16); /* declared here with an s16 1st argument; the definition takes s32 */
-    s32 TLobby__sub_80411604(s16, int, void *); /* defined K&R with an s16 id */
     Ipv6State *g = &ipv6_address_routing_state;
     s16 i;
     s16 j;
@@ -218,13 +216,9 @@ inline void remove_80411604(Ipv6State *g, s16 len, u8 *addr, void *src) {
     }
 }
 
-s32 TLobby__sub_80411604(id, n, pp)
-s16 id;
-int n;
-void *pp;
+s32 TLobby__sub_80411604(s16 id, int n, void *pp)
 {
   s16 TLobby__sub_8042325C(s16, s32, void *, void *); /* declared with 4 parameters; the definition is s32 (s32, s32, s32, s32 (*fn)(s32, s32, s32)) */
-  s16 TLobby__sub_80412618(void *, s16);
   void *h;
   s16 i;
   Ipv6State *g = &ipv6_address_routing_state;
@@ -288,7 +282,7 @@ void *pp;
     case 2:
       if (t == 1)
     {
-      err = TLobby__sub_80412618(p, id);
+      err = TLobby__sub_80412618((Ipv6NdPrefixEvent *) p, id);
     }
       break;
 
@@ -1489,9 +1483,7 @@ s16 TLobby__sub_80413D78(void *self, s16 idx) {
     return 0;
 }
 
-s16 TLobby__sub_80413F0C(self, id)
-    void *self;
-    s16 id;
+s16 TLobby__sub_80413F0C(void *self, s16 id)
 {
     Ipv6State *base = &ipv6_address_routing_state;
     u8 *e = NULL;
