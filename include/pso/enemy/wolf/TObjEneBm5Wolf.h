@@ -10,6 +10,8 @@ struct NJS_OBJECT;
 #include "pso/system/BmlResource.h"
 #include "pso/enemy/deldepth/DelDepthData.h"
 
+struct TObjEneBm5Wolf;
+
 struct TObjEneBm5WolfListNode {
     TObjEneBm5WolfListNode *prev;
     TObjEneBm5WolfListNode *next;
@@ -17,11 +19,20 @@ struct TObjEneBm5WolfListNode {
 
     TObjEneBm5WolfListNode();
     ~TObjEneBm5WolfListNode();
+    void set_entity(TObjBase *object);
+    TObjEneBm5Wolf *get_wolf();
+    void push(TObjEneBm5WolfListNode **head, TObjEneBm5WolfListNode **tail);
+    void unlink(TObjEneBm5WolfListNode **head, TObjEneBm5WolfListNode **tail);
 };
 
 struct TObjEneBm5WolfList {
     TObjEneBm5WolfListNode *head;
     TObjEneBm5WolfListNode *tail;
+
+    TObjEneBm5WolfList *reset();
+    void clear();
+    void add(TObjEneBm5WolfListNode *node);
+    void remove(TObjEneBm5WolfListNode *node);
 };
 
 struct TObjEneBm5Wolf : public TObjEneDD_ST {
@@ -83,7 +94,7 @@ struct TObjEneBm5Wolf : public TObjEneDD_ST {
     void update_lunge(s32 event);
     void circling_state(s32 event);
     void chasing_state(s32 event);
-    static void empty_state();
+    void empty_state(s32 event);
     void standing_state(s32 event);
     void alerted_state(s32 event);
     void sleeping_state(s32 event);
@@ -93,24 +104,17 @@ struct TObjEneBm5Wolf : public TObjEneDD_ST {
     void set_attack_flag();
     void set_anim_state();
     void turn_pose_to_target();
-    void update_with_default_state();
-    void apply_position_to_node_list();
+    void remove_from_pack_member_list();
+    void add_to_pack_member_list();
     static void release_global_805D5120();
     static void *create(void *set_data);
     static void load_resources();
-    void reset_fields();
-    void*reset();
-    void push_list_node(void **arg1, void **arg2);
-    void unlink_list_node(void ***arg1, void **arg2);
     static void register_global_objects();
     void flanking_state(s32 event);
     void howling_state(s32 event);
     void anchor_state(s32 event);
-    void update_default();
-    void apply_global_to_position();
-    void update(void* a1);
-    void apply_to_position(void* a1);
-    void set_field8_from_obj(saddr arg1);
+    void remove_from_instance_list();
+    void add_to_instance_list();
     s32 get_group_id();
     static TObjEneBm5Wolf *find_pack_leader(s32 id);
     void advance_pose_turn(s32 target);
@@ -126,6 +130,9 @@ struct TObjEneBm5Wolf : public TObjEneDD_ST {
     void schedule_pack_reaction(s32 delay, u16 value);
     void appearing_state(s32 event);
     void returning_state(s32 event);
+    void calc_rotated_vector(s32 angle, Vec *out, s32 *heading);
+    f32 calc_circle_offset(Vec *target, Vec *out);
+    void spawn_recoil_dust(Vec *dir);
 };
 
 LAYOUT_ASSERT(WolfOffset_current_target, offsetof(TObjEneBm5Wolf, current_target) == 0x390);
@@ -150,20 +157,5 @@ extern "C" {
 s32 __dt__14TObjEneBm5WolfFis(s32 arg0, s16 arg1);
 }
 s32 actor_rand_int(saddr actor, s32 range);
-extern "C" {
-void approach_target__14TObjEneBm5WolfFf(TObjEneBm5Wolf *wolf, f32 step);
-s32 calc_lunge_aim__14TObjEneBm5WolfFv(TObjEneBm5Wolf *wolf);
-void calc_rotated_vector__14TObjEneBm5WolfFPviPvPv(TObjEneBm5Wolf *wolf, s32 angle, Vec *out, s32 *heading);
-int get_flag_bit0__14TObjEneBm5WolfFv(TObjEneBm5Wolf *wolf);
-s32 get_group_id__14TObjEneBm5WolfFv(TObjEneBm5Wolf *wolf);
-void play_footsteps__14TObjEneBm5WolfFv(TObjEneBm5Wolf *wolf);
-TObjEneBm5Wolf *play_sound__14TObjEneBm5WolfFPv(TObjEneBm5WolfListNode *node);
-s32 play_variant_sound__14TObjEneBm5WolfFv(TObjEneBm5Wolf *wolf);
-void returning_state__14TObjEneBm5WolfFl(TObjEneBm5Wolf *actor, s32 arg1);
-void schedule_pack_reaction__14TObjEneBm5WolfFlUs(TObjEneBm5Wolf *wolf, s32 delay, u16 value);
-s32 select_target__14TObjEneBm5WolfFv(TObjEneBm5Wolf *wolf);
-void set_state_by_timer__14TObjEneBm5WolfFv(TObjEneBm5Wolf *wolf);
-void spawn_recoil_dust__14TObjEneBm5WolfFiPv(TObjEneBm5Wolf *wolf, Vec *dir);
-}
 
 #endif
