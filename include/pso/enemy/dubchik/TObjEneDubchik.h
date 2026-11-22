@@ -18,6 +18,13 @@ extern Res_800AA82C *dubchik_resource;
 extern NJS_TEXLIST *dubchik_texlist;
 }
 
+// The record TLobby::dispatch_shared_handler_a(0x1B + variant) returns (DarkGunner's layout).
+struct TObjEneDubchikBehaviorParams {
+    f32 float_params[6]; // 0/4 scratch01/02 motion speed, 1/5 attack range (whole/collapsed), 2 collapsed chase
+                         // speed, 3 walk02 motion speed
+    s32 int_params[4];   // 0 m_384 on collapsing, 1 shoot delay, 2 knockback timer, 3 shot power
+};
+
 class TObjEneDubchik : public TObjEnemyCustom {
 public:
     TObjEneDubchik(TObject *parent, void *set_data);
@@ -28,9 +35,9 @@ public:
     static void free_resources();
     void target_nearest_player(f32);
     void init_level_stats(s32);
-    void sub_800AA10C();
-    void sub_800A8B8C();
-    void sub_800A8A7C();
+    void update_proximity_state();       // picks the next mode from the target's range
+    void load_params();                  // behavior params -> motion speeds and attack range
+    void apply_broken_part_visibility(); // hides the node lists of detached parts
     // The state handlers run_synced_state_handler picks by mode (names from the motions they play).
     void run_synced_state_handler();
     void update_timed_state();  // mode 0: wait
@@ -40,16 +47,16 @@ public:
     void update_fall_apart();  // state 5 (TObjEnemyCustom::run_death_reaction): falls apart into parts, reassembles
     void update_appear();       // mode 7: starting motion while it fades in
     void update_shoot();        // mode 9: kamae then shoot01/shoot02 volleys
-    void sub_800AA330();
+    void run_demo_task();
     void start_dying();
     void update_dying();
     void set_flag_start_effect();
     void clear_state7_flag();
     void set_invuln_flags();
     void clear_flag_04000000();
-    s32 sub_800AB068();
-    f32 sub_800AAF78(s32);
-    s32 sub_800AAF98(s32);
+    s32 undo_large_move(); // back to prev_position after an xz step over 50
+    f32 get_float_parameter(s32);
+    s32 get_int_parameter(s32);
     virtual void run_move_action();
     virtual void run_idle_action();
     virtual void render();
