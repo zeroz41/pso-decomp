@@ -5,6 +5,7 @@
 
 struct NJS_OBJECT;
 #include "pso/enemy/dd/TObjEneDD_ST.h"
+#include "pso/render/TUnk_80494938.h"
 
 struct TObjEneRecon : public TObjEneDD_ST {
     virtual ~TObjEneRecon();
@@ -57,7 +58,9 @@ struct TObjEneRecon : public TObjEneDD_ST {
     static void *create(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
     static void load_resources();
     void*get_field_38_ptr();
-    u8 unk_47C[0x54];
+    u8 unk_47C[0x4];
+    TUnk_80494938 fade;
+    u8 unk_49C[0x34];
     f32 m_4d0;
     u8 unk_4D4[0x4];
     s32 m_4d8;

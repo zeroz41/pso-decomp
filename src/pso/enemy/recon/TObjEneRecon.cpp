@@ -66,7 +66,7 @@ saddr TObjEneRecon__attack_params;
 saddr TObjEneRecon__resistance_params;
 f32 *TObjEneRecon__data_805D6AFC;
 BmlResource *TObjEneRecon__recobox_static_instance;
-struct VObj_8031E650 *boss3_volopt_instance;
+TUnk_8048FA00 *boss3_volopt_instance;
 s32 recon_intro_stage;
 u8 *recon_model_matrix_ptr;
 
@@ -126,22 +126,6 @@ s32 TObjEneRecon::render_model_if_visible() {
 
 }
 
-struct VBase_14_fddec9 { char pad[0x14]; };
-
-struct VObj_14_fddec9 : VBase_14_fddec9 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual s32 m6();
-    virtual s32 m7();
-    virtual s32 m8();
-};
-
-struct Recon_8031BE8C { u8 pad[0x480]; VObj_14_fddec9 fade; };
-
 extern "C" {
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
@@ -174,8 +158,8 @@ void render__12TObjEneReconFv(u8 *ene_recon) {
                 saved_model_render_flags = model_render_flags;
                 saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
                 saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
-                if (((s16) ((TObjEneRecon *)ene_recon)->mode == 5) && (((Recon_8031BE8C *)ene_recon)->fade.m8() != 0)) {
-                    ((Recon_8031BE8C *)ene_recon)->fade.m6();
+                if (((s16) ((TObjEneRecon *)ene_recon)->mode == 5) && (((TObjEneRecon *)ene_recon)->fade.has_visible_opacity() != 0)) {
+                    ((TObjEneRecon *)ene_recon)->fade.set_flags_and_apply_damage_color();
                     if (((TObject *)ene_recon)->defer_render() != 0) {
                         var_r29 = 0;
                     }
@@ -210,8 +194,8 @@ void render__12TObjEneReconFv(u8 *ene_recon) {
                     pop_matrix();
                     ((TObjEneDD *)ene_recon)->update_primary_light();
                 }
-                if (((s16) ((TObjEneRecon *)ene_recon)->mode == 5) && (((Recon_8031BE8C *)ene_recon)->fade.m8() != 0)) {
-                    ((Recon_8031BE8C *)ene_recon)->fade.m7();
+                if (((s16) ((TObjEneRecon *)ene_recon)->mode == 5) && (((TObjEneRecon *)ene_recon)->fade.has_visible_opacity() != 0)) {
+                    ((TObjEneRecon *)ene_recon)->fade.clear_flag_and_notify();
                 }
                 model_render_flags = saved_model_render_flags;
                 chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
@@ -275,39 +259,6 @@ u8 TObjEneRecon::is_anim_5() {
 struct T_8031C250 { u8 pad[0x326]; s16 state; };
 
 #define F(T, o) (*(T *)(arg0 + (o)))
-struct Pair_8031CF30 { s32 a; f32 b; };
-
-struct VB_8031CF30 {
-    u8 pad[0x18];
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); virtual void m4();
-    virtual void m5(); virtual void m6(); virtual void m7(); virtual void m8(); virtual void m9();
-    virtual void m10(); virtual void m11(); virtual void m12(); virtual void m13(); virtual void m14();
-    virtual void m15(); virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20();
-    virtual void m21(void *, Pair_8031CF30 *, s32, s32, s32);
-    virtual void m22();
-    virtual void m23(void *, f32);
-    virtual void m24();
-    virtual void m25(); virtual void m26(); virtual void m27(); virtual void m28(); virtual void m29();
-    virtual void m30();
-    virtual s32 m31();
-    virtual void m32(); virtual void m33(); virtual void m34();
-    virtual void m35(); virtual void m36(); virtual void m37(); virtual void m38(); virtual void m39();
-    virtual void m40(); virtual void m41(); virtual void m42(); virtual void m43(); virtual void m44();
-    virtual void m45(); virtual void m46(); virtual void m47(); virtual void m48(); virtual void m49();
-    virtual void m50(); virtual void m51(); virtual void m52(); virtual void m53(); virtual void m54();
-    virtual void m55(); virtual void m56(); virtual void m57(); virtual void m58(); virtual void m59();
-    virtual void m60(); virtual void m61(); virtual void m62(); virtual void m63(); virtual void m64();
-    virtual void m65(); virtual void m66(); virtual void m67(); virtual void m68(); virtual void m69();
-    virtual void m70(); virtual void m71(); virtual void m72(); virtual void m73(); virtual void m74();
-    virtual void m75(); virtual void m76(); virtual void m77(); virtual void m78(); virtual void m79();
-    virtual void m80(); virtual void m81(); virtual void m82(); virtual void m83(); virtual void m84();
-    virtual void m85(); virtual void m86();
-    virtual void m87();
-    virtual void m88(); virtual void m89();
-    virtual void m90(); virtual void m91(); virtual void m92(); virtual void m93();
-    virtual void m94();
-};
 
 struct Data_8031CF30 { u8 pad[0x1C]; s32 f1C; };
 
@@ -492,13 +443,6 @@ void TObjEneRecon__sub_8031C624(u8 *arg0, s32 reason) {
 
 }
 
-struct WBase_8031c7bc { char pad[0x14]; };
-struct WObj_8031c7bc : WBase_8031c7bc {
-#define WM(i) virtual s32 w##i();
-    WM(0)WM(1)WM(2)WM(3)WM(4)
-#undef WM
-};
-
 extern "C" {
 
 void run_task__12TObjEneReconFPvi(u8 *target, s32 reason);
@@ -514,7 +458,7 @@ void run_task__12TObjEneReconFPvi(u8 *target, s32 reason) {
         *(s32 *)((s8 *)target + 0x444) = (s32) (*(s32 *)((s8 *)target + 0x444) & 0xFFFFFFFE);
         *(s32 *)((s8 *)target + 0x444) = (s32) (*(s32 *)((s8 *)target + 0x444) | 2);
         ((TObjEneRecon *)target)->actorFlags = (s32) (((TObjEneRecon *)target)->actorFlags | 0x01000000);
-        ((WObj_8031c7bc *) (target + 0x480))->w2();
+        ((TObjEneRecon *)target)->fade.reset_color();
         create_timed_particle_emitter((target + 0x38), 0x79, 0, 0xF);
         return;
     case 3:
@@ -527,7 +471,7 @@ void run_task__12TObjEneReconFPvi(u8 *target, s32 reason) {
             ((TObjEneDD *)target)->transition_enemy_state(7);
             return;
         }
-        if (((WObj_8031c7bc *) (target + 0x480))->w4() != 0) {
+        if (((TObjEneRecon *)target)->fade.decay_value_toward_floor() != 0) {
             *(s32 *)((s8 *)target + 0x444) = (s32) (*(s32 *)((s8 *)target + 0x444) | 1);
             remove_tracked_target__14TObjEneRecoboxFPvPv(entity, target);
             ((TObject *)target)->queue_destruction();
@@ -547,117 +491,6 @@ void run_task__12TObjEneReconFPvi(u8 *target, s32 reason) {
 
 }
 
-struct VBase_18_83f71d
-{
-  char pad[0x18];
-};
-
-struct VObj_18_83f71d : VBase_18_83f71d {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual void m84();
-    virtual void m85();
-    virtual void m86();
-    virtual s32 m87(s32);
-    virtual void m88();
-    virtual void m89();
-    virtual void m90();
-    virtual void m91();
-    virtual void m92();
-    virtual void m93();
-    virtual s32 m94();
-    virtual void m95();
-    virtual void m96();
-    virtual void m97();
-    virtual void m98();
-    virtual void m99();
-    virtual void m100();
-    virtual void m101();
-    virtual s32 m102(f32);
-};
-
 #define F(T, o) (*(T *)(arg0 + (o)))
 
 
@@ -671,8 +504,6 @@ f32 atan2_float(f32 y, f32 x);
 s32 approach_angle_limited(s32, s32, s32);
 void TObjEneRecon__sub_8031CCFC(u8 *arg0, s32 reason);
 void TObjEneRecon__sub_8031C920(u8 *arg0, s32 reason);
-typedef struct VBase_18_83f71d VBase_18_83f71d;
-typedef struct VObj_18_83f71d VObj_18_83f71d;
 
 void TObjEneRecon__sub_8031C920(u8 *arg0, s32 reason) {
     f32 r;
@@ -907,17 +738,14 @@ void TObjEneRecon__sub_8031CF30(u8 *arg0, s32 reason) {
             if (F(s32, 0x3C8) == 1) {
                 for (i = 0; i < lbl_805D5868; i++) {
                     p = (u8 *)TObjPlayer::get_player_data(i);
-                    if (TObjPlayer::is_valid_and_active((uaddr)p) != 0 && p != NULL && get_entity_id(p) < 0x1000 && ((VB_8031CF30 *)p)->m31() == 0) {
+                    if (TObjPlayer::is_valid_and_active((uaddr)p) != 0 && p != NULL && get_entity_id(p) < 0x1000 && ((TObjChara *)p)->has_flag_0x800() == 0) {
                         d = horizontal_distance_squared(p + 0x2FC, arg0 + 0x40C);
                         if (d <= F(AttackParams *, 0x318)->get_damage_radius() * F(AttackParams *, 0x318)->get_damage_radius()) {
-                            Pair_8031CF30 t;
-                            t.a = 0;
-                            t.b = (f32)get_attack_params_atp_min(F(AttackParams *, 0x318));
-                            {
-                                Pair_8031CF30 dmg = t;
-                                ((VB_8031CF30 *)p)->m21(arg0, &dmg, 0, -1, -1);
-                            }
-                            ((VB_8031CF30 *)p)->m23(arg0, 7.0f);
+                            DirectAttackPayload attack;
+                            attack.kind = 0;
+                            attack.power = (f32)get_attack_params_atp_min(F(AttackParams *, 0x318));
+                            ((TObjChara *)p)->receive_direct_attack(arg0, attack, NULL, -1, -1);
+                            ((TObjChara *)p)->apply_knockback_from_attacker(arg0, 7.0f);
                         }
                     }
                 }
@@ -1377,7 +1205,7 @@ typedef struct RecoveredFields_8031E708_temp_r5 RecoveredFields_8031E708_temp_r5
 void TObjEneRecon::load_resources() {
   u8 *temp_r5;
   TObjEneRecon__recobox_static_instance = TObjEneRecobox::get_bml_resource();
-  boss3_volopt_instance = (VObj_8031E650 *)new TUnk_8048FA00((long)(saddr)TObjEneRecon__recobox_static_instance->models->model);
+  boss3_volopt_instance = new TUnk_8048FA00((long)(saddr)TObjEneRecon__recobox_static_instance->models->model);
   recon_intro_stage = 0;
   recon_model_matrix_ptr = 0;
   lbl_805D6AF0 = (saddr)TLobby::register_boss(0x42);
@@ -1405,18 +1233,10 @@ void *TObjEneRecon::create(void *arg0, void *arg1, void *arg2, void *arg3, void 
 
 }
 
-struct Base_8031E650 { char pad[0xC]; };
-struct VObj_8031E650 : Base_8031E650 {
-    virtual void m0(int);
-};
-
-
 void TObjEneRecon::release_static_instance() {
     TObjEneReconBomb::release_resources();
     if (boss3_volopt_instance != 0) {
-        if (boss3_volopt_instance != 0) {
-            boss3_volopt_instance->m0(1);
-        }
+        delete boss3_volopt_instance;
         boss3_volopt_instance = 0;
     }
 }
@@ -1444,14 +1264,6 @@ u8 *TObjEneRecon__ct(u8 *ene_recon, s32 arg1, saddr arg2, s32 arg3, s32 arg4, sa
     *(s32 *)((s8 *)ene_recon + 0x80) = 0;
     return ene_recon;
 }
-
-struct VBase_14_2f517b { char pad[0x14]; };
-
-struct VObj_14_2f517b : VBase_14_2f517b {
-    virtual void m0();
-    virtual void m1();
-    virtual s32 m2();
-};
 
 void obj_setFlags30(void *, u32);
 void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
@@ -1499,7 +1311,7 @@ void TObjEneRecon::init_state() {
     *(s32 *)((s8 *)self + 0x47C) = 0;
     *(s32 *)((s8 *)self + 0x418) = 0;
     VecCopy((Vec *)(self + 0x41C), (const Vec *)(self + 0x38));
-    ((VObj_14_2f517b *)(self + (1152)))->m2();
+    ((TObjEneRecon *)self)->fade.reset_color();
     *(s32 *)((s8 *)self + 0x46C) = 0;
     *(s32 *)((s8 *)self + 0x470) = 0;
     VecCopy((Vec *)(self + 0x40C), (const Vec *)(self + 0x38));
@@ -1532,7 +1344,6 @@ TObjEneRecon::~TObjEneRecon() {
     this->send_entity_set_flags();
     free_collision_body_parts(this);
     if (*(void **)((s8 *)this + 0x478) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x478)))->queue_destruction(); this->m_494 = 0; }
-    __dt__13TUnk_80494938Fv((s8 *)this + 0x480, -1);
 }
 
 
