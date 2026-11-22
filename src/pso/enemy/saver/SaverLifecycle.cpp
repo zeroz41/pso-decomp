@@ -68,9 +68,9 @@ saddr lbl_805D5054;
 s32 lbl_805D5058;
 s32 lbl_805D505C;
 saddr lbl_805D5060;
-SampledMotionPoints *lbl_805D5064;
-SampledMotionPoints *lbl_805D5068;
-SampledMotionPoints *lbl_805D506C;
+SampledMotionPoints *saver_attack_trail_points;
+SampledMotionPoints *saver_jump_trail_points;
+SampledMotionPoints *saver_nail_trail_points;
 void initialize_saver_resources(void);
 s32 free_collision_body_parts(void *);
 void init_collision_body_parts(void *, void *, s32);
@@ -138,10 +138,8 @@ void *lbl_80490B28[7] = {
     (void *)0x437a0000, (void *)0x3fa00000, (void *)0x400, (void *)0x0,
     (void *)0x64, (void *)0x0, (void *)0x0,
 };
-void *saver_collision_body_part_table[11] = {
-    (void *)0x0, (void *)0x41480000, (void *)0x0, (void *)0x40c00000,
-    (void *)0x0, (void *)0x0, (void *)0x8003, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x0,
+CollisionBody saver_collision_body_part_table[1] = {
+    {{0.0f, 12.5f, 0.0f}, 6.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 }
 
@@ -159,7 +157,7 @@ void TObjEneSaver::apply_lookup_entry_effect() {
     Vec edge[2];
     s32 entry;
 
-    entry = (saddr)lbl_805D5064->lookup((f32)this->frame);
+    entry = (saddr)saver_attack_trail_points->lookup((f32)this->frame);
     if (entry != 0) {
         push_matrix();
         set_matrix_identity(0);
@@ -557,7 +555,7 @@ void TObjEneSaver::sub_800A4D9C() {
     case 1:
         move_with_wall_slide((u8 *)this);
         if (11.0f <= frame && frame <= 27.0f) {
-            if ((e = (saddr)lbl_805D5068->lookup(frame)) != 0) {
+            if ((e = (saddr)saver_jump_trail_points->lookup(frame)) != 0) {
                 push_matrix();
                 set_matrix_identity(0);
                 post_translate_matrix(&position);
@@ -640,7 +638,7 @@ void TObjEneSaver::sub_800A5154() {
             }
         }
         if (0.0f <= frame && frame <= 7.0f) {
-            s32 entry = (saddr)lbl_805D506C->lookup(frame);
+            s32 entry = (saddr)saver_nail_trail_points->lookup(frame);
             if (entry != 0) {
                 push_matrix();
                 set_matrix_identity(0);
@@ -705,7 +703,6 @@ s32 obj_setFlags30(void *, int);
 
 extern void *tl_04;
 
-#define saver_collision_body_part_table ((f32 *)saver_collision_body_part_table)
 
 }
 
@@ -750,7 +747,7 @@ TObjEneSaver::TObjEneSaver(TObject *parent, void *set_data) : TObjEnemy(parent) 
     requested_action = 0;
     set_animation(requested_action);
     set_field_b8(requested_action);
-    init_collision_body_parts(this, (u8 *)saver_collision_body_part_table, 1);
+    init_collision_body_parts(this, saver_collision_body_part_table, 1);
     attack_index = 0;
     step_counter = 0;
     bind_enemy_combat_stats((u8 *)saver_boss_stat_handle, (u8 *)(player_object_ptr_array[attack_index]), (u8 *)saver_object_stat_handle);
@@ -798,15 +795,15 @@ void initialize_saver_resources(void) {
     lbl_80500978.pos.z = 0.0f;
     lbl_80500978.pos.y = 0.0f;
     lbl_80500978.pos.x = 0.0f;
-    lbl_805D5064 = new SampledMotionPoints(2, 15.0f, 60.0f, 1.0f);
-    lbl_805D5068 = new SampledMotionPoints(2, 11.0f, 27.0f, 1.0f);
-    lbl_805D506C = new SampledMotionPoints(2, 0.0f, 7.0f, 1.0f);
-    lbl_805D5064->sample_two_nodes(saver_bml_resource->models[0].model, (NJS_MOTION *)(saver_bml_resource->motions[saver_action_table[2].motion].motion), 0x20, 0x21);
-    lbl_805D5068->sample_two_nodes(saver_bml_resource->models[0].model, (NJS_MOTION *)(saver_bml_resource->motions[saver_action_table[4].motion].motion), 0x20, 0x21);
+    saver_attack_trail_points = new SampledMotionPoints(2, 15.0f, 60.0f, 1.0f);
+    saver_jump_trail_points = new SampledMotionPoints(2, 11.0f, 27.0f, 1.0f);
+    saver_nail_trail_points = new SampledMotionPoints(2, 0.0f, 7.0f, 1.0f);
+    saver_attack_trail_points->sample_two_nodes(saver_bml_resource->models[0].model, (NJS_MOTION *)(saver_bml_resource->motions[saver_action_table[2].motion].motion), 0x20, 0x21);
+    saver_jump_trail_points->sample_two_nodes(saver_bml_resource->models[0].model, (NJS_MOTION *)(saver_bml_resource->motions[saver_action_table[4].motion].motion), 0x20, 0x21);
     pos.x = pos.y = pos.z = 0.0f;
     dir.x = (-10.0f);
     dir.y = dir.z = 0.0f;
-    lbl_805D506C->sample_node_offsets(saver_bml_resource->models[0].model, (NJS_MOTION *)(saver_bml_resource->motions[saver_action_table[3].motion].motion), 0x19, (const Vec *)&pos, (const Vec *)&dir);
+    saver_nail_trail_points->sample_node_offsets(saver_bml_resource->models[0].model, (NJS_MOTION *)(saver_bml_resource->motions[saver_action_table[3].motion].motion), 0x19, (const Vec *)&pos, (const Vec *)&dir);
     player_object_ptr_array = (void **)mem_alloc(0xC);
     saver_boss_stat_handle = TLobby::register_boss(0x52);
     player_object_ptr_array[0] = TLobby::dispatch_shared_handler_b(0x57);
@@ -816,7 +813,7 @@ void initialize_saver_resources(void) {
     lbl_805D504C = (f32 *)TLobby::dispatch_shared_handler_a(0x51);
     NpcAnimationBinding init = saver_init_binding_desc;
     init.motions = saver_bml_resource->motions;
-    NpcModelRegistry::register_animated_chunk((s16)0x1A, saver_bml_resource->models[0].model, saver_bml_resource->models[0].m_c, &init, (f32)saver_collision_body_part_table[3], (f32)0.0f);
+    NpcModelRegistry::register_animated_chunk((s16)0x1A, saver_bml_resource->models[0].model, saver_bml_resource->models[0].m_c, &init, saver_collision_body_part_table[0].radius, (f32)0.0f);
 }
 
 void TObjEneSaver::free_resources() {
@@ -824,17 +821,17 @@ void TObjEneSaver::free_resources() {
         mem_free(player_object_ptr_array);
         player_object_ptr_array = NULL;
     }
-    if (lbl_805D5064 != NULL) {
-        delete lbl_805D5064;
-        lbl_805D5064 = NULL;
+    if (saver_attack_trail_points != NULL) {
+        delete saver_attack_trail_points;
+        saver_attack_trail_points = NULL;
     }
-    if (lbl_805D5068 != NULL) {
-        delete lbl_805D5068;
-        lbl_805D5068 = NULL;
+    if (saver_jump_trail_points != NULL) {
+        delete saver_jump_trail_points;
+        saver_jump_trail_points = NULL;
     }
-    if (lbl_805D506C != NULL) {
-        delete lbl_805D506C;
-        lbl_805D506C = NULL;
+    if (saver_nail_trail_points != NULL) {
+        delete saver_nail_trail_points;
+        saver_nail_trail_points = NULL;
     }
     if (saver_bml_resource != NULL) {
         delete saver_bml_resource;

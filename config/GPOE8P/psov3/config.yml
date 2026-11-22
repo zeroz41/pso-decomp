@@ -8364,9 +8364,9 @@ force_active:
   - lbl_805D5058
   - lbl_805D505C
   - lbl_805D5060
-  - lbl_805D5064
-  - lbl_805D5068
-  - lbl_805D506C
+  - saver_attack_trail_points
+  - saver_jump_trail_points
+  - saver_nail_trail_points
   - lbl_805D5074
   - lbl_805D50F8
   - lbl_805D50FC
