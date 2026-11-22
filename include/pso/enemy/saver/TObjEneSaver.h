@@ -24,7 +24,7 @@ struct TObjEneSaver : public TObjEnemy {
     void update_collapse_and_destroy();
     virtual void run_task();
     virtual void render();
-    void sub_800A7734(s32);
+    void select_model_record(s32 i);
     void init_render_flags();
     void sub_800A62D4();
     void advance_motion_state();

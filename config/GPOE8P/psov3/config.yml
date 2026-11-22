@@ -16193,7 +16193,7 @@ force_active:
   - sub_800A4D9C__12TObjEneSaverFv
   - sub_800A5FA8__12TObjEneSaverFv
   - sub_800A62D4__12TObjEneSaverFv
-  - sub_800A7734__12TObjEneSaverFl
+  - select_model_record__12TObjEneSaverFl
   - sub_800A7B54__15TObjEneDimedianFv
   - sub_800AC9DC__12TObjEneSharkFl
   - sub_800B1634__13TObjEneBm3FlyFv

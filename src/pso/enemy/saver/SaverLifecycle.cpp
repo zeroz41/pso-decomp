@@ -51,19 +51,6 @@ extern "C" void test_flag_1000__9TObjCharaFv();
 
 
 
-typedef struct Ent_800A715C { s32 a; void *b; } Ent_800A715C;
-
-typedef struct Sub_800A715C { u8 pad[8]; void *f8; NJS_TEXLIST *texlist; } Sub_800A715C;
-
-typedef struct Res_800A715C { u8 pad[0x42C]; Sub_800A715C *sub; Ent_800A715C *ents; } Res_800A715C;
-
-
-struct E_800A7734 { u8 pad[8]; s32 x8; s32 xc; };
-
-struct G_800A7734 { u8 pad[0x42c]; E_800A7734 *tbl; };
-
-struct O_800A7734 { u8 pad[0x24]; s32 x24; u8 pad2[0xc]; s32 x34; };
-
 extern "C" {
 extern void *bm_ene_df1_saver_model_names[2];
 extern void *bm_ene_df1_saver_motion_names[12];
@@ -76,7 +63,7 @@ void *saver_boss_stat_handle;
 void **player_object_ptr_array;
 void *saver_object_stat_handle;
 f32 *lbl_805D504C;
-uaddr saver_bml_resource;
+BmlResource *saver_bml_resource;
 saddr lbl_805D5054;
 s32 lbl_805D5058;
 s32 lbl_805D505C;
@@ -719,7 +706,6 @@ s32 obj_setFlags30(void *, int);
 extern void *tl_04;
 
 #define saver_collision_body_part_table ((f32 *)saver_collision_body_part_table)
-#define RES ((Res_800A715C *)saver_bml_resource)
 
 }
 
@@ -727,9 +713,9 @@ extern void *tl_04;
 
 extern "C" {
 
-void TObjEneSaver::sub_800A7734(s32 i) {
-    ((O_800A7734 *)this)->x34 = (*(G_800A7734 * *)&saver_bml_resource)->tbl[i].x8;
-    ((O_800A7734 *)this)->x24 = (*(G_800A7734 * *)&saver_bml_resource)->tbl[i].xc;
+void TObjEneSaver::select_model_record(s32 i) {
+    model = saver_bml_resource->models[i].model;
+    texlist = (saddr)saver_bml_resource->models[i].m_c;
 }
 
 void *TObjEneSaver::get_center() { return (char*)this + 0x2fc; }
@@ -757,10 +743,10 @@ TObjEneSaver::TObjEneSaver(TObject *parent, void *set_data) : TObjEnemy(parent) 
     variant = 0;
     set_param(0x1E);
     subtype = 0;
-    sub_800A7734(variant);
+    select_model_record(variant);
     action_table = saver_action_table;
     set_field_d8((saddr)action_table);
-    motion_list = ((BmlResource *)saver_bml_resource)->motions;
+    motion_list = saver_bml_resource->motions;
     requested_action = 0;
     set_animation(requested_action);
     set_field_b8(requested_action);
@@ -802,10 +788,10 @@ TObjEneSaver::~TObjEneSaver() {
 void initialize_saver_resources(void) {
     Vec pos;
     Vec dir;
-    void *r;
+    BmlResource *r;
     r = new BmlResource(1, (BmlResourceDescriptor *)bm_ene_df1_saver_resource_descriptor, 0, 0, NULL);
-    saver_bml_resource = (uaddr)r;
-    lbl_805D5054 = *(s32 *)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)((u8 *)((Res_800A715C *)r)->sub) + 8)) + 0x2C)) + 0x30)) + 4)) + 4);
+    saver_bml_resource = r;
+    lbl_805D5054 = *(s32 *)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)r->models[0].model + 0x2C)) + 0x30)) + 4)) + 4);
     lbl_805D5058 = 0;
     lbl_805D505C = 0;
     lbl_805D5060 = 0;
@@ -815,12 +801,12 @@ void initialize_saver_resources(void) {
     lbl_805D5064 = new SampledMotionPoints(2, 15.0f, 60.0f, 1.0f);
     lbl_805D5068 = new SampledMotionPoints(2, 11.0f, 27.0f, 1.0f);
     lbl_805D506C = new SampledMotionPoints(2, 0.0f, 7.0f, 1.0f);
-    lbl_805D5064->sample_two_nodes((NJS_OBJECT *)RES->sub->f8, (NJS_MOTION *)(RES->ents[saver_action_table[2].motion].b), 0x20, 0x21);
-    lbl_805D5068->sample_two_nodes((NJS_OBJECT *)RES->sub->f8, (NJS_MOTION *)(RES->ents[saver_action_table[4].motion].b), 0x20, 0x21);
+    lbl_805D5064->sample_two_nodes(saver_bml_resource->models[0].model, (NJS_MOTION *)(saver_bml_resource->motions[saver_action_table[2].motion].motion), 0x20, 0x21);
+    lbl_805D5068->sample_two_nodes(saver_bml_resource->models[0].model, (NJS_MOTION *)(saver_bml_resource->motions[saver_action_table[4].motion].motion), 0x20, 0x21);
     pos.x = pos.y = pos.z = 0.0f;
     dir.x = (-10.0f);
     dir.y = dir.z = 0.0f;
-    lbl_805D506C->sample_node_offsets((NJS_OBJECT *)RES->sub->f8, (NJS_MOTION *)(RES->ents[saver_action_table[3].motion].b), 0x19, (const Vec *)&pos, (const Vec *)&dir);
+    lbl_805D506C->sample_node_offsets(saver_bml_resource->models[0].model, (NJS_MOTION *)(saver_bml_resource->motions[saver_action_table[3].motion].motion), 0x19, (const Vec *)&pos, (const Vec *)&dir);
     player_object_ptr_array = (void **)mem_alloc(0xC);
     saver_boss_stat_handle = TLobby::register_boss(0x52);
     player_object_ptr_array[0] = TLobby::dispatch_shared_handler_b(0x57);
@@ -829,8 +815,8 @@ void initialize_saver_resources(void) {
     saver_object_stat_handle = TLobby::register_object(0x51);
     lbl_805D504C = (f32 *)TLobby::dispatch_shared_handler_a(0x51);
     NpcAnimationBinding init = saver_init_binding_desc;
-    init.motions = reinterpret_cast<BmlMotionEntry *>(RES->ents);
-    NpcModelRegistry::register_animated_chunk((s16)0x1A, reinterpret_cast<void *>(RES->sub->f8), reinterpret_cast<void *>(RES->sub->texlist), &init, (f32)saver_collision_body_part_table[3], (f32)0.0f);
+    init.motions = saver_bml_resource->motions;
+    NpcModelRegistry::register_animated_chunk((s16)0x1A, saver_bml_resource->models[0].model, saver_bml_resource->models[0].m_c, &init, (f32)saver_collision_body_part_table[3], (f32)0.0f);
 }
 
 void TObjEneSaver::free_resources() {
@@ -850,9 +836,9 @@ void TObjEneSaver::free_resources() {
         delete lbl_805D506C;
         lbl_805D506C = NULL;
     }
-    if ((u32) saver_bml_resource != 0U) {
-        delete (BmlResource *)saver_bml_resource;
-        saver_bml_resource = 0U;
+    if (saver_bml_resource != NULL) {
+        delete saver_bml_resource;
+        saver_bml_resource = NULL;
     }
 }
 
