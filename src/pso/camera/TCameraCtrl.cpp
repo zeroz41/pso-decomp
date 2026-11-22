@@ -553,17 +553,17 @@ void TCameraCtrl::reset_view_state() {
     state->spectate_client = 0;
     state->controller_count = 0;
     state->flags = 0;
-    view->pad_10[2] = 0.0f;
-    view->width = 0.0f;
-    view->height = 0.0f;
-    view->center_x = 0.0f;
-    view->center_y = 0.0f;
-    view->pad_30[0] = 0.0f;
-    view->pad_30[1] = 0.0f;
-    view->pad_30[2] = 0.0f;
-    view->pad_30[3] = 0.0f;
-    view->pad_30[4] = 1.0f;
-    view->pad_30[5] = 0.85f;
+    view->screen.projection.distance = 0.0f;
+    view->screen.viewport_width = 0.0f;
+    view->screen.viewport_height = 0.0f;
+    view->screen.projection.center_x = 0.0f;
+    view->screen.projection.center_y = 0.0f;
+    view->scissor.x0 = 0.0f;
+    view->scissor.y0 = 0.0f;
+    view->scissor.x1 = 0.0f;
+    view->scissor.y1 = 0.0f;
+    view->pad_40[0] = 1.0f;
+    view->pad_40[1] = 0.85f;
     TCameraCtrl__sub_80068358(view, state, 1.0f, 0.0f);
     TCameraCtrl::up_vector.x = 0.0f;
     up = &TCameraCtrl::up_vector;
@@ -964,22 +964,22 @@ Vec *TCameraCtrl::get_target() { return &shake_offset; }
 #pragma opt_common_subs off
 void CameraViewParams::apply() {
     TCameraCtrl::view_state.flags = TCameraCtrl::view_state.flags | 0x200;
-    TCameraCtrl::view_params.width = width;
-    TCameraCtrl::view_params.height = height;
-    TCameraCtrl::view_params.center_x = center_x;
-    TCameraCtrl::view_params.center_y = center_y;
-    TCameraCtrl::view_params.pad_10[2] = scene_projection_state.screen_scale;
-    TCameraCtrl::view_params.pad_10[3] = scene_projection_state.aspect;
-    TCameraCtrl::view_params.pad_10[4] = 1.0f;
-    TCameraCtrl::view_params.pad_10[5] = TCameraCtrl::view_params.pad_10[4] / scene_projection_state.aspect;
-    TCameraCtrl::view_params.pad_0[0] = scene_projection_state.aspect * scene_projection_state.screen_scale;
-    TCameraCtrl::view_params.pad_0[1] = -(TCameraCtrl::view_params.pad_10[4] * scene_projection_state.screen_scale);
-    TCameraCtrl::view_params.pad_30[0] = pad_30[0];
-    TCameraCtrl::view_params.pad_30[1] = pad_30[1];
-    TCameraCtrl::view_params.pad_30[2] = pad_30[2];
-    TCameraCtrl::view_params.pad_30[3] = pad_30[3];
-    TCameraCtrl::view_params.pad_30[4] = pad_30[4];
-    TCameraCtrl::view_params.pad_30[5] = pad_30[5];
+    TCameraCtrl::view_params.screen.viewport_width = screen.viewport_width;
+    TCameraCtrl::view_params.screen.viewport_height = screen.viewport_height;
+    TCameraCtrl::view_params.screen.projection.center_x = screen.projection.center_x;
+    TCameraCtrl::view_params.screen.projection.center_y = screen.projection.center_y;
+    TCameraCtrl::view_params.screen.projection.distance = scene_projection_state.screen_scale;
+    TCameraCtrl::view_params.screen.projection.width = scene_projection_state.aspect;
+    TCameraCtrl::view_params.screen.projection.height = 1.0f;
+    TCameraCtrl::view_params.screen.projection.aspect = TCameraCtrl::view_params.screen.projection.height / scene_projection_state.aspect;
+    TCameraCtrl::view_params.screen.projection.scale_x = scene_projection_state.aspect * scene_projection_state.screen_scale;
+    TCameraCtrl::view_params.screen.projection.scale_y = -(TCameraCtrl::view_params.screen.projection.height * scene_projection_state.screen_scale);
+    TCameraCtrl::view_params.scissor.x0 = scissor.x0;
+    TCameraCtrl::view_params.scissor.y0 = scissor.y0;
+    TCameraCtrl::view_params.scissor.x1 = scissor.x1;
+    TCameraCtrl::view_params.scissor.y1 = scissor.y1;
+    TCameraCtrl::view_params.pad_40[0] = pad_40[0];
+    TCameraCtrl::view_params.pad_40[1] = pad_40[1];
 }
 #pragma pop
 
@@ -1001,11 +1001,11 @@ s32 CameraViewParams::begin_override() {
 #pragma opt_common_subs off
 void TCameraCtrl::reset_viewport_scissor() {
     // Scissor rectangle in 32-pixel tiles: the full 640x480 screen.
-    f32 rect[4] = {0.0f, 0.0f, 20.0f, 15.0f};
+    TileRect rect = {0.0f, 0.0f, 20.0f, 15.0f};
     if (TCameraCtrl::view_state.flags & 0x200) {
         TCameraCtrl::view_state.flags = TCameraCtrl::view_state.flags & ~0x200;
     }
-    set_viewport_scissor(0, rect);
+    set_viewport_scissor(0, &rect);
 }
 #pragma pop
 #pragma push
@@ -1016,16 +1016,16 @@ void end_view_override() {
     if (TCameraCtrl::view_state.flags & 0x400) {
         TCameraCtrl::view_state.flags = TCameraCtrl::view_state.flags & ~0x400;
     }
-    view.center_x = 320.0f;
-    view.center_y = 240.0f;
-    view.width = 640.0f;
-    view.height = 480.0f;
-    view.pad_30[0] = 0.0f;
-    view.pad_30[1] = 0.0f;
-    view.pad_30[2] = 20.0f;
-    view.pad_30[3] = 15.0f;
-    view.pad_30[4] = 1.0f;
-    view.pad_30[5] = 0.85f;
+    view.screen.projection.center_x = 320.0f;
+    view.screen.projection.center_y = 240.0f;
+    view.screen.viewport_width = 640.0f;
+    view.screen.viewport_height = 480.0f;
+    view.scissor.x0 = 0.0f;
+    view.scissor.y0 = 0.0f;
+    view.scissor.x1 = 20.0f;
+    view.scissor.y1 = 15.0f;
+    view.pad_40[0] = 1.0f;
+    view.pad_40[1] = 0.85f;
     view.apply();
 }
 #pragma pop
@@ -1035,19 +1035,19 @@ void TCameraCtrl::init_default_view() {
     TCameraCtrl::camera_mode = 0;
     TCameraCtrl::set_target_coords(0, 0);
     TCameraCtrl::set_target(0x280, 0x1E0);
-    view.center_x = 320.0f;
-    view.center_y = 240.0f;
-    view.width = 640.0f;
-    view.height = 480.0f;
-    view.pad_10[2] = 250.0f;
-    view.pad_30[0] = 0.0f;
-    view.pad_30[1] = 0.0f;
-    view.pad_30[2] = 20.0f;
-    view.pad_30[3] = 15.0f;
-    view.pad_30[4] = 1.0f;
-    view.pad_30[5] = 0.85f;
+    view.screen.projection.center_x = 320.0f;
+    view.screen.projection.center_y = 240.0f;
+    view.screen.viewport_width = 640.0f;
+    view.screen.viewport_height = 480.0f;
+    view.screen.projection.distance = 250.0f;
+    view.scissor.x0 = 0.0f;
+    view.scissor.y0 = 0.0f;
+    view.scissor.x1 = 20.0f;
+    view.scissor.y1 = 15.0f;
+    view.pad_40[0] = 1.0f;
+    view.pad_40[1] = 0.85f;
     view.apply();
-    ((TCameraCtrl *)&TCameraCtrl::view_params)->update_projection_params();
+    update_projection_params(&TCameraCtrl::view_params.screen.projection);
     camera_default_view_value = 1.0f;
     camera_default_view_value_b = 0.85f;
 }
@@ -1063,18 +1063,18 @@ void TCameraCtrl::reset_default_view() {
     camera_renderer_setup_nop(&ninja_camera, 0x3555);
     update_camera_state(0.0f, 0.0f, 0.0f);
     look_at_position(0.0f, 0.0f, -1.0f);
-    view.center_x = 320.0f;
-    view.center_y = 240.0f;
-    view.width = 640.0f;
-    view.height = 480.0f;
-    view.pad_10[2] = 250.0f;
-    view.pad_30[0] = 0.0f;
-    view.pad_30[1] = 0.0f;
-    view.pad_30[2] = 20.0f;
-    view.pad_30[3] = 15.0f;
+    view.screen.projection.center_x = 320.0f;
+    view.screen.projection.center_y = 240.0f;
+    view.screen.viewport_width = 640.0f;
+    view.screen.viewport_height = 480.0f;
+    view.screen.projection.distance = 250.0f;
+    view.scissor.x0 = 0.0f;
+    view.scissor.y0 = 0.0f;
+    view.scissor.x1 = 20.0f;
+    view.scissor.y1 = 15.0f;
     camera_default_view_value = 1.0f;
     camera_default_view_value_b = 0.85f;
-    ((TCameraCtrl *)&view)->update_projection_params();
+    update_projection_params(&view.screen.projection);
 }
 s32 TCameraCtrl::is_view_override_active() {
     return ((u32)TCameraCtrl::view_state.flags >> 10) & 1;
@@ -1155,17 +1155,8 @@ void TCameraCtrl::restore_full_screen_view() {
     }
 }
 
-// CameraViewParams as the copy below moves it: the first twelve words as one
-// block, then three pairs.
-struct CameraViewParamsBlock {
-    f32 pad_0[12];
-    NJS_POINT2 pad_30;
-    NJS_POINT2 pad_38;
-    NJS_POINT2 pad_40;
-};
-
 void CameraViewParams::copy_view_state(const CameraViewParams *src) {
-    *(CameraViewParamsBlock *)this = *(const CameraViewParamsBlock *)src;
+    *this = *src;
 }
 
 void TCameraCtrl::restore_saved_view() {
@@ -1173,38 +1164,36 @@ void TCameraCtrl::restore_saved_view() {
     f32 offset_y;
     if (is_split_screen() == 0) {
         TCameraCtrl::view_params.copy_view_state(&TCameraCtrl::saved_view_params);
-        offset_x = -(TCameraCtrl::view_params.center_x - 320.0f);
-        offset_y = -(TCameraCtrl::view_params.center_y - 240.0f);
+        offset_x = -(TCameraCtrl::view_params.screen.projection.center_x - 320.0f);
+        offset_y = -(TCameraCtrl::view_params.screen.projection.center_y - 240.0f);
         if (0.0f == offset_x && 0.0f == offset_y) {
             TCameraCtrl::view_offset_active = 0;
         } else {
             TCameraCtrl::view_offset_active = 1;
         }
         GXSetScissorBoxOffset((s32)offset_x, (s32)offset_y);
-        set_screen_center(TCameraCtrl::view_params.center_x, TCameraCtrl::view_params.center_y);
+        set_screen_center(TCameraCtrl::view_params.screen.projection.center_x, TCameraCtrl::view_params.screen.projection.center_y);
         if (camera_ctrl_instance != NULL) {
             set_perspective_projection_from_fov(camera_ctrl_instance->fov, 1.1333334f, 1.0f, 21000.0f);
         }
     }
 }
 
-// Dead-stripped from the DOL: no code of it survives, only its literals
-// (250, 20, 15, 0.85 at 0x805D8FCC-0x805D8FDB, pooled between get_view_scale's
-// and restore_saved_view's). It fills the full-screen defaults that
-// init_default_view, reset_default_view and end_view_override store field by
-// field.
+// The full-screen defaults that init_default_view, reset_default_view and
+// end_view_override store field by field. Nothing calls it, so the game keeps
+// only its constants.
 void CameraViewParams::set_fullscreen_defaults() {
-    center_x = 320.0f;
-    center_y = 240.0f;
-    pad_10[2] = 250.0f;
-    width = 640.0f;
-    height = 480.0f;
-    pad_30[0] = 0.0f;
-    pad_30[1] = 0.0f;
-    pad_30[2] = 20.0f;
-    pad_30[3] = 15.0f;
-    pad_30[4] = 1.0f;
-    pad_30[5] = 0.85f;
+    screen.projection.center_x = 320.0f;
+    screen.projection.center_y = 240.0f;
+    screen.projection.distance = 250.0f;
+    screen.viewport_width = 640.0f;
+    screen.viewport_height = 480.0f;
+    scissor.x0 = 0.0f;
+    scissor.y0 = 0.0f;
+    scissor.x1 = 20.0f;
+    scissor.y1 = 15.0f;
+    pad_40[0] = 1.0f;
+    pad_40[1] = 0.85f;
 }
 
 f32 TCameraCtrl::get_view_scale() {

@@ -159,9 +159,9 @@ void TCameraController::post_update_view() {
     ninja_camera.py = camera_ctrl_instance->pos.y;
     ninja_camera.pz = camera_ctrl_instance->pos.z;
     if (TCameraCtrl::view_state.flags & 0x200) {
-        GXSetScissorBoxOffset((s32)-(TCameraCtrl::view_params.center_x - 320.0f), (s32)-(TCameraCtrl::view_params.center_y - 240.0f));
-        set_screen_center(TCameraCtrl::view_params.center_x, TCameraCtrl::view_params.center_y);
-        set_viewport_scissor(2, TCameraCtrl::view_params.pad_30);
+        GXSetScissorBoxOffset((s32)-(TCameraCtrl::view_params.screen.projection.center_x - 320.0f), (s32)-(TCameraCtrl::view_params.screen.projection.center_y - 240.0f));
+        set_screen_center(TCameraCtrl::view_params.screen.projection.center_x, TCameraCtrl::view_params.screen.projection.center_y);
+        set_viewport_scissor(2, &TCameraCtrl::view_params.scissor);
     }
 }
 

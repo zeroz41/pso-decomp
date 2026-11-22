@@ -981,8 +981,8 @@ s32 TUnk_804CF0B8::project_anchor(f32 *pos, f32 *out) {
         out[1] -= (f32)TCameraCtrl::get_viewport_y();
         out[1] /= TCameraCtrl::get_fov();
     }
-    out[0] += TCameraCtrl::view_params.center_x - 320.0f;
-    out[1] += TCameraCtrl::view_params.center_y - 240.0f;
+    out[0] += TCameraCtrl::view_params.screen.projection.center_x - 320.0f;
+    out[1] += TCameraCtrl::view_params.screen.projection.center_y - 240.0f;
     return 1;
 }
 

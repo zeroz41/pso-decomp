@@ -246,7 +246,6 @@ void set_ginja_draw_flags(s32 arg0);
 void set_light_ambient_color(f32 r, f32 g, f32 b);
 void submit_light0(s32 arg0, s32 arg1);
 void load_gx_light_slot(s32 arg0);
-extern s32 scene_projection_state[];
 extern u8 *active_gx_render_mode;
 void capture_viewport_texture(void);
 void setup_blended_textured_draw(void);
@@ -595,7 +594,7 @@ void end_shadow_map_pass() {
         GXSetCopyFilter((int) (*(u8 *)((s8 *)temp_r31 + 0x19)), temp_r31 + 0x1A, (int) (get_display_copy_filter()), temp_r31 + 0x32);
         GXSetViewport(0.0f, 0.0f, 640.0f, 480.0f, 0.0f, 1.0f);
         GXSetScissor(0, 0, 0x280, 0x1E0);
-        GXSetProjection(scene_projection_state, 0);
+        GXSetProjection(scene_projection_state.matrix, 0);
         set_light_ambient_color(0.3f, 0.3f, 0.3f);
         submit_light0(0, 1);
         load_gx_light_slot(0);
@@ -882,8 +881,8 @@ void TCameraCtrl::copy_position_vectors(void *first, void *second) {
 }
 
 void calc_projection_screen_offset(f32 *arg0, f32 *arg1) {
-    f32 dx = TCameraCtrl::view_params.center_x;
-    f32 y = TCameraCtrl::view_params.center_y;
+    f32 dx = TCameraCtrl::view_params.screen.projection.center_x;
+    f32 y = TCameraCtrl::view_params.screen.projection.center_y;
     f32 dy;
     dx -= 320.0f;
     dy = y - 240.0f;

@@ -72,8 +72,8 @@ static CreationHeightBounds creation_camera_height_bounds_table[12] = {
 // The view with the character centred, and the one shifted right for a
 // panel open on the left.
 static CameraViewParams creation_view_parameters[2] = {
-    {{1.0f, 1.0f}, 320.0f, 240.0f, {1.0f, 1.0f, 500.0f, 1.0f, 1.0f, 1.0f}, 640.0f, 480.0f, {0.0f, 0.0f, 20.0f, 15.0f, 1.0f, 1.0f}},
-    {{1.0f, 1.0f}, 640.0f * 0.72f, 240.0f, {1.0f, 1.0f, 500.0f, 1.0f, 1.0f, 1.0f}, 640.0f, 480.0f, {0.0f, 0.0f, 20.0f, 15.0f, 1.0f, 1.0f}},
+    {{{1.0f, 1.0f, 320.0f, 240.0f, 1.0f, 1.0f, 500.0f, 1.0f, 1.0f, 1.0f}, 640.0f, 480.0f}, {0.0f, 0.0f, 20.0f, 15.0f}, {1.0f, 1.0f}},
+    {{{1.0f, 1.0f, 640.0f * 0.72f, 240.0f, 1.0f, 1.0f, 500.0f, 1.0f, 1.0f, 1.0f}, 640.0f, 480.0f}, {0.0f, 0.0f, 20.0f, 15.0f}, {1.0f, 1.0f}},
 };
 
 CreationCamera *CreationCamera::create() {
@@ -315,7 +315,7 @@ f32 creation_view_shift = 1.0f;
 // 72% across (shift 1), keeping the character beside an open panel.
 void set_creation_projection_center(f32 shift) {
     CameraViewParams params = creation_view_parameters[0];
-    params.center_x = 640.0f * (0.5f + (0.72f - 0.5f) * shift);
+    params.screen.projection.center_x = 640.0f * (0.5f + (0.72f - 0.5f) * shift);
     params.apply_if_overridden();
     creation_view_shift = shift;
 }

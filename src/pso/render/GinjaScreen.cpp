@@ -1,10 +1,5 @@
 #include "pso/render/GinjaView.h"
 #include "types.h"
-#include "pso/system/NinjaTypes.h"
-
-#include <stddef.h>
-#include "pso/camera/TCameraCtrl.h"
-#include "pso/player/TObjPlayer.h"
 
 #pragma push
 #pragma use_lmw_stmw off
@@ -12,11 +7,7 @@
 #pragma push
 #pragma opt_common_subs off
 
-// Called on view parameters (a CameraViewParams), not on a camera: takes
-// their distance and centre and rebuilds the screen projection and the clip
-// bounds relative to the centre.
-void TCameraCtrl::update_projection_params() {
-    const ScreenProjection *view = (const ScreenProjection *)this;
+void update_projection_params(const ScreenProjection *view) {
     f32 center_y, center_x, distance;
     screen_projection.distance = distance = view->distance;
     screen_projection.center_x = center_x = view->center_x;

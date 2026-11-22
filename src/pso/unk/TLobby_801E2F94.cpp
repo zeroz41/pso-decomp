@@ -28,6 +28,7 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/render/Draw2D.h"
 #include "pso/render/GinjaView.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/TLobby_803DE778.h"
@@ -103,8 +104,6 @@ void TObjPlayer::draw_shadow_quad(s32 arg1, s32 flags) {
     draw_particle_strip((void *)v, (void *)(4), (void *)(1));
 }
 
-struct Rect_801E317C { f32 x0, y0, x1, y1; };
-
 extern "C" {
 int current_line_width = 12;
 s32 lbl_805D3584 = 1;
@@ -114,8 +113,7 @@ void GXSetScissor(u32, u32, u32, u32);
 s32 TObjPlayer__sub_803DAD28(u32 arg0);
 }
 
-void set_viewport_scissor(int mode, void *rect) {
-    Rect_801E317C *r = (Rect_801E317C *)rect;
+void set_viewport_scissor(int mode, const TileRect *r) {
     f32 adj;
     f32 x;
     f32 y;

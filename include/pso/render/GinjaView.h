@@ -23,6 +23,10 @@ LAYOUT_ASSERT(ScreenProjection_size, sizeof(ScreenProjection) == 0x28);
 
 extern ScreenProjection screen_projection;
 
+// Takes view's distance and centre into screen_projection, rebuilding its
+// scales, and makes the clip bounds relative to the new centre.
+void update_projection_params(const ScreenProjection *view);
+
 // [0] far and [1] near clip distance, [2..5] the screen bounds of [6..9]
 // relative to the screen centre.
 extern f32 camera_clip_parameters[10];

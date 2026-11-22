@@ -161,8 +161,7 @@ __declspec(section ".sdata2") const f32 zako_fade_color = -1.0f;
 
 void TBoss4ZakoDraw::draw_queued() {
     if (boss4_zako_draw_buffers[TBoss4ZakoDraw__draw_buffer_index].count != 0) {
-        // The camera owner stores the viewport rectangle at byte offset 0x30.
-        void *rect = TCameraCtrl::view_params.pad_30;
+        const TileRect *rect = &TCameraCtrl::view_params.scissor;
         if (is_split_screen() == 0) {
             set_viewport_scissor(2, rect);
         }
