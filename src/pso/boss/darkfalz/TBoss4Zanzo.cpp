@@ -562,7 +562,7 @@ void TBoss4Type2::sub_80056F90(s32 arg1, s32 arg2) {
     }
 }
 
-void TBoss4Type2::send_attack_code(s32 arg1, s32 id) {
+void TBoss4Type2::send_attack_code(s32 arg1, u16 id) {
     Obj_80056F38 *self = (Obj_80056F38 *)this;
     if (self->target != 0) {
         ((TBoss4DarkFalz *)(self->target))->send_code_25_4((arg1 & 0xF) | (((self->f3a0 >> 12) & 0xF) << 4) | (((self->f3a0 >> 12) & 0xF) << 8) | ((self->f3ac & 0xF) << 12) | ((self->f3b0 & 0xF) << 16) | ((id & 0xF) << 20));
@@ -688,9 +688,9 @@ void TBoss4Type2__sub_80056B3C(void *actor, s32 lo, s32 hi) {
 void TBoss4Type2::choose_next_action() {
     Vec grid;
     s32 r;
-    s32 id;
+    u16 id;
     id = TBoss4Type3::pick_random_target_player();
-    if (((Obj_80056A54 *)this)->f32c <= ((Obj_80056A54 *)this)->f3ec && (u16)id != 0xFFFF) {
+    if (((Obj_80056A54 *)this)->f32c <= ((Obj_80056A54 *)this)->f3ec && id != 0xFFFF) {
         r = TBoss4Type2::pick_weighted_random(4, boss4_type2_next_action_weights_a, boss4_type2_next_actions_a);
     } else {
         r = TBoss4Type2::pick_weighted_random(3, boss4_type2_next_action_weights_b, boss4_type2_next_actions_b);

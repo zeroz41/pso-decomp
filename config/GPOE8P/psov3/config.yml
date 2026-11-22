@@ -362,10 +362,10 @@ force_active:
   - TBoss4Type2__sub_80057128
   - TBoss4Type3__anim_state_table
   - __ct__11TBoss4Type3FP7TObjectPl
-  - TBoss4Type3__sub_800599F4
-  - TBoss4Type3__sub_80059EA8
-  - TBoss4Type3__sub_80059F64
-  - TBoss4Type3__sub_8005A150
+  - sub_800599F4__11TBoss4Type3Fll
+  - sub_80059EA8__11TBoss4Type3FlUs
+  - sub_80059F64__11TBoss4Type3Fl
+  - sub_8005A150__11TBoss4Type3Fv
   - TBoss4Type3__sub_8005A86C
   - TBoss4Type3_name
   - TBoss4Type3_type_name
@@ -1996,7 +1996,7 @@ force_active:
   - __ct__13TORockCaveS01FPv
   - __ct__13TORockCaveS02FPv
   - __ct__13TORockCaveS03FPv
-  - __ct__13TObjBs4CutAtkFv
+  - __ct__13TObjBs4CutAtkFP7TObjectll
   - __ct__13TObjCHTimeWinFP7TObject
   - __ct__13TObjDFRecoverFP7TObjectUsPCf
   - __ct__13TObjHashiBaseFP7TObjectPv
@@ -5456,7 +5456,7 @@ force_active:
   - create__12TChCrTagNameFl
   - create__12T_OWEHMS_ExpFP10TObjPlayer
   - create__13TBoss6MagMineFi
-  - create__13TObjBs4CutAtkFPvPvPv
+  - create__13TObjBs4CutAtkFP7TObjectll
   - create__13TObjDFRecBallFPvPvPv
   - create__13TObjEneMe1GeeFP13TObjEneMe1GeeP3VecUsl
   - create__13TObjEneRe4BitFPvPvPvPvPv
@@ -6722,7 +6722,7 @@ force_active:
   - get_quest_size__12TQuestListVMFv
   - get_quest_size__16TQuestListOnlineFv
   - get_quest_thread_id__10TObjPlayerFPv
-  - get_random_scaled__11TBoss4Type3FPv
+  - get_random_scaled__11TBoss4Type3Fv
   - get_random_sign__13TBoss5GryphonFP22Boss5GryphonActionStepl
   - get_registered_object_count__Fv
   - get_rel_module_image
@@ -15370,7 +15370,7 @@ force_active:
   - send__9TProtocolFPUcUl
   - send_action_packet_if_idle__11TBoss6Type2FlPl
   - send_and_handle_6x75__FP6TLobby
-  - send_attack_code__11TBoss4Type2Fll
+  - send_attack_code__11TBoss4Type2FlUs
   - send_battle_mode_data__6TLobbyFPv
   - send_battle_mode_params__6TLobbyFcii
   - send_battle_mode_state__6TLobbyFPv

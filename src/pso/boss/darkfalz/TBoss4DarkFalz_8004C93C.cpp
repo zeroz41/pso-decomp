@@ -85,7 +85,7 @@ TBoss4Type1 *TBoss4DarkFalz::get_instance() {
 }
 
 int TBoss4DarkFalz::is_field378_zero() { return this->m_378 == 0; }
-s32 TBoss4Type3::get_action_state() { return m_374; }
+s32 TBoss4Type3::get_action_state() { return state; }
 s32 TUnk_80486924::get_phase() { return action; }
 s32 TBoss4Type1::get_state() { return state; }
 CameraAngles *TObjBase::get_rotation() { return reinterpret_cast<CameraAngles *>(&rotation_x); }

@@ -13,11 +13,13 @@ class ModelNodePositionCapture;
 struct TObjDFHorming;
 class TObjDFYutai;
 
-struct TBoss4Type3CollisionState {
-    u8 unknown00[0x18]; u32 flags;
-    u8 unknown1c[0xC]; f32 radius;
-};
+struct SampledMotionPoints;
+class TParticleCtrl;
+class TUnk_80494968;
+struct CollisionBody;
+struct TBoss4DarkFalz;
 
+// Dark Falz's third form. Field names are inferred from their uses in TBoss4Type3.cpp.
 struct TBoss4Type3 : public TObjEnemy {
     TBoss4Type3(TObject *parent, s32 *arg2);
     virtual ~TBoss4Type3();
@@ -39,53 +41,45 @@ struct TBoss4Type3 : public TObjEnemy {
     virtual void apply_slow_status();
     virtual void apply_paralysis();
     virtual void apply_poison_status();
-    s32 m_374;
+    s32 state;                  // row of boss4_type3_states
     ModelNodeTables node_tables;
-    uaddr m_38c;
+    TBoss4DarkFalz *owner;      // relays the packed actions (send_code_25_4)
     BmlResource *archive;
-    TBoss4Type3CollisionState *m_394;
-    s32 m_398;
-    f32 m_39c;
-    s32 m_3a0;
-    u32 m_3a4;
-    u32 m_3a8;
-    u32 m_3ac;
-    f32 m_3b0;
-    u32 m_3b4;
-    u16 m_3b8;
-    u16 m_3ba;
-    u32 m_3bc;
-    u8 _pad3C0[0x4];
-    u32 m_3c4;
-    f32 m_3c8;
-    s32 m_3cc;
-    s32 m_3d0;
-    s32 m_3d4;
-    u32 m_3d8;
-    f32 m_3dc;
-    u32 m_3e0;
-    u32 m_3e4;
-    f32 m_3e8;
-    f32 m_3ec;
-    s32 m_3f0;
-    f32 m_3f4;
-    u8 _pad3F8[4];
-    u32 m_3fc;
-    u8 _pad400[4];
-    void *effect_parts[13];
+    CollisionBody *collision;
+    s32 state_timer;
+    f32 move_ratio;             // 0 at prev_node, 1 at node
+    s32 node;                   // 0-15 a ring position, 16 the centre, 17 above it
+    s32 prev_node;
+    s32 heading;                // in sixteenths of a turn
+    s32 prev_heading;
+    f32 fade;                   // 1 shown, 0 hidden
+    s32 fade_timer;
+    u16 capture_target;         // client id it reaches for, 0xFFFF for none
+    u16 captured_player;        // client id it holds, 0xFFFF for none
+    s32 move_count;
+    s32 radar_frame;
+    u32 radar_color;
+    f32 captured_fade;          // draw_player_model_by_id's fade for the held player
+    s32 radius_shown;
+    s32 radius_hidden;
+    s32 prev_hp;
+    s32 rumble_timer;
+    f32 texture_scroll;
+    s32 capture_hp;             // at or below this hp it captures a player
+    s32 drained_hp;             // hp the held player was last drained at
+    f32 hit_flash;
+    f32 hp_ratio;
+    s32 anim;                   // row of TBoss4Type3__anim_state_table
+    f32 anim_frame;
+    f32 anim_speed;
+    s32 anim_looped;
+    s32 anim_mode;
+    TParticleCtrl *effect_parts[13];
     ModelNodePositionCapture *render_lists[3];
-    u8 _pad444[0xC];
-    void* m_450;
-    u8 _pad454[0x8];
-    void* m_45c;
-    u8 _pad460[0x14];
-    void* m_474;
-    u8 _pad478[0xA4];
-    u32 m_51c;
-    u32 m_520;
-    uaddr m_524;
-    uaddr m_528;
-    u32 m_52c;
+    Vec node_positions[3][6];   // render_lists' captured node positions
+    SampledMotionPoints *trail_samples[2];
+    TUnk_80494968 *trails[2];
+    s32 camera_mode;            // 1 for the close follow camera
 
     void update_libera();
     void advance_libera();
@@ -127,12 +121,17 @@ struct TBoss4Type3 : public TObjEnemy {
     void run_task();
 
     void calc_grid_index();
+    void sub_800599F4(s32 lo, s32 hi);
     void turn_toward_player(s32 id);
-    static s32 get_random_scaled(void * _w0);
+    s32 get_random_scaled();
     s32 choose_attack_heading_sector();
     void interp_position_between_nodes();
+    void sub_80059DCC(u32 packed);
     void spawn_random_effect();
+    void sub_80059EA8(s32 action, u16 target);
     void send_packed_action(s32 arg1, s32 arg2, s32 arg3);
+    void sub_80059F64(s32 action);
+    void sub_8005A150();
     void destroy_parts();
     void create_particle_emitters();
     void set_action_from_table(s32 action);
@@ -144,7 +143,7 @@ struct TBoss4Type3 : public TObjEnemy {
     void get_defeat_params(u16 *a, u16 *b, u16 *out);
     static TObjDFYutai *create_yutai(TObject *parent, s32 kind, u16 player_id);
     static f32 compute_wave_offset(f32 wave);
-    static s32 pick_random_target_player();
+    static u16 pick_random_target_player();
     static TObjDFHorming *create_horming(TObject *parent, const Vec *position, u16 target_id);
     void copy_positions_to_parts();
     void update_phase_timer();
@@ -163,29 +162,16 @@ LAYOUT_ASSERT(Type3StateSize, sizeof(TBoss4Type3State)==0x2C);
 LAYOUT_ASSERT(Type3StateEnter, offsetof(TBoss4Type3State,enter)==0x8);
 LAYOUT_ASSERT(Type3StateAdvance, offsetof(TBoss4Type3State,advance)==0x14);
 LAYOUT_ASSERT(Type3StateUpdate, offsetof(TBoss4Type3State,update)==0x20);
-LAYOUT_ASSERT(Type3TimerOffset, offsetof(TBoss4Type3,m_398)==0x398);
-LAYOUT_ASSERT(Type3FractionOffset, offsetof(TBoss4Type3,m_39c)==0x39C);
-
-LAYOUT_ASSERT(Type3Offset_374, (offsetof(TBoss4Type3,m_374) == 0x374));
-LAYOUT_ASSERT(Type3Offset_378, (offsetof(TBoss4Type3,node_tables) == 0x378));
-LAYOUT_ASSERT(Type3Offset_38c, (offsetof(TBoss4Type3,m_38c) == 0x38c));
-LAYOUT_ASSERT(Type3Offset_390, (offsetof(TBoss4Type3,archive) == 0x390));
-LAYOUT_ASSERT(Type3Offset_394, (offsetof(TBoss4Type3,m_394) == 0x394));
-LAYOUT_ASSERT(Type3Offset_3a0, (offsetof(TBoss4Type3,m_3a0) == 0x3a0));
-LAYOUT_ASSERT(Type3Offset_3b0, (offsetof(TBoss4Type3,m_3b0) == 0x3b0));
-LAYOUT_ASSERT(Type3Offset_3b8, (offsetof(TBoss4Type3,m_3b8) == 0x3b8));
-LAYOUT_ASSERT(Type3Offset_3ba, (offsetof(TBoss4Type3,m_3ba) == 0x3ba));
-LAYOUT_ASSERT(Type3Offset_3c8, (offsetof(TBoss4Type3,m_3c8) == 0x3c8));
-LAYOUT_ASSERT(Type3Offset_3cc, (offsetof(TBoss4Type3,m_3cc) == 0x3cc));
-LAYOUT_ASSERT(Type3Offset_3d0, (offsetof(TBoss4Type3,m_3d0) == 0x3d0));
-LAYOUT_ASSERT(Type3Offset_3d4, (offsetof(TBoss4Type3,m_3d4) == 0x3d4));
-LAYOUT_ASSERT(Type3Offset_3dc, (offsetof(TBoss4Type3,m_3dc) == 0x3dc));
-LAYOUT_ASSERT(Type3Offset_3e8, (offsetof(TBoss4Type3,m_3e8) == 0x3e8));
-LAYOUT_ASSERT(Type3Offset_3ec, (offsetof(TBoss4Type3,m_3ec) == 0x3ec));
-LAYOUT_ASSERT(Type3Offset_3f0, (offsetof(TBoss4Type3,m_3f0) == 0x3f0));
-LAYOUT_ASSERT(Type3Offset_3f4, (offsetof(TBoss4Type3,m_3f4) == 0x3f4));
-LAYOUT_ASSERT(Type3Offset_418, (offsetof(TBoss4Type3,effect_parts) + 5 * sizeof(void *) == 0x418));
-LAYOUT_ASSERT(Type3Offset_41c, (offsetof(TBoss4Type3,effect_parts) + 6 * sizeof(void *) == 0x41c));
+LAYOUT_ASSERT(Type3Offset_374, (offsetof(TBoss4Type3,state) == 0x374));
+LAYOUT_ASSERT(Type3Offset_38c, (offsetof(TBoss4Type3,owner) == 0x38c));
+LAYOUT_ASSERT(Type3Offset_398, (offsetof(TBoss4Type3,state_timer) == 0x398));
+LAYOUT_ASSERT(Type3Offset_3b8, (offsetof(TBoss4Type3,capture_target) == 0x3b8));
+LAYOUT_ASSERT(Type3Offset_3c0, (offsetof(TBoss4Type3,radar_frame) == 0x3c0));
+LAYOUT_ASSERT(Type3Offset_3f0, (offsetof(TBoss4Type3,anim) == 0x3f0));
+LAYOUT_ASSERT(Type3Offset_400, (offsetof(TBoss4Type3,anim_mode) == 0x400));
+LAYOUT_ASSERT(Type3Offset_404, (offsetof(TBoss4Type3,effect_parts) == 0x404));
+LAYOUT_ASSERT(Type3Offset_444, (offsetof(TBoss4Type3,node_positions) == 0x444));
+LAYOUT_ASSERT(Type3Offset_51c, (offsetof(TBoss4Type3,trail_samples) == 0x51c));
 LAYOUT_ASSERT(Type3Size, (sizeof(TBoss4Type3)==0x530));
 
 #endif

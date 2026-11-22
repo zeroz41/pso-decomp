@@ -283,7 +283,7 @@ s32 TBoss4DarkFalz::is_active() {
     }
     return (u8)((u8) var_r31);
 }
-s32 TBoss4Type3::pick_random_target_player() {
+u16 TBoss4Type3::pick_random_target_player() {
     u16 buf[4];
     s32 n;
     s32 i;
@@ -767,7 +767,6 @@ typedef struct Msg_8004BFA4 {
 
 extern "C" {
 void TBoss4Type2__sub_80056EA8(void *, s32);
-void TBoss4Type3__sub_80059DCC(TBoss4Type3 *self, u32 packed);
 void handle_6x19_dark_falz_actions(Msg_8004BFA4 *arg0);
 extern s32 __vt__14TBoss4DarkFalz[];
 void TBoss4DarkFalz__sub_8004B4F0(void *arg0p, void *arg1p);
@@ -937,7 +936,7 @@ void handle_6x19_dark_falz_actions(Msg_8004BFA4 *arg0) {
     case 13:
     case 14:
         if (TBoss4DarkFalz__type3_instance != NULL) {
-            TBoss4Type3__sub_80059DCC(TBoss4DarkFalz__type3_instance, arg);
+            TBoss4DarkFalz__type3_instance->sub_80059DCC(arg);
         }
         break;
     }
