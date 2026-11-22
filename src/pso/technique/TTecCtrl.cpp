@@ -10,6 +10,7 @@
 #include "pso/technique/TechniqueBoost.h"
 #include "pso/effect/TUnk_804CC148.h"
 #include "pso/object/ambient/TObjLight.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/object/TUnk_804CCAA8.h"
 #include "pso/player/TObjPlayer_8022C6C4.h"
 #include "pso/player/TObjPlayer.h"
@@ -84,8 +85,6 @@ struct Player_8022D27C {
 
 typedef struct Params_8022C738 { u8 pad0[0x12]; s16 f12; u8 pad14[0x20 - 0x14]; s16 f20; } Params_8022C738;
 
-typedef struct LightData_8022C738 { u8 pad0[0x1C]; f32 f1C; u8 pad20[4]; } LightData_8022C738;
-
 extern "C" {
 void *TObjPlayer__sub_80116620(void *, int);
 s32 get_obj_id__10TObjPlayerFv(void *);
@@ -107,7 +106,6 @@ void *__ct__13TUnk_804CC74CFll(void *, void *, TObject *);
 }
 extern u8 identity_matrix[];
 extern s32 local_client_id;
-extern LightData_8022C738 TObjLight__scene_light_state;
 
 // The technique effects' models and motions, and the archive that holds them.
 const char *bm_technic_model_names[13] = {
@@ -720,7 +718,7 @@ void capture_technique_targets__10TObjPlayerFv(int kind, Owner_8022CDE8 *owner) 
         NJS_ARGB c = {A, R, G, B};                                                               \
         Vec v = {0.0f, -1.0f, 0.0f};                                                             \
         void *o;                                                                                 \
-        new TUnk_804CCAA8(0.1f, 0.35f, TObjLight__scene_light_state.f1C, &c, &v, base,          \
+        new TUnk_804CCAA8(0.1f, 0.35f, TObjLight__scene_light_state.intensity, &c, &v, base,          \
                           (TObjBase *)owner, tl_07);                                             \
         if (TObjPlayer::is_locally_controlled(owner) != 0) {                                \
             o = TObject::operator new(0x34);                                                     \

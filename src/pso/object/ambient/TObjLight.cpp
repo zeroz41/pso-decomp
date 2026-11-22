@@ -3,6 +3,7 @@
 #include "types.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/ambient/TObjLight.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -24,11 +25,6 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixOps.h"
-
-struct RecoveredGlobal_80194528_TObjLight__data_80506320 {
-    s32 value;
-    u8 remaining[0x4C];
-};
 
 typedef struct Actor_80193FE8 {
     u8 pad0[0x28];
@@ -68,10 +64,8 @@ typedef struct Light_80193FE8 {
 
 extern "C" {
 s32 is_split_screen(void);
-extern RecoveredGlobal_80194528_TObjLight__data_80506320 TObjLight__scene_light_state;
 u16 get_entity_id(void *);
 f32 xyz_distance_squared(void *, void *);
-void register_actor_light(s32, void *);
 Actor_80193FE8 *get_player_by_client_id(s32);
 extern TCameraCtrl *camera_ctrl_instance;
 
@@ -93,7 +87,7 @@ void TObjLight::run_task() {
     }
     {
     Vec fwd = {0.0f, 0.0f, -1.0f};
-    VecCopy((Vec *)&self->base_dir, (const Vec *)(((u8 *)&TObjLight__scene_light_state) + 0xC));
+    VecCopy((Vec *)&self->base_dir, &TObjLight__scene_light_state.view_direction);
     self->flags = 0;
     if (self->param[0] >= 10000.0f) {
         self->color.x = self->param[0] - 10000.0f;
@@ -154,7 +148,7 @@ void TObjLight::run_task() {
                     self->out_dir.x = t * (self->dir.x - self->base_dir.x) + self->base_dir.x;
                     self->out_dir.y = t * (self->dir.y - self->base_dir.y) + self->base_dir.y;
                     self->out_dir.z = t * (self->dir.z - self->base_dir.z) + self->base_dir.z;
-                    register_actor_light(get_entity_id(a), self);
+                    register_actor_light(get_entity_id(a), this);
                 }
             }
         }
@@ -177,7 +171,7 @@ void TObjLight::run_task() {
                     self->out_dir.y = t * (self->dir.y - self->base_dir.y) + self->base_dir.y;
                     self->out_dir.z = t * (self->dir.z - self->base_dir.z) + self->base_dir.z;
                     if (get_current_floor_area() != AREA_LOBBY) {
-                        register_actor_light(get_entity_id(a), self);
+                        register_actor_light(get_entity_id(a), this);
                     }
                 }
             }
@@ -197,20 +191,20 @@ TObjLight::TObjLight(TObject *parent, u8 *set_data) : TObjBase(parent) {
     light->m_name = TObjLight__class_name;
     ((TObjLight *)(light))->apply_object_set_data(set_data);
     light->m_90 = (s32) *(s16 *)((s8 *)set_data + 8);
-    *(f32 *)((s8 *)light + 0xF0) = 0.5f;
-    light->m_f4 = (f32) light->scale.x;
-    *(f32 *)((s8 *)light + 0xF8) = (f32) light->scale.y;
-    light->m_fc = (f32) *(f32 *)((s8 *)light + 0x70);
-    light->m_e4 = 0.0f;
-    *(f32 *)((s8 *)light + 0xE8) = 0.0f;
-    light->m_ec = 0.0f;
+    light->actor_color.a = 0.5f;
+    light->actor_color.r = (f32) light->scale.x;
+    light->actor_color.g = (f32) light->scale.y;
+    light->actor_color.b = (f32) light->scale.z;
+    light->actor_direction.x = 0.0f;
+    light->actor_direction.y = 0.0f;
+    light->actor_direction.z = 0.0f;
     light->m_9c = 0;
-    copy_argb((NJS_ARGB *)((u8 *)light + 0xBC), (NJS_ARGB *)((u8 *)&TObjLight__scene_light_state.value + 0x24));
-    VecCopy((Vec *)((u8 *)light + 0xD8), (const Vec *)((u8 *)&TObjLight__scene_light_state.value + 0xC));
-    *(f32 *)((s8 *)light + 0xF0) = 0.5f;
-    light->m_f4 = 0.0f;
-    *(f32 *)((s8 *)light + 0xF8) = 0.0f;
-    light->m_fc = 0.0f;
+    copy_argb(&light->scene_color, &TObjLight__scene_light_state.color);
+    VecCopy(&light->scene_direction, &TObjLight__scene_light_state.view_direction);
+    light->actor_color.a = 0.5f;
+    light->actor_color.r = 0.0f;
+    light->actor_color.g = 0.0f;
+    light->actor_color.b = 0.0f;
     light->disallow_rendering();
 }
 

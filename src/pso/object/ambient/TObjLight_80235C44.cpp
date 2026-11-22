@@ -8,6 +8,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/system/vector.h"
 #include "pso/object/ambient/TObjLight.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/unk/text_8023601C.h"
 #include "pso/technique/TTecLuker.h"
 #include "pso/object/base/TObjMotion.h"
@@ -28,16 +29,11 @@
 static const f32 lbl_805DC888[1] = {1.0f};
 static const f32 lbl_805DC88C[1] = {0.0f};
 
-struct Base_80235C44 { u8 pad[0x1C]; f32 f1c; f32 f20; };
-
 extern "C" {
 u16 get_entity_id(void *);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__13TUnk_804CCAA8[];
 
-void publish_actor_light_scalars(u32 arg0, f32 farg0, f32 farg1);
-void publish_light_direction_color(u32 id, void *dir, void *color);
-extern Base_80235C44 TObjLight__scene_light_state;
 
 #pragma push
 #pragma fp_contract on
@@ -57,8 +53,8 @@ void TUnk_804CCAA8::run_task() {
         f32 amb1;
         f32 inten1;
         frac = (f32) age / mid;
-        amb1 = frac * (peak - TObjLight__scene_light_state.f20) + TObjLight__scene_light_state.f20;
-        inten1 = frac * (intensity - TObjLight__scene_light_state.f1c) + TObjLight__scene_light_state.f1c;
+        amb1 = frac * (peak - TObjLight__scene_light_state.ambient) + TObjLight__scene_light_state.ambient;
+        inten1 = frac * (intensity - TObjLight__scene_light_state.intensity) + TObjLight__scene_light_state.intensity;
         publish_actor_light_scalars((u16) get_entity_id(source), inten1, amb1);
         copy_argb(&unused, &baseColor);
         approach_vector_fixed_distance(&direction, &desired, &direction, step);
@@ -67,8 +63,8 @@ void TUnk_804CCAA8::run_task() {
         f32 amb2;
         f32 inten2;
         frac = ((f32) age - mid) / mid;
-        amb2 = frac * (TObjLight__scene_light_state.f20 - peak) + peak;
-        inten2 = frac * (TObjLight__scene_light_state.f1c - intensity) + intensity;
+        amb2 = frac * (TObjLight__scene_light_state.ambient - peak) + peak;
+        inten2 = frac * (TObjLight__scene_light_state.intensity - intensity) + intensity;
         publish_actor_light_scalars((u16) get_entity_id(source), inten2, amb2);
         approach_vector_fixed_distance(&direction, &baseDir, &direction, step);
         approach_rgb_clamped(&color, &baseColor, 0.1f);

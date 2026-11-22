@@ -19,13 +19,14 @@ void *__dt__13TUnk_804A7008Fv(void *arg0, s16 arg1);
 void init_area_lights(void);
 void init_map_lights(u8 *arg0);
 extern "C" {
-void init_menu_scene_lights(u8 *arg0);
+// Every caller passes 4 as arg1; the body never reads it.
+void init_menu_scene_lights(u8 *arg0, s32 arg1);
 }
 void load_light_entry_file(void);
 extern "C" {
 void publish_actor_light_scalars(u32 arg0, f32 farg0, f32 farg1);
 void publish_light_direction_color(u32 id, void *dir, void *color);
-void register_actor_light(s32 arg0, saddr arg1);
+void register_actor_light(s32 arg0, TObjLight *light);
 void restore_scene_lighting(void);
 void select_actor_lighting(TObjBase *obj);
 }

@@ -78,6 +78,7 @@
 #include "pso/ui/frontend/TAdStorySelectGC.h"
 #include "pso/ui/frontend/TAdMultiSelGameModeGC.h"
 #include "pso/ui/frontend/TAdSelectGameModeGC.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
 
 extern "C" {
 u8 *TAdSinglePlyChrSelectGC__ct(u8 *arg0, void *parent);
@@ -87,13 +88,11 @@ void TCameraCtrl__ct(void *, void *);
 s32 is_area_transfer_pending(void);
 void apply_phase_keyboard_mode(void);
 void run_load_callback_table(void *, s32);
-void init_menu_scene_lights(void *, s32);
 void set_copy_clear_color_argb(s32, s32, s32);
 }
 void clear_resource_load_tasks(void);
 void set_screen_size(f32, f32);
 extern u8 default_scene_light_config[];
-extern Vec TObjLight__scene_light_state;
 
 // The mode the scene machine shows (create_mode_scene picks the scene object by it) and the one
 // before it (sync_mode_state).
@@ -500,10 +499,10 @@ void init_game_mode_select_scene(void) {
     TLobby::clear_callback_and_reset_keyboard();
     TParticleCtrl::init_heap(0x100000);
     init_menu_scene_lights(default_scene_light_config, 4);
-    TObjLight__scene_light_state.y = -1.0f * sin_table_lookup(0x1555);
+    TObjLight__scene_light_state.direction.y = -1.0f * sin_table_lookup(0x1555);
     c = cos_table_lookup(0x1555);
-    TObjLight__scene_light_state.x = c * sin_table_lookup(0x9000);
-    TObjLight__scene_light_state.z = c * cos_table_lookup(0x9000);
+    TObjLight__scene_light_state.direction.x = c * sin_table_lookup(0x9000);
+    TObjLight__scene_light_state.direction.z = c * cos_table_lookup(0x9000);
     p = TObject::operator new(0x1d4);
     if (p != NULL) {
         TCameraCtrl__ct(p, tl_camera);

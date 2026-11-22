@@ -128,13 +128,13 @@ void TObjLight::init_light_tables() {
     TObjLight__light_count = 0;
 }
 
-void register_actor_light(s32 arg0, saddr arg1) {
+void register_actor_light(s32 arg0, TObjLight *light) {
     u8 *temp_r5;
     if ((s32) TObjLight__actor_light_count < 0x20) {
         temp_r5 = (u8 *)TObjLight__data_8050637C + (TObjLight__actor_light_count * 0x2C);
         *(s32 *)((s8 *)temp_r5 + 0x28) = arg0;
-        VecCopy((Vec *)(temp_r5), (const Vec *)(arg1 + 0xE4));
-        copy_argb((NJS_ARGB *)((u8 *)TObjLight__data_8050637C + (TObjLight__actor_light_count * 0x2C) + 0xC), (NJS_ARGB *)(arg1 + 0xF0));
+        VecCopy((Vec *)(temp_r5), &light->actor_direction);
+        copy_argb((NJS_ARGB *)((u8 *)TObjLight__data_8050637C + (TObjLight__actor_light_count * 0x2C) + 0xC), &light->actor_color);
         TObjLight__actor_light_count += 1;
     }
 }
@@ -398,7 +398,7 @@ void init_map_lights(u8 *arg0) {
     new TUnk_804A6F78(tl_02);
 }
 
-void init_menu_scene_lights(u8 *arg0) {
+void init_menu_scene_lights(u8 *arg0, s32 arg1) {
     Vec stack;
     stack.x = *(f32 *)((s8 *)arg0 + 0);
     stack.y = *(f32 *)((s8 *)arg0 + 4);

@@ -21,6 +21,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
 
 #pragma readonly_strings on
 
@@ -30,9 +31,8 @@ char character_creation_name_buffer[0x18];
 CharacterAppearanceFields character_creation_visual_record;
 extern "C" {
 u8 *TCameraCtrl__ct(u8 *arg0, void *parent);
-s32 init_menu_scene_lights(s32 *, s32);
 }
-extern s32 default_scene_light_config[];
+extern u8 default_scene_light_config[];
 extern saddr tl_camera;
 extern saddr tl_03;
 BmlResource *creation_menu_main_obj;
