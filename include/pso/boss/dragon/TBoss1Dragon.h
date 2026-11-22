@@ -117,9 +117,9 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     Vec m_5e8;
     AccelerationCurve curve0;  // as TBoss8Dragon::curve0
     AccelerationCurve curve1;
-    Vec m_63c;
-    Vec m_648;
-    s32 m_654;
+    Vec sound_origin;  // as TBoss8Dragon::sound_origin
+    Vec last_body_center;
+    u32 camera_target_raised;  // get_follow_camera_offsets raises the camera target while it is 1
     s32 airTurnVelocity;
     s32 airTurnDirection;
     s32 airTurnStartAngle;
@@ -160,16 +160,16 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     u32 randomState[58];
     s32 stateStep;
     s32 impactAge;
-    s32 m_86c;
+    s32 action_frames;  // frames into the current action step (twin TBoss8Dragon::action_frames)
     s32 m_870;
-    s32 m_874;
+    s32 action_angle;  // the heading the current action turns to
     s32 m_878;
     f32 fallVelocity;
     f32 rootHeight;
     f32 m_884;
     f32 m_888;
     f32 m_88c;
-    Vec m_890;
+    Vec action_point;  // the current action's point or step
     f32 m_89c;
     f32 m_8a0;
     f32 m_8a4;
@@ -289,12 +289,12 @@ DRAGON_OFFSET(breath_particles, 0x8AC);
 DRAGON_OFFSET(m_884, 0x884);
 DRAGON_OFFSET(wall_reach, 0x37C);
 DRAGON_OFFSET(m_3e0, 0x3E0);
-DRAGON_OFFSET(m_63c, 0x63C);
+DRAGON_OFFSET(sound_origin, 0x63C);
 DRAGON_OFFSET(m_774, 0x774);
 DRAGON_OFFSET(destination_direction, 0x3A0);
 DRAGON_OFFSET(m_8a8, 0x8A8);
 DRAGON_OFFSET(m_8b8, 0x8B8);
-DRAGON_OFFSET(m_654, 0x654);
+DRAGON_OFFSET(camera_target_raised, 0x654);
 DRAGON_OFFSET(attack_history, 0x688);
 DRAGON_OFFSET(sector_count, 0x6A0);
 DRAGON_OFFSET(sector_radii, 0x6A8);
@@ -303,8 +303,8 @@ DRAGON_OFFSET(controller_input, 0x6E4);
 DRAGON_OFFSET(m_760, 0x760);
 DRAGON_OFFSET(target_client_id, 0x764);
 DRAGON_OFFSET(randomState, 0x77C);
-DRAGON_OFFSET(m_86c, 0x86C);
-DRAGON_OFFSET(m_874, 0x874);
+DRAGON_OFFSET(action_frames, 0x86C);
+DRAGON_OFFSET(action_angle, 0x874);
 DRAGON_OFFSET(m_878, 0x878);
 DRAGON_OFFSET(airTurnVelocity, 0x658);
 DRAGON_OFFSET(airTurnTime, 0x678);

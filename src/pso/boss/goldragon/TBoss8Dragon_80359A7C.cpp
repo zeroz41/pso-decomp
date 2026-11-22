@@ -15,66 +15,65 @@ extern s32 local_client_id;
 extern s32 TBoss8Dragon__data_805D69B8;
 
 void TUnk_804F1A78::run_task() {
-    u8 *boss8_dragon = (u8 *)this;
-    s16 temp_r0;
-    s32 temp_r0_2;
-    s32 temp_r30;
-    s32 temp_r30_2;
+    s16 mode;
+    s32 state;
+    s32 old_state;
+    s32 teammate_state;
     if (TObjPlayer::check_demo_mode() != 0) {
         this->run_demo_task();
         return;
     }
-    if (*(s32 *)((s8 *)boss8_dragon + 0x3C0) & 8) {
-        ((TObjEnemy *)boss8_dragon)->send_entity_set_flags();
-        ((TObject *)boss8_dragon)->queue_destruction();
+    if (this->flags & 8) {
+        this->send_entity_set_flags();
+        this->TObject::queue_destruction();
         return;
     }
-    if ((s32) *(s32 *)((s8 *)boss8_dragon + 0x74C) != 0) {
-        ((TBoss8Dragon *)boss8_dragon)->freeze_player_at_self();
-        *(s32 *)((s8 *)boss8_dragon + 0x754) = (s32) (*(s32 *)((s8 *)boss8_dragon + 0x754) + 1);
-    } else if ((TObjEneDD::is_main_phase_15() != 0) && ((s32) *(s32 *)((s8 *)boss8_dragon + 0x6D4) == 0)) {
-        temp_r30 = *(s32 *)((s8 *)boss8_dragon + 0x3E0);
-        if (((TObjEneDD *)boss8_dragon)->update_lobby_state() != 0) {
-            *(s32 *)((s8 *)boss8_dragon + 0x3E0) = 0;
-            if ((s32) *(s32 *)((s8 *)boss8_dragon + 0x3E0) != temp_r30) {
-                *(s32 *)((s8 *)boss8_dragon + 0x8A0) = 1;
+    if (this->m_74c != 0) {
+        this->freeze_player_at_self();
+        this->m_754 = this->m_754 + 1;
+    } else if ((TObjEneDD::is_main_phase_15() != 0) && (this->m_6d4 == 0)) {
+        old_state = this->m_3e0;
+        if (this->update_lobby_state() != 0) {
+            this->m_3e0 = 0;
+            if (this->m_3e0 != old_state) {
+                this->m_8a0 = 1;
             }
         } else {
-            *(s32 *)((s8 *)boss8_dragon + 0x3E0) = 1;
+            this->m_3e0 = 1;
         }
     }
-    temp_r30_2 = TObjEneDD::query_teammate_state();
+    teammate_state = TObjEneDD::query_teammate_state();
     this->update_attack_stat_status();
     this->update_defense_stat_status();
-    if (temp_r30_2 == 0) {
-        temp_r0 = this->mode;
-        if ((temp_r0 == 0x15) || (temp_r0 == 0x17)) {
-            *(s32 *)((s8 *)boss8_dragon + 0x30) = (s32) (*(s32 *)((s8 *)boss8_dragon + 0x30) | 0x800);
+    if (teammate_state == 0) {
+        mode = this->mode;
+        if ((mode == 0x15) || (mode == 0x17)) {
+            this->actorFlags |= 0x800;
         } else {
-            *(s32 *)((s8 *)boss8_dragon + 0x30) = (s32) (*(s32 *)((s8 *)boss8_dragon + 0x30) & 0xFFFFF7FF);
+            this->actorFlags &= ~0x800;
         }
-        if ((s32) *(s32 *)((s8 *)boss8_dragon + 0x74C) != 0) {
-            if ((s32) *(u16 *)((s8 *)boss8_dragon + 0x750) == (s32) local_client_id) {
-                if ((s32) TBoss8Dragon__data_805D69B8 == 0) {
-                    ((TBoss8Dragon *)boss8_dragon)->release_grabbed_player();
+        if (this->m_74c != 0) {
+            if (this->m_750 == local_client_id) {
+                if (TBoss8Dragon__data_805D69B8 == 0) {
+                    this->release_grabbed_player();
                 } else {
-                    ((TBoss8Dragon *)boss8_dragon)->check_death();
+                    this->check_death();
                 }
                 this->dispatch_action(this->mode, 8);
                 this->dispatch_action(this->mode, 0);
             } else {
-                if ((s32) TBoss8Dragon__data_805D69B8 == 0) {
-                    ((TBoss8Dragon *)boss8_dragon)->release_grabbed_player();
+                if (TBoss8Dragon__data_805D69B8 == 0) {
+                    this->release_grabbed_player();
                 }
                 this->dispatch_action(this->mode, 0);
             }
         } else {
-            temp_r0_2 = *(s32 *)((s8 *)boss8_dragon + 0x3E0);
-            if (temp_r0_2 != 1) {
-                if (temp_r0_2 == 2) {
+            state = this->m_3e0;
+            if (state != 1) {
+                if (state == 2) {
                     this->dispatch_action(this->mode, 2);
                 } else {
-                    ((TBoss8Dragon *)boss8_dragon)->select_next_action();
+                    this->select_next_action();
                 }
                 this->dispatch_action(this->mode, 8);
                 this->dispatch_action(this->mode, 0);
@@ -83,15 +82,15 @@ void TUnk_804F1A78::run_task() {
             }
         }
     }
-    ((TObjEneDD *)boss8_dragon)->sub_800BBA0C();
+    this->sub_800BBA0C();
     this->update_body_colliders();
-    ((TBoss8Dragon *)boss8_dragon)->store_position();
-    ((TObjEnemy *)boss8_dragon)->submit_default_cursor_candidate();
+    this->store_position();
+    this->submit_default_cursor_candidate();
     add_radar_scaled_marker(&this->position, -0x5DB4, 1, 1, 2.0f);
-    if (temp_r30_2 == 0) {
+    if (teammate_state == 0) {
         this->sub_tasks.run_tasks();
     }
-    project_sound_origin_from_camera((saddr)(boss8_dragon + 0x38), (u8 *)(boss8_dragon + 0x634), 0.4f);
+    project_sound_origin_from_camera((saddr)&this->position, (u8 *)&this->sound_origin, 0.4f);
 }
 
 TUnk_804F1A78::~TUnk_804F1A78() {}

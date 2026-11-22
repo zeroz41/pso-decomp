@@ -649,7 +649,7 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     curve1.reset_coords();
     VecCopy(&this->sound_origin, &this->position);
     VecCopy(&this->last_body_center, &this->position);
-    this->m_64c = 0;
+    this->camera_target_raised = 0;
     this->airTurnVelocity = 0;
     this->airTurnDirection = 1;
     this->airTurnAcceleration = 0.0f;
@@ -685,18 +685,18 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     this->set_mode_params(2);
     this->stateStep = 0;
     this->impactAge = 0;
-    this->m_854 = 0;
+    this->action_frames = 0;
     this->m_858 = 0;
-    this->m_85c = 0;
+    this->action_angle = 0;
     this->m_860 = 0;
     this->fallVelocity = 0.0f;
     this->rootHeight = 0.0f;
     this->m_86c = 0.0f;
     this->m_870 = 0.0f;
     this->m_874 = 0.0f;
-    this->m_878.x = 0.0f;
-    this->m_878.y = 0.0f;
-    this->m_878.z = 0.0f;
+    this->action_point.x = 0.0f;
+    this->action_point.y = 0.0f;
+    this->action_point.z = 0.0f;
     this->m_884 = 0.0f;
     this->m_888 = 0.0f;
     this->m_88c = 0.0f;
@@ -751,52 +751,51 @@ TBoss8Dragon::~TBoss8Dragon() {
 }
 
 void TBoss8Dragon::run_task() {
-    u8 *self = (u8 *)this;
-    s32 temp_r0_2;
-    s32 temp_r30;
-    s32 temp_r30_2;
+    s32 state;
+    s32 old_state;
+    s32 teammate_state;
     s32 i;
     if (TObjPlayer::check_demo_mode() != 0) {
         this->run_demo_task();
         return;
     }
-    if (*(s32 *)&this->flags & 8) {
+    if (this->flags & 8) {
         this->send_entity_set_flags();
-        ((TObject *)self)->queue_destruction();
+        this->TObject::queue_destruction();
         return;
     }
     if (this->m_74c != 0) {
         this->freeze_player_at_self();
         this->m_754 = this->m_754 + 1;
-    } else if ((TObjEneDD::is_main_phase_15() != 0) && ((s32) *(s32 *)&this->m_6d4 == 0)) {
-        temp_r30 = *(s32 *)&this->m_3e0;
+    } else if ((TObjEneDD::is_main_phase_15() != 0) && (this->m_6d4 == 0)) {
+        old_state = this->m_3e0;
         if (this->update_lobby_state() != 0) {
-            *(s32 *)&this->m_3e0 = 0;
-            if ((s32) *(s32 *)&this->m_3e0 != temp_r30) {
+            this->m_3e0 = 0;
+            if (this->m_3e0 != old_state) {
                 this->m_8a0 = 1;
             }
         } else {
-            *(s32 *)&this->m_3e0 = 1;
+            this->m_3e0 = 1;
         }
     }
-    temp_r30_2 = TObjEneDD::query_teammate_state();
+    teammate_state = TObjEneDD::query_teammate_state();
     this->update_attack_stat_status();
     this->update_defense_stat_status();
-    if (temp_r30_2 == 0) {
+    if (teammate_state == 0) {
         if (this->mode == 0x15 || this->mode == 0x16 || this->mode == 0x17) {
-            *(s32 *)&this->actorFlags = (s32) (*(s32 *)&this->actorFlags | 0x800);
+            this->actorFlags |= 0x800;
         } else {
-            *(s32 *)&this->actorFlags = (s32) (*(s32 *)&this->actorFlags & 0xFFFFF7FF);
+            this->actorFlags &= ~0x800;
         }
         if (this->m_74c != 0) {
-            if ((s32) this->m_750 == (s32) local_client_id) {
+            if (this->m_750 == local_client_id) {
                 if ((this->test_flag30_512() != 0) && (this->is_health_low() != 0)) {
                     if ((s16) this->hp < this->finalHpThreshold) {
                         this->hp = this->finalHpThreshold;
                     }
                     this->clear_attack_receipts();
                 }
-                if ((s32) TBoss8Dragon__data_805D69B8 == 0) {
+                if (TBoss8Dragon__data_805D69B8 == 0) {
                     this->release_grabbed_player();
                 } else {
                     this->check_death();
@@ -810,15 +809,15 @@ void TBoss8Dragon::run_task() {
                     }
                     this->clear_attack_receipts();
                 }
-                if ((s32) TBoss8Dragon__data_805D69B8 == 0) {
+                if (TBoss8Dragon__data_805D69B8 == 0) {
                     this->release_grabbed_player();
                 }
                 this->dispatch_action(this->mode, 0);
             }
         } else {
-            temp_r0_2 = this->m_3e0;
-            if (temp_r0_2 != 1) {
-                if (temp_r0_2 == 2) {
+            state = this->m_3e0;
+            if (state != 1) {
+                if (state == 2) {
                     this->dispatch_action(this->mode, 2);
                 } else {
                     if ((this->test_flag30_512() != 0) && (this->is_health_low() != 0)) {
@@ -848,8 +847,8 @@ void TBoss8Dragon::run_task() {
     this->submit_default_cursor_candidate();
     add_radar_scaled_marker(&this->position, -0x5DB4, 1, 1, 2.0f);
     VecCopy(&this->last_body_center, &this->body_center);
-    if (temp_r30_2 == 0) {
-        ((TObject *)(self + 0x3C4))->run_tasks();
+    if (teammate_state == 0) {
+        this->sub_tasks.run_tasks();
     }
     project_sound_origin_from_camera((saddr)&this->position, (u8 *)&this->sound_origin, 0.4f);
     if (!(*(s32 *)&this->flags & 0x100)) {
@@ -2061,7 +2060,7 @@ void TBoss8Dragon::state_breath_attack(s32 event) {
         this->flags &= ~0x36;
         this->stateStep = 0;
         this->impactAge = 2;
-        this->m_854 = 0;
+        this->action_frames = 0;
         this->breath_particles[0] = 0;
         this->breath_particles[1] = 0;
         this->breath_particles[2] = 0;
@@ -2105,8 +2104,8 @@ void TBoss8Dragon::state_breath_attack(s32 event) {
             }
             break;
         case 1:
-            this->m_854++;
-            if (this->m_854 >= 0x78) {
+            this->action_frames++;
+            if (this->action_frames >= 0x78) {
                 this->requested_action = 6;
                 if (this->breath_particles[0] != 0) {
                     this->breath_particles[0]->queue_destruction();
@@ -2361,7 +2360,7 @@ void TBoss8Dragon::state_turn_and_charge(s32 event) {
             this->airTurnDirection = -1;
         }
         init_acceleration_curve(&this->curve1, (f32)(16.0f), (f32)(-16.0f), (f32)((f32)diff), (f32)(s32)(256.0f * (2.0f + *(f32 *)(TBoss8Dragon__data_80541DDC[0] + 0x14))));
-        this->m_85c = this->rotation_y;
+        this->action_angle = this->rotation_y;
         this->stateStep = 0;
         this->fallVelocity = 0.0f;
         break;
@@ -2392,7 +2391,7 @@ void TBoss8Dragon::state_turn_and_charge(s32 event) {
         switch (this->stateStep) {
         case 0:
             this->fallVelocity += 1.0f;
-            this->rotation_y = (s32)((f32)this->airTurnDirection * sample_acceleration_curve(&this->curve1, this->fallVelocity) + (f32)this->m_85c);
+            this->rotation_y = (s32)((f32)this->airTurnDirection * sample_acceleration_curve(&this->curve1, this->fallVelocity) + (f32)this->action_angle);
             if (this->curve1.check_param_threshold(this->fallVelocity) != 0) {
                 this->fallVelocity = 0.0f;
                 this->stateStep = 1;
@@ -2423,7 +2422,7 @@ void TBoss8Dragon::state_turn_and_charge(s32 event) {
 
 #define F(t, o) (*(t *)((u8 *)this + (o)))
 void TBoss8Dragon::sub_802F8F88(s32 event) {
-    Vec *d = &m_878;
+    Vec *d = &action_point;
 
     switch (event) {
     case 4:
@@ -2434,7 +2433,7 @@ void TBoss8Dragon::sub_802F8F88(s32 event) {
         this->flags &= ~0x36;
         this->stateStep = 0;
         this->impactAge = 0;
-        this->m_854 = 0;
+        this->action_frames = 0;
         this->breath_particles[0] = 0;
         break;
     case 2:
@@ -2453,35 +2452,35 @@ void TBoss8Dragon::sub_802F8F88(s32 event) {
         switch (this->stateStep) {
         case 0:
             if (this->select_air_fire_target(d) != 0) {
-                this->m_85c = (s32)(RADIANS_TO_ANGLE * atan2_float(d->x - this->position.x, d->z - this->position.z));
+                this->action_angle = (s32)(RADIANS_TO_ANGLE * atan2_float(d->x - this->position.x, d->z - this->position.z));
             } else {
-                this->m_85c = get_random_scaled();
-                d->x = 125.0f * sin_table_lookup(this->m_85c);
+                this->action_angle = get_random_scaled();
+                d->x = 125.0f * sin_table_lookup(this->action_angle);
                 d->y = 0.0f;
-                d->z = 125.0f * cos_table_lookup(this->m_85c);
+                d->z = 125.0f * cos_table_lookup(this->action_angle);
             }
-            this->m_85c = (s16)this->m_85c;
+            this->action_angle = (s16)this->action_angle;
             this->stateStep = 1;
             if (this->m_74c != 0) {
-                this->m_85c = (s16)this->rotation_y;
+                this->action_angle = (s16)this->rotation_y;
                 VecCopy(d, &position);
-                d->x += 125.0f * sin_table_lookup(this->m_85c);
+                d->x += 125.0f * sin_table_lookup(this->action_angle);
                 d->y = 0.0f;
-                d->z += 125.0f * cos_table_lookup(this->m_85c);
+                d->z += 125.0f * cos_table_lookup(this->action_angle);
                 this->stateStep = 2;
                 F(s32, 0x650) = 0;
-                this->rotation_y = this->m_85c;
+                this->rotation_y = this->action_angle;
                 this->requested_action = 0x12;
                 this->flags |= 0x30;
             }
-            this->check_hit_result(this->rotation_y, this->m_85c);
-            init_air_turn(this->m_85c);
+            this->check_hit_result(this->rotation_y, this->action_angle);
+            init_air_turn(this->action_angle);
         case 1:
             this->spawn_effect_if_in_band();
             sub_802FB09C();
             if (advance_air_turn() != 0) {
                 F(s32, 0x650) = 0;
-                this->rotation_y = this->m_85c;
+                this->rotation_y = this->action_angle;
                 this->stateStep = 2;
                 this->requested_action = 0x12;
                 this->flags |= 0x30;
@@ -2533,13 +2532,13 @@ void TBoss8Dragon::sub_802F8F88(s32 event) {
                 new TBoss8DragonEffBullet(&sub_tasks, &breath_origin, &v, m_75c, get_entity_id(((u8 *)this)));
                 spawn_particle_effect_with_flags((const Vec *)&breath_origin, this->particle_ids[9], 0x40);
                 this->stateStep = 3;
-                this->m_854 = 0;
+                this->action_frames = 0;
                 this->flags &= ~0x30;
             }
             break;
         case 3:
-            this->m_854++;
-            if (this->m_854 > 10) {
+            this->action_frames++;
+            if (this->action_frames > 10) {
                 this->impactAge++;
                 if (this->impactAge >= 2) {
                     this->stateStep = 4;
@@ -2577,8 +2576,8 @@ void TBoss8Dragon::sub_802F89F8(s32 event) {
         this->flags &= ~0x6;
         this->stateStep = 0;
         this->impactAge = 0;
-        this->m_854 = 0;
-        this->m_85c = 0;
+        this->action_frames = 0;
+        this->action_angle = 0;
         this->fallVelocity = 13.0f;
         break;
     case 2:
@@ -2625,27 +2624,27 @@ void TBoss8Dragon::sub_802F89F8(s32 event) {
             this->advance_animation();
             this->rotation_x = 0;
             if (this->frame > 22.0f) {
-                this->m_85c = 0x1000;
+                this->action_angle = 0x1000;
                 this->stateStep = 3;
-                this->m_64c = 1;
+                this->camera_target_raised = 1;
             }
             break;
         case 3:
-            this->m_85c += 0x40;
-            if (this->m_85c > 0x2000) {
-                this->m_85c = 0x2000;
+            this->action_angle += 0x40;
+            if (this->action_angle > 0x2000) {
+                this->action_angle = 0x2000;
             }
             this->impactAge++;
             if (this->impactAge >= 4) {
                 this->impactAge = 0;
-                this->m_854++;
-                if (this->m_854 >= 40) {
+                this->action_frames++;
+                if (this->action_frames >= 40) {
                     this->stateStep = 4;
-                    this->m_64c = 0;
+                    this->camera_target_raised = 0;
                 }
                 found = 0;
-                if ((this->m_854 & 1) == 0) {
-                    player = get_player_by_client_id((u16)((this->m_854 >> 1) % 4));
+                if ((this->action_frames & 1) == 0) {
+                    player = get_player_by_client_id((u16)((this->action_frames >> 1) % 4));
                     if (player->is_alive() != 0) {
                         VecCopy(&pos, &player->position);
                         pos.x += 100.0f * (calc_random_ratio__10TObjPlayerFv(&this->m_764) - 0.5f);
@@ -2660,20 +2659,20 @@ void TBoss8Dragon::sub_802F89F8(s32 event) {
                 }
                 new TBoss8DragonEffBullet(&sub_tasks, &breath_origin, &pos, this->m_75c, get_entity_id((u8 *)this));
             }
-            this->rotation_x -= this->m_85c;
+            this->rotation_x -= this->action_angle;
             break;
         case 4:
-            this->m_85c -= 0x50;
-            if (this->m_85c < 0x1300) {
-                this->m_85c = 0x1300;
-                this->rotation_x -= this->m_85c;
+            this->action_angle -= 0x50;
+            if (this->action_angle < 0x1300) {
+                this->action_angle = 0x1300;
+                this->rotation_x -= this->action_angle;
                 if ((this->rotation_x & 0xFFFF) <= 0x1300 || (this->rotation_x & 0xFFFF) >= 0xED00) {
                     this->rotation_x = 0;
                     this->m_860 = (s32)(RADIANS_TO_ANGLE * atan2_float(-this->position.x, -this->position.z));
                     this->stateStep = 5;
                 }
             } else {
-                this->rotation_x -= this->m_85c;
+                this->rotation_x -= this->action_angle;
             }
             break;
         case 5:
@@ -2711,7 +2710,7 @@ void TBoss8Dragon::sub_802F89F8(s32 event) {
     case 5:
         this->rotation_x = 0;
         this->sub_8002AE64();
-        this->m_64c = 0;
+        this->camera_target_raised = 0;
         break;
     }
 }
@@ -3040,9 +3039,9 @@ void TBoss8Dragon::sub_802F7B70(s32 event) {
         this->impactAge = 0;
         this->m_890 = 0;
         this->m_860 = 0;
-        this->m_85c = (s32)(RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z));
+        this->action_angle = (s32)(RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z));
         this->destination_distance += 5.0f;
-        init_air_turn(this->m_85c);
+        init_air_turn(this->action_angle);
         if (this->destination_distance < 50.0f) {
             this->fallVelocity = this->rootHeight = this->destination_distance / 60.0f;
             this->m_86c = 0.0f;
@@ -3092,7 +3091,7 @@ void TBoss8Dragon::sub_802F7B70(s32 event) {
             sub_802FB09C();
             if (advance_air_turn() != 0) {
                 this->airTurnVelocity = 0;
-                this->rotation_y = this->m_85c;
+                this->rotation_y = this->action_angle;
                 this->stateStep = 2;
                 this->requested_action = 0x16;
             }
@@ -3331,7 +3330,7 @@ void TBoss8Dragon::handle_spiral_state(s32 event) {
         this->rootHeight = this->calc_step_value();
         this->fallVelocity = 2.5f * this->rootHeight;
         this->m_86c = 350.0f;
-        this->m_85c = 0;
+        this->action_angle = 0;
         break;
     case 2:
     case 11:
@@ -3359,15 +3358,15 @@ void TBoss8Dragon::handle_spiral_state(s32 event) {
                 this->impactAge = 0;
                 this->stateStep = 1;
                 restore_target_pos();
-                this->m_85c = (s32)(RADIANS_TO_ANGLE * atan2_float(this->position.x, this->position.z));
+                this->action_angle = (s32)(RADIANS_TO_ANGLE * atan2_float(this->position.x, this->position.z));
                 return;
             }
             break;
         case 1:
             a = (s32)(RADIANS_TO_ANGLE * (this->fallVelocity / this->m_86c));
-            this->m_85c += a;
-            this->position.x = this->m_86c * sin_table_lookup(this->m_85c);
-            this->position.z = this->m_86c * cos_table_lookup(this->m_85c);
+            this->action_angle += a;
+            this->position.x = this->m_86c * sin_table_lookup(this->action_angle);
+            this->position.z = this->m_86c * cos_table_lookup(this->action_angle);
             this->m_86c -= 0.0010681152f * (f32)a;
             if (this->m_86c < 5.0f) {
                 this->stateStep = 2;
@@ -3392,7 +3391,7 @@ void TBoss8Dragon::handle_spiral_state(s32 event) {
 }
 
 void TBoss8Dragon::handle_leap_state(s32 event) {
-    Vec *d = &m_878;
+    Vec *d = &action_point;
     f32 v;
 
     switch (event) {
@@ -4205,18 +4204,18 @@ void TBoss8Dragon::sub_802F57E4(s32 event) {
     case 7:
         this->m_758 = (s32) this->savedX;
         if (this->savedZ > 0.0f) {
-            this->m_85c = 0x180;
+            this->action_angle = 0x180;
             return;
         }
-        this->m_85c = -0x180;
+        this->action_angle = -0x180;
         return;
     case 6:
         this->destinationX = (f32) (65536.0f * random_ratio());
         this->destinationZ = calc_elapsed_scaled();
         return;
     case 0:
-        this->m_758 = (s32) (this->m_758 + this->m_85c);
-        if ((s32) this->m_85c >= 0) {
+        this->m_758 = (s32) (this->m_758 + this->action_angle);
+        if ((s32) this->action_angle >= 0) {
             this->rotation_y = (s32) (this->m_758 + 0x9800);
         } else {
             this->rotation_y = (s32) (this->m_758 + 0xFFFF6800);

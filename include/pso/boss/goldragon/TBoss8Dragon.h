@@ -72,7 +72,7 @@ public:
 
     u32 flags;  // as TBoss1Dragon::flags: 0x40 makes run_task remove the dragon, 0x100 tested the same way
     TObject sub_tasks;  // the dragon's collider task hangs under it; run_task runs its tasks
-    u32 m_3e0;
+    s32 m_3e0;
     s32 phase;
     s32 m_3e8;
     Vec breath_node_points[3];  // as TBoss1Dragon::breath_node_points
@@ -90,7 +90,7 @@ public:
     AccelerationCurve curve1;
     Vec sound_origin;  // project_sound_origin_from_camera's result; the dragon's sounds play from it
     Vec last_body_center;  // body_center, copied at the end of each run_task
-    u32 m_64c;
+    u32 camera_target_raised;  // as TBoss1Dragon::camera_target_raised
     s32 airTurnVelocity;
     s32 airTurnDirection;
     s32 airTurnStartAngle;
@@ -115,7 +115,7 @@ public:
     u32 m_69c;
     f32 sector_radii[12];  // one random radius per 30-degree sector, picked by choose_burrow_ring_destination
     u32 m_6d0;
-    u32 m_6d4;
+    s32 m_6d4;
     ControllerInputContext *controller_input;  // points into controller_input_state.controllers
     RenderFadeState renderFadeStates[4];
     s32 m_74c;
@@ -131,16 +131,16 @@ public:
     u8 unk_778[0xD4];
     s32 stateStep;  // step and frame counter of the current action, as in TBoss1Dragon
     s32 impactAge;
-    s32 m_854;
+    s32 action_frames;
     u32 m_858;
-    s32 m_85c;
+    s32 action_angle;
     s32 m_860;
     f32 fallVelocity;
     f32 rootHeight;
     f32 m_86c;
     f32 m_870;
     f32 m_874;
-    Vec m_878;  // the current action's point or step; TBoss1Dragon::m_890 is the twin
+    Vec action_point;  // the current action's point or step, as TBoss1Dragon::action_point
     f32 m_884;
     f32 m_888;
     f32 m_88c;
