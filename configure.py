@@ -1487,7 +1487,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/network/TGameProtocol.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdMcCheckGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/TEF_PvrWave.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/boss/darkfalz/TObjDFDemoF_80050134.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/boss/darkfalz/TObjDFDemoF.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/dragon/TObjBoss1Floor.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/object/TObjParticle.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # .data holds the vtable ahead of vfunc_11's jump table and .rodata init_quest_list_window's window size

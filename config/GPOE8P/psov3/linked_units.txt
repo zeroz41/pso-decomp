@@ -236,6 +236,7 @@ pso/unk/SampledMotionPoints.cpp
 pso/boss/darkfalz/TBoss4CheckEmpty.cpp
 pso/boss/darkfalz/TBoss4DarkFalz_8004C93C.cpp
 pso/boss/darkfalz/TBoss4DarkFalz_8004D8C8.cpp
+pso/boss/darkfalz/TBoss4Fade.cpp
 pso/boss/darkfalz/TBoss4Thanks.cpp
 pso/boss/darkfalz/TBoss4Type1.cpp
 pso/boss/darkfalz/TBoss4Type2_8004A978.cpp
@@ -2003,8 +2004,6 @@ pso/unk/text_8001C388.cpp
 pso/unk/text_8002B164.cpp
 pso/unk/text_8004AA04.cpp
 pso/unk/text_8004D9A8.cpp
-pso/boss/darkfalz/TObjDFDemoF_80050050.cpp
-pso/boss/darkfalz/TObjDFDemoF_80050134.cpp
 pso/unk/text_80052420.cpp
 pso/unk/text_80066F10.cpp
 pso/unk/text_80066F5C.cpp

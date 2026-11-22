@@ -568,19 +568,12 @@ pso/boss/darkfalz/TObjDFDemo5.cpp:
 	.sdata      start:0x805D27A0 end:0x805D27A4
 	.sdata2     start:0x805D8A08 end:0x805D8A20
 
-pso/boss/darkfalz/TObjDFDemoF_80050050.cpp:
-	.text       start:0x80050050 end:0x80050134
-	.sdata2     start:0x805D8A20 end:0x805D8A28
-
-pso/boss/darkfalz/TObjDFDemoF_80050134.cpp:
-	.text       start:0x80050134 end:0x800502B4
+pso/boss/darkfalz/TObjDFDemoF.cpp:
+	.text       start:0x80050050 end:0x800502FC
 	.rodata     start:0x80437458 end:0x80437464
 	.data       start:0x80485828 end:0x804858A8
 	.sdata      start:0x805D27A8 end:0x805D27AC
-	.sdata2     start:0x805D8A28 end:0x805D8A2C
-
-pso/boss/darkfalz/TObjDFDemoF.cpp:
-	.text       start:0x800502B4 end:0x800502FC
+	.sdata2     start:0x805D8A20 end:0x805D8A2C
 
 pso/boss/darkfalz/TObjDFJisin.cpp:
 	.text       start:0x800502FC end:0x800522CC
