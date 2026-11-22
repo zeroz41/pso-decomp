@@ -5,6 +5,9 @@
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/unk/text_803D8F74.h"
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/TObjMotion.h"
@@ -12,9 +15,9 @@
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_800F0810.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/epsilon/TObjEneEpsilonGuard.h"
-#include "pso/unk/text_803626A8.h"
 #include "pso/enemy/epsilon/TObjEneEpsilonBody.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -25,32 +28,9 @@
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/unk/TLobby.h"
 #include "pso/item/TItem.h"
-struct Stack_803626A8 {
-    s32 sp8;
-    s32 spC;
-    s32 sp10;
-};
 
-
-struct Leaf_803627DC { u8 pad[4]; s32 v; };
-
-
-struct Model_803627DC { u8 pad[8]; s32 f8; NJS_TEXLIST *texlist; };
-
-struct Res_803627DC { u8 pad[0x42C]; Model_803627DC *f42c; s32 f430; };
-
-// The spawn record load_assets passes to TLobby::spawn_npc_enemy; b points at lbl_804F252C.
-struct Unk_804F252C { s32 unk_0; s32 unk_4; f32 unk_8; s32 unk_C; };
-
-extern "C" {
-s32 matrix_mult_vec(int, void *, void *);
-s32 rotate_matrix_y(int, int);
-f32 post_translate_matrix(void *);
-
-s32 TObjPlayer__sub_800F0928(void *);
-}
-f32 lbl_80543A18[3];
-s32 epsilon_guard_part_color_table[9];
+Vec epsilon_zero_vector;
+u8 *epsilon_guard_part_color_table[9];
 BmlResource *epsilon_bml_resource;
 TUnk_8048FA00 *epsilon_body_breakup_model;
 TUnk_8048FA00 *epsilon_guard_breakup_model;
@@ -63,7 +43,7 @@ const char *bm_ene_epsilon_motion_names[5] = {
     "body_wait_re6_b_bcbody.njm", "bal_wait_re6_b_bal_body.njm", "claw_wait_re6_b_claw_body.njm", "bc_rot_bc1_bc_body.njm", NULL,
 };
 BmlResourceDescriptor TObjEneEpsilonGuard__resource_descriptor = { "bm_ene_epsilon.bml", bm_ene_epsilon_model_names, bm_ene_epsilon_motion_names, 7, 4 };
-Unk_804F252C lbl_804F252C = { 0x10000, 0, 0.3f, 0 };
+TObjMotionAction epsilon_action_table[1] = { { 1, 0, 0, 0.3f, 0 } };
 
 const char *TObjEneEpsilon__class_name = "TObjEneEpsilon";
 
@@ -78,9 +58,9 @@ TObjEneEpsilon::TObjEneEpsilon(TObject *parent) : TObjEneDD_ST(parent) {
 TObjEneEpsilon::~TObjEneEpsilon() {}
 
 void TObjEneEpsilonGuard::load_assets() {
-    lbl_80543A18[0] = 0.0f;
-    lbl_80543A18[1] = 0.0f;
-    lbl_80543A18[2] = 0.0f;
+    epsilon_zero_vector.x = 0.0f;
+    epsilon_zero_vector.y = 0.0f;
+    epsilon_zero_vector.z = 0.0f;
     epsilon_bml_resource = new BmlResource(1, &TObjEneEpsilonGuard__resource_descriptor, 0, 0, NULL);
     epsilon_body_breakup_model = new TUnk_8048FA00((saddr)get_bml_model(epsilon_bml_resource, 5));
     epsilon_guard_breakup_model = new TUnk_8048FA00((saddr)get_bml_model(epsilon_bml_resource, 6));
@@ -92,20 +72,20 @@ void TObjEneEpsilonGuard::load_assets() {
     epsilon_guard_shared_handler_b = (u8 *)TLobby::dispatch_shared_handler_b(0x24);
     epsilon_guard_registered_object_handle = (u8 *)TLobby::register_object(0x24);
     TObjEneEpsilonGuard__movement_params = (TObjEneEpsilonGuardParams *)TLobby::dispatch_shared_handler_a(0x24);
-    epsilon_guard_part_color_table[0] = ((Leaf_803627DC *)get_bml_model(epsilon_bml_resource, 0)->child->model)->v;
-    epsilon_guard_part_color_table[1] = ((Leaf_803627DC *)get_bml_model(epsilon_bml_resource, 0)->child->sibling->child->child->sibling->child->child->sibling->sibling->child->model)->v;
-    epsilon_guard_part_color_table[2] = ((Leaf_803627DC *)get_bml_model(epsilon_bml_resource, 0)->child->sibling->child->child->sibling->child->child->sibling->sibling->sibling->child->model)->v;
-    epsilon_guard_part_color_table[3] = ((Leaf_803627DC *)get_bml_model(epsilon_bml_resource, 0)->child->sibling->child->child->sibling->child->child->sibling->sibling->sibling->sibling->child->model)->v;
-    epsilon_guard_part_color_table[4] = ((Leaf_803627DC *)get_bml_model(epsilon_bml_resource, 0)->child->sibling->child->child->sibling->child->child->sibling->sibling->sibling->sibling->sibling->child->model)->v;
-    epsilon_guard_part_color_table[5] = ((Leaf_803627DC *)get_bml_model(epsilon_bml_resource, 1)->child->model)->v;
-    epsilon_guard_part_color_table[6] = ((Leaf_803627DC *)get_bml_model(epsilon_bml_resource, 2)->child->model)->v;
-    epsilon_guard_part_color_table[8] = ((Leaf_803627DC *)get_bml_model(epsilon_bml_resource, 3)->model)->v;
-    epsilon_guard_part_color_table[7] = ((Leaf_803627DC *)get_bml_model(epsilon_bml_resource, 4)->model)->v;
-    TObjPlayer__sub_800F0928(epsilon_guard_part_color_table);
+    epsilon_guard_part_color_table[0] = (u8 *)((NJS_CNK_MODEL *)get_bml_model(epsilon_bml_resource, 0)->child->model)->polygon_list;
+    epsilon_guard_part_color_table[1] = (u8 *)((NJS_CNK_MODEL *)get_bml_model(epsilon_bml_resource, 0)->child->sibling->child->child->sibling->child->child->sibling->sibling->child->model)->polygon_list;
+    epsilon_guard_part_color_table[2] = (u8 *)((NJS_CNK_MODEL *)get_bml_model(epsilon_bml_resource, 0)->child->sibling->child->child->sibling->child->child->sibling->sibling->sibling->child->model)->polygon_list;
+    epsilon_guard_part_color_table[3] = (u8 *)((NJS_CNK_MODEL *)get_bml_model(epsilon_bml_resource, 0)->child->sibling->child->child->sibling->child->child->sibling->sibling->sibling->sibling->child->model)->polygon_list;
+    epsilon_guard_part_color_table[4] = (u8 *)((NJS_CNK_MODEL *)get_bml_model(epsilon_bml_resource, 0)->child->sibling->child->child->sibling->child->child->sibling->sibling->sibling->sibling->sibling->child->model)->polygon_list;
+    epsilon_guard_part_color_table[5] = (u8 *)((NJS_CNK_MODEL *)get_bml_model(epsilon_bml_resource, 1)->child->model)->polygon_list;
+    epsilon_guard_part_color_table[6] = (u8 *)((NJS_CNK_MODEL *)get_bml_model(epsilon_bml_resource, 2)->child->model)->polygon_list;
+    epsilon_guard_part_color_table[8] = (u8 *)((NJS_CNK_MODEL *)get_bml_model(epsilon_bml_resource, 3)->model)->polygon_list;
+    epsilon_guard_part_color_table[7] = (u8 *)((NJS_CNK_MODEL *)get_bml_model(epsilon_bml_resource, 4)->model)->polygon_list;
+    TObjPlayer__sub_800F0928();
     {
-        NpcAnimationBinding q = { NULL, reinterpret_cast<TObjMotionAction *>(&lbl_804F252C), 0, 0, 1 };
-        q.motions = reinterpret_cast<BmlMotionEntry *>(((Res_803627DC *)epsilon_bml_resource)->f430);
-        NpcModelRegistry::register_animated_chunk((s16)0x4E, reinterpret_cast<void *>((((Res_803627DC *)epsilon_bml_resource)->f42c->f8)), reinterpret_cast<void *>(((Res_803627DC *)epsilon_bml_resource)->f42c->texlist), &q, 5.0f, 15.0f);
+        NpcAnimationBinding binding = { NULL, epsilon_action_table, 0, 0, 1 };
+        binding.motions = epsilon_bml_resource->motions;
+        NpcModelRegistry::register_animated_chunk(0x4E, epsilon_bml_resource->models->model, epsilon_bml_resource->models->m_c, &binding, 5.0f, 15.0f);
     }
 }
 
@@ -125,16 +105,13 @@ void TObjEneEpsilonGuard::free_shared_resources() {
 }
 
 void TObjEneEpsilonGuard::calc_joint_position(Vec *out, s32 joint) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_803626A8, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_803626A8, spC) == 0x4);
-    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_803626A8, sp10) == 0x8);
-    Stack_803626A8 stack = { 0, 0, 0 };
+    Vec origin = { 0.0f, 0.0f, 0.0f };
     push_matrix_from((void *)&identity_matrix);
-    post_translate_matrix(&position);
-    rotate_matrix_y(0, this->rotation_y);
-    this->calc_joint_matrices(this->frame);
+    post_translate_matrix(&position.x);
+    rotate_matrix_y(NULL, rotation_y);
+    calc_joint_matrices(frame);
     pop_matrix();
     push_matrix_from(anim_model_matrix_array[joint]);
-    matrix_mult_vec(0, &stack.sp8, out);
+    matrix_mult_vec(NULL, &origin, out);
     pop_matrix();
 }

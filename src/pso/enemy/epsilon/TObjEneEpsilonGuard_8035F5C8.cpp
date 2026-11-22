@@ -8,7 +8,7 @@ struct NJS_OBJECT;
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/enemy/epsilon/TObjEneEpsilonGuard.h"
-#include "pso/unk/text_803626A8.h"
+#include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TMainTask.h"
@@ -90,8 +90,6 @@ const NJS_ARGB epsilon_body_colors[4] = {
 };
 const char *TObjEneEpsilonBody__class_name = "TObjEneEpsilonBody";
 
-
-extern u8 *epsilon_guard_part_color_table[];
 
 // Writes the body's colour into the material colour bytes of the nine guard parts.
 void TObjEneEpsilonBody::set_guard_part_colors(NJS_ARGB *color) {

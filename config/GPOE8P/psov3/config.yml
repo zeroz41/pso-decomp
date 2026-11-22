@@ -8224,7 +8224,7 @@ force_active:
   - morfos_attack_params
   - lbl_80543978
   - epsilon_guard_node_origin
-  - lbl_80543A18
+  - epsilon_zero_vector
   - lbl_80543A90
   - lbl_805470AC
   - lbl_80549748
