@@ -63,7 +63,7 @@ static void *volopt_p01_shared_handler_b;
 static void *volopt_p01_object_handle;
 static TBoss3VoloptP01Params *volopt_p01_shared_handler_handle;
 static BmlResource *TBoss3VoloptP01__resource_bundle;
-static TBoss3VoloptBreakupPieces *TBoss3VoloptP01__breakup_model;
+static TUnk_8048FA00 *TBoss3VoloptP01__breakup_model;
 static TBoss3VoloptChunkList *volopt_p01_chunk_list;
 static u8 *volopt_p01_breakup_color_ptr;
 
@@ -124,15 +124,15 @@ TBoss3VoloptP01::TBoss3VoloptP01(TObject *parent, void *set_data) : TObjEnemyCus
 
 #pragma push
 #pragma fp_contract on
-TBoss3VoloptP01::TBoss3VoloptP01(TBoss3Volopt *parent, s32 index, u16 id, s32 angle_param) : TObjEnemyCustom(parent) {
+TBoss3VoloptP01::TBoss3VoloptP01(TBoss3Volopt *parent, s32 index, u16 id, s32 group) : TObjEnemyCustom(parent) {
     s32 angle;
 
     m_name = TBoss3VoloptP01_class_name;
     entity_id = id;
-    *(s16 *)&set_index = angle_param;
+    set_index = group;
     set_entry = NULL;
-    *(s16 *)&room = parent->room;
-    *((s16 *)&room + 1) = *((s16 *)&parent->room + 1);
+    room = parent->room;
+    set_group = parent->set_group;
     init_params();
     angle = (s32)(182.04445f * (f32)(index * 60));
     position.x = 76.0f * cos_table_lookup(angle) + boss3_volopt_spawn_pos.x;
@@ -179,11 +179,8 @@ void *TBoss3VoloptP01::create(void *set_data) {
 }
 
 void TBoss3VoloptP01::init_breakup_effect() {
-    TBoss3VoloptBreakupPieces *pieces;
-
     TBoss3VoloptP01__resource_bundle = boss3_volopt_resources;
-    pieces = (TBoss3VoloptBreakupPieces *)new TUnk_8048FA00((saddr)TBoss3VoloptP01__resource_bundle->models[17].model);
-    TBoss3VoloptP01__breakup_model = pieces;
+    TBoss3VoloptP01__breakup_model = new TUnk_8048FA00((saddr)TBoss3VoloptP01__resource_bundle->models[17].model);
     volopt_p01_chunk_list = (TBoss3VoloptChunkList *)find_model_node((saddr)TBoss3VoloptP01__resource_bundle->models[17].model, 0xD);
     volopt_p01_boss_stat_handle_a = TLobby::register_boss(0x22);
     volopt_p01_shared_handler_b = TLobby::dispatch_shared_handler_b(0x22);

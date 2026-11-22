@@ -230,7 +230,7 @@ void TBoss3VoloptCore::dispatch_reaction_state() {
         update_state_spin();
         return;
     case 9:
-        sub_8003F81C();
+        update_orbit_end_state();
         return;
     case 10:
         update_topple_state();
@@ -565,7 +565,7 @@ void TBoss3VoloptCore::update_orbit_state() {
     }
 }
 
-void TBoss3VoloptCore::sub_8003F81C() {
+void TBoss3VoloptCore::update_orbit_end_state() {
     switch (state) {
     case 0:
         m_388 |= 0x10000;

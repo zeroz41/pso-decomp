@@ -50,7 +50,8 @@ public:
     void update_grabbed_state();
     void update_reaction_animation();
     void update_state_spin();
-    void sub_8003F81C();
+    // Mode 9: entered when the last orbit move ends; turns the core around, then marks it active.
+    void update_orbit_end_state();
     void update_topple_state();
 
     f32 orbit_radius;

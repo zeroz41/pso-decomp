@@ -16135,7 +16135,7 @@ force_active:
   - enter_sway__14TBoss2TentacleFv
   - request_strike__14TBoss2TentacleFv
   - current_texture_index__15TObjBoss2TunnelFv
-  - sub_8003F81C__16TBoss3VoloptCoreFv
+  - update_orbit_end_state__16TBoss3VoloptCoreFv
   - run_demo_task__16TBoss3VoloptCoreFv
   - update_descend__20TBoss3VoloptHiraisinFv
   - update_hover__20TBoss3VoloptHiraisinFv

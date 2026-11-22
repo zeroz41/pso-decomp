@@ -47,7 +47,10 @@
 
 #pragma readonly_strings on
 
-struct E_8004AB90 { Vec pos; f32 r; Vec v; f32 s; };
+// One arena zone of the fight (push_players_out_of_zone): players farther than radius from the center of
+// the zone being entered who stand inside another zone land at landing, spread from it along their offset
+// from that zone's center.
+struct DarkFalzPushZone { Vec center; f32 radius; Vec landing; f32 spread; };
 
 const char *darkfalz_dat_model_names[] = {
     "df_event_tower.nj",
@@ -179,7 +182,7 @@ __declspec(section ".rodata") Vec dark_falz_player_ring_center = { 10000.0f, 10.
 
 Vec dark_falz_zako_ring_origin_vec = { 0.0f, -13.0f, 0.0f };
 
-E_8004AB90 dark_falz_push_zone_table[3] = {
+DarkFalzPushZone dark_falz_push_zone_table[3] = {
     { { -10000.0f, 0.0f, 0.0f }, 750.0f, { -10000.0f, 0.0f, 200.0f }, 50.0f },
     { { 0.0f, 0.0f, 0.0f }, 750.0f, { 0.0f, 0.0f, 0.0f }, 50.0f },
     { { 10000.0f, 0.0f, 0.0f }, 750.0f, { 10000.0f, 0.0f, 0.0f }, 200.0f },
@@ -192,32 +195,32 @@ f32 xyz_distance(void *, void *);
 
 void TBoss4DarkFalz::push_players_out_of_zone(s32 zone) {
     Vec v;
-    E_8004AB90 *e;
-    Vec *ev;
+    DarkFalzPushZone *entered;
+    Vec *landing;
     s32 i;
-    u8 *p;
+    TObjPlayer *player;
     s32 j;
-    u8 *q;
-    E_8004AB90 *o;
-    f32 r;
-    f32 sc;
-    f32 orad;
-    e = &dark_falz_push_zone_table[zone];
-    r = dark_falz_push_zone_table[zone].r;
-    sc = dark_falz_push_zone_table[zone].s;
-    ev = &dark_falz_push_zone_table[zone].v;
+    CollisionBody *body;
+    DarkFalzPushZone *other;
+    f32 radius;
+    f32 spread;
+    f32 other_radius;
+    entered = &dark_falz_push_zone_table[zone];
+    radius = dark_falz_push_zone_table[zone].radius;
+    spread = dark_falz_push_zone_table[zone].spread;
+    landing = &dark_falz_push_zone_table[zone].landing;
     for (i = registered_player_count + registered_enemy_count; i < lbl_805D5868; i++) {
-        p = (u8 *)TObjPlayer::get_player_data(i);
-        if (p == NULL) continue;
-        q = *(u8 * *)&((TObjCollidable *)p)->bodies;
-        if (q == NULL || !(*(s32 *)((s8 *)q + 0x18) & 0x20000)) continue;
-        if (xyz_distance(e, p + 0x38) <= r) continue;
+        player = TObjPlayer::get_player_data(i);
+        if (player == NULL) continue;
+        body = player->bodies;
+        if (body == NULL || !(body->flags & 0x20000)) continue;
+        if (xyz_distance(entered, &player->position) <= radius) continue;
         for (j = 0; j < 3; j++) {
-            o = &dark_falz_push_zone_table[j];
-            orad = dark_falz_push_zone_table[j].r;
-            if (j != zone && !(xyz_distance(p + 0x38, o) > orad)) {
-                VecCopy((Vec *)&v, (const Vec *)(p + 0x38));
-                subtract_vector(&v, o);
+            other = &dark_falz_push_zone_table[j];
+            other_radius = dark_falz_push_zone_table[j].radius;
+            if (j != zone && !(xyz_distance(&player->position, other) > other_radius)) {
+                VecCopy(&v, &player->position);
+                subtract_vector(&v, other);
                 v.y = 0.0f;
                 if (vector_length(&v) <= 0.01f) {
                     v.x = 0.0f;
@@ -229,12 +232,12 @@ void TBoss4DarkFalz::push_players_out_of_zone(s32 zone) {
             }
         }
         if (j != 3) {
-            v.x = v.x * sc;
-            v.z = v.z * sc;
+            v.x = v.x * spread;
+            v.z = v.z * spread;
             v.y = 7.5f;
-            vec3_add_to(&v, ev);
-            VecCopy((Vec *)(p + 0x38), (const Vec *)&v);
-            ((TObjCollidable *)p)->refresh_collision_body_centers();
+            vec3_add_to(&v, landing);
+            VecCopy(&player->position, &v);
+            player->refresh_collision_body_centers();
         }
     }
 }

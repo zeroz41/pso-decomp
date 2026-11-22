@@ -25,21 +25,12 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include <stdlib.h>
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/system/MatrixStack.h"
 
-
-// TBreakUpMdl.h still derives TBreakUpMdl from TObject; the real class keeps
-// its vtable at +0xC, which only this view of it can delete through.
-class TBreakUpMdlPieces {
-public:
-    u8 pad_0[0xC];
-    virtual ~TBreakUpMdlPieces();
-};
-
-extern "C" {
-void post_translate_matrix(const Vec *v);
-void create_breakup_mdl__12TBoss3VoloptFlllll(TBreakUpMdlPieces *model, VoloptBreakUpParams *params, s32 textures,
-                                              Vec *pos, s32 angle);
-}
+// TBoss3Volopt::create_breakup_mdl takes saddr; through that declaration CW keeps the param and Vec addresses
+// in saved registers across the two calls, so the call goes through the pointer-typed symbol.
+extern "C" void create_breakup_mdl__12TBoss3VoloptFlllll(TUnk_8048FA00 *model, VoloptBreakUpParams *params,
+                                                         s32 textures, Vec *pos, s32 angle);
 
 extern BmlResource *volopt_p02_resources;
 
@@ -57,7 +48,7 @@ VoloptBreakUpParams volopt_cage_breakup_params = {
 
 void *volopt_cage_combat_stats;
 VoloptCageParams *volopt_cage_params;
-static TBreakUpMdlPieces *volopt_cage_breakup_model;
+static TUnk_8048FA00 *volopt_cage_breakup_model;
 static saddr volopt_cage_model;
 static s32 volopt_cage_textures;
 
@@ -183,9 +174,8 @@ void TObjVoloptCage::destroy() {
 }
 
 void TObjVoloptCage::init_break_model() {
-    TBreakUpMdl *model;
     volopt_cage_model = (saddr)boss3_volopt_resources->models[0x12].model;
-    volopt_cage_breakup_model = (TBreakUpMdlPieces *)new TUnk_8048FA00(volopt_cage_model);
+    volopt_cage_breakup_model = new TUnk_8048FA00(volopt_cage_model);
     volopt_cage_combat_stats = TLobby::register_boss(0x26);
     volopt_cage_params = (VoloptCageParams *)TLobby::dispatch_shared_handler_a(0x26);
 }
@@ -195,7 +185,7 @@ void TObjVoloptCage::render() {
         TObjFish::set_global_param(volopt_cage_textures);
         push_matrix();
         model_render_flags &= ~0x400;
-        post_translate_matrix(&position);
+        post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         draw_chunk_object((void *)volopt_cage_model);
         pop_matrix();
@@ -270,10 +260,10 @@ TObjVoloptCage::TObjVoloptCage(TObjEnemy *boss, u16 target, u16 id, s32 group) :
     }
     init_collision_body_parts(this, volopt_cage_collision_body, 1);
     entity_id = id;
-    *(s16 *)&set_index = group;
+    set_index = group;
     set_entry = 0;
-    *(s16 *)&room = boss->room;
-    *((s16 *)&room + 1) = *((s16 *)&boss->room + 1);
+    room = boss->room;
+    set_group = boss->set_group;
     ((TBoss3Volopt *)this)->reset_photon_effect();
     set_param(0x2E);
     position.y = -25.0f;

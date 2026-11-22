@@ -31,7 +31,9 @@
 #include "pso/ui/TLevelSelect.h"
 
 
-struct Ent_8035C35C { s32 id; s32 lo; s32 hi; };
+// A particle emitter of the Thanks scene, alive while fade_frame is in [first_frame, last_frame]
+// (the TBoss6Thanks twin's Boss6ThanksEmitter).
+struct Boss4ThanksEmitter { s32 id; s32 first_frame; s32 last_frame; };
 
 struct Anim_8035C6FC
 {
@@ -57,7 +59,7 @@ const char *TBoss4Thanks__class_name = "TBoss4Thanks";
 extern const f32 boss4_thanks_position[3] = {-9860.0f, 29.0f, -238.9f};
 // Equipment any_player_has_listed_item() (text_8035C9E8, this TU's code) looks for: {type, group, index}.
 extern const u8 boss4_thanks_listed_item_table[3][3] = {{0x00, 0x9D, 0x00}, {0x00, 0x9E, 0x00}, {0x00, 0x9F, 0x00}};
-extern const Ent_8035C35C boss4_thanks_emitter_table[4] = {
+extern const Boss4ThanksEmitter boss4_thanks_emitter_table[4] = {
     {0x8D, 0x00, 0x32}, {0xA7, 0x1E, 0x6E}, {0x1FD, 0x32, 0x5A}, {0x1C2, 0x46, 0x78},
 };
 f32 xyz_distance(void *, const void *);
@@ -75,8 +77,8 @@ void TBoss4Thanks::dispatch_main_phase() { set_story_flag_or_send_quest_flag(151
 void TBoss4Thanks::update_particle_emitters() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        const Ent_8035C35C *e = &boss4_thanks_emitter_table[i];
-        if (this->fade_frame >= e->lo && this->fade_frame <= e->hi) {
+        const Boss4ThanksEmitter *e = &boss4_thanks_emitter_table[i];
+        if (this->fade_frame >= e->first_frame && this->fade_frame <= e->last_frame) {
             if (particle_emitters[i] == NULL) {
                 particle_emitters[i] = create_particle_emitter((void *)boss4_thanks_position, e->id);
                 if (particle_emitters[i] != NULL) {
