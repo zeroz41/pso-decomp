@@ -200,7 +200,7 @@ void TObjBs4CutAtk::run_task() {
     }
     for (i = 0; i < TLobby::get_game_mode(); i++) {
         player = TObjPlayer::get_player_data(i);
-        if (TBoss4Type3__sub_8005254C(get_entity_id(player)) == 0) {
+        if (is_player_in_boss_area(get_entity_id(player)) == 0) {
             continue;
         }
         ang = (s32)(10430.38043493439 * atan2_float(-(player->position.x - 10000.0f), player->position.z));
@@ -339,10 +339,10 @@ void TBoss4Type3::run_task() {
     f32 lim;
     Vec *e;
 
-    if (captured_player != 0xFFFF && TBoss4Type3__sub_8005254C(captured_player) == 0) {
+    if (captured_player != 0xFFFF && is_player_in_boss_area(captured_player) == 0) {
         captured_player = 0xFFFF;
     }
-    if (capture_target != 0xFFFF && TBoss4Type3__sub_8005254C(capture_target) == 0) {
+    if (capture_target != 0xFFFF && is_player_in_boss_area(capture_target) == 0) {
         capture_target = 0xFFFF;
     }
     if (owner->is_floor_leader()) {
@@ -435,7 +435,7 @@ void TBoss4Type3::draw() {
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
-    sub_8005A438();
+    draw_faded_models();
     pop_matrix();
     push_matrix();
     post_translate_matrix(&node_positions[0][5].x);
@@ -535,7 +535,7 @@ void TBoss4Type3::draw_model_set(const s32 *tbl, f32 t) {
 
 void TBoss4Type3::copy_pair(void* q) { *(u32 *)&this->m_name = *(u32*)((char*)q + 0x0); (*(f32 *)&this->m_flags) = *(f32*)((char*)q + 0x4); }
 
-void TBoss4Type3::sub_8005A438() {
+void TBoss4Type3::draw_faded_models() {
     Pair_8005A438 b;
     Pair_8005A438 a;
     Words_8005A438 tmp;
@@ -556,7 +556,7 @@ void TBoss4Type3::sub_8005A438() {
 
 void TBoss4Type3::set_action_from_table(s32 action) {
     Type3Handler m;
-    sub_8005A150();
+    release_state_effects();
     state = action;
     set_anim_state(boss4_type3_states[state].animation);
     m = boss4_type3_states[state].enter;
@@ -607,7 +607,7 @@ void TBoss4Type3::copy_positions_to_parts() {
     }
 }
 
-void TBoss4Type3::sub_8005A150() {
+void TBoss4Type3::release_state_effects() {
     s32 i;
     for (i = 8; i < 13; i++) {
         TParticleCtrl **slot = &effect_parts[i];
@@ -659,7 +659,7 @@ void TBoss4Type3::update_scale_sound() {
 }
 #pragma pop
 
-void TBoss4Type3::sub_80059F64(s32 action) {
+void TBoss4Type3::send_action(s32 action) {
     if (owner != 0) {
         owner->send_code_25_4((action & 0x1F) | ((node & 0x1F) << 5) | ((node & 0x1F) << 10) | ((heading & 0xF) << 15) | ((heading & 0xF) << 19) | ((capture_target & 0xF) << 23) | ((captured_player & 0xF) << 27));
     }
@@ -671,7 +671,7 @@ void TBoss4Type3::send_packed_action(s32 arg1, s32 arg2, s32 arg3) {
     }
 }
 
-void TBoss4Type3::sub_80059EA8(s32 action, u16 target) {
+void TBoss4Type3::send_attack_code(s32 action, u16 target) {
     if (owner != 0) {
         owner->send_code_25_4((action & 0x1F) | ((node & 0x1F) << 5) | ((node & 0x1F) << 10) | ((heading & 0xF) << 15) | ((heading & 0xF) << 19) | ((target & 0xF) << 23) | ((captured_player & 0xF) << 27));
     }
@@ -684,8 +684,8 @@ void TBoss4Type3::spawn_random_effect() {
     send_packed_action(0xF, sector, sector);
 }
 
-// Unpacks an action sent by sub_80059F64, sub_80059EA8 or send_packed_action.
-void TBoss4Type3::sub_80059DCC(u32 packed) {
+// Unpacks an action sent by send_action, send_attack_code or send_packed_action.
+void TBoss4Type3::apply_packed_state(u32 packed) {
     u16 v;
     s32 action;
     prev_node = (packed >> 5) & 0x1F;
@@ -755,7 +755,7 @@ s32 TBoss4Type3::choose_attack_heading_sector() {
     f32 dx;
     u16 id;
     id = pick_random_target_player();
-    if (id == 0xFFFFU || TBoss4Type3__sub_8005254C(id) == 0) {
+    if (id == 0xFFFFU || is_player_in_boss_area(id) == 0) {
         return get_random_scaled();
     }
     VecCopy(&v, &get_player_by_client_id(id)->position);
@@ -784,7 +784,7 @@ void TBoss4Type3::calc_grid_index() {
     heading = (s32)(((u32)-(rotation_y + 0x800) >> 12) & 0xF);
 }
 
-void TBoss4Type3::sub_800599F4(s32 lo, s32 hi) {
+void TBoss4Type3::send_random_action(s32 lo, s32 hi) {
     s32 sector = choose_attack_heading_sector();
     s32 n = (s64)(s32)(0.99f * (f32)(hi - lo + 1) * random_ratio());
     n += lo;
@@ -938,7 +938,7 @@ void TBoss4Type3::enter_appear() { state_timer = 147; }
 
 void TBoss4Type3::advance_appear() {
     if (state_timer == 0) {
-        sub_800599F4(0, 2);
+        send_random_action(0, 2);
     }
 }
 
@@ -950,11 +950,11 @@ void TBoss4Type3::update_appear() {
 
 void TBoss4Type3::advance_wait_next() {
     if (actorFlags & 0x800) {
-        sub_80059F64(2);
+        send_action(2);
     } else {
         capture_target = 0xFFFF;
         captured_player = 0xFFFF;
-        sub_80059F64(10);
+        send_action(10);
     }
 }
 
@@ -1038,13 +1038,13 @@ void TBoss4Type3::advance_go_up() {
     u16 id;
     if (state_timer == 0) {
         if (captured_player != 0xFFFF) {
-            sub_80059F64(0xD);
+            send_action(0xD);
         } else {
             id = pick_random_target_player();
             if (id != 0xFFFF) {
-                sub_80059EA8(0xB, id);
+                send_attack_code(0xB, id);
             } else {
-                sub_80059F64(0xC);
+                send_action(0xC);
             }
         }
     }
@@ -1052,7 +1052,7 @@ void TBoss4Type3::advance_go_up() {
 
 void TBoss4Type3::update_go_up() {
     move_ratio = 1.0f - ((f32)state_timer / 49.0f);
-    move_ratio = TBoss4Type3__sub_800524E8(move_ratio);
+    move_ratio = ease_out_pow6(move_ratio);
     interp_position_between_nodes();
     if (--state_timer < 0) {
         set_action_from_table(1);
@@ -1075,21 +1075,21 @@ void TBoss4Type3::advance_go_down() {
     u16 id;
     if (state_timer == 0) {
         if (captured_player != 0xFFFF) {
-            sub_80059F64(16);
+            send_action(16);
             return;
         }
         id = pick_random_target_player();
         if (hp <= capture_hp && id != 0xFFFF) {
-            sub_80059EA8(14, id);
+            send_attack_code(14, id);
             return;
         }
-        sub_800599F4(0, 2);
+        send_random_action(0, 2);
     }
 }
 
 void TBoss4Type3::update_go_down() {
     move_ratio = 1.0f - ((f32)state_timer / 49.0f);
-    move_ratio = TBoss4Type3__sub_800524E8(move_ratio);
+    move_ratio = ease_out_pow6(move_ratio);
     interp_position_between_nodes();
     if (--state_timer < 0) {
         set_action_from_table(1);
@@ -1107,7 +1107,7 @@ void TBoss4Type3::enter_homing() {
 void TBoss4Type3::advance_homing() {
     if (state_timer == 0) {
         capture_target = 0xFFFF;
-        sub_80059F64(0xC);
+        send_action(0xC);
     }
 }
 
@@ -1186,7 +1186,7 @@ void TBoss4Type3::enter_light_magic() {
 
 void TBoss4Type3::advance_light_magic() {
     if (state_timer == 0) {
-        sub_80059F64(10);
+        send_action(10);
     }
 }
 
@@ -1208,7 +1208,7 @@ void TBoss4Type3::update_light_magic() {
     if (state_timer == 0x45) {
         level = *(s32 *)((u8 *)TLobby::dispatch_shared_handler_a(0x38) + 0x18);
         for (i = 0; i < 4; i++) {
-            if (TBoss4Type3__sub_8005254C(i) != 0) {
+            if (is_player_in_boss_area(i) != 0) {
                 TargetCursorList targets;
                 clear_target_cursor_list(&targets);
                 targets.count = 1;
@@ -1235,7 +1235,7 @@ void TBoss4Type3::enter_dark_magic() {
 
 void TBoss4Type3::advance_dark_magic() {
     if (state_timer == 0) {
-        sub_80059F64(12);
+        send_action(12);
     }
 }
 
@@ -1252,7 +1252,7 @@ void TBoss4Type3::update_dark_magic() {
         level = *(s32 *)((u8 *)TLobby::dispatch_shared_handler_a(0x38) + 0x1C);
         for (i = 0; i < TLobby::get_game_mode(); i++) {
             player = get_player_by_client_id(i);
-            if (TBoss4Type3__sub_8005254C(i) != 0) {
+            if (is_player_in_boss_area(i) != 0) {
                 Vec v = position;
                 target = &player->body_center;
                 subtract_vector(&v, target);
@@ -1284,10 +1284,10 @@ void TBoss4Type3::enter_capture() {
 }
 
 void TBoss4Type3::advance_capture() {
-    if (TBoss4Type3__sub_8005254C(capture_target) == 0) {
+    if (is_player_in_boss_area(capture_target) == 0) {
         capture_target = 0xFFFF;
         captured_player = 0xFFFF;
-        sub_800599F4(0, 2);
+        send_random_action(0, 2);
         return;
     }
     if (state_timer == 0) {
@@ -1391,7 +1391,7 @@ void TBoss4Type3::enter_bura() {
 void TBoss4Type3::advance_bura() {
     s32 count;
     u16 id = captured_player;
-    if (id != 0xFFFF && TBoss4Type3__sub_8005254C(id) == 0) {
+    if (id != 0xFFFF && is_player_in_boss_area(id) == 0) {
         capture_target = 0xFFFF;
         captured_player = 0xFFFF;
     }
@@ -1399,7 +1399,7 @@ void TBoss4Type3::advance_bura() {
         move_count = move_count + 1;
         count = move_count;
         if (count >= 5 || (count >= 2 && random_ratio() < 0.5f)) {
-            sub_80059F64(9);
+            send_action(9);
             return;
         }
         spawn_random_effect();
@@ -1412,7 +1412,7 @@ void TBoss4Type3::update_bura() {
     } else {
         move_ratio = 1.0f;
     }
-    move_ratio = TBoss4Type3__sub_800524E8(move_ratio);
+    move_ratio = ease_out_pow6(move_ratio);
     interp_position_between_nodes();
     if (--state_timer < 0) {
         set_action_from_table(1);
@@ -1426,16 +1426,16 @@ void TBoss4Type3::enter_libera() {
 }
 
 void TBoss4Type3::advance_libera() {
-    if (TBoss4Type3__sub_8005254C(captured_player) == 0) {
+    if (is_player_in_boss_area(captured_player) == 0) {
         capture_target = 0xFFFF;
         captured_player = 0xFFFF;
-        sub_800599F4(0, 2);
+        send_random_action(0, 2);
         return;
     }
     if (state_timer == 0) {
         capture_target = 0xFFFF;
         captured_player = 0xFFFF;
-        sub_800599F4(0, 2);
+        send_random_action(0, 2);
     }
 }
 

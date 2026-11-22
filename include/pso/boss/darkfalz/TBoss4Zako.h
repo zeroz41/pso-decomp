@@ -33,8 +33,8 @@ struct TBoss4Zako : public TObjEnemy {
     virtual void render();
     virtual void run_death_reaction();
     static TBoss4Zako *create(TBoss4ZakoSetData *set_data);
-    s32 sub_8005D6B0();
-    s32 sub_8005D698();
+    s32 is_hunting();
+    s32 is_not_sinking();
     void apply_contact_damage();
     void set_state3();
     void update_rise_state();

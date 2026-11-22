@@ -238,7 +238,7 @@ void TBoss4DarkFalz::push_players_out_of_zone(s32 zone) {
 }
 
 s16 get_entity_id(void *);
-s32 TBoss4Type3__sub_8005254C(s16);
+s32 is_player_in_boss_area(s16);
 
 
 s32 TObjDFHorming::is_boss_active() {
@@ -290,7 +290,7 @@ u16 TBoss4Type3::pick_random_target_player() {
     n = 0;
     for (i = 0; i < registered_player_count; i++) {
         p = (u8 *)TObjPlayer::get_player_data(i);
-        if (p != NULL && TBoss4Type3__sub_8005254C(get_entity_id(p)) != 0) {
+        if (p != NULL && is_player_in_boss_area(get_entity_id(p)) != 0) {
             buf[n++] = get_entity_id(p);
             if (n >= 4) {
                 break;
@@ -852,14 +852,14 @@ void handle_6x19_dark_falz_actions(G_DarkFalzActions_6x19 *cmd) {
     case 8:
     case 9:
         if (TBoss4DarkFalz__type2_instance != NULL) {
-            TBoss4DarkFalz__type2_instance->sub_80056EA8(arg);
+            TBoss4DarkFalz__type2_instance->apply_packed_state(arg);
         }
         break;
     case 12:
     case 13:
     case 14:
         if (TBoss4DarkFalz__type3_instance != NULL) {
-            TBoss4DarkFalz__type3_instance->sub_80059DCC(arg);
+            TBoss4DarkFalz__type3_instance->apply_packed_state(arg);
         }
         break;
     }

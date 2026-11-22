@@ -58,11 +58,11 @@ void TBoss4DarkFalz::count_minion_lost() {
     minions_lost = minions_lost + 1;
 }
 
-s32 TBoss4Zako::sub_8005D6B0() {
+s32 TBoss4Zako::is_hunting() {
     return state == 1 || state == 2;
 }
 
-s32 TBoss4Zako::sub_8005D698() {
+s32 TBoss4Zako::is_not_sinking() {
     return (u8)(state != 3);
 }
 
@@ -142,10 +142,10 @@ void TBoss4Zako::run_death_reaction() {
 void TBoss4Zako::run_task() {
     void (TBoss4Zako::*fn)();
 
-    if (sub_8005D698() != 0 && owner->get_phase() != 4) {
+    if (is_not_sinking() != 0 && owner->get_phase() != 4) {
         set_state3();
     }
-    if (sub_8005D6B0() != 0) {
+    if (is_hunting() != 0) {
         surface_timer--;
         if (surface_timer < 0) {
             surfaced = 0;
@@ -186,13 +186,13 @@ void TBoss4Zako::run_task() {
         } else if (surface_timer < 480) {
             spin_ratio = (f32)(480 - surface_timer) / 30.0f;
         }
-        if (sub_8005D6B0() != 0 && spin_ratio > 0.0f) {
+        if (is_hunting() != 0 && spin_ratio > 0.0f) {
             rotation_y = 4369.0f * spin_ratio + rotation_y;
         }
         apply_contact_damage();
         update_prev_position();
         queue_entry(&position, rotation_x, rotation_y);
-        if (sub_8005D698() != 0) {
+        if (is_not_sinking() != 0) {
             if (surfaced != 0) {
                 collision->flags |= 1;
                 update_collisions();
@@ -346,7 +346,7 @@ void TBoss4Zako::apply_contact_damage() {
     }
     for (n = 1; n < lim; n *= 2) {
     }
-    if (((n - 1) & frame_count) != 0 || sub_8005D6B0() == 0) {
+    if (((n - 1) & frame_count) != 0 || is_hunting() == 0) {
         return;
     }
     id = find_nearest_visible_player(this, 0, 8.0f);
@@ -453,19 +453,19 @@ void TBoss4Uro::run_task() {
             bob_angle += bob_angle_step;
         }
         Vec v = position;
-        if (sub_8005D698() != 0) {
+        if (is_not_sinking() != 0) {
             v.y += 10.0f;
         } else {
             v.y += -250.0f;
         }
         emitter->set_position(&v);
-        if (sub_8005D698() != 0) {
+        if (is_not_sinking() != 0) {
             rotation_y += 0x1111;
         }
         queue_entry(&position, rotation_x, rotation_y);
         apply_contact_damage();
         update_prev_position();
-        if (sub_8005D698() != 0) {
+        if (is_not_sinking() != 0) {
             update_collisions();
             submit_cursor_candidate(this, -1);
             minimap_render_dot(&body_center, -0x5DB4, 1, 0);
@@ -655,19 +655,19 @@ void TBoss4Bishi::run_task() {
             bob_angle += bob_angle_step;
         }
         Vec v = position;
-        if (sub_8005D698() != 0) {
+        if (is_not_sinking() != 0) {
             v.y += 10.0f;
         } else {
             v.y += -250.0f;
         }
         emitter->set_position(&v);
-        if (sub_8005D698() != 0) {
+        if (is_not_sinking() != 0) {
             rotation_y += 0x1111;
         }
         queue_entry(&position, rotation_x, rotation_y);
         apply_contact_damage();
         update_prev_position();
-        if (sub_8005D698() != 0) {
+        if (is_not_sinking() != 0) {
             update_collisions();
             submit_cursor_candidate(this, -1);
             minimap_render_dot(&body_center, -0x5DB4, 1, 0);

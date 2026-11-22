@@ -29,7 +29,7 @@ struct TBoss4Type3 : public TObjEnemy {
     virtual void run_death_reaction();
     void reset_action_to_3(void *);
     void init_effect(void *);
-    void sub_8005A438();
+    void draw_faded_models();
     void update_scale_sound();
     void update_radar_markers();
     void handle_damage_taken();
@@ -122,17 +122,17 @@ struct TBoss4Type3 : public TObjEnemy {
     void run_task();
 
     void calc_grid_index();
-    void sub_800599F4(s32 lo, s32 hi);
+    void send_random_action(s32 lo, s32 hi);
     void turn_toward_player(s32 id);
     s32 get_random_scaled();
     s32 choose_attack_heading_sector();
     void interp_position_between_nodes();
-    void sub_80059DCC(u32 packed);
+    void apply_packed_state(u32 packed);
     void spawn_random_effect();
-    void sub_80059EA8(s32 action, u16 target);
+    void send_attack_code(s32 action, u16 target);
     void send_packed_action(s32 arg1, s32 arg2, s32 arg3);
-    void sub_80059F64(s32 action);
-    void sub_8005A150();
+    void send_action(s32 action);
+    void release_state_effects();
     void destroy_parts();
     void create_particle_emitters();
     void set_action_from_table(s32 action);

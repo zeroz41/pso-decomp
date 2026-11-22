@@ -130,7 +130,7 @@ int TBoss4Thanks::is_player_nearby(void *arg0) {
     lim = 30.0f;
     for (i = 0; i < n; i++) {
         p = TObjPlayer::get_player_data(i);
-        if (p != NULL && TBoss4Type3__sub_8005254C(get_entity_id(p)) != 0 &&
+        if (p != NULL && is_player_in_boss_area(get_entity_id(p)) != 0 &&
             xyz_distance(&p->position, boss4_thanks_position) <= lim) {
             return 1;
         }
@@ -275,7 +275,7 @@ s32 any_player_has_listed_item(void) {
     s32 i;
     for (i = 0; i < n; i++) {
         TObjPlayer *pl = TObjPlayer::get_player_data(i);
-        if (pl != NULL && TBoss4Type3__sub_8005254C(get_entity_id(pl)) != 0) {
+        if (pl != NULL && is_player_in_boss_area(get_entity_id(pl)) != 0) {
             s32 j;
             for (j = 0; j < 3; j++) {
                 const u8 *e = boss4_thanks_listed_item_table[j];

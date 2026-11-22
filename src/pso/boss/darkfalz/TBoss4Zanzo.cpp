@@ -385,13 +385,13 @@ void TBoss4Type2::draw_hanger() {
     hit = 0;
 }
 
-saddr TBoss4Type2::sub_80057224() {
+saddr TBoss4Type2::pick_random_angle() {
     return (s32)(49152.0f * random_ratio()) + 0x2000 + angle;
 }
 
 #pragma push
 #pragma fp_contract on
-void TBoss4Type2::sub_80057128() {
+void TBoss4Type2::update_orbit_position() {
     f32 radius;
     f32 height;
 
@@ -432,13 +432,13 @@ void TBoss4Type2::change_action(s32 next_action) {
     }
 }
 
-void TBoss4Type2::sub_80056FEC(s32 next_action) {
+void TBoss4Type2::send_action(s32 next_action) {
     if (owner != 0) {
         owner->send_code_25_4((next_action & 0xF) | (((angle >> 12) & 0xF) << 4) | (((angle >> 12) & 0xF) << 8) | ((grid_x & 0xF) << 12) | ((grid_z & 0xF) << 16) | ((target_player & 0xF) << 20));
     }
 }
 
-void TBoss4Type2::sub_80056F90(s32 next_action, s32 next_angle) {
+void TBoss4Type2::send_turn_action(s32 next_action, s32 next_angle) {
     if (owner != 0) {
         owner->send_code_25_4((next_action & 0xF) | (((angle >> 12) & 0xF) << 4) | (((next_angle >> 12) & 0xF) << 8) | ((grid_x & 0xF) << 12) | ((grid_z & 0xF) << 16) | ((target_player & 0xF) << 20));
     }
@@ -450,7 +450,7 @@ void TBoss4Type2::send_attack_code(s32 next_action, u16 id) {
     }
 }
 
-void TBoss4Type2::sub_80056EA8(u32 code) {
+void TBoss4Type2::apply_packed_state(u32 code) {
     s32 target_bits;
     s32 next_action;
 
@@ -509,7 +509,7 @@ void TBoss4Type2::find_target_pos(Vec *out) {
         if (p == NULL) {
             continue;
         }
-        if (TBoss4Type3__sub_8005254C(get_entity_id(p)) == 0) {
+        if (is_player_in_boss_area(get_entity_id(p)) == 0) {
             continue;
         }
         {
@@ -538,7 +538,7 @@ void TBoss4Type2::find_target_pos(Vec *out) {
 }
 #pragma pop
 
-void TBoss4Type2::sub_80056B3C(s32 lo, s32 hi) {
+void TBoss4Type2::send_random_action(s32 lo, s32 hi) {
     f32 step;
     f32 acc;
     f32 scale;
@@ -562,7 +562,7 @@ void TBoss4Type2::sub_80056B3C(s32 lo, s32 hi) {
         }
         acc += step;
     }
-    sub_80056FEC(i);
+    send_action(i);
 }
 
 void TBoss4Type2::choose_next_action() {
@@ -580,23 +580,23 @@ void TBoss4Type2::choose_next_action() {
     case 7:
         find_target_pos(&grid);
         set_grid_pos(&grid);
-        sub_80056FEC(r);
+        send_action(r);
         break;
     case 13:
         send_attack_code(r, id);
         break;
     default:
-        sub_80056FEC(r);
+        send_action(r);
         break;
     }
 }
 
-void TBoss4Type2::sub_80056998() {
+void TBoss4Type2::choose_action_after_move() {
     s32 base;
     s32 lo;
     s32 hi;
     if (move_count < 3 && random_ratio() < 0.1f) {
-        sub_80056F90(4, sub_80057224());
+        send_turn_action(4, pick_random_angle());
         return;
     }
     if (random_ratio() < 0.1f) {
@@ -613,7 +613,7 @@ void TBoss4Type2::sub_80056998() {
         if (hi > 0xC) {
             hi = 0xC;
         }
-        sub_80056B3C(lo, hi);
+        send_random_action(lo, hi);
         return;
     }
     choose_next_action();
@@ -634,7 +634,7 @@ void TBoss4Type2::spawn_bishi_around_players() {
     b.unk_0C = 1;
     for (i = 0; i < registered_player_count; i++) {
         pl = TObjPlayer::get_player_data(i);
-        if (pl != 0 && TBoss4Type3__sub_8005254C(get_entity_id(pl)) != 0) {
+        if (pl != 0 && is_player_in_boss_area(get_entity_id(pl)) != 0) {
             for (j = 0; j < 3; j++) {
                 if (owner->alloc_child_ids(&b.set_index, &b.entity_id) != 0) {
                     VecCopy(&b.position, &pl->position);
@@ -671,7 +671,7 @@ void TBoss4Type2::appear_enter() {
 
 void TBoss4Type2::appear_idle() {
     if (action_timer == 0) {
-        sub_80056F90(4, sub_80057224());
+        send_turn_action(4, pick_random_angle());
     }
 }
 
@@ -683,7 +683,7 @@ void TBoss4Type2::appear_update() {
 
 void TBoss4Type2::wait_next_idle() {
     if (actorFlags & 0x800) {
-        sub_80056FEC(2);
+        send_action(2);
         return;
     }
     change_action(9);
@@ -709,7 +709,7 @@ void TBoss4Type2::move_enter() {
 
 void TBoss4Type2::move_idle() {
     if (action_timer == 0) {
-        sub_80056998();
+        choose_action_after_move();
     }
 }
 
@@ -724,7 +724,7 @@ void TBoss4Type2::move_update() {
     } else {
         turn_ratio = 1.0f;
     }
-    sub_80057128();
+    update_orbit_position();
     if (game_difficulty_selection == 3) {
         diff = angle_diff_s16(base_angle, target_angle);
         if (!(action_timer & 3)) {
@@ -865,7 +865,7 @@ void TBoss4Type2::beam_update() {
     } else {
         beam_ratio = 0.0f;
     }
-    sub_80057128();
+    update_orbit_position();
     if (--action_timer < 0) {
         if (game_difficulty_selection == 3) {
             spawn_bishi_around_players();
@@ -1012,7 +1012,7 @@ void TBoss4Type2::md_stop_idle() {
             choose_next_action();
             return;
         }
-        sub_80056F90(4, sub_80057224());
+        send_turn_action(4, pick_random_angle());
     }
 }
 

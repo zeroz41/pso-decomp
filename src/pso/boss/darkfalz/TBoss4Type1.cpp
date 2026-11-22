@@ -96,9 +96,9 @@ const char *TBoss4Type1__name = "TBoss4Type1";
 f32 lbl_80485AE0[10] = { 0.0f, 0.0f, 0.0f, 25.0f, 2.0f, 25.0f, 0.5f, 0.5f, 0.5f, 0.5f };
 s32 lbl_80485B08[2] = { 0xFB, 0xFC };
 TBoss4Type1State lbl_80485C48[11] = {
-    { "APPEAR", 0, &TBoss4Type1::init_appear_state, &TBoss4Type1::check_state_if_idle, &TBoss4Type1::sub_800530C0 },
+    { "APPEAR", 0, &TBoss4Type1::init_appear_state, &TBoss4Type1::check_state_if_idle, &TBoss4Type1::update_appear },
     { "WAITNEXT", 0, 0, &TBoss4Type1::update_flag800_state, 0 },
-    { "MOVESTNDPOS", 0, &TBoss4Type1::init_movestndpos_state, &TBoss4Type1::update_state_transition, &TBoss4Type1::sub_80052EF8 },
+    { "MOVESTNDPOS", 0, &TBoss4Type1::init_movestndpos_state, &TBoss4Type1::update_state_transition, &TBoss4Type1::update_move_stnd_pos },
     { "DEAD", 1, &TBoss4Type1::init_dead_state, &TBoss4Type1::update_dead_idle, &TBoss4Type1::tick_state_398_timer },
     { "WAITKILL", -1, 0, 0, 0 },
     { "HAKILOOP", 2, &TBoss4Type1::start_motion_for_index, 0, &TBoss4Type1::update_spawn_uro },
@@ -106,7 +106,7 @@ TBoss4Type1State lbl_80485C48[11] = {
     { "HAKIEND", 4, &TBoss4Type1::set_motion_for_state, &TBoss4Type1::update_state, &TBoss4Type1::update_attack_countdown },
     { "BEAM_L", 11, &TBoss4Type1::init_child_and_set_timer, &TBoss4Type1::update_scale_state, &TBoss4Type1::update_tech_charge },
     { "BEAM_R", 12, &TBoss4Type1::init_child_and_set_timer, &TBoss4Type1::update_scale_state, &TBoss4Type1::update_tech_charge },
-    { "TENCHU", 13, &TBoss4Type1::init_timer, &TBoss4Type1::sub_800528B8, &TBoss4Type1::sub_800525AC },
+    { "TENCHU", 13, &TBoss4Type1::init_timer, &TBoss4Type1::advance_tenchu, &TBoss4Type1::update_tenchu },
 };
 CollisionBody lbl_80485E2C[3] = {
     { { 135.0f, 25.0f, 0.0f }, 30.0f, 0.0f, 0, 0x801B, { 0.0f, 0.0f, 0.0f }, 0.0f },
@@ -321,7 +321,7 @@ void apply_tenchu_hits(TObject *source) {
         if (player == NULL) {
             continue;
         }
-        if (TBoss4Type3__sub_8005254C(get_entity_id(player)) == 0) {
+        if (is_player_in_boss_area(get_entity_id(player)) == 0) {
             continue;
         }
         target = TBoss4Type2__tenchu_furu_array;
@@ -460,11 +460,11 @@ void TBoss4Type1::run_task() {
     }
     update_boss4_phase_timer();
     snapshot_position();
-    sub_80053D4C();
+    update_collision_bodies();
     update_collisions();
     submit_cursor_candidate(this, -1);
-    sub_80053670();
-    sub_80053440();
+    update_radar_markers();
+    update_effect_positions();
     hit_flash += -0.06666667f;
     if (hit_flash < 0.0f) {
         hit_flash = 0.0f;
@@ -575,7 +575,7 @@ void TBoss4Type1::draw_parts() {
 }
 
 #pragma pop
-s32 TBoss4Type1::sub_80054384(s32 slot, s32 turn) {
+s32 TBoss4Type1::calc_slot_angle(s32 slot, s32 turn) {
     return lbl_8048615C.slot_angles[slot] + (turn - 1) * 0x4000;
 }
 
@@ -697,7 +697,7 @@ void TBoss4Type1::push_players_out_of_colliders() {
     }
 }
 
-void TBoss4Type1::sub_80053D4C() {
+void TBoss4Type1::update_collision_bodies() {
     CollisionBody *body;
     s32 i;
     f32 s;
@@ -799,7 +799,7 @@ void TBoss4Type1::pick_target_position(Vec *out) {
         if (p == NULL) {
             continue;
         }
-        if (TBoss4Type3__sub_8005254C(get_entity_id(p)) == 0) {
+        if (is_player_in_boss_area(get_entity_id(p)) == 0) {
             continue;
         }
         {
@@ -828,7 +828,7 @@ void TBoss4Type1::pick_target_position(Vec *out) {
 }
 
 #pragma pop
-void TBoss4Type1::sub_80053670() {
+void TBoss4Type1::update_radar_markers() {
     f32 s;
     f32 c;
     f32 step;
@@ -903,14 +903,14 @@ void TBoss4Type1::check_state_transition() {
     send_state_to_target(6);
 }
 
-void TBoss4Type1::sub_80053504() {
+void TBoss4Type1::send_move_stnd_pos() {
     s32 next_slot;
     s32 next_turn;
     calc_scale_slot_indices(&next_slot, &next_turn);
     send_darkfalz_code(2, next_slot, next_turn);
 }
 
-void TBoss4Type1::sub_80053440() {
+void TBoss4Type1::update_effect_positions() {
     Vec v;
     s32 i;
     if (state == 4) {
@@ -997,7 +997,7 @@ void TBoss4Type1::check_state_if_idle() {
     }
 }
 
-void TBoss4Type1::sub_800530C0() {
+void TBoss4Type1::update_appear() {
     move_ratio = calc_wave_offset(1.0f - (f32)state_timer / 75.0f);
     Vec a = { 0.0f, 0.0f, -120.0f };
     Vec b = { 0.0f, 0.0f, -175.0f };
@@ -1012,7 +1012,7 @@ void TBoss4Type1::update_flag800_state() {
         send_state_to_target(4);
         return;
     }
-    sub_80053504();
+    send_move_stnd_pos();
 }
 
 void TBoss4Type1::init_movestndpos_state() { state_timer = move_frames; }
@@ -1023,14 +1023,14 @@ void TBoss4Type1::update_state_transition() {
     }
 }
 
-void TBoss4Type1::sub_80052EF8() {
+void TBoss4Type1::update_move_stnd_pos() {
     move_ratio = calc_wave_offset(1.0f - (f32)state_timer / (f32)move_frames);
     {
         Vec a = boss4_type2_motion_vec_table[prev_slot];
         Vec b = boss4_type2_motion_vec_table[slot];
         set_pos_from_scaled_offset(&a, &b);
     }
-    calc_scaled_field(sub_80054384(prev_slot, prev_turn), sub_80054384(slot, turn));
+    calc_scaled_field(calc_slot_angle(prev_slot, prev_turn), calc_slot_angle(slot, turn));
     play_persistent_sound(0x4003A80D, (saddr)this, (uaddr)&position, 0, 0);
     if (--state_timer < 0) {
         prev_slot = slot;
@@ -1113,7 +1113,7 @@ void TBoss4Type1::update_state() {
             choose_next_attack();
             return;
         }
-        sub_80053504();
+        send_move_stnd_pos();
     }
 }
 
@@ -1137,7 +1137,7 @@ void TBoss4Type1::update_scale_state() {
 
     if (state_timer == 0) {
         if (random_ratio() < 0.5) {
-            sub_80053504();
+            send_move_stnd_pos();
             return;
         }
         next_state = 8;
@@ -1193,17 +1193,17 @@ void TBoss4Type1::init_timer() {
     state_timer = 0x96;
 }
 
-void TBoss4Type1::sub_800528B8() {
+void TBoss4Type1::advance_tenchu() {
     if (state_timer == 0) {
         if (random_ratio() < 0.75f) {
             choose_next_attack();
             return;
         }
-        sub_80053504();
+        send_move_stnd_pos();
     }
 }
 
-void TBoss4Type1::sub_800525AC() {
+void TBoss4Type1::update_tenchu() {
     Vec *pos0;
     Vec *pos1;
     pos0 = &core_positions[0];

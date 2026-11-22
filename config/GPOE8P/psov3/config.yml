@@ -358,14 +358,14 @@ force_active:
   - TBoss4Thanks__sub_8035C480
   - TBoss4Type2__attack_pattern_table
   - __ct__11TBoss4Type2FP7TObjectP17TBoss4FormSetData
-  - sub_80056B3C__11TBoss4Type2Fll
-  - sub_80057128__11TBoss4Type2Fv
+  - send_random_action__11TBoss4Type2Fll
+  - update_orbit_position__11TBoss4Type2Fv
   - TBoss4Type3__anim_state_table
   - __ct__11TBoss4Type3FP7TObjectP17TBoss4FormSetData
-  - sub_800599F4__11TBoss4Type3Fll
-  - sub_80059EA8__11TBoss4Type3FlUs
-  - sub_80059F64__11TBoss4Type3Fl
-  - sub_8005A150__11TBoss4Type3Fv
+  - send_random_action__11TBoss4Type3Fll
+  - send_attack_code__11TBoss4Type3FlUs
+  - send_action__11TBoss4Type3Fl
+  - release_state_effects__11TBoss4Type3Fv
   - TBoss4Type3_name
   - TBoss4Type3_type_name
   - __ct__9TBoss4UroFP7TObjectP17TBoss4ZakoSetData
@@ -16162,13 +16162,13 @@ force_active:
   - run_state_leader_update__14TBoss4DarkFalzFv
   - sub_8004E068__11TObjDFDemo1Fv
   - sub_8004F2A8__11TObjDFDemo4Fv
-  - sub_80056998__11TBoss4Type2Fv
-  - sub_80056F90__11TBoss4Type2Fll
-  - sub_80056FEC__11TBoss4Type2Fl
-  - sub_80057224__11TBoss4Type2Fv
-  - sub_8005A438__11TBoss4Type3Fv
-  - sub_8005D698__10TBoss4ZakoFv
-  - sub_8005D6B0__10TBoss4ZakoFv
+  - choose_action_after_move__11TBoss4Type2Fv
+  - send_turn_action__11TBoss4Type2Fll
+  - send_action__11TBoss4Type2Fl
+  - pick_random_angle__11TBoss4Type2Fv
+  - draw_faded_models__11TBoss4Type3Fv
+  - is_not_sinking__10TBoss4ZakoFv
+  - is_hunting__10TBoss4ZakoFv
   - sub_8006CDD0__13TUnk_80488E00Fv
   - sub_8006CF38__13TUnk_80488E00Fv
   - sub_8006DCC8__13TUnk_80488E00Fv

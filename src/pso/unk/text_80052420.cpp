@@ -82,7 +82,7 @@ struct VObj_80052420 : VBase_80052420 {
 };
 
 extern "C" {
-s32 TBoss4Type3__sub_8005254C(s32);
+s32 is_player_in_boss_area(s32);
 void send_6x2F_change_player_hp(s32, s32, s16);
 VObj_80052420 *get_player_by_client_id(u16);
 }
@@ -92,7 +92,7 @@ u32 drain_player_hp(s32 id, u32 arg1) {
     s32 v;
     n = arg1;
     if ((u16)id == 0xFFFF || (p = get_player_by_client_id(id)) == NULL ||
-        TBoss4Type3__sub_8005254C(id) == 0) {
+        is_player_in_boss_area(id) == 0) {
         return 0;
     }
     v = ((TObjChara *)p)->get_actor_hp();

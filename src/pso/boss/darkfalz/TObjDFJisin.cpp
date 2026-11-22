@@ -651,7 +651,7 @@ void TObjDFJisin::damage_players_near_point(Vec *point) {
     hit.power = 0.0f;
     for (i = 0; i < TLobby::get_game_mode(); i++) {
         p = TObjPlayer::get_player_data(i);
-        if (p != NULL && TBoss4Type3__sub_8005254C(get_entity_id(p)) != 0 &&
+        if (p != NULL && is_player_in_boss_area(get_entity_id(p)) != 0 &&
             !(p->class_flags & CLASS_FLAG_ANDROID) &&
             !(xyz_distance(&pos, &p->position) > 20.0f)) {
             DirectAttackPayload h = hit;
@@ -857,7 +857,7 @@ TObjDFYutai::~TObjDFYutai() {}
 #pragma opt_common_subs off
 void TObjDFYutai::run_task() {
     f32 temp_f1;
-    if (TBoss4Type3__sub_8005254C(player_id) == 0) {
+    if (is_player_in_boss_area(player_id) == 0) {
         queue_destruction();
         return;
     }
@@ -883,7 +883,7 @@ void TObjDFYutai::render() {
     f32 s;
     f32 w;
     p = get_player_by_client_id(player_id);
-    if (p == NULL || TBoss4Type3__sub_8005254C(player_id) == 0) {
+    if (p == NULL || is_player_in_boss_area(player_id) == 0) {
         return;
     }
     s = yutai_scale_range.lerp(t);

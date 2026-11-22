@@ -44,8 +44,8 @@ struct TBoss4Type1 : public TObjEnemy
     void set_motion_index(s32 index);
     void calc_scale_slot_indices(s32 *next_slot, s32 *next_turn);
     void set_state(s32 next_state);
-    void sub_800525AC();
-    void sub_800528B8();
+    void update_tenchu();
+    void advance_tenchu();
     void init_timer();
     void update_tech_charge();
     void update_scale_state();
@@ -59,24 +59,24 @@ struct TBoss4Type1 : public TObjEnemy
     void tick_state_398_timer();
     void update_dead_idle();
     void init_dead_state();
-    void sub_80052EF8();
+    void update_move_stnd_pos();
     void update_state_transition();
     void init_movestndpos_state();
     void update_flag800_state();
-    void sub_800530C0();
+    void update_appear();
     void check_state_if_idle();
     void init_appear_state();
-    void sub_80053440();
-    void sub_80053504();
-    s32 sub_80054384(s32 slot, s32 turn);
+    void update_effect_positions();
+    void send_move_stnd_pos();
+    s32 calc_slot_angle(s32 slot, s32 turn);
     void set_pos_from_scaled_offset(Vec *from, Vec *to);
-    void sub_80053670();
+    void update_radar_markers();
     void snapshot_position();
     void render_effects();
     void update_boss4_phase_timer();
     void draw_parts();
     void push_players_out_of_colliders();
-    void sub_80053D4C();
+    void update_collision_bodies();
     void update_follow_camera_offsets();
     static TBoss4Type1 *create(TBoss4FormSetData *set_data);
     s32 get_state();
@@ -92,7 +92,7 @@ struct TBoss4Type1 : public TObjEnemy
     f32 move_ratio;               // calc_wave_offset of the move progress, 0 at prev_slot
     s32 slot;                     // one of the four stand positions (boss4_type2_motion_vec_table)
     s32 prev_slot;
-    s32 turn;                     // 0..2: quarter turn left, none, right (sub_80054384)
+    s32 turn;                     // 0..2: quarter turn left, none, right (calc_slot_angle)
     s32 prev_turn;
     s32 grid_x;                   // set_map_position: grid cell x
     s32 grid_z;                   // set_map_position: grid cell z
