@@ -10,13 +10,13 @@ public:
     virtual ~TObjEneMe1Canadin_EffLine();
     virtual void run_task();
     virtual void render();
-    s32 m_1C;
-    Vec *m_20;
-    Vec *m_24;
-    Vec m_28;
-    Vec m_34;
-    u32 m_40;
-    u32 m_44;
+    s32 timer;
+    Vec *tracked_from;
+    Vec *tracked_to;
+    Vec start;
+    Vec end;
+    u32 start_color;
+    u32 end_color;
 };
 LAYOUT_ASSERT(TObjEneMe1Canadin_EffLine_size, sizeof(TObjEneMe1Canadin_EffLine) == 0x48);
 

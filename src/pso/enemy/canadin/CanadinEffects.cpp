@@ -69,32 +69,32 @@ void TObjEneMe1Canadin_EffLineFade::render() {
 #pragma opt_propagation off
 TObjEneMe1Canadin_EffLine::TObjEneMe1Canadin_EffLine(TObject *parent, Vec *from, Vec *to) : TObject(parent) {
     m_name = TObjEneMe1Canadin_EffLine__name;
-    m_20 = from;
-    m_24 = to;
-    VecCopy(&m_28, m_20);
-    VecCopy(&m_34, m_24);
-    m_40 = 0xFFFF0033;
-    m_44 = 0xFFFF0033;
-    m_1C = 5.0f * ((1.0f / 32768.0f) * (f32)rand());
+    tracked_from = from;
+    tracked_to = to;
+    VecCopy(&start, tracked_from);
+    VecCopy(&end, tracked_to);
+    start_color = 0xFFFF0033;
+    end_color = 0xFFFF0033;
+    timer = 5.0f * ((1.0f / 32768.0f) * (f32)rand());
 }
 #pragma pop
 
 TObjEneMe1Canadin_EffLine::~TObjEneMe1Canadin_EffLine() {}
 
 void TObjEneMe1Canadin_EffLine::run_task() {
-    VecCopy(&m_28, m_20);
-    VecCopy(&m_34, m_24);
-    m_1C = m_1C + 1;
-    if (m_1C > 5) {
-        m_1C = 0;
-        new TObjEneMe1Canadin_EffLineFade(m_up, &m_28, &m_34);
+    VecCopy(&start, tracked_from);
+    VecCopy(&end, tracked_to);
+    timer = timer + 1;
+    if (timer > 5) {
+        timer = 0;
+        new TObjEneMe1Canadin_EffLineFade(m_up, &start, &end);
     }
 }
 
 void TObjEneMe1Canadin_EffLine::render() {
     VoloptLineList lines;
-    lines.points = &m_28;
-    lines.colors = (VoloptLineColor *)&m_40;
+    lines.points = &start;
+    lines.colors = (VoloptLineColor *)&start_color;
     lines.pad_8 = 0;
     lines.pad_c = 2;
     set_additive_blend();
@@ -104,26 +104,26 @@ void TObjEneMe1Canadin_EffLine::render() {
 TObjEneMe1Canadin_EffDischarge::TObjEneMe1Canadin_EffDischarge(TObjEneMe1Canadin *parent, Vec *from, Vec *to)
     : TObject(parent) {
     m_name = TObjEneMe1Canadin_EffDischarge__name;
-    m_1C = parent;
-    VecCopy(&m_38, from);
-    VecCopy(&m_44, to);
-    VecCopy(&m_5C, &m_44);
-    subtract_vector(&m_5C, &m_38);
-    m_5C.y = 0.0f;
-    m_34 = normalize_vector_xz(&m_5C);
-    if (m_34 > 20.0f) {
-        m_2C = 20.0f;
-        m_30 = m_34 - m_2C;
+    owner = parent;
+    VecCopy(&seg_start, from);
+    VecCopy(&target, to);
+    VecCopy(&step, &target);
+    subtract_vector(&step, &seg_start);
+    step.y = 0.0f;
+    total_length = normalize_vector_xz(&step);
+    if (total_length > 20.0f) {
+        arc_length = 20.0f;
+        flat_length = total_length - arc_length;
     } else {
-        m_2C = m_34;
-        m_30 = 0.0f;
+        arc_length = total_length;
+        flat_length = 0.0f;
     }
-    m_24 = m_38.y;
-    m_20 = (m_44.y - m_38.y) / (m_2C * m_2C);
-    m_28 = 0.0f;
-    m_5C.x *= 20.0f;
-    m_5C.z *= 20.0f;
-    VecCopy(&m_50, &m_38);
+    start_height = seg_start.y;
+    arc_curve = (target.y - seg_start.y) / (arc_length * arc_length);
+    travelled = 0.0f;
+    step.x *= 20.0f;
+    step.z *= 20.0f;
+    VecCopy(&seg_end, &seg_start);
 }
 
 TObjEneMe1Canadin_EffDischarge::~TObjEneMe1Canadin_EffDischarge() {}
@@ -134,30 +134,30 @@ void TObjEneMe1Canadin_EffDischarge::run_task() {
     s32 done;
 
     done = 0;
-    m_28 += 20.0f;
-    if (m_28 > m_34) {
-        VecCopy(&m_50, &m_44);
+    travelled += 20.0f;
+    if (travelled > total_length) {
+        VecCopy(&seg_end, &target);
         done = 1;
     } else {
-        if (m_28 < m_30) {
-            m_50.y = m_24;
+        if (travelled < flat_length) {
+            seg_end.y = start_height;
         } else {
-            f32 t = m_28 - m_30;
-            m_50.y = t * (m_20 * t) + m_24;
+            f32 t = travelled - flat_length;
+            seg_end.y = t * (arc_curve * t) + start_height;
         }
-        m_50.x = m_50.x + m_5C.x;
-        m_50.z = m_50.z + m_5C.z;
+        seg_end.x = seg_end.x + step.x;
+        seg_end.z = seg_end.z + step.z;
     }
-    VecCopy(&v, &m_50);
-    subtract_vector(&v, &m_38);
+    VecCopy(&v, &seg_end);
+    subtract_vector(&v, &seg_start);
     scale = normalize_vector_safe(&v);
     TTecZondeEff *eff = (TTecZondeEff *)TObject::operator new(0x260);
     if (eff != NULL) {
-        eff->construct((u8 *)tl_05, (u8 *)&m_38, (u8 *)&v, scale);
+        eff->construct((u8 *)tl_05, (u8 *)&seg_start, (u8 *)&v, scale);
     }
-    VecCopy(&m_38, &m_50);
+    VecCopy(&seg_start, &seg_end);
     if (done != 0) {
-        m_1C->fn_8009E1D4(&m_44);
+        owner->fn_8009E1D4(&target);
         queue_destruction();
     }
 }
@@ -167,27 +167,27 @@ void TObjEneMe1Canadin_EffDischarge::render() {}
 TObjEneMe1Canadin_EffLight::TObjEneMe1Canadin_EffLight(TObject *parent, s32 count) : TObject(parent) {
     s32 i;
     m_name = TObjEneMe1Canadin_EffLight__name;
-    m_1C = count;
-    m_20 = 0;
-    m_24 = 0;
-    m_28 = (TObjEneMe1Canadin_EffLightVertex *)mem_alloc(m_1C << 5);
-    m_2C = (TObjEneMe1Canadin_EffLightPoint *)mem_alloc(m_1C * 0x14);
-    for (i = 0; i < m_1C; i++) {
-        m_2C[i].width = 0.0f;
-        m_2C[i].color = 0;
-        m_2C[i].pos.x = 0.0f;
-        m_2C[i].pos.y = 0.0f;
-        m_2C[i].pos.z = 0.0f;
+    capacity = count;
+    head = 0;
+    tail = 0;
+    vertices = (TObjEneMe1Canadin_EffLightVertex *)mem_alloc(capacity << 5);
+    points = (TObjEneMe1Canadin_EffLightPoint *)mem_alloc(capacity * 0x14);
+    for (i = 0; i < capacity; i++) {
+        points[i].width = 0.0f;
+        points[i].color = 0;
+        points[i].pos.x = 0.0f;
+        points[i].pos.y = 0.0f;
+        points[i].pos.z = 0.0f;
     }
-    m_30 = 0x30;
-    m_34 = 0.85f;
+    alpha_step = 0x30;
+    width_decay = 0.85f;
 }
 
 TObjEneMe1Canadin_EffLight::~TObjEneMe1Canadin_EffLight() {
-    mem_free(m_2C);
-    m_2C = NULL;
-    mem_free(m_28);
-    m_28 = NULL;
+    mem_free(points);
+    points = NULL;
+    mem_free(vertices);
+    vertices = NULL;
 }
 
 s32 TObjEneMe1Canadin_EffLightPoint::fade_alpha_step(f32 scale, s32 step) {
@@ -210,27 +210,27 @@ s32 TObjEneMe1Canadin_EffLightPoint::fade_alpha_step(f32 scale, s32 step) {
 }
 
 void TObjEneMe1Canadin_EffLight::push_history_entry(f32 width, Vec *pos, u32 color) {
-    s32 i = m_20;
-    m_2C[i].width = width;
-    m_2C[i].color = color;
-    VecCopy(&m_2C[i].pos, pos);
-    m_20++;
-    if (m_20 >= m_1C) {
-        m_20 = 0;
+    s32 i = head;
+    points[i].width = width;
+    points[i].color = color;
+    VecCopy(&points[i].pos, pos);
+    head++;
+    if (head >= capacity) {
+        head = 0;
     }
 }
 
 void TObjEneMe1Canadin_EffLight::run_task() {
     s32 i;
-    m_24 = m_20 - 1;
-    for (i = m_20 - 1; i >= 0; i--) {
-        if (m_2C[i].fade_alpha_step(m_34, m_30) == 0) {
-            m_24 = i;
+    tail = head - 1;
+    for (i = head - 1; i >= 0; i--) {
+        if (points[i].fade_alpha_step(width_decay, alpha_step) == 0) {
+            tail = i;
         }
     }
-    for (i = m_1C - 1; i >= m_20; i--) {
-        if (m_2C[i].fade_alpha_step(m_34, m_30) == 0) {
-            m_24 = i;
+    for (i = capacity - 1; i >= head; i--) {
+        if (points[i].fade_alpha_step(width_decay, alpha_step) == 0) {
+            tail = i;
         }
     }
 }
@@ -246,16 +246,16 @@ void TObjEneMe1Canadin_EffLight::render() {
     s32 k;
     s32 last;
     saddr n;
-    last = m_20 - 1;
-    if (m_24 == last) {
+    last = head - 1;
+    if (tail == last) {
         return;
     }
     VecCopy(&up, &camera_pitch_rotated_up_vector);
-    v = m_28;
-    if (m_24 > last) {
-        n = m_20 + (m_1C - m_24);
-        for (i = m_20 - 1; i >= 0; i--) {
-            p = &m_2C[i];
+    v = vertices;
+    if (tail > last) {
+        n = head + (capacity - tail);
+        for (i = head - 1; i >= 0; i--) {
+            p = &points[i];
             w = p->width;
             c = p->color;
             v[0].pos.x = up.x * w + p->pos.x;
@@ -269,8 +269,8 @@ void TObjEneMe1Canadin_EffLight::render() {
             v[1].color = c;
             v += 2;
         }
-        for (j = m_1C - 1; j >= m_24; j--) {
-            p = &m_2C[j];
+        for (j = capacity - 1; j >= tail; j--) {
+            p = &points[j];
             w = p->width;
             c = p->color;
             v[0].pos.x = up.x * w + p->pos.x;
@@ -285,9 +285,9 @@ void TObjEneMe1Canadin_EffLight::render() {
             v += 2;
         }
     } else {
-        n = m_20 - m_24;
-        for (k = m_20 - 1; k >= m_24; k--) {
-            p = &m_2C[k];
+        n = head - tail;
+        for (k = head - 1; k >= tail; k--) {
+            p = &points[k];
             w = p->width;
             c = p->color;
             v[0].pos.x = up.x * w + p->pos.x;
@@ -303,5 +303,5 @@ void TObjEneMe1Canadin_EffLight::render() {
         }
     }
     set_additive_blend();
-    draw_trail_strip(m_28, (n * 2), 1);
+    draw_trail_strip(vertices, (n * 2), 1);
 }

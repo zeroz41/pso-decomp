@@ -26,13 +26,13 @@ public:
     virtual void run_task();
     virtual void render();
     void push_history_entry(f32 width, Vec *pos, u32 color);
-    s32 m_1C;
-    s32 m_20;
-    s32 m_24;
-    TObjEneMe1Canadin_EffLightVertex *m_28;
-    TObjEneMe1Canadin_EffLightPoint *m_2C;
-    s32 m_30;
-    f32 m_34;
+    s32 capacity;
+    s32 head;
+    s32 tail;
+    TObjEneMe1Canadin_EffLightVertex *vertices;
+    TObjEneMe1Canadin_EffLightPoint *points;
+    s32 alpha_step;
+    f32 width_decay;
 };
 LAYOUT_ASSERT(TObjEneMe1Canadin_EffLight_size, sizeof(TObjEneMe1Canadin_EffLight) == 0x38);
 
