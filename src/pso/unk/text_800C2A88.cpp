@@ -153,7 +153,7 @@ struct RecoveredFields_800C2AC4_arg0
 };
 
 extern "C" {
-s32 TBoss8Dragon__sub_800BB7D4(void *, int);
+void TBoss8Dragon__sub_800BB7D4(void *self, int id);
 s32 play_sound_effect(void *, void *, int, int);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);

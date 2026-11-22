@@ -121,7 +121,7 @@ s32 is_player_entity_id(u16);
 void send_6x2F_change_player_hp(s32, u16, s32);
 const Pair_800C2E64 lbl_8043BA60[1] = {{16, 0}};
 void TObjEneRe2Flower__sub_800C2E64(Obj_800C2E64 *self, s32 state);
-s32 TBoss8Dragon__sub_800BB7D4(void *, int);
+void TBoss8Dragon__sub_800BB7D4(void *self, int id);
 s32 remap_sound_for_variant(void *, s32);
 s32 play_sound_effect(s32, void *, s32, s32);
 #define F(T, o) (*(T *)((s8 *)(arg0) + (o)))
