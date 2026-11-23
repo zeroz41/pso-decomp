@@ -23,6 +23,7 @@ public:
   virtual ~ItemListRow();
   virtual void update();
   virtual void render(WindowDrawContext *context);
+  s32 get_item();
 };
 
 struct ItemListPosition

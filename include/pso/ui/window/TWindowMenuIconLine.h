@@ -32,6 +32,7 @@ public:
     saddr get_cursor_value();
     void calc_content_extent();
     void disable_cancel();
+    void advance_line(s32 message);
     u16 state_flags;
     s16 entry_count;
     s16 cursor;

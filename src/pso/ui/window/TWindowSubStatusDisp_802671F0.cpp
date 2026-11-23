@@ -147,7 +147,6 @@ WindowDescriptor lbl_804D0604 = {
 };
 
 s32 clamp_list_scroll_offset(WindowScrollBar *scroll, void *offset, NJS_POINT2 *range);
-s32 get_cursor_pos__14TWindowSubItemFv();
 s32 init_entry__20TWindowSubStatusDispFScScUcUll(s32, u8, u8, int, s32, s32);
 void fn_80266BD0(s32 index, u8 *first, u8 *second, s32 player);
 void *get_player_by_client_id(s32 i);
@@ -163,8 +162,7 @@ s32 draw_window_scrollbar(s32, s32, void *);
 void TShopJudgmentItemWindow__sub_80267F9C(const NJS_POINT2 *size, s32 count);
 
 saddr TWindowMenuIconLine::get_cursor_value() {
-    get_array_entry(this->cursor);
-    return get_cursor_pos__14TWindowSubItemFv();
+    return ((ItemListRow *)get_array_entry(cursor))->get_item();
 }
 
 void TWindowMenuIconLine::calc_content_extent() {
@@ -194,12 +192,12 @@ void TWindowSubStatusDisp::clamp_scroll_offset() {
     }
 }
 
-void TWindowSubShortMail::advance_line(s32 arg1) {
+void TWindowMenuIconLine::advance_line(s32 message) {
     int index;
-    index = *(s16 *)((s8 *)this + 0x72);
-    if (index < (s16) *(s16 *)((s8 *)this + 0x76)) {
-        ((TWindowSubStatusDisp *)(reinterpret_cast<TWindowBase *>(this)->get_array_entry(index)))->setup_entry_msg_d1(arg1);
-        *(s16 *)((s8 *)this + 0x72) = (s16) (*(s16 *)((s8 *)this + 0x72) + 1);
+    index = entry_count;
+    if (index < entry_capacity) {
+        ((TWindowSubStatusDisp *)get_array_entry(index))->setup_entry_msg_d1(message);
+        entry_count++;
     }
 }
 

@@ -26,7 +26,6 @@ struct TWindowSubShortMail : public TObject {
     void close();
     void update_mail_count();
     s32 refresh_mail_list(void *list);
-    void advance_line(s32 arg1);
     saddr create_menu();
     saddr build_menu();
     saddr create_confirm_menu_window();

@@ -190,7 +190,7 @@ void TWindowSubShortMail::run_task() {
         if (action_menu != NULL) { ((TWindowBase *)action_menu)->close(); action_menu = NULL; }
         if (mail_list == NULL) {
             mail_list = (void *)create_list_item();
-            ((TWindowSubShortMail *)mail_list)->advance_line(-1);
+            ((TWindowMenuIconLine *)mail_list)->advance_line(-1);
         }
         refresh_mail_list(mail_list);
         ((TWindowMenuIconLine *)mail_list)->clear_decided();
@@ -416,7 +416,7 @@ s32 TWindowSubShortMail::refresh_mail_list(void *arg1) {
         i--;
     }
     if (n <= 0) {
-        ((TWindowSubShortMail *)arg1)->advance_line(-1);
+        ((TWindowMenuIconLine *)arg1)->advance_line(-1);
         if (this->message_window != 0) {
             ((TWindowBase *)this->message_window)->close();
             this->message_window = 0;

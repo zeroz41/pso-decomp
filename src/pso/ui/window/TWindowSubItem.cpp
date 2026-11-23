@@ -119,7 +119,7 @@ void TWindowSubItem__sub_8027AB10(Wn_8027AB10 *arg0) {
 
     for (i = 0; i < arg0->f76; i++) {
         e = (ItemListRow *)((TWindowBase *)arg0)->get_array_entry(i);
-        if (((TWindowLayoutEntry *)e)->is_flag_4_set() != 0 && (((TWindowSubItem *)e)->get_cursor_pos() & -0x10) == -0x10) {
+        if (((TWindowLayoutEntry *)e)->is_flag_4_set() != 0 && (((ItemListRow *)e)->get_item() & -0x10) == -0x10) {
             e->category_style = 0xFFAAAAAA;
             e->style = 0xFF909090;
             e->suffix_style = 0xFF909090;
@@ -134,7 +134,7 @@ void TWindowSubItem::gray_out_unusable_entries() {
 
     for (i = 0; i < ((Wn_8027AA80 *)this)->f76; i++) {
         e = (ItemListRow *)((TWindowBase *)this)->get_array_entry(i);
-        if (((TWindowLayoutEntry *)e)->is_flag_4_set() != 0 && ((TWindowSubItem *)e)->get_cursor_pos() == -0xFF) {
+        if (((TWindowLayoutEntry *)e)->is_flag_4_set() != 0 && ((ItemListRow *)e)->get_item() == -0xFF) {
             e->category_style = 0xFFAAAAAA;
             e->suffix_style = 0xFF909090;
             e->flags |= 0x80;
@@ -147,7 +147,7 @@ s32 TWindowSubItem__sub_8027AA78(s32 arg0) {
 }
 
 s32 TWindowSubItem::get_selected_entry() {
-    return ((TWindowSubItem *)((TWindowBase *)this)->get_array_entry(*(s16 *)((s8 *)this + 0x88)))->get_cursor_pos();
+    return ((ItemListRow *)((TWindowBase *)this)->get_array_entry(*(s16 *)((s8 *)this + 0x88)))->get_item();
 }
 
 void TWindowSubItem::set_field_74(s16 v) { *(s16*)((char*)this + 0x74) = v; }
