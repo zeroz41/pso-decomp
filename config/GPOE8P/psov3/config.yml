@@ -8314,7 +8314,7 @@ force_active:
   - TObjBoss5PillarCtrl__name
   - TChCrLoadGmNjReq__name
   - TChCrLoadReq__name
-  - TObjCMHexTile__name
+  - cm_hex_tile_name
   - TBoss6PlotFalz__name
   - TBoss6EmptyWarp__name
   - TOTrapChainSawKey__name
@@ -14615,7 +14615,7 @@ force_active:
   - reset_globals__15TObjEneDelDepthFv
   - reset_gstream_buffer
   - reset_hp__20TContainerAncient01RFv
-  - reset_id_array__10TObjPlayerFPv
+  - reset__21EquippedItemDrawQueueFv
   - reset_if_door_closed__15TObjLazerFence4Fv
   - reset_inactive_keys__16KeyboardKeyStateFv
   - reset_indices__11TBoss6Type2Fv

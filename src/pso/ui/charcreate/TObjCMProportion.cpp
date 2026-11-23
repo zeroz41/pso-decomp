@@ -8,7 +8,7 @@
 #include "pso/unk/text_80299420.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/player/TObjPlayer_80011014.h"
-__declspec(section ".rodata") CreationInputState lbl_80465150 = { 0 };
+__declspec(section ".rodata") CreationInputState default_creation_input_state = { 0 };
 
 static s32 cm_proportion_pad_button_masks[4] = {0x10, 0x20, 0x40, 0x80};
 static s32 creation_direction_priority_masks[4] = {0x10, 0x20, 0x40, 0x80};
@@ -122,5 +122,5 @@ __declspec(section ".sdata2") extern const f32 creation_stick_zero = 0.0f;
 void TChCrCharSelect::reset_proportions() { TObjCMProportion::poll_pad_buttons(); update_creation_direction_repeat(); }
 
 void fn_802993F0(void) {
-    fn_80299420(&creation_input_state, &lbl_80465150);
+    fn_80299420(&creation_input_state, &default_creation_input_state);
 }

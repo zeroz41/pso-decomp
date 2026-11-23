@@ -2,17 +2,11 @@
 #include "types.h"
 #include <string.h>
 #include <stdio.h>
-#include "pso/ui/frontend/TAdPlayerLoadGC_803F18B8.h"
+#include "pso/system/save/McFsGc.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "dolphin/os.h"
 #include "dolphin/card.h"
-#include "pso/ui/frontend/CardFileEntry.h"
-
-// Per-slot card state: the last CARDProbeEx result and the sizes it reported.
-struct CardSlotInfo { s32 state; s32 mem_size; u32 sector_size; };
-
-typedef void (*CardSlotChangeCallback)(s32 channel, s32 memory_size, u32 sector_size);
-LAYOUT_ASSERT(CardSlotInfoSize, (sizeof(CardSlotInfo) == 0xC));
+#include "pso/system/save/CardFileEntry.h"
 
 // memory-card library version banner
 static const char *const mcfs_version = "\nmcFsGc Ver 1.10.00 Build:Sep 17 2002 20:22:41\n";
@@ -44,22 +38,22 @@ const DVDDiskID *saved_card_disk_id;
 // inferred: the init function stores the version banner pointer here
 const char *mcfs_version_ref;
 
-s32 TAdPlayerLoadGC::get_or_set_channel_flag(s32 arg0, s32 arg1) {
-    if (((arg0 != 0) && (arg0 != 1)) || (arg1 < 0) || (arg1 > 2)) {
+s32 TAdPlayerLoadGC::get_or_set_channel_flag(s32 channel, s32 mode) {
+    if (((channel != 0) && (channel != 1)) || (mode < 0) || (mode > 2)) {
         return 0;
     }
-    if (arg1 != 2) {
-        player_load_channel_flags[arg0] = arg1;
+    if (mode != 2) {
+        player_load_channel_flags[channel] = mode;
     }
-    return player_load_channel_flags[arg0];
+    return player_load_channel_flags[channel];
 }
 
 s32 TAdPlayerLoadGC::get_load_state() {
     return card_lib_state;
 }
 // the work area CARDMountAsync is given (its workArea argument), stored by the init function.
-// 32-byte aligned: it sits at 0x805D7960, 8 bytes past mcfs_version_ref, as the ntInf globals
-// after it sit on 32-byte boundaries.
+// 32-byte aligned: it sits 8 bytes past mcfs_version_ref, as the ntInf globals after it sit on
+// 32-byte boundaries.
 void *card_work_area __attribute__((aligned(32)));
 
 #pragma push
@@ -894,8 +888,8 @@ s32 init_card_lib(void *work_area) {
     return 0;
 }
 
-void TAdPlayerLoadGC::reset_slot_entry(s32 arg0) {
-    CardRequestSlot *slot = &load_request_slots[arg0];
+void TAdPlayerLoadGC::reset_slot_entry(s32 channel) {
+    CardRequestSlot *slot = &load_request_slots[channel];
     slot->buffer = NULL;
     memset(slot->name, 0, sizeof(slot->name));
     memset(slot->new_name, 0, sizeof(slot->new_name));

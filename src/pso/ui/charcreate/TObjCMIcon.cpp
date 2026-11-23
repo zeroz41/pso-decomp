@@ -2,7 +2,7 @@
 #include "pso/ui/charcreate/TObjCMIcon.h"
 #include "pso/system/task/TObject.h"
 extern "C" { extern char TObjCMIcon__class_name_string[]; }
-const char *lbl_805D3CF0 = TObjCMIcon__class_name_string;
+const char *cm_icon_name_ptr = TObjCMIcon__class_name_string;
 
 
 void *TObjCMIcon::create(void *object) {
@@ -24,5 +24,5 @@ TObjCMIcon::~TObjCMIcon() {}
 
 
 TObjCMIcon::TObjCMIcon(TObject *parent) : TObject(parent) {
-    m_name = (const char *)lbl_805D3CF0;
+    m_name = cm_icon_name_ptr;
 }

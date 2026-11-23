@@ -11877,7 +11877,7 @@ pso/unk/text_803F1804.cpp:
 	.text       start:0x803F1804 end:0x803F18B8
 	.sbss       start:0x805D7938 end:0x805D7940
 
-pso/ui/frontend/TAdPlayerLoadGC_803F18B8.cpp:
+pso/system/save/McFsGc.cpp:
 	.text       start:0x803F18B8 end:0x803F339C
 	.rodata     start:0x8047FCD8 end:0x8047FD28
 	.data       start:0x804FCD48 end:0x804FCE38
@@ -11886,7 +11886,7 @@ pso/ui/frontend/TAdPlayerLoadGC_803F18B8.cpp:
 	.sbss       start:0x805D7940 end:0x805D7964
 	.sdata2     start:0x805E10E8 end:0x805E10F8
 
-pso/ui/frontend/TAdPlayerLoadGC_803F339C.cpp:
+pso/system/save/McFsGcRequests.cpp:
 	.text       start:0x803F339C end:0x803F3BF8
 
 pso/unk/text_803F3BF8.cpp:

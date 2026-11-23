@@ -1598,7 +1598,7 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
         # Its loops keep base + index offsets instead of walking pointers
         # (0x803F2F1C, 0x803F31D8); the rest of the file is the same either way.
         # -str reuse,readonly: the version banner and sprintf format strings sit in .rodata.
-        "pso/ui/frontend/TAdPlayerLoadGC_803F18B8.cpp": {"cflags": _switch(cflags_middleware, "-opt nostrength", "-str reuse,readonly")},
+        "pso/system/save/McFsGc.cpp": {"cflags": _switch(cflags_middleware, "-opt nostrength", "-str reuse,readonly")},
         # -pool off: find_longest_match_entry (0x803E9DE0) and sub_803E9A74 load the string, entry and index
         # tables of the TU's own .rodata each with its own lis/addi.
         "pso/quest/TQuestVmDownLoadServer_803E9A24.cpp": {"cflags": _switch(cflags_middleware, "-pool off")},

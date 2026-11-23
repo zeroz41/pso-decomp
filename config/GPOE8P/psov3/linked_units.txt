@@ -614,7 +614,7 @@ pso/ui/frontend/TAdEndText_80307A34.cpp
 pso/ui/frontend/TAdGuideTxtGC.cpp
 pso/ui/frontend/TAdGuideTxtGC_802B17D4.cpp
 pso/ui/frontend/TAdMultiOkGC.cpp
-pso/ui/frontend/TAdPlayerLoadGC_803F18B8.cpp
+pso/system/save/McFsGc.cpp
 pso/ui/frontend/TAdPlyChrSelPlateGC.cpp
 pso/ui/frontend/TAdTimeSetGC.cpp
 pso/ui/charcreate/TChCrCharSelect.cpp
@@ -1838,7 +1838,7 @@ pso/ui/frontend/TAdMultiSelGameModeGC_802D5098.cpp
 pso/ui/frontend/TAdPlayerLoadGC.cpp
 pso/ui/frontend/TAdPlayerLoadGC_80076BBC.cpp
 pso/ui/frontend/TAdPlayerLoadGC_801E0C30.cpp
-pso/ui/frontend/TAdPlayerLoadGC_803F339C.cpp
+pso/system/save/McFsGcRequests.cpp
 pso/ui/frontend/TAdPlyPltAnimCtrlGC.cpp
 pso/ui/frontend/TAdPlyPltAnimGC.cpp
 pso/ui/frontend/TAdPlyStatusGC.cpp
