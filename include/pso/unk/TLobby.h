@@ -975,7 +975,6 @@ struct TLobby : public TObject {
     static s32 check_switch_available(void *, int);
     static s32 check_team_balance(void *, int);
     static void check_valid_state(int);
-    static void clear_four_slots();
     static void close_all_windows(void *);
     static void close_all_windows();
     static void close_and_send_text_list();

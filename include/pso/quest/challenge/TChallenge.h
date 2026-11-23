@@ -5,13 +5,14 @@
 #include "pso/system/task/TObject.h"
 
 struct TChallenge : public TObject {
+    TChallenge(TObject *parent);
     virtual ~TChallenge();
     virtual void render();
     s32 state;
     s32 frame_count;
     s32 missing_records_timer;
     s32 records_save_pending;
-    u32 m_2c;
+    u32 quest_send_timer; // frames until the selected quest is resent (inferred name)
 
     virtual void run_task();
     void update_active();
@@ -22,6 +23,10 @@ struct TChallenge : public TObject {
     void show_challenge_record_window(s32 mode);
     void clear_challenge_record_window();
     void open_challenge_progress_window(void *slot);
+    void refresh_challenge_windows();
+    void request_missing_challenge_records();
+    void clear_four_slots();
+    void restore_challenge_from_save();
 };
 
 LAYOUT_ASSERT(TChallenge_size, sizeof(TChallenge) == 0x30);
