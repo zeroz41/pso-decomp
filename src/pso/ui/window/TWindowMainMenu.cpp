@@ -17,7 +17,7 @@
 
 struct TWindowSubItem;
 
-struct TWindowSubMag;
+#include "pso/ui/window/TWindowSubMag.h"
 
 #include "pso/unk/TUnk_804D1160.h"
 #include "pso/ui/window/TWindowSubEquip_80277E48.h"
@@ -73,7 +73,6 @@ extern "C" {
 s32 __ct__17TWindowSubAreaMapFP7TObjectPv(int, void *, int);
 s32 __ct__17TWindowSubComCardFP7TObjectPv(int, void *, int);
 s32 __ct__13TWindowSubLogFP7TObjectPv(int, void *, int);
-void *TWindowSubMag__ct(TWindowSubMag *arg0, s32 arg1, s32 arg2);
 s32 __ct__20TWindowSubQuestBoardFP7TObjectPv(int, void *, int);
 s32 __ct__18TWindowSubShortCutFP7TObjectPv(int, void *, int);
 s32 __ct__26TWindowSubInformationBoardFP7TObjectPv(int, void *, int);
@@ -257,7 +256,6 @@ void TWindowMainMenu::create_submenu(u32 id) {
     s32 temp_r3_18;
     saddr temp_r3_2;
     saddr window_sub_item;
-    saddr window_sub_mag;
     s32 temp_r3_9;
     s32 var_r0_10;
     s32 var_r0_13;
@@ -267,7 +265,6 @@ void TWindowMainMenu::create_submenu(u32 id) {
     s32 var_r0_18;
     s32 var_r0_2;
     s32 var_r0_4;
-    s32 var_r0_5;
     s32 var_r0_9;
     *(s32 *)((s8 *)((u8 *)this) + 0x4C) = (s32) (*(s32 *)((s8 *)((u8 *)this) + 0x4C) | 4);
     destroy_submenu();
@@ -299,12 +296,7 @@ void TWindowMainMenu::create_submenu(u32 id) {
         return;
     case 23:
     case 24:
-        window_sub_mag = ((saddr)TObject::operator new(0x50));
-        var_r0_5 = window_sub_mag;
-        if (var_r0_5 != 0) {
-            var_r0_5 = (saddr)TWindowSubMag__ct((TWindowSubMag *)((void *)window_sub_mag), (saddr)this, this->client_index);
-        }
-        this->m_20 = var_r0_5;
+        this->m_20 = (saddr)new TWindowSubMag(this, this->client_index);
         return;
     case 26:
     case 27:

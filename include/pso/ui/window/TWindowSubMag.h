@@ -4,27 +4,33 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+struct TWindowMainMenu;
+struct TWindowLoadItemTexture;
+
 struct TWindowSubMag : public TObject {
+    TWindowSubMag(TWindowMainMenu *parent, s32 client);
     virtual ~TWindowSubMag();
     virtual void run_task();
     virtual void render();
     u8 state;
-    u8 m_1d;
-    u8 slots;
-    u8 _pad1F[0x1];
+    s8 m_1d;
+    s8 slots;
+    u8 pad_1f[0x1];
     s16 timer;
-    u8 _pad22[0x2];
+    u8 pad_22[0x2];
     u32 displayed_item;
-    u32 client_id;
+    s32 client_id;
     uaddr mag;
-    u32 parent;
-    uaddr list;
-    uaddr list2;
-    uaddr card;
-    uaddr help;
-    uaddr slotwin;
-    uaddr photon;
-    uaddr message;
+    TWindowMainMenu *parent;
+    void *list;
+    void *list2;
+    void *card;
+    void *help;
+    TWindowLoadItemTexture *slotwin;
+    void *photon;
+    void *message;
+
+    static const char *class_name;
     void update_mag_help();
     void update_displayed_item();
     s32 count_slots();
