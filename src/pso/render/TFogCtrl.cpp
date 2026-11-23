@@ -23,11 +23,8 @@
 #include "pso/math/AngleLookup.h"
 
 extern "C" {
-extern uaddr fog_ctrl_instance;
 s32 request_fog__8TFogCtrlFPvii(u8 *arg0, s32 arg1, s32 arg2);
 extern saddr TFogCtrl__fog_instance_table[];
-void __ct__7TObjectFP7TObject(void *, void *);
-extern s32 __vt__12TFogCtrl_EOR[];
 static const char lbl_8043DA20[] = "fogentry.dat";
 static const char lbl_8043DA30[] = "fogentry_a.dat";
 const char *TFogCtrl__name = "TFogCtrl";
@@ -207,7 +204,7 @@ saddr TFogCtrl__fog_instance_table[4];
 FogParam_800FBC5C fog_default_entry;
 uaddr fog_entry_array;
 s32 fog_update_flags;
-uaddr fog_ctrl_instance;
+TFogCtrl_EOR *fog_ctrl_instance;
 
 extern "C" {
 void run_task__8TFogCtrlFv(Ctrl_800FB498 *arg0);
@@ -875,27 +872,18 @@ s32 TFogCtrl::update_all(s32 arg0, s32 arg1) {
 }
 
 void TFogCtrl::create_instance() {
-    void *o;
-    o = TObject::operator new(0x1C);
-    if (o != NULL) {
-        o = ((TFogCtrl_EOR *)o)->init_object();
-    }
-    (*(void * *)&fog_ctrl_instance) = o;
+    fog_ctrl_instance = new TFogCtrl_EOR();
 }
 
 void TQuestVmDownLoadServer::destroy_instance() {
-    if ((u32) fog_ctrl_instance != 0U) {
-        ((TObject *)fog_ctrl_instance)->queue_destruction();
+    if (fog_ctrl_instance != NULL) {
+        fog_ctrl_instance->queue_destruction();
     }
-    fog_ctrl_instance = 0U;
+    fog_ctrl_instance = NULL;
 }
 
-u8 *TFogCtrl_EOR::init_object() {
-    u8 *arg0 = (u8 *)this;
-    __ct__7TObjectFP7TObject(arg0, &end_of_render_root);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TFogCtrl_EOR;
+TFogCtrl_EOR::TFogCtrl_EOR() : TObject(&end_of_render_root) {
     m_name = TFogCtrl_EOR__name;
-    return arg0;
 }
 
 TFogCtrl_EOR::~TFogCtrl_EOR() {

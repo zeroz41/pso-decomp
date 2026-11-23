@@ -7105,7 +7105,7 @@ force_active:
   - init_move__15TObjEneMe1GiGueFv
   - init_move_attack__11TBoss6Type1Fv
   - init_network_config_defaults__Fv
-  - init_object__12TFogCtrl_EORFv
+  - __ct__12TFogCtrl_EORFv
   - init_object__13TUnk_804E24F0FlPv
   - __ct__18T_ATS_DrawCalendarFP7TObject
   - __ct__13TUnk_804A6FC0FP7TObject

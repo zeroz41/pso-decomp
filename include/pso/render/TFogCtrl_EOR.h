@@ -5,8 +5,8 @@
 
 class TFogCtrl_EOR : public TObject {
 public:
+    TFogCtrl_EOR();
     virtual ~TFogCtrl_EOR();
-    u8 *init_object();
     virtual void run_task();
 };
 LAYOUT_ASSERT(TFogCtrl_EOR_size, sizeof(TFogCtrl_EOR) == 0x1C);
