@@ -409,10 +409,10 @@ void TWindowCtrlMain::spawn_palette_slot_light(s32 kind) { void* m = *(void**)((
 void TWindowCtrlMain::update_child_2c() { void* m = *(void**)((char*)this + 0x2c); if (m) append_line__14TWindowMessageFii(m); }
 
 s32 TWindowCtrl::fn_8024D868() {
-    return this->m_20 <= 0 ? 1 : 0;
+    return this->countdown <= 0 ? 1 : 0;
 }
 
-void TWindowCtrl::fn_8024D85C() { this->m_20 = 60; }
+void TWindowCtrl::fn_8024D85C() { this->countdown = 60; }
 
 void TWindowCtrlMain__sub_8024D838(void) { TWindowCtrlMain::reset_all((void*)((void*)(0))); }
 

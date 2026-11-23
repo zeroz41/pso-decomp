@@ -21,7 +21,7 @@ struct TWindowCtrl : public TObject {
     static TWindowCtrl *instance;
     u16 flags;
     u16 m_1e;
-    s16 m_20;
+    s16 countdown;
     s16 submit_cooldown;
     u32 m_24;
     u16 window_id;
