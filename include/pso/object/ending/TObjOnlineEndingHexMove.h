@@ -2,17 +2,9 @@
 #define PSO_OBJECT_ENDING_TOBJONLINEENDINGHEXMOVE_H
 
 #include "pso/system/task/TObject.h"
+#include "pso/object/ending/TObjOnlineEndingHexLine.h"
 #include <stddef.h>
 #include "types.h"
-
-// inferred: the speed, scale, angle and point count of the ending's hex lines,
-// named after TObjOnlineEndingHexLine__hex_line_params.
-struct EndingHexLineParams {
-    f32 speed;
-    f32 scale;
-    s32 angle;
-    f32 count;
-};
 
 class TObjOnlineEndingHexMove : public TObject {
 public:

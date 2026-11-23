@@ -29,7 +29,7 @@ struct Pkt_802E5EFC { s32 hdr; s32 idx; f32 val; };
 extern "C" {
 void copy_ending_hex_point(EndingHexPoint *point, const EndingHexPoint *source);
 EndingHexLineParams lbl_804E3A98 = { 0.25f, 1.0f, 0, 10.0f };
-EndingHexLineParams TObjOnlineEndingHexLine__hex_line_params = lbl_804E3A98;
+EndingHexLineParams TObjOnlineEndingHexLine::hex_line_params = lbl_804E3A98;
 EndingHexLineParams online_ending_hex_line_param = lbl_804E3A98;
 EndingHexPoint TObjOnlineEndingHexLine_corner_offsets[4] = { {0, 0}, {21, 0}, {0, 19}, {21, 19} };
 EndingHexLineParams TObjOnlineEndingHexMove__default_move_params = { 0.0f, 0.0f, 0, 0.0f };
@@ -52,7 +52,7 @@ void reset_hex_line_params(void);
 // Built with -inline off,deferred: functions are emitted last to first, so they are written in reverse.
 
 void reset_hex_line_params(void) {
-    TObjOnlineEndingHexMove::copy_move_params(&TObjOnlineEndingHexLine__hex_line_params,
+    TObjOnlineEndingHexMove::copy_move_params(&TObjOnlineEndingHexLine::hex_line_params,
         TObjOnlineEndingHexMove::copy_move_params(&online_ending_hex_line_param, &lbl_804E3A98));
 }
 
@@ -108,19 +108,19 @@ void TObjOnlineEndingHexMove::run_task() {
                 case 0:
                     step = 0.093333334f;
                     max = 0.5f;
-                    v = TObjOnlineEndingHexLine__hex_line_params.speed;
+                    v = TObjOnlineEndingHexLine::hex_line_params.speed;
                     min = (1.0f / 30.0f);
                     break;
                 case 1:
                     step = 0.2f;
                     max = 2.0f;
-                    v = TObjOnlineEndingHexLine__hex_line_params.scale;
+                    v = TObjOnlineEndingHexLine::hex_line_params.scale;
                     min = 1.0f;
                     break;
                 case 3:
                     step = 5.8f;
                     max = 32.0f;
-                    v = TObjOnlineEndingHexLine__hex_line_params.count;
+                    v = TObjOnlineEndingHexLine::hex_line_params.count;
                     min = 3.0f;
                     break;
                 }
@@ -138,7 +138,7 @@ void TObjOnlineEndingHexMove::run_task() {
                 pkt.val = v;
                 break;
             case 2:
-                ang = TObjOnlineEndingHexLine__hex_line_params.angle;
+                ang = TObjOnlineEndingHexLine::hex_line_params.angle;
                 if (test_previous_buttons_packed(pad, 0x10000) != 0) {
                     ang += 0x1999;
                 } else {
@@ -160,53 +160,53 @@ void TObjOnlineEndingHexMove::update_line_params() {
     s32 n;
 
     if (0.0f != online_ending_hex_line_state.speed) {
-        d = online_ending_hex_line_param.speed - TObjOnlineEndingHexLine__hex_line_params.speed;
+        d = online_ending_hex_line_param.speed - TObjOnlineEndingHexLine::hex_line_params.speed;
         if (d * online_ending_hex_line_state.speed < 0.0f) {
             online_ending_hex_line_state.speed = 0.0f;
         } else {
             t = fabs_float(online_ending_hex_line_state.speed);
             if (fabs_float(d) < t) {
-                TObjOnlineEndingHexLine__hex_line_params.speed = online_ending_hex_line_param.speed;
+                TObjOnlineEndingHexLine::hex_line_params.speed = online_ending_hex_line_param.speed;
                 online_ending_hex_line_state.speed = 0.0f;
             } else {
-                TObjOnlineEndingHexLine__hex_line_params.speed = TObjOnlineEndingHexLine__hex_line_params.speed + online_ending_hex_line_state.speed;
+                TObjOnlineEndingHexLine::hex_line_params.speed = TObjOnlineEndingHexLine::hex_line_params.speed + online_ending_hex_line_state.speed;
             }
         }
     }
     if (0.0f != online_ending_hex_line_state.scale) {
-        d = online_ending_hex_line_param.scale - TObjOnlineEndingHexLine__hex_line_params.scale;
+        d = online_ending_hex_line_param.scale - TObjOnlineEndingHexLine::hex_line_params.scale;
         if (d * online_ending_hex_line_state.scale < 0.0f) {
             online_ending_hex_line_state.scale = 0.0f;
         } else {
             t = fabs_float(online_ending_hex_line_state.scale);
             if (fabs_float(d) < t) {
-                TObjOnlineEndingHexLine__hex_line_params.scale = online_ending_hex_line_param.scale;
+                TObjOnlineEndingHexLine::hex_line_params.scale = online_ending_hex_line_param.scale;
                 online_ending_hex_line_state.scale = 0.0f;
             } else {
-                TObjOnlineEndingHexLine__hex_line_params.scale = TObjOnlineEndingHexLine__hex_line_params.scale + online_ending_hex_line_state.scale;
+                TObjOnlineEndingHexLine::hex_line_params.scale = TObjOnlineEndingHexLine::hex_line_params.scale + online_ending_hex_line_state.scale;
             }
         }
     }
     if (online_ending_hex_line_state.angle != 0) {
-        n = angle_difference_abs(TObjOnlineEndingHexLine__hex_line_params.angle, online_ending_hex_line_param.angle);
+        n = angle_difference_abs(TObjOnlineEndingHexLine::hex_line_params.angle, online_ending_hex_line_param.angle);
         if (n < angle_difference_abs(0, online_ending_hex_line_state.angle)) {
-            TObjOnlineEndingHexLine__hex_line_params.angle = online_ending_hex_line_param.angle;
+            TObjOnlineEndingHexLine::hex_line_params.angle = online_ending_hex_line_param.angle;
             online_ending_hex_line_state.angle = 0;
         } else {
-            TObjOnlineEndingHexLine__hex_line_params.angle = TObjOnlineEndingHexLine__hex_line_params.angle + online_ending_hex_line_state.angle;
+            TObjOnlineEndingHexLine::hex_line_params.angle = TObjOnlineEndingHexLine::hex_line_params.angle + online_ending_hex_line_state.angle;
         }
     }
     if (0.0f != online_ending_hex_line_state.count) {
-        d = online_ending_hex_line_param.count - TObjOnlineEndingHexLine__hex_line_params.count;
+        d = online_ending_hex_line_param.count - TObjOnlineEndingHexLine::hex_line_params.count;
         if (d * online_ending_hex_line_state.count < 0.0f) {
             online_ending_hex_line_state.count = 0.0f;
         } else {
             t = fabs_float(online_ending_hex_line_state.count);
             if (fabs_float(d) < t) {
-                TObjOnlineEndingHexLine__hex_line_params.count = online_ending_hex_line_param.count;
+                TObjOnlineEndingHexLine::hex_line_params.count = online_ending_hex_line_param.count;
                 online_ending_hex_line_state.count = 0.0f;
             } else {
-                TObjOnlineEndingHexLine__hex_line_params.count = TObjOnlineEndingHexLine__hex_line_params.count + online_ending_hex_line_state.count;
+                TObjOnlineEndingHexLine::hex_line_params.count = TObjOnlineEndingHexLine::hex_line_params.count + online_ending_hex_line_state.count;
             }
         }
     }
@@ -229,13 +229,13 @@ s32 TObjOnlineEndingHexLine::calc_rotated_hex_point(NJS_POINT2 *arg0, EndingHexP
     }
     f32 y = (f32) (ending_hex_point->y * 0x19);
     NJS_POINT2 ctr = lbl_80472C00[0];
-    ang = TObjOnlineEndingHexLine__hex_line_params.angle;
+    ang = hex_line_params.angle;
     p.x = p.x - ctr.x;
     p.y = y;
     p.y = p.y - ctr.y;
     s = sin_table_lookup(ang);
-    c = cos_table_lookup(TObjOnlineEndingHexLine__hex_line_params.angle);
-    sc = TObjOnlineEndingHexLine__hex_line_params.scale;
+    c = cos_table_lookup(hex_line_params.angle);
+    sc = hex_line_params.scale;
     NJS_POINT2 q = p;
     p.x = c * q.x - s * q.y;
     p.y = s * q.x + c * q.y;
@@ -264,25 +264,25 @@ void handle_6x92(u8 *arg0) {
                 return;
             }
             online_ending_hex_line_param.speed = v;
-            online_ending_hex_line_state.speed = (1.0f / 30.0f) * (v - TObjOnlineEndingHexLine__hex_line_params.speed);
+            online_ending_hex_line_state.speed = (1.0f / 30.0f) * (v - TObjOnlineEndingHexLine::hex_line_params.speed);
             break;
         case 1:
             if (v < 1.0f || v > 2.0f) {
                 return;
             }
-            d = v - TObjOnlineEndingHexLine__hex_line_params.scale;
+            d = v - TObjOnlineEndingHexLine::hex_line_params.scale;
             online_ending_hex_line_param.scale = v;
             online_ending_hex_line_state.scale = (1.0f / 30.0f) * d;
             break;
         case 2:
             online_ending_hex_line_param.angle = (s32) v;
-            online_ending_hex_line_state.angle = (s32) ((1.0f / 30.0f) * (f32) angle_diff_s16(TObjOnlineEndingHexLine__hex_line_params.angle, online_ending_hex_line_param.angle));
+            online_ending_hex_line_state.angle = (s32) ((1.0f / 30.0f) * (f32) angle_diff_s16(TObjOnlineEndingHexLine::hex_line_params.angle, online_ending_hex_line_param.angle));
             break;
         case 3:
             if (v < 3.0f || v > 32.0f) {
                 return;
             }
-            d = v - TObjOnlineEndingHexLine__hex_line_params.count;
+            d = v - TObjOnlineEndingHexLine::hex_line_params.count;
             online_ending_hex_line_param.count = v;
             online_ending_hex_line_state.count = (1.0f / 30.0f) * d;
             break;
@@ -322,7 +322,7 @@ TObjOnlineEndingHexLine::TObjOnlineEndingHexLine(TObject *parent, EndingHexPoint
 TObjOnlineEndingHexLine::~TObjOnlineEndingHexLine() {}
 
 void TObjOnlineEndingHexLine::run_task() {
-    progress = (f32) (progress + TObjOnlineEndingHexLine__hex_line_params.speed);
+    progress = (f32) (progress + hex_line_params.speed);
     if (progress >= 1.0f) {
         step_line();
     }
@@ -344,7 +344,7 @@ void TObjOnlineEndingHexLine::render() {
     s32 n;
     s32 i;
     s32 last;
-    n = (s32) TObjOnlineEndingHexLine__hex_line_params.count;
+    n = (s32) hex_line_params.count;
     last = n - 1;
     for (i = 0; i < n; i++) {
         if (i == 0) {

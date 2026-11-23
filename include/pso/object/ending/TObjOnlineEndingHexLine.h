@@ -11,6 +11,14 @@ struct EndingHexPoint {
     s16 y;
 };
 
+// The speed, scale, angle and point count of the ending's hex lines.
+struct EndingHexLineParams {
+    f32 speed;
+    f32 scale;
+    s32 angle;
+    f32 count;
+};
+
 class TObjOnlineEndingHexLine : public TObject {
 public:
     TObjOnlineEndingHexLine(TObject *parent, EndingHexPoint *start);
@@ -24,6 +32,10 @@ public:
     void step_line();
     static s32 calc_rotated_hex_point(NJS_POINT2 *out, EndingHexPoint *point);
     static void *create(void *arg0, void *arg1);
+
+    // The live line parameters; TObjOnlineEndingHexMove eases them toward
+    // online_ending_hex_line_param.
+    static EndingHexLineParams hex_line_params;
 };
 
 LAYOUT_ASSERT(EndingHexLineSize, sizeof(TObjOnlineEndingHexLine) == 0xA0);

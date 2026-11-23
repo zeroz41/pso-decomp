@@ -1486,7 +1486,7 @@ force_active:
   - TObjNpcSoutokufu__name
   - TObjNpcSoutokufu__shared_model_resource
   - TObjOnlineEndingHexLine__direction_table
-  - TObjOnlineEndingHexLine__hex_line_params
+  - hex_line_params__23TObjOnlineEndingHexLine
   - copy_ending_hex_point
   - TObjOnlineEndingHexLine_corner_offsets
   - __ct__23TObjOnlineEndingHexMoveFP7TObject
