@@ -329,7 +329,7 @@ void TParticleCtrl::run_task() {
     }
     if (camera_ctrl_instance != NULL && !(emit_flags & 0x40)) {
         if (is_split_screen() != 0) {
-            if (TLoadCtrl__sub_8001C60C() == 0) {
+            if (TLoadCtrl::is_loading() == 0) {
                 f32 lim = 10000.0f;
                 s32 near = 0;
                 s32 i;
@@ -343,7 +343,7 @@ void TParticleCtrl::run_task() {
                     emit_count = 0.0f;
                 }
             }
-        } else if (TLoadCtrl__sub_8001C60C() == 0) {
+        } else if (TLoadCtrl::is_loading() == 0) {
             if (!(horizontal_distance_squared(&position, &camera_ctrl_instance->pos) < 40000.0f)) {
                 emit_count = 0.0f;
             }

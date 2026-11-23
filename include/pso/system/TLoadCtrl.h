@@ -16,6 +16,8 @@ struct TLoadCtrl : public TObject {
     static void poll_default();
     static void step();
     static void set_field1C(s32 arg0);
+    // Whether a loader is running.
+    static BOOL is_loading();
 };
 
 LAYOUT_ASSERT(TLoadCtrl_size, sizeof(TLoadCtrl) == 0x24);
@@ -23,7 +25,5 @@ LAYOUT_ASSERT(TLoadCtrl_size, sizeof(TLoadCtrl) == 0x24);
 extern "C" {
 // The fade task the loader started; cleared once it is queued for destruction.
 extern saddr TLoadCtrl__fade_task;
-// Whether a loader is running.
-BOOL TLoadCtrl__sub_8001C60C(void);
 }
 #endif

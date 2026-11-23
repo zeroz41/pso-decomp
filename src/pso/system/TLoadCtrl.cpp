@@ -41,7 +41,7 @@ s32 __ct__14TAdFloorLoadGCFP7TObjectPv(s32, void *, int);
 void TNowLoading__sub_8001D4D0(void);
 void fn_8034AD28(void);
 
-BOOL TLoadCtrl__sub_8001C60C(void) {
+BOOL TLoadCtrl::is_loading() {
     return TLoadCtrl__instance ? TRUE : FALSE;
 }
 
