@@ -4,6 +4,15 @@
 #include "types.h"
 #include "pso/ui/city/BankItemRecord.h"
 
+struct ChatShortcutBodyCopy {
+    u8 bytes[0x50];
+};
+
+struct ChatShortcutRecordCopy {
+    u32 header;
+    ChatShortcutBodyCopy body;
+};
+
 // The parts of a character's save record that are read by name.
 struct CharacterSaveRecord {
     CharacterSaveRecord();

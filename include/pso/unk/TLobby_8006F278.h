@@ -23,4 +23,35 @@ void decode_obfuscated_string(char *dst, const void *src, int length);
 struct LobbyNameStringBuffer { s32 value; u8 remaining[0x1C]; };
 extern LobbyNameStringBuffer lobby_name_string_buffer;
 
+struct ChallengePhaseView {
+    u8 pad0[0x28];
+    s32 phase;
+};
+
+struct ChallengeStageEntry {
+    char key[12];
+    char name[12];
+    s32 id;
+};
+
+struct ChallengeStageTableView {
+    u8 pad0[0x18];
+    s32 defaultId;
+    s32 count;
+    u8 pad20[0x30];
+    char defaultName[12];
+    ChallengeStageEntry entries[1];
+};
+
+struct ChallengeRankEntry {
+    s32 value;
+    u32 mask;
+    u8 pad[0x14];
+};
+
+struct ChallengeRankTableView {
+    u8 pad[0x21C];
+    ChallengeRankEntry entries[3];
+};
+
 #endif

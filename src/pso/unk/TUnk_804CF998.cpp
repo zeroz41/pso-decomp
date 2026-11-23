@@ -17,8 +17,9 @@ TUnk_804CF998::TUnk_804CF998(s32 client) : TWindowLayoutEntry(client) {
 }
 
 TUnk_804CF998::TUnk_804CF998(u8 *rec, s32 client) : TWindowLayoutEntry(client) {
-    this->x = *(f32 *)(rec + 4);
-    this->y = *(f32 *)(rec + 8);
-    this->width = *(f32 *)(rec + 0xC);
-    this->height = *(f32 *)(rec + 0x10);
+    const WindowLayoutRectRecord *r = (const WindowLayoutRectRecord *)rec;
+    this->x = r->x;
+    this->y = r->y;
+    this->width = r->width;
+    this->height = r->height;
 }

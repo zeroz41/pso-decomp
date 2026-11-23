@@ -4,6 +4,14 @@
 #include "types.h"
 #include "pso/unk/TWindowLayoutEntry.h"
 
+struct WindowLayoutRectRecord {
+    s32 type;
+    f32 x;
+    f32 y;
+    f32 width;
+    f32 height;
+};
+
 // A window part with a position and size (case 0 of init_window_layout_entries).
 class TUnk_804CF998 : public TWindowLayoutEntry {
 public:

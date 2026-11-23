@@ -12,6 +12,6 @@ void TLobby::free_global() {
 }
 void TLobby::clear_flag_if_not_split_screen() {
     if (TRaderMapCore::is_not_split_screen() != 1) {
-        (*(s32 *)&story_quest_list_resource) = 0;
+        story_quest_list_resource = 0;
     }
 }
