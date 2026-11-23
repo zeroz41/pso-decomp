@@ -15,6 +15,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/RenderSbssGlobals.h"
 #include "pso/render/MaterialAlphaCompare.h"
+#include <dolphin/mtx.h>
 
 #pragma scheduling off
 
@@ -51,7 +52,6 @@ volatile PPCWGPipe GXWGFifo : 0xCC008000;
 
 typedef struct Vtx_803E36C4 { f32 x, y, z, nx, ny, nz; u32 pad[2]; } Vtx_803E36C4;
 
-typedef f32 Mtx_803E4354[3][4];
 extern "C" {
 void GXSetNumTexGens(u8);
 s32 GXSetTevOp(int, int);
@@ -105,14 +105,11 @@ char lbl_804FC810[19] = "CHNK MEMORY ASSERT";
 extern u32 lbl_805D77E4;
 extern ChunkRecording_803E44D4* chunk_vertex_cache_state;
 extern "C" {
-void PSMTXConcat(const Mtx_803E4354, const Mtx_803E4354, Mtx_803E4354);
-void PSMTXTrans(Mtx_803E4354, f32, f32, f32);
-void PSMTXScale(Mtx_803E4354, f32, f32, f32);
 s32 GXSetNumChans(int);
 s32 GXLoadPosMtxImm(void *, int);
 s32 GXLoadNrmMtxImm(void *, int);
 s32 GXLoadTexMtxImm(void *, int, int);
-extern Mtx_803E4354 identity_matrix;
+extern Mtx34 identity_matrix;
 extern s32 chunk_previous_strip_flags;
 
 #pragma push
@@ -834,9 +831,9 @@ s32 dispatch_chunk_vertex_list(u32 *list, saddr buffer) {
 }
 
 void TObjPlayer::setup_model_draw_state(void *) {
-    Mtx_803E4354 scale;
-    Mtx_803E4354 trans;
-    Mtx_803E4354 m;
+    Mtx34 scale;
+    Mtx34 trans;
+    Mtx34 m;
     if ((u32) (ginja_draw_flags & 2) != 0) {
         TObjPlayer::reset_particle_counter();
         apply_scene_fog();

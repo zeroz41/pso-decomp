@@ -9,6 +9,7 @@
 #include "pso/render/MaterialColorFade.h"
 #include "pso/unk/TLobby_803DE778.h"
 #include "pso/render/RenderSbssGlobals.h"
+#include "pso/system/MatrixOps.h"
 
 struct Ent_803DEBC8 { u32 mask; u32 val; };
 
@@ -44,8 +45,6 @@ extern s32 model_render_flags;
 extern f32 light_position_distance;
 extern s32 gx_chan_ctrl_light_mask;
 void GXInitLightAttnK(void *, f32, f32, f32);
-extern u8 identity_matrix[];
-void PSMTXIdentity(void *);
 extern Pad_803DEA18 TKeyBoardControl_prev_pad_state[4];
 s32 PADReset(u32);
 
@@ -187,7 +186,7 @@ void TObjPlayer::init_matrix_stack(s32 arg0, s32 arg1) {
     matrix_stack_base = (GC_Mtx *)0xE0000000;
     current_matrix = (GC_Mtx *)0xE0000000;
     matrix_stack_limit = (GC_Mtx *)0xE0000000 + (arg1 - 1);
-    PSMTXIdentity(identity_matrix == 0 ? (u8 *)0xE0000000 : identity_matrix);
+    PSMTXIdentity(identity_matrix == 0 ? (MtxP)0xE0000000 : identity_matrix);
     move_data(matrix_stack_base, identity_matrix, 0x30);
 }
 

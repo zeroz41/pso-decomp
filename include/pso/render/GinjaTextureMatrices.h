@@ -3,6 +3,7 @@
 #include "types.h"
 #include "pso/system/ModelDrawCallback.h"
 #include "pso/render/RenderSbssGlobals.h"
+#include <dolphin/mtx.h>
 
 typedef f32 GinjaMatrix[3][4];
 struct GinjaModelQueue {
@@ -20,11 +21,4 @@ void queue_model_draw_matrix(void* model, GinjaMatrix matrix);
 }
 void flush_model_draw_queue();
 void draw_queued_models(u32 count);
-extern "C" {
-void PSMTXScale(GinjaMatrix,f32,f32,f32);
-void PSMTXTrans(GinjaMatrix,f32,f32,f32);
-u32 PSMTXInverse(const GinjaMatrix,GinjaMatrix);
-void PSMTXTranspose(const GinjaMatrix,GinjaMatrix);
-void PSMTXConcat(const GinjaMatrix,const GinjaMatrix,GinjaMatrix);
-}
 #endif

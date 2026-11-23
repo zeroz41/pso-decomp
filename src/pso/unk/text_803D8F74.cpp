@@ -3,13 +3,12 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/RenderSbssGlobals.h"
+#include <dolphin/mtx.h>
 
 struct Matrix34 { f32 elements[3][4]; };
 struct ReflectionPlane { f32 origin[3]; f32 normal[3]; };
 
 extern "C" {
-void PSMTXRotRad(Matrix34*, char, f32);
-f32 PSMTXConcat(int, int, int);
 void rotate_matrix_y(Matrix34* matrix, s32 angle);
 
 void scale_matrix(u32, f32, f32, f32);
@@ -69,8 +68,8 @@ void rotate_matrix_y(Matrix34* matrix, s32 angle) {
     if (angle != 0) {
         if (matrix == NULL) selected = (Matrix34*)current_matrix;
         else selected = matrix;
-        PSMTXRotRad(&rotation, 'y', (f32)((9.587378008291125e-05) * (f64)angle));
-        PSMTXConcat((saddr)selected, (saddr)&rotation, (saddr)selected);
+        PSMTXRotRad(rotation.elements, 'y', (f32)((9.587378008291125e-05) * (f64)angle));
+        PSMTXConcat(selected->elements, rotation.elements, selected->elements);
     }
 }
 
