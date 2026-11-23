@@ -7186,38 +7186,8 @@ pso/ui/window/TWindowSubEquipKind_80278300.cpp:
 pso/unk/text_80278460.cpp:
 	.text       start:0x80278460 end:0x802785B0
 
-pso/ui/window/TWindowSubTradeMain_802785B0.cpp:
-	.text       start:0x802785B0 end:0x802785FC
-
-pso/ui/city/TShopArmorListWindow_802785FC.cpp:
-	.text       start:0x802785FC end:0x80278640
-
-pso/ui/window/TWindowShortListCtrl.cpp:
-	.text       start:0x80278640 end:0x8027870C
-
-pso/ui/city/TShopArmorListWindow_8027870C.cpp:
-	.text       start:0x8027870C end:0x80278760
-
-pso/ui/window/TWindowSubMag_80278760.cpp:
-	.text       start:0x80278760 end:0x802787AC
-
-pso/ui/city/TShopArmorListWindow_802787AC.cpp:
-	.text       start:0x802787AC end:0x802787F0
-
-pso/unk/text_802787F0.cpp:
-	.text       start:0x802787F0 end:0x80278964
-
-pso/unk/text_80278964.cpp:
-	.text       start:0x80278964 end:0x802789E0
-
-pso/unk/text_802789E0.cpp:
-	.text       start:0x802789E0 end:0x80278AB4
-
-pso/player/TObjPlayer_80278AB4.cpp:
-	.text       start:0x80278AB4 end:0x80278BD8
-
-pso/unk/text_80278BD8.cpp:
-	.text       start:0x80278BD8 end:0x80278E48
+pso/ui/window/TWindowMenuIconLineLists.cpp:
+	.text       start:0x802785B0 end:0x80278E48
 
 pso/ui/window/TWindowSubEquipKind.cpp:
 	.text       start:0x80278E48 end:0x80279044

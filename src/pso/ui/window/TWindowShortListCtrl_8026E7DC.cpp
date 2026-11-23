@@ -147,7 +147,7 @@ void TWindowShortListCtrl::run_task() {
         if (list_window == NULL) {
             list_window = create_equip_kind_window(get_window_layout_position(1), &short_list_window_pos, client_id);
             ((TWindowSubShortCutList *)list_window)->set_flag70_bit10();
-            ((TWindowShortListCtrl *)list_window)->update_variant_c();
+            ((TWindowMenuIconLine *)list_window)->refresh_weapon_shortcut_list();
             ((TWindowSubComCardList *)list_window)->open_tick = 0x01000000;
         }
         state = 1;
@@ -193,7 +193,7 @@ void TWindowShortListCtrl::run_task() {
         if (list_window == NULL) {
             list_window = create_equip_kind_window(get_window_layout_position(1), &short_list_window_pos, client_id);
             ((TWindowSubShortCutList *)list_window)->set_flag70_bit10();
-            ((TWindowShortListCtrl *)list_window)->update_variant_b();
+            ((TWindowMenuIconLine *)list_window)->refresh_item_shortcut_list();
             ((TWindowSubComCardList *)list_window)->open_tick = 0x01000000;
         }
         state = 4;
@@ -229,7 +229,7 @@ void TWindowShortListCtrl::run_task() {
         if (list_window == NULL) {
             list_window = create_equip_kind_window(get_window_layout_position(1), &short_list_window_pos, client_id);
             ((TWindowSubShortCutList *)list_window)->set_flag70_bit10();
-            ((TWindowShortListCtrl *)list_window)->update_variant_a();
+            ((TWindowMenuIconLine *)list_window)->refresh_battle_stat_list();
             ((TWindowSubComCardList *)list_window)->open_tick = 0x01000000;
         }
         state = 7;

@@ -830,6 +830,7 @@ pso/unk/TLobby_8023F734.cpp
 pso/unk/TLobby_802409AC.cpp
 pso/unk/TLobby_8026B06C.cpp
 pso/ui/window/TWindowMenuIconLine_8026DE30.cpp
+pso/ui/window/TWindowMenuIconLineLists.cpp
 pso/unk/TLobby_80271E48.cpp
 pso/unk/TLobby_8028A7C8.cpp
 pso/unk/TLobby_8028EA28.cpp
@@ -1118,9 +1119,6 @@ pso/system/scene/TScene_80327B00.cpp
 pso/network/TSendDownloadHead.cpp
 pso/map/TSetManager.cpp
 pso/ui/city/TShopArmorListWindow.cpp
-pso/ui/city/TShopArmorListWindow_802785FC.cpp
-pso/ui/city/TShopArmorListWindow_8027870C.cpp
-pso/ui/city/TShopArmorListWindow_802787AC.cpp
 pso/ui/city/TShopDeleteItemWindow.cpp
 pso/ui/city/TShopEquipmentGearSequence.cpp
 pso/ui/city/TShopEquipmentGearSequence_8021E3A4.cpp
@@ -1284,7 +1282,6 @@ pso/ui/window/TWindowSetLevelUp.cpp
 pso/ui/window/TWindowSubStatusDisp_8026D740.cpp
 pso/ui/window/TWindowShop.cpp
 pso/ui/window/TWindowShortCut.cpp
-pso/ui/window/TWindowShortListCtrl.cpp
 pso/ui/window/TWindowShortListCtrl_80221828.cpp
 pso/ui/window/TWindowShortListCtrl_8026E7DC.cpp
 pso/ui/window/TWindowShortListCtrl_80277D3C.cpp
@@ -1339,7 +1336,6 @@ pso/ui/window/TWindowSubMagPhoton.cpp
 pso/ui/window/TWindowSubMag_802559F8.cpp
 pso/ui/window/TWindowSubMag_80255E14.cpp
 pso/ui/window/TWindowSubMag_802627D8.cpp
-pso/ui/window/TWindowSubMag_80278760.cpp
 pso/ui/window/TWindowSubQuestBoard.cpp
 pso/ui/window/TWindowSubQuestBoardSelect.cpp
 pso/ui/window/TWindowSubQuestBoard_8027D1E8.cpp
@@ -1404,7 +1400,6 @@ pso/ui/window/TWindowSubTrade.cpp
 pso/ui/window/TWindowSubTradeMain_80187C98.cpp
 pso/ui/window/TWindowSubTradeMain_80268468.cpp
 pso/ui/window/TWindowSubEquipKind_80278300.cpp
-pso/ui/window/TWindowSubTradeMain_802785B0.cpp
 pso/ui/window/TWindowSubTradeMain_802D220C.cpp
 pso/ui/window/TWindowSubTradeMain_802D3924.cpp
 pso/ui/window/TWindowSubTradeMain_80330A84.cpp
@@ -1696,7 +1691,6 @@ pso/player/TObjPlayer_801E2D1C.cpp
 pso/player/TObjPlayer_8023355C.cpp
 pso/player/TObjPlayer_8023C024.cpp
 pso/player/TObjPlayer_8023E480.cpp
-pso/player/TObjPlayer_80278AB4.cpp
 pso/player/TObjPlayer_8029F694.cpp
 pso/player/TObjPlayer_802A1440.cpp
 pso/player/TObjPlayer_802C367C.cpp
@@ -2057,10 +2051,6 @@ pso/ui/window/TWindowSubComCardList_802752D8.cpp
 pso/unk/text_80275360.cpp
 pso/unk/text_802754EC.cpp
 pso/unk/text_80278460.cpp
-pso/unk/text_802787F0.cpp
-pso/unk/text_80278964.cpp
-pso/unk/text_802789E0.cpp
-pso/unk/text_80278BD8.cpp
 pso/ui/window/TWindowSubTechnique_80286AA8.cpp
 pso/unk/text_8028A714.cpp
 pso/unk/text_8028A820.cpp

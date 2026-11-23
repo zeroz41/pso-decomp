@@ -1356,7 +1356,6 @@ struct TObjPlayer : public TObjChara {
     u8 get_castable_technique_level();
     static void update_all_units(s32 levels, s32 level);
     static s32 check_technique_level(saddr arg0, s32 idx, u8 level);
-    void build_shop_item_list();
     void reset_action_palette();
     void *do_action_447();
     // A hit callback of TUnk_804E1CA8 (its pad_208).
