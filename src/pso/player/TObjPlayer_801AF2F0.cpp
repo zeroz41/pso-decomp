@@ -1425,7 +1425,6 @@ s32 set_secondary_action_palette_bank(s32);
 s32 set_primary_action_palette_bank(s32);
 void set_photon_blast_kind(void *, s16);
 s32 fn_801C1F1C(s32);
-s32 TObjPlayer__sub_801C1F50(s32);
 s32 is_field_0_positive(s32 *arg0);
 void *get_ptr_8(void *p);
 void* __ct__12Unk_801C2068Fv(void*);
@@ -4260,12 +4259,12 @@ void TObjPlayer::update_ground_contact() {
     if (TObjPlayer::is_locally_controlled(this) != 0) {
         if (((TObjPlayer *)(arg0 + 0x550))->try_ground_action(fn_8002AE08(((TObjBase *)(arg0))->get_entity_id())) != 0) {
             set_primary_action_palette_bank(arg0 + 0x500);
-            if (TObjPlayer__sub_801C1F50(arg0 + 0x4AC) != 0) {
+            if (this->photon_blast_gauge.fn_801C1F50() != 0) {
                 set_secondary_action_palette_bank(arg0 + 0x500);
             }
         } else {
             clear_primary_action_palette_bank(arg0 + 0x500);
-            if (TObjPlayer__sub_801C1F50(arg0 + 0x4AC) != 0) {
+            if (this->photon_blast_gauge.fn_801C1F50() != 0) {
                 clear_secondary_action_palette_bank(arg0 + 0x500);
             }
         }
@@ -4319,7 +4318,7 @@ void TObjPlayer::select_contextual_pickup_action() {
 
 saddr TObjPlayer::refresh_effect() {
     saddr arg0 = (saddr)this;
-    if (TObjPlayer__sub_801C1F50(arg0 + 0x4AC) != 0) {
+    if (this->photon_blast_gauge.fn_801C1F50() != 0) {
         if (test_photon_blast_modifier(arg0 + 0x500) != 0) {
             return ref_primary_action_palette(arg0 + 0x500);
         }

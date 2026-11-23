@@ -26,7 +26,6 @@ extern "C" {
 u8 get_cast_technique_level(void *, int);
 Tec_801D7DA4 *calc_technique_parameters(s32, s32, u16);
 s32 get_game_play_mode();
-s32 TObjPlayer__sub_801C1F50(void *);
 
 s32 TObjPlayer__sub_801AF694(void *, s32);
 s32 TWindowCtrl__sub_8024A228(saddr);
@@ -116,7 +115,7 @@ s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *player, u8 kind, u8 sub) {
         }
         return 1;
     case 5:
-        if (TObjPlayer__sub_801C1F50(player + 0x4AC) == 0 || ((TObjCollidable *)player)->test_actor_flags(0x20006) != 0 || ((TObjPlayer *)player)->get_camera_field() == 0) {
+        if (((TObjPlayer *)player)->photon_blast_gauge.fn_801C1F50() == 0 || ((TObjCollidable *)player)->test_actor_flags(0x20006) != 0 || ((TObjPlayer *)player)->get_camera_field() == 0) {
             return 0;
         }
         return 1;

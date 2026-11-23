@@ -6,6 +6,7 @@
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/ui/window/TWindowActionPalette_801C1890.h"
+#include "pso/player/PhotonBlastGauge.h"
 #include "pso/system/byteswap.h"
 #include "pso/ui/window/TWindowActionPalette.h"
 #include "pso/player/TObjPlayer.h"
@@ -213,7 +214,7 @@ void fn_801C1F40(s32 *arg0) {
     *arg0 -= 1;
 }
 
-int TObjPlayer__sub_801C1F50(void* p) { return test_flags_any((s32 *)((char*)p + 0x40), 2); }
+int PhotonBlastGauge::fn_801C1F50() { return test_flags_any(&flags, 2); }
 
 void TObjPlayer__sub_801C1F78(void* p, u16 v) { *(s16*)((char*)p + 0x0) = v; }
 

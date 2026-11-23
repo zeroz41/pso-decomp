@@ -901,9 +901,6 @@ struct TObjPlayer : public TObjChara {
     void clear_photon_blast_state();
     void trigger_photon_blast();
     void check_photon_blast_flag();
-    int check_flag_clear();
-    void set_field_0c(f32 v);
-    void set_field8(s32 v);
     void set_field_3c(f32 v);
     void start_photon_blast_action();
     f32 get_dist();
