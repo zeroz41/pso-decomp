@@ -8,7 +8,7 @@ void TWindowCtrl__sub_8024A08C(void);
 s32 is_player_input_active(s32 param_1);
 }
 
-// --- C functions defined in TWindowCtrl_8024A054.cpp ---
+// --- C functions defined in TWindowCtrl.cpp ---
 extern "C" {
 void TWindowCtrl__sub_8024A08C(void);
 s32 is_player_input_active(s32 param_1);

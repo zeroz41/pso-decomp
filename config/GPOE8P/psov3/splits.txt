@@ -6632,25 +6632,12 @@ pso/ui/window/TWindowComCardFollower.cpp:
 pso/ui/window/WindowCtrlCallbackEntries.cpp:
 	.data       start:0x804CE9C8 end:0x804CEAA0
 
-pso/ui/window/TWindowCtrl_8024A054.cpp:
-	.text       start:0x8024A054 end:0x8024A148
-
-pso/unk/TLobby_8024A148.cpp:
-	.text       start:0x8024A148 end:0x8024A1A8
-
-pso/ui/window/TWindowCtrl_8024A1A8.cpp:
-	.text       start:0x8024A1A8 end:0x8024AADC
-	.sdata2     start:0x805DCBD8 end:0x805DCBE0
-
-pso/ui/window/TWindowCtrlSdata2.cpp:
-	.sdata2     start:0x805DCBE0 end:0x805DCBE8
-
 pso/ui/window/TWindowCtrl.cpp:
-	.text       start:0x8024AADC end:0x8024C820
+	.text       start:0x8024A054 end:0x8024C820
 	.rodata     start:0x8044EBC8 end:0x8044EBF0
 	.data       start:0x804CEAA0 end:0x804CEAB8
 	.sdata      start:0x805D38C8 end:0x805D38D0
-	.sdata2     start:0x805DCBE8 end:0x805DCC18
+	.sdata2     start:0x805DCBD8 end:0x805DCC18
 
 pso/ui/window/TWindowCtrlMain.cpp:
 	.text       start:0x8024C820 end:0x8024E3CC

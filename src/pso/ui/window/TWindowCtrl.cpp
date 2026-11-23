@@ -1,11 +1,32 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "pso/player/PlayerSlots.h"
+#include "pso/ui/window/TWindowCtrl_8024A054.h"
+#include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/window/TWindowCtrl.h"
+#include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
+#include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/player/PlayerSlots.h"
+#include "pso/system/CharacterSaveRecordLookup.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/unk/TLobby.h"
+#include "pso/network/TProtocol.h"
+#include "pso/player/TPlyDispData.h"
+#include "pso/ui/window/TWindowFukidasi.h"
+#include "pso/ui/window/TWindowCtrl_8024A1A8.h"
+#include "pso/ui/window/WindowCtrlCallback.h"
+#include "pso/ui/window/TWindowBase.h"
+#include "pso/object/base/TObjChara.h"
+#include <stddef.h>
+#include "pso/ui/chat/TWindowChat.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowTimer.h"
+#include "pso/ui/window/TWindowArea.h"
+#include "pso/object/switch/TOChatSensorCapture.h"
 #include "pso/unk/text_8024AADC.h"
 #include "pso/unk/text_8024AB18.h"
 #include "pso/unk/text_8024AB98.h"
 #include "pso/unk/text_8024AB54.h"
-#include "pso/ui/window/WindowCtrlCallback.h"
 #include "pso/unk/text_8024AC64.h"
 #include "pso/unk/text_8024ACA8.h"
 #include "pso/unk/text_8024ACEC.h"
@@ -13,33 +34,24 @@
 #include "pso/ui/window/TWindowCtrl_8024ADAC.h"
 #include "pso/ui/window/TWindowCtrl_8024B048.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
-#include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowCtrl_8024B1A0.h"
-#include "pso/ui/window/TWindowFukidasi.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowSetLevelUp.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowEffectParty.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/object/base/TObjChara.h"
 #include "pso/ui/window/TWindowCtrl_8024B7D4.h"
 #include "pso/ui/window/TWindowTradeRequest.h"
 #include "pso/ui/window/TWindowGetComCard.h"
 #include "pso/ui/window/TWindowSimpleStatus.h"
-#include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowCtrl_8024B9C0.h"
 #include "pso/ui/window/TWindowLockOn.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/chat/TWindowSubShortMail_80246CB8.h"
-#include "pso/system/task/TObject_80019A50.h"
-#include "pso/ui/chat/TWindowChat.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/map/FloorArea.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/unk/TLobby.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 #include "pso/player/TObjPlayer_80011014.h"
@@ -49,9 +61,80 @@
 #include "pso/ui/window/TWindowMainMenu_8024E3CC.h"
 #include "pso/unk/text_8026AC50.h"
 #include "pso/unk/text_8026ACDC.h"
-#include "pso/ui/window/TWindowCtrl_8024A1A8.h"
-#include <stddef.h>
 #include "pso/ui/window/TWindowCtrl_8024C6CC.h"
+
+extern "C" {
+
+extern u16 lbl_805D63FC;
+
+s32 get_multiplayer_controller_active_index(s32);
+
+}
+
+extern "C" {
+
+s32 TLobby__sub_80077798(s32, s32 *);
+
+s32 open_hard_keyboard__6TLobbyFPv(s32);
+
+extern s32 local_client_id;
+extern saddr TLobby__protocol_instance;
+
+}
+
+struct RecoveredFields_8024A688_arg1
+{
+  u8 unknown_0[0x38];
+  f32 field_38;
+  f32 field_3C;
+  f32 field_40;
+};
+
+struct RecoveredFields_8024A688_temp_r3
+{
+  u8 unknown_0[0x38];
+  f32 field_38;
+  f32 field_3C;
+  f32 field_40;
+};
+
+struct Ctrl_8024A928 { u8 pad[0x84]; void *slots[4]; };
+
+struct Ctrl_8024A714 { u8 pad[0x84]; void *arr[4]; };
+
+struct Obj_8024A7CC { u8 pad[0x84]; void *arr[4]; };
+
+struct Obj_8024AA08 { u8 pad[4]; u32 f4; };
+
+struct Ply_8024AA08 { u8 pad[0xDB0]; u32 f; };
+
+extern "C" {
+
+s32 TWindowCtrl__sub_8024A314(void);
+
+void TLobby__sub_8024AAA0(s32 arg0, s32 arg1);
+
+u32 get_window__11TWindowCtrlFl(void);
+s32 update_field28__15TWindowCtrlMainFv(u32 a0 = 0, s32 a1 = 0);
+extern PlayerWindowQuery window_ctrl_main_callback_desc;
+
+void TWindowCtrl__sub_8024A228(saddr arg0);
+extern PlayerWindowCommand window_ctrl_default_call_args;
+
+bool TWindowCtrl__sub_8024A1A8(void);
+
+u8 *find_entity_by_id(u16);
+
+f32 get_entity_distance_or_default__11TWindowCtrlFiPvUs(s32 arg0, RecoveredFields_8024A688_arg1 *arg1, u16 arg2);
+
+s32 check_card_match_enabled__15TWindowFukidasiFl(void *, void *);
+
+extern s32 local_client_id;
+
+
+void get_speaker_balloon_anchor__11TWindowCtrlFPviPvPv(Ctrl_8024A928 *arg0, s32 arg1, f32 *arg2, s32 *arg3);
+
+}
 
 extern "C" {
 
@@ -97,13 +180,6 @@ saddr get_window_layout_position(s32);
 struct Ctrl_8024B1A0 { u8 pad[0x1C]; u16 flags; };
 
 struct Win_8024B1A0 { u8 pad[0x40]; f32 x; f32 y; f32 w; f32 h; };
-
-extern "C" {
-
-extern const f32 lbl_805DCBE0;
-extern const f32 lbl_805DCBE4;
-
-}
 
 struct Ctrl_8024B328 { u8 pad[0x84]; void *win[4]; };
 
@@ -151,7 +227,6 @@ typedef struct Ctrl_8024B8A0 {
 
 extern "C" {
 
-
 s32 TWindowCtrl__sub_8024B000(void *, saddr);
 
 extern s32 local_client_id;
@@ -179,7 +254,6 @@ typedef struct Ctrl_8024BE80 {
     u8 pad0[0x78];
     Win_8024BE80 *slots[3];
 } Ctrl_8024BE80;
-
 
 void window_request_show(void *);
 
@@ -963,9 +1037,9 @@ s8 TWindowFukidasi::alloc_nearest_free_slot() {
     mask = 0x40;
     best = -1;
     i = 0;
-    cx = (lbl_805DCBE4 * ((Win_8024B1A0 *)this)->w) + ((Win_8024B1A0 *)this)->x;
-    bestd = lbl_805DCBE0;
-    cy = (lbl_805DCBE4 * ((Win_8024B1A0 *)this)->h) + ((Win_8024B1A0 *)this)->y;
+    cx = (0.5f * ((Win_8024B1A0 *)this)->w) + ((Win_8024B1A0 *)this)->x;
+    bestd = 1000000.0f;
+    cy = (0.5f * ((Win_8024B1A0 *)this)->h) + ((Win_8024B1A0 *)this)->y;
     do {
         if (!(TWindowCtrl::instance->flags & mask)) {
             m = (NJS_POINT2 *)TWindowCtrl::get_message_by_type((s8)i, get_field_20());
@@ -1168,6 +1242,458 @@ void fn_8024AADC(s32 client_id, s32 arg1) {
     u32 temp_r3 = (u32)TWindowCtrl::get_window(client_id);
     if (temp_r3 != 0U) {
         free_member__15TWindowCtrlMainFv(temp_r3, arg1);
+    }
+}
+
+}
+
+extern "C" {
+
+void TLobby__sub_8024AAA0(s32 local_client_id, s32 arg1) {
+    u32 temp_r3 = get_window__11TWindowCtrlFl();
+    if (temp_r3 != 0U) {
+        update_field28__15TWindowCtrlMainFv(temp_r3, arg1);
+    }
+}
+
+}
+
+extern "C" {
+
+void TWindowCtrl::handle_chat_message(char *arg1) {
+    Obj_8024AA08 *arg0 = (Obj_8024AA08 *)this;
+    s32 i;
+    u32 key;
+    char *v;
+    Ply_8024AA08 *p;
+    if (instance != NULL) {
+        v = TWindowCtrl::skip_name_prefix(instance, arg1);
+        key = arg0->f4;
+        for (i = 0; i < 12; i++) {
+            p = (Ply_8024AA08 *)get_player_by_client_id(i);
+            if (p != NULL && p->f == key) {
+                break;
+            }
+        }
+        if (i < 12) {
+            u16 slot = i;
+            TOChatSensorCapture::capture_message(slot, v);
+            TWindowCtrl::open(slot, (saddr)v, 0xCB);
+        }
+    }
+}
+
+}
+
+extern "C" {
+
+TWindowFukidasi *TWindowCtrl::show_chat_balloon(u16 player, s32 flags, void *text, s32 client) {
+    u32 i;
+    if (instance == NULL) {
+        return 0;
+    }
+    if (flags & 8) {
+        for (i = 0; i < 4; i++) {
+            TWindowFukidasi *b = balloons[i];
+            if (b != 0 && b->all_parents_unqueued_for_destruction() != 0 &&
+                player == b->get_speaker_id() &&
+                check_card_match_enabled__15TWindowFukidasiFl(b, text) != 0) {
+                b->rearm_balloon(flags);
+                return 0;
+            }
+        }
+    }
+    return instance->acquire_balloon_slot(player, flags, client);
+}
+
+}
+
+extern "C" {
+
+TWindowFukidasi *TWindowCtrl::acquire_balloon_slot(u16 player, s32 flags, s32 client) {
+    f32 f;
+    s32 n;
+    u32 i;
+    TWindowFukidasi *b;
+    get_speaker_balloon_anchor(player, &f, &n);
+    i = 4;
+    if (!(flags & 0x10)) {
+        for (i = 0; i < 4; i++) {
+            b = balloons[i];
+            if (b != 0 && b->all_parents_unqueued_for_destruction() != 0 &&
+                player == b->get_speaker_id()) {
+                break;
+            }
+        }
+    }
+    if (i >= 4) {
+        i = count_balloon_slots();
+        if (i >= 4) {
+            i = find_farthest_balloon_slot(player);
+        }
+        if (i >= 4) {
+            return 0;
+        }
+        if (balloons[i] != 0) {
+            balloons[i]->close();
+        }
+        b = new TWindowFukidasi(player, n, client, f);
+        balloons[i] = b;
+    }
+    return balloons[i];
+}
+
+}
+
+extern "C" {
+
+s32 TWindowCtrl::count_balloon_slots() {
+    s32 n = 0;
+    s32 i;
+    for (i = 0; i < 4; i++) {
+        if (balloons[i] == 0) break;
+        n++;
+    }
+    return n;
+}
+
+}
+
+extern "C" {
+
+s32 TWindowCtrl::find_farthest_balloon_slot(u16 speaker) {
+    s32 i;
+    s32 result;
+    RecoveredFields_8024A688_arg1 *local;
+    f32 farthest;
+    f32 d;
+    TWindowFukidasi *b;
+    u16 id;
+
+    local = (RecoveredFields_8024A688_arg1 *)get_player_by_client_id(local_client_id);
+    if (local == NULL) {
+        return 4;
+    }
+    result = 4;
+    farthest = ((f32 (*)(void *, RecoveredFields_8024A688_arg1 *, u16))get_entity_distance_or_default__11TWindowCtrlFiPvUs)(this, local, speaker);
+    for (i = 0; i < 4; i++) {
+        b = balloons[i];
+        if (b != NULL) {
+            id = b->get_speaker_id();
+            d = ((f32 (*)(void *, RecoveredFields_8024A688_arg1 *, u16))get_entity_distance_or_default__11TWindowCtrlFiPvUs)(this, local, id);
+            if (!(farthest > d)) {
+                farthest = d;
+                result = i;
+            }
+        }
+    }
+    return result;
+}
+
+}
+
+extern "C" {
+
+f32 get_entity_distance_or_default__11TWindowCtrlFiPvUs(s32 arg0, RecoveredFields_8024A688_arg1 *arg1, u16 arg2) {
+  f32 temp_f2;
+  f32 temp_f3;
+  f32 temp_f4;
+  u8 *entity;
+  if (arg2 == ((-1) & 0xFFFF))
+  {
+    return 1000000.0f;
+  }
+  entity = (u8 *) find_entity_by_id(arg2);
+  if (entity == 0)
+  {
+    return 1000000.0f;
+  }
+  temp_f4 = arg1->field_38 - ((RecoveredFields_8024A688_temp_r3 *) entity)->field_38;
+  temp_f3 = arg1->field_3C - ((RecoveredFields_8024A688_temp_r3 *) entity)->field_3C;
+  temp_f2 = arg1->field_40 - ((RecoveredFields_8024A688_temp_r3 *) entity)->field_40;
+  return (temp_f2 * temp_f2) + ((temp_f4 * temp_f4) + (temp_f3 * temp_f3));
+}
+
+}
+
+extern "C" {
+
+void TWindowCtrl::get_speaker_balloon_anchor(u16 id, f32 *arg2, s32 *arg3) {
+    u8 *entity;
+    u8 *obj;
+    player_stats *q;
+    entity = find_entity_by_id(id);
+    if (entity != NULL && obj_is_hit_receivable(entity) == 1) {
+        obj = entity;
+    } else {
+        obj = NULL;
+    }
+    if (obj == NULL) {
+        *arg2 = 0.0f;
+        *arg3 = 0;
+        return;
+    }
+    q = reinterpret_cast<player_stats *>(((TObjChara *)obj)->get_stats());
+    if (q == NULL) {
+        *arg2 = 0.0f;
+    } else {
+        *arg2 = 0.92f * q->proportions;
+    }
+    if (((TObjChara *)obj)->obj_isState2_324() != 0 || TObjPlayer::is_locally_controlled(obj) != 0) {
+        u8 *p = obj + 0x85C;
+        if (p == NULL) {
+            *arg3 = 0;
+            return;
+        }
+        *arg3 = (saddr)p;
+        return;
+    }
+    *arg3 = 0;
+}
+
+
+}
+
+extern "C" {
+
+char *TWindowCtrl::skip_name_prefix(void *self, char *s) {
+    char *p;
+    for (p = s; *p != '\0'; p++) {
+        if (*p == '\t') break;
+    }
+    if (*p == '\0') return s;
+    return p + 1;
+}
+
+}
+
+extern "C" {
+
+void TWindowCtrl::create_alt_timer() {
+    if ((instance != NULL) && (instance->m_30 == NULL)) {
+        instance->m_30 = TWindowTimer::create_alt();
+    }
+}
+
+}
+
+extern "C" {
+
+void TWindowCtrl::close_timer_window() {
+    if ((instance != NULL) && (instance->m_30 != NULL)) {
+        instance->m_30->close();
+        instance->m_30 = NULL;
+    }
+}
+
+}
+
+extern "C" {
+
+void TWindowCtrl::set_timer_window_time(u32 secs) {
+    TWindowTimer *timer;
+    if (instance != NULL) {
+        timer = instance->m_30;
+        if (timer != NULL) {
+            timer->set_time(secs);
+        }
+    }
+}
+
+}
+
+extern "C" {
+
+void TWindowCtrl::create_timer() {
+    if ((instance != NULL) && (instance->m_30 == NULL)) {
+        instance->m_30 = TWindowTimer::create();
+    }
+}
+
+}
+
+extern "C" {
+
+void TWindowCtrl::ensure_initialized() {
+    if ((instance != NULL) && (instance->m_34 == NULL)) {
+        instance->m_34 = create_window_area();
+    }
+}
+
+}
+
+extern "C" {
+
+void TWindowCtrl::close_active_window() {
+    if ((instance != NULL) && (instance->m_34 != NULL)) {
+        instance->m_34->close();
+        instance->m_34 = NULL;
+    }
+}
+
+}
+
+extern "C" {
+
+void TWindowCtrl::open_status_112() {
+    if ((instance != NULL) && (instance->m_34 == NULL)) {
+        instance->m_34 = create_area_window(TWindowSubStatusDisp::get_message_10(0x112));
+    }
+}
+
+}
+
+extern "C" {
+
+void TWindowCtrl::open_status_111() {
+    if ((instance != NULL) && (instance->m_34 == NULL)) {
+        instance->m_34 = create_area_window(TWindowSubStatusDisp::get_message_10(0x111));
+    }
+}
+
+}
+
+extern "C" {
+
+s32 TWindowCtrl__sub_8024A314(void) {
+    if (TWindowCtrl::instance == NULL) {
+        return 0;
+    }
+    if (TWindowCtrl::instance->m_38 == 0U) {
+        return 0;
+    }
+    return TWindowCtrl__sub_8024701C((TWindowChat *)TWindowCtrl::instance->m_38);
+}
+
+}
+
+extern "C" {
+
+s32 TWindowCtrl::get_active_sub() {
+    if (instance == NULL) {
+        return 0;
+    }
+    if (instance->m_38 == 0U) {
+        return 0;
+    }
+    return TWindowCtrl__sub_8024C5C4((TWindowChat *)instance->m_38);
+}
+
+}
+
+extern "C" {
+
+void TWindowCtrl::update_focused() {
+    if ((instance != NULL) && (instance->m_38 != 0U)) {
+        ((TWindowChat *)instance->m_38)->update();
+    }
+}
+
+}
+
+extern "C" {
+
+bool TWindowCtrl::is_submit_cooldown_clear() {
+    if (instance == NULL) {
+        return 0;
+    }
+    return instance->submit_cooldown <= 0;
+}
+
+}
+
+extern "C" {
+
+void TWindowCtrl__sub_8024A228(saddr client_id) {
+    PlayerWindowQuery callback = window_ctrl_main_callback_desc;
+    TWindowCtrl__sub_8024B098(client_id, callback);
+}
+
+}
+
+extern "C" {
+
+void TWindowCtrl::set_field22() {
+    if (instance != NULL) {
+        instance->submit_cooldown = 0x2D;
+    }
+}
+
+}
+
+extern "C" {
+
+void TWindowCtrl::call_window_method_with_default_vec(s32 client_id) {
+    PlayerWindowCommand callback = window_ctrl_default_call_args;
+    call_window_method__11TWindowCtrlFPvi(client_id, callback);
+}
+
+}
+
+extern "C" {
+
+bool TWindowCtrl__sub_8024A1A8(void) {
+    if (TWindowCtrl::instance == NULL) {
+        return 0;
+    }
+    return TWindowCtrl::instance->m_3c != 0;
+}
+
+}
+
+extern "C" {
+
+void TLobby::send_card_window_state() {
+    s32 sp8[5];
+    s32 character_save_record;
+
+    character_save_record = get_character_save_record(0xFFFF);
+    sp8[0] = open_hard_keyboard__6TLobbyFPv(local_client_id) ? 1 : 0;
+    TLobby__sub_80077798(character_save_record + 0x22EC, sp8);
+    ((TProtocol *)TLobby__protocol_instance)->send_choice_search_parameters((ChoiceSearchParameters &)sp8);
+}
+
+}
+
+extern "C" {
+
+s32 is_player_input_active(s32 param_1) {
+    if (param_1 >= 4) {
+        return 0;
+    }
+    if (TAdMultiChgGameModeGC::is_input_phase_active() != 0) {
+        return get_multiplayer_controller_active_index(param_1);
+    }
+    TObjPlayer *player = get_player_by_client_id(param_1);
+    if (player == NULL) {
+        return 0;
+    }
+    return player->get_controller_port();
+}
+
+}
+
+extern "C" {
+
+void TWindowCtrl__sub_8024A08C(void) {
+    TObject *object;
+    lbl_805D63FC &= 0xFFFFFFFD;
+    if (TWindowCtrl::instance != NULL) {
+        object = (TObject *)TWindowCtrl::instance->m_3c;
+        if (object != NULL) {
+            object->queue_destruction();
+            TWindowCtrl::instance->m_3c = 0;
+        }
+    }
+}
+
+}
+
+extern "C" {
+
+void TWindowCtrl::clear_flag() {
+    if ((instance != NULL) && (instance->m_38 != 0U)) {
+        ((TWindowCtrl *)instance->m_38)->clear_flag1e_bit8();
     }
 }
 
