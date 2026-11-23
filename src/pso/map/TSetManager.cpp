@@ -69,26 +69,20 @@ void TSetManager::run_task() {
         ((Pmf_8020D7D8 *)lbl_804C9460)[1] = *(Pmf_8020D7D8 *)lbl_804C9454;
         init = 1;
     }
-    (this->*((Pmf_8020D7D8 *)lbl_804C9460)[*(s32 *)((u8 *)this + 0x1C)])();
+    (this->*((Pmf_8020D7D8 *)lbl_804C9460)[step])();
     ((void (*)(void *))TSetManager__sub_8020D7D4)(this);
 }
 
 TSetManager::~TSetManager() {}
 
-extern "C" {
-
-void __ct__7TObjectFP7TObject(void *, void *);
-
-extern s32 __vt__11TSetManager[];
 const char *lbl_805D3638 = "TSetManager";
 
-void *TSetManager__ct(void *set_manager, void *parent) {
-    __ct__7TObjectFP7TObject(set_manager, parent);
-    *(s32 **)((s8 *)set_manager + 0x18) = __vt__11TSetManager;
-    ((TSetManager *)set_manager)->m_name = lbl_805D3638;
-    *(u32 *)((s8 *)set_manager + 0x1C) = 0;
-    return set_manager;
+TSetManager::TSetManager(TObject *parent) : TObject(parent) {
+    m_name = lbl_805D3638;
+    step = 0;
 }
+
+extern "C" {
 
 LobbyPoolEntry TLobby__data_80513A40[18];
 LobbyFloorRows TLobby__floor_enemy_group_table[18];
@@ -112,10 +106,7 @@ void mem_free(void*);
 
 
 void TSetManager::create() {
-    void* obj = TObject::operator new(0x20);
-    if (obj != 0) {
-        TSetManager__ct(obj, tl_02);
-    }
+    new TSetManager((TObject *)tl_02);
 }
 
 void TLobby__sub_8020D94C(void) {

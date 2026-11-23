@@ -6,17 +6,17 @@
 
 class TSetManager : public TObject {
 public:
+    TSetManager(TObject *parent);
     virtual ~TSetManager();
     virtual void run_task();
 public:
     static void create();
     void update_decoration_spawning();
     void apply_floor_set_rows();
-};
 
-extern "C" {
-void *TSetManager__ct(void *set_manager, void *parent);
-}
+    s32 step;  // which of run_task's steps (apply_floor_set_rows, update_decoration_spawning) runs
+};
+LAYOUT_ASSERT(TSetManagerSize, sizeof(TSetManager) == 0x20);
 
 
 extern "C" {
