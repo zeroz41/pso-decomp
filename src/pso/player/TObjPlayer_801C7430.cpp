@@ -1322,7 +1322,6 @@ void bswap_6x45_packet(void *p);
 void bswap_6x44_packet(void *p);
 void bswap_6x43_packet(void *p);
 void init_6x40_walk_packet(void *cmd);
-void init_stick_escape_detector(void *arg0, void *arg1);
 void calc_death_sink_offset(void *arg0);
 void reset_player_appearance_opacity(void *a0);
 void remove_photon_blast_participant(s32 arg0);
@@ -2265,7 +2264,7 @@ void TObjPlayer::reset_lobby_state() {
 
 void TObjPlayer::try_use_mag() {
     u8 *arg0 = (u8 *)this;
-    if ((((TObjPlayer *)this)->is_frozen() == 0) && (TObjPlayer::is_locally_controlled(arg0) != 0) && (((TKeyBoardControl *)(arg0 + 0x64C))->check_input_angle() != 0)) {
+    if ((((TObjPlayer *)this)->is_frozen() == 0) && (TObjPlayer::is_locally_controlled(arg0) != 0) && (stick_escape_detector.check_input_angle() != 0)) {
         this->add_status_effect_timer(1, *(s32 *)((s8 *)arg0 + 0x3D4));
     }
 }
@@ -2315,7 +2314,7 @@ void TObjPlayer::send_name_and_state() {
     MsgA_801C9400 a;
     MsgB_801C9400 b;
     if (((TObjPlayer *)this)->is_frozen() == 0) {
-        init_stick_escape_detector((u8 *)&this->m_64c, TObjPlayer__sub_801D2878((u8 *)&this->m_550));
+        init_stick_escape_detector(&stick_escape_detector, static_cast<const ControllerInputContext *>(TObjPlayer__sub_801D2878(&m_550)));
     }
     if ((arg0 == NULL) || (this->obj_isState2_324() == 0)) {
         ((TObjPlayer *)(&a))->set_type_53();

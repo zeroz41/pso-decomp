@@ -48,7 +48,7 @@ public:
     int is_visible();
     int is_mode_bit4();
     int is_open();
-    static u8 *open_symbol_chat(s32 *arg0);
+    static struct SymbolChatPreset *open_symbol_chat(s32 *arg0);
 };
 extern "C" {
 s32 TWindowCtrl__sub_8024701C(TWindowChat *chat);

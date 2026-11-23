@@ -21,7 +21,7 @@
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
-#include "pso/ui/frontend/TAdMultiSelGameModeGC.h"
+#include "pso/ui/TAdChrSelPlayerGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
@@ -249,7 +249,7 @@ void TAdSinglePlyChrSelectGC::update() {
     if (((TWindowMessageYesNo *)(*(saddr *)&this->unk_48))->is_child_visible() != 0) {
         switch (((TWindowSubComCard *)(*(saddr *)&this->unk_48))->get_slot_or_neg1()) {
         case 0:
-            reinterpret_cast<TAdSelectCurGC *>((*(saddr *)&this->m_2c))->selection_index();
+            reinterpret_cast<TAdSelectCurGC *>(m_2c)->selection_index();
             clear_entry__23TAdSinglePlyChrSelectGCFi();
             ((TAdChrSelASlotGC *)(*(saddr *)&this->m_28))->get_state();
             ((TAdChrSelASlotGC *)(*(saddr *)&this->m_28))->set_state(0xF);
@@ -281,7 +281,7 @@ void TAdSinglePlyChrSelectGC::handle_menu_selection() {
             return;
         case 1:
             ((TWindowOptionCtrl *)(*(saddr *)&this->unk_38))->open();
-            this->m_4c = TAdChrSelASlotGC::create_format_message_window((s32)((int) (*(s32 *)&this->m_28)), (saddr)&single_chr_select_message_pos, 0);
+            this->m_4c = TAdChrSelASlotGC::create_format_message_window(static_cast<saddr>(m_28), (saddr)&single_chr_select_message_pos, 0);
             *(s32 *)&this->m_20 = 9;
             return;
         case 2:
@@ -339,12 +339,12 @@ void TAdSinglePlyChrSelectGC::handle_slot_selection() {
     }
     var_r30 = 0;
     if (*(s32 *)&this->unk_58 != reinterpret_cast<TAdSelectCurGC *>((*(saddr *)&this->m_2c))->selection_index()) {
-        ((TAdMultiPlyChrSelectGC *)this->m_30)->set_field_100(1);
+        m_30->set_field_100(1);
         reinterpret_cast<TAdSelectCurGC *>((*(saddr *)&this->m_2c))->selection_index();
         if (TAdSinglePlyChrSelectGC__sub_801FE4BC() != 0U) {
-            reinterpret_cast<TAdSelectCurGC *>((*(saddr *)&this->m_2c))->selection_index();
+            reinterpret_cast<TAdSelectCurGC *>(m_2c)->selection_index();
             load_tables();
-            ((TAdMultiPlyChrSelectGC *)this->m_30)->set_field_100(2);
+            m_30->set_field_100(2);
             if (TAdSinglePlyChrSelectGC::check_flag(1) != 0U) {
                 var_r30 = 1;
                 this->m_34->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x1E, 5)));
@@ -355,12 +355,12 @@ void TAdSinglePlyChrSelectGC::handle_slot_selection() {
             this->m_34->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x1E, 0)));
             this->m_34->set_line(1, "");
         }
-        *(s32 *)&this->unk_58 = reinterpret_cast<TAdSelectCurGC *>((*(saddr *)&this->m_2c))->selection_index();
+        *(s32 *)&this->unk_58 = reinterpret_cast<TAdSelectCurGC *>(m_2c)->selection_index();
     }
-    if (((TAdSelectCurGC *)(*(saddr *)&this->m_2c))->confirmation_result() == 1) {
-        reinterpret_cast<TAdSelectCurGC *>((*(saddr *)&this->m_2c))->selection_index();
+    if (reinterpret_cast<TAdSelectCurGC *>(m_2c)->confirmation_result() == 1) {
+        reinterpret_cast<TAdSelectCurGC *>(m_2c)->selection_index();
         load_tables();
-        reinterpret_cast<TAdSelectCurGC *>((*(saddr *)&this->m_2c))->selection_index();
+        reinterpret_cast<TAdSelectCurGC *>(m_2c)->selection_index();
         if (is_slot_active__23TAdSinglePlyChrSelectGCFUi() != 0) {
             if (((TAdChrSelASlotGC *)this->m_28)->is_character_transferred((u32)(reinterpret_cast<TAdSelectCurGC *>((*(saddr *)&this->m_2c))->selection_index())) != 0) {
                 this->m_54 = (uaddr)new TAdFadeGC(tl_fade, NULL);
@@ -494,7 +494,7 @@ TPlyCharData *get_char_index__23TAdSinglePlyChrSelectGCFUi(u32);
 
 void TAdSinglePlyChrSelectGC::cleanup() {
     ((TAdSelectCurGC *)(*(saddr *)((s8 *)this + 0x2C)))->reset_entries();
-    ((TAdMultiPlyChrSelectGC *)(*(saddr *)((s8 *)this + 0x30)))->set_field_100(1);
+    m_30->set_field_100(1);
     ((TAdGuideTxtGC *)(*(saddr *)((s8 *)this + 0x34)))->set_line(0, "");
     ((TAdGuideTxtGC *)(*(saddr *)((s8 *)this + 0x34)))->set_line(1, "");
     *(s32 *)((s8 *)this + 0x58) = -1;

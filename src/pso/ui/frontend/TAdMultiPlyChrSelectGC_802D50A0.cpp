@@ -1,20 +1,23 @@
-#include "types.h"
-#include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
+#include "pso/ui/TAdChrSelPlayerGC.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802D50A0.h"
+#include "pso/ui/frontend/TAdTitleTexGC.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/ui/frontend/TAdMultiSelGameModeGC.h"
 
 extern "C" {
-void copy_vec2__FPvPv(void *);
 s32 TAdChrSelASlotGC::get_state() { return state; }
 void TAdChrSelASlotGC::set_state(s32 value) { state = value; }
-void TAdMultiPlyChrSelectGC::set_field_100(s32 v) { *(s32*)((char*)this + 0x100) = v; }
 
-void fn_802D50B8(void *arg0, void *arg1, void *arg2, void *arg3) {
-    copy_vec2__FPvPv((void *)((char *)arg0 + 132));
-    ((void (*)(void *, void *))copy_vec2__FPvPv)((void *)((char *)arg0 + 140), arg2);
-    ((void (*)(void *, void *))copy_vec2__FPvPv)((void *)((char *)arg0 + 148), arg3);
+void TAdChrSelPlayerGC::set_field_100(s32 value) {
+    m_100 = value;
 }
 
+void copy_vec2__FPvPv(NJS_POINT2 *target, const NJS_POINT2 *source);
+
+void fn_802D50B8(TAdTitleTexGC *title, const NJS_POINT2 *first, const NJS_POINT2 *second, const NJS_POINT2 *third) {
+    copy_vec2__FPvPv(&title->rest_pos[0], first);
+    copy_vec2__FPvPv(&title->rest_pos[1], second);
+    copy_vec2__FPvPv(&title->rest_pos[2], third);
+}
 }

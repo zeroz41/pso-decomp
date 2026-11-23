@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/frontend/TAdSEGAlogo.h"
+#include "pso/ui/TLogo_8001C134.h"
 #include "types.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/system/NinjaTypes.h"
@@ -42,7 +43,7 @@ const char *TAdSEGAlogo__class_name = "TAdSEGAlogo";
 #pragma pop
 
 int render_logo_with_default(void *p, int a1, int a2, f32 a3);
-void* logo_texture_e_handle;
+NJS_TEXLIST *logo_texture_e_handle;
 int TAdSEGAlogo__state;
 int sega_logo_done_flag;
 extern void *tl_00;

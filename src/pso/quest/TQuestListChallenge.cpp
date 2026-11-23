@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/npc/TObjNpcKenkyu.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/object/TObjControl.h"
 #include "types.h"
 #include "pso/quest/TQuestListChallenge.h"
@@ -118,7 +119,7 @@ block_9:
 }
 
 static inline TWindowMenu *create_quest_confirmation_menu(const NJS_POINT2 *position, u16 client, const char *yes_text, const char *no_text) {
-    return (TWindowMenu *)create_yes_no_window((saddr)position, client, (uaddr)yes_text, (uaddr)no_text);
+    return create_yes_no_window(position, client, yes_text, no_text);
 }
 
 struct Pair_80288DA4 { s32 a; s32 b; };

@@ -1,12 +1,13 @@
 #ifndef PSO_UI_FRONTEND_TADSINGLEPLYCHRSELECTGC_H
 #define PSO_UI_FRONTEND_TADSINGLEPLYCHRSELECTGC_H
 
+#include <stddef.h>
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
 struct CreationTextureCacheEntry;
 class TAdGuideTxtGC;
-class TUnk_804E3008;
+class TAdChrSelPlayerGC;
 class TPlyCharData;
 
 struct TCheckMemoryCard;
@@ -21,7 +22,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     uaddr m_24;
     uaddr m_28;
     uaddr m_2c;
-    TUnk_804E3008 *m_30;
+    TAdChrSelPlayerGC *m_30;
     TAdGuideTxtGC *m_34;
     void init_item_entry();
     static void try_load_system_file();
@@ -122,7 +123,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static int get_flag_count();
     static int get_selected_count();
     static int get_data();
-    s32 start_offline_seq();
     static s32 has_no_save_files(s32 chan);
     static void permute_save_blocks(void* stream, const u8* source, u8* destination, u32 size);
     u8 unk_38[0x4];
@@ -182,6 +182,10 @@ struct TAdSinglePlyChrSelectGC : public TObject {
 };
 
 LAYOUT_ASSERT(TAdSinglePlyChrSelectGC_size, sizeof(TAdSinglePlyChrSelectGC) == 0x60);
+LAYOUT_ASSERT(TAdSinglePlyChrSelectGC_m_28_offset, offsetof(TAdSinglePlyChrSelectGC, m_28) == 0x28);
+LAYOUT_ASSERT(TAdSinglePlyChrSelectGC_m_2c_offset, offsetof(TAdSinglePlyChrSelectGC, m_2c) == 0x2C);
+LAYOUT_ASSERT(TAdSinglePlyChrSelectGC_m_30_offset, offsetof(TAdSinglePlyChrSelectGC, m_30) == 0x30);
+LAYOUT_ASSERT(TAdSinglePlyChrSelectGC_m_34_offset, offsetof(TAdSinglePlyChrSelectGC, m_34) == 0x34);
 
 // Memory-card save state of the character select scene (.sbss of TAdSinglePlyChrSelectGC_801FBF54.cpp,
 // in definition order). The buffers hold heap addresses as words: every test of them against 0 is a cmplwi.

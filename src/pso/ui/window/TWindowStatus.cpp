@@ -41,8 +41,6 @@ void update_hp_tp_values__20TWindowSubStatusDispFPv(u8 *arg0);
 
 
 
-void *TWindowStatus__ct(void *arg0, saddr layout_pos, void *arg2, const WindowDescriptor *desc);
-void TWindowSimpleStatus__ct(void *, s32, void *, const WindowDescriptor *);
 saddr get_window_layout_position(s32);
 
 }
@@ -75,8 +73,8 @@ StatusWindowLayout lbl_804D0D98 = {
     {6, {27.0f, 16.0f}, {34.0f, 29.0f}, 112.0f, 84.0f, 0.5f, -1, &hud_texlist, 0, 4},
     {3, {124.0f, 67.0f}, 0.5f, 0xFFFFFFFF, 4, NULL},
     {4, {82.0f, 59.0f}, 0.5f, 0xFFFFFFFF, 4, 1},
-    {2, {90.0f, 24.0f}, 0.5f, 0xFF00FF15, 0x20, 120.0f, 0, 0, 0xFF00CA9E, 0xFFFF2924},
-    {2, {90.0f, 48.0f}, 0.5f, 0xFF008CFC, 0x20, 120.0f, 0, 0, 0xFF008DEE, 0xFFFF2924},
+    {{2, {90.0f, 24.0f}, 0.5f, 0xFF00FF15, 0x20, 120.0f, 0, 0}, 0xFF00CA9E, 0xFFFF2924},
+    {{2, {90.0f, 48.0f}, 0.5f, 0xFF008CFC, 0x20, 120.0f, 0, 0}, 0xFF008DEE, 0xFFFF2924},
     {3, {30.0f, 59.0f}, 0.5f, 0xFFFFFFFF, 4, "Lv"},
     {3, {90.0f, 9.0f}, 0.5f, 0xFFFFFFFF, 4, "HP"},
     {4, {210.0f, 9.0f}, 0.5f, 0xFFFFFFFF, 4, 0},
@@ -207,7 +205,6 @@ void TWindowStatus::run_task() {
     ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((void *)(arg0 + 0x24)));
 }
 
-extern s32 __vt__13TWindowStatus[];
 
 TWindowStatus::~TWindowStatus() {
 
@@ -215,25 +212,15 @@ TWindowStatus::~TWindowStatus() {
 
 
 
-void *TWindowStatus__ct(void *window_status, saddr layout_pos, void *client, const WindowDescriptor *desc) {
-    TWindowSimpleStatus__ct(window_status, layout_pos, client, desc);
-    *(s32 **)((s8 *)window_status + 0x18) = __vt__13TWindowStatus;
-    ((TWindowStatus *)window_status)->m_name = TWindowStatus__name;
-    return window_status;
+TWindowStatus::TWindowStatus(void *position, s32 client, u8 *descriptor)
+    : TWindowSimpleStatus(position, client, descriptor) {
+    m_name = TWindowStatus__name;
 }
 
-saddr create_status_window(saddr client) {
-    saddr window_layout_position;
-    saddr window_status;
-    saddr var_r0;
-    window_layout_position = get_window_layout_position(0x1C);
+TWindowSimpleStatus *create_status_window(saddr client) {
+    void *position = (void *)get_window_layout_position(0x1C);
     if (is_split_screen() != 0) {
-        return (saddr)((TWindowSimpleStatus *)window_layout_position)->create((void *)client);
+        return TWindowSimpleStatus::create(position, (s32)client);
     }
-    window_status = (saddr)TObject::operator new(0x78);
-    var_r0 = window_status;
-    if (var_r0 != 0) {
-        var_r0 = (saddr)TWindowStatus__ct((void *)window_status, window_layout_position, (void *)client, &status_window_settings);
-    }
-    return var_r0;
+    return new TWindowStatus(position, (s32)client, (u8 *)&status_window_settings);
 }

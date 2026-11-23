@@ -2,7 +2,7 @@
 #include <string.h>
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/unk/TLobby.h"
-#include "pso/unk/TUnk_804CF930.h"
+#include "pso/unk/TWindowStatusGauge.h"
 #include "pso/unk/TUnk_804CF998.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80256B94.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80257BC0.h"
@@ -614,22 +614,10 @@ void TWindowSubStatusDisp::set_item_info(void* a1, int a2, void* a3) {
 #undef select_item_icon__20TWindowSubStatusDispFPviUcUci
 #undef replace_owned_string__20TWindowSubStatusDispFPviiii
 
-typedef struct Row_8025930C {
-    u8 pad0[0x10];
-    f32 width;
-    u8 pad14[8];
-    u8 kind1c;
-    u8 kind1d;
-    u8 pad1e[2];
-    char *label;
-    char *suffix;
-} Row_8025930C;
-
 struct Quad_8025941C { f32 v[8]; };
 
 extern "C" {
 u32 calc_text_width(char *s);
-void draw_item_list_icon(saddr, u8 *, s32, s32, f32);
 }
 s32 draw_window_text(f32 *pos, const char *s, s32 color, s32 mode, f32 width);
 extern const f32 lbl_805DCF14;
@@ -640,7 +628,7 @@ extern const f32 lbl_805DCF2C;
 extern const f32 lbl_805DCF10;
 extern const f32 lbl_805DCF18;
 extern "C" {
-void calc_row_width__20TWindowSubStatusDispFv(Row_8025930C *arg0);
+void calc_row_width__20TWindowSubStatusDispFv(ItemListRow *arg0);
 
 void TWindowSubStatusDisp::set_ground_item(void *it, s32 arg2) {
     s32 item_data;
@@ -691,12 +679,12 @@ saddr replace_owned_string__20TWindowSubStatusDispFPviiii(void *window_sub_statu
     return buf;
 }
 
-void calc_row_width__20TWindowSubStatusDispFv(Row_8025930C *arg0) {
+void calc_row_width__20TWindowSubStatusDispFv(ItemListRow *arg0) {
     arg0->width = lbl_805DCF08;
-    if (((TWindowSubStatusDisp *)arg0)->is_flag_4_set() != 0) {
-        if (arg0->kind1c != 0x33) {
+    if (arg0->is_flag_4_set() != 0) {
+        if (arg0->status_icon != 0x33) {
             arg0->width += lbl_805DCF10;
-        } else if (arg0->kind1d != 0x33) {
+        } else if (arg0->category_icon != 0x33) {
             arg0->width += lbl_805DCF14;
         }
         if (arg0->label != 0) {
@@ -714,7 +702,7 @@ void*TWindowSubStatusDisp::get_entry_ptr(int a0) {  return (char*)status_disp_it
 extern s32 hud_texlist;
 extern const f32 lbl_805DCF1C;
 
-void draw_item_list_icon(saddr win, u8 *pos, s32 icon, s32 style, f32 depth) {
+void draw_item_list_icon(WindowDrawContext *win, ItemListPosition *pos, s32 icon, s32 style, f32 depth) {
     Quad_8025941C q;
     ItemListPosition *p;
     f32 *entry;
@@ -723,7 +711,7 @@ void draw_item_list_icon(saddr win, u8 *pos, s32 icon, s32 style, f32 depth) {
     f32 edge;
 
     if ((u8)icon != 0x33) {
-        p = (ItemListPosition *)pos;
+        p = pos;
         begin_screen_draw(1);
         TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
         set_draw_texture_and_color(1, style);
@@ -740,7 +728,7 @@ void draw_item_list_icon(saddr win, u8 *pos, s32 icon, s32 style, f32 depth) {
         q.v[6] = edge * scale;
         edge = offset + entry[1];
         q.v[7] = edge * scale;
-        if (((WindowDrawContext *)win)->clip_and_transform_quad((TexturedQuad *)&q) != 0) {
+        if (win->clip_and_transform_quad((TexturedQuad *)&q) != 0) {
             draw_textured_quad_at_depth(q.v, depth);
         }
         TWindowSubStatusDisp::get_player();
@@ -749,29 +737,28 @@ void draw_item_list_icon(saddr win, u8 *pos, s32 icon, s32 style, f32 depth) {
 }
 
 typedef struct ItemListPosition ItemListPosition;
-typedef struct ItemListWindowView ItemListWindowView;
 #pragma fp_contract on
 void ItemListRow::render(WindowDrawContext *context) {
-  ItemListWindowView *win = (ItemListWindowView *)context;
+  WindowDrawContext *win = context;
   ItemListPosition pos;
   f32 y;
   f32 depth;
   s32 style;
-  if (((TWindowSubStatusDisp *)this)->is_flag_4_set() != 0)
+  if (is_flag_4_set() != 0)
   {
-    y = win->y + this->y;
-    if (((!((this->height + y) < win->clip_top)) && (!((win->y + this->y) > win->clip_bottom))) && (win->visible >= 0))
+    y = win->inner_y + this->y;
+    if (((!((this->height + y) < win->clip_y0)) && (!((win->inner_y + this->y) > win->clip_y1))) && (win->open_tick >= 0))
     {
-      pos.x = win->x + this->x;
-      pos.y = win->y + this->y;
+      pos.x = win->inner_x + this->x;
+      pos.y = win->inner_y + this->y;
       depth = lbl_805DCF20 / (lbl_805DCF24 + win->depth);
       if (this->flags & 0x200)
       {
-        draw_item_list_icon((saddr) win, (u8 *)&pos, this->status_icon, -1, depth);
+        draw_item_list_icon(win, &pos, this->status_icon, -1, depth);
         pos.x += lbl_805DCF14;
-        draw_item_list_icon((saddr) win, (u8 *)&pos, this->category_icon, -1, depth);
+        draw_item_list_icon(win, &pos, this->category_icon, -1, depth);
         pos.x += lbl_805DCF14;
-        draw_item_list_icon((saddr) win, (u8 *)&pos, (u8) this->status_style, -1, depth);
+        draw_item_list_icon(win, &pos, (u8) this->status_style, -1, depth);
         pos.x += lbl_805DCF14;
       }
       else
@@ -780,28 +767,28 @@ void ItemListRow::render(WindowDrawContext *context) {
         if (this->flags & 0x100)
         {
           pos.x += lbl_805DCF14;
-          draw_item_list_icon((saddr) win, (u8 *)&pos, this->status_icon, this->status_style, depth);
+          draw_item_list_icon(win, &pos, this->status_icon, this->status_style, depth);
         }
         else
         {
-          draw_item_list_icon((saddr) win, (u8 *)&pos, this->status_icon, this->status_style, depth);
+          draw_item_list_icon(win, &pos, this->status_icon, this->status_style, depth);
           pos.x += lbl_805DCF14;
         }
         set_default_alpha_blend();
-        draw_item_list_icon((saddr) win, (u8 *)&pos, this->category_icon, this->category_style, depth);
+        draw_item_list_icon(win, &pos, this->category_icon, this->category_style, depth);
         pos.x += lbl_805DCF14;
       }
       if (this->flags & 0x1000)
       {
-        set_text_draw_params(reinterpret_cast<WindowDrawContext *>(win), 1, 0, (f32)depth, (f32)win->text_clip);
+        set_text_draw_params(win, 1, 0, (f32)depth, (f32)win->clip_x1);
       }
       else
       {
-        set_text_draw_params(reinterpret_cast<WindowDrawContext *>(win), 1, 1, (f32)depth, (f32)lbl_805DCF28);
+        set_text_draw_params(win, 1, 1, (f32)depth, (f32)lbl_805DCF28);
       }
       if (this->flags & 0x400)
       {
-        pos.x = (lbl_805DCF2C * win->width) + win->x;
+        pos.x = (lbl_805DCF2C * win->inner_w) + win->inner_x;
         pos.x = -((lbl_805DCF2C * ((f32) calc_text_width(this->label))) - pos.x);
       }
       if (this->flags & 0x800)
@@ -821,13 +808,13 @@ void ItemListRow::render(WindowDrawContext *context) {
         draw_window_text((f32 *)&pos, this->label, style, 1, (f32)lbl_805DCF28);
       }
       f32 width = (f32) calc_text_width(this->suffix);
-      pos.x = (win->x + win->width) - width;
+      pos.x = (win->inner_x + win->inner_w) - width;
       draw_window_text((f32 *)&pos, this->suffix, this->suffix_style, 1, (f32)lbl_805DCF28);
     }
   }
 }
 void ItemListRow::update() {
-    if (((TWindowSubStatusDisp *)this)->is_flag_4_set()) return;
+    if (is_flag_4_set()) return;
 }
 
 

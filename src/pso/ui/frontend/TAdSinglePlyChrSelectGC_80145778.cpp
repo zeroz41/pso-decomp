@@ -1,3 +1,4 @@
+#include "pso/render/GinjaTextureInput.h"
 #pragma readonly_strings on
 
 #include "pso/system/ResourceFile.h"
@@ -66,11 +67,10 @@ typedef struct Font_80145804 {
 } Font_80145804;
 
 extern "C" {
-void set_texture_name(void *, void *, u32, u32);
 void load_texture_list(void *);
 __declspec(section ".data") u32 *menu_font_glyph_pixel_buffers[2];
-Rect_80145804 menu_font_render_rects[2];
-Tex_80145804 lbl_8050C090[2];
+GinjaTextureInput menu_font_render_rects[2];
+GinjaTextureEntry lbl_8050C090[2];
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
@@ -97,7 +97,7 @@ void load_menu_font(void) {
     menu_font_glyph_data = (saddr)load_disc_file("S18all04.fon");
     TLobby::release_menu_font();
     for (i = 0; i < 2; i++) {
-        ((TObjPlayer *)(menu_font_render_rects + i))->set_render_rect(0, 0x208, 0x100, 0x100);
+        menu_font_render_rects[i].set_render_rect(NULL, 0x208, 0x100, 0x100);
         set_texture_name(lbl_8050C090 + i, menu_font_render_rects + i, i + 0xDCF28, 0x08800000);
     }
     load_texture_list(menu_font_texture_list);

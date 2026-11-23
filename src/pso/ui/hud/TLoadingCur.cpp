@@ -1,3 +1,4 @@
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/render/render_util.h"
@@ -20,11 +21,6 @@ struct Stack_8001CAD4 {
     s32 sp10;
 };
 
-struct RecoveredGlobal_8001CAD4_lbl_804349FC {
-    s32 value;
-    u8 remaining[0x8];
-};
-
 struct RecoveredGlobal_8001CAD4_lbl_8058D490 {
     s32 value;
     u8 remaining[0x2C];
@@ -41,10 +37,10 @@ s32 rotate_matrix_x(int, int);
 #pragma readonly_strings on
 const char *TLoadingCur__class_name = "TLoadingCur";
 #pragma pop
-extern const RecoveredGlobal_8001CAD4_lbl_804349FC lbl_804349FC = {0};
+extern const Stack_8001CAD4 lbl_804349FC = {0, 0, 0};
 extern RecoveredGlobal_8001CAD4_lbl_8058D490 identity_matrix;
 
-LAYOUT_ASSERT(RecoveredGlobal_8001CAD4_lbl_804349FC_size, sizeof(RecoveredGlobal_8001CAD4_lbl_804349FC) == 0xC);
+LAYOUT_ASSERT(LoadingCursorRotationSize, sizeof(Stack_8001CAD4) == 0xC);
 LAYOUT_ASSERT(RecoveredGlobal_8001CAD4_lbl_8058D490_size, sizeof(RecoveredGlobal_8001CAD4_lbl_8058D490) == 0x30);
 void TLoadingCur::update_camera_facing_offset() {
     u8 *arg0 = (u8 *)this;
@@ -54,9 +50,9 @@ void TLoadingCur::update_camera_facing_offset() {
     Stack_8001CAD4 stack;
     if ((u32) *(u32 *)((s8 *)arg0 + 0x1C) != 0U) {
         VecCopy((Vec *)(arg0 + 0x2C), (const Vec *)(arg0 + 0x20));
-        stack.sp8 = *(s32 *)((s8 *)&lbl_804349FC.value + 0);
-        stack.spC = *(s32 *)((s8 *)&lbl_804349FC.value + 4);
-        stack.sp10 = *(s32 *)((s8 *)&lbl_804349FC.value + 8);
+        stack.sp8 = lbl_804349FC.sp8;
+        stack.spC = lbl_804349FC.spC;
+        stack.sp10 = lbl_804349FC.sp10;
         *(f32 *)((s8 *)arg0 + 0x50) = (f32) -ninja_camera.vx;
         this->m_54 = (f32) -ninja_camera.vy;
         *(f32 *)&this->unk_58 = (f32) -ninja_camera.vz;
@@ -109,7 +105,6 @@ extern "C" {
 s32 __ct__7TObjectFP7TObject(void *, void *);
 
 
-s32 play_persistent_sound(int, void *, void *, int, int);
 
 s32 project_world_to_screen(int, void *, void *);
 
@@ -217,9 +212,9 @@ void TLoadingCur::run_task() {
     update_camera_facing_offset();
     if (0.0f != x || 0.0f != y) {
         if (is_split_screen() != 0) {
-            play_persistent_sound(0x53C10, this, (u8 *)this + 0x2C, 0, 1);
+            play_persistent_sound(0x53C10, reinterpret_cast<saddr>(this), reinterpret_cast<uaddr>((u8 *)this + 0x2C), 0, 1);
         } else {
-            play_persistent_sound(0x53C10, this, (u8 *)this + 0x2C, 0, 0);
+            play_persistent_sound(0x53C10, reinterpret_cast<saddr>(this), reinterpret_cast<uaddr>((u8 *)this + 0x2C), 0, 0);
         }
     }
 }

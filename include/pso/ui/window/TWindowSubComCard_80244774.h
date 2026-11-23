@@ -5,6 +5,7 @@
 
 struct TWindowSubComCard;
 struct WindowDrawContext;
+class TWindowFukidasi;
 extern "C" {
 int TWindowSubComCard__sub_80244774(void);
 f32 TWindowSubComCard__sub_80244784(TWindowSubComCard *window_sub_com_card);

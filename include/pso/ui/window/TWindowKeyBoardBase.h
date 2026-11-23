@@ -10,28 +10,29 @@ struct TWindowKeyBoardBase : public TWindowBase {
     TWindowKeyBoardBase();
     virtual ~TWindowKeyBoardBase();
     void init_keyboard_text_field(u32, u32);
-    void sub_8025E6DC(u8 *);
-    void draw_wrapped_text(void *, void *);
-    void draw_text_glyphs(void *, void *);
+    void draw_input_text(WindowDrawContext *context);
+    void draw_wrapped_text(WindowDrawContext *context, NJS_POINT2 *cursor);
+    void draw_text_glyphs(WindowDrawContext *context, NJS_POINT2 *cursor);
     int sub_8025EB68();
     s32 sub_8025CB10();
     void clear_flag60_bit1();
     void set_flag62_bit4();
     u8 get_input_mode();
+    void set_input_mode(s32 mode);
     u16 m_60;
     u16 m_62;
     u8 m_input_mode;
     s8 m_65;
     u8 _pad66[0x2];
-    u32 m_68;
+    KeyboardTextBuffer *m_68;
     KeyboardTextBuffer m_text;
     KeyboardTextBuffer m_text2;
-    u32 m_9c;
-    u32 m_a0;
-    u32 m_a4;
-    u32 m_a8;
-    u32 m_ac;
-    u32 m_b0;
+    u8 *candidate_buffer;
+    u8 *current_candidate;
+    u8 *last_candidate;
+    s32 candidate_index;
+    s32 candidate_count;
+    s32 candidate_bytes_remaining;
     u32 m_b4;
     virtual void render();
     virtual void run_task();
@@ -101,8 +102,8 @@ struct TWindowKeyBoardBase : public TWindowBase {
     void sub_8025D7FC();
     void sub_8025D8C8();
     void sub_8025DBDC(s32 arg1);
-    void sub_8025E148(WindowDrawContext *box, f32 *cursor, u16 *text, u32 count);
-    void sub_8025E530(WindowDrawContext *box, f32 *cursor, u16 *text, u32 count, s32 scaled);
+    void draw_composition_background(WindowDrawContext *box, NJS_POINT2 *cursor, u16 *text, u32 count);
+    void layout_wrapped_glyphs(WindowDrawContext *box, NJS_POINT2 *cursor, u16 *text, u32 count, s32 scaled);
     void sub_8025C51C(s32 arg1);
     void sub_8025CC48();
     void update_close_mode();
@@ -114,6 +115,8 @@ struct TWindowKeyBoardBase : public TWindowBase {
 };
 
 LAYOUT_ASSERT(TWindowKeyBoardBase_size, sizeof(TWindowKeyBoardBase) == 0xB8);
+LAYOUT_ASSERT(TWindowKeyBoardBase_active_text_offset, offsetof(TWindowKeyBoardBase, m_68) == 0x68);
+LAYOUT_ASSERT(TWindowKeyBoardBase_candidate_offset, offsetof(TWindowKeyBoardBase, candidate_buffer) == 0x9C);
 LAYOUT_ASSERT(TWindowKeyBoardBase_input_mode_offset, offsetof(TWindowKeyBoardBase, m_input_mode) == 0x64);
 
 #endif

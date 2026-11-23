@@ -86,8 +86,8 @@ LockOnEnemyLayout lbl_804D00F4 = {
     {6, {26.0f, 44.0f}, {32.0f, 28.0f}, 0.0f, 0.0f, 0.2f, -1, &hud_texlist, 1, 6},
     {6, {42.0f, 44.0f}, {32.0f, 28.0f}, 0.0f, 0.0f, 0.3f, -1, &hud_texlist, 1, 6},
     {6, {58.0f, 44.0f}, {32.0f, 28.0f}, 0.0f, 0.0f, 0.4f, -1, &hud_texlist, 1, 6},
-    {2, {10.0f, 50.0f}, 0.5f, 0xFF00FF15, 0x2A, 100.0f, 0, 0, 0xFF00CA9E, 0xFFFF2924},
-    {2, {10.0f, 62.0f}, 0.5f, 0xFF008CFC, 0x2A, 100.0f, 0, 0, 0xFF008DEE, 0xFFFF2924},
+    {{2, {10.0f, 50.0f}, 0.5f, 0xFF00FF15, 0x2A, 100.0f, 0, 0}, 0xFF00CA9E, 0xFFFF2924},
+    {{2, {10.0f, 62.0f}, 0.5f, 0xFF008CFC, 0x2A, 100.0f, 0, 0}, 0xFF008DEE, 0xFFFF2924},
 };
 
 WindowDescriptor lbl_804D0268 = {
@@ -199,8 +199,8 @@ void TWindowLockOn::render() {
     }
 }
 
-void *TWindowLockOn::create_for_target(s32 player, u16 id) {
-    void *p;
+TWindowLockOn *TWindowLockOn::create_for_target(s32 player, u16 id) {
+    TWindowLockOn *p;
     if (id == 0xFFFF) {
         return NULL;
     }

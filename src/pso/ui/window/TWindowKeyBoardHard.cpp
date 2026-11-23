@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/keyboard/KeyboardCharacterMaps.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/keyboard/KeyboardKeyState.h"
@@ -50,8 +51,6 @@ struct Ctl_8025F4A0 {
 };
 
 extern "C" {
-
-s32 set_input_mode__20TWindowSubStatusDispFUc(s32, s32);
 
 void TWindowKeyBoardHard::sub_8025EC04() {
     m_68 = 0;
@@ -475,7 +474,7 @@ block_7:
         if ((sub_80260438() != 0) && ((s32) sp8 >= 0x61) && ((s32) sp8 <= 0x7A)) {
             sp8 -= 0x20;
         }
-        set_input_mode__20TWindowSubStatusDispFUc((saddr)m_control, temp_r31);
+        m_control->set_input_mode(temp_r31);
         m_control->insert_character(sp8);
     }
 }
@@ -607,26 +606,24 @@ void TWindowKeyBoardHard::set_mode0() {
 #pragma auto_inline off
 #pragma dont_inline off
 
-struct Ctx_80260020 { u8 pad0[0x10]; NJS_POINT2 pos; u8 pad18[0x38 - 0x18]; f32 scale; };
-
-struct State_80260020 { u8 pad0[0xB4]; s32 flags; };
-
-struct Win_80260020 { u8 pad0[0x70]; State_80260020 *state; };
-
 extern "C" {
 
-void TWindowKeyBoardHard::release_keyboard() { void* m = m_control; if (m) ((TWindowKeyBoardBase *)m)->sub_8025CC48(); }
+void TWindowKeyBoardHard::release_keyboard() {
+    if (m_control != NULL) {
+        m_control->sub_8025CC48();
+    }
+}
 
 #pragma pool_data off
-void TWindowKeyBoardHard::draw_status_text(void *ctx) {
+void TWindowKeyBoardHard::draw_status_text(WindowDrawContext *ctx) {
     s32 flags;
-    if (((Win_80260020 *)this)->state != NULL && current_language == LANGUAGE_JAPANESE) {
-        f32 inv = -1.0f / ((Ctx_80260020 *)ctx)->scale;
+    if (m_control != NULL && current_language == LANGUAGE_JAPANESE) {
+        f32 inv = -1.0f / ctx->depth;
         NJS_POINT2 pt;
-        pt.x = ((Ctx_80260020 *)ctx)->pos.x;
-        pt.y = ((Ctx_80260020 *)ctx)->pos.y;
-        set_text_draw_params(reinterpret_cast<WindowDrawContext *>(ctx), 0, 0, (f32)inv, 100000.0f);
-        flags = ((Win_80260020 *)this)->state->flags;
+        pt.x = ctx->inner_x;
+        pt.y = ctx->inner_y;
+        set_text_draw_params(ctx, 0, 0, (f32)inv, 100000.0f);
+        flags = m_control->m_b4;
         if (!(flags & 1)) {
             draw_window_text((f32 *)&pt, "\x94\xBC\x89\x70\x90\x94", -1, 0, 1000000.0f); // 半英数
         } else if (flags & 2) {
@@ -647,10 +644,9 @@ void TWindowKeyBoardHard::draw_status_text(void *ctx) {
 #pragma pool_data reset
 
 void TWindowKeyBoardHard::render() {
-    saddr temp;
-    if (((s32) this->m_68 > 0) && (is_key_active() == 0)) {
-        temp = reinterpret_cast<saddr>(draw_default_entry());
-        draw_status_text((Ctx_80260020 *)(temp));
+    if ((m_68 > 0) && (is_key_active() == 0)) {
+        WindowDrawContext *context = draw_default_entry();
+        draw_status_text(context);
     }
 }
 
@@ -667,7 +663,6 @@ extern "C" {
 
 void TWindowKeyBoardHard::run_task() {
     s32 temp_r3_2;
-    void *temp_r3;
 
     if (m_control != NULL) {
         if ((is_key_active() == 0) && (m_control->is_confirmed() == 0)) {
@@ -676,8 +671,7 @@ void TWindowKeyBoardHard::run_task() {
                     this->m_68 = 0x3C;
                 }
                 this->m_60 = (s32) (this->m_60 & 0xFFFFFEFF);
-                temp_r3 = m_control;
-                *(s32 *)((s8 *)temp_r3 + 0xB4) = (s32) (*(s32 *)((s8 *)temp_r3 + 0xB4) & 0xFFFFFFBF);
+                m_control->m_b4 &= ~0x40;
                 if (!(this->m_60 & 0x40)) {
                     m_control->sub_8025CC48();
                 }

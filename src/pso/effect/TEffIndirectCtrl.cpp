@@ -15,6 +15,7 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/render/GinjaTexture.h"
+#include "pso/render/GinjaTextureInput.h"
 #include "pso/system/memory.h"
 #include <dolphin/os/OSCache.h>
 #include "pso/player/TObjPlayer_803E1A58.h"
@@ -23,7 +24,6 @@
 typedef void (TEffIndirectCtrl::*IndirectTask)();
 
 extern "C" {
-void set_texture_name(void *, void *, void *, s32);
 void load_texture_list(void *);
 }
 
@@ -339,7 +339,7 @@ TEffIndirectCtrl::TEffIndirectCtrl(s32 kind, TObject *parent) : TObject(parent) 
     saddr global_index;
     u8 k;
     m_name = class_name;
-    texture_info = ::operator new(0x24);
+    texture_info = (GinjaTextureInput *)::operator new(sizeof(GinjaTextureInput));
     texture_list = (GinjaTextureList *)::operator new(sizeof(GinjaTextureList));
     if (texture_list == NULL || texture_info == NULL) {
         queue_destruction();
@@ -363,8 +363,8 @@ TEffIndirectCtrl::TEffIndirectCtrl(s32 kind, TObject *parent) : TObject(parent) 
     global_index += k * 1000;
     texture_list->entries = &texture_entry;
     texture_list->count = 1;
-    ((TObjPlayer *)texture_info)->set_render_rect(0, 1, 0x40, 0x40);
-    set_texture_name(&texture_entry, texture_info, (void *)global_index, 0x8800000);
+    texture_info->set_render_rect(NULL, 1, 0x40, 0x40);
+    set_texture_name(&texture_entry, texture_info, global_index, 0x8800000);
     load_texture_list(texture_list);
     pixels = (u8 *)texture_list->entries->texture->surface->pixels;
     copy_and_flush_texture(get_indirect_source_pixels(source_index));

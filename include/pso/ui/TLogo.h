@@ -16,7 +16,7 @@ public:
     virtual void run_task();
 public:
     static void free_held_object();
-    static void request_exit();
+    static void request_exit(TObject *fade);
     static s32 check_progressive_ready();
     static void run_frame();
     static void init_logo_scene();
@@ -32,6 +32,7 @@ public:
 LAYOUT_ASSERT(TLogoExtent, sizeof(TLogo) == 0x38);
 
 extern "C" {
+extern int TLogo__exit_requested_flag;
 void TLogo__sub_8013F5AC(void);
 int TLogo__sub_8013F7E8(int _w0);
 s32 TLogo__sub_8013F800(void *p);

@@ -82,7 +82,7 @@
 
 extern "C" {
 u8 *TAdSinglePlyChrSelectGC__ct(u8 *arg0, void *parent);
-void *construct_title_scene__13TUnk_804EEF64Fv(void *, TObject *);
+void *construct_title_scene__11TTitleSceneFv(void *, TObject *);
 void *__ct__12TLevelSelectFv(void *);
 void run_load_callback_table(void *, s32);
 }
@@ -342,7 +342,7 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
     case 0:
         p = TObject::operator new(0x4C);
         if (p != NULL) {
-            p = construct_title_scene__13TUnk_804EEF64Fv(p, tl_01);
+            p = construct_title_scene__11TTitleSceneFv(p, tl_01);
         }
         game_mode_scene_instance = (TObject *)p;
         break;

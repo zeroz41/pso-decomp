@@ -209,8 +209,8 @@ struct Stack_8034ED58 {
 
 int lbl_805D6EA0;
 extern "C" {
-s32 set_arrival_override_coords(s32, s32, f32, f32, f32);
-s32 get_entity_id(s32);
+void set_arrival_override_coords(u16, s32, f32, f32, f32);
+u16 get_entity_id(s32);
 void send_6x21_inter_level_warp(void *obj, s32 value);
 void send_6x24_teleport_player(u16 slot, void *pos, s32 heading);
 f32 atan2_float(f32, f32);

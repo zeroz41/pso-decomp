@@ -1,3 +1,4 @@
+#include "pso/render/GinjaTextureInput.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/unk/TLobby.h"
@@ -113,10 +114,8 @@ TObjEneRe2Flower_EffCurse3::TObjEneRe2Flower_EffCurse3(TObject *parent, TObjBase
 extern "C" {
 
 struct Node_800C4D88 { void *p; s32 v; };
-struct A_800C4D88 { u8 x[0x24]; };
-struct B_800C4D88 { u8 x[0xC]; };
-A_800C4D88 player_render_target;
-B_800C4D88 player_render_texture_name;
+GinjaTextureInput player_render_target;
+GinjaTextureEntry player_render_texture_name;
 __declspec(section ".data") Node_800C4D88 lbl_80500C30;
 
 void TObjPlayer__sub_800C4D44(void) {
@@ -130,9 +129,8 @@ void TObjPlayer__sub_800C4D44(void) {
     }
 }
 
-void set_texture_name(void *, void *, s32, s32);
 void TObjPlayer::create_render_texture() {
-    ((TObjPlayer *)(&player_render_target))->set_render_rect((saddr)(player_render_texture_buffer = mem_alloc(0x800)), 0x902, 0x20, 0x20);
+    player_render_target.set_render_rect(player_render_texture_buffer = mem_alloc(0x800), 0x902, 0x20, 0x20);
     set_texture_name(&player_render_texture_name, &player_render_target, 0x18696, 0x40800000);
     lbl_80500C30.p = &player_render_texture_name;
     lbl_80500C30.v = 1;

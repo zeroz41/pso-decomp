@@ -11,7 +11,7 @@ struct TPlyGuildCardTag { u32 a; u32 b; TPlyGuildCardTag(u16, u32); };
 struct Tag_80076BC8 { u32 a; u32 b; };
 
 extern "C" {
-void *get_entity_id(void *);
+u16 get_entity_id(void *);
 void *get_player_by_client_id(s32);
 void send_chat__9TProtocolFR16TPlyGuildCardTagPc(void *, TPlyGuildCardTag *, u8 *);
 char *fn_80076BC4(s32 *text);
@@ -31,7 +31,7 @@ void submit_chat_text(u8 *lobby) {
             Tag_80076BC8 tmp = *(Tag_80076BC8 *)&made;
             send_chat__9TProtocolFR16TPlyGuildCardTagPc(TLobby__protocol_instance, (TPlyGuildCardTag *)&tmp, lobby);
         } else {
-            TWindowCtrl::open((saddr)(get_entity_id(player)), (saddr)lobby, 0xCB);
+            TWindowCtrl::open(get_entity_id(player), (saddr)lobby, 0xCB);
         }
     }
 }

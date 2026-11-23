@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
 #include "pso/ui/window/PageIndicator.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
@@ -216,7 +217,6 @@ void set_flag8_and_field20__15TWindowHelpItemFl(s32, s32);
 void set_flag4_and_field1c__15TWindowHelpItemFl(s32, s32);
 }
 extern Vec3_802541E0 item_help_resistance_stat_callback;
-void set_sprite_uv_from_pixels(u8 *arg0, f32 farg0, f32 farg1);
 extern const f32 TWindowHelpItem__data_805DCDE4;
 extern const f32 lbl_805DCE00;
 extern const f32 lbl_805DCE04;
@@ -862,7 +862,7 @@ void TWindowHelpItem__vt3(HelpItem_8025500C *self) {
         f = reinterpret_cast<saddr>(((TWindowBase *)self)->get_array_entry(11));
         item = (u8 *)lookup_item_pmt_record((u8 *)self->itemId);
         if (check_equip_requirements((void *)pl, (TItemData *)self->itemId, &flags) == 0 && (flags & 1)) {
-            set_sprite_uv_from_pixels((u8 *)a, TWindowHelpItem__data_805DCDE4, lbl_805DCE00);
+            set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(a), TWindowHelpItem__data_805DCDE4, lbl_805DCE00);
             ((TWindowHelpItem *)b)->set_flag0_bit2();
             ((TWindowHelpItem *)c)->set_flag0_bit2();
             ((TWindowHelpItem *)d)->set_flag0_bit2();
@@ -871,7 +871,7 @@ void TWindowHelpItem__vt3(HelpItem_8025500C *self) {
             return;
         }
         if (item[0x10] != 0) {
-            set_sprite_uv_from_pixels((u8 *)a, TWindowHelpItem__data_805DCDE4, lbl_805DCE04);
+            set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(a), TWindowHelpItem__data_805DCDE4, lbl_805DCE04);
             ((TWindowHelpItem *)b)->reset_float_field();
             ((TWindowHelpItem *)d)->reset_float_field();
             ((TWindowHelpItem *)f)->reset_float_field();
@@ -910,7 +910,7 @@ void TWindowHelpItem__vt0(HelpItem_802551C4 *self) {
         f = reinterpret_cast<saddr>(((TWindowBase *)self)->get_array_entry(11));
         item = (u8 *)lookup_item_pmt_record((u8 *)self->itemId);
         if (check_equip_requirements((void *)pl, (TItemData *)self->itemId, &flags) == 0 && (flags & 1)) {
-            set_sprite_uv_from_pixels((u8 *)a, TWindowHelpItem__data_805DCDE4, lbl_805DCE00);
+            set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(a), TWindowHelpItem__data_805DCDE4, lbl_805DCE00);
             ((TWindowHelpItem *)b)->set_flag0_bit2();
             ((TWindowHelpItem *)c)->set_flag0_bit2();
             ((TWindowHelpItem *)d)->set_flag0_bit2();
@@ -919,7 +919,7 @@ void TWindowHelpItem__vt0(HelpItem_802551C4 *self) {
             return;
         }
         if (*(u16 *)(item + 0xE) != 0) {
-            set_sprite_uv_from_pixels((u8 *)a, TWindowHelpItem__data_805DCDE4, lbl_805DCE08);
+            set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(a), TWindowHelpItem__data_805DCDE4, lbl_805DCE08);
             ((TWindowHelpItem *)b)->reset_float_field();
             ((TWindowHelpItem *)d)->reset_float_field();
             ((TWindowHelpItem *)f)->reset_float_field();
@@ -927,7 +927,7 @@ void TWindowHelpItem__vt0(HelpItem_802551C4 *self) {
             return;
         }
         if (*(u16 *)(item + 0x10) != 0) {
-            set_sprite_uv_from_pixels((u8 *)a, TWindowHelpItem__data_805DCDE4, lbl_805DCDEC);
+            set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(a), TWindowHelpItem__data_805DCDE4, lbl_805DCDEC);
             ((TWindowHelpItem *)b)->reset_float_field();
             ((TWindowHelpItem *)d)->reset_float_field();
             ((TWindowHelpItem *)f)->reset_float_field();
@@ -935,7 +935,7 @@ void TWindowHelpItem__vt0(HelpItem_802551C4 *self) {
             return;
         }
         if (*(u16 *)(item + 0x12) != 0) {
-            set_sprite_uv_from_pixels((u8 *)a, TWindowHelpItem__data_805DCDE4, lbl_805DCE0C);
+            set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(a), TWindowHelpItem__data_805DCDE4, lbl_805DCE0C);
             ((TWindowHelpItem *)b)->reset_float_field();
             ((TWindowHelpItem *)d)->reset_float_field();
             ((TWindowHelpItem *)f)->reset_float_field();

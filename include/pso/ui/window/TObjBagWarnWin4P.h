@@ -1,5 +1,6 @@
 #ifndef PSO_UI_WINDOW_TOBJBAGWARNWIN4P_H
 #define PSO_UI_WINDOW_TOBJBAGWARNWIN4P_H
+#include <stddef.h>
 #include "pso/system/task/TObject.h"
 #include "types.h"
 

@@ -3,6 +3,11 @@
 
 #include "pso/system/task/TObject.h"
 #include "types.h"
+#include <stddef.h>
+
+class TAdDrawLineCtrl;
+
+struct AdTitleQuad { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
 
 class TAdDrawLineCtrl;
 

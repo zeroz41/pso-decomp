@@ -1,8 +1,11 @@
+#include "pso/render/ColorLineList.h"
+#include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/render/Draw2D.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowComCard.h"
+#include "pso/ui/window/TWindowComCardFollower.h"
 #include "pso/ui/window/TWindowLockOn.h"
 #include "pso/ui/window/TWindowSimpleStatus.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -29,8 +32,6 @@
 struct Disp_8026F9F4 { u8 p0[0x20]; s16 id; u8 p1[0x42]; void *windows[5]; };
 
 struct Params_80270244 { f32 x; f32 y; u8 pad8[0x18]; f32 f20; f32 f24; f32 f28; f32 f2c; s32 f30; };
-
-struct Prim_8026FC5C { f32 *verts; u32 *colors; s32 flags; s32 count; };
 
 #pragma push
 #pragma readonly_strings on
@@ -67,8 +68,8 @@ SimpleStatusWindowLayout simple_status_window_layout_entries = {
     {6, {7.0f, 5.0f}, {34.0f, 29.0f}, 112.0f, 84.0f, 0.5f, -1, &hud_texlist, 0, 4},
     {3, {47.0f, 26.0f}, 0.5f, 0xFFFFFFFF, 4, NULL},
     {4, {47.0f, 39.0f}, 0.5f, 0xFFFFFFFF, 4, 1},
-    {2, {67.0f, 4.0f}, 0.5f, 0xFF00FF15, 0x28, 85.0f, 0, 0, 0xFF00CA9E, 0xFFFF2924},
-    {2, {67.0f, 16.0f}, 0.5f, 0xFF008CFC, 0x28, 85.0f, 0, 0, 0xFF008DEE, 0xFFFF2924},
+    {{2, {67.0f, 4.0f}, 0.5f, 0xFF00FF15, 0x28, 85.0f, 0, 0}, 0xFF00CA9E, 0xFFFF2924},
+    {{2, {67.0f, 16.0f}, 0.5f, 0xFF008CFC, 0x28, 85.0f, 0, 0}, 0xFF008DEE, 0xFFFF2924},
     {6, {2.0f, 39.0f}, {15.0f, 11.0f}, 230.0f, 104.0f, 0.5f, -1, &hud_texlist, 0xB, 4},
     {6, {47.0f, 3.0f}, {19.0f, 10.0f}, 230.0f, 80.0f, 0.5f, -1, &hud_texlist, 0xB, 4},
     {6, {47.0f, 15.0f}, {19.0f, 10.0f}, 230.0f, 92.0f, 0.5f, -1, &hud_texlist, 0xB, 4},
@@ -79,7 +80,7 @@ WindowDescriptor simple_status_window_layout = {
 
 extern "C" {
 int obj_getArrWord_254(void *p, int i);
-void TWindowComCard__sub_80249D7C(u8 *arg0, s32 arg1);
+void TWindowComCard__set_column(u8 *arg0, s32 arg1);
 void *TWindowComCard__sub_80249ED8(void *, void *, void *, s32, s32, s32);
 void draw_photon_blast_fan(saddr, NJS_POINT2 *, Params_80270244 *, u32, f32, s32, s32, f32);
 void draw_photon_blast_gauge_ring(s32 arg0, Params_80270244 *arg1, const NJS_POINT2 *arg2, f32 farg0, f32 farg1);
@@ -149,7 +150,6 @@ s32 start_text_color_transition(void *, s32, f32);
 }
 s32 get_status_effect_icon_index(u32 arg0);
 void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
-void set_sprite_uv_from_pixels(u8 *arg0, f32 farg0, f32 farg1);
 extern "C" {
 void update_lockon_window(u8 *arg0);
 s32 rand(void);
@@ -276,15 +276,12 @@ void TWindowSimpleStatus::update_status_icons(void *ofs) {
         name = (saddr)((TWindowComCard *)i)->get_card_name_ptr();
         w = ((Disp_8026F9F4 *)this)->windows[j];
         if (w == NULL) {
-            w = TObject::operator new(0x74);
-            if (w != NULL) {
-                w = TWindowComCard__sub_80249ED8(w, ((Disp_8026F9F4 *)this), ofs, 0, name, ((Disp_8026F9F4 *)this)->id);
-            }
+            w = new TWindowComCardFollower(this, (NJS_POINT2 *)ofs, 0, name, ((Disp_8026F9F4 *)this)->id);
             ((Disp_8026F9F4 *)this)->windows[j] = w;
             ((TWindowBase *)(((Disp_8026F9F4 *)this)->windows[j]))->set_depth(1.0f + ((TWindowBase *)((Disp_8026F9F4 *)this))->get_scale());
         } else {
-            TWindowComCard__sub_80249D7C((u8 *)w, 0);
-            ((TWindowComCard *)(((Disp_8026F9F4 *)this)->windows[j]))->set_selected_index(name);
+            ((TWindowComCardFollower *)w)->set_column(0);
+            ((TWindowComCardFollower *)(((Disp_8026F9F4 *)this)->windows[j]))->set_selected_index(name);
         }
         count = 1;
     } else if (((Disp_8026F9F4 *)this)->windows[j] != NULL) {
@@ -303,15 +300,12 @@ void TWindowSimpleStatus::update_status_icons(void *ofs) {
             name = get_status_effect_icon_index(word);
             w = ((Disp_8026F9F4 *)this)->windows[j];
             if (w == NULL) {
-                w = TObject::operator new(0x74);
-                if (w != NULL) {
-                    w = TWindowComCard__sub_80249ED8(w, ((Disp_8026F9F4 *)this), ofs, count, name, ((Disp_8026F9F4 *)this)->id);
-                }
+                w = new TWindowComCardFollower(this, (NJS_POINT2 *)ofs, count, name, ((Disp_8026F9F4 *)this)->id);
                 ((Disp_8026F9F4 *)this)->windows[j] = w;
                 ((TWindowBase *)(((Disp_8026F9F4 *)this)->windows[j]))->set_depth(2.0f + ((f32)k + ((TWindowBase *)((Disp_8026F9F4 *)this))->get_scale()));
             } else {
-                TWindowComCard__sub_80249D7C((u8 *)w, count);
-                ((TWindowComCard *)(((Disp_8026F9F4 *)this)->windows[j]))->set_selected_index(name);
+                ((TWindowComCardFollower *)w)->set_column(count);
+                ((TWindowComCardFollower *)(((Disp_8026F9F4 *)this)->windows[j]))->set_selected_index(name);
             }
             count++;
         }
@@ -321,8 +315,8 @@ void TWindowSimpleStatus::update_status_icons(void *ofs) {
 #pragma push
 #pragma fp_contract on
 void draw_photon_blast_fan(saddr arg0, NJS_POINT2 *arg1, Params_80270244 *arg2, u32 arg3, f32 arg6, s32 arg4, s32 arg5, f32 arg7) {
-    f32 verts[6];
-    Prim_8026FC5C prim;
+    ColorLineVertex verts[3];
+    ColorLineList prim;
     u32 colors[3];
     s32 end = arg5;
     s32 angle = arg4;
@@ -335,23 +329,23 @@ void draw_photon_blast_fan(saddr arg0, NJS_POINT2 *arg1, Params_80270244 *arg2, 
     amp_y = arg7 * arg2->f2c;
     prim.verts = verts;
     prim.colors = colors;
-    prim.flags = 0;
+    prim.tex = NULL;
     prim.count = 1;
     colors[2] = colors[1] = colors[0] = (arg3 << 8) | (arg3 >> 24);
-    verts[0] = arg2->f20 + arg2->f28 * (arg1->x - arg2->f20);
-    verts[1] = arg2->f24 + arg2->f2c * (arg1->y - arg2->f24);
-    verts[4] = amp_x * cos_table_lookup(angle) + verts[0];
-    verts[5] = amp_y * sin_table_lookup(angle) + verts[1];
+    verts[0].x = arg2->f20 + arg2->f28 * (arg1->x - arg2->f20);
+    verts[0].y = arg2->f24 + arg2->f2c * (arg1->y - arg2->f24);
+    verts[2].x = amp_x * cos_table_lookup(angle) + verts[0].x;
+    verts[2].y = amp_y * sin_table_lookup(angle) + verts[0].y;
     while (angle < end) {
-        verts[2] = verts[4];
-        verts[3] = verts[5];
+        verts[1].x = verts[2].x;
+        verts[1].y = verts[2].y;
         angle += 0x800;
         if (angle > end) {
             angle = end & 0xFFFFFFFFFFFFFFFFu;
         }
-        verts[4] = amp_x * cos_table_lookup(angle) + verts[0];
-        verts[5] = amp_y * sin_table_lookup(angle) + verts[1];
-        draw_polygon_2d((NJS_POINT2COL *)&prim, 3, 2, depth);
+        verts[2].x = amp_x * cos_table_lookup(angle) + verts[0].x;
+        verts[2].y = amp_y * sin_table_lookup(angle) + verts[0].y;
+        draw_polygon_2d(reinterpret_cast<NJS_POINT2COL *>(&prim), 3, 2, depth);
     }
 }
 #pragma pop
@@ -446,28 +440,28 @@ void update_photon_blast_player_marker(saddr help, s32 arg1) {
         }
         switch (type) {
         case 5:
-            set_sprite_uv_from_pixels((u8 *)help, 0.0f, 173.0f);
+            set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(help), 0.0f, 173.0f);
             break;
         case 4:
-            set_sprite_uv_from_pixels((u8 *)help, 34.0f, 173.0f);
+            set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(help), 34.0f, 173.0f);
             break;
         case 3:
-            set_sprite_uv_from_pixels((u8 *)help, 68.0f, 173.0f);
+            set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(help), 68.0f, 173.0f);
             break;
         case 1:
-            set_sprite_uv_from_pixels((u8 *)help, 102.0f, 173.0f);
+            set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(help), 102.0f, 173.0f);
             break;
         case 2:
-            set_sprite_uv_from_pixels((u8 *)help, 136.0f, 173.0f);
+            set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(help), 136.0f, 173.0f);
             break;
         case 0:
-            set_sprite_uv_from_pixels((u8 *)help, 170.0f, 173.0f);
+            set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(help), 170.0f, 173.0f);
             break;
         default:
             if (((TLobby *)lobby_rule_settings)->get_rule_field_a() == 1 && (p = (u8 *)get_player_by_client_id(key)) != 0) {
                 key = TLobby__sub_801C19D0(p + 0x828) - 1;
             }
-            set_sprite_uv_from_pixels((u8 *)help, 34.0f * key, 202.0f);
+            set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(help), 34.0f * key, 202.0f);
             break;
         }
     }
@@ -546,11 +540,8 @@ void TWindowSimpleStatus::draw_background(u8 *ctx) {
     }
 }
 
-struct SS_80270668 { const char *m_name; u8 pad4[0x14]; void *vt; s16 f1c; s16 f1e; s16 f20; u8 pad22[0x36]; f32 f58; u8 pad5c[4]; s32 f60; s32 w[5]; };
-
 extern "C" {
 extern u8 __vt__19TWindowSimpleStatus[];
-SS_80270668 *TWindowSimpleStatus__ct(SS_80270668 *arg0, void *arg1, s32 arg2, void *arg3);
 s32 update_hp_tp_level__20TWindowSubStatusDispFv();
 
 void TWindowSimpleStatus::render() {
@@ -586,27 +577,19 @@ TWindowSimpleStatus::~TWindowSimpleStatus() {
     }
 }
 
-SS_80270668 *TWindowSimpleStatus__ct(SS_80270668 *arg0, void *arg1, s32 client, void *arg3) {
-    s32 i;
-    __ct__11TWindowBaseFPUcsPUc(arg0, (u8 *)arg3, (s16)client, (u8 *)arg1);
-    arg0->vt = __vt__19TWindowSimpleStatus;
-    arg0->m_name = TWindowSimpleStatus__name;
-    arg0->f20 = client;
-    arg0->f60 = 0;
-    arg0->f58 = -1.0f;
-    for (i = 0; i < 5; i++) {
-        arg0->w[i] = 0;
+TWindowSimpleStatus::TWindowSimpleStatus(void *position, s32 client, u8 *descriptor)
+    : TWindowBase(descriptor, (s16)client, (u8 *)position) {
+    m_name = TWindowSimpleStatus__name;
+    client_index = (s16)client;
+    m_60 = 0;
+    m_58 = -1.0f;
+    for (s32 i = 0; i < 5; i++) {
+        w[i] = NULL;
     }
-    return arg0;
 }
 
-void *TWindowSimpleStatus::create(void *client) {
-    void *o;
-    o = TObject::operator new(0x78);
-    if (o != NULL) {
-        o = TWindowSimpleStatus__ct((SS_80270668 *)(o), (void *)this, (saddr)client, &simple_status_window_layout);
-    }
-    return o;
+TWindowSimpleStatus *TWindowSimpleStatus::create(void *position, s32 client) {
+    return new TWindowSimpleStatus(position, client, (u8 *)&simple_status_window_layout);
 }
 
 }

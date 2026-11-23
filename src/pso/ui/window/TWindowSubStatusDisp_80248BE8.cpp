@@ -31,20 +31,15 @@ void *create_check_box_window_for_local_client(const NJS_POINT2 *layout_position
 }
 
 void TWindowCheckBox::render() {
-    saddr draw_context;
-
-    draw_context = reinterpret_cast<saddr>(get_draw_context());
-    draw_window_frame((void *)draw_context);
-    draw_visible_window_entries(
-        this,
-        reinterpret_cast<const WindowLayoutEntries *>(((u8 *)this) + 0x24),
-        reinterpret_cast<WindowDrawContext *>(draw_context));
-    ((TWindowMenuIconLine *)((u8 *)this))->draw_selected_list_entry(draw_context);
-    if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x80) != 0U) {
-        ((TWindowSubStatusDisp *)((void *)(*(uaddr *)((s8 *)((u8 *)this) + 0x80))))->forward_render((void *)(draw_context));
+    WindowDrawContext *context = get_draw_context();
+    draw_window_frame(context);
+    draw_visible_window_entries(this, &entry_list, context);
+    draw_selected_list_entry((saddr)context);
+    if (status_display != NULL) {
+        ((TWindowSubStatusDisp *)status_display)->forward_render(context);
     }
-    if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x84) != 0U) {
-        draw_window_scrollbar(*(u32 *)((s8 *)((u8 *)this) + 0x84), draw_context, ((u8 *)this) + 0x68);
+    if (scroll_bar != NULL) {
+        draw_window_scrollbar((saddr)scroll_bar, (saddr)context, scroll_offset);
     }
 }
 
@@ -58,7 +53,7 @@ void TWindowCheckBox::run_task() {
     ControllerInputContext *context;
     temp_r31 = is_player_input_active(((s32) this->client_index));
     if ((((TWindowMenuIconLine *)arg0)->get_flag() == 0) && (((TWindowMenuIconLine *)arg0)->is_decided() == 0) && (((TWindowBase *)arg0)->sub_80244994() != 0)) {
-        if (*(u16 *)((s8 *)arg0 + 0x70) & 0x10) {
+        if (state_flags & 0x10) {
             input = &controller_input_state.controllers[temp_r31];
             if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
                 ((TWindowMenuIconLine *)arg0)->move_cursor();
@@ -84,19 +79,19 @@ void TWindowCheckBox::run_task() {
         }
     }
     ((TWindowMenuIconLine *)arg0)->center_list_selection();
-    if ((f32) *(s32 *)&this->open_tick >= 7.5f) {
-        temp_r3 = *(u32 *)((s8 *)arg0 + 0x80);
+    if ((f32)open_tick >= 7.5f) {
+        temp_r3 = (uaddr)status_display;
         if (temp_r3 != 0U) {
             ((TWindowSubStatusDisp *)temp_r3)->update_subwindow();
         }
-        temp_r3_2 = *(u32 *)((s8 *)arg0 + 0x84);
+        temp_r3_2 = (uaddr)scroll_bar;
         if (temp_r3_2 != 0U) {
             ((TWindowSubStatusDisp *)temp_r3_2)->increment_counter();
         }
     }
     ((TWindowDD *)arg0)->initialize_subwindow();
     ((TWindowBase *)arg0)->update_fade();
-    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&(*(void * *)((u8 *)this + 0x24))));
+    update_window_entry_list(&entry_list);
 }
 
 }

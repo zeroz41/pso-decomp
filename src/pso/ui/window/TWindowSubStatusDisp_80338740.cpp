@@ -1,4 +1,6 @@
 #include "types.h"
+#include "pso/ui/ItemListRow.h"
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/unk/TUnk_804EF440.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
@@ -11,27 +13,6 @@
 extern "C" {
 void mem_free(void *p);
 void *mem_alloc(u32 size);
-typedef struct
-{
-  f32 x;
-  f32 y;
-} V2_80338890;
-typedef struct
-{
-  u8 pad0[0x10];
-  f32 x10;
-  f32 x14;
-  u8 pad18[0x18];
-  s32 x30;
-  u8 pad34[4];
-  f32 x38;
-  u8 pad3c[4];
-  f32 x40;
-  u8 pad44[4];
-  f32 x48;
-} Win_80338890;
-void draw_item_list_icon(Win_80338890 *, V2_80338890 *, s8, s32, f32);
-
 void TWindowSubStatusDisp__sub_80338740(u8 *arg0, s32 arg1, saddr src, s8 arg3, s8 arg4, s8 arg5, s8 arg6, s8 arg7, s32 arg_sp8) {
     saddr num;
     if (arg1 != 0) {
@@ -69,34 +50,34 @@ saddr TWindowSubStatusDisp::get_flag_or_zero(void *arg0, s8 arg1) {
 }
 
 void TUnk_804EF440::render(WindowDrawContext *context) {
-  Win_80338890 *win = (Win_80338890 *)context;
+  WindowDrawContext *win = context;
   f32 scale;
   f32 y;
-  V2_80338890 pos;
+  ItemListPosition pos;
   static const char *separator = "/";
   if (TWindowSubStatusDisp__sub_80338B88(this) == 0)
   {
     return;
   }
-  y = win->x14 + this->y;
-  if ((this->height + y) < win->x40)
+  y = win->inner_y + this->y;
+  if ((this->height + y) < win->clip_y0)
   {
     return;
   }
-  if ((win->x14 + this->y) > win->x48)
+  if ((win->inner_y + this->y) > win->clip_y1)
   {
     return;
   }
-  if (win->x30 < 0)
+  if (win->open_tick < 0)
   {
     return;
   }
-  pos.x = win->x10 + this->x;
-  pos.y = win->x14 + this->y;
-  scale = -1.0f / (0.1495f + win->x38);
-  draw_item_list_icon(win, &pos, this->icon, -1, scale);
+  pos.x = win->inner_x + this->x;
+  pos.y = win->inner_y + this->y;
+  scale = -1.0f / (0.1495f + win->depth);
+  draw_item_list_icon(win, &pos, (u8)this->icon, -1, scale);
   pos.x += 18.0f;
-  set_text_draw_params(reinterpret_cast<WindowDrawContext *>(win), 1, 1, (f32)scale, 100000.0f);
+  set_text_draw_params(win, 1, 1, (f32)scale, 100000.0f);
   draw_window_text((f32 *)&pos, this->text, -1, 1, 100000.0f);
   pos.x += 210.0f;
   draw_window_text((f32 *)&pos, (const char *)(TWindowSubStatusDisp::get_flag_or_zero(this, this->m_1d)), -1, 0, 100000.0f);

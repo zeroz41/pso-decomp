@@ -413,10 +413,6 @@ void set_queued_main_phase(s32);
 void request_main_phase(s32);
 extern const char lobby_window_title_block_jump[];
 extern const char lobby_window_title_ship_jump[];
-s32 TLobby__sub_8013AD50(void *window);
-u8 TLobby__sub_8013AD5C(void *window);
-s8 TLobby__sub_8013AD6C(void *window);
-s32 TLobby__sub_8013AD74(void *window);
 s32 *get_access_key_input_buffer(void);
 saddr get_connection_message_text(int);
 const char *TWindowMakeTeam__sub_80264B24(TWindowMakeTeam *window);
@@ -1341,6 +1337,9 @@ void TLobby::update() {
     }
     reset_controller_input_state();
 }
+// The create-game call uses the low byte of the team's word result in r3.
+extern "C" u8 get_field_20__15TWindowMakeTeamFv(TWindowMakeTeam *window);
+
 void TLobby::handle_create_game_window() {
     const char *name;
     const char *password;
@@ -1350,14 +1349,14 @@ void TLobby::handle_create_game_window() {
     u8 temp_r0;
 
     if (lobby_make_team_window != NULL) {
-        if (TLobby__sub_8013AD74(lobby_make_team_window) != 0) {
+        if (lobby_make_team_window->test_flag_1d_bit0() != 0) {
             name = TWindowMakeTeam__sub_80264B38(lobby_make_team_window);
             if (name != NULL) {
                 password = TWindowMakeTeam__sub_80264B24(lobby_make_team_window);
-                temp_r29 = TLobby__sub_8013AD6C(lobby_make_team_window) == 2;
+                temp_r29 = (s8)lobby_make_team_window->read_mode() == 2;
                 temp_r28 = lobby_make_team_window->is_enabled();
-                temp_r27 = (s8)((TLobby *)lobby_make_team_window)->get_mode() == 1;
-                temp_r0 = TLobby__sub_8013AD5C(lobby_make_team_window);
+                temp_r27 = (s8)lobby_make_team_window->get_mode() == 1;
+                temp_r0 = get_field_20__15TWindowMakeTeamFv(lobby_make_team_window);
                 TLobby__protocol_instance->send_create_game((char *)name, (char *)password, temp_r28, temp_r29, temp_r27, temp_r0);
                 ((s32 (*)())TLobby::destroy_lobby_ui)();
                 return;
@@ -1365,7 +1364,7 @@ void TLobby::handle_create_game_window() {
             TLobby::close_all_windows();
             return;
         }
-        if (TLobby__sub_8013AD50(lobby_make_team_window) != 0) {
+        if (lobby_make_team_window->test_flag_1d_bit1() != 0) {
             TLobby::close_all_windows();
         }
     }
@@ -1785,13 +1784,7 @@ void TLobby::open_menu_window() {
     TLobby__data_805D5594 = 0x18;
 }
 void TLobby::open_make_team_window(int arg0) {
-    void *window;
-
-    window = TObject::operator new(0x38);
-    if (window != NULL) {
-        window = TWindowMakeTeam__ct(window, TLobby__join_lobby_controller, arg0);
-    }
-    lobby_make_team_window = (TWindowMakeTeam *)window;
+    lobby_make_team_window = new TWindowMakeTeam((TObject *)TLobby__join_lobby_controller, arg0);
     TLobby__data_805D5594 = 0xA;
 }
 void TLobby::close_all_windows(void *) { TLobby::close_all_windows(); }

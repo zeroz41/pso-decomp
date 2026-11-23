@@ -5,10 +5,11 @@
 #include "pso/ui/window/TWindowSimpleStatus.h"
 
 struct TWindowStatus : public TWindowSimpleStatus {
+    TWindowStatus(void *position, s32 client, u8 *descriptor);
     virtual ~TWindowStatus();
     virtual void render();
     virtual void run_task();
-    void draw_background(u8 *ctx);
+    void draw_background(u8 *arg1);
 };
 
 LAYOUT_ASSERT(TWindowStatus_size, sizeof(TWindowStatus) == 0x78);

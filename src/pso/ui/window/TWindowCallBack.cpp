@@ -19,7 +19,6 @@ WindowDescriptor window_callback_base_params = {
 };
 
 extern "C" {
-void set_field_60__15TWindowCallBackFPvi(void* p, s32 v);
 const char *TWindowCallBack__name = "TWindowCallBack";
 
 s32 TBoss6Type2::get_state() { return this->action_state; }
@@ -37,23 +36,22 @@ void OlgaFlowPlotActionMsg::initialize() {
     header.subcommand = 0xA3;
     header.size = 5;
 }
-void set_field_60__15TWindowCallBackFPvi(void* p, s32 v) { *(s32*)((char*)p + 0x60) = v; }
+void TWindowCallBack::set_field_60(WindowCallback callback_function) { callback = callback_function; }
 
 void TWindowCallBack::render() {
-    saddr r = reinterpret_cast<saddr>(draw_default_entry());
+    WindowDrawContext *context = draw_default_entry();
     if (callback != NULL) {
-        callback(this, r);
+        callback(this, context);
     }
 }
 
 void TWindowCallBack::run_task() { ((TWindowDD *)this)->initialize_subwindow(); update_fade(); }
 
 TWindowCallBack::~TWindowCallBack() {}
-#define self ((u8 *)this)
-TWindowCallBack::TWindowCallBack(saddr arg1, u8 *arg2, s32 arg3) : TWindowBase((u8 *)((saddr) &window_callback_base_params), (s16)4, (u8 *)arg1) {
+TWindowCallBack::TWindowCallBack(u8 *position, u8 *scale, WindowCallback callback_function)
+    : TWindowBase((u8 *)&window_callback_base_params, 4, position) {
     m_name = TWindowCallBack__name;
-    copy_vec2((self + 0x38), arg2);
-    ((TWindowBase *)self)->save_position();
-    set_field_60__15TWindowCallBackFPvi(self, arg3);
+    copy_vec2(target_size, scale);
+    save_position();
+    set_field_60(callback_function);
 }
-#undef self

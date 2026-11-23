@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowFukidasi.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowCtrl_8024B048.h"
@@ -5,6 +6,7 @@
 #include "pso/ui/window/TWindowCtrl_8024B7D4.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowTradeRequest.h"
+#include "pso/ui/window/TWindowGetComCard.h"
 #include "pso/ui/window/TWindowSimpleStatus.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowCtrl_8024B9C0.h"
@@ -122,19 +124,17 @@ void TWindowCtrl::handle_controller() {
 
 }
 
-struct Obj_8024BB30 { u8 pad[0x84]; TWindowCtrl *children[4]; };
-
 extern "C" void TWindowCtrl__sub_8024BB30(TWindowCtrl *ctrl);
 
 void TWindowCtrl__sub_8024BB30(TWindowCtrl *ctrl) {
     u32 i;
     for (i = 0; i < 4; i++) {
-        TWindowCtrl *child = ((Obj_8024BB30 *)ctrl)->children[i];
+        TWindowFukidasi *child = ctrl->balloons[i];
         if (child != 0 && child->all_parents_unqueued_for_destruction() == 0) {
-            if (ctrl->window_id == child->get_flags()) {
+            if (ctrl->window_id == child->get_speaker_id()) {
                 ctrl->window_id = 0xFFFF;
             }
-            ((Obj_8024BB30 *)ctrl)->children[i] = 0;
+            ctrl->balloons[i] = 0;
         }
     }
 }
@@ -156,31 +156,22 @@ void TWindowCtrl::update_trade_request_window() {
 }
 
 void *__nw__7TObjectFUl(s32);
-u32 TWindowGetComCard__ct(int, void *);
 void TWindowCtrl::update_com_card_window() {
-    u8 *arg0 = (u8 *)this;
-    uaddr temp_r3;
+    TWindowGetComCard *temp_r3;
     uaddr temp_r3_2;
-    uaddr temp_r3_3;
-    u32 temp_r3_4;
-    u32 var_r0;
+    TWindowGetComCard *temp_r3_3;
     temp_r3 = this->m_3c;
-    if ((temp_r3 != 0U) && (((TObject *)temp_r3)->all_parents_unqueued_for_destruction() == 0)) {
-        this->m_3c = 0U;
+    if ((temp_r3 != NULL) && (temp_r3->all_parents_unqueued_for_destruction() == 0)) {
+        this->m_3c = NULL;
     }
     if ((is_guild_card_receive_active() == 0) || (TWindowCtrl::has_player_active_menu(local_client_id) != 0) || (TWindowCtrl::is_slot_visible(local_client_id) != 0) || (TWindowCtrl::get_flag_bit5() != 0) || (trade_request != NULL) || ((temp_r3_2 = this->m_38, ((temp_r3_2 == 0U) == 0)) && (TWindowCtrl__sub_8024701C(reinterpret_cast<TWindowChat *>((void *)temp_r3_2)) != 0))) {
         temp_r3_3 = this->m_3c;
-        if (temp_r3_3 != 0U) {
-            ((TObject *)temp_r3_3)->queue_destruction();
-            this->m_3c = 0U;
+        if (temp_r3_3 != NULL) {
+            temp_r3_3->queue_destruction();
+            this->m_3c = NULL;
         }
-    } else if ((u32) this->m_3c == 0U) {
-        temp_r3_4 = (uaddr)__nw__7TObjectFUl(0x2C);
-        var_r0 = temp_r3_4;
-        if (var_r0 != 0U) {
-            var_r0 = TWindowGetComCard__ct(temp_r3_4, arg0);
-        }
-        this->m_3c = var_r0;
+    } else if (this->m_3c == NULL) {
+        this->m_3c = new TWindowGetComCard(this);
     }
 }
 

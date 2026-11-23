@@ -56,7 +56,7 @@ u8 *TObjPlayer::construct_player_instance(saddr arg1, s32 slot, s32 role, u8 *ar
     ((TObjPlayer *)(((u8 *)this) + 0x634))->wrap_update();
     ((TObjPlayer *)(((u8 *)this) + 0x63C))->reset_and_clear();
     ((TObjPlayer *)(((u8 *)this) + 0x644))->construct_hurt_timer();
-    ((TObjPlayer *)(((u8 *)this) + 0x64C))->reset_fields();
+    stick_escape_detector.reset_fields();
     ((TObjPlayer *)(((u8 *)this) + 0x658))->reset_scale_vector();
     ((TObjPlayer *)(((u8 *)this) + 0x66C))->set_vec3_const_wrapper();
     npc_control.reset();

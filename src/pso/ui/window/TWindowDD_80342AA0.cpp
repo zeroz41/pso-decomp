@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowDD_80341A08.h"
 #include "types.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowDD_80341A08.h"
@@ -44,7 +45,7 @@ void TWindowDD__sub_80342B5C(u8 *window_dd) {
     var_r3 = (u8 *)(var_r31 + (*(s32 *)((s8 *)window_dd + 0x20) * 4));
     var_r3 = (u8 *)(*(u8 **)((s8 *)var_r3 + 0x24));
     if (var_r3 != NULL) {
-        *(s16 *)((s8 *)var_r31 + 0xFC) = TWindowDD__sub_80342158(var_r3);
+        *(s16 *)((s8 *)var_r31 + 0xFC) = TWindowDD__sub_80342158(reinterpret_cast<TWindowDD_WS_Word *>(var_r3));
     }
 }
 

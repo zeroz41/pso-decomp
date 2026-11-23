@@ -687,7 +687,7 @@ force_active:
   - shop_stock_lacks_tool
   - TLobby__sub_80224840
   - TLobby__sub_80225A08
-  - TLobby__sub_80225C8C
+  - clear_unread__14ShortMailEntryFv
   - TLobby__sub_80225CB8
   - TLobby__sub_80292AB4
   - TLobby__sub_80292BB8
@@ -1769,8 +1769,8 @@ force_active:
   - TWindowChat__sub_80247D50
   - TWindowChat__sub_80247DAC
   - TWindowComCard__class_name
-  - TWindowComCard__ct
-  - TWindowComCard__sub_80249E80
+  - __ct__14TWindowComCardFPvPv
+  - __dt__22TWindowComCardFollowerFv
   - TWindowComCard__window_desc
   - TWindowComCard__window_desc_b
   - TWindowCtrlMain__sub_8024CE34
@@ -1779,9 +1779,9 @@ force_active:
   - TWindowCtrl__sub_8024DAAC
   - TWindowCtrl__sub_8026D4E8
   - __sinit_TWindowDD_80340A78_cpp
-  - TWindowDD__sub_8034138C
+  - __ct__19TWindowDD_WS_StringFPfPfUll
   - __sinit_TWindowDD_80341334_cpp
-  - TWindowDD__sub_803422F0
+  - __ct__17TWindowDD_WS_WordFll
   - __sinit_TWindowDD_80341A08_cpp
   - TWindowDD__sub_80346F30
   - TWindowDD__sub_80346FC0
@@ -1813,7 +1813,7 @@ force_active:
   - sub_8025D378__19TWindowKeyBoardBaseFPv
   - sub_8025D544__19TWindowKeyBoardBaseFPlPSc
   - TWindowKeyBoardSoft__text_resource
-  - __ct__22TWindowLoadItemTextureFPUcPvl
+  - __ct__22TWindowLoadItemTextureFPvPfl
   - __ct__13TWindowLockOnFlUs
   - TWindowLockOn__update_for_enemy
   - TWindowLockOn__update_for_item
@@ -1821,11 +1821,11 @@ force_active:
   - TWindowMeseta__class_name
   - __ct__18TWindowMessagePageFlll
   - TWindowMessageYesNo__name
-  - TWindowPartyStatus__ct
+  - __ct__18TWindowPartyStatusFlPUc
   - TWindowPartyStatus__name
   - __ct__15TWindowQuantityFl
   - TWindowReturnCity__client_scan_index
-  - TWindowStatus__ct
+  - __ct__13TWindowStatusFPvlPUc
   - TWindowSubComCardList__class_name
   - TWindowSubComCard__sub_8007AC7C
   - TWindowSubComCard__sub_80245A10
@@ -1855,8 +1855,8 @@ force_active:
   - TWindowSubStatusDisp__sub_8025AF0C
   - TWindowSubStatusDisp__sub_8025B2DC
   - TWindowSubStatusDisp__sub_8025B760
-  - sub_8025E148__19TWindowKeyBoardBaseFP17WindowDrawContextPfPUsUl
-  - sub_8025E530__19TWindowKeyBoardBaseFP17WindowDrawContextPfPUsUll
+  - draw_composition_background__19TWindowKeyBoardBaseFP17WindowDrawContextP10NJS_POINT2PUsUl
+  - layout_wrapped_glyphs__19TWindowKeyBoardBaseFP17WindowDrawContextP10NJS_POINT2PUsUll
   - TWindowSubStatusDisp__sub_80271A6C
   - TWindowSubStatusDisp__sub_802878B8
   - TWindowSubStatusDisp__sub_80287AC4
@@ -3739,7 +3739,7 @@ force_active:
   - accept_meseta_deposit__18TCheckRoomSequenceFPv
   - accept_meseta_withdrawal__18TCheckRoomSequenceFPv
   - accumulate__14PadRumbleLevelFll
-  - accumulate_key_bits__FlPl
+  - accumulate_key_bits__FlPUl
   - accumulate_mag_axis_oscillation__FPfPlP28MagAxisOscillationParameters
   - action__13TObjEneBm3FlyFl
   - action__14TObjEneBm5WolfFl
@@ -5214,7 +5214,7 @@ force_active:
   - close_and_send_text_list__6TLobbyFv
   - close_and_set_state_12__6TLobbyFv
   - close_and_set_state_13__6TLobbyFi
-  - close_child__20TWindowSubSymbolChatFv
+  - close_child__20TWindowSubSymbolChatFPvPv
   - close_com_card_window__6TLobbyFv
   - close_download__22TQuestVmDownLoadServerFv
   - close_giveup_window__6TLobbyFPv
@@ -5315,7 +5315,7 @@ force_active:
   - __ct__13TUnk_804A5838FP7TObjectPUc
   - __ct__10TTecRaFoieFlP3VecP16TargetCursorListl
   - __ct__9TTecBartaFlP3Vecll
-  - construct_variant_b__9TWindowDDFPv
+  - __ct__22TWindowDD_WS_ScrollBarFv
   - construct_weapon_casing__10TObjPlayerFPUcPUcPUcPUcPUc
   - __ct__13TUnk_804A5458FP7TObjectPUc
   - construct_with_index__22TObjFogCollisionPoisonFPUcl
@@ -5637,7 +5637,7 @@ force_active:
   - __dt__20TObjEneBm5GibonUNodeFv
   - destroy__16TObjOnlineEndingFPvs
   - __dt__19TBoss8DragonColli_CFv
-  - destroy__17TWindowDD_WS_WordFs
+  - __dt__17TWindowDD_WS_WordFv
   - destroy__19TPlayerBattleCtrl4PFs
   - destroy__19TQuestListChallengeFv
   - destroy__21TShopDeleteItemWindowFv
@@ -5792,10 +5792,10 @@ force_active:
   - draw__18TWindowPartyStatusFv
   - draw_active_beam__11TObjDoorKeyFv
   - render__15TObjEneDimedianFv
-  - draw_agreement_text__18TAdAgreementBaseGCFv
+  - draw_agreement_text__18TAdAgreementBaseGCFPvPv
   - draw_animated_beam__18TObjLazerFenceNormFv
   - draw_area_chunk_objects__10TObjPlayerFv
-  - draw_arrows__18TWindowInputNumberFv
+  - draw_arrows__18TWindowInputNumberFP17WindowDrawContextP13TUnk_804CF9C8i
   - draw_at_joint__14TItemProShieldFl
   - draw_background__13TWindowStatusFPUc
   - draw_background__17TAdGameStartSubGCFPv
@@ -5858,7 +5858,7 @@ force_active:
   - draw_locked__8TObjDoorFPv
   - draw_menu_backdrop_gradients__Fl
   - draw_message_frame_row__11TWindowBaseFPvPv
-  - draw_message_window__11TAdEp3ExistFl
+  - draw_message_window__11TAdEp3ExistFPvPv
   - draw_model_12__25TBoss6Demo20_TYPE2_APPEARFv
   - draw_model_13__23TBoss6Demo21_TYPE2_DEADFv
   - draw_model__10TBoss6RockFv
@@ -5906,7 +5906,7 @@ force_active:
   - draw_slot_icons__15TAdChrSelSlotGCFv
   - draw_snapshot_capture_overlay__Fv
   - draw_split_screen_dividers__20TWindowSubStatusDispFv
-  - draw_status_text__19TWindowKeyBoardHardFPv
+  - draw_status_text__19TWindowKeyBoardHardFP17WindowDrawContext
   - draw_status_window__14TAdPlyStatusGCFPvPv
   - draw_status_window__15TAdMcSelectMcGCFv
   - draw_stretched_segment__22TObjEneSlimeTailAttackFP3VecP3Vecf
@@ -5914,22 +5914,22 @@ force_active:
   - draw_switch_light__15TODoorMachine01FP10NJS_OBJECTl
   - draw_switch_lights__15TODoorAncient08Fv
   - draw_switch_lights__15TODoorAncient09Fv
-  - draw_tab__11TWindowRoomFPv
-  - draw_tab__12TWindowTimerFll
+  - draw_tab__11TWindowRoomFP17WindowDrawContext
+  - draw_tab__12TWindowTimerFP17WindowDrawContext
   - draw_tag_sprite__12TChCrTagNameFPv
   - draw_tag_sprites__12TChCrTagNameFPv
-  - draw_text_glyphs__19TWindowKeyBoardBaseFPvPv
+  - draw_text_glyphs__19TWindowKeyBoardBaseFP17WindowDrawContextP10NJS_POINT2
   - draw_tiled_background__20TWindowSubStatusDispFv
   - draw_title_background_pulse__Flfl
   - draw_title_layer__10TAdTitleGCFll
   - draw_title_rings__Flfl
   - draw_tunnel_segment__FPUc
-  - draw_value__13TWindowMesetaFl
+  - draw_value__13TWindowMesetaFP17WindowDrawContext
   - draw_window_frame_strips__11TWindowBaseFPvPv
   - draw_window_scanlines__FPUcPUc
   - draw_window_uv_sprite_part
   - draw_with_fade__18TObjEneEpsilonBodyFl
-  - draw_wrapped_text__19TWindowKeyBoardBaseFPvPv
+  - draw_wrapped_text__19TWindowKeyBoardBaseFP17WindowDrawContextP10NJS_POINT2
   - drawing__11TItemMagSub
   - drawn_node__11TItemMagSub
   - drill_launcher_create_shot__Flllf
@@ -5948,7 +5948,7 @@ force_active:
   - __dt__18TObjCityDoor_GuildFv
   - __dt__20TContainerAncient01RFv
   - __dt__22TObjEneSlimeTailAttackFv
-  - dt__22TWindowDD_WS_ScrollBarFs
+  - __dt__22TWindowDD_WS_ScrollBarFv
   - dt_follow_particle_ctrl__10TObjPlayerFls
   - duel_number_uv_table
   - duel_result_window_layout_table
@@ -6047,13 +6047,13 @@ force_active:
   - enter_attack_cast__15TObjEneDelDepthFv
   - enter_bura__11TBoss4Type3Fv
   - enter_capture__11TBoss4Type3Fv
-  - enter_chg_game_mode__6TLobbyFv
+  - enter_chg_game_mode__11TTitleSceneFv
   - enter_cut__11TBoss4Type3Fv
   - enter_dark_magic__11TBoss4Type3Fv
   - enter_dead__11TBoss4Type3Fv
   - enter_fall_to_ground__15TObjEneDelDepthFv
   - enter_flag800_state__11TBoss6Type1Fv
-  - enter_game_mode_change__6TLobbyFv
+  - enter_game_mode_change__11TTitleSceneFv
   - enter_go_down__11TBoss4Type3Fv
   - enter_go_up__11TBoss4Type3Fv
   - enter_ground_mode__13TBoss5GryphonFv
@@ -6188,7 +6188,7 @@ force_active:
   - find_chain_targets__11TTecGiZondeFv
   - find_enemy_by_id__16TObjEneBm5GibonUFi
   - find_entry_rest__17TWindowSubComCardFPvl
-  - find_farthest_balloon_slot__11TWindowCtrlFPvUs
+  - find_farthest_balloon_slot__11TWindowCtrlFUs
   - find_free_chat_log_slot__6TLobbyFv
   - find_free_file_names__22TQuestVmDownLoadServerFv
   - find_free_pad_rumble_effect_slot__Fv
@@ -6722,7 +6722,7 @@ force_active:
   - get_slot_flag__26TWindowSubQuestBoardSelectFic
   - get_slot_index__15TAdPlayerLoadGCFv
   - get_sock_status_name__Fs
-  - get_speaker_balloon_anchor__11TWindowCtrlFPviPvPv
+  - get_speaker_balloon_anchor__11TWindowCtrlFUsPfPl
   - get_split_screen_battle_timer_limit__FPUc
   - get_split_screen_character_save_record
   - get_state__17TOSymbolchatColliFv
@@ -7258,7 +7258,7 @@ force_active:
   - is_angle_in_range__16TObjEneMe3StelthFv
   - is_any_player_in_range__16TObjEvtCollisionFf
   - is_any_player_near__Fl
-  - is_balloon_overlapping__FPUcPUcPUc
+  - is_balloon_overlapping__FPC15TWindowFukidasiPCfPCf
   - is_broken__15TBoss3VoloptP01Fv
   - apply_handakuten_to_last_char__18KeyboardTextBufferFv
   - is_card_confirmed__20TWindowSubSymbolChatFv
@@ -7291,7 +7291,7 @@ force_active:
   - is_field88_zero__15TObjCityMapWarpFv
   - is_field88_zero__15TObjLaboMapWarpFv
   - is_flag_set__15TObjBoss2TunnelFv
-  - is_flag_set__6TLobbyFPv
+  - is_active__14ShortMailEntryFv
   - is_grounded__10TObjPlayerFv
   - is_growth_inactive__11TItemMagSubFv
   - is_id_out_of_range__6TLobbyFi
@@ -8049,7 +8049,7 @@ force_active:
   - lbl_804CDC88
   - lbl_804CE820
   - lbl_804CE918
-  - lbl_804CE964
+  - __vt__22TWindowComCardFollower
   - lbl_804CF9F8
   - lbl_804CFA10
   - lbl_804CFA28
@@ -8127,10 +8127,10 @@ force_active:
   - lbl_804EF658
   - lbl_804EFBC8
   - lbl_804EFBD0
-  - lbl_804EFBE4
+  - __vt__22TWindowDD_WS_ScrollBar
   - lbl_804EFC74
   - lbl_804EFC7C
-  - lbl_804EFC90
+  - __vt__17TWindowDD_WS_Word
   - epsilon_body_action_table
   - epsilon_body_movement_params
   - epsilon_body_collision_bodies
@@ -9285,7 +9285,7 @@ force_active:
   - open_item_list_window__20TShopItemTecSequenceFv
   - open_judgment_window__17TJudgmentSequenceFv
   - open_judgment_window__22THunterGuildSeqOfflineFv
-  - open_keyboard__6TLobbyFv
+  - open_keyboard__11TTitleSceneFv
   - open_keyboard_window__17TAdEnterPPPPassGCFPv
   - open_keyboard_window__18TAdEnterPasswordGCFPv
   - open_keyboard_window__6TLobbyFv
@@ -13828,7 +13828,7 @@ force_active:
   - pm_mdl_model_names
   - pm_mdl_motion_names
   - poll_input__19TWindowKeyBoardHardFv
-  - poll_key_state__16TKeyBoardControlFv
+  - poll_key_state__22ControllerInputContextFv
   - poll_load__12TChCrLoadAfsFv
   - poll_memcard_status__9TSaveChCrFv
   - poll_quest_download__12TQuestListVMFv
@@ -14189,7 +14189,7 @@ force_active:
   - render__13TUnk_804B7C1CFv
   - render__13TUnk_804CC870Fv
   - render__13TUnk_804CCB28Fv
-  - render__13TUnk_804CE964Fv
+  - render__22TWindowComCardFollowerFv
   - render__13TUnk_804DCB64Fv
   - render__13TUnk_804E4BF0Fv
   - render__13TUnk_804E71A0Fv
@@ -14534,7 +14534,7 @@ force_active:
   - render_shadows_for_each_node__7TObjectFv
   - render_state__18TAdLoadQuestCellGCFv
   - render_static_map_section__6TSceneFP20SceneMaterialSectionl
-  - render_status__14TWindowDepositFl
+  - render_status__14TWindowDepositFP17WindowDrawContext
   - render_status__18TAdMultiPlayerNoGCFv
   - render_summary_row__15TWindowHelpItemFv
   - render_text_entry
@@ -14550,7 +14550,7 @@ force_active:
   - request_action__12TObjNpcEnemyFl
   - request_action__8TItemMagFl
   - request_aram_load_state__16TAdWarningBaseGCFPv
-  - request_change_game_mode__6TLobbyFv
+  - request_change_game_mode__11TTitleSceneFv
   - request_close__22THunterGuildSeqOfflineFP15TShopWindowBase
   - request_death_effect__18TObjEneRe4SorcererFv
   - request_default_follow_camera__11TBoss6Type2Fv
@@ -14888,7 +14888,7 @@ force_active:
   - run_task__13TUnk_804CCBC0Fv
   - run_task__13TUnk_804CCC28Fv
   - run_task__13TUnk_804CCD78Fv
-  - run_task__13TUnk_804CE964Fv
+  - run_task__22TWindowComCardFollowerFv
   - run_task__13TUnk_804DCB64Fv
   - run_task__13TUnk_804E4788Fv
   - run_task__13TUnk_804E4BF0Fv
@@ -15431,7 +15431,7 @@ force_active:
   - set_cursor_color__11TMainCursorFlll
   - set_cursor_index_1__17TAdMultiConfirmGCFPv
   - set_cursor_index_2__17TAdMultiConfirmGCFPv
-  - set_cursor_index__13TUnk_804E3008Fl
+  - set_cursor_index__17TAdChrSelPlayerGCFl
   - set_cursor_row_for_mode__14TWindowSubItemFl
   - set_damage__20TOTrapChainSawDamageFl
   - set_data_and_draw_node_tree__16TObjEneRe7BeruraFii
@@ -15462,7 +15462,7 @@ force_active:
   - set_field90__15TPlyPhotonChairFl
   - set_close_up__13TCameraFollowFl
   - set_field_4__6TLobbyFl
-  - set_field_60__15TWindowCallBackFPvi
+  - set_field_60__15TWindowCallBackFPFPvPv_v
   - set_field_74__14TWindowSubItemFs
   - set_field_8__15TPlyPhotonChairFl
   - set_fields_24_34_from_global__17TObjEneDarkGunnerFPv
@@ -15478,12 +15478,12 @@ force_active:
   - set_log_active__15TWindowMainMenuFv
   - set_flag60_bit8__13TWindowSubMagFv
   - set_flag62_bit8__19TWindowKeyBoardBaseFv
-  - set_flag_10__17TWindowSubComCardFv
+  - set_flag_10__21TWindowMenuInfomationFv
   - set_flag_270__6TLobbyFPv
   - enter_flight_mode__13TBoss5GryphonFv
   - set_flag__16TObjEneBm5GibonUFv
   - set_flag__9TItemDropFPvPv
-  - set_flag_and_clear_download__6TLobbyFv
+  - set_flag_and_clear_download__11TTitleSceneFv
   - set_flag_and_notify__12TObjEneLappyFv
   - set_flag_and_notify__11BmlResourceFv
   - set_flags__13MagOwnerWatchFUl
@@ -15562,7 +15562,7 @@ force_active:
   - set_player_id__11TPlayerSoulFUs
   - set_player_room_control_flag__FP10TObjPlayer
   - set_pos_target__13TCameraFollowFP3VecP3Vecl
-  - set_position__15TWindowQuantityFl
+  - set_position__15TWindowQuantityFP17WindowDrawContext
   - set_primary_p01s__12TBoss3VoloptFl
   - set_quest_label__15TOQuestTalkBaseFl
   - set_quest_list_mode_19__18TCheckRoomSequenceFPv
@@ -16336,7 +16336,7 @@ force_active:
   - sub_802D4E08__23TAdSinglePlyChrSelectGCFv
   - sub_802D577C__13TUnk_804E21F8Fv
   - sub_802D7444__12TObjNpcEnemyFv
-  - sub_802E0784__13TUnk_804E3008Fv
+  - init_model_animation__17TAdChrSelPlayerGCFv
   - sub_802E1F14__12TAdTimeSetGCFv
   - enter_sway__14TBoss7TentacleFv
   - request_strike__14TBoss7TentacleFv
@@ -16364,7 +16364,7 @@ force_active:
   - init__18TItemWpnCardEffectFv
   - update_state_effects__9TBoss6MagFv
   - render_body_effects__9TBoss6MagFv
-  - sub_8033645C__13TUnk_804EEF64Fv
+  - close_auxiliary_window__11TTitleSceneFv
   - act_revival__9TBoss6MagFv
   - act_dead__9TBoss6MagFv
   - act_chase_pl__9TBoss6MagFv

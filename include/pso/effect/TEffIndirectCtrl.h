@@ -5,6 +5,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/render/GinjaMaterialState.h"
 
+struct GinjaTextureInput;
+
 // Scene-side handle of an indirect (texture warp) effect: the scene's map models and Ra Foie
 // create one per warped surface; its constructor registers a TEffIndirectCtrl for `kind`.
 class TEffIndirect : public TObject {
@@ -66,7 +68,7 @@ public:
     u8 source_index;
     u8 kind;
     u8 pad_26[0x2];
-    void *texture_info;
+    GinjaTextureInput *texture_info;
     GinjaTextureList *texture_list;
     GinjaTextureEntry texture_entry;
     u32 horizontal_phase;

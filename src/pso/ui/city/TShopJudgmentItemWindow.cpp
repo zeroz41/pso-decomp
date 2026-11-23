@@ -2,6 +2,7 @@
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/text_80104FCC.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/city/THunterGuildSeqOnlineTask_802156A0.h"
 #include "pso/ui/window/TWindowShortListCtrl_80221828.h"
 #include "pso/ui/city/TShopJudgmentItemWindow.h"
@@ -23,6 +24,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/TWindowSubMag.h"
+#include "pso/ui/window/TWindowLoadItemTexture.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/Language.h"
@@ -57,13 +59,12 @@ extern "C" {
 u8 *create_item_list_window(s32 arg0, s32 arg1, s32 arg2);
 s32 try_spend_actor_meseta(u8 *arg0, s32 arg1);
 void set_judgment_target_flag(void *arg0, void *arg1);
-u8 *create_yes_no_window(s32 arg0, s32 arg1, uaddr arg2, uaddr arg3);
+
 saddr get_window_layout_position(s32);
 void send_6x25_equip_item(void *arg0, s32 arg1, s32 arg2);
 void TItemData__clear_unidentified_flag(void *arg0);
 u32 advance_item_id_counter(u16 client);
 u32 __ct__15TWindowHelpItemFPvUs(int, int, u16);
-u32 create__22TWindowLoadItemTextureFPv(int, u16);
 extern s32 local_client_id;
 s32 play_sound_effect(s32, s32, s32, s32);
 void __dl__7TObjectFPv(void *);
@@ -192,7 +193,7 @@ void TShopJudgmentItemWindow::handle_input() {
         return;
     }
     if (this->TShopWindowBase::sub_80223A48() != 0) {
-        this->m_158 = (saddr)create_yes_no_window(get_window_layout_position(0x2B), (u16)get_entity_id(this->m_24), 0, 0);
+        this->m_158 = (saddr)create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), (u16)get_entity_id(this->m_24), NULL, NULL);
         ((TWindowAddition *)(this->m_158))->set_position_xy(this->TShopWindowBase::get_scale(), this->TShopWindowBase::get_scale());
         send_message(3, 1);
         set_field_20(2);
@@ -293,8 +294,8 @@ void TShopJudgmentItemWindow::create_result_windows() {
             ((TWindowMenuIconLine *)this->m_154)->calc_content_extent();
         }
         if ((u32) this->m_160 == 0U) {
-            this->m_160 = create__22TWindowLoadItemTextureFPv(get_window_layout_position(0x30), ((s32 (*)(s32))get_entity_id)(this->m_24));
-            ((TWindowSubMag *)(this->m_160))->set_mag_slot_state((saddr)(arg0 + 0x28));
+            this->m_160 = (uaddr)TWindowLoadItemTexture::create((void *)get_window_layout_position(0x30), (u16)((s32 (*)(s32))get_entity_id)(this->m_24));
+            ((TWindowLoadItemTexture *)this->m_160)->set_mag_slot_state((TItemData *)(arg0 + 0x28));
         }
         if ((u32) this->m_15c == 0U) {
             var_r29 = (uaddr)TObject::operator new(0xBC);
@@ -317,7 +318,7 @@ void TShopJudgmentItemWindow::update_judge_confirm() {
     s32 selected_menu_value;
     if (((TShopWindowBase *)(arg0))->vfunc_10() != 0) {
         if ((u32) *(u32 *)((s8 *)arg0 + 0x158) == 0U) {
-            *(s32 *)((s8 *)arg0 + 0x158) = (saddr)create_yes_no_window(get_window_layout_position(0x2B), get_entity_id((s32) (*(s32 *)((s8 *)arg0 + 0x24))), 0, 0);
+            *(s32 *)((s8 *)arg0 + 0x158) = (saddr)create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), get_entity_id((s32) (*(s32 *)((s8 *)arg0 + 0x24))), NULL, NULL);
             ((TWindowAddition *)(*(saddr *)((s8 *)arg0 + 0x158)))->set_position_xy(((TShopWindowBase *)arg0)->get_scale(), ((TShopWindowBase *)arg0)->get_scale());
         }
         if (((u32) *(u32 *)((s8 *)arg0 + 0x158) != 0U) && (((TWindowMenu *)(*(void **)((s8 *)arg0 + 0x158)))->is_decided() != 0)) {
@@ -390,7 +391,7 @@ void TShopJudgmentItemWindow::handle_equip_prompt() {
     if (this->vfunc_10() != 0) {
         if (F(0x158, void *) == NULL) {
             id = get_entity_id(F(0x24, s32));
-            F(0x158, s32) = (saddr)create_yes_no_window(get_window_layout_position(0x2B), id, 0, 0);
+            F(0x158, s32) = (saddr)create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), id, NULL, NULL);
             ((TWindowSubComCardList *)(F(0x158, void *)))->set_selected_index(0);
             y = ((TShopWindowBase *)arg0)->get_scale();
             ((TWindowAddition *)(F(0x158, saddr)))->set_position_xy(((TShopWindowBase *)arg0)->get_scale(), y);
@@ -475,7 +476,7 @@ void TShopJudgmentItemWindow::handle_pay_confirm() {
 
     if (this->vfunc_10() != 0) {
         if ((u32) this->m_158 == 0U) {
-            this->m_158 = (saddr)create_yes_no_window(get_window_layout_position(0x2B), get_entity_id(this->m_24), 0, 0);
+            this->m_158 = (saddr)create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), get_entity_id(this->m_24), NULL, NULL);
             ((TWindowSubComCardList *)((void *)this->m_158))->set_selected_index(0);
             ((TWindowAddition *)(this->m_158))->set_position_xy(get_scale(), get_scale());
         }

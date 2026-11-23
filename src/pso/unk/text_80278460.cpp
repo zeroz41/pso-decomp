@@ -1,3 +1,4 @@
+#include "pso/unk/TWindowLayoutEntry.h"
 #include "types.h"
 #include "pso/item/TItem.h"
 #include "pso/unk/text_80278460.h"
@@ -19,7 +20,7 @@ void mark_unequippable_items(TWindowSubEquipKind *window) {
     if (item != NULL) {
         for (i = 0; i < window->entry_capacity; i++) {
             e = static_cast<u16 *>(window->get_array_entry(i));
-            if (e != NULL && ((TWindowSubStatusDisp *)e)->is_flag_4_set() != 0 && ((TWindowSubStatusDisp *)e)->is_flag80_set() == 0) {
+            if (e != NULL && ((TWindowLayoutEntry *)e)->is_flag_4_set() != 0 && ((TWindowSubStatusDisp *)e)->is_flag80_set() == 0) {
                 if ((t = (uaddr)find_item_by_id(((TWindowSubItem *)e)->get_cursor_pos())) != 0 && ((TItem *)t)->check_equip_requirements((TObjPlayer *)item, (s16 *)sp8) == 0) {
                     *e |= 0x80;
                 }
@@ -32,7 +33,7 @@ void fn_80278518(void *arg0, s32 arg1) {
     u16 *temp_r30;
     for (i = 0; i < *(s16 *)((s8 *)arg0 + 0x76); i++) {
         temp_r30 = (u16 *)((TWindowBase *)arg0)->get_array_entry(i);
-        if ((((TWindowSubStatusDisp *)temp_r30)->is_flag_4_set() != 0) && (arg1 == ((TWindowSubItem *)temp_r30)->get_cursor_pos())) {
+        if ((((TWindowLayoutEntry *)temp_r30)->is_flag_4_set() != 0) && (arg1 == ((TWindowSubItem *)temp_r30)->get_cursor_pos())) {
             ((TWindowSubItem *)temp_r30)->m_2c = 0xFFAAAAAA;
             ((TWindowSubItem *)temp_r30)->m_30 = 0xFF909090;
             ((TWindowSubItem *)temp_r30)->m_34 = 0xFF909090;

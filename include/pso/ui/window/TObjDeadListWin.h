@@ -3,6 +3,8 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+struct TWindowMessage;
+
 struct DeadPlayerName {
     char text[15];
     char terminator;
@@ -11,7 +13,7 @@ struct DeadPlayerName {
 class TObjDeadListWin : public TObject {
 public:
     s32 m_phase;
-    uaddr m_window_handle;
+    TWindowMessage *m_window_handle;
     s32 m_countdown;
     DeadPlayerName m_names[4];
 

@@ -18,17 +18,6 @@ typedef struct Entry_802877C8 {
     u8 state;
 } Entry_802877C8;
 
-typedef struct Rect_80287580 {
-    f32 x0, y0, x1, y1;
-    f32 u0, v0, u1, v1;
-} Rect_80287580;
-
-typedef struct Obj_80287580 {
-    u8 pad0[0x34];
-    s32 f34;
-    f32 f38;
-} Obj_80287580;
-
 typedef struct Entry_80287860 {
     u8 pad0[4];
     f32 x;
@@ -46,25 +35,24 @@ extern "C" {
 u32 calc_text_width(char *s);
 const UV_80287580 window_tab_uv_table[4] = {{0.0f, 98.0f}, {0.0f, 125.0f}, {0.0f, 152.0f}, {80.0f, 98.0f}};
 extern s32 hud_texlist;
-void draw_window_tab(Obj_80287580 *obj, f32 *pos, u8 idx, f32 width);
 void __dl__FPv(void);
 
 f32 TWindowSubStatusDisp__sub_80287570(void *arg0) {
     return (1.6e+02f) + *(f32 *)((s8 *)arg0 + 0xC);
 }
 
-void draw_window_tab(Obj_80287580 *obj, f32 *pos, u8 idx, f32 width) {
-    Rect_80287580 r3;
-    Rect_80287580 r2;
-    Rect_80287580 r1;
+void draw_window_tab(WindowDrawContext *context, f32 *pos, u8 idx, f32 width) {
+    TexturedQuad r3;
+    TexturedQuad r2;
+    TexturedQuad r1;
     f32 scale;
     f32 w;
-    scale = -1.0f / (0.0299f + obj->f38);
+    scale = -1.0f / (0.0299f + context->depth);
     w = width;
     w += (8e+01f);
     begin_screen_draw(1);
     TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
-    set_draw_texture_and_color(1, obj->f34);
+    set_draw_texture_and_color(1, context->color);
     r1.x0 = pos[0];
     r1.y0 = pos[1];
     r1.x1 = 40.0f + pos[0];
@@ -73,7 +61,7 @@ void draw_window_tab(Obj_80287580 *obj, f32 *pos, u8 idx, f32 width) {
     r1.v0 = window_tab_uv_table[idx].v / 256.0f;
     r1.u1 = (40.0f + window_tab_uv_table[idx].u) / 256.0f;
     r1.v1 = (27.0f + window_tab_uv_table[idx].v) / 256.0f;
-    ((WindowDrawContext *)obj)->transform_quad((TexturedQuad *)&r1);
+    context->transform_quad(&r1);
     draw_textured_quad_at_depth((f32 *)&r1, scale);
     r2.x0 = 40.0f + pos[0];
     r2.y0 = pos[1];
@@ -83,7 +71,7 @@ void draw_window_tab(Obj_80287580 *obj, f32 *pos, u8 idx, f32 width) {
     r2.v0 = window_tab_uv_table[idx].v / 256.0f;
     r2.u1 = (20.0f + (40.0f + window_tab_uv_table[idx].u)) / 256.0f;
     r2.v1 = (27.0f + window_tab_uv_table[idx].v) / 256.0f;
-    ((WindowDrawContext *)obj)->transform_quad((TexturedQuad *)&r2);
+    context->transform_quad(&r2);
     draw_textured_quad_at_depth((f32 *)&r2, scale);
     r3.x0 = 40.0f + (pos[0] + w);
     r3.y0 = pos[1];
@@ -93,7 +81,7 @@ void draw_window_tab(Obj_80287580 *obj, f32 *pos, u8 idx, f32 width) {
     r3.v0 = window_tab_uv_table[idx].v / 256.0f;
     r3.u1 = (80.0f + window_tab_uv_table[idx].u) / 256.0f;
     r3.v1 = (27.0f + window_tab_uv_table[idx].v) / 256.0f;
-    ((WindowDrawContext *)obj)->transform_quad((TexturedQuad *)&r3);
+    context->transform_quad(&r3);
     draw_textured_quad_at_depth((f32 *)&r3, scale);
     TWindowSubStatusDisp::get_player();
 }
@@ -151,7 +139,7 @@ void TWindowSubStatusDisp::draw_entry_tab(void *arg1) {
     f32 pos[2];
     pos[0] = ((f32 *)arg1)[0] + e->x;
     pos[1] = ((f32 *)arg1)[1] + e->y;
-    ((void (*)(f32, Obj_80287580 *, f32 *, u8))draw_window_tab)(e->width, (Obj_80287580 *)arg1, pos, e->state);
+    ((void (*)(f32, WindowDrawContext *, f32 *, u8))draw_window_tab)(e->width, (WindowDrawContext *)arg1, pos, e->state);
 }
 
 void TWindowSubStatusDisp__sub_802878B8(u8 *arg0, u8 *arg1) {

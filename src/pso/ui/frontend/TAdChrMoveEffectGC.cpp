@@ -1,7 +1,9 @@
 #pragma push
 
 #include "types.h"
+#include "pso/render/ColorCopy.h"
 #include "pso/render/Draw2D.h"
+#include "pso/render/ColorLineList.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TAdChrMoveEffectGC.h"
 #include "pso/render/ModelDrawContext.h"
@@ -49,9 +51,9 @@ typedef struct {
     s32 n;
 } Desc_80348E34;
 void TAdChrMoveEffectGC::sub_80348E34() {
-    f32 pos[8];
-    Desc_80348E34 desc;
-    u8 col[16];
+    ColorLineVertex pos[4];
+    ColorLineList desc;
+    u32 col[4];
     u8 *e;
     s32 i;
     u8 *src;
@@ -59,27 +61,27 @@ void TAdChrMoveEffectGC::sub_80348E34() {
         for (i = 0; i < 16; i++) {
             e = ((u8 *)this) + i * 0x38;
             if (*(u32 *)((s8 *)e + 0x54) & 1) {
-                desc.pos = pos;
-                desc.col = col;
-                desc.a = 0;
-                desc.n = 4;
+                desc.verts = pos;
+                desc.colors = col;
+                desc.tex = NULL;
+                desc.count = 4;
                 copy_vec2(pos, e + 0x44);
                 src = e + 0x4C;
-                ((TAdChrMoveEffectGC *)(desc.col))->copy4(src);
-                desc.col[3] = *(u8 *)((s8 *)e + 0x50);
-                desc.pos[2] = *(f32 *)((s8 *)e + 0x44);
-                desc.pos[3] = *(f32 *)((s8 *)e + 0x48) + *(f32 *)((s8 *)e + 0x40);
-                ((TAdChrMoveEffectGC *)(desc.col + 4))->copy4(src);
-                desc.col[7] = *(u8 *)((s8 *)e + 0x50);
-                desc.pos[4] = *(f32 *)((s8 *)e + 0x44) + *(f32 *)((s8 *)e + 0x3C);
-                desc.pos[5] = *(f32 *)((s8 *)e + 0x48) + *(f32 *)((s8 *)e + 0x40);
-                ((TAdChrMoveEffectGC *)(desc.col + 8))->copy4(src);
-                desc.col[11] = *(u8 *)((s8 *)e + 0x50);
-                desc.pos[6] = *(f32 *)((s8 *)e + 0x44) + *(f32 *)((s8 *)e + 0x3C);
-                desc.pos[7] = *(f32 *)((s8 *)e + 0x48);
-                ((TAdChrMoveEffectGC *)(desc.col + 12))->copy4(src);
-                desc.col[15] = *(u8 *)((s8 *)e + 0x50);
-                draw_polygon_2d((NJS_POINT2COL *)&desc, 4, 7, 1e-05f * (f32)i + (-1.01f));
+                copy4(&desc.colors[0], src);
+                reinterpret_cast<u8 *>(&desc.colors[0])[3] = *(u8 *)((s8 *)e + 0x50);
+                desc.verts[1].x = *(f32 *)((s8 *)e + 0x44);
+                desc.verts[1].y = *(f32 *)((s8 *)e + 0x48) + *(f32 *)((s8 *)e + 0x40);
+                copy4(&desc.colors[1], src);
+                reinterpret_cast<u8 *>(&desc.colors[1])[3] = *(u8 *)((s8 *)e + 0x50);
+                desc.verts[2].x = *(f32 *)((s8 *)e + 0x44) + *(f32 *)((s8 *)e + 0x3C);
+                desc.verts[2].y = *(f32 *)((s8 *)e + 0x48) + *(f32 *)((s8 *)e + 0x40);
+                copy4(&desc.colors[2], src);
+                reinterpret_cast<u8 *>(&desc.colors[2])[3] = *(u8 *)((s8 *)e + 0x50);
+                desc.verts[3].x = *(f32 *)((s8 *)e + 0x44) + *(f32 *)((s8 *)e + 0x3C);
+                desc.verts[3].y = *(f32 *)((s8 *)e + 0x48);
+                copy4(&desc.colors[3], src);
+                reinterpret_cast<u8 *>(&desc.colors[3])[3] = *(u8 *)((s8 *)e + 0x50);
+                draw_polygon_2d(reinterpret_cast<NJS_POINT2COL *>(&desc), 4, 7, 1e-05f * (f32)i + (-1.01f));
             }
         }
     }
@@ -123,7 +125,7 @@ void TAdChrMoveEffectGC::reset_effect_entries() {
     for (i = 0; i < 16; i++) {
         e = (E_80349038 *)((u8 *)this + i * 0x38);
         copy_vec2((e->v44), e->v24);
-        ((TAdChrMoveEffectGC *)(e->v4C))->copy4(e->v34);
+        copy4(e->v4C, e->v34);
         *(u8 *)&e->f50 = e->v34[3];
         e->f54 = 0;
         e->f58 = 0;
@@ -144,8 +146,8 @@ void TAdChrMoveEffectGC::setup_move_effect_params(s32 arg1, s32 arg2) {
     P_803490D8 p;
     copy_vec2((&p.a), (void *)&chr_move_effect_pos_table[arg1]);
     copy_vec2((&p.b), (void *)&chr_move_effect_pos_table[arg2]);
-    ((TAdChrMoveEffectGC *)(&p.c))->copy4((void *)(arg1 < 3 ? &lbl_804786E8[0] : &lbl_804786E8[1]));
-    ((TAdChrMoveEffectGC *)(&p.d))->copy4((void *)(arg2 < 3 ? &lbl_804786E8[0] : &lbl_804786E8[1]));
+    copy4(&p.c, (void *)(arg1 < 3 ? &lbl_804786E8[0] : &lbl_804786E8[1]));
+    copy4(&p.d, (void *)(arg2 < 3 ? &lbl_804786E8[0] : &lbl_804786E8[1]));
     copy_vec2((&p.e), (void *)lbl_804786F0);
     TAdChrMoveEffectGC__sub_80349194((W_80349194 *)this, &p);
 }
@@ -202,7 +204,7 @@ void TAdChrMoveEffectGC::run_task() {
                 vy = -dy / 30.0f * (f32)self->e[i].cnt + dy;
                 if (self->e[i].cnt == 0) {
                     copy_vec2((&self->e[i].cur), &self->e[i].start);
-                    ((TAdChrMoveEffectGC *)(self->e[i].curcol))->copy4(self->e[i].col0);
+                    copy4(self->e[i].curcol, self->e[i].col0);
                 } else {
                     self->e[i].cur.x += vx;
                     self->e[i].cur.y += vy;
@@ -219,7 +221,7 @@ void TAdChrMoveEffectGC::run_task() {
                 self->e[i].cnt++;
             } else {
                 copy_vec2((&self->e[i].cur), &self->e[i].end);
-                ((TAdChrMoveEffectGC *)(self->e[i].curcol))->copy4(self->e[i].col1);
+                copy4(self->e[i].curcol, self->e[i].col1);
                 t = self->e[i].col1[3] / 10;
                 self->e[i].f2C = (self->e[i].f2C > t) ? self->e[i].f2C - t : 0;
             }

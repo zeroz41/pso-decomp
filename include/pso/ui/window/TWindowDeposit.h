@@ -8,10 +8,9 @@ struct TWindowDeposit : public TWindowBase {
     virtual ~TWindowDeposit();
     virtual void render();
     f32 m_60;
-    f32 scale;
-    void render_status(s32 ctx);
+    f32 scale[2];
+    void render_status(WindowDrawContext *context);
     virtual void run_task();
-    u8 unk_68[0x4];
 };
 
 LAYOUT_ASSERT(TWindowDeposit_size, sizeof(TWindowDeposit) == 0x6C);

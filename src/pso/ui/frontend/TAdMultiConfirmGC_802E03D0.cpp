@@ -1,7 +1,7 @@
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/ui/TUnk_804E3008.h"
+#include "pso/ui/TAdChrSelPlayerGC.h"
 #include "pso/ui/frontend/TAdPlyStatusGC.h"
 #include "pso/object/ambient/TObjFish.h"
 #pragma defer_codegen on
@@ -23,16 +23,9 @@
 #include "pso/object/ambient/TObjFish.h"
 
 
-struct Obj_802E0CB0 {
-    u8 pad0[0x38]; f32 x, y, z; u8 pad44[0x5C - 0x44]; s32 rx, ry, rz;
-    u8 pad68[0x104 - 0x68]; s32 mode; s32 idx; u8 pad10c[0x11C - 0x10C]; s32 f11C;
-};
-
 extern "C" {
 extern const char lbl_804728D0[];
 const char lbl_804728D0[] = "TAdChrSelPlayerGC";
-
-void sub_802E0CB0__13TUnk_804E3008Fv(Obj_802E0CB0 *o);
 }
 
 struct Stack_802E0468
@@ -68,7 +61,7 @@ u8 *get_char_table_entry__23TAdSinglePlyChrSelectGCFi(int);
 
 }
 
-TUnk_804E3008 *multi_chr_select_player_slot_table[4] = { NULL };
+TAdChrSelPlayerGC *multi_chr_select_player_slot_table[4] = { NULL };
 
 extern "C" {
 
@@ -76,79 +69,78 @@ extern "C" {
 #pragma fp_contract on
 #pragma pool_data off
 
-void TUnk_804E3008::sub_802E0CB0() {
-    ((Obj_802E0CB0 *)this)->f11C = 0;
-    switch (((Obj_802E0CB0 *)this)->mode) {
+void TAdChrSelPlayerGC::place_model_for_mode(s32) {
+    spin_model = 0;
+    switch (layout_mode) {
     case 0:
-        ((Obj_802E0CB0 *)this)->x = 17.0f;
-        ((Obj_802E0CB0 *)this)->y = -10.5f;
-        ((Obj_802E0CB0 *)this)->z = -40.0f;
-        ((Obj_802E0CB0 *)this)->rx = 0;
-        ((Obj_802E0CB0 *)this)->ry = 0xF3D5;
-        ((Obj_802E0CB0 *)this)->rz = 0;
-        ((Obj_802E0CB0 *)this)->f11C = 1;
+        position.x = 17.0f;
+        position.y = -10.5f;
+        position.z = -40.0f;
+        rotation_x = 0;
+        rotation_y = 0xF3D5;
+        rotation_z = 0;
+        spin_model = 1;
         break;
     case 1:
     case 2:
-        ((Obj_802E0CB0 *)this)->x = 0.0f;
-        ((Obj_802E0CB0 *)this)->y = -10.5f;
-        ((Obj_802E0CB0 *)this)->z = -40.0f;
-        ((Obj_802E0CB0 *)this)->rx = 0;
-        ((Obj_802E0CB0 *)this)->ry = 0xF3D5;
-        ((Obj_802E0CB0 *)this)->rz = 0;
-        ((Obj_802E0CB0 *)this)->f11C = 1;
+        position.x = 0.0f;
+        position.y = -10.5f;
+        position.z = -40.0f;
+        rotation_x = 0;
+        rotation_y = 0xF3D5;
+        rotation_z = 0;
+        spin_model = 1;
         break;
     case 3:
-        ((Obj_802E0CB0 *)this)->x = 28.0f * ((Obj_802E0CB0 *)this)->idx + -14.0f;
-        ((Obj_802E0CB0 *)this)->y = -10.0f;
-        ((Obj_802E0CB0 *)this)->z = -110.0f;
-        ((Obj_802E0CB0 *)this)->rx = 0;
-        ((Obj_802E0CB0 *)this)->ry = 182.04445f * (7.25f - 14.5f * ((Obj_802E0CB0 *)this)->idx);
-        ((Obj_802E0CB0 *)this)->rz = 0;
+        position.x = 28.0f * formation_index + -14.0f;
+        position.y = -10.0f;
+        position.z = -110.0f;
+        rotation_x = 0;
+        rotation_y = 182.04445f * (7.25f - 14.5f * formation_index);
+        rotation_z = 0;
         break;
     case 4:
-        ((Obj_802E0CB0 *)this)->x = 19.0f * ((Obj_802E0CB0 *)this)->idx + -19.0f;
-        ((Obj_802E0CB0 *)this)->y = -10.0f;
-        ((Obj_802E0CB0 *)this)->z = -110.0f;
-        ((Obj_802E0CB0 *)this)->rx = 0;
-        ((Obj_802E0CB0 *)this)->ry = 182.04445f * (9.8f - 9.8f * ((Obj_802E0CB0 *)this)->idx);
-        ((Obj_802E0CB0 *)this)->rz = 0;
+        position.x = 19.0f * formation_index + -19.0f;
+        position.y = -10.0f;
+        position.z = -110.0f;
+        rotation_x = 0;
+        rotation_y = 182.04445f * (9.8f - 9.8f * formation_index);
+        rotation_z = 0;
         break;
     case 5: {
         f32 xs[4] = { -21.5f, -8.0f, 7.0f, 23.5f };
         f32 zs[4] = { -110.0f, -118.56f, -110.0f, -118.56f };
         f32 rs[4] = { 11.6f, 3.86f, -3.64f, -11.21f };
-        ((Obj_802E0CB0 *)this)->x = xs[((Obj_802E0CB0 *)this)->idx];
-        ((Obj_802E0CB0 *)this)->y = -10.0f;
-        ((Obj_802E0CB0 *)this)->z = zs[((Obj_802E0CB0 *)this)->idx];
-        ((Obj_802E0CB0 *)this)->rx = 0;
-        ((Obj_802E0CB0 *)this)->ry = 182.04445f * rs[((Obj_802E0CB0 *)this)->idx];
-        ((Obj_802E0CB0 *)this)->rz = 0;
+        position.x = xs[formation_index];
+        position.y = -10.0f;
+        position.z = zs[formation_index];
+        rotation_x = 0;
+        rotation_y = 182.04445f * rs[formation_index];
+        rotation_z = 0;
         break;
     }
     }
 }
 #pragma pop
 
-void TAdMultiPlyChrSelectGC::set_index_and_close_status(s32 arg1) {
-    *(s32 *)((s8 *)this + 0x104) = arg1;
-    ((s32 (*)(void *, s32))sub_802E0CB0__13TUnk_804E3008Fv)(this, *(s32 *)((s8 *)this + 0x104));
-    uaddr index = ((u32)TAdPlyStatusGC::get_index());
-    if (index != 0U) {
-        ((TAdPlyStatusGC *)index)->close_window(arg1);
+void TAdChrSelPlayerGC::set_index_and_close_status(s32 index) {
+    layout_mode = index;
+    place_model_for_mode(layout_mode);
+    TAdPlyStatusGC *status = reinterpret_cast<TAdPlyStatusGC *>(TAdPlyStatusGC::get_index());
+    if (status != NULL) {
+        status->close_window(index);
     }
 }
 
-void TAdMultiPlyChrSelectGC::set_status_value(s32 arg1) {
-    void *index;
-    *(s32 *)((s8 *)this + 0x110) = arg1;
-    index = (void *)TAdPlyStatusGC::get_index();
-    if (index != 0U) {
-        TAdPlyStatusGC::set_status_index((saddr)index, (int)(*(s32 *)((s8 *)this + 0x110)));
+void TAdChrSelPlayerGC::set_status_value(s32 value) {
+    status_index = value;
+    TAdPlyStatusGC *status = reinterpret_cast<TAdPlyStatusGC *>(TAdPlyStatusGC::get_index());
+    if (status != NULL) {
+        TAdPlyStatusGC::set_status_index(reinterpret_cast<saddr>(status), status_index);
     }
 }
 
-TUnk_804E3008::~TUnk_804E3008() {
+TAdChrSelPlayerGC::~TAdChrSelPlayerGC() {
     if (multi_chr_select_player_slot_table[slot] != NULL) {
         multi_chr_select_player_slot_table[slot] = NULL;
     }
@@ -166,7 +158,7 @@ TUnk_804E3008::~TUnk_804E3008() {
     }
 }
 
-void TUnk_804E3008::run_task() {
+void TAdChrSelPlayerGC::run_task() {
     u8 *arg0 = (u8 *)this;
     void *p;
     void *idx;
@@ -231,7 +223,7 @@ void TUnk_804E3008::run_task() {
             F(0x170, void *) = p;
             break;
         }
-        ((TUnk_804E3008 *)arg0)->sub_802E0784();
+        ((TAdChrSelPlayerGC *)arg0)->init_model_animation();
         F(0xFC, s32) = 2;
         break;
     case 2:
@@ -281,14 +273,14 @@ void TUnk_804E3008::run_task() {
     }
 }
 
-void TUnk_804E3008::sub_802E0784() {
-    this->set_action_table((saddr)lbl_804E2F78);
-    this->set_motion_list((int) (*(s32 *)((s8 *)TAdMultiPlyChrSelectGC__resource_bundle + 0x430)));
+void TAdChrSelPlayerGC::init_model_animation() {
+    this->set_action_table(reinterpret_cast<saddr>(lbl_804E2F78));
+    this->set_motion_list(*(s32 *)(TAdMultiPlyChrSelectGC__resource_bundle + 0x430));
     set_cursor_index(0);
     set_animation((this->requested_action));
 }
 
-void TUnk_804E3008::set_cursor_index(s32 arg1) {
+void TAdChrSelPlayerGC::set_cursor_index(s32 arg1) {
     s16 temp_r4;
 
     this->requested_action = (s16) (arg1 * 3);
@@ -304,13 +296,13 @@ void TUnk_804E3008::set_cursor_index(s32 arg1) {
     }
 }
 
-void TUnk_804E3008::render() {
+void TAdChrSelPlayerGC::render() {
     if (state == 3) {
         update_chara_making();
     }
 }
 
-void TUnk_804E3008::update_chara_making() {
+void TAdChrSelPlayerGC::update_chara_making() {
     push_matrix();
     post_translate_matrix((u8 *)&position);
     rotate_matrix_y(0, rotation_y);
@@ -341,7 +333,7 @@ void TUnk_804E3008::update_chara_making() {
     pop_matrix();
 }
 
-void TUnk_804E3008::draw_model_with_arg(void *model) {
+void TAdChrSelPlayerGC::draw_model_with_arg(void *model) {
     this->model = model;
     set_motion_interpolation_flag();
     draw_saving_joints_checked();
@@ -380,11 +372,11 @@ bool fn_802E0454(u8 *arg0) {
 
 void TAdMultiConfirmGC__sub_802E0448(void* p) { *(s32*)((char*)p + 0x11c) = 1; }
 
-int TAdMultiConfirmGC::reset_cursor(void* p) { return ((int (*)(void *, int))set_cursor_index__13TUnk_804E3008Fl)(p, 0); }
+int TAdMultiConfirmGC::reset_cursor(void* p) { return ((int (*)(void *, int))set_cursor_index__17TAdChrSelPlayerGCFl)(p, 0); }
 
-int TAdMultiConfirmGC::set_cursor_index_1(void* p) { return ((int (*)(void *, int))set_cursor_index__13TUnk_804E3008Fl)(p, 1); }
+int TAdMultiConfirmGC::set_cursor_index_1(void* p) { return ((int (*)(void *, int))set_cursor_index__17TAdChrSelPlayerGCFl)(p, 1); }
 
-int TAdMultiConfirmGC::set_cursor_index_2(void* p) { return ((int (*)(void *, int))set_cursor_index__13TUnk_804E3008Fl)(p, 2); }
+int TAdMultiConfirmGC::set_cursor_index_2(void* p) { return ((int (*)(void *, int))set_cursor_index__17TAdChrSelPlayerGCFl)(p, 2); }
 
 void TAdMultiConfirmGC__sub_802E03D0(void* p) { *(s32*)((char*)p + 0x118) = 0; }
 

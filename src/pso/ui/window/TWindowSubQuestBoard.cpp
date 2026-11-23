@@ -156,7 +156,7 @@ void TUnk_804D1818::run_task() {
             ((TWindowBase *)value_window)->close();
             value_window = 0U;
         }
-        ((TWindowSubComCard *)menu)->clear_flag_and_release();
+        ((TWindowMenu *)menu)->clear_flag_and_release();
         state = 2;
     case 2:
         if (menu->is_cancelled() != 0) {

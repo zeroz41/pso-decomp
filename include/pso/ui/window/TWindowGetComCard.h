@@ -4,15 +4,20 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+struct GuildCardEntry;
+struct TWindowMenu;
+struct TWindowMessage;
+
 struct TWindowGetComCard : public TObject {
+    explicit TWindowGetComCard(TObject *parent);
     virtual ~TWindowGetComCard();
     virtual void run_task();
-    uaddr m_1c;
-    u32 m_20;
-    u32 m_24;
-    u32 m_28;
+    TWindowMessage *message;
+    TWindowMenu *confirmation;
+    s32 state;
+    s32 timer;
     virtual void render();
-    static void remove_entry(s32 arg0, s32 arg1, s32 arg2);
+    static void remove_entry(s32 index, GuildCardEntry *entries, s32 count);
     static void construct_card_tags();
 };
 
@@ -20,7 +25,6 @@ LAYOUT_ASSERT(TWindowGetComCard_size, sizeof(TWindowGetComCard) == 0x2C);
 
 extern "C" {
 void TWindowFukidasi__sub_80252C38(void *p);
-u8 *TWindowGetComCard__ct(TWindowGetComCard *window_get_com_card);
 void *__dt__17TWindowGetComCardFv(TWindowGetComCard *arg0, s16 arg1);
 int fn_80252CBC(void *p);
 }
@@ -28,7 +32,6 @@ int fn_80252CBC(void *p);
 // --- C functions defined in TWindowGetComCard.cpp ---
 extern "C" {
 void TWindowFukidasi__sub_80252C38(void *p);
-u8 *TWindowGetComCard__ct(TWindowGetComCard *window_get_com_card);
 int fn_80252CBC(void *p);
 }
 // --- end of C functions

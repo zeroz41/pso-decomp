@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/render/ColorLineList.h"
 #include "pso/ui/charcreate/TChCrEffFade.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "types.h"
@@ -13,41 +14,34 @@
 
 const char *TChCrEffFade__class_name = "TChCrEffFade";
 
-struct Prim_80293D84 {
-    NJS_POINT2 *pts;
-    u32 *colors;
-    s32 start;
-    s32 count;
-};
-
 extern "C" {
 u32 __cvt_fp2unsigned(f32);
 
 void fn_80293D84(void *arg0, void *arg1, u32 color, f32 scale, f32 alpha) {
     // inferred: the unit hexagon the cells are scaled from
-    static const NJS_POINT2 hexagon[7] = {
+    static const ColorLineVertex hexagon[7] = {
         { 0.5f, -0.865f }, { 1.0f, 0.0f }, { 0.5f, 0.865f }, { -0.5f, 0.865f },
         { -1.0f, 0.0f }, { -0.5f, -0.865f }, { 0.0f, 0.0f },
     };
-    NJS_POINT2 *pos = (NJS_POINT2 *)arg1;
-    Prim_80293D84 prim;
+    const ColorLineVertex *position = static_cast<const ColorLineVertex *>(arg1);
+    ColorLineList prim;
     u32 colors[6];
-    NJS_POINT2 pts[6];
+    ColorLineVertex pts[6];
     s32 i;
     u32 c;
     for (i = 0; i < 6; i++) {
-        pts[i].x = scale * hexagon[i].x + pos->x;
-        pts[i].y = scale * hexagon[i].y + pos->y;
+        pts[i].x = scale * hexagon[i].x + position->x;
+        pts[i].y = scale * hexagon[i].y + position->y;
     }
     c = (color & 0x00FFFFFF) | (__cvt_fp2unsigned(255.0f * alpha) << 24);
     for (i = 0; i < 6; i++) {
         colors[i] = c;
     }
     prim.colors = colors;
-    prim.start = 0;
+    prim.tex = NULL;
     prim.count = 6;
-    prim.pts = pts;
-    ((TWindowCtrlMain *)(&prim))->draw_strip_swap_color(6, 6, (-1.5f));
+    prim.verts = pts;
+    prim.draw_strip_swap_color(6, 6, (-1.5f));
 }
 
 void fn_80293E58(void *arg0, f32 scale) {
@@ -72,44 +66,29 @@ void fn_80293E58(void *arg0, f32 scale) {
 
 }
 
-struct Stack_80293F98 {
-    void *sp8;
-    s32 * spC;
-    s32 sp10;
-    s32 sp14;
-    s32 sp18;
-    s32 sp1C;
-    s32 sp20;
-    s32 sp24;
+struct FadeStrip : ColorLineList {
+    u32 color0, color1, color2, color3;
 };
 
 
 // The 640x480 screen corners the fade strip is drawn over.
-f32 chcr_eff_fade_strip_rect[4][2] = {
+ColorLineVertex chcr_eff_fade_strip_rect[4] = {
     {0.0f, 0.0f}, {640.0f, 0.0f}, {640.0f, 480.0f}, {0.0f, 480.0f},
 };
 
 void TChCrEffFade::draw_fade_strip(f32 farg0) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80293F98, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_80293F98, spC) == 0x4);
-    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_80293F98, sp10) == 0x8);
-    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_80293F98, sp14) == 0xC);
-    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_80293F98, sp18) == 0x10);
-    LAYOUT_ASSERT(sp1C_offset, offsetof(Stack_80293F98, sp1C) == 0x14);
-    LAYOUT_ASSERT(sp20_offset, offsetof(Stack_80293F98, sp20) == 0x18);
-    LAYOUT_ASSERT(sp24_offset, offsetof(Stack_80293F98, sp24) == 0x1C);
-    Stack_80293F98 stack;
-    s32 temp_r9;
-    temp_r9 = __cvt_fp2unsigned((f32) (255.0f * farg0)) << 0x18;
-    stack.sp24 = temp_r9;
-    stack.sp20 = temp_r9;
-    stack.sp1C = temp_r9;
-    stack.sp18 = temp_r9;
-    stack.spC = &stack.sp18;
-    stack.sp10 = 0;
-    stack.sp14 = 4;
-    stack.sp8 = chcr_eff_fade_strip_rect;
-    ((TWindowCtrlMain *)(&stack.sp8))->draw_strip_swap_color(4, 6, (-1.5f));
+    FadeStrip strip;
+    u32 color;
+    color = __cvt_fp2unsigned(255.0f * farg0) << 24;
+    strip.color3 = color;
+    strip.color2 = color;
+    strip.color1 = color;
+    strip.color0 = color;
+    strip.colors = &strip.color0;
+    strip.tex = NULL;
+    strip.count = 4;
+    strip.verts = chcr_eff_fade_strip_rect;
+    strip.draw_strip_swap_color(4, 6, -1.5f);
 }
 
 extern "C" {

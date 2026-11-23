@@ -43,6 +43,20 @@ struct PlayerNpcControl {
 
 LAYOUT_ASSERT(PlayerNpcControl_size, sizeof(PlayerNpcControl) == 0x8);
 
+struct ControllerInputContext;
+
+struct StickEscapeDetector {
+    s32 last_stick_angle;
+    s32 last_turn_frame;
+    const ControllerInputContext *input;
+
+    s32 check_input_angle();
+    void reset_fields();
+};
+
+LAYOUT_ASSERT(StickEscapeDetector_size, sizeof(StickEscapeDetector) == 0xC);
+void init_stick_escape_detector(StickEscapeDetector *detector, const ControllerInputContext *input);
+
 struct TObjPlayer : public TObjChara {
     TObjPlayer(TObject *parent, void *arg2);
     TObjPlayer(TObject *parent, TUnk_801D8A4C *src);
@@ -223,8 +237,7 @@ struct TObjPlayer : public TObjChara {
     u8 _pad640[0x4];
     ProtectionTimer protection;  // frames the player cannot be hurt
     u8 _pad648[0x4];
-    void* m_64c;
-    u8 _pad650[0x8];
+    StickEscapeDetector stick_escape_detector;
     void* m_658;
     s32 warp_yaw;
     Vec warp_destination;
@@ -507,7 +520,6 @@ struct TObjPlayer : public TObjChara {
     static s32 check_flags(s32 arg0, s32 arg1);
     static void reset();
     static void set_camera_mode(s32 arg0);
-    void reset_fields();
     void reset_state_block();
     s16 get_evp();
     int check_flag_0x80();
@@ -1067,7 +1079,6 @@ struct TObjPlayer : public TObjChara {
     static void copy_gauge_warn_vec();
     static void free_global_805D6FB8();
     static void alloc_and_init_object_b4();
-    void set_render_rect(s32 arg1, s32 mode, s32 arg3, s32 arg4);
     void init_record_array(s32 arg1);
     static s32 find_table_index_by_id(u32 arg0);
     static s32 find_record_index(u32 arg0, u32 arg1);

@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/item/TItemData.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/city/TShopGetItemWindow.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -23,7 +24,7 @@
 
 extern "C" {
 s32 get_entity_id(TObjPlayer *);
-TWindowMenu *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
+
 saddr get_window_layout_position(s32);
 s32 compact_items__18TCheckRoomSequenceFi(int);
 s32 remove_bank_item_amount__18TCheckRoomSequenceFiii(int, int, int);
@@ -210,7 +211,7 @@ void TShopGetItemWindow::handle_withdraw_list_input() {
                 return;
             }
             sel = (u16)get_entity_id(m_24);
-            m_2c = create_yes_no_window(get_window_layout_position(0x2B), sel, 0, 0);
+            m_2c = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), sel, NULL, NULL);
             ((TWindowMenu *)m_2c)->set_ready_flag();
             scale = get_scale();
             ((TWindowAddition *)m_2c)->set_position_xy(get_scale(), scale);
@@ -224,7 +225,7 @@ void TShopGetItemWindow::update_input_number() {
     w = m_30;
     if (w != NULL && w->is_confirmed() != 0) {
         if (m_2c == NULL) {
-            m_2c = create_yes_no_window(get_window_layout_position(0x2B), (u16)get_entity_id(m_24), 0, 0);
+            m_2c = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), (u16)get_entity_id(m_24), NULL, NULL);
             ((TWindowMenu *)m_2c)->set_ready_flag();
             ((TWindowAddition *)m_2c)->set_position_xy(get_scale(), get_scale());
         }

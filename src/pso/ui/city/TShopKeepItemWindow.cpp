@@ -4,6 +4,7 @@
 #pragma dont_inline off
 
 #include "pso/player/TPlyItem.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "types.h"
 #include <string.h>
 #include "pso/ui/city/TShopKeepItemWindow.h"
@@ -36,7 +37,7 @@ s32 bank_has_free_row(s32 slot);
 
 extern "C" {
 u32 get_entity_id(TObjPlayer *);
-TWindowMenu *create_yes_no_window(s32 position, u16 client, u32 arg2, u32 arg3);
+
 saddr get_window_layout_position(s32);
 s32 delete_item(TObjPlayer *, s32, s32);
 s32 store_item_in_bank(u8 *item, s32 arg1, s32 slot);
@@ -221,7 +222,7 @@ void TShopKeepItemWindow::handle_deposit_list_select() {
         return;
     }
     if (this->confirm_window == NULL) {
-        this->confirm_window = create_yes_no_window(get_window_layout_position(0x2B), get_entity_id(this->m_24), 0, 0);
+        this->confirm_window = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), (u16)(get_entity_id(this->m_24)), NULL, NULL);
         ((TWindowMenu *)this->confirm_window)->set_ready_flag();
         f32 scale = get_scale();
         ((TWindowAddition *)this->confirm_window)->set_position_xy(get_scale(), scale);
@@ -237,7 +238,7 @@ void TShopKeepItemWindow::update_number_input() {
     if ((w != NULL) && (w->is_confirmed() != 0)) {
         if (this->confirm_window == NULL) {
             entity_id = get_entity_id(this->m_24);
-            this->confirm_window = create_yes_no_window(get_window_layout_position(0x2B), entity_id, 0, 0);
+            this->confirm_window = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), (u16)entity_id, NULL, NULL);
             ((TWindowMenu *)(this->confirm_window))->set_ready_flag();
             scale = get_scale();
             ((TWindowAddition *)(this->confirm_window))->set_position_xy(get_scale(), scale);

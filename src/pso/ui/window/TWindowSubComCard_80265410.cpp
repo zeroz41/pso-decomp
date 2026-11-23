@@ -100,7 +100,7 @@ s32 TWindowSubComCard__sub_80265660(Obj_80265660 *o, s16 i);
 void TWindowSubComCard__sub_80265680(u8 *arg0, s16 arg1);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void* p, int a1, int a2, int a3);
 void fn_80266378(s32 arg0);
-u8 * create_yes_no_window(s32 arg0, s32 arg1, uaddr arg2, uaddr arg3);
+
 u8 * init_shop_judgment_window(void* p);
 saddr create_window_menu_default(saddr pos, s32 entries);
 saddr create_titled_window_menu_default(saddr pos, s32 entries, saddr title);
@@ -129,12 +129,12 @@ void TKeyBoardControl::set_composer_flag62_bit4() {
     }
 }
 
-int TWindowSubComCard::get_flag() { return (*(u16*)((char*)this + 0x70) >> 2) & 0x1; }
+int TWindowMenuInfomation::get_flag() { return (m_70 >> 2) & 1; }
 
-void TWindowSubComCard::clear_flag_and_release2() {
-    *(u16 *)((s8 *)this + 0x70) = (u16) (*(u16 *)((s8 *)this + 0x70) & 0xFFFFFFFD);
-    if ((u32) this->m_78 != 0U) {
-        ((TWindowSubStatusDisp *)(this->m_78))->set_entry_state(1);
+void TWindowMenuInfomation::clear_flag_and_release2() {
+    m_70 &= ~2;
+    if (heading != NULL) {
+        heading->set_entry_state(1);
     }
 }
 
@@ -615,9 +615,9 @@ void fn_80266378(s32 arg0) {
     lbl_804D05A8.rows = arg0;
 }
 
-u8 *create_yes_no_window(s32 position, s32 id, uaddr yes_text, uaddr no_text) {
-  TWindowMenu *window_menu = create_window_menu(position, 2, id);
-  if (yes_text == 0U)
+TWindowMenu *create_yes_no_window(const NJS_POINT2 *position, s32 id, const char *yes_text, const char *no_text) {
+  TWindowMenu *window_menu = create_window_menu((saddr)position, 2, id);
+  if (yes_text == NULL)
   {
     ((s32 (*)(int, void *, int, int))forward_trade_action_default__16TObjCityMainWarpFPviii)((saddr) ((u8 *) window_menu), (void *) TWindowSubStatusDisp::get_message_10(0x5B), 6, 0);
   }
@@ -625,7 +625,7 @@ u8 *create_yes_no_window(s32 position, s32 id, uaddr yes_text, uaddr no_text) {
   {
     ((s32 (*)(int, void *, int, int))forward_trade_action_default__16TObjCityMainWarpFPviii)((saddr) window_menu, (void *) yes_text, 6, 0);
   }
-  if (0U == no_text)
+  if (no_text == NULL)
   {
     ((s32 (*)(int, void *, int, int))forward_trade_action_default__16TObjCityMainWarpFPviii)((saddr) ((u8 *) window_menu), (void *) TWindowSubStatusDisp::get_message_10(0x5C), 6, 1);
   }
@@ -641,10 +641,10 @@ u8 *create_yes_no_window(s32 position, s32 id, uaddr yes_text, uaddr no_text) {
   align_menu_entry_positions(window_menu);
   window_menu->set_ready_flag();
   window_menu->set_depth(50030.0f);
-  return (u8 *) window_menu;
+  return window_menu;
 }
 
-u8 * init_shop_judgment_window(void* p) { return create_yes_no_window((saddr)p, 4, (u32)(0), (u32)(0)); }
+u8 * init_shop_judgment_window(void* p) { return (u8 *)create_yes_no_window((const NJS_POINT2 *)p, 4, NULL, NULL); }
 
 TWindowMenu *create_window_menu(saddr position, s32 count, s32 client_id) {
     fn_80266378(count);

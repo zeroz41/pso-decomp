@@ -4,11 +4,13 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 
+struct GuildCardRecord;
+
 struct TWindowUserSort : public TWindowBase {
-    TWindowUserSort(saddr arg1, s32 arg2);
+    TWindowUserSort(saddr arg1, GuildCardRecord *record);
     virtual void render();
     virtual ~TWindowUserSort();
-    u32 m_60;
+    GuildCardRecord *m_60;
     virtual void run_task();
 };
 

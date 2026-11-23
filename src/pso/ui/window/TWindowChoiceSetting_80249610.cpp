@@ -1,63 +1,51 @@
 #include "types.h"
 #include "pso/ui/window/TWindowChoiceSetting_80249610.h"
-#include "pso/ui/window/TUnk_804D0658.h"
+#include "pso/ui/window/TWindowMenuInfomation.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/window/TWindowFukidasi.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 
-typedef struct Balloon_8024966C {
-    u8 pad0[0xC];
-    struct Balloon_8024966C *next;
-    u8 pad10[0x58 - 0x10];
-    f32 rise;
-} Balloon_8024966C;
-
-typedef struct Ctrl_8024966C {
-    u8 pad0[0x14];
-    Balloon_8024966C *head;
-} Ctrl_8024966C;
-
 extern "C" {
-s32 find_overlapping_balloon__15TWindowFukidasiFPvPvPvPv(s32, s32, s32, s32);
 
-int TUnk_804D0658::is_selected() { return (this->m_70 >> 5) & 0x1; }
-s32 TWindowFukidasi::draw_resolved_window(s32 arg0, s32 arg1, s32 arg2, s32 viewport_index) {
-    return find_overlapping_balloon__15TWindowFukidasiFPvPvPvPv(arg0, arg1, arg2, *(s32 *)((s8 *)(get_viewport_window_root(viewport_index)) + 0x14));
+int TWindowMenuInfomation::is_selected() { return (this->m_70 >> 5) & 0x1; }
+TWindowFukidasi *TWindowFukidasi::draw_resolved_window(const f32 *position, const f32 *size, s32 viewport) {
+    TObject *root = get_viewport_window_root(viewport);
+    return find_overlapping_balloon(position, size, (TWindowFukidasi *)root->m_down);
 }
 }
 
 void resolve_chat_balloon_overlaps(void) {
     s32 i;
-    Balloon_8024966C *p;
-    Balloon_8024966C *q;
+    TWindowFukidasi *p;
+    TWindowFukidasi *q;
     for (i = 0; i < 6; i++) {
-        p = ((Ctrl_8024966C *)get_viewport_window_root(i))->head;
+        p = (TWindowFukidasi *)get_viewport_window_root(i)->m_down;
         if (p != NULL) {
             while (p != NULL) {
-                ((TWindowFukidasi *)p)->hide();
-                p = p->next;
+                p->hide();
+                p = static_cast<TWindowFukidasi *>(p->m_next);
             }
         }
     }
     for (i = 0; i < 6; i++) {
-        p = ((Ctrl_8024966C *)get_viewport_window_root(i))->head;
+        p = (TWindowFukidasi *)get_viewport_window_root(i)->m_down;
         if (p != NULL) {
-            while (p->next != NULL) {
-                q = (Balloon_8024966C *)((TWindowFukidasi *)p)->find_balloon_overlap_for((saddr)p->next);
+            while (p->m_next != NULL) {
+                q = p->find_balloon_overlap_for(static_cast<TWindowFukidasi *>(p->m_next));
                 while (q != NULL) {
-                    if (((TWindowFukidasi *)p)->get_visible_flag() != 0) {
+                    if (p->get_visible_flag() != 0) {
                         TWindowFukidasi__sub_80249788(q);
-                    } else if (((TWindowFukidasi *)q)->get_visible_flag() != 0) {
+                    } else if (q->get_visible_flag() != 0) {
                         TWindowFukidasi__sub_80249788(p);
-                    } else if (p->rise > q->rise) {
+                    } else if (p->m_58 > q->m_58) {
                         TWindowFukidasi__sub_80249788(p);
                     } else {
                         TWindowFukidasi__sub_80249788(q);
                     }
-                    q = (Balloon_8024966C *)((TWindowFukidasi *)p)->find_balloon_overlap_for((saddr)q->next);
+                    q = p->find_balloon_overlap_for(static_cast<TWindowFukidasi *>(q->m_next));
                 }
-                p = p->next;
+                p = static_cast<TWindowFukidasi *>(p->m_next);
             }
         }
     }

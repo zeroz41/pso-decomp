@@ -5,6 +5,7 @@
 
 class TWindowDD_WS_String : public TWindowBase {
 public:
+    TWindowDD_WS_String(f32 *position, f32 *size, u32 text, s32 style);
     virtual ~TWindowDD_WS_String();
     virtual void run_task();
     virtual void render();

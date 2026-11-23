@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowLoadItemTexture.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/item/MagStats.h"
 #include "pso/ui/window/WindowMenuFactory.h"
@@ -73,7 +74,7 @@ struct TWindowSubMag_8027B888 {
     void *list2;
     void *card;
     void *help;
-    void *slotwin;
+    TWindowLoadItemTexture *slotwin;
     void *photon;
     void *effect;
 };
@@ -97,7 +98,6 @@ s32 TWindowSubEquip__sub_80263AF8(s32, s32);
 saddr get_window_layout_position(s32);
 void *get_player_by_client_id(s32);
 void *__ct__15TWindowHelpItemFPvUs(void *, s32, s32);
-void *fn_802628C0(s32, const f32 *, s32);
 s32 call_if_split_screen(void *, s32);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 are_status_entries_ready__13TWindowSubMagFi(void *);
@@ -232,7 +232,7 @@ void TWindowSubMag::run_task() {
             set_depth__11TWindowBaseFf(self->help);
         }
         if (self->slotwin == NULL) {
-            self->slotwin = fn_802628C0(get_window_layout_position(0xC), lbl_8044F9E8, self->client_id);
+            self->slotwin = fn_802628C0((void *)get_window_layout_position(0xC), lbl_8044F9E8, self->client_id);
         }
         ((TWindowHelpItem *)(self->help))->sub_80255E24();
         ((TWindowSubMag *)((saddr)self->list))->init_and_setup((void*)2);
@@ -242,7 +242,7 @@ void TWindowSubMag::run_task() {
     case 2:
         ((TWindowSubMag *)self)->update_displayed_item();
         self->mag_state = ((TWindowSubMag *)(self->help))->get_mag_state();
-        ((TWindowSubMag *)(self->slotwin))->set_mag_slot_state(((TWindowSubMag *)(self->help))->get_mag_state());
+        ((TWindowLoadItemTexture *)self->slotwin)->set_mag_slot_state((TItemData *)((TWindowSubMag *)self->help)->get_mag_state());
         if (((TWindowMenuIconLine *)(self->list))->is_cancelled() != 0) {
             self->parent->m7();
             self->state = 0x11;
@@ -273,7 +273,7 @@ void TWindowSubMag::run_task() {
         if (self->card == NULL) {
             self->card = ((TWindowSubMag *)self)->create_action_menu(((TWindowMenuIconLine *)self->list)->get_cursor_value());
         }
-        ((TWindowSubComCard *)(self->card))->clear_flag_and_release();
+        ((TWindowMenu *)(self->card))->clear_flag_and_release();
         self->state = 4;
     case 4:
         if (((TWindowMenu *)(self->card))->is_cancelled() != 0) {
@@ -319,7 +319,7 @@ void TWindowSubMag::run_task() {
         ((TWindowSubMag *)(self->help))->set_flag60_bit8();
         ((TWindowHelpItem *)(self->help))->refresh_copied_items();
         ((TWindowSubMag *)((saddr)self->list))->init_and_setup((void*)2);
-        ((TWindowSubMag *)(self->slotwin))->set_mag_slot_state(((TWindowSubMag *)(self->help))->get_mag_state());
+        ((TWindowLoadItemTexture *)self->slotwin)->set_mag_slot_state((TItemData *)((TWindowSubMag *)self->help)->get_mag_state());
         if (((TItemData *)(self->help))->update_mag_status_gauges() != 0) {
             self->state = 9;
         } else {

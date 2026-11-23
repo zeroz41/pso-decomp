@@ -143,7 +143,7 @@ void draw_dialing_rectangle(const NJS_POINT2 *origin, const NJS_POINT2 *size) {
     poly.p[3].x = origin->x + size->x;
     poly.p[3].y = origin->y;
     poly.col[3].color = 0x8F;
-    draw_polygon_2d((NJS_POINT2COL *)&poly, 4, 7, -120.0f);
+    draw_polygon_2d(&poly, 4, 7, -120.0f);
 }
 
 void TAdDialingGC__sub_80328B20(TAdDialingGC *) {}

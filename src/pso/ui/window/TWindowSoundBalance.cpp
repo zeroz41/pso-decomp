@@ -3,7 +3,7 @@
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/unk/TLobby_80226070.h"
-#include "pso/unk/TUnk_804CF930.h"
+#include "pso/unk/TWindowStatusGauge.h"
 #include "types.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
@@ -22,7 +22,7 @@
 #pragma readonly_strings on
 
 // inferred: GaugeLayoutRecord, the type 1 record (0x24 bytes) behind entries 2 and 3, which
-// set_music_gain (entry 2) and set_sound_effect_gain (entry 3) drive as gauges (TUnk_804CF930::target).
+// set_music_gain (entry 2) and set_sound_effect_gain (entry 3) drive as gauges (TWindowStatusGauge::target).
 struct GaugeLayoutRecord {
     s32 type;
     f32 pos[2];
@@ -64,7 +64,7 @@ void TWindowSoundBalance::set_sound_effect_gain(s16 gain) {
     if (sound_effect_gain != gain) {
         sound_effect_gain = gain;
         TLobby__sub_8022614C(gain);
-        TUnk_804CF930 *gauge = (TUnk_804CF930 *)get_array_entry(3);
+        TWindowStatusGauge *gauge = (TWindowStatusGauge *)get_array_entry(3);
         gauge->target = gain + 100;
         gauge->calc_bar_width();
     }
@@ -74,7 +74,7 @@ void TWindowSoundBalance::set_music_gain(s16 gain) {
     if (music_gain != gain) {
         music_gain = gain;
         update_music_stream_gain(gain);
-        TUnk_804CF930 *gauge = (TUnk_804CF930 *)get_array_entry(2);
+        TWindowStatusGauge *gauge = (TWindowStatusGauge *)get_array_entry(2);
         gauge->target = gain + 250;
         gauge->calc_bar_width();
     }

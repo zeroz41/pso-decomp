@@ -9,6 +9,7 @@
 #include "pso/ui/window/TWindowDD_8034435C.h"
 #include "pso/ui/window/WordSelectMessage.h"
 #include "pso/ui/window/TWindowDD.h"
+#include "pso/ui/window/TWindowDD_WS_Word.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
@@ -857,7 +858,7 @@ void TWindowDD__sub_803434F4(u8 *arg0) {
     var_r31 = arg0;
     var_r3 = (u8 *)(var_r31 + (*(s32 *)((s8 *)arg0 + 0x20) * 4));
     var_r3 = (u8 *)(*(u8 **)((s8 *)var_r3 + 0x24));
-    ((TWindowDD *)var_r3)->free_child();
+    reinterpret_cast<TWindowDD_WS_Word *>(var_r3)->free_child();
     var_r3 = var_r31;
     var_r4 = (u8 *)(var_r31 + (*(s32 *)((s8 *)var_r31 + 0x20) * 4));
     var_r4 = (u8 *)(*(u8 **)((s8 *)var_r4 + 0x24));

@@ -1,7 +1,6 @@
 #include "types.h"
+#include "pso/render/GinjaTextureInput.h"
 #include "pso/player/TObjPlayer.h"
-
-struct S_803DA218 { s32 a; u32 c; s32 b; };
 
 struct Sub_803DA688 { u32 v; };
 
@@ -17,7 +16,6 @@ struct Slot_803DA388 { s32 id; s32 a; s32 b; s32 c; s32 d; s32 e; s32 f; s32 g; 
 
 extern "C" {
 extern s32 player_ref_entry_active_count;
-void set_texture_name(S_803DA218 *self, s32 a, s32 b, u32 c);
 extern s32 record_array_count;
 extern Rec_803DA688 *record_array_ptr;
 extern Err_803DA5A8 lbl_8058D470[];
@@ -25,27 +23,26 @@ extern s32 lbl_805D775C;
 extern Slot_803DA5A8 *lbl_805D7760;
 s32 find_free_slot__10TObjPlayerFPvPv(Rec_803DA688 **arg0, Slot_803DA5A8 **arg1);
 void TObjPlayer__sub_803DA388(Slot_803DA388 *p, s32 n);
-void TObjPlayer::set_render_rect(s32 arg1, s32 mode, s32 arg3, s32 arg4) {
-    u8 *arg0 = (u8 *)this;
-    *(s32 *)((s8 *)arg0 + 0) = arg1;
-    *(s32 *)((s8 *)arg0 + 0x10) = arg3;
-    *(s32 *)((s8 *)arg0 + 0x14) = arg4;
-    *(s32 *)((s8 *)arg0 + 4) = mode;
+void GinjaTextureInput::set_render_rect(void *pixels, s32 input_format, s32 input_width, s32 input_height) {
+    data = pixels;
+    width = input_width;
+    height = input_height;
+    format = input_format;
 }
 
 #pragma push
 #pragma scheduling off
 #pragma peephole off
 #pragma optimize_for_size off
-void set_texture_name(S_803DA218 *self, s32 a, s32 b, u32 c) {
-    if (c & 0x40000000) {
-        self->a = a;
-        self->c = c;
-        self->b = b;
+void set_texture_name(GinjaTextureEntry *entry, GinjaTextureInput *input, u32 index, u32 attributes) {
+    if (attributes & 0x40000000) {
+        entry->name = reinterpret_cast<char *>(input);
+        entry->value04 = attributes;
+        entry->global_index = index;
     } else {
-        self->a = a;
-        self->c = c;
-        self->b = b;
+        entry->name = reinterpret_cast<char *>(input);
+        entry->value04 = attributes;
+        entry->global_index = index;
     }
 }
 #pragma pop

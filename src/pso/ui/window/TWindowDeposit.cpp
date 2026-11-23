@@ -1,3 +1,4 @@
+#include "pso/ui/window/WindowDrawContext.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
@@ -38,17 +39,15 @@ extern s32 __vt__14TWindowDeposit[];
 #pragma readonly_strings on
 const char *TWindowDeposit__name = "TWindowDeposit";
 #pragma pop
-s32 draw_window_tab(s32, s32, s32, f32);
 
-void TWindowDeposit::render_status(s32 ctx) {
-    draw_window_tab(ctx, ctx + 0x10, 3, this->m_60);
+void TWindowDeposit::render_status(WindowDrawContext *context) {
+    draw_window_tab(context, &context->inner_x, 3, this->m_60);
 }
 
 void TWindowDeposit::render() {
-    saddr ctx;
-    ctx = reinterpret_cast<saddr>(setup_window_draw_context(&this->scale));
-    render_status(ctx);
-    draw_visible_window_entries(this, &this->entry_list, reinterpret_cast<WindowDrawContext *>(ctx));
+    WindowDrawContext *context = setup_window_draw_context(scale);
+    render_status(context);
+    draw_visible_window_entries(this, &entry_list, context);
 }
 
 void TWindowDeposit::run_task() { ((TWindowDD *)this)->initialize_subwindow(); update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((char*)this + 0x24)); }

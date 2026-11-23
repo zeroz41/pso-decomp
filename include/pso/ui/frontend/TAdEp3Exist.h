@@ -9,6 +9,7 @@ class TAdSelectCurGC;
 struct TAdEp3Exist : public TObject {
     TAdEp3Exist(TObject *parent);
     virtual ~TAdEp3Exist();
+    static void draw_message_window(void *window, void *frame_context);
     virtual void *vfunc_6();     // creates the message callback window
     uaddr scroll_window;         // 0x1C: TAdScrollWinGC__ct's window
     TAdSelectCurGC *cursor;      // 0x20: the one-entry cursor

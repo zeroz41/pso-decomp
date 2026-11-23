@@ -3,14 +3,10 @@
 
 #include "types.h"
 
-extern "C" {
-u8 TAdTrialAgreementGC__sub_80335958(u8 *arg0);
-}
+class TUnk_804EE458;
 
-// --- C functions defined in TAdTrialAgreementGC_80335958.cpp ---
 extern "C" {
-u8 TAdTrialAgreementGC__sub_80335958(u8 *arg0);
+s32 TAdTrialAgreementGC__sub_80335958(TUnk_804EE458 *controller);
 }
-// --- end of C functions
 
 #endif

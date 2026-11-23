@@ -45,15 +45,11 @@ WindowDescriptor window_break_in_layout = {
 extern "C" {
 
 void TWindowBreakIn::render() {
-    s32 arg0 = (saddr)this;
-    saddr tmp = reinterpret_cast<saddr>(reinterpret_cast<TWindowBase *>(arg0)->draw_default_entry());
-    draw_visible_window_entries(
-        reinterpret_cast<const void *>(arg0),
-        reinterpret_cast<const WindowLayoutEntries *>(arg0 + 0x24),
-        reinterpret_cast<WindowDrawContext *>(tmp));
+    WindowDrawContext *context = draw_default_entry();
+    draw_visible_window_entries(this, &entry_list, context);
 }
 
-void TWindowBreakIn::run_task() { ((TWindowSubStatusDisp *)this)->update_entry_visibility(); ((TWindowDD *)this)->initialize_subwindow(); update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((char*)this + 0x24)); }
+void TWindowBreakIn::run_task() { ((TWindowSubStatusDisp *)this)->update_entry_visibility(); ((TWindowDD *)this)->initialize_subwindow(); update_window_entry_list(&entry_list); }
 
 TWindowBreakIn::~TWindowBreakIn() {}
 TWindowBreakIn::TWindowBreakIn() : TWindowBase((u8 *)&window_break_in_layout, (s16)(4), (u8 *)(get_window_layout_position(0xAA))) {

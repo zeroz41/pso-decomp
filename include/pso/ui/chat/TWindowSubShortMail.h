@@ -1,13 +1,23 @@
 #ifndef PSO_UI_CHAT_TWINDOWSUBSHORTMAIL_H
 #define PSO_UI_CHAT_TWINDOWSUBSHORTMAIL_H
 
+#include <stddef.h>
 #include "types.h"
 #include "pso/system/task/TObject.h"
+
+struct TKeyBoardControl;
+struct TWindowMainMenu;
+struct TWindowMenuIconLine;
+struct TWindowMessage;
+
+class TKeyBoardControl;
 
 struct TWindowSubShortMail : public TObject {
     TWindowSubShortMail(TObject *object, void *arg2);
     virtual ~TWindowSubShortMail();
     s32 create_list_item();
+    static TKeyBoardControl *create_keyboard();
+    void open_recipient_search();
     s32 open_confirm_dialog();
     s32 open_delete_confirm_dialog();
     u8 m_1c;
@@ -39,11 +49,11 @@ struct TWindowSubShortMail : public TObject {
     static void *get_mail_ptr(void* p);
     static s32 create_menu();
     static s32 build_menu();
-    static s32 create_keyboard();
     static s32 create_confirm_menu_window();
     static s32 create_window();
     static s32 open_menu();
 };
 
+LAYOUT_ASSERT(TWindowSubShortMailKeyboardOffset, offsetof(TWindowSubShortMail, keyboard) == 0x5C);
 LAYOUT_ASSERT(TWindowSubShortMail_size, sizeof(TWindowSubShortMail) == 0x60);
 #endif

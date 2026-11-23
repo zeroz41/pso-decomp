@@ -4,6 +4,9 @@
 #include "types.h"
 #include "pso/ui/city/TShopSequence.h"
 
+class TQuestThread;
+struct TWindowMenu;
+
 struct THunterGuildSeqOffline : public TShopSequence {
     THunterGuildSeqOffline(TObject *parent, TObjPlayer *player);
     virtual ~THunterGuildSeqOffline();
@@ -35,9 +38,9 @@ struct THunterGuildSeqOffline : public TShopSequence {
     void open_quest_list();
     void handle_window_input();
     void *init(void *arg1, void *arg2);
-    u8 *choice_menu;         // 0x2C: create_yes_no_window
+    TWindowMenu *choice_menu; // 0x2C: create_yes_no_window
     TObject *counter_camera; // 0x30: set_service_counter_camera
-    uaddr m_34;                // 0x34: the quest thread create_in_root starts
+    TQuestThread *m_34;       // 0x34: TQuestThread::create_in_root
     s32 unk_38;
     void advance_matching_entries(s32 arg1, s32 arg2);
     static void clear_slots();

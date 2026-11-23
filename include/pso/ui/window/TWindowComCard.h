@@ -5,6 +5,7 @@
 #include "pso/ui/window/TWindowBase.h"
 
 struct TWindowComCard : public TWindowBase {
+    TWindowComCard(void *position, void *data);
     virtual ~TWindowComCard();
     virtual void render();
     virtual void run_task();
@@ -14,7 +15,6 @@ struct TWindowComCard : public TWindowBase {
     void*get_kbd_ptr();
     void set_help_mode(s32 mode);
     void*get_card_name_ptr();
-    void set_selected_index(s32 arg1);
 };
 
 LAYOUT_ASSERT(TWindowComCard_size, sizeof(TWindowComCard) == 0x60);

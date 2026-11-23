@@ -1,6 +1,7 @@
 #ifndef PSO_UI_FRONTEND_TADENTERSERIALACCESSGC_H
 #define PSO_UI_FRONTEND_TADENTERSERIALACCESSGC_H
 
+#include "pso/ui/window/WindowCallback.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdEnterBaseGC.h"
 
@@ -33,7 +34,7 @@ struct TAdEnterSerialAccessGC : public TAdEnterBaseGC {
     static char *hex_to_decimal_string(const char *serial);
     static s32 open_message_window(void *arg0, void *arg1);
     static void init_state();
-    static void *create_callback(void *arg0, void *arg1, void *arg2);
+    static void *create_callback(void *position, void *scale, WindowCallback callback);
     void *create_default_callback();
     static s32 show_message_window(void *arg0, void *arg1);
     static void clear_serial_buffer();
@@ -61,7 +62,7 @@ void *__dt__22TAdEnterSerialAccessGCFv(TAdEnterSerialAccessGC *arg0, s16 arg1);
 void create_draw_callback__22TAdEnterSerialAccessGCFv(void);
 void initialize_serial_input(const char *serial);
 }
-extern "C" void *create_callback_at_zero_vec2(void *callback);
+extern "C" void *create_callback_at_zero_vec2(WindowCallback callback);
 
 // --- C functions defined in TAdEnterSerialAccessGC.cpp ---
 extern "C" {

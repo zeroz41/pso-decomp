@@ -42,7 +42,6 @@ saddr get_window_layout_position(int);
 s32 TWindowSimpleStatus__ct(void *, int, void *, void *);
 extern s32 __vt__18TWindowPartyStatus[];
 extern s32 local_client_id;
-u8 *TWindowPartyStatus__ct(u8 *arg0, s32 arg1, saddr arg2);
 s32 update_lockon_window();
 }
 void update_status_help_item(saddr arg0);
@@ -62,7 +61,7 @@ PartyStatusWindowLayout lbl_804E7750 = {
     {6, {7.0f, 7.0f}, {34.0f, 29.0f}, 112.0f, 84.0f, 0.5f, -1, &hud_texlist, 0, 4},
     {3, {45.0f, 40.0f}, 0.5f, 0xFFFFFFFF, 4, NULL},
     {4, {100.0f, 19.0f}, 0.5f, 0xFFFFFFFF, 4, 1},
-    {2, {44.0f, 7.0f}, 0.5f, 0xFF00FF15, 0x20, 57.0f, 0, 0, 0xFF00CA9E, 0xFFFF2924},
+    {{2, {44.0f, 7.0f}, 0.5f, 0xFF00FF15, 0x20, 57.0f, 0, 0}, 0xFF00CA9E, 0xFFFF2924},
     {3, {48.0f, 19.0f}, 0.5f, 0xFFFFFFFF, 4, "Lv"},
 };
 
@@ -136,26 +135,19 @@ TWindowPartyStatus::~TWindowPartyStatus() {
 
 }
 
-u8 *TWindowPartyStatus__ct(u8 *window_party_status, s32 arg1, saddr arg2) {
-    TWindowSimpleStatus__ct((void *)window_party_status, (int) (get_window_layout_position(0xAB)), (void *)(saddr)local_client_id, (void *)arg2);
-    *(s32 **)((s8 *)window_party_status + 0x18) = __vt__18TWindowPartyStatus;
-    *(s32 *)((s8 *)window_party_status + 0) = (s32) ((saddr)TWindowPartyStatus__name);
-    ((TWindowPartyStatus *)window_party_status)->client_index = arg1;
-    return window_party_status;
+TWindowPartyStatus::TWindowPartyStatus(s32 slot, u8 *descriptor)
+    : TWindowSimpleStatus((void *)get_window_layout_position(0xAB), local_client_id, descriptor) {
+    m_name = TWindowPartyStatus__name;
+    client_index = (s16)slot;
 }
 
 
 #pragma push
 #pragma opt_propagation off
 void *create_party_status_window(s32 arg0) {
-    void *o;
     s32 n = arg0 + 1;
     s32 g = local_client_id;
     u32 slot = (u32)(g + n) & 3;
-    o = TObject::operator new(0x78);
-    if (o != NULL) {
-        o = TWindowPartyStatus__ct((u8 *)o, slot, (saddr)&party_status_window_params);
-    }
-    return o;
+    return new TWindowPartyStatus(slot, (u8 *)&party_status_window_params);
 }
 #pragma pop

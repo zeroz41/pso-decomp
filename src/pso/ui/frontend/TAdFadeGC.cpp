@@ -1,4 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/render/Draw2D.h"
+#include "pso/render/ColorLineList.h"
 #include "pso/ui/frontend/TAdFadeGC.h"
 
 #include "types.h"
@@ -10,12 +12,9 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 
-struct Desc_802C79C8 { f32 *pos; u32 *col; s32 a; s32 b; };
-
 extern "C" {
 void *get_player_by_client_id(s32 i);
 f32 xz_distance_squared(void *, void *);
-s32 draw_color_lines(void *, int, int, f32);
 s32 draw_polygon_2d__FP13NJS_POINT2COLlUlf(void *, int, int, f32, f32, f32);
 f32 lbl_805D6800;
 s8 lbl_805D6804;
@@ -24,37 +23,37 @@ const char *TAdFadeGC__name = TAdFadeGC__class_name_string;
 
 void TAdFadeGC::draw_fade() {
     u8 *arg0 = (u8 *)this;
-    f32 pos[8];
-    Desc_802C79C8 d;
+    ColorLineVertex pos[4];
+    ColorLineList d;
     u32 col[4];
     u32 i;
     f32 y;
     f32 y2;
     u32 c;
 
-    d.pos = pos;
-    d.col = col;
-    d.a = 0;
-    d.b = 4;
+    d.verts = pos;
+    d.colors = col;
+    d.tex = NULL;
+    d.count = 4;
     switch (*(s32 *)((s8 *)arg0 + 0x28)) {
     case 0:
         set_color_blending_mode(0, 0xB);
         set_color_blending_mode(1, 4);
         for (i = 0; i < 120; i++) {
-            d.pos[0] = (0.0f);
+            d.verts[0].x = (0.0f);
             y = (8.0f) * (f32) i;
-            d.pos[1] = y;
-            d.col[0] = 0x0FFFFFFF;
-            d.pos[2] = *(f32 *)((s8 *)arg0 + 0x20);
-            d.pos[3] = y;
-            d.col[1] = 0xFFFFFFFF;
-            d.pos[4] = (6.4e+02f);
+            d.verts[0].y = y;
+            d.colors[0] = 0x0FFFFFFF;
+            d.verts[1].x = *(f32 *)((s8 *)arg0 + 0x20);
+            d.verts[1].y = y;
+            d.colors[1] = 0xFFFFFFFF;
+            d.verts[2].x = (6.4e+02f);
             y2 = (4.0f) + y;
-            d.pos[5] = y2;
-            d.col[2] = 0xFFFFFFFF;
-            d.pos[6] = (6.4e+02f) - *(f32 *)((s8 *)arg0 + 0x20);
-            d.pos[7] = y2;
-            d.col[3] = 0xFFFFFFFF;
+            d.verts[2].y = y2;
+            d.colors[2] = 0xFFFFFFFF;
+            d.verts[3].x = (6.4e+02f) - *(f32 *)((s8 *)arg0 + 0x20);
+            d.verts[3].y = y2;
+            d.colors[3] = 0xFFFFFFFF;
             if (lbl_805D6804 == 0) {
                 lbl_805D6804 = 1;
                 lbl_805D6800 = (-1.0f);
@@ -66,23 +65,23 @@ void TAdFadeGC::draw_fade() {
         break;
     case 1:
     case 2:
-        d.pos[0] = (0.0f);
-        d.pos[1] = (0.0f);
+        d.verts[0].x = (0.0f);
+        d.verts[0].y = (0.0f);
         c = *(u32 *)((s8 *)arg0 + 0x30);
-        d.col[0] = (c << 8) | (c >> 24);
-        d.pos[2] = (0.0f);
-        d.pos[3] = (4.8e+02f);
+        d.colors[0] = (c << 8) | (c >> 24);
+        d.verts[1].x = (0.0f);
+        d.verts[1].y = (4.8e+02f);
         c = *(u32 *)((s8 *)arg0 + 0x30);
-        d.col[1] = (c << 8) | (c >> 24);
-        d.pos[4] = (6.4e+02f);
-        d.pos[5] = (4.8e+02f);
+        d.colors[1] = (c << 8) | (c >> 24);
+        d.verts[2].x = (6.4e+02f);
+        d.verts[2].y = (4.8e+02f);
         c = *(u32 *)((s8 *)arg0 + 0x30);
-        d.col[2] = (c << 8) | (c >> 24);
-        d.pos[6] = (6.4e+02f);
-        d.pos[7] = (0.0f);
+        d.colors[2] = (c << 8) | (c >> 24);
+        d.verts[3].x = (6.4e+02f);
+        d.verts[3].y = (0.0f);
         c = *(u32 *)((s8 *)arg0 + 0x30);
-        d.col[3] = (c << 8) | (c >> 24);
-        draw_polygon_2d__FP13NJS_POINT2COLlUlf(&d, 4, 7, (-1.0f), (4.8e+02f), (0.0f));
+        d.colors[3] = (c << 8) | (c >> 24);
+        draw_polygon_2d(reinterpret_cast<NJS_POINT2COL *>(&d), 4, 7, -1.0f);
         break;
     }
 }

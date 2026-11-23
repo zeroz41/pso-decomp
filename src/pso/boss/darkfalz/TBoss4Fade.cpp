@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/render/ColorLineList.h"
 #include "pso/render/render_util.h"
 
 #include "pso/ui/window/TWindowCtrlMain.h"
@@ -37,7 +38,7 @@ void TBoss4Fade::render() {
     q.b = 4;
     q.tex = TBoss4Fade__fullscreen_vertices;
     set_depth_buffer_settings_1();
-    ((TWindowCtrlMain *)(&q))->draw_strip_swap_color(4, 6, -1.0f);
+    reinterpret_cast<ColorLineList *>(&q)->draw_strip_swap_color(4, 6, -1.0f);
     restore_saved_depth_alpha_state();
   }
 }
