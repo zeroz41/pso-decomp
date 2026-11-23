@@ -5,7 +5,6 @@
 #include "pso/quest/QuestScriptFormat.h"
 #include "pso/ui/city/TShopWindowBase.h"
 
-class TObjBase;
 class TQuestListVM;
 class TWindowMenuIconLine;
 struct TWindowMenu;
@@ -54,7 +53,7 @@ extern TQuestListVM *quest_list_vm_instance;
 // Lists the downloaded quests on the memory cards and loads the chosen one.
 class TQuestListVM : public TShopWindowBase {
 public:
-    TQuestListVM(TObject *parent, TShopWindowBase *owner, TObjBase *player);
+    TQuestListVM(TObject *parent, TShopWindowBase *owner, TObjPlayer *player);
     virtual int vfunc_10();
     virtual void display_guild_message(s32 index, s32 flags);
     virtual void display_message(const char *text, s32 flags);
@@ -94,9 +93,6 @@ public:
     static void reset();
     static u8 *get_quest_dat();
 
-    u8 pad_1C[0x4];
-    s32 state;
-    TObjBase *player;
     QuestFileEntry entries[48];
     s32 entry_count;
     s32 described_entry;

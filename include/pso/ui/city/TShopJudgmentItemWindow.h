@@ -10,9 +10,6 @@ struct TShopJudgmentItemWindow : public TShopWindowBase {
     virtual void vfunc_11();
     virtual void send_message(s32 id, s32 flags);
     virtual void display_message(const char *text, s32 flags);
-    u8 pad_1C[0x4];
-    u32 state;
-    uaddr player;
     u8 unk_28[0xC];
     s32 m_34;
     u8 unk_38[0x18];

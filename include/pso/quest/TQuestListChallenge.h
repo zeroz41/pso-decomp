@@ -5,7 +5,6 @@
 #include "types.h"
 #include "pso/ui/city/TShopWindowBase.h"
 
-class TObjBase;
 class TWindowMenuIconLine;
 struct TWindowMenu;
 struct TWindowMessage;
@@ -18,7 +17,7 @@ struct QuestListStageEntry {
 };
 
 struct TQuestListChallenge : public TShopWindowBase {
-    TQuestListChallenge(TObject *parent, TShopWindowBase *sequence, TObjBase *player);
+    TQuestListChallenge(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player);
     virtual ~TQuestListChallenge();
     virtual void vfunc_11();
     void close_windows();
@@ -29,9 +28,6 @@ struct TQuestListChallenge : public TShopWindowBase {
     void destroy();
     void sub_80288BE4();
 
-    u8 pad_1c[4];
-    s32 state;
-    TObjBase *player;
     void (*on_cancel)(TShopWindowBase *);
     void (*on_accept)(TShopWindowBase *);
     TShopWindowBase *sequence;

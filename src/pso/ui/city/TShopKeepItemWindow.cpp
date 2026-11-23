@@ -59,13 +59,13 @@ TShopKeepItemWindow::TShopKeepItemWindow(void *arg1, void *arg2, void *arg3) : T
     this->entry_count = 0;
     this->deposit_count = 1;
     this->help_item_index = 0;
-    this->m_20 = 0;
+    this->state = 0;
     this->message_window = (TShopWindowBase *)arg2;
     this->item_list_window = 0;
     this->confirm_window = 0;
     this->help_window = 0;
     this->number_window = 0;
-    this->m_24 = (TObjPlayer *)arg3;
+    this->player = (TObjPlayer *)arg3;
     this->ok_callback = NULL;
     this->cancel_callback = NULL;
     memset(this->entries, 0, sizeof(this->entries));
@@ -80,7 +80,7 @@ TShopKeepItemWindow::~TShopKeepItemWindow() {
 
 void TShopKeepItemWindow::vfunc_11() {
     u8 *arg0 = (u8 *)this;
-    switch (this->m_20) {
+    switch (this->state) {
     case 0:
         ((TShopKeepItemWindow *)arg0)->rebuild_item_list();
         return;
@@ -112,7 +112,7 @@ void TShopKeepItemWindow::rebuild_item_list() {
     s32 i;
     s32 cur;
     this->deposit_count = 1;
-    count = ((TPlyItem *)this->m_24->inventory_objects)->count_matching_items(buf);
+    count = ((TPlyItem *)this->player->inventory_objects)->count_matching_items(buf);
     this->entry_count = 0;
     for (i = 0; i < count; i++) {
         if (buf[i] != 0 && ((TItem *)(buf[i]))->copy_to_item_data(&this->entries[this->entry_count].data) != 0) {
@@ -129,7 +129,7 @@ void TShopKeepItemWindow::rebuild_item_list() {
         return;
     }
     if (this->item_list_window == NULL) {
-        this->item_list_window = create_item_list_window(get_shop_text(0x30), 0x40, this->m_24->get_entity_id());
+        this->item_list_window = create_item_list_window(get_shop_text(0x30), 0x40, this->player->get_entity_id());
         for (s32 j = 0; j < this->entry_count; j++) {
             ((TShopJudgmentItemWindow *)(this->item_list_window))->add_list_entry((saddr)this->entries[j].item, j);
         }
@@ -147,7 +147,7 @@ void TShopKeepItemWindow::rebuild_item_list() {
         cur = ((TShopGetItemWindow *)(this->item_list_window))->get_cursor_index();
     }
     if (this->help_window == NULL) {
-        this->help_window = new TWindowHelpItem((void *)get_window_layout_position(0x27), this->m_24->get_entity_id());
+        this->help_window = new TWindowHelpItem((void *)get_window_layout_position(0x27), this->player->get_entity_id());
         if (this->help_window != NULL && TLobby::is_camera_ctrl_active() > 2) {
             ((TLobby *)(this->help_window))->set_position(0.75f, 0.75f);
         }
@@ -220,7 +220,7 @@ void TShopKeepItemWindow::handle_deposit_list_select() {
         return;
     }
     if (this->confirm_window == NULL) {
-        this->confirm_window = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), (this->m_24->get_entity_id()), NULL, NULL);
+        this->confirm_window = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), (this->player->get_entity_id()), NULL, NULL);
         ((TWindowMenu *)this->confirm_window)->set_ready_flag();
         f32 scale = get_scale();
         ((TWindowAddition *)this->confirm_window)->set_position_xy(get_scale(), scale);
@@ -235,7 +235,7 @@ void TShopKeepItemWindow::update_number_input() {
     w = this->number_window;
     if ((w != NULL) && (w->is_confirmed() != 0)) {
         if (this->confirm_window == NULL) {
-            entity_id = this->m_24->get_entity_id();
+            entity_id = this->player->get_entity_id();
             this->confirm_window = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), entity_id, NULL, NULL);
             ((TWindowMenu *)(this->confirm_window))->set_ready_flag();
             scale = get_scale();
@@ -267,7 +267,7 @@ void TShopKeepItemWindow::handle_deposit_confirm() {
         if (r == 0) {
             i = this->item_list_window->get_cursor_value();
             if (store_item_in_bank((u8 *)&this->entries[i].data, this->deposit_count, base) != 0) {
-                delete_item(this->m_24, this->entries[i].item->get_item_id(), this->deposit_count);
+                delete_item(this->player, this->entries[i].item->get_item_id(), this->deposit_count);
                 copy_bank_to_card_window(base);
                 play_sound_effect(0x52D01, 0, 0, 0);
                 ((TWindowBase *)this->confirm_window)->close();

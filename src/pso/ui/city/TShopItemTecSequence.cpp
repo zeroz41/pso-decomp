@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "types.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/city/TShopItemListWindow.h"
@@ -30,7 +31,6 @@ extern const char *TShopItemTecSequence__class_name;
 s32 lbl_805D6248;
 s32 lbl_805D624C;
 TShopItemTecSequence *item_tec_sequence_instance;
-extern void *tl_05;
 s32 get_shop_text(s32 index);
 
 
@@ -184,7 +184,7 @@ void TShopItemTecSequence::update_buy_sell_choice() {
 }
 
 void TShopItemTecSequence::open_item_list_window() {
-    W_802200A8 *o = (W_802200A8 *)new TShopItemListWindow((saddr)tl_05, (saddr)((S_802200A8 *)this), (s32)(((S_802200A8 *)this)->player));
+    W_802200A8 *o = (W_802200A8 *)new TShopItemListWindow(tl_05, this, player);
     o->cb0 = (void *)close__20TShopItemTecSequenceFPv;
     reset_controller_input_state();
     this->set_field_20(5);

@@ -25,7 +25,7 @@ struct TObjNewFloorWin_80073DCC { u8 pad[0x1C]; s32 state; void *window; s32 tim
 extern "C" {
 saddr get_window_layout_position(s32);
 
-void TShopWindowBase::set_field_20(s32 v) { *(s32 *)&(*(u32 *)((u8 *)this + 0x20)) = v; }
+void TShopWindowBase::set_field_20(s32 v) { state = v; }
 
 void TObjNewFloorWin::run_task() {
     TObjNewFloorWin_80073DCC *self = (TObjNewFloorWin_80073DCC *)this;

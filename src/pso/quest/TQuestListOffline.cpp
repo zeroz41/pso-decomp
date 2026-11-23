@@ -4,6 +4,7 @@
 #include "pso/quest/TQuestListOffline.h"
 #include "pso/quest/StoryQuestProgress.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/city/TShopJudgmentItemWindow_8026DF00.h"
@@ -61,7 +62,7 @@ const char *TQuestListOffline__class_name = "TQuestListOffline";
 
 void *story_quest_list_resource;
 
-TQuestListOffline::TQuestListOffline(TObject *parent, TShopWindowBase *sequence, TObjBase *player)
+TQuestListOffline::TQuestListOffline(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player)
     : TShopWindowBase(parent) {
     m_name = TQuestListOffline__class_name;
     this->sequence = sequence;

@@ -8,16 +8,13 @@
 struct TWindowMenu;
 
 struct TShopItemListWindow : public TShopWindowBase {
-    TShopItemListWindow(saddr parent, saddr sequence, s32 player);
+    TShopItemListWindow(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player);
     virtual ~TShopItemListWindow();
     void prepare_tool_purchase();
     void handle_amount_confirm();
     virtual void vfunc_11();
     virtual void display_message(const char *text, s32 flags);
     virtual void display_shop_message(s32 id, s32 flags);
-    u8 _pad1C[0x4];
-    u32 m_20;
-    uaddr m_24;
     // Child windows, closed by the destructor: names from the window each one holds.
     uaddr item_list;      // create_item_list_window
     TShopWindowBase *sequence;  // the shop sequence that opened it; messages go to it

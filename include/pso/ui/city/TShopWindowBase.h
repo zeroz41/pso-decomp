@@ -3,6 +3,8 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+class TObjPlayer;
+
 class TShopWindowBase : public TObject {
 public:
     TShopWindowBase(TObject *parent);
@@ -20,6 +22,10 @@ public:
     virtual void run_task();
 public:
     f32 get_scale();
+
+    u32 pad_1C;
+    s32 state;          // the derived window's vfunc_11 switch
+    TObjPlayer *player; // the player at the counter
 };
 
 // The derived windows' constructors are still C functions and call these by symbol.

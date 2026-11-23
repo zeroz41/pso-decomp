@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/city/TShopEquipmentGearSequence.h"
 #include "pso/ui/city/TShopWindowBase.h"
@@ -31,7 +32,6 @@ TObject *set_service_counter_camera(void *, int);
 saddr get_window_layout_position(int, f32);
 extern s32 TShopEquipmentGearSequence__window_slot_table[4];
 extern const char *TShopEquipmentGearSequence__class_name;
-extern void *tl_05;
 s32 get_shop_text(s32);
 }
 
@@ -39,7 +39,6 @@ s32 get_shop_text(s32);
 s32 TShopEquipmentGearSequence__window_slot_table[4];
 TShopEquipmentGearSequence *lbl_805D6220;
 const char *TShopEquipmentGearSequence__class_name = "TShopEquipmentGearSequence";
-extern void *tl_05;
 s32 get_shop_text(s32);
 
 // Written last-to-first: the unit is built with deferred code generation (see configure.py).
@@ -168,7 +167,7 @@ void TShopEquipmentGearSequence::update_buy_sell_choice(void *self) {
 }
 
 void TShopEquipmentGearSequence::open_armor_list_window() {
-    TShopArmorListWindow *o = new TShopArmorListWindow((saddr)tl_05, (saddr)this, (saddr)player);
+    TShopArmorListWindow *o = new TShopArmorListWindow(tl_05, this, player);
     o->m_1f4 = (uaddr)enter_quest_list;
     reset_controller_input_state();
     this->set_field_20(5);

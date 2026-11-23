@@ -26,11 +26,8 @@ f32 TShopWindowBase::get_scale() {
 }
 
 s32 TShopWindowBase::sub_8022397C() {
-    u8 *arg0 = (u8 *)this;
-    uaddr temp_r3;
-    temp_r3 = *(u32 *)((s8 *)arg0 + 0x24);
-    if (temp_r3 != 0U) {
-        return (u16)TShopGenerator__sub_80222DAC((((TObjBase *)temp_r3)->get_entity_id()));
+    if (player != NULL) {
+        return (u16)TShopGenerator__sub_80222DAC(player->get_entity_id());
     }
     return 0U;
 }
@@ -46,15 +43,14 @@ u16 TShopSequence::get_child_field1c() {
 extern s32 lbl_805D55C0;
 
 s32 TShopWindowBase::sub_802239EC() {
-    if (controller_input_state.controllers[((TObjPlayer *)(*(saddr *)((s8 *)((u8 *)this) + 0x24)))->get_controller_port()].pressed_buttons & 2) {
+    if (controller_input_state.controllers[player->get_controller_port()].pressed_buttons & 2) {
         return 1;
     }
     return test_controller_flag_4c_color(&controller_input_state.keyboard, 2) ? 1 : 0;
 }
 
 s32 TShopWindowBase::sub_80223A48() {
-    u8 *arg0 = (u8 *)this;
-    if (controller_input_state.controllers[((TObjPlayer *)(*(saddr *)((s8 *)arg0 + 0x24)))->get_controller_port()].pressed_buttons & 4) {
+    if (controller_input_state.controllers[player->get_controller_port()].pressed_buttons & 4) {
         return 1;
     }
     if (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0) {
@@ -79,8 +75,8 @@ TShopWindowBase::~TShopWindowBase() {
 
 TShopWindowBase::TShopWindowBase(TObject *parent) : TObject(parent) {
     m_name = TShopWindowBase__class_name;
-    *(u32 *)((s8 *)this + 0x1C) = 0;
-    *(u32 *)((s8 *)this + 0x20) = 0;
-    *(u32 *)((s8 *)this + 0x24) = 0;
+    pad_1C = 0;
+    state = 0;
+    player = NULL;
 }
 

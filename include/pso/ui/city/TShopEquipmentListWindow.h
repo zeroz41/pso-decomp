@@ -8,14 +8,11 @@
 struct TWindowMenu;
 
 struct TShopEquipmentListWindow : public TShopWindowBase {
-    TShopEquipmentListWindow(saddr parent, saddr sequence, s32 player);
+    TShopEquipmentListWindow(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player);
     virtual ~TShopEquipmentListWindow();
     virtual void vfunc_11();
     virtual void display_message(const char *text, s32 flags);
     virtual void display_shop_message(s32 id, s32 flags);
-    u8 _pad1C[0x4];
-    u32 state;
-    uaddr player;
     TShopWindowBase *sequence;  // the shop sequence that opened it; messages go to it
     TWindowMenu *m_2c;
     uaddr m_30;

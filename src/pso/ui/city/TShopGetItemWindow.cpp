@@ -43,8 +43,8 @@ extern const char *TShopGetItemWindow__class_name;
 const char *TShopGetItemWindow__class_name = "TShopGetItemWindow";
 TShopGetItemWindow::TShopGetItemWindow(void *parent, void *owner, void *player) : TShopWindowBase((TObject *)parent) {
     m_name = TShopGetItemWindow__class_name;
-    m_20 = 0;
-    m_24 = (TObjPlayer *)player;
+    state = 0;
+    this->player = (TObjPlayer *)player;
     m_54 = 1;
     m_4c = 0;
     m_58 = 0;
@@ -68,7 +68,7 @@ TShopGetItemWindow::~TShopGetItemWindow() {
 void TShopGetItemWindow::vfunc_11() {
     void (*empty_callback)(TShopWindowBase *);
     void (*callback)(TShopWindowBase *);
-    switch (m_20) {
+    switch (state) {
     case 0:
         rebuild_item_list();
         return;
@@ -120,7 +120,7 @@ void TShopGetItemWindow::rebuild_item_list() {
     if (m_28 == NULL) {
         TItemData item;
         s32 count;
-        m_28 = create_item_list_window(get_shop_text(0x30), 0xC8, m_24->get_entity_id());
+        m_28 = create_item_list_window(get_shop_text(0x30), 0xC8, player->get_entity_id());
         TWindowSetLevelUp__sub_8026DE28(m_28, 0xC8);
         for (i = 0; i < 0xC8; i++) {
             if (copy_bank_item_with_stack_limit(i, &item, &count, x) != 0) {
@@ -157,7 +157,7 @@ void TShopGetItemWindow::rebuild_item_list() {
         if (copy_item_record__18TCheckRoomSequenceFiPvi(sel, &displayed_item_colored, x) != 0) {
             help = (TWindowHelpItem *)TObject::operator new(0xBC);
             if (help != NULL) {
-                id = m_24->get_entity_id();
+                id = player->get_entity_id();
                 help = __ct__15TWindowHelpItemFPvl(help, get_window_layout_position(0x27), id);
             }
             m_34 = help;
@@ -210,7 +210,7 @@ void TShopGetItemWindow::handle_withdraw_list_input() {
                 set_field_20(2);
                 return;
             }
-            sel = m_24->get_entity_id();
+            sel = player->get_entity_id();
             m_2c = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), sel, NULL, NULL);
             ((TWindowMenu *)m_2c)->set_ready_flag();
             scale = get_scale();
@@ -225,7 +225,7 @@ void TShopGetItemWindow::update_input_number() {
     w = m_30;
     if (w != NULL && w->is_confirmed() != 0) {
         if (m_2c == NULL) {
-            m_2c = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), m_24->get_entity_id(), NULL, NULL);
+            m_2c = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), player->get_entity_id(), NULL, NULL);
             ((TWindowMenu *)m_2c)->set_ready_flag();
             ((TWindowAddition *)m_2c)->set_position_xy(get_scale(), get_scale());
         }
@@ -261,11 +261,11 @@ void TShopGetItemWindow::handle_withdraw_confirm() {
                 if (TCheckRoomSequence::get_item_def((uaddr)&record) != 0) {
                     record.set_stack_count(m_54);
                 }
-                if (m_24->can_inventory_accept_item((u8 *)&record) == 0) {
+                if (player->can_inventory_accept_item((u8 *)&record) == 0) {
                     display_shop_message(0x4B, 1);
                     set_field_20(6);
                 } else {
-                    m_24->request_inventory_item(&record);
+                    player->request_inventory_item(&record);
                     remove_bank_item_amount__18TCheckRoomSequenceFiii(idx, m_54, slot);
                     compact_items__18TCheckRoomSequenceFi(slot);
                     copy_bank_to_card_window(slot);

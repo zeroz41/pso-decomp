@@ -89,15 +89,15 @@ void *__ct__15TWindowHelpItemFPvl(void *, s32, s32);
 saddr get_window_layout_position(int);
 void *create_item_list_window(s32, s32, s32);
 
-s32 try_buy_item(saddr player, void *item);
+s32 try_buy_item(TObjPlayer *player, void *item);
 
 }
 
-TShopItemListWindow::TShopItemListWindow(saddr parent, saddr arg2, s32 arg3) : TShopWindowBase((TObject *)parent) {
+TShopItemListWindow::TShopItemListWindow(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player) : TShopWindowBase(parent) {
     s32 count;
     this->m_name = TShopItemListWindow__class_name;
-    this->m_24 = arg3;
-    this->sequence = (TShopWindowBase *)arg2;
+    this->player = player;
+    this->sequence = sequence;
     this->item_list = 0;
     this->confirm_menu = 0;
     this->quantity_input = 0;
@@ -106,11 +106,11 @@ TShopItemListWindow::TShopItemListWindow(saddr parent, saddr arg2, s32 arg3) : T
     this->cost_window = 0;
     this->m_44 = 0;
     this->m_50 = 0;
-    this->m_20 = 0;
+    this->state = 0;
     this->m_1c0 = 0;
     this->m_4c = 0;
     this->m_54 = 0;
-    calc_item_count((TObjPlayer *)this->m_24, &count);
+    calc_item_count((TObjPlayer *)this->player, &count);
     TLobby::set_6264_and_call_2244B0(sub_8022397C(), count);
 }
 
@@ -327,7 +327,7 @@ void TShopItemListWindow::prepare_tool_purchase() {
             set_field_20(2);
             return;
         }
-        confirm_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, ((TObjBase *)m_24)->get_entity_id());
+        confirm_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, ((TObjBase *)player)->get_entity_id());
         confirm_menu->add_text_entry(get_shop_text(4), 6, 0);
         confirm_menu->add_text_entry(get_shop_text(5), 6, 1);
         confirm_menu->calc_window_size();
@@ -350,7 +350,7 @@ void TShopItemListWindow::handle_amount_confirm() {
     case 0:
         if (quantity_input != 0U && ((TWindowInputNumber *)quantity_input)->is_confirmed() != 0) {
             if (confirm_menu == NULL) {
-                confirm_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, ((TObjBase *)m_24)->get_entity_id());
+                confirm_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, ((TObjBase *)player)->get_entity_id());
                 confirm_menu->add_text_entry(get_shop_text(4), 6, 0);
                 confirm_menu->add_text_entry(get_shop_text(5), 6, 1);
                 confirm_menu->calc_window_size();
@@ -384,9 +384,9 @@ void TShopItemListWindow::handle_amount_confirm() {
                     if (TCheckRoomSequence::get_item_def((uaddr)&item) != 0) {
                         item.set_stack_count(m_50);
                     }
-                    try_buy_item(m_24, &item);
+                    try_buy_item(player, &item);
                     if (status_window != 0U) {
-                        n = static_cast<TPlyItem *>(reinterpret_cast<TObjPlayer *>(m_24)->inventory_objects)->count_items_by_id(reinterpret_cast<saddr>(&shop_items[sel]));
+                        n = static_cast<TPlyItem *>(reinterpret_cast<TObjPlayer *>(player)->inventory_objects)->count_items_by_id(reinterpret_cast<saddr>(&shop_items[sel]));
                         ((TWindowSubStatusDisp *)status_window)->set_entry1_field20(n);
                     }
                     if (is_single_purchase_shop_item((u8 *)&shop_items[sel]) != 0) {

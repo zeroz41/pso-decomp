@@ -4,6 +4,7 @@
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/city/TShopJudgmentItemWindow_8026DF00.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/player/TPlyGuildCardTag_8007B434.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -196,7 +197,7 @@ void TQuestListOnline::build_list_window() {
     QuestListEntry *entry;
     if (((VObj_18_80217F88 *)this->sequence)->m8() != 0) {
         if (list_window == NULL) {
-            id = ((TObjBase *)(saddr)(window_owner))->get_entity_id();
+            id = player->get_entity_id();
             list_window = (TWindowMenuIconLine *)create_item_list_window(get_guild_text(0), 0x40, id);
         } else {
             list_window->reset_list();
@@ -241,7 +242,7 @@ void TQuestListOnline::show_info_window() {
     s32 temp_r31;
     if (info_window == NULL) {
         WindowSize size = online_info_window_size;
-        temp_r31 = ((TObjBase *)(saddr)(window_owner))->get_entity_id();
+        temp_r31 = player->get_entity_id();
         info_window = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x2E), (const f32 *)&size, 1, (s32)temp_r31);
         info_window->set_depth(37000.0f);
         if (TCameraCtrl::get_camera_id() >= 2) {
@@ -303,7 +304,7 @@ void TQuestListOnline::handle_list_selection() {
             return;
         } else if (selection_stage == 2) {
             if (confirm_window == NULL) {
-                s32 id = ((TObjBase *)(saddr)(window_owner))->get_entity_id();
+                s32 id = player->get_entity_id();
                 confirm_window = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), id, NULL, NULL);
                 confirm_window->set_position_xy(get_scale(), get_scale());
                 if (sequence != NULL) {

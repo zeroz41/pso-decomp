@@ -14,9 +14,6 @@ struct TShopEquipmentSellWindow : public TShopWindowBase {
     virtual void vfunc_11();
     virtual void display_message(const char *text, s32 flags);
     virtual void display_shop_message(s32 id, s32 flags);
-    u8 _pad1C[0x4];
-    u32 state;
-    u32 player;
     void* m_28;
     u8 unk_2C[0x34];
     u16 m_60;

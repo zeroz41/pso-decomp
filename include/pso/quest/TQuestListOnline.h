@@ -17,9 +17,6 @@ typedef TMenuList<QuestListEntry, 30, 0> OnlineQuestMenu;
 struct TQuestListOnline : public TShopWindowBase {
     virtual ~TQuestListOnline();
     void vfunc_11();
-    u32 unknown1c;
-    u32 state;
-    s32 window_owner;
     s32 (*callback28)();
     s32 (*callback2c)();
     s32 (*callback30)();
@@ -65,7 +62,7 @@ struct TQuestListOnline : public TShopWindowBase {
 };
 LAYOUT_ASSERT(QuestListOnlineSize, (sizeof(TQuestListOnline)==0x70));
 LAYOUT_ASSERT(QuestListOnline_state, (offsetof(TQuestListOnline,state)==0x20));
-LAYOUT_ASSERT(QuestListOnline_window_owner, (offsetof(TQuestListOnline,window_owner)==0x24));
+LAYOUT_ASSERT(QuestListOnline_player, (offsetof(TQuestListOnline,player)==0x24));
 LAYOUT_ASSERT(QuestListOnline_callback28, (offsetof(TQuestListOnline,callback28)==0x28));
 LAYOUT_ASSERT(QuestListOnline_callback2c, (offsetof(TQuestListOnline,callback2c)==0x2C));
 LAYOUT_ASSERT(QuestListOnline_callback30, (offsetof(TQuestListOnline,callback30)==0x30));

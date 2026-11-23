@@ -132,11 +132,11 @@ struct Win_8021C33C;
 int TShopEquipmentListWindow__sub_8021C85C(int a0) {  return shop_weapon_stock_counts[a0]; }
 }
 
-TShopEquipmentListWindow::TShopEquipmentListWindow(saddr parent, saddr arg2, s32 arg3) : TShopWindowBase((TObject *)parent) {
+TShopEquipmentListWindow::TShopEquipmentListWindow(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player) : TShopWindowBase(parent) {
     s32 count;
     this->m_name = TShopEquipmentListWindow__class_name;
-    this->player = arg3;
-    this->sequence = (TShopWindowBase *)arg2;
+    this->player = player;
+    this->sequence = sequence;
     this->m_2c = 0;
     this->m_30 = 0;
     this->m_34 = 0;

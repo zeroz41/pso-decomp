@@ -17,6 +17,7 @@
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/TObjPlayer.h"
 
 extern "C" {
 s32 lbl_805D64A8;
@@ -219,7 +220,7 @@ TQuestListChallenge::~TQuestListChallenge() {
     TQuestListChallenge__active_instance = NULL;
 }
 
-TQuestListChallenge::TQuestListChallenge(TObject *parent, TShopWindowBase *sequence, TObjBase *player)
+TQuestListChallenge::TQuestListChallenge(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player)
     : TShopWindowBase(parent) {
     s32 temp_r3;
     s32 limit;

@@ -121,7 +121,7 @@ void THunterGuildSeqOffline::open_quest_list() {
     if (vfunc_10() == 0) return;
     switch (get_game_play_mode()) {
     case 2:
-        challenge = new TQuestListChallenge(tl_05, this, (TObjBase *)player);
+        challenge = new TQuestListChallenge(tl_05, this, player);
         if (challenge != NULL) {
             challenge->on_accept = THunterGuildSeqOffline::request_close;
             challenge->on_cancel = THunterGuildSeqOffline::set_state_close2;
@@ -129,7 +129,7 @@ void THunterGuildSeqOffline::open_quest_list() {
         }
         break;
     case 1:
-        challenge = new TQuestListChallenge(tl_05, this, (TObjBase *)player);
+        challenge = new TQuestListChallenge(tl_05, this, player);
         if (challenge != NULL) {
             challenge->on_accept = THunterGuildSeqOffline::set_state_4;
             challenge->on_cancel = THunterGuildSeqOffline::set_state_close;
@@ -138,7 +138,7 @@ void THunterGuildSeqOffline::open_quest_list() {
         break;
     case 0:
     default:
-        offline = new TQuestListOffline(tl_05, this, (TObjBase *)player);
+        offline = new TQuestListOffline(tl_05, this, player);
         if (offline != NULL) {
             offline->on_accept = THunterGuildSeqOffline::request_close;
             offline->on_cancel = THunterGuildSeqOffline::set_state_close2;

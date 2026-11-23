@@ -121,18 +121,18 @@ u8 *create_item_list_window(s32 arg0, s32 arg1, s32 arg2);
 
 // Written last-to-first: the unit is built with deferred code generation (see configure.py).
 
-TShopArmorListWindow::TShopArmorListWindow(saddr parent, saddr arg2, s32 arg3) : TShopWindowBase((TObject *)parent) {
+TShopArmorListWindow::TShopArmorListWindow(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player) : TShopWindowBase(parent) {
     s32 count;
     this->m_name = TShopArmorListWindow__class_name;
-    this->player = arg3;
-    this->sequence = (TShopWindowBase *)arg2;
+    this->player = player;
+    this->sequence = sequence;
     this->item_list = NULL;
     this->choice_menu = 0;
     this->help_window = NULL;
     this->m_38 = 0;
     this->cost_window = NULL;
     this->m_40 = 0;
-    this->m_20 = 0;
+    this->state = 0;
     this->m_48 = 0;
     this->m_1f4 = 0;
     this->m_1f0 = 0;

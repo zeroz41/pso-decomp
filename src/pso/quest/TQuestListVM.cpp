@@ -18,6 +18,7 @@
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/Language.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -62,7 +63,7 @@ void TWindowMenuIconLine::disable_cancel() {
     state_flags |= 8;
 }
 
-TQuestListVM::TQuestListVM(TObject *parent, TShopWindowBase *owner, TObjBase *player) : TShopWindowBase(parent) {
+TQuestListVM::TQuestListVM(TObject *parent, TShopWindowBase *owner, TObjPlayer *player) : TShopWindowBase(parent) {
     m_name = TQuestListVM_class_name;
     entry_count = 0;
     resume_state = 0;
