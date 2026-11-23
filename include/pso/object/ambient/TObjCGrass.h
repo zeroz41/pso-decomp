@@ -18,7 +18,7 @@ struct CGrassFragment {
 LAYOUT_ASSERT(CGrassFragmentSize, sizeof(CGrassFragment) == 0x20);
 
 struct TObjCGrass : public TObjMotion {
-    TObjCGrass(Vec *origin, s32 count, s32 lifetime);
+    TObjCGrass(Vec origin, s32 count, s32 lifetime);
     virtual ~TObjCGrass();
     CGrassFragment *fragments;
     f32 last_animation_frame;

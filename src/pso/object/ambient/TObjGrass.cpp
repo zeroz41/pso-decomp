@@ -285,7 +285,6 @@ void enemy_pursue_point(void *, s32, void *, f32, f32);
 f64 atan2_float(f32, f32);
 f32 horizontal_distance_squared(void *, void *);
 s32 angle_difference_abs(s32, s32);
-void __ct__10TObjCGrassFP3Vecll(void *, Vec *, s32, s32);
 f32 newton_sqrtf(f32);
 }
 void move_with_wall_slide(u8 *arg0);
@@ -1632,11 +1631,7 @@ void TObjGrass::update_dying(void *arg0_) {
             case AREA_CAVE1:
             case AREA_CAVE2:
             case AREA_CAVE3: {
-                TObjCGrass *o = static_cast<TObjCGrass *>(TObject::operator new(sizeof(TObjCGrass)));
-                if (o != NULL) {
-                    Vec t = v;
-                    __ct__10TObjCGrassFP3Vecll(o, &t, (s32)((12.0f) + *(f32 *)((s8 *)arg0 + 0x360)), 0xF0);
-                }
+                new TObjCGrass(v, (s32)((12.0f) + *(f32 *)((s8 *)arg0 + 0x360)), 0xF0);
                 break;
             }
             }
