@@ -1141,7 +1141,6 @@ void set_attack_state__10TObjPlayerFPv(u8 *arg0);
 void handle_6x40_walk_to_position(void *pkt);
 void handle_6x3F_set_position(void *command);
 void handle_6x3E_stop_at_position(void *command);
-void update_position_from_target__10TObjPlayerFv(void* p);
 void send_idle_return_event__10TObjPlayerFPvPvs(void *arg0, void *arg1, s16 arg2);
 int TObjPlayer__sub_801D0DAC(void* p);
 void TObjPlayer__sub_801D0E74(void* p);
@@ -1198,7 +1197,6 @@ void TObjPlayer__sub_801D2CC4(void* p, f32 v);
 void* get_technique_data__10TObjPlayerFPv(void* p);
 int on_attack_finished__10TObjPlayerFPv(void* p);
 int is_pb_palette_bank_empty(void*);
-s32 get_getup_protection_ticks__10TObjPlayerFv(void *);
 u8 get_cast_technique_level(void *techs, s16 tech);
 s32 set_technique_level_entry(void *, s32, u8);
 int bswap_16__FPUs(void*);
@@ -1691,7 +1689,7 @@ void TObjPlayer::sub_801C862C() {  }
 
 void TObjPlayer::update_if_flagged() {
     if ((get_flag() == 0) && (this->motion_flags & 0x10)) {
-        ((s32 (*)(void *))update_position_from_target__10TObjPlayerFv)(this);
+        update_position_from_target();
     }
 }
 
@@ -2094,7 +2092,7 @@ void TObjPlayer::send_warp_position() {
 
 void TObjPlayer::sub_801C90F8() {  }
 
-void TObjPlayer::check_state_dead() { if (this->phase == 4) { ((int (*)(void*))update_position_from_target__10TObjPlayerFv)(this); } }
+void TObjPlayer::check_state_dead() { if (this->phase == 4) { update_position_from_target(); } }
 
 void TObjPlayer::sub_801C9128() {  }
 
@@ -2370,7 +2368,7 @@ void TObjPlayer::update_service_hold() {
     u8 *arg0 = (u8 *)this;
     if (!(this->actorFlags & 0x10000)) {
         if (((TObjPlayer *)(arg0 + 0x5F0))->get_action_id() == 0) {
-            ((s32 (*)(void *))update_position_from_target__10TObjPlayerFv)(this);
+            update_position_from_target();
             return;
         }
         run_action_state_phase(((TObjPlayer *)(arg0 + 0x5F0))->get_action_id(), 5);
@@ -2563,7 +2561,7 @@ void TObjPlayer::update_timer_action() {
         if (temp_f1_2 < 0.0f) {
             ((s32 (*)(void))clear_status_bit6__10TObjPlayerFPv)();
             this->protection.set_frames((saddr)this->get_getup_protection_ticks());
-            ((s32 (*)(void *))update_position_from_target__10TObjPlayerFv)(arg0);
+            ((TObjPlayer *)arg0)->update_position_from_target();
         }
         break;
     }
@@ -3054,8 +3052,8 @@ void TObjPlayer::complete_fall_reaction() {
         break;
     case 2:
         if (this->motion_flags & 0x10) {
-            ((ProtectionTimer *)(arg0 + 0x644))->set_frames((int) (((s32 (*)(void))get_getup_protection_ticks__10TObjPlayerFv)()));
-            ((s32 (*)(void *))update_position_from_target__10TObjPlayerFv)(this);
+            ((ProtectionTimer *)(arg0 + 0x644))->set_frames((int) (get_getup_protection_ticks()));
+            update_position_from_target();
         }
         break;
     }
@@ -3177,7 +3175,7 @@ void TObjPlayer::complete_hurt_reaction() {
             run_action_state_phase(0xF, 5);
             return;
         }
-        ((s32 (*)(void *))update_position_from_target__10TObjPlayerFv)(this);
+        update_position_from_target();
     }
 }
 
@@ -3248,7 +3246,7 @@ void TObjPlayer::sub_801CB52C() {  }
 
 void TObjPlayer::run_if_flag_10() {
     if (this->motion_flags & 0x10) {
-        ((s32 (*)(void))update_position_from_target__10TObjPlayerFv)();
+        update_position_from_target();
     }
 }
 
@@ -3338,7 +3336,7 @@ void TObjPlayer::sub_801CB7A4() {  }
 
 void TObjPlayer::update_if_flag_set() {
     if (this->motion_flags & 0x10) {
-        ((s32 (*)(void))update_position_from_target__10TObjPlayerFv)();
+        update_position_from_target();
     }
 }
 
@@ -3456,7 +3454,7 @@ void TObjPlayer::complete_guard_reaction() {
             run_action_state_phase(0xF, 5);
             return;
         }
-        ((s32 (*)(void *))update_position_from_target__10TObjPlayerFv)(this);
+        update_position_from_target();
     }
 }
 
@@ -3866,7 +3864,7 @@ void TObjPlayer::update_band_state() {
 void TObjPlayer::update_target_approach() {
     u8 *arg0 = (u8 *)this;
     if (this->motion_flags & 0x10) {
-        ((s32 (*)(void))update_position_from_target__10TObjPlayerFv)();
+        update_position_from_target();
         return;
     }
     if ((s16) this->phase == 2) {

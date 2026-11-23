@@ -104,7 +104,6 @@ extern "C" {
 s32 bind_target__13TWindowLockOnFUs(void *, s32);
 u32 create_for_target__13TWindowLockOnFlUs(int, s32);
 s32 fn_8002AE08(void *p);
-u16 get_current_target_id__10TObjPlayerFv();
 int TWindowMainMenu__sub_8024E3F4(void *p);
 s32 TWindowMainMenu__sub_8024E3E0(void *);
 saddr get_window_layout_position(s32);
@@ -322,7 +321,7 @@ void TWindowCtrl::update_short_list_request() {
             }
         } else {
             idx = is_player_input_active(*(s32 *)&this->m_24);
-            id = get_current_target_id__10TObjPlayerFv();
+            id = TObjPlayer::get_current_target_id();
             if (get_active_menu() != 0 || is_visible() != 0 ||
                 (id != 0xFFFF && id != *(s32 *)&this->m_24) || is_main_menu_disabled() != 0 ||
                 TWindowCtrl::get_display_flag() != 0) {

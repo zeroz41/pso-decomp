@@ -6,9 +6,7 @@
 extern "C" {
 void *__dt__13TUnk_804F29F8Fv(void *arg0, s16 arg1);
 void *__dt__13TUnk_804F2A10Fv(void *arg0, s16 arg1);
-void push_to_list__10TObjPlayerFl(u8 *arg0, s32 arg1);
 void reset_id_array__10TObjPlayerFPv(void *arg0);
-s32 run_and_return_arg__10TObjPlayerFl(s32 arg0);
 }
 
 // --- C functions defined in TObjPlayer_80363BE0.cpp ---
