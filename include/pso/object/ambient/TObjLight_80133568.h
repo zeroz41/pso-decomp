@@ -42,7 +42,7 @@ struct TObjLightSceneLightState {
     NJS_ARGB ambient_color; // 0x34
     u8 pad_44[0xC];
 };
-extern TObjLightSceneLightState TObjLight__scene_light_state;
+extern TObjLightSceneLightState scene_light_state;
 // The light init_map_lights sets up without a map light entry, laid out like
 // the start of TObjLightSceneLightState ([7] intensity, [8] ambient).
 extern f32 default_scene_light_config[];

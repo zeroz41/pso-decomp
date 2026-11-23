@@ -38,7 +38,7 @@ extern s32 TKeyBoardControl__pad_status_buffer[];
 extern Ent_803DEBC8 pad_button_map_table[];
 u32 keyboard_pad_button_count = 12;
 extern ChunkMaterialColor model_material_color;
-extern u8 TObjLight__gx_light_objects[];
+extern u8 gx_light_objects[];
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
@@ -200,7 +200,7 @@ void init_light_globals(s32, s32) {
     model_material_color.blue = 0.0f;
     gx_chan_ctrl_light_mask = 0;
     light_position_distance = 100000000.0f;
-    GXInitLightAttnK(TObjLight__gx_light_objects, 1.0f, 0.0f, 0.0f);
+    GXInitLightAttnK(gx_light_objects, 1.0f, 0.0f, 0.0f);
     reset_scene_fog();
 }
 

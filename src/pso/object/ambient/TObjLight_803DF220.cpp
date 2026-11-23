@@ -27,7 +27,7 @@ extern s32 gx_chan_ctrl_light_mask;
 extern "C" {
 s32 GXLoadLightObjImm(void *, int);
 struct TObjLightGxLightObjects { s32 value; u8 remaining[0x13C]; };
-extern TObjLightGxLightObjects TObjLight__gx_light_objects;
+extern TObjLightGxLightObjects gx_light_objects;
 void OSPanic(char *, s32, char *, ...);
 void GXSetChanAmbColor(s32 chan, GXColor_803DF268 color);
 void GXInitLightColor(void *, GXColor_803DF268);
@@ -84,7 +84,7 @@ void set_gx_light_color(s32 idx, f32 r, f32 g, f32 b) {
     c.g = (u8)(255.0f * g);
     c.b = (u8)(255.0f * b);
     c.a = 0xFF;
-    GXInitLightColor((u8 *)&TObjLight__gx_light_objects + (idx << 6), c);
+    GXInitLightColor((u8 *)&gx_light_objects + (idx << 6), c);
 }
 #pragma pop
 
@@ -94,16 +94,16 @@ void set_gx_light_color(s32 idx, f32 r, f32 g, f32 b) {
 void init_distant_light(s32 idx, f32 x, f32 y, f32 z) {
     TObjLight::assert_light_id(idx);
     if (idx == 0) {
-        GXInitLightPos((u8 *)&TObjLight__gx_light_objects + (idx << 6), light_position_distance * -x, light_position_distance * -y, light_position_distance * -z);
+        GXInitLightPos((u8 *)&gx_light_objects + (idx << 6), light_position_distance * -x, light_position_distance * -y, light_position_distance * -z);
     } else {
-        GXInitLightDir((u8 *)&TObjLight__gx_light_objects + (idx << 6), x, y, z);
+        GXInitLightDir((u8 *)&gx_light_objects + (idx << 6), x, y, z);
     }
 }
 #pragma pop
 
 void load_gx_light_slot(s32 arg0) {
     TObjLight::assert_light_id((s32)arg0);
-    GXLoadLightObjImm((void *) ((u8 *)&TObjLight__gx_light_objects.value + (arg0 << 6)), (int) (*(s32 *)((s8 *)((u8 *)light_slot_mask_table + (arg0 * 4)) + 0)));
+    GXLoadLightObjImm((void *) ((u8 *)&gx_light_objects.value + (arg0 << 6)), (int) (*(s32 *)((s8 *)((u8 *)light_slot_mask_table + (arg0 * 4)) + 0)));
 }
 
 

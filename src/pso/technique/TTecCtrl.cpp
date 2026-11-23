@@ -708,7 +708,7 @@ void capture_technique_targets__10TObjPlayerFv(int kind, Owner_8022CDE8 *owner) 
     {                                                                                            \
         NJS_ARGB c = {A, R, G, B};                                                               \
         Vec v = {0.0f, -1.0f, 0.0f};                                                             \
-        new TActorLight(0.1f, 0.35f, TObjLight__scene_light_state.intensity, &c, &v, base,          \
+        new TActorLight(0.1f, 0.35f, scene_light_state.intensity, &c, &v, base,          \
                           (TObjBase *)owner, tl_07);                                             \
         if (TObjPlayer::is_locally_controlled(owner) != 0) {                                \
             new INIT((TObjPlayer *)owner, tl_07);                                                \

@@ -86,7 +86,7 @@ void TObjLight::run_task() {
     }
     {
     Vec fwd = {0.0f, 0.0f, -1.0f};
-    VecCopy((Vec *)&self->base_dir, &TObjLight__scene_light_state.view_direction);
+    VecCopy((Vec *)&self->base_dir, &scene_light_state.view_direction);
     self->flags = 0;
     if (self->param[0] >= 10000.0f) {
         self->color.x = self->param[0] - 10000.0f;
@@ -198,8 +198,8 @@ TObjLight::TObjLight(TObject *parent, u8 *set_data) : TObjBase(parent) {
     light->actor_direction.y = 0.0f;
     light->actor_direction.z = 0.0f;
     light->m_9c = 0;
-    copy_argb(&light->scene_color, &TObjLight__scene_light_state.color);
-    VecCopy(&light->scene_direction, &TObjLight__scene_light_state.view_direction);
+    copy_argb(&light->scene_color, &scene_light_state.color);
+    VecCopy(&light->scene_direction, &scene_light_state.view_direction);
     light->actor_color.a = 0.5f;
     light->actor_color.r = 0.0f;
     light->actor_color.g = 0.0f;

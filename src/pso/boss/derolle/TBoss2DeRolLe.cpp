@@ -3785,13 +3785,13 @@ void TBoss2DeRolLe::render() {
     set_chunk_model_node_callback(derolle_capture_node_points);
     {
     NJS_ARGB saved;
-    col = &TObjLight__scene_light_state.color;
+    col = &scene_light_state.color;
     copy_argb(&saved, col);
     if (TObjBoss2Tunnel::is_active() != 0) {
-        TObjLight__scene_light_state.color.r = 0.3f;
-        TObjLight__scene_light_state.color.g = 0.4f;
-        TObjLight__scene_light_state.color.b = 0.5f;
-        current_scene_light->sub_8013379C(&TObjLight__scene_light_state);
+        scene_light_state.color.r = 0.3f;
+        scene_light_state.color.g = 0.4f;
+        scene_light_state.color.b = 0.5f;
+        current_scene_light->sub_8013379C(&scene_light_state);
         lbl_805D5564->sub_801336DC();
     }
     this->draw();

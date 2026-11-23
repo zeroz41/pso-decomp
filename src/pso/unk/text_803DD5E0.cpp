@@ -597,6 +597,6 @@ relocate:
     return buf;
 }
 
-s32 TObjLight__gx_light_objects[0x50];
+s32 gx_light_objects[0x50];
 s16 *chunk_polygon_list_cache[0x7E];
 u8 gvrt_header_read_buffer[0x20];

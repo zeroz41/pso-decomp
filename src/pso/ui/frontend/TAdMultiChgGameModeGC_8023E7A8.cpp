@@ -482,10 +482,10 @@ void init_game_mode_select_scene(void) {
     TLobby::clear_callback_and_reset_keyboard();
     TParticleCtrl::init_heap(0x100000);
     init_menu_scene_lights((u8 *)default_scene_light_config, 4);
-    TObjLight__scene_light_state.direction.y = -1.0f * sin_table_lookup(0x1555);
+    scene_light_state.direction.y = -1.0f * sin_table_lookup(0x1555);
     c = cos_table_lookup(0x1555);
-    TObjLight__scene_light_state.direction.x = c * sin_table_lookup(0x9000);
-    TObjLight__scene_light_state.direction.z = c * cos_table_lookup(0x9000);
+    scene_light_state.direction.x = c * sin_table_lookup(0x9000);
+    scene_light_state.direction.z = c * cos_table_lookup(0x9000);
     new TCameraCtrl(tl_camera);
     {
         Vec eye = game_mode_scene_camera_eye;

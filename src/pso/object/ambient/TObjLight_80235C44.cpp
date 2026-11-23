@@ -52,8 +52,8 @@ void TActorLight::run_task() {
         f32 amb1;
         f32 inten1;
         frac = (f32) age / mid;
-        amb1 = frac * (peak - TObjLight__scene_light_state.ambient) + TObjLight__scene_light_state.ambient;
-        inten1 = frac * (intensity - TObjLight__scene_light_state.intensity) + TObjLight__scene_light_state.intensity;
+        amb1 = frac * (peak - scene_light_state.ambient) + scene_light_state.ambient;
+        inten1 = frac * (intensity - scene_light_state.intensity) + scene_light_state.intensity;
         publish_actor_light_scalars((u16) source->get_entity_id(), inten1, amb1);
         copy_argb(&unused, &baseColor);
         approach_vector_fixed_distance(&direction, &desired, &direction, step);
@@ -62,8 +62,8 @@ void TActorLight::run_task() {
         f32 amb2;
         f32 inten2;
         frac = ((f32) age - mid) / mid;
-        amb2 = frac * (TObjLight__scene_light_state.ambient - peak) + peak;
-        inten2 = frac * (TObjLight__scene_light_state.intensity - intensity) + intensity;
+        amb2 = frac * (scene_light_state.ambient - peak) + peak;
+        inten2 = frac * (scene_light_state.intensity - intensity) + intensity;
         publish_actor_light_scalars((u16) source->get_entity_id(), inten2, amb2);
         approach_vector_fixed_distance(&direction, &baseDir, &direction, step);
         approach_rgb_clamped(&color, &baseColor, 0.1f);

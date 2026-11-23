@@ -517,10 +517,10 @@ extern s32 creation_dressing_room_mode_flag;
 
 void TCharaMaking::update_light_direction() {
     f32 temp_f31;
-    TObjLight__scene_light_state.direction.y = -1.0f * sin_table_lookup(m_1c);
+    scene_light_state.direction.y = -1.0f * sin_table_lookup(m_1c);
     temp_f31 = cos_table_lookup(m_1c);
-    TObjLight__scene_light_state.direction.x = temp_f31 * sin_table_lookup(m_20);
-    TObjLight__scene_light_state.direction.z = temp_f31 * cos_table_lookup(m_20);
+    scene_light_state.direction.x = temp_f31 * sin_table_lookup(m_20);
+    scene_light_state.direction.z = temp_f31 * cos_table_lookup(m_20);
 }
 
 s32 TCharaMaking::update_main_menu(saddr arg0) {
