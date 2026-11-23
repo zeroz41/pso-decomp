@@ -6,6 +6,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjLightSceneLightState;
+struct PointLight;
 
 struct TObjLight : public TObjBase {
     TObjLight(TObject *parent, u8 *set_data);
@@ -25,9 +26,7 @@ struct TObjLight : public TObjBase {
     Vec scene_direction; // 0xD8: the scene light's view direction
     virtual void render();
     virtual void run_task();
-    void*init_light(int a1);
-    void unregister_and_free();
-    static uaddr alloc_light_slot();
+    static PointLight *alloc_light_slot();
     void sub_8013379C(TObjLightSceneLightState *state);
     void init_directional_light();
     void sub_801337F8();

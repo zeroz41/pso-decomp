@@ -28,14 +28,14 @@ TBoss7LaserLight::TBoss7LaserLight(TObject *parent, Vec *position) : TObject(par
     m_color[3] = 2.0f;
     m_range[0] = 0.0f;
     m_range[1] = 0.0f;
-    m_light = (TObjLight *)TObjLight::alloc_light_slot();
+    m_light = TObjLight::alloc_light_slot();
     if (m_light == NULL) {
         queue_destruction();
         return;
     }
-    ((PointLight *)m_light)->disable();
-    ((PointLight *)m_light)->set_color(m_color);
-    ((PointLight *)m_light)->set_range(m_range);
+    m_light->disable();
+    m_light->set_color(m_color);
+    m_light->set_range(m_range);
 }
 
 TBoss7LaserLight::~TBoss7LaserLight() {
@@ -58,7 +58,7 @@ void TBoss7LaserLight::run_task() {
         if (m_request == REQUEST_ON) {
             m_request = REQUEST_NONE;
             m_state = FADE_IN;
-            ((PointLight *)m_light)->enable();
+            m_light->enable();
         }
         break;
     case FADE_IN:
@@ -82,11 +82,11 @@ void TBoss7LaserLight::run_task() {
         }
         m_range[0] = range;
         m_range[1] = 40.0f + range;
-        ((PointLight *)m_light)->set_range(m_range);
-        ((PointLight *)m_light)->set_position(m_position);
+        m_light->set_range(m_range);
+        m_light->set_position(m_position);
         break;
     case ON:
-        ((PointLight *)m_light)->set_position(m_position);
+        m_light->set_position(m_position);
         break;
     case FADE_OUT:
         range = m_range[0];
@@ -94,12 +94,12 @@ void TBoss7LaserLight::run_task() {
         if (range <= 0.0f) {
             range = 0.0f;
             m_state = OFF;
-            ((PointLight *)m_light)->disable();
+            m_light->disable();
         }
         m_range[0] = range;
         m_range[1] = 40.0f + range;
-        ((PointLight *)m_light)->set_range(m_range);
-        ((PointLight *)m_light)->set_position(m_position);
+        m_light->set_range(m_range);
+        m_light->set_position(m_position);
         break;
     }
 }

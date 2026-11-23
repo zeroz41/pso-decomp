@@ -225,7 +225,7 @@ force_active:
   - TAdRayGC_ray_quad_table
   - set_draw_depth__14TAdSelectCurGCFf
   - TAdSinglePlyChrSelectGC__sub_80076DF4
-  - TAdSinglePlyChrSelectGC__sub_80133530
+  - copy_light_range__FPfPf
   - TAdSinglePlyChrSelectGC__sub_801FBC3C
   - __dt__17CharacterFileSlotFv
   - TAdSinglePlyChrSelectGC__sub_801FCCB4
@@ -7088,7 +7088,7 @@ force_active:
   - init_launch_angles__10TTecSlicerFPlPll
   - init_layout__17TWindowSubComCardFv
   - __ct__17WindowDrawContextFv
-  - init_light__9TObjLightFi
+  - __ct__10PointLightFl
   - init_light_params__15TORainbowCave01Fv
   - init_light_tables__9TObjLightFv
   - init_link_points__9TBoss2FinFv

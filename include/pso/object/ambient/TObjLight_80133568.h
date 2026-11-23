@@ -9,6 +9,7 @@ class TQuestThread;
 class TUnk_804A6F78;
 class TUnk_804A6F90;
 struct TObjLight;
+struct PointLight;
 struct LightEntry;
 
 extern "C" {
@@ -75,7 +76,7 @@ extern s32 actor_light_count;
 extern ActorLight light_table[8];
 extern s32 light_count;
 // The point lights alloc_light_slot hands out, one per GX light 2..4.
-extern void *light_slots[3];
+extern PointLight *light_slots[3];
 extern s32 active_light_count;
 // lightentry.bin as read from disc (load_light_entry_file).
 extern LightEntry *light_entry_data;

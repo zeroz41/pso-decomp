@@ -5,7 +5,7 @@
 #include "pso/system/task/TObject.h"
 #include <dolphin/mtx.h>
 
-struct TObjLight;
+struct PointLight;
 
 extern const char *TBoss7LaserLight_name;
 
@@ -19,7 +19,7 @@ public:
     u32 m_request;
     f32 m_color[4];
     f32 m_range[2];
-    TObjLight *m_light;
+    PointLight *m_light;
 
     TBoss7LaserLight(TObject *parent, Vec *position);
     virtual ~TBoss7LaserLight();

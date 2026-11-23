@@ -13,11 +13,17 @@ struct PointLight {
     f32 range[2];   // 0x14: 5.0 / 30.0 when allocated
     u8 pad_1C[0x4];
     f32 color[3];   // 0x20: r, g, b
+    PointLight(s32 index);
+    // Empty on GameCube: the constructor calls them after setting the colour, range and position.
+    void apply_color();
     void set_color(f32 *argb);
     void disable();
     void enable();
     void set_range(f32 *range);
+    void apply_range();
+    void apply_position();
     void set_position(Vec *position);
+    void unregister_and_free();
 };
 
 LAYOUT_ASSERT(PointLight_size, sizeof(PointLight) == 0x2C);

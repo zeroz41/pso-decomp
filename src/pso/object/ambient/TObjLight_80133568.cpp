@@ -17,6 +17,7 @@
 
 #include <stddef.h>
 #include "pso/object/ambient/TObjLight.h"
+#include "pso/object/ambient/PointLight.h"
 #include "pso/unk/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/scene/TScene.h"
@@ -35,16 +36,13 @@ extern "C" {
 void GXInitLightDir(void *light, f32 nx, f32 ny, f32 nz);
 void GXInitLightSpot(void *light, f32 cutoff, s32 spot_func);
 void GXInitLightDistAttn(void *light, f32 ref_distance, f32 ref_brightness, s32 dist_func);
-void TAdSinglePlyChrSelectGC__sub_801334E4(void *light);
-void TAdSinglePlyChrSelectGC__sub_80133544(void *light);
-void TAdSinglePlyChrSelectGC__sub_80133548(void);
 void __dt__7TObjectFv(void *, int);
 }
 
 // The GX light id of each point light slot.
 int light_type_id_table[3] = { 2, 3, 4 };
 TObjLightSceneLightState scene_light_state;
-void *light_slots[3];
+PointLight *light_slots[3];
 ActorLight actor_light_table[32];
 ActorLight light_table[8];
 extern "C" {
@@ -503,28 +501,23 @@ void TUnk_804A6F78::submit_scene_ambient_color() {
 
 void TUnk_804A6F78::sub_801336DC() {}
 
-uaddr TObjLight::alloc_light_slot() {
+PointLight *TObjLight::alloc_light_slot() {
     s32 i;
-    void **slot;
-    void *light;
+    PointLight **slot;
     slot = light_slots;
     for (i = 0; i < 3; slot++, i++) {
         if (*slot == NULL) {
-            light = ::operator new(0x2C);
-            if (light != NULL) {
-                light = ((TObjLight *)light)->init_light(i);
-            }
-            *slot = light;
+            *slot = new PointLight(i);
             active_light_count++;
-            return (uaddr)*slot;
+            return *slot;
         }
     }
     return 0;
 }
 
-void TObjLight::unregister_and_free() {
+void PointLight::unregister_and_free() {
     s32 i;
-    void **slot = light_slots;
+    PointLight **slot = light_slots;
     for (i = 0; i < 3; i++) {
         if (*slot == this) {
             *slot = NULL;
@@ -538,7 +531,18 @@ void TObjLight::unregister_and_free() {
 
 void TUnk_804A6F78::render() {  }
 
-void *TObjLight::init_light(int index) { *(int *)&this->m_name = light_type_id_table[index]; *(float *)&this->m_up = 0.0f; *(float *)&this->m_next = 0.0f; *(float *)&this->m_prev = 0.0f; TAdSinglePlyChrSelectGC__sub_80133548(); *(float *)&this->m_down = 5.0f; *(float*)((char*)this + 0x18) = 30.0f; TAdSinglePlyChrSelectGC__sub_80133544(this); *(float *)&this->m_20 = 1.0f; *(float *)&this->texlist = 1.0f; *(float *)&this->room = 1.0f; TAdSinglePlyChrSelectGC__sub_801334E4(this); return this; }
+PointLight::PointLight(s32 index) {
+    light_id = light_type_id_table[index];
+    position.x = position.y = position.z = 0.0f;
+    apply_position();
+    range[0] = 5.0f;
+    range[1] = 30.0f;
+    apply_range();
+    color[0] = 1.0f;
+    color[1] = 1.0f;
+    color[2] = 1.0f;
+    apply_color();
+}
 
 LightEntry default_scene_light_config = {
     { 0.0f, -0.5f, 0.5f },
