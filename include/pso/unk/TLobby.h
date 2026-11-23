@@ -55,11 +55,6 @@ struct TLobby : public TObject {
     static s32 clear_record_flags_a();
     static s32 clear_record_flags_b();
     static void free_nodes_with_id(uaddr arg0);
-    static void create_time_window(void * _w0);
-    void update_battle_cleanup_flag();
-    static void update_quest_challenge_state(void *arg0_);
-    s32 destroy_on_phase_change();
-    void copy_challenge_settings(u8 *settings);
     static void calc_joyboot_checksum();
     static s32 start_gba_joyboot();
     static void set_send_buffer(u8 *arg0, s32 arg1);
@@ -562,7 +557,6 @@ struct TLobby : public TObject {
     static void make_players();
     static u8 lookup_table_value(s8 x);
     bool is_slot_match();
-    void update_card_save_info();
     static void spawn_player_tombstones();
     static void clear_floor_flags_and_depart();
     static void setup_floor_decorations();

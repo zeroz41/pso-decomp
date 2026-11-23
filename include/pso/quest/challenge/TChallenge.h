@@ -12,7 +12,7 @@ struct TChallenge : public TObject {
     s32 frame_count;
     s32 missing_records_timer;
     s32 records_save_pending;
-    u32 quest_send_timer; // frames until the selected quest is resent (inferred name)
+    s32 quest_send_timer; // frames until the selected quest is resent (inferred name)
 
     virtual void run_task();
     void update_active();
@@ -27,6 +27,11 @@ struct TChallenge : public TObject {
     void request_missing_challenge_records();
     void clear_four_slots();
     void restore_challenge_from_save();
+    s32 destroy_on_phase_change();
+    void update_quest_challenge_state();
+    void update_battle_cleanup_flag();
+    void create_time_window();
+    void update_card_save_info();
 };
 
 LAYOUT_ASSERT(TChallenge_size, sizeof(TChallenge) == 0x30);

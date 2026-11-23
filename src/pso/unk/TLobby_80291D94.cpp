@@ -11,6 +11,7 @@
 #include "pso/ui/window/TObjSoloPlayWin.h"
 #include "types.h"
 #include "pso/unk/TLobby.h"
+#include "pso/quest/challenge/ChallengeModeState.h"
 #include "pso/object/TObjChallenge4PRetry.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/player/TObjPlayer.h"
@@ -907,13 +908,7 @@ int TLobby__sub_80293124(void* p) { return load_resources__13TObjTombstoneFv(p);
 
 #undef TChallenge4P__ct
 
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 struct ByteBlock_690 { u8 bytes[0x690]; };
 
 struct Rec_802934E0 { s32 f; u8 pad[0x100]; };
@@ -928,19 +923,7 @@ struct G_80293218 {
     ChallengeTombstonePlayerSlot r[4];
 };
 
-struct Rec_8029350C {
-    s32 f0;
-    u8 pad[0x100];
-};
 
-struct G_8029350C {
-    u8 pad[0x270];
-    Rec_8029350C r[4];
-};
-
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 
 struct G_802932EC {
     s32 layout;
@@ -952,7 +935,6 @@ struct G_802932EC {
 
 extern "C" {
 void TLobby__sub_80293218(s32 arg0);
-void copy_challenge_info(void *, void *);
 void snapshot_player_card_status__6TLobbyFv(void);
 void TLobby__sub_802933FC(void *arg0);
 s32 export_character_data__10TObjPlayerFPvPv(u32, u32);
@@ -1101,9 +1083,9 @@ void snapshot_player_card_status__6TLobbyFv(void) {
     TLobby::clear_card_status_flags();
     for (i = 0; i < 4; i++) {
         if (get_player_by_client_id(i) != 0 && (u8 *)get_character_save_record(i) != NULL) {
-            Rec_8029350C *r = &(*(G_8029350C *)&lbl_804DB1F0).r[i];
-            r->f0 = 1;
-            copy_challenge_info((u8 *)r + 4, (u8 *)get_character_save_record(i) + 0x21C4);
+            ChallengeClientRecords *r = &((ChallengeModeState *)lbl_804DB1F0)->client_records[i];
+            r->present = 1;
+            r->records = *(ChallengeRecord *)(get_character_save_record(i) + 0x21C4);
         }
     }
 }
@@ -1136,7 +1118,7 @@ s32 __dt__7TObjectFv(void *, s32);
 void *TLobby__sub_802936AC(void *object, s16 arg1) {
     if (object != NULL) {
         *(void **)((u8 *)object + 0x18) = (void *)lbl_804DB888;
-        ((TLobby *)lbl_804DB1F0)->copy_challenge_settings((u8 *)&challenge_default_settings);
+        *(ChallengeModeState *)lbl_804DB1F0 = *(ChallengeModeState *)challenge_default_settings;
         challenge_retry_object = 0;
         __dt__7TObjectFv(object, 0);
         if (arg1 > 0) {
@@ -1152,7 +1134,7 @@ C_80293720 *TChallenge4P__ct(C_80293720 *arg0, void *parent) {
     __ct__7TObjectFP7TObject(arg0, parent);
     arg0->f18 = lbl_804DB888;
     arg0->m_name = TChallenge4P__class_name;
-    ((TLobby *)lbl_804DB1F0)->copy_challenge_settings((u8 *)&challenge_default_settings);
+    *(ChallengeModeState *)lbl_804DB1F0 = *(ChallengeModeState *)challenge_default_settings;
     ((void (*)(void *))snapshot_player_card_status__6TLobbyFv)(arg0);
     arg0->f1c = 0;
     arg0->f20 = 0;
@@ -1161,6 +1143,9 @@ C_80293720 *TChallenge4P__ct(C_80293720 *arg0, void *parent) {
     TObjWarnChime::create((TObject*)arg0);
     return arg0;
 }
+#pragma inline_depth(1)
+#pragma auto_inline off
+#pragma dont_inline off
 void TLobby::copy_global_value_block() {
     *(ByteBlock_690 *)&lbl_804DB1F0 = *(const ByteBlock_690 *)&challenge_default_settings;
 }

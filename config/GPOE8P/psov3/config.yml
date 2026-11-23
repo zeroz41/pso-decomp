@@ -5522,7 +5522,7 @@ force_active:
   - create_symbol_list_card__20TWindowSubSymbolChatFv
   - create_texture_wave_tasks__6TSceneFP7TObject
   - create_time_window2__6TLobbyFPv
-  - create_time_window__6TLobbyFPv
+  - create_time_window__10TChallengeFv
   - create_title_window__19TWindowSubTechniqueFl
   - create_trade_menu__19TWindowSubTradeMainFv
   - create_trade_window__19TWindowSubTradeMainFv
@@ -5661,7 +5661,7 @@ force_active:
   - destroy_matching_children__19TPlayerBattleCtrl4PFPvPv
   - destroy_matching_children__6TLobbyFv
   - destroy_on_collision__10TTecSlicerFi
-  - destroy_on_phase_change__6TLobbyFv
+  - destroy_on_phase_change__10TChallengeFv
   - destroy_parts__11TBoss4Type3Fv
   - destroy_parts__13TBoss5GryphonFv
   - destroy_static_array__10TObjPlayerFv
@@ -16701,7 +16701,7 @@ force_active:
   - update_auto__14CreationCameraFv
   - update_backdrop_transition__17TWindowMainMenu1PFv
   - update_battle__10TObjPlayerFi
-  - update_battle_cleanup_flag__6TLobbyFv
+  - update_battle_cleanup_flag__10TChallengeFv
   - update_battle_control_on_unlock__10TObjPlayerFPvPvPvl
   - update_battle_intro__6TLobbyFPv
   - update_battle_phase__19TPlayerBattleCtrl4PFv
