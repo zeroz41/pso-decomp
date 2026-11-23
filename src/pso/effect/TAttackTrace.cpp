@@ -55,7 +55,7 @@ void TAttackTraceStrip::shift_line_buffer_down() {
     q = vertices + 2;
     lim = (n - 1) * 2;
     for (i = 0; i < lim; i++) {
-        TAdDrawLineTask__sub_80019A8C(p++, q++);
+        copy_line_vertex(p++, q++);
     }
     this->segment_count = this->segment_count - 1;
 }

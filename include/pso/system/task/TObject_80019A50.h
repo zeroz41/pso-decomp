@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void TAdDrawLineTask__sub_80019A8C(void *p, void *q);
+void copy_line_vertex(void *p, void *q);
 void func_80019A68__Fv(void);
 }
 s32 get_logo_texture_e_handle(void);
