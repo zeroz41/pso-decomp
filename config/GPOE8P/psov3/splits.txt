@@ -9652,15 +9652,15 @@ pso/unk/text_8033F314.cpp:
 	.text       start:0x8033F314 end:0x8033F380
 
 pso/ui/frontend/TAdPlyStatusGC.cpp:
-	.text       start:0x8033F380 end:0x8033FD48
+	.text       start:0x8033F380 end:0x8033FDB0
 	.rodata     start:0x804783D8 end:0x80478418
 	.data       start:0x804EFAC0 end:0x804EFB70
 	.sdata      start:0x805D42C0 end:0x805D42C8
 	.sbss       start:0x805D6DA8 end:0x805D6DC0
 	.sdata2     start:0x805DFAE0 end:0x805DFAF8
 
-pso/ui/frontend/TAdPlyStatusGC_8033FD48.cpp:
-	.text       start:0x8033FD48 end:0x803403F8
+pso/boss/olgaflow/TBoss6Demo15_TYPE2_WAIT.cpp:
+	.text       start:0x8033FDB0 end:0x803403F8
 	.rodata     start:0x80478418 end:0x80478568
 	.data       start:0x804EFB70 end:0x804EFB90
 	.sdata      start:0x805D42C8 end:0x805D42D0

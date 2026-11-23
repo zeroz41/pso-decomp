@@ -40,6 +40,8 @@ public:
 LAYOUT_ASSERT(TAdGuideButtonGC_size_check, sizeof(TAdGuideButtonGC)==0x1A8);
 LAYOUT_ASSERT(GuideButtonSpec_size_check, sizeof(GuideButtonSpec)==0x24);
 
+extern TAdGuideButtonGC *guide_button_instance;
+
 extern "C" {
 void create_guide_button(TObject *parent, GuideButtonSpec *spec);
 }

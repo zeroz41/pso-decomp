@@ -1370,7 +1370,7 @@ force_active:
   - __ct__12TObjEnvSoundFP7TObjectPv
   - TObjEvtCollision__ct
   - __dt__24ModelNodePositionCaptureFv
-  - TObjFish__sub_8034029C
+  - __ct__23TBoss6Demo15_TYPE2_WAITFP14TBoss6PlotFalz
   - model_node_position_capture_state
   - __ct__22TObjFogCollisionPoisonFP7TObjectPv
   - TObjFogCollisionPoison__instances

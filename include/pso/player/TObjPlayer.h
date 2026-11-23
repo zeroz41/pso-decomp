@@ -1046,7 +1046,6 @@ struct TObjPlayer : public TObjChara {
     s32 can_use_more_materials(s32 arg1);
     void free_indexed_entry(s32 _w1);
     void copy_node_record(saddr arg1);
-    s32 get_plot_state();
     static void notify_all_battle_players();
     static void update_4p_battle_ctrls();
     s32 get_target_field_1c();

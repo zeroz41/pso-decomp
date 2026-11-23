@@ -37,7 +37,6 @@ struct TObjFish : public TObjBase {
     u32 m_98;              // frame counter
     f32 m_9c;
     TObjFishEntry *m_a0;   // the fish
-    static void *alloc(void *arg0);
     static void reset_fish_globals();
     static void free_resource();
     static void load_area_resource();

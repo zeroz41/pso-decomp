@@ -226,7 +226,7 @@ void TAdPlyStatusGC::set_load_state(s32 arg1) {
 }
 
 void TAdPlyStatusGC::update_hidden() {
-    saddr player_index;
+    TAdGuideButtonGC *guide_button;
     s32 port;
     TAdPlyStatusGC__is_shown = 0;
     if (window != NULL) {
@@ -234,10 +234,10 @@ void TAdPlyStatusGC::update_hidden() {
         window = NULL;
     }
     if ((s32) TAdPlyStatusGC__window_offset_index < 3) {
-        player_index = ((s32)TAdPlyStatusGC::get_player_index());
-        if (player_index != 0) {
-            ((TObject *)player_index)->allow_rendering();
-            ((TAdGuideButtonGC *)player_index)->setup_button(&buttons[1]);
+        guide_button = TAdPlyStatusGC::get_player_index();
+        if (guide_button != NULL) {
+            guide_button->allow_rendering();
+            guide_button->setup_button(&buttons[1]);
         }
         port = TAdMultiPlyChrSelectGC::get_status();
         if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[port], 0x400) != 0) {
@@ -247,17 +247,17 @@ void TAdPlyStatusGC::update_hidden() {
 }
 
 void TAdPlyStatusGC::update_shown() {
-    saddr player_index;
+    TAdGuideButtonGC *guide_button;
     s32 port;
     TAdPlyStatusGC__is_shown = 1;
     if ((s32) TAdPlyStatusGC__window_offset_index < 3) {
         if (window == NULL) {
             window = TAdPlyStatusGC__sub_8033F8B0(this, &ply_status_window_offset_table[TAdPlyStatusGC__window_offset_index]);
         }
-        player_index = ((s32)TAdPlyStatusGC::get_player_index());
-        if (player_index != 0) {
-            ((TObject *)player_index)->allow_rendering();
-            ((TAdGuideButtonGC *)player_index)->setup_button(&buttons[0]);
+        guide_button = TAdPlyStatusGC::get_player_index();
+        if (guide_button != NULL) {
+            guide_button->allow_rendering();
+            guide_button->setup_button(&buttons[0]);
         }
         port = TAdMultiPlyChrSelectGC::get_status();
         if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[port], 0x400) != 0) {
@@ -272,9 +272,9 @@ void TAdPlyStatusGC::close_window() {
         window = NULL;
     }
     {
-        saddr player_index = TAdPlyStatusGC::get_player_index();
-        if ((uaddr)player_index != 0U) {
-            ((TObject *)player_index)->disallow_rendering();
+        TAdGuideButtonGC *guide_button = TAdPlyStatusGC::get_player_index();
+        if (guide_button != NULL) {
+            guide_button->disallow_rendering();
         }
     }
 }
@@ -324,10 +324,19 @@ TAdPlyStatusGC::TAdPlyStatusGC(TObject *parent, s32 window_offset_index) : TObje
     buttons[1].duration = 0x1E;
     create_guide_button(this, buttons);
     {
-        saddr player_index = TAdPlyStatusGC::get_player_index();
-        if ((uaddr)player_index != 0U) {
-            ((TObject *)player_index)->disallow_rendering();
+        TAdGuideButtonGC *guide_button = TAdPlyStatusGC::get_player_index();
+        if (guide_button != NULL) {
+            guide_button->disallow_rendering();
         }
     }
 }
 #pragma pop
+
+TAdPlyStatusGC *TAdPlyStatusGC::get_instance(TObject *parent, s32 window_offset_index) {
+    if (ply_status_gc_instance == NULL) {
+        ply_status_gc_instance = new TAdPlyStatusGC(parent, window_offset_index);
+    }
+    return ply_status_gc_instance;
+}
+
+TAdGuideButtonGC *TAdPlyStatusGC::get_player_index() { return guide_button_instance; }
