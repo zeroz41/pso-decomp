@@ -2,6 +2,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/quest/challenge/ChallengeModeState.h"
 
 s32 TWindowSubStatusDisp::calc_layout_hash(s32 slot) {
     return TWindowSubStatusDisp::get_layout_id(slot) * 0x8C9F;
@@ -14,11 +15,6 @@ s32 TWindowSubStatusDisp::calc_entry_offset(s32 slot) {
 
 #pragma fp_contract on
 
-struct ChallengeModeStateView {
-    s32 value;
-    u8 remaining[0x744];
-};
-
 
 struct O_8006F0D8 { u8 pad[4]; s32 a[(0xec - 4) / 4]; s32 def; };
 
@@ -27,7 +23,6 @@ struct E_8006F134 { s32 a; s32 b; };
 struct O_8006F134 { u8 pad[0xc0]; E_8006F134 e[4]; s32 pad2; E_8006F134 def; };
 
 extern "C" {
-extern ChallengeModeStateView challenge_mode_state;
 extern "C" { extern const char lbl_80438570[11] = "TChallenge"; }
 extern const char lbl_8043857C[5] = "... ";
 extern const s32 lbl_80438584[3] = { 0, 1, 2 };
@@ -43,7 +38,6 @@ s32 TWindowSubStatusDisp::get_layout_id(s32 slot) {
     }
     return 5;
 }
-LAYOUT_ASSERT(ChallengeModeStateView_size, sizeof(ChallengeModeStateView) == 0x748);
 
 #pragma optimize_for_size off
 
@@ -79,20 +73,16 @@ s32 TWindowSubStatusDisp::resolve_player_slot(s32 slot) {
     return slot;
 }
 
-s32 TLobby::get_flagged_table_entry(s32 arg0) {
-  u8 *new_var;
-  if (TLobby::is_flag_set() != 0)
-  {
-    new_var = (u8 *) (&(*(ChallengeModeStateView *)&challenge_mode_state).value);
-    new_var = new_var + (arg0 * 4);
-    return *((s32 *) (((s8 *) new_var) + 0x38));
-  }
-  return 0;
+s32 TLobby::get_flagged_table_entry(s32 client) {
+    if (TLobby::is_flag_set() != 0) {
+        return challenge_mode_state.client_died[client];
+    }
+    return 0;
 }
 
 s32 TLobby::get_flag_value_if_set() {
     if (TLobby::is_flag_set() != 0) {
-        return *(s32 *)((s8 *)&challenge_mode_state.value + 0x34);
+        return challenge_mode_state.retry_menu_disabled;
     }
     return 0;
 }
