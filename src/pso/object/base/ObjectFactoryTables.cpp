@@ -240,8 +240,8 @@
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/object/TObjParticle.h"
 #include "pso/effect/TEF_LensFlare.h"
-#include "pso/object/TUnk_804E0988.h"
-#include "pso/object/TUnk_804E0898.h"
+#include "pso/object/TObjSeabedDolphin.h"
+#include "pso/object/TObjLobbyPigeon.h"
 #include "pso/unk/text_802F0F04.h"
 #include "pso/object/city/CityVerticalModel.h"
 extern "C" {
@@ -1085,7 +1085,7 @@ ObjectFactoryEntry object_factories_floor_15[20] = {
     { 0x0004, TObjLight::create, 84100.0f, 0 },
     { 0x0182, TObjLobbyMain::create, 250000.0f, 0 },
     { 0x0220, TObjFish::create, 250000.0f, 0 },
-    { 0x0183, TUnk_804E0898::create, 250000.0f, 0 },
+    { 0x0183, TObjLobbyPigeon::create, 250000.0f, 0 },
     { 0x0184, TObjButterflyLobby::create, 250000.0f, 0 },
     { 0x0185, TObjRainbowLobby::create, 250000.0f, 0 },
     { 0x0186, TObjKabochaLobby::create, 250000.0f, 0 },
@@ -1902,7 +1902,7 @@ ObjectFactoryEntry object_factories_floor_28[62] = {
     { 0x0092, TObjContainerBase::create, 250000.0f, 0 },
     { 0x0093, TObjContainerAbeEnemy::create, 250000.0f, 0 },
     { 0x0167, TOTrapAncient02R::create, 250000.0f, 0 },
-    { 0x0227, TUnk_804E0988::create, 250000.0f, 0 },
+    { 0x0227, TObjSeabedDolphin::create, 250000.0f, 0 },
     { 0x0096, TObjLazerFenceExtra::create, 250000.0f, 0 },
     { 0x0083, TObjLazerFence4::create, 250000.0f, 0 },
     { 0x0013, TOHealGeneral::create, 250000.0f, 0 },
@@ -1967,7 +1967,7 @@ ObjectFactoryEntry object_factories_floor_29[62] = {
     { 0x0092, TObjContainerBase::create, 250000.0f, 0 },
     { 0x0093, TObjContainerAbeEnemy::create, 250000.0f, 0 },
     { 0x0167, TOTrapAncient02R::create, 250000.0f, 0 },
-    { 0x0227, TUnk_804E0988::create, 250000.0f, 0 },
+    { 0x0227, TObjSeabedDolphin::create, 250000.0f, 0 },
     { 0x0096, TObjLazerFenceExtra::create, 250000.0f, 0 },
     { 0x0083, TObjLazerFence4::create, 250000.0f, 0 },
     { 0x0013, TOHealGeneral::create, 250000.0f, 0 },

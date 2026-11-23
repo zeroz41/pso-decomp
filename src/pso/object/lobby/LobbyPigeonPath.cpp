@@ -14,11 +14,11 @@
 #include "pso/object/TObjPathObj.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/object/TUnk_804E0988.h"
+#include "pso/object/TObjSeabedDolphin.h"
 #include "pso/object/TUnk_804E094C.h"
 #include "pso/object/TUnk_804E0910.h"
 #include "pso/object/TUnk_804E08D4.h"
-#include "pso/object/TUnk_804E0898.h"
+#include "pso/object/TObjLobbyPigeon.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_80011014.h"
@@ -421,7 +421,7 @@ void draw_line_strip__10TObjPlayerFPviif(u8 *path_obj, s32 arg1, s32 arg2, f32 f
 
 #pragma push
 #pragma fp_contract on
-TUnk_804E0988::TUnk_804E0988(TObject *parent, void *set_data) : TObjPathObj(parent, set_data) {
+TObjSeabedDolphin::TObjSeabedDolphin(TObject *parent, void *set_data) : TObjPathObj(parent, set_data) {
   s32 var_r0;
   s32 temp_r3;
   motion_model = get_bml_model((BmlResource *)(*(u8 * *)&seabed_dolphin_bml_archive), 0);
@@ -446,16 +446,16 @@ TUnk_804E0988::TUnk_804E0988(TObject *parent, void *set_data) : TObjPathObj(pare
   sub_802C2C48();
 }
 
-TUnk_804E0988::~TUnk_804E0988() {}
+TObjSeabedDolphin::~TObjSeabedDolphin() {}
 
-void TUnk_804E0988::vfunc_13() {
+void TObjSeabedDolphin::vfunc_13() {
     Pl_802C2DEC *arg0 = (Pl_802C2DEC *)this;
     const Entry_802C2C48 *e = seabed_dolphin_path_profiles;
     f32 ox;
     e += arg0->idx;
     ox = arg0->x;
     arg0->x = ox + e->b;
-    if (((TUnk_804E0988 *)arg0)->sub_802C2A10() == 0) {
+    if (((TObjSeabedDolphin *)arg0)->sub_802C2A10() == 0) {
         arg0->x = (0.0f);
     }
     arg0->y = arg0->y + seabed_dolphin_path_profiles[arg0->idx].c;
@@ -464,7 +464,7 @@ void TUnk_804E0988::vfunc_13() {
     }
 }
 
-void TUnk_804E0988::vfunc_14() {
+void TObjSeabedDolphin::vfunc_14() {
     u8 *arg0 = (u8 *)this;
     if ((TObjPlayer::check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
         ((s32 (*)(void *, s32, s32, f32))draw_line_strip__10TObjPlayerFPviif)(arg0, *(s32 *)&this->motion_model, *(s32 *)((s8 *)arg0 + 0xA0), (1.0f));
@@ -482,7 +482,7 @@ void TUnk_804E0988::vfunc_14() {
     pop_matrix();
 }
 
-s32 TUnk_804E0988::sub_802C2C48() {
+s32 TObjSeabedDolphin::sub_802C2C48() {
     Vec a;
     Vec b;
     Vec d;
@@ -507,7 +507,7 @@ s32 TUnk_804E0988::sub_802C2C48() {
     return r;
 }
 
-s32 TUnk_804E0988::sub_802C2A10() {
+s32 TObjSeabedDolphin::sub_802C2A10() {
     Vec a;
     Vec b;
     Vec d;
@@ -595,8 +595,8 @@ void TObjPlayer__sub_802C2900(void) {
     }
 }
 
-void *TUnk_804E0988::create(void *set_data) {
-    return new TUnk_804E0988(tl_05, set_data);
+void *TObjSeabedDolphin::create(void *set_data) {
+    return new TObjSeabedDolphin(tl_05, set_data);
 }
 #pragma pop
 
@@ -1138,7 +1138,7 @@ void *TObjPlayer::create_child_object(void *set_data) {
     return new TUnk_804E08D4(tl_05, set_data);
 }
 
-TUnk_804E0898::TUnk_804E0898(TObject *parent, void *set_data) : TObjPathObj(parent, set_data) {
+TObjLobbyPigeon::TObjLobbyPigeon(TObject *parent, void *set_data) : TObjPathObj(parent, set_data) {
     LobbyPigeon *self = (LobbyPigeon *)this;
     s32 movement;
     s32 selector;
@@ -1164,9 +1164,9 @@ TUnk_804E0898::TUnk_804E0898(TObject *parent, void *set_data) : TObjPathObj(pare
 }
 #pragma pop
 
-TUnk_804E0898::~TUnk_804E0898() {}
+TObjLobbyPigeon::~TObjLobbyPigeon() {}
 
-void TUnk_804E0898::update_lobby_pigeon_visibility() {
+void TObjLobbyPigeon::update_lobby_pigeon_visibility() {
   switch (((LobbyPigeon *)this)->phase) {
   case 0:
     if (((LobbyPigeon *)this)->theme == ((s32 (*)(LobbyPigeon *))filter_lobby_pigeon_theme)(((LobbyPigeon *)this))) {
@@ -1200,11 +1200,11 @@ void TUnk_804E0898::update_lobby_pigeon_visibility() {
 
 #pragma push
 #pragma fp_contract on
-void TUnk_804E0898::vfunc_13() {
+void TObjLobbyPigeon::vfunc_13() {
     Obj_802C0F3C *self = (Obj_802C0F3C *)this;
-  ((TUnk_804E0898 *)self)->update_lobby_pigeon_visibility();
+  ((TObjLobbyPigeon *)self)->update_lobby_pigeon_visibility();
   self->b4 += lobby_pigeon_path_profiles[self->d8].pa;
-  if (((TUnk_804E0898 *)self)->advance_lobby_pigeon_path() == 0) {
+  if (((TObjLobbyPigeon *)self)->advance_lobby_pigeon_path() == 0) {
     self->b4 = (0.0f);
   }
   self->b8 += lobby_pigeon_path_profiles[self->d8].pb;
@@ -1225,7 +1225,7 @@ void TUnk_804E0898::vfunc_13() {
   }
 }
 
-void TUnk_804E0898::vfunc_14() {
+void TObjLobbyPigeon::vfunc_14() {
     LobbyPigeon *self = (LobbyPigeon *)this;
   if (TObjPlayer::check_demo_mode() == 1 &&
       TMainTask::get_render_pass() == 0)
@@ -1247,7 +1247,7 @@ void TUnk_804E0898::vfunc_14() {
 }
 #pragma pop
 
-void TUnk_804E0898::select_lobby_pigeon_model() {
+void TObjLobbyPigeon::select_lobby_pigeon_model() {
     s32 temp_r3;
 
     if ((s32) this->set_params[2] < 1) {
@@ -1274,7 +1274,7 @@ void TUnk_804E0898::select_lobby_pigeon_model() {
     *(s32 *)((s8 *)this + 0x98) = 0;
 }
 
-s32 TUnk_804E0898::initialize_lobby_pigeon_path() {
+s32 TObjLobbyPigeon::initialize_lobby_pigeon_path() {
     Vec a;
     Vec b;
     Vec d;
@@ -1295,7 +1295,7 @@ s32 TUnk_804E0898::initialize_lobby_pigeon_path() {
     return r;
 }
 
-s32 TUnk_804E0898::advance_lobby_pigeon_path() {
+s32 TObjLobbyPigeon::advance_lobby_pigeon_path() {
     Vec a;
     Vec b;
     Vec d;
@@ -1377,4 +1377,8 @@ void TObjPlayer::free_static_instance() {
         delete (BmlResource *)lobby_pigeon_bml_archive;
         lobby_pigeon_bml_archive = NULL;
     }
+}
+
+void *TObjLobbyPigeon::create(void *set_data) {
+    return new TObjLobbyPigeon(tl_05, set_data);
 }

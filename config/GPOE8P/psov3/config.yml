@@ -1586,7 +1586,7 @@ force_active:
   - __ct__13TUnk_804E08D4FP7TObjectPv
   - __ct__13TUnk_804E0910FP7TObjectPv
   - __ct__13TUnk_804E094CFP7TObjectPv
-  - __ct__13TUnk_804E0988FP7TObjectPv
+  - __ct__17TObjSeabedDolphinFP7TObjectPv
   - TObjPlayer__sub_802C4648
   - TObjPlayer__sub_802E0468
   - TObjPlayer__sub_802E0580
@@ -3806,7 +3806,7 @@ force_active:
   - advance_intro_timer__14TBoss6PlotFalzFv
   - advance_libera__11TBoss4Type3Fv
   - advance_light_magic__11TBoss4Type3Fv
-  - advance_lobby_pigeon_path__13TUnk_804E0898Fv
+  - advance_lobby_pigeon_path__15TObjLobbyPigeonFv
   - advance_manual__14CreationCameraFv
   - advance_motion_entry__13TBoss5GryphonFv
   - advance_motion_frame__13TObjLobbyMainFv
@@ -7226,7 +7226,7 @@ force_active:
   - initialize_fmt1_materials__6TSceneFv
   - initialize_fmt2_materials__6TSceneFv
   - initialize_from_placement__13TObjRaderIconFv
-  - initialize_lobby_pigeon_path__13TUnk_804E0898Fv
+  - initialize_lobby_pigeon_path__15TObjLobbyPigeonFv
   - initialize_materials__6TSceneFv
   - initialize_player_data__10TObjPlayerFv
   - initialize_selection_state__22TAdMultiPlyChrSelectGCFl
@@ -15302,7 +15302,7 @@ force_active:
   - select_farthest_visible_player__16TObjEneDellBiterFv
   - select_forward_target__12TBoss1DragonFv
   - select_item_icon__20TWindowSubStatusDispFPviUcUci
-  - select_lobby_pigeon_model__13TUnk_804E0898Fv
+  - select_lobby_pigeon_model__15TObjLobbyPigeonFv
   - select_melee_contact_body__11TOVS2Wall01FPvf
   - select_melee_contact_body__13TUnk_8048E1A4FPvf
   - select_melee_contact_body__15TOAttackableColFPvf
@@ -16328,8 +16328,8 @@ force_active:
   - sub_802C1BFC__13TUnk_804E0910Fv
   - sub_802C1E34__13TUnk_804E0910Fv
   - sub_802C2548__13TUnk_804E094CFv
-  - sub_802C2A10__13TUnk_804E0988Fv
-  - sub_802C2C48__13TUnk_804E0988Fv
+  - sub_802C2A10__17TObjSeabedDolphinFv
+  - sub_802C2C48__17TObjSeabedDolphinFv
   - clear_state7_flag__15TObjEneMe1GiGueFv
   - update_proximity_state__15TObjEneMe1GiGueFv
   - update_idle_state__15TObjEneMe1GiGueFv
@@ -17014,7 +17014,7 @@ force_active:
   - update_load_state__16TAdChrSelASlotGCFv
   - update_load_state__13AfsFileLoaderFv
   - update_load_status__12TQuestListVMFv
-  - update_lobby_pigeon_visibility__13TUnk_804E0898Fv
+  - update_lobby_pigeon_visibility__15TObjLobbyPigeonFv
   - update_lobby_selection__12TQuestListVMFv
   - update_locked_pulse__8TObjDoorFPv
   - update_long_action__8TItemMagFv

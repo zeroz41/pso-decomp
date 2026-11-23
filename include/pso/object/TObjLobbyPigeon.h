@@ -1,13 +1,13 @@
-#ifndef PSO_OBJECT_TUNK_804E0898_H
-#define PSO_OBJECT_TUNK_804E0898_H
+#ifndef PSO_OBJECT_TOBJLOBBYPIGEON_H
+#define PSO_OBJECT_TOBJLOBBYPIGEON_H
 #include "types.h"
 #include "pso/object/TObjPathObj.h"
 
-class TUnk_804E0898 : public TObjPathObj {
+class TObjLobbyPigeon : public TObjPathObj {
 public:
-    TUnk_804E0898(TObject *parent, void *set_data);
+    TObjLobbyPigeon(TObject *parent, void *set_data);
     static void *create(void *set_data);
-    virtual ~TUnk_804E0898();
+    virtual ~TObjLobbyPigeon();
     s32 initialize_lobby_pigeon_path();
     s32 advance_lobby_pigeon_path();
     void update_lobby_pigeon_visibility();
@@ -28,6 +28,6 @@ public:
     s32 m_d8; // 0xD8
     u8 unk_DC[0x4];
 };
-LAYOUT_ASSERT(TUnk_804E0898_size, sizeof(TUnk_804E0898) == 0xE0);
+LAYOUT_ASSERT(TObjLobbyPigeon_size, sizeof(TObjLobbyPigeon) == 0xE0);
 
 #endif

@@ -1,15 +1,15 @@
-#ifndef PSO_OBJECT_TUNK_804E0988_H
-#define PSO_OBJECT_TUNK_804E0988_H
+#ifndef PSO_OBJECT_TOBJSEABEDDOLPHIN_H
+#define PSO_OBJECT_TOBJSEABEDDOLPHIN_H
 #include "types.h"
 #include "pso/object/TObjPathObj.h"
 
 struct NJS_OBJECT;
 
-class TUnk_804E0988 : public TObjPathObj {
+class TObjSeabedDolphin : public TObjPathObj {
 public:
-    TUnk_804E0988(TObject *parent, void *set_data);
+    TObjSeabedDolphin(TObject *parent, void *set_data);
     static void *create(void *set_data);
-    virtual ~TUnk_804E0988();
+    virtual ~TObjSeabedDolphin();
     s32 sub_802C2C48();
     s32 sub_802C2A10();
     virtual void vfunc_13();
@@ -27,6 +27,6 @@ public:
     u8 unk_C4[0x4];
     s32 m_c8;
 };
-LAYOUT_ASSERT(TUnk_804E0988_size, sizeof(TUnk_804E0988) == 0xCC);
+LAYOUT_ASSERT(TObjSeabedDolphin_size, sizeof(TObjSeabedDolphin) == 0xCC);
 
 #endif
