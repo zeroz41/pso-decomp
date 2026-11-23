@@ -4,6 +4,7 @@
 #pragma dont_inline off
 
 #include "pso/player/TPlyItem.h"
+#include "pso/ui/window/TWindowShop.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "types.h"
 #include <string.h>
@@ -38,7 +39,6 @@
 #include "pso/ui/window/WindowLayout.h"
 
 extern "C" {
-TWindowMenuIconLine *create_item_list_window(s32, s32, s32);
 }
 
 const char *TShopKeepItemWindow__class_name = "TShopKeepItemWindow";

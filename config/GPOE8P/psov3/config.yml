@@ -6827,7 +6827,7 @@ force_active:
   - handle_equip_offer__20TShopArmorListWindowFv
   - handle_equip_offer__24TShopEquipmentListWindowFv
   - handle_equip_prompt__23TShopJudgmentItemWindowFv
-  - handle_error_ack__18TCheckRoomSequenceFPv
+  - handle_error_ack__18TCheckRoomSequenceFv
   - state_motion_test__13TObjEneMe1GeeFl
   - handle_event__13TObjEneRe4BitFl
   - handle_event__19TObjEneEpsilonGuardFl

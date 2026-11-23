@@ -3,7 +3,7 @@
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/city/TShopJudgmentItemWindow_8026DF00.h"
+#include "pso/ui/window/TWindowShop.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TPlyGuildCardTag_8007B434.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
@@ -196,7 +196,7 @@ void TQuestListOnline::build_list_window() {
     if (((VObj_18_80217F88 *)this->sequence)->m8() != 0) {
         if (list_window == NULL) {
             id = player->get_entity_id();
-            list_window = (TWindowMenuIconLine *)create_item_list_window(get_guild_text(0), 0x40, id);
+            list_window = create_item_list_window(get_guild_text(0), 0x40, id);
         } else {
             list_window->reset_list();
         }

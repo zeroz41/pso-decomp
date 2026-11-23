@@ -12,7 +12,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
-#include "pso/ui/city/TShopJudgmentItemWindow_8026DF00.h"
+#include "pso/ui/window/TWindowShop.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowMessage.h"
@@ -383,14 +383,14 @@ void TQuestListVM::build_download_list() {
         } else {
             switch (current_language) {
             case LANGUAGE_JAPANESE:
-                list_window = (TWindowMenuIconLine *)create_item_list_window((saddr)download_list_title_jp, 0x40, player->get_entity_id());
+                list_window = create_item_list_window((saddr)download_list_title_jp, 0x40, player->get_entity_id());
                 break;
             case LANGUAGE_ENGLISH:
             case LANGUAGE_GERMAN:
             case LANGUAGE_FRENCH:
             case LANGUAGE_SPANISH:
             default:
-                list_window = (TWindowMenuIconLine *)create_item_list_window((saddr)download_list_title, 0x40, player->get_entity_id());
+                list_window = create_item_list_window((saddr)download_list_title, 0x40, player->get_entity_id());
                 break;
             }
         }

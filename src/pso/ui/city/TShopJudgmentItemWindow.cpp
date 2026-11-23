@@ -10,7 +10,7 @@
 #include "types.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/city/TShopItemTecSequence.h"
-#include "pso/ui/city/TShopJudgmentItemWindow_8026DF00.h"
+#include "pso/ui/window/TWindowShop.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_8011A780.h"
 #include "pso/unk/text_80222C28.h"
@@ -133,7 +133,7 @@ void TShopJudgmentItemWindow::build_item_list() {
         return;
     }
     if (item_list == NULL) {
-        item_list = (TWindowMenuIconLine *)create_item_list_window(get_appraisal_text(0), item_count, player->get_entity_id());
+        item_list = create_item_list_window(get_appraisal_text(0), item_count, player->get_entity_id());
         for (j = 0; j < item_count; j++) {
             item_list->add_list_entry(entries[j].item, j);
         }
@@ -230,14 +230,14 @@ void TShopJudgmentItemWindow::create_result_windows() {
         if (this->item_list == NULL) {
             switch (current_language) {
             case LANGUAGE_JAPANESE:
-                this->item_list = (TWindowMenuIconLine *)create_item_list_window((saddr)"\x8A\xD3\x92\xE8\x8C\x8B\x89\xCA", 1, this->player->get_entity_id());
+                this->item_list = create_item_list_window((saddr)"\x8A\xD3\x92\xE8\x8C\x8B\x89\xCA", 1, this->player->get_entity_id());
                 break;
             case LANGUAGE_ENGLISH:
             case LANGUAGE_GERMAN:
             case LANGUAGE_FRENCH:
             case LANGUAGE_SPANISH:
             default:
-                this->item_list = (TWindowMenuIconLine *)create_item_list_window((saddr)"Result", 1, this->player->get_entity_id());
+                this->item_list = create_item_list_window((saddr)"Result", 1, this->player->get_entity_id());
                 break;
             }
             judged_item.clear_unidentified_flag();

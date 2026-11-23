@@ -7,7 +7,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/ui/city/TShopJudgmentItemWindow_8026DF00.h"
+#include "pso/ui/window/TWindowShop.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowMessage.h"
@@ -145,7 +145,7 @@ void TQuestListOffline::init_quest_list_window() {
     refresh_story_quest_availability(story_quest_list_resource);
     if (list_window == NULL) {
         s32 title = get_guild_text(0);
-        list_window = (TWindowMenuIconLine *)create_item_list_window(title, 0x40, player->get_entity_id());
+        list_window = create_item_list_window(title, 0x40, player->get_entity_id());
         if (are_all_story_quests_complete() == 1) {
             OfflineQuestEntry *quest = quests;
             s32 i = 0;

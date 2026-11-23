@@ -107,7 +107,7 @@ s32 TShopGenerator::is_no_service_active(void *self, saddr player) {
     int (*get_slot_flag)(int);
     for (i = 0; i < 7; i++) {
         get_slot_flag = TShopGenerator__service_dispatch_table[i].get_slot_flag;
-        if (get_slot_flag((u16)TShopGenerator__sub_80222DAC(((TObjBase *)(player))->get_entity_id())) == 1) {
+        if (get_slot_flag((u16)get_client_split_screen_slot(((TObjBase *)(player))->get_entity_id())) == 1) {
             return 0;
         }
     }
@@ -143,7 +143,7 @@ void TShopGenerator::run_task() {
             if (is_flag_400_set__10TObjPlayerFPv((void *)p) == 1) continue;
             if (((TObjPlayer *)p)->is_controls_locked() == 1) continue;
             get_slot_flag = service->get_slot_flag;
-            if (get_slot_flag((u16)TShopGenerator__sub_80222DAC(((TObjBase *)(p))->get_entity_id())) == 1) continue;
+            if (get_slot_flag((u16)get_client_split_screen_slot(((TObjBase *)(p))->get_entity_id())) == 1) continue;
             if (test_pressed_buttons_packed(&controller_input_state.controllers[((TObjPlayer *)p)->get_controller_port()], 4) == 0) continue;
             service->create((void *)p);
         }
@@ -158,7 +158,7 @@ void TShopGenerator::run_task() {
         if (((TObjPlayer *)q)->is_controls_locked() == 1) return;
         if (is_no_service_active(this, q) == 0) return;
         get_slot_flag2 = service->get_slot_flag;
-        if (get_slot_flag2((u16)TShopGenerator__sub_80222DAC(((TObjBase *)(q))->get_entity_id())) == 1) return;
+        if (get_slot_flag2((u16)get_client_split_screen_slot(((TObjBase *)(q))->get_entity_id())) == 1) return;
         if (((s32 (*)(u8 *, u8 *, f32))is_player_in_service_range__14TShopGeneratorFPUcf)((u8 *)this, (u8 *)q, 20.0f) == 0) return;
         if (test_pressed_buttons_packed(&controller_input_state.controllers[((TObjPlayer *)q)->get_controller_port()], 4) == 0) return;
         service->create((void *)q);
@@ -186,17 +186,17 @@ TShopGenerator::TShopGenerator(saddr set_data) : TObjBase(tl_05) {
 }
 
 int TShopGenerator::is_slot_active(u16 client) {
-    return TShopGenerator__slot_active_table[(u16)TShopGenerator__sub_80222DAC(client)] == 1;
+    return TShopGenerator__slot_active_table[(u16)get_client_split_screen_slot(client)] == 1;
 }
 
 void TShopGenerator::clear_slot_active(u16 client) {
-    u16 idx = TShopGenerator__sub_80222DAC(client);
+    u16 idx = get_client_split_screen_slot(client);
     TShopGenerator__slot_active_table[idx] = 0;
 }
 
 
 void THunterGuildSeqOffline__sub_8021E180(u16 client) {
-    u16 idx = TShopGenerator__sub_80222DAC(client);
+    u16 idx = get_client_split_screen_slot(client);
     TShopGenerator__slot_active_table[idx] = 1;
 }
 

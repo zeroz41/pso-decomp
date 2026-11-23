@@ -22,7 +22,7 @@
 #include "pso/ui/window/TWindowInputNumber.h"
 #include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/ui/city/TShopGetItemWindow.h"
-#include "pso/ui/city/TShopJudgmentItemWindow_8026DF00.h"
+#include "pso/ui/window/TWindowShop.h"
 #include "pso/ui/window/TWindowSetLevelUp.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/text_80222C28.h"
@@ -126,14 +126,14 @@ void TShopDeleteItemWindow::sub_80337E2C() {
     if (item_list == NULL) {
         TItemData item;
         s32 count;
-        item_list = (TWindowMenuIconLine *)create_item_list_window(get_shop_text(0x30), 200, ((TObjBase *)(player))->get_entity_id());
+        item_list = create_item_list_window(get_shop_text(0x30), 200, ((TObjBase *)(player))->get_entity_id());
         TWindowSetLevelUp__sub_8026DE28(item_list, 200);
         for (i = 0; i < 200; i++) {
             if (copy_bank_item_with_stack_limit(i, &item, &count, base) != 0) {
                 if (count > 1) {
-                    ((TWindowSubStatusDisp *)item_list)->add_item_info_entry((saddr)&item, i, count);
+                    item_list->add_item_info_entry(&item, i, count);
                 } else {
-                    ((TWindowSubStatusDisp *)item_list)->add_item_info_entry((saddr)&item, i, 0);
+                    item_list->add_item_info_entry(&item, i, 0);
                 }
             }
         }
@@ -148,9 +148,9 @@ void TShopDeleteItemWindow::sub_80337E2C() {
         for (j = 0; j < 200; j++) {
             if (copy_bank_item_with_stack_limit(j, &item, &count, base) != 0) {
                 if (count > 1) {
-                    ((TWindowSubStatusDisp *)item_list)->add_item_info_entry((saddr)&item, j, count);
+                    item_list->add_item_info_entry(&item, j, count);
                 } else {
-                    ((TWindowSubStatusDisp *)item_list)->add_item_info_entry((saddr)&item, j, 0);
+                    item_list->add_item_info_entry(&item, j, 0);
                 }
             }
         }

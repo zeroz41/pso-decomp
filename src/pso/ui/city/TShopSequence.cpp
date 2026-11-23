@@ -87,39 +87,39 @@ void TShopSequence::close_if_single_screen() {
     }
 }
 void TShopSequence::close_window() {
-    s32 var_r31;
+    s32 client;
 
-    if ((u32) *(u32 *)((s8 *)this + 0x24) != 0U) {
-        TWindowCtrl::unsuppress_slot((u16)((TObjBase *)(saddr)(*(u32 *)((s8 *)this + 0x24)))->get_entity_id());
+    if (player != NULL) {
+        TWindowCtrl::unsuppress_slot((u16)player->get_entity_id());
         if (TRaderMapCore::is_not_split_screen() != 1) {
-            var_r31 = 0;
+            client = 0;
             do {
-                void *player = get_player_by_client_id(var_r31);
-                if (player != NULL) {
-                    ((TObjPlayer *)player)->activate_body_collision();
+                TObjPlayer *other = (TObjPlayer *)get_player_by_client_id(client);
+                if (other != NULL) {
+                    other->activate_body_collision();
                 }
-                var_r31 += 1;
-            } while (var_r31 < 4);
+                client += 1;
+            } while (client < 4);
         }
-        TObjPlayer::clear_lobby_flag((void *)(*(uaddr *)((s8 *)this + 0x24)));
+        TObjPlayer::clear_lobby_flag(player);
     }
 }
 void TShopSequence::restore_player_state() {
-    s32 var_r31;
+    s32 client;
 
-    if ((u32) *(u32 *)((s8 *)this + 0x24) != 0U) {
-        ((TObjPlayer *)this->player)->init_effect_5f0();
+    if (player != NULL) {
+        player->init_effect_5f0();
         if (TRaderMapCore::is_not_split_screen() != 1) {
-            var_r31 = 0;
+            client = 0;
             do {
-                void *player = get_player_by_client_id(var_r31);
-                if (player != NULL) {
-                    ((TObjPlayer *)player)->deactivate_body_collision();
+                TObjPlayer *other = (TObjPlayer *)get_player_by_client_id(client);
+                if (other != NULL) {
+                    other->deactivate_body_collision();
                 }
-                var_r31 += 1;
-            } while (var_r31 < 4);
+                client += 1;
+            } while (client < 4);
         }
-        TWindowCtrl::suppress_slot((u16)((TObjBase *)(saddr)(*(u32 *)((s8 *)this + 0x24)))->get_entity_id());
+        TWindowCtrl::suppress_slot((u16)player->get_entity_id());
     }
 }
 TShopSequence::~TShopSequence() {

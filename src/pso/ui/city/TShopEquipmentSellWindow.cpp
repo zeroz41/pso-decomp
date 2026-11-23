@@ -26,7 +26,7 @@
 #include "pso/ui/window/TWindowInputNumber.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/ui/city/TShopJudgmentItemWindow_8026DF00.h"
+#include "pso/ui/window/TWindowShop.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/task/TObject.h"
 #include <string.h>
@@ -146,7 +146,7 @@ void TShopEquipmentSellWindow::build_sell_list() {
     display_shop_message(0xC, 1);
     set_state(1);
     if (this->item_list == NULL) {
-        this->item_list = (TWindowMenuIconLine *)create_item_list_window(get_shop_text(this->title_text), this->entry_count, this->player->get_entity_id());
+        this->item_list = create_item_list_window(get_shop_text(this->title_text), this->entry_count, this->player->get_entity_id());
         for (i = 0; i < this->entry_count; i++) {
             this->item_list->add_item(this->entries[i].item, this->entries[i].data.data2.price, i);
         }

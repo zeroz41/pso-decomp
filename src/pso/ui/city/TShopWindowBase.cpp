@@ -25,7 +25,7 @@ f32 TShopWindowBase::get_scale() {
 
 s32 TShopWindowBase::get_split_screen_slot() {
     if (player != NULL) {
-        return (u16)TShopGenerator__sub_80222DAC(player->get_entity_id());
+        return (u16)get_client_split_screen_slot(player->get_entity_id());
     }
     return 0U;
 }

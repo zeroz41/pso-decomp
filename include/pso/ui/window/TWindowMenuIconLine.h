@@ -4,6 +4,7 @@
 #include "pso/ui/window/TWindowAddition.h"
 
 struct TItem;
+struct TItemData;
 struct WindowScrollBar;
 
 class TWindowMenuIconLine : public TWindowAddition {
@@ -32,6 +33,9 @@ public:
     void add_list_entry(u8 icon, s32 src, s32 item);
     void add_list_entry(TItem *item, s32 index);
     void add_item(TItem *item, s32 price, s32 index);
+    // Append a row for an item record kept outside the inventory (bank, shop stock); count 0 hides the stack size.
+    void add_item_info_entry(TItemData *item, s32 index, s32 count);
+    void add_ground_item(TItemData *item, s32 index);
     void save_cursor_selection();
     void clamp_selection_to_valid_entry();
     // Rebuild the list keeping the cursor: usable items, items to appraise,

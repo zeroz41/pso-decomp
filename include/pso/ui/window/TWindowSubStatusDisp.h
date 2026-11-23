@@ -92,12 +92,9 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void refresh_selected_entry(s32 arg1);
     void add_status_entry(s8 arg1, s32 src, s32 item);
     void add_inventory_item(saddr item, s32 count, s32 sid);
-    void add_item_info_entry(saddr arg1, s32 arg2, saddr count);
-    void add_ground_item(saddr it, s32 arg2);
     void init_scroll_pos();
     int is_flag80_set();
     void add_text_entry(s32 arg1, s32 arg2);
-    void set_entry1_field20(s32 arg1);
     void start_hp_text_color_transition();
     void init_gauge_entry();
     void update_status_entry();

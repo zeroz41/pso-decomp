@@ -367,24 +367,20 @@ void TWindowMenuIconLine::add_list_entry(TItem *item, s32 index) {
     }
 }
 
-void TWindowSubStatusDisp::add_item_info_entry(saddr arg1, s32 arg2, saddr count) {
-    int index;
-    if (arg1 != 0) {
-        index = *(s16 *)((s8 *)this + 0x72);
-        if (index < (s16) *(s16 *)((s8 *)this + 0x76)) {
-            ((ItemListRow *)(get_array_entry(index)))->set_item_info((void*)arg1, (s32)arg2, count);
-            *(s16 *)((s8 *)this + 0x72) = (s16) (*(s16 *)((s8 *)this + 0x72) + 1);
+void TWindowMenuIconLine::add_item_info_entry(TItemData *item, s32 index, s32 count) {
+    if (item != NULL) {
+        if (entry_count < entry_capacity) {
+            ((ItemListRow *)get_array_entry(entry_count))->set_item_info(item, index, count);
+            entry_count++;
         }
     }
 }
 
-void TWindowSubStatusDisp::add_ground_item(saddr it, s32 arg2) {
-    int index;
-    if (it != 0) {
-        index = *(s16 *)((s8 *)this + 0x72);
-        if (index < (s16) *(s16 *)((s8 *)this + 0x76)) {
-            ((ItemListRow *)(get_array_entry(index)))->set_ground_item((void *)it, (s32)arg2);
-            *(s16 *)((s8 *)this + 0x72) = (s16) (*(s16 *)((s8 *)this + 0x72) + 1);
+void TWindowMenuIconLine::add_ground_item(TItemData *item, s32 index) {
+    if (item != NULL) {
+        if (entry_count < entry_capacity) {
+            ((ItemListRow *)get_array_entry(entry_count))->set_ground_item(item, index);
+            entry_count++;
         }
     }
 }

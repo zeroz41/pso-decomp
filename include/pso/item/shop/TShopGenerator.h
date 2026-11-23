@@ -25,7 +25,7 @@ extern "C" {
 void THunterGuildSeqOffline__sub_8021E180(u16 client);
 }
 
-// One flag per client, indexed by TShopGenerator__sub_80222DAC(entity id).
+// One flag per client, indexed by get_client_split_screen_slot(entity id).
 extern s32 TShopGenerator__slot_active_table[4];
 
 #endif

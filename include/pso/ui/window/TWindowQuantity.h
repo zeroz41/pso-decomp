@@ -14,6 +14,7 @@ struct TWindowQuantity : public TWindowBase {
     f32 scale[2];
     void set_position(WindowDrawContext *context);
     void set_entry_count(TItem *item);
+    void set_quantity(s32 quantity);
     virtual void run_task();
 };
 

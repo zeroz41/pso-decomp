@@ -63,7 +63,7 @@ void TLobby::create_named_lobby_object() {
 }
 #pragma push
 #pragma scheduling off
-u16 TShopGenerator__sub_80222DAC(u16 client) {
+u16 get_client_split_screen_slot(u16 client) {
     return is_split_screen() == 1 ? client : (u16)0;
 }
 #pragma pop

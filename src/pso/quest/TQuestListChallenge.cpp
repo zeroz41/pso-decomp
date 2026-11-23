@@ -13,7 +13,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/unk/text_801F3774.h"
 #include "pso/unk/text_80222C28.h"
-#include "pso/ui/city/TShopJudgmentItemWindow_8026DF00.h"
+#include "pso/ui/window/TWindowShop.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/object/base/TObjBase.h"
@@ -191,7 +191,7 @@ void TQuestListChallenge::create_quest_list_window() {
 
     if (sequence->is_message_ready() != 0 && list_window == NULL) {
         id = player->get_entity_id();
-        list_window = (TWindowMenuIconLine *)create_item_list_window(get_guild_text(0), 0x40, id);
+        list_window = create_item_list_window(get_guild_text(0), 0x40, id);
         for (i = 0; i < count; i++) {
             e = get_quest_list_text(text_group, entries[i].title_text);
             list_window->add_list_entry(0x2C, e, i);

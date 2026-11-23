@@ -34,7 +34,7 @@
 #include "pso/unk/text_8011A780.h"
 #include "pso/unk/text_80222C28.h"
 #include "pso/unk/text_80222DE8.h"
-#include "pso/ui/city/TShopJudgmentItemWindow_8026DF00.h"
+#include "pso/ui/window/TWindowShop.h"
 #include "pso/system/SoundEffect.h"
 
 #pragma readonly_strings on
@@ -146,16 +146,16 @@ void TShopEquipmentListWindow::create_buy_list_windows() {
         }
     }
     if (this->item_list == NULL) {
-        this->item_list = (TWindowMenuIconLine *)create_item_list_window(get_shop_text(0x26), this->item_count, this->player->get_entity_id());
+        this->item_list = create_item_list_window(get_shop_text(0x26), this->item_count, this->player->get_entity_id());
     } else {
         this->item_list->save_cursor_selection();
         this->item_list->reset_list();
     }
     if (this->item_list != NULL) {
         for (k = 0; k < this->item_count; k++) {
-            e = (u8 *)this + k * 0x14;
-            if (*(s32 *)(e + 0x60) != -1) {
-                ((TWindowSubStatusDisp *)this->item_list)->add_ground_item((saddr)(e + 0x50), k);
+            e = (u8 *)this + k * sizeof(TItemData);
+            if (*(s32 *)(e + offsetof(TShopEquipmentListWindow, stock[0].data2)) != -1) {
+                this->item_list->add_ground_item((TItemData *)(e + offsetof(TShopEquipmentListWindow, stock)), k);
             }
         }
         this->item_list->calc_content_extent();

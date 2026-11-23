@@ -7,6 +7,7 @@
 
 struct TItem;
 class TWindowMenuIconLine;
+class TWindowShop;
 struct TWindowMenu;
 struct TWindowHelpItem;
 struct TWindowLoadItemTexture;
@@ -52,7 +53,7 @@ struct TShopJudgmentItemWindow : public TShopWindowBase {
     void handle_input();
     void build_item_list();
     void close();
-    static u8 *open_default(s32 a);
+    static TWindowShop *open_default(s32 title);
     void handle_pay_confirm();
     void update_judge_confirm();
     void handle_judge_confirm();

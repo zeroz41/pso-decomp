@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/item/TItemData.h"
+#include "pso/ui/window/TWindowShop.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/city/TShopGetItemWindow.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
@@ -28,9 +29,7 @@ extern "C" {
 saddr get_window_layout_position(s32);
 TWindowInputNumber *__ct__18TWindowInputNumberFPvllls(void *, s32, s32, s32, s32, s16);
 TWindowHelpItem *__ct__15TWindowHelpItemFPvl(void *, s32, s32);
-void add_item_info_entry__20TWindowSubStatusDispFlll(TWindowMenuIconLine *, void *, s32, s32);
 void TWindowSetLevelUp__sub_8026DE28(TWindowMenuIconLine *, s32);
-TWindowMenuIconLine *create_item_list_window(s32, s32, s32);
 }
 
 extern const char *TShopGetItemWindow__class_name;
@@ -120,9 +119,9 @@ void TShopGetItemWindow::rebuild_item_list() {
         for (i = 0; i < 0xC8; i++) {
             if (copy_bank_item_with_stack_limit(i, &item, &count, x) != 0) {
                 if (count > 1) {
-                    add_item_info_entry__20TWindowSubStatusDispFlll(item_list, &item, i, count);
+                    item_list->add_item_info_entry(&item, i, count);
                 } else {
-                    add_item_info_entry__20TWindowSubStatusDispFlll(item_list, &item, i, 0);
+                    item_list->add_item_info_entry(&item, i, 0);
                 }
             }
         }
@@ -137,9 +136,9 @@ void TShopGetItemWindow::rebuild_item_list() {
         for (j = 0; j < 0xC8; j++) {
             if (copy_bank_item_with_stack_limit(j, &item, &count, x) != 0) {
                 if (count > 1) {
-                    add_item_info_entry__20TWindowSubStatusDispFlll(item_list, &item, j, count);
+                    item_list->add_item_info_entry(&item, j, count);
                 } else {
-                    add_item_info_entry__20TWindowSubStatusDispFlll(item_list, &item, j, 0);
+                    item_list->add_item_info_entry(&item, j, 0);
                 }
             }
         }
