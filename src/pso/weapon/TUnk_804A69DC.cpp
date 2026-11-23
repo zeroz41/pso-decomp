@@ -68,7 +68,7 @@ void TUnk_804A69DC::emit_marker_effects() {
         get_gun_point(&gun_point);
         if (spin_speed > 0x1999) {
             send_activate_effect(0);
-            TItemAttacker::spawn_item_timer(this, (ItemTimerCallback)fn_801307D0, 0x1E);
+            TItemAttacker::spawn_item_timer(this, (ItemTimerCallback)charge_ready_timer, 0x1E);
             charge_ready = 0;
             return;
         }
@@ -148,7 +148,7 @@ TUnk_804A69C0::~TUnk_804A69C0() {
 }
 
 
-void fn_801307D0(void *weapon) {
+void charge_ready_timer(void *weapon) {
     if (weapon != NULL) {
         ((TUnk_804A69DC *)weapon)->charge_ready = 1;
     }
