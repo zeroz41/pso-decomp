@@ -5850,7 +5850,7 @@ force_active:
   - draw_light__12TODoorCave02FP10NJS_OBJECT
   - draw_lights__20TODoorFourLightSpaceFv
   - draw_line_ctrl_name
-  - draw_line_strip__10TObjPlayerFPviif
+  - draw_line_strip__11TObjPathObjFP10NJS_OBJECTP15AnimationMotionf
   - draw_line_task_data
   - draw_line_task_name
   - draw_line_task_resource
@@ -15238,7 +15238,7 @@ force_active:
   - salGetStartDelay
   - salInitHRTFBuffer
   - salSynthSendMessage
-  - sample_clamped_path_position__FPvlPvlf
+  - sample_clamped_path_position__11TObjPathObjFP10NJS_OBJECTP15AnimationMotionP3Vecf
   - sample_piecewise_curve__FP14PiecewiseCurvePff
   - sample_root_height__12TBoss1DragonFv
   - saveCurrentDestination__12TBoss1DragonFv
@@ -16323,12 +16323,12 @@ force_active:
   - update_camera__11TBoss6Type2Fv
   - update_head_aim__11TBoss6Type2Fv
   - decay_glow_and_calc_hp_ratio__11TBoss6Type2Fv
-  - sub_802C1660__16TObjJungleKamomeFv
+  - initialize_path__16TObjJungleKamomeFv
   - update_path_steering__14TObjJungleBirdFv
-  - sub_802C1E34__14TObjJungleBirdFv
-  - sub_802C2548__13TObjJungleEbiFv
-  - sub_802C2A10__17TObjSeabedDolphinFv
-  - sub_802C2C48__17TObjSeabedDolphinFv
+  - initialize_path__14TObjJungleBirdFv
+  - initialize_path__13TObjJungleEbiFv
+  - update_path_steering__17TObjSeabedDolphinFv
+  - initialize_path__17TObjSeabedDolphinFv
   - clear_state7_flag__15TObjEneMe1GiGueFv
   - update_proximity_state__15TObjEneMe1GiGueFv
   - update_idle_state__15TObjEneMe1GiGueFv

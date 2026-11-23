@@ -4,6 +4,7 @@
 #include "pso/object/TObjPathObj.h"
 
 struct NJS_OBJECT;
+struct AnimationMotion;
 
 class TObjJungleKamome : public TObjPathObj {
 public:
@@ -12,23 +13,22 @@ public:
     static void load_static_resource();
     static void destroy_instance();
     virtual ~TObjJungleKamome();
-    s32 sub_802C1660();
+    s32 initialize_path();
     s32 update_path_steering();
-    virtual void vfunc_13();
-    virtual void vfunc_14();
-    // get_bml_model(archive, 0), drawn posed by the m_9c motion (name inferred).
-    NJS_OBJECT *motion_model;
-    saddr m_9c;
-    u8 unk_A0[0x4];
-    f32 m_a4;
-    f32 m_a8;
-    u8 unk_AC[0xC];
-    s32 m_b8;
-    u8 unk_BC[0x4];
-    s32 m_c0;
-    u8 unk_C4[0x4];
-    s32 m_c8;
-    u8 unk_CC[0x4];
+    virtual void update();
+    virtual void draw();
+    NJS_OBJECT *model;
+    AnimationMotion *motion;   // the model's own motion
+    AnimationMotion *path;     // the path motion of the profile
+    f32 path_frame;
+    f32 motion_frame;
+    Vec path_position;         // the path's root node at path_frame, from position
+    s32 path_yaw;
+    s32 path_pitch;
+    s32 path_roll;             // banks into turns, up to 0x2000
+    s32 roll_speed;
+    s32 profile;               // index into the path profiles, set_params[0] clamped
+    s32 cry_delay;             // frames to the next cry, 150 to 270
 };
 LAYOUT_ASSERT(TObjJungleKamome_size, sizeof(TObjJungleKamome) == 0xD0);
 

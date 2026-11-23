@@ -3,6 +3,9 @@
 #include "types.h"
 #include "pso/object/TObjPathObj.h"
 
+struct NJS_OBJECT;
+struct AnimationMotion;
+
 class TObjLobbyPigeon : public TObjPathObj {
 public:
     TObjLobbyPigeon(TObject *parent, void *set_data);
@@ -14,21 +17,24 @@ public:
     s32 advance_lobby_pigeon_path();
     void update_lobby_pigeon_visibility();
     void select_lobby_pigeon_model();
-    virtual void vfunc_14();
-    virtual void vfunc_13();
-    u8 unk_98[0x8];
-    s32 m_a0;
-    u8 unk_A4[0x4];
-    s32 m_a8; // 0xA8
-    u8 unk_AC[0x4];
-    s32 m_b0; // 0xB0
-    u8 unk_B4[0x14];
-    s32 m_c8; // 0xC8
-    u8 unk_CC[0x4];
-    s32 m_d0; // 0xD0
-    u8 unk_D4[0x4];
-    s32 m_d8; // 0xD8
-    u8 unk_DC[0x4];
+    virtual void draw();
+    virtual void update();
+    s32 phase;                 // 0 hidden, 2 growing in, 3 shown, 1 shrinking out
+    f32 scale;
+    s32 model_index;           // 0 pigeon, 1 crow (set_params[2])
+    s32 theme;                 // the lobby event theme it shows in (set_params[1])
+    NJS_OBJECT *model;
+    AnimationMotion *motion;   // the model's own motion
+    AnimationMotion *path;     // the path motion of the profile
+    f32 path_frame;
+    f32 motion_frame;
+    Vec path_position;         // the path's root node at path_frame, from position
+    s32 path_yaw;
+    s32 path_pitch;
+    s32 path_roll;             // banks into turns, up to 0x2000
+    s32 roll_speed;
+    s32 profile;               // index into the path profiles, set_params[0] clamped
+    s32 random_delay;          // 150 to 270 frames
 };
 LAYOUT_ASSERT(TObjLobbyPigeon_size, sizeof(TObjLobbyPigeon) == 0xE0);
 
