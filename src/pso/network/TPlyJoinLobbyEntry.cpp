@@ -409,7 +409,7 @@ void TLobby::send_game_character() {
     TAdSinglePlyChrSelectGC::init();
     card = get_character_save_record(0xFFFF);
     memset(&a, 0, sizeof(a));
-    a.kb = TLobby::open_hard_keyboard((void *)local_client_id) != 0 ? 1 : 0;
+    a.kb = TLobby::open_hard_keyboard((void *)(saddr)local_client_id) != 0 ? 1 : 0;
     TLobby__sub_80077798(card + 0x22EC, &a);
     memset(c, 0, sizeof(c));
     strncpy(c, (char *)TLobby::get_card_window_field(), 0xAC);
@@ -452,7 +452,7 @@ void TLobby::update_idle_timeout(void *object) {
             TLobby__idle_timeout_object = 0;
         }
     }
-    t->limit = ((TLobby *)local_client_id)->get_table_entry_by_index();
+    t->limit = ((TLobby *)(saddr)local_client_id)->get_table_entry_by_index();
     elapsed = t->now - t->start;
     switch (t->state) {
     case 0:
@@ -488,7 +488,7 @@ u8 *init_idle_timeout_timer(u8 *arg0, saddr parent) {
     getDateStamp((DateStamp *)(&date));
     DateToSeconds((DateStamp *)(&date), (int *)(arg0 + 0x1C));
     ((TUnk_804A7008 *)arg0)->m_20 = (s32) *(s32 *)((s8 *)arg0 + 0x1C);
-    *(s32 *)((s8 *)arg0 + 0x24) = ((TLobby *)local_client_id)->get_table_entry_by_index();
+    *(s32 *)((s8 *)arg0 + 0x24) = ((TLobby *)(saddr)local_client_id)->get_table_entry_by_index();
     ((TUnk_804A7008 *)arg0)->m_28 = 0;
     TLobby__idle_timeout_object = 0;
     return arg0;
@@ -2039,7 +2039,7 @@ void TLobby::send_selected_character() {
     u8 *card;
     card = get_character_save_record(0xFFFF);
     memset(&a, 0, sizeof(a));
-    a.kb = TLobby::open_hard_keyboard((void *)local_client_id) != 0 ? 1 : 0;
+    a.kb = TLobby::open_hard_keyboard((void *)(saddr)local_client_id) != 0 ? 1 : 0;
     TLobby__sub_80077798(card + 0x22EC, &a);
     memset(c, 0, sizeof(c));
     strncpy(c, (char *)TLobby::get_card_window_field(), 0xAC);
@@ -2453,9 +2453,9 @@ void TLobby::on_game_player_add(TPlyJoinLobbyEntry *entries, int leader_id, int 
 }
 
 void handle_6x72_done_loading_into_game(void) {
-    if ((u32) TLobby::current_dialog_window != 0U) {
+    if (TLobby::current_dialog_window != NULL) {
         TLobby::current_dialog_window->close();
-        TLobby::current_dialog_window = 0U;
+        TLobby::current_dialog_window = NULL;
     }
     main_task.resume_layers();
 }
