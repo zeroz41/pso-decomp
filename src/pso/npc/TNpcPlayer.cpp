@@ -1320,7 +1320,14 @@ void TNpcPlayer::set_field_0(s16 v) { *(s16*)((char*)this + 0x0) = v; }
 
 void TNpcPlayer::set_field2(s16 v) { *(s16*)((char*)this + 0x2) = v; }
 
-void init_6x40_walk_packet(void* cmd) { *(float*)((char*)cmd + 0x8) = 0.0f; *(float*)((char*)cmd + 0x4) = 0.0f; *(int*)((char*)cmd + 0xc) = 0; *(unsigned char*)((char*)cmd + 0x0) = 64; *(unsigned char*)((char*)cmd + 0x1) = 4; }
+void init_6x40_walk_packet(void *cmd) {
+    G_WalkToPosition_6x40 *packet = (G_WalkToPosition_6x40 *)cmd;
+    packet->pos.z = 0.0f;
+    packet->pos.x = 0.0f;
+    packet->flags = 0;
+    packet->header.subcommand = 0x40;
+    packet->header.size = 4;
+}
 
 void TNpcPlayer::swap_endian() { ((G_ClientIDHeader *)this)->bswap(); ((VectorXZF *)((char*)this + 0x4))->bswap(); bswap_32((u32 *)((char*)this + 0xc)); }
 
