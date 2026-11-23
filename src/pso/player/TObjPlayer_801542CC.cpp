@@ -1105,7 +1105,7 @@ void check_enemy_body_collisions(TObjCollidable *actor) {
 }
 
 void TObjCollidable::check_object_collisions() {
-    void *player_data;
+    TObjPlayer *player_data;
     s32 j;
     void *actor_body_contact;
     void *temp_r3_3;
@@ -1115,8 +1115,8 @@ void TObjCollidable::check_object_collisions() {
     if (temp_r5 != NULL) {
         *(s32 *)((s8 *)temp_r5 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r5 + 0x18) & 0xFFB7FFFF);
         for (j = 0; j < (s32) registered_player_count; j++) {
-            player_data = ((void *)TObjPlayer::get_player_data(j));
-            if ((player_data != NULL) && ((u16) *(u16 *)((s8 *)player_data + 0x1C) < 0x1000U)) {
+            player_data = TObjPlayer::get_player_data(j);
+            if ((player_data != NULL) && (player_data->entity_id < 0x1000U)) {
                 actor_body_contact = find_actor_body_contact((u8*)player_data, 10000.0f);
                 if (actor_body_contact != NULL) {
                     temp_r3_3 = *(void **)((s8 *)this + 0xA4);
