@@ -114,7 +114,7 @@ GinjaTextureList shadow_map_texture_list = {&shadow_map_texture_entry, 1};
 Vec shadow_light_position = {0.0f, 0.0f, 0.0f};
 
 extern "C" {
-extern s32 lbl_805D63F0;
+extern s32 hud_texlist;
 void TObjPlayer__sub_80082C30(void);
 }
 
@@ -969,7 +969,7 @@ void TObjPlayer__sub_80082C30(void) {
     Stack_80082C30 stack;
     f32 y;
     f32 x;
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
     set_draw_texture_and_color(0, -1);
     begin_screen_draw(1);
     x = 192.0f;

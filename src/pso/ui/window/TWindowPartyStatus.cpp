@@ -37,7 +37,7 @@ s32 TWindowSubComCard__sub_802452DC(int);
 s32 TWindowSubComCard__sub_80245320(void *, void *);
 s32 TWindowSubComCard__sub_802454E4(int);
 s32 TWindowSubComCard__sub_80245558(void *, void *, void *);
-extern s32 lbl_805D63F0;
+extern s32 hud_texlist;
 saddr get_window_layout_position(int);
 s32 TWindowSimpleStatus__ct(void *, int, void *, void *);
 extern s32 __vt__18TWindowPartyStatus[];
@@ -59,7 +59,7 @@ struct PartyStatusWindowLayout {
 
 PartyStatusWindowLayout lbl_804E7750 = {
     5, 1,
-    {6, {7.0f, 7.0f}, {34.0f, 29.0f}, 112.0f, 84.0f, 0.5f, -1, &lbl_805D63F0, 0, 4},
+    {6, {7.0f, 7.0f}, {34.0f, 29.0f}, 112.0f, 84.0f, 0.5f, -1, &hud_texlist, 0, 4},
     {3, {45.0f, 40.0f}, 0.5f, 0xFFFFFFFF, 4, NULL},
     {4, {100.0f, 19.0f}, 0.5f, 0xFFFFFFFF, 4, 1},
     {2, {44.0f, 7.0f}, 0.5f, 0xFF00FF15, 0x20, 57.0f, 0, 0, 0xFF00CA9E, 0xFFFF2924},
@@ -87,7 +87,7 @@ void TWindowPartyStatus::draw_background(u8 *ctx) {
     f32 temp_f6;
     depth = -1.0f / this->draw_depth;
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
     set_draw_texture_and_color(0xB, (*(s32 *)((s8 *)ctx + 0x34)));
     temp_f2 = *(f32 *)((s8 *)ctx + 0x10);
     stack.sp8 = temp_f2;

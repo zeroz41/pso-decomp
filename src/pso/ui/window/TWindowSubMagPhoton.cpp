@@ -69,7 +69,7 @@ void TWindowSubMagPhoton::init_photon_blast_entries() {
 const char *TWindowSubMagPhoton__class_name = "TWindowSubMagPhoton";
 #pragma pop
 
-extern s32 lbl_805D63F0;
+extern s32 hud_texlist;
 
 // inferred: window_sub_mag_photon_layout_entries, the layout table
 // TWindowSubMagPhoton__layout_descriptor points at (a frame sprite and three photon blast icons).
@@ -81,10 +81,10 @@ struct SubMagPhotonWindowLayout {
 SubMagPhotonWindowLayout window_sub_mag_photon_layout_entries = {
     4, 1,
     {
-        {6, {14.0f, 19.0f}, {150.0f, 107.0f}, 0.0f, 0.0f, 0.2f, -1, &lbl_805D63F0, 2, 4},
-        {6, {64.0f, 51.0f}, {50.0f, 43.0f}, 0.0f, 0.0f, 0.7f, -1, &lbl_805D63F0, 3, 4},
-        {6, {108.0f, 25.0f}, {50.0f, 43.0f}, 0.0f, 0.0f, 0.7f, -1, &lbl_805D63F0, 3, 4},
-        {6, {20.0f, 77.0f}, {50.0f, 43.0f}, 0.0f, 0.0f, 0.7f, -1, &lbl_805D63F0, 3, 4},
+        {6, {14.0f, 19.0f}, {150.0f, 107.0f}, 0.0f, 0.0f, 0.2f, -1, &hud_texlist, 2, 4},
+        {6, {64.0f, 51.0f}, {50.0f, 43.0f}, 0.0f, 0.0f, 0.7f, -1, &hud_texlist, 3, 4},
+        {6, {108.0f, 25.0f}, {50.0f, 43.0f}, 0.0f, 0.0f, 0.7f, -1, &hud_texlist, 3, 4},
+        {6, {20.0f, 77.0f}, {50.0f, 43.0f}, 0.0f, 0.0f, 0.7f, -1, &hud_texlist, 3, 4},
     },
 };
 WindowDescriptor TWindowSubMagPhoton__layout_descriptor = {

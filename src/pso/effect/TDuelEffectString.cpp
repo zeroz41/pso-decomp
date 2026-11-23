@@ -14,7 +14,7 @@
 #include "pso/unk/TUnk_804C57F0.h"
 
 extern "C" {
-extern s32 lbl_805D63F0;
+extern s32 hud_texlist;
 }
 
 const char *TDuelEffectString::class_name = "TDuelEffectString";
@@ -82,7 +82,7 @@ void TDuelEffectString::render() {
     color = (u32)(4278190080.0f * alpha) | 0xFF0000 | 0xFFFF;
     set_additive_blend();
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
     set_draw_texture_and_color(6, color);
     switch (kind) {
     case 0:

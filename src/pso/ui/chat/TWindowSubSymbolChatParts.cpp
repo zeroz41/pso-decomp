@@ -25,7 +25,7 @@
 const char *TWindowSubSymbolChatParts__name = "TWindowSubSymbolChatParts";
 #pragma pop
 
-extern s32 lbl_805D63F0;
+extern s32 hud_texlist;
 
 // inferred: symbol_chat_parts_layout_entries, the layout table symbol_chat_parts_window_layout
 // points at (three sprite parts).
@@ -37,9 +37,9 @@ struct SymbolChatPartsWindowLayout {
 SymbolChatPartsWindowLayout symbol_chat_parts_layout_entries = {
     3, 1,
     {
-        {6, {89.0f, 14.0f}, {50.0f, 40.0f}, 178.0f, 168.0f, 0.4f, -1, &lbl_805D63F0, 0xA, 4},
-        {6, {14.0f, 14.0f}, {32.0f, 32.0f}, 0.0f, 192.0f, 0.5f, -1, &lbl_805D63F0, 0xA, 4},
-        {6, {94.0f, 14.0f}, {32.0f, 32.0f}, 128.0f, 208.0f, 0.6f, -1, &lbl_805D63F0, 0xA, 4},
+        {6, {89.0f, 14.0f}, {50.0f, 40.0f}, 178.0f, 168.0f, 0.4f, -1, &hud_texlist, 0xA, 4},
+        {6, {14.0f, 14.0f}, {32.0f, 32.0f}, 0.0f, 192.0f, 0.5f, -1, &hud_texlist, 0xA, 4},
+        {6, {94.0f, 14.0f}, {32.0f, 32.0f}, 128.0f, 208.0f, 0.6f, -1, &hud_texlist, 0xA, 4},
     },
 };
 WindowDescriptor symbol_chat_parts_window_layout = {

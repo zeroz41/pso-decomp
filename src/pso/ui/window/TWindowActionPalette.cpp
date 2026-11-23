@@ -65,7 +65,7 @@ s32 TWindowSubComCard__sub_802452DC(int);
 s32 TWindowSubComCard__sub_80245320(void *, void *);
 s32 TWindowSubComCard__sub_802454E4(int);
 s32 TWindowSubComCard__sub_80245558(void *, void *, void *);
-extern s32 lbl_805D63F0;
+extern s32 hud_texlist;
 }
 
 const PaletteItemKind lbl_8044E5E8[13] = {
@@ -124,13 +124,13 @@ struct ActionPaletteWindowLayout {
 
 ActionPaletteWindowLayout lbl_804CDE50 = {
     8, 1,
-    {6, {45.0f, 53.0f}, {91.0f, 54.0f}, 92.0f, 0.0f, 0.4f, 0xFF666666, &lbl_805D63F0, 0, 0x14},
-    {6, {13.0f, 0.0f}, {91.0f, 54.0f}, 0.0f, 0.0f, 0.4f, -1, &lbl_805D63F0, 0, 0x14},
-    {6, {50.0f, 32.0f}, {50.0f, 43.0f}, 150.0f, 86.0f, 0.4f, -1, &lbl_805D63F0, 4, 0x14},
+    {6, {45.0f, 53.0f}, {91.0f, 54.0f}, 92.0f, 0.0f, 0.4f, 0xFF666666, &hud_texlist, 0, 0x14},
+    {6, {13.0f, 0.0f}, {91.0f, 54.0f}, 0.0f, 0.0f, 0.4f, -1, &hud_texlist, 0, 0x14},
+    {6, {50.0f, 32.0f}, {50.0f, 43.0f}, 150.0f, 86.0f, 0.4f, -1, &hud_texlist, 4, 0x14},
     {4, {79.0f, 85.0f}, 0.5f, 0xFFFFFFFF, 6, 0},
-    {6, {94.0f, 6.0f}, {50.0f, 43.0f}, 150.0f, 86.0f, 0.4f, -1, &lbl_805D63F0, 4, 0x14},
+    {6, {94.0f, 6.0f}, {50.0f, 43.0f}, 150.0f, 86.0f, 0.4f, -1, &hud_texlist, 4, 0x14},
     {4, {34.0f, 60.0f}, 0.5f, 0xFFFFFFFF, 6, 0},
-    {6, {6.0f, 58.0f}, {50.0f, 43.0f}, 150.0f, 86.0f, 0.4f, -1, &lbl_805D63F0, 4, 0x14},
+    {6, {6.0f, 58.0f}, {50.0f, 43.0f}, 150.0f, 86.0f, 0.4f, -1, &hud_texlist, 4, 0x14},
     {4, {124.0f, 60.0f}, 0.5f, 0xFFFFFFFF, 6, 0},
 };
 
@@ -247,7 +247,7 @@ void TWindowActionPalette::draw_frame(saddr arg1) {
     scale = TWindowSubComCard__sub_80244784((TWindowSubComCard *)this);
     depth = (-1.0f) / this->draw_depth;
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
     set_draw_texture_and_color(2, ctx->tex);
     if (is_split_screen() == 0) {
         r1.x0 = 640.0f - 71.0f * scale;

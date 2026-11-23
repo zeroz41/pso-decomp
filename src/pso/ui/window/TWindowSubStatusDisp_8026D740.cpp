@@ -28,7 +28,7 @@ extern "C" {
 void __dl__FPv(void);
 s32 clamp_list_scroll_offset(NJS_POINT2 *a, NJS_POINT2 *b, NJS_POINT2 *c);
 void draw_window_scrollbar(Scroll_8026D790 *scroll, Ctx_8026D790 *c, f32 *offset);
-extern void *lbl_805D63F0;
+extern void *hud_texlist;
 }
 
 s32 clamp_list_scroll_offset(NJS_POINT2 *a, NJS_POINT2 *b, NJS_POINT2 *c) {
@@ -63,7 +63,7 @@ void draw_window_scrollbar(Scroll_8026D790 *scroll, Ctx_8026D790 *c, f32 *offset
     x = c->x + c->width - 7.0f;
     y = 17.0f + c->y;
     begin_screen_draw(0);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
     set_draw_texture_and_color(0, 0xFF646464);
     depth = -1.0f / (0.1196f + c->x38);
     q.x = x;

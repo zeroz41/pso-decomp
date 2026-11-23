@@ -36,7 +36,7 @@ struct Stack_80277368
 
 struct Ent_802776D0 { u16 id; u16 sub; };
 
-extern s32 lbl_805D63F0;
+extern s32 hud_texlist;
 
 // inferred: window_sub_custom_select_layout_entries, the layout table
 // TWindowSubCustomSelect__window_settings points at (two sprite parts and a value entry).
@@ -49,8 +49,8 @@ struct SubCustomSelectWindowLayout {
 };
 SubCustomSelectWindowLayout window_sub_custom_select_layout_entries = {
     3, 1,
-    {6, {3.0f, 9.0f}, {56.0f, 47.0f}, 196.0f, 0.0f, 0.2f, -1, &lbl_805D63F0, 1, 4},
-    {6, {6.0f, 11.0f}, {50.0f, 43.0f}, 0.0f, 0.0f, 0.3f, -1, &lbl_805D63F0, 3, 4},
+    {6, {3.0f, 9.0f}, {56.0f, 47.0f}, 196.0f, 0.0f, 0.2f, -1, &hud_texlist, 1, 4},
+    {6, {6.0f, 11.0f}, {50.0f, 43.0f}, 0.0f, 0.0f, 0.3f, -1, &hud_texlist, 3, 4},
     {4, {0.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 4, 0},
 };
 WindowDescriptor TWindowSubCustomSelect__window_settings = {

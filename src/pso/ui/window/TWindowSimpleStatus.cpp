@@ -46,7 +46,7 @@ const u32 photon_blast_gauge_ring_color_table[7] = {
     0xFF3C3C3C, 0xFFD8CF00, 0xFFD88A00, 0xFFD84500, 0xFFD80000, 0xFFFFFFFF, 0,
 };
 
-extern s32 lbl_805D63F0;
+extern s32 hud_texlist;
 
 // inferred: simple_status_window_layout_entries, the layout table simple_status_window_layout
 // points at (frame sprite, two text/value entries, the HP and TP gauges, three icon sprites).
@@ -64,14 +64,14 @@ struct SimpleStatusWindowLayout {
 };
 SimpleStatusWindowLayout simple_status_window_layout_entries = {
     8, 1,
-    {6, {7.0f, 5.0f}, {34.0f, 29.0f}, 112.0f, 84.0f, 0.5f, -1, &lbl_805D63F0, 0, 4},
+    {6, {7.0f, 5.0f}, {34.0f, 29.0f}, 112.0f, 84.0f, 0.5f, -1, &hud_texlist, 0, 4},
     {3, {47.0f, 26.0f}, 0.5f, 0xFFFFFFFF, 4, NULL},
     {4, {47.0f, 39.0f}, 0.5f, 0xFFFFFFFF, 4, 1},
     {2, {67.0f, 4.0f}, 0.5f, 0xFF00FF15, 0x28, 85.0f, 0, 0, 0xFF00CA9E, 0xFFFF2924},
     {2, {67.0f, 16.0f}, 0.5f, 0xFF008CFC, 0x28, 85.0f, 0, 0, 0xFF008DEE, 0xFFFF2924},
-    {6, {2.0f, 39.0f}, {15.0f, 11.0f}, 230.0f, 104.0f, 0.5f, -1, &lbl_805D63F0, 0xB, 4},
-    {6, {47.0f, 3.0f}, {19.0f, 10.0f}, 230.0f, 80.0f, 0.5f, -1, &lbl_805D63F0, 0xB, 4},
-    {6, {47.0f, 15.0f}, {19.0f, 10.0f}, 230.0f, 92.0f, 0.5f, -1, &lbl_805D63F0, 0xB, 4},
+    {6, {2.0f, 39.0f}, {15.0f, 11.0f}, 230.0f, 104.0f, 0.5f, -1, &hud_texlist, 0xB, 4},
+    {6, {47.0f, 3.0f}, {19.0f, 10.0f}, 230.0f, 80.0f, 0.5f, -1, &hud_texlist, 0xB, 4},
+    {6, {47.0f, 15.0f}, {19.0f, 10.0f}, 230.0f, 92.0f, 0.5f, -1, &hud_texlist, 0xB, 4},
 };
 WindowDescriptor simple_status_window_layout = {
     {153.0f, 50.0f}, 50100.0f, &simple_status_window_layout_entries, 0xB28,
@@ -526,7 +526,7 @@ void TWindowSimpleStatus::draw_background(u8 *ctx) {
     size.y = 35.0f;
     scale = -1.0f / this->draw_depth;
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
     set_draw_texture_and_color(0xB, *(s32 *)((s8 *)ctx + 0x34));
     r.x0 = pos.x;
     r.y0 = pos.y;

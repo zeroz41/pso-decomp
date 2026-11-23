@@ -16,7 +16,7 @@ extern const f32 lbl_805DFC00;
 extern const f32 lbl_805DFC04;
 extern const f32 lbl_805DFC08;
 extern const f32 lbl_805DFC2C;
-extern saddr lbl_805D63F0;
+extern saddr hud_texlist;
 extern const f32 TWindowDD__data_805DFB20;
 extern const f32 lbl_805DFB48;
 extern const f32 lbl_805DFB4C;
@@ -45,7 +45,7 @@ void TWindowDD__sub_8034055C(TUnk_804EFBAC *self) {
     ((TWindowDD *)points)->copy_point_table(0);
     TWindowDD__sub_80348A2C(reinterpret_cast<WindowDrawContext *>(ctx), reinterpret_cast<WindowVertex *>(points));
     TWindowDD__sub_803489B8(reinterpret_cast<WindowDrawContext *>(ctx), reinterpret_cast<WindowVertex *>(points), 0);
-    count = TWindowDD::get_draw_count((void **)lbl_805D63F0);
+    count = TWindowDD::get_draw_count((void **)hud_texlist);
     if (self->pad_60 == 0) {
         sel = self->pad_68;
     } else {

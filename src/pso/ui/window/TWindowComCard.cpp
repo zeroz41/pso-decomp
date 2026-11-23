@@ -32,7 +32,7 @@ void run_task__14TWindowComCardFv(void* p);
 saddr get_card_entry__17TWindowSubComCardFi(s32 arg0);
 int initialize_subwindow__9TWindowDDFv(void*);
 
-extern "C" u8 lbl_805D63F0[];
+extern "C" u8 hud_texlist[];
 extern "C" void render_shadows__7TObjectFv();
 void run_task__13TUnk_804CE964Fv(u8 *arg0);
 void *TWindowComCard__sub_80249E80(void *arg0, s16 arg1);
@@ -74,7 +74,7 @@ void *__vt__14TWindowComCard[7] = {
 void *lbl_804CE918[14] = {
     (void *)0x1, (void *)0x1, (void *)0x6, (void *)0x0,
     (void *)0x0, (void *)0x42000000, (void *)0x41e00000, (void *)0x0,
-    (void *)0x0, (void *)0x3f000000, (void *)0xffffffff, (void *)&lbl_805D63F0,
+    (void *)0x0, (void *)0x3f000000, (void *)0xffffffff, (void *)&hud_texlist,
     (void *)0x1, (void *)0x4,
 };
 void *TWindowComCard__window_desc_b[5] = {

@@ -45,7 +45,7 @@ typedef struct UV_80287580 {
 extern "C" {
 u32 calc_text_width(char *s);
 const UV_80287580 window_tab_uv_table[4] = {{0.0f, 98.0f}, {0.0f, 125.0f}, {0.0f, 152.0f}, {80.0f, 98.0f}};
-extern s32 lbl_805D63F0;
+extern s32 hud_texlist;
 void draw_window_tab(Obj_80287580 *obj, f32 *pos, u8 idx, f32 width);
 void __dl__FPv(void);
 
@@ -63,7 +63,7 @@ void draw_window_tab(Obj_80287580 *obj, f32 *pos, u8 idx, f32 width) {
     w = width;
     w += (8e+01f);
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
     set_draw_texture_and_color(1, obj->f34);
     r1.x0 = pos[0];
     r1.y0 = pos[1];

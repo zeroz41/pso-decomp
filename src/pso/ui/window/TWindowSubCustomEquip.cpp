@@ -28,7 +28,7 @@ struct Win_80275F90 { u8 pad[0x66]; s16 f66; };
 
 
 
-extern s32 lbl_805D63F0;
+extern s32 hud_texlist;
 
 const char *TWindowSubCustomEquip__name = "TWindowSubCustomEquip";
 
@@ -76,24 +76,24 @@ struct CustomEquipLayout {
 
 CustomEquipLayout lbl_804D1198 = {
     18, 1,
-    {6, {51.0f, 59.0f}, {150.0f, 107.0f}, 0.0f, 0.0f, 0.1f, -1, &lbl_805D63F0, 2, 4},
-    {6, {0.0f, 0.0f}, {50.0f, 43.0f}, 150.0f, 86.0f, 0.2f, -1, &lbl_805D63F0, 4, 4},
-    {6, {0.0f, 0.0f}, {50.0f, 43.0f}, 150.0f, 86.0f, 0.2f, -1, &lbl_805D63F0, 4, 4},
-    {6, {0.0f, 0.0f}, {50.0f, 43.0f}, 150.0f, 86.0f, 0.2f, -1, &lbl_805D63F0, 4, 4},
+    {6, {51.0f, 59.0f}, {150.0f, 107.0f}, 0.0f, 0.0f, 0.1f, -1, &hud_texlist, 2, 4},
+    {6, {0.0f, 0.0f}, {50.0f, 43.0f}, 150.0f, 86.0f, 0.2f, -1, &hud_texlist, 4, 4},
+    {6, {0.0f, 0.0f}, {50.0f, 43.0f}, 150.0f, 86.0f, 0.2f, -1, &hud_texlist, 4, 4},
+    {6, {0.0f, 0.0f}, {50.0f, 43.0f}, 150.0f, 86.0f, 0.2f, -1, &hud_texlist, 4, 4},
     {4, {79.0f, 85.0f}, 0.5f, 0xFFFFFFFF, 4, 0},
     {4, {79.0f, 85.0f}, 0.5f, 0xFFFFFFFF, 4, 0},
     {4, {79.0f, 85.0f}, 0.5f, 0xFFFFFFFF, 4, 0},
-    {6, {96.0f, 112.0f}, {91.0f, 54.0f}, 92.0f, 0.0f, 0.6f, 0xFF666666, &lbl_805D63F0, 0, 6},
-    {6, {96.0f, 112.0f}, {91.0f, 54.0f}, 93.0f, 108.0f, 0.6f, -1, &lbl_805D63F0, 2, 6},
-    {6, {3.0f, 9.0f}, {150.0f, 107.0f}, 0.0f, 0.0f, 0.6f, -1, &lbl_805D63F0, 2, 4},
-    {6, {0.0f, 0.0f}, {50.0f, 43.0f}, 150.0f, 86.0f, 0.7f, -1, &lbl_805D63F0, 4, 4},
-    {6, {0.0f, 0.0f}, {50.0f, 43.0f}, 150.0f, 86.0f, 0.7f, -1, &lbl_805D63F0, 4, 4},
-    {6, {0.0f, 0.0f}, {50.0f, 43.0f}, 150.0f, 86.0f, 0.7f, -1, &lbl_805D63F0, 4, 4},
+    {6, {96.0f, 112.0f}, {91.0f, 54.0f}, 92.0f, 0.0f, 0.6f, 0xFF666666, &hud_texlist, 0, 6},
+    {6, {96.0f, 112.0f}, {91.0f, 54.0f}, 93.0f, 108.0f, 0.6f, -1, &hud_texlist, 2, 6},
+    {6, {3.0f, 9.0f}, {150.0f, 107.0f}, 0.0f, 0.0f, 0.6f, -1, &hud_texlist, 2, 4},
+    {6, {0.0f, 0.0f}, {50.0f, 43.0f}, 150.0f, 86.0f, 0.7f, -1, &hud_texlist, 4, 4},
+    {6, {0.0f, 0.0f}, {50.0f, 43.0f}, 150.0f, 86.0f, 0.7f, -1, &hud_texlist, 4, 4},
+    {6, {0.0f, 0.0f}, {50.0f, 43.0f}, 150.0f, 86.0f, 0.7f, -1, &hud_texlist, 4, 4},
     {4, {79.0f, 85.0f}, 0.5f, 0xFFFFFFFF, 4, 0},
     {4, {79.0f, 85.0f}, 0.5f, 0xFFFFFFFF, 4, 0},
     {4, {79.0f, 85.0f}, 0.5f, 0xFFFFFFFF, 4, 0},
-    {6, {48.0f, 62.0f}, {91.0f, 54.0f}, 92.0f, 0.0f, 0.6f, 0xFF666666, &lbl_805D63F0, 0, 6},
-    {6, {48.0f, 62.0f}, {91.0f, 54.0f}, 93.0f, 108.0f, 0.6f, -1, &lbl_805D63F0, 2, 6},
+    {6, {48.0f, 62.0f}, {91.0f, 54.0f}, 92.0f, 0.0f, 0.6f, 0xFF666666, &hud_texlist, 0, 6},
+    {6, {48.0f, 62.0f}, {91.0f, 54.0f}, 93.0f, 108.0f, 0.6f, -1, &hud_texlist, 2, 6},
 };
 
 WindowDescriptor lbl_804D1488 = {
@@ -129,7 +129,7 @@ void draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(u8 *arg0, NJS_POINT2 *ar
     scale = (-1.0f) / (0.299f * farg0 + *(f32 *)((s8 *)arg0 + 0x38));
     set_additive_blend();
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
     set_draw_texture_and_color(0xC, -1);
     r.x0 = arg1->x + *(f32 *)((s8 *)arg0 + 0x10);
     r.y0 = arg1->y + *(f32 *)((s8 *)arg0 + 0x14);

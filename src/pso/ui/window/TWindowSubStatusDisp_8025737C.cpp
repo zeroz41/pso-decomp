@@ -69,7 +69,7 @@ s32 begin_screen_draw(s32, f32, f32, f32);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
 }
 void set_constant_material_color(u32 x);
-extern s32 lbl_805D63F0;
+extern s32 hud_texlist;
 extern "C" {
 struct Col_802575C0 { u8 r, g, b, a; };
 
@@ -244,7 +244,7 @@ void TUnk_804CF948::render(WindowDrawContext *context) {
         sz = self->f8;
         scale = -1.0f / (0.299f * sz + parent->f38);
         begin_screen_draw(1, sz, 0.299f, -1.0f);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
         set_draw_texture_and_color(0xB, -1);
         if (self->flags & 8) {
             TWindowSubStatusDisp__sub_80256C40(self, parent, &pos, scale);

@@ -25,7 +25,7 @@
 
 const char *TWindowShortCut__name = "TWindowShortCut";
 
-extern s32 lbl_805D63F0;
+extern s32 hud_texlist;
 
 // The shortcut window's entries: three rows of label, ":" and icons or text, filled by
 // show_shortcut (entries 0, 2, 3, 4, 6, 7, 8 and 10).
@@ -48,11 +48,11 @@ ShortCutWindowLayout window_short_cut_layout_entries = {
     11, 1,
     {3, {0.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0x40, NULL},
     {3, {100.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0x40, ":"},
-    {6, {112.0f, 0.0f}, {18.0f, 18.0f}, 0.0f, 0.0f, 0.5f, -1, &lbl_805D63F0, 1, 4},
-    {6, {130.0f, 0.0f}, {18.0f, 18.0f}, 0.0f, 0.0f, 0.5f, -1, &lbl_805D63F0, 1, 4},
+    {6, {112.0f, 0.0f}, {18.0f, 18.0f}, 0.0f, 0.0f, 0.5f, -1, &hud_texlist, 1, 4},
+    {6, {130.0f, 0.0f}, {18.0f, 18.0f}, 0.0f, 0.0f, 0.5f, -1, &hud_texlist, 1, 4},
     {3, {0.0f, 20.0f}, 0.5f, 0xFFFFFFFF, 0x40, NULL},
     {3, {100.0f, 20.0f}, 0.5f, 0xFFFFFFFF, 0x40, ":"},
-    {6, {112.0f, 20.0f}, {18.0f, 18.0f}, 0.0f, 0.0f, 0.5f, -1, &lbl_805D63F0, 1, 4},
+    {6, {112.0f, 20.0f}, {18.0f, 18.0f}, 0.0f, 0.0f, 0.5f, -1, &hud_texlist, 1, 4},
     {3, {130.0f, 20.0f}, 0.5f, 0xFFFFFFFF, 0x40, NULL},
     {3, {0.0f, 40.0f}, 0.5f, 0xFFFFFFFF, 0x40, NULL},
     {3, {100.0f, 40.0f}, 0.5f, 0xFFFFFFFF, 0x40, ":"},

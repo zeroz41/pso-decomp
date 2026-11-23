@@ -81,7 +81,7 @@ struct Poly_8024CE68 {
 };
 struct Quad_8024CE68 { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
 void draw_color_lines(void *, int, int, f32);
-extern void *lbl_805D63F0;
+extern void *hud_texlist;
 void TWindowCtrlMain__sub_8024CB7C();
 void TWindowCtrlMain__sub_8024CB8C();
 s32 TWindowMainMenu__sub_8024E3D4(void *);
@@ -635,7 +635,7 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
     ((TWindowCtrlMain *)(&poly))->draw_strip_swap_color(4, 22, -10.0f);
 
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
     a = (s32)(255.0f * alpha) << 24;
     set_draw_texture_and_color(11, a | 0xFFFFFF);
 

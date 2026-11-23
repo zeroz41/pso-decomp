@@ -711,7 +711,7 @@ void calc_row_width__20TWindowSubStatusDispFv(Row_8025930C *arg0) {
 
 void*TWindowSubStatusDisp::get_entry_ptr(int a0) {  return (char*)status_disp_item_icon_coord_table + (unsigned char)(a0) * 8; }
 
-extern s32 lbl_805D63F0;
+extern s32 hud_texlist;
 extern const f32 lbl_805DCF1C;
 
 void draw_item_list_icon(saddr win, u8 *pos, s32 icon, s32 style, f32 depth) {
@@ -725,7 +725,7 @@ void draw_item_list_icon(saddr win, u8 *pos, s32 icon, s32 style, f32 depth) {
     if ((u8)icon != 0x33) {
         p = (ItemListPosition *)pos;
         begin_screen_draw(1);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
         set_draw_texture_and_color(1, style);
         entry = (f32 *)TWindowSubStatusDisp::get_entry_ptr(icon);
         offset = lbl_805DCF14;

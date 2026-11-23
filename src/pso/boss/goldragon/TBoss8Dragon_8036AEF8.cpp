@@ -20,7 +20,7 @@ struct Obj_8036B1AC {
 
 extern "C" {
 extern s32 lbl_804F3610[];
-extern s32 lbl_805D63F0;
+extern s32 hud_texlist;
 s32 lbl_805D7000;
 void TLobby__sub_8036B1AC(Obj_8036B1AC *arg0);
 
@@ -76,7 +76,7 @@ void TBoss8Dragon__sub_8036B088(void) {
     TParticleCtrl::begin_effect_render();
     TCameraCtrl::restore_full_screen_view();
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
     set_draw_texture_and_color(5, -1);
     o[0] = (545.0f);
     o[1] = (3.9e+02f);

@@ -16,7 +16,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/player/TObjPlayer_80011014.h"
 
-extern s32 lbl_805D63F0;
+extern s32 hud_texlist;
 
 struct Bar_80256C00 {
     u8 pad0[0x14];
@@ -92,7 +92,7 @@ void TUnk_804CF930::render(WindowDrawContext *ctx) {
     pos.y = ctx->inner_y + this->y;
     depth = -1.0f / (0.299f * this->depth + ctx->depth);
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
     set_draw_texture_and_color(11, -1);
     if (this->flags & 8) {
         TWindowSubStatusDisp__sub_80256C40(this, ctx, &pos, depth);

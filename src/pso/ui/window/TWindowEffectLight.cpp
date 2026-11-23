@@ -24,7 +24,7 @@ struct Light_802AD1CC { u8 pad0[0x1C]; f32 x; f32 y; };
 
 extern "C" {
 s32 __cvt_fp2unsigned(f32);
-extern s32 lbl_805D63F0;
+extern s32 hud_texlist;
 const char *TWindowEffectLight__name = "TWindowEffectLight";
 extern saddr tl_window;
 
@@ -63,7 +63,7 @@ void TWindowEffectLight::render() {
     TCameraCtrl::restore_full_screen_view();
     set_additive_blend();
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
     {
       switch (this->effect_kind)
       {

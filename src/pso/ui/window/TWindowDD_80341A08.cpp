@@ -64,7 +64,7 @@ extern const f32 TWindowDD__data_805DFB18;
 extern const f32 TWindowDD__data_805DFB20;
 extern const f32 lbl_805DFB40;
 extern const f32 lbl_805DFB44;
-extern void *lbl_805D63F0;
+extern void *hud_texlist;
 
 void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, WindowDrawContext *rect) {
     E_803403F8 verts[8];
@@ -84,8 +84,8 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, WindowDrawContext *rect) {
     f32 bottom;
     f32 step;
 
-    // TWindowDD::get_draw_count(lbl_805D63F0), read inline here (0x80348AE8 is the same load chain)
-    tex = **(s32 **)((s8 *)(*(void **)((s8 *)(*(void **)lbl_805D63F0) + 0x20)) + 0xC);
+    // TWindowDD::get_draw_count(hud_texlist), read inline here (0x80348AE8 is the same load chain)
+    tex = **(s32 **)((s8 *)(*(void **)((s8 *)(*(void **)hud_texlist) + 0x20)) + 0xC);
     if (rect->open_tick < 0) {
         return;
     }

@@ -235,7 +235,7 @@ extern "C" {
 extern s32 lbl_805D49B4;
 extern char episode_i_and_ii_card_filename[];
 s8 func_801A5E54__Fv(void);
-extern s32 lbl_805D63F0;
+extern s32 hud_texlist;
 }
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
 void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);
@@ -776,7 +776,7 @@ void draw_snapshot_capture_overlay(void) {
     TObjBoss2Tunnel::setup_projected_color_draw(1);
     TObjBoss2Tunnel::draw_projected_quads(v, 4);
     TObjBoss2Tunnel::reset_player_state();
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
     set_draw_texture_and_color(1, -1);
     begin_screen_draw(1);
     q.x0 = snapshot_frame_center.x - 27.0f;
