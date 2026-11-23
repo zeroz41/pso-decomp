@@ -8,6 +8,7 @@
 #include "pso/ui/font/TFontSmallLobby.h"
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
+#include <string.h>
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -42,7 +43,17 @@ void *TFontSmallLobby__sub_801C01DC(void *arg0, void *arg1) {
 
 void* copy_subcommand_header(void* p, void* _w1) { assign_subcommand_header(p, _w1); return p; }
 
-void assign_subcommand_header(void* p, void* q) { *(u8*)((char*)p + 0x0) = *(u8*)((char*)q + 0x0); *(u8*)((char*)p + 0x1) = *(u8*)((char*)q + 0x1); *(u16*)((char*)p + 0x2) = *(u16*)((char*)q + 0x2); }
+void assign_subcommand_header(void *destination, void *source) {
+    u8 *out = static_cast<u8 *>(destination);
+    const u8 *in = static_cast<const u8 *>(source);
+    out[0] = in[0];
+    out[1] = in[1];
+#ifdef __MWERKS__
+    __memcpy(out + 2, in + 2, 2);
+#else
+    memcpy(out + 2, in + 2, 2);
+#endif
+}
 
 void TFontSmallLobby::init_packet_6x9b_level_up() {
     u8 *arg0 = (u8 *)this;

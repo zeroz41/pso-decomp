@@ -119,8 +119,6 @@ inline NetPacket *make_input_packet(u8 *ip, s16 total_len, u8 *payload, s32 payl
 #pragma opt_strength_reduction off
 s32 ipv6_input(u8 *ip, int len, s16 id) {
     s16 tcp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst); /* the definition takes (u8 *, u8 *, u8 *) */
-    s16 udp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, s16 iface);
-    s32 raw_socket_deliver(NetPacket *pkt, u8 *src, u8 *dst, void *callback, s16 index); /* the definition takes an s32 index */
     NetworkAddress src_addr;
     NetworkAddress dst_addr;
     NetIcmpv6Header error;

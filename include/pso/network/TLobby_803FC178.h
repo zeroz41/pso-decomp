@@ -9,7 +9,7 @@
 typedef struct RecoveredGlobal_803AA0C0_lbl_80556E88 RecoveredGlobal_803AA0C0_lbl_80556E88;
 typedef struct Sub_803FC480 Sub_803FC480;
 typedef struct Obj_803FC480 Obj_803FC480;
-typedef struct Buf_803FC684 Buf_803FC684;
+typedef struct PppChapAuthenticationState PppChapAuthenticationState;
 typedef struct RecoveredGlobal_803F88E4_lbl_805AEEB0 RecoveredGlobal_803F88E4_lbl_805AEEB0;
 typedef struct RecoveredFields_803F88E4_arg0 RecoveredFields_803F88E4_arg0;
 typedef struct PppHeader PppHeader;
@@ -19,7 +19,13 @@ struct RecoveredGlobal_803AA0C0_lbl_80556E88 {
 };
 struct Sub_803FC480 { u8 f0; u8 f1; u8 f2; u8 f3; u8 f4; };
 struct Obj_803FC480 { u8 f0; u8 f1; u8 f2; u8 pad3[0x9D]; Sub_803FC480 sub; };
-struct Buf_803FC684 { char a[0x80]; char b[0x80]; u8 rest[0x50]; };
+struct PppChapAuthenticationState {
+    char peer_id[0x80];
+    char secret[0x80];
+    PppChap options;
+    PppFsmProtocol proto;
+};
+LAYOUT_ASSERT(PppChapAuthenticationState_size, sizeof(PppChapAuthenticationState) == 0x150);
 struct RecoveredGlobal_803F88E4_lbl_805AEEB0
 {
   s32 value;
@@ -65,15 +71,13 @@ static inline u32 ppp_configure_option_bit(u32 bit) {
 #ifdef __cplusplus
 extern "C" {
 #endif
-u8 *alloc_from_buffer(void *self, s16 arg1);
 s32 clear_socket_slot(s16 i);
 s32 configure_mode_by_type(void *self, s16 type);
-void chap_input(void *self, saddr source);
-void free_field_98(void *self);
-void free_field_98_and_clear(void *self);
+void chap_input(PppFsm *fsm, PppFrame *source);
+void free_field_98(PppFsm *self);
+void free_field_98_and_clear(PppFsm *self);
 s16 get_checked_status_value(s16 arg0);
-u16 get_field_4(void *self);
-void handle_request_timeout(void *self);
+void handle_request_timeout(PppFsm *fsm);
 void init_md5_state(MD5Context *ctx);
 void init_net_block_620(void);
 s32 init_net_block_620_secondary(void);
@@ -84,15 +88,21 @@ s32 init_net_subsystem_block(void);
 s32 mark_ready(void *self);
 s32 mark_sub_ready(void *obj);
 s16 parse_lcp_option(saddr arg0, u8 *opts, u8 *arg2, u8 *hdr, s16 arg4);
-void queue_command_81(void);
+void queue_command_81(PppFsm *fsm);
 s32 read_2_bytes(void *self, void *src);
-void reset_connection_slot(void *self);
+void reset_connection_slot(PppFsm *self);
 void reset_connection_state(void *self);
-void reset_lcp_options(void *self);
+void reset_lcp_options(PppFsm *self);
 void set_active(void *self);
 s32 set_active_flag(void *self);
 s32 set_flags_and_state(void *self);
 void update_connection_state(void *arg0);
+struct LcpConfig;
+s16 lcp_connect(struct LcpConfig *cfg);
+s32 ipv6cp_set_interface_identifiers(s32 ignored, u8 *first_identifier, u8 *second_identifier);
+s32 ipcp_configure_all_options(s16 vj_disabled, s32 addr_local, s32 addr_peer, s32 dns_local_primary,
+                               s32 dns_local_secondary, s32 dns_peer_primary, s32 dns_peer_secondary);
+s16 negotiate_ipcp_and_ipv6cp(void);
 void MD5Transform(u32 *state, u8 *block);
 u8 *write_network_u32_be(u8 *p, u32 v);
 extern u8 lbl_805D7AC0[2];
@@ -108,7 +118,7 @@ extern u8 lcp_read_byte_buffer;
 extern s16 lobby_modem_connect_state;
 extern s16 ppp_auth_failed;
 extern s16 lbl_805D7A82;
-extern Buf_803FC684 lbl_805C0180;
+extern PppChapAuthenticationState ppp_chap_authentication_state;
 extern const char chap_protocol_name[5];
 extern const char chap_failure_message[7];
 extern s32 lbl_805D7AA0; /* PppFsm.c */
@@ -117,7 +127,7 @@ extern u8 chap_read_byte_buffer;
 s16 TLobby__sub_803FC1CC(PppFsm *c, s32 timeout);
 s32 TLobby__sub_803FC684(u8 *arg0, u8 *arg1, u8 *arg2);
 void TLobby__sub_803FC728(PppFsm *c);
-s16 chap_recv_response(PppFsm *c, u8 *hdr, int v);
+s16 chap_recv_response(PppFsm *fsm, PppHeader *header, PppFrame *source);
 void chap_recv_challenge(PppFsm *connection, PppHeader *header, PppFrame *source);
 #ifdef __cplusplus
 }

@@ -1,8 +1,10 @@
 /* The network stack's transport (a C library, built with GC/1.2.5n): the modem/PPPoE send path with its ring buffer
  * and queue thread, the start-up parameters, and the functions that fill the stack's configuration records with
  * this file's static buffers. */
-#include "pso/network/NetworkRuntime.h"
+#include "pso/network/NetworkRuntimeSlots.h"
 #include "pso/network/NetworkTransport.h"
+#include "pso/network/ModemRuntime.h"
+#include "dolphin/os/OSThread.h"
 #include "pso/network/NetPppLink.h"
 #include "pso/network/NetStackTypes.h"
 #include "pso/network/netcfg.h"
@@ -40,7 +42,11 @@ LAYOUT_ASSERT(NetworkPacketBufferStorage_size, sizeof(NetworkPacketBufferStorage
 
 
 
-typedef struct Q_803F7AF4 { s32 a; s32 b; } Q_803F7AF4;
+typedef struct NetSendChunk {
+    u8 *data;
+    s32 length;
+} NetSendChunk;
+LAYOUT_ASSERT(NetSendChunkSize, sizeof(NetSendChunk) == 8);
 
 typedef struct A_803F8314 {
     u8 pad[0x1A];
@@ -65,28 +71,16 @@ s32 send_at_ms_command__23TAdSinglePlyChrSelectGCFl(s32 mode);
 s32 send_at_error_correction_cmd__23TAdSinglePlyChrSelectGCFl(s32 mode);
 s32 send_at_compression_cmd__23TAdSinglePlyChrSelectGCFl(s32 mode);
 s32 send_atx_command__23TAdSinglePlyChrSelectGCFl(s32 mode);
-s32 copy_default_and_get_state__23TAdSinglePlyChrSelectGCFv(void *self);
 
 void net_sleep_ms(s32);
 s32 TLobby__sub_80428094(s16);
-void modem_hangup(void);
 void run_net_thread_loop(void);
-s16 TLobby__sub_803F96AC(void *);
-s32 TAdSinglePlyChrSelectGC__sub_8042DD70(s32 arg0, s32 arg1, s32 arg2);
-s32 TAdSinglePlyChrSelectGC__sub_8042E184(void);
-s32 modem_dial(s32, s32, void *);
 void subtract_network_queue_timeout(s32 arg0);
 void set_lobby_map_state_code(s32 arg0);
-Q_803F7AF4 *get_next_send_chunk(void);
-s32 OSIsThreadSuspended(s32);
+NetSendChunk *get_next_send_chunk(void);
 s16 TLobby__sub_804281DC(void *);
-s32 modem_init(char *);
-void TAdSinglePlyChrSelectGC__sub_8042E488(s32);
 s32 open_network_transport(A_803F8314 *arg0);
 s32 layout_net_params_buffer(u8 *data, s32 size);
-s32 modem_send_at_command(int);
-s32 configure_modem_options(s32 arg0, s32 arg1, s32 arg2, s32 n, saddr p);
-s32 TAdSinglePlyChrSelectGC__sub_8042D7E0(u8 *buf);
 s32 get_net_params_and_size(NetTransportParams *arg0);
 void TLobby__sub_803F76F0(void);
 void TLobby__sub_803F778C(void);
@@ -102,13 +96,13 @@ s32 lobby_send_chunk_size;
 s16 network_pppoe_transport_enabled;
 s32 TLobby__queue_timeout_remaining;
 s32 lobby_map_state_code;
-Q_803F7AF4 TLobby__next_send_chunk;
+NetSendChunk TLobby__next_send_chunk;
 s32 lobby_send_ring_pending_bytes;
 s32 lobby_send_ring_read_pos;
 s32 lobby_ring_buffer_write_pos;
 s32 lobby_ring_buffer_size;
-saddr send_ring_buffer_base;
-u32 TLobby__send_ring_mutex;
+u8 *send_ring_buffer_base;
+s32 TLobby__send_ring_mutex;
 NetThreadHandle queue_thread_handle;
 /* inferred: PppLink.used for the 4 packet slots init_buffer_desc_b hands out */
 s16 packet_buffer_used[4];
@@ -299,17 +293,17 @@ void start_network_thread(void) {
 
 /* Send thread: takes chunks from the send ring and hands them to the modem, waiting for each to drain. */
 void queue_thread_main(void) {
-    Q_803F7AF4 *p;
+    NetSendChunk *p;
     for (;;) {
         p = get_next_send_chunk();
         if (p == NULL) {
             NetSuspendCurrentThread();
             continue;
         }
-        TLobby__queue_timeout_remaining = p->b;
+        TLobby__queue_timeout_remaining = p->length;
         for (;;) {
             if (TAdSinglePlyChrSelectGC__sub_8042E184() == 0) {
-                if (TAdSinglePlyChrSelectGC__sub_8042DD70((s32)p->a, (s32)p->b, (saddr)subtract_network_queue_timeout) == 1) {
+                if (TAdSinglePlyChrSelectGC__sub_8042DD70(p->data, p->length, subtract_network_queue_timeout) == 1) {
                     break;
                 }
             }
@@ -326,7 +320,7 @@ void queue_thread_main(void) {
 }
 
 /* Consumes the previous chunk and returns the next contiguous run (at most 0x200 bytes) of the send ring, or NULL. */
-Q_803F7AF4 *get_next_send_chunk(void) {
+NetSendChunk *get_next_send_chunk(void) {
     s32 pos;
     lock_mutex(TLobby__send_ring_mutex);
     lobby_send_ring_pending_bytes -= lobby_send_chunk_size;
@@ -349,8 +343,8 @@ Q_803F7AF4 *get_next_send_chunk(void) {
     if (lobby_send_ring_read_pos >= lobby_ring_buffer_size) {
         lobby_send_ring_read_pos = 0;
     }
-    TLobby__next_send_chunk.a = send_ring_buffer_base + pos;
-    TLobby__next_send_chunk.b = lobby_send_chunk_size;
+    TLobby__next_send_chunk.data = send_ring_buffer_base + pos;
+    TLobby__next_send_chunk.length = lobby_send_chunk_size;
     unlock_mutex(TLobby__send_ring_mutex);
     return &TLobby__next_send_chunk;
 }
@@ -366,7 +360,7 @@ s32 write_ring_buffer(u8 *src, s32 len) {
     lock_mutex(TLobby__send_ring_mutex);
     if (lobby_ring_buffer_size - lobby_send_ring_pending_bytes < len) {
         unlock_mutex(TLobby__send_ring_mutex);
-        if (OSIsThreadSuspended(thread) == 1) {
+        if (OSIsThreadSuspended((OSThread *)thread) == 1) {
             resume_thread(queue_thread_handle);
         }
         return 0;
@@ -375,16 +369,16 @@ s32 write_ring_buffer(u8 *src, s32 len) {
     if (end >= lobby_ring_buffer_size) {
         over = end - lobby_ring_buffer_size;
         first = len - over;
-        NetMemcpy((void *)(send_ring_buffer_base + lobby_ring_buffer_write_pos), src, first);
-        NetMemcpy((void *)send_ring_buffer_base, src + first, over);
+        NetMemcpy(send_ring_buffer_base + lobby_ring_buffer_write_pos, src, first);
+        NetMemcpy(send_ring_buffer_base, src + first, over);
         lobby_ring_buffer_write_pos = over;
     } else {
-        NetMemcpy((void *)(send_ring_buffer_base + lobby_ring_buffer_write_pos), src, len);
+        NetMemcpy(send_ring_buffer_base + lobby_ring_buffer_write_pos, src, len);
         lobby_ring_buffer_write_pos += len;
     }
     lobby_send_ring_pending_bytes += len;
     unlock_mutex(TLobby__send_ring_mutex);
-    if (OSIsThreadSuspended(thread) == 1) {
+    if (OSIsThreadSuspended((OSThread *)thread) == 1) {
         resume_thread(queue_thread_handle);
     }
     return 1;
@@ -422,7 +416,7 @@ s16 map_state_to_mode_id(void) {
     }
 }
 
-s32 map_state_to_code(s32 handle, s16 kind) {
+s32 map_state_to_code(const char *number, s16 kind) {
     s32 mode;
     switch (kind) {
     case 0:
@@ -435,13 +429,13 @@ s32 map_state_to_code(s32 handle, s16 kind) {
         return -1;
     }
     lobby_map_state_code = 4;
-    if (modem_dial(handle, mode, (void *)set_lobby_map_state_code) != 1) {
+    if (modem_dial(number, mode, set_lobby_map_state_code) != 1) {
         return -1;
     }
     return 0;
 }
 
-s32 configure_modem_options(s32 ms_mode, s32 error_correction, s32 compression, s32 count, saddr cmd) {
+s32 configure_modem_options(s32 ms_mode, s32 error_correction, s32 compression, s32 count, char *cmd) {
     s32 value;
     s32 valid;
     u32 cmd_len;
@@ -483,7 +477,7 @@ s32 configure_modem_options(s32 ms_mode, s32 error_correction, s32 compression, 
         return -1;
     }
     while (count != 0) {
-        cmd_len = NetStringLength((const char*)cmd);
+        cmd_len = NetStringLength(cmd);
         if (cmd_len > 0x3FU) {
             return -1;
         }
@@ -491,7 +485,7 @@ s32 configure_modem_options(s32 ms_mode, s32 error_correction, s32 compression, 
         if (result != 1 && result != -8) {
             return -1;
         }
-        cmd = cmd_len + cmd;
+        cmd = (char *)(cmd_len + (uaddr)cmd);
         cmd++;
         count--;
     }
@@ -516,7 +510,7 @@ void TLobby__sub_803F808C(void) {
 }
 
 u16 is_transport_connected(void) {
-    u8 buf[0x20];
+    ModemConnectionInfo info;
     if (network_pppoe_transport_enabled != 0) {
         if (net_slot_id < 0) {
             return 0;
@@ -527,7 +521,7 @@ u16 is_transport_connected(void) {
         }
         return 0;
     }
-    if (copy_default_and_get_state__23TAdSinglePlyChrSelectGCFv(buf) == 3) {
+    if (copy_default_and_get_state(&info) == 3) {
         return 1;
     }
     return 0;
@@ -603,7 +597,7 @@ retry_close:
         deactivate_entry_by_key((u32) queue_thread_handle);
         NetReleaseMutex(TLobby__send_ring_mutex);
 after_close:
-        if ((u32) (copy_default_and_get_state__23TAdSinglePlyChrSelectGCFv((void *)0U) - 2) <= 1U) {
+        if ((u32) (copy_default_and_get_state(NULL) - 2) <= 1U) {
             modem_hangup();
         }
     }
@@ -613,7 +607,7 @@ s32 open_network_transport(A_803F8314 *cfg) {
     u8 *buf = pppoe_discovery_name_storage[0];
     char *name;
     s32 ret;
-    if ((u32)send_ring_buffer_base == 0) {
+    if (send_ring_buffer_base == NULL) {
         return 2;
     }
     if (cfg->flag != 0) {
@@ -655,11 +649,11 @@ s32 open_network_transport(A_803F8314 *cfg) {
 /* Places the send ring at base; returns its end, or 0 (and clears the ring) if it passes limit. */
 u32 compute_range_end(NetTransportParams *params, s32 base, u32 limit) {
     u32 end;
-    send_ring_buffer_base = base;
+    send_ring_buffer_base = (u8 *)base;
     lobby_ring_buffer_size = params->ring_buffer_size;
     end = base + lobby_ring_buffer_size;
     if (end > limit) {
-        send_ring_buffer_base = 0;
+        send_ring_buffer_base = NULL;
         lobby_ring_buffer_size = 0;
         return 0U;
     }

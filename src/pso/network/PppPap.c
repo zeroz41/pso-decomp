@@ -1,12 +1,12 @@
 /* PPP PAP, the protocol that names itself "Pap", and its state objects (a C library, built with GC/1.2.5n). */
 #include "types.h"
+#include "pso/network/TLobby_803FAEA0.h"
 #include "pso/network/TLobby_803FC178.h"
 #include "pso/network/TLobby_803FCF44.h"
 #include "pso/network/TLobby_804050DC.h"
 #include "pso/network/TLobby_8041112C.h"
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/TLobby_804048E8.h"
-extern s32 is_timed_out(void);
 #include "pso/network/NetworkTransport.h"
 
 #include "pso/network/NetStackTypes.h"
@@ -16,7 +16,6 @@ void net_sleep_ms(int);
 #include "pso/network/PppBuffer.h"
 #include "pso/network/PppFsm.h"
 
-extern s16 get_remaining(s32 x);
 
 void init_net_block_620(void) {
     TLobby__sub_803F778C(&lbl_805C0620);
@@ -62,15 +61,15 @@ s16 TLobby__sub_80402BB4(void *arg0, u32 timeout) {
     return 0;
 }
 
-PppFrame *TLobby__sub_80403634(PppFsm *fsm, PppFsmProtocol *proto);
+PppFrame *TLobby__sub_80403634(PppFsm *fsm);
 void pap_init(u8 *arg0) {
-    u8 *g;
+    PppPapAuthenticationState *g;
     PppFsmProtocol *p;
     PppFsm *fsm;
     PppFsmTimer *timer;
 
-    g = (u8 *)&lbl_805C04D8;
-    p = (PppFsmProtocol *)g;
+    g = &ppp_pap_authentication_state;
+    p = &g->proto;
     fsm = (PppFsm *)(arg0 + 0x38);
     if (fsm->opts == NULL) {
         timer = &fsm->timer;
@@ -79,30 +78,31 @@ void pap_init(u8 *arg0) {
         p->h6 = 0xE;
         p->b8 = 1;
         p->bB = 0;
-        p->b9 = g[0x15A];
-        p->bA = g[0x15B];
-        p->timeout = *(u16 *)(g + 0x15C) * 1000;
-        p->f10 = (PppFsmAction)TLobby__sub_803FE84C;
-        p->f14 = (PppFsmAction)TLobby__sub_803FE84C;
-        p->f18 = (PppFsmAction)TLobby__sub_803FE84C;
-        p->f1C = (PppFsmAction)TLobby__sub_803FE84C;
-        p->f20 = (PppFsmAction)TLobby__sub_803FE84C;
-        p->f24 = (PppFsmAction)TLobby__sub_803FE84C;
-        p->f28 = TLobby__sub_80403634;
-        p->f2C = (PppFsmCheck)TLobby__sub_803FE844;
-        p->f30 = (PppFsmCheck)TLobby__sub_803FE844;
-        p->f34 = (PppFsmCheck)TLobby__sub_803FE844;
-        p->f38 = (PppFsmCheck)TLobby__sub_803FE844;
+        /* The settings follow the options and name buffers in BSS. */
+        p->b9 = *(u8 *)((uaddr)g + (sizeof(*g) + offsetof(PppPapState, f12)));
+        p->bA = *(u8 *)((uaddr)g + (sizeof(*g) + offsetof(PppPapState, f13)));
+        p->timeout = *(u16 *)((uaddr)g + (sizeof(*g) + offsetof(PppPapState, f14))) * 1000;
+        p->release_resources = TLobby__sub_803FE84C;
+        p->reset_options = TLobby__sub_803FE84C;
+        p->start_negotiation = TLobby__sub_803FE84C;
+        p->link_opened = TLobby__sub_803FE84C;
+        p->link_closed = TLobby__sub_803FE84C;
+        p->finish_termination = TLobby__sub_803FE84C;
+        p->build_config_request = TLobby__sub_80403634;
+        p->check_config_request = TLobby__sub_803FE844;
+        p->check_config_ack = TLobby__sub_803FE844;
+        p->check_config_nak = TLobby__sub_803FE844;
+        p->check_config_reject = TLobby__sub_803FE844;
         fsm->sub = arg0;
         fsm->proto = p;
-        fsm->opts = g + 0x3C;
+        fsm->opts = &g->options;
         fsm->f4 = fsm->proto->b9;
         fsm->f7 = fsm->proto->bA;
         fsm->f5 = fsm->proto->bB;
         fsm->state = 0;
         fsm->retries = fsm->f4;
         fsm->f6 = fsm->f7;
-        timer->callback = (PppFsmTimerCallback)handle_request_timeout;
+        timer->callback = handle_request_timeout;
         timer->arg = fsm;
         lobby_timer_add((N_80405298 *)timer, fsm->proto->timeout);
     }
@@ -145,7 +145,7 @@ static inline s16 pap_read_reply_message(PapOptions *options, u8 actual_id, u8 e
     s32 result;
     u8 **destination;
     s32 copied;
-    u16 available;
+    u32 available;
     s16 requested;
     if (actual_id != expected_id) {
         return -1;
@@ -185,7 +185,7 @@ void pap_input(PppFsm *self, PppFrame *source) {
     PppHeader header;
     PapOptions *options;
     options = pap_options(self);
-    if (TLobby__sub_803FE8BC((u8 *)&header, &source)) {
+    if (TLobby__sub_803FE8BC(&header, &source)) {
         return;
     }
     header.len -= 4;
@@ -193,7 +193,7 @@ void pap_input(PppFsm *self, PppFrame *source) {
     TLobby__sub_80401CAC(&source, header.len);
     switch (header.code) {
     case 1:
-        if (pap_recv_auth_request((u8 *)connection, (u8 *)&header, source)) {
+        if (pap_recv_auth_request(connection, &header, source)) {
             return;
         }
         pap_auth_done(connection, 0x10);
@@ -221,26 +221,26 @@ void pap_input(PppFsm *self, PppFrame *source) {
 #pragma pop
 
 s32 TLobby__sub_80403168(u8 *arg0, u8 *pap_password, u8 *ppp_fsm) {
-    Names_80403168 *g;
+    PppPapAuthenticationState *g;
     PapOptions *opts;
     u32 n;
     u32 m;
     opts = (PapOptions *)((PppFsm *)ppp_fsm)->opts;
-    g = &lbl_805C04D8;
+    g = &ppp_pap_authentication_state;
     n = NetStringLength((const char *)(arg0));
     if (n >= 0x80) {
         n = 0x7F;
     }
-    NetMemcpy(g->a, arg0, n);
-    g->a[n] = 0;
+    NetMemcpy(g->peer_id, arg0, n);
+    g->peer_id[n] = 0;
     m = NetStringLength((const char *)(pap_password));
     if (m >= 0x80) {
         m = 0x7F;
     }
-    NetMemcpy(g->b, pap_password, m);
-    g->b[m] = 0;
-    opts->peer_id = g->a;
-    opts->password = g->b;
+    NetMemcpy(g->password, pap_password, m);
+    g->password[m] = 0;
+    opts->peer_id = g->peer_id;
+    opts->password = g->password;
     return 0;
 }
 
@@ -264,7 +264,7 @@ void reset_connection_state(void *self) {
     }
 }
 
-void handle_request_timeout(void *self) {
+void handle_request_timeout(PppFsm *self) {
     PppFsm *fsm;
     PapOptions *opts;
 
@@ -272,7 +272,7 @@ void handle_request_timeout(void *self) {
     opts = (PapOptions *)fsm->opts;
     if (fsm->retries != 0) {
         opts->message = (u8 *)"Request timeout";
-        TLobby__sub_803FE658(self);
+        TLobby__sub_803FE658(fsm);
         return;
     }
     opts->message = (u8 *)"Request retry exceeded";
@@ -307,8 +307,7 @@ inline s32 get_80403308(PppFrame **s) {
     }
     return (s16)pap_read_byte_buffer[0];
 }
-s16 pap_recv_auth_request(u8 *self, u8 *src, PppFrame *val) {
-    PppFsm *fsm = (PppFsm *)self;
+s16 pap_recv_auth_request(PppFsm *fsm, PppHeader *header, PppFrame *val) {
     u8 *p1 = 0;
     u8 *p2 = 0;
     s16 ch;
@@ -317,7 +316,7 @@ s16 pap_recv_auth_request(u8 *self, u8 *src, PppFrame *val) {
     s16 st;
     u8 *ptr;
     s16 n;
-    u8 *ent;
+    PppFrame *ent;
 
     ch = (ppp_buffer_read(&val, pap_read_byte_buffer, 1) != 1) ? -1 : (s16)pap_read_byte_buffer[0];
     if (ch != -1) {
@@ -366,9 +365,9 @@ zero:
         st = 3;
     }
     n = (s16)NetStringLength((const char *)(ptr));
-    ent = (u8 *)TLobby__sub_80401B20(ptr, n);
-    *(*(u8 **)ent) = (n - 1);
-    ppp_fsm_send_packet(self, st, src[1], ent);
+    ent = TLobby__sub_80401B20(ptr, n);
+    *ent->data = n - 1;
+    ppp_fsm_send_packet(fsm, st, header->id, ent);
 
     if (st == 3) {
         if (fsm->f6 != 0) {
@@ -383,7 +382,7 @@ zero:
 
 #pragma push
 #pragma opt_common_subs on
-PppFrame *TLobby__sub_80403634(PppFsm *fsm, PppFsmProtocol *proto) {
+PppFrame *TLobby__sub_80403634(PppFsm *fsm) {
     PppFrame *blk;
     PapOptions *opts;
     u8 *buf;
@@ -419,4 +418,4 @@ PppFrame *TLobby__sub_80403634(PppFsm *fsm, PppFsmProtocol *proto) {
 #pragma pop
 
 PppPapState lbl_805C0620;
-Names_80403168 lbl_805C04D8;
+PppPapAuthenticationState ppp_pap_authentication_state;

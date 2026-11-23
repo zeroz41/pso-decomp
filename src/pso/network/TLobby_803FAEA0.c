@@ -5,6 +5,8 @@
 #include "pso/network/TLobby_804050DC.h"
 #include "pso/network/TLobby_803FC178.h"
 #include "pso/network/NetworkRuntime.h"
+#include "pso/network/PppLcp.h"
+#include "pso/network/PppIpcp.h"
 #include "pso/network/NetworkTransport.h"
 #include "pso/network/TLobby_80428374.h"
 #include "pso/network/TLobby_803FAEA0.h"
@@ -31,15 +33,11 @@ NetSession lbl_805BFF68;
 PppProtoBlocks ppp_proto_blocks;
 
 typedef struct LobbyPkt_803FB7A4 {
-    s32 a;
-    u16 b;
-    u16 c;
-    s32 d;
-    u16 e;
-    u16 f;
+    LcpConfig lcp;
     char *user;
     char *password;
 } LobbyPkt_803FB7A4;
+LAYOUT_ASSERT(LobbyPkt_803FB7A4_size, sizeof(LobbyPkt_803FB7A4) == 0x18);
 
 #define LOBBY_NOTIFY() do { if (g->cb != NULL) { unlock_mutex(lbl_805C18A0.mutex); g->cb(lbl_805D7A82, 0); lock_mutex(lbl_805C18A0.mutex); } } while (0)
 #define LOBBY_ABORT(code, st) do { lbl_805D7A82 = (code); lobby_modem_connect_state = (st); LOBBY_NOTIFY(); return 0; } while (0)
@@ -83,7 +81,7 @@ s16 TLobby__sub_803FAEDC(NetSession *cfg) {
         NetMemcpy(buf, cfg->phone_number, len);
         buf[len] = 0;
     }
-    if (map_state_to_code((saddr)*pname, cfg->req.type) < 0) {
+    if (map_state_to_code((const char *)*pname, cfg->req.type) < 0) {
         return 1;
     }
     return 0;
@@ -140,8 +138,8 @@ s16 init_net_session(void) {
     return ret;
 }
 
-u8 *TLobby__sub_803FB110(void) {
-    return (u8 *)&lbl_805BFF68.modem;
+ModemConfig *TLobby__sub_803FB110(void) {
+    return &lbl_805BFF68.modem;
 }
 
 u8 *copy_name_buffer(void *src) {
@@ -222,53 +220,53 @@ void NetMemcpy(void* destination, void* source, int size);
 #pragma dont_inline off
 s16 TLobby__sub_803FB358(NetLinkStatus *status)
 {
-  u8 *p = (u8 *)status;
-  u8 *base = (u8 *)&ppp_proto_blocks;
-  u8 *b;
+  u8 *base;
+  IpcpConfig *b;
   u32 *new_var;
-  u8 *q;
-  u8 *a;
+  PppFsm *q;
+  Ipv6cpConfig *a;
   u32 v0;
   u32 v1;
   lock_mutex(lbl_805C18A0.mutex);
   base = (u8 *)&ppp_proto_blocks;
-  q = base + 0xd4;
-  a = *((u8 **) (base + 0x104));
-  b = *((u8 **) (base + 0x9c));
-  if (base[0x6c] == 5)
+  /* The byte offset keeps the block address load after the mutex call. */
+  q = (PppFsm *)(base + offsetof(PppProtoBlocks, ipv6cp));
+  a = q->opts;
+  b = ((PppProtoBlocks *)base)->ipcp.opts;
+  if (((PppProtoBlocks *)base)->ipcp.state == 5)
   {
-    *((s16 *)(p + 0)) = 1;
+    status->link_up = 1;
   }
   else
   {
-    *((s16 *)(p + 0)) = 0;
+    status->link_up = 0;
   }
-  *((u32 *)(p + 0x10)) = *((u32 *)(b + 0x8));
-  *(new_var = (u32 *)(p + 0x14)) = *((u32 *)(b + 0xc));
-  *((u32 *)(p + 0x18)) = *((u32 *)(b + 0x18));
-  *((u32 *)(p + 0x1c)) = *((u32 *)(b + 0x1c));
-  *((u32 *)(p + 0x20)) = *((u32 *)(b + 0x64));
-  *((u32 *)(p + 0x24)) = *((u32 *)(b + 0x68));
-  if (q[0] == 5)
+  status->w10 = b->local.want.our_addr;
+  *(new_var = &status->w14) = b->local.want.his_addr;
+  status->w18 = b->local.want.dns[0];
+  status->w1C = b->local.want.dns[1];
+  status->w20 = b->peer.want.dns[0];
+  status->w24 = b->peer.want.dns[1];
+  if (q->state == 5)
   {
-    *((s16 *)(p + 2)) = 1;
+    status->ppp_up = 1;
   }
   else
   {
-    *((s16 *)(p + 2)) = 0;
+    status->ppp_up = 0;
   }
-  v0 = *((u32 *)(a + 0x8));
-  v1 = *((u32 *)(a + 0xc));
-  NetMemcpy(p + 0x28, &v0, 4);
-  NetMemcpy(p + 0x2c, &v1, 4);
-  v0 = *((u32 *)(a + 0x10));
-  v1 = *((u32 *)(a + 0x14));
-  NetMemcpy(p + 0x30, &v0, 4);
-  NetMemcpy(p + 0x34, &v1, 4);
-  *((s16 *)(p + 4)) = *((s16 *)&lobby_modem_connect_state);
-  *((s32 *)(p + 8)) = lobby_modem_reply_value;
-  *((s16 *)(p + 6)) = *((s16 *)&lbl_805D7A82);
-  *((s16 *)(p + 0xc)) = *((s16 *)&lbl_805D7A84);
+  v0 = a->local.current.words[0];
+  v1 = a->local.current.words[1];
+  NetMemcpy(status->addr[0], &v0, 4);
+  NetMemcpy(status->addr[1], &v1, 4);
+  v0 = a->local.current.words[2];
+  v1 = a->local.current.words[3];
+  NetMemcpy(status->addr[2], &v0, 4);
+  NetMemcpy(status->addr[3], &v1, 4);
+  status->state = lobby_modem_connect_state;
+  status->w8 = lobby_modem_reply_value;
+  status->h6 = lbl_805D7A82;
+  status->hC = lbl_805D7A84;
   unlock_mutex(lbl_805C18A0.mutex);
   return 0;
 }
@@ -366,17 +364,11 @@ s32 TLobby__sub_803FB6A0(void) {
 
 s32 TLobby__sub_803FB7A4(void) {
     extern s32 lbl_805D7BD8;
-    s32 configure_modem_options(s32, s32, s32, s32, s32);
-    s16 lcp_connect(void *); /* declared s16 here; the definition is s32 (u8 *) */
-    s32 ipv6cp_set_interface_identifiers(s32, void *, void *); /* declared here with other parameter types; the definition is s32 (s32, s32, s32) */
-    s32 ipcp_configure_all_options(s32, s32, s32, s32, s32, s32, s32); /* declared here with an s32 1st argument; the definition takes s16 */
-    s16 negotiate_ipcp_and_ipv6cp(void); /* declared s16 here; the definition returns s32 */
-    s16 map_state_to_mode_id(void); /* declared s16 here; the definition returns s32 */
     NetSession *g = &lbl_805BFF68;
     LobbyPkt_803FB7A4 pkt;
     s16 r29;
     s16 ok;
-    s32 mode;
+    s16 mode;
     s32 timeout;
     s32 t1;
     s32 t0;
@@ -405,7 +397,7 @@ s32 TLobby__sub_803FB7A4(void) {
             LOBBY_ABORT(1, 8);
         }
         if (g->modem.h0 != 0) {
-            rc = configure_modem_options(g->modem.w4C, g->modem.w50, g->modem.w54, g->modem.init_count, (saddr)g->modem.init_command);
+            rc = configure_modem_options(g->modem.w4C, g->modem.w50, g->modem.w54, g->modem.init_count, g->modem.init_command);
         } else {
             rc = configure_modem_options(0, 0, 0, 0, 0);
         }
@@ -483,23 +475,24 @@ L242:
     get_time_ms(&g->connect_ms);
     ppp_auth_protocol = 0;
     if (g->flags & 4) {
-        pkt.a = -1;
-        pkt.b = 1;
-        pkt.e = 0x5AE;
+        pkt.lcp.accm = -1;
+        pkt.lcp.f4 = 1;
+        pkt.lcp.mru = 0x5AE;
         mode = 1;
-        pkt.f = 1;
+        pkt.lcp.fE = 1;
     } else {
-        pkt.a = 0xA0000;
-        pkt.b = g->uA0;
-        pkt.e = g->mtu;
-        pkt.f = g->uA2;
+        pkt.lcp.accm = 0xA0000;
+        /* These session inputs are loaded as unsigned halfwords. */
+        *(u16 *)&pkt.lcp.f4 = g->uA0;
+        pkt.lcp.mru = g->mtu;
+        *(u16 *)&pkt.lcp.fE = g->uA2;
         mode = g->hA4;
     }
-    pkt.c = g->h98;
-    pkt.d = g->start_tick;
+    pkt.lcp.auth_mode = g->h98;
+    pkt.lcp.magic = g->start_tick;
     pkt.user = g->user;
     pkt.password = g->password;
-    if (lcp_connect(&pkt) != 0) {
+    if (lcp_connect(&pkt.lcp) != 0) {
         LOBBY_ABORT(5, 8);
     }
     h2 = g->h2;
@@ -580,7 +573,7 @@ L242:
     return 0;
 }
 
-s32 get_remaining(s32 elapsed) {
+s16 get_remaining(s32 elapsed) {
     return ppp_auth_protocol - elapsed;
 }
 

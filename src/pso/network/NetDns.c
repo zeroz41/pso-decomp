@@ -64,7 +64,7 @@ s32 TLobby__sub_8040A3C0(void) {
     DnsResolverState *m = (DnsResolverState *)&dns_resolver_state;
     DnsQuery *e;
 
-    ret = net_unregister_timer((saddr)((void *)tick_connection_timeouts));
+    ret = net_unregister_timer(tick_connection_timeouts);
     e = m->queries;
     i = 0;
     while (i < m->nqueries) {
@@ -77,8 +77,6 @@ s32 TLobby__sub_8040A3C0(void) {
     TLobby__sub_803F86BC(m);
     return ret;
 }
-
-s16 net_register_timer(void (*)(void), int);
 
 s16 init_net_tables(void) {
     DnsResolverState *g = &dns_resolver_state;
@@ -252,7 +250,7 @@ extern s16 TLobby__sub_8040A698(s16 idx, void *buf, s16 *len, void *buf2, s16 *l
 }
 #pragma pop
 
-s32 AT_DNS_UdpReceiver(s16 mode, UdpDatagram *req);
+s16 AT_DNS_UdpReceiver(s16 mode, NetworkReceivePrefix *req);
 DnsHost *dns_alloc_host(void);
 static inline DnsHost *dns_find_host(DnsResolverState *g, char *name, s16 len) {
     s16 j;
@@ -689,7 +687,7 @@ extern void TLobby__sub_8040B3B4(void) {
 }
 
 extern s16 dns_parse_reply(DnsQuery *self);
-inline DnsQuery *find_8040B4BC(DnsResolverState *base, UdpDatagram *req) {
+inline DnsQuery *find_8040B4BC(DnsResolverState *base, NetworkReceivePrefix *req) {
     s16 count;
     s16 key;
     s16 i;
@@ -708,7 +706,7 @@ inline DnsQuery *find_8040B4BC(DnsResolverState *base, UdpDatagram *req) {
     return NULL;
 }
 
-s32 AT_DNS_UdpReceiver(s16 mode, UdpDatagram *req)
+s16 AT_DNS_UdpReceiver(s16 mode, NetworkReceivePrefix *req)
 {
   DnsResolverState *base = &dns_resolver_state;
   DnsQuery *e;
@@ -716,7 +714,7 @@ s32 AT_DNS_UdpReceiver(s16 mode, UdpDatagram *req)
   DnsBuffer *s;
   s32 pad[2];
   s16 dns_parse_reply(DnsQuery *); /* declared s16 here; the definition returns s32 */
-  if (req->port != 0x35)
+  if (((UdpDatagram *)req)->port != 0x35)
   {
     return 1;
   }

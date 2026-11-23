@@ -2,6 +2,7 @@
 #define PSO_NETWORK_TLOBBY_804050DC_H
 
 #include "types.h"
+#include "pso/network/NetworkReceiveCallback.h"
 #include "pso/network/BufferRef.h"
 #include "pso/network/UdpRuntime.h"
 #include "pso/network/IPv6.h"
@@ -27,7 +28,7 @@ struct Ipv4RawSocket {
     u8 pad6[2];
     u32 addr;                   /* 0x08: source filter; 0 = any */
     u8 padC[4];
-    void *callback;             /* 0x10 */
+    NetworkReceiveCallback callback;             /* 0x10 */
     u8 pad14[4];
     u8 proto;                   /* 0x18 */
     u8 pad19[3];
@@ -72,7 +73,7 @@ s16 is_socket_flag_set(s16 i);
 s16 TLobby__sub_8040A044(s16 idx, u32 a, s16 b, u32 *c);
 void TLobby__sub_804050DC(s16 arg0);
 s32 TLobby__sub_804062A0(s16 arg0);
-s16 TLobby__sub_80406624(s32 a, s32 b, u16 code, void *self);
+s16 TLobby__sub_80406624(s32 a, s32 b, u16 code, PppFrame *frame);
 s16 reset_network_timer_list(void);
 s16 arp_resolve_and_send(s16 idx, void *name, void *arg2);
 s32 TLobby__sub_80409AA8(void);

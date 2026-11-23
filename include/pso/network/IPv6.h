@@ -2,6 +2,7 @@
 #define PSO_NETWORK_IPV6_H
 
 #include "types.h"
+#include "pso/network/NetworkReceiveCallback.h"
 #include <stddef.h>
 
 typedef struct IPv6Address {
@@ -98,7 +99,7 @@ typedef struct Ipv6RawSocket {
     u8 local[16];     /* 0x06 */
     u8 remote[16];    /* 0x16 */
     u8 pad26[2];
-    void *owner;      /* 0x28: receive callback, passed to raw_socket_deliver */
+    NetworkReceiveCallback owner;      /* 0x28: receive callback, passed to raw_socket_deliver */
     u8 pad2C[4];
     u8 proto;         /* 0x30 */
     u8 pad31[3];

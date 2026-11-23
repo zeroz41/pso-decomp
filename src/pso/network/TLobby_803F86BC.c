@@ -3,6 +3,7 @@
  * fill its configuration records with counts, sizes and the static buffers below. */
 #include "types.h"
 #include "pso/network/NetworkRuntime.h"
+#include "pso/network/UdpRuntime.h"
 #include "pso/network/NetworkTransport.h"
 #include "pso/network/TLobby_803F86BC.h"
 #include <stddef.h>
@@ -12,6 +13,7 @@
 #include "pso/network/NetArp.h"
 #include "pso/network/NetIpv4.h"
 #include "pso/network/NetEthernet.h"
+#include "pso/network/TLobby_804050DC.h"
 #include "pso/network/TLobby_8041112C.h"
 #include "pso/network/NetworkMessageTransport.h"
 
@@ -59,7 +61,7 @@ static u32 lbl_805B3BB8[1267];
 static s32 lbl_805B4F84[212];
 static NetFragment lbl_805B52D4[0x10];
 static NetFragPacket lbl_805B5454[2];
-static s32 lbl_805B54BC[4096];
+static u8 lbl_805B54BC[0x4000] ATTRIBUTE_ALIGN(4);
 static NetBufferPoolEntry lbl_805B94BC[2];
 static s32 lbl_805B9534[1059];
 static s32 lbl_805BA5C0[3115];
@@ -110,9 +112,9 @@ void init_params(NetParamCfg *cfg) {
 void TLobby__sub_803F87C4(void *cfg) {
 }
 
-void TLobby__sub_803F87C8(u8 *cfg) {
-    *(s16 *)(cfg + 0) = net_param_player_count;
-    *(s32 *)(cfg + 8) = net_transport_buffer_ptr_a;
+void TLobby__sub_803F87C8(UdpRuntimeState *cfg) {
+    cfg->count = net_param_player_count;
+    cfg->entries = (UdpControlBlock *)net_transport_buffer_ptr_a;
 }
 
 void TLobby__sub_803F87DC(void *cfg) {
@@ -171,11 +173,11 @@ void TLobby__sub_803F892C(void *cfg) {
 
 #pragma push
 #pragma opt_common_subs on
-void TLobby__sub_803F8930(u8 *cfg) {
-    *(s16 *)(cfg + 0) = 1;
-    *(s8 *)(cfg + 0xA) = 0;
-    *(s8 *)(cfg + 0xB) = 0x78;
-    *(s32 **)(cfg + 4) = lbl_805B4F84;
+void TLobby__sub_803F8930(Ipv4ProtocolState *cfg) {
+    cfg->nsockets = 1;
+    cfg->def_tos = 0;
+    cfg->def_ttl = 0x78;
+    cfg->sockets = (Ipv4RawSocket *)lbl_805B4F84;
 }
 #pragma pop
 
@@ -210,7 +212,7 @@ void init_buffer_desc_a(NetBufferPool *cfg) {
     cfg->count = 2;
     cfg->size = 0x2000;
     cfg->ents = lbl_805B94BC;
-    cfg->data = (u8 *)lbl_805B54BC;
+    cfg->data = lbl_805B54BC;
 }
 
 void TLobby__sub_803F8A08(void *cfg) {
@@ -243,9 +245,9 @@ void init_net_buffer_config(ArpState *cfg) {
 void TLobby__sub_803F8A9C(void *cfg) {
 }
 
-void TLobby__sub_803F8AA0(u8 *cfg) {
-    *(s16 *)(cfg + 0) = 3;
-    *(s32 **)(cfg + 4) = lbl_805BA5C0;
+void TLobby__sub_803F8AA0(LobbyHandlerTable *cfg) {
+    cfg->count = 3;
+    cfg->list = (struct LobbyHandler *)lbl_805BA5C0;
 }
 
 void TLobby__sub_803F8AB8(void *cfg) {

@@ -22,16 +22,20 @@ enum SocketHandleTag {
 };
 
 typedef struct Stack_80421AD8 {
-    s16 sp1C;
-    s16 sp1E;
-    s32 sp20;
+    NetworkReceivePrefix receive;
     s32 sp24;
     s32 sp28;
 } Stack_80421AD8;
 
-typedef struct Stack_80421938 { s16 flags; s16 len; s32 zero; u8 src[0x10]; u8 dst[0x10]; } Stack_80421938;
+typedef struct Stack_80421938 {
+    NetworkReceivePrefix receive;
+    u8 src[0x10];
+    u8 dst[0x10];
+} Stack_80421938;
 
-typedef struct O_80421F10 { u8 pad0[8]; s32 size; s16 used; } O_80421F10;
+LAYOUT_ASSERT(Stack_80421938_src_offset, offsetof(Stack_80421938, src) == 8);
+LAYOUT_ASSERT(Stack_80421938_dst_offset, offsetof(Stack_80421938, dst) == 0x18);
+LAYOUT_ASSERT(Stack_80421938_size, sizeof(Stack_80421938) == 0x28);
 
 
 typedef struct IpAddr_80422B8C { u32 family; u8 a[0xC]; } IpAddr_80422B8C;
@@ -43,9 +47,7 @@ s32 TLobby__sub_8041112C(void);
 void NetIPv6ShutdownNeighborDiscovery(void);
 s32 TLobby__sub_80418A7C(void);
 s32 TLobby__sub_8041A1D8(void);
-void TLobby__sub_80421FB8(void *, void *, void *);
-s32 raw_socket_deliver_ipv4(u8 *arg0, s32 arg1, s32 arg2, uaddr arg3, s32 arg4);
-s32 net_register_timer(saddr arg0, s32 arg1);
+void TLobby__sub_80421FB8(NetworkReceiveCallback cb, NetworkReceivePrefix *hdr, NetPacket *pkt);
 s32 TLobby__sub_8040F9CC(void *, void *, void *, int);
 s32 TLobby__sub_804219D0(saddr arg0, saddr arg1, saddr arg2);
 s32 NetIPv4AddRoute(void *, void *, void *, s16, u8, u16); /* declared s32 here; the definition is s16 (u32, u32, u32, s16, u8, u16) */
@@ -58,8 +60,6 @@ s16 validate_tcp_handle(int);
 s32 tcp_stat(s32 a, s16 *b, s16 *c, u32 *d, u32 *e);
 s16 tcp_get_socket_handle(int);
 s32 abort_tcp_connection(int);
-s32 raw_socket_deliver(NetPacket *pkt, void *src, void *dst, void *cb, s32 index);
-s32 TLobby__sub_80421F10(O_80421F10 *o, void *src, void *dst, s16 port, void *cb, s32 flags);
 void OSReport(const char *, ...);
 s16 reset_socket_table();
 s16 TLobby__sub_80409AD8();
@@ -216,19 +216,19 @@ s32 net_lock(void) {
     lock_mutex(network_dispatch_state.lock_handle);
     return 0;
 }
-s32 net_unregister_timer(saddr timer) {
+s32 net_unregister_timer(NetTimerCallback timer) {
     s32 result;
     if (timer == 0) {
         return -2;
     }
     lock_mutex(network_dispatch_state.lock_handle);
-    result = NetUnregisterTimer((NetTimerCallback)timer);
+    result = NetUnregisterTimer(timer);
     unlock_mutex(network_dispatch_state.lock_handle);
     return result;
 }
 
-s32 net_register_timer(saddr callback, s32 interval) {
-    s32 result;
+s16 net_register_timer(NetTimerCallback callback, s32 interval) {
+    s16 result;
     if (callback == 0) {
         return -2;
     }
@@ -236,20 +236,20 @@ s32 net_register_timer(saddr callback, s32 interval) {
         return -2;
     }
     lock_mutex(network_dispatch_state.lock_handle);
-    result = NetRegisterTimer(interval, 0, (NetTimerCallback)callback);
+    result = NetRegisterTimer(interval, 0, callback);
     unlock_mutex(network_dispatch_state.lock_handle);
     return result;
 }
 
-s32 raw_socket_deliver(NetPacket *pkt, void *src, void *dst, void *cb, s32 index) {
+s32 raw_socket_deliver(NetPacket *pkt, u8 *src, u8 *dst, NetworkReceiveCallback cb, s16 index) {
     Stack_80421938 s;
-    s.flags = index | 0xC00;
-    s.len = pkt->total_bytes - pkt->fragments[0].length;
-    s.zero = 0;
+    s.receive.socket = index | 0xC00;
+    s.receive.len = pkt->total_bytes - pkt->fragments[0].length;
+    s.receive.buf = NULL;
     NetMemcpy(s.src, src, 0x10);
     NetMemcpy(s.dst, dst, 0x10);
     if (cb != NULL) {
-        TLobby__sub_80421FB8(cb, &s, pkt);
+        TLobby__sub_80421FB8(cb, &s.receive, pkt);
     }
     return 0;
 }
@@ -270,21 +270,19 @@ s32 net_add_ipv4_route(saddr dst, saddr mask, saddr gateway) {
     return result;
 }
 
-s32 raw_socket_deliver_ipv4(u8 *sock, s32 src, s32 dst, uaddr cb, s32 flags) {
-    typedef struct SockFields { u8 pad_0[8]; s32 field_8; s16 field_C; } SockFields;
-    LAYOUT_ASSERT(sp1C_offset, offsetof(Stack_80421AD8, sp1C) == 0x0);
-    LAYOUT_ASSERT(sp1E_offset, offsetof(Stack_80421AD8, sp1E) == 0x2);
-    LAYOUT_ASSERT(sp20_offset, offsetof(Stack_80421AD8, sp20) == 0x4);
+s32 raw_socket_deliver_ipv4(NetPacket *pkt, u32 src, u32 dst, NetworkReceiveCallback cb, s16 flags) {
+    LAYOUT_ASSERT(Stack_80421AD8_receive_offset, offsetof(Stack_80421AD8, receive) == 0);
+    LAYOUT_ASSERT(Stack_80421AD8_size, sizeof(Stack_80421AD8) == 0x10);
     LAYOUT_ASSERT(sp24_offset, offsetof(Stack_80421AD8, sp24) == 0x8);
     LAYOUT_ASSERT(sp28_offset, offsetof(Stack_80421AD8, sp28) == 0xC);
     Stack_80421AD8 stack;
-    stack.sp1C = flags | 0x800;
-    stack.sp1E = ((SockFields*)sock)->field_8 - ((SockFields*)sock)->field_C;
-    stack.sp20 = 0;
+    stack.receive.socket = flags | 0x800;
+    stack.receive.len = pkt->total_bytes - pkt->fragments[0].length;
+    stack.receive.buf = NULL;
     stack.sp24 = src;
     stack.sp28 = dst;
-    if (cb != 0U) {
-        TLobby__sub_80421FB8((void *)cb, &stack.sp1C, (void *)sock);
+    if (cb != NULL) {
+        TLobby__sub_80421FB8(cb, &stack.receive, pkt);
     }
     return 0;
 }
@@ -398,7 +396,7 @@ s16 udp_open(void *src, s32 sport, void *dst, s32 dport, NetSocketEventCallback 
         unlock_mutex(network_dispatch_state.lock_handle);
         return r;
     }
-    r = NetUdpConnect(h, (NetworkAddress*)dst, dport, eventCallback, (uaddr)cb);
+    r = NetUdpConnect(h, (NetworkAddress*)dst, dport, eventCallback, cb);
     if (r < 0) {
         NetUdpClose(h);
         unlock_mutex(network_dispatch_state.lock_handle);
@@ -409,34 +407,29 @@ s16 udp_open(void *src, s32 sport, void *dst, s32 dport, NetSocketEventCallback 
     return h;
 }
 
-s32 TLobby__sub_80421F10(O_80421F10 *o, void *src, void *dst, s16 port, void *cb, s32 flags) {
+s16 TLobby__sub_80421F10(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst,
+                           u16 port, NetUdpReceiveCallback cb, s16 socket_index) {
     UdpDatagram s;
-    s.socket = flags | UDP_SOCKET_TAG;
-    s.len = o->size - o->used;
-    s.buf = 0;
+    s.receive.socket = socket_index | UDP_SOCKET_TAG;
+    s.receive.len = pkt->total_bytes - pkt->fragments[0].length;
+    s.receive.buf = NULL;
     NetMemcpy(&s.src, src, sizeof(NetworkAddress));
     NetMemcpy(&s.dst, dst, sizeof(NetworkAddress));
     s.port = port;
     if (cb != NULL) {
-        TLobby__sub_80421FB8(cb, &s, o);
+        TLobby__sub_80421FB8(cb, &s.receive, pkt);
     }
     return 0;
 }
 
-typedef s16 (*PktCb_80421FB8)(s32, UdpDatagram *);
-
-void TLobby__sub_80421FB8(void *cb, void *hdr_, void *o_) {
+void TLobby__sub_80421FB8(NetworkReceiveCallback cb, NetworkReceivePrefix *hdr, NetPacket *o) {
     s32 i;
     u8 *buf;
     s16 len;
     NetBufferRef pkt;
     s16 chunk;
-    UdpDatagram *hdr;
-    NetPacket *o;
-    hdr = (UdpDatagram *)hdr_;
-    o = (NetPacket *)o_;
     len = hdr->len;
-    if (((PktCb_80421FB8)cb)(0, hdr) == 0) {
+    if (cb(0, hdr) == 0) {
         if (hdr->len >= len) {
             hdr->len = len;
         }
@@ -456,7 +449,7 @@ void TLobby__sub_80421FB8(void *cb, void *hdr_, void *o_) {
             netbuf_ref_advance(&pkt, (u32)chunk);
             len -= chunk;
         }
-        ((PktCb_80421FB8)cb)(1, hdr);
+        cb(1, hdr);
     }
 }
 
@@ -564,7 +557,7 @@ s32 set_slot_state_and_resume(s16 idx, TcpCompletion cb, s16 state) {
   return 0;
 }
 
-s16 tcp_send(s32 a, void (*notify)(s16, s16), char bufnum, struct send_buffs *sb) {
+s16 tcp_send(s32 a, TcpCompletion notify, char bufnum, struct send_buffs *sb) {
     TcpTcb *s;
     NetPacket *entry;
     struct send_buffs *p;
@@ -604,7 +597,8 @@ s16 tcp_send(s32 a, void (*notify)(s16, s16), char bufnum, struct send_buffs *sb
     entry->fragment_count = (u16)bufnum;
     n = bufnum;
     p = sb + (u16)n;
-    cur = (u8 *)entry + (entry->total_bytes = 0) * 12;
+    /* The matching loop advances the packet base by one fragment at a time. */
+    cur = (u8 *)entry + (entry->total_bytes = 0) * sizeof(NetPacketFragment);
     while ((u16)n != 0) {
         p--;
         n--;
@@ -613,10 +607,10 @@ s16 tcp_send(s32 a, void (*notify)(s16, s16), char bufnum, struct send_buffs *sb
             unlock_mutex(network_dispatch_state.lock_handle);
             return -2;
         }
-        init_packet_header((NetBufferRef *)(cur + 0x10), (saddr)p->buff);
-        *(s16 *)(cur + 0xc) = p->len;
-        entry->total_bytes += *(s16 *)(cur + 0xc);
-        cur += 0xc;
+        init_packet_header(&((NetPacketFragment *)(cur + offsetof(NetPacket, fragments)))->buffer, (saddr)p->buff);
+        ((NetPacketFragment *)(cur + offsetof(NetPacket, fragments)))->length = p->len;
+        entry->total_bytes += ((NetPacketFragment *)(cur + offsetof(NetPacket, fragments)))->length;
+        cur += sizeof(NetPacketFragment);
     }
     if (entry->total_bytes == 0) {
         release_entry(entry);

@@ -9,7 +9,7 @@ typedef void (*NetTimerCallback)(void);
 #ifdef __cplusplus
 extern "C" {
 #endif
-s32 NetRegisterTimer(s32 period, s16 locked, NetTimerCallback fn);
+s16 NetRegisterTimer(s32 period, s16 locked, NetTimerCallback fn);
 s32 NetUnregisterTimer(NetTimerCallback fn);
 #ifdef __cplusplus
 }

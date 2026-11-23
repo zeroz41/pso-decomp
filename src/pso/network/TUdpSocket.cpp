@@ -117,7 +117,7 @@ int TUdpSocket::open() {
     return m_sock_fd;
 }
 
-s32 TUdpSocket::handle_socket_event(s16 received, UdpDatagram *event) {
+s16 TUdpSocket::handle_socket_event(s16 received, NetworkReceivePrefix *event) {
     int slot = event->socket - 0x400;
     TUdpSocket *socket = udp_socket_slots[slot];
     if (socket == NULL) {

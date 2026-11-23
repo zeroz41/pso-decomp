@@ -32,12 +32,12 @@ LAYOUT_ASSERT(IpcpSide_size_check, sizeof(IpcpSide) == 0x4C);
 typedef struct IpcpConfig {
     IpcpSide local;
     IpcpSide peer;
-    u32 net_list; /* init_net_list(local VJ slots, peer VJ slots) */
+    PppVjCompressionState *net_list; /* init_net_list(local VJ slots, peer VJ slots) */
 } IpcpConfig;
 LAYOUT_ASSERT(IpcpConfig_size_check, sizeof(IpcpConfig) == 0x9C);
 
 typedef struct IpcpState {
-    Obj_803FEF4C proto;
+    PppFsmProtocol proto;
     IpcpConfig config;
 } IpcpState;
 LAYOUT_ASSERT(IpcpState_size_check, sizeof(IpcpState) == 0xD8);

@@ -10,6 +10,7 @@
 extern "C" {
 #endif
 struct EthernetReceiveFilter;
+struct OSMessageQueue;
 void TLobby__sub_80425D88(u8 v);
 s16 TLobby__sub_804262CC(struct EthernetReceiveFilter *filter);
 s16 TLobby__sub_80426440(void);
@@ -19,7 +20,7 @@ void dispatch_received_ethernet_frame(struct EthernetReceiveFilter *filter, void
 void reset_message_thread(void);
 void update_exi_status(void);
 s16 post_send_message(void *data, u16 len);
-s32 post_message(void *queue, u8 *packet, s32 length, s32 by_address);
+s32 post_message(struct OSMessageQueue *queue, u8 *packet, s32 length, s32 by_address);
 void message_thread_loop(void);
 void clear_message_entry_wrapper(u8 *packet);
 u16 recv_pppoe_message(u8 **packet, u16 *len);

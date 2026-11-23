@@ -51,15 +51,14 @@ PppFrame *TLobby__sub_80401B20(void *src, u16 n) {
 }
 #pragma opt_propagation reset
 
-u8 *alloc_from_buffer(void *self, s16 n) {
-    PppFrame *frame = (PppFrame *)self;
+PppFrame *alloc_from_buffer(PppFrame *frame, s16 n) {
     u8 *data;
     if (frame != NULL) {
         data = frame->data;
         if ((s32)(data - (u8 *)(frame + 1)) >= n) {
             frame->data = data - n;
             frame->len += n;
-            return (u8 *)frame;
+            return frame;
         }
     }
     return NULL;
@@ -101,8 +100,8 @@ void TLobby__sub_80401CAC(PppFrame **o, u16 v) {
     (*o)->len = v;
 }
 
-u16 get_field_4(void *self) {
-    return ((PppFrame *)self)->len;
+u32 get_field_4(PppFrame *frame) {
+    return frame->len;
 }
 
 #pragma push

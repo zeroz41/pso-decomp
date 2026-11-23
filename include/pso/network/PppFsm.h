@@ -7,11 +7,10 @@ typedef struct PppFsm PppFsm;
 struct PppHeader;
 struct PppFrame;
 
-/* The protocol callbacks the FSM calls on its transitions (called with the FSM and its protocol); the checks take a
- * received packet and return 0 to accept it. */
+/* The protocol callbacks take the active FSM. Checks also take the received header and frame and return 0 to accept it. */
 typedef struct PppFsmProtocol PppFsmProtocol;
-typedef void (*PppFsmAction)(PppFsm *fsm, PppFsmProtocol *proto);
-typedef s16 (*PppFsmCheck)(PppFsm *fsm, struct PppHeader *hdr, void *pkt);
+typedef void (*PppFsmAction)(PppFsm *fsm);
+typedef s16 (*PppFsmCheck)(PppFsm *fsm, struct PppHeader *hdr, struct PppFrame *pkt);
 
 /* The fixed description of a protocol that runs on the FSM (PAP's is named "Pap"): its PPP protocol number, retry
  * counts, timeout and callbacks. */
@@ -24,17 +23,17 @@ struct PppFsmProtocol {
     u8 bA;                      /* 0x0A: copied to PppFsm.f7 */
     u8 bB;                      /* 0x0B: copied to PppFsm.f5 */
     s32 timeout;                /* 0x0C: in ms */
-    PppFsmAction f10;
-    PppFsmAction f14;
-    PppFsmAction f18;
-    PppFsmAction f1C;
-    PppFsmAction f20;
-    PppFsmAction f24;
-    struct PppFrame *(*f28)(PppFsm *fsm, PppFsmProtocol *proto); /* builds the packet to (re)send */
-    PppFsmCheck f2C;
-    PppFsmCheck f30;
-    PppFsmCheck f34;
-    PppFsmCheck f38;
+    PppFsmAction release_resources;
+    PppFsmAction reset_options;
+    PppFsmAction start_negotiation;
+    PppFsmAction link_opened;
+    PppFsmAction link_closed;
+    PppFsmAction finish_termination;
+    struct PppFrame *(*build_config_request)(PppFsm *fsm); /* builds the packet to (re)send */
+    PppFsmCheck check_config_request;
+    PppFsmCheck check_config_ack;
+    PppFsmCheck check_config_nak;
+    PppFsmCheck check_config_reject;
 };
 
 /* The FSM's retry timer (lobby_timer_add arms it). */
