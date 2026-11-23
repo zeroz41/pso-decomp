@@ -14,7 +14,6 @@
 extern "C" {
 
 s32 TFontSmallLobby__sub_801C0164(void *);
-s32 __ct__9TObjCharaFP7TObject();
 s32 init_player_substructs__10TObjPlayerFv(void *, void *);
 s32 TObjPlayer__sub_801BC8F0(void *);
 s32 TObjPlayer__sub_801BCA14(void *, void *);
@@ -32,12 +31,9 @@ s32 TObjPlayer__sub_80351974(void *);
 s32 __ct__14TPlyDispConfigFv(void *);
 s32 update_body_parts__10TObjPlayerFv(void *, void *);
 
-extern s32 __vt__10TObjPlayer[];
 extern const char *lbl_805D3530;
 
-u8 *TObjPlayer::construct_player_instance(saddr arg1, s32 slot, s32 role, u8 *arg4) {
-    __ct__9TObjCharaFP7TObject();
-    *(s32 **)((s8 *)((u8 *)this) + 0x18) = __vt__10TObjPlayer;
+TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, u8 *arg4) : TObjChara(parent) {
     ((TObjPlayer *)(((u8 *)this) + 0x340))->init_subobject();
     chair_seat.init();
     contact_surface.init_state();
@@ -73,7 +69,7 @@ u8 *TObjPlayer::construct_player_instance(saddr arg1, s32 slot, s32 role, u8 *ar
     __ct__8FlagWordFv((((u8 *)this) + 0x858));
     TObjPlayer::reset_and_return((saddr)((((u8 *)this) + 0xD04)));
     ((TObjPlayer *)(((u8 *)this) + 0xDAC))->clear_header_struct();
-    *(s32 *)((s8 *)((u8 *)this) + 0) = (saddr) lbl_805D3530;
+    m_name = lbl_805D3530;
     this->init_action_provider();
     this->entity_id = slot;
     this->setup_control_role(role);
@@ -97,7 +93,6 @@ u8 *TObjPlayer::construct_player_instance(saddr arg1, s32 slot, s32 role, u8 *ar
     this->setup_fresh_player_state((u8 *)arg4);
     this->sub_801BB8B0((u8 *)arg4);
     TObjPlayer::set_com_card_window((saddr)((this->get_entity_id())));
-    return ((u8 *)this);
 }
 
 }

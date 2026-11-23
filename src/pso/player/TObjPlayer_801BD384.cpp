@@ -54,44 +54,38 @@ void TObjPlayer__sub_801BBC64(void *);
 void TObjPlayer__sub_801BBB94(void *);
 void TObjPlayer__sub_801BB8AC(void *);
 void *TObjPlayer__sub_801BEDC0(void *arg0, s16 arg1);
-extern s32 __vt__10TObjPlayer[];
 
-void *__dt__10TObjPlayerFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__10TObjPlayer;
-        ((TObjPlayer *)arg0)->release_child_object();
-        ((TObjPlayer *)arg0)->free_chara_making();
-        ((TObjPlayer *)arg0)->destroy_child();
-        TObjPlayer__sub_801BCD54(arg0);
-        TObjPlayer__sub_801BCC50(arg0);
-        TObjPlayer__sub_801BCB28(arg0);
-        TObjPlayer__sub_801BCA10(arg0);
-        ((TObjPlayer *)arg0)->destroy_owned_object();
-        TObjPlayer__sub_801BD314(arg0);
-        TObjPlayer__sub_801BC504(arg0);
-        TObjPlayer__sub_801BBC64(arg0);
-        TObjPlayer__sub_801BBB94(arg0);
-        TObjPlayer__sub_801BB8AC(arg0);
-        ((TObjPlayer *)arg0)->unregister();
-        TObjPlayer::free_owned_buffer_b((saddr)((s8 *)arg0 + 0x7CC), (s16)(-1));
-        destroy__10TObjPlayerFis((saddr)((s8 *)arg0 + 0x754), -1);
-        TObjPlayer__sub_801BFAD4((s8 *)arg0 + 0x644, -1);
-        TObjPlayer::dt((saddr)((s8 *)arg0 + 0x550), (s16)(-1));
-        __dt__14TPlyDispConfigFv((saddr)((s8 *)arg0 + 0x500), -1);
-        TObjPlayer::free_owned_buffer_a((saddr)((s8 *)arg0 + 0x4AC), (s16)(-1));
-        destroy_follow_particle_state((saddr)((s8 *)arg0 + 0x384), -1);
-        TObjPlayer__sub_801BEDC0((s8 *)arg0 + 0x374, -1);
-        ((TObjPlayer *)arg0)->contact_surface.fn_801BFA4C(-1);
-        ((TObjPlayer *)arg0)->chair_seat.conditional_delete_ex(-1);
-        TObjPlayer__sub_801BF9F0((u8 *)((s8 *)arg0 + 0x340), -1);
-        __dt__9TObjCharaFv(arg0, 0);
-        if (arg1 > 0) {
-            TObject::operator delete(arg0);
-        }
-    }
-    return arg0;
 }
 
+TObjPlayer::~TObjPlayer() {
+    release_child_object();
+    free_chara_making();
+    destroy_child();
+    TObjPlayer__sub_801BCD54(this);
+    TObjPlayer__sub_801BCC50(this);
+    TObjPlayer__sub_801BCB28(this);
+    TObjPlayer__sub_801BCA10(this);
+    destroy_owned_object();
+    TObjPlayer__sub_801BD314(this);
+    TObjPlayer__sub_801BC504(this);
+    TObjPlayer__sub_801BBC64(this);
+    TObjPlayer__sub_801BBB94(this);
+    TObjPlayer__sub_801BB8AC(this);
+    unregister();
+    TObjPlayer::free_owned_buffer_b((saddr)((s8 *)this + 0x7CC), (s16)(-1));
+    destroy__10TObjPlayerFis((saddr)((s8 *)this + 0x754), -1);
+    TObjPlayer__sub_801BFAD4((s8 *)this + 0x644, -1);
+    TObjPlayer::dt((saddr)((s8 *)this + 0x550), (s16)(-1));
+    __dt__14TPlyDispConfigFv((saddr)((s8 *)this + 0x500), -1);
+    TObjPlayer::free_owned_buffer_a((saddr)((s8 *)this + 0x4AC), (s16)(-1));
+    destroy_follow_particle_state((saddr)((s8 *)this + 0x384), -1);
+    TObjPlayer__sub_801BEDC0((s8 *)this + 0x374, -1);
+    contact_surface.fn_801BFA4C(-1);
+    chair_seat.conditional_delete_ex(-1);
+    TObjPlayer__sub_801BF9F0((u8 *)((s8 *)this + 0x340), -1);
+}
+
+extern "C" {
 void TObjPlayer__sub_801BB85C(TObjPlayer *player, u8 *record);
 void sub_801BBC2C__10TObjPlayerFv(void *, void *);
 void init_battle__10TObjPlayerFv(void *, void *);

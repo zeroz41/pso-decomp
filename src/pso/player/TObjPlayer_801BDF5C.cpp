@@ -33,32 +33,20 @@
 
 
 extern "C" {
-u8 * construct_player_instance__10TObjPlayerFlllPUc(void *, s32, s16, s32, void *);
 extern s32 tl_03;
 }
 
 u8 *TObjPlayer::create_player_instance(s32 arg0, saddr player) {
     u8 *p;
-    p = (u8 *)TObject::operator new(0xDB8);
-    if (p != NULL) {
-        p = ((u8 *(*)(void *, s32, u16, s32, s32))construct_player_instance__10TObjPlayerFlllPUc)(
-            p, tl_03, arg0, get_field_0_s32((void *)player), (saddr)((TObjPlayer *)player)->get_char_data());
-    }
+    p = (u8 *)new TObjPlayer((TObject *)tl_03, arg0 & 0xFFFF, get_field_0_s32((void *)player), (u8 *)((TObjPlayer *)player)->get_char_data());
     ((TLobby *)(p + 0xDAC))->copy_header_struct((void *)((TObjPlayer *)player)->get_sub_obj());
     ((TObjPlayer *)p)->reset_motion_fields();
     return p;
 }
 
 u8 *create_player_object(s32 slot, s32 role, u8 *record) {
-    u8 *player;
-    u8 *var_r0;
     decode_created_player_inventory(record);
-    player = (u8 *)((u8 *)TObject::operator new(0xDB8));
-    var_r0 = player;
-    if (var_r0 != NULL) {
-        var_r0 = (u8 *)(((TObjPlayer *)player)->construct_player_instance(tl_03, slot, role, record));
-    }
-    return var_r0;
+    return (u8 *)new TObjPlayer((TObject *)tl_03, slot, role, record);
 }
 
 extern "C" {

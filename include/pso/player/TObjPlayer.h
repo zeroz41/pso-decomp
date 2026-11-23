@@ -69,6 +69,7 @@ void init_stick_escape_detector(StickEscapeDetector *detector, const ControllerI
 struct TObjPlayer : public TObjChara {
     TObjPlayer(TObject *parent, void *arg2);
     TObjPlayer(TObject *parent, TUnk_801D8A4C *src);
+    TObjPlayer(TObject *parent, s32 slot, s32 role, u8 *record);
     // The key function: __vt__10TObjPlayer is emitted with the TU at 0x801AF290
     // (TObjPlayer_801AF2F0.cpp), which defines this; the destructor is in a later fragment.
     virtual void reset_motion_fields();
@@ -1307,7 +1308,6 @@ struct TObjPlayer : public TObjChara {
     void send_respawn_position();
     void init_battle();
     void reset_area_entry_state();
-    u8 *construct_player_instance(saddr arg1, s32 slot, s32 role, u8 *record);
     void*init_pair();
     u8 *copy_hold_params(u8 *arg1);
     void init_cmd_6x24();

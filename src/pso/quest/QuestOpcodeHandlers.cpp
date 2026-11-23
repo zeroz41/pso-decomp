@@ -4747,10 +4747,7 @@ void qst_op_npc_crptalk_id(u8 first) {
     appearance = qst_registers[i++];
     slot = qst_registers[i++];
     TLobby::free_luker_object();
-    player = (TObjPlayer *)TObject::operator new(0xDB8);
-    if (player != NULL) {
-        player = (TObjPlayer *)player->construct_player_instance((saddr)tl_03, slot, 6, load_npc_player_template(appearance));
-    }
+    player = new TObjPlayer((TObject *)tl_03, slot, 6, load_npc_player_template(appearance));
     if (player != NULL) {
         *(s16 *)((u8 *)player + 0x324) = 6;
         send_6x24_teleport_player(slot, pos, heading);
@@ -4779,10 +4776,7 @@ void qst_op_npc_crptalk(u8 first) {
     injured = qst_registers[i++];
     appearance = qst_registers[i++];
     TLobby::free_luker_object();
-    player = (TObjPlayer *)TObject::operator new(0xDB8);
-    if (player != NULL) {
-        player = (TObjPlayer *)player->construct_player_instance((saddr)tl_03, 3, 6, load_npc_player_template(appearance));
-    }
+    player = new TObjPlayer((TObject *)tl_03, 3, 6, load_npc_player_template(appearance));
     if (player != NULL) {
         *(s16 *)((u8 *)player + 0x324) = 6;
         send_6x24_teleport_player(3, pos, heading);
