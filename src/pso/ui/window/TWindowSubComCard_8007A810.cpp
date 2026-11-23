@@ -14,14 +14,13 @@
 extern "C" {
 
 void TWindowSubComCard::set_card_text(saddr src) {
-    saddr arg0 = (saddr)this;
-    u8 *entry;
+    GuildCardSlot *slot;
 
     if (src != 0) {
-        entry = ((u8 * (*)(void *))get_card_entry__17TWindowSubComCardFi)((void *)arg0);
-        if (entry != NULL) {
-            strncpy((char *)(entry + 0x94), (const char *)src, 0x6B);
-            *(s8 *)((s8 *)entry + 0xFF) = 0;
+        slot = get_card_entry__17TWindowSubComCardFi(static_cast<s32>(reinterpret_cast<saddr>(this)));
+        if (slot != NULL) {
+            strncpy(slot->note, reinterpret_cast<const char *>(src), 0x6B);
+            slot->note[0x6B] = 0;
         }
     }
 }
