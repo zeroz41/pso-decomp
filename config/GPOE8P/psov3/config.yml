@@ -4752,7 +4752,7 @@ force_active:
   - calc_damage__11TTecRaZondeFv
   - calc_death_slide_speed__14TObjEneBm5WolfFPvf
   - calc_digit_count__18TWindowInputNumberFv
-  - calc_digit_transform__17TDuelEffectNumberFlPfPfl
+  - calc_scale_and_alpha__17TDuelEffectStringFPfPfl
   - calc_dir_angles__9TBoss6MagFPlPlP3Vec
   - calc_distance_accuracy_penalty__11TOVS2Wall01FPvPvPvf
   - calc_distance_accuracy_penalty__13TUnk_8048E1A4FPvPvPvf
@@ -4763,7 +4763,7 @@ force_active:
   - calc_drop_item__9TItemDropFiPvi
   - calc_drop_offset__9TItemDropFl
   - calc_drop_rarity__9TItemDropFiiPv
-  - calc_duel_number_uv__FlPUcl
+  - calc_digit_uv__17TDuelEffectNumberFP14QuadSpriteRectl
   - calc_field4f0_delta__11TBoss6Type2Fv
   - calc_follow_camera_offsets__12TBoss1DragonFP3VecP3Vec
   - calc_follow_goal__10TNpcPlayerFv
@@ -6347,7 +6347,7 @@ force_active:
   - fn_800779FC
   - __sinit_text_8007A6C8_cpp
   - copy_graph_sample__FP14TDLGraphSampleP14TDLGraphSample
-  - fn_8007FE78
+  - draw_digit_quad__17TDuelEffectNumberFP14QuadSpriteRectPffff
   - canadin_capture_node_points
   - order_activation_now__17TObjEneMe1CanadinFv
   - get_attacking_target__17TObjEneMe1CanadinFv
@@ -16168,8 +16168,8 @@ force_active:
   - sub_80072B70__18TObjChallengeRetryFv
   - sub_80072BB0__18TObjChallengeRetryFv
   - sub_8007313C__18TObjChallengeRetryFv
-  - sub_8007FF28__17TDuelEffectNumberFl
-  - sub_8007FFF4__17TDuelEffectNumberFl
+  - draw_echo__17TDuelEffectNumberFP14QuadSpriteRect
+  - draw_digit__17TDuelEffectNumberFP14QuadSpriteRect
   - detach__18TObjEneBalClawClawFv
   - update_wait__18TObjEneBalClawClawFv
   - update_attack_collision__21TObjEneRe7BeruraPunchFv

@@ -3,12 +3,12 @@
 #include "pso/unk/text_8034D3D0.h"
 #include "pso/system/vector.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/effect/TDuelEffectString.h"
 typedef struct Vec4_8034D500 {
     f32 x, y, z, w;
 } Vec4_8034D500;
 
 extern "C" {
-f32 TBoss8Dragon__sub_8008072C(f32, f32);
 s32 calc_binomial_coefficient__12TBoss8DragonFll(int, int);
 s32 eval_bezier_curve__12TBoss8DragonFPviiPvf(Vec4_8034D500 *pts, s32 count, s32 closed, Vec *out, f32 t);
 struct Entry_8034D3D0 {
@@ -64,8 +64,8 @@ s32 eval_bezier_curve__12TBoss8DragonFPviiPvf(Vec4_8034D500 *pts, s32 count, s32
     if (closed == 0) {
         for (i = 0; i <= n; i++) {
             k = calc_binomial_coefficient__12TBoss8DragonFll(n, i);
-            a = TBoss8Dragon__sub_8008072C(t, (f32)i);
-            b = TBoss8Dragon__sub_8008072C(u, (f32)(n - i));
+            a = pow(t, (f32)i);
+            b = pow(u, (f32)(n - i));
             w = ((f32)k * a) * b;
             out->x += w * pts[i].x;
             out->y += w * pts[i].y;
@@ -75,8 +75,8 @@ s32 eval_bezier_curve__12TBoss8DragonFPviiPvf(Vec4_8034D500 *pts, s32 count, s32
         m = n + 1;
         for (i = 0; i <= n; i++) {
             k = calc_binomial_coefficient__12TBoss8DragonFll(m, i);
-            a = TBoss8Dragon__sub_8008072C(t, (f32)i);
-            b = TBoss8Dragon__sub_8008072C(u, (f32)(m - i));
+            a = pow(t, (f32)i);
+            b = pow(u, (f32)(m - i));
             w = ((f32)k * a) * b;
             if (i == n) {
                 out->x += w * pts[0].x;

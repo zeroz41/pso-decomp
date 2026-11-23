@@ -3,19 +3,36 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
-extern const char *TDuelEffectString__class_name;
+extern const char *duel_effect_string_class_name;
 
+// One text quad of a duel banner: offset from the effect position (scaled with
+// it), size, and texel origin in the duel texture.
+struct DuelEffectQuad {
+    f32 x;
+    f32 y;
+    f32 w;
+    f32 h;
+    f32 u;
+    f32 v;
+};
+
+// The text banner of a duel: kind 0 when the start countdown runs out, kind 1
+// when the duel ends. It shrinks into place, fades, and lives for 30 frames.
 class TDuelEffectString : public TObject {
 public:
-    TDuelEffectString(TObject *arg1, void *arg2, void *arg3);
+    TDuelEffectString(TObject *parent, f32 *pos, s32 kind);
     virtual ~TDuelEffectString();
+    void draw_layout_quad(const DuelEffectQuad *quad, f32 scale);
+    void render_end_banner(f32 scale);
+    void render_start_banner(f32 scale);
+    void calc_scale_and_alpha(f32 *scale, f32 *alpha, s32 time);
     virtual void run_task();
     virtual void render();
-    // 0x1C: the screen position the ctor copies from its second argument; 0x24: its third argument.
-    // 0x28: frames since the effect started; run_task destroys it at 30.
-    f32 pad_1C[2];
-    void *pad_24;
-    s32 pad_28;
+    f32 pos[2];  // screen position
+    s32 kind;
+    s32 timer;   // frames since the banner appeared
 };
+
+f32 pow(f32 x, f32 y);
 
 #endif
