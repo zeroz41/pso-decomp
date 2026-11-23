@@ -6,7 +6,7 @@
 
 struct TWindowSubStatusDisp;
 
-struct Scroll_8026D790;
+struct WindowScrollBar;
 
 struct TWindowSubSymbolChatParts : public TWindowAddition {
     virtual ~TWindowSubSymbolChatParts();
@@ -28,7 +28,7 @@ struct TWindowSubSymbolChatParts : public TWindowAddition {
     s32 *m_80;
     u8 _pad84[0x4];
     TWindowSubStatusDisp *m_88;
-    Scroll_8026D790 *scrollbar;
+    WindowScrollBar *scrollbar;
     void select_index_and_scroll(s32 index);
     void update_height();
     void open(s8 *selected_value);

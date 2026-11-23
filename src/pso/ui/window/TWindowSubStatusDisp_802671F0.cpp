@@ -1,7 +1,7 @@
 #include "pso/unk/TWindowLayoutEntry.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 #include "types.h"
-#include "pso/ui/window/Scroll_8026D790.h"
+#include "pso/ui/window/WindowScrollBar.h"
 #include "pso/ui/ItemListRow.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/system/ControllerInputState.h"
@@ -146,7 +146,7 @@ WindowDescriptor lbl_804D0604 = {
     {0.0f, 0.0f}, 50050.0f, lbl_804D05F8, 3,
 };
 
-s32 clamp_list_scroll_offset(Scroll_8026D790 *scroll, void *offset, NJS_POINT2 *range);
+s32 clamp_list_scroll_offset(WindowScrollBar *scroll, void *offset, NJS_POINT2 *range);
 s32 get_cursor_pos__14TWindowSubItemFv();
 s32 init_entry__20TWindowSubStatusDispFScScUcUll(s32, u8, u8, int, s32, s32);
 void fn_80266BD0(s32 index, u8 *first, u8 *second, s32 player);
@@ -177,7 +177,7 @@ void TWindowMenuIconLine::calc_content_extent() {
             v.x -= 5.0f;
         }
         v.y = (f32) (s->count * 20 - 2);
-        ((Scroll_8026D790 *)(s->scrollbar))->copy_position(&v);
+        ((WindowScrollBar *)(s->scrollbar))->copy_position(&v);
     }
 }
 
@@ -190,7 +190,7 @@ void TWindowSubStatusDisp::clamp_scroll_offset() {
         if ((u32) *(u32 *)((s8 *)arg0 + 0x80) != 0U) {
             range.y -= 6.0f;
         }
-        clamp_list_scroll_offset(*(Scroll_8026D790 **)((s8 *)arg0 + 0x84), &this->m_68, &range);
+        clamp_list_scroll_offset(*(WindowScrollBar **)((s8 *)arg0 + 0x84), &this->m_68, &range);
     }
 }
 
@@ -528,7 +528,7 @@ void TWindowMenuIconLine::create_menu_scroll_bar() {
     if (this->scroll_bar == NULL) {
         size.x = this->target_size[0] - 8.0f;
         size.y = 0.0f;
-        this->scroll_bar = new Scroll_8026D790(&size);
+        this->scroll_bar = new WindowScrollBar(&size);
         this->window_flags |= 0x80;
     }
 }

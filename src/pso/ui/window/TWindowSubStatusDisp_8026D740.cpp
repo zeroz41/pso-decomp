@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/ui/window/Scroll_8026D790.h"
+#include "pso/ui/window/WindowScrollBar.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
@@ -25,10 +25,10 @@ struct Ctx_8026D790 {
 
 extern "C" {
 void __dl__FPv(void);
-void draw_window_scrollbar(Scroll_8026D790 *scroll, Ctx_8026D790 *c, f32 *offset);
+void draw_window_scrollbar(WindowScrollBar *scroll, Ctx_8026D790 *c, f32 *offset);
 extern void *hud_texlist;
 
-s32 clamp_list_scroll_offset(Scroll_8026D790 *scroll, NJS_POINT2 *offset, NJS_POINT2 *range) {
+s32 clamp_list_scroll_offset(WindowScrollBar *scroll, NJS_POINT2 *offset, NJS_POINT2 *range) {
     f32 room;
     if (scroll->height < range->y || offset->y < 0.0f) {
         offset->y = 0.0f;
@@ -43,7 +43,7 @@ s32 clamp_list_scroll_offset(Scroll_8026D790 *scroll, NJS_POINT2 *offset, NJS_PO
 }
 }
 
-void draw_window_scrollbar(Scroll_8026D790 *scroll, Ctx_8026D790 *c, f32 *offset) {
+void draw_window_scrollbar(WindowScrollBar *scroll, Ctx_8026D790 *c, f32 *offset) {
     TexturedQuad q;
     f32 depth;
     f32 x;
@@ -109,7 +109,7 @@ s32 TWindowSubStatusDisp::destroy_allocation(s32 arg0, s16 arg1) {
     return arg0;
 }
 
-Scroll_8026D790::Scroll_8026D790(void *pair) {
+WindowScrollBar::WindowScrollBar(void *pair) {
     copy_position(pair);
     frame = 0;
 }

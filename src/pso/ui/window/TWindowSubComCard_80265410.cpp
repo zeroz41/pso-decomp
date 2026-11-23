@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/ui/window/WindowMenuFactory.h"
-#include "pso/ui/window/Scroll_8026D790.h"
+#include "pso/ui/window/WindowScrollBar.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
@@ -119,7 +119,7 @@ void TWindowSubComCardList::update_scroll_target_position() {
     if (window_menu != NULL) {
         position[0] = ((this->frame_size[0]) - 4.0f) - 9.0f;
         position[1] = (f32) ((*(s16 *)&this->m_72 * 0x14) - 2);
-        ((Scroll_8026D790 *)window_menu)->copy_position(position);
+        ((WindowScrollBar *)window_menu)->copy_position(position);
     }
 }
 
@@ -144,7 +144,7 @@ void TWindowSubComCardList::sub_8026556C() {
         extent_x = this->target_size[0] - 8.0f;
         extent[1] = 0.0f;
         extent[0] = extent_x;
-        this->scroll_bar = reinterpret_cast<uaddr>(new Scroll_8026D790(extent));
+        this->scroll_bar = reinterpret_cast<uaddr>(new WindowScrollBar(extent));
         this->window_flags = (s32) (this->window_flags | 0x80);
     }
 }
@@ -759,7 +759,7 @@ TWindowMenu::TWindowMenu(u32 count, s32 client, saddr parent) : TWindowAddition(
     #undef window_menu
 }
 
-void Scroll_8026D790::copy_position(void *pair) {
+void WindowScrollBar::copy_position(void *pair) {
     f32 *point = static_cast<f32 *>(pair);
     m_0 = point[0];
     height = point[1];

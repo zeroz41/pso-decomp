@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/ui/window/Scroll_8026D790.h"
+#include "pso/ui/window/WindowScrollBar.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/system/ControllerInputState.h"
@@ -303,7 +303,7 @@ TWindowSubCustomSelect::TWindowSubCustomSelect(s32 client)
     *(void **)((s8 *)this + 0x7C) = o;
     pos.x = 196.0f;
     pos.y = 51.0f * (f32)(s8)m_72 + 18.0f;
-    o = new Scroll_8026D790(&pos);
+    o = new WindowScrollBar(&pos);
     *(void **)((s8 *)this + 0x80) = o;
 }
 #pragma pop
