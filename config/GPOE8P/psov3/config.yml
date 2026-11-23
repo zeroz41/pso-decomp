@@ -253,7 +253,7 @@ force_active:
   - close_if_open
   - copy_target_state__17TObjEneBm3FlyNestFl
   - count_leading_entries__22TQuestVmDownLoadServerFll
-  - find_longest_match_entry__22TQuestVmDownLoadServerFPviPv
+  - find_longest_match_entry__22TQuestVmDownLoadServerFPUclPl
   - get_rcv_bufsize
   - get_rcv_count
   - get_rcv_space

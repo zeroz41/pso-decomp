@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/save/CardFileInfo.h"
 #include <string.h>
 #include "pso/network/TGameProtocol.h"
 #include "pso/network/protocol/packet_classes.h"
@@ -120,7 +121,6 @@ s32 clear_keyboard_key_state();
 int request_main_phase(int);
 s32 TLobby__sub_8006EF90();
 s8 func_801A5E54__Fv();
-s32 poll_memcard_result(int);
 s32 func_803DCDFC__Fv();
 s32 cleanup__6TLobbyFv();
 s32 PPCSync();

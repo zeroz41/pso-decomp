@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/save/CardFileInfo.h"
 #include "types.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/item/shop/TShopGenerator.h"
@@ -74,7 +75,6 @@ f32 xyz_distance_squared(u8 *arg0, u8 *arg1);
 f32 vec3_dot(void *, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
 int is_flag_400_set__10TObjPlayerFPv(void *p);
-s32 poll_memcard_result(saddr);
 extern s32 lbl_805D55C0;
 // run_task reads the bool through an int-returning call (no clrlwi after either call); kept as found.
 bool is_player_in_service_range__14TShopGeneratorFPUcf(u8 *self, u8 *player, f32 range);

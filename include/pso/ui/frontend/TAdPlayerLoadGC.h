@@ -26,6 +26,8 @@ extern CardRequestSlot load_request_slots[2];
 
 // Memory-card watcher of the character-select screens: run_task steps through the probe,
 // mount and file checks of slot A and, depending on mode, of slot B.
+struct CardFileInfo;
+
 class TAdPlayerLoadGC : public TObject {
 public:
     TAdPlayerLoadGC(TObject *parent, int mode);
@@ -66,7 +68,7 @@ public:
     static s32 take_card_find_result(s32 card_channel, s32 *card_detail);
 public:
     static s32 request_card_find(s32 card_channel, const char *arg1);
-    static s32 get_card_file_info(int, void *, void *);
+    static s32 get_card_file_info(s32 channel, const char *name, CardFileInfo *info);
     // Defined at the end of TAdChrSelASlotGC.cpp, its only user (the original's last function there).
     s32 get_slot_index();
 

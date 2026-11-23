@@ -78,7 +78,7 @@ s32 lbl_805D4AD0;
 s32 tmp_buf_in_use_flag;
 u8 *bml_load_buffer;
 AdxfHandle *lobby_bml_file_handle;
-BmlArchiveHeader *lbl_805D4AE0;
+BmlArchiveHeader *bml_archive_header;
 BmlArchiveEntry * bml_header_record_ptr;
 s32 bml_load_entry_index;
 u8 * lobby_bml_read_buffer;
@@ -201,7 +201,7 @@ s32 TLobby::load_bml_exec(BmlResource *bml, const char *name) {
     s32 n;
     switch (bml->load_state) {
     case 0:
-        lbl_805D4AE0 = NULL;
+        bml_archive_header = NULL;
         if (bml->flags & 0x200) {
             bml->load_state = 9;
             break;
@@ -218,10 +218,10 @@ s32 TLobby::load_bml_exec(BmlResource *bml, const char *name) {
         if (n > 0x4000) {
             debug_printf_nop("TOO LARGE BMLHEAD SIZE(%08x)", n);
         }
-        lbl_805D4AE0 = reinterpret_cast<BmlArchiveHeader *>(bml_load_buffer);
-        bml_header_record_ptr = lbl_805D4AE0->recs;
+        bml_archive_header = reinterpret_cast<BmlArchiveHeader *>(bml_load_buffer);
+        bml_header_record_ptr = bml_archive_header->recs;
         ADXF_ReadNw(lobby_bml_file_handle, (s32)n, bml_load_buffer);
-        TLobby::set_read_params(&lobby_bml_file_handle, (int)n, reinterpret_cast<saddr>(lbl_805D4AE0));
+        TLobby::set_read_params(&lobby_bml_file_handle, (int)n, reinterpret_cast<saddr>(bml_archive_header));
         bml->load_state = 1;
     case 1:
         if (bml->flags & 0x200) {
@@ -230,7 +230,7 @@ s32 TLobby::load_bml_exec(BmlResource *bml, const char *name) {
             bml->load_state = 9;
         } else if (ADXF_GetStat(lobby_bml_file_handle) == 3) {
             TLobby::reset_read_state();
-            switch (lbl_805D4AE0->compressed) {
+            switch (bml_archive_header->compressed) {
             case 0x50:
                 bml_load_state = 1;
                 break;
@@ -311,7 +311,7 @@ s32 TLobby::load_bml_exec(BmlResource *bml, const char *name) {
         } else {
             TLobby::reset_read_state();
             ADXF_Close(lobby_bml_file_handle);
-            bml_header_record_ptr = lbl_805D4AE0->recs;
+            bml_header_record_ptr = bml_archive_header->recs;
             bml->load_state = 6;
         }
         break;
@@ -397,11 +397,11 @@ s32 TLobby::load_bml_exec(BmlResource *bml, const char *name) {
         bml->load_state = 0xA;
     case 10:
         TLobby::tmp_buf_release("LoadBmlExec");
-        lbl_805D4AE0 = NULL;
+        bml_archive_header = NULL;
         return 1;
     case 11:
         TLobby::tmp_buf_release("LoadBmlExec");
-        lbl_805D4AE0 = NULL;
+        bml_archive_header = NULL;
         return -1;
     }
     return 0;

@@ -1,4 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/save/CardSaveFile.h"
+#include "pso/system/save/CardFileInfo.h"
 #include "types.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
@@ -52,8 +54,6 @@ struct Self_8036E2AC {
 
 extern "C" {
 s32 load_system_file(s32 arg0);
-s32 poll_memcard_result(saddr);
-extern RecoveredGlobal_8036E8DC_lbl_804C88C0 pso_character_card_filename;
 void *create_window_menu_default(void *, s32);
 void TKeyBoardControl__sub_8000F90C(s32 arg0);
 
@@ -509,7 +509,7 @@ s32 TAdSinglePlyChrSelectGC::check_system_file_status() {
     if (TAdPlayerLoadGC::check_memcard_status(0) != 0) {
         return 4;
     }
-    if ((TAdPlayerLoadGC::find_card_file(0, (const char *)&pso_character_card_filename.value) != 0) || (TAdPlayerLoadGC::find_card_file(0, pso_guildcard_card_filename.filename) != 0) || (TAdPlayerLoadGC::find_card_file(0, pso_system_card_filename) != 0)) {
+    if ((TAdPlayerLoadGC::find_card_file(0, pso_character_card_filename.filename) != 0) || (TAdPlayerLoadGC::find_card_file(0, pso_guildcard_card_filename.filename) != 0) || (TAdPlayerLoadGC::find_card_file(0, pso_system_card_filename) != 0)) {
         return 8;
     }
     return 0;

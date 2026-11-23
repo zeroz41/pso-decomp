@@ -32,6 +32,25 @@ struct GuildCardFile_804C89BC {
     u32 download_flags;
 };
 
+struct CharacterCardMetadata {
+    char filename[0x20];
+    char comment[0x20];
+    u32 flags;
+    u8 icon[0x10];
+};
+
+struct EpisodeCardMetadata {
+    char game_name[0x14];
+    char comment[0x20];
+    u32 flags;
+    u8 icon[0x10];
+};
+
+LAYOUT_ASSERT(CharacterCardMetadata_size, sizeof(CharacterCardMetadata) == 0x54);
+LAYOUT_ASSERT(EpisodeCardMetadata_size, sizeof(EpisodeCardMetadata) == 0x48);
+
+extern "C" CharacterCardMetadata pso_character_card_filename;
+extern "C" EpisodeCardMetadata episode_i_and_ii_card_filename;
 extern GuildCardFile_804C89BC pso_guildcard_card_filename;
 // The memory card file name of the system save, "PSO_SYSTEM".
 extern "C" char pso_system_card_filename[0x20];

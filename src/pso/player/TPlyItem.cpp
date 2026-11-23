@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/save/CardFileInfo.h"
 #include "pso/item/InventoryEntryCopy.h"
 #include "types.h"
 #include "pso/player/TPlyCharData.h"
@@ -55,7 +56,6 @@ struct Actor_801D3E20 {
 };
 struct Ground_801D3C38 { u8 pad0[4]; Vec *pos; };
 extern "C" {
-s32 poll_memcard_result(saddr);
 // The callers sign-extend the result (extsb), the header's member returns u8.
 extern void *tl_07;
 void *find_placement_obstruction(void *self, CollisionBodySet *s);

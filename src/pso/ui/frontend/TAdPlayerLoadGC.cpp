@@ -1,5 +1,7 @@
 // Built with -inline off,deferred: the functions are generated in reverse source order, so
 // they are defined here from the last one in .text to the first.
+#include "pso/system/save/CardSaveFile.h"
+#include "pso/system/save/CardFileInfo.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/item/TItem.h"
@@ -11,9 +13,6 @@
 const char *TAdPlayerLoadGC__class_name = "TAdPlayerLoadGC";
 
 extern "C" {
-s32 poll_memcard_result(saddr chan);
-extern char pso_character_card_filename[];
-extern char pso_system_card_filename[];
 extern int TAdPlayerLoadGC__load_state;
 extern int TAdChrSelBSlotGC__global_state;
 }
@@ -66,12 +65,12 @@ void TAdPlayerLoadGC::run_task() {
         }
         break;
     case 5:
-        if ((u32)find_card_file(0, pso_character_card_filename) != 0xFFFFFF41U) {
+        if ((u32)find_card_file(0, pso_character_card_filename.filename) != 0xFFFFFF41U) {
             state = 6U;
         }
         break;
     case 6:
-        if ((find_card_file(0, pso_character_card_filename) == 0) && (get_instance() == 0)) {
+        if ((find_card_file(0, pso_character_card_filename.filename) == 0) && (get_instance() == 0)) {
             state = 7U;
         }
         break;
@@ -142,14 +141,14 @@ void TAdPlayerLoadGC::run_task() {
     case 18:
         if (probe_card_slot(1) == 0) {
             state = 0xDU;
-        } else if ((u32)find_card_file(1, pso_character_card_filename) != 0xFFFFFF41U) {
+        } else if ((u32)find_card_file(1, pso_character_card_filename.filename) != 0xFFFFFF41U) {
             state = 0x13U;
         }
         break;
     case 19:
         if (probe_card_slot(1) == 0) {
             state = 0xDU;
-        } else if ((find_card_file(1, pso_character_card_filename) == 0) && (get_instance() == 0)) {
+        } else if ((find_card_file(1, pso_character_card_filename.filename) == 0) && (get_instance() == 0)) {
             state = 0x14U;
         }
         break;
@@ -163,7 +162,7 @@ void TAdPlayerLoadGC::run_task() {
     case 21:
         if (probe_card_slot(1) == 0) {
             state = 0xDU;
-        } else if ((find_card_file(1, pso_character_card_filename) == 0) && ((u32)TAdSinglePlyChrSelectGC::check_system_load_result() != 0xFFFFFF05U)) {
+        } else if ((find_card_file(1, pso_character_card_filename.filename) == 0) && ((u32)TAdSinglePlyChrSelectGC::check_system_load_result() != 0xFFFFFF05U)) {
             state = 0x16U;
         }
         break;

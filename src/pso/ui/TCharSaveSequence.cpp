@@ -1,4 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/save/CardSaveFile.h"
+#include "pso/system/save/CardFileInfo.h"
 #include "pso/unk/TScreenFadeOut.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/system/task/TMainTask.h"
@@ -68,11 +70,7 @@ extern void *character_select_scene_resource_callbacks[];
 int create_window_menu_default(void*, void*);
 u32 __nw__7TObjectFUl(int);
 
-s32 get_card_file_info__15TAdPlayerLoadGCFiPvPv(int, void *, int);
-extern char pso_guildcard_card_filename[];
-extern char pso_character_card_filename[];
 s32 start_memcard_read(s32, void *, u32, s32);
-s32 poll_memcard_result(saddr);
 
 
 s8 func_801A5E54__Fv();
@@ -185,7 +183,7 @@ void TCharSaveSequence::update_setup() {
 }
 
 void TCharSaveSequence::check_memcard_space() {
-    switch (get_card_file_info__15TAdPlayerLoadGCFiPvPv(chr_select_state, pso_guildcard_card_filename, 0)) {
+    switch (TAdPlayerLoadGC::get_card_file_info(chr_select_state, pso_guildcard_card_filename.filename, 0)) {
     case 0:
         state = 7;
         break;
@@ -290,10 +288,10 @@ void TCharSaveSequence::handle_load_result() {
 }
 
 void TCharSaveSequence::start_character_read() {
-    switch (get_card_file_info__15TAdPlayerLoadGCFiPvPv(chr_select_state, pso_character_card_filename, 0)) {
+    switch (TAdPlayerLoadGC::get_card_file_info(chr_select_state, pso_character_card_filename.filename, 0)) {
     case 0:
         if (download_buffer != 0) {
-            switch (start_memcard_read(chr_select_state, pso_character_card_filename, (uaddr)download_buffer, flag_count)) {
+            switch (start_memcard_read(chr_select_state, pso_character_card_filename.filename, (uaddr)download_buffer, flag_count)) {
             case 0:
                 state = 3;
                 break;

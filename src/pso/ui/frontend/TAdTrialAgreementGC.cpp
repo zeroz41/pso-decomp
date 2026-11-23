@@ -1,3 +1,4 @@
+#include "pso/system/save/CardFileInfo.h"
 #include "types.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/system/main_loop.h"
@@ -35,7 +36,6 @@
 
 extern "C" {
 
-s32 poll_memcard_result(saddr);
 
 void TAdTrialAgreementGC::render() {
     check_main_task_state();

@@ -1,4 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/save/CardSaveFile.h"
+#include "pso/system/save/CardFileInfo.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
@@ -45,8 +47,6 @@ struct SaveChCrMessageText {
 };
 
 extern "C" {
-extern s32 pso_character_card_filename[];
-s32 poll_memcard_result(saddr);
 s32 poll_memcard_status__23TAdSinglePlyChrSelectGCFv();
 extern void *tl_03;
 }
@@ -108,7 +108,7 @@ void TSaveChCr::fn_80339D78() {
     }
 }
 s32 TSaveChCr::sub_80339DBC() {
-    if ((TAdPlayerLoadGC::find_card_file(0, pso_system_card_filename) != 0) || (TAdPlayerLoadGC::find_card_file(0, (const char *)(pso_character_card_filename)) != 0) || (TAdPlayerLoadGC::find_card_file(0, pso_guildcard_card_filename.filename) != 0)) {
+    if ((TAdPlayerLoadGC::find_card_file(0, pso_system_card_filename) != 0) || (TAdPlayerLoadGC::find_card_file(0, pso_character_card_filename.filename) != 0) || (TAdPlayerLoadGC::find_card_file(0, pso_guildcard_card_filename.filename) != 0)) {
         return 0;
     }
     return 1;

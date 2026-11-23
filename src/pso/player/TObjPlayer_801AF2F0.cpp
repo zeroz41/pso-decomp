@@ -1,3 +1,4 @@
+#include "pso/system/save/CardFileInfo.h"
 #include "pso/player/TPlyInventory.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/player/PlayerLevelTable.h"
@@ -1368,7 +1369,6 @@ u8 fn_801D71D0(s32 *);
 u8 fn_801D7204(s32 *);
 s32 TObjPlayer__sub_801D91B8(void *, void *);
 void update_all_units__10TObjPlayerFll(void *, u8);
-s32 poll_memcard_result(saddr);
 s32 is_item_area_enabled(s32 area);
 s32 __ct__17TMedicalCenterMesFP7TObjectP10TObjPlayer(void *, void *, void *);
 s32 play_sound_effect(s32, saddr, s32, s32);

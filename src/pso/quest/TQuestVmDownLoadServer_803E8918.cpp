@@ -134,35 +134,35 @@ inline s32 NameRecordId_80591EC8(QuestDownloadNameCacheImage *cache, void *rec) 
     return ((off / 1024) << 12) | (off % 1024);
 }
 
-s32 TQuestVmDownLoadServer::lookup_name_entry(s16 name_len, Out_803E8C2C *out) {
+s32 TQuestVmDownLoadServer::lookup_name_entry(char *name, s16 name_len, QuestNameLookupResult *out) {
     QuestDownloadCachedNameNode *n;
     s32 r;
     u8 len;
     u8 *e;
-    for (n = lbl_80593EC8.heads[Hash_80591EC8(((char *)this))]; n != NULL; n = n->next) {
+    for (n = lbl_80593EC8.heads[Hash_80591EC8(name)]; n != NULL; n = n->next) {
         e = n->encodedRecord;
         len = e[2];
-        r = strncmp((char *)(e + 3), ((char *)this), (s16)len);
+        r = strncmp((char *)(e + 3), name, (s16)len);
         if (r == 0) {
             if ((s16)len == name_len) {
                 break;
             }
         } else if (r > 0) {
-            out->id = -1;
+            out->record_id = -1;
             return 0;
         }
     }
     if (n == NULL) {
-        out->id = -1;
+        out->record_id = -1;
         return 0;
     }
-    out->a = 0;
-    out->id = NameRecordId_80591EC8(&lbl_80591EC8, e);
+    out->page_index = 0;
+    out->record_id = NameRecordId_80591EC8(&lbl_80591EC8, e);
     out->encodedRecord = e;
     return 1;
 }
 
-s32 lookup_name_prefix(char *name, s16 name_len, Out_803E8C2C *out) {
+s32 lookup_name_prefix(char *name, s16 name_len, QuestNameLookupResult *out) {
     QuestDownloadCachedNameNode *n;
     u8 *e;
     s16 len;
@@ -173,8 +173,8 @@ s32 lookup_name_prefix(char *name, s16 name_len, Out_803E8C2C *out) {
     s16 m;
     blen = 0;
     pre = 0;
-    out->pre = 0;
-    out->len = 0;
+    out->prefix_length = 0;
+    out->match_length = 0;
     for (n = lbl_80593EC8.heads[Hash_80591EC8(name)]; n != NULL; n = n->next) {
         e = n->encodedRecord;
         len = e[2];
@@ -197,13 +197,13 @@ s32 lookup_name_prefix(char *name, s16 name_len, Out_803E8C2C *out) {
         }
     }
     if (blen == 0) {
-        out->id = -1;
+        out->record_id = -1;
         return 0;
     }
-    out->a = 0;
-    out->id = NameRecordId_80591EC8(&lbl_80591EC8, found);
-    out->len = blen;
-    out->pre = pre;
+    out->page_index = 0;
+    out->record_id = NameRecordId_80591EC8(&lbl_80591EC8, found);
+    out->match_length = blen;
+    out->prefix_length = pre;
     out->encodedRecord = found;
     return 1;
 }
@@ -275,17 +275,17 @@ s32 store_name_record(char *name, QuestDownloadRequest *req, s32 attr) {
     return 0;
 }
 
-void TQuestVmDownLoadServer::append_message_text(s32 size, QuestDownloadRequest *msg, u8 attr) {
+void TQuestVmDownLoadServer::append_message_text(u8 *record, s32 size, QuestDownloadRequest *msg, u8 attr) {
     u16 cur;
     s32 v;
     u8 *p;
     u8 *s;
-    cur = ((u8 *)this)[0];
-    cur += ((u8 *)this)[1] << 8;
+    cur = record[0];
+    cur += record[1] << 8;
     v = size + cur;
-    ((u8 *)this)[0] = v % 256;
-    ((u8 *)this)[1] = v / 256;
-    p = ((u8 *)this) + cur;
+    record[0] = v % 256;
+    record[1] = v / 256;
+    p = record + cur;
     *p++ = msg->x7;
     *p++ = attr;
     if (msg->x8 != 0 || msg->x7 >= 0x2D) {
@@ -312,7 +312,7 @@ inline void CopyText_803E9190(u8 *s, u8 *p) {
         *p++ = *s++;
     }
 }
-void build_message_packet__22TQuestVmDownLoadServerFPviPvUc(u8 *p, s32 size, QuestDownloadRequest *msg, u8 attr) {
+void TQuestVmDownLoadServer::build_message_packet(u8 *p, s32 size, QuestDownloadRequest *msg, u8 attr) {
     u8 unused[8];
     *p++ = size % 256;
     *p++ = size / 256;
@@ -327,8 +327,8 @@ void build_message_packet__22TQuestVmDownLoadServerFPviPvUc(u8 *p, s32 size, Que
     CopyText_803E9190(msg->text, p);
 }
 
-s32 TQuestVmDownLoadServer::calc_text_length() {
-    QuestDownloadRequest *msg = (QuestDownloadRequest *)this;
+s32 QuestDownloadRequest::calc_text_length() const {
+    const QuestDownloadRequest *msg = this;
     s32 n;
     u8 *p;
     s32 extra;
@@ -350,8 +350,8 @@ s32 TQuestVmDownLoadServer::calc_text_length() {
     return extra + n;
 }
 
-s32 TQuestVmDownLoadServer::calc_message_length() {
-    QuestDownloadRequest *msg = (QuestDownloadRequest *)this;
+s32 QuestDownloadRequest::calc_message_length() const {
+    const QuestDownloadRequest *msg = this;
     s32 n;
     u8 *p;
     s32 extra;
@@ -427,13 +427,13 @@ inline QuestDownloadCachedNameNode *find_cached_name_link(
 }
 #pragma push
 #pragma inline_depth(2)
-inline s32 read_name_image_bytes(void *file, u8 *image, s32 length) {
-    return ((TQuestVmDownLoadServer *)file)->aram_read_thunk((uaddr)image, length);
+inline s32 read_name_image_bytes(s32 handle, u8 *image, s32 length) {
+    return TQuestVmDownLoadServer::aram_read_thunk(handle, image, length);
 }
 // Keep the fixed cache-image read distinct from its byte-count adapter; their
 // native inline lifetimes also determine the rebuild name-buffer offset.
-inline s32 read_cached_name_image(void *file, u8 *image) {
-    return (s32)read_name_image_bytes(file, image, 0x2000);
+inline s32 read_cached_name_image(s32 handle, u8 *image) {
+    return read_name_image_bytes(handle, image, 0x2000);
 }
 #pragma pop
 
@@ -447,7 +447,11 @@ inline s32 read_cached_name_image(void *file, u8 *image) {
 #pragma opt_common_subs off
 
 s32 load_name_cache_image(void) {
-    char name[0x50];
+    // Keep the decoded name at the retail stack offset.
+    union {
+        char name[0x50];
+        f64 alignment;
+    } scratch;
     u8 *pageStart;
     u8 *record;
     s32 page;
@@ -460,7 +464,7 @@ s32 load_name_cache_image(void) {
         return -1;
     }
     s32 readCount = (s32)read_cached_name_image(
-            (void *)quest_download_file_handle, reinterpret_cast<u8 *>(&lbl_80591EC8));
+            quest_download_file_handle, reinterpret_cast<u8 *>(&lbl_80591EC8));
     if (readCount != 0x2000) {
         return -1;
     }
@@ -471,9 +475,9 @@ s32 load_name_cache_image(void) {
              record += (u16)(record[0] + (record[1] << 8))) {
             len = record[2];
             if ((s16)len != 0) {
-                strncpy(name, (const char *)(record + 3), (s16)len);
-                name[(s16)len] = 0;
-                node = find_cached_name_link(name, cacheAddress, len, link);
+                strncpy(scratch.name, (const char *)(record + 3), (s16)len);
+                scratch.name[(s16)len] = 0;
+                node = find_cached_name_link(scratch.name, cacheAddress, len, link);
                 if (lbl_805D7878 == NULL) {
                     rotate_cache_page();
                 }

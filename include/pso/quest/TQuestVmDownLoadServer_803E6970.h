@@ -8,7 +8,6 @@ struct QuestDownloadEntryNode;
 
 extern "C" {
 void Add_803EB8BC(u8 *key, s32 len);
-u32 Call_803EED0C(s32 a, s32 b, saddr c, s32 d);
 void CopyText_803E9190(u8 *s, u8 *p);
 s32 Copy_803EBD38(u8 *dst, u8 *src, s32 max);
 s32 Find_803EB8BC(u8 *key, s32 len);
@@ -33,10 +32,10 @@ s32 Open_803E8150(void);
 s32 Open_803E8624(void);
 void Reload_803EB0D8(void);
 s32 SeekRetry_803E7ACC(s32 pos);
-s32 Seek_803E7ACC(saddr h, s32 pos, s32 whence);
+s32 Seek_803E7ACC(s32 handle, s32 pos, s32 whence);
 s32 Seek_803E7B9C(s32 pos);
 s32 Seek_803E8150(s32 pos);
-s32 Seek_803E8624(saddr h, s32 pos, s32 whence);
+s32 Seek_803E8624(s32 handle, s32 pos, s32 whence);
 s32 TQuestVmDownLoadServer__sub_803E6970(s32 start, s32 count, u16 *buf, s32 flag);
 void TQuestVmDownLoadServer__sub_803E6ACC(s32 arg0);
 void TQuestVmDownLoadServer__sub_803E6B70(u8 *dst, s32 start, s32 count, s32 mode);
@@ -46,7 +45,7 @@ s32 TQuestVmDownLoadServer__sub_803E779C(u32 id, s32 *file_offset, s32 *cached_i
 s32 TQuestVmDownLoadServer__sub_803E8084(void);
 s32 TQuestVmDownLoadServer__sub_803E8150(void);
 s32 TQuestVmDownLoadServer__sub_803E86C8(void);
-s32 TQuestVmDownLoadServer__sub_803E8788(int quest_download_file_handle, void *pages, int _w2);
+s32 TQuestVmDownLoadServer__sub_803E8788(s32 handle, const void *src, s32 size);
 void mark_name_cache_dirty(void);
 void save_name_cache(void);
 s32 TQuestVmDownLoadServer__sub_803E9F54(s32 arg0);
@@ -61,25 +60,22 @@ s32 TQuestVmDownLoadServer__sub_803EDB20(u8 ch);
 s32 TQuestVmDownLoadServer__sub_803EDB3C(u8 ch);
 s32 TQuestVmDownLoadServer__sub_803EDB58(u8 ch);
 s32 TQuestVmDownLoadServer__sub_803EDB74(u8 ch);
-s32 TQuestVmDownLoadServer__sub_803EED0C(s32 arg0, s32 arg1, s32 arg2);
+s32 TQuestVmDownLoadServer__sub_803EED0C(const u8 *input, s32 length, QuestDownloadTextRecord *output);
 s32 TQuestVmDownLoadServer__sub_803EED9C(u32 index);
 s32 TQuestVmDownLoadServer__sub_803F0048(s32 id, u8 key, u8 sub_key, void *dst);
 s32 TQuestVmDownLoadServer__sub_803F0890(void);
 s32 TQuestVmDownLoadServer__sub_803F08E4(s8 *quest_vm_down_load_server);
 s32 start_askdic(void);
-s32 aram_seek(void *handle, int offset, int whence);
-s32 aram_close(void *handle);
+s32 aram_seek(s32 handle, s32 offset, s32 whence);
+s32 aram_close(s32 handle);
 s32 aram_open(const char *name, s32 mode);
-void aram_dma_done(u8 *request);
 s32 Write_803E7B9C(void);
 s32 Write_803E8150(void);
-void *format_number_text__22TQuestVmDownLoadServerFiiPvi(saddr arg0, s32 arg1, void *arg2, s32 mode);
 }
 
 // --- C functions defined in TQuestVmDownLoadServer_803E6970.cpp ---
 extern "C" {
 void Add_803EB8BC(u8 *key, s32 len);
-u32 Call_803EED0C(s32 a, s32 b, saddr c, s32 d);
 void CopyText_803E9190(u8 *s, u8 *p);
 s32 Copy_803EBD38(u8 *dst, u8 *src, s32 max);
 s32 Find_803EB8BC(u8 *key, s32 len);
@@ -104,10 +100,10 @@ s32 Open_803E8150(void);
 s32 Open_803E8624(void);
 void Reload_803EB0D8(void);
 s32 SeekRetry_803E7ACC(s32 pos);
-s32 Seek_803E7ACC(saddr h, s32 pos, s32 whence);
+s32 Seek_803E7ACC(s32 handle, s32 pos, s32 whence);
 s32 Seek_803E7B9C(s32 pos);
 s32 Seek_803E8150(s32 pos);
-s32 Seek_803E8624(saddr h, s32 pos, s32 whence);
+s32 Seek_803E8624(s32 handle, s32 pos, s32 whence);
 s32 TQuestVmDownLoadServer__sub_803E6970(s32 start, s32 count, u16 *buf, s32 flag);
 void TQuestVmDownLoadServer__sub_803E6ACC(s32 arg0);
 void TQuestVmDownLoadServer__sub_803E6B70(u8 *dst, s32 start, s32 count, s32 mode);
@@ -117,7 +113,7 @@ s32 TQuestVmDownLoadServer__sub_803E779C(u32 id, s32 *file_offset, s32 *cached_i
 s32 TQuestVmDownLoadServer__sub_803E8084(void);
 s32 TQuestVmDownLoadServer__sub_803E8150(void);
 s32 TQuestVmDownLoadServer__sub_803E86C8(void);
-s32 TQuestVmDownLoadServer__sub_803E8788(int quest_download_file_handle, void *pages, int _w2);
+s32 TQuestVmDownLoadServer__sub_803E8788(s32 handle, const void *src, s32 size);
 void mark_name_cache_dirty(void);
 void save_name_cache(void);
 s32 TQuestVmDownLoadServer__sub_803E9F54(s32 arg0);
@@ -132,19 +128,17 @@ s32 TQuestVmDownLoadServer__sub_803EDB20(u8 ch);
 s32 TQuestVmDownLoadServer__sub_803EDB3C(u8 ch);
 s32 TQuestVmDownLoadServer__sub_803EDB58(u8 ch);
 s32 TQuestVmDownLoadServer__sub_803EDB74(u8 ch);
-s32 TQuestVmDownLoadServer__sub_803EED0C(s32 arg0, s32 arg1, s32 arg2);
+s32 TQuestVmDownLoadServer__sub_803EED0C(const u8 *input, s32 length, QuestDownloadTextRecord *output);
 s32 TQuestVmDownLoadServer__sub_803EED9C(u32 index);
 s32 TQuestVmDownLoadServer__sub_803F0048(s32 id, u8 key, u8 sub_key, void *dst);
 s32 TQuestVmDownLoadServer__sub_803F0890(void);
 s32 TQuestVmDownLoadServer__sub_803F08E4(s8 *quest_vm_down_load_server);
 s32 start_askdic(void);
-s32 aram_seek(void *handle, int offset, int whence);
-s32 aram_close(void *handle);
+s32 aram_seek(s32 handle, s32 offset, s32 whence);
+s32 aram_close(s32 handle);
 s32 aram_open(const char *name, s32 mode);
-void aram_dma_done(u8 *request);
 s32 Write_803E7B9C(void);
 s32 Write_803E8150(void);
-void *format_number_text__22TQuestVmDownLoadServerFiiPvi(saddr arg0, s32 arg1, void *arg2, s32 mode);
 }
 // --- end of C functions
 

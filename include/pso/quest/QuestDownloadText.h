@@ -10,8 +10,17 @@ struct QuestDownloadInputEntry {
     s32 len;
 };
 
-// The request type tag is part of the existing append_message_text signature.
-struct Req_803EEF2C {
+// Header shared by decoded dictionary entries and generated numeric text.
+struct QuestDownloadTextRecord {
+    u16 key;
+    u16 attribute;
+    u8 extra;
+    u8 text[1];
+};
+LAYOUT_ASSERT(QuestDownloadTextRecordAttribute, offsetof(QuestDownloadTextRecord, attribute) == 2);
+LAYOUT_ASSERT(QuestDownloadTextRecordPayload, offsetof(QuestDownloadTextRecord, text) == 5);
+
+struct QuestDownloadRequest {
     char *name;
     s16 len;
     u8 pad6;
@@ -19,14 +28,17 @@ struct Req_803EEF2C {
     u8 x8;
     u8 pad9[3];
     u8 *text;
+    s32 calc_text_length() const;
+    s32 calc_message_length() const;
 };
-typedef Req_803EEF2C QuestDownloadRequest;
 
 LAYOUT_ASSERT(QuestDownloadInputEntrySize, sizeof(QuestDownloadInputEntry) == 8);
 LAYOUT_ASSERT(QuestDownloadInputEntryLength, offsetof(QuestDownloadInputEntry, len) == 4);
 LAYOUT_ASSERT(QuestDownloadRequestSize, sizeof(QuestDownloadRequest) == 0x10);
 LAYOUT_ASSERT(QuestDownloadRequestLength, offsetof(QuestDownloadRequest, len) == 4);
+LAYOUT_ASSERT(QuestDownloadRequestPad6, offsetof(QuestDownloadRequest, pad6) == 6);
 LAYOUT_ASSERT(QuestDownloadRequestKind, offsetof(QuestDownloadRequest, x7) == 7);
+LAYOUT_ASSERT(QuestDownloadRequestExtra, offsetof(QuestDownloadRequest, x8) == 8);
 LAYOUT_ASSERT(QuestDownloadRequestText, offsetof(QuestDownloadRequest, text) == 0xC);
 
 extern "C" {
@@ -51,7 +63,7 @@ u16 *get_entry_text(s32 start, s32 length);
 u8 *convert_all_entry_text(void);
 void free_slot_node_chain(s32 slot, s32 mode);
 s32 build_all_entry_text(void);
-s32 format_number_text_all_modes(s32 format, s32 mode, void *out, s32 *count);
+s32 format_number_text_all_modes(const u8 *format, s32 length, QuestDownloadTextRecord *out, s32 *count);
 s32 TQuestVmDownLoadServer__sub_803EF208(QuestDownloadRequest *request);
 s32 TQuestVmDownLoadServer__sub_803EF538(QuestDownloadRequest *request);
 }

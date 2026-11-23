@@ -1,3 +1,4 @@
+#include "pso/system/save/CardFileInfo.h"
 #include "types.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/system/save/CardSaveFile.h"
@@ -17,10 +18,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/TLobby_80132ED0.h"
 
-extern "C" {
-s32 poll_memcard_result(saddr chan);
-}
-extern char pso_character_card_filename[];
 
 // Text of one card message: the entry is replaced by keyboard_entry while the keyboard controller is in use.
 struct CheckMemoryCardText {
@@ -67,7 +64,7 @@ s32 TCheckMemoryCard::is_card_ready() {
 }
 
 s32 TCheckMemoryCard::has_no_save_files(s32 chan) {
-    if (TAdPlayerLoadGC::find_card_file(chan, pso_system_card_filename) != 0 || TAdPlayerLoadGC::find_card_file(chan, pso_character_card_filename) != 0 || TAdPlayerLoadGC::find_card_file(chan, pso_guildcard_card_filename.filename) != 0) {
+    if (TAdPlayerLoadGC::find_card_file(chan, pso_system_card_filename) != 0 || TAdPlayerLoadGC::find_card_file(chan, pso_character_card_filename.filename) != 0 || TAdPlayerLoadGC::find_card_file(chan, pso_guildcard_card_filename.filename) != 0) {
         return 0;
     }
     return 1;

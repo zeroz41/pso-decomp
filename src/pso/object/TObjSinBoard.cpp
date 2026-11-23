@@ -1,3 +1,5 @@
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
+#include "pso/system/save/CardFileInfo.h"
 #include "pso/render/GinjaTextureInput.h"
 #include "pso/system/save/CardSaveFile.h"
 #include "pso/render/TriangleFan3D.h"
@@ -28,12 +30,9 @@
 
 // The lobby signboard: a textured quad showing the picture load_memcard_file reads from memory card file PSO______099.
 
-struct Stat_80197E64 { u8 pad0[4]; u16 blocks; u8 pad6[0xE]; };
 
 
 extern "C" {
-s32 poll_memcard_result(saddr);
-s32 get_card_file_info__15TAdPlayerLoadGCFiPvPv(saddr, const char *, Stat_80197E64 *);
 }
 
 const char *TObjSinBoard__class_name = "TObjSinBoard";
@@ -54,7 +53,7 @@ s32 is_signboard_texture_buffer_missing(void) {
 }
 
 void load_memcard_file(void) {
-    Stat_80197E64 stat;
+    CardFileInfo stat;
     CardSaveDescriptor hdr;
     s32 slot;
     void *buf;
@@ -76,7 +75,7 @@ void load_memcard_file(void) {
         return;
     }
     do {
-        r = get_card_file_info__15TAdPlayerLoadGCFiPvPv(slot, memcard_file_099_name, &stat);
+        r = TAdPlayerLoadGC::get_card_file_info(slot, memcard_file_099_name, &stat);
     } while ((u32)r == 0xFFFFFFFF);
     if (r != 0) {
         return;

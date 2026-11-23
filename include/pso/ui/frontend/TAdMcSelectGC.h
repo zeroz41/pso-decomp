@@ -22,7 +22,7 @@ struct TAdMcSelectGC : public TObject {
     static s32 get_selected_slot_index();
     static void select_if_mc_present();
     virtual void run_task();
-    static void *create(void *arg0);
+    static TAdMcSelectGC *create(TObject *parent);
     static void open();
     static void close();
     static TAdMcSelectCursorGC *get_mc_count();

@@ -7,11 +7,13 @@
 
 class TMCFormatSequence;
 struct Hdr_803EA384;
-struct Info_803F0138;
+struct QuestSymbolLookupResult;
 struct QuestDownloadItemNode;
+struct QuestDownloadMatchToken;
 struct QuestDownloadTextNode;
-struct Out_803E8C2C;
-struct Req_803EEF2C;
+struct QuestDownloadTextRecord;
+struct QuestNameLookupResult;
+struct QuestDownloadRequest;
 
 class TQuestVmDownLoadServer : public TObject, public TMessageWindowController {
 public:
@@ -101,24 +103,25 @@ public:
     static void set_active();
     static s32 match_prefix_length(const u8 *a, const u8 *b, s32 n);
     static s32 count_matching_name_prefix(s32 idx, u8 *name);
-    s32 is_char_allowed(s16 len);
+    static s32 is_char_allowed(const u8 *text, s16 len);
+    static s32 has_name_mismatch(s32 row, u8 *key);
+    static s32 find_name_index(const char *key);
+    static void set_file_info_name(const char *filename);
     static s32 read_ask_header();
     static void init_page_cache();
     static s32 seek_or_reopen(int pos);
     static s32 find_file_info_index();
-    s32 aram_read_thunk(uaddr dst, int size);
+    static s32 aram_read_thunk(s32 handle, void *dst, s32 size);
     static void unescape_copy_string(u8 *dst, u8 *src, u8 *end);
     static s32 count_entries_until_terminator(const u8 *p, const u8 *end);
     static void copy_sjis_string(u8 *src, u8 *dst);
     static s32 calc_sjis_string_width(u8 *text);
-    s32 calc_text_length();
-    s32 calc_message_length();
     static u8 *get_buffer_ptr(s32 id);
     static s32 is_download_cmd_allowed(u8 cmd);
     static void latch_slot_value(s32 index);
     static s32 count_leading_entries(s32 i, s32 end);
     static void init_entries();
-    static QuestDownloadTextNode *build_text_node_chain(void *record, const QuestDownloadItemNode *source, s32 length,
+    static QuestDownloadTextNode *build_text_node_chain(QuestDownloadTextRecord *record, const QuestDownloadItemNode *source, s32 length,
                                                          QuestDownloadTextNode **head, QuestDownloadTextNode **tail);
     static u16 jis_to_sjis(u16 jis);
     static s32 is_valid_sjis_code(u16 ch);
@@ -135,19 +138,22 @@ public:
     static s32 sum_entry_sizes(s32 start, s32 n);
     static const u8 *find_keyword_entry(u16 *start, u16 *end);
     static s32 get_download_state();
-    u8 *find_insert_position(s32 key, s32 n, s32 len);
+    static QuestDownloadTextRecord *find_insert_position(u8 *buffer, s32 key, s32 n, s32 len);
+    static u8 *format_number_text(const u8 *input, s32 length, QuestDownloadTextRecord *out, s32 mode);
     static s32 read_quest_chunk(u32 id, u8 key, u8 sub_key, u8 *buf, s32 *out);
-    static u32 aram_dma_read(void *h, void *dst, int size);
+    static s32 aram_dma_read(s32 handle, void *dst, s32 size);
 public:
     void encrypt_download_data(s32 size);
     static void unshuffle_and_decrypt(void *data, s32 size);
 public:
     static u8 *get_cached_page(s32 page);
-    s32 lookup_name_entry(s16 name_len, Out_803E8C2C *out);
-    void append_message_text(s32 size, Req_803EEF2C *msg, u8 attr);
+    static s32 lookup_name_entry(char *name, s16 name_len, QuestNameLookupResult *out);
+    static void append_message_text(u8 *record, s32 size, QuestDownloadRequest *msg, u8 attr);
+    static void build_message_packet(u8 *record, s32 size, QuestDownloadRequest *msg, u8 attr);
+    static const QuestDownloadMatchToken *find_longest_match_entry(u8 *text, s32 remaining, s32 *length);
     static QuestDownloadItemNode *build_item_list(s32 start, Hdr_803EA384 *arg1);
     static s32 count_fitting_entries(QuestDownloadTextNode *arg0);
-    s32 find_symbol_entry(s16 len, Info_803F0138 *out);
+    static s32 find_symbol_entry(const char *name, s16 len, QuestSymbolLookupResult *out);
 };
 LAYOUT_ASSERT(TQuestVmDownLoadServer_size_check, sizeof(TQuestVmDownLoadServer) == 0x2A8);
 
