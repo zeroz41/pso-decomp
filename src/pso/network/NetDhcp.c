@@ -31,7 +31,7 @@ typedef struct P_8042315C { s32 type; s32 a; s32 b; s32 c; s32 pad10; s16 n; s16
 s16 TLobby__sub_80422F70(s16 iface, void *hdr_src, s32 len, void *buf);
 s16 if_config(s16 iface, void *req);
 DhcpClientBuffers lbl_805C1E00;
-extern u8 lbl_805C2F94[0x100]; /* defined at the end of the file */
+extern u8 dhcp_domain_name[0x100]; /* defined at the end of the file */
 extern u8 dhcp_hostname[0x2C]; /* defined at the end of the file */
 volatile s32 dhcp_error;
 s32 lbl_805D7B9C;
@@ -51,19 +51,19 @@ u32 dhcp_renewal_time;
 u32 dhcp_lease_time;
 u32 dhcp_last_tick_ms;
 u32 dhcp_elapsed_ms;
-u32 lbl_805D7B58;
+u32 dhcp_requested_lease;
 s32 lbl_805D7B54;
 u32 lbl_805D7B50;
 u32 lbl_805D7B4C;
-s32 *lbl_805D7B48;
-s32 *lbl_805D7B44;
-s32 *lbl_805D7B40;
-u32 lbl_805D7B3C;
-u32 lbl_805D7B38;
-u32 lbl_805D7B34;
-s32 lbl_805D7B30;
-s32 lbl_805D7B2C;
-u32 lbl_805D7B28;
+s32 *dhcp_broadcast_out;
+s32 *dhcp_netmask_out;
+s32 *dhcp_client_addr_out;
+u32 dhcp_router;
+u32 dhcp_dns2;
+u32 dhcp_dns1;
+s32 dhcp_broadcast;
+s32 dhcp_netmask;
+u32 dhcp_client_addr;
 u8 dhcp_server_id[4];
 u8 lbl_805D7B1C[6];
 s16 dhcp_socket;
@@ -144,37 +144,37 @@ s32 TLobby__sub_80423440(BootpPacket *pkt) {
         lbl_805D7B80++;
         dhcp_set_option(1, 4, p);
     } else {
-        if (!(lbl_805D7B28 & 0x80000000)) {
+        if (!(dhcp_client_addr & 0x80000000)) {
             mask = 0xFF000000;
-        } else if ((lbl_805D7B28 & 0xC0000000) == 0x80000000) {
+        } else if ((dhcp_client_addr & 0xC0000000) == 0x80000000) {
             mask = 0xFFFF0000;
-        } else if ((lbl_805D7B28 & 0xE0000000) == 0xC0000000) {
+        } else if ((dhcp_client_addr & 0xE0000000) == 0xC0000000) {
             mask = 0xFFFFFF00;
         } else {
             mask = 0;
         }
         dhcp_set_option(1, 0, NULL);
-        lbl_805D7B2C = mask;
+        dhcp_netmask = mask;
     }
     if (find_dhcp_option(opts, 0x1C, &p) == 4) {
         lbl_805D7B80++;
         dhcp_set_option(2, 4, p);
     } else {
         dhcp_set_option(2, 0, NULL);
-        net = lbl_805D7B28 & lbl_805D7B2C;
-        lbl_805D7B30 = net | (lbl_805D7B2C ^ 0xFFFFFFFF);
+        net = dhcp_client_addr & dhcp_netmask;
+        dhcp_broadcast = net | (dhcp_netmask ^ 0xFFFFFFFF);
     }
-    if (lbl_805D7B40 != NULL) {
-        *lbl_805D7B40 = lbl_805D7B28;
-        lbl_805D7B40 = NULL;
+    if (dhcp_client_addr_out != NULL) {
+        *dhcp_client_addr_out = dhcp_client_addr;
+        dhcp_client_addr_out = NULL;
     }
-    if (lbl_805D7B44 != NULL) {
-        *lbl_805D7B44 = lbl_805D7B2C;
-        lbl_805D7B44 = NULL;
+    if (dhcp_netmask_out != NULL) {
+        *dhcp_netmask_out = dhcp_netmask;
+        dhcp_netmask_out = NULL;
     }
-    if (lbl_805D7B48 != NULL) {
-        *lbl_805D7B48 = lbl_805D7B30;
-        lbl_805D7B48 = NULL;
+    if (dhcp_broadcast_out != NULL) {
+        *dhcp_broadcast_out = dhcp_broadcast;
+        dhcp_broadcast_out = NULL;
     }
     parse_dhcp_lease_times((u8 *)opts);
     n = find_dhcp_option(opts, 0xF, &p);
@@ -217,7 +217,7 @@ s32 build_dhcp_release(DhcpMessage *packet) {
     get_time_ms((s32 *)&dhcp_last_tick_ms);
     lbl_805D7B50 = dhcp_last_tick_ms;
     NetMemcpy(&packet->hdr.xid, &lbl_805D7B50, 4);
-    packet->hdr.ciaddr = lbl_805D7B28;
+    packet->hdr.ciaddr = dhcp_client_addr;
     NetMemcpy(packet->hdr.chaddr, lbl_805D7B1C, 6);
     p = (u8 *)&packet->hdr.cookie;
     *(s32 *)p = lbl_805D7B4C;
@@ -259,7 +259,7 @@ s32 dhcp_build_packet(DhcpMessage *packet) {
     NetMemcpy(&packet->hdr.xid, &lbl_805D7B50, 4);
     packet->hdr.flags = 0;
     if (dhcp_state == 4 || dhcp_state == 5) {
-        packet->hdr.ciaddr = lbl_805D7B28;
+        packet->hdr.ciaddr = dhcp_client_addr;
     }
     NetMemcpy(packet->hdr.chaddr, lbl_805D7B1C, 6);
     p = (u8 *)&packet->hdr.cookie;
@@ -286,17 +286,17 @@ s32 dhcp_build_packet(DhcpMessage *packet) {
         NetMemcpy(p, dhcp_server_id, 4);
         p += 4;
     }
-    if (lbl_805D7B58 != 0) {
+    if (dhcp_requested_lease != 0) {
         *p++ = 0x33;
         *p++ = 4;
-        tmp = lbl_805D7B58;
+        tmp = dhcp_requested_lease;
         NetMemcpy(p, &tmp, 4);
         p += 4;
     }
     if (dhcp_state != 4 && dhcp_state != 5) {
         *p++ = 0x32;
         *p++ = 4;
-        NetMemcpy(p, &lbl_805D7B28, 4);
+        NetMemcpy(p, &dhcp_client_addr, 4);
         p += 4;
     }
     len = NetStringLength((const char*)&dhcp_hostname);
@@ -344,10 +344,10 @@ s32 build_dhcp_discover_packet(DhcpMessage *packet) {
     *p++ = 6;
     *p++ = 0xF;
     *p++ = 0x1C;
-    if (lbl_805D7B58 != 0) {
+    if (dhcp_requested_lease != 0) {
         *p++ = 0x33;
         *p++ = 4;
-        spC = lbl_805D7B58;
+        spC = dhcp_requested_lease;
         NetMemcpy(p, &spC, 4);
         p += 4;
     }
@@ -696,17 +696,17 @@ typedef struct DhcpOption_804FD948 {
     void *data;
 } DhcpOption_804FD948;
 DhcpOption_804FD948 lbl_804FD948[12] = {
-    { 0x1, 0, 1, 4, &lbl_805D7B2C },
-    { 0x2, 0, 1, 4, &lbl_805D7B30 },
-    { 0x3, 0, 0, 0x100, lbl_805C2F94 },
-    { 0x4, 0, 1, 4, &lbl_805D7B34 },
-    { 0x5, 0, 1, 4, &lbl_805D7B38 },
-    { 0x6, 0, 1, 4, &lbl_805D7B3C },
+    { 0x1, 0, 1, 4, &dhcp_netmask },
+    { 0x2, 0, 1, 4, &dhcp_broadcast },
+    { 0x3, 0, 0, 0x100, dhcp_domain_name },
+    { 0x4, 0, 1, 4, &dhcp_dns1 },
+    { 0x5, 0, 1, 4, &dhcp_dns2 },
+    { 0x6, 0, 1, 4, &dhcp_router },
     { 0x7, 0, 1, 4, &dhcp_lease_time },
     { 0x8, 0, 1, 4, &dhcp_renewal_time },
     { 0x9, 0, 1, 4, &dhcp_rebinding_time },
     { 0xE, 0, 1, 4, dhcp_server_id },
-    { 0xF, 0, 1, 4, &lbl_805D7B28 },
+    { 0xF, 0, 1, 4, &dhcp_client_addr },
     { 0x10, 0, 0, 0x20, dhcp_hostname },
 };
 void net_sleep_ms(s32);
@@ -792,19 +792,19 @@ s32 find_dhcp_option(u8 *p, u8 tag, u8 **out) {
     return 0;
 }
 
-s16 DHCP_get_gateway(void *, s32 *out) {
+s16 DHCP_get_gateway(void *arg0, s32 *router) {
     dhcp_error = 0;
     if ((*(volatile s32 *)&dhcp_state) != 3 && (*(volatile s32 *)&dhcp_state) != 4 && (*(volatile s32 *)&dhcp_state) != 5) {
         dhcp_error = 2;
         return -1;
     }
-    if (dhcp_get_option(6, out) != 0) {
+    if (dhcp_get_option(6, router) != 0) {
         dhcp_error = 0x10;
     }
     return 0;
 }
 
-s16 DHCP_get_dns(void *arg0, char *out, s32 *dns1, s32 *dns2) {
+s16 DHCP_get_dns(void *arg0, char *domain, s32 *dns1, s32 *dns2) {
     dhcp_error = 0;
     if ((*(volatile s32 *)&dhcp_state) != 3 && (*(volatile s32 *)&dhcp_state) != 4 && (*(volatile s32 *)&dhcp_state) != 5) {
         dhcp_error = 2;
@@ -816,7 +816,7 @@ s16 DHCP_get_dns(void *arg0, char *out, s32 *dns1, s32 *dns2) {
     if (dhcp_get_option(5, dns2) != 0 && dhcp_error == 0) {
         dhcp_error = 0xF;
     }
-    if (dhcp_get_option(3, out) != 0 && dhcp_error == 0) {
+    if (dhcp_get_option(3, domain) != 0 && dhcp_error == 0) {
         dhcp_error = 0xD;
     }
     return 0;
@@ -858,7 +858,7 @@ s16 dhcp_handle_reply(s16 arg0, NetworkReceivePrefix *arg1) {
         if (dhcp_reply_received == 0 && find_dhcp_option(q, 0x35, &p) == 1 && *p == 2 &&
             find_dhcp_option(q, 0x36, &p) == 4) {
             dhcp_set_option(0xE, 4, p);
-            lbl_805D7B28 = pk->yiaddr;
+            dhcp_client_addr = pk->yiaddr;
             dhcp_reply_received = 1;
         }
         break;
@@ -870,14 +870,14 @@ s16 dhcp_handle_reply(s16 arg0, NetworkReceivePrefix *arg1) {
         break;
     case 4:
         if (dhcp_reply_received == 0 && find_dhcp_option(q, 0x35, &p) == 1 && *p == 5 &&
-            lbl_805D7B28 == pk->yiaddr) {
+            dhcp_client_addr == pk->yiaddr) {
             NetMemcpy(&g->reply, &g->received, arg1->len);
             dhcp_reply_received = 1;
         }
         break;
     case 5:
         if (dhcp_reply_received == 0 && find_dhcp_option(q, 0x35, &p) == 1 && *p == 5 &&
-            lbl_805D7B28 == pk->yiaddr) {
+            dhcp_client_addr == pk->yiaddr) {
             NetMemcpy(&g->reply, &g->received, arg1->len);
             dhcp_reply_received = 1;
         }
@@ -912,9 +912,9 @@ s32 DHCP_release(s32 session, s32 ip, s32 timeout) {
     return 0;
 }
 
-s16 dhcp_discover_and_request(s16 a0, s32 a1, s32 a2, void *a3, s32 *a4, s32 *a5, s32 *a6, s32 a7) {
+s16 dhcp_discover_and_request(s16 iface, s32 arg1, s32 lease_time, void *arg3, s32 *address, s32 *netmask, s32 *broadcast, s32 retries) {
     s32 state;
-    if (DHCP_request(a0, a1, a2, a3, a4, a5, a6, a7) != 0) {
+    if (DHCP_request(iface, arg1, lease_time, arg3, address, netmask, broadcast, retries) != 0) {
         return -1;
     }
     do {
@@ -930,22 +930,22 @@ s16 dhcp_discover_and_request(s16 a0, s32 a1, s32 a2, void *a3, s32 *a4, s32 *a5
     return 0;
 }
 
-s32 DHCP_request(s16, s32 a1, s32 a2, void *, s32 *a4, s32 *a5, s32 *a6, s32 a7) {
+s32 DHCP_request(s16 iface, s32 arg1, s32 lease_time, void *arg3, s32 *address, s32 *netmask, s32 *broadcast, s32 retries) {
     dhcp_error = 0;
     if (*(volatile s32 *)&dhcp_state != 0) {
         dhcp_error = 2;
         return -1;
     }
-    if (a4 == NULL || a5 == NULL || a6 == NULL) {
+    if (address == NULL || netmask == NULL || broadcast == NULL) {
         dhcp_error = 1;
         return -1;
     }
-    lbl_805D7B40 = a4;
-    lbl_805D7B44 = a5;
-    lbl_805D7B48 = a6;
-    lbl_805D7B54 = a1;
-    lbl_805D7B58 = a2;
-    dhcp_max_retries = a7;
+    dhcp_client_addr_out = address;
+    dhcp_netmask_out = netmask;
+    dhcp_broadcast_out = broadcast;
+    lbl_805D7B54 = arg1;
+    dhcp_requested_lease = lease_time;
+    dhcp_max_retries = retries;
     *(volatile s32 *)&dhcp_state = 1;
     *(volatile s32 *)&dhcp_step = 0;
     return 0;
@@ -964,13 +964,13 @@ static inline void dhcp_reset_state(s16 iface) {
         lbl_804FD948[i].present = 0;
         NetMemset(lbl_804FD948[i].data, 0, lbl_804FD948[i].size);
     }
-    lbl_805D7B40 = 0;
-    lbl_805D7B44 = 0;
-    lbl_805D7B48 = 0;
+    dhcp_client_addr_out = 0;
+    dhcp_netmask_out = 0;
+    dhcp_broadcast_out = 0;
     lbl_805D7B4C = 0x63825363;
     lbl_805D7B50 = 0;
     lbl_805D7B54 = 0;
-    lbl_805D7B58 = 0;
+    dhcp_requested_lease = 0;
     NetMemset(dhcp_hostname, 0, 0x20);
     dhcp_elapsed_ms = 0;
     dhcp_last_tick_ms = 0;
@@ -1144,4 +1144,4 @@ s32 dhcp_set_option(s16 id, s16 len, void *value) {
 
 
 u8 dhcp_hostname[0x2C];
-u8 lbl_805C2F94[0x100];
+u8 dhcp_domain_name[0x100];

@@ -741,8 +741,8 @@ struct TLobby : public TObject {
     static void reset_lobby_state();
     static void init_keyboard_buffer();
     static s32 poll_connect();
-    static void flush_pending_flag2();
-    static void set_battle_flag(s32 gateway);
+    static void remove_default_route();
+    static void set_default_gateway(s32 gateway);
     static s32 query_task_active();
     static int get_link_status_value();
     void cleanup();

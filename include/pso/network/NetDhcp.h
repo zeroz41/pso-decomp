@@ -53,9 +53,9 @@ LAYOUT_ASSERT(DhcpClientBuffers_received, offsetof(DhcpClientBuffers, received) 
 LAYOUT_ASSERT(DhcpClientBuffers_size, sizeof(DhcpClientBuffers) == 0x1194);
 
 s32 get_task_count(void);
-s32 DHCP_request(s16 iface, s32 arg1, s32 arg2, void *arg3,
+s32 DHCP_request(s16 iface, s32 arg1, s32 lease_time, void *arg3,
                  s32 *address, s32 *netmask, s32 *broadcast, s32 retries);
-s16 dhcp_discover_and_request(s16 iface, s32 arg1, s32 arg2, void *arg3,
+s16 dhcp_discover_and_request(s16 iface, s32 arg1, s32 lease_time, void *arg3,
                                s32 *address, s32 *netmask, s32 *broadcast, s32 retries);
 void parse_dhcp_lease_times(u8 *packet);
 s32 dhcp_set_option(s16 id, s16 len, void *value);
