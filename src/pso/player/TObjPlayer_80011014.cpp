@@ -1056,7 +1056,7 @@ s32 get_type__10TObjPlayerFPv(void* p) { return *(s32*)((char*)p + 0x0); }
 
 u8 TItem::get_item_group() { return this->item_group; }
 
-TItem *TObjPlayer::get_item_field_6(void *player) { return (TItem *)get_slot_value(((TObjPlayer *)player)->equipped_items, 6); }
+TItem *TObjPlayer::get_equipped_weapon(void *player) { return (TItem *)get_slot_value(((TObjPlayer *)player)->equipped_items, 6); }
 
 s32 TObjPlayer::get_player_count() {
     return lobby_player_count;
@@ -3337,7 +3337,7 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
     rec.kind = 0;
     rec.power = dmg;
     if (self->f2D4 < 0x1000) {
-        TItem *item = TObjPlayer::get_item_field_6(att);
+        TItem *item = TObjPlayer::get_equipped_weapon(att);
         if (item == NULL) {
             mul = (1.0f);
         } else {

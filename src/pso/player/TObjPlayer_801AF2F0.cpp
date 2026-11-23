@@ -1838,7 +1838,7 @@ void TObjPlayer::sub_801BB950() {
     u8 *arg0 = (u8 *)this;
   if (is_current_area_item_enabled() != 0)
   {
-    temp_r3 = (u8 *)TObjPlayer::get_item_field_6(arg0);
+    temp_r3 = (u8 *)TObjPlayer::get_equipped_weapon(arg0);
     if (temp_r3 != 0)
     {
       this->set_action_provider_variant((s16)((VObj_18_9c7036 *)(temp_r3))->m41());
@@ -2674,7 +2674,7 @@ s32 preview_equip_stats__10TObjPlayerFv(u8 *player, s16 *out, u8 *incoming) {
     ((TLobby *)(&d))->copy_entry(*(void **)(player + 0x31C));
     switch (incoming[0]) {
     case 0:
-        prev = TObjPlayer::get_item_field_6(player);
+        prev = TObjPlayer::get_equipped_weapon(player);
         break;
     case 1:
         if (incoming[1] == 1) {
@@ -2779,7 +2779,7 @@ s32 preview_unequip_stats__10TObjPlayerFv(Self_801B96BC *self, Out_801B96BC *out
 void TObjPlayer::send_unequip_held_item() {
     Cmd_801B9634 cmd;
     TItem *item;
-    item = get_item_field_6(this);
+    item = get_equipped_weapon(this);
     if ((item != NULL) && (item->check_equip_requirements(this, (s16 *)0) == 0) && (((uaddr)this == 0U) || (this->obj_isState2_324() == 0))) {
         ((TObjPlayer *)(&cmd))->init_cmd_6x26();
         cmd.client = ((s16 (*)(u32))get_entity_id)((uaddr)this);
@@ -3209,7 +3209,7 @@ void TObjPlayer::drop_items_on_death() {
     } else if (((s32 (*)(TObjPlayer*))check_flag_01000000__10TObjPlayerFPv)(this)==0) {
         count=((TLobby *)(fields->inventory_owner))->set_globals_and_notify(this, records);
     } else {
-        equipped = get_item_field_6(this);
+        equipped = get_equipped_weapon(this);
         if (equipped!=NULL) {
             TObjPlayer::send_6x26_unequip_item(this, ((TItem *)equipped)->get_item_id());
         }
@@ -6451,7 +6451,7 @@ void TLobby::apply_battle_rules_to_players() {
             ((TLobby *)(p->fD00))->set_globals_and_update((saddr)p, 2);
             break;
         }
-        if ((weapon = TObjPlayer::get_item_field_6(p)) != NULL && weapon->check_equip_requirements((TObjPlayer *)p, (s16 *)0) == 0) {
+        if ((weapon = TObjPlayer::get_equipped_weapon(p)) != NULL && weapon->check_equip_requirements((TObjPlayer *)p, (s16 *)0) == 0) {
             ((void (*)(Pl_801B0B88 *, TItem *))unequip_item__10TObjPlayerFiPv)(p, weapon);
         }
         switch (fn_801D7168(q)) {

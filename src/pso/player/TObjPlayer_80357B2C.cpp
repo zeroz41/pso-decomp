@@ -500,7 +500,7 @@ void dispatch_weapon_special_effect(TObjPlayer *player, TObjBase *target, Vec *p
     if (is_current_area_item_enabled() == 0) {
         return;
     }
-    weapon = (TItemWeapon *)TObjPlayer::get_item_field_6(player);
+    weapon = (TItemWeapon *)TObjPlayer::get_equipped_weapon(player);
     if (weapon == NULL) {
         return;
     }

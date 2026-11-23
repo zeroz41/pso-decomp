@@ -477,7 +477,7 @@ void TLobby::handle_player_event(s32 arg0, s32 arg1) {
         item = NULL;
         switch (arg1) {
         case 0:
-            item = TObjPlayer::get_item_field_6(player);
+            item = TObjPlayer::get_equipped_weapon(player);
             break;
         case 1:
             item = (TItem *)((TItemData *)player)->get_item_field_2();
