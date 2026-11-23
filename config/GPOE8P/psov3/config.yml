@@ -1714,10 +1714,10 @@ force_active:
   - render_callback
   - is_within_view_edge__6TSceneFP3VecP3VecP3Vecf
   - TScene__sub_802040D4
-  - TScene__sub_80205874
-  - TScene__sub_80205AE8
-  - TScene__sub_802065E8
-  - TScene__sub_802065EC
+  - get_cull_mode__6TSceneFv
+  - sub_80205AE8__6TSceneFv
+  - sub_802065E8__6TSceneFl
+  - sub_802065EC__6TSceneFl
   - supplementary_rel_buffer
   - texture_animation_buffer
   - texture_wave_resource
@@ -8376,8 +8376,8 @@ force_active:
   - lbl_805D5DD8
   - lbl_805D5FF8
   - lbl_805D600C
-  - lbl_805D6014
-  - lbl_805D6018
+  - collision_file_size_limit
+  - texture_animation_size_limit
   - lbl_805D60B8
   - lbl_805D60D4
   - lbl_805D6160
