@@ -483,7 +483,7 @@ void TOMine::update_trigger() {
     }
 }
 f32 TOMine::receive_direct_attack(void *player, DirectAttackPayload payload, void *, s32, s32) {
-  s32 temp_r0;
+  s32 kind;
   s32 var_r31;
   if (player == 0)
   {
@@ -500,14 +500,14 @@ f32 TOMine::receive_direct_attack(void *player, DirectAttackPayload payload, voi
   }
   if (var_r31 != 0)
   {
-    temp_r0 = payload.kind;
-    if (temp_r0 != 0x13)
+    kind = payload.kind;
+    if (kind != 0x13)
     {
-      if ((temp_r0 < 0x13) && (temp_r0 < 5))
+      if ((kind < 0x13) && (kind < 5))
       {
-        if (temp_r0 < 0)
+        if (kind < 0)
         {
-          if ((temp_r0 && temp_r0) && temp_r0)
+          if ((kind && kind) && kind)
           {
           }
         }

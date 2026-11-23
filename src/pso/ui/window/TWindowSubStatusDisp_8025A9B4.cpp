@@ -233,14 +233,14 @@ void advance_text_entry_reveal(u8 *arg0) {
 #pragma pop
 
 void *TWindowSubStatusDisp__sub_8025AF0C(void *window_sub_status_disp, s16 arg1) {
-    u16 temp_r3;
+    u16 flags;
 
     if (window_sub_status_disp != NULL) {
         *(void ***)((s8 *)window_sub_status_disp + 4) = lbl_804CFA28;
         if ((u32) *(u32 *)((s8 *)window_sub_status_disp + 0x20) != 0U) {
-            temp_r3 = ((WindowTextEntry *)window_sub_status_disp)->flags;
-            if (temp_r3 & 0x20) {
-                ((WindowTextEntry *)window_sub_status_disp)->flags = (u16) (temp_r3 & 0xFFFFFFDF);
+            flags = ((WindowTextEntry *)window_sub_status_disp)->flags;
+            if (flags & 0x20) {
+                ((WindowTextEntry *)window_sub_status_disp)->flags = (u16) (flags & 0xFFFFFFDF);
                 mem_free((void *)(*(uaddr *)((s8 *)window_sub_status_disp + 0x20)));
             }
         }

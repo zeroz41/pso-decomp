@@ -176,7 +176,7 @@ void TOChatSensor::render() {
 }
 
 void TOChatSensor::init_params() {
-    f32 temp_f0;
+    f32 x;
     s32 temp_r5;
 
     this->m_90 = (u32) *(u32 *)&this->rotation_x;
@@ -187,8 +187,8 @@ void TOChatSensor::init_params() {
     if ((u32) this->m_98 >= 2U) {
         this->m_90 = 0U;
     }
-    temp_f0 = this->scale.x;
-    *(f32 *)&this->unk_9C = (f32) (temp_f0 * temp_f0);
+    x = this->scale.x;
+    *(f32 *)&this->unk_9C = (f32) (x * x);
     if ((u32) this->m_90 == 0U) {
         *(s32 *)&this->id = (s32) this->set_params[0];
     } else {

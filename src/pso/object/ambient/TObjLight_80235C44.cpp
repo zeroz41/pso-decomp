@@ -120,13 +120,13 @@ f32 vec_squared_length(void *, f32);
 #pragma fp_contract on
 void offset_point_toward_camera(u8 *center, u8 *arg1, f32 farg0) {
     Vec stack;
-    f32 temp_f1;
+    f32 z;
     if ((void *) camera_ctrl_instance != NULL) {
         stack.x = camera_ctrl_instance->pos.x - *(f32 *)((s8 *)center + 0);
         stack.y = camera_ctrl_instance->pos.y - *(f32 *)((s8 *)center + 4);
-        temp_f1 = camera_ctrl_instance->pos.z;
-        stack.z = temp_f1 - *(f32 *)((s8 *)center + 8);
-        if (lbl_805DC88C[0] != vec_squared_length(&stack.x, temp_f1)) {
+        z = camera_ctrl_instance->pos.z;
+        stack.z = z - *(f32 *)((s8 *)center + 8);
+        if (lbl_805DC88C[0] != vec_squared_length(&stack.x, z)) {
             normalize_vector(&stack);
         }
         *(f32 *)((s8 *)arg1 + 0) = (f32) ((stack.x * farg0) + *(f32 *)((s8 *)center + 0));

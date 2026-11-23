@@ -176,13 +176,13 @@ void TItemEffOrgaFlowShot::update_segments() {
 #pragma push
 #pragma fp_contract on
 void TItemEffOrgaFlowShot::update_position_from_velocity() {
-    f32 temp_f2;
-    temp_f2 = 0.5f * length;
-    body.radius = temp_f2;
+    f32 radius;
+    radius = 0.5f * length;
+    body.radius = radius;
     body.half_width = 4.0f + spread;
-    position.x = (forward.x * temp_f2) + trail[5].x;
+    position.x = (forward.x * radius) + trail[5].x;
     position.y = trail[5].y;
-    position.z = (forward.z * temp_f2) + trail[5].z;
+    position.z = (forward.z * radius) + trail[5].z;
 }
 #pragma pop
 

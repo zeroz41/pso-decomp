@@ -107,15 +107,15 @@ void TObjFogCollision::vfunc_13(s32) {
 }
 
 s32 TObjFogCollision::check_collision(u16 client) {
-    f32 temp_f0;
+    f32 x;
     f32 temp_f1;
     f32 temp_f31;
     s32 player;
 
     player = get_player_by_client_id((u16)client);
     if (player != 0) {
-        temp_f0 = this->scale.x;
-        temp_f31 = temp_f0 * temp_f0;
+        x = this->scale.x;
+        temp_f31 = x * x;
         temp_f1 = horizontal_distance_squared((u8 *)&this->position, player + 0x38);
         if (temp_f31 > temp_f1) {
             return 1;

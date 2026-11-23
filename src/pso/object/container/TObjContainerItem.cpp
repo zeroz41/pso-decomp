@@ -449,11 +449,11 @@ s32 TUnk_804B6C24::select_melee_contact_body(void *target, f32) {
 }
 
 f32 TUnk_804B6C24::receive_direct_attack(void *arg1, DirectAttackPayload payload, void *, s32, s32) {
-    s32 temp_r4;
+    s32 kind;
     struct VObj_8018A0B4 *o = (struct VObj_8018A0B4 *)this;
 
-    temp_r4 = payload.kind;
-    if ((temp_r4 == 0) || ((temp_r4 - 1) <= 3U) || (temp_r4 == 0x13)) {
+    kind = payload.kind;
+    if ((kind == 0) || ((kind - 1) <= 3U) || (kind == 0x13)) {
         o->m20(0, lbl_805DBCF0);
     }
     return lbl_805DBCF4;

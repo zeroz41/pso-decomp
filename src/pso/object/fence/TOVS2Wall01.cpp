@@ -146,20 +146,20 @@ void handle_6x86_hit_destructible_object(game_command_header *command) {
 }
 
 void TOVS2Wall01::save_and_send_state(u16 arg1) {
-    s16 sp8;
+    s16 state;
     WallHitPacket pkt;
     s16 v = mode;
     WallSetEntry *entry;
     if (arg1 == 1) {
         v = 1;
     }
-    if (set_entry != NULL && access_object_saved_state(&sp8, 1) != 0) {
-        sp8 = v;
-        access_object_saved_state(&sp8, 0);
+    if (set_entry != NULL && access_object_saved_state(&state, 1) != 0) {
+        state = v;
+        access_object_saved_state(&state, 0);
         entry = (WallSetEntry *)set_entry;
         pkt.init();
         pkt.entity_id = entity_id;
-        pkt.state = sp8;
+        pkt.state = state;
         pkt.set_entry_index = entry->m_4;
         pkt.update_reason = arg1;
         pkt.remaining_hits = m_33c;

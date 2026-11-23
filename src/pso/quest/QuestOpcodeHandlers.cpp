@@ -2793,16 +2793,16 @@ void qst_op_get_chara_class(s32 slot_reg, s32 dst) {
 }
 
 void qst_op_get_gender(s32 slot_reg, s32 dst) {
-    s32 temp_r3_2;
+    s32 class_flags;
     u8 *player;
     player = ((u8 *)((uaddr (*)(int, int))get_player_by_client_id)((int)(qst_registers[(u8)slot_reg]), (int)(dst)));
     if (player != NULL) {
-        temp_r3_2 = ((TObjPlayer *)player)->class_flags;
-        if (temp_r3_2 & CLASS_FLAG_MALE) {
+        class_flags = ((TObjPlayer *)player)->class_flags;
+        if (class_flags & CLASS_FLAG_MALE) {
             qst_registers[(u8)dst] = GENDER_MALE;
             return;
         }
-        if (temp_r3_2 & CLASS_FLAG_FEMALE) {
+        if (class_flags & CLASS_FLAG_FEMALE) {
             qst_registers[(u8)dst] = GENDER_FEMALE;
             return;
         }

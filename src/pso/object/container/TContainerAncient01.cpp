@@ -434,7 +434,7 @@ void *TContainerAncient01::create(void *set_data) {
 void TContainerAncient01::run_task() {
     u8 *arg0 = (u8 *)this;
     f32 temp_f1;
-    f32 temp_f1_2;
+    f32 y;
     if (TObjPlayer::check_demo_mode() == 0) {
         if ((s32) this->m_35c == 0) {
             switch (this->mode) {
@@ -458,14 +458,14 @@ void TContainerAncient01::run_task() {
             this->frame_timer = (f32) (temp_f1 + TContainerAncient01__data_805DBD10[0]);
             submit_cursor_candidate(arg0, -1, temp_f1);
         } else {
-            temp_f1_2 = this->open_scale.y;
-            if (temp_f1_2 <= 0.2f) {
+            y = this->open_scale.y;
+            if (y <= 0.2f) {
                 *(f32 *)((s8 *)arg0 + 0x3C) = (f32) (*(f32 *)((s8 *)arg0 + 0x3C) - 0.025f);
                 if (*(f32 *)((s8 *)arg0 + 0x3C) <= ((-1e+01f) * this->open_scale.y)) {
                     ((TObject *)arg0)->TObject::queue_destruction();
                 }
             } else {
-                this->open_scale.y = (f32) (temp_f1_2 - 0.025f);
+                this->open_scale.y = (f32) (y - 0.025f);
             }
         }
     }
@@ -503,11 +503,11 @@ s32 TContainerAncient01::select_melee_contact_body(void *target, f32) {
 int TContainerAncient01::calc_distance_accuracy_penalty(void *, void *, void *, float) { return 1; }
 
 f32 TContainerAncient01::receive_direct_attack(void *arg1, DirectAttackPayload payload, void *, s32, s32) {
-    s32 temp_r4;
+    s32 kind;
     struct VObj_8018B820_8018B79C *o = (struct VObj_8018B820_8018B79C *)this;
 
-    temp_r4 = payload.kind;
-    if ((temp_r4 == 0) || ((temp_r4 - 1) <= 3U) || (temp_r4 == 0x13)) {
+    kind = payload.kind;
+    if ((kind == 0) || ((kind - 1) <= 3U) || (kind == 0x13)) {
         o->m20(0, TContainerAncient01__data_805DBD10[0]);
     }
     return TContainerAncient01__data_805DBD14[0];
@@ -726,7 +726,7 @@ void *TContainerAncient01R::create(void *parent) {
 void TContainerAncient01R::run_task() {
     u8 *arg0 = (u8 *)this;
     f32 temp_f1;
-    f32 temp_f1_2;
+    f32 y;
     if (TObjPlayer::check_demo_mode() == 0) {
         if ((s32) this->m_360 == 0) {
             switch (this->mode) {
@@ -750,14 +750,14 @@ void TContainerAncient01R::run_task() {
             this->frame_timer = (f32) (temp_f1 + TContainerAncient01__data_805DBD10[0]);
             submit_cursor_candidate(arg0, -1, temp_f1);
         } else {
-            temp_f1_2 = this->open_scale.y;
-            if (temp_f1_2 <= 0.2f) {
+            y = this->open_scale.y;
+            if (y <= 0.2f) {
                 *(f32 *)((s8 *)arg0 + 0x3C) = (f32) (*(f32 *)((s8 *)arg0 + 0x3C) - 0.025f);
                 if (*(f32 *)((s8 *)arg0 + 0x3C) <= ((-1e+01f) * this->open_scale.y)) {
                     ((TObject *)arg0)->TObject::queue_destruction();
                 }
             } else {
-                this->open_scale.y = (f32) (temp_f1_2 - 0.025f);
+                this->open_scale.y = (f32) (y - 0.025f);
             }
         }
     }
@@ -795,11 +795,11 @@ s32 TContainerAncient01R::select_melee_contact_body(void *target, f32) {
 int TContainerAncient01R::calc_distance_accuracy_penalty(void *, void *, void *, float) { return 1; }
 
 f32 TContainerAncient01R::receive_direct_attack(void *arg1, DirectAttackPayload payload, void *, s32, s32) {
-    s32 temp_r4;
+    s32 kind;
     struct VObj_8018AC68_8018A584 *o = (struct VObj_8018AC68_8018A584 *)this;
 
-    temp_r4 = payload.kind;
-    if ((temp_r4 == 0) || ((temp_r4 - 1) <= 3U) || (temp_r4 == 0x13)) {
+    kind = payload.kind;
+    if ((kind == 0) || ((kind - 1) <= 3U) || (kind == 0x13)) {
         o->m20(0, TContainerAncient01__data_805DBD10[0]);
     }
     return TContainerAncient01__data_805DBD14[0];

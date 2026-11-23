@@ -129,16 +129,16 @@ s32 TWindowDD::classify_id(s16 id) {
 }
 
 s32 TWindowDD::get_player_battle_flag_state(u16 arg0) {
-    s32 temp_r3_2;
+    s32 class_flags;
     void *player;
 
     player = get_player_by_client_id((u16) arg0);
     if (player != NULL) {
-        temp_r3_2 = ((TObjPlayer *)player)->class_flags;
-        if (temp_r3_2 & CLASS_FLAG_MALE) {
+        class_flags = ((TObjPlayer *)player)->class_flags;
+        if (class_flags & CLASS_FLAG_MALE) {
             return 0;
         }
-        if (temp_r3_2 & CLASS_FLAG_FEMALE) {
+        if (class_flags & CLASS_FLAG_FEMALE) {
             return 2;
         }
         goto block_5;
@@ -904,28 +904,28 @@ void TWindowDD__sub_80348A2C(WindowDrawContext *context, WindowVertex *vertices)
   f32 temp_f1_2;
   s8 *new_var2;
   f32 temp_f2;
-  f32 temp_f2_2;
+  f32 x;
   f32 temp_f4;
   s8 *new_var;
   f32 var_f0;
   temp_f2 = 0.5f * context->w;
   temp_f1 = temp_f2 * context->scale[0];
   temp_f0 = context->x + temp_f2;
-  temp_f2_2 = (0, temp_f0 - temp_f1);
+  x = (0, temp_f0 - temp_f1);
   temp_f4 = temp_f0 + temp_f1;
   if (temp_f1 < lbl_805DFB1C)
   {
-    var_f0 = (temp_f4 - temp_f2_2) / 3.0f;
+    var_f0 = (temp_f4 - x) / 3.0f;
   }
   else
   {
     var_f0 = lbl_805DFB1C;
   }
   new_var2 = ((s8 *) ((0, vertices))) + 0x90;
-  *((f32 *) (((s8 *) vertices) + 0x18)) = temp_f2_2;
-  temp_f1_2 = temp_f2_2 + var_f0;
+  *((f32 *) (((s8 *) vertices) + 0x18)) = x;
+  temp_f1_2 = x + var_f0;
   temp_f0_2 = temp_f4 - var_f0;
-  vertices->x = temp_f2_2;
+  vertices->x = x;
   *((f32 *) (((s8 *) vertices) + 0x48)) = temp_f1_2;
   *((f32 *) (((s8 *) vertices) + 0x30)) = temp_f1_2;
   new_var = (s8 *) vertices;

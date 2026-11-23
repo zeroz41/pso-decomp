@@ -269,7 +269,7 @@ void TWindowSubSymbolChatPartsSet::toggle_selected_part() {
 }
 
 void TWindowSubSymbolChatPartsSet::handle_cursor_input() {
-    s16 temp_r4;
+    s16 x;
     u8 temp_r0;
     void *camera_ctrl;
     Win_802864C4 *w = (Win_802864C4 *)this;
@@ -317,8 +317,8 @@ void TWindowSubSymbolChatPartsSet::handle_cursor_input() {
             if (w->y >= 2) {
                 w->y = 1;
             }
-            temp_r4 = w->x;
-            w->f74 = temp_r4 + w->y * 2;
+            x = w->x;
+            w->f74 = x + w->y * 2;
             update_visibility();
             break;
         }

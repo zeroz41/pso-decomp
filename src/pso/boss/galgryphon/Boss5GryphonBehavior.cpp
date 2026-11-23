@@ -1149,14 +1149,14 @@ void TBoss5Gryphon::apply_lightning_hit(TBoss5Gryphon *owner, Vec *pos, f32 inne
 }
 void TBoss5Gryphon::spawn_ground_splash() {
     Vec pos;
-    f32 temp_f1;
+    f32 y;
     CsnHit *hit;
     VecCopy(&pos, (Vec *)((void *) (&this->position)));
     hit = csnVecterUnder(&pos, 0x16EF);
     if (hit != NULL) {
-        temp_f1 = hit->contact->point.y;
-        if (!(temp_f1 > 6.0f)) {
-            pos.y = temp_f1;
+        y = hit->contact->point.y;
+        if (!(y > 6.0f)) {
+            pos.y = y;
             spawn_particle_effect_with_flags(&pos, effect_ids[0], 0x40);
             play_se(0x40032D01);
         }

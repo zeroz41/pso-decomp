@@ -414,7 +414,7 @@ LAYOUT_ASSERT(TObjFishSetData_counts_offset, offsetof(TObjFishSetData, counts) =
 
 TObjFish::TObjFish(TObject *parent, void *set_data) : TObjBase(parent) {
     TObjFishSetData *data = (TObjFishSetData *)set_data;
-    f32 temp_f0;
+    f32 y;
     f32 var_f1;
     m_name = lbl_805D3D58;
     m_a0 = NULL;
@@ -422,13 +422,13 @@ TObjFish::TObjFish(TObject *parent, void *set_data) : TObjBase(parent) {
     copy_xyz(&rotation_x, data->rotation);
     VecCopy(&scale, &data->scale);
     var_f1 = scale.x;
-    temp_f0 = scale.y;
-    if (var_f1 < temp_f0) {
-        var_f1 = temp_f0;
+    y = scale.y;
+    if (var_f1 < y) {
+        var_f1 = y;
     }
     // The original compares scale.y twice here, rather than reading scale.z.
-    if (var_f1 < temp_f0) {
-        var_f1 = temp_f0;
+    if (var_f1 < y) {
+        var_f1 = y;
     }
     m_9c = var_f1;
     m_94 = data->counts[0] + data->counts[1] + data->counts[2];

@@ -205,12 +205,12 @@ u8 *SymbolChatPreset::get_symbol_chat_data() {
 }
 
 s32 is_symbol_chat_preset_in_use(const SymbolChatPreset *preset) {
-    u32 temp_r3;
-    temp_r3 = preset->flags;
-    if (temp_r3 & 1) {
+    u32 flags;
+    flags = preset->flags;
+    if (flags & 1) {
         return 1;
     }
-    return (temp_r3 & 2) ? 1 : 0;
+    return (flags & 2) ? 1 : 0;
 }
 
 SymbolChatPreset *get_symbol_chat_preset(s32 i) {
