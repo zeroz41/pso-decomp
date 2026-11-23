@@ -143,7 +143,7 @@ u32 prs_decompress_buffer(s32 arg0, s32 arg1);
 extern u8 *resource_decompress_buffer;
 
 extern const char *lbl_805D2B10;
-s32 bind_bml_model(Lobby_8001FBEC *arg0, u32 arg1, s32 arg2, saddr arg3);
+s32 bind_bml_model(Lobby_8001FBEC *arg0, u32 arg1, s32 arg2, saddr file);
 void TItemDrop__sub_800FE2D8(void);
 void *load_nj_chunk_model_resource(u8 *, u32 *, u32 *);
 
@@ -569,7 +569,7 @@ s32 bind_bml_motion(struct Lobby_8001FB6C *self, s32 idx, void *bytes) {
     return 1;
 }
 
-s32 bind_bml_model(Lobby_8001FBEC *resource, u32 size, s32 index, saddr arg3) {
+s32 bind_bml_model(Lobby_8001FBEC *resource, u32 size, s32 index, saddr file) {
     s32 data;
     u32 offset;
     s32 tag;
@@ -577,7 +577,7 @@ s32 bind_bml_model(Lobby_8001FBEC *resource, u32 size, s32 index, saddr arg3) {
     resource->entries[index].texture = 0;
     offset = 0;
     while (offset < size) {
-        data = (saddr)allocate_bml_chunk((BmlResource *)resource, (u8 *)arg3, &offset, (u32 *)&tag);
+        data = (saddr)allocate_bml_chunk((BmlResource *)resource, (u8 *)file, &offset, (u32 *)&tag);
         switch (tag) {
         case 0x4E4A434D:
             resource->entries[index].motion = data;

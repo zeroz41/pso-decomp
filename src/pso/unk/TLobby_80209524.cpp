@@ -839,7 +839,7 @@ int TLobby::rebuild_entry() { return clear_record_flags_a(); }
 
 // ---- pso/unk/text_8020AB50
 
-s32 load_area_enemy_set(s32 arg0, s32 arg1, s32 terrain, s32 entities) {
+s32 load_area_enemy_set(s32 floor, s32 arg1, s32 terrain, s32 entities) {
     char buf[0x28];
     const char *filename;
     s32 size;
@@ -888,7 +888,7 @@ s32 load_area_enemy_set(s32 arg0, s32 arg1, s32 terrain, s32 entities) {
         *(s16 *)(p + 2) = 0;
     }
     reserve_enemy_set_actor_ids((SpawnRecord_8020A9C4 *)TLobby__map_set_file_buffer, count, arg1);
-    init_floor_enemy_count__6TLobbyFlPUcUl(arg0, TLobby__map_set_file_buffer, size);
+    init_floor_enemy_count__6TLobbyFlPUcUl(floor, TLobby__map_set_file_buffer, size);
     return 1;
 }
 
@@ -1132,12 +1132,12 @@ EnemySetRecord *get_active_floor_enemy_rows(s32) { return get_loaded_enemy_set_r
 FloorObjectSetRow *get_active_floor_object_rows(s32) { return get_loaded_object_set_rows(); }
 
 // ---- pso/unk/text_8020B374
-s32 TLobby::init_floor_enemy_count(s32 arg0, u8 *arg1, u32 size) {
-    if (init_quest_floor_enemies(arg0, (EnemySetRecord *)arg1, size) == 1) {
-        TLobby__data_80513CC8[arg0] = size / 72U;
+s32 TLobby::init_floor_enemy_count(s32 floor, u8 *source, u32 size) {
+    if (init_quest_floor_enemies(floor, (EnemySetRecord *)source, size) == 1) {
+        TLobby__data_80513CC8[floor] = size / 72U;
         return 1;
     }
-    TLobby__data_80513CC8[arg0] = -1;
+    TLobby__data_80513CC8[floor] = -1;
     return 0;
 }
 

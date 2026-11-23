@@ -2574,8 +2574,8 @@ void macMakeInactive(Obj_803B312C *ov, s32 state) {
 
 #define HEAD (*(Voice_803B2128 **)&lbl_805D741C)
 
-u32 macStart(u16 arg0, u8 arg1, u8 arg2, u16 arg3, u8 arg4, u8 arg5, u8 arg6, u8 arg7,
-                      u8 arg8, u8 arg9, u16 arg10, u16 arg11, u8 arg12, u8 arg13, u8 arg14, u32 arg15) {
+u32 macStart(u16 arg0, u8 arg1, u8 maxVoices, u16 allocId, u8 arg4, u8 arg5, u8 arg6, u8 arg7,
+                      u8 arg8, u8 arg9, u16 arg10, u16 arg11, u8 isMaster, u8 arg13, u8 arg14, u32 arg15) {
     u32 macro;
     s32 flag;
     u16 r;
@@ -2592,7 +2592,7 @@ u32 macStart(u16 arg0, u8 arg1, u8 arg2, u16 arg3, u8 arg4, u8 arg5, u8 arg6, u8
                 arg1 = r;
             }
         }
-        id = voiceAllocate(arg1, arg2, arg3, flag != 0 ? 1 : 0);
+        id = voiceAllocate(arg1, maxVoices, allocId, flag != 0 ? 1 : 0);
         if (id != 0xFFFFFFFF) {
             v = (Voice_803B2128 *)((u8 *)synthVoice + id * 0x404);
             vidRemoveVoiceReferences((Prog_803B25CC *)v);
@@ -2630,7 +2630,7 @@ u32 macStart(u16 arg0, u8 arg1, u8 arg2, u16 arg3, u8 arg4, u8 arg5, u8 arg6, u8
                 v->f20C = arg9;
             }
             v->f102 = arg0;
-            v->f100 = arg3;
+            v->f100 = allocId;
             v->f110 = 0x75300000;
             v->f10E = 0x400;
             v->macroStart = macro;
@@ -2654,7 +2654,7 @@ u32 macStart(u16 arg0, u8 arg1, u8 arg2, u16 arg3, u8 arg4, u8 arg5, u8 arg6, u8
             v->f3EC = 0;
             v->fF4 = id | ((arg0 << 16) | ((arg4 << 8) & 0xFF00));
             voiceSetPriority(v, arg1);
-            vid = vidMakeNew((SYNTH_VOICE_SV *)v, arg12);
+            vid = vidMakeNew((SYNTH_VOICE_SV *)v, isMaster);
             if (vid != 0xFFFFFFFF) {
                 if (v->state != 0) {
                     UnYieldMacro((Ch_803B1E48 *)v, 0);

@@ -94,7 +94,7 @@ s32 partner_probe_obstacles(Unk_8014F844 *view);
 s32 partition_sort_entries__10TNpcPlayerFiPvii(s32 self, Unk_8014F844Entry *a, s32 lo, s32 hi);
 s32 find_parts_in_range__10TNpcPlayerFPvPvif(Unk_8014F844 *view, void *pos, u16 id, f32 range);
 s32 scan_nearby_enemies__10TNpcPlayerFPvPvf(Unk_8014F844 *view, void *pos, f32 range);
-bool is_target_line_clear__10TNpcPlayerFPvUs(u8 *arg0, u32 arg1);
+bool is_target_line_clear__10TNpcPlayerFPvUs(u8 *arg0, u32 id);
 s32 try_update_target_flag__10TNpcPlayerFPvi(void *arg0, s32 arg1);
 s32 check_and_set_reached__10TNpcPlayerFPv(void *arg0);
 s32 needs_movement__10TNpcPlayerFPvPvi(TNpcPlayer *self, void *_w1, int _w2);
@@ -2833,10 +2833,10 @@ void *TNpcPlayer::dt(s16 arg1) {
     return this;
 }
 
-bool is_target_line_clear__10TNpcPlayerFPvUs(u8 *arg0, u32 arg1) {
+bool is_target_line_clear__10TNpcPlayerFPvUs(u8 *arg0, u32 id) {
     Vec target;
     TObjPlayer *obj_player;
-    VecCopy(&target, &((TObjChara *)find_active_entity_by_id(arg1))->body_center);
+    VecCopy(&target, &((TObjChara *)find_active_entity_by_id(id))->body_center);
     obj_player = ((Unk_8014F844 *)arg0)->m_94;
     target.y = obj_player->body_center.y;
     return csnVector(&obj_player->body_center, &target, 0x2100) == NULL;

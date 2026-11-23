@@ -53,7 +53,7 @@ struct TAdEnterSerialAccessGC : public TAdEnterBaseGC {
     static void store_serial_access_key(saddr arg0, saddr arg1, saddr arg2);
     static char *serial_to_hex_string(const char *serial);
     static int forward_input(void *screen, s32 field, const char *text);
-    static TKeyBoardControl *create_keyboard_control(saddr arg0, s32 arg1);
+    static TKeyBoardControl *create_keyboard_control(saddr arg0, s32 field);
 
     static const NJS_POINT2 selection_positions[2];
     static char raw_serial_buffer[0xC];

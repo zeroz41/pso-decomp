@@ -24,9 +24,9 @@ public:
 };
 
 extern "C" {
-void TBoss3Volopt__sub_800FD344(s32 arg0, s32 arg1, s32 arg2, void *str, void *arg4);
-s32 create_font_small_task(Vec *pos, s32 arg1, s32 arg2, s32 arg3, s32 *str, s32 arg5, u16 view);
-s32 create_font_small_task_default_color(Vec *pos, s32 arg1, s32 arg2, s32 arg3, s32 *str, s32 arg5);
+void TBoss3Volopt__sub_800FD344(s32 pos, s32 color, s32 life, void *str, void *arg4);
+s32 create_font_small_task(Vec *pos, s32 color, s32 life, s32 delay, s32 *str, s32 arg5, u16 view);
+s32 create_font_small_task_default_color(Vec *pos, s32 color, s32 life, s32 delay, s32 *str, s32 arg5);
 void fn_800FCCC8(saddr client_id, s32 card_status_bits);
 s32 fn_800FCCF4(void *p);
 }

@@ -764,7 +764,7 @@ s32 TLobby::get_clock_frames() {
   return t;
 }
 
-void TLobby__sub_8001E998(f32 farg0, f32 farg1, f32 farg2, f32 farg3) {
+void TLobby__sub_8001E998(f32 x, f32 farg1, f32 farg2, f32 farg3) {
     f32 scale;
     f32 var_f4;
     saddr temp_r31;
@@ -777,7 +777,7 @@ void TLobby__sub_8001E998(f32 farg0, f32 farg1, f32 farg2, f32 farg3) {
         temp_r31 = TLobby::calc_alpha_shifted(var_f4);
         if (get_main_phase() == 0xF) {
             TLobby::close_result_windows();
-            draw_small_font_text((void *)(temp_r31 | 0xFF0000 | 0xFFFF), (const char *)(((u8* (*)(void))get_shared_text_buffer)()), (f32)farg0, (f32)(-1.0f + farg1), (f32)scale);
+            draw_small_font_text((void *)(temp_r31 | 0xFF0000 | 0xFFFF), (const char *)(((u8* (*)(void))get_shared_text_buffer)()), (f32)x, (f32)(-1.0f + farg1), (f32)scale);
         }
     }
 }

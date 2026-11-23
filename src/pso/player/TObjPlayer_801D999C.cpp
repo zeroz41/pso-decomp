@@ -3,11 +3,11 @@
 
 extern "C" {
 u8 TObjPlayer__sub_801D9514(s32, s32);
-bool TObjPlayer::is_slot_within_limit(s32 cls, s32 tech, u8 arg2) {
-    if (TObjPlayer::is_invalid_slot(arg2) != 0) {
+bool TObjPlayer::is_slot_within_limit(s32 cls, s32 tech, u8 level) {
+    if (TObjPlayer::is_invalid_slot(level) != 0) {
         return 1;
     }
-    return arg2 <= TObjPlayer__sub_801D9514(cls, tech);
+    return level <= TObjPlayer__sub_801D9514(cls, tech);
 }
 
 }

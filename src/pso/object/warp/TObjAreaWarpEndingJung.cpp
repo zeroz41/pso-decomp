@@ -592,11 +592,11 @@ TObjAreaWarp::~TObjAreaWarp() {
     vfunc_14();
 }
 
-void TObjAreaWarp::open_confirm_window(s32 arg1) {
+void TObjAreaWarp::open_confirm_window(s32 client_id) {
     uaddr player;
 
     if ((u32) this->menu_window == 0U) {
-        this->menu_window = (uaddr)create_window_menu((saddr)get_window_layout_position(0x33), 1, arg1);
+        this->menu_window = (uaddr)create_window_menu((saddr)get_window_layout_position(0x33), 1, client_id);
         if (((s32 (*)(void))get_game_play_mode)() == 1) {
             ((TWindowMenu *)(this->menu_window))->add_text_entry((saddr)TObjCityMainWarp__sub_80186AF4(), 2, 0, -1);
         } else {
@@ -607,7 +607,7 @@ void TObjAreaWarp::open_confirm_window(s32 arg1) {
         align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(this->menu_window));
         ((TWindowMenu *)(this->menu_window))->set_flag70_bit10();
         ((TAdChrSelASlotGC *)(this->menu_window))->set_flag_40();
-        this->user_client_id = arg1;
+        this->user_client_id = client_id;
         player = (uaddr)get_player_by_client_id(this->user_client_id);
         if (player != 0U) {
             mask_action_buttons((void *)(player + 0x550), 4);

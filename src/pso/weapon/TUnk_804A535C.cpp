@@ -43,10 +43,10 @@ void rocket_punch_target_impact(void *self, u32 a, u32 b, s32 idx) {
     }
 }
 
-void rocket_punch_wall_impact(u32 arg0, u32 weapon, u32 arg2, uaddr arg3) {
-    if ((weapon != 0U) && (arg3 != 0U)) {
+void rocket_punch_wall_impact(u32 arg0, u32 weapon, u32 arg2, uaddr pos) {
+    if ((weapon != 0U) && (pos != 0U)) {
         rocket_punch_return_timer(weapon);
-        spawn_particle_effect((const Vec *)arg3, 0x45);
+        spawn_particle_effect((const Vec *)pos, 0x45);
         play_sound_effect(0x4001C112, 0, 0, 0);
     }
 }

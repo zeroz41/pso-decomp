@@ -10,7 +10,7 @@ struct TObjAreaWarp : public TObjWarpBase {
     void handle_area_selection();
     virtual void confirm_area_transfer(TObjPlayer *player);  // player: who confirmed (find_warp_player_in_range)
     virtual void debug_print_area_num();
-    virtual void open_confirm_window(s32 arg1);
+    virtual void open_confirm_window(s32 client_id);
     s32 find_active_player();
     virtual s32 is_warp_enabled();
     s32 dest_floor;            // set data value, or the current floor + 1 while lobby_quest_progress_flag is set

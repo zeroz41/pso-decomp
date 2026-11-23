@@ -343,18 +343,18 @@ void TObjFogCollisionPoison__sub_801535D0(s32 arg0) {
     }
 }
 
-void TObjFogCollisionPoison__sub_80153520(s32 arg0) {
+void TObjFogCollisionPoison__sub_80153520(s32 actor) {
     switch (get_current_floor_area()) {
     case AREA_VR_SPACESHIP_ALPHA:
     case AREA_VR_SPACESHIP_BETA:
-        play_persistent_sound(0x4004BC16, arg0, arg0 + 0x38, 0, 0);
+        play_persistent_sound(0x4004BC16, actor, actor + 0x38, 0, 0);
         break;
     case AREA_SEABED_UPPER:
     case AREA_SEABED_LOWER:
-        play_persistent_sound(0x4004BC24, arg0, arg0 + 0x38, 0, 0);
+        play_persistent_sound(0x4004BC24, actor, actor + 0x38, 0, 0);
         break;
     default:
-        play_persistent_sound(0x4004BC1C, arg0, arg0 + 0x38, 0, 0);
+        play_persistent_sound(0x4004BC1C, actor, actor + 0x38, 0, 0);
         break;
     }
 }

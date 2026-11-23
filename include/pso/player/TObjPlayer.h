@@ -353,9 +353,9 @@ struct TObjPlayer : public TObjChara {
     void emit_jellen_support_effect_default();
     void emit_shifta_support();
     int emit_movement_effect_at();
-    int check_hit_by_id_276(u16 a1);
+    int check_hit_by_id_276(u16 target_id);
     void check_hit_by_id_431_from_packet();
-    int emit_grass_footstep_particle(int a1);
+    int emit_grass_footstep_particle(int position);
     void emit_photon_blast_feedback_from_packet();
     int copy_vec_at_18();
     s32 get_attacker_id();
@@ -402,7 +402,7 @@ struct TObjPlayer : public TObjChara {
     Vec *get_prev_position_ptr();
     void clear_header_struct();
     void clear_velocity_vectors();
-    static void set_com_card_window(s32 arg0);
+    static void set_com_card_window(s32 client);
     static s32 check_demo_mode();
     static s32 is_locally_controlled(void *player);
     static TItem *get_equipped_weapon(void *player);  // equipped_items[6]
@@ -496,7 +496,7 @@ struct TObjPlayer : public TObjChara {
     void set_effect_state(s32 v);
     void set_atp(s16 v);
     s16 get_stage_strike_count();
-    static void notify_hit_target(u32 arg0, uaddr arg1, u32 arg2, uaddr arg3);
+    static void notify_hit_target(u32 arg0, uaddr arg1, u32 arg2, uaddr pos);
     s32 is_rand_below_threshold();
     s16 get_kill_count();
     static void apply_status_effect(saddr a);
@@ -735,7 +735,7 @@ struct TObjPlayer : public TObjChara {
     static void apply_velocity_if_free(saddr arg0);
     void complete_guard_reaction();
     void select_hit_action();
-    static void create_photon_blast_party_effects(u16 arg0);
+    static void create_photon_blast_party_effects(u16 id);
     static u8 *find_photon_blast_by_section_id(u16 section_id);
     static u16 get_current_target_id();
     static void update_photon_blast_state();
@@ -782,7 +782,7 @@ struct TObjPlayer : public TObjChara {
     void try_trigger_effect();
     void select_run_request();
     int apply_status_action_b();
-    void calc_movement_target(s32 arg1, f32 *arg2, f32 *arg3);
+    void calc_movement_target(s32 angle, f32 *arg2, f32 *arg3);
     void reset_and_flag();
     void send_6x40_walk_to_position();
     void handle_ring_hit();
@@ -790,7 +790,7 @@ struct TObjPlayer : public TObjChara {
     void select_walk_request();
     void cleanup_idle_entry();
     static void exit_idle_state();
-    static void update_action(saddr arg0);
+    static void update_action(saddr owner);
     void start_animation();
     void send_6x3E_stop_at_position();
     static void complete_idle_state();
@@ -902,7 +902,7 @@ struct TObjPlayer : public TObjChara {
     static void reset_particle_ctrl(s32 *arg0);
     void*init_sub_objects();
     void set_level(s32 lvl);
-    static s32 init_sub_object(saddr arg0);
+    static s32 init_sub_object(saddr lobby);
     static void init_sub_object_vectors(saddr lobby);
     int bswap_disp_config_field();
     static s32 init_inventory_items(saddr arg0);
@@ -919,8 +919,8 @@ struct TObjPlayer : public TObjChara {
     f32 get_photon_blast_upper_bound();
     f32 get_photon_blast_hold_frame();
     f32 get_attack_recovery_count();
-    static s32 get_current_state_field(s8 _w0, s32 _w1);
-    s32 get_class_state_field(s32 arg1);
+    static s32 get_current_state_field(s8 cls, s32 lvl);
+    s32 get_class_state_field(s32 lvl);
     static player_stats *get_class_stat_entry(u8 *player);
     f32 get_tp_class_factor();
     f32 get_class_hp_factor();
@@ -928,10 +928,10 @@ struct TObjPlayer : public TObjChara {
     s32 get_falz_phase();
     s16 get_section_clamped();
     s16 get_or_init_field_4();
-    static void split_capped_value(u8 arg0, u8 *arg1, s8 *arg2);
+    static void split_capped_value(u8 level, u8 *arg1, s8 *arg2);
     u8 get_valid_technique();
     void level_up_all_techniques(s32 add);
-    static u8 clamp_to_max(saddr arg0, u8 arg1, u8 arg2);
+    static u8 clamp_to_max(saddr arg0, u8 level, u8 arg2);
     static s32 validate_and_clear_slot(void *techs, s16 tech);
     static s32 is_invalid_slot(u8 level);
     static s32 is_valid_technique_id(s16 arg0);
@@ -951,7 +951,7 @@ struct TObjPlayer : public TObjChara {
     void gather_contacts_for_self(s32 arg1);
     void*get_pos_ptr();
     static void create_tec_zarua(void *source, void *origin, void *targets, s32 level);
-    void add_status_line(u8 arg1, uaddr item, s32 arg3);
+    void add_status_line(u8 category_icon, uaddr item, s32 arg3);
     static void clear_state_if_flag80(s32 arg0);
     static void setup_projection_texture(Vec *pos, SceneSectionAngles *angles, u32 flags);
     void reset_lobby_subobject();
@@ -994,7 +994,7 @@ struct TObjPlayer : public TObjChara {
     static void clear_foot_stamp(saddr owner, saddr player);
     void update_child(void *owner);
     void update_follow_particle(saddr owner);
-    static s32 check_hit_by_id_431(void* p, u16 a1);
+    static s32 check_hit_by_id_431(void* p, u16 target_id);
     void create_right_hand_ptcl(void *owner);
     void create_left_hand_ptcl(void *owner);
     void*init_follow_particle_ctrl();
@@ -1079,7 +1079,7 @@ struct TObjPlayer : public TObjChara {
     static TItem *create_set_vtable_state(u8 *arg0);
     static TItem *create_state_80125154(u8 *arg0);
     static TItem *create_configured_state(u8 *arg0);
-    static void spawn_faust_wall_explosion(s32 arg0, saddr arg1);
+    static void spawn_faust_wall_explosion(s32 id, saddr arg1);
     static TItem *create_state_vt2678(u8 *arg0);
     static TItem *create_obj_80125F60(u8 *arg0);
     static TItem *create_substate_b(u8 *arg0);
@@ -1216,7 +1216,7 @@ struct TObjPlayer : public TObjChara {
     void forward_1BF500_at_63c();
     s32 classify_action_state();
     void update_foot_stamp(int arg1);
-    void play_footstep_sound(f32 farg0, f32 farg1);
+    void play_footstep_sound(f32 at_frame, f32 farg1);
     void revive();
     static s32 revive_6xA1(saddr arg0, void * _w1);
     static s32 update_medical_font(saddr arg0, void * _w1);
@@ -1281,7 +1281,7 @@ struct TObjPlayer : public TObjChara {
     static void send_6x2A_drop_item(void *arg0, s32 arg1, void *arg2, s32 arg3);
     s32 send_trap_packet(int arg1_);
     void request_meseta_drop(s32 arg1);
-    void request_item_drop(s32 arg1, s32 count);
+    void request_item_drop(s32 key, s32 count);
     s32 count_items_of_type(s8 arg1, s8 arg2, s8 arg3);
     void dispatch_action(s32 key, s32 amount);
     s32 can_inventory_accept_item(u8 *item);
@@ -1337,30 +1337,30 @@ struct TObjPlayer : public TObjChara {
     void *copy_field_4(void *arg1);
     void send_use_item_cmd();
     void bswap_cmd_item_data();
-    void*copy(void* a1);
+    void*copy(void* source);
     void*init_pkt_6x2B();
     void set_code_43_6();
     void send_cmd_item_data();
     void init_6x2A();
     void bswap_fields_and_send();
     void bswap_body_words();
-    void *copy_short_fields(void *arg1);
+    void *copy_short_fields(void *source);
     void init_trap_packet();
     void bswap_body_words_and_send();
     void byteswap_data();
     void init_6xAC_packet();
     void bswap_body_dwords3();
-    void *copy_pair_fields3(void *arg1);
+    void *copy_pair_fields3(void *source);
     void init_cmd_6x29();
     void bswap_body_dwords3_and_send();
     void bswap_body_dwords4_and_send();
     void bswap_body_dwords4();
     void init_cmd_6x26();
     void bswap_body_dwords5();
-    void *copy_pair_fields4(void *arg1);
+    void *copy_pair_fields4(void *source);
     void init_command();
     void bswap_body_dwords5_and_send();
-    void *copy_from(void *arg1);
+    void *copy_from(void *source);
     void build_6xAE_set_animation_state_packet();
     void bswap_pkt_u32x5();
     void init_cmd_6x20();
@@ -1372,7 +1372,7 @@ struct TObjPlayer : public TObjChara {
     void bswap_warp_packet();
     void*copy_warp_target(void* a1);
     void update_warp_relocation();
-    static s32 try_camera_action(saddr arg0, s32 arg1);
+    static s32 try_camera_action(saddr player, s32 arg1);
     void bswap_entry_list();
     void reset_movement_state();
     static void update_party_cursors(saddr arg0, s32 arg1);
@@ -1420,7 +1420,7 @@ struct TObjPlayer : public TObjChara {
     static TItem *create_effect_object(u8 *item);
     static TItem *create_fields_state(u8 *item);
     static TItem *create_state_35_alt(u8 *item);
-    static bool is_slot_within_limit(s32 arg0, s32 arg1, u8 arg2);
+    static bool is_slot_within_limit(s32 arg0, s32 arg1, u8 level);
     s32 can_use_camera_field();
     void init_parts();
     s32 get_action_palette_entry(s32 index);
@@ -1459,7 +1459,7 @@ struct TObjPlayer : public TObjChara {
     void set_speed_scaled_by_camera(u8 arg1);
     void apply_speed_with_camera_scale(u8 arg1);
     s32 try_pickup_item();
-    void emit_footstep_effect(f32 farg0, f32 farg1);
+    void emit_footstep_effect(f32 at_frame, f32 farg1);
     void update_target();
     void check_level_up();
     void send_unequip_held_item();

@@ -315,28 +315,28 @@ void *TAdEnterSerialAccessGC::create_default_callback() {
     return TAdEnterSerialAccessGC::create_callback((void *)lbl_80477188, (void *)lbl_80477190, fn_8032AC9C);
 }
 
-TKeyBoardControl *TAdEnterSerialAccessGC::create_keyboard_control(saddr arg0, s32 arg1) {
+TKeyBoardControl *TAdEnterSerialAccessGC::create_keyboard_control(saddr arg0, s32 field) {
     TKeyBoardControl *kb;
-    if (arg1 < 0 || arg1 >= 4) {
+    if (field < 0 || field >= 4) {
         return NULL;
     }
     B4_8032AD30 sp8 = serial_keyboard_mode_table;
-    kb = new TKeyBoardControl((TObject *)arg0, serial_keyboard_field_width_table[arg1], 0, sp8.b[arg1], local_client_id);
+    kb = new TKeyBoardControl((TObject *)arg0, serial_keyboard_field_width_table[field], 0, sp8.b[field], local_client_id);
     if (kb == NULL) {
         return NULL;
     }
-    kb->set_sub_position((u8 *)serial_keyboard_position_table[arg1]);
-    if (has_serial_input__22TAdEnterSerialAccessGCFv(arg0, arg1) != 0) {
-        kb->set_text((char *)get_serial_text__22TAdEnterSerialAccessGCFii(arg0, arg1));
+    kb->set_sub_position((u8 *)serial_keyboard_position_table[field]);
+    if (has_serial_input__22TAdEnterSerialAccessGCFv(arg0, field) != 0) {
+        kb->set_text((char *)get_serial_text__22TAdEnterSerialAccessGCFii(arg0, field));
     }
-    if (arg1 != 3) {
+    if (field != 3) {
         kb->set_composer_flag62_bit4();
     }
     return kb;
 }
 
-void fn_8032AC9C(void *arg0, void *arg1) {
-    ((TWindowBase *)arg0)->draw_window_frame(arg1);
+void fn_8032AC9C(void *arg0, void *context) {
+    ((TWindowBase *)arg0)->draw_window_frame(context);
     TAdSubPlyItemGC::render_status_line(password_screen_status_line_position[0].x, password_screen_status_line_position[0].y, 0.8f, (const char *)get_localized_text_entry(0x17, 4), -1);
     switch (TAdEnterBaseGC__entry_mode) {
     case 0:
@@ -347,7 +347,7 @@ void fn_8032AC9C(void *arg0, void *arg1) {
         fn_8032AC24();
         return;
     case 3:
-        draw_masked_password_field((saddr)arg1);
+        draw_masked_password_field((saddr)context);
         return;
     }
 }
@@ -366,7 +366,7 @@ void fn_8032AC24(void) {
     draw_selection_plate(&plate, const_cast<NJS_POINT2 *>(&entry_field_box_pos), w, 0);
 }
 
-void draw_masked_password_field(saddr arg0) {
+void draw_masked_password_field(saddr context) {
     char buf[0x80];
     char *str;
     s32 len;
@@ -393,7 +393,7 @@ void draw_masked_password_field(saddr arg0) {
         NJS_POINT2 p2;
         p2.x = password_field_text_pos[0] + (f32) (len * password_entry_keyboard_control->get_cursor_position());
         p2.y = password_field_text_pos[1];
-        fn_8025DE10((void *)arg0, &p2);
+        fn_8025DE10((void *)context, &p2);
     }
 }
 

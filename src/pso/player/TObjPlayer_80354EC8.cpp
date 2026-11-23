@@ -18,14 +18,14 @@ void __construct_array(void *, void *, void *, u32, u32);
 u8 lbl_80543978[0xC];
 u8 lbl_80543984[0x24];
 
-void run_palettex_callback(u16 arg0) {
-    if (is_local_client(arg0) != 0) {
-        ((TObjPlayer *)&((E_80354E7C *)lbl_80543984)[arg0])->finish_quest_thread();
+void run_palettex_callback(u16 client_index) {
+    if (is_local_client(client_index) != 0) {
+        ((TObjPlayer *)&((E_80354E7C *)lbl_80543984)[client_index])->finish_quest_thread();
     }
 }
-void set_palettex_callback(u16 arg0, s32 arg1) {
-    if (is_local_client(arg0) != 0) {
-        ((TObjPlayer *)&((E_80354E7C *)lbl_80543984)[arg0])->set_player_index(arg1);
+void set_palettex_callback(u16 client_index, s32 arg1) {
+    if (is_local_client(client_index) != 0) {
+        ((TObjPlayer *)&((E_80354E7C *)lbl_80543984)[client_index])->set_player_index(arg1);
     }
 }
 u8 TObjPlayer__sub_80354C7C(u16 client_index) {
@@ -34,14 +34,14 @@ u8 TObjPlayer__sub_80354C7C(u16 client_index) {
     }
     return 0;
 }
-void TObjPlayer__sub_80354CCC(u16 arg0) {
-    if (is_local_client(arg0) != 0) {
-        TObjPlayer__sub_80354FB0(&((E_80354E7C *)lbl_80543984)[arg0]);
+void TObjPlayer__sub_80354CCC(u16 client_index) {
+    if (is_local_client(client_index) != 0) {
+        TObjPlayer__sub_80354FB0(&((E_80354E7C *)lbl_80543984)[client_index]);
     }
 }
-void TObjPlayer__sub_80354D14(u16 arg0) {
-    if (is_local_client(arg0) != 0) {
-        ((TObjPlayer *)&((E_80354E7C *)lbl_80543984)[arg0])->set_flag0_bits01();
+void TObjPlayer__sub_80354D14(u16 client_index) {
+    if (is_local_client(client_index) != 0) {
+        ((TObjPlayer *)&((E_80354E7C *)lbl_80543984)[client_index])->set_flag0_bits01();
     }
 }
 s32 is_palettex_activated(u16 client_index) {
@@ -50,14 +50,14 @@ s32 is_palettex_activated(u16 client_index) {
     }
     return 0;
 }
-void TObjPlayer__sub_80354DAC(u16 arg0) {
-    if (is_local_client(arg0) != 0) {
-        TObjPlayer__sub_8035501C(&((E_80354E7C *)lbl_80543984)[arg0]);
+void TObjPlayer__sub_80354DAC(u16 client_index) {
+    if (is_local_client(client_index) != 0) {
+        TObjPlayer__sub_8035501C(&((E_80354E7C *)lbl_80543984)[client_index]);
     }
 }
-void activate_palettex(u16 arg0) {
-    if (is_local_client(arg0) != 0) {
-        ((TObjPlayer *)&((E_80354E7C *)lbl_80543984)[arg0])->set_flag1();
+void activate_palettex(u16 client_index) {
+    if (is_local_client(client_index) != 0) {
+        ((TObjPlayer *)&((E_80354E7C *)lbl_80543984)[client_index])->set_flag1();
     }
 }
 s32 is_local_client(u16 client_index) {

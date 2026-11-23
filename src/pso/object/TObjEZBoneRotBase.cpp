@@ -109,11 +109,11 @@ void TObjEZBoneRotPlayer::calc_bone_offsets_recursive(void *arg1, s32 angle, s32
     } while (arg1 != NULL);
 }
 
-void TObjEZBoneRotPlayer::start_bone_rotation_sequence(s32 arg1) {
+void TObjEZBoneRotPlayer::start_bone_rotation_sequence(s32 angle) {
     *(s32 *)((s8 *)((u8 *)this) + 0x88) = 0;
     *(s32 *)((s8 *)((u8 *)this) + 0x8C) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x20)) + 0x10);
     *(saddr *)((s8 *)((u8 *)this) + 0x90) = (saddr) (((u8 *)this) + 0x24);
-    calc_bone_offsets_recursive((void *)(*(u8 **)((s8 *)((u8 *)this) + 0x1C)), arg1, (s32)((s32) ((f32) *(s32 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x20)) + 0) * *(f32 *)((s8 *)((u8 *)this) + 0x94))));
+    calc_bone_offsets_recursive((void *)(*(u8 **)((s8 *)((u8 *)this) + 0x1C)), angle, (s32)((s32) ((f32) *(s32 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x20)) + 0) * *(f32 *)((s8 *)((u8 *)this) + 0x94))));
 }
 
 void TObjEZBoneRotBase::sub_800FEC40(u8 *arg1) {

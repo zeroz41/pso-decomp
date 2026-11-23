@@ -29,14 +29,14 @@ s16 TObjPlayer::get_or_init_field_4() {
     return *(s16 *)&this->m_flags;
 }
 
-void TObjPlayer::split_capped_value(u8 arg0, u8 *arg1, s8 *arg2) {
-    if ((TObjPlayer::is_invalid_slot(arg0) != 0) || (arg0 <= 0xEU)) {
-        *arg1 = arg0;
+void TObjPlayer::split_capped_value(u8 level, u8 *arg1, s8 *arg2) {
+    if ((TObjPlayer::is_invalid_slot(level) != 0) || (level <= 0xEU)) {
+        *arg1 = level;
         *arg2 = 0;
         return;
     }
     *arg1 = 0xE;
-    *arg2 = arg0 - 0xE;
+    *arg2 = level - 0xE;
 }
 
 u8 TObjPlayer::get_valid_technique() {

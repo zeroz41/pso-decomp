@@ -109,8 +109,8 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     void*copy_item_data(void* a1);
     void*init_guild_card_tag();
     void clear_inventory_slot();
-    static s32 draw_window_bg(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-    static s32 load_player(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+    static s32 draw_window_bg(s32 chan, s32 arg1, s32 arg2, s32 arg3);
+    static s32 load_player(s32 chan, s32 arg1, s32 arg2, s32 arg3);
     static s32 load_player_slot(s32 chan, const char *file_name, void *buffer);
     s32 try_acquire_slot();
     static void init_entry_tables(void* _w0);

@@ -240,7 +240,7 @@ s32 TOTrapAncient01::check_trigger_flag(saddr src, s32 flags) {
     }
     return 1;
 }
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags) {
+s32 play_persistent_sound(s32 id, saddr actor, uaddr src, s32 a3, s32 flags) {
     s32 idx = -1;
     s32 i;
     s32 ok;
@@ -276,7 +276,7 @@ s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags) {
         return idx;
     }
     if (TOTrapAncient01::check_trigger_flag(src, flags) != 0) {
-        idx = normalize_sound_request(id, a1, src, a3, flags);
+        idx = normalize_sound_request(id, actor, src, a3, flags);
         last_sound_effect_slot = idx;
         if (idx >= 0) {
             lbl_805145F0[idx].flags &= lbl_805DC748;
@@ -286,7 +286,7 @@ s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags) {
             lbl_805145F0[idx].src = (Vec *)src;
             lbl_805145F0[idx].x1a = a3;
             lbl_805145F0[idx].id = id;
-            lbl_805145F0[idx].x1c = a1;
+            lbl_805145F0[idx].x1c = actor;
             lbl_805145F0[idx].timer = 5;
             lbl_805145F0[idx].flags |= 0x1600;
         } else {

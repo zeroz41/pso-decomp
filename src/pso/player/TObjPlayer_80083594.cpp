@@ -623,7 +623,7 @@ f32 calc_camera_fov_degrees(void) {
 #pragma opt_common_subs off
 
 
-void render_projected_shadow_receiver(u8 *arg0, saddr arg1) {
+void render_projected_shadow_receiver(u8 *arg0, saddr ang) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80083914, sp8) == 0x0);
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_80083914, sp10) == 0x8);
     Stack_80083914 stack;
@@ -635,7 +635,7 @@ void render_projected_shadow_receiver(u8 *arg0, saddr arg1) {
         rotate_current_matrix_x_ps(0x3800);
         translate_current_matrix_ps(-shadow_light_position.x, -shadow_light_position.y, -shadow_light_position.z);
         translate_current_matrix_ps(*(f32 *)((s8 *)arg0 + 0), *(f32 *)((s8 *)arg0 + 4), *(f32 *)((s8 *)arg0 + 8));
-        rotate_matrix_by_node_angles((void *)arg1, 1);
+        rotate_matrix_by_node_angles((void *)ang, 1);
         stack.sp8 = 0.5f;
         t = 2.1f;
         r = -2.1f;

@@ -679,7 +679,7 @@ void handle_6x70_sync_player_disp_and_inventory(Pkt_801354AC *arg0) {
         }
     }
 }
-void TLobby::send_6x70_player_data(int arg0) {
+void TLobby::send_6x70_player_data(int size) {
     Stack_80135598 stack;
     u8 *temp_r3;
     init_player_join_record(&stack.sp8);
@@ -690,7 +690,7 @@ void TLobby::send_6x70_player_data(int arg0) {
         *(s8 *)((s8 *)temp_r3 + 1) = 0;
         *(s16 *)((s8 *)temp_r3 + 2) = (s16) local_client_id;
         *(s32 *)((s8 *)temp_r3 + 4) = 0x494;
-        bswap_and_send_extended_subcommand(temp_r3, arg0);
+        bswap_and_send_extended_subcommand(temp_r3, size);
         mem_free(temp_r3);
     }
 }
@@ -804,15 +804,15 @@ void handle_6x6B_sync_game_state(Pkt_801358B4 *arg0) {
     }
 }
 
-void send_6x6F_quest_flags(saddr arg0) {
+void send_6x6F_quest_flags(saddr size) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80135974, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_80135974, spC) == 0x4);
     Stack_80135974 stack;
     TLobby__sub_8013A578(&stack.sp8);
     memcpy(&stack.spC, &quest_story_flags_by_difficulty.value, 0x200);
-    TLobby::bswap_and_handle_packet(&stack.sp8, arg0);
+    TLobby::bswap_and_handle_packet(&stack.sp8, size);
 }
-void TLobby::send_6x6E_sync_game_state(int arg0) {
+void TLobby::send_6x6E_sync_game_state(int size) {
     s32 n;
     s32 len;
     Pkt_801359C4 *buf;
@@ -843,7 +843,7 @@ void TLobby::send_6x6E_sync_game_state(int arg0) {
         buf->flag = 0;
         buf->f2 = 0;
         buf->len = ((len + 3) & ~3) + 8;
-        bswap_and_send_extended_subcommand(buf, arg0);
+        bswap_and_send_extended_subcommand(buf, size);
         mem_free(buf);
     }
 }
@@ -1030,12 +1030,12 @@ void TLobby::close_com_card_window() {
     }
 }
 
-void show_join_entry_message(s32 arg0) {
+void show_join_entry_message(s32 id) {
     if (TLobby__join_entry_window_obj == 0) {
         NJS_POINT2 tmp = lbl_8043EDF8[0];
         TLobby__join_entry_window_obj = (uaddr)create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0xc2), &tmp);
     }
-    ((TWindowMessage *)TLobby__join_entry_window_obj)->append_line((int)(TLobby::get_seq_phase(arg0)), (int)1);
+    ((TWindowMessage *)TLobby__join_entry_window_obj)->append_line((int)(TLobby::get_seq_phase(id)), (int)1);
 }
 
 void TLobby::run_task() {
@@ -1768,8 +1768,8 @@ void TLobby::open_menu_window() {
     ((TWindowSubComCardList *)lobby_make_team_menu_window)->set_selected_index(0);
     TLobby__data_805D5594 = 0x18;
 }
-void TLobby::open_make_team_window(int arg0) {
-    lobby_make_team_window = new TWindowMakeTeam((TObject *)TLobby__join_lobby_controller, arg0);
+void TLobby::open_make_team_window(int mode) {
+    lobby_make_team_window = new TWindowMakeTeam((TObject *)TLobby__join_lobby_controller, mode);
     TLobby__data_805D5594 = 0xA;
 }
 void TLobby::close_all_windows(void *) { TLobby::close_all_windows(); }
@@ -2261,7 +2261,7 @@ void TLobby__sub_801371B0(s32 arg0) {
     ((TWindowMessage *)TLobby__join_entry_window_obj)->append_line((int)arg0, (int)3);
     TLobby__data_805D5594 = 0x16;
 }
-void TLobby::disable_window_flags(void*a0) { TWindowCtrl::set_window_flags_off(local_client_id, (saddr)a0); }
+void TLobby::disable_window_flags(void*flags) { TWindowCtrl::set_window_flags_off(local_client_id, (saddr)flags); }
 void TLobby::open_ship_block_select_menu(int count, void *entries, void *selected) {
     static void *tblA = (void *)lobby_window_title_ship_select;
     static void *tblB = (void *)lobby_window_title_block_select;
@@ -3091,9 +3091,9 @@ u8 *fn_8013AAD4(u8 *dst, u8 *src) {
 #pragma pop
 
 
-void *TPlyGuildCardTag::copy_full(void *arg1) {
-    copy(arg1);
-    ((TPlyGuildCardTag *)((char *)this + 36))->copy((void *)((char *)arg1 + 36));
+void *TPlyGuildCardTag::copy_full(void *source) {
+    copy(source);
+    ((TPlyGuildCardTag *)((char *)this + 36))->copy((void *)((char *)source + 36));
     return this;
 }
 void*TPlyGuildCardTag::copy(void* a1) { *(void**)(this) = *(void**)((char*)a1 + 0x0); TPlyGuildCardTag__sub_8013ACA4((void *)((char*)this + 0x4), (void *)((char*)a1 + 0x4)); TPlyGuildCardTag__sub_8013ACA4((void *)((char*)this + 0x8), (void *)((char*)a1 + 0x8)); TPlyGuildCardTag__sub_8013ACA4((void *)((char*)this + 0xc), (void *)((char*)a1 + 0xc)); TPlyGuildCardTag__sub_8013ACA4((void *)((char*)this + 0x10), (void *)((char*)a1 + 0x10)); TPlyGuildCardTag__sub_8013ACA4((void *)((char*)this + 0x14), (void *)((char*)a1 + 0x14)); TPlyGuildCardTag__sub_8013ACA4((void *)((char*)this + 0x18), (void *)((char*)a1 + 0x18)); TPlyGuildCardTag__sub_8013ACA4((void *)((char*)this + 0x1c), (void *)((char*)a1 + 0x1c)); TPlyGuildCardTag__sub_8013ACA4((void *)((char*)this + 0x20), (void *)((char*)a1 + 0x20)); return this; }

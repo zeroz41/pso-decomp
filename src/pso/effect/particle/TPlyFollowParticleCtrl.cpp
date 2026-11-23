@@ -183,7 +183,7 @@ void emit_idle_water_splash(s32 owner, s32 position) {
 }
 
 
-s32 TObjPlayer::check_hit_by_id_431(void* p, u16 a1) { return TObjPlayer::check_hit_by_id((saddr)p, a1, 431); }
+s32 TObjPlayer::check_hit_by_id_431(void* p, u16 target_id) { return TObjPlayer::check_hit_by_id((saddr)p, target_id, 431); }
 
 PlayerFollowParticles *init_follow_particle_state(PlayerFollowParticles *state) {
     s32 i;

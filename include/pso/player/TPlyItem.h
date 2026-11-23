@@ -52,9 +52,9 @@ public:
     TObject *pad_1C8;
     TPlyItem(TObject *parent);
     virtual ~TPlyItem();
-    s32 count_items_by_id(saddr arg1);
+    s32 count_items_by_id(saddr item_data);
     void remove_equipped_item(s32 player, void *node);
-    s32 update_inventory_item(saddr player, s32 arg2, saddr pos, s32 arg4, s32 client);
+    s32 update_inventory_item(saddr player, s32 key, saddr pos, s32 arg4, s32 client);
     void *start_inventory_update(int key);
     void destroy_subobjects(int a1);
     void *set_mode_and_refresh_object(void *item_data);

@@ -325,12 +325,12 @@ s32 TObjPlayer__sub_801D91B8(saddr player) {
     return TObjPlayer::get_current_state_field(((TObjPlayer *)player)->get_class_index(), TObjPlayer::get_max_level());
 }
 
-s32 TObjPlayer::get_current_state_field(s8 _w0, s32 _w1) {
-    return *(s32 *)(get_ply_level_table_row(_w0, _w1) + 8);
+s32 TObjPlayer::get_current_state_field(s8 cls, s32 lvl) {
+    return *(s32 *)(get_ply_level_table_row(cls, lvl) + 8);
 }
 
-s32 TObjPlayer::get_class_state_field(s32 arg1) {
-    saddr arg0 = (saddr)this; return TObjPlayer::get_current_state_field(((TObjPlayer *)arg0)->get_class_index(), arg1); }
+s32 TObjPlayer::get_class_state_field(s32 lvl) {
+    saddr arg0 = (saddr)this; return TObjPlayer::get_current_state_field(((TObjPlayer *)arg0)->get_class_index(), lvl); }
 
 u8 *get_ply_level_table_row(s8 cls, s32 lvl) {
   saddr temp_r30;

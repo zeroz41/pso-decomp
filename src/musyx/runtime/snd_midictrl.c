@@ -197,15 +197,15 @@ void inpSetMidiCtrl14(u8 ctrl, u8 channel, u8 set, u16 value) {
     }
 }
 
-void inpResetMidiCtrl(u8 arg0, u8 arg1, u32 arg2) {
+void inpResetMidiCtrl(u8 midi, u8 midiSet, u32 arg2) {
     const u8 *src = arg2 != 0 ? lbl_8047C310 : lbl_8047C398;
     u8 *dst;
     s32 i;
 
-    if (arg1 != 0xFF) {
-        dst = midi_ctrl[arg1][arg0];
+    if (midiSet != 0xFF) {
+        dst = midi_ctrl[midiSet][midi];
     } else {
-        dst = fx_ctrl[arg0];
+        dst = fx_ctrl[midi];
     }
     if (arg2 != 0) {
         memcpy(dst, src, 0x86);
@@ -216,7 +216,7 @@ void inpResetMidiCtrl(u8 arg0, u8 arg1, u32 arg2) {
             }
         }
     }
-    inpSetMidiLastNote(arg0, arg1, 0xFF);
+    inpSetMidiLastNote(midi, midiSet, 0xFF);
 }
 
 u16 inpGetMidiCtrl(u8 ctrl, u8 channel, u8 set) {
@@ -521,12 +521,12 @@ u16 inpGetModulation(Lob_803BC120 *svoice) {
     return _GetInputValue((Voice_803BBB30 *)(svoice), (Inp_803BBB30 *)((u8 *)svoice + 0x2CC), (u8)(svoice->b121), (u8)(svoice->b122));
 }
 
-u16 inpGetPedal(Lob_803BC168 *arg0) {
-    if (!(arg0->flags & 0x40)) {
-        return arg0->v;
+u16 inpGetPedal(Lob_803BC168 *svoice) {
+    if (!(svoice->flags & 0x40)) {
+        return svoice->v;
     }
-    arg0->flags = arg0->flags & ~0x40;
-    return _GetInputValue((Voice_803BBB30 *)(arg0), (Inp_803BBB30 *)((u8 *)arg0 + 0x2F0), (u8)(arg0->b121), (u8)(arg0->b122));
+    svoice->flags = svoice->flags & ~0x40;
+    return _GetInputValue((Voice_803BBB30 *)(svoice), (Inp_803BBB30 *)((u8 *)svoice + 0x2F0), (u8)(svoice->b121), (u8)(svoice->b122));
 }
 
 u16 inpGetPreAuxA(Lob_803BC1B0 *svoice) {

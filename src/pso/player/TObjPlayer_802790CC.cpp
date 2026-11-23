@@ -9,18 +9,18 @@ extern "C" {
 
 
 
-void TObjPlayer::add_status_line(u8 arg1, uaddr item, s32 arg3) {
+void TObjPlayer::add_status_line(u8 category_icon, uaddr item, s32 arg3) {
     void *temp_r31;
 
     temp_r31 = (void *)((TWindowBase *)this)->get_array_entry(*(s16 *)((s8 *)this + 0x72));
     if (item == 0U) {
-        ((ItemListRow *)temp_r31)->init_status_entry(arg1, 0, arg3);
+        ((ItemListRow *)temp_r31)->init_status_entry(category_icon, 0, arg3);
         *(f32 *)((s8 *)temp_r31 + 8) += 18.0f;
         reinterpret_cast<ItemListRow *>(temp_r31)->category_style = 0xFFAAAAAA;
     } else {
         ((ItemListRow *)temp_r31)->init_item_row((void *)item, (s32)arg3);
     }
-    if (arg1 == 4) {
+    if (category_icon == 4) {
         *(f32 *)((s8 *)temp_r31 + 8) += 18.0f;
     }
     *(s16 *)((s8 *)this + 0x72) = (s16) (*(s16 *)((s8 *)this + 0x72) + 1);

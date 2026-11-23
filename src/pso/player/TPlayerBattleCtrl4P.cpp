@@ -194,7 +194,7 @@ typedef void (TPlayerBattleCtrl4P::*BattleAction)();
 extern "C" {
 s32 lbl_805D6AB0;
 // Japanese text (shift-JIS)
-void export_character_data__10TObjPlayerFPvPv(u8 *arg0, u8 *arg1);
+void export_character_data__10TObjPlayerFPvPv(u8 *player, u8 *arg1);
 const char *TPlayerBattleCtrl4P__message_table_language0[7] = {
     "\x82\xE0\x82\xA4\x88\xEA\x93\x78\x81\x41\x93\xAF\x82\xB6\x83\x8B\x81\x5B\x83\x8B\x82\xC5\n\x8C\x88\x93\xAC\x82\xF0\x8D\x73\x82\xA2\x82\xDC\x82\xB7\x82\xA9\x81\x48", // もう一度、同じルールで 決闘を行いますか？
     "\x82\xCD\x82\xA2", // はい

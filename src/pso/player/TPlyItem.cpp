@@ -129,7 +129,7 @@ typedef struct Node_801D56D0 {
 extern "C" {
 void *__construct_new_array(void *block, void (*ctor)(void *), void (*dtor)(void *), u32 size, u32 n);
 void fn_801C1BA8(void *, void *);
-s32 fn_801D40D4(s32 arg0, Rec_801D40D4 *arg1, u8 *arg2);
+s32 fn_801D40D4(s32 arg0, Rec_801D40D4 *source, u8 *destination);
 void TLobby__sub_801D4C28(void* a0, int a1, int a2, int a3);
 s32 item_identity_matches(u8 *arg0, u8 *arg1);
 s32 export_inventory_entry__10TObjPlayerFiPv(saddr arg0, u8 *arg1);
@@ -431,12 +431,12 @@ void *TPlyItem::set_mode_and_refresh_object(void *item_data) { inventory_search_
 
 void TPlyItem::find_first_inventory_entry(int a1) { inventory_search_item_data = a1; this->pad_1C4->find_inventory_item_matching_data(); }
 
-s32 TPlyItem::count_items_by_id(saddr arg1) {
+s32 TPlyItem::count_items_by_id(saddr item_data) {
     void *node;
     TItem *item;
 
-    if (TItemData::lookup_item_def((void *)arg1) != 0) {
-        node = set_mode_and_refresh_object((void *)arg1);
+    if (TItemData::lookup_item_def((void *)item_data) != 0) {
+        node = set_mode_and_refresh_object((void *)item_data);
         if (node != NULL) {
             item = (TItem *)((TItemList *)node)->get_owner_if_alive();
             if ((item != NULL) && (item->all_parents_unqueued_for_destruction() != 0)) {
@@ -445,7 +445,7 @@ s32 TPlyItem::count_items_by_id(saddr arg1) {
         }
         return 0;
     }
-    inventory_search_item_data = arg1;
+    inventory_search_item_data = item_data;
     inventory_walk_visit_count = 0;
     this->pad_1C4->count_items_recursive();
     return inventory_walk_visit_count;
@@ -527,7 +527,7 @@ s32 TObjPlayer__sub_801D49F4(void *inventory, s32 player, s32 *keys, s32 count) 
     return 1;
 }
 
-s32 TPlyItem::update_inventory_item(saddr player, s32 arg2, saddr pos, s32 arg4, s32 client) {
+s32 TPlyItem::update_inventory_item(saddr player, s32 key, saddr pos, s32 arg4, s32 client) {
     s16 count;
     TItem *item;
     void *node;
@@ -535,7 +535,7 @@ s32 TPlyItem::update_inventory_item(saddr player, s32 arg2, saddr pos, s32 arg4,
     if (arg4 < 0) {
         return 0;
     }
-    node = start_inventory_update(arg2);
+    node = start_inventory_update(key);
     if (node == NULL) {
         return 0;
     }
@@ -804,18 +804,18 @@ s32 check_player_action_allowed(void) {
     return TAdSinglePlyChrSelectGC::get_game_mode();
 }
 
-s32 fn_801D40D4(s32 arg0, Rec_801D40D4 *arg1, u8 *arg2) {
+s32 fn_801D40D4(s32 arg0, Rec_801D40D4 *source, u8 *destination) {
     s32 i;
     for (i = 0; i < arg0; i++) {
-        if (arg1->flags & 8) {
-            if (arg1->type == 0) {
-                fn_801C1BA8(arg2, arg1);
+        if (source->flags & 8) {
+            if (source->type == 0) {
+                fn_801C1BA8(destination, source);
             }
-            if (arg1->type == 2) {
-                fn_801C1BA8(arg2 + 0x1C, arg1);
+            if (source->type == 2) {
+                fn_801C1BA8(destination + 0x1C, source);
             }
         }
-        arg1++;
+        source++;
     }
     return 1;
 }

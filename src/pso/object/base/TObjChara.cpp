@@ -368,7 +368,7 @@ extern "C" {
 s32 VecCopy__FP3VecPC3Vec(s32, s32);
 void subtract_vector(void *a, void *b);
 f32 calc_xz_distance_sq(saddr actor, uaddr other, void *offset);
-void activate_switch_attacks__10TObjPlayerFii(saddr arg0, saddr arg1);
+void activate_switch_attacks__10TObjPlayerFii(saddr arg0, saddr pos);
 void attach_mine_trap__10TObjPlayerFiUi(saddr arg0, u32 arg1);
 s32 add_actor_hp(u8 *arg0, s16 arg1);
 s32 TObjectV8047c128_subtract_hp(u8 *arg0, s16 arg1);
@@ -381,7 +381,7 @@ extern s32 registered_enemy_count;
 s32 try_spend_actor_meseta(u8 *player, s32 count);
 s32 add_actor_tp(u8 *owner, s32 half);
 s32 damage_hp__10TObjPlayerFii(saddr arg0, saddr arg1);
-void show_meseta_label(saddr arg0, u32 arg1, s32 arg2, s32 arg3);
+void show_meseta_label(saddr player, u32 arg1, s32 arg2, s32 arg3);
 s16 get_actor_tp(u8* p);
 int obj_getPtr2B0_20(u8* p);
 s16 obj_getS16_2BA(u8* p);
@@ -394,12 +394,12 @@ s32 calc_freeze_chance(TObjPlayer *arg0, TObjPlayer *arg1, TObjPlayer *arg2, f32
 s32 calc_shock_chance(TObjPlayer *arg0, TObjPlayer *arg1, TObjPlayer *arg2);
 void empty_post_damage_hook(void *defender, void *attacker);
 void record_local_damage_if_enabled(void *mine_trap, void *att, saddr damage);
-void draw_hp_label(void *arg0, u32 arg1, s32 arg2, s16 arg3);
+void draw_hp_label(void *player, u32 pos, s32 delay, s16 arg3);
 void obj_copyVec2_0(u8* d, u8* s);
 f32 calc_technique_boost(s32, u16);
 extern s32 game_difficulty_selection;
-void display_exp_gain(saddr arg0, u32 arg1, s32 arg2, s32 arg3);
-void show_tp_font(saddr arg0, u32 arg1, s32 arg2, s32 arg3);
+void display_exp_gain(saddr player, u32 pos, s32 delay, s32 arg3);
+void show_tp_font(saddr player, u32 pos, s32 delay, s32 arg3);
 s16 obj_getS16_118(u8* p);
 struct Stack_80010A84 {
     s32 sp8;
@@ -2205,32 +2205,32 @@ void TObjChara::try_apply_damage(const Vec *pos, s32 damage) {
     }
 }
 
-void draw_hp_label(void *arg0, u32 arg1, s32 arg2, s16 arg3) {
-    if ((((TObjCollidable *)arg0)->test_actor_flags(0x02000000) == 0) && (TObjPlayer::is_locally_controlled((void *)(arg0)) == 0) && (arg1 != 0U)) {
-        create_font_small_task_default_color(arg1, 0xFF00FF00, 0x14, arg2, (s32 *)"HP", (s16)arg3);
+void draw_hp_label(void *player, u32 pos, s32 delay, s16 arg3) {
+    if ((((TObjCollidable *)player)->test_actor_flags(0x02000000) == 0) && (TObjPlayer::is_locally_controlled((void *)(player)) == 0) && (pos != 0U)) {
+        create_font_small_task_default_color(pos, 0xFF00FF00, 0x14, delay, (s32 *)"HP", (s16)arg3);
     }
 }
 
-void show_tp_font(saddr arg0, u32 arg1, s32 arg2, s32 arg3) {
-    if ((((TObjCollidable *)arg0)->test_actor_flags(0x02000000) == 0) && (TObjPlayer::is_locally_controlled((void *)(arg0)) == 0) && (arg1 != 0U)) {
-        create_font_small_task_default_color(arg1, 0xFF00B2FF, 0x14, arg2, (s32 *)"TP", arg3);
+void show_tp_font(saddr player, u32 pos, s32 delay, s32 arg3) {
+    if ((((TObjCollidable *)player)->test_actor_flags(0x02000000) == 0) && (TObjPlayer::is_locally_controlled((void *)(player)) == 0) && (pos != 0U)) {
+        create_font_small_task_default_color(pos, 0xFF00B2FF, 0x14, delay, (s32 *)"TP", arg3);
     }
 }
 
-void show_meseta_label(saddr arg0, u32 arg1, s32 arg2, s32 arg3) {
+void show_meseta_label(saddr player, u32 arg1, s32 arg2, s32 arg3) {
     s32 size;
-    if (((TObjCollidable *)arg0)->test_actor_flags(0x02000000) == 0 && arg1 != 0) {
+    if (((TObjCollidable *)player)->test_actor_flags(0x02000000) == 0 && arg1 != 0) {
         size = 0x14;
-        if (TObjPlayer::is_locally_controlled((void *)(arg0)) != 0) {
+        if (TObjPlayer::is_locally_controlled((void *)(player)) != 0) {
             size <<= 1;
         }
-        ((void (*)(u32, s32, s32, s32, void *, s16, u16))create_font_small_task)(arg1, -0x100, size, arg2, lbl_804340A8, arg3, ((TObjBase *)(arg0))->get_entity_id());
+        ((void (*)(u32, s32, s32, s32, void *, s16, u16))create_font_small_task)(arg1, -0x100, size, arg2, lbl_804340A8, arg3, ((TObjBase *)(player))->get_entity_id());
     }
 }
 
-void display_exp_gain(saddr arg0, u32 arg1, s32 arg2, s32 arg3) {
-    if ((((TObjCollidable *)arg0)->test_actor_flags(0x02000000) == 0) && (TObjPlayer::is_locally_controlled((void *)(arg0)) == 0) && (arg1 != 0U)) {
-        create_font_small_task(arg1, 0xFFFF00FF, 0x14, arg2, (s32 *)"EXP", arg3, ((TObjBase *)(arg0))->get_entity_id());
+void display_exp_gain(saddr player, u32 pos, s32 delay, s32 arg3) {
+    if ((((TObjCollidable *)player)->test_actor_flags(0x02000000) == 0) && (TObjPlayer::is_locally_controlled((void *)(player)) == 0) && (pos != 0U)) {
+        create_font_small_task(pos, 0xFFFF00FF, 0x14, delay, (s32 *)"EXP", arg3, ((TObjBase *)(player))->get_entity_id());
     }
 }
 
@@ -4420,11 +4420,11 @@ void TObjChara::spawn_freeze_shell_effect(u32 arg1, s32 arg2) {
     }
 }
 
-void activate_switch_attacks__10TObjPlayerFii(saddr arg0, saddr arg1) {
+void activate_switch_attacks__10TObjPlayerFii(saddr arg0, saddr pos) {
     if (((TObjCollidable *)arg0)->test_actor_flags(0x02000000) == 0) {
-        spawn_particle_effect_with_flags((const Vec *)arg1, 0xB9, 0x40);
-        spawn_particle_effect_with_flags((const Vec *)arg1, 0xBA, 0x40);
-        ((TObjChara *)arg0)->trigger_switch_attack((const Vec *)arg1);
+        spawn_particle_effect_with_flags((const Vec *)pos, 0xB9, 0x40);
+        spawn_particle_effect_with_flags((const Vec *)pos, 0xBA, 0x40);
+        ((TObjChara *)arg0)->trigger_switch_attack((const Vec *)pos);
     }
 }
 

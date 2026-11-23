@@ -270,19 +270,19 @@ s32 parse_network_info_config_hex(char *s, u32 n) {
 #pragma optimization_level 2
 #pragma scheduling off
 #pragma peephole off
-s32 copy_network_info_config_string(char *arg0, char *arg1, u32 num, u32 arg3) {
+s32 copy_network_info_config_string(char *dest, char *arg1, u32 num, u32 arg3) {
     if (num <= 4) {
-        *arg0 = 0;
+        *dest = 0;
     } else {
         num -= 5;
         if (num > arg3) {
-            strncpy(arg0, arg1 + 5, arg3);
-            char c = arg0[arg3 - 1];
+            strncpy(dest, arg1 + 5, arg3);
+            char c = dest[arg3 - 1];
             if ((u8)c >= 0x80) {
-                arg0[arg3 - 1] = 0;
+                dest[arg3 - 1] = 0;
             }
         } else {
-            strncpy(arg0, arg1 + 5, num);
+            strncpy(dest, arg1 + 5, num);
         }
     }
     network_info_config_field_handled = 1;

@@ -69,10 +69,10 @@ void clamp_and_set_unit_value__10TObjPlayerFiUci(void *, u8, s16);
 void TObjPlayer__sub_801D955C(void *, s32);
 void init_session_technique_caps__10TObjPlayerFPvPv(Player_801BC948 *self, Src_801BC948 *src);
 
-void TObjPlayer__sub_801BC8F0(saddr arg0) {
-    TObjPlayer__sub_801BF9E0((void *)(arg0 + 0x634), ((TObjBase *)arg0)->get_entity_id());
-    ((TObjPlayer *)(arg0 + 0x384))->update_follow_particle(arg0);
-    ((TObjPlayer *)arg0)->chair_seat.set_owner_id(((TObjBase *)arg0)->get_entity_id());
+void TObjPlayer__sub_801BC8F0(saddr owner) {
+    TObjPlayer__sub_801BF9E0((void *)(owner + 0x634), ((TObjBase *)owner)->get_entity_id());
+    ((TObjPlayer *)(owner + 0x384))->update_follow_particle(owner);
+    ((TObjPlayer *)owner)->chair_seat.set_owner_id(((TObjBase *)owner)->get_entity_id());
 }
 void init_session_technique_caps__10TObjPlayerFPvPv(Player_801BC948 *self, Src_801BC948 *src) {
     s32 i;

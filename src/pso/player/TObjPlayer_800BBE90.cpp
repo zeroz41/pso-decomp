@@ -158,8 +158,8 @@ void TUnk_804928CC::call_vt16_with_default(void *, void *) {
 }
 #pragma pop
 
-s32 TUnk_804928CC::vfunc_16(void *arg1, void *attack) {
-    return call_vt13_with_default(arg1, attack, 0);
+s32 TUnk_804928CC::vfunc_16(void *recoil, void *attack) {
+    return call_vt13_with_default(recoil, attack, 0);
 }
 
 s32 TUnk_804928CC::area_attack_deliver_direct(void *recoil, saddr arg2, void *object, f32 range) {

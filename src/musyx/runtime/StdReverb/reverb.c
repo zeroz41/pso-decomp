@@ -90,22 +90,22 @@ asm void HandleReverb(void *sptr, void *rv, int k) {
 
 #pragma push
 #pragma peephole off
-void ReverbHICallback(void *arg0, void *arg1, void *arg2, S_803BF408 *arg3) {
+void ReverbHICallback(void *sptr, void *arg1, void *arg2, S_803BF408 *rv) {
     u8 i;
     for (i = 0; i < 3; i++) {
         switch (i) {
         case 0:
-            if (0.0f != arg3->f1A8) {
-                f32 t = 0.5f * arg3->f1A8;
-                DoCrossTalk(arg0, arg1, t, 1.0f - t);
+            if (0.0f != rv->f1A8) {
+                f32 t = 0.5f * rv->f1A8;
+                DoCrossTalk(sptr, arg1, t, 1.0f - t);
             }
-            HandleReverb(arg0, arg3, 0);
+            HandleReverb(sptr, rv, 0);
             break;
         case 1:
-            HandleReverb(arg1, arg3, 1);
+            HandleReverb(arg1, rv, 1);
             break;
         case 2:
-            HandleReverb(arg2, arg3, 2);
+            HandleReverb(arg2, rv, 2);
             break;
         }
     }

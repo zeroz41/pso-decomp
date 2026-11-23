@@ -39,7 +39,7 @@ struct TBoss3VoloptOrbitSpeeds {
 };
 
 extern "C" {
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr actor, uaddr src, s32 a3, s32 flags);
 void set_matrix_identity(s32 matrix, f32 scale);
 void rotate_vector_by_matrix(saddr matrix, Vec *src, Vec *dst);
 }

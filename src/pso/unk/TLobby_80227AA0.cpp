@@ -10,8 +10,8 @@
 
     extern int music_stream_base_gain;
 int get_music_base_gain(void) {  return music_stream_base_gain; }
-void TLobby__sub_80227AA8(s32 arg0) {
-    fn_8023F660((&sound_control_state), (arg0), (((s32 (*)())get_menu_field_280__6TLobbyFv)() + 0x55), 0x40, 0x40, 0);
+void TLobby__sub_80227AA8(s32 tracks) {
+    fn_8023F660((&sound_control_state), (tracks), (((s32 (*)())get_menu_field_280__6TLobbyFv)() + 0x55), 0x40, 0x40, 0);
 }
 
 

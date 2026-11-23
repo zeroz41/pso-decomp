@@ -93,7 +93,7 @@ s32 test_flags_any(s32 *flags, s32 mask);
 
 extern "C" {
 
-f32 apply_stat_multipliers__10TObjPlayerFiif(saddr arg0, saddr arg1, f32 farg0);
+f32 apply_stat_multipliers__10TObjPlayerFiif(saddr arg0, saddr actor, f32 farg0);
 s32 test_flags_any(s32 *flags, s32 mask);
 s32 is_flag30_8_set__10TObjPlayerFi(saddr);
 
@@ -193,7 +193,7 @@ void __dt__7TObjectFv(void *, int);
 
 
 extern "C" {
-f32 apply_stat_multipliers__10TObjPlayerFiif(saddr arg0, saddr arg1, f32 farg0);
+f32 apply_stat_multipliers__10TObjPlayerFiif(saddr arg0, saddr actor, f32 farg0);
 }
 
 
@@ -631,18 +631,18 @@ void apply_stat_multipliers_default__10TObjPlayerFv(void) {
 
 
 extern "C" {
-f32 apply_stat_multipliers__10TObjPlayerFiif(saddr arg0, saddr arg1, f32 farg0) {
+f32 apply_stat_multipliers__10TObjPlayerFiif(saddr arg0, saddr actor, f32 farg0) {
     f32 var_f31;
 
     var_f31 = farg0;
-    if (is_flag30_8_set__10TObjPlayerFi(arg1) != 0) {
+    if (is_flag30_8_set__10TObjPlayerFi(actor) != 0) {
         var_f31 *= 0.5f;
     } else if (test_flags_any((s32 *)(arg0 + 0xC), 8) != 0) {
         var_f31 *= 0.75f;
     }
     ((s32 (*)(s32, f32))TObjPlayer__sub_801C6FCC)(arg0, var_f31);
-    if (((PlayerScaleState *)(arg1  + 0x5B0))->is_scaled() != 0) {
-        var_f31 *= ((PlayerScaleState *)(arg1 + 0x5B0))->get_scalar();
+    if (((PlayerScaleState *)(actor  + 0x5B0))->is_scaled() != 0) {
+        var_f31 *= ((PlayerScaleState *)(actor + 0x5B0))->get_scalar();
     }
     return var_f31;
 }

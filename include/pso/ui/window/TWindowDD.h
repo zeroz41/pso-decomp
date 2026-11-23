@@ -49,7 +49,7 @@ struct TWindowDD : public TObject
     u8 _padFE[0x2];
     u32 m_100;
     u32 m_104;
-    void draw_transformed_primitive(s32 a1, u32 a2, s32 a3);
+    void draw_transformed_primitive(s32 a1, u32 id, s32 a3);
     void reset_entries(f32 z, s32 color);
     void set_quad_corners_scaled(f32 x, f32 y, f32 farg2);
     static s32 apply_both_choices(s32 arg0, saddr buttons);

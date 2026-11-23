@@ -58,7 +58,7 @@ void set_material_alpha_compare_reference(s32 reference);
 }
 void calc_projection_screen_offset(f32 *x, f32 *arg1);
 f32 calc_camera_fov_degrees(void);
-void set_tex_coord_gen2(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+void set_tex_coord_gen2(s32 arg0, s32 func, s32 arg2, s32 mtx);
 void set_ginja_post_texgen_count(s32 x);
 void set_ginja_post_tev_stage_count(s32 x);
 void load_current_pos_matrix(s32 arg0);

@@ -687,10 +687,10 @@ s32 has_armor_with_unit_slot(TWindowSubItem *window_sub_item, TItem *item) {
 }
 
 extern "C" {
-void TWindowSubItem::set_displayed_item(s32 arg1) {
-    if ((this->help_window != NULL) && (arg1 != (s32) this->displayed_item)) {
-        this->displayed_item = arg1;
-        this->help_window->set_displayed_item_by_id(arg1);
+void TWindowSubItem::set_displayed_item(s32 id) {
+    if ((this->help_window != NULL) && (id != (s32) this->displayed_item)) {
+        this->displayed_item = id;
+        this->help_window->set_displayed_item_by_id(id);
     }
 }
 }

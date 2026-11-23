@@ -99,7 +99,7 @@ s32 TAdMultiSelGameModeGC::is_mode_entry_enabled(s32 menu, u32 idx) {
     }
 }
 
-saddr TAdMultiSelGameModeGC::build_mode_menu(s32 arg1) {
+saddr TAdMultiSelGameModeGC::build_mode_menu(s32 menu) {
     Pos3_803001B4 pos = multi_sel_game_mode_position;
     u32 counts[3];
     u32 n;
@@ -111,16 +111,16 @@ saddr TAdMultiSelGameModeGC::build_mode_menu(s32 arg1) {
     {
     Arr3_803001B4 a = lbl_80474EEC;
     Arr3_803001B4 b = multi_sel_game_mode_arr3;
-    n = counts[arg1];
-    r = create_window_menu_default(&pos.p[arg1], n);
+    n = counts[menu];
+    r = create_window_menu_default(&pos.p[menu], n);
     for (i = 0; i < n; i++) {
-        if (is_mode_entry_enabled(arg1, i) != 0) {
-            ((TWindowMenu *)r)->add_text_entry(get_localized_text_entry(0x18, i + b.v[arg1]), 6, i + a.v[arg1]);
+        if (is_mode_entry_enabled(menu, i) != 0) {
+            ((TWindowMenu *)r)->add_text_entry(get_localized_text_entry(0x18, i + b.v[menu]), 6, i + a.v[menu]);
         } else {
-            add_gray_text_entry((TWindowMenu *)r, (const char *)(get_localized_text_entry(0x18, i + b.v[arg1])), 6, i + a.v[arg1]);
+            add_gray_text_entry((TWindowMenu *)r, (const char *)(get_localized_text_entry(0x18, i + b.v[menu])), 6, i + a.v[menu]);
         }
         ((TWindowMenu *)r)->update_layout_height(206.0f);
-        ((TWindowSubComCardList *)r)->set_selected_index(a.v[arg1]);
+        ((TWindowSubComCardList *)r)->set_selected_index(a.v[menu]);
         align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(r));
     }
     return r;

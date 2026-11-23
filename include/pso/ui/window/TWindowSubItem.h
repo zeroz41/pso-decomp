@@ -23,7 +23,7 @@ struct TWindowSubItem : public TObject {
     TWindowHelpItem *help_window;
 
     static const char *class_name;
-    void set_displayed_item(s32 arg1);
+    void set_displayed_item(s32 id);
     void use_selected_item();
     void close_windows(s32 arg1);
     void exec_item_command(saddr item_id, s32 arg2);

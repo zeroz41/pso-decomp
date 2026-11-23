@@ -6,7 +6,7 @@
 struct TObjPlayer;
 extern "C" {
 int TObjPlayer__sub_802C46E0(void *p);
-void export_player_record__10TObjPlayerFPvPv(TObjPlayer *arg0, u8 *arg1);
+void export_player_record__10TObjPlayerFPvPv(TObjPlayer *player, u8 *arg1);
 }
 int init_character_action_config(void *p);
 extern "C" {

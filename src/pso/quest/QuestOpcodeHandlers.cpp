@@ -973,10 +973,10 @@ s32 fn_8034D790(u8 *, f32, s32, s32, s32, Vec *);
 int notify_all_battle_players__10TObjPlayerFv(void*);
 int update_4p_battle_ctrls__10TObjPlayerFv(void*);
 int update_alloc_size__6TLobbyFv(void*);
-void TObjPlayer__sub_80354CCC(u16 arg0);
-void TObjPlayer__sub_80354D14(u16 arg0);
-void TObjPlayer__sub_80354DAC(u16 arg0);
-void activate_palettex(u16 arg0);
+void TObjPlayer__sub_80354CCC(u16 client_index);
+void TObjPlayer__sub_80354D14(u16 client_index);
+void TObjPlayer__sub_80354DAC(u16 client_index);
+void activate_palettex(u16 client_index);
 }
 
 extern E_801EB484 TLobby__duel_result_table[];

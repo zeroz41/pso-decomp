@@ -6,7 +6,7 @@
 // --- C functions defined in TLobby_801461EC.cpp ---
 extern "C" {
 s32 TLobby__sub_80146588(s32 *arg0);
-s32 TLobby__sub_801465C0(s32 *arg0);
+s32 TLobby__sub_801465C0(s32 *netmask);
 s32 TLobby__sub_801466F4(u32 arg0);
 int TLobby__sub_80146724(void);
 void TLobby__sub_8014672C(s32 *arg0);

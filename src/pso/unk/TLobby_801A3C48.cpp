@@ -139,7 +139,7 @@ u32 TAdDialingGC__sub_801A4C9C();
 s32 TLobby__sub_801F3774();
 s32 TLobby__sub_8020A6B0(int);
 s32 TAdDialingGC__sub_80328730();
-void TLobby__sub_801F494C(u16 arg0);
+void TLobby__sub_801F494C(u16 client);
 s32 reset_story_select__6TLobbyFPv();
 s32 init_key_slots__15TOKeyJungleMainFPv();
 s32 depart_floor_population();

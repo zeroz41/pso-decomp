@@ -36,7 +36,7 @@ public:
     static s32 get_instance();
     static void set_state(int state);
     static void reset_load_state(s32 channel, u64 *serial_number);
-    static void poll_card_load(s32 arg0);
+    static void poll_card_load(s32 chan);
     static s32 check_card_result_code(s32 channel);
     static s32 probe_and_check_card(saddr chan);
     static void unmount_card_and_clear_flags(s32 channel, s32 result);
@@ -45,7 +45,7 @@ public:
     static s32 build_save_file_image(void *image, CardSaveDescriptor *file);
     static s32 probe_card_slot(saddr chan);
     static s32 find_card_file(saddr chan, const char *name);
-    static s32 check_memcard_status(s32 arg0);
+    static s32 check_memcard_status(s32 chan);
     static s32 query_memcard_capacity(s32 channel, s32 unused);
     static s32 delete_memcard_file(s32 chan, const char *name);
     static s32 get_or_set_channel_flag(s32 arg0, s32 arg1);

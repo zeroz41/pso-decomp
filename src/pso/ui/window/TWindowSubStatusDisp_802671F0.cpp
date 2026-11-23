@@ -380,12 +380,12 @@ void TWindowSubStatusDisp::add_item_info_entry(saddr arg1, s32 arg2, saddr count
     }
 }
 
-void TWindowSubStatusDisp::add_ground_item(saddr arg1, s32 arg2) {
+void TWindowSubStatusDisp::add_ground_item(saddr it, s32 arg2) {
     int index;
-    if (arg1 != 0) {
+    if (it != 0) {
         index = *(s16 *)((s8 *)this + 0x72);
         if (index < (s16) *(s16 *)((s8 *)this + 0x76)) {
-            ((ItemListRow *)(get_array_entry(index)))->set_ground_item((void *)arg1, (s32)arg2);
+            ((ItemListRow *)(get_array_entry(index)))->set_ground_item((void *)it, (s32)arg2);
             *(s16 *)((s8 *)this + 0x72) = (s16) (*(s16 *)((s8 *)this + 0x72) + 1);
         }
     }

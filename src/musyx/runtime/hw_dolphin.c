@@ -108,9 +108,9 @@ u32 salInitDsp(u32 flags) {
 }
 
 
-void salCtrlDsp(saddr arg0) {
+void salCtrlDsp(saddr dest) {
     u16 *mail;
-    salBuildCommandList((void *) (arg0), (int) (salGetStartDelay()));
+    salBuildCommandList((void *) (dest), (int) (salGetStartDelay()));
     mail = dspCmdList;
     salDspIsDone = 0;
     PPCSync();

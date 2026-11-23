@@ -49,7 +49,7 @@ s32 TLobby__sub_80418A7C(void);
 s32 TLobby__sub_8041A1D8(void);
 void TLobby__sub_80421FB8(NetworkReceiveCallback cb, NetworkReceivePrefix *hdr, NetPacket *pkt);
 s32 TLobby__sub_8040F9CC(void *, void *, void *, int);
-s32 TLobby__sub_804219D0(saddr arg0, saddr arg1, saddr arg2);
+s32 TLobby__sub_804219D0(saddr arg0, saddr unused, saddr arg2);
 s32 NetIPv4AddRoute(void *, void *, void *, s16, u8, u16); /* declared s32 here; the definition is s16 (u32, u32, u32, s16, u8, u16) */
 s32 net_add_ipv4_route(saddr arg0, saddr mask, saddr gateway);
 s32 mark_connection_closed(s32);
@@ -254,10 +254,10 @@ s32 raw_socket_deliver(NetPacket *pkt, u8 *src, u8 *dst, NetworkReceiveCallback 
     return 0;
 }
 
-s32 TLobby__sub_804219D0(saddr arg0, saddr arg1, saddr arg2) {
+s32 TLobby__sub_804219D0(saddr arg0, saddr unused, saddr arg2) {
     s32 result;
     lock_mutex(network_dispatch_state.lock_handle);
-    result = TLobby__sub_8040F9CC((void *)arg0, (void *)arg1, (void *)arg2, 0);
+    result = TLobby__sub_8040F9CC((void *)arg0, (void *)unused, (void *)arg2, 0);
     unlock_mutex(network_dispatch_state.lock_handle);
     return result;
 }

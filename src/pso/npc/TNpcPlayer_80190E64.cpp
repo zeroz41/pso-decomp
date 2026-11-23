@@ -38,7 +38,7 @@ struct Ply_80190FDC { u8 pad0[0x38]; f32 pos[3]; };
 extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
 extern RecoveredGlobal_8019118C_lbl_804B7C1C __vt__13TUnk_804B7C1C;
-u8 *TLobby__sub_8019118C(u8 *arg0, s32 arg1, saddr arg2);
+u8 *TLobby__sub_8019118C(u8 *actor, s32 arg1, saddr arg2);
 extern s32 npc_player_char_data_buffer;
 void free_collision_body_parts(void *);
 f32 horizontal_distance_squared(void *, void *);
@@ -66,23 +66,23 @@ void TLobby__sub_80191270(void) { npc_proximity_target_id = -1; }
 
 void TLobby__sub_80191264(void) { npc_proximity_target_id = -1; }
 
-void *TLobby::create_npc(void *arg0) {
+void *TLobby::create_npc(void *set_data) {
     void *o = TObject::operator new(0xB8);
     if (o != NULL) {
-        o = TLobby__sub_8019118C((u8 *)o, (saddr)tl_05, (saddr)arg0);
+        o = TLobby__sub_8019118C((u8 *)o, (saddr)tl_05, (saddr)set_data);
     }
     return o;
 }
-u8 *TLobby__sub_8019118C(u8 *arg0, s32 arg1, saddr set_data) {
-    __ct__14TObjCollidableFP7TObject(arg0, arg1);
-    *(s32 **)((s8 *)arg0 + 0x18) = &__vt__13TUnk_804B7C1C.value;
-    ((TUnk_804B7C1C *)(arg0))->apply_object_set_data((void *)set_data);
-    *(s16 *)((s8 *)arg0 + 0xAC) = 3;
-    ((TUnk_804B7C1C *)arg0)->m_b0 = (s32) ((TUnk_804B7C1C *)arg0)->set_params[0];
-    *(s32 *)((s8 *)arg0 + 0xB4) = 0;
-    init_collision_body_parts(arg0, &npc_player_collision_body_part, 1);
-    ((TObjPlayer *)arg0)->register_object_by_id();
-    return arg0;
+u8 *TLobby__sub_8019118C(u8 *actor, s32 arg1, saddr set_data) {
+    __ct__14TObjCollidableFP7TObject(actor, arg1);
+    *(s32 **)((s8 *)actor + 0x18) = &__vt__13TUnk_804B7C1C.value;
+    ((TUnk_804B7C1C *)(actor))->apply_object_set_data((void *)set_data);
+    *(s16 *)((s8 *)actor + 0xAC) = 3;
+    ((TUnk_804B7C1C *)actor)->m_b0 = (s32) ((TUnk_804B7C1C *)actor)->set_params[0];
+    *(s32 *)((s8 *)actor + 0xB4) = 0;
+    init_collision_body_parts(actor, &npc_player_collision_body_part, 1);
+    ((TObjPlayer *)actor)->register_object_by_id();
+    return actor;
 }
 
 TUnk_804B7C1C::~TUnk_804B7C1C() {

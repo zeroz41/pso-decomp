@@ -30,7 +30,7 @@ void TLobby__sub_80137228(s32 arg0);
 void TLobby__sub_80137C10(s32 arg0);
 void TLobby__sub_801384E4(void);
 void queue_join_entry_exit_on_input(void *self);
-void show_join_entry_message(s32 arg0);
+void show_join_entry_message(s32 id);
 void show_dialog_value_line(saddr arg0);
 void TLobby__sub_8013A16C(void);
 void *__ct__17TPlyJoinLobbyDataFv(void *self);
@@ -55,7 +55,7 @@ void open_lobby_warp_menu__6TLobbyFv(void);
 void process_deferred_player_setup__6TLobbyFv(void);
 void reset_state_flags__6TLobbyFv(void);
 }
-void send_6x6F_quest_flags(saddr arg0);
+void send_6x6F_quest_flags(saddr size);
 extern "C" {
 void set_player_count__6TLobbyFi(int a0);
 }

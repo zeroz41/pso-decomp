@@ -752,10 +752,10 @@ TWindowHelpItem *TWindowSubTradeMain::create_help_item() {
     return window;
 }
 
-void TWindowSubTradeMain::set_displayed_item(s32 arg1) {
-    if ((this->help_item != NULL) && (arg1 != (s32) this->displayed_item)) {
-        this->displayed_item = arg1;
-        this->help_item->set_displayed_item_by_id(arg1);
+void TWindowSubTradeMain::set_displayed_item(s32 id) {
+    if ((this->help_item != NULL) && (id != (s32) this->displayed_item)) {
+        this->displayed_item = id;
+        this->help_item->set_displayed_item_by_id(id);
     }
 }
 

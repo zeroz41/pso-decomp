@@ -934,7 +934,7 @@ struct G_802932EC {
 };
 
 extern "C" {
-void TLobby__sub_80293218(s32 arg0);
+void TLobby__sub_80293218(s32 client);
 void snapshot_player_card_status__6TLobbyFv(void);
 void TLobby__sub_802933FC(void *arg0);
 s32 export_character_data__10TObjPlayerFPvPv(u32, u32);
@@ -980,17 +980,17 @@ void setup_split_screen(void) {
 }
 extern "C" {
 
-void TLobby__sub_80293218(s32 arg0) {
-    TObjPlayer *p = reinterpret_cast<TObjPlayer *>(((uaddr)get_player_by_client_id(arg0)));
+void TLobby__sub_80293218(s32 client) {
+    TObjPlayer *p = reinterpret_cast<TObjPlayer *>(((uaddr)get_player_by_client_id(client)));
     if (p != NULL) {
-        ChallengeTombstonePlayerSlot *r = &(*(G_80293218 *)&lbl_804DB1F0).r[arg0];
+        ChallengeTombstonePlayerSlot *r = &(*(G_80293218 *)&lbl_804DB1F0).r[client];
         if (r->active != 0) {
             TObjTombstoneSpot *spot = &r->spot;
             spot->phase = TWindowSubStatusDisp::resolve_player_slot(-1);
             spot->layout = (*(G_80293218 *)&lbl_804DB1F0).f0;
             spot->floor = (*(G_80293218 *)&lbl_804DB1F0).f8;
             VecCopy(&spot->position, &p->position);
-            u8 *w = reinterpret_cast<u8 *>(get_character_save_record(arg0)) + 0x2274;
+            u8 *w = reinterpret_cast<u8 *>(get_character_save_record(client)) + 0x2274;
             copy_tombstone_spot(reinterpret_cast<TObjTombstoneSpot *>(w), spot);
         }
     }

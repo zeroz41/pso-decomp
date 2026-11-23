@@ -151,7 +151,7 @@ struct TNpcPlayer : public TObject {
     void bswap_6x3E();
     void init_6x3E_packet();
     void init_equipment();
-    static s32 send_command(s32 arg0, s8 arg1, s32 arg2, s32 arg3, s8 *arg4);
+    static s32 send_command(s32 arg0, s8 count, s32 arg2, s32 arg3, s8 *arg4);
     static u8 *get_lobby_entry_ptr();
     static void send_warp_toward_player(u16 id, const Vec *destination);
     static void send_code_45_to_player(int arg0);
@@ -165,7 +165,7 @@ struct TNpcPlayer : public TObject {
     static void send_inter_level_warp_all(s32 value);
     static void send_npc_control_6x69(s32 arg0);
     static void send_npc_stop_6x69(s32 arg0);
-    static void send_npc_control_create(u16 arg0, u16 arg1, s32 arg2, u8 *arg3, s32 arg4);
+    static void send_npc_control_create(u16 arg0, u16 arg1, s32 arg2, u8 *arg3, s32 heading);
     static void create_companion(u16 leader, u16 slot, s32 appearance, f32 *p, s32 heading);
     static void create_default_companion(u16 leader, s32 appearance, u8 *pos, s32 heading);
     static void send_npc_control_notify_players(s32 arg0, s32 arg1, s32 arg2);

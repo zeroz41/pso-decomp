@@ -151,7 +151,7 @@ void set_screen_center(f32 x, f32 y) {
 extern "C" {
 void camera_renderer_setup_nop(NJS_CAMERA *camera, s32 angle) {  }
 
-void TWindowDD::draw_transformed_primitive(s32 a1, u32 a2, s32 a3) { TObjPlayer__sub_803DAD28(a2); TObjPlayer::draw_textured_vertices(this, a1, a3); }
+void TWindowDD::draw_transformed_primitive(s32 a1, u32 id, s32 a3) { TObjPlayer__sub_803DAD28(id); TObjPlayer::draw_textured_vertices(this, a1, a3); }
 
 }
 

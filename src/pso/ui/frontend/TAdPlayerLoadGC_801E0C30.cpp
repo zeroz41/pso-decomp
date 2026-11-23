@@ -57,21 +57,21 @@ void TAdPlayerLoadGC::reset_load_state(s32 channel, u64 *serial_number) {
     CARDGetSerialNo(channel, serial_number);
 }
 
-void TAdPlayerLoadGC::poll_card_load(s32 arg0) {
+void TAdPlayerLoadGC::poll_card_load(s32 chan) {
     s32 spC;
     s32 sp8;
     s32 temp_r3;
 
-    card_slot_state_flags &= ~(0x400 << arg0);
+    card_slot_state_flags &= ~(0x400 << chan);
     do {
-        temp_r3 = CARDProbeEx(arg0, &spC, &sp8);
+        temp_r3 = CARDProbeEx(chan, &spC, &sp8);
     } while (temp_r3 == -1);
     if (sp8 == 0x2000) {
         if ((temp_r3 == -3) || (temp_r3 == -2)) {
             card_result_code = -0x7D;
             return;
         }
-        mount_memcard(arg0);
+        mount_memcard(chan);
     }
 }
 
@@ -642,20 +642,20 @@ s32 TAdPlayerLoadGC::probe_card_slot(saddr chan) {
 block_17:
     return 1;
 }
-s32 TAdPlayerLoadGC::check_memcard_status(s32 arg0) {
-    if (arg0 >= 2) {
+s32 TAdPlayerLoadGC::check_memcard_status(s32 chan) {
+    if (chan >= 2) {
         card_result_code = -0xFF;
         return -0xFF;
     }
-    if ((TAdPlayerLoadGC::probe_card_slot(arg0) == 0) || (poll_memcard_result(arg0) != 0) || (TAdPlayerLoadGC::probe_and_check_card(arg0) == 0)) {
+    if ((TAdPlayerLoadGC::probe_card_slot(chan) == 0) || (poll_memcard_result(chan) != 0) || (TAdPlayerLoadGC::probe_and_check_card(chan) == 0)) {
         card_result_code = -0xFF;
         return -0xFF;
     }
-    if (!(card_slot_state_flags & (4 << arg0)) && (((s32)mount_memcard(arg0)) != 0)) {
+    if (!(card_slot_state_flags & (4 << chan)) && (((s32)mount_memcard(chan)) != 0)) {
         card_result_code = -0xFF;
         return -0xFF;
     }
-    switch (CARDCheck(arg0)) {
+    switch (CARDCheck(chan)) {
     case -6:
     case -13:
         card_result_code = -0xFD;

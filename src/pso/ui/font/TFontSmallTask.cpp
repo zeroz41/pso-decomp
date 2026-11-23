@@ -174,28 +174,28 @@ void TFontSmallTask::run_task() {
     }
 }
 
-s32 create_font_small_task(Vec *pos, s32 arg1, s32 arg2, s32 arg3, s32 *str, s32 arg5, u16 view) {
+s32 create_font_small_task(Vec *pos, s32 color, s32 life, s32 delay, s32 *str, s32 arg5, u16 view) {
     text_builder_reset();
     text_builder_append((u8 *)str);
     if (arg5 >= 0) {
         text_builder_append((u8 *)"+");
     }
     text_builder_append_int(arg5);
-    return (saddr)new TFontSmallTask(pos, arg1, arg2, arg3, (const char *)get_shared_text_buffer(), view);
+    return (saddr)new TFontSmallTask(pos, color, life, delay, (const char *)get_shared_text_buffer(), view);
 }
 
-s32 create_font_small_task_default_color(Vec *pos, s32 arg1, s32 arg2, s32 arg3, s32 *str, s32 arg5) {
+s32 create_font_small_task_default_color(Vec *pos, s32 color, s32 life, s32 delay, s32 *str, s32 arg5) {
     text_builder_reset();
     text_builder_append((u8 *)str);
     if (arg5 >= 0) {
         text_builder_append((u8 *)"+");
     }
     text_builder_append_int(arg5);
-    return (saddr)new TFontSmallTask(pos, arg1, arg2, arg3, (const char *)get_shared_text_buffer(), 0xFFFF);
+    return (saddr)new TFontSmallTask(pos, color, life, delay, (const char *)get_shared_text_buffer(), 0xFFFF);
 }
 
-void TBoss3Volopt__sub_800FD344(s32 arg0, s32 arg1, s32 arg2, void *str, void *arg4) {
-    create_font_small_task((Vec *)(saddr)arg0, (s32)arg1, (s32)arg2, 0, (s32 *)str, (saddr)arg4, 0xFFFF);
+void TBoss3Volopt__sub_800FD344(s32 pos, s32 color, s32 life, void *str, void *arg4) {
+    create_font_small_task((Vec *)(saddr)pos, (s32)color, (s32)life, 0, (s32 *)str, (saddr)arg4, 0xFFFF);
 }
 
 s32 TObjEneEpsilonGuard::create_damage_font(s32 pos, s32 color, s32 life, s32 damage) {

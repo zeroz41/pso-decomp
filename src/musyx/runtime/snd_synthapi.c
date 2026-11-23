@@ -60,9 +60,9 @@ u32 sndFXCheck(u32 id) {
     return 0xFFFFFFFF;
 }
 
-void sndVolume(u8 arg0, u16 arg1, u8 arg2) {
+void sndVolume(u8 volume, u16 time, u8 vGroup) {
     hwDisableIrq();
-    synthVolume(arg0, arg1, arg2, 0, -1);
+    synthVolume(volume, time, vGroup, 0, -1);
     hwEnableIrq();
 }
 

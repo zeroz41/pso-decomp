@@ -312,7 +312,7 @@ s32 TLobby__sub_80146588(s32 *arg0) {
     return 0;
 }
 
-s32 TLobby__sub_801465C0(s32 *arg0) {
+s32 TLobby__sub_801465C0(s32 *netmask) {
     s32 sp8;
 
     if (dhcp_start((s16)lobby_net_session_id) != 0) {
@@ -327,7 +327,7 @@ s32 TLobby__sub_801465C0(s32 *arg0) {
     }
     lobby_local_ip_addr = 0;
     lbl_805D56E8 = 0;
-    if (dhcp_discover_and_request((s16)lobby_net_session_id, 0, 0, lbl_8050C0C4, &lobby_local_ip_addr, arg0, &sp8, 3) != 0) {
+    if (dhcp_discover_and_request((s16)lobby_net_session_id, 0, 0, lbl_8050C0C4, &lobby_local_ip_addr, netmask, &sp8, 3) != 0) {
         return 0xC;
     }
     if (TLobby__sub_8042489C(lbl_8050C0C4, &lobby_connect_battle_flag) != 0) {

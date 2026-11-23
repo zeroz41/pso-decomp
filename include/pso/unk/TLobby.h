@@ -239,7 +239,7 @@ struct TLobby : public TObject {
     void update_and_send_60();
     static void update_and_send_60(void *p);
 
-    static void *create_npc(void *arg0);
+    static void *create_npc(void *set_data);
     static s32 is_idle();
     static void reset_keyboard_input();
     static void shutdown_keyboard_control();
@@ -326,9 +326,9 @@ struct TLobby : public TObject {
     static s32 spawn_matching_objects(s16 arg0, s16 arg1, saddr arg2);
     static s32 link_matching_objects(s16 arg0, s16 arg1);
     static s32 spawn_objects_at_pos(s16 arg0, s16 arg1);
-    static void create_objects(s32 arg0);
+    static void create_objects(s32 floor);
     static void assign_display_objects(u8 *arg0, s32 enemy_count);
-    static void attach_objects_by_id(s32 arg0);
+    static void attach_objects_by_id(s32 floor);
     static void assign_objects_to_slots(u8 *arg0, s32 object_count);
     static void free_resources();
     static s32 get_lobby_group(s32 arg0);
@@ -465,7 +465,7 @@ struct TLobby : public TObject {
     void set_info_board_text();
     static void reset_info_board();
     static int get_lobby_texlist();
-    static void *create_dialing_message_window(void *arg0, void *arg1);
+    static void *create_dialing_message_window(void *arg0, void *delay);
     static void free_singleton_805D7018();
     void *reset_counters();
     s32 get_offset_58();
@@ -727,7 +727,7 @@ struct TLobby : public TObject {
     static void reset_state_byte();
     // Empties the com card list on floor load and unload.
     static void reset_state();
-    static s32 create_file_load_entry(saddr arg0, s32 arg1, u32 arg2, saddr src, void **arg4);
+    static s32 create_file_load_entry(saddr name, s32 arg1, u32 arg2, saddr src, void **arg4);
     static s32 request_file_read(const char *name, s32 arg1, s32 *arg2, void **arg3);
     static void reset_lobby_state();
     static void init_keyboard_buffer();
@@ -863,7 +863,7 @@ struct TLobby : public TObject {
     void apply_sync_item_state();
     s32 lz_compress_packet(void *src, s32 size, s32 *hdr);
     void assign_object_ids(s32 arg1, void *arg2);
-    static s32 init_floor_enemy_count(s32 arg0, u8 *arg1, u32 size);
+    static s32 init_floor_enemy_count(s32 floor, u8 *source, u32 size);
     static s32 load_object_set_entries(s32 arg0, u8 *rows, u32 arg2);
     static s32 unhide_enemies_at(s32 arg0, s32 arg1, s32 arg2);
     void transfer_trade_item_amount(u32 arg1, s32 arg2);

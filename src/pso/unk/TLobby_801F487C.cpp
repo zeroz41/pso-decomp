@@ -30,9 +30,9 @@ void TLobby::clear_story_flags_and_reset_camera() {
     ((void (*)(void))reset_camera_if_fullscreen__6TLobbyFPv)();
 }
 
-void TLobby__sub_801F494C(u16 arg0) {
+void TLobby__sub_801F494C(u16 client) {
     uaddr character_save_record;
-    character_save_record = get_character_save_record(arg0);
+    character_save_record = get_character_save_record(client);
     if (character_save_record != 0U) {
         memcpy(quest_story_flags_by_difficulty, (void *)(character_save_record + 0x44), 0x200);
     }

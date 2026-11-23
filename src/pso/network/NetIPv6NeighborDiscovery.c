@@ -506,7 +506,7 @@ s16 NetIPv6ParseRedirectOptions(NetPacketFragment *frag, s32 n, NetIcmpv6Redirec
     return 0;
 }
 
-s16 NetIPv6HandleNeighborAdvertisement(NetPacket *pkt, u8 *src, u8 *address, s16 arg3) {
+s16 NetIPv6HandleNeighborAdvertisement(NetPacket *pkt, u8 *src, u8 *address, s16 id) {
     NetBufferRef sp30;
     NetIcmpv6NeighborAdvertisement sp18;
     u8 *lladdr;
@@ -541,7 +541,7 @@ s16 NetIPv6HandleNeighborAdvertisement(NetPacket *pkt, u8 *src, u8 *address, s16
             return -1;
         }
     }
-    return NetIPv6ApplyNeighborAdvertisement(&sp18, lladdr, lladlen, (saddr)src, (saddr)address, arg3);
+    return NetIPv6ApplyNeighborAdvertisement(&sp18, lladdr, lladlen, (saddr)src, (saddr)address, id);
 }
 
 s16 NetIPv6FindTargetLinkLayerAddressOption(NetPacketFragment *o, s32 len, u8 **out, s16 *outlen) {

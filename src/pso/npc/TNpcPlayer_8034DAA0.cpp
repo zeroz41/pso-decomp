@@ -349,7 +349,7 @@ void TNpcPlayer::create_companion(u16 leader, u16 slot, s32 appearance, f32 *p, 
     send_6x24_teleport_player(pkt.slot, p, heading);
 }
 
-void TNpcPlayer::send_npc_control_create(u16 arg0, u16 arg1, s32 arg2, u8 *arg3, s32 arg4) {
+void TNpcPlayer::send_npc_control_create(u16 arg0, u16 arg1, s32 arg2, u8 *arg3, s32 heading) {
     s32 tmp_player;
     Stack_8034EB08 stack;
     s32 var_r31;
@@ -370,7 +370,7 @@ loop_1:
         }
     }
     stack.spE = arg1;
-    set_arrival_override_coords(stack.spE, arg4, (f32) (*(f32 *)((s8 *)arg3 + 0)), (f32) (*(f32 *)((s8 *)arg3 + 4)), (f32) (*(f32 *)((s8 *)arg3 + 8)));
+    set_arrival_override_coords(stack.spE, heading, (f32) (*(f32 *)((s8 *)arg3 + 0)), (f32) (*(f32 *)((s8 *)arg3 + 4)), (f32) (*(f32 *)((s8 *)arg3 + 8)));
     ((TNpcPlayer *)(&stack.sp8))->send_state_60();
 }
 
