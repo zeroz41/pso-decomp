@@ -58,7 +58,7 @@ typedef struct VBase_18_a93f07 VBase_18_a93f07;
 const char *TShopItemTecSequence__class_name = "TShopItemTecSequence";
 void set_judgment_target_flag(TShopJudgmentItemWindow *window, TItemData *item) {
     TItem *found;
-    if (TRaderMapCore::is_not_split_screen() == 1 && (found = find_item_by_id(item->id)) != NULL && window->m_168 != 0) {
+    if (TRaderMapCore::is_not_split_screen() == 1 && (found = find_item_by_id(item->id)) != NULL && window->at_tekker != 0) {
         found->add_item_flags(0x80);
     }
 }

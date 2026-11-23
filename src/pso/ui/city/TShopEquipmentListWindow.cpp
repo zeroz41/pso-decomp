@@ -145,7 +145,7 @@ TShopEquipmentListWindow::TShopEquipmentListWindow(saddr parent, saddr arg2, s32
     this->m_40 = 0;
     this->m_48 = 0;
     this->m_4c = 0;
-    this->m_20 = 0;
+    this->state = 0;
     this->m_190 = 0;
     calc_item_count((TObjPlayer *)this->player, &count);
     TLobby__sub_80225238((sub_8022397C()), (count));

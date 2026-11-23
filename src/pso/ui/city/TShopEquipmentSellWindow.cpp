@@ -133,7 +133,7 @@ TShopEquipmentSellWindow::TShopEquipmentSellWindow(void *arg1, void *arg2, void 
     this->m_370 = 0;
     this->m_374 = 0;
     *(void **)((s8 *)this + 0x378) = arg4;
-    this->m_20 = 0;
+    this->state = 0;
     this->m_37c = 1;
     this->m_380 = 0;
     this->m_384 = 0;
@@ -351,7 +351,7 @@ void TShopEquipmentSellWindow::handle_input_window_result() {
 
     if (((u32) this->m_394 != 0U) && (((TWindowInputNumber *)(this->m_394))->is_confirmed() != 0)) {
         if (confirm_menu == NULL) {
-            this->confirm_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, ((TObjBase *)(saddr)(this->m_24))->get_entity_id());
+            this->confirm_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, ((TObjBase *)(saddr)(this->player))->get_entity_id());
             this->confirm_menu->add_text_entry(get_shop_text(6), 6, 0);
             this->confirm_menu->add_text_entry(get_shop_text(7), 6, 1);
             this->confirm_menu->calc_window_size();
