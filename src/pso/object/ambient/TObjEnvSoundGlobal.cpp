@@ -76,9 +76,6 @@ const Row_80190AA0 *environment_sound_tables_by_area[36] = {
     NULL, NULL, lbl_80445820, lbl_80445820,
 };
 
-f32 xz_distance_squared(void *, void *);
-
-
 #define F(o) (*(f32 *)(self + (o)))
 #define S(o) (*(s32 *)(self + (o)))
 
@@ -92,13 +89,7 @@ f32 xz_distance_squared(void *, void *);
 #include "pso/unk/text_80190884.h"
 
 #include "pso/ui/hud/TRaderMapCore.h"
-
-extern "C" {
-f32 xyz_distance_squared(void *, void *, void *);
-
-
-}
-
+#include "pso/render/NinjaUtil.h"
 
 #include "pso/unk/text_80190940.h"
 #include "pso/system/task/TMainTask.h"
@@ -193,7 +184,7 @@ void *TObjEnvSound::create(void *rader_map_core) {
 }
 
 s32 fn_801908F8(saddr arg0, f32 farg0) {
-    return xyz_distance_squared(&camera_ctrl_instance->pos.x, (void *)(arg0 + 0x38), (void *)arg0) < farg0;
+    return xyz_distance_squared(&camera_ctrl_instance->pos, &((TObjEnvSound *)arg0)->position) < farg0;
 }
 
 s32 TObjEnvSound::is_sound_enabled(void *self, s32 cue) {
@@ -220,7 +211,7 @@ TObjEnvSoundEx::~TObjEnvSoundEx() {
 }
 
 void TObjEnvSoundEx::run_task() {
-    if (xz_distance_squared(&camera_ctrl_instance->pos.x, &position) < range * range) {
+    if (xz_distance_squared(&camera_ctrl_instance->pos, &position) < range * range) {
         volume += volume_step;
         if (volume > (f32)max_volume) {
             volume = (f32)max_volume;

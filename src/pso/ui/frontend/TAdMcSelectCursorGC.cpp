@@ -15,6 +15,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/render/GinjaTexture.h"
 #include "pso/system/task/TObject.h"
 
 extern "C" {
@@ -24,7 +25,6 @@ __declspec(section ".data") NJS_TEXLIST mc_select_cursor_texture_list = { &lbl_8
 
 extern "C" {
 const char *TAdMcSelectCursorGC__class_name = "TAdMcSelectCursorGC";
-void restore_saved_depth_alpha_state(void);
 
 NJS_TEXLIST *TAdMcSelectCursorGC__texture_entry;
 
@@ -133,7 +133,6 @@ TAdMcSelectCursorGC::TAdMcSelectCursorGC(TObject *parent) : TObject(parent) {
 }
 
 extern "C" {
-s32 release_texture_list(NJS_TEXLIST *, NJS_TEXNAME *);
 
 TAdMcSelectCursorGC *TAdMcSelectCursorGC::get_instance(TObject *parent) {
     if (TAdMcSelectCursorGC__instance == NULL) {
@@ -146,7 +145,7 @@ void TAdMcSelectCursorGC::release_cursor_entry() {
     if (TAdMcSelectCursorGC__texture_entry != NULL) {
         NJS_TEXNAME *entry = TAdMcSelectCursorGC__texture_entry->textures;
         if (entry->texture != NULL) {
-            release_texture_list(TAdMcSelectCursorGC__texture_entry, entry);
+            release_texture_list(TAdMcSelectCursorGC__texture_entry);
         }
     }
 }

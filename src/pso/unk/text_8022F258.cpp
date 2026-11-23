@@ -9,6 +9,7 @@
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/system/vector.h"
 #include "pso/technique/TTecDeband.h"
+#include "pso/system/SoundEffect.h"
 u32 dark_technique_charge_effect_ids[3] = {0x1E7, 0x1E8, 0x1EF};
 TechniqueBoostTable::TechniqueBoostTable() {
     clear();
@@ -28,10 +29,6 @@ TUnk_804CC74C::~TUnk_804CC74C() {
 }
 
 struct Obj_8022F42C { u8 pad[0xA6]; s16 state; };
-
-extern "C" {
-s32 play_sound_effect(int, void *, int, int);
-}
 
 TUnk_804CC74C::TUnk_804CC74C(TObjPlayer *actor, TObject *parent) : TObject(parent) {
     m_actor = actor;

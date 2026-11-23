@@ -20,6 +20,7 @@
 #include "pso/object/TObjEZBoneRotPlayer.h"
 #include "pso/math/InverseTrig.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/render/model_render_state.h"
 
 #pragma push
 #pragma readonly_strings on
@@ -40,12 +41,6 @@ Vec TObjEZBoneRotPlayer__chain_gravity = {0.0f, -0.75f, 0.0f};
 
 extern "C" {
 extern u8 debug_chunk_b_object[];
-extern s32 saved_model_render_flags;
-extern s32 saved_chunk_polygon_flags_and_mask;
-extern s32 saved_chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_and_mask;
-extern s32 model_render_flags;
 }
 
 

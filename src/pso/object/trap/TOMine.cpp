@@ -5,7 +5,16 @@ struct game_command_header;
 #include "types.h"
 #include "pso/object/trap/TOMineTrap.h"
 #include "pso/system/vector.h"
+#include "pso/enemy/EnemyTargeting.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/render/ChunkMaterialColor.h"
 #include "pso/render/ChunkMaterialState.h"
+#include "pso/render/model_render_state.h"
+#include "pso/render/render_util.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/trap/TOMineTrapDisp.h"
 #include "pso/object/base/TObjMotion.h"
@@ -52,7 +61,6 @@ struct game_command_header;
 
 // ---- declarations carried over from the fragment TOMineTrapDisp_8016EDC8.cpp
 extern "C" {
-f32 horizontal_distance_squared(void *, void *);
 void get_player_state__6TOMineFv(void *, u16);
 }
 
@@ -99,9 +107,6 @@ BmlResource *lbl_805D5A50; // bm_o_mine.bml, loaded by TOMine::load_static_resou
 int mine_trap_count;
 
 extern "C" {
-extern u8 chunk_material_color_half_alpha_f32[];
-extern s32 saved_model_render_flags;
-extern s32 model_render_flags;
 // ---- declarations carried over from the fragment text_8016F1C0.cpp
 s32 is_split_screen();
 }
@@ -171,12 +176,8 @@ struct VObj_18_1da615 : VBase_18_1da615 {
     virtual s32 m23(void *, f32);
 };
 extern "C" {
-s32 play_sound_effect(s32, s32, s32, s32);
 void TOMineTrap__sub_80170CD4(void* p);
 f32 atan2_float(f32 y, f32 x);
-f32 vec3_add_to(void *, void *);
-f32 vec_squared_length(u8 *arg0);
-f32 subtract_vector(void *, void *);
 extern s32 TOMineIcon01__name;
 extern s32 TOMineIcon02__name;
 extern s32 TOMineIcon03__name;
@@ -208,8 +209,6 @@ struct VObj_801710E4 : VBase_801710E4 {
     virtual s32 m8(f32, f32);
 };
 extern "C" {
-u16 find_nearest_visible_player(void *, int, f32);
-void post_translate_matrix(void *);
 int submit_target_to_player_cursor(void*);
 typedef struct RecoveredFields_80170F0C_arg0 RecoveredFields_80170F0C_arg0;
 // ---- declarations carried over from the fragment TOMineTrap.cpp
@@ -298,7 +297,7 @@ void TOMine::render() {
     s32 t;
     if (*(s16 *)((s8 *)arg0 + 0x326) == 3 && arg0->m8(400.0f, 20.0f) != 0) {
         push_matrix();
-        post_translate_matrix((u8 *) arg0 + 0x38);
+        post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, *(s32 *)((s8 *)arg0 + 0x370));
         free_parts();
         TParticleCtrl::begin_effect_render();
@@ -307,7 +306,7 @@ void TOMine::render() {
         model_render_flags = t | 0x20;
         ((void (*)(void *, s32)) set_constant_material)((u8 *) arg0 + 0x360, t);
         free_sub_objects();
-        set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
+        set_constant_material(&chunk_material_color_half_alpha_f32);
         model_render_flags = saved_model_render_flags;
         TParticleCtrl::end_effect_render();
         pop_matrix();
@@ -361,7 +360,7 @@ int TOMine::find_target_player() {
     u8 *arg0 = (u8 *)this;
   u16 client;
   unsigned short new_var;
-  ((RecoveredFields_80170F0C_arg0 *) arg0)->field_35C = find_nearest_visible_player((void *) arg0, 0, (f32) ((RecoveredFields_80170F0C_arg0 *) arg0)->field_34C);
+  ((RecoveredFields_80170F0C_arg0 *) arg0)->field_35C = find_nearest_visible_player((TObjChara *)arg0, NULL, (f32) ((RecoveredFields_80170F0C_arg0 *) arg0)->field_34C);
   client = ((RecoveredFields_80170F0C_arg0 *) arg0)->field_35C;
   new_var = -1;
   if (client != new_var)
@@ -449,14 +448,14 @@ void TOMine::follow_target() {
   VecCopy((Vec *)(arg0 + 0x44), (const Vec *)(arg0 + 0x38));
   VecCopy((Vec *)(&stack.x), (const Vec *)((this->target) + 0x38));
   stack.y = *((f32 *) (((s8 *) arg0) + 0x3C));
-  subtract_vector(&stack.x, (u8 *)&this->position);
-  if (2.0f < vec_squared_length((u8 *)&stack.x))
+  subtract_vector(&stack, &this->position);
+  if (2.0f < vec_squared_length(&stack))
   {
     normalize_vector(&stack);
     stack.x *= 2.0f;
     stack.z *= 2.0f;
   }
-  vec3_add_to((u8 *)&this->position, &stack.x);
+  vec3_add_to(&this->position, &stack);
   update_enemy_collision_flags();
   temp_f2 = *((f32 *) (((s8 *) arg0) + 0x48));
   *((f32 *) (((s8 *) arg0) + 0x3C)) = (f32) ((0.5f * ((25.0f + (*((f32 *) ((this->target) + 0x3C)))) - temp_f2)) + temp_f2);
@@ -587,7 +586,7 @@ void TOMine::vfunc_80() {
     s32 area = get_current_floor_area();
     s32 elem = mine_trap_keymachine_table[area];
     if (elem != -1) {
-        play_sound_effect(elem, arg0 + 0x38, 0, 0);
+        play_sound_effect(elem, &this->position, 0, 0);
     }
 }
 // Slot 81: plays the floor area's mine_trap_effect_table sound (was named spawn_effect on TOMineTrap).
@@ -596,7 +595,7 @@ void TOMine::vfunc_81() {
     s32 area = get_current_floor_area();
     s32 elem = mine_trap_effect_table[area];
     if (elem != -1) {
-        play_sound_effect(elem, arg0 + 0x38, 0, 0);
+        play_sound_effect(elem, &this->position, 0, 0);
     }
 }
 void TOMine::update_state() {
@@ -1191,7 +1190,7 @@ void TOMineDisp::render() {
     }
     push_matrix();
     temp_r31 = *(s32 *)&this->m_up;
-    post_translate_matrix(((u8 *)this) + 0x38);
+    post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
     ((TOMine *)temp_r31)->free_parts();
     TParticleCtrl::begin_effect_render();
@@ -1200,7 +1199,7 @@ void TOMineDisp::render() {
     model_render_flags = temp_r4 | 0x20;
     ((void (*)(void *, s32))set_constant_material)(((u8 *)this) + 0x94, temp_r4);
     ((TOMine *)temp_r31)->free_sub_objects();
-    set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
+    set_constant_material(&chunk_material_color_half_alpha_f32);
     model_render_flags = saved_model_render_flags;
     TParticleCtrl::end_effect_render();
     pop_matrix();

@@ -81,6 +81,7 @@ struct NJS_OBJECT;
 #pragma auto_inline off
 #pragma dont_inline off
 #include <dolphin/mtx.h>
+#include <math.h>
 #include <stddef.h>
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/network/client_id.h"
@@ -296,9 +297,6 @@ DragonModelState boss1_dragon_capture_chunk_model;
 Vec boss1_dragon_reference_pos_vec;
 Vec boss1_dragon_forward_reference_vec;
 extern s32 registered_player_count;
-extern "C" {
-f64 floor(f64);
-}
 extern u8 *TLobby__data_805D6144;
 extern f32 lbl_805D9E80;
 extern const f32 boss1_dragon_lift_accel = 3.0f * lbl_805D9E80;

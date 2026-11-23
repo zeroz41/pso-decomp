@@ -32,6 +32,8 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/ui/window/WindowLayout.h"
 
 
 #pragma readonly_strings on
@@ -89,11 +91,9 @@ struct Luker_801A1260
 };
 
 extern "C" {
-s32 play_sound_effect(s32, uaddr, s16, s32);
 void close_windows__9TObjLukerFPv(Obj_801A0DB4 *self);
 s32 is_split_screen(void);
-void *get_window_layout_position(s32 a);
-void *create_window_menu_default(void *p, s32 a);
+void *create_window_menu_default(const void *p, s32 a);
 f32 horizontal_distance_squared(void *, void *);
 s32 play_persistent_sound(int, void *, void *, int, int);
 s32 TTecLuker__sub_8023401C(void *);
@@ -118,7 +118,7 @@ void TObjLuker::show_part(u16 arg1) {
     temp_r3 = (u8 *)(*(u8 **)((s8 *)temp_r31 + 0x90));
     if (temp_r3 != NULL) {
         if (*(u16 *)((s8 *)temp_r3 + 4) & 4) {
-            play_sound_effect(0x53703, 0U, 0, 0);
+            play_sound_effect(0x53703, NULL, 0, 0);
         }
         ((TObject *)(*(u8 **)((s8 *)temp_r31 + 0x90)))->clear_update_suspension();
         ((TObject *)(*(u8 **)((s8 *)temp_r31 + 0x90)))->allow_rendering();
@@ -416,7 +416,7 @@ void TObjLuker::run_task() {
                         p = (u8 *)get_player_by_client_id(local_client_id);
                         if (p != NULL) {
                             TObjPlayer::play_effect_default((saddr)p, 0xA);
-                            play_sound_effect(0x40022D1A, (uaddr)(arg0 + 0x38), 0, 0);
+                            play_sound_effect(0x40022D1A, &this->position, 0, 0);
                         }
                         TWindowCtrl::init_all_slots();
                         *(s32 *)&this->m_b8 = 1;

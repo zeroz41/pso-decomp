@@ -1,3 +1,4 @@
+#include <dolphin/os/OSCache.h>
 #include "types.h"
 #include "pso/render/GinjaUvScroll.h"
 #include "pso/render/GinjaModel.h"
@@ -28,7 +29,6 @@ struct Info_8023E0FC { f32 x, y, z; f32 dx1, dy1, dx2, dy2; f32 pad; f32 u, v, d
 extern "C" {
 s32 has_texture_scroll_entry(Tbl_8023DD0C *t, u16 id);
 void set_ginja_texture_wrap_repeat(Tbl_8023DD60 *t);
-void DCFlushRangeNoSync(void *, u32);
 
 s32 has_texture_scroll_entry(Tbl_8023DD0C *t, u16 id) {
     s32 found = 0;

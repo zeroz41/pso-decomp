@@ -7,13 +7,13 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/network/client_id.h"
 
 struct Pkt_80076E98 { u8 pad[4]; s32 f4; u32 f8; };
 
 extern "C" {
 extern u8 *text_language_group_table;
 SymbolChatPreset symbol_chat_receive_buffer;
-extern s32 local_client_id;
 void handle_6x07_symbol_chat(Pkt_80076E98 *command);
 s32 get_technique_name(s32 id) {
     return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x10)) + (id * 4));

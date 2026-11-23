@@ -46,15 +46,14 @@ const char *TObjBagWarnWin4P__name = "TObjBagWarnWin4P";
 #include "pso/system/task/TObject.h"
 #include "pso/ui/city/THunterGuildWarning.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
+#include "pso/network/client_id.h"
+#include "pso/ui/window/WindowLayout.h"
 
 extern "C" {
 
 
 
 saddr get_message_text(s32);
-
-
-saddr get_window_layout_position(s32);
 
 
 
@@ -79,12 +78,6 @@ struct Ctrl_8006EC20 {
     Sub_8006EC20 *pD00;
 };
 extern "C" {
-
-
-extern s32 local_client_id;
-
-
-saddr get_window_layout_position(s32);
 
 
 extern f32 TObjBagWarnWin__message_window_size[2];
@@ -193,7 +186,7 @@ TObjBagWarnWin4P::TObjBagWarnWin4P(TObject *parent) : TObject(parent) {
 TObjBagWarnWin4P::~TObjBagWarnWin4P() {}
 
 void TObjBagWarnWin4P::create_window() {
-    s32 position = get_window_layout_position(0x5B);
+    s32 position = (s32)get_window_layout_position(0x5B);
     message_window = (TWindowMessage *)TWindowMessage::create(position, TObjBagWarnWin4P__message_window_size, 1, 4);
     if (message_window != NULL) {
         strncpy(message_text, (const char *)get_message_text(0x69), 0x7F);

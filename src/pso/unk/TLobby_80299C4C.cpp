@@ -33,10 +33,11 @@
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
+#include "pso/map/area/AreaScene.h"
+#include "pso/system/SoundEffect.h"
 
 extern "C" {
 s32 load_floor_sound_bank();
-s32 TLobby__sub_801403B4(s32);
 }
 void init_music_sequencer(s32);
 void init_area_lights(void);
@@ -220,7 +221,6 @@ void TObjChallenge4PRetry::countdown_and_destroy() {
 }
 
 void TKeyBoardControl__sub_8000F950(void);
-s32 play_sound_effect(s32, s32, s32, s32);
 s32 TLobby__sub_80291F9C();
 }
 

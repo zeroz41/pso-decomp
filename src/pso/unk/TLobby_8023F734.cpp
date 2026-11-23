@@ -496,6 +496,9 @@ u16 sound_bank_group_ids[38] = {
 #include "pso/unk/TLobby_803382E4.h"
 #include "pso/system/main_loop.h"
 #include <string.h>
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/os/OSTime.h>
+#undef PSO_SDK_COMPACT_MATH
 #pragma readonly_strings on
 struct Voice_80241FD8;
 #pragma push
@@ -879,7 +882,6 @@ struct Mgr_802405B0 {
 
 extern "C" {
 s32 sndPopGroup();
-s32 OSGetTick();
 int TLobby__sub_802401C8(SoundControlState *self) { return 0; }
 }
 s32 update_sound_frame(SoundControlState *self);

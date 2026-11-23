@@ -12,6 +12,7 @@
 #include "pso/system/vector.h"
 #include <stddef.h>
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/MatrixStack.h"
 
 // A camera-space probe point and where it lands on screen.
 struct ViewProbe {
@@ -21,8 +22,6 @@ struct ViewProbe {
 
 extern "C" {
 s32 is_in_shadow_range(f32, const Vec *);
-s32 project_world_to_screen(int, const Vec *, f32 *);
-f32 transform_point_by_current_matrix(const Vec *, Vec *);
 }
 
 u16 next_player_id;
@@ -146,7 +145,7 @@ s32 TObjBase::classify_actor_view_detail(f32 near_depth, f32 far_depth, f32 radi
     if (TMainTask::get_render_pass() == 1) {
         return visibility;
     }
-    transform_point_by_current_matrix(&position, &probe.point);
+    transform_point_by_current_matrix(&position.x, &probe.point);
     z = probe.point.z;
     if (z > 0.0f) {
         visibility = 0;
@@ -202,7 +201,7 @@ s32 TObjBase::update_object_view_visibility(f32 far_depth, f32 radius) {
     if (TMainTask::get_render_pass() == 1) {
         return visibility;
     }
-    transform_point_by_current_matrix(&position, &probe.point);
+    transform_point_by_current_matrix(&position.x, &probe.point);
     if (probe.point.z > 0.0f) {
         visibility = 0;
         return 0;

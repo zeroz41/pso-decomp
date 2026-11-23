@@ -35,15 +35,14 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/TLobby_803DE778.h"
 #include "pso/system/vector.h"
-
-extern "C" {
-
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/gx.h>
+#undef PSO_SDK_COMPACT_MATH
 
 void TLobby::draw_with_camera(NJS_SPRITE *sprite, s32 frame_index, s32 flags, f32 depth) {
     TCameraCtrl::restore_full_screen_view();
     TLobby__sub_80228154(sprite, frame_index, flags, depth);
     TCameraCtrl::restore_saved_view();
-}
 }
 
 s32 set_texture_num(s32 i);
@@ -104,7 +103,6 @@ int current_line_width = 12;
 s32 lbl_805D3584 = 1;
 f32 viewport_scissor_origin_x = 320.0f;
 f32 camera_viewport_center_y = 240.0f;
-void GXSetScissor(u32, u32, u32, u32);
 s32 TObjPlayer__sub_803DAD28(u32 id);
 }
 
@@ -163,8 +161,6 @@ struct Lines_801E341C {
 
 
 extern "C" {
-void GXBegin(s32, s32, u16);
-void GXSetLineWidth(s32, s32);
 void draw_line_list(Lines_801E341C *l, s32 n, u32 flags);
 }
 void reset_line_width(void);
@@ -182,11 +178,11 @@ void draw_color_lines(ColorLineList *l, s32 n, s32 flags, f32 scale) {
     } else {
         setup_opaque_color_draw();
     }
-    GXSetLineWidth(0xC, 0);
+    GXSetLineWidth(0xC, GX_TO_ZERO);
     if (flags & 0x10) {
-        GXBegin(0xB0, 4, n);
+        GXBegin(GX_LINESTRIP, GX_VTXFMT4, n);
     } else {
-        GXBegin(0xA8, 4, n);
+        GXBegin(GX_LINES, GX_VTXFMT4, n);
     }
     while (n > 0) {
         n--;
@@ -206,11 +202,11 @@ void draw_line_list(Lines_801E341C *l, s32 n, u32 flags) {
     } else {
         setup_opaque_color_draw();
     }
-    GXSetLineWidth((u8)current_line_width, 0);
+    GXSetLineWidth((u8)current_line_width, GX_TO_ZERO);
     if (flags & 0x10) {
-        GXBegin(0xB0, 4, n * 2);
+        GXBegin(GX_LINESTRIP, GX_VTXFMT4, n * 2);
     } else {
-        GXBegin(0xA8, 4, n * 2);
+        GXBegin(GX_LINES, GX_VTXFMT4, n * 2);
     }
     p = l->positions;
     c = l->colors;
@@ -294,7 +290,7 @@ void draw_polygon_2d(NJS_POINT2COL *poly, s32 count, u32 flags, f32 depth) {
     } else {
         setup_opaque_color_draw();
     }
-    GXBegin(0xA0, 4, count);
+    GXBegin(GX_TRIANGLEFAN, GX_VTXFMT4, count);
     pts = self->verts;
     cols = (s16 *)self->colors;
     for (i = 0; i < count; pts++, cols += 2, i++) {
@@ -324,7 +320,7 @@ void draw_tri_fan_3d(NJS_POINT3COL *fan, s32 n, u32 flags) {
     } else {
         setup_opaque_color_draw();
     }
-    GXBegin(0xA0, 4, n);
+    GXBegin(GX_TRIANGLEFAN, GX_VTXFMT4, n);
     c = fan->col;
     p = fan->p;
     uv = fan->tex;
@@ -488,8 +484,6 @@ extern "C" {
 void TLobby__sub_803382E4(void);
 s32 TLobby__sub_801E3E9C(s32 arg0, saddr arg1, saddr arg2);
 s32 TKeyBoardControl__sub_801E3E24(s32 arg0, saddr arg1, saddr arg2);
-s32 GXSetViewport(f32, f32, f32, f32, f32, f32);
-s32 GXSetZMode(s32, s32, s32);
 void TKeyBoardControl__sub_8000F7FC(void);
 
 void fn_803DCEC8(void);
@@ -518,11 +512,11 @@ void TObjPlayer::render_tree(void *model) {
 void render_tick(void) {
     TKeyBoardControl::run_tasks();
     TParticleCtrl::begin_effect_render();
-    GXSetZMode(1, 7, 0);
+    GXSetZMode(GX_TRUE, GX_ALWAYS, GX_FALSE);
     TCameraCtrl::restore_full_screen_view();
     set_cull_none();
     render_debug_text(lbl_805D3584);
-    GXSetZMode(1, 3, 1);
+    GXSetZMode(GX_TRUE, GX_LEQUAL, GX_TRUE);
     GXSetViewport((0.0f), (0.0f), (6.4e+02f), (4.8e+02f), (0.0f), (1.0f));
     set_cull_none();
     TParticleCtrl::end_effect_render();

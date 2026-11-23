@@ -21,6 +21,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/GinjaTexture.h"
 
 
 struct G_80338534 { u8 p0[0x2C]; ProjectedVertex a[4]; u8 b[0x60]; u8 c[0x40]; };
@@ -41,7 +42,6 @@ extern s32 hud_texlist;
 int info_icon_texture;
 s32 lobby_pulse_color_phase;
 u32 __cvt_fp2unsigned(f32);
-s32 release_texture_list(s32 *);
 
 NJS_TEXNAME lbl_804EF1B8[3] = {
     { "f256_nowloading", 0, 0 },
@@ -146,7 +146,7 @@ void TLobby__sub_803382E4(void) {
 
 void TLobby::handle_flag2_request() {
     if (lobby_request_flags & 2) {
-        release_texture_list(lbl_804EF1DC);
+        release_texture_list(reinterpret_cast<NJS_TEXLIST *>(lbl_804EF1DC));
         lobby_request_flags &= 0xFFFFFFFD;
     }
 }

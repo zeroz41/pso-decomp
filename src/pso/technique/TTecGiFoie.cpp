@@ -22,9 +22,9 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/TLobby_80226070.h"
+#include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"
-
-extern "C" {
+#include "pso/system/SoundEffect.h"
 
 struct HitInfo_8023154C { s32 type; f32 power; };
 
@@ -62,8 +62,8 @@ struct Part_802312E4 { s32 id; u32 flags; f32 scale; };
 
 struct Profile_802312E4 { const Part_802312E4 *parts; u32 count; };
 
-void * find_entity_by_id(u16);
-s32 play_sound_effect(s32, void *, s32, s32);
+extern "C" {
+
 void matrix_mult_vec(void *, void *, void *);
 
 const char *TTecGiFoie__name = "TTecGiFoie";

@@ -29,6 +29,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/vector.h"
+#include "pso/system/SoundEffect.h"
 #pragma push
 #pragma readonly_strings on
 
@@ -94,7 +95,6 @@ WindowDescriptor TWindowSubMagPhoton__layout_descriptor = {
 struct Win_8027C4C8 { u8 pad[0x62]; s16 f62; };
 
 extern "C" {
-s32 play_sound_effect(s32, s32, s32, s32);
 void draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(void *, void *, int, f32);
 }
 extern "C" {

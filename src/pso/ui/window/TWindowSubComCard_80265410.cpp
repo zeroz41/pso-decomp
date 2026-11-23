@@ -29,6 +29,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
+#include "pso/system/SoundEffect.h"
 
 
 #pragma readonly_strings on
@@ -66,7 +67,6 @@ struct Card_80265AA4 {
 
 struct Ent_80265C30;
 
-s32 play_sound_effect(s32, s32, s32, s32);
 void measure_message_text_width(Ent_80265C30 *e, f32 x);
 void TWindowSubComCard__sub_80265500(TWindowMenu *menu);
 s32 TWindowSubComCard__sub_80265660(TWindowMenu *menu, s16 row);

@@ -38,16 +38,13 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/ui/hud/TRaderMapCore.h"
 
 extern "C" {
-s32 post_translate_matrix(const void *pos);
-void *find_entity_by_id(u16 id);
 void init_collision_body_parts(void *obj, void *parts, s32 count);
 void free_collision_body_parts(void *obj);
-s32 minimap_render_dot(void *pos, s32 color, s32 a2, s32 a3);
-void *__construct_array(void *array, void *ctor, void *dtor, u32 size, u32 count);
-extern Mtx34 identity_matrix;
-extern s32 registered_player_count;
 
 // TBoss3Volopt.cpp defines these; its header does not declare them yet.
 }
@@ -253,7 +250,7 @@ void TBoss3VoloptP01::render() {
         TObjPlayer::toggle_particle_effect();
         push_matrix();
         if (TObjPlayer::check_demo_mode() == 1) {
-            post_translate_matrix(&position);
+            post_translate_matrix(&position.x);
             rotate_matrix_y(0, rotation_y);
             draw_chunk_object(model);
         } else {

@@ -22,22 +22,14 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/object/ambient/TObjLight.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/render/model_render_state.h"
 
 extern "C" {
-s32 rotate_matrix_z(int, int);
-void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
-s32 rotate_matrix_x(int, int);
-void post_translate_matrix(void *);
-void set_chunk_material_override_pair(s32 first, s32 second);
 s32 matrix_mult_vec(int, void *, void *);
-void set_matrix_identity(u8 *matrix);
-void rotate_vector_by_matrix(int, void *, void *);
-void scale_matrix(int, f32, f32, f32);
-void rotate_matrix_by_node_angles(void *angles, s32 mode);
-void scale_current_matrix(Vec *scale);
-f32 vec3_add_to(void *, void *);
-extern u32 model_render_flags;
-extern u32 saved_model_render_flags;
 extern const f32 breakup_unit;
 extern const f32 breakup_zero;
 extern const f32 breakup_bounce_factor;
@@ -214,9 +206,9 @@ void TUnk_804820A8::render() {
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(models[2].texlist));
     for (i = 0; i < 19; i++) {
         push_matrix();
-        post_translate_matrix(&p->pos);
+        post_translate_matrix(&p->pos.x);
         rotate_matrix_by_node_angles(&p->ang_x, 0);
-        scale_current_matrix(&scale);
+        scale_current_matrix(&scale.x);
         switch (p->state) {
         case 0:
         case 1:
@@ -319,7 +311,7 @@ void TUnk_80482090::render() {
         push_matrix();
         for (i = 0; i < 0x1C; i++, n = n->sibling, p++) {
             push_matrix();
-            post_translate_matrix(p);
+            post_translate_matrix(&p->pos.x);
             rotate_matrix_z(0, p->ang_z);
             rotate_matrix_x(0, p->ang_x);
             translate_matrix(0, -m_origin.x, -m_origin.y, -m_origin.z);

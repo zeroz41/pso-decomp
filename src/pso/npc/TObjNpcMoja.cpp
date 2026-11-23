@@ -16,6 +16,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/render/model_render_state.h"
 
 extern "C" {
 
@@ -23,7 +24,6 @@ extern "C" {
 void init_collision_body_parts(void *, void *, s32);
 s32 rotate_matrix_y(s32, s32);
 extern u8 *moja_bml_resource;
-extern s32 model_render_flags;
 }
 
 TObjMotionAction moja_action_table[2] = {

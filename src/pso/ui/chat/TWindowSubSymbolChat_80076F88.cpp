@@ -19,6 +19,8 @@
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/system/byteswap.h"
 #include "pso/unk/TLobby_803DE778.h"
+#include "pso/network/client_id.h"
+#include "pso/system/SoundEffect.h"
 
 struct E_80077480 { u8 pad[0x58]; };
 
@@ -46,8 +48,6 @@ struct Obj_800771E4 { u8 pad0[0x28]; Ent_800771E4 e[12]; };
 
 extern "C" {
     extern int selected_symbol_chat_preset;
-extern s32 local_client_id;
-s32 play_sound_effect(s32, u32, s16, s32);
 
 void TWindowSubSymbolChat::send_selected_symbol_chat(s32 *arg0) {
     G_SymbolChat_6x07 packet;
@@ -190,7 +190,7 @@ void SymbolChatPreset::update_selected_symbol() {
 
 void TWindowSubSymbolChat::play_symbol_sound(s32 arg0) {
     if ((arg0 >= 0) && (arg0 < 9)) {
-        play_sound_effect(symbol_chat_sound_ids[arg0], 0U, 0, 0);
+        play_sound_effect(symbol_chat_sound_ids[arg0], 0, 0, 0);
     }
 }
 

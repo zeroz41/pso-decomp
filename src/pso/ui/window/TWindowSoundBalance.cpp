@@ -17,6 +17,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/system/SoundEffect.h"
 
 #pragma readonly_strings on
 
@@ -55,7 +56,6 @@ WindowDescriptor window_sound_balance_settings = {
 };
 
 extern "C" {
-s32 play_sound_effect(s32, s32, s32, s32);
 u32 calc_text_width();
 const char *TWindowSoundBalance__name = "TWindowSoundBalance";
 
@@ -138,7 +138,7 @@ void TWindowSoundBalance::handle_lr_input() {
     ControllerInputContext *input;
     input = &controller_input_state.controllers[0];
     if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)input, 0x30, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x30, 6, 1) != 0)) {
-        play_sound_effect(0x54100, (s32)(0U), 0, 0);
+        play_sound_effect(0x54100, 0, 0, 0);
         if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
             this->selection = (this->selection - 1);
         }

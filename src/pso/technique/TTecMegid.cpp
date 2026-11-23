@@ -22,6 +22,7 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/system/SoundEffect.h"
 
 struct RecoveredFields_80235348_arg0
 {
@@ -151,7 +152,6 @@ static const Vec tec_megid_offset_vec = {0.0f, 0.0f, -5.0f};
 
 extern "C" {
 void mem_free(void *p);
-s32 play_sound_effect(s32, s32, s32, s32);
 }
 u32 get_technique_caster_flags(s32 technique, u16 actor);
 extern "C" {
@@ -164,29 +164,29 @@ void TTecMegid::update_by_state() {
 
     switch (this->band) {
     case 0:
-        handle = play_sound_effect(0x4002A60B, (saddr)(arg0 + 0x20), 0, 0);
+        handle = play_sound_effect(0x4002A60B, arg0 + 0x20, 0, 0);
         if (handle >= 0) {
             set_sound_pitch_request(handle, 0x100, 0);
         }
         return;
     case 1:
-        play_sound_effect(0x4002A60B, (saddr)(arg0 + 0x20), 0, 0);
+        play_sound_effect(0x4002A60B, arg0 + 0x20, 0, 0);
         return;
     case 2:
     case 3:
-        handle = play_sound_effect(0x4002A60B, (saddr)(arg0 + 0x20), 0, 0);
+        handle = play_sound_effect(0x4002A60B, arg0 + 0x20, 0, 0);
         if (handle >= 0) {
             set_sound_pitch_request(handle, -0x180, 0);
         }
         break;
     case 4:
-        handle = play_sound_effect(0x4002A60B, (saddr)(arg0 + 0x20), 0, 0);
+        handle = play_sound_effect(0x4002A60B, arg0 + 0x20, 0, 0);
         if (handle >= 0) {
             set_sound_pitch_request(handle, -0x250, 0);
         }
         break;
     case 5:
-        handle = play_sound_effect(0x4002A60B, (saddr)(arg0 + 0x20), 0, 0);
+        handle = play_sound_effect(0x4002A60B, arg0 + 0x20, 0, 0);
         if (handle >= 0) {
             set_sound_pitch_request(handle, -0x100, 0);
         }
@@ -290,7 +290,7 @@ void TTecMegid::vfunc_8(void *target) {
         }
         HitInfo_80235490 info = tmp;
         ((VObj_80235490 *)target)->m21((void *)source, &info, contact, 0x12, -1);
-        play_sound_effect(0x4002AD29, (saddr)((u8 *)target + 0x38), 0, 0);
+        play_sound_effect(0x4002AD29, (u8 *)target + 0x38, 0, 0);
         if (sourceId < 12) {
             if ((get_technique_caster_flags(0x12, sourceId) & 1) == 0) {
                 queue_destruction();

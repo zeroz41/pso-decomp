@@ -14,9 +14,9 @@
 #include "pso/quest/TQuestListOnline.h"
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/unk/text_80222C28.h"
+#include "pso/network/client_id.h"
 #pragma readonly_strings on
 extern "C" {
-extern s32 local_client_id;
 saddr get_shop_text(s32 index);
 __declspec(section ".rodata") extern const char message_tag_error[];
 }

@@ -16,6 +16,7 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/render/GinjaTexture.h"
 #include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
@@ -27,9 +28,6 @@ s32 * TBoss5GryphonSnarl__effect_table;
 extern s32 boss5_gryphon_snarl_effect_id_table[4];
 extern s32 *TBoss5GryphonSnarl__effect_table;
 extern const char *TBoss5GryphonSnarl__name;
-
-
-s32 release_texture_list(void*);
 
 void TBoss5GryphonSnarl::render() {  }
 
@@ -149,7 +147,7 @@ void TBoss5GryphonSnarl::select_effect_table() {
 
 void TLobby__sub_80066EC0(void) {
     if (boss5_common_texture_list != 0U) {
-        release_texture_list((void*)boss5_common_texture_list);
+        release_texture_list(reinterpret_cast<NJS_TEXLIST *>(boss5_common_texture_list));
         TAdSinglePlyChrSelectGC::safe_free(boss5_common_texture_list);
         boss5_common_texture_list = 0U;
     }

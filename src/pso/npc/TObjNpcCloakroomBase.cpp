@@ -13,6 +13,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/system/SoundEffect.h"
 
 #pragma readonly_strings on
 
@@ -24,15 +25,13 @@ __declspec(section ".data") const char *bm_n_trunk_i_body_model_names[2] = { "n_
 BmlResourceDescriptor bm_n_trunk_i_body_resource_descriptor = { "bm_n_trunk_i_body.bml", bm_n_trunk_i_body_model_names, bm_n_trunk_i_body_motion_names, 1, 0 };
 const char *TObjNpcCloakroomBase__name = "TObjNpcCloakroomBase";
 BmlResource *TObjNpcCloakroomBase__static_instance;
-s32 play_sound_effect(s32, s32, s32, s32);
 
 void TObjNpcCloakroomBase::play_voice() {
-    saddr arg0 = (saddr)this;
     if (get_current_floor_area() != AREA_CAVE3) {
-        play_sound_effect(0x40003804, arg0 + 0x38, 0, 0);
+        play_sound_effect(0x40003804, &this->position, 0, 0);
         return;
     }
-    play_sound_effect(0x40003802, arg0 + 0x38, 0, 0);
+    play_sound_effect(0x40003802, &this->position, 0, 0);
 }
 
 

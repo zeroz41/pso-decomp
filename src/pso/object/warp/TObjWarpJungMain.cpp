@@ -33,7 +33,9 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/warp/TObjWarpBase.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include <dolphin/base/PPCArch.h>
 #include "pso/ui/frontend/TAdVIConfigGC.h"
+#include "pso/ui/window/WindowLayout.h"
 
 const char *bm_obj_warp_jung_model_names[3] = { "fe_obj_warp_dodai.gj", "fe_obj_warp_jogo_light.gj", NULL };
 __declspec(section ".data") const char *bm_obj_warp_jung_motion_names[2] = { "fe_obj_warp_jogo_light.njm", NULL };
@@ -59,10 +61,8 @@ GinjaModel *warp_jung_beam_models[6];
 // The texture entry names load_warp_beam_resources looks up.
 
 extern "C" {
-s32 PPCSync();
 saddr get_localized_text_entry(s32, s32);
 void request_active_window_close(void);
-s32 get_window_layout_position(s32);
 
 s32 get_game_play_mode(void);
 

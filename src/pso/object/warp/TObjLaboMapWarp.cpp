@@ -55,7 +55,10 @@
 
 #include "pso/map/FloorArea.h"
 
+#include "pso/render/NinjaUtil.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/ui/window/WindowLayout.h"
 
 #include "pso/player/TObjPlayer_801AF2F0.h"
 
@@ -101,13 +104,7 @@ void unlock_main_warp_destination(s32 id);
 void clear_enabled_main_warps(void);
 
 
-s32 get_window_layout_position(s32);
-
-
 s32 rotate_matrix_y(s32, s32);
-
-
-s32 post_translate_matrix(void *);
 
 
 extern void request_active_window_close();
@@ -121,9 +118,6 @@ extern s16 TLobby__data_805D5CE8;
 struct Obj_80186B34 { u8 pad[0x38]; u8 pos[0xAC - 0x38]; f32 range; };
 
 extern "C" {
-
-f32 xz_distance_squared(s32, s32);
-
 
 extern s32 lbl_805D55C0;
 
@@ -188,7 +182,7 @@ TObjPlayer *find_local_city_warp_player(TObjAreaWarp *warp, f32 range) {
     if (player != NULL) {
         s32 current_floor = get_current_floor();
         s32 player_floor = player->get_floor();
-        if ((player_floor == current_floor) && (xz_distance_squared((saddr)&warp->position, (saddr)&player->position) < (range * range))) {
+        if ((player_floor == current_floor) && (xz_distance_squared(&warp->position, &player->position) < (range * range))) {
             return player;
         }
     }
@@ -563,7 +557,7 @@ void TObjCityMainWarp::render() {
     if (update_object_view_visibility(400.0f, 35.0f) != 0) {
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
         push_matrix();
-        post_translate_matrix((u8 *)&this->position);
+        post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         draw_ginja_object((void *)city_common_model_archive->models[12].model);
         TParticleCtrl::begin_effect_render();
@@ -629,7 +623,7 @@ void TObjCityAreaWarp::do_warp() {
     if (this->update_object_view_visibility(400.0f, 32.0f) != 0) {
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
         push_matrix();
-        post_translate_matrix((u8 *)&this->position);
+        post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         TParticleCtrl::begin_effect_render();
         draw_ginja_model_with_motion((void *)city_common_model_archive->models[1].model, city_common_model_archive->motions[6].motion, this->frame);
@@ -703,7 +697,7 @@ void TObjCityMapWarp::render() {
     if (this->update_object_view_visibility(400.0f, 32.0f) != 0) {
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
         push_matrix();
-        post_translate_matrix((u8 *)&this->position);
+        post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         if (is_field88_zero() != 0) {
             draw_ginja_object((void *)city_common_model_archive->models[13].model);
@@ -803,7 +797,7 @@ void TObjLaboMapWarp::render() {
     if (this->update_object_view_visibility(400.0f, 32.0f) != 0) {
         TObjFish::set_global_param(get_bml_texlist((BmlResource *)TObjLaboMapWarp__resource_bundle, 1));
         push_matrix();
-        post_translate_matrix((u8 *)&this->position);
+        post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         if (is_field88_zero() != 0) {
             draw_ginja_object((void *)get_bml_model((BmlResource *)TObjLaboMapWarp__resource_bundle, 1));

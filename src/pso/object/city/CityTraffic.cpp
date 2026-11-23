@@ -34,16 +34,8 @@
 #include "pso/render/render_util.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/math/MatrixTransforms.h"
-
-
-extern "C" {
-s32 rotate_matrix_z(int, int);
-s32 post_translate_matrix(void *);
-}
-
-extern "C" {
-s32 vec3_add_to(void *, void *);
-}
+#include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
 
 
 // Deferred TU: code is generated last-defined-first, so the functions are written in
@@ -388,7 +380,7 @@ void TObjCityAirCar_Car::render() {
     if (this->update_object_view_visibility(800.0f, 50.0f) != 0) {
         TParticleCtrl::end_effect_render();
         push_matrix();
-        post_translate_matrix(&position);
+        post_translate_matrix(&position.x);
         rotate_matrix_y(0, this->rotation_y);
         if (model_type != 0) {
             rotate_matrix_z(0, this->rotation_z);

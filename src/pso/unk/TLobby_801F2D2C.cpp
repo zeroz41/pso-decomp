@@ -20,8 +20,7 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/player/TObjPlayer.h"
-
-struct Op_801F2E64 { void (*fn)(s32); u32 pad; };
+#include "pso/quest/QuestOpcodeTables.h"
 
 extern "C" {
 int bswap_32__FPUl(void*);
@@ -33,7 +32,6 @@ extern u16 TLobby__data_805D5EAA;
 extern u16 TLobby__data_805D5EAC;
 struct EnteredItemName { s32 value; u8 remaining[0xC]; };
 extern EnteredItemName entered_item_name;
-extern struct Op_801F2E64 qst_opcode_table[];
 int bswap_16__FPUs(void*);
 int VecCopy__FP3VecPC3Vec(void*);
 
@@ -99,7 +97,7 @@ quest_suspend_reason dispatch_quest_opcode(void) {
             op = TLobby::read_packet_byte() + 0x200;
             break;
         }
-        qst_opcode_table[op].fn(op);
+        qst_opcode_table[op].decode_arguments(op);
     }
     return qst_suspend_reason;
 }

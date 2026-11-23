@@ -21,6 +21,7 @@
 #include "pso/system/byteswap.h"
 #include <string.h>
 #include "pso/unk/TLobby_800F8AA8.h"
+#include "pso/ui/TLevelSelect.h"
 
 
 extern char floor_map_name_acity00[];
@@ -425,9 +426,6 @@ void bswap_object_row_fields(void *arg0) {
 MapSetArea *map_set_areas;
 
 extern "C" {
-
-
-extern s32 game_difficulty_selection;
 
 s32 TLobby::get_drop_item_mode() {
     s32 main_phase;

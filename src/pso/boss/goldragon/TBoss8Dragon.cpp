@@ -83,6 +83,9 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/camera/CameraHelpers.h"
+#include "pso/system/SubtractiveRng.h"
+#include "pso/render/model_render_state.h"
+#include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 
@@ -262,7 +265,6 @@ extern void *TBoss8Dragon__dive_height_curve[12];
 
 extern "C" {
 extern f32 boss8_dragon_fall_accel;
-void subtractive_rng_seed(void *, s32);
 f32 calc_random_ratio__10TObjPlayerFv(void *);
 // Slot 87: per-action event dispatch through a table of handler members.
 }
@@ -290,18 +292,7 @@ f32 boss8_dragon_visibility_distance;
 s32 boss8_dragon_hold_mode;
 s32 boss8_dragon_player_control;
 u16 boss8_dragon_control_client_id;
-// (from _802FDDD4)
-extern "C" {
-extern s32 model_render_flags;
-// (from _802F3CA0)
-extern s32 saved_model_render_flags;
-}
 // (from _802F3EE4)
-extern "C" {
-u8 *find_entity_by_id(void);
-// (from _802F3F20)
-// (from _802F42A0)
-}
 // (from _802F4324)
 extern "C" {
 BOOL is_split_screen(void); // TObjPlayer_80011014.h, whose other prototypes clash here
@@ -4767,8 +4758,7 @@ s32 TBoss8Dragon::is_hiding_camera_target() {
     if (this->phase != 0) {
         return 0;
     }
-    TCameraCtrl::get_camera_target_id(-1);
-    entity = find_entity_by_id();
+    entity = (u8 *)find_entity_by_id(TCameraCtrl::get_camera_target_id(-1));
     if (entity == 0) {
         return 0;
     }

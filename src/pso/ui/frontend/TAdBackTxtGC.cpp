@@ -8,6 +8,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/render/GinjaTexture.h"
 
 
 extern "C" {
@@ -82,11 +83,10 @@ TAdBackTxtGC::TAdBackTxtGC(TObject *parent) : TObject(parent) {
     };
     __declspec(section ".data") TexList_804DC0D4 TAdBackTxtGC_backtext_tex_list = { lbl_804DC098, 5 };
 const char *TAdBackTxtGC__name = "TAdBackTxtGC";
-void release_texture_list(void*);
 
 void TAdSinglePlyChrSelectGC::free_singleton_805D65C0() {
     if ((u32) TAdBackTxtGC__backtext_texture_list != 0U) {
-        release_texture_list((void*)TAdBackTxtGC__backtext_texture_list);
+        release_texture_list((NJS_TEXLIST *)TAdBackTxtGC__backtext_texture_list);
         TAdBackTxtGC__backtext_texture_list = 0U;
     }
 }

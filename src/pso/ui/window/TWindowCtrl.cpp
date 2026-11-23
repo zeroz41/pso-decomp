@@ -62,23 +62,19 @@
 #include "pso/unk/text_8026AC50.h"
 #include "pso/unk/text_8026ACDC.h"
 #include "pso/unk/text_80076BC4.h"
+#include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
+#include "pso/network/client_id.h"
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/ui/window/WindowLayout.h"
 
 TWindowCtrl *TWindowCtrl::instance;
 u16 lbl_805D63FC;
 
 extern "C" {
 
-s32 get_multiplayer_controller_active_index(s32);
-
-}
-
-extern "C" {
-
 s32 TLobby__sub_80077798(s32, s32 *);
 
 s32 open_hard_keyboard__6TLobbyFPv(s32);
-
-extern s32 local_client_id;
 
 }
 
@@ -121,13 +117,9 @@ void TWindowCtrl__sub_8024A228(saddr client_id);
 
 bool TWindowCtrl__sub_8024A1A8(void);
 
-u8 *find_entity_by_id(u16);
-
 f32 get_entity_distance_or_default__11TWindowCtrlFiPvUs(s32 arg0, RecoveredFields_8024A688_arg1 *arg1, u16 arg2);
 
 s32 check_card_match_enabled__15TWindowFukidasiFl(void *, void *);
-
-extern s32 local_client_id;
 
 
 void get_speaker_balloon_anchor__11TWindowCtrlFPviPvPv(Ctrl_8024A928 *arg0, s32 arg1, f32 *arg2, s32 *arg3);
@@ -137,12 +129,6 @@ void get_speaker_balloon_anchor__11TWindowCtrlFPviPvPv(Ctrl_8024A928 *arg0, s32 
 extern "C" {
 
 s32 free_member__15TWindowCtrlMainFv(u32 a0 = 0, s32 a1 = 0);
-
-}
-
-extern "C" {
-
-saddr get_window_layout_position(s32);
 
 }
 
@@ -159,8 +145,6 @@ struct Ctrl_8024B440 { u8 pad[0x84]; void *win[4]; };
 extern "C" {
 
 s32 post_chat_log_message();
-
-extern s32 local_client_id;
 
 }
 
@@ -192,8 +176,6 @@ typedef struct Ctrl_8024B8A0 {
 extern "C" {
 
 s32 TWindowCtrl__sub_8024B000(void *, saddr);
-
-extern s32 local_client_id;
 
 }
 
@@ -284,7 +266,6 @@ extern "C" {
 void *__ct__11TWindowChatFP7TObjectPv(void *, TObject *, void *);
 
 void *__ct__17TWindowCtrlPlayerFP7TObjectl(void *, void *, s32);
-extern s32 local_client_id;
 
 }
 
@@ -1062,7 +1043,7 @@ saddr TWindowCtrl::get_message_by_type(s8 type, s32 client_id) {
     } else {
         var_r3 = 0x43;
     }
-    return get_window_layout_position(var_r3 + type);
+    return (saddr)get_window_layout_position(var_r3 + type);
 }
 
 }
@@ -1384,7 +1365,7 @@ void TWindowCtrl::get_speaker_balloon_anchor(u16 id, f32 *height, s32 *name) {
     u8 *entity;
     u8 *obj;
     player_stats *q;
-    entity = find_entity_by_id(id);
+    entity = (u8 *)find_entity_by_id(id);
     if (entity != NULL && obj_is_hit_receivable(entity) == 1) {
         obj = entity;
     } else {

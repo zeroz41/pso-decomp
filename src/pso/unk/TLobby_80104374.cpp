@@ -78,6 +78,7 @@
 #include "pso/unk/text_8012AE50.h"
 #include "pso/unk/text_8012C268.h"
 #include "pso/unk/text_80355C1C.h"
+#include "pso/system/scene/TEnding.h"
 #include "pso/unk/text_8035D444.h"
 #include "pso/weapon/SpecialProjectileWeapons.h"
 #include "pso/weapon/TUnk_804A204C.h"
@@ -690,7 +691,6 @@ s32 compare_item_data_masked(void *arg0, void *arg1, s32 arg2) {
 
 extern "C" {
 
-void TEnding__sub_8008C9F8(void);
 s32 get_game_play_mode();
 
 

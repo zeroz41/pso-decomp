@@ -15,6 +15,7 @@
 #include "pso/system/TLanguage.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/GinjaTexture.h"
 
 struct Desc_8036D774 { f32 *pos; u32 *col; s32 a; s32 n; };
 
@@ -169,7 +170,6 @@ void TWindowSubStatusDisp::draw_split_screen_hud() {
 #pragma pool_data off
 extern "C" {
 extern s32 split_screen_hud_animation_frame;
-s32 release_texture_list(void*);
 
 void TLobby::free_singleton_805D7018() {
     if (TBGMulti__textures != NULL) {

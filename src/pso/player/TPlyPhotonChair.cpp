@@ -20,6 +20,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/vector.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/PlayerSlots.h"
 
@@ -150,8 +151,6 @@ s32 get_bml_motion(int, int);
 
 s32 get_rader_map__11TMainCursorFv(void *, void *);
 int rotate_matrix_y(int, int);
-int scale_current_matrix(void *);
-int post_translate_matrix(void *);
 int TPlyPhotonChair__sub_8035B520(void* p);
 
 void TPlyPhotonChair::render() {
@@ -178,9 +177,9 @@ void TPlyPhotonChair::render() {
             save_model_draw_state(self->parts);
             TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(self->x24));
             push_matrix();
-            post_translate_matrix(&self->pos);
+            post_translate_matrix(&self->pos.x);
             rotate_matrix_y(0, self->x60);
-            scale_current_matrix(self->x68);
+            scale_current_matrix((const f32 *)self->x68);
             if (TMainTask::get_render_pass() != 0) {
                 begin_constant_color_draw(self->parts, (const NJS_ARGB *)&q);
                 self->a.s1();

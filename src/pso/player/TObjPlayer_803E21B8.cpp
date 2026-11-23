@@ -1,29 +1,12 @@
 #include "types.h"
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/gx/GXTev.h>
+#include <dolphin/gx/GXTexture.h>
+#include <dolphin/gx/GXLighting.h>
+#undef PSO_SDK_COMPACT_MATH
+#include "pso/render/RenderSbssGlobals.h"
 #include "pso/player/TObjPlayer_803E21B8.h"
 #include "pso/player/TObjPlayer.h"
-
-typedef struct TexObj_803E224C { u32 dummy[8]; } TexObj_803E224C;
-
-typedef struct TexHdr_803E224C {
-    s32 format;
-    u32 f4;
-    u32 f8;
-    u32 width;
-    u32 height;
-    u32 f14;
-    u32 flags;
-    void *image;
-} TexHdr_803E224C;
-
-typedef struct Ctx_803E224C {
-    u32 f0;
-    u32 f4;
-    TexHdr_803E224C *hdr;
-    u32 mode;
-    u32 f10;
-    u32 f14;
-    u32 tlut;
-} Ctx_803E224C;
 
 typedef struct Vtx_803E26A4 { f32 x, y, w; u32 color; } Vtx_803E26A4;
 
@@ -38,23 +21,12 @@ extern "C" {
 s32 GXClearVtxDesc();
 s32 GXSetVtxDesc(int, int);
 s32 GXSetVtxAttrFmt(int, int, int, int, int);
-s32 GXSetTevOp(int, int);
-s32 GXSetTevColorIn(int, int, int, int, int);
-s32 GXSetTevColorOp(int, int, int, int, int, int);
-s32 GXSetTevOrder(int, int, int, int);
-void GXSetNumTevStages(u8 nStages);
 s32 apply_cached_blend_mode(s32 arg0);
 s32 GXSetNumTexGens(s32 arg0);
 s32 GXSetTexCoordGen2(int, int, int, int, int, int);
-void GXInitTexObj(TexObj_803E224C *, void *, u16, u16, s32, s32, s32, u8);
-void GXInitTexObjCI(TexObj_803E224C *, void *, u16, u16, s32, s32, s32, u8, u32);
-void GXLoadTexObj(TexObj_803E224C *, s32);
-extern TexObj_803E224C context_texture_obj;
-extern Ctx_803E224C *current_render_context;
+extern GXTexObj context_texture_obj;
 void GXBegin(int, int, u16);
 void draw_projected_line_strip__10TObjPlayerFPvii(Vtx_803E26A4 *v, s32 n, s32 mode);
-void GXSetNumChans(u8);
-void GXSetChanCtrl(int, int, int, int, int, int, int);
 }
 void setup_opaque_color_draw(void) {
     apply_opaque_blend_mode();
@@ -81,8 +53,8 @@ void end_primitive_draw() {
 }
 
 void load_context_texture_obj(void) {
-    Ctx_803E224C *ctx = current_render_context;
-    TexHdr_803E224C *hdr = ctx->hdr;
+    GinjaSceneState *ctx = current_render_context;
+    GinjaTextureHeader *hdr = ctx->texture_header;
     u32 flags = hdr->flags;
     u8 mip;
     u32 mode;
@@ -93,7 +65,7 @@ void load_context_texture_obj(void) {
     } else {
         mip = 0;
     }
-    mode = ctx->mode;
+    mode = ctx->blend_mode;
     wrapT = 1;
     wrapS = 1;
     if (mode & 0x10000) {
@@ -107,11 +79,11 @@ void load_context_texture_obj(void) {
         wrapT = 2;
     }
     if (flags & 0x8000) {
-        GXInitTexObjCI(&context_texture_obj, hdr->image, hdr->width, hdr->height, hdr->format, wrapS, wrapT, mip, ctx->tlut);
+        GXInitTexObjCI(&context_texture_obj, hdr->pixels, hdr->width, hdr->height, (GXCITexFmt)hdr->format, (GXTexWrapMode)wrapS, (GXTexWrapMode)wrapT, mip, ctx->tlut_name);
     } else {
-        GXInitTexObj(&context_texture_obj, hdr->image, hdr->width, hdr->height, hdr->format, wrapS, wrapT, mip);
+        GXInitTexObj(&context_texture_obj, hdr->pixels, hdr->width, hdr->height, (GXTexFmt)hdr->format, (GXTexWrapMode)wrapS, (GXTexWrapMode)wrapT, mip);
     }
-    GXLoadTexObj(&context_texture_obj, 0);
+    GXLoadTexObj(&context_texture_obj, GX_TEXMAP0);
 }
 
 void TObjPlayer::setup_vertex_format() {
@@ -142,9 +114,9 @@ void TObjPlayer::setup_vtx_desc() {
 
 void TObjPlayer::setup_color_channels(int total) {
     GXSetNumChans(total);
-    GXSetChanCtrl(4, 0, 0, 1, 0, 0, 2);
+    GXSetChanCtrl(GX_COLOR0A0, GX_DISABLE, GX_SRC_REG, GX_SRC_VTX, GX_LIGHT_NULL, GX_DF_NONE, GX_AF_NONE);
     if (total == 2) {
-        GXSetChanCtrl(5, 0, 0, 1, 0, 0, 2);
+        GXSetChanCtrl(GX_COLOR1A1, GX_DISABLE, GX_SRC_REG, GX_SRC_VTX, GX_LIGHT_NULL, GX_DF_NONE, GX_AF_NONE);
     }
 }
 
@@ -160,8 +132,8 @@ s32 TObjPlayer::apply_blend_mode_1() { return apply_cached_blend_mode(0x1); }
 #pragma scheduling off
 void TObjPlayer::set_tev_passclr() {
     GXSetNumTevStages(1);
-    GXSetTevOrder(0, 0xFF, 0xFF, 4);
-    GXSetTevOp(0, 4);
+    GXSetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD_NULL, GX_TEXMAP_NULL, GX_COLOR0A0);
+    GXSetTevOp(GX_TEVSTAGE0, GX_PASSCLR);
 }
 #pragma pop
 
@@ -173,15 +145,15 @@ void set_tev_stage_mode(s32 arg0) {
     GXSetNumTevStages(nStages);
     switch (nStages) {
     case 1:
-        GXSetTevOrder(0, 0, 0, 4);
-        GXSetTevOp(0, 0);
+        GXSetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, GX_TEXMAP0, GX_COLOR0A0);
+        GXSetTevOp(GX_TEVSTAGE0, GX_MODULATE);
         return;
     case 2:
-        GXSetTevOrder(0, 0, 0, 4);
-        GXSetTevOrder(1, 0xFF, 0xFF, 5);
-        GXSetTevOp(0, 0);
-        GXSetTevColorOp(1, 0, 0, 0, 1, 0);
-        GXSetTevColorIn(1, 0xF, 0xA, 0xC, 0);
+        GXSetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, GX_TEXMAP0, GX_COLOR0A0);
+        GXSetTevOrder(GX_TEVSTAGE1, GX_TEXCOORD_NULL, GX_TEXMAP_NULL, GX_COLOR1A1);
+        GXSetTevOp(GX_TEVSTAGE0, GX_MODULATE);
+        GXSetTevColorOp(GX_TEVSTAGE1, GX_TEV_ADD, GX_TB_ZERO, GX_CS_SCALE_1, GX_TRUE, GX_TEVPREV);
+        GXSetTevColorIn(GX_TEVSTAGE1, GX_CC_ZERO, GX_CC_RASC, GX_CC_ONE, GX_CC_CPREV);
         return;
     }
 }
@@ -235,4 +207,4 @@ void draw_projected_line_strip__10TObjPlayerFPvii(Vtx_803E26A4 *v, s32 n, s32 mo
 
 #pragma pop
 
-TexObj_803E224C context_texture_obj;
+GXTexObj context_texture_obj;

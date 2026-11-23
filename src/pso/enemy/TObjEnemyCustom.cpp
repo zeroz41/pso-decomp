@@ -36,7 +36,6 @@
 extern "C" {
 // TNpcPlayer_800D87A8.h declares it without the id its definition passes through.
 TObjBase *find_active_entity_by_id(u16 id);
-extern Mtx34 identity_matrix;
 }
 
 // The whole unit is built with deferred inlining, so the compiler emits the

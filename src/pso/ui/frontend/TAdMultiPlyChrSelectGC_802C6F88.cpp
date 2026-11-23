@@ -9,6 +9,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
+#include "pso/ui/frontend/TAdSelectCurGC.h"
 
 extern "C" {
 
@@ -19,8 +20,7 @@ TAdMultiPlyChrSelectGC *TAdMultiPlyChrSelectGC::get_state() {  return TAdMultiPl
     extern int plyplt_anim_ctrl_instance;
 saddr TAdMultiPlyChrSelectGC::get_selected_slot() {  return plyplt_anim_ctrl_instance; }
 
-    extern int menu_selection_cursor_texture_list;
-int TAdMultiPlyChrSelectGC::get_global_6700() {  return menu_selection_cursor_texture_list; }
+int TAdMultiPlyChrSelectGC::get_global_6700() {  return (saddr)menu_selection_cursor_texture_list; }
 
     extern int lbl_805D6668;
 int TAdMultiPlyChrSelectGC__sub_802C6FA8(void) {  return lbl_805D6668; }

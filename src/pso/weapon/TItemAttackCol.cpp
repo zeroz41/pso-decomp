@@ -32,6 +32,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/map/CsnQuery.h"
 
 struct VBase_18_f2ea1e { char pad[0x18]; };
 
@@ -143,14 +144,11 @@ struct VObj_802E3C4C : VBase_802E3C4C {
     virtual void m59(u8 *, s32, s32, f32, s32);
 };
 
-struct Hit_802E3D8C { s32 pad; void *pos; };
 extern "C" {
 
 s32 play_weapon_hit_sound(void *);
 
 void apply_camera_shake__10TObjPlayerFiii(s32 player, saddr target, s32 damage);
-
-Hit_802E3D8C *csnVector(void *, void *, s32);
 
 
 // The collider render() is drawing, and how many of its model's nodes have been drawn.
@@ -543,11 +541,11 @@ void TItemAttackCol::render() {
 }
 
 void TItemAttackCol::move_with_collision(void *to) {
-    Hit_802E3D8C *hit;
-    hit = csnVector((u8 *)&position, to, 0x8100);
+    CsnHit *hit;
+    hit = csnVector(&position, (const Vec *)to, 0x8100);
     if (hit != NULL) {
         hit_wall_flags.set(1);
-        VecCopy(&position, (const Vec *)(hit->pos));
+        VecCopy(&position, &hit->contact->point);
         if (hit_wall != NULL) {
             hit_wall(item_id, &position, &velocity);
         }

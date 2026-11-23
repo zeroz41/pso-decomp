@@ -24,6 +24,10 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/render/render_util.h"
+#include "pso/render/model_render_state.h"
+#include "pso/render/ModelDrawContext.h"
 
 __declspec(section ".data") const char *fs_obj_ex_doa01_model_names[2] = { "fs_obj_ex_doa01.gj", NULL };
 __declspec(section ".data") const char *fs_obj_ex_doa01_motion_names[2] = { "fs_obj_ex_doa01.njm", NULL };
@@ -151,15 +155,7 @@ void TObjDoaEx01::update_closed() {
     }
 }
 
-s32 rotate_matrix_by_node_angles(void *, int);
-s32 scale_current_matrix(void *);
-s32 post_translate_matrix(void *);
-extern u8 chunk_material_color_half_alpha_f32[];
-extern s32 saved_model_render_flags;
-extern s32 model_render_flags;
 saddr get_bml_motion(saddr, s32);
-
-s32 draw_ginja_model_with_motion(saddr, s32, f32);
 
 void TObjDoaEx01::draw_object_tree(saddr arg1) {
     NJS_OBJECT *obj = (NJS_OBJECT *)arg1;
@@ -181,7 +177,7 @@ void TObjDoaEx01::draw_object_tree(saddr arg1) {
             model_render_flags = model_render_flags | 0x10;
             set_constant_material((const NJS_ARGB *)(((u8 *)this + 0xD4)));
             draw_ginja_model(obj->model);
-            set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
+            set_constant_material(&chunk_material_color_half_alpha_f32);
             model_render_flags = saved_model_render_flags;
             TParticleCtrl::end_effect_render();
         } else {
@@ -206,7 +202,7 @@ void TObjDoaEx01::try_open() {
         set_ginja_model_texture_slot(reinterpret_cast<NJS_OBJECT *>(TObjDoaEx01__alpha_model_sibling)->model, 1);
         TObjFish::set_global_param(get_bml_texlist((BmlResource *)(void *)TObjDoaEx01__resource_bundle, 0));
         push_matrix();
-        post_translate_matrix(((u8 *)this) + 0x38);
+        post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         this->draw_object_tree(bml_model);
         pop_matrix();
@@ -222,12 +218,12 @@ void TObjDoaEx01::draw_model() {
         temp_r31 = (saddr)get_bml_model((BmlResource *)(void *)TObjDoaEx01__resource_bundle, 0);
         TObjFish::set_global_param(get_bml_texlist((BmlResource *)(void *)TObjDoaEx01__resource_bundle, 0));
         push_matrix();
-        post_translate_matrix((void *) (((u8 *)this) + 0x38));
+        post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, (this->rotation_y));
         animation_frame = this->animation_frame;
         if (animation_frame > 0.0f) {
             temp_r31 = get_bml_motion((TObjDoaEx01__resource_bundle), 0);
-            draw_ginja_model_with_motion((saddr)get_bml_model((BmlResource *)(void *)TObjDoaEx01__resource_bundle, 0), temp_r31, animation_frame);
+            draw_ginja_model_with_motion(get_bml_model((BmlResource *)(void *)TObjDoaEx01__resource_bundle, 0), (void *)temp_r31, animation_frame);
         } else {
             this->draw_object_tree((temp_r31));
         }

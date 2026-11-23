@@ -81,11 +81,8 @@
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/unk/TTitleScene.h"
+#include "pso/map/area/AreaScene.h"
 
-extern "C" {
-u8 *TAdSinglePlyChrSelectGC__ct(u8 *arg0, void *parent);
-void run_load_callback_table(void *, s32);
-}
 void clear_resource_load_tasks(void);
 void set_screen_size(f32, f32);
 

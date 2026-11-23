@@ -143,10 +143,6 @@ union HairBarColor {
 };
 
 
-extern "C" {
-void restore_saved_depth_alpha_state();
-}
-
 s32 *TObjCMMainMenu::get_name_buffer() {
     return (s32 *)character_creation_name_buffer;
 }

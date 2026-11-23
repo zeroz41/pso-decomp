@@ -100,6 +100,7 @@ void TTecZonde::vfunc_8(void *arg1_arg) {
 #include "pso/unk/TUnk_804CCD78.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/math/MatrixVector.h"
 
 struct Seg_8023C79C { f32 a[3]; f32 b[3]; f32 len; };
 struct Tgt_8023C79C { u8 pad[0x38]; f32 x, y, z; };
@@ -125,7 +126,6 @@ void TTecZonde::render() {  }
 #pragma push
 #pragma fp_contract on
 
-f32 vector_length(void *);
 extern u8 *tl_07;
 
 void TTecZonde::run_task() {
@@ -164,7 +164,7 @@ void TTecZonde::run_task() {
             s->b[1] = t->y - s->a[1];
             pb = s->b;
             s->b[2] = t->z - s->a[2];
-            s->len = vector_length(pb);
+            s->len = vector_length((const Vec *)pb);
             if (0.0f != s->len) {
                 normalize_vector((Vec *)pb);
             }

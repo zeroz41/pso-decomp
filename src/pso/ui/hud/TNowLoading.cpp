@@ -14,15 +14,16 @@
 #include "pso/system/task/TObject.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/NinjaTypes.h"
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/os/OSCache.h>
+#undef PSO_SDK_COMPACT_MATH
 
 
 volatile s32 aram_dma_pending;
 
 extern "C" {
-void DCInvalidateRange(void *, u32);
 void ARQPostRequest(void *, uaddr, u32, u32, uaddr, uaddr, u32, void *);
 const char *TNowLoading__class_name = "TNowLoading";
-void DCFlushRange(void *, u32);
 void TNowLoading__sub_8001D4D0(void);
 void TNowLoading__sub_8001D4D4(void);
 

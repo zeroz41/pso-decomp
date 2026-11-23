@@ -11,7 +11,6 @@
 
 extern "C" {
 u8 quest_story_flags_by_difficulty[4][128];
-extern s32 game_difficulty_selection;
 
 void copy_card_window_data(void) {
     uaddr character_save_record;

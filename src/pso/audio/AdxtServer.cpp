@@ -13,10 +13,6 @@
 
 struct Pair_803C8678 { u32 a, b; };
 
-extern "C" {
-
-}
-
 struct Strm_803CB20C;
 struct Buf_803CB20C { void *data; s32 size; };
 
@@ -47,7 +43,6 @@ void audio_stream_start(u8 *lobby);
 s32 TLobby__sub_803CBF50(saddr, s32, s32);
 void TLobby__sub_803CA8B4(AdxStreamPlayer *);
 
-s32 TLobby__sub_803C9740(u8 *arg0);
 s32 trigger_sub_task__6TLobbyFv(saddr, s32);
 s32 set_field_44__6TLobbyFl(int, int);
 s32 set_field_40__6TLobbyFl(int, int);
@@ -56,9 +51,7 @@ s32 set_count__6TLobbyFl(int, int);
 s32 dispatch_field4_event__6TLobbyFv(int);
 s32 notify_client__6TLobbyFv(int);
 
-extern "C" {
 s32 audio_stream_get_output_samples(u8 *lobby);
-}
 
 }
 void stop_audio_stream(u8 *arg0);
@@ -295,8 +288,6 @@ void adxt_stat_decinfo(Strm_803CAB38 *self) {
 #undef arg0
 #undef SBF50
 
-extern "C" {
-
 typedef struct Conn_803CAEB4 Conn_803CAEB4;
 typedef struct RingVt_803CAEB4 RingVt_803CAEB4;
 typedef struct Ring_803CAEB4 Ring_803CAEB4;
@@ -399,8 +390,6 @@ void TLobby__sub_803CAEB4(Conn_803CAEB4 *o) {
     ((TLobby *)lobby)->set_field_44(0);
     ((TLobby *)lobby)->set_field_40(0);
   }
-}
-
 }
 
 void TLobby__sub_803CB194(void *context) {

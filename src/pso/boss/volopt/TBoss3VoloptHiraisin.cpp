@@ -23,15 +23,14 @@
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/render/model_render_state.h"
 
 
 extern "C" {
-s32 minimap_render_dot(Vec *pos, s32 color, s16 a2, s32 a3);
 void init_collision_body_parts(TObject *obj, void *parts, s32 count);
 void free_collision_body_parts(TObject *obj);
 
-extern u32 model_render_flags;
-extern u32 saved_model_render_flags;
 extern TObject *tl_04;
 }
 

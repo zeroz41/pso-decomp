@@ -15,6 +15,19 @@ extern "C" void get_render_mode_for_tv_format(GXRenderModeObj_803DD430 *rmode, G
 #include "pso/system/MatrixOps.h"
 #include "pso/system/NinjaTypes.h"
 #include <math.h>
+#include "pso/render/RenderSbssGlobals.h"
+#include "pso/render/model_render_state.h"
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/os/OSInterrupt.h>
+#include <dolphin/os/OSCache.h>
+#include <dolphin/os/OSArena.h>
+#include <dolphin/vi.h>
+#include <dolphin/gx/GXStruct.h>
+#include <dolphin/gx/GXGeometry.h>
+#include <dolphin/gx/GXTransform.h>
+#include <dolphin/gx/GXCull.h>
+#include <dolphin/gx/GXPixel.h>
+#undef PSO_SDK_COMPACT_MATH
 
 
 struct RMode_803DCDFC {
@@ -45,25 +58,13 @@ struct Tlut_803DD0D8 { u32 w[4]; };
 
 extern "C" {
 u8 lbl_805D46C8 = 0x1;
+}
 Tlut_803DD0D8 gx_tlut_region_table[0x500 / sizeof(Tlut_803DD0D8)];
+extern "C" {
 s32 tv_render_mode_obj[16];
-u32 VIGetNextField(void);
-void GXInvalidateVtxCache(void);
 void GXInvalidateTexAll(void);
-void GXSetViewportJitter(f32, f32, f32, f32, f32, f32, u32);
-void GXSetViewport(f32, f32, f32, f32, f32, f32);
-void GXSetZMode(s32, s32, s32);
-void GXSetColorUpdate(s32);
 void GXCopyDisp(void *, s32);
 void GXDrawDone(void);
-s32 OSDisableInterrupts(void);
-s32 OSRestoreInterrupts(s32);
-void VIWaitForRetrace(void);
-void VIFlush(void);
-void VISetNextFrameBuffer(void *);
-void VISetBlack(s32);
-u32 VIGetRetraceCount(void);
-s32 LCEnable();
 s32 OSCreateHeap(int, int);
 void *GXInit(s32, s32);
 void GXInitTlutRegion(Tlut_803DD0D8 *, u32, u32);
@@ -73,8 +74,6 @@ f32 GXGetYScaleFactor(u16, u16);
 u32 GXSetDispCopyYScale(f32);
 void GXSetCopyFilter(u8, void *, int, void *);
 void *GXSetTlutRegionCallback(void *);
-void GXSetPixelFmt(int, int);
-void GXSetScissor(u32, u32, u32, u32);
 Tlut_803DD0D8 *fn_803DD3C8(s32);
 
 RecoveredCallback_2be3cacebb2e frame_update_callback;
@@ -90,7 +89,6 @@ void *video_initial_draw_framebuffer;
 void *video_initial_display_framebuffer;
 extern u8 lbl_805D46C8;
 extern s32 display_heap_size;
-extern s32 locked_cache_heap_handle;
 extern s32 tv_render_mode_obj[];
 extern Tlut_803DD0D8 gx_tlut_region_table[];
 
@@ -110,8 +108,8 @@ void func_803DCDFC__Fv(void) {
 
 
 void fn_803DCEC8(void) {
-    GXSetZMode(1, 3, 1);
-    GXSetColorUpdate(1);
+    GXSetZMode(GX_TRUE, GX_LEQUAL, GX_TRUE);
+    GXSetColorUpdate(GX_TRUE);
     GXCopyDisp(video_current_framebuffer, 1);
     GXDrawDone();
 }
@@ -196,9 +194,9 @@ void init_gx_display(void) {
     GXSetDispCopyYScale(GXGetYScaleFactor(rmode->efbHeight, rmode->xfbHeight));
     GXSetCopyFilter(rmode->aa, rmode->sample_pattern, 1, rmode->vfilter);
     if (rmode->aa) {
-        GXSetPixelFmt(2, 0);
+        GXSetPixelFmt(GX_PF_RGB565_Z16, GX_ZC_LINEAR);
     } else {
-        GXSetPixelFmt(0, 0);
+        GXSetPixelFmt(GX_PF_RGB8_Z24, GX_ZC_LINEAR);
     }
     addr = 0xC0000;
     n = 0;
@@ -233,7 +231,6 @@ void init_render_context(Elem_803DD300 *);
 extern Elem_803DD300 render_contexts[6];
 extern s32 motion_node_draw_callback;
 extern f32 lbl_805D777C;
-extern s32 model_render_flags;
 }
 
 void TKeyBoardControl::update_camera() {
@@ -308,8 +305,6 @@ void GXAdjustForOverscan(GXRenderModeObj_803DD430 *rmin, GXRenderModeObj_803DD43
 extern GXRenderModeObj_803DD430 GXNtsc480IntDf;
 extern GXRenderModeObj_803DD430 GXMpal480IntDf;
 extern GXRenderModeObj_803DD430 GXPal528IntDf;
-void *OSGetArenaLo(void);
-void OSSetArenaLo(void *);
 extern SinCos_803DD4EC *sin_cos_table;
 void get_render_mode_for_tv_format(GXRenderModeObj_803DD430 *rmode, GXRenderModeObj_803DD430 *out) {
     switch (VIGetTvFormat()) {

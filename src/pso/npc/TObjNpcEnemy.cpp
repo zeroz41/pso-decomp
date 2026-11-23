@@ -26,6 +26,7 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/math/MatrixTransforms.h"
 
 #pragma readonly_strings on
 
@@ -34,7 +35,6 @@ const char *TObjNpcEnemy_class_name = "TObjNpcEnemy";
 
 extern "C" {
 void * TObjNpcEnemy__create(void *set_data);
-s32 translate_matrix(int, int, f32, f32, f32);
 
 }
 
@@ -287,7 +287,6 @@ extern s32 model_render_flags;
 
 void TObjNpcEnemy::render() {
     u8 *arg0 = (u8 *)this;
-    TObjNpcEnemyEntry *entry;
 
     if ((this->entry != NULL) && (this->update_object_view_visibility(this->m_398, this->m_39c) != 0) && ((s32) this->m_390 == 1)) {
         select_actor_lighting(this);
@@ -297,8 +296,7 @@ void TObjNpcEnemy::render() {
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix_from(0);
         translate_matrix_vec3(0, ((u8 *)&this->position));
-        entry = this->entry;
-        translate_matrix(0, (saddr)entry, 0.0f, entry->y_offset, 0.0f);
+        translate_matrix(0, 0.0f, this->entry->y_offset, 0.0f);
         rotate_matrix_y(0, this->rotation_y);
         update_state();
         pop_matrix();

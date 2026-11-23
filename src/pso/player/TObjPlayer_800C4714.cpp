@@ -19,6 +19,10 @@
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/map/CsnQuery.h"
+#include "pso/object/base/CollisionActorLookup.h"
 
 
 typedef struct Coll_800C4A5C {
@@ -74,12 +78,9 @@ typedef struct Obj_800C55E0 {
 } Obj_800C55E0;
 
 extern "C" {
-s32 vec3_add_to(void *, void *);
 s32 is_area_attack_target_eligible(saddr, s32);
 
 u8 *__ct__13TUnk_804928CCFP7TObjectP8TObjBase(u8 *arg0, s32 arg1, u32 arg2);
-f32 sin_table_lookup(int);
-f32 cos_table_lookup(int);
 Obj_800C4A5C *TObjPlayer__sub_800C4A5C(Obj_800C4A5C *o, void *owner, Vec *start, s32 angle);
 void *destroy_and_free__21TObjEneRe2Flower_BombFs(void *arg0, s16 arg1);
 void render__21TObjEneRe2Flower_BombFv(u8 *arg0);
@@ -141,9 +142,6 @@ struct Obj_800C4754 : VBase_800C4754 {
 };
 
 extern "C" {
-
-u32 csnVector(void *, void *, int);
-void *find_entity_by_id(u16 id);
 
 void vfunc_6__8TObjBaseFPsl();
 void interact__14TObjCollidableFUs();

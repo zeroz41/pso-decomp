@@ -43,6 +43,10 @@ struct AnimationMotion;
 #include "pso/unk/text_803D96A8.h"
 
 #include "pso/math/MatrixVector.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/render/ModelDrawContext.h"
+#include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/render/GinjaTexture.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
 
@@ -118,7 +122,8 @@ struct VObj_8029B428 : VBase_8029B428 {
 
 struct Door_8029B428 : VObj_8029B428 {
     u8 pad1c[0x38 - 0x1C];
-    u8 xf[0x28];
+    f32 xf[3];
+    u8 pad44[0x28 - 0xC];
     s32 angle;
     u8 pad64[0xB4 - 0x64];
     f32 fb4;
@@ -144,10 +149,6 @@ void *__ct__10TODoorBaseFP7TObject(void *a0);
 extern s32 __vt__16TODoorJungleMain[];
 
 
-int post_translate_matrix(void *);
-
-
-s32 draw_ginja_model_with_motion(void *, int, f32);
 }
 
 struct Door_8029B524 {
@@ -159,11 +160,6 @@ struct Door_8029B524 {
 
 
 extern "C" {
-
-s32 minimap_render_gate(void *, u32, u16, s32, s32);
-
-
-s32 release_texture_list(void*);
 
 void free_collision_body_parts(void *);
 
@@ -248,9 +244,9 @@ void TODoorJungleMain::run_task() {
                 spawn_particle_effect_with_flags(&b, 0x229, 0x800);
             }
         }
-        minimap_render_gate((u8 *)&this->position, 0xFF00FF00, this->rotation_y, 0, 0);
+        minimap_render_gate(&this->position, 0xFF00FF00, this->rotation_y, 0, 0);
     } else {
-        minimap_render_gate((u8 *)&this->position, 0xFFFF0000, this->rotation_y, 0, 0);
+        minimap_render_gate(&this->position, 0xFFFF0000, this->rotation_y, 0, 0);
         ((TObjCollidable *)arg0)->clear_player_status_flag(0, 8);
     }
 }
@@ -296,7 +292,7 @@ void TODoorJungleMain::render() {
         post_translate_matrix(self->xf);
         rotate_matrix_y(NULL, self->angle);
         if (self->flags & 1) {
-            draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)TODoorJungleMain__bml_resource, 3), self->fbc, self->fb4);
+            draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)TODoorJungleMain__bml_resource, 3), (void *)self->fbc, self->fb4);
         } else {
             draw_ginja_object((void *)get_bml_model((BmlResource *)TODoorJungleMain__bml_resource, 3));
             for (i = 0; i < 3 - self->count; i++) {

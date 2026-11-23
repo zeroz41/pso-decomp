@@ -18,12 +18,12 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/ui/window/WindowLayout.h"
 extern "C" { extern const char TObjNewFloorWin__class_name_string[16] = "TObjNewFloorWin"; }
 
 struct TObjNewFloorWin_80073DCC { u8 pad[0x1C]; s32 state; void *window; s32 timer24; s32 timer28; };
 
 extern "C" {
-saddr get_window_layout_position(s32);
 
 void TShopWindowBase::set_state(s32 v) { state = v; }
 
@@ -64,7 +64,7 @@ void TObjNewFloorWin::run_task() {
 void TObjNewFloorWin::open_window() {
     u8 *arg0 = (u8 *)this;
     s32 pos;
-    pos = get_window_layout_position(0x3D);
+    pos = (s32)get_window_layout_position(0x3D);
     if ((s32) *(s32 *)((s8 *)arg0 + 0x4C) < 0) {
         *(u32 *)((s8 *)arg0 + 0x20) = ((u32 (*)(s32, s32, s32)) create_window_menu_default)(pos, 1, *(s32 *)((s8 *)arg0 + 0x4C));
     } else {

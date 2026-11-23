@@ -1,10 +1,12 @@
 #include "types.h"
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/gx/GXManage.h>
+#undef PSO_SDK_COMPACT_MATH
 #include "pso/system/TLanguage.h"
 #include "pso/unk/text_801A5778.h"
 
 extern "C" {
 
-s32 GXDrawDone();
 s32 init_and_load_tlut(s32, u16, s16, s32);
 
 void TLanguage::draw_string(void *filename, void *palette, s32 tlut_name) {

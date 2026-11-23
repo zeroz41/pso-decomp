@@ -31,11 +31,10 @@
 #pragma readonly_strings on
 
 #include "pso/system/MatrixStack.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixVector.h"
 
 extern "C" {
-s32 vec3_add_to(void *, void *);
-f32 vector_length(void *);
-
 const char *TObjDFDemo3__name = "TObjDFDemo3";
 __declspec(section ".rodata") CameraAngles df_demo3_zero_camera_angles = {0, 0, 0};
 ModelNodePositionEntry df_demo3_node_capture_entries[2] = {{0}, {-1}};

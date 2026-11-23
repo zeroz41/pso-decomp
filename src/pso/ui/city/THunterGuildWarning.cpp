@@ -15,6 +15,10 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/ui/window/WindowLayout.h"
+#define PSO_SDK_COMPACT_MATH
+#include "pso/render/NinjaUtil.h"
+#undef PSO_SDK_COMPACT_MATH
 
 #pragma readonly_strings on
 
@@ -40,10 +44,6 @@ s32 THunterGuildWarning::is_active() {
 void THunterGuildWarning__sub_80211700(void) { THunterGuildWarning__instance = 0; }
 
 void THunterGuildWarning__sub_8021170C(void) { THunterGuildWarning__instance = 0; }
-
-extern "C" {
-saddr get_window_layout_position(s32 index);
-}
 
 void THunterGuildWarning::close_windows() {
     s32 i = 0;
@@ -72,7 +72,7 @@ void THunterGuildWarning::sub_80211774(void *) {
     case 0:
         id = TCameraCtrl::get_nth_view_player_id(0);
         if (get_player_by_client_id(id) != NULL) {
-            windows[id] = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x31), size, 1, id);
+            windows[id] = (TWindowMessage *)TWindowMessage::create((saddr)get_window_layout_position(0x31), size, 1, id);
         }
         if (windows[id] != NULL) {
             windows[id]->append_line(get_message_text(99), 0x81);
@@ -82,7 +82,7 @@ void THunterGuildWarning::sub_80211774(void *) {
     case 1:
         id = TCameraCtrl::get_nth_view_player_id(0);
         if (get_player_by_client_id(id) != NULL) {
-            windows[id] = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x31), size, 1, id);
+            windows[id] = (TWindowMessage *)TWindowMessage::create((saddr)get_window_layout_position(0x31), size, 1, id);
         }
         if (windows[id] != NULL) {
             windows[id]->append_line(get_message_text(104), 0x81);
@@ -98,7 +98,7 @@ void THunterGuildWarning::sub_80211774(void *) {
         for (i = 0; i < 4; i++) {
             if (id != i) {
                 if (get_player_by_client_id(i) != NULL) {
-                    windows[i] = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x31), size, 1, i);
+                    windows[i] = (TWindowMessage *)TWindowMessage::create((saddr)get_window_layout_position(0x31), size, 1, i);
                 }
                 if (windows[i] != NULL) {
                     windows[i]->append_line(get_message_text(text), 0x81);
@@ -147,7 +147,6 @@ THunterGuildWarning::THunterGuildWarning(TObject *object, void *arg2) : TObject(
 #include "pso/player/TPlayerBattleCtrl4P.h"
 
 extern "C" {
-f32 xz_distance_squared(const f32 *a, const f32 *b);
 
 #pragma push
 #pragma optimization_level 3
@@ -175,7 +174,7 @@ s32 TPlayerBattleCtrl4P::fn_80211B10(s32 id) {
     for (j = 0; j < 4; j++) {
         if (client_id != j) {
             TObjPlayer *other = get_player_by_client_id(j);
-            if (other != NULL && xz_distance_squared(&self->position.x, &other->position.x) > 22500.0f) {
+            if (other != NULL && xz_distance_squared((const Vec *)&self->position.x, (const Vec *)&other->position.x) > 22500.0f) {
                 result = 2;
             }
         }

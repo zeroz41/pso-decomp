@@ -5,11 +5,8 @@
 #include "pso/technique/TTecGiBarta.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/system/MatrixOps.h"
 #include <stdlib.h>
-
-extern "C" {
-
-int rotate_matrix_x(void*, void*);
 
 void TUnk_804A1098::emit_marker_effects() {
     s32 origin;
@@ -25,7 +22,7 @@ void TUnk_804A1098::emit_marker_effects() {
         ((TItemWeapon *)this)->update_active_game_effect();
     }
 }
-void TUnk_804A1098::vfunc_60() { if (TObjPlayer::get_player_list() == 1) { rotate_matrix_x((void*)0, (void *)this->open_angle); } }
+void TUnk_804A1098::vfunc_60() { if (TObjPlayer::get_player_list() == 1) { rotate_matrix_x(0, this->open_angle); } }
 
 
 void TUnk_804A1098::update_idle() {
@@ -44,8 +41,6 @@ void TUnk_804A1098::update_attack() {
     if ((open_state == 1) || (open_state == 0)) {
         this->open_state = 2;
     }
-}
-
 }
 
 void TUnk_804A1098::update_weapon() {

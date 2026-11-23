@@ -13,6 +13,7 @@
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/vector.h"
+#include "pso/system/SoundEffect.h"
 
 typedef struct G_802C6A10 { s32 value; u8 remaining[0xC]; } G_802C6A10;
 
@@ -25,7 +26,6 @@ extern "C" {
 s32 get_field_20__22TAdMultiPlyChrSelectGCFv();
 s32 lbl_805D67D0;
 s32 lbl_805D67D4;
-s32 play_sound_effect(int, void *, int, int);
 }
 
 s32 multi_ply_chr_select_player_slot[4] = {

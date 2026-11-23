@@ -18,6 +18,7 @@
 #include "pso/system/ControllerInput.h"
 #include <string.h>
 #include "pso/ui/frontend/TAdEnterSerialAccessGC_8032AD30.h"
+#include "pso/system/SoundEffect.h"
 
 static const f32 TAdEnterPPPPassGC__selection_positions[4][2] = {{155.0f, 231.0f}, {155.0f, 251.0f}, {87.0f, 231.0f}, {87.0f, 251.0f}};
 const char *TAdEnterPPPPassGC__name = "TAdEnterPPPPassGC";
@@ -33,7 +34,6 @@ s32 TLobby__sub_80145DB4(int);
 s8 *TLobby__sub_80146D14(void);
 s8 *TLobby__sub_80146D44(void);
 void mem_free(void *);
-void play_sound_effect(int, int, int, int);
 
 void TAdEnterPPPPassGC::render() {
     if (TMainTask::get_render_pass() == 1) { return;

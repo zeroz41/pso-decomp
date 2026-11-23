@@ -38,6 +38,8 @@
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/ui/window/WindowLayout.h"
+#include "pso/system/SoundEffect.h"
 
 #pragma readonly_strings on
 
@@ -52,7 +54,6 @@ struct ItemData_80279754 {
 };
 
 extern "C" {
-saddr get_window_layout_position(s32);
 s32 TObjPlayer__sub_801B7B58(int, int, int);
 }
 
@@ -60,7 +61,6 @@ void add_item_purpose_actions(TWindowSubItem *arg0, saddr arg1, saddr arg2);
 
 extern "C" {
 void decrement_clamped(void *, s32);
-void play_sound_effect(s32, s32, s32, s32);
 s32 TWindowCtrl__sub_8024A228(saddr);
 s32 close_sub_window__10TObjPlayerFv();
 s32 try_send_6x27_use_item(s32, s32);
@@ -173,7 +173,7 @@ TWindowSubItem::TWindowSubItem(TWindowMainMenu *parent, s32 client) : TObject(pa
     m_name = class_name;
     parent_menu = parent;
     client_id = client;
-    item_list = create_sub_item_list_window(get_window_layout_position(3), lbl_8044F998, client_id);
+    item_list = create_sub_item_list_window((saddr)get_window_layout_position(3), lbl_8044F998, client_id);
     item_list->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)parent_menu, 0));
     ((TWindowSubShortCutList *)item_list)->set_flag70_bit10();
     help_window = 0;
@@ -452,7 +452,7 @@ void TWindowSubItem::render() {  }
 
 s32 TWindowSubItem::open_purpose_window(s32 arg1) {
     saddr titled_window_menu;
-    titled_window_menu = create_titled_window_menu(((int)get_window_layout_position(4)), 3, (saddr)TWindowSubStatusDisp::get_message_10(0x26), this->client_id);
+    titled_window_menu = create_titled_window_menu(((int)(saddr)get_window_layout_position(4)), 3, (saddr)TWindowSubStatusDisp::get_message_10(0x26), this->client_id);
     if (arg1 == -0xFF) {
         TWindowSubItem::add_meseta_purpose_actions((saddr)this, titled_window_menu);
     } else if ((s32) (arg1 & 0xFFFFFFF0) == -0x10) {
@@ -469,7 +469,7 @@ s32 TWindowSubItem::open_purpose_window(s32 arg1) {
 
 s32 TWindowSubItem::create_menu_window() {
     saddr titled_window_menu;
-    titled_window_menu = create_titled_window_menu(((int)get_window_layout_position(6)), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x27), this->client_id);
+    titled_window_menu = create_titled_window_menu(((int)(saddr)get_window_layout_position(6)), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x27), this->client_id);
     ((TWindowMenu *)titled_window_menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x5D)), 6, 0);
     ((TWindowMenu *)titled_window_menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x5E)), 6, 1);
     ((TWindowBase *)titled_window_menu)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)this->parent_menu, 2));

@@ -10,6 +10,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/render/NinjaUtil.h"
 
 
 #pragma readonly_strings on
@@ -20,7 +21,6 @@ struct Ply_80191F90 { u8 pad0[0x38]; f32 pos[3]; };
 
 extern "C" {
 s32 is_item_light_interaction_blocked();
-f32 xz_distance_squared(void *, void *);
 void run_task__13TObjItemLightFv(Light_80191F90 *arg0);
 
 
@@ -38,7 +38,7 @@ void run_task__13TObjItemLightFv(Light_80191F90 *arg0) {
         p = (Ply_80191F90 *)get_player_by_client_id(i);
         if (p != 0 && ((TObjPlayer *)p)->get_floor() == get_current_floor()
             && TObjPlayer::is_locally_controlled(p) != 0
-            && xz_distance_squared(p->pos, arg0->pos) < arg0->f90 * arg0->f90) {
+            && xz_distance_squared((const Vec *)p->pos, (const Vec *)arg0->pos) < arg0->f90 * arg0->f90) {
             ((TObjBase *)arg0)->set_event_source_flag(8);
             ((TObject *)arg0)->queue_destruction();
             return;

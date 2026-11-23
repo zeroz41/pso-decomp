@@ -32,6 +32,9 @@ const char *player_motion_data_filename_ptr = "PlyMotionData.rlc";
 
 int player_action_provider_selector;
 
+struct _VBase802A78E4_802a78e4_802A7848 { char pad[8]; };
+struct _VObj802A78E4_802a78e4_802A7848 : _VBase802A78E4_802a78e4_802A7848 { virtual s32 m0(s32, s32); };
+
 extern "C" {
 void zero_pair_fields(void* p);
 extern uaddr snapshot_image_buffer;
@@ -50,8 +53,6 @@ void set_motion_variant(void* p, s32 _w1) { ((TLobby *)p)->set_field_4(_w1); }
 int matches_loaded_motion(void* p) { return match_coordinate_pair(p); }
 
 void TLobby::set_photon_chair_flag(int photon_chair_flag) { player_action_provider_selector = photon_chair_flag; }
-struct _VBase802A78E4_802a78e4_802A7848 { char pad[8]; };
-struct _VObj802A78E4_802a78e4_802A7848 : _VBase802A78E4_802a78e4_802A7848 { virtual s32 m0(s32, s32); };
 void TLobby::set_field_4(s32 v) { *(s32 *)&this->m_flags = v; }
 s32 TLobby::get_hold_effect_size_by_type() {
     s32 hold_effect_count;

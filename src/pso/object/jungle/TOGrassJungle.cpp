@@ -9,6 +9,7 @@
 #include "pso/object/jungle/TOGrassJungle.h"
 #include "pso/object/TMotorcycle.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/base/TObjMotion.h"
@@ -47,14 +48,13 @@ void TOGrassJungle::load_resources() {
                            TOGrassJungle__grass_gvm_texture, 12.0f, -10.0f);
 }
 
-s32 post_translate_matrix(void *);
 s32 rotate_matrix_y(s32, s32);
 
 void TOGrassJungle::render() {
     if (this->update_object_view_visibility(400.0f, 20.0f) == 1) {
         TObjFish::set_global_param(TOGrassJungle__grass_gvm_texture);
         push_matrix();
-        post_translate_matrix((u8 *)&this->position);
+        post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         draw_ginja_object((void *)get_bml_model((BmlResource *)TOGrassJungle__bml_resource, this->model_index));
         pop_matrix();

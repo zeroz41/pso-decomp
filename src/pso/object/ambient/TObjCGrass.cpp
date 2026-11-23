@@ -25,14 +25,12 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/system/MatrixOps.h"
 
 extern "C" {
-void translate_matrix_vec3(u8 *arg0, u8 *arg1);
 void draw_model_motion(void *model, void *motion, f32 frame);
-s32 vec3_add_to(void *, void *);
 extern s32 actor_frame_tick;
-s32 rotate_vector_by_matrix(int, void *, void *);
-extern u8 identity_matrix[];
 BmlResource *TObjCGrass_bml_resource;
 
 

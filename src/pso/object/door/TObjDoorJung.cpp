@@ -22,6 +22,9 @@ struct NJS_TEXLIST;
 #include "pso/object/switch/TSwitch.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_803D8F74.h"
+#include <dolphin/base/PPCArch.h>
+#include "pso/system/MatrixStack.h"
+#include "pso/ui/hud/TRaderMapCore.h"
 
 
 const char *bm_obj_beamdoa_model_names[3] = {"fe_obj_beamdoa.gj", "fe_obj_beamdoa_singo.gj", NULL};
@@ -58,11 +61,7 @@ struct Node_8018F4AC {
     Node_8018F4AC *sibling;
 };
 
-void PPCSync();
-s32 post_translate_matrix(void *);
-
 s32 free_collision_body_parts(void *);
-s32 minimap_render_gate(void *, s32, u16, s32, s32);
 
 void TObjDoorJung::free_buffers() {
     if (TObjDoorJung__door_scene_buffer != NULL) {
@@ -154,7 +153,7 @@ void TObjDoorJung::render() {
         }
         TObjFish::set_global_param(lbl_805D5BD4);
         push_matrix();
-        post_translate_matrix((u8 *)&this->position);
+        post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         draw_ginja_object((Node_8018F4AC *)get_bml_model((BmlResource *)TObjDoorJung__resource_handle, 0));
         TParticleCtrl::begin_effect_render();
@@ -191,10 +190,10 @@ void TObjDoorJung::run_task() {
         this->update_door_switch_state();
     }
     if (this->door_flags & 1) {
-        minimap_render_gate((u8 *)&this->position, 0xFF00FF00, (u16) this->rotation_y, 0, 0);
+        minimap_render_gate(&this->position, 0xFF00FF00, (u16) this->rotation_y, 0, 0);
         return;
     }
-    minimap_render_gate((u8 *)&this->position, 0xFFFF0000, (u16) this->rotation_y, 0, 0);
+    minimap_render_gate(&this->position, 0xFFFF0000, (u16) this->rotation_y, 0, 0);
 }
 
 }

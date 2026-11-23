@@ -18,6 +18,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/system/SoundEffect.h"
 
 const char *lbl_805D3970 = "TWindowMenuInfomation";
 static const NJS_POINT2 lbl_8044F3A0 = {425.0f, 188.0f};
@@ -30,7 +31,6 @@ struct Stack_80268A6C {
 extern "C" {
 s32 clamp_list_scroll_offset(int, void *, void *);
 s32 TWindowSubComCard__sub_8026906C(void);
-s32 play_sound_effect(s32 a0 = 0, s32 a1 = 0, s32 a2 = 0, s32 a3 = 0);
 
 void TWindowMenuInfomation::request_close() {
     if (!(this->m_70 & 8) && (TWindowMenuInfomation::is_open() == 0)) {

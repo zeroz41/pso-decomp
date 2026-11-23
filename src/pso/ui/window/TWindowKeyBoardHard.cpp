@@ -328,11 +328,6 @@ s32 TWindowKeyBoardHard::lookup_key_repeat_state(u8 arg1, u8 arg2) {
     }
     return 0;
 }
-extern u8 keyboard_jp_unshifted_map[];
-extern u8 keyboard_us_unshifted_map[];
-extern u8 keyboard_fr_unshifted_map[];
-extern u8 keyboard_de_unshifted_map[];
-extern u8 keyboard_es_unshifted_map[];
 
 s32 TWindowKeyBoardHard::sub_8025F4A0(u8 arg1) {
     static void (TWindowKeyBoardBase::*control_key_handlers[26])() = {

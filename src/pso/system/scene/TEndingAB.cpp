@@ -11,9 +11,9 @@
 #include "pso/render/render_util.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/render/GinjaTexture.h"
+#include "pso/ui/TLevelSelect.h"
 
 extern "C" {
-extern s32 game_difficulty_selection;
 void TEndingAB__sub_8008CCC0(TEndingAB *);
 }
 

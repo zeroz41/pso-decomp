@@ -101,6 +101,15 @@
 #include "pso/player/TPlyDispData.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/math/ScratchVectors.h"
+#include "pso/map/CsnQuery.h"
+#include "pso/map/area/AreaScene.h"
+#include "pso/render/render_util.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
 
 
 struct VBase_800172CC { u8 pad[0x18]; };
@@ -331,7 +340,6 @@ struct Layout_80019038 {
 };
 extern "C" {
 s32 VecCopy__FP3VecPC3Vec(s32, s32);
-void subtract_vector(void *a, void *b);
 f32 calc_xz_distance_sq(TObjBase *actor, TObjBase *other, Vec *offset);
 void activate_switch_attacks__10TObjPlayerFii(saddr arg0, saddr pos);
 void attach_mine_trap__10TObjPlayerFiUi(saddr object, u32 arg1);
@@ -351,7 +359,6 @@ int obj_getPtr2B0_20(u8* p);
 s16 obj_getS16_2BA(u8* p);
 void send_6x2F_change_player_hp(u16, u16, s16);
 void dispatch_weapon_special_effect(void *, void *, void *, s32);
-void __construct_array(void *, void *, void *, u32, u32);
 }
 
 s32 calc_freeze_chance(TObjPlayer *arg0, TObjPlayer *arg1, TObjPlayer *arg2, f32 farg0);
@@ -617,43 +624,24 @@ s32 get_current_floor(void);
 f32 fabs_float(f32 x);
 f32 atan2_float(f32 y, f32 x);
 f32 newton_sqrtf(f32 x);
-u32 csnLookAt(void *, void *);
-uaddr csnVector(void *, void *, s32);
 u32 subtractive_rng_next();
 void create__10TObjPlayerFUiii(uaddr, s32, s32);
 s32 create_font_small_task(u32, s32, s32, s32, s32 *, s16, u16);
 s32 create_font_small_task_default_color(u32, s32, s32, s32, s32 *, s16);
 s32 create_damage_font__19TObjEneEpsilonGuardFllll(u32, s32, s32, s16);
-f32 horizontal_distance_squared(void *, void *);
-s32 angle_difference_abs(s32, s32);
 s32 lerp_angle_half__Fll(s32, s32);
-s32 approach_angle_limited(s32, s32, s32);
 void * find_entity_by_id(s32 id);
 s32 project_actor_to_ground(TObjCollidable *actor, Vec *pos, Vec *normal);
 s32 record_damage_stats__10TOMineTrapFUiUis(void *, void *, void *);
 int bswap_16__FPUs(void*);
-s32 play_sound_effect(s32, s32, s32, s32);
 u32 __nw__7TObjectFUl(s32);
-s32 vec3_add_to(void *, void *);
 void matrix_mult_vec(s32, void *, void *);
-s32 scale_matrix(int, f32, f32, f32);
-void set_matrix_identity(s32);
-f32 vec_squared_length(void *);
-s32 rotate_vector_by_matrix(int, void *, void *);
-s32 rotate_matrix_z(int, int);
-s32 translate_matrix(int, f32, f32, f32);
-s32 rotate_matrix_x(int, int);
-void post_translate_matrix(void *);
 extern const f64 TObjPlayer__data_804340B8;
 extern int TObjPlayer__data_8050D460[];
 extern const f64 lbl_80434098;
 extern const f64 lbl_804340A0;
 extern u8 lbl_804340A8[];
 extern const char lbl_804340B0[];
-extern Vec scratch_vec;
-struct LobbyRuleSettings { s32 value; u8 remaining[0x2C]; };
-extern LobbyRuleSettings lobby_rule_settings;
-extern RecoveredGlobal_8001806C_lbl_8058D490 identity_matrix;
 extern s32 actor_frame_tick;
 extern s32 lobby_player_count;
 extern s32 current_floor_index;
@@ -1441,7 +1429,7 @@ s32 check_path_obstructed(TObjChara *chara, Vec *target) {
         a = (s32) (TObjPlayer__data_804340B8 * ((f64 (*)(f32, f32))atan2_float)(d.x, d.z));
         d.y = d.x = (0.0f);
         d.z = (3e+02f);
-        push_matrix_from(&identity_matrix);
+        push_matrix_from(identity_matrix);
         rotate_matrix_y(0, a);
         rotate_vector_by_matrix(0, &d, &d);
         pop_matrix();
@@ -1470,7 +1458,7 @@ s32 select_enemy_destination(TObjChara *chara, Vec dest, s32 flags) {
             a = (s32)(TObjPlayer__data_804340B8 * ((f64 (*)(f32, f32))atan2_float)(d.x, d.z));
             scratch_vec.x = scratch_vec.y = (0.0f);
             scratch_vec.z = chara->bodies->radius;
-            push_matrix_from(&identity_matrix);
+            push_matrix_from(identity_matrix);
             rotate_matrix_y(0, a);
             rotate_vector_by_matrix(0, &scratch_vec, &scratch_vec);
             pop_matrix();
@@ -1493,7 +1481,7 @@ s32 select_destination_away_from(TObjChara *chara, Vec point) {
     Vec d;
     VecCopy(&d, &point);
     subtract_vector(&d, &chara->body_center);
-    push_matrix_from(&identity_matrix);
+    push_matrix_from(identity_matrix);
     rotate_matrix_y(0, 0x8000);
     rotate_vector_by_matrix(0, &d, &d);
     pop_matrix();
@@ -1517,7 +1505,7 @@ void calc_velocity_toward_destination(TObjChara *chara, Vec from, Vec to, f32 sp
         a = (s32)(TObjPlayer__data_804340B8 * ((f64 (*)(f32, f32))atan2_float)(d.x, d.z));
         d.z = speed;
         d.x = d.y = (0.0f);
-        push_matrix_from(&identity_matrix);
+        push_matrix_from(identity_matrix);
         rotate_matrix_y(0, a);
         rotate_vector_by_matrix(0, &d, &d);
         pop_matrix();
@@ -1531,9 +1519,9 @@ void enemy_set_heading_velocity(f32 farg0, TObjEnemy *enemy, s32 heading) {
     stack.z = farg0;
     stack.y = (0.0f);
     stack.x = (0.0f);
-    push_matrix_from(&identity_matrix.value);
+    push_matrix_from(identity_matrix);
     rotate_matrix_y(0, heading);
-    rotate_vector_by_matrix(0, &stack.x, &stack.x);
+    rotate_vector_by_matrix(0, &stack, &stack);
     pop_matrix();
     *(f32 *)((s8 *)enemy + 0x308) = stack.x;
     enemy->velocity.z = stack.z;
@@ -1618,18 +1606,18 @@ f32 TObjEnemy::enemy_wander_home(f32 farg0, f32 range_x, f32 range_z, s32 turn) 
     f32 var_f31;
     s32 ang;
     u8 *arg0 = (u8 *)this;
-    var_f31 = horizontal_distance_squared((u8 *)&this->body_center, (u8 *)&this->move_destination);
+    var_f31 = horizontal_distance_squared(&this->body_center, &this->move_destination);
     if ((var_f31 < (farg0 * farg0)) || (((TObjEnemy *)(arg0))->is_actor_cadence_frame(0x96) != 0)) {
         v.x = v.y = (0.0f);
         v.z = (1.0f);
         ang = (s32) ((182.04445f) * ((3.6e+02f) * ((TObjChara *)arg0)->random_ratio()));
-        push_matrix_from(&identity_matrix);
+        push_matrix_from(identity_matrix);
         rotate_matrix_y(0, ang);
         rotate_vector_by_matrix(0, &v, &v);
         pop_matrix();
         v.x *= range_x;
         v.z *= range_z;
-        vec3_add_to(&v, (u8 *)&this->home_position);
+        vec3_add_to(&v, &this->home_position);
         select_enemy_destination(this, v, 1);
         *(f32 *)((s8 *)arg0 + 0x308) = ((TObjEnemy *)arg0)->velocity.z = (0.0f);
         ((TObjEnemy *)arg0)->m_2ac = 0;
@@ -1637,7 +1625,7 @@ f32 TObjEnemy::enemy_wander_home(f32 farg0, f32 range_x, f32 range_z, s32 turn) 
         ((TObjEnemy *)arg0)->enemy_turn_toward_dest(turn);
         enemy_set_heading_velocity(farg0, (TObjEnemy *)arg0, ((TObjEnemy *)arg0)->rotation_y);
         move_with_wall_slide(arg0);
-        var_f31 = horizontal_distance_squared((u8 *)&this->move_destination, (u8 *)&this->body_center);
+        var_f31 = horizontal_distance_squared(&this->move_destination, &this->body_center);
         ((TObjEnemy *)arg0)->m_2ac = ((TObjEnemy *)arg0)->m_2ac + 1;
     }
     return var_f31;
@@ -1668,7 +1656,7 @@ f32 enemy_pursue_point(TObjEnemy *enemy, s32 turn_speed, Vec point, f32 speed, f
         a = (s32)(TObjPlayer__data_804340B8 * ((f64 (*)(f32, f32))atan2_float)(d.x, d.z));
         d.z = step;
         d.x = d.y = (0.0f);
-        push_matrix_from(&identity_matrix);
+        push_matrix_from(identity_matrix);
         rotate_matrix_y(0, a);
         rotate_vector_by_matrix(0, &d, &d);
         pop_matrix();
@@ -1725,7 +1713,7 @@ s32 TObjChara::is_target_in_attack_range() {
                 for (i = 0; i < p->target->nparts; i++) {
                     if (!(p->target->parts[i].flags & 0x02000000)) {
                         VCOPY(&v, &p->target->parts[i]);
-                        push_matrix_from(&identity_matrix);
+                        push_matrix_from(identity_matrix);
                         rotate_matrix_y(0, p->target->rotY);
                         rotate_vector_by_matrix(0, &v, &v);
                         pop_matrix();
@@ -2035,7 +2023,7 @@ s32 TObjChara::select_melee_contact_body(void *source, f32 factor) {
         push_matrix();
         set_matrix_identity(0);
         ((void (*)(s32, f32, f32, f32))translate_matrix)(0, -((Actor_80016454 *)source)->pos.x, -((Actor_80016454 *)source)->pos.y, -((Actor_80016454 *)source)->pos.z);
-        post_translate_matrix(&((Actor_80016454 *)this)->pos);
+        post_translate_matrix(&((Actor_80016454 *)this)->pos.x);
         rotate_matrix_y(0, ((Actor_80016454 *)this)->yaw);
         for (i = 0; i < ((Actor_80016454 *)this)->bodyCount; i++) {
             if (!(((Actor_80016454 *)this)->bodies[i].flags & 0x02000000)) {
@@ -2158,7 +2146,7 @@ int TObjChara::calc_distance_accuracy_penalty(void *attacker, void *body_arg, vo
         VecCopy(&delta, &body->center);
         if (!((TObjChara *)attacker)->obj_testFlag_2E4(0x20)) {
             if (origin) {
-                subtract_vector(&delta, origin);
+                subtract_vector(&delta, (const Vec *)origin);
             } else {
                 subtract_vector(&delta, &((TObjChara *)attacker)->position);
             }
@@ -3951,7 +3939,7 @@ void TObjChara::vfunc_78(saddr) {  }
 #pragma push
 #pragma opt_pointer_analysis on
 void record_local_damage_if_enabled(void *mine_trap, void *att, saddr damage) {
-  if ((((((TLobby *)(&lobby_rule_settings.value))->get_rule_field_0() == 1) && (TObjPlayer::is_locally_controlled(mine_trap) != 0)) && (damage > 0)) && (att != NULL))
+  if ((((((TLobby *)lobby_rule_settings)->get_rule_field_0() == 1) && (TObjPlayer::is_locally_controlled(mine_trap) != 0)) && (damage > 0)) && (att != NULL))
   {
     record_damage_stats__10TOMineTrapFUiUis((void *) mine_trap, (void *) att, (void *) damage);
   }
@@ -4256,7 +4244,7 @@ void TObjChara::spawn_poison_effect(s32 play_sound) {
             effect->set_owner_id(((TObjBase *)this)->get_entity_id());
         }
         if (play_sound != 0) {
-            play_sound_effect(0xCD0B, (saddr)&this->position, 0, 0);
+            play_sound_effect(0xCD0B, &this->position, 0, 0);
         }
     }
 }
@@ -4269,7 +4257,7 @@ void TObjChara::spawn_paralysis_feedback_effect(s32 play_sound) {
             effect->set_owner_id(((TObjBase *)this)->get_entity_id());
         }
         if (play_sound != 0) {
-            play_sound_effect(0xB20C, (saddr)&this->position, 0, 0);
+            play_sound_effect(0xB20C, &this->position, 0, 0);
         }
     }
 }
@@ -4282,7 +4270,7 @@ void TObjChara::spawn_slow_effect(s32 play_sound) {
             effect->set_owner_id(((TObjBase *)this)->get_entity_id());
         }
         if (play_sound != 0) {
-            play_sound_effect(0xB20D, (saddr)&this->position, 0, 0);
+            play_sound_effect(0xB20D, &this->position, 0, 0);
         }
     }
 }
@@ -4295,7 +4283,7 @@ void TObjChara::spawn_confusion_feedback_effect(s32 play_sound) {
             effect->set_owner_id(((TObjBase *)this)->get_entity_id());
         }
         if (play_sound != 0) {
-            play_sound_effect(0xB20E, (saddr)&this->position, 0, 0);
+            play_sound_effect(0xB20E, &this->position, 0, 0);
         }
     }
 }
@@ -4308,7 +4296,7 @@ void TObjChara::play_shock_feedback(s32 play_sound) {
             effect->set_owner_id(((TObjBase *)this)->get_entity_id());
         }
         if (play_sound != 0) {
-            play_sound_effect(0xB210, (saddr)&this->position, 0, 0);
+            play_sound_effect(0xB210, &this->position, 0, 0);
         }
     }
 }
@@ -4325,7 +4313,7 @@ void TObjChara::spawn_freeze_shell_effect(u32 arg1, s32 arg2) {
             }
         }
         if (arg2 != 0) {
-            play_sound_effect(0xB20F, (s32)((uaddr) (((u8 *)this) + 0x38)), 0, 0);
+            play_sound_effect(0xB20F, &this->position, 0, 0);
         }
     }
 }

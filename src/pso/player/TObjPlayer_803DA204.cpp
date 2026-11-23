@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/render/GinjaTextureInput.h"
+#include "pso/render/RenderSbssGlobals.h"
 #include "pso/player/TObjPlayer.h"
 
 struct Sub_803DA688 { u32 v; };
@@ -16,7 +17,6 @@ struct Err_803DA5A8 { s32 a; s32 b; s32 code; };
 struct Slot_803DA388 { s32 id; s32 a; s32 b; s32 c; s32 d; s32 e; s32 f; s32 g; s32 h; s32 i; };
 
 extern "C" {
-extern s32 player_ref_entry_active_count;
 extern s32 record_array_count;
 extern Rec_803DA688 *record_array_ptr;
 extern Err_803DA5A8 lbl_8058D470[];

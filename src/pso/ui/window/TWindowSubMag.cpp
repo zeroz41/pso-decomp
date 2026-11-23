@@ -44,6 +44,9 @@
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/TWindowHelpItem_80255AB4.h"
 #include "pso/unk/text_80263A20.h"
+#include "pso/ui/window/WindowLayout.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/ui/window/TWindowSubEquipKind.h"
 
 #pragma readonly_strings on
 
@@ -58,8 +61,6 @@ s32 get_photon_blast_name(s32 arg0);
 extern "C" {
 s32 calc_text_width();
 s32 text_builder_append();
-saddr get_window_layout_position(s32);
-s32 play_sound_effect(s32, s32, s32, s32);
 s32 are_status_entries_ready__13TWindowSubMagFi(void *);
 int TWindowSubMag__sub_8027C0E8(void* p);
 }
@@ -72,9 +73,6 @@ extern const f32 lbl_8044F9E8[2] = {144.0f, 68.0f};
 extern const f32 lbl_8044F9F0[2] = {206.0f, 184.0f};
 extern const f32 lbl_8044F9F8[2] = {308.0f, 124.0f};
 extern const f32 lbl_8044FA00[2] = {214.0f, 184.0f};
-}
-extern "C" {
-s32 create_equip_kind_window(saddr, const f32 *, s32);
 }
 void append_text_space(void);
 void text_builder_reset(void);
@@ -344,8 +342,8 @@ saddr TWindowSubMag::setup_list() {
     saddr equip_kind_window;
     s32 window_layout_position;
 
-    window_layout_position = get_window_layout_position(7);
-    equip_kind_window = create_equip_kind_window(window_layout_position, lbl_8044F9F0, this->client_id);
+    window_layout_position = (saddr)get_window_layout_position(7);
+    equip_kind_window = (saddr)create_equip_kind_window(window_layout_position, (const NJS_POINT2 *)lbl_8044F9F0, this->client_id);
     ((TWindowMenuIconLine *)equip_kind_window)->ensure_status_display((saddr)TWindowSubStatusDisp::get_message_10(0x29));
     ((TWindowBase *)equip_kind_window)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)parent, 0));
     ((TWindowSubShortCutList *)equip_kind_window)->set_flag70_bit10();
@@ -356,8 +354,8 @@ saddr TWindowSubMag::setup_list() {
 saddr TWindowSubMag::create_list() {
     saddr equip_kind_window;
 
-    s32 window_layout_position = get_window_layout_position(0xD);
-    equip_kind_window = create_equip_kind_window(window_layout_position, lbl_8044F9F8, this->client_id);
+    s32 window_layout_position = (saddr)get_window_layout_position(0xD);
+    equip_kind_window = (saddr)create_equip_kind_window(window_layout_position, (const NJS_POINT2 *)lbl_8044F9F8, this->client_id);
     ((TWindowMenuIconLine *)equip_kind_window)->ensure_status_display((saddr)TWindowSubStatusDisp::get_message_10(0x24));
     ((TWindowBase *)equip_kind_window)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)parent, 2));
     ((TWindowSubShortCutList *)equip_kind_window)->set_flag70_bit10();
@@ -379,7 +377,7 @@ void *TWindowSubMag::create_action_menu(s32 id) {
     u8 *item;
     ((MagStats *)stats)->init();
     item = (u8 *)find_item_by_id(id);
-    window = (void *)create_titled_window_menu(get_window_layout_position(8), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x1D), client_id);
+    window = (void *)create_titled_window_menu((saddr)get_window_layout_position(8), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x1D), client_id);
     ((TWindowBase *)window)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)parent, 1));
     if (((s32 (*)(u8 *))is_mag_full)(item) != 0) {
         add_gray_text_entry((TWindowMenu *)window, (const char *)(TWindowSubStatusDisp::get_message_10(0x65)), 6, 1);
@@ -402,7 +400,7 @@ void *TWindowSubMag::create() {
     void *object;
     s32 window_layout_position;
 
-    window_layout_position = get_window_layout_position(0xB);
+    window_layout_position = (saddr)get_window_layout_position(0xB);
     object = TWindowMessage::create(window_layout_position, lbl_8044FA00, 1, this->client_id);
     ((TWindowBase *)object)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)parent, 4));
     *(s32 *)((s8 *)object + 0x5C) = 0x186A0;

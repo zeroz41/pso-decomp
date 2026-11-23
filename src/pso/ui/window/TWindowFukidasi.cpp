@@ -29,6 +29,14 @@
 #include "pso/player/PlayerSlots.h"
 #include <string.h>
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet_80247EFC.h"
+#include <stdlib.h>
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/system/SoundEffect.h"
+#define PSO_SDK_COMPACT_MATH
+#include "pso/system/MatrixStack.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/system/MatrixOps.h"
+#undef PSO_SDK_COMPACT_MATH
 
 struct Fuki_80250A24 {
     u8 pad0[0x38];
@@ -49,7 +57,6 @@ struct Fuki_802506E8 {
 };
 extern "C" {
 f32 * get_message_by_type__11TWindowCtrlFScl(u8, int);
-int rand(void);
 f32 xyz_distance(void *, void *);
 s32 rest_balloon__15TWindowFukidasiFv(Fuki_80250A24 *b, f32 *rect, f32 *arg2);
 s32 try_place_bubble__15TWindowFukidasiFPvPvPv(Fuki_802506E8 *b, f32 *rect, f32 *o);
@@ -132,8 +139,6 @@ struct Fuki_80251594 {
 struct Fuki_802523CC { u8 pad0[0x40]; f32 x; };
 struct Slice_802523CC { f32 x; u8 pad4[8]; f32 width; u8 pad10[4]; f32 lean; u8 pad18[8]; f32 u; u8 pad24[4]; f32 uw; };
 struct Ctx_802523CC { u8 pad0[0x20]; f32 pivot; u8 pad24[4]; f32 scale; };
-Ent_802511E4 * find_entity_by_id(u16);
-s32 play_sound_effect(int, int, int, int);
 void TWindowSubSymbolChat__sub_802483F0(int a0, void *a1);
 s32 draw_resolved_window__15TWindowFukidasiFllll(Fuki_80250F70 *, f32 *, f32 *, s32);
 }
@@ -156,11 +161,7 @@ s32 measure_message_text_width(int, f32);
 void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
 extern "C" {
 f32 vec3_dot(void *, void *);
-void project_world_to_screen(s32, f32 *, f32 *);
-void rotate_vector_by_matrix(saddr, void *, void *);
 void rotate_matrix_y(s32, s32);
-void rotate_matrix_z(s32, s32);
-void rotate_matrix_x(s32, s32);
 __declspec(section ".rodata") extern const char TWindowFukidasi__class_name_string[] = "TWindowFukidasi";
 }
 
@@ -173,7 +174,6 @@ extern const Vec fukidasi_forward_vec = {0.0f, 0.0f, -1.0f};
 struct WindowFukidasiLayoutEntries { s32 value; u32 remaining[8]; };
 WindowFukidasiLayoutEntries window_fukidasi_layout_entries = {1, {1, 3, 0, 0, 0x3F000000, 0xFFFFFFFF, 0, 0}};
 u32 window_fukidasi_addition_params[5] = {0, 0, 0x476A6000, 0, 0x7023};
-extern u8 identity_matrix[];
 const char *window_fukidasi_class_name = TWindowFukidasi__class_name_string;
 extern void *hud_texlist;
 
@@ -911,7 +911,7 @@ s32 TWindowFukidasi::project_anchor(f32 *pos, f32 *out) {
     if (b->id == 0xFFFF) {
         return 0;
     }
-    e = find_entity_by_id(b->id);
+    e = (Ent_802511E4 *)find_entity_by_id(b->id);
     if (e == NULL) {
         return 0;
     }
@@ -928,7 +928,7 @@ s32 TWindowFukidasi::project_anchor(f32 *pos, f32 *out) {
         return 1;
     }
     push_matrix();
-    project_world_to_screen(0, pos, out);
+    project_world_to_screen(0, (const Vec *)pos, out);
     pop_matrix();
     if (is_split_screen() != 0) {
         out[0] -= (f32)TCameraCtrl::get_viewport_x();

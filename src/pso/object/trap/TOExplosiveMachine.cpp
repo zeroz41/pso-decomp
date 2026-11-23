@@ -14,6 +14,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/GinjaMaterial.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803D8F74.h"
@@ -21,7 +22,6 @@
 #include "pso/player/PlayerSlots.h"
 
 extern "C" {
-s32 post_translate_matrix(const Vec *);
 
 
 __declspec(section ".rodata") const char lbl_80441268[] = "fs_obj_bapipe.gj";
@@ -93,7 +93,7 @@ void TOExplosiveMachine::destroy_static_lobby() {
 void TOExplosiveMachine::render() {
     if (update_object_view_visibility(view_distance, view_radius) != 0) {
         push_matrix();
-        post_translate_matrix(&position);
+        post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         draw_ginja_object(model);

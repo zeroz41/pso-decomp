@@ -26,7 +26,6 @@
 
 extern "C" {
 s32 play_persistent_sound(s32 id, saddr actor, uaddr src, s32 a3, s32 flags);
-extern GC_Mtx identity_matrix;
 }
 
 static const Vec volopt_shot_forward = {0.0f, 0.0f, 0.0f};

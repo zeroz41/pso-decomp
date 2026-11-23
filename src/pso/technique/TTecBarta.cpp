@@ -18,6 +18,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/system/SoundEffect.h"
 
 struct HitInfo_8022B8F4 { s32 type; f32 power; };
 
@@ -81,10 +82,6 @@ struct Tec_8022BD74 {
     u32 fe8;
 };
 
-extern "C" {
-
-}
-
 const TechniqueEmitterSourceRow lbl_8044CC78[3] = {
     {0x190, 2, 1.0f}, {0x191, 0, 1.0f}, {0x192, 0, 1.0f},
 };
@@ -112,7 +109,6 @@ const char *TTecBarta__class_name = "TTecBarta";
 extern "C" {
 s32 get_type__10TObjPlayerFPv(void *);
 List_8022BD74 *find_area_contact__10TTecCircleFl(Tec_8022BD74 *, void *);
-s32 play_sound_effect(s32, s32, s32, s32);
 
 void TTecBarta::update_technique_by_state() {
     u8 *arg0 = (u8 *)this;
@@ -120,29 +116,29 @@ void TTecBarta::update_technique_by_state() {
 
     switch (this->band) {
     case 0:
-        handle = play_sound_effect(0x4002A604, (saddr)(arg0 + 0x20), 0, 0);
+        handle = play_sound_effect(0x4002A604, arg0 + 0x20, 0, 0);
         if (handle >= 0) {
             set_sound_pitch_request(handle, 0x100, 0);
         }
         return;
     case 1:
-        play_sound_effect(0x4002A604, (saddr)(arg0 + 0x20), 0, 0);
+        play_sound_effect(0x4002A604, arg0 + 0x20, 0, 0);
         return;
     case 2:
     case 3:
-        handle = play_sound_effect(0x4002A604, (saddr)(arg0 + 0x20), 0, 0);
+        handle = play_sound_effect(0x4002A604, arg0 + 0x20, 0, 0);
         if (handle >= 0) {
             set_sound_pitch_request(handle, -0x180, 0);
         }
         break;
     case 4:
-        handle = play_sound_effect(0x4002A604, (saddr)(arg0 + 0x20), 0, 0);
+        handle = play_sound_effect(0x4002A604, arg0 + 0x20, 0, 0);
         if (handle >= 0) {
             set_sound_pitch_request(handle, -0x250, 0);
         }
         break;
     case 5:
-        handle = play_sound_effect(0x4002A604, (saddr)(arg0 + 0x20), 0, 0);
+        handle = play_sound_effect(0x4002A604, arg0 + 0x20, 0, 0);
         if (handle >= 0) {
             set_sound_pitch_request(handle, -0x100, 0);
         }

@@ -37,6 +37,15 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/TEF_PvrWave.h"
 #include "pso/player/PlayerSlots.h"
+#include <dolphin/base/PPCArch.h>
+#include "pso/math/MatrixTransforms.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/render/GinjaTexture.h"
+#include "pso/render/MaterialAlphaCompare.h"
+#include "pso/render/ModelDrawContext.h"
+#include "pso/render/model_render_state.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
 
 struct SurfaceAreaTable { s32 enabled[36]; };
 
@@ -89,29 +98,8 @@ SceneMaterialNode* resolve_indirect_node_record(void*,SceneMaterialStatic*);
 SceneMaterialNode* resolve_indirect_object_record(void*,SceneMaterialAnimated*);
 
 
-extern u8 identity_matrix[];
-
-
 
 void rotate_matrix_y(s32, s32);
-
-void rotate_vector_by_matrix(saddr, void *, Vec *);
-
-
-
-extern s32 model_render_flags;
-
-extern s32 saved_model_render_flags;
-
-
-
-void post_translate_matrix(f32 *);
-
-void rotate_matrix_by_node_angles(s32 *, s32);
-
-
-void PPCSync();
-
 
 
 
@@ -125,17 +113,6 @@ void render_projected_shadow_receiver(void *, void *);
 
 
 void release_indexed_entry__6TLobbyFl(Lobby_8020533C *);
-
-void vec3_add_to(void *, void *);
-
-void draw_ginja_object(void *);
-
-void set_material_alpha_compare_reference(s32 reference);
-
-
-
-
-void subtract_vector(void *, void *);
 }
 
 
@@ -189,8 +166,6 @@ extern "C" {
 
 saddr get_player_name_copy_buffer();
 
-
-s32 release_texture_list(u32);
 
 extern CsnGroup **scene_collision_data;
 
@@ -866,7 +841,7 @@ void TScene::free_scene_resources() {
     buffer = (uaddr)scene_material_root;
     if (buffer != 0U) {
         if ((buffer = scene_material_root->texlist) != 0U) {
-            release_texture_list(buffer);
+            release_texture_list((NJS_TEXLIST *)buffer);
             scene_material_root->texlist = 0U;
         }
     }
@@ -895,7 +870,7 @@ void load_floor_scene(void) {
     FloorMapSelection res;
     s32 path[11];
     if (scene_material_root != NULL && scene_material_root->texlist != 0) {
-        release_texture_list(scene_material_root->texlist);
+        release_texture_list((NJS_TEXLIST *)scene_material_root->texlist);
         scene_material_root->texlist = 0;
     }
     if (get_floor_map_selection(current_floor_index, &res) == 1) {
@@ -1433,7 +1408,7 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
                 v.x = sh->position[0];
                 v.y = sh->position[1];
                 v.z = sh->position[2];
-                vec3_add_to(&v, scene_material_section->position);
+                vec3_add_to(&v, (const Vec *)scene_material_section->position);
                 a.x = sh->angles[0] + scene_material_section->angles[0];
                 a.y = sh->angles[1] + scene_material_section->angles[1];
                 a.z = sh->angles[2] + scene_material_section->angles[2];
@@ -1447,7 +1422,7 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
             v.x = node->position[0];
             v.y = node->position[1];
             v.z = node->position[2];
-            vec3_add_to(&v, scene_material_section->position);
+            vec3_add_to(&v, (const Vec *)scene_material_section->position);
             a.x = node->angles[0] + scene_material_section->angles[0];
             a.y = node->angles[1] + scene_material_section->angles[1];
             a.z = node->angles[2] + scene_material_section->angles[2];
@@ -1472,7 +1447,7 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
                     l.v.x = node->position[0];
                     l.v.y = node->position[1];
                     l.v.z = node->position[2];
-                    vec3_add_to(&l.v, scene_material_section->position);
+                    vec3_add_to(&l.v, (const Vec *)scene_material_section->position);
                     l.a.x = node->angles[0] + scene_material_section->angles[0];
                     l.a.y = node->angles[1] + scene_material_section->angles[1];
                     l.a.z = node->angles[2] + scene_material_section->angles[2];
@@ -1512,7 +1487,6 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
         }
     }
 }
-void draw_ginja_model_with_motion(void *, void *, f32);
 void TScene::render_animated_map_section(SceneMaterialSection *scene_material_section, s32 flagged_only) {
   TEffIndirect *texture;
   SceneMaterialAnimated *e;
@@ -1556,7 +1530,7 @@ void TScene::render_animated_map_section(SceneMaterialSection *scene_material_se
       v.x = node->position[0];
       v.y = node->position[1];
       v.z = node->position[2];
-      vec3_add_to(&v, scene_material_section->position);
+      vec3_add_to(&v, (const Vec *)scene_material_section->position);
       a.x = node->angles[0] + scene_material_section->angles[0];
       a.y = node->angles[1] + scene_material_section->angles[1];
       a.z = node->angles[2] + scene_material_section->angles[2];
@@ -1569,7 +1543,7 @@ void TScene::render_animated_map_section(SceneMaterialSection *scene_material_se
       v.x = node->position[0];
       v.y = node->position[1];
       v.z = node->position[2];
-      vec3_add_to(&v, scene_material_section->position);
+      vec3_add_to(&v, (const Vec *)scene_material_section->position);
       a.x = node->angles[0] + scene_material_section->angles[0];
       a.y = node->angles[1] + scene_material_section->angles[1];
       a.z = node->angles[2] + scene_material_section->angles[2];
@@ -1975,7 +1949,7 @@ void TScene::update_room_visibility_from_camera() {
         s32 k;
         push_matrix_from(identity_matrix);
         rotate_matrix_y(0, camera_ctrl_instance->yaw);
-        rotate_vector_by_matrix(0, &w, (Vec *)(&out2));
+        rotate_vector_by_matrix(0, (const Vec *)&w, (Vec *)(&out2));
         normalize_vector((Vec *)(&out2));
         pop_matrix();
         s = (*(SceneMaterialRoot * *)&scene_material_root)->sections;

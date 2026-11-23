@@ -45,6 +45,11 @@
 #include "pso/player/TObjPlayer_801A5AEC.h"
 #include <stdio.h>
 #include <string.h>
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/dvd.h>
+#undef PSO_SDK_COMPACT_MATH
+#include "pso/render/GinjaTexture.h"
+#include "pso/system/SubtractiveRng.h"
 
 // One TU from 0x800F8A0C: the "" lbl_805D2B10 points at opens the .sdata2 pool at 0x805DA910
 // (after the 4-byte pad that 8-aligns a TU start), then copy_name's "..", then this file's floats.
@@ -918,7 +923,6 @@ void TLobby::set_entry_params(s32 arg1, s32 arg2, s32 arg3) {
 }
 
 #pragma push
-void release_texture_list(void *p);
 
 void TLobby::set_read_params(void *handle_ref, int sector_count, int destination) { pending_file_read_handle_ref = (AdxfHandle **)handle_ref; (*(int *)&pending_file_read_sector_count) = sector_count; (*(int *)&pending_file_read_destination) = destination; }
 
@@ -942,7 +946,7 @@ void TLobby::draw_fullscreen_texture_quad() {
 
 void TLobby::release_menu_font() {
     if (lobby_font_texture_loaded) {
-        release_texture_list(lbl_8049C61C);
+        release_texture_list(reinterpret_cast<NJS_TEXLIST *>(lbl_8049C61C));
     }
     lobby_font_texture_loaded = 0;
 }
@@ -998,10 +1002,7 @@ typedef struct {
     s32 n;
 } Desc_800F8FB8;
 
-s32 DVDGetDriveStatus(void);
-
 s8 func_801A5E54__Fv(void);
-s32 DVDCheckDisk(void);
 
 #define disk_error_msg_last ((Msg_800F8FB8 *)disk_error_msg_last)
 #define show_msg_800F8FB8(arr, i) draw_menu_text(arr[i].x, arr[i].y, arr[i].str, 0x8FFFFFFF)
@@ -1134,7 +1135,6 @@ s32 TLobby::run_disk_error_check() {
 // .text 0x800F93B4-0x800F9F4C: the GSL archive close hook, the resource load tasks (TUnk_8049C658
 // children of resource_load_task_root, one per relocatable data file), the quest and text
 // archive decryption, the disc-file wrappers and TLobby::run_frame; __sinit closes the TU.
-void subtractive_rng_seed(s32 *rng, u32 seed);
 extern s32 lbl_805D49B4;
 extern int TAdPlayerLoadGC__load_state;
 

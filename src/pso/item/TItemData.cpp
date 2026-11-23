@@ -19,6 +19,7 @@
 #include "pso/item/TItemData_8010EDA8.h"
 #include "pso/unk/text_80076E84.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/technique/TechniqueParams.h"
 
 struct Parm_8010C1E0;
 struct Item_8010C498;
@@ -98,7 +99,6 @@ extern "C" {
 s32 check_equip_requirements(void *self, TItemData *p, s32 *out);
 void *lookup_item_pmt_record(u8 *item);
 u8 get_cast_technique_level(void *, int);
-void *calc_technique_parameters(u8, u8, s32);
 f32 calc_clock_bonus__9TItemDataFPv(u8 *arg0);
 void * lookup_item_pmt_record(u8 *item);
 s16 getS16_06__9TItemDataFPv(void *arg0);

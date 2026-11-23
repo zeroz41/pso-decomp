@@ -16,6 +16,7 @@ struct TWindowSubComCard;
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/system/vector.h"
+#include "pso/system/SoundEffect.h"
 
 struct Item_802AE4DC { u8 pad[0x12]; u8 sel; };
 
@@ -27,7 +28,6 @@ struct Menu_802AE4DC {
 };
 
 extern "C" {
-s32 play_sound_effect(s32, s32, s32, s32);
 void play_cursor_sound__15TWindowMainMenuFv(Menu_802AE4DC *m, int d);
 struct Item_802ADADC { u8 pad[0x12]; u8 f12; };
 

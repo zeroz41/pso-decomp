@@ -33,6 +33,7 @@
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
+#include "pso/ui/window/WindowLayout.h"
 
 class TChCrTagPlBack;
 const char *TWindowSubShortMail::class_name = "TWindowSubShortMail";
@@ -42,7 +43,6 @@ static const f32 lbl_8044FAC4[2] = {218.0f, 184.0f};
 static const f32 lbl_8044FACC[2] = {206.0f, 120.0f};
 
 extern "C" {
-saddr get_window_layout_position(s32);
 saddr get_card_window_area__6TLobbyFv();
 s32 *get_shared_text_buffer(void);
 int get_flag_bit0__6TLobbyFv(void);
@@ -51,8 +51,6 @@ int get_flag_bit0__6TLobbyFv(void);
 extern s32 local_client_id;
 extern saddr tl_00;
 
-extern "C" {
-}
 
 void remove_short_mail_by_id(u32 id);
 
@@ -385,7 +383,7 @@ saddr TWindowSubShortMail::create_list_item() {
     saddr temp_r31;
     s32 window_layout_position;
 
-    window_layout_position = get_window_layout_position(0x9B);
+    window_layout_position = (s32)get_window_layout_position(0x9B);
     temp_r31 = (saddr)fn_80267F38(window_layout_position, (saddr)lbl_8044FAC4, 8, (s16) this->client_id);
     ((TWindowMenuIconLine *)temp_r31)->ensure_status_display((saddr)TWindowSubStatusDisp::get_message_10(0x2E));
     ((TWindowSubShortCutList *)temp_r31)->set_flag70_bit10();
@@ -434,7 +432,7 @@ s32 TWindowSubShortMail::refresh_mail_list(void *mail_list) {
 saddr TWindowSubShortMail::create_menu(void) {
     saddr list;
 
-    list = create_titled_window_menu_default(get_window_layout_position(0x9A), 3, (saddr)TWindowSubStatusDisp::get_message_10(0x1D));
+    list = create_titled_window_menu_default((saddr)get_window_layout_position(0x9A), 3, (saddr)TWindowSubStatusDisp::get_message_10(0x1D));
     if (get_main_phase() == 0xF) {
         ((TWindowMenu *)list)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x57)), 6, 3);
     } else {
@@ -480,7 +478,7 @@ saddr TWindowSubShortMail::build_menu(void) {
 TKeyBoardControl *TWindowSubShortMail::create_keyboard() {
     TKeyBoardControl *keyboard = new TKeyBoardControl(reinterpret_cast<TObject *>(tl_00), 0xC6, 5, 4, local_client_id);
     keyboard->set_composer_flag62_bit4();
-    keyboard->set_sub_position(reinterpret_cast<u8 *>(get_window_layout_position(0xBB)));
+    keyboard->set_sub_position((u8 *)(get_window_layout_position(0xBB)));
     keyboard->set_flag62_bit2();
     keyboard->set_soft_flag60_bit1();
     return keyboard;
@@ -509,7 +507,7 @@ saddr TWindowSubShortMail::create_window(void) {
     s32 window_layout_position;
     saddr list;
 
-    window_layout_position = get_window_layout_position(0xA1);
+    window_layout_position = (s32)get_window_layout_position(0xA1);
     list = create_window_menu_default(window_layout_position, 2);
     if (get_flag_bit0__6TLobbyFv() != 0) {
         ((TWindowMenu *)list)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x105)), 0, 0);
@@ -528,7 +526,7 @@ saddr TWindowSubShortMail::open_menu(void) {
     s32 window_layout_position;
     saddr menu;
 
-    window_layout_position = get_window_layout_position(0xA2);
+    window_layout_position = (s32)get_window_layout_position(0xA2);
     menu = create_window_menu_default(window_layout_position, 2);
     ((TWindowMenu *)menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x105)), 6, 1);
     ((TWindowMenu *)menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x106)), 6, 0);

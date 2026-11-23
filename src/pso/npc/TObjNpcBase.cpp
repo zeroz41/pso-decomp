@@ -40,6 +40,11 @@
 #include "pso/unk/text_803E2F28.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/math/MatrixTransforms.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/render/render_util.h"
+#include "pso/render/model_render_state.h"
+#include "pso/enemy/EnemyTargeting.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 
@@ -94,18 +99,11 @@ void TObjNpcBase::setup_common() {
 // ---- src/pso/unk/text_801482F8.cpp
 
 extern "C" {
-s32 approach_angle_limited(s32, s32, s32);
-f32 horizontal_distance_squared(Vec *, Vec *);
-void vec3_add_to(Vec *, Vec *);
-void rotate_vector_by_matrix(int, Vec *, Vec *);
 void rotate_matrix_y(int, int);
-extern u8 identity_matrix[];
 f32 atan2_float(f32 y, f32 x);
 }
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 void move_with_wall_slide(u8 *actor);
-extern "C" {
-s32 angle_difference_abs(s32, s32);
 
 void TObjNpcBase::interact(u16 client) {
     TObjPlayer *player;
@@ -393,7 +391,6 @@ void TObjNpcBase::run_move_action() {
 }
 
 void TObjNpcBase::vfunc_83() {  }
-}
 
 void TObjNpcBase::run_idle_action() {
     if (mode != 0) {
@@ -403,17 +400,13 @@ void TObjNpcBase::run_idle_action() {
     }
 }
 
-extern "C" {
-u16 find_nearest_visible_player(void *, s32, f32 *, f32);
-void translate_matrix_vec3(u8 *arg0, u8 *arg1);
-
 void TObjNpcBase::refresh_target() {
     f32 *temp_r5;
 
     if (mode != 3) {
         if (is_actor_cadence_frame(30) != 0) {
             temp_r5 = (f32 *)movementParameters;
-            targetId = find_nearest_visible_player(this, 0, temp_r5, *temp_r5);
+            targetId = find_nearest_visible_player(this, NULL, *temp_r5);
             {
                 u32 id = targetId;
                 if (id != 0xFFFF) {
@@ -425,8 +418,6 @@ void TObjNpcBase::refresh_target() {
         }
     }
 }
-
-extern s32 model_render_flags;
 
 void TObjNpcBase::render() {
     if ((update_object_view_visibility(m_398, m_39c) != 0) && (m_390 == 1)) {
@@ -500,8 +491,6 @@ void TObjNpcBase::run_task() {
         submit_cursor_candidate((void *) this, -1);
     }
     clear_actor_flags(0x1B3FU);
-}
-
 }
 
 // ---- src/pso/npc/TObjNpcBase_801490F4.cpp

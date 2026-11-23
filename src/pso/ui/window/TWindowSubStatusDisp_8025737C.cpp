@@ -11,6 +11,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/TLobby_80226070.h"
+#include "pso/system/SoundEffect.h"
 
 
 struct Bar_80256C00 {
@@ -33,10 +34,6 @@ struct Gauge_802571B4 {
 };
 
 struct Gauge_80256E0C { u8 p0[0x14]; f32 max; };
-
-extern "C" {
-extern const f32 lbl_805DCE58;
-}
 
 struct Gauge_80257784 {
     u16 flags;
@@ -103,12 +100,10 @@ struct Bar_8025799C {
     s16 timer;
 };
 
-s32 play_sound_effect(u32, s32, s32, s32);
 u32 update_text_color_transition(Fade_802575C0 *fade);
 void start_text_color_transition(Fade_802575C0 *array_entry, u32 rgb, f32 time);
 
 extern s32 __vt__26TWindowStatusGaugeFeedback[];
-extern const float lbl_805DCE58;
 
 #define CLAMP_8025737C(v, lo, hi) ((v) < (lo) ? (lo) : ((v) < (hi) ? (v) : (hi)))
 

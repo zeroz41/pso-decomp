@@ -13,6 +13,8 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/render/GinjaTexture.h"
 
 #pragma readonly_strings on
 
@@ -20,10 +22,6 @@
 const char *TObjNpcARM00__name = "TObjNpcARM00";
 uaddr TObjNpcARM00__model_resource;
 NJS_TEXLIST *TObjNpcARM00__texture_list;
-
-extern "C" {
-s32 play_sound_effect(s32, s32, s32, s32);
-void release_texture_list(void*);
 
 void TObjNpcARM00::free_resources() {
     if (TObjNpcARM00__texture_list != NULL) {
@@ -42,7 +40,6 @@ void TObjNpcARM00::load_resources() {
     TObjNpcARM00__texture_list = load_gvm_texture_file("n_e00_w_body.gvm");
 }
 
-}
 TObjNpcARM00::~TObjNpcARM00() {}
 
 
@@ -56,8 +53,7 @@ TObjNpcARM00::TObjNpcARM00(TObject *parent, void *arg2) : TUnk_804A9F50(parent) 
 }
 
 void TObjNpcARM00::play_voice() {
-    saddr arg0 = (saddr)this;
-    play_sound_effect(0x40003B08, arg0 + 0x38, 0, 0);
+    play_sound_effect(0x40003B08, &this->position, 0, 0);
 }
 
 

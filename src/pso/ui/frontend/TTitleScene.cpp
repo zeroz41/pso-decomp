@@ -32,6 +32,8 @@
 #include "pso/unk/TLobby_80335E08.h"
 #include "pso/unk/text_803369C8.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/map/area/AreaScene.h"
+#include "pso/render/GinjaTexture.h"
 
 
 extern "C" {
@@ -230,14 +232,12 @@ TTitleScene *title_scene_instance;
 int lobby_game_mode_state;
 NJS_TEXLIST *lobby_title_texture_list;
     extern int lbl_805D68C8;
-s32 release_texture_list(void *, s32);
 u64 call_funcs_reverse__6TLobbyFPvUi(void *, int);
 void hide_title_layers_and_release(TTitleScene *scene);
 int TKeyBoardControl__sub_8000F828(void);
 void TKeyBoardControl__sub_8000F90C(int);
 
 void TWindowOptionCtrl__sub_802273B4(s32 arg0);
-s32 run_load_callback_table(void *, int);
 extern const s32 current_language;
 
 void TLobby::queue_destruction_and_cleanup(TObject *fade) {
@@ -397,7 +397,7 @@ void TLobby::destroy_global_object() {
     u32 value;
     value = (u32) call_funcs_reverse__6TLobbyFPvUi(lobby_load_callback_table, sizeof(lobby_load_callback_table));
     if (lobby_title_texture_list != NULL) {
-        release_texture_list(lobby_title_texture_list, (s32) value);
+        release_texture_list(lobby_title_texture_list);
         lobby_title_texture_list = NULL;
     }
 }

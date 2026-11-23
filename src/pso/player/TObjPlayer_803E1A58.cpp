@@ -1,4 +1,11 @@
 #include "types.h"
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/gx/GXTransform.h>
+#include <dolphin/gx/GXTexture.h>
+#include <dolphin/gx/GXPixel.h>
+#include <dolphin/os.h>
+#undef PSO_SDK_COMPACT_MATH
+#include "pso/render/RenderSbssGlobals.h"
 #include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer_803E112C.h"
 #include "pso/player/TObjPlayer_803E1A58.h"
@@ -7,44 +14,14 @@
 #include "pso/unk/text_803E1FC8.h"
 #include "pso/unk/text_803E2008.h"
 
-typedef struct TexObj_803E1D90 { u32 dummy[8]; } TexObj_803E1D90;
-
-typedef struct TexHdr_803E1D90 {
-    u32 f0;
-    s32 format;
-    u32 f8;
-    u32 fC;
-    u32 width;
-    u32 height;
-    u32 f18;
-    u32 flags;
-    void *image;
-} TexHdr_803E1D90;
-
-typedef struct TexInfo_803E1D90 { u32 f0; u32 f4; u32 tlut; TexHdr_803E1D90 *hdr; } TexInfo_803E1D90;
-
-typedef struct TexEnt_803E1D90 { u32 f0; u32 f4; TexInfo_803E1D90 *info; } TexEnt_803E1D90;
-
-typedef struct TexList_803E1D90 { TexEnt_803E1D90 *ents; } TexList_803E1D90;
-
-typedef struct Ctx_803E1D90 { u8 pad[0x20]; TexList_803E1D90 *list; } Ctx_803E1D90;
-
 extern "C" {
-s32 GXLoadPosMtxImm(void *, int);
 /* GX_PNMTX0..GX_PNMTX9 */
 s32 gx_pos_mtx_index_table[10] = {0, 3, 6, 9, 12, 15, 18, 21, 24, 27};
-extern saddr current_matrix;
 /* GX_TEXMTX0..GX_TEXMTX9 */
 s32 tex_matrix_id_table[10] = {30, 33, 36, 39, 42, 45, 48, 51, 54, 57};
-void GXLoadTexMtxImm(void *mtx, u32 id, s32 type);
-void OSPanic(const char *, int, const char *, ...);
-void GXInitTexObj(TexObj_803E1D90 *, void *, u16, u16, s32, s32, s32, u8);
-void GXInitTexObjCI(TexObj_803E1D90 *, void *, u16, u16, s32, s32, s32, u8, u32);
-void GXLoadTexObj(TexObj_803E1D90 *, s32);
 /* GX_TEXMAP0..GX_TEXMAP7, GX_TEXMAP_NULL */
 s32 list_texture_map_table[10] = {0, 1, 2, 3, 4, 5, 6, 7, 0xFF};
-extern TexObj_803E1D90 list_texture_tex_obj;
-extern Ctx_803E1D90 *current_render_context;
+extern GXTexObj list_texture_tex_obj;
 
 #pragma push
 #pragma scheduling off
@@ -119,20 +96,20 @@ extern s8 scene_fog_enable_flag;
 #pragma push
 #pragma scheduling off
 void load_current_pos_matrix(s32 arg0) {
-    GXLoadPosMtxImm((void *)current_matrix, gx_pos_mtx_index_table[arg0]);
+    GXLoadPosMtxImm(*current_matrix, gx_pos_mtx_index_table[arg0]);
 }
 #pragma pop
 
 #pragma push
 #pragma scheduling off
 void load_current_tex_matrix(s32 i) {
-    GXLoadTexMtxImm((void *)current_matrix, tex_matrix_id_table[i], 0);
+    GXLoadTexMtxImm(*current_matrix, tex_matrix_id_table[i], GX_MTX3x4);
 }
 #pragma pop
 
 void load_list_texture(s32 idx, s32 wrapS, s32 wrapT, s32 map) {
-    TexInfo_803E1D90 *info = current_render_context->list->ents[idx].info;
-    TexHdr_803E1D90 *hdr = info->hdr;
+    GinjaTextureState *info = current_render_context->textures->textures[idx].texture;
+    GinjaTextureHeader *hdr = &info->surface->header;
     u32 flags = hdr->flags;
     u8 mip;
     if (flags & 0x80000000) {
@@ -141,11 +118,11 @@ void load_list_texture(s32 idx, s32 wrapS, s32 wrapT, s32 map) {
         mip = 0;
     }
     if (flags & 0x8000) {
-        GXInitTexObjCI(&list_texture_tex_obj, hdr->image, hdr->width, hdr->height, hdr->format, wrapS, wrapT, mip, info->tlut);
+        GXInitTexObjCI(&list_texture_tex_obj, hdr->pixels, hdr->width, hdr->height, (GXCITexFmt)hdr->format, (GXTexWrapMode)wrapS, (GXTexWrapMode)wrapT, mip, info->tlut_name);
     } else {
-        GXInitTexObj(&list_texture_tex_obj, hdr->image, hdr->width, hdr->height, hdr->format, wrapS, wrapT, mip);
+        GXInitTexObj(&list_texture_tex_obj, hdr->pixels, hdr->width, hdr->height, (GXTexFmt)hdr->format, (GXTexWrapMode)wrapS, (GXTexWrapMode)wrapT, mip);
     }
-    GXLoadTexObj(&list_texture_tex_obj, list_texture_map_table[map]);
+    GXLoadTexObj(&list_texture_tex_obj, (GXTexMapID)list_texture_map_table[map]);
 }
 
 asm void reorder_current_matrix_ps(void) {
@@ -185,13 +162,11 @@ void TObjPlayer::reset_particle_counter() {
     scene_fog_enable_flag = 0;
 }
 
-TexObj_803E1D90 list_texture_tex_obj;
-
-struct Rgb_803E1FC8 { u8 r, g, b, a; };
+GXTexObj list_texture_tex_obj;
 
 extern f32 scene_fog_end_distance;
 extern f32 scene_fog_start_distance;
-extern Rgb_803E1FC8 scene_fog_color;
+extern GXColor scene_fog_color;
 
 #pragma push
 #pragma scheduling off
@@ -211,15 +186,11 @@ void set_scene_fog_distances(f32 farg0, f32 farg1) {
 
 struct G_803E2010 { u8 pad[0x44]; f32 f44; f32 f48; };
 extern G_803E2010 scene_projection_state;
-typedef struct { u8 r, g, b, a; } Col_803E2010;
-extern "C" {
-void GXSetFog(s32, f32, f32, f32, f32, Col_803E2010);
-}
 
 s32 scene_fog_type;
 f32 scene_fog_end_distance;
 f32 scene_fog_start_distance;
-Rgb_803E1FC8 scene_fog_color;
+GXColor scene_fog_color;
 s8 scene_fog_enable_flag;
 
 void set_scene_fog_type(s32 arg0) {
@@ -233,5 +204,5 @@ void apply_scene_fog(void) {
     } else {
         type = 0;
     }
-    GXSetFog(type, scene_fog_start_distance, scene_fog_end_distance, scene_projection_state.f44, scene_projection_state.f48, *(Col_803E2010 *)&scene_fog_color);
+    GXSetFog((GXFogType)type, scene_fog_start_distance, scene_fog_end_distance, scene_projection_state.f44, scene_projection_state.f48, scene_fog_color);
 }

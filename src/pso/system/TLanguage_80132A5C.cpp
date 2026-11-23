@@ -5,6 +5,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/Language.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/render/GinjaTexture.h"
 #include "pso/system/TLanguage_801E4874.h"
 
 struct GvmTextureInner { char pad8[0x8]; u32 f8; };
@@ -42,15 +43,11 @@ struct GvmTexture *localized_alphabet_list;
 language current_language;
 int TWindowKeyBoardSoft__language_text_resources;
 
-extern "C" {
-s32 release_texture_list(void *);
-}
-
 void TLanguage::free_alphabet_textures() {
     if (localized_alphabet_list != NULL) {
         struct GvmTextureInner *inner = localized_alphabet_list->f0;
         if (inner->f8 != 0U) {
-            release_texture_list(localized_alphabet_list);
+            release_texture_list((NJS_TEXLIST *)localized_alphabet_list);
         }
         TAdSinglePlyChrSelectGC::safe_free((uaddr)localized_alphabet_list);
         localized_alphabet_list = NULL;

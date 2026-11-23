@@ -5,10 +5,7 @@
 #include "pso/effect/item/TItemEffOrgaFlowShot.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/system/task/TMainTask.h"
-
-extern "C" {
-void scale_matrix(s32, f32, f32, f32);
-}
+#include "pso/system/MatrixOps.h"
 
 void TUnk_804A0FA0::vfunc_60() {
     if (get_item_index() == 5) {

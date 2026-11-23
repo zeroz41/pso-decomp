@@ -14,6 +14,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/render/GinjaTexture.h"
 
 #pragma readonly_strings on
 
@@ -21,9 +22,6 @@
 const char *TObjNpcAHM01__name = "TObjNpcAHM01";
 uaddr TObjNpcAHM01__shared_object;
 NJS_TEXLIST *TObjNpcAHM01__texture_handle;
-
-extern "C" {
-void release_texture_list(void*);
 
 void TObjNpcAHM01::free_resources() {
     if (TObjNpcAHM01__texture_handle != NULL) {
@@ -42,7 +40,6 @@ void TObjNpcAHM01::load_resources() {
     TObjNpcAHM01__texture_handle = load_gvm_texture_file("n_c01_e_body.gvm");
 }
 
-}
 TObjNpcAHM01::~TObjNpcAHM01() {}
 
 

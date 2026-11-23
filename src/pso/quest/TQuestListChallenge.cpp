@@ -24,7 +24,6 @@ s32 lbl_805D64A8;
 s32 lbl_805D64AC;
 TQuestListChallenge *TQuestListChallenge__active_instance;
 void *__ct__11TObjControlFP7TObject(void *, void *);
-u8 *TObjNpcKenkyu__ct(u8 *arg0, s32 arg1, s32 arg2);
 
 struct ChallengeWindowExtent { f32 dimensions[2]; };
 struct ChallengeWindowExtentResource { ChallengeWindowExtent extent; u32 reserved; };

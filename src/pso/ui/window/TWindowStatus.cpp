@@ -18,6 +18,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8026F6DC.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/ui/window/WindowLayout.h"
 
 
 const char *TWindowStatus__name = "TWindowStatus";
@@ -26,7 +27,6 @@ struct Quad_802710C4 { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
 
 extern "C" {
 
-f32 TWindowSubComCard__sub_80244784(TWindowSubComCard *);
 s32 TWindowSubComCard__sub_802452DC(int);
 s32 TWindowSubComCard__sub_80245320(void *, void *);
 s32 TWindowSubComCard__sub_802454E4(int);
@@ -38,10 +38,6 @@ extern s32 hud_texlist;
 
 s32 draw_right_aligned_number(void *);
 void update_hp_tp_values__20TWindowSubStatusDispFPv(u8 *window_sub_status_disp);
-
-
-
-saddr get_window_layout_position(s32);
 
 }
 void update_status_help_item(saddr arg0);

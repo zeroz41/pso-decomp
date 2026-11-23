@@ -19,6 +19,7 @@
 #include "pso/unk/text_802993F0.h"
 #include "pso/ui/charcreate/TChCrEffTag.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/SoundEffect.h"
 
 struct Range_802937E8 { s32 min; s32 max; };
 
@@ -75,11 +76,6 @@ void TChCrCharSelect::tick_and_apply_selection() {
     }
 }
 
-extern "C" {
-
-s32 play_sound_effect(s32, s32, s32, s32);
-
-
 void TChCrCharSelect::handle_menu_input() {
     if (creation_direction_repeated(0x20) != 0) {
         TChCrCharSelect__selected_slot_index += 1;
@@ -126,8 +122,6 @@ void TChCrCharSelect::handle_cursor_input() {
         clamp_slot_index_to_range();
         TChCrCharSelect__input_mode = 1;
     }
-}
-
 }
 
 

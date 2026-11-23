@@ -7,9 +7,9 @@
 
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/SoundEffect.h"
 extern "C" {
 __declspec(section ".data") u32 TObjLight__support_charge_effect_ids[2] = {0x1F4, 0x1F5};
-s32 play_sound_effect(int, void *, int, int);
 void stop_sound_request(s32 idx);
 }
 

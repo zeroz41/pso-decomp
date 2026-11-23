@@ -3,11 +3,11 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowDD_80348D0C.h"
 #include "pso/system/byteswap.h"
+#include "pso/network/client_id.h"
 
 struct Pkt_80348C78 { u8 hdr[2]; u16 player; u8 body[0x1c]; };
 
 extern "C" {
-extern s32 local_client_id;
 void copy_chat_entry__9TWindowDDFPvPv(void *, void *);
 int bswap_word_select__9TWindowDDFv(void*);
 

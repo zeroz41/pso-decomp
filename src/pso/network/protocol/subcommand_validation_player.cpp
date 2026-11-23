@@ -1,6 +1,7 @@
 #include "pso/network/protocol/subcommand_validation.h"
 #include "pso/network/protocol/subcommand_validation_player.h"
 #include "pso/network/protocol/protocol_types.h"
+#include "pso/object/base/CollisionActorLookup.h"
 #include "pso/render/render_util.h"
 #include "types.h"
 #include "pso/unk/TLobby_800FD78C.h"
@@ -12,7 +13,6 @@
 extern "C" {
 
 u16 TObjRoomId__sub_801A1DB8(u16);
-void *find_entity_by_id(u16 id);
 
 s32 validate_attack_target_entry(void *parameters) {
     return ((u32) *(s16 *)((s8 *)parameters + 2) >> 0x1FU) ^ 1;

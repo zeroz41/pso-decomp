@@ -10,6 +10,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/network/client_id.h"
 
 
 #pragma readonly_strings on
@@ -36,8 +37,6 @@ void TWindowMessagePage::update_message() {
         append_line((saddr)get_shared_text_buffer(), *(s32 *)((s8 *)this + 0x90));
     }
 }
-
-extern s32 local_client_id;
 
 void TWindowMessagePage::set_message(void *msg, s32 flags) {
     Page_8026AE20 *self = (Page_8026AE20 *)this;

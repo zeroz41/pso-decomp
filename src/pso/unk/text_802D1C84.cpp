@@ -5,6 +5,7 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/render/GinjaTexture.h"
 
 struct VBase_18_477421
 {
@@ -117,9 +118,8 @@ struct VObj_18_477421 : VBase_18_477421 {
 extern "C" {
 extern u32 lbl_80540BC8[];
 void *lbl_805D6880;
-void release_texture_list(void *);
 void fn_802D1C84(void) {
-    void *p = lbl_80540BC8;
+    NJS_TEXLIST *p = reinterpret_cast<NJS_TEXLIST *>(lbl_80540BC8);
     if (p != 0) {
         release_texture_list(p);
     }

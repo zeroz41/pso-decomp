@@ -1,4 +1,5 @@
 #include "pso/system/vector.h"
+#include "pso/math/MatrixTransforms.h"
 #include "types.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
 #include "pso/object/base/TObjMotion.h"
@@ -59,7 +60,6 @@ struct P_800BC250 : VB_800BC250 {
 };
 
 extern "C" {
-void subtract_vector(Vec *a, Vec *b);
 s32 obj_is_hit_receivable();
 s32 is_area_attack_target_eligible(void *, int);
 

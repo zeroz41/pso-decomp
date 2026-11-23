@@ -36,7 +36,6 @@ extern "C" {
 s32 is_split_screen();
 
 
-extern "C" {
 extern const RafoieBurst lbl_8044DA48[1] = {{494, 0, 1.0f}};
 extern const RafoieBurst lbl_8044DA54[2] = {{491, 0, 1.0f}, {494, 0, 1.0f}};
 extern const RafoieBurst lbl_8044DA6C[2] = {{393, 0, 1.0f}, {494, 0, 1.0f}};
@@ -48,7 +47,6 @@ extern const RafoieBurstList rafoie_burst_table[6] = {
 const char *TTecRaFoie_class_name = "TTecRaFoie";
 // The colour the burst fades to (all clear).
 extern const NJS_ARGB lbl_8044DAF0 = {0.0f, 0.0f, 0.0f, 0.0f};
-}
 
 void TUnk_804CCB28::spawn_rafoie_explosion_bursts() {
     Vec higher;
@@ -143,15 +141,14 @@ void TTecRaFoie::vfunc_8(void *) {
 
 #include "pso/technique/TechniqueParams.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/render/model_render_state.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/task/TMainTask.h"
 
 
 extern "C" {
-void post_translate_matrix(void *);
 void draw_ginja_object(void);
-extern s32 saved_model_render_flags;
-extern s32 model_render_flags;
 #pragma push
 #pragma opt_common_subs off
 
@@ -200,7 +197,7 @@ void TUnk_804CCB28::render() {
         z = (1.8f) * z;
     }
     push_matrix();
-    post_translate_matrix(&position);
+    post_translate_matrix((const f32 *)&position);
     scale_matrix(0, x, y, z);
     rotate_matrix_y(0, camera_ctrl_instance->yaw);
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(technique_texture_list));

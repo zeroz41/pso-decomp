@@ -7,6 +7,11 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/RenderSbssGlobals.h"
 #include "pso/render/GinjaTextureMatrices.h"
+#include "pso/system/MatrixStack.h"
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/gx/GXStruct.h>
+#include <dolphin/gx/GXPixel.h>
+#undef PSO_SDK_COMPACT_MATH
 
 typedef void (*RecoveredCallback_2be3cacebb2e)(void);
 
@@ -25,14 +30,10 @@ extern "C" {
 
 extern RecoveredCallback_2be3cacebb2e ginja_draw_end_callback;
 void copy_rotation_to_current_matrix(struct Mtx_803DC994 *src);
-void GXSetBlendMode(int, int, int, int);
 __declspec(section ".rodata") extern const u32 cached_blend_factor_table[];
 void init_render_context(C_803DCBF0 *arg0);
 extern RecoveredCallback_1268626c296b motion_node_draw_callback;
 __declspec(section ".rodata") extern const Tbl_803DCC34 gx_blend_mode_table;
-s32 rotate_matrix_by_node_angles(void *, void *);
-s32 scale_current_matrix(void *);
-s32 post_translate_matrix(void *);
 extern s32 node_saved_matrix[];
 void set_model_node_callback(ModelNodeCallback callback) {
     model_node_callback = callback;
@@ -115,7 +116,7 @@ void traverse_model_node_tree(NJS_OBJECT *node, s32 (*draw)(void *model)) {
                 } else if (f & 0x400) {
                     apply_quat_rotation(node->quat_w, (f32 *)node->ang);
                 } else {
-                    rotate_matrix_by_node_angles(node->ang, (void *) (f & 0x20));
+                    rotate_matrix_by_node_angles(node->ang, f & 0x20);
                 }
             }
             if (!(f & 4)) {
@@ -186,9 +187,9 @@ void apply_cached_blend_mode(s32 arg0) {
     int src = cached_blend_factor_table[(v & 0xE0000000) >> 29];
     int dst = cached_blend_factor_table[(v & 0x1C000000) >> 26];
     if (arg0 != 0) {
-        GXSetBlendMode(1, src, dst, 0);
+        GXSetBlendMode(GX_BM_BLEND, (GXBlendFactor)src, (GXBlendFactor)dst, GX_LO_CLEAR);
     } else {
-        GXSetBlendMode(0, src, dst, 0);
+        GXSetBlendMode(GX_BM_NONE, (GXBlendFactor)src, (GXBlendFactor)dst, GX_LO_CLEAR);
     }
 }
 

@@ -40,7 +40,9 @@
 #include "pso/unk/TLobby_8030A834.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/network/client_id.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
@@ -191,7 +193,6 @@ DarkFalzPushZone dark_falz_push_zone_table[3] = {
 
 
 extern "C" {
-s32 subtract_vector(void *, void *);
 f32 xyz_distance(void *, void *);
 
 void TBoss4DarkFalz::push_players_out_of_zone(s32 zone) {
@@ -221,7 +222,7 @@ void TBoss4DarkFalz::push_players_out_of_zone(s32 zone) {
             other_radius = dark_falz_push_zone_table[j].radius;
             if (j != zone && !(xyz_distance(&player->position, other) > other_radius)) {
                 VecCopy(&v, &player->position);
-                subtract_vector(&v, other);
+                subtract_vector(&v, &other->center);
                 v.y = 0.0f;
                 if (vector_length(&v) <= 0.01f) {
                     v.x = 0.0f;
@@ -311,8 +312,6 @@ u16 TBoss4Type3::pick_random_target_player() {
 TBoss4DarkFalzSetEntry dark_falz_set_entry;
 
 extern "C" {
-extern s32 local_client_id;
-
 void release_all_players_control_lock(void);
 }
 void reset_cameras_to_actor(void *, s32);
@@ -714,8 +713,6 @@ void TBoss4DarkFalz::update_roar_sound_timer() {
 #pragma fp_contract off
 
 
-extern "C" {
-
 void TBoss4DarkFalz::render() {  }
 
 void TBoss4DarkFalz::run_task() {
@@ -733,7 +730,6 @@ void TBoss4DarkFalz::run_task() {
 }
 
 void TBoss4DarkFalz::run_death_reaction() {  }
-}
 void init_music_sequencer(s32 program);
 BmlResource *darkfalz_dat_resource;
 TBoss4Type1 *TBoss4DarkFalz__type1_instance;

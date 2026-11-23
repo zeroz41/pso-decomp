@@ -12,6 +12,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
+#include "pso/render/GinjaTexture.h"
 
 // The title banner textures: English (lbl_804DCA60/78) and Japanese (lbl_804DCA80/98) name lists and texlists.
 NJS_TEXNAME lbl_804DCA60[2] = { { "f512_midashi_eng", 0, 0 }, { "f512_midashi_eng_b", 0, 0 } };
@@ -26,13 +27,11 @@ u32 calc_text_width(char *s);
 s32 get_player__20TWindowSubStatusDispFv();
 uaddr lbl_805D6630;
 saddr get_localized_text_entry(s32, s32);
-void restore_saved_depth_alpha_state(void);
 
 // The title texture helpers. The TU is compiled deferred, so its functions come out backwards:
 // these are written first and land last.
 extern const s32 current_language;
 extern int lobby_cursor_active_flag;
-void release_texture_list(void*);
 
 int TObjPlayer__sub_802A1018(void) { return lobby_cursor_active_flag; }
 
@@ -46,7 +45,7 @@ void TLobby__sub_802A0F70(void) {
 
 void TLobby::free_dialog_global() {
     if ((u32) lbl_805D6630 != 0U) {
-        release_texture_list((void*)lbl_805D6630);
+        release_texture_list((NJS_TEXLIST *)lbl_805D6630);
         lbl_805D6630 = 0U;
     }
 }

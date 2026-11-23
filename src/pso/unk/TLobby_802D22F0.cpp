@@ -2,6 +2,7 @@
 #include "pso/unk/TLobby_802D22F0.h"
 #include "pso/unk/TLobby.h"
 #include "pso/network/protocol/subcmd_6x.h"
+#include "pso/network/client_id.h"
 
 struct E_802D2334 { u32 a; u32 b; };
 
@@ -32,8 +33,6 @@ E_802D2334 *TLobby__sub_802D2334(E_802D2334 *p, u32 key) {
     }
     return 0;
 }
-
-    extern int local_client_id;
 
 void TLobby__sub_802D2358(E_802D2358 *p) {
     s32 i;

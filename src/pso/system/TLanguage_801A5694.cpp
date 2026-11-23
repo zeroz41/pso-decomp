@@ -1,13 +1,14 @@
 #include "types.h"
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/gx/GXManage.h>
+#undef PSO_SDK_COMPACT_MATH
+#include <dolphin/os/OSCache.h>
 #include "pso/system/TLanguage.h"
 
 extern "C" {
 
 s32 draw_string__9TLanguageFPvPvl();
-s32 GXDrawDone();
 s32 init_and_load_tlut(s32, u16, s16, u16 *);
-
-s32 DCStoreRange(u16 *, s32);
 
 void TLanguage::decode_font_data(void *arg0, void *arg1, s32 arg2, s32 tlut_name) {
     s32 n;

@@ -3,10 +3,7 @@
 #include "types.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-
-extern "C" {
-
-s32 release_texture_list(void*);
+#include "pso/render/GinjaTexture.h"
 
 void TLobby::free_char_select() {
     if (dragon_common_texture_list != NULL) {
@@ -16,6 +13,4 @@ void TLobby::free_char_select() {
     }
     delete dragon_ground_resource;
     dragon_ground_resource = 0;
-}
-
 }

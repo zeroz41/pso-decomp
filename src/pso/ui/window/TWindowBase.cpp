@@ -30,6 +30,8 @@
 #include "pso/system/vector.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/render/GinjaTexture.h"
 
 
 struct UV_8024503C { f32 u, v; };
@@ -138,7 +140,6 @@ void TWindowSubComCard__sub_80245A10(u8 *card, s32 row, WindowDrawContext *r, f3
 
 struct Rect_802455CC { f32 x, y, w, h; u8 pad10[0x20 - 0x10]; f32 px, py, sx, sy; u8 pad30[0x38 - 0x30]; f32 depth; };
 
-s32 play_sound_effect(s32, s32, s32, s32);
 int TWindowSubComCard__sub_80244774(void);
 f32 TWindowSubComCard__sub_80244784(TWindowSubComCard *window_sub_com_card);
 void fn_802449E0(u8 *object);
@@ -985,11 +986,10 @@ extern const char lbl_8044E748[];
 extern const char lbl_8044E758[];
 extern s32 f256_hyouji_texlist[];
 extern "C" {
-void release_texture_list(void*);
 
 void TWindowCtrlMain::free_window() {
     if ((u32) hud_texlist != 0U) {
-        release_texture_list((void*)hud_texlist);
+        release_texture_list((NJS_TEXLIST *)hud_texlist);
         hud_texlist = 0U;
     }
 }

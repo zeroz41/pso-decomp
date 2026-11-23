@@ -15,6 +15,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/system/SoundEffect.h"
 
 #pragma readonly_strings on
 
@@ -61,7 +62,6 @@ WindowDescriptor TWindowSubCustomSelect__window_settings = {
 extern "C" {
 s32 draw_window_scrollbar(int, int, void *);
 void draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(void *, void *, s32, f32);
-s32 play_sound_effect(s32, s32, s32, s32);
 void *reset_selection__20TWindowSubStatusDispFv(void *, NJS_POINT2 *);
 const char *TWindowSubCustomSelect__class_name = "TWindowSubCustomSelect";
 s32 clamp_list_scroll_offset(void *, void *, void *);
@@ -108,7 +108,7 @@ void TWindowSubCustomSelect::handle_grid_navigation() {
     ControllerInputContext *window_choice_setting;
     window_choice_setting = &controller_input_state.controllers[is_player_input_active(((s32) this->client_index))];
     if ((test_buttons_press_or_repeat(window_choice_setting, 0xF0, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0xF0, 6, 1) != 0)) {
-        play_sound_effect(0x54100, (s32)(0U), 0, 0);
+        play_sound_effect(0x54100, 0, 0, 0);
         if ((test_buttons_press_or_repeat(window_choice_setting, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
             this->m_71 = (this->m_71 - 1);
         }

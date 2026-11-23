@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/render/GinjaTexture.h"
 #pragma readonly_strings on
 #include "pso/ui/frontend/TAdRayGC.h"
 
@@ -153,11 +154,9 @@ f32 TAdRayGC_ray_quad_table[4][8] = {
 
 const char *TAdRayGC__name = "TAdRayGC";
 
-void release_texture_list(void*);
-
 void TAdRayGC::destroy_instance() {
     if (TAdRayGC__ray_texture_list != 0) {
-        release_texture_list((void*)TAdRayGC__ray_texture_list);
+        release_texture_list((NJS_TEXLIST *)TAdRayGC__ray_texture_list);
         TAdRayGC__ray_texture_list = 0;
     }
 }

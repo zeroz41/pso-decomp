@@ -1,4 +1,7 @@
 #include "types.h"
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/gx.h>
+#undef PSO_SDK_COMPACT_MATH
 #include "pso/player/TObjPlayer_803E21B8.h"
 #include "pso/player/TObjPlayer.h"
 
@@ -31,7 +34,6 @@ static inline void GXTexCoord2f32_803E2810(f32 s, f32 t) {
 }
 
 extern "C" {
-void GXBegin(int, int, u16);
 
 void draw_textured_vertices__10TObjPlayerFPvii(Vtx_803E2810 *v, s32 n, s32 mode) {
     f32 inv;
@@ -43,7 +45,7 @@ void draw_textured_vertices__10TObjPlayerFPvii(Vtx_803E2810 *v, s32 n, s32 mode)
         TObjPlayer::setup_render();
     }
     load_context_texture_obj();
-    GXBegin(0x98, 4, n);
+    GXBegin(GX_TRIANGLESTRIP, GX_VTXFMT4, n);
     for (; n > 0; n--) {
         inv = -1.0f / v->w;
         GXPosition3f32_803E2810(v->x * inv, v->y * inv, inv);

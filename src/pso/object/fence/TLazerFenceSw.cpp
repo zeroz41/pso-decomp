@@ -13,6 +13,8 @@ struct NJS_TEXLIST;
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/MaterialAlphaCompare.h"
 #include "pso/render/render_util.h"
+#include <dolphin/base/PPCArch.h>
+#include "pso/system/MatrixStack.h"
 #include "pso/unk/text_80193524.h"
 #include "pso/unk/text_803D96A8.h"
 
@@ -37,7 +39,7 @@ struct NJS_TEXLIST;
 #include "pso/system/TLanguage_801E4874.h"
 
 
-extern "C" { void rotate_matrix_y(int, void *); s32 pop_matrix(void); void draw_ginja_object(void *); AnimationMotion *get_bml_motion(BmlResource *resource, s32 index); }
+extern "C" { void rotate_matrix_y(int, void *); s32 pop_matrix(void); AnimationMotion *get_bml_motion(BmlResource *resource, s32 index); }
 extern s32 model_render_flags;
 
 extern const char *fe_obj_switch_laz_model_names[4];
@@ -97,7 +99,8 @@ u8 *lazer_fence_switch_scroll_node;
 #pragma opt_common_subs off
 struct Sw_801936E0 {
     u8 pad0[0x38];
-    u8 pos[0x60 - 0x38];
+    f32 pos[3];
+    u8 pad44[0x60 - 0x44];
     saddr f60;
     u8 pad64[0xB0 - 0x64];
     f32 fB0;
@@ -111,8 +114,6 @@ struct Sw_801936E0 {
     f32 dv;
     u32 f114;
 };
-void PPCSync(void);
-void post_translate_matrix(void *);
 
 void TLazerFenceSw::draw_laser_beam() {
     Sw_801936E0 *self = (Sw_801936E0 *)this;

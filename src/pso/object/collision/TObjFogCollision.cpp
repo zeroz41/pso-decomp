@@ -31,6 +31,11 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/render/model_render_state.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/render/render_util.h"
+#include "pso/system/SoundEffect.h"
 
 
 const char *TObjFogCollision__name = "TObjFogCollision";
@@ -56,18 +61,6 @@ extern "C" {
 void record_fog_collision_hit(s32 arg0, s32 arg1, s32 arg2);
 u8 is_current_floor_switch_set(u16);
 
-s32 post_translate_matrix(void *);
-extern s32 saved_model_draw_color[];
-extern s32 model_material_color[];
-extern saddr debug_cylinder_object;
-extern s32 saved_model_render_flags;
-extern s32 saved_chunk_polygon_flags_and_mask;
-extern s32 saved_chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_and_mask;
-extern s32 model_render_flags;
-
-f32 horizontal_distance_squared(void *, s32);
 s32 is_split_screen();
 
 // Function definitions in reverse address order (-inline deferred emits them reversed).
@@ -116,7 +109,7 @@ s32 TObjFogCollision::check_collision(u16 client) {
     if (player != 0) {
         x = this->scale.x;
         temp_f31 = x * x;
-        temp_f1 = horizontal_distance_squared((u8 *)&this->position, player + 0x38);
+        temp_f1 = horizontal_distance_squared(&this->position, &((TObjPlayer *)player)->position);
         if (temp_f31 > temp_f1) {
             return 1;
         }
@@ -167,7 +160,7 @@ void TObjFogCollision::draw_volume() {
         NJS_ARGB c3 = {0.2f, 0.5f, 0.5f, 0.5f};
         NJS_ARGB cd = {0.5f, 0.5f, 1.0f, 1.0f};
         saved_model_render_flags = model_render_flags;
-        copy_argb((NJS_ARGB *)saved_model_draw_color, (NJS_ARGB *)model_material_color);
+        copy_argb(&saved_model_draw_color, &model_material_color);
         saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
         saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
         model_render_flags |= 0x810;
@@ -188,13 +181,13 @@ void TObjFogCollision::draw_volume() {
         }
         push_matrix();
         s = 0.5f * this->scale.x;
-        post_translate_matrix((u8 *)&this->position);
+        post_translate_matrix(&this->position.x);
         scale_matrix(0, s, 3.0f, s);
         draw_chunk_object((void *)debug_cylinder_object);
         pop_matrix();
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
-        copy_argb((NJS_ARGB *)model_material_color, (NJS_ARGB *)saved_model_draw_color);
+        copy_argb(&model_material_color, &saved_model_draw_color);
         model_render_flags = saved_model_render_flags;
     }
 }
@@ -324,21 +317,20 @@ TObjFogCollision_Manager *TObjFogCollisionPoison__instances[12];
 
 extern "C" {
 s32 send_6x2F_change_player_hp(s32, u16, s16);
-s32 play_sound_effect(s32, s32, s32, s32);
 }
 
 void TObjFogCollisionPoison__sub_801535D0(s32 arg0) {
     switch (get_current_floor_area()) {
     case AREA_VR_SPACESHIP_ALPHA:
     case AREA_VR_SPACESHIP_BETA:
-        play_sound_effect(0x4004C115, arg0 + 0x38, 0, 0);
+        play_sound_effect(0x4004C115, &((TObjBase *)arg0)->position, 0, 0);
         break;
     case AREA_SEABED_UPPER:
     case AREA_SEABED_LOWER:
-        play_sound_effect(0x4004C123, arg0 + 0x38, 0, 0);
+        play_sound_effect(0x4004C123, &((TObjBase *)arg0)->position, 0, 0);
         break;
     default:
-        play_sound_effect(0x4004C11B, arg0 + 0x38, 0, 0);
+        play_sound_effect(0x4004C11B, &((TObjBase *)arg0)->position, 0, 0);
         break;
     }
 }

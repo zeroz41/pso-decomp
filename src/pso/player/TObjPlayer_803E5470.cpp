@@ -1,6 +1,9 @@
 #include "pso/system/ModelDrawCallback.h"
 #include "pso/animation/MotionContext.h"
 #include "types.h"
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/gx.h>
+#undef PSO_SDK_COMPACT_MATH
 #include "pso/render/ChunkPolygonList.h"
 #include "pso/unk/text_803E4D8C.h"
 #include <stddef.h>
@@ -310,10 +313,6 @@ typedef union {
 } WGPipe_803E549C;
 #define GXWGFifo_803E549C (*(volatile WGPipe_803E549C *)0xCC008000)
 
-void GXSetVtxDesc(int, int);
-void GXClearVtxDesc(void);
-void GXSetVtxAttrFmt(int, int, int, int, u8);
-void GXBegin(int, int, u16);
 extern u32 chunk_render_flags;
 
 s32 resolve_render_keys__10TObjPlayerFPPUlPPUl();
@@ -352,19 +351,19 @@ void draw_chunk_color_tex_strips(s16 *p, ChunkColorVertex *verts, u32 flags, s32
     }
     TObjPlayer::clear_move_state_bits();
     GXClearVtxDesc();
-    GXSetVtxAttrFmt(0, 9, 1, 4, 0);
-    GXSetVtxAttrFmt(0, 0xB, 1, 5, 0);
-    GXSetVtxAttrFmt(0, 0xD, 1, 3, big ? 0xC : 8);
-    GXSetVtxDesc(9, 1);
-    GXSetVtxDesc(0xB, 1);
-    GXSetVtxDesc(0xD, 1);
+    GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_POS_XYZ, GX_F32, 0);
+    GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_CLR0, GX_CLR_RGBA, GX_RGBA8, 0);
+    GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_TEX0, GX_TEX_ST, GX_S16, big ? 0xC : 8);
+    GXSetVtxDesc(GX_VA_POS, GX_DIRECT);
+    GXSetVtxDesc(GX_VA_CLR0, GX_DIRECT);
+    GXSetVtxDesc(GX_VA_TEX0, GX_DIRECT);
     do {
         n = *p++;
         if (n < 0) {
             n = -n;
         }
         if (draw) {
-            GXBegin(0x98, 0, n);
+            GXBegin(GX_TRIANGLESTRIP, GX_VTXFMT0, n);
         }
         do {
             ChunkColorVertex *v = &verts[p[0]];

@@ -20,6 +20,10 @@
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/unk/text_803E2F28.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/math/MatrixTransforms.h"
 
 struct Col_802E6CB0 { f32 a; f32 b; f32 c; f32 d; };
 
@@ -54,7 +58,6 @@ typedef struct Piece_802E72DC {
 } Piece_802E72DC;
 
 extern "C" {
-f32 vec3_add_to(void *, void *);
 extern const f32 lbl_805DE9CC;
 extern const f32 lbl_805DE9D0;
 extern const f32 lbl_805DE9E8;
@@ -63,28 +66,18 @@ extern const float lbl_805DE9F0;
 extern const f32 lbl_805DE9FC;
 extern const f32 lbl_805DEA00;
 extern const f32 lbl_805DEA04;
-s32 rotate_matrix_z(int, s32);
-void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
-s32 rotate_matrix_x(int, s32);
-s32 post_translate_matrix(void *);
-void set_chunk_material_override_pair(s32 first, s32 second);
 f32 lerp__9TDeadSpotFff(f32, f32);
 f32 rand_signed_unit();
 s32 matrix_mult_vec(int, void *, void *);
-void set_matrix_identity(u8 *matrix);
-s32 rotate_vector_by_matrix(int, void *, void *);
 extern const f32 lbl_805DE9C8;
 extern const f32 lbl_805DE9D4;
 extern const f32 lbl_805DE9D8;
 extern const f32 lbl_805DE9DC;
 extern const f32 lbl_805DE9E0;
-s32 rotate_matrix_by_node_angles(void *, int);
-s32 scale_current_matrix(Vec *);
 extern Col_802E708C lbl_80472C80;
 extern Vec lbl_80472C90;
 extern const f32 lbl_805DE9F8;
 extern s32 lbl_80472C68[6];
-s32 scale_matrix(int, f32, f32, f32);
 extern const f32 lbl_805DE9E4;
 
 }
@@ -110,7 +103,7 @@ s32 TObjPlayer__sub_802E76C8(u8 *arg0) {
     switch (temp_r0) {
     case 0:
         *(f32 *)((s8 *)arg0 + 0x10) = (f32) (*(f32 *)((s8 *)arg0 + 0x10) - lbl_805DE9E8);
-        vec3_add_to(arg0, arg0 + 0xC);
+        vec3_add_to(&((BreakUpPiece *)arg0)->pos, &((BreakUpPiece *)arg0)->velocity);
         temp_f1 = *(f32 *)((s8 *)arg0 + 0x10);
         if (temp_f1 < lbl_805DE9CC) {
             temp_f2 = *(f32 *)((s8 *)arg0 + 4);
@@ -131,7 +124,7 @@ s32 TObjPlayer__sub_802E76C8(u8 *arg0) {
         break;
     case 2:
         *(f32 *)((s8 *)arg0 + 0x10) = (f32) (*(f32 *)((s8 *)arg0 + 0x10) - lbl_805DE9E8);
-        vec3_add_to(arg0, arg0 + 0xC);
+        vec3_add_to(&((BreakUpPiece *)arg0)->pos, &((BreakUpPiece *)arg0)->velocity);
         *(f32 *)((s8 *)arg0 + 0x24) = (f32) (*(f32 *)((s8 *)arg0 + 0x24) - lbl_805DE9EC);
         if (*(f32 *)((s8 *)arg0 + 0x24) < lbl_805DE9CC) {
             *(f32 *)((s8 *)arg0 + 0x24) = (f32) lbl_805DE9CC;
@@ -256,9 +249,9 @@ void TBoss7JointBreakUp::render() {
     TObjPlayer::draw_effect();
     for (node = node->child; node != NULL; node = node->next) {
         push_matrix();
-        post_translate_matrix(part);
-        rotate_matrix_by_node_angles(part->rot, 0);
-        scale_current_matrix(&s);
+        post_translate_matrix((const f32 *)part);
+        rotate_matrix_by_node_angles((const s32 *)part->rot, 0);
+        scale_current_matrix(&s.x);
         switch (part->type) {
         case 0:
         case 1:
@@ -341,7 +334,7 @@ void TBoss7BodyBreakUp::render() {
     push_matrix();
     for (i = 0; i < count; i++) {
         push_matrix();
-        post_translate_matrix(part);
+        post_translate_matrix((const f32 *)part);
         rotate_matrix_z(0, part->f20);
         rotate_matrix_x(0, part->f18);
         translate_matrix(0, -pivot.x, -pivot.y, -pivot.z);

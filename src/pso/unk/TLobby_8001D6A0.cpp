@@ -24,6 +24,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/unk/TLobby_803DE778.h"
+#include "pso/ui/TLevelSelect.h"
 
 #pragma readonly_strings on
 
@@ -540,9 +541,6 @@ void* TLobby__sub_8001E2A8(int a0, int a1) {  return battle_param_stats + a1 * 3
 void set_difficulty__6TLobbyFi(s32 arg0) {
     battle_param_lab_variant = arg0;
 }
-
-
-extern s32 game_difficulty_selection;
 
 
 void TLobby::clamp_difficulty(s32 arg0) {

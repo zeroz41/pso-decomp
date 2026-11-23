@@ -22,6 +22,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/render/GinjaView.h"
 
 extern "C" {
 static const char lbl_8043DA20[] = "fogentry.dat";
@@ -42,7 +43,6 @@ void GXSetFogRangeAdj(s32, s32, GXFogAdjTable *);
 
 extern s32 area_fog_row_table[];
 extern FogEntry fog_default_entry;
-extern u8 scene_projection_state[];
 extern FogEntry *fog_entry_array;
 extern s32 fog_update_flags;
 
@@ -450,7 +450,7 @@ void TFogCtrl::apply_fog_entry() {
         } else if (width <= FOG_ZERO) {
             width = FOG_ZERO;
         }
-        GXInitFogAdjTable(&tbl, (s32)width, scene_projection_state);
+        GXInitFogAdjTable(&tbl, (s32)width, &scene_projection_state);
         GXSetFogRangeAdj(1, 0x140, &tbl);
     } else {
         if (width >= (3.2e+02f)) {
@@ -458,7 +458,7 @@ void TFogCtrl::apply_fog_entry() {
         } else if (width <= FOG_ZERO) {
             width = FOG_ZERO;
         }
-        GXInitFogAdjTable(&tbl, (s32)width, scene_projection_state);
+        GXInitFogAdjTable(&tbl, (s32)width, &scene_projection_state);
         GXSetFogRangeAdj(1, 0xA0, &tbl);
     }
     TParticleCtrl::end_effect_render();

@@ -13,6 +13,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/system/MatrixStack.h"
 
 const char *lbl_805D3198 = "TOTrap";
 
@@ -184,7 +185,6 @@ void TOTrap::run_task() {
 
 extern "C" {
 
-s32 post_translate_matrix(void *);
 s32 rotate_matrix_y(s32, s32);
 
 #pragma explicit_unused_unused_members on
@@ -193,7 +193,7 @@ void TOTrap::render() {
         this->m_340 = this->update_object_view_visibility(4e+02f, 2e+01f);
         if (this->m_340 == 1) {
             push_matrix();
-            post_translate_matrix((u8 *)&this->position);
+            post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
             TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
             if (TObjPlayer::check_demo_mode() == 1) {

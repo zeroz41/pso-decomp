@@ -30,9 +30,7 @@ struct TItemEquipBase;
 #include "pso/item/mag/TItemMag.h"
 #include "pso/camera/TObjCamera.h"
 #include "pso/system/task/TMainTask.h"
-
-
-extern "C" s32 post_translate_matrix(void *);
+#include "pso/system/MatrixStack.h"
 
 saddr drill_launcher_create_shot(saddr owner, saddr pos, saddr dir, f32 life);
 TItem *create_drill_launcher(u8 *item);
@@ -40,7 +38,6 @@ void drill_launcher_return_timer(void *weapon);
 
 
 void TUnk_804A2148::render() {
-    u8 *self_bytes = (u8 *)this;
     u8 *render_node;
     u8 *object;
 
@@ -52,7 +49,7 @@ void TUnk_804A2148::render() {
             *(f32 *)((s8 *)render_node + 0x20) = (f32) 10.0f;
             push_matrix();
             set_texlist(this->texture_list);
-            post_translate_matrix(self_bytes + 0x1C);
+            post_translate_matrix(&this->m_pos.x);
             rotate_matrix_y(0, this->m_count);
             rotate_matrix_x(0, this->m_28 - 0x4000);
             draw_ginja_object((this->model));

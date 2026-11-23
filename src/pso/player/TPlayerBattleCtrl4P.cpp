@@ -47,6 +47,12 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/map/area/AreaScene.h"
+#include "pso/boss/volopt/TObjVoloptCage.h"
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/os/OSTime.h>
+#undef PSO_SDK_COMPACT_MATH
+#include "pso/ui/window/WindowLayout.h"
 
 extern "C" s32 check_player_flag1__10TObjPlayerFv(void);
 
@@ -116,7 +122,6 @@ extern "C" {
 void clear_split_screen_battle_window_slots(T_803102A4 *self);
 TPlayerBattleCtrl4P *TPlayerBattleCtrl4P__instance;
 u8 TLobby__sub_801D7100(void *);
-extern u8 lobby_rule_settings[];
 s32 TLobby__sub_801C19D0(void *);
 s32 TAdSinglePlyChrSelectGC__sub_801FCE6C();
 int obj_getPtr2B0_20(u8 *p);
@@ -125,9 +130,6 @@ s32 TWindowDuelResult__sub_801C19AC(f32 *arg0);
 void set_split_screen_battle_phase__19TPlayerBattleCtrl4PFl(u8 *arg0, s32 arg1);
 extern s32 TDeadSpot__class_name;
 void destroy_matching_children__19TPlayerBattleCtrl4PFPvPv(void *self, Par_80311304 *p);
-s32 obj_set_flag_20000();
-s64 OSGetTime(void);
-void obj_clear_flag30_20000(TObjBase *actor);
 s32 TObjEneRe4Sorcerer__sub_801E3F14(int);
 void TObjEneRe4Sorcerer__sub_801E3F18(void);
 s32 set_player_team_id(void *, int);
@@ -159,8 +161,7 @@ Rank_801C343C split_screen_battle_rankings[4];
 struct Ids_80311C2C { s32 a; s32 b; s32 c; s32 d; };
 struct O_80311C2C { u8 pad[0x20]; void *w0; void *w1; u8 pad2[0x294 - 0x28]; Ids_80311C2C *ids; };
 extern "C" {
-void *create_window_menu_default(void *, int);
-void *get_window_layout_position(int);
+void *create_window_menu_default(const NJS_POINT2 *, int);
 void TLobby__sub_801036CC();
 void TLobby__sub_8020BC50();
 void TKeyBoardControl__sub_8000F950(void);
@@ -301,7 +302,7 @@ const char *TPlayerBattleCtrl4P_player_name_formats[4] = {
 void TPlayerBattleCtrl4P::open_intro_window() {
     if (this->intro_window == NULL) {
         BattleIntroWindowSize size = {328.0f, 166.0f};
-        this->intro_window = TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x52)), (const f32 *)(&size), 1);
+        this->intro_window = TWindowMessage::create(get_window_layout_position(0x52), (const f32 *)(&size), 1);
     }
     lbl_805D6AB0 = 0;
     set_score(1);
@@ -529,7 +530,7 @@ void TPlayerBattleCtrl4P::update_rematch_menu() {
     static const BattleIntroWindowSize size = {216.0f, 84.0f};
     if (TWindowCtrl::has_player_active_menu(local_client_id) == 0) {
         if (((O_80311C2C *)this)->w0 == NULL) {
-            ((O_80311C2C *)this)->w0 = TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x53)), (const f32 *)(&size), 1);
+            ((O_80311C2C *)this)->w0 = TWindowMessage::create(get_window_layout_position(0x53), (const f32 *)(&size), 1);
             if (((O_80311C2C *)this)->w0 != NULL) {
                 ((TWindowMessage *)(((O_80311C2C *)this)->w0))->append_line(((O_80311C2C *)this)->ids->a, 0x80);
             }
@@ -703,7 +704,7 @@ void TPlayerBattleCtrl4P::init_battle() {
         TPlayerBattleCtrl4P::remove_player(this, i, 1);
         p = (u8 *)get_player_by_client_id(i);
         if (p != 0) {
-            obj_set_flag_20000();
+            obj_set_flag_20000((TObjBase *)p);
             ((TLobby *)(p + 0x78C))->update_child_player();
             ((TLobby *)(p + 0x77C))->update_child_player();
             ((TLobby *)(p + 0x75C))->update_child_player();
@@ -755,8 +756,9 @@ void TPlayerBattleCtrl4P::update() {
     ((s32 (*)())refresh_split_screen_battle_alive_flags)();
     i = 0;
     do {
-        if (get_player_by_client_id(i) != NULL) {
-            obj_set_flag_20000();
+        void *p = get_player_by_client_id(i);
+        if (p != NULL) {
+            obj_set_flag_20000((TObjBase *)p);
         }
         i += 1;
     } while (i < 4);

@@ -15,6 +15,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/render/NinjaUtil.h"
 
  extern const char TObjRain__class_name_string[9] = "TObjRain"; 
 NJS_POINT3 TObjRain__streak_points[2] = {
@@ -27,7 +28,6 @@ __declspec(section ".data") u32 TObjRain__streak_colors[2] = {0x80808030, 0x7070
 NJS_POINT3COL TObjRain__streak_line_list = {TObjRain__streak_points, TObjRain__streak_colors, NULL, 2};
 
 extern "C" {
-f32 xz_distance_squared(void *, void *);
 void draw_line_list(NJS_POINT3COL *, s32, s32);
 }
 
@@ -41,7 +41,7 @@ void TObjRain::draw_streaks() {
             set_line_width(5);
             VecCopy((Vec *)TObjRain__streak_line_list.p, &drop->position);
             Vec pos = drop->position;
-            if (xz_distance_squared(&camera_ctrl_instance->pos.x, &pos) < 90000.0f) {
+            if (xz_distance_squared(&camera_ctrl_instance->pos, &pos) < 90000.0f) {
                 Vec dir = drop->velocity;
                 normalize_vector(&dir);
                 dir.x *= 12.0f;

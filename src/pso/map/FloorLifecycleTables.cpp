@@ -59,6 +59,7 @@
 #include "pso/object/cave/TOHangceilingCave01.h"
 #include "pso/object/mine/TOHangerMachine01.h"
 #include "pso/object/TOHealGeneral.h"
+#include "pso/object/key/TODummyKeyCave01.h"
 #include "pso/object/key/TOKeyAncient01.h"
 #include "pso/object/key/TOKeyAncient02.h"
 #include "pso/object/key/TOKeyAncient03.h"
@@ -80,6 +81,7 @@
 #include "pso/object/switch/TOSensorAncient01.h"
 #include "pso/object/switch/TOSensorGeneral01.h"
 #include "pso/object/switch/TOSwitchItem.h"
+#include "pso/object/switch/TOSwitchTimer.h"
 #include "pso/object/cave/TOSignCave01.h"
 #include "pso/object/cave/TOSignCave02.h"
 #include "pso/object/cave/TOSignCave03.h"
@@ -117,6 +119,8 @@
 #include "pso/object/lobby/TObjParticleLobby.h"
 #include "pso/object/lobby/TObjSuisouLobby.h"
 #include "pso/object/TObjTank.h"
+#include "pso/object/TObjLiveMonitor.h"
+#include "pso/object/TObjTuitate.h"
 #include "pso/object/lobby/TObjTreeLobby.h"
 #include "pso/object/warp/TObjWarpBase.h"
 #include "pso/object/warp/TObjWarpLobby.h"
@@ -134,21 +138,12 @@ extern "C" {
 void TMainCursor__sub_80154090();
 void TMainCursor__sub_80154094();
 void free_ancient_container_resources();
-void TODummyKeyCave01__sub_80165E88();
-void TODummyKeyCave01__sub_80165E8C();
-void TOSwitchTimer__sub_80178584();
-void TOSwitchTimer__sub_80178588();
 void TContainerAncient01R__sub_8018AF74();
 void load_door_jung_resources();
 void free_lazer_fence_switch_resources();
 void load_bigtuitate_bml_resource();
-void free_tuitate_bml_resource();
-void load_tuitate_bml_resource();
 void release_boss_warp_resources();
-void TLanguage__sub_8029FF0C();
 void TLanguage__sub_802A0204();
-void fn_8030B7B4();
-void fn_8030B7B8();
 void load_lobby_butterfly_bml_resource();
 }
 void load_labo_design_object_table();

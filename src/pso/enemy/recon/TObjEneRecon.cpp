@@ -52,6 +52,8 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/render/model_render_state.h"
 
 #pragma readonly_strings on
 
@@ -92,8 +94,6 @@ void TObjEneRecon::render_shadows() {
   }
 }
 
-s32 post_translate_matrix(void *);
-
 
 void TObjEneRecon::render_demo() {
     u8 *self = (u8 *)this;
@@ -101,7 +101,7 @@ void TObjEneRecon::render_demo() {
         ((TObjEneDD *)(self))->draw_ground_shadow(0, 0);
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
-        post_translate_matrix((u8 *)&this->position);
+        post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         TObjEneDD::clear_global_flag_400();
         TObjPlayer::toggle_particle_effect();
@@ -131,12 +131,6 @@ s32 TObjEneRecon::render_model_if_visible() {
 }
 
 extern "C" {
-extern s32 saved_model_render_flags;
-extern s32 saved_chunk_polygon_flags_and_mask;
-extern s32 saved_chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_and_mask;
-extern s32 model_render_flags;
 #pragma push
 #pragma opt_common_subs off
 void TObjEneRecon::render() {

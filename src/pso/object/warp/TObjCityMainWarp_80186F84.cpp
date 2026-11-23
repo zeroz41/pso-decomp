@@ -15,13 +15,13 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/network/client_id.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer_80011014.h"
 
 
 extern "C" {
-extern s32 local_client_id;
 s32 is_local_client_floor_leader(s32);
 s32 city_main_warp_destination_id;
 

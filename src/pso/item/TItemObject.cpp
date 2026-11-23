@@ -26,7 +26,6 @@ const char *TItemObject_name = "TItemObject";
 void send_nearby_player_ids(TObjPlayer *self, f32 range);
 void *TObjPlayer__sub_80116620(void *, s32);
 void send_star_atomizer_targets(TObjPlayer *player);
-void *lookup_item_pmt_record(u8 *item);
 }
 void handle_6x66_use_star_atomizer(u8 *arg0);
 extern const char *TItemObject_name;

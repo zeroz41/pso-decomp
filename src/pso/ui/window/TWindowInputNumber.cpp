@@ -19,6 +19,7 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/system/SoundEffect.h"
 
 const char *TWindowInputNumber__name = "TWindowInputNumber";
 // Value of one step at each digit position (1 .. 1000000).
@@ -41,8 +42,6 @@ WindowDescriptor window_input_number_layout = {
 };
 
 extern "C" {
-
-s32 play_sound_effect(s32 a0 = 0, s32 a1 = 0, s32 a2 = 0, s32 a3 = 0);
 
 void TWindowInputNumber::mark_confirmed() {
     if (!(this->inputFlags & 8) && (TWindowInputNumber::is_confirmed() == 0)) {

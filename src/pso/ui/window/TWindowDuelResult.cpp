@@ -13,6 +13,7 @@
 #include "pso/ui/window/TWindowDuelResult_801C2528.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/map/area/AreaScene.h"
 
 
 #pragma readonly_strings on
@@ -34,10 +35,9 @@ s32 text_builder_append(s32);
 void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
 void text_builder_reset(void);
 extern "C" {
-extern u8 lobby_rule_settings[];
 
-extern "C" u8 hud_texlist[];
-extern "C" const char lbl_805DCCA8[] = ":";
+extern u8 hud_texlist[];
+extern const char lbl_805DCCA8[] = ":";
 void *TWindowDuelResult__layout_entries[140] = {
     (void *)0x13, (void *)0x1, (void *)0x3, (void *)0x0,
     (void *)0x0, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,

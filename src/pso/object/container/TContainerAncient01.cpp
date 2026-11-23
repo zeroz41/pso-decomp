@@ -41,6 +41,10 @@ static const f32 TContainerAncient01__data_805DBD14[1] = {0.0f};
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/render/NinjaUtil.h"
+#include "pso/render/render_util.h"
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/system/MatrixStack.h"
 
 struct Base_8018AC68_8018A584 { char pad[0x18]; };
 
@@ -98,16 +102,16 @@ struct Player_8018A584 : VBase_8018A584 {
     virtual void m20();
     virtual void m21(void *, Atk_8018A584 *, s32, s32, s32);
     u8 pad1c[0x38 - 0x1C];
-    f32 pos[3];
+    Vec pos;
 };
 
-struct Obj_8018A584 { u8 pad[0x38]; f32 pos[3]; };
+struct Obj_8018A584 { u8 pad[0x38]; Vec pos; };
 
-struct Player_8018A914 { u8 pad[0x38]; f32 pos[3]; };
+struct Player_8018A914 { u8 pad[0x38]; Vec pos; };
 
 struct Obj_8018A914 {
     u8 pad[0x38];
-    f32 pos[3];
+    Vec pos;
     u8 pad44[0xB8 - 0x44];
     s16 xb8;
     u8 padba[0x2B4 - 0xBA];
@@ -118,7 +122,7 @@ struct Obj_8018A914 {
     f32 x33c;
 };
 
-struct Obj_8018B510 { u8 pad0[0x38]; u8 pos[0x7C]; s16 fB4[3]; u8 pad1[0x1FA]; f32 f2B4; u8 pad2[0x6E]; s16 state; u8 pad3[0x10]; f32 f338; };
+struct Obj_8018B510 { u8 pad0[0x38]; Vec pos; u8 pad44[0x7C - 0xC]; s16 fB4[3]; u8 pad1[0x1FA]; f32 f2B4; u8 pad2[0x6E]; s16 state; u8 pad3[0x10]; f32 f338; };
 
 struct Obj_8018B700 { u8 pad0[0x38]; u8 pos[0x324]; s32 f35C; };
 
@@ -150,10 +154,10 @@ struct Player_8018B180 : VBase_8018B180 {
     virtual void m20();
     virtual void m21(void *, Atk_8018B180 *, s32, s32, s32);
     u8 pad1c[0x38 - 0x1C];
-    f32 pos[3];
+    Vec pos;
 };
 
-struct Obj_8018B180 { u8 pad[0x38]; f32 pos[3]; };
+struct Obj_8018B180 { u8 pad[0x38]; Vec pos; };
 
 struct Obj_8018B180;
 
@@ -191,11 +195,7 @@ s32 submit_cursor_candidate(void *, int, f32);
 
 extern BmlResource *TContainerAncient01R__bml_resource;
 
-f32 xyz_distance_squared(void *, void *);
-
 unsigned int __cvt_fp2unsigned(f32);
-
-f32 horizontal_distance_squared(void *, void *);
 
 // Effect ids load_resources picks per area (0x230/0x231 or 0x45/0x46) and the
 // pair TContainerAncient01R::init_table_entries copies for its open effect.
@@ -205,17 +205,9 @@ saddr TContainerAncient01__open_effect_table[2];
 
 void TContainerAncient01__sub_8018A584(Obj_8018A584 *self, f32 range);
 
-extern s32 registered_player_count;
-
 BmlResource *TContainerAncient01__sub_8018BE90(void);
 
 void TContainerAncient01__sub_8018B180(Obj_8018B180 *self, f32 range);
-
-s32 scale_current_matrix(void *);
-
-s32 post_translate_matrix(void *);
-
-
 
 void TContainerAncient01R__sub_8018AF74(void);
 
@@ -482,7 +474,7 @@ void TContainerAncient01::render() {
     if (this->update_object_view_visibility(3e+02f, 2e+01f) != 0) {
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
-        post_translate_matrix((u8 *)&this->position);
+        post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         if ((s32) this->m_35c != 0) {
             scale_current_matrix(&this->open_scale.x);
@@ -497,7 +489,7 @@ void TContainerAncient01::render() {
 }
 
 s32 TContainerAncient01::select_melee_contact_body(void *target, f32) {
-    return xyz_distance_squared((u8 *)target + 0x38, &this->position) < 4e+02f;
+    return xyz_distance_squared(&((TObjBase *)target)->position, &this->position) < 4e+02f;
 }
 
 int TContainerAncient01::calc_distance_accuracy_penalty(void *, void *, void *, float) { return 1; }
@@ -582,7 +574,7 @@ void TContainerAncient01::update_wait_for_player() {
         c = 6.4e+03f;
         for (i = 0; i < 4; i++) {
             p = (u8 *)get_player_by_client_id(i);
-            if (p != 0 && horizontal_distance_squared(arg0->pos, p + 0x38) < c) {
+            if (p != 0 && horizontal_distance_squared(&arg0->pos, &((TObjPlayer *)p)->position) < c) {
                 flag = 1;
             }
         }
@@ -663,7 +655,7 @@ void TContainerAncient01__sub_8018B180(Obj_8018B180 *self, f32 range) {
         pl = (Player_8018B180 *)get_player_by_client_id(i);
         if (pl != NULL) {
             if (((TObjPlayer *)pl)->get_floor() == get_current_floor() && ((TObjCollidable *)pl)->test_actor_flags(1) == 0 &&
-                horizontal_distance_squared(self->pos, pl->pos) < range) {
+                horizontal_distance_squared(&self->pos, &pl->pos) < range) {
                 Atk_8018B180 atk;
                 atk.type = 0xF;
                 atk.base = 1e+02f;
@@ -774,7 +766,7 @@ void TContainerAncient01R::render() {
     if (this->update_object_view_visibility(3e+02f, 2e+01f) != 0) {
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
-        post_translate_matrix((u8 *)&this->position);
+        post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         if ((s32) this->m_360 != 0) {
             scale_current_matrix(&this->open_scale.x);
@@ -789,7 +781,7 @@ void TContainerAncient01R::render() {
 }
 
 s32 TContainerAncient01R::select_melee_contact_body(void *target, f32) {
-    return xyz_distance_squared((u8 *)target + 0x38, (u8 *)this + 0x38) < 4e+02f;
+    return xyz_distance_squared(&((TObjBase *)target)->position, &this->position) < 4e+02f;
 }
 
 int TContainerAncient01R::calc_distance_accuracy_penalty(void *, void *, void *, float) { return 1; }
@@ -882,7 +874,7 @@ void TContainerAncient01R::check_open_trigger() {
         range = 6.4e+03f;
         for (i = 0; i < registered_player_count; i++) {
             pl = (Player_8018A914 *)get_player_by_client_id(i);
-            if (pl != NULL && horizontal_distance_squared(self->pos, pl->pos) < range) {
+            if (pl != NULL && horizontal_distance_squared(&self->pos, &pl->pos) < range) {
                 hit = 1;
             }
         }
@@ -965,7 +957,7 @@ void TContainerAncient01__sub_8018A584(Obj_8018A584 *self, f32 range) {
         pl = (Player_8018A584 *)get_player_by_client_id(i);
         if (pl != NULL) {
             if (((TObjPlayer *)pl)->get_floor() == get_current_floor() && ((TObjCollidable *)pl)->test_actor_flags(1) == 0 &&
-                horizontal_distance_squared(self->pos, pl->pos) < range) {
+                horizontal_distance_squared(&self->pos, &pl->pos) < range) {
                 Atk_8018A584 atk;
                 atk.type = 0xF;
                 atk.base = 1e+02f;

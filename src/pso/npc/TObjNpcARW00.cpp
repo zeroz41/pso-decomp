@@ -9,13 +9,13 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/render/GinjaTexture.h"
 
 const char *TObjNpcARW00__name = "TObjNpcARW00";
 
 extern "C" {
 uaddr TObjNpcARW00__static_model;
 NJS_TEXLIST *TObjNpcARW00__gvm_texture_handle;
-void release_texture_list(void*);
 
 void TObjNpcARW00::free_resources() {
     if (TObjNpcARW00__gvm_texture_handle != NULL) {

@@ -11,6 +11,7 @@
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/ui/window/PageIndicator.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/system/SoundEffect.h"
 
 struct Stack_8026C708
 {
@@ -133,7 +134,6 @@ void decay_page_arrow_offset(PageIndicator *o) {
 
 
 extern "C" {
-void play_sound_effect(s32, s32, s32, s32);
 
 s32 handle_list_page_flip_input(PageIndicator *page_indicator) {
     void *pad;

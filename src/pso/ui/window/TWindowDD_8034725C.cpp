@@ -25,6 +25,8 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/vector.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/network/client_id.h"
+#include "pso/system/SoundEffect.h"
 
 struct O_80347940 { u8 pad[0x20]; s32 base; void *items[1]; };
 struct E_803478DC { void *p; };
@@ -92,7 +94,6 @@ extern const f32 lbl_805DFBE8;
 extern const f32 lbl_805DFBEC;
 extern const f32 lbl_805DFC28;
 void TWindowDD__sub_80347E04(W_80347E04 *arg0, s32 arg1);
-extern s32 local_client_id;
 extern uaddr TWindowDD__work_buffer;
 extern const f32 TWindowDD__data_805DFB58;
 void TWindowDD__sub_80347CC8(W_80347CC8 *arg0, void *arg1);
@@ -586,7 +587,6 @@ void TWindowDD::update(saddr window_dd) {
 }
 
 extern "C" {
-int play_sound_effect(void*, void*, void*, void*);
 int refresh_sub__9TWindowDDFPvPv(void);
 int update__9TWindowDDFPvPv(void);
 int update__9TWindowDDFl(void);
@@ -636,9 +636,9 @@ void TWindowDD::set_default_positions(void *window, TWindowDD_WS_Word *child) {
     child->frame_size[1] = lbl_805DFB78;
 }
 
-void TWindowDD::spawn_window() { play_sound_effect((void*)344320, (void*)0, (void*)0, (void*)0); }
-void TWindowDD::play_se() { play_sound_effect((void*)339734, (void*)0, (void*)0, (void*)0); }
-void TWindowDD::play_sound() { play_sound_effect((void*)339201, (void*)0, (void*)0, (void*)0); }
+void TWindowDD::spawn_window() { play_sound_effect(344320, 0, 0, 0); }
+void TWindowDD::play_se() { play_sound_effect(339734, 0, 0, 0); }
+void TWindowDD::play_sound() { play_sound_effect(339201, 0, 0, 0); }
 u8 TWindowDD__sub_803482B0(u8 *window_dd) {
     s32 var_r31;
     var_r31 = 0;

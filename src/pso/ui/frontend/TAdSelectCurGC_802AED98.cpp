@@ -12,6 +12,7 @@
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/vector.h"
+#include "pso/system/SoundEffect.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -29,7 +30,6 @@ NJS_TEXLIST *menu_selection_cursor_texture_list;
 
 extern "C" {
 extern const s32 current_language;
-void play_sound_effect(int, int, int, int);
 void copy_vec2__FPvPv(NJS_POINT2 *target, const NJS_POINT2 *source);
 
 void TAdSelectCurGC::run_task() {

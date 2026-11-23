@@ -17,7 +17,6 @@
 u32 ending_frame_counter;
 
 extern "C" {
-s32 get_end_text_font_loaded_flag();
 u32 __cvt_fp2unsigned(f32);
 int TKeyBoardControl__sub_8000F828(void);
 s32 ending_scene_active;

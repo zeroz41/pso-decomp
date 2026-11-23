@@ -39,6 +39,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/system/SoundEffect.h"
 
 // The class name opens .rodata (0x8044F478), then the menu window positions
 // (0x8044F48C..0x8044F4A4) in this order, ahead of the strings of the functions.
@@ -53,7 +54,6 @@ s32 create_window_menu_default(s32, s32);
 }
 
 extern "C" {
-void play_sound_effect(int, int, int, int);
 void set_field_value__17TWindowOptionCtrlFls(s32 arg0, s16 arg1);
 }
 

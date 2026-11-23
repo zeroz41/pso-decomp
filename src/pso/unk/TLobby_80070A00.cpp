@@ -12,6 +12,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/ui/TLevelSelect.h"
 
 #pragma readonly_strings on
 
@@ -68,6 +69,9 @@ struct RecoveredGlobal_80399904_lbl_804F5A00 {
 
 struct G_80070B34 { u8 pad[0x10]; s32 x10; u8 pad2[0x34 - 0x14]; s32 x34; };
 
+LAYOUT_ASSERT(RecoveredGlobal_80070ACC_lbl_8048D208_size, sizeof(RecoveredGlobal_80070ACC_lbl_8048D208) == 0x18);
+LAYOUT_ASSERT(RecoveredGlobal_80399904_lbl_804F5A00_size, sizeof(RecoveredGlobal_80399904_lbl_804F5A00) == 0x100);
+
 extern "C" {
 extern RecoveredGlobal_80070ACC_lbl_8048D208 lbl_8048D208;
 s32 *TLobby__sub_80070ACC(void);
@@ -82,11 +86,9 @@ s32 TLobby::is_flag_set() {
 }
 
 char *TLobby::get_unit_list() { return chat_last_line_buffer; }
-LAYOUT_ASSERT(RecoveredGlobal_80070ACC_lbl_8048D208_size, sizeof(RecoveredGlobal_80070ACC_lbl_8048D208) == 0x18);
 s32 *TLobby__sub_80070ACC(void) {
     return &lbl_8048D208.value;
 }
-LAYOUT_ASSERT(RecoveredGlobal_80399904_lbl_804F5A00_size, sizeof(RecoveredGlobal_80399904_lbl_804F5A00) == 0x100);
 u32 TLobby__sub_80070AD8(s32 arg0) {
     if (arg0 == -1) {
         return -1U;
@@ -190,6 +192,7 @@ RecoveredGlobal_800713C8_lbl_804FF82C lbl_804FF82C;
 s32 *TLobby__sub_800713C8(void);
 s32 TLobby__sub_80070DA8(void);
 }
+LAYOUT_ASSERT(RecoveredGlobal_800713C8_lbl_804FF82C_size, sizeof(RecoveredGlobal_800713C8_lbl_804FF82C) == 0xC);
 
 void set_challenge_time_window_timer(int a0);
 extern "C" {
@@ -316,7 +319,6 @@ loop_4:
     }
     goto loop_4;
 }
-LAYOUT_ASSERT(RecoveredGlobal_800713C8_lbl_804FF82C_size, sizeof(RecoveredGlobal_800713C8_lbl_804FF82C) == 0xC);
 
 void TLobby__sub_80071064(s32 arg0) {
     if (TLobby::is_flag_set() != 0) {
@@ -502,8 +504,6 @@ s32 TLobby::try_set_value(f32 farg0) {
     *(f32 *)((s8 *)&challenge_mode_state + 4) = farg0;
     return 1;
 }
-
-extern s32 game_difficulty_selection;
 
 s32 TLobby::set_split_screen_flag(s32 arg0) {
     if (TLobby::is_flag_set() == 0) {

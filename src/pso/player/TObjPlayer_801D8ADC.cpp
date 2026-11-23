@@ -25,6 +25,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/ui/TLevelSelect.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -37,7 +38,6 @@ typedef struct Rec_801D8F60 { f32 a, b, c; } Rec_801D8F60;
 extern "C" {
 s32 TObjPlayer__sub_801AFDBC(s32);
 s32 get_class_index__10TObjPlayerFv(TObjPlayer *player);
-extern s32 game_difficulty_selection;
 s32 TObjPlayer__sub_801D91B8(saddr player);
 s32 TBoss4DarkFalz__sub_801D94C0(void* p);
 int load_encrypted_archive_data(const char *);

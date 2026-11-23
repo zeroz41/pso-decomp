@@ -2,6 +2,9 @@
 #include "pso/player/TObjPlayer_803E21B8.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/player/TObjPlayer.h"
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/gx.h>
+#undef PSO_SDK_COMPACT_MATH
 
 typedef struct ProjectedStripVertex { f32 x, y, w, u, v; u32 color; } ProjectedStripVertex;
 
@@ -13,7 +16,6 @@ typedef union WGPipe_803E2D70 {
 } WGPipe_803E2D70;
 
 extern "C" {
-void GXBegin(int, int, u16);
 void draw_projected_textured_strip(ProjectedStripVertex *v, s32 n);
 }
 
@@ -35,7 +37,7 @@ static inline void GXTexCoord2f32_803E2D70(f32 s, f32 t) {
 void draw_projected_textured_strip(ProjectedStripVertex *v, s32 n) {
     f32 inv;
     u32 c;
-    GXBegin(0x98, 4, n);
+    GXBegin(GX_TRIANGLESTRIP, GX_VTXFMT4, n);
     for (; n > 0; n--) {
         inv = -1.0f / v->w;
         GXPosition3f32_803E2D70(v->x * inv, v->y * inv, inv);

@@ -28,6 +28,7 @@
 #include "pso/ui/frontend/TAdEndText.h"
 #include "pso/ui/frontend/TAdRicoRingCtrl.h"
 #include "pso/system/task/TObject.h"
+#include "pso/map/area/AreaScene.h"
 
 extern "C" {
 extern const char TEnding__class_name_string[] = "TEnding";
@@ -92,10 +93,6 @@ void run_game_frame(void) {
         request_main_phase(0);
     }
     render_tick();
-}
-
-extern "C" {
-void run_load_callback_table(void *, int);
 }
 
 void TEnding::set_flag_and_advance() {

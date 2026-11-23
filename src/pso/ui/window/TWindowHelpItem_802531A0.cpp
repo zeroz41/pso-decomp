@@ -16,6 +16,7 @@
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/unk/text_80104FCC.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/player/PlayerRequirementStats.h"
 struct Stack_80253268 {
     s32 sp8;
     s16 spC;
@@ -45,7 +46,6 @@ struct V3_802534B0 { u8 bytes[0xc]; };
 struct V3_802532E8 { u8 bytes[0xc]; };
 
 extern "C" {
-s32 build_player_equipment_requirement_stats(int, void *);
 void draw_action_palette_icon(void *, int, u16);
 void text_builder_append();
 }
@@ -95,7 +95,7 @@ void TWindowHelpItem__sub_80253268(u8 *window_base) {
         temp_r31 = (u8 *)(player + 0x85C);
         if (temp_r31 != NULL) {
             temp_r31_2 = (u8 *)(((TWindowBase *)window_base)->get_array_entry(5));
-            if (!(*(s32 *)((s8 *)temp_r31 + 0x34) & 0x10) && (build_player_equipment_requirement_stats(player, &stack.sp8) != 0)) {
+            if (!(*(s32 *)((s8 *)temp_r31 + 0x34) & 0x10) && (build_player_equipment_requirement_stats((TObjPlayer *)player, (PlayerRequirementStats *)&stack.sp8) != 0)) {
                 *(s32 *)((s8 *)temp_r31_2 + 0x20) = (s32) stack.spC;
             }
         }

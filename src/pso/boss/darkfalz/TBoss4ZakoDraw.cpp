@@ -21,13 +21,13 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/text_803E2F28.h"
 #include "pso/render/Draw2D.h"
 
 extern "C" {
-void post_translate_matrix(void *);
 f32 xyz_distance(void *, void *);
 void TObjPlayer__sub_8030A9B0();
 }

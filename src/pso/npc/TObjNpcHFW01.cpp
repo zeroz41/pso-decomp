@@ -10,6 +10,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/render/GinjaTexture.h"
 
 #pragma readonly_strings on
 
@@ -19,7 +20,6 @@ uaddr TObjNpcHFW01__resource_node;
 NJS_TEXLIST *TObjNpcHFW01__texture_handle;
 
 extern "C" {
-void release_texture_list(void*);
 
 void *TObjNpcHFW01__create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);

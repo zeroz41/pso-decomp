@@ -19,16 +19,13 @@
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/window/WindowLayout.h"
 
 #pragma readonly_strings on
 
 
 const char *TWindowSubGameEnd::class_name = "TWindowSubGameEnd";
 int window_sub_game_end_active_flag;
-
-extern "C" {
-saddr get_window_layout_position(s32);
-}
 
 void TKeyBoardControl::init_char_select(TObject *) {
     if (is_split_screen() != 0) {
@@ -96,7 +93,7 @@ TWindowSubGameEnd::TWindowSubGameEnd(TWindowMainMenu *parent, s32 client) : TObj
         width = 469.0f;
     }
     yes_no_window = TWindowMessageYesNo::create(this, this->client, 0, 0);
-    yes_no_window->open_yes_no_prompt_with_text(text, get_window_layout_position(0x17), width);
+    yes_no_window->open_yes_no_prompt_with_text(text, (saddr)get_window_layout_position(0x17), width);
     yes_no_window->set_menu_selected_index(1);
     yes_no_window->set_choice_menu_flag70_bit10();
     state = 0;

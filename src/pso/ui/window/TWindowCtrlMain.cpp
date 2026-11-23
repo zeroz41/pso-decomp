@@ -46,6 +46,7 @@
 #include "pso/ui/window/TWindowCtrl_8024A1A8.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/ui/window/WindowLayout.h"
 const char *TWindowCtrlMain__name = "TWindowCtrlMain";
 const char *TWindowCtrlScreen__name = "TWindowCtrlScreen";
 const char *TWindowCtrlSub__name = "TWindowCtrlSub";
@@ -106,7 +107,6 @@ u32 create_for_target__13TWindowLockOnFlUs(int, s32);
 s32 fn_8002AE08(void *p);
 int TWindowMainMenu__sub_8024E3F4(void *p);
 s32 TWindowMainMenu__sub_8024E3E0(void *);
-saddr get_window_layout_position(s32);
 }
 struct Ctl_8024E2A8 {
     s32 f0;

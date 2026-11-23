@@ -31,6 +31,9 @@ struct UV_80262038 {
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubMag.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/network/client_id.h"
+#include "pso/render/ColorLineList.h"
 
 WindowDescriptor soft_keyboard_window_and_action_data = { {307.0f, 161.0f}, 50040.0f, NULL, 0x803 };
 
@@ -52,12 +55,9 @@ struct Lines_80261DD8 {
     s32 count;
 };
 
-s32 play_sound_effect(int, int, int, int);
 extern s32 hud_texlist;
 
 extern u8 *TWindowKeyBoardSoft__language_text_resources;
-extern s32 local_client_id;
-void draw_color_lines(Lines_80261DD8 *l, s32 n, s32 flags, f32 scale);
 
 const char *keyboard_soft_type_name_pointer = "TWindowKeyBoardSoft";
 
@@ -226,8 +226,10 @@ void TWindowKeyBoardSoft::sub_80260808(s32 port) {
 }
 #pragma pop
 
+}
 LAYOUT_ASSERT(RecoveredFields_8026088C_arg0_60_offset, offsetof(RecoveredFields_8026088C_arg0, field_60) == 0x60);
 LAYOUT_ASSERT(RecoveredFields_8026088C_arg0_6C_offset, offsetof(RecoveredFields_8026088C_arg0, field_6C) == 0x6C);
+extern "C" {
 void TWindowKeyBoardSoft::update_keyboard_child_input_from_controller(s32 port) {
     uaddr temp_r3;
     if (test_pressed_buttons_packed(&controller_input_state.controllers[port], 0x400) != 0) {
@@ -733,7 +735,7 @@ void TWindowKeyBoardSoft::sub_80261DD8(WindowDrawContext *ctx) {
     ctx->scale_point_about_pivot(&v[3].x);
     v[4].x = v[0].x;
     v[4].y = v[0].y;
-    draw_color_lines(&d, 5, 0x14, depth);
+    draw_color_lines((ColorLineList *)&d, 5, 0x14, depth);
     v[0].x = (ctx->x + ((TWindowKeyBoardSoft *)self)->sub_802606E0()) - 1.0f;
     v[0].y = (-1.0f + ctx->y) - 1.0f;
     v[1].x = 3.0f + (v[0].x + (f32)(res[0] * res[1]));
@@ -748,7 +750,7 @@ void TWindowKeyBoardSoft::sub_80261DD8(WindowDrawContext *ctx) {
     ctx->scale_point_about_pivot(&v[3].x);
     v[4].x = v[0].x;
     v[4].y = v[0].y;
-    draw_color_lines(&d, 5, 0x14, depth);
+    draw_color_lines((ColorLineList *)&d, 5, 0x14, depth);
 }
 
 void TWindowKeyBoardSoft::draw_key_frame(WindowDrawContext *context, f32 x0, f32 y, f32 w, f32 scale, u32 color, s32 idx) {
@@ -911,9 +913,6 @@ void TWindowKeyBoardSoft::run_task() {
 }
 
 #pragma pop
-
-extern "C" {
-}
 
 TWindowKeyBoardSoft::~TWindowKeyBoardSoft() {}
 
