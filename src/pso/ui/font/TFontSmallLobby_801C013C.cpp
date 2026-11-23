@@ -26,12 +26,14 @@ void __construct_array(void *, void *, int, int, int);
 void __copy(void *, void *, int);
 void TFontSmallLobby__sub_801C013C(void* p) { ((FlagWord *)((void*)((char*)p + 0x10)))->clear(2); }
 
-void *TFontSmallLobby__sub_801C0164(void *player) {
-    __ct__8FlagWordFv(((char *)player + 16));
-    __construct_array((void *)((char *)player + 32), fn_80152EF8, 0, 4, 10);
-    ((TObjPlayer *)player)->reset_tech_state();
-    return player;
 }
+
+PlayerTechniqueState::PlayerTechniqueState() {
+    __construct_array(targets, fn_80152EF8, 0, 4, 10);
+    reset_tech_state();
+}
+
+extern "C" {
 
 void bswap_g_client_id_header(void* p) { ((G_ClientIDHeader *)p)->bswap(); }
 

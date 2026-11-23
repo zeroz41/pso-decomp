@@ -3951,10 +3951,10 @@ void send_6x33_revive_player(u16 client_id, s16 type) {
 
 void clamp_and_set_unit_value__10TObjPlayerFiUci(TObjPlayer *player, u8 level, s32 i) {
     if (player->obj_isState3_324() != 0 && TObjPlayer::is_invalid_slot(level) == 0 &&
-        level > (u8)TObjPlayer__sub_801C010C(player->technique_levels, i)) {
-        level = TObjPlayer__sub_801C010C(player->technique_levels, i);
+        level > (u8)TObjPlayer__sub_801C010C(&player->technique_state, i)) {
+        level = TObjPlayer__sub_801C010C(&player->technique_state, i);
     }
-    set_technique_level_entry(player->technique_levels, i, level);
+    set_technique_level_entry(&player->technique_state, i, level);
 }
 
 void TObjPlayer::update_cursor(s32 parameter) {
@@ -3973,7 +3973,7 @@ s32 try_equip_item__10TObjPlayerFii(TObjPlayer *player, s16 tech) {
         if (player->can_equip_item(tech) == 0) {
             return 0;
         }
-        ((TObjPlayer *)player->technique_levels)->set_technique_id(tech);
+        ((TObjPlayer *)&player->technique_state)->set_technique_id(tech);
         player->request_technique_cast();
         return 1;
     }

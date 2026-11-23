@@ -1196,7 +1196,7 @@ void TItem::set_owner_technique_level(s16 technique, s16 level) {
                     equipped->remove_equip_stats(1);
                 }
             }
-            set_technique_level_entry(owner->technique_levels, technique, (u8)level);
+            set_technique_level_entry(&owner->technique_state, technique, (u8)level);
             for (slot = 9; slot != 13; slot++) {
                 TItem *equipped = owner->get_equipped_item(slot);
                 if (equipped != NULL) {

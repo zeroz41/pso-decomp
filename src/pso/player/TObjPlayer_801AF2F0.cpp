@@ -1794,7 +1794,7 @@ void TObjPlayer::sub_801BB950() {
       request_player_size_restore((PlayerScaleState *)(arg0 + 0x5B0));
     }
   }
-  TFontSmallLobby__sub_801C013C(((u8 *)&this->technique_levels));
+  TFontSmallLobby__sub_801C013C(&this->technique_state);
   reset_client_quest_slot_table();
 }
 

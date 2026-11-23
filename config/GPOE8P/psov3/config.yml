@@ -14586,7 +14586,7 @@ force_active:
   - reset__8TGStreamFv
   - start_kafun_attack__16TObjEneMerillLiaFv
   - reset_active_state__18TObjEneBalClawClawFv
-  - reset_all_tech_slots__10TObjPlayerFv
+  - reset_all_tech_slots__20PlayerTechniqueStateFv
   - reset_and_invoke__6TLobbyFv
   - reset_and_recreate__14TBoss6PlotFalzFv
   - reset__11BmlResourceFv

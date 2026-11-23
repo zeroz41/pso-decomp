@@ -5,7 +5,6 @@
 
 extern "C" {
 void TFontSmallLobby__sub_801C013C(void *p);
-void *TFontSmallLobby__sub_801C0164(void *player);
 void bswap_g_client_id_header(void *p);
 void *TFontSmallLobby__sub_801C01DC(void *arg0, void *source);
 void *copy_subcommand_header(void *p, void *source);

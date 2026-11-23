@@ -142,7 +142,7 @@ void TItemProUnit::apply_owner_bonuses() {
             if (i == 14 || i == 17) {
                 continue;
             }
-            level = get_cast_technique_level(owner->technique_levels, i);
+            level = get_cast_technique_level(&owner->technique_state, i);
             if (level != 0xFF) {
                 // Called with the class byte unextended: this TU saw the
                 // limit lookup as taking two u8s.
@@ -155,7 +155,7 @@ void TItemProUnit::apply_owner_bonuses() {
                 } else {
                     technique_added[i] = bonus;
                 }
-                set_technique_level_entry(owner->technique_levels, i, total);
+                set_technique_level_entry(&owner->technique_state, i, total);
             }
         }
     }
@@ -179,8 +179,8 @@ void TItemProUnit::remove_owner_bonuses() {
     }
     i = 0;
     do {
-        set_technique_level_entry(owner->technique_levels, (s16)i,
-                                  (u8)(get_cast_technique_level(owner->technique_levels, (s16)i) - technique_added[i]));
+        set_technique_level_entry(&owner->technique_state, (s16)i,
+                                  (u8)(get_cast_technique_level(&owner->technique_state, (s16)i) - technique_added[i]));
         i += 1;
     } while (i != 19);
     memset(technique_added, 0, sizeof(technique_added));

@@ -469,7 +469,7 @@ void launch_technique(s32 tech, s32 level, TObjPlayer *pl) {
             return;
         }
     }
-    td = pl->technique_levels;
+    td = &pl->technique_state;
     targets = get_technique_data__10TObjPlayerFPv(td);
     if (targets == NULL) {
         return;
@@ -603,11 +603,11 @@ void capture_technique_targets(int kind, TObjPlayer *owner) {
     if (owner->lock_on_cursor == NULL) {
         return;
     }
-    slots = owner->technique_levels;
+    slots = &owner->technique_state;
     if (slots == NULL) {
         return;
     }
-    ((TObjPlayer *)(owner->technique_levels))->reset_slots();
+    ((TObjPlayer *)&owner->technique_state)->reset_slots();
     c = owner->lock_on_cursor->find_by_pos(3, kind);
     if (c == NULL) {
         return;

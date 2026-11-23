@@ -5,6 +5,7 @@
 
 struct NJS_OBJECT;
 #include "pso/player/PhotonBlastGauge.h"
+#include "pso/player/PlayerTechniqueState.h"
 #include "pso/player/TObjPlayer_80337348.h"
 #include "pso/player/PlayerFollowParticles.h"
 #include "pso/player/PlayerClassFlags.h"
@@ -209,7 +210,7 @@ struct TObjPlayer : public TObjChara {
     FlagWord m_41c;
     u8 unk_420[0x4];
     TLockOnCursor *lock_on_cursor;  // created by create_lockon_cursor for local players
-    u8 technique_levels[0x84];  // set/get_cast_technique_level's table
+    PlayerTechniqueState technique_state;
     PhotonBlastGauge photon_blast_gauge;
     ActionPalette action_palettes[2];
     u8 unk_548[0x4];
@@ -1106,8 +1107,6 @@ struct TObjPlayer : public TObjChara {
     static void set_slot_type_state(s32 arg0, s32 arg1, s16 arg2, s16 arg3);
     void set_all_technique_levels(void *level);
     void copy_all_technique_entries(void *arg1);
-    void reset_all_tech_slots();
-    void reset_tech_state();
     static TItem *create_object_by_type(u8 *item);
     void *find_by_section_id(u16 section);
     void create_party_effects(u16 id);
