@@ -1353,7 +1353,6 @@ extern f32 player_feedback_light_color[];
 extern void *player_slot_table[];
 extern const char *lbl_805D3530;
 extern u8 *TObjPlayer__shared_photon_blast_state;
-extern TObject *tl_07;
 
 void handle_6xB0_turn_or_move_lobby_chair(void *command) {
     Msg_801C7430 m;
@@ -3743,7 +3742,7 @@ void handle_6x37_photon_blast(saddr command) {
     ((TObjPlayer *)(&pkt))->swap_endian16();
     if (validate_6x37_photon_blast((G_ClientIDHeader *)(&pkt)) != 0) {
         temp_r3 = reinterpret_cast<u8 *>(get_player_by_client_id(pkt.player));
-        if ((temp_r3 != NULL) && (((s32 (*)(void))check_flag_4__10TObjPlayerFv)() == 0) && ((u32) *(u32 *)((s8 *)temp_r3 + 0x10) == (u32) tl_03) && (((s32 (*)(int))reset_volopt_state__10TObjPlayerFv)((saddr) (temp_r3)) != 0)) {
+        if ((temp_r3 != NULL) && (((s32 (*)(void))check_flag_4__10TObjPlayerFv)() == 0) && (*(TObject **)((s8 *)temp_r3 + 0x10) == tl_03) && (((s32 (*)(int))reset_volopt_state__10TObjPlayerFv)((saddr) (temp_r3)) != 0)) {
             ((PhotonBlastGauge *)(temp_r3 + 0x4AC))->check_photon_blast_flag();
             ((PhotonBlastGauge *)(temp_r3 + 0x4AC))->trigger_photon_blast();
         }
