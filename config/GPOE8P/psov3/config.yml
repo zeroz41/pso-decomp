@@ -13937,8 +13937,8 @@ force_active:
   - read_byte__24TMessageWindowControllerFv
   - read_byte_advance__6TLobbyFv
   - read_data_sync__6TLobbyFlll
-  - read_file_header__9TLanguageFiPv
-  - read_into_buffer__9TLanguageFll
+  - read_file_header__9TLanguageFPUcP13GvmFileHeader
+  - read_into_buffer__9TLanguageFPvl
   - read_stream_u16__Fv
   - read_stream_u8__Fv
   - read_u16_le__9TLanguageFv

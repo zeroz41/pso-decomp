@@ -651,7 +651,7 @@ struct TLobby : public TObject {
     static void init_graph();
     static void free_buffer();
     static void alloc_buffer();
-    static void send_data(saddr filename);
+    static void send_data(const char *filename);
     static void update_alloc_size();
     static u8 get_selected_slot();
     u8 *init_memory_pool(s32 arg1, s32 arg2, s32 flags);

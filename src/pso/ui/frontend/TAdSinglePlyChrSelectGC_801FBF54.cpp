@@ -1482,16 +1482,14 @@ s32 TAdSinglePlyChrSelectGC__sub_801FE800(u32 arg0);
 s32 *TAdSinglePlyChrSelectGC__sub_801FE4BC(u32 arg0);
 
 
-struct Ent_801FE468_801FBF54 { char pad4[4]; char body[0x2798 - 4]; };
-
 int get_split_screen_character_save_record(int a0);
 s32 load_guild_card_save(void);
 extern s32 lbl_805D49B4;
 
 
-u8 *TAdSinglePlyChrSelectGC::get_entry(int i) {
+TPlyCharData *TAdSinglePlyChrSelectGC::get_entry(int i) {
     if (TAdSinglePlyChrSelectGC::is_entry_valid(secondary_card_character_save_buffer, i) != 0) {
-        return (u8 *)&((struct Ent_801FE468_801FBF54 *) secondary_card_character_save_buffer)[i].body[0];
+        return &secondary_card_character_save_buffer->slots[i].chardata;
     }
     return 0;
 }

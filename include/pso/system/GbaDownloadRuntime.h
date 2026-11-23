@@ -4,6 +4,9 @@
 #include "types.h"
 
 extern "C" {
+extern u8 *gba_download_data_buffer;
+extern u32 gba_download_data_size;
+
 void gba_init(void);
 void stamp_joyboot_image(s32 arg0, s32 arg1);
 void probe_gba_device(void);

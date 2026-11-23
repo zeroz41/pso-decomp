@@ -3,6 +3,8 @@
 
 #include "types.h"
 
+struct GvmFileHeader;
+
 struct TLanguage
 {
     static void free_alphabet_textures();
@@ -13,8 +15,8 @@ struct TLanguage
     static s8 get_default_language();
     static void draw_string(void *filename, void *palette, s32 tlut_name);
     static void decode_font_data(void *arg0, void *arg1, s32 arg2, s32 tlut_name);
-    static int read_file_header(int cursor, void *header);
-    static void read_into_buffer(saddr arg0, s32 arg1);
+    static int read_file_header(u8 *cursor, GvmFileHeader *header);
+    static void read_into_buffer(void *destination, s32 length);
     static s32 read_u32_le();
     static s32 read_u16_le();
     void set_index(s32 x);
