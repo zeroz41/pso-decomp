@@ -5,6 +5,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/render/ChunkMaterialColor.h"
 #include "pso/render/ChunkMaterialState.h"
+#include "pso/render/GinjaMaterialState.h"
 #include "pso/render/GinjaView.h"
 #include "pso/render/model_render_state.h"
 #include "pso/render/render_util.h"
@@ -17,15 +18,11 @@
 
 extern "C" Vec *subtract_vector(Vec *v, const Vec *sub);
 
-struct Inner_800A4064 { u8 pad0[0xC]; s32 *p; };
-
-struct Entry_800A4064 { u8 pad0[8]; Inner_800A4064 *inner; };
-
 const char *TeneFakeTecThunderEff::class_name = "TeneFakeTecThunderEff";
 // The bolt's textures (set up by TObjPlayer__sub_800A4294) and the texture
 // render draws with.
-__declspec(section ".data") Entry_800A4064 *fake_tec_texlist[2];
-s32 fake_tec_texture;
+__declspec(section ".data") GinjaTextureList fake_tec_texlist;
+u32 fake_tec_texture;
 
 #pragma push
 #pragma fp_contract on
@@ -278,7 +275,7 @@ void TeneFakeTecThunderEff::run_task() {
     s32 i;
     if (active != 0) {
         build_beam_points();
-        fake_tec_texture = *fake_tec_texlist[0][texture].inner->p;
+        fake_tec_texture = fake_tec_texlist.entries[texture].texture->surface->id;
         for (i = 0; i < point_count; i++) {
             jitter[i] = 4.0f * (0.1f * sin_table_lookup(timer * 0x1800) + 0.2f);
         }
