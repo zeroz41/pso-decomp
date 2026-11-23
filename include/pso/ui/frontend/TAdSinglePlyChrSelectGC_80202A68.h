@@ -6,8 +6,8 @@
 #include "pso/player/TPlyCharData.h"
 #include "pso/ui/city/BankItemRecord.h"
 
-struct Record_80203190 {
-    Record_80203190();
+struct Pso3CharacterSaveRecord {
+    Pso3CharacterSaveRecord();
 
     u8 pad_0[0x450];
     BankItemRecord items[4];
@@ -15,12 +15,12 @@ struct Record_80203190 {
     u8 guild_card[0x3598 - 0x4B0];
 };
 
-struct Slot_80202C68 {
-    Slot_80202C68();
-    ~Slot_80202C68();
+struct Pso3CharacterFileSlot {
+    Pso3CharacterFileSlot();
+    ~Pso3CharacterFileSlot();
 
     TPlyCharData chardata;
-    Record_80203190 record;
+    Pso3CharacterSaveRecord record;
 };
 
 struct Words_80202C68 { u32 w[32]; };
@@ -31,20 +31,22 @@ struct Pair_80202C68 { u32 a; u32 b; };
 
 struct Tail_80202C68 { Pair_80202C68 p0, p1, p2, p3, p4, p5, p6; };
 
-struct Save_80202C68 {
-    Save_80202C68();
-    ~Save_80202C68();
+// The PSO3_CHARACTER memory card file: seven character slots behind a CRC32.
+struct Pso3CharacterFile {
+    Pso3CharacterFile();
+    ~Pso3CharacterFile();
 
-    s32 hdr;
-    Slot_80202C68 slots[7];
+    s32 checksum;
+    Pso3CharacterFileSlot slots[7];
     Tail_80202C68 tail;
     Blk_80202C68 blk;
-    s32 f194AC;
+    // Seeds the cipher over everything before it.
+    s32 cipher_seed;
 };
 
-LAYOUT_ASSERT(Slot_80202C68_record_offset, offsetof(Slot_80202C68, record) == 0x41C);
-LAYOUT_ASSERT(Slot_80202C68_size, sizeof(Slot_80202C68) == 0x39B4);
-LAYOUT_ASSERT(Save_80202C68_size, sizeof(Save_80202C68) == 0x194B0);
+LAYOUT_ASSERT(Pso3CharacterFileSlot_record_offset, offsetof(Pso3CharacterFileSlot, record) == 0x41C);
+LAYOUT_ASSERT(Pso3CharacterFileSlot_size, sizeof(Pso3CharacterFileSlot) == 0x39B4);
+LAYOUT_ASSERT(Pso3CharacterFile_size, sizeof(Pso3CharacterFile) == 0x194B0);
 
 extern "C" {
 s32 TAdSinglePlyChrSelectGC__sub_80202A68(u8 *arg0);

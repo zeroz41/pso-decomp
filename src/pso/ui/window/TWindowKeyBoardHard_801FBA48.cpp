@@ -97,10 +97,10 @@ void TAdSinglePlyChrSelectGC::try_load_system_file() {
 }
 
 void TAdSinglePlyChrSelectGC__sub_801FBC3C(void *arg0) {
-    Save_80202C68 *a;
-    Save_80202C68 *b;
-    a = new Save_80202C68;
-    b = new Save_80202C68;
+    Pso3CharacterFile *a;
+    Pso3CharacterFile *b;
+    a = new Pso3CharacterFile;
+    b = new Pso3CharacterFile;
     copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(a, arg0);
     subtractive_rng_seed(chr_select_rng_state, chr_select_serial_seeds[1]);
     subtractive_rng_make_shuffle((s32 *)chr_select_rng_state);

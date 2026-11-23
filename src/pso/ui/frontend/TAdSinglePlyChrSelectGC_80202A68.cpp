@@ -83,7 +83,7 @@ extern "C" {
 s32 *TAdSinglePlyChrSelectGC__sub_80202B38(Obj_80202B38 *self, s32 i);
 Ent_80202B1C *TAdSinglePlyChrSelectGC__sub_80202B1C(Obj_80202B1C *self, s32 i);
 void __construct_array(void *, void *, void *, int, int);
-Save_80202C68 *copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(Save_80202C68 *arg0, Save_80202C68 *arg1);
+Pso3CharacterFile *copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(Pso3CharacterFile *arg0, Pso3CharacterFile *arg1);
 void copy_player_data__9TProtocolFPvPv();
 
 s32 TAdSinglePlyChrSelectGC__sub_80202A68(u8 *arg0) {
@@ -92,11 +92,11 @@ s32 TAdSinglePlyChrSelectGC__sub_80202A68(u8 *arg0) {
 
 }
 
-Save_80202C68::~Save_80202C68() {}
+Pso3CharacterFile::~Pso3CharacterFile() {}
 
 extern "C" {
 
-Slot_80202C68::~Slot_80202C68() {}
+Pso3CharacterFileSlot::~Pso3CharacterFileSlot() {}
 
 Ent_80202B1C *TAdSinglePlyChrSelectGC__sub_80202B1C(Obj_80202B1C *self, s32 i) {
     return &self->e[i];
@@ -162,10 +162,10 @@ void CharacterSelectionRequest::reset_slot_lists() {
     }
 }
 
-Save_80202C68 *copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(Save_80202C68 *arg0, Save_80202C68 *arg1) {
-    Slot_80202C68 *d;
-    Slot_80202C68 *s;
-    arg0->hdr = arg1->hdr;
+Pso3CharacterFile *copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(Pso3CharacterFile *arg0, Pso3CharacterFile *arg1) {
+    Pso3CharacterFileSlot *d;
+    Pso3CharacterFileSlot *s;
+    arg0->checksum = arg1->checksum;
     d = arg0->slots;
     s = arg1->slots;
     do {
@@ -175,7 +175,7 @@ Save_80202C68 *copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(Save_80202C68 *arg
     } while (d < &arg0->slots[7]);
     arg0->tail = arg1->tail;
     arg0->blk = arg1->blk;
-    arg0->f194AC = arg1->f194AC;
+    arg0->cipher_seed = arg1->cipher_seed;
     return arg0;
 }
 
@@ -240,11 +240,11 @@ BankItemRecord &BankItemRecord::operator=(BankItemRecord &src) {
     return *this;
 }
 
-Save_80202C68::Save_80202C68() {}
+Pso3CharacterFile::Pso3CharacterFile() {}
 
-Slot_80202C68::Slot_80202C68() {}
+Pso3CharacterFileSlot::Pso3CharacterFileSlot() {}
 
-Record_80203190::Record_80203190() {
+Pso3CharacterSaveRecord::Pso3CharacterSaveRecord() {
     ((TAdSinglePlyChrSelectGC *)guild_card)->init_guild_card_tag();
 }
 

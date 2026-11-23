@@ -241,8 +241,8 @@ force_active:
   - TAdSinglePlyChrSelectGC__sub_802000C8
   - TAdSinglePlyChrSelectGC__sub_80200418
   - TAdSinglePlyChrSelectGC__sub_80202D7C
-  - __ct__13Slot_80202C68Fv
-  - __ct__15Record_80203190Fv
+  - __ct__21Pso3CharacterFileSlotFv
+  - __ct__23Pso3CharacterSaveRecordFv
   - TAdSinglePlyChrSelectGC__sub_80223350
   - TAdSinglePlyChrSelectGC__sub_8022338C
   - TAdSinglePlyChrSelectGC__sub_8028C998
@@ -6476,7 +6476,7 @@ force_active:
   - free_buffers__22TQuestVmDownLoadServerFv
   - free_char_data_slots__23TAdSinglePlyChrSelectGCFPv
   - free_chara_making__10TObjPlayerFv
-  - __dt__13Slot_80202C68Fv
+  - __dt__21Pso3CharacterFileSlotFv
   - free_data__23TAdSinglePlyChrSelectGCFv
   - free_if_not_in_arena__11BmlResourceFPv
   - free_item_pmt__Fv
