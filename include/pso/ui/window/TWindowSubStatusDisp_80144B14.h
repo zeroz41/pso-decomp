@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-u32 TWindowSubStatusDisp__sub_80144E9C(char *s);
+u32 calc_fullwidth_text_width(char *s);
 }
 s32 calc_ci4_tile_offset(u32 arg0, u32 arg1);
 extern "C" {

@@ -984,7 +984,7 @@ void TBoss3VoloptP02::update_pillar_heal_state() {
                 heal_emitter = NULL;
             }
             n = TBoss3VoloptP02::get_int_param(3) / 5;
-            TBoss3Volopt__sub_800FD344((saddr)&body_center, (s32)(0xFF00FF00), 0x1E, (void *)"HP", (void *)n);
+            create_boss_health_font((saddr)&body_center, (s32)(0xFF00FF00), 0x1E, (void *)"HP", (void *)n);
             hp = min_s32(hp + n, hpmax);
             for (s32 i = 0; i < 4; i++) {
                 if (part_hp[i] > 0) {

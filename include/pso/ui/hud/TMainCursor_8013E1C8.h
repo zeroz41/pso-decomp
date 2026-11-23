@@ -9,12 +9,5 @@ s32 TMainCursor__sub_8013E2A0(void *p);
 int TMainCursor__get_lock_on_cursor_model(void);
 }
 
-// --- C functions defined in TMainCursor_8013E1C8.cpp ---
-extern "C" {
-s16 TMainCursor__sub_8013E298(void *p);
-s32 TMainCursor__sub_8013E2A0(void *p);
-int TMainCursor__get_lock_on_cursor_model(void);
-}
-// --- end of C functions
 
 #endif

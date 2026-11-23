@@ -36,7 +36,7 @@ s32 menu_font_glyph_data;
 s16 *menu_font_palette;
 s32 menu_font_upload_flags;
 Glyph_80145804 *menu_font_glyph_table;
-u8 lbl_805D56C0;
+u8 menu_font_upload_epoch;
 TObject *menu_font_object;
 void draw_menu_font_string(const char *s, s32 arg1, u32 flags, f32 x, f32 y, f32 scale);
 
@@ -134,7 +134,7 @@ void load_menu_font(void) {
             v += 20;
         }
     }
-    lbl_805D56C0 = 0;
+    menu_font_upload_epoch = 0;
     menu_font_upload_flags = 3;
     f = (void *)new TNECFontEORFunction();
     menu_font_object = (TObject *)f;

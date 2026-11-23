@@ -609,14 +609,14 @@ void TAdChrSelPlyPlateGC::find_first_open_cell(u32 *cell) {
     }
 }
 
-void TAdMultiPlyChrSelectGC::split_slot_index(s32 arg0, s32 *arg1, s32 *arg2) {
+void TAdMultiPlyChrSelectGC::split_slot_index(s32 slot_index, s32 *out_cursor_column, s32 *out_card_slot) {
     s32 var_r3;
-    var_r3 = TAdMultiPlyChrSelectGC__get_multiplayer_character_slot(arg0);
-    *arg1 = var_r3 > 3;
+    var_r3 = TAdMultiPlyChrSelectGC__get_multiplayer_character_slot(slot_index);
+    *out_cursor_column = var_r3 > 3;
     if (var_r3 > 3) {
         var_r3 -= 4;
     }
-    *arg2 = var_r3;
+    *out_card_slot = var_r3;
 }
 
 void TAdMultiPlyChrSelectGC::reset_slot_selection_table() {

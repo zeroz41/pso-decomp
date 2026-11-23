@@ -11,10 +11,15 @@ class TAdSelectCurGC;
 class TAdGuideTxtGC;
 struct TAdChrSelPlyPlateGC;
 struct TAdChrMoveEffectGC;
+class TAdFadeGC;
 
 class TAdChrSelPlayerGC;
 
 struct TAdMultiPlyChrSelectGC : public TObject {
+    struct SlotGridPosition {
+        s32 card_slot;
+        s32 cursor_column;
+    };
     TAdMultiPlyChrSelectGC(TObject *, s32);
     virtual ~TAdMultiPlyChrSelectGC();
     static TAdChrSelPlayerGC *get_or_create_player(TObject *parent, s32 mode, s32 index, s32 slot);
@@ -29,7 +34,7 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     s32 last_card_slot; // 0x30  player_plate's active card slot when last checked
     s32 last_cursor;    // 0x34  player_plate's cursor when last checked
     s32 swap_slot;      // 0x38  slot passed to swap_characters (swap_search + 4)
-    s32 m_3c;
+    s32 controllers_ready;
     s32 m_40;
     s32 guide_state;    // 0x44  which guide line is shown (0, 1, 2 = ready)
     s32 mode;           // 0x48  constructor mode; switch in handle_event and sub_802DCD14
@@ -40,11 +45,11 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     TAdChrSelPlyPlateGC *player_plate;
     TAdChrSelPlayerGC *player_preview;
     TAdGuideTxtGC *guide;
-    void handle_event(s32 arg1);
-    void initialize_selection_state(s32 arg1);
+    void handle_event(s32 select_flag);
+    void initialize_selection_state(s32 mode);
     static TAdChrSelPlyPlateGC *get_card_instance();
     static void reset_slot_selection_table();
-    static void split_slot_index(s32 arg0, s32 *arg1, s32 *arg2);
+    static void split_slot_index(s32 slot_index, s32 *out_cursor_column, s32 *out_card_slot);
     static void init();
     static s32 get_status();
     static s32 is_selection_confirmed();
@@ -112,14 +117,14 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     TAdChrSelASlotGC *a_slot;        // 0x68  get_or_create_slot_window
     TAdChrSelBSlotGC *b_slot;        // 0x6C  TAdChrSelBSlotGC::create
     TAdSelectCurGC *select_cursor;   // 0x70
-    u32 m_74;
-    u8 unk_78[0x4];
-    s32 m_7c;
+    TAdFadeGC *fade_task;
+    void *game_start;
+    void *choice_menu;
     u8 unk_80[0x4];
     u32 m_84;
-    u8 unk_88[0x4];
-    saddr m_8c;
-    u8 unk_90[0x4];
+    void *confirm_window;
+    void *yes_no_prompt;
+    void *create_character_prompt;
     uaddr m_94;
     u8 unk_98[0x4];
     s32 m_9c;

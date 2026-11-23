@@ -15,14 +15,6 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/NinjaTypes.h"
 
-typedef struct TNowLoading_8001D3A8 {
-    const char *unk0; // TObject::m_name
-    u8 pad4[0x18 - 0x4];
-    void *vtable;
-    void *children[4];
-    Vec pos;
-} TNowLoading_8001D3A8;
-
 volatile s32 aram_dma_pending;
 
 extern "C" {
@@ -38,94 +30,60 @@ void TNowLoading::render() {  }
 #pragma push
 #pragma fp_contract on
 void TNowLoading::run_task() {
-    Vec stack;
-    uaddr temp_r3;
-    uaddr temp_r3_2;
-    uaddr temp_r3_3;
-    uaddr temp_r3_4;
-    uaddr temp_r3_5;
-    uaddr temp_r3_6;
-    uaddr temp_r3_7;
-    uaddr temp_r3_8;
+    Vec marker_position;
     if (camera_ctrl_instance == NULL) {
-        *(f32 *)&this->m_2c = (f32) ((65.0f * ninja_camera.vx) + ninja_camera.px);
-        *(f32 *)&this->unk_30 = (f32) ((65.0f * ninja_camera.vy) + ninja_camera.py);
-        this->m_34 = (f32) ((65.0f * ninja_camera.vz) + ninja_camera.pz);
-        temp_r3 = this->m_1c;
-        if (temp_r3 != 0U) {
-            ((TParticleCtrl *)temp_r3)->set_position((u8 *)&this->m_2c);
-        }
-        temp_r3_2 = this->m_20;
-        if (temp_r3_2 != 0U) {
-            ((TParticleCtrl *)temp_r3_2)->set_position((u8 *)&this->m_2c);
-        }
-        temp_r3_3 = this->m_24;
-        if (temp_r3_3 != 0U) {
-            ((TParticleCtrl *)temp_r3_3)->set_position((u8 *)&this->m_2c);
-        }
-        temp_r3_4 = this->m_28;
-        if (temp_r3_4 != 0U) {
-            ((TParticleCtrl *)temp_r3_4)->set_position((u8 *)&this->m_2c);
-        }
+        this->m_position.x = (f32) ((65.0f * ninja_camera.vx) + ninja_camera.px);
+        this->m_position.y = (f32) ((65.0f * ninja_camera.vy) + ninja_camera.py);
+        this->m_position.z = (f32) ((65.0f * ninja_camera.vz) + ninja_camera.pz);
+        if (this->m_particles[0] != NULL) { this->m_particles[0]->set_position((void *) &this->m_position); }
+        if (this->m_particles[1] != NULL) { this->m_particles[1]->set_position((void *) &this->m_position); }
+        if (this->m_particles[2] != NULL) { this->m_particles[2]->set_position((void *) &this->m_position); }
+        if (this->m_particles[3] != NULL) { this->m_particles[3]->set_position((void *) &this->m_position); }
     } else {
-        stack.x = (65.0f * ninja_camera.vx) + ninja_camera.px;
-        stack.y = (65.0f * ninja_camera.vy) + ninja_camera.py;
-        stack.z = (65.0f * ninja_camera.vz) + ninja_camera.pz;
-        temp_r3_5 = this->m_1c;
-        if (temp_r3_5 != 0U) {
-            ((TParticleCtrl *)temp_r3_5)->set_position((void *)&stack.x);
-        }
-        temp_r3_6 = this->m_20;
-        if (temp_r3_6 != 0U) {
-            ((TParticleCtrl *)temp_r3_6)->set_position((void *)&stack.x);
-        }
-        temp_r3_7 = this->m_24;
-        if (temp_r3_7 != 0U) {
-            ((TParticleCtrl *)temp_r3_7)->set_position((void *)&stack.x);
-        }
-        temp_r3_8 = this->m_28;
-        if (temp_r3_8 != 0U) {
-            ((TParticleCtrl *)temp_r3_8)->set_position((void *)&stack.x);
-        }
+        marker_position.x = (65.0f * ninja_camera.vx) + ninja_camera.px;
+        marker_position.y = (65.0f * ninja_camera.vy) + ninja_camera.py;
+        marker_position.z = (65.0f * ninja_camera.vz) + ninja_camera.pz;
+        if (this->m_particles[0] != NULL) { this->m_particles[0]->set_position((void *) &marker_position); }
+        if (this->m_particles[1] != NULL) { this->m_particles[1]->set_position((void *) &marker_position); }
+        if (this->m_particles[2] != NULL) { this->m_particles[2]->set_position((void *) &marker_position); }
+        if (this->m_particles[3] != NULL) { this->m_particles[3]->set_position((void *) &marker_position); }
     }
 }
 #pragma pop
 
 }
 TNowLoading::~TNowLoading() {
-    if (*(void **)((s8 *)this + 0x1C) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x1C)))->queue_destruction(); this->m_1c = 0; }
-    if (*(void **)((s8 *)this + 0x20) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x20)))->queue_destruction(); this->m_20 = 0; }
-    if (*(void **)((s8 *)this + 0x24) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x24)))->queue_destruction(); this->m_24 = 0; }
-    if (*(void **)((s8 *)this + 0x28) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x28)))->queue_destruction(); this->m_28 = 0; }
+    if (this->m_particles[0] != NULL) { this->m_particles[0]->queue_destruction(); this->m_particles[0] = NULL; }
+    if (this->m_particles[1] != NULL) { this->m_particles[1]->queue_destruction(); this->m_particles[1] = NULL; }
+    if (this->m_particles[2] != NULL) { this->m_particles[2]->queue_destruction(); this->m_particles[2] = NULL; }
+    if (this->m_particles[3] != NULL) { this->m_particles[3]->queue_destruction(); this->m_particles[3] = NULL; }
 }
 
 
 #pragma push
 #pragma fp_contract on
-#define self ((TNowLoading_8001D3A8 *)this)
-TNowLoading::TNowLoading(TObject *parent, Vec *arg2) : TObject(parent) {
+TNowLoading::TNowLoading(TObject *parent, Vec *pos) : TObject(parent) {
     Vec dir;
     s32 out[3];
-    self->unk0 = TNowLoading__class_name;
-    VecCopy((Vec *)&self->pos, (const Vec *)arg2);
+    this->m_name = TNowLoading__class_name;
+    VecCopy(&this->m_position, pos);
     out[0] = 0;
     out[1] = 0;
     out[2] = 0;
     dir.x = -ninja_camera.vx;
     dir.y = -ninja_camera.vy;
     dir.z = -ninja_camera.vz;
-    direction_to_rotation_xz((u8 *)&dir, &out[0], &out[2]);
-    self->pos.x = 65.0f * ninja_camera.vx + ninja_camera.px;
-    self->pos.y = 65.0f * ninja_camera.vy + ninja_camera.py;
-    self->pos.z = 65.0f * ninja_camera.vz + ninja_camera.pz;
-    self->children[0] = NULL;
-    self->children[1] = NULL;
-    self->children[2] = NULL;
-    self->children[3] = NULL;
-    new TAdLoadNetworkGC(this, &self->pos);
-    new TLoadingCur(this, &self->pos);
+    direction_to_rotation_xz((u8 *) &dir, &out[0], &out[2]);
+    this->m_position.x = 65.0f * ninja_camera.vx + ninja_camera.px;
+    this->m_position.y = 65.0f * ninja_camera.vy + ninja_camera.py;
+    this->m_position.z = 65.0f * ninja_camera.vz + ninja_camera.pz;
+    this->m_particles[0] = NULL;
+    this->m_particles[1] = NULL;
+    this->m_particles[2] = NULL;
+    this->m_particles[3] = NULL;
+    new TAdLoadNetworkGC(this, &this->m_position);
+    new TLoadingCur(this, &this->m_position);
 }
-#undef self
 #pragma pop
 
 void TNowLoading__sub_8001D4D0(void) {  }
