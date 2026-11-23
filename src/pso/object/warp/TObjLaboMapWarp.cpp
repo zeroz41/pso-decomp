@@ -439,8 +439,8 @@ TObjCityMainWarp::TObjCityMainWarp(TObject *parent, void *set_data) : TObjAreaWa
 
 TObjCityMainWarp::~TObjCityMainWarp() {}
 
-void *TObjCityMainWarp::create() {
-    return new TObjCityMainWarp(tl_05, this);
+void *TObjCityMainWarp::create(void *set_data) {
+    return new TObjCityMainWarp(tl_05, set_data);
 }
 
 #pragma push

@@ -18,8 +18,8 @@ const char *TOMineIcon01__name = "TOMineIcon01";
 
 void TOMineIcon01::vfunc_84() {  }
 
-void *TOMineIcon01::create() {
-    return new TOMineIcon01(tl_05, this);
+void *TOMineIcon01::create(void *set_data) {
+    return new TOMineIcon01(tl_05, set_data);
 }
 
 TOMineIcon01::~TOMineIcon01() {

@@ -27,7 +27,7 @@ struct TObjWarpBossMulti : public TObjAreaWarp {
     virtual void debug_print_area_num();
     void render();
     void run_task();
-    void *create();
+    static void *create(void *set_data);
     void init_warp_params();
     void update();
     static s32 is_lobby_active();

@@ -259,7 +259,7 @@ void TObjFogCollisionSwitch::vfunc_14() {
     debug_printf_at(0x130022, "SwitchID:%3d", this->set_params[2]);
 }
 
-void *create__22TObjFogCollisionPoisonFPv(void *set) {
+void *TObjFogCollisionPoison::create(void *set) {
     return new TObjFogCollisionPoison(tl_05, set);
 }
 

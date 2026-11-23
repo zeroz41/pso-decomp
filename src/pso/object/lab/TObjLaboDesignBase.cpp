@@ -31,12 +31,6 @@
 struct ByteBlock_3C { u8 bytes[0x3C]; };
 
 extern "C" {
-void *TObjLaboDesignBase__sub_80364D38(void *arg0);
-void *alloc_and_construct__18TObjLaboDesignBaseFPv(void *arg0);
-void *create_instance__18TObjLaboDesignBaseFPv(void *arg0);
-
-
-
 const char *lbl_805D4488[1] = {0};
 const char *lbl_805D448C[1] = {0};
 const char *lbl_805D4490[1] = {0};
@@ -115,30 +109,29 @@ CollisionBody labo_design_entry_table[6] = {
     { { 0.0f, 20.0f, 0.0f }, 10.0f, 40.0f, 1, 0x10003, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
 
-void *create_instance__18TObjLaboDesignBaseFPv(void *set_data) {
-    return new TObjLaboDesignBase((TObject *)tl_05, set_data, 5);
 }
+
+void *TObjLaboDesignBase::create_state5(void *set_data) {
+    return new TObjLaboDesignBase((TObject *)tl_05, set_data, 5);
 }
 CollisionBody *get_labo_design_entry(int a0);
 extern BmlResource *labo_design_object_table[6];
 
 BmlResource *get_labo_design_object(int a0);
 const char *TObjLaboDesignBase_class_name = "TObjLaboDesignBase";
-void *create_labo_design_base(void *arg0);
-void *create_obj_labo_design_base(void *arg0);
-void *create_obj_labo_design_base(void *set_data) {
+void *TObjLaboDesignBase::create_state4(void *set_data) {
     return new TObjLaboDesignBase((TObject *)tl_05, set_data, 4);
 }
 
-void *TObjLaboDesignBase__sub_80364D38(void *set_data) {
+void *TObjLaboDesignBase::create_state3(void *set_data) {
     return new TObjLaboDesignBase((TObject *)tl_05, set_data, 3);
 }
 
-void *create_labo_design_base(void *set_data) {
+void *TObjLaboDesignBase::create_state2(void *set_data) {
     return new TObjLaboDesignBase((TObject *)tl_05, set_data, 2);
 }
 
-void *alloc_and_construct__18TObjLaboDesignBaseFPv(void *set_data) {
+void *TObjLaboDesignBase::create_state1(void *set_data) {
     return new TObjLaboDesignBase((TObject *)tl_05, set_data, 1);
 }
 

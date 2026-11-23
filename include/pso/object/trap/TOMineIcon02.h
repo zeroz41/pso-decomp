@@ -9,7 +9,7 @@ struct TOMineIcon02 : public TOMine {
     virtual ~TOMineIcon02();
     virtual void vfunc_84();
     virtual void vfunc_82();
-    void *create();
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TOMineIcon02_size, sizeof(TOMineIcon02) == 0x37C);

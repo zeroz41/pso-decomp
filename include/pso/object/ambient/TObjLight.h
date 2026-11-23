@@ -10,6 +10,7 @@ struct TObjLightSceneLightState;
 struct TObjLight : public TObjBase {
     TObjLight(TObject *parent, u8 *set_data);
     virtual ~TObjLight();
+    static void *create(void *set_data);
     void *init_from_source(void *, int, int);
     u32 m_90;
     u32 m_94;
@@ -45,7 +46,6 @@ struct TObjLight : public TObjBase {
 LAYOUT_ASSERT(TObjLight_size, sizeof(TObjLight) == 0x100);
 
 extern "C" {
-u8 *TObjLight__create(u8 *arg0);
 void *__dt__9TObjLightFv(void *arg0, s16 arg1);
 }
 

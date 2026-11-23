@@ -141,8 +141,8 @@ void TOTrapAncient01::release_static_resource() {
     }
 }
 
-void *TOTrapAncient01::create() {
-    return new TOTrapAncient01(tl_05, this);
+void *TOTrapAncient01::create(void *set_data) {
+    return new TOTrapAncient01(tl_05, set_data);
 }
 
 #pragma push

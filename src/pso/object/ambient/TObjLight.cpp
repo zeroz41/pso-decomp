@@ -207,9 +207,9 @@ TObjLight::TObjLight(TObject *parent, u8 *set_data) : TObjBase(parent) {
     light->disallow_rendering();
 }
 
-u8 *TObjLight__create(u8 *arg0) {
+void *TObjLight::create(void *set_data) {
     if (is_split_screen() != 0) {
         return NULL;
     }
-    return (u8 *)new TObjLight(tl_05, arg0);
+    return new TObjLight(tl_05, (u8 *)set_data);
 }

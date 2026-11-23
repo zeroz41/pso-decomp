@@ -103,10 +103,7 @@ AnimationMotion *warp_boss_bml_motion;
 GinjaTextureList *boss_warp_base_textures;
 GinjaTextureList *boss_warp_effect_textures;
 extern "C" {
-extern "C" {
 void release_boss_warp_resources(void);
-saddr TObjWarpBossMulti__create(saddr arg0);
-}
 }
 
 const char lbl_8044663C[] = "<- NEXT STAGE No.";
@@ -181,14 +178,14 @@ void release_boss_warp_resources(void) {
     }
 }
 
-saddr TObjWarpBossMulti__create(saddr set_data) {
+void *TObjWarpBoss::create(void *set_data) {
     if ((TRaderMapCore::is_not_split_screen() == 0) && (get_main_phase() == 0xE)) {
-        return ((saddr)((TObjWarpBossMulti *)set_data)->create());
+        return TObjWarpBossMulti::create(set_data);
     }
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        return ((saddr)((TObjWarpBossMulti *)set_data)->create());
+        return TObjWarpBossMulti::create(set_data);
     }
-    return (saddr)new TObjWarpBoss(tl_05, (void *)set_data);
+    return new TObjWarpBoss(tl_05, set_data);
 }
 
 TObjWarpBoss::TObjWarpBoss(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
@@ -941,6 +938,6 @@ void TObjWarpBossMulti::init_warp_params() {
     frame_step = 4.0f;
 }
 
-void *TObjWarpBossMulti::create() {
-    return new TObjWarpBossMulti(tl_05, this);
+void *TObjWarpBossMulti::create(void *set_data) {
+    return new TObjWarpBossMulti(tl_05, set_data);
 }

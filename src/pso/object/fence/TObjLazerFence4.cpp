@@ -231,8 +231,8 @@ s32 init_collision_body_parts(void *, void *, int);
 
 void free_collision_body_parts(void *);
 
-void *TObjLazerFence4::create() {
-    return new TObjLazerFence4((TObject *)tl_05, this);
+void *TObjLazerFence4::create(void *set_data) {
+    return new TObjLazerFence4((TObject *)tl_05, set_data);
 }
 
 }

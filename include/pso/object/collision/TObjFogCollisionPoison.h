@@ -12,6 +12,7 @@ struct TObjFogCollisionPoison : public TObjFogCollisionSwitch {
     virtual void run_task();
     u32 m_98;
     static void create();
+    static void *create(void *set_data);
     static void clear_state_array();
     s32 check_switch();
     void apply_poison_damage(s32 client);

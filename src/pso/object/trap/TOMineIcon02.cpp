@@ -24,8 +24,8 @@ void TOMineIcon02::vfunc_82() {
     spawn_particle_effect((const Vec *)(arg0 + 0x2FC), 0x8E);
 }
 
-void *TOMineIcon02::create() {
-    return new TOMineIcon02(tl_05, this);
+void *TOMineIcon02::create(void *set_data) {
+    return new TOMineIcon02(tl_05, set_data);
 }
 
 TOMineIcon02::~TOMineIcon02() {

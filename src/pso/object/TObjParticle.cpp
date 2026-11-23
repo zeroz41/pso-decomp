@@ -113,9 +113,9 @@ TObjParticle::TObjParticle(TObject *parent, ParticleSetData *set_data) : TObjBas
 }
 #undef arg0
 
-u8 *TObjParticle__create(u8 *set_data) {
+void *TObjParticle::create(void *set_data) {
     if (is_split_screen() != 0) {
         return NULL;
     }
-    return (u8 *)new TObjParticle(tl_05, (ParticleSetData *)set_data);
+    return new TObjParticle(tl_05, (ParticleSetData *)set_data);
 }

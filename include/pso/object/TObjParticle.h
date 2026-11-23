@@ -18,6 +18,7 @@ struct ParticleSetData {
 struct TObjParticle : public TObjBase {
     TObjParticle(TObject *parent, ParticleSetData *set_data);
     virtual ~TObjParticle();
+    static void *create(void *set_data);
     virtual void render();
     virtual void run_task();
 
@@ -30,7 +31,5 @@ LAYOUT_ASSERT(TObjParticle_emitter_offset, offsetof(TObjParticle, emitter) == 0x
 LAYOUT_ASSERT(TObjParticle_id_offset, offsetof(TObjParticle, particle_id) == 0x94);
 LAYOUT_ASSERT(ParticleSetData_params_offset, offsetof(ParticleSetData, params) == 0x24);
 LAYOUT_ASSERT(ParticleSetData_ints_offset, offsetof(ParticleSetData, set_params) == 0x30);
-
-extern "C" u8 *TObjParticle__create(u8 *set_data);
 
 #endif

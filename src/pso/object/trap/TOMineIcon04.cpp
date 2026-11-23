@@ -65,8 +65,8 @@ TOMineIcon04::~TOMineIcon04() {
     free_collision_body_parts(this);
 }
 
-void *TOMineIcon04::create() {
-    return new TOMineIcon04(tl_05, this);
+void *TOMineIcon04::create(void *set_data) {
+    return new TOMineIcon04(tl_05, set_data);
 }
 
 void TOMineIcon04::vfunc_80() {

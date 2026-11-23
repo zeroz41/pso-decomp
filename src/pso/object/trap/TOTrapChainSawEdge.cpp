@@ -560,8 +560,8 @@ TOTrapChainSawDamage::~TOTrapChainSawDamage() {
     free_collision_body_parts(this);
 }
 
-void *TOTrapChainSawDamage::create() {
-    return new TOTrapChainSawDamage(tl_05, this);
+void *TOTrapChainSawDamage::create(void *set_data) {
+    return new TOTrapChainSawDamage(tl_05, set_data);
 }
 
 void TOTrapChainSawDamage::decode_params() {
@@ -657,8 +657,8 @@ TOTrapChainSawKey::~TOTrapChainSawKey() {
     free_collision_body_parts(this);
 }
 
-void *TOTrapChainSawKey::create() {
-    return new TOTrapChainSawKey(tl_05, this);
+void *TOTrapChainSawKey::create(void *set_data) {
+    return new TOTrapChainSawKey(tl_05, set_data);
 }
 
 void TOTrapChainSawKey::decode_params() { TOTrapChainSaw::decode_params(); }

@@ -231,10 +231,10 @@ void TLazerFenceSw::run_task() {
     *(f32 *)((s8 *)arg0 + 0x110) += 0.2f;
 }
 
-void *TLazerFenceSw::create() {
+void *TLazerFenceSw::create(void *set_data) {
     void *o = TObject::operator new(0x118);
     if (o != NULL) {
-        o = __ct__13TLazerFenceSwFP7TObjectPv(o, tl_05, this);
+        o = __ct__13TLazerFenceSwFP7TObjectPv(o, tl_05, set_data);
     }
     return o;
 }

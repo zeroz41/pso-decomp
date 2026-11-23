@@ -92,8 +92,8 @@ void TOSparkMachine01::render() {
     }
 }
 
-void *TOSparkMachine01::create() {
-    return new TOSparkMachine01(this);
+void *TOSparkMachine01::create(void *set_data) {
+    return new TOSparkMachine01(set_data);
 }
 
 void TOSparkMachine01::destroy_static_instance() {

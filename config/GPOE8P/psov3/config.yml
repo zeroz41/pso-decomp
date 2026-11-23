@@ -667,7 +667,7 @@ force_active:
   - TLobby__sub_8013A578
   - TLobby__sub_8013FF64
   - TLobby__sub_80182E60
-  - alloc_enemy_ids
+  - alloc_enemy_ids__Fl
   - TLobby__sub_801A3CF8
   - TLobby__sub_801A3E94
   - set_floor_transition_ready
@@ -5448,7 +5448,7 @@ force_active:
   - create__15TObjEneSlimeOneFlll
   - create__16TItemReverseTechFv
   - create__17TChCrTagPlGraphicFl
-  - create__17TObjWarpBossMultiFv
+  - create__17TObjWarpBossMultiFPv
   - create__17TWindowSubComCardFv
   - create__18TChCrTagOccupationFl
   - create__19TChCrTagInformationFl
@@ -6367,7 +6367,7 @@ force_active:
   - fn_801908F8
   - get_warp_string_screen_position
   - fn_8019F9AC
-  - alloc_player_ids
+  - alloc_player_ids__Fl
   - __sinit_OfflineGameScene_cpp
   - fn_801C1E98
   - fn_801C1EE8
