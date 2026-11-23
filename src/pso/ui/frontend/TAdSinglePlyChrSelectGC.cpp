@@ -20,6 +20,9 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/TAdChrSelPlayerGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
@@ -56,16 +59,7 @@ struct T_802D4F2C { NJS_POINT2 p[3]; };
 const char *TAdSinglePlyChrSelectGC__class_name = "TAdSinglePlyChrSelectGC";
 const T_802D4F2C single_chr_select_position_table = { { { 156.0f, 421.0f }, { 299.0f, 421.0f }, { 432.0f, 421.0f } } };
 
-extern "C" {
-s32 play_sound_effect(s32, s32, s32, s32);
-s32 poll_memcard_result(saddr chan);
-s32 load_guild_card_save();
 extern RecoveredGlobal_802D4730_lbl_804C89BC pso_guildcard_card_filename;
-void set_queued_main_phase(s32 arg0);
-void request_main_phase(s32 arg0);
-s32 load_tables();
-u32 TAdSinglePlyChrSelectGC__sub_801FE4BC();
-s32 TAdSinglePlyChrSelectGC__sub_802D4D9C();
 
 void TAdSinglePlyChrSelectGC::render() {
     if (TMainTask::get_render_pass() == 1) return;
@@ -74,7 +68,7 @@ void TAdSinglePlyChrSelectGC::render() {
 TWindowMenu *TAdSinglePlyChrSelectGC::create_chr_warp(s32 pos) {
     TWindowMenu *menu;
 
-    if (TAdSinglePlyChrSelectGC__sub_802D4D9C() != 0) {
+    if (sub_802D4D9C() != 0) {
         menu = (TWindowMenu *)create_window_menu_default(pos, 4);
         menu->add_text_entry(get_localized_text_entry(0x1E, 1), 6, 0);
         menu->add_text_entry(get_localized_text_entry(0x1E, 2), 6, 1);
@@ -90,10 +84,9 @@ TWindowMenu *TAdSinglePlyChrSelectGC::create_chr_warp(s32 pos) {
     align_menu_entry_positions(menu);
     return menu;
 }
-}
 
 void TAdSinglePlyChrSelectGC::finish_character_selection_transition() {
-    s32 temp_r4;
+    s32 frames;
     if (this->chr_menu != NULL) {
         this->chr_menu->close();
         this->chr_menu = NULL;
@@ -110,9 +103,9 @@ void TAdSinglePlyChrSelectGC::finish_character_selection_transition() {
         this->replace_prompt->close();
         this->replace_prompt = NULL;
     }
-    temp_r4 = this->state_timer + 1;
-    this->state_timer = temp_r4;
-    if ((f32) temp_r4 > 4.5f) {
+    frames = this->state_timer + 1;
+    this->state_timer = frames;
+    if ((f32) frames > 4.5f) {
         switch (this->menu_choice) {
         case 0:
             if (((s32)TAdSinglePlyChrSelectGC::get_data()) == 0) {
@@ -135,7 +128,7 @@ void TAdSinglePlyChrSelectGC::finish_character_selection_transition() {
 }
 
 void TAdSinglePlyChrSelectGC::close_and_change_scene() {
-    s32 temp_r4;
+    s32 frames;
     TWindowMenu *menu;
     TWindowMessageYesNo *prompt;
     menu = this->chr_menu;
@@ -148,9 +141,9 @@ void TAdSinglePlyChrSelectGC::close_and_change_scene() {
         prompt->close();
         this->create_prompt = NULL;
     }
-    temp_r4 = this->state_timer + 1;
-    this->state_timer = temp_r4;
-    if ((f32) temp_r4 > 4.5f) {
+    frames = this->state_timer + 1;
+    this->state_timer = frames;
+    if ((f32) frames > 4.5f) {
         switch (TAdSinglePlyChrSelectGC::get_data()) {
         case 0:
             TAdMultiChgGameModeGC::request_scene_change();
@@ -297,7 +290,7 @@ void TAdSinglePlyChrSelectGC::handle_menu_selection() {
 // pool_data off: each window position is reached with its own lis/addi.
 #pragma pool_data off
 void TAdSinglePlyChrSelectGC::handle_slot_selection() {
-    s32 var_r30;
+    s32 flag_notice_shown;
     if (this->chr_menu != NULL) {
         ((TWindowBase *)(*(void * *)&this->chr_menu))->close();
         this->chr_menu = NULL;
@@ -331,29 +324,26 @@ void TAdSinglePlyChrSelectGC::handle_slot_selection() {
         this->state = 0;
         return;
     }
-    var_r30 = 0;
+    flag_notice_shown = 0;
     if (this->last_cursor_index != this->cursor->selection_index()) {
         player->set_field_100(1);
-        this->cursor->selection_index();
-        if (TAdSinglePlyChrSelectGC__sub_801FE4BC() != 0U) {
-            cursor->selection_index();
-            load_tables();
+        if (TAdSinglePlyChrSelectGC__sub_801FE4BC(this->cursor->selection_index()) != NULL) {
+            load_tables(cursor->selection_index());
             player->set_field_100(2);
             if (TAdSinglePlyChrSelectGC::check_flag(1) != 0U) {
-                var_r30 = 1;
+                flag_notice_shown = 1;
                 this->guide->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x1E, 5)));
                 this->guide->set_line(1, reinterpret_cast<const char *>(get_localized_text_entry(0x1E, 6)));
             }
         }
-        if (var_r30 == 0) {
+        if (flag_notice_shown == 0) {
             this->guide->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x1E, 0)));
             this->guide->set_line(1, "");
         }
         this->last_cursor_index = cursor->selection_index();
     }
     if (cursor->confirmation_result() == 1) {
-        cursor->selection_index();
-        load_tables();
+        load_tables(cursor->selection_index());
         if (TAdSinglePlyChrSelectGC::is_slot_active(cursor->selection_index()) != 0) {
             if (this->slot_window->is_character_transferred((u32)(this->cursor->selection_index())) != 0) {
                 this->fade = new TAdFadeGC(tl_fade, NULL);
@@ -409,7 +399,7 @@ void TAdSinglePlyChrSelectGC::sub_802D4664() {
 }
 
 void TAdSinglePlyChrSelectGC::sub_802D4730() {
-    s32 temp_r0;
+    s32 frames;
     if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
         this->state = 0xB;
@@ -433,15 +423,15 @@ void TAdSinglePlyChrSelectGC::sub_802D4730() {
             this->state = 3;
             return;
         }
-        temp_r0 = this->state_timer + 1;
-        this->state_timer = temp_r0;
-        if ((temp_r0 > 0xA) && (this->card_load_message == NULL)) {
+        frames = this->state_timer + 1;
+        this->state_timer = frames;
+        if ((frames > 0xA) && (this->card_load_message == NULL)) {
             this->card_load_message = this->slot_window->create_slot_message_window(0, 0x18);
         }
     }
 }
 void TAdSinglePlyChrSelectGC::sub_802D486C() {
-    s32 temp_r0;
+    s32 frames;
     if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
         this->state = 0xB;
@@ -464,9 +454,9 @@ void TAdSinglePlyChrSelectGC::sub_802D486C() {
             this->state = 2;
             return;
         }
-        temp_r0 = this->state_timer + 1;
-        this->state_timer = temp_r0;
-        if ((temp_r0 > 0xA) && (this->card_check_message == NULL)) {
+        frames = this->state_timer + 1;
+        this->state_timer = frames;
+        if ((frames > 0xA) && (this->card_check_message == NULL)) {
             this->card_check_message = this->slot_window->create_slot_message_window(0, 0x16);
         }
     }
@@ -475,8 +465,6 @@ void TAdSinglePlyChrSelectGC::sub_802D486C() {
 
 typedef void (TAdSinglePlyChrSelectGC::*Act_802D4B6C)();
 
-extern "C" {
-s32 set_default_camera__21TAdMultiChgGameModeGCFv(void *);
 
 
 
@@ -554,7 +542,7 @@ void TAdSinglePlyChrSelectGC::run_task() {
     prev_state = state;
 }
 
-s32 TAdSinglePlyChrSelectGC__sub_802D4D9C() {
+s32 TAdSinglePlyChrSelectGC::sub_802D4D9C() {
     player_stats stats = TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_stats;
     if (stats.meseta >= 10000) {
         return 1;
@@ -581,7 +569,6 @@ void TAdSinglePlyChrSelectGC::sub_802D4E08() {
     this->menu_choice = -1;
 }
 
-}
 TAdSinglePlyChrSelectGC::~TAdSinglePlyChrSelectGC() {
     if (this->chr_menu != NULL) { this->chr_menu->queue_destruction(); this->chr_menu = NULL; }
     if (this->card_check_message != NULL) { this->card_check_message->queue_destruction(); this->card_check_message = NULL; }

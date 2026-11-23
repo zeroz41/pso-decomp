@@ -91,9 +91,6 @@ struct Stack_802DDF40 {
 };
 
 extern "C" {
-s32 *TAdSinglePlyChrSelectGC__sub_801FE3E4(u32 i);
-s32 TAdSinglePlyChrSelectGC__sub_801FE800(u32 i);
-void load_tables(int a0);
 extern s32 lbl_80472860[];
 }
 
@@ -103,7 +100,6 @@ struct Stack_802DE7D0 {
 };
 
 extern "C" {
-s32 *TAdSinglePlyChrSelectGC__sub_801FE4BC(u32 i);
 extern s32 lbl_80472850[];
 extern s32 lbl_80472858[];
 struct MultiPlayChrSelectSlotPositions { s32 value; u8 remaining[0x14]; };
