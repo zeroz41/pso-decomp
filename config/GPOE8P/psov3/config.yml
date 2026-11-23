@@ -6181,7 +6181,7 @@ force_active:
   - filter_input_flags__12TBoss1DragonFll
   - send_6xB2_play_sound__FP16G_PlaySound_6xB2
   - find_active_pad_rumble_effect_by_id__FUl
-  - find_archive_entry__6TLobbyFPvPvPvPv
+  - find_archive_entry
   - find_area_technique_contact__FP10TTecCircleP14TObjCollidableP13CollisionBodyPv
   - find_attack_target__13TObjEneMe1GeeFPff
   - find_cached_glyph__20TWindowSubStatusDispFUs

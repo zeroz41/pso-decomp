@@ -3,8 +3,6 @@
 #include "pso/render/RenderSbssGlobals.h"
 
 extern "C" {
-typedef struct { f32 x, y, z, w; } Quat; // unit quaternion blended by blend_quaternions_nlerp
-
 #pragma push
 #pragma scheduling off
 void fn_803D8DE0(MtxP matrix, Vec *src, Vec *dst, u32 count) {
@@ -18,7 +16,7 @@ void fn_803D8DE0(MtxP matrix, Vec *src, Vec *dst, u32 count) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-void blend_quaternions_nlerp(Quat *a, Quat *b, Quat *out, f32 t) {
+void blend_quaternions_nlerp(const Quaternion *a, const Quaternion *b, Quaternion *out, f32 t) {
     f32 x, y, z, w;
     f32 inv;
     f32 ax, ay, az, aw, bx, by, bz, bw;

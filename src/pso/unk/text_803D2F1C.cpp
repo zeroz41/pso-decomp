@@ -1,11 +1,9 @@
 #include "types.h"
 #include <string.h>
 #include "pso/unk/text_803D2F1C.h"
+#include "pso/audio/SjRingBuffer.h"
 
 struct ByteBlock_8 { u8 bytes[0x8]; };
-
-// Pointer+size view of an archive blob walked by the 7-char-name entry scan.
-typedef struct ArchiveBuffer { u8 *data; s32 size; } ArchiveBuffer;
 
 extern "C" {
 u32 lbl_804F9E60[112] = {
@@ -17,10 +15,8 @@ u32 lbl_804F9E60[112] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 10, 11, 12, 13, 14, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 };
-u8 *find_archive_entry__6TLobbyFPvPvPvPv(ArchiveBuffer *arc, const char *name, const char *stop, ArchiveBuffer *out);
 
 #define HEX_803D2F1C(p, i) lbl_804F9E60[(s8)(p)[i]]
-#define SIZE_803D2F1C(p) ((((((((((((HEX_803D2F1C(p, 8) << 4) + HEX_803D2F1C(p, 9)) << 4) + HEX_803D2F1C(p, 10)) << 4) + HEX_803D2F1C(p, 11)) << 4) + HEX_803D2F1C(p, 12)) << 4) + HEX_803D2F1C(p, 13)) << 4) + HEX_803D2F1C(p, 14))
 inline s32 size_803D2F1C(u8 *p) {
     s32 v = HEX_803D2F1C(p, 8);
     v = (v << 4) + HEX_803D2F1C(p, 9);
@@ -31,7 +27,7 @@ inline s32 size_803D2F1C(u8 *p) {
     v = (v << 4) + HEX_803D2F1C(p, 14);
     return v;
 }
-u8 *find_archive_entry__6TLobbyFPvPvPvPv(ArchiveBuffer *arc, const char *name, const char *stop, ArchiveBuffer *out) {
+u8 *find_archive_entry(SjChunk *arc, const char *name, const char *stop, SjChunk *out) {
     u8 *p;
     u8 *end;
     out->data = NULL;
