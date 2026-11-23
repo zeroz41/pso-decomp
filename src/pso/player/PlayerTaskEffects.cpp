@@ -323,9 +323,10 @@ struct Arrival_801C5F84 {
     Vec pos;
 };
 
-struct Pair_801C5FCC { f32 a; f32 b; };
+// MovementHistory and MovementHistoryEntry are inferred from clear_movement_history.
+struct MovementHistoryEntry { f32 a; f32 b; };
 
-struct Obj_801C5FCC { s32 n; Pair_801C5FCC e[16]; };
+struct MovementHistory { s32 n; MovementHistoryEntry e[16]; };
 
 extern "C" {
 void calc_death_pose_height_offset(Out_801C58CC *arg0, Actor_801C58CC *arg1);
@@ -341,7 +342,7 @@ s16 obj_getS16_2BA(u8 *p);
 extern Arrival_801C5F84 TObjPlayer__arrival_override_table[12];
 void set_arrival_override_coords(u16 arg0, s32 arg1, f32 farg0, f32 farg1, f32 farg2);
 void set_arrival_override_pos(u16 idx, s32 yaw, void *pos);
-void clear_movement_history(Obj_801C5FCC *p);
+void clear_movement_history(MovementHistory *p);
 s16 get_attack_params_atp_max(void *p);
 u8 *__ct__15TPlyOnCountOverFv(u8 *object, s32 arg1, s32 arg2, s32 arg3);
 u8 *__ct__13TPlyOnCreatedFv(u8 *object, s32 arg1, s32 arg2);
@@ -900,9 +901,9 @@ void TPlyOnCountOver::run_task() {
     }
 }
 
-void clear_movement_history(Obj_801C5FCC *p) {
+void clear_movement_history(MovementHistory *p) {
     s32 i;
-    Pair_801C5FCC *e;
+    MovementHistoryEntry *e;
     p->n = 0;
     e = p->e;
     for (i = 0; i < 16; i++) {
