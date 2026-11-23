@@ -16,8 +16,9 @@ struct PlayerHandParticles {
 
 // Follow-particle state embedded in TObjPlayer at 0x384.
 struct PlayerFollowParticles {
-    u16 owner_id; // set_type stores get_entity_id(owner) here
+    u16 owner_id; // get_entity_id of the player that owns the followers
     u16 pad_2;
+    void set_owner_id(u16 id);
     PlayerHandParticles hands;
     Vec pad_C[3];
 };

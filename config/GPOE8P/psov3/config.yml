@@ -15616,7 +15616,7 @@ force_active:
   - set_timer_value__12TWindowTimerFii
   - set_triggers__8TItemMagFPCUcPCUc
   - set_type__15TPlyPhotonChairFl
-  - set_type__22TPlyFollowParticleCtrlFUs
+  - set_owner_id__21PlayerFollowParticlesFUs
   - set_type_dragon__10TObjPlayerFv
   - set_next_floor_index__12Obj_80515BA0Fl
   - set_visible_flag__14TBoss6PlotFalzFv

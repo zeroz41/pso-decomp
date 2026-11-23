@@ -13,7 +13,6 @@ struct TPlyFollowParticleCtrl : public TObjCollidable {
     virtual void *get_center();
     u16 owner_id; // entity id of the actor followed, looked up as a player client id
     u16 pad_AE;
-    void set_type(u16 type);
     u16 get_owner_id();
 
     static const char *class_name;
@@ -23,13 +22,7 @@ LAYOUT_ASSERT(TPlyFollowParticleCtrl_size, sizeof(TPlyFollowParticleCtrl) == 0xB
 
 extern "C" {
 void TPlyFollowParticleCtrl__sub_8030A694(void);
-s32 __dt__22TPlyFollowParticleCtrlFis(s32 arg0, s16 arg1);
+s32 __dt__22TPlyFollowParticleCtrlFis(s32 self, s16 flags);
 }
-
-// --- C functions defined in TPlyFollowParticleCtrl.cpp ---
-extern "C" {
-void TPlyFollowParticleCtrl__sub_8030A694(void);
-}
-// --- end of C functions
 
 #endif

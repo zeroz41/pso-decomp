@@ -37,12 +37,12 @@ void TPlyFollowParticleCtrl__sub_8030A694(void) {  }
 
 s32 __dt__22TPlyFollowParticleCtrlFis(s32 self, s16 flags) {
     if ((self != 0) && (flags > 0)) {
-        __dl__FPv();
+        ::operator delete((void *)self);
     }
     return self;
 }
 
-void TPlyFollowParticleCtrl::set_type(u16 type) { *(u16 *)&this->m_name = type; }
+void PlayerFollowParticles::set_owner_id(u16 id) { owner_id = id; }
 
 TPlyFollowParticleCtrl::TPlyFollowParticleCtrl(TObjBase *owner) : TObjCollidable(tl_06) {
     m_name = TPlyFollowParticleCtrl::class_name;
@@ -213,7 +213,7 @@ s32 destroy_follow_particle_state(saddr self, s16 flags) {
 }
 
 void TObjPlayer::update_follow_particle(saddr owner) {
-    ((TPlyFollowParticleCtrl *)this)->set_type(get_entity_id((TObjBase *)owner));
+    ((PlayerFollowParticles *)this)->set_owner_id(get_entity_id((TObjBase *)owner));
 }
 
 void TObjPlayer::update_child(void *owner) {
