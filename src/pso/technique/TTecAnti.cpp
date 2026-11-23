@@ -5,6 +5,7 @@
 #include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecLuker.h"
 #include "pso/unk/TUnk_804CC0E8.h"
+#include "pso/unk/TUnk_804CCA90.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
@@ -126,7 +127,6 @@ void run_task__8TTecAntiFv(Anti_8022B150 *self);
 s32 is_split_screen();
 int spawn_support_tec_range_effect(void*);
 }
-u8 *construct_delayed_point_sound(u8 *arg0, u8 *arg1, s16 arg2, s32 arg3, u8 *arg4);
 void TTecAnti::render() {  }
 
 S_8022B3E8 *copy_technique_target_list(S_8022B3E8 *d, S_8022B3E8 *s) {
@@ -250,10 +250,7 @@ void TTecAnti::vfunc_7(void *pl_arg) {
         }
     }
     if (self->xAC != 0) {
-        o = TObject::operator new(0x30);
-        if (o != NULL) {
-            construct_delayed_point_sound((u8 *)o, (u8 *)pl->x2FC, (s16)(0xF), 0x4002AD11, (u8 *)tl_07);
-        }
+        new TUnk_804CCA90((Vec *)pl->x2FC, 0xF, 0x4002AD11, tl_07);
     }
 }
 

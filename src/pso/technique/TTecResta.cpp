@@ -4,6 +4,7 @@
 #include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecResta.h"
 #include "pso/unk/TUnk_804CCBC0.h"
+#include "pso/unk/TUnk_804CCA90.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/vector.h"
 #include "pso/technique/TTecReverser.h"
@@ -124,7 +125,6 @@ int spawn_support_tec_range_effect(void*);
 
 
 }
-u8 *construct_delayed_point_sound(u8 *arg0, u8 *arg1, s16 arg2, s32 arg3, u8 *arg4);
 void TTecReverser::vfunc_6(void *arg1_arg) {
     Obj_80239CF4 *arg0 = (Obj_80239CF4 *)this;
     VObj_18_9c98dd *arg1 = (VObj_18_9c98dd *)arg1_arg;
@@ -133,10 +133,7 @@ void TTecReverser::vfunc_6(void *arg1_arg) {
     h.power = arg0->power;
     HitInfo_80239CF4 c = h;
     arg1->m21(arg0->source, &c, 0, -1, -1);
-    void *o = TObject::operator new(0x30);
-    if (o != NULL) {
-        construct_delayed_point_sound((u8 *)o, (u8 *)((u8 *)arg1 + 0x38), (s16)(0x2D), 0x4002AD13, (u8 *)tl_07);
-    }
+    new TUnk_804CCA90((Vec *)((u8 *)arg1 + 0x38), 0x2D, 0x4002AD13, tl_07);
 }
 
 TTecResta::TTecResta(void *owner, void *pos, s32 level) : TTecPlayerInfluence(owner, pos, level) {
@@ -259,10 +256,7 @@ void TTecResta::vfunc_7(void *arg1_arg) {
         }
     }
     if (*(s32 *)&arg0->m_ac != 0) {
-        void *o = TObject::operator new(0x30);
-        if (o != NULL) {
-            construct_delayed_point_sound((u8 *)o, (u8 *)((u8 *)player + 0x2FC), (s16)(0x14), 0x4002A80F, (u8 *)tl_07);
-        }
+        new TUnk_804CCA90((Vec *)((u8 *)player + 0x2FC), 0x14, 0x4002A80F, tl_07);
     }
 }
 #pragma pop

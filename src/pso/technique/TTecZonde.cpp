@@ -94,7 +94,7 @@ void TTecZonde::vfunc_8(void *arg1_arg) {
 
 #include "pso/technique/TTecLuker.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/technique/TTecGiZonde_8023CDC4.h"
+#include "pso/unk/TUnk_804CCD78.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/CollisionActorLookup.h"
 extern "C" void *__ct__16TargetCursorListFv(void *list);
@@ -225,10 +225,7 @@ void TTecZonde::run_task() {
             break;
         }
         if (self->level != 5) {
-            o = TObject::operator new(0x40);
-            if (o != NULL) {
-                construct_helper_effect__11TTecGiZondeFPvPvPvPvi((u8 *)o, (u8 *)segs, (u8 *)&t->x, tl_07, 0x19F);
-            }
+            new TUnk_804CCD78((Vec *)segs[0].a, (Vec *)&t->x, (TObject *)tl_07, 0x19F);
         }
         {
             s32 h;
