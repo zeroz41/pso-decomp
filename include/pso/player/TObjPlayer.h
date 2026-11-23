@@ -28,6 +28,7 @@ class TPlyItem;
 struct TechniqueContactList;
 struct TUnk_801D8A4C;
 struct TLockOnCursor;
+struct TMovie;
 struct CapturedTargetList;
 
 // The frames a player stays protected from hits (after getting up, being
@@ -987,7 +988,8 @@ struct TObjPlayer : public TObjChara {
     void clear_flag_80000();
     void set_flag_80000();
     static saddr get_instance();
-    static void disable_keyboard_control();
+    // The ending movie's finish callback: TMovie::run_task calls it with the movie.
+    static void disable_keyboard_control(TMovie *movie);
     static TItem *create_nug2000_bazooka(u8 *item);
     static void enable_foot_stamp(saddr arg1, saddr arg2);
     static void clear_foot_stamp(saddr arg0, saddr arg1);

@@ -11,6 +11,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/movie/TMovie.h"
 
 // Built with -inline off,deferred: functions are written last to first.
 
@@ -18,7 +19,6 @@ extern "C" {
 extern GinjaTextureList shared_capture_texture_list;
 void set_queued_main_phase(s32 arg0);
 void request_main_phase(s32 arg0);
-s32 queue_destruction__7TObjectFv();
 void *__ct__6TMovieFP7TObjectPSclll(void *, void *, const char *, void *, s32, s32, s32);
 extern s32 game_difficulty_selection;
 }
@@ -49,8 +49,8 @@ TUnk_804E71A0::~TUnk_804E71A0() {}
 
 void TUnk_804E71A0::run_task() {}
 
-void TObjPlayer::disable_keyboard_control() {
-    queue_destruction__7TObjectFv();
+void TObjPlayer::disable_keyboard_control(TMovie *movie) {
+    movie->queue_destruction();
     if ((s32) ending_movie_active_flag != 0) {
         request_main_phase(2);
         return;

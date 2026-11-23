@@ -21,7 +21,7 @@ struct TOAttackableCol : public TObjChara {
     u32 m_33c;
     void init_params();
     void send_state_change(u16 state);
-    int handle_6x91_update_state();
+    void handle_6x91_update_state();
     f32 apply_hit(saddr player);
     void release();
     void check_door_trigger();

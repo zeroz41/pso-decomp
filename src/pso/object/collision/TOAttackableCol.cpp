@@ -66,7 +66,6 @@ s32 get_current_floor(void);
 void TOAttackableCol__sub_80157C20(void* p, s32 v);
 s32 TOAttackableCol__sub_80157C28(void* p);
 s32 free_collision_body_parts(void *);
-int clear_player_status_flag__14TObjCollidableFlUl(void*, int, int);
 extern SetEntry_80157454 *quest_object_entries;
 
 void TOAttackableCol__sub_80157310(void * _w0) {  }
@@ -206,7 +205,7 @@ void TOAttackableCol::vfunc_6(s16 *arg1, s32 arg2) {
     ((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 0);
 }
 
-int TOAttackableCol::handle_6x91_update_state() { return clear_player_status_flag__14TObjCollidableFlUl(this, 0, 1); }
+void TOAttackableCol::handle_6x91_update_state() { clear_player_status_flag(0, 1); }
 
 f32 TOAttackableCol::apply_hit(saddr player) {
     u8 *arg0 = (u8 *)this;
