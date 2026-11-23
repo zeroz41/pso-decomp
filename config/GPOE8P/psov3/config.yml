@@ -2516,8 +2516,8 @@ force_active:
   - __dt__21TEquippedItemDrawTaskFv
   - __dt__23TEquippedWeaponDrawTaskFv
   - __dt__13TBoss6MagMineFv
-  - __dt__13TUnk_804F3428Fv
   - __dt__18TSymbolChatCaptureFv
+  - __dt__22TAdDialingMessageTimerFv
   - __dt__13TUnk_804F3A20Fv
   - __dt__13TWindowStatusFv
   - __dt__13TWindowSubLogFv
@@ -3283,8 +3283,8 @@ force_active:
   - __vt__21TEquippedItemDrawTask
   - __vt__23TEquippedWeaponDrawTask
   - __vt__13TBoss6MagMine
-  - __vt__13TUnk_804F3428
   - __vt__18TSymbolChatCapture
+  - __vt__22TAdDialingMessageTimer
   - __vt__13TUnk_804F3A20
   - __vt__13TWindowStatus
   - __vt__13TWindowSubLog
@@ -14904,8 +14904,8 @@ force_active:
   - run_task__21TEquippedItemDrawTaskFv
   - run_task__23TEquippedWeaponDrawTaskFv
   - run_task__13TBoss6MagMineFv
-  - run_task__13TUnk_804F3428Fv
   - run_task__18TSymbolChatCaptureFv
+  - run_task__22TAdDialingMessageTimerFv
   - run_task__13TUnk_804F3A20Fv
   - run_task__13TWindowStatusFv
   - run_task__13TWindowSubLogFv

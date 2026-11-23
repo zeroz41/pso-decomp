@@ -18,14 +18,15 @@ struct TAdDialingMessageWindow : public TObject {
 
 LAYOUT_ASSERT(TAdDialingMessageWindow_size, sizeof(TAdDialingMessageWindow) == 0x2C);
 
-class TUnk_804F3428 : public TObject {
+// Runs a dialing message window's lines and counts its delay down before it shows the message.
+class TAdDialingMessageTimer : public TObject {
 public:
-    TUnk_804F3428(TObject *parent, TAdDialingMessageWindow *window, u32 delay);
-    virtual ~TUnk_804F3428();
+    TAdDialingMessageTimer(TObject *parent, TAdDialingMessageWindow *window, u32 delay);
+    virtual ~TAdDialingMessageTimer();
     virtual void run_task();
     u32 countdown;
     TAdDialingMessageWindow *window;
 };
-LAYOUT_ASSERT(TUnk_804F3428_size, sizeof(TUnk_804F3428) == 0x24);
+LAYOUT_ASSERT(TAdDialingMessageTimer_size, sizeof(TAdDialingMessageTimer) == 0x24);
 
 #endif

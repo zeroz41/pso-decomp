@@ -17,7 +17,7 @@ TAdDialingMessageWindow::TAdDialingMessageWindow(const char *message, u32 delay)
     m_name = TAdDialingMessageWindow__name;
     flags = 0;
     this->message = message;
-    timer = new TUnk_804F3428(tl_camera, this, delay);
+    timer = new TAdDialingMessageTimer(tl_camera, this, delay);
     line_root = new TObject(NULL);
 }
 
@@ -53,15 +53,15 @@ void TAdDialingMessageWindow::set_flag_and_notify() {
     create_draw_line_ctrl(line_root, 17, 0.0f);
 }
 
-TUnk_804F3428::TUnk_804F3428(TObject *parent, TAdDialingMessageWindow *window, u32 delay) : TObject(parent) {
+TAdDialingMessageTimer::TAdDialingMessageTimer(TObject *parent, TAdDialingMessageWindow *window, u32 delay) : TObject(parent) {
     this->window = window;
     countdown = delay;
 }
 
-TUnk_804F3428::~TUnk_804F3428() {
+TAdDialingMessageTimer::~TAdDialingMessageTimer() {
 }
 
-void TUnk_804F3428::run_task() {
+void TAdDialingMessageTimer::run_task() {
     if (window != NULL) {
         if (countdown != 0) {
             countdown = countdown - 1;
