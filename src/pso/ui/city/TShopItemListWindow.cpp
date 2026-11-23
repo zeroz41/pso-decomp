@@ -80,7 +80,6 @@ static const size_t shop_price_offset = shop_items_offset + offsetof(TItemData, 
 s32 section_id_favored_grind_table[10] = {9, 7, 2, 4, 8, 10, -1, 3, -1, 5};
 
 extern "C" {
-s32 sub_8022397C__15TShopWindowBaseFv(void *);
 const char *TShopItemListWindow__class_name = "TShopItemListWindow";
 int obj_getPtr2B0_20(u8 *p);
 s32 TShopItemTecSequence__sub_8021FE6C();
@@ -111,7 +110,7 @@ TShopItemListWindow::TShopItemListWindow(TObject *parent, TShopWindowBase *seque
     this->m_4c = 0;
     this->m_54 = 0;
     calc_item_count((TObjPlayer *)this->player, &count);
-    TLobby::set_6264_and_call_2244B0(sub_8022397C(), count);
+    TLobby::set_6264_and_call_2244B0(get_split_screen_slot(), count);
 }
 
 TShopItemListWindow::~TShopItemListWindow() {
@@ -123,7 +122,7 @@ TShopItemListWindow::~TShopItemListWindow() {
     if (cost_window != 0) { ((TWindowBase *)cost_window)->close(); cost_window = 0; }
 }
 
-void TShopItemListWindow::vfunc_11() {
+void TShopItemListWindow::update_state() {
     u8 *arg0 = (u8 *)this;
     s32 (*temp_r12)(s32);
     switch (*(u32 *)((s8 *)arg0 + 0x20)) {
@@ -171,10 +170,10 @@ void TShopItemListWindow::build_item_list(void *p) {
     u8 *entry;
     s32 n;
     void *c;
-    ((TShopWindowBase *)W)->sub_8022397C();
+    ((TShopWindowBase *)W)->get_split_screen_slot();
     W->count = TShopItemTecSequence__sub_8021FE6C();
     for (i = 0; i < W->count; i++) {
-        reinterpret_cast<TLobby *>(&tmp)->copy_shop_item_entry(i, reinterpret_cast<TShopWindowBase *>(W)->sub_8022397C());
+        reinterpret_cast<TLobby *>(&tmp)->copy_shop_item_entry(i, reinterpret_cast<TShopWindowBase *>(W)->get_split_screen_slot());
         window->shop_items[i].copy_from(&tmp);
     }
     r = window->shop_items;
@@ -211,7 +210,7 @@ void TShopItemListWindow::build_item_list(void *p) {
         ((TWindowHelpItem *)(W->help))->set_displayed_item_colored((uaddr)window->shop_items);
     }
     if (W->status == NULL) {
-        W->status = create_window_quantity((u16)((TShopSequence *)W)->get_child_field1c());
+        W->status = create_window_quantity((u16)((TShopWindowBase *)W)->get_player_entity_id());
         n = static_cast<TPlyItem *>(reinterpret_cast<TObjPlayer *>(W->player)->inventory_objects)->count_items_by_id(reinterpret_cast<saddr>(&window->shop_items[0]));
         ((TWindowSubStatusDisp *)(W->status))->set_entry1_field20(n);
     }
@@ -263,12 +262,12 @@ void TShopItemListWindow::handle_tool_list_select(void *p) {
         }
         W->cur = i;
     }
-    if (((TShopWindowBase *)W)->sub_802239EC() != 0) {
+    if (((TShopWindowBase *)W)->is_cancel_pressed() != 0) {
         *(s32 *)((u8 *)W + 0x20) = 3;
         play_sound_effect(0x52D01, 0, 0, 0);
         return;
     }
-    if (((TShopWindowBase *)W)->sub_80223A48() != 0) {
+    if (((TShopWindowBase *)W)->is_decide_pressed() != 0) {
         play_sound_effect(0x52D01, 0, 0, 0);
         switch (((TShopItemListWindow *)W)->check_purchase_eligibility()) {
         case 0:
@@ -290,7 +289,7 @@ void TShopItemListWindow::handle_tool_list_select(void *p) {
 #undef W
 
 void TShopItemListWindow::update() {
-    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
+    if (is_message_ready() != 0 && (is_decide_pressed() != 0 || is_cancel_pressed() != 0)) {
         display_shop_message(0xB, 1);
         ((TWindowMenuIconLine *)(this->item_list))->clear_decided();
         set_state(1);
@@ -298,7 +297,7 @@ void TShopItemListWindow::update() {
 }
 
 void TShopItemListWindow::handle_confirm() {
-    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
+    if (is_message_ready() != 0 && (is_decide_pressed() != 0 || is_cancel_pressed() != 0)) {
         display_shop_message(0xB, 1);
         ((TWindowMenuIconLine *)(this->item_list))->clear_decided();
         set_state(1);
@@ -319,7 +318,7 @@ void TShopItemListWindow::prepare_tool_purchase() {
             count = room;
         }
         if (count > 1) {
-            quantity_input = (uaddr)new TWindowInputNumber((void *)get_window_layout_position(0x2B), 1, count, 1, ((TShopSequence *)this)->get_child_field1c());
+            quantity_input = (uaddr)new TWindowInputNumber((void *)get_window_layout_position(0x2B), 1, count, 1, get_player_entity_id());
             if (quantity_input != 0U && TLobby::is_camera_ctrl_active() > 2) {
                 ((TWindowInputNumber *)(quantity_input))->set_scale(0.75f, 0.75f);
             }
@@ -390,7 +389,7 @@ void TShopItemListWindow::handle_amount_confirm() {
                         ((TWindowSubStatusDisp *)status_window)->set_entry1_field20(n);
                     }
                     if (is_single_purchase_shop_item((u8 *)&shop_items[sel]) != 0) {
-                        mark_shop_tool_sold_out(sel, sub_8022397C__15TShopWindowBaseFv(this));
+                        mark_shop_tool_sold_out(sel, get_split_screen_slot());
                     }
                     ((TWindowMenuIconLine *)item_list)->save_cursor_selection();
                 }

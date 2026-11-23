@@ -25,7 +25,7 @@ class TQuestListOffline : public TShopWindowBase {
 public:
     TQuestListOffline(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player);
     virtual ~TQuestListOffline();
-    virtual void vfunc_11();
+    virtual void update_state();
     void close_sub_windows();
     void handle_confirm_dialog();
     void update_list_navigation();

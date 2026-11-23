@@ -23,7 +23,7 @@ struct TShopJudgmentItemEntry {
 struct TShopJudgmentItemWindow : public TShopWindowBase {
     TShopJudgmentItemWindow(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player);
     virtual ~TShopJudgmentItemWindow();
-    virtual void vfunc_11();
+    virtual void update_state();
     virtual void send_message(s32 id, s32 flags);
     virtual void display_message(const char *text, s32 flags);
     TItemData judged_item;    // the selected item after the appraisal

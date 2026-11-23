@@ -49,7 +49,7 @@ void TJudgmentSequence__sub_80215BF8(TShopWindowBase *window) {
 }
 
 void TJudgmentSequence::handle_close_input() {
-    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
+    if (is_message_ready() != 0 && (is_decide_pressed() != 0 || is_cancel_pressed() != 0)) {
         TShopSequence::close_window();
         queue_destruction();
     }
@@ -64,7 +64,7 @@ void TJudgmentSequence::open_judgment_window() {
 }
 
 void TJudgmentSequence::handle_confirm() {
-    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
+    if (is_message_ready() != 0 && (is_decide_pressed() != 0 || is_cancel_pressed() != 0)) {
         set_state(3);
     }
 }
@@ -79,7 +79,7 @@ void TJudgmentSequence::setup_counter_camera() {
     x = 332.0f;
     create_message_window(get_window_layout_position(0x2C, x), (saddr)pos);
     send_message(1, 1);
-    m_2c = (TWindowBase *)create_meseta_window(((s32)get_child_field1c()) & 0xFFFF);
+    m_2c = (TWindowBase *)create_meseta_window(((s32)get_player_entity_id()) & 0xFFFF);
     set_state(2);
     counter_camera = set_service_counter_camera(this, 2);
 }
@@ -87,7 +87,7 @@ void TJudgmentSequence::setup_counter_camera() {
 void TJudgmentSequence::restore_player_state() { TShopSequence::restore_player_state(); set_state(1); }
 
 struct Seq_80215CB8;
-void TJudgmentSequence::vfunc_11() {
+void TJudgmentSequence::update_state() {
     switch (state) {
     case 0:
         restore_player_state();
@@ -119,7 +119,7 @@ TJudgmentSequence::~TJudgmentSequence() {
         m_2c = NULL;
     }
     judgment_sequence_instance = NULL;
-    TJudgmentSequence__slot_flags[sub_8022397C()] = 0;
+    TJudgmentSequence__slot_flags[get_split_screen_slot()] = 0;
 }
 
 const char *TJudgmentSequence__class_name = "TJudgmentSequence";
@@ -131,7 +131,7 @@ TJudgmentSequence::TJudgmentSequence(TObject *parent, TObjPlayer *player) : TSho
     counter_camera = NULL;
     judgment_sequence_instance = this;
     set_state(0);
-    TJudgmentSequence__slot_flags[sub_8022397C()] = 1;
+    TJudgmentSequence__slot_flags[get_split_screen_slot()] = 1;
 }
 
 extern "C" {

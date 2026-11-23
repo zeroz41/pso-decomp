@@ -86,7 +86,7 @@ TMedicalCenterSequence::TMedicalCenterSequence(TObject *parent, TObjPlayer *play
     m_2c = NULL;
     m_30 = NULL;
     counter_camera = NULL;
-    TMedicalCenterSequence__data_80513E90[sub_8022397C()] = 1;
+    TMedicalCenterSequence__data_80513E90[get_split_screen_slot()] = 1;
 }
 
 TMedicalCenterSequence::~TMedicalCenterSequence() {
@@ -103,10 +103,10 @@ TMedicalCenterSequence::~TMedicalCenterSequence() {
         ((TWindowBase *)m_30)->close();
         m_30 = NULL;
     }
-    TMedicalCenterSequence__data_80513E90[sub_8022397C()] = 0;
+    TMedicalCenterSequence__data_80513E90[get_split_screen_slot()] = 0;
 }
 
-void TMedicalCenterSequence::vfunc_11() {
+void TMedicalCenterSequence::update_state() {
     switch (state) {
     case 0:
         restore_player_state();
@@ -155,13 +155,13 @@ void TMedicalCenterSequence::open_greeting_window() {
     pos[1] = 80.0f;
     create_message_window(get_window_layout_position(0x2C, 332.0f), (saddr)pos);
     display_shop_message(0x1F, 1);
-    m_2c = (TWindowBase *)create_meseta_window((u16)get_child_field1c());
+    m_2c = (TWindowBase *)create_meseta_window((u16)get_player_entity_id());
     set_state(2);
     counter_camera = set_service_counter_camera(this, 0);
 }
 
 void TMedicalCenterSequence::handle_confirm() {
-    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
+    if (is_message_ready() != 0 && (is_decide_pressed() != 0 || is_cancel_pressed() != 0)) {
         if (player->get_recovery_need_flags() != 0U || (player->is_alive_and_ready() != 0 && player->are_traps_full() == 0)) {
             set_state(7);
             return;
@@ -233,14 +233,14 @@ void TMedicalCenterSequence::show_fee_prompt() {
 }
 
 void TMedicalCenterSequence::handle_window_input() {
-    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
+    if (is_message_ready() != 0 && (is_decide_pressed() != 0 || is_cancel_pressed() != 0)) {
         display_shop_message(0x22, 1);
         set_state(0xa);
     }
 }
 
 void TMedicalCenterSequence::close_window() {
-    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
+    if (is_message_ready() != 0 && (is_decide_pressed() != 0 || is_cancel_pressed() != 0)) {
         TShopSequence::close_window();
         queue_destruction();
     }

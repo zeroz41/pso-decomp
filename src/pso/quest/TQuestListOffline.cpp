@@ -104,7 +104,7 @@ TQuestListOffline::~TQuestListOffline() {
     }
 }
 
-void TQuestListOffline::vfunc_11() {
+void TQuestListOffline::update_state() {
     switch (state) {
     case 0:
         init_quest_list_window();
@@ -139,7 +139,7 @@ void TQuestListOffline::vfunc_11() {
 }
 
 void TQuestListOffline::init_quest_list_window() {
-    if (sequence->vfunc_10() == 0) {
+    if (sequence->is_message_ready() == 0) {
         return;
     }
     refresh_story_quest_availability(story_quest_list_resource);
@@ -191,7 +191,7 @@ void TQuestListOffline::init_quest_list_window() {
 
 void TQuestListOffline::update_list_navigation() {
     s32 sel;
-    if (sequence->vfunc_10() == 0) {
+    if (sequence->is_message_ready() == 0) {
         return;
     }
     if (list_window != NULL && description_window != NULL) {
@@ -238,7 +238,7 @@ void TQuestListOffline::update_list_navigation() {
 }
 
 void TQuestListOffline::handle_confirm_dialog() {
-    if (sequence->vfunc_10() != 0) {
+    if (sequence->is_message_ready() != 0) {
         if (confirm_menu != NULL && confirm_menu->is_decided() != 0) {
             s32 choice = confirm_menu->get_selected_value();
             if (choice == 0) {

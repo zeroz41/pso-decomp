@@ -26,7 +26,7 @@ struct TShopSellEntry {
 struct TShopEquipmentSellWindow : public TShopWindowBase {
     TShopEquipmentSellWindow(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player, s32 title_text);
     virtual ~TShopEquipmentSellWindow();
-    virtual void vfunc_11();
+    virtual void update_state();
     virtual void display_message(const char *text, s32 flags);
     virtual void display_shop_message(s32 id, s32 flags);
     TShopSellEntry entries[30];

@@ -13,7 +13,7 @@ struct TWindowMenu;
 struct THunterGuildSeqOnline_Client : public TShopSequence {
     THunterGuildSeqOnline_Client(TObject *parent, TObjPlayer *player);
     virtual ~THunterGuildSeqOnline_Client();
-    void vfunc_11();
+    void update_state();
     void restore_player_state();
     void close_window();
     void handle_confirm_window();
@@ -35,7 +35,7 @@ LAYOUT_ASSERT(THunterGuildSeqOnline_Client_size, sizeof(THunterGuildSeqOnline_Cl
 struct THunterGuildSeqOnline_Server : public TShopSequence {
     THunterGuildSeqOnline_Server(TObject *parent, TObjPlayer *player);
     virtual ~THunterGuildSeqOnline_Server();
-    void vfunc_11();
+    void update_state();
     void restore_player_state();
     void close_window();
     void init_window();

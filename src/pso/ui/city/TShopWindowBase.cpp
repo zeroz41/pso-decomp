@@ -13,9 +13,7 @@
 
 #pragma readonly_strings on
 
-extern "C" {
-
-void TShopWindowBase::vfunc_11() {  }
+void TShopWindowBase::update_state() {  }
 
 
 f32 TShopWindowBase::get_scale() {
@@ -25,31 +23,30 @@ f32 TShopWindowBase::get_scale() {
     return 1.0f;
 }
 
-s32 TShopWindowBase::sub_8022397C() {
+s32 TShopWindowBase::get_split_screen_slot() {
     if (player != NULL) {
         return (u16)TShopGenerator__sub_80222DAC(player->get_entity_id());
     }
     return 0U;
 }
 
-u16 TShopSequence::get_child_field1c() {
-    void *temp_r3 = this->player;
-    if (temp_r3 != NULL) {
-        return ((TObjBase *)temp_r3)->get_entity_id();
+u16 TShopWindowBase::get_player_entity_id() {
+    if (player != NULL) {
+        return player->get_entity_id();
     }
     return 0;
 }
 
-extern s32 lbl_805D55C0;
+extern "C" s32 lbl_805D55C0;
 
-s32 TShopWindowBase::sub_802239EC() {
+s32 TShopWindowBase::is_cancel_pressed() {
     if (controller_input_state.controllers[player->get_controller_port()].pressed_buttons & 2) {
         return 1;
     }
     return test_controller_flag_4c_color(&controller_input_state.keyboard, 2) ? 1 : 0;
 }
 
-s32 TShopWindowBase::sub_80223A48() {
+s32 TShopWindowBase::is_decide_pressed() {
     if (controller_input_state.controllers[player->get_controller_port()].pressed_buttons & 4) {
         return 1;
     }
@@ -61,13 +58,11 @@ s32 TShopWindowBase::sub_80223A48() {
 
 void TShopWindowBase::run_task() {
     if ((s32) lbl_805D55C0 == 0) {
-        this->vfunc_11();
+        this->update_state();
     }
 }
 
 const char *TShopWindowBase__class_name = "TShopWindowBase";
-
-}
 TShopWindowBase::~TShopWindowBase() {
 
 }

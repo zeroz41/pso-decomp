@@ -12,7 +12,7 @@ struct TWindowMenu;
 struct TShopArmorListWindow : public TShopWindowBase {
     TShopArmorListWindow(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player);
     virtual ~TShopArmorListWindow();
-    virtual void vfunc_11();
+    virtual void update_state();
     virtual void display_message(const char *text, s32 flags);
     virtual void display_shop_message(s32 id, s32 flags);
     TShopWindowBase *sequence;  // the shop sequence that opened it; messages go to it

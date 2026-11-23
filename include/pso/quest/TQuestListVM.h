@@ -54,11 +54,11 @@ extern TQuestListVM *quest_list_vm_instance;
 class TQuestListVM : public TShopWindowBase {
 public:
     TQuestListVM(TObject *parent, TShopWindowBase *owner, TObjPlayer *player);
-    virtual int vfunc_10();
+    virtual int is_message_ready();
     virtual void display_guild_message(s32 index, s32 flags);
     virtual void display_message(const char *text, s32 flags);
     virtual void display_shop_message(s32 id, s32 flags);
-    virtual void vfunc_11();
+    virtual void update_state();
     virtual ~TQuestListVM();
 
     void set_state_after_message(s32 state);

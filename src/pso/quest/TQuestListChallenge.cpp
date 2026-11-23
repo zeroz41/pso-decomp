@@ -89,7 +89,7 @@ void TQuestListChallenge::destroy() {
 void TQuestListChallenge::handle_confirm_select() {
     s32 selected_menu_value;
 
-    if (sequence->vfunc_10() != 0) {
+    if (sequence->is_message_ready() != 0) {
         if (confirmation != NULL && confirmation->is_decided() == 1) {
             selected_menu_value = confirmation->get_selected_value();
             if (selected_menu_value == 0) {
@@ -138,7 +138,7 @@ void TQuestListChallenge::update_selection() {
     s32 id;
     s32 text;
     s32 text2;
-    if (sequence->vfunc_10() == 0) {
+    if (sequence->is_message_ready() == 0) {
         return;
     }
     if (list_window != NULL && description_window != NULL) {
@@ -189,7 +189,7 @@ void TQuestListChallenge::create_quest_list_window() {
     s32 i;
     s32 e;
 
-    if (sequence->vfunc_10() != 0 && list_window == NULL) {
+    if (sequence->is_message_ready() != 0 && list_window == NULL) {
         id = player->get_entity_id();
         list_window = (TWindowMenuIconLine *)create_item_list_window(get_guild_text(0), 0x40, id);
         for (i = 0; i < count; i++) {
@@ -202,7 +202,7 @@ void TQuestListChallenge::create_quest_list_window() {
 }
 
 
-void TQuestListChallenge::vfunc_11() {
+void TQuestListChallenge::update_state() {
     typedef void (TQuestListChallenge::*Handler)();
     static Handler tbl[] = {
         &TQuestListChallenge::create_quest_list_window,

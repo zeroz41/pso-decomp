@@ -36,7 +36,7 @@ s32 copy_bank_to_card_window(int);
 
 void *get_window_layout_position(int);
 s32 copy_bank_item_with_stack_limit(s32 idx, void *data, s32 *out, s32 slot);
-s16 get_child_field1c__13TShopSequenceFv(void *);
+s16 get_player_entity_id__15TShopWindowBaseFv(void *);
 TWindowInputNumber *__ct__18TWindowInputNumberFPvllls(void *, void *, int, s32, int, int);
 }
 
@@ -70,7 +70,7 @@ TShopDeleteItemWindow::~TShopDeleteItemWindow() {
     if (help_window != NULL) { help_window->close(); help_window = 0; }
 }
 
-void TShopDeleteItemWindow::vfunc_11() {
+void TShopDeleteItemWindow::update_state() {
     void (*callback)(TShopWindowBase *);
     void (*empty_callback)(TShopWindowBase *);
     switch (state) {
@@ -117,7 +117,7 @@ void TShopDeleteItemWindow::sub_80337E2C() {
     s32 cursor;
     s32 i;
     delete_count = 1;
-    base = sub_8022397C();
+    base = get_split_screen_slot();
     room_table_entry = TCheckRoomSequence::get_room_table_entry(base);
     if (room_table_entry == 0) {
         display_shop_message(0x3E, 1);
@@ -193,7 +193,7 @@ void TShopDeleteItemWindow::update_item_select(void *arg0) {
     TWindowInputNumber *p;
     s32 id;
     TShopDeleteItemWindow *self = (TShopDeleteItemWindow *)arg0;
-    base = self->sub_8022397C();
+    base = self->get_split_screen_slot();
     if (self->item_list != NULL) {
         cursor = self->item_list->get_cursor_value();
         if (self->help_window != NULL && cursor != self->last_cursor) {
@@ -203,14 +203,14 @@ void TShopDeleteItemWindow::update_item_select(void *arg0) {
             self->last_cursor = cursor;
         }
     }
-    if (self->sub_802239EC() != 0) {
+    if (self->is_cancel_pressed() != 0) {
         self->set_state(7);
-    } else if (self->sub_80223A48() != 0) {
+    } else if (self->is_decide_pressed() != 0) {
         if (copy_bank_item_with_stack_limit(self->item_list->get_cursor_value(), &item, &count, base) != 0) {
             if (item.data1.data_u8[0] == 3 && count > 1) {
                 p = (TWindowInputNumber *)TObject::operator new(0x7C);
                 if (p != NULL) {
-                    id = get_child_field1c__13TShopSequenceFv(self);
+                    id = get_player_entity_id__15TShopWindowBaseFv(self);
                     p = __ct__18TWindowInputNumberFPvllls(p, get_window_layout_position(0x2B), 1, count, 1, id);
                 }
                 self->number_input = p;
@@ -267,7 +267,7 @@ void TShopDeleteItemWindow::handle_confirm_dialog() {
     TWindowMenu *menu2;
     menu = confirm_menu;
     if (menu != NULL && menu->is_decided() != 0) {
-        slot = sub_8022397C();
+        slot = get_split_screen_slot();
         sel = confirm_menu->get_selected_value();
         if (sel == 0) {
             idx = item_list->get_cursor_value();

@@ -78,7 +78,7 @@ TShopEquipmentSellWindow::~TShopEquipmentSellWindow() {
     if (cost_window != NULL) { cost_window->close(); cost_window = NULL; }
 }
 
-void TShopEquipmentSellWindow::vfunc_11() {
+void TShopEquipmentSellWindow::update_state() {
     void (*callback)(TShopWindowBase *);
     switch (this->state) {
     case 0:
@@ -174,7 +174,7 @@ void TShopEquipmentSellWindow::build_sell_list() {
         this->help_window->set_displayed_item_by_id(this->entries[v].data.id);
     }
     if (this->owned_window == NULL) {
-        this->owned_window = create_window_quantity((u16)((TShopSequence *)this)->get_child_field1c());
+        this->owned_window = create_window_quantity((u16)get_player_entity_id());
         r = this->player->inventory_objects->set_mode_and_refresh_object(&this->entries[0].data);
         if (r != NULL) {
             this->owned_window->set_entry_count((TItem *)((TItemList *)r)->get_owner_if_alive());
@@ -222,18 +222,18 @@ void TShopEquipmentSellWindow::handle_selection() {
         }
         this->last_cursor = i;
     }
-    if (sub_802239EC() != 0) {
+    if (is_cancel_pressed() != 0) {
         set_state(8);
         play_sound_effect(0x52D01, 0, 0, 0);
         return;
     }
-    if (sub_80223A48() != 0) {
+    if (is_decide_pressed() != 0) {
         this->sell_count = 1;
         i = this->item_list->get_cursor_value();
         if (this->entries[i].data.data1.data_u8[0] == 3) {
             type = this->entries[i].data.get_stack_count();
             if (type > 1 && this->number_input == NULL) {
-                this->number_input = new TWindowInputNumber((void *)get_window_layout_position(0x2B), 1, type, 1, ((TShopSequence *)this)->get_child_field1c());
+                this->number_input = new TWindowInputNumber((void *)get_window_layout_position(0x2B), 1, type, 1, get_player_entity_id());
                 if (this->number_input != NULL && TLobby::is_camera_ctrl_active() > 2) {
                     this->number_input->set_scale(0.75f, 0.75f);
                 }
@@ -320,7 +320,7 @@ void TShopEquipmentSellWindow::handle_sell_confirm() {
 }
 
 void TShopEquipmentSellWindow::update() {
-    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
+    if (is_message_ready() != 0 && (is_decide_pressed() != 0 || is_cancel_pressed() != 0)) {
         display_shop_message(0xc, 1);
         set_state(5);
     }

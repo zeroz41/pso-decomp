@@ -167,7 +167,7 @@ TQuestListOnline::~TQuestListOnline() {
     TQuestListOnline__instance = 0;
 }
 
-void TQuestListOnline::vfunc_11() {
+void TQuestListOnline::update_state() {
     Obj_802181B0 *arg0 = (Obj_802181B0 *)this;
     switch (this->state) {
     case 0: ((TQuestListOnline*)arg0)->request_menu(); break;

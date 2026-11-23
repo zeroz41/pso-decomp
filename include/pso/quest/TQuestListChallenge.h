@@ -19,7 +19,7 @@ struct QuestListStageEntry {
 struct TQuestListChallenge : public TShopWindowBase {
     TQuestListChallenge(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player);
     virtual ~TQuestListChallenge();
-    virtual void vfunc_11();
+    virtual void update_state();
     void close_windows();
     void create_quest_list_window();
     void update_selection();

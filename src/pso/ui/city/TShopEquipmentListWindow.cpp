@@ -72,7 +72,7 @@ TShopEquipmentListWindow::TShopEquipmentListWindow(TObject *parent, TShopWindowB
     this->state = 0;
     this->on_close = NULL;
     calc_item_count(this->player, &count);
-    TLobby__sub_80225238((sub_8022397C()), (count));
+    TLobby__sub_80225238((get_split_screen_slot()), (count));
 }
 
 TShopEquipmentListWindow::~TShopEquipmentListWindow() {
@@ -83,7 +83,7 @@ TShopEquipmentListWindow::~TShopEquipmentListWindow() {
     if (cost_window != NULL) { cost_window->close(); cost_window = NULL; }
 }
 
-void TShopEquipmentListWindow::vfunc_11() {
+void TShopEquipmentListWindow::update_state() {
     void (*callback)(TShopWindowBase *);
     switch (this->state) {
     case 0:
@@ -134,9 +134,9 @@ void TShopEquipmentListWindow::create_buy_list_windows() {
     s32 k;
     u8 *e;
     TWindowCost *c;
-    this->item_count = TShopEquipmentListWindow__sub_8021C85C(sub_8022397C());
+    this->item_count = TShopEquipmentListWindow__sub_8021C85C(get_split_screen_slot());
     for (i = 0; i < this->item_count; i++) {
-        get_shop_weapon_stock_item(&tmp, i, sub_8022397C());
+        get_shop_weapon_stock_item(&tmp, i, get_split_screen_slot());
         this->stock[i].copy_from(&tmp);
     }
     r = this->stock;
@@ -215,12 +215,12 @@ void TShopEquipmentListWindow::handle_selection() {
         }
         this->last_cursor = i;
     }
-    if (sub_802239EC() != 0) {
+    if (is_cancel_pressed() != 0) {
         set_state(3);
         play_sound_effect(0x52D01, 0, 0, 0);
         return;
     }
-    if (sub_80223A48() != 0) {
+    if (is_decide_pressed() != 0) {
         play_sound_effect(0x52D01, 0, 0, 0);
         switch (check_purchase_eligibility()) {
         case 0:
@@ -247,7 +247,7 @@ void TShopEquipmentListWindow::handle_selection() {
 }
 
 void TShopEquipmentListWindow::handle_select() {
-    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
+    if (is_message_ready() != 0 && (is_decide_pressed() != 0 || is_cancel_pressed() != 0)) {
         display_shop_message(0xB, 1);
         this->item_list->clear_decided();
         this->TShopWindowBase::set_state(1);
@@ -255,7 +255,7 @@ void TShopEquipmentListWindow::handle_select() {
 }
 
 void TShopEquipmentListWindow::handle_confirm() {
-    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
+    if (is_message_ready() != 0 && (is_decide_pressed() != 0 || is_cancel_pressed() != 0)) {
         display_shop_message(0xB, 1);
         this->item_list->clear_decided();
         this->TShopWindowBase::set_state(1);
@@ -302,7 +302,7 @@ void TShopEquipmentListWindow::handle_buy_confirm() {
                 send_6x25_equip_item(player, it.id, 0);
                 update_list(&stock[i]);
                 if (is_single_purchase_shop_item((u8 *)&stock[i]) != 0) {
-                    TLobby::clear_slot_field_f10(i, sub_8022397C());
+                    TLobby::clear_slot_field_f10(i, get_split_screen_slot());
                 }
                 item_list->save_cursor_selection();
             }
@@ -319,7 +319,7 @@ void TShopEquipmentListWindow::handle_buy_confirm() {
                 try_buy_item(player, &it);
                 update_list(&stock[i]);
                 if (is_single_purchase_shop_item((u8 *)&stock[i]) != 0) {
-                    TLobby::clear_slot_field_f10(i, sub_8022397C());
+                    TLobby::clear_slot_field_f10(i, get_split_screen_slot());
                 }
                 item_list->save_cursor_selection();
             }
@@ -337,7 +337,7 @@ void TShopEquipmentListWindow::handle_buy_confirm() {
             try_buy_item(player, &it);
             update_list(&stock[i]);
             if (is_single_purchase_shop_item((u8 *)&stock[i]) != 0) {
-                TLobby::clear_slot_field_f10(i, sub_8022397C());
+                TLobby::clear_slot_field_f10(i, get_split_screen_slot());
             }
             item_list->save_cursor_selection();
         }
@@ -369,7 +369,7 @@ void TShopEquipmentListWindow::handle_equip_offer() {
                 try_buy_item(player, &c);
                 update_list(&stock[i]);
                 if (is_single_purchase_shop_item((u8 *)&stock[i]) != 0) {
-                    TLobby::clear_slot_field_f10(i, sub_8022397C());
+                    TLobby::clear_slot_field_f10(i, get_split_screen_slot());
                 }
                 confirm_menu->close();
                 confirm_menu = NULL;

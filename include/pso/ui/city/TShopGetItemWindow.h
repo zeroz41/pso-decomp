@@ -14,7 +14,7 @@ struct TWindowHelpItem;
 struct TShopGetItemWindow : public TShopWindowBase {
     TShopGetItemWindow(void *arg1, void *arg2, void *arg3);
     virtual ~TShopGetItemWindow();
-    virtual void vfunc_11();
+    virtual void update_state();
     virtual void display_message(const char *text, s32 flags);
     virtual void display_shop_message(s32 id, s32 flags);
     TWindowMenuIconLine *item_list;     // the bank's items

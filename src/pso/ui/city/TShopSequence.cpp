@@ -32,7 +32,7 @@ void set_service_counter_camera(s32 sequence, s32 counter) {
 
 s32 is_split_screen();
 
-int TShopSequence::vfunc_10() {
+int TShopSequence::is_message_ready() {
     if (message_window != NULL) {
         return message_window->is_ready();
     }

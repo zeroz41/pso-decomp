@@ -11,7 +11,7 @@ struct TJudgmentSequence : public TShopSequence {
     TJudgmentSequence(TObject *parent, TObjPlayer *player);
     virtual ~TJudgmentSequence();
     virtual void restore_player_state();
-    void vfunc_11();
+    void update_state();
     void handle_close_input();
     void handle_confirm();
     void setup_counter_camera();

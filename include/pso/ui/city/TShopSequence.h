@@ -13,14 +13,13 @@ struct TShopSequence : public TShopWindowBase {
     virtual ~TShopSequence();
     virtual void restore_player_state();
     virtual void close_window();
-    u16 get_child_field1c();
     u32 create_message_window(s32, s32);
     void close_message_window();
     virtual void display_shop_message(s32 id, s32 flags);
     virtual void display_message(const char *text, s32 flags);
     virtual void send_message(s32 id, s32 flags);
     virtual void display_guild_message(s32 index, s32 flags);
-    virtual int vfunc_10();
+    virtual int is_message_ready();
     void close_if_single_screen(); // every caller passes this in r3
 
     TMessageWindowController *message_window;   // 0x28: created by the ctor, deleted by the dtor

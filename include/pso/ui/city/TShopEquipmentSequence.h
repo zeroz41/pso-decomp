@@ -12,7 +12,7 @@ struct TWindowMenu;
 struct TShopEquipmentSequence : public TShopSequence {
     TShopEquipmentSequence(TObject *parent, TObjPlayer *player);
     virtual ~TShopEquipmentSequence();
-    void vfunc_11();
+    void update_state();
     void handle_confirm();
     void close_if_done();
     void update_buy_sell_choice();

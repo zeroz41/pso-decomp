@@ -24,7 +24,7 @@ struct TShopKeepItemWindow : public TShopWindowBase {
     TShopKeepItemWindow(void *arg1, void *arg2, void *arg3);
     virtual ~TShopKeepItemWindow();
     void handle_deposit_list_select();
-    virtual void vfunc_11();
+    virtual void update_state();
     virtual void display_message(const char *text, s32 flags);
     virtual void display_shop_message(s32 id, s32 flags);
     TShopKeepItemEntry entries[30];

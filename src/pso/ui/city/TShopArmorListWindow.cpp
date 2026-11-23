@@ -137,7 +137,7 @@ TShopArmorListWindow::TShopArmorListWindow(TObject *parent, TShopWindowBase *seq
     this->m_1f4 = 0;
     this->m_1f0 = 0;
     calc_item_count((TObjPlayer *)this->player, &count);
-    TLobby::set_shop_armor_list_flag(sub_8022397C(), count);
+    TLobby::set_shop_armor_list_flag(get_split_screen_slot(), count);
 }
 
 TShopArmorListWindow::~TShopArmorListWindow() {
@@ -163,7 +163,7 @@ TShopArmorListWindow::~TShopArmorListWindow() {
     }
 }
 
-void TShopArmorListWindow::vfunc_11() {
+void TShopArmorListWindow::update_state() {
     u8 *arg0 = (u8 *)this;
     s32 (*temp_r12)(s32);
     switch (*(u32 *)((s8 *)arg0 + 0x20)) {
@@ -218,7 +218,7 @@ void TShopArmorListWindow::refresh_item_list(void *p) {
     s32 k;
     u8 *e;
     void *c;
-    base = ((TShopWindowBase *)W)->sub_8022397C();
+    base = ((TShopWindowBase *)W)->get_split_screen_slot();
     W->count = TLobby__sub_8021B274();
     for (i = 0; i < W->count; i++) {
         ((TLobby *)(&tmp))->copy_armor_shop_entry(i, base);
@@ -311,12 +311,12 @@ void TShopArmorListWindow::handle_selection() {
         }
         w->sel = i;
     }
-    if (((TShopWindowBase *)w)->sub_802239EC() != 0) {
+    if (((TShopWindowBase *)w)->is_cancel_pressed() != 0) {
         w->f20 = 3;
         play_sound_effect(0x52D01, 0, 0, 0);
         return;
     }
-    if (((TShopWindowBase *)w)->sub_80223A48() != 0) {
+    if (((TShopWindowBase *)w)->is_decide_pressed() != 0) {
         play_sound_effect(0x52D01, 0, 0, 0);
         switch (check_purchase_eligibility()) {
         case 0:
@@ -343,7 +343,7 @@ void TShopArmorListWindow::handle_selection() {
 }
 
 void TShopArmorListWindow::handle_select() {
-    if ((this->vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC() != 0))) {
+    if ((this->is_message_ready() != 0) && ((is_decide_pressed() != 0) || (is_cancel_pressed() != 0))) {
         display_shop_message(0xB, 1);
         ((TWindowMenuIconLine *)(this->item_list))->clear_decided();
         set_state(1);
@@ -351,7 +351,7 @@ void TShopArmorListWindow::handle_select() {
 }
 
 void TShopArmorListWindow::update() {
-    if ((this->vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC() != 0))) {
+    if ((this->is_message_ready() != 0) && ((is_decide_pressed() != 0) || (is_cancel_pressed() != 0))) {
         display_shop_message(0xB, 1);
         ((TWindowMenuIconLine *)(this->item_list))->clear_decided();
         set_state(1);
@@ -379,7 +379,7 @@ void TShopArmorListWindow::open_menu_window() {
 }
 
 void handle_buy_confirm__20TShopArmorListWindowFv(Win_8021A634 *w) {
-    saddr base = ((TShopWindowBase *)w)->sub_8022397C();
+    saddr base = ((TShopWindowBase *)w)->get_split_screen_slot();
     s32 r;
     if (w->card != NULL && ((TWindowMenu *)(w->card))->is_decided() != 0) {
         r = ((TWindowMenu *)w->card)->get_selected_value();
@@ -464,7 +464,7 @@ void TShopArmorListWindow::handle_equip_offer() {
                 try_buy_item(w->player, &c);
                 ((TShopArmorListWindow *)w)->update_selection(&w->recs[i]);
                 if (is_single_purchase_shop_item((u8 *)&w->recs[i]) != 0) {
-                    TLobby::clear_shop_entry_value((s32)i, ((TShopWindowBase *)w)->sub_8022397C());
+                    TLobby::clear_shop_entry_value((s32)i, ((TShopWindowBase *)w)->get_split_screen_slot());
                 }
                 ((TWindowMenuIconLine *)(w->list))->save_cursor_selection();
                 ((TWindowBase *)w->win)->close();

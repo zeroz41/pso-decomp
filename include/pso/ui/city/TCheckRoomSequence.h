@@ -11,7 +11,7 @@ struct TWindowMenu;
 struct TCheckRoomSequence : public TShopSequence {
     TCheckRoomSequence(TObject *parent, TObjPlayer *player);
     virtual ~TCheckRoomSequence();
-    virtual void vfunc_11();
+    virtual void update_state();
     virtual void restore_player_state();
     virtual void close_window();
 
@@ -21,7 +21,7 @@ struct TCheckRoomSequence : public TShopSequence {
     static void reset_slot_state();
     static void reset_slots();
     static s32 get_item_def(uaddr arg0);
-    // States of the vfunc_11 table, in table order.
+    // States of the update_state table, in table order.
     void open_bank();
     void handle_root_choice();
     void handle_deposit_choice();

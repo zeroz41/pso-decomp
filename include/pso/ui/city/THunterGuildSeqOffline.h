@@ -12,7 +12,7 @@ struct THunterGuildSeqOffline : public TShopSequence {
     virtual ~THunterGuildSeqOffline();
     virtual void close_window();
     virtual void restore_player_state();
-    void vfunc_11();
+    void update_state();
     void handle_select();
     void open_judgment_window();
     void resolve_active_quest_result();

@@ -12,7 +12,7 @@ struct TWindowMenu;
 struct TShopEquipmentGearSequence : public TShopSequence {
     TShopEquipmentGearSequence(TObject *parent, TObjPlayer *player);
     virtual ~TShopEquipmentGearSequence();
-    virtual void vfunc_11();
+    virtual void update_state();
     TWindowMenu *choice_menu;   // 0x2C: the buy/sell create_window_menu
     TWindowBase *meseta_window; // 0x30: create_meseta_window
     TObject *counter_camera;    // 0x34: set_service_counter_camera

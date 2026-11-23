@@ -65,7 +65,7 @@ TShopGetItemWindow::~TShopGetItemWindow() {
     if (help_window != NULL) { help_window->close(); help_window = 0; }
 }
 
-void TShopGetItemWindow::vfunc_11() {
+void TShopGetItemWindow::update_state() {
     void (*empty_callback)(TShopWindowBase *);
     void (*callback)(TShopWindowBase *);
     switch (state) {
@@ -109,7 +109,7 @@ void TShopGetItemWindow::rebuild_item_list() {
     s32 i;
     TWindowHelpItem *help;
     withdraw_count = 1;
-    room_table_entry = TCheckRoomSequence::get_room_table_entry(x = sub_8022397C());
+    room_table_entry = TCheckRoomSequence::get_room_table_entry(x = get_split_screen_slot());
     if (room_table_entry == 0) {
         display_shop_message(0x3E, 1);
         set_state(6);
@@ -181,7 +181,7 @@ void TShopGetItemWindow::handle_withdraw_list_input() {
     s32 count;
     TItemData item;
     f32 scale;
-    x = sub_8022397C();
+    x = get_split_screen_slot();
     if (item_list != NULL) {
         sel = item_list->get_cursor_value();
         if (help_window != NULL && sel != last_cursor) {
@@ -191,16 +191,16 @@ void TShopGetItemWindow::handle_withdraw_list_input() {
             last_cursor = sel;
         }
     }
-    if (sub_802239EC() != 0) {
+    if (is_cancel_pressed() != 0) {
         set_state(7);
         return;
     }
-    if (sub_80223A48() != 0) {
+    if (is_decide_pressed() != 0) {
         if (copy_bank_item_with_stack_limit(item_list->get_cursor_value(), &item, &count, x) != 0) {
             if (item.data1.data_u8[0] == 3 && count > 1) {
                 TWindowInputNumber *obj = (TWindowInputNumber *)TObject::operator new(0x7C);
                 if (obj != NULL) {
-                    sel = (s16)((TShopSequence *)this)->get_child_field1c();
+                    sel = (s16)get_player_entity_id();
                     obj = __ct__18TWindowInputNumberFPvllls(obj, get_window_layout_position(0x2B), 1, count, 1, sel);
                 }
                 number_input = obj;
@@ -252,7 +252,7 @@ void TShopGetItemWindow::handle_withdraw_confirm() {
     TWindowMenu *menu2;
     menu = confirm_menu;
     if (menu != NULL && menu->is_decided() != 0) {
-        slot = sub_8022397C();
+        slot = get_split_screen_slot();
         sel = confirm_menu->get_selected_value();
         if (sel == 0) {
             idx = item_list->get_cursor_value();

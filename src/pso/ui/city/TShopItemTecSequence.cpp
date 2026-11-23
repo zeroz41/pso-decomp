@@ -87,7 +87,7 @@ TShopItemTecSequence::TShopItemTecSequence(TObject *parent, TObjPlayer *player) 
     item_tec_sequence_instance = this;
     lbl_805D6248 = 0;
     lbl_805D624C = 0;
-    TShopItemTecSequence__slot_table[sub_8022397C()] = 1;
+    TShopItemTecSequence__slot_table[get_split_screen_slot()] = 1;
 }
 
 TShopItemTecSequence::~TShopItemTecSequence() {
@@ -105,10 +105,10 @@ TShopItemTecSequence::~TShopItemTecSequence() {
         choice_menu = NULL;
     }
     item_tec_sequence_instance = NULL;
-    TShopItemTecSequence__slot_table[sub_8022397C()] = 0;
+    TShopItemTecSequence__slot_table[get_split_screen_slot()] = 0;
 }
 
-void TShopItemTecSequence::vfunc_11() {
+void TShopItemTecSequence::update_state() {
     switch (state) {
     case 0:
         TShopSequence::restore_player_state();
@@ -142,7 +142,7 @@ void TShopItemTecSequence::open_greeting() {
     pos[1] = 80.0f;
     create_message_window(get_window_layout_position(0x2C, 332.0f), (saddr)pos);
     display_shop_message(0x2E, 1);
-    meseta_window = (TWindowBase *)create_meseta_window((u16)get_child_field1c());
+    meseta_window = (TWindowBase *)create_meseta_window((u16)get_player_entity_id());
     set_state(2);
     counter_camera = set_service_counter_camera(this, 5);
 }
@@ -199,7 +199,7 @@ void TShopItemTecSequence::open_sell_window() {
 }
 
 void TShopItemTecSequence::close_if_done() {
-    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
+    if (is_message_ready() != 0 && (is_decide_pressed() != 0 || is_cancel_pressed() != 0)) {
         close_if_single_screen();
         TShopSequence::close_window();
         queue_destruction();
@@ -207,7 +207,7 @@ void TShopItemTecSequence::close_if_done() {
 }
 
 void TShopItemTecSequence::handle_select() {
-    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
+    if (is_message_ready() != 0 && (is_decide_pressed() != 0 || is_cancel_pressed() != 0)) {
         display_shop_message(lbl_805D6248, 1);
         set_state(lbl_805D624C);
     }

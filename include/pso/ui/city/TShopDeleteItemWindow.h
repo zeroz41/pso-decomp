@@ -15,7 +15,7 @@ struct TShopDeleteItemWindow : public TShopWindowBase {
     TShopDeleteItemWindow(void *arg1, void *arg2, void *arg3);
     virtual ~TShopDeleteItemWindow();
     void sub_80337E2C();
-    virtual void vfunc_11();
+    virtual void update_state();
     virtual void display_message(const char *text, s32 flags);
     virtual void display_shop_message(s32 id, s32 flags);
     void (*on_close)(TShopWindowBase *sequence);  // called when the player leaves

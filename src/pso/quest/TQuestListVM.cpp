@@ -120,7 +120,7 @@ TQuestListVM::~TQuestListVM() {
     TLobby::tmp_buf_release_if_owner(tmp_buf_owner_name);
 }
 
-void TQuestListVM::vfunc_11() {
+void TQuestListVM::update_state() {
     if (update_load_status() != 0) {
         display_message((const char *)get_message_text(0x44), 1);
         set_state(0x12);
@@ -377,7 +377,7 @@ s32 TQuestListVM::is_downloadable_new_entry(QuestBinHeader *header) {
 
 void TQuestListVM::build_download_list() {
     s32 i;
-    if (vfunc_10() != 0) {
+    if (is_message_ready() != 0) {
         if (list_window != NULL) {
             list_window->reset_list();
         } else {
@@ -695,7 +695,7 @@ void TQuestListVM::invoke_callback_and_queue_destruction() {
 }
 
 void TQuestListVM::wait_for_message() {
-    if (vfunc_10() != 0) {
+    if (is_message_ready() != 0) {
         display_guild_message(0x19, 1);
         set_state(deferred_state);
     }
@@ -767,12 +767,12 @@ void TQuestListVM::display_guild_message(s32 index, s32 flags) {
     }
 }
 
-int TQuestListVM::vfunc_10() {
+int TQuestListVM::is_message_ready() {
     if (owner != NULL) {
-        if (owner->vfunc_10() == 0) {
+        if (owner->is_message_ready() == 0) {
             return 0;
         }
-        return sub_80223A48() ? 1 : 0;
+        return is_decide_pressed() ? 1 : 0;
     }
     return 1;
 }

@@ -12,7 +12,7 @@ struct TShopItemListWindow : public TShopWindowBase {
     virtual ~TShopItemListWindow();
     void prepare_tool_purchase();
     void handle_amount_confirm();
-    virtual void vfunc_11();
+    virtual void update_state();
     virtual void display_message(const char *text, s32 flags);
     virtual void display_shop_message(s32 id, s32 flags);
     // Child windows, closed by the destructor: names from the window each one holds.

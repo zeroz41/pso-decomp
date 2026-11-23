@@ -13,25 +13,25 @@ public:
     virtual void display_message(const char *text, s32 flags);
     virtual void send_message(s32 id, s32 flags);
     virtual void display_guild_message(s32 index, s32 flags);
-    virtual int vfunc_10();
-    virtual void vfunc_11();
+    virtual int is_message_ready();
+    virtual void update_state();
     void set_state(s32);
-    s32 sub_802239EC();
-    s32 sub_80223A48();
-    s32 sub_8022397C();
+    s32 is_cancel_pressed();
+    s32 is_decide_pressed();
+    s32 get_split_screen_slot();
+    u16 get_player_entity_id();
     virtual void run_task();
 public:
     f32 get_scale();
 
     u32 pad_1C;
-    s32 state;          // the derived window's vfunc_11 switch
+    s32 state;          // the derived window's update_state switch
     TObjPlayer *player; // the player at the counter
 };
 
 // The derived windows' constructors are still C functions and call these by symbol.
 extern "C" {
 void *__ct__15TShopWindowBaseFP7TObject(void *self, TObject *parent);
-void *__dt__15TShopWindowBaseFv(void *self, s16 flag);
 }
 
 #endif

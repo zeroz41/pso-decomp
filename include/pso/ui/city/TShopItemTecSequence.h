@@ -14,7 +14,7 @@ struct TItemData;
 struct TShopItemTecSequence : public TShopSequence {
     TShopItemTecSequence(TObject *parent, TObjPlayer *player);
     virtual ~TShopItemTecSequence();
-    virtual void vfunc_11();
+    virtual void update_state();
     TWindowBase *meseta_window;     // 0x2C: create_meseta_window
     TWindowMenu *choice_menu;       // 0x30: the buy/sell create_window_menu
     TObject *counter_camera;        // 0x34: set_service_counter_camera

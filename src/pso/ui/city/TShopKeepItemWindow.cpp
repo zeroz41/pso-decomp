@@ -78,7 +78,7 @@ TShopKeepItemWindow::~TShopKeepItemWindow() {
     if (this->help_window != 0) { ((TWindowBase *)this->help_window)->close(); this->help_window = 0; }
 }
 
-void TShopKeepItemWindow::vfunc_11() {
+void TShopKeepItemWindow::update_state() {
     u8 *arg0 = (u8 *)this;
     switch (this->state) {
     case 0:
@@ -160,7 +160,7 @@ void TShopKeepItemWindow::rebuild_item_list() {
 }
 
 void TShopKeepItemWindow::handle_deposit_list_select() {
-    s32 bank = sub_8022397C();
+    s32 bank = get_split_screen_slot();
     s32 cur;
     s32 count;
     s32 stack;
@@ -172,12 +172,12 @@ void TShopKeepItemWindow::handle_deposit_list_select() {
             this->help_item_index = cur;
         }
     }
-    if (sub_802239EC() != 0) {
+    if (is_cancel_pressed() != 0) {
         set_state(5);
         play_sound_effect(0x52D01, 0, 0, 0);
         return;
     }
-    if (sub_80223A48() == 0) {
+    if (is_decide_pressed() == 0) {
         return;
     }
     cur = this->item_list_window->get_cursor_value();
@@ -212,7 +212,7 @@ void TShopKeepItemWindow::handle_deposit_list_select() {
         break;
     }
     if (count > 1 && this->number_window == NULL) {
-        this->number_window = new TWindowInputNumber((void *)get_window_layout_position(0x2B), 1, count, 1, ((TShopSequence *)this)->get_child_field1c());
+        this->number_window = new TWindowInputNumber((void *)get_window_layout_position(0x2B), 1, count, 1, get_player_entity_id());
         if (this->number_window != NULL && TLobby::is_camera_ctrl_active() > 2) {
             this->number_window->set_scale(0.75f, 0.75f);
         }
@@ -262,7 +262,7 @@ void TShopKeepItemWindow::handle_deposit_confirm() {
     TWindowMenu *win;
     win = this->confirm_window;
     if (win != NULL && win->is_decided() != 0) {
-        base = sub_8022397C();
+        base = get_split_screen_slot();
         r = this->confirm_window->get_selected_value();
         if (r == 0) {
             i = this->item_list_window->get_cursor_value();
@@ -311,7 +311,7 @@ void TShopKeepItemWindow::close_with_ok_callback() {
     if (temp_r12 != NULL) {
         temp_r12(this->message_window);
     }
-    sort_bank_items(sub_8022397C());
+    sort_bank_items(get_split_screen_slot());
     queue_destruction();
 }
 
@@ -322,7 +322,7 @@ void TShopKeepItemWindow::close_with_cancel_callback() {
     if (temp_r12 != NULL) {
         temp_r12(this->message_window);
     }
-    sort_bank_items(sub_8022397C());
+    sort_bank_items(get_split_screen_slot());
     queue_destruction();
 }
 

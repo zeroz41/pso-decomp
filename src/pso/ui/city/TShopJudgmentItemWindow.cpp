@@ -67,7 +67,7 @@ TShopJudgmentItemWindow::~TShopJudgmentItemWindow() {
     if (result_item != NULL) { result_item->queue_destruction(); result_item = NULL; }
 }
 
-void TShopJudgmentItemWindow::vfunc_11() {
+void TShopJudgmentItemWindow::update_state() {
     switch (this->state) {
     case 0:
         close();
@@ -150,12 +150,12 @@ void TShopJudgmentItemWindow::build_item_list() {
 
 void TShopJudgmentItemWindow::handle_input() {
 
-    if (sub_802239EC() != 0) {
+    if (is_cancel_pressed() != 0) {
         set_state(0xA);
         play_sound_effect(0x52D01, 0, 0, 0);
         return;
     }
-    if (sub_80223A48() != 0) {
+    if (is_decide_pressed() != 0) {
         this->yes_no_menu = create_yes_no_window(get_window_layout_position(0x2B), this->player->get_entity_id(), NULL, NULL);
         this->yes_no_menu->set_position_xy(get_scale(), get_scale());
         send_message(3, 1);
@@ -170,7 +170,7 @@ void TShopJudgmentItemWindow::handle_input() {
 void TShopJudgmentItemWindow::handle_judge_confirm() {
     s32 selected_menu_value;
     s32 cursor;
-    if (vfunc_10() != 0) {
+    if (is_message_ready() != 0) {
         if ((yes_no_menu != NULL) && (yes_no_menu->is_decided() != 0)) {
             selected_menu_value = yes_no_menu->get_selected_value();
             if ((selected_menu_value == 0) && (item_list != NULL)) {
@@ -267,7 +267,7 @@ void TShopJudgmentItemWindow::create_result_windows() {
 
 void TShopJudgmentItemWindow::update_judge_confirm() {
     s32 selected_menu_value;
-    if (vfunc_10() != 0) {
+    if (is_message_ready() != 0) {
         if (yes_no_menu == NULL) {
             yes_no_menu = create_yes_no_window(get_window_layout_position(0x2B), player->get_entity_id(), NULL, NULL);
             yes_no_menu->set_position_xy(get_scale(), get_scale());
@@ -334,7 +334,7 @@ void TShopJudgmentItemWindow::handle_equip_prompt() {
     TItem *item;
     TItem *equipped;
 
-    if (this->vfunc_10() != 0) {
+    if (this->is_message_ready() != 0) {
         if (yes_no_menu == NULL) {
             id = player->get_entity_id();
             yes_no_menu = create_yes_no_window(get_window_layout_position(0x2B), id, NULL, NULL);
@@ -407,7 +407,7 @@ void TShopJudgmentItemWindow::handle_equip_prompt() {
 void TShopJudgmentItemWindow::update() {
     s32 c = this->timer - 1;
     this->timer = c;
-    if (c <= 0 && vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
+    if (c <= 0 && is_message_ready() != 0 && (is_decide_pressed() != 0 || is_cancel_pressed() != 0)) {
         send_message(0xB, 1);
         set_state(0);
     }
@@ -416,7 +416,7 @@ void TShopJudgmentItemWindow::update() {
 void TShopJudgmentItemWindow::handle_pay_confirm() {
     s32 selected_menu_value;
 
-    if (this->vfunc_10() != 0) {
+    if (this->is_message_ready() != 0) {
         if (this->yes_no_menu == NULL) {
             this->yes_no_menu = create_yes_no_window(get_window_layout_position(0x2B), this->player->get_entity_id(), NULL, NULL);
             ((TWindowSubComCardList *)this->yes_no_menu)->set_selected_index(0);

@@ -83,10 +83,10 @@ void THunterGuildSeqOffline::close_window() {
         }
         m_34 = 0;
     }
-    if (vfunc_10() == 0) {
+    if (is_message_ready() == 0) {
         return;
     }
-    if (sub_80223A48() == 0 && sub_802239EC() == 0) {
+    if (is_decide_pressed() == 0 && is_cancel_pressed() == 0) {
         return;
     }
     switch (unk_38) {
@@ -118,7 +118,7 @@ void THunterGuildSeqOffline::close_window() {
 void THunterGuildSeqOffline::open_quest_list() {
     TQuestListChallenge *challenge;
     TQuestListOffline *offline;
-    if (vfunc_10() == 0) return;
+    if (is_message_ready() == 0) return;
     switch (get_game_play_mode()) {
     case 2:
         challenge = new TQuestListChallenge(tl_05, this, player);
@@ -159,7 +159,7 @@ void THunterGuildSeqOffline::handle_window_input() {
         }
     } else {
 block_3:
-        if ((this->vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC() != 0))) {
+        if ((this->is_message_ready() != 0) && ((is_decide_pressed() != 0) || (is_cancel_pressed() != 0))) {
             this->display_guild_message(0xC, 1);
             *(s32 *)&this->unk_38 = 1;
             set_state(5);

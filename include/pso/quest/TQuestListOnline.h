@@ -17,7 +17,7 @@ typedef TMenuList<QuestListEntry, 30, 0> OnlineQuestMenu;
 
 struct TQuestListOnline : public TShopWindowBase {
     virtual ~TQuestListOnline();
-    void vfunc_11();
+    void update_state();
     s32 (*callback28)();
     s32 (*callback2c)();
     s32 (*callback30)();

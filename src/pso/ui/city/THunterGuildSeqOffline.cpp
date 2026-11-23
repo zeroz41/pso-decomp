@@ -68,7 +68,7 @@ int fn_80223480(void*);
 // Written last-to-first: the unit is built with deferred code generation (see configure.py).
 
 void THunterGuildSeqOnline_Client::open_judgment_item_window() {
-    if ((vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC() != 0))) {
+    if ((is_message_ready() != 0) && ((is_decide_pressed() != 0) || (is_cancel_pressed() != 0))) {
         choice_menu = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), (u16)((TObjBase *)((saddr)player))->get_entity_id(), NULL, NULL);
         ((TWindowSubComCardList *)choice_menu)->set_selected_index(1);
         ((TWindowAddition *)choice_menu)->set_position_xy(get_scale(), get_scale());
@@ -115,7 +115,7 @@ void THunterGuildSeqOnline_Client::close_window() {
         }
         quest_thread = NULL;
     }
-    if ((vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC() != 0))) {
+    if ((is_message_ready() != 0) && ((is_decide_pressed() != 0) || (is_cancel_pressed() != 0))) {
         switch (pad_34) {
         case 1: {
             new TUnk_804999D0(tl_00, reset_random_enemies_mode);
@@ -175,7 +175,7 @@ THunterGuildSeqOffline::THunterGuildSeqOffline(TObject *parent, TObjPlayer *play
     m_34 = 0;
     unk_38 = 0;
     THunterGuildSeqOffline__active_instance = this;
-    THunterGuildSeqOffline__instance_table[sub_8022397C()] = 1;
+    THunterGuildSeqOffline__instance_table[get_split_screen_slot()] = 1;
 }
 
 THunterGuildSeqOffline::~THunterGuildSeqOffline() {
@@ -192,11 +192,11 @@ THunterGuildSeqOffline::~THunterGuildSeqOffline() {
         ((TObject *)m_34)->queue_destruction();
         m_34 = 0;
     }
-    THunterGuildSeqOffline__instance_table[sub_8022397C()] = 0;
+    THunterGuildSeqOffline__instance_table[get_split_screen_slot()] = 0;
     THunterGuildSeqOffline__active_instance = NULL;
 }
 
-void THunterGuildSeqOffline::vfunc_11() {
+void THunterGuildSeqOffline::update_state() {
     Guild_8021317C *self = (Guild_8021317C *)this;
     switch (self->phase) {
     case 0: self->begin(); break;
@@ -230,7 +230,7 @@ void THunterGuildSeqOffline::open_greeting() {
 
 void THunterGuildSeqOffline::resolve_active_quest_result() {
     u8 *arg0 = (u8 *)this;
-    if ((this->vfunc_10() != 0) && ((((TShopWindowBase *)arg0)->sub_80223A48() != 0) || (((TShopWindowBase *)arg0)->sub_802239EC() != 0))) {
+    if ((this->is_message_ready() != 0) && ((((TShopWindowBase *)arg0)->is_decide_pressed() != 0) || (((TShopWindowBase *)arg0)->is_cancel_pressed() != 0))) {
         if (is_quest_active() == 1) {
             if (TQuestThread::get_register(quest_mission_manager, 0xFF) == 1) {
                 this->display_guild_message(0xB, 1);
@@ -259,8 +259,8 @@ void THunterGuildSeqOffline::resolve_active_quest_result() {
 
 void THunterGuildSeqOffline::open_judgment_window() {
 
-    if ((this->vfunc_10() != 0)
-        && ((sub_80223A48() != 0) || (sub_802239EC() != 0))) {
+    if ((this->is_message_ready() != 0)
+        && ((is_decide_pressed() != 0) || (is_cancel_pressed() != 0))) {
         *(s32 *)&this->choice_menu = (saddr)create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), (u16)((TObjBase *)((saddr)this->player))->get_entity_id(), NULL, NULL);
         ((TWindowSubComCardList *)(this->choice_menu))->set_selected_index(1);
         ((TWindowAddition *)(this->choice_menu))->set_position_xy(get_scale(), get_scale());
@@ -278,7 +278,7 @@ void THunterGuildSeqOffline::handle_select() {
         }
     } else {
 block_3:
-        if ((this->vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC() != 0))) {
+        if ((this->is_message_ready() != 0) && ((is_decide_pressed() != 0) || (is_cancel_pressed() != 0))) {
             this->display_guild_message(0xC, 1);
             *(s32 *)&this->unk_38 = 1;
             set_state((saddr)((void*)(5)));

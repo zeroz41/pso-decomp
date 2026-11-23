@@ -71,7 +71,7 @@ TShopEquipmentSequence::TShopEquipmentSequence(TObject *parent, TObjPlayer *play
     lbl_805D6228 = this;
     lbl_805D622C = 0;
     lbl_805D6230 = 0;
-    TShopEquipmentSequence__slot_active_flags[sub_8022397C()] = 1;
+    TShopEquipmentSequence__slot_active_flags[get_split_screen_slot()] = 1;
 }
 
 TShopEquipmentSequence::~TShopEquipmentSequence() {
@@ -88,10 +88,10 @@ TShopEquipmentSequence::~TShopEquipmentSequence() {
         meseta_window->close();
         meseta_window = NULL;
     }
-    TShopEquipmentSequence__slot_active_flags[sub_8022397C()] = 0;
+    TShopEquipmentSequence__slot_active_flags[get_split_screen_slot()] = 0;
 }
 
-void TShopEquipmentSequence::vfunc_11() {
+void TShopEquipmentSequence::update_state() {
     switch (state) {
     case 0:
         TShopSequence::restore_player_state();
@@ -136,7 +136,7 @@ void TShopEquipmentSequence::open_greeting() {
     pos[1] = 80.0f;
     create_message_window(get_window_layout_position(0x2C, 332.0f), (saddr)pos);
     display_shop_message(0x27, 1);
-    meseta_window = (TWindowBase *)create_meseta_window((s32)(unsigned short)get_child_field1c());
+    meseta_window = (TWindowBase *)create_meseta_window((s32)(unsigned short)get_player_entity_id());
     set_state(2);
     counter_camera = set_service_counter_camera(this, 3);
 }
@@ -192,7 +192,7 @@ void TShopEquipmentSequence::open_sell_window() {
 }
 
 void TShopEquipmentSequence::close_if_done() {
-    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
+    if (is_message_ready() != 0 && (is_decide_pressed() != 0 || is_cancel_pressed() != 0)) {
         close_if_single_screen();
         TShopSequence::close_window();
         queue_destruction();
@@ -202,7 +202,7 @@ void TShopEquipmentSequence::close_if_done() {
 void TShopEquipmentSequence__sub_8021D65C(void) {  }
 
 void TShopEquipmentSequence::handle_confirm() {
-    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
+    if (is_message_ready() != 0 && (is_decide_pressed() != 0 || is_cancel_pressed() != 0)) {
         display_shop_message(lbl_805D622C, 1);
         set_state(lbl_805D6230);
     }

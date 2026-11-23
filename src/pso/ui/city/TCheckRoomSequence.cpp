@@ -233,7 +233,7 @@ void TCheckRoomSequence::sub_8020F1DC() {  }
 #pragma push
 #pragma optimization_level 1
 void handle_error_ack__18TCheckRoomSequenceFPv(u8 *arg0) {
-    if ((((TShopWindowBase *)(arg0))->vfunc_10() != 0) && ((((TShopWindowBase *)arg0)->sub_80223A48() != 0) || (((TShopWindowBase *)arg0)->sub_802239EC() != 0))) {
+    if ((((TShopWindowBase *)(arg0))->is_message_ready() != 0) && ((((TShopWindowBase *)arg0)->is_decide_pressed() != 0) || (((TShopWindowBase *)arg0)->is_cancel_pressed() != 0))) {
         ((TShopWindowBase *)arg0)->display_shop_message(TCheckRoomSequence__error_return_text_id, 1);
         ((TShopWindowBase *)arg0)->set_state(TCheckRoomSequence__error_return_state);
     }
@@ -275,7 +275,7 @@ void accept_meseta_withdrawal__18TCheckRoomSequenceFPv(u8 *arg0) {
     s32 slot;
     if (((u32) *(u32 *)((s8 *)arg0 + 0x34) != 0U) && (((s32)((TWindowInputNumber *)(*(uaddr *)((s8 *)arg0 + 0x34)))->is_confirmed()) != 0)) {
         amount = ((TWindowInputNumber *)(*(uaddr *)((s8 *)arg0 + 0x34)))->get_value();
-        slot = ((s32)((TShopWindowBase *)arg0)->sub_8022397C());
+        slot = ((s32)((TShopWindowBase *)arg0)->get_split_screen_slot());
         bank_debit_meseta(amount, slot);
         ((TObjPlayer *)(*(saddr *)((s8 *)arg0 + 0x24)))->add_meseta(amount);
         copy_bank_to_card_window(slot);
@@ -303,7 +303,7 @@ void begin_meseta_withdrawal__18TCheckRoomSequenceFPv(Seq_8020F478 *self) {
     void *w;
     s32 count;
     s32 n;
-    count = TCheckRoomSequence::get_room_data(((TShopWindowBase *)self)->sub_8022397C());
+    count = TCheckRoomSequence::get_room_data(((TShopWindowBase *)self)->get_split_screen_slot());
     if (count > 0) {
         n = 999999 - obj_getPtr2B0_20((u8 *)self->f24);
         n = (n < count) ? n : count;
@@ -311,7 +311,7 @@ void begin_meseta_withdrawal__18TCheckRoomSequenceFPv(Seq_8020F478 *self) {
             if (self->f34 == NULL) {
                 w = TObject::operator new(0x7C);
                 if (w != NULL) {
-                    id = ((s16)((TShopSequence *)self)->get_child_field1c());
+                    id = ((s16)((TShopSequence *)self)->get_player_entity_id());
                     w = __ct__18TWindowInputNumberFPvllls(w, get_window_layout_position(0x2B), 1, n, 1, id);
                 }
                 self->f34 = w;
@@ -344,7 +344,7 @@ void accept_meseta_deposit__18TCheckRoomSequenceFPv(u8 *arg0) {
     s32 slot;
     if (((u32) *(u32 *)((s8 *)arg0 + 0x34) != 0U) && (((s32)((TWindowInputNumber *)(*(uaddr *)((s8 *)arg0 + 0x34)))->is_confirmed()) != 0)) {
         count = ((TWindowInputNumber *)(*(uaddr *)((s8 *)arg0 + 0x34)))->get_value();
-        slot = ((s32)((TShopWindowBase *)arg0)->sub_8022397C());
+        slot = ((s32)((TShopWindowBase *)arg0)->get_split_screen_slot());
         bank_credit_meseta(count, slot);
         try_spend_actor_meseta((u8 *)(*(saddr *)((s8 *)arg0 + 0x24)), (count));
         copy_bank_to_card_window(slot);
@@ -373,7 +373,7 @@ void begin_meseta_deposit__18TCheckRoomSequenceFPv(Seq_8020F730 *self) {
     void *w;
     s32 slot;
     s32 n;
-    slot = ((TShopWindowBase *)self)->sub_8022397C();
+    slot = ((TShopWindowBase *)self)->get_split_screen_slot();
     if (get_bank_meseta_capacity(slot) > 0) {
         meseta = obj_getPtr2B0_20((u8 *)self->f24);
         if (meseta > 0) {
@@ -382,7 +382,7 @@ void begin_meseta_deposit__18TCheckRoomSequenceFPv(Seq_8020F730 *self) {
             if (self->f34 == NULL) {
                 w = TObject::operator new(0x7C);
                 if (w != NULL) {
-                    id = ((s16)((TShopSequence *)self)->get_child_field1c());
+                    id = ((s16)((TShopSequence *)self)->get_player_entity_id());
                     w = __ct__18TWindowInputNumberFPvllls(w, get_window_layout_position(0x2B), 1, n, 1, id);
                 }
                 self->f34 = w;
@@ -413,7 +413,7 @@ void begin_meseta_deposit__18TCheckRoomSequenceFPv(Seq_8020F730 *self) {
 void open_deposit_item_window__18TCheckRoomSequenceFv(u8 *arg0) {
     void *mem;
     Win_8020F8C0 *w;
-    if (TCheckRoomSequence::get_room_table_entry(((TShopWindowBase *)arg0)->sub_8022397C()) > 0xC8) {
+    if (TCheckRoomSequence::get_room_table_entry(((TShopWindowBase *)arg0)->get_split_screen_slot()) > 0xC8) {
         ((TShopWindowBase *)arg0)->display_shop_message(0x3C, 1);
         TCheckRoomSequence__error_return_text_id = 0x46;
         TCheckRoomSequence__error_return_state = 2;
@@ -622,8 +622,8 @@ extern "C" {
 #pragma push
 #pragma optimization_level 1
 void TCheckRoomSequence::close_window() {
-    if ((vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC() != 0)) && (poll_memcard_result(((s8)TAdSinglePlyChrSelectGC::get_chr_select_state())) == 0)) {
-        copy_bank_to_card_window(sub_8022397C());
+    if ((is_message_ready() != 0) && ((is_decide_pressed() != 0) || (is_cancel_pressed() != 0)) && (poll_memcard_result(((s8)TAdSinglePlyChrSelectGC::get_chr_select_state())) == 0)) {
+        copy_bank_to_card_window(get_split_screen_slot());
         close_if_single_screen();
         TShopSequence::close_window();
         queue_destruction();
@@ -640,9 +640,9 @@ void open_bank__18TCheckRoomSequenceFv(u8 *sequence) {
     v.y = 80.0f;
     ((TShopSequence *)sequence)->create_message_window((s32)(get_window_layout_position(0x2C)), (saddr)&v);
     ((TShopWindowBase *)sequence)->display_shop_message(0x31, 1);
-    *(s32 *)((s8 *)sequence + 0x38) = (saddr)create_meseta_window((u16)((TShopSequence *)sequence)->get_child_field1c());
-    *(void **)((s8 *)sequence + 0x40) = new TWindowDeposit((s16)((TShopSequence *)sequence)->get_child_field1c());
-    TWindowMainMenu::set_entry_field_20(*(s32 *)((s8 *)sequence + 0x40), TCheckRoomSequence::get_room_data(((TShopWindowBase *)sequence)->sub_8022397C()));
+    *(s32 *)((s8 *)sequence + 0x38) = (saddr)create_meseta_window((u16)((TShopSequence *)sequence)->get_player_entity_id());
+    *(void **)((s8 *)sequence + 0x40) = new TWindowDeposit((s16)((TShopSequence *)sequence)->get_player_entity_id());
+    TWindowMainMenu::set_entry_field_20(*(s32 *)((s8 *)sequence + 0x40), TCheckRoomSequence::get_room_data(((TShopWindowBase *)sequence)->get_split_screen_slot()));
     *(s32 *)((s8 *)sequence + 0x2C) = 0;
     *(s32 *)((s8 *)sequence + 0x48) = set_service_counter_camera(sequence, 6);
     ((TShopWindowBase *)sequence)->set_state(2);
@@ -651,11 +651,11 @@ void open_bank__18TCheckRoomSequenceFv(u8 *sequence) {
 
 void TCheckRoomSequence::restore_player_state() {
     TShopSequence::restore_player_state();
-    copy_bank_from_card_window(sub_8022397C());
+    copy_bank_from_card_window(get_split_screen_slot());
     set_state(1);
 }
 
-void TCheckRoomSequence::vfunc_11() {
+void TCheckRoomSequence::update_state() {
     static Fn_802102D0 fns[20] = {
         (Fn_802102D0)&TCheckRoomSequence::restore_player_state,
         (Fn_802102D0)&TCheckRoomSequence::open_bank,
@@ -709,7 +709,7 @@ TCheckRoomSequence::~TCheckRoomSequence() {
         choice_menu = NULL;
     }
     close_window__18TCheckRoomSequenceFPv((TCheckRoomSequence_8020F070 *)this);
-    TCheckRoomSequence__slot_active_flags[sub_8022397C()] = 0;
+    TCheckRoomSequence__slot_active_flags[get_split_screen_slot()] = 0;
     if (pad_30 != 0) {
         TAdSinglePlyChrSelectGC::safe_free(pad_30);
         pad_30 = 0;
@@ -732,7 +732,7 @@ TCheckRoomSequence::TCheckRoomSequence(TObject *parent, TObjPlayer *player) : TS
     set_state(0);
     TCheckRoomSequence__active_instance = (saddr)this;
     pad_30 = 0;
-    TCheckRoomSequence__slot_active_flags[sub_8022397C()] = 1;
+    TCheckRoomSequence__slot_active_flags[get_split_screen_slot()] = 1;
 }
 
 extern "C" {
