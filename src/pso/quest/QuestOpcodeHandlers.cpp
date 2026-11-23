@@ -878,8 +878,6 @@ int clear_enabled_main_warps(void*);
 void TLobby__sub_80190FD0(int a0);
 int TObjHashiVersus2__sub_801912A4(void*);
 int TObjHashiVersus2__sub_801912B0(void*);
-s32 init_local_pad_binding__10TObjPlayerFv();
-s32 stop_force_if_alive__10TObjPlayerFv();
 s32 TObjPlayer__sub_801AF904();
 void draw_small_label__15TFontSmallLobbyFi(saddr arg0);
 void TLobby__sub_801B1254(saddr arg0);
@@ -1441,14 +1439,16 @@ void qst_op_gba_destroy_dl_graph(void) { TLobby::destroy_singleton(); }
 void qst_op_gba_create_dl_graph(void) { TLobby::init_graph(); }
 
 void qst_op_enable_movement2() {
-    if (get_player_by_client_id((s32)((int) ((u16) qst_args[0]))) != 0U) {
-        init_local_pad_binding__10TObjPlayerFv();
+    TObjPlayer *player = get_player_by_client_id((u16)qst_args[0]);
+    if (player != NULL) {
+        player->init_local_pad_binding();
     }
 }
 
 void qst_op_disable_movement2() {
-    if (get_player_by_client_id((s32)((int) ((u16) qst_args[0]))) != 0U) {
-        stop_force_if_alive__10TObjPlayerFv();
+    TObjPlayer *player = get_player_by_client_id((u16)qst_args[0]);
+    if (player != NULL) {
+        player->stop_force_if_alive();
     }
 }
 extern "C" {

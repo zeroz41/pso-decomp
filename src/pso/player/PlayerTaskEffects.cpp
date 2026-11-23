@@ -65,7 +65,6 @@ extern "C" {
 
 
 
-s32 check_flag_0x8000__10TObjPlayerFv();
 
 
 }
@@ -315,7 +314,6 @@ struct MovementHistory { s32 n; MovementHistoryEntry e[16]; };
 
 extern "C" {
 void calc_death_pose_height_offset(Out_801C58CC *arg0, Actor_801C58CC *player);
-s32 set_flag_2000000_alt__10TObjPlayerFv();
 void *find_entity_by_id();
 s32 get_current_floor();
 void set_params__10TObjPlayerFPvPvPviPv(void *arg0, void *arg1, void *arg2, saddr arg3, void *arg4);
@@ -698,7 +696,7 @@ TObjPlayer*TPlayerSoul::get_player() {
 
 extern "C" {
 void TObjPlayer::revive_or_spawn_marker() {
-    if ((check_flag_0x8000__10TObjPlayerFv() != 0) || (obj_isState3_324() != 0) || (is_script_controlled() != 0)) {
+    if ((check_flag_0x8000() != 0) || (obj_isState3_324() != 0) || (is_script_controlled() != 0)) {
         clear_flag_8000();
         return;
     }
@@ -1010,7 +1008,7 @@ void update_player_appear_fade(u8 *arg0) {
             if (var_f31 >= 1.0f) {
                 var_f31 = 1.0f;
                 *(s32 *)((s8 *)arg0 + 4) = 2;
-                set_flag_2000000_alt__10TObjPlayerFv();
+                ((TObjPlayer *)player)->set_flag_2000000_alt();
                 ((TObjPlayer *)player)->activate_body_collision();
             }
             ((TObjPlayer *)player)->render_material_state.alpha = var_f31;
@@ -1086,7 +1084,7 @@ TPlayerLobbyMarker::~TPlayerLobbyMarker() {}
 void TObjPlayer::set_flag_2000000_alt() { set_state_flags((uaddr)((void*)2097152)); }
 s32 TObjPlayer::check_flag_04000000() { return check_flag((saddr)((void*)4194304)); }
 void TObjPlayer::clear_flag_8000() { clear_state_flags((saddr)((void*)32768)); }
-void TObjPlayer::check_flag_0x8000() { check_flag((saddr)((void*)32768)); }
+s32 TObjPlayer::check_flag_0x8000() { return check_flag(0x8000); }
 void*TObjPlayer::restore_shrunken_font() { copy_subcommand_header(this); return this; }
 void TObjPlayer::init_6x88_packet() { *(u8*)((char*)this + 0x0) = 136; *(u8*)((char*)this + 0x1) = 1; }
 void TObjPlayer::send_font_update_60() { bswap_g_client_id_header(this); send_subcommand((u8 *)this); }

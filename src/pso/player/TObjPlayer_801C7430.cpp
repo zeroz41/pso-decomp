@@ -1039,7 +1039,6 @@ f32 newton_sqrtf(f32);
 s32 test_flags_any(void *, int);
 s32 TObjPlayer__sub_80082300(void *);
 s32 check_value_equals__13TUnk_804B6C24CFl(saddr, void *);
-s32 spawn_appearance_effect__10TObjPlayerFUs();
 s32 copy_attack_targets(void *, void *);
 s32 publish_actor_light_scalars(u32, f32, f32);
 s32 canSetMenuCursorAction(void *, void *, s32, u8);
@@ -1061,7 +1060,6 @@ s32 accumulate_damage_stats_at_76c(s32, s32, s32);
 s32 fn_801B0480(int, void *, int);
 s32 draw_player_status(void *, void *, const char *);
 s32 reset_volopt_state__10TObjPlayerFv(void *obj);
-s32 is_in_tl03_state__10TObjPlayerFv(void *);
 void send_6x2F_change_player_hp(u16 sender, u16 client, s16 hp);
 s16 calc_scaled_value__10TObjPlayerFii(void *, int);
 void apply_speed_scale__10TObjPlayerFif(saddr arg0, f32 farg0);
@@ -1073,7 +1071,6 @@ u16 TObjPlayer__sub_801B5AF8(void *, s32);
 u32 resolve_move_collision__10TObjPlayerFv(void *);
 s32 damp_planar_velocity();
 s32 get_vobj_state_28__10TObjPlayerFv(void *);
-s32 check_flag_4__10TObjPlayerFv(void *);
 void TObjPlayer__sub_801BEEE0(void *p, void *q);
 s32 set_anim_state__10TObjPlayerFs(void *, int);
 f32 TObjPlayer__sub_801BF814(void *p);
@@ -1266,7 +1263,7 @@ void handle_6xB0_turn_or_move_lobby_chair(void *command) {
     TObjPlayer__sub_801D10D4(&m);
     if (fn_8036B798(&m) != 0) {
         p = (Player_801C7430 *)get_player_by_client_id(m.slot);
-        if ((p != NULL) && (((s32 (*)(void))is_in_tl03_state__10TObjPlayerFv)() != 0)) {
+        if ((p != NULL) && (((TObjPlayer *)p)->is_in_tl03_state() != 0)) {
             ((TObjPlayer *)p)->update_lobby_chair(m.c);
             calc_direction_vector(p->dir, (Vec *)p->vec, 1.0f);
         }
@@ -1280,7 +1277,7 @@ void handle_6xAF_turn_or_move_lobby_chair(void *command) {
     ((TObjPlayer *)(&sp8))->swap_endian32();
     if (fn_8036B7C0(&sp8) != 0) {
         TObjPlayer *p = get_player_by_client_id(sp8.f2);
-        if (p != NULL && ((s32 (*)(void))is_in_tl03_state__10TObjPlayerFv)() != 0) {
+        if (p != NULL && p->is_in_tl03_state() != 0) {
             p->get_chair_state(sp8.f4);
         }
     }
@@ -1662,7 +1659,7 @@ void handle_6x58_lobby_animation(void *command) {
     ((TObjPlayer *)(&m))->bswap_packet();
     if (validate_6x58_lobby_animation(&m) != 0) {
         p = (Player_801C851C *)get_player_by_client_id((u16)m.slot);
-        if ((p != NULL) && (((s32 (*)(void))is_in_tl03_state__10TObjPlayerFv)() != 0)) {
+        if ((p != NULL) && (((TObjPlayer *)p)->is_in_tl03_state() != 0)) {
             p->anim = m.c;
             if (((s32 (*)(void *))TObjPlayer__sub_801D1360)(&m) != 0) {
                 ((TObjPlayer *)p)->set_anim_flag();
@@ -2034,8 +2031,7 @@ void TObjPlayer::update_warp_relocation() {
             this->phase = 3;
             activate_body_collision();
             if (((s32 (*)(void *))is_on_current_floor__10TObjPlayerFi)(this) != 0) {
-                this->get_entity_id();
-                spawn_appearance_effect__10TObjPlayerFUs();
+                spawn_appearance_effect(get_entity_id());
             }
         }
         break;
@@ -2340,7 +2336,7 @@ void handle_6x52_set_animation_state(saddr command) {
     ((TObjPlayer *)(&pkt))->swap_stats_bytes();
     if (validate_6x52_set_animation_state((void *) (&pkt)) != 0) {
         player = get_player_by_client_id(pkt.client);
-        if ((player != NULL) && (((s32 (*)(void))is_in_tl03_state__10TObjPlayerFv)() != 0) && (player->test_action_mask(0x8000) == 0) && ((TFontSmallLobby::is_lobby_floor_15() == 0) || (player->obj_isState2_324() == 0) || (player->check_flag(0x04000000) == 0))) {
+        if ((player != NULL) && (player->is_in_tl03_state() != 0) && (player->test_action_mask(0x8000) == 0) && ((TFontSmallLobby::is_lobby_floor_15() == 0) || (player->obj_isState2_324() == 0) || (player->check_flag(0x04000000) == 0))) {
             set_anim_state__10TObjPlayerFs(&player->pad_5f0, (int) (pkt.c));
             ((TObjPlayer *)&player->pad_5f0)->set_anim_state((s32)pkt.g);
             ((TObjPlayer *)&player->pad_5f0)->set_state((int) (pkt.e));
@@ -3314,7 +3310,7 @@ void handle_6x50_switch_interaction(const void *source) {
     ((TObjPlayer *)(&packet))->bswap_field4();
     if (validate_6x50_switch_interaction(&packet)) {
         u8 *player = reinterpret_cast<u8 *>(get_player_by_client_id(packet.actor));
-        if (player && ((s32 (*)(void))is_in_tl03_state__10TObjPlayerFv)() && !((TObjPlayer *)player)->test_action_mask(0x8200)) {
+        if (player && ((TObjPlayer *)player)->is_in_tl03_state() && !((TObjPlayer *)player)->test_action_mask(0x8200)) {
             *(s32 *)(player + 0x60) = packet.yaw;
             ((TObjPlayer *)player)->run_action_state_phase(12, 0);
         }
@@ -3642,7 +3638,7 @@ void handle_6x37_photon_blast(saddr command) {
     ((TObjPlayer *)(&pkt))->swap_endian16();
     if (validate_6x37_photon_blast((G_ClientIDHeader *)(&pkt)) != 0) {
         player = reinterpret_cast<u8 *>(get_player_by_client_id(pkt.player));
-        if ((player != NULL) && (((s32 (*)(void))check_flag_4__10TObjPlayerFv)() == 0) && (*(TObject **)((s8 *)player + 0x10) == tl_03) && (((s32 (*)(int))reset_volopt_state__10TObjPlayerFv)((saddr) (player)) != 0)) {
+        if ((player != NULL) && (((TObjPlayer *)player)->check_flag_4() == 0) && (*(TObject **)((s8 *)player + 0x10) == tl_03) && (((s32 (*)(int))reset_volopt_state__10TObjPlayerFv)((saddr) (player)) != 0)) {
             ((PhotonBlastGauge *)(player + 0x4AC))->check_photon_blast_flag();
             ((PhotonBlastGauge *)(player + 0x4AC))->trigger_photon_blast();
         }
@@ -4815,7 +4811,7 @@ void handle_6x46_attack_finished(s32 command) {
     ((s32 (*)(void *, s32))TObjPlayer__sub_801D2BB8)(packet, command);
     ((TObjPlayer *)packet)->bswap_field4_sub();
     if (validate_6x46_attack_finished(packet) != 0 && (pl = ((Player_801CE928 *)get_player_by_client_id((u16)packet[1]))) != NULL &&
-        ((s32 (*)(void))is_in_tl03_state__10TObjPlayerFv)() != 0 && reset_volopt_state__10TObjPlayerFv(pl) != 0) {
+        ((TObjPlayer *)pl)->is_in_tl03_state() != 0 && reset_volopt_state__10TObjPlayerFv(pl) != 0) {
         ((s32 (*)(void *, void *))on_attack_finished__10TObjPlayerFPv)((u8 *)pl + 0x7CC, &packet[2]);
         it = TObjPlayer::get_equipped_weapon(pl);
         if (it != NULL) {

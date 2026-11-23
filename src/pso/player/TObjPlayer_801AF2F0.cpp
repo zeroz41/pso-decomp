@@ -1246,7 +1246,6 @@ void unequip_item__10TObjPlayerFiPv(saddr player, void *arg1);
 void handle_6x26_unequip_item(void *command);
 void handle_6x25_equip_item(void *command);
 void send_6x25_equip_item(void *arg0, s32 arg1, s32 arg2);
-void handle_state2_transitions__10TObjPlayerFv(u8 *arg0);
 void TObjPlayer__sub_801BA42C(void);
 void handle_6xAE_set_animation_state(void *command);
 void handle_6x20_set_position(void *command);
@@ -1261,7 +1260,6 @@ void TObjPlayer__sub_801BBB70(void);
 void TObjPlayer__sub_801BC050(O_801BC050 *p);
 void create_player_instance__10TObjPlayerFll(u16, Rec_801B09A4 *);
 TObjPlayer *get_local_player();
-s32 check_flag_4__10TObjPlayerFv(void *);
 void clear_flag_4000_callback__10TObjPlayerFv(TObjPlayer *);
 void TObjPlayer__sub_801BE784(void *, s32);
 s32 get_battle_mode__10TObjPlayerFv(void *);
@@ -1936,7 +1934,7 @@ void run_task__10TObjPlayerFv(TObjPlayer *player) {
     s16 temp_r0;
     s16 temp_r0_2;
 
-    ((s32 (*)(void))handle_state2_transitions__10TObjPlayerFv)();
+    player->handle_state2_transitions();
     player->update_subsystems();
     player->update_position_history();
     player->update_status_effects();
@@ -3889,7 +3887,7 @@ void handle_6x30_change_player_level(void *command) {
     if (((TObjPlayer *)p)->is_alive_and_ready() != 0) {
         ((TObjPlayer *)p)->refill_traps();
     }
-    if (((s32 (*)(Plr_801B6A5C *))check_flag_4__10TObjPlayerFv)(p) == 0) {
+    if (((TObjPlayer *)p)->check_flag_4() == 0) {
         if (pkt.kind == 1) {
             ((TObjPlayer *)p)->spawn_level_change_feedback("Level Down");
         } else {
@@ -5892,7 +5890,7 @@ s32 TObjPlayer::is_in_tl03_state() {
     int var_r31;
 
     var_r31 = 0;
-    if ((((s32 (*)(void))check_flag_4__10TObjPlayerFv)() == 0) && ((u32) *(u32 *)((s8 *)this + 0x10) == (uaddr) tl_03)) {
+    if ((check_flag_4() == 0) && ((u32) *(u32 *)((s8 *)this + 0x10) == (uaddr) tl_03)) {
         var_r31 = 1;
     }
     return (u8)((u8)var_r31);

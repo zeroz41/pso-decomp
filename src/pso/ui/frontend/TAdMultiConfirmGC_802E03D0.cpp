@@ -38,7 +38,6 @@ struct Stack_802E0468
 };
 
 extern "C" {
-void play_phase_transition_sound__10TObjPlayerFl(s32);
 void set_chunk_material_override_pair(s32, s32);
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
@@ -309,15 +308,13 @@ void TAdChrSelPlayerGC::update_chara_making() {
     draw_model_with_arg((void *)m_170->get_field_4a4());
     push_matrix_from((void *)get_joint_matrix(0x3A));
     TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((saddr)m_170->get_status_data()));
-    m_170->get_field_4a0();
-    ((s32 (*)())play_phase_transition_sound__10TObjPlayerFl)();
+    TObjPlayer::play_phase_transition_sound(m_170->get_field_4a0());
     pop_matrix();
     if (m_170->get_field_49c() != 0U) {
         push_matrix_from((void *)get_joint_matrix(0x3B));
         TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((saddr)m_170->get_chara_making_data()));
         TCharaMaking::enable_making();
-        m_170->get_field_49c();
-        ((s32 (*)())play_phase_transition_sound__10TObjPlayerFl)();
+        TObjPlayer::play_phase_transition_sound(m_170->get_field_49c());
         TCharaMaking::clear_flag_bit0();
         pop_matrix();
     }
