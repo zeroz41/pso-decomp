@@ -64,18 +64,6 @@ struct Menu_80296D68
   f32 scroll;
 };
 
-struct Menu_80297B18 {
-    u8 pad0[0x1C];
-    void *f1C;
-    u8 pad20[0x24 - 0x20];
-    s32 *ids;
-    s32 count;
-    s32 sel;
-    s32 f30;
-    s32 pulse;
-    f32 t;
-    f32 tmax;
-};
 
 
 typedef void (TObjCMMainMenu::*MenuFn_802987AC)();
@@ -126,10 +114,6 @@ struct Cols_80297DB8 {
     u32 c[4];
 };
 
-struct Menu_80297DB8 {
-    u8 pad[0x38];
-    f32 alpha;
-};
 
 // One entry of the creation main menu: the TObjCMAssignMenu kind it opens and the member it runs
 // when chosen (name inferred from its uses).
@@ -139,20 +123,7 @@ struct CreationMenuModeList {
     s32 *entries;
 };
 
-struct Menu_802975DC {
-    u8 pad0[0x1C];
-    void *f1C;
-    u8 pad20[0x24 - 0x20];
-    s32 *ids;
-    s32 count;
-    s32 sel;
-    u8 pad30[0x34 - 0x30];
-    s32 pulse;
-    f32 t;
-    f32 tmax;
-};
 
-struct M_80298450 { u8 pad[0x38]; f32 f38; };
 
 extern "C" {
 void copy_player_visual_record(void *, void *);
@@ -639,7 +610,6 @@ Quad_80297DB8 footer_divider_vertices[2] = {
 
 
 void TObjCMMainMenu::draw_footer_divider() {
-    Menu_80297DB8 *self = (Menu_80297DB8 *)this;
     ColorLineList prim;
     u32 cols[4];
     f32 s = TObjCMMainMenu::get_scale();
@@ -660,7 +630,7 @@ void TObjCMMainMenu::draw_footer_divider() {
         q->p[2].y = bot;
         for (j = 0; j < 4; j++) {
             u32 c = src->c[j];
-            cols[j] = (c & 0x00FFFFFF) | (__cvt_fp2unsigned((f32)(c >> 24) * self->alpha) << 24);
+            cols[j] = (c & 0x00FFFFFF) | (__cvt_fp2unsigned((f32)(c >> 24) * reveal) << 24);
         }
         prim.colors = cols;
         prim.verts = q->p;
@@ -670,14 +640,13 @@ void TObjCMMainMenu::draw_footer_divider() {
 #pragma push
 #pragma fp_contract on
 void TObjCMMainMenu::draw_name_warning_and_icons() {
-    Menu_80297B18 *m = (Menu_80297B18 *)this;
     u32 color;
     s32 i;
     f32 s;
     f32 step;
     f32 y;
-    if (m->ids[m->sel] == 9 && TObjCMMainMenu::validate_character_name((s8 *)m->f1C) == 0) {
-        color = ((u32)(255.0f * (1.0f - 0.35f * fabs_float(sin_table_lookup(m->pulse << 10)))) << 24) | 0xFFFFFF;
+    if (entries[selected_entry] == 9 && TObjCMMainMenu::validate_character_name((s8 *)character->name) == 0) {
+        color = ((u32)(255.0f * (1.0f - 0.35f * fabs_float(sin_table_lookup(reveal_ticks << 10)))) << 24) | 0xFFFFFF;
         s = TObjCMMainMenu::get_scale();
         step = 19.0f * s;
         y = 396.0f * s - step;
@@ -693,10 +662,10 @@ void TObjCMMainMenu::draw_name_warning_and_icons() {
     switch (state) {
     case 0:
         if (TAdSinglePlyChrSelectGC::is_active() != 0) {
-            if (m->ids[m->sel] == 9 && TObjCMMainMenu::validate_character_name((s8 *)m->f1C) == 0) {
+            if (entries[selected_entry] == 9 && TObjCMMainMenu::validate_character_name((s8 *)character->name) == 0) {
                 s32 icon_ids[] = {1};
                 TObjCMIcon__sub_802994C8(1, icon_ids);
-            } else if (((s8 *)m->f1C)[0x30] == -1) {
+            } else if (character->section == -1) {
                 s32 icon_ids[] = {1, 4};
                 TObjCMIcon__sub_802994C8(2, icon_ids);
             } else {
@@ -708,7 +677,7 @@ void TObjCMMainMenu::draw_name_warning_and_icons() {
         }
         break;
     case 1:
-        switch (m->ids[m->sel]) {
+        switch (entries[selected_entry]) {
         case 7:
             TObjCMIcon::reset_icon_flags();
             break;
@@ -721,7 +690,7 @@ void TObjCMMainMenu::draw_name_warning_and_icons() {
         }
         break;
     case 2:
-        if (m->f30 == 0 || creation_resource_ready_state == 2) {
+        if (delay == 0 || creation_resource_ready_state == 2) {
             s32 icon_ids[] = {6};
             TObjCMIcon__sub_802994C8(1, icon_ids);
         } else {
@@ -772,8 +741,6 @@ const s32 char_creation_root_menu_tab_table[15] = {
 
 
 void TObjCMMainMenu::draw_root_menu() {
-    u8 *arg0 = (u8 *)this;
-    Menu_802975DC *m = (Menu_802975DC *)arg0;
     vec2f a;
     vec2f b;
     vec2f c;
@@ -796,7 +763,7 @@ void TObjCMMainMenu::draw_root_menu() {
     s32 q;
     s32 r;
 
-    t = m->t < m->tmax ? m->t : m->tmax;
+    t = reveal < submenu_fade ? reveal : submenu_fade;
     if (!(t <= 0.33f)) {
         if (t >= 0.66f) {
             ratio = 1.0f;
@@ -805,9 +772,9 @@ void TObjCMMainMenu::draw_root_menu() {
         }
         b.y = 1.0f;
         a.y = 80.0f;
-        for (i = 0; i < m->count; i++) {
+        for (i = 0; i < entry_count; i++) {
             k = 0;
-            v = TObjCMMainMenu::get_creation_sprite_id(m->ids[i] + 0x8F) + 0x90;
+            v = TObjCMMainMenu::get_creation_sprite_id(entries[i] + 0x8F) + 0x90;
             for (j = 0; j < 15; j++) {
                 e = char_creation_root_menu_tab_table[j];
                 if (v < e) {
@@ -816,9 +783,9 @@ void TObjCMMainMenu::draw_root_menu() {
             }
             x = ratio * ((f32) e - 115.0f) + 115.0f;
             a.x = 115.0f;
-            if (TAdSinglePlyChrSelectGC::is_active() != 0 && i == m->sel) {
+            if (TAdSinglePlyChrSelectGC::is_active() != 0 && i == selected_entry) {
                 k = 2;
-                a.x += 9.0f * sin_table_lookup(m->pulse << 10);
+                a.x += 9.0f * sin_table_lookup(reveal_ticks << 10);
             }
             b.x = (x - a.x) / 48.0f;
             draw_ui_sprite_opaque(k + 6, &a, &b, -2.125f);
@@ -836,9 +803,9 @@ void TObjCMMainMenu::draw_root_menu() {
         }
         c.x = 95.0f;
         c.y = 80.0f;
-        for (n = 0; n < m->count; n++) {
+        for (n = 0; n < entry_count; n++) {
             o = 0;
-            if (TAdSinglePlyChrSelectGC::is_active() != 0 && n == m->sel) {
+            if (TAdSinglePlyChrSelectGC::is_active() != 0 && n == selected_entry) {
                 o = -1;
             }
             draw_ui_sprite(o + 1, &c, -1.8125f, alpha);
@@ -851,14 +818,14 @@ void TObjCMMainMenu::draw_root_menu() {
         d.y = 93.0f;
         sq = x * x;
         base = 0.6f * sq;
-        for (q = 0; q < m->count; q++) {
+        for (q = 0; q < entry_count; q++) {
             flag = 0;
-            if (m->ids[q] == 9 && TObjCMMainMenu::validate_character_name((s8 *)m->f1C) == 0) {
+            if (entries[q] == 9 && TObjCMMainMenu::validate_character_name((s8 *)character->name) == 0) {
                 flag = 1;
             }
             r = flag;
-            if (TAdSinglePlyChrSelectGC::is_active() != 0 && q == m->sel) {
-                s = sin_table_lookup(m->pulse << 10);
+            if (TAdSinglePlyChrSelectGC::is_active() != 0 && q == selected_entry) {
+                s = sin_table_lookup(reveal_ticks << 10);
                 s = 0.25f * s + 1.0f;
                 if (s > 1.0f) {
                     s = 1.0f;
@@ -867,13 +834,13 @@ void TObjCMMainMenu::draw_root_menu() {
                 if (r) {
                     alpha *= 0.4f;
                 }
-                draw_ui_sprite(m->ids[q] + 0x8F, &d, -1.8125f, alpha);
+                draw_ui_sprite(entries[q] + 0x8F, &d, -1.8125f, alpha);
             } else {
                 alpha = base;
                 if (r) {
                     alpha *= 0.4f;
                 }
-                draw_ui_sprite(m->ids[q] + 0x8F, &d, -1.8125f, alpha);
+                draw_ui_sprite(entries[q] + 0x8F, &d, -1.8125f, alpha);
             }
             d.y += 44.0f;
         }
