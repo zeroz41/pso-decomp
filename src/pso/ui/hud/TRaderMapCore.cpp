@@ -50,6 +50,7 @@
 #include "pso/unk/TLobby_801E2F94.h"
 #include "pso/unk/TLobby_80131794.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/unk/text_800F8A18.h"
 
 typedef struct RadarInitPiece_801F9474 {
     s16 id, flags;
@@ -393,10 +394,6 @@ struct MRec_801FB490 { f32 v[3]; s32 a0; f32 a4; s16 h[2]; u8 padac[0x28 - 0x18]
 
 
 struct Ent_801FB798 { s32 a; char *name; };
-extern "C" {
-
-void copy_name(s32 arg0);
-}
 saddr get_floor_scene_table(s32 arg0);
 extern "C" {
 void bind_gvm_texture_list(char *, u8 *);
@@ -458,7 +455,7 @@ void TRaderMapCore::load_map_resources() {
         replace_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)e[status].name, "r");
         bind_gvm_texture_list(buf, *(u8 **)(TRaderMapCore__floor_map_resource + 4));
     }
-    copy_name((saddr)"..");
+    copy_name("..");
     lbl_805D49B4 = 0;
     TRaderMapCore::load_frame_texture();
     e = (Ent_801FB798 *)TRaderMapCore__floor_map_resource;

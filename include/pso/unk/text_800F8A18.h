@@ -7,10 +7,4 @@ extern "C" {
 void copy_name(char *name);
 }
 
-// --- C functions defined in text_800F8A18.cpp ---
-extern "C" {
-void copy_name(char *name);
-}
-// --- end of C functions
-
 #endif
