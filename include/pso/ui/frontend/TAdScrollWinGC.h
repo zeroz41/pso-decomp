@@ -3,30 +3,33 @@
 
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/window/WindowDrawContext.h"
 
-struct TAdScrollWinGC : public TObject {
+struct TWindowMessageLog;
+
+// A scrolling text window (licence and trial agreements, lobby text): a
+// message log window filled with the mode's text lines, scrolled with the
+// C stick, with its scroll marker drawn at the bottom right.
+class TAdScrollWinGC : public TObject {
+public:
+    TAdScrollWinGC(TObject *parent, s32 mode, s32 text);
     virtual ~TAdScrollWinGC();
-    void render_status_value();
-    u8 unk_1C[0x4];
-    f32 m_20;
-    u8 unk_24[0x4];
-    f32 m_28;
-    u8 unk_2C[0x4];
-    f32 m_30;
-    u8 unk_34[0x4];
-    f32 m_38;
-    u32 m_3c;
-    uaddr m_40;
-    u32 m_44;
-    u32 m_48;
-    u32 m_4c;
-    u32 m_50;
+    virtual void run_task();
     virtual void render();
+
+    void render_status_value();
     s32 get_scroll_delay_for_mode();
     void advance_scroll(f32 v);
     void close();
     void close_window();
-    virtual void run_task();
+
+    TexturedQuad m_marker;
+    u32 m_alpha;
+    TWindowMessageLog *m_window;
+    u32 m_mode;
+    u32 pad_48;
+    s32 m_state;
+    s32 m_close_timer;
 };
 
 extern const char *TAdScrollWinGC__class_name;

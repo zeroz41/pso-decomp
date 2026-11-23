@@ -18,99 +18,73 @@ s32 status_disp_texture_handle;
 void TAdSelectTxtSubGC::render_status() {
     begin_screen_draw(1);
     TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(status_disp_texture_handle));
-    set_draw_texture_and_color((saddr)(*(void * *)&(*(s16 *)((u8 *)this + 0x20))), (saddr)(*(void **)((s8 *)this + 0x80)));
-    draw_textured_quad_at_depth((f32 *)((char *)this + 68), 0.25f);
+    set_draw_texture_and_color(m_texture, m_color);
+    draw_textured_quad_at_depth(&m_quad.x0, 0.25f);
     TWindowSubStatusDisp::get_player();
 }
-
-struct Src_802A37A0 {
-    s32 f0;
-    s32 f4;
-    f32 v8[2];
-    s32 f10;
-};
-
-struct Txt_802A37A0 {
-    const char *f0;
-    u8 pad4[0x14];
-    s32 *vt;
-    s32 f1c;
-    s32 f20;
-    f32 f24, f28, f2c, f30;
-    u8 pad34[0x54 - 0x34];
-    f32 f54, f58, f5c, f60;
-    f32 f64, f68;
-    f32 f6c, f70;
-    f32 f74, f78;
-    s32 f7c;
-    s32 f80;
-    s32 f84;
-};
-
-extern "C" {
-s32 __ct__7TObjectFP7TObject(void *, void *);
-extern s32 __vt__17TAdSelectTxtSubGC[];
-Txt_802A37A0 *__ct__17TAdSelectTxtSubGCFv(Txt_802A37A0 *arg0, void *parent, Src_802A37A0 *src);
 
 void TAdSelectTxtSubGC::render() { if (TMainTask::get_render_pass() != 1) { set_color_blending_mode(0, 8); set_color_blending_mode(1, 10); render_status(); set_color_blending_mode(0, 8); set_color_blending_mode(1, 6); } }
 
 #pragma push
 #pragma fp_contract on
 void TAdSelectTxtSubGC::run_task() {
-    u8 *arg0 = (u8 *)this;
-    f32 temp_f2;
-    f32 temp_f2_2;
-    f32 temp_f2_3;
-    f32 temp_f2_4;
-    s32 temp_r4;
-    temp_r4 = *(s32 *)((s8 *)arg0 + 0x84);
-    if (temp_r4 < 5) {
-        *(s32 *)((s8 *)arg0 + 0x84) = (temp_r4 + 1);
+    f32 center;
+    s32 frame;
+    frame = m_frame;
+    if (frame < 5) {
+        m_frame = frame + 1;
     }
-    *(f32 *)((s8 *)arg0 + 0x74) = (2.0f - 0.2f * (f32) *(s32 *)((s8 *)arg0 + 0x84));
-    *(f32 *)((s8 *)arg0 + 0x78) = (2.0f - 0.2f * (f32) *(s32 *)((s8 *)arg0 + 0x84));
-    temp_f2 = *(f32 *)((s8 *)arg0 + 0x6C);
-    *(f32 *)((s8 *)arg0 + 0x44) = (f32) ((*(f32 *)((s8 *)arg0 + 0x74) * (*(f32 *)((s8 *)arg0 + 0x24) - temp_f2)) + temp_f2);
-    temp_f2_2 = *(f32 *)((s8 *)arg0 + 0x70);
-    *(f32 *)((s8 *)arg0 + 0x48) = (f32) ((*(f32 *)((s8 *)arg0 + 0x78) * (*(f32 *)((s8 *)arg0 + 0x28) - temp_f2_2)) + temp_f2_2);
-    temp_f2_3 = *(f32 *)((s8 *)arg0 + 0x6C);
-    *(f32 *)((s8 *)arg0 + 0x4C) = (f32) ((*(f32 *)((s8 *)arg0 + 0x74) * (*(f32 *)((s8 *)arg0 + 0x2C) - temp_f2_3)) + temp_f2_3);
-    temp_f2_4 = *(f32 *)((s8 *)arg0 + 0x70);
-    *(f32 *)((s8 *)arg0 + 0x50) = (f32) ((*(f32 *)((s8 *)arg0 + 0x78) * (*(f32 *)((s8 *)arg0 + 0x30) - temp_f2_4)) + temp_f2_4);
+    m_scale_x = 2.0f - 0.2f * (f32)m_frame;
+    m_scale_y = 2.0f - 0.2f * (f32)m_frame;
+    center = m_center_x;
+    m_quad.x0 = (m_scale_x * (m_rest.x0 - center)) + center;
+    center = m_center_y;
+    m_quad.y0 = (m_scale_y * (m_rest.y0 - center)) + center;
+    center = m_center_x;
+    m_quad.x1 = (m_scale_x * (m_rest.x1 - center)) + center;
+    center = m_center_y;
+    m_quad.y1 = (m_scale_y * (m_rest.y1 - center)) + center;
 }
 #pragma pop
 
 #pragma push
 #pragma fp_contract on
 TAdSelectTxtSubGC::~TAdSelectTxtSubGC() {}
-Txt_802A37A0 *__ct__17TAdSelectTxtSubGCFv(Txt_802A37A0 *arg0, void *parent, Src_802A37A0 *src) {
-    __ct__7TObjectFP7TObject(arg0, parent);
-    arg0->vt = __vt__17TAdSelectTxtSubGC;
-    arg0->f0 = ad_select_txt_sub_gc_class_name;
-    arg0->f7c = src->f0;
-    arg0->f1c = src->f4;
-    copy_vec2((&arg0->f64), src->v8);
-    arg0->f80 = src->f10;
-    arg0->f84 = -1;
-    arg0->f74 = 2.0f;
-    arg0->f78 = 2.0f;
+extern "C" {
+void *__ct__7TObjectFP7TObject(void *, TObject *);
+extern void *__vt__17TAdSelectTxtSubGC[];
+TAdSelectTxtSubGC *__ct__17TAdSelectTxtSubGCFP7TObjectP17TAdSelectTxtEntry(TAdSelectTxtSubGC *self, TObject *parent, TAdSelectTxtEntry *entry);
+}
+
+TAdSelectTxtSubGC *__ct__17TAdSelectTxtSubGCFP7TObjectP17TAdSelectTxtEntry(TAdSelectTxtSubGC *self, TObject *parent, TAdSelectTxtEntry *entry) {
+    __ct__7TObjectFP7TObject(self, parent);
+    *(void **)((u8 *)self + 0x18) = __vt__17TAdSelectTxtSubGC;
+    self->m_name = ad_select_txt_sub_gc_class_name;
+    self->m_row = entry->value;
+    self->m_column = entry->index;
+    copy_vec2(&self->m_origin, entry->position);
+    self->m_color = entry->text_id;
+    self->m_frame = -1;
+    self->m_scale_x = 2.0f;
+    self->m_scale_y = 2.0f;
     status_disp_texture_handle = TObjNpcHosa__sub_802A39B0();
-    arg0->f20 = arg0->f7c > 8;
-    arg0->f7c -= (arg0->f7c > 8) ? 9 : 0;
-    arg0->f24 = 32.0f * (f32) arg0->f1c + arg0->f64;
-    arg0->f28 = arg0->f68;
-    arg0->f2c = 32.0f * (arg0->f1c + 1) + arg0->f64;
-    arg0->f30 = 27.0f + arg0->f68;
-    arg0->f6c = 0.5f * (arg0->f2c - arg0->f24) + arg0->f24;
-    arg0->f70 = 0.5f * (arg0->f30 - arg0->f28) + arg0->f28;
-    arg0->f54 = (32.0f * (f32) arg0->f1c) / 256.0f;
-    arg0->f58 = (28.0f * (f32) arg0->f7c) / 256.0f;
-    arg0->f5c = (32.0f * (arg0->f1c + 1) - 1.0f) / 256.0f;
-    arg0->f60 = (28.0f * (arg0->f7c + 1) - 1.0f) / 256.0f;
-    return arg0;
+    self->m_texture = self->m_row > 8;
+    self->m_row -= (self->m_row > 8) ? 9 : 0;
+    self->m_rest.x0 = 32.0f * (f32)self->m_column + self->m_origin.x;
+    self->m_rest.y0 = self->m_origin.y;
+    self->m_rest.x1 = 32.0f * (self->m_column + 1) + self->m_origin.x;
+    self->m_rest.y1 = 27.0f + self->m_origin.y;
+    self->m_center_x = 0.5f * (self->m_rest.x1 - self->m_rest.x0) + self->m_rest.x0;
+    self->m_center_y = 0.5f * (self->m_rest.y1 - self->m_rest.y0) + self->m_rest.y0;
+    self->m_quad.u0 = (32.0f * (f32)self->m_column) / 256.0f;
+    self->m_quad.v0 = (28.0f * (f32)self->m_row) / 256.0f;
+    self->m_quad.u1 = (32.0f * (self->m_column + 1) - 1.0f) / 256.0f;
+    self->m_quad.v1 = (28.0f * (self->m_row + 1) - 1.0f) / 256.0f;
+    return self;
 }
 #pragma pop
 
+extern "C" {
 int TObjNpcHosa__sub_802A39B0(void) {  return ad_select_text_texture_handle; }
 
 

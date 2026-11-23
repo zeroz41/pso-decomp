@@ -7,7 +7,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
-#include "pso/ui/frontend/TAdScrollWinGC_80327504.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdAgreementBaseGC.h"
 #include "pso/ui/frontend/TAdTrialAgreementGC_8033573C.h"
@@ -44,7 +43,7 @@ void TAdTrialAgreementGC::render() {
 
 void TAdTrialAgreementGC::vfunc_8() { request_main_phase((saddr)((void*)0)); }
 void TAdTrialAgreementGC::vfunc_7() { TAdMultiChgGameModeGC::request_scene_change(); }
-void TAdTrialAgreementGC::vfunc_6() { if (this->m_38 != 0) { ((TAdScrollWinGC *)(this->m_38))->close_window(); this->m_38 = 0; } }
+void TAdTrialAgreementGC::vfunc_6() { if (scroll_window != NULL) { scroll_window->close_window(); scroll_window = NULL; } }
 void TAdTrialAgreementGC::wait_for_load() {
 loop_1:
     if ((TAdPlayerLoadGC::probe_card_slot(0) != 0) && (poll_memcard_result(0) != 0)) {
@@ -91,22 +90,13 @@ TAdTrialAgreementGC::~TAdTrialAgreementGC() {
 
 }
 
-#define ad_trial_agreement_gc ((u8 *)this)
 TAdTrialAgreementGC::TAdTrialAgreementGC(TObject *parent) : TAdAgreementBaseGC(parent) {
-    saddr ad_scroll_win_gc;
-    s32 var_r0;
-    *(const char **)((s8 *)ad_trial_agreement_gc + 0) = TAdTrialAgreementGC__name;
-    ((TAdTrialAgreementGC *)ad_trial_agreement_gc)->m_38 = 0;
-    if (TAdTrialAgreementGC::check_card_file((saddr)ad_trial_agreement_gc) != 0) {
-        ((TAdTrialAgreementGC *)(ad_trial_agreement_gc))->vfunc_7();
-        ((TObject *)ad_trial_agreement_gc)->queue_destruction();
+    m_name = TAdTrialAgreementGC__name;
+    scroll_window = NULL;
+    if (TAdTrialAgreementGC::check_card_file((saddr)this) != 0) {
+        vfunc_7();
+        queue_destruction();
         return;
     }
-    ad_scroll_win_gc = (saddr)TObject::operator new(0x54);
-    var_r0 = ad_scroll_win_gc;
-    if (var_r0 != 0) {
-        var_r0 = (saddr)TAdScrollWinGC__ct((TAdScrollWinGC *)((void *)ad_scroll_win_gc), (ad_trial_agreement_gc), 1, 0);
-    }
-    ((TAdTrialAgreementGC *)ad_trial_agreement_gc)->m_38 = var_r0;
+    scroll_window = new TAdScrollWinGC(this, 1, 0);
 }
-#undef ad_trial_agreement_gc
