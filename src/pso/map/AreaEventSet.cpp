@@ -42,7 +42,7 @@ typedef void (*FloorEventCreateFunc)(SetDestroyEventRecord *event);
 
 FloorEventSet *floor_event_sets[18];
 
-void TLobby::set_destroy_event(int a0) { set_event_destroy_id = a0; }
+void TLobby::set_destroy_event(int destroy_event) { set_event_destroy_id = destroy_event; }
 void spawn_destroy_event(SetDestroyEventRecord *event) {
     if (TLobby::get_destroy_event_obj() != -1) {
         show_partner_chatter_for_key(event->spawn_arg0);

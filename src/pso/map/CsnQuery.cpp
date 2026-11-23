@@ -853,9 +853,9 @@ void init_csn_hit(u8 *arg0) {
 }
 
 
-s32 init_csn_contact(saddr arg0) {
-    ((TObjPlayer *)arg0)->clear_velocity_vectors();
-    return arg0;
+s32 init_csn_contact(saddr player) {
+    ((TObjPlayer *)player)->clear_velocity_vectors();
+    return player;
 }
 
 
