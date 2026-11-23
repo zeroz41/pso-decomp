@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjEvtCollision : public TObjCollidable {
-    TObjEvtCollision(saddr, saddr);
+    TObjEvtCollision(TObject *parent, void *set_data);
     virtual ~TObjEvtCollision();
     f32 trigger_radius;
     u32 m_b0;

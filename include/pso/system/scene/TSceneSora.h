@@ -8,7 +8,7 @@ struct AnimationMotion;
 struct GinjaTextureList;
 
 struct TSceneSora : public TObjBase {
-    TSceneSora(saddr _w1);
+    TSceneSora(TObject *parent);
     virtual ~TSceneSora();
     NJS_OBJECT *sky_model;
     AnimationMotion *sky_motion;
