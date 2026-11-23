@@ -899,7 +899,6 @@ s32 send_download_head_d7(TProtocol *, int, int);
 void* __ct__13TQuestBgmCtrlFP7TObject(void*, TObject *);
 }
 extern "C" {
-void reset_random_enemies_mode__6TLobbyFv(void);
 }
 void play_cue_stream_file(const char *name);
 extern "C" {
@@ -931,7 +930,6 @@ int THunterGuildSeqOffline__sub_801F3748(void*);
 void TObjDoor__sub_801F3760(void);
 s32 clear_floor_event_flags();
 s32 is_room_enemy_set_cleared(int, int, void *);
-s32 unhide_enemies_at__6TLobbyFlll(s32, s32, s32, s32);
 void unhide_room_set_objects(s32 a, s16 b, s16 c, s32 d);
 s32 TCheckRoomSequence__delete_bank_item(u8 *item, s32 slot);
 void try_close__6TLobbyFPv(void *p);
@@ -940,9 +938,8 @@ int TLobby__sub_802272B4(void*);
 int TLobby__sub_8022733C(void*);
 void * __nw__7TObjectFUl(u32);
 void request_active_window_close(void);
-s32 close_windows_by_flags__11TWindowCtrlFUs(int, void *);
-void open_default__11TWindowCtrlFUsl(u16, s32);
 s32 __ct__15TWindowHelpItemFPvl(s32, s32, s32);
+s32 unhide_enemies_at__6TLobbyFlll(s32, s32, s32, s32);
 }
 void init_6x40_walk_packet(void *a0);
 s32 get_field_d4(void *);
@@ -974,16 +971,11 @@ s32 TLobby__sub_802924B4(Item_801EBF30 *, u16);
 s32 TLobby__sub_8029299C();
 s32 TLobby__sub_80292A34();
 s32 TLobby__sub_8032CDEC();
-void update_entries__18TChallenge4PResultFii(s32 arg0, s32 arg1);
 s32 fn_8034D3D0(u8 *, f32, s32, s32, s32, Vec *, s32);
 s32 fn_8034D790(u8 *, f32, s32, s32, s32, Vec *);
 int notify_all_battle_players__10TObjPlayerFv(void*);
 int update_4p_battle_ctrls__10TObjPlayerFv(void*);
 int update_alloc_size__6TLobbyFv(void*);
-s32 reset_player_lobby_model__10TNpcPlayerFUs(int, void *);
-s32 update_player_field__10TNpcPlayerFUsl(int, int, void *);
-s32 end_camera_pan_for_client__10TNpcPlayerFUs(int, void *);
-s32 apply_to_battle_player_slot__10TNpcPlayerFUss(int, int, void *);
 void TObjPlayer__sub_80354CCC(u16 arg0);
 void TObjPlayer__sub_80354D14(u16 arg0);
 void TObjPlayer__sub_80354DAC(u16 arg0);
@@ -1064,13 +1056,13 @@ void qst_op_item_create_multi_cm(u8 i) {
     item.id = ((u32 (*)(u16))advance_item_id_counter)(local_client_id);
     switch (mode) {
     case 0:
-        update_entries__18TChallenge4PResultFii((saddr)&item, (s32)2);
+        TChallenge4PResult::update_entries((saddr)&item, 2);
         break;
     case 1:
-        update_entries__18TChallenge4PResultFii((saddr)&item, (s32)0);
+        TChallenge4PResult::update_entries((saddr)&item, 0);
         break;
     case 2:
-        update_entries__18TChallenge4PResultFii((saddr)&item, (s32)1);
+        TChallenge4PResult::update_entries((saddr)&item, 1);
         break;
     }
 }
@@ -1096,7 +1088,7 @@ void qst_op_chat_bubble(void) {
     s32 win;
     s32 v;
     if (id < 100) {
-        open_default__11TWindowCtrlFUsl(id, arg);
+        TWindowCtrl::open_default(id, arg);
         TWindowCtrl::set_field28(id);
         return;
     }
@@ -1112,7 +1104,7 @@ void qst_op_chat_bubble(void) {
                 v = get_field_d4(player);
             }
             if (v == id) {
-                open_default__11TWindowCtrlFUsl(win, arg);
+                TWindowCtrl::open_default(win, arg);
                 TWindowCtrl::set_field28(win);
                 return;
             }
@@ -1892,7 +1884,7 @@ void qst_op_move_coords_object(s32 i, s32 k) {
 }
 
 void qst_op_close_chat_bubble(s32 reg) {
-    close_windows_by_flags__11TWindowCtrlFUs((int) ((u16) qst_registers[(u8)reg]), qst_registers);
+    TWindowCtrl::close_windows_by_flags(qst_registers[(u8)reg]);
 }
 
 int qst_op_set_screen_bw(void* p) { return TLobby__sub_801F3568(p); }
@@ -1948,11 +1940,11 @@ void qst_op_set_slot_poison(s32 slot_reg) {
 }
 
 void qst_op_clear_slot_invincible(s32 slot_reg) {
-    reset_player_lobby_model__10TNpcPlayerFUs((int) ((u16) qst_registers[(u8)slot_reg]), qst_registers);
+    TNpcPlayer::reset_player_lobby_model(qst_registers[(u8)slot_reg]);
 }
 
 void qst_op_set_slot_invincible(s32 slot_reg, s32 value_reg) {
-    update_player_field__10TNpcPlayerFUsl((int) ((u16) qst_registers[(u8)slot_reg]), (int) (qst_registers[(u8)value_reg]), qst_registers);
+    TNpcPlayer::update_player_field(qst_registers[(u8)slot_reg], qst_registers[(u8)value_reg]);
 }
 
 struct Move_801E989C {
@@ -1984,21 +1976,21 @@ void qst_op_run_to_coord(u8 regs) {
 }
 
 void qst_op_stop_animation(s32 reg) {
-    end_camera_pan_for_client__10TNpcPlayerFUs((int) ((u16) qst_registers[(u8)reg]), qst_registers);
+    TNpcPlayer::end_camera_pan_for_client(qst_registers[(u8)reg]);
 }
 
 void qst_op_use_animation(s32 slot_reg, s32 anim_reg) {
-    apply_to_battle_player_slot__10TNpcPlayerFUss((int) ((u16) qst_registers[(u8)slot_reg]), (int) ((s16) qst_registers[(u8)anim_reg]), qst_registers);
+    TNpcPlayer::apply_to_battle_player_slot(qst_registers[(u8)slot_reg], qst_registers[(u8)anim_reg]);
 }
 extern "C" {
 
-void reset_random_enemies_mode__6TLobbyFv(void) { TLobby::clear_counter(); evt2_random_enemies_mode = 0; TKeyBoardControl__sub_8000F950(); }
+void TLobby::reset_random_enemies_mode() { TLobby::clear_counter(); evt2_random_enemies_mode = 0; TKeyBoardControl__sub_8000F950(); }
 }
 
 void qst_op_qexit() {
     void *hunter_guild_seq_offline;
     if ((is_quest_active() == 1) && ((hunter_guild_seq_offline = (void*)((uaddr (*)(s32))__nw__7TObjectFUl)(0x28)) != 0U)) {
-        ((THunterGuildSeqOffline *)hunter_guild_seq_offline)->init((void *)tl_00, (void *)reset_random_enemies_mode__6TLobbyFv);
+        ((THunterGuildSeqOffline *)hunter_guild_seq_offline)->init((void *)tl_00, (void *)TLobby::reset_random_enemies_mode);
     }
 }
 
@@ -4951,7 +4943,7 @@ void qst_op_mesend(void) {
     TWindowCtrl::clear_flag_2();
     id = qst_message_speaker;
     if (id < 100) {
-        ((void (*)(u16))close_windows_by_flags__11TWindowCtrlFUs)(id);
+        TWindowCtrl::close_windows_by_flags(id);
         return;
     }
     start = TLobby::get_game_mode();
@@ -4966,7 +4958,7 @@ void qst_op_mesend(void) {
                 v = get_field_d4(p);
             }
             if (v == id) {
-                ((void (*)(s32))close_windows_by_flags__11TWindowCtrlFUs)(f);
+                TWindowCtrl::close_windows_by_flags(f);
                 return;
             }
         }
