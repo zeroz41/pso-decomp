@@ -57,6 +57,11 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     static void add_selected_slot();
     static s32 get_clamped_cursor();
     static void reset_slot_selections();
+    static s32 count_selected_slots();
+    static s32 get_multiplayer_character_slot(s32 slot);
+    static void deselect_slot(s32 slot);
+    static s32 is_controller_connected(s32 port);
+    static saddr get_last_selected_player();
     s32 get_field_20();
     static TAdMultiPlyChrSelectGC *get_state();
     static TAdMultiPlyChrSelectGC *get_or_create(TObject *parent, s32 mode);
