@@ -11,7 +11,7 @@ void TLobby::send_packet(s32 arg0, s32 src) {
     s32 parameters[4];
 
     TLobby__sub_80077798(src, parameters);
-    protocol_instance->send_choice_search((ChoiceSearchParameters &)parameters);
+    protocol_instance->send_choice_search((TPlyChoiceSearchConfig &)parameters);
 }
 
 }

@@ -591,9 +591,15 @@ struct TPlyChallenge {
 };
 LAYOUT_ASSERT(TPlyChallengeSize, sizeof(TPlyChallenge) == 0x11C);
 
+// The player's choice search settings (newserv ChoiceSearchConfig); sent alone in C2/C3.
 struct TPlyChoiceSearchConfig {
-	u8 data[0x18];
-	void bswap() {};
+	u32 disabled;
+	struct Entry {
+		u16 parent_choice_id;
+		u16 choice_id;
+	} entries[5];
+
+	void bswap();
 };
 
 class TPlyJoinData {

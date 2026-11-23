@@ -452,12 +452,11 @@ struct List_801DC1E4 { u8 command; u8 flags; u16 size; u32 entries[30]; };
 struct Text_801DC1E4 { u8 command; u8 flags; u16 size; char text[0x200]; };
 struct Proto_801DC1E4 { u8 pad[0x1910]; s32 connected; u8 pad1914[0x74]; u8 char_data[0x41C]; };
 
-void copy_choice_search_parameters(void *, void *);
 }
 s32 validate_player_visual_record(void *arg0);
 extern "C" {
 
-void send_player_data_98__9TProtocolFPvPvPvPvPvPvPv(Proto_801DC1E4 *self, u8 *char_data, TPlyChallenge *challenge, void *choice_search_config,
+void send_player_data_98__9TProtocolFPvPvPvPvPvPvPv(Proto_801DC1E4 *self, u8 *char_data, TPlyChallenge *challenge, TPlyChoiceSearchConfig *choice_search_config,
                                List_801DC1E4 *blocked_senders, Text_801DC1E4 *auto_reply, char *info_board) {
     if (self->connected) {
         validate_player_visual_record(char_data + 0x370);
@@ -488,7 +487,7 @@ struct List_801DC34C { u8 command; u8 flags; u16 size; u32 entries[30]; };
 struct Text_801DC34C { u8 command; u8 flags; u16 size; char text[0x200]; };
 struct Proto_801DC34C { u8 pad[0x1910]; s32 connected; u8 pad1914[0x74]; u8 char_data[0x41C]; };
 
-void send_player_data_61__9TProtocolFPvPvPvPvPvPvPv(Proto_801DC34C *self, u8 *char_data, TPlyChallenge *challenge, void *choice_search_config,
+void send_player_data_61__9TProtocolFPvPvPvPvPvPvPv(Proto_801DC34C *self, u8 *char_data, TPlyChallenge *challenge, TPlyChoiceSearchConfig *choice_search_config,
                                List_801DC34C *blocked_senders, Text_801DC34C *auto_reply, char *info_board) {
     if (self->connected) {
         validate_player_visual_record(char_data + 0x370);

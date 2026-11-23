@@ -5,7 +5,6 @@
 
 struct packet_header;
 void bswap_c0_lobby_entries(void *p);
-void bswap_choice_search_config(void *p);
 void bswap_cmd_88_body(void *p);
 void bswap_cmd_88_marker_record(void *p);
 void bswap_cmd_8a_header(void *p);
@@ -22,7 +21,6 @@ extern "C" {
 s32 *copy_cmd_c4_entry_table(s32 *arg0, s32 *arg1);
 }
 void *copy_cmd_c4_entry(void *dst, void *src);
-void bswap_choice_search_packet(void *p);
 void bswap_u16_pair_field(void *p);
 void bswap_c0_choice_search_entry(void *p);
 void bswap_change_ship_block_packet(void *p);
@@ -40,7 +38,6 @@ extern "C" {
 s32 *copy_cmd_c4_entry_table(s32 *arg0, s32 *arg1);
 }
 void *copy_cmd_c4_entry(void *dst, void *src);
-void bswap_choice_search_packet(void *p);
 void bswap_u16_pair_field(void *p);
 void bswap_c0_choice_search_entry(void *p);
 void bswap_change_ship_block_packet(void *p);

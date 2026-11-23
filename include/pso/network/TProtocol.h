@@ -384,8 +384,8 @@ public:
     void send_lobby_name_request();
     void send_lobby_arrow(int arrow);
     void send_choice_search_options_request();
-    void send_choice_search(ChoiceSearchParameters &parameters);
-    void send_choice_search_parameters(ChoiceSearchParameters &parameters);
+    void send_choice_search(TPlyChoiceSearchConfig &parameters);
+    void send_choice_search_parameters(TPlyChoiceSearchConfig &parameters);
     void send_server_time_request();
     void send_server_time_accepted();
     void send_quest_menu_closed();

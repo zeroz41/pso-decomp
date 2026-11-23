@@ -1612,7 +1612,7 @@ void TLobby::send_card_window_state() {
     character_save_record = get_character_save_record(0xFFFF);
     parameters[0] = open_hard_keyboard__6TLobbyFPv(local_client_id) ? 1 : 0;
     TLobby__sub_80077798(character_save_record + 0x22EC, parameters);
-    protocol_instance->send_choice_search_parameters((ChoiceSearchParameters &)parameters);
+    protocol_instance->send_choice_search_parameters((TPlyChoiceSearchConfig &)parameters);
 }
 
 }

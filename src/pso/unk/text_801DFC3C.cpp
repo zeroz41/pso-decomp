@@ -10,7 +10,7 @@ void TPlyJoinData::bswap() {
     header.bswap();
     bswap__12TPlyCharDataFv((saddr)&char_data);
     challenge.bswap();
-    bswap_choice_search_config(&choice_search_config);
+    choice_search_config.bswap();
     for (int i = 0; i < 30; i++) {
         bswap_32(&blocked_senders[i]);
     }

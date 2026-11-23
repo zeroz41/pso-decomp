@@ -2,23 +2,19 @@
 #define PSO_NETWORK_PROTOCOL_CHOICE_SEARCH_H
 
 #include "pso/network/protocol/protocol.h"
+#include "pso/network/protocol/packet_classes.h"
 #include <stddef.h>
 #include "pso/network/TPlyMeetUserExtension.h"
 
-// Layout follows newserv ChoiceSearch.hh (MIT; reference/newserv-LICENSE).
-// The client copies six words at 0x801DF774 and swaps them at 0x801DF6F0.
-struct ChoiceSearchParameters {
-    u32 disabled;
-    struct Entry {
-        u16 parent_choice_id;
-        u16 choice_id;
-    } entries[5];
-};
-
+// C2/C3: the player's choice search settings.
 struct ChoiceSearchPacket {
     packet_header header;
-    ChoiceSearchParameters parameters;
+    TPlyChoiceSearchConfig parameters;
+
+    void bswap();
 };
+
+extern "C" TPlyChoiceSearchConfig *copy_choice_search_parameters(TPlyChoiceSearchConfig *dst, const TPlyChoiceSearchConfig *src);
 
 // C0: one choice the server offers; parent_choice_id 0 marks a category.
 struct ChoiceSearchOption {
@@ -64,8 +60,8 @@ void reset_choice_search_data();
 void free_choice_search_data();
 
 LAYOUT_ASSERT(ChoiceSearchOptionsSize, sizeof(TRecvChoiceSearchOptions) == 0x704);
-LAYOUT_ASSERT(ChoiceSearchParametersSize, sizeof(ChoiceSearchParameters) == 0x18);
-LAYOUT_ASSERT(ChoiceSearchEntriesOffset, offsetof(ChoiceSearchParameters, entries) == 4);
+LAYOUT_ASSERT(ChoiceSearchConfigSize, sizeof(TPlyChoiceSearchConfig) == 0x18);
+LAYOUT_ASSERT(ChoiceSearchEntriesOffset, offsetof(TPlyChoiceSearchConfig, entries) == 4);
 LAYOUT_ASSERT(ChoiceSearchPacketSize, sizeof(ChoiceSearchPacket) == 0x1C);
 LAYOUT_ASSERT(ChoiceSearchPayloadOffset, offsetof(ChoiceSearchPacket, parameters) == 4);
 LAYOUT_ASSERT(ChoiceSearchResultSize, sizeof(ChoiceSearchResult) == 0xD4);
