@@ -15,7 +15,7 @@ struct GvrTextureDesc {
 };
 
 extern "C" {
-void TObjPlayer__sub_803DA7E0(void);
+void reset_texture_error(void);
 void TObjPlayer__sub_803DA808(void *buf, saddr src, u32 size);
 s32 TObjPlayer__sub_803DA84C(GinjaTextureHeader *header, s32 src, s32 offset, s32 length);
 s32 TObjPlayer__sub_803DA8B4(GinjaTextureHeader *header, s32 src);

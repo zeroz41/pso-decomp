@@ -23,16 +23,16 @@ struct GvrTextureChunk {
 };
 
 extern "C" {
-s32 TObjPlayer__sub_803DD6DC(GinjaTextureList *list, s32 index);
+s32 load_texture_entry(GinjaTextureList *list, s32 index);
 s32 read_gvrt_file_header(GinjaTextureList *list, s32 index);
-s32 TObjPlayer__sub_803DD91C(GinjaTextureList *list, s32 index);
-s32 TObjPlayer__sub_803DDA68(GinjaTextureList *list, s32 index);
-s32 TObjPlayer__sub_803DDB34(GinjaTextureList *list, s32 index);
+s32 load_texture_from_memory(GinjaTextureList *list, s32 index);
+s32 create_texture_from_input(GinjaTextureList *list, s32 index);
+s32 reference_texture_by_global_index(GinjaTextureList *list, s32 index);
 s32 load_texture_list(GinjaTextureList *list);
-void TLobby__sub_803DDD20(s32 buf);
-saddr TLobby__sub_803DDD2C(s32 stride);
-void TLobby__sub_803DDD40(s32 offset, s32 whence);
-void TLobby__sub_803DDD78(s8 *dst, s8 *src);
+void gvm_stream_begin(s32 buf);
+saddr gvm_stream_read(s32 stride);
+void gvm_stream_seek(s32 offset, s32 whence);
+void copy_u16_bytes(s8 *dst, s8 *src);
 void replace_gvm_texture_directory(GinjaTextureList *list, s32 stride, const GvmTextureHeader *header);
 void *load_nj_chunk_model_resource(u8 *base, u32 *off, u32 *out);
 }

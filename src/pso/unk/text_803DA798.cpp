@@ -41,7 +41,7 @@ s32 set_texture_num(s32 i) {
 #pragma scheduling off
 #pragma peephole off
 
-void TObjPlayer__sub_803DA7E0(void) {
+void reset_texture_error(void) {
     lbl_8058D470.entry_index = -1;
     lbl_8058D470.pad_04 = -1;
     lbl_8058D470.code = 0;
@@ -247,7 +247,7 @@ s32 TObjPlayer__sub_803DAD84(GinjaTextureState *texture, s32 src, u32 arg2) {
 }
 
 s32 TObjPlayer__sub_803DAE1C(s32 index, s32 src, u32 arg2) {
-    TObjPlayer__sub_803DA7E0();
+    reset_texture_error();
     s32 r = TObjPlayer__sub_803DAD84(current_render_context->textures->entries[index].texture, src, arg2);
     if (r < 0) {
         lbl_8058D470.entry_index = index;
@@ -272,7 +272,7 @@ s32 TObjPlayer__sub_803DAE98(GinjaTextureState *texture) {
     if (surface->ref_count > 0) {
         surface->ref_count--;
         if (texture->surface->ref_count == 0) {
-            fn_803DB20C(&texture->surface->header);
+            free_texture_pixels(&texture->surface->header);
             current_render_context->reserved14 = -1;
         }
     }

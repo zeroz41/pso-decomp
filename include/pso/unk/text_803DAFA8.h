@@ -16,7 +16,7 @@ struct GvplChunk {
     u8 data[1];
 };
 
-// Where fn_803DAFA8 copies a palette's entries, and the layout it records for them.
+// Where load_gvpl_palette copies a palette's entries, and the layout it records for them.
 struct GvplPalette {
     void *data;
     u16 format;
@@ -26,12 +26,12 @@ struct GvplPalette {
 };
 
 extern "C" {
-s32 fn_803DAFA8(GvplChunk *chunk, GvplPalette *palette);
+s32 load_gvpl_palette(GvplChunk *chunk, GvplPalette *palette);
 void init_and_load_tlut(s32 tlut_name, s32 format, s32 entry_count, void *entries);
 s32 init_ginja_texture_header(GinjaTextureHeader *header, u32 width, u32 height, u32 format);
-u32 fn_803DB15C(GinjaTextureHeader *header);
+u32 get_texture_buffer_size(GinjaTextureHeader *header);
 s32 alloc_buffer_from_heap(GinjaTextureHeader *header);
-s32 fn_803DB20C(GinjaTextureHeader *header);
+s32 free_texture_pixels(GinjaTextureHeader *header);
 }
 
 #endif

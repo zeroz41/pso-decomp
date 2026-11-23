@@ -11,9 +11,9 @@
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_803DE778.h"
 
-s32 fn_803DAFA8(GvplChunk *chunk, GvplPalette *palette) {
+s32 load_gvpl_palette(GvplChunk *chunk, GvplPalette *palette) {
     s32 word;
-    TObjPlayer__sub_803DA7E0();
+    reset_texture_error();
     word = chunk->magic;
     fn_803DAF30((u32 *)&word);
     switch (word) {
@@ -58,11 +58,11 @@ s32 init_ginja_texture_header(GinjaTextureHeader *header, u32 width, u32 height,
         flags |= 0x40000000;
     }
     header->flags |= flags;
-    header->size = fn_803DB15C(header);
+    header->size = get_texture_buffer_size(header);
     return ret;
 }
 
-u32 fn_803DB15C(GinjaTextureHeader *header) {
+u32 get_texture_buffer_size(GinjaTextureHeader *header) {
     GXBool mipmap;
     if (header->flags & 0x80000000) {
         mipmap = 1;
@@ -86,7 +86,7 @@ s32 alloc_buffer_from_heap(GinjaTextureHeader *header) {
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-s32 fn_803DB20C(GinjaTextureHeader *header) {
+s32 free_texture_pixels(GinjaTextureHeader *header) {
     OSFreeToHeap(locked_cache_heap_handle, header->pixels);
     return 0;
 }

@@ -18,11 +18,11 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TLobby_803DE778.h"
 
-s32 lbl_805D77A0;
+s32 gvm_stream_cursor;
 
-// The texture loaders TObjPlayer__sub_803DD6DC picks from an entry's format bits.
-s32 (*lbl_804FC688[4])(GinjaTextureList *, s32) = {
-    read_gvrt_file_header, TObjPlayer__sub_803DD91C, TObjPlayer__sub_803DDA68, TObjPlayer__sub_803DDB34,
+// The texture loaders load_texture_entry picks from an entry's format bits.
+s32 (*texture_loaders[4])(GinjaTextureList *, s32) = {
+    read_gvrt_file_header, load_texture_from_memory, create_texture_from_input, reference_texture_by_global_index,
 };
 
 extern s32 ginja_draw_flags;
@@ -40,7 +40,7 @@ void TObjPlayer__sub_803DD5E8(GinjaTextureList *list, GinjaTextureEntry *entries
     list->entries = entries;
 }
 
-s32 TObjPlayer__sub_803DD6DC(GinjaTextureList *list, s32 index) {
+s32 load_texture_entry(GinjaTextureList *list, s32 index) {
     s32 loader;
 
     switch (list->entries[index].value04 & 0x5C000000) {
@@ -60,10 +60,10 @@ s32 TObjPlayer__sub_803DD6DC(GinjaTextureList *list, s32 index) {
         loader = 2;
         break;
     }
-    return lbl_804FC688[loader](list, index);
+    return texture_loaders[loader](list, index);
 }
 
-s32 lbl_805D77A4;
+s32 gvm_stream_base;
 
 #pragma push
 #pragma optimize_for_size off
@@ -81,7 +81,7 @@ s32 read_gvrt_file_header(GinjaTextureList *list, s32 index) {
     uaddr header = (uaddr)gvrt_header_read_buffer;
     DVDFileInfo *pfile;
     u32 size;
-    TObjPlayer__sub_803DA7E0();
+    reset_texture_error();
     r = TObjPlayer__sub_803D9E38((s32 *)list, index, &id, (u32 *)&tlut_name);
     if (r != 0) {
         return r;
@@ -117,7 +117,7 @@ s32 read_gvrt_file_header(GinjaTextureList *list, s32 index) {
 }
 #pragma pop
 
-s32 TObjPlayer__sub_803DD91C(GinjaTextureList *list, s32 index) {
+s32 load_texture_from_memory(GinjaTextureList *list, s32 index) {
     s32 global_index;
     s32 id;
     s32 tlut_name;
@@ -126,7 +126,7 @@ s32 TObjPlayer__sub_803DD91C(GinjaTextureList *list, s32 index) {
     s32 r;
     u32 chunk;
     GinjaTextureInput *input;
-    TObjPlayer__sub_803DA7E0();
+    reset_texture_error();
     r = TObjPlayer__sub_803D9E38((s32 *)list, index, &id, (u32 *)&tlut_name);
     if (r != 0) {
         return r;
@@ -159,7 +159,7 @@ s32 TObjPlayer__sub_803DD91C(GinjaTextureList *list, s32 index) {
     return 1;
 }
 
-s32 TObjPlayer__sub_803DDA68(GinjaTextureList *list, s32 index) {
+s32 create_texture_from_input(GinjaTextureList *list, s32 index) {
     s32 id;
     GvrTextureDesc desc;
     s32 tlut_name;
@@ -167,7 +167,7 @@ s32 TObjPlayer__sub_803DDA68(GinjaTextureList *list, s32 index) {
     s32 r;
     s32 global_index;
     GinjaTextureInput *input;
-    TObjPlayer__sub_803DA7E0();
+    reset_texture_error();
     r = TObjPlayer__sub_803D9E38((s32 *)list, index, &id, (u32 *)&tlut_name);
     if (r != 0) {
         return r;
@@ -186,7 +186,7 @@ s32 TObjPlayer__sub_803DDA68(GinjaTextureList *list, s32 index) {
     return -1;
 }
 
-s32 TObjPlayer__sub_803DDB34(GinjaTextureList *list, s32 index) {
+s32 reference_texture_by_global_index(GinjaTextureList *list, s32 index) {
     s32 id;
     s32 tlut_name;
     s32 slot;
@@ -194,7 +194,7 @@ s32 TObjPlayer__sub_803DDB34(GinjaTextureList *list, s32 index) {
     GinjaSurfaceState *surface;
     s32 r;
     s32 global_index;
-    TObjPlayer__sub_803DA7E0();
+    reset_texture_error();
     r = TObjPlayer__sub_803D9E38((s32 *)list, index, &id, (u32 *)&tlut_name);
     if (r != 0) {
         return r;
@@ -229,7 +229,7 @@ s32 load_texture_list(GinjaTextureList *list) {
         return -1;
     }
     for (i = 0; i < list->count; i++) {
-        if (TObjPlayer__sub_803DD6DC(list, i) < 0) {
+        if (load_texture_entry(list, i) < 0) {
             lbl_8058D470.entry_index = i;
             return -1;
         }
@@ -246,32 +246,32 @@ void TLobby::bswap32_in_place(u32 *p) {
 }
 #pragma pop
 
-void TLobby__sub_803DDD20(s32 buf) {
-    lbl_805D77A4 = buf;
-    lbl_805D77A0 = buf;
+void gvm_stream_begin(s32 buf) {
+    gvm_stream_base = buf;
+    gvm_stream_cursor = buf;
 }
 
-saddr TLobby__sub_803DDD2C(s32 stride) {
+saddr gvm_stream_read(s32 stride) {
     s32 prevCursor;
-    prevCursor = lbl_805D77A0;
-    lbl_805D77A0 = prevCursor + stride;
+    prevCursor = gvm_stream_cursor;
+    gvm_stream_cursor = prevCursor + stride;
     return prevCursor;
 }
 
-void TLobby__sub_803DDD40(s32 offset, s32 whence) {
+void gvm_stream_seek(s32 offset, s32 whence) {
     switch (whence) {
     case 1:
-        lbl_805D77A0 += offset;
+        gvm_stream_cursor += offset;
         return;
     case 0:
-        lbl_805D77A0 = lbl_805D77A4 + offset;
+        gvm_stream_cursor = gvm_stream_base + offset;
         return;
     }
 }
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-void TLobby__sub_803DDD78(s8 *dst, s8 *src) {
+void copy_u16_bytes(s8 *dst, s8 *src) {
     s32 hi = src[0];
     dst[0] = hi;
     s32 lo = src[1];
@@ -322,9 +322,9 @@ void replace_gvm_texture_directory(GinjaTextureList* list, s32 stride, const Gvm
     globals = flags & 8;
     count = header->texture_count;
     while (index < count) {
-        record = (u8*)TLobby__sub_803DDD2C(stride);
+        record = (u8*)gvm_stream_read(stride);
         texture = (GinjaTextureEntry*)((u8*)list->entries + off);
-        TLobby__sub_803DDD78((s8 *)&image, (s8 *)record);
+        copy_u16_bytes((s8 *)&image, (s8 *)record);
         texture->value04 = (texture->value04 & 0xFFFF0000) | image;
         record += 2;
         if (names) {
@@ -364,7 +364,7 @@ void TLobby::seek_gvrt_chunk() {
     s32 magic;
     s32 size;
     do {
-        magic = *(s32 *)TLobby__sub_803DDD2C(4);
+        magic = *(s32 *)gvm_stream_read(4);
         TLobby::bswap32_in_place((u32 *)&magic);
         switch (magic) {
         case 0x4D4D4F43:
@@ -373,17 +373,17 @@ void TLobby::seek_gvrt_chunk() {
         case 0x494D5650:
         case 0x4C505647:
         case 0x43474D49:
-            size = *(s32 *)TLobby__sub_803DDD2C(4);
+            size = *(s32 *)gvm_stream_read(4);
             TLobby::bswap32_in_place((u32 *)&size);
-            TLobby__sub_803DDD40(size, 1);
+            gvm_stream_seek(size, 1);
             break;
         case 0x54525647:
-            TLobby__sub_803DDD40(-4, 1);
+            gvm_stream_seek(-4, 1);
             break;
         default:
-            size = *(s32 *)TLobby__sub_803DDD2C(4);
+            size = *(s32 *)gvm_stream_read(4);
             TLobby::bswap32_in_place((u32 *)&size);
-            TLobby__sub_803DDD40(size, 1);
+            gvm_stream_seek(size, 1);
             break;
         }
     } while (magic != 0x54525647);
@@ -403,13 +403,13 @@ s32 load_gvm_texture_archive(void *buf, GinjaTextureList *list) {
     GvmTextureHeader *header;
     s32 n;
     tlut_name = -1;
-    TObjPlayer__sub_803DA7E0();
+    reset_texture_error();
     if (buf == NULL) {
         lbl_8058D470.code = 1;
         return -1;
     }
-    TLobby__sub_803DDD20((saddr)buf);
-    header = (GvmTextureHeader *)TLobby__sub_803DDD2C(sizeof(GvmTextureHeader));
+    gvm_stream_begin((saddr)buf);
+    header = (GvmTextureHeader *)gvm_stream_read(sizeof(GvmTextureHeader));
     TLobby::bswap32_in_place(&header->magic);
     TLobby::bswap32_in_place(&header->size);
     if (header->magic != 0x484D5647) {
@@ -418,7 +418,7 @@ s32 load_gvm_texture_archive(void *buf, GinjaTextureList *list) {
     }
     list->count = header->texture_count;
     replace_gvm_texture_directory(list, calc_gvm_entry_stride(header->flags), header);
-    TLobby__sub_803DDD40(header->size + 8, 0);
+    gvm_stream_seek(header->size + 8, 0);
     TLobby::seek_gvrt_chunk();
     n = list->count;
     for (i = 0; i < n; i++) {
@@ -432,14 +432,14 @@ s32 load_gvm_texture_archive(void *buf, GinjaTextureList *list) {
             lbl_8058D470.code = 7;
             return -1;
         }
-        chunk = (GvrTextureChunk *)TLobby__sub_803DDD2C(sizeof(GvrTextureChunk));
+        chunk = (GvrTextureChunk *)gvm_stream_read(sizeof(GvrTextureChunk));
         TLobby::bswap32_in_place(&chunk->magic);
         TLobby::bswap32_in_place(&chunk->size);
         if (chunk->magic != 0x54525647) {
             lbl_8058D470.code = 4;
             return -1;
         }
-        data = TLobby__sub_803DDD2C(chunk->size - 8);
+        data = gvm_stream_read(chunk->size - 8);
         if (r == 0) {
             switch (TObjPlayer__sub_803DAC48(list, k, id, tlut_name, &chunk->desc, &slot)) {
             case -1:

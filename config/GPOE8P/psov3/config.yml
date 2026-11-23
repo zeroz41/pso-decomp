@@ -711,10 +711,10 @@ force_active:
   - TLobby__sub_803CBE40
   - TLobby__sub_803CE2A0
   - TLobby__sub_803D346C
-  - TLobby__sub_803DDD20
-  - TLobby__sub_803DDD2C
-  - TLobby__sub_803DDD40
-  - TLobby__sub_803DDD78
+  - gvm_stream_begin
+  - gvm_stream_read
+  - gvm_stream_seek
+  - copy_u16_bytes
   - dhcp_begin_discover
   - dhcp_get_option
   - TLobby__sub_80425D88
@@ -1612,7 +1612,7 @@ force_active:
   - TObjPlayer__sub_803DA8B4
   - TObjPlayer__sub_803DAA70
   - TObjPlayer__sub_803DAD84
-  - TObjPlayer__sub_803DD6DC
+  - load_texture_entry
   - TObjPlayer__sub_803E24E0
   - TObjPlayer__sub_803E500C
   - TObjPlayer__sub_803E5378
@@ -6441,7 +6441,7 @@ force_active:
   - fn_80351A14
   - __ct__13TUnk_804F1EC8FP7TObjectPUc
   - get_flag_word_mask__FlPUl
-  - fn_803DB15C
+  - get_texture_buffer_size
   - fn_803DD3C8
   - fn_803F1804
   - fn_803F4D10
@@ -8515,8 +8515,8 @@ force_active:
   - lbl_805D76CC
   - lbl_805D76D0
   - lbl_805D76D4
-  - lbl_805D77A0
-  - lbl_805D77A4
+  - gvm_stream_cursor
+  - gvm_stream_base
   - lbl_805D77F4
   - lbl_805D7818
   - lbl_805D7828
