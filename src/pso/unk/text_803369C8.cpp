@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/ui/frontend/TitleBackground.h"
 #include "pso/unk/text_803369C8.h"
-#include "pso/unk/TUnk_804EEF80.h"
+#include "pso/ui/frontend/TTitleBackground.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -135,7 +135,7 @@ void draw_title_rings(s32 owner, f32 depth, s32 frame) {
 }
 #pragma pop
 
-void TUnk_804EEF80::render() {
+void TTitleBackground::render() {
     if (TMainTask::get_render_pass() != 0) {
         TParticleCtrl::begin_effect_render();
         TCameraCtrl::restore_full_screen_view();
@@ -148,14 +148,14 @@ void TUnk_804EEF80::render() {
     }
 }
 
-void TUnk_804EEF80::run_task() {
+void TTitleBackground::run_task() {
     frame++;
 }
 
-TUnk_804EEF80::~TUnk_804EEF80() {
+TTitleBackground::~TTitleBackground() {
 }
 
-TUnk_804EEF80::TUnk_804EEF80(TTitleScene *scene) : TObject((TObject *)scene) {
+TTitleBackground::TTitleBackground(TTitleScene *scene) : TObject((TObject *)scene) {
     this->scene = scene;
 }
 

@@ -7,7 +7,7 @@
 
 class TUnk_804EE458;
 class TUnk_804EE470;
-class TUnk_804EEF80;
+class TTitleBackground;
 
 class TTitleScene : public TObject {
 public:
@@ -23,7 +23,7 @@ public:
     void open_keyboard();
     void close_auxiliary_window();
 
-    TUnk_804EEF80 *title_layer;
+    TTitleBackground *title_layer;
     TUnk_804EE470 *overlay_layer;
     TUnk_804EE458 *transition_controller;
     s32 m_28;

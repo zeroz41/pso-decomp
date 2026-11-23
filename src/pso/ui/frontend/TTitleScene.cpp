@@ -16,7 +16,7 @@
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/text_802A1144.h"
-#include "pso/unk/TUnk_804EEF80.h"
+#include "pso/ui/frontend/TTitleBackground.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
@@ -362,7 +362,7 @@ TTitleScene::TTitleScene(TObject *parent) : TObject(parent) {
     } else {
         m_38 = 0x320;
     }
-    title_layer = new TUnk_804EEF80(this);
+    title_layer = new TTitleBackground(this);
     transition_controller = new TUnk_804EE458(this);
     overlay_layer = new TUnk_804EE470(tl_clipout);
     m_28 = 0;
