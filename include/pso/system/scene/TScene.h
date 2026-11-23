@@ -25,6 +25,10 @@ struct SceneMaterialInfo {
     u8 pad_05[3];
 };
 
+// A name and the index it selects: a scene format tag (scene_format_dispatch_tables) or a floor's
+// scene file (get_floor_scene_table).
+struct SceneNameIndex { char *name; s32 idx; };
+
 /* A map section's rotation, its node's angles plus the section's (passed to the section render callback). */
 struct SceneSectionAngles { s32 x, y, z; };
 

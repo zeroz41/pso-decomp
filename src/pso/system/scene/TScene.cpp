@@ -179,7 +179,6 @@ extern Vec lbl_8044A84C[];
 // The material info file (<floor>i.bin): a header word, then count entries.
 struct SceneMaterialInfoFile { s32 header; s32 count; SceneMaterialInfo entries[1]; };
 
-struct Cyc_80205D24 { u16 id; u16 reserved; s16 texture; s16 index; s32 timer; };
 
 
 struct Node_80205AEC { u32 flags; void *obj; u32 tex; u16 id; u8 b; u8 c; };
@@ -204,7 +203,6 @@ extern u8 lbl_8044A80C[];
 
 }
 
-struct Ent_802066BC { char *name; s32 idx; };
 
 
 
@@ -239,7 +237,7 @@ struct Sp8Buf20_80206494 {
 
 const char *current_floor_name = "SCENE";
 s32 lbl_805D3614 = 10;
-Ent_802066BC scene_format_dispatch_tables[] = {
+SceneNameIndex scene_format_dispatch_tables[] = {
     {"fmt1", 0},
     {"fmt2", 1},
     {NULL, -1},
@@ -294,7 +292,7 @@ uaddr material_info_buffer;
 s32 scene_file_buffer_size;
 
 extern "C" {
-s32 load_texture_sequence_frame(void *task, Cyc_80205D24 *c);
+s32 load_texture_sequence_frame(void *task, SceneMaterialCycle *c);
 }
 void load_scene_map_file(saddr name);
 void load_scene_collision_file(saddr name);
@@ -477,8 +475,8 @@ void TScene::tick_material_fmt2() {
             if (object->flags & 0x40) {
                 object->cycle->timer--;
                 if (object->cycle->timer < 0) {
-                    (*(s16 *)&object->cycle->index)++;
-                    load_texture_sequence_frame(this, (Cyc_80205D24 *)(object->cycle));
+                    object->cycle->index++;
+                    load_texture_sequence_frame(this, object->cycle);
                     set_ginja_model_texture_slot(node->model, object->cycle->texture);
                     if (object->flags & 0x20) {
                         object->uv->texture = object->cycle->texture;
@@ -511,8 +509,8 @@ void TScene::tick_material_fmt2() {
             if (anim->flags & 0x40) {
                 anim->cycle->timer--;
                 if (anim->cycle->timer < 0) {
-                    (*(s16 *)&anim->cycle->index)++;
-                    load_texture_sequence_frame(this, (Cyc_80205D24 *)(anim->cycle));
+                    anim->cycle->index++;
+                    load_texture_sequence_frame(this, anim->cycle);
                     set_ginja_model_texture_slot(node->model, anim->cycle->texture);
                 }
             }
@@ -574,8 +572,8 @@ void TScene::tick_material_fmt1() {
             if (object->flags & 0x40) {
                 object->cycle->timer--;
                 if (object->cycle->timer < 0) {
-                    (*(s16 *)&object->cycle->index)++;
-                    load_texture_sequence_frame(this, (Cyc_80205D24 *)(object->cycle));
+                    object->cycle->index++;
+                    load_texture_sequence_frame(this, object->cycle);
                     set_ginja_model_texture_slot(node->model, object->cycle->texture);
                     if (object->flags & 0x20) {
                         object->uv->texture = object->cycle->texture;
@@ -606,8 +604,8 @@ void TScene::tick_material_fmt1() {
             if (anim->flags & 0x40) {
                 anim->cycle->timer--;
                 if (anim->cycle->timer < 0) {
-                    (*(s16 *)&anim->cycle->index)++;
-                    load_texture_sequence_frame(this, (Cyc_80205D24 *)(anim->cycle));
+                    anim->cycle->index++;
+                    load_texture_sequence_frame(this, anim->cycle);
                     set_ginja_model_texture_slot(node->model, anim->cycle->texture);
                 }
             }
@@ -620,7 +618,7 @@ void TScene::tick_material_fmt1() {
 #pragma defer_codegen on
 
 void TScene::load_current_floor() {
-    Ent_802066BC *tbl;
+    SceneNameIndex *tbl;
     s32 ent;
     s32 found;
     FloorMapSelection res;
@@ -641,7 +639,7 @@ void TScene::load_current_floor() {
     scene_file_buffer_size = 0;
     scene_format_index = -1;
     if (get_floor_map_selection(current_floor_index, &res) == 1) {
-        tbl = (Ent_802066BC *)get_floor_scene_table(res.area);
+        tbl = (SceneNameIndex *)get_floor_scene_table(res.area);
         scene_resource_index = res.terrain;
         ent = tbl[res.terrain].idx;
     }
@@ -742,7 +740,7 @@ void TScene::load_scene_rel_file(saddr ent) {
         }
     }
     if (scene_material_root != NULL) {
-        Ent_802066BC *e;
+        SceneNameIndex *e;
         for (e = scene_format_dispatch_tables; e->name != NULL; e++) {
             if (strncmp((const char *)scene_material_root, e->name, 4) == 0) {
                 scene_format_index = e->idx;
@@ -912,7 +910,7 @@ void TScene::free_scene_resources() {
 }
 
 void load_floor_scene(void) {
-    Ent_802066BC *tbl;
+    SceneNameIndex *tbl;
     s32 ent;
     s32 found;
     FloorMapSelection res;
@@ -922,7 +920,7 @@ void load_floor_scene(void) {
         scene_material_root->texlist = 0;
     }
     if (get_floor_map_selection(current_floor_index, &res) == 1) {
-        tbl = (Ent_802066BC *)get_floor_scene_table(res.area);
+        tbl = (SceneNameIndex *)get_floor_scene_table(res.area);
         scene_resource_index = res.terrain;
         ent = tbl[res.terrain].idx;
     }
@@ -973,7 +971,7 @@ void load_scene_collision_file(saddr name) {
 
 void load_scene_map_file(saddr name) {
     u8 id[0x20];
-    Ent_802066BC *e;
+    SceneNameIndex *e;
     scene_material_root = NULL;
     scene_format_index = -1;
     TLobby::replace_file_extension((char *)((s32 *)id), (char *)name, (char *)((s32 *)"n.rel"));
@@ -1066,12 +1064,12 @@ void TScene::initialize_fmt1_materials() {
         object = room->objects;
         for (i = 0; i < room->count; i++, object++) {
             if ((object->flags & 0x20) && !find_uv_animation((TextureUvAnimation *)object->uv)) object->flags &= ~0x20;
-            if ((object->flags & 0x40) && !load_texture_sequence_frame(this, (Cyc_80205D24 *)object->cycle)) object->flags &= ~0x40;
+            if ((object->flags & 0x40) && !load_texture_sequence_frame(this, object->cycle)) object->flags &= ~0x40;
         }
         anim = room->animated;
         for (j = 0; j < room->animatedCount; j++, anim++) {
             if ((anim->flags & 0x20) && !find_uv_animation((TextureUvAnimation *)anim->uv)) anim->flags &= ~0x20;
-            if ((anim->flags & 0x40) && !load_texture_sequence_frame(this, (Cyc_80205D24 *)anim->cycle)) anim->flags &= ~0x40;
+            if ((anim->flags & 0x40) && !load_texture_sequence_frame(this, anim->cycle)) anim->flags &= ~0x40;
         }
     }
 }
@@ -1105,7 +1103,7 @@ void TScene::initialize_fmt2_materials() {
                     object->flags &= ~0x20;
                 }
             }
-            if ((object->flags & 0x40) && !load_texture_sequence_frame(task, (Cyc_80205D24 *)object->cycle)) object->flags &= ~0x40;
+            if ((object->flags & 0x40) && !load_texture_sequence_frame(task, object->cycle)) object->flags &= ~0x40;
         }
         anim = room->animated;
         for (j = 0; j < room->animatedCount; j++, anim++) {
@@ -1125,7 +1123,7 @@ void TScene::initialize_fmt2_materials() {
                     anim->flags &= ~0x20;
                 }
             }
-            if ((anim->flags & 0x40) && !load_texture_sequence_frame(task, (Cyc_80205D24 *)anim->cycle)) anim->flags &= ~0x40;
+            if ((anim->flags & 0x40) && !load_texture_sequence_frame(task, anim->cycle)) anim->flags &= ~0x40;
         }
     }
 }
@@ -1211,7 +1209,7 @@ s32 TScene::find_uv_animation(TextureUvAnimation *uv) {
     return 0;
 }
 
-s32 load_texture_sequence_frame(void *task, Cyc_80205D24 *c) {
+s32 load_texture_sequence_frame(void *task, SceneMaterialCycle *c) {
     s16 *p = (*(s16 * *)&texture_animation_buffer);
     while (p[0] != -1) {
         if (p[0] & 1) {

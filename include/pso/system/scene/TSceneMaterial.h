@@ -8,7 +8,7 @@ struct SceneModel {GinjaModel model;f32 center[3];f32 radius;};
 // The head of a scene record's Ninja object: its model and position.
 struct SceneMaterialNode {u32 flags;SceneModel* model;f32 position[3];};
 struct SceneMaterialUv {u16 id,texture;f32 u,v,du,dv;void* buffer;};
-struct SceneMaterialCycle {u16 id,reserved,texture,index;s32 timer;};
+struct SceneMaterialCycle {u16 id,reserved,texture;s16 index;s32 timer;};
 struct SceneMaterialStatic {SceneMaterialNode* node;SceneMaterialUv* uv;SceneMaterialCycle* cycle;u32 flags;};
 struct SceneMaterialAnimated {SceneMaterialNode* node;NJS_MOTION* motion;u32 unknown;f32 frame,speed;SceneMaterialUv* uv;SceneMaterialCycle* cycle;u32 flags;};
 struct SceneMaterialSection {s32 id;f32 position[3];s32 angles[3];f32 radius;SceneMaterialStatic* objects;SceneMaterialAnimated* animated;s32 count,animatedCount;u32 flags;};
