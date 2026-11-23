@@ -185,7 +185,7 @@ void TOAttackableCol::send_state_change(u16 state) {
 
 void TOAttackableCol::vfunc_6(s16 *arg1, s32 arg2) {
     u8 *arg0 = (u8 *)this;
-    s16 sp8;
+    s16 mode;
     s32 temp_r0;
     if (arg1 != NULL) {
         this->mode = (s16) *arg1;
@@ -201,8 +201,8 @@ void TOAttackableCol::vfunc_6(s16 *arg1, s32 arg2) {
             ((TOAttackableCol *)arg0)->handle_6x91_update_state();
         }
     }
-    sp8 = this->mode;
-    ((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 0);
+    mode = this->mode;
+    ((TObjCollidable *)arg0)->access_object_saved_state(&mode, 0);
 }
 
 void TOAttackableCol::handle_6x91_update_state() { clear_player_status_flag(0, 1); }

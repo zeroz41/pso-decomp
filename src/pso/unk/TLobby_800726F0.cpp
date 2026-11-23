@@ -250,11 +250,11 @@ u8 is_challenge_lobby__6TLobbyFv(void) {
     return (u8) (local_client_id == designated_client_id);
 }
 void TObjChallengeRetry::update_destroy_countdown() {
-    s32 temp_r0;
+    s32 countdown;
     TLobby::play_default_effect(this);
-    temp_r0 = this->countdown - 1;
-    this->countdown = temp_r0;
-    if (temp_r0 <= 0) {
+    countdown = this->countdown - 1;
+    this->countdown = countdown;
+    if (countdown <= 0) {
         TLobby::advance_state_if_flag_set();
         TLobby::send_45_and_close_windows(this);
         close_window_2c();

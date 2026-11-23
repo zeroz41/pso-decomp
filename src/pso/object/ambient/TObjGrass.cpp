@@ -518,11 +518,11 @@ void *TObjGrass::create(void *set_data) {
 
 void TObjGrass::run_task() {
     u8 *arg0 = (u8 *)this;
-    s16 temp_r0;
+    s16 mode;
     s32 temp_r30;
     u16 client;
     TObjPlayer *temp_r3_2;
-    u8 *temp_r4;
+    u8 *target;
     if (TObjPlayer::check_demo_mode() == 1) {
         TObjGrass__sub_800BCA2C(arg0);
         return;
@@ -544,7 +544,7 @@ void TObjGrass::run_task() {
         this->targetId = 0xFFFFU;
         this->target = NULL;
     }
-    temp_r0 = this->mode;
+    mode = this->mode;
     {
         switch (this->mode) {
         case 0:
@@ -578,8 +578,8 @@ void TObjGrass::run_task() {
             break;
         }
     }
-    temp_r4 = this->target;
-    if ((temp_r4 != NULL) && (*(s32 *)((s8 *)temp_r4 + 0x30) & 0x02000800)) {
+    target = this->target;
+    if ((target != NULL) && (*(s32 *)((s8 *)target + 0x30) & 0x02000800)) {
         this->timer = 0;
         this->actorFlags = (s32) (this->actorFlags & 0xFFDFFFFF);
         this->target = NULL;
@@ -904,10 +904,10 @@ void TObjGrass::update_ai(void *arg0) {
 #pragma pop
 
 void TObjGrass::run_move_action() {
-    s16 temp_r0;
+    s16 mode;
 
-    temp_r0 = this->mode;
-    if ((temp_r0 >= 3) || (temp_r0 < 1)) {
+    mode = this->mode;
+    if ((mode >= 3) || (mode < 1)) {
         this->requested_action = 1;
         if ((s16) this->m_39c == 2) {
             this->mode = 1;
@@ -1475,7 +1475,7 @@ void TObjGrass::run_miss_reaction() {
 
 void TObjGrass::update() {
     u8 *arg0 = (u8 *)this;
-    s16 temp_r4;
+    s16 timer;
 
     ((TObjBase *)arg0)->clear_actor_flags((u32)(0x04040000));
     ((TObjMotion *)arg0)->advance_animation();
@@ -1485,9 +1485,9 @@ void TObjGrass::update() {
     update_collisions();
     play_persistent_sound(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003A801), (saddr)arg0, (uaddr)&this->position, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x200);
-    temp_r4 = this->timer;
-    this->timer = (temp_r4 - 1);
-    if (temp_r4 < 0) {
+    timer = this->timer;
+    this->timer = (timer - 1);
+    if (timer < 0) {
         this->actorFlags = (s32) (this->actorFlags & 0xFFFFFEFF);
         this->timer = (s16) this->resetTimer;
         this->referenceHp = (s16) this->hp;
@@ -1506,7 +1506,7 @@ void TObjGrass::run_hit_reaction() {
 
 void TObjGrass::sub_800BCE44() {
     u8 *arg0 = (u8 *)this;
-  u8 *temp_r3;
+  u8 *bodies;
   ((TObjBase *)arg0)->clear_actor_flags((u32)(0x04040000));
   ((TObjMotion *)arg0)->advance_animation();
   this->velocity.z = (f32) (0.0f);
@@ -1521,8 +1521,8 @@ void TObjGrass::sub_800BCE44() {
   if ((this->action_flags) != 8U)
   {
     this->actorFlags = (s32) ((this->actorFlags) & 0xFFFFF9FF);
-    temp_r3 = (u8 *)this->bodies;
-    *((s32 *) (((s8 *) temp_r3) + 0x18)) = (s32) ((*((s32 *) (((s8 *) temp_r3) + 0x18))) & 0xFBFFFFFF);
+    bodies = (u8 *)this->bodies;
+    *((s32 *) (((s8 *) bodies) + 0x18)) = (s32) ((*((s32 *) (((s8 *) bodies) + 0x18))) & 0xFBFFFFFF);
     if ((this->hp) < ((this->hpmax) * (this->parameters[0])))
     {
       this->actorFlags = (s32) ((this->actorFlags) | 0x2000);

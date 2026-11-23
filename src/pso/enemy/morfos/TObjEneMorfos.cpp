@@ -1088,7 +1088,7 @@ void TObjEneMorfos::state_damage(s32 ev) {
 }
 
 void TObjEneMorfos::state_death(s32 ev) {
-    s32 temp_r0;
+    s32 counter;
     s32 temp_r30;
 
     switch (ev) {
@@ -1111,8 +1111,8 @@ void TObjEneMorfos::state_death(s32 ev) {
     case 5:
         return;
     case 0:
-        temp_r0 = this->counter;
-        switch (temp_r0) {
+        counter = this->counter;
+        switch (counter) {
         case 0:
             this->advance_animation();
             temp_r30 = wall_fade.decay_value_toward_floor();

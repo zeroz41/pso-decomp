@@ -2478,10 +2478,10 @@ void TAdSinglePlyChrSelectGC::verify_save_checksum(void) {
 }
 
 void TAdSinglePlyChrSelectGC__sub_801FFF14(void) {
-    s32 temp_r3;
-    temp_r3 = TAdSinglePlyChrSelectGC::get_serial_seed();
-    chr_select_serial_seeds[1] = temp_r3;
-    chr_select_serial_seeds[0] = temp_r3;
+    s32 serial_seed;
+    serial_seed = TAdSinglePlyChrSelectGC::get_serial_seed();
+    chr_select_serial_seeds[1] = serial_seed;
+    chr_select_serial_seeds[0] = serial_seed;
     TAdSinglePlyChrSelectGC__sub_802000C8((void *)guild_card_save_payload, chr_select_serial_seeds);
     TAdSinglePlyChrSelectGC::build_save_file();
     TAdSinglePlyChrSelectGC__sub_801FFF98(((void *)guild_card_save_payload));

@@ -955,7 +955,7 @@ void TAdMultiPlyChrSelectGC::reset_to_select() {
 
 extern "C" {
 void TAdMultiPlyChrSelectGC::sub_802DDD08() {
-    s32 temp_r0;
+    s32 state_frames;
     if (this->confirm_window != NULL) {
         this->confirm_window->close();
         this->confirm_window = NULL;
@@ -996,9 +996,9 @@ void TAdMultiPlyChrSelectGC::sub_802DDD08() {
         return;
     }
     if (this->a_slot->get_state() == 1) {
-        temp_r0 = this->state_frames + 1;
-        this->state_frames = temp_r0;
-        if (temp_r0 > 0xA) {
+        state_frames = this->state_frames + 1;
+        this->state_frames = state_frames;
+        if (state_frames > 0xA) {
             TAdMultiPlyChrSelectGC::reset_slot_selections();
             play_sound_effect(0x52F16, 0, 0, 0);
             if (this->a_slot != NULL) {
@@ -1464,10 +1464,10 @@ void TAdMultiPlyChrSelectGC::update_confirm_start() {
 }
 
 void TAdMultiPlyChrSelectGC::update_idle_timer() {
-    s32 temp_r4;
-    temp_r4 = this->state_frames + 1;
-    this->state_frames = temp_r4;
-    if (((f32) temp_r4 > 4.5f) && (TAdMultiPlyChrSelectGC::get_selected_slot() != 0U) && (TAdPlyPltAnimCtrlGC__sub_80355148() == 0)) {
+    s32 state_frames;
+    state_frames = this->state_frames + 1;
+    this->state_frames = state_frames;
+    if (((f32) state_frames > 4.5f) && (TAdMultiPlyChrSelectGC::get_selected_slot() != 0U) && (TAdPlyPltAnimCtrlGC__sub_80355148() == 0)) {
         this->state = this->next_state;
     }
 }

@@ -25,11 +25,11 @@ void TUnk_804A2B98::on_unequipped() {
 
 void TUnk_804A2B98::on_equipped() {
     f32 scale;
-    u8 temp_r3;
+    u8 item_index;
 
     scale = 1.0f;
-    temp_r3 = get_item_index();
-    switch ((s32) temp_r3) {
+    item_index = get_item_index();
+    switch ((s32) item_index) {
     case 0:
         scale = 1.05f;
         break;

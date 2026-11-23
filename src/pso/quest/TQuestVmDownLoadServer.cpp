@@ -595,11 +595,11 @@ void TQuestVmDownLoadServer::count_download_file_blocks() {
     this->state = 0x15;
 }
 void TQuestVmDownLoadServer::close_window() {
-    uaddr temp_r3;
+    uaddr status_window;
     this->state = 2;
-    temp_r3 = (uaddr) this->status_window;
-    if (temp_r3 != 0U) {
-        ((TWindowBase *)temp_r3)->close();
+    status_window = (uaddr) this->status_window;
+    if (status_window != 0U) {
+        ((TWindowBase *)status_window)->close();
         this->status_window = 0U;
     }
     close_message();
@@ -1034,12 +1034,12 @@ void TQuestVmDownLoadServer::close() {
     quest_download_in_progress = 0;
 }
 void TQuestVmDownLoadServer::check_client_connections() {
-    s32 temp_r0;
-    s32 temp_r3;
+    s32 state;
+    s32 card_mask;
     s32 chan;
 
-    temp_r0 = this->state;
-    if ((temp_r0 == 0) || (temp_r0 == 0x15) || (temp_r0 == 0x16)) {
+    state = this->state;
+    if ((state == 0) || (state == 0x15) || (state == 0x16)) {
         return;
     }
     {
@@ -1059,9 +1059,9 @@ void TQuestVmDownLoadServer::check_client_connections() {
                 }
                 chan += 1;
             } while (chan < 8);
-            temp_r3 = this->card_mask;
-            if (temp_r3 != (s32) this->prev_card_mask) {
-                this->prev_card_mask = temp_r3;
+            card_mask = this->card_mask;
+            if (card_mask != (s32) this->prev_card_mask) {
+                this->prev_card_mask = card_mask;
                 if ((s32) quest_download_in_progress != 0) {
                     quest_download_in_progress = 0;
                     show_status_message((s32)(get_message_text(0xB)), 1);

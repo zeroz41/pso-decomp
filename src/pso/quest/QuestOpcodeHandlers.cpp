@@ -2569,54 +2569,54 @@ s32 TLobby::init_guild_card_tag() {
 }
 
 void qst_op_get_player_state(s32 slot_reg, saddr dst) {
-    saddr temp_r3;
-    temp_r3 = (saddr)get_player_by_client_id(qst_registers[(u8)slot_reg]);
-    if (temp_r3 != 0) {
+    saddr player;
+    player = (saddr)get_player_by_client_id(qst_registers[(u8)slot_reg]);
+    if (player != 0) {
         if (TLobby__sub_801F345C() != 0) {
             qst_registers[(u8)dst] = 1;
             return;
         }
-        if (((TObjPlayer *)temp_r3)->test_action_4() != 0) {
+        if (((TObjPlayer *)player)->test_action_4() != 0) {
             qst_registers[(u8)dst] = 2;
             return;
         }
-        if (((TLobby *)temp_r3)->test_flag_16() != 0) {
+        if (((TLobby *)player)->test_flag_16() != 0) {
             qst_registers[(u8)dst] = 3;
             return;
         }
-        if (TLobby__sub_801F33F0((void *)temp_r3) != 0) {
+        if (TLobby__sub_801F33F0((void *)player) != 0) {
             qst_registers[(u8)dst] = 4;
             return;
         }
-        if (TLobby__sub_801F33CC((void *)temp_r3) != 0) {
+        if (TLobby__sub_801F33CC((void *)player) != 0) {
             qst_registers[(u8)dst] = 5;
             return;
         }
-        if (TLobby__sub_801F33A8((void *)temp_r3) != 0) {
+        if (TLobby__sub_801F33A8((void *)player) != 0) {
             qst_registers[(u8)dst] = 6;
             return;
         }
-        if (TLobby__sub_801F3384((void *)temp_r3) != 0) {
+        if (TLobby__sub_801F3384((void *)player) != 0) {
             qst_registers[(u8)dst] = 7;
             return;
         }
-        if (((TLobby *)temp_r3)->check_flag_24576() != 0) {
+        if (((TLobby *)player)->check_flag_24576() != 0) {
             qst_registers[(u8)dst] = 8;
             return;
         }
-        if (((TObjPlayer *)temp_r3)->test_action_8000() != 0) {
+        if (((TObjPlayer *)player)->test_action_8000() != 0) {
             qst_registers[(u8)dst] = 9;
             return;
         }
-        if (TLobby__sub_801F3314(temp_r3) != 0) {
+        if (TLobby__sub_801F3314(player) != 0) {
             qst_registers[(u8)dst] = 0xA;
             return;
         }
-        if (((TObjPlayer *)temp_r3)->test_action_40000() != 0) {
+        if (((TObjPlayer *)player)->test_action_40000() != 0) {
             qst_registers[(u8)dst] = 0xB;
             return;
         }
-        if (((TObjPlayer *)temp_r3)->test_action_80000() != 0) {
+        if (((TObjPlayer *)player)->test_action_80000() != 0) {
             qst_registers[(u8)dst] = 0xC;
             return;
         }
@@ -2813,34 +2813,34 @@ void qst_op_get_gender(s32 slot_reg, s32 dst) {
 }
 
 void qst_op_disable_techs(s32 slot_reg) {
-    uaddr temp_r3;
-    temp_r3 = (uaddr)get_player_by_client_id(qst_registers[(u8)slot_reg]);
-    if (temp_r3 != 0U) {
-        TLobby__sub_801F3694((void *)(temp_r3 + 0x428));
+    uaddr player;
+    player = (uaddr)get_player_by_client_id(qst_registers[(u8)slot_reg]);
+    if (player != 0U) {
+        TLobby__sub_801F3694((void *)(player + 0x428));
     }
 }
 
 void qst_op_enable_techs(s32 slot_reg) {
-    uaddr temp_r3;
-    temp_r3 = (uaddr)get_player_by_client_id(qst_registers[(u8)slot_reg]);
-    if (temp_r3 != 0U) {
-        TFontSmallLobby__sub_801C013C((void *)(temp_r3 + 0x428));
+    uaddr player;
+    player = (uaddr)get_player_by_client_id(qst_registers[(u8)slot_reg]);
+    if (player != 0U) {
+        TFontSmallLobby__sub_801C013C((void *)(player + 0x428));
     }
 }
 
 void qst_op_disable_stealth_suit_effect(s32 slot_reg) {
-    saddr temp_r3;
-    temp_r3 = ((saddr)((uaddr)get_player_by_client_id((int)(qst_registers[(u8)slot_reg]))));
-    if ((temp_r3 != 0) && (((TObjPlayer *)temp_r3)->sub_801A1DDC() != 0)) {
-        draw_small_label__15TFontSmallLobbyFi((temp_r3));
+    saddr player;
+    player = ((saddr)((uaddr)get_player_by_client_id((int)(qst_registers[(u8)slot_reg]))));
+    if ((player != 0) && (((TObjPlayer *)player)->sub_801A1DDC() != 0)) {
+        draw_small_label__15TFontSmallLobbyFi((player));
     }
 }
 
 void qst_op_enable_stealth_suit_effect(s32 slot_reg) {
-    saddr temp_r3;
-    temp_r3 = ((saddr)((uaddr)get_player_by_client_id((int)(qst_registers[(u8)slot_reg]))));
-    if ((temp_r3 != 0) && (((TObjPlayer *)temp_r3)->sub_801A1DDC() != 0)) {
-        TLobby__sub_801B1254((temp_r3));
+    saddr player;
+    player = ((saddr)((uaddr)get_player_by_client_id((int)(qst_registers[(u8)slot_reg]))));
+    if ((player != 0) && (((TObjPlayer *)player)->sub_801A1DDC() != 0)) {
+        TLobby__sub_801B1254((player));
     }
 }
 
@@ -3316,18 +3316,18 @@ void qst_op_set_shrink_cam1(u8 regs) {
 }
 
 void qst_op_unshrink(s32 slot_reg) {
-    saddr temp_r3;
-    temp_r3 = ((s32)((uaddr)get_player_by_client_id((int)(qst_registers[(u8)slot_reg]))));
-    if ((temp_r3 != 0) && (((TObjChara *)temp_r3)->obj_isState2_324() == 0)) {
-        request_player_size_restore((PlayerScaleState *)(temp_r3 + 0x5B0));
+    saddr player;
+    player = ((s32)((uaddr)get_player_by_client_id((int)(qst_registers[(u8)slot_reg]))));
+    if ((player != 0) && (((TObjChara *)player)->obj_isState2_324() == 0)) {
+        request_player_size_restore((PlayerScaleState *)(player + 0x5B0));
     }
 }
 
 void qst_op_shrink(s32 slot_reg) {
-    saddr temp_r3;
-    temp_r3 = ((s32)((uaddr)get_player_by_client_id((int)(qst_registers[(u8)slot_reg]))));
-    if ((temp_r3 != 0) && (((TObjChara *)temp_r3)->obj_isState2_324() == 0)) {
-        request_player_shrink((PlayerScaleState *)(temp_r3 + 0x5B0));
+    saddr player;
+    player = ((s32)((uaddr)get_player_by_client_id((int)(qst_registers[(u8)slot_reg]))));
+    if ((player != 0) && (((TObjChara *)player)->obj_isState2_324() == 0)) {
+        request_player_shrink((PlayerScaleState *)(player + 0x5B0));
     }
 }
 

@@ -259,7 +259,7 @@ TObjEneRe2Flower::~TObjEneRe2Flower() {
 }
 
 void TObjEneRe2Flower::run_task() {
-    s16 temp_r3;
+    s16 mode;
     if (TObjPlayer::check_demo_mode() != 0) {
         this->run_demo_task();
         return;
@@ -267,8 +267,8 @@ void TObjEneRe2Flower::run_task() {
     if (this->update_status_effects() != 4) {
         this->update_action_state();
     } else {
-        temp_r3 = this->mode;
-        if ((temp_r3 == 0) || (temp_r3 == 1)) {
+        mode = this->mode;
+        if ((mode == 0) || (mode == 1)) {
             appear_fade.reset_color();
             transition_enemy_state(2);
         }
@@ -323,20 +323,20 @@ void TObjEneRe2Flower::dispatch_action(u32 state, s32 reason) {
 void TObjEneRe2Flower::refresh_target() {  }
 
 void TObjEneRe2Flower::run_death_reaction() {
-    s16 temp_r0;
+    s16 mode;
 
-    temp_r0 = this->mode;
-    if ((temp_r0 != 0xA) && (temp_r0 != 0xB)) {
+    mode = this->mode;
+    if ((mode != 0xA) && (mode != 0xB)) {
         transition_enemy_state(0xA);
     }
 }
 
 void TObjEneRe2Flower::run_hit_reaction() {
-    s16 temp_r0;
+    s16 mode;
 
-    temp_r0 = this->mode;
-    if (temp_r0 != 9) {
-        if (temp_r0 == 8) {
+    mode = this->mode;
+    if (mode != 9) {
+        if (mode == 8) {
             start_hit_cooldown();
             clear_attack_receipts();
             return;

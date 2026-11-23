@@ -2537,14 +2537,14 @@ void TObjPlayer::update_timer_state() {
 
 void TObjPlayer::update_timer_action() {
     u8 *arg0 = (u8 *)this;
-    f32 temp_f1;
+    f32 frame_timer;
     f32 temp_f1_2;
 
     switch (this->phase) {
     case 0:
-        temp_f1 = this->frame_timer - 1.0f;
-        this->frame_timer = temp_f1;
-        if (temp_f1 < 0.0f) {
+        frame_timer = this->frame_timer - 1.0f;
+        this->frame_timer = frame_timer;
+        if (frame_timer < 0.0f) {
             this->phase = 1;
             TObjMotion::init(this->get_idle_animation());
             set_action_flag_40();
@@ -2758,7 +2758,7 @@ void TObjPlayer::update_death_pose() {
 
 void TObjPlayer::enter_death_state() {
     u8 *arg0 = (u8 *)this;
-    u32 temp_r31;
+    u32 entity_id;
     u32 other;
     s32 killer;
     u8 *culprit;
@@ -2781,9 +2781,9 @@ void TObjPlayer::enter_death_state() {
         entity = find_entity_by_id(this->get_attacker_id());
         if (entity != NULL) {
             if (check_value_equals__13TUnk_804B6C24CFl((saddr)entity, (void *)lbl_805D3530) != 0) {
-                temp_r31 = (u16)((TObjBase *)arg0)->get_entity_id();
+                entity_id = (u16)((TObjBase *)arg0)->get_entity_id();
                 other = (u16)((TObjBase *)entity)->get_entity_id();
-                if (other != temp_r31) {
+                if (other != entity_id) {
                     fn_801B0480((saddr) (entity), this, 1);
                 }
             }
@@ -2934,7 +2934,7 @@ void TObjPlayer::run_death_state_phase(s16 phase) {
 int TObjPlayer::exit_fall_reaction(void* p) { return ((int (*)(void*))clear_velocity)(p); }
 
 void TObjPlayer::update_fall_reaction() {
-    f32 temp_f1;
+    f32 frame_timer;
     switch (this->phase) {
     case 0:
         if (is_passing_frame(10.0f) != 0) {
@@ -2950,9 +2950,9 @@ void TObjPlayer::update_fall_reaction() {
         }
         break;
     case 1:
-        temp_f1 = this->frame_timer - 1.0f;
-        this->frame_timer = temp_f1;
-        if (temp_f1 < 0.0f) {
+        frame_timer = this->frame_timer - 1.0f;
+        this->frame_timer = frame_timer;
+        if (frame_timer < 0.0f) {
             this->phase = 2;
             this->requested_action = query_child_state2();
         }
@@ -3665,13 +3665,13 @@ s32 TObjPlayer::check_conditions() {
 
 void TObjPlayer::exit_photon_blast_action() {
     u8 *arg0 = (u8 *)this;
-    u8 *temp_r4;
+    u8 *lock_on_cursor;
     this->motion_flags &= ~0x40;
     this->clear_state_flags(0x80);
     this->clear_actor_flags((u32)(0x400000));
-    temp_r4 = (unsigned char *)this->lock_on_cursor;
-    if (temp_r4 != NULL) {
-        *(u16 *)((s8 *)temp_r4 + 0x508) = 0xFFFF;
+    lock_on_cursor = (unsigned char *)this->lock_on_cursor;
+    if (lock_on_cursor != NULL) {
+        *(u16 *)((s8 *)lock_on_cursor + 0x508) = 0xFFFF;
     }
     this->photon_blast_gauge.reset_photon_blast_gauge();
     if (TObjPlayer::is_final_phase() != 0) {
@@ -4109,14 +4109,14 @@ void TObjPlayer::exit_technique_cast() {
 
 void TObjPlayer::update_technique_cast() {
     u8 *arg0 = (u8 *)this;
-    s16 temp_r0;
+    s16 phase;
     s32 temp_r30;
     u8 temp_r31;
     u8 *temp_r3;
     this->rotation_y = ((s32 (*)(int, int))lerp_angle_half__Fll)((int) (this->rotation_y), (int) (*(s32 *)((s8 *)arg0 + 0x3F0)));
     temp_r3 = sub_801D8DCC();
-    temp_r0 = this->phase;
-    switch (temp_r0) {
+    phase = this->phase;
+    switch (phase) {
     case 3:
     case 5:
         break;
@@ -4356,13 +4356,13 @@ void TObjPlayer::dispatch_technique_cast_state(s16 phase) {
 }
 
 void TObjPlayer::reset_linked_obj() {
-    void *temp_r4;
+    void *lock_on_cursor;
 
     ((s32 (*)(void))clear_velocity)();
     ((s32 (*)(void *))clear_status_bit6__10TObjPlayerFPv)(this);
-    temp_r4 = this->lock_on_cursor;
-    if (temp_r4 != NULL) {
-        *(u16 *)((s8 *)temp_r4 + 0x508) = 0xFFFF;
+    lock_on_cursor = this->lock_on_cursor;
+    if (lock_on_cursor != NULL) {
+        *(u16 *)((s8 *)lock_on_cursor + 0x508) = 0xFFFF;
     }
 }
 
@@ -4404,10 +4404,10 @@ void TObjPlayer::send_attack_stage3_request() {
     void *position;
     s32 var_r4;
     u8 *temp_r3;
-    u8 *temp_r4;
-    temp_r4 = (u8 *)this->lock_on_cursor;
-    if (temp_r4 != NULL) {
-        temp_r3 = (u8 *)(resolve_hittable_target(*(u16 *)((s8 *)temp_r4 + 0x508), *(s16 *)((s8 *)temp_r4 + 0x50A)));
+    u8 *lock_on_cursor;
+    lock_on_cursor = (u8 *)this->lock_on_cursor;
+    if (lock_on_cursor != NULL) {
+        temp_r3 = (u8 *)(resolve_hittable_target(*(u16 *)((s8 *)lock_on_cursor + 0x508), *(s16 *)((s8 *)lock_on_cursor + 0x50A)));
         if (temp_r3 != NULL) {
             position = this->get_position_ptr();
             var_r4 = calc_angle_to((Vec *)position, (Vec *)&((Rec_801CDBA0 *)(*(u8 **)((s8 *)temp_r3 + 0xA4)))[*(s16 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x424)) + 0x50A)].pos);
@@ -4479,13 +4479,13 @@ void TObjPlayer::run_attack_stage3_phase(s16 phase) {
 }
 
 void TObjPlayer::reset_target_link() {
-    void *temp_r4;
+    void *lock_on_cursor;
 
     ((s32 (*)(void))clear_velocity)();
     ((s32 (*)(void *))clear_status_bit6__10TObjPlayerFPv)(this);
-    temp_r4 = this->lock_on_cursor;
-    if (temp_r4 != NULL) {
-        *(u16 *)((s8 *)temp_r4 + 0x508) = 0xFFFF;
+    lock_on_cursor = this->lock_on_cursor;
+    if (lock_on_cursor != NULL) {
+        *(u16 *)((s8 *)lock_on_cursor + 0x508) = 0xFFFF;
     }
 }
 
@@ -4527,10 +4527,10 @@ void TObjPlayer::send_attack_stage2_request() {
     void *position;
     s32 var_r4;
     u8 *temp_r3;
-    u8 *temp_r4;
-    temp_r4 = (u8 *)this->lock_on_cursor;
-    if (temp_r4 != NULL) {
-        temp_r3 = (u8 *)(resolve_hittable_target(*(u16 *)((s8 *)temp_r4 + 0x508), *(s16 *)((s8 *)temp_r4 + 0x50A)));
+    u8 *lock_on_cursor;
+    lock_on_cursor = (u8 *)this->lock_on_cursor;
+    if (lock_on_cursor != NULL) {
+        temp_r3 = (u8 *)(resolve_hittable_target(*(u16 *)((s8 *)lock_on_cursor + 0x508), *(s16 *)((s8 *)lock_on_cursor + 0x50A)));
         if (temp_r3 != NULL) {
             position = this->get_position_ptr();
             var_r4 = calc_angle_to((Vec *)position, (Vec *)&((Rec_801CDF9C *)(*(u8 **)((s8 *)temp_r3 + 0xA4)))[*(s16 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x424)) + 0x50A)].pos);
@@ -4966,13 +4966,13 @@ void update_action_state__10TObjPlayerFPv(u8 *player) {
 }
 
 void TObjPlayer::reset_lockon() {
-    void *temp_r4;
+    void *lock_on_cursor;
 
     ((s32 (*)(void))clear_velocity)();
     ((s32 (*)(void *))clear_status_bit6__10TObjPlayerFPv)(this);
-    temp_r4 = this->lock_on_cursor;
-    if (temp_r4 != NULL) {
-        *(u16 *)((s8 *)temp_r4 + 0x508) = 0xFFFF;
+    lock_on_cursor = this->lock_on_cursor;
+    if (lock_on_cursor != NULL) {
+        *(u16 *)((s8 *)lock_on_cursor + 0x508) = 0xFFFF;
     }
 }
 
@@ -5100,16 +5100,16 @@ void TObjPlayer::run_attack_stage1_phase(s16 phase) {
 }
 
 s32 TObjPlayer::update_aim_target() {
-    f32 temp_f1;
+    f32 x;
     s32 temp_r3;
 
     if (this->is_inactive() == 0) {
         return 0;
     }
-    temp_f1 = 1.5f * sin_table_lookup(*(s32 *)((s8 *)this + 0x3F0));
-    this->velocity.x = temp_f1;
+    x = 1.5f * sin_table_lookup(*(s32 *)((s8 *)this + 0x3F0));
+    this->velocity.x = x;
     this->velocity.y = 0.0f;
-    this->velocity.z = (f32) (1.5f * ((f32 (*)(s32, f32, f32))cos_table_lookup)(*(s32 *)((s8 *)this + 0x3F0), temp_f1, 1.5f));
+    this->velocity.z = (f32) (1.5f * ((f32 (*)(s32, f32, f32))cos_table_lookup)(*(s32 *)((s8 *)this + 0x3F0), x, 1.5f));
     if (this->check_actor_blocking_move() != 0) {
         ((int (*)(void*))clear_velocity)((void*)(this));
         return 0;
@@ -5364,7 +5364,7 @@ extern int fold_flush_6;
 #pragma pop
 
 s32 TObjPlayer::update_combat_stats() {
-    f32 temp_f1;
+    f32 x;
     f32 temp_f31;
     s32 temp_r3;
 
@@ -5372,10 +5372,10 @@ s32 TObjPlayer::update_combat_stats() {
         return 0;
     }
     temp_f31 = apply_stat_multipliers_default__10TObjPlayerFv((void *) (((u8 *)this) + 0x5E0), (void *) (((u8 *)this)));
-    temp_f1 = temp_f31 * sin_table_lookup((int) (*(s32 *)((s8 *)this + 0x3F0)));
-    this->velocity.x = temp_f1;
+    x = temp_f31 * sin_table_lookup((int) (*(s32 *)((s8 *)this + 0x3F0)));
+    this->velocity.x = x;
     this->velocity.y = 0.0f;
-    this->velocity.z = (f32) (temp_f31 * ((f32 (*)(int, f32))cos_table_lookup)((int) (*(s32 *)((s8 *)this + 0x3F0)), (f32) (temp_f1)));
+    this->velocity.z = (f32) (temp_f31 * ((f32 (*)(int, f32))cos_table_lookup)((int) (*(s32 *)((s8 *)this + 0x3F0)), (f32) (x)));
     if (this->check_actor_blocking_move() != 0) {
         clear_velocity((void *) (((u8 *)this)));
         return 0;

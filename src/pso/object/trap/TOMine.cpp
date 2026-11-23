@@ -476,11 +476,11 @@ void TOMine::vfunc_86() {
     ((TOMine *)(arg0))->vfunc_81();
 }
 void TOMine::update_trigger() {
-    s16 sp8;
-    if (((u16) this->entity_id >= 0x4000U) && ((uaddr) this->set_entry != 0U) && (access_object_saved_state(&sp8, 1) != 0)) {
+    s16 mode;
+    if (((u16) this->entity_id >= 0x4000U) && ((uaddr) this->set_entry != 0U) && (access_object_saved_state(&mode, 1) != 0)) {
         this->mode = 3;
-        sp8 = this->mode;
-        send_object_state_update(&sp8);
+        mode = this->mode;
+        send_object_state_update(&mode);
     }
 }
 f32 TOMine::receive_direct_attack(void *player, DirectAttackPayload payload, void *, s32, s32) {
@@ -536,18 +536,18 @@ f32 TOMine::receive_weapon_special_attack(void *player, void *) {
     return 0.0f;
 }
 f32 TOMine::receive_physical_attack(void *, f32) {
-    s16 sp8;
-    if (((u16) this->entity_id >= 0x4000U) && ((uaddr) this->set_entry != 0U) && (access_object_saved_state(&sp8, 1) != 0)) {
+    s16 mode;
+    if (((u16) this->entity_id >= 0x4000U) && ((uaddr) this->set_entry != 0U) && (access_object_saved_state(&mode, 1) != 0)) {
         this->mode = 5;
-        sp8 = this->mode;
-        send_object_state_update(&sp8);
+        mode = this->mode;
+        send_object_state_update(&mode);
     }
     return 0.0f;
 }
 void TOMine::vfunc_6(s16 *lobby, s32 arg2) {
-    s16 temp_r0;
-    temp_r0 = *(s16 *)((s8 *)lobby + 0);
-    if (temp_r0 == 5) {
+    s16 mode;
+    mode = *(s16 *)((s8 *)lobby + 0);
+    if (mode == 5) {
         if (arg2 == 1) {
             sub_8017070C();
         }
@@ -556,8 +556,8 @@ void TOMine::vfunc_6(s16 *lobby, s32 arg2) {
         access_object_saved_state(lobby, 0);
         return;
     }
-    if (temp_r0 == 3) {
-        this->mode = temp_r0;
+    if (mode == 3) {
+        this->mode = mode;
         set_indexed_flags(0, 1);
         this->actorFlags = (s32) (this->actorFlags & 0xFFFBFFFF);
         this->calc_attach_pos();

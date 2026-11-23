@@ -513,16 +513,16 @@ void TObjEneDelDepth::update_scale_pulse() {
 #pragma push
 #pragma fp_contract on
 void TObjEneDelDepth::start_move_toward_player() {
-    s32 temp_r31;
+    s32 angle;
     u8 *actor = (u8 *)this;
     this->movementSpeed = 0.0f;
     if (find_nearest_visible_player(reinterpret_cast<TObjChara *>(actor), &direction, 200.0f) == 0xFFFF) {
         this->set_action_state(2);
         return;
     }
-    temp_r31 = (s32) (1048575.0f * random_ratio());
-    this->direction.x += 15.0f * sin_table_lookup(temp_r31);
-    this->direction.z += 15.0f * cos_table_lookup(temp_r31);
+    angle = (s32) (1048575.0f * random_ratio());
+    this->direction.x += 15.0f * sin_table_lookup(angle);
+    this->direction.z += 15.0f * cos_table_lookup(angle);
     if (vector_length(&this->direction) <= 0.01f) {
         this->set_action_state(2);
         return;
@@ -908,18 +908,18 @@ void TObjEneDelDepth::start_attack_motion() {
 
 void TObjEneDelDepth::update_ai_state() {
     u8 *self = (u8 *)this;
-    Vec sp8;
-    s32 temp_r0;
+    Vec direction;
+    s32 timer;
 
     if (this->motionController->get_type() < 6) {
         if (this->motion_flags & 0x10) {
             this->set_action_state(5);
         }
     } else {
-        temp_r0 = this->timer - 1;
-        this->timer = temp_r0;
-        if (temp_r0 <= 0) {
-            if (((find_nearest_visible_player(reinterpret_cast<TObjChara *>(self), &sp8, 50.0f)) != 0xFFFF) && (vector_length(&sp8) > 15.0f)) {
+        timer = this->timer - 1;
+        this->timer = timer;
+        if (timer <= 0) {
+            if (((find_nearest_visible_player(reinterpret_cast<TObjChara *>(self), &direction, 50.0f)) != 0xFFFF) && (vector_length(&direction) > 15.0f)) {
                 this->set_action_state(4);
                 return;
             }

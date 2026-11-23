@@ -655,13 +655,13 @@ extern "C" {
 
 void TWindowCtrl::update_window_visibility() {
     u8 *arg0 = (u8 *)this;
-    s32 temp_r3;
+    s32 submit_cooldown;
     u16 current_target_id;
 
     if ((u32) this->m_38 != 0U) {
-        temp_r3 = this->submit_cooldown;
-        if (temp_r3 > 0) {
-            this->submit_cooldown = (temp_r3 - 1);
+        submit_cooldown = this->submit_cooldown;
+        if (submit_cooldown > 0) {
+            this->submit_cooldown = (submit_cooldown - 1);
         }
         if (get_player_by_client_id(local_client_id) == 0U) {
             ((TWindowChat *)(this->m_38))->update();

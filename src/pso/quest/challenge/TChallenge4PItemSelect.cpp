@@ -126,7 +126,7 @@ void TChallenge4PResult::run_task() {
 
 
 void TChallenge4PResult::update_input() {
-    s32 temp_r3;
+    s32 wait_frames;
     uaddr p;
     TObjPlayer *player;
 
@@ -135,9 +135,9 @@ void TChallenge4PResult::update_input() {
     }
     p = *(u32 *)&this->message_window;
     if ((p != 0U) && (((TWindowMessagePage *)p)->is_message_window_ready() != 0)) {
-        temp_r3 = this->wait_frames;
-        if (temp_r3 > 0) {
-            this->wait_frames = (temp_r3 - 1);
+        wait_frames = this->wait_frames;
+        if (wait_frames > 0) {
+            this->wait_frames = (wait_frames - 1);
             return;
         }
         player = get_player_by_client_id(this->slot_index);
@@ -193,10 +193,10 @@ void TChallenge4PResult::update_wait_input() {
 }
 void TChallenge4PResult::queue_destruction() { TObject::queue_destruction(); }
 void TChallenge4PResult::sub_8034BA2C() {
-    s32 temp_r0;
-    temp_r0 = this->wait_frames - 1;
-    this->wait_frames = temp_r0;
-    if (temp_r0 < 0) {
+    s32 wait_frames;
+    wait_frames = this->wait_frames - 1;
+    this->wait_frames = wait_frames;
+    if (wait_frames < 0) {
         this->state_1c = 2;
     }
 }

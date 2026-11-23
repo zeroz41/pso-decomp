@@ -83,20 +83,20 @@ void TSaveChCr::close_and_advance_step2() { close_and_advance(2); }
 void TSaveChCr::sub_80339CE4() {}
 void TSaveChCr::save_1() { close_and_advance(1); }
 void TSaveChCr::update_save_state() {
-    s32 temp_r4;
+    s32 card_status;
 
-    temp_r4 = this->card_status;
-    if (!(temp_r4 & 2)) {
-        if (temp_r4 & 1) {
+    card_status = this->card_status;
+    if (!(card_status & 2)) {
+        if (card_status & 1) {
             if (owned_window == NULL) {
                 close_and_advance(0);
             }
         } else {
-            if (temp_r4 & 4) {
+            if (card_status & 4) {
                 set_state((saddr)((void*)(1)));
                 return;
             }
-            if (temp_r4 == 0) {
+            if (card_status == 0) {
                 set_state((saddr)((void*)(2)));
             }
         }

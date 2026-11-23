@@ -34,7 +34,7 @@ TUnk_804F01A8::~TUnk_804F01A8() {
 }
 
 void TUnk_804F01A8::run_task() {
-    s32 temp_r0;
+    s32 state;
     s32 temp_r0_2;
     if (!(this->flags & 1)) {
         switch (TObjBoss2Tunnel::save_snapshot()) {
@@ -64,8 +64,8 @@ void TUnk_804F01A8::run_task() {
             }
             break;
         case -9:
-            temp_r0 = this->state;
-            if ((temp_r0 == 4) || (temp_r0 == 0)) {
+            state = this->state;
+            if ((state == 4) || (state == 0)) {
                 set_option_and_confirm(7, 1);
                 this->state = 9;
             }

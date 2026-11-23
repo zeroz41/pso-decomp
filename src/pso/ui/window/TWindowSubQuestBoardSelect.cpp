@@ -131,14 +131,14 @@ void TWindowSubQuestBoardSelect::update_slot_display_flags() {
 
 
 void TWindowSubQuestBoardSelect::select_next() {
-    u8 temp_r3;
+    u8 slot;
 
     if ((this->is_shortcut_active() == 0) && (get_slot_flag(this->slot) == 0)) {
         do {
             this->slot = (this->slot + 1);
-            temp_r3 = this->slot;
-            if ((s8) temp_r3 > 6) {
-                this->slot = (temp_r3 - 6);
+            slot = this->slot;
+            if ((s8) slot > 6) {
+                this->slot = (slot - 6);
             }
         } while (get_slot_flag(this->slot) == 0);
         sub_8027D230();

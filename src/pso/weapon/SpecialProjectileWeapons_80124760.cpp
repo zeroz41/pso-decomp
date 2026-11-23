@@ -42,12 +42,12 @@ void drill_launcher_return_timer(void *arg0);
 void TUnk_804A2148::render() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r31;
-    u8 *temp_r3;
+    u8 *model;
 
     if (TItemShootModel::is_owner_alive() != 0) {
-        temp_r3 = (unsigned char *) (this->model);
-        if ((temp_r3 != NULL) && ((uaddr) this->texture_list != 0U)) {
-            temp_r31 = (unsigned char *) (*(void **)((s8 *)((unsigned char *) (*(void **)((s8 *)temp_r3 + 0x2C))) + 0x30));
+        model = (unsigned char *) (this->model);
+        if ((model != NULL) && ((uaddr) this->texture_list != 0U)) {
+            temp_r31 = (unsigned char *) (*(void **)((s8 *)((unsigned char *) (*(void **)((s8 *)model + 0x2C))) + 0x30));
             *(s32 *)((s8 *)temp_r31 + 0) = (s32) (*(s32 *)((s8 *)temp_r31 + 0) & 0xFFFFFFFB);
             *(f32 *)((s8 *)temp_r31 + 0x20) = (f32) 10.0f;
             push_matrix();
@@ -122,12 +122,12 @@ void TUnk_804A2164::vfunc_60() {
 }
 
 void TUnk_804A2164::update_weapon() {
-    void *temp_r4;
+    void *second_model;
     void *temp_r4_2;
     projectile_spin = (projectile_spin + 0x1999);
-    temp_r4 = this->second_model;
-    if (temp_r4 != NULL) {
-        temp_r4_2 = *(void **)((s8 *)temp_r4 + 0x2C);
+    second_model = this->second_model;
+    if (second_model != NULL) {
+        temp_r4_2 = *(void **)((s8 *)second_model + 0x2C);
         *(s32 *)((s8 *)temp_r4_2 + 0) = (s32) (*(s32 *)((s8 *)temp_r4_2 + 0) & 0xFFFFFFFD);
         *(s32 *)((s8 *)temp_r4_2 + 0x18) = (s32) projectile_spin;
     }

@@ -164,13 +164,13 @@ void TWindowCtrlPlayer::render() {  }
 #pragma scheduling off
 void TWindowCtrlPlayer::sub_8024E0F0() {
     s16 temp_r3_3;
-    uaddr temp_r3;
+    uaddr simple_status;
     uaddr temp_r3_2;
     switch (*(s16 *)&this->m_1e) {
     case 18:
-        temp_r3 = reinterpret_cast<uaddr>(this->simple_status);
-        if (temp_r3 != 0U) {
-            ((TObject *)temp_r3)->clear_update_suspension();
+        simple_status = reinterpret_cast<uaddr>(this->simple_status);
+        if (simple_status != 0U) {
+            ((TObject *)simple_status)->clear_update_suspension();
         }
         break;
     case 38:

@@ -69,15 +69,15 @@ void set_status_entry_target(void *arg0, s32 arg1) {
 #pragma fp_contract on
 
 void TUnk_804CF9E0::update() {
-    f32 temp_f2;
+    f32 target;
     f32 temp_f30;
     if (this->target != this->current) {
         if (this->flags & 8) {
             play_persistent_sound(0x44E03, reinterpret_cast<saddr>(this), 0, 0, 0);
         }
-        temp_f2 = this->target;
-        temp_f30 = temp_f2 - this->current;
-        if (((f32 (*)(f32)) fabs_float)(temp_f30) < (fabs_float(this->step, temp_f2))) {
+        target = this->target;
+        temp_f30 = target - this->current;
+        if (((f32 (*)(f32)) fabs_float)(temp_f30) < (fabs_float(this->step, target))) {
             this->current = this->target;
         } else {
             this->current = this->current + this->step;

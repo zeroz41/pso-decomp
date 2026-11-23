@@ -268,11 +268,11 @@ TObjEnemy::TObjEnemy(TObject *parent) : TObjChara(parent) {
 }
 
 TObjEnemy::~TObjEnemy() {
-    u16 temp_r0;
+    u16 entity_id;
     this->apply_player_54a00();
     if ((u32) *(u32 *)((s8 *)this + 0x80) != 0U) {
-        temp_r0 = this->entity_id;
-        if ((temp_r0 >= 0x1000U) && (temp_r0 < 0x4000U)) {
+        entity_id = this->entity_id;
+        if ((entity_id >= 0x1000U) && (entity_id < 0x4000U)) {
             this->mask_sub_flags(-3);
             *(u32 *)((s8 *)this + 0x80) = 0U;
         }
@@ -291,12 +291,12 @@ s32 TObjEnemy::bind_enemy_combat_stats(u8 *arg1, u8 *arg2, u8 *arg3) {
     f32 temp_f31;
     f32 temp_f31_2;
     f32 temp_f31_3;
-    s16 temp_r0;
-    s16 temp_r0_2;
-    s16 temp_r0_3;
-    s16 temp_r0_4;
+    s16 atp;
+    s16 atp_range;
+    s16 evp;
+    s16 dfp;
     s16 attack_params_atp_max;
-    player_stats *temp_r4;
+    player_stats *stat_block;
     player_stats *temp_r6;
 
     if (arg1 != NULL) {
@@ -308,8 +308,8 @@ s32 TObjEnemy::bind_enemy_combat_stats(u8 *arg1, u8 *arg2, u8 *arg3) {
             this->tpmax = 0;
             this->tp = 0;
         } else {
-            temp_r4 = this->stat_block;
-            this->tpmax = (s16) (temp_r4->stats.mst + temp_r4->level);
+            stat_block = this->stat_block;
+            this->tpmax = (s16) (stat_block->stats.mst + stat_block->level);
             this->tp = (s16) this->tpmax;
         }
         goto block_6;
@@ -334,19 +334,19 @@ block_10:
         return 0;
     }
 block_14:
-    temp_r0 = this->stat_block->stats.atp;
-    this->atp = temp_r0;
-    this->base_atp = temp_r0;
+    atp = this->stat_block->stats.atp;
+    this->atp = atp;
+    this->base_atp = atp;
     attack_params_atp_max = get_attack_params_atp_max(*(u8 **)((s8 *)((u8 *)this) + 0x318));
-    temp_r0_2 = attack_params_atp_max - get_attack_params_atp_min(*(u8 **)((s8 *)((u8 *)this) + 0x318));
-    this->atp_range = temp_r0_2;
-    this->base_atp_range = temp_r0_2;
-    temp_r0_3 = this->stat_block->stats.evp + *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 0);
-    this->evp = temp_r0_3;
-    this->base_evp = temp_r0_3;
-    temp_r0_4 = this->stat_block->stats.dfp + *(s32 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 0x1C);
-    this->dfp = temp_r0_4;
-    this->base_dfp = temp_r0_4;
+    atp_range = attack_params_atp_max - get_attack_params_atp_min(*(u8 **)((s8 *)((u8 *)this) + 0x318));
+    this->atp_range = atp_range;
+    this->base_atp_range = atp_range;
+    evp = this->stat_block->stats.evp + *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 0);
+    this->evp = evp;
+    this->base_evp = evp;
+    dfp = this->stat_block->stats.dfp + *(s32 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 0x1C);
+    this->dfp = dfp;
+    this->base_dfp = dfp;
     this->ata = (s16) (this->stat_block->stats.ata + this->attack_params->get_ata());
     this->lck = (s16) this->stat_block->stats.lck;
     this->m_2f2 = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 2);
@@ -479,7 +479,7 @@ void TUnk_80493450::link_into_group_chain() {
 void TUnk_80493450::unlink_enemy_group_relations() {
     u8 *temp_r0;
     u8 *temp_r0_2;
-    u8 *temp_r0_3;
+    u8 *children;
     u8 *temp_r0_4;
     u8 *temp_r0_5;
     u8 *temp_r0_6;
@@ -491,17 +491,17 @@ void TUnk_80493450::unlink_enemy_group_relations() {
     u8 *temp_r4_3;
     u8 *temp_r4_4;
     u8 *temp_r4_5;
-    u8 *temp_r5;
+    u8 *group;
     u8 *temp_r5_2;
-    u8 *temp_r5_3;
+    u8 *previous;
     u8 *temp_r5_4;
     u8 *temp_r5_5;
     u8 *var_r5;
     u8 *var_r6;
     u8 *var_r6_2;
     u8 *var_r6_3;
-    temp_r5 = (u8 *)this->group;
-    if (temp_r5 != NULL) {
+    group = (u8 *)this->group;
+    if (group != NULL) {
         temp_r4 = (u8 *)this->next;
         if (temp_r4 != NULL) {
             temp_r5_2 = (u8 *)this->children;
@@ -524,17 +524,17 @@ while (*(u8 **)((s8 *)var_r6 + 0x348) != NULL) {
             *(void **)((s8 *)this->next + 0x340) = (void *) this->group;
             *(void **)((s8 *)this->next + 0x344) = NULL;
         } else {
-            temp_r0_3 = (u8 *)this->children;
-            if (temp_r0_3 != NULL) {
-                *(u8 **)((s8 *)temp_r5 + 0x34C) = temp_r0_3;
+            children = (u8 *)this->children;
+            if (children != NULL) {
+                *(u8 **)((s8 *)group + 0x34C) = children;
                 *(void **)((s8 *)this->children + 0x340) = (void *) this->group;
             } else {
-                *(u8 **)((s8 *)temp_r5 + 0x34C) = NULL;
+                *(u8 **)((s8 *)group + 0x34C) = NULL;
             }
         }
     } else {
-        temp_r5_3 = (u8 *)this->previous;
-        if (temp_r5_3 != NULL) {
+        previous = (u8 *)this->previous;
+        if (previous != NULL) {
             temp_r4_2 = (u8 *)this->next;
             if (temp_r4_2 != NULL) {
                 temp_r5_4 = (u8 *)this->children;
@@ -558,7 +558,7 @@ while (*(u8 **)((s8 *)var_r6_2 + 0x348) != NULL) {
             } else {
                 temp_r4_3 = (u8 *)this->children;
                 if (temp_r4_3 != NULL) {
-                    temp_r0_6 = (u8 *)(*(u8 **)((s8 *)temp_r5_3 + 0x34C));
+                    temp_r0_6 = (u8 *)(*(u8 **)((s8 *)previous + 0x34C));
                     if (temp_r0_6 != NULL) {
                         var_r5 = temp_r0_6;
 while (*(u8 **)((s8 *)var_r5 + 0x348) != NULL) {
@@ -568,7 +568,7 @@ while (*(u8 **)((s8 *)var_r5 + 0x348) != NULL) {
                         *(void **)((s8 *)this->children + 0x340) = NULL;
                         *(void **)((s8 *)this->children + 0x344) = var_r5;
                     } else {
-                        *(u8 **)((s8 *)temp_r5_3 + 0x34C) = temp_r4_3;
+                        *(u8 **)((s8 *)previous + 0x34C) = temp_r4_3;
                         *(void **)((s8 *)this->children + 0x340) = (void *) this->previous;
                     }
                 }
@@ -639,11 +639,11 @@ void link_chain_nodes__10TObjPlayerFPvPvPv(void *arg0, Node_800F6E2C *arg1, Node
 #pragma fp_contract on
 void TObjEnemy::update_prev_position() {
     u8 *arg0 = (u8 *)this;
-    player_stats *temp_r3;
+    player_stats *stat_block;
     VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(arg0 + 0x38));
-    temp_r3 = this->stat_block;
-    if (temp_r3 != NULL) {
-        this->body_center.y = (f32) ((0.5f * temp_r3->proportions) + this->body_center.y);
+    stat_block = this->stat_block;
+    if (stat_block != NULL) {
+        this->body_center.y = (f32) ((0.5f * stat_block->proportions) + this->body_center.y);
     }
 }
 

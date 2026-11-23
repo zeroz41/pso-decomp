@@ -207,12 +207,12 @@ u8 TLobby__sub_8029A16C(void) {
 }
 
 void TObjChallenge4PRetry::countdown_and_destroy() {
-    s32 temp_r0;
+    s32 countdown;
 
     ((s32 (*)())play_all_players_effect__6TLobbyFPv)();
-    temp_r0 = this->countdown - 1;
-    this->countdown = temp_r0;
-    if (temp_r0 <= 0) {
+    countdown = this->countdown - 1;
+    this->countdown = countdown;
+    if (countdown <= 0) {
         TLobby::start_challenge_countdown();
         ((s32 (*)(void *))send_giveup_to_all_players__6TLobbyFv)(this);
         close_window();

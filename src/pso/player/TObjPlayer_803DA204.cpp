@@ -154,18 +154,18 @@ s32 TObjPlayer::find_record_index(u32 arg0, u32 arg1) {
 
 void TObjPlayer::release_empty_ref_entry() {
     u8 *arg0 = (u8 *)this;
-    u8 *temp_r4;
-    temp_r4 = (u8 *)this->m_next;
-    if ((s32) *(s32 *)((s8 *)temp_r4 + 0x24) <= 0) {
-        *(s32 *)((s8 *)temp_r4 + 0) = -1;
-        *(s32 *)((s8 *)temp_r4 + 4) = 0;
-        *(s32 *)((s8 *)temp_r4 + 8) = 0;
-        *(s32 *)((s8 *)temp_r4 + 0xC) = 0;
-        *(s32 *)((s8 *)temp_r4 + 0x10) = 0;
-        *(s32 *)((s8 *)temp_r4 + 0x14) = 0;
-        *(s32 *)((s8 *)temp_r4 + 0x18) = 0;
-        *(s32 *)((s8 *)temp_r4 + 0x1C) = 0;
-        *(s32 *)((s8 *)temp_r4 + 0x20) = 0;
+    u8 *next;
+    next = (u8 *)this->m_next;
+    if ((s32) *(s32 *)((s8 *)next + 0x24) <= 0) {
+        *(s32 *)((s8 *)next + 0) = -1;
+        *(s32 *)((s8 *)next + 4) = 0;
+        *(s32 *)((s8 *)next + 8) = 0;
+        *(s32 *)((s8 *)next + 0xC) = 0;
+        *(s32 *)((s8 *)next + 0x10) = 0;
+        *(s32 *)((s8 *)next + 0x14) = 0;
+        *(s32 *)((s8 *)next + 0x18) = 0;
+        *(s32 *)((s8 *)next + 0x1C) = 0;
+        *(s32 *)((s8 *)next + 0x20) = 0;
         player_ref_entry_active_count -= 1;
     }
     if ((s32) *(s32 *)((s8 *)arg0 + 0x10) <= 0) {

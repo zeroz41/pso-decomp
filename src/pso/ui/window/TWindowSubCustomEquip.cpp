@@ -391,19 +391,19 @@ void TWindowSubCustomEquip::place_bank_slot_on_ring(s32 angle, s32 index) {
 #pragma pop
 
 void TWindowSubCustomEquip::update_rotate_anim() {
-    s32 temp_r3;
+    s32 angle;
     s32 var_r4;
 
     var_r4 = 0xB200;
     if ((s8) this->m_62 > 0) {
         var_r4 = 0x13200;
     }
-    temp_r3 = this->angle;
-    if (var_r4 != temp_r3) {
-        if ((s32) (u16) (var_r4 - temp_r3) < 0xC00) {
+    angle = this->angle;
+    if (var_r4 != angle) {
+        if ((s32) (u16) (var_r4 - angle) < 0xC00) {
             this->angle = var_r4;
         } else {
-            this->angle = (temp_r3 + 0xC00);
+            this->angle = (angle + 0xC00);
         }
     }
     if (this->angle & 0x8000) {

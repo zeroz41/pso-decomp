@@ -472,14 +472,14 @@ void TWindowSubMag::set_mag_mode(s32 mag_mode) {
 }
 
 s32 TWindowSubMag::count_slots() {
-    s32 sp8;
+    s32 mag;
     s32 slot;
 
-    ((MagStats *)(&sp8))->init();
-    TItemData::deserialize_mag((void *)(this->mag), (void *)(&sp8));
+    ((MagStats *)(&mag))->init();
+    TItemData::deserialize_mag((void *)(this->mag), (void *)(&mag));
     slot = 0;
 loop_1:
-    if (((MagStats *)(&sp8))->get_photon_blast(slot) == -1) {
+    if (((MagStats *)(&mag))->get_photon_blast(slot) == -1) {
         return slot;
     }
     slot += 1;

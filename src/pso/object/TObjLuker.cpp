@@ -371,7 +371,7 @@ void TObjLuker::render() {  }
 void TObjLuker::run_task() {
     u8 *arg0 = (u8 *)this;
     s32 sp8;
-    u8 spC[0xC];
+    u8 position[0xC];
     u8 *p;
     s32 flag;
     p = (u8 *)get_player_by_client_id(this->m_a8);
@@ -415,8 +415,8 @@ void TObjLuker::run_task() {
                     }
                     if (flag != 0) {
                         this->m_b0 = 1;
-                        offset_point_toward_camera(&this->position, (Vec *)spC, 10.0f);
-                        spawn_particle_effect((const Vec *)spC, 0xB3);
+                        offset_point_toward_camera(&this->position, (Vec *)position, 10.0f);
+                        spawn_particle_effect((const Vec *)position, 0xB3);
                         p = (u8 *)get_player_by_client_id(local_client_id);
                         if (p != NULL) {
                             TObjPlayer::play_effect_default((saddr)p, 0xA);

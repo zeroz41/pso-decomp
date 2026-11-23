@@ -38,10 +38,10 @@ void TUnk_804A1098::update_idle() {
 }
 
 void TUnk_804A1098::update_attack() {
-    s32 temp_r0;
+    s32 open_state;
 
-    temp_r0 = this->open_state;
-    if ((temp_r0 == 1) || (temp_r0 == 0)) {
+    open_state = this->open_state;
+    if ((open_state == 1) || (open_state == 0)) {
         this->open_state = 2;
     }
 }
@@ -49,20 +49,20 @@ void TUnk_804A1098::update_attack() {
 }
 
 void TUnk_804A1098::update_weapon() {
-    s32 temp_r0;
-    s32 temp_r4;
+    s32 open_state;
+    s32 open_angle;
     s32 temp_r4_2;
-    temp_r0 = this->open_state;
-    if (temp_r0 == 2) {
-        temp_r4 = this->open_angle;
-        if (temp_r4 < 0x2AAA) {
-            this->open_angle = (temp_r4 + 0x888);
+    open_state = this->open_state;
+    if (open_state == 2) {
+        open_angle = this->open_angle;
+        if (open_angle < 0x2AAA) {
+            this->open_angle = (open_angle + 0x888);
             if (this->open_angle >= 0x2AAA) {
                 this->open_angle = 0x2AAA;
                 this->open_state = 3;
             }
         }
-    } else if (temp_r0 == 1) {
+    } else if (open_state == 1) {
         temp_r4_2 = this->open_angle;
         if (temp_r4_2 > 0) {
             this->open_angle = (temp_r4_2 - 0x444);

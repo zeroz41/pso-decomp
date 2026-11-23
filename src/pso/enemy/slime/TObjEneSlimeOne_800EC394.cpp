@@ -163,13 +163,13 @@ void SlimeAnimationState::advance() {
 }
 
 s32 SlimeAnimationState::is_finished() {
-    s32 temp_r0;
+    s32 state;
 
-    temp_r0 = this->state;
-    if (temp_r0 == -1) {
+    state = this->state;
+    if (state == -1) {
         return 1;
     }
-    if (temp_r0 < 7) {
+    if (state < 7) {
         return 0;
     }
     if ((s8) TObjEneSlimeOne__target_depth_initialized == 0) {

@@ -695,7 +695,7 @@ TBoss5Gryphon::~TBoss5Gryphon() {
 }
 
 void TBoss5Gryphon::run_task() {
-    s32 temp_r31;
+    s32 run_mode;
     s32 temp_r31_2;
     s32 i;
     if (TObjPlayer::check_demo_mode() != 0) {
@@ -708,10 +708,10 @@ void TBoss5Gryphon::run_task() {
         return;
     }
     if (TObjEneDD::is_main_phase_15() != 0) {
-        temp_r31 = this->run_mode;
+        run_mode = this->run_mode;
         if (update_lobby_state() != 0) {
             this->run_mode = 0;
-            if (this->run_mode != temp_r31) {
+            if (this->run_mode != run_mode) {
                 this->run_mode_changed = 1;
             }
         } else {
@@ -3206,10 +3206,10 @@ void TBoss5Gryphon::play_animation_index(s32 index) {
 }
 
 void TBoss5Gryphon::update_target_from_state() {
-    s32 temp_r0;
+    s32 flight_mode;
 
-    temp_r0 = this->flight_mode;
-    switch (temp_r0) {
+    flight_mode = this->flight_mode;
+    switch (flight_mode) {
     default:
     case 0:
         this->script_entry = this->action_scripts[16];

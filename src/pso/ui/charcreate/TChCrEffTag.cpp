@@ -17,17 +17,17 @@ int draw_chcr_tag_heading_frame(void*);
 void TChCrEffTag::render() { set_depth_buffer_settings_1(); draw_chcr_tag_frame(); draw_chcr_tag_heading_frame(this); restore_saved_depth_alpha_state(); }
 void TChCrEffTag::refresh_label() {
     vec2f pos;
-    s32 temp_r0;
+    s32 heading;
     if (label != NULL) {
         TChCrEffTagStr__sub_8029AED0(label);
         label = NULL;
     }
     this->heading = (s32) TChCrEffTag__selected_heading;
-    temp_r0 = this->heading;
-    if (temp_r0 >= 0) {
+    heading = this->heading;
+    if (heading >= 0) {
         pos.x = 27.0f;
         pos.y = 44.0f;
-        label = (TChCrEffTagStr *)create_str(this, (void *)lbl_804652A4[temp_r0], &pos);
+        label = (TChCrEffTagStr *)create_str(this, (void *)lbl_804652A4[heading], &pos);
     }
 }
 

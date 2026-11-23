@@ -54,12 +54,12 @@ s32 TWindowCtrl__sub_8024701C(TWindowChat *w) {
 
 s32 TWindowChat::sub_80247080() {
     s32 *temp_r31;
-    u8 *temp_r3;
-    temp_r3 = (u8 *)this->symbolChatWindow;
-    if (temp_r3 == NULL) {
+    u8 *symbolChatWindow;
+    symbolChatWindow = (u8 *)this->symbolChatWindow;
+    if (symbolChatWindow == NULL) {
         return 0;
     }
-    if (TWindowChat__sub_80247DAC(temp_r3) != 0) {
+    if (TWindowChat__sub_80247DAC(symbolChatWindow) != 0) {
         this->set_input_active();
         return 1;
     }

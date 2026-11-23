@@ -398,9 +398,9 @@ void TPlayerBattleCtrl4P::wait_for_start_countdown() {
 }
 
 void TPlayerBattleCtrl4P::close_intro_and_start_battle() {
-    void *temp_r3 = this->intro_window;
-    if ((uaddr) temp_r3 != 0U) {
-        ((TWindowBase *)temp_r3)->close();
+    void *intro_window = this->intro_window;
+    if ((uaddr) intro_window != 0U) {
+        ((TWindowBase *)intro_window)->close();
         this->intro_window = 0U;
     }
     set_split_screen_battle_phase(2);

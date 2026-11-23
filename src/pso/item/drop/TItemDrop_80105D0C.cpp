@@ -995,10 +995,10 @@ TItemDrop::TItemDrop(TObject *parent, s8 section) : TObject(parent) {
 
 u8 *create_drop__9TItemDropFi(saddr parent) {
     u8 section;
-    u8 *temp_r3;
-    temp_r3 = (u8 *)(TAdSinglePlyChrSelectGC::get_char_index(0U));
-    if (temp_r3 != NULL) {
-        section = *(u8 *)((s8 *)temp_r3 + 0x3A0);
+    u8 *char_index;
+    char_index = (u8 *)(TAdSinglePlyChrSelectGC::get_char_index(0U));
+    if (char_index != NULL) {
+        section = *(u8 *)((s8 *)char_index + 0x3A0);
         if (((s8) section >= 0) && ((s8) section < 0xA)) {
             return (u8 *)new TItemDrop((TObject *)parent, (s8)section);
         }

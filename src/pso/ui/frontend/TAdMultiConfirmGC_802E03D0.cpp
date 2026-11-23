@@ -279,11 +279,11 @@ void TAdChrSelPlayerGC::init_model_animation() {
 }
 
 void TAdChrSelPlayerGC::set_cursor_index(s32 arg1) {
-    s16 temp_r4;
+    s16 requested_action;
 
     this->requested_action = (s16) (arg1 * 3);
-    temp_r4 = this->requested_action;
-    if ((temp_r4 < 0) || (temp_r4 > 8)) {
+    requested_action = this->requested_action;
+    if ((requested_action < 0) || (requested_action > 8)) {
         this->requested_action = 0;
     }
     if (this->m_154 & 2) {

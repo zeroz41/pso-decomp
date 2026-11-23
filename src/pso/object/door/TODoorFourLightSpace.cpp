@@ -266,13 +266,13 @@ void TODoorFourLightRuins::vfunc_6(s16 *arg1, s32) {
 }
 
 s32 TODoorFourLightRuins::init_door_switch_binding() {
-    s32 temp_r0;
+    s32 switch_id;
 
     this->switch_id = (s32) this->set_params[0];
-    temp_r0 = this->switch_id;
-    if (temp_r0 > 0x100) {
+    switch_id = this->switch_id;
+    if (switch_id > 0x100) {
         this->lock_mode = 0;
-    } else if (temp_r0 < 0) {
+    } else if (switch_id < 0) {
         this->lock_mode = 1;
     } else if ((s32) this->set_params[2] < 0) {
         if ((get_main_phase() == 0xF) || (TRaderMapCore::is_not_split_screen() == 1)) {
@@ -478,13 +478,13 @@ void TODoorFourLightSpace::vfunc_6(s16 *arg1, s32) {
 }
 
 s32 TODoorFourLightSpace::init_door_switch_binding() {
-    s32 temp_r0;
+    s32 switch_id;
 
     this->switch_id = (s32) this->set_params[0];
-    temp_r0 = this->switch_id;
-    if (temp_r0 > 0x100) {
+    switch_id = this->switch_id;
+    if (switch_id > 0x100) {
         this->lock_mode = 0;
-    } else if (temp_r0 < 0) {
+    } else if (switch_id < 0) {
         this->lock_mode = 1;
     } else if ((s32) this->set_params[2] < 0) {
         if ((get_main_phase() == 0xF) || (TRaderMapCore::is_not_split_screen() == 1)) {

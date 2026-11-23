@@ -426,19 +426,19 @@ void TObjCMMainMenu::sub_8029862C() {  }
 #pragma push
 #pragma fp_contract on
 void TObjCMMainMenu::sub_80298534() {
-    f32 temp_f2;
+    f32 progress;
     f32 fv;
-    s32 temp_r0;
+    s32 delay;
     this->progress += 0.013333334f;
-    temp_r0 = this->delay - 1;
-    this->delay = temp_r0;
-    if (temp_r0 < 0) {
+    delay = this->delay - 1;
+    this->delay = delay;
+    if (delay < 0) {
         this->delay = 0;
     }
     if (((s32) creation_resource_ready_state == 2) || ((s32) this->delay == 0)) {
-        temp_f2 = this->progress;
-        if (temp_f2 < 0.8f) {
-            this->progress = (f32) ((0.25f * (0.8f - temp_f2)) + temp_f2);
+        progress = this->progress;
+        if (progress < 0.8f) {
+            this->progress = (f32) ((0.25f * (0.8f - progress)) + progress);
         }
         fv = this->progress;
         if (fv > 1.0f) {
@@ -460,21 +460,21 @@ void TObjCMMainMenu::sub_80298534() {
 
 #pragma pop
 void TObjCMMainMenu::sub_80298518() {
-    s32 temp_r0;
+    s32 delay;
 
-    temp_r0 = this->delay - 1;
-    this->delay = temp_r0;
-    if (temp_r0 < 0) {
+    delay = this->delay - 1;
+    this->delay = delay;
+    if (delay < 0) {
         TObjCMMainMenu__data_805D659C = 3;
     }
 }
 
 void TObjCMMainMenu::sub_802984FC() {
-    s32 temp_r0;
+    s32 delay;
 
-    temp_r0 = this->delay - 1;
-    this->delay = temp_r0;
-    if (temp_r0 < 0) {
+    delay = this->delay - 1;
+    this->delay = delay;
+    if (delay < 0) {
         TObjCMMainMenu__data_805D659C = 4;
     }
 }
@@ -1877,7 +1877,7 @@ void TObjCMProportion::run_task() {
     f32 proportion;
     f32 var_f30;
     f32 var_f29;
-    CharacterAppearanceFields *temp_r3_3;
+    CharacterAppearanceFields *appearance;
     CharacterAppearanceFields *temp_r3_4;
 
     proportion = TObjCMMainMenu::get_proportion();
@@ -1923,11 +1923,11 @@ void TObjCMProportion::run_task() {
         }
         arg0->appearance->width += var_f30;
         arg0->appearance->height += var_f29;
-        temp_r3_3 = arg0->appearance;
-        if (temp_r3_3->width > 0.99f) {
-            temp_r3_3->width -= 0.99f;
-        } else if (temp_r3_3->width < 0.0f) {
-            temp_r3_3->width += 0.99f;
+        appearance = arg0->appearance;
+        if (appearance->width > 0.99f) {
+            appearance->width -= 0.99f;
+        } else if (appearance->width < 0.0f) {
+            appearance->width += 0.99f;
         }
         temp_r3_4 = arg0->appearance;
         height = temp_r3_4->height;

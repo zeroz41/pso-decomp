@@ -11,10 +11,10 @@ void TWindowSubStatusDisp::dispatch_without_flags(saddr window, s32 arg2, s32 it
 }
 
 void TWindowCheckBox::sync_level_field() {
-    s16 temp_r4;
+    s16 cursor;
 
-    if (*(s16 *)((s8 *)this + 0x88) != (temp_r4 = this->cursor)) {
-        *(s16 *)((s8 *)this + 0x88) = temp_r4;
+    if (*(s16 *)((s8 *)this + 0x88) != (cursor = this->cursor)) {
+        *(s16 *)((s8 *)this + 0x88) = cursor;
         advance_all_entries(1);
     }
 }

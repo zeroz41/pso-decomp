@@ -253,7 +253,7 @@ TTecLuker::~TTecLuker() {
 }
 
 void TTecLuker::run_task() {
-    struct { f32 x, y, z; } sp8;
+    struct { f32 x, y, z; } position;
     u16 owner_id;
     u16 entity_id;
     u16 temp_r5;
@@ -305,8 +305,8 @@ void TTecLuker::run_task() {
             return;
         }
         if ((get_player_by_client_id(traveller) != NULL) && (get_pipe_interaction_latch(field) != 0) && (are_players_gathered_near(&pipe_pos, 0, 10.0f) != 0)) {
-            offset_point_toward_camera(&pipe_pos, (Vec *)&sp8, 10.0f);
-            spawn_particle_effect((const Vec *)&sp8, 0xB3);
+            offset_point_toward_camera(&pipe_pos, (Vec *)&position, 10.0f);
+            spawn_particle_effect((const Vec *)&position, 0xB3);
             player = (u8 *)get_player_by_client_id(traveller);
             if (player != NULL) {
                 TObjPlayer::play_effect_default((saddr)player, (int)0xA);

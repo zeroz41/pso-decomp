@@ -2428,12 +2428,12 @@ s32 TObjPlayer::try_apply_status_action(TObjPlayer *player) {
 }
 
 void TObjPlayer::handle_state2_transitions() {
-    s16 temp_r0;
+    s16 control_state;
     u8 *arg0 = (u8 *)this;
 
     this->clear_state_flags(0x10);
-    temp_r0 = this->control_state;
-    switch (temp_r0) {
+    control_state = this->control_state;
+    switch (control_state) {
     case 1:
         if ((get_main_phase() != 0xE) && ((s32) lbl_805D55C0 != 0)) {
             goto call3;
@@ -2716,7 +2716,7 @@ void TObjPlayer::send_unequip_held_item() {
 }
 
 void TObjPlayer::use_current_item() {
-    s32 sp8;
+    s32 position;
     void *temp_r3;
 
     temp_r3 = (void *)((TItemData *)this)->test_flag3();
@@ -2724,8 +2724,8 @@ void TObjPlayer::use_current_item() {
         ((TItem *)temp_r3)->perform_action();
         return;
     }
-    this->get_anim_node_position(0x24, (Vec *)&sp8);
-    TEffGuard::create((Vec *)&sp8);
+    this->get_anim_node_position(0x24, (Vec *)&position);
+    TEffGuard::create((Vec *)&position);
 }
 
 void TObjPlayer::get_anim_node_position(s32 joint, Vec *arg2) {
@@ -3329,15 +3329,15 @@ s32 try_send_6x27_use_item(void *player, s32 key) {
 
 void handle_6x27_use_item(saddr command) {
     Pkt_801B7EB8 pkt;
-    u8 *temp_r3;
+    u8 *player;
     u8 *owner_if_alive;
     void *node;
     init_6x27_use_item_cmd((u8 *)&pkt);
     ((TObjPlayer *)(&pkt))->copy_field_4((void *)command);
     ((TObjPlayer *)(&pkt))->bswap_cmd_u32();
     if (validate_6x27_use_item((G_ClientIDHeader *)(&pkt)) != 0) {
-        temp_r3 = (u8 *)get_player_by_client_id((u16)pkt.client);
-        if ((temp_r3 != NULL) && ((node = ((TObjPlayer *)temp_r3)->inventory_objects->start_inventory_update(pkt.item)) != 0U)) {
+        player = (u8 *)get_player_by_client_id((u16)pkt.client);
+        if ((player != NULL) && ((node = ((TObjPlayer *)player)->inventory_objects->start_inventory_update(pkt.item)) != 0U)) {
             owner_if_alive = (u8 *)((TItemList *)node)->get_owner_if_alive();
             if (owner_if_alive != NULL) {
                 ((TItem *)owner_if_alive)->use();
@@ -3464,12 +3464,12 @@ u8 *TObjPlayer::update_actor_ground_y_at(Vec *pos) {
     f32 y;
     s32 temp_r31;
     u8 *temp_r3;
-    player_stats *temp_r6;
+    player_stats *stat_block;
     u8 *arg0 = (u8 *)this;
     stack.x = pos->x;
-    temp_r6 = ((TObjPlayer *)arg0)->stat_block;
+    stat_block = ((TObjPlayer *)arg0)->stat_block;
     y = pos->y;
-    stack.y = y + temp_r6->proportions;
+    stack.y = y + stat_block->proportions;
     stack.z = pos->z;
     temp_r3 = (u8 *)csnVectorUnder(&stack, this->ground_candidates.groups, 0x5F);
     if (temp_r3 == NULL) {
@@ -4435,14 +4435,14 @@ void TObjPlayer::apply_input_mode() {
 }
 
 void TObjPlayer::set_move_mode_from_class_flags() {
-    s32 temp_r3;
+    s32 class_flags;
 
-    temp_r3 = this->get_class_flags();
-    if (temp_r3 & CLASS_FLAG_ANDROID) {
+    class_flags = this->get_class_flags();
+    if (class_flags & CLASS_FLAG_ANDROID) {
         this->set_move_mode(2);
         return;
     }
-    if (temp_r3 & CLASS_FLAG_NEWMAN) {
+    if (class_flags & CLASS_FLAG_NEWMAN) {
         this->set_move_mode(1);
         return;
     }
@@ -4658,11 +4658,11 @@ void fill_player_record__10TObjPlayerFPvPv(Src_801B4CE4 *src, Dst_801B4CE4 *dst)
 }
 
 s32 TObjPlayer::get_battle_ctrl_flag(u16 id) {
-    s32 temp_r3;
+    s32 player;
 
-    temp_r3 = (saddr)get_player_by_client_id((u16)id);
-    if ((temp_r3 != 0) && (((s32 (*)(void))is_on_current_floor__10TObjPlayerFi)() != 0)) {
-        return temp_r3;
+    player = (saddr)get_player_by_client_id((u16)id);
+    if ((player != 0) && (((s32 (*)(void))is_on_current_floor__10TObjPlayerFi)() != 0)) {
+        return player;
     }
     return 0;
 }
@@ -4735,13 +4735,13 @@ void submit_cursor_candidate(void *self) {
 
 s32 TObjPlayer::get_battle_ctrl_id(u16 arg0) {
     u32 temp_r3;
-    void *temp_r3_2;
+    void *player;
 
-    temp_r3_2 = get_player_by_client_id(arg0);
-    if (temp_r3_2 == NULL) {
+    player = get_player_by_client_id(arg0);
+    if (player == NULL) {
         return 0xFFFF;
     }
-    temp_r3 = *(u32 *)((s8 *)temp_r3_2 + 0x424);
+    temp_r3 = *(u32 *)((s8 *)player + 0x424);
     if (temp_r3 == 0U) {
         return 0xFFFF;
     }
@@ -6300,14 +6300,14 @@ void TObjPlayer::update_photon_chair() {
 s32 TObjPlayer::add_actor_exp(s32 arg1) {
     s32 temp_r31;
     s32 temp_r3;
-    player_stats *temp_r4;
+    player_stats *stat_block;
 
     if (is_current_area_item_enabled() == 0) {
         return 0;
     }
-    temp_r4 = this->stat_block;
-    temp_r31 = temp_r4->exp;
-    temp_r3 = TObjPlayer__sub_801D91B8(this, temp_r4);
+    stat_block = this->stat_block;
+    temp_r31 = stat_block->exp;
+    temp_r3 = TObjPlayer__sub_801D91B8(this, stat_block);
     temp_r31 = temp_r31 + arg1;
     if (temp_r31 > temp_r3) {
         temp_r31 = temp_r3;
@@ -6640,7 +6640,7 @@ extern "C" s32 accumulate_damage_stats_at_76c(s32 player, s32 attacker, s32 amou
 
 void record_damage_stats__10TOMineTrapFUiUis(uaddr mine_trap, u32 att, s16 arg2) {
   Pkt_801B0300 pkt;
-  u32 temp_r3;
+  u32 player;
   uaddr obj;
   if (TTecCtrl::is_technique_ready() != 0)
   {
@@ -6662,10 +6662,10 @@ void record_damage_stats__10TOMineTrapFUiUis(uaddr mine_trap, u32 att, s16 arg2)
       ((int (*)(u32, u32, s16)) accumulate_damage_stats)(mine_trap + 0x77C, obj, arg2);
       if (((TObjBase *)(obj))->get_entity_id() != ((TObjBase *)(mine_trap))->get_entity_id())
       {
-        temp_r3 = (uaddr)get_player_by_client_id(((TObjBase *)(obj))->get_entity_id());
-        if (temp_r3 != 0U)
+        player = (uaddr)get_player_by_client_id(((TObjBase *)(obj))->get_entity_id());
+        if (player != 0U)
         {
-          ((int (*)(u32, u32, s16)) accumulate_damage_stats)(temp_r3 + 0x78C, mine_trap, arg2);
+          ((int (*)(u32, u32, s16)) accumulate_damage_stats)(player + 0x78C, mine_trap, arg2);
         }
       }
       if (TObjPlayer::is_final_phase() != 0)

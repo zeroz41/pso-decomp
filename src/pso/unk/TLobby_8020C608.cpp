@@ -14,11 +14,11 @@ s32 TObjEnemy::send_entity_set_flags() {
 }
 
 s32 TObjCollidable::set_flag8() {
-    void *temp_r4;
+    void *set_entry;
 
-    temp_r4 = this->set_entry;
-    if (temp_r4 != NULL) {
-        *(s16 *)((s8 *)temp_r4 + 2) = (s16) (*(s16 *)((s8 *)temp_r4 + 2) | 8);
+    set_entry = this->set_entry;
+    if (set_entry != NULL) {
+        *(s16 *)((s8 *)set_entry + 2) = (s16) (*(s16 *)((s8 *)set_entry + 2) | 8);
         return 1;
     }
     return 0;

@@ -209,17 +209,17 @@ void TUnk_804A4948::on_equipped() {
 void TUnk_804A4948::emit_marker_effects() {
     u8 *arg0 = (u8 *)this;
   Vec origin;
-  s32 temp_r0;
+  s32 kind;
   s32 attack_flags;
   s32 new_var;
   (this->vfunc_62());
   attack_flags = (this->get_attack_flags());
   if (attack_flags & 1)
   {
-    temp_r0 = this->kind;
-    if (temp_r0 < 3)
+    kind = this->kind;
+    if (kind < 3)
     {
-      if (temp_r0 < 1)
+      if (kind < 1)
       {
         if ((arg0 && arg0) && arg0)
         {

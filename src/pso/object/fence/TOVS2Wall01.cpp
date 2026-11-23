@@ -176,14 +176,14 @@ void TOVS2Wall01::save_and_send_state(u16 arg1) {
 #pragma dont_inline off
 
 void TOVS2Wall01::vfunc_6(s16 *arg1, s32 arg2) {
-    s32 temp_r0;
+    s32 mode;
 
     if (arg1 != NULL) {
         this->mode = (s16) *arg1;
     }
-    temp_r0 = this->mode;
-    if (temp_r0 != 1) {
-        if ((temp_r0 >= 1) || (temp_r0 < 0)) {
+    mode = this->mode;
+    if (mode != 1) {
+        if ((mode >= 1) || (mode < 0)) {
             this->mode = 0;
         }
     } else {

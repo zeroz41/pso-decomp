@@ -5,10 +5,10 @@
 
 
 void TUnk_8049FC90::apply_use_effect() {
-  u8 temp_r31;
+  u8 item_index;
     saddr arg0 = (saddr)this;
-  temp_r31 = (s32)((TItem *)arg0)->get_item_index();
-  ((TItem *)arg0)->set_owner_technique_level(((s16) (((TItemObject *)arg0)->get_technique() & 0xFF)), ((s16) (temp_r31 & 0xFFFFFFFFu)));
+  item_index = (s32)((TItem *)arg0)->get_item_index();
+  ((TItem *)arg0)->set_owner_technique_level(((s16) (((TItemObject *)arg0)->get_technique() & 0xFF)), ((s16) (item_index & 0xFFFFFFFFu)));
 }
 
 TUnk_8049FC90::~TUnk_8049FC90() {}

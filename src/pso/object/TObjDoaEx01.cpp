@@ -213,7 +213,7 @@ void TObjDoaEx01::try_open() {
     }
 }
 void TObjDoaEx01::draw_model() {
-    f32 temp_f31;
+    f32 animation_frame;
     saddr temp_r31;
     s32 temp_r31_2;
     if (this->update_object_view_visibility(4e+02f, 2e+01f) != 0) {
@@ -224,10 +224,10 @@ void TObjDoaEx01::draw_model() {
         push_matrix();
         post_translate_matrix((void *) (((u8 *)this) + 0x38));
         rotate_matrix_y(0, (this->rotation_y));
-        temp_f31 = this->animation_frame;
-        if (temp_f31 > 0.0f) {
+        animation_frame = this->animation_frame;
+        if (animation_frame > 0.0f) {
             temp_r31 = get_bml_motion((TObjDoaEx01__resource_bundle), 0);
-            draw_ginja_model_with_motion((saddr)get_bml_model((BmlResource *)(void *)TObjDoaEx01__resource_bundle, 0), temp_r31, temp_f31);
+            draw_ginja_model_with_motion((saddr)get_bml_model((BmlResource *)(void *)TObjDoaEx01__resource_bundle, 0), temp_r31, animation_frame);
         } else {
             this->draw_object_tree((temp_r31));
         }

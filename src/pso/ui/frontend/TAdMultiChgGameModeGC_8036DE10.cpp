@@ -405,20 +405,20 @@ void TAdMultiChgGameModeGC::update_mode_selection() {
 }
 void TAdMultiChgGameModeGC::load_system_on_mode_default() { if (handle_mode_selection() == 0) { load_system_file((saddr)((void*)0)); } }
 s32 TAdMultiChgGameModeGC::handle_mode_selection() {
-    s32 temp_r4;
-    temp_r4 = this->selection;
-    if (temp_r4 & 1) {
+    s32 selection;
+    selection = this->selection;
+    if (selection & 1) {
         set_state(9);
         return 1;
     }
-    if (temp_r4 & 2) {
+    if (selection & 2) {
         return 0;
     }
-    if (temp_r4 & 4) {
+    if (selection & 4) {
         set_state(9);
         return 1;
     }
-    if (temp_r4 & 8) {
+    if (selection & 8) {
         set_state(9);
         return 1;
     }

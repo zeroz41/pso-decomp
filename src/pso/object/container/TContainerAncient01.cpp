@@ -433,7 +433,7 @@ void *TContainerAncient01::create(void *set_data) {
 
 void TContainerAncient01::run_task() {
     u8 *arg0 = (u8 *)this;
-    f32 temp_f1;
+    f32 frame_timer;
     f32 y;
     if (TObjPlayer::check_demo_mode() == 0) {
         if ((s32) this->m_35c == 0) {
@@ -454,9 +454,9 @@ void TContainerAncient01::run_task() {
                 ((TContainerAncient01 *)arg0)->update_wait_for_player();
                 break;
             }
-            temp_f1 = this->frame_timer;
-            this->frame_timer = (f32) (temp_f1 + TContainerAncient01__data_805DBD10[0]);
-            submit_cursor_candidate(arg0, -1, temp_f1);
+            frame_timer = this->frame_timer;
+            this->frame_timer = (f32) (frame_timer + TContainerAncient01__data_805DBD10[0]);
+            submit_cursor_candidate(arg0, -1, frame_timer);
         } else {
             y = this->open_scale.y;
             if (y <= 0.2f) {
@@ -725,7 +725,7 @@ void *TContainerAncient01R::create(void *parent) {
 
 void TContainerAncient01R::run_task() {
     u8 *arg0 = (u8 *)this;
-    f32 temp_f1;
+    f32 frame_timer;
     f32 y;
     if (TObjPlayer::check_demo_mode() == 0) {
         if ((s32) this->m_360 == 0) {
@@ -746,9 +746,9 @@ void TContainerAncient01R::run_task() {
                 ((TContainerAncient01R *)arg0)->check_open_trigger();
                 break;
             }
-            temp_f1 = this->frame_timer;
-            this->frame_timer = (f32) (temp_f1 + TContainerAncient01__data_805DBD10[0]);
-            submit_cursor_candidate(arg0, -1, temp_f1);
+            frame_timer = this->frame_timer;
+            this->frame_timer = (f32) (frame_timer + TContainerAncient01__data_805DBD10[0]);
+            submit_cursor_candidate(arg0, -1, frame_timer);
         } else {
             y = this->open_scale.y;
             if (y <= 0.2f) {

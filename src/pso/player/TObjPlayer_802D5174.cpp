@@ -558,15 +558,15 @@ void *TUnk_804E1BB0::init_state_513(TObject *parent, u8 *item) {
 }
 
 void TUnk_804E1BB0::reserved_53() {
-    u32 temp_r0;
+    u32 second_model;
     u32 temp_r31;
     saddr arg0 = (saddr)this;
     draw_weapon_at_joint(arg0, 0x30);
     ((TItemWeapon *)arg0)->update_trail_slot(0);
-    temp_r0 = (uaddr)((TItemWeapon *)arg0)->second_model;
+    second_model = (uaddr)((TItemWeapon *)arg0)->second_model;
     temp_r31 = *(u32 *)((s8 *)arg0 + 0xF4);
-    if (temp_r0 != 0U) {
-        *(u32 *)((s8 *)arg0 + 0xF4) = temp_r0;
+    if (second_model != 0U) {
+        *(u32 *)((s8 *)arg0 + 0xF4) = second_model;
     }
     draw_weapon_at_joint(arg0, 0x23);
     ((TItemWeapon *)arg0)->update_trail_slot(1);
