@@ -469,23 +469,23 @@ void TObjSeabedSuisoBrakable::vfunc_16() {
     SeabedSuisoPiece *piece;
     s32 i;
 
-    params.pad_0[0] = 0.35f;
-    params.pad_0[1] = 0.07f;
-    params.pad_0[2] = 0.54f;
+    params.bounce = 0.35f;
+    params.drag = 0.07f;
+    params.gravity = 0.54f;
     VecCopy((Vec *)params.pos, &position);
-    params.pad_18[0] = 2.5f;
-    params.pad_18[1] = 4.0f;
-    params.pad_18[2] = 2.5f;
-    params.pad_24[0] = 0x200;
-    params.pad_24[1] = 0x150;
-    params.pad_24[2] = 0x200;
-    params.pad_30[0] = 1;
-    params.pad_30[1] = 60;
-    params.pad_38[0] = position.y;
-    params.pad_38[1] = 1.0f;
+    params.velocity_range[0] = 2.5f;
+    params.velocity_range[1] = 4.0f;
+    params.velocity_range[2] = 2.5f;
+    params.spin_range[0] = 0x200;
+    params.spin_range[1] = 0x150;
+    params.spin_range[2] = 0x200;
+    params.count = 1;
+    params.life = 60;
+    params.floor_y = position.y;
+    params.scale = 1.0f;
     params.model = 0;
     params.textures = (saddr)get_texlist(0);
-    params.pad_48 = 17;
+    params.flags = 17;
     piece = seabed_suiso_break_sets[kind].chips;
     for (i = 0; i < 17; i++, piece++) {
         if (piece->model >= 0) {

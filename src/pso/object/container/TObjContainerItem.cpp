@@ -261,10 +261,10 @@ ForestBoxCollisionBody forest_box_collision_body_parts = {
 };
 
 static TObjChipParams forest_box_break_params[4] = {
-    { { 0.5f, 0.03f, 0.2f }, { 0.0f, 0.0f, 0.0f }, { 3.0f, 5.0f, 3.0f }, { 0x800, 0x100, 0x800 }, { 7, 0x32 }, { 0.0f, 1.0f }, 0, 0, 0x16 },
-    { { 0.5f, 0.03f, 0.19f }, { 0.0f, 0.0f, 0.0f }, { 3.5f, 5.0f, 3.5f }, { 0x400, 0x100, 0x400 }, { 5, 0x32 }, { 0.0f, 1.0f }, 0, 0, 0x16 },
-    { { 0.5f, 0.03f, 0.2f }, { 0.0f, 0.0f, 0.0f }, { 3.0f, 5.0f, 3.0f }, { 0x800, 0x100, 0x800 }, { 7, 0x32 }, { 0.0f, 0.5f }, 0, 0, 0x16 },
-    { { 0.5f, 0.03f, 0.19f }, { 0.0f, 0.0f, 0.0f }, { 3.5f, 5.0f, 3.5f }, { 0x400, 0x100, 0x400 }, { 5, 0x32 }, { 0.0f, 0.5f }, 0, 0, 0x16 },
+    { 0.5f, 0.03f, 0.2f, { 0.0f, 0.0f, 0.0f }, { 3.0f, 5.0f, 3.0f }, { 0x800, 0x100, 0x800 }, 7, 0x32, 0.0f, 1.0f, 0, 0, 0x16 },
+    { 0.5f, 0.03f, 0.19f, { 0.0f, 0.0f, 0.0f }, { 3.5f, 5.0f, 3.5f }, { 0x400, 0x100, 0x400 }, 5, 0x32, 0.0f, 1.0f, 0, 0, 0x16 },
+    { 0.5f, 0.03f, 0.2f, { 0.0f, 0.0f, 0.0f }, { 3.0f, 5.0f, 3.0f }, { 0x800, 0x100, 0x800 }, 7, 0x32, 0.0f, 0.5f, 0, 0, 0x16 },
+    { 0.5f, 0.03f, 0.19f, { 0.0f, 0.0f, 0.0f }, { 3.5f, 5.0f, 3.5f }, { 0x400, 0x100, 0x400 }, 5, 0x32, 0.0f, 0.5f, 0, 0, 0x16 },
 };
 
 // TObjContainerBase's name (the containers' constructors install it)
@@ -274,19 +274,19 @@ const char *TObjContainerEnemy__name = "TObjContainerEnemy";
 const char *TObjContainerNoItem__name = "TObjContainerNoItem";
 
 extern const TObjChipParams container_break_particle_parameters = {
-    { 0.5f, 0.07f, 0.26f }, { 0.0f, 0.0f, 0.0f }, { 5.0f, 5.0f, 5.0f }, { 0x400, 0x100, 0x400 }, { 5, 0x32 }, { 0.0f, 0.6f }, 0, 0, 0x14,
+    0.5f, 0.07f, 0.26f, { 0.0f, 0.0f, 0.0f }, { 5.0f, 5.0f, 5.0f }, { 0x400, 0x100, 0x400 }, 5, 0x32, 0.0f, 0.6f, 0, 0, 0x14,
 };
 extern const TObjChipParams container_break_small_debris_parameters = {
-    { 0.5f, 0.07f, 0.26f }, { 0.0f, 0.0f, 0.0f }, { 4.0f, 4.5f, 4.0f }, { 0x200, 0x100, 0x200 }, { 6, 0x32 }, { 0.0f, 0.5f }, 0, 0, 0x14,
+    0.5f, 0.07f, 0.26f, { 0.0f, 0.0f, 0.0f }, { 4.0f, 4.5f, 4.0f }, { 0x200, 0x100, 0x200 }, 6, 0x32, 0.0f, 0.5f, 0, 0, 0x14,
 };
 
 const char *TObjContainerAbeEnemy__name = "TObjContainerAbeEnemy";
 
 extern const TObjChipParams lbl_80444E5C = {
-    { 0.5f, 0.07f, 0.26f }, { 0.0f, 0.0f, 0.0f }, { 5.0f, 5.0f, 5.0f }, { 0x400, 0x100, 0x400 }, { 5, 0x32 }, { 0.0f, 0.6f }, 0, 0, 0x14,
+    0.5f, 0.07f, 0.26f, { 0.0f, 0.0f, 0.0f }, { 5.0f, 5.0f, 5.0f }, { 0x400, 0x100, 0x400 }, 5, 0x32, 0.0f, 0.6f, 0, 0, 0x14,
 };
 extern const TObjChipParams lbl_80444EA8 = {
-    { 0.5f, 0.07f, 0.26f }, { 0.0f, 0.0f, 0.0f }, { 4.0f, 4.5f, 4.0f }, { 0x200, 0x100, 0x200 }, { 6, 0x32 }, { 0.0f, 0.5f }, 0, 0, 0x14,
+    0.5f, 0.07f, 0.26f, { 0.0f, 0.0f, 0.0f }, { 4.0f, 4.5f, 4.0f }, { 0x200, 0x100, 0x200 }, 6, 0x32, 0.0f, 0.5f, 0, 0, 0x14,
 };
 static __declspec(section ".rodata") const char container_event_number_format[] ATTRIBUTE_ALIGN(4) = "EVT NO : %d";
 static __declspec(section ".rodata") const char container_random_item_message[] ATTRIBUTE_ALIGN(4) = "<- RANDOM ITEM";
@@ -637,11 +637,11 @@ void TObjContainerItem::vfunc_79() const {
         TObjChipParams a = *forest_box_debris_primary;
         TObjChipParams b = *forest_box_debris_secondary;
         VecCopy((Vec *)a.pos, (const Vec *)&self->x);
-        a.pad_38[0] = self->y;
+        a.floor_y = self->y;
         a.model = (saddr)get_forest_box_model(2);
         a.textures = (saddr)forest_box_textures;
         VecCopy((Vec *)b.pos, (const Vec *)&self->x);
-        b.pad_38[0] = self->y;
+        b.floor_y = self->y;
         b.model = (saddr)get_forest_box_model(0);
         b.textures = (saddr)forest_box_textures;
         spawn_particle_effect_with_flags((const Vec *)&self->x, 0x45, 0x40);
@@ -755,11 +755,11 @@ void TObjContainerEnemy::vfunc_79() const {
         TObjChipParams a = *forest_box_debris_primary;
         TObjChipParams b = *forest_box_debris_secondary;
         VecCopy((Vec *)a.pos, (const Vec *)&self->x);
-        a.pad_38[0] = self->y;
+        a.floor_y = self->y;
         a.model = (saddr)get_forest_box_model(2);
         a.textures = (saddr)forest_box_textures;
         VecCopy((Vec *)b.pos, (const Vec *)&self->x);
-        b.pad_38[0] = self->y;
+        b.floor_y = self->y;
         b.model = (saddr)get_forest_box_model(0);
         b.textures = (saddr)forest_box_textures;
         spawn_particle_effect_with_flags((const Vec *)&self->x, 0x45, 0x40);
@@ -857,11 +857,11 @@ void TObjContainerNoItem::vfunc_79() const {
         TObjChipParams a = *forest_box_debris_primary;
         TObjChipParams b = *forest_box_debris_secondary;
         VecCopy((Vec *)a.pos, (const Vec *)&self->x);
-        a.pad_38[0] = self->y;
+        a.floor_y = self->y;
         a.model = (saddr)get_forest_box_model(2);
         a.textures = (saddr)forest_box_textures;
         VecCopy((Vec *)b.pos, (const Vec *)&self->x);
-        b.pad_38[0] = self->y;
+        b.floor_y = self->y;
         b.model = (saddr)get_forest_box_model(0);
         b.textures = (saddr)forest_box_textures;
         spawn_particle_effect_with_flags((const Vec *)&self->x, 0x45, 0x40);
@@ -949,7 +949,7 @@ void TObjContainerBase::vfunc_79() const {
     a.pos[0] = xa;
     a.pos[1] = ya;
     a.pos[2] = za;
-    a.pad_38[0] = ya;
+    a.floor_y = ya;
     a.model = (saddr)get_container_breakup_model(0);
     a.textures = (saddr)container_breakup_textures;
     TObjChipParams b = container_break_small_debris_parameters;
@@ -962,7 +962,7 @@ void TObjContainerBase::vfunc_79() const {
     b.pos[0] = xb;
     b.pos[1] = yb;
     b.pos[2] = zb;
-    b.pad_38[0] = yb;
+    b.floor_y = yb;
     b.model = (saddr)get_container_breakup_model(1);
     b.textures = (saddr)container_breakup_textures;
     spawn_particle_effect_with_flags(&position, 0x45, 0x40);
@@ -1081,7 +1081,7 @@ void TObjContainerAbeEnemy::vfunc_79() const {
         a.pos[0] = xa;
         a.pos[1] = ya;
         a.pos[2] = za;
-        a.pad_38[0] = ya;
+        a.floor_y = ya;
         a.model = (saddr)get_container_breakup_model(0);
         a.textures = (saddr)container_breakup_textures;
         TObjChipParams b = lbl_80444EA8;
@@ -1094,7 +1094,7 @@ void TObjContainerAbeEnemy::vfunc_79() const {
         b.pos[0] = xb;
         b.pos[1] = yb;
         b.pos[2] = zb;
-        b.pad_38[0] = yb;
+        b.floor_y = yb;
         b.model = (saddr)get_container_breakup_model(1);
         b.textures = (saddr)container_breakup_textures;
         spawn_particle_effect_with_flags(&self->pos, 0x45, 0x40);

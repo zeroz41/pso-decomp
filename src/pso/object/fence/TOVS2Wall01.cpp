@@ -64,8 +64,8 @@ const char *TOVS2Wreck06__class_name = "TOVS2Wreck06";
 const char *TOVS2Wall01__class_name = "TOVS2Wall01";
 
 extern const TObjChipParams vs2_wall_debris_desc = {
-    { 0.25f, 0.07f, 0.26f }, { 0.0f, 0.0f, 0.0f }, { 5.0f, 7.5f, 5.0f },
-    { 1024, 256, 1024 }, { 1, 20 }, { 0.0f, 0.6f }, 0, 0, 20,
+    0.25f, 0.07f, 0.26f, { 0.0f, 0.0f, 0.0f }, { 5.0f, 7.5f, 5.0f },
+    { 1024, 256, 1024 }, 1, 20, 0.0f, 0.6f, 0, 0, 20,
 };
 
 // One body per wreck model (TOVS2::TOVS2 takes entry `index`), the last one the wall's.
@@ -200,7 +200,7 @@ void TOVS2Wall01::spawn_debris(s32 index) {
     params.pos[0] = body_center.x;
     params.pos[1] = body_center.y;
     params.pos[2] = body_center.z;
-    params.pad_38[0] = position.y;
+    params.floor_y = position.y;
     params.model = (saddr)get_bml_model((BmlResource *)TOVS2Wall01__bml_resource, index);
     params.textures = (saddr)get_bml_texlist((BmlResource *)TOVS2Wall01__bml_resource, index);
     new TObjChip(tl_05, &params);

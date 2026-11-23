@@ -151,8 +151,8 @@ void *TORockJungleS01::create(void *set_data) {
 void TORockJungleS01::vfunc_16() {
     Vec offsets[1] = { { 0.0f, 0.0f, 0.0f } };
     TObjChipParams params = {
-        { 0.25f, 0.07f, 0.26f }, { 0.0f, 0.0f, 0.0f }, { 5.0f, 7.5f, 5.0f },
-        { 1024, 256, 1024 }, { 1, 30 }, { 0.0f, 0.6f }, 0, 0, 22,
+        0.25f, 0.07f, 0.26f, { 0.0f, 0.0f, 0.0f }, { 5.0f, 7.5f, 5.0f },
+        { 1024, 256, 1024 }, 1, 30, 0.0f, 0.6f, 0, 0, 22,
     };
     Vec offset;
     s32 i;
@@ -160,7 +160,7 @@ void TORockJungleS01::vfunc_16() {
     params.pos[0] = position.x;
     params.pos[1] = position.y;
     params.pos[2] = position.z;
-    params.pad_38[0] = params.pos[1];
+    params.floor_y = params.pos[1];
     for (i = 0; i < 1; i++) {
         VecCopy(&offset, &offsets[i]);
         push_matrix_from(identity_matrix);
@@ -245,8 +245,8 @@ void *TORockJungleM01::create(void *set_data) {
 void TORockJungleM01::vfunc_16() {
     Vec offsets[1] = { { 0.0f, 0.0f, 0.0f } };
     TObjChipParams params = {
-        { 0.25f, 0.07f, 0.26f }, { 0.0f, 0.0f, 0.0f }, { 5.0f, 7.5f, 5.0f },
-        { 1024, 256, 1024 }, { 1, 30 }, { 0.0f, 0.6f }, 0, 0, 22,
+        0.25f, 0.07f, 0.26f, { 0.0f, 0.0f, 0.0f }, { 5.0f, 7.5f, 5.0f },
+        { 1024, 256, 1024 }, 1, 30, 0.0f, 0.6f, 0, 0, 22,
     };
     Vec offset;
     s32 i;
@@ -254,7 +254,7 @@ void TORockJungleM01::vfunc_16() {
     params.pos[0] = position.x;
     params.pos[1] = position.y;
     params.pos[2] = position.z;
-    params.pad_38[0] = params.pos[1];
+    params.floor_y = params.pos[1];
     for (i = 0; i < 1; i++) {
         VecCopy(&offset, &offsets[i]);
         push_matrix_from(identity_matrix);

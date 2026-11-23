@@ -79,8 +79,8 @@ SeabedTrapFragmentSpawn seabed_trap_fragment_spawns[6] = {
     {1, {4.0f, 0.0f, 4.0f}, 32768},
 };
 static const TObjChipParams TOTrapSeabed01__transform_params = {
-    {0.35f, 0.07f, 0.54f}, {0.0f, 0.0f, 0.0f}, {2.5f, 6.5f, 2.5f},
-    {0x300, 0x250, 0x300}, {1, 60}, {0.0f, 1.0f}, 0, 0, 17,
+    0.35f, 0.07f, 0.54f, {0.0f, 0.0f, 0.0f}, {2.5f, 6.5f, 2.5f},
+    {0x300, 0x250, 0x300}, 1, 60, 0.0f, 1.0f, 0, 0, 17,
 };
 static const s32 trap_seabed01_param_index_table[6] = {0, 1, 2, 3, 4, 5};
 const char *TOTrapSeabed01_class_name = "TOTrapSeabed01";

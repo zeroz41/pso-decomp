@@ -5,15 +5,19 @@
 
 // What TObjChip::construct_debris copies into a new debris chip.
 struct TObjChipParams {
-    f32 pad_0[3];
+    f32 bounce;             // a piece hitting floor_y keeps -bounce of its fall speed
+    f32 drag;               // share of x/z speed lost each frame
+    f32 gravity;
     f32 pos[3];
-    f32 pad_18[3];
-    s32 pad_24[3];
-    s32 pad_30[2];
-    f32 pad_38[2];
+    f32 velocity_range[3];  // a piece starts at up to this speed per axis
+    s32 spin_range[3];      // and spins at up to this angle per frame
+    s32 count;              // pieces, at most 8
+    s32 life;               // frames a piece moves
+    f32 floor_y;
+    f32 scale;              // drawn scale of each piece
     saddr model;
     s32 textures;
-    s32 pad_48;
+    s32 flags;              // 2: bounce on floor_y, 4: fade out after life; 8 and 0x10 pick the draw
 };
 
 // TObjChipParams followed by the data spawn_chips reads (at +0x4C).

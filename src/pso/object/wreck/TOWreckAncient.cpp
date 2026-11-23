@@ -121,12 +121,12 @@ extern const AncientWreckDebrisOffsets TOWreckAncientBrakable__debris_table = {
 };
 
 extern const TObjChipParams TOWreckAncientBrakable__debris_param_table = {
-    { 0.25f, 0.07f, 0.26f },
+    0.25f, 0.07f, 0.26f,
     { 0.0f, 0.0f, 0.0f },
     { 5.0f, 7.5f, 5.0f },
     { 0x400, 0x100, 0x400 },
-    { 1, 30 },
-    { 0.0f, 0.6f },
+    1, 30,
+    0.0f, 0.6f,
     0, 0, 30,
 };
 
@@ -312,7 +312,7 @@ void TOWreckAncientBrakable::spawn_debris() {
     p.pos[0] = position.x;
     p.pos[1] = position.y;
     p.pos[2] = position.z;
-    p.pad_38[0] = p.pos[1];
+    p.floor_y = p.pos[1];
     for (i = 0; i < 9; i++) {
         VecCopy(&tmp, &arr.offsets[i]);
         push_matrix_from(identity_matrix);

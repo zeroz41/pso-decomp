@@ -106,13 +106,13 @@ void TOExplosiveMachine::run_task() {
         if (player != NULL && !player->test_actor_flags(0x800) &&
             horizontal_distance_squared(&player->position, &position) <= trigger_radius * trigger_radius) {
             const TObjChipParams first = {
-                {0.5f, 0.03f, 0.2f}, {position.x, position.y, position.z}, {3, 5, 3},
-                {0x800, 0x100, 0x800}, {7, 50}, {-100, 1},
+                0.5f, 0.03f, 0.2f, {position.x, position.y, position.z}, {3, 5, 3},
+                {0x800, 0x100, 0x800}, 7, 50, -100, 1,
                 (saddr)debris_models[0], debris_textures[0], 22
             };
             const TObjChipParams second = {
-                {0.5f, 0.03f, 0.2f}, {position.x, position.y, position.z}, {3, 5, 3},
-                {0x800, 0x100, 0x800}, {7, 50}, {-100, 1},
+                0.5f, 0.03f, 0.2f, {position.x, position.y, position.z}, {3, 5, 3},
+                {0x800, 0x100, 0x800}, 7, 50, -100, 1,
                 (saddr)debris_models[1], debris_textures[1], 22
             };
             spawn_particle_effect(&position, 0x45);

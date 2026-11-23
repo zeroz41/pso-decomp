@@ -28,7 +28,7 @@ void TObjSuisoChip::vfunc_12() {
         push_matrix();
         post_translate_matrix(&origin.x);
         rotate_matrix_y(NULL, rotation_y);
-        for (i = 0; i < params.pad_30[0]; i++, piece++) {
+        for (i = 0; i < params.count; i++, piece++) {
             push_matrix();
             post_translate_matrix(&piece->pos.x);
             rotate_matrix_yxz(NULL, piece->rotation[0], piece->rotation[1], piece->rotation[2]);

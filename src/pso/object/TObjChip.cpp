@@ -52,19 +52,19 @@ void rotate_matrix_yxz(saddr matrix, s32 arg1, s32 arg2, s32 arg3);
 TObjChipSpawnParams *TObjChip::copy_transform(TObjChipSpawnParams *spawn, TObjChipParams *params) {
     TObjChipParams *src = params;
     TObjChipParams &dst = spawn->chip;
-    dst.pad_0[0] = src->pad_0[0];
-    dst.pad_0[1] = src->pad_0[1];
-    dst.pad_0[2] = src->pad_0[2];
+    dst.bounce = src->bounce;
+    dst.drag = src->drag;
+    dst.gravity = src->gravity;
     VecCopy((Vec *)spawn->chip.pos, (const Vec *)params->pos);
-    VecCopy((Vec *)spawn->chip.pad_18, (const Vec *)params->pad_18);
-    copy_xyz(spawn->chip.pad_24, (void *)params->pad_24);
-    dst.pad_30[0] = src->pad_30[0];
-    dst.pad_30[1] = src->pad_30[1];
-    dst.pad_38[0] = src->pad_38[0];
-    dst.pad_38[1] = src->pad_38[1];
+    VecCopy((Vec *)spawn->chip.velocity_range, (const Vec *)params->velocity_range);
+    copy_xyz(spawn->chip.spin_range, (void *)params->spin_range);
+    dst.count = src->count;
+    dst.life = src->life;
+    dst.floor_y = src->floor_y;
+    dst.scale = src->scale;
     dst.model = src->model;
     dst.textures = src->textures;
-    dst.pad_48 = src->pad_48;
+    dst.flags = src->flags;
     spawn->pad_54 = 0;
     spawn->angle_y = 0;
     spawn->pad_4C = 0;
@@ -167,23 +167,23 @@ s32 TObjChip::init_chips() {
     TObjChipPiece *c;
     s32 i;
     f32 v;
-    if (params.pad_30[0] > 8) {
+    if (params.count > 8) {
         return 0;
     }
     c = pieces;
-    for (i = 0; i < params.pad_30[0]; i++, c++) {
+    for (i = 0; i < params.count; i++, c++) {
         VecCopy(&c->pos, (const Vec *)params.pos);
-        v = params.pad_18[0];
+        v = params.velocity_range[0];
         c->velocity.x = v * ((3.0517578e-05f) * (f32)rand()) - (0.5f) * v;
-        c->velocity.y = params.pad_18[1] * ((3.0517578e-05f) * (f32)rand());
-        v = params.pad_18[2];
+        c->velocity.y = params.velocity_range[1] * ((3.0517578e-05f) * (f32)rand());
+        v = params.velocity_range[2];
         c->velocity.z = v * ((3.0517578e-05f) * (f32)rand()) - (0.5f) * v;
         c->rotation[2] = c->rotation[1] = c->rotation[0] = 0;
-        c->angular_velocity[0] = (s32)((f32)params.pad_24[0] * ((3.0517578e-05f) * (f32)rand()));
-        c->angular_velocity[1] = (s32)((f32)params.pad_24[1] * ((3.0517578e-05f) * (f32)rand()));
-        c->angular_velocity[2] = (s32)((f32)params.pad_24[2] * ((3.0517578e-05f) * (f32)rand()));
+        c->angular_velocity[0] = (s32)((f32)params.spin_range[0] * ((3.0517578e-05f) * (f32)rand()));
+        c->angular_velocity[1] = (s32)((f32)params.spin_range[1] * ((3.0517578e-05f) * (f32)rand()));
+        c->angular_velocity[2] = (s32)((f32)params.spin_range[2] * ((3.0517578e-05f) * (f32)rand()));
         c->alpha = (1.0f);
-        c->life = params.pad_30[1];
+        c->life = params.life;
     }
     return 1;
 }
@@ -194,25 +194,25 @@ s32 TObjChip::spawn_chips(s32 *rotation) {
     TObjChipPiece *c;
     s32 i;
     f32 v;
-    if (params.pad_30[0] > 8) {
+    if (params.count > 8) {
         return 0;
     }
     c = pieces;
-    for (i = 0; i < params.pad_30[0]; i++, c++) {
+    for (i = 0; i < params.count; i++, c++) {
         VecCopy(&c->pos, (const Vec *)params.pos);
-        v = params.pad_18[0];
+        v = params.velocity_range[0];
         c->velocity.x = v * ((3.0517578e-05f) * (f32)rand()) - (0.5f) * v;
-        c->velocity.y = params.pad_18[1] * ((3.0517578e-05f) * (f32)rand());
-        v = params.pad_18[2];
+        c->velocity.y = params.velocity_range[1] * ((3.0517578e-05f) * (f32)rand());
+        v = params.velocity_range[2];
         c->velocity.z = v * ((3.0517578e-05f) * (f32)rand()) - (0.5f) * v;
         c->rotation[0] = rotation[0];
         c->rotation[1] = rotation[1];
         c->rotation[2] = rotation[2];
-        c->angular_velocity[0] = (s32)((f32)params.pad_24[0] * ((3.0517578e-05f) * (f32)rand()));
-        c->angular_velocity[1] = (s32)((f32)params.pad_24[1] * ((3.0517578e-05f) * (f32)rand()));
-        c->angular_velocity[2] = (s32)((f32)params.pad_24[2] * ((3.0517578e-05f) * (f32)rand()));
+        c->angular_velocity[0] = (s32)((f32)params.spin_range[0] * ((3.0517578e-05f) * (f32)rand()));
+        c->angular_velocity[1] = (s32)((f32)params.spin_range[1] * ((3.0517578e-05f) * (f32)rand()));
+        c->angular_velocity[2] = (s32)((f32)params.spin_range[2] * ((3.0517578e-05f) * (f32)rand()));
         c->alpha = (1.0f);
-        c->life = params.pad_30[1];
+        c->life = params.life;
     }
     return 1;
 }
@@ -225,9 +225,9 @@ void TObjChip::tick_chips() {
     s32 i;
     c = pieces;
     active = 0;
-    for (i = 0; i < params.pad_30[0]; i++, c++) {
+    for (i = 0; i < params.count; i++, c++) {
         if (c->life == 0) {
-            if (!(params.pad_48 & 4)) {
+            if (!(params.flags & 4)) {
                 continue;
             }
             c->alpha -= (0.1f);
@@ -238,19 +238,19 @@ void TObjChip::tick_chips() {
             c->life--;
             active++;
         }
-        c->velocity.x = -c->velocity.x * params.pad_0[1] + c->velocity.x;
-        c->velocity.y = c->velocity.y + ((0.1f) * -c->velocity.y - params.pad_0[2]);
-        c->velocity.z = -c->velocity.z * params.pad_0[1] + c->velocity.z;
+        c->velocity.x = -c->velocity.x * params.drag + c->velocity.x;
+        c->velocity.y = c->velocity.y + ((0.1f) * -c->velocity.y - params.gravity);
+        c->velocity.z = -c->velocity.z * params.drag + c->velocity.z;
         c->pos.x += c->velocity.x;
         c->pos.y += c->velocity.y;
         c->pos.z += c->velocity.z;
         c->rotation[0] += c->angular_velocity[0];
         c->rotation[1] += c->angular_velocity[1];
         c->rotation[2] += c->angular_velocity[2];
-        if ((params.pad_48 & 2) && c->pos.y < params.pad_38[0] && c->velocity.y < (0.0f)) {
-            c->pos.y = params.pad_38[0];
+        if ((params.flags & 2) && c->pos.y < params.floor_y && c->velocity.y < (0.0f)) {
+            c->pos.y = params.floor_y;
             c->velocity.x *= (0.9f);
-            c->velocity.y *= -params.pad_0[0];
+            c->velocity.y *= -params.bounce;
             c->velocity.z *= (0.9f);
             c->angular_velocity[0] = (s32)((0.5f) * (f32)c->angular_velocity[0]);
             c->angular_velocity[1] = (s32)((0.5f) * (f32)c->angular_velocity[1]);
@@ -264,7 +264,7 @@ void TObjChip::tick_chips() {
 #pragma pop
 void TObjChip::render_chips() {
     TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(params.textures));
-    if (params.pad_48 & 0x10) {
+    if (params.flags & 0x10) {
         vfunc_12();
         return;
     }
@@ -272,21 +272,21 @@ void TObjChip::render_chips() {
 }
 void TObjChip::draw_chips() {
     TObjChipPiece *c = pieces;
-    if (params.pad_48 & 8) {
-        if (params.pad_48 & 4) {
+    if (params.flags & 8) {
+        if (params.flags & 4) {
             saved_model_render_flags = model_render_flags;
             saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
             saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
             model_render_flags = model_render_flags | 0x810;
             set_chunk_material_override_pair(-1, 0x800);
-            for (s32 i = 0; i < params.pad_30[0]; i++, c++) {
+            for (s32 i = 0; i < params.count; i++, c++) {
                 Color_8017FE58 col = { 0.0f, 0x3F800000, 0x3F800000, 0x3F800000 };
                 col.a = c->alpha;
                 set_constant_material((const NJS_ARGB *)(((f32 *)&col)));
                 push_matrix();
                 post_translate_matrix(&c->pos);
                 rotate_matrix_yxz(0, c->rotation[0], c->rotation[1], c->rotation[2]);
-                scale_matrix(0, params.pad_38[1], params.pad_38[1], params.pad_38[1]);
+                scale_matrix(0, params.scale, params.scale, params.scale);
                 draw_chunk_object((void *)params.model);
                 pop_matrix();
                 set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
@@ -295,29 +295,29 @@ void TObjChip::draw_chips() {
             chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
             chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         } else {
-            for (s32 i = 0; i < params.pad_30[0]; i++, c++) {
+            for (s32 i = 0; i < params.count; i++, c++) {
                 push_matrix();
                 post_translate_matrix(&c->pos);
                 rotate_matrix_yxz(0, c->rotation[0], c->rotation[1], c->rotation[2]);
-                scale_matrix(0, params.pad_38[1], params.pad_38[1], params.pad_38[1]);
+                scale_matrix(0, params.scale, params.scale, params.scale);
                 draw_chunk_object((void *)params.model);
                 pop_matrix();
             }
         }
-    } else if (params.pad_48 & 4) {
+    } else if (params.flags & 4) {
         saved_model_render_flags = model_render_flags;
         saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
         saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
         model_render_flags = model_render_flags | 0x810;
         set_chunk_material_override_pair(-1, 0x800);
-        for (s32 i = 0; i < params.pad_30[0]; i++, c++) {
+        for (s32 i = 0; i < params.count; i++, c++) {
             Color_8017FE58 col = { 0.0f, 0x3F800000, 0x3F800000, 0x3F800000 };
             col.a = c->alpha;
             set_constant_material((const NJS_ARGB *)(((f32 *)&col)));
             push_matrix();
             post_translate_matrix(&c->pos);
             rotate_matrix_yxz(0, c->rotation[0], c->rotation[1], c->rotation[2]);
-            scale_matrix(0, params.pad_38[1], params.pad_38[1], params.pad_38[1]);
+            scale_matrix(0, params.scale, params.scale, params.scale);
             draw_chunk_object((void *)params.model);
             pop_matrix();
             set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
@@ -326,11 +326,11 @@ void TObjChip::draw_chips() {
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
     } else {
-        for (s32 i = 0; i < params.pad_30[0]; i++, c++) {
+        for (s32 i = 0; i < params.count; i++, c++) {
             push_matrix();
             post_translate_matrix(&c->pos);
             rotate_matrix_yxz(0, c->rotation[0], c->rotation[1], c->rotation[2]);
-            scale_matrix(0, params.pad_38[1], params.pad_38[1], params.pad_38[1]);
+            scale_matrix(0, params.scale, params.scale, params.scale);
             draw_chunk_object((void *)params.model);
             pop_matrix();
         }
@@ -340,19 +340,19 @@ void TObjChip::vfunc_12() {
     TObjChipPiece *p = pieces;
     s32 i;
     s32 j;
-    if (params.pad_48 & 4) {
+    if (params.flags & 4) {
         saved_model_render_flags = model_render_flags;
         saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
         saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
         model_render_flags |= 0x8011;
         set_color_blend_mode(1, 4, 5, 0, chunk_polygon_flags_or_mask, chunk_polygon_flags_and_mask);
-        for (i = 0; i < params.pad_30[0]; i++, p++) {
+        for (i = 0; i < params.count; i++, p++) {
             NJS_ARGB color = { p->alpha, 1.0f, 1.0f, 1.0f };
             set_constant_material(&color);
             push_matrix();
             post_translate_matrix(&p->pos);
             rotate_matrix_yxz(0, p->rotation[0], p->rotation[1], p->rotation[2]);
-            scale_matrix(0, params.pad_38[1], params.pad_38[1], params.pad_38[1]);
+            scale_matrix(0, params.scale, params.scale, params.scale);
             draw_ginja_object((void *)params.model);
             pop_matrix();
             set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
@@ -361,11 +361,11 @@ void TObjChip::vfunc_12() {
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
     } else {
-        for (j = 0; j < params.pad_30[0]; j++, p++) {
+        for (j = 0; j < params.count; j++, p++) {
             push_matrix();
             post_translate_matrix(&p->pos);
             rotate_matrix_yxz(0, p->rotation[0], p->rotation[1], p->rotation[2]);
-            scale_matrix(0, params.pad_38[1], params.pad_38[1], params.pad_38[1]);
+            scale_matrix(0, params.scale, params.scale, params.scale);
             draw_ginja_object((void *)params.model);
             pop_matrix();
         }

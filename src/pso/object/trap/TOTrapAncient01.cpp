@@ -347,18 +347,18 @@ f32 TOTrapAncient01::receive_physical_attack(void *arg1, f32 farg0) {
 
 void TOTrapAncient01::play_sounds() {
     const TObjChipParams chip0 = {
-        {0.5f, 0.03f, 0.15f}, {position.x, position.y, position.z}, {3.0f, 5.0f, 3.0f},
-        {0x800, 0x100, 0x800}, {4, 30}, {position.y, 1.0f},
+        0.5f, 0.03f, 0.15f, {position.x, position.y, position.z}, {3.0f, 5.0f, 3.0f},
+        {0x800, 0x100, 0x800}, 4, 30, position.y, 1.0f,
         (saddr)get_bml_model((BmlResource *)TOTrapAncient01__bml_resource, 0), (saddr)get_bml_texlist((BmlResource *)TOTrapAncient01__bml_resource, 0), 22,
     };
     const TObjChipParams chip1 = {
-        {0.5f, 0.03f, 0.15f}, {position.x, position.y, position.z}, {3.0f, 5.0f, 3.0f},
-        {0x800, 0x100, 0x800}, {4, 30}, {position.y, 1.0f},
+        0.5f, 0.03f, 0.15f, {position.x, position.y, position.z}, {3.0f, 5.0f, 3.0f},
+        {0x800, 0x100, 0x800}, 4, 30, position.y, 1.0f,
         (saddr)get_bml_model((BmlResource *)TOTrapAncient01__bml_resource, 1), (saddr)get_bml_texlist((BmlResource *)TOTrapAncient01__bml_resource, 1), 22,
     };
     const TObjChipParams chip2 = {
-        {0.5f, 0.03f, 0.15f}, {position.x, position.y, position.z}, {3.0f, 5.0f, 3.0f},
-        {0x800, 0x100, 0x800}, {4, 30}, {position.y, 1.0f},
+        0.5f, 0.03f, 0.15f, {position.x, position.y, position.z}, {3.0f, 5.0f, 3.0f},
+        {0x800, 0x100, 0x800}, 4, 30, position.y, 1.0f,
         (saddr)get_bml_model((BmlResource *)TOTrapAncient01__bml_resource, 2), (saddr)get_bml_texlist((BmlResource *)TOTrapAncient01__bml_resource, 2), 22,
     };
     new TObjChip(tl_06, &chip0);

@@ -685,18 +685,18 @@ void TObjEneGyaranzo::spawn_hit_fragments() {
     Vec pos = position;
     pos.y += 25.0f;
     const TObjChipParams first = {
-        {0.5f, 0.04f, 0.28f}, {pos.x, pos.y, pos.z}, {6.0f, 7.0f, 6.0f},
-        {0x400, 0x100, 0x400}, {5, 50}, {position.y, 1.0f},
+        0.5f, 0.04f, 0.28f, {pos.x, pos.y, pos.z}, {6.0f, 7.0f, 6.0f},
+        {0x400, 0x100, 0x400}, 5, 50, position.y, 1.0f,
         (saddr)gyaranzo_bml_resource->models[0].model, (saddr)gyaranzo_bml_resource->models[0].texlist, 2,
     };
     const TObjChipParams second = {
-        {0.5f, 0.04f, 0.2f}, {pos.x, pos.y, pos.z}, {5.5f, 6.5f, 5.5f},
-        {0x400, 0x100, 0x400}, {4, 50}, {position.y, 1.0f},
+        0.5f, 0.04f, 0.2f, {pos.x, pos.y, pos.z}, {5.5f, 6.5f, 5.5f},
+        {0x400, 0x100, 0x400}, 4, 50, position.y, 1.0f,
         (saddr)gyaranzo_bml_resource->models[1].model, (saddr)gyaranzo_bml_resource->models[1].texlist, 2,
     };
     const TObjChipParams third = {
-        {0.5f, 0.04f, 0.22f}, {pos.x, pos.y, pos.z}, {5.5f, 7.0f, 5.5f},
-        {0x400, 0x100, 0x400}, {5, 50}, {position.y, 1.0f},
+        0.5f, 0.04f, 0.22f, {pos.x, pos.y, pos.z}, {5.5f, 7.0f, 5.5f},
+        {0x400, 0x100, 0x400}, 5, 50, position.y, 1.0f,
         (saddr)gyaranzo_bml_resource->models[2].model, (saddr)gyaranzo_bml_resource->models[2].texlist, 2,
     };
 
@@ -732,13 +732,13 @@ void TObjEneGyaranzo::break_off_parts() {
             get_anim_node_position(gyaranzo_resource_index_table[part], &node);
             {
                 TObjChipParams p = {
-                    {0.5f, 0.03f, 0.15f}, {0.0f, 0.0f, 0.0f}, {3.5f, 5.0f, 3.5f},
-                    {0x400, 0x100, 0x400}, {3, 50}, {0.0f, 1.0f}, 0, 0, 2,
+                    0.5f, 0.03f, 0.15f, {0.0f, 0.0f, 0.0f}, {3.5f, 5.0f, 3.5f},
+                    {0x400, 0x100, 0x400}, 3, 50, 0.0f, 1.0f, 0, 0, 2,
                 };
                 p.pos[0] = node.x;
                 p.pos[1] = node.y;
                 p.pos[2] = node.z;
-                p.pad_38[0] = position.y;
+                p.floor_y = position.y;
                 p.model = (saddr)gyaranzo_resource_ptrs[part];
                 p.textures = (saddr)gyaranzo_bml_resource->models[3].texlist;
                 new TObjChip(tl_05, &p);

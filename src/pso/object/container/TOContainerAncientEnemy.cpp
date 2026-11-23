@@ -105,16 +105,16 @@ const char *lbl_805D2F10 = "TOContainerAncientEnemyRare";
 extern GinjaTextureList **ancient_container_fragment_texture_lists;
 
 static const TObjChipParams fish_break_debris_desc = {
-    { 0.5f, 0.07f, 0.26f }, { 0.0f, 0.0f, 0.0f }, { 5.0f, 5.0f, 5.0f }, { 0x400, 0x100, 0x400 }, { 5, 0x32 }, { 0.0f, 0.6f }, 0, 0, 0x16,
+    0.5f, 0.07f, 0.26f, { 0.0f, 0.0f, 0.0f }, { 5.0f, 5.0f, 5.0f }, { 0x400, 0x100, 0x400 }, 5, 0x32, 0.0f, 0.6f, 0, 0, 0x16,
 };
 static const TObjChipParams fish_break_debris_desc_b = {
-    { 0.5f, 0.07f, 0.26f }, { 0.0f, 0.0f, 0.0f }, { 4.0f, 4.5f, 4.0f }, { 0x200, 0x100, 0x200 }, { 6, 0x32 }, { 0.0f, 0.5f }, 0, 0, 0x16,
+    0.5f, 0.07f, 0.26f, { 0.0f, 0.0f, 0.0f }, { 4.0f, 4.5f, 4.0f }, { 0x200, 0x100, 0x200 }, 6, 0x32, 0.0f, 0.5f, 0, 0, 0x16,
 };
 static const TObjChipParams ancient_enemy_break_debris_desc = {
-    { 0.5f, 0.07f, 0.26f }, { 0.0f, 0.0f, 0.0f }, { 5.0f, 5.0f, 5.0f }, { 0x400, 0x100, 0x400 }, { 5, 0x32 }, { 0.0f, 0.6f }, 0, 0, 0x16,
+    0.5f, 0.07f, 0.26f, { 0.0f, 0.0f, 0.0f }, { 5.0f, 5.0f, 5.0f }, { 0x400, 0x100, 0x400 }, 5, 0x32, 0.0f, 0.6f, 0, 0, 0x16,
 };
 static const TObjChipParams ancient_enemy_break_debris_desc_b = {
-    { 0.5f, 0.07f, 0.26f }, { 0.0f, 0.0f, 0.0f }, { 4.0f, 4.5f, 4.0f }, { 0x200, 0x100, 0x200 }, { 6, 0x32 }, { 0.0f, 0.5f }, 0, 0, 0x16,
+    0.5f, 0.07f, 0.26f, { 0.0f, 0.0f, 0.0f }, { 4.0f, 4.5f, 4.0f }, { 0x200, 0x100, 0x200 }, 6, 0x32, 0.0f, 0.5f, 0, 0, 0x16,
 };
 static __declspec(section ".rodata") const char ancient_enemy_event_format[] ATTRIBUTE_ALIGN(4) = "EVT NO : %d";
 static __declspec(section ".rodata") const char fs_obj_ex_box2_texture[] ATTRIBUTE_ALIGN(4) = "fs_obj_ex_box2.gvm";
@@ -297,14 +297,14 @@ void TUnk_804B08BC::vfunc_79() const {
     a.pos[0] = this->position.x;
     a.pos[1] = this->position.y;
     a.pos[2] = this->position.z;
-    a.pad_38[0] = a.pos[1];
+    a.floor_y = a.pos[1];
     a.model = (saddr)get_bml_model((BmlResource *)ancient_container_resource_bundle, 1);
     a.textures = (saddr)get_bml_texlist((BmlResource *)ancient_container_resource_bundle, 1);
     TObjChipParams b = fish_break_debris_desc_b;
     b.pos[0] = this->position.x;
     b.pos[1] = this->position.y;
     b.pos[2] = this->position.z;
-    b.pad_38[0] = b.pos[1];
+    b.floor_y = b.pos[1];
     b.model = (saddr)get_bml_model((BmlResource *)ancient_container_resource_bundle, 2);
     b.textures = (saddr)get_bml_texlist((BmlResource *)ancient_container_resource_bundle, 2);
     if (check_value_equals((saddr)TOContainerAncientItemRare__name) != 0) {
@@ -481,14 +481,14 @@ void TOContainerAncientEnemy::vfunc_79() const {
         a.pos[0] = this->position.x;
         a.pos[1] = this->position.y;
         a.pos[2] = this->position.z;
-        a.pad_38[0] = this->position.y;
+        a.floor_y = this->position.y;
         a.model = (saddr)get_bml_model((BmlResource *)ancient_container_resource_bundle, 1);
         a.textures = (saddr)get_bml_texlist((BmlResource *)ancient_container_resource_bundle, 1);
         TObjChipParams b = ancient_enemy_break_debris_desc_b;
         b.pos[0] = this->position.x;
         b.pos[1] = this->position.y;
         b.pos[2] = this->position.z;
-        b.pad_38[0] = this->position.y;
+        b.floor_y = this->position.y;
         b.model = (saddr)get_bml_model((BmlResource *)ancient_container_resource_bundle, 2);
         b.textures = (saddr)get_bml_texlist((BmlResource *)ancient_container_resource_bundle, 2);
         if (check_value_equals((saddr)lbl_805D2F10) != 0) {

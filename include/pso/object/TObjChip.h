@@ -39,7 +39,7 @@ public:
 
     f32 pad_1c;
     f32 pad_20;
-    TObjChipParams params;  // params.pad_30[0] pieces, of params.model
+    TObjChipParams params;  // params.count pieces, of params.model
     TObjChipPiece pieces[8];
     s32 pad_230;  // cleared when no piece is left
 };

@@ -35,12 +35,12 @@ const Vec volopt_pillar_push = {0.0f, 0.0f, 0.0f};
 // Throws three debris chips from the pillar's position.
 void TObjVoloptPillar::spawn_debris_chips() {
     const TObjChipParams params = {
-        {0.5f, 0.03f, 0.25f},
+        0.5f, 0.03f, 0.25f,
         {this->position.x, this->position.y, this->position.z},
         {4.5f, -3.0f, 4.5f},
         {0x400, 0x100, 0x400},
-        {4, 60},
-        {0.0f, 1.0f},
+        4, 60,
+        0.0f, 1.0f,
         (saddr)boss3_volopt_resources->models[0xE].model,
         (saddr)boss3_volopt_resources->models[0xE].texlist,
         2,

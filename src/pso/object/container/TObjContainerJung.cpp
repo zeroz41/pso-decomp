@@ -82,28 +82,28 @@ GinjaTextureList *jungle_container_textures;
 BmlResource *jungle_container_ex_archive;
 
 extern const TObjChipParams container_jung_debris_desc = {
-    { 0.5f, 0.03f, 0.3f }, { 0.0f, 0.0f, 0.0f }, { 3.0f, 6.0f, 3.0f }, { 0x800, 0x100, 0x800 }, { 4, 0x32 }, { 0.0f, 0.8f }, 0, 0, 0x16,
+    0.5f, 0.03f, 0.3f, { 0.0f, 0.0f, 0.0f }, { 3.0f, 6.0f, 3.0f }, { 0x800, 0x100, 0x800 }, 4, 0x32, 0.0f, 0.8f, 0, 0, 0x16,
 };
 extern const TObjChipParams container_jung_spawn_params = {
-    { 0.5f, 0.03f, 0.2f }, { 0.0f, 0.0f, 0.0f }, { 3.5f, 6.0f, 3.5f }, { 0x400, 0x100, 0x400 }, { 4, 0x32 }, { 0.0f, 0.7f }, 0, 0, 0x16,
+    0.5f, 0.03f, 0.2f, { 0.0f, 0.0f, 0.0f }, { 3.5f, 6.0f, 3.5f }, { 0x400, 0x100, 0x400 }, 4, 0x32, 0.0f, 0.7f, 0, 0, 0x16,
 };
 
 const char *TObjContainerJungEx__name = "TObjContainerJungEx";
 
 extern const TObjChipParams container_jung_ex_spawn_params_a = {
-    { 0.5f, 0.07f, 0.26f }, { 0.0f, 0.0f, 0.0f }, { 5.0f, 5.0f, 5.0f }, { 0x400, 0x100, 0x400 }, { 5, 0x32 }, { 0.0f, 0.6f }, 0, 0, 0x16,
+    0.5f, 0.07f, 0.26f, { 0.0f, 0.0f, 0.0f }, { 5.0f, 5.0f, 5.0f }, { 0x400, 0x100, 0x400 }, 5, 0x32, 0.0f, 0.6f, 0, 0, 0x16,
 };
 extern const TObjChipParams container_jung_ex_spawn_params_b = {
-    { 0.5f, 0.07f, 0.26f }, { 0.0f, 0.0f, 0.0f }, { 4.0f, 4.5f, 4.0f }, { 0x200, 0x100, 0x200 }, { 6, 0x32 }, { 0.0f, 0.5f }, 0, 0, 0x16,
+    0.5f, 0.07f, 0.26f, { 0.0f, 0.0f, 0.0f }, { 4.0f, 4.5f, 4.0f }, { 0x200, 0x100, 0x200 }, 6, 0x32, 0.0f, 0.5f, 0, 0, 0x16,
 };
 
 const char *TObjContainerJungEnemy__name = "TObjContainerJungEnemy";
 
 extern const TObjChipParams container_jung_enemy_spawn_params_a = {
-    { 0.5f, 0.03f, 0.2f }, { 0.0f, 0.0f, 0.0f }, { 3.0f, 5.0f, 3.0f }, { 0x800, 0x100, 0x800 }, { 7, 0x32 }, { 0.0f, 1.0f }, 0, 0, 0x16,
+    0.5f, 0.03f, 0.2f, { 0.0f, 0.0f, 0.0f }, { 3.0f, 5.0f, 3.0f }, { 0x800, 0x100, 0x800 }, 7, 0x32, 0.0f, 1.0f, 0, 0, 0x16,
 };
 extern const TObjChipParams container_jung_enemy_spawn_params_b = {
-    { 0.5f, 0.03f, 0.19f }, { 0.0f, 0.0f, 0.0f }, { 3.5f, 5.0f, 3.5f }, { 0x400, 0x100, 0x400 }, { 5, 0x32 }, { 0.0f, 1.0f }, 0, 0, 0x16,
+    0.5f, 0.03f, 0.19f, { 0.0f, 0.0f, 0.0f }, { 3.5f, 5.0f, 3.5f }, { 0x400, 0x100, 0x400 }, 5, 0x32, 0.0f, 1.0f, 0, 0, 0x16,
 };
 
 extern "C" {
@@ -226,7 +226,7 @@ void TObjContainerJung::vfunc_79() const {
         a.pos[0] = px;
         a.pos[1] = py;
         a.pos[2] = pz;
-        a.pad_38[0] = py;
+        a.floor_y = py;
         a.model = (saddr) get_bml_model((BmlResource *)jungle_container_archive, 1);
         a.textures = (saddr)jungle_container_textures;
         TObjChipParams b = container_jung_spawn_params;
@@ -239,7 +239,7 @@ void TObjContainerJung::vfunc_79() const {
         b.pos[0] = qx;
         b.pos[1] = qy;
         b.pos[2] = qz;
-        b.pad_38[0] = qy;
+        b.floor_y = qy;
         b.model = (saddr) get_bml_model((BmlResource *)jungle_container_archive, 2);
         b.textures = (saddr)jungle_container_textures;
         spawn_particle_effect_with_flags(&position, 0x45, 0x40);
@@ -355,7 +355,7 @@ void TObjContainerJungEx::vfunc_79() const {
     a.pos[0] = px;
     a.pos[1] = py;
     a.pos[2] = pz;
-    a.pad_38[0] = py;
+    a.floor_y = py;
     a.model = (saddr)TObjContainerJungEx::get_model(1);
     a.textures = (saddr)TObjContainerJungEx::get_textures(0);
     TObjChipParams b = container_jung_ex_spawn_params_b;
@@ -368,7 +368,7 @@ void TObjContainerJungEx::vfunc_79() const {
     b.pos[0] = qx;
     b.pos[1] = qy;
     b.pos[2] = qz;
-    b.pad_38[0] = qy;
+    b.floor_y = qy;
     b.model = (saddr)TObjContainerJungEx::get_model(2);
     b.textures = (saddr)TObjContainerJungEx::get_textures(0);
     spawn_particle_effect_with_flags(&position, 0x45, 0x40);
@@ -505,7 +505,7 @@ void TObjContainerJungEnemy::vfunc_79() const {
         a.pos[0] = xa;
         a.pos[1] = ya;
         a.pos[2] = za;
-        a.pad_38[0] = ya;
+        a.floor_y = ya;
         a.model = (saddr)large_fragment_model;
         a.textures = texlist;
         TObjChipParams b = container_jung_enemy_spawn_params_b;
@@ -518,7 +518,7 @@ void TObjContainerJungEnemy::vfunc_79() const {
         b.pos[0] = xb;
         b.pos[1] = yb;
         b.pos[2] = zb;
-        b.pad_38[0] = yb;
+        b.floor_y = yb;
         b.model = (saddr)small_fragment_model;
         b.textures = texlist;
         spawn_particle_effect_with_flags(&position, 0x45, 0x40);

@@ -253,8 +253,8 @@ void TORockCaveBrakable::vfunc_16() {
         { 7.0f, 49.0f, -11.0f }, { -7.0f, 38.0f, -14.0f }, { 8.0f, 16.0f, -16.0f },
     };
     TObjChipParams params = {
-        { 0.25f, 0.07f, 0.26f }, { 0.0f, 0.0f, 0.0f }, { 5.0f, 7.5f, 5.0f },
-        { 1024, 256, 1024 }, { 1, 30 }, { 0.0f, 0.6f }, 0, 0, 22,
+        0.25f, 0.07f, 0.26f, { 0.0f, 0.0f, 0.0f }, { 5.0f, 7.5f, 5.0f },
+        { 1024, 256, 1024 }, 1, 30, 0.0f, 0.6f, 0, 0, 22,
     };
     Vec offset;
     s32 i;
@@ -262,7 +262,7 @@ void TORockCaveBrakable::vfunc_16() {
     params.pos[0] = position.x;
     params.pos[1] = position.y;
     params.pos[2] = position.z;
-    params.pad_38[0] = params.pos[1];
+    params.floor_y = params.pos[1];
     for (i = 0; i < 6; i++) {
         VecCopy(&offset, &offsets[i]);
         push_matrix_from(identity_matrix);
