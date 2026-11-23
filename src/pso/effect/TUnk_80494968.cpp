@@ -9,20 +9,6 @@
 #include "pso/effect/TAttackTrace.h"
 #include "pso/system/task/TObject.h"
 
-typedef struct Ent_800D76E8 {
-    f32 ax, ay, az;
-    s32 ta;
-    f32 bx, by, bz;
-    s32 tb;
-} Ent_800D76E8;
-
-typedef struct Trail_800D76E8 {
-    u8 pad0[0x1C];
-    s32 count;
-    Ent_800D76E8 e[1];
-} Trail_800D76E8;
-
-
 void TUnk_80494968::render() {
     if (((s32)this->defer_render() == 0) && ((s32) this->segment_count > 1)) {
         set_additive_blend();
@@ -30,47 +16,48 @@ void TUnk_80494968::render() {
     }
 }
 
+// Fades the strip's oldest colours, passing them on toward the newest
+// segment; once the oldest pair has faded out, that segment is dropped.
 void TUnk_80494968::run_task() {
-    Trail_800D76E8 *arg0 = (Trail_800D76E8 *)this;
-    s32 ta;
-    s32 tb;
-    s32 r;
-    if (arg0->count <= 0) {
+    u32 color_a;
+    u32 color_b;
+    s32 faded;
+    if (segment_count <= 0) {
         return;
     }
-    ta = arg0->e[0].ta;
-    r = TObjBoss2Tunnel::decrement_packed_timer((u32 *)&ta, 0x20);
-    tb = arg0->e[0].tb;
-    if (r & TObjBoss2Tunnel::decrement_packed_timer((u32 *)&tb, 0x20)) {
-        Ent_800D76E8 *dst = &arg0->e[0];
-        Ent_800D76E8 *src = &arg0->e[1];
+    color_a = vertices[0].color;
+    faded = TObjBoss2Tunnel::decrement_packed_timer(&color_a, 0x20);
+    color_b = vertices[1].color;
+    if (faded & TObjBoss2Tunnel::decrement_packed_timer(&color_b, 0x20)) {
+        TrailStripVertex *dst = &vertices[0];
+        TrailStripVertex *src = &vertices[2];
         s32 i;
-        arg0->count--;
-        for (i = 0; i < arg0->count; i++) {
-            dst->ax = src->ax;
-            dst->ay = src->ay;
-            dst->az = src->az;
-            dst->bx = src->bx;
-            dst->by = src->by;
-            dst->bz = src->bz;
-            src++;
-            dst++;
+        segment_count--;
+        for (i = 0; i < segment_count; i++) {
+            dst[0].x = src[0].x;
+            dst[0].y = src[0].y;
+            dst[0].z = src[0].z;
+            dst[1].x = src[1].x;
+            dst[1].y = src[1].y;
+            dst[1].z = src[1].z;
+            src += 2;
+            dst += 2;
         }
         return;
     }
-    if (arg0->count > 1) {
-        Ent_800D76E8 *p = &arg0->e[arg0->count - 1];
-        Ent_800D76E8 *q = p - 1;
+    if (segment_count > 1) {
+        TrailStripVertex *to = &vertices[(segment_count - 1) * 2];
+        TrailStripVertex *from = to - 2;
         s32 j;
-        for (j = 1; j < arg0->count; j++) {
-            p->ta = q->ta;
-            p[-1].tb = q[-1].tb;
-            q--;
-            p--;
+        for (j = 1; j < segment_count; j++) {
+            to[0].color = from[0].color;
+            to[-1].color = from[-1].color;
+            from -= 2;
+            to -= 2;
         }
     }
-    arg0->e[0].ta = ta;
-    arg0->e[0].tb = tb;
+    vertices[0].color = color_a;
+    vertices[1].color = color_b;
 }
 
 void TUnk_80494968::set_edge_colors(u32 color_a, u32 color_b) {
