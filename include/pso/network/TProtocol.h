@@ -317,7 +317,6 @@ public:
 public:
     void bswap_packet();
     int bswap_packet_header();
-    s32 init_char_data();
 public:
     void send_subcommand_to_client(s32 flag, s8 *src, s32 len);
 public:

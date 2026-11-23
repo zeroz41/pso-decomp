@@ -1,7 +1,5 @@
 #include "pso/network/protocol/packet_classes.h"
 #include "pso/player/TPlyCharData.h"
-#include "pso/player/TPlyCharData_8007214C.h"
-#include "pso/network/TProtocol_801DFCAC.h"
 #include "pso/system/memory.h"
 #include <stddef.h>
 #include "pso/network/TProtocol.h"
@@ -14,22 +12,12 @@ LAYOUT_ASSERT(NamedActionNameOffset, offsetof(TSendAction<1>, name) == 0xC);
 LAYOUT_ASSERT(PasswordActionPasswordOffset, offsetof(TSendAction<2>, password) == 0xC);
 LAYOUT_ASSERT(NamedPasswordActionNameOffset, offsetof(TSendAction<3>, name) == 0xC);
 LAYOUT_ASSERT(NamedPasswordActionPasswordOffset, offsetof(TSendAction<3>, password) == 0x1C);
+LAYOUT_ASSERT(TPlyJoinDataSize, sizeof(TPlyJoinData) == 0x87C);
+LAYOUT_ASSERT(TPlyJoinDataAutoReplyOffset, offsetof(TPlyJoinData, auto_reply) == 0x67C);
 
-s32 destroy__9TProtocolFis(saddr arg0, s16 arg1) {
-    if (arg0 != 0) {
-        ((TPlyJoinData *)arg0)->char_data.~TPlyCharData();
-        if (arg1 > 0) {
-            ::operator delete((void *)arg0);
-        }
-    }
-    return arg0;
-}
+TPlyJoinData::~TPlyJoinData() {}
 
-s32 TProtocol::init_char_data() {
-    saddr arg0 = (saddr)this;
-    __ct__12TPlyCharDataFv(arg0 + 4);
-    return arg0;
-}
+TPlyJoinData::TPlyJoinData() {}
 
 template<> void TSendAction<0>::bswap() {
     header.bswap();

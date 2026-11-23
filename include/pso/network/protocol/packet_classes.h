@@ -560,17 +560,20 @@ public:
 };
 
 struct TPlyChallenge {
-	u8 data[320];
+	u8 data[0x11C];
 	void bswap() {};
 };
 
 struct TPlyChoiceSearchConfig {
-	u8 data[320];
+	u8 data[0x18];
 	void bswap() {};
 };
 
 class TPlyJoinData {
 public:
+	TPlyJoinData();
+	~TPlyJoinData();
+
 	packet_header header;
 	TPlyCharData char_data;
 	TPlyChallenge challenge;
