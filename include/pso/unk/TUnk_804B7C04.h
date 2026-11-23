@@ -5,12 +5,13 @@
 
 class TUnk_804B7C04 : public TObject {
 public:
+    TUnk_804B7C04(f32 *position, s32 heading, s32 slot, s32 record, s32 mode, TObject *parent);
     virtual ~TUnk_804B7C04();
     virtual void run_task();
-    f32 unk_1C[3];
-    s32 unk_28;
+    f32 position[3];
+    s32 heading;
     int m_2c;
-    u16 unk_30;
+    u16 slot;
     s32 unk_34;
     s32 unk_38;
 };

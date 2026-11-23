@@ -24,15 +24,12 @@ struct RecoveredGlobal_8019118C_lbl_804B7C1C {
     u8 remaining[0x38];
 };
 
-struct Npc_80190F3C { u8 pad0[0x18]; void *f18; u8 f1C[0xC]; s32 f28; s32 f2C; s16 f30; s16 pad32; s32 f34; s32 f38; };
-
 struct Base_801910F4 { u8 pad0[0x18]; };
 
 struct Ctrl_801910F4 : Base_801910F4 { virtual void v0(int); };
 
 struct Obj_801910F4 { u8 pad0[0x18]; void *f18; u8 pad1C[0x90]; u16 fAC; };
 
-struct Npc_80190F3C;
 struct Ctrl_801910F4;
 struct Npc_80190FDC { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0x1C]; s32 f60; u8 pad64[4]; f32 f68; u8 pad6C[0x1C]; s32 f88; s32 f8C; u8 pad90[0x1C]; u16 fAC; u8 padAE[2]; s32 fB0; s32 fB4; };
 
@@ -42,10 +39,7 @@ extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
 extern RecoveredGlobal_8019118C_lbl_804B7C1C __vt__13TUnk_804B7C1C;
 u8 *TLobby__sub_8019118C(u8 *arg0, s32 arg1, saddr arg2);
-void __ct__7TObjectFP7TObject(void *, void *);
-extern s32 __vt__13TUnk_804B7C04[];
 extern s32 npc_player_char_data_buffer;
-Npc_80190F3C *init_npc_player_char_loader(Npc_80190F3C *arg0, void *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, void *arg6);
 void free_collision_body_parts(void *);
 f32 horizontal_distance_squared(void *, void *);
 int npc_proximity_target_id = -1;
@@ -106,7 +100,6 @@ TUnk_804B7C1C::~TUnk_804B7C1C() {
 void TUnk_804B7C1C::run_task() {
     Npc_80190FDC *arg0 = (Npc_80190FDC *)this;
     Ply_80190FDC *p;
-    void *o;
     if (npc_proximity_target_id == arg0->f8C) {
         ((TObject *)arg0)->queue_destruction();
         return;
@@ -119,10 +112,7 @@ void TUnk_804B7C1C::run_task() {
         ((TObjCollidable *)arg0)->set_indexed_flags(0, 1);
         if (arg0->fB4 == 0) {
             arg0->fB4 = 1;
-            o = TObject::operator new(0x3C);
-            if (o != 0) {
-                init_npc_player_char_loader((Npc_80190F3C *)o, arg0->pos, arg0->f60, arg0->fAC, arg0->fB0, arg0->f88, tl_07);
-            }
+            new TUnk_804B7C04(arg0->pos, arg0->f60, arg0->fAC, arg0->fB0, arg0->f88, tl_07);
         }
     } else {
         p = (Ply_80190FDC *)get_player_by_client_id(arg0->fAC);
@@ -142,29 +132,27 @@ void TUnk_804B7C1C::render() {  }
 void TLobby__sub_80190FD0(int a0) { npc_proximity_target_id = a0; }
 
 
-Npc_80190F3C *init_npc_player_char_loader(Npc_80190F3C *arg0, void *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, void *parent) {
-    __ct__7TObjectFP7TObject(arg0, parent);
-    arg0->f18 = ((u8 *)__vt__13TUnk_804B7C04);
-    VecCopy((Vec *)arg0->f1C, (const Vec *)arg1);
-    arg0->f28 = arg2;
-    arg0->f30 = arg3;
-    arg0->f34 = arg4;
-    arg0->f2C = 0;
-    arg0->f38 = arg5;
+TUnk_804B7C04::TUnk_804B7C04(f32 *position, s32 heading, s32 slot, s32 record, s32 mode, TObject *parent)
+    : TObject(parent) {
+    VecCopy((Vec *)this->position, (const Vec *)position);
+    this->heading = heading;
+    this->slot = slot;
+    unk_34 = record;
+    m_2c = 0;
+    unk_38 = mode;
     TNpcPlayer::ensure_rock_singleton();
-    TLobby::request_file_read((saddr)"npcplayerchar.dat", (s32)npc_player_char_data_buffer, &arg0->f2C, (void **)0);
-    return arg0;
+    TLobby::request_file_read((saddr)"npcplayerchar.dat", (s32)npc_player_char_data_buffer, (s32 *)&m_2c, (void **)0);
 }
 
 TUnk_804B7C04::~TUnk_804B7C04() {
-    u8 *player_object = create_player_object(this->unk_30, 6, TNpcPlayer::build_npc_player_record(this->unk_34));
+    u8 *player_object = create_player_object(slot, 6, TNpcPlayer::build_npc_player_record(this->unk_34));
     if (player_object != NULL) {
         *(s16 *)((s8 *)player_object + 0x324) = 6;
         if (this->unk_38 == 1) {
             queue_player_injured_pose();
             set_player_quest_control_flag((TObjPlayer *)player_object);
         }
-        send_6x24_teleport_player(this->unk_30, this->unk_1C, this->unk_28);
+        send_6x24_teleport_player(slot, position, heading);
     }
 }
 
