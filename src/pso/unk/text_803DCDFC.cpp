@@ -292,8 +292,8 @@ s32 calc_framebuffer_size_bytes(Fmt_803DD3DC *rmode) {
 }
 
 
-void TKeyBoardControl::set_key_state(s32 arg0) {
-    *(s32 *)&frame_update_callback = arg0;
+void TKeyBoardControl::set_key_state(s32 key_state) {
+    *(s32 *)&frame_update_callback = key_state;
 }
 
 }

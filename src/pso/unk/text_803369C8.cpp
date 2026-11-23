@@ -162,8 +162,8 @@ TUnk_804EEF80::TUnk_804EEF80(TTitleScene *scene) : TObject((TObject *)scene) {
 void TLobby__sub_80336E44(void) {  }
 void clear_lobby_global_flags(void) { lobby_global_flags = 0; }
 
-void TLobby::set_global_flags(s32 arg0) {
-    (*(s32 *)&lobby_global_flags) |= arg0;
+void TLobby::set_global_flags(s32 global_flags) {
+    (*(s32 *)&lobby_global_flags) |= global_flags;
 }
 void TLobby__sub_80336E64(void) {  }
 void TLobby__sub_80336E68(void) {  }

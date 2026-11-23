@@ -70,7 +70,7 @@ struct TKeyBoardControl : public TObject {
     static s32 start_get_type_async(s32 chan, s32 arg1, s32 arg2, s32 arg3);
     static void enable_keyboard_polling(s32 chan);
     static void update_camera();
-    static void set_key_state(s32 arg0);
+    static void set_key_state(s32 key_state);
     static s32 get_function_key_menu(void *arg0);
 };
 

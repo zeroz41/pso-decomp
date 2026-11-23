@@ -49,8 +49,8 @@ void set_debug_text_scale(u16 arg0) {
     debug_text_scale = (f32)arg0;
 }
 
-void TObjNpcEnemy::set_global_count(s32 arg0) {
-    debug_text_global_count = arg0;
+void TObjNpcEnemy::set_global_count(s32 global_count) {
+    debug_text_global_count = global_count;
 }
 
 void queue_debug_text(s32 position, const char *text) {

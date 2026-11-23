@@ -237,9 +237,9 @@ s32 TLobby::get_quest_thread_state() {
     return 0;
 }
 
-void TLobby::set_fade_params(s32 arg0) {
+void TLobby::set_fade_params(s32 fade_params) {
     if ((void *) screen_fade_controller != NULL) {
-        *(s32 *)((s8 *)screen_fade_controller + 0x28) = arg0;
+        *(s32 *)((s8 *)screen_fade_controller + 0x28) = fade_params;
         *(f32 *)((s8 *)screen_fade_controller + 0x1C) = 255.0f;
         *(s8 *)((s8 *)screen_fade_controller + 0x20) = 0;
         *(s8 *)((s8 *)screen_fade_controller + 0x21) = 0;

@@ -49,7 +49,7 @@ s32 TLobby__sub_80071B30(s32 arg0, s32 slot) {
     }
     return i;
 }
-void TObjPlayer::rebuild_players_for_stage(s32 arg0) {
+void TObjPlayer::rebuild_players_for_stage(s32 stage) {
     Hdr_80071BC0 hdr;
     Vec pos;
     Chr_80071BC0 chr;
@@ -57,7 +57,7 @@ void TObjPlayer::rebuild_players_for_stage(s32 arg0) {
     TObjPlayer *p;
     Tbl_80071BC0 *t;
     Pair_80071BC0 *e;
-    if (arg0 < 0 || arg0 >= 0x10) {
+    if (stage < 0 || stage >= 0x10) {
         return;
     }
     {
@@ -73,16 +73,16 @@ void TObjPlayer::rebuild_players_for_stage(s32 arg0) {
             delete p;
             switch (chr.f34 & 0xe0) {
             case 0x20:
-                t = &hunter_stage_start_parameters[arg0];
+                t = &hunter_stage_start_parameters[stage];
                 break;
             case 0x40:
-                t = &ranger_stage_start_parameters[arg0];
+                t = &ranger_stage_start_parameters[stage];
                 break;
             case 0x80:
-                t = &force_stage_start_parameters[arg0];
+                t = &force_stage_start_parameters[stage];
                 break;
             default:
-                t = &hunter_stage_start_parameters[arg0];
+                t = &hunter_stage_start_parameters[stage];
                 break;
             }
             {

@@ -206,14 +206,14 @@ void TUnk_8048E1A4::render() {
 
 s32 __ct__13TUnk_8048E1A4FPUcPUc(u32, u32, s32, s32);
 
-void create__10TObjPlayerFUiii(uaddr arg0, s32 arg1, s32 arg2) {
+void create__10TObjPlayerFUiii(uaddr base, s32 arg1, s32 arg2) {
     u16 entity_id;
 
     u32 obj;
-    if ((is_current_area_item_enabled() != 0) && (arg0 != 0U)) {
-        entity_id = ((TObjBase *)arg0)->get_entity_id();
+    if ((is_current_area_item_enabled() != 0) && (base != 0U)) {
+        entity_id = ((TObjBase *)base)->get_entity_id();
         if (((u16) entity_id != 0xFFFF) && ((u16) entity_id < 0x4000U) && ((obj = (uaddr)TObject::operator new(0x368)) != 0U)) {
-            __ct__13TUnk_8048E1A4FPUcPUc(obj, arg0, arg1, arg2);
+            __ct__13TUnk_8048E1A4FPUcPUc(obj, base, arg1, arg2);
         }
     }
 }
