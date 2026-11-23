@@ -88,7 +88,7 @@ u32 TLobby__network_stack_init_count;
 /* This C library caller passes a full register for the handle and a signed halfword length. */
 s16 TLobby__sub_8041DBD4(s32 handle, NetBufferRef *destination, s16 len, TcpCompletion callback);
 void TLobby__sub_8041E2EC(int, void *, void *); /* declared here with an s32 1st argument; the definition takes s16 */
-s32 AT_TCP_Connect(int, void *, u16);
+s32 AT_TCP_Connect(int, void *, s16); /* declared here with an s32 return and 1st argument; the definition is s16 (s16, void *, s16) */
 s32 tcp_connect(s32 a, IpAddr_80422B8C *addr, u16 port, IpAddr_80422B8C *opt);
 s32 TLobby__sub_8041E5E4(int, void *, u16);
 s16 copy_ipv4_interface_addresses(s16, void *, int, void *); /* declared s16 here; the definition is s32 (s16, NetBufferRef *, s16, s32) */

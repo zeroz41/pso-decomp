@@ -27,7 +27,7 @@ extern "C" {
 s32 TLobby__sub_80407358();
 s32 loopback_shutdown();
 void dhcp_stop(void);
-s32 DHCP_release(s32 session, s32 ip, s32 timeout);
+s32 DHCP_release(s32 session, s32 ip, s32 retries);
 void TLobby__sub_801469B8(void* p);
 void *get_account_entry(int idx);
 void TLobby__sub_8014715C(void* p, void* q);

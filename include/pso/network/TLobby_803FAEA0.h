@@ -103,6 +103,7 @@ s16 NetApplyConnectionConfig(NetConnectCfg *config);
 s16 get_remaining(s32 arg0);
 s32 is_timed_out(void);
 s32 TLobby__sub_803FB6A0(void);
+s32 ppp_open_sub(void);
 void ppp_set_auth(u16 protocol);
 extern s16 lbl_805D7A84;
 extern s16 lbl_805D7A88;

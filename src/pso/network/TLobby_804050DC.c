@@ -77,8 +77,6 @@ s16 reset_network_timer_list(void) {
     return 0;
 }
 
-s32 TLobby__sub_803FB6A0(void);
-void ppp_open_sub(void);
 void run_net_thread_loop(void) {
     NetThreadState *g = &lbl_805C18A0;
     for (;;) {

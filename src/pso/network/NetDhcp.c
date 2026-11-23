@@ -896,11 +896,11 @@ void dhcp_stop(void) {
     lbl_805D7B14 = dhcp_set_interface_mode(0);
 }
 
-s32 DHCP_release(s32 session, s32 ip, s32 timeout) {
+s32 DHCP_release(s32 session, s32 ip, s32 retries) {
     s32 state;
     *(volatile s32 *)&dhcp_state = 6;
     *(volatile s32 *)&dhcp_step = 0;
-    dhcp_max_retries = timeout;
+    dhcp_max_retries = retries;
     dhcp_error = 0;
     do {
         state = *(volatile s32 *)&dhcp_state;
@@ -1003,7 +1003,7 @@ static inline s32 dhcp_open_interface(s16 iface) {
     return 0;
 }
 
-s32 DHCP_init(s16 iface) {
+s16 DHCP_init(s16 iface) {
     dhcp_reset_state(iface);
     if (dhcp_open_interface(dhcp_iface) != 0) {
         dhcp_error = 3;

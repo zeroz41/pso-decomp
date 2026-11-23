@@ -32,7 +32,7 @@ s32 get_tcp_stat(s16 arg0, s16 *arg1, s16 *arg2, s32 *snd_space, s32 *rcv_count)
 void insert_item_at(TcpTcb *tcb, s16 idx, s32 a, s32 b);
 s32 mark_connection_closed(s16 arg0);
 void reset_slot_index(TcpTcb *tcb);
-s16 AT_TCP_Connect(s16 arg0, saddr arg1, s16 arg2);
+s16 AT_TCP_Connect(s16 handle, void *addr, s16 port);
 s16 tcp_get_socket_handle(s16 i);
 s16 validate_tcp_handle(s16 i);
 
@@ -2218,13 +2218,13 @@ u16 TLobby__sub_8041EA14(void);
 #pragma opt_propagation off
 #pragma push
 #pragma pool_data off
-s16 AT_TCP_Connect(s16 arg0, saddr addr, s16 arg2) {
+s16 AT_TCP_Connect(s16 handle, void *addr, s16 port) {
     s16 r;
     TcpTcb *e;
 
-    if (arg0 < 0 || arg0 >= tcp_protocol_state.count) {
+    if (handle < 0 || handle >= tcp_protocol_state.count) {
         r = -4;
-    } else if (tcp_protocol_state.tcbs[arg0].state != 1) {
+    } else if (tcp_protocol_state.tcbs[handle].state != 1) {
         r = -4;
     } else {
         r = 0;
@@ -2233,8 +2233,8 @@ s16 AT_TCP_Connect(s16 arg0, saddr addr, s16 arg2) {
         return -4;
     }
     e = tcp_protocol_state.tcbs;
-    e += arg0;
-    if (TLobby__sub_8040DA54((u8 *)addr, e->local) == 0) {
+    e += handle;
+    if (TLobby__sub_8040DA54(addr, e->local) == 0) {
         NetDispatchSocketEvent((s16)(e - tcp_protocol_state.tcbs), e->event_ctx, 3, 0xC);
         return -6;
     }
@@ -2245,8 +2245,8 @@ s16 AT_TCP_Connect(s16 arg0, saddr addr, s16 arg2) {
     if (e->hdr.sport == 0) {
         e->hdr.sport = TLobby__sub_8041EA14();
     }
-    NetMemcpy(e->remote, (void *)addr, sizeof(e->remote));
-    e->hdr.dport = arg2;
+    NetMemcpy(e->remote, addr, sizeof(e->remote));
+    e->hdr.dport = port;
     if (TLobby__sub_8041B724(e) < 0) {
         return -6;
     }
