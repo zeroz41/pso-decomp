@@ -126,7 +126,7 @@ void TWindowMenu::clear_flag_and_release() {
 
 s32 TQuestListOnline::get_selection_stage() { return selection_stage; }
 
-void *TQuestListOnline__ct(TQuestListOnline *quest_list_online, void *parent, void *arg2, void *arg3) {
+void *TQuestListOnline__ct(TQuestListOnline *quest_list_online, void *parent, void *arg2, void *player) {
     __ct__15TShopWindowBaseFP7TObject(quest_list_online, (TObject *)parent);
     *(s32 **)((s8 *)quest_list_online + 0x18) = __vt__16TQuestListOnline;
     __ct__13GameListEntryFv(quest_list_online->selected_entry);
@@ -141,7 +141,7 @@ void *TQuestListOnline__ct(TQuestListOnline *quest_list_online, void *parent, vo
     quest_list_online->callback2c = NULL;
     quest_list_online->callback34 = NULL;
     quest_list_online->selection_stage = 0;
-    *(void **)((s8 *)quest_list_online + 0x24) = arg3;
+    *(void **)((s8 *)quest_list_online + 0x24) = player;
     memset(quest_list_online->selected_entry, 0, 28);
     ((TShopWindowBase *)quest_list_online)->set_field_20(0);
     TQuestListOnline__instance = quest_list_online;

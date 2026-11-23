@@ -96,7 +96,7 @@ public:
     static s32 release_ref_slot(u32 arg0);
     static s32 set_slot_values_for_indices(s32 *ids, s32 arg1, u32 arg2);
     s32 get_max_size_of_indices(s32 arg1);
-    static u32 acquire_slot_entry(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+    static u32 acquire_slot_entry(s32 arg0, s32 arg1, s32 arg2, s32 max);
     static void retry_seek_active_entries();
     static void set_active();
     static s32 match_prefix_length(const u8 *a, const u8 *b, s32 n);
@@ -106,10 +106,10 @@ public:
     static void init_page_cache();
     static s32 seek_or_reopen(int arg0);
     static s32 find_file_info_index();
-    s32 aram_read_thunk(uaddr arg1, int _w2);
-    static void unescape_copy_string(u8 *arg0, u8 *arg1, u8 *arg2);
+    s32 aram_read_thunk(uaddr image, int size);
+    static void unescape_copy_string(u8 *text, u8 *arg1, u8 *end);
     static s32 count_entries_until_terminator(const u8 *p, const u8 *end);
-    static void copy_sjis_string(u8 *arg0, u8 *arg1);
+    static void copy_sjis_string(u8 *text, u8 *arg1);
     static s32 calc_sjis_string_width(u8 *text);
     s32 calc_text_length();
     s32 calc_message_length();
@@ -136,7 +136,7 @@ public:
     static const u8 *find_keyword_entry(u16 *start, u16 *end);
     static s32 get_download_state();
     u8 *find_insert_position(s32 key, s32 n, s32 len);
-    static s32 read_quest_chunk(u32 id, u8 a1, u8 a2, u8 *buf, s32 *out);
+    static s32 read_quest_chunk(u32 id, u8 key, u8 sub_key, u8 *buf, s32 *out);
     static u32 aram_dma_read(void *h, void *dst, int size);
 public:
     void encrypt_download_data(s32 size);

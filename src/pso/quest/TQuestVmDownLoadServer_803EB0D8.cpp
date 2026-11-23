@@ -2983,7 +2983,7 @@ void TQuestVmDownLoadServer__sub_803EFCB4(u8 *data, s32 key, s32 sub_key, s32 *c
 }
 #pragma pop
 
-s32 TQuestVmDownLoadServer::read_quest_chunk(u32 id, u8 a1, u8 a2, u8 *buf, s32 *out) {
+s32 TQuestVmDownLoadServer::read_quest_chunk(u32 id, u8 key, u8 sub_key, u8 *buf, s32 *out) {
     s32 a;
     s32 b;
     s32 cnt;
@@ -3000,10 +3000,10 @@ s32 TQuestVmDownLoadServer::read_quest_chunk(u32 id, u8 a1, u8 a2, u8 *buf, s32 
     cnt = 0;
     total = 0;
     if (a != -1) {
-        TQuestVmDownLoadServer__sub_803EFCB4(TQuestVmDownLoadServer::get_cached_page(r) + a, a1, a2, &cnt, &total, buf, 0);
+        TQuestVmDownLoadServer__sub_803EFCB4(TQuestVmDownLoadServer::get_cached_page(r) + a, key, sub_key, &cnt, &total, buf, 0);
     }
     if (b != -1) {
-        TQuestVmDownLoadServer__sub_803EFCB4(TQuestVmDownLoadServer::get_buffer_ptr(b), a1, a2, &cnt, &total, buf, 0x8000);
+        TQuestVmDownLoadServer__sub_803EFCB4(TQuestVmDownLoadServer::get_buffer_ptr(b), key, sub_key, &cnt, &total, buf, 0x8000);
     }
     v = cnt;
     *out = v;
@@ -3060,7 +3060,7 @@ void TQuestVmDownLoadServer__sub_803EFF20(u8 *data, s32 key, s32 sub_key, s32 *b
     }
 }
 
-s32 TQuestVmDownLoadServer__sub_803F0048(s32 id, u8 a1, u8 a2, void *dst) {
+s32 TQuestVmDownLoadServer__sub_803F0048(s32 id, u8 key, u8 sub_key, void *dst) {
     s32 a;
     s32 b;
     s32 c;
@@ -3075,10 +3075,10 @@ s32 TQuestVmDownLoadServer__sub_803F0048(s32 id, u8 a1, u8 a2, void *dst) {
     }
     best = -1;
     if (a != -1) {
-        TQuestVmDownLoadServer__sub_803EFF20(TQuestVmDownLoadServer::get_cached_page(page) + a, a1, a2, &best, (u8 *)dst, 0);
+        TQuestVmDownLoadServer__sub_803EFF20(TQuestVmDownLoadServer::get_cached_page(page) + a, key, sub_key, &best, (u8 *)dst, 0);
     }
     if (b != -1) {
-        TQuestVmDownLoadServer__sub_803EFF20(TQuestVmDownLoadServer::get_buffer_ptr(b), a1, a2, &best, (u8 *)dst, 0x8000);
+        TQuestVmDownLoadServer__sub_803EFF20(TQuestVmDownLoadServer::get_buffer_ptr(b), key, sub_key, &best, (u8 *)dst, 0x8000);
     }
     if (best == -1) {
         return 0;

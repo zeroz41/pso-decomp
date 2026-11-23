@@ -82,7 +82,7 @@ extern TQuestListOnline *TQuestListOnline__instance;
 
 extern "C" {
 void copy_quest_list_data__16TQuestListOnlineFv(OnlineQuestMenu &menu);
-void *TQuestListOnline__ct(TQuestListOnline *arg0, void *arg1, void *arg2, void *arg3);
+void *TQuestListOnline__ct(TQuestListOnline *arg0, void *arg1, void *arg2, void *player);
 }
 
 #endif

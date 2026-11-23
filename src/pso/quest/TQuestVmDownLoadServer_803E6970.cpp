@@ -600,7 +600,7 @@ s32 TQuestVmDownLoadServer__sub_803E779C(u32 id, s32 *arg1, s32 *arg2, s32 *arg3
     return r->pageIndex;
 }
 
-u32 TQuestVmDownLoadServer::acquire_slot_entry(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+u32 TQuestVmDownLoadServer::acquire_slot_entry(s32 arg0, s32 arg1, s32 arg2, s32 max) {
     s32 i;
     QuestDownloadCacheEntry *r;
     s32 free_idx;
@@ -624,7 +624,7 @@ u32 TQuestVmDownLoadServer::acquire_slot_entry(s32 arg0, s32 arg1, s32 arg2, s32
     r->pageIndex = arg0;
     r->fileOffset = arg1;
     r->cachedId = arg2;
-    r->value = arg3;
+    r->value = max;
     return free_idx;
 }
 
@@ -1110,25 +1110,25 @@ void set_file_info_name__22TQuestVmDownLoadServerFv(const char *filename) {
 }
 #pragma pop
 
-s32 TQuestVmDownLoadServer__sub_803E8788(int _w0, void * _w1, int _w2) {
+s32 TQuestVmDownLoadServer__sub_803E8788(int quest_download_file_handle, void * pages, int _w2) {
     return -1;
 }
 
-s32 TQuestVmDownLoadServer::aram_read_thunk(uaddr arg1, int _w2) {
+s32 TQuestVmDownLoadServer::aram_read_thunk(uaddr image, int size) {
     saddr arg0 = (saddr)this;
-    return TQuestVmDownLoadServer::aram_dma_read((void *)arg0, (void *)arg1, (int)_w2);
+    return TQuestVmDownLoadServer::aram_dma_read((void *)arg0, (void *)image, (int)size);
 }
 
-void TQuestVmDownLoadServer::unescape_copy_string(u8 *arg0, u8 *arg1, u8 *arg2) {
-    while (arg1 < arg2 && *arg1 > 0x38) {
+void TQuestVmDownLoadServer::unescape_copy_string(u8 *text, u8 *arg1, u8 *end) {
+    while (arg1 < end && *arg1 > 0x38) {
         if (*arg1 == 0xFF) {
             arg1++;
         } else {
-            *arg0++ = *arg1++;
+            *text++ = *arg1++;
         }
-        *arg0++ = *arg1++;
+        *text++ = *arg1++;
     }
-    *arg0 = 0;
+    *text = 0;
 }
 
 s32 TQuestVmDownLoadServer::count_entries_until_terminator(const u8 *p, const u8 *end) {
@@ -1144,9 +1144,9 @@ s32 TQuestVmDownLoadServer::count_entries_until_terminator(const u8 *p, const u8
     return n;
 }
 
-void TQuestVmDownLoadServer::copy_sjis_string(u8 *arg0, u8 *arg1) {
-    while (*arg0 != 0) {
-        u8 c = *arg0;
+void TQuestVmDownLoadServer::copy_sjis_string(u8 *text, u8 *arg1) {
+    while (*text != 0) {
+        u8 c = *text;
         s32 lead;
         if ((c >= 0x80 && c <= 0x9F) || (c >= 0xE0 && c <= 0xFC)) {
             lead = 1;
@@ -1154,11 +1154,11 @@ void TQuestVmDownLoadServer::copy_sjis_string(u8 *arg0, u8 *arg1) {
             lead = 0;
         }
         if (lead) {
-            *arg1++ = *arg0++;
+            *arg1++ = *text++;
         } else {
             *arg1++ = 0xFF;
         }
-        *arg1++ = *arg0++;
+        *arg1++ = *text++;
     }
 }
 
