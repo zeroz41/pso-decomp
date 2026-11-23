@@ -146,7 +146,6 @@ s32 TWindowFukidasi__sub_802505C0(Fuki_80251028 *b, f32 *rect, f32 *out);
 s32 shift_rect_with_head__15TWindowFukidasiFPvPvPv(Fuki_80250F70 *b, f32 *rect, f32 *out);
 void refresh_rect_placement__15TWindowFukidasiFPv(Fuki_80251028 *b);
 void set_text__15TWindowFukidasiFPvii(u8 *arg0, saddr arg1, saddr arg2);
-void init_flags__15TWindowFukidasiFPvi(void *arg0, s32 arg1);
 void draw_name_plate__15TWindowFukidasiFv(TWindowFukidasi *, View_80252764 *, u32);
 void TWindowFukidasi__sub_80252C38(void *p);
 s32 fn_80252CBC(void);
@@ -575,26 +574,26 @@ void TWindowFukidasi::init_balloon(u16 arg1, s32 str, s32 arg3, f32 farg0) {
     this->clear_flag2c_bit100();
 }
 
-void init_flags__15TWindowFukidasiFPvi(void *arg0, s32 arg1) {
-    ((TWindowFukidasi *)arg0)->m_58 = 0.0f;
-    ((TWindowBase *)arg0)->set_depth(60000.0f);
-    if (((TWindowBase *)arg0)->sub_80246948() != 0) {
-        ((TWindowFukidasi *)arg0)->window_flags = (s32) (((TWindowFukidasi *)arg0)->window_flags | 1);
+void TWindowFukidasi::init_flags(s32 flags) {
+    this->m_58 = 0.0f;
+    this->set_depth(60000.0f);
+    if (this->sub_80246948() != 0) {
+        this->window_flags = (s32) (this->window_flags | 1);
     }
-    ((TWindowFukidasi *)arg0)->m_71 = (u8) (((TWindowFukidasi *)arg0)->m_71 & ~0x50);
-    if (arg1 & 2) {
-        ((TWindowFukidasi *)arg0)->m_71 = (u8) (((TWindowFukidasi *)arg0)->m_71 | 8);
+    this->m_71 = (u8) (this->m_71 & ~0x50);
+    if (flags & 2) {
+        this->m_71 = (u8) (this->m_71 | 8);
     } else {
-        ((TWindowFukidasi *)arg0)->m_71 = (u8) (((TWindowFukidasi *)arg0)->m_71 & 0xFFFFFFF7);
+        this->m_71 = (u8) (this->m_71 & 0xFFFFFFF7);
     }
-    if (arg1 & 0x20) {
-        ((TWindowFukidasi *)arg0)->m_71 = (u8) (((TWindowFukidasi *)arg0)->m_71 | 2);
-        ((TWindowFukidasi *)arg0)->set_flag();
-        ((TWindowFukidasi *)arg0)->set_flag2c_bit200();
-        ((TWindowFukidasi *)arg0)->m_73 = 4;
+    if (flags & 0x20) {
+        this->m_71 = (u8) (this->m_71 | 2);
+        this->set_flag();
+        this->set_flag2c_bit200();
+        this->m_73 = 4;
         return;
     }
-    ((TWindowFukidasi *)arg0)->m_71 = (u8) (((TWindowFukidasi *)arg0)->m_71 & 0xFFFFFFFD);
+    this->m_71 = (u8) (this->m_71 & 0xFFFFFFFD);
 }
 
 // Dead-stripped from the DOL: no code of it survives, only its literal (1e6 at
@@ -612,7 +611,7 @@ extern "C" {
 void set_text__15TWindowFukidasiFPvii(u8 *arg0, saddr str, saddr flags) {
   u32 new_var;
   u8 *entry;
-  ((s32 (*)(void *, void *))init_flags__15TWindowFukidasiFPvi)((void *) arg0, (void *) flags);
+  ((TWindowFukidasi *)arg0)->init_flags(flags);
   ((TWindowFukidasi *)arg0)->clear_flag();
   if (((u8) (*((u8 *) (((s8 *) arg0) + 0x72)))) != 0)
   {
@@ -671,7 +670,7 @@ void open__15TWindowFukidasiFPvPvi(u8 *arg0, u32 *arg1, s32 flags) {
     u8 temp_r0;
 
     var_r31 = 0;
-    ((s32 (*)(void *, s32))init_flags__15TWindowFukidasiFPvi)(arg0, flags);
+    ((TWindowFukidasi *)arg0)->init_flags(flags);
     if ((u8) *(u8 *)((s8 *)arg0 + 0x72) != 1) {
         *(u8 *)((s8 *)arg0 + 0x72) = 1U;
         reinterpret_cast<WindowLayoutEntries *>((arg0 + 0x24))->destroy_all_items();
@@ -1280,7 +1279,7 @@ void TWindowFukidasi::rearm_balloon(saddr flags) {
     if (sub_80246948() != 0) {
         *(s8 *)((s8 *)((u8 *)this) + 0x70) = 5;
     }
-    ((s32 (*)(void *, void *))init_flags__15TWindowFukidasiFPvi)(this, (void *)flags);
+    init_flags(flags);
     switch ((s32) (*(u8 *)((s8 *)((u8 *)this) + 0x72))) {
     case 0:
         n = TWindowKeyBoardSoft::strnlen((s8 *)(((TWindowSubComCard *)(void *)((TWindowBase *)this)->get_array_entry(0))->get_field_20()), (u32)0x100);

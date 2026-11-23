@@ -129,7 +129,6 @@ s32 TWindowSubComCard__sub_80273004(void);
 s32 TWindowSubComCard__sub_802728CC(void);
 void *get_player_by_client_id(s32 i);
 extern s32 local_client_id;
-void rebuild_com_card_list__17TWindowSubComCardFii(s32 arg0, saddr list_window);
 s32 create_keyboard__17TWindowSubComCardFi(saddr arg0);
 s32 create_keyboard__17TWindowSubComCardFii(saddr parent, saddr card);
 void update_selection__17TWindowSubComCardFiii(s32 list_window, s32 card_window, s32 last_selected);
@@ -640,11 +639,11 @@ void TWindowSubComCard::run_task() {
         }
         this->m_68 = ((u32 (*)(void*))TWindowSubComCard__sub_80273004)((void *)this);
         ((TWindowMenu *)this->m_68)->add_text_entry((saddr)(""), 0x15, -1);
-        ((s32 (*)(void*, int))rebuild_com_card_list__17TWindowSubComCardFii)((void *)this, this->m_68);
+        rebuild_com_card_list(this->m_68);
         this->state = 0x1EU;
     case 0x1E:
         if (is_com_card_active() != 0) {
-            ((s32 (*)(void*, int))rebuild_com_card_list__17TWindowSubComCardFii)((void *)this, this->m_68);
+            rebuild_com_card_list(this->m_68);
         }
         if (((TWindowMenu *)(this->m_68))->is_cancelled() != 0) {
             this->state = 1U;
@@ -1334,7 +1333,7 @@ s32 TWindowSubComCard__sub_80273004(void) {
 #pragma push
 #pragma opt_loop_invariants off
 extern "C" {
-void rebuild_com_card_list__17TWindowSubComCardFii(s32 arg0, saddr list_window) {
+void TWindowSubComCard::rebuild_com_card_list(saddr list_window) {
     s32 n;
     u32 cur;
     s32 i;

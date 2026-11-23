@@ -6719,7 +6719,7 @@ force_active:
   - get_serial_text__22TAdEnterSerialAccessGCFii
   - get_set_bonus_multiplier__9TItemDataFPvi
   - get_shield_set_multiplier__9TItemDataFPUc
-  - get_slot_flag__26TWindowSubQuestBoardSelectFic
+  - get_slot_flag__26TWindowSubQuestBoardSelectFSc
   - get_slot_index__15TAdPlayerLoadGCFv
   - get_sock_status_name__Fs
   - get_speaker_balloon_anchor__11TWindowCtrlFUsPfPl
@@ -13946,7 +13946,7 @@ force_active:
   - rebuildTechniqueList__19TWindowSubTechniqueFll
   - rebuild_all__6TLobbyFPUc
   - rebuild_area_keep_players__6TLobbyFv
-  - rebuild_com_card_list__17TWindowSubComCardFii
+  - rebuild_com_card_list__17TWindowSubComCardFl
   - rebuild_item_list__18TShopGetItemWindowFv
   - rebuild_parts__15TBoss3VoloptP02Fv
   - receive_direct_attack__15TObjEneMe1GiGueFPv19DirectAttackPayloadPvll

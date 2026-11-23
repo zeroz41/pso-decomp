@@ -11,6 +11,7 @@ struct TWindowSubComCard : public TObject {
     static GuildCardSlot *get_card_entry(s32 index);
     TWindowSubComCard(TObject *object, void *arg2);
     virtual ~TWindowSubComCard();
+    void rebuild_com_card_list(saddr list_window);
     static const char *class_name;
     u32 sub_80272DE0();
     void sub_80271F04(void *, s32, saddr);

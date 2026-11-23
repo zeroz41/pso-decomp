@@ -5,6 +5,7 @@
 
 class TWindowFukidasi : public TWindowAddition {
 public:
+    void init_flags(s32 flags);
     TWindowFukidasi(u16 speaker, s32 text, s32 client, f32 scale);
     virtual ~TWindowFukidasi();
     virtual void run_task();
@@ -80,9 +81,6 @@ extern "C" {
 s32 clamp_position__15TWindowFukidasiFPvf(void *arg0, void *arg1, f32 farg0);
 }
 void complete_speech_balloon(u8 *arg0);
-extern "C" {
-void init_flags__15TWindowFukidasiFPvi(void *arg0, s32 arg1);
-}
 s32 is_speech_balloon_ready(u8 *window_base);
 extern "C" {
 void open__15TWindowFukidasiFPvPvi(u8 *arg0, u32 *arg1, s32 flags);
