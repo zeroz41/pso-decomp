@@ -38,8 +38,6 @@ struct Rev_8023A364 {
 struct List_8023A244 { uaddr objs[16]; s32 vals[16]; s32 count; };
 
 extern "C" {
-s32 is_active__12TTecReverserFv();
-void run_task__12TTecReverserFv(u8 *arg0);
 s32 get_entity_id(int);
 const char *lbl_805D3818 = "TTecReverser";
 Entry_80239E44 revival_particle_table[3] = {
@@ -143,22 +141,22 @@ void TTecReverser::create(void *source, void *origin, void *targets, s32 level) 
     new TTecReverser((saddr)source, (saddr)origin, (saddr)targets, level);
 }
 
-void run_task__12TTecReverserFv(u8 *tec_reverser) {
+void TTecReverser::run_task() {
     uaddr entity;
-    ((TTecReverser *)tec_reverser)->source = (uaddr)find_entity_by_id((((TTecReverser *)tec_reverser)->sourceId));
-    if ((u32) ((TTecReverser *)tec_reverser)->source == 0U) {
-        ((TObject *)tec_reverser)->queue_destruction();
+    source = (uaddr)find_entity_by_id(sourceId);
+    if (source == 0) {
+        queue_destruction();
         return;
     }
-    if ((s32) ((TTecReverser *)tec_reverser)->targets.count == 0) {
-        ((TObject *)tec_reverser)->queue_destruction();
+    if (targets.count == 0) {
+        queue_destruction();
         return;
     }
-    entity = (uaddr)find_entity_by_id(((TTecReverser *)tec_reverser)->targets.records[0].id);
-    if ((is_active__12TTecReverserFv() == 0) && (TObjPlayer::is_valid_and_active(entity) != 0)) {
-        ((TTecReverser *)(tec_reverser))->vfunc_6((void *)entity);
+    entity = (uaddr)find_entity_by_id(targets.records[0].id);
+    if ((((TTecReverser *)entity)->is_active() == 0) && (TObjPlayer::is_valid_and_active(entity) != 0)) {
+        vfunc_6((void *)entity);
     }
-    ((TObject *)tec_reverser)->queue_destruction();
+    queue_destruction();
 }
 
 void TTecReverser::render() {  }

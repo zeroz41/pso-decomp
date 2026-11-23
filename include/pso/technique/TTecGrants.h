@@ -11,7 +11,7 @@ struct TTecGrants : public TTecCircle {
     virtual void vfunc_6(void *);
     virtual void run_task();
     TargetCursorList targets;
-    u32 m_148;
+    s32 m_148;
     virtual void render();
     static void create(void *source, void *origin, void *targets, s32 level);
     void init_parameters();
