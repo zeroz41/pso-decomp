@@ -1,3 +1,4 @@
+#include "pso/effect/photon/TPhotonRainbow.h"
 #include "pso/effect/photon/TPhotonMagicSquare.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/NinjaTypes.h"
@@ -367,7 +368,6 @@ void *destroy__12TPhotonGollaFPvs(void *photon_golla, s16 arg1) {
 
 
 #include "pso/unk/TLobby_802268F4.h"
-#include "pso/effect/photon/TPhotonRainbow_801AE640.h"
 
 #include "pso/unk/text_801ABE14.h"
 
@@ -410,7 +410,6 @@ void *lbl_804C35F4[17] = {
 u8 *TPhotonGolla__ct(u8 *summon, u8 *arg1) {
     Vec pos;
     u8 *e;
-    void *p;
     __ct__18TPhotonBlastSummonFv(summon);
     *(u8 **)((s8 *)summon + 0x18) = (u8 *)lbl_804C35F4;
     ((TPhotonGolla *)summon)->m_name = TPhotonGolla__class_name;
@@ -445,16 +444,10 @@ u8 *TPhotonGolla__ct(u8 *summon, u8 *arg1) {
     switch (get_current_floor_area()) {
     case AREA_DRAGON: case AREA_DE_ROL_LE: case AREA_VOL_OPT: case AREA_DARK_FALZ:
     case AREA_GAL_GRYPHON: case AREA_OLGA_FLOW: case AREA_BARBA_RAY: case AREA_GOL_DRAGON:
-        p = (void *)TObject::operator new(0xAC);
-        if (p != NULL) {
-            ((u8 *(*)(void *, void *, void *, int)) TPhotonRainbow__ct)(p, summon, summon + 0x38, 1);
-        }
+        new TPhotonRainbow((TObject *)summon, (const Vec *)(summon + 0x38), 1);
         break;
     default:
-        p = (void *)TObject::operator new(0xAC);
-        if (p != NULL) {
-            ((u8 *(*)(void *, void *, void *, int)) TPhotonRainbow__ct)(p, summon, summon + 0x38, 0);
-        }
+        new TPhotonRainbow((TObject *)summon, (const Vec *)(summon + 0x38), 0);
         break;
     }
     ((TPhotonGolla *)summon)->m_19c = 0;

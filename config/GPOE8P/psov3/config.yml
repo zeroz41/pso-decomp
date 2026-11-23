@@ -8301,7 +8301,7 @@ force_active:
   - TObjLuker__name
   - lbl_805D34C8
   - TPhotonLaser__name
-  - TPhotonRainbow__name
+  - photon_rainbow_class_name
   - TPhotonYoulla__name
   - TCheckRoomSequence__name
   - TTecResta__name

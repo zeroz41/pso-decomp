@@ -1,3 +1,4 @@
+#include "pso/effect/photon/TPhotonRainbow.h"
 #include "pso/effect/photon/TPhotonMagicSquare.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -192,7 +193,6 @@ void *destroy__12TPhotonPillaFPvs(void *photon_pilla, s16 arg1) {
 
 s32 init_collision_body_parts(void *, void *, int);
 void sub_801ADC7C__12TPhotonPillaFv(void *, u8);
-u8 *TPhotonRainbow__ct(void *, void *, void *, s32);
 extern u8 *photon_blast_shared_resource;
 
 extern "C" void vfunc_6__8TObjBaseFPsl();
@@ -234,7 +234,6 @@ void *lbl_804C3ACC[17] = {
 u8 *TPhotonPilla__ct(u8 *photon_rainbow, u8 *arg1) {
     u8 *temp_r3;
     s32 area;
-    void *mem;
     __ct__18TPhotonBlastSummonFv(photon_rainbow);
     *(u8 **)((s8 *)photon_rainbow + 0x18) = (u8 *)lbl_804C3ACC;
     ((TPhotonPilla *)photon_rainbow)->m_name = TPhotonPilla__class_name;
@@ -269,16 +268,10 @@ u8 *TPhotonPilla__ct(u8 *photon_rainbow, u8 *arg1) {
     case AREA_DE_ROL_LE:
     case AREA_VOL_OPT:
     case AREA_DARK_FALZ:
-        mem = TObject::operator new(0xAC);
-        if (mem != NULL) {
-            TPhotonRainbow__ct(mem, photon_rainbow, photon_rainbow + 0x38, 1);
-        }
+        new TPhotonRainbow((TObject *)photon_rainbow, (const Vec *)(photon_rainbow + 0x38), 1);
         break;
     default:
-        mem = TObject::operator new(0xAC);
-        if (mem != NULL) {
-            TPhotonRainbow__ct(mem, photon_rainbow, photon_rainbow + 0x38, 0);
-        }
+        new TPhotonRainbow((TObject *)photon_rainbow, (const Vec *)(photon_rainbow + 0x38), 0);
         break;
     }
     *(s32 *)((s8 *)photon_rainbow + 0x194) = 0;

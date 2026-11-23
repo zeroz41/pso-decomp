@@ -1,3 +1,4 @@
+#include "pso/effect/photon/TPhotonRainbow.h"
 #include "pso/effect/photon/TPhotonMagicSquare.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/effect/photon/PhotonBlastSummon.h"
@@ -183,7 +184,6 @@ struct Game_801AC808 { u8 pad[0x42C]; Res_801AC808 *res; s32 f430; };
 
 extern "C" {
 void sub_801AC444__13TPhotonLeillaFv(void *, u8);
-void TPhotonRainbow__ct(void *, void *, void *, s32);
 extern s32 __vt__13TPhotonLeilla[];
 extern Game_801AC808 *photon_blast_shared_resource;
 
@@ -194,7 +194,6 @@ TObjMotionAction photon_blast_leilla_params[2] = {
 
 void *TPhotonLeilla__ct(Leilla_801AC808 *self, Pkt_801AC808 *pkt) {
     Vec v;
-    u8 *o;
     u8 *owner;
     __ct__18TPhotonBlastSummonFv(self);
     *(void **)((u8 *)self + 0x18) = __vt__13TPhotonLeilla;
@@ -225,16 +224,10 @@ void *TPhotonLeilla__ct(Leilla_801AC808 *self, Pkt_801AC808 *pkt) {
     case AREA_DE_ROL_LE:
     case AREA_VOL_OPT:
     case AREA_DARK_FALZ:
-        o = NEW_801AC808(0xAC);
-        if (o != NULL) {
-            TPhotonRainbow__ct(o, self, &self->pos, 1);
-        }
+        new TPhotonRainbow((TObject *)self, &self->pos, 1);
         break;
     default:
-        o = NEW_801AC808(0xAC);
-        if (o != NULL) {
-            TPhotonRainbow__ct(o, self, &self->pos, 0);
-        }
+        new TPhotonRainbow((TObject *)self, &self->pos, 0);
         break;
     }
     sub_801AC444__13TPhotonLeillaFv(self, pkt->count);

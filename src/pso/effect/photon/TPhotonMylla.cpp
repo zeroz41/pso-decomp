@@ -1,3 +1,4 @@
+#include "pso/effect/photon/TPhotonRainbow.h"
 #include "pso/effect/photon/TPhotonMagicSquare.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/NinjaTypes.h"
@@ -128,7 +129,6 @@ extern s32 model_render_flags;
 void spawn_photon_blast_opening_effects(s32 arg0, s32 arg1);
 extern "C" {
 void sub_801AD4A8__12TPhotonMyllaFv(void* a0);
-void TPhotonRainbow__ct(void *, void *, void *, s32);
 const char *TPhotonMylla__class_name = "TPhotonMylla";
 
 static const YPkt_801AD970 photon_mylla_packet_template = { { 0.0f, 0.0f, 0.0f }, 0, 0, 0, 0, 0x4000000, 1.0f };
@@ -320,16 +320,10 @@ void *TPhotonMylla__ct(Mylla_801AD970 *self, Pkt_801AD970 *pkt) {
     case AREA_OLGA_FLOW:
     case AREA_BARBA_RAY:
     case AREA_GOL_DRAGON:
-        o = (u8 *)TObject::operator new(0xAC);
-        if (o != NULL) {
-            TPhotonRainbow__ct(o, self, &self->pos, 1);
-        }
+        new TPhotonRainbow((TObject *)self, &self->pos, 1);
         break;
     default:
-        o = (u8 *)TObject::operator new(0xAC);
-        if (o != NULL) {
-            TPhotonRainbow__ct(o, self, &self->pos, 0);
-        }
+        new TPhotonRainbow((TObject *)self, &self->pos, 0);
         break;
     }
     if (F_801AD970(self, s32, 0x19C) == 1) {

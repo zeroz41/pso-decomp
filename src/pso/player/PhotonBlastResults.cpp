@@ -38,7 +38,7 @@
 #include "pso/effect/photon/TPhotonYoulla.h"
 #include "pso/player/TObjPlayer_801ADC6C.h"
 #include "pso/player/TObjPlayer_801AD47C.h"
-#include "pso/effect/photon/TPhotonRainbow_801AE640.h"
+#include "pso/effect/photon/TPhotonRainbow.h"
 #include "pso/effect/photon/TPhotonLeilla.h"
 #include "pso/object/base/TObjMotion.h"
 
@@ -972,6 +972,6 @@ PhotonBlastLoadCallback photon_blast_load_callback_table[10] = {
     { TObjPlayer__sub_801AEB80, TObjPlayer__sub_801AEB74 },
     { TObjPlayer__sub_801ADC78, TObjPlayer__sub_801ADC6C },
     { TObjPlayer__sub_801AD480, TObjPlayer__sub_801AD47C },
-    { TObjPlayer__sub_801AE728, TObjPlayer__sub_801AE724 },
+    { load_photon_rainbow_resources, release_photon_rainbow_resources },
     { TObjPlayer__sub_801AC440, TObjPlayer__sub_801AC43C },
 };
