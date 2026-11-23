@@ -4,7 +4,7 @@
 #include "pso/technique/TTecJelin.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
-#include "pso/effect/TUnk_804CC148.h"
+#include "pso/technique/TTecCircle.h"
 
 #include <stddef.h>
 
@@ -101,7 +101,7 @@ TTecJelin::~TTecJelin() {
 
 }
 
-TTecJelin::TTecJelin(saddr source, Vec *pos, TargetCursorList *list, s32 level) : TUnk_804CC148(source, (saddr)pos, level) {
+TTecJelin::TTecJelin(saddr source, Vec *pos, TargetCursorList *list, s32 level) : TTecCircle(source, (saddr)pos, level) {
     s32 r;
     m_name = tec_jelin_class_name_ptr;
     has_targets = 1;
@@ -136,7 +136,7 @@ TTecJelin::TTecJelin(saddr source, Vec *pos, TargetCursorList *list, s32 level) 
     }
 }
 
-TTecJelin::TTecJelin(saddr source, Vec *pos, Vec *target, s32 level) : TUnk_804CC148(source, pos, target, level) {
+TTecJelin::TTecJelin(saddr source, Vec *pos, Vec *target, s32 level) : TTecCircle(source, pos, target, level) {
     s32 r;
     m_name = tec_jelin_class_name_ptr;
     has_targets = 0;

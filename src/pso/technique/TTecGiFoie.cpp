@@ -8,7 +8,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
-#include "pso/effect/TUnk_804CC148.h"
+#include "pso/technique/TTecCircle.h"
 
 #include "pso/technique/TTecAnti.h"
 #include "pso/technique/TTecLuker.h"
@@ -87,7 +87,7 @@ static const u8 orbit_counts[6] = {1, 1, 1, 2, 2, 3};
 
 void TTecGiFoie::render() {  }
 
-TTecGiFoie::TTecGiFoie(saddr source, Vec *origin, s32 level) : TUnk_804CC148(source, origin, origin, level) {
+TTecGiFoie::TTecGiFoie(saddr source, Vec *origin, s32 level) : TTecCircle(source, origin, origin, level) {
     s32 i;
     s32 j;
     s32 k;

@@ -11,7 +11,7 @@
 #include "pso/unk/text_800871A0.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
-#include "pso/effect/TUnk_804CCC68.h"
+#include "pso/technique/TTecShot.h"
 #include "pso/technique/TTecGiBarta.h"
 #include "pso/technique/TTecAnti.h"
 #include "pso/player/TObjPlayer.h"
@@ -330,7 +330,7 @@ void TTecGiBarta::run_task() {
 }
 
 TTecGiBarta::TTecGiBarta(saddr source, u8 *pos, u8 *target, s32 level)
-    : TUnk_804CCC68(source, pos, target, level) {
+    : TTecShot(source, pos, target, level) {
     s32 i;
     m_name = TTecGiBarta__class_name;
     calc_params();
@@ -347,7 +347,7 @@ TTecGiBarta::TTecGiBarta(saddr source, u8 *pos, u8 *target, s32 level)
 }
 
 TTecGiBarta::TTecGiBarta(saddr source, Vec *pos, s32 angle, s32 level)
-    : TUnk_804CCC68(source, pos, angle, level) {
+    : TTecShot(source, pos, angle, level) {
     s32 i;
     m_name = TTecGiBarta__class_name;
     calc_params();

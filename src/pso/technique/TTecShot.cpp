@@ -2,7 +2,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/vector.h"
-#include "pso/effect/TUnk_804CCC68.h"
+#include "pso/technique/TTecShot.h"
 #include <stddef.h>
 #include "pso/technique/TTecGiZonde.h"
 #include "pso/player/TObjPlayer.h"
@@ -34,7 +34,7 @@ struct RecoveredFields_8023A510_arg0 {
 
 
 extern "C" {
-s32 check_technique_projectile_wall_hit__13TUnk_804CCC68Fv(void *, f32, f32);
+s32 check_technique_projectile_wall_hit__8TTecShotFv(void *, f32, f32);
 f32 fabs_float(f32);
 void step_ground_technique_projectile(RecoveredFields_8023A510_arg0 *arg0);
 }
@@ -42,7 +42,7 @@ void direction_to_rotation_xy(u8 *arg0, s32 *arg1, s32 *arg2);
 
 void move_ground_technique_projectile(void* p);
 
-void TUnk_804CCC68::check_technique_projectile_wall_hit() {
+void TTecShot::check_technique_projectile_wall_hit() {
     Vec to;
     Vec from;
     CsnHit *wall;
@@ -60,8 +60,8 @@ void TUnk_804CCC68::check_technique_projectile_wall_hit() {
     }
 }
 
-void TUnk_804CCC68::render() {  }
-void TUnk_804CCC68::advance_lifetime_or_destroy() {
+void TTecShot::render() {  }
+void TTecShot::advance_lifetime_or_destroy() {
     f32 temp_f1;
 
     temp_f1 = this->traveled;
@@ -135,7 +135,7 @@ void move_ground_technique_projectile(void* p) { step_ground_technique_projectil
 
 #pragma push
 #pragma fp_contract on
-void TUnk_804CCC68::move_technique_projectile() {
+void TTecShot::move_technique_projectile() {
     f32 temp_f1;
     f32 temp_f2;
     u8 *arg0 = (u8 *)this;
@@ -145,11 +145,11 @@ void TUnk_804CCC68::move_technique_projectile() {
     temp_f2 = *(f32 *)((s8 *)arg0 + 0x50);
     temp_f1 = this->speed;
     *(f32 *)((s8 *)arg0 + 0x28) = (f32) ((temp_f2 * temp_f1) + *(f32 *)((s8 *)arg0 + 0x28));
-    check_technique_projectile_wall_hit__13TUnk_804CCC68Fv(arg0, temp_f1, temp_f2);
+    check_technique_projectile_wall_hit__8TTecShotFv(arg0, temp_f1, temp_f2);
 }
 #pragma pop
 
-void TUnk_804CCC68::run_task() { move_technique_projectile(); this->advance_lifetime_or_destroy(); }
+void TTecShot::run_task() { move_technique_projectile(); this->advance_lifetime_or_destroy(); }
 
 extern "C" {
 u16 get_entity_id(s32);
@@ -162,12 +162,12 @@ extern const f64 lbl_8044DC00;
 
 void free_collision_body_parts(void *);
 
-TUnk_804CCC68::~TUnk_804CCC68() {
+TTecShot::~TTecShot() {
     if (proxy != NULL) { free_collision_body_parts(proxy); proxy = 0; }
 }
 }
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
-TUnk_804CCC68::TUnk_804CCC68(saddr arg1, u8 *arg2, u8 *arg3, s32 arg4) : TEffect() {
+TTecShot::TTecShot(saddr arg1, u8 *arg2, u8 *arg3, s32 arg4) : TEffect() {
     f32 dx;
     f32 dz;
     f32 dy;
@@ -244,7 +244,7 @@ TUnk_804CCC68::TUnk_804CCC68(saddr arg1, u8 *arg2, u8 *arg3, s32 arg4) : TEffect
 
 // The facing form: the technique starts at `pos` and flies along the y angle
 // `angle` instead of towards a target point.
-TUnk_804CCC68::TUnk_804CCC68(saddr source, Vec *pos, s32 angle, s32 level) : TEffect() {
+TTecShot::TTecShot(saddr source, Vec *pos, s32 angle, s32 level) : TEffect() {
     uaddr var_r0;
     initialize_ground_candidates(ground_candidates);
     this->sourceId = 0xFFFF;
@@ -309,6 +309,6 @@ TUnk_804CCC68::TUnk_804CCC68(saddr source, Vec *pos, s32 angle, s32 level) : TEf
     }
 }
 
-void TUnk_804CCC68::vfunc_8(void *) {  }
+void TTecShot::vfunc_8(void *) {  }
 
 __declspec(section ".rodata") extern const f64 lbl_8044DC00 = 10430.38043493439;

@@ -11,7 +11,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/effect/TUnk_804CCC68.h"
+#include "pso/technique/TTecShot.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/unk/TLobby_80226070.h"
@@ -263,7 +263,7 @@ void TTecFoie::run_task() {
 
 // The aimed form (create_ex): flies from `pos` towards `target`.
 TTecFoie::TTecFoie(saddr source, u8 *pos, u8 *target, s32 level)
-    : TUnk_804CCC68(source, pos, target, level) {
+    : TTecShot(source, pos, target, level) {
     if (this->source != NULL) {
         sourceId = get_entity_id((void *)this->source);
     }
@@ -274,7 +274,7 @@ TTecFoie::TTecFoie(saddr source, u8 *pos, u8 *target, s32 level)
 
 // The facing form (create): flies along the y angle `angle`.
 TTecFoie::TTecFoie(saddr source, Vec *pos, s32 angle, s32 level)
-    : TUnk_804CCC68(source, pos, angle, level) {
+    : TTecShot(source, pos, angle, level) {
     m_name = TTecFoie__name;
     if (this->source != NULL) {
         sourceId = get_entity_id((void *)this->source);

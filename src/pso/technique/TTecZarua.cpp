@@ -4,7 +4,7 @@
 #include "pso/technique/TTecZarua.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
-#include "pso/effect/TUnk_804CC148.h"
+#include "pso/technique/TTecCircle.h"
 
 #include <stddef.h>
 
@@ -100,7 +100,7 @@ TTecZarua::~TTecZarua() {
 
 }
 
-TTecZarua::TTecZarua(saddr source, Vec *pos, TargetCursorList *list, s32 level) : TUnk_804CC148(source, (saddr)pos, level) {
+TTecZarua::TTecZarua(saddr source, Vec *pos, TargetCursorList *list, s32 level) : TTecCircle(source, (saddr)pos, level) {
     s32 r;
     m_name = TTecZarua__name;
     has_targets = 1;
@@ -135,7 +135,7 @@ TTecZarua::TTecZarua(saddr source, Vec *pos, TargetCursorList *list, s32 level) 
     }
 }
 
-TTecZarua::TTecZarua(saddr source, Vec *pos, Vec *target, s32 level) : TUnk_804CC148(source, pos, target, level) {
+TTecZarua::TTecZarua(saddr source, Vec *pos, Vec *target, s32 level) : TTecCircle(source, pos, target, level) {
     s32 r;
     m_name = TTecZarua__name;
     has_targets = 0;

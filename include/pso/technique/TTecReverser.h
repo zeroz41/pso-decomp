@@ -2,9 +2,9 @@
 #define PSO_TECHNIQUE_TTECREVERSER_H
 
 #include "types.h"
-#include "pso/effect/TUnk_804CC148.h"
+#include "pso/technique/TTecCircle.h"
 
-struct TTecReverser : public TUnk_804CC148 {
+struct TTecReverser : public TTecCircle {
     TTecReverser(saddr arg1, saddr origin, saddr targets, saddr level);
     virtual ~TTecReverser();
     void sub_8022BE64(u8 *, s32);

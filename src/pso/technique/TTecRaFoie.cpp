@@ -4,7 +4,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/effect/TUnk_804CC148.h"
+#include "pso/technique/TTecCircle.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/technique/TTecRaFoie.h"
@@ -472,7 +472,7 @@ TTecRaFoie::~TTecRaFoie() {
 
 #pragma push
 #pragma opt_common_subs off
-TTecRaFoie::TTecRaFoie(saddr source, Vec *origin, Vec *pos, s32 level) : TUnk_804CC148(source, origin, pos, level) {
+TTecRaFoie::TTecRaFoie(saddr source, Vec *origin, Vec *pos, s32 level) : TTecCircle(source, origin, pos, level) {
     m_name = TTecRaFoie_class_name;
     calc_area_parameters();
     clear_target_cursor_list(&m_targets);
@@ -488,7 +488,7 @@ TTecRaFoie::TTecRaFoie(saddr source, Vec *origin, Vec *pos, s32 level) : TUnk_80
 }
 #pragma pop
 
-TTecRaFoie::TTecRaFoie(saddr source, Vec *origin, TargetCursorList *list, s32 level) : TUnk_804CC148(source, origin, origin, level) {
+TTecRaFoie::TTecRaFoie(saddr source, Vec *origin, TargetCursorList *list, s32 level) : TTecCircle(source, origin, origin, level) {
     m_name = TTecRaFoie_class_name;
     calc_area_parameters();
     m_148 = 0;

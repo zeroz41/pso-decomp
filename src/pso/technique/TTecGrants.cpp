@@ -3,7 +3,7 @@
 #include "pso/technique/TTecGrants.h"
 #include "pso/system/task/TObject_80019A50.h"
 
-#include "pso/effect/TUnk_804CC148.h"
+#include "pso/technique/TTecCircle.h"
 #include "pso/system/task/TObject.h"
 
 #include <stddef.h>
@@ -109,7 +109,7 @@ TTecGrants::~TTecGrants() {
 }
 
 #define tec_grants ((u8 *)this)
-TTecGrants::TTecGrants(saddr arg1, saddr origin, saddr targets, saddr level) : TUnk_804CC148(arg1, origin, level) {
+TTecGrants::TTecGrants(saddr arg1, saddr origin, saddr targets, saddr level) : TTecCircle(arg1, origin, level) {
     u32 temp_r3;
     __ct__16TargetCursorListFv((tec_grants + 0xEC));
     *(s32 *)((s8 *)tec_grants + 0) = (s32) tec_grants_class_name;

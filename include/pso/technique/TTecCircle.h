@@ -1,16 +1,16 @@
-#ifndef PSO_UNK_TUNK_804CC148_H
-#define PSO_UNK_TUNK_804CC148_H
+#ifndef PSO_TECHNIQUE_TTECCIRCLE_H
+#define PSO_TECHNIQUE_TTECCIRCLE_H
 #include "types.h"
 #include "pso/effect/TEffect.h"
 #include "pso/object/base/TObjMotion.h"
 
 // Base of the area techniques: TTecGrants, TTecJelin, TTecZarua, TTecReverser, TTecRaBarta,
 // TTecRaFoie, TTecRaZonde, TTecGiFoie, TTecLuker and TTecKafun derive from it.
-class TUnk_804CC148 : public TEffect {
+class TTecCircle : public TEffect {
 public:
-    TUnk_804CC148(saddr arg1, saddr arg2, s32 arg4);
-    TUnk_804CC148(saddr source, Vec *pos, Vec *target, s32 level);
-    virtual ~TUnk_804CC148();
+    TTecCircle(saddr arg1, saddr arg2, s32 arg4);
+    TTecCircle(saddr source, Vec *pos, Vec *target, s32 level);
+    virtual ~TTecCircle();
     virtual void vfunc_6(void *);
     virtual void tick_lifetime();
     virtual void vfunc_8(void *);
@@ -42,6 +42,6 @@ public:
     CollisionBody collisionBody;
     TObjCollidable *m_e8;
 };
-LAYOUT_ASSERT(TUnk_804CC148Size, sizeof(TUnk_804CC148) == 0xEC);
+LAYOUT_ASSERT(TTecCircleSize, sizeof(TTecCircle) == 0xEC);
 
 #endif

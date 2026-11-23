@@ -6,8 +6,8 @@
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/technique/TTecBarta.h"
-#include "pso/effect/TUnk_804CC148.h"
-#include "pso/effect/TUnk_804CCC68.h"
+#include "pso/technique/TTecCircle.h"
+#include "pso/technique/TTecShot.h"
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecCtrl.h"
 
@@ -113,7 +113,7 @@ const char *TTecBarta__class_name = "TTecBarta";
 void move_ground_technique_projectile(void *p);
 extern "C" {
 s32 get_type__10TObjPlayerFPv(void *);
-List_8022BD74 *find_area_contact__13TUnk_804CC148Fl(Tec_8022BD74 *, void *);
+List_8022BD74 *find_area_contact__10TTecCircleFl(Tec_8022BD74 *, void *);
 s32 play_sound_effect(s32, s32, s32, s32);
 
 void TTecBarta::update_technique_by_state() {
@@ -287,7 +287,7 @@ void TTecBarta::render() {  }
 }
 
 TTecBarta::TTecBarta(saddr source, u8 *pos, u8 *target, s32 level)
-    : TUnk_804CCC68(source, pos, target, level) {
+    : TTecShot(source, pos, target, level) {
     s32 i;
     m_name = TTecBarta__class_name;
     init_parameters();
@@ -305,7 +305,7 @@ TTecBarta::TTecBarta(saddr source, u8 *pos, u8 *target, s32 level)
 
 // The facing form starts 5 units higher.
 TTecBarta::TTecBarta(saddr source, Vec *pos, s32 angle, s32 level)
-    : TUnk_804CCC68(source, pos, angle, level) {
+    : TTecShot(source, pos, angle, level) {
     s32 i;
     m_name = TTecBarta__class_name;
     init_parameters();
@@ -322,9 +322,9 @@ TTecBarta::TTecBarta(saddr source, Vec *pos, s32 angle, s32 level)
     }
 }
 
-void TUnk_804CCC68::vfunc_6() {  }
+void TTecShot::vfunc_6() {  }
 struct TechniqueParticleEmitter;
-void TUnk_804CC148::apply_technique_to_area_targets() {
+void TTecCircle::apply_technique_to_area_targets() {
     List_8022BD74 *list;
     s32 i;
     u32 id;
@@ -336,7 +336,7 @@ void TUnk_804CC148::apply_technique_to_area_targets() {
         if (get_type__10TObjPlayerFPv((u8 *)((Tec_8022BD74 *)this)->owner + 0x828) != 0) {
             list = (List_8022BD74 *)collect_body_contacts_for_target((saddr)((Tec_8022BD74 *)this)->owner);
         } else {
-            list = find_area_contact__13TUnk_804CC148Fl(((Tec_8022BD74 *)this), ((Tec_8022BD74 *)this)->owner);
+            list = find_area_contact__10TTecCircleFl(((Tec_8022BD74 *)this), ((Tec_8022BD74 *)this)->owner);
         }
     } else {
         list = (List_8022BD74 *)collect_body_contacts_for_target((saddr)((Tec_8022BD74 *)this)->owner);

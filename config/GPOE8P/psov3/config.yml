@@ -3255,7 +3255,7 @@ force_active:
   - __vt__13TUnk_804C57F0
   - __vt__13TUnk_804C8678
   - __vt__13TUnk_804CC0E8
-  - __vt__13TUnk_804CC148
+  - __vt__10TTecCircle
   - __vt__13TUnk_804CC870
   - __vt__13TUnk_804CCAA8
   - __vt__13TUnk_804CCB28
@@ -5254,7 +5254,7 @@ force_active:
   - close_with_callback__22TChallenge4PItemSelectFv
   - cmicon_instance
   - collect_beam_targets__16TObjEneNanoDragoFv
-  - collect_body_contacts__13TUnk_804CC148FP14TObjCollidableP13CollisionBodyPv
+  - collect_body_contacts__10TTecCircleFP14TObjCollidableP13CollisionBodyPv
   - collect_candidate_players__12TBoss3VoloptFv
   - collect_hit_targets__12TPhotonGollaFPv
   - collect_node_matrices__16TObjEneRe7BeruraFP10NJS_OBJECTl
@@ -5419,7 +5419,7 @@ force_active:
   - count_card_layout_entries
   - count_empty_slots__20TWindowSubSymbolChatFv
   - count_flags__12TAdTimeSetGCFv
-  - count_if_within_range__13TUnk_804CC148Fv
+  - count_if_within_range__10TTecCircleFv
   - count_matching_values__11TBoss6Type2Fll
   - count_players_in_warp_radius__25TObjCityMainWarpChallengeFv
   - count_plist_strips_by_texture__FPvPvPv
@@ -6183,7 +6183,7 @@ force_active:
   - send_6xB2_play_sound__FP16G_PlaySound_6xB2
   - find_active_pad_rumble_effect_by_id__FUl
   - find_archive_entry__6TLobbyFPvPvPvPv
-  - find_area_technique_contact__FP13TUnk_804CC148P14TObjCollidableP13CollisionBodyPv
+  - find_area_technique_contact__FP10TTecCircleP14TObjCollidableP13CollisionBodyPv
   - find_attack_target__13TObjEneMe1GeeFPff
   - find_cached_glyph__20TWindowSubStatusDispFUs
   - find_chain_targets__11TTecGiZondeFv
@@ -14882,7 +14882,7 @@ force_active:
   - run_task__13TUnk_804B7C1CFv
   - run_task__13TUnk_804C8678Fv
   - run_task__13TUnk_804CC0E8Fv
-  - run_task__13TUnk_804CC148Fv
+  - run_task__10TTecCircleFv
   - run_task__13TUnk_804CC870Fv
   - run_task__13TUnk_804CC888Fv
   - run_task__13TUnk_804CCA90Fv
@@ -16276,7 +16276,7 @@ force_active:
   - sub_8020F1DC__18TCheckRoomSequenceFv
   - sub_802100F8__18TCheckRoomSequenceFv
   - sub_802100FC__18TCheckRoomSequenceFv
-  - sub_8022C008__13TUnk_804CC148Fv
+  - sub_8022C008__10TTecCircleFv
   - sub_80237258__19TTecPlayerInfluenceFv
   - sub_80247080__11TWindowChatFv
   - sub_80247128__11TWindowChatFv

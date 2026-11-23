@@ -6,8 +6,8 @@
 #include "pso/unk/TUnk_804CCC28.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/vector.h"
-#include "pso/effect/TUnk_804CC148.h"
-#include "pso/effect/TUnk_804CCC68.h"
+#include "pso/technique/TTecCircle.h"
+#include "pso/technique/TTecShot.h"
 
 #include "pso/enemy/gibon/TObjEneBm5GibonU.h"
 
@@ -64,7 +64,7 @@ s32 get_type__10TObjPlayerFPv(void *p);
 
 }
 
-void TUnk_804CCC68::debug_print_tech_params() {
+void TTecShot::debug_print_tech_params() {
     Rev_8023A364 *self = (Rev_8023A364 *)this;
     debug_printf_at(0x1E0014, "POWER  : %f", self->fcc);
     debug_printf_at(0x1E0015, "USE_TP : %d", self->fdc);
@@ -74,7 +74,7 @@ void TUnk_804CCC68::debug_print_tech_params() {
     debug_printf_at(0x1E0019, "MENTAL  : %f", self->fe0);
 }
 
-void TUnk_804CCC68::dispatch_all_technique_contacts() {
+void TTecShot::dispatch_all_technique_contacts() {
     List_8023A244 *list;
     s32 i;
     if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x128) == 0U) {
@@ -106,7 +106,7 @@ void TUnk_804CCC68::dispatch_all_technique_contacts() {
     }
 }
 
-void TUnk_804CCC68::dispatch_technique_contact(s32) {
+void TTecShot::dispatch_technique_contact(s32) {
     u8 *var_r31;
     if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x128) == 0U) {
         queue_destruction();
@@ -136,7 +136,7 @@ void TUnk_804CCC68::dispatch_technique_contact(s32) {
 }
 
 #define tec_reverser ((u8 *)this)
-TTecReverser::TTecReverser(saddr arg1, saddr origin, saddr targets, saddr level) : TUnk_804CC148(arg1, origin, level) {
+TTecReverser::TTecReverser(saddr arg1, saddr origin, saddr targets, saddr level) : TTecCircle(arg1, origin, level) {
     u32 temp_r3;
     __ct__16TargetCursorListFv((tec_reverser + 0xEC));
     ((TTecReverser *)tec_reverser)->m_name = lbl_805D3818;

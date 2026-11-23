@@ -4,11 +4,11 @@
 #include "types.h"
 
 extern "C" {
-void run_task__13TUnk_804CCC68Fv(void *p);
+void run_task__8TTecShotFv(void *p);
 }
 void move_ground_technique_projectile(void *p);
 extern "C" {
-void move_technique_projectile__13TUnk_804CCC68Fv(u8 *arg0);
+void move_technique_projectile__8TTecShotFv(u8 *arg0);
 }
 
 #endif

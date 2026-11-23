@@ -2,9 +2,9 @@
 #define PSO_TECHNIQUE_TTECGIBARTA_H
 
 #include "types.h"
-#include "pso/effect/TUnk_804CCC68.h"
+#include "pso/technique/TTecShot.h"
 
-struct TTecGiBarta : public TUnk_804CCC68 {
+struct TTecGiBarta : public TTecShot {
     TTecGiBarta(saddr source, u8 *pos, u8 *target, s32 level);
     TTecGiBarta(saddr source, Vec *pos, s32 angle, s32 level);
     virtual ~TTecGiBarta();

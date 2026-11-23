@@ -5,7 +5,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_80087278.h"
-#include "pso/effect/TUnk_804CC148.h"
+#include "pso/technique/TTecCircle.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_801542CC.h"
@@ -101,7 +101,7 @@ void TTecKafun::run_task() {
 }
 
 TTecKafun::TTecKafun(saddr source, Vec *pos, s32 kind, s32 effect, s32 second_effect, s32 level, f32 value, f32 radius)
-    : TUnk_804CC148(source, pos, pos, level) {
+    : TTecCircle(source, pos, pos, level) {
     this->m_name = tec_kafun_class_name_ptr;
     this->hit_value = value;
     this->hit_kind = kind;
@@ -118,7 +118,7 @@ TTecKafun::TTecKafun(saddr source, Vec *pos, s32 kind, s32 effect, s32 second_ef
 }
 
 TTecKafun::TTecKafun(saddr source, Vec *pos, s32 kind, s32 effect, s32 level, f32 value, f32 radius)
-    : TUnk_804CC148(source, pos, pos, level) {
+    : TTecCircle(source, pos, pos, level) {
     this->m_name = tec_kafun_class_name_ptr;
     this->hit_value = value;
     this->hit_kind = kind;

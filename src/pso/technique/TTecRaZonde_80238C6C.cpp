@@ -6,7 +6,7 @@
 #include "pso/system/vector.h"
 #include "pso/technique/TTecZonde.h"
 #include "pso/unk/TUnk_804CCB28.h"
-#include "pso/effect/TUnk_804CC148.h"
+#include "pso/technique/TTecCircle.h"
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecCtrl.h"
 #pragma readonly_strings on
@@ -220,7 +220,7 @@ void TTecRaZonde::run_task() {
 #pragma push
 #pragma opt_loop_invariants off
 #pragma opt_common_subs off
-TTecRaZonde::TTecRaZonde(saddr source, Vec *origin, s32 level) : TUnk_804CC148(source, origin, origin, level) {
+TTecRaZonde::TTecRaZonde(saddr source, Vec *origin, s32 level) : TTecCircle(source, origin, origin, level) {
     s32 ang;
     s32 i;
     s32 j;

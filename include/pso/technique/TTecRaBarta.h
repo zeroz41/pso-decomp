@@ -2,9 +2,9 @@
 #define PSO_TECHNIQUE_TTECRABARTA_H
 
 #include "types.h"
-#include "pso/effect/TUnk_804CC148.h"
+#include "pso/technique/TTecCircle.h"
 
-struct TTecRaBarta : public TUnk_804CC148 {
+struct TTecRaBarta : public TTecCircle {
     TTecRaBarta(saddr source, Vec *origin, Vec *pos, s32 level);
     TTecRaBarta(saddr source, Vec *origin, s32 level);
     virtual ~TTecRaBarta();

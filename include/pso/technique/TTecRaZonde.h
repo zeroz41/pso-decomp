@@ -2,9 +2,9 @@
 #define PSO_TECHNIQUE_TTECRAZONDE_H
 
 #include "types.h"
-#include "pso/effect/TUnk_804CC148.h"
+#include "pso/technique/TTecCircle.h"
 
-struct TTecRaZonde : public TUnk_804CC148 {
+struct TTecRaZonde : public TTecCircle {
     TTecRaZonde(saddr source, Vec *origin, s32 level);
     virtual ~TTecRaZonde();
     virtual void vfunc_8(void *);

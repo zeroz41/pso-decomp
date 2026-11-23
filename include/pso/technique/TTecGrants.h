@@ -2,9 +2,9 @@
 #define PSO_TECHNIQUE_TTECGRANTS_H
 
 #include "types.h"
-#include "pso/effect/TUnk_804CC148.h"
+#include "pso/technique/TTecCircle.h"
 
-struct TTecGrants : public TUnk_804CC148 {
+struct TTecGrants : public TTecCircle {
     TTecGrants(saddr arg1, saddr origin, saddr targets, saddr level);
     virtual ~TTecGrants();
     virtual void vfunc_6(void *);

@@ -3,7 +3,7 @@
 #include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
-#include "pso/effect/TUnk_804CC148.h"
+#include "pso/technique/TTecCircle.h"
 
 #include "pso/system/vector.h"
 #include "pso/technique/TTecReverser.h"
@@ -16,7 +16,7 @@
 
 // Built with deferred code generation (configure.py): the functions run last to first.
 
-TUnk_804CC148::TUnk_804CC148(saddr source, Vec *pos, Vec *target, s32 level) : TEffect() {
+TTecCircle::TTecCircle(saddr source, Vec *pos, Vec *target, s32 level) : TEffect() {
     this->m_b4 = 0xFFFF;
     VecCopy(&this->position, pos);
     VecCopy(&this->target, target);
@@ -61,7 +61,7 @@ TUnk_804CC148::TUnk_804CC148(saddr source, Vec *pos, Vec *target, s32 level) : T
     }
 }
 
-TUnk_804CC148::TUnk_804CC148(saddr arg1, saddr arg2, s32 arg4) : TEffect() {
+TTecCircle::TTecCircle(saddr arg1, saddr arg2, s32 arg4) : TEffect() {
     this->m_b4 = 0xFFFF;
     VecCopy(&this->position, (const Vec *)arg2);
     this->target.x = 0.0f;
@@ -108,13 +108,13 @@ TUnk_804CC148::TUnk_804CC148(saddr arg1, saddr arg2, s32 arg4) : TEffect() {
     }
 }
 
-TUnk_804CC148::~TUnk_804CC148() {
+TTecCircle::~TTecCircle() {
     if (this->m_e8 != NULL) {
         free_collision_body_parts(this->m_e8);
     }
 }
 
-void TUnk_804CC148::run_task() {
+void TTecCircle::run_task() {
 
     switch (this->state) {
     case 0:
@@ -127,11 +127,11 @@ void TUnk_804CC148::run_task() {
     }
 }
 
-void TUnk_804CC148::sub_8022C008() {
+void TTecCircle::sub_8022C008() {
     approach_vector_fixed_distance(&this->position, &this->target, &this->position, this->speed);
 }
 
-void TUnk_804CC148::count_if_within_range() {
+void TTecCircle::count_if_within_range() {
     Vec diff;
     diff.x = this->position.x - this->target.x;
     diff.y = this->position.y - this->target.y;
@@ -141,7 +141,7 @@ void TUnk_804CC148::count_if_within_range() {
     }
 }
 
-void TUnk_804CC148::tick_lifetime() {
+void TTecCircle::tick_lifetime() {
     this->state = 1;
     this->age = (this->age + 1);
     if ((f32) this->age > this->lifetime) {
@@ -149,7 +149,7 @@ void TUnk_804CC148::tick_lifetime() {
     }
 }
 
-void TUnk_804CC148::render() {
+void TTecCircle::render() {
     Vec full_scale = {50.0f, 50.0f, 50.0f}; // the scale it grows to once it has arrived
     switch (this->state) {
     case 0:

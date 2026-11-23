@@ -2,7 +2,7 @@
 #define PSO_TECHNIQUE_TTECLUKER_H
 
 #include "types.h"
-#include "pso/effect/TUnk_804CC148.h"
+#include "pso/technique/TTecCircle.h"
 
 class TUnk_804C4450;
 class TUnk_804CC9D4;
@@ -10,7 +10,7 @@ class TUnk_804CCA0C;
 
 // The telepipe technique: places a pipe (field + visual) near its caster and, once a player
 // selects it, warps everyone back to the city. Field names below are inferred from use.
-struct TTecLuker : public TUnk_804CC148 {
+struct TTecLuker : public TTecCircle {
     TTecLuker(saddr source, Vec *pos, Vec *target, s32 level);
     virtual ~TTecLuker();
     virtual void vfunc_6(void *);

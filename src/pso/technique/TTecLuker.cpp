@@ -19,7 +19,7 @@
 #include "pso/system/byteswap.h"
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/effect/TUnk_804CC148.h"
+#include "pso/technique/TTecCircle.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/item/TItemList.h"
 #include "pso/player/TPlyItem.h"
@@ -200,7 +200,7 @@ void TTecLuker__sub_80234F08(void) {
     }
 }
 
-TTecLuker::TTecLuker(saddr source, Vec *pos, Vec *target, s32 level) : TUnk_804CC148(source, pos, target, level) {
+TTecLuker::TTecLuker(saddr source, Vec *pos, Vec *target, s32 level) : TTecCircle(source, pos, target, level) {
     m_name = TTecLuker__name;
     phase = 0;
     warp_frames = 0;

@@ -2,9 +2,9 @@
 #define PSO_TECHNIQUE_TTECMEGID_H
 
 #include "types.h"
-#include "pso/effect/TUnk_804CCC68.h"
+#include "pso/technique/TTecShot.h"
 
-struct TTecMegid : public TUnk_804CCC68 {
+struct TTecMegid : public TTecShot {
     TTecMegid(saddr source, u8 *pos, u8 *target, s32 level);
     TTecMegid(saddr source, Vec *pos, s32 angle, s32 level);
     virtual ~TTecMegid();

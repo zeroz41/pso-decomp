@@ -2,10 +2,10 @@
 #define PSO_TECHNIQUE_TTECGIZONDE_H
 
 #include "types.h"
-#include "pso/effect/TUnk_804CCC68.h"
+#include "pso/technique/TTecShot.h"
 #include "pso/player/TargetCursorList.h"
 
-struct TTecGiZonde : public TUnk_804CCC68 {
+struct TTecGiZonde : public TTecShot {
     TTecGiZonde(saddr source, Vec *pos, void *targets, s32 level);
     virtual ~TTecGiZonde();
     virtual void vfunc_8(void *);

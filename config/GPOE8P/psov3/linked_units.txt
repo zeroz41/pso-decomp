@@ -351,7 +351,7 @@ pso/effect/TEffHit.cpp
 pso/effect/TEffIndirectCtrl.cpp
 pso/effect/TEffStarLight2D_Base.cpp
 pso/effect/TEffect.cpp
-pso/effect/TUnk_804CCC68.cpp
+pso/technique/TTecShot.cpp
 pso/network/NetDispatcher.c
 pso/network/PSOV3Encryption.cpp
 pso/network/PSOV3EncryptionTCP.cpp
@@ -2091,7 +2091,7 @@ pso/unk/text_80222DE8.cpp
 pso/unk/text_802233F8.cpp
 pso/unk/text_80225CD8.cpp
 pso/unk/text_80228C54.cpp
-pso/unk/text_8022BE64.cpp
+pso/technique/TTecCircle.cpp
 pso/unk/text_8022F258.cpp
 pso/unk/text_8023DCB8.cpp
 pso/unk/text_8023F660.cpp

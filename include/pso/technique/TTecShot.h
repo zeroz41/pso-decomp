@@ -1,5 +1,5 @@
-#ifndef PSO_PLAYER_TUNK_804CCC68_H
-#define PSO_PLAYER_TUNK_804CCC68_H
+#ifndef PSO_TECHNIQUE_TTECSHOT_H
+#define PSO_TECHNIQUE_TTECSHOT_H
 #include <stddef.h>
 #include "types.h"
 #include "pso/effect/TEffect.h"
@@ -9,11 +9,11 @@ struct CsnGroup;
 struct TechniqueContactActor;
 struct TechniqueContactBody;
 
-class TUnk_804CCC68 : public TEffect {
+class TTecShot : public TEffect {
 public:
-    TUnk_804CCC68(saddr arg1, u8 *arg2, u8 *arg3, s32 arg4);
-    TUnk_804CCC68(saddr source, Vec *pos, s32 angle, s32 level);
-    virtual ~TUnk_804CCC68();
+    TTecShot(saddr arg1, u8 *arg2, u8 *arg3, s32 arg4);
+    TTecShot(saddr source, Vec *pos, s32 angle, s32 level);
+    virtual ~TTecShot();
     void check_technique_projectile_wall_hit();
     void move_technique_projectile();
     virtual void run_task();
@@ -42,11 +42,11 @@ public:
     f32 halfWidth;
 };
 
-LAYOUT_ASSERT(TechniqueGroundCandidatesOffset, offsetof(TUnk_804CCC68, ground_candidates) == 0x84);
+LAYOUT_ASSERT(TechniqueGroundCandidatesOffset, offsetof(TTecShot, ground_candidates) == 0x84);
 
 extern "C" {
-// TUnk_804CCC68::~TUnk_804CCC68(), called by the destructors that are still written by hand.
-void *__dt__13TUnk_804CCC68Fv(void *p, s16 flags);
+// TTecShot::~TTecShot(), called by the destructors that are still written by hand.
+void *__dt__8TTecShotFv(void *p, s16 flags);
 }
 
 #endif

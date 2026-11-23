@@ -16,7 +16,7 @@
 #include "pso/system/vector.h"
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/unk/TUnk_804CCB28.h"
-#include "pso/effect/TUnk_804CC148.h"
+#include "pso/technique/TTecCircle.h"
 #pragma readonly_strings on
 
 #include <stddef.h>
@@ -357,7 +357,7 @@ void TTecRaBarta::run_task() {
 #pragma push
 #pragma opt_common_subs off
 
-TTecRaBarta::TTecRaBarta(saddr source, Vec *origin, Vec *pos, s32 level) : TUnk_804CC148(source, origin, pos, level) {
+TTecRaBarta::TTecRaBarta(saddr source, Vec *origin, Vec *pos, s32 level) : TTecCircle(source, origin, pos, level) {
     s32 i;
     m_name = TTecRaBarta_class_name;
     calc_parameters();
@@ -378,7 +378,7 @@ TTecRaBarta::TTecRaBarta(saddr source, Vec *origin, Vec *pos, s32 level) : TUnk_
 }
 #pragma pop
 
-TTecRaBarta::TTecRaBarta(saddr source, Vec *origin, s32 level) : TUnk_804CC148(source, origin, origin, level) {
+TTecRaBarta::TTecRaBarta(saddr source, Vec *origin, s32 level) : TTecCircle(source, origin, origin, level) {
     s32 i;
     m_name = TTecRaBarta_class_name;
     m_f0 = 0;

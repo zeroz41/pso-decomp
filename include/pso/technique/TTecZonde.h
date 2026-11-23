@@ -2,9 +2,9 @@
 #define PSO_TECHNIQUE_TTECZONDE_H
 
 #include "types.h"
-#include "pso/effect/TUnk_804CCC68.h"
+#include "pso/technique/TTecShot.h"
 
-struct TTecZonde : public TUnk_804CCC68 {
+struct TTecZonde : public TTecShot {
     TTecZonde(s32 source, u8 *arg2, u8 *targets, s32 level);
     virtual ~TTecZonde();
     virtual void vfunc_8(void *);

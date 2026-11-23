@@ -448,7 +448,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/system/data/pso_const_ids4.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # .rodata holds render's scale vector ahead of the int-to-float constant the earlier
     # TTecReverser::sub_8022BE64 uses: deferred generation of the last-to-first source.
-    "pso/unk/text_8022BE64.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    "pso/technique/TTecCircle.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/effect/TDuelEffectCtrl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/TDuelEffectNumber.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/TDuelEffectString.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-fp_contract on")},

@@ -8,7 +8,7 @@
 #include "pso/technique/TechniqueParams.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/technique/TechniqueBoost.h"
-#include "pso/effect/TUnk_804CC148.h"
+#include "pso/technique/TTecCircle.h"
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/object/TUnk_804CCAA8.h"
@@ -863,6 +863,6 @@ s32 TTecCtrl::classify_distance_band(s32 technique, s32 level, u16 arg2) {
     return 3;
 }
 
-void TUnk_804CC148::vfunc_9() {  }
-void TUnk_804CC148::vfunc_8(void *) {  }
-void TUnk_804CC148::vfunc_6(void *) {  }
+void TTecCircle::vfunc_9() {  }
+void TTecCircle::vfunc_8(void *) {  }
+void TTecCircle::vfunc_6(void *) {  }
