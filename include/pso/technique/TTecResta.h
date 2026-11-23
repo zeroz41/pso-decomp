@@ -12,7 +12,7 @@ struct TTecResta : public TTecPlayerInfluence {
     virtual void vfunc_7(void *);
     virtual void run_task();
     TargetCursorList targets;
-    u32 m_13c;
+    s32 m_13c;
     void play_launch_sound();
     int init_cast();
     static f32 calc_heal_amount(s32 level);

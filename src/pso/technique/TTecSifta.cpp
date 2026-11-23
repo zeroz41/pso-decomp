@@ -129,7 +129,7 @@ TTecSifta::~TTecSifta() {
 
 
 void TTecSifta::run_task() {
-    uaddr target;
+    uaddr member;
     s32 i;
     source = (uaddr)find_entity_by_id(m_a8);
     if (source == 0) {
@@ -143,9 +143,9 @@ void TTecSifta::run_task() {
             vfunc_7((void *)source);
             if (targets.count != 0) {
                 for (i = 0; i < targets.count; i++) {
-                    target = (uaddr)find_entity_by_id(targets.records[i].id);
-                    if (TTecLuker::is_parents_unqueued(target) != 0) {
-                        vfunc_7((void *)target);
+                    member = (uaddr)find_entity_by_id(targets.records[i].id);
+                    if (TTecLuker::is_parents_unqueued(member) != 0) {
+                        vfunc_7((void *)member);
                     }
                 }
             }

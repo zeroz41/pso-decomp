@@ -87,19 +87,6 @@ struct Row_80235740 { u32 entry; u32 flags; f32 scale; };
 
 struct Data_80235740 { Row_80235740 *rows; u32 count; };
 
-struct Obj_80235740 {
-    u8 pad0[0x1C];
-    void *source;
-    Vec pos;
-    u8 pad2c[0x58 - 0x2C];
-    s32 f58;
-    u8 pad5c[0xC6 - 0x5C];
-    s16 band;
-    u16 sourceId;
-    u8 padca[0x130 - 0xCA];
-    void **emitters;
-};
-
 struct Row_802351B4
 {
   u32 entry;
@@ -168,7 +155,6 @@ s32 play_sound_effect(s32, s32, s32, s32);
 }
 u32 get_technique_caster_flags(s32 technique, u16 actor);
 extern "C" {
-void run_task__9TTecMegidFv(Obj_80235740 *self);
 
 void **mem_alloc(u32, s32);
 
@@ -331,32 +317,32 @@ TTecMegid::~TTecMegid() {
     mem_free(emitters);
 }
 
-void run_task__9TTecMegidFv(Obj_80235740 *self) {
+void TTecMegid::run_task() {
     u32 i;
-    self->source = find_entity_by_id(self->sourceId);
-    if (self->source == NULL) {
-        ((TObject *)self)->queue_destruction();
+    source = (uaddr)find_entity_by_id(sourceId);
+    if (source == 0) {
+        queue_destruction();
         return;
     }
-    for (i = 0; i < ((Data_80235740 *)TTecMegid__emitter_bands)[self->band].count; i++) {
-        if (((Data_80235740 *)TTecMegid__emitter_bands)[self->band].rows[i].flags & 4) {
+    for (i = 0; i < ((Data_80235740 *)TTecMegid__emitter_bands)[band].count; i++) {
+        if (((Data_80235740 *)TTecMegid__emitter_bands)[band].rows[i].flags & 4) {
             Vec off = tec_megid_offset_vec;
             Vec p;
             push_matrix_from(identity_matrix);
-            rotate_matrix_y(0, self->f58);
+            rotate_matrix_y(0, angles[1]);
             matrix_mult_vec(0, &off, &off);
             pop_matrices(1);
-            p.x = self->pos.x + off.x;
-            p.y = self->pos.y + off.y;
-            p.z = self->pos.z + off.z;
-            ((TParticleCtrl *)self->emitters[i])->set_position(&p);
+            p.x = position.x + off.x;
+            p.y = position.y + off.y;
+            p.z = position.z + off.z;
+            ((TParticleCtrl *)emitters[i])->set_position(&p);
         } else {
-            ((TParticleCtrl *)self->emitters[i])->set_position(&self->pos);
+            ((TParticleCtrl *)emitters[i])->set_position(&position);
         }
     }
-    ((TTecShot *)self)->move_technique_projectile();
-    ((TTecShot *)self)->advance_lifetime_or_destroy();
-    ((TTecShot *)self)->dispatch_technique_contact(1);
+    move_technique_projectile();
+    advance_lifetime_or_destroy();
+    dispatch_technique_contact(1);
 }
 
 // The aimed form: the technique flies from `pos` towards `target`.

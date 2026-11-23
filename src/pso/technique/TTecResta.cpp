@@ -29,20 +29,7 @@ const char *TTecResta__name = "TTecResta";
 struct Row_8023967C { s32 delay; s32 duration; s32 entry; u32 flags; };
 
 
-struct Target_802399F8 { u16 id; u8 pad[6]; };
 
-struct Resta_802399F8 {
-    u8 pad0[0x1C];
-    uaddr source;
-    u8 pad1[0xA4 - 0x20];
-    s16 level;
-    u8 pad2[0xA8 - 0xA6];
-    u16 source_id;
-    u8 pad3[0xE0 - 0xAA];
-    s32 count;
-    Target_802399F8 targets[11];
-    s32 captured;
-};
 
 struct HitInfo_8023985C { s32 type; f32 power; };
 
@@ -113,7 +100,6 @@ Row_8023967C TTecResta__self_recovery_effect_table[3] = {
 };
 void set_owner_id__13TParticleCtrlFUs(void *, s32);
 void deliver_technique_to_party_targets(void *);
-void run_task__9TTecRestaFv(Resta_802399F8 *self);
 s32 is_split_screen(void);
 int spawn_support_tec_range_effect(void*);
 
@@ -174,34 +160,34 @@ TTecResta::~TTecResta() {
 
 }
 
-void run_task__9TTecRestaFv(Resta_802399F8 *self) {
-    uaddr target;
+void TTecResta::run_task() {
+    uaddr member;
     s32 i;
-    self->source = (uaddr)find_entity_by_id(self->source_id);
-    if (TTecLuker::is_parents_unqueued(self->source) == 0) {
-        ((TObject *)self)->queue_destruction();
+    source = (uaddr)find_entity_by_id(m_a8);
+    if (TTecLuker::is_parents_unqueued(source) == 0) {
+        queue_destruction();
         return;
     }
-    if (self->captured != 0) {
-        if (self->level <= 1) {
-            ((TTecResta *)self)->vfunc_7((void *)self->source);
+    if (m_13c != 0) {
+        if (m_a4 <= 1) {
+            vfunc_7((void *)source);
         } else {
-            ((TTecResta *)self)->vfunc_7((void *)self->source);
-            if (self->count != 0) {
-                for (i = 0; i < self->count; i++) {
-                    target = (uaddr)find_entity_by_id(self->targets[i].id);
-                    if (TTecLuker::is_parents_unqueued(target) != 0) {
-                        ((TTecResta *)self)->vfunc_7((void *)target);
+            vfunc_7((void *)source);
+            if (targets.count != 0) {
+                for (i = 0; i < targets.count; i++) {
+                    member = (uaddr)find_entity_by_id(targets.records[i].id);
+                    if (TTecLuker::is_parents_unqueued(member) != 0) {
+                        vfunc_7((void *)member);
                     }
                 }
             }
         }
-    } else if (self->level <= 1) {
-        ((TTecResta *)self)->vfunc_7((void *)self->source);
+    } else if (m_a4 <= 1) {
+        vfunc_7((void *)source);
     } else {
-        deliver_technique_to_party_targets(self);
+        deliver_technique_to_party_targets(this);
     }
-    ((TObject *)self)->queue_destruction();
+    queue_destruction();
 }
 
 void TTecResta::render() {  }

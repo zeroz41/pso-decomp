@@ -274,9 +274,6 @@ TUnk_804CCB28::~TUnk_804CCB28() {
 }
 
 extern TObject *tl_particle;
-extern "C" {
-void run_task__10TTecRaFoieFv(TTecRaFoie *arg0);
-}
 
 TUnk_804CCB28::TUnk_804CCB28(Vec *pos, s16 band, s16 level, TObject *parent, f32 radius) : TObject(parent) {
     Vec raised;
@@ -335,28 +332,28 @@ void TTecRaFoie::vfunc_6(void *target) {
 
 void TTecRaFoie::render() {  }
 
-void run_task__10TTecRaFoieFv(TTecRaFoie *self) {
+void TTecRaFoie::run_task() {
     TObjChara *chara;
-    if (self->collidable == 0) {
-        self->queue_destruction();
+    if (collidable == 0) {
+        queue_destruction();
         return;
     }
-    self->source = (uaddr)find_entity_by_id(self->sourceId);
-    if (self->source == 0) {
-        self->queue_destruction();
+    source = (uaddr)find_entity_by_id(sourceId);
+    if (source == 0) {
+        queue_destruction();
         return;
     }
-    if (self->m_148 == 1) {
-        self->update_detonation(&self->target);
+    if (m_148 == 1) {
+        update_detonation(&target);
         return;
     }
-    if (self->m_targets.count == 0) {
-        self->queue_destruction();
+    if (m_targets.count == 0) {
+        queue_destruction();
         return;
     }
-    chara = (TObjChara *)find_entity_by_id(self->m_targets.records[0].id);
+    chara = (TObjChara *)find_entity_by_id(m_targets.records[0].id);
     if (TTecLuker::is_parents_unqueued((uaddr)chara) != 0 && TObjPlayer::is_valid_and_active((uaddr)chara) != 0) {
-        self->update_detonation(&chara->body_center);
+        update_detonation(&chara->body_center);
     }
 }
 
