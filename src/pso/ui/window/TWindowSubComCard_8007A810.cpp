@@ -79,10 +79,10 @@ s32 copy_card__17TWindowSubComCardFiPv(saddr arg0, u8 *arg1) {
     GuildCardSlot *dest = reinterpret_cast<GuildCardSlot *>(arg0);
     GuildCardSlot *src = reinterpret_cast<GuildCardSlot *>(arg1);
     ((s32 (*)(s32))forward_return_arg__17TWindowSubComCardFi)(arg0);
-    dest->unknown_90[0] = src->unknown_90[0];
-    dest->unknown_90[1] = src->unknown_90[1];
-    dest->unknown_90[2] = src->unknown_90[2];
-    dest->unknown_90[3] = src->unknown_90[3];
+    dest->pad_90[0] = src->pad_90[0];
+    dest->pad_90[1] = src->pad_90[1];
+    dest->pad_90[2] = src->pad_90[2];
+    dest->pad_90[3] = src->pad_90[3];
     dest->note = src->note;
     return arg0;
 }

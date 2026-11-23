@@ -28,7 +28,7 @@ struct GuildCardNote {
 
 struct GuildCardSlot {
     GuildCardEntry entry;
-    u8 unknown_90[4];
+    u8 pad_90[4];
     GuildCardNote note;
 };
 
