@@ -51,9 +51,9 @@ const char *fe_obj_doa_kanban_motion_names[3] = {"fe_obj_doa_oya.njm", "taiki_fe
 BmlResourceDescriptor door_resource_descriptor = {
     "fe_obj_doa_kanban.bml", fe_obj_doa_kanban_model_names, fe_obj_doa_kanban_motion_names, 5, 2,
 };
-CollisionBody TObjDoor__collision_desc = {{0.0f, 0.0f, 0.0f}, 10.0f, 40.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
+CollisionBody TObjDoor::collision_desc = {{0.0f, 0.0f, 0.0f}, 10.0f, 40.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
 /* label colour (a, r, g, b) per door id */
-NJS_ARGB TObjDoor__label_color_table[10] = {
+NJS_ARGB TObjDoor::label_color_table[10] = {
     { 1.0f, 0.8235294f, 0.09803922f, 0.09803922f },
     { 1.0f, 0.09803922f, 0.09803922f, 0.8235294f },
     { 1.0f, 0.8235294f, 0.8235294f, 0.09803922f },
@@ -65,12 +65,12 @@ NJS_ARGB TObjDoor__label_color_table[10] = {
     { 1.0f, 0.8235294f, 0.09803922f, 0.39215687f },
     { 1.0f, 1.0f, 1.0f, 1.0f },
 };
-const char *TObjDoor__name = "TObjDoor";
+const char *TObjDoor::name = "TObjDoor";
 
-DoorMotionHeader *TObjDoor__motion_table[2];
-DoorModelSet TObjDoor__model_resource_ptrs;
+DoorMotionHeader *TObjDoor::motion_table[2];
+DoorModelSet TObjDoor::model_resource_ptrs;
 
-GinjaTextureList *TObjDoor__resource_param;
+GinjaTextureList *TObjDoor::resource_param;
 BmlResource *door_resource_handle;
 s32 TObjDoor__data_805D5BC8;
 
@@ -83,19 +83,19 @@ void *TObjDoorJung::create(void *set_data) {
 void TObjDoor::load_resources() {
     BmlResource *p = new BmlResource(5, &door_resource_descriptor, 0, 0, NULL);
     door_resource_handle = p;
-    TObjDoor__resource_param = (GinjaTextureList *)load_gvm_texture_file("fe_obj_door.gvm");
-    TObjDoor__model_resource_ptrs.f0 = get_bml_model((BmlResource *)door_resource_handle, 4);
-    TObjDoor__model_resource_ptrs.f4 = get_bml_model((BmlResource *)door_resource_handle, 3);
-    TObjDoor__model_resource_ptrs.c = (Node_8018E358 *)get_bml_model((BmlResource *)door_resource_handle, 0);
-    TObjDoor__model_resource_ptrs.a = (Node_8018E358 *)get_bml_model((BmlResource *)door_resource_handle, 1);
-    TObjDoor__model_resource_ptrs.b = (Node_8018E358 *)get_bml_model((BmlResource *)door_resource_handle, 2);
-    TObjDoor__motion_table[0] = (DoorMotionHeader *)get_bml_motion(door_resource_handle, 0);
-    TObjDoor__motion_table[1] = (DoorMotionHeader *)get_bml_motion(door_resource_handle, 1);
+    resource_param = (GinjaTextureList *)load_gvm_texture_file("fe_obj_door.gvm");
+    model_resource_ptrs.f0 = get_bml_model((BmlResource *)door_resource_handle, 4);
+    model_resource_ptrs.f4 = get_bml_model((BmlResource *)door_resource_handle, 3);
+    model_resource_ptrs.c = (Node_8018E358 *)get_bml_model((BmlResource *)door_resource_handle, 0);
+    model_resource_ptrs.a = (Node_8018E358 *)get_bml_model((BmlResource *)door_resource_handle, 1);
+    model_resource_ptrs.b = (Node_8018E358 *)get_bml_model((BmlResource *)door_resource_handle, 2);
+    motion_table[0] = (DoorMotionHeader *)get_bml_motion(door_resource_handle, 0);
+    motion_table[1] = (DoorMotionHeader *)get_bml_motion(door_resource_handle, 1);
 }
 
 void TObjDoor::free_resources() {
-    TObjPlayer::free_if_valid((saddr)TObjDoor__resource_param);
-    TObjDoor__resource_param = NULL;
+    TObjPlayer::free_if_valid((saddr)resource_param);
+    resource_param = NULL;
     if (door_resource_handle != NULL) {
         delete (BmlResource *)door_resource_handle;
         door_resource_handle = NULL;
@@ -107,7 +107,7 @@ void *TObjDoor::create(void *set_data) {
 }
 
 TObjDoor::TObjDoor(TObject *parent, void *set_data) : TObjCollidable(parent) {
-    this->m_name = TObjDoor__name;
+    this->m_name = name;
     apply_object_set_data(set_data);
     this->state = 0;
     this->accentFrame = 0.0f;
@@ -125,7 +125,7 @@ TObjDoor::TObjDoor(TObject *parent, void *set_data) : TObjCollidable(parent) {
     if (this->cameraMode > 1) {
         this->cameraMode = 1;
     }
-    init_collision_body_parts(this, &TObjDoor__collision_desc, 1);
+    init_collision_body_parts(this, &collision_desc, 1);
     this->actorFlags |= 0x40000000;
     register_object_by_id();
 }
@@ -180,7 +180,7 @@ void TObjDoor::update_state() {
         }
         if(this->cameraTicks>60) {
             this->accentFrame+=(2.0f);
-            if(this->accentFrame>(TObjDoor__motion_table[1]->frameCount-1))this->accentFrame=(0.0f);
+            if(this->accentFrame>(motion_table[1]->frameCount-1))this->accentFrame=(0.0f);
         }
         return;
     case 2:
@@ -192,8 +192,8 @@ void TObjDoor::update_state() {
     case 4:
         play_persistent_sound(0x49e08, (saddr)this, (uaddr)&this->position, 0, 0);
         this->frame+=(1.8f);
-        if(this->frame>(TObjDoor__motion_table[0]->frameCount-1)) {
-            this->frame=(TObjDoor__motion_table[0]->frameCount-1);this->state=5;
+        if(this->frame>(motion_table[0]->frameCount-1)) {
+            this->frame=(motion_table[0]->frameCount-1);this->state=5;
         }
         break;
     case 3:
@@ -247,7 +247,7 @@ s32 TObjDoor::is_visible(f32 far_dist, f32 near_dist) {
 
 void TObjDoor::update_locked_pulse() {
     this->accentFrame += 2.0f;
-    if (this->accentFrame > TObjDoor__motion_table[1]->frameCount - 1) this->accentFrame = 0.0f;
+    if (this->accentFrame > motion_table[1]->frameCount - 1) this->accentFrame = 0.0f;
     this->phase += 0x300;
     this->glow = 0.2f * sin_table_lookup(this->phase) + 0.4f;
 }
@@ -261,7 +261,7 @@ void TObjDoor::update_anim() {
 
 void TObjDoor::draw_closed_glow() {
     this->frame += 1.5f;
-    if (this->frame > TObjDoor__motion_table[0]->frameCount - 1) this->frame = 0.0f;
+    if (this->frame > motion_table[0]->frameCount - 1) this->frame = 0.0f;
     this->glow += 0.05f;
     if (this->glow > 0.5f) this->glow = 0.5f;
 }
@@ -281,25 +281,25 @@ void TObjDoor::update_opening_glow() {
 void TObjDoor::fn_8018E890() {}
 
 void TObjDoor::draw_locked() {
-    TObjFish::set_global_param(TObjDoor__resource_param);
+    TObjFish::set_global_param(resource_param);
     push_matrix();
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
-    draw_ginja_object(TObjDoor__model_resource_ptrs.f0);
+    draw_ginja_object(model_resource_ptrs.f0);
     TParticleCtrl::begin_effect_render();
-    draw_ginja_model_with_motion(TObjDoor__model_resource_ptrs.f4, TObjDoor__motion_table[1], this->accentFrame);
+    draw_ginja_model_with_motion(model_resource_ptrs.f4, motion_table[1], this->accentFrame);
     saved_model_render_flags = model_render_flags;
     model_render_flags |= 0x10;
-    NJS_ARGB color = TObjDoor__label_color_table[this->label];
+    NJS_ARGB color = label_color_table[this->label];
     color.a = this->glow;
     set_constant_material(&color);
-    DoorModelSet *g0 = &TObjDoor__model_resource_ptrs;
+    DoorModelSet *g0 = &model_resource_ptrs;
     set_ginja_model_texture_slot(reinterpret_cast<void *>((g0->c->f4)), ((u16)this->label));
     draw_ginja_object(g0->c);
     model_render_flags = saved_model_render_flags;
-    DoorModelSet *g1 = &TObjDoor__model_resource_ptrs;
+    DoorModelSet *g1 = &model_resource_ptrs;
     set_ginja_model_texture_slot(reinterpret_cast<void *>((g1->a->f4)), 0xB);
-    DoorModelSet *g2 = &TObjDoor__model_resource_ptrs;
+    DoorModelSet *g2 = &model_resource_ptrs;
     set_ginja_model_texture_slot(reinterpret_cast<void *>((g2->b->f4)), 0xB);
     draw_ginja_object(g1->a);
     draw_ginja_object(g2->b);
@@ -316,24 +316,24 @@ void TObjDoor::update_timer() {
 }
 
 void TObjDoor::draw_closed() {
-    TObjFish::set_global_param(TObjDoor__resource_param);
+    TObjFish::set_global_param(resource_param);
     push_matrix();
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
-    draw_ginja_object(TObjDoor__model_resource_ptrs.f0);
+    draw_ginja_object(model_resource_ptrs.f0);
     TParticleCtrl::begin_effect_render();
     saved_model_render_flags = model_render_flags;
     model_render_flags |= 0x10;
-    NJS_ARGB color = TObjDoor__label_color_table[this->label];
+    NJS_ARGB color = label_color_table[this->label];
     color.a = this->glow;
     set_constant_material(&color);
-    DoorModelSet *g0 = &TObjDoor__model_resource_ptrs;
+    DoorModelSet *g0 = &model_resource_ptrs;
     set_ginja_model_texture_slot(reinterpret_cast<void *>((g0->c->f4)), ((u16)this->label));
     draw_ginja_object(g0->c);
     model_render_flags = saved_model_render_flags;
-    DoorModelSet *g1 = &TObjDoor__model_resource_ptrs;
+    DoorModelSet *g1 = &model_resource_ptrs;
     set_ginja_model_texture_slot(reinterpret_cast<void *>((g1->a->f4)), 0xA);
-    DoorModelSet *g2 = &TObjDoor__model_resource_ptrs;
+    DoorModelSet *g2 = &model_resource_ptrs;
     set_ginja_model_texture_slot(reinterpret_cast<void *>((g2->b->f4)), 0xA);
     draw_ginja_object(g1->a);
     draw_ginja_object(g2->b);
@@ -342,15 +342,15 @@ void TObjDoor::draw_closed() {
 }
 
 void TObjDoor::draw_closing() {
-    TObjFish::set_global_param(TObjDoor__resource_param);
+    TObjFish::set_global_param(resource_param);
     push_matrix();
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
-    draw_ginja_model_with_motion(TObjDoor__model_resource_ptrs.f0, TObjDoor__motion_table[0], this->frame);
+    draw_ginja_model_with_motion(model_resource_ptrs.f0, motion_table[0], this->frame);
     TParticleCtrl::begin_effect_render();
-    DoorModelSet *g1 = &TObjDoor__model_resource_ptrs;
+    DoorModelSet *g1 = &model_resource_ptrs;
     set_ginja_model_texture_slot(reinterpret_cast<void *>((g1->a->f4)), 0xA);
-    DoorModelSet *g2 = &TObjDoor__model_resource_ptrs;
+    DoorModelSet *g2 = &model_resource_ptrs;
     set_ginja_model_texture_slot(reinterpret_cast<void *>((g2->b->f4)), 0xA);
     draw_ginja_object(g1->a);
     draw_ginja_object(g2->b);
@@ -359,24 +359,24 @@ void TObjDoor::draw_closing() {
 }
 
 void TObjDoor::fn_8018E40C() {
-    TObjFish::set_global_param(TObjDoor__resource_param);
+    TObjFish::set_global_param(resource_param);
     push_matrix();
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
-    draw_ginja_model_with_motion(TObjDoor__model_resource_ptrs.f0, TObjDoor__motion_table[0], this->frame);
+    draw_ginja_model_with_motion(model_resource_ptrs.f0, motion_table[0], this->frame);
     TParticleCtrl::begin_effect_render();
     saved_model_render_flags = model_render_flags;
     model_render_flags |= 0x10;
-    NJS_ARGB color = TObjDoor__label_color_table[this->label];
+    NJS_ARGB color = label_color_table[this->label];
     color.a = this->glow;
     set_constant_material(&color);
-    DoorModelSet *g0 = &TObjDoor__model_resource_ptrs;
+    DoorModelSet *g0 = &model_resource_ptrs;
     set_ginja_model_texture_slot(reinterpret_cast<void *>((g0->c->f4)), ((u16)this->label));
     draw_ginja_object(g0->c);
     model_render_flags = saved_model_render_flags;
-    DoorModelSet *g1 = &TObjDoor__model_resource_ptrs;
+    DoorModelSet *g1 = &model_resource_ptrs;
     set_ginja_model_texture_slot(reinterpret_cast<void *>((g1->a->f4)), 0xA);
-    DoorModelSet *g2 = &TObjDoor__model_resource_ptrs;
+    DoorModelSet *g2 = &model_resource_ptrs;
     set_ginja_model_texture_slot(reinterpret_cast<void *>((g2->b->f4)), 0xA);
     draw_ginja_object(g1->a);
     draw_ginja_object(g2->b);
@@ -385,15 +385,15 @@ void TObjDoor::fn_8018E40C() {
 }
 
 void TObjDoor::draw_model() {
-    TObjFish::set_global_param(TObjDoor__resource_param);
+    TObjFish::set_global_param(resource_param);
     push_matrix();
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
-    draw_ginja_model_with_motion(TObjDoor__model_resource_ptrs.f0, TObjDoor__motion_table[0], this->frame);
+    draw_ginja_model_with_motion(model_resource_ptrs.f0, motion_table[0], this->frame);
     TParticleCtrl::begin_effect_render();
-    DoorModelSet *g1 = &TObjDoor__model_resource_ptrs;
+    DoorModelSet *g1 = &model_resource_ptrs;
     set_ginja_model_texture_slot(reinterpret_cast<void *>((g1->a->f4)), 0xA);
-    DoorModelSet *g2 = &TObjDoor__model_resource_ptrs;
+    DoorModelSet *g2 = &model_resource_ptrs;
     set_ginja_model_texture_slot(reinterpret_cast<void *>((g2->b->f4)), 0xA);
     draw_ginja_object(g1->a);
     draw_ginja_object(g2->b);

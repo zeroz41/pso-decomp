@@ -2,6 +2,13 @@
 #define PSO_OBJECT_DOOR_TOBJDOOR_H
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
+
+struct CollisionBody;
+struct DoorModelSet;
+struct DoorMotionHeader;
+struct GinjaTextureList;
+struct NJS_ARGB;
+
 struct TObjDoor : public TObjCollidable {
     TObjDoor(TObject *parent, void *set_data);
     virtual ~TObjDoor();
@@ -39,6 +46,13 @@ struct TObjDoor : public TObjCollidable {
     static void load_resources();
     static void set_main_warp_id(int a0);
     static void *create(void *set_data);
+
+    static CollisionBody collision_desc;
+    static NJS_ARGB label_color_table[10];
+    static const char *name;
+    static DoorMotionHeader *motion_table[2];
+    static DoorModelSet model_resource_ptrs;
+    static GinjaTextureList *resource_param;
 };
 LAYOUT_ASSERT(TObjDoor_size, sizeof(TObjDoor)==0xD4);
 extern "C" s32 TObjDoor__data_805D5BC8;

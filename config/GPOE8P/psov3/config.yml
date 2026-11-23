@@ -1032,10 +1032,10 @@ force_active:
   - TObjDoaEx01__resource_descriptor
   - TObjDoorKey__collision_body_parts
   - TObjDoorKey__resource_descriptor
-  - TObjDoor__collision_desc
+  - collision_desc__8TObjDoor
   - __ct__8TObjDoorFP7TObjectPv
-  - TObjDoor__label_color_table
-  - TObjDoor__resource_param
+  - label_color_table__8TObjDoor
+  - resource_param__8TObjDoor
   - fn_8018E890__8TObjDoorFv
   - fn_8018E8BC__8TObjDoorFv
   - __ct__17TObjEZBoneRotBaseFP7TObjectPvP13EZBoneRotDesc
