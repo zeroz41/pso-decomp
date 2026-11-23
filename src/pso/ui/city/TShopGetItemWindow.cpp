@@ -36,10 +36,10 @@ TWindowMenuIconLine *create_item_list_window(s32, s32, s32);
 extern const char *TShopGetItemWindow__class_name;
 
 const char *TShopGetItemWindow__class_name = "TShopGetItemWindow";
-TShopGetItemWindow::TShopGetItemWindow(void *parent, void *owner, void *player) : TShopWindowBase((TObject *)parent) {
+TShopGetItemWindow::TShopGetItemWindow(TObject *parent, TShopWindowBase *owner, TObjPlayer *player) : TShopWindowBase(parent) {
     m_name = TShopGetItemWindow__class_name;
     state = 0;
-    this->player = (TObjPlayer *)player;
+    this->player = player;
     withdraw_count = 1;
     pad_4C = 0;
     last_cursor = 0;
@@ -49,7 +49,7 @@ TShopGetItemWindow::TShopGetItemWindow(void *parent, void *owner, void *player) 
     confirm_menu = 0;
     number_input = 0;
     help_window = 0;
-    sequence = (TShopWindowBase *)owner;
+    sequence = owner;
     ((TItemData *)(&displayed_item_colored))->init();
 }
 

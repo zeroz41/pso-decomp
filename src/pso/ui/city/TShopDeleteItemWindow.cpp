@@ -40,10 +40,10 @@ struct Base_80337948_80337910 { char pad[0x18]; };
 struct VBase_80337B00 { char pad[0x18]; };
 struct Base_80337980_80337910 { char pad[0x18]; };
 const char *TShopDeleteItemWindow__name = "TShopDeleteItemWindow";
-TShopDeleteItemWindow::TShopDeleteItemWindow(void *parent, void *owner, void *player) : TShopWindowBase((TObject *)parent) {
+TShopDeleteItemWindow::TShopDeleteItemWindow(TObject *parent, TShopWindowBase *owner, TObjPlayer *player) : TShopWindowBase(parent) {
     m_name = TShopDeleteItemWindow__name;
     state = 0;
-    this->player = (TObjPlayer *)player;
+    this->player = player;
     delete_count = 1;
     pad_54 = 0;
     last_cursor = 0;
@@ -53,7 +53,7 @@ TShopDeleteItemWindow::TShopDeleteItemWindow(void *parent, void *owner, void *pl
     confirm_menu = 0;
     number_input = 0;
     help_window = 0;
-    sequence = (TShopWindowBase *)owner;
+    sequence = owner;
     ((TItemData *)(&displayed_item_colored))->init();
 }
 

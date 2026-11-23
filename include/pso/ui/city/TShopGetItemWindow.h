@@ -12,7 +12,7 @@ struct TWindowInputNumber;
 struct TWindowHelpItem;
 
 struct TShopGetItemWindow : public TShopWindowBase {
-    TShopGetItemWindow(void *arg1, void *arg2, void *arg3);
+    TShopGetItemWindow(TObject *parent, TShopWindowBase *owner, TObjPlayer *player);
     virtual ~TShopGetItemWindow();
     virtual void update_state();
     virtual void display_message(const char *text, s32 flags);

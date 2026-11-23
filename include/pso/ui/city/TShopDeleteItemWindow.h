@@ -12,7 +12,7 @@ struct TWindowInputNumber;
 struct TWindowHelpItem;
 
 struct TShopDeleteItemWindow : public TShopWindowBase {
-    TShopDeleteItemWindow(void *arg1, void *arg2, void *arg3);
+    TShopDeleteItemWindow(TObject *parent, TShopWindowBase *owner, TObjPlayer *player);
     virtual ~TShopDeleteItemWindow();
     void sub_80337E2C();
     virtual void update_state();
