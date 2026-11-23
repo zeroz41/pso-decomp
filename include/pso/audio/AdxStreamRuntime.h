@@ -26,7 +26,9 @@ typedef struct AdxStreamPlayer {
     s32 f48;
     u8 pad_4C[0x60 - 0x4C];
     s16 f60;
-    u8 pad_62[0x70 - 0x62];
+    u8 pad_62[0x6C - 0x62];
+    s8 loop_flag;
+    u8 pad_6D[0x70 - 0x6D];
     s8 f70;
     u8 f71;
     s8 f72;

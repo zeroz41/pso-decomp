@@ -404,17 +404,17 @@ void TLobby__sub_803CAEB4(Conn_803CAEB4 *o) {
 }
 
 void TLobby__sub_803CB194(void *context) {
-    u8 *arg0 = static_cast<u8 *>(context);
+    AdxStreamPlayer *arg0 = static_cast<AdxStreamPlayer *>(context);
     s32 temp_r3;
-    u8 *lobby;
-    lobby = (u8 *)(*(u8 **)((s8 *)arg0 + 8));
-    temp_r3 = ((TLobby *)(*(saddr *)((s8 *)arg0 + 4)))->send_with_offset4_alt();
-    if ((s8) *(u8 *)((s8 *)arg0 + 0x6C) == 0) {
-        set_field_3c__6TLobbyFl((int) (*(s32 *)((s8 *)arg0 + 4)), -1);
-        set_scroll_position__6TLobbyFl(*(AdxStreamFile **)(arg0 + 8), 0x7FFFFFFF);
+    AdxStreamFile *lobby;
+    lobby = arg0->f8;
+    temp_r3 = ((TLobby *)arg0->f4)->send_with_offset4_alt();
+    if (arg0->loop_flag == 0) {
+        set_field_3c__6TLobbyFl((int)arg0->f4, -1);
+        set_scroll_position__6TLobbyFl(arg0->f8, 0x7FFFFFFF);
         return;
     }
-    set_scroll_offset__6TLobbyFl((AdxStreamFile *)lobby, temp_r3 / 2048);
+    set_scroll_offset__6TLobbyFl(lobby, temp_r3 / 2048);
 }
 
 void adxt_trap_entry_update__6TLobbyFPv(Obj_803CB20C *arg0) {
