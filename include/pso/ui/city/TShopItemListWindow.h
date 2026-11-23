@@ -23,15 +23,15 @@ struct TShopItemListWindow : public TShopWindowBase {
     uaddr help_window;    // TWindowHelpItem
     uaddr status_window;  // TWindowSubStatusDisp
     uaddr cost_window;    // create_cost_window
-    u32 m_44;
-    u8 _pad48[0x4];
-    u32 m_4c;
-    u32 m_50;
-    u32 m_54;
+    u32 pad_44;
+    s32 item_count;       // rows of shop_items in use
+    u32 purchase_step;    // handle_amount_confirm: 0 choosing the amount, 1 the yes / no menu
+    u32 purchase_count;   // how many to buy
+    s32 last_cursor;      // the row the help, status and cost windows show
     // Each copied shop item stores its meseta price in data2.
     TItemData shop_items[16];
     u8 _pad198[0x28];
-    u32 m_1c0;
+    u32 pad_1C0;
     void handle_confirm();
     void update();
     static void handle_tool_list_select(void *p);

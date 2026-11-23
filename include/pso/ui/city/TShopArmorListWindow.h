@@ -4,6 +4,7 @@
 #include "types.h"
 #include <stddef.h>
 #include "pso/ui/city/TShopWindowBase.h"
+#include "pso/item/TItemData.h"
 
 class TWindowBase;
 
@@ -21,21 +22,16 @@ struct TShopArmorListWindow : public TShopWindowBase {
     TWindowBase *help_window; // 0x34: a TWindowHelpItem
     uaddr m_38;
     TWindowBase *cost_window; // 0x3C: create_cost_window
-    u32 m_40;
-    u8 _pad44[0x4];
-    u32 m_48;
-    u8 unk_4C[0x26];
-    s16 m_72;
-    s16 m_74;
-    u8 unk_76[0x2];
-    s16 m_78;
-    u8 unk_7A[0x2];
-    s32 cursor_value;
-    u8 unk_80[0x170];
-    u32 m_1f0;
-    u32 m_1f4;
+    u32 pad_40;
+    s32 item_count;           // 0x44: rows of stock in use
+    s32 last_cursor;          // 0x48: the row the help window shows
+    TItemData stock[16];      // 0x4C: the counter's items; data2 holds the price
+    u8 pad_18C[0x64];
+    u32 can_equip;            // 0x1F0: check_purchase_eligibility clears it for a unit
+    void (*on_close)(TShopWindowBase *sequence);  // 0x1F4: called with sequence when the player leaves
     void update_selection(void *arg1);
     void handle_equip_offer();
+    void handle_buy_confirm();
     void open_menu_window();
     void advance_to_preparation_phase();
     void update();

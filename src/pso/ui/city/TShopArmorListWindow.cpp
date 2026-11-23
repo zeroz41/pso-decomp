@@ -112,7 +112,6 @@ saddr get_window_layout_position(s32);
 extern const s32 local_client_id;
 s32 play_sound_effect(int, int, int, int);
 void send_6x25_equip_item(void *arg0, s32 arg1, s32 arg2);
-void handle_buy_confirm__20TShopArmorListWindowFv(Win_8021A634 *w);
 s32 TLobby__sub_8021B274();
 s32 get_shop_text(s32);
 void *__ct__15TWindowHelpItemFPvl(void *, s32, s32);
@@ -131,11 +130,11 @@ TShopArmorListWindow::TShopArmorListWindow(TObject *parent, TShopWindowBase *seq
     this->help_window = NULL;
     this->m_38 = 0;
     this->cost_window = NULL;
-    this->m_40 = 0;
+    this->pad_40 = 0;
     this->state = 0;
-    this->m_48 = 0;
-    this->m_1f4 = 0;
-    this->m_1f0 = 0;
+    this->last_cursor = 0;
+    this->on_close = 0;
+    this->can_equip = 0;
     calc_item_count((TObjPlayer *)this->player, &count);
     TLobby::set_shop_armor_list_flag(get_split_screen_slot(), count);
 }
@@ -164,41 +163,40 @@ TShopArmorListWindow::~TShopArmorListWindow() {
 }
 
 void TShopArmorListWindow::update_state() {
-    u8 *arg0 = (u8 *)this;
-    s32 (*temp_r12)(s32);
-    switch (*(u32 *)((s8 *)arg0 + 0x20)) {
+    void (*callback)(TShopWindowBase *);
+    switch (state) {
     case 0:
-        TShopArmorListWindow::refresh_item_list(arg0);
-        ((TShopWindowBase *)arg0)->set_state(1);
+        refresh_item_list(this);
+        set_state(1);
         return;
     case 1:
-        ((TShopArmorListWindow *)arg0)->handle_selection();
+        handle_selection();
         return;
     case 2:
-        ((TShopArmorListWindow *)arg0)->handle_equip_offer();
+        handle_equip_offer();
         return;
     case 3:
     case 10:
-        temp_r12 = *(s32 (**)(s32))((s8 *)arg0 + 0x1F4);
-        if (temp_r12 != NULL) {
-            temp_r12(*(s32 *)((s8 *)arg0 + 0x28));
+        callback = on_close;
+        if (callback != NULL) {
+            callback(sequence);
         }
-        ((TObject *)arg0)->queue_destruction();
+        queue_destruction();
         return;
     case 5:
-        ((TShopArmorListWindow *)arg0)->handle_select();
+        handle_select();
         return;
     case 6:
-        ((TShopArmorListWindow *)arg0)->update();
+        update();
         return;
     case 7:
-        ((TShopArmorListWindow *)arg0)->advance_to_preparation_phase();
+        advance_to_preparation_phase();
         return;
     case 8:
-        ((TShopArmorListWindow *)arg0)->open_menu_window();
+        open_menu_window();
         return;
     case 9:
-        handle_buy_confirm__20TShopArmorListWindowFv((Win_8021A634 *)(arg0));
+        handle_buy_confirm();
     default:
         return;
     }

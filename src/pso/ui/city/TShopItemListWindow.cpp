@@ -103,12 +103,12 @@ TShopItemListWindow::TShopItemListWindow(TObject *parent, TShopWindowBase *seque
     this->help_window = 0;
     this->status_window = 0;
     this->cost_window = 0;
-    this->m_44 = 0;
-    this->m_50 = 0;
+    this->pad_44 = 0;
+    this->purchase_count = 0;
     this->state = 0;
-    this->m_1c0 = 0;
-    this->m_4c = 0;
-    this->m_54 = 0;
+    this->pad_1C0 = 0;
+    this->purchase_step = 0;
+    this->last_cursor = 0;
     calc_item_count((TObjPlayer *)this->player, &count);
     TLobby::set_6264_and_call_2244B0(get_split_screen_slot(), count);
 }
@@ -322,7 +322,7 @@ void TShopItemListWindow::prepare_tool_purchase() {
             if (quantity_input != 0U && TLobby::is_camera_ctrl_active() > 2) {
                 ((TWindowInputNumber *)(quantity_input))->set_scale(0.75f, 0.75f);
             }
-            m_4c = 0;
+            purchase_step = 0;
             set_state(2);
             return;
         }
@@ -334,8 +334,8 @@ void TShopItemListWindow::prepare_tool_purchase() {
         confirm_menu->set_ready_flag();
         f32 scale = get_scale();
         ((TWindowAddition *)confirm_menu)->set_position_xy(get_scale(), scale);
-        m_50 = 1;
-        m_4c = 1;
+        purchase_count = 1;
+        purchase_step = 1;
         set_state(2);
     }
 }
@@ -345,7 +345,7 @@ void TShopItemListWindow::handle_amount_confirm() {
     s32 sel;
     s32 n;
 
-    switch (m_4c) {
+    switch (purchase_step) {
     case 0:
         if (quantity_input != 0U && ((TWindowInputNumber *)quantity_input)->is_confirmed() != 0) {
             if (confirm_menu == NULL) {
@@ -358,10 +358,10 @@ void TShopItemListWindow::handle_amount_confirm() {
                 f32 scale = get_scale();
                 ((TWindowAddition *)confirm_menu)->set_position_xy(get_scale(), scale);
             }
-            m_50 = ((TWindowInputNumber *)quantity_input)->get_value();
+            purchase_count = ((TWindowInputNumber *)quantity_input)->get_value();
             ((TWindowBase *)quantity_input)->close();
             quantity_input = 0U;
-            m_4c = 1;
+            purchase_step = 1;
         }
         if (quantity_input != 0U && ((TWindowInputNumber *)quantity_input)->is_cancelled() != 0) {
             ((TWindowBase *)quantity_input)->close();
@@ -381,7 +381,7 @@ void TShopItemListWindow::handle_amount_confirm() {
                     TItemData item = shop_items[sel];
                     item.id = advance_item_id_counter(local_client_id);
                     if (TCheckRoomSequence::get_item_def((uaddr)&item) != 0) {
-                        item.set_stack_count(m_50);
+                        item.set_stack_count(purchase_count);
                     }
                     try_buy_item(player, &item);
                     if (status_window != 0U) {

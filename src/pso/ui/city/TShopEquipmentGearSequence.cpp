@@ -168,7 +168,7 @@ void TShopEquipmentGearSequence::update_buy_sell_choice(void *self) {
 
 void TShopEquipmentGearSequence::open_armor_list_window() {
     TShopArmorListWindow *o = new TShopArmorListWindow(tl_05, this, player);
-    o->m_1f4 = (uaddr)enter_quest_list;
+    o->on_close = enter_quest_list;
     reset_controller_input_state();
     this->set_state(5);
 }
