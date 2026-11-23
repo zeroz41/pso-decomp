@@ -10,6 +10,7 @@
 #include "pso/system/vector.h"
 #include "pso/quest/QuestScriptFormat.h"
 #include "pso/system/data/FlagWord.h"
+#include "pso/system/GbaDownloadRuntime.h"
 #include "types.h"
 #include "pso/object/warp/ForestWarpResources.h"
 #include "pso/unk/TLobby_801E43E4.h"
@@ -275,11 +276,8 @@ void TLobby::sync_quest_register_and_send() { TLobby::bswap_header(this); send_s
 void TLobby::bswap_header(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16__FPUs((char*)p + 0x4); bswap_16__FPUs((char*)p + 0x6); bswap_32__FPUl((char*)p + 0x8); }
 void build_6x77_sync_quest_register(void* p) { *(u8*)((char*)p + 0x0) = 119; *(u8*)((char*)p + 0x1) = 3; }
 
-    extern int warning_aram_load_done_flag;
-
 int TLobby::get_field_6CE8() {  return warning_aram_load_done_flag; }
 
-    extern int lobby_count_value;
 int TLobby::get_lobby_count() {  return lobby_count_value; }
 
 void TLobby__sub_801F3614(void) { lobby_count_value = 0; }

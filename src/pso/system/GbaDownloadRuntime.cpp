@@ -6,7 +6,8 @@
 #include "pso/network/GbaJoybootState.h"
 #include "pso/system/GbaDownloadRuntime.h"
 #include "pso/unk/TLobby_801F2D2C.h"
-#include "pso/ui/frontend/TAdWarningBaseGC_8032CE1C.h"
+#include "pso/ui/TUnk_804EDBD0.h"
+#include "pso/ui/frontend/TAdWarningBaseGC.h"
 #include "pso/system/date.h"
 #include "pso/unk/TLobby.h"
 #include "pso/render/TDLGraph.h"
@@ -114,8 +115,8 @@ void TLobby::update_alloc_size() {
         return;
     }
     if ((u32) gba_download_data_buffer != 0U) {
-        load_from_aram_sync__16TAdWarningBaseGCFi(gba_download_data_buffer);
-        gba_download_data_size = get_alloc_size__16TAdWarningBaseGCFv();
+        TAdWarningBaseGC::load_from_aram_sync(gba_download_data_buffer);
+        gba_download_data_size = TAdWarningBaseGC::get_alloc_size();
         return;
     }
     gba_download_data_size = 0U;
@@ -138,7 +139,6 @@ u8 TLobby::get_selected_slot() {
     return 0U;
 }
 
-#include "pso/ui/frontend/TAdWarningBaseGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 GbaJoybootState TLobby__data_805434A8[1];
 
@@ -275,8 +275,6 @@ void TLobby__sub_8032CDC0(void) { lbl_805D6CD9 = 0; lbl_805D6CDA = 0; }
 
 void reset_joyboot_state(void* p) { *(s16*)((char*)p + 0x0) = 0; *(s16*)((char*)p + 0x2) = 0; *(s16*)((char*)p + 0x4) = 0; *(u8*)((char*)p + 0x6) = 0; *(u8*)((char*)p + 0x7) = 0; }
 
-    extern int warning_aram_load_done_flag;
-    extern int TAdWarningBaseGC__aram_alloc_size;
 void TLobby__sub_8032CDEC(void) { TAdWarningBaseGC__aram_alloc_size = 0; warning_aram_load_done_flag = 0; }
 
-void TAdWarningBaseGC::destroy() { queue_destruction(); }
+void TUnk_804EDBD0::destroy() { queue_destruction(); }

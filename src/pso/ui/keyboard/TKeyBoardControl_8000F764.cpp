@@ -48,6 +48,7 @@
 #include "pso/unk/text_803E2F28.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 #include "pso/unk/TLobby_80243370.h"
+#include "pso/system/GbaDownloadRuntime.h"
 
 void update_music_sequencer(void);
 extern "C" {
@@ -118,7 +119,6 @@ void TCharaMaking__sub_8028E790(void);
 }
 s32 verify_game_file_integrity();
 extern "C" {
-void gba_init(void);
 u32 OSInitAlloc(u32, u32, int);
 s32 VIInit();
 s32 PADInit();
@@ -135,7 +135,6 @@ void init_system_heap_and_global_allocator(u8 *start, s32 size);
 extern "C" {
 s32 init_pad_slots_and_read__16TKeyBoardControlFv(int, int, int);
 int OSResetSystem(void*, void*, void*);
-void TAdWarningBaseGC__sub_8032D188(void);
 void TLobby__sub_80147978(void);
 void TLobby__sub_8020E3BC(void);
 }

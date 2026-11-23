@@ -6063,7 +6063,7 @@ force_active:
   - enter_low_flight_mode__13TBoss5GryphonFv
   - enter_offscreen_mode__13TBoss5GryphonFv
   - enter_release_state__11TBoss6Type1Fv
-  - enter_request_state__16TAdWarningBaseGCFv
+  - enter_request_state__13TUnk_804EDBD0Fv
   - enter_serial_formatted_buffer
   - enter_slime_state__15TObjEneSlimeOneFv
   - enter_state8__15TObjEneDelDepthFv
@@ -14549,7 +14549,7 @@ force_active:
   - request_action__11TObjNpcBaseFl
   - request_action__12TObjNpcEnemyFl
   - request_action__8TItemMagFl
-  - request_aram_load_state__16TAdWarningBaseGCFPv
+  - request_aram_load_state__13TUnk_804EDBD0Fv
   - request_change_game_mode__11TTitleSceneFv
   - request_close__22THunterGuildSeqOfflineFP15TShopWindowBase
   - request_death_effect__18TObjEneRe4SorcererFv
@@ -17744,7 +17744,7 @@ force_active:
   - vt4__9TBoss4UroFv
   - update_sink_state__9TBoss4UroFv
   - vt6__9TBoss4UroFv
-  - wait_aram_request__16TAdWarningBaseGCFv
+  - wait_aram_request__13TUnk_804EDBD0Fv
   - wait_for_message__12TQuestListVMFv
   - wait_for_players__12TBoss1DragonFl
   - wait_for_players__13TBoss5GryphonFl

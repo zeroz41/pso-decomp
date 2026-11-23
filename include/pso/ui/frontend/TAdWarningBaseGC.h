@@ -19,15 +19,17 @@ struct TAdWarningBaseGC : public TObject {
     s32 next_state;          // 0x24: entered when the closing state's frames run out
     s32 frames;              // 0x28: frames spent in the closing state
     TWindowBase *message_window; // 0x2C: sub_8032D214's message window
-    void destroy();
     static void create();
     static void init_heap();
+    static s32 load_from_aram_sync(int buf);
+    static int get_alloc_size();
+    static s32 post_aram_request(int buf, int size);
 };
 
 LAYOUT_ASSERT(TAdWarningBaseGC_size, sizeof(TAdWarningBaseGC) == 0x30);
 
 extern "C" {
-void clear_aram_request_busy(void);
+void clear_aram_request_busy(uaddr request);
 }
 
 #endif

@@ -8,6 +8,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/GbaDownloadRuntime.h"
 
 const char *lbl_805D4208 = "TAdWarningBaseGC";
 static const f32 lbl_80477334[2] = {46.0f, 131.0f};
@@ -16,8 +17,7 @@ static const f32 lbl_8047733C[2] = {548.0f, 220.0f};
 extern "C" {
 void play_sound_effect(int, int, int, int);
 
-    extern int aram_request_busy_flag;
-void clear_aram_request_busy(void) { aram_request_busy_flag = 0; }
+void clear_aram_request_busy(uaddr request) { aram_request_busy_flag = 0; }
 
 
 void TAdWarningBaseGC::vfunc_9() {
