@@ -14,15 +14,6 @@
 #include <string.h>
 #pragma readonly_strings on
 
-struct MeasuredMessageText {
-    u16 flags;
-    u8 pad2[0x10 - 2];
-    f32 width;
-    f32 height;
-    u8 pad18[0x20 - 0x18];
-    s8 *text;
-};
-
 struct Win_8025AD5C { u16 flags; u8 pad2[6]; f32 f8; f32 fC; u8 pad10[8]; f32 f18; f32 f1C; s8 *text; s32 i24; };
 
 struct Ref_8025AD5C { u8 pad0[0x10]; f32 f10; f32 f14; f32 f18; u8 pad1c[0x30 - 0x1C]; s32 i30; u8 pad34[4]; f32 f38; u8 pad3c[8]; f32 f44; };
@@ -30,10 +21,10 @@ struct Ref_8025AD5C { u8 pad0[0x10]; f32 f10; f32 f14; f32 f18; u8 pad1c[0x30 - 
 extern "C" {
 u8 get_small_font_glyph_width(u8);
 s32 TWindowSubStatusDisp__sub_800FC248(u8);
-s8 *parse_text_control_codes(s8 *, s32 *, s32);
+char *parse_text_control_codes(char *, s32 *, s32);
 u8 get_font_char_advance(u16);
 u16 map_char_to_font_code(u16);
-void measure_message_text_width(MeasuredMessageText *msg, f32 maxw);
+void measure_message_text_width(TUnk_804CFA28 *msg, f32 maxw);
 void render_text_entry(Win_8025AD5C *arg0, Ref_8025AD5C *arg1);
 
 void *lbl_804CFA28[6] = {
@@ -65,7 +56,7 @@ extern const u32 lbl_805DCFC4 = 0x3F000000;
 
 #pragma push
 #pragma fp_contract on
-void measure_message_text_width(MeasuredMessageText *msg, f32 maxw) {
+void measure_message_text_width(TUnk_804CFA28 *msg, f32 maxw) {
     s32 sjis;
     f32 adv;
     f32 lineh;
@@ -73,10 +64,10 @@ void measure_message_text_width(MeasuredMessageText *msg, f32 maxw) {
     f32 y;
     f32 x;
     f32 limit;
-    s8 *p;
+    char *p;
     s32 small;
     s32 c;
-    s8 ch;
+    char ch;
     u8 w;
     if (msg->text == NULL || *msg->text == 0) {
         msg->width = K_CFAC;
