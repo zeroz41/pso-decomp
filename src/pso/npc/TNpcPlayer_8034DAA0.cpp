@@ -113,7 +113,6 @@ void set_tp__10TObjPlayerFs(Player_8034DAA0 *, s32);
 
 struct TNpcPlayerTemplateTable { s32 value; u8 remaining[0x9FC]; };
 extern TNpcPlayerTemplateTable TNpcPlayer__template_table;
-void construct_partner__10TNpcPlayerFPviisPv(void *, u16, u16, s32, void *);
 
 typedef struct VBase_18_dac7f3 VBase_18_dac7f3;
 typedef struct VObj_18_dac7f3 VObj_18_dac7f3;
@@ -214,7 +213,6 @@ u16 get_entity_id(s32);
 void send_6x21_inter_level_warp(void *obj, s32 value);
 void send_6x24_teleport_player(u16 slot, void *pos, s32 heading);
 f32 atan2_float(f32, f32);
-void TNpcPlayer__ct(void *, u16, u16, s16, s32, void *);
 void handle_6x69_npc_control(Pkt_8034E814 *pkt);
 
 }
@@ -396,7 +394,6 @@ void TNpcPlayer::send_npc_control_6x69(s32 arg0) {
 void handle_6x69_npc_control(Pkt_8034E814 *pkt) {
     u16 client;
     TObjPlayer *p;
-    void *o;
     s32 i;
     ((TNpcPlayer *)pkt)->byteswap_header();
     client = pkt->client;
@@ -419,10 +416,7 @@ void handle_6x69_npc_control(Pkt_8034E814 *pkt) {
             p->reset_motion_fields();
             p->set_npc_controller((u16)local_client_id);
             p->set_npc_control_state(pkt->state);
-            o = TObject::operator new(0xE8);
-            if (o != NULL) {
-                construct_partner__10TNpcPlayerFPviisPv(o, (u16)local_client_id, pkt->target, pkt->state, tl_00);
-            }
+            new TNpcPlayer((u16)local_client_id, pkt->target, pkt->state, tl_00);
         } else {
             p = (TObjPlayer *)create_player_object(pkt->target, 4, load_npc_player_template(pkt->state));
             if (p != NULL) {
@@ -457,10 +451,7 @@ void handle_6x69_npc_control(Pkt_8034E814 *pkt) {
             p->reset_motion_fields();
             p->set_npc_controller((u16)local_client_id);
             p->set_npc_control_state(pkt->state);
-            o = TObject::operator new(0xE8);
-            if (o != NULL) {
-                TNpcPlayer__ct(o, (u16)local_client_id, pkt->target, pkt->state, 1, tl_00);
-            }
+            new TNpcPlayer((u16)local_client_id, pkt->target, pkt->state, 1, tl_00);
         } else {
             p = (TObjPlayer *)create_player_object(pkt->target, 4, load_npc_player_template(pkt->state));
             if (p != NULL) {
@@ -780,7 +771,6 @@ s32 get_party_yaw(void) {
 }
 
 TUnk_804F07C8::TUnk_804F07C8(TObject *parent) : TObject(parent) {
-    void *task;
     s32 slot;
     u8 *player;
     partner_count = 0;
@@ -789,10 +779,7 @@ TUnk_804F07C8::TUnk_804F07C8(TObject *parent) : TObject(parent) {
         if (player == NULL || reinterpret_cast<TObjPlayer *>(player)->obj_isState3_324() == 0 || ((TObjPlayer *)player)->get_npc_controller() == 0xFFFF) {
             continue;
         }
-        task = TObject::operator new(0xE8);
-        if (task != NULL) {
-            construct_partner__10TNpcPlayerFPviisPv(task, ((TObjPlayer *)player)->get_npc_controller(), (u16) slot, ((TObjPlayer *)player)->get_npc_control_state(), tl_00);
-        }
+        new TNpcPlayer(((TObjPlayer *)player)->get_npc_controller(), (u16)slot, ((TObjPlayer *)player)->get_npc_control_state(), tl_00);
         partner_count++;
     }
 }

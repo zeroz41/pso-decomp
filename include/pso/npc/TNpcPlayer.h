@@ -17,6 +17,8 @@ struct Unk_8014F844Entry {
 
 // The 0x108-byte record TNpcPlayer allocates twice (m_74, m_78).
 struct Unk_8014F844 {
+    Unk_8014F844(s32 id);
+
     s32 m_0;
     Unk_8014F844Entry m_4[10];
     s32 m_7c;
@@ -35,6 +37,14 @@ struct Unk_8014F844 {
     s32 m_104;
 };
 LAYOUT_ASSERT(Unk_8014F844_size, sizeof(Unk_8014F844) == 0x108);
+
+// Eleven per-action counters the partner AI steps and tests.
+struct Unk_80152A48 {
+    Unk_80152A48();
+    void clear();
+
+    s16 count[11];
+};
 
 struct Vec;
 
@@ -58,6 +68,8 @@ struct TNpcPlayer : public TObject {
         void copy_entry_by_index(s32 arg1);
     };
 
+    TNpcPlayer(u16 a, u16 b, int kind, TObject *parent);
+    TNpcPlayer(u16 a, u16 b, int kind, s32 arg4, TObject *parent);
     virtual ~TNpcPlayer();
     void deliver_partner_action();
     virtual void run_task();
@@ -72,7 +84,7 @@ struct TNpcPlayer : public TObject {
     u8 _pad2E[0x2];
     AiParams ai_params;
     f32 m_58;
-    s16 m_5c[11];
+    Unk_80152A48 m_5c;
     u8 _pad72[0x2];
     Unk_8014F844 *m_74;
     Unk_8014F844 *m_78;
@@ -120,7 +132,6 @@ struct TNpcPlayer : public TObject {
     s32 get_condition();
     s32 get_action_state();
     void reset_fields_8c();
-    void*init();
     void update();
     void update_players();
     void update_lobby();
