@@ -1840,7 +1840,7 @@ force_active:
   - TWindowSubComCard__sub_8027353C
   - TWindowSubEquipList__class_name
   - TWindowSubEquipList__ct
-  - TWindowSubGameEnd__class_name
+  - class_name__17TWindowSubGameEnd
   - TWindowSubItemList__class_name
   - TWindowSubItemList__ct
   - TWindowSubItem__sub_8027AA30
@@ -5523,7 +5523,7 @@ force_active:
   - create_texture_wave_tasks__6TSceneFl
   - create_time_window2__6TLobbyFPv
   - create_time_window__6TLobbyFPv
-  - create_title_window__19TWindowSubTechniqueFv
+  - create_title_window__19TWindowSubTechniqueFl
   - create_trade_menu__19TWindowSubTradeMainFv
   - create_trade_window__19TWindowSubTradeMainFv
   - create_warp_id_string__16TObjMapForceWarpFPv
