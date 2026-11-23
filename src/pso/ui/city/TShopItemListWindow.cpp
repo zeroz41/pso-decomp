@@ -197,7 +197,7 @@ void TShopItemListWindow::build_item_list(void *p) {
         }
         ((TWindowMenuIconLine *)W->list)->calc_content_extent();
         ((TWindowMenuIconLine *)((saddr)W->list))->clear_decided();
-        ((TShopArmorListWindow *)(W->list))->clamp_selection_to_valid_entry();
+        ((TWindowMenuIconLine *)(W->list))->clamp_selection_to_valid_entry();
     }
     if (W->help == NULL) {
         o = TObject::operator new(0xBC);
@@ -392,7 +392,7 @@ void TShopItemListWindow::handle_amount_confirm() {
                     if (is_single_purchase_shop_item((u8 *)&shop_items[sel]) != 0) {
                         mark_shop_tool_sold_out(sel, sub_8022397C__15TShopWindowBaseFv(this));
                     }
-                    ((TShopArmorListWindow *)item_list)->save_cursor_selection();
+                    ((TWindowMenuIconLine *)item_list)->save_cursor_selection();
                 }
                 ((TWindowBase *)confirm_menu)->close();
                 confirm_menu = NULL;

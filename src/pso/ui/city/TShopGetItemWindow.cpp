@@ -137,7 +137,7 @@ void TShopGetItemWindow::rebuild_item_list() {
         TItemData item;
         s32 count;
         s32 j;
-        ((TShopArmorListWindow *)m_28)->save_cursor_selection();
+        ((TWindowMenuIconLine *)m_28)->save_cursor_selection();
         m_28->reset_list();
         for (j = 0; j < 0xC8; j++) {
             if (copy_bank_item_with_stack_limit(j, &item, &count, x) != 0) {
@@ -148,7 +148,7 @@ void TShopGetItemWindow::rebuild_item_list() {
                 }
             }
         }
-        ((TShopArmorListWindow *)m_28)->clamp_selection_to_valid_entry();
+        ((TWindowMenuIconLine *)m_28)->clamp_selection_to_valid_entry();
         m_28->calc_content_extent();
         m_28->clear_decided();
         sel = ((TShopGetItemWindow *)m_28)->get_cursor_index();

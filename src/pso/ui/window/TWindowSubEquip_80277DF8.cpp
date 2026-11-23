@@ -144,16 +144,16 @@ s32 TWindowSubEquip::open_equip_kind_list(u32 arg1) {
         ((TWindowSubMag *)equip_kind_window)->init_and_setup((void*)0);
         break;
     case 2:
-        ((TShopArmorListWindow *)equip_kind_window)->save_and_refresh_cursor((void*)1, (void*)1);
+        ((TWindowMenuIconLine *)equip_kind_window)->refresh_armor_equip_list(1, 1);
         break;
     case 9:
     case 10:
     case 11:
     case 12:
-        ((TShopArmorListWindow *)equip_kind_window)->save_and_refresh_cursor((void*)1, (void*)3);
+        ((TWindowMenuIconLine *)equip_kind_window)->refresh_armor_equip_list(1, 3);
         break;
     case 3:
-        ((TShopArmorListWindow *)equip_kind_window)->save_and_refresh_cursor((void*)1, (void*)2);
+        ((TWindowMenuIconLine *)equip_kind_window)->refresh_armor_equip_list(1, 2);
         break;
     case 1:
         ((TWindowSubMag *)equip_kind_window)->init_and_setup((void*)2);

@@ -113,7 +113,7 @@ void populate_sub_item_list(Win_8027ABFC *arg0) {
     }
 }
 
-void TWindowSubItem::refresh() { ((TShopArmorListWindow *)this)->save_cursor_selection(); ((TWindowMenuIconLine *)this)->reset_list(); populate_sub_item_list((Win_8027ABFC*)(this)); ((TShopArmorListWindow *)this)->clamp_selection_to_valid_entry(); ((TWindowSubStatusDisp *)this)->clamp_scroll_offset(); reset_selected(); }
+void TWindowSubItem::refresh() { ((TWindowMenuIconLine *)this)->save_cursor_selection(); ((TWindowMenuIconLine *)this)->reset_list(); populate_sub_item_list((Win_8027ABFC*)(this)); ((TWindowMenuIconLine *)this)->clamp_selection_to_valid_entry(); ((TWindowSubStatusDisp *)this)->clamp_scroll_offset(); reset_selected(); }
 
 void TWindowSubItem__sub_8027AB10(Wn_8027AB10 *arg0) {
     s32 i;

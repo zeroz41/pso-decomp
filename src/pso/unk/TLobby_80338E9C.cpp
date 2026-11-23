@@ -33,8 +33,8 @@ void TWindowMenuTeamStatus::init(u32 count, s32 id) {
     entry_count = 0;
     cursor = 0;
     entry_capacity = count;
-    m_78 = 0;
-    m_7c = 0;
+    saved_cursor = 0;
+    saved_cursor_value = 0;
     state_flags = 0;
     status_display = 0;
     scroll_bar = 0;

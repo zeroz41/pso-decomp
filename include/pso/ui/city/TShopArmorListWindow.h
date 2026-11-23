@@ -43,11 +43,6 @@ struct TShopArmorListWindow : public TShopWindowBase {
     void handle_selection();
     s32 check_purchase_eligibility();
     static void refresh_item_list(void *p);
-    void clamp_selection_to_valid_entry();
-    void save_cursor_selection();
-    void close_list();
-    void save_and_refresh_cursor(void* kind, void* sub);
-    void save_and_close();
 };
 
 LAYOUT_ASSERT(TShopArmorListWindow_size, sizeof(TShopArmorListWindow) == 0x1F8);

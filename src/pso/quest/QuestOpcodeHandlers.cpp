@@ -108,6 +108,7 @@ int qst_label_address(int label);
 #include "pso/camera/TCameraPan.h"
 #include "pso/system/TTokenList.h"
 #include "pso/unk/TUnk_804999D0.h"
+#include "pso/ui/window/TWindowMenuIconLine.h"
 u8 *qst_code;
 s32 *qst_function_table;
 s32 *qst_registers;
@@ -954,7 +955,6 @@ void create_quest_telepipe_for_client(u16 client);
 void close_window_if_active(void *p);
 extern "C" {
 saddr get_window_layout_position(s32);
-s32 save_and_close__20TShopArmorListWindowFv();
 saddr create_equip_kind_window(saddr, const f32 *, s32);
 s32 update_screen__6TLobbyFv();
 s32 set_challenge_split_flag__6TLobbyFv();
@@ -1155,7 +1155,7 @@ void qst_op_prevent_item_select(s32 reg) {
 
 void qst_op_open_pack_select() {
     qst_pack_select_window = (void *)create_equip_kind_window(get_window_layout_position(3), pack_select_window_pos, local_client_id);
-    save_and_close__20TShopArmorListWindowFv();
+    ((TWindowMenuIconLine *)qst_pack_select_window)->refresh_judgment_item_list();
     qst_pack_select_help_window = new TWindowHelpItem((void *)get_window_layout_position(2), local_client_id);
 }
 

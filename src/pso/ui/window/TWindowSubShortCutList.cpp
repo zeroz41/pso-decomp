@@ -32,7 +32,7 @@ void TWindowSubShortCutList::refresh_entries() {
     s32 temp_r0;
     s32 var_r30;
     s32 index;
-    ((TShopArmorListWindow *)this)->save_cursor_selection();
+    save_cursor_selection();
     reset_list();
     index = storage->get_type();
     var_r30 = 0;
@@ -61,7 +61,7 @@ void TWindowSubShortCutList::refresh_entries() {
         var_r30 += 1;
         index += 1;
     } while (var_r30 < 4);
-    ((TShopArmorListWindow *)this)->clamp_selection_to_valid_entry();
+    clamp_selection_to_valid_entry();
 }
 
 void *TWindowSubShortCutList::create(void *index) {

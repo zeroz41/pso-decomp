@@ -369,7 +369,7 @@ saddr TWindowSubMag::create_list() {
     ((TWindowMenuIconLine *)equip_kind_window)->ensure_status_display((saddr)TWindowSubStatusDisp::get_message_10(0x24));
     ((TWindowBase *)equip_kind_window)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)parent, 2));
     ((TWindowSubShortCutList *)equip_kind_window)->set_flag70_bit10();
-    ((TShopArmorListWindow *)equip_kind_window)->close_list();
+    ((TWindowMenuIconLine *)equip_kind_window)->refresh_usable_item_list();
     return equip_kind_window;
 }
 

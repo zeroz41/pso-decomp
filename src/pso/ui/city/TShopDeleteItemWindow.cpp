@@ -148,7 +148,7 @@ void TShopDeleteItemWindow::sub_80337E2C() {
         TItemData item;
         s32 count;
         s32 j;
-        ((TShopArmorListWindow *)m_30)->save_cursor_selection();
+        ((TWindowMenuIconLine *)m_30)->save_cursor_selection();
         m_30->reset_list();
         for (j = 0; j < 200; j++) {
             if (copy_bank_item_with_stack_limit(j, &item, &count, base) != 0) {
@@ -159,7 +159,7 @@ void TShopDeleteItemWindow::sub_80337E2C() {
                 }
             }
         }
-        ((TShopArmorListWindow *)m_30)->clamp_selection_to_valid_entry();
+        ((TWindowMenuIconLine *)m_30)->clamp_selection_to_valid_entry();
         m_30->calc_content_extent();
         m_30->clear_decided();
         cursor = ((TShopGetItemWindow *)m_30)->get_cursor_index();

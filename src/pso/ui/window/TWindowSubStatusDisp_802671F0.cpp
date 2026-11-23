@@ -85,30 +85,28 @@ void TWindowSubTradeMain::close() {
 
 }
 
-struct Win_80266CF8 { u8 p0[0x72]; s16 f72; s16 f74; u8 p76[2]; s16 index; };
-
 extern "C" {
 
-void TShopArmorListWindow::clamp_selection_to_valid_entry() {
-    Win_80266CF8 *w = (Win_80266CF8 *)this;
+// Puts the cursor back on the saved row, or the nearest selectable row above it.
+void TWindowMenuIconLine::clamp_selection_to_valid_entry() {
     void *e;
-    if (w->f72 >= 0) {
-        if (w->index >= w->f72) {
-            w->f74 = w->f72 - 1;
+    if (entry_count >= 0) {
+        if (saved_cursor >= entry_count) {
+            cursor = entry_count - 1;
             return;
         }
-        e = (void *)((TWindowBase *)w)->get_array_entry(w->index);
+        e = get_array_entry(saved_cursor);
         while (((TWindowLayoutEntry *)e)->is_flag_4_set() == 0) {
-            w->index = w->index - 1;
-            e = (void *)((TWindowBase *)w)->get_array_entry(w->index);
+            saved_cursor = saved_cursor - 1;
+            e = get_array_entry(saved_cursor);
         }
-        w->f74 = w->index;
+        cursor = saved_cursor;
     }
 }
 
-void TShopArmorListWindow::save_cursor_selection() {
-    this->m_78 = (s16) this->m_74;
-    this->cursor_value = ((TWindowMenuIconLine *)this)->get_cursor_value();
+void TWindowMenuIconLine::save_cursor_selection() {
+    saved_cursor = cursor;
+    saved_cursor_value = get_cursor_value();
 }
 void TWindowMenuIconLine::reset_list() {
     u32 i;

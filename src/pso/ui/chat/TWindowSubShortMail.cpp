@@ -401,7 +401,7 @@ s32 TWindowSubShortMail::refresh_mail_list(void *mail_list) {
     id = ((TWindowMenuIconLine *)mail_list)->get_cursor_value();
     sel = -1;
     TLobby::clear_lobby_flag();
-    ((TShopArmorListWindow *)mail_list)->save_cursor_selection();
+    ((TWindowMenuIconLine *)mail_list)->save_cursor_selection();
     ((TWindowMenuIconLine *)mail_list)->reset_list();
     n = TLobby::get_short_mail_ctrl();
     i = n - 1;
@@ -424,7 +424,7 @@ s32 TWindowSubShortMail::refresh_mail_list(void *mail_list) {
         this->mail_id = -1;
     }
     if (sel == -1) {
-        ((TShopArmorListWindow *)mail_list)->clamp_selection_to_valid_entry();
+        ((TWindowMenuIconLine *)mail_list)->clamp_selection_to_valid_entry();
         return 0;
     }
     ((TWindowSubShortCutList *)mail_list)->set_cursor_index(sel);

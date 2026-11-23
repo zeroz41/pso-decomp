@@ -148,7 +148,7 @@ void TShopEquipmentListWindow::create_buy_list_windows() {
     if (this->item_list == NULL) {
         this->item_list = (TWindowMenuIconLine *)create_item_list_window(get_shop_text(0x26), this->item_count, this->player->get_entity_id());
     } else {
-        ((TShopArmorListWindow *)this->item_list)->save_cursor_selection();
+        this->item_list->save_cursor_selection();
         this->item_list->reset_list();
     }
     if (this->item_list != NULL) {
@@ -160,7 +160,7 @@ void TShopEquipmentListWindow::create_buy_list_windows() {
         }
         this->item_list->calc_content_extent();
         this->item_list->clear_decided();
-        ((TShopArmorListWindow *)this->item_list)->clamp_selection_to_valid_entry();
+        this->item_list->clamp_selection_to_valid_entry();
     }
     if (this->help_window == NULL) {
         this->help_window = new TWindowHelpItem((void *)get_window_layout_position(0x27), this->player->get_entity_id());
@@ -304,7 +304,7 @@ void TShopEquipmentListWindow::handle_buy_confirm() {
                 if (is_single_purchase_shop_item((u8 *)&stock[i]) != 0) {
                     TLobby::clear_slot_field_f10(i, sub_8022397C());
                 }
-                ((TShopArmorListWindow *)item_list)->save_cursor_selection();
+                item_list->save_cursor_selection();
             }
             confirm_menu->close();
             confirm_menu = NULL;
@@ -321,7 +321,7 @@ void TShopEquipmentListWindow::handle_buy_confirm() {
                 if (is_single_purchase_shop_item((u8 *)&stock[i]) != 0) {
                     TLobby::clear_slot_field_f10(i, sub_8022397C());
                 }
-                ((TShopArmorListWindow *)item_list)->save_cursor_selection();
+                item_list->save_cursor_selection();
             }
             confirm_menu->close();
             confirm_menu = NULL;
@@ -339,7 +339,7 @@ void TShopEquipmentListWindow::handle_buy_confirm() {
             if (is_single_purchase_shop_item((u8 *)&stock[i]) != 0) {
                 TLobby::clear_slot_field_f10(i, sub_8022397C());
             }
-            ((TShopArmorListWindow *)item_list)->save_cursor_selection();
+            item_list->save_cursor_selection();
         }
         confirm_menu->close();
         confirm_menu = NULL;
