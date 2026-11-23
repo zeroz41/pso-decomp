@@ -3,6 +3,8 @@
 
 #include "types.h"
 
+struct ObjectSetData;
+
 // The start every ItemPMT record shares (lookup_item_pmt_record): its id and
 // the ItemModel.afs / ItemTexture.afs file indices of the item's model.
 struct ItemPmtHeader {
@@ -91,7 +93,7 @@ struct TItemData {
     void add_weapon_stat_bonuses(s32 player, s16 *out, s32 unused, s16 *out2, s32 _w5);
     void set_wrapped();
     void set_packed_value(u16 kill_count);
-    void unpack_from_item(void *item);
+    void unpack_from_item(ObjectSetData *set);
     void pack_three_colors(u8 *in);
     s32 calc_action_flags(s32 mask, u8 *player);
     s32 calc_price();

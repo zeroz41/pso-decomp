@@ -6,6 +6,7 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/system/byteswap.h"
 #include "pso/object/warp/TObjWarpBossMulti.h"
+#include "pso/object/base/ObjectSetData.h"
 #include "pso/item/TItemData.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/city/TShopEquipmentListWindow.h"
@@ -561,43 +562,43 @@ void bswap__9TItemDataFv(saddr arg0) {
 s32 TItemData::get_name_style() { return 0; }
 void TItemData::convert_from_version(s32) {}
 
-void TItemData::unpack_from_item(void *item) {
+void TItemData::unpack_from_item(ObjectSetData *set) {
     s32 mag;
     u8 temp_r0;
 
-    if (item != NULL) {
+    if (set != NULL) {
         init();
-        this->data1.data_u8[0] = (u8) (((u32) *(u32 *)((s8 *)item + 0x30) >> 0x18U) & 0xF);
-        this->data1.data_u8[1] = (u8) ((u32) *(u32 *)((s8 *)item + 0x30) >> 0x10U);
+        this->data1.data_u8[0] = (u8) (((u32) set->set_params[0] >> 0x18U) & 0xF);
+        this->data1.data_u8[1] = (u8) ((u32) set->set_params[0] >> 0x10U);
         temp_r0 = this->data1.data_u8[0];
         if ((temp_r0 == 0) || (temp_r0 == 1)) {
             this->data1.data_u8[1] = (u8) (this->data1.data_u8[1] + 1);
         }
-        this->data1.data_u8[2] = (u8) ((u32) *(u32 *)((s8 *)item + 0x30) >> 8U);
+        this->data1.data_u8[2] = (u8) ((u32) set->set_params[0] >> 8U);
         switch ((s32) (this->data1.data_u8[0])) {
         case 0:
-            this->data1.data_u8[6] = (u8) ((u32) *(u32 *)((s8 *)item + 0x34) >> 8U);
-            *(s8 *)((s8 *)this + 7) = (s8) *(u32 *)((s8 *)item + 0x34);
-            *(s8 *)((s8 *)this + 8) = (s8) ((u32) *(u32 *)((s8 *)item + 0x38) >> 0x18U);
-            this->data1.data_u8[9] = (u8) ((u32) *(u32 *)((s8 *)item + 0x38) >> 0x10U);
-            this->data1.data_u8[10] = (u8) ((u32) *(u32 *)((s8 *)item + 0x38) >> 8U);
-            *(s8 *)((s8 *)this + 0xB) = (s8) *(u32 *)((s8 *)item + 0x38);
-            *(s8 *)((s8 *)this + 3) = (s8) ((u32) *(u32 *)((s8 *)item + 0x34) >> 0x18U);
-            this->data1.data_u8[4] = (u8) *(u32 *)((s8 *)item + 0x30);
+            this->data1.data_u8[6] = (u8) ((u32) set->set_params[1] >> 8U);
+            this->data1.data_u8[7] = (u8) set->set_params[1];
+            this->data1.data_u8[8] = (u8) ((u32) set->set_params[2] >> 0x18U);
+            this->data1.data_u8[9] = (u8) ((u32) set->set_params[2] >> 0x10U);
+            this->data1.data_u8[10] = (u8) ((u32) set->set_params[2] >> 8U);
+            this->data1.data_u8[11] = (u8) set->set_params[2];
+            this->data1.data_u8[3] = (u8) ((u32) set->set_params[1] >> 0x18U);
+            this->data1.data_u8[4] = (u8) set->set_params[0];
             return;
         case 3:
             if ((u8) this->data1.data_u8[1] == 2) {
-                this->data1.data_u8[4] = (u8) *(u32 *)((s8 *)item + 0x30);
+                this->data1.data_u8[4] = (u8) set->set_params[0];
             }
             set_stack_count(1);
             return;
         case 4:
-            *(s32 *)((s8 *)this + 0x10) = (s32) (((u32) *(u32 *)((s8 *)item + 0x34) >> 0x10U) * 0xA);
+            this->data2.data_u32 = (s32) (((u32) set->set_params[1] >> 0x10U) * 0xA);
             return;
         case 1:
-            *(s8 *)((s8 *)this + 5) = (s8) *(u32 *)((s8 *)item + 0x30);
-            *(s8 *)((s8 *)this + 3) = (s8) ((u32) *(u32 *)((s8 *)item + 0x34) >> 0x18U);
-            this->data1.data_u8[4] = (u8) ((u32) *(u32 *)((s8 *)item + 0x34) >> 0x10U);
+            this->data1.data_u8[5] = (u8) set->set_params[0];
+            this->data1.data_u8[3] = (u8) ((u32) set->set_params[1] >> 0x18U);
+            this->data1.data_u8[4] = (u8) ((u32) set->set_params[1] >> 0x10U);
             return;
         case 2:
             ((MagStats *)(&mag))->init();

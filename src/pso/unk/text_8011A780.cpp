@@ -8,6 +8,7 @@
 #include <stddef.h>
 #include "pso/unk/TLobby.h"
 #include "pso/item/TItemData.h"
+#include "pso/object/base/ObjectSetData.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/TLobby_80207644.h"
@@ -46,8 +47,6 @@ struct BoxDrop_8011A868 {
     f32 x; f32 z; s16 room; s16 x12; s8 slot; u8 pad15[3];
     f32 fixed; u32 params[3];
 };
-
-struct BoxSet_8011A868 { u8 pad0[0x2C]; f32 fixed; u32 params[3]; };
 
 struct Source_8011AB64 { u32 a; u16 claim; u16 b; u32 c; };
 
@@ -96,7 +95,7 @@ void observe_item_id(s32 item_id) {
 
 void handle_box_drop_directive(void *arg0) {
     BoxDrop_8011A868 *req = (BoxDrop_8011A868 *)arg0;
-    BoxSet_8011A868 set;
+    ObjectSetData set;
     TItemData item;
     u32 id;
     s16 source = req->source;
@@ -106,12 +105,12 @@ void handle_box_drop_directive(void *arg0) {
             id = build_item_id(row.drop_id_base);
             row.drop_id_base = 0xFFFF;
             TLobby::apply_table_entry(source, &row);
-            set.fixed = req->fixed;
-            set.params[0] = req->params[0];
-            set.params[1] = req->params[1];
-            set.params[2] = req->params[2];
+            set.scale.z = req->fixed;
+            set.set_params[0] = req->params[0];
+            set.set_params[1] = req->params[1];
+            set.set_params[2] = req->params[2];
             item.unpack_from_item(&set);
-            if (0.0f == set.fixed) {
+            if (0.0f == set.scale.z) {
                 const u8 data0 = item.data1.data_u8[0];
                 const u8 data1 = item.data1.data_u8[1];
                 item.init();

@@ -22,15 +22,15 @@ void TLobby__sub_803C5B50(AdxStreamPlayer *player, s32 arg1, s32 arg2, s32 arg3)
     SjChunk b2;
     SjRingBuffer *src;
     SjRingBuffer *dst;
-    u8 *ctx;
+    AdxEncoder *enc;
     TLobby::clear_buffer_1680();
     src = sj_ring_buffer_create(adx_stream_ring_buffer, 0x400, 0);
     arr[0] = sj_ring_buffer_create(adx_stream_ring_buffer_storage, 0x400, 0);
     arr[1] = sj_ring_buffer_create(adx_stream_ring_buffer_storage + 0x20, 0x400, 0);
     dst = player->input;
-    ctx = TLobby__sub_803C61C4(2, arr, src);
-    TLobby__sub_803C60F0(ctx, arg1, arg2, arg3);
-    TLobby__sub_803C6118(ctx);
+    enc = TLobby__sub_803C61C4(2, arr, src);
+    TLobby__sub_803C60F0(enc, arg1, arg2, arg3);
+    TLobby__sub_803C6118(enc);
     TLobby__sub_803C5E78();
     src->interface->get_chunk(src, 1, 0x400, &b1);
     if (b1.size == 0) {
@@ -45,8 +45,8 @@ void TLobby__sub_803C5B50(AdxStreamPlayer *player, s32 arg1, s32 arg2, s32 arg3)
     memcpy(b2.data, b1.data, b1.size);
     src->interface->put_chunk(src, 0, &b1);
     dst->interface->put_chunk(dst, 1, &b2);
-    TLobby__sub_803C610C(ctx);
-    TLobby__sub_803C6138((S_803C6138 *)ctx);
+    TLobby__sub_803C610C(enc);
+    TLobby__sub_803C6138(enc);
     src->interface->destroy(src);
     arr[1]->interface->destroy(arr[1]);
     arr[0]->interface->destroy(arr[0]);
