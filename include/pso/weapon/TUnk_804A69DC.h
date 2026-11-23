@@ -27,4 +27,9 @@ public:
     Vec gun_point; // 0x208: get_gun_point, where shots start
 };
 
+// The TUnk_804A69DC shot callback: a TUnk_804A69C0 from owner.
+saddr create_shoot_model(saddr owner, saddr pos, saddr dir, f32 life);
+// Item timer: sets charge_ready again 30 frames after a charged release.
+void fn_801307D0(void *weapon);
+
 #endif
