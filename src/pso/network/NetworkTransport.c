@@ -80,8 +80,8 @@ void set_lobby_map_state_code(s32 arg0);
 NetSendChunk *get_next_send_chunk(void);
 s16 TLobby__sub_804281DC(void *);
 s32 open_network_transport(A_803F8314 *arg0);
-s32 layout_net_params_buffer(u8 *data, s32 size);
-s32 get_net_params_and_size(NetTransportParams *arg0);
+s32 AT_SetWorkArea(u8 *data, s32 size);
+s32 AT_GetInitParam(NetTransportParams *arg0);
 void TLobby__sub_803F76F0(void);
 void TLobby__sub_803F778C(void);
 void TLobby__sub_803F77E0(void);
@@ -663,14 +663,14 @@ u32 compute_range_end(NetTransportParams *params, s32 base, u32 limit) {
 
 #pragma push
 #pragma opt_common_subs off
-s32 layout_net_params_buffer(u8 *data, s32 size) {
+s32 AT_SetWorkArea(u8 *data, s32 size) {
     NetTransportParams params;
     uaddr end;
     u8 *cur;
     s32 header_size;
     uaddr after_tables;
     end = (uaddr)(data + size);
-    header_size = get_net_params_and_size((NetTransportParams *)((saddr)&params));
+    header_size = AT_GetInitParam((NetTransportParams *)((saddr)&params));
     if (size < 0) {
         return -1;
     }
@@ -700,7 +700,7 @@ s32 layout_net_params_buffer(u8 *data, s32 size) {
 
 #pragma push
 #pragma opt_common_subs off
-s32 validate_and_store_net_params(NetTransportParams *params) {
+s32 AT_SetInitParam(NetTransportParams *params) {
     u8 *raw = (u8 *)params;
     s32 e;
     if ((u16) params->player_count > 0x200U) {
@@ -722,11 +722,11 @@ s32 validate_and_store_net_params(NetTransportParams *params) {
     net_param_ring_buffer_size = params->ring_buffer_size;
     net_param_word_h = params->h;
     net_param_word_i = *(s32 *)((s8 *)raw + 0x18);
-    return get_net_params_and_size((NetTransportParams *)(0));
+    return AT_GetInitParam((NetTransportParams *)(0));
 }
 #pragma pop
 
-s32 get_net_params_and_size(NetTransportParams *out) {
+s32 AT_GetInitParam(NetTransportParams *out) {
     NetTransportParams local;
     s32 rooms_size;
     s32 players_size;

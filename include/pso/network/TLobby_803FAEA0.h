@@ -5,7 +5,7 @@
 #include "pso/network/NetStackTypes.h"
 #include "pso/network/PppFsm.h"
 
-/* Connection request of NetLinkConnect (copied field by field into the lbl_805BFF68 request by
+/* Connection request of ppp_start (copied field by field into the lbl_805BFF68 request by
    NetApplyConnectionConfig). */
 typedef struct NetConnectCfg {
     u16 flags;
@@ -64,14 +64,14 @@ typedef struct NetLinkStatus {
     u8 addr[4][4];
 } NetLinkStatus;
 
-/* Parameter block of NetLinkDisconnect (wait != 0: poll until the link is down). */
+/* Parameter block of ppp_stop (wait != 0: poll until the link is down). */
 typedef struct NetWaitParam {
     s16 wait;
 } NetWaitParam;
 
 /* ppp_proto_blocks: the lobby session's PPP protocol control blocks. close_all_connections
    resets the five PppFsm records one at a time and hands them to the connect routines
-   (wait_for_connection, apply_lcp_config_to_sides, TLobby__sub_803FC1CC). TLobby__sub_803FB6A0 reads
+   (wait_for_connection, apply_lcp_config_to_sides, PP_chap_monitor). TLobby__sub_803FB6A0 reads
    the busy byte, and the tail carries the byte count and the drop counters. */
 typedef struct PppProtoBlocks {
     u8 busy;                /* 0x00: cleared by close_all_connections, set when the blocks are initialized */
@@ -90,20 +90,21 @@ LAYOUT_ASSERT(PppProtoBlocks_size_check, sizeof(PppProtoBlocks) == 0x148);
 extern "C" {
 #endif
 s32 NetControl(s32 cmd, s32 arg);
-s32 TLobby__sub_803FAFDC(void);
-s16 init_net_session(void);
+s32 ppp_term(void);
+s16 ppp_init(void);
 struct ModemConfig;
 struct ModemConfig *TLobby__sub_803FB110(void);
 s16 TLobby__sub_803FB358(NetLinkStatus *status);
 u8 *copy_name_buffer(void *src);
 s16 NetGetLinkStatus(NetLinkStatus *status);
-s32 NetLinkDisconnect(NetWaitParam *param);
-s32 NetLinkConnect(NetConnectCfg *cfg);
+s32 ppp_stop(NetWaitParam *param);
+s32 ppp_start(NetConnectCfg *cfg);
 s16 NetApplyConnectionConfig(NetConnectCfg *config);
 s16 get_remaining(s32 arg0);
 s32 is_timed_out(void);
 s32 TLobby__sub_803FB6A0(void);
-void set_ppp_auth_protocol(u16 protocol);
+s32 ppp_open_sub(void);
+void ppp_set_auth(u16 protocol);
 extern s16 lbl_805D7A84;
 extern s16 lbl_805D7A88;
 extern saddr lbl_805D7A8C;

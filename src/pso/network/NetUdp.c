@@ -129,7 +129,7 @@ s16 udp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, s16 ifac
     return -2;
 }
 
-s16 udp_sendto(s16 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, u16 port, UdpSendOptions *opt) {
+s16 AT_UDP_Send(s16 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, u16 port, UdpSendOptions *opt) {
     s16 r;
     UdpControlBlock *e;
     if (id < 0 || id >= udp_runtime_state.count) {

@@ -12,7 +12,6 @@ typedef struct P_803FF48C P_803FF48C;
 void free_field_98(PppFsm *self);
 void free_field_98_and_clear(PppFsm *self);
 s32 read_2_bytes(void *self, void *src);
-s32 set_flags_and_state(void *self);
 u8 *write_network_u32_be(u8 *p, u32 v);
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/TLobby_804048E8.h"
@@ -130,7 +129,7 @@ void TLobby__sub_803FEF4C(u8 *self) {
     ((PppFsmProtocol *)o)->release_resources = free_field_98;
     ((PppFsmProtocol *)o)->reset_options = TLobby__sub_803FF48C;
     ((PppFsmProtocol *)o)->start_negotiation = TLobby__sub_803FF374;
-    ((PppFsmProtocol *)o)->link_opened = TLobby__sub_803FF384;
+    ((PppFsmProtocol *)o)->link_opened = ipcp_opening;
     ((PppFsmProtocol *)o)->link_closed = free_field_98_and_clear;
     ((PppFsmProtocol *)o)->finish_termination = TLobby__sub_803FF468;
     ((PppFsmProtocol *)o)->build_config_request = build_ipcp_config_request;
@@ -233,7 +232,7 @@ s16 ipcp_set_local_address(IpcpSide *side, s32 addr) {
 
 s16 TLobby__sub_803FF304(u8 *lobby) {
     typedef struct Fields_arg0 { u8 pad_0[12]; u8 * field_C; } Fields_arg0;
-    set_flags_and_state((void *)lobby);
+    PP_doppp_active((void *)lobby);
     if ((u8) *((Fields_arg0*)lobby)->field_C == 3) {
         TLobby__sub_803FD958(lobby);
     }
@@ -250,7 +249,7 @@ void TLobby__sub_803FF374(PppFsm *arg0) {
     *(s8 *)((s8 *)arg0 + 0xB) = 0;
 }
 
-void TLobby__sub_803FF384(PppFsm *arg0) {
+void ipcp_opening(PppFsm *arg0) {
     IpcpConfig *p;
     s16 a;
     s16 b;

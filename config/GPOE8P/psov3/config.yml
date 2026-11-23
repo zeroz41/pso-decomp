@@ -715,7 +715,7 @@ force_active:
   - gvm_stream_read
   - gvm_stream_seek
   - copy_u16_bytes
-  - dhcp_begin_discover
+  - DHCP_request
   - dhcp_get_option
   - TLobby__sub_80425D88
   - TLobby__sub_80426110

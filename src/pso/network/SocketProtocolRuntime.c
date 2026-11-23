@@ -81,7 +81,7 @@ s32 TLobby__sub_8041ED8C(TcpTcb *self, NetBufferRef *destination, u32 len, TcpCo
         self->flags &= ~1;
     }
     if (self->t_state != -1 && self->t_state != 0) {
-        TLobby__sub_8041A9AC(self);
+        AT_TCP_Rawsend(self);
     }
     if (self->rcv_user.kind != 0) {
         switch (self->t_state) {

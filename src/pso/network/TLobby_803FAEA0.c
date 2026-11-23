@@ -87,7 +87,7 @@ s16 TLobby__sub_803FAEDC(NetSession *cfg) {
     return 0;
 }
 
-s32 TLobby__sub_803FAFDC(void) {
+s32 ppp_term(void) {
     stop_network_thread();
     init_net_state_a();
     init_net_block_620();
@@ -102,7 +102,7 @@ s32 TLobby__sub_803FAFDC(void) {
 s16 TLobby__sub_803FD10C(void);
 void TLobby__sub_804061FC(int);
 
-s16 init_net_session(void) {
+s16 ppp_init(void) {
     s16 i;
     s16 ret;
     NetSession *p;
@@ -156,7 +156,7 @@ s16 NetGetLinkStatus(NetLinkStatus *status) {
     return TLobby__sub_803FB358(status);
 }
 
-s32 NetLinkDisconnect(NetWaitParam *param) {
+s32 ppp_stop(NetWaitParam *param) {
     NetLinkStatus status;
     s32 t;
 
@@ -183,7 +183,7 @@ s32 NetLinkDisconnect(NetWaitParam *param) {
     return -1;
 }
 
-s32 NetLinkConnect(NetConnectCfg *cfg) {
+s32 ppp_start(NetConnectCfg *cfg) {
     NetLinkStatus status;
     s32 t;
 
@@ -362,7 +362,7 @@ s32 TLobby__sub_803FB6A0(void) {
     return 0;
 }
 
-s32 TLobby__sub_803FB7A4(void) {
+s32 ppp_open_sub(void) {
     extern s32 lbl_805D7BD8;
     NetSession *g = &lbl_805BFF68;
     LobbyPkt_803FB7A4 pkt;
@@ -578,7 +578,7 @@ s16 get_remaining(s32 elapsed) {
 }
 
 /* Stores the PPP auth protocol: 0xC023 (PAP) -> 0x80, 0xC223 (CHAP) -> 0x82, else the raw value. */
-void set_ppp_auth_protocol(u16 v) {
+void ppp_set_auth(u16 v) {
     if (v == 0xC023) {
         ppp_auth_protocol = 0x80;
     } else if (v == 0xC223) {
